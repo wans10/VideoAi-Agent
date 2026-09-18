@@ -1,0 +1,13 @@
+FROM node:22-bookworm-slim
+
+WORKDIR /app
+COPY package.json ./
+RUN npm install --omit=dev --ignore-scripts --no-audit --no-fund
+COPY fixtures ./fixtures
+COPY mock-server.js ./mock-server.js
+
+ENV PORT=3333 \
+    HOST=0.0.0.0 \
+    CORS_ORIGIN=*
+EXPOSE 3333
+CMD ["node", "mock-server.js"]

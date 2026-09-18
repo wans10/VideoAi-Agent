@@ -89,6 +89,9 @@ const imageOptimizer = require('./config/image-optimizer.json');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Docker enables this to copy only traced runtime files into its runner image.
+  // Other hosts retain the existing Next.js output behavior.
+  output: process.env.NEXT_OUTPUT_STANDALONE === 'true' ? 'standalone' : undefined,
   reactStrictMode: true,
   compress: true,
   trailingSlash: false,
