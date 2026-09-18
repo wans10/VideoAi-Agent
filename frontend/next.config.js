@@ -89,6 +89,8 @@ const imageOptimizer = require('./config/image-optimizer.json');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Emit the minimal Node.js server bundle used by the production container.
+  output: 'standalone',
   reactStrictMode: true,
   compress: true,
   trailingSlash: false,
