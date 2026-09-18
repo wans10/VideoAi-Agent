@@ -1,0 +1,71 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import test from 'node:test';
+
+const root = process.cwd();
+const falPollPath = join(root, 'frontend/server/fal-poll.ts');
+const falPollSource = readFileSync(falPollPath, 'utf8');
+
+test('Fal poll preserves accepted requests through timeouts and read failures', () => {
+  assert.match(falPollSource, /getFalPollTiming\(job\.engine_id, job\.created_at, now\)/);
+  assert.match(
+    falPollSource,
+    /const deferPoll = async \(reason: string\)/,
+    'poll read failures must stay recoverable'
+  );
+
+  for (const reason of [
+    'Unable to determine render engine for this job.',
+    'Render status remained unavailable after timeout grace period.',
+    'Render still processing beyond the expected window.',
+  ]) {
+    assert.match(
+      falPollSource,
+      new RegExp(`deferPoll\\(['"]${reason.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`),
+      `${reason} should defer without refunding`
+    );
+  }
+
+  assert.match(
+    falPollSource,
+    /deferPoll\(providerError \?\? 'Render returned no result after timeout grace period\.'\)/,
+    'a temporarily missing result must remain recoverable'
+  );
+});
+
+test('Fal poll transactionally refunds stale charged jobs that never received a provider id', () => {
+  assert.match(
+    falPollSource,
+    /import \{ reconcileStaleFalProvisionals \} from '@\/server\/fal-stale-provisionals';/,
+    'stale provisional settlement should live in its transaction-focused module'
+  );
+  assert.match(
+    falPollSource,
+    /const \{ failed: provisionalFailures \} = await reconcileStaleFalProvisionals\(\);/,
+    'the Fal poll should run stale provisional settlement before processing provider jobs'
+  );
+});
+
+test('Fal poll repairs recent completed jobs that still point at Fal media', () => {
+  assert.match(
+    falPollSource,
+    /import \{ linkFalJob \} from '@\/server\/admin-job-tools';/,
+    'the cron should reuse the normal Fal resync path'
+  );
+  assert.match(
+    falPollSource,
+    /status = 'completed'[\s\S]*video_url ILIKE '%\.fal\.media\/%'[\s\S]*updated_at > NOW\(\) - INTERVAL '7 days'[\s\S]*LIMIT 5/,
+    'the repair scan must stay limited to recent completed provider-hosted outputs'
+  );
+  assert.match(
+    falPollSource,
+    /await linkFalJob\(\{ jobId: recoverable\.job_id \}\)/,
+    'each recoverable job should enter the idempotent durable-copy and persistence path'
+  );
+  assert.match(
+    falPollSource,
+    /durableRecoveries/,
+    'the cron response should report durable recovery activity'
+  );
+});

@@ -1,0 +1,61 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { isCurrentAudioPricingPolicy } from '@/lib/audio-pricing-policy';
+
+import { getRouteAuthContext } from '@/lib/supabase-ssr';
+import { generateAudioRun, AudioGenerationError } from '@/server/audio/generate-audio';
+import { RESTRICTED_ACCOUNT_MESSAGE, getActiveAccountRestriction } from '@/server/fraud-cleanup';
+
+export const runtime = 'nodejs';
+
+export async function POST(req: NextRequest) {
+  const { userId } = await getRouteAuthContext(req);
+  if (!userId) {
+    return NextResponse.json({ ok: false, error: 'UNAUTHORIZED', message: 'Unauthorized' }, { status: 401 });
+  }
+  if (!isCurrentAudioPricingPolicy(req.headers)) {
+    return NextResponse.json({ ok: false, error: 'PRICING_REFRESH_REQUIRED', message: 'Audio pricing has changed. Refresh and review the current price before generating.' }, { status: 409 });
+  }
+  const restriction = await getActiveAccountRestriction(userId);
+  if (restriction) {
+    return NextResponse.json(
+      { ok: false, error: 'account_restricted', message: RESTRICTED_ACCOUNT_MESSAGE },
+      { status: 403 }
+    );
+  }
+
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== 'object') {
+    return NextResponse.json({ ok: false, error: 'INVALID_JSON', message: 'Invalid JSON payload.' }, { status: 400 });
+  }
+
+  try {
+    const response = await generateAudioRun({
+      body: body as Parameters<typeof generateAudioRun>[0]['body'],
+      userId,
+    });
+    return NextResponse.json(response);
+  } catch (error) {
+    if (error instanceof AudioGenerationError) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: error.code,
+          message: error.message,
+          field: error.field,
+          providerFailures: error.providerFailures,
+        },
+        { status: error.status }
+      );
+    }
+
+    console.error('[api/audio/generate] unexpected failure', error);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: 'audio_generation_failed',
+        message: error instanceof Error ? error.message : 'Audio generation failed.',
+      },
+      { status: 500 }
+    );
+  }
+}

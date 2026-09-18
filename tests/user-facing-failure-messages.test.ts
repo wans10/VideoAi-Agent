@@ -1,0 +1,119 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import {
+  buildUserFacingRefundDescription,
+  toUserFacingFailureMessage,
+  toUserFacingRefundReason,
+} from '../frontend/server/user-facing-failure-messages';
+
+const forbidden = /fal(?:\.ai)?|fail\.ai|byteplus|modelark|google\s+vertex|kling\s+direct|provider/i;
+
+test('content refusals explain that reference media may also need changing', () => {
+  const message = toUserFacingFailureMessage('The request content was blocked by safety checks.');
+  assert.match(message, /Review the prompt and any reference images, video, or audio/);
+  assert.doesNotMatch(message, /retry in a few moments/i);
+});
+
+test('user-facing failure messages hide provider and internal wording', () => {
+  const message = toUserFacingFailureMessage('Fal returned no result after timeout grace period.');
+
+  assert.equal(
+    message,
+    'The render finished without a usable output. Please retry or contact support with your request ID if it happens again.'
+  );
+  assert.doesNotMatch(message, forbidden);
+});
+
+test('refund descriptions use product wording instead of raw provider failures', () => {
+  const description = buildUserFacingRefundDescription({
+    engineLabel: 'Seedance 2.0',
+    durationSec: 10,
+    reason: 'BytePlus start failed because provider credits are exhausted.',
+  });
+
+  assert.equal(description, 'Refund Seedance 2.0 - 10s - Render queue was temporarily busy.');
+  assert.doesNotMatch(description, forbidden);
+});
+
+test('raw HTTP status failures never leak into job or refund copy', () => {
+  const rawMessage = 'Unexpected status code: 422';
+
+  assert.equal(
+    toUserFacingFailureMessage(rawMessage),
+    'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+  );
+  assert.equal(toUserFacingRefundReason(rawMessage), 'Render could not be completed.');
+});
+
+test('refund reasons classify storage preparation failures', () => {
+  const reason = toUserFacingRefundReason(
+    'The provider finished this render, but the video could not be copied to MaxVideoAI storage.'
+  );
+
+  assert.equal(reason, 'Output could not be prepared for download.');
+  assert.doesNotMatch(reason, forbidden);
+});
+
+test('Seedance recognizable-person failures explain reference-image limits', () => {
+  const message = toUserFacingFailureMessage(
+    'Seedance blocked a reference image because it may contain a recognizable person or private content.'
+  );
+  const reason = toUserFacingRefundReason(
+    'Seedance blocked a reference image because it may contain a recognizable person or private content.'
+  );
+
+  assert.equal(
+    message,
+    'Seedance blocked a reference image because it may contain a recognizable person or private content. Use a non-identifiable, stylized, or generated reference image and try again.'
+  );
+  assert.equal(reason, 'Reference image was blocked by Seedance safety checks.');
+  assert.doesNotMatch(message, forbidden);
+  assert.doesNotMatch(reason, forbidden);
+});
+
+test('Seedance start failures keep actionable customer guidance', () => {
+  const message = toUserFacingFailureMessage(
+    'Seedance could not start this render. Check that reference images do not show recognizable people, reduce reference complexity, then retry.'
+  );
+
+  assert.equal(
+    message,
+    'Seedance could not start this render. Remove recognizable people from reference images, reduce media complexity, or retry in a few moments.'
+  );
+  assert.doesNotMatch(message, forbidden);
+});
+
+test('Seedance task failures explain the delivered refund without claiming the render never started', () => {
+  const reason =
+    'Seedance started this render but did not deliver a video. Retry with a simpler prompt or fewer reference assets.';
+  const description = buildUserFacingRefundDescription({
+    engineLabel: 'Dreamina Seedance 2.0 Mini',
+    durationSec: 15,
+    reason,
+  });
+
+  assert.equal(
+    description,
+    'Refund Dreamina Seedance 2.0 Mini - 15s - Seedance started the render but did not deliver a video.'
+  );
+  assert.doesNotMatch(description, forbidden);
+});
+
+test('Seedance copyright output failures keep their precise refund reason', () => {
+  const reason =
+    'Seedance stopped this render after it started because its output checks detected possible copyright-restricted content. Change recognizable characters, brands, logos, franchise references, or source media before trying again.';
+  const message = toUserFacingFailureMessage(reason);
+  const description = buildUserFacingRefundDescription({
+    engineLabel: 'Seedance 2.0',
+    durationSec: 10,
+    reason,
+  });
+
+  assert.equal(message, reason);
+  assert.equal(
+    description,
+    'Refund Seedance 2.0 - 10s - Output was blocked for possible copyright-restricted content.'
+  );
+  assert.doesNotMatch(description, forbidden);
+});

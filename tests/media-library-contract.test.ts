@@ -1,0 +1,758 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import test from 'node:test';
+
+import {
+  buildMediaAssetInsert,
+  mapLegacyJobRowToOutputs,
+  normalizeMediaAssetSource,
+  resolveLibraryAssetDedupeKey,
+  resolveLibraryAssetOriginDedupeKey,
+  resolveLibraryAssetIdentity,
+} from '../frontend/server/media-library';
+import { mapAssetRow } from '../frontend/server/media-library-records';
+import {
+  buildMediaLibrarySearchPattern,
+  decodeMediaLibraryCursor,
+  parseMediaLibraryExactJobId,
+  sliceMediaLibraryPage,
+} from '../frontend/server/media-library/pagination';
+
+test('media library cursors preserve equal-timestamp ordering and terminate', () => {
+  const items = Array.from({ length: 125 }, (_, index) => ({
+    id: `asset-${String(index).padStart(3, '0')}`,
+    createdAt: '2026-09-01T10:00:00.000Z',
+  }));
+  const first = sliceMediaLibraryPage(items, 60);
+  assert.equal(first.items.length, 60);
+  assert.equal(first.hasMore, true);
+  const cursor = decodeMediaLibraryCursor(first.nextCursor);
+  assert.deepEqual(cursor, { createdAt: '2026-09-01T10:00:00.000Z', id: 'asset-065' });
+  const remaining = items.filter((item) => item.id < cursor!.id);
+  const second = sliceMediaLibraryPage(remaining, 60);
+  const final = sliceMediaLibraryPage(
+    remaining.filter((item) => item.id < decodeMediaLibraryCursor(second.nextCursor)!.id),
+    60
+  );
+  assert.equal(first.items.length + second.items.length + final.items.length, 125);
+  assert.equal(final.nextCursor, null);
+});
+
+test('media library search bounds input and escapes SQL wildcard characters', () => {
+  assert.equal(buildMediaLibrarySearchPattern(' 100%_match\\ '), '%100\\%\\_match\\\\%');
+  assert.equal(buildMediaLibrarySearchPattern('x'.repeat(250)), `%${'x'.repeat(200)}%`);
+  assert.equal(buildMediaLibrarySearchPattern('   '), null);
+});
+
+test('an invalid explicit exact-job filter cannot broaden into recent outputs', () => {
+  assert.deepEqual(parseMediaLibraryExactJobId(null), { provided: false, value: null });
+  assert.deepEqual(parseMediaLibraryExactJobId('job-old'), { provided: true, value: 'job-old' });
+  assert.deepEqual(parseMediaLibraryExactJobId('x'.repeat(257)), {
+    provided: true,
+    error: 'INVALID_JOB_ID',
+  });
+  assert.deepEqual(parseMediaLibraryExactJobId(' job-old'), {
+    provided: true,
+    error: 'INVALID_JOB_ID',
+  });
+});
+
+test('recent-output route rejects an invalid explicit job filter', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/recent-outputs/route.ts'),
+    'utf8'
+  );
+  assert.match(source, /parseMediaLibraryExactJobId/);
+  assert.match(source, /outputs:\s*\[\],\s*error:\s*exactJob\.error[\s\S]*status:\s*400/);
+});
+
+test('normalizes PostgreSQL media asset timestamps to ISO strings', () => {
+  const createdAt = new Date('2026-08-25T21:13:23.000Z');
+  const asset = mapAssetRow({
+    id: 'asset-1',
+    public_id: 'ma_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    user_id: 'user-1',
+    kind: 'video',
+    url: 'https://cdn.example.com/video.mp4',
+    thumb_url: null,
+    preview_url: null,
+    mime_type: 'video/mp4',
+    width: 1280,
+    height: 720,
+    size_bytes: 1024,
+    source: 'saved_job_output',
+    source_job_id: 'job-1',
+    source_output_id: 'output-1',
+    status: 'ready',
+    metadata: { durationSec: 5 },
+    created_at: createdAt,
+  });
+
+  assert.equal(asset.createdAt, createdAt.toISOString());
+});
+
+test('media library keeps record mapping helpers outside server orchestration', () => {
+  const libraryPath = path.join(process.cwd(), 'frontend/server/media-library.ts');
+  const recordsPath = path.join(process.cwd(), 'frontend/server/media-library-records.ts');
+  const source = fs.readFileSync(libraryPath, 'utf8');
+  const recordsSource = fs.readFileSync(recordsPath, 'utf8');
+  const libraryLines = source.trimEnd().split(/\r?\n/).length;
+
+  assert.ok(fs.existsSync(recordsPath));
+  assert.ok(libraryLines <= 80, `media-library.ts should stay a thin facade, got ${libraryLines} lines`);
+  assert.match(source, /from '\.\/media-library-records'/);
+  assert.match(source, /export\s+\{[\s\S]*buildMediaAssetInsert[\s\S]*\}\s+from '\.\/media-library-records'/);
+  assert.match(source, /from '\.\/media-library\/job-outputs'/);
+  assert.match(source, /from '\.\/media-library\/assets'/);
+  assert.doesNotMatch(source, /function\s+mapAssetRow\(/);
+  assert.doesNotMatch(source, /function\s+listLibraryAssets\(/);
+  assert.doesNotMatch(source, /function\s+ensureReusableAsset\(/);
+  assert.doesNotMatch(source, /function\s+normalizeString\(/);
+  assert.doesNotMatch(source, /export\s+type\s+MediaKind\s*=/);
+  assert.match(recordsSource, /export\s+type\s+MediaKind\s*=/);
+  assert.match(recordsSource, /export\s+function\s+mapLegacyJobRowToOutputs/);
+  assert.match(recordsSource, /export\s+function\s+buildMediaAssetInsert/);
+  assert.match(recordsSource, /export\s+function\s+mapOutputRow/);
+  assert.match(recordsSource, /export\s+function\s+mapAssetRow/);
+  assert.match(recordsSource, /parseStoredImageRenders/);
+  assert.match(recordsSource, /normalizeMediaUrl/);
+});
+
+test('web history and MCP recovery keep one user-owned app_jobs source', () => {
+  const statusSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/generations/generation-status.ts'),
+    'utf8',
+  );
+  const recentSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/generations/recent-generations.ts'),
+    'utf8',
+  );
+  const agentSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/agent-api/generation-status.ts'),
+    'utf8',
+  );
+
+  assert.match(statusSource, /FROM app_jobs[\s\S]*job_id = \$1[\s\S]*user_id = \$2/);
+  assert.match(recentSource, /FROM app_jobs[\s\S]*user_id = \$1/);
+  assert.match(agentSource, /getGenerationStatus/);
+  assert.match(agentSource, /listRecentGenerations/);
+  assert.doesNotMatch(agentSource, /mcp_jobs|agent_jobs/);
+});
+
+test('media library source constraint refresh is serialized in one transaction', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/lib/schema/media-library-schema.ts'),
+    'utf8'
+  );
+  const transactionStart = source.indexOf('await withDbTransaction');
+  const advisoryLock = source.indexOf('pg_advisory_xact_lock', transactionStart);
+  const constraintDrop = source.indexOf('DROP CONSTRAINT IF EXISTS media_assets_source_check', transactionStart);
+  const constraintAdd = source.indexOf('ADD CONSTRAINT media_assets_source_check', transactionStart);
+
+  assert.ok(transactionStart >= 0, 'constraint refresh should use an explicit transaction');
+  assert.ok(advisoryLock > transactionStart, 'constraint refresh should serialize concurrent instances');
+  assert.ok(constraintDrop > advisoryLock, 'constraint drop should happen after the transaction lock');
+  assert.ok(constraintAdd > constraintDrop, 'constraint add should happen after the drop in the same transaction');
+});
+
+test('maps legacy app_jobs media columns into ordered job outputs', () => {
+  const outputs = mapLegacyJobRowToOutputs({
+    job_id: 'job_123',
+    user_id: 'user_1',
+    surface: 'image',
+    video_url: 'https://cdn.example.com/video.mp4',
+    video_width: 1440,
+    video_height: 1440,
+    audio_url: 'https://cdn.example.com/audio.wav',
+    audio_mime_type: 'audio/flac',
+    measured_duration_sec: 7.625,
+    thumb_url: 'https://cdn.example.com/poster.webp',
+    preview_frame: null,
+    render_ids: [
+      {
+        url: 'https://cdn.example.com/image-1.png',
+        thumb_url: 'https://cdn.example.com/image-1-thumb.webp',
+        width: 1024,
+        height: 768,
+        mime_type: 'image/png',
+      },
+      'https://cdn.example.com/image-2.png',
+    ],
+    duration_sec: 8,
+    status: 'completed',
+  } as Parameters<typeof mapLegacyJobRowToOutputs>[0] & { video_width: number; video_height: number });
+
+  assert.deepEqual(
+    outputs.map((output) => ({
+      kind: output.kind,
+      url: output.url,
+      thumbUrl: output.thumbUrl,
+      position: output.position,
+      mimeType: output.mimeType,
+      metadata: output.metadata,
+      width: output.width,
+      height: output.height,
+    })),
+    [
+      {
+        kind: 'video',
+        url: 'https://cdn.example.com/video.mp4',
+        thumbUrl: 'https://cdn.example.com/poster.webp',
+        position: 0,
+        mimeType: 'video/mp4',
+        metadata: { legacy: true, surface: 'image' },
+        width: 1440,
+        height: 1440,
+      },
+      {
+        kind: 'audio',
+        url: 'https://cdn.example.com/audio.wav',
+        thumbUrl: null,
+        position: 0,
+        mimeType: 'audio/flac',
+        metadata: { legacy: true, surface: 'image', measuredDurationSec: 7.625 },
+        width: null,
+        height: null,
+      },
+      {
+        kind: 'image',
+        url: 'https://cdn.example.com/image-1.png',
+        thumbUrl: 'https://cdn.example.com/image-1-thumb.webp',
+        position: 0,
+        mimeType: 'image/png',
+        metadata: { legacy: true, surface: 'image' },
+        width: 1024,
+        height: 768,
+      },
+      {
+        kind: 'image',
+        url: 'https://cdn.example.com/image-2.png',
+        thumbUrl: 'https://cdn.example.com/image-2.png',
+        position: 1,
+        mimeType: 'image/png',
+        metadata: { legacy: true, surface: 'image' },
+        width: null,
+        height: null,
+      },
+    ]
+  );
+});
+
+test('normalizes library sources to the canonical allowed set', () => {
+  assert.equal(normalizeMediaAssetSource('generated'), 'saved_job_output');
+  assert.equal(normalizeMediaAssetSource('character'), 'character');
+  assert.equal(normalizeMediaAssetSource('angle'), 'angle');
+  assert.equal(normalizeMediaAssetSource('upscale'), 'upscale');
+  assert.equal(normalizeMediaAssetSource('storyboard'), 'storyboard');
+  assert.equal(normalizeMediaAssetSource('upload'), 'upload');
+  assert.equal(normalizeMediaAssetSource('anything-else'), 'import');
+  assert.equal(normalizeMediaAssetSource(null), 'import');
+});
+
+test('library listings hide internal storyboard template reference assets', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/asset-listing.ts'),
+    'utf8'
+  );
+
+  const exclusions = source.match(/storyboard_template_reference/g) ?? [];
+  assert.ok(exclusions.length >= 2, 'canonical and legacy asset queries should exclude internal storyboard templates');
+});
+
+test('builds idempotent media asset identity from source output when available', () => {
+  assert.equal(
+    resolveLibraryAssetIdentity({
+      userId: 'user_1',
+      kind: 'video',
+      url: 'https://cdn.example.com/render.mp4',
+      source: 'saved_job_output',
+      sourceOutputId: 'out_123',
+    }),
+    'output:out_123'
+  );
+
+  assert.equal(
+    resolveLibraryAssetIdentity({
+      userId: 'user_1',
+      kind: 'image',
+      url: 'https://cdn.example.com/render.png',
+      source: 'import',
+    }),
+    'url:user_1:image:https://cdn.example.com/render.png'
+  );
+});
+
+test('deduplicates canonical and legacy library rows by media URL identity', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/asset-listing.ts'),
+    'utf8'
+  );
+
+  assert.equal(
+    resolveLibraryAssetDedupeKey({
+      id: 'url:user_1:image:https://cdn.example.com/upload.png',
+      userId: 'user_1',
+      kind: 'image',
+      url: 'https://cdn.example.com/upload.png',
+      source: 'upload',
+      sourceOutputId: null,
+    }),
+    resolveLibraryAssetDedupeKey({
+      id: 'legacy_random_id',
+      userId: 'user_1',
+      kind: 'image',
+      url: 'https://cdn.example.com/upload.png',
+      source: 'upload',
+      sourceOutputId: null,
+    })
+  );
+  assert.match(source, /ROW_NUMBER\(\) OVER/);
+  assert.match(source, /PARTITION BY kind, logical_origin/);
+  assert.match(source, /WHERE logical_rank = 1[\s\S]*created_at, id/);
+});
+
+test('deduplicates copied generated assets against legacy origin urls', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/asset-listing.ts'),
+    'utf8'
+  );
+
+  assert.equal(
+    resolveLibraryAssetOriginDedupeKey({
+      id: 'output:job_123:image:0',
+      userId: 'user_1',
+      kind: 'image',
+      url: 'https://storage.example.com/renders/job_123-1.png',
+      metadata: {
+        originUrl: 'https://v3b.fal.media/files/b/render.png',
+      },
+    }),
+    resolveLibraryAssetOriginDedupeKey({
+      id: 'job_123:character:1',
+      userId: 'user_1',
+      kind: 'image',
+      url: 'https://v3b.fal.media/files/b/render.png',
+      metadata: {
+        jobId: 'job_123',
+      },
+    })
+  );
+  assert.match(source, /COALESCE\(NULLIF\(metadata->>'originUrl', ''\), url\) AS logical_origin/);
+  assert.match(source, /ORDER BY source_priority ASC, created_at DESC, id DESC/);
+});
+
+test('media asset insert keeps saved job output linked to the source output', () => {
+  const insert = buildMediaAssetInsert({
+    userId: 'user_1',
+    kind: 'video',
+    url: 'https://storage.example.com/render.mp4',
+    thumbUrl: 'https://storage.example.com/render.webp',
+    mimeType: 'video/mp4',
+    width: 1920,
+    height: 1080,
+    sizeBytes: 1024,
+    source: 'saved_job_output',
+    sourceJobId: 'job_123',
+    sourceOutputId: 'out_123',
+    metadata: { label: 'Render' },
+  });
+
+  assert.equal(insert.source, 'saved_job_output');
+  assert.equal(insert.sourceJobId, 'job_123');
+  assert.equal(insert.sourceOutputId, 'out_123');
+  assert.equal(insert.status, 'ready');
+  assert.equal(insert.metadata.label, 'Render');
+});
+
+test('job detail route exposes PATCH for persistent hide', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/jobs/[jobId]/route.ts'),
+    'utf8'
+  );
+
+  assert.match(source, /export\s+async\s+function\s+PATCH/);
+  assert.match(source, /hidden\s*=\s*\$|SET\s+hidden\s*=/i);
+});
+
+test('job detail route repairs completed video thumbnails and syncs outputs', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/jobs/[jobId]/route.ts'),
+    'utf8'
+  );
+  const repairStart = source.indexOf('let responseVideoUrl = normalizedVideoUrl');
+  const repairEnd = source.indexOf('return json({', repairStart);
+  const repairBlock = source.slice(repairStart, repairEnd);
+
+  assert.match(repairBlock, /ensureFastStartVideo/);
+  assert.match(repairBlock, /isPlaceholderThumbnail\(normalizedThumbUrl\)/);
+  assert.match(repairBlock, /ensureJobThumbnail/);
+  assert.match(repairBlock, /UPDATE app_jobs[\s\S]*thumb_url = \$2[\s\S]*preview_frame = \$2/);
+  assert.match(repairBlock, /upsertLegacyJobOutputs/);
+  assert.match(repairBlock, /video_url:\s*responseVideoUrl/);
+  assert.match(repairBlock, /thumb_url:\s*normalizedThumbUrl/);
+});
+
+test('ensure route treats job-linked saves as generated assets by default', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/ensure/route.ts'),
+    'utf8'
+  );
+
+  assert.match(source, /const\s+sourceJobId\s*=/);
+  assert.match(source, /source:\s*payload\?\.source\s*\?\?\s*\(sourceJobId\s*\?\s*'generated'\s*:\s*undefined\)/);
+});
+
+test('library cards use icon actions and put source navigation on the visual', () => {
+  const browserSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/components/library/AssetLibraryBrowser.tsx'),
+    'utf8'
+  );
+  const clientSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/(core)/(workspace)/app/library/_components/LibraryPageClient.tsx'),
+    'utf8'
+  );
+  const helpersSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/(core)/(workspace)/app/library/_lib/library-page-helpers.ts'),
+    'utf8'
+  );
+
+  assert.match(browserSource, /getAssetHref\?:\s*\(asset:\s*AssetBrowserAsset\)\s*=>\s*string\s*\|\s*null/);
+  assert.match(browserSource, /data-library-card-media-link/);
+  assert.match(clientSource, /getAssetHref=\{\(asset\)\s*=>[\s\S]*getAssetJobHref\(asset\)/);
+  assert.match(helpersSource, /export function\s+isMaxVideoGeneratedAsset/);
+  assert.doesNotMatch(clientSource, /\?\?\s*asset\.url/);
+  assert.match(clientSource, /getAssetHrefLabel=\{\(\)\s*=>[\s\S]*copy\.assets\.openAssetButton/);
+  assert.doesNotMatch(clientSource, />\s*\{copy\.assets\.useSettingsButton\}\s*</);
+  const panelSource = fs.readFileSync(path.join(process.cwd(), 'frontend/components/library/MediaActionPanel.client.tsx'), 'utf8');
+  assert.match(browserSource, /<MediaActionPanel/);
+  assert.match(panelSource, /buildAppDownloadUrl\(asset\.url, suggestDownloadFilename/);
+  assert.match(panelSource, /\{copy\.download\}/);
+  assert.match(panelSource, /<MediaDialog/);
+  const dialogSource = fs.readFileSync(path.join(process.cwd(), 'frontend/components/library/MediaDialog.client.tsx'), 'utf8');
+  assert.match(dialogSource, /useAccessibleModal/);
+  assert.match(clientSource, /<Trash2\s+className=/);
+});
+
+test('media assets preserve and backfill thumbnails from job outputs', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/assets.ts'),
+    'utf8'
+  );
+  const resolverSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/asset-resolvers.ts'),
+    'utf8'
+  );
+  const migrationPath = path.join(process.cwd(), 'neon/migrations/18_media_assets_thumb_backfill.sql');
+
+  assert.match(resolverSource, /export async function resolveReusableAssetThumbUrl/);
+  assert.match(source, /thumb_url\s*=\s*COALESCE\(EXCLUDED\.thumb_url,\s*media_assets\.thumb_url\)/);
+  assert.ok(fs.existsSync(migrationPath));
+
+  const migration = fs.readFileSync(migrationPath, 'utf8');
+  assert.match(migration, /UPDATE\s+media_assets/i);
+  assert.match(migration, /JOIN\s+job_outputs/i);
+  assert.match(migration, /source_output_id/i);
+  assert.match(migration, /source_job_id/i);
+});
+
+test('video preview urls stay separate from final media urls across library contracts', () => {
+  const serviceSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/assets.ts'),
+    'utf8'
+  );
+  const resolverSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/asset-resolvers.ts'),
+    'utf8'
+  );
+  const mediaSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/asset-media.ts'),
+    'utf8'
+  );
+  const recordsSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library-records.ts'),
+    'utf8'
+  );
+  const assetsRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/assets/route.ts'),
+    'utf8'
+  );
+  const recentRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/recent-outputs/route.ts'),
+    'utf8'
+  );
+  const browserSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/components/library/AssetLibraryBrowser.tsx'),
+    'utf8'
+  );
+  const migrationPath = path.join(process.cwd(), 'neon/migrations/19_media_preview_urls.sql');
+
+  assert.ok(fs.existsSync(migrationPath));
+  const migration = fs.readFileSync(migrationPath, 'utf8');
+  assert.match(migration, /ADD COLUMN IF NOT EXISTS preview_url TEXT/i);
+  assert.match(migration, /preview_video_url/i);
+  assert.match(migration, /job_fallback/i);
+  assert.match(migration, /COALESCE\(asset\.source_job_id,\s*asset\.metadata->>'jobId'/);
+
+  assert.match(recordsSource, /previewUrl:\s*string\s*\|\s*null/);
+  assert.match(serviceSource, /preview_url/);
+  assert.match(resolverSource, /export async function resolveReusableAssetPreviewUrl/);
+  assert.match(mediaSource, /export async function createRemoteVideoAssetThumbnail/);
+  assert.match(mediaSource, /createUploadVideoThumbnail/);
+  assert.match(assetsRoute, /previewUrl:\s*asset\.previewUrl/);
+  assert.match(recentRoute, /previewUrl:\s*output\.previewUrl/);
+  assert.match(browserSource, /activePreviewId/);
+  assert.match(browserSource, /src=\{activePreviewId === asset\.id \? asset\.previewUrl : undefined\}/);
+  assert.match(browserSource, /poster=\{asset\.thumbUrl \?\? undefined\}/);
+});
+
+test('job output upserts preserve detected dimensions when legacy sync omits them', () => {
+  const jobOutputsSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/job-outputs.ts'),
+    'utf8'
+  );
+
+  assert.match(jobOutputsSource, /width = COALESCE\(EXCLUDED\.width, job_outputs\.width\)/);
+  assert.match(jobOutputsSource, /height = COALESCE\(EXCLUDED\.height, job_outputs\.height\)/);
+});
+
+test('history cards use thumbnails and explicit card actions', () => {
+  const cardSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/components/GroupedJobCard.tsx'),
+    'utf8'
+  );
+  const mediaSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/components/GroupedJobCardMedia.tsx'),
+    'utf8'
+  );
+  const jobsSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/(core)/jobs/_hooks/useJobsPageController.ts'),
+    'utf8'
+  );
+  const jobsShellSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/(core)/jobs/_components/JobsPageShell.tsx'),
+    'utf8'
+  );
+
+  assert.match(mediaSource, /const\s+thumbSrc\s*=\s*preview\?\.thumbUrl/);
+  assert.match(mediaSource, /src=\{thumbSrc\}/);
+  assert.match(cardSource, /openLabel\?:\s*string/);
+  assert.match(cardSource, /actionMenuLabel\?:\s*string/);
+  assert.match(cardSource, /aria-label=\{actionMenuLabel\}/);
+  assert.match(jobsShellSource, /openLabel=\{copy\.actions\.openDetails\}/);
+  assert.match(jobsShellSource, /actionMenuLabel=\{copy\.actions\.actions\}/);
+  assert.match(jobsShellSource, /<select value=\{source\}/);
+  assert.match(jobsShellSource, /JOBS_SOURCES\.map/);
+  assert.doesNotMatch(jobsShellSource, /expandSection|collapseSection|CollapsedGroupRail/);
+  assert.doesNotMatch(`${jobsSource}\n${jobsShellSource}`, /'▸'|'▾'/);
+});
+
+test('history can save renders to library from cards and job details', () => {
+  const cardSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/components/GroupedJobCard.tsx'),
+    'utf8'
+  );
+  const cardTypesSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/components/grouped-job-card-types.ts'),
+    'utf8'
+  );
+  const jobsSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/(core)/jobs/_hooks/useJobsPageController.ts'),
+    'utf8'
+  );
+  const jobsShellSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/(core)/jobs/_components/JobsPageShell.tsx'),
+    'utf8'
+  );
+  const jobsHelpersSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/(core)/jobs/_lib/jobs-page-helpers.ts'),
+    'utf8'
+  );
+  const apiSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/lib/api-assets.ts'),
+    'utf8'
+  );
+
+  assert.match(cardTypesSource, /\|\s*'save-to-library'/);
+  assert.match(cardSource, /showLibraryCta\?:\s*boolean/);
+  assert.match(cardSource, /<Plus\s+className=/);
+  assert.match(cardSource, /handleAction\('save-to-library'\)/);
+  assert.match(jobsSource, /saveAssetToLibrary/);
+  assert.match(jobsHelpersSource, /function\s+resolveGroupLibrarySavePayload/);
+  assert.match(jobsHelpersSource, /function\s+resolveEntryLibrarySavePayload/);
+  assert.match(jobsShellSource, /menuVariant="activity"/);
+  const activityMenuSource = fs.readFileSync(path.join(process.cwd(), 'frontend/components/GroupedJobCardMenu.tsx'), 'utf8');
+  assert.match(activityMenuSource, /showActivityActions && assets.length/);
+  assert.match(activityMenuSource, /onSave=\{\(\) => handleAction\('save-to-library'\)\}/);
+  assert.match(jobsShellSource, /onSaveToLibrary=\{onSaveLightboxEntryToLibrary\}/);
+  assert.match(apiSource, /kind\?:\s*'image'\s*\|\s*'video'\s*\|\s*'audio'/);
+  assert.match(apiSource, /thumbUrl:\s*payload\.thumbUrl/);
+  assert.match(apiSource, /previewUrl:\s*payload\.previewUrl/);
+});
+
+test('upload routes persist reusable thumbnails for new image and video assets', () => {
+  const imageRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/uploads/image/route.ts'),
+    'utf8'
+  );
+  const imageUploadService = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/uploads/store-image-upload.ts'),
+    'utf8'
+  );
+  const imageUploadHandler = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/uploads/create-image-upload-post-handler.ts'),
+    'utf8'
+  );
+  const videoRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/uploads/video/route.ts'),
+    'utf8'
+  );
+  const mediaUploadService = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/uploads/store-media-upload.ts'),
+    'utf8'
+  );
+
+  assert.match(imageUploadService, /createUploadImageThumbnail/);
+  assert.match(imageUploadService, /thumbUrl:\s*imageThumbUrl/);
+  assert.match(imageUploadService, /ensureReusableAsset\([\s\S]*thumbUrl:\s*imageThumbUrl/);
+  assert.match(imageUploadHandler, /asset:\s*\{[\s\S]*thumbUrl:\s*routeAsset\.thumbUrl/);
+
+  assert.match(videoRoute, /storeVideoUpload/);
+  assert.match(mediaUploadService, /createUploadVideoThumbnail/);
+  assert.match(mediaUploadService, /ensureReusableAsset\([\s\S]*thumbUrl:\s*previewUrl/);
+  assert.match(videoRoute, /asset:\s*\{[\s\S]*thumbUrl:\s*stored\.previewUrl/);
+});
+
+test('image upload and library routes return stable JSON errors for storage failures', () => {
+  const imageRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/uploads/image/route.ts'),
+    'utf8'
+  );
+  const imageUploadService = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/uploads/store-image-upload.ts'),
+    'utf8'
+  );
+  const imageUploadHandler = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/server/uploads/create-image-upload-post-handler.ts'),
+    'utf8'
+  );
+  const assetsRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/assets/route.ts'),
+    'utf8'
+  );
+  const recentRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/recent-outputs/route.ts'),
+    'utf8'
+  );
+
+  assert.match(imageUploadService, /IMAGE_UPLOAD_STORE_PREPARE_FAILED/);
+  assert.match(imageUploadHandler, /error:\s*'STORE_FAILED'/);
+  assert.match(assetsRoute, /failed to list assets/);
+  assert.match(assetsRoute, /error:\s*'LOAD_FAILED'/);
+  assert.match(recentRoute, /failed to list recent outputs/);
+  assert.match(recentRoute, /error:\s*'LOAD_FAILED'/);
+});
+
+test('canonical Media GET reads migrated tables without request-time schema DDL', () => {
+  const assetsRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/assets/route.ts'),
+    'utf8'
+  );
+  const listing = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/asset-listing.ts'),
+    'utf8'
+  );
+
+  assert.match(
+    assetsRoute,
+    /findLibraryAssetByOrigin\([\s\S]*?\},\s*\{\s*ensureSchema:\s*false\s*\}\)/,
+    'exact saved-state checks should not wait for schema DDL'
+  );
+  assert.match(
+    assetsRoute,
+    /listLibraryAssetPage\([\s\S]*?\},\s*\{\s*ensureSchema:\s*false\s*\}\)/,
+    'paginated Media reads should not wait for schema DDL'
+  );
+  assert.match(listing, /options\.ensureSchema !== false/, 'non-route compatibility callers should retain schema setup by default');
+});
+
+test('storyboard recent outputs expose generator handoff metadata without leaking the full job prompt', () => {
+  const recentRoute = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/media-library/recent-outputs/route.ts'),
+    'utf8'
+  );
+  const jobOutputsSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library/job-outputs.ts'),
+    'utf8'
+  );
+  const recordsSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/server/media-library-records.ts'),
+    'utf8'
+  );
+
+  assert.match(jobOutputsSource, /j\.prompt\s+AS\s+job_prompt/i);
+  assert.match(jobOutputsSource, /j\.duration_sec\s+AS\s+job_duration_sec/i);
+  assert.match(jobOutputsSource, /j\.aspect_ratio\s+AS\s+job_aspect_ratio/i);
+  assert.match(recordsSource, /jobPrompt\?:\s*string\s*\|\s*null/);
+  assert.match(recentRoute, /extractStoryboardGeneratorDraftFromPrompt/);
+  assert.match(recentRoute, /surface\s*===\s*'storyboard'/);
+  assert.match(recentRoute, /storyboard:\s*surface\s*===\s*'storyboard'\s*\?\s*buildRecentOutputStoryboardHandoff/);
+  assert.doesNotMatch(recentRoute, /jobPrompt:\s*output\.jobPrompt/);
+});
+
+test('image upload UI maps storage error codes to actionable copy', () => {
+  const errorSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/lib/error-messages.ts'),
+    'utf8'
+  );
+  const imageClientUploadSource = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/src/lib/client-image-upload.ts'),
+    'utf8'
+  );
+
+  assert.match(errorSource, /UPLOAD_FAILED:\s*\(\)\s*=>/);
+  assert.match(errorSource, /STORE_FAILED:\s*\(\)\s*=>/);
+  assert.match(errorSource, /status\s*===\s*413/);
+  assert.match(imageClientUploadSource, /NEXT_PUBLIC_ASSET_UPLOAD_TARGET_MB/);
+  assert.match(imageClientUploadSource, /targetBytes/);
+});
+
+test('thumbnail backfill targets uploaded media and legacy video assets', () => {
+  const scriptPath = path.join(process.cwd(), 'frontend/scripts/backfill-upload-thumbnails.ts');
+
+  assert.ok(fs.existsSync(scriptPath));
+  const source = fs.readFileSync(scriptPath, 'utf8');
+  assert.match(source, /source\s*=\s*'upload'/);
+  assert.match(source, /OR\s+kind\s*=\s*'video'/);
+  assert.match(source, /thumb_url\s+IS\s+NULL/i);
+  assert.match(source, /createUploadImageThumbnail/);
+  assert.match(source, /UPDATE\s+media_assets/i);
+  assert.match(source, /UPDATE\s+user_assets/i);
+});
+
+test('single-job thumbnail regeneration keeps legacy outputs in sync', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/scripts/regenerate-thumbnail.ts'),
+    'utf8'
+  );
+
+  assert.match(source, /upsertLegacyJobOutputs/);
+  assert.match(source, /await import\('\.\.\/server\/thumbnails'\)/);
+  assert.match(source, /preview_frame = \$2/);
+  assert.match(source, /thumb_url:\s*newThumb/);
+  assert.match(source, /preview_frame:\s*newThumb/);
+});
+
+test('admin moderation thumbnail updates keep generated media records in sync', () => {
+  const source = fs.readFileSync(
+    path.join(process.cwd(), 'frontend/app/api/admin/videos/[videoId]/thumbnail/route.ts'),
+    'utf8'
+  );
+
+  assert.match(source, /ensureJobThumbnail/);
+  assert.match(source, /force:\s*true/);
+  assert.match(source, /UPDATE app_jobs[\s\S]*thumb_url = \$2[\s\S]*preview_frame = \$2/);
+  assert.match(source, /upsertLegacyJobOutputs/);
+  assert.match(source, /UPDATE media_assets[\s\S]*thumb_url = \$2[\s\S]*source_job_id = \$1/);
+  assert.match(source, /logAdminAction/);
+});

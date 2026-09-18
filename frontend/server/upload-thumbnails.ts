@@ -1,0 +1,182 @@
+import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+
+import sharp from 'sharp';
+
+import { normalizeMediaUrl } from '@/lib/media';
+import { ensureExecutableFfmpegPath } from '@/server/ffmpeg-runtime';
+import { uploadImageToStorage } from '@/server/storage';
+
+const requireForRuntime = createRequire(import.meta.url);
+const DEFAULT_MAX_DIMENSION = Number.parseInt(process.env.UPLOAD_THUMB_MAX_DIMENSION ?? '640', 10);
+const DEFAULT_IMAGE_QUALITY = Number.parseInt(process.env.UPLOAD_THUMB_IMAGE_QUALITY ?? '76', 10);
+
+let resolvedFfmpegPath: string | null | undefined;
+
+type UploadThumbnailParams = {
+  data: Buffer;
+  userId?: string | null;
+  fileName?: string | null;
+  acl?: string | null;
+  cacheControl?: string;
+  beforeUpload?: (key: string) => Promise<void>;
+  signal?: AbortSignal;
+};
+
+function normalizePositiveInt(value: number, fallback: number): number {
+  if (!Number.isFinite(value) || value <= 0) return fallback;
+  return Math.max(1, Math.round(value));
+}
+
+function baseName(fileName?: string | null): string {
+  const raw = fileName?.trim() || 'upload';
+  const withoutExtension = raw.replace(/\.[a-zA-Z0-9]{1,10}$/, '') || 'upload';
+  return withoutExtension.replace(/[^a-zA-Z0-9._-]/g, '-').replace(/-+/g, '-').slice(0, 80) || 'upload';
+}
+
+function getFfmpegPath(): string | null {
+  if (resolvedFfmpegPath !== undefined) return resolvedFfmpegPath;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const ffmpeg = requireForRuntime('@ffmpeg-installer/ffmpeg');
+    resolvedFfmpegPath =
+      typeof ffmpeg === 'string' ? ffmpeg : typeof ffmpeg?.path === 'string' ? ffmpeg.path : null;
+  } catch {
+    console.warn('[upload-thumbnails] code=FFMPEG_RESOLUTION_FAILED');
+    resolvedFfmpegPath = null;
+  }
+  return resolvedFfmpegPath ?? null;
+}
+
+export async function createUploadImageThumbnail(params: UploadThumbnailParams): Promise<string | null> {
+  if (!params.data.length) return null;
+
+  try {
+    const maxDimension = normalizePositiveInt(DEFAULT_MAX_DIMENSION, 640);
+    const quality = normalizePositiveInt(DEFAULT_IMAGE_QUALITY, 76);
+    const thumb = await sharp(params.data, { failOn: 'none' })
+      .rotate()
+      .resize({
+        width: maxDimension,
+        height: maxDimension,
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .webp({ quality })
+      .toBuffer();
+
+    const upload = await uploadImageToStorage({
+      data: thumb,
+      mime: 'image/webp',
+      userId: params.userId ?? undefined,
+      prefix: 'user-asset-thumbs',
+      fileName: `${baseName(params.fileName)}-thumb.webp`,
+      ...(params.acl !== undefined ? { acl: params.acl } : {}),
+      ...(params.cacheControl !== undefined ? { cacheControl: params.cacheControl } : {}),
+      beforeUpload: params.beforeUpload,
+      ...(params.signal ? { signal: params.signal } : {}),
+    });
+
+    return normalizeMediaUrl(upload.url) ?? upload.url;
+  } catch {
+    console.warn('[upload-thumbnails] code=IMAGE_THUMBNAIL_FAILED');
+    return null;
+  }
+}
+
+export async function createUploadVideoThumbnail(params: UploadThumbnailParams): Promise<string | null> {
+  if (!params.data.length) return null;
+
+  const ffmpegPath = getFfmpegPath();
+  if (!ffmpegPath) return null;
+  const executableFfmpegPath = await ensureExecutableFfmpegPath(ffmpegPath);
+
+  const tempDir = await mkdtemp(path.join(tmpdir(), 'mv-upload-thumb-'));
+  const inputPath = path.join(tempDir, 'source');
+  const outputPath = path.join(tempDir, 'thumb.jpg');
+
+  try {
+    await writeFile(inputPath, params.data);
+    await runFfmpeg(executableFfmpegPath, inputPath, outputPath, params.signal);
+    const thumb = await readFile(outputPath);
+    if (!thumb.length) return null;
+
+    const upload = await uploadImageToStorage({
+      data: thumb,
+      mime: 'image/jpeg',
+      userId: params.userId ?? undefined,
+      prefix: 'user-asset-thumbs',
+      fileName: `${baseName(params.fileName)}-thumb.jpg`,
+      ...(params.acl !== undefined ? { acl: params.acl } : {}),
+      ...(params.cacheControl !== undefined ? { cacheControl: params.cacheControl } : {}),
+      beforeUpload: params.beforeUpload,
+      ...(params.signal ? { signal: params.signal } : {}),
+    });
+
+    return normalizeMediaUrl(upload.url) ?? upload.url;
+  } catch {
+    console.warn('[upload-thumbnails] code=VIDEO_THUMBNAIL_FAILED');
+    return null;
+  } finally {
+    await rm(tempDir, { recursive: true, force: true }).catch(() => {});
+  }
+}
+
+function runFfmpeg(ffmpegPath: string, inputPath: string, outputPath: string, signal?: AbortSignal): Promise<void> {
+  const args = ['-y', '-ss', '0.75', '-i', inputPath, '-frames:v', '1', '-vf', 'scale=640:-2', '-q:v', '4', outputPath];
+
+  return new Promise((resolve, reject) => {
+    execFile(ffmpegPath, args, { timeout: 30_000, signal }, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+const MAX_VIDEO_THUMBNAIL_BYTES = 10 * 1024 * 1024;
+
+export async function createVideoThumbnailFromFile(params: {
+  path: string;
+  userId?: string | null;
+  fileName?: string | null;
+}): Promise<string | null> {
+  if (!params.path) return null;
+
+  const ffmpegPath = getFfmpegPath();
+  if (!ffmpegPath) return null;
+  const executableFfmpegPath = await ensureExecutableFfmpegPath(ffmpegPath);
+
+  const tempDir = await mkdtemp(path.join(tmpdir(), 'mv-upload-thumb-'));
+  const outputPath = path.join(tempDir, 'thumb.jpg');
+
+  try {
+    await runFfmpeg(executableFfmpegPath, params.path, outputPath);
+    const outputStat = await stat(outputPath);
+    if (outputStat.size <= 0 || outputStat.size > MAX_VIDEO_THUMBNAIL_BYTES) return null;
+    const thumb = await readFile(outputPath);
+    if (!thumb.length || thumb.length > MAX_VIDEO_THUMBNAIL_BYTES) return null;
+
+    const upload = await uploadImageToStorage({
+      data: thumb,
+      mime: 'image/jpeg',
+      userId: params.userId ?? undefined,
+      prefix: 'user-asset-thumbs',
+      fileName: `${baseName(params.fileName)}-thumb.jpg`,
+    });
+
+    return normalizeMediaUrl(upload.url) ?? upload.url;
+  } catch (error) {
+    console.warn('[upload-thumbnails] failed to create local video thumbnail', {
+      fileName: params.fileName ?? null,
+      error,
+    });
+    return null;
+  } finally {
+    await rm(tempDir, { recursive: true, force: true }).catch(() => {});
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/generate-model-launch-assets.ts",
+  "waves": [
+    {
+      "waveId": "p0",
+      "sourceManifest": "docs/model-launch/p0-video-example-pack.json",
+      "sourceStatus": "validated",
+      "sourceDigest": "b711cc0d9c625f7564b4ba8cf9287eb481c7462c97a5e353c8cc78ade5a69e93",
+      "models": [
+        {
+          "waveId": "p0",
+          "modelId": "wan-3",
+          "familyId": "wan",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-wan",
+          "modelPlaylistSlug": "examples-wan-3"
+        },
+        {
+          "waveId": "p0",
+          "modelId": "wan-3-prime",
+          "familyId": "wan",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-wan",
+          "modelPlaylistSlug": "examples-wan-3-prime"
+        },
+        {
+          "waveId": "p0",
+          "modelId": "ltx-2-5-fast",
+          "familyId": "ltx",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-ltx",
+          "modelPlaylistSlug": "examples-ltx-2-5-fast"
+        },
+        {
+          "waveId": "p0",
+          "modelId": "ltx-2-5-pro",
+          "familyId": "ltx",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-ltx",
+          "modelPlaylistSlug": "examples-ltx-2-5-pro"
+        },
+        {
+          "waveId": "p0",
+          "modelId": "grok-imagine-video-1-5",
+          "familyId": "grok",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-grok",
+          "modelPlaylistSlug": "examples-grok-imagine-video-1-5"
+        },
+        {
+          "waveId": "p0",
+          "modelId": "flux-3",
+          "familyId": "flux",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-flux",
+          "modelPlaylistSlug": "examples-flux-3"
+        },
+        {
+          "waveId": "p0",
+          "modelId": "flux-3-draft",
+          "familyId": "flux",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-flux",
+          "modelPlaylistSlug": "examples-flux-3-draft"
+        }
+      ]
+    },
+    {
+      "waveId": "p1",
+      "sourceManifest": "docs/model-launch/p1-video-example-pack.json",
+      "sourceStatus": "validated",
+      "sourceDigest": "9d2949a7eff28bc67fccf52109be708c3de7caf21efdbdd638417ee92a48d834",
+      "models": [
+        {
+          "waveId": "p1",
+          "modelId": "gemini-omni-flash",
+          "familyId": "veo",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-veo",
+          "modelPlaylistSlug": "examples-gemini-omni-flash"
+        },
+        {
+          "waveId": "p1",
+          "modelId": "kling-3-turbo-standard",
+          "familyId": "kling",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-kling",
+          "modelPlaylistSlug": "examples-kling-3-turbo-standard"
+        },
+        {
+          "waveId": "p1",
+          "modelId": "kling-3-turbo-pro",
+          "familyId": "kling",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-kling",
+          "modelPlaylistSlug": "examples-kling-3-turbo-pro"
+        },
+        {
+          "waveId": "p1",
+          "modelId": "minimax-h3-max",
+          "familyId": "hailuo",
+          "acceptedAssetCount": 2,
+          "familyPlaylistSlug": "family-hailuo",
+          "modelPlaylistSlug": "examples-minimax-h3-max"
+        }
+      ]
+    }
+  ],
+  "models": [
+    {
+      "waveId": "p0",
+      "modelId": "wan-3",
+      "familyId": "wan",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-wan",
+      "modelPlaylistSlug": "examples-wan-3"
+    },
+    {
+      "waveId": "p0",
+      "modelId": "wan-3-prime",
+      "familyId": "wan",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-wan",
+      "modelPlaylistSlug": "examples-wan-3-prime"
+    },
+    {
+      "waveId": "p0",
+      "modelId": "ltx-2-5-fast",
+      "familyId": "ltx",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-ltx",
+      "modelPlaylistSlug": "examples-ltx-2-5-fast"
+    },
+    {
+      "waveId": "p0",
+      "modelId": "ltx-2-5-pro",
+      "familyId": "ltx",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-ltx",
+      "modelPlaylistSlug": "examples-ltx-2-5-pro"
+    },
+    {
+      "waveId": "p0",
+      "modelId": "grok-imagine-video-1-5",
+      "familyId": "grok",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-grok",
+      "modelPlaylistSlug": "examples-grok-imagine-video-1-5"
+    },
+    {
+      "waveId": "p0",
+      "modelId": "flux-3",
+      "familyId": "flux",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-flux",
+      "modelPlaylistSlug": "examples-flux-3"
+    },
+    {
+      "waveId": "p0",
+      "modelId": "flux-3-draft",
+      "familyId": "flux",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-flux",
+      "modelPlaylistSlug": "examples-flux-3-draft"
+    },
+    {
+      "waveId": "p1",
+      "modelId": "gemini-omni-flash",
+      "familyId": "veo",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-veo",
+      "modelPlaylistSlug": "examples-gemini-omni-flash"
+    },
+    {
+      "waveId": "p1",
+      "modelId": "kling-3-turbo-standard",
+      "familyId": "kling",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-kling",
+      "modelPlaylistSlug": "examples-kling-3-turbo-standard"
+    },
+    {
+      "waveId": "p1",
+      "modelId": "kling-3-turbo-pro",
+      "familyId": "kling",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-kling",
+      "modelPlaylistSlug": "examples-kling-3-turbo-pro"
+    },
+    {
+      "waveId": "p1",
+      "modelId": "minimax-h3-max",
+      "familyId": "hailuo",
+      "acceptedAssetCount": 2,
+      "familyPlaylistSlug": "family-hailuo",
+      "modelPlaylistSlug": "examples-minimax-h3-max"
+    }
+  ]
+}

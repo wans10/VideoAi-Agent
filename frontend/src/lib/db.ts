@@ -1,0 +1,110 @@
+import { Pool, type PoolClient } from 'pg';
+
+let pool: Pool | null = null;
+let activeConnectionString: string | null = null;
+
+export type QueryExecutor = {
+  query<TRecord = unknown>(text: string, params?: ReadonlyArray<unknown>): Promise<TRecord[]>;
+};
+
+declare const transactionQueryExecutorBrand: unique symbol;
+
+export type TransactionQueryExecutor = QueryExecutor & {
+  readonly [transactionQueryExecutorBrand]: 'transaction-query-executor';
+};
+
+const activeTransactionExecutors = new WeakSet<object>();
+
+export function isTransactionQueryExecutor(value: unknown): value is TransactionQueryExecutor {
+  return value !== null
+    && typeof value === 'object'
+    && activeTransactionExecutors.has(value);
+}
+
+function getDatabaseUrl(): string {
+  return (process.env.DATABASE_URL ?? '').trim();
+}
+
+export function isDatabaseConfigured(): boolean {
+  return getDatabaseUrl().length > 0;
+}
+
+export function getDb() {
+  const connectionString = getDatabaseUrl();
+  if (!connectionString) {
+    throw new Error('DATABASE_URL is not set');
+  }
+  if (!pool || activeConnectionString !== connectionString) {
+    if (pool) {
+      void pool.end().catch(() => {
+        // Ignore stale pool shutdown failures.
+      });
+    }
+    const nextPool = new Pool({ connectionString });
+    nextPool.on('error', (error) => {
+      const code = (error as Error & { code?: unknown }).code;
+      console.error('[db] Database pool idle client error', {
+        message: error.message,
+        ...(typeof code === 'string' ? { code } : {}),
+      });
+    });
+    pool = nextPool;
+    activeConnectionString = connectionString;
+  }
+  return pool;
+}
+
+export function createQueryExecutor(client: Pick<PoolClient, 'query'>): QueryExecutor {
+  return {
+    async query<TRecord = unknown>(text: string, params?: ReadonlyArray<unknown>) {
+      const res = await client.query<TRecord>(text, params);
+      return res.rows;
+    },
+  };
+}
+
+function createTransactionQueryExecutor(
+  client: Pick<PoolClient, 'query'>,
+): TransactionQueryExecutor {
+  const executor: QueryExecutor = {
+    query<TRecord = unknown>(text: string, params?: ReadonlyArray<unknown>) {
+      if (!activeTransactionExecutors.has(executor)) {
+        throw new Error('Transaction query executor is no longer active.');
+      }
+      return client.query<TRecord>(text, params).then((result) => result.rows);
+    },
+  };
+  return executor as TransactionQueryExecutor;
+}
+
+export async function query<TRecord = unknown>(text: string, params?: ReadonlyArray<unknown>) {
+  const client = await getDb().connect();
+  try {
+    return await createQueryExecutor(client).query<TRecord>(text, params);
+  } finally {
+    client.release();
+  }
+}
+
+export async function withDbTransaction<TResult>(
+  callback: (executor: TransactionQueryExecutor, client: PoolClient) => Promise<TResult>
+): Promise<TResult> {
+  const client = await getDb().connect();
+  const executor = createTransactionQueryExecutor(client);
+
+  try {
+    await client.query('BEGIN');
+    activeTransactionExecutors.add(executor);
+    const result = await callback(executor, client);
+    activeTransactionExecutors.delete(executor);
+    await client.query('COMMIT');
+    return result;
+  } catch (error) {
+    activeTransactionExecutors.delete(executor);
+    await client.query('ROLLBACK').catch(() => undefined);
+    throw error;
+  } finally {
+    activeTransactionExecutors.delete(executor);
+    client.release();
+  }
+}

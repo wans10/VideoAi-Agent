@@ -1,0 +1,420 @@
+import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+
+import { detectMediaBufferDuration } from '@/server/media/detect-has-audio';
+import { downloadAudioSourceVideo } from './source-video-probe';
+export { inspectSourceVideo } from './source-video-probe';
+import { ensureJobThumbnail } from '@/server/thumbnails';
+import { ensureExecutableFfmpegPath } from '@/server/ffmpeg-runtime';
+import { uploadFileBuffer } from '@/server/storage';
+import type { AudioIntensity } from '@/lib/audio-generation';
+import { buildVideoPreservingMuxArgs } from './video-mux-args';
+
+const requireForRuntime = createRequire(import.meta.url);
+
+let ffmpegPathResolved = false;
+let resolvedFfmpegPath: string | null = null;
+
+function getFfmpegPath(): string | null {
+  if (ffmpegPathResolved) {
+    return resolvedFfmpegPath;
+  }
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const ffmpeg = requireForRuntime('@ffmpeg-installer/ffmpeg');
+    const candidate =
+      typeof ffmpeg === 'string'
+        ? ffmpeg
+        : typeof ffmpeg?.path === 'string'
+          ? ffmpeg.path
+          : null;
+    resolvedFfmpegPath = candidate;
+    ffmpegPathResolved = true;
+    return resolvedFfmpegPath;
+  } catch (error) {
+    console.warn('[audio-media] unable to resolve ffmpeg binary', error);
+    resolvedFfmpegPath = null;
+    ffmpegPathResolved = true;
+    return resolvedFfmpegPath;
+  }
+}
+
+type StemPresence = {
+  hasSoundDesign: boolean;
+  hasMusic: boolean;
+  hasVoice: boolean;
+  targetDurationSec?: number | null;
+  mixIntensity?: AudioIntensity | null;
+};
+
+type MixAudioTracksParams = {
+  soundDesignUrl?: string | null;
+  musicUrl?: string | null;
+  voiceUrl?: string | null;
+  targetDurationSec?: number | null;
+  mixIntensity?: AudioIntensity | null;
+};
+
+type MixAudioIntoVideoParams = MixAudioTracksParams & {
+  sourceVideoUrl: string;
+};
+
+async function fetchFileBuffer(url: string): Promise<Buffer> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch media (${response.status})`);
+  }
+  const buffer = Buffer.from(await response.arrayBuffer());
+  if (!buffer.length) {
+    throw new Error('Fetched media was empty');
+  }
+  return buffer;
+}
+
+async function writeFetchedFile(url: string, filePath: string): Promise<void> {
+  const buffer = await fetchFileBuffer(url);
+  await writeFile(filePath, buffer);
+}
+
+function resolveAspectRatio(width: number | null, height: number | null): string | null {
+  if (!width || !height) return null;
+  if (height > width) return '9:16';
+  if (height === width) return '1:1';
+  return '16:9';
+}
+
+function buildTrimSuffix(targetDurationSec?: number | null): string {
+  if (!targetDurationSec || !Number.isFinite(targetDurationSec) || targetDurationSec <= 0) {
+    return '';
+  }
+  return `,atrim=0:${targetDurationSec.toFixed(3)},asetpts=N/SR/TB`;
+}
+
+function normalizeStemPresence(input: boolean | StemPresence): StemPresence {
+  if (typeof input === 'boolean') {
+    return {
+      hasSoundDesign: true,
+      hasMusic: true,
+      hasVoice: input,
+      targetDurationSec: null,
+      mixIntensity: 'standard',
+    };
+  }
+  return {
+    hasSoundDesign: Boolean(input.hasSoundDesign),
+    hasMusic: Boolean(input.hasMusic),
+    hasVoice: Boolean(input.hasVoice),
+    targetDurationSec: input.targetDurationSec ?? null,
+    mixIntensity: input.mixIntensity ?? 'standard',
+  };
+}
+
+function resolveMixProfile(intensity: AudioIntensity | null | undefined) {
+  switch (intensity) {
+    case 'subtle':
+      return {
+        soundDesignVolume: 0.92,
+        musicVolume: 0.52,
+        voiceVolume: 1.12,
+        musicWeight: 0.72,
+        voiceWeight: 1.22,
+      };
+    case 'intense':
+      return {
+        soundDesignVolume: 1.02,
+        musicVolume: 0.84,
+        voiceVolume: 1.2,
+        musicWeight: 1.0,
+        voiceWeight: 1.34,
+      };
+    case 'standard':
+    default:
+      return {
+        soundDesignVolume: 0.96,
+        musicVolume: 0.7,
+        voiceVolume: 1.18,
+        musicWeight: 0.85,
+        voiceWeight: 1.3,
+      };
+  }
+}
+
+export function buildAudioMixFilterGraph(input: boolean | StemPresence): string {
+  const normalized = normalizeStemPresence(input);
+  const trimSuffix = buildTrimSuffix(normalized.targetDurationSec);
+  const profile = resolveMixProfile(normalized.mixIntensity);
+
+  if (normalized.hasSoundDesign && normalized.hasMusic && normalized.hasVoice) {
+    return [
+      `[0:a]aresample=48000,volume=${profile.soundDesignVolume.toFixed(2)}[sfx]`,
+      `[1:a]aresample=48000,volume=${profile.musicVolume.toFixed(2)}[music]`,
+      `[2:a]aresample=48000,volume=${profile.voiceVolume.toFixed(2)}[voice]`,
+      '[music][voice]sidechaincompress=threshold=0.03:ratio=10:attack=20:release=450[musicduck]',
+      `[sfx][musicduck]amix=inputs=2:duration=longest:weights=1 ${profile.musicWeight.toFixed(2)}[bed]`,
+      `[bed][voice]amix=inputs=2:duration=longest:weights=1 ${profile.voiceWeight.toFixed(2)}${trimSuffix},alimiter=limit=0.92[outa]`,
+    ].join(';');
+  }
+
+  if (normalized.hasSoundDesign && normalized.hasMusic) {
+    return [
+      `[0:a]aresample=48000,volume=${profile.soundDesignVolume.toFixed(2)}[sfx]`,
+      `[1:a]aresample=48000,volume=${profile.musicVolume.toFixed(2)}[music]`,
+      `[sfx][music]amix=inputs=2:duration=longest:weights=1 ${profile.musicWeight.toFixed(2)}${trimSuffix},alimiter=limit=0.92[outa]`,
+    ].join(';');
+  }
+
+  if (normalized.hasSoundDesign && normalized.hasVoice) {
+    return [
+      `[0:a]aresample=48000,volume=${profile.soundDesignVolume.toFixed(2)}[sfx]`,
+      `[1:a]aresample=48000,volume=${profile.voiceVolume.toFixed(2)}[voice]`,
+      `[sfx][voice]amix=inputs=2:duration=longest:weights=1 ${profile.voiceWeight.toFixed(2)}${trimSuffix},alimiter=limit=0.92[outa]`,
+    ].join(';');
+  }
+
+  if (normalized.hasSoundDesign) {
+    return [`[0:a]aresample=48000,volume=${profile.soundDesignVolume.toFixed(2)}${trimSuffix},alimiter=limit=0.92[outa]`].join(';');
+  }
+
+  if (normalized.hasMusic) {
+    return [`[0:a]aresample=48000,volume=${(profile.musicVolume + 0.18).toFixed(2)}${trimSuffix},alimiter=limit=0.92[outa]`].join(';');
+  }
+
+  if (normalized.hasVoice) {
+    return [`[0:a]aresample=48000,volume=${Math.max(1.08, profile.voiceVolume - 0.04).toFixed(2)}${trimSuffix},alimiter=limit=0.92[outa]`].join(';');
+  }
+
+  throw new Error('At least one audio stem is required for mixing.');
+}
+
+export async function mixAudioTracks(params: MixAudioTracksParams): Promise<Buffer> {
+  const ffmpegPath = getFfmpegPath();
+  if (!ffmpegPath) {
+    throw new Error('ffmpeg is not available');
+  }
+  const executableFfmpegPath = await ensureExecutableFfmpegPath(ffmpegPath);
+
+  const stems = [
+    params.soundDesignUrl ? { url: params.soundDesignUrl, fileName: 'sound.bin' } : null,
+    params.musicUrl ? { url: params.musicUrl, fileName: 'music.bin' } : null,
+    params.voiceUrl ? { url: params.voiceUrl, fileName: 'voice.bin' } : null,
+  ].filter((entry): entry is { url: string; fileName: string } => Boolean(entry));
+
+  if (!stems.length) {
+    throw new Error('No audio stems were provided.');
+  }
+
+  const tempDir = await mkdtemp(path.join(tmpdir(), 'mv-audio-mix-'));
+  const outputPath = path.join(tempDir, 'mixed.m4a');
+
+  try {
+    const inputPaths = await Promise.all(
+      stems.map(async (stem, index) => {
+        const filePath = path.join(tempDir, `${index}-${stem.fileName}`);
+        await writeFetchedFile(stem.url, filePath);
+        return filePath;
+      })
+    );
+
+    const filterComplex = buildAudioMixFilterGraph({
+      hasSoundDesign: Boolean(params.soundDesignUrl),
+      hasMusic: Boolean(params.musicUrl),
+      hasVoice: Boolean(params.voiceUrl),
+      targetDurationSec: params.targetDurationSec ?? null,
+      mixIntensity: params.mixIntensity ?? 'standard',
+    });
+
+    const args = [
+      '-y',
+      ...inputPaths.flatMap((inputPath) => ['-i', inputPath]),
+      '-filter_complex',
+      filterComplex,
+      '-map',
+      '[outa]',
+      '-c:a',
+      'aac',
+      '-b:a',
+      '192k',
+      '-movflags',
+      '+faststart',
+      outputPath,
+    ];
+
+    await new Promise<void>((resolve, reject) => {
+      execFile(executableFfmpegPath, args, (error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve();
+      });
+    });
+
+    return await readFile(outputPath);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true }).catch(() => undefined);
+  }
+}
+
+export async function muxAudioBufferIntoVideo(params: {
+  sourceVideoUrl: string;
+  audioBuffer: Buffer;
+}): Promise<Buffer> {
+  const ffmpegPath = getFfmpegPath();
+  if (!ffmpegPath) {
+    throw new Error('ffmpeg is not available');
+  }
+  const executableFfmpegPath = await ensureExecutableFfmpegPath(ffmpegPath);
+
+  const tempDir = await mkdtemp(path.join(tmpdir(), 'mv-audio-mux-'));
+  const sourcePath = path.join(tempDir, 'source.mp4');
+  const audioPath = path.join(tempDir, 'mixed.m4a');
+  const outputPath = path.join(tempDir, 'output.mp4');
+
+  try {
+    const source = await downloadAudioSourceVideo({ file_id: 'audio-mux-source', download_url: params.sourceVideoUrl });
+    await writeFile(sourcePath, source.bytes);
+    await writeFile(audioPath, params.audioBuffer);
+
+    const args = buildVideoPreservingMuxArgs(sourcePath, audioPath, outputPath);
+
+    await new Promise<void>((resolve, reject) => {
+      execFile(executableFfmpegPath, args, (error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve();
+      });
+    });
+
+    return await readFile(outputPath);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true }).catch(() => undefined);
+  }
+}
+
+export async function mixAudioIntoVideo(
+  params: MixAudioIntoVideoParams
+): Promise<{ audioBuffer: Buffer; videoBuffer: Buffer }> {
+  const audioBuffer = await mixAudioTracks({
+    soundDesignUrl: params.soundDesignUrl,
+    musicUrl: params.musicUrl,
+    voiceUrl: params.voiceUrl,
+    targetDurationSec: params.targetDurationSec ?? null,
+    mixIntensity: params.mixIntensity ?? 'standard',
+  });
+  const videoBuffer = await muxAudioBufferIntoVideo({
+    sourceVideoUrl: params.sourceVideoUrl,
+    audioBuffer,
+  });
+  return { audioBuffer, videoBuffer };
+}
+
+export async function uploadAudioRenderVideo(params: {
+  userId: string;
+  jobId: string;
+  videoBuffer: Buffer;
+}): Promise<{ videoUrl: string; thumbUrl: string | null }> {
+  const upload = await uploadFileBuffer({
+    data: params.videoBuffer,
+    mime: 'video/mp4',
+    fileName: `${params.jobId}.mp4`,
+    prefix: 'renders',
+    userId: params.userId,
+  });
+
+  const thumbUrl =
+    (await ensureJobThumbnail({
+      jobId: params.jobId,
+      userId: params.userId,
+      videoUrl: upload.url,
+      force: true,
+    })) ?? null;
+
+  return {
+    videoUrl: upload.url,
+    thumbUrl,
+  };
+}
+
+export async function uploadAudioRenderAudio(params: {
+  userId: string;
+  jobId: string;
+  audioBuffer: Buffer;
+}): Promise<{ audioUrl: string }> {
+  const upload = await uploadFileBuffer({
+    data: params.audioBuffer,
+    mime: 'audio/mp4',
+    fileName: `${params.jobId}.m4a`,
+    prefix: 'renders',
+    userId: params.userId,
+  });
+
+  return {
+    audioUrl: upload.url,
+  };
+}
+
+export function resolveAudioAspectRatio(width: number | null, height: number | null): string | null {
+  return resolveAspectRatio(width, height);
+}
+
+function hasId3Header(buffer: Buffer): boolean {
+  return buffer.length >= 10
+    && buffer[0] === 0x49
+    && buffer[1] === 0x44
+    && buffer[2] === 0x33
+    && buffer[3] !== undefined
+    && buffer[3] >= 2
+    && buffer[3] <= 4
+    && buffer[4] !== 0xff
+    && [...buffer.subarray(6, 10)].every((byte) => byte < 0x80);
+}
+
+function hasMpegAudioFrame(buffer: Buffer): boolean {
+  const first = buffer[0];
+  const second = buffer[1];
+  const third = buffer[2];
+  if (first !== 0xff || second === undefined || third === undefined || (second & 0xe0) !== 0xe0) return false;
+  const version = (second >> 3) & 0x03;
+  const layer = (second >> 1) & 0x03;
+  const bitrate = (third >> 4) & 0x0f;
+  const sampleRate = (third >> 2) & 0x03;
+  return version !== 0x01
+    && layer !== 0x00
+    && bitrate !== 0x00
+    && bitrate !== 0x0f
+    && sampleRate !== 0x03;
+}
+
+function detectOriginalAudioContainer(buffer: Buffer): { extension: string; mime: string } | null {
+  if (buffer.length >= 12 && buffer.subarray(0, 4).toString() === 'RIFF' && buffer.subarray(8, 12).toString() === 'WAVE') {
+    return { extension: 'wav', mime: 'audio/wav' };
+  }
+  if (buffer.subarray(0, 4).toString() === 'fLaC') return { extension: 'flac', mime: 'audio/flac' };
+  if (buffer.subarray(0, 4).toString() === 'OggS') return { extension: 'ogg', mime: 'audio/ogg' };
+  if (hasId3Header(buffer) || hasMpegAudioFrame(buffer)) return { extension: 'mp3', mime: 'audio/mpeg' };
+  return null;
+}
+
+/** Persist unmodified standalone provider output and inspect the bytes, never an estimated script duration. */
+export async function persistOriginalAudio(params: { userId: string; jobId: string; url: string }, dependencies = {
+  fetchBuffer: fetchFileBuffer, detectDuration: detectMediaBufferDuration, upload: uploadFileBuffer,
+}) {
+  const audioBuffer = await dependencies.fetchBuffer(params.url);
+  const container = detectOriginalAudioContainer(audioBuffer);
+  if (!container) throw new Error('Unsupported generated audio container.');
+  const durationSec = await dependencies.detectDuration(audioBuffer, { streamSelector: 'audio' });
+  if (!durationSec) throw new Error('Unable to inspect generated audio.');
+  const upload = await dependencies.upload({
+    data: audioBuffer,
+    mime: container.mime,
+    fileName: `${params.jobId}.${container.extension}`,
+    prefix: 'renders',
+    userId: params.userId,
+  });
+  return { audioUrl: upload.url, durationSec, mimeType: container.mime };
+}

@@ -1,0 +1,218 @@
+# Pricing Engine
+
+## Current status
+
+The pricing parity foundation, billing migration, and public projection migration are complete. The legacy pricing facade and specialized commercial snapshot layer are deleted, and an architecture contract now enforces one commercial formula owner. The three-domain admin cockpit is also complete, repository-verified, and operationally accepted against a configured isolated PostgreSQL database. The deterministic audit reports **178 scenarios, 178 matches, 0 mismatches, and 4 compatibility profiles in use**. The exhaustive public contract reports **492 unchanged rows**. Wallet/direct generation, image, audio, storyboard, tool charges, public pricing pages, model pages, estimators, chips, JSON-LD, workspace preflight, and image estimates are canonical-authoritative.
+
+## Membership discount retirement
+
+Membership discounts are retired for all new live quotes. The browser-safe policy in `frontend/src/lib/membership-policy.ts` projects every live membership input to the legacy wire tier `member`, with a zero threshold and zero discount. Billing, public, fixed-product, image, storyboard, agent, and MCP quote adapters enforce that policy even when a caller supplies a stale Plus/Pro tier, a historical percentage, or an injected tier map. Account status still reports receipt-ledger spend because other account views use it, but spend no longer changes the price of a new generation.
+
+The canonical package remains able to interpret historical membership discounts. Persisted quote snapshots, receipts, refunds, and already-paid continuation amounts must retain their original tier and discount itemization. Agent/MCP confirmation compares a stored pending quote against the current standard quote and uses the existing price-change/reconfirmation response when they differ. First-party web charge requests additionally bind the displayed policy revision through `x-maxvideoai-pricing-policy`; a missing or old revision returns `409 PRICING_REFRESH_REQUIRED` before charging so an old browser tab cannot submit a price it displayed under the former policy.
+
+The membership admin route is now read-only. Inventory and immutable audit history remain available for historical analysis, while preview, confirmation, and rollback mutations return `410 membership_retired`. Do not edit stored tiers or migrate historical rows to express this retirement; live adapters own the current product policy.
+
+The original pricing-foundation migration preserved every then-current commercial value. The later membership retirement intentionally removes membership discounts from new quotes while leaving margins, surcharges, currency, rounding, stored settlements, and historical evidence unchanged. Active pricing-policy and billing-product mutations use a server-owned `preview → explicit confirmation → transactional apply` protocol.
+
+## Ownership model
+
+The target flow is:
+
+```text
+provider facts → resolved commercial policy → @maxvideoai/pricing → presentation
+```
+
+Provider facts include vendor rates, units, duration, resolution, provider tiers, and factual addons. Commercial policy includes MaxVideoAI margins, flat fees, surcharges, membership effects, currency, and compatibility profiles. Consumers may format a canonical quote but may not recalculate it.
+
+## Current consumer inventory
+
+| Owner | Current responsibility | Foundation status | Intended destination |
+| --- | --- | --- | --- |
+| `packages/pricing/src/canonical.ts` | The only margin, surcharge, discount, total, platform-fee, and vendor-share formulas | Canonical-authoritative | Sole pure commercial calculator |
+| `packages/pricing/src/facts.ts` | Provider subtotal facts derived from standard engine definitions | Factual only | Stable pure factual adapter |
+| `packages/pricing` | Definition catalog, canonical policy, provenance, scaling, and snapshot projection | Canonical-authoritative | Stable package boundary |
+| `frontend/server/pricing/quote-billing.ts` | Server billing orchestration for video, image, audio, and storyboard | Canonical-authoritative | Stable billing owner |
+| `frontend/src/lib/pricing-context.ts` | Narrow shared input contract for billing/public quote orchestration | Canonical input | Stable context contract |
+| `frontend/src/lib/pricing-billing-facts.ts` | Billing provider facts and descriptive snapshot metadata | Canonical billing input | Stable factual adapter layer |
+| `frontend/src/lib/pricing-public-facts.ts` | Browser-safe provider and fixed-product facts | Canonical public input | Stable factual adapter layer |
+| `frontend/src/lib/pricing-public-quote.ts` | Browser-safe policy selection, canonical quote, and projection | Canonical-authoritative for deterministic public projections | Stable public quote owner |
+| `frontend/server/pricing/quote-public.ts` | DB-aware public and live-preview orchestration | Canonical-authoritative | Stable server public quote owner |
+| `frontend/src/lib/pricing-rule-store.ts` | DB rule persistence, fallback, routing metadata, and cache | Canonical override input | One resolver and admin-service input |
+| `frontend/src/lib/audio-generation.ts` | Audio provider facts and presentation metadata | Factual only | Stable factual adapter |
+| `frontend/src/lib/storyboard-pricing.ts` | Storyboard facts, metadata, and composition of already-canonical bundle/included projections | No commercial formulas | Stable storyboard adapter |
+| `frontend/src/lib/billing-products.ts` | Fixed-product loading and tool quote projection | Canonical-authoritative for tools | Stable fixed-product billing owner |
+| `frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData.ts` | Scenario selection, notes, sorting, links, and formatting | Canonical public consumer | Presentation only |
+| `frontend/components/marketing/PriceEstimator.tsx` | Interactive browser quote presentation | Canonical public consumer | Presentation only |
+| `frontend/components/marketing/PriceChip.tsx` | Compact browser quote presentation | Canonical public consumer | Presentation only |
+| `frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-pricing.ts` | Server model-page scenarios and labels | Canonical public consumer | Presentation only |
+| `frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-decision-pricing.ts` | Model decision-card scenario selection | Canonical public consumer | Presentation only |
+| `frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-schema.ts` | Product Offer mapping | Canonical public consumer | JSON-LD projection only |
+| `frontend/src/server/tools/angle.ts` | Angle tool billing | Canonical fixed-product quote | Stable consumer |
+| `frontend/src/server/tools/background-removal.ts` | Background-removal billing | Canonical fixed-product and dynamic quote | Stable consumer |
+| `frontend/src/server/tools/upscale.ts` | Upscale billing | Canonical fixed-product and dynamic quote | Stable consumer |
+| `frontend/app/(core)/admin/pricing` | Canonical engine-policy inventory, preview, confirmation, history, and rollback | Operationally accepted on isolated DB | Stable policy-domain owner |
+| `frontend/app/(core)/admin/membership` | Read-only historical membership thresholds, discounts, and immutable events | Retired for mutation | Stable historical owner |
+| `frontend/app/(core)/admin/billing-products` | Referenced fixed-product preview, confirmation, history, and rollback | Operationally accepted on isolated DB | Stable billing-product-domain owner |
+| `frontend/app/api/admin/pricing`, `membership`, `billing-products` | Authorized inventory/history reads; pricing and billing-product preview/confirm mutations; explicit membership-retired errors | Operationally accepted on isolated DB | Stable thin route adapters |
+
+## Homepage guided pricing demonstration
+
+`(home)/_lib/home-price-demo-data.ts` selects three exact Wan 3 text-to-video scenarios through Pricing's `getPresetQuote`: 5 s / 720p, 15 s / 720p, 15 s / 1080p, audio enabled. If any scenario is not exact, it omits the demonstration. `HomePriceDemo.client.tsx` selects these server-projected quotes without computing commercial prices; `HomePriceAppSurface.client.tsx` presents them with the shared workspace Composer and CoreSettingsBar in an inert, lazy-loaded surface. The generation handler is a no-op and the real studio is a separate link. Preserve this boundary: the homepage is neither a live quote endpoint nor a generation client. `tests/home-price-demo.test.ts` verifies the public quote projection in EN, FR and ES.
+
+## Policy precedence
+
+Canonical server quotes use this deterministic precedence:
+
+```text
+precise DB override
+→ engine-level DB override
+→ global DB override
+→ precise versioned rule
+→ engine-level versioned rule
+→ global versioned rule
+```
+
+The canonical result always carries the source, match specificity, source rule ID, and compatibility profile. Database unavailability falls back to validated versioned policy and emits a structured operational warning.
+
+Storyboard generation and editing are explicit `storyboarder` rules with margins of `2` and `1`, preserving the existing customer totals of exactly 3× and 2× provider cost. Migration 28 and the runtime schema seed create matching database overrides with `ON CONFLICT DO NOTHING`, so deployment preserves current prices while later admin edits remain simple and auditable.
+
+## Audit workflow
+
+The committed billing and public baselines remain frozen pre-migration references and contain no database or timestamp data. The audits compare canonical outputs against those references; neither fixture nor collector is a production pricing owner.
+
+```bash
+pnpm pricing:baseline
+pnpm pricing:public-baseline
+pnpm pricing:audit
+pnpm --silent pricing:audit -- --json
+```
+
+The 178-row pre-canonical billing baseline and public baseline are immutable historical evidence. The legacy `pricing:public-baseline:generate` entry point now refuses to write; changing either fixture requires a separately designed migration rather than an operating command. The commands above do not mutate pricing policy or application state.
+
+Reviewed post-baseline price changes are recorded as exact scenario and field deltas in `frontend/src/lib/pricing-audit/approved-changes.ts`. The audit reports those rows separately as approved changes and still fails for any unlisted or altered delta. Gemini Omni 1.1's exact token price is the first such change: the historical 10-second 720p projection remains $1.30 while the reviewed canonical price is $1.32.
+
+Every current cross-surface difference is preserved and identified by a compatibility profile. Updating `frontend/config/pricing-policy.json` is a commercial change after this foundation batch and requires an intentional matrix review; it must never be bundled into an unrelated refactor.
+
+## Foundation compatibility profiles
+
+- `standard`: preserves fractional provider cents for commercial math and rounds the margin upward.
+- `provider-reference-current`: preserves the existing Luma and Seedance behavior that rounds the provider share and the commercial subtotal upward before deriving the margin component.
+- `audio-current`: preserves the existing 150% audio margin and integer vendor components.
+- `schema-current`: preserves structured-data offers that currently use an already-authored offer amount without adding another margin.
+- `public-rounded-vendor-current`: preserves public surfaces that historically rounded vendor cents before applying the standard commercial rule.
+- `fixed-product-current`: preserves seeded billing-product totals without a second margin or surcharge and retains the historical zero platform/vendor allocation fields.
+
+These profiles document existing behavior only. They cannot be added implicitly by the audit command and they do not authorize new cross-surface differences.
+
+## Billing authority
+
+New charges enter through `frontend/server/pricing/quote-billing.ts` or the canonical fixed-product functions in `frontend/src/lib/billing-products.ts`. API routes and tool runners do not call the pure kernel directly. Wallet and receipt persistence consume the projected snapshot without recalculating it, and refunds use stored charged amounts.
+
+## Public authority
+
+The pricing landing page promotes three exact, eligible matrix highlights into
+`PricingQuickStart`: 5s 720p, 10s 1080p and 10s 1080p with audio. The existing
+`buildVideoHighlights` owner supplies each formatted price, engine and row anchor.
+The hero never recalculates prices or loads a browser estimator. Featured highlights
+are removed from the supporting strip to avoid duplicate choices; unavailable exact
+quotes stay in the matrix's existing fallback presentation. Labels and the indicative
+USD/live-quote explanation are authored in the three locale message files.
+`tests/pricing-quick-start.test.ts` locks matrix parity and the server boundary.
+Scenario clicks reuse the consent-controlled `cta_click` bridge with the explicitly
+allowed `pricing_scenario` / `pricing_hero` values. These are aggregate card clicks;
+they do not prove a paid conversion or distinguish the three scenarios.
+
+Deterministic browser and marketing projections enter through `frontend/src/lib/pricing-public-quote.ts`. DB-aware model projections and live estimates enter through `frontend/server/pricing/quote-public.ts`. Provider adapters provide facts only; consumers choose scenarios and format canonical results. Browser modules may receive validated serialized overrides but cannot import the database resolver, server modules, environment secrets, or admin owners.
+
+The pricing hub, model decision cards, estimator, chip, model price rows, Product Offer JSON-LD, workspace preflight, and image estimate routes are protected by `tests/pricing-public-authority.test.ts`. The exhaustive 492-row fixture protects the cent-level output of every migrated public surface.
+
+## Historical launch examples
+
+`frontend/server/launch-example-pricing-records.json` preserves the original
+customer totals for 14 accepted P0 demo generations whose production import omitted
+pricing. The amounts were recovered on 2026-09-04 from the same job IDs in
+`preview/mcp-staging`; each `final_price_cents` matched the saved canonical
+`pricing_snapshot.totalCents`, model, duration and currency. These are archived
+generation receipts, not current rate definitions or newly calculated quotes.
+
+`videos-normalization.ts` uses a matching receipt only when the job has no
+stored price. An existing price, including zero, wins; a model, duration or
+currency mismatch rejects the receipt. This changes the gallery/marketing
+projection only. Production billing columns, wallet transactions and refund
+snapshots are never backfilled with staging charges.
+
+For future demo imports, preserve the verified historical display receipt at
+import time. Never estimate a past charge from today's rates or generalize one
+example's amount to another job. When no receipt exists, a new reproduction
+estimate must go through `quote-public.ts` and be labeled as an estimate.
+
+## Final one-owner state
+
+`quoteCanonicalPricing` is the sole commercial formula. Definition catalogs and provider adapters can derive factual vendor subtotals, units, durations, resolutions, and addons, but they cannot apply margins, membership discounts, customer-total rounding, or settlement allocation. Storyboard and audio use the same canonical quote as every other live surface. The removed compatibility facade, specialized commercial snapshots, legacy audit collector, dead client preflight, and old kernel quote method must not be reintroduced.
+
+Two non-quote projections remain intentionally narrow: storyboard bundle code adds already-canonical snapshots and the included first-frame path zeroes an already-canonical snapshot. Settlement getters may infer missing allocation fields when reading historical stored snapshots; they never create a customer quote or change its total.
+
+`tests/pricing-architecture.test.ts` locks this boundary semantically. The immutable 178-row fixture proves parity with the removed implementation, while the canonical 492-row public fixture protects current public behavior.
+
+## Admin commercial mutation workflow
+
+The admin navigation exposes `Pricing policy`, `Membership`, and `Billing products`. Each domain loads its own inventory and immutable history. Pricing-policy and billing-product mutations follow `preview → explicit confirmation → immediate transactional apply`; confirmation recomputes the preview and rejects a stale fingerprint. Membership is historical and read-only, and its mutation endpoints return `membership_retired`.
+
+Routing fields are excluded from commercial proposals: `vendorAccountId` is read-only context, an update preserves the stored routing value, and a new policy rule cannot create a routing override. Rollback creates a new immutable event and is a new mutation, never a history rewrite. Clients send only the target and immutable event identifiers. The server reads the event, derives the historical state, computes a fresh canonical preview, and requires the normal explicit confirmation. Event history renders actor, timestamp, operation, target, and the server-recorded scenario delta range. The former direct membership-tier and raw pricing-rule mutation routes have been removed.
+
+Read-only public quote resolution may fall back to validated versioned policy when the database is unavailable. Admin inventory surfaces must show the outage, while every database-unavailable admin mutation fails explicitly and leaves policy, history, and caches unchanged.
+
+## Operational acceptance record
+
+Historically, on 2026-07-13, the three commercial domains were exercised through authenticated localhost admin routes against a disposable PostgreSQL database containing migration 27. Inventory loaded 49 policy selectors, the three canonical membership tiers, and all 13 referenced active billing products with no missing product key. Those membership mutation results predate retirement and are retained only as an acceptance record.
+
+Each domain then completed a controlled `preview → confirmation → history → rollback` cycle. This records the former workflow; current membership preview, confirmation, and rollback return HTTP 410. The acceptance database was local and disposable. No production database, authored pricing policy, frozen parity fixture, or applied commercial value was changed.
+
+## Safe price-change runbook
+
+Use only the owner for the value being changed:
+
+1. `/admin/pricing` for engine policy selectors, margins, surcharges, currency, and compatibility profiles.
+2. `/admin/membership` to inspect historical `member`, `plus`, and `pro` thresholds, discounts, and immutable events. It cannot apply or roll back changes.
+3. `/admin/billing-products` for active fixed products referenced by production billing consumers.
+
+For pricing policy or billing products, inspect the current source and provenance, edit the proposed value, request the canonical server preview, review every affected row and warning, then either cancel or explicitly confirm. Confirmation applies immediately. If the server reports `preview_stale`, discard the preview, refresh current state, and preview again. To undo a committed change in either active domain, select its immutable history event and run the same preview-confirm flow; rollback never edits or deletes history. Membership history has no active rollback control.
+
+Before confirming a real change, work in a configured environment with an authenticated admin and a database containing the current migrations. Record the intended policy diff, then run the read-only guards:
+
+```bash
+pnpm pricing:baseline
+pnpm pricing:public-baseline
+pnpm pricing:audit
+pnpm --silent pricing:audit -- --json
+```
+
+The billing and public baseline commands are read-only; the former public baseline writer refuses to rewrite the frozen fixture. After the previewed change is confirmed, verify the affected billing/public scenarios and run:
+
+```bash
+pnpm test:validate
+pnpm --prefix frontend run lint
+pnpm lint:exposure
+pnpm --prefix frontend exec tsc --noEmit --pretty false
+pnpm --prefix frontend run build
+git diff --check
+```
+
+Keep the admin event ID with the operational change record. If any parity difference is intended, review it as a separate commercial decision and update frozen fixtures only with explicit approval.
+
+
+## Audio policy change — 2026-09-08
+
+The approved versioned Audio rule now uses a 200% markup (provider cost ×3), zero flat fee, and the `audio-tripled-rounded` profile. `subtotalRoundingIncrementCents: 5` applies upward rounding once to the combined exact provider subtotal plus commercial components. The canonical kernel owns this generic increment; UI, billing and MCP consume its result. Fractional Seed costs are no longer rounded before live commercial math. Database overrides keep the existing precedence; this code change does not mutate production policy rows.
+
+The historical `audio-current` profile remains available. Historical audit reproduction explicitly retains the former 150% markup and whole-cent Seed estimate; active admin previews use the current policy. Immutable public/billing fixtures remain untouched. The 15 approved Audio public-price changes are recorded separately in `tests/fixtures/audio-pricing-change-2026-09-08.json`, including their previous totals; the read-only public baseline checks every other field and row unchanged. The current full public baseline contains 592 rows.
+
+## GPT Image 2.5 edit-reference policy — 2026-09-16
+
+Flare and Sunburst image edits account for every source image in provider facts while including the first source image in the customer price. Each additional source image adds exactly 1 cent at standard output sizes or 2 cents at 4K. A one-output low-quality edit has a 2-cent customer minimum at standard sizes and a 3-cent minimum at 4K.
+
+The billing adapter supplies the output-only pricing basis, minimum, and fixed additional-reference amount as a canonical commercial adjustment. `quoteCanonicalPricing` remains the only owner of customer-total and settlement-allocation math. The provider subtotal and snapshot metadata continue to expose all source-image costs, including the commercially included first source. Text-to-image quotes and deterministic marketing/model-card projections are unchanged.
+
+## Product schema offer repair — 2026-09-10
+
+Indexed legacy model pages resolve Product offers independently from pricing-estimator publication. This lets Luma Ray 2, Luma Ray 2 Flash, Wan 2.5, LTX 2 Fast, and LTX 2 reuse their existing canonical or authored prices in JSON-LD without republishing those models in the estimator or changing billing. The two Luma rows that previously had no structured-data amount are recorded in `tests/fixtures/product-schema-offer-fix-2026-09-10.json`; the frozen historical fixture remains unchanged.

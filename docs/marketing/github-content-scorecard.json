@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "assessedAt": "2026-08-27",
+  "verifiedAfterAt": "2026-08-29",
+  "rubric": {
+    "benchmark": "Evidence-based internal implementation-readiness assessment, not an external benchmark.",
+    "weightedTotals": {
+      "before": 46,
+      "target": 85,
+      "after": 86
+    }
+  },
+  "dimensions": [
+    {
+      "id": "conversion",
+      "label": "Conversion clarity",
+      "weight": 15,
+      "before": 30,
+      "target": 80,
+      "after": 89,
+      "beforeEvidence": [
+        "README.md",
+        "plugins/maxvideoai/README.md"
+      ],
+      "afterEvidence": [
+        "README.md",
+        "plugins/maxvideoai/README.md",
+        "tests/github-root-readme.test.ts",
+        "https://github.com/camgraphe/maxvideoai-plugin",
+        "https://github.com/camgraphe/maxvideoai-plugin/releases/tag/v0.3.3"
+      ],
+      "afterRationale": "The source and focused-plugin READMEs now open with a concrete product outcome, current app proof, equal Claude/ChatGPT/Codex paths, direct model and pricing destinations, and a complete contributor route; contract tests preserve that two-level commercial and technical journey.",
+      "remainingGap": "No clean acquisition cohort or observed first-screen conversion evidence identifies which path converts qualified visitors."
+    },
+    {
+      "id": "voice",
+      "label": "Editorial personality",
+      "weight": 10,
+      "before": 42,
+      "target": 85,
+      "after": 90,
+      "beforeEvidence": [
+        "README.md",
+        "plugins/maxvideoai/README.md"
+      ],
+      "afterEvidence": [
+        "docs/marketing/github-editorial-voice.md",
+        "README.md",
+        "plugins/maxvideoai/README.md",
+        "https://github.com/camgraphe/maxvideoai-plugin"
+      ],
+      "afterRationale": "The voice contract and both rewritten READMEs now lead with producer outcomes, use short direct answers and concrete prompts, and keep a restrained friendly personality without removing the engineering depth expected on GitHub.",
+      "remainingGap": "No external support or user-language review has yet tested whether the voice remains equally clear outside the authored repository surfaces."
+    },
+    {
+      "id": "visual",
+      "label": "Visual proof and rhythm",
+      "weight": 15,
+      "before": 28,
+      "target": 85,
+      "after": 95,
+      "beforeEvidence": [
+        "docs/marketing/mcp-demo-evidence.md",
+        "frontend/public/media/mcp/claude-inline-video-proof.jpg",
+        "frontend/public/media/mcp/codex-plugin-page.jpg"
+      ],
+      "afterEvidence": [
+        "docs/marketing/github-asset-manifest.json",
+        "plugins/maxvideoai/assets/screenshots/maxvideoai-workspace-live.webp",
+        "plugins/maxvideoai/assets/screenshots/maxvideoai-engine-scoreboard-live.webp",
+        "tests/github-visual-system.test.ts",
+        "plugins/maxvideoai/assets/social/github-social-preview.png",
+        "https://github.com/camgraphe/maxvideoai-plugin"
+      ],
+      "afterRationale": "Six fresh, privacy-safe production captures now create a non-repeating app-to-examples-to-scoreboard-to-models-to-pricing-to-assistant sequence, with Library continuity as a separate seventh proof. The asset contract verifies unique bytes, dimensions, provenance, placement, decode integrity, and release inclusion.",
+      "remainingGap": "No independently archived native-host result packet exists for a host-specific visual claim."
+    },
+    {
+      "id": "seo",
+      "label": "GitHub SEO",
+      "weight": 10,
+      "before": 62,
+      "target": 85,
+      "after": 92,
+      "beforeEvidence": [
+        "README.md",
+        "plugins/maxvideoai/README.md",
+        "docs/marketing/GEO-ANALYSIS.md"
+      ],
+      "afterEvidence": [
+        "README.md",
+        "plugins/maxvideoai/README.md",
+        "tests/github-root-readme.test.ts",
+        "docs/marketing/github-distribution-matrix.md",
+        "https://github.com/camgraphe/maxvideoai-plugin",
+        "https://github.com/camgraphe/maxvideoai-plugin/releases/tag/v0.3.0",
+        "https://github.com/camgraphe/maxvideoai-plugin/releases/tag/v0.3.3"
+      ],
+      "afterRationale": "Question-led headings, direct product definitions, descriptive image alternatives, current model/comparison/pricing vocabulary, canonical product links, technical stack coverage, and synchronized tagged releases through v0.3.3 make both the product entity and its agent integration easier to retrieve from GitHub.",
+      "remainingGap": "No authoritative external directory listing or post-change search observation yet demonstrates discovery beyond MaxVideoAI-owned GitHub and website surfaces."
+    },
+    {
+      "id": "human_geo",
+      "label": "Human-facing GEO",
+      "weight": 10,
+      "before": 58,
+      "target": 88,
+      "after": 91,
+      "beforeEvidence": [
+        "docs/marketing/GEO-ANALYSIS.md",
+        "docs/marketing/mcp-tool-selection-scorecard.md"
+      ],
+      "afterEvidence": [
+        "docs/marketing/GEO-ANALYSIS.md",
+        "README.md",
+        "plugins/maxvideoai/README.md",
+        "https://maxvideoai.com/mcp",
+        "https://maxvideoai.com/integrations/codex"
+      ],
+      "afterRationale": "Five public intent owners plus self-contained GitHub answers now define the product, model-comparison decision, pricing boundary, Library continuity, and equal Claude/ChatGPT/Codex routes alongside current multimodal proof and crawler-readable source declarations.",
+      "remainingGap": "No earned citation or clean post-change observation window yet shows that an external answer engine selects these passages."
+    },
+    {
+      "id": "agent_discovery",
+      "label": "Agent discovery and selection",
+      "weight": 15,
+      "before": 68,
+      "target": 90,
+      "after": 84,
+      "beforeEvidence": [
+        "plugins/maxvideoai/README.md",
+        "docs/marketing/mcp-tool-selection-scorecard.md",
+        "frontend/public/media/mcp/codex-plugin-installed.jpg"
+      ],
+      "afterEvidence": [
+        "tests/fixtures/mcp-tool-selection-curated-policy.json",
+        "plugins/maxvideoai/docs/discovery.md",
+        "docs/marketing/github-agent-discovery-scorecard.md"
+      ],
+      "afterRationale": "The reviewed 24-case discovery layer and 70-case selection corpus now cover named Claude and Codex discovery, negative routing, citations, safety, and recovery with deterministic policy results.",
+      "remainingGap": "Curated discovery is 100%, but the separately reviewed claude_host and codex_host evidence columns correctly remain null."
+    },
+    {
+      "id": "trust",
+      "label": "Trust and evidence",
+      "weight": 10,
+      "before": 64,
+      "target": 90,
+      "after": 94,
+      "beforeEvidence": [
+        "docs/marketing/mcp-demo-evidence.md",
+        "docs/licensing/dual-license.md"
+      ],
+      "afterEvidence": [
+        "docs/marketing/mcp-launch-evidence.md",
+        "docs/marketing/github-asset-manifest.json",
+        "tests/github-assets.test.ts",
+        "tests/github-visual-system.test.ts",
+        "https://github.com/camgraphe/maxvideoai-plugin/releases/tag/v0.3.0",
+        "https://github.com/camgraphe/maxvideoai-plugin/releases/tag/v0.3.3",
+        "https://github.com/camgraphe/MaxVideoAi/actions/runs/33223071787"
+      ],
+      "afterRationale": "Fresh screenshot provenance, unique-byte and decode-integrity gates, paid-action safety boundaries, public support/security files, a protected successful publication, a verified public SHA-256 asset, and a clean v0.3.3 Codex install establish a reviewable trust chain without converting installation proof into an end-to-end host claim.",
+      "remainingGap": "There is still no archived real-host result packet or complete end-to-end generation proof for each named host."
+    },
+    {
+      "id": "distribution",
+      "label": "Distribution and backlinks",
+      "weight": 10,
+      "before": 18,
+      "target": 75,
+      "after": 62,
+      "beforeEvidence": [
+        "README.md",
+        "plugins/maxvideoai/README.md"
+      ],
+      "afterEvidence": [
+        "docs/marketing/github-distribution-matrix.md",
+        "https://github.com/camgraphe/MaxVideoAi",
+        "https://github.com/camgraphe/maxvideoai-plugin",
+        "https://github.com/camgraphe/maxvideoai-plugin/releases/tag/v0.3.3"
+      ],
+      "afterRationale": "A synchronized focused public repository with four checksum-backed releases, owned-site acquisition paths, and ten evidence-gated distribution decisions supports the gain without inventing a directory acceptance or backlink.",
+      "remainingGap": "No authoritative external listing, contextual referring domain, or approved directory backlink has been verified."
+    },
+    {
+      "id": "measurement",
+      "label": "Measurement and iteration",
+      "weight": 5,
+      "before": 45,
+      "target": 85,
+      "after": 62,
+      "beforeEvidence": [
+        "docs/marketing/mcp-tool-selection-scorecard.md",
+        "docs/marketing/mcp-gsc-baseline.md"
+      ],
+      "afterEvidence": [
+        "docs/marketing/github-attribution-map.json",
+        "tests/github-acquisition-attribution.test.ts",
+        "docs/marketing/github-growth-scorecard.md"
+      ],
+      "afterRationale": "Fail-closed UTM maps, privacy-filtered browser projection, and clean cohort definitions establish implementation readiness without fabricating conversion performance.",
+      "remainingGap": "There is no privacy-reviewed server-side GitHub-to-MCP association, library_opened emitter, complete emitter coverage, or clean 14-day cohort."
+    }
+  ]
+}

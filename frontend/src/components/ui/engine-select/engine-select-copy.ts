@@ -1,0 +1,68 @@
+import { DEFAULT_ENGINE_GUIDE } from '@/lib/engine-guides';
+
+export const DEFAULT_ENGINE_SELECT_COPY = {
+  avgDuration: 'Avg {value}',
+  choose: 'Choose model',
+  variant: 'Variant',
+  families: 'Families',
+  models: 'Models',
+  score: 'Score',
+  details: 'Details',
+  clearSearch: 'Clear search',
+  observedTiming: 'Observed completions',
+  searchPlaceholder: 'Search models',
+  catalogueSummary: 'Models: {visible}/{total} · Families: {families}',
+  legacyHiddenOne: '1 legacy model hidden',
+  legacyHiddenMany: '{count} legacy models hidden',
+  emptySearch: 'No models match “{query}”.',
+  emptySearchLegacyOne: '1 matching legacy model is hidden. Turn on Legacy models to include it.',
+  emptySearchLegacyMany: '{count} matching legacy models are hidden. Turn on Legacy models to include them.',
+  browse: 'Explore models',
+  browseCompact: 'Explore models',
+  inputMode: 'Input mode',
+  unsupportedMode: 'Not supported by this model',
+  badges: {
+    new: 'New',
+  },
+  modal: {
+    close: 'Close',
+    title: 'Choose the right model for your shot',
+    subtitle:
+      'Each model has its own strengths - some are fast, others cinematic or experimental. See what fits your project, then generate with confidence.',
+    pricingLink: 'How pricing works',
+    searchPlaceholder: 'Search by model, provider, or capability',
+    modeAll: 'Mode: All',
+    modeValue: 'Mode: {value}',
+    resolutionAll: 'Resolution: All',
+    legacyToggleLabel: 'Legacy models',
+    viewModel: 'View model page',
+    viewExamples: 'View examples',
+    empty:
+      'No models match your filters yet. Adjust the filters or clear the search to explore the full catalogue.',
+    disclaimer: 'Logos are used for descriptive purposes only. Trademarks belong to their respective owners.',
+    descriptionFallback:
+      'Review this model’s inputs, formats and resolution before generating.',
+  },
+  guides: DEFAULT_ENGINE_GUIDE,
+} as const;
+
+export type EngineSelectCopy = typeof DEFAULT_ENGINE_SELECT_COPY;
+
+export function mergeEngineSelectCopy(rawCopy: Partial<EngineSelectCopy> | null | undefined): EngineSelectCopy {
+  return {
+    ...DEFAULT_ENGINE_SELECT_COPY,
+    ...(rawCopy ?? {}),
+    modal: {
+      ...DEFAULT_ENGINE_SELECT_COPY.modal,
+      ...(rawCopy?.modal ?? {}),
+    },
+    badges: {
+      ...DEFAULT_ENGINE_SELECT_COPY.badges,
+      ...(rawCopy?.badges ?? {}),
+    },
+    guides: {
+      ...DEFAULT_ENGINE_SELECT_COPY.guides,
+      ...(rawCopy?.guides ?? {}),
+    },
+  } as EngineSelectCopy;
+}

@@ -1,0 +1,118 @@
+import { readFile } from 'node:fs/promises';
+import { isDeepStrictEqual } from 'node:util';
+
+const DETERMINISTIC_ENV_KEYS = [
+  'DATABASE_URL',
+  'LUMARAY2_BASE_5S_540P_USD',
+  'LUMARAY2_FLASH_BASE_5S_540P_USD',
+  'LUMARAY2_MODIFY_PER_SECOND_USD',
+  'LUMARAY2_FLASH_MODIFY_PER_SECOND_USD',
+  'LUMARAY2_REFRAME_PER_SECOND_USD',
+  'LUMARAY2_FLASH_REFRAME_PER_SECOND_USD',
+] as const;
+
+async function main(): Promise<void> {
+  for (const key of DETERMINISTIC_ENV_KEYS) delete process.env[key];
+  const collector = await import('./pricing-public-baseline-collector');
+  const rows = await collector.collectPublicPricingProjectionRows();
+  const fixturePath = new URL('../../tests/fixtures/pricing-public-projections.v1.json', import.meta.url);
+  // The committed fixture remains the historical pre-retirement evidence.
+  // Compare live stale-tier rows to the independently frozen standard-tier row,
+  // preserving every other field and all scenarios without a tier dimension.
+  if (process.argv.includes('--write')) {
+    throw new Error('The historical public pricing fixture is frozen; do not regenerate it for membership retirement.');
+  }
+  const fixture = JSON.parse(await readFile(fixturePath, 'utf8')) as { rows: typeof rows };
+  const launchAdditions = JSON.parse(
+    await readFile(
+      new URL('../../tests/fixtures/gpt-image-2-5-public-pricing-launch-2026-09-15.json', import.meta.url),
+      'utf8',
+    ),
+  ) as { rows: typeof rows };
+  const audioChange = JSON.parse(await readFile(new URL('../../tests/fixtures/audio-pricing-change-2026-09-08.json', import.meta.url), 'utf8')) as { rows: Array<{ id: string; previousCents: number; totalCents: number }> };
+  const audioChanges = new Map(audioChange.rows.map(row => [row.id, row]));
+  if (audioChanges.size !== audioChange.rows.length || audioChanges.size !== 15) throw new Error('Invalid reviewed Audio pricing change matrix.');
+  const productOfferFix = JSON.parse(await readFile(new URL('../../tests/fixtures/product-schema-offer-fix-2026-09-10.json', import.meta.url), 'utf8')) as {
+    rows: Array<{
+      id: string;
+      previousStatus: 'unavailable';
+      status: 'exact';
+      currency: string;
+      customerTotalCents: number;
+      unit: 'offer';
+      quantity: 1;
+      structuredDataAmount: string;
+      compatibilityProfile: 'schema-current';
+    }>;
+  };
+  const productOfferFixes = new Map(productOfferFix.rows.map(row => [row.id, row]));
+  if (productOfferFixes.size !== productOfferFix.rows.length || productOfferFixes.size !== 2) {
+    throw new Error('Invalid reviewed Product schema offer fix matrix.');
+  }
+  const appliedChanges = new Set<string>();
+  const appliedProductOfferFixes = new Set<string>();
+  const byId = new Map(fixture.rows.map((row) => [row.id, row]));
+  const expected = fixture.rows.map((row) => {
+    const standardId = row.id.replace(/:(plus|pro):/u, ':member:');
+    const standard = byId.get(standardId);
+    if (!standard) throw new Error(`Missing frozen standard scenario ${standardId}`);
+    const audio = audioChanges.get(row.id);
+    if (audio) {
+      if (row.surface !== 'pricing-hub-audio' || row.customerTotalCents !== audio.previousCents) throw new Error(`Audio change does not match historical evidence: ${row.id}`);
+      appliedChanges.add(row.id);
+      return { ...standard, id: row.id, customerTotalCents: audio.totalCents, displayedAmount: `$${(audio.totalCents / 100).toFixed(2)}`, compatibilityProfile: 'audio-tripled-rounded' };
+    }
+    const productOffer = productOfferFixes.get(row.id);
+    if (productOffer) {
+      if (row.surface !== 'json-ld' || row.status !== productOffer.previousStatus) {
+        throw new Error(`Product schema offer fix does not match historical evidence: ${row.id}`);
+      }
+      appliedProductOfferFixes.add(row.id);
+      return {
+        id: row.id,
+        surface: row.surface,
+        engineId: row.engineId,
+        status: productOffer.status,
+        currency: productOffer.currency,
+        customerTotalCents: productOffer.customerTotalCents,
+        unit: productOffer.unit,
+        quantity: productOffer.quantity,
+        structuredDataAmount: productOffer.structuredDataAmount,
+        compatibilityProfile: productOffer.compatibilityProfile,
+      };
+    }
+    return { ...standard, id: row.id };
+  });
+  if (appliedChanges.size !== audioChanges.size) throw new Error('Missing Audio pricing change scenario.');
+  if (appliedProductOfferFixes.size !== productOfferFixes.size) throw new Error('Missing Product schema offer fix scenario.');
+  const historicalIds = new Set(expected.map((row) => row.id));
+  const launchIds = new Set(launchAdditions.rows.map((row) => row.id));
+  if (
+    launchIds.size !== launchAdditions.rows.length ||
+    launchAdditions.rows.length !== 18 ||
+    launchAdditions.rows.some(
+      (row) => historicalIds.has(row.id) || !row.engineId.startsWith('gpt-image-2-5-'),
+    )
+  ) {
+    throw new Error('Invalid reviewed GPT Image 2.5 public pricing launch matrix.');
+  }
+  const expectedWithLaunch = [...expected, ...launchAdditions.rows].sort((left, right) =>
+    left.id.localeCompare(right.id),
+  );
+  if (!isDeepStrictEqual(rows, expectedWithLaunch)) {
+    const expectedById = new Map(expectedWithLaunch.map((row) => [row.id, row]));
+    const changed = rows.filter((row) => !isDeepStrictEqual(row, expectedById.get(row.id))).map((row) => row.id);
+    console.error('[pricing-public-baseline] unexpected drift from standard pricing policy', changed);
+    process.exitCode = 1;
+    return;
+  }
+  console.log(`[pricing-public-baseline] current (${rows.length} rows)`);
+}
+
+void main().catch((error: unknown) => {
+  console.error(
+    '[pricing-public-baseline] failed',
+    error instanceof Error ? `${error.name}: ${error.message}` : String(error)
+  );
+  process.exitCode = 1;
+});

@@ -1,0 +1,69 @@
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
+import type { ReactNode } from 'react';
+
+type PricingHeroSectionProps = {
+  badges?: string[];
+  calculatorHref?: string;
+  calculatorLabel?: string;
+  compareHref?: string;
+  compareLabel?: string;
+  eyebrow?: string;
+  subtitle?: string;
+  supportingLine?: string;
+  title?: string;
+  children?: ReactNode;
+};
+
+const DEFAULT_BADGES = ['No subscription', 'Guest preview', 'Starter credits from $10', 'Refunds on failed generations'];
+
+export function PricingHeroSection({
+  badges = DEFAULT_BADGES,
+  calculatorHref = '/app',
+  calculatorLabel = 'Open app for live pricing before you generate',
+  compareHref = '#video-pricing',
+  compareLabel = 'Compare prices below',
+  eyebrow = 'MaxVideoAI Pricing',
+  subtitle = 'Compare video, image, audio and tool costs before you generate.',
+  supportingLine = 'Pay as you go. See the exact live price in the app before launch. Failed generations are refunded.',
+  title = 'AI Video Pricing Comparison',
+  children,
+}: PricingHeroSectionProps) {
+  return (
+    <header className="pricing-editorial-hero relative min-h-[260px] border-b border-hairline bg-bg">
+      <div className="container-page pricing-opening-grid">
+        <div className="max-w-[780px]">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-micro text-text-muted">{eyebrow}</p>
+          <h1 className="text-[32px] font-semibold leading-[1.08] tracking-normal text-text-primary sm:text-[40px]">
+            {title}
+          </h1>
+          <p className="mt-3 max-w-[680px] text-base leading-7 text-text-secondary sm:text-lg">{subtitle}</p>
+          <p className="mt-1 max-w-[740px] text-sm leading-6 text-text-muted">{supportingLine}</p>
+          <Link
+            href={compareHref}
+            className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 text-sm font-semibold text-brand transition hover:underline"
+          >
+            {compareLabel}
+            <ArrowDown className="h-4 w-4" strokeWidth={1.8} />
+          </Link>
+
+
+        </div>
+
+        <div className="pricing-payment-note">
+          <ol>{badges.map((badge,index)=><li key={badge}><span aria-hidden>{String(index+1).padStart(2,'0')}</span><p>{badge}</p></li>)}</ol>
+          <Link
+            href={calculatorHref}
+            prefetch={false}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[8px] bg-text-primary px-5 text-sm font-semibold text-bg shadow-card transition hover:bg-text-primary/90"
+          >
+            {calculatorLabel}
+            <ArrowUpRight className="h-4 w-4" strokeWidth={1.8} />
+          </Link>
+
+        </div>
+      </div>
+      {children}
+    </header>
+  );
+}

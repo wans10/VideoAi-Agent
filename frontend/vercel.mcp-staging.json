@@ -1,0 +1,36 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/cron/byteplus-poll",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/fal-poll",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/kling-direct-poll",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/google-vertex-veo-poll",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/google-vertex-omni-poll",
+      "schedule": "*/5 * * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    }
+  ]
+}

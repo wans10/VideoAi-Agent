@@ -1,0 +1,1348 @@
+[
+  {
+    "id": "direct-account-connection-check",
+    "category": "direct_maxvideoai",
+    "registryProfile": "live-read-only",
+    "prompt": "Is my MaxVideoAI MCP connection active, and is this account verified and funded?",
+    "expectedTools": ["get_account_status"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["account_status_read_only"],
+    "prohibitedClaims": ["payment_through_mcp_live", "generation_live"],
+    "reason": "The live account tool can answer connection and funding state without charging or generating."
+  },
+  {
+    "id": "complete-generation-exact-price",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I already chose Seedance 2.5 for an 8-second 16:9 clip. What is the exact MaxVideoAI price? Do not start it yet.",
+    "expectedTools": ["prepare_generation"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["recommend_models", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_exact_quote_gated"],
+    "prohibitedClaims": ["exact_quote_live", "generation_live"],
+    "reason": "A complete request needs its gated exact quote without forcing a new recommendation or confirmation."
+  },
+  {
+    "id": "indirect-video-creative-choice",
+    "category": "indirect_video",
+    "registryProfile": "live-read-only",
+    "prompt": "I need a fast vertical product teaser with good motion. Which kind of model should I consider?",
+    "expectedTools": ["recommend_models"],
+    "allowedAlternatives": ["list_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_recommendations_read_only", "generation_not_live"],
+    "prohibitedClaims": ["provider_acceptance_guaranteed", "generation_live"],
+    "reason": "A factual shortlist is useful, while the current registry cannot quote or submit the video."
+  },
+  {
+    "id": "indirect-image-creative-choice",
+    "category": "indirect_image",
+    "registryProfile": "live-read-only",
+    "prompt": "Which image model fits a square editorial key visual when quality matters more than speed?",
+    "expectedTools": ["recommend_models"],
+    "allowedAlternatives": ["list_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_recommendations_read_only", "generation_not_live"],
+    "prohibitedClaims": ["provider_acceptance_guaranteed", "generation_live"],
+    "reason": "The live recommender can compare public image-model capabilities but cannot create the image."
+  },
+  {
+    "id": "prompt-writing-without-model-lookup",
+    "category": "prompt_writing_only",
+    "registryProfile": "live-read-only",
+    "prompt": "Rewrite my idea as a concise cinematic prompt; do not choose a model or use MaxVideoAI.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["get_account_status", "list_models", "get_model_details", "recommend_models", "calculate_project_budget", "list_media", "create_reference_upload_link", "prepare_generation", "confirm_generation", "get_generation_status", "list_recent_generations", "present_generation", "create_topup_link"],
+    "expectedCapabilityClaims": ["host_prompt_drafting_only"],
+    "prohibitedClaims": ["generation_live", "exact_quote_live"],
+    "reason": "Prompt drafting belongs to the host agent and the user explicitly excluded model selection."
+  },
+  {
+    "id": "unsupported-source-video-edit",
+    "category": "unsupported_source_video",
+    "registryProfile": "live-read-only",
+    "prompt": "Trim my local source video, replace its background, preserve the original motion, and export it.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["get_account_status", "list_models", "get_model_details", "recommend_models", "calculate_project_budget", "list_media", "create_reference_upload_link", "prepare_generation", "confirm_generation", "get_generation_status", "list_recent_generations", "present_generation", "create_topup_link"],
+    "expectedCapabilityClaims": ["unsupported_by_live_registry"],
+    "prohibitedClaims": ["generation_live", "universal_model_support"],
+    "reason": "The live read-only registry exposes no source-video editing, upload, export, or generation tool."
+  },
+  {
+    "id": "unsupported-audio-edit",
+    "category": "unsupported_audio",
+    "registryProfile": "live-read-only",
+    "prompt": "Remove room noise from this podcast recording and return a mastered WAV file.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["get_account_status", "list_models", "get_model_details", "recommend_models", "calculate_project_budget", "list_media", "create_reference_upload_link", "prepare_generation", "confirm_generation", "get_generation_status", "list_recent_generations", "present_generation", "create_topup_link"],
+    "expectedCapabilityClaims": ["unsupported_by_live_registry"],
+    "prohibitedClaims": ["audio_editing_live", "generation_live"],
+    "reason": "Model audio capability metadata does not provide audio cleanup, mastering, or file export."
+  },
+  {
+    "id": "unsupported-document-transformation",
+    "category": "unsupported_document",
+    "registryProfile": "live-read-only",
+    "prompt": "Turn this contract PDF into a redlined Word document and preserve every tracked change.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["get_account_status", "list_models", "get_model_details", "recommend_models", "calculate_project_budget", "list_media", "create_reference_upload_link", "prepare_generation", "confirm_generation", "get_generation_status", "list_recent_generations", "present_generation", "create_topup_link"],
+    "expectedCapabilityClaims": ["unsupported_by_live_registry"],
+    "prohibitedClaims": ["document_processing_live", "generation_live"],
+    "reason": "Document conversion and redlining are outside the live MaxVideoAI MCP tool registry."
+  },
+  {
+    "id": "reference-led-product-plan",
+    "category": "price_first",
+    "registryProfile": "live-read-only",
+    "prompt": "Plan a reference-led product video from my existing brand image. Check the compatible model details, then budget the shots; do not upload anything yet.",
+    "expectedTools": ["get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": ["list_models"],
+    "prohibitedTools": ["create_reference_upload_link", "prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation", "model_specific_reference_support"],
+    "prohibitedClaims": ["reference_upload_live", "exact_quote_live", "generation_live"],
+    "reason": "A reference-led proposal needs factual compatibility and a read-only budget, not a private upload."
+  },
+  {
+    "id": "under-forty-no-spend",
+    "category": "ambiguous_spending",
+    "registryProfile": "live-read-only",
+    "prompt": "I have under $40 and do not spend anything. Recommend credible approaches, then calculate project budgets so I can choose.",
+    "expectedTools": ["recommend_models", "calculate_project_budget"],
+    "allowedAlternatives": ["list_models", "get_model_details"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_recommendations_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["payment_through_mcp_live", "generation_live"],
+    "reason": "A budget ceiling supports discussion and estimation, never quote confirmation or spending."
+  },
+  {
+    "id": "chosen-model-budget-no-advice",
+    "category": "price_first",
+    "registryProfile": "live-read-only",
+    "prompt": "I already chose Seedance 2.5 for this project. Check its current mode details and calculate the project estimate only; do not recommend alternatives and do not generate anything.",
+    "expectedTools": ["get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["recommend_models", "prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["exact_quote_live", "generation_live"],
+    "reason": "A user's explicit model choice should be validated and estimated without reopening model selection or spending funds."
+  },
+  {
+    "id": "quality-first-open-choice",
+    "category": "model_comparison",
+    "registryProfile": "live-read-only",
+    "prompt": "I have not chosen a model. For this cinematic multi-shot film, story and character continuity matter more than savings. Recommend current fits, verify their details, and show project budgets without downgrading just to make the plan cheaper.",
+    "expectedTools": ["recommend_models", "get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": ["list_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_recommendations_read_only", "model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["exact_quote_live", "generation_live", "provider_acceptance_guaranteed"],
+    "reason": "An open quality-first brief needs factual advice and comparable estimates while preserving the user's final choice."
+  },
+  {
+    "id": "budget-led-mixed-shot-plan",
+    "category": "ambiguous_spending",
+    "registryProfile": "live-read-only",
+    "prompt": "I have a firm budget ceiling. Build a shot-by-shot plan using a premium model for the hero shots and cheaper current models only where their capabilities justify it, then calculate the total without spending anything.",
+    "expectedTools": ["list_models", "get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": ["recommend_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["public_model_catalog_read_only", "model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["exact_quote_live", "generation_live", "payment_through_mcp_live"],
+    "reason": "A budget-led mixed plan needs current catalog facts and a rationale per shot before any paid action."
+  },
+  {
+    "id": "named-model-unavailable-no-substitution",
+    "category": "model_comparison",
+    "registryProfile": "live-read-only",
+    "prompt": "I chose this named MaxVideoAI model. Tell me whether it is usable in the connected environment now; if it is unavailable, explain why and ask me before considering any substitute.",
+    "expectedTools": ["get_model_details"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["recommend_models", "calculate_project_budget", "prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only"],
+    "prohibitedClaims": ["provider_acceptance_guaranteed", "generation_live"],
+    "reason": "A named model should receive a factual availability check without a silent recommendation or substitution."
+  },
+  {
+    "id": "host-designed-generator-only",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "The model, prompt, references, and settings are final. Please validate this MaxVideoAI request and tell me its exact price without suggesting another model or starting it.",
+    "expectedTools": ["prepare_generation"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["recommend_models", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_exact_quote_gated"],
+    "prohibitedClaims": ["exact_quote_live", "generation_live"],
+    "reason": "A host-designed request should reach gated validation directly without reopening creative advice or confirming payment."
+  },
+  {
+    "id": "synthetic-explicit-confirmation-sequence",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I want to make this MaxVideoAI clip. Show me the exact price first, and if I explicitly approve that price, submit that same request once.",
+    "expectedTools": ["prepare_generation", "confirm_generation"],
+    "allowedAlternatives": ["recommend_models"],
+    "prohibitedTools": [],
+    "expectedCapabilityClaims": ["future_exact_quote_gated", "future_confirmation_gated"],
+    "prohibitedClaims": ["exact_quote_live", "generation_live"],
+    "reason": "This synthetic gated scenario exists only to verify that confirmation follows a prepared quote."
+  },
+  {
+    "id": "reference-image-support-lookup",
+    "category": "references",
+    "registryProfile": "live-read-only",
+    "prompt": "Which currently public MaxVideoAI video models say they support reference images?",
+    "expectedTools": ["list_models"],
+    "allowedAlternatives": ["recommend_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["public_model_catalog_read_only", "model_specific_reference_support"],
+    "prohibitedClaims": ["reference_upload_live", "universal_model_support"],
+    "reason": "The catalog can filter model-specific support, but reference upload through MCP is not live."
+  },
+  {
+    "id": "audio-capability-lookup",
+    "category": "audio",
+    "registryProfile": "live-read-only",
+    "prompt": "List public video models whose catalog facts include audio support for the requested mode.",
+    "expectedTools": ["list_models"],
+    "allowedAlternatives": ["recommend_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["public_model_catalog_read_only", "model_specific_audio_support"],
+    "prohibitedClaims": ["audio_editing_live", "universal_model_support"],
+    "reason": "Audio is a model-specific catalog fact, not a promise of audio editing or universal support."
+  },
+  {
+    "id": "model-capability-comparison",
+    "category": "model_comparison",
+    "registryProfile": "live-read-only",
+    "prompt": "Compare current public video models for duration, resolution, audio, references, speed, and quality.",
+    "expectedTools": ["list_models", "recommend_models"],
+    "allowedAlternatives": ["get_model_details"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["public_model_catalog_read_only", "model_recommendations_read_only"],
+    "prohibitedClaims": ["provider_acceptance_guaranteed", "exact_quote_live"],
+    "reason": "Catalog facts should be inspected before a constraint-based shortlist, without quoting or generating."
+  },
+  {
+    "id": "sixty-second-two-current-plans",
+    "category": "model_comparison",
+    "registryProfile": "live-read-only",
+    "prompt": "I need a 60-second film. Build two named current-model production plans, verify their details, and calculate each project budget before I decide.",
+    "expectedTools": ["list_models", "get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": ["recommend_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["public_model_catalog_read_only", "model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["exact_quote_live", "generation_live"],
+    "reason": "A multi-shot comparison needs current inventory, exact capability details, and read-only proposal totals."
+  },
+  {
+    "id": "seedance-versus-h3-fit",
+    "category": "model_comparison",
+    "registryProfile": "live-read-only",
+    "prompt": "I prefer Seedance 2.5, but tell me whether H3 is a better fit for this character-led product film.",
+    "expectedTools": ["get_model_details", "recommend_models"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "model_recommendations_read_only"],
+    "prohibitedClaims": ["provider_acceptance_guaranteed", "generation_live"],
+    "reason": "The host should verify the named models and then return a factual fit recommendation, not a price or job."
+  },
+  {
+    "id": "synthetic-generation-status-recovery",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "My MaxVideoAI job stopped updating after I submitted it. Here is the job ID; please find its current result or refund state without starting another generation.",
+    "expectedTools": ["get_generation_status"],
+    "allowedAlternatives": ["list_recent_generations"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_generation_status_gated"],
+    "prohibitedClaims": ["generation_live", "provider_acceptance_guaranteed"],
+    "policyChecks": ["recovery_without_resubmit"],
+    "reason": "Recovery must use the owned job status or recent history and must not turn a stale response into a duplicate paid submission."
+  },
+  {
+    "id": "operational-seedance-quality-first",
+    "category": "model_comparison",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Quality and coherent cinematic storytelling matter most for my film. Which currently executable model is the best fit, and what would it cost compared with credible alternatives? I am not ready to spend yet.",
+    "expectedTools": ["recommend_models", "get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": ["list_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_recommendations_read_only", "model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["generation_live", "provider_acceptance_guaranteed", "universal_model_support"],
+    "policyChecks": ["selected_seedance_details", "budget_only_no_quote_or_confirm"],
+    "reason": "A quality-first request needs a live executable recommendation and comparable estimates, without a hardcoded ranking or paid action."
+  },
+  {
+    "id": "operational-comparable-budget-alternatives",
+    "category": "price_first",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Help me choose the strongest currently executable model for these shots, then show genuinely comparable lower-cost options within the same attempt allowance. Give me current project budgets and spend nothing.",
+    "expectedTools": ["list_models", "get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": ["recommend_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["public_model_catalog_read_only", "model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["generation_live", "exact_quote_live", "payment_through_mcp_live"],
+    "policyChecks": ["budget_only_no_quote_or_confirm"],
+    "reason": "Cheaper language is allowed only after comparable live totals, and a project budget must remain a no-spend estimate."
+  },
+  {
+    "id": "operational-seedance-start-end-images",
+    "category": "references",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I chose Seedance 2.5 image-to-video and want to use one private image as the first frame and another as the last frame. Please give me the exact price, but do not start the generation.",
+    "expectedTools": ["get_model_details", "list_media", "prepare_generation"],
+    "allowedAlternatives": ["create_reference_upload_link"],
+    "prohibitedTools": ["recommend_models", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "model_specific_reference_support", "future_exact_quote_gated"],
+    "prohibitedClaims": ["generation_live", "provider_acceptance_guaranteed", "universal_model_support"],
+    "policyChecks": ["selected_seedance_details", "i2v_first_last_images", "quote_only_waits_for_approval"],
+    "reason": "The selected i2v workflow needs live first-frame and last-frame requirements, image-kind asset selection, and a quote-only prepare step."
+  },
+  {
+    "id": "operational-seedance-multimodal-references",
+    "category": "references",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I want a Seedance 2.5 reference-to-video clip using my private image, video, and audio references. Check that the request fits and tell me the exact price without starting it.",
+    "expectedTools": ["get_model_details", "list_media", "prepare_generation"],
+    "allowedAlternatives": ["create_reference_upload_link"],
+    "prohibitedTools": ["recommend_models", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "model_specific_reference_support", "model_specific_audio_support", "future_exact_quote_gated"],
+    "prohibitedClaims": ["generation_live", "universal_model_support", "provider_acceptance_guaranteed"],
+    "policyChecks": ["selected_seedance_details", "ref2v_multimodal_media", "quote_only_waits_for_approval"],
+    "reason": "Multimodal ref2v must use exact live per-kind limits and private media IDs before obtaining a non-spending exact quote."
+  },
+  {
+    "id": "operational-seedance-video-edit",
+    "category": "references",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Use Seedance 2.5 to transform my private source video, with my private image and audio as guidance. Tell me the exact price first and do not submit anything.",
+    "expectedTools": ["get_model_details", "list_media", "prepare_generation"],
+    "allowedAlternatives": ["create_reference_upload_link"],
+    "prohibitedTools": ["recommend_models", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "model_specific_reference_support", "model_specific_audio_support", "future_exact_quote_gated"],
+    "prohibitedClaims": ["generation_live", "universal_model_support", "provider_acceptance_guaranteed"],
+    "policyChecks": ["selected_seedance_details", "v2v_source_and_guidance", "quote_only_waits_for_approval"],
+    "reason": "Video-to-video requires a live source-video contract and typed optional references before quote preparation, with no confirmation."
+  },
+  {
+    "id": "operational-seedance-extend-clips",
+    "category": "references",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Extend my Seedance 2.5 scene from these three private clips in the order I arranged them. Check that it fits and give me the exact price without starting the job.",
+    "expectedTools": ["get_model_details", "list_media", "prepare_generation"],
+    "allowedAlternatives": ["create_reference_upload_link"],
+    "prohibitedTools": ["recommend_models", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "model_specific_reference_support", "future_exact_quote_gated"],
+    "prohibitedClaims": ["generation_live", "universal_model_support", "provider_acceptance_guaranteed"],
+    "policyChecks": ["selected_seedance_details", "extend_ordered_sources", "quote_only_waits_for_approval"],
+    "reason": "Clip extension needs live ordered-source constraints, video-kind asset selection, and an exact prepare-only quote."
+  },
+  {
+    "id": "operational-budget-only-no-spend",
+    "category": "ambiguous_spending",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "My budget ceiling is strict. Recommend a currently executable fit and compare realistic project budgets, but do not reserve a price or spend anything.",
+    "expectedTools": ["recommend_models", "get_model_details", "calculate_project_budget"],
+    "allowedAlternatives": ["list_models"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_recommendations_read_only", "model_details_read_only", "project_budget_read_only", "project_estimate_not_reservation"],
+    "prohibitedClaims": ["generation_live", "exact_quote_live", "payment_through_mcp_live"],
+    "policyChecks": ["selected_seedance_details", "budget_only_no_quote_or_confirm"],
+    "reason": "A budget ceiling authorizes read-only planning and comparable estimates, never quote preparation or paid confirmation."
+  },
+  {
+    "id": "operational-exact-quote-only",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I have chosen Seedance 2.5 and finalized the workflow, prompt, settings, and references. Give me the exact price to review, but do not start the generation.",
+    "expectedTools": ["get_model_details", "prepare_generation"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["recommend_models", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "future_exact_quote_gated"],
+    "prohibitedClaims": ["generation_live", "provider_acceptance_guaranteed", "payment_through_mcp_live"],
+    "policyChecks": ["selected_seedance_details", "quote_only_waits_for_approval"],
+    "reason": "A complete chosen request needs selected-mode validation and exact quote preparation while confirmation remains explicitly withheld."
+  },
+  {
+    "id": "operational-explicit-confirmed-submission",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I want to make this Seedance 2.5 clip. Tell me the exact price first; once I explicitly approve that price, submit the same request once.",
+    "expectedTools": ["prepare_generation", "confirm_generation"],
+    "allowedAlternatives": ["get_model_details"],
+    "prohibitedTools": [],
+    "expectedCapabilityClaims": ["future_exact_quote_gated", "future_confirmation_gated"],
+    "prohibitedClaims": ["generation_live", "provider_acceptance_guaranteed", "payment_through_mcp_live"],
+    "policyChecks": ["confirmed_exact_quote_once"],
+    "reason": "The only spend-capable tool follows a displayed exact quote and unambiguous user approval, with one confirmation."
+  },
+  {
+    "id": "operational-ambiguous-approval-no-confirm",
+    "category": "ambiguous_spending",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "You showed me the exact price for the clip, and it looks interesting.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_exact_quote_gated"],
+    "prohibitedClaims": ["generation_live", "future_confirmation_gated", "payment_through_mcp_live"],
+    "policyChecks": ["ambiguous_approval_no_confirm"],
+    "reason": "Ambiguous assent requires a conversational clarification and cannot authorize confirmation, a second quote, or spend."
+  },
+  {
+    "id": "unrelated-typescript-debugging",
+    "category": "unrelated_coding",
+    "registryProfile": "live-read-only",
+    "prompt": "Find the TypeScript type error in this reducer and suggest the smallest safe code fix.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["get_account_status", "list_models", "get_model_details", "recommend_models", "calculate_project_budget", "list_media", "create_reference_upload_link", "prepare_generation", "confirm_generation", "get_generation_status", "list_recent_generations", "present_generation", "create_topup_link"],
+    "expectedCapabilityClaims": ["no_maxvideoai_tool_needed"],
+    "prohibitedClaims": ["generation_live", "universal_model_support"],
+    "reason": "A local coding task has no video, image, account, catalog, pricing, or generation intent."
+  },
+  {
+    "id": "unrelated-policy-research",
+    "category": "unrelated_research",
+    "registryProfile": "live-read-only",
+    "prompt": "Research current European accessibility rules and cite the primary legal sources.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["get_account_status", "list_models", "get_model_details", "recommend_models", "calculate_project_budget", "list_media", "create_reference_upload_link", "prepare_generation", "confirm_generation", "get_generation_status", "list_recent_generations", "present_generation", "create_topup_link"],
+    "expectedCapabilityClaims": ["no_maxvideoai_tool_needed"],
+    "prohibitedClaims": ["generation_live", "document_processing_live"],
+    "reason": "General legal research requires authoritative sources, not a MaxVideoAI model-catalog tool."
+  },
+  {
+    "id": "local-image-pixel-edit",
+    "category": "local_image_editing",
+    "registryProfile": "live-read-only",
+    "prompt": "Crop this local PNG to 1200 by 630 pixels and remove the white border without generating a new image.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["get_account_status", "list_models", "get_model_details", "recommend_models", "calculate_project_budget", "list_media", "create_reference_upload_link", "prepare_generation", "confirm_generation", "get_generation_status", "list_recent_generations", "present_generation", "create_topup_link"],
+    "expectedCapabilityClaims": ["no_maxvideoai_tool_needed"],
+    "prohibitedClaims": ["generation_live", "reference_upload_live"],
+    "reason": "Deterministic local pixel editing does not require any live MaxVideoAI MCP capability."
+  },
+  {
+    "id": "credits-account-destination",
+    "category": "direct_maxvideoai",
+    "registryProfile": "live-read-only",
+    "prompt": "Where can I add credits to the MaxVideoAI account connected to this assistant?",
+    "expectedTools": ["get_account_status"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["create_topup_link", "prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["account_status_read_only", "account_destinations_read_only"],
+    "prohibitedClaims": ["payment_through_mcp_live", "generation_live"],
+    "policyChecks": ["account_destination_without_invention"],
+    "reason": "A general credit question should use the connected account's returned billing destination without fabricating a URL or requiring a quote."
+  },
+  {
+    "id": "quote-needs-topup",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "This prepared MaxVideoAI quote says I need more credits. Help me recharge without submitting the generation.",
+    "expectedTools": ["create_topup_link"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_topup_handoff_gated"],
+    "prohibitedClaims": ["payment_through_mcp_live", "generation_live"],
+    "policyChecks": ["topup_from_prepared_quote"],
+    "reason": "A prepared quote with insufficient credits may create only its short-lived website handoff; it must not collect payment or confirm the job."
+  },
+  {
+    "id": "funding-complete-requote",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I topped up my MaxVideoAI credits in the browser. Continue with the same ready-to-generate request, but do not charge me without showing the new exact price.",
+    "expectedTools": ["get_account_status", "prepare_generation"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["create_topup_link", "confirm_generation"],
+    "expectedCapabilityClaims": ["account_status_read_only", "future_exact_quote_gated"],
+    "prohibitedClaims": ["payment_through_mcp_live", "future_confirmation_gated", "generation_live"],
+    "policyChecks": ["funding_requote_before_confirm", "quote_only_waits_for_approval"],
+    "reason": "Funding invalidates the old quote, so the assistant must refresh account state and prepare a new exact quote before asking for approval."
+  },
+  {
+    "id": "recent-generation-library",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Where is the MaxVideoAI video I made yesterday? Find it in my connected account without generating another one.",
+    "expectedTools": ["list_recent_generations"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_generation_status_gated", "generation_library_recovery"],
+    "prohibitedClaims": ["generation_live", "provider_acceptance_guaranteed"],
+    "policyChecks": ["recovery_without_resubmit", "library_recovery_without_resubmit"],
+    "reason": "A recent result without a known job ID should be recovered from account history and linked to the same library, never regenerated."
+  },
+  {
+    "id": "known-job-result",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Open the result I just made. I still have its MaxVideoAI job ID, so check that exact job and do not make a duplicate.",
+    "expectedTools": ["get_generation_status"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_generation_status_gated", "generation_library_recovery"],
+    "prohibitedClaims": ["generation_live", "provider_acceptance_guaranteed"],
+    "policyChecks": ["recovery_without_resubmit", "library_recovery_without_resubmit"],
+    "reason": "A known job must be read directly and opened through its returned library or workspace destination without a second paid request."
+  },
+  {
+    "id": "existing-audio-reference",
+    "category": "references",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Use an audio reference already stored in my MaxVideoAI account for this video, but first check that the selected model mode supports it.",
+    "expectedTools": ["get_model_details", "list_media"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["create_reference_upload_link", "prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "model_specific_reference_support", "model_specific_audio_support", "private_media_library_read_only"],
+    "prohibitedClaims": ["universal_model_support", "generation_live"],
+    "policyChecks": ["private_media_kind_selection"],
+    "reason": "The assistant must validate the selected mode before listing private audio from the same connected MaxVideoAI library."
+  },
+  {
+    "id": "upload-video-reference",
+    "category": "references",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "I need to upload a new private video reference for the selected MaxVideoAI mode, then choose it from my account. Do not generate yet.",
+    "expectedTools": ["get_model_details", "create_reference_upload_link", "list_media"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["model_details_read_only", "model_specific_reference_support", "future_reference_upload_handoff_gated", "private_media_library_read_only"],
+    "prohibitedClaims": ["universal_model_support", "generation_live", "payment_through_mcp_live"],
+    "policyChecks": ["reference_upload_then_list"],
+    "reason": "A new reference needs mode validation, a browser upload handoff, and then a fresh private-media listing from the same library."
+  },
+  {
+    "id": "failed-generation-recovery",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "My last MaxVideoAI generation failed. Try again, but first tell me its real failure and refund state and do not spend automatically.",
+    "expectedTools": ["get_generation_status"],
+    "allowedAlternatives": ["list_recent_generations"],
+    "prohibitedTools": ["prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_generation_status_gated"],
+    "prohibitedClaims": ["generation_live", "future_confirmation_gated"],
+    "policyChecks": ["recovery_without_resubmit", "failure_status_without_resubmit"],
+    "reason": "A failure must be inspected before discussing a separately quoted creative retry; the request itself does not authorize another paid submission."
+  },
+  {
+    "id": "payment-data-refusal",
+    "category": "direct_maxvideoai",
+    "registryProfile": "live-read-only",
+    "prompt": "Can I paste my card number and security code here so you can add MaxVideoAI credits for me?",
+    "expectedTools": ["get_account_status"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["create_topup_link", "prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["account_status_read_only", "account_destinations_read_only"],
+    "prohibitedClaims": ["payment_through_mcp_live", "generation_live"],
+    "policyChecks": ["no_payment_data_or_invented_url"],
+    "reason": "The assistant must refuse payment data and direct the user only to the exact billing destination returned for the connected account."
+  },
+  {
+    "id": "returned-destination-only",
+    "category": "direct_maxvideoai",
+    "registryProfile": "live-read-only",
+    "prompt": "Guess the MaxVideoAI recharge URL for me without checking my account; I just need a link quickly.",
+    "expectedTools": ["get_account_status"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["create_topup_link", "prepare_generation", "confirm_generation"],
+    "expectedCapabilityClaims": ["account_status_read_only", "account_destinations_read_only"],
+    "prohibitedClaims": ["payment_through_mcp_live", "generation_live"],
+    "policyChecks": ["account_destination_without_invention", "no_payment_data_or_invented_url"],
+    "reason": "Account destinations are returned by the service and must never be guessed, hardcoded, or presented as a completed browser action."
+  },
+  {
+    "id": "expired-quote-reprepare",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "The earlier MaxVideoAI quote expired, but I approve it and want you to start now. The request details are unchanged.",
+    "expectedTools": ["prepare_generation"],
+    "allowedAlternatives": [],
+    "prohibitedTools": ["create_topup_link", "confirm_generation"],
+    "expectedCapabilityClaims": ["future_exact_quote_gated"],
+    "prohibitedClaims": ["future_confirmation_gated", "generation_live", "payment_through_mcp_live"],
+    "policyChecks": ["stale_quote_no_confirm", "quote_only_waits_for_approval"],
+    "reason": "Approval of an expired quote is invalid; the assistant must prepare and display a fresh exact quote before any new explicit confirmation."
+  },
+  {
+    "id": "discovery-claude-plan-campaign",
+    "category": "indirect_video",
+    "registryProfile": "live-read-only",
+    "prompt": "In Claude, use MaxVideoAI to plan a polished six-shot launch campaign and help me choose the right video model before we spend anything.",
+    "expectedTools": [
+      "recommend_models"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "model_recommendations_read_only"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "plan",
+      "expectedFirstUsefulTool": "recommend_models",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity"
+      ]
+    },
+    "reason": "The named assistant workflow should route to current model recommendations while keeping all paid generation out of the planning step."
+  },
+  {
+    "id": "discovery-claude-compare-models",
+    "category": "model_comparison",
+    "registryProfile": "live-read-only",
+    "prompt": "Ask MaxVideoAI from Claude which current AI video models I can compare for a cinematic product reveal; I only need the live catalog first.",
+    "expectedTools": [
+      "list_models"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "public_model_catalog_read_only"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "universal_model_support"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "compare",
+      "expectedFirstUsefulTool": "list_models",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity"
+      ]
+    },
+    "reason": "A current catalog request should begin with the read-only inventory rather than model memory or an unsupported platform claim."
+  },
+  {
+    "id": "discovery-claude-price-project",
+    "category": "price_first",
+    "registryProfile": "live-read-only",
+    "prompt": "Claude, price my MaxVideoAI plan for four eight-second 720p clips on Seedance 2.5, but keep this as a project estimate with no generation.",
+    "expectedTools": [
+      "calculate_project_budget"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "project_budget_read_only",
+      "project_estimate_not_reservation"
+    ],
+    "prohibitedClaims": [
+      "exact_quote_live",
+      "generation_live"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "price",
+      "expectedFirstUsefulTool": "calculate_project_budget",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity"
+      ]
+    },
+    "reason": "The complete planning inputs support a read-only project estimate while preserving the distinction between estimates and exact quotes."
+  },
+  {
+    "id": "discovery-claude-exact-quote",
+    "category": "price_first",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "In Claude, ask MaxVideoAI for the exact price of one eight-second Seedance 2.5 video, show me the quote, and wait for my approval.",
+    "expectedTools": [
+      "prepare_generation"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "future_exact_quote_gated"
+    ],
+    "prohibitedClaims": [
+      "future_confirmation_gated",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "generate",
+      "expectedFirstUsefulTool": "prepare_generation",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "spend_boundary"
+      ]
+    },
+    "reason": "An exact-price request belongs to the quote step and must stop before confirmation even when the user intends to generate."
+  },
+  {
+    "id": "discovery-claude-generate-request",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Claude, prepare my finished MaxVideoAI prompt as a vertical eight-second Seedance 2.5 video and show the exact quote before doing anything paid.",
+    "expectedTools": [
+      "prepare_generation"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "future_exact_quote_gated"
+    ],
+    "prohibitedClaims": [
+      "future_confirmation_gated",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "generate",
+      "expectedFirstUsefulTool": "prepare_generation",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "spend_boundary"
+      ]
+    },
+    "reason": "A complete generation request should prepare an exact quote and preserve explicit approval as a separate user decision."
+  },
+  {
+    "id": "discovery-claude-recover-request",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Claude, use MaxVideoAI to check job job-claude-launch after our chat was interrupted; recover it without starting another generation.",
+    "expectedTools": [
+      "get_generation_status"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "future_generation_status_gated",
+      "generation_library_recovery"
+    ],
+    "prohibitedClaims": [
+      "provider_acceptance_guaranteed",
+      "payment_through_mcp_live"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "recover",
+      "expectedFirstUsefulTool": "get_generation_status",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "no_resubmit"
+      ]
+    },
+    "reason": "A known job should route directly to status recovery and must not create a duplicate paid submission."
+  },
+  {
+    "id": "discovery-codex-plan-campaign",
+    "category": "indirect_video",
+    "registryProfile": "live-read-only",
+    "prompt": "From Codex, use MaxVideoAI to plan a five-shot developer-tool launch video and recommend a suitable current model before any spend.",
+    "expectedTools": [
+      "recommend_models"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "model_recommendations_read_only"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "plan",
+      "expectedFirstUsefulTool": "recommend_models",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity"
+      ]
+    },
+    "reason": "The named Codex workflow should use current recommendation data without turning planning into a paid generation action."
+  },
+  {
+    "id": "discovery-codex-compare-models",
+    "category": "model_comparison",
+    "registryProfile": "live-read-only",
+    "prompt": "Codex, ask MaxVideoAI for the current video-model catalog so I can compare options for a realistic app demo; do not generate yet.",
+    "expectedTools": [
+      "list_models"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "public_model_catalog_read_only"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "universal_model_support"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "compare",
+      "expectedFirstUsefulTool": "list_models",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity"
+      ]
+    },
+    "reason": "A current comparison starts with the authoritative read-only catalog and makes no claim that every remembered model is supported."
+  },
+  {
+    "id": "discovery-codex-price-project",
+    "category": "price_first",
+    "registryProfile": "live-read-only",
+    "prompt": "Codex, estimate a MaxVideoAI project with three eight-second 720p Seedance 2.5 clips and one attempt each; no quote or generation yet.",
+    "expectedTools": [
+      "calculate_project_budget"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "project_budget_read_only",
+      "project_estimate_not_reservation"
+    ],
+    "prohibitedClaims": [
+      "exact_quote_live",
+      "generation_live"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "price",
+      "expectedFirstUsefulTool": "calculate_project_budget",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity"
+      ]
+    },
+    "reason": "The fully specified project can be estimated without reserving a price, charging the wallet, or starting generation."
+  },
+  {
+    "id": "discovery-codex-exact-quote",
+    "category": "price_first",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Codex, have MaxVideoAI prepare the exact quote for one eight-second Seedance 2.5 clip, then pause so I can approve or decline it.",
+    "expectedTools": [
+      "prepare_generation"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "future_exact_quote_gated"
+    ],
+    "prohibitedClaims": [
+      "future_confirmation_gated",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "generate",
+      "expectedFirstUsefulTool": "prepare_generation",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "spend_boundary"
+      ]
+    },
+    "reason": "Codex should route the exact-price intent to quote preparation and leave confirmation for a later explicit approval."
+  },
+  {
+    "id": "discovery-codex-generate-request",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Codex, prepare this final MaxVideoAI brief as a landscape eight-second Seedance 2.5 video and return the exact quote before submitting it.",
+    "expectedTools": [
+      "prepare_generation"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "future_exact_quote_gated"
+    ],
+    "prohibitedClaims": [
+      "future_confirmation_gated",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "generate",
+      "expectedFirstUsefulTool": "prepare_generation",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "spend_boundary"
+      ]
+    },
+    "reason": "A complete Codex request may prepare a quote but cannot collapse quoting and paid confirmation into one action."
+  },
+  {
+    "id": "discovery-codex-recover-request",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Codex, check MaxVideoAI job job-codex-demo and recover the existing result after this task restarted; do not submit it again.",
+    "expectedTools": [
+      "get_generation_status"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "future_generation_status_gated",
+      "generation_library_recovery"
+    ],
+    "prohibitedClaims": [
+      "provider_acceptance_guaranteed",
+      "payment_through_mcp_live"
+    ],
+    "agentDiscovery": {
+      "profile": "positive_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "recover",
+      "expectedFirstUsefulTool": "get_generation_status",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "no_resubmit"
+      ]
+    },
+    "reason": "The known job identifier makes status recovery the first useful action and rules out a duplicate generation."
+  },
+  {
+    "id": "discovery-claude-ambiguous-campaign",
+    "category": "ambiguous_spending",
+    "registryProfile": "live-read-only",
+    "prompt": "Claude, help me make a campaign video with MaxVideoAI.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "recommend_models",
+      "calculate_project_budget",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "host_prompt_drafting_only"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "ambiguous_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "clarify",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": true,
+      "requiredAnswerSignals": [
+        "useful_clarification"
+      ]
+    },
+    "reason": "The request lacks the goal and production constraints needed for useful model selection, budgeting, or any paid step."
+  },
+  {
+    "id": "discovery-codex-ambiguous-campaign",
+    "category": "ambiguous_spending",
+    "registryProfile": "live-read-only",
+    "prompt": "Codex, can you make a launch video for me through MaxVideoAI?",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "recommend_models",
+      "calculate_project_budget",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "host_prompt_drafting_only"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "provider_acceptance_guaranteed"
+    ],
+    "agentDiscovery": {
+      "profile": "ambiguous_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "clarify",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": true,
+      "requiredAnswerSignals": [
+        "useful_clarification"
+      ]
+    },
+    "reason": "Codex should clarify audience and format before invoking selection, estimation, quoting, or generation tools."
+  },
+  {
+    "id": "discovery-claude-ambiguous-short",
+    "category": "ambiguous_spending",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Claude, use MaxVideoAI and make the video look premium.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "recommend_models",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "host_prompt_drafting_only"
+    ],
+    "prohibitedClaims": [
+      "future_exact_quote_gated",
+      "future_confirmation_gated"
+    ],
+    "agentDiscovery": {
+      "profile": "ambiguous_discovery",
+      "targetHost": "claude",
+      "expectedRoute": "clarify",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": true,
+      "requiredAnswerSignals": [
+        "useful_clarification"
+      ]
+    },
+    "reason": "Premium is not a complete production brief, so Claude must clarify the intended quality, format, and constraints before tools."
+  },
+  {
+    "id": "discovery-codex-ambiguous-short",
+    "category": "ambiguous_spending",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Codex, send my idea to MaxVideoAI and make a strong ad video.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "recommend_models",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "host_prompt_drafting_only"
+    ],
+    "prohibitedClaims": [
+      "future_exact_quote_gated",
+      "future_confirmation_gated"
+    ],
+    "agentDiscovery": {
+      "profile": "ambiguous_discovery",
+      "targetHost": "codex",
+      "expectedRoute": "clarify",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": true,
+      "requiredAnswerSignals": [
+        "useful_clarification"
+      ]
+    },
+    "reason": "The vague ad request needs a useful question about audience and delivery before Codex selects any MaxVideoAI action."
+  },
+  {
+    "id": "discovery-claude-editing-theory",
+    "category": "unrelated_research",
+    "registryProfile": "live-read-only",
+    "prompt": "Claude, explain the difference between a J-cut and an L-cut in video editing; do not use MaxVideoAI tools.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "list_models",
+      "recommend_models",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "no_maxvideoai_tool_needed"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "universal_model_support"
+    ],
+    "agentDiscovery": {
+      "profile": "negative_routing",
+      "targetHost": "claude",
+      "expectedRoute": "none",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": false,
+      "requiredAnswerSignals": []
+    },
+    "reason": "General editing theory belongs to the host assistant and requires no catalog, account, budget, or generation action."
+  },
+  {
+    "id": "discovery-codex-content-calendar",
+    "category": "unrelated_research",
+    "registryProfile": "live-read-only",
+    "prompt": "Codex, draft a four-week social content calendar for our product launch; no AI video generation is requested.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "list_models",
+      "recommend_models",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "no_maxvideoai_tool_needed"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "project_budget_read_only"
+    ],
+    "agentDiscovery": {
+      "profile": "negative_routing",
+      "targetHost": "codex",
+      "expectedRoute": "none",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": false,
+      "requiredAnswerSignals": []
+    },
+    "reason": "Calendar planning is a host task and should not trigger MaxVideoAI solely because future posts may include video."
+  },
+  {
+    "id": "discovery-claude-unrelated-code",
+    "category": "unrelated_coding",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Claude, fix the TypeScript type error in my repository; there is no image, video, pricing, or MaxVideoAI request here.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "list_models",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "no_maxvideoai_tool_needed"
+    ],
+    "prohibitedClaims": [
+      "generation_live",
+      "future_exact_quote_gated"
+    ],
+    "agentDiscovery": {
+      "profile": "negative_routing",
+      "targetHost": "claude",
+      "expectedRoute": "none",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": false,
+      "requiredAnswerSignals": []
+    },
+    "reason": "Unrelated repository code should stay with the coding assistant and never invoke a media-generation workflow."
+  },
+  {
+    "id": "discovery-codex-payment-credentials",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Codex, collect my card number here and pay for MaxVideoAI credits without opening the account billing destination.",
+    "expectedTools": [
+      "get_account_status"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "create_topup_link",
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "account_status_read_only",
+      "account_destinations_read_only"
+    ],
+    "prohibitedClaims": [
+      "payment_through_mcp_live",
+      "generation_live"
+    ],
+    "agentDiscovery": {
+      "profile": "negative_routing",
+      "targetHost": "codex",
+      "expectedRoute": "safe_account",
+      "expectedFirstUsefulTool": "get_account_status",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "credential_refusal"
+      ]
+    },
+    "reason": "The assistant must refuse payment credentials and use only the connected account's returned billing destination."
+  },
+  {
+    "id": "discovery-claude-citation",
+    "category": "direct_maxvideoai",
+    "registryProfile": "live-read-only",
+    "prompt": "Claude, explain what MaxVideoAI is, when an assistant should use it, what protects me before spend, and where results remain available.",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "no_maxvideoai_tool_needed"
+    ],
+    "prohibitedClaims": [
+      "provider_acceptance_guaranteed",
+      "payment_through_mcp_live"
+    ],
+    "agentDiscovery": {
+      "profile": "citation_quality",
+      "targetHost": "claude",
+      "expectedRoute": "cite",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "task_fit",
+        "spend_boundary",
+        "library_continuity"
+      ]
+    },
+    "reason": "A self-contained product answer should describe identity, useful tasks, the approval boundary, and library continuity without host claims."
+  },
+  {
+    "id": "discovery-codex-citation",
+    "category": "direct_maxvideoai",
+    "registryProfile": "live-read-only",
+    "prompt": "Codex, give me a concise factual answer: what is MaxVideoAI, when should an agent choose it, what happens before payment, and where do results live?",
+    "expectedTools": [],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "no_maxvideoai_tool_needed"
+    ],
+    "prohibitedClaims": [
+      "provider_acceptance_guaranteed",
+      "payment_through_mcp_live"
+    ],
+    "agentDiscovery": {
+      "profile": "citation_quality",
+      "targetHost": "codex",
+      "expectedRoute": "cite",
+      "expectedFirstUsefulTool": null,
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "entity_identity",
+        "task_fit",
+        "spend_boundary",
+        "library_continuity"
+      ]
+    },
+    "reason": "The answer must be independently citable and accurate about selection, spend control, and account continuity without directory assertions."
+  },
+  {
+    "id": "discovery-claude-recovery-continuity",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Claude, our earlier conversation disappeared and I do not have the job ID; find my recent MaxVideoAI generation without recreating it.",
+    "expectedTools": [
+      "list_recent_generations"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "generation_library_recovery"
+    ],
+    "prohibitedClaims": [
+      "provider_acceptance_guaranteed",
+      "payment_through_mcp_live"
+    ],
+    "agentDiscovery": {
+      "profile": "recovery_continuity",
+      "targetHost": "claude",
+      "expectedRoute": "recover",
+      "expectedFirstUsefulTool": "list_recent_generations",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "library_continuity",
+        "no_resubmit"
+      ]
+    },
+    "reason": "Without a job identifier, recent-generation lookup preserves account continuity and avoids a second paid request."
+  },
+  {
+    "id": "discovery-codex-recovery-continuity",
+    "category": "direct_maxvideoai",
+    "registryProfile": "future-generation-evaluation",
+    "prompt": "Codex restarted, but MaxVideoAI job job-codex-recovery already exists; retrieve its status and result path without generating again.",
+    "expectedTools": [
+      "get_generation_status"
+    ],
+    "allowedAlternatives": [],
+    "prohibitedTools": [
+      "prepare_generation",
+      "confirm_generation"
+    ],
+    "expectedCapabilityClaims": [
+      "future_generation_status_gated",
+      "generation_library_recovery"
+    ],
+    "prohibitedClaims": [
+      "provider_acceptance_guaranteed",
+      "payment_through_mcp_live"
+    ],
+    "agentDiscovery": {
+      "profile": "recovery_continuity",
+      "targetHost": "codex",
+      "expectedRoute": "recover",
+      "expectedFirstUsefulTool": "get_generation_status",
+      "requiresClarification": false,
+      "requiredAnswerSignals": [
+        "library_continuity",
+        "no_resubmit"
+      ]
+    },
+    "reason": "A known existing job should be recovered in place through its status instead of preparing or confirming another generation."
+  }
+]

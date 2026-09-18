@@ -1,0 +1,387 @@
+'use client';
+
+/* eslint-disable @next/next/no-img-element */
+
+import clsx from 'clsx';
+import Image from 'next/image';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { BookmarkMinus, BookmarkPlus, Copy, Download, ExternalLink, Pencil } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { UIIcon } from '@/components/ui/UIIcon';
+import { getAspectRatioNumber, resolveCssAspectRatio } from '@/lib/aspect';
+import { useI18n } from '@/lib/i18n/I18nProvider';
+import { isSignedMediaUrl, resolveStableMediaUrl } from '@/lib/media';
+
+type PreviewImage = {
+  url: string;
+  thumbUrl?: string | null;
+  width?: number | null;
+  height?: number | null;
+};
+
+export type ImageCompositePreviewEntry = {
+  id: string;
+  engineLabel: string;
+  prompt: string;
+  createdAt: number;
+  mode?: 't2i' | 'i2i' | string;
+  aspectRatio?: string | null;
+  images: PreviewImage[];
+};
+
+interface ImageCompositePreviewDockProps {
+  density?: 'default' | 'workspace';
+  entry: ImageCompositePreviewEntry | null;
+  selectedIndex: number;
+  onSelectIndex: (index: number) => void;
+  onOpenModal?: () => void;
+  onDownload?: (url: string) => void;
+  onCopyLink?: (url: string) => void;
+  onEditImage?: (url: string) => void;
+  onAddToLibrary?: (url: string) => void;
+  onRemoveFromLibrary?: () => void;
+  isInLibrary?: boolean;
+  isSavingToLibrary?: boolean;
+  isRemovingFromLibrary?: boolean;
+  copiedUrl?: string | null;
+  engineSettings?: ReactNode;
+  showTitle?: boolean;
+}
+
+const ICON_BUTTON_BASE =
+  'flex items-center justify-center p-0 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:translate-y-px';
+
+export function ImageCompositePreviewDock({
+  density = 'default',
+  entry,
+  selectedIndex,
+  onSelectIndex,
+  onOpenModal,
+  onDownload,
+  onCopyLink,
+  onEditImage,
+  onAddToLibrary,
+  onRemoveFromLibrary,
+  isInLibrary = false,
+  isSavingToLibrary = false,
+  isRemovingFromLibrary = false,
+  copiedUrl,
+  engineSettings,
+  showTitle = true,
+}: ImageCompositePreviewDockProps) {
+  const workspaceDensity = density === 'workspace';
+  const { t } = useI18n();
+  const title = t('workspace.generate.preview.title', 'Composite Preview');
+  const empty = t('workspace.generate.preview.empty', 'Select a take to preview');
+  const copyLabel = t('workspace.image.preview.copy', 'Copy link');
+  const copiedLabel = t('workspace.image.preview.copied', 'Copied');
+  const downloadLabel = t('workspace.image.preview.download', 'Download');
+  const editImageLabel = t('workspace.image.preview.editImage', 'Edit this image');
+  const modalLabel = t('workspace.image.preview.openModal', 'Open full preview');
+  const addToLibraryLabel = t('workspace.jobs.actions.addToLibrary', 'Add to Media');
+  const removeFromLibraryLabel = t('workspace.jobs.actions.removeFromLibrary', 'Remove from Media');
+  const savingLabel = t('workspace.jobs.actions.saving', 'Saving…');
+  const removingLabel = t('workspace.jobs.actions.removing', 'Removing…');
+
+  const images = entry?.images ?? [];
+  const safeIndex = Math.min(Math.max(0, selectedIndex), Math.max(0, images.length - 1));
+  const selected = images.length ? images[safeIndex] : null;
+  const selectedPreviewUrl =
+    resolveStableMediaUrl(selected?.url, selected?.thumbUrl) ?? selected?.url ?? selected?.thumbUrl ?? null;
+  const selectedActionUrl = resolveStableMediaUrl(selected?.url, selected?.thumbUrl);
+  const aspectRatioCss = resolveCssAspectRatio({
+    value: entry?.aspectRatio ?? null,
+    width: selected?.width ?? null,
+    height: selected?.height ?? null,
+    fallback: '1 / 1',
+  });
+  const previewRatio = getAspectRatioNumber(aspectRatioCss.replace(/\s/g, ''), 1);
+  const previewSizes = `(max-width: 639px) min(calc(100vw - 40px), ${Math.ceil(320 * previewRatio)}px), min(100vw, ${Math.ceil((workspaceDensity ? 390 : 420) * previewRatio)}px)`;
+  const [failedPreviewUrl, setFailedPreviewUrl] = useState<string | null>(null);
+  // Other sources may require browser credentials or a provider URL unsupported by the optimizer.
+  const canOptimizePreview = Boolean(
+    selectedPreviewUrl?.startsWith('https://media.maxvideoai.com/') && !isSignedMediaUrl(selectedPreviewUrl)
+  );
+  const previewRef = useRef<HTMLDivElement | null>(null);
+  const toolbarRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const preview = previewRef.current;
+    const toolbar = toolbarRef.current;
+    const parent = preview?.parentElement;
+    if (!preview || !toolbar || !parent) return;
+
+    let frame = 0;
+    const updatePreviewSize = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const [rawWidth, rawHeight] = String(aspectRatioCss ?? '1 / 1')
+          .split('/')
+          .map((part) => Number(part.trim()));
+        const ratio = Number.isFinite(rawWidth) && Number.isFinite(rawHeight) && rawWidth > 0 && rawHeight > 0
+          ? rawWidth / rawHeight
+          : 1;
+        const maxHeight = workspaceDensity ? (window.innerWidth < 640 ? 320 : 390) : 420;
+        const width = parent.clientWidth;
+        const previewHeight = Math.min(maxHeight, width / ratio);
+        const toolbarWidth = parent.clientWidth;
+        const widthPx = `${Math.round(width)}px`;
+        if (preview.style.width !== widthPx) preview.style.width = widthPx;
+        if (workspaceDensity && preview.style.height !== `${Math.round(previewHeight)}px`) {
+          preview.style.height = `${Math.round(previewHeight)}px`;
+        }
+        if (toolbar.style.width !== `${Math.round(toolbarWidth)}px`) {
+          toolbar.style.width = `${Math.round(toolbarWidth)}px`;
+        }
+      });
+    };
+
+    updatePreviewSize();
+    window.addEventListener('resize', updatePreviewSize);
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updatePreviewSize);
+    observer?.observe(parent);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', updatePreviewSize);
+      observer?.disconnect();
+    };
+  }, [aspectRatioCss, workspaceDensity]);
+
+  const canOpenModal = Boolean(entry && images.length && onOpenModal);
+  const canDownload = Boolean(selectedActionUrl && onDownload);
+  const canCopy = Boolean(selectedActionUrl && onCopyLink);
+  const canEdit = Boolean(selectedActionUrl && onEditImage);
+  const canAddToLibrary = Boolean(selectedActionUrl && onAddToLibrary) && !isSavingToLibrary && !isRemovingFromLibrary && !isInLibrary;
+  const canRemoveFromLibrary = Boolean(onRemoveFromLibrary) && !isSavingToLibrary && !isRemovingFromLibrary && isInLibrary;
+  const actionClassName = clsx(
+    ICON_BUTTON_BASE,
+    workspaceDensity
+      ? 'app-image-preview-action h-11 w-11 rounded-md border-0 bg-transparent'
+      : 'h-9 w-9 rounded-lg border border-surface-on-media-25'
+  );
+
+  const headerTitle = showTitle ? (
+    <div>
+      <h2 className="text-sm font-semibold text-text-primary">{title}</h2>
+      <p className="text-xs text-text-muted">{images.length ? `${images.length} variant${images.length === 1 ? '' : 's'}` : empty}</p>
+    </div>
+  ) : null;
+
+  const toolbarContent = (
+    <div className="app-image-preview-actions flex flex-wrap items-center justify-center gap-1">
+      <span title={editImageLabel}>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          onClick={() => (selectedActionUrl && onEditImage ? onEditImage(selectedActionUrl) : undefined)}
+          disabled={!canEdit}
+          className={clsx(actionClassName, 'text-brand', 'disabled:opacity-50')}
+          aria-label={editImageLabel}
+        >
+          <span className="inline-flex h-4 w-4 items-center justify-center">
+            <UIIcon icon={Pencil} size={16} />
+          </span>
+          <span className="sr-only">{editImageLabel}</span>
+        </Button>
+      </span>
+      {isInLibrary ? (
+        <span title={isRemovingFromLibrary ? removingLabel : removeFromLibraryLabel}>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            onClick={onRemoveFromLibrary}
+            disabled={!canRemoveFromLibrary}
+            className={clsx(actionClassName, 'text-state-warning', 'disabled:opacity-50')}
+            aria-label={isRemovingFromLibrary ? removingLabel : removeFromLibraryLabel}
+          >
+            <span className="inline-flex h-4 w-4 items-center justify-center">
+              <UIIcon icon={BookmarkMinus} size={16} />
+            </span>
+            <span className="sr-only">{isRemovingFromLibrary ? removingLabel : removeFromLibraryLabel}</span>
+          </Button>
+        </span>
+      ) : (
+        <span title={isSavingToLibrary ? savingLabel : addToLibraryLabel}>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            onClick={() => (selectedActionUrl && onAddToLibrary ? onAddToLibrary(selectedActionUrl) : undefined)}
+            disabled={!canAddToLibrary}
+            className={clsx(actionClassName, 'text-brand', 'disabled:opacity-50')}
+            aria-label={isSavingToLibrary ? savingLabel : addToLibraryLabel}
+          >
+            <span className="inline-flex h-4 w-4 items-center justify-center">
+              <UIIcon icon={BookmarkPlus} size={16} />
+            </span>
+            <span className="sr-only">{isSavingToLibrary ? savingLabel : addToLibraryLabel}</span>
+          </Button>
+        </span>
+      )}
+      <span title={downloadLabel}>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          onClick={() => (selectedActionUrl && onDownload ? onDownload(selectedActionUrl) : undefined)}
+          disabled={!canDownload}
+          className={clsx(actionClassName, 'text-text-secondary hover:text-text-primary', 'disabled:opacity-50')}
+          aria-label={downloadLabel}
+        >
+          <span className="inline-flex h-4 w-4 items-center justify-center">
+            <UIIcon icon={Download} size={16} />
+          </span>
+          <span className="sr-only">{downloadLabel}</span>
+        </Button>
+      </span>
+      <span title={copyLabel}>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          onClick={() => (selectedActionUrl && onCopyLink ? onCopyLink(selectedActionUrl) : undefined)}
+          disabled={!canCopy}
+          className={clsx(actionClassName, 'text-text-secondary hover:text-text-primary', 'disabled:opacity-50')}
+          aria-label={copyLabel}
+        >
+          <span className="inline-flex h-4 w-4 items-center justify-center">
+            <UIIcon icon={Copy} size={16} />
+          </span>
+          <span className="sr-only">{copyLabel}</span>
+        </Button>
+      </span>
+      <span title={modalLabel}>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          onClick={onOpenModal}
+          disabled={!canOpenModal}
+          className={clsx(actionClassName, 'text-text-secondary hover:text-text-primary', 'disabled:opacity-50')}
+          aria-label={modalLabel}
+        >
+          <span className="inline-flex h-4 w-4 items-center justify-center">
+            <UIIcon icon={ExternalLink} size={16} />
+          </span>
+          <span className="sr-only">{modalLabel}</span>
+        </Button>
+      </span>
+    </div>
+  );
+
+  return (
+    <section
+      className={clsx(
+        'overflow-hidden',
+        workspaceDensity
+          ? 'app-image-preview-dock'
+          : 'rounded-card border border-border bg-surface-glass-80 shadow-card'
+      )}
+    >
+      <header
+        className={clsx(
+          workspaceDensity ? 'app-model-strip app-image-model-strip' : 'border-b border-hairline px-4 py-3'
+        )}
+      >
+        {engineSettings ? (
+          <>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="min-w-0 flex-1">{engineSettings}</div>
+            </div>
+            {showTitle ? (
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                {headerTitle}
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            {headerTitle}
+          </div>
+        )}
+      </header>
+
+      <div className={workspaceDensity ? 'app-image-preview-body px-0 py-0' : 'px-4 py-4'}>
+        <div className="app-image-preview-stack flex flex-col items-center">
+          <div
+            ref={previewRef}
+            data-workspace-preview-media={workspaceDensity ? '' : undefined}
+            className={clsx(
+              'app-image-preview-stage relative w-full overflow-hidden border border-surface-on-media-25',
+              workspaceDensity ? 'max-h-[320px] sm:max-h-[390px]' : 'max-h-[320px] sm:max-h-[420px]'
+            )}
+            style={{ aspectRatio: aspectRatioCss ?? '1 / 1' }}
+          >
+            {selected ? (
+              <Image
+                src={selectedPreviewUrl ?? selected.url}
+                alt={entry?.prompt ?? ''}
+                fill
+                sizes={previewSizes}
+                className="h-full w-full object-contain"
+                priority
+                loading="eager"
+                fetchPriority="high"
+                unoptimized={!canOptimizePreview || failedPreviewUrl === selectedPreviewUrl}
+                onError={() => setFailedPreviewUrl(selectedPreviewUrl)}
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-xs text-text-muted">{empty}</div>
+            )}
+          </div>
+          <div className={clsx('flex w-full justify-center', workspaceDensity ? 'mt-0' : 'mt-3')}>
+            <div
+              ref={toolbarRef}
+              data-workspace-preview-toolbar={workspaceDensity ? '' : undefined}
+              className={clsx(
+                'app-image-preview-toolbar mx-auto flex w-full items-center justify-center border border-surface-on-media-25 bg-surface-glass-80',
+                workspaceDensity ? 'px-3 py-1' : 'rounded-card px-3 py-2 shadow-sm'
+              )}
+            >
+              {toolbarContent}
+            </div>
+          </div>
+        </div>
+
+        {images.length > 1 ? (
+          <div className="app-scroll-surface app-image-variant-strip mt-3 flex gap-2 overflow-x-auto pb-1">
+            {images.map((image, index) => {
+              const isActive = index === safeIndex;
+              const buttonLabel = `Take ${index + 1}`;
+              return (
+                <Button
+                  key={`${entry?.id ?? 'preview'}-${index}`}
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => onSelectIndex(index)}
+                  className={clsx(
+                    'relative h-14 w-14 flex-none overflow-hidden rounded-card border bg-surface p-0 shadow-sm transition',
+                    isActive ? 'border-brand' : 'border-border hover:border-text-muted'
+                  )}
+                  aria-label={buttonLabel}
+                  aria-pressed={isActive}
+                >
+                  <img
+                    src={image.thumbUrl ?? image.url}
+                    alt=""
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                  />
+                </Button>
+              );
+            })}
+          </div>
+        ) : null}
+
+        {copiedUrl && selectedActionUrl && copiedUrl === selectedActionUrl ? (
+          <p className="mt-3 text-xs text-text-muted">{copiedLabel}</p>
+        ) : null}
+      </div>
+    </section>
+  );
+}

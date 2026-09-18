@@ -1,0 +1,164 @@
+---
+title: "MaxVideoAI MCP : connecteurs, plugins et workflows"
+description: "Connectez MaxVideoAI à Claude, ChatGPT, Codex, OpenClaw ou n8n auto-hébergé : OAuth, devis exact, accord, références et récupération."
+date: "2026-07-14"
+updatedAt: "2026-09-15"
+authorId: "adrien-millot"
+image: "/og/price-before.png"
+keywords:
+  - "plugin MaxVideoAI"
+  - "plugin vidéo IA ChatGPT"
+  - "connecteur vidéo Claude"
+  - "MCP MaxVideoAI"
+  - "MCP Codex"
+slug: "mcp"
+---
+
+MaxVideoAI relie les assistants et outils d’automatisation compatibles aux modèles, aux crédits et à la bibliothèque privée de votre compte MaxVideoAI. Comparez les modèles vidéo actuels, préparez un devis, autorisez la génération et retrouvez le résultat.
+
+## Choisir son intégration
+
+| Environnement | Connexion | À savoir |
+| --- | --- | --- |
+| [Connecteur Claude](/fr/integrations/claude) | Connecteur MCP distant personnalisé | Claude Desktop testé ; le parcours Claude Code est distinct et non vérifié. |
+| [App MCP ChatGPT](/fr/integrations/chatgpt) | Mode développeur | Les actions d’écriture du MCP complet nécessitent un espace Business, Enterprise ou Edu éligible. Pro est limité à la lecture et à la récupération. Aucune présence dans le répertoire public n’est revendiquée. |
+| [Plugin Codex](/fr/integrations/codex) | Plugin MaxVideoAI 0.3.3 ou MCP distant | Codex CLI testé. |
+| [Skill OpenClaw](/fr/integrations/openclaw) | MCP direct ou skill ClawHub publié | Testé avec limites ; import de références privées et affichage intégré par canal non vérifiés. |
+| [Workflow vidéo n8n](/fr/integrations/n8n) | MCP Client auto-hébergé, configuration manuelle | Testé sur 2.38.7 avec accord explicite. Aucun workflow publié dans le catalogue ni support n8n Cloud revendiqué. |
+
+Cursor, GitHub Copilot, Gemini CLI et Microsoft Copilot sont en préparation. Leurs pages de connexion MaxVideoAI ne sont pas publiées.
+
+## Adresse du serveur MCP
+
+```text
+https://api.maxvideoai.com/mcp
+```
+
+Utilisez Streamable HTTP avec OAuth 2.1. Les permissions demandées sont `openid,email,profile`. N’ajoutez ni jeton, ni mot de passe, ni paramètre, ni clé API. Suivez le guide de votre client : il ouvre la connexion MaxVideoAI et le consentement OAuth dans le navigateur.
+
+## Autoriser son compte
+
+1. Configurez la connexion à l’aide du guide adapté ci-dessus.
+2. Connectez-vous à MaxVideoAI ou créez un compte, puis confirmez votre e-mail si demandé.
+3. Vérifiez l’autorisation, revenez dans le client et contrôlez le compte connecté.
+4. Vérifiez puis approuvez le devis exact avant toute génération payante.
+
+La connexion est gratuite et la préparation ne demande aucun abonnement MaxVideoAI. Les générations payantes utilisent le même solde de crédits MaxVideoAI que le site ; votre assistant peut imposer ses propres conditions d’abonnement. Pour vous déconnecter, retirez l’intégration du client et révoquez son autorisation dans MaxVideoAI.
+
+La compatibilité est vérifiée par hôte. Claude Desktop et Codex CLI ont des contrôles validés ; aucun contrôle complet n’est enregistré pour ChatGPT web et Claude Code. OpenClaw et MCP Client sur n8n auto-hébergé restent testés avec limites. Les guides précisent les dates et les restrictions.
+
+## Ce que l’assistant doit faire
+
+L’assistant garde la conversation créative : brief, scénario, découpage, prompts et idées de références. Il interroge MaxVideoAI pour les données changeantes et les actions du compte :
+
+- appeler `list_models` et `get_model_details` au lieu de se fier à sa mémoire des modèles ;
+- ne demander que les choix qui changent réellement qualité, budget, durée, audio ou références ;
+- respecter le modèle choisi par l’utilisateur s’il est compatible ;
+- si l’utilisateur hésite, proposer d’abord le meilleur choix exécutable puis des alternatives crédibles moins chères ;
+- utiliser `calculate_project_budget` pour chiffrer des films complets comparables avec les mêmes hypothèses de tentatives ;
+- appeler `prepare_generation` uniquement lorsque la demande finale est prête ;
+- attendre l’accord explicite sur le devis exact avant `confirm_generation`.
+
+La qualité n’est pas une box « économique/équilibré/premium ». Pour un film multi-plans, l’assistant peut comparer une proposition qualité avec des variantes mono-modèle ou mixtes et justifier chaque choix. Les tentatives créatives sont des scénarios facturables à afficher séparément.
+
+## Outils
+
+| Outil | Rôle | Écrit ou dépense ? |
+| --- | --- | --- |
+| `get_account_status` | Lire connexion, solde de crédits, essai, limites et destinations sûres du compte. | Non. |
+| `list_models` | Trouver les modèles image et vidéo actuellement exécutables selon le mode et le besoin. | Non. |
+| `get_model_details` | Lire réglages exacts, rôles des références, limites, preuves et données de prix d’un modèle. | Non. |
+| `recommend_models` | Rapprocher le brief d’une courte liste de modèles et expliquer les compromis. | Non. |
+| `calculate_project_budget` | Comparer une à quatre propositions complètes aux prix actuels. | Non. Une estimation n’est pas un devis. |
+| `list_media` | Lister les images, vidéos ou audios privés prêts du compte connecté. | Non. |
+| `create_reference_upload_link` | Créer un passage navigateur MaxVideoAI privé et temporaire pour un fichier. | Crée un passage, jamais un job fournisseur. |
+| `import_reference_files` | Importer jusqu’à huit pièces jointes ou résultats générés autorisés par l’utilisateur dans la bibliothèque privée. | Enregistre des médias privés, sans lancer de génération. |
+| `prepare_generation` | Valider modèle, réglages, références, propriété et solde, puis renvoyer un devis exact temporaire. | Aucun débit, aucune génération. |
+| `confirm_generation` | Valider un devis exact et soumettre son job de manière idempotente. | Oui, uniquement après accord explicite. |
+| `get_generation_status` | Lire l’avancement, le résultat, l’échec et le remboursement d’un job connu. | Non. |
+| `list_recent_generations` | Retrouver les jobs récents sans créer de doublon. | Non. |
+| `present_generation` | Afficher une image terminée ou une vidéo lisible directement dans les clients compatibles. | Non. Le lien résultat et la galerie restent le repli. |
+| `create_topup_link` | Ouvrir une recharge de crédits MaxVideoAI sécurisée pour le montant manquant. | Le paiement reste sur MaxVideoAI. |
+
+Les flags de publication de production déterminent les outils d’écriture réellement exposés. La réponse `tools/list` du client fait foi.
+
+## Références image, vidéo et audio
+
+L’assistant peut imaginer, créer ou sélectionner des références. MaxVideoAI les accepte et les conserve sans limiter le rôle créatif de ChatGPT, Claude ou Codex.
+
+Utilisez `list_media` pour un média déjà présent dans la bibliothèque MaxVideoAI. Quand ChatGPT ou un autre hôte compatible expose des pièces jointes autorisées ou un résultat généré sous forme de fichier, `import_reference_files` importe jusqu’à huit fichiers et renvoie des `assetId` privés immédiatement utilisables, sans relancer la liste.
+
+Si l’hôte ne fournit pas de fichier, appelez `create_reference_upload_link` avec `image`, `video` ou `audio`. Une surface ChatGPT ou Claude compatible peut afficher son importeur multi-fichiers intégré. La page HTTPS reste le repli manuel. Codex et Claude Code utilisent un lien par fichier local avec le helper fourni. Aucun chemin n’envoie le chemin local brut au serveur MCP, ne publie d’URL publique ou ne dépend de Computer Use.
+
+Appelez toujours `get_model_details` pour le mode choisi. Il précise types, rôles, ordre, quantités, formats, tailles et durées acceptés. Ne transposez jamais les règles d’un autre modèle. Les URL privées et les `assetId` stables restent dans le périmètre du compte.
+
+Seedance 2.5 fonctionne par sa route ModelArk pour texte vers vidéo, image vers vidéo, références vers vidéo et extension. Le vidéo vers vidéo direct dépendant de BytePlus LAS n’est pas exposé tant que LAS n’est pas accessible ; cette limite ne désactive pas les modes Seedance 2.5 déjà pris en charge.
+
+## Budget, prix exact et validation
+
+`calculate_project_budget` est gratuit. Il estime un film à partir de propositions nommées, plans, durées, modèles et tentatives prévues. Il ne réserve rien, ne débite pas de crédits et ne crée aucun job.
+
+Après le choix, `prepare_generation` valide la demande et renvoie le prix exact du compte avec une expiration. Affichez-le et attendez un accord sans ambiguïté. Appelez ensuite `confirm_generation` une seule fois avec l’identifiant du devis.
+
+Si les crédits manquent :
+
+1. appelez `create_topup_link` pour ce devis ;
+2. dirigez l’utilisateur vers la page de facturation MaxVideoAI renvoyée ;
+3. après confirmation de la recharge, relisez `get_account_status` ;
+4. relancez `prepare_generation`, car l’ancien devis n’est plus valide ;
+5. affichez le nouveau prix exact et redemandez l’accord.
+
+Le plugin, les conseils et les budgets ne demandent aucun abonnement supplémentaire. Les générations utilisent les crédits MaxVideoAI pay-as-you-go existants.
+
+## Jobs, bibliothèque, échecs et nouvelles tentatives
+
+Un job accepté n’est pas encore terminé. Utilisez `get_generation_status` pour un job connu ou `list_recent_generations` pour le retrouver. Une fois terminé, `present_generation` peut intégrer l’image ou la vidéo lisible dans un client compatible MCP Apps. Dans les autres clients, le lien résultat et la bibliothèque MaxVideoAI restent l’alternative universelle. Ne resoumettez pas une génération payante à cause d’un simple timeout.
+
+Les images et vidéos réussies sont enregistrées dans la même bibliothèque privée MaxVideoAI que celle du site. N’utilisez que la destination résultat, workspace ou bibliothèque renvoyée par MaxVideoAI.
+
+Pour un échec technique définitif, expliquez l’état d’échec et de remboursement renvoyé. Ne relancez pas automatiquement. Une nouvelle tentative créative est payante et exige un nouveau devis et un nouvel accord.
+
+## Crédit d’essai
+
+Un compte éligible et vérifié peut recevoir une génération Seedance 2 Mini lorsque la promotion est active. C’est un droit promotionnel unique, pas de l’argent réutilisable du portefeuille. Vérifiez toujours son état via `get_account_status`. L’audio peut rester activé sans changer le prix promotionnel si le preset actuel le prévoit.
+
+## Déconnecter et révoquer
+
+1. Supprimez MaxVideoAI du client.
+2. Ouvrez [les connexions du compte MaxVideoAI](/account/connections).
+3. Révoquez l’autorisation concernée.
+4. Vérifiez que le prochain appel protégé demande une nouvelle approbation.
+
+## Confidentialité et sécurité
+
+- L’e-mail du compte est omis des résultats.
+- Prompts, tokens, secrets, URL complètes, médias privés et paiement sont exclus des analytics d’acquisition.
+- Les réponses authentifiées utilisent `Cache-Control: private, no-store`.
+- Les devis expirent, la soumission payante est idempotente et les limites serveur restent actives.
+- L’assistant ne peut pas affirmer qu’un média est automatiquement autorisé à la publication ou à l’usage commercial.
+
+## Dépannage
+
+### Le navigateur revient vers 127.0.0.1 sans parvenir à se connecter
+
+Le listener de callback temporaire du client n’est plus actif ou utilisait un autre port. Gardez le client ouvert, relancez la connexion depuis ce client puis approuvez la nouvelle demande. Ne réutilisez pas une ancienne URL d’autorisation.
+
+### L’authentification est redemandée
+
+L’autorisation OAuth a expiré ou a été révoquée. Reconnectez-vous et approuvez à nouveau dans le navigateur. Ne collez jamais de bearer token dans l’adresse MCP.
+
+### `HTTP 401 / JSON-RPC -32001`
+
+La requête ne possède pas d’autorisation valide. Laissez le client suivre le défi `WWW-Authenticate` et l’URL `resource_metadata`.
+
+### `INTERNAL_ERROR`
+
+Conservez le `correlationId`, arrêtez les soumissions répétées et contactez le support si l’erreur persiste.
+
+### Un mode manque
+
+Relancez `get_model_details`. Un modèle peut utiliser plusieurs routes fournisseur : une route indisponible ne signifie pas que tout le modèle est désactivé.
+
+## Limites actuelles
+
+Ce produit n’est pas une API REST généraliste et ne fournit pas de clé API client. Il ne contrôle pas la timeline Studio, n’édite pas n’importe quelle vidéo source, ne gère pas de callbacks clients, ne collecte pas de paiement dans le chat, n’expose pas de modèles masqués et n’approuve pas automatiquement les médias pour publication.

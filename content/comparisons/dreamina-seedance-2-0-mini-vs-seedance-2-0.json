@@ -1,0 +1,126 @@
+{
+  "slug": "dreamina-seedance-2-0-mini-vs-seedance-2-0",
+  "en": {
+    "meta": {
+      "title": "Seedance 2.0 vs Mini: Quality, Batch Cost & Best Uses",
+      "description": "Compare Seedance 2.0 and Seedance 2.0 Mini with scorecard ratings, specs, cost tradeoffs and when to use Mini for batch video variants.",
+      "titleBranding": "none"
+    },
+    "heroIntro": "Compare Seedance 2.0 and Seedance 2.0 Mini by quality, controls and cost. Mini is an option for lower-cost batches and 480p or 720p variants. Review the scores, specifications and independent examples to choose the model that fits your project.",
+    "primaryLinksTitle": "Recommended next steps",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "Open Seedance 2.0 model page"
+      },
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "Open Seedance 2.0 Mini model page"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast",
+        "label": "Compare Fast vs Mini"
+      }
+    ],
+    "faq": {
+      "title": "FAQ",
+      "subtitle": "Short answers for choosing between flagship Seedance 2.0 and the lower-cost Mini route.",
+      "items": [
+        {
+          "question": "When should I choose Seedance 2.0 Mini?",
+          "answer": "Choose Mini for lower-cost batches, ecommerce variants, UGC hook testing, marketing A/B passes, and high-frequency prompt exploration where 480p or 720p is enough."
+        },
+        {
+          "question": "When is Seedance 2.0 still the better choice?",
+          "answer": "Choose Seedance 2.0 for final-quality hero shots, stronger visual polish, higher-resolution delivery, and work where the best Seedance output matters more than per-variant cost."
+        },
+        {
+          "question": "Are the videos a controlled comparison?",
+          "answer": "No. The galleries show independent examples made with different prompts and settings. Use them to explore each model’s visual possibilities, alongside the scorecard, specifications and prices."
+        }
+      ]
+    }
+  },
+  "fr": {
+    "meta": {
+      "title": "Seedance 2.0 vs Mini : qualité, coût par lot et usages",
+      "description": "Comparez Seedance 2.0 et Seedance 2.0 Mini selon les notes, les caractéristiques, les écarts de coût et les cas où Mini convient aux variantes vidéo en lot.",
+      "titleBranding": "none"
+    },
+    "heroIntro": "Comparez Seedance 2.0 et Seedance 2.0 Mini selon la qualité, les réglages et le coût. Mini convient aux séries de vidéos à petit budget et aux variantes en 480p ou 720p. Appuyez-vous sur les notes, les caractéristiques et les exemples indépendants pour choisir selon votre projet.",
+    "primaryLinksTitle": "Pour aller plus loin",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "Ouvrir la fiche de Seedance 2.0"
+      },
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "Ouvrir la fiche de Seedance 2.0 Mini"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast",
+        "label": "Comparer Fast vs Mini"
+      }
+    ],
+    "faq": {
+      "title": "FAQ",
+      "subtitle": "Des repères concrets pour choisir entre Seedance 2.0 et Mini.",
+      "items": [
+        {
+          "question": "Quand choisir Seedance 2.0 Mini ?",
+          "answer": "Choisissez Mini pour créer plusieurs variantes à petit budget : présentations de produits, vidéos sociales ou tests publicitaires, lorsque le 480p ou le 720p suffit."
+        },
+        {
+          "question": "Quand choisir Seedance 2.0 ?",
+          "answer": "Comparez les notes et les caractéristiques de Seedance 2.0 avec celles de Mini selon votre priorité : qualité finale, durée, résolution et coût par vidéo. Le devis de l’app confirme le prix avec vos réglages."
+        },
+        {
+          "question": "Les vidéos sont-elles réalisées dans les mêmes conditions ?",
+          "answer": "Non. Les galeries présentent des exemples indépendants, créés avec des prompts et des réglages différents. Elles permettent de découvrir les possibilités visuelles de chaque modèle, en complément des notes, des caractéristiques et des prix."
+        }
+      ]
+    }
+  },
+  "es": {
+    "meta": {
+      "title": "Seedance 2.0 vs Mini: calidad, costo por lote y usos",
+      "description": "Compara Seedance 2.0 y Seedance 2.0 Mini según sus calificaciones, especificaciones, diferencias de costo y cuándo usar Mini para variantes de video por lote.",
+      "titleBranding": "none"
+    },
+    "heroIntro": "Compara Seedance 2.0 y Seedance 2.0 Mini por calidad, ajustes y costo. Mini es una opción para producir varios videos con un presupuesto menor, en 480p o 720p. Revisa las calificaciones, las especificaciones y los ejemplos independientes para elegir según tu proyecto.",
+    "primaryLinksTitle": "Siguientes pasos recomendados",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "Abrir la página del modelo Seedance 2.0"
+      },
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "Abrir la página del modelo Seedance 2.0 Mini"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast",
+        "label": "Comparar Fast vs Mini"
+      }
+    ],
+    "faq": {
+      "title": "FAQ",
+      "subtitle": "Claves para elegir entre Seedance 2.0 y Mini.",
+      "items": [
+        {
+          "question": "¿Cuándo elegir Seedance 2.0 Mini?",
+          "answer": "Elige Mini para crear varias versiones con un presupuesto menor: videos de productos, contenido para redes o pruebas de anuncios, cuando 480p o 720p sea suficiente."
+        },
+        {
+          "question": "¿Cuándo elegir Seedance 2.0?",
+          "answer": "Compara las calificaciones y especificaciones de Seedance 2.0 con las de Mini según tu prioridad: calidad final, duración, resolución y costo por video. La app confirma el precio con tus ajustes antes de generar."
+        },
+        {
+          "question": "¿Los videos se hicieron en las mismas condiciones?",
+          "answer": "No. Las galerías muestran ejemplos independientes creados con prompts y ajustes distintos. Sirven para explorar las posibilidades visuales de cada modelo, junto con las calificaciones, las especificaciones y los precios."
+        }
+      ]
+    }
+  }
+}

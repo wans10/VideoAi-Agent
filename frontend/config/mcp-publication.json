@@ -1,0 +1,13 @@
+{
+  "publicMarketing": true,
+  "publicIndexing": true,
+  "transport": true,
+  "oauth": true,
+  "discovery": true,
+  "paidGeneration": true,
+  "trial": false,
+  "referenceUploads": true,
+  "montagePreparation": false,
+  "audioGeneration": false,
+  "studioMontageCreation": false
+}

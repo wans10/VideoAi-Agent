@@ -1,0 +1,126 @@
+import type Stripe from 'stripe';
+
+import {
+  beginStripeEvent,
+  markStripeEventProcessed,
+  rollbackStripeEvent,
+} from './stripe-webhook-event-state';
+import { handleChargeFailed, handlePaymentIntentFailed } from './stripe-webhook-failed-payments';
+import { handleChargeRefunded } from './stripe-webhook-refunds';
+import { handleInvoicePaid } from './stripe-webhook-invoice-events';
+import {
+  handleCheckoutSessionCompleted,
+  handlePaymentIntentSucceeded,
+} from './stripe-webhook-topup-events';
+import { replayMcpTopupAttributionForProcessedEvent } from './stripe-webhook-mcp-attribution';
+
+const HANDLED_EVENT_TYPES = new Set([
+  'checkout.session.completed',
+  'checkout.session.async_payment_succeeded',
+  'payment_intent.succeeded',
+  'invoice.paid',
+  'payment_intent.payment_failed',
+  'charge.refunded',
+  'charge.failed',
+]);
+
+export type StripeWebhookEventResult = 'handled' | 'unhandled' | 'duplicate';
+
+export type StripeWebhookEventProcessorDependencies = {
+  beginStripeEvent: typeof beginStripeEvent;
+  markStripeEventProcessed: typeof markStripeEventProcessed;
+  rollbackStripeEvent: typeof rollbackStripeEvent;
+  replayMcpTopupAttribution: typeof replayMcpTopupAttributionForProcessedEvent;
+  handleCheckoutSessionCompleted: typeof handleCheckoutSessionCompleted;
+  handleInvoicePaid: typeof handleInvoicePaid;
+  handlePaymentIntentSucceeded: typeof handlePaymentIntentSucceeded;
+  handlePaymentIntentFailed: typeof handlePaymentIntentFailed;
+  handleChargeRefunded: typeof handleChargeRefunded;
+  handleChargeFailed: typeof handleChargeFailed;
+};
+
+export type StripeWebhookEventProcessorOptions = {
+  stripe: Stripe;
+  receiptsPriceOnly: boolean;
+};
+
+export type StripeWebhookEventProcessor = (
+  event: Stripe.Event,
+  options: StripeWebhookEventProcessorOptions
+) => Promise<StripeWebhookEventResult>;
+
+export function createStripeWebhookEventProcessor(
+  dependencies: StripeWebhookEventProcessorDependencies
+): StripeWebhookEventProcessor {
+  return async function processEvent(
+    event: Stripe.Event,
+    options: StripeWebhookEventProcessorOptions
+  ): Promise<StripeWebhookEventResult> {
+    if (!HANDLED_EVENT_TYPES.has(event.type)) {
+      console.log('[stripe-webhook] Unhandled event type', event.type);
+      return 'unhandled';
+    }
+
+    if (!(await dependencies.beginStripeEvent(event))) {
+      console.log('[stripe-webhook] Skipping duplicate event', { eventId: event.id, type: event.type });
+      try {
+        await dependencies.replayMcpTopupAttribution(event);
+      } catch (error) {
+        console.warn('[stripe-webhook] MCP attribution replay unavailable', {
+          eventId: event.id,
+          error,
+        });
+      }
+      return 'duplicate';
+    }
+
+    try {
+      switch (event.type) {
+        case 'checkout.session.completed':
+        case 'checkout.session.async_payment_succeeded':
+          await dependencies.handleCheckoutSessionCompleted(
+            event.data.object as Stripe.Checkout.Session,
+            options
+          );
+          break;
+        case 'invoice.paid':
+          await dependencies.handleInvoicePaid(event.data.object as Stripe.Invoice);
+          break;
+        case 'payment_intent.succeeded':
+          await dependencies.handlePaymentIntentSucceeded(
+            event.data.object as Stripe.PaymentIntent,
+            options
+          );
+          break;
+        case 'payment_intent.payment_failed':
+          await dependencies.handlePaymentIntentFailed(event, options.stripe);
+          break;
+        case 'charge.refunded':
+          await dependencies.handleChargeRefunded(event, options.stripe);
+          break;
+        case 'charge.failed':
+          await dependencies.handleChargeFailed(event, options.stripe);
+          break;
+      }
+
+      await dependencies.markStripeEventProcessed(event.id);
+      return 'handled';
+    } catch (error) {
+      await dependencies.rollbackStripeEvent(event.id);
+      throw error;
+    }
+  };
+}
+
+export const processStripeWebhookEvent = createStripeWebhookEventProcessor({
+  beginStripeEvent,
+  markStripeEventProcessed,
+  rollbackStripeEvent,
+  replayMcpTopupAttribution: replayMcpTopupAttributionForProcessedEvent,
+  handleCheckoutSessionCompleted,
+  handleInvoicePaid,
+  handlePaymentIntentSucceeded,
+  handlePaymentIntentFailed,
+  handleChargeRefunded,
+  handleChargeFailed,
+});

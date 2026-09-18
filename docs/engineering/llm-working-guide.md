@@ -1,0 +1,110 @@
+# LLM Working Guide
+
+This guide is for Codex and other AI coding agents working on MaxVideoAI.
+
+## Start Here
+
+Read these files before changing architecture or route structure:
+
+- `AGENTS.md`
+- `docs/engineering/project-structure.md`
+- `docs/engineering/page-architecture.md`
+- `docs/engineering/media-delivery.md` when changing images, videos, posters, media repair scripts or model examples
+- `docs/engineering/admin-routes.md` when touching admin pages
+- `docs/engineering/refactor-roadmap.md`
+- `docs/engineering/model-registry.md` when changing model identity, aliases, family membership, publication, replacement, or redirects
+- `docs/engineering/mcp-integration-registry.md` when changing MCP integration identity, host evidence, publication, acquisition, installation, or store state
+- `docs/engineering/pricing-engine.md` when changing provider cost inputs, commercial policy, billing quotes, displayed prices, estimators, JSON-LD offers, or pricing admin behavior
+
+Then run the large-file audit when choosing a cleanup target:
+
+```bash
+npm run architecture:audit -- --min-lines 500
+```
+
+Use JSON when another tool or agent needs to rank candidates:
+
+```bash
+npm run architecture:audit -- --json --min-lines 500
+```
+
+For a focused task, inspect the nearest route-local `AGENTS.md` if one exists.
+
+## Working Rules
+
+- Treat `frontend/app` route files as orchestration files.
+- Keep route-only code in route-local `_components` and `_lib` folders.
+- Promote code to `frontend/components`, `frontend/lib`, or `frontend/server` only when reuse or boundary clarity is real.
+- Preserve public URLs, localized slugs, metadata, canonical URLs, hreflang, and JSON-LD behavior during SEO page refactors.
+- Do not introduce Zustand, TanStack Query, Redux, or another state library as part of a cleanup unless the task explicitly targets client state architecture.
+- The current server-data client cache is SWR. Prefer standardizing existing SWR hooks before considering a data-layer migration.
+- Author model policy only in `frontend/config/model-registry.json`, follow `docs/engineering/model-registry.md`, and run `pnpm model:registry:check` after any model policy change.
+- Never edit `frontend/config/model-runtime.json`, `frontend/config/engine-catalog.json`, `frontend/config/model-roster.json`, or the roster files under `docs/` directly; they are generated projections.
+- Author public-demo source identity only in `frontend/config/public-video-sources.json`. Do not hand-edit measured rendition entries or the generated browser projection. Follow `docs/engineering/media-delivery.md` and run `pnpm --prefix frontend run media:public-renditions:check` when a selected homepage video or rendition state changes.
+
+## Server And Client Boundaries
+
+- Default to Server Components in App Router routes.
+- Add `'use client'` only for hooks, browser APIs, event handlers, or client-only libraries.
+- Never import database access, secrets, Node APIs, or admin-only helpers into client files.
+- Put privileged or database-backed logic in `frontend/server` or route handlers.
+- Keep public-video playback policy in `frontend/lib/public-video-playback.ts`, React attempt state in `frontend/components/media/usePublicVideoPlayback.ts`, and rendition commands under `frontend/scripts`. Browser code may consume only the generated public projection, not the measured manifest or script helpers.
+- Manual watch/comparison controls use `usePublicVideoControls.ts`; comparisons default to Original, watch to Auto. Gallery previews use `useExampleCardPlayback.ts` only for visible playback intent and prefer existing short previews. Keep original schema/action URLs and the critical poster separate from live playback sources.
+
+## Refactor Order
+
+For large pages, extract in this order:
+
+1. Static copy, constants, and localization fallback maps.
+2. Pure builders for metadata, schema, pricing, specs, and derived route data.
+3. Self-contained sections into named components.
+4. Client-only panels and browser storage helpers.
+5. Shared components only after reuse is clear.
+
+## Verification
+
+Run focused checks after route or helper refactors:
+
+```bash
+npm --prefix frontend run lint
+npm run lint:exposure
+git diff --check
+```
+
+For public marketing/model pages, also smoke-test representative localized routes:
+
+```txt
+/models/seedance-2-0
+/fr/modeles/seedance-2-0
+/es/modelos/seedance-2-0
+```
+
+Before merge or PR, run a full build when feasible:
+
+```bash
+npm --prefix frontend run build
+```
+
+Frontend `prebuild` first validates the model registry and then runs the offline public-rendition coherence and critical-home coverage gate. This gate does not make network, storage or database calls; use the explicit rendition command and its documented review/HTTP activation sequence for operational changes.
+
+## Current Architecture Notes
+
+- The comparison detail route, jobs route, blog post route, examples route, admin users list, admin user detail, admin insights route, admin SEO routes, and billing route have route-local architecture contract tests.
+- The workspace app now has many route-local hooks and shell modules, but `AppClient.tsx` is still a priority cleanup target because it owns a large prop surface.
+- `BillingClient.tsx` and `LibraryPageClient.tsx` pass current contracts but remain good candidates for deeper controller/mutation splits.
+- Before proposing a new architecture PR, run `npm run architecture:audit -- --min-lines 500` and use the roadmap to separate low-risk route splits from high-blast-radius provider/API work.
+- Root-level browser screenshots and `.playwright-mcp/` files are local QA artifacts and should stay untracked.
+
+## Workspace Boundaries
+
+Keep these boundaries stable when continuing workspace cleanup:
+
+- `frontend/app/(core)/(workspace)/app/AppClient.tsx` should remain the route-level orchestrator, not the owner of every prop transformation.
+- `WorkspaceAppShell` owns route shell rendering.
+- `WorkspaceRuntimeModals` owns shared modal wiring.
+- `useWorkspaceEngineModeState` owns engine/mode orchestration.
+- `useWorkspaceComposerState` owns prompt/input field state.
+- `useWorkspaceWalletPreflight` owns wallet balance preflight.
+- `useWorkspaceGenerationRunner` owns generation submission, accepted results, and polling.
+- `useWorkspaceRenderState` polls the latest render snapshot on a stable interval, with at most one outstanding request per job. Status/feed updates must not restart that interval. Completed jobs already in history must not be reinserted into local renders. The video rail keeps a single chronological order across active and historical groups; `tests/workspace-render-polling-behavior.test.ts` and `tests/gallery-rail-order-behavior.test.ts` cover these transitions.
+- `useWorkspaceAssetLibrary`, `useWorkspaceReferenceAssets`, and `useWorkspaceKlingElementAssets` own their specific asset concerns.

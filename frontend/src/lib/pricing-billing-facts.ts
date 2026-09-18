@@ -1,0 +1,502 @@
+import {
+  computePricingDefinitionFacts,
+  type PricingFacts,
+  type PricingSnapshot,
+} from '@maxvideoai/pricing';
+import {
+  isGptImage25EngineId,
+  calculateGptImage25ProviderPrice,
+  normalizeGptImage2Quality,
+  normalizeGptImageQuality,
+  resolveGptImage2PricingTier,
+} from '@/lib/image/gptImage2';
+import { isLumaAgentsImageEngineId, isLumaRay32EngineId, isLumaRay32PublicMode } from '@/lib/luma-agents';
+import {
+  calculateLumaAgentsImageReferencePrice,
+  calculateLumaRay32DirectPrice,
+  calculateLumaRay32ReferencePrice,
+} from '@/lib/luma-agents-pricing';
+import {
+  getLumaRay2DurationInfo,
+  getLumaRay2ResolutionInfo,
+  isLumaRay2EditMode,
+  isLumaRay2EngineId,
+  isLumaRay2GenerateMode,
+  normaliseLumaRay2Loop,
+  LUMA_RAY2_ERROR_UNSUPPORTED,
+} from '@/lib/luma-ray2';
+import { calculateLumaRay2EditPrice, calculateLumaRay2Price, type LumaRay2EditWorkflow } from '@/lib/luma-ray2-pricing';
+import { getLumaRay2BasePriceUsd, getLumaRay2EditRateUsd } from '@/lib/luma-ray2-pricing-config';
+import type { PricingContext } from '@/lib/pricing-context';
+import { applyEnginePricingOverride, buildPricingDefinition } from '@/lib/pricing-definition';
+import { getPricingKernel } from '@/lib/pricing-kernel';
+import {
+  computeSeedance2TokenQuote,
+  isSeedance2TokenPricing,
+  roundUsdUpToCents,
+} from '@/lib/seedance-2-pricing';
+import type { EnginePricingDetails } from '@/types/engines';
+import { isMinimaxH3EngineId } from '@/lib/minimax-h3';
+import { calculateMinimaxH3ProviderPrice } from '@/lib/minimax-h3-pricing';
+import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
+import {
+  calculateMinimaxH3MaxProviderCost,
+  MINIMAX_H3_MAX_PRICING_SOURCE,
+} from '@/lib/minimax-h3-max-pricing';
+import {
+  calculateGoogleOmniProviderCost,
+  GOOGLE_OMNI_PRICING_SOURCE,
+  resolveGoogleOmniPricingInput,
+} from '@/lib/google-omni-pricing';
+
+export type BillingPricingFacts = {
+  facts: PricingFacts;
+  base: PricingSnapshot['base'];
+  addons: PricingSnapshot['addons'];
+  meta: Record<string, unknown>;
+  compatibilityProfileId: string;
+};
+
+function booleanAddon(value: unknown): boolean {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') return ['1', 'true', 'yes', 'on'].includes(value.trim().toLowerCase());
+  return false;
+}
+
+function resultFromFacts(params: {
+  engineId: string;
+  currency: string;
+  vendorSubtotalExactCents: number;
+  base: PricingSnapshot['base'];
+  addons?: PricingSnapshot['addons'];
+  meta?: Record<string, unknown>;
+  compatibilityProfileId?: string;
+}): BillingPricingFacts {
+  return {
+    facts: {
+      engineId: params.engineId,
+      currency: params.currency,
+      vendorSubtotalExactCents: params.vendorSubtotalExactCents,
+      unit: params.base.unit ?? 'sec',
+      quantity: params.base.seconds,
+    },
+    base: { ...params.base },
+    addons: (params.addons ?? []).map((addon) => ({ ...addon })),
+    meta: { ...(params.meta ?? {}) },
+    compatibilityProfileId: params.compatibilityProfileId ?? 'standard',
+  };
+}
+
+export function buildBillingPricingFacts(
+  context: PricingContext,
+  pricingDetails: EnginePricingDetails | undefined,
+  currency: string
+): BillingPricingFacts {
+  const { engine, durationSec, resolution } = context;
+  const mode = context.mode ?? 't2v';
+
+  if (engine.id === 'gemini-omni-flash') {
+    const pricingInput = resolveGoogleOmniPricingInput({
+      outputResolution: resolution,
+      outputDurationSec: durationSec,
+      inheritedDurationSec: context.inheritedDurationSec,
+      mode,
+      inputImageCount: context.inputImageCount,
+      referenceImageCount: context.referenceImageCount,
+      inputVideoDurationSec: context.inputVideoDurationSec,
+    });
+    const pricing = calculateGoogleOmniProviderCost(pricingInput);
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: pricing.providerCostExactCents,
+      base: {
+        seconds: pricingInput.outputDurationSec,
+        rate: pricing.providerCostUsd / pricingInput.outputDurationSec,
+        unit: 'sec',
+        amountCents: pricing.providerCostCents,
+      },
+      meta: {
+        pricing_model: 'google_omni_tokens',
+        provider_cost_source: GOOGLE_OMNI_PRICING_SOURCE,
+        mode,
+        output_resolution: pricingInput.outputResolution,
+        output_duration_sec: pricingInput.outputDurationSec,
+        input_image_count: pricingInput.inputImageCount,
+        input_video_duration_sec: pricingInput.inputVideoDurationSec,
+        cost_breakdown_usd: pricing,
+      },
+    });
+  }
+
+  if (isMinimaxH3MaxEngineId(engine.id)) {
+    const reference = calculateMinimaxH3MaxProviderCost({
+      mode: mode as 't2v' | 'i2v' | 'ref2v',
+      durationSec,
+      resolution: resolution as '480P' | '768P',
+      verifiedReferenceTokenCount: context.verifiedReferenceTokenCount,
+    });
+    const referenceTokenCents = Math.round(reference.referenceTokenSubtotalUsd * 100);
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: reference.providerCostExactCents,
+      base: {
+        seconds: durationSec,
+        rate: reference.ratePerSecondUsd,
+        unit: 'sec',
+        amountCents: Math.round(reference.outputSubtotalUsd * 100),
+      },
+      addons: referenceTokenCents > 0
+        ? [{ type: 'reference_tokens_above_4096', amountCents: referenceTokenCents }]
+        : [],
+      compatibilityProfileId: 'provider-reference-current',
+      meta: {
+        pricing_model: 'minimax_h3_max_output_plus_reference_tokens',
+        provider_cost_source: MINIMAX_H3_MAX_PRICING_SOURCE,
+        public_provider: 'MiniMax',
+        public_family: 'Hailuo',
+        mode,
+        cost_breakdown_usd: reference,
+      },
+    });
+  }
+
+  if (isMinimaxH3EngineId(engine.id)) {
+    const reference = calculateMinimaxH3ProviderPrice({
+      durationSec,
+      resolution: resolution as '768P' | '2K' | '4K',
+      referenceImageCount: context.referenceImageCount,
+    });
+    const baseAmountCents = Math.round(reference.breakdown.baseSubtotalUsd * 100);
+    const surchargeCents = Math.round(reference.breakdown.referenceImageSurchargeUsd * 100);
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: Math.round(reference.subtotalUsd * 100),
+      base: {
+        seconds: durationSec,
+        rate: reference.breakdown.ratePerSecondUsd,
+        unit: 'sec',
+        amountCents: baseAmountCents,
+      },
+      addons: surchargeCents > 0
+        ? [{ type: 'reference_images_above_five', amountCents: surchargeCents }]
+        : [],
+      compatibilityProfileId: 'provider-reference-current',
+      meta: {
+        pricing_model: 'fal_h3_resolution_plus_reference_images',
+        provider_cost_source: 'fal_minimax_h3_pricing',
+        cost_breakdown_usd: reference.breakdown,
+        mode,
+        reference_image_count: reference.breakdown.referenceImageCount,
+        paid_reference_image_count: reference.breakdown.paidReferenceImages,
+        reference_image_surcharge_usd: reference.breakdown.referenceImageSurchargeUsd,
+      },
+    });
+  }
+
+  if (isLumaAgentsImageEngineId(engine.id) && (mode === 't2i' || mode === 'i2i')) {
+    const addonReferenceImageCount =
+      typeof context.addons?.reference_image_count === 'number' && Number.isFinite(context.addons.reference_image_count)
+        ? context.addons.reference_image_count
+        : 0;
+    const referenceImageCount = context.referenceImageCount ?? addonReferenceImageCount;
+    const reference = calculateLumaAgentsImageReferencePrice({ engineId: engine.id, mode, referenceImageCount });
+    const presentedCents = Math.max(0, Math.ceil(reference.baseSubtotalUsd * 100 - 1e-9));
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: reference.baseSubtotalUsd * 100,
+      base: { seconds: 1, rate: reference.baseSubtotalUsd, unit: 'image', amountCents: presentedCents },
+      compatibilityProfileId: 'provider-reference-current',
+      meta: {
+        pricing_model: 'fal_reference_plus_margin',
+        provider_cost_source: 'fal_reference_price',
+        cost_breakdown_usd: reference.breakdown,
+        mode: reference.breakdown.mode,
+        source_or_reference_image_count: reference.breakdown.source_or_reference_image_count,
+        fal_reference_source: reference.breakdown.falReferenceSource,
+      },
+    });
+  }
+
+  if (isLumaRay32EngineId(engine.id) && isLumaRay32PublicMode(mode)) {
+    const reference = calculateLumaRay32ReferencePrice({
+      duration: context.durationOption ?? durationSec,
+      resolution,
+      hdr: booleanAddon(context.addons?.hdr),
+      exrExport: booleanAddon(context.addons?.exr_export ?? context.addons?.exrExport),
+    });
+    const seconds = reference.breakdown.duration === '10s' ? 10 : 5;
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: reference.baseSubtotalUsd * 100,
+      base: {
+        seconds,
+        rate: Number((reference.baseSubtotalUsd / seconds).toFixed(4)),
+        unit: 'sec',
+        amountCents: Math.max(0, Math.ceil(reference.baseSubtotalUsd * 100 - 1e-9)),
+      },
+      compatibilityProfileId: 'provider-reference-current',
+      meta: {
+        pricing_model: 'fal_reference_plus_margin',
+        provider_cost_source: 'fal_reference_price',
+        cost_breakdown_usd: reference.breakdown,
+        duration_label: reference.breakdown.duration,
+        resolution: reference.breakdown.resolution,
+        dynamic_range: reference.breakdown.dynamic_range,
+        fal_reference_source: reference.breakdown.falReferenceSource,
+      },
+    });
+  }
+
+  if (isLumaRay32EngineId(engine.id) && (mode === 'v2v' || mode === 'reframe')) {
+    const reference = calculateLumaRay32DirectPrice({
+      mode,
+      durationSec,
+      duration: context.durationOption ?? durationSec,
+      resolution,
+      hdr: booleanAddon(context.addons?.hdr),
+      exrExport: booleanAddon(context.addons?.exr_export ?? context.addons?.exrExport),
+    });
+    const seconds = mode === 'reframe' ? durationSec : reference.breakdown.duration === '10s' ? 10 : 5;
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: reference.baseSubtotalUsd * 100,
+      base: {
+        seconds,
+        rate: Number((reference.baseSubtotalUsd / seconds).toFixed(4)),
+        unit: 'sec',
+        amountCents: Math.max(0, Math.ceil(reference.baseSubtotalUsd * 100 - 1e-9)),
+      },
+      compatibilityProfileId: 'provider-reference-current',
+      meta: {
+        pricing_model: 'fal_reference_interpolated_plus_margin',
+        provider_cost_source: reference.breakdown.providerCostSource,
+        cost_breakdown_usd: reference.breakdown,
+        mode: reference.breakdown.mode,
+        duration_label: reference.breakdown.duration,
+        resolution: reference.breakdown.resolution,
+        dynamic_range: reference.breakdown.dynamic_range,
+      },
+    });
+  }
+
+  if (isLumaRay2EngineId(engine.id) && isLumaRay2GenerateMode(mode)) {
+    const durationInfo = getLumaRay2DurationInfo(context.durationOption ?? durationSec);
+    const resolutionInfo = getLumaRay2ResolutionInfo(resolution);
+    if (!durationInfo || !resolutionInfo) throw new Error(LUMA_RAY2_ERROR_UNSUPPORTED);
+    const reference = calculateLumaRay2Price({
+      engineId: engine.id === 'lumaRay2_flash' ? 'luma-ray2-flash' : 'luma-ray2',
+      baseUsd: getLumaRay2BasePriceUsd(engine.id),
+      duration: durationInfo.label,
+      resolution: resolutionInfo.value,
+      loop: normaliseLumaRay2Loop(context.loop),
+    });
+    const presentedCents = Math.max(0, Math.round(reference.baseSubtotalUsd * 100));
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: presentedCents,
+      base: {
+        seconds: durationInfo.seconds,
+        rate: Number((reference.breakdown.computed_total_usd / durationInfo.seconds).toFixed(4)),
+        unit: 'sec',
+        amountCents: presentedCents,
+      },
+      meta: {
+        cost_breakdown_usd: reference.breakdown,
+        duration_label: reference.breakdown.duration,
+        resolution: reference.breakdown.resolution,
+        duration_factor: reference.breakdown.duration_factor,
+        resolution_factor: reference.breakdown.resolution_factor,
+        loop: typeof reference.breakdown.loop === 'boolean' ? reference.breakdown.loop : undefined,
+      },
+    });
+  }
+
+  if (isLumaRay2EngineId(engine.id) && isLumaRay2EditMode(mode)) {
+    const workflow: LumaRay2EditWorkflow = mode === 'reframe' ? 'reframe' : 'modify';
+    const reference = calculateLumaRay2EditPrice({
+      engineId: engine.id === 'lumaRay2_flash' ? 'luma-ray2-flash' : 'luma-ray2',
+      workflow,
+      durationSec,
+      rateUsd: getLumaRay2EditRateUsd(engine.id, workflow),
+    });
+    const presentedCents = Math.max(0, Math.round(reference.baseSubtotalUsd * 100));
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: presentedCents,
+      base: {
+        seconds: reference.breakdown.seconds,
+        rate: reference.breakdown.rate_per_second_usd,
+        unit: 'sec',
+        amountCents: presentedCents,
+      },
+      meta: {
+        cost_breakdown_usd: reference.breakdown,
+        workflow: reference.breakdown.workflow,
+        seconds: reference.breakdown.seconds,
+        rate_per_second_usd: reference.breakdown.rate_per_second_usd,
+      },
+    });
+  }
+
+  if (isGptImage25EngineId(engine.id)) {
+    const quality = normalizeGptImageQuality(context.quality, engine.id);
+    const imageCount = Math.max(1, Math.round(durationSec));
+    const price = calculateGptImage25ProviderPrice({
+      mode: mode === 'i2i' ? 'i2i' : 't2i',
+      imageSize: resolution,
+      customImageSize: context.customImageSize,
+      quality,
+      outputCount: imageCount,
+      referenceImageCount: context.referenceImageCount,
+    });
+    const { tier, outputUnitExactCents: unitExactCents, providerSubtotalExactCents } = price;
+    const presentedCents = Math.ceil(price.outputSubtotalExactCents - 1e-9);
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: providerSubtotalExactCents,
+      base: {
+        seconds: imageCount,
+        rate: unitExactCents / 100,
+        unit: 'image',
+        amountCents: presentedCents,
+      },
+      addons: price.referenceSubtotalExactCents > 0
+        ? [{ type: 'reference_images', amountCents: Math.ceil(price.referenceSubtotalExactCents - 1e-9) }]
+        : [],
+      meta: {
+        pricing_model: 'gpt_image_2_5_quality_size',
+        provider_cost_source: 'fal_gpt_image_2_5_pricing_table',
+        billed_image_size: tier.billingKey,
+        requested_image_size: tier.requestedKey,
+        requested_image_width: tier.width,
+        requested_image_height: tier.height,
+        quality,
+        base_unit_price_exact_cents: unitExactCents,
+        reference_image_count: price.referenceImageCount,
+        provider_reference_image_count: price.providerReferenceImageCount,
+        included_reference_image_count: price.includedReferenceImageCount,
+        additional_reference_image_count: price.additionalReferenceImageCount,
+        paid_reference_image_count: price.additionalReferenceImageCount,
+        reference_image_subtotal_exact_cents: price.referenceSubtotalExactCents,
+        estimated_from_nearest_canonical: tier.estimatedFromNearestCanonical,
+        source: 'fal.ai GPT Image 2.5 pricing table',
+      },
+    });
+  }
+
+  if (engine.id === 'gpt-image-2') {
+    const quality = normalizeGptImage2Quality(context.quality);
+    const tier = resolveGptImage2PricingTier(resolution, context.customImageSize);
+    const imageCount = Math.max(1, Math.round(durationSec));
+    const unitCents = tier.prices[quality];
+    const vendorSubtotalCents = unitCents * imageCount;
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: vendorSubtotalCents,
+      base: { seconds: imageCount, rate: unitCents / 100, unit: 'image', amountCents: vendorSubtotalCents },
+      meta: {
+        pricing_model: 'gpt_image_2_quality_size',
+        billed_image_size: tier.billingKey,
+        requested_image_size: tier.requestedKey,
+        requested_image_width: tier.width,
+        requested_image_height: tier.height,
+        quality,
+        base_unit_price_cents: unitCents,
+        estimated_from_nearest_canonical: tier.estimatedFromNearestCanonical,
+        source: 'fal.ai GPT Image 2 pricing table',
+      },
+    });
+  }
+
+  if (isSeedance2TokenPricing(pricingDetails)) {
+    const billingInputType =
+      context.hasVideoInput === true ? 'video_input' : context.hasVideoInput === false ? 'no_video_input' : undefined;
+    const reference = computeSeedance2TokenQuote({
+      details: pricingDetails,
+      durationSec,
+      resolution,
+      aspectRatio: context.aspectRatio,
+      billingInputType,
+    });
+    return resultFromFacts({
+      engineId: engine.id,
+      currency,
+      vendorSubtotalExactCents: reference.vendorCostUsd * 100,
+      base: {
+        seconds: durationSec,
+        rate: reference.vendorCostPerSecondUsd,
+        unit: 'sec',
+        amountCents: roundUsdUpToCents(reference.vendorCostUsd),
+      },
+      compatibilityProfileId: 'provider-reference-current',
+      meta: {
+        pricing_model: 'byteplus_tokens',
+        provider_cost_source: 'byteplus_modelark_pricing_config',
+        billed_resolution: resolution,
+        billed_aspect_ratio: reference.aspectRatio,
+        output_width: reference.width,
+        output_height: reference.height,
+        frame_rate: reference.frameRate,
+        token_count: Number(reference.tokenCount.toFixed(3)),
+        provider_tokens_estimated: Number(reference.tokenCount.toFixed(3)),
+        provider_cost_usd_estimated: reference.vendorCostUsd,
+        vendor_cost_usd: reference.vendorCostUsd,
+        vendor_cost_per_second_usd: reference.vendorCostPerSecondUsd,
+        unit_price_usd_per_1k_tokens: reference.unitPriceUsdPer1kTokens,
+        byteplus_billing_input_type: billingInputType,
+        pricing_source: pricingDetails.tokenPricing.pricingSource,
+        rounding: pricingDetails.tokenPricing.rounding ?? 'ceil_cent',
+      },
+    });
+  }
+
+  const pricedEngine = applyEnginePricingOverride(engine, pricingDetails);
+  let definition = buildPricingDefinition(pricedEngine) ?? getPricingKernel().getDefinition(engine.id) ?? null;
+  if (!definition) throw new Error(`Pricing definition not found for engine ${engine.id}`);
+  if (!definition.resolutionMultipliers[resolution] && pricingDetails?.perSecondCents?.byResolution?.[resolution]) {
+    const perSecond = pricingDetails.perSecondCents.byResolution[resolution];
+    if (typeof perSecond === 'number' && definition.baseUnitPriceCents > 0) {
+      definition = {
+        ...definition,
+        resolutionMultipliers: {
+          ...definition.resolutionMultipliers,
+          [resolution]: perSecond / definition.baseUnitPriceCents,
+        },
+      };
+    }
+  }
+  const factualDefinition = {
+    ...definition,
+    currency,
+  };
+  const definitionFacts = computePricingDefinitionFacts(factualDefinition, {
+    durationSec,
+    resolution,
+    mode,
+    ...(typeof context.inputAudioDurationSec === 'number'
+      ? { inputAudioDurationSec: context.inputAudioDurationSec }
+      : {}),
+    ...(typeof context.referenceImageCount === 'number'
+      ? { referenceImageCount: context.referenceImageCount }
+      : {}),
+    ...(context.addons ? { addons: context.addons } : {}),
+  });
+  return resultFromFacts({
+    engineId: engine.id,
+    currency,
+    vendorSubtotalExactCents: definitionFacts.vendorSubtotalExactCents,
+    base: definitionFacts.base,
+    addons: definitionFacts.addons,
+    meta: definitionFacts.meta,
+  });
+}

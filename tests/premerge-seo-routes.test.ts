@@ -1,0 +1,189 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import test from 'node:test';
+
+import { getFalEngineById } from '../frontend/src/config/falEngines.ts';
+import { buildSeoMetadata } from '../frontend/lib/seo/metadata.ts';
+
+const require = createRequire(import.meta.url);
+const nextConfig = require('../frontend/next.config.js');
+const compareConfig = require('../frontend/config/compare-config.json');
+
+const repoRoot = process.cwd();
+const P0_MODEL_IDS = [
+  'wan-3',
+  'wan-3-prime',
+  'ltx-2-5-fast',
+  'ltx-2-5-pro',
+  'grok-imagine-video-1-5',
+  'flux-3',
+  'flux-3-draft',
+] as const;
+
+test('removed vertical-shorts best-for URLs redirect to active UGC guide', async () => {
+  const redirects = await nextConfig.redirects();
+
+  const expectedRedirects = [
+    ['/ai-video-engines/best-for/vertical-shorts', '/ai-video-engines/best-for/ugc-ads'],
+    ['/fr/comparatif/best-for/vertical-shorts', '/fr/comparatif/best-for/ugc-ads'],
+    ['/es/comparativa/best-for/vertical-shorts', '/es/comparativa/best-for/ugc-ads'],
+  ];
+
+  for (const [source, destination] of expectedRedirects) {
+    assert.ok(
+      redirects.some((redirect: { source: string; destination: string; permanent?: boolean }) => {
+        return redirect.source === source && redirect.destination === destination && redirect.permanent === true;
+      }),
+      `${source} should permanently redirect to ${destination}`,
+    );
+  }
+});
+
+test('legacy blog subdomain storyboard URL redirects to the canonical blog article', async () => {
+  const redirects = await nextConfig.redirects();
+
+  assert.ok(
+    redirects.some((redirect: { source: string; destination: string; permanent?: boolean; has?: Array<{ type: string; value: string }> }) => {
+      return (
+        redirect.source === '/storyboard-sora-pro' &&
+        redirect.destination === 'https://maxvideoai.com/blog/sora-2-sequenced-prompts' &&
+        redirect.permanent === true &&
+        redirect.has?.some((condition) => condition.type === 'host' && condition.value === 'blog.maxvideoai.com')
+      );
+    }),
+    'blog.maxvideoai.com/storyboard-sora-pro should permanently redirect to the canonical blog article',
+  );
+});
+
+test('best-for config has localized content and keeps vertical-shorts removed', () => {
+  const slugs = (compareConfig.bestForPages as Array<{ slug: string }>).map((entry) => entry.slug);
+  assert.ok(slugs.length > 0, 'best-for config should expose public guide slugs');
+  assert.equal(slugs.includes('vertical-shorts'), false, 'vertical-shorts should not be a public best-for guide');
+
+  for (const locale of ['en', 'fr', 'es']) {
+    for (const slug of slugs) {
+      const file = path.join(repoRoot, 'content', locale, 'best-for', `${slug}.mdx`);
+      assert.equal(existsSync(file), true, `${locale} best-for content should exist for ${slug}`);
+    }
+    const removed = path.join(repoRoot, 'content', locale, 'best-for', 'vertical-shorts.mdx');
+    assert.equal(existsSync(removed), false, `${locale} vertical-shorts content should stay removed`);
+  }
+});
+
+test('Happy Horse model pages link best-use-case chips to localized Best-For guides', () => {
+  const expectations = [
+    {
+      locale: 'en',
+      expectedPrefix: '/ai-video-engines/best-for/',
+      file: 'content/models/en/happy-horse-1-0.json',
+    },
+    {
+      locale: 'fr',
+      expectedPrefix: '/fr/comparatif/best-for/',
+      file: 'content/models/fr/happy-horse-1-0.json',
+    },
+    {
+      locale: 'es',
+      expectedPrefix: '/es/comparativa/best-for/',
+      file: 'content/models/es/happy-horse-1-0.json',
+    },
+  ] as const;
+
+  for (const { locale, expectedPrefix, file } of expectations) {
+    const json = JSON.parse(readFileSync(path.join(repoRoot, file), 'utf8')) as {
+      bestUseCases?: { items?: Array<{ href?: string }> };
+    };
+    const hrefs = json.bestUseCases?.items?.map((item) => item.href).filter(Boolean) ?? [];
+    assert.equal(hrefs.length, 4, `${locale} Happy Horse should link all best-use-case chips`);
+    for (const href of hrefs) {
+      assert.ok(href?.startsWith(expectedPrefix), `${locale} Happy Horse best-use-case href should be localized: ${href}`);
+    }
+  }
+});
+
+test('homepage marketing media stays on optimized WebP sources', () => {
+  const source = [
+    readFileSync(path.join(repoRoot, 'frontend/components/marketing/home/HomeRedesignSections.tsx'), 'utf8'),
+    readFileSync(path.join(repoRoot, 'frontend/components/marketing/home/HomeConversionSections.tsx'), 'utf8'),
+  ].join('\n');
+  const requiredAssets = [
+    'frontend/public/hero/showcase-seedance-2-0-business-workflow.webp',
+    'frontend/public/hero/showcase-kling-3-pro.webp',
+    'frontend/public/hero/showcase-ltx-2-3-fast.webp',
+    'frontend/public/hero/showcase-sora-2.webp',
+    'frontend/public/hero/showcase-veo-3-1.webp',
+    'frontend/public/assets/marketing/comparison-scorecard-transparent.webp',
+  ];
+
+  for (const asset of requiredAssets) {
+    assert.equal(existsSync(path.join(repoRoot, asset)), true, `${asset} should exist`);
+  }
+
+  assert.doesNotMatch(source, /showcase-[a-z0-9-]+\.jpg/);
+  assert.doesNotMatch(source, /comparison-scorecard-transparent\.png/);
+  assert.match(source, /comparison-scorecard-transparent\.webp/);
+});
+
+test('Seedance 2.5 route metadata is index-follow with the accepted launch social card', () => {
+  const expectedUrls = {
+    en: 'https://maxvideoai.com/models/seedance-2-5',
+    fr: 'https://maxvideoai.com/fr/modeles/seedance-2-5',
+    es: 'https://maxvideoai.com/es/modelos/seedance-2-5',
+  } as const;
+  const expectedLanguages = { ...expectedUrls, 'x-default': expectedUrls.en };
+  const socialImagePath = '/models/seedance-2-5-launch.jpg';
+  const socialImageUrl = `https://maxvideoai.com${socialImagePath}`;
+  const engine = getFalEngineById('seedance-2-5');
+
+  assert.ok(engine);
+  assert.equal(engine.surfaces.modelPage.indexable, true);
+  assert.equal(engine.surfaces.modelPage.includeInSitemap, true);
+  assert.equal(existsSync(path.join(repoRoot, 'frontend/public', socialImagePath)), true);
+
+  for (const locale of ['en', 'fr', 'es'] as const) {
+    const document = JSON.parse(
+      readFileSync(path.join(repoRoot, 'content/models', locale, 'seedance-2-5.json'), 'utf8'),
+    ) as { seo: { title: string; description: string; image?: string } };
+    const metadata = buildSeoMetadata({
+      locale,
+      title: document.seo.title,
+      description: document.seo.description,
+      image: document.seo.image,
+      imageAlt: document.seo.title,
+      ogType: 'article',
+      englishPath: '/models/seedance-2-5',
+      availableLocales: ['en', 'fr', 'es'],
+      robots: { index: engine.surfaces.modelPage.indexable, follow: true },
+      titleBranding: 'none',
+    });
+    const openGraphImages = metadata.openGraph?.images;
+    const twitterImages = metadata.twitter?.images;
+
+    assert.equal(document.seo.image, socialImagePath, `${locale} social image`);
+    assert.deepEqual(metadata.robots, { index: true, follow: true });
+    assert.equal(metadata.alternates?.canonical, expectedUrls[locale]);
+    assert.deepEqual(metadata.alternates?.languages, expectedLanguages);
+    assert.ok(Array.isArray(openGraphImages));
+    assert.deepEqual(openGraphImages[0], {
+      url: socialImageUrl,
+      width: 1200,
+      height: 630,
+      alt: document.seo.title,
+    });
+    assert.deepEqual(twitterImages, [socialImageUrl]);
+    assert.doesNotMatch(JSON.stringify(metadata), /coming-soon/i);
+  }
+});
+
+test('P0 route inputs are indexable, sitemap-eligible and localized', () => {
+  for (const id of P0_MODEL_IDS) {
+    const engine = getFalEngineById(id);
+    assert.ok(engine, id);
+    assert.deepEqual(engine.surfaces.modelPage, { indexable: true, includeInSitemap: true }, id);
+    for (const locale of ['en', 'fr', 'es'] as const) {
+      assert.equal(existsSync(path.join(repoRoot, 'content/models', locale, `${engine.modelSlug}.json`)), true, `${locale}:${id}`);
+    }
+  }
+});

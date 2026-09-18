@@ -1,0 +1,64 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import test from 'node:test';
+
+const root = process.cwd();
+
+function readSource(relativePath: string) {
+  return fs.readFileSync(path.join(root, relativePath), 'utf8');
+}
+
+function countLines(source: string) {
+  return source.split(/\r?\n/).length;
+}
+
+test('gallery rail delegates cards, snackbar, status blocks, scrollbar, and pure helpers', () => {
+  const railSource = readSource('frontend/components/GalleryRail.tsx');
+  const railCardsSource = readSource('frontend/components/GalleryRailCards.tsx');
+  const appStyles = readSource('frontend/src/styles/app-experience.css');
+
+  assert.ok(countLines(railSource) <= 500, `GalleryRail.tsx should stay under 500 lines, found ${countLines(railSource)}`);
+  assert.match(railSource, /GalleryRailCards/);
+  assert.match(railSource, /GalleryRailSnackbar/);
+  assert.match(railSource, /GalleryRailHeader/);
+  assert.match(railSource, /useGalleryRailScrollbar/);
+  assert.match(railSource, /from '\.\/gallery-rail-utils';/);
+  assert.doesNotMatch(railSource, /function resolveBackgroundWarmPreviewLimit/);
+  assert.doesNotMatch(railSource, /function Snackbar/);
+  assert.doesNotMatch(railSource, /createPortal/);
+  assert.match(railSource, /app-gallery-rail-grid/);
+  assert.match(railCardsSource, /app-gallery-rail-sentinel/);
+  assert.match(appStyles, /@media \(min-width: 720px\) and \(max-width: 767px\)[\s\S]*app-gallery-rail-grid[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+});
+
+test('image results use a two-column rail only across intermediate layouts', () => {
+  const imageRailSource = readSource('frontend/app/(core)/(workspace)/app/image/_components/ImageWorkspaceGalleryRail.tsx');
+  const appStyles = readSource('frontend/src/styles/app-experience.css');
+
+  assert.match(imageRailSource, /app-image-results-rail/);
+  assert.match(
+    appStyles,
+    /@media \(min-width: 720px\) and \(max-width: 1087px\)[\s\S]*app-image-results-rail \.app-gallery-rail-grid[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/
+  );
+  assert.match(appStyles, /app-image-results-rail \.app-gallery-rail-sentinel \{ grid-column: 1 \/ -1; \}/);
+});
+
+test('grouped job card delegates media, preview grid, menu, and action types', () => {
+  const cardSource = readSource('frontend/components/GroupedJobCard.tsx');
+  const mediaSource = readSource('frontend/components/GroupedJobCardMedia.tsx');
+  const gridSource = readSource('frontend/components/GroupedJobCardPreviewGrid.tsx');
+  const menuSource = readSource('frontend/components/GroupedJobCardMenu.tsx');
+  const typesSource = readSource('frontend/components/grouped-job-card-types.ts');
+
+  assert.ok(countLines(cardSource) <= 500, `GroupedJobCard.tsx should stay under 500 lines, found ${countLines(cardSource)}`);
+  assert.match(cardSource, /GroupedJobCardPreviewGrid/);
+  assert.match(cardSource, /GroupedJobCardMenu/);
+  assert.match(cardSource, /shouldWarmVisiblePreview/);
+  assert.match(mediaSource, /export function GroupPreviewMedia/);
+  assert.match(gridSource, /export function GroupedJobCardPreviewGrid/);
+  assert.match(menuSource, /export function GroupedJobCardMenu/);
+  assert.match(typesSource, /export type GroupedJobAction/);
+  assert.doesNotMatch(cardSource, /export function GroupPreviewMedia/);
+  assert.doesNotMatch(cardSource, /const GROUPED_JOB_THUMB_SIZES/);
+});

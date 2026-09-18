@@ -1,0 +1,134 @@
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import test from 'node:test';
+
+const assetsHookPath = 'frontend/app/(core)/(workspace)/app/_hooks/useWorkspaceAssets.ts';
+const assetLibraryHookPath = 'frontend/app/(core)/(workspace)/app/_hooks/useWorkspaceAssetLibrary.ts';
+const referenceAssetsHookPath = 'frontend/app/(core)/(workspace)/app/_hooks/useWorkspaceReferenceAssets.ts';
+const klingAssetsHookPath = 'frontend/app/(core)/(workspace)/app/_hooks/useWorkspaceKlingElementAssets.ts';
+const assetDropzoneSlotPath = 'frontend/components/asset-dropzone/AssetDropzoneSlot.tsx';
+const appClientPath = 'frontend/app/(core)/(workspace)/app/AppClient.tsx';
+const assetStateHookPath = 'frontend/app/(core)/(workspace)/app/_hooks/useWorkspaceAssetState.ts';
+
+test('workspace asset library, field assets, and Kling element assets are split from the assets orchestrator', () => {
+  assert.equal(existsSync(assetLibraryHookPath), true);
+  assert.equal(existsSync(referenceAssetsHookPath), true);
+  assert.equal(existsSync(klingAssetsHookPath), true);
+
+  const appSource = readFileSync(appClientPath, 'utf8');
+  const assetsHookSource = readFileSync(assetsHookPath, 'utf8');
+  const assetLibrarySource = readFileSync(assetLibraryHookPath, 'utf8');
+  const referenceAssetsSource = readFileSync(referenceAssetsHookPath, 'utf8');
+  const klingAssetsSource = readFileSync(klingAssetsHookPath, 'utf8');
+  const assetStateSource = existsSync(assetStateHookPath)
+    ? readFileSync(assetStateHookPath, 'utf8')
+    : '';
+
+  assert.equal(existsSync(assetStateHookPath), true);
+  assert.match(assetStateSource, /export function useWorkspaceAssetState/);
+  assert.match(assetStateSource, /commitInputAssetMutation/);
+  assert.match(appSource, /const assetState = useWorkspaceAssetState\(draftOwner\)/);
+  assert.ok(
+    appSource.indexOf('useWorkspaceAssetState(draftOwner)') <
+      appSource.indexOf('useWorkspaceComposerState({')
+  );
+  assert.ok(
+    appSource.indexOf('useWorkspaceComposerState({') <
+      appSource.indexOf('useWorkspaceAssets({')
+  );
+  assert.match(appSource, /preferredMode: composer\.submissionMode/);
+
+  assert.match(assetsHookSource, /useWorkspaceAssetLibrary\(\{/);
+  assert.match(assetsHookSource, /useWorkspaceReferenceAssets\(\{/);
+  assert.match(assetsHookSource, /useWorkspaceKlingElementAssets\(\{/);
+
+  assert.doesNotMatch(assetsHookSource, /const fetchAssetLibrary = useCallback/);
+  assert.doesNotMatch(assetsHookSource, /const handleSelectLibraryAsset = useCallback/);
+  assert.doesNotMatch(assetsHookSource, /const handleAssetAdd = useCallback/);
+  assert.doesNotMatch(assetsHookSource, /const handleKlingElementAssetAdd = useCallback/);
+  assert.doesNotMatch(assetsHookSource, /prepareImageFileForUpload/);
+  assert.doesNotMatch(assetsHookSource, /authFetch/);
+
+  assert.match(assetLibrarySource, /export function useWorkspaceAssetLibrary/);
+  assert.match(assetLibrarySource, /const fetchAssetLibrary = useCallback/);
+  assert.match(assetLibrarySource, /const handleDeleteLibraryAsset = useCallback/);
+  assert.match(assetLibrarySource, /buildAssetLibraryUrl/);
+
+  assert.match(referenceAssetsSource, /export function useWorkspaceReferenceAssets/);
+  assert.match(referenceAssetsSource, /const handleSelectLibraryAsset = useCallback/);
+  assert.match(referenceAssetsSource, /const handleAssetAdd = useCallback/);
+  assert.match(referenceAssetsSource, /prepareImageFileForUpload/);
+  assert.match(referenceAssetsSource, /tryInsertReferenceAsset/);
+  assert.match(referenceAssetsSource, /commitInputAssetMutation/);
+  assert.match(referenceAssetsSource, /settleReferenceAssetReservation/);
+  assert.match(referenceAssetsSource, /rollback\.discardedAsset/);
+  const handleSelectLibraryAssetIndex = referenceAssetsSource.indexOf(
+    'const handleSelectLibraryAsset = useCallback'
+  );
+  const handleAssetAddIndex = referenceAssetsSource.indexOf(
+    'const handleAssetAdd = useCallback'
+  );
+  const librarySelectionSource = referenceAssetsSource.slice(
+    handleSelectLibraryAssetIndex,
+    handleAssetAddIndex
+  );
+  const libraryInsertionIndex = librarySelectionSource.indexOf(
+    'const insertion = commitInputAssetMutation'
+  );
+  const videoMirrorIndex = librarySelectionSource.indexOf(
+    'await saveAssetToLibrary'
+  );
+  const imageMirrorIndex = librarySelectionSource.indexOf(
+    'await saveImageToLibrary'
+  );
+  const libraryMutationIndex = librarySelectionSource.indexOf(
+    'setAssetLibrary((previous)'
+  );
+  const pickerCloseIndex = librarySelectionSource.indexOf(
+    'setAssetPickerTarget(null)'
+  );
+  assert.ok(
+    libraryInsertionIndex >= 0 &&
+      libraryInsertionIndex < videoMirrorIndex &&
+      libraryInsertionIndex < imageMirrorIndex &&
+      libraryInsertionIndex < libraryMutationIndex
+  );
+  assert.ok(
+    pickerCloseIndex > libraryInsertionIndex &&
+      pickerCloseIndex < videoMirrorIndex &&
+      pickerCloseIndex < imageMirrorIndex
+  );
+  assert.equal(
+    librarySelectionSource.match(/setAssetPickerTarget\(null\)/g)?.length,
+    1
+  );
+  const uploadIndex = referenceAssetsSource.indexOf(
+    'const upload = async',
+    handleAssetAddIndex
+  );
+  const localRejectedGuardIndex = referenceAssetsSource.lastIndexOf(
+    'if (!insertion.accepted)',
+    uploadIndex
+  );
+  assert.ok(
+    handleAssetAddIndex >= 0 &&
+      localRejectedGuardIndex > handleAssetAddIndex &&
+      localRejectedGuardIndex < uploadIndex
+  );
+
+  assert.match(klingAssetsSource, /export function useWorkspaceKlingElementAssets/);
+  assert.match(klingAssetsSource, /const handleKlingElementAssetAdd = useCallback/);
+  assert.match(klingAssetsSource, /const handleKlingElementAssetRemove = useCallback/);
+  assert.match(klingAssetsSource, /insertKlingLibraryAsset/);
+});
+
+test('workspace asset dropzone keeps the technical file input out of keyboard traversal', () => {
+  assert.equal(existsSync(assetDropzoneSlotPath), true);
+
+  const source = readFileSync(assetDropzoneSlotPath, 'utf8');
+  const inputBlock = source.slice(source.indexOf('<input'), source.indexOf('suppressHydrationWarning'));
+
+  assert.match(inputBlock, /type="file"/);
+  assert.match(inputBlock, /aria-hidden="true"/);
+  assert.match(inputBlock, /tabIndex=\{-1\}/);
+});

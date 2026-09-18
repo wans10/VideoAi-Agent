@@ -1,0 +1,701 @@
+import type { Mode } from '../../../../fixtures/engineCaps';
+import type { EngineInputSchema } from '@/types/engines';
+import {
+  evaluateReferenceBudget,
+  resolveEngineReferenceBudget,
+  type ReferenceBudgetMediaItem,
+  type ReferenceBudgetValuesByField,
+} from '@/lib/reference-budget';
+import { listFalEngines } from '../../../../src/config/falEngines';
+import type { ReferenceProvenanceIssue } from './attachment-references';
+import type { ValidationResult } from './validate-types';
+
+type Ref2vLimits = {
+  imageFieldId: string;
+  imageRequired: boolean;
+  maxImageCount: number;
+  videoFieldId?: string;
+  maxVideoCount?: number;
+  audioFieldId?: string;
+  maxAudioCount?: number;
+  allowAudioOnly: boolean;
+  requiresAnyReference: boolean;
+};
+
+const ENGINE_REF2V_LIMITS = listFalEngines().reduce<Record<string, Ref2vLimits>>((acc, entry) => {
+  const requiredFields = entry.engine.inputSchema?.required ?? [];
+  const optionalFields = entry.engine.inputSchema?.optional ?? [];
+  const fields = [...requiredFields, ...optionalFields];
+  const findField = (type: 'image' | 'video' | 'audio', ids: string[]) =>
+    fields.find((field) => field.type === type && field.modes?.includes('ref2v') && ids.includes(field.id));
+
+  const imageField = findField('image', ['image_urls', 'reference_image_urls']);
+  if (!imageField) return acc;
+
+  const videoField = findField('video', ['video_urls', 'reference_video_urls']);
+  const audioField = findField('audio', ['audio_urls', 'reference_audio_urls']);
+  acc[entry.id] = {
+    imageFieldId: imageField.id,
+    imageRequired:
+      requiredFields.includes(imageField) || Boolean(imageField.requiredInModes?.includes('ref2v')),
+    maxImageCount: imageField.maxCount ?? 4,
+    videoFieldId: videoField?.id,
+    maxVideoCount: videoField?.maxCount,
+    audioFieldId: audioField?.id,
+    maxAudioCount: audioField?.maxCount,
+    allowAudioOnly: Array.isArray(entry.engine.inputSchema?.constraints?.atLeastOneReferenceField)
+      && entry.engine.inputSchema.constraints.atLeastOneReferenceField.includes(audioField?.id ?? ''),
+    requiresAnyReference: Array.isArray(entry.engine.inputSchema?.constraints?.atLeastOneReferenceField)
+      && entry.engine.inputSchema.constraints.atLeastOneReferenceField.length > 0,
+  };
+  return acc;
+}, {});
+
+type V2vReferenceImageLimits = {
+  imageFieldId: string;
+  maxImageCount: number;
+};
+
+type ExtendSourceVideoLimits = {
+  fieldId: string;
+  maxCount?: number;
+};
+
+const ENGINE_V2V_REFERENCE_IMAGE_LIMITS = listFalEngines().reduce<Record<string, V2vReferenceImageLimits>>(
+  (acc, entry) => {
+    const fields = [...(entry.engine.inputSchema?.required ?? []), ...(entry.engine.inputSchema?.optional ?? [])];
+    const imageField = fields.find(
+      (field) =>
+        field.type === 'image' &&
+        field.modes?.includes('v2v') &&
+        (field.id === 'reference_image_urls' || field.id === 'image_urls')
+    );
+    if (imageField) {
+      acc[entry.id] = {
+        imageFieldId: imageField.id,
+        maxImageCount: imageField.maxCount ?? 5,
+      };
+    }
+    return acc;
+  },
+  {}
+);
+
+const ENGINE_EXTEND_SOURCE_VIDEO_LIMITS = listFalEngines().reduce<
+  Record<string, ExtendSourceVideoLimits>
+>((acc, entry) => {
+  const field = [...(entry.engine.inputSchema?.required ?? []), ...(entry.engine.inputSchema?.optional ?? [])].find(
+    (candidate) =>
+      candidate.type === 'video' &&
+      candidate.modes?.includes('extend') &&
+      candidate.requiredInModes?.includes('extend')
+  );
+  if (field) {
+    acc[entry.id] = {
+      fieldId: field.id,
+      maxCount: field.maxCount,
+    };
+  }
+  return acc;
+}, {});
+
+function normalizeStringArray(raw: unknown): string[] {
+  return Array.isArray(raw)
+    ? raw.map((value) => (typeof value === 'string' ? value.trim() : '')).filter(Boolean)
+    : typeof raw === 'string' && raw.trim().length
+      ? [raw.trim()]
+      : [];
+}
+
+function findUnsupportedReferenceMediaField(params: {
+  activeMediaFieldKinds: ReadonlyMap<string, ReferenceBudgetMediaItem['kind']>;
+  referenceValuesByField: ReferenceBudgetValuesByField<string>;
+}): string | null {
+  return (
+    Object.entries(params.referenceValuesByField)
+      .filter(
+        ([fieldId, values]) =>
+          !params.activeMediaFieldKinds.has(fieldId) &&
+          (values ?? []).some((value) => value.trim().length > 0)
+      )
+      .map(([fieldId]) => fieldId)
+      .sort()[0] ?? null
+  );
+}
+
+function validateActiveSchemaMediaFieldCounts(params: {
+  normalizedMode: Mode;
+  payload: Record<string, unknown>;
+  inputSchema?: EngineInputSchema | null;
+  referenceValuesByField?: ReferenceBudgetValuesByField<string>;
+}): ValidationResult {
+  const fields = [
+    ...(params.inputSchema?.required ?? []),
+    ...(params.inputSchema?.optional ?? []),
+  ];
+  for (const field of fields) {
+    if (
+      (field.type !== 'image' && field.type !== 'video' && field.type !== 'audio') ||
+      typeof field.maxCount !== 'number' ||
+      (field.modes?.length && !field.modes.includes(params.normalizedMode))
+    ) {
+      continue;
+    }
+    const fieldValues = params.referenceValuesByField?.[field.id];
+    const values = Array.from(
+      new Set(
+        (fieldValues?.length ? fieldValues : normalizeStringArray(params.payload[field.id]))
+          .map((value) => value.trim())
+          .filter(Boolean)
+      )
+    );
+    if (values.length <= field.maxCount) continue;
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: field.id,
+        message: `Up to ${field.maxCount} ${field.label.toLowerCase()} are supported`,
+        allowed: [field.minCount ?? 0, field.maxCount],
+        value: values.length,
+      },
+    };
+  }
+  return { ok: true };
+}
+
+function validateKlingElements(payload: Record<string, unknown>): ValidationResult {
+  const rawElements = payload['elements'];
+  if (!Array.isArray(rawElements)) {
+    return { ok: true };
+  }
+
+  for (let index = 0; index < rawElements.length; index += 1) {
+    const rawEntry = rawElements[index];
+    if (!rawEntry || typeof rawEntry !== 'object') {
+      continue;
+    }
+
+    const entry = rawEntry as Record<string, unknown>;
+    const frontalImageUrl =
+      typeof entry.frontalImageUrl === 'string' && entry.frontalImageUrl.trim().length
+        ? entry.frontalImageUrl.trim()
+        : typeof entry.frontal_image_url === 'string' && entry.frontal_image_url.trim().length
+          ? entry.frontal_image_url.trim()
+          : '';
+    const referenceImageUrlsRaw = Array.isArray(entry.referenceImageUrls)
+      ? entry.referenceImageUrls
+      : Array.isArray(entry.reference_image_urls)
+        ? entry.reference_image_urls
+        : [];
+    const referenceImageUrls = referenceImageUrlsRaw
+      .map((value) => (typeof value === 'string' ? value.trim() : ''))
+      .filter(Boolean);
+    const videoUrl =
+      typeof entry.videoUrl === 'string' && entry.videoUrl.trim().length
+        ? entry.videoUrl.trim()
+        : typeof entry.video_url === 'string' && entry.video_url.trim().length
+          ? entry.video_url.trim()
+          : '';
+
+    if (!frontalImageUrl && referenceImageUrls.length === 0 && !videoUrl) continue;
+
+    const hasImageSet = Boolean(frontalImageUrl && referenceImageUrls.length > 0);
+    const hasVideoReference = Boolean(videoUrl);
+    if (!hasImageSet && !hasVideoReference) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: 'elements',
+          message: `Subject reference ${index + 1} needs a frontal image plus at least one reference image, or one video reference.`,
+        },
+      };
+    }
+  }
+
+  return { ok: true };
+}
+
+function hasKlingElementEntries(payload: Record<string, unknown>): boolean {
+  const rawElements = payload['elements'];
+  return Array.isArray(rawElements) && rawElements.length > 0;
+}
+
+export function validateModeMediaInputs(params: {
+  engineId: string;
+  normalizedMode: Mode;
+  payload: Record<string, unknown>;
+  inputSchema?: EngineInputSchema | null;
+  referenceValuesByField?: ReferenceBudgetValuesByField<string>;
+  referenceMediaItems?: readonly ReferenceBudgetMediaItem[];
+  referenceProvenanceIssues?: readonly ReferenceProvenanceIssue[];
+}): ValidationResult {
+  const { engineId, normalizedMode, payload } = params;
+  const isKling3Engine = engineId.startsWith('kling-3');
+  const isKlingO3Engine = engineId.startsWith('kling-o3');
+  const hasKlingElements = hasKlingElementEntries(payload);
+  const supportsKlingElements =
+    (isKling3Engine && (normalizedMode === 'i2v' || normalizedMode === 'ref2v')) ||
+    (isKlingO3Engine && (normalizedMode === 'ref2v' || normalizedMode === 'v2v'));
+  const referenceBudget = resolveEngineReferenceBudget(
+    params.inputSchema,
+    params.normalizedMode
+  );
+  const schemaMediaFieldCounts = validateActiveSchemaMediaFieldCounts(params);
+  if (!schemaMediaFieldCounts.ok) return schemaMediaFieldCounts;
+  if (referenceBudget) {
+    const activeMediaFieldKinds = new Map<string, ReferenceBudgetMediaItem['kind']>(
+      [
+        ...(params.inputSchema?.required ?? []),
+        ...(params.inputSchema?.optional ?? []),
+      ]
+        .filter(
+          (field): field is typeof field & {
+            type: ReferenceBudgetMediaItem['kind'];
+          } =>
+            (field.type === 'image' ||
+              field.type === 'video' ||
+              field.type === 'audio') &&
+            (!field.modes?.length ||
+              field.modes.includes(params.normalizedMode))
+        )
+        .map((field) => [field.id, field.type])
+    );
+    const unsupportedMediaField = findUnsupportedReferenceMediaField({
+      activeMediaFieldKinds,
+      referenceValuesByField: params.referenceValuesByField ?? {},
+    });
+    if (unsupportedMediaField) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: unsupportedMediaField,
+          message: `Media input "${unsupportedMediaField}" is not supported for this engine mode`,
+        },
+      };
+    }
+    const provenanceIssue = [...(params.referenceProvenanceIssues ?? [])]
+      .filter((issue) => issue.url.trim().length > 0)
+      .sort((left, right) => {
+        if (left.reason !== right.reason) {
+          return left.reason === 'missing-field-id' ? -1 : 1;
+        }
+        if (
+          left.reason === 'missing-field-id' &&
+          right.reason === 'missing-field-id'
+        ) {
+          return (
+            left.kind.localeCompare(right.kind) ||
+            left.url.localeCompare(right.url)
+          );
+        }
+        if (left.reason === 'missing-kind' && right.reason === 'missing-kind') {
+          return (
+            left.fieldId.localeCompare(right.fieldId) ||
+            left.url.localeCompare(right.url)
+          );
+        }
+        return 0;
+      })[0];
+    if (provenanceIssue) {
+      if (provenanceIssue.reason === 'missing-field-id') {
+        return {
+          ok: false,
+          error: {
+            code: 'ENGINE_CONSTRAINT',
+            field: 'inputs',
+            message: `Media input of kind "${provenanceIssue.kind}" is missing a field assignment`,
+          },
+        };
+      }
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: provenanceIssue.fieldId,
+          message: `Media input "${provenanceIssue.fieldId}" is missing an explicit media kind`,
+        },
+      };
+    }
+    const kindMismatch = [...(params.referenceMediaItems ?? [])]
+      .filter((item) => item.url.trim().length > 0)
+      .sort(
+        (left, right) =>
+          left.fieldId.localeCompare(right.fieldId) ||
+          left.kind.localeCompare(right.kind) ||
+          left.url.localeCompare(right.url)
+      )
+      .find((item) => {
+        const expectedKind = activeMediaFieldKinds.get(item.fieldId);
+        return expectedKind && expectedKind !== item.kind;
+      });
+    if (kindMismatch) {
+      const expectedKind = activeMediaFieldKinds.get(kindMismatch.fieldId)!;
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: kindMismatch.fieldId,
+          message: `Media input "${kindMismatch.fieldId}" expects ${expectedKind}, not ${kindMismatch.kind}`,
+        },
+      };
+    }
+    if (hasKlingElements && !supportsKlingElements) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: 'elements',
+          message:
+            'Elements are not supported for this engine mode when a reference budget is active.',
+        },
+      };
+    }
+    const evaluation = evaluateReferenceBudget({
+      budget: referenceBudget,
+      valuesByField: params.referenceValuesByField ?? {},
+      getIdentity: (value) => value,
+    });
+    if (!evaluation.ok) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: 'referenceBudget',
+          message: `Up to ${evaluation.maxTotal} total references are supported for this engine mode`,
+          allowed: [0, evaluation.maxTotal],
+          value: evaluation.count,
+        },
+      };
+    }
+  }
+
+  if (isKlingO3Engine && normalizedMode !== 'ref2v' && normalizedMode !== 'v2v' && hasKlingElements) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: 'elements',
+        message: 'Kling 3.0 Omni Elements are only supported in reference-to-video or video-to-video mode.',
+      },
+    };
+  }
+
+  if (supportsKlingElements) {
+    const klingElementsValidation = validateKlingElements(payload);
+    if (!klingElementsValidation.ok) return klingElementsValidation;
+  }
+
+  if (normalizedMode === 'r2v') {
+    const videos = normalizeStringArray(payload['video_urls']);
+    if (!videos.length) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: 'video_urls',
+          message: 'Reference videos are required for this engine mode',
+        },
+      };
+    }
+    if (videos.length > 3) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: 'video_urls',
+          message: 'Up to 3 reference videos are supported',
+          allowed: [1, 3],
+          value: videos.length,
+        },
+      };
+    }
+  }
+
+  if (normalizedMode === 'v2v' || normalizedMode === 'reframe' || normalizedMode === 'extend' || normalizedMode === 'retake') {
+    const configuredExtendSource =
+      normalizedMode === 'extend' ? ENGINE_EXTEND_SOURCE_VIDEO_LIMITS[engineId] : undefined;
+    const extensionSources = configuredExtendSource
+      ? normalizeStringArray(payload[configuredExtendSource.fieldId])
+      : [];
+    if (
+      configuredExtendSource &&
+      typeof configuredExtendSource.maxCount === 'number' &&
+      extensionSources.length > configuredExtendSource.maxCount
+    ) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: configuredExtendSource.fieldId,
+          message: `Up to ${configuredExtendSource.maxCount} source videos are supported`,
+          allowed: [1, configuredExtendSource.maxCount],
+          value: extensionSources.length,
+        },
+      };
+    }
+    const sourceVideo =
+      extensionSources[0] ??
+      (typeof payload['video_url'] === 'string' && payload['video_url'].trim().length
+        ? payload['video_url'].trim()
+        : normalizeStringArray(payload['video_urls'])[0] ?? '');
+    if (!sourceVideo) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: configuredExtendSource?.fieldId ?? 'video_url',
+          message: 'A source video is required for this engine mode',
+        },
+      };
+    }
+
+    const imageLimits = ENGINE_V2V_REFERENCE_IMAGE_LIMITS[engineId];
+    if (imageLimits) {
+      const images = normalizeStringArray(payload[imageLimits.imageFieldId]);
+      if (images.length > imageLimits.maxImageCount) {
+        return {
+          ok: false,
+          error: {
+            code: 'ENGINE_CONSTRAINT',
+            field: imageLimits.imageFieldId,
+            message: `Up to ${imageLimits.maxImageCount} reference images are supported`,
+            allowed: [0, imageLimits.maxImageCount],
+            value: images.length,
+          },
+        };
+      }
+    }
+  }
+
+  if (normalizedMode === 'fl2v') {
+    const fields = [...(params.inputSchema?.required ?? []), ...(params.inputSchema?.optional ?? [])];
+    const activeImageField = (ids: readonly string[]) => ids.find((id) => fields.some((field) =>
+      field.id === id
+      && field.type === 'image'
+      && (!field.modes?.length || field.modes.includes(normalizedMode))));
+    const firstFieldId = activeImageField(['first_frame_url', 'start_image_url', 'image_url']) ?? 'first_frame_url';
+    const lastFieldId = activeImageField(['last_frame_url', 'end_image_url']) ?? 'last_frame_url';
+    const firstFrame = typeof payload[firstFieldId] === 'string' ? payload[firstFieldId].trim() : '';
+    const lastFrame = typeof payload[lastFieldId] === 'string' ? payload[lastFieldId].trim() : '';
+    if (!firstFrame) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: firstFieldId,
+          message: 'First frame is required for this engine',
+        },
+      };
+    }
+    if (!lastFrame) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: lastFieldId,
+          message: 'Last frame is required for this engine',
+        },
+      };
+    }
+    if (firstFrame === lastFrame) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: lastFieldId,
+          message: 'First and last frames must be different images',
+        },
+      };
+    }
+  } else if (normalizedMode === 'ref2v') {
+    return validateRef2vInputs(engineId, payload);
+  } else if (normalizedMode === 'i2v' || normalizedMode === 'i2i') {
+    const fields = [...(params.inputSchema?.required ?? []), ...(params.inputSchema?.optional ?? [])];
+    const imageFieldId = ['start_image_url', 'image_url', 'first_frame_url'].find((id) => fields.some((field) =>
+      field.id === id
+      && field.type === 'image'
+      && (!field.modes?.length || field.modes.includes(normalizedMode)))) ?? 'image_url';
+    const imageUrl =
+      typeof payload[imageFieldId] === 'string' && payload[imageFieldId].trim().length
+        ? payload[imageFieldId].trim()
+        : null;
+    if (!imageUrl) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: imageFieldId,
+          message: 'Image URL is required for this engine mode',
+        },
+      };
+    }
+  }
+
+  if (normalizedMode === 'a2v') {
+    const audioUrl =
+      typeof payload['audio_url'] === 'string' && payload['audio_url'].trim().length ? payload['audio_url'].trim() : null;
+    if (!audioUrl) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: 'audio_url',
+          message: 'Audio URL is required for this engine mode',
+        },
+      };
+    }
+    if (
+      params.inputSchema?.constraints?.a2vPromptRequiredWithoutImage
+      && !(typeof payload['prompt'] === 'string' && payload['prompt'].trim())
+      && !(typeof payload['image_url'] === 'string' && payload['image_url'].trim())
+    ) {
+      return {
+        ok: false,
+        error: {
+          code: 'ENGINE_CONSTRAINT',
+          field: 'prompt',
+          message: 'Prompt is required when no optional first frame is supplied',
+        },
+      };
+    }
+  }
+
+  return { ok: true };
+}
+
+function validateRef2vInputs(engineId: string, payload: Record<string, unknown>): ValidationResult {
+  const configured = ENGINE_REF2V_LIMITS[engineId] ?? {
+    imageFieldId: 'image_urls',
+    imageRequired: true,
+    maxImageCount: 4,
+    videoFieldId: 'video_urls',
+    maxVideoCount: 3,
+    audioFieldId: 'audio_urls',
+    maxAudioCount: 3,
+    allowAudioOnly: false,
+    requiresAnyReference: false,
+  };
+  const referenceImageUrls = normalizeStringArray(payload['reference_image_urls']);
+  const genericImageUrls = normalizeStringArray(payload['image_urls']);
+  const referenceVideoUrls = normalizeStringArray(payload['reference_video_urls']);
+  const genericVideoUrls = normalizeStringArray(payload['video_urls']);
+  const referenceAudioUrls = normalizeStringArray(payload['reference_audio_urls']);
+  const genericAudioUrls = normalizeStringArray(payload['audio_urls']);
+  const imageUrls = referenceImageUrls.length ? referenceImageUrls : genericImageUrls;
+  const videoUrls = referenceVideoUrls.length ? referenceVideoUrls : genericVideoUrls;
+  const audioUrls = referenceAudioUrls.length ? referenceAudioUrls : genericAudioUrls;
+  const startImageUrls = normalizeStringArray(payload['start_image_url']);
+  const endImageUrls = normalizeStringArray(payload['end_image_url']);
+  const imageFieldId =
+    referenceImageUrls.length ||
+    payload['reference_image_urls'] !== undefined ||
+    configured.imageFieldId === 'reference_image_urls'
+      ? 'reference_image_urls'
+      : 'image_urls';
+  const videoFieldId =
+    referenceVideoUrls.length ||
+    payload['reference_video_urls'] !== undefined ||
+    configured.videoFieldId === 'reference_video_urls'
+      ? 'reference_video_urls'
+      : 'video_urls';
+  const audioFieldId =
+    referenceAudioUrls.length ||
+    payload['reference_audio_urls'] !== undefined ||
+    configured.audioFieldId === 'reference_audio_urls'
+      ? 'reference_audio_urls'
+      : 'audio_urls';
+  if (
+    engineId.startsWith('kling-o3') &&
+    !imageUrls.length &&
+    !startImageUrls.length &&
+    !endImageUrls.length &&
+    !hasKlingElementEntries(payload)
+  ) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: imageFieldId,
+        message:
+          'Reference images, an optional start/end frame, or Kling 3.0 Omni Elements are required for this engine mode',
+      },
+    };
+  }
+  if (configured.imageRequired && !imageUrls.length) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: imageFieldId,
+        message: 'Reference images are required for this engine mode',
+      },
+    };
+  }
+  if (
+    configured.requiresAnyReference
+    && !imageUrls.length
+    && !videoUrls.length
+    && !audioUrls.length
+    && !normalizeStringArray(payload['file_url']).length
+    && !normalizeStringArray(payload['web_url']).length
+  ) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: 'references',
+        message: 'At least one supported reference is required for this engine mode',
+      },
+    };
+  }
+  if (imageUrls.length > configured.maxImageCount) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: imageFieldId,
+        message: `Up to ${configured.maxImageCount} reference images are supported`,
+        allowed: [1, configured.maxImageCount],
+        value: imageUrls.length,
+      },
+    };
+  }
+  if (typeof configured.maxVideoCount === 'number' && videoUrls.length > configured.maxVideoCount) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: videoFieldId,
+        message: `Up to ${configured.maxVideoCount} reference videos are supported`,
+        allowed: [1, configured.maxVideoCount],
+        value: videoUrls.length,
+      },
+    };
+  }
+  if (typeof configured.maxAudioCount === 'number' && audioUrls.length > configured.maxAudioCount) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: audioFieldId,
+        message: `Up to ${configured.maxAudioCount} reference audio files are supported`,
+        allowed: [1, configured.maxAudioCount],
+        value: audioUrls.length,
+      },
+    };
+  }
+  if (!configured.allowAudioOnly && audioUrls.length && imageUrls.length === 0 && videoUrls.length === 0) {
+    return {
+      ok: false,
+      error: {
+        code: 'ENGINE_CONSTRAINT',
+        field: audioFieldId,
+        message: 'Reference audio requires at least one reference image or reference video',
+      },
+    };
+  }
+  return { ok: true };
+}

@@ -1,0 +1,119 @@
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import test from 'node:test';
+
+const marketingRoot = 'frontend/app/(localized)/[locale]/(marketing)';
+const copyPath = `${marketingRoot}/mcp/_lib/mcp-page-copy.ts`;
+const integrationCopyPath = `${marketingRoot}/integrations/_lib/integration-copy.ts`;
+
+function source(path: string): string {
+  assert.equal(existsSync(path), true, `${path} should exist`);
+  return readFileSync(path, 'utf8');
+}
+
+test('ChatGPT is a first-class localized acquisition route beside Claude and Codex', () => {
+  for (const path of [
+    `${marketingRoot}/integrations/chatgpt/page.tsx`,
+    'frontend/app/integrations/chatgpt/page.tsx',
+  ]) source(path);
+
+  const routing = source('frontend/i18n/routing.ts');
+  const publication = source('frontend/lib/mcp-publication.ts');
+  const registry = source('frontend/config/mcp-integrations.json');
+  const sitemap = source('frontend/next-sitemap.config.js');
+  const llms = source('frontend/lib/seo/llms-text.ts');
+
+  for (const value of [routing, registry, llms]) {
+    assert.match(value, /\/integrations\/chatgpt/);
+  }
+  assert.match(publication, /getMcpPublicIntegrationPaths/);
+  assert.match(sitemap, /mcpIntegrations\.integrations/);
+});
+
+test('the commercial copy leads with the outcome and removes stale internal preview language', () => {
+  const copy = source(copyPath);
+  const integrations = source(integrationCopyPath);
+
+  assert.match(copy, /AI video plugin/i);
+  assert.match(copy, /ChatGPT/i);
+  assert.match(copy, /Claude/i);
+  assert.match(copy, /exact (?:price|quote)/i);
+  assert.match(copy, /MaxVideoAI library/i);
+  assert.match(copy, /top[ -]?up/i);
+  assert.match(copy, /image, video (?:and|or) audio/i);
+
+  for (const internalPhrase of [
+    /host validation in progress/i,
+    /local implementation verified/i,
+    /local MCP preview/i,
+    /local contract/i,
+    /Task 10/i,
+    /lowest-cost model that fits/i,
+    /budget-first shortlist/i,
+  ]) {
+    assert.doesNotMatch(copy, internalPhrase);
+    assert.doesNotMatch(integrations, internalPhrase);
+  }
+});
+
+test('Claude, ChatGPT, and Codex stay first while OpenClaw and n8n are public actions', async () => {
+  const copy = source(copyPath);
+  const { getMcpPageCopy } = await import(
+    '../frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-page-copy.ts'
+  );
+  assert.deepEqual(
+    getMcpPageCopy('en').hero.actions.map((action: { client: string }) => action.client),
+    ['claude', 'chatgpt', 'codex', 'openclaw', 'n8n'],
+  );
+  assert.match(copy, /integrations, 'chatgpt'/);
+  assert.match(copy, /integrations, 'claude'/);
+  assert.match(copy, /integrations, 'codex'/);
+  assert.match(copy, /integrations, 'openclaw'/);
+  assert.match(copy, /integrations, 'n8n'/);
+
+  const actions = source(`${marketingRoot}/mcp/_components/McpClientActions.tsx`);
+  const marks = source('frontend/components/marketing/mcp/McpIntegrationMark.tsx');
+  assert.match(actions, /McpIntegrationMark integration=\{action\.client\}/);
+  assert.match(marks, /openai-mark-light\.svg/);
+  assert.match(marks, /claude-mark-light\.svg/);
+  assert.match(actions, /sm:grid-cols-3/);
+});
+
+test('public indexation is not blocked by the optional introductory trial', () => {
+  const publication = source('frontend/lib/mcp-publication.ts');
+  const sitemap = source('frontend/next-sitemap.config.js');
+  const returnedState = publication.slice(publication.indexOf('return {'));
+  const indexableExpression = returnedState.match(/indexable:\s*([\s\S]*?),\n\s*showTrialClaim/)?.[1] ?? '';
+
+  assert.doesNotMatch(indexableExpression, /\btrial\b/);
+  assert.doesNotMatch(sitemap, /const mcpIndexable =[\s\S]{0,220}mcpPublication\.trial/);
+  assert.match(publication, /showTrialClaim:\s*trial/);
+});
+
+test('the homepage and contextual links own a prospect-facing assistant workflow entry', () => {
+  const home = source(`${marketingRoot}/(home)/page.tsx`);
+  const sections = source('frontend/components/marketing/home/HomeRedesignSections.tsx');
+  const internalLinks = source('frontend/lib/mcp-internal-links.ts');
+
+  assert.match(home, /HomeCreationSection locale=\{locale\} assistantHref=\{mcpLink\?\.href\}/);
+  assert.match(sections, /HomeAssistantWorkflow/);
+  assert.match(internalLinks, /'home'/);
+  assert.match(internalLinks, /ChatGPT/);
+  assert.match(internalLinks, /Claude/);
+  assert.match(internalLinks, /Codex/);
+});
+
+test('the plugin stays live-catalog driven and documents model-registry maintenance', () => {
+  const planSkill = source('plugins/maxvideoai/skills/plan/SKILL.md');
+  const generateSkill = source('plugins/maxvideoai/skills/generate/SKILL.md');
+  const guide = source('docs/engineering/mcp-architecture.md');
+
+  assert.match(planSkill, /Do not rely on model memory/);
+  assert.match(planSkill, /list_models/);
+  assert.match(planSkill, /get_model_details/);
+  assert.match(generateSkill, /get_model_details/);
+  assert.match(guide, /model-registry\.json/);
+  assert.match(guide, /pnpm model:registry:check/);
+  assert.match(guide, /list_models/);
+  assert.match(guide, /no copied catalogue|never copy/i);
+});

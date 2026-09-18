@@ -1,0 +1,142 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { existsSync, readFileSync } from 'node:fs';
+import test from 'node:test';
+
+const frontendRequire = createRequire(new URL('../frontend/package.json', import.meta.url));
+
+const schemaFacadePath = 'frontend/src/lib/schema.ts';
+const schemaModulePaths = [
+  'frontend/src/lib/schema/asset-schema.ts',
+  'frontend/src/lib/schema/billing-content-schema.ts',
+  'frontend/src/lib/schema/billing-core-schema.ts',
+  'frontend/src/lib/schema/billing-products-schema.ts',
+  'frontend/src/lib/schema/billing-provider-schema.ts',
+  'frontend/src/lib/schema/billing-receipts-schema.ts',
+  'frontend/src/lib/schema/billing-schema.ts',
+  'frontend/src/lib/schema/billing-user-admin-schema.ts',
+  'frontend/src/lib/schema/email-schema.ts',
+  'frontend/src/lib/schema/media-library-schema.ts',
+];
+
+const sitemapFacadePath = 'frontend/lib/sitemapData.ts';
+const sitemapModulePaths = [
+  'frontend/lib/sitemap/compare-paths.ts',
+  'frontend/lib/sitemap/lastmod.ts',
+  'frontend/lib/sitemap/model-locales.ts',
+  'frontend/lib/sitemap/model-routes.ts',
+  'frontend/lib/sitemap/route-discovery.ts',
+  'frontend/lib/sitemap/types.ts',
+  'frontend/lib/sitemap/xml.ts',
+];
+
+function read(path: string) {
+  return readFileSync(path, 'utf8');
+}
+
+function lineCount(path: string) {
+  return read(path).split('\n').length;
+}
+
+test('database schema facade delegates to focused schema modules', () => {
+  assert.equal(existsSync(schemaFacadePath), true);
+  schemaModulePaths.forEach((path) => assert.equal(existsSync(path), true, `${path} should exist`));
+
+  const facadeSource = read(schemaFacadePath);
+  assert.ok(lineCount(schemaFacadePath) < 40, `schema facade should stay tiny, got ${lineCount(schemaFacadePath)} lines`);
+  assert.match(facadeSource, /ensureBillingSchema/);
+  assert.match(facadeSource, /ensureAssetSchema/);
+  assert.match(facadeSource, /ensureMediaLibrarySchema/);
+  assert.match(facadeSource, /ensureEmailSchema/);
+  assert.doesNotMatch(facadeSource, /CREATE TABLE|ALTER TABLE|CREATE INDEX|from '@\/lib\/db'/);
+
+  schemaModulePaths.forEach((path) => {
+    assert.ok(lineCount(path) < 500, `${path} should stay under 500 lines`);
+  });
+});
+
+test('sitemap data facade delegates route discovery, lastmod, locales, and XML helpers', () => {
+  assert.equal(existsSync(sitemapFacadePath), true);
+  sitemapModulePaths.forEach((path) => assert.equal(existsSync(path), true, `${path} should exist`));
+
+  const facadeSource = read(sitemapFacadePath);
+  assert.ok(lineCount(sitemapFacadePath) < 260, `sitemapData.ts should stay focused, got ${lineCount(sitemapFacadePath)} lines`);
+  assert.match(facadeSource, /getCanonicalPathEntries/);
+  assert.match(facadeSource, /getVideoSitemapLastModified/);
+  assert.match(read('frontend/lib/sitemap/model-routes.ts'), /hasModelLocale/);
+  assert.match(facadeSource, /escapeXml/);
+  assert.doesNotMatch(facadeSource, /from 'node:fs'|from 'node:path'|spawnSync|discoverTemplatesFromFilesystem/);
+
+  const routeDiscoverySource = read('frontend/lib/sitemap/route-discovery.ts');
+  const lastmodSource = read('frontend/lib/sitemap/lastmod.ts');
+  const xmlSource = read('frontend/lib/sitemap/xml.ts');
+
+  assert.match(routeDiscoverySource, /discoverTemplatesFromManifest/);
+  assert.match(routeDiscoverySource, /DYNAMIC_ROUTE_GENERATORS/);
+  assert.match(
+    routeDiscoverySource,
+    /IGNORED_ROUTE_TEMPLATES[\s\S]*'\/models\/\[slug\]'/,
+    'localized sitemaps should not duplicate model detail URLs',
+  );
+  assert.doesNotMatch(routeDiscoverySource, /listEligibleSeoWatchVideos/, 'localized sitemaps should not duplicate video sitemap URLs');
+  assert.match(
+    routeDiscoverySource,
+    /mcp-publication\.json/,
+    'runtime sitemap discovery should consume the shared MCP publication source',
+  );
+  assert.match(
+    routeDiscoverySource,
+    /getMcpPublicationState/,
+    'runtime sitemap discovery should use the same MCP indexability resolver as page metadata',
+  );
+  assert.match(
+    routeDiscoverySource,
+    /MCP_PUBLIC_INDEXABLE_PATHS/,
+    'runtime sitemap discovery should explicitly gate all four MCP intent owners',
+  );
+  assert.match(facadeSource, /buildModelsSitemapXml/, 'models should stay owned by the dedicated models sitemap');
+  assert.match(facadeSource, /videoPagesPath = '\/sitemap-video-pages\.xml'/, 'video watch pages should have a dedicated web sitemap');
+  assert.match(facadeSource, /videoPath = '\/sitemap-video\.xml'/, 'video metadata should stay owned by the video sitemap');
+  assert.match(lastmodSource, /getGitLastModified/);
+  assert.match(xmlSource, /export const escapeXml/);
+  sitemapModulePaths.forEach((path) => {
+    assert.ok(lineCount(path) < 500, `${path} should stay under 500 lines`);
+  });
+});
+
+test('models sitemap retains every localized H3, Seedance 2.5 and Seedance 2.0 canonical', async () => {
+  // The facade also imports video SEO, whose React Server cache is not exposed by
+  // React 18's standalone Node entry. The models builder never calls that branch.
+  const react = frontendRequire('react') as {
+    cache?: <TFunction extends (...args: never[]) => unknown>(fn: TFunction) => TFunction;
+  };
+  react.cache ??= (fn) => fn;
+  const { buildModelsSitemapXml } = await import('../frontend/lib/sitemapData.ts');
+  const xml = await buildModelsSitemapXml();
+
+  for (const slug of ['minimax-h3', 'seedance-2-5', 'seedance-2-0']) {
+    const urls = {
+      en: `https://maxvideoai.com/models/${slug}`,
+      fr: `https://maxvideoai.com/fr/modeles/${slug}`,
+      es: `https://maxvideoai.com/es/modelos/${slug}`,
+    } as const;
+
+    for (const [hreflang, url] of Object.entries(urls)) {
+      assert.match(xml, new RegExp(`<loc>${url}</loc>`), `${url} sitemap membership`);
+      assert.match(xml, new RegExp(`hreflang="${hreflang}" href="${url}"`), `${url} alternate membership`);
+    }
+    assert.match(
+      xml,
+      new RegExp(`hreflang="x-default" href="${urls.en}"`),
+      `${slug} x-default membership`,
+    );
+  }
+});
+
+test('model sitemap exposes a supplied-roster builder shared with localized route discovery', async () => {
+  const sitemap = await import('../frontend/lib/sitemapData.ts');
+  const routeDiscovery = await import('../frontend/lib/sitemap/route-discovery.ts');
+
+  assert.equal(typeof sitemap.buildModelsSitemapXmlFromRoster, 'function');
+  assert.equal(typeof routeDiscovery.buildModelRouteEntriesFromRoster, 'function');
+});

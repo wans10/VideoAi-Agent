@@ -1,0 +1,398 @@
+'use client';
+
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import deepmerge from 'deepmerge';
+import { useSearchParams } from 'next/navigation';
+import { HeaderBar } from '@/components/HeaderBar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { useHostedWalletCheckout } from '@/hooks/useHostedWalletCheckout';
+import { CURRENCY_LOCALE } from '@/lib/intl';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { useI18n } from '@/lib/i18n/I18nProvider';
+import type { WalletCheckoutReturnTarget } from '@/lib/wallet/checkout-return';
+import { BillingAuthGateModal } from './BillingAuthGateModal';
+import { BillingCheckoutReturnNotice } from './BillingCheckoutReturnNotice';
+import { BillingWalletOverview } from './BillingWalletOverview';
+import { BillingInfoAside } from './BillingInfoAside';
+import { ReceiptsPanel } from './ReceiptsPanel';
+import { WalletTopupPanel } from './WalletTopupPanel';
+import { useBillingCurrencyState } from '../_hooks/useBillingCurrencyState';
+import { useBillingReceipts } from '../_hooks/useBillingReceipts';
+import { useBillingCheckoutReturnToast } from '../_hooks/useBillingCheckoutReturnToast';
+import { useBillingCheckoutReconciliation } from '../_hooks/useBillingCheckoutReconciliation';
+import { useBillingSessionState } from '../_hooks/useBillingSessionState';
+import { useBillingTopupAnalytics } from '../_hooks/useBillingTopupAnalytics';
+import { useBillingTopupQuotes } from '../_hooks/useBillingTopupQuotes';
+import { useBillingTopupSelection } from '../_hooks/useBillingTopupSelection';
+import { DEFAULT_BILLING_COPY, type BillingCopy } from '../_lib/billing-copy';
+import {
+  buildBillingIntentTarget,
+  parseBillingIntent,
+  type BillingIntent,
+} from '../_lib/billing-intent';
+import { formatRateLimitMessage } from '../_lib/rate-limit-message';
+import styles from './billing-layout.module.css';
+
+const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '';
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const EMPTY_SEARCH_PARAMS = new URLSearchParams();
+
+type BillingClientProps = {
+  initialBillingIntent: BillingIntent | null;
+  signedLoginRedirectTarget: string | null;
+};
+
+export function BillingClient({
+  initialBillingIntent,
+  signedLoginRedirectTarget,
+}: BillingClientProps) {
+  const { locale, t } = useI18n();
+  const rawCopy = t('workspace.billing', DEFAULT_BILLING_COPY);
+  const copy = useMemo<BillingCopy>(() => {
+    if (!rawCopy || typeof rawCopy !== 'object') return DEFAULT_BILLING_COPY;
+    return deepmerge(DEFAULT_BILLING_COPY, rawCopy as Partial<BillingCopy>, {
+      arrayMerge: (_destination, source) => source,
+    });
+  }, [rawCopy]);
+  const stripePromise = useMemo(() => {
+    if (!PUBLISHABLE_KEY) return null;
+    return loadStripe(PUBLISHABLE_KEY, { locale });
+  }, [locale]);
+  const searchParams = useSearchParams() ?? EMPTY_SEARCH_PARAMS;
+  const billingIntent = useMemo(
+    () => initialBillingIntent ?? parseBillingIntent(searchParams),
+    [initialBillingIntent, searchParams],
+  );
+  const walletQuoteError = copy.wallet.quoteError ?? DEFAULT_BILLING_COPY.wallet.quoteError;
+  const { session, loading: authLoading } = useRequireAuth({ redirectIfLoggedOut: false });
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [expressPaying, setExpressPaying] = useState(false);
+  useEffect(() => { setExpressPaying(false); }, [session?.user?.id]);
+  const [checkoutReturnTarget, setCheckoutReturnTarget] = useState<WalletCheckoutReturnTarget | null>(null);
+  const [checkoutReturnStatus, setCheckoutReturnStatus] = useState<'success' | 'cancelled' | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const billingIntlLocale = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : CURRENCY_LOCALE;
+
+  const formatMoney = (amountCents: number, currency: string) => {
+    const amount = amountCents / 100;
+    try {
+      return new Intl.NumberFormat(billingIntlLocale, { style: 'currency', currency }).format(amount);
+    } catch {
+      return `${currency} ${amount.toFixed(2)}`;
+    }
+  };
+
+  const formatLocalAmount = useCallback((amountMinor: number, currency: string) => {
+    const upper = (currency ?? 'USD').toUpperCase();
+    const zeroDecimal = upper === 'JPY';
+    const divisor = zeroDecimal ? 1 : 100;
+    const value = amountMinor / divisor;
+    try {
+      return new Intl.NumberFormat(billingIntlLocale, { style: 'currency', currency: upper }).format(value);
+    } catch {
+      return `${upper} ${value.toFixed(zeroDecimal ? 0 : 2)}`;
+    }
+  }, [billingIntlLocale]);
+
+  const formatUsdAmount = (amountCents: number) => {
+    const amount = amountCents / 100;
+    try {
+      return new Intl.NumberFormat(billingIntlLocale, {
+        style: 'currency',
+        currency: 'USD',
+        currencyDisplay: 'narrowSymbol',
+        maximumFractionDigits: amountCents % 100 === 0 ? 0 : 2,
+      }).format(amount);
+    } catch {
+      return `$${amount.toFixed(amountCents % 100 === 0 ? 0 : 2)}`;
+    }
+  };
+  const {
+    applyDetectedCurrency,
+    currencyLoading,
+    currencyOptions,
+    currencyStatus,
+    currencyStatusClass,
+    handleCurrencyChange,
+    normalizedChargeCurrency,
+  } = useBillingCurrencyState({
+    authLoading,
+    copy,
+    session,
+  });
+  const { wallet, walletStatus, refreshWallet, stripeMode } = useBillingSessionState({
+    authLoading,
+    session,
+    onDetectedCurrency: applyDetectedCurrency,
+  });
+  const {
+    applyCustomAmount,
+    customAmountCents,
+    customAmountError,
+    customAmountInput,
+    customAmountInputRef,
+    customAmountValid,
+    customCardActive,
+    handlePresetSelected,
+    onCustomAmountInputChange,
+    openCustomAmountEditor,
+    restoreTopupSelection,
+    selectedTopupAmountLabel,
+    selectedTopupCents,
+  } = useBillingTopupSelection({
+    copy,
+    formatUsdAmount,
+    initialTopupCents: billingIntent.amountCents,
+  });
+  const loginRedirectTarget = useMemo(
+    () => selectedTopupCents === initialBillingIntent?.amountCents && signedLoginRedirectTarget
+      ? signedLoginRedirectTarget
+      : buildBillingIntentTarget({
+        amountCents: selectedTopupCents,
+        currency: 'USD',
+      }),
+    [initialBillingIntent?.amountCents, selectedTopupCents, signedLoginRedirectTarget]
+  );
+  const { topupQuotes, quoteLoading, quoteError } = useBillingTopupQuotes({
+    authLoading,
+    session,
+    normalizedChargeCurrency,
+    selectedTopupCents,
+    quoteErrorMessage: walletQuoteError,
+  });
+  const {
+    replayPendingTopupCancelled,
+    triggerGoogleAdsConversion,
+    triggerTopupCancelled,
+    triggerTopupFailed,
+    triggerTopupStarted,
+  } = useBillingTopupAnalytics(topupQuotes);
+  const {
+    receipts,
+    receiptsCollapsed,
+    receiptsView,
+    visibleReceipts,
+    selectReceiptsView,
+    toggleReceipts,
+    loadMoreReceipts,
+    refreshReceipts,
+    exportCSV,
+  } = useBillingReceipts({
+    authLoading,
+    session,
+    loadReceiptsError: copy.errors.loadReceipts,
+    loadMoreError: copy.errors.loadMore,
+  });
+  const {
+    reconcile: reconcileCheckoutReturn,
+    status: checkoutReconciliationStatus,
+  } = useBillingCheckoutReconciliation({
+    accountId: authLoading ? null : session?.user?.id ?? null,
+    refreshWallet,
+    refreshReceipts,
+  });
+
+  useEffect(() => {
+    replayPendingTopupCancelled();
+  }, [replayPendingTopupCancelled]);
+
+  useBillingCheckoutReturnToast({
+    accountId: session?.user?.id ?? null,
+    authLoading,
+    cancelledMessage: copy.toasts.cancelled,
+    onAmountReturned: restoreTopupSelection,
+    onCancelled: triggerTopupCancelled,
+    onGoogleAdsConversion: triggerGoogleAdsConversion,
+    onReturnTarget: setCheckoutReturnTarget,
+    onStatus: setCheckoutReturnStatus,
+    onSuccess: reconcileCheckoutReturn,
+    onToast: setToast,
+    successMessage: copy.toasts.success,
+  });
+
+  const handleHostedTopupStarted = useCallback(({ amountCents, currency }: { amountCents: number; currency: string }) => {
+    triggerTopupStarted(amountCents, currency);
+  }, [triggerTopupStarted]);
+
+  const handleHostedTopupFailed = useCallback(({
+    amountCents,
+    currency,
+    reason,
+  }: {
+    amountCents: number;
+    currency: string;
+    reason: string;
+  }) => {
+    triggerTopupFailed(amountCents, currency, reason);
+    setToast(copy.errors.topupStart);
+  }, [copy.errors.topupStart, triggerTopupFailed]);
+
+  const handleHostedRateLimited = useCallback((seconds: number | null) => {
+    setToast(formatRateLimitMessage(copy.wallet.rateLimited, seconds ?? 900));
+  }, [copy.wallet.rateLimited]);
+
+  const hostedCheckout = useHostedWalletCheckout({
+    accessToken: session?.access_token ?? null,
+    amountCents: selectedTopupCents,
+    currency: normalizedChargeCurrency,
+    locale,
+    source: 'billing',
+    stripePromise,
+    onStarted: handleHostedTopupStarted,
+    onFailed: handleHostedTopupFailed,
+    onRateLimited: handleHostedRateLimited,
+  });
+
+  function handleTopUp() {
+    if (!session) {
+      setAuthModalOpen(true);
+      return;
+    }
+    setToast(null);
+    void hostedCheckout.startCheckout();
+  }
+
+  const handleExpressTopupStarted = useCallback(
+    (amountCents: number) => {
+      setExpressPaying(true);
+      triggerTopupStarted(amountCents, normalizedChargeCurrency);
+    },
+    [normalizedChargeCurrency, triggerTopupStarted]
+  );
+
+  const handleExpressTopupFailed = useCallback(
+    (amountCents: number, reason?: string) => {
+      setExpressPaying(false);
+      triggerTopupFailed(amountCents, normalizedChargeCurrency, reason);
+      setToast(copy.errors.topupStart);
+    },
+    [copy.errors.topupStart, normalizedChargeCurrency, triggerTopupFailed]
+  );
+
+  const dateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(billingIntlLocale, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'UTC',
+      }),
+    [billingIntlLocale]
+  );
+
+  const selectedTopupQuote = topupQuotes[selectedTopupCents];
+  const selectedTopupPaymentLabel = selectedTopupQuote
+    ? formatLocalAmount(selectedTopupQuote.amountMinor, selectedTopupQuote.currency)
+    : null;
+
+  if (authLoading) {
+    return null;
+  }
+
+  return (
+    <div className="flex min-h-screen flex-col bg-bg">
+      <HeaderBar />
+      <div className="flex flex-1 min-w-0">
+        <AppSidebar />
+        <main className={styles.page}>
+          {toast && (
+            <div className="pointer-events-none absolute left-1/2 top-3 z-50 -translate-x-1/2 transform rounded-input border border-border bg-surface px-4 py-2 text-sm text-text-primary shadow-card">
+              {toast}
+            </div>
+          )}
+          <div className={styles.content}>
+            <BillingWalletOverview
+              canRefresh={Boolean(session)}
+              copy={copy}
+              onRefresh={() => { void refreshWallet(); }}
+              stripeMode={stripeMode}
+              wallet={wallet}
+              walletStatus={walletStatus}
+            />
+            {checkoutReturnStatus ? (
+              <BillingCheckoutReturnNotice
+                copy={copy}
+                href={checkoutReturnTarget}
+                reconciliationStatus={checkoutReconciliationStatus}
+                status={checkoutReturnStatus}
+              />
+            ) : null}
+
+            <section className={styles.workspaceGrid}>
+              <WalletTopupPanel
+                applyCustomAmount={applyCustomAmount}
+                checkoutCaptchaError={hostedCheckout.captchaError ? copy.wallet.captchaError : null}
+                checkoutCaptchaRequired={hostedCheckout.captchaRequired}
+                checkoutCaptchaResetGeneration={hostedCheckout.captchaResetGeneration}
+                checkoutCaptchaToken={hostedCheckout.captchaToken}
+                copy={copy}
+                currencyLoading={currencyLoading}
+                currencyOptions={currencyOptions}
+                currencyStatus={currencyStatus}
+                currencyStatusClass={currencyStatusClass}
+                customAmountCents={customAmountCents}
+                customAmountError={customAmountError}
+                customAmountInput={customAmountInput}
+                customAmountInputRef={customAmountInputRef}
+                customAmountValid={customAmountValid}
+                customCardActive={customCardActive}
+                formatUsdAmount={formatUsdAmount}
+                handleCheckoutCaptchaError={hostedCheckout.handleCaptchaError}
+                handleCheckoutCaptchaRequired={hostedCheckout.requireCaptcha}
+                handleCheckoutCaptchaToken={hostedCheckout.handleCaptchaToken}
+                handleCurrencyChange={handleCurrencyChange}
+                handleExpressTopupFailed={handleExpressTopupFailed}
+                handleExpressTopupStarted={handleExpressTopupStarted}
+                handleTopUp={handleTopUp}
+                isTopupStarting={hostedCheckout.isSubmitting || expressPaying}
+                hostedCheckoutStarting={hostedCheckout.isSubmitting}
+                locale={locale}
+                normalizedChargeCurrency={normalizedChargeCurrency}
+                onCustomAmountInputChange={onCustomAmountInputChange}
+                onOpenCustomAmountEditor={openCustomAmountEditor}
+                onPresetSelected={handlePresetSelected}
+                quoteError={quoteError}
+                quoteLoading={quoteLoading}
+                selectedTopupAmountLabel={selectedTopupAmountLabel}
+                selectedTopupCents={selectedTopupCents}
+                selectedTopupPaymentLabel={selectedTopupPaymentLabel}
+                session={session}
+                stripePromise={stripePromise}
+                turnstileSiteKey={TURNSTILE_SITE_KEY}
+                wallet={wallet}
+              />
+
+              <BillingInfoAside copy={copy} />
+            </section>
+
+            <ReceiptsPanel
+              copy={copy}
+              dateFormatter={dateFormatter}
+              formatMoney={formatMoney}
+              onExportCsv={exportCSV}
+              onLoadMoreReceipts={loadMoreReceipts}
+              onSelectReceiptsView={selectReceiptsView}
+              onToggleReceipts={toggleReceipts}
+              receipts={receipts}
+              receiptsCollapsed={receiptsCollapsed}
+              receiptsView={receiptsView}
+              visibleReceipts={visibleReceipts}
+            />
+
+          </div>
+        </main>
+      </div>
+      {authModalOpen && (
+        <BillingAuthGateModal
+          copy={copy}
+          loginRedirectTarget={loginRedirectTarget}
+          onClose={() => setAuthModalOpen(false)}
+        />
+      )}
+    </div>
+  );
+}

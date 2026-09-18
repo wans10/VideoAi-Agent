@@ -1,0 +1,251 @@
+# Page Architecture Guide
+
+This guide defines the target architecture for large Next.js pages in MaxVideoAI.
+
+## Target Responsibility Split
+
+A page should answer four questions:
+
+1. Who can view this route?
+2. Which canonical route/data does it represent?
+3. Which data does the route need?
+4. Which sections make up the rendered page?
+
+Everything else should usually live outside `page.tsx`.
+
+### Marketing style ownership
+
+The home, model-detail and comparison-detail pages import their own `marketing-home.css`, `marketing-models.css` and `marketing-compare.css`. Keep these imports out of the shared marketing layout so unrelated routes do not download all three stylesheets. Shared marketing styling stays in the layout. Moving an import must preserve the cascade and be checked on direct loads and client navigation, including mobile; `tests/marketing-route-styles-contract.test.ts` locks the ownership boundary.
+
+## Server Page Pattern
+
+Use this for marketing, SEO, model, comparison, docs, examples, legal, and admin server pages.
+
+```tsx
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
+  return buildFeatureMetadata(params);
+}
+
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+  const model = await resolveFeaturePageData(params);
+
+  if (!model) {
+    notFound();
+  }
+
+  return <FeaturePageShell model={model} />;
+}
+```
+
+Move these out of `page.tsx` when they grow:
+
+- JSON-LD builders
+- SEO title/description mapping
+- pricing/spec calculations
+- localized label maps
+- repeated JSX sections
+- example/gallery transformation
+- comparison/scoring helpers
+
+## Client Page Pattern
+
+Use this for dashboard, workspace, app, billing, login, settings, and library pages.
+
+Prefer:
+
+```tsx
+export default function DashboardPage() {
+  const dashboard = useDashboardPage();
+
+  return (
+    <DashboardShell>
+      <CreateHero {...dashboard.createHero} />
+      <InProgressPanel {...dashboard.inProgress} />
+      <RecentGrid {...dashboard.recent} />
+    </DashboardShell>
+  );
+}
+```
+
+Extract client pages in this order:
+
+1. constants and copy defaults
+2. browser storage helpers
+3. data/state hooks
+4. self-contained panels/cards
+5. heavy optional UI with `next/dynamic`
+
+## Data Builder Pattern
+
+When a route has many derived props, create a builder:
+
+```txt
+_lib/
+  build-model-page-data.ts
+```
+
+The builder should return plain data. It should not return JSX.
+
+This makes the route easier to inspect and makes unit testing possible.
+
+## Section Component Pattern
+
+Large JSX blocks should become named components with narrow props:
+
+```tsx
+export function ModelPricingSection({ pricing, labels }: ModelPricingSectionProps) {
+  return <section>{/* rendering only */}</section>;
+}
+```
+
+Avoid passing the entire dictionary or entire engine object unless the section truly needs it.
+
+## JSON-LD Pattern
+
+MaxVideoAI's organization identity and profiles belong in `frontend/lib/seo/site-organization-schema.ts`.
+Both `LocaleRuntime` and the core layout render its shared builder; retain `/#organization`
+when adding a profile, and keep profile-only schema changes independent of visible social links.
+
+Build schema payloads in pure helpers, then render them at the route/shell level:
+
+```tsx
+const schemas = buildModelSchemas(modelPageData);
+
+return schemas.map((schema, index) => (
+  <script
+    key={index}
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
+  />
+));
+```
+
+Keep serialization centralized to avoid inconsistent escaping.
+
+## Pay-as-you-go Route Content
+
+The localized Pay-as-you-go route keeps authored copy strict and runtime pricing derived:
+
+```text
+locale -> strict route content -> runtime page-data builder -> focused sections
+                         \-> metadata / JSON-LD / showcase copy
+```
+
+`_content/{en,fr,es}.ts` owns the complete exact-locale editorial documents. The page-data
+builder owns pricing-hub projection, row selection, price fallback formatting, runtime links,
+hero quote preparation, and example costs. Route components render those projections; they do
+not select locales or calculate prices. Metadata, JSON-LD, and showcase helpers receive their
+authored projections explicitly.
+
+## Localized Comparison Content
+
+Enriched comparison editorial content, including slug-specific metadata, is owned by
+`content/comparisons/<canonical-slug>.json`. Each document contains one `slug` plus complete
+`en`, `fr`, and `es` projections. Keep those locale projections structurally aligned and edit
+them together; do not add locale-specific TypeScript maps, an English fallback, a generated
+registry, or direct JSON imports in routes.
+
+Routes and metadata builders consume document-backed content through:
+
+```ts
+getComparePageOverride(locale, canonicalSlug)
+```
+
+Comparisons without a content document intentionally use the generic renderer and may keep
+slug-specific SEO fallback metadata in `compareCopy.meta.slugOverrides` in the locale message
+files. A canonical slug must never exist in both a comparison document and `slugOverrides`.
+New or edited documents must pass `tests/comparison-content-contract.test.ts`, including the
+dynamic generic-fallback inventory, empty-intersection, identity, schema, locale parity, link,
+and path-safety contracts. The complementary `tests/compare-page-architecture.test.ts` owns
+route isolation, obsolete-source absence, and Next output-tracing contracts.
+
+## Localized Model Decision Content
+
+`content/models/{locale}/{slug}.json` is the only localized editorial owner for model pages.
+Every template-configured model requires a strict top-level `decision` block in English,
+French, and Spanish.
+
+`getEngineLocalized` selects `decision` only from the requested locale; it never falls back to
+English. `model-page-decision-content.ts` validates the editorial copy and hrefs, while
+`model-page-decision-data.ts` adds scenarios backed by live pricing.
+
+Do not add TypeScript copy maps, a second filesystem loader, direct JSON imports, or numeric
+prices to decision content.
+
+## Localized Model Examples Content
+
+Model-specific Examples editorial copy lives only in
+`content/models/{locale}/{slug}.json#examples`. The model loader selects the exact requested
+locale and never falls back to English for this block. The strict parser, pure view-model
+builder, and focused server/client renderers must remain model-neutral; do not add slug-specific
+editorial branches or reads from `custom` gallery fields.
+
+Every strict `examples` block owns a required `showWhenEmpty` boolean. Keep it aligned across
+EN, FR, and ES. The view-model stays visible when final real/fallback items exist, or when
+`showWhenEmpty` is true for authored empty-state copy; it must not infer this from model identity.
+
+Runtime gallery media, engine capabilities, route destinations, and poster selection remain
+runtime policy. They are not localized editorial content and do not belong in the `examples`
+document block.
+
+## Media In Public Pages
+
+Use the owners and validation rules in `docs/engineering/media-delivery.md`. Routes select data and compose media surfaces; they do not own an encoding pipeline or construct independent image optimizer settings. Preserve discovery of the critical poster in server HTML and stable media dimensions through hydration and playback. A route cleanup must not trade a faster preview for a slower LCP or interactive form.
+
+## Refactor Checklist
+
+Before moving code:
+
+- run `npm run architecture:audit -- --min-lines 500` if you are choosing the next cleanup target
+- identify behavior that must not change
+- find route params, redirects, and metadata coupling
+- check whether the file is server or client
+- check whether imported modules are safe for the target boundary
+- move one responsibility at a time
+
+After moving code:
+
+- run TypeScript/lint checks
+- smoke-test the route
+- compare important generated metadata/JSON-LD if the route is public
+- confirm localized paths still resolve
+
+## Current Line Caps
+
+Use tighter caps once a route has been split:
+
+- server `page.tsx` wrappers: usually 30-120 lines depending on metadata and redirects
+- client route wrappers: usually below 40 lines
+- route views: usually below 250-450 lines
+- focused section components: usually below 150-250 lines
+- large helper modules: allowed when they are pure and covered by contract tests, but still split when responsibilities diverge
+
+## Marketing and workspace appearance
+
+The marketing layout imports `marketing-navigation.css`; public pages keep their fixed art direction and do not expose a theme toggle. `MarketingNav` clears the root dark attribute when entering a public marketing route. The static `theme-bootstrap.ts` script in the root layout resolves the first paint without cookies or personalized server rendering. `AppExperienceRoot` re-applies and subscribes to the app preference on app routes using `app-experience-path.ts`.
+
+`useThemePreference` owns `mv-app-theme`, defaulting to dark; an explicit light or system choice remains supported in app controls. The historical shared `mv-theme` key is intentionally left untouched and not imported. Keep the bootstrap and hook defaults aligned, including blocked storage. `tests/marketing-theme-boundary.test.ts` and `tests/theme-preference.test.ts` cover that boundary. Marketing page visits must not overwrite the workspace preference.
+
+## Sitemap discovery and dates
+
+Runtime sitemap ownership stays in `frontend/lib/sitemapData.ts` and its helpers
+under `frontend/lib/sitemap/`. Development discovers the source routes directly:
+Next.js's incremental development manifest only contains routes already compiled
+and cannot establish complete coverage. Production uses the complete build
+manifest, with the existing source fallback when no manifest is available.
+
+Locale and model sitemap entries in the sitemap index use the latest of their
+manual timestamp and child dates. A historical launch timestamp must never mask
+newer content. Video sitemap availability and dates still require the existing
+eligible public-video source; do not substitute empty successful sitemaps when
+the database is unavailable. These contracts are covered by
+`tests/sitemap-preview-index.test.ts` and `tests/sitemap-index-dates.test.ts`.
+
+
+## Public example acquisition
+
+`ExamplesMainVideoFeature` offers an explicit workspace continuation (`/app?from=<public video id>`) beside the watch/details link. The linked model name remains the model entry point. Keep the card media lifecycle unchanged and do not prefetch the workspace from public galleries. `example-reuse-copy.ts` describes available settings, user references and the next quote; it must not promise an exact clone. Full family copy remains in the server-rendered disclosure when the hero is condensed. CTA analytics uses the existing bridge and bounded labels, not prompts or video identifiers.
+
+`useWorkspaceVideoSettings` owns failed shared-example loading notices, including locale and stale/account guards. The public video GET enforces visibility before returning data: public shares remain available independently of search indexability; private videos require their owner. Keep its no-store response, original payload boundary and identical missing/unauthorized 404. `tests/examples-acquisition-journey.test.ts`, `tests/workspace-shared-video-load-dom.test.ts` and `tests/video-read-access-route.test.ts` cover these contracts.

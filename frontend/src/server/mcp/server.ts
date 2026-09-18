@@ -1,0 +1,362 @@
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+
+import mcpPublication from '@/config/mcp-publication.json';
+import { FEATURES } from '@/content/feature-flags';
+import {
+  createPrepareMontageService,
+  type MontageEditPlan,
+  type PrepareMontageInput,
+} from '@/server/agent-api/montage-plan';
+import type { CreateStudioMontageInput } from '@/lib/studio/montage-contract';
+import {
+  createStudioMontageProject,
+  type CreateStudioMontageResult,
+} from '@/server/studio/montage-command';
+import {
+  createAgentAccountStatusService,
+  type AgentAccountStatusWalletDeps,
+} from '@/server/agent-api/account-status';
+import {
+  createAgentModelCatalogDeps,
+  listAgentModels,
+  listPublicAgentGenerationEngines,
+  listPublicAgentGenerationEnginesInExecutor,
+} from '@/server/agent-api/model-catalog';
+import { getAgentModelDetails } from '@/server/agent-api/model-details';
+import {
+  listAgentMedia,
+  type AgentMediaPage,
+  type ListAgentMediaInput,
+} from '@/server/agent-api/media-library';
+import {
+  createDefaultReferenceUploadLinkService,
+  type ReferenceUploadLink,
+} from '@/server/agent-api/create-reference-upload-link';
+import type {
+  ImportReferenceFilesInput,
+  ImportReferenceFilesResult,
+} from '@/server/agent-api/reference-file-import';
+import { createDefaultReferenceFileImportService } from '@/server/agent-api/reference-file-import';
+import { recommendAgentModels } from '@/server/agent-api/model-recommendations';
+import {
+  calculateAgentProjectBudget,
+  createAgentProjectBudgetDependencies,
+  type AgentProjectBudgetInput,
+  type AgentProjectBudgetResult,
+} from '@/server/agent-api/project-budget';
+import {
+  createConfirmGenerationService,
+  type ConfirmGenerationInput,
+} from '@/server/agent-api/confirm-generation';
+import { submitReservedPaidGeneration } from '@/server/agent-api/paid-generation-execution';
+import {
+  createPrepareGenerationService,
+  type PreparedGeneration,
+  type PrepareGenerationInput,
+  type TrialRiskRequestContext,
+} from '@/server/agent-api/prepare-generation';
+import { listAudioCapabilities } from '@/server/agent-api/audio-capabilities';
+import {
+  createPrepareAudioGenerationService,
+  type PreparedAudioGeneration,
+  type PrepareAudioGenerationInput,
+} from '@/server/agent-api/prepare-audio-generation';
+import {
+  createConfirmAudioGenerationService,
+  type AudioGenerationConfirmation,
+  type ConfirmAudioGenerationInput,
+} from '@/server/agent-api/confirm-audio-generation';
+import {
+  getAgentGenerationStatus,
+  listAgentRecentGenerations,
+  type AgentGenerationRecovery,
+  type AgentGenerationDownload,
+  type AgentGenerationRecoveryPage,
+  type GetAgentGenerationStatusInput,
+  type ListAgentRecentGenerationsInput,
+} from '@/server/agent-api/generation-status';
+import type { AgentPrincipal } from '@/server/agent-api/principal';
+import {
+  createMcpTopupHandoffService,
+  type McpTopupHandoffDependencies,
+  type McpTopupHandoffResult,
+} from '@/server/agent-api/topup-handoff';
+import type {
+  AgentAccountStatus,
+  AgentModel,
+  AgentModelDetails,
+  AgentModelFilter,
+  AgentModelRecommendationInput,
+  AgentModelRecommendationResult,
+} from '@/server/agent-api/types';
+import type { McpConfig } from '@/server/mcp/config';
+import { buildMaxVideoAiMcpInstructions } from '@/server/mcp/instructions';
+import { registerGenerationResultApp } from '@/server/mcp/generation-result-app';
+import { registerReferenceUploadApp } from '@/server/mcp/reference-upload-app';
+import type { McpRuntimeCapabilities } from '@/server/mcp/operational-access';
+import {
+  resolveMcpPrelaunchModelAccess,
+  resolveMcpStagingCanaryGenerationEnvironment,
+} from '@/server/mcp/provider-canary-access';
+import { resolveAgentGenerationRequestExecutability } from '@/server/agent-runtime/model-executability';
+import { registerGetAccountStatusTool } from '@/server/mcp/tools/get-account-status';
+import { registerConfirmGenerationTool } from '@/server/mcp/tools/confirm-generation';
+import { registerCreateTopupLinkTool } from '@/server/mcp/tools/create-topup-link';
+import { registerCreateReferenceUploadLinkTool } from '@/server/mcp/tools/create-reference-upload-link';
+import { registerImportReferenceFilesTool } from '@/server/mcp/tools/import-reference-files';
+import { registerGetGenerationStatusTool } from '@/server/mcp/tools/get-generation-status';
+import { registerGetGenerationDownloadTool } from '@/server/mcp/tools/get-generation-download';
+import { registerListModelsTool } from '@/server/mcp/tools/list-models';
+import { registerGetModelDetailsTool } from '@/server/mcp/tools/get-model-details';
+import { registerListMediaTool } from '@/server/mcp/tools/list-media';
+import { registerListRecentGenerationsTool } from '@/server/mcp/tools/list-recent-generations';
+import { registerPrepareMontageTool } from '@/server/mcp/tools/prepare-montage';
+import { registerCreateStudioMontageTool } from '@/server/mcp/tools/create-studio-montage';
+import { registerPrepareGenerationTool } from '@/server/mcp/tools/prepare-generation';
+import { registerPresentGenerationTool } from '@/server/mcp/tools/present-generation';
+import { registerRecommendModelsTool } from '@/server/mcp/tools/recommend-models';
+import { registerCalculateProjectBudgetTool } from '@/server/mcp/tools/calculate-project-budget';
+import { registerListAudioCapabilitiesTool } from '@/server/mcp/tools/list-audio-capabilities';
+import { registerPrepareAudioGenerationTool } from '@/server/mcp/tools/prepare-audio-generation';
+import { registerConfirmAudioGenerationTool } from '@/server/mcp/tools/confirm-audio-generation';
+
+export type MaxVideoAiMcpServices = {
+  getAccountStatus(principal: AgentPrincipal): Promise<AgentAccountStatus>;
+  listModels(filter: AgentModelFilter, principal: AgentPrincipal): Promise<AgentModel[]>;
+  getModelDetails(engineId: string, principal: AgentPrincipal): Promise<AgentModelDetails>;
+  recommendModels(
+    input: AgentModelRecommendationInput,
+    principal: AgentPrincipal
+  ): Promise<AgentModelRecommendationResult>;
+  calculateProjectBudget?(
+    input: AgentProjectBudgetInput,
+    principal: AgentPrincipal,
+  ): Promise<AgentProjectBudgetResult>;
+  prepareGeneration?(
+    input: PrepareGenerationInput,
+    principal: AgentPrincipal,
+  ): Promise<PreparedGeneration>;
+  confirmGeneration?(
+    input: ConfirmGenerationInput,
+    principal: AgentPrincipal,
+  ): Promise<AgentGenerationRecovery>;
+  getGenerationStatus?(
+    input: GetAgentGenerationStatusInput,
+    principal: AgentPrincipal,
+  ): Promise<AgentGenerationRecovery>;
+  createGenerationDownload?(
+    recovery: AgentGenerationRecovery,
+    principal: AgentPrincipal,
+  ): Promise<AgentGenerationDownload | null>;
+  listRecentGenerations?(
+    input: ListAgentRecentGenerationsInput,
+    principal: AgentPrincipal,
+  ): Promise<AgentGenerationRecoveryPage>;
+  createTopupLink?(
+    input: { quoteId: string },
+    principal: AgentPrincipal,
+  ): Promise<McpTopupHandoffResult>;
+  listMedia?(
+    input: ListAgentMediaInput,
+    principal: AgentPrincipal,
+  ): Promise<AgentMediaPage>;
+  createReferenceUploadLink?(
+    input: import('@/server/agent-api/create-reference-upload-link').CreateReferenceUploadLinkInput,
+    principal: AgentPrincipal,
+  ): Promise<ReferenceUploadLink>;
+  importReferenceFiles?(
+    input: ImportReferenceFilesInput,
+    principal: AgentPrincipal,
+  ): Promise<ImportReferenceFilesResult>;
+  prepareMontage?(
+    input: PrepareMontageInput,
+    principal: AgentPrincipal,
+  ): Promise<MontageEditPlan>;
+  listAudioCapabilities?(principal: AgentPrincipal): Promise<ReturnType<typeof listAudioCapabilities>>;
+  prepareAudioGeneration?(
+    input: PrepareAudioGenerationInput,
+    principal: AgentPrincipal,
+  ): Promise<PreparedAudioGeneration>;
+  confirmAudioGeneration?(
+    input: ConfirmAudioGenerationInput,
+    principal: AgentPrincipal,
+  ): Promise<AudioGenerationConfirmation>;
+  createStudioMontage?(
+    input: CreateStudioMontageInput,
+    principal: AgentPrincipal,
+  ): Promise<CreateStudioMontageResult>;
+};
+
+export type MaxVideoAiMcpServerOptions = {
+  paidGeneration?: boolean;
+  referenceUploads?: boolean;
+  montagePreparation?: boolean;
+  audioGeneration?: boolean;
+  studioMontageCreation?: boolean;
+};
+
+export function createDefaultMaxVideoAiMcpServices(
+  config: McpConfig,
+  trialRiskContext: TrialRiskRequestContext,
+  capabilities: McpRuntimeCapabilities,
+  accountStatusDeps?: AgentAccountStatusWalletDeps,
+  topupHandoffDeps?: Partial<Omit<McpTopupHandoffDependencies, 'billingBaseUrl'>>,
+  runtimeEnv: NodeJS.ProcessEnv = process.env,
+): MaxVideoAiMcpServices {
+  const generationEnvironmentFor = (principal: AgentPrincipal) =>
+    resolveMcpStagingCanaryGenerationEnvironment(principal, config.accountUrl, runtimeEnv);
+  const catalogDepsFor = (principal: AgentPrincipal) =>
+    createAgentModelCatalogDeps(generationEnvironmentFor(principal));
+  const prelaunchAccessFor = (principal: AgentPrincipal) => {
+    const access = resolveMcpPrelaunchModelAccess(principal, config.accountUrl, runtimeEnv);
+    return access ? { allowedPrelaunchModelIds: access.allowedModelIds } : undefined;
+  };
+  return {
+    getAccountStatus: createAgentAccountStatusService(config.accountUrl, accountStatusDeps),
+    listModels: (filter, principal) => listAgentModels(filter, catalogDepsFor(principal)),
+    getModelDetails: (engineId, principal) => getAgentModelDetails(
+      engineId,
+      catalogDepsFor(principal),
+      prelaunchAccessFor(principal),
+    ),
+    recommendModels: (input, principal) => recommendAgentModels(input, catalogDepsFor(principal)),
+    calculateProjectBudget: (input, principal) => calculateAgentProjectBudget(
+      input,
+      principal,
+      createAgentProjectBudgetDependencies(catalogDepsFor(principal), prelaunchAccessFor(principal)),
+    ),
+    prepareGeneration: (input, principal) => createPrepareGenerationService(
+      config.accountUrl,
+      trialRiskContext,
+      {
+        paidGenerationEnabled: () => capabilities.paidGeneration,
+        listPublicEngines: () => listPublicAgentGenerationEngines(
+          catalogDepsFor(principal),
+          prelaunchAccessFor(principal),
+        ),
+        resolveRequestExecutability: (request, candidate, resolvedReferences) =>
+          resolveAgentGenerationRequestExecutability(
+            request,
+            candidate.engine,
+            resolvedReferences,
+            generationEnvironmentFor(principal),
+          ),
+      },
+    )(input, principal),
+    confirmGeneration: (input, principal) => createConfirmGenerationService(
+      config.accountUrl,
+      trialRiskContext,
+      {
+        paidGenerationEnabled: () => capabilities.paidGeneration,
+        listPublicEngines: ({ executor }) => listPublicAgentGenerationEnginesInExecutor(
+          executor,
+          generationEnvironmentFor(principal),
+          prelaunchAccessFor(principal),
+        ),
+        resolveRequestExecutability: (request, candidate, resolvedReferences) =>
+          resolveAgentGenerationRequestExecutability(
+            request,
+            candidate.engine,
+            resolvedReferences,
+            generationEnvironmentFor(principal),
+          ),
+        submitPaidGeneration: (execution) => submitReservedPaidGeneration(
+          execution,
+          undefined,
+          { providerEnv: generationEnvironmentFor(principal).providerEnv },
+        ),
+      },
+    )(input, principal),
+    getGenerationStatus: (input, principal) => getAgentGenerationStatus(input, principal, {
+      accountUrl: config.accountUrl,
+    }),
+    listRecentGenerations: (input, principal) => listAgentRecentGenerations(input, principal, {
+      accountUrl: config.accountUrl,
+    }),
+    createTopupLink: createMcpTopupHandoffService({
+      billingBaseUrl: new URL(config.accountUrl).origin,
+      ...topupHandoffDeps,
+    }),
+    listMedia: (input, principal) => listAgentMedia(input, principal),
+    createReferenceUploadLink: createDefaultReferenceUploadLinkService(config.accountUrl),
+    importReferenceFiles: createDefaultReferenceFileImportService(config.accountUrl),
+    prepareMontage: createPrepareMontageService(),
+    listAudioCapabilities: async () => listAudioCapabilities(runtimeEnv),
+    prepareAudioGeneration: (input, principal) => createPrepareAudioGenerationService(
+      config.accountUrl,
+      { paidGenerationEnabled: () => capabilities.paidGeneration },
+    )(input, principal),
+    confirmAudioGeneration: (input, principal) => createConfirmAudioGenerationService(
+      config.accountUrl,
+      { paidGenerationEnabled: () => capabilities.paidGeneration },
+    )(input, principal),
+    createStudioMontage: (input, principal) => createStudioMontageProject(
+      { userId: principal.userId },
+      input,
+      { featureEnabled: true },
+    ),
+  };
+}
+
+export function createMaxVideoAiMcpServer(
+  principal: AgentPrincipal,
+  services: MaxVideoAiMcpServices,
+  options: MaxVideoAiMcpServerOptions = {},
+): McpServer {
+  const referenceUploads = options.referenceUploads ?? FEATURES.mcp.referenceUploads;
+  const paidGeneration = options.paidGeneration ?? mcpPublication.paidGeneration;
+  const montagePreparation = options.montagePreparation ?? mcpPublication.montagePreparation;
+  const audioGeneration = paidGeneration && (options.audioGeneration ?? mcpPublication.audioGeneration);
+  const studioMontageCreation = options.studioMontageCreation ?? mcpPublication.studioMontageCreation;
+  const server = new McpServer(
+    {
+      name: 'maxvideoai',
+      version: '0.1.0',
+      websiteUrl: 'https://maxvideoai.com/mcp',
+    },
+    {
+      instructions: buildMaxVideoAiMcpInstructions({
+        paidGeneration,
+        referenceUploads,
+        montagePreparation,
+        audioGeneration,
+        studioMontageCreation,
+      }),
+      capabilities: { tools: {} },
+    }
+  );
+
+  registerGetAccountStatusTool(server, principal, services);
+  registerListModelsTool(server, principal, services);
+  registerGetModelDetailsTool(server, principal, services);
+  registerRecommendModelsTool(server, principal, services);
+  registerCalculateProjectBudgetTool(server, principal, services);
+  if (referenceUploads) {
+    registerReferenceUploadApp(server);
+    registerListMediaTool(server, principal, services);
+    registerCreateReferenceUploadLinkTool(server, principal, services);
+    registerImportReferenceFilesTool(server, principal, services);
+  }
+  if (montagePreparation) {
+    registerPrepareMontageTool(server, principal, services);
+  }
+  if (studioMontageCreation) {
+    registerCreateStudioMontageTool(server, principal, services);
+  }
+  if (audioGeneration) {
+    registerListAudioCapabilitiesTool(server, principal, services);
+    registerPrepareAudioGenerationTool(server, principal, services);
+    registerConfirmAudioGenerationTool(server, principal, services);
+  }
+  if (paidGeneration) {
+    registerGenerationResultApp(server);
+    registerPrepareGenerationTool(server, principal, services);
+    registerConfirmGenerationTool(server, principal, services);
+    registerGetGenerationStatusTool(server, principal, services);
+    registerListRecentGenerationsTool(server, principal, services);
+    registerGetGenerationDownloadTool(server, principal, services);
+    registerPresentGenerationTool(server, principal, services);
+    registerCreateTopupLinkTool(server, principal, services);
+  }
+  return server;
+}

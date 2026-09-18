@@ -1,0 +1,366 @@
+import type { EngineInputSchema, Mode, PricingSnapshot } from '@/types/engines';
+import { query } from '@/lib/db';
+import {
+  buildReferenceMediaItems,
+  resolveEngineReferenceBudget,
+  type ReferenceBudgetValuesByField,
+} from '@/lib/reference-budget';
+import {
+  BYTEPLUS_MODELARK_PROVIDER,
+  assertBytePlusSeedanceSubmissionEnabled,
+  buildBytePlusSeedancePayload,
+  BytePlusModelArkError,
+  getBytePlusArkConfig,
+  getBytePlusModelArkClient,
+  getBytePlusSeedanceDurationOptions,
+  getBytePlusSeedanceAllowedResolutions,
+  getBytePlusTaskFailureCode,
+  getBytePlusUserSafeErrorMessage,
+  requireBytePlusSeedanceProfile,
+  resolveBytePlusTransport,
+  resolveBytePlusSeedanceModelId,
+  scrubBytePlusError,
+} from '@/server/video-providers/byteplus-modelark';
+import { rollbackPendingPayment } from './payment-rollback';
+import {
+  buildUserFacingRefundDescription,
+  toUserFacingFailureMessage,
+} from '@/server/user-facing-failure-messages';
+import type { PaymentMode, PendingReceipt } from './initial-video-job';
+
+type QueryFn = (sql: string, params?: unknown[]) => Promise<unknown>;
+type LogMetricFn = (
+  kind: 'accepted' | 'failed',
+  options: { jobId?: string; errorCode?: string; meta?: Record<string, unknown> }
+) => void;
+
+type BytePlusSubmissionDeps = {
+  getBytePlusArkConfigFn?: typeof getBytePlusArkConfig;
+  buildBytePlusSeedancePayloadFn?: typeof buildBytePlusSeedancePayload;
+  getBytePlusModelArkClientFn?: typeof getBytePlusModelArkClient;
+  getBytePlusSeedanceAllowedResolutionsFn?: typeof getBytePlusSeedanceAllowedResolutions;
+  getBytePlusSeedanceDurationOptionsFn?: typeof getBytePlusSeedanceDurationOptions;
+  resolveBytePlusSeedanceModelIdFn?: typeof resolveBytePlusSeedanceModelId;
+  getBytePlusUserSafeErrorMessageFn?: typeof getBytePlusUserSafeErrorMessage;
+  getBytePlusTaskFailureCodeFn?: typeof getBytePlusTaskFailureCode;
+  scrubBytePlusErrorFn?: typeof scrubBytePlusError;
+  queryFn?: QueryFn;
+  rollbackPendingPaymentFn?: typeof rollbackPendingPayment;
+  persistProviderJobIdFn?: (providerJobId: string) => Promise<void>;
+  logMetricFn?: LogMetricFn;
+};
+
+export type BytePlusSubmissionResult =
+  | {
+      ok: true;
+      body: Record<string, unknown>;
+    }
+  | {
+      ok: false;
+      body: Record<string, unknown>;
+      status: number;
+    };
+
+export async function submitBytePlusGenerateTask(params: {
+  jobId: string;
+  userId: string;
+  engineId: string;
+  engineLabel: string;
+  prompt: string;
+  durationSec: number;
+  mode: Mode;
+  initialImageUrl: string | null | undefined;
+  endImageUrl: string | null;
+  normalizedReferenceImages: string[];
+  videoUrls: string[];
+  resolvedAudioUrl: string | null | undefined;
+  audioUrls: string[];
+  effectiveResolution: string;
+  aspectRatio: string | null;
+  audioEnabled: boolean | undefined;
+  placeholderThumb: string;
+  pricing: PricingSnapshot;
+  paymentStatus: string;
+  pendingReceipt: PendingReceipt | null;
+  paymentMode: PaymentMode;
+  walletChargeReserved: boolean;
+  batchId: string | null;
+  groupId: string | null;
+  iterationIndex: number | null;
+  iterationCount: number | null;
+  renderIds: Array<string | null> | null;
+  heroRenderId: string | null;
+  localKey: string | null;
+  inputSchema?: EngineInputSchema | null;
+  referenceValuesByField?: ReferenceBudgetValuesByField<string>;
+  deps?: BytePlusSubmissionDeps;
+}): Promise<BytePlusSubmissionResult> {
+  const deps = params.deps ?? {};
+  const getBytePlusArkConfigFn = deps.getBytePlusArkConfigFn ?? getBytePlusArkConfig;
+  const buildBytePlusSeedancePayloadFn = deps.buildBytePlusSeedancePayloadFn ?? buildBytePlusSeedancePayload;
+  const getBytePlusModelArkClientFn = deps.getBytePlusModelArkClientFn ?? getBytePlusModelArkClient;
+  const getBytePlusSeedanceAllowedResolutionsFn =
+    deps.getBytePlusSeedanceAllowedResolutionsFn ?? getBytePlusSeedanceAllowedResolutions;
+  const getBytePlusSeedanceDurationOptionsFn =
+    deps.getBytePlusSeedanceDurationOptionsFn ?? getBytePlusSeedanceDurationOptions;
+  const resolveBytePlusSeedanceModelIdFn = deps.resolveBytePlusSeedanceModelIdFn ?? resolveBytePlusSeedanceModelId;
+  const getBytePlusUserSafeErrorMessageFn = deps.getBytePlusUserSafeErrorMessageFn ?? getBytePlusUserSafeErrorMessage;
+  const getBytePlusTaskFailureCodeFn =
+    deps.getBytePlusTaskFailureCodeFn ?? getBytePlusTaskFailureCode;
+  const scrubBytePlusErrorFn = deps.scrubBytePlusErrorFn ?? scrubBytePlusError;
+  const queryFn = deps.queryFn ?? query;
+  const rollbackPendingPaymentFn = deps.rollbackPendingPaymentFn ?? rollbackPendingPayment;
+  const persistProviderJobIdFn = deps.persistProviderJobIdFn;
+  const logMetricFn = deps.logMetricFn;
+
+  try {
+    assertBytePlusSeedanceSubmissionEnabled(params.engineId);
+    const profile = requireBytePlusSeedanceProfile(params.engineId);
+    const config = getBytePlusArkConfigFn();
+    const generateAudio =
+      profile.generatedAudio && params.audioEnabled !== false;
+    const referenceBudget = resolveEngineReferenceBudget(
+      params.inputSchema,
+      params.mode
+    );
+    const referenceMediaItems =
+      referenceBudget && params.inputSchema
+        ? buildReferenceMediaItems(
+            params.inputSchema,
+            params.mode,
+            params.referenceValuesByField ?? {}
+          )
+        : undefined;
+    const payload = buildBytePlusSeedancePayloadFn({
+      modelId: resolveBytePlusSeedanceModelIdFn(params.engineId, config),
+      prompt: params.prompt,
+      durationSec: params.durationSec,
+      mode: toBytePlusMode(params.mode),
+      imageUrl: params.mode === 'i2v' ? params.initialImageUrl : null,
+      endImageUrl: params.mode === 'i2v' ? params.endImageUrl : null,
+      referenceImageUrls: params.mode === 'ref2v' || params.mode === 'v2v' ? params.normalizedReferenceImages : undefined,
+      referenceVideoUrls:
+        params.mode === 'ref2v' || params.mode === 'v2v' || params.mode === 'extend' ? params.videoUrls : undefined,
+      referenceAudioUrls:
+        params.mode === 'ref2v' || params.mode === 'v2v'
+          ? Array.from(new Set([...(params.resolvedAudioUrl ? [params.resolvedAudioUrl] : []), ...params.audioUrls]))
+          : undefined,
+      resolution: params.effectiveResolution,
+      ratio: params.aspectRatio,
+      generateAudio,
+      allowedModes: profile.supportedModes,
+      allowedAspectRatios: profile.aspectRatios,
+      allowedResolutions: getBytePlusSeedanceAllowedResolutionsFn(params.engineId),
+      allowedDurationOptions: getBytePlusSeedanceDurationOptionsFn(params.engineId),
+      ...(referenceBudget
+        ? { referenceBudget, referenceMediaItems: referenceMediaItems ?? [] }
+        : {}),
+    });
+    const transport = resolveBytePlusTransport(params.engineId, params.mode);
+    const providerTask = await getBytePlusModelArkClientFn(transport).createSeedanceFastTask(payload);
+    const providerJobId = providerTask.providerJobId;
+    await persistProviderJobIdFn?.(providerJobId);
+    const status = providerTask.status === 'running' ? 'running' : 'queued';
+    const progress = providerTask.status === 'running' ? 30 : 10;
+
+    await queryFn(
+      `UPDATE app_jobs
+       SET status = $2,
+           progress = $3,
+           message = $4,
+           provider = $5,
+           provider_job_id = $6,
+           settings_snapshot = jsonb_set(
+             COALESCE(settings_snapshot, '{}'::jsonb),
+             '{byteplusTransport}',
+             to_jsonb($7::text),
+             true
+           ),
+           mcp_trial_outcome_disposition = CASE
+             WHEN payment_status = 'included_mcp_trial'
+               AND mcp_trial_outcome_disposition IS NULL THEN 'accepted'
+             ELSE mcp_trial_outcome_disposition
+           END,
+           provisional = FALSE,
+           updated_at = NOW()
+       WHERE job_id = $1`,
+      [params.jobId, status, progress, 'Render submitted.', BYTEPLUS_MODELARK_PROVIDER, providerJobId, transport]
+    );
+    logMetricFn?.('accepted', {
+      jobId: params.jobId,
+      meta: {
+        providerJobId,
+        provider: BYTEPLUS_MODELARK_PROVIDER,
+        transport,
+        inputSummary: {
+          mode: params.mode,
+          promptLength: params.prompt.length,
+          durationSec: params.durationSec,
+          resolution: params.effectiveResolution,
+          aspectRatio: params.aspectRatio,
+          generateAudio: params.audioEnabled !== false,
+          hasImage: Boolean(params.mode === 'i2v' && params.initialImageUrl),
+          hasEndImage: Boolean(params.mode === 'i2v' && params.endImageUrl),
+          referenceImageCount: params.mode === 'ref2v' || params.mode === 'v2v' ? params.normalizedReferenceImages.length : 0,
+          referenceVideoCount:
+            params.mode === 'ref2v' || params.mode === 'v2v' || params.mode === 'extend' ? params.videoUrls.length : 0,
+          referenceAudioCount:
+            params.mode === 'ref2v' || params.mode === 'v2v' ? params.audioUrls.length : 0,
+        },
+      },
+    });
+
+    return {
+      ok: true,
+      body: {
+        ok: true,
+        jobId: params.jobId,
+        videoUrl: null,
+        video: null,
+        thumbUrl: params.placeholderThumb,
+        status,
+        progress,
+        pricing: params.pricing,
+        paymentStatus: params.paymentStatus,
+        provider: BYTEPLUS_MODELARK_PROVIDER,
+        providerJobId,
+        batchId: params.batchId,
+        groupId: params.groupId,
+        iterationIndex: params.iterationIndex,
+        iterationCount: params.iterationCount,
+        renderIds: params.renderIds,
+        heroRenderId: params.heroRenderId,
+        localKey: params.localKey,
+      },
+    };
+  } catch (error) {
+    const providerMessage = scrubBytePlusErrorFn(error);
+    const providerStatus = error instanceof BytePlusModelArkError ? error.status : null;
+    const providerErrorCode =
+      error instanceof BytePlusModelArkError && error.code
+        ? error.code
+        : 'BYTEPLUS_PROVIDER_ERROR';
+    const failureCode = getBytePlusTaskFailureCodeFn(
+      providerMessage,
+      providerErrorCode
+    );
+    const errorCode = failureCode ?? providerErrorCode;
+    const failureMessage =
+      errorCode === 'BYTEPLUS_ENGINE_DISABLED'
+        ? 'This engine is temporarily unavailable.'
+        : errorCode === 'BYTEPLUS_ENGINE_PROFILE_MISSING'
+        ? 'This engine is not configured for BytePlus.'
+        : toUserFacingFailureMessage(
+            getBytePlusUserSafeErrorMessageFn(providerMessage, providerErrorCode)
+          );
+    const responseStatus =
+      error instanceof BytePlusModelArkError && error.code === 'BYTEPLUS_ENGINE_DISABLED'
+        ? 404
+        : error instanceof BytePlusModelArkError && error.code === 'BYTEPLUS_ENGINE_PROFILE_MISSING'
+        ? 400
+        : providerStatus && providerStatus >= 400 && providerStatus < 500
+          ? 502
+          : 503;
+    const trialDisposition = providerStatus && providerStatus >= 400 && providerStatus < 500
+      ? 'definitive_failure'
+      : 'unknown';
+    console.warn('[byteplus] task submission failed', {
+      jobId: params.jobId,
+      engineId: params.engineId,
+      status: providerStatus,
+      code: errorCode,
+      message: providerMessage,
+    });
+    try {
+      const providerFailureJson = failureCode
+        ? JSON.stringify({
+            provider: BYTEPLUS_MODELARK_PROVIDER,
+            providerErrorCode,
+            failureCode,
+          })
+        : null;
+      await queryFn(
+        `UPDATE app_jobs
+         SET status = 'failed',
+             progress = 0,
+             message = $2,
+             provider = $3,
+             provisional = FALSE,
+             payment_status = CASE WHEN $4::text IS NOT NULL THEN $4 ELSE payment_status END,
+             settings_snapshot = CASE
+               WHEN $5::jsonb IS NULL THEN settings_snapshot
+               ELSE jsonb_set(
+                 COALESCE(settings_snapshot, '{}'::jsonb),
+                 '{providerFailure}',
+                 $5::jsonb,
+                 true
+               )
+             END,
+             mcp_trial_outcome_disposition = CASE
+               WHEN payment_status <> 'included_mcp_trial' THEN mcp_trial_outcome_disposition
+               WHEN mcp_trial_outcome_disposition IN ('completed', 'definitive_failure', 'canceled')
+                 THEN mcp_trial_outcome_disposition
+               WHEN $6 = 'definitive_failure' THEN 'definitive_failure'
+               WHEN mcp_trial_outcome_disposition IS NULL
+                 OR mcp_trial_outcome_disposition = 'accepted' THEN 'unknown'
+               ELSE mcp_trial_outcome_disposition
+             END,
+             updated_at = NOW()
+         WHERE job_id = $1`,
+        [
+          params.jobId,
+          failureMessage,
+          BYTEPLUS_MODELARK_PROVIDER,
+          params.pendingReceipt ? (params.paymentMode === 'wallet' ? 'refunded_wallet' : 'refunded') : null,
+          providerFailureJson,
+          trialDisposition,
+        ]
+      );
+    } catch (updateError) {
+      console.warn('[byteplus] failed to mark submission failure', { jobId: params.jobId }, updateError);
+    }
+    if (params.pendingReceipt) {
+      await rollbackPendingPaymentFn({
+        pendingReceipt: params.pendingReceipt,
+        walletChargeReserved: params.walletChargeReserved,
+        refundDescription: buildUserFacingRefundDescription({
+          engineLabel: params.engineLabel,
+          durationSec: params.durationSec,
+          reason: failureMessage,
+        }),
+      });
+    }
+    logMetricFn?.('failed', {
+      jobId: params.jobId,
+      errorCode,
+      meta: {
+        provider: BYTEPLUS_MODELARK_PROVIDER,
+        providerStatus,
+        providerErrorCode,
+        failureCode,
+      },
+    });
+
+    return {
+      ok: false,
+      status: responseStatus,
+      body: {
+        ok: false,
+        error: errorCode,
+        message: failureMessage,
+      },
+    };
+  }
+}
+
+function toBytePlusMode(mode: Mode): 't2v' | 'i2v' | 'ref2v' | 'v2v' | 'extend' {
+  return mode === 'i2v'
+    ? 'i2v'
+    : mode === 'ref2v'
+      ? 'ref2v'
+      : mode === 'v2v'
+        ? 'v2v'
+        : mode === 'extend'
+          ? 'extend'
+          : 't2v';
+}

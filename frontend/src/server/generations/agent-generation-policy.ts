@@ -1,0 +1,341 @@
+import { deriveJobSurface } from '@/lib/job-surface';
+import { extractRenderIds, extractRenderThumbUrls, parseStoredImageRenders } from '@/lib/image-renders';
+import { isStablePublicMediaUrl, normalizeMediaUrl } from '@/lib/media';
+import {
+  getVideoFailureCodeFromSettingsSnapshot,
+  SEEDANCE_I2V_RATIO_REJECTED,
+  SEEDANCE_INPUT_VIDEO_TOO_SMALL,
+  SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED,
+  SEEDANCE_TASK_TYPE_CONSTRAINT,
+} from '@/lib/video-failure-codes';
+
+import type {
+  AgentGenerationResult,
+  AgentGenerationStatus,
+  GenerationStatusRecord,
+} from './generation-status';
+
+const ACCEPTED_STATUSES = new Set(['accepted', 'created', 'pending', 'queued', 'submitted', 'waiting']);
+const RUNNING_STATUSES = new Set(['in_progress', 'processing', 'running']);
+const COMPLETED_STATUSES = new Set(['completed', 'finished', 'success', 'succeeded']);
+const FAILED_STATUSES = new Set([
+  'aborted',
+  'cancelled',
+  'canceled',
+  'error',
+  'errored',
+  'expired',
+  'failed',
+  'missing',
+  'not_found',
+  'provider_polling_stalled',
+  'timed_out',
+  'timeout',
+]);
+const SAFE_PAYMENT_STATUSES = new Set([
+  'included',
+  'included_mcp_trial',
+  'paid_direct',
+  'paid_stripe',
+  'paid_wallet',
+  'platform',
+  'refunded',
+  'refunded_wallet',
+]);
+const IMAGE_SURFACES = new Set(['angle', 'character', 'image', 'storyboard', 'upscale']);
+const PRIVATE_MEDIA_PATH_PATTERN =
+  /^\/(?:api|admin|app|billing|connect|dashboard|generate|jobs|settings)(?:\/|$)/iu;
+const PUBLIC_APP_MEDIA_PATH_PATTERN = /^\/(?:generated|media|uploads)(?:\/|$)/iu;
+const DEFAULT_PUBLIC_MEDIA_HOSTS = new Set([
+  'cdn.maxvideoai.com',
+  'media.maxvideoai.com',
+  'storage.maxvideoai.com',
+]);
+
+const AGENT_FAILURE_COPY = {
+  default: 'MaxVideoAI could not complete this render.',
+  busy: 'The render queue is temporarily busy.',
+  noOutput: 'The render finished without a usable output.',
+  safety: 'This request was blocked by safety checks. Rephrase it with safer, more neutral wording before preparing a new request.',
+  start: 'MaxVideoAI could not start this render.',
+  storage: 'The render finished, but MaxVideoAI could not prepare the output for download.',
+  timeout: 'This render exceeded the expected processing window.',
+  unsupported: 'This request is not supported with the selected inputs. Adjust the prompt, media, or settings before preparing a new request.',
+  pollingStalled: 'This render needs manual review. Contact MaxVideoAI support with your request ID before preparing another attempt.',
+  seedanceTaskType:
+    'Seedance could not identify the intended video edit or extension. Refer to the source directly as Video 1 before preparing a new request.',
+} as const;
+
+const FAILED_ATTEMPT_BOUNDARY =
+  'No new generation was started after this failure. A refund or recredit does not restore the previous authorization. To try again, prepare a fresh exact quote and wait for explicit user approval.';
+
+const SAFE_AGENT_FAILURE_CODES = new Set([
+  SEEDANCE_I2V_RATIO_REJECTED,
+  SEEDANCE_INPUT_VIDEO_TOO_SMALL,
+  SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED,
+  SEEDANCE_TASK_TYPE_CONSTRAINT,
+]);
+
+function safeAgentFailureCode(settingsSnapshot: unknown): string | null {
+  const failureCode = getVideoFailureCodeFromSettingsSnapshot(settingsSnapshot);
+  return failureCode && SAFE_AGENT_FAILURE_CODES.has(failureCode) ? failureCode : null;
+}
+
+function normalizeAgentSurface(record: GenerationStatusRecord): 'video' | 'image' | 'audio' | null {
+  const surface = deriveJobSurface({
+    surface: record.surface,
+    settingsSnapshot: record.settings_snapshot,
+    jobId: record.job_id,
+    engineId: record.engine_id,
+    videoUrl: record.video_url,
+    renderIds: Array.isArray(record.render_ids) ? record.render_ids : null,
+  });
+  if (surface === 'video' || surface === 'background-removal') return 'video';
+  if (surface === 'audio') return 'audio';
+  return IMAGE_SURFACES.has(surface) ? 'image' : null;
+}
+
+function audioResultFacts(record: GenerationStatusRecord, audioUrl: string | null, videoUrl: string | null) {
+  const snapshot = record.settings_snapshot && typeof record.settings_snapshot === 'object'
+    ? record.settings_snapshot as Record<string, unknown>
+    : {};
+  const mediaFacts = snapshot.mediaFacts && typeof snapshot.mediaFacts === 'object'
+    ? snapshot.mediaFacts as Record<string, unknown>
+    : {};
+  const measured = typeof mediaFacts.durationSec === 'number'
+    ? mediaFacts.durationSec
+    : snapshot.measuredDurationSec;
+  const durationSec = typeof measured === 'number' && Number.isFinite(measured) && measured > 0
+    ? measured
+    : typeof record.duration_sec === 'number' && Number.isFinite(record.duration_sec) && record.duration_sec > 0
+      ? record.duration_sec
+      : null;
+  const storedMime = typeof snapshot.audioMimeType === 'string'
+    ? snapshot.audioMimeType.trim().toLowerCase()
+    : '';
+  const allowedAudioMimes = new Set(['audio/flac', 'audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/wav']);
+  let mimeType = allowedAudioMimes.has(storedMime) ? storedMime : '';
+  if (!mimeType && audioUrl) {
+    const path = new URL(audioUrl).pathname.toLowerCase();
+    mimeType = path.endsWith('.wav') ? 'audio/wav'
+      : path.endsWith('.flac') ? 'audio/flac'
+        : path.endsWith('.ogg') ? 'audio/ogg'
+          : path.endsWith('.m4a') ? 'audio/mp4'
+            : path.endsWith('.mp3') ? 'audio/mpeg' : 'application/octet-stream';
+  }
+  if (!mimeType && videoUrl) {
+    const path = new URL(videoUrl).pathname.toLowerCase();
+    mimeType = path.endsWith('.webm') ? 'video/webm'
+      : path.endsWith('.mov') ? 'video/quicktime'
+        : path.endsWith('.mp4') ? 'video/mp4' : 'application/octet-stream';
+  }
+  return { durationSec, mimeType: mimeType || 'application/octet-stream' };
+}
+
+function normalizeAgentStatus(rawStatus: string | null): AgentGenerationStatus['status'] {
+  const status = rawStatus?.trim().toLowerCase() ?? '';
+  if (COMPLETED_STATUSES.has(status)) return 'completed';
+  if (FAILED_STATUSES.has(status)) return 'failed';
+  if (RUNNING_STATUSES.has(status)) return 'running';
+  if (ACCEPTED_STATUSES.has(status)) return 'accepted';
+  return 'accepted';
+}
+
+function normalizeProgress(value: number | null, status: AgentGenerationStatus['status']): number | null {
+  if (status === 'completed') return 100;
+  if (typeof value !== 'number' || !Number.isFinite(value)) return null;
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function normalizeCurrency(value: string | null): string | null {
+  const currency = value?.trim().toUpperCase();
+  return currency && /^[A-Z]{3}$/u.test(currency) ? currency : null;
+}
+
+function normalizePaymentStatus(value: string | null): string | null {
+  const status = value?.trim().toLowerCase();
+  return status && SAFE_PAYMENT_STATUSES.has(status) ? status : null;
+}
+
+function stableMediaUrl(value: string | null | undefined): string | null {
+  const normalized = normalizeMediaUrl(value);
+  if (!normalized || !isStablePublicMediaUrl(normalized) || !/^https:\/\//iu.test(normalized)) return null;
+  try {
+    const parsed = new URL(normalized);
+    if (
+      parsed.protocol !== 'https:' ||
+      parsed.username.length > 0 ||
+      parsed.password.length > 0 ||
+      parsed.hash.length > 0 ||
+      (parsed.port.length > 0 && parsed.port !== '443')
+    ) {
+      return null;
+    }
+    if (PRIVATE_MEDIA_PATH_PATTERN.test(parsed.pathname)) return null;
+    const assetBases = (process.env.ASSET_HOST_ALLOWLIST ?? '')
+      .split(',')
+      .map((candidate) => candidate.trim())
+      .filter(Boolean)
+      .map((candidate) => (/^https?:\/\//iu.test(candidate) ? candidate : `https://${candidate}`));
+    const configuredBases = [
+      process.env.S3_PUBLIC_BASE_URL,
+      process.env.TEST_VIDEO_BASE_URL,
+      ...assetBases,
+    ]
+      .map((candidate) => {
+        try {
+          const base = candidate ? new URL(candidate) : null;
+          if (
+            !base ||
+            base.protocol !== 'https:' ||
+            base.username.length > 0 ||
+            base.password.length > 0 ||
+            base.hash.length > 0 ||
+            (base.port.length > 0 && base.port !== '443')
+          ) {
+            return null;
+          }
+          return base;
+        } catch {
+          return null;
+        }
+      })
+      .filter((candidate): candidate is URL => Boolean(candidate));
+    const configuredStorageMatch = configuredBases.some((base) => {
+      if (base.origin !== parsed.origin) return false;
+      const basePath = base.pathname.replace(/\/+$/u, '');
+      return !basePath || basePath === '/' || parsed.pathname === basePath || parsed.pathname.startsWith(`${basePath}/`);
+    });
+    const fixedOrigins = new Set(
+      Array.from(DEFAULT_PUBLIC_MEDIA_HOSTS, (hostname) => `https://${hostname}`)
+    );
+    if (configuredStorageMatch || fixedOrigins.has(parsed.origin)) return normalized;
+    const appOrigins = [process.env.NEXT_PUBLIC_SITE_URL, process.env.NEXT_PUBLIC_APP_URL]
+      .map((candidate) => {
+        try {
+          const base = candidate ? new URL(candidate) : null;
+          return base?.protocol === 'https:' && (!base.port || base.port === '443') ? base.origin : null;
+        } catch {
+          return null;
+        }
+      })
+      .filter((origin): origin is string => Boolean(origin));
+    return appOrigins.includes(parsed.origin) && PUBLIC_APP_MEDIA_PATH_PATTERN.test(parsed.pathname)
+      ? normalized
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function buildAgentResult(
+  record: GenerationStatusRecord,
+  surface: 'video' | 'image' | 'audio',
+  status: AgentGenerationStatus['status']
+): AgentGenerationResult | null {
+  if (status !== 'completed') return null;
+  if (surface === 'audio') {
+    const audioUrl = stableMediaUrl(record.audio_url);
+    const videoUrl = stableMediaUrl(record.video_url);
+    if (!audioUrl && !videoUrl) return null;
+    return {
+      surface,
+      audioUrl,
+      videoUrl,
+      thumbnailUrl: stableMediaUrl(record.thumb_url),
+      ...audioResultFacts(record, audioUrl, videoUrl),
+    };
+  }
+  if (surface === 'video') {
+    const videoUrl = stableMediaUrl(record.video_url);
+    if (!videoUrl) return null;
+    return {
+      surface,
+      videoUrl,
+      previewUrl: stableMediaUrl(record.preview_video_url),
+      thumbnailUrl: stableMediaUrl(record.thumb_url),
+      audioUrl: stableMediaUrl(record.audio_url),
+    };
+  }
+
+  const parsedRenders = parseStoredImageRenders(record.render_ids);
+  const imageUrls = (extractRenderIds(parsedRenders.entries) ?? [])
+    .map((url) => stableMediaUrl(url))
+    .filter((url): url is string => Boolean(url));
+  if (!imageUrls.length) return null;
+  const thumbnailUrls = [
+    ...(extractRenderThumbUrls(parsedRenders) ?? []),
+    record.thumb_url,
+  ]
+    .map((url) => stableMediaUrl(url))
+    .filter((url): url is string => Boolean(url));
+  return { surface, imageUrls, thumbnailUrls: Array.from(new Set(thumbnailUrls)) };
+}
+
+function buildAgentMessage(
+  status: AgentGenerationStatus['status'],
+  rawMessage: string | null,
+  rawStatus: string | null,
+  failureCode: string | null
+): string | null {
+  if (status === 'accepted') return 'Generation accepted.';
+  if (status === 'running') return 'Generation in progress.';
+  if (status === 'failed') {
+    let failureMessage: string;
+    if (failureCode === SEEDANCE_TASK_TYPE_CONSTRAINT) {
+      failureMessage = AGENT_FAILURE_COPY.seedanceTaskType;
+    } else if (rawStatus?.trim().toLowerCase() === 'provider_polling_stalled') {
+      failureMessage = AGENT_FAILURE_COPY.pollingStalled;
+    } else {
+      const message = rawMessage?.trim().toLowerCase() ?? '';
+      if (/responsible ai|sensitive words|content policy|policy violation|safety|moderation|prohibited|blocked/iu.test(message)) {
+        failureMessage = AGENT_FAILURE_COPY.safety;
+      } else if (/unsupported|not supported|invalid request|unprocessable|does not support/iu.test(message)) {
+        failureMessage = AGENT_FAILURE_COPY.unsupported;
+      } else if (/no result|no video|no usable output|returned no|without a usable output/iu.test(message)) {
+        failureMessage = AGENT_FAILURE_COPY.noOutput;
+      } else if (/copy|copied|storage|download|fast-start|faststart/iu.test(message)) {
+        failureMessage = AGENT_FAILURE_COPY.storage;
+      } else if (/timeout|timed out|processing window|expected window|grace period|exceeded/iu.test(message)) {
+        failureMessage = AGENT_FAILURE_COPY.timeout;
+      } else if (/rate limit|temporarily unavailable|temporarily busy|quota|credits exhausted|too many requests|queue is/iu.test(message)) {
+        failureMessage = AGENT_FAILURE_COPY.busy;
+      } else if (/could not start|start failed|request failed|sync failed|missing provider_job_id|status unavailable|not found|expired/iu.test(message)) {
+        failureMessage = AGENT_FAILURE_COPY.start;
+      } else {
+        failureMessage = AGENT_FAILURE_COPY.default;
+      }
+    }
+    return `${failureMessage} ${FAILED_ATTEMPT_BOUNDARY}`;
+  }
+  return null;
+}
+
+export function mapGenerationStatusRecordToAgent(
+  record: GenerationStatusRecord
+): AgentGenerationStatus | null {
+  const surface = normalizeAgentSurface(record);
+  if (!surface) return null;
+  const status = normalizeAgentStatus(record.status);
+  const failureCode = status === 'failed'
+    ? safeAgentFailureCode(record.settings_snapshot)
+    : null;
+  return {
+    jobId: record.job_id,
+    surface,
+    status,
+    progress: normalizeProgress(record.progress, status),
+    message: buildAgentMessage(status, record.message, record.status, failureCode),
+    priceCents:
+      typeof record.final_price_cents === 'number' &&
+      Number.isSafeInteger(record.final_price_cents) &&
+      record.final_price_cents >= 0
+        ? record.final_price_cents
+        : null,
+    currency: normalizeCurrency(record.currency),
+    paymentStatus: normalizePaymentStatus(record.payment_status),
+    ...(failureCode ? { failureCode } : {}),
+    result: buildAgentResult(record, surface, status),
+    retryAfterSeconds: status === 'accepted' || status === 'running' ? 5 : null,
+  };
+}

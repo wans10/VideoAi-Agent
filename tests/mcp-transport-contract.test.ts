@@ -1,0 +1,625 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import { AgentApiError } from '../frontend/src/server/agent-api/errors';
+import type { McpAuditEvent } from '../frontend/src/server/agent-api/audit-events';
+import type { AgentPrincipal } from '../frontend/src/server/agent-api/principal';
+import {
+  handleMcpHttpRequest,
+  type McpHttpHandlerDeps,
+} from '../frontend/src/server/mcp/http-handler';
+import { resolveAgentPrincipal } from '../frontend/src/server/mcp/oauth-adapter';
+import type { MaxVideoAiMcpServices } from '../frontend/src/server/mcp/server';
+
+const principal: AgentPrincipal = {
+  userId: 'user-1',
+  clientId: 'client-1',
+  emailVerified: true,
+  authMethod: 'oauth',
+};
+
+function deps(overrides: Partial<McpHttpHandlerDeps> = {}): McpHttpHandlerDeps {
+  return {
+    enabled: true,
+    config: {
+      apiHost: 'api.maxvideoai.com',
+      resourceUrl: 'https://api.maxvideoai.com/mcp',
+      protectedResourceMetadataUrl:
+        'https://api.maxvideoai.com/.well-known/oauth-protected-resource/mcp',
+      accountUrl: 'https://maxvideoai.com/account/connections',
+    },
+    async resolvePrincipal() {
+      return principal;
+    },
+    ...overrides,
+  };
+}
+
+function protocolRequest(body: object, extraHeaders: Record<string, string> = {}): Request {
+  return new Request('https://api.maxvideoai.com/mcp', {
+    method: 'POST',
+    headers: {
+      authorization: 'Bearer access-token',
+      accept: 'application/json, text/event-stream',
+      'content-type': 'application/json',
+      host: 'api.maxvideoai.com',
+      ...extraHeaders,
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+function protocolRequestWithoutAuthorization(body: object): Request {
+  return new Request('https://api.maxvideoai.com/mcp', {
+    method: 'POST',
+    headers: {
+      accept: 'application/json, text/event-stream',
+      'content-type': 'application/json',
+      host: 'api.maxvideoai.com',
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+async function readProtocolPayload(response: Response): Promise<any> {
+  const contentType = response.headers.get('content-type') ?? '';
+  if (contentType.includes('application/json')) return response.json();
+
+  assert.match(contentType, /^text\/event-stream/u);
+  const dataLines = (await response.text())
+    .split('\n')
+    .filter((line) => line.startsWith('data: '));
+  assert.equal(dataLines.length, 1);
+  return JSON.parse(dataLines[0].slice('data: '.length));
+}
+
+function stagingProtocolRequest(body: object): Request {
+  return new Request('https://maxvideoai-mcp-staging.vercel.app/mcp', {
+    method: 'POST',
+    headers: {
+      authorization: 'Bearer access-token',
+      accept: 'application/json, text/event-stream',
+      'content-type': 'application/json',
+      host: 'maxvideoai-mcp-staging.vercel.app',
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+const stagingEnvironment = {
+  NODE_ENV: 'production',
+  MCP_STAGING_ENABLED: 'true',
+  MCP_STAGING_HOST: 'maxvideoai-mcp-staging.vercel.app',
+  MCP_API_HOST: 'maxvideoai-mcp-staging.vercel.app',
+  MCP_RESOURCE_URL: 'https://maxvideoai-mcp-staging.vercel.app/mcp',
+  MCP_STAGING_OPERATIONAL_ENABLED: 'true',
+  MCP_STAGING_REFERENCE_CLEANUP_ENABLED: 'true',
+  MCP_STAGING_REFERENCE_STORAGE_PREFIX: 'mcp-reference-staging/',
+  CRON_SECRET: 'test-only-cleanup-secret',
+};
+
+async function withStagingEnvironment<TResult>(callback: () => Promise<TResult>): Promise<TResult> {
+  const previous = Object.fromEntries(
+    Object.keys(stagingEnvironment).map((key) => [key, process.env[key]]),
+  );
+  Object.assign(process.env, stagingEnvironment);
+  try {
+    return await callback();
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+
+function stagingDeps(overrides: Partial<McpHttpHandlerDeps> = {}): McpHttpHandlerDeps {
+  return deps({
+    config: {
+      apiHost: 'maxvideoai-mcp-staging.vercel.app',
+      resourceUrl: 'https://maxvideoai-mcp-staging.vercel.app/mcp',
+      protectedResourceMetadataUrl:
+        'https://maxvideoai-mcp-staging.vercel.app/.well-known/oauth-protected-resource/mcp',
+      accountUrl: 'https://maxvideoai-mcp-staging.vercel.app/account/connections',
+    },
+    ...overrides,
+  });
+}
+
+const initializeRequest = {
+  jsonrpc: '2.0',
+  id: 1,
+  method: 'initialize',
+  params: {
+    protocolVersion: '2025-06-18',
+    capabilities: {},
+    clientInfo: { name: 'contract-host', version: '1.0.0' },
+  },
+};
+
+test('disabled transport is indistinguishable from an absent endpoint', async () => {
+  const response = await handleMcpHttpRequest(protocolRequest(initializeRequest), deps({ enabled: false }));
+
+  assert.equal(response.status, 404);
+  assert.equal(response.headers.get('www-authenticate'), null);
+  assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
+});
+
+test('unauthenticated requests receive RFC 9728 resource metadata guidance', async () => {
+  const response = await handleMcpHttpRequest(
+    protocolRequest(initializeRequest),
+    deps({
+      async resolvePrincipal() {
+        throw new AgentApiError('AUTH_REQUIRED', 'Bearer authentication is required.');
+      },
+    })
+  );
+
+  assert.equal(response.status, 401);
+  assert.equal(
+    response.headers.get('www-authenticate'),
+    'Bearer resource_metadata="https://api.maxvideoai.com/.well-known/oauth-protected-resource/mcp"'
+  );
+  assert.equal(response.headers.get('cache-control'), 'private, no-store, no-transform');
+  assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
+  assert.doesNotMatch(await response.text(), /access-token|Bearer authentication is required/);
+});
+
+test('the real OAuth adapter produces the stable HTTP and JSON-RPC authentication challenge', async () => {
+  const response = await handleMcpHttpRequest(
+    protocolRequestWithoutAuthorization(initializeRequest),
+    deps({ resolvePrincipal: resolveAgentPrincipal })
+  );
+  const payload = await response.json();
+
+  assert.equal(response.status, 401);
+  assert.deepEqual(payload, {
+    jsonrpc: '2.0',
+    error: { code: -32001, message: 'Authentication required.' },
+    id: null,
+  });
+  assert.equal(
+    response.headers.get('www-authenticate'),
+    'Bearer resource_metadata="https://api.maxvideoai.com/.well-known/oauth-protected-resource/mcp"'
+  );
+});
+
+test('authenticated initialize uses uncompressed SSE Streamable HTTP and private caching', async () => {
+  const response = await handleMcpHttpRequest(protocolRequest(initializeRequest), deps());
+  const payload = await readProtocolPayload(response);
+
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type') ?? '', /^text\/event-stream/u);
+  assert.equal(response.headers.get('cache-control'), 'private, no-store, no-transform');
+  assert.equal(response.headers.get('mcp-session-id'), null);
+  assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
+  assert.equal(payload.jsonrpc, '2.0');
+  assert.equal(payload.id, 1);
+  assert.equal(payload.result.serverInfo.name, 'maxvideoai');
+});
+
+test('authenticated tool calls use explicitly injected MCP services', async () => {
+  let listModelsCalls = 0;
+  const services = {
+    async getAccountStatus() { throw new Error('not exercised'); },
+    async listModels() {
+      listModelsCalls += 1;
+      return [];
+    },
+    async getModelDetails() { throw new Error('not exercised'); },
+    async recommendModels() { throw new Error('not exercised'); },
+    async calculateProjectBudget() { throw new Error('not exercised'); },
+    async prepareGeneration() { throw new Error('not exercised'); },
+    async confirmGeneration() { throw new Error('not exercised'); },
+    async getGenerationStatus() { throw new Error('not exercised'); },
+    async createGenerationDownload() { throw new Error('not exercised'); },
+    async listRecentGenerations() { throw new Error('not exercised'); },
+    async createTopupLink() { throw new Error('not exercised'); },
+    async listMedia() { throw new Error('not exercised'); },
+    async createReferenceUploadLink() { throw new Error('not exercised'); },
+    async importReferenceFiles() { throw new Error('not exercised'); },
+  } satisfies MaxVideoAiMcpServices;
+  const response = await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0',
+      id: 2,
+      method: 'tools/call',
+      params: { name: 'list_models', arguments: {} },
+    }),
+    deps({ services }),
+  );
+  const payload = await readProtocolPayload(response);
+
+  assert.equal(response.status, 200);
+  assert.equal(listModelsCalls, 1);
+  assert.deepEqual(payload.result.structuredContent, { models: [] });
+});
+
+test('exact hosted staging exposes the complete operational tool inventory', async () => {
+  await withStagingEnvironment(async () => {
+    const response = await handleMcpHttpRequest(
+      stagingProtocolRequest({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} }),
+      stagingDeps(),
+    );
+    const payload = await readProtocolPayload(response);
+
+    assert.equal(response.status, 200);
+    assert.deepEqual(payload.result.tools.map((tool: { name: string }) => tool.name).sort(), [
+      'calculate_project_budget',
+      'confirm_generation',
+      'create_reference_upload_link',
+      'create_topup_link',
+      'get_account_status',
+      'get_generation_download',
+      'get_generation_status',
+      'get_model_details',
+      'import_reference_files',
+      'list_media',
+      'list_models',
+      'list_recent_generations',
+      'prepare_generation',
+      'present_generation',
+      'recommend_models',
+    ]);
+  });
+});
+
+test('authenticated transport exposes Audio only through an explicit paid Audio capability override', async () => {
+  const response = await handleMcpHttpRequest(
+    protocolRequest({ jsonrpc: '2.0', id: 12, method: 'tools/list', params: {} }),
+    deps({
+      runtimeCapabilities: {
+        paidGeneration: true,
+        referenceUploads: false,
+        audioGeneration: true,
+      },
+    }),
+  );
+  const payload = await readProtocolPayload(response);
+  const tools = new Map(payload.result.tools.map((tool: { name: string; annotations?: unknown }) => [tool.name, tool]));
+  assert.deepEqual(
+    ['list_audio_capabilities', 'prepare_audio_generation', 'confirm_audio_generation']
+      .filter((name) => tools.has(name)),
+    ['list_audio_capabilities', 'prepare_audio_generation', 'confirm_audio_generation'],
+  );
+  assert.deepEqual((tools.get('list_audio_capabilities') as { annotations?: unknown }).annotations, {
+    readOnlyHint: true, destructiveHint: false, openWorldHint: false,
+  });
+  assert.deepEqual((tools.get('prepare_audio_generation') as { annotations?: unknown }).annotations, {
+    readOnlyHint: false, destructiveHint: false, openWorldHint: false,
+  });
+  assert.deepEqual((tools.get('confirm_audio_generation') as { annotations?: unknown }).annotations, {
+    readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true,
+  });
+});
+
+test('Audio operational calls pass through the HTTP audit allowlist without recording arguments', async () => {
+  const events: McpAuditEvent[] = [];
+  const audioTools = [
+    'list_audio_capabilities',
+    'prepare_audio_generation',
+    'confirm_audio_generation',
+  ];
+  for (const [index, name] of audioTools.entries()) {
+    const response = await handleMcpHttpRequest(
+      protocolRequest({
+        jsonrpc: '2.0',
+        id: 40 + index,
+        method: 'tools/call',
+        params: { name, arguments: { prompt: 'private Audio prompt', quoteId: 'private-quote' } },
+      }),
+      deps({
+        runtimeCapabilities: {
+          paidGeneration: true,
+          referenceUploads: false,
+          audioGeneration: true,
+        },
+        async recordEvent(event) {
+          events.push(event);
+          return true;
+        },
+      }),
+    );
+    assert.equal(response.status, 200);
+  }
+
+  assert.deepEqual(events.map(({ tool, outcome }) => ({ tool, outcome })), audioTools.map((tool) => ({
+    tool,
+    outcome: 'failure',
+  })));
+  assert.doesNotMatch(JSON.stringify(events), /private Audio prompt|private-quote|prompt|quoteId/i);
+});
+
+test('operational tool audit records only approved names and coarse failure outcomes', async () => {
+  await withStagingEnvironment(async () => {
+    const events: McpAuditEvent[] = [];
+    const operationalTools = [
+      'prepare_generation',
+      'confirm_generation',
+      'get_generation_status',
+      'list_recent_generations',
+      'create_topup_link',
+      'list_media',
+      'create_reference_upload_link',
+      'import_reference_files',
+    ];
+    for (const [index, name] of operationalTools.entries()) {
+      const response = await handleMcpHttpRequest(
+        stagingProtocolRequest({
+          jsonrpc: '2.0',
+          id: 20 + index,
+          method: 'tools/call',
+          params: { name, arguments: { prompt: 'private', rawUrl: 'https://secret.example' } },
+        }),
+        stagingDeps({
+          async recordEvent(event) {
+            events.push(event);
+            return true;
+          },
+        }),
+      );
+      assert.equal(response.status, 200);
+    }
+
+    assert.deepEqual(events.map(({ tool, outcome }) => ({ tool, outcome })), operationalTools.map((tool) => ({
+      tool,
+      outcome: 'failure',
+    })));
+    assert.doesNotMatch(JSON.stringify(events), /private|secret\.example|prompt|rawUrl/i);
+  });
+});
+
+test('successful initialize and tools/list responses are audited after SDK handling', async () => {
+  const events: McpAuditEvent[] = [];
+  const recordEvent = async (event: McpAuditEvent) => {
+    events.push(event);
+    return true;
+  };
+
+  const initializeResponse = await handleMcpHttpRequest(
+    protocolRequest(initializeRequest),
+    deps({ recordEvent }),
+  );
+  const toolsListResponse = await handleMcpHttpRequest(
+    protocolRequest({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} }),
+    deps({ recordEvent }),
+  );
+
+  assert.equal(initializeResponse.status, 200);
+  assert.equal(toolsListResponse.status, 200);
+  assert.equal((await readProtocolPayload(initializeResponse)).error, undefined);
+  assert.equal((await readProtocolPayload(toolsListResponse)).error, undefined);
+  assert.deepEqual(events.map((event) => event.eventType), [
+    'connection_initialized',
+    'tool_discovery',
+  ]);
+});
+
+test('successful initialize/list binds the authenticated funnel once while ordinary tool calls do not rebinding-query', async () => {
+  const bound: AgentPrincipal[] = [];
+  const options = deps({
+    async recordConnection(connectionPrincipal) {
+      bound.push(connectionPrincipal);
+      return 'direct';
+    },
+    accountStatusDeps: {
+      async getWalletSummary() {
+        return { balanceCents: 0, currency: 'USD', pendingCents: 0, hasCompletedTopUp: false };
+      },
+    },
+  });
+
+  await handleMcpHttpRequest(protocolRequest(initializeRequest), options);
+  await handleMcpHttpRequest(
+    protocolRequest({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} }),
+    options,
+  );
+  await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0',
+      id: 3,
+      method: 'tools/call',
+      params: { name: 'get_account_status', arguments: {} },
+    }),
+    options,
+  );
+
+  assert.deepEqual(bound, [principal, principal]);
+});
+
+test('tool audit records only the allowlisted name and success/failure projection without arguments', async () => {
+  const events: McpAuditEvent[] = [];
+  const recordEvent = async (event: McpAuditEvent) => {
+    events.push(event);
+    return true;
+  };
+  const success = await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0', id: 4, method: 'tools/call',
+      params: { name: 'get_account_status', arguments: {} },
+    }),
+    deps({
+      recordEvent,
+      accountStatusDeps: {
+        async getWalletSummary() {
+          return { balanceCents: 0, currency: 'USD', pendingCents: 0, hasCompletedTopUp: false };
+        },
+      },
+    }),
+  );
+  const failed = await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0', id: 5, method: 'tools/call',
+      params: { name: 'get_account_status', arguments: {} },
+    }),
+    deps({
+      recordEvent,
+      accountStatusDeps: {
+        async getWalletSummary() {
+          throw new Error('private provider body');
+        },
+      },
+    }),
+  );
+  await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0', id: 6, method: 'tools/call',
+      params: { name: 'unknown_private_tool', arguments: { prompt: 'private' } },
+    }),
+    deps({ recordEvent }),
+  );
+  const details = await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0', id: 7, method: 'tools/call',
+      params: { name: 'get_model_details', arguments: { id: 'minimax-h3' } },
+    }),
+    deps({ recordEvent }),
+  );
+  const projectBudget = await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0', id: 8, method: 'tools/call',
+      params: { name: 'calculate_project_budget', arguments: {} },
+    }),
+    deps({ recordEvent }),
+  );
+
+  assert.equal(success.status, 200);
+  assert.equal(failed.status, 200);
+  assert.equal(details.status, 200);
+  assert.equal(projectBudget.status, 200);
+  assert.deepEqual(events, [
+    {
+      eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
+      tool: 'get_account_status', outcome: 'success', surface: null, engineId: null, errorCode: null,
+    },
+    {
+      eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
+      tool: 'get_account_status', outcome: 'failure', surface: null, engineId: null, errorCode: null,
+    },
+    {
+      eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
+      tool: 'get_model_details', outcome: 'success', surface: null, engineId: null, errorCode: null,
+    },
+    {
+      eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
+      tool: 'calculate_project_budget', outcome: 'failure', surface: null, engineId: null, errorCode: null,
+    },
+  ]);
+  assert.doesNotMatch(JSON.stringify(events), /private|prompt|token|provider/i);
+});
+
+test('rejected initialize responses never create success audit events', async () => {
+  const events: McpAuditEvent[] = [];
+  const response = await handleMcpHttpRequest(
+    protocolRequest({ jsonrpc: '2.0', id: 3, method: 'initialize', params: {} }),
+    deps({
+      async recordEvent(event) {
+        events.push(event);
+        return true;
+      },
+    }),
+  );
+  const payload = await readProtocolPayload(response);
+
+  assert.ok(response.status >= 400 || payload.error, 'the malformed initialize request must be rejected');
+  assert.deepEqual(events, []);
+});
+
+test('transport rejects a production Host even when forwarded-host names staging', async () => {
+  const response = await handleMcpHttpRequest(
+    protocolRequest(initializeRequest, {
+      host: 'maxvideoai.com',
+      'x-forwarded-host': 'api.maxvideoai.com',
+    }),
+    deps(),
+  );
+  assert.equal(response.status, 404);
+});
+
+test('authenticated account tool uses the resolved staging account URL through default services', async () => {
+  const stagingOrigin = 'https://maxvideoai-mcp-staging.vercel.app';
+  const response = await handleMcpHttpRequest(
+    new Request(`${stagingOrigin}/mcp`, {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer access-token',
+        accept: 'application/json, text/event-stream',
+        'content-type': 'application/json',
+        host: 'maxvideoai-mcp-staging.vercel.app',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'tools/call',
+        params: { name: 'get_account_status', arguments: {} },
+      }),
+    }),
+    deps({
+      config: {
+        apiHost: 'maxvideoai-mcp-staging.vercel.app',
+        resourceUrl: `${stagingOrigin}/mcp`,
+        protectedResourceMetadataUrl:
+          `${stagingOrigin}/.well-known/oauth-protected-resource/mcp`,
+        accountUrl: `${stagingOrigin}/account/connections`,
+      },
+      accountStatusDeps: {
+        async getWalletSummary() {
+          return {
+            balanceCents: 0,
+            currency: 'USD',
+            pendingCents: 0,
+            hasCompletedTopUp: false,
+          };
+        },
+      },
+    }),
+  );
+  const payload = await readProtocolPayload(response);
+
+  assert.equal(response.status, 200);
+  assert.equal(
+    payload.result.structuredContent.accountUrl,
+    `${stagingOrigin}/account/connections`,
+  );
+  assert.deepEqual(payload.result.structuredContent.wallet, {
+    amountCents: 0,
+    currency: 'USD',
+    pendingCents: 0,
+  });
+});
+
+test('browser HTML negotiation, oversized bodies, wrong hosts, and unsupported methods are rejected safely', async () => {
+  const browserRequest = protocolRequest(initializeRequest, { accept: 'text/html' });
+  const oversizedRequest = protocolRequest(initializeRequest, { 'content-length': '200000' });
+  const wrongHostRequest = new Request('https://maxvideoai.com/api/mcp', {
+    method: 'POST',
+    headers: {
+      authorization: 'Bearer access-token',
+      accept: 'application/json, text/event-stream',
+      'content-type': 'application/json',
+      host: 'maxvideoai.com',
+    },
+    body: JSON.stringify(initializeRequest),
+  });
+  const unsupportedRequest = new Request('https://api.maxvideoai.com/mcp', {
+    method: 'PUT',
+    headers: {
+      authorization: 'Bearer access-token',
+      accept: 'application/json',
+      host: 'api.maxvideoai.com',
+    },
+  });
+
+  const [browser, oversized, wrongHost, unsupported] = await Promise.all([
+    handleMcpHttpRequest(browserRequest, deps()),
+    handleMcpHttpRequest(oversizedRequest, deps()),
+    handleMcpHttpRequest(wrongHostRequest, deps()),
+    handleMcpHttpRequest(unsupportedRequest, deps()),
+  ]);
+
+  assert.equal(browser.status, 406);
+  assert.equal(oversized.status, 413);
+  assert.equal(wrongHost.status, 404);
+  assert.equal(unsupported.status, 405);
+  assert.equal((await unsupported.json()).error.code, -32600);
+});

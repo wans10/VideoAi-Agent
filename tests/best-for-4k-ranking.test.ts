@@ -1,0 +1,107 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import test from 'node:test';
+
+import { BEST_FOR_PAGES } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-config.ts';
+import type { RankedPick } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-config.ts';
+import { pickModelSpecificPreviewThumb } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-previews.ts';
+import { getPublishedRelatedComparisons } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-related.ts';
+
+const root = process.cwd();
+const fourKEntry = BEST_FOR_PAGES.find((entry) => entry.slug === '4k-video');
+const localeContentPaths = {
+  en: join(root, 'content/en/best-for/4k-video.mdx'),
+  fr: join(root, 'content/fr/best-for/4k-video.mdx'),
+  es: join(root, 'content/es/best-for/4k-video.mdx'),
+} as const;
+
+function createPick(slug: string): RankedPick {
+  return {
+    slug,
+    rank: 1,
+    criterion: 'Preview',
+    score: 10,
+    accent: 'from-brand',
+    reason: 'Test pick',
+    bullets: [],
+  };
+}
+
+test('4K best-for shortlist ranks H3 first and keeps capability-specific alternatives', () => {
+  assert.ok(fourKEntry, '4K best-for entry should exist');
+  assert.deepEqual(fourKEntry.topPicks?.slice(0, 4), ['minimax-h3', 'veo-3-1', 'kling-3-4k', 'veo-3-1-fast']);
+  assert.equal(fourKEntry.topPicks?.[4], 'seedance-2-0');
+  assert.deepEqual(getPublishedRelatedComparisons(fourKEntry, 'en').slice(0, 3), [
+    'minimax-h3-vs-veo-3-1',
+    'kling-3-4k-vs-veo-3-1',
+    'minimax-h3-vs-seedance-2-5',
+  ]);
+  assert.ok(getPublishedRelatedComparisons(fourKEntry, 'en').includes('seedance-2-0-vs-veo-3-1'));
+});
+
+test('localized 4K best-for editorial content reflects the H3-first ranking', () => {
+  for (const [locale, filePath] of Object.entries(localeContentPaths)) {
+    const source = readFileSync(filePath, 'utf8');
+    const h3Index = source.indexOf('minimax-h3)');
+    const veoIndex = source.indexOf('veo-3-1)');
+    const klingIndex = source.indexOf('kling-3-4k)');
+    const veoFastIndex = source.indexOf('veo-3-1-fast)');
+    const seedanceIndex = source.indexOf('seedance-2-0)');
+    const ltxProIndex = source.indexOf('ltx-2-3-pro)');
+
+    assert.ok(h3Index > -1, `${locale} content should link to MiniMax H3`);
+    assert.ok(veoIndex > -1, `${locale} content should link to Veo 3.1`);
+    assert.ok(klingIndex > -1, `${locale} content should link to Kling 3 4K`);
+    assert.ok(veoFastIndex > -1, `${locale} content should link to Veo 3.1 Fast`);
+    assert.ok(seedanceIndex > -1, `${locale} content should link to Seedance 2.0`);
+    assert.ok(h3Index < veoIndex, `${locale} content should place MiniMax H3 before Veo 3.1`);
+    assert.ok(veoIndex < klingIndex, `${locale} content should place Veo 3.1 before Kling 3 4K`);
+    assert.ok(klingIndex < veoFastIndex, `${locale} content should place Kling 3 4K before Veo Fast`);
+    assert.ok(veoFastIndex < seedanceIndex, `${locale} content should keep Seedance below the top three`);
+    assert.ok(ltxProIndex === -1 || seedanceIndex < ltxProIndex, `${locale} content should keep LTX below Seedance`);
+  }
+});
+
+test('best-for example previews prefer exact Veo variant thumbnails before family fallback', () => {
+  const veoVideos = [
+    {
+      engineId: 'veo-3-1',
+      thumbUrl: 'standard.jpg',
+      videoUrl: 'standard.mp4',
+    },
+    {
+      engineId: 'veo-3-1-lite',
+      thumbUrl: 'lite.jpg',
+      videoUrl: 'lite.mp4',
+    },
+    {
+      engineId: 'veo-3-1-fast',
+      thumbUrl: 'fast.jpg',
+      videoUrl: 'fast.mp4',
+    },
+  ];
+
+  assert.equal(pickModelSpecificPreviewThumb(createPick('veo-3-1'), veoVideos), 'standard.jpg');
+  assert.equal(pickModelSpecificPreviewThumb(createPick('veo-3-1-fast'), veoVideos), 'fast.jpg');
+  assert.equal(pickModelSpecificPreviewThumb(createPick('veo-3-1-lite'), veoVideos), 'lite.jpg');
+});
+
+test('best-for example previews do not fall back to standard Veo art for known Veo variants', () => {
+  const standardOnlyVideos = [
+    {
+      engineId: 'veo-3-1',
+      thumbUrl: 'standard.jpg',
+      videoUrl: 'standard.mp4',
+    },
+  ];
+
+  assert.match(
+    pickModelSpecificPreviewThumb(createPick('veo-3-1-fast'), standardOnlyVideos) ?? '',
+    /job_4db2339c-000a-4b81-a68c-9314dd7940b2/
+  );
+  assert.match(
+    pickModelSpecificPreviewThumb(createPick('veo-3-1-lite'), standardOnlyVideos) ?? '',
+    /0a6e2df3-0107-4ea7-8f70-6e03e406f39b/
+  );
+});

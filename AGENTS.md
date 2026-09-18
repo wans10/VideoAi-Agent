@@ -1,0 +1,248 @@
+# VideoAI-Agent Engineering Guide
+
+This file is the first reference for Codex, AI agents, and contributors working in this repository.
+
+## Product Shape
+
+VideoAI-Agent is a production Next.js application for AI video generation, model comparison, examples, pricing, billing, media library, and admin operations.
+
+The frontend lives in `frontend/`. Most product work should happen there.
+
+## Codex Start Protocol
+
+Before making code changes, Codex and other AI agents should:
+
+1. Read this `AGENTS.md`.
+2. Read `docs/engineering/llm-working-guide.md` for the current AI-agent workflow.
+3. Read the closest nested `AGENTS.md` for the area being changed, if one exists.
+4. Inspect the relevant architecture or contract tests before moving responsibilities between files.
+5. Check the current branch and worktree state before editing.
+
+Do not rely on stale memory of previous cleanup waves. For architecture cleanup, run the current audit:
+
+```bash
+npm run architecture:audit -- --min-lines 500
+```
+
+If choosing targets for a larger cleanup, prefer the live audit output over dated roadmap snapshots.
+
+## Guide Map
+
+Use these guides as context before changing the related areas:
+
+- `docs/engineering/project-structure.md`: where new code should live.
+- `docs/engineering/page-architecture.md`: how route files, metadata, data builders, and page sections should be split.
+- `docs/engineering/activity-feed.md`: Activity pagination, account isolation, read-path latency, and output enrichment contracts.
+- `docs/engineering/read-route-schema-bootstrap.md`: request-time read paths versus explicit schema/bootstrap ownership.
+- `docs/engineering/media-delivery.md`: media ownership, original/preview contracts, image optimizer settings, safe repairs, and Core Web Vitals validation.
+- `docs/engineering/admin-routes.md`: admin route and admin UI conventions.
+- `docs/engineering/refactor-roadmap.md`: cleanup strategy and historical context; confirm current line counts with the audit.
+- `docs/engineering/model-registry.md`: required workflow for adding, renaming, retiring, or publishing models.
+- `docs/engineering/mcp-integration-registry.md`: MCP integration identity, host evidence, publication, acquisition, installation, and store-state ownership.
+- `docs/engineering/alibaba-model-studio-provider.md`: direct Alibaba video routing, polling, observability, canary, and rollback contracts.
+- `docs/engineering/mcp-mode-coverage.md`: public MCP mode projection, intentional exclusions, and parity guard.
+- `docs/engineering/mcp-reference-imports.md`: private host attachments, MCP App uploads, and local helper trust boundaries.
+- `docs/engineering/stripe-webhook.md`: Stripe webhook security, idempotency, handler ownership, and validation gates.
+- `frontend/app/(core)/(workspace)/app/AGENTS.md`: authenticated video workspace boundaries.
+- `frontend/app/(core)/(workspace)/app/image/AGENTS.md`: image workspace boundaries.
+- `docs/engineering/studio-editor-architecture.md`: Studio canvas, timeline, media, certification and export ownership.
+- `frontend/app/(core)/(workspace)/app/studio/AGENTS.md`: Studio route-local guardrails.
+
+When instructions conflict, follow the nearest `AGENTS.md` for the files being edited, while preserving the root-level rules.
+
+## High-Level Layout
+
+- `frontend/app`: Next.js App Router routes, route handlers, layouts, metadata, redirects, and route-level orchestration.
+- `frontend/components`: Shared React components. Put reusable UI here when it is used by more than one route or feature.
+- `frontend/components/ui`: Low-level reusable UI primitives.
+- `frontend/lib`: Pure application logic, formatting, route helpers, SEO helpers, pricing helpers, and browser-safe utilities.
+- `frontend/server`: Server-only data access and backend orchestration.
+- `frontend/config`: Product catalog and configuration data.
+- `frontend/content`, `frontend/messages`, `content`: Localized content and documentation surfaces.
+- `docs`: Human-facing engineering, deployment, SEO, pricing, licensing, and operating guides.
+- `neon/migrations`: Application database migrations. Do not put application database migrations in Supabase.
+- `supabase`: Supabase Auth configuration only.
+
+## Model Registry Ownership
+
+`frontend/config/model-registry.json` is the only authored source for model identity, aliases, family, category, publication, replacement, and model-route tombstones. Follow `docs/engineering/model-registry.md` for every model policy change and run `pnpm model:registry:check` before committing.
+
+`frontend/config/model-runtime.json`, `frontend/config/engine-catalog.json`, `frontend/config/model-roster.json`, and the roster files under `docs/` are generated projections. Do not edit them directly; regenerate them with the commands in the model registry guide.
+
+## Page File Rule
+
+Keep `page.tsx` files as route orchestrators.
+
+A healthy `page.tsx` should usually:
+
+- export `generateMetadata` and `generateStaticParams` when needed
+- read route params and search params
+- authorize, redirect, or call `notFound`
+- fetch or compose route-level data
+- render named sections/components
+
+A `page.tsx` should avoid becoming the owner of:
+
+- large JSX sections
+- pricing algorithms
+- SEO schema builders
+- localization mapping tables
+- browser storage helpers
+- dashboards with many client-side panels
+- chart/table rendering components
+
+When a `page.tsx` grows past roughly 500 lines, prefer extracting the next meaningful responsibility before adding more code.
+
+## Component Placement
+
+Prefer colocated route components when the component is only used by one route:
+
+```txt
+frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/
+```
+
+Prefer shared component folders when the component is reusable:
+
+```txt
+frontend/components/marketing/
+frontend/components/admin-system/
+frontend/components/library/
+frontend/components/ui/
+```
+
+Use `*.client.tsx` for components that require browser APIs, event handlers, local state, effects, or client-only libraries.
+
+## Server and Client Boundaries
+
+Default to Server Components in `frontend/app`.
+
+Add `'use client'` only when the file needs:
+
+- `useState`, `useEffect`, `useMemo`, `useCallback`, or other client hooks
+- browser APIs like `window`, `localStorage`, `sessionStorage`, `File`, or `URL.createObjectURL`
+- user interaction handlers
+- client-only dependencies
+
+Do not import server-only modules into client files. Anything using database access, secrets, `node:fs`, `node:path`, or admin checks belongs in server-side modules or route handlers.
+
+## Refactor Style
+
+Refactor incrementally:
+
+- keep behavior unchanged unless the task explicitly asks for a behavior change
+- move pure functions before moving JSX
+- preserve existing public URLs, metadata behavior, and localization output
+- avoid global rewrites that touch unrelated features
+- keep user changes in the worktree intact
+
+For large files, split by responsibility rather than by technical layer:
+
+- data builders
+- schema/metadata builders
+- pricing/spec helpers
+- route sections
+- client-only interactions
+- tables/charts/panels
+
+For large-file cleanup, a good refactor batch should:
+
+- reduce a real owner file, not just move code around for aesthetics
+- keep public imports stable when possible
+- add or update architecture tests that lock the new boundary
+- avoid mixing risky behavior changes with file-organization work
+- stop when the next extraction has a worse risk/reward profile than the current benefit
+
+## Workspace App Boundaries
+
+For the authenticated workspace route, keep `frontend/app/(core)/(workspace)/app/AppClient.tsx` as the route-level orchestrator.
+
+- Keep route shell rendering in `_components/WorkspaceAppShell.tsx`; `AppClient.tsx` should not compose `WorkspaceChrome`, `GalleryRail`, the center gallery, or the preview dock inline.
+- Keep notice timers, onboarding route redirects, and preview/viewer composition in route-local hooks under `_hooks/`.
+- Keep composer engine/mode orchestration in `_hooks/useWorkspaceEngineModeState.ts`; `useWorkspaceComposerState.ts` should focus on composer input field state and field handlers.
+- Keep wallet balance preflight in `_hooks/useWorkspaceWalletPreflight.ts`; `useWorkspaceGenerationRunner.ts` should focus on generation submission, local render state, accepted results, and polling.
+- Keep workspace asset library, reference field assets, and Kling element assets split across `_hooks/useWorkspaceAssetLibrary.ts`, `_hooks/useWorkspaceReferenceAssets.ts`, and `_hooks/useWorkspaceKlingElementAssets.ts`; `useWorkspaceAssets.ts` should stay an orchestrator.
+- Keep composer JSX in `_components/WorkspaceComposerSurface.tsx` and shared modal wiring in `_components/WorkspaceRuntimeModals.tsx`.
+- Add or update contract tests in `tests/workspace-*-contract.test.ts` when moving workspace responsibilities, so the architecture stays explicit.
+
+## Media Changes
+
+On the homepage, keep the primary generation/examples actions followed by the video
+in mobile document order. Comparison and assistant links follow that proof. Do not
+move ancillary links or badges ahead of the mobile poster without comparable loading
+measurements. Pricing's featured scenario cards project the existing exact matrix
+quotes on the server; follow `docs/engineering/pricing-engine.md` for their ownership.
+After changing a critical home poster, run `pnpm --prefix frontend media:home-posters:prepare`.
+Its generated hash URLs are immutable display copies; never overwrite them or edit
+`home-posters.generated.json` by hand. The read-only check is also a prebuild gate.
+
+Read `docs/engineering/media-delivery.md` before changing media presentation, image optimizer URLs, encoding, thumbnail repairs, or model examples. `frontend/config/public-video-sources.json` owns authored public-demo source identity, while `public-video-renditions.manifest.json` owns measured preparation, review, HTTP readiness and activation state. The generated browser projection is never hand-edited. These media roles and profiles are separate from model identity in `model-registry.json`.
+
+Keep original download, edit and schema URLs distinct from immutable display derivatives. Public playback policy belongs in `frontend/lib/public-video-playback.ts`, browser attempt lifecycle in `frontend/components/media/usePublicVideoPlayback.ts`, and encoding/storage/database work outside browser modules. Preserve the critical server-rendered poster, fixed geometry and lazy mobile loading. Unknown or signed media must retain exact-original fallback behavior; do not introduce model-specific playback branches or per-route optimizer settings.
+
+For examples pages, keep the route hero's responsive poster explicitly prioritized in `ExamplesHeroVideo`. Do not add a competing route-head preload or prioritize the first gallery poster when that hero is present; `tests/examples-lcp-performance.test.ts` covers this boundary.
+
+For below-fold manual demonstrations, preserve the poster and geometry but default to `preload="none"`. `metadata` does not guarantee a small transfer. Check real network requests and first-Play behavior before adding or changing these readers; Character Builder's workflow is a native manual reader.
+
+Manual watch/comparison controls share `frontend/components/media/usePublicVideoControls.ts`; comparison playback defaults to Original for fidelity, and watch playback defaults to Auto with an explicit Original choice for prepared sources. Gallery cards delegate incidental preview playback to `useExampleCardPlayback.ts`, prefer their short preview, and mount video only for visible playback intent. Preserve optimized image covers and keep private/signed posters out of public optimization. Consult the media guide before adding a new reader.
+
+The PAYG strip uses the same incidental preview lifecycle, only for visible desktop cards; preserve its lazy responsive covers and mobile watch links. Image-only tool pickers request `kind=image` before the API listing limit and use `LibraryImageThumbnail.client.tsx` for stored thumbnails. Keep exact original assets for selection/generation; never fetch video URLs as images or send signed library thumbnails through the public image optimizer.
+
+When adding a selected homepage hero video, register its authored source, prepare and review derivatives, publish them, verify public HTTP and Range behavior, activate them, then run `pnpm --prefix frontend run media:public-renditions:check`. The same offline coherence and critical-home coverage gate runs in frontend `prebuild`. A validated profile omission deliberately keeps the original; pending candidates and retryable failures do not establish readiness. Model launch assets remain a separate contract checked with `pnpm model:launch-assets:check`.
+
+For initial-loading changes, attach comparable before/after performance evidence and block reproducible Core Web Vitals regressions. Functional tests alone do not establish performance gains. Keep repair simulations read-only, make writes explicit and bounded, and update ownership documentation and contracts in the same change.
+
+When extending public rendition coverage beyond the homepage, verify the exact source selected by the rendered model or family page, then use explicit `--asset-id` selections throughout preparation, publication and activation. A configured fallback demo or a page-view count alone does not prove which video is loaded or how often it plays. Verify the owning reader's live source and quality policy; a preferred short preview or an explicit Original choice deliberately bypasses full-duration derivatives.
+
+Image thumbnail repair must cover stored readers as well as `app_jobs`: `job_outputs`, `media_assets`, and legacy `user_assets`. The operational CLI wires the projection repair owner in `frontend/scripts/_lib/image-thumbnail-projections.ts`; do not replace it with broad media-library upserts. Preserve originals, valid thumbnails, ownership, job/payment status and unrelated metadata. Persist generated thumbnails before synchronizing references, then guard the reference transaction with the current source and exact stored snapshots. A projection failure keeps the conservative resume cursor before that job. Validate this boundary with `tests/image-thumbnail-projections-postgres.test.ts` on disposable PostgreSQL.
+
+When preparing Angle's public orbit images, use the same Next Image responsive URLs and sizing policy as the displayed views. Keep the initial view visible without an entrance animation; transitions start only after a user changes the view and still respect reduced motion. Preserve the deferred scheduling and verify preparation/display parity with `tests/angle-orbit-responsive-preload.test.ts`; do not warm the larger authored source while rendering a different optimized URL.
+
+## Architecture Contracts
+
+Architecture tests are part of the project design, not incidental test coverage.
+
+When moving responsibilities, inspect and update the relevant tests in `tests/*architecture.test.ts` or `tests/*contract.test.ts`.
+
+Examples:
+
+- route/page splits: `tests/*-architecture.test.ts`
+- workspace boundaries: `tests/workspace-*-contract.test.ts`
+- provider/server boundaries: provider-specific architecture tests such as `tests/byteplus-provider-architecture.test.ts`
+- SEO and localized routes: SEO, sitemap, hreflang, slug, and route architecture tests
+
+If a test asserts that a file should import a helper or stay under a line threshold, treat that as intentional architecture documentation.
+
+## Verification
+
+Use focused checks first:
+
+```bash
+npm --prefix frontend run lint
+npm run lint:exposure
+git diff --check
+```
+
+For architecture refactors, also run the related architecture or contract tests directly before broader validation.
+
+For route refactors, also run the relevant app locally and smoke-test the touched pages.
+
+For public/SEO pages, verify:
+
+- canonical URL
+- hreflang output
+- JSON-LD script output
+- localized path behavior
+- redirect behavior
+- sitemap inclusion assumptions
+
+For client app pages, verify:
+
+- auth flow still works
+- browser storage reads/writes still work
+- loading and empty states still render
+- dynamic imports still open on demand
+- no obvious extra re-render loops
+
+## Documentation
+
+When adding a new feature area, add or update the relevant guide in `docs/engineering/` if future work would otherwise require rediscovering the architecture.

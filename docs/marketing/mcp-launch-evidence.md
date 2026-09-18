@@ -1,0 +1,319 @@
+# MaxVideoAI MCP launch evidence
+
+Checked: 2026-08-28
+
+## Decision
+
+**The owner-approved direct Production release is live.** Public marketing,
+indexation, discovery, OAuth, transport, paid generation, and reference uploads
+are enabled; the included trial remains disabled. Directory submission and the
+post-launch host, payment, reference-retention, failure/refund, and conversion
+evidence remain separate follow-up work and are not implied by the cutover.
+
+The primary account, catalog, budgeting, quote, media, recovery, upload-handoff,
+and top-up-handoff checkpoint used staging revision
+`33d9e3a498c1fe8947bbb6a4c957d19ca805be25`, deployed as
+`dpl_45cqkwyW3U3LAL4pF1D6YUJLoVkH` at
+`https://maxvideoai-mcp-staging.vercel.app`. A later, narrower inline-host UI
+checkpoint used revision `621881dae621e9aec1d68a2a86f5065c6325cdb8`,
+deployment `dpl_3i6XgnZ6KVCZmQPhhKBrHDVrm1TD`, and the same staging origin; it
+recovered an existing completed result and recorded native controls, a manual
+playback exercise, library state, and the first-party CTA. It did not confirm a
+new generation. Production was not changed. LAS and direct Seedance 2.5
+video-to-video remained disabled. During the primary checkpoint no new
+generation was confirmed, no payment was opened, and the staging wallet stayed
+at $1.05.
+
+## Production launch checkpoint
+
+Production revision `74b87c25ba735ad8537a3dd84723550459ac13f8` was
+promoted unchanged as Vercel deployment
+`dpl_7it4qhV6FfVcf7yjsPsNVnJZQjKa`. Neon migrations 29–38 were verified on the
+Production branch; 30 and 31 were already present, while 29 and 32–38 were
+applied as one targeted transaction after rehearsal. At the launch checkpoint,
+all new MCP relations had zero rows.
+
+Public smoke evidence returned HTTP 200 for the homepage, MCP hub, EN/FR/ES MCP
+pages, Claude/ChatGPT/Codex integration pages, MCP documentation, `llms.txt`,
+and the sitemap index. `api.maxvideoai.com/mcp` returned the expected HTTP 401
+OAuth challenge without credentials, protected-resource discovery returned
+HTTP 200, Supabase discovery exposed dynamic registration, and the public JWKS
+contained one ES256 key. The first post-promotion five-minute Vercel sample had
+24 HTTP 200 responses, one expected HTTP 401, and no HTTP 500. The reference
+cleanup cron also returned HTTP 200 after the schema update.
+
+## 2026-08-28 production proof refresh
+
+The Production deployment serving the capture checkpoint was independently reported Ready at revision
+`1ef5f74760995822a570cab4716b0cdbc96ea059` as Vercel deployment
+`dpl_YZvhN3B6nxrBoPvAZjC1hwtr4YJF`. Fresh public checks returned HTTP 200 for
+`/mcp`, `/integrations/claude`, `/integrations/codex`, and
+`/integrations/chatgpt`.
+
+The installed MaxVideoAI 0.2.0 production connection in Codex then completed a
+single owner-approved paid checkpoint using the account recorded publicly only
+as `admin proof account`:
+
+- recommendation and comparable one-shot budgets were read-only;
+- an exact USD 0.25 quote was prepared for Luma Ray 2 Flash, `t2v`, 5 seconds,
+  540p, 16:9, silent, one output, with no reference media;
+- the owner approved that exact quote and one confirmation attempt was made;
+- the confirmation response was lost at the transport boundary, so it was not
+  repeated; recovery found the single job accepted and paid;
+- the job reached `completed`, was saved to MaxVideoAI Library, and was
+  presented once;
+- independent media inspection reported H.264, 960×544, 24 fps, 5.208333
+  seconds, 770,668 bytes, and SHA-256
+  `83fa287300d6a66b57caf8d2347527a9905c8b28e7c9cd8fb78f51044c31fa34`;
+- task spend was USD 0.25 against the owner-authorized aggregate USD 6.00 cap,
+  with no retry or second paid confirmation.
+
+Chrome was the owner-selected browser. The live MaxVideoAI workspace capture
+used a 2050×1037 CSS-pixel viewport at device-pixel ratio 2; the Library used
+2056×1234 at device-pixel ratio 2. Publication crops were independently opened
+at original resolution and exclude the account email, balance, internal
+identifiers, private URLs, unrelated media, and a separate stale progress
+banner. The accepted product evidence is:
+
+- `plugins/maxvideoai/assets/screenshots/maxvideoai-workspace-production.jpg`
+  — 1450×525, SHA-256
+  `fceb27abb935eada8b040232d8f0006bf3a3f4c19acccd11fb4ae6e3eaf697d6`;
+- `plugins/maxvideoai/assets/screenshots/maxvideoai-library-continuity-production.jpg`
+  — 1010×595, SHA-256
+  `f55edf446261983352b15ac1ddff55f6eaf587195efda1025aaae061938d1ce7`.
+
+Exact-host publication proof remains deliberately narrower than service and
+product verification. The macOS Screen Recording preflight failed before a
+privacy-reviewed Codex native capture could be taken, and permissions were not
+changed. Claude reached sign-in in an agent-created Chrome tab, so no
+credentials were entered and no Production connection flow was claimed.
+ChatGPT's plugin catalog search returned only the personal `MaxVideoAI Staging`
+plugin and no supported MaxVideoAI Production install; no staging plugin was
+opened or reused. Codex, Claude, and ChatGPT therefore remain `not_verified` for
+fresh exact-host screenshot bundles even though the Codex production service
+flow itself completed. No reference asset was used, so a fresh Production
+reference workflow remains unverified.
+
+After those screenshots were captured, a separate configuration-only
+checkpoint reported deployment `dpl_7FxAx4TYK8buMTCUqQCFJ2aJ1S1z` Ready on the
+same `https://maxvideoai.com` alias. Vertex readiness was green for OAuth and
+GCS, four Nano Banana image models, three Veo 3.1 video models, and
+`gemini-omni-1.1-flash-preview`; no Fal fallback was reported. The homepage,
+`/fr/integrations/claude`, `/mcp`, and `/models/gemini-omni-flash` returned HTTP
+200. This is evidence of configuration and public exposure only. It incurred no
+spend, produced no paid Gemini Omni result, created no Gemini Omni capture, and
+is not the deployment provenance assigned to the earlier Task 4 screenshots.
+
+## 2026-09-13 MCP ecosystem production rollout
+
+The owner approved PR `#289`, then explicitly authorized the administrator merge
+required because the author could not satisfy the repository's one-review rule.
+GitHub squashed reviewed head `bf99acbeed1b75d8b4c13251fd8ea9e2deb4f0f3`
+into Production revision `f428f52a2f7db302792f6683e77274236bfb4cd3` at
+`2026-09-13T20:16:42Z`. Their Git trees are identical at
+`7fc781cc9775081327f8fbc630294d03e4710f3b`.
+
+Vercel automatically built that exact merged tree as deployment
+`dpl_AwS4BzdsaLN6TXmVo1P5dTc1FRz5`, immutable URL
+`https://maxvideoai-kb17nf3lh-camgraphes-projects.vercel.app`. It was created at
+`2026-09-13T20:16:45.555Z` and reached `READY` at
+`2026-09-13T20:21:51.994Z` on the `maxvideoai.com` and
+`api.maxvideoai.com` aliases. The immediately previous READY deployment,
+`dpl_DMFeqFnwmTB9hE3rQVP2xxzuEd8N`, remains retained at
+`https://maxvideoai-ew9xav8we-camgraphes-projects.vercel.app` as the rollback
+target. No manual Production deploy or database migration was triggered in this
+checkpoint.
+
+The final stable MCP staging candidate remained
+`dpl_DX5CZKfK5oPMbHGVm6uuwHN4Ec3Y`. Its application revision differed from the
+final PR tree only by checklist evidence and direct `aria-hidden` attributes on
+three already-decorative integration images. The exact final tree passed the PR
+Vercel preview and 13-minute Quality CI before merge, then passed post-merge
+Quality CI, Lighthouse CI, IndexNow, and Pages build/deployment.
+
+Direct Production smoke recorded:
+
+- HTTP 200 for the hub and Claude, ChatGPT, Codex, OpenClaw, and n8n in EN/FR/ES
+  (18 routes), and HTTP 404 for Cursor, GitHub Copilot, Gemini CLI, and Microsoft
+  Copilot in every locale (12 routes);
+- all nine platform labels and the required locally served brand marks on each
+  localized hub;
+- `noindex, follow` on the six OpenClaw/n8n pages at that earlier checkpoint,
+  with only the hub and the three live clients present in localized sitemaps;
+  `llms.txt` retained the hub and excluded both pages;
+- exact protected-resource metadata, one Production authorization server, PKCE
+  S256, `openid`, one public JWKS signing key, an anonymous MCP HTTP 401 with the
+  canonical metadata challenge and private/no-store caching, and HTTP 406 for an
+  API-host browser request;
+- expected anonymous boundaries for Wallet (401), admin MCP (401), reference
+  cleanup (401), account connections (login redirect), and the canonical
+  `/app/library` visitor surface (200 with private/no-store caching).
+
+A capped initial sample of 500 requests from the new Vercel deployment contained
+481 HTTP 200, three 308, ten expected 404, six entries without an HTTP status,
+zero 5xx, and zero `error` or `fatal` logs. The ten sampled MCP marketing requests
+all returned 200.
+
+This checkpoint made no authenticated MCP tool call, paid confirmation, provider
+submission, private-reference upload/deletion, manual cleanup execution, store
+submission, or Search Console mutation. Authenticated OAuth lifecycle, account
+handoffs, Production reference cleanup, funnel/admin reconciliation, refunds,
+support observations, and the 14-day SEO/conversion window remained open at
+that checkpoint. OpenClaw and n8n were then noindex and acquisition-disabled;
+all later platforms stayed hidden. No store or platform promotion was implied
+by that rollout.
+
+On 2026-09-14, the later host evidence supported a separate publication
+decision: OpenClaw became live, indexable, and acquisition-enabled for direct
+MCP and its listed ClawHub package, while n8n became live, indexable, and
+acquisition-enabled only for the tested self-hosted deterministic MCP Client
+workflow. OpenClaw private-reference/channel paths, n8n Cloud, and n8n MCP
+Client Tool remain outside the claimed scopes. The n8n store state is
+`submitted` only for private Creator Portal workflow `19591`, which is
+`Pending` / `Under review`; the other two reviewed workflows are not submitted
+while the portal blocks another submission. No public listing or verification
+is claimed. None of those three JSON workflows calls `list_media` or
+`create_reference_upload_link`, so private-reference automation in n8n remains
+unverified.
+
+## Controlled hosted evidence
+
+| Evidence | State | Result |
+| --- | --- | --- |
+| Claude Desktop 1.37937.1 | Pass | OAuth connection, account status, live catalog/details, 60-second budget comparison, exact Seedance 2.5 quote, private media listing, completed-job recovery, native inline playback, first-party CTA, private upload handoff, and signed top-up handoff with ISO expiry all rendered in the host. |
+| Codex CLI 0.149.0-alpha.4.3 | Pass | The installed MaxVideoAI plugin used an ephemeral staging endpoint override and completed account, catalog, model-detail, budget, exact-quote, and top-up-handoff calls. A non-blocking MCP shutdown warning appeared only after completed turns. |
+| Account and library continuity | Pass | The tools returned first-party billing, connections, workspace, library, and support destinations; an existing completed video was recovered from the same MaxVideoAI staging account. |
+| Spend boundary | Pass | Quote preparation and top-up handoffs did not debit the wallet or call a provider. `confirm_generation` was not called. |
+| Reference boundary | Partial | A private temporary upload handoff was created without uploading bytes. A fresh uploaded reference, provider use, and cleanup still need controlled evidence. |
+| ChatGPT app directory / Codex graphical library | Not run | No submission, approval, directory install, or graphical ChatGPT app evidence exists yet. |
+
+## Pre-launch local state matrix
+
+| Evidence | State | Result |
+| --- | --- | --- |
+| Checked-in all-false build | Pass | All 15 EN/FR/ES MCP, documentation, ChatGPT, Claude, and Codex owners return terminal HTTP 404, `X-Robots-Tag: noindex, nofollow`, rendered noindex metadata, and a rewrite to the genuinely missing locale path `/{locale}/__mcp-publication-gated__`; they remain absent from sitemaps and `llms.txt`. |
+| Isolated preview fixture | Pass | `publicMarketing`, transport, OAuth, and discovery were fixture-only; trial, paid generation, reference upload, and indexing remained false. An asserted 1440×1000 viewport and full-page capture show no trial/proof and the targeted unavailable-budget state. |
+| Isolated all-gates-green fixture | Pass | The tracked fixture config enabled every gate only inside a temporary copied worktree. Public route, SEO, interaction, private-boundary, conversation-led project proposal, and live price-reference checks passed against a clean production build. |
+| Light/dark desktop/mobile visual review | Pass | Light remains the default MaxVideoAI treatment, dark mode has equivalent hierarchy and contrast, and ChatGPT/Claude use equal 24×24 official marks inside equal actions. |
+| Prospect-language review | Pass | The hub leads with prompt, references, model choice, budget, and price-before-generation. A contradictory Claude access sentence found during review was replaced in EN/FR/ES with recorded-host status language. |
+| Real MCP proof media | Partial | A reviewed Claude Desktop capture proves inline host rendering, native video controls, library state, and the first-party CTA. A manual playback exercise was recorded separately during the controlled test; the still image alone does not demonstrate playback. It is labelled as Claude-specific controlled evidence with a historical capture amount. A job-backed newly generated result bundle remains blocked; no provider gallery asset was relabelled. |
+| Real-host purchase/trial/reference funnel | Partial | Real hosts selected models, priced projects, prepared exact quotes, recovered an existing result, and created upload/top-up handoffs. Confirmation, fresh paid generation, trial, uploaded bytes, provider result, and reference cleanup remain unverified. |
+| Production GSC/indexation evidence | Baseline captured | A fresh read-only site baseline was captured on 2026-08-26: 6,314 clicks, 491,440 impressions, 1.3% CTR, average position 10.2, and 27,759 generative-feature impressions. MCP-specific post-deployment canonical, query, country, CTR, and cannibalization review remains future evidence. |
+
+## Browser and visual evidence
+
+The Playwright contract is `tests/e2e/mcp-acquisition.spec.ts`. Screenshots are intentionally ignored and stored under
+`output/playwright/mcp-acquisition/`:
+
+- `mcp-{desktop,mobile}-{light,dark}-*.png`
+- `chatgpt-{desktop,mobile}-{light,dark}-*.png`
+- `claude-{desktop,mobile}-{light,dark}-*.png`
+- `codex-{desktop,mobile}-{light,dark}-*.png`
+- `preview-no-trial-no-paid-light-1440x1000.png`
+- `preview-budget-unavailable-light-1440x1000.png`
+- `enabled-budget-trial-paid-light-1440x1000.png`
+
+The browser contract explicitly sets and reads back a 1440×1000 preview viewport. The enabled fixture captured 1440×1000
+and 390×844. The script rejects the cookie banner before every evidence capture,
+checks official marks and action boxes to within one CSS pixel, verifies keyboard focus and Enter activation, and asserts
+that no fake video or “Generated through MCP” proof appears. Objective review found no crop, overflow, focus, logo,
+light-default, or dark-parity defect. It did find insufficient contrast on small MCP eyebrow/status labels; those labels now
+use the stronger `text-text-secondary` token. The global cookie-settings link remains outside this focused MCP change.
+
+The four final Codex PNGs were independently decoded after recapture: macOS `sips` re-encoded every file, and
+FFmpeg decoded each complete image while `ffprobe` reported 1440×1000 for desktop and 390×844 for mobile. Direct visual
+inspection of all four light/dark images found no corruption, partial decode, artificial crop, or missing region. The earlier
+apparent corruption was therefore a viewer artifact, not a defect in the saved PNGs.
+
+With JavaScript disabled, all 15 EN/FR/ES intent owners returned 200 in the isolated enabled build with a visible H1,
+self-canonical, reciprocal `en`/`fr`/`es`/`x-default` hreflang, JSON-LD, internal links, correct `lang`, localized Spanish
+`/integraciones/` slugs, and no password/auth wall. The same owner set fails closed in the checked-in gated build with
+HTTP 404, response-header and rendered noindex, and no redirect loop.
+
+After the final clean all-false build, a separate `next start` process was also checked directly with curl and
+`Host: maxvideoai.com`: each of the then-current gated owners returned HTTP 404, `X-Robots-Tag: noindex, nofollow`, and a rendered
+robots noindex meta tag. The process was stopped and its loopback port was confirmed free.
+
+The reproducible runner reads `tests/fixtures/mcp-launch-publication-states.json`, copies only current workspace files to a
+temporary directory, links the existing dependency installation, selects a free loopback port, runs a clean production
+build/start/browser test, kills the process group, deletes the fixture, and verifies the source publication-config SHA and
+Git diff before and after. It has no dependency on ignored publication JSON. Commands:
+
+```bash
+npm run qa:mcp-launch:gated
+npm run qa:mcp-launch:preview
+npm run qa:mcp-launch:enabled
+```
+
+Latest enabled result: 5 passed/2 skipped with 763 static pages. The latest checked-in all-false gated build produced
+759 static pages and passed its one applicable browser contract with 6 mode-specific skips. An earlier preview fixture
+run passed its applicable contract; preview remains part of the mandatory pre-production command set. Each runner-selected port was free after cleanup, its temporary directory was
+removed, and the checked-in publication SHA remained
+`9c83b086839609c7dba8df30f5a9b4c4390e6b74fbc0c158e1abf0c739ad1299`.
+
+## Private-route evidence
+
+All checks below used the isolated local enabled fixture. The API host was simulated with `Host: api.maxvideoai.com`;
+this did not contact production.
+
+| Route and method | State | Observed boundary |
+| --- | --- | --- |
+| `GET /mcp` with `Host: api.maxvideoai.com`, without bearer token | Pass | Canonical public API-host path rewrites to the handler and returns 401, private/no-store, noindex/nofollow. |
+| `GET /api/mcp` without bearer token | Pass | 401, `Cache-Control: private, no-store`, `X-Robots-Tag: noindex, nofollow`. |
+| `GET /.well-known/oauth-protected-resource/mcp` without credentials | Pass | The route remains fail-closed, private/no-store, and noindex/nofollow. |
+| `GET /oauth/consent` without an authorization id | Pass | 200 invalid-request UI with route-local noindex/nofollow metadata and private/no-store edge headers. |
+| `GET /api/wallet` without authentication | Pass | 401 and private/no-store. |
+| `POST /api/uploads/image` with an empty multipart body and no authentication | Pass | 401 fail-closed before multipart parsing; no media was stored. Authenticated malformed multipart bodies have a separate 400 regression contract. |
+| `robots.txt` | Pass | Blocks `/api/`, `/oauth`, `/account`, `/uploads`, and `/library`. |
+| Sitemap variants and `llms.txt` | Pass | Do not expose protocol, consent, wallet, upload, or account URLs. |
+
+## Lighthouse lab evidence
+
+Tooling: LHCI 0.15.1 with Lighthouse 12.6.1, one local mobile run per page, headless Chrome, production fixture on
+loopback. These are lab metrics, not field Core Web Vitals and not comparable to a deployed CDN run.
+
+| URL | Performance | Accessibility | Best practices | SEO | FCP | LCP | TBT | CLS | Speed index |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `/mcp` | 94 | 100 | 96 | 92 | 1.2 s | 3.0 s | 20 ms | 0 | 1.2 s |
+| `/integrations/chatgpt` | 95 | 100 | 96 | 92 | 1.2 s | 2.8 s | 0 ms | 0 | 1.2 s |
+| `/integrations/claude` | 95 | 100 | 96 | 92 | 1.2 s | 2.9 s | 20 ms | 0 | 1.2 s |
+| `/integrations/codex` | 95 | 100 | 96 | 92 | 1.2 s | 2.9 s | 20 ms | 0 | 1.2 s |
+
+The first run identified route-local low-contrast small labels, which were corrected. A later run isolated the global
+cookie-settings link; that control now uses the same readable footer-link treatment, and all four post-fix accessibility
+audits score 100. The remaining local best-practice
+error is generated by absent Vercel analytics assets and a cookie-version API that lacks fixture environment variables.
+Lighthouse also reported a missing meta description even though the response HTML and the JavaScript-disabled browser
+contract contain the exact description; this is recorded as a local Next streaming/audit discrepancy, not silently
+treated as deployed SEO evidence. A clean hosted preview audit remains required.
+
+Fresh remediation command:
+
+```bash
+npm run qa:mcp-launch:lighthouse
+```
+
+This command reruns the enabled production fixture and browser contract before Lighthouse. Reports are local and ignored
+under `frontend/.lighthouseci/` (`lhr-1787749691074`, `lhr-1787749701888`, `lhr-1787749712417`, and
+`lhr-1787749722893`, each as JSON and HTML). The fixture injects inert loopback Supabase fallbacks only when the operator environment does not provide values;
+no real account or remote Supabase project is used. The runner, browser tests, cleanup, and source-config guard all exited
+successfully.
+
+## Post-launch evidence backlog
+
+| Gate | State | Exact blocker or next evidence |
+| --- | --- | --- |
+| Codex host lifecycle | Production service pass; publication UI partial | MaxVideoAI 0.2.0 completed account, recommendation, comparable budgets, exact quote, one owner-approved USD 0.25 generation, recovery after a lost response, completion, Library continuity, and presentation. A privacy-reviewed native Codex screenshot bundle, refresh, revocation, and reconnect remain unverified. |
+| Claude host lifecycle | Partial pass | Claude Desktop 1.37937.1 completed OAuth-backed discovery, budgeting, quote, media, recovery, inline playback, first-party continuation, upload-handoff, and top-up behavior. Refresh, revocation, reconnect, and fresh successful provider use remain unverified. |
+| Real-host decision bundle | Production pass in Codex | Codex produced a current recommendation, three comparable one-shot budgets, a fresh exact quote, explicit owner approval, one accepted generation, terminal completion, and Library continuity. Claude and ChatGPT did not repeat that complete Production flow. |
+| Paid generation | One Production pass | One USD 0.25 Luma Ray 2 Flash result completed, was independently decoded and hashed, and was saved to Library. Receipt/admin reconciliation and a second exact host remain follow-up evidence. |
+| Trial | Disabled intentionally | No public trial is scheduled or advertised in the launch configuration. |
+| Reference workflow | Enabled; monitor | Live private media listing and upload handoff are proven; the first Production upload, provider use, retention/deletion, and cleanup evidence still need to be recorded. |
+| Funnel/admin reconciliation | Schema ready | Migrations 29–38 are present in Production and new MCP relations started empty; post-launch funnel and ledger reconciliation remains an operator task. |
+| Owned proof | Partial product proof | Current workspace and Library screenshots are publishable MaxVideoAI product proof with model, date, approval, spend, and media checksum provenance. Exact-host Codex UI and a separately publishable audit record remain blocked, so the complete MCP host-and-result proof bundle stays gated. |
+| Legal/support approval | Site launch accepted; directory separate | Directory-specific terms and any external submission remain separately reviewable. |
+| Hosted performance and SEO | Initial smoke pass | Public routes, canonical MCP page, `llms.txt`, and sitemap index are live; GSC indexation, canonical selection, CTR, and cannibalization require the scheduled post-launch review. |
+
+Do not enable the trial or submit to a third-party directory without a separate
+reviewed decision. Post-launch evidence must distinguish verified Production
+behavior from the earlier controlled staging results above.

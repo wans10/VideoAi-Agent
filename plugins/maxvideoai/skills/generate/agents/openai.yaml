@@ -1,0 +1,13 @@
+interface:
+  display_name: "MaxVideoAI Generation"
+  short_description: "Quote, generate, present, and recover AI media"
+  default_prompt: "Use $generate to prepare the exact quote for my selected request, then wait for my explicit approval."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "maxvideoai"
+      description: "MaxVideoAI account, reference, quote, generation, and recovery tools"
+      transport: "streamable_http"
+      url: "https://api.maxvideoai.com/mcp"
+policy:
+  allow_implicit_invocation: true

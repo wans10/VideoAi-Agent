@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "currency": "USD",
+  "itemization": {
+    "base": { "unit": "USD/s", "rate": 0.75, "seconds": 8, "subtotal": 6.0 },
+    "addons": [
+      { "type": "audio", "mode": "generate", "subtotal": 0.0 }
+    ],
+    "discounts": [],
+    "taxes": []
+  },
+  "total": 6.0,
+  "caps": { "maxDurationSec": 8, "supportedFps": [24] },
+  "messages": ["Veo 3 limite la durée à 8s à 1080p."],
+  "ttlSec": 120
+}

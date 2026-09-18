@@ -1,0 +1,111 @@
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import test from 'node:test';
+
+const root = process.cwd();
+const routePath = join(root, 'frontend/app/api/jobs/route.ts');
+const typesPath = join(root, 'frontend/app/api/jobs/_lib/jobs-route-types.ts');
+const cursorPath = join(root, 'frontend/app/api/jobs/_lib/jobs-route-cursor.ts');
+const surfaceFilterPath = join(root, 'frontend/app/api/jobs/_lib/jobs-surface-filter.ts');
+const staleAudioPath = join(root, 'frontend/app/api/jobs/_lib/jobs-stale-audio.ts');
+const falRefreshPath = join(root, 'frontend/app/api/jobs/_lib/jobs-fal-refresh.ts');
+const recentServicePath = join(root, 'frontend/src/server/generations/recent-generations.ts');
+
+const routeSource = readFileSync(routePath, 'utf8');
+const typesSource = readFileSync(typesPath, 'utf8');
+const cursorSource = readFileSync(cursorPath, 'utf8');
+const surfaceFilterSource = readFileSync(surfaceFilterPath, 'utf8');
+const staleAudioSource = readFileSync(staleAudioPath, 'utf8');
+const falRefreshSource = readFileSync(falRefreshPath, 'utf8');
+const recentServiceSource = readFileSync(recentServicePath, 'utf8');
+
+test('jobs API route delegates server helper responsibilities', () => {
+  assert.ok(existsSync(typesPath), 'jobs API row types should live in a route-local lib module');
+  assert.ok(existsSync(cursorPath), 'jobs API cursor parsing should live in a route-local lib module');
+  assert.ok(existsSync(surfaceFilterPath), 'jobs API surface SQL filters should live in a route-local lib module');
+  assert.ok(existsSync(staleAudioPath), 'jobs API stale audio handling should live in a route-local lib module');
+  assert.ok(existsSync(falRefreshPath), 'jobs API Fal refresh handling should live in a route-local lib module');
+  assert.ok(existsSync(recentServicePath), 'owned job reads should live in the generation service');
+
+  assert.match(routeSource, /from '@\/server\/generations\/recent-generations'/);
+  assert.match(routeSource, /from '\.\/_lib\/jobs-stale-audio'/);
+  assert.match(routeSource, /from '\.\/_lib\/jobs-fal-refresh'/);
+  assert.match(routeSource, /readRecentGenerationRecordsForWeb/);
+  assert.match(routeSource, /mapRecentGenerationRecordToWeb/);
+  assert.doesNotMatch(routeSource, /SELECT\s+\$\{APP_JOBS_SELECT\}/);
+
+  assert.doesNotMatch(routeSource, /getFalClient/, 'Fal client refresh belongs in jobs-fal-refresh.ts');
+  assert.doesNotMatch(routeSource, /resolveFalModelId/, 'Fal model lookup belongs in jobs-fal-refresh.ts');
+  assert.doesNotMatch(routeSource, /updateJobFromFalWebhook/, 'Fal webhook projection belongs in jobs-fal-refresh.ts');
+  assert.doesNotMatch(routeSource, /type PricingSnapshot/, 'pricing snapshot typing belongs in route helper modules');
+  assert.doesNotMatch(routeSource, /const STALE_AUDIO_JOB_TIMEOUT_MS/, 'stale audio timeout policy belongs in jobs-stale-audio.ts');
+  assert.doesNotMatch(routeSource, /listFalEngines/, 'image engine alias lookup belongs in jobs-surface-filter.ts');
+  assert.doesNotMatch(routeSource, /type JobRow =/, 'SQL row typing belongs in jobs-route-types.ts');
+
+  const lineCount = routeSource.split('\n').length;
+  assert.ok(lineCount <= 400, `jobs API route should stay below 400 lines after helper extraction, got ${lineCount}`);
+});
+
+test('jobs API route helper modules expose expected contracts', () => {
+  assert.match(typesSource, /RECENT_GENERATIONS_SELECT as APP_JOBS_SELECT/);
+  assert.match(typesSource, /RecentGenerationRecord as JobRow/);
+  assert.match(typesSource, /RecentGenerationQueryParam as JobsRouteParam/);
+  assert.match(cursorSource, /parseRecentGenerationCursor as parseCursorParam/);
+  assert.match(cursorSource, /formatRecentGenerationCursor as formatCursorValue/);
+  assert.match(surfaceFilterSource, /RECENT_IMAGE_ENGINE_ALIASES as IMAGE_ENGINE_ALIASES/);
+  assert.match(surfaceFilterSource, /buildRecentGenerationSurfaceFilterClause as buildSurfaceFilterClause/);
+  for (const facade of [typesSource, cursorSource, surfaceFilterSource]) {
+    assert.match(facade, /from '@\/server\/generations\/recent-generations'/);
+  }
+  assert.match(staleAudioSource, /export function isStaleAudioJob/);
+  assert.match(staleAudioSource, /export async function expireStaleAudioJob/);
+  assert.match(falRefreshSource, /export async function refreshStaleFalJobs/);
+  assert.match(falRefreshSource, /getFalClient/);
+  assert.match(falRefreshSource, /updateJobFromFalWebhook/);
+  assert.match(recentServiceSource, /export const RECENT_GENERATIONS_SELECT/);
+  assert.match(recentServiceSource, /export function buildRecentGenerationSurfaceFilterClause/);
+  assert.match(recentServiceSource, /export async function readRecentGenerationRecordsForWeb/);
+});
+
+test('jobs API keeps storyboard renders out of generic video and image feeds', () => {
+  assert.match(
+    recentServiceSource,
+    /surface IN \('image', 'storyboard', 'character', 'angle', 'audio', 'upscale', 'background-removal', 'tool'\)/,
+    'type=video should explicitly exclude storyboard jobs by surface'
+  );
+  assert.match(
+    recentServiceSource,
+    /settings_snapshot->>'surface' IN \('image', 'storyboard', 'character-builder', 'angle', 'audio', 'upscale', 'background-removal', 'tool'\)/,
+    'type=video should explicitly exclude storyboard jobs by snapshot surface'
+  );
+  assert.match(recentServiceSource, /job_id LIKE 'storyboard_%'/, 'type=video should exclude legacy storyboard job ids');
+  assert.match(
+    recentServiceSource,
+    /COALESCE\(surface, ''\) NOT IN \('storyboard'\)/,
+    'type=image should not absorb storyboard jobs through image heuristics'
+  );
+  assert.match(
+    recentServiceSource,
+    /COALESCE\(surface, ''\) IN \('image', 'storyboard', 'character', 'angle', 'audio', 'upscale', 'background-removal', 'tool'\)/,
+    'surface=video should explicitly reject storyboard jobs'
+  );
+});
+
+test('jobs list reads migrated tables without request-time schema or legacy repair work', () => {
+  assert.doesNotMatch(
+    routeSource,
+    /ensureBillingSchema/,
+    'the latency-sensitive GET must not run the application schema bootstrap'
+  );
+  assert.doesNotMatch(
+    routeSource,
+    /upsertLegacyJobOutputs/,
+    'the list response must not wait for legacy output repair writes'
+  );
+  assert.match(
+    routeSource,
+    /listJobOutputsByJobIds\(jobIds,\s*\{\s*ensureSchema:\s*false\s*\}\)/,
+    'the list response should read already-migrated output rows directly'
+  );
+});

@@ -1,0 +1,213 @@
+{
+  "marketingName": "Gemini Omni Flash 1.1",
+  "versionLabel": "1.1",
+  "seo": {
+    "title": "Gemini Omni Flash 1.1 : vidéo IA 4K, édition et audio",
+    "description": "Générez des vidéos Gemini Omni Flash 1.1 de 3 à 10 secondes depuis texte, images, références ou vidéo source, de 360p à 4K avec audio natif."
+  },
+  "overview": "Gemini Omni Flash 1.1 est la route vidéo multimodale directe de Google pour générer, guider par références, contrôler début et fin, éditer, prolonger et raffiner.",
+  "decision": {
+    "modelSlug": "gemini-omni-flash",
+    "hero": {
+      "eyebrow": "GOOGLE OMNI FLASH 1.1",
+      "title": "Gemini Omni Flash 1.1",
+      "subtitle": "Créez et éditez des vidéos de 3 à 10 secondes en 360p, 720p, 1080p ou 4K avec références, contrôle d’images et audio natif.",
+      "subtitleHighlights": [
+        "3–10s",
+        "360p–4K",
+        "Native audio"
+      ],
+      "paragraph": "Choisissez Omni Flash 1.1 quand le workflow dépasse un rendu : générez depuis texte ou images, éditez ou prolongez une vidéo, puis raffinez l’interaction enregistrée.",
+      "primaryCta": {
+        "label": "Générer avec Gemini Omni Flash 1.1",
+        "href": "/app?engine=gemini-omni-flash"
+      },
+      "secondaryCta": {
+        "label": "Voir les exemples vidéo Google",
+        "href": "/fr/galerie/veo"
+      },
+      "quickLinks": [
+        {
+          "label": "Comparer Omni Flash 1.1 et Veo 3.1",
+          "href": "/fr/comparatif/gemini-omni-flash-vs-veo-3-1"
+        },
+        {
+          "label": "Voir le prix Omni Flash 1.1",
+          "href": "/fr/tarifs#gemini-omni-flash-pricing"
+        },
+        {
+          "label": "Voir les modes pris en charge",
+          "href": "#specs"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Exemples Gemini Omni Flash 1.1 validés",
+      "description": "Un mécanicien de nuit anonyme et une vallée de sel à l’aube testent mouvement humain, échelle, caméra et audio natif.",
+      "renderLabel": "Voir le rendu",
+      "badges": [
+        "1080p",
+        "3–10s",
+        "Native audio"
+      ],
+      "altContext": "Un mécanicien de nuit anonyme et une vallée de sel à l’aube testent mouvement humain, échelle, caméra et audio natif."
+    },
+    "features": [
+      {
+        "title": "De 360p à 4K",
+        "body": "Choisissez la résolution selon exploration rapide, revue ou livraison finale.",
+        "tone": "quality"
+      },
+      {
+        "title": "Création et édition multimodales",
+        "body": "Générez depuis texte, images, références, images de début et fin, ou éditez et prolongez une vidéo autorisée.",
+        "tone": "reference"
+      },
+      {
+        "title": "Raffinement conversationnel",
+        "body": "Poursuivez une interaction enregistrée pour modifier la même direction créative.",
+        "tone": "continuity"
+      },
+      {
+        "title": "Audio natif",
+        "body": "Dirigez dialogue, ambiance, effets et musique avec l’image.",
+        "tone": "audio"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "Idéal pour l’itération multimodale",
+        "body": "Utilisez Omni Flash 1.1 quand références, édition, prolongation et raffinement doivent rester dans un workflow Google.",
+        "cta": {
+          "label": "Comparer Omni Flash 1.1 et Veo 3.1",
+          "href": "/fr/comparatif/gemini-omni-flash-vs-veo-3-1"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "Générer",
+        "body": "Partez d’un texte, d’une image, de dix références maximum ou d’images de début et fin."
+      },
+      {
+        "title": "Éditer et prolonger",
+        "body": "Transformez ou continuez une vidéo autorisée avec directions visuelles et sonores."
+      },
+      {
+        "title": "Raffiner",
+        "body": "Utilisez une interaction enregistrée pour demander une modification ciblée."
+      }
+    ],
+    "pricingCopy": {
+      "title": "Tarifs Gemini Omni Flash 1.1",
+      "subtitle": "Comparez le total exact selon durée et résolution avant le rendu.",
+      "footnote": "Le devis affiché au moment de générer reste la référence.",
+      "ctaLabel": "Générer avec Omni Flash 1.1",
+      "ctaHref": "/app?engine=gemini-omni-flash",
+      "maxDurationNote": "3–10s · 360p–4K"
+    },
+    "meta": {
+      "title": "Gemini Omni Flash 1.1 : vidéo IA 4K, édition et audio",
+      "description": "Générez des vidéos Gemini Omni Flash 1.1 de 3 à 10 secondes depuis texte, images, références ou vidéo source, de 360p à 4K avec audio natif."
+    }
+  },
+  "prompting": {
+    "modelSlug": "gemini-omni-flash",
+    "section": {
+      "title": "Atelier de prompts — Gemini Omni Flash 1.1",
+      "intro": "Séparez action visuelle, mouvement de caméra et direction sonore.",
+      "tip": "Gardez une action observable et associez chaque son à un événement clair.",
+      "guide": {
+        "label": "Documentation officielle Google",
+        "href": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/omni-1-1-flash"
+      },
+      "referencesTitle": "Atelier de prompts — Gemini Omni Flash 1.1"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [],
+    "engineWhy": [],
+    "demo": {
+      "title": "Mécanicien vélo de nuit",
+      "promptLabel": "Prompt de production",
+      "prompt": "Direction visuelle : un mécanicien vélo de nuit anonyme, vu de dos et visage hors cadre, monte un pneu sur une roue sous une lampe. Caméra : arc fluide à hauteur de taille tandis que les rayons brillent. Son : cliquetis précis et pluie douce aux fenêtres.",
+      "notes": [
+        "Gardez une action observable et associez chaque son à un événement clair."
+      ],
+      "summary": {
+        "subject": "Mécanicien vélo de nuit",
+        "action": "Le mécanicien monte un pneu sur une roue",
+        "camera": "Arc fluide contrôlé",
+        "style": "Scène documentaire intime en atelier",
+        "output": "1080p · 9:16 · native audio"
+      },
+      "presentationOverrides": {
+        "modeLabel": "Text-to-video · 6s",
+        "outputLabel": "1080p",
+        "duration": "6s",
+        "aspectRatio": "9:16",
+        "audioChipMode": "media",
+        "audioChipLabel": null,
+        "altContext": "Un mécanicien de nuit anonyme et une vallée de sel à l’aube testent mouvement humain, échelle, caméra et audio natif."
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "gemini-omni-flash",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "Exemples Gemini Omni Flash 1.1",
+      "intro": "Deux rendus 1.1 validés couvrent une action humaine anonyme et un vaste paysage en mouvement.",
+      "defaultCtaLabel": null,
+      "recreateLabel": "Recréer ce plan"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "Tous"
+      },
+      {
+        "id": "cinematic",
+        "label": "Cinématique"
+      },
+      {
+        "id": "audio",
+        "label": "Audio"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "prompt",
+        "icon": "sparkles",
+        "title": "Respect du prompt",
+        "body": "Vérifiez action, caméra et synchronisation sonore."
+      },
+      {
+        "id": "motion",
+        "icon": "zap",
+        "title": "Qualité du mouvement",
+        "body": "Contrôlez contacts physiques, caméra et stabilité temporelle."
+      },
+      {
+        "id": "people",
+        "icon": "users",
+        "title": "Fidélité humaine",
+        "body": "Inspectez anatomie et gestion de l’identité."
+      },
+      {
+        "id": "finish",
+        "icon": "maximize",
+        "title": "Qualité de livraison",
+        "body": "Inspectez détail et stabilité à la résolution choisie."
+      },
+      {
+        "id": "review",
+        "icon": "shield",
+        "title": "Revue éditoriale",
+        "body": "Écartez texte indésirable, contenu risqué ou ressemblance non autorisée."
+      }
+    ],
+    "fallbackItems": null
+  }
+}

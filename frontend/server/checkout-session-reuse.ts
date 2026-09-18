@@ -1,0 +1,114 @@
+import type Stripe from 'stripe';
+import { query } from '@/lib/db';
+import {
+  matchesWalletAttribution,
+  type NormalizedWalletAttribution,
+} from '@/server/wallet-attribution';
+
+export const EXPRESS_CHECKOUT_REUSE_WINDOW_SECONDS = 30 * 60;
+
+type CheckoutSessionReuseRow = {
+  id: number | string;
+  stripe_checkout_session_id: string | null;
+};
+
+type StripeCheckoutSessionRetriever = Pick<Stripe, 'checkout'>;
+
+export type ReusableStripeCheckoutSessionInput = {
+  attribution?: NormalizedWalletAttribution | null;
+  clientSecret?: string | null;
+  created?: number | null;
+  expiresAt?: number | null;
+  metadata?: Record<string, string> | null;
+  now?: number;
+  paymentStatus?: string | null;
+  status?: string | null;
+};
+
+export function isReusableStripeCheckoutSession({
+  attribution,
+  clientSecret,
+  expiresAt,
+  metadata,
+  now = Math.floor(Date.now() / 1000),
+  paymentStatus,
+  status,
+}: ReusableStripeCheckoutSessionInput): boolean {
+  const expiresAtSeconds = typeof expiresAt === 'number' && Number.isFinite(expiresAt) ? expiresAt : null;
+  return Boolean(
+    clientSecret &&
+      status === 'open' &&
+      paymentStatus === 'unpaid' &&
+      expiresAtSeconds !== null &&
+      expiresAtSeconds > now &&
+      matchesWalletAttribution(metadata ?? {}, attribution ?? null)
+  );
+}
+
+export async function findReusableExpressCheckoutSession(
+  stripe: StripeCheckoutSessionRetriever,
+  {
+    amountCents,
+    attribution,
+    currency,
+    hasCompletedTopUp = false,
+    userId,
+  }: {
+    amountCents: number;
+    attribution?: NormalizedWalletAttribution | null;
+    currency: string;
+    userId: string;
+    hasCompletedTopUp?: boolean;
+  }
+): Promise<{ checkoutAttemptId: number; clientSecret: string; expiresAt: number; id: string } | null> {
+  const rows = await query<CheckoutSessionReuseRow>(
+    `SELECT id, stripe_checkout_session_id
+       FROM checkout_attempts
+      WHERE user_id = $1
+        AND amount_cents = $2
+        AND mode = 'express_checkout'
+        AND outcome = 'session_created'
+        AND stripe_checkout_session_id IS NOT NULL
+        AND metadata->>'currency' = $3
+        AND metadata->>'checkoutUiMode' = 'elements'
+        AND created_at >= NOW() - ($4::int * INTERVAL '1 second')
+        AND ($5::boolean OR NOT EXISTS (
+          SELECT 1 FROM checkout_interaction_events event
+           WHERE event.user_id = $1
+             AND event.event_name = 'stripe_checkout_session_expired_for_failed_cards'
+             AND event.created_at >= NOW() - INTERVAL '30 minutes'
+        ))
+      ORDER BY created_at DESC
+      LIMIT 3`,
+    [userId, amountCents, currency.toUpperCase(), EXPRESS_CHECKOUT_REUSE_WINDOW_SECONDS, hasCompletedTopUp]
+  );
+
+  const now = Math.floor(Date.now() / 1000);
+  for (const row of rows) {
+    const sessionId = row.stripe_checkout_session_id;
+    if (!sessionId) continue;
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (
+        isReusableStripeCheckoutSession({
+          attribution,
+          clientSecret: session.client_secret,
+          expiresAt: session.expires_at,
+          metadata: session.metadata,
+          now,
+          paymentStatus: session.payment_status,
+          status: session.status,
+        })
+      ) {
+        return { checkoutAttemptId: Number(row.id), clientSecret: session.client_secret as string, expiresAt: session.expires_at, id: session.id };
+      }
+    } catch (error) {
+      console.warn('[payments] failed to inspect reusable express checkout session', {
+        sessionId,
+        error: error instanceof Error ? error.message : 'unknown_error',
+      });
+    }
+  }
+
+  return null;
+}

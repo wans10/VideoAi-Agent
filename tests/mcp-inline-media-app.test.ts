@@ -1,0 +1,566 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { JSDOM } from 'jsdom';
+
+import {
+  buildAgentGenerationRecovery,
+  buildGenerationResourceLinks,
+} from '../frontend/src/server/agent-api/generation-status';
+import type { AgentPrincipal } from '../frontend/src/server/agent-api/principal';
+import type { AgentGenerationStatus } from '../frontend/src/server/generations/generation-status';
+import { buildGenerationResultAppHtml } from '../frontend/src/server/mcp/generation-result-app';
+import * as presentGenerationModule from '../frontend/src/server/mcp/tools/present-generation';
+import {
+  createMaxVideoAiMcpServer,
+  type MaxVideoAiMcpServices,
+} from '../frontend/src/server/mcp/server';
+
+const TEMPLATE_URI = 'ui://maxvideoai/generation-result-v5.html';
+const LEGACY_TEMPLATE_URIS = [
+  'ui://maxvideoai/generation-result-v1.html',
+  'ui://maxvideoai/generation-result-v2.html',
+  'ui://maxvideoai/generation-result-v3.html',
+  'ui://maxvideoai/generation-result-v4.html',
+] as const;
+
+const principal: AgentPrincipal = {
+  userId: 'inline-viewer-owner',
+  clientId: 'inline-viewer-client',
+  emailVerified: true,
+  authMethod: 'oauth',
+};
+
+function completedVideoStatus(): AgentGenerationStatus {
+  return {
+    jobId: 'completed-video-job',
+    surface: 'video',
+    status: 'completed',
+    progress: 100,
+    message: null,
+    priceCents: 95,
+    currency: 'USD',
+    paymentStatus: 'paid_wallet',
+    result: {
+      surface: 'video',
+      videoUrl: 'https://media.maxvideoai.com/generated/completed-video.mp4',
+      previewUrl: 'https://media.maxvideoai.com/generated/completed-video-preview.mp4',
+      thumbnailUrl: 'https://cdn.maxvideoai.com/generated/completed-video.webp',
+      audioUrl: null,
+    },
+    retryAfterSeconds: null,
+  };
+}
+
+function audioStatus(status: AgentGenerationStatus['status'] = 'completed'): AgentGenerationStatus {
+  return {
+    jobId: 'completed-audio-job',
+    surface: 'audio',
+    status,
+    progress: status === 'completed' ? 100 : status === 'failed' ? 0 : 25,
+    message: status === 'failed' ? 'Audio generation failed.' : null,
+    priceCents: 45,
+    currency: 'USD',
+    paymentStatus: status === 'failed' ? 'refunded_wallet' : 'paid_wallet',
+    result: status === 'completed' ? {
+      surface: 'audio',
+      audioUrl: 'https://media.maxvideoai.com/generated/completed-audio.m4a',
+      videoUrl: null,
+      thumbnailUrl: null,
+      mimeType: 'audio/mp4',
+      durationSec: 12.375,
+    } : null,
+    retryAfterSeconds: status === 'running' ? 5 : null,
+  };
+}
+
+function soundtrackAudioStatus(): AgentGenerationStatus {
+  const status = audioStatus();
+  return {
+    ...status,
+    jobId: 'cinematic-soundtrack-job',
+    result: status.result?.surface === 'audio' ? {
+      ...status.result,
+      audioUrl: null,
+      videoUrl: 'https://media.maxvideoai.com/generated/cinematic-soundtrack',
+      mimeType: 'audio/mpeg',
+    } : null,
+  };
+}
+
+function services(onStatusRead?: (jobId: string) => void): MaxVideoAiMcpServices {
+  return {
+    async getAccountStatus() { return {} as never; },
+    async listModels() { return []; },
+    async getModelDetails() { return {} as never; },
+    async recommendModels() { return { recommendations: [], nextAction: 'clarify_requirements' }; },
+    async calculateProjectBudget() { return {} as never; },
+    async prepareGeneration() { return {} as never; },
+    async confirmGeneration() { return {} as never; },
+    async getGenerationStatus(input) {
+      onStatusRead?.(input.jobId);
+      return buildAgentGenerationRecovery(completedVideoStatus());
+    },
+    async listRecentGenerations() { return { items: [], nextCursor: null }; },
+    async createTopupLink() { return {} as never; },
+    async createGenerationDownload() {
+      return {
+        url: 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=valid',
+        filename: 'maxvideoai-completed-video-job.mp4',
+        expiresAt: '2026-08-27T10:00:00.000Z',
+      };
+    },
+  };
+}
+
+async function connected(
+  onStatusRead?: (jobId: string) => void,
+  overrides: Partial<MaxVideoAiMcpServices> = {},
+) {
+  const server = createMaxVideoAiMcpServer(principal, { ...services(onStatusRead), ...overrides }, {
+    paidGeneration: true,
+    referenceUploads: false,
+  });
+  const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+  await server.connect(serverTransport);
+  const client = new Client({ name: 'inline-media-contract', version: '1.0.0' });
+  await client.connect(clientTransport);
+  return {
+    client,
+    async close() {
+      await client.close();
+      await server.close();
+    },
+  };
+}
+
+test('paid MCP profile exposes one decoupled inline generation presenter', async (t) => {
+  const session = await connected();
+  t.after(() => session.close());
+
+  const tools = await session.client.listTools();
+  const presenter = tools.tools.find((tool) => tool.name === 'present_generation');
+  assert.ok(presenter);
+  assert.deepEqual(presenter.annotations, {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: false,
+  });
+  assert.equal(presenter.inputSchema.additionalProperties, false);
+  assert.deepEqual(presenter.inputSchema.required, ['jobId']);
+  assert.deepEqual(Object.keys(presenter.inputSchema.properties ?? {}), ['jobId']);
+  assert.match(presenter.description ?? '', /completed.*inline.*video|inline.*completed.*video/is);
+  assert.equal((presenter._meta?.ui as { resourceUri?: string } | undefined)?.resourceUri, TEMPLATE_URI);
+  assert.equal(presenter._meta?.['ui/resourceUri'], TEMPLATE_URI);
+  assert.equal(presenter._meta?.['openai/outputTemplate'], TEMPLATE_URI);
+});
+
+test('generation presenter resource is a portable light and dark MCP App with native video', async (t) => {
+  const previousStorageBaseUrl = process.env.S3_PUBLIC_BASE_URL;
+  process.env.S3_PUBLIC_BASE_URL = 'https://videohub-uploads-us.s3.amazonaws.com';
+  t.after(() => {
+    if (previousStorageBaseUrl === undefined) delete process.env.S3_PUBLIC_BASE_URL;
+    else process.env.S3_PUBLIC_BASE_URL = previousStorageBaseUrl;
+  });
+  const session = await connected();
+  t.after(() => session.close());
+
+  const resources = await session.client.listResources();
+  const listedResource = resources.resources.find((resource) => resource.uri === TEMPLATE_URI);
+  assert.ok(listedResource);
+  const listedUi = (listedResource._meta?.ui ?? {}) as {
+    prefersBorder?: boolean;
+    csp?: { resourceDomains?: string[] };
+  };
+  assert.equal(listedUi.prefersBorder, true);
+  assert.ok(listedUi.csp?.resourceDomains?.includes('https://media.maxvideoai.com'));
+  const result = await session.client.readResource({ uri: TEMPLATE_URI });
+  assert.equal(result.contents.length, 1);
+  const content = result.contents[0];
+  assert.equal(content?.mimeType, 'text/html;profile=mcp-app');
+  assert.equal(typeof content?.text, 'string');
+  const html = content?.text ?? '';
+  assert.match(html, /<video\b[^>]*controls[^>]*playsinline/is);
+  assert.match(html, /<audio\b[^>]*id=["']audio["'][^>]*controls[^>]*preload=["']metadata["'][^>]*hidden/is);
+  assert.doesNotMatch(html, /<audio\b[^>]*autoplay/is);
+  assert.match(html, /request\(['"]ui\/initialize['"]/);
+  assert.match(html, /appInfo:\s*\{[^}]*name:\s*['"]MaxVideoAI generation result['"]/s);
+  assert.match(html, /appCapabilities:\s*\{[^}]*availableDisplayModes:\s*\[['"]inline['"]\]/s);
+  assert.match(html, /protocolVersion:\s*['"]2026-01-26['"]/);
+  assert.match(html, /ui\/notifications\/initialized/);
+  assert.match(html, /ui\/notifications\/size-changed/);
+  assert.match(html, /new ResizeObserver\(/);
+  assert.match(html, /ui\/notifications\/tool-result/);
+  assert.match(html, /ui\/open-link/);
+  assert.match(html, /<button\b[^>]*id=["']download["'][^>]*>Download<\/button>/is);
+  assert.match(html, /<button\b[^>]*id=["']reuse["'][^>]*>Reuse settings<\/button>/is);
+  assert.match(html, /buildResultLibraryUrl\(libraryUrl,\s*result\?\.jobId,\s*result\?\.surface\)/);
+  assert.match(html, /searchParams\.set\(['"]view['"],\s*['"]review['"]\)/);
+  assert.match(html, /searchParams\.set\(['"]kind['"],\s*resultSurface\)/);
+  assert.match(html, /searchParams\.set\(['"]job['"],\s*jobId\)/);
+  assert.match(html, /const download\s*=\s*record\(result\?\.download\)/);
+  assert.match(html, /name:\s*['"]get_generation_download['"]/);
+  assert.match(html, /downloadButton\.addEventListener\(['"]click['"]/);
+  assert.match(html, /prefers-color-scheme:\s*dark/);
+  assert.match(html, /result\?\.status === ['"]failed['"]/);
+  assert.match(html, /media\?\.durationSec/);
+  assert.match(html, /\.media\[data-surface=["']audio["']\]/);
+  assert.doesNotMatch(html, /▂|▅|▇|waveform/i);
+  assert.equal((html.match(/<img\b[^>]*id=["']image["']/giu) ?? []).length, 1);
+  assert.match(html, /min-height:\s*44px/);
+  assert.match(html, /grid-template-columns:\s*minmax\(0, 1fr\) minmax\(0, 1fr\)/);
+  assert.match(html, /\.action-buttons #open\s*\{[^}]*grid-column:\s*1 \/ -1/);
+  assert.match(html, /MaxVideoAI/);
+  assert.doesNotMatch(html, /dangerouslySetInnerHTML|eval\(|new Function\(|document\.write\(/);
+
+  const meta = (content?._meta ?? {}) as Record<string, unknown>;
+  const ui = meta.ui as { prefersBorder?: boolean; csp?: { resourceDomains?: string[] } } | undefined;
+  const openAiCsp = meta['openai/widgetCSP'] as { redirect_domains?: string[] } | undefined;
+  assert.equal(ui?.prefersBorder, true);
+  assert.ok(ui?.csp?.resourceDomains?.includes('https://media.maxvideoai.com'));
+  assert.ok(ui?.csp?.resourceDomains?.includes('https://cdn.maxvideoai.com'));
+  assert.ok(ui?.csp?.resourceDomains?.every((origin) => !origin.includes('*')));
+  assert.ok(openAiCsp?.redirect_domains?.includes('https://videohub-uploads-us.s3.amazonaws.com'));
+  assert.ok(openAiCsp?.redirect_domains?.every((origin) => !origin.includes('*')));
+});
+
+test('generation presenter keeps previous resource versions readable for existing conversations', async (t) => {
+  const session = await connected();
+  t.after(() => session.close());
+
+  const resources = await session.client.listResources();
+  for (const uri of LEGACY_TEMPLATE_URIS) {
+    assert.ok(resources.resources.some((resource) => resource.uri === uri));
+    const result = await session.client.readResource({ uri });
+    assert.equal(result.contents.length, 1);
+    assert.equal(result.contents[0]?.uri, uri);
+    assert.equal(result.contents[0]?.mimeType, 'text/html;profile=mcp-app');
+    assert.match(result.contents[0]?.text ?? '', /MaxVideoAI generation result/);
+  }
+});
+
+test('generation download refresh is app-only and signs a fresh attachment on every call', async (t) => {
+  const statusReads: string[] = [];
+  let downloadReads = 0;
+  const session = await connected(
+    (jobId) => statusReads.push(jobId),
+    {
+      async createGenerationDownload() {
+        downloadReads += 1;
+        return {
+          url: `https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=fresh-${downloadReads}`,
+          filename: 'maxvideoai-completed-video-job.mp4',
+          expiresAt: `2026-08-2${7 + downloadReads}T10:00:00.000Z`,
+        };
+      },
+    },
+  );
+  t.after(() => session.close());
+
+  const tools = await session.client.listTools();
+  const refresh = tools.tools.find((tool) => tool.name === 'get_generation_download');
+  assert.ok(refresh);
+  assert.deepEqual(refresh.annotations, {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: false,
+    idempotentHint: true,
+  });
+  assert.deepEqual((refresh._meta?.ui as { visibility?: string[] } | undefined)?.visibility, ['app']);
+  assert.equal(refresh._meta?.['openai/visibility'], 'private');
+
+  const first = await session.client.callTool({
+    name: 'get_generation_download',
+    arguments: { jobId: 'completed-video-job' },
+  });
+  const second = await session.client.callTool({
+    name: 'get_generation_download',
+    arguments: { jobId: 'completed-video-job' },
+  });
+
+  assert.equal(first.isError, undefined);
+  assert.equal(second.isError, undefined);
+  assert.match(String(first.structuredContent?.download && JSON.stringify(first.structuredContent.download)), /fresh-1/);
+  assert.match(String(second.structuredContent?.download && JSON.stringify(second.structuredContent.download)), /fresh-2/);
+  assert.deepEqual(statusReads, ['completed-video-job', 'completed-video-job']);
+  assert.equal(downloadReads, 2);
+});
+
+test('generation presenter reuses the owned recovery service and preserves non-UI links', async (t) => {
+  const statusReads: string[] = [];
+  const session = await connected((jobId) => statusReads.push(jobId));
+  t.after(() => session.close());
+
+  const result = await session.client.callTool({
+    name: 'present_generation',
+    arguments: { jobId: '  completed-video-job  ' },
+  });
+  assert.equal(result.isError, undefined);
+  assert.deepEqual(statusReads, ['completed-video-job']);
+  assert.equal(result.structuredContent?.status, 'completed');
+  assert.equal(result.structuredContent?.savedToLibrary, true);
+  assert.deepEqual(result.structuredContent?.download, {
+    url: 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=valid',
+    filename: 'maxvideoai-completed-video-job.mp4',
+    expiresAt: '2026-08-27T10:00:00.000Z',
+  });
+  assert.equal(result.content.filter((block) => block.type === 'resource_link').length, 3);
+  assert.doesNotMatch(JSON.stringify(result), /prompt|provider_job|storage key|wallet balance/i);
+});
+
+test('generation presenter opens the targeted render and hands a fresh attachment to the host', async () => {
+  const externalOpens: Array<{ href: string; redirectUrl: boolean }> = [];
+  const toolCalls: Array<{ name: string; arguments: { jobId: string } }> = [];
+  const toolOutput = {
+    ...buildAgentGenerationRecovery(completedVideoStatus(), 'https://maxvideoai-mcp-staging.vercel.app/account/connections'),
+    download: {
+      url: 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=valid',
+      filename: 'maxvideoai-completed-video-job.mp4',
+      expiresAt: '2026-08-27T10:00:00.000Z',
+    },
+  };
+  const dom = new JSDOM(buildGenerationResultAppHtml(), {
+    runScripts: 'dangerously',
+    url: 'https://web-sandbox.oaiusercontent.com/',
+    beforeParse(window) {
+      Object.defineProperty(window, 'postMessage', {
+        configurable: true,
+        value(message: { id?: number; method?: string; params?: { name?: string; arguments?: { jobId?: string } } }) {
+          if (message.method !== 'tools/call' || message.id === undefined) return;
+          toolCalls.push({
+            name: String(message.params?.name),
+            arguments: { jobId: String(message.params?.arguments?.jobId) },
+          });
+          window.setTimeout(() => {
+            window.dispatchEvent(new window.MessageEvent('message', {
+              source: window,
+              data: {
+                jsonrpc: '2.0',
+                id: message.id,
+                result: {
+                  structuredContent: {
+                    download: {
+                      url: 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=fresh-click',
+                      filename: 'maxvideoai-completed-video-job.mp4',
+                      expiresAt: '2026-08-28T10:00:00.000Z',
+                    },
+                  },
+                },
+              },
+            }));
+          }, 0);
+        },
+      });
+      Object.defineProperty(window, 'openai', {
+        configurable: true,
+        value: {
+          toolOutput,
+          async openExternal(input: { href: string; redirectUrl: boolean }) {
+            externalOpens.push(input);
+          },
+        },
+      });
+      Object.defineProperty(window.HTMLMediaElement.prototype, 'pause', { configurable: true, value() {} });
+      Object.defineProperty(window.HTMLMediaElement.prototype, 'load', { configurable: true, value() {} });
+    },
+  });
+
+  const openButton = dom.window.document.getElementById('open') as HTMLButtonElement;
+  const downloadButton = dom.window.document.getElementById('download') as HTMLButtonElement;
+  assert.equal(openButton.disabled, false);
+  assert.equal(downloadButton.disabled, false);
+
+  openButton.click();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(externalOpens.length, 1);
+  assert.equal(
+    externalOpens[0]?.href,
+    'https://maxvideoai-mcp-staging.vercel.app/app/library?view=review&kind=video&job=completed-video-job',
+  );
+  assert.equal(externalOpens[0]?.redirectUrl, false);
+
+  downloadButton.click();
+  await new Promise((resolve) => setTimeout(resolve, 10));
+  assert.deepEqual(toolCalls, [{
+    name: 'get_generation_download',
+    arguments: { jobId: 'completed-video-job' },
+  }]);
+  assert.deepEqual(externalOpens.map(({ href, redirectUrl }) => ({ href, redirectUrl })), [
+    {
+      href: 'https://maxvideoai-mcp-staging.vercel.app/app/library?view=review&kind=video&job=completed-video-job',
+      redirectUrl: false,
+    },
+    {
+      href: 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=fresh-click',
+      redirectUrl: false,
+    },
+  ]);
+  dom.window.close();
+});
+
+test('v5 Audio fixture renders one manual player, measured duration, and keyboard buttons without loading failed media', async () => {
+  const externalOpens: string[] = [];
+  const createDom = (generationStatus: AgentGenerationStatus) => new JSDOM(buildGenerationResultAppHtml(), {
+    runScripts: 'dangerously',
+    url: 'https://web-sandbox.oaiusercontent.com/',
+    beforeParse(window) {
+      Object.defineProperty(window, 'postMessage', { configurable: true, value() {} });
+      Object.defineProperty(window, 'openai', {
+        configurable: true,
+        value: {
+          toolOutput: {
+            ...buildAgentGenerationRecovery(
+              generationStatus,
+              'https://maxvideoai-mcp-staging.vercel.app/account/connections',
+            ),
+            download: null,
+          },
+          async openExternal(input: { href: string }) { externalOpens.push(input.href); },
+        },
+      });
+      Object.defineProperty(window.HTMLMediaElement.prototype, 'pause', { configurable: true, value() {} });
+      Object.defineProperty(window.HTMLMediaElement.prototype, 'load', { configurable: true, value() {} });
+    },
+  });
+
+  const completed = createDom(audioStatus());
+  const audio = completed.window.document.getElementById('audio') as HTMLAudioElement;
+  const video = completed.window.document.getElementById('video') as HTMLVideoElement;
+  const reuse = completed.window.document.getElementById('reuse') as HTMLButtonElement;
+  const open = completed.window.document.getElementById('open') as HTMLButtonElement;
+  assert.equal(audio.autoplay, false);
+  assert.equal(audio.controls, true);
+  assert.equal(audio.hidden, false);
+  assert.equal(audio.src, 'https://media.maxvideoai.com/generated/completed-audio.m4a');
+  assert.equal(video.hidden, true);
+  assert.equal(completed.window.document.getElementById('media')?.dataset.surface, 'audio');
+  assert.equal((completed.window.document.getElementById('audio-art') as HTMLElement).hidden, false);
+  assert.equal(completed.window.document.getElementById('duration')?.textContent, '12.375 s');
+  assert.equal(reuse.disabled, false);
+  assert.equal(open.disabled, false);
+  reuse.focus();
+  assert.equal(completed.window.document.activeElement, reuse);
+  reuse.click();
+  open.click();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.deepEqual(externalOpens, [
+    'https://maxvideoai-mcp-staging.vercel.app/app/audio?job=completed-audio-job&reuse=1',
+    'https://maxvideoai-mcp-staging.vercel.app/app/library?view=review&kind=audio&job=completed-audio-job',
+  ]);
+  completed.window.close();
+
+  const soundtrack = createDom(soundtrackAudioStatus());
+  const soundtrackAudio = soundtrack.window.document.getElementById('audio') as HTMLAudioElement;
+  assert.equal(soundtrackAudio.hidden, false);
+  assert.equal(
+    soundtrackAudio.src,
+    'https://media.maxvideoai.com/generated/cinematic-soundtrack',
+  );
+  assert.equal((soundtrack.window.document.getElementById('video') as HTMLVideoElement).hidden, true);
+  soundtrack.window.close();
+
+  for (const terminal of ['running', 'failed'] as const) {
+    const incomplete = createDom(audioStatus(terminal));
+    const incompleteAudio = incomplete.window.document.getElementById('audio') as HTMLAudioElement;
+    assert.equal(incompleteAudio.hasAttribute('src'), false);
+    assert.equal(incompleteAudio.hidden, true);
+    assert.match(
+      incomplete.window.document.getElementById('empty')?.textContent ?? '',
+      terminal === 'failed' ? /failed/i : /not completed/i,
+    );
+    incomplete.window.close();
+  }
+});
+
+test('generation presenter signs the durable output as an attachment', async () => {
+  const createDescriptor = (presentGenerationModule as unknown as Record<string, unknown>)[
+    'createGenerationDownloadDescriptor'
+  ];
+  assert.equal(typeof createDescriptor, 'function');
+  if (typeof createDescriptor !== 'function') return;
+
+  const calls: Array<{ key: string; expiresInSeconds: number; downloadFilename?: string }> = [];
+  const descriptor = await (createDescriptor as (
+    recovery: ReturnType<typeof buildAgentGenerationRecovery>,
+    dependencies: Record<string, unknown>,
+  ) => Promise<unknown>)(
+    buildAgentGenerationRecovery(completedVideoStatus()),
+    {
+      now: () => new Date('2026-08-27T09:00:00.000Z'),
+      extractStorageKeyFromUrl: () => 'mcp-render-staging/videos/owner/completed-video.mp4',
+      createSignedDownloadUrl: async (
+        key: string,
+        options: { expiresInSeconds: number; downloadFilename?: string },
+      ) => {
+        calls.push({ key, ...options });
+        return 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=valid';
+      },
+    },
+  );
+
+  assert.deepEqual(calls, [{
+    key: 'mcp-render-staging/videos/owner/completed-video.mp4',
+    expiresInSeconds: 3600,
+    downloadFilename: 'maxvideoai-completed-video-job.mp4',
+  }]);
+  assert.deepEqual(descriptor, {
+    url: 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-video.mp4?signature=valid',
+    filename: 'maxvideoai-completed-video-job.mp4',
+    expiresAt: '2026-08-27T10:00:00.000Z',
+  });
+});
+
+test('generation presenter signs the original Audio output with its durable extension', async () => {
+  const recovery = buildAgentGenerationRecovery(audioStatus());
+  const calls: Array<{ key: string; downloadFilename?: string }> = [];
+  const descriptor = await presentGenerationModule.createGenerationDownloadDescriptor(recovery, {
+    now: () => new Date('2026-09-08T09:00:00.000Z'),
+    extractStorageKeyFromUrl: () => 'renders/audio-owner/completed-audio.m4a',
+    createSignedDownloadUrl: async (key, options) => {
+      calls.push({ key, downloadFilename: options.downloadFilename });
+      return 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-audio.m4a?signature=fresh';
+    },
+  });
+
+  assert.deepEqual(calls, [{
+    key: 'renders/audio-owner/completed-audio.m4a',
+    downloadFilename: 'maxvideoai-completed-audio-job.m4a',
+  }]);
+  assert.deepEqual(descriptor, {
+    url: 'https://videohub-uploads-us.s3.amazonaws.com/signed/completed-audio.m4a?signature=fresh',
+    filename: 'maxvideoai-completed-audio-job.m4a',
+    expiresAt: '2026-09-08T10:00:00.000Z',
+  });
+});
+
+test('Audio soundtrack fallback keeps its durable MIME and filename extension', async () => {
+  const recovery = buildAgentGenerationRecovery(soundtrackAudioStatus());
+  assert.deepEqual(buildGenerationResourceLinks(recovery), [{
+    uri: 'https://media.maxvideoai.com/generated/cinematic-soundtrack',
+    name: 'MaxVideoAI output',
+    description: 'output for generation cinematic-soundtrack-job',
+    mimeType: 'audio/mpeg',
+  }]);
+
+  const calls: Array<{ key: string; downloadFilename?: string }> = [];
+  const descriptor = await presentGenerationModule.createGenerationDownloadDescriptor(recovery, {
+    now: () => new Date('2026-09-08T09:00:00.000Z'),
+    extractStorageKeyFromUrl: () => 'renders/audio-owner/cinematic-soundtrack',
+    createSignedDownloadUrl: async (key, options) => {
+      calls.push({ key, downloadFilename: options.downloadFilename });
+      return 'https://videohub-uploads-us.s3.amazonaws.com/signed/cinematic-soundtrack?signature=fresh';
+    },
+  });
+
+  assert.deepEqual(calls, [{
+    key: 'renders/audio-owner/cinematic-soundtrack',
+    downloadFilename: 'maxvideoai-cinematic-soundtrack-job.mp3',
+  }]);
+  assert.deepEqual(descriptor, {
+    url: 'https://videohub-uploads-us.s3.amazonaws.com/signed/cinematic-soundtrack?signature=fresh',
+    filename: 'maxvideoai-cinematic-soundtrack-job.mp3',
+    expiresAt: '2026-09-08T10:00:00.000Z',
+  });
+});

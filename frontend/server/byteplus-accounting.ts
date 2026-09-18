@@ -1,0 +1,194 @@
+import {
+  BytePlusModelArkError,
+  requireBytePlusSeedanceProfile,
+} from '@/server/video-providers/byteplus-modelark';
+import { isRecord } from './byteplus-record-utils';
+import type { BytePlusPendingJob } from './byteplus-poll-types';
+
+const BYTEPLUS_FAST_UNIT_PRICE_USD_PER_1K_TOKENS = 0.0056;
+const BYTEPLUS_STANDARD_UNIT_PRICE_USD_PER_1K_TOKENS = 0.007;
+const BYTEPLUS_STANDARD_4K_NO_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS = 0.004;
+const BYTEPLUS_STANDARD_4K_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS = 0.0024;
+const BYTEPLUS_MINI_NO_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS = 0.0035;
+const BYTEPLUS_MINI_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS = 0.0021;
+const BYTEPLUS_SEEDANCE_2_5_NO_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS = 0.0107;
+const BYTEPLUS_SEEDANCE_2_5_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS = 0.0064;
+
+const BYTEPLUS_TOKEN_DIMENSIONS: Record<string, Record<string, { width: number; height: number }>> = {
+  '480p': {
+    '21:9': { width: 1120, height: 480 },
+    '16:9': { width: 854, height: 480 },
+    '4:3': { width: 640, height: 480 },
+    '1:1': { width: 480, height: 480 },
+    '3:4': { width: 480, height: 640 },
+    '9:16': { width: 480, height: 854 },
+  },
+  '720p': {
+    '21:9': { width: 1680, height: 720 },
+    '16:9': { width: 1280, height: 720 },
+    '4:3': { width: 960, height: 720 },
+    '1:1': { width: 720, height: 720 },
+    '3:4': { width: 720, height: 960 },
+    '9:16': { width: 720, height: 1280 },
+  },
+  '1080p': {
+    '21:9': { width: 2520, height: 1080 },
+    '16:9': { width: 1920, height: 1080 },
+    '4:3': { width: 1440, height: 1080 },
+    '1:1': { width: 1080, height: 1080 },
+    '3:4': { width: 1080, height: 1440 },
+    '9:16': { width: 1080, height: 1920 },
+  },
+  '4k': {
+    '21:9': { width: 4398, height: 1886 },
+    '16:9': { width: 3840, height: 2160 },
+    '4:3': { width: 3326, height: 2494 },
+    '1:1': { width: 2880, height: 2880 },
+    '3:4': { width: 2494, height: 3326 },
+    '9:16': { width: 2160, height: 3840 },
+  },
+};
+
+export function expectedBytePlusTokens(
+  job: Pick<BytePlusPendingJob, 'engine_id' | 'duration_sec' | 'settings_snapshot'>
+): number {
+  const profile = requireBytePlusSeedanceProfile(job.engine_id);
+  const settings = isRecord(job.settings_snapshot) ? job.settings_snapshot : {};
+  const core = isRecord(settings.core) ? settings.core : {};
+  const requestedResolution = typeof core.resolution === 'string' ? core.resolution : null;
+  const requestedAspectRatio = typeof core.aspectRatio === 'string' ? core.aspectRatio : null;
+  const resolution = profile.resolutions.includes(requestedResolution as never)
+    ? requestedResolution!
+    : profile.resolutions.includes('720p')
+      ? '720p'
+      : profile.resolutions[0];
+  const aspectRatio = profile.aspectRatios.includes(requestedAspectRatio as never)
+    ? requestedAspectRatio!
+    : profile.aspectRatios.includes('16:9')
+      ? '16:9'
+      : profile.aspectRatios[0];
+  const dimensions =
+    resolution && aspectRatio
+      ? BYTEPLUS_TOKEN_DIMENSIONS[resolution]?.[aspectRatio]
+      : undefined;
+  if (!dimensions) {
+    throw new BytePlusModelArkError(
+      'BytePlus accounting dimensions are not configured for this profile.',
+      { status: 500, code: 'BYTEPLUS_ACCOUNTING_DIMENSIONS_MISSING' }
+    );
+  }
+  return (
+    dimensions.width *
+    dimensions.height *
+    Math.max(1, Math.round(job.duration_sec)) *
+    profile.framesPerSecond
+  ) / 1024;
+}
+
+export function getBytePlusAccounting(job: Pick<BytePlusPendingJob, 'settings_snapshot' | 'has_audio'>) {
+  const settings = isRecord(job.settings_snapshot) ? job.settings_snapshot : {};
+  const refs = isRecord(settings.refs) ? settings.refs : {};
+  const mode =
+    settings.inputMode === 'extend'
+      ? 'extend'
+      : settings.inputMode === 'v2v'
+        ? 'v2v'
+        : settings.inputMode === 'ref2v'
+          ? 'ref2v'
+          : settings.inputMode === 'i2v'
+            ? 'i2v'
+            : 't2v';
+  const hasStartImage = mode === 'i2v' && typeof refs.imageUrl === 'string' && refs.imageUrl.trim().length > 0;
+  const hasEndImage = mode === 'i2v' && typeof refs.endImageUrl === 'string' && refs.endImageUrl.trim().length > 0;
+  const hasReferenceImages = Array.isArray(refs.referenceImages) && refs.referenceImages.length > 0;
+  const hasReferenceVideos = Array.isArray(refs.videoUrls) && refs.videoUrls.length > 0;
+  const hasReferenceAudio = typeof refs.audioUrl === 'string' || (Array.isArray(refs.audioUrls) && refs.audioUrls.length > 0);
+  const inputType =
+    mode === 'extend'
+      ? 'video_extension'
+      : mode === 'v2v'
+        ? 'video_edit'
+        : mode === 'ref2v'
+          ? 'reference_generation'
+          : hasEndImage
+            ? 'first_last_frame'
+            : hasStartImage
+              ? 'image_input'
+              : 'text_input';
+
+  return {
+    mode,
+    inputType,
+    hasStartImage,
+    hasEndImage,
+    hasReferenceImages,
+    hasReferenceVideos,
+    hasReferenceAudio,
+    generateAudio: job.has_audio === true,
+    byteplusBillingInputType: hasReferenceVideos || mode === 'v2v' || mode === 'extend' ? 'video_input' : 'no_video_input',
+  };
+}
+
+export function getBytePlusUnitPriceUsdPer1kTokens(
+  engineId: string | null | undefined,
+  billingInputType?: string | null,
+  resolution?: string | null
+): number {
+  const pricingProfileKey = requireBytePlusSeedanceProfile(engineId).pricingProfileKey;
+
+  switch (pricingProfileKey) {
+    case 'standard':
+      if ((resolution ?? '').trim().toLowerCase() === '4k') {
+        return billingInputType === 'video_input'
+          ? BYTEPLUS_STANDARD_4K_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS
+          : BYTEPLUS_STANDARD_4K_NO_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS;
+      }
+      return BYTEPLUS_STANDARD_UNIT_PRICE_USD_PER_1K_TOKENS;
+    case 'mini':
+      return billingInputType === 'video_input'
+        ? BYTEPLUS_MINI_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS
+        : BYTEPLUS_MINI_NO_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS;
+    case 'fast':
+      return BYTEPLUS_FAST_UNIT_PRICE_USD_PER_1K_TOKENS;
+    case 'seedance25':
+      return billingInputType === 'video_input'
+        ? BYTEPLUS_SEEDANCE_2_5_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS
+        : BYTEPLUS_SEEDANCE_2_5_NO_VIDEO_INPUT_UNIT_PRICE_USD_PER_1K_TOKENS;
+    default: {
+      const unsupportedProfile: never = pricingProfileKey;
+      throw new BytePlusModelArkError(
+        `Unsupported BytePlus pricing profile: ${String(unsupportedProfile)}`,
+        { status: 500, code: 'BYTEPLUS_PRICING_PROFILE_INVALID' }
+      );
+    }
+  }
+}
+
+export function estimateBytePlusProviderCostCents(input: {
+  engineId: string;
+  durationSec: number;
+  resolution: string;
+  aspectRatio: string;
+  billingInputType: 'video_input' | 'no_video_input';
+}): number {
+  if (!Number.isSafeInteger(input.durationSec) || input.durationSec < 1) {
+    throw new Error('Invalid BytePlus provider-cost duration.');
+  }
+  const dimensions = BYTEPLUS_TOKEN_DIMENSIONS[input.resolution]?.[input.aspectRatio];
+  if (!dimensions) throw new Error('Invalid BytePlus provider-cost dimensions.');
+  const totalTokens = (
+    dimensions.width * dimensions.height * input.durationSec * 24
+  ) / 1024;
+  const unitPriceUsdPer1kTokens = getBytePlusUnitPriceUsdPer1kTokens(
+    input.engineId,
+    input.billingInputType,
+    input.resolution,
+  );
+  const costCents = Math.ceil(
+    ((totalTokens * unitPriceUsdPer1kTokens) / 1000) * 100 - Number.EPSILON,
+  );
+  if (!Number.isSafeInteger(costCents) || costCents < 1) {
+    throw new Error('Invalid BytePlus provider-cost estimate.');
+  }
+  return costCents;
+}

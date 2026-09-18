@@ -1,0 +1,451 @@
+import { degradedGenerationObservation } from '@/lib/generation-observation';
+import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { getJobStatus, runGenerate } from '@/lib/api';
+import { getLocalizedModeLabel } from '@/lib/ltx-localization';
+import type {
+  EngineCaps,
+  EngineModeUiCaps,
+  Mode,
+  PreflightResponse,
+} from '@/types/engines';
+import type { JobsPage } from '@/types/jobs';
+import type { SelectedVideoPreview } from '@/lib/video-preview-group';
+import type { SWRInfiniteKeyedMutator } from 'swr/infinite';
+import type { LocalRender } from '../_lib/render-persistence';
+import {
+  emitClientMetric,
+  isInsufficientFundsError,
+} from '../_lib/workspace-client-helpers';
+import type { FormState } from '../_lib/workspace-form-state';
+import type { GenerationInputPreparationResult } from '../_lib/workspace-generation-inputs';
+import {
+  getWorkspaceGenerationFailureMessage,
+  type WorkspaceFailureCopy,
+} from '../_lib/workspace-failure-messages';
+import {
+  applyGenerationPollToRender,
+  applyGenerationPollToSelectedPreview,
+  projectGenerationPollStatus,
+} from '../_lib/workspace-generation-polling';
+import {
+  applyAcceptedGenerationResultToRender,
+  applyAcceptedGenerationResultToSelectedPreview,
+  projectAcceptedGenerationResult,
+} from '../_lib/workspace-generation-result';
+import {
+  getGenerationIterationGuardMessage,
+  type LumaRay2GenerationContext,
+} from '../_lib/workspace-generation-guards';
+import { buildWorkspaceGeneratePayload } from '../_lib/workspace-generation-payload';
+import { prepareLocalGenerationRender } from '../_lib/workspace-local-generation-render';
+import { STORAGE_KEYS } from '../_lib/workspace-storage';
+
+type MemberTier = 'Member' | 'Plus' | 'Pro';
+type ShotType = 'customize' | 'intelligent';
+type MutateLatestJobs = SWRInfiniteKeyedMutator<JobsPage[]>;
+type PreparedGenerationInputs = Extract<GenerationInputPreparationResult, { ok: true }>;
+
+type WorkflowCopy = {
+  audioUnsupported: string;
+  addReferenceMediaBeforeAudio: string;
+  addSourceVideo: (modeLabel: string) => string;
+};
+
+type PresentInsufficientFunds = (options: {
+  currencyCode: string;
+  shortfallCents?: number;
+}) => void;
+
+type RunWorkspaceGenerationIterationOptions = {
+  isSubmissionCurrent: () => boolean;
+  activeMode: Mode;
+  allowsUnifiedVeoFirstLast: boolean;
+  batchId: string;
+  capability: EngineModeUiCaps | undefined;
+  cfgScale: number | null;
+  currencyCode: string;
+  effectiveDurationSec: number;
+  effectivePrompt: string;
+  form: FormState;
+  formatTakeLabel: (current: number, total: number) => string;
+  generationInputs: PreparedGenerationInputs;
+  hasLastFrameInput: boolean;
+  isSeedance: boolean;
+  isUnifiedSeedance: boolean;
+  iterationCount: number;
+  iterationIndex: number;
+  lumaContext: LumaRay2GenerationContext;
+  memberTier: MemberTier;
+  mutateLatestJobs: MutateLatestJobs;
+  paymentMode: 'wallet' | 'platform';
+  preflight: PreflightResponse | null;
+  presentInsufficientFunds: PresentInsufficientFunds;
+  primaryAssetFieldLabel: string;
+  rendersRef: MutableRefObject<LocalRender[]>;
+  selectedEngine: EngineCaps;
+  setActiveBatchId: Dispatch<SetStateAction<string | null>>;
+  setActiveGroupId: Dispatch<SetStateAction<string | null>>;
+  setBatchHeroes: Dispatch<SetStateAction<Record<string, string>>>;
+  setRenders: Dispatch<SetStateAction<LocalRender[]>>;
+  onRenderStarted: () => void;
+  setSelectedPreview: Dispatch<SetStateAction<SelectedVideoPreview | null>>;
+  setViewMode: Dispatch<SetStateAction<'single' | 'quad'>>;
+  shotType: ShotType;
+  showComposerError: (message: string) => void;
+  submissionMode: Mode;
+  supportsAudioToggle: boolean;
+  supportsKlingV3Controls: boolean;
+  supportsKlingV3VoiceControl: boolean;
+  supportsNegativePrompt: boolean;
+  token: string | null;
+  trimmedNegativePrompt: string;
+  trimmedPrompt: string;
+  uiLocale: string;
+  voiceControlEnabled: boolean;
+  voiceIds: string[];
+  workflowCopy: WorkflowCopy;
+  workspaceCopy: WorkspaceFailureCopy;
+  writeScopedStorage: (base: string, value: string | null) => void;
+};
+
+export async function runWorkspaceGenerationIteration({
+  isSubmissionCurrent,
+  activeMode,
+  allowsUnifiedVeoFirstLast,
+  batchId,
+  capability,
+  cfgScale,
+  currencyCode,
+  effectiveDurationSec,
+  effectivePrompt,
+  form,
+  formatTakeLabel,
+  generationInputs,
+  hasLastFrameInput,
+  isSeedance,
+  isUnifiedSeedance,
+  iterationCount,
+  iterationIndex,
+  lumaContext,
+  memberTier,
+  mutateLatestJobs,
+  paymentMode,
+  preflight,
+  presentInsufficientFunds,
+  primaryAssetFieldLabel,
+  rendersRef,
+  selectedEngine,
+  setActiveBatchId,
+  setActiveGroupId,
+  setBatchHeroes,
+  setRenders,
+  onRenderStarted,
+  setSelectedPreview,
+  setViewMode,
+  shotType,
+  showComposerError,
+  submissionMode,
+  supportsAudioToggle,
+  supportsKlingV3Controls,
+  supportsKlingV3VoiceControl,
+  supportsNegativePrompt,
+  token,
+  trimmedNegativePrompt,
+  trimmedPrompt,
+  uiLocale,
+  voiceControlEnabled,
+  voiceIds,
+  workflowCopy,
+  workspaceCopy,
+  writeScopedStorage,
+}: RunWorkspaceGenerationIterationOptions) {
+  if (!isSubmissionCurrent()) return;
+  const {
+    inputsPayload,
+    primaryAttachment,
+    referenceImageUrls,
+    referenceVideoUrls,
+    referenceAudioUrls,
+    primaryImageUrl,
+    primaryAudioUrl,
+    endImageUrl,
+    extraInputValues,
+    klingElementsPayload,
+    multiPromptPayload,
+  } = generationInputs;
+
+  const guardMessage = getGenerationIterationGuardMessage({
+    selectedEngineId: selectedEngine.id,
+    submissionMode,
+    allowsUnifiedVeoFirstLast,
+    hasLastFrameInput,
+    isUnifiedSeedance,
+    primaryImageUrl,
+    primaryAudioUrl,
+    primaryAssetFieldLabel,
+    referenceImageUrls,
+    referenceVideoUrls,
+    referenceAudioUrls,
+    inputsPayload,
+    primaryAttachment,
+    hasKlingElements: Boolean(klingElementsPayload?.length),
+    addReferenceMediaBeforeAudioMessage: workflowCopy.addReferenceMediaBeforeAudio,
+    extendOrRetakeSourceVideoMessage: workflowCopy.addSourceVideo(getLocalizedModeLabel(submissionMode, uiLocale)),
+  });
+  if (guardMessage) {
+    showComposerError(guardMessage);
+    return;
+  }
+
+  const localRender = prepareLocalGenerationRender({
+    submissionMode,
+    batchId,
+    iterationIndex,
+    iterationCount,
+    selectedEngine,
+    form,
+    effectiveDurationSec,
+    effectivePrompt,
+    preflight,
+    formatTakeLabel,
+  });
+  const {
+    localKey,
+    id,
+    thumb,
+    etaSeconds,
+    etaLabel,
+    friendlyMessage,
+    minReadyAt,
+    initialRender,
+    selectedPreview: initialSelectedPreview,
+  } = localRender;
+
+  // A prior rail/example selection must not mask the newly launched batch.
+  onRenderStarted();
+  setRenders((prev) => [initialRender, ...prev]);
+  setBatchHeroes((prev) => {
+    if (prev[batchId]) return prev;
+    return { ...prev, [batchId]: localKey };
+  });
+  setActiveBatchId(batchId);
+  setActiveGroupId(batchId);
+  if (iterationCount > 1) {
+    setViewMode((prev) => (prev === 'quad' ? prev : 'quad'));
+  }
+  setSelectedPreview(initialSelectedPreview);
+
+
+  try {
+    const { payload: generatePayload, resolvedDurationSeconds } = buildWorkspaceGeneratePayload({
+      selectedEngineId: selectedEngine.id,
+      activeMode,
+      submissionMode,
+      form,
+      trimmedPrompt,
+      trimmedNegativePrompt,
+      effectiveDurationSec,
+      memberTier,
+      paymentMode,
+      cfgScale,
+      capability,
+      inputSchema: selectedEngine.inputSchema,
+      supportsNegativePrompt,
+      supportsAudioToggle,
+      isSeedance,
+      supportsKlingV3Controls,
+      supportsKlingV3VoiceControl,
+      voiceIds,
+      voiceControlEnabled,
+      shotType,
+      localKey,
+      batchId,
+      iterationIndex,
+      iterationCount,
+      friendlyMessage,
+      etaSeconds,
+      etaLabel,
+      lumaContext,
+      inputsPayload,
+      primaryImageUrl,
+      primaryAudioUrl,
+      referenceImageUrls,
+      endImageUrl,
+      extraInputValues,
+      multiPromptPayload,
+      klingElementsPayload,
+    });
+
+    emitClientMetric('generation_started', {
+      local_key: localKey,
+      batch_id: batchId,
+      group_id: batchId,
+      iteration_index: iterationIndex,
+      iteration_count: iterationCount,
+      batch_size: iterationCount,
+      engine: selectedEngine.id,
+      mode: submissionMode,
+      duration_sec: resolvedDurationSeconds,
+      payment_mode: paymentMode,
+      has_audio: Boolean(form.audio),
+    });
+
+    if (!isSubmissionCurrent()) return;
+    const res = await runGenerate(generatePayload, token ? { token } : undefined);
+
+    const acceptedResult = projectAcceptedGenerationResult({
+      response: res,
+      fallback: {
+        id,
+        batchId,
+        iterationIndex,
+        iterationCount,
+        thumbUrl: thumb,
+        priceCents: preflight?.pricing?.totalCents ?? undefined,
+        currency: preflight?.pricing?.currency ?? preflight?.currency ?? 'USD',
+        pricingSnapshot: preflight?.pricing,
+        etaSeconds,
+        etaLabel,
+        message: friendlyMessage,
+        minReadyAt,
+        aspectRatio: form.aspectRatio,
+        localKey,
+      },
+      now: Date.now(),
+    });
+
+    try {
+      if (acceptedResult.jobId.startsWith('job_')) {
+        writeScopedStorage(STORAGE_KEYS.previewJobId, acceptedResult.jobId);
+      }
+    } catch {
+      // ignore storage failures
+    }
+
+    setRenders((prev) =>
+      prev.map((render) =>
+        render.localKey === localKey ? applyAcceptedGenerationResultToRender(render, acceptedResult) : render
+      )
+    );
+    setSelectedPreview((current) => applyAcceptedGenerationResultToSelectedPreview(current, acceptedResult));
+
+    if (acceptedResult.iterationCount > 1) {
+      setViewMode((prev) => (prev === 'quad' ? prev : 'quad'));
+    }
+    setActiveBatchId(acceptedResult.batchId);
+    setActiveGroupId(acceptedResult.batchId ?? batchId ?? id);
+    setBatchHeroes((prev) => {
+      if (prev[acceptedResult.batchId]) return prev;
+      return { ...prev, [acceptedResult.batchId]: localKey };
+    });
+
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('jobs:status', { detail: acceptedResult.statusEventDetail }));
+    }
+
+    void mutateLatestJobs(undefined, { revalidate: true });
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('wallet:invalidate'));
+    }
+
+    const jobId = acceptedResult.jobId;
+    const poll = async () => {
+      if (!isSubmissionCurrent() || !rendersRef.current.some(render => render.jobId === jobId
+        && render.status !== 'failed' && !(render.status === 'completed' && render.videoUrl))) return;
+      try {
+        const status = await getJobStatus(jobId);
+        const localizedStatus = {
+          ...status,
+          message: getWorkspaceGenerationFailureMessage(status, workspaceCopy),
+        };
+        const target = rendersRef.current.find((render) => render.id === jobId);
+        const pollProjection = projectGenerationPollStatus({
+          status: localizedStatus,
+          target,
+          jobId,
+          localKey,
+          now: Date.now(),
+        });
+        if (pollProjection.deferUntilReady && pollProjection.nextPollDelayMs !== null) {
+          window.setTimeout(poll, pollProjection.nextPollDelayMs);
+          return;
+        }
+        setRenders((prev) =>
+          prev.map((render) => (render.id === jobId ? applyGenerationPollToRender(render, pollProjection) : render))
+        );
+        setSelectedPreview((current) => applyGenerationPollToSelectedPreview(current, pollProjection));
+        if (localizedStatus.status === 'failed' && localizedStatus.message) {
+          showComposerError(localizedStatus.message);
+        }
+        if (pollProjection.shouldKeepPolling && pollProjection.nextPollDelayMs !== null) {
+          window.setTimeout(poll, pollProjection.nextPollDelayMs);
+        }
+      } catch {
+        setRenders((prev) => prev.map((render) => render.jobId === jobId && render.status === 'pending'
+          ? { ...render, observation: degradedGenerationObservation(render.observation) } : render));
+        setSelectedPreview((current) => current?.id === jobId && current.status === 'pending'
+          ? { ...current, observation: degradedGenerationObservation(current.observation) } : current);
+        window.setTimeout(poll, 15_000);
+      }
+    };
+    window.setTimeout(poll, 1500);
+
+  } catch (error) {
+    emitClientMetric('generation_failed', {
+      local_key: localKey,
+      batch_id: batchId,
+      group_id: batchId,
+      iteration_index: iterationIndex,
+      iteration_count: iterationCount,
+      engine: selectedEngine.id,
+      mode: submissionMode,
+      error_code:
+        error && typeof error === 'object' && typeof (error as { code?: unknown }).code === 'string'
+          ? (error as { code: string }).code
+          : 'generation_request_failed',
+      failure_category: 'generation_request_failed',
+    });
+    let fallbackBatchId: string | null = null;
+    setRenders((prev) => {
+      const next = prev.filter((render) => render.localKey !== localKey);
+      fallbackBatchId = next[0]?.batchId ?? null;
+      return next;
+    });
+    setBatchHeroes((prev) => {
+      if (!prev[batchId]) return prev;
+      const next = { ...prev };
+      delete next[batchId];
+      return next;
+    });
+    setActiveBatchId((current) => (current === batchId ? fallbackBatchId : current));
+    setActiveGroupId((current) => (current === batchId ? fallbackBatchId : current));
+    setSelectedPreview((current) => (current && current.localKey === localKey ? null : current));
+    if (isInsufficientFundsError(error)) {
+      const shortfallCents = error.details?.requiredCents;
+      presentInsufficientFunds({ currencyCode, shortfallCents });
+      return;
+    }
+    if (error && typeof error === 'object' && (error as { error?: string }).error === 'FAL_UNPROCESSABLE_ENTITY') {
+      const payload = error as { userMessage?: string; providerMessage?: string; detail?: unknown };
+      const userMessage =
+        typeof payload.userMessage === 'string'
+          ? payload.userMessage
+          : `This ${primaryAssetFieldLabel.toLowerCase()} could not be used. Please try with a different one.`;
+      showComposerError(userMessage);
+      return;
+    }
+    const enrichedError = typeof error === 'object' && error !== null ? (error as Record<string, unknown>) : null;
+    const apiMessage =
+      typeof enrichedError?.originalMessage === 'string' && enrichedError.originalMessage.trim().length
+        ? enrichedError.originalMessage.trim()
+        : undefined;
+    const fallbackMessage =
+      apiMessage ??
+      (error instanceof Error && typeof error.message === 'string' && error.message.trim().length
+        ? error.message
+        : 'Generate failed');
+    showComposerError(fallbackMessage);
+  }
+}
