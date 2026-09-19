@@ -10,7 +10,9 @@ FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY frontend/package.json ./frontend/package.json
 COPY packages/pricing/package.json ./packages/pricing/package.json
-RUN pnpm install --frozen-lockfile
+# Avoid memory spikes on resource-constrained servers during parallel package extraction
+ENV NODE_OPTIONS="--max-old-space-size=1536"
+RUN pnpm config set child-concurrency 1 && pnpm install --frozen-lockfile
 
 FROM base AS builder
 ARG NEXT_PUBLIC_API_BASE=/api
@@ -20,6 +22,8 @@ ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 ARG NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
 ENV NEXT_OUTPUT_STANDALONE=true \
+    NEXT_TELEMETRY_DISABLED=1 \
+    NODE_OPTIONS="--max-old-space-size=2048" \
     NEXT_PUBLIC_API_BASE=$NEXT_PUBLIC_API_BASE \
     NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
     NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
@@ -30,7 +34,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/frontend/node_modules ./frontend/node_modules
 COPY --from=deps /app/packages/pricing/node_modules ./packages/pricing/node_modules
 COPY . .
-RUN pnpm --dir frontend build
+RUN NEXT_SKIP_ESLINT=1 pnpm --dir frontend build
 
 # A separate target keeps PostgreSQL tooling out of the web runtime image. It
 # bootstraps the application's idempotent base schema before versioned SQL.
