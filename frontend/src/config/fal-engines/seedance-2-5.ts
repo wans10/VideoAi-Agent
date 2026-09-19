@@ -268,6 +268,12 @@ export const SEEDANCE_2_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       canonicalPath: '/models/seedance-2-5',
     },
     type: 'textImage',
+    demoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/6ab56b7c-bece-4c72-9372-c910bafdc622.mp4',
+    media: {
+      videoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/6ab56b7c-bece-4c72-9372-c910bafdc622.mp4',
+      imagePath: '/models/seedance-2-5-launch.jpg',
+      altText: 'Seedance 2.5 video generation demo: the city in the suitcase',
+    },
     prompts: [],
     pricingHint: {
       currency: 'USD',

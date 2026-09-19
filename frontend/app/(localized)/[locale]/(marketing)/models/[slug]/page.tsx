@@ -333,7 +333,7 @@ async function renderMarketingModelPage({
       engine.type === 'image'
         ? null
         : (resolvePublicMarketingVideoUrl(engine.media?.videoUrl) ?? resolvePublicMarketingVideoUrl(engine.demoUrl)),
-    posterUrl: normalizeMediaUrl(engine.media?.imagePath),
+    posterUrl: normalizeMediaUrl(engine.media?.imagePath) ?? normalizeMediaUrl(localizedContent.seo?.image),
     durationSec: null,
     hasAudio: engine.type === 'image' ? false : true,
     href: null,

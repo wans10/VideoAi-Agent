@@ -29,6 +29,12 @@ export const LTX_2_5_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
   ],
   defaultFalModelId: LTX_2_5_FAST_ENDPOINTS.t2v,
   seo: { title: 'LTX 2.5 Fast AI Video | MaxVideoAI', description: 'Generate fast LTX 2.5 video from text, images, or source audio.', canonicalPath: '/models/ltx-2-5-fast' },
+  demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/7411e4e4-1f5b-4a30-a5cc-38a27a42d328.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/7411e4e4-1f5b-4a30-a5cc-38a27a42d328.mp4',
+    imagePath: 'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/ea6fc35e-a50c-4ad9-9cf0-1e4cd4ae89a8.jpg',
+    altText: 'LTX 2.5 Fast quick turnaround video generation demo',
+  },
   prompts: [
     { title: 'Fast cinematic clip', prompt: 'A polished product reveal, fluid camera motion, natural synchronized audio.', mode: 't2v' },
     { title: 'Fast still animation', prompt: 'Animate the uploaded frame with realistic motion and a controlled camera move.', mode: 'i2v' },

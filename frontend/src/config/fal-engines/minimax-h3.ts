@@ -290,6 +290,12 @@ export const MINIMAX_H3_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     },
     type: 'Text + Image + References · Native audio',
     seoText: 'Generate native-audio character video from prompts, start and end frames, or mixed visual and audio references with MiniMax H3.',
+    demoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/ee88f1fa-7d90-4b1d-b6d0-8373eea6c726.mp4',
+    media: {
+      videoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/ee88f1fa-7d90-4b1d-b6d0-8373eea6c726.mp4',
+      imagePath: '/models/minimax-h3-launch.jpg',
+      altText: 'MiniMax H3 wildfire lookout rescue sequence with native audio',
+    },
     prompts: [
       {
         title: 'Storm-platform encounter',

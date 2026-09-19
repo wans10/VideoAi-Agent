@@ -249,5 +249,11 @@ export const MINIMAX_H3_MAX_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
   },
   type: 'Hailuo text, image, and reference video · Native audio',
   seoText: 'Create premium Hailuo video with strong prompt adherence, polished visual finish, and automatic native audio.',
+  demoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1b29e9b2-c68d-46a3-8415-7677deed674a.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1b29e9b2-c68d-46a3-8415-7677deed674a.mp4',
+    imagePath: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/89562475-e134-4d26-9735-478a6fed48ec.jpg',
+    altText: 'MiniMax H3 Max high-definition AI video render with native audio',
+  },
   prompts: [],
 }];

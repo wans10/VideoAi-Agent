@@ -138,4 +138,18 @@ export const MODEL_OG_IMAGE_MAP: Record<string, string> = {
   'veo-3-1-lite': '/hero/veo-3-1-hero.jpg',
   'pika-text-to-video': '/hero/pika-22.jpg',
   'minimax-hailuo-02-text': '/hero/minimax-video01.jpg',
+  'minimax-h3': '/models/minimax-h3-launch.jpg',
+  'seedance-2-5': '/models/seedance-2-5-launch.jpg',
+  'kling-3-turbo-pro':
+    'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/0241e03e-f986-4026-9064-6a2f4af0c0dc.jpg',
+  'ltx-2-5-pro':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/197fad84-252f-43e1-8c44-9be2b8ce415a.jpg',
+  'wan-3':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/d3c5c35e-42d8-4abd-95bd-8608c50f92c7.jpg',
+  'minimax-h3-max':
+    'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/89562475-e134-4d26-9735-478a6fed48ec.jpg',
+  'ltx-2-5-fast':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/ea6fc35e-a50c-4ad9-9cf0-1e4cd4ae89a8.jpg',
+  'wan-3-prime':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e1737553-786b-4362-a873-7ffec396247d.jpg',
 };

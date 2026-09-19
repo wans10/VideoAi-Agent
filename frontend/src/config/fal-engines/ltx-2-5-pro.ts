@@ -27,6 +27,12 @@ export const LTX_2_5_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
   ],
   defaultFalModelId: LTX_2_5_PRO_ENDPOINTS.t2v,
   seo: { title: 'LTX 2.5 Pro AI Video | MaxVideoAI', description: 'Generate high-quality LTX 2.5 Pro video from text, images, or source audio.', canonicalPath: '/models/ltx-2-5-pro' },
+  demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e2ce09fa-62e0-4143-990c-37d9290e9af1.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e2ce09fa-62e0-4143-990c-37d9290e9af1.mp4',
+    imagePath: 'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/197fad84-252f-43e1-8c44-9be2b8ce415a.jpg',
+    altText: 'LTX 2.5 Pro cinematic sequence with synchronized audio',
+  },
   prompts: [
     { title: 'Pro cinematic clip', prompt: 'A premium cinematic sequence with precise motion, detailed lighting, and synchronized audio.', mode: 't2v' },
     { title: 'Pro still animation', prompt: 'Preserve the uploaded subject while adding polished motion and camera choreography.', mode: 'i2v' },
