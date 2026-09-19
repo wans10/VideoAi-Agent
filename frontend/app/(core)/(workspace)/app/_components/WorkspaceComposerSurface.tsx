@@ -175,11 +175,16 @@ const SEEDANCE_REFERENCE_GUIDANCE_COPY = {
     tooltip:
       'Para personajes de referencia, crea primero imágenes coherentes con Seedream text-to-image, o sube una referencia ilustrada/estilizada y pide a Seedance en el prompt que la haga realista.',
   },
+  zh: {
+    label: 'Seedance 可能会拒绝参考图中的可识别真实人物。',
+    tooltip:
+      '可使用 Seedream 文生图创建一致的角色参考图，或上传手绘/风格化插画参考图，并在提示词中要求 Seedance 真实化渲染。',
+  },
 } as const;
 
 function getSeedanceReferenceGuidance(locale: string): SeedanceReferenceGuidance {
   const language = locale.toLowerCase().split('-')[0];
-  if (language === 'fr' || language === 'es') return SEEDANCE_REFERENCE_GUIDANCE_COPY[language];
+  if (language === 'fr' || language === 'es' || language === 'zh') return SEEDANCE_REFERENCE_GUIDANCE_COPY[language];
   return SEEDANCE_REFERENCE_GUIDANCE_COPY.en;
 }
 

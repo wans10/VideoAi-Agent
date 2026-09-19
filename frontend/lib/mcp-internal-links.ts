@@ -51,6 +51,17 @@ const LABELS: Record<AppLocale, Record<McpInternalLinkPlacement, string>> = {
     examples: 'Crea tu próximo video con un asistente de IA',
     docs: 'Explora la creación y automatización de video con MCP',
   },
+  zh: {
+    home: '连接 Claude、ChatGPT、Codex、OpenClaw 或 n8n',
+    homeHero: '在您的 AI 助手内直接创作视频',
+    footer: 'AI 助手与 MCP 集成',
+    payg: '生成前在 AI 助手中查看价格明细',
+    models: '使用 AI 助手挑选视频模型',
+    model: '使用 AI 助手创作：查看兼容模型',
+    comparison: '在 AI 助手中继续此对比',
+    examples: '使用 AI 助手制作您的下一条视频',
+    docs: '通过 MCP 探索视频创作与自动化',
+  },
 };
 
 const DOCS_LABELS: Record<AppLocale, Record<McpDocsLinkPlacement, string>> = {
@@ -68,6 +79,11 @@ const DOCS_LABELS: Record<AppLocale, Record<McpDocsLinkPlacement, string>> = {
     footer: 'Documentación técnica MCP',
     hub: 'Consultar la guía técnica MCP completa',
     integration: 'Consultar la guía técnica MCP',
+  },
+  zh: {
+    footer: 'MCP 技术文档',
+    hub: '阅读完整 MCP 技术指南',
+    integration: '阅读 MCP 技术指南',
   },
 };
 

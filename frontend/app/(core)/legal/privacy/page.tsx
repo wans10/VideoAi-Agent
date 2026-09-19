@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: metadata.description,
     hreflangGroup: 'legalPrivacy',
     englishPath: '/legal/privacy',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: metadata.imageAlt,
   });

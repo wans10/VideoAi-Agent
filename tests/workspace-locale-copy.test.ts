@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import enMessages from '../frontend/messages/en.json';
-import esMessages from '../frontend/messages/es.json';
-import frMessages from '../frontend/messages/fr.json';
+import enMessages from '../frontend/messages/en.json' with { type: 'json' };
+import esMessages from '../frontend/messages/es.json' with { type: 'json' };
+import frMessages from '../frontend/messages/fr.json' with { type: 'json' };
+import zhMessages from '../frontend/messages/zh.json' with { type: 'json' };
 import { DEFAULT_COPY } from '../frontend/app/(core)/(workspace)/app/image/_lib/image-workspace-copy';
 
 type UnknownRecord = Record<string, unknown>;
@@ -11,6 +12,7 @@ const localeMessages = {
   en: enMessages,
   fr: frMessages,
   es: esMessages,
+  zh: zhMessages,
 } as const;
 
 function isRecord(value: unknown): value is UnknownRecord {
@@ -88,7 +90,7 @@ test('Seedance copyright failure and wallet refund copy are localized in every w
 test('video and image auth gates promise only a return to the workspace', () => {
   for (const [locale, messages] of Object.entries(localeMessages)) {
     for (const gate of [messages.workspace.generate.authGate, messages.workspace.image.authGate]) {
-      assert.match(gate.body, /return|ramèner|volver/i, `${locale} should explain workspace return`);
+      assert.match(gate.body, /return|ramèner|volver|返回/i, `${locale} should explain workspace return`);
       assert.doesNotMatch(
         gate.body,
         /free|gratuit|gratis|credit|crédit|price|prix|precio/i,

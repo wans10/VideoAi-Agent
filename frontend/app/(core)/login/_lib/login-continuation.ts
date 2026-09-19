@@ -20,6 +20,7 @@ function applyAmount(template: string, amount: string): string {
 
 function formatUsdAmount(amountCents: number, locale: Locale): string {
   const localeTag = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : 'en-US';
+  const localeTag = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : locale === 'zh' ? 'zh-CN' : 'en-US';
   return new Intl.NumberFormat(localeTag, {
     style: 'currency',
     currency: 'USD',

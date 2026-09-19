@@ -23,6 +23,7 @@ export function getExampleModelLabel(_locale: AppLocale, slug: string): string |
 function formatLocalizedList(locale: AppLocale, items: string[]): string {
   if (!items.length) return '';
   if (items.length === 1) return items[0];
+  if (locale === 'zh') return items.join('、');
   const conjunction = locale === 'fr' ? 'et' : locale === 'es' ? 'y' : 'and';
   if (items.length === 2) return `${items[0]} ${conjunction} ${items[1]}`;
   return `${items.slice(0, -1).join(', ')}, ${conjunction} ${items[items.length - 1]}`;
@@ -81,6 +82,30 @@ function buildGenericLocalizedModelData(
     };
   }
 
+  if (locale === 'zh') {
+    return {
+      subtitle: `${label} 全系列案例，包含可复用提示词、参数设置与价格参考。`,
+      intro: `在发起新渲染前，可使用此页面查看 ${label} 案例。${variantsSentence} 对比运动幅度、构图和时长，点击案例查看历史生成费用，并访问关联的模型页面了解各模式的详细规格与限制。`,
+      promptPatterns: `${label} 案例在提示词分别清晰描述主体、镜头运动、环境和节奏时效果最佳。建议从短片段开始，在画面基准稳定后再迭代构图与运动。`,
+      strengthsLimits: `本案例库用于对比 ${label} 系列在处理动态、构图和连贯性方面的表现。各项功能仍因模型与模式而异，在扩大生产规模前请确认模型页面的工作流说明。`,
+      pricingNotes: `案例详情页中显示的生成费用会根据模型、时长、分辨率和模式有所不同。保持相同需求有助于在 ${label} 系列内客观对比成本与质量。`,
+      faq: [
+        {
+          question: `何时使用 ${label} 案例页面？`,
+          answer: `当您想在挑选最适合生产的模型前，快速对比多个 ${label} 变体效果时。`,
+        },
+        {
+          question: `所有 ${label} 模型表现都一样吗？`,
+          answer: `不一样。虽然同属一个模型系列，但在时长、支持模式、分辨率和生成费用上仍各有差异。`,
+        },
+        {
+          question: `如何挑选合适的 ${label} 模型？`,
+          answer: `建议先通过案例查看输出质感，然后前往对应的模型详情页确认规格、限制和实时定价。`,
+        },
+      ],
+    };
+  }
+
   return {
     subtitle: `${label} examples across the full family, with reusable prompts, settings, and pricing signals.`,
     intro: `Use this page to review ${label} examples before launching new renders. ${variantsSentence} Compare motion, framing, and duration, then open an example to see its recorded render cost. Use the related model pages for mode-specific specs and limits.`,
@@ -118,12 +143,16 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
         ? `Cette page regroupe ${variantsList}.`
         : locale === 'es'
           ? `Esta página reúne ${variantsList}.`
-          : `This page includes ${variantsList}.`
+          : locale === 'zh'
+            ? `本页面汇集了 ${variantsList}。`
+            : `This page includes ${variantsList}.`
       : locale === 'fr'
         ? `Cette page regroupe plusieurs modèles ${label}.`
         : locale === 'es'
           ? `Esta página reúne varios modelos de ${label}.`
-          : `This page includes multiple ${label} models.`;
+          : locale === 'zh'
+            ? `本页面包含多个 ${label} 模型。`
+            : `This page includes multiple ${label} models.`;
   const localized = getLocalizedModelData(locale)[normalized] ?? buildGenericLocalizedModelData(locale, label, variantsSentence);
   const metaTitle =
     localized.metaTitle ??
@@ -131,25 +160,33 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
       ? `Exemples vidéo IA ${label} (prompts + réglages) | MaxVideoAI`
       : locale === 'es'
         ? `Ejemplos de video con IA de ${label} (prompts + ajustes) | MaxVideoAI`
-        : `${label} AI Video Examples (Prompts + Settings) | MaxVideoAI`);
+        : locale === 'zh'
+          ? `${label} AI 视频案例（提示词 + 参数设置）| MaxVideoAI`
+          : `${label} AI Video Examples (Prompts + Settings) | MaxVideoAI`);
   const sectionPromptTitle =
     locale === 'fr'
       ? `Prompts sur les modèles ${label}`
       : locale === 'es'
         ? `Patrones de prompt en modelos de ${label}`
-        : `Prompt patterns across ${label} models`;
+        : locale === 'zh'
+          ? `${label} 模型的提示词模式`
+          : `Prompt patterns across ${label} models`;
   const sectionLimitsTitle =
     locale === 'fr'
       ? 'Forces et limites par modèle'
       : locale === 'es'
         ? 'Fortalezas y límites por modelo'
-        : 'Strengths and limits by model';
+        : locale === 'zh'
+          ? '各模型的优势与局限'
+          : 'Strengths and limits by model';
   const sectionPricingTitle =
     locale === 'fr'
       ? 'Notes de prix (selon le modèle)'
       : locale === 'es'
         ? 'Notas de precio (según el modelo)'
-        : 'Pricing notes (varies by model)';
+        : locale === 'zh'
+          ? '价格参考（因模型而异）'
+          : 'Pricing notes (varies by model)';
 
   return {
     slug: normalized,
@@ -161,10 +198,12 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
         ? `Exemples vidéo IA ${label} avec prompts, réglages et coût enregistré sur chaque fiche. ${variantsSentence}`
         : locale === 'es'
           ? `Ejemplos de video con IA de ${label} con prompts, ajustes y coste registrado en cada ficha. ${variantsSentence}`
-          : `${label} examples with prompts, settings, and recorded cost on each detail page. ${variantsSentence}`),
+          : locale === 'zh'
+            ? `${label} AI 视频案例，详情页包含提示词、参数设置和历史生成费用。${variantsSentence}`
+            : `${label} examples with prompts, settings, and recorded cost on each detail page. ${variantsSentence}`),
     heroTitle:
       localized.heroTitle ??
-      (locale === 'fr' ? `Exemples ${label}` : locale === 'es' ? `Ejemplos de ${label}` : `${label} Examples`),
+      (locale === 'fr' ? `Exemples ${label}` : locale === 'es' ? `Ejemplos de ${label}` : locale === 'zh' ? `${label} 案例` : `${label} Examples`),
     heroSubtitle: localized.subtitle,
     intro: localized.intro,
     summary:
@@ -173,7 +212,9 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
         ? `${variantsSentence} Ouvrez un exemple pour consulter son prompt, ses réglages et le coût enregistré avant de lancer un nouveau rendu.`
         : locale === 'es'
           ? `${variantsSentence} Abre un ejemplo para consultar su prompt, ajustes y coste registrado antes de lanzar un nuevo render.`
-          : `${variantsSentence} Open an example to review its prompt, settings, and recorded render cost before running a new render.`),
+          : locale === 'zh'
+            ? `${variantsSentence} 在发起新渲染前，打开任意案例即可查看其提示词、参数设置及历史生成费用。`
+            : `${variantsSentence} Open an example to review its prompt, settings, and recorded render cost before running a new render.`),
     sections: [
       {
         title: sectionPromptTitle,
@@ -193,7 +234,9 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
         ? `FAQ modèles ${label}`
         : locale === 'es'
           ? `FAQ de modelos ${label}`
-          : `${label} models FAQ`,
+          : locale === 'zh'
+            ? `${label} 模型常见问题`
+            : `${label} models FAQ`,
     faqItems: localized.faq,
   };
 }

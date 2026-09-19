@@ -51,6 +51,7 @@ const FUZZY_REDIRECT_TARGETS: Array<{ slug: string; destination: string }> = [
 const NON_PREFIXED_LOCALIZED_EXAMPLES_PREFIXES = {
   fr: '/galerie',
   es: '/galeria',
+  zh: '/examples',
 } as const;
 
 type PublicModelResolver = typeof resolveRuntimePublicSlug;
@@ -74,6 +75,16 @@ const NON_PREFIXED_LOCALIZED_BLOG_SLUGS = {
     'indicaciones-secuenciadas-de-sora-2-con-sonido-e-identidad-de-marca',
     'la-ia-puede-cambiar-el-angulo-de-camara-de-una-foto',
     'las-actualizaciones-de-veo-3-traen-controles-cinematograficos',
+  ]),
+  zh: new Set([
+    'access-sora-2-without-invite',
+    'ai-character-sheet-generator',
+    'change-camera-angle-with-ai',
+    'compare-ai-video-engines',
+    'how-to-create-consistent-ai-characters',
+    'multiple-camera-angles-from-one-image',
+    'sora-2-sequenced-prompts',
+    'veo-3-updates',
   ]),
 } as const;
 
@@ -131,13 +142,13 @@ function resolveLocalizedEnglishModelSegment(
   localePrefix: string,
   resolvePublicSlug: PublicModelResolver
 ): NextResponse | null {
-  if (localePrefix !== '/fr' && localePrefix !== '/es') return null;
+  if (localePrefix !== '/fr' && localePrefix !== '/es' && localePrefix !== '/zh') return null;
   if (!normalizedPath.startsWith('/models/')) return null;
   const slug = normalizedPath.slice('/models/'.length);
   if (!slug || slug.includes('/')) return null;
   const model = resolvePublicSlug(slug);
   if (!model) return null;
-  const localizedBase = localePrefix === '/fr' ? 'modeles' : 'modelos';
+  const localizedBase = localePrefix === '/fr' ? 'modeles' : localePrefix === '/es' ? 'modelos' : 'models';
   const redirectUrl = req.nextUrl.clone();
   redirectUrl.pathname = `${localePrefix}/${localizedBase}/${model.slug}`;
   return NextResponse.redirect(redirectUrl, 301);
@@ -148,7 +159,7 @@ export function isDottedLocalizedEnglishModelCompatibilityPath(
   resolvePublicSlug: PublicModelResolver = resolveRuntimePublicSlug
 ): boolean {
   const { localePrefix, pathWithoutLocale } = splitLocaleFromPath(pathname);
-  if (localePrefix !== '/fr' && localePrefix !== '/es') return false;
+  if (localePrefix !== '/fr' && localePrefix !== '/es' && localePrefix !== '/zh') return false;
   const normalizedPath = normalizePath(pathWithoutLocale);
   if (!normalizedPath.startsWith('/models/')) return false;
   const slug = normalizedPath.slice('/models/'.length);

@@ -51,6 +51,7 @@ const SCORE_LABELS = {
   en: ['Prompt', 'Visual', 'Motion', 'Consistency', 'Human', 'Text', 'Audio', 'Sequencing', 'Control', 'Stability', 'Value'],
   fr: ['Prompt', 'Visuel', 'Mouvement', 'Cohérence', 'Humain', 'Texte', 'Audio', 'Séquences', 'Contrôle', 'Stabilité', 'Valeur'],
   es: ['Prompt', 'Visual', 'Movimiento', 'Consistencia', 'Personas', 'Texto', 'Audio', 'Secuencias', 'Control', 'Estabilidad', 'Valor'],
+  zh: ['提示词', '视觉', '运动', '连贯性', '人物', '文本', '音频', '序列', '控制力', '稳定性', '性价比'],
 } as const;
 
 const SCORE_IDS = ['fidelity', 'visualQuality', 'motion', 'consistency', 'anatomy', 'textRendering', 'lipsyncQuality', 'sequencingQuality', 'controllability', 'speedStability', 'pricing'];
@@ -157,6 +158,40 @@ const COPY: Record<AppLocale, Omit<BenchmarkCopy, 'scoreLabels'>> = {
     },
     refundNote: 'Las generaciones pagadas que fallan se reembolsan automáticamente.',
     cta: { title: 'Elige el modelo adecuado para tu siguiente toma', body: 'Pasa de la investigación a las fichas de modelo, comparaciones, precios en vivo o generación.', models: 'Ver modelos de video', compare: 'Comparar modelos', pricing: 'Ver precios', generate: 'Generar video' }
+  },
+  zh: {
+    meta: { title: 'AI 视频模型基准测试与评测方法', description: '对比 MaxVideoAI 编辑评分、已验证的 AI 视频模型规格，以及实测中位数和 P90 生成耗时。' },
+    hero: { eyebrow: 'MaxVideoAI 评测研究', title: 'AI 视频模型基准测试详解', intro: '在一个清晰的研究中心内，对比编辑质量评分、核实的模型功能与实测生成耗时。', proof: '基于 MaxVideoAI 评分卡、当前模型规格及匿名化生产环境生成耗时构建。' },
+    ownership: { label: '主编负责人', methodologyVersion: '评测方法', effective: '生效日期', about: '关于主编', standards: '编辑准则' },
+    nav: { scores: '评分卡', specs: '规格参数', speed: '实测耗时', method: '评测方法' },
+    evidence: [
+      { title: '编辑评分', body: '统一的 0–10 分框架，涵盖质量、运动、控制力与生产契合度。' },
+      { title: '核实规格', body: '比对供应商官方文档与 MaxVideoAI 实际生产路由验证的功能。' },
+      { title: '实测速度', body: '合格模型最近 30 天滚动中位数及 P90 生成耗时。' }
+    ],
+    scores: { title: '模型评分卡', intro: '在十一项生产级评测标准下对比 MaxVideoAI 当前编辑视角。', model: '模型', overall: '综合得分 (0–10)', updated: '评分更新于', source: 'MaxVideoAI 编辑评分' },
+    specs: { title: '已核实模型规格', intro: '查看通过 MaxVideoAI 开放的模型限制与工作流程。', source: '来源', routeContract: 'MaxVideoAI 生产路由约定', apiMechanics: '通用 API 机制', release: '发布时间', modes: '输入模式', audio: '音频', references: '参考素材', modeLabels: { textToVideo: '文生视频', imageToVideo: '图生视频', videoToVideo: '视频转视频' } },
+    latency: { title: '实测生成耗时', intro: '基于 30 天滚动窗口的端到端生成耗时中位数与 P90。', median: '中位数', p90: 'P90', window: '近 30 天滚动数据', unavailable: '当前延迟快照正在刷新。', more: '随着运行数据积累，将收录更多模型。' },
+    methodology: {
+      title: '评分运作机制', intro: '统一的评分语言、综合得分公式及供后续归档测试的规范提示词包。', formula: '综合得分公式', scale: '评估分级', scoreAnchors: { 2: '存在严重视觉缺陷，无法在实际场景中使用。', 5: '在明确限制下可在部分选定镜头中使用。', 8: '在受测标准下表现出色，符合生产级交付要求。', 10: '表现卓越，在评估输出中未发现实质性问题。' }, prompts: '规范提示词包', canonicalPrompt: '规范提示词 — 英文', limitations: '评测方法说明', changelog: '方法论更新记录',
+      criteria: {
+        fidelity: { label: '提示词遵循度', definition: '生成结果对要求的主体、动作、构图及限制条件的契合程度。' },
+        visualQuality: { label: '视觉质量', definition: '感官细节、真实感、光影、材质渲染及无明显伪影的表现。' },
+        motion: { label: '动态逼真度', definition: '平滑度、物理合理性、镜头运镜及运动主体的时序表现。' },
+        consistency: { label: '时序连贯性', definition: '整个生成片段中主体身份、物体、背景和风格的稳定性。' },
+        anatomy: { label: '人体还原度', definition: '面部、手部、肢体、身材比例、肢体接触及人机互动。' },
+        textRendering: { label: '文本可读性', definition: '画面中要求的文字、标牌、界面元素及指示标志的准确度与稳定性。' },
+        lipsyncQuality: { label: '音频与对口型', definition: '在支持音频时，人物口型、对话时序与生成音频的对齐质量。' },
+        sequencingQuality: { label: '多镜头序列', definition: '在明确镜头切换时的连贯性、叙事顺序与主体一致性保持。' },
+        controllability: { label: '可控度', definition: '摄像机视角、参考素材、构图及其他生产控制参数的可靠程度。' },
+        speedStability: { label: '速度与稳定性', definition: '交付稳定性的编辑评级；实测中位数及 P90 延迟单独公布。' },
+        pricing: { label: '性价比得分', definition: '在当前 MaxVideoAI 价格定位下的相对生产价值；实时价格以定价和生成页为准。' }
+      },
+      methodNotes: ['生成式输出在不同批次间存在波动。', '并非每个模型都支持所有评测标准或提示词类型。', '供应商算力与排队情况会随时间变化。', '实测生产流量非受控实验室对照测试。', '滚动性能数据可能反映偶发事件、路由调整及用户自选参数。', 'MaxVideoAI 销售所对比模型的访问权限，并公开此商业关联。'],
+      initialRelease: '初始评分定义、综合公式、规范提示词包及滚动延迟规则。'
+    },
+    refundNote: '付费生成任务若失败将自动全额退款。',
+    cta: { title: '为您的下一个镜头挑选合适模型', body: '从基准调研快速前往模型规格、并排对比、实时价格或直接开始生成。', models: '浏览视频模型', compare: '对比模型', pricing: '查看价格', generate: '生成视频' }
   }
 };
 

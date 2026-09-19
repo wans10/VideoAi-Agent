@@ -21,6 +21,11 @@ const METADATA_COPY: Record<AppLocale, { title: string; description: string; ima
     description: 'Reporta contenido abusivo o ilegal generado a través de MaxVideoAI.',
     imageAlt: 'Política de notificación y retirada',
   },
+  zh: {
+    title: '通知与下架',
+    description: '举报通过 MaxVideoAI 生成的滥用或非法内容。',
+    imageAlt: '通知与下架政策',
+  },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -33,6 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
     hreflangGroup: 'legalTakedown',
     englishPath: '/legal/takedown',
     availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: metadata.imageAlt,
   });
@@ -56,6 +62,12 @@ const HEADER_COPY: Record<AppLocale, { title: string; effective: string; company
     effective: 'Fecha de entrada en vigor: 28 de octubre de 2025',
     companyLine: 'Empresa: MaxVideoAI',
     contactLabel: 'Contacto:',
+  },
+  zh: {
+    title: '通知与下架',
+    effective: '生效日期：2025年10月28日',
+    companyLine: '公司：MaxVideoAI',
+    contactLabel: '联系方式：',
   },
 };
 
@@ -126,10 +138,50 @@ const FORM_COPY: Record<AppLocale, TakedownFormCopy> = {
     submitLabel: 'Enviar reporte',
     submittingLabel: 'Enviando…',
   },
+  zh: {
+    emailLabel: '联系邮箱',
+    urlLabel: '内容 URL',
+    urlPlaceholder: 'https://maxvideoai.com/video/...',
+    reasonLabel: '原因',
+    reasons: {
+      copyright: '版权 / 知识产权侵权',
+      privacy: '隐私 / 个人数据',
+      defamation: '诽谤中伤',
+      trademark: '商标侵权',
+      other: '其他非法内容',
+    },
+    detailsLabel: '详细说明',
+    detailsPlaceholder: '请说明问题以及该内容为何侵犯了您的权利或违反了法律。',
+    detailsHint: '请提供足够的信息以便我们定位和评估该内容。',
+    attachmentLabel: '证明材料（可选，最大 2 MB）',
+    attachmentError: '附件大小不能超过 2 MB。',
+    errors: { submit: '无法提交举报。' },
+    success: '感谢您。我们已收到您的举报，并将尽快跟进处理。',
+    submitLabel: '提交举报',
+    submittingLabel: '提交中…',
+  },
 };
 
 function TakedownArticle({ locale }: { locale: AppLocale }) {
   switch (locale) {
+    case 'zh':
+      return (
+        <article className="space-y-4 text-base leading-relaxed text-text-secondary">
+          <p>
+            如果通过 MaxVideoAI 生成的内容侵犯了您的合法权益或违反了法律法规，请使用此表单申请审查。我们将确认收到、迅速展开调查并采取适当措施（包括在必要时下架内容或暂停账户）。
+          </p>
+          <p>
+            紧急情况（涉及人身安全或执法请求），请发送邮件至{' '}
+            <ObfuscatedEmailLink
+              user="legal"
+              domain="maxvideoai.com"
+              label="legal@maxvideoai.com"
+              placeholder="legal [at] maxvideoai.com"
+            />{' '}
+            并在主题中注明“URGENT”。
+          </p>
+        </article>
+      );
     case 'fr':
       return (
         <article className="space-y-4 text-base leading-relaxed text-text-secondary">

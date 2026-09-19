@@ -181,6 +181,60 @@ const COPY: Record<AppLocale, CompanyCopy> = {
       privacyCta: 'Revisar detalles de privacidad',
     },
   },
+  zh: {
+    meta: {
+      title: '公司与信任 — MaxVideoAI',
+      description: '查看 MaxVideoAI 关于公司、编辑准则、产品运营、内容权益、隐私和法律条款的资源。',
+    },
+    hero: {
+      eyebrow: '公司与信任',
+      title: 'MaxVideoAI 背后的人员、标准与政策。',
+      intro:
+        '通过本中心了解谁在维护产品、编辑评测如何进行、在哪里查看服务状态，以及适用于您内容的各项条款。',
+    },
+    resources: [
+      {
+        title: '团队与编辑',
+        links: [
+          { href: '/about', label: '关于我们', description: '认识创始人并了解 MaxVideoAI 构建的产品。' },
+          { href: '/editorial-standards', label: '编辑准则', description: '署名、来源出处、勘误及基准更新。' },
+          { href: '/benchmarks', label: '基准实验室', description: '编辑评分、核实规格、实测速度与评测方法。' },
+        ],
+      },
+      {
+        title: '产品运营',
+        links: [
+          { href: '/docs', label: '文档', description: '产品快速入门与实用技术参考。' },
+          { href: '/workflows', label: '工作流', description: 'MaxVideoAI 生产工作流的架构与组织。' },
+          { href: '/status', label: '服务状态', description: '当前服务公告与支持指引。' },
+          { href: '/changelog', label: '更新日志', description: '最新产品功能、模型及工作流更新。' },
+          { href: '/contact', label: '联系我们', description: '技术支持、商务合作与媒体联络。' },
+        ],
+      },
+      {
+        title: '法律与数据',
+        links: [
+          { href: '/legal', label: '法律中心', description: '当前政策与合规公告索引。' },
+          { href: '/legal/terms', label: '服务条款', description: '账户规范、生成媒体权益、可接受使用政策与责任限制。' },
+          { href: '/legal/privacy', label: '隐私政策', description: '数据类别、使用目的、保存期限与用户权利。' },
+          { href: '/legal/subprocessors', label: '子处理者名单', description: '参与支付、托管、云存储与模型推理的第三方供应商。' },
+          { href: '/return-policy', label: '退款与退换政策', description: '退款与消费者退换货相关说明。' },
+        ],
+      },
+    ],
+    rights: {
+      eyebrow: '内容权益与数据保护',
+      title: '明确透明的内容权益归属。',
+      uploads: '根据服务条款，您上传的提示词与素材资源的所有权始终归属于您。',
+      outputs: '根据服务条款，生成结果的权利始终归属于您。',
+      commercialUse:
+        '用户可将生成的作品用于商业用途，前提是必须尊重第三方合法权益、遵守适用法律，并符合所用模型供应商的特定使用限制。',
+      privacy:
+        '所有新生成的任务默认保持私密。供应商数据处理及第三方子处理者详情均在隐私政策中公开说明。',
+      legalCta: '查看生成媒体条款',
+      privacyCta: '查看隐私保护细节',
+    },
+  },
 };
 
 export function getCompanyCopy(locale: AppLocale): CompanyCopy {

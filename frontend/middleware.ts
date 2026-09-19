@@ -33,7 +33,7 @@ import {
   splitLocaleFromPath,
 } from '@/lib/middleware/routing-helpers';
 
-const DOTTED_LOCALIZED_ENGLISH_MODEL_CANDIDATE = /^\/(?:fr|es)\/models\/[^/]*\.[^/]*$/;
+const DOTTED_LOCALIZED_ENGLISH_MODEL_CANDIDATE = /^\/(?:fr|es|zh)\/models\/[^/]*\.[^/]*$/;
 const MCP_GATED_NOT_FOUND_SEGMENT = '__mcp-publication-gated__';
 
 function rewriteGatedMcpRouteToNotFound(req: NextRequest, localePrefix: string) {
@@ -268,7 +268,7 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/admin/:path*',
-    '/:locale(fr|es)/models/:slug([^/]*\\.[^/]*)',
+    '/:locale(fr|es|zh)/models/:slug([^/]*\\.[^/]*)',
     '/((?!_next|.*\\..*|api).*)',
   ],
 };

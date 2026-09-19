@@ -72,7 +72,7 @@ export function BillingClient({
   const [checkoutReturnTarget, setCheckoutReturnTarget] = useState<WalletCheckoutReturnTarget | null>(null);
   const [checkoutReturnStatus, setCheckoutReturnStatus] = useState<'success' | 'cancelled' | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const billingIntlLocale = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : CURRENCY_LOCALE;
+  const billingIntlLocale = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : locale === 'zh' ? 'zh-CN' : CURRENCY_LOCALE;
 
   const formatMoney = (amountCents: number, currency: string) => {
     const amount = amountCents / 100;

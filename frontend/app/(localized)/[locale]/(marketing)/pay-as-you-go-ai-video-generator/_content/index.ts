@@ -2,12 +2,14 @@ import type { AppLocale } from '@/i18n/locales';
 import { enPayAsYouGoContent } from './en';
 import { esPayAsYouGoContent } from './es';
 import { frPayAsYouGoContent } from './fr';
+import { zhPayAsYouGoContent } from './zh';
 import type { PayAsYouGoContent } from './types';
 
 const CONTENT_BY_LOCALE: Record<AppLocale, PayAsYouGoContent> = {
   en: enPayAsYouGoContent,
   es: esPayAsYouGoContent,
   fr: frPayAsYouGoContent,
+  zh: zhPayAsYouGoContent,
 };
 
 export function getPayAsYouGoContent(locale: AppLocale): PayAsYouGoContent {

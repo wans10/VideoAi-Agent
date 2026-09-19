@@ -192,6 +192,52 @@ const COPY: Record<AppLocale, MentionsCopy> = {
         'Ilustraciones y contenidos generados con MaxVideoAI y sus socios de inferencia. Las marcas citadas siguen siendo propiedad de sus respectivos titulares.',
     },
   },
+  zh: {
+    meta: {
+      title: '法律声明',
+      description: 'MaxVideoAI 法定法律声明信息。',
+      imageAlt: '法律声明',
+    },
+    heading: '法律声明',
+    intro: '根据法国 2004 年 6 月 21 日关于数字经济信心的第 2004-575 号法律第 6 条。',
+    publisher: {
+      title: '网站发布者',
+      companyLabel: '公司名称：',
+      companyValue: 'MaxVideoAI（设立中的个人独资企业）',
+      addressLabel: '地址：',
+      addressValue: "324 Rue De La Mare D'ovillers, 60730 Novillers, France",
+      directorLabel: '出版负责人：',
+      directorValue: 'Adrien Millot',
+      contactLabel: '联系方式：',
+      registrationLabel: 'SIREN：',
+      registrationValue: '等待分配',
+      vatLabel: '欧盟增值税号：',
+      vatValue: '等待分配',
+    },
+    hosting: {
+      title: '托管服务',
+      providerLabel: '托管服务商：',
+      providerValue: 'Vercel Inc., 444 De Haro Street, Suite 200, San Francisco, CA 94107, United States',
+      websiteLabel: '官方网站：',
+    },
+    intellectualProperty: {
+      title: '知识产权',
+      body:
+        'maxvideoai.com 上提供的所有内容（文本、视觉图像、界面和功能）均受版权保护，并适当时受工业产权法保护。未经许可，严禁任何形式的复制或传播。',
+    },
+    personalData: {
+      title: '个人数据',
+      prefix: 'MaxVideoAI 根据',
+      privacyLinkLabel: '隐私政策',
+      middle: ' 收集和处理个人数据。如需行使 GDPR 权利（访问、更正、删除、反对、数据迁移），请联系',
+      suffix: '。',
+    },
+    credits: {
+      title: '版权归属',
+      body:
+        '插图和素材均使用 MaxVideoAI 及其推理合作伙伴生成。所提及的商标仍为其各自所有者的财产。',
+    },
+  },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -203,7 +249,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: copy.meta.description,
     hreflangGroup: 'legalMentions',
     englishPath: '/legal/mentions',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: copy.meta.imageAlt,
   });

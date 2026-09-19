@@ -36,7 +36,7 @@ const MCP_PUBLIC_SOURCE_PATHS = new Set([
 export function isMcpPublicSourcePath(pathname: string): boolean {
   const normalized = `/${pathname}`.replace(/\/{2,}/g, '/').replace(/\/$/, '').toLowerCase() || '/';
   const segments = normalized.split('/').filter(Boolean);
-  if (segments[0] === 'fr' || segments[0] === 'es') segments.shift();
+  if (segments[0] === 'fr' || segments[0] === 'es' || segments[0] === 'zh') segments.shift();
   return MCP_PUBLIC_SOURCE_PATHS.has(`/${segments.join('/')}`);
 }
 

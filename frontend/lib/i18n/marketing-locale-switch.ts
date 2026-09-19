@@ -9,7 +9,7 @@ type MarketingLocaleSwitchInput = {
   hash?: string;
 };
 
-const LOCALE_PREFIXES: Record<Locale, string> = { en: '', fr: 'fr', es: 'es' };
+const LOCALE_PREFIXES: Record<Locale, string> = { en: '', fr: 'fr', es: 'es', zh: 'zh' };
 const ENGLISH_SEGMENT_TO_LOCALIZED = new Map<string, Record<Locale, string>>();
 const LOCALIZED_SEGMENT_TO_ENGLISH = new Map<string, string>();
 
@@ -41,14 +41,14 @@ export function resolveMarketingLocaleFromPathname(
   fallback: Locale = 'en'
 ): Locale {
   if (!pathname) return fallback;
-  const match = pathname.match(/^\/(en|fr|es)(?:\/|$)/i);
+  const match = pathname.match(/^\/(en|fr|es|zh)(?:\/|$)/i);
   return match ? (match[1].toLowerCase() as Locale) : 'en';
 }
 
 function resolveEnglishPath(pathname: string): string {
   const currentLocale = resolveMarketingLocaleFromPathname(pathname);
   const segments = pathname.split('?')[0].split('/').filter(Boolean);
-  if (segments[0] === 'en' || segments[0] === 'fr' || segments[0] === 'es') {
+  if (segments[0] === 'en' || segments[0] === 'fr' || segments[0] === 'es' || segments[0] === 'zh') {
     segments.shift();
   }
   if (!segments.length) return '/';

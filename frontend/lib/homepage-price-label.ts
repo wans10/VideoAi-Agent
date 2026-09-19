@@ -5,12 +5,14 @@ export const HOMEPAGE_PRICE_PREFIX_BY_LOCALE: Record<AppLocale, string> = {
   en: 'from',
   fr: 'à partir de',
   es: 'desde',
+  zh: '起',
 };
 
 const PRICE_FORMAT_LOCALE_BY_LOCALE: Record<AppLocale, string> = {
   en: CURRENCY_LOCALE,
   fr: 'fr-FR',
   es: 'es-ES',
+  zh: 'zh-CN',
 };
 
 const CURRENCY_CODE_BY_SYMBOL: Record<string, string> = {
@@ -35,7 +37,7 @@ export function normalizeHomepageAdminPriceLabel(label: string, locale: AppLocal
     return null;
   }
 
-  const withoutPrefix = compactLabel.replace(/^(from|à partir de|desde)\s+/i, '').trim();
+  const withoutPrefix = compactLabel.replace(/^(from|à partir de|desde|起)\s*/i, '').trim();
   const symbolMatch = withoutPrefix.match(
     /^([$€£])\s*([0-9]+(?:[.,][0-9]{1,2})?)(?:\s*(\/[a-z]+(?:-[a-z]+)?|per\s+[a-z]+(?:\s+[a-z]+)?))?$/i
   );

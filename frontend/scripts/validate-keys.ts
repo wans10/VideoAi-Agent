@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-type Locale = 'fr' | 'es';
+type Locale = 'fr' | 'es' | 'zh';
 type Dictionary = Record<string, unknown>;
 type FlatDictionary = Record<string, string>;
 
@@ -10,6 +10,7 @@ const SOURCE_PATH = path.resolve(BASE_PATH, 'messages/en.json');
 const TARGETS: Record<Locale, string> = {
   fr: path.resolve(BASE_PATH, 'messages/fr.json'),
   es: path.resolve(BASE_PATH, 'messages/es.json'),
+  zh: path.resolve(BASE_PATH, 'messages/zh.json'),
 };
 const PATH_SEPARATOR = '§';
 

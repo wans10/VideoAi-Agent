@@ -43,6 +43,16 @@ const COPY: Record<AppLocale, FirstRequestCopy> = {
     note: 'La planificación es gratuita en MaxVideoAI. La generación utiliza tus créditos de MaxVideoAI cuando autorizas el precio exacto.',
     proofLabel: 'Ver un resultado real mostrado en Claude',
   },
+  zh: {
+    eyebrow: '您的第一支视频',
+    title: '直接从您对话中已有的项目开始。',
+    intro: '连接 MaxVideoAI 后，将此请求粘贴到您正在筹备网站、产品或营销活动的对话中。',
+    prompt: '根据我们正在进行的项目，使用 MaxVideoAI 提议一段简短的发布视频。对比两款当前可用且适合的模型，包括它们在提议设置下的权衡考量与价格。向我索取所需的任何缺失背景或参考资料。等待我的选择以及对确切报价的确认批准后，再进行任何生成。',
+    copyLabel: '复制我的第一个请求',
+    copiedLabel: '请求已复制',
+    note: '在 MaxVideoAI 上规划完全免费。在您批准确切价格后，生成将使用您的 MaxVideoAI 积分。',
+    proofLabel: '查看在 Claude 中展示的真实效果',
+  },
 };
 
 export function AssistantFirstRequest({ locale, proofHref, prompt }: { locale: AppLocale; proofHref?: string; prompt?: string }) {

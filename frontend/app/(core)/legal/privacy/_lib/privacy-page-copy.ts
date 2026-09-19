@@ -16,6 +16,11 @@ export const METADATA_COPY: Record<AppLocale, { title: string; description: stri
     description: 'Cómo MaxVideoAI recopila, utiliza, almacena y protege los datos personales.',
     imageAlt: 'Resumen de la política de privacidad.',
   },
+  zh: {
+    title: '隐私政策',
+    description: 'MaxVideoAI 如何收集、使用、存储和保护个人数据。',
+    imageAlt: '隐私政策概览。',
+  },
 };
 
 export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: string; effectiveLabel: string; contactLabel: string }> = {
@@ -36,5 +41,11 @@ export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: strin
     versionLabel: 'Versión',
     effectiveLabel: 'Fecha de entrada en vigor',
     contactLabel: 'Contacto:',
+  },
+  zh: {
+    title: '隐私政策',
+    versionLabel: '版本',
+    effectiveLabel: '生效日期',
+    contactLabel: '联系方式：',
   },
 };

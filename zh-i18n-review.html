@@ -1,0 +1,1259 @@
+<title>zh i18n 实施方案审查</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #F9F8F6;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F2F0EC;
+  --ink: #17161A;
+  --ink-muted: #6B7280;
+  --ink-faint: #9CA3AF;
+  --border: #E5E2DC;
+  --border-strong: #D1CEC8;
+  --accent-red: #C8392B;
+  --accent-red-bg: #FEF2F1;
+  --accent-amber: #B45309;
+  --accent-amber-bg: #FFFBEB;
+  --accent-green: #047857;
+  --accent-green-bg: #ECFDF5;
+  --accent-blue: #1D4ED8;
+  --accent-blue-bg: #EFF6FF;
+  --accent-purple: #6D28D9;
+  --accent-purple-bg: #F5F3FF;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131214;
+    --bg-card: #1C1B1F;
+    --bg-subtle: #211F24;
+    --ink: #E8E6E2;
+    --ink-muted: #9CA3AF;
+    --ink-faint: #6B7280;
+    --border: #2E2B33;
+    --border-strong: #3D3A42;
+    --accent-red: #E5534B;
+    --accent-red-bg: #2A1210;
+    --accent-amber: #D97706;
+    --accent-amber-bg: #1F1800;
+    --accent-green: #10B981;
+    --accent-green-bg: #052E1C;
+    --accent-blue: #60A5FA;
+    --accent-blue-bg: #0F1C3A;
+    --accent-purple: #A78BFA;
+    --accent-purple-bg: #1E1733;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131214;
+  --bg-card: #1C1B1F;
+  --bg-subtle: #211F24;
+  --ink: #E8E6E2;
+  --ink-muted: #9CA3AF;
+  --ink-faint: #6B7280;
+  --border: #2E2B33;
+  --border-strong: #3D3A42;
+  --accent-red: #E5534B;
+  --accent-red-bg: #2A1210;
+  --accent-amber: #D97706;
+  --accent-amber-bg: #1F1800;
+  --accent-green: #10B981;
+  --accent-green-bg: #052E1C;
+  --accent-blue: #60A5FA;
+  --accent-blue-bg: #0F1C3A;
+  --accent-purple: #A78BFA;
+  --accent-purple-bg: #1E1733;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  margin: 0;
+  padding: 0 16px;
+  padding-block: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.page-wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding-block: 40px 80px;
+}
+
+/* Header */
+.page-header {
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 2px solid var(--border-strong);
+}
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+.page-header .subtitle {
+  color: var(--ink-muted);
+  font-size: 13px;
+  margin: 0;
+}
+.header-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.meta-chip {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+  background: var(--bg-subtle);
+}
+
+/* Summary bar */
+.summary-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.summary-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.summary-tile .count {
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.summary-tile .label {
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+.tile-red .count { color: var(--accent-red); }
+.tile-amber .count { color: var(--accent-amber); }
+.tile-green .count { color: var(--accent-green); }
+.tile-blue .count { color: var(--accent-blue); }
+
+/* Phase sections */
+.phase {
+  margin-bottom: 36px;
+}
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.phase-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  min-width: 58px;
+}
+.phase-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+.phase-count {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+/* File rows */
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.file-row {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-card);
+}
+
+.file-row-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.file-row-header:hover {
+  background: var(--bg-subtle);
+}
+
+.file-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.badge-modify {
+  background: var(--accent-amber-bg);
+  color: var(--accent-amber);
+  border: 1px solid color-mix(in srgb, var(--accent-amber) 25%, transparent);
+}
+.badge-new {
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
+  border: 1px solid color-mix(in srgb, var(--accent-green) 25%, transparent);
+}
+.badge-critical {
+  background: var(--accent-red-bg);
+  color: var(--accent-red);
+  border: 1px solid color-mix(in srgb, var(--accent-red) 20%, transparent);
+}
+.badge-test {
+  background: var(--accent-purple-bg);
+  color: var(--accent-purple);
+  border: 1px solid color-mix(in srgb, var(--accent-purple) 25%, transparent);
+}
+
+.file-path {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  flex: 1;
+  word-break: break-all;
+  line-height: 1.5;
+}
+.file-path .dir {
+  color: var(--ink-muted);
+}
+
+.chevron {
+  color: var(--ink-faint);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: transform 0.15s;
+}
+.file-row.open .chevron { transform: rotate(90deg); }
+
+.file-detail {
+  display: none;
+  padding: 10px 12px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-subtle);
+}
+.file-row.open .file-detail {
+  display: block;
+}
+
+.change-list {
+  margin: 0;
+  padding: 0 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.change-list li {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.change-list li code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 4px;
+  color: var(--accent-blue);
+}
+.change-list .line-ref {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-weight: 500;
+}
+
+/* Callout boxes */
+.callout {
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  border-left: 3px solid;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.callout-red { background: var(--accent-red-bg); border-color: var(--accent-red); }
+.callout-amber { background: var(--accent-amber-bg); border-color: var(--accent-amber); }
+.callout-green { background: var(--accent-green-bg); border-color: var(--accent-green); }
+.callout-blue { background: var(--accent-blue-bg); border-color: var(--accent-blue); }
+.callout strong { font-weight: 600; }
+
+/* Findings that differ from plan */
+.finding {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--accent-red-bg);
+  border: 1px solid color-mix(in srgb, var(--accent-red) 20%, transparent);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--accent-red);
+}
+.finding::before {
+  content: "⚠ Correction: ";
+  font-weight: 600;
+}
+
+.finding-amber {
+  background: var(--accent-amber-bg);
+  border-color: color-mix(in srgb, var(--accent-amber) 25%, transparent);
+  color: var(--accent-amber);
+}
+.finding-amber::before { content: "△ Addition: "; }
+
+/* Section divider */
+.section-note {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+</style>
+
+<div class="page-wrap">
+
+  <header class="page-header">
+    <h1>简体中文 (zh) — 全站 i18n 实施方案审查</h1>
+    <p class="subtitle">基于全仓库程序化分析，对原方案进行逐文件校验与勘误</p>
+    <div class="header-meta">
+      <span class="meta-chip">分支: feat/add-zh-i18n</span>
+      <span class="meta-chip">当前支持: en · fr · es</span>
+      <span class="meta-chip">新增: zh (zh-CN)</span>
+      <span class="meta-chip">URL 前缀: /zh/</span>
+      <span class="meta-chip">审查日期: 2026-09-19</span>
+    </div>
+  </header>
+
+  <div class="summary-bar">
+    <div class="summary-tile tile-amber">
+      <div class="count">38</div>
+      <div class="label">需修改文件</div>
+    </div>
+    <div class="summary-tile tile-green">
+      <div class="count">3</div>
+      <div class="label">需新建文件</div>
+    </div>
+    <div class="summary-tile tile-red">
+      <div class="count">4</div>
+      <div class="label">方案遗漏项</div>
+    </div>
+    <div class="summary-tile tile-blue">
+      <div class="count">4</div>
+      <div class="label">测试文件更新</div>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <strong>总体评估：方案完整度高，架构判断正确。</strong> 核心路由策略（URL 使用英文语义化标识）、locale 代码选择（<code>zh</code> / <code>zh-CN</code>）、TypeScript 强类型驱动补齐思路均符合最佳实践。以下审查重点标注了原方案中遗漏的文件、需要修正的行号，以及一个需要特别关注的博客路由模块。
+  </div>
+
+  <!-- ===== PHASE 1 ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">阶段一</span>
+      <h2 class="phase-title">基础 i18n 配置与路由系统</h2>
+      <span class="phase-count">7 个文件</span>
+    </div>
+    <p class="section-note">这是最高优先级变更。<code>AppLocale</code> 类型扩充后，所有 <code>Record&lt;AppLocale, T&gt;</code> 使用处将立即产生 TypeScript 编译错误，引导后续补齐。</p>
+
+    <div class="file-list">
+
+      <div class="file-row open">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-critical">CRITICAL</span>
+          <span class="file-path"><span class="dir">frontend/i18n/</span>locales.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L1</span> 将 <code>locales</code> 数组扩充为 <code>['en', 'fr', 'es', 'zh'] as const</code></li>
+            <li><span class="line-ref">L15–19</span> <code>localeLabels</code> 加入 <code>zh: '简体中文'</code>（原方案写的 <code>'中文'</code>，审查后建议改为 <code>'简体中文'</code> 与 UI 组件 label 保持一致）</li>
+            <li><span class="line-ref">L21–25</span> <code>localeRegions</code> 加入 <code>zh: 'zh-CN'</code></li>
+            <li><span class="line-ref">L27–31</span> <code>localePathnames</code> 加入 <code>zh: 'zh'</code></li>
+          </ul>
+          <div class="finding finding-amber">原方案 <code>localeLabels</code> 写 <code>'中文'</code>，但 LanguageToggle 组件的 <code>defaultOptions</code> label 写 <code>'简体中文'</code>。两处应统一为 <code>'简体中文'</code>，否则 <code>AppLanguageToggle</code> 通过 <code>Object.entries(localeLabels)</code> 自动渲染时会显示 <code>'中文'</code>，与营销前台不一致。</div>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/i18n/</span>routing.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L9–211</span> 约 30 个 pathname 块，每个 <code>{ en, fr, es }</code> 对象均须补 <code>zh</code> 键。由于策略为英文 slug，大部分可直接 <code>zh: '/models'</code> 等与 <code>en</code> 值相同。</li>
+            <li>类型来自 <code>locales</code> 导入，<code>AppLocale</code> 扩充后 TypeScript 会强制要求此处补全。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/config/</span>localized-slugs.json</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li>全部 15 个路由段条目补充 <code>"zh": "[同 en 值]"</code>，例如 <code>"models": { "en":"models","fr":"modeles","es":"modelos","zh":"models" }</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/i18n/</span>paths.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L6</span> <code>SupportedLocale = 'en' | 'fr' | 'es' | 'zh'</code></li>
+            <li><span class="line-ref">L8</span> <code>LOCALES</code> 数组加入 <code>'zh'</code></li>
+            <li><span class="line-ref">L9</span> <code>LOCALE_PREFIXES</code> 加入 <code>zh: 'zh'</code></li>
+            <li><span class="line-ref">L22–31</span> <code>LOCALIZED_SEGMENT_MAP</code> 构建中补 <code>zh: value.zh ?? value.en</code></li>
+            <li><span class="line-ref">L54</span> <code>hasContent</code> 数组中加入 <code>'zh'</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/i18n/</span>marketing-locale-switch.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L12</span> <code>LOCALE_PREFIXES</code> (Record&lt;Locale, string&gt;) 加入 <code>zh: 'zh'</code></li>
+            <li><span class="line-ref">L44</span> 正则 <code>/^\/(en|fr|es)(?:\/|$)/i</code> → <code>/^\/(en|fr|es|zh)(?:\/|$)/i</code></li>
+            <li><span class="line-ref">L51</span> <code>segments[0] === 'zh'</code> 加入 if 条件链</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/config/</span>blog-slugs.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L1</span> <code>BlogSlugLocale = 'en' | 'fr' | 'es' | 'zh'</code></li>
+            <li><span class="line-ref">L3–44</span> 8 个博客 slug 条目各补 <code>zh</code> 键，默认与 canonicalSlug (en) 相同</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/config/</span>model-registry.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L50</span> 函数签名 locale 类型加入 <code>'zh'</code></li>
+            <li><span class="line-ref">L51–53</span> 加入分支 <code>if (locale === 'zh') return \`/zh/models/\${slug}\`;</code></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== PHASE 2 ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">阶段二</span>
+      <h2 class="phase-title">路由中间件与网络缓存适配</h2>
+      <span class="phase-count">4 个文件 + 1 个遗漏文件</span>
+    </div>
+
+    <div class="callout callout-red">
+      <strong>⚠ 原方案重大遗漏：<code>routing-marketing.ts</code></strong><br>
+      该文件包含多处硬编码的 <code>fr</code>/<code>es</code> 条件，是博客路由、非前缀本地化示例路径和 dotted-model 路径的核心分发器，原方案未列入。漏改后中文路由将静默失效。
+    </div>
+
+    <div class="file-list">
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/</span>middleware.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L36</span> <code>DOTTED_LOCALIZED_ENGLISH_MODEL_CANDIDATE</code> 正则：<code>/^\/(?:fr|es)\/models\//</code> → <code>/^\/(?:fr|es|zh)\/models\//</code></li>
+            <li><span class="line-ref">L271</span> matcher 规则：<code>/:locale(fr|es)/models/:slug</code> → <code>/:locale(fr|es|zh)/models/:slug</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/middleware/</span>routing-locale.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L82–86</span> <code>ENGLISH_SEGMENT_TO_LOCALIZED</code> Record 字面量补 <code>zh: entry.zh ?? entry.en</code>（TypeScript Record&lt;AppLocale, string&gt; 会强制要求）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/middleware/</span>routing-response.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L13–17</span> <code>CACHEABLE_MARKETING_PATHS</code> Set 加入 <code>'/zh'</code>、<code>'/zh/pricing'</code>、<code>'/zh/models'</code></li>
+            <li><span class="line-ref">L22–24</span> model 路径检查加入 <code>pathname.startsWith('/zh/models/')</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row open">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-critical">遗漏</span>
+          <span class="file-path"><span class="dir">frontend/lib/middleware/</span>routing-marketing.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <div class="finding" style="margin-top:0;margin-bottom:10px;">原方案未包含此文件，但它有 6 处硬编码需修改。</div>
+          <ul class="change-list">
+            <li><span class="line-ref">L51–54</span> <code>NON_PREFIXED_LOCALIZED_EXAMPLES_PREFIXES</code> 补 <code>zh: '/zh/examples'</code>（中文示例路径，与 en 英文语义化一致）</li>
+            <li><span class="line-ref">L57–78</span> <code>NON_PREFIXED_LOCALIZED_BLOG_SLUGS</code> 补 <code>zh: new Set([...各博客文章英文 slug...])</code>（初期博客均使用英文 slug）</li>
+            <li><span class="line-ref">L134</span> <code>if (localePrefix !== '/fr' &amp;&amp; localePrefix !== '/es') return null;</code> → 加入 <code>&amp;&amp; localePrefix !== '/zh'</code></li>
+            <li><span class="line-ref">L140</span> <code>const localizedBase = localePrefix === '/fr' ? 'modeles' : 'modelos';</code> → 加入 <code>localePrefix === '/zh' ? 'models' :</code>（中文 model 路径段与英文相同）</li>
+            <li><span class="line-ref">L151</span> <code>isDottedLocalizedEnglishModelCompatibilityPath</code> 中同样的 fr/es 检查加入 zh</li>
+            <li><span class="line-ref">L80–126</span> <code>EXACT_LOCALE_REDIRECTS</code>：当前只有 fr/es 博客路径互转，zh 初期博客均用英文 slug，<strong>暂不需要添加跨语言博客重定向条目</strong>，未来有中文专属博客路径时再追加。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/</span>mcp-publication.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L39</span> <code>isMcpPublicSourcePath</code>：<code>segments[0] === 'fr' || segments[0] === 'es'</code> → 加入 <code>|| segments[0] === 'zh'</code></li>
+            <li><span class="line-ref">L32</span> MCP 路径替换逻辑：<code>'/integrations/'</code> → <code>'/integraciones/'</code> 是 es 专用，zh 使用英文 <code>'/integrations/'</code> 无需替换，无需添加 zh 分支</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== PHASE 3 ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">阶段三</span>
+      <h2 class="phase-title">翻译字典、术语表与校验工具</h2>
+      <span class="phase-count">5 个文件</span>
+    </div>
+
+    <div class="file-list">
+
+      <div class="file-row open">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-new">NEW</span>
+          <span class="file-path"><span class="dir">frontend/messages/</span>zh.json</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li>与 <code>en.json</code> 完全结构对齐，约 8,443 行 / 5,783 叶子键</li>
+            <li>优先翻译：<code>nav</code>、<code>footer</code>、<code>home</code>、<code>pricing</code>、<code>auth</code>、<code>workspace</code> 核心操作、通用错误状态</li>
+            <li>其余长尾键可先用英文原文占位，确保 <code>pnpm i18n:check</code> 键完整性通过</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/i18n/</span>request.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L5</span> <code>import zhMessages from '@/messages/zh.json';</code></li>
+            <li><span class="line-ref">L7–11</span> <code>LOCALE_MESSAGES</code> 加入 <code>zh: zhMessages</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/scripts/</span>glossary.json</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li>8 个术语条目各补 <code>"zh"</code> 键，方案提供的中文译文已核查无误</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/scripts/</span>validate-keys.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L4</span> <code>type Locale = 'fr' | 'es' | 'zh'</code></li>
+            <li><span class="line-ref">L10–13</span> <code>TARGETS</code> 加入 <code>zh: path.resolve(BASE_PATH, 'messages/zh.json')</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/scripts/</span>translate-messages.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L13</span> <code>type Locale = 'fr' | 'es' | 'zh'</code></li>
+            <li><span class="line-ref">L26–29</span> <code>TARGET_PATHS</code> 加入 <code>zh</code> 路径及提示词语言标识 <code>'Chinese (Simplified)'</code></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== PHASE 4 ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">阶段四</span>
+      <h2 class="phase-title">UI 界面与语言切换器组件</h2>
+      <span class="phase-count">10 个文件</span>
+    </div>
+
+    <div class="file-list">
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/components/marketing/</span>LanguageToggle.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L16–20</span> <code>FLAG_MAP</code> 加入 <code>zh: '🇨🇳'</code></li>
+            <li><span class="line-ref">L33–37</span> <code>defaultOptions</code> 加入 <code>{ locale: 'zh', label: '简体中文' }</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row open">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/components/</span>AppLanguageToggle.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L13</span> 本地 <code>type Locale = 'en' | 'fr' | 'es' | 'zh'</code>，或直接改为 <code>type Locale = AppLocale</code> 避免未来再次遗漏</li>
+            <li><span class="line-ref">L15–19</span> <code>FLAG_MAP</code> 加入 <code>zh: '🇨🇳'</code></li>
+            <li>注意：<code>options</code> 通过 <code>Object.entries(localeLabels)</code> 自动构建，<code>locales.ts</code> 更新后自动包含 zh，<strong>无需手动追加 options</strong>。</li>
+          </ul>
+          <div class="finding finding-amber">原方案描述"在 options 中加入 zh"，实际此处无需操作，localeLabels 驱动自动渲染。</div>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/components/marketing/</span>MarketingFooter.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L13</span> <code>type SupportedLocale</code> 加入 <code>'zh'</code>（或直接改为 <code>AppLocale</code>）</li>
+            <li><span class="line-ref">L26</span> 正则 <code>/^\/(?:fr\/|es\/)?.../</code> → 加入 <code>zh\/</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/components/marketing/</span>MarketingNav.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L27–28</span> 公司页/首页检测正则加入 <code>zh</code> 分支</li>
+            <li><span class="line-ref">L45</span> 登录按钮文案三元链加入 <code>locale === 'zh' ? '登录'</code></li>
+            <li><span class="line-ref">L46</span> 生成按钮文案三元链加入 <code>locale === 'zh' ? '生成视频'</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/app/(core)/login/_lib/</span>login-copy.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L4</span> import zhMessages</li>
+            <li><span class="line-ref">L7–11</span> <code>AUTH_COPY</code> 加入 <code>zh: zhMessages.auth</code></li>
+            <li><span class="line-ref">L16</span> <code>LOCALE_OPTIONS</code> 加入 <code>'zh'</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/app/(core)/login/_lib/</span>login-continuation.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L22</span> BCP47 映射三元链加入 <code>locale === 'zh' ? 'zh-CN' :</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/app/(core)/billing/_components/</span>BillingClient.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L75</span> 货币格式化三元链加入 <code>locale === 'zh' ? 'zh-CN' :</code></li>
+            <li>可选重构：改为 <code>Record&lt;AppLocale, string&gt;</code> lookup map 以避免未来遗漏</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/components/legal/</span>cookie-banner-copy.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L1</span> <code>CookieBannerLocale</code> 加入 <code>'zh'</code></li>
+            <li><span class="line-ref">L25–110</span> <code>COOKIE_BANNER_COPY</code> 加入 zh 中文 Cookie 提示文案</li>
+            <li><span class="line-ref">L120</span> <code>resolveCookieBannerLocale</code> 内 value 校验加入 <code>|| value === 'zh'</code></li>
+            <li><span class="line-ref">L125–126</span> pathname 检测加入 <code>if (pathname?.startsWith('/zh')) return 'zh';</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/components/groups/</span>GenerationPendingStatus.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L8–12</span> <code>COPY</code> 对象加入 <code>zh</code> 完整状态文案（heading、queued、processing 等字段）</li>
+            <li><span class="line-ref">L28</span> guard 改为 <code>COPY[locale === 'fr' || locale === 'es' || locale === 'zh' ? locale : 'en']</code></li>
+            <li>注意：此处用普通对象而非 Record&lt;AppLocale&gt;，TypeScript <strong>不会</strong>自动报错提醒，必须手动检查</li>
+          </ul>
+          <div class="finding">此文件使用普通对象字面量而非 <code>Record&lt;AppLocale, T&gt;</code>，扩充 AppLocale 后 TypeScript 不报错，极易遗漏。建议顺手将类型改为 <code>const COPY: Record&lt;AppLocale, ...&gt;</code> 以获得类型保护。</div>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/</span>ltx-localization.ts <span style="color:var(--ink-faint)">+</span> ltx-asset-dropzone-copy.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><code>ltx-localization.ts</code> <span class="line-ref">L5</span>：<code>UiLocale = Extract&lt;AppLocale, 'en'|'fr'|'es'|'zh'&gt;</code></li>
+            <li><code>ltx-localization.ts</code> <span class="line-ref">L341</span>：<code>normalizeUiLocale</code> 加入 <code>if (locale === 'zh') return locale;</code></li>
+            <li>所有 <code>Record&lt;UiLocale, ...&gt;</code> 对象（MODE_LABELS、LTX_FIELD_COPY 等 8 处）TypeScript 会在 UiLocale 扩充后强制要求补全 zh 键</li>
+            <li><code>ltx-asset-dropzone-copy.ts</code> <span class="line-ref">L3</span>：同样扩充 UiLocale；<code>ASSET_DROPZONE_COPY</code> 约 55 个字段需补 zh 翻译</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== PHASE 5 ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">阶段五</span>
+      <h2 class="phase-title">SEO 信号、Hreflang 与 Sitemap</h2>
+      <span class="phase-count">7 个文件 + 1 个新建</span>
+    </div>
+
+    <div class="file-list">
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/seo/</span>alternateLocales.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L18–22</span> <code>HREFLANG_VARIANTS</code> 加入 <code>{ hreflang: 'zh', locale: 'zh' }</code></li>
+            <li>可选追加 <code>{ hreflang: 'zh-Hans', locale: 'zh' }</code>（Google 对简体中文同时接受 <code>zh</code> 和 <code>zh-Hans</code>，但只加 <code>zh</code> 已足够）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/seo/</span>breadcrumbs.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L11–33</span> <code>BREADCRUMB_LABELS</code> 补 zh 条目：<code>{ home: '首页', models: '模型', examples: '案例', pricing: '价格', blog: '博客' }</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/sitemap/</span>types.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L26–30</span> <code>LOCALE_SITEMAP_PATHS</code> 加入 <code>zh: '/sitemap-zh.xml'</code></li>
+            <li><span class="line-ref">L32</span> <code>LOCALES</code> 加入 <code>'zh'</code></li>
+            <li><span class="line-ref">L35–38</span> <code>BASE_EXTRA_CANONICAL_PATHS</code> 中 3 个条目的 locales 数组各补 <code>'zh'</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/sitemap/</span>route-discovery.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L405</span> <code>counts</code> 初始化对象：<code>{ en: 0, fr: 0, es: 0, zh: 0 }</code></li>
+            <li><span class="line-ref">L24</span> 导入的 <code>LOCALES</code> 自动包含 zh（来自 types.ts 更新），其余逻辑无需改动</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-new">NEW</span>
+          <span class="file-path"><span class="dir">frontend/app/sitemap-zh.xml/</span>route.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li>完全复制 <code>sitemap-fr.xml/route.ts</code> 结构，调用 <code>buildLocaleSitemapXml('zh')</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/</span>homepage-price-label.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L4–8</span> <code>HOMEPAGE_PRICE_PREFIX_BY_LOCALE</code> 加入 <code>zh: '起'</code></li>
+            <li><span class="line-ref">L10–14</span> <code>PRICE_FORMAT_LOCALE_BY_LOCALE</code> 加入 <code>zh: 'zh-CN'</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/</span>mcp-internal-links.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L20</span> <code>LABELS</code> (Record&lt;AppLocale, ...&gt;) 补 zh，含全部 9 个 McpInternalLinkPlacement 字段中文文案</li>
+            <li><span class="line-ref">L56</span> <code>DOCS_LABELS</code> (Record&lt;AppLocale, ...&gt;) 补 zh，含 3 个 McpDocsLinkPlacement 字段</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/compare-hub/</span>indexation.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L4–8</span> <code>noindexByLocale</code> 补 <code>zh: new Set(comparisonIndexation.noindexByLocale.zh ?? [])</code></li>
+            <li>同步更新 <code>frontend/config/comparison-indexation.json</code>，在 <code>noindexByLocale</code> 下加入 <code>"zh": []</code></li>
+          </ul>
+          <div class="finding finding-amber">原方案未提及需同步更新 <code>comparison-indexation.json</code>，但 indexation.ts 从此 JSON 读取数据，漏更新会导致运行时报错。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== PHASE 6 ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">阶段六</span>
+      <h2 class="phase-title">页面级 Record&lt;AppLocale, T&gt; 强类型数据补齐</h2>
+      <span class="phase-count">12 个文件 + 1 新建</span>
+    </div>
+
+    <p class="section-note">以下文件均受 TypeScript 强制约束，AppLocale 扩充后会立即报编译错误。依报错顺序逐一补全即可，顺序无严格要求。</p>
+
+    <div class="file-list">
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">...pricing/_lib/</span>pricingHubCopy.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><code>COPY: Record&lt;AppLocale, PricingHubCopy&gt;</code> 补 zh 完整定价矩阵文案（即时报价说明、参数描述、退款规则等全部字段）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">...pricing/_lib/</span>pricingPageContent.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><code>DEFAULT_EXAMPLE_COSTS</code> 和 <code>DEFAULT_PRICE_FACTORS</code> 各补 zh 示例数据</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">...benchmarks/_lib/</span>benchmark-copy.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L51–54</span> <code>SCORE_LABELS</code> 加入 zh 评分维度标签</li>
+            <li><span class="line-ref">L58+</span> <code>COPY: Record&lt;AppLocale, ...&gt;</code> 补 zh 基准评测页完整说明文案</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">...benchmarks/_components/</span>BenchmarkSpecsTable.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><code>COLUMN_LABELS</code> 加入 zh 列头：<code>{ model: '模型', duration: '时长', resolution: '分辨率' }</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">...company/_lib/</span>company-copy.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L21</span> <code>COPY: Record&lt;AppLocale, CompanyCopy&gt;</code> 补 zh 全部字段（meta、hero、resources、rights）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">...contact/</span>page.tsx</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L16</span> <code>CONTACT_META: Record&lt;AppLocale, ...&gt;</code> 补 zh：<code>{ title: '联系 MaxVideoAI — 支持与合作', description: '联系 MaxVideoAI 团队获取支持、洽谈合作或企业方案。' }</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-new">NEW</span>
+          <span class="file-path"><span class="dir">...pay-as-you-go-ai-video-generator/_content/</span>zh.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li>新建 <code>zh.ts</code>，导出 <code>zhPayAsYouGoContent</code> 实现 <code>PayAsYouGoContent</code> 接口</li>
+            <li>在 <code>_content/index.ts</code> 的 <code>CONTENT_BY_LOCALE: Record&lt;AppLocale, ...&gt;</code> 中注册 <code>zh: zhPayAsYouGoContent</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">...tools/ (angle · upscale · character-builder · background-removal · index)</span></span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li>5 个工具页面的 <code>AVAILABLE_LOCALES: AppLocale[]</code> 各加入 <code>'zh'</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/examples/</span>modelLanding.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li>工作量最大的单一文件：12+ 处 <code>locale === 'fr' ? X : locale === 'es' ? Y : en</code> 三元链，全部须加入 zh 分支</li>
+            <li><span class="line-ref">L26</span> 连接词加入 <code>locale === 'zh' ? '与'</code></li>
+            <li><span class="line-ref">L36–105</span> <code>buildGenericLocalizedModelData</code> 加入 <code>if (locale === 'zh') {...}</code> 大块（中文 meta title、description、hero 文案等）</li>
+            <li><span class="line-ref">L117+</span> 12 处小三元链各补 zh 分支</li>
+          </ul>
+          <div class="finding finding-amber">此文件使用 if/else 链而非 Record 模式，AppLocale 扩充后 TypeScript 不报错，极易遗漏。建议重构为 Record&lt;AppLocale, ...&gt; 对象，通过编译保护所有语言覆盖完整性。</div>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/examples/</span>modelLandingFaq.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L4</span> <code>HUB_FAQ_BY_LOCALE: Record&lt;AppLocale, ...&gt;</code> 补 zh：6 条常见问答 + title</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/editorial/</span>profile.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L16</span> <code>BIOS: Record&lt;AppLocale, string&gt;</code> 补 zh 简介文案</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-modify">MODIFY</span>
+          <span class="file-path"><span class="dir">frontend/lib/analytics/</span>journey.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L75</span> <code>ANALYTICS_LOCALES = new Set(['en', 'fr', 'es', 'zh'])</code></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== TESTS ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">测试层</span>
+      <h2 class="phase-title">自动化测试契约更新</h2>
+      <span class="phase-count">4 个文件</span>
+    </div>
+
+    <div class="file-list">
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-test">TEST</span>
+          <span class="file-path"><span class="dir">tests/</span>workspace-locale-copy.test.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L10–14</span> <code>localeMessages</code> 对象加入 <code>zh: zhMessages</code>，并在顶部 import zh.json</li>
+            <li><span class="line-ref">L94</span> gate.body 验证正则加入中文关键词，例如 <code>/return|ramèner|volver|返回/i</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-test">TEST</span>
+          <span class="file-path"><span class="dir">tests/</span>app-locale-runtime-fallback.test.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L15 后</span> 加入 <code>assert.equal(normalizeAppLocale?.('zh'), 'zh');</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row open">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-test">TEST</span>
+          <span class="file-path"><span class="dir">tests/</span>hreflang-variants.test.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L37</span> Seedance 测试的 locale 循环 <code>['en', 'fr', 'es']</code> → 加入 <code>'zh'</code></li>
+            <li>同步更新预期 URL map，加入 <code>zh: '/zh/models/seedance-2-5'</code> 等</li>
+            <li>新增独立测试：<em>'Chinese hreflang uses a supported generic language code'</em>（参考现有 Spanish 测试结构）</li>
+            <li><code>SUPPORTED_HREFLANG_PATTERN</code> 正则本身已支持 <code>zh</code>，无需修改</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="file-row open">
+        <div class="file-row-header" onclick="this.closest('.file-row').classList.toggle('open')">
+          <span class="file-badge badge-test">TEST</span>
+          <span class="file-path"><span class="dir">tests/</span>marketing-locale-routing.test.ts</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="file-detail">
+          <ul class="change-list">
+            <li><span class="line-ref">L34</span> 类型断言改为包含 <code>'zh'</code>：<code>Record&lt;'en'|'fr'|'es'|'zh', string&gt;</code></li>
+            <li><span class="line-ref">L49–77</span> <code>cases</code> 数组补充 zh 路由测试用例，例如 <code>['/zh/models/sora-2', 'en', '/models/sora-2?lang=en']</code></li>
+            <li><span class="line-ref">L151</span> dotted-alias locale 循环加入 <code>'zh'</code>，对应的 localizedBase 为 <code>'models'</code>（zh 不做路径本地化）</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== Findings Summary ===== -->
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-num">审查结论</span>
+      <h2 class="phase-title">与原方案的差异汇总</h2>
+      <span class="phase-count">4 项勘误 · 2 项补充</span>
+    </div>
+
+    <div class="callout callout-red">
+      <strong>1. 遗漏文件：<code>routing-marketing.ts</code></strong><br>
+      原方案未列入此文件，但它是博客路由分发、本地化示例路径前缀检测和 dotted-model 路径兼容的核心控制器。包含 L134、L140、L151 三处硬编码 fr/es 检查。漏改将导致中文路由静默失效，表现为中文用户访问 /zh/models/xxx 时被错误路由。
+    </div>
+
+    <div class="callout callout-red">
+      <strong>2. 遗漏文件：<code>comparison-indexation.json</code></strong><br>
+      <code>compare-hub/indexation.ts</code> 在运行时从此 JSON 读取 <code>noindexByLocale.zh</code>，若 JSON 中不存在 zh 键，<code>?? []</code> 兜底虽可防止崩溃，但这是隐性依赖，应显式补充 <code>"zh": []</code>。
+    </div>
+
+    <div class="callout callout-amber">
+      <strong>3. label 不一致：<code>localeLabels.zh</code> vs <code>LanguageToggle defaultOptions.label</code></strong><br>
+      原方案 <code>localeLabels</code> 写 <code>'中文'</code>，<code>LanguageToggle</code> 的 label 写 <code>'简体中文'</code>。<code>AppLanguageToggle</code> 通过 <code>Object.entries(localeLabels)</code> 自动渲染，会显示 <code>'中文'</code>；营销前台手写 <code>defaultOptions</code> 显示 <code>'简体中文'</code>。两处应统一，推荐统一为 <code>'简体中文'</code>。
+    </div>
+
+    <div class="callout callout-amber">
+      <strong>4. 类型安全盲区：if/else 链文件不受 TypeScript 保护</strong><br>
+      <code>modelLanding.ts</code>、<code>GenerationPendingStatus.tsx</code>、<code>MarketingNav.tsx</code>、<code>BillingClient.tsx</code> 使用 if/else 或朴素对象字面量，AppLocale 扩充后 TypeScript 不会报错提示遗漏。这些文件必须在实施清单中手动追踪，不能依赖编译报错引导。建议在实施时顺手将这些模式重构为 <code>Record&lt;AppLocale, T&gt;</code>。
+    </div>
+
+    <div class="callout callout-green">
+      <strong>方案正确判断：URL slug 策略</strong><br>
+      中文路径统一使用英文语义化标识（<code>/zh/models</code>、<code>/zh/pricing</code> 等）的策略完全正确，与 Stripe、OpenAI、Vercel 等产品的中文站最佳实践一致。这同时简化了 <code>routing-marketing.ts</code> 中 L140 的处理（<code>zh</code> localizedBase 等于 <code>'models'</code>，与 en 相同，无需特殊翻译路径）。
+    </div>
+
+    <div class="callout callout-blue">
+      <strong>建议：实施顺序关键提示</strong><br>
+      <strong>Step 0</strong>（所有步骤前）：先在 <code>locales.ts</code> 扩充 AppLocale，让 TypeScript 立即报出所有 Record&lt;AppLocale, T&gt; 缺失项，用编译错误清单驱动后续工作，比人工逐文件核对更可靠。<br>
+      <strong>注意</strong>：<code>routing-marketing.ts</code> 和 if/else 链文件不会产生编译报错，必须在 Step 2 人工检查。
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// All rows start collapsed except ones with class "open" already
+// Toggle is handled by inline onclick
+</script>

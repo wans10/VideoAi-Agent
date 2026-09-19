@@ -50,6 +50,14 @@ const copy: Record<AppLocale, Pick<McpHostProof, 'eyebrow' | 'heading' | 'captio
     alt:
       'Conversación de Claude Desktop con un video MaxVideoAI terminado en un reproductor integrado, un importe de captura de 0,95 $, confirmación de guardado en la biblioteca y un botón para abrir MaxVideoAI.',
   },
+  zh: {
+    eyebrow: 'Claude Desktop · 受控测试',
+    heading: '在 Claude 中展示的视频生成结果',
+    caption:
+      '受控测试期间在 Claude Desktop 内置播放器中展示的已完成 MaxVideoAI 视频。结果已保存至已连接的 MaxVideoAI 媒体库。截图中显示的 $0.95 为当时记录的金额，非当前报价。',
+    alt:
+      'Claude Desktop 对话界面展示了内置播放器中完成的 MaxVideoAI 视频、$0.95 记录金额、媒体库保存确认以及在 MaxVideoAI 中打开按钮。',
+  },
 };
 
 export function getMcpHostProof(client: McpIntegrationId, locale: AppLocale): McpHostProof | null {

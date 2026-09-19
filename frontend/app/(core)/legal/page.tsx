@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: copy.description,
     hreflangGroup: 'legal',
     englishPath: '/legal',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     imageAlt: 'Legal resources overview.',
   });
 }
@@ -139,6 +139,35 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
       takedown: 'Notificación y retirada',
       mentions: 'Aviso legal',
       subprocessors: 'Subencargados',
+    },
+  },
+  zh: {
+    title: '法律中心',
+    description: '我们法律协议、隐私承诺与合规资源的权威来源。',
+    intro:
+      '此处的每份文件均反映 MaxVideoAI 的当前生产条款。当路由基础设施、数据保留或合作伙伴要求发生变化时，我们会更新政策，并在工作区中直接引用最新版本 ID。使用此中心确认合同条款、审查数据子处理者或为您的合规团队下载相关文档。',
+    columns: [
+      {
+        title: '保持知情',
+        body:
+          '订阅更新日志以获取版本级更新，在需要实时事件背景时查看状态页面。法律更新均在每篇文章顶部标明时间戳并提供摘要。',
+      },
+      {
+        title: '需要协议？',
+        body:
+          '企业客户可通过向 {{email}} 发送包含公司详细信息和所需表格的邮件，申请签署的 DPA、安全调查问卷或 SOC 文档。',
+      },
+    ],
+    versionLabel: '版本',
+    links: {
+      terms: '服务条款',
+      privacy: '隐私政策',
+      returnPolicy: '退款与退货政策',
+      cookies: 'Cookie 政策',
+      acceptableUse: '可接受使用政策',
+      takedown: '通知与下架',
+      mentions: '法律声明',
+      subprocessors: '子处理者',
     },
   },
 };

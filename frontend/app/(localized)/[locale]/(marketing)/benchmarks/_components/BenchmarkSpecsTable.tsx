@@ -15,6 +15,7 @@ const COLUMN_LABELS: Record<AppLocale, { model: string; duration: string; resolu
   en: { model: 'Model', duration: 'Max duration', resolution: 'Max resolution' },
   fr: { model: 'Modèle', duration: 'Durée max.', resolution: 'Résolution max.' },
   es: { model: 'Modelo', duration: 'Duración máx.', resolution: 'Resolución máx.' },
+  zh: { model: '模型', duration: '最大时长', resolution: '最高分辨率' },
 };
 
 export function BenchmarkSpecsTable({ copy, locale, rows }: BenchmarkSpecsTableProps) {

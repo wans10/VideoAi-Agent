@@ -18,6 +18,11 @@ export const METADATA_COPY: Record<AppLocale, { title: string; description: stri
       'Términos del servicio de MaxVideoAI que regulan el acceso a la plataforma y a las herramientas de generación de vídeo asistida por IA.',
     imageAlt: 'Documento de Términos del servicio.',
   },
+  zh: {
+    title: '服务条款',
+    description: 'MaxVideoAI 服务条款，规范对平台及 AI 辅助视频生成工具的访问与使用。',
+    imageAlt: '服务条款文档。',
+  },
 };
 
 export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: string; effectiveLabel: string; companyLine: string; contactLabel: string }> = {
@@ -41,5 +46,12 @@ export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: strin
     effectiveLabel: 'Fecha de entrada en vigor',
     companyLine: 'Empresa: MaxVideoAI (empresa individual en constitución) · Ley aplicable: Francia (tribunales de París)',
     contactLabel: 'Contacto:',
+  },
+  zh: {
+    title: '服务条款',
+    versionLabel: '版本',
+    effectiveLabel: '生效日期',
+    companyLine: '公司：MaxVideoAI（设立中的个人独资企业）· 管辖法律：法国（巴黎法院）',
+    contactLabel: '联系方式：',
   },
 };

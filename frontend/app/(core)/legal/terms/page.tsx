@@ -19,6 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     hreflangGroup: 'legalTerms',
     englishPath: '/legal/terms',
     availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: metadata.imageAlt,
   });

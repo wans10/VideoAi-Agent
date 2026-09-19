@@ -4,7 +4,7 @@ import { resolveDictionary } from '@/lib/i18n/server';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { ToolsMarketingHubPage } from '@/components/tools/ToolsMarketingHubPage';
 
-const AVAILABLE_LOCALES: AppLocale[] = ['en', 'fr', 'es'];
+const AVAILABLE_LOCALES: AppLocale[] = ['en', 'fr', 'es', 'zh'];
 
 export async function generateMetadata(props: { params: Promise<{ locale: AppLocale }> }): Promise<Metadata> {
   const params = await props.params;

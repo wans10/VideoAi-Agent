@@ -26,6 +26,10 @@ const CONTACT_META: Record<AppLocale, { title: string; description: string }> = 
     title: 'Contacto — MaxVideoAI',
     description: 'Habla con el equipo de MaxVideoAI para soporte, alianzas o solicitudes para equipos.',
   },
+  zh: {
+    title: '联系 MaxVideoAI — 技术支持与商务合作',
+    description: '联系 MaxVideoAI 团队获取技术支持、商务合作洽谈及企业接入咨询。',
+  },
 };
 
 function buildLocalizedPath(locale: AppLocale, slug?: string) {

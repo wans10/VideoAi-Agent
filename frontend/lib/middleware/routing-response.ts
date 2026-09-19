@@ -13,15 +13,19 @@ const CACHEABLE_MARKETING_PATHS = new Set([
   '/models',
   '/fr',
   '/es',
+  '/zh',
   '/fr/tarifs',
   '/es/precios',
+  '/zh/pricing',
+  '/zh/models',
 ]);
 
 export function applyMarketingEdgeCacheHeaders(res: NextResponse, pathname: string): NextResponse {
   const isCacheableModelPath =
     pathname.startsWith('/models/') ||
     pathname.startsWith('/fr/modeles/') ||
-    pathname.startsWith('/es/modelos/');
+    pathname.startsWith('/es/modelos/') ||
+    pathname.startsWith('/zh/models/');
   if (!CACHEABLE_MARKETING_PATHS.has(pathname) && !isCacheableModelPath) {
     return res;
   }

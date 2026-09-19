@@ -28,6 +28,11 @@ const METADATA_COPY: Record<AppLocale, { title: string; description: string; ima
     description: 'Proveedores externos utilizados por MaxVideoAI para prestar el Servicio.',
     imageAlt: 'Lista de subencargados del tratamiento',
   },
+  zh: {
+    title: '子处理者',
+    description: 'MaxVideoAI 用于提供服务的第三方服务商。',
+    imageAlt: '子处理者列表',
+  },
 };
 
 const PAGE_COPY: Record<
@@ -75,6 +80,18 @@ const PAGE_COPY: Record<
       data: 'Datos tratados',
     },
     contactIntro: '¿Necesitas más información o una copia firmada de nuestro acuerdo de tratamiento de datos? Contacta con',
+  },
+  zh: {
+    title: '数据子处理者',
+    intro: '我们聘用以下第三方协助提供服务。我们维持适当的数据处理协议并进行定期审查。',
+    lastUpdated: '最后更新：2025年10月26日',
+    columns: {
+      provider: '提供商',
+      service: '服务内容',
+      location: '主要处理地',
+      data: '处理的数据',
+    },
+    contactIntro: '需要更多信息或索取已签署的数据处理协议副本？请联系',
   },
 };
 
@@ -211,6 +228,50 @@ const SUBPROCESSORS: Record<AppLocale, Subprocessor[]> = {
       data: 'Direcciones de correo, variables de plantilla, metadatos de entrega',
     },
   ],
+  zh: [
+    {
+      provider: 'Stripe Payments Europe, Ltd.',
+      service: '支付处理、反欺诈审查',
+      location: '欧盟（爱尔兰）/ 全球',
+      data: '账单元数据、部分卡信息（Token化）、钱包交易记录',
+    },
+    {
+      provider: 'Neon (Neon, Inc.)',
+      service: '主应用数据库',
+      location: '欧盟（法兰克福）',
+      data: '工作区数据、收据、同意日志、任务元数据',
+    },
+    {
+      provider: 'Supabase',
+      service: '身份验证与用户会话管理',
+      location: '欧盟（巴黎）',
+      data: '账户凭证、邮箱、身份验证日志',
+    },
+    {
+      provider: 'Vercel Inc.',
+      service: '托管、CDN、Serverless 平台',
+      location: '全球（美国/欧盟边缘节点）',
+      data: '应用程序内容、日志、IP 地址（边缘路由）',
+    },
+    {
+      provider: 'Amazon Web Services (AWS S3)',
+      service: '上传与导出对象存储',
+      location: '欧盟（巴黎）/ 欧盟（法兰克福）',
+      data: '用户上传的素材、DSAR 导出、生成的媒体',
+    },
+    {
+      provider: 'Fal.ai',
+      service: 'AI 视频推理 API',
+      location: '美国 / 欧盟地区',
+      data: '提示词、参考素材、推理输出、任务标识符',
+    },
+    {
+      provider: 'Resend, Inc.',
+      service: '事务性邮件发送',
+      location: '美国 / 欧盟',
+      data: '邮箱地址、模板变量、投递元数据',
+    },
+  ],
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -222,7 +283,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: metadata.description,
     hreflangGroup: 'legalSubprocessors',
     englishPath: '/legal/subprocessors',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: metadata.imageAlt,
   });

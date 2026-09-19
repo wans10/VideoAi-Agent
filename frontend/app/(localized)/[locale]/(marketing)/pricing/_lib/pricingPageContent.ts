@@ -166,6 +166,46 @@ export const DEFAULT_EXAMPLE_COSTS: Record<AppLocale, ExampleCostsContent> = {
       },
     ],
   },
+  zh: {
+    title: '费用示例',
+    subtitle: '真实运行场景助您规划预算。价格随引擎升级实时变动。',
+    labels: { engine: '模型引擎', duration: '时长', resolution: '分辨率', audio: '音频' },
+    cards: [
+      {
+        title: '社交媒体短片（竖屏）',
+        engine: 'Pika 2.2',
+        duration: '5 秒',
+        resolution: '1080×1920',
+        audio: '关闭',
+        note: '仅在渲染成功时扣费。',
+        pricingScenario: { engineId: 'pika-text-to-video', durationSec: 5, resolution: '1080p', memberTier: 'member' },
+      },
+      {
+        title: '电影感测试片段（横屏）',
+        engine: 'Veo 3.1',
+        duration: '8 秒',
+        resolution: '1920×1080',
+        audio: '包含',
+        note: '生成前可查看精确报价。',
+        pricingScenario: { engineId: 'veo-3-1', durationSec: 8, resolution: '1080p', memberTier: 'member' },
+      },
+      {
+        title: 'Seedance 2.0 高画质序列',
+        engine: 'Seedance 2.0',
+        duration: '10 秒',
+        resolution: '1280×720',
+        audio: '包含',
+        note: 'Seedance 2 采用基于 token 的计费公式。本示例基于 1280×720 @ 24 fps，遵循应用内公示的计价规则并向上取整至分。',
+        pricingScenario: {
+          engineId: 'seedance-2-0',
+          durationSec: 10,
+          resolution: '720p',
+          aspectRatio: '16:9',
+          memberTier: 'member',
+        },
+      },
+    ],
+  },
 };
 
 export const DEFAULT_PRICE_FACTORS: Record<AppLocale, PriceFactorsContent> = {
@@ -197,6 +237,16 @@ export const DEFAULT_PRICE_FACTORS: Record<AppLocale, PriceFactorsContent> = {
       'El audio puede añadir un recargo en algunos motores; otros, como Seedance 2, mantienen el mismo precio con o sin audio.',
       'El nivel del motor (Seedance / Veo / Kling / LTX) define la tarifa base.',
       'Generate sigue mostrando el precio final antes de enviar.',
+    ],
+  },
+  zh: {
+    title: '影响价格的因素',
+    points: [
+      '时长呈线性缩放（4秒 / 8秒 / 12秒）。',
+      '在类似 Seedance 2 的按 token 计费方案中，分辨率和宽高比均会改变像素总量与生成成本。',
+      '在部分模型上开启音频可能会产生额外费用；其他模型（如 Seedance 2）无论是否包含音频价格均相同。',
+      '模型级别（Seedance / Veo / Kling / LTX）决定基础费率。',
+      '生成前应用内始终会显示提交前的最终报价。',
     ],
   },
 };

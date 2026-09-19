@@ -14,7 +14,12 @@ const marketingFooterPath = join(root, 'frontend/components/marketing/MarketingF
 const i18nNavigationPath = join(root, 'frontend/i18n/navigation.tsx');
 const routingLocalePath = join(root, 'frontend/lib/middleware/routing-locale.ts');
 const internalLinkGuardPath = join(root, 'scripts/internal-link-guard.mjs');
-const messageFiles = ['frontend/messages/en.json', 'frontend/messages/fr.json', 'frontend/messages/es.json'];
+const messageFiles = [
+  'frontend/messages/en.json',
+  'frontend/messages/fr.json',
+  'frontend/messages/es.json',
+  'frontend/messages/zh.json',
+];
 
 const read = (path: string) => readFileSync(path, 'utf8');
 const lineCount = (source: string) => source.split('\n').length;

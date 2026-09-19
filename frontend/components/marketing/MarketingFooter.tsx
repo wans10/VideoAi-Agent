@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { Link, usePathname, type LocalizedLinkHref } from '@/i18n/navigation';
+import type { AppLocale } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { MarketingFooterAssistants } from '@/components/marketing/MarketingFooterAssistants';
 import { LanguageToggle } from '@/components/marketing/LanguageToggle';
@@ -10,7 +11,7 @@ import { FOOTER_MODELS, FOOTER_COMPARISONS, FOOTER_EXAMPLES } from '@/config/mar
 
 type FooterLink = { key: string; label: string; href: LocalizedLinkHref };
 type PolicyLink = { label: string; href: string; locale?: boolean };
-type SupportedLocale = 'en' | 'fr' | 'es';
+type SupportedLocale = AppLocale;
 
 const OPEN_COOKIE_PREFERENCES_EVENT = 'consent:open-preferences';
 
@@ -23,7 +24,7 @@ function localizeFooterPath(locale: SupportedLocale, englishPath: string) {
 
 export function MarketingFooter() {
   const pathname = usePathname();
-  const isCompanyTrustHub = /^\/(?:fr\/|es\/)?company\/?$/.test(pathname ?? '');
+  const isCompanyTrustHub = /^\/(?:fr\/|es\/|zh\/)?company\/?$/.test(pathname ?? '');
   const { locale, t } = useI18n();
   if (isCompanyTrustHub) {
     return null;

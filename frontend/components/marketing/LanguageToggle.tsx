@@ -17,6 +17,7 @@ const FLAG_MAP: Record<Locale, string> = {
   en: '🇺🇸',
   fr: '🇫🇷',
   es: '🇪🇸',
+  zh: '🇨🇳',
 };
 
 const LOCALE_BYPASS_PREFIXES = ['/video'];
@@ -34,6 +35,7 @@ export function LanguageToggle({ variant = 'select' }: { variant?: LanguageToggl
     { locale: 'en', label: 'English' },
     { locale: 'fr', label: 'Français' },
     { locale: 'es', label: 'Español' },
+    { locale: 'zh', label: '简体中文' },
   ];
   const maybeOptions = t('footer.languages', defaultOptions);
   const options = Array.isArray(maybeOptions) && maybeOptions.length ? maybeOptions : defaultOptions;

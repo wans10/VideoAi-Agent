@@ -19,6 +19,7 @@ const angleStylesPath = join(root, 'frontend/src/components/tools/angle/landing/
 const englishMessagesPath = join(root, 'frontend/messages/en.json');
 const frenchMessagesPath = join(root, 'frontend/messages/fr.json');
 const spanishMessagesPath = join(root, 'frontend/messages/es.json');
+const chineseMessagesPath = join(root, 'frontend/messages/zh.json');
 const characterViewPath = join(root, 'frontend/src/components/tools/character-builder/landing/CharacterBuilderLandingView.tsx');
 const characterSectionsPath = join(root, 'frontend/src/components/tools/character-builder/landing/CharacterBuilderLandingSections.tsx');
 const characterLeadSectionsPath = join(root, 'frontend/src/components/tools/character-builder/landing/CharacterBuilderLandingLeadSections.tsx');
@@ -177,6 +178,7 @@ test('Angle metadata resolves exact localized titles and the 1600 by 1200 social
     ['en', englishMessagesPath],
     ['fr', frenchMessagesPath],
     ['es', spanishMessagesPath],
+    ['zh', chineseMessagesPath],
   ] as const;
 
   assert.match(angleRouteSource, /titleBranding:\s*'none'/);
@@ -191,7 +193,7 @@ test('Angle metadata resolves exact localized titles and the 1600 by 1200 social
       title: meta.title,
       description: meta.description,
       englishPath: '/tools/angle',
-      availableLocales: ['en', 'fr', 'es'],
+      availableLocales: ['en', 'fr', 'es', 'zh'],
       keywords: meta.keywords,
       image: socialImage.url,
       imageAlt: meta.imageAlt,

@@ -24,8 +24,8 @@ type MarketingNavProps = {
 
 export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: MarketingNavProps) {
   const pathname = usePathname();
-  const isCompanyTrustHub = /^\/(?:fr\/|es\/)?company\/?$/.test(pathname ?? '');
-  const isHomePage = /^\/(?:fr|es)?\/?$/.test(pathname ?? '');
+  const isCompanyTrustHub = /^\/(?:fr\/|es\/|zh\/)?company\/?$/.test(pathname ?? '');
+  const isHomePage = /^\/(?:fr|es|zh)?\/?$/.test(pathname ?? '');
   const { locale, t } = useI18n();
   const [email, setEmail] = useState<string | null>(initialEmail);
   const [isAdmin, setIsAdmin] = useState(Boolean(initialIsAdmin));
@@ -42,8 +42,8 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
   const login = t('nav.login', 'Log in');
   const cta = t('nav.cta', 'Generate');
   const generateLabel = cta;
-  const loginLabelMobile = locale === 'fr' ? 'Connexion' : locale === 'es' ? 'Entrar' : 'Log in';
-  const generateLabelMobile = locale === 'fr' ? 'Générer' : locale === 'es' ? 'Generar' : 'Generate';
+  const loginLabelMobile = locale === 'fr' ? 'Connexion' : locale === 'es' ? 'Entrar' : locale === 'zh' ? '登录' : 'Log in';
+  const generateLabelMobile = locale === 'fr' ? 'Générer' : locale === 'es' ? 'Generar' : locale === 'zh' ? '生成' : 'Generate';
   const loginHref = buildLoginHref({ mode: 'signin', nextPath: '/app' });
   const isAuthenticated = Boolean(email);
 

@@ -72,7 +72,7 @@ const APPROVED_UTM_TOUCHES: readonly ApprovedUtmTouch[] = [
 const ANALYTICS_ROUTE_FAMILIES = new Set([
   'admin', 'auth', 'marketing', 'public_tools', 'app_tools', 'workspace', 'billing',
 ]);
-const ANALYTICS_LOCALES = new Set(['en', 'fr', 'es']);
+const ANALYTICS_LOCALES = new Set(['en', 'fr', 'es', 'zh']);
 const ANALYTICS_TOOL_NAMES = new Set([
   'tools_hub', 'angle', 'background_removal', 'character_builder', 'storyboard', 'upscale', 'audio',
 ]);

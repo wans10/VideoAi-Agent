@@ -5,6 +5,7 @@ const noindexByLocale: Record<AppLocale, ReadonlySet<string>> = {
   en: new Set(),
   fr: new Set(comparisonIndexation.noindexByLocale.fr),
   es: new Set(comparisonIndexation.noindexByLocale.es),
+  zh: new Set(comparisonIndexation.noindexByLocale.zh ?? []),
 };
 
 export function isComparisonIndexable(locale: AppLocale, canonicalSlug: string): boolean {

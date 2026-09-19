@@ -22,6 +22,11 @@ const METADATA_COPY: Record<AppLocale, { title: string; description: string; ima
     description: 'Reglas que rigen el uso de MaxVideoAI, incluidas las restricciones sobre contenido abusivo o ilegal.',
     imageAlt: 'Política de uso aceptable',
   },
+  zh: {
+    title: '可接受使用政策',
+    description: '规范 MaxVideoAI 使用的规则，包括对滥用或非法内容的限制。',
+    imageAlt: '可接受使用政策',
+  },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -33,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: metadata.description,
     hreflangGroup: 'legalAcceptableUse',
     englishPath: '/legal/acceptable-use',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: metadata.imageAlt,
   });
@@ -57,6 +62,12 @@ const HEADER_COPY: Record<AppLocale, { title: string; effective: string; company
     effective: 'Fecha de entrada en vigor: 28 de octubre de 2025',
     companyLine: 'Empresa: MaxVideoAI',
     contactLabel: 'Contacto:',
+  },
+  zh: {
+    title: '可接受使用政策',
+    effective: '生效日期：2025年10月28日',
+    companyLine: '公司：MaxVideoAI',
+    contactLabel: '联系方式：',
   },
 };
 

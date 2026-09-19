@@ -29,6 +29,11 @@ const METADATA_COPY: Record<AppLocale, { title: string; description: string; ima
     description: 'Inventario de cookies y SDK utilizados por MaxVideoAI.',
     imageAlt: 'Tabla de inventario de cookies.',
   },
+  zh: {
+    title: 'Cookie 清单',
+    description: 'MaxVideoAI 使用的 Cookie 和 SDK 清单。',
+    imageAlt: 'Cookie 清单表格。',
+  },
 };
 
 const PAGE_COPY: Record<
@@ -105,6 +110,26 @@ const PAGE_COPY: Record<
     },
     contactIntro: 'Si tienes preguntas o detectas una incoherencia, contacta con',
   },
+  zh: {
+    title: 'Cookie 与 SDK 清单',
+    intro: '我们记录 maxvideoai.com 上使用的 Cookie 和 SDK。非必要技术仅在获得同意后才会激活。',
+    lastUpdated: '最后更新：2025年10月26日',
+    categoryLabel: {
+      essential: '必要',
+      analytics: '分析统计',
+      advertising: '广告营销',
+    },
+    noneInUse: '目前未使用。在此类别的技术激活前，我们将更新此表格。',
+    required: '服务运行所必需。无法在偏好管理中心停用。',
+    consentOnly: '仅在您通过 Cookie 横幅或偏好中心授权同意后激活。',
+    columns: {
+      name: '名称',
+      provider: '提供商',
+      purpose: '用途',
+      duration: '有效期',
+    },
+    contactIntro: '有任何疑问或发现不一致之处？请联系',
+  },
 };
 
 const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
@@ -177,6 +202,29 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
       category: 'essential',
     },
   ],
+  zh: [
+    {
+      name: 'sb-access-token',
+      provider: 'Supabase',
+      purpose: '已登录用户的身份验证会话令牌（必需）。',
+      duration: '1 周（有活动时刷新）',
+      category: 'essential',
+    },
+    {
+      name: 'sb-refresh-token',
+      provider: 'Supabase',
+      purpose: '用于无感会话更新的刷新令牌（必需）。',
+      duration: '滚动 4 周',
+      category: 'essential',
+    },
+    {
+      name: 'mv-consent',
+      provider: 'MaxVideoAI',
+      purpose: '存储 Cookie 横幅偏好（时间戳、类别）。',
+      duration: '13 个月',
+      category: 'essential',
+    },
+  ],
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -188,7 +236,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: metadata.description,
     hreflangGroup: 'legalCookiesList',
     englishPath: '/legal/cookies-list',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: metadata.imageAlt,
   });

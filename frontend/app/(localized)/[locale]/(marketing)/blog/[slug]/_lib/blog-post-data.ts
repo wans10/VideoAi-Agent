@@ -28,6 +28,7 @@ export const localeDateMap: Record<AppLocale, string> = {
   en: 'en-US',
   fr: 'fr-FR',
   es: 'es-ES',
+  zh: 'zh-CN',
 };
 
 export const BLOG_TITLE_OVERRIDES: Partial<Record<string, Partial<Record<AppLocale, string>>>> = {
@@ -70,6 +71,16 @@ const BLOG_NEXT_STEPS: Partial<Record<string, Record<AppLocale, ArticleNextStep>
         { href: '/app/image', label: 'Generar la imagen base en Image' },
       ],
     },
+    zh: {
+      eyebrow: '下一步',
+      title: '使用角色工作流',
+      body: '先创建参考图，然后进入 8 宫格三视图指南或图像与视频工作流。',
+      links: [
+        { href: '/zh/tools/character-builder', label: '打开 Character Builder' },
+        { href: '/zh/blog/ai-character-sheet-generator', label: '阅读 8 宫格三视图指南' },
+        { href: '/app/image', label: '在 Image 中生成源静态图' },
+      ],
+    },
   },
   'ai-character-sheet-generator': {
     en: {
@@ -106,6 +117,16 @@ const BLOG_NEXT_STEPS: Partial<Record<string, Record<AppLocale, ArticleNextStep>
           label: 'Leer la guía general de consistencia',
         },
         { href: '/modelos/nano-banana', label: 'Usar la hoja en Nano Banana' },
+      ],
+    },
+    zh: {
+      eyebrow: '下一步',
+      title: '将角色表转化为可复用工作流',
+      body: '打开工具，返回更广泛的一致性指南，或将角色表导入 Nano Banana。',
+      links: [
+        { href: '/zh/tools/character-builder', label: '打开 Character Builder' },
+        { href: '/zh/blog/how-to-create-consistent-ai-characters', label: '阅读更广泛的一致性指南' },
+        { href: '/zh/models/nano-banana', label: '在 Nano Banana 中使用角色表' },
       ],
     },
   },
@@ -146,6 +167,16 @@ const BLOG_NEXT_STEPS: Partial<Record<string, Record<AppLocale, ArticleNextStep>
         { href: '/app/image', label: 'Continuar en Image' },
       ],
     },
+    zh: {
+      eyebrow: '下一步',
+      title: '让更佳的拍摄角度动起来',
+      body: '打开工具，对比多角度规划指南，或在添加动态前精修静态图。',
+      links: [
+        { href: '/zh/tools/angle', label: '打开 Angle' },
+        { href: '/zh/blog/multiple-camera-angles-from-one-image', label: '阅读多角度规划指南' },
+        { href: '/app/image', label: '在 Image 中继续' },
+      ],
+    },
   },
   'multiple-camera-angles-from-one-image': {
     en: {
@@ -176,6 +207,16 @@ const BLOG_NEXT_STEPS: Partial<Record<string, Record<AppLocale, ArticleNextStep>
         { href: '/herramientas/angle', label: 'Abrir Angle' },
         { href: '/blog/la-ia-puede-cambiar-el-angulo-de-camara-de-una-foto', label: 'Leer la guía de corrección de un solo ángulo' },
         { href: '/galeria', label: 'Ver ejemplos' },
+      ],
+    },
+    zh: {
+      eyebrow: '下一步',
+      title: '从探索走向定稿',
+      body: '打开工具，重温单角度修正指南，或在确认画面前浏览示例。',
+      links: [
+        { href: '/zh/tools/angle', label: '打开 Angle' },
+        { href: '/zh/blog/change-camera-angle-with-ai', label: '阅读单角度修正指南' },
+        { href: '/zh/examples', label: '浏览示例' },
       ],
     },
   },

@@ -3,10 +3,10 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import localizedSlugConfig from '@/config/localized-slugs.json';
 
-export type SupportedLocale = 'en' | 'fr' | 'es';
+export type SupportedLocale = 'en' | 'fr' | 'es' | 'zh';
 
-export const LOCALES: SupportedLocale[] = ['en', 'fr', 'es'];
-export const LOCALE_PREFIXES: Record<SupportedLocale, string> = { en: '', fr: 'fr', es: 'es' };
+export const LOCALES: SupportedLocale[] = ['en', 'fr', 'es', 'zh'];
+export const LOCALE_PREFIXES: Record<SupportedLocale, string> = { en: '', fr: 'fr', es: 'es', zh: 'zh' };
 const USE_MTIME_FALLBACK =
   process.env.SITEMAP_USE_MTIME_FALLBACK === 'true' ||
   (process.env.SITEMAP_USE_MTIME_FALLBACK !== 'false' && process.env.NODE_ENV !== 'production');
@@ -26,6 +26,7 @@ const LOCALIZED_SEGMENT_MAP = new Map<string, Record<SupportedLocale, string>>(
       en: value.en,
       fr: value.fr ?? value.en,
       es: value.es ?? value.en,
+      zh: value.zh ?? value.en,
     },
   ])
 );
@@ -51,7 +52,7 @@ function resolveContentRoot(): string {
     if (!fs.existsSync(candidate)) {
       continue;
     }
-    const hasContent = ['models', 'en', 'fr', 'es', 'docs'].some((segment) => fs.existsSync(path.join(candidate, segment)));
+    const hasContent = ['models', 'en', 'fr', 'es', 'zh', 'docs'].some((segment) => fs.existsSync(path.join(candidate, segment)));
     if (hasContent) {
       return candidate;
     }

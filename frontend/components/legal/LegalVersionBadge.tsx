@@ -12,6 +12,7 @@ const BADGE_COPY: Record<AppLocale, { version: string; effective: string }> = {
   en: { version: 'Version', effective: 'Effective' },
   fr: { version: 'Version', effective: 'Applicable' },
   es: { version: 'Versión', effective: 'Vigente' },
+  zh: { version: '版本', effective: '生效时间' },
 };
 
 export function LegalVersionBadge({ docKey, doc, locale = 'en' }: LegalVersionBadgeProps) {

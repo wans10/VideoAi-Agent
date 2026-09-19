@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: 'Review and accept the updated MaxVideoAI legal documents.',
     hreflangGroup: 'legalReconsent',
     englishPath: '/legal/reconsent',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: 'Legal re-consent',
   });

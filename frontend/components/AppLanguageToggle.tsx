@@ -4,18 +4,19 @@ import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { Check, Globe } from 'lucide-react';
-import { localeLabels } from '@/i18n/locales';
+import { localeLabels, type AppLocale } from '@/i18n/locales';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { Button } from '@/components/ui/Button';
 import { UIIcon } from '@/components/ui/UIIcon';
 
-type Locale = 'en' | 'fr' | 'es';
+type Locale = AppLocale;
 
 const FLAG_MAP: Record<Locale, string> = {
   en: '🇺🇸',
   fr: '🇫🇷',
   es: '🇪🇸',
+  zh: '🇨🇳',
 };
 
 export function AppLanguageToggle() {

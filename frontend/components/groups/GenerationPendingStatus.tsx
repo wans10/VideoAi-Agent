@@ -9,6 +9,7 @@ const COPY = {
   en: { heading: 'Your creation is on its way.', submitting: 'Submitting…', queued: 'Queued', processing: 'Processing', finalizing: 'Finalizing delivery', pending: 'Awaiting status', completed: 'Completed', failed: 'Generation failed', elapsed: 'Elapsed', estimate: 'Estimated total', observed: 'Observed average', overdue: 'Creation time can vary.', degraded: 'Refreshing the status…', checked: 'Last updated', ago: 'ago' },
   fr: { heading: 'On prépare votre création.', submitting: 'Envoi…', queued: 'En file d’attente', processing: 'Traitement en cours', finalizing: 'Finalisation du résultat', pending: 'En attente de statut', completed: 'Terminé', failed: 'Échec de la génération', elapsed: 'Écoulé', estimate: 'Total estimé', observed: 'Moyenne observée', overdue: 'Le temps de création peut varier.', degraded: 'Actualisation du statut en cours…', checked: 'Dernière actualisation il y a', ago: '' },
   es: { heading: 'Estamos preparando tu creación.', submitting: 'Enviando…', queued: 'En cola', processing: 'Procesando', finalizing: 'Finalizando la entrega', pending: 'Esperando estado', completed: 'Completado', failed: 'La generación falló', elapsed: 'Transcurrido', estimate: 'Total estimado', observed: 'Media observada', overdue: 'El tiempo de creación puede variar.', degraded: 'Actualizando el estado…', checked: 'Última actualización hace', ago: '' },
+  zh: { heading: '正在为您生成作品。', submitting: '提交中…', queued: '排队中', processing: '处理中', finalizing: '正在完成最终交付', pending: '等待状态更新', completed: '已完成', failed: '生成失败', elapsed: '已耗时', estimate: '预计总耗时', observed: '实测平均耗时', overdue: '生成时间可能有所波动。', degraded: '正在刷新状态…', checked: '上次更新于', ago: '前' },
 };
 function duration(seconds: number) {
   const rounded = Math.round(seconds);
@@ -25,7 +26,7 @@ export type GenerationPendingStatusProps = {
 /** Display clock only; status polling stays with the workspace owner. */
 export function GenerationPendingStatus({ observation, startedAt, etaSeconds, etaSource }: GenerationPendingStatusProps) {
   const { locale } = useI18n();
-  const copy = COPY[locale === 'fr' || locale === 'es' ? locale : 'en'];
+  const copy = COPY[locale === 'fr' || locale === 'es' || locale === 'zh' ? locale : 'en'];
   const [now, setNow] = useState(Date.now);
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);

@@ -8,6 +8,7 @@ const COOKIES_LIST_PATH: Record<AppLocale, string> = {
   en: '/legal/cookies-list',
   fr: '/fr/legal/cookies-list',
   es: '/es/legal/cookies-list',
+  zh: '/zh/legal/cookies-list',
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: 'Overview of cookies and similar technologies used by MaxVideoAI.',
     hreflangGroup: 'legalCookies',
     englishPath: '/legal/cookies',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: 'Cookie Policy',
     robots: {

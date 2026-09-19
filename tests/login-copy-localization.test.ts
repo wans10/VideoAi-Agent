@@ -3,6 +3,7 @@ import test from 'node:test';
 import en from '../frontend/messages/en.json';
 import fr from '../frontend/messages/fr.json';
 import es from '../frontend/messages/es.json';
+import zh from '../frontend/messages/zh.json';
 
 function scalarPaths(value: unknown, prefix = ''): string[] {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return prefix ? [prefix] : [];
@@ -26,14 +27,14 @@ function readPath(value: unknown, path: string): unknown {
 
 test('auth locales cover every English auth copy field', () => {
   const expected = scalarPaths(en.auth);
-  for (const [locale, copy] of Object.entries({ fr: fr.auth, es: es.auth })) {
+  for (const [locale, copy] of Object.entries({ fr: fr.auth, es: es.auth, zh: zh.auth })) {
     const missing = expected.filter((path) => typeof readPath(copy, path) !== 'string');
     assert.deepEqual(missing, [], `${locale} missing: ${missing.join(', ')}`);
   }
 });
 
 test('auth copy includes localized mode, visibility, validation, and feedback groups', () => {
-  for (const copy of [en.auth, fr.auth, es.auth]) {
+  for (const copy of [en.auth, fr.auth, es.auth, zh.auth]) {
     assert.equal(typeof copy.modeGroup, 'string');
     assert.equal(typeof copy.passwordVisibility.show, 'string');
     assert.equal(typeof copy.validation.formAttention, 'string');

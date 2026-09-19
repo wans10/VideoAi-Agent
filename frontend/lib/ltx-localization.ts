@@ -2,7 +2,7 @@ import type { AppLocale } from '@/i18n/locales';
 import type { EngineInputField, Mode } from '@/types/engines';
 import { ASSET_DROPZONE_COPY, type AssetDropzoneCopy } from './ltx-asset-dropzone-copy';
 
-type UiLocale = Extract<AppLocale, 'en' | 'fr' | 'es'>;
+type UiLocale = Extract<AppLocale, 'en' | 'fr' | 'es' | 'zh'>;
 
 type FieldCopy = {
   label: string;
@@ -68,6 +68,20 @@ const MODE_LABELS: Record<UiLocale, Record<Mode, string>> = {
     reframe: 'Reencuadrar video',
     t2i: 'Texto → Imagen',
     i2i: 'Imagen → Imagen',
+  },
+  zh: {
+    t2v: '文生视频',
+    i2v: '图生视频',
+    ref2v: '参考生视频',
+    fl2v: '首尾帧',
+    v2v: '修改视频',
+    r2v: '视频转视频',
+    a2v: '音频生视频',
+    extend: '延长视频',
+    retake: '重新拍摄',
+    reframe: '重构画面',
+    t2i: '文生图',
+    i2i: '图生图',
   },
 };
 
@@ -192,6 +206,46 @@ const LTX_FIELD_COPY: Record<UiLocale, Record<string, FieldCopy>> = {
       description: 'Elige cómo debe reemplazarse el segmento fuente.',
     },
   },
+  zh: {
+    prompt: { label: '提示词' },
+    negative_prompt: { label: '反向提示词' },
+    image_url: {
+      label: '起始图像',
+      description: '使用此静态图像作为定位动作的第一帧。',
+    },
+    end_image_url: {
+      label: '结束图像',
+      description: '图生视频起始到结束过渡的可选尾帧。',
+    },
+    audio_url: {
+      label: '源音频',
+      description: '音频生视频必填项。视频时长随音频文件长度确定。',
+    },
+    video_url: {
+      label: '源视频',
+      description: '上传或复用先前的渲染作品以进行延长或重新拍摄片段。',
+    },
+    guidance_scale: {
+      label: '引导系数',
+      description: '调整生成结果遵循提示词的紧密程度。',
+    },
+    context: {
+      label: '上下文窗口',
+      description: '控制在延长视频时参考源视频的时长范围。',
+    },
+    mode: {
+      label: '延长位置',
+      description: '选择将扩展内容添加到片段之前还是之后。',
+    },
+    start_time: {
+      label: '起始时间',
+      description: '设置在源视频中重新拍摄的开始位置。',
+    },
+    retake_mode: {
+      label: '重拍模式',
+      description: '选择如何替换源视频片段。',
+    },
+  },
 };
 
 const WORKFLOW_COPY: Record<UiLocale, WorkflowCopy> = {
@@ -251,6 +305,24 @@ const WORKFLOW_COPY: Record<UiLocale, WorkflowCopy> = {
     selectOption: 'Selecciona una opción',
     defaultOption: 'Predeterminado',
   },
+  zh: {
+    generateVideo: '生成视频',
+    removeAudioToUnlock: '移除源音频以解锁“延长视频”和“重新拍摄”。',
+    audioUnsupported: '此引擎不支持音频生视频。请移除源音频或切换至 LTX 2.3 Pro。',
+    audioLocked:
+      '检测到源音频。LTX 2.3 Pro 目前已锁定为音频生视频模式。移除源音频后将重新解锁“延长视频”与“重新拍摄”。',
+    audioLockedFallback:
+      '检测到源音频。在移除源音频之前，可用控制选项已限定为音频生视频设置。',
+    removeAudioToUseEdit: '移除源音频以使用“延长视频”或“重新拍摄”。',
+    clearReferencesToUseStartEnd: '清除 Seedance 参考文件以使用起始图与结束图。',
+    clearStartEndToUseReferences: '清除起始图或结束图以使用 Seedance 参考文件。',
+    addReferenceMediaBeforeAudio: '在使用参考音频之前，请至少添加一张参考图像或一个参考视频。',
+    addSourceVideo: (modeLabel) => `运行 ${modeLabel} 之前需添加源视频。`,
+    workflowOptionsTitle: '工作流选项',
+    workflowOptionsSubtitle: '此工作流的专属设置。',
+    selectOption: '选择一个选项',
+    defaultOption: '默认',
+  },
 };
 
 const MODEL_CARD_USE_CASES: Record<UiLocale, Record<string, string>> = {
@@ -268,6 +340,11 @@ const MODEL_CARD_USE_CASES: Record<UiLocale, Record<string, string>> = {
     'gpt-image-2': 'imágenes con texto, producto y ediciones controladas',
     'ltx-2-3': 'flujos LTX todo en uno con audio, retakes, control fuerte y precios competitivos en texto e imagen a video',
     'ltx-2-3-fast': 'iteraciones rápidas de LTX 2.3 para texto e imagen a video',
+  },
+  zh: {
+    'gpt-image-2': '文字丰富的静态图、产品摄影及可控编辑',
+    'ltx-2-3': '集音频、重拍、强控制力及优惠资费于一体的 LTX 文生/图生视频全流程工作流',
+    'ltx-2-3-fast': '快速的 LTX 2.3 文生与图生视频迭代',
   },
 };
 
@@ -299,6 +376,15 @@ const MODEL_CARD_CAPABILITY_KEYWORDS: Record<UiLocale, Record<string, string>> =
     'First/Last': 'control de primer / último frame',
     Extend: 'workflows de extensión',
   },
+  zh: {
+    T2V: '文生视频',
+    I2V: '图生视频',
+    V2V: '视频转视频',
+    'Lip sync': '对口型',
+    Audio: '原生音频',
+    'First/Last': '首尾帧控制',
+    Extend: '延长工作流',
+  },
 };
 
 const HERO_CHIP_LABELS: Record<UiLocale, Record<string, string>> = {
@@ -329,16 +415,26 @@ const HERO_CHIP_LABELS: Record<UiLocale, Record<string, string>> = {
     maxResolution: 'Resolución máx.',
     audio: 'Audio',
   },
+  zh: {
+    textToImage: '文生图',
+    imageToImage: '图生图',
+    textToVideo: '文生视频',
+    imageToVideo: '图生视频',
+    maxDuration: '最大时长',
+    maxResolution: '最高分辨率',
+    audio: '音频',
+  },
 };
 
 const MODEL_META_LABELS: Record<UiLocale, { price: string; duration: string; format: string }> = {
   en: { price: 'Price', duration: 'Duration', format: 'Format' },
   fr: { price: 'Prix', duration: 'Durée', format: 'Format' },
   es: { price: 'Precio', duration: 'Duración', format: 'Formato' },
+  zh: { price: '价格', duration: '时长', format: '格式' },
 };
 
 export function normalizeUiLocale(locale?: string | null): UiLocale {
-  if (locale === 'fr' || locale === 'es') return locale;
+  if (locale === 'fr' || locale === 'es' || locale === 'zh') return locale;
   return 'en';
 }
 
