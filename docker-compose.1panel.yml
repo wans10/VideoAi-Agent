@@ -2,6 +2,7 @@ name: videoai
 
 services:
   db-migrate:
+    image: ${DOCKER_IMAGE_NAMESPACE:-wans10}/videoai-db-migrate:${IMAGE_TAG:-latest}
     build:
       context: .
       target: migrations
@@ -12,6 +13,7 @@ services:
       - 1panel-network
 
   web:
+    image: ${DOCKER_IMAGE_NAMESPACE:-wans10}/videoai-web:${IMAGE_TAG:-latest}
     build:
       context: .
       target: runner
