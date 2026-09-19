@@ -32,7 +32,6 @@ ENV NEXT_OUTPUT_STANDALONE=true \
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=$NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/frontend/node_modules ./frontend/node_modules
-COPY --from=deps /app/packages/pricing/node_modules ./packages/pricing/node_modules
 COPY . .
 RUN NEXT_SKIP_ESLINT=1 pnpm --dir frontend build
 
@@ -41,7 +40,6 @@ RUN NEXT_SKIP_ESLINT=1 pnpm --dir frontend build
 FROM base AS migrations
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/frontend/node_modules ./frontend/node_modules
-COPY --from=deps /app/packages/pricing/node_modules ./packages/pricing/node_modules
 COPY . .
 COPY neon/migrations /migrations
 RUN apt-get update \
