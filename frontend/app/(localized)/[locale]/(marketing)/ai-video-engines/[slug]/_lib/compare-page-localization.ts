@@ -43,7 +43,6 @@ const LOCALIZED_BEST_FOR: Partial<Record<AppLocale, Record<string, string>>> = {
     'Multi-shot cinematic control': 'Control cinematográfico multi-shot',
     'Multi-shot testing at lower cost': 'Pruebas multi-shot con menor coste',
     'Premium cinematic generation with modify and reframe': 'Generación cinematográfica premium con modify y reframe',
-    'Premium cinematic generation with modify and reframe': 'Generación cinématographique premium con modify y reframe',
     'Premium product stories': 'Historias de producto premium',
     'Prompts or image loops': 'Prompts o bucles desde imágenes',
     'Rapid social clips': 'Clips sociales rápidos',
