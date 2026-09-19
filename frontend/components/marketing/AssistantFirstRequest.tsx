@@ -56,7 +56,7 @@ const COPY: Record<AppLocale, FirstRequestCopy> = {
 };
 
 export function AssistantFirstRequest({ locale, proofHref, prompt }: { locale: AppLocale; proofHref?: string; prompt?: string }) {
-  const copy = COPY[locale];
+  const copy = COPY[locale] ?? COPY.en;
 
   return (
     <section id="first-video" className="scroll-mt-24 border-b border-hairline bg-surface py-12">

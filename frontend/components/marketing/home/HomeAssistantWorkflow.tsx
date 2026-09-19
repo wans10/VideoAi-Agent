@@ -60,6 +60,19 @@ const COPY: Record<
     catalogLabel: 'Catálogo actual',
     facts: ['Modelos y precios actuales', 'Precio exacto antes de generar', 'Resultados en tu biblioteca MaxVideoAI'],
   },
+  zh: {
+    eyebrow: '从对话到成片渲染',
+    title: '直接在对话中进行创作。',
+    body: '将你正在与 AI 助手讨论的项目转化为视频。核对模型方案与价格，确认生成任务，随后在 MaxVideoAI 媒体库中取回成品。',
+    cta: '选择你的 AI 助手',
+    claude: 'Claude',
+    chatgpt: 'ChatGPT',
+    codex: 'Codex',
+    prompt: '根据我们正在讨论的项目，为我构思一段简短的发布会视频。在决定前请先对比两个适合的模型。',
+    answer: '我将结合当前需求，评估最新的模型能力并对比成本与优缺点。你来决定最终方案，并在生成前确认精准报价。',
+    catalogLabel: '最新模型目录',
+    facts: ['基于最新模型提供建议', '生成前获取精准报价', '成品保存至 MaxVideoAI 媒体库'],
+  },
 };
 
 const MARKS = [

@@ -7,6 +7,7 @@ const COPY = {
   en: { title: 'Already have a model in mind?', body: 'Find more videos, prompts and model details for your next idea.' },
   fr: { title: 'Vous avez déjà un modèle en tête ?', body: 'Retrouvez les vidéos, les prompts et les caractéristiques des modèles pour votre prochaine création.' },
   es: { title: '¿Ya tienes un modelo en mente?', body: 'Encuentra más videos, prompts y detalles de los modelos para tu próxima idea.' },
+  zh: { title: '已有心仪的模型？', body: '为你的下一次创作寻找更多视频、提示词和模型规格详情。' },
 };
 
 export function HomeModelDiscovery({ locale, examples, providers, copy }: {
@@ -15,8 +16,13 @@ export function HomeModelDiscovery({ locale, examples, providers, copy }: {
   providers: ProviderItem[];
   copy: SectionCopy & { featuredModelCta: string };
 }) {
-  const text = COPY[locale];
-  const labels = { en: ['Examples', 'Specs & pricing'], fr: ['Exemples', 'Tarifs et détails'], es: ['Ejemplos', 'Detalles y precios'] }[locale];
+  const text = COPY[locale] ?? COPY.en;
+  const labels = {
+    en: ['Examples', 'Specs & pricing'],
+    fr: ['Exemples', 'Tarifs et détails'],
+    es: ['Ejemplos', 'Detalles y precios'],
+    zh: ['案例', '规格与定价'],
+  }[locale] ?? ['Examples', 'Specs & pricing'];
   const linked = new Set(examples.flatMap(example => [JSON.stringify(example.href), JSON.stringify(example.modelHref)]));
   const extraProviders = providers.filter(provider => provider.href && !linked.has(JSON.stringify(provider.href)));
   return <>

@@ -18,6 +18,7 @@ const SOURCE_DIR = path.join(MODELS_ROOT, 'en');
 const TARGET_DIRS = {
   fr: path.join(MODELS_ROOT, 'fr'),
   es: path.join(MODELS_ROOT, 'es'),
+  zh: path.join(MODELS_ROOT, 'zh'),
 } as const;
 const CACHE_DIR = path.join(FRONTEND_ROOT, '.cache');
 const CACHE_FILE = path.join(CACHE_DIR, 'models-i18n.json');
@@ -27,13 +28,14 @@ const INDEXNOW_LOCALES: AppLocale[] = [...APP_LOCALES];
 dotenv.config({ path: path.join(FRONTEND_ROOT, '.env.local'), override: true });
 dotenv.config();
 
-type TargetLocale = 'fr' | 'es';
+type TargetLocale = 'fr' | 'es' | 'zh';
 type FlatRecord = Record<string, string>;
 
-const TARGET_LOCALES: TargetLocale[] = ['fr', 'es'];
+const TARGET_LOCALES: TargetLocale[] = ['fr', 'es', 'zh'];
 const TARGET_LABELS: Record<TargetLocale, string> = {
   fr: 'French (France)',
   es: 'Spanish (Spain)',
+  zh: 'Simplified Chinese (China)',
 };
 const MODEL = process.env.OPENAI_MODEL || 'gpt-5-mini';
 const PLACEHOLDER_REGEX = /\{[^}]+\}/g;

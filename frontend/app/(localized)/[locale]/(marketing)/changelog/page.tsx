@@ -39,6 +39,14 @@ const CHANGELOG_LINKS: Record<
       { href: '/legal', label: 'Centro legal' },
     ],
   },
+  zh: {
+    prefix: '相关页面：',
+    links: [
+      { href: '/status', label: '状态' },
+      { href: '/docs', label: '文档' },
+      { href: '/legal', label: '法律中心' },
+    ],
+  },
 };
 
 export async function generateMetadata(props: { params: Promise<{ locale: AppLocale }> }): Promise<Metadata> {

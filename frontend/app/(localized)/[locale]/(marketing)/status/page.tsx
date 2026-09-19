@@ -25,6 +25,10 @@ const STATUS_META: Record<AppLocale, { title: string; description: string }> = {
     title: 'Estado del servicio — MaxVideoAI',
     description: 'Consulta los avisos de servicio de MaxVideoAI y obtén ayuda con una generación de video IA afectada.',
   },
+  zh: {
+    title: '服务状态 — MaxVideoAI',
+    description: '查看当前 MaxVideoAI 服务公告，获取受影响 AI 视频生成任务的帮助。',
+  },
 };
 
 export async function generateMetadata(props: { params: Promise<{ locale: AppLocale }> }): Promise<Metadata> {
@@ -71,6 +75,14 @@ const STATUS_LINKS: Record<
       { href: '/docs', label: 'Docs' },
       { href: '/changelog', label: 'Changelog' },
       { href: '/legal', label: 'Centro legal' },
+    ],
+  },
+  zh: {
+    prefix: '另请参阅：',
+    links: [
+      { href: '/docs', label: '文档' },
+      { href: '/changelog', label: '更新日志' },
+      { href: '/legal', label: '法律中心' },
     ],
   },
 };

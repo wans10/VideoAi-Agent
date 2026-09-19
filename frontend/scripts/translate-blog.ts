@@ -16,7 +16,7 @@ import { localizedSlugs } from '../lib/i18nSlugs';
 import { localePathnames } from '../i18n/locales';
 import type { AppLocale } from '../i18n/locales';
 
-type TargetLocale = 'fr' | 'es';
+type TargetLocale = 'fr' | 'es' | 'zh';
 type Segment = { id: string; value: string; apply: (value: string) => void };
 type BlogSlugMap = Record<TargetLocale, Record<string, string>>;
 type BlogLocale = AppLocale;
@@ -28,9 +28,10 @@ const EN_BLOG_DIR = path.join(CONTENT_ROOT, 'en', 'blog');
 const OUTPUT_DIRS: Record<TargetLocale, string> = {
   fr: path.join(CONTENT_ROOT, 'fr', 'blog'),
   es: path.join(CONTENT_ROOT, 'es', 'blog'),
+  zh: path.join(CONTENT_ROOT, 'zh', 'blog'),
 };
 
-const TARGET_LOCALES: TargetLocale[] = ['fr', 'es'];
+const TARGET_LOCALES: TargetLocale[] = ['fr', 'es', 'zh'];
 const MODEL = process.env.OPENAI_MODEL || 'gpt-5-mini';
 const SITE_ORIGIN = 'https://maxvideoai.com';
 const BRAND_REGEX = /\b(MaxVideoAI|Sora ?2(?:\.0)?|Sora|Veo ?3(?:\.1)?|Veo|Pika ?2\.2|Pika|MiniMax Hailuo 02)\b/gi;

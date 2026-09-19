@@ -27,6 +27,11 @@ const BLOG_META = {
     description:
       'Workflows basados en referencias, guías de herramientas, notas sobre modelos y aprendizajes de producción de equipos que crean imágenes y video con MaxVideoAI.',
   },
+  zh: {
+    title: 'AI 视频工作流与模型指南 | MaxVideoAI',
+    description:
+      '参考图工作流、工具指南、模型实测笔记，以及来自团队使用 MaxVideoAI 制作图像与视频的生产实践经验。',
+  },
 } satisfies Record<AppLocale, { title: string; description: string }>;
 
 export const revalidate = 600;
@@ -85,6 +90,7 @@ const localeDateMap: Record<AppLocale, string> = {
   en: 'en-US',
   fr: 'fr-FR',
   es: 'es-MX',
+  zh: 'zh-CN',
 };
 
 const DEFAULT_BLOG_FAQ = {

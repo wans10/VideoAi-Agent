@@ -64,4 +64,27 @@ const es: EditorialCopy = {
   faq:[{question:'¿MaxVideoAI es un conector, una app o un plugin?',answer:'MCP es el protocolo de conexión común. Claude lo llama conector personalizado. ChatGPT usa una app MCP personalizada en modo desarrollador. Codex ofrece un plugin, OpenClaw un skill y n8n un workflow con nodos MCP Client. La instalación y los requisitos de cuenta varían según el cliente.'},{question:'¿Hay un plugin MaxVideoAI en el directorio de ChatGPT?',answer:'No afirmamos que exista una ficha pública en el directorio. La conexión actual utiliza una app MCP personalizada en modo desarrollador. Las acciones de escritura del MCP completo requieren un espacio Business, Enterprise o Edu elegible y los permisos de su administrador. Pro solo admite lectura y recuperación en modo desarrollador.'},{question:'¿Puedo automatizar la generación de video en n8n?',answer:'Sí, con el flujo MCP Client probado en n8n 2.38.7 autoalojado. Mantén el precio exacto, la aprobación humana y la confirmación en pasos separados. La configuración es manual; no hay una plantilla publicada en el catálogo. No se han validado aquí n8n Cloud ni las llamadas de AI Agent.'},{question:'¿También puedo generar imágenes y audio?',answer:'MCP permite generar y editar imágenes si el modelo y el entorno elegidos lo admiten. Las referencias de audio y los videos guiados por sonido dependen del modelo de video. La generación de audio independiente y la creación de montajes terminados no están disponibles públicamente mediante esta integración MCP.'}],
   setupTitle:'Conecta una vez. Empieza a crear.',setupIntro:'Sigue los pasos para tu entorno y autoriza tu cuenta MaxVideoAI.',setupDetails:'Detalles de conexión',verified:'Compatibilidad y límites',account:'Qué autorizas',all:'Todas las integraciones',
 };
-export function getMcpEditorialCopy(locale: AppLocale): EditorialCopy { return ({ en, fr, es })[locale]; }
+const zh: EditorialCopy = {
+  meta: { title: 'AI 视频 MCP：Claude、ChatGPT、Codex 与 n8n | MaxVideoAI', description: '将 MaxVideoAI 连接至 Claude、ChatGPT、Codex、OpenClaw 或自托管 n8n。对比 AI 视频模型，确认精准报价，经你确认后开始生成。' },
+  eyebrow: '你的助手。你的视频工作室。', title: 'AI 视频。就在你的助手中。',
+  intro: '将你正在讨论的创意直接转化为 AI 视频。你的助手帮助你选择模型与参数。MaxVideoAI 呈现明确价格。经你确认后启动。',
+  choose: '选择你的集成方式', proofLink: '在 Claude 中查看效果', note: '一个 MaxVideoAI 账号。按量付费。无需额外的 MaxVideoAI 订阅。',
+  visualLabel: '工作流演示', prompt: '帮我把这个想法制作成电影感视频。',
+  stages: ['描述', '确认', '生成'], stageTitles: ['从你的创意开始。', '清楚知道花费。', '保留你的作品。'],
+  stageBodies: ['一段提示词、一张参考图或对话中已有的项目。', '选择模型、时长和分辨率。在生成前确认精准报价。', '在 MaxVideoAI 媒体库中找到生成的视频。对话内的展示取决于所用的客户端。'],
+  clientsEyebrow: '按需连接', clientsTitle: '你想在哪里创作？', clientsIntro: '选择你的助手或自动化工具。每个集成都有专门的配置指南和可用性说明。',
+  guide: '配置指南', preparing: '准备中', preparingNote: '正在评估更多客户端。配置指南尚未发布。',
+  modes: { claude: '自定义 MCP 连接器', chatgpt: '自定义 MCP 应用', codex: '插件 + MCP', openclaw: '技能 + MCP', n8n: 'MCP 工作流' },
+  benefits: { claude: '延续对话中的灵感与创意。', chatgpt: '在 ChatGPT 项目中加入 AI 视频。', codex: '在编写代码的同时生成视频素材。', openclaw: '为你的 Agent 赋予视频创作工作流。', n8n: '串联需求、人工审核与视频任务。' },
+  limits: { claude: 'Claude Desktop 已测试', chatgpt: '完整 MCP：适用 Business / Enterprise / Edu 工作区', codex: 'Codex CLI 已测试 · 提供插件', openclaw: '有限制测试 · 提供 ClawHub 技能', n8n: '自托管 2.38.7 · 手动配置' },
+  workflowEyebrow: '从创意到最终成片', workflowTitle: '对话顺畅推进。掌控权始终在你。',
+  workflowIntro: 'MaxVideoAI 是用于 AI 视频和图像生成的远程 MCP 服务器。它将兼容的助手连接到最新模型、报价以及你账户中的媒体库。',
+  proofEyebrow: '真实测试', proofTitle: '从 Claude 中的一条请求到生成视频。', proofBody: 'Claude Desktop 实测记录展示了成片效果及对 MaxVideoAI 媒体库的访问。其他客户端可能返回链接而非内嵌播放器。',
+  trustEyebrow: '连接安全，需经你授权', trustTitle: '你的账户。你的决策。',
+  trust: [{title:'登录 MaxVideoAI',body:'授权在 MaxVideoAI 页面进行。切勿在对话中粘贴密码、API 密钥或支付信息。'},{title:'确认精准价格',body:'推荐或预算估算不会触发扣费生成。在确认前仔细核对参数和准确报价。'},{title:'随时断开连接',body:'在助手中移除该集成，并在 MaxVideoAI 账户中随时撤销其授权。'}],
+  examples: '浏览 AI 视频案例', models: '对比视频模型', pricing: '查看生成价格',
+  faqTitle: '连接前需了解的信息。', docs: 'MCP 文档', support: '联系我们', repo: '插件源码与发布',
+  faq: [{question:'MaxVideoAI 是连接器、应用还是插件？',answer:'MCP 是通用连接协议。Claude 称其为自定义连接器；ChatGPT 在开发者模式下使用自定义 MCP 应用；Codex 提供插件，OpenClaw 提供技能，n8n 则使用 MCP Client 节点的工作流。安装和账号要求因客户端而异。'},{question:'ChatGPT 插件目录中有 MaxVideoAI 吗？',answer:'目前未上架公开目录。当前路径为开发者模式下的自定义 MCP 应用。完整的 MCP 写入操作需要适用的 Business、Enterprise 或 Edu 工作区及其管理员权限。Pro 账号在开发者模式下仅限于读取权限。'},{question:'可以在 n8n 中自动化视频生成吗？',answer:'可以，已在自托管的 n8n 2.38.7 MCP Client 工作流中通过测试。精准报价、人工审核和最终确认必须作为独立步骤。目前需手动配置；n8n Cloud 和 AI Agent 调用暂未在此处验证。'},{question:'我还可以生成图像和音频吗？',answer:'在选定模型和环境支持的情况下，MCP 支持文生图和图生图编辑。音频参考和音频驱动视频取决于所选视频模型。目前暂不通过此 MCP 集成公开提供独立音频生成和成片剪辑。'}],
+  setupTitle: '一次连接，即刻创作。', setupIntro: '按照适用于你环境的步骤操作，然后授权你的 MaxVideoAI 账户。', setupDetails:'连接详情', verified:'兼容性与限制', account:'授权内容', all:'全部集成',
+};
+export function getMcpEditorialCopy(locale: AppLocale): EditorialCopy { return ({ en, fr, es, zh })[locale] ?? en; }

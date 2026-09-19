@@ -242,11 +242,50 @@ export const DETAIL_COPY: Record<
     tier: 'Nivel',
     browseAllExamples: 'Ver todos los ejemplos',
   },
+  zh: {
+    eyebrow: '最佳选择',
+    shortlist: '推荐入围清单',
+    shortlistDescription: '模型卡片采用与模型页面相同的视觉规范，最适合的引擎优先展示。',
+    ranked: '综合推荐排名',
+    rank: '排名',
+    topPick: '首要推荐',
+    provider: '提供商',
+    fit: '最适场景',
+    evidence: '入选理由',
+    topReason: '基于上述评选标准，针对此搜索意图的首要推荐模型。',
+    shortlistReason: '当该考量维度对最终成品至关重要时的强力备选方案。',
+    viewModel: '查看模型',
+    viewExamples: '查看示例',
+    compareWith: '对比',
+    compareShortlistCta: '对比入围模型',
+    examplesCta: '查看电影级示例',
+    alsoAvailable: '其他可用模型',
+    chooseTitle: '各模型适用场景解析',
+    examplesTitle: '建议优先查阅的生成范例',
+    examplesDescription: '在决策前直观了解真实渲染效果与方向。',
+    whyTitle: '入选本应用场景的核心理由',
+    mistakesTitle: '务必避免的常见误区',
+    fullAnalysis: '阅读完整分析报告',
+    relatedGuides: '相关最佳推荐指南',
+    allGuides: '查看全部场景指南',
+    score: '评分',
+    overall: '综合最佳',
+    criteriaNote: '评分综合权衡了生成质量、可控性、一致性及成本效益。',
+    compareShortlist: '对比入围清单',
+    compareDescription: '在最终选型前，通过详尽的横向对比验证各项权衡。',
+    contentComing: '内容即将上线。',
+    backToHub: '返回场景中心',
+    backToTop: '返回顶部',
+    criteria: '决策考量标准',
+    quickLinks: '快捷链接',
+    tier: '层级',
+    browseAllExamples: '浏览全部示例',
+  },
 };
 
 export type BestForDetailCopy = (typeof DETAIL_COPY)[AppLocale];
 
-export const USECASE_CRITERIA: Record<string, Record<AppLocale, string[]>> = {
+export const USECASE_CRITERIA: Record<string, Partial<Record<AppLocale, string[]>>> = {
   'image-to-video': {
     en: ['Image fidelity after motion', 'Camera control from a still', 'Clean product and subject preservation'],
     fr: ['Fidélité de l’image après mouvement', 'Contrôle caméra depuis une image fixe', 'Préservation propre du produit ou sujet'],
@@ -309,7 +348,7 @@ export const USECASE_CRITERIA: Record<string, Record<AppLocale, string[]>> = {
   },
 };
 
-export const USECASE_CHIPS: Record<string, Record<AppLocale, string[]>> = {
+export const USECASE_CHIPS: Record<string, Partial<Record<AppLocale, string[]>>> = {
   'image-to-video': {
     en: ['Image fidelity', 'Motion control', 'Subject lock', 'Reference frames', 'Cost control'],
     fr: ['Fidélité image', 'Contrôle du mouvement', 'Sujet verrouillé', 'Frames de référence', 'Contrôle du coût'],
@@ -376,6 +415,7 @@ export const DECISION_CRITERIA_FILLERS: Record<AppLocale, string[]> = {
   en: ['Cost efficiency and speed', 'Reliability and consistency'],
   fr: ['Efficacité coût et vitesse', 'Fiabilité et cohérence'],
   es: ['Eficiencia de precio y velocidad', 'Fiabilidad y consistencia'],
+  zh: ['成本效益与生成速度', '稳定性与跨帧连贯性'],
 };
 
 export const USECASE_MISTAKE_FALLBACKS: Record<AppLocale, string[]> = {
@@ -399,5 +439,12 @@ export const USECASE_MISTAKE_FALLBACKS: Record<AppLocale, string[]> = {
     'Complicar demasiado el primer prompt.',
     'Saltar los borradores e ir directo a premium.',
     'No revisar el precio antes de generar.',
+  ],
+  zh: [
+    '未根据具体应用场景挑选最匹配的模型。',
+    '忽略参考图、风格关键帧或输入格式限制。',
+    '初次尝试时将提示词写得过于冗长繁复。',
+    '跳过低成本草稿预览，直接使用高规格模型。',
+    '在正式生成前未仔细核实预估成本。',
   ],
 };

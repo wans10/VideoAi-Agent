@@ -128,6 +128,31 @@ const HUB_COPY: Record<
       { title: 'Genera con confianza', description: 'conoce el precio y elige el modelo correcto.' },
     ],
   },
+  zh: {
+    eyebrow: '最佳应用场景',
+    title: '按应用场景、画质与价格评选的最佳 AI 视频模型',
+    description: '针对电影级质感、广告制作、图生视频、4K 高清输出、快速草稿预览及电商产品视频，甄选最契合的 AI 视频生成模型。',
+    empty: '更多场景指南正在持续更新中。',
+    viewGuide: '查看指南',
+    featured: '精选推荐模型',
+    tier: '梯度评级',
+    viewModels: '查看全部模型',
+    chooseTitle: '如何挑选契合的视频生成模型',
+    chooseDescription: '每个创作项目都有独特的需求。在生成前全面评估画质、速度、预算与技术特性。',
+    chooseCta: '开始横向对比',
+    benefits: [
+      { title: '横向对比模型', description: '并排对比核心指标' },
+      { title: '真实成片预览', description: '生成前洞悉最终效果' },
+      { title: '预知实际成本', description: '扣费前价格清晰透明' },
+      { title: '灵活按量计费', description: '无需支付固定订阅' },
+    ],
+    steps: [
+      { title: '确立创作目标', description: '明确你的核心诉求与输出侧重点。' },
+      { title: '横向对比模型', description: '全面对比画质风格、参数规格与边界限制。' },
+      { title: '预览真实样本', description: '在发起生成前查看高精度样片效果。' },
+      { title: '胸有成竹地生成', description: '提前获知精准价格，以最佳模型启动制作。' },
+    ],
+  },
 };
 
 export async function generateMetadata(props: { params: Promise<{ locale: AppLocale }> }): Promise<Metadata> {

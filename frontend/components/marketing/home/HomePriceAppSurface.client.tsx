@@ -12,11 +12,12 @@ const COPY = {
  en:{prompt:'A quiet cinematic shot of neon-lit Tokyo streets in the rain.',generate:'Generate',model:'Choose model',video:'Video'},
  fr:{prompt:'Un plan cinématographique des rues de Tokyo sous la pluie, éclairées par les néons.',generate:'Générer',model:'Choisir un modèle',video:'Vidéo'},
  es:{prompt:'Un plano cinematográfico de las calles de Tokio bajo la lluvia, iluminadas por neones.',generate:'Generar',model:'Elegir modelo',video:'Video'},
+ zh:{prompt:'雨夜中霓虹灯掩映的东京街道，宁静而富有电影质感。',generate:'生成',model:'选择模型',video:'视频'},
 };
 
 /** Real workspace components, inert for this guided demonstration: no generation endpoint. */
 export function HomePriceAppSurface({model,step,locale}:{model:HomePriceModel;step:HomePriceStep;locale:AppLocale}) {
- const c = COPY[locale];
+ const c = COPY[locale] ?? COPY.en;
  const dictionary = {workspace:model.workspaceCopy} as unknown as Dictionary;
  return <I18nProvider locale={locale} dictionary={dictionary} fallback={dictionary}><div className="price-app-surface" inert aria-hidden="true">
    <div className="price-app-top"><strong>MaxVideoAI</strong><span>{c.video}</span></div>

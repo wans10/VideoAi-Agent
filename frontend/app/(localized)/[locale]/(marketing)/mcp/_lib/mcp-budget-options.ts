@@ -66,6 +66,7 @@ const COPY: Record<
   en: { included: 'Included', audioEnabled: 'Audio enabled', audioOptional: 'Optional audio', silent: 'Silent' },
   fr: { included: 'Inclus', audioEnabled: 'Audio activé', audioOptional: 'Audio en option', silent: 'Sans audio' },
   es: { included: 'Incluido', audioEnabled: 'Audio activado', audioOptional: 'Audio opcional', silent: 'Sin audio' },
+  zh: { included: '已包含', audioEnabled: '已开启音频', audioOptional: '可选音频', silent: '静音' },
 };
 
 function parseDurationSeconds(value: number | string | null | undefined): number | null {

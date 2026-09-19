@@ -28,6 +28,7 @@ const HOME_CRUMB: Record<AppLocale, { label: string; href: LocalizedLinkHref }> 
   en: { label: 'Home', href: '/' },
   fr: { label: 'Accueil', href: '/fr' },
   es: { label: 'Inicio', href: '/es' },
+  zh: { label: '首页', href: '/zh' as LocalizedLinkHref },
 };
 
 const STATUS_ICON = {

@@ -28,11 +28,15 @@ export function buildMcpClientActions(
       if (locale === 'es') {
         return `Instala el plugin MaxVideoAI por mí con estos comandos y guíame para conectar mi cuenta:\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
       }
+      if (locale === 'zh') {
+        return `请帮我运行以下命令安装 MaxVideoAI 插件，并指引我连接我的账号：\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
+      }
       return `Install the MaxVideoAI plugin for me with these commands, then guide me through connecting my account:\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
     }
     if (client === 'n8n') {
       if (locale === 'fr') return `Construisez manuellement le workflow déterministe dans n8n auto-hébergé à partir du guide MaxVideoAI, créez l’identifiant OAuth2 pour ${MCP_PRODUCTION_RESOURCE_URL}, puis associez-le à chaque nœud MCP Client.`;
       if (locale === 'es') return `Construye manualmente el flujo determinista en n8n self-hosted siguiendo la guía de MaxVideoAI, crea la credencial OAuth2 para ${MCP_PRODUCTION_RESOURCE_URL} y asígnala a cada nodo MCP Client.`;
+      if (locale === 'zh') return `请根据 MaxVideoAI 配置指南在自托管 n8n 中手动构建确定性工作流，为 ${MCP_PRODUCTION_RESOURCE_URL} 创建 OAuth2 凭据，并将其分配给各个 MCP Client 节点。`;
       return `Build the deterministic workflow manually in self-hosted n8n from the MaxVideoAI setup guide, create the OAuth2 credential for ${MCP_PRODUCTION_RESOURCE_URL}, then assign it to every MCP Client node.`;
     }
     const clientLabel = client === 'claude'
@@ -44,6 +48,7 @@ export function buildMcpClientActions(
           : 'n8n';
     if (locale === 'fr') return `Connecte MaxVideoAI dans ${clientLabel} avec ce serveur MCP et guide-moi jusqu’à la connexion : ${MCP_PRODUCTION_RESOURCE_URL}`;
     if (locale === 'es') return `Conecta MaxVideoAI en ${clientLabel} con este servidor MCP y guíame hasta completar la conexión: ${MCP_PRODUCTION_RESOURCE_URL}`;
+    if (locale === 'zh') return `请在 ${clientLabel} 中使用此 MCP 服务器连接 MaxVideoAI，并指引我完成账号连接：${MCP_PRODUCTION_RESOURCE_URL}`;
     return `Connect MaxVideoAI in ${clientLabel} with this MCP server and guide me through the connection: ${MCP_PRODUCTION_RESOURCE_URL}`;
   };
   const publicIntegrationSet = new Set(publicIntegrationIds);
@@ -476,7 +481,54 @@ function spanishCopy(): McpPageCopy {
   };
 }
 
-const COPY: Record<AppLocale, McpPageCopy> = { en: EN, fr: frenchCopy(), es: spanishCopy() };
+function chineseCopy(): McpPageCopy {
+  return {
+    ...EN,
+    meta: {
+      title: '适用于 Claude、ChatGPT 与 Codex 的 MaxVideoAI | AI 视频 MCP',
+      description: '将 Claude、ChatGPT 或 Codex 变为你的 AI 视频制作人：提示词、参考素材、最新模型、预算报价、明确核准与自动生成。',
+    },
+    breadcrumb: { home: '首页', current: 'AI 视频 MCP 插件' },
+    hero: {
+      ...EN.hero,
+      eyebrows: { trial: '符合条件可享体验额度', budget: '为每个镜头匹配最佳模型', price: '生成前价格明确' },
+      title: '直接在你的 AI 助手或自动化流程中创作 AI 视频。',
+      intro: '在 Claude、ChatGPT 或 Codex 中开始创作，或连接你的 Agent 与自动化工作流。MaxVideoAI 负责扩写提示词与参考图、对比最新模型、核算整体项目预算，并在你确认精准报价后执行生成。',
+      previewIntro: '在你的 AI 助手、智能体或自动化工作流中开启创作。完善提示词与参考素材、对比各家最新模型、预估完整项目预算并体验 MaxVideoAI 工作流。',
+      trialDisclosure: '通过验证且符合条件的账户可试用 Seedance 2 Mini 体验生成，与 MaxVideoAI 常规按量充值额度相互独立。',
+      actions: buildMcpClientActions('zh', { claude: 'Claude 连接器', chatgpt: 'ChatGPT 应用', codex: 'Codex 插件', openclaw: 'OpenClaw', n8n: 'n8n', supporting: '免费 · 需 MaxVideoAI 账号' }),
+      connectActions: { instructionLabel: '快速安装', instructionBody: '向 Claude、ChatGPT 或 OpenClaw 发送简短提示词，或让 Codex 自动安装插件。对于 n8n，请打开指南手动构建确定性工作流。', copyInstruction: '复制指令给', instructionCopied: '已复制 — 请粘贴至你的 AI 助手中。', endpointLabel: '手动 MCP 配置', copyEndpoint: '复制服务器地址', copied: '服务器地址已复制。请继续查看对应助手的配置指南。', copyError: '复制失败，请手动选中文本并复制。' },
+    },
+    workflow: { eyebrow: '工作原理', title: '三步完成从创意构思到成片视频', intro: '在清晰连贯的流程中保持创意主导、模型甄选、精准报价及最终成果资产管理。', ariaLabel: 'AI 视频制作流程', steps: ['完善创意需求与参考素材', '对比模型与项目预算', '确认精准价格并生成'] },
+    ecosystem: {
+      ...EN.ecosystem,
+      eyebrow: '选择你的平台',
+      title: '在你已展开讨论的工作环境中创作',
+      intro: '支持 Claude、ChatGPT、Codex、OpenClaw 以及经实测的自托管 n8n 工作流。更多开发与企业端客户端正在积极准备中。',
+      primaryLabel: '现已支持',
+      secondaryLabel: '其他 MCP 工作流',
+    },
+    budget: {
+      ...EN.budget,
+      eyebrow: '真实项目预算',
+      title: '在生成前清楚了解每个镜头的花费',
+      intro: '你的助手会展示不同模型在 5 秒、10 秒或组合镜头下的实际花费，帮助你在品质与成本之间取得最佳平衡。',
+    },
+    trust: {
+      ...EN.trust,
+      definition: { eyebrow: '一次对话，汇聚多个前沿模型', title: '对话式 AI 视频制作新方式', body: '无需反复在不同的模型页面之间切换对比，只需直接描述你想要的效果。助手为你梳理制作方案；MaxVideoAI 提供准确模型参数、实时价格、合规校验、生成执行及任务恢复。' },
+      availability: { title: '费用如何计算', liveBody: '集成连接、模型咨询与预算评估完全免费。视频生成按量消耗你的 MaxVideoAI 账户额度，无需额外的订阅费用。', gatedBody: '模型咨询与预算评估完全免费。视频生成按量消耗你的 MaxVideoAI 账户额度，无需额外的订阅费用。' },
+      confirmation: { title: '经你核准方才扣费', liveBody: 'MaxVideoAI 严格校验请求并返回限时精准报价。只有在你明确同意该报价后，才会正式启动生成。', gatedBody: '在 MaxVideoAI 平台核对请求与价格，并由你亲自提交。助手集成始终保持严格的扣费核准隔离。', steps: ['对比最佳方案与候选模型', '核对参数、参考素材与价格', '一次确认并实时跟踪进度'] },
+      controls: { title: '隐私资产与支出完全归属于你的账户', body: 'OAuth 授权无缝绑定账户，绝不会泄露密码、支付数据或直接开放数据库权限。', items: ['私有提示词与参考图 URL 绝不计入公开获取分析。', '每一笔扣费生成均需显式确认；账户防超支保护为你保驾护航。', '随时可在账户设置中移除客户端并吊销授权。'] },
+      capabilities: { title: '从初步决策到最终交付', body: '该集成将创意灵感指引与实时产品能力结合。远程 MCP 服务器保证模型能力、价格、账户状态与生成状态时刻保持最新。', items: ['为每个镜头推荐最契合且可执行的模型并说明替代方案。', '为完整影片使用单一模型或组合方案进行精准预算。', '在提交前严格校验提示词、参数以及图片、视频和音频参考。', '展示精准价格，要求用户确认，跟踪任务进展并提供成片或退款处理。'] },
+      setup: { title: '根据你的工作习惯选择 Claude、ChatGPT 或 Codex', body: '三者均无缝连接同一 MaxVideoAI 账户、实时模型库与支出确认边界。各自均配有专门的连接器、应用或插件配置指南。' },
+      faq: { title: '连接前常见问题', items: [{ question: 'AI 助手总是自动替我选择模型吗？', answer: '不会。它只会在必要参数缺失时询问你的优先级偏好，提供具体候选方案，并在模型支持的情况下始终优先尊重你的首选模型。' }, { question: '它会总是推荐 Seedance 2.5 吗？', answer: '如果当前场景要求高品质且契合该模型特性，它会将其作为优先推荐。若你侧重控制成本，它也会给出具备性价比的替代选项与最新报价。' }, { question: '如果生成失败了怎么办？', answer: 'AI 助手会自动检索失败任务的当前状态。若因技术故障导致彻底失败，系统会自动退还扣费；若要尝试新的创意微调，需重新报价并由你再次确认。' }] },
+      support: { label: '联系 MaxVideoAI 官方支持', href: '/zh/contact' },
+    },
+  };
+}
+
+const COPY: Record<AppLocale, McpPageCopy> = { en: EN, fr: frenchCopy(), es: spanishCopy(), zh: chineseCopy() };
 
 export function getMcpPageCopy(locale: AppLocale): McpPageCopy {
   return { ...COPY[locale], meta: getMcpEditorialCopy(locale).meta };

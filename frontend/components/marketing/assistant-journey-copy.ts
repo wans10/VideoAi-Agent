@@ -17,4 +17,10 @@ export const ASSISTANT_JOURNEY_COPY = {
   {title:'El precio',heading:'Tú das la autorización.',body:'Revisa el precio exacto de la configuración elegida antes de autorizar la generación.',detail:'Ninguna generación empieza sin tu autorización.'},
   {title:'Tu video',heading:'Encuéntralo en MaxVideoAI.',body:'Cuando termine la generación, revisa el resultado y sigue trabajando desde tu biblioteca.',detail:'Ver · descargar · preparar la siguiente escena'},
  ]},
+ zh: {label:'体验典型创作流程',steps:[
+  {title:'你的构想',heading:'保持上下文连贯。',body:'你的助手已了解项目背景。直接以这段对话为起点开始制作视频。',detail:'“请根据我们正在讨论的发布概念制作一段短片。”'},
+  {title:'甄选模型',heading:'明晰各项关键指标。',body:'横向对比契合的模型、技术规格以及场景所需的参考素材要求。',detail:'模型 · 时长 · 格式 · 参考素材'},
+  {title:'透明价格',heading:'全由你做主。',body:'在授权开始生成前，明确查看当前选定配置的精准报价。',detail:'未经你的明确同意，绝不扣费生成。'},
+  {title:'生成视频',heading:'在 MaxVideoAI 中查看。',body:'生成完成后，预览成片并在媒体库中继续后续编辑。',detail:'预览 · 下载 · 制作下一镜头'},
+ ]},
 };

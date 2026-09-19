@@ -16,6 +16,7 @@ const internalHrefPatternsByLocale: Record<AppLocale, readonly RegExp[]> = {
   en: [neutralInternalHrefPattern, generationInternalHrefPattern],
   fr: [neutralInternalHrefPattern, generationInternalHrefPattern, /^\/fr\/(?:(?:modeles|exemples|comparatif)\/[^\s]+|tarifs(?:#[^\s]+)?)$/],
   es: [neutralInternalHrefPattern, generationInternalHrefPattern, /^\/es\/(?:(?:modelos|ejemplos|comparativa)\/[^\s]+|precios(?:#[^\s]+)?)$/],
+  zh: [neutralInternalHrefPattern, generationInternalHrefPattern, /^\/zh\/(?:(?:models|examples|ai-video-engines)\/[^\s]+|pricing(?:#[^\s]+)?)$/],
 };
 
 const metaSchema = z.object({

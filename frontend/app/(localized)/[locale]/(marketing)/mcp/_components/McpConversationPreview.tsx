@@ -22,6 +22,12 @@ const COPY: Record<AppLocale, { label: string; user: string; assistant: string; 
     assistant: 'La dividiré en planos, comprobaré el mejor modelo actual para cada uno y calcularé ambos proyectos antes de que elijas.',
     actions: ['Prompts y referencias', 'Presupuestos completos', 'Aprobación del precio exacto'],
   },
+  zh: {
+    label: '对话示例',
+    user: '我需要制作一段 60 秒的短片。请优先考虑质感，但同时也提供一个可靠的高性价比预算方案。',
+    assistant: '我将把需求拆解为具体分镜，为每个镜头评估当前最佳模型，并在你确认前分别计算两套完整影片的详细预算。',
+    actions: ['构思提示词与参考图', '对比整片预算方案', '确认精准报价'],
+  },
 };
 
 export function McpConversationPreview({ locale }: { locale: AppLocale }) {

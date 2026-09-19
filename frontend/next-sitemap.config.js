@@ -10,8 +10,8 @@ const localizedSlugConfig = require('./config/localized-slugs.json');
 const { Client } = require('pg');
 
 const SITE_URL = 'https://maxvideoai.com';
-const LOCALES = ['en', 'fr', 'es'];
-const LOCALE_PREFIXES = { en: '', fr: 'fr', es: 'es' };
+const LOCALES = ['en', 'fr', 'es', 'zh'];
+const LOCALE_PREFIXES = { en: '', fr: 'fr', es: 'es', zh: 'zh' };
 const ENGLISH_ONLY_PATHS = new Set(['/return-policy']);
 const mcpIndexable =
   mcpPublication.publicIndexing &&

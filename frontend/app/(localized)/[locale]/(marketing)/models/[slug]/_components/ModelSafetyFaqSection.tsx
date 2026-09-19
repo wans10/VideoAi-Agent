@@ -32,6 +32,7 @@ const DEFAULT_SAFETY_TITLE_BY_LOCALE: Record<AppLocale, string> = {
   en: 'Safety & people / likeness',
   fr: "Sécurité, personnes et droit à l'image",
   es: 'Seguridad, personas y parecido',
+  zh: '安全与人物肖像规范',
 };
 
 export function ModelSafetyFaqSection({

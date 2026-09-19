@@ -148,6 +148,45 @@ const COPY: Record<AppLocale, AboutCopy> = {
       legal: 'Centro legal',
     },
   },
+  zh: {
+    meta: {
+      title: '关于 MaxVideoAI',
+      description: '认识 MaxVideoAI 的创作者，了解我们的产品理念、模型横向对比及编辑评测方法论的维护原则。',
+    },
+    hero: {
+      eyebrow: '关于 MaxVideoAI',
+      title: '更清晰、高效地挑选与使用前沿 AI 视频模型。',
+      subtitle: 'MaxVideoAI 将多模型横向对比、生成前透明报价与生产级制作工作流融于一体，打造专注于创意的生成环境。',
+    },
+    identity: {
+      label: '构建与维护者',
+      body: 'Adrien 负责产品的核心架构与研发、持续评测各家前沿模型表现，并维护 MaxVideoAI 的实用指南与评测基准方法论。',
+    },
+    sections: [
+      {
+        title: '我们所构建的产品',
+        body: '一个整合当下最新及经典 AI 视频模型的一站式工作区，支持精细准备输入参数、生成前获知准确价格，并实时预览交付成果。',
+      },
+      {
+        title: '为何模型选型至关重要',
+        body: '不同的镜头需要不同的模型强项。MaxVideoAI 将模型能力边界、实时定价、实测案例与控制项全面透明化，助你做出切实高效的决策。',
+      },
+      {
+        title: '我们如何评估模型',
+        body: '官方提供商规格、生产实测耗时与 MaxVideoAI 专业编辑评分严格区分，并公开对应的方法论支撑。',
+      },
+    ],
+    independence: {
+      title: '商业关系声明',
+      body: 'MaxVideoAI 提供其评测模型的商业化接入与生成服务。我们完全透明地公开这一商业属性，并坚决将客观来源事实、生产实测指标与主观编辑评价清晰隔离。',
+    },
+    links: {
+      standards: '查阅编辑准则',
+      benchmarks: '前往评测实验室',
+      company: '企业与信任',
+      legal: '法律合规中心',
+    },
+  },
 };
 
 export function getAboutCopy(locale: AppLocale): AboutCopy {

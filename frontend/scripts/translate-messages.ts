@@ -9,7 +9,7 @@ const BASE_PATH = process.cwd();
 dotenv.config({ path: path.resolve(BASE_PATH, '.env.local'), override: true });
 dotenv.config();
 
-type Locale = 'fr' | 'es';
+type Locale = 'fr' | 'es' | 'zh';
 type Dictionary = Record<string, unknown>;
 type FlatDictionary = Record<string, string>;
 
@@ -26,6 +26,7 @@ const SOURCE_PATH = path.resolve(BASE_PATH, 'messages/en.json');
 const TARGET_PATHS: Record<Locale, string> = {
   fr: path.resolve(BASE_PATH, 'messages/fr.json'),
   es: path.resolve(BASE_PATH, 'messages/es.json'),
+  zh: path.resolve(BASE_PATH, 'messages/zh.json'),
 };
 const GLOSSARY_PATH = path.resolve(BASE_PATH, 'scripts/glossary.json');
 

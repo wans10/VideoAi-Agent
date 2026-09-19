@@ -45,6 +45,7 @@ export const MODELS_SCOPE_NAV_LABELS: Record<AppLocale, ScopeNavLabelMap> = {
   en: { all: 'All models', video: 'Video models', image: 'Image models' },
   fr: { all: 'Tous les modèles', video: 'Modèles vidéo', image: "Modèles d'image" },
   es: { all: 'Todos los modelos', video: 'Modelos de video', image: 'Modelos de imagen' },
+  zh: { all: '全部模型', video: '视频模型', image: '图像模型' },
 };
 
 const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePageDefaults>> = {
@@ -339,6 +340,105 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       breadcrumbCurrent: 'Modelos de imagen',
     },
   },
+  zh: {
+    all: {
+      metaTitle: 'AI 视频与图像模型：规格、限制与定价 | MaxVideoAI',
+      metaDescription:
+        'AI 视频与图像模型目录，包含规格、限制和定价信号。在生成前全面评估各项模型能力。',
+      heroTitle: 'AI 模型（规格、限制与定价）',
+      heroSubhead: '在同一个目录中浏览视频与图像模型，然后根据你的工作流打开对应的专用工作区。',
+      heroBullets: [
+        '查看每个模型的规格、定价以及工作流建议。',
+        '在视频与图像分类间快速筛选，锁定最适合你创作的引擎。',
+      ],
+      gridSrTitle: 'MaxVideoAI 上的 AI 视频与图像模型，包含规格、限制与定价',
+      bridgeText: '使用模型卡片验证能力，然后打开视频或图像工作区细化选择。',
+      chooseOutcomeTitle: '按模型家族选择',
+      chooseOutcomeSubtitle: '先确定生成媒体类型，再按限制与定价进一步缩小范围。',
+      reliabilityTitle: '运行前的实用检查',
+      reliabilitySubtitle: '在启动生成任务前，核对媒体类型、输出约束和账单计费方式。',
+      ctaTitle: '准备好测试模型了吗？',
+      ctaSubtitle: '先在上方确认模型规格，然后直接进入对应的工作区开始生成。',
+      ctaPills: ['最新模型规格', '实时价格透明', '按任务需求选择'],
+      ctaMicrocopy: '视频与图像规格 • 实时定价 • 工作区深度集成',
+      ctaPrimaryLabel: '打开视频工作区',
+      ctaPrimaryHref: '/app',
+      ctaSecondaryLabel: '打开图像工作区',
+      ctaSecondaryHref: '/app/image',
+      nextStepsTitle: '后续操作',
+      nextStepLinks: [
+        { label: '打开视频工作区', href: '/app' },
+        { label: '打开图像工作区', href: '/app/image' },
+        { label: '查看价格中心', href: '/pricing' },
+        { label: '探索 AI 视频引擎对比', href: '/ai-video-engines' },
+      ],
+      breadcrumbCurrent: '所有模型',
+    },
+    video: {
+      metaTitle: 'AI 视频模型：规格、限制与定价 | MaxVideoAI',
+      metaDescription:
+        'AI 视频生成模型目录，涵盖 Kling、Haiper、Luma 等。在生成前比较动作控制、时长限制和定价。',
+      heroTitle: 'AI 视频模型（规格、限制与定价）',
+      heroSubhead: '在启动生成前，检查动态控制、时长上限以及每秒计费成本。',
+      heroBullets: [
+        '查看文生视频与图生视频限制、运镜控制和扩展选项。',
+        '准备好生成连续镜头时，直接打开视频工作区。',
+      ],
+      gridSrTitle: 'MaxVideoAI 上的 AI 视频模型，包含规格、限制与定价',
+      bridgeText: '使用模型卡片比较动态质量、生成时长与定价，选出最适合的视频引擎。',
+      chooseOutcomeTitle: '按视频生成工作流选择',
+      chooseOutcomeSubtitle: '从文生视频、图生视频、动作控制或制作时长需求出发进行选择。',
+      reliabilityTitle: '视频模型核心检查项',
+      reliabilitySubtitle: '在提交渲染前确认时长上限、相机运动支持及单次生成费用。',
+      ctaTitle: '几秒内开启视频生成',
+      ctaSubtitle: '在上方选择视频模型，然后打开视频工作区开始生成画面或动画。',
+      ctaPills: ['每秒计费透明', '动态与运镜控制', '时长上限明确'],
+      ctaMicrocopy: '视频规格 • 实时计费 • 丰富相机运动',
+      ctaPrimaryLabel: '打开视频工作区',
+      ctaPrimaryHref: '/app',
+      ctaSecondaryLabel: '浏览所有模型',
+      ctaSecondaryHref: '/models',
+      nextStepsTitle: '后续操作',
+      nextStepLinks: [
+        { label: '打开视频工作区', href: '/app' },
+        { label: '查看 Kling 3.0 详情', href: { pathname: '/models/[slug]', params: { slug: 'kling-3-0' } } },
+        { label: '查看 Haiper 2.0 详情', href: { pathname: '/models/[slug]', params: { slug: 'haiper-2-0' } } },
+      ],
+      breadcrumbCurrent: '视频模型',
+    },
+    image: {
+      metaTitle: 'AI 图像模型：规格、限制与定价 | MaxVideoAI',
+      metaDescription:
+        'AI 图像生成模型目录，包含 Nano Banana、Midjourney 等。在生成前核对参考图限制、分辨率与定价。',
+      heroTitle: 'AI 图像模型（规格、限制与定价）',
+      heroSubhead: '在生成前全面审查静态图像模型能力、编辑约束以及每张图像计费。',
+      heroBullets: [
+        '核对文生图与编辑工作流、参考图像限制及分辨率选项。',
+        '准备好生成静态图或参考图引导编辑时，使用图像工作区。',
+      ],
+      gridSrTitle: 'MaxVideoAI 上的 AI 图像模型，包含规格、限制与定价',
+      bridgeText: '使用模型卡片审查图像工作流、编辑约束与价格，选择最合适的图像模型。',
+      chooseOutcomeTitle: '按静态图像工作流选择',
+      chooseOutcomeSubtitle: '根据创建还是编辑、参考图需求、输出尺寸及单图费用进行决策。',
+      reliabilityTitle: '图像模型核心检查项',
+      reliabilitySubtitle: '在提交图像任务前确认参考图上限、输出分辨率控制与单次价格。',
+      ctaTitle: '几秒内开启图像生成',
+      ctaSubtitle: '在上方选择图像模型，然后打开 Image Lab 快速生成草稿、终稿或局部重绘。',
+      ctaPills: ['按图计费', '参考图限制', '分辨率选项'],
+      ctaMicrocopy: '图像规格 • 实时定价 • 支持参考图工作流',
+      ctaPrimaryLabel: '打开图像工作区',
+      ctaPrimaryHref: '/app/image',
+      ctaSecondaryLabel: '浏览所有模型',
+      ctaSecondaryHref: '/models',
+      nextStepsTitle: '后续操作',
+      nextStepLinks: [
+        { label: '打开图像工作区', href: '/app/image' },
+        { label: '查看 Nano Banana 2 详情', href: { pathname: '/models/[slug]', params: { slug: 'nano-banana-2' } } },
+        { label: '查看 Nano Banana Pro 详情', href: { pathname: '/models/[slug]', params: { slug: 'nano-banana-pro' } } },
+      ],
+      breadcrumbCurrent: '图像模型',
+    },
+  },
 };
 
 export function getModelsScopeEnglishPath(scope: ModelsPageScope): string {
@@ -351,5 +451,5 @@ export function getModelsScopePath(scope: ModelsPageScope, locale: AppLocale): s
 }
 
 export function getScopeDefaults(scope: ModelsPageScope, locale: AppLocale): ScopePageDefaults {
-  return MODELS_SCOPE_DEFAULTS[locale][scope];
+  return (MODELS_SCOPE_DEFAULTS[locale] ?? MODELS_SCOPE_DEFAULTS.en)[scope];
 }

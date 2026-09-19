@@ -56,6 +56,9 @@ const CHECKOUT_COPY_BY_LOCALE: Record<
   es: {
     productName: 'Recarga de billetera',
   },
+  zh: {
+    productName: '钱包充值',
+  },
 };
 
 export const dynamic = 'force-dynamic';

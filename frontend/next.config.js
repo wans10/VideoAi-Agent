@@ -17,18 +17,23 @@ const MARKETING_CDN_CACHE_PATHS = [
   '/',
   '/fr',
   '/es',
+  '/zh',
   '/fr/tarifs',
   '/es/precios',
+  '/zh/pricing',
   '/fr/modeles/:path*',
   '/es/modelos/:path*',
+  '/zh/models/:path*',
 ];
 const CONTENT_GLOBS = [
   '../content/en/blog/**/*',
   '../content/fr/blog/**/*',
   '../content/es/blog/**/*',
+  '../content/zh/blog/**/*',
   '../content/docs/**/*',
   '../content/fr/docs/**/*',
   '../content/es/docs/**/*',
+  '../content/zh/docs/**/*',
   '../content/models/**/*',
   '../content/comparisons/**/*',
 ];

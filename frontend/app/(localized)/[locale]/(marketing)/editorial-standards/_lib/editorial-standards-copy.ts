@@ -204,6 +204,57 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
     ],
     links: { about: 'Acerca del responsable', benchmarks: 'Abrir Benchmark Lab', contact: 'Contactar a MaxVideoAI' },
   },
+  zh: {
+    meta: {
+      title: '编辑准则与标准',
+      description: '了解 MaxVideoAI 如何处理内容署名、事实来源、勘误更新、评测基准调整及商业利益披露。',
+    },
+    hero: {
+      eyebrow: 'MaxVideoAI 编辑规范',
+      title: '面向实用 AI 视频研究的编辑标准。',
+      intro: '这些标准阐述了内容的责任人、各项主张的事实依据，以及重大勘误或评测方法论变更的发布流程。',
+      reviewedLabel: '最近审核',
+      reviewedDate: '2026-07-12',
+    },
+    sections: [
+      {
+        id: 'authorship',
+        title: '作者与责任归属',
+        body: 'Adrien Millot（创始人兼产品主管）是 MaxVideoAI 的主要作者和编辑负责人。若有其他撰稿人编写或实质性审阅页面，其身份将在页面上明确标示。',
+      },
+      {
+        id: 'sources',
+        title: '数据来源标识',
+        body: '我们严格区分模型提供商官方文档、MaxVideoAI 产品配置、匿名化的生产环境实测指标以及 MaxVideoAI 专业编辑评判。',
+        bullets: [
+          '提供商技术规格直接链接至官方或产品原始出处。',
+          '实测耗时反映持续滚动的实际运行表现，而非人工受控环境下的理论极限。',
+          '编辑评分为 MaxVideoAI 在公开方法论框架下的专业评测结论。',
+        ],
+      },
+      {
+        id: 'process',
+        title: '发布前审核',
+        body: '在发布或进行重大更新之前，所有关于产品的核心陈述均会结合现行路由、数据源、实际展示的价格以及可用控制项进行严格核验。',
+      },
+      {
+        id: 'corrections',
+        title: '事实勘误',
+        body: '如发现事实性错误，请发送邮件至 support@maxvideoai.com，并附上页面链接及支撑材料。重大勘误将在更新页面的同时调整修改日期，并保留原始发布日期。',
+      },
+      {
+        id: 'benchmarks',
+        title: '评测基准更新',
+        body: '所有评测定义、计算公式、提示词测试方案、实测延迟计算规则以及方法论演进均在 Benchmark Lab 中实行版本化管理。历史编辑评分绝不混同于提示词套件的实测记录。',
+      },
+      {
+        id: 'disclosure',
+        title: '商业利益透明声明',
+        body: 'MaxVideoAI 提供其所对比模型的接入与生成服务。我们完全透明地公开这一商业关系，并坚决将客观来源事实、生产实测指标与主观编辑评价清晰隔离。',
+      },
+    ],
+    links: { about: '了解负责人背景', benchmarks: '前往评测实验室', contact: '联系 MaxVideoAI' },
+  },
 };
 
 export function getEditorialStandardsCopy(locale: AppLocale): EditorialStandardsCopy {

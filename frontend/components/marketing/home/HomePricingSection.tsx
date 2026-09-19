@@ -8,9 +8,10 @@ const COPY = {
  en:{eyebrow:'Made to fit your idea',title:'Pay for the video you need.',body:'Model, duration, resolution: choose what you need. See the price before you generate, with no subscription.'},
  fr:{eyebrow:'Juste ce qu’il vous faut',title:'Payez pour la vidéo dont vous avez besoin.',body:'Modèle, durée, résolution : choisissez ce qu’il vous faut. Le prix s’affiche avant de lancer, sans abonnement.'},
  es:{eyebrow:'Solo lo que necesitas',title:'Paga por el video que necesitas.',body:'Modelo, duración, resolución: elige lo que necesitas. Conoce el precio antes de generar, sin suscripción.'},
+ zh:{eyebrow:'贴合你的创作需求',title:'仅为你需要的视频生成付费。',body:'自由选择模型、时长与分辨率。生成前价格一目了然，无需任何订阅费用。'},
 };
 export function HomePricingSection({locale,models,copy}:{locale:AppLocale;models:HomePriceModel[];copy:SectionCopy}) {
- const c = COPY[locale];
+ const c = COPY[locale] ?? COPY.en;
  return <section id="your-price" className="home-price-lab section"><div className="container-page">
   <header className="chapter-heading"><div><p className="editorial-eyebrow">{c.eyebrow}</p><h2>{c.title}</h2></div><p>{c.body}</p></header>
   <HomePriceDemo locale={locale} models={models}/>

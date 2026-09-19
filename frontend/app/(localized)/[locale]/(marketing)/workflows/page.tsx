@@ -191,6 +191,56 @@ const WORKFLOW_FALLBACKS: Record<
       secondaryCta: 'Ver ejemplos',
     },
   },
+  zh: {
+    hero: {
+      title: '创作工作流',
+      subtitle: '可复现的高效 AI 视频工作流：挑选生成引擎、设定镜头参数、实时预览价格，并生成可重用的多个候选变体。',
+      primaryCta: '立即开始生成',
+      secondaryCta: '浏览精选案例',
+      tertiaryCta: '对比主流模型',
+    },
+    how: {
+      title: '工作原理（实时生成）',
+      steps: [
+        { title: '选择引擎与生成模式', description: '文生视频、图生视频，以及支持时的参考资产输入。' },
+        { title: '设定镜头关键参数', description: '时长、画面比例、清晰度、变体数量以及音频开关。' },
+        { title: '编写提示词 + 添加参考', description: '输入细致的画面描述，可按需上传参考图片或视频。' },
+        { title: '生成并评估不同变体', description: '以网格视图实时预览，一键复制提示词并按镜头下载。' },
+      ],
+    },
+    capabilities: {
+      title: '现已支持的核心功能',
+      items: [
+        { title: '生成前价格实时可见', description: '调整模型、时长或分辨率时，价格标签实时联动更新。' },
+        { title: '单次运行生成 1-4 个变体', description: '使用相同参数一次性渲染多个不同随机种子的候选版本。' },
+        { title: '一键复用任意生成提示词', description: '直接从满意的历史镜头中复制并改良提示词。' },
+        { title: '无缝继续 / 精细微调', description: '一键回填选定镜头的全部参数，持续迭代生成。' },
+        { title: '按独立镜头导出下载', description: '高质量无水印独立下载每个生成的视频片段。' },
+        { title: '完整的生成历史记录', description: '在任务中心与作品库中随时回顾过往生成的作品。' },
+      ],
+    },
+    examples: {
+      title: '可复用的真实提示词案例',
+      subtitle: '查看精选案例 -> 复制提示词 -> 在工作区中即刻生成。',
+      viewLabel: '查看',
+    },
+    faq: {
+      title: '常见问题解答',
+      items: [
+        { question: '“生成前明确价格”是如何运作的？', answer: '当你切换模型、修改时长或分辨率时，页面上的价格标签会实时重算。只有在生成成功完成时才会扣费。' },
+        { question: '生成变体（Iterations）代表什么？', answer: '它允许你在单次任务中使用相同的参数配置同时生成 1 到 4 个不同风格细节的候选视频。' },
+        { question: '为什么不同模型的时长和分辨率选项不尽相同？', answer: '每个 AI 视频引擎的底层技术能力不同，界面会智能展示该模型当前实际支持的可用参数。' },
+        { question: '什么时候可以生成包含音频的视频？', answer: '音频控制项仅在原生支持音效的模型上显示，开启后将同时渲染对齐的声音与画面。' },
+        { question: '我可以在哪里查看我之前生成的视频？', answer: '进入任务中心（/jobs）查看个人历史生成，或在案例库（/examples）寻找可复用的提示词灵感。' },
+      ],
+    },
+    cta: {
+      title: '数秒内开启你的视频创作',
+      subtitle: '选择引擎、设定镜头、查看价格、生成专属视频变体。',
+      primaryCta: '立即开始生成',
+      secondaryCta: '查看精选案例',
+    },
+  },
 };
 
 function serializeJsonLd(data: unknown): string {

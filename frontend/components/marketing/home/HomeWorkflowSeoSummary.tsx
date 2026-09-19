@@ -6,12 +6,13 @@ const COPY = {
  en:{title:'What are you starting with?',body:'A prompt, a still image or an existing clip: choose a workflow that fits your material.',cards:[['Text-to-video','Describe a scene. Explore videos and prompts.'],['Image-to-video','Animate a still image with a compatible model.'],['Video-to-video','Check which models accept existing clips.']]},
  fr:{title:'Quel est votre point de départ ?',body:'Une description, une image ou un clip existant : choisissez le parcours adapté à votre projet.',cards:[['Texte-vers-vidéo','Décrivez une scène. Explorez les vidéos et leurs prompts.'],['Image-vers-vidéo','Animez une image avec un modèle compatible.'],['Vidéo-vers-vidéo','Vérifiez quels modèles acceptent des clips existants.']]},
  es:{title:'¿Con qué quieres empezar?',body:'Una descripción, una imagen o un clip existente: elige el proceso adecuado para tu proyecto.',cards:[['Texto a video','Describe una escena. Explora videos y prompts.'],['Imagen a video','Anima una imagen con un modelo compatible.'],['Video a video','Revisa qué modelos admiten clips existentes.']]},
+ zh:{title:'你的创作从何开始？',body:'一段提示词、一张静态图片或一段现有视频：选择适合你现有素材的生成工作流。',cards:[['文生视频','描述一段场景。探索精选案例与提示词。'],['图生视频','使用兼容的模型让静态图片动起来。'],['视频生视频','查看哪些模型支持基于现有视频进行重绘。']]},
 };
 const LINKS: LocalizedLinkHref[] = ['/examples',{pathname:'/ai-video-engines/best-for/[usecase]',params:{usecase:'image-to-video'}},'/models'];
 
 export function WorkflowSeoSummary({ copy, locale }: { copy: WorkflowSeoSummaryCopy; locale: AppLocale }) {
  if (!copy.generateWays?.items?.length) return null;
- const c = COPY[locale];
+ const c = COPY[locale] ?? COPY.en;
  return <aside className="home-workflow-summary border-y border-hairline bg-surface py-6 sm:py-8">
   <div className="container-page max-w-[1280px]">
    <div><h2>{c.title}</h2><p>{c.body}</p></div>

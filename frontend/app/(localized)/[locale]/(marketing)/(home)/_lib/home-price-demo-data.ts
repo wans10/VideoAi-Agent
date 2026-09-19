@@ -1,6 +1,7 @@
 import en from '@/messages/en.json';
 import fr from '@/messages/fr.json';
 import es from '@/messages/es.json';
+import zh from '@/messages/zh.json';
 import { listFalEngines } from '@/config/falEngines';
 import type { AppLocale } from '@/i18n/locales';
 import { getPresetQuote, isPricingDiscoveryEntry } from '../../pricing/_lib/pricingHubData';
@@ -15,7 +16,7 @@ export function buildHomePriceDemo(locale: AppLocale): HomePriceModel[] {
     return quote.status === 'exact' && quote.amountCents != null && quote.display
       ? [{...scenario, amountCents:quote.amountCents, display:quote.display}] : [];
   });
-  const messages = {en,fr,es}[locale].workspace;
-  const workspaceCopy = {header:{controlLabels:messages.header.controlLabels},generate:{controls:{...messages.generate.controls,audio:{label:'Audio',on:locale === 'fr' ? 'Oui' : locale === 'es' ? 'Sí' : 'On',off:locale === 'fr' ? 'Non' : locale === 'es' ? 'No' : 'Off'}},composer:messages.generate.composer}};
+  const messages = {en,fr,es,zh}[locale].workspace;
+  const workspaceCopy = {header:{controlLabels:messages.header.controlLabels},generate:{controls:{...messages.generate.controls,audio:{label:locale === 'zh' ? '音频' : 'Audio',on:locale === 'fr' ? 'Oui' : locale === 'es' ? 'Sí' : locale === 'zh' ? '开' : 'On',off:locale === 'fr' ? 'Non' : locale === 'es' ? 'No' : locale === 'zh' ? '关' : 'Off'}},composer:messages.generate.composer}};
   return steps.length === HOME_PRICE_SCENARIOS.length ? [{engine:entry.engine, workspaceCopy, steps}] : [];
 }

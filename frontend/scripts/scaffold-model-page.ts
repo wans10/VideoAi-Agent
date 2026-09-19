@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-type Locale = 'en' | 'fr' | 'es';
+type Locale = 'en' | 'fr' | 'es' | 'zh';
 
 type Options = {
   fromSlug: string;
@@ -21,8 +21,8 @@ type ModelOverlay = Record<string, unknown>;
 const FRONTEND_ROOT = process.cwd();
 const REPO_ROOT = path.resolve(FRONTEND_ROOT, '..');
 const MODELS_ROOT = path.join(REPO_ROOT, 'content', 'models');
-const DEFAULT_LOCALES: Locale[] = ['en', 'fr', 'es'];
-const MODEL_ROUTE_PREFIXES = ['/models', '/fr/modeles', '/es/modelos'] as const;
+const DEFAULT_LOCALES: Locale[] = ['en', 'fr', 'es', 'zh'];
+const MODEL_ROUTE_PREFIXES = ['/models', '/fr/modeles', '/es/modelos', '/zh/models'] as const;
 const PROVIDER_PREFIX = /^(OpenAI|Google(?: DeepMind)?|Google|DeepMind)\s+/i;
 
 function usage(): string {

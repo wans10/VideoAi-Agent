@@ -51,6 +51,7 @@ const LOCALIZED_HREFS: Record<AppLocale, readonly RegExp[]> = {
   en: [/^\/(?:(?:models|examples)(?:\/[^\s?#]+)?|ai-video-engines\/[^\s?#]+(?:\?order=[a-z0-9-]+)?|pricing(?:#[^\s]+)?)$/],
   fr: [/^\/fr\/(?:(?:modeles|galerie)(?:\/[^\s?#]+)?|comparatif\/[^\s?#]+(?:\?order=[a-z0-9-]+)?|tarifs(?:#[^\s]+)?)$/],
   es: [/^\/es\/(?:(?:modelos|galeria)(?:\/[^\s?#]+)?|comparativa\/[^\s?#]+(?:\?order=[a-z0-9-]+)?|precios(?:#[^\s]+)?)$/],
+  zh: [/^\/zh\/(?:(?:models|examples)(?:\/[^\s?#]+)?|ai-video-engines\/[^\s?#]+(?:\?order=[a-z0-9-]+)?|pricing(?:#[^\s]+)?)$/],
 };
 
 function links(content: ModelDecisionContent) {

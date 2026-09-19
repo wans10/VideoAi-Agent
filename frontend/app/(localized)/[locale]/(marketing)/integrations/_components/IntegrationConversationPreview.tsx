@@ -59,6 +59,13 @@ const COPY: Record<
     result: 'Generado con MaxVideoAI · Guardado en la biblioteca MaxVideoAI',
     facts: ['Modelos actuales', 'Precio exacto', 'Medios privados'],
   },
+  zh: {
+    label: '工作流预览',
+    user: '生成最高品质的版本，然后给我看一个可靠的低成本替代方案。',
+    assistant: 'Seedance 是高品质首选。在您确认前，我可以为您计算 H3 和 LTX 的对比报价。',
+    result: '由 MaxVideoAI 渲染 · 已保存至 MaxVideoAI 媒体库',
+    facts: ['前沿模型', '确切报价', '隐私安全'],
+  },
 };
 
 export function IntegrationConversationPreview({
@@ -68,7 +75,7 @@ export function IntegrationConversationPreview({
   client: McpClientId;
   locale: AppLocale;
 }) {
-  const copy = COPY[locale];
+  const copy = COPY[locale] ?? COPY.en;
   const mark = MARKS[client];
   const clientLabel = getMcpIntegrationLabel(client);
   const icons = [BadgeCheck, CircleDollarSign, Images] as const;

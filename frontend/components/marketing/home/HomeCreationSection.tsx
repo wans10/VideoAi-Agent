@@ -28,6 +28,14 @@ const COPY = {
     capture: 'Vista del espacio de creación · ejemplo de demostración',
     modes: [['Video', 'Convierte una idea, una imagen o un clip en tu próxima escena.'], ['Imágenes', 'Crea tu imagen inicial, explora un estilo o prepara las referencias de tu video.'], ['Audio', 'Crea también el audio de tu proyecto, en el mismo lugar que tus imágenes y videos.']],
   },
+  zh: {
+    eyebrow: '在 MaxVideoAI 中创作', title: '从初步构想到成片视频。',
+    body: '直接在此生成起始图片、上传你自己的参考素材，或直接输入场景描述。在一个工作区内选择模型并精细调整生成结果。',
+    cta: '开始制作视频', image: '生成图像', character: '制作角色', angle: '多角度机位运镜',
+    desktop: '桌面端 MaxVideoAI 视频工作区', mobile: '移动端 MaxVideoAI 视频工作区',
+    capture: '工作区实时预览 · 演示示例',
+    modes: [['视频', '将创意、参考图或现有视频转换为全新的镜头场景。'], ['图像', '生成起始帧图片、探索风格调性或为视频准备参考素材。'], ['音频', '与图片和视频同步，为你的视频项目生成配乐与音效。']],
+  },
 } satisfies Record<AppLocale, unknown>;
 
 export function HomeCreationSection({ locale, assistantHref }: { locale: AppLocale; assistantHref?: string }) {
