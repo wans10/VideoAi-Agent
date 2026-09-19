@@ -18,6 +18,9 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      # Support both variables (vars) and secrets, with fallback to repository owner
+      DOCKERHUB_USER: ${{ vars.DOCKERHUB_USERNAME || secrets.DOCKERHUB_USERNAME || 'wans10' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,14 +31,14 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ env.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Extract Docker metadata for Web
         id: meta-web
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/videoai-web
+          images: ${{ env.DOCKERHUB_USER }}/videoai-web
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || inputs.push_latest }}
             type=sha,prefix=,format=short
@@ -45,7 +48,7 @@ jobs:
         id: meta-migrate
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/videoai-db-migrate
+          images: ${{ env.DOCKERHUB_USER }}/videoai-db-migrate
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || inputs.push_latest }}
             type=sha,prefix=,format=short
@@ -74,8 +77,8 @@ jobs:
             NEXT_PUBLIC_API_BASE=/api
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL || 'https://videoai.omninodetech.com' }}
             NEXT_PUBLIC_SUPABASE_URL=${{ vars.NEXT_PUBLIC_SUPABASE_URL || 'https://sbayxqlhqhjsripkktdx.supabase.co' }}
-            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '' }}
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY || secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '' }}
             NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
