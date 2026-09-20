@@ -324,7 +324,7 @@ MINIMAX_H3 = {
         "altContext": "MiniMax H3 灯塔看守人救援场景序列"
       }
     },
-    "imageExamples": None
+    "imageExamples": null
   },
   "examples": {
     "modelSlug": "minimax-h3",

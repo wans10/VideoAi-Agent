@@ -17,6 +17,7 @@ type DeferredSourcePromptProps = {
 function getSummaryLabel(locale: string): string {
   if (locale === 'fr') return 'Prompt source (anglais)';
   if (locale === 'es') return 'Prompt original (inglés)';
+  if (locale === 'zh') return '原始英文提示词';
   return 'Source prompt';
 }
 
@@ -30,6 +31,11 @@ function getFallbackText(locale: string, mode: 'inline' | 'details'): string {
     return mode === 'details'
       ? 'El prompt original en inglés aparece después de cargar la página.'
       : 'Prompt original en inglés disponible tras la carga.';
+  }
+  if (locale === 'zh') {
+    return mode === 'details'
+      ? '原始英文提示词将在页面加载后显示。'
+      : '原始英文提示词将在加载后可用。';
   }
   return mode === 'details'
     ? 'The source prompt appears after the page finishes loading.'

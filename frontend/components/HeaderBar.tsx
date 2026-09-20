@@ -56,8 +56,8 @@ export function HeaderBar() {
   const walletPromptId = useId();
   const loginLabel = t('nav.login', 'Log in');
   const ctaLabel = t('nav.cta', 'Generate');
-  const createAccountMobile = locale === 'fr' ? 'Créer' : locale === 'es' ? 'Crear' : 'Create';
-  const signInMobile = locale === 'fr' ? 'Connexion' : locale === 'es' ? 'Entrar' : 'Sign in';
+  const createAccountMobile = locale === 'fr' ? 'Créer' : locale === 'es' ? 'Crear' : locale === 'zh' ? '注册' : 'Create';
+  const signInMobile = locale === 'fr' ? 'Connexion' : locale === 'es' ? 'Entrar' : locale === 'zh' ? '登录' : 'Sign in';
   const themeToggleLabel =
     theme === 'dark'
       ? t('workspace.header.themeToggle.toLight', 'Switch to light theme')

@@ -18,6 +18,9 @@ export function buildWatchAnchorText(locale: string, video: ExampleGalleryVideo)
   if (locale === 'es') {
     return `Ver los ajustes y el precio del ejemplo de video ${video.engineLabel} - ${video.prompt} - ${ratio} - ${duration}`;
   }
+  if (locale === 'zh') {
+    return `查看 ${video.engineLabel} 视频案例的参数设置与价格 - ${video.prompt} - ${ratio} - ${duration}`;
+  }
   return `View settings and price for ${video.engineLabel} video example - ${video.prompt} - ${ratio} - ${duration}`;
 }
 

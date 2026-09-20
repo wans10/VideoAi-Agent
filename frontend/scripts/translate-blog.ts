@@ -126,7 +126,7 @@ function rewriteInternalUrl(
   let pathname = parsedUrl.pathname;
 
   const segments = pathname.split('/').filter(Boolean);
-  if (segments[0] && ['en', 'fr', 'es'].includes(segments[0])) {
+  if (segments[0] && ['en', 'fr', 'es', 'zh'].includes(segments[0])) {
     segments.shift();
     pathname = `/${segments.join('/')}`;
   }

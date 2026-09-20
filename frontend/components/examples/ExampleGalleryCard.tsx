@@ -77,7 +77,7 @@ export function ExampleGalleryCard({
 
   const posterSrc = video.rawPosterUrl ?? null;
   const watchAnchorText = buildWatchAnchorText(locale, video);
-  const playingLabel = locale === 'fr' ? 'Lecture' : locale === 'es' ? 'En reproducción' : 'Playing';
+  const playingLabel = locale === 'fr' ? 'Lecture' : locale === 'es' ? 'En reproducción' : locale === 'zh' ? '播放中' : 'Playing';
   const durationLabel = locale === 'es' ? `${video.durationSec} s` : `${video.durationSec}s`;
 
   return (
