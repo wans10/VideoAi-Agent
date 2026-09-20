@@ -5,11 +5,11 @@ export const ZH_HUB_COPY: HubCopy = {
     eyebrow: '对比模型',
     title: '对比 AI 视频生成模型',
     intro:
-      '任意选择两个模型，一键开启横向对比。快速浏览热门对决、按核心规格筛选，并在生成前核验实际价格。涵盖文生视频、图生视频及视频重绘模型，助你为镜头选定最合适的方案。',
+      '任意选择两个模型，一键开启横向对比。使用此中心快速浏览热门对决、按核心限制筛选，并在生成前核验实际价格。涵盖文生视频、图生视频及视频重绘模型，助你为镜头选定最合适的方案。',
     compareNow: {
       left: '模型 A',
       right: '模型 B',
-      compare: '开始对比',
+      compare: '对比模型',
       searchPlaceholder: '搜索模型...',
       noResults: '未找到相关模型',
       strengthsLabel: '核心优势',
@@ -43,7 +43,7 @@ export const ZH_HUB_COPY: HubCopy = {
     prelaunchModelLabel: 'Seedance 2.0 规格档案',
     prelaunchCompareLabel: 'Seedance 2.0 对比 Sora 2',
     prelaunchCompareSecondaryLabel: 'Pika 2.2 对比 Seedance 2.0',
-    useCasesFallback: '选择具体用途，寻找契合你项目的对比推荐。',
+    useCasesFallback: '交互式标签可即时优化推荐。所有链接均为纯 HTML，便于检索。',
   },
   tagLabels: {
     audio: '音频生成',
@@ -57,30 +57,103 @@ export const ZH_HUB_COPY: HubCopy = {
     i2v: '图生视频',
     social: '社媒短视频',
     fast: '高速生成',
+    storyboards: '分镜脚本',
+  },
+  useCaseLabels: {
+    cinematic: '电影级写实',
+    ads: '商业广告',
+    social: '社媒短视频',
+    product: '商品展示',
+    storyboards: '分镜脚本',
+    audio: '原生音频',
+    'no-audio': '无音频',
+    'best-value': '高性价比',
+    'best-quality': '最高画质',
+    'text-to-video': '文生视频',
+    'image-to-video': '图生视频',
+    'video-to-video': '视频重绘',
+  },
+  popularCompareLabel: '对比',
+  catalogLabels: {
+    sortAll: '全部',
+    toggles: {
+      includeWaitlistEarlyAccess: '包含候补名单 / 抢先体验',
+    },
+    filters: {
+      mode: '生成模式',
+      audio: '音频支持',
+      duration: '生成时长',
+      resolution: '分辨率',
+      status: '状态',
+      provider: '提供方',
+      clear: '清空筛选',
+    },
+    options: {
+      all: '全部',
+      modeT2v: '文生视频',
+      modeI2v: '图生视频',
+      modeV2v: '视频重绘',
+      audioOn: '有音频',
+      audioOff: '无音频',
+      durationShort: '< 8秒',
+      durationMedium: '8-11秒',
+      durationLong: '12秒+',
+      resolution720: '720p+',
+      resolution1080: '1080p+',
+      resolution4k: '4K',
+      statusLive: '已上线',
+      statusEarly: '抢先体验',
+    },
+    specs: {
+      modes: '生成模式',
+      audio: '音频',
+      status: '状态',
+      duration: '最长时长',
+      resolution: '最高分辨率',
+      yes: '是',
+      no: '否',
+      unknown: '未知',
+      secondsSuffix: '秒',
+      statusLive: '已上线',
+      statusEarly: '抢先体验',
+    },
+    ctas: {
+      model: '模型详情',
+      compare: '对比',
+    },
+    empty: '没有符合这些筛选条件的模型。',
+  },
+  listLabels: {
+    searchPlaceholder: '搜索对比组合...',
+    loadMore: '加载更多',
+    empty: '未找到符合搜索条件的对比组合。',
   },
   faq: [
     {
-      question: '应该如何选择适合我镜头的 AI 视频模型？',
+      question: '如何快速对比两款 AI 视频模型？',
       answer:
-        '先明确你的核心输入形式：只有文本描述时首选文生视频模型；有关键帧或产品图时使用图生视频；需要修改现有视频动作时选用视频重绘。在此基础上综合考量所需时长、分辨率以及是否需要原生音效。',
+        '使用页面顶部的“对比模型”小组件，分别选择模型 A 和模型 B，点击“对比模型”即可打开标准对决页面。在两个 AI 模型上使用相同的提示词进行测试，即可在正式生成前直观对比运动连贯性与提示词还原度。',
     },
     {
-      question: '对比页面展示的价格是准确的吗？',
+      question: '为什么不同对比组合中展示的核心优势不同？',
       answer:
-        '是的。所有价格均基于各模型当前实际按量付费报价计算，生成前应用内还会向你展示最终确认价格，绝无隐藏费用。',
+        '每款模型在生成速度、提示词还原度、动态真实感、时长以及音频支持方面各有侧重。最佳选择取决于具体的镜头需求与制作周期。在生成前对比模型，能够有效节省制作时间与成本。',
     },
     {
-      question: '我可以对比同一个模型家族内的不同版本吗？',
+      question: '可以同时对比文生视频和图生视频模型吗？',
       answer:
-        '可以。例如你可以直接对比 Kling 3.0 与 Kling 3.0 Pro、或 Wan 2.1 与 Wan 2.5，直观了解专业版与基础版在画质、耗时及价格上的差异。',
+        '可以。本中心包含混合模式对决，方便你横向对比主打文本提示词、图片参考输入或两者的模型。此外，当可用时也可纳入视频重绘模型。',
+    },
+    {
+      question: '在两款实力接近的模型之间该如何抉择？',
+      answer:
+        '建议先按应用场景标签进行初步筛选，再通过直接的并排对比进行验证。若难分高下，可使用相同的文本提示词或参考图进行试跑，根据最终成片格式优先权衡还原度、运动稳定性与渲染交付速度。',
     },
   ],
 };
 
 export const ZH_BEST_FOR_CTA: BestForCtaCopy = {
-  eyebrow: '匹配你的需求',
-  title: '按应用场景挑选模型',
-  description: '电影质感、商品广告还是高速草稿？浏览为特定创作场景量身推荐的最佳模型清单。',
-  cta: '探索全部场景指南',
-  ariaLabel: '按场景查看推荐模型',
+  title: '想要场景推荐而非单独对决？',
+  body: '打开场景指南，查看电影质感、参考控制、广告、UGC、4K 与多镜头分镜的排名推荐。',
+  label: '浏览场景推荐指南',
 };
