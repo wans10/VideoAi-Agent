@@ -231,7 +231,6 @@ function buildPickReason(locale: AppLocale, usecaseSlug: string, criterion: stri
     },
   };
   const prefix = prefixes[locale]?.[Math.min(rank - 1, 2)] ?? prefixes.en[Math.min(rank - 1, 2)];
-  const suffix = suffixes[usecaseSlug]?.[locale] ?? suffixes[usecaseSlug]?.en ?? (locale === 'fr' ? 'ce cas d’usage' : locale === 'es' ? 'este objetivo' : 'this use case');
   const suffix = suffixes[usecaseSlug]?.[locale] ?? suffixes[usecaseSlug]?.en ?? (locale === 'fr' ? 'ce cas d’usage' : locale === 'es' ? 'este objetivo' : locale === 'zh' ? '此应用场景' : 'this use case');
   if (locale === 'zh') {
     return `${prefix}${criterion}，契合${suffix}。`;
