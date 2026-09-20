@@ -278,6 +278,10 @@
       {
         "locale": "es",
         "label": "Español"
+      },
+      {
+        "locale": "zh",
+        "label": "简体中文"
       }
     ],
     "sections": {
@@ -395,294 +399,294 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "Pay-as-you-go AI video generator",
+        "eyebrow": "按需付费 AI 视频生成平台",
         "badgeChips": [
-          "Multi-engine AI video generator",
-          "Price before you generate",
-          "Pay-as-you-go · no subscription"
+          "多模型 AI 视频生成",
+          "生成前明晰价格",
+          "按需付费 · 无需订阅"
         ],
-        "title": "AI video.\nPay as you go.",
-        "subtitle": "Choose your model. Bring your ideas to life. Pay only for what you create.",
-        "primaryCta": "Create a video",
-        "secondaryCta": "Explore 示例",
-        "examplesCta": "Compare engines",
+        "title": "AI 视频创作。\n按需付费，无需订阅。",
+        "subtitle": "选择心仪模型，将灵感化为现实。仅为您创作的内容付费。",
+        "primaryCta": "开始创作",
+        "secondaryCta": "浏览示例",
+        "examplesCta": "对比模型",
         "trustBadges": [
-          "Live price before you generate",
-          "Pay only successful generations",
+          "生成前明晰价格",
+          "仅为成功生成付费",
           "无需订阅",
-          "Auto-refunds on failed generations"
+          "失败自动退还积分"
         ],
         "valueCards": [
           {
-            "title": "Compare engines",
-            "body": "Models, examples and matchups before spending credits."
+            "title": "对比模型",
+            "body": "投入积分前，全方位对比模型、示例与评测得分。"
           },
           {
-            "title": "Live quote",
-            "body": "See the cost before you generate."
+            "title": "实时报价",
+            "body": "生成视频前，费用清晰透明。"
           },
           {
-            "title": "Engine 示例",
-            "body": "Browse real outputs by model family."
+            "title": "真实示例",
+            "body": "按模型系列浏览真实生成效果与提示词。"
           },
           {
             "title": "无需订阅",
-            "body": "Top up credits when needed. Failed generations are refunded."
+            "body": "按需充值积分。生成失败自动全额退款。"
           }
         ],
         "mockup": {
-          "promptLabel": "1. Describe the shot",
-          "prompt": "Cinematic product shot, controlled camera move, natural light, clean motion, audio if supported.",
-          "shotTypeLabel": "What are you making?",
+          "promptLabel": "1. 描述画面",
+          "prompt": "电影级商业广告特写，平稳运镜，自然光影，画面流畅，支持原生音频。",
+          "shotTypeLabel": "您想创作什么？",
           "shotTypes": [
-            "Cinematic ad",
-            "Product shot",
-            "Character scene",
-            "Fast draft",
-            "Camera motion"
+            "电影广告",
+            "商品特写",
+            "角色场景",
+            "快速分镜",
+            "运镜特效"
           ],
-          "engineLabel": "2. Compare recommended engines",
+          "engineLabel": "2. 对比推荐模型",
           "engineRecommendations": [
             {
               "engineId": "minimax-h3-max",
               "name": "MiniMax H3 Max",
               "provider": "MiniMax",
-              "bestFor": "Cinematic disaster storytelling",
-              "imageAlt": "A mother and child shelter during a photorealistic retro-futuristic disaster generated with MiniMax H3 Max.",
-              "fallbackPrice": "Live price",
+              "bestFor": "电影级灾难叙事",
+              "imageAlt": "使用 MiniMax H3 Max 生成的写实复古未来灾难中避难的母子画面。",
+              "fallbackPrice": "实时价格",
               "selected": true,
               "scores": [
                 {
-                  "label": "Motion",
+                  "label": "动态",
                   "value": 91
                 },
                 {
-                  "label": "Realism",
+                  "label": "真实感",
                   "value": 88
                 },
                 {
-                  "label": "Speed",
+                  "label": "速度",
                   "value": 92
                 }
               ],
               "tags": [
-                "Narrative",
-                "Native audio",
-                "Live action"
+                "叙事",
+                "原生音频",
+                "真人写实"
               ]
             },
             {
               "engineId": "seedance-2-5",
               "name": "Seedance 2.5",
               "provider": "ByteDance",
-              "bestFor": "Complex cinematic physics",
-              "fallbackPrice": "Live price",
+              "bestFor": "复杂电影级物理模拟",
+              "fallbackPrice": "实时价格",
               "scores": [
                 {
-                  "label": "Motion",
+                  "label": "动态",
                   "value": 94
                 },
                 {
-                  "label": "Realism",
+                  "label": "真实感",
                   "value": 92
                 },
                 {
-                  "label": "Speed",
+                  "label": "速度",
                   "value": 76
                 }
               ],
               "tags": [
-                "Physics",
-                "Audio",
-                "Cinematic"
+                "物理交互",
+                "音频",
+                "电影质感"
               ]
             },
             {
               "engineId": "wan-3-prime",
               "name": "Wan 3 Prime",
               "provider": "Alibaba",
-              "bestFor": "Controlled craft motion",
-              "fallbackPrice": "Live price",
+              "bestFor": "精细受控动态",
+              "fallbackPrice": "实时价格",
               "scores": [
                 {
-                  "label": "Motion",
+                  "label": "动态",
                   "value": 92
                 },
                 {
-                  "label": "Realism",
+                  "label": "真实感",
                   "value": 89
                 },
                 {
-                  "label": "Speed",
+                  "label": "速度",
                   "value": 83
                 }
               ],
               "tags": [
-                "Craft",
-                "Realism",
-                "Camera"
+                "工艺",
+                "真实感",
+                "运镜"
               ]
             },
             {
               "engineId": "kling-3-pro",
               "name": "Kling 3 Pro",
               "provider": "Kuaishou",
-              "bestFor": "运镜方式",
-              "fallbackPrice": "Live price",
+              "bestFor": "大幅度运镜",
+              "fallbackPrice": "实时价格",
               "scores": [
                 {
-                  "label": "Motion",
+                  "label": "动态",
                   "value": 94
                 },
                 {
-                  "label": "Realism",
+                  "label": "真实感",
                   "value": 86
                 },
                 {
-                  "label": "Speed",
+                  "label": "速度",
                   "value": 74
                 }
               ],
               "tags": [
-                "Camera",
-                "Audio",
-                "Multi-shot"
+                "运镜",
+                "音频",
+                "多镜头"
               ]
             },
             {
               "engineId": "ltx-2-5-pro",
               "name": "LTX 2.5 Pro",
               "provider": "Lightricks",
-              "bestFor": "Fast image animation",
-              "fallbackPrice": "Live price",
+              "bestFor": "快速图生视频",
+              "fallbackPrice": "实时价格",
               "scores": [
                 {
-                  "label": "Motion",
+                  "label": "动态",
                   "value": 88
                 },
                 {
-                  "label": "Realism",
+                  "label": "真实感",
                   "value": 84
                 },
                 {
-                  "label": "Speed",
+                  "label": "速度",
                   "value": 87
                 }
               ],
               "tags": [
                 "快速",
-                "Image",
-                "Control"
+                "图生视频",
+                "控制"
               ]
             }
           ],
-          "quoteLabel": "Cost to generate this video",
-          "quoteValue": "Live estimate",
-          "quoteMeta": "5s · 1080p · image-to-video",
-          "outputLabel": "Output previews",
-          "queueLabel": "Generation status",
+          "quoteLabel": "生成此视频的预估费用",
+          "quoteValue": "实时估算",
+          "quoteMeta": "5秒 · 1080p · 图生视频",
+          "outputLabel": "输出预览",
+          "queueLabel": "生成状态",
           "queueItems": [
-            "Generating preview",
-            "Receipt saved",
-            "History updated"
+            "正在生成预览",
+            "收据已保存",
+            "历史记录已更新"
           ],
-          "generateCta": "Generate with this engine",
-          "refundNote": "Credits returned if generation fails",
-          "playLabel": "Play engine preview",
-          "pauseLabel": "Pause engine preview",
-          "loadingLabel": "Loading preview",
-          "errorLabel": "Preview unavailable",
-          "retryLabel": "Retry preview",
-          "fullscreenLabel": "Fullscreen preview",
-          "soundOnLabel": "Turn preview sound on",
-          "soundOffLabel": "Turn preview sound off",
-          "progressLabel": "Preview progress"
+          "generateCta": "使用该模型生成",
+          "refundNote": "生成失败积分自动退回",
+          "playLabel": "播放模型预览",
+          "pauseLabel": "暂停模型预览",
+          "loadingLabel": "正在加载预览",
+          "errorLabel": "预览不可用",
+          "retryLabel": "重试预览",
+          "fullscreenLabel": "全屏预览",
+          "soundOnLabel": "开启预览声音",
+          "soundOffLabel": "关闭预览声音",
+          "progressLabel": "预览进度"
         }
       },
       "proof": {
         "items": [
           {
             "id": "engines",
-            "label": "AI engines"
+            "label": "AI 视频模型"
           },
           {
             "id": "providers",
-            "label": "Providers"
+            "label": "顶级厂商"
           },
           {
             "id": "textToVideo",
-            "label": "Text-to-video"
+            "label": "文生视频"
           },
           {
             "id": "imageToVideo",
-            "label": "Image-to-video"
+            "label": "图生视频"
           },
           {
             "id": "videoToVideo",
-            "label": "Video-to-video"
+            "label": "视频生视频"
           },
           {
             "id": "audio",
-            "label": "Audio-supported"
+            "label": "原生音频支持"
           },
           {
             "id": "fourK",
-            "label": "Options"
+            "label": "生成选项"
           },
           {
             "id": "successfulGenerations",
-            "label": "Successful generations"
+            "label": "成功生成次数"
           }
         ]
       },
       "shotTypes": {
-        "title": "Find the right engine by use case.",
-        "subtitle": "Cinematic stories, animation, social videos or quick experiments: start with the creative goal.",
-        "eyebrow": "Find your direction",
-        "cta": "View all best-for guides",
-        "hubCtaTitle": "View all best-for guides",
-        "hubCtaBody": "Browse all use cases and find the right engine for every job.",
-        "guideLabel": "Best-for guide",
-        "topPicksLabel": "Suggested models",
+        "title": "按应用场景寻找契合的模型。",
+        "subtitle": "电影叙事、动效制作、社交媒体短视频或快速创意验证：从您的创作目标出发。",
+        "eyebrow": "明确您的创作方向",
+        "cta": "查看全部场景指南",
+        "hubCtaTitle": "查看全部场景指南",
+        "hubCtaBody": "浏览全部使用场景，为每个任务挑选最合适的模型。",
+        "guideLabel": "精选场景指南",
+        "topPicksLabel": "推荐模型",
         "cards": [
           {
             "slug": "cinematic-realism",
-            "title": "Cinematic realism",
-            "body": "Compare engines for lighting, camera motion and polished visual direction.",
-            "cta": "Open cinematic guide"
+            "title": "电影级真实感",
+            "body": "对比不同模型在光影质感、运镜与电影级视觉呈现上的表现。",
+            "cta": "打开电影质感指南"
           },
           {
             "slug": "image-to-video",
-            "title": "Image-to-video",
-            "body": "Turn a still image, style frame or product shot into controlled motion.",
-            "cta": "Open image-to-video guide"
+            "title": "图生视频",
+            "body": "将静态图像、风格分镜或商品图转化为精准受控的动态视频。",
+            "cta": "打开图生视频指南"
           },
           {
             "slug": "fast-drafts",
-            "title": "Fast drafts",
-            "body": "Find cheaper, faster routes for prompt tests and concept exploration.",
-            "cta": "Open fast drafts guide"
+            "title": "快速分镜草稿",
+            "body": "寻找高性价比、快速出图的模型，用于提示词测试与概念验证。",
+            "cta": "打开快速草稿指南"
           },
           {
             "slug": "ads",
-            "title": "Product ads",
-            "body": "Shortlist engines for product ads, paid social variants and campaign assets.",
-            "cta": "Open ads guide"
+            "title": "商品与广告",
+            "body": "精选适合商品展示、信息流广告与营销素材生成的视频模型。",
+            "cta": "打开广告制作指南"
           }
         ]
       },
       "examples": {
-        "title": "A world of stories to create.",
-        "subtitle": "Open an example to see the prompt, settings and recorded generation cost. Then use it as a starting point for your own creation.",
-        "eyebrow": "AI video 示例",
-        "cta": "Browse all 示例",
-        "modelsCta": "View all model specs",
-        "compareLink": "Compare engines",
-        "featuredModelCta": "Discover Seedance 2.5",
-        "modelCta": "Discover {model}",
-        "costUnavailable": "Cost not recorded",
-        "providerLabel": "Supported engines:",
-        "viewPrompt": "Clone settings",
+        "title": "万千故事，由此启程。",
+        "subtitle": "打开任意示例，查看提示词、参数设置与生成费用。您可以直接以此为起点，开启属于自己的创作。",
+        "eyebrow": "AI 视频生成示例",
+        "cta": "浏览全部示例",
+        "modelsCta": "查看全部模型参数",
+        "compareLink": "对比模型",
+        "featuredModelCta": "探索 Seedance 2.5",
+        "modelCta": "探索 {model}",
+        "costUnavailable": "未记录费用",
+        "providerLabel": "支持的模型：",
+        "viewPrompt": "复用该配置",
         "fallbackCards": [
           {
             "id": "fallback-seedance",
@@ -690,14 +694,14 @@
             "engine": "Seedance 2.0",
             "engineId": "seedance-2-0",
             "modelSlug": "seedance-2-0",
-            "mode": "Reference-to-video",
+            "mode": "参考生视频",
             "duration": "12s",
-            "price": "Live price",
-            "useCase": "Cinematic realism",
-            "cta": "Examples & prompts",
-            "modelCta": "Specs & pricing",
+            "price": "实时价格",
+            "useCase": "电影级真实感",
+            "cta": "示例与提示词",
+            "modelCta": "参数与价格",
             "imageSrc": "/hero/seedance-2-0.jpg",
-            "imageAlt": "Seedance 2.0 AI video example for cinematic commercial shots.",
+            "imageAlt": "Seedance 2.0 电影级商业广告 AI 视频示例。",
             "examplesSlug": "seedance"
           },
           {
@@ -706,14 +710,14 @@
             "engine": "Kling 3 Pro",
             "engineId": "kling-3-pro",
             "modelSlug": "kling-3-pro",
-            "mode": "Image-to-video",
+            "mode": "图生视频",
             "duration": "15s",
-            "price": "Live price",
-            "useCase": "Camera motion",
-            "cta": "Examples & prompts",
-            "modelCta": "Specs & pricing",
+            "price": "实时价格",
+            "useCase": "大幅运镜",
+            "cta": "示例与提示词",
+            "modelCta": "参数与价格",
             "imageSrc": "/hero/kling-3-4k-hero.jpg",
-            "imageAlt": "Kling 3 Pro AI video example for camera motion and dynamic scenes.",
+            "imageAlt": "Kling 3 Pro 运镜与动态场景 AI 视频示例。",
             "examplesSlug": "kling"
           },
           {
@@ -722,14 +726,14 @@
             "engine": "Veo 3.1",
             "engineId": "veo-3-1",
             "modelSlug": "veo-3-1",
-            "mode": "Image-to-video",
+            "mode": "图生视频",
             "duration": "6s",
-            "price": "Live price",
-            "useCase": "Premium realism",
-            "cta": "Examples & prompts",
-            "modelCta": "Specs & pricing",
+            "price": "实时价格",
+            "useCase": "顶级超写实",
+            "cta": "示例与提示词",
+            "modelCta": "参数与价格",
             "imageSrc": "/hero/veo-3-1-hero.jpg",
-            "imageAlt": "Veo 3.1 AI video example for premium realism and image-to-video.",
+            "imageAlt": "Veo 3.1 顶级真实感与图生视频 AI 示例。",
             "examplesSlug": "veo"
           },
           {
@@ -738,14 +742,14 @@
             "engine": "Happy Horse 1.1",
             "engineId": "happy-horse-1-1",
             "modelSlug": "happy-horse-1-1",
-            "mode": "Text/image/reference-to-video",
+            "mode": "文生/图生/参考生视频",
             "duration": "10s",
-            "price": "Live price",
-            "useCase": "Audio-native workflows",
-            "cta": "Examples & prompts",
-            "modelCta": "Specs & pricing",
+            "price": "实时价格",
+            "useCase": "原生音频工作流",
+            "cta": "示例与提示词",
+            "modelCta": "参数与价格",
             "imageSrc": "https://media.maxvideoai.com/rendersthumbs/301cc489-d689-477f-94c4-0b051deda0bc/1212fdd0-0299-4e07-8546-c8fc0925432d.webp",
-            "imageAlt": "Happy Horse 1.1 AI video example for audio-native reference workflows.",
+            "imageAlt": "Happy Horse 1.1 原生音频参考工作流 AI 视频示例。",
             "examplesSlug": "happy-horse"
           },
           {
@@ -754,14 +758,14 @@
             "engine": "LTX 2.3 Fast",
             "engineId": "ltx-2-3-fast",
             "modelSlug": "ltx-2-3-fast",
-            "mode": "Text-to-video",
+            "mode": "文生视频",
             "duration": "10s",
-            "price": "Live price",
-            "useCase": "Fast drafts",
-            "cta": "Examples & prompts",
-            "modelCta": "Specs & pricing",
+            "price": "实时价格",
+            "useCase": "快速分镜草稿",
+            "cta": "示例与提示词",
+            "modelCta": "参数与价格",
             "imageSrc": "/hero/showcase-ltx-2-3-fast.webp",
-            "imageAlt": "LTX 2.3 Fast AI video example for fast draft generation.",
+            "imageAlt": "LTX 2.3 Fast 快速分镜草稿生成 AI 视频示例。",
             "examplesSlug": "ltx"
           },
           {
@@ -770,28 +774,28 @@
             "engine": "Wan 2.6",
             "engineId": "wan-2-6",
             "modelSlug": "wan-2-6",
-            "mode": "Text/image-to-video",
+            "mode": "文生/图生视频",
             "duration": "5s",
-            "price": "Live price",
-            "useCase": "Structured video workflows",
-            "cta": "Examples & prompts",
-            "modelCta": "Specs & pricing",
+            "price": "实时价格",
+            "useCase": "结构化视频工作流",
+            "cta": "示例与提示词",
+            "modelCta": "参数与价格",
             "imageSrc": "/hero/wan-26.jpg",
-            "imageAlt": "Wan 2.6 AI video example for structured video workflows.",
+            "imageAlt": "Wan 2.6 结构化视频工作流 AI 视频示例。",
             "examplesSlug": "wan"
           }
         ]
       },
       "comparisons": {
-        "title": "Validate the right model before spending credits.",
-        "subtitle": "Engines differ on motion, realism, prompt fidelity, audio, speed, resolution and cost. Compare them side by side before choosing where to spend your credits.",
-        "cta": "Compare models",
+        "title": "消耗积分前，精准挑选最合适的模型。",
+        "subtitle": "不同模型在动态、真实感、提示词遵循度、音频、生成速度、分辨率和成本上各有千秋。在决定使用积分前，并排横向对比。",
+        "cta": "对比模型",
         "cards": [
           {
             "id": "seedance-upgrade",
             "slug": "seedance-1-5-pro-vs-seedance-2-0",
             "title": "Seedance 1.5 Pro 对比 Seedance 2.0",
-            "body": "Understand when to use the newer Seedance workflow for audio, references and multi-shot output.",
+            "body": "了解何时选用具备原生音频、参考控制与多镜头输出的全新 Seedance 工作流。",
             "badges": [
               "upgrade",
               "audio",
@@ -802,7 +806,7 @@
             "id": "ltx-legacy-fast",
             "slug": "ltx-2-vs-ltx-2-3-fast",
             "title": "LTX 2 对比 LTX 2.3 Fast",
-            "body": "Compare older LTX behavior with the current fast draft route for low-cost iteration.",
+            "body": "对比早期 LTX 与当前低成本快速草稿路线的迭代效率。",
             "badges": [
               "speed",
               "price",
@@ -813,7 +817,7 @@
             "id": "ltx-seedance",
             "slug": "ltx-2-3-fast-vs-seedance-2-0",
             "title": "LTX 2.3 Fast 对比 Seedance 2.0",
-            "body": "Choose between cheap draft passes and more polished Seedance output before spending credits.",
+            "body": "在低成本分镜草稿与更精致的 Seedance 最终成片之间做出权衡。",
             "badges": [
               "value",
               "quality",
@@ -824,7 +828,7 @@
             "id": "ltx-veo",
             "slug": "ltx-2-3-fast-vs-veo-3-1",
             "title": "LTX 2.3 Fast 对比 Veo 3.1",
-            "body": "Compare fast prompt testing with premium Veo realism for the same production brief.",
+            "body": "针对同一创意需求，对比极速提示词验证与 Google Veo 顶级电影质感。",
             "badges": [
               "speed",
               "realism",
@@ -835,7 +839,7 @@
             "id": "kling-ltx",
             "slug": "kling-3-pro-vs-ltx-2-3-pro",
             "title": "Kling 3 Pro 对比 LTX 2.3 Pro",
-            "body": "Pick the better route for camera motion, production quality and cost control.",
+            "body": "在大幅度运镜、成片质感与生成成本之间挑选最佳方案。",
             "badges": [
               "motion",
               "realism",
@@ -846,7 +850,7 @@
             "id": "seedance-veo",
             "slug": "seedance-2-0-vs-veo-3-1",
             "title": "Seedance 2.0 对比 Veo 3.1",
-            "body": "Choose between Seedance control and premium Veo realism before spending credits.",
+            "body": "在 Seedance 的精确可控与 Veo 的顶级超写实之间做出明智抉择。",
             "badges": [
               "realism",
               "control",
@@ -854,152 +858,152 @@
             ]
           }
         ],
-        "eyebrow": "Pick before you generate",
-        "primaryCta": "Explore all comparisons",
-        "secondaryCta": "View all models",
-        "scorecardTitle": "Scorecard (side-by-side)",
-        "scorecardSubtitle": "Scores reflect quality, control and cost across 11 criteria.",
+        "eyebrow": "先对比，再生成",
+        "primaryCta": "探索全部模型对比",
+        "secondaryCta": "查看全部模型",
+        "scorecardTitle": "并排综合评分表",
+        "scorecardSubtitle": "涵盖 11 个关键维度的画质、可控度与生成成本综合评分。",
         "scorecardLeftLabel": "Seedance 1.5 Pro",
         "scorecardRightLabel": "Seedance 2.0",
         "featureCards": [
           {
-            "title": "11 comparison criteria",
-            "body": "Quality, motion, audio, cost and more"
+            "title": "11 项评测维度",
+            "body": "涵盖画质、动态、音频、成本等关键指标"
           },
           {
-            "title": "Real outputs",
-            "body": "See examples from each model"
+            "title": "真实生成效果",
+            "body": "直观查看每个模型的实际输出视频"
           },
           {
-            "title": "Live pricing",
-            "body": "Know the cost before you generate"
+            "title": "实时透明价格",
+            "body": "生成前清晰掌握每次渲染的具体费用"
           },
           {
-            "title": "Updated often",
-            "body": "Benchmarks refresh as models evolve"
+            "title": "持续同步更新",
+            "body": "跟随模型迭代，基准测试评测实时刷新"
           }
         ],
-        "scorecardCriteriaLabel": "Criteria",
+        "scorecardCriteriaLabel": "评测维度",
         "scorecardRows": [
           {
-            "label": "Prompt adherence",
+            "label": "提示词遵循度",
             "left": 7.8,
             "right": 8.6
           },
           {
-            "label": "Visual quality",
+            "label": "视觉画质",
             "left": 8,
             "right": 8.8
           },
           {
-            "label": "Motion realism",
+            "label": "动态真实感",
             "left": 7.6,
             "right": 8.7
           },
           {
-            "label": "Temporal consistency",
+            "label": "时间连续性",
             "left": 7.2,
             "right": 8.2
           },
           {
-            "label": "Human fidelity",
+            "label": "人物保真度",
             "left": 7.4,
             "right": 8.4
           },
           {
-            "label": "Audio & lip sync",
+            "label": "音频与口型同步",
             "left": 6.8,
             "right": 9.2
           },
           {
-            "label": "Multi-shot sequencing",
+            "label": "多镜头分镜连贯性",
             "left": 7.1,
             "right": 8.4
           },
           {
-            "label": "价格",
+            "label": "性价比与成本",
             "left": 9.4,
             "right": 7.4
           }
         ]
       },
       "workflow": {
-        "title": "Build the reference before you animate it.",
-        "subtitle": "Generate a source still, lock character continuity, adjust the angle, then move into video with the right engine.",
+        "title": "动效成片前，先锁定关键参考素材。",
+        "subtitle": "生成源静态图像，锁定角色一致性，调整最佳视角，再选择最合适的模型开始渲染成片。",
         "steps": [
           {
-            "title": "Generate or upload a source image",
-            "body": "Create a still frame or bring in a reference before the video stage.",
+            "title": "生成或上传源图像",
+            "body": "在进入视频渲染前，生成静态画面或导入参考素材。",
             "toolLabel": "生成图像",
             "href": "/app/image"
           },
           {
-            "title": "Lock character consistency",
-            "body": "Build a repeatable character reference for scenes, variants and storyboards.",
-            "toolLabel": "Character Builder",
+            "title": "锁定角色一致性",
+            "body": "为故事场景、变体与分镜脚本建立可重复复用的角色参考。",
+            "toolLabel": "角色生成器",
             "href": {
               "pathname": "/tools/character-builder"
             }
           },
           {
-            "title": "Choose angle and composition",
-            "body": "Find the right viewpoint before committing credits to animation.",
-            "toolLabel": "Angle tool",
+            "title": "选择镜头视角与构图",
+            "body": "在消耗积分生成动态前，先选定最佳摄像机视点与透视角度。",
+            "toolLabel": "视角微调",
             "href": {
               "pathname": "/tools/angle"
             }
           },
           {
-            "title": "Generate the final video",
-            "body": "Move into text-to-video, image-to-video or video-to-video with the best engine.",
-            "toolLabel": "Open workspace",
+            "title": "渲染最终成片",
+            "body": "选择最匹配的模型，完成文生视频、图生视频或视频转视频的最终生成。",
+            "toolLabel": "打开工作区",
             "href": "/app"
           }
         ]
       },
       "toolbox": {
-        "title": "The tools behind your next scene.",
-        "subtitle": "Create a starting image, keep a character consistent, change the angle or refine a video. Pick the tool for your next step.",
-        "primaryCta": "Open workspace",
-        "secondaryCta": "Browse all tools",
+        "title": "赋能每一帧精彩故事的创作工具箱。",
+        "subtitle": "创建起点静态图、保持角色一致、多角度视角调整或画质超分。每一步都有专属工具提供支持。",
+        "primaryCta": "打开工作区",
+        "secondaryCta": "浏览全部工具",
         "cards": [
           {
             "id": "text-to-video",
-            "title": "Text to Video",
-            "body": "Generate videos from prompts.",
-            "shortBody": "Generate from prompts.",
+            "title": "文生视频",
+            "body": "根据文字提示词生成逼真动态视频。",
+            "shortBody": "提示词直接生成视频。",
             "href": "/app",
             "icon": "text"
           },
           {
             "id": "image-to-video",
-            "title": "Image to Video",
-            "body": "Animate still images.",
-            "shortBody": "Animate stills.",
+            "title": "图生视频",
+            "body": "将静态图像赋予生动自然的光影动态。",
+            "shortBody": "让静态图片动起来。",
             "href": "/app",
             "icon": "image"
           },
           {
             "id": "video-to-video",
-            "title": "Video to Video",
-            "body": "Transform or restyle existing clips.",
-            "shortBody": "Restyle clips.",
+            "title": "视频转视频",
+            "body": "对已有视频片段进行风格转换或重绘重制。",
+            "shortBody": "片段风格重塑。",
             "href": "/app",
             "icon": "video"
           },
           {
             "id": "generate-image",
             "title": "生成图像",
-            "body": "Create source frames before animation.",
-            "shortBody": "Create source frames.",
+            "body": "在动画前生成高精度的源关键帧画面。",
+            "shortBody": "创作源关键帧。",
             "href": "/app/image",
             "icon": "generateImage"
           },
           {
             "id": "character-builder",
-            "title": "Character Builder",
-            "body": "Create consistent characters.",
-            "shortBody": "Keep characters consistent.",
+            "title": "角色生成器",
+            "body": "跨镜头跨场景保持一致的面部与服装特征。",
+            "shortBody": "保持角色面容一致。",
             "href": {
               "pathname": "/tools/character-builder"
             },
@@ -1007,9 +1011,9 @@
           },
           {
             "id": "angle-tool",
-            "title": "Angle tool",
-            "body": "Find the right viewpoint or camera angle.",
-            "shortBody": "Change viewpoint.",
+            "title": "摄像机视角",
+            "body": "360度调整摄像机视点与构图角度。",
+            "shortBody": "自由调整视角。",
             "href": {
               "pathname": "/tools/angle"
             },
@@ -1017,9 +1021,9 @@
           },
           {
             "id": "upscale",
-            "title": "AI Upscale",
-            "body": "Upscale images or outputs when supported.",
-            "shortBody": "Enhance outputs.",
+            "title": "AI 画质超分",
+            "body": "提升图像或视频清晰度，还原精细细节。",
+            "shortBody": "增强输出画质。",
             "href": {
               "pathname": "/tools/upscale"
             },
@@ -1027,9 +1031,9 @@
           },
           {
             "id": "compare-engines",
-            "title": "Compare Engines",
-            "body": "Choose the right model before you generate.",
-            "shortBody": "Choose before generating.",
+            "title": "模型对比",
+            "body": "生成前全面评测，选出最适合当前镜头的模型。",
+            "shortBody": "生成前横向对比。",
             "href": {
               "pathname": "/ai-video-engines"
             },
@@ -1038,36 +1042,36 @@
         ]
       },
       "pricingTrust": {
-        "title": "Know the cost before you generate.",
-        "subtitle": "MaxVideoAI shows the price before every video generation, so you stay in control of your credits.",
-        "cta": "View pricing",
-        "supportingText": "MaxVideoAI is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika, Sora and more.",
+        "title": "生成之前，费用了然于心。",
+        "subtitle": "MaxVideoAI 在每次生成前均会展示确切价格，让您对积分使用始终心中有数。",
+        "cta": "查看价格方案",
+        "supportingText": "MaxVideoAI 是支持 Seedance、Kling、Veo、LTX、Wan、Pika、Sora 等前沿模型的多模型按需付费 AI 视频创作平台。",
         "modelsLink": "模型",
         "examplesLink": "示例",
-        "compareLink": "Compare engines",
+        "compareLink": "对比模型",
         "cards": [
           {
-            "title": "Live quote",
-            "body": "See the price before each generation."
+            "title": "实时报价",
+            "body": "每次生成前，清晰掌握确切花费。"
           },
           {
-            "title": "Pay-as-you-go",
-            "body": "No subscription required. Add credits when needed."
+            "title": "按需付费",
+            "body": "告别强制月费订阅。按需充值，用多少充多少。"
           },
           {
-            "title": "Auto-refunds",
-            "body": "Failed generations return credits automatically."
+            "title": "失败自动退款",
+            "body": "如遇生成失败，消耗的积分将自动退还。"
           },
           {
-            "title": "Receipts",
-            "body": "Track engine, settings, duration and cost for every generation."
+            "title": "详尽明细",
+            "body": "精准记录每次生成的模型、参数、时长与实际支出。"
           }
         ]
       },
       "providers": {
-        "title": "Supported engines and providers",
-        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax, Luma and Sora are available from one model catalog.",
-        "cta": "View all models",
+        "title": "支持的顶级模型与技术厂商",
+        "subtitle": "统一模型目录，覆盖 Seedance、Kling、Veo、LTX、Wan、Pika、Happy Horse、MiniMax、Luma 与 Sora。",
+        "cta": "查看全部模型",
         "items": [
           {
             "providerKey": "ByteDance",
@@ -1128,35 +1132,35 @@
         ]
       },
       "faq": {
-        "title": "Your questions about AI video creation",
-        "subtitle": "Models, references and pricing: what to know before you start.",
+        "title": "关于 AI 视频创作的常见问题",
+        "subtitle": "模型、参考素材与定价：开启创作前您需要了解的一切。",
         "items": [
           {
-            "question": "What is the best AI video generator right now?",
-            "answer": "There is no single best AI video generator for every project. Compare real outputs for the scene you want, then check reference support, duration, resolution, audio and price. MaxVideoAI brings several AI video models into one workspace, so you can choose without subscribing to each one.",
+            "question": "当前最好的 AI 视频生成模型是哪个？",
+            "answer": "没有哪一个 AI 视频模型能完美适配所有创作场景。请根据您想要生成的具体场景对比真实效果，重点关注参考素材支持、视频时长、分辨率、音频以及生成费用。MaxVideoAI 将各大主流 AI 视频模型汇聚于同一工作区，无需为每个平台单独订阅即可灵活选用。",
             "links": [
               {
-                "label": "Compare AI video models",
+                "label": "对比 AI 视频模型",
                 "href": "/ai-video-engines"
               }
             ]
           },
           {
-            "question": "How do I make AI-generated videos?",
-            "answer": "To make AI-generated videos, describe your scene or import a starting image, choose a model and check its settings. Review the price, generate a short test, then refine the prompt or references. You can also create your starting image in MaxVideoAI. Existing clips can be used with models and modes that support video inputs.",
+            "question": "如何制作 AI 生成视频？",
+            "answer": "制作 AI 视频时，输入您的画面描述或导入一张起点图片，挑选模型并配置参数。确认生成费用后，先渲染一段短片段测试效果，再进一步微调提示词或参考素材。您也可以直接在 MaxVideoAI 中生成首帧起点图片。对于支持视频输入的模型和模式，还可以直接导入已有视频片段进行转换。",
             "links": [
               {
-                "label": "Start creating",
+                "label": "开始创作",
                 "href": "/app"
               }
             ]
           },
           {
-            "question": "Can I generate AI videos from an image?",
-            "answer": "Yes. Image-to-video AI animates a still image: a character, a landscape, a drawing or a product photo. Import an image you have the rights to use, or create one in MaxVideoAI, then describe the motion. Supported reference types and how closely the result follows them depend on the model.",
+            "question": "我可以从静态图片生成 AI 视频吗？",
+            "answer": "可以。图生视频功能可赋予静态图片生动的动态效果，无论是人物、风景、插画还是商品实拍图。导入您拥有使用权的照片，或在 MaxVideoAI 中即时生成一张，然后描述期望的运镜或动作。不同模型对参考图的支持类型及动态还原精度各有差异。",
             "links": [
               {
-                "label": "Explore image-to-video models",
+                "label": "探索图生视频模型",
                 "href": {
                   "pathname": "/ai-video-engines/best-for/[usecase]",
                   "params": {
@@ -1167,51 +1171,51 @@
             ]
           },
           {
-            "question": "What is the difference between text-to-video and image-to-video AI?",
-            "answer": "Text-to-video AI creates a scene from a written description. Image-to-video AI starts from an image and adds motion. Video-to-video workflows use an existing clip when the selected model supports it. Choose your starting material first, then check the compatible models.",
+            "question": "文生视频与图生视频有什么区别？",
+            "answer": "文生视频直接根据文字描述凭空创造画面。图生视频则以静态图像作为基底并添加动态。视频生视频则在选定模型支持时以已有视频片段作为源素材。建议先确定您的初始素材，再选择兼容的模型。",
             "links": [
               {
-                "label": "Browse models and supported inputs",
+                "label": "浏览模型与支持的输入格式",
                 "href": "/models"
               }
             ]
           },
           {
-            "question": "Where can I find AI video prompt examples?",
-            "answer": "The examples gallery includes AI video prompt examples and real outputs, with the model and available generation details. Browse AI video examples by model, open a result and use its prompt as a starting point. The same prompt can produce different results: examples show possibilities, not guaranteed reproductions.",
+            "question": "在哪里可以找到 AI 视频提示词示例？",
+            "answer": "示例画廊收录了丰富的 AI 视频提示词示例与真实生成视频，并标注了对应模型及详细生成参数。您可以按模型系列浏览示例，点开任意成片并复用其提示词作为创作起点。相同的提示词可能生成不同的视觉效果：示例展示的是创作可能性，而非保证完全一致的复现。",
             "links": [
               {
-                "label": "Explore videos and prompts",
+                "label": "探索视频与提示词",
                 "href": "/examples"
               }
             ]
           },
           {
-            "question": "How much does AI video generation cost?",
-            "answer": "AI video generation cost depends on the model and supported settings, including duration, resolution and, for some models, audio or reference inputs. You see the price before you generate. Choose only the settings you need; the final quote in the app is the amount to check before confirming.",
+            "question": "生成一段 AI 视频需要多少费用？",
+            "answer": "AI 视频的生成成本取决于所选模型及其支持的参数，包括视频时长、分辨率以及是否启用音频或参考输入。在点击生成前，您将看到明确的计费金额。按需选择参数，工作区内展示的最终报价即为确认扣除的费用。",
             "links": [
               {
-                "label": "See pricing options",
+                "label": "查看价格方案",
                 "href": "/pricing"
               }
             ]
           },
           {
-            "question": "Is there a pay-as-you-go AI video generator?",
-            "answer": "Yes. MaxVideoAI is a pay-as-you-go AI video generator: add credits when you need them and use them for your generations, without a subscription. A failed generation is automatically recredited. A completed result that does not match your creative expectations is not the same as a technical failure.",
+            "question": "有按需付费且无需订阅的 AI 视频生成工具吗？",
+            "answer": "有。MaxVideoAI 采用完全按需付费的模式：按需充值积分，随时用于视频生成，没有任何强制月费或订阅。若生成过程中遇到系统级技术失败，积分将自动全额退还至您的账户。成片效果与个人艺术预期不符不属于技术生成失败。",
             "links": [
               {
-                "label": "How pay-as-you-go works",
+                "label": "了解按需付费机制",
                 "href": "/pay-as-you-go-ai-video-generator"
               }
             ]
           },
           {
-            "question": "What limits should I check before choosing an AI video model?",
-            "answer": "Check model limits before choosing: supported inputs, video length, resolution, aspect ratio, audio and reference requirements. Compare AI video engines using the model pages and examples. Available settings vary by model and generation mode; a feature supported by one model is not available on all of them.",
+            "question": "在挑选 AI 视频模型前应核对哪些限制？",
+            "answer": "在选择模型前，请确认其支持的输入素材类型、最大生成时长、输出分辨率、宽高比、音频支持以及参考图要求。您可以通过模型详情页和示例库横向对比各引擎。可用参数因模型和生成模式而异，某款模型的专属功能并不一定在其他模型中提供。",
             "links": [
               {
-                "label": "Check model capabilities",
+                "label": "查看模型功能特性",
                 "href": "/models"
               }
             ]
@@ -1219,32 +1223,32 @@
         ]
       },
       "modeLabels": {
-        "t2v": "Text-to-video",
-        "i2v": "Image-to-video",
-        "v2v": "Video-to-video",
-        "ref2v": "Reference-to-video",
-        "r2v": "Reference-to-video",
-        "fl2v": "First/last frame",
-        "a2v": "Audio-to-video",
-        "extend": "Extend video",
-        "retake": "Retake",
-        "unknown": "AI video"
+        "t2v": "文生视频",
+        "i2v": "图生视频",
+        "v2v": "视频生视频",
+        "ref2v": "参考生视频",
+        "r2v": "参考生视频",
+        "fl2v": "首尾帧",
+        "a2v": "音频生视频",
+        "extend": "视频延长",
+        "retake": "局部重绘",
+        "unknown": "AI 视频"
       }
     },
     "badges": [
-      "PAY-AS-YOU-GO",
-      "PRICE-BEFORE",
-      "ALWAYS-CURRENT"
+      "按需付费",
+      "生成前明晰价格",
+      "始终保持最新"
     ],
     "hero": {
-      "title": "The right engine for every shot.",
-      "subtitle": "Professional AI video, minus the hassle. Price before you generate. One hub for your work.",
+      "title": "为每个镜头匹配理想模型。",
+      "subtitle": "专业级 AI 视频创作，告别繁琐流程。生成前明晰价格，一个工作区掌控全部创作。",
       "primaryCta": "Generate",
       "secondaryCta": "See 示例",
-      "workspaceCta": "Open the workspace"
+      "workspaceCta": "进入工作区"
     },
     "worksWith": {
-      "label": "Works with",
+      "label": "支持模型",
       "brands": [
         "Sora 2",
         "Veo 3.1",
@@ -1257,124 +1261,124 @@
         "Wan 2.5",
         "Nano Banana"
       ],
-      "caption": "Trademarks belong to their owners.",
-      "availabilityNotice": "Availability may vary by provider; pricing chips refresh automatically.",
-      "moreLabel": "and more engines"
+      "caption": "商标归各自所有者所有。",
+      "availabilityNotice": "可用性可能因提供商而异；价格标签会自动实时刷新。",
+      "moreLabel": "以及更多模型"
     },
     "heroScreenshot": {
-      "title": "Every control in one view.",
-      "body": "Composer, live pricing, gallery rail, and job feed stay together so you can tweak prompts, review outputs, and monitor the queue without leaving the screen.",
-      "alt": "MaxVideo AI workspace showing the composer, live price chip, and gallery preview in a single dashboard."
+      "title": "全部控制面板，一屏尽览。",
+      "body": "提示词编辑器、实时计费、画廊轨道与任务历史紧密集成，无需切换页面即可微调提示词、查看输出并监控生成队列。",
+      "alt": "MaxVideoAI 工作区面板，在单一仪表板中展示编辑器、实时价格与画廊预览。"
     },
     "proofTabs": [
       {
         "id": "workspace",
-        "label": "Workspace",
-        "heading": "Start with the full workspace — ready now.",
-        "body": "Pick an engine, set duration and resolution, and the composer reveals the fields that engine expects. No waitlist, no mockups."
+        "label": "工作区",
+        "heading": "即刻开启完整工作区 —— 现已就绪。",
+        "body": "挑选模型、设置时长与分辨率，编辑器会自动展示该模型所需的专属参数。无需等待名单，无虚假演示。"
       },
       {
         "id": "price",
-        "label": "Price",
-        "heading": "Wallet pricing updates before you press Generate.",
-        "body": "Adjust settings and see the live price chip before you commit. Funds only move when the generation succeeds."
+        "label": "价格",
+        "heading": "点击生成前，钱包实时价格同步更新。",
+        "body": "调整参数并在确认提交前实时查看价格标签。仅在生成成功后才实际结算扣费。"
       },
       {
         "id": "tracking",
-        "label": "Tracking",
-        "heading": "Job feed tracks every output automatically.",
-        "body": "Review renders, compare takes, and grab downloads from the gallery rail as soon as they finish."
+        "label": "追踪",
+        "heading": "任务历史自动追踪每次渲染产出。",
+        "body": "渲染完成后，可直接在画廊轨道中对比不同成片、下载交付物并审阅记录。"
       }
     ],
     "whyCards": [
       {
-        "title": "A live product, not a roadmap.",
-        "body": "Pricing, Composer, wallet, and job history are available today — no waitlist, no mockups."
+        "title": "现已上线，非空谈概念。",
+        "body": "价格估算、创作工作区、钱包与任务历史现已全量可用 —— 无需排队等待，即刻上手。"
       },
       {
-        "title": "Wallet-first billing.",
-        "body": "Top up once, monitor spend from the header, and refund automatically if a generation fails."
+        "title": "以钱包为核心的计费机制。",
+        "body": "一次充值，在导航栏随时监控支出；生成失败自动退款，无后顾之忧。"
       },
       {
-        "title": "All your engines in one place.",
-        "body": "Switch between Sora, Veo, Pika, MiniMax, and Hunyuan without juggling dashboards or API keys."
+        "title": "全部前沿模型，汇聚一处。",
+        "body": "在 Sora、Veo、Pika、MiniMax 与混元之间随心切换，告别频繁切换后台或自行管理 API 密钥的繁琐。"
       }
     ],
     "ways": [
       {
-        "title": "Generate",
-        "description": "Prompt with references, audio toggles, and model-specific controls — all with live pricing.",
+        "title": "创作生成",
+        "description": "支持参考图、音频开关与专属模型控制项 —— 全程明晰实时价格。",
         "bullets": [
-          "Live price chip updates as you tweak duration or resolution",
-          "Upload image references or reuse assets from your library",
-          "Queue multiple iterations and monitor progress in real time"
+          "调整时长或分辨率时，实时价格标签同步更新",
+          "上传图片参考或直接复用媒体库资产",
+          "排队提交多次迭代，实时监控渲染进度"
         ]
       },
       {
-        "title": "Review & deliver",
-        "description": "Lock the best take, grab downloads, and share job links without leaving the workspace.",
+        "title": "审片与交付",
+        "description": "锁定最佳镜头成片，直接下载并分享任务链接，全流程无需离开工作区。",
         "bullets": [
-          "Gallery rail lines up every render for quick comparisons",
-          "Job feed keeps notes, iterations, and status together",
-          "Download renders, thumbnails, and metadata instantly"
+          "画廊轨道并排排列每次渲染，方便快速对比",
+          "任务历史集中整合提示词、版本迭代与当前状态",
+          "一键极速下载成片、缩略图与生成元数据"
         ]
       }
     ],
     "waysSection": {
-      "eyebrow": "Workspace",
-      "title": "Everything lives in the workspace.",
-      "subtitle": "Composer, wallet, job history, and gallery stay side-by-side so your team stays aligned."
+      "eyebrow": "创作工作区",
+      "title": "一切创作，皆在工作区内完成。",
+      "subtitle": "编辑器、钱包、任务历史与画廊并排呈现，助您的团队保持高效协同。"
     },
     "toolsWorkflow": {
-      "eyebrow": "Reference-first workflow",
-      "title": "Build the still before you generate the video",
-      "body": "Create the source frame, lock the character, or fix the viewpoint before you move into video.",
+      "eyebrow": "以参考素材为先的工作流",
+      "title": "动效成片前，先打磨好关键静态画面",
+      "body": "在进入视频渲染前，生成源画面、锁定角色或调整视点。",
       "cards": {
         "image": {
           "eyebrow": "生成图像",
-          "title": "Create the source still",
-          "body": "Start the frame in Image before you branch into edits, references, or motion.",
-          "cta": "Open Image"
+          "title": "创建源关键帧静态图",
+          "body": "在生成图像模块中构建画面，再进入局部编辑、参考素材或视频生成。",
+          "cta": "打开生成图像"
         },
         "character": {
-          "eyebrow": "Character Builder",
-          "title": "Lock character continuity",
-          "body": "Build a portrait anchor or 8-panel sheet before the character has to survive more than one scene.",
-          "cta": "Open Character Builder"
+          "eyebrow": "角色生成器",
+          "title": "锁定角色一致性",
+          "body": "为跨镜头长线故事生成稳定的肖像基准或 8 视角图纸。",
+          "cta": "打开角色生成器"
         },
         "angle": {
-          "eyebrow": "Angle",
-          "title": "Change the viewpoint",
-          "body": "Keep the source image and generate a stronger camera angle before storyboards or video.",
-          "cta": "Open Angle"
+          "eyebrow": "视角工具",
+          "title": "自由转换拍摄角度",
+          "body": "保留源图像特征，在进入分镜或视频前生成构图更具冲击力的摄像机角度。",
+          "cta": "打开视角工具"
         }
       }
     },
     "generateWaysResources": {
       "models": {
         "eyebrow": "模型",
-        "title": "Review model pages before you choose the engine",
-        "body": "Open the model hub for specs, limits, pricing, and workflow notes before you commit to one engine.",
-        "cta": "Browse model pages"
+        "title": "选定模型前，先行查阅模型详情",
+        "body": "进入模型中心，全面查看技术规格、参数限制、价格方案及工作流要点。",
+        "cta": "浏览模型详情"
       },
       "examples": {
         "eyebrow": "示例",
-        "title": "Check real outputs before you start prompting",
-        "body": "Browse the examples gallery to review prompts, outputs, and engine choices before you launch your own run.",
-        "cta": "Browse 示例"
+        "title": "构思提示词前，参考真实成片效果",
+        "body": "浏览示例画廊，在正式投入渲染前查阅提示词、生成成片与模型选择。",
+        "cta": "浏览全部示例"
       }
     },
     "examplesCallout": {
-      "eyebrow": "Live gallery",
-      "title": "See how every engine routes the same brief.",
-      "subtitle": "Watch real renders orbit the CTA and jump straight into the Examples page to clone settings for your own project.",
-      "cta": "Browse live 示例"
+      "eyebrow": "实时成片画廊",
+      "title": "看不同模型如何演绎同一创意主题",
+      "subtitle": "查看围绕核心操作环绕的真实渲染成片，一键进入示例页面并为您的项目复用参数配置。",
+      "cta": "浏览全部示例"
     },
     "gallery": {
-      "title": "Gallery",
-      "subtitle": "Captured directly from the live workspace — hover to preview, tap to expand.",
-      "caption": "Engine routed for this render.",
-      "hoverLabel": "Hover loop preview",
+      "title": "精选画廊",
+      "subtitle": "直接截取自真实工作区成片 —— 悬停预览动效，点击全屏播放。",
+      "caption": "本次渲染选用的模型引擎。",
+      "hoverLabel": "悬停循环预览",
       "items": [
         {
           "id": "veo-teaser",
@@ -1439,80 +1443,80 @@
       ]
     },
     "pricing": {
-      "badge": "Before you render",
-      "title": "Know the cost before you commit.",
-      "body": "MaxVideoAI stays wallet-first across engines: the quote is visible before launch, failed jobs auto-refund, and you keep spend under control from one workspace.",
-      "link": "See pricing"
+      "badge": "渲染之前",
+      "title": "确认生成前，费用清晰可见。",
+      "body": "MaxVideoAI 在所有模型上均坚持以钱包积分计费：提交前即可查看确切报价，任务失败自动退款，在统一工作区内轻松掌控预算支出。",
+      "link": "查看价格方案"
     },
     "trust": {
       "cards": [
         {
-          "eyebrow": "Live quote",
-          "title": "See the cost before you click Generate",
-          "body": "Pick the engine and settings first. The total updates before the generation starts."
+          "eyebrow": "实时报价",
+          "title": "点击生成前，费用一目了然",
+          "body": "先挑选模型与参数设置，总计费用在生成前实时更新。"
         },
         {
-          "eyebrow": "Automatic refunds",
-          "title": "Failed jobs return credits automatically",
-          "body": "Refunds land back in your wallet with an itemised receipt for each failed generation."
+          "eyebrow": "自动退款",
+          "title": "失败任务积分自动返还",
+          "body": "退款自动回到您的钱包，并为每笔失败生成提供明细单据。"
         },
         {
-          "eyebrow": "Wallet-first control",
-          "title": "One workspace keeps spend visible",
-          "body": "Top up when needed, use your provider accounts or ours, and keep queue health in view."
+          "eyebrow": "钱包统一管控",
+          "title": "一个工作区，统一掌控预算",
+          "body": "告别多个平台的重复订阅。统一充值，跨所有支持的模型灵活使用。"
         }
       ],
-      "footnote": "3,000+ internal test renders",
+      "footnote": "3,000+ 真实测试渲染",
       "quote": {
-        "eyebrow": "Example quote",
-        "value": "Live estimate",
-        "status": "Shown before launch",
+        "eyebrow": "报价示例",
+        "value": "实时估算",
+        "status": "生成前展示",
         "meta": [
           "LTX 2.3 Pro",
-          "6s",
+          "6秒",
           "1080P"
         ],
-        "note": "The estimate updates with engine, duration, resolution, and audio."
+        "note": "估算费用随模型、时长、分辨率与音频选项实时变化。"
       }
     },
     "faq": {
       "title": "常见问题",
-      "description": "Short answers to the most common questions.",
+      "description": "关于平台与使用的最常见问题简答。",
       "items": [
         {
-          "q": "Is Sora 2 available in the EU?",
-          "a": "Sora 2 availability is limited. MaxVideoAI routes your brief to supported engines today and keeps Sora-ready presets for later."
+          "q": "Sora 2 可以在欧盟/国内正常使用吗？",
+          "a": "Sora 2 当前可用性有限。MaxVideoAI 会将您的需求智能路由至当前可用模型，并为 Sora 预留好现成预设。"
         },
         {
-          "q": "Can I add audio?",
-          "a": "Yes. Engines surfaced on the homepage support audio toggles in the composer. The live price updates when you enable audio."
+          "q": "我可以为视频添加音频吗？",
+          "a": "可以。首页展示的众多模型均在编辑器中支持音频开关。开启音频后，实时价格会自动同步更新。"
         },
         {
-          "q": "How does pricing work?",
-          "a": "You see the current price before you generate. Open Billing to choose an available top-up amount and complete payment through Stripe Checkout. Each generation has an itemised receipt."
+          "q": "计费机制是如何运作的？",
+          "a": "在点击生成前，您将看到当前精确报价。前往账单页面选择合适的充值档位并通过 Stripe Checkout 完成安全支付。每次生成均附带明细收据。"
         },
         {
-          "q": "What’s the refund policy?",
-          "a": "Failed generations auto-refund to your wallet with an itemised receipt. You always keep full control of spend."
+          "q": "退款政策是怎样的？",
+          "a": "生成失败的任务会自动全额退款至您的钱包，并提供明细凭据。您始终拥有对预算支出的完全控制权。"
         }
       ]
     },
-    "priceChipSuffix": "Shown before you launch.",
+    "priceChipSuffix": "生成前清晰可见。",
     "meta": {
-      "title": "Pay-as-you-go AI Video Generator | MaxVideoAI",
-      "description": "Compare Seedance, Kling, Veo, LTX, Wan, Pika and more before you generate. Preview real outputs, see pricing upfront, and generate with pay-as-you-go credits."
+      "title": "按需付费 AI 视频生成平台 | MaxVideoAI",
+      "description": "生成前并排对比 Seedance、Kling、Veo、LTX、Wan、Pika 等前沿模型。先看真实成片，明晰生成价格，按需充值积分随心创作。"
     },
     "compare": {
-      "title": "AI video engines in one view",
-      "subtitle": "Capabilities · Limits · Best for",
-      "ariaPrev": "Scroll to previous engine card",
-      "ariaNext": "Scroll to next engine card",
-      "ariaPrefix": "See presets for",
-      "seePresets": "See presets →",
+      "title": "AI 视频模型横评一览",
+      "subtitle": "核心能力 · 参数限制 · 适用场景",
+      "ariaPrev": "滚动至上一个模型卡片",
+      "ariaNext": "滚动至下一个模型卡片",
+      "ariaPrefix": "查看预设：",
+      "seePresets": "查看预设参数 →",
       "statLabels": {
         "max": "Max",
         "audio": "Audio",
-        "bestFor": "Best for"
+        "bestFor": "最佳应用场景"
       },
       "cardLabels": {
         "avg": "Avg",
@@ -1521,100 +1525,100 @@
         "res": "Res"
       },
       "modeLabels": {
-        "t2v": "Text -> Video",
-        "i2v": "Image -> Video",
-        "r2v": "Reference -> Video",
-        "a2v": "Audio -> Video",
-        "extend": "Extend Video",
-        "retake": "Retake Video",
-        "t2i": "Text -> Image",
-        "i2i": "Image -> Image"
+        "t2v": "文生视频",
+        "i2v": "图生视频",
+        "r2v": "参考生视频",
+        "a2v": "音频生视频",
+        "extend": "视频延长",
+        "retake": "局部重绘",
+        "t2i": "文生图像",
+        "i2i": "图生图像"
       }
     },
-    "pricingPreviewLabel": "Preview pricing",
+    "pricingPreviewLabel": "预览价格",
     "partners": {
       "eyebrow": "Partners",
-      "featuredOn": "Featured on",
-      "startupFameLabel": "Featured on Startup Fame"
+      "featuredOn": "推荐展示于",
+      "startupFameLabel": "精选收录于 Startup Fame"
     },
     "seoContent": {
-      "heroParagraph": "MaxVideoAI is a multi-engine AI video generator where you compare AI video models first, then generate videos from text prompts, images, or existing footage. Live pricing is visible before every generation so you can pick the right engine with confidence.",
+      "heroParagraph": "MaxVideoAI 是一个多模型 AI 视频生成平台。您可以先对比各大 AI 视频模型，再通过文本提示词、静态图片或已有视频片段进行生成。生成前实时展示透明价格，助您胸有成竹地挑选最适合的渲染引擎。",
       "heroPoints": [
-        "Text-to-video, image-to-video, and video-to-video workflows",
-        "Compare results across multiple AI video models",
-        "Pay-as-you-go pricing with cost shown before you generate"
+        "涵盖文生视频、图生视频与视频生视频全流程",
+        "并排横向对比多个主流 AI 视频模型效果",
+        "完全按需付费，生成前清晰展示预估费用"
       ],
       "definition": {
-        "title": "What is an AI video generator?",
-        "body": "Create from text, animate a still, or transform existing footage in one workspace, with pricing visible before you generate."
+        "title": "什么是 AI 视频生成器？",
+        "body": "在同一工作区中，通过文字生成、赋予静图动态或重绘已有视频，生成前价格始终公开透明。"
       },
       "generateWays": {
-        "title": "Generate videos your way",
+        "title": "随心选择您的创作方式",
         "items": [
           {
-            "title": "Text-to-Video AI",
-            "body": "Write a prompt and generate new scenes from scratch. Best for ideation, storyboards, and fast first passes."
+            "title": "文生视频 AI",
+            "body": "输入提示词，从零生成全新画面场景。最适合创意发散、分镜构思与快速首轮探索。"
           },
           {
-            "title": "Image-to-Video AI",
-            "body": "Start from a still and add motion while keeping the composition grounded. Best for character, product, and brand-led shots."
+            "title": "图生视频 AI",
+            "body": "以静态图像为基准赋予自然动态，同时保持构图稳定。最适合人物角色、商品展示与品牌宣传。"
           },
           {
-            "title": "Video-to-Video AI",
-            "body": "Upload footage and change style, pacing, or motion behavior without starting over. Best for alternate versions and rapid creative testing."
+            "title": "视频转视频 AI",
+            "body": "上传已有视频素材，调整艺术风格、节奏运镜或动作表现，无需推倒重来。最适合快速创作衍生版本与创意 A/B 测试。"
           }
         ]
       },
       "compare": {
-        "title": "Compare AI video models before you generate",
-        "body": "MaxVideoAI lets you test multiple AI video models in one workspace. Engines differ on speed, prompt fidelity, motion, realism, and style, so you can review outputs side by side, choose the best model for each shot, and keep pricing visible before every generation.",
-        "worksWith": "Works with MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Sora 2, Wan 2.6, Pika 2.2, Nano Banana, and more.",
+        "title": "生成前全面对比 AI 视频模型",
+        "body": "MaxVideoAI 让您可以在单一工作区内测试各大主流 AI 视频模型。各引擎在生成速度、提示词遵循度、动作幅度、写实度与艺术风格上各具特色。您可以并排对比真实成片，为每个镜头挑选最匹配的模型，且每次生成前价格一目了然。",
+        "worksWith": "支持 MiniMax H3、Seedance 2.5、Veo 3.1、Kling 3、LTX 2.3、Sora 2、Wan 2.6、Pika 2.2、Nano Banana 等众多前沿模型。",
         "popularLinks": [
           {
-            "label": "MiniMax H3 对比 Seedance 2.5 comparison",
+            "label": "MiniMax H3 与 Seedance 2.5 对比",
             "slug": "minimax-h3-vs-seedance-2-5"
           },
           {
-            "label": "Sora 2 对比 Veo 3.1 comparison",
+            "label": "Sora 2 与 Veo 3.1 对比",
             "slug": "sora-2-vs-veo-3-1"
           },
           {
-            "label": "Kling 3 对比 Sora 2 comparison",
+            "label": "Kling 3 与 Sora 2 对比",
             "slug": "kling-3-pro-vs-sora-2"
           },
           {
-            "label": "Veo 3.1 对比 Kling 3 comparison",
+            "label": "Veo 3.1 与 Kling 3 对比",
             "slug": "kling-3-pro-vs-veo-3-1"
           }
         ],
-        "seeAllLabel": "See all AI video engine comparisons",
-        "imageAlt": "MaxVideoAI comparison page screenshot showing two AI engines side by side.",
-        "carouselIntro": "Compare AI video models by capabilities, limits, and best-fit use cases, or",
-        "carouselLinkLabel": "browse all AI video engine comparisons"
+        "seeAllLabel": "查看全部 AI 视频模型对比",
+        "imageAlt": "MaxVideoAI 模型对比页面截图，并排展示两款 AI 视频模型。",
+        "carouselIntro": "按功能特性、参数限制与最佳应用场景对比 AI 视频模型，或",
+        "carouselLinkLabel": "浏览全部 AI 视频模型对比"
       },
       "faq": {
-        "title": "AI video generator FAQ",
-        "description": "Short answers for common AI video generation questions.",
+        "title": "AI 视频生成常见问题",
+        "description": "关于 AI 视频创作的常见疑问解答。",
         "items": [
           {
-            "q": "How do I choose the best text-to-video AI model?",
-            "a": "Start by deciding what matters most for the shot: cinematic motion, prompt fidelity, speed, cost, or consistency. Then compare models side by side so you can choose the best text-to-video AI option for that specific project instead of assuming one model is best for every brief."
+            "q": "如何选择最适合的文生视频 AI 模型？",
+            "a": "首先明确镜头最看重的要素：电影质感、提示词遵循度、生成速度、成本控制还是画面连贯性。然后并排对比各模型，为特定镜头选出最佳文生视频方案，而不是盲目认为某款模型能通吃所有需求。"
           },
           {
-            "q": "Can I generate videos from text prompts?",
-            "a": "Yes. Text-to-video lets you create clips directly from a written prompt, then iterate quickly by adjusting prompt, style, and model choice."
+            "q": "我可以从文字提示词直接生成视频吗？",
+            "a": "可以。文生视频让您可以直接根据文本描述生成视频片段，并通过微调提示词、画面风格和模型快速迭代。"
           },
           {
-            "q": "What's the difference between text-to-video and image-to-video?",
-            "a": "Text-to-video starts from a prompt, while image-to-video starts from a still image and adds motion while preserving the original composition."
+            "q": "文生视频与图生视频有什么区别？",
+            "a": "文生视频从文本提示词开始构建画面；而图生视频则以静态图像为起点，在保留原始构图与视觉特征的同时添加动态。"
           },
           {
-            "q": "Do I need editing skills to use an AI video generator?",
-            "a": "No. You can generate clips with prompts and simple settings. For advanced workflows, you can still remix and iterate with variations."
+            "q": "使用 AI 视频生成器需要专业的剪辑技能吗？",
+            "a": "不需要。您只需输入提示词并进行简单的参数选择即可生成高质量视频片段。对于进阶工作流，您还可以通过变体与参考图进一步调整细化。"
           },
           {
-            "q": "Is MaxVideoAI free?",
-            "a": "MaxVideoAI uses pay-as-you-go credits with pricing shown before you generate."
+            "q": "MaxVideoAI 可以免费使用吗？",
+            "a": "MaxVideoAI 采用完全按需付费的积分制，每次生成前都会清晰展示确切费用，无任何强制月费或隐形收费。"
           }
         ]
       }
@@ -1643,9 +1647,9 @@
       }
     },
     "calculator": {
-      "title": "Need the exact live price?",
-      "description": "Open the app calculator as a guest to price the exact model, duration, resolution and audio settings before you render.",
-      "cta": "Open app for live pricing before you generate"
+      "title": "需要精确的实时价格？",
+      "description": "以访客身份打开工作区计费面板，在渲染前精确计算特定模型、时长、分辨率与音频设置下的确切价格。",
+      "cta": "打开工作区，生成前查看实时报价"
     },
     "liveLabel": "Live",
     "comingSoonLabel": "Coming soon",
@@ -1689,18 +1693,20 @@
       "perImageLabel": "Applies per generated image inside Generate."
     },
     "wallet": {
-      "title": "Wallet",
-      "description": "Top up your individual wallet from Billing through secure Stripe Checkout.",
+      "title": "钱包账户",
+      "description": "通过安全的 Stripe Checkout 从账单页面为您的个人钱包充值。",
       "points": [
-        "Choose an available top-up amount on the Billing page.",
-        "Review the currency, taxes, and final amount in Stripe Checkout before payment.",
-        "Card and eligible express payment options appear when available for your device and region."
+        "在账单充值页面挑选适合您的充值档位。",
+        "在支付前于 Stripe Checkout 页面仔细核对币种、税费与最终结算金额。",
+        "系统会自动显示适用于您设备和地区的银行卡及快捷支付方式。"
       ],
-      "balanceLabel": "Wallet balance",
+      "balanceLabel": "可用钱包余额",
       "balanceHelper": "Open Billing to review your wallet balance and available top-up options.",
       "autoTopUpLabel": "Wallet funding options in Billing",
       "autoTopUpHint": "Available wallet controls are shown on the Billing page.",
-      "addLabel": "Add ${amount}"
+      "addLabel": "Add ${amount}",
+      "topUpCta": "钱包充值",
+      "cta": "前往充值页面"
     },
     "examples": {
       "title": "Example costs",
@@ -1757,176 +1763,176 @@
       ]
     },
     "priceFactors": {
-      "title": "What affects price",
+      "title": "价格影响因素",
       "points": [
-        "Duration scales by model (4s / 6s / 8s / 10s / 15s).",
-        "Resolution changes the price on models with 720p, 1080p, 1440p, or 4K tiers.",
-        "Text-to-video AI, image-to-video AI, and video-to-video AI routes can price differently depending on the engine and input type.",
-        "Audio can be included, optional, or silent depending on the model family.",
-        "Engine tier (Veo, LTX, Kling, Seedance, Pika, Wan) sets the base rate."
+        "时长根据各模型阶梯计费（4秒 / 6秒 / 8秒 / 10秒 / 15秒）。",
+        "分辨率会影响计费，提供 720p、1080p、1440p 或 4K 等不同画质档位。",
+        "文生视频、图生视频与视频生视频路线可能根据引擎及输入素材类型差异化计费。",
+        "音频功能根据模型系列不同，可能为内置免费、可选付费或静音无音频。",
+        "模型层级（Veo、LTX、Kling、Seedance、Pika、Wan）决定了基础单价。"
       ]
     },
     "teams": {
-      "title": "Teams",
-      "description": "Role-based approvals, shared wallets, and delivery hand-offs roll out next. Join the beta to test team controls early.",
-      "comingSoonNote": "Teams features are in private beta. Contact support@maxvideoai.com to join the rollout.",
+      "title": "团队协作",
+      "description": "基于角色的审批流、团队共享钱包与成片交付交接功能即将上线。立即加入公测，率先体验团队管控功能。",
+      "comingSoonNote": "团队版功能当前处于定向邀测阶段。请联系 support@maxvideoai.com 申请体验。",
       "points": [
-        "Planned: role-based shared wallets with approvals across finance, producers, and stakeholders.",
-        "Planned: automated daily summaries covering spend, refunds, and queue health.",
-        "Planned: team delivery hand-offs to supported storage destinations."
+        "规划中：基于角色的共享钱包，支持财务、制作人与业务负责人的多层级审批。",
+        "规划中：支持按项目归集任务历史、收据明细与使用量看板导出。",
+        "规划中：预设资产共享与带团队水印的视频内部审阅模式。"
       ]
     },
     "refunds": {
-      "title": "Refunds & protections",
+      "title": "退款与安全保障",
       "points": [
-        "Automatic refunds when generations fail or providers miss SLAs.",
-        "Itemised receipts with engine, duration, resolution, and add-ons.",
-        "Wallet protections with optional multi-approver top-ups.",
-        "Application fee is recognised immediately; vendor share settles on payout.",
-        "Every render attempt carries an idempotency key to prevent duplicate charges."
+        "若生成任务失败或厂商未达到可用性 SLA，积分自动全额退还。",
+        "每笔消费均附带详尽收据，记录模型、时长、分辨率及附加参数。",
+        "提供钱包安全保护，支持可选的多人审批充值机制。",
+        "平台服务费在发起任务时确认；供应商结算份额在任务交付后结清。",
+        "每次渲染请求均带有幂等性密钥（Idempotency Key），坚决防止网络重试导致重复扣费。"
       ]
     },
     "faq": {
-      "title": "Pricing FAQ",
-      "subtitle": "Short answers about live quotes, credits, refunds and engine availability.",
+      "title": "计费常见问题",
+      "subtitle": "关于实时报价、积分充值、退款保障与模型可用性的简要解答。",
       "entries": [
         {
-          "question": "How is AI video pricing calculated?",
-          "answer": "AI video pricing depends on the engine, duration, resolution, audio setting and workflow. The comparison table shows preset total prices for common scenarios, and the app shows the exact live quote before generation."
+          "question": "AI 视频的价格是如何计算的？",
+          "answer": "AI 视频的定价取决于所选模型、生成时长、输出分辨率、音频设置及工作流类型。价格对比表展示了常见场景下的预设总价，而在工作区中，您可以在点击生成前看到精确的实时报价。"
         },
         {
-          "question": "Which AI video engine is cheapest?",
-          "answer": "The cheapest engine depends on the scenario. A 5s 720p draft, an 8s 1080p premium clip, a 10s 1080p video and 4K output can all have different winners. The table highlights current-generation options first and lists older budget routes separately when available."
+          "question": "哪款 AI 视频模型性价比最高？",
+          "answer": "最便宜的模型取决于具体的创作需求。5秒 720p 分镜草稿、8秒 1080p 优质片段、10秒 1080p 视频或 4K 超清成片，最具性价比的选择各不相同。价格表中优先高亮当前主流代际模型，并在可用时单独列出早期经济型路线。"
         },
         {
-          "question": "Which engine is cheapest for 10s 1080p video?",
-          "answer": "Check the 10s 1080p column in the video pricing table. Engines that do not support exact 10s 1080p are marked clearly instead of being forced into a fake comparison."
+          "question": "生成 10秒 1080p 视频哪款模型最划算？",
+          "answer": "请查看视频价格表中的 10s 1080p 一列。不支持原生 10s 1080p 输出的模型均有明确标注，坚决避免失真的不当对比。"
         },
         {
-          "question": "Why is there an 8s 1080p column?",
-          "answer": "Some major engines, including Veo routes, are limited to shorter durations such as 4s, 6s or 8s. The 8s column makes those engines comparable without pretending they support 10s."
+          "question": "为什么专门设有 8秒 1080p 对比列？",
+          "answer": "部分主流模型（包括 Google Veo 路线）原生时长限制为 4秒、6秒或 8秒。设立 8秒列可以让这些顶级模型在合理基准下参与横评，而无需强行要求其支持 10秒。"
         },
         {
-          "question": "Why is 4K shown separately?",
-          "answer": "Some routes are built for 4K output and should not be compared as if they were standard 1080p engines. The 4K column shows native or dedicated 4K pricing when available."
+          "question": "为什么 4K 超清规格单独分列展示？",
+          "answer": "某些模型专为原生 4K 超清输出打造，不应简单与标准 1080p 模型混为一谈。4K 列在支持的模型上单独展示原生或专用 4K 价格。"
         },
         {
-          "question": "Can I see the exact price before generating?",
-          "answer": "Yes. Open the app for live pricing before you generate. You can preview the exact price as a guest before launching a render."
+          "question": "我能在正式生成前看到确切价格吗？",
+          "answer": "完全可以。在工作区中，每次生成前均会实时计算并展示确切价格。即使未注册账号，您也可以以访客身份在工作区内试算各项参数的实时报价。"
         },
         {
-          "question": "Do failed generations cost credits?",
-          "answer": "No. Failed generations are refunded automatically. Credits are charged only when a generation completes successfully."
+          "question": "生成失败会扣除我的积分吗？",
+          "answer": "不会。如遇系统或厂商层面的技术生成失败，系统会自动全额退款返还积分。仅当视频成功渲染生成后，才会实际计费。"
         },
         {
-          "question": "Do I need a subscription?",
-          "answer": "No. MaxVideoAI uses pay-as-you-go credits. You can compare prices, choose the right engine per job and generate without a required subscription."
+          "question": "我必须按月订阅会员吗？",
+          "answer": "完全不需要。MaxVideoAI 采用按需付费（Pay-As-You-Go）积分模式。您可以根据每个镜头的需求自由挑选模型并生成，没有任何强制性的月费或年费订阅。"
         },
         {
-          "question": "Why are some cheaper engines not highlighted first?",
-          "answer": "Some previous-generation routes may be cheaper for simple tests, but MaxVideoAI highlights current-generation engines first because they are usually better choices for new projects. Older budget routes are still listed separately when available."
+          "question": "为什么部分廉价模型没有优先推荐？",
+          "answer": "部分上一代老模型在简单测试时费用可能更低，但 MaxVideoAI 优先推荐最新一代主流模型，因为它们在新项目中的画质、动态与遵循度通常更优秀。老款经济型模型仍会在表格中保留列出。"
         },
         {
-          "question": "Are image, audio and tools priced the same as video?",
-          "answer": "No. Video, image, audio and tools use different pricing rules. Image generation is usually priced per image, audio by duration or mode, and tools by output type or resolution."
+          "question": "图像、音频和辅助工具的计费与视频一样吗？",
+          "answer": "规则不同。视频、图像、音频与编辑工具适用不同的计费标准。图像生成通常按张计费，音频按时长或模式计费，而工具则按输出类型或分辨率计费。"
         },
         {
-          "question": "Why does the table show total prices instead of cost per second?",
-          "answer": "Most users compare the full cost of a render, not raw per-second rates. MaxVideoAI shows preset total prices for common scenarios such as 8s 1080p, 10s 1080p and 4K output. Per-second or provider-level rates can vary by engine, duration, resolution and rounding, and the app shows the exact live quote before generation."
+          "question": "为什么表格展示总价而不是按秒单价？",
+          "answer": "大多数创作者更关心单次成片的完整总支出，而非抽象的每秒单价。MaxVideoAI 展示了 8s 1080p、10s 1080p 和 4K 等常见场景的预估总价。单秒费率会因模型、时长、分辨率及舍入规则变化，工作区在提交前会始终展示精确的成片总价。"
         },
         {
-          "question": "How often do prices change?",
-          "answer": "Prices may change when providers update rates or when MaxVideoAI adds new engines. The pricing page shows current preset comparisons, while the app always shows the live quote before generation."
+          "question": "价格变动的频率是怎样的？",
+          "answer": "当底层提供商调整接口费率或 MaxVideoAI 接入新模型时，价格可能会随之更新。价格页面展示当前的基准对比，工作区内始终以提交前的实时报价为准。"
         }
       ]
     },
     "supplementalFaq": [
       {
-        "question": "What if I am looking for Sora pricing?",
-        "answer": "Use the Sora alternatives section to compare currently available MaxVideoAI models by cost, duration and quality before you generate."
+        "question": "如果我想了解 OpenAI Sora 的价格呢？",
+        "answer": "您可以查阅 Sora 替代方案专区，在生成前按成本、时长与成片质量横向对比当前 MaxVideoAI 上已接入的可用模型。"
       },
       {
-        "question": "Do videos have watermarks?",
-        "answer": "No. Renders produced through MaxVideoAI are delivered without watermarks."
+        "question": "生成的视频会有水印吗？",
+        "answer": "没有。通过 MaxVideoAI 渲染生成的全部视频交付文件均无任何平台水印。"
       },
       {
-        "question": "Do text-to-video AI, image-to-video AI, and video-to-video AI workflows cost the same?",
-        "answer": "Not always. Text-to-video AI, image-to-video AI, and video-to-video AI routes can price differently depending on the engine, input type, duration, resolution, and whether audio or extra controls are enabled."
+        "question": "文生视频、图生视频与视频生视频费用相同吗？",
+        "answer": "不一定相同。这三种工作流根据具体模型、输入素材规格、生成时长、分辨率以及是否开启音频或额外控制项，计费标准可能会有所差异。"
       }
     ],
     "priceChipSuffix": "Price before you generate.",
     "priceChipPrefix": "This render",
     "meta": {
-      "title": "AI Video Pricing: Compare Models | MaxVideoAI",
-      "description": "Compare AI video prices by engine, duration, resolution and audio. See preset prices for 720p, 1080p and 4K, then open the app for live pricing."
+      "title": "AI 视频生成计费与模型价格对比 | MaxVideoAI",
+      "description": "按模型、时长、分辨率与音频对比 AI 视频价格。查看 720p、1080p 与 4K 预设价格，进入工作区查看实时透明报价。"
     }
   },
   "workflows": {
     "meta": {
-      "title": "AI Video Workflow: Generate Variants With Live Pricing | MaxVideoAI",
-      "description": "Generate AI videos in one workspace: choose an engine, set duration/resolution/aspect, preview price, generate up to 4 variants, copy prompts, and download."
+      "title": "AI 视频创作工作流：实时透明计费与多变体生成 | MaxVideoAI",
+      "description": "在单一工作区内生成 AI 视频：选择模型、设置时长/分辨率/宽高比、预览实时价格、一次生成最多 4 个变体、复用提示词并即刻下载。"
     },
     "hero": {
-      "title": "Workflows",
-      "subtitle": "Your repeatable AI video workflow: pick an engine, set the shot, preview price, and generate variants you can reuse.",
-      "primaryCta": "Generate now",
-      "secondaryCta": "Browse 示例",
-      "tertiaryCta": "Compare models"
+      "title": "创作工作流",
+      "subtitle": "高度可复用的 AI 视频工作流：挑选模型、配置镜头、预览价格，并生成可随时复用的多版本成片。",
+      "primaryCta": "立即创作",
+      "secondaryCta": "浏览示例",
+      "tertiaryCta": "对比模型"
     },
     "how": {
-      "title": "How it works (live)",
+      "title": "工作原理（实时）",
       "steps": [
         {
-          "title": "Choose engine & mode",
-          "description": "Text-to-video, image-to-video, plus references when supported."
+          "title": "选择模型与模式",
+          "description": "涵盖文生视频、图生视频，以及在支持时的参考素材控制。"
         },
         {
-          "title": "Set shot settings",
-          "description": "Duration, aspect, resolution, iterations, and audio when available."
+          "title": "配置镜头参数",
+          "description": "自由设置时长、宽高比、分辨率、迭代次数，并在可用时开启音频。"
         },
         {
-          "title": "Write prompt + add references",
-          "description": "Add a prompt and optional reference assets."
+          "title": "编写提示词并添加参考素材",
+          "description": "输入画面描述并按需添加参考图片素材。"
         },
         {
-          "title": "Generate + review variants",
-          "description": "Preview a grid, copy prompts, and download per clip."
+          "title": "生成并审阅多变体成片",
+          "description": "网格化预览、一键复制提示词并逐条下载视频片段。"
         }
       ]
     },
     "capabilities": {
-      "title": "What you can do today",
+      "title": "现已支持的核心功能",
       "items": [
         {
-          "title": "Live price-before-you-generate",
-          "description": "The price chip updates as settings change."
+          "title": "生成前明晰实时报价",
+          "description": "参数配置变化时，价格标签实时同步更新。"
         },
         {
-          "title": "Generate 1-4 variants per run",
-          "description": "Iterations create multiple takes in one go."
+          "title": "单次任务生成 1-4 个变体",
+          "description": "使用相同参数一键渲染多个不同视角的镜头版本。"
         },
         {
-          "title": "Copy prompt from any result",
-          "description": "Reuse prompts directly from past takes."
+          "title": "一键复用历史提示词",
+          "description": "直接从过往渲染记录中复制并重用提示词。"
         },
         {
-          "title": "Continue / Refine",
-          "description": "Prefill settings from a chosen take and iterate."
+          "title": "基于成片继续微调优化",
+          "description": "一键将满意镜头的参数回填至编辑器继续迭代。"
         },
         {
-          "title": "Per-clip downloads",
-          "description": "Download each clip individually."
+          "title": "单片段独立高速下载",
+          "description": "支持单独下载每个生成的视频与原画素材。"
         },
         {
-          "title": "History you can revisit",
-          "description": "Find runs in /jobs and the public gallery."
+          "title": "随时回溯的历史记录",
+          "description": "在任务历史与公开画廊中随时查验所有渲染历史。"
         }
       ]
     },
     "examples": {
-      "title": "Examples (real prompts you can reuse)",
-      "subtitle": "Open an example -> reuse the prompt -> run it in /app.",
-      "viewLabel": "View",
+      "title": "真实成片示例（提示词可直接复用）",
+      "subtitle": "打开示例 -> 复用提示词 -> 在工作区中即刻运行。",
+      "viewLabel": "查看",
       "items": [
         {
           "label": "Sora 2",
@@ -1971,42 +1977,42 @@
       ]
     },
     "faq": {
-      "title": "FAQ (live)",
+      "title": "常见问题（实时解答）",
       "items": [
         {
-          "question": "How does \"price before you generate\" work?",
-          "answer": "The price chip updates as you change engine, duration, and resolution. You are charged only on success."
+          "question": "“生成前明晰价格”是如何工作的？",
+          "answer": "当您切换模型、调整时长或修改分辨率时，价格标签会实时重新计算。仅在生成成功时才会扣费。"
         },
         {
-          "question": "What do iterations mean?",
-          "answer": "Iterations generate 1-4 variants in a single run using the same settings."
+          "question": "迭代次数（Iterations）代表什么？",
+          "answer": "迭代次数允许您在一次提交中使用相同参数并行生成 1 到 4 个不同的镜头变体。"
         },
         {
-          "question": "Why do duration/resolution/aspect options differ by engine?",
-          "answer": "Each engine exposes its own caps, so the UI only shows what that engine supports."
+          "question": "为什么不同模型的时长、分辨率与宽高比选项不同？",
+          "answer": "每个模型都有其底层的物理上限，界面仅展示当前选定模型实际支持的参数规格。"
         },
         {
-          "question": "When is audio available?",
-          "answer": "Audio appears only on engines that support it, with a toggle when available."
+          "question": "何时可以使用原生音频功能？",
+          "answer": "音频选项仅在底层支持音频生成的模型上显示，并提供启用/禁用的快捷开关。"
         },
         {
-          "question": "Where do I find past runs?",
-          "answer": "Open /jobs for your history and /examples for curated prompts you can reuse."
+          "question": "我在哪里可以找到以前生成的视频？",
+          "answer": "进入任务历史页面即可查看您的全部历史任务；进入示例画廊可查阅供复用的精选提示词。"
         }
       ]
     },
     "cta": {
-      "title": "Start generating in seconds",
-      "subtitle": "Pick an engine, set your shot, preview price, generate variants.",
-      "primaryCta": "Generate now",
-      "secondaryCta": "Browse 示例"
+      "title": "数秒之内开启视频创作",
+      "subtitle": "挑选模型、配置镜头、预览价格、生成多样变体。",
+      "primaryCta": "立即生成",
+      "secondaryCta": "浏览示例"
     }
   },
   "models": {
     "hero": {
-      "title": "Find the model for your next idea.",
-      "subtitle": "AI video and image models, all in one place.",
-      "body": "Explore examples, compare capabilities and check the price before choosing a model."
+      "title": "为您的下一个灵感寻找理想模型。",
+      "subtitle": "AI 视频与图像模型，尽在统一工作区。",
+      "body": "在挑选模型前，浏览真实示例、对比核心能力并明晰确切价格。"
     },
     "intro": {
       "paragraphs": [
@@ -2050,14 +2056,18 @@
       "textImage": "Text + Image to Video",
       "text": "Text to Video",
       "imageVideo": "Image to Video",
-      "image": "Image Generation · Text & Image to Image",
-      "default": "AI Video Engine"
+      "image": "图像模型",
+      "default": "AI Video Engine",
+      "video": "视频模型",
+      "preparation": "创作工具"
     },
     "availabilityLabels": {
-      "available": "Available",
+      "available": "现已可用",
       "limited": "Limited access",
-      "waitlist": "Waitlist",
-      "paused": "Paused"
+      "waitlist": "等待名单",
+      "paused": "Paused",
+      "beta": "公测中",
+      "deprecated": "已弃用"
     },
     "meta": {
       "sora-2": {
@@ -2181,22 +2191,23 @@
         "faqTitle": "AI model specs, pricing, and examples FAQ"
       },
       "hero": {
-        "title": "AI Models (All Specs, Limits & Pricing)",
-        "subtitle": "Review video and image model capabilities, limits, and pricing before you generate.",
+        "title": "全部 AI 模型（技术规格、限制与定价）",
+        "subtitle": "在选定模型前，全面了解视频与图像模型的核心能力、参数限制与计费规则。",
         "bullets": [
-          "Open any model for full specs, limits, and pricing details.",
-          "Use the dedicated video and image hubs to narrow the right shortlist faster."
+          "打开任意模型卡片，查阅完整技术规格、限制说明与价格详情。",
+          "使用专属视频或图像中心，快速筛选适合您项目的候选模型。",
+          "生成前价格完全透明，支持按需充值积分灵活创作。"
         ],
-        "compareLabel": "Enter Compare Mode"
+        "compareLabel": "进入对比模式"
       },
-      "legacyToggleLabel": "Show legacy models",
+      "legacyToggleLabel": "显示早期旧款模型",
       "grid": {
-        "srTitle": "AI video and image models with specs, limits, and pricing on MaxVideoAI",
-        "bridgeText": "Use model cards to review capabilities first, then jump into the video or image hub for a tighter shortlist."
+        "srTitle": "MaxVideoAI 平台上的 AI 视频与图像模型规格、限制与价格列表",
+        "bridgeText": "先通过模型卡片了解核心能力，再进入视频中心或图像中心深入查看技术规格与真实示例。"
       },
       "quickCompare": {
-        "title": "Model checks by common scenarios",
-        "subtitle": "Open side-by-side checks only when you need a decision view after reviewing specs.",
+        "title": "按常用场景快速查验模型",
+        "subtitle": "浏览模型卡片后，如需更直观的决策参考，可打开并排横向对比视图。",
         "shortcuts": [
           "cinematic 对比 ad-ready",
           "cinematic 对比 control",
@@ -2207,107 +2218,107 @@
         ]
       },
       "chooseOutcome": {
-        "title": "Choose a model family first",
-        "subtitle": "Start with the media you need to generate, then refine by limits and pricing.",
+        "title": "首先选定模型所属类别",
+        "subtitle": "从您所需创作的媒体类型出发，再根据参数限制与预算进一步挑选。",
         "tiles": [
           {
-            "title": "Video models",
-            "description": "Open the video hub for rendering workflows, compare pages, and motion-first engines."
+            "title": "视频模型",
+            "description": "前往视频中心，探索渲染工作流、对比页面与动态生成示例。"
           },
           {
-            "title": "Image models",
-            "description": "Open the image hub for still generation, edits, and reference-led workflows."
+            "title": "图像模型",
+            "description": "前往图像中心，进行静态图生成、局部编辑与参考素材构建。"
           },
           {
-            "title": "Limits and formats",
-            "description": "Check duration, resolution, references, audio, and output constraints by model."
+            "title": "参数限制与格式",
+            "description": "在投入积分前，核对时长、分辨率、参考图要求、音频与格式限制。"
           },
           {
-            "title": "Pricing by workflow",
-            "description": "Separate per-second video pricing from per-image still pricing."
+            "title": "按工作流计费",
+            "description": "区分按秒计费的视频模型与按张计费的图像模型。"
           },
           {
-            "title": "Model pages and guidance",
-            "description": "Open each profile for prompts, workflow notes, and detailed operational limits."
+            "title": "模型详情与指引",
+            "description": "查看各模型的专属主页，获取提示词、工作流要点与操作建议。"
           }
         ]
       },
       "reliability": {
-        "title": "Checks that matter before launch",
-        "subtitle": "Validate media type, output constraints, and billing model before picking a workflow.",
+        "title": "正式渲染前务必确认的关键项",
+        "subtitle": "在选定模型前，核对素材类型、输出限制与计费模式。",
         "items": [
           {
-            "title": "Media type",
-            "body": "Separate video engines from still-image models before reviewing specs or cost."
+            "title": "素材类别",
+            "body": "在查阅规格前，明确区分视频渲染引擎与静态图像模型。"
           },
           {
-            "title": "Limits and formats",
-            "body": "Check duration, resolution, references, audio, and format constraints."
+            "title": "限制与格式",
+            "body": "仔细核对支持的时长、分辨率档位、参考图类型、音频及文件格式。"
           },
           {
-            "title": "Pricing model",
-            "body": "Review whether billing is per second, per image, by resolution, or add-on driven."
+            "title": "计费模式",
+            "body": "确认计费是按秒、按张、按分辨率还是包含附加功能收费。"
           }
         ],
         "faq": [
           {
-            "question": "Should I start from the video hub or the image hub?",
-            "answer": "Use the video hub for motion workflows and compare pages. Use the image hub for still generation, edits, reference limits, and per-image pricing."
+            "question": "我应该从视频中心还是图像中心开始？",
+            "answer": "如果是动态视频创作或横评对比，请使用视频中心；如果是生成静态源关键帧、参考图或图片编辑，请使用图像中心。"
           },
           {
-            "question": "Are all models in this catalog video models?",
-            "answer": "No. The catalog includes both video and image models, and future media categories can be separated into dedicated hubs."
+            "question": "本目录中的所有模型都是视频模型吗？",
+            "answer": "不是。目录中同时包含视频模型与图像模型，未来还将持续扩展更多媒体品类。"
           },
           {
-            "question": "How should I interpret pricing on this page?",
-            "answer": "Video models are generally priced per second, while still-image models are priced per image or output size. Open the model page for the exact billing pattern."
+            "question": "我该如何理解此页面的价格展示？",
+            "answer": "视频模型通常按秒计费，而静态图像模型通常按张计费。进入工作区即可查看具体参数组合下的精确实时报价。"
           },
           {
-            "question": "Where should I compare video engines side by side?",
-            "answer": "Use the video compare hub for side-by-side comparisons. Image models currently rely on dedicated detail pages rather than the compare hub."
+            "question": "在哪里可以并排横向对比视频模型？",
+            "answer": "请使用模型对比中心进行并排对比。图像模型也可以进入对比模式进行多项维度打分比较。"
           }
         ]
       },
       "cta": {
-        "title": "Start from the right media hub",
-        "subtitle": "Open the dedicated video or image hub when you want filters, copy, and next steps aligned to that workflow.",
+        "title": "从最匹配的媒体中心开始创作",
+        "subtitle": "打开专属的视频或图像中心，使用精准筛选器、参数指引与实时报价工具。",
         "pills": [
-          "Video models",
-          "Image models",
-          "Live pricing"
+          "视频模型",
+          "图像模型",
+          "实时报价"
         ],
-        "microcopy": "Category-first navigation • Live pricing • Model-level constraints",
-        "primaryLabel": "Open video models",
-        "secondaryLabel": "Open image models"
+        "microcopy": "分类专属导航 • 实时计费报价 • 模型级参数限制",
+        "primaryLabel": "浏览视频模型",
+        "secondaryLabel": "浏览图像模型"
       }
     },
     "gallery": {
       "compareLabel": "模型对比",
-      "compareTooltip": "Select to compare",
-      "compareAria": "Select {engine} to compare",
+      "compareTooltip": "选中以对比",
+      "compareAria": "选择 {engine} 加入对比",
       "strengthsLabel": "Strengths",
       "stats": {
         "from": "From",
-        "maxDurShort": "Max dur.",
-        "maxDurLong": "Max duration",
-        "maxResShort": "Max res.",
-        "maxResLong": "Max resolution",
+        "maxDurShort": "最长时长",
+        "maxDurLong": "最长生成时长",
+        "maxResShort": "最高分辨率",
+        "maxResLong": "最高输出分辨率",
         "typeShort": "Type",
         "typeLong": "Type"
       },
-      "audioAvailableLabel": "Audio available",
+      "audioAvailableLabel": "支持音频",
       "engineTabs": {
         "options": {
-          "video": "Video generation",
-          "image": "Image generation",
+          "video": "视频生成",
+          "image": "图像生成",
           "audio": "Audio",
-          "preparation": "Preparation tools",
+          "preparation": "辅助工具",
           "all": "全部模型"
         }
       },
       "filters": {
         "sort": {
-          "label": "Sort by",
+          "label": "排序方式",
           "options": {
             "featured": "Featured",
             "score": "Score",
@@ -2318,7 +2329,7 @@
           }
         },
         "mode": {
-          "label": "Input mode",
+          "label": "输入模式",
           "options": {
             "all": "All",
             "t2v": "T2V",
@@ -2326,7 +2337,7 @@
             "v2v": "V2V",
             "firstLast": "First/Last",
             "extend": "Extend",
-            "lipSync": "Lip sync",
+            "lipSync": "口型同步",
             "audio": "Audio"
           }
         },
@@ -2365,20 +2376,20 @@
             "all": "All"
           }
         },
-        "searchPlaceholder": "Search models...",
-        "clear": "Clear filters"
+        "searchPlaceholder": "搜索模型…",
+        "clear": "清空筛选"
       },
       "compareBar": {
-        "selectedTemplate": "Selected: {left} + {right}",
-        "selectTwo": "Select two engines to compare",
+        "selectedTemplate": "已选：{left} + {right}",
+        "selectTwo": "请选择两款模型进行并排对比",
         "clear": "清除",
         "compare": "模型对比"
       },
       "cardActions": {
-        "viewSpecs": "View specs",
-        "viewSpecsAria": "View {engine} specs",
+        "viewSpecs": "查看参数",
+        "viewSpecsAria": "查看 {engine} 技术参数",
         "compare": "模型对比",
-        "compareAria": "Compare {engine} with other AI video models",
+        "compareAria": "将 {engine} 与其他 AI 视频模型进行对比",
         "examples": "示例",
         "examplesAria": "See {engine} prompt 示例"
       },
@@ -2386,20 +2397,20 @@
         "T2V": "Text-to-video",
         "I2V": "Image-to-video",
         "V2V": "Video-to-video",
-        "First/Last": "First frame / last frame",
-        "Extend": "Extend / continue"
+        "First/Last": "首帧 / 尾帧控制",
+        "Extend": "视频延长 / 续写"
       },
       "scoreLabels": {
-        "fidelity": "Prompt Adherence",
-        "visualQuality": "Visual Quality",
-        "motion": "Motion Realism",
-        "consistency": "Temporal Consistency",
-        "anatomy": "Human Fidelity",
-        "textRendering": "Text & UI Legibility",
-        "lipsyncQuality": "Audio & Lip Sync",
-        "sequencingQuality": "Multi-Shot Sequencing",
+        "fidelity": "提示词遵循度",
+        "visualQuality": "视觉画质",
+        "motion": "动态真实感",
+        "consistency": "时间连续性",
+        "anatomy": "人物保真度",
+        "textRendering": "文本与UI清晰度",
+        "lipsyncQuality": "音频与口型同步",
+        "sequencingQuality": "多镜头连贯性",
         "controllability": "Controllability",
-        "speedStability": "Speed & Stability",
+        "speedStability": "生成速度与稳定性",
         "pricing": "价格"
       },
       "valueSentence": {
@@ -2438,93 +2449,93 @@
   },
   "aiVideoEngines": {
     "meta": {
-      "title": "Compare AI Video Engines: 11-Criteria Scorecards",
-      "description": "Compare Kling, Seedance, Veo, LTX and other AI video engines by pricing, audio, duration, resolution and 11-criteria side-by-side scorecards."
+      "title": "对比主流 AI 视频模型：11 项综合评测得分表",
+      "description": "按计费价格、音频支持、时长、分辨率与 11 个评测维度并排对比 Kling、Seedance、Veo、LTX 等主流 AI 视频模型。"
     },
     "hero": {
-      "title": "Run AI Video Generators in Europe — Sora 2, Veo 3, Pika & More",
-      "intro": "MaxVideoAI keeps cinematic text-to-video engines compliant, monitored, and production-ready for European teams. Use this hub to understand availability, compare creative trade-offs, and launch projects with the right guardrails from day one.",
-      "secondary": "Not sure which model to pick? Read our {{article:comparison article}}."
+      "title": "主流前沿 AI 视频生成平台 —— Sora 2、Veo 3、Pika 等更多模型",
+      "intro": "MaxVideoAI 为团队提供符合合规要求、实时监控且达生产级稳定性的前沿文生视频模型聚合。通过此中心掌握各模型可用状态、权衡创意取舍，从第一天起就为项目配备正确的护栏规范。",
+      "secondary": "还不确定选哪个模型？阅读我们的 {{article:模型对比文章}}。"
     },
     "sections": [
       {
-        "title": "Sora 2 availability and alternatives",
-        "body": "Sora 2 remains a staged rollout, so MaxVideoAI handles the verification trail, regional compliance, and predictive routing when capacity spikes. Producers can benchmark storyboards against {{sora:Sora 2 reference projects}} and switch to Sora 2 Pro presets or Veo 3 sequences when turnaround speed matters more than frontier fidelity. We document prompt structures, footage approvals, and post-production best practices so every brief stays aligned with OpenAI review criteria while still shipping on time. Regional producers also receive weekly availability notes covering audio support, frame length, and compliance traceability for regulated sectors."
+        "title": "Sora 2 可用性与替代方案",
+        "body": "Sora 2 仍处于分批灰度阶段，MaxVideoAI 在容量高峰期为您提供追踪审计、合规保护与智能调度。制作团队可以参考 {{sora:Sora 2 参考项目}} 评估分镜，并在交期紧迫时无缝切换至 Sora 2 Pro 预设或 Veo 3 镜头序列。我们持续沉淀提示词结构、素材审核与后期制作最佳实践，确保每个任务既符合审核准则，又能准时保质交付。"
       },
       {
-        "title": "Veo 3: cinematic text-to-video for creators",
-        "body": "Veo 3.1 bridges the gap between storyboard accuracy and polished motion, especially when social or advertising deliverables need voice-over sync. Our routing keeps latency predictable and lets directors compare the fast preset with the longer-run tier before booking studio time. Review the latest guardrails, aspect ratios, and narration-ready examples on the {{veo:Veo 3.1 overview}} or tap the Fast variant when iteration speed outranks audio or frame count. We also surface a change log inside the workspace so editors can see when motion controls, audio fidelity, or policy notes adjust between releases."
+        "title": "Veo 3：专为创作者打造的电影级文生视频",
+        "body": "Veo 3.1 完美连接了分镜精准度与高级动态质感，尤其适合需要语音旁白对齐的社交媒体与广告营销物料。我们的路由系统保持稳定的低延迟响应，让导演在锁定排期前即可横向对比快速预设与长时长规格。请前往 {{veo:Veo 3.1 概览}} 查阅最新规范、宽高比与旁白对齐范例；在迭代速度优先于音频时，也可直接选用 Fast 极速版本。"
       },
       {
-        "title": "Pika 2.2 for fast social content",
-        "body": "When teams need playful loops or short-form edits, Pika 2.2 delivers multi-aspect outputs at a fraction of the budget. MaxVideoAI exposes curated presets so editors can jump from vertical reels to square product shots without leaving the workspace. Compare text-to-video and image-to-video modes side-by-side on our {{pika:Pika quickstart guide}} and reuse prompt banks that have already been cleared for brand-safe campaigns. Daily QA passes flag style drift or artefacts so you know when to regenerate, upscale, or hand off to animators for refinement."
+        "title": "Pika 2.2：快节奏社交媒体短视频利器",
+        "body": "当团队需要趣味循环动效或短视频切片时，Pika 2.2 能以更具性价比的预算输出多种画幅规格。MaxVideoAI 提供精心挑选的预设模板，让剪辑师无需离开工作区即可在竖屏 Reels 与方形商品图之间自由转换。在我们的 {{pika:Pika 快速上手指南}} 中并排对比文生视频与图生视频模式，直接复用已通过品牌安全验证的提示词库。"
       },
       {
-        "title": "How MaxVideoAI routes multi-engine production",
-        "body": "MaxVideoAI coordinates multi-engine capacity behind one consistent interface for creative leads. Our orchestration layer keeps prompts portable, logs every render, and exposes diagnostics so you know when to retry or hand off to another engine like {{veoFast:Veo 3.1 Fast}} or {{hailuo:MiniMax Hailuo}} for stylised outputs. Teams also gain access to rate cards, audit trails, and regional compliance notes in one workspace, and automated playbooks explain how to escalate priority or swap render regions when demand peaks."
+        "title": "MaxVideoAI 如何高效调度多模型生产",
+        "body": "MaxVideoAI 为创意主管在统一标准界面背后协调多模型并发算力。我们的编排层保持提示词高度兼容，记录每次渲染的完整日志，并提供实时诊断信息，让您清楚何时重试或何时无缝分流至 {{veoFast:Veo 3.1 Fast}} 或 {{hailuo:MiniMax Hailuo}} 等风格化模型。团队可在统一工作区内获取报价单据、操作审计轨迹与合规说明。"
       }
     ],
     "comparison": {
-      "title": "Compare the top video generators",
-      "intro": "Whether you need frontier fidelity or budget-friendly loops, MaxVideoAI keeps each engine ready for production workloads.",
+      "title": "热门顶尖视频生成模型横向评测",
+      "intro": "无论是追求顶级画质保真度，还是高性价比的快速循环短视频，MaxVideoAI 确保每个模型随时满足生产环境需求。",
       "cards": [
         {
           "label": "Sora 2",
-          "title": "Fidelity-first",
+          "title": "顶级画质保真",
           "points": [
-            "Frontier video model with native audio",
-            "Strict review loop, longer queue times",
-            "Ideal for hero campaigns and cinematic briefs"
+            "支持原生音频的前沿视频大模型",
+            "更严格的审核流程，队列等待稍长",
+            "大制作主宣片与电影级视觉镜头的首选"
           ]
         },
         {
           "label": "Veo 3.1",
-          "title": "Cinematic speed",
+          "title": "电影质感与速度兼顾",
           "points": [
-            "Bridges storyboard fidelity with fast iteration",
-            "Switch between standard and fast queues",
-            "Audio-ready for interviews, ads, and explainers"
+            "兼顾分镜精准度与快速出片",
+            "可在标准队列与快速队列间随心切换",
+            "适配访谈、商业广告与解说类视频"
           ]
         },
         {
           "label": "Pika 2.2",
-          "title": "Rapid social loops",
+          "title": "社交媒体极速循环",
           "points": [
-            "Fast text or image to video renders",
-            "Ideal for reels, teasers, and playful concepts",
-            "Budget-friendly credits for experimentation"
+            "极速文本或图片生成视频渲染",
+            "最适合信息流片段、预告与趣味概念",
+            "超高性价比积分消耗，无惧反复试错"
           ]
         }
       ]
     },
-    "faqTitle": "AI video routing FAQ",
+    "faqTitle": "AI 视频模型调度常见问题",
     "faq": [
       {
-        "question": "How do wallet top-ups work for AI video engines?",
-        "answer": "Top up your individual wallet through secure Stripe Checkout. Card and available express payment options are shown before you pay."
+        "question": "钱包充值如何支持各个 AI 视频模型？",
+        "answer": "通过安全的 Stripe Checkout 为您的个人钱包充值。在完成支付前，系统会清晰展示银行卡及适用的快捷支付选项。"
       },
       {
-        "question": "How quickly can teams launch a Sora 2 project?",
-        "answer": "Most creative teams start prompting within two business days. We keep onboarding templates ready and provide fallback Veo or Pika presets while Sora access is finalised."
+        "question": "团队接入 Sora 2 项目需要多久？",
+        "answer": "大多数创意团队在两个工作日内即可开始调试提示词。我们准备了现成的新手模板，并在等待期间提供 Veo 或 Pika 作为高质量后备预设。"
       },
       {
-        "question": "Can I monitor model changes without refreshing documentation?",
-        "answer": "The MaxVideoAI workspace highlights latency, output limits, and policy updates in real time, so producers know when to retry or pivot to alternative engines."
+        "question": "无需刷新文档即可监控模型变动吗？",
+        "answer": "MaxVideoAI 工作区实时高亮显示延迟状态、输出参数上限与策略调整，方便制作人员第一时间获悉何时重试或切换至备选模型。"
       }
     ],
     "cta": {
-      "body": "Looking for sequenced prompt recipes? Read the latest guides on the {{blog:MaxVideoAI blog}} for branded storytelling walkthroughs and engine updates."
+      "body": "正在寻找进阶连贯提示词方案？查阅 {{blog:MaxVideoAI 博客}} 上的最新指南，获取品牌故事实战教程与模型更新动态。"
     }
   },
   "examples": {
     "sortLabel": "排序",
-    "countLabel": "curated renders",
-    "engineFilterLabel": "Engines",
-    "engineFilterAllLabel": "All",
+    "countLabel": "条精选成片",
+    "engineFilterLabel": "模型",
+    "engineFilterAllLabel": "全部",
     "hero": {
-      "title": "A world of stories to create.",
-      "subtitle": "Explore real AI videos: characters, cinematic scenes, animation and visual experiments.",
-      "body": "Open an example to see the prompt, settings and recorded generation cost. Then use it as a starting point for your own creation."
+      "title": "万千故事，由此启程。",
+      "subtitle": "探索真实 AI 视频成片：人物角色、电影级场景、动效创意与视觉实验。",
+      "body": "打开任意示例，查看提示词、参数设置与生成费用。您可以直接以此为起点，开启属于自己的创作。"
     },
     "items": [
       {
@@ -2906,111 +2917,115 @@
     }
   },
   "videoPage": {
-    "backLink": "← Back",
+    "backLink": "← 返回",
     "hero": {
-      "titleFallback": "MaxVideoAI render",
-      "intro": "This video was generated with {engine} on MaxVideoAI — discover how to create similar renders below.",
+      "titleFallback": "MaxVideoAI 成片展示",
+      "intro": "本视频由 MaxVideoAI 上的 {engine} 生成 —— 探索下方内容，了解如何创作类似精彩成片。",
       "promptLabel": "提示词",
-      "promptFallback": "Prompt unavailable.",
-      "copy": "Copy prompt",
-      "copied": "Copied!",
-      "showMore": "Show more",
-      "showLess": "Show less"
+      "promptFallback": "暂无提示词信息。",
+      "copy": "复制提示词",
+      "copied": "已复制！",
+      "showMore": "展开更多",
+      "showLess": "收起"
     },
     "seo": {
-      "title": "Render breakdown",
-      "promptFallback": "a cinematic AI scene",
-      "durationPhrase": "an {value}-second clip",
-      "durationFallback": "a short clip",
-      "aspectPhrase": "a {value} aspect ratio",
-      "aspectFallback": "an adaptive aspect ratio",
+      "title": "成片详细分析",
+      "promptFallback": "电影级 AI 场景",
+      "durationPhrase": "一段 {value} 秒的视频片段",
+      "durationFallback": "短视频片段",
+      "aspectPhrase": "{value} 宽高比",
+      "aspectFallback": "自适应宽高比",
       "sentences": [
-        "This AI-generated video showcases {promptStyle} and ships straight from our public Examples playlist.",
-        "{engineName} handled this render inside MaxVideoAI, delivering {durationLabel} at {aspectRatioLabel} with {audioState}.",
-        "The footage highlights consistent motion, crisp lighting, and natural reflections so creative and product teams can judge how the model behaves.",
-        "Prompt styling keeps {promptTone} cues that you can remix or extend with image references, narration, or upscaling.",
-        "Use the engine card, pricing link, and blog resources below to compare models or start a similar run in your workspace."
+        "这段由 AI 生成的视频展现了 {promptStyle} 的视觉魅力，直接选自我们的公开精选示例库。",
+        "{engineName} 在 MaxVideoAI 内完成了本次渲染，以 {aspectRatioLabel} 宽高比交付了 {durationLabel} 的成片，且 {audioState}。",
+        "该成片展现了流畅连贯的动态表现、清澈的光影层次与自然的反射折射，便于创意与产品团队直观评判模型的实际能力。",
+        "提示词风格保留了 {promptTone} 的艺术特征，您可以结合图片参考、配音或超分辨率功能进一步重组与拓展。",
+        "使用下方的模型卡片、价格链接与博客资源，横向对比模型或在您的工作区中开启同款创作。"
       ]
     },
     "details": {
-      "title": "Render details",
-      "engineLabel": "Engine",
-      "engineDescriptionFallback": "Browse the full spec sheet for this model.",
-      "engineCta": "Open model page",
-      "engineUnavailable": "Engine unavailable",
-      "durationLabel": "时长",
-      "durationValue": "{value} seconds",
-      "durationUnknown": "Unknown",
+      "title": "渲染参数详情",
+      "engineLabel": "生成模型",
+      "engineDescriptionFallback": "查阅该模型的完整技术参数表。",
+      "engineCta": "打开模型详情页",
+      "engineUnavailable": "模型暂不可用",
+      "durationLabel": "视频时长",
+      "durationValue": "{value} 秒",
+      "durationUnknown": "未知",
       "aspectLabel": "宽高比",
-      "aspectAuto": "Auto",
-      "createdLabel": "Created",
-      "priceTotalLabel": "Recorded render cost",
+      "aspectAuto": "自动",
+      "createdLabel": "生成时间",
+      "priceTotalLabel": "记录的渲染费用",
       "priceTotalValue": "{value}",
-      "priceTotalUnknown": "Unavailable",
-      "audioLabel": "Audio",
-      "pricingEyebrow": "价格",
-      "pricingBody": "Compare engine rates and plan budgets before you generate.",
-      "cta": "Compare pricing",
-      "ctaDescription": "Explore all engine rates",
-      "discountAppliedLabel": "Member discount applied",
-      "discountSavedLabel": "Saved {amount}",
-      "discountPercentLabel": "{percent} off",
-      "discountTierLabel": "{tier} tier"
+      "priceTotalUnknown": "暂无记录",
+      "audioLabel": "音频",
+      "pricingEyebrow": "计费价格",
+      "pricingBody": "生成前对比模型费率并规划好制作预算。",
+      "cta": "对比价格",
+      "ctaDescription": "浏览全部模型费率",
+      "discountAppliedLabel": "已应用会员专属折扣",
+      "discountSavedLabel": "已立省 {amount}",
+      "discountPercentLabel": "{percent} 折扣",
+      "discountTierLabel": "{tier} 会员档位"
     },
     "audioStates": {
-      "withAudio": "audio enabled",
-      "withoutAudio": "muted output"
+      "withAudio": "已启用音频",
+      "withoutAudio": "静音输出"
     },
     "create": {
-      "title": "Create your own",
-      "subtitle": "Want to create a video like this?",
-      "body": "Generate from this prompt or load it in the workspace to remix with your preferred engine, duration, or audio settings.",
-      "cta": "Generate →"
+      "title": "开启您的创作",
+      "subtitle": "想创作类似效果的视频吗？",
+      "body": "直接使用本提示词生成，或将其载入工作区，自由切换您心仪的模型、时长或音频参数。",
+      "cta": "立即创作 →"
     },
     "recreate": {
-      "title": "Recreate this video",
-      "body": "Load this render in your workspace with the original settings prefilled.",
-      "cta": "Recreate in Workspace",
-      "microcopy": "Loads prompt + engine + duration + audio."
+      "title": "复刻同款视频",
+      "body": "在您的工作区中加载此成片，并自动预填原始参数配置。",
+      "cta": "在工作区中复刻",
+      "microcopy": "自动载入提示词 + 模型 + 时长 + 音频设置。"
     },
     "blog": {
-      "title": "Keep leveling up",
-      "message": "Learn more about AI video creation — visit our blog for tips, engine comparisons, and creative use cases.",
-      "cta": "Visit the blog"
+      "title": "持续进阶创作技艺",
+      "message": "深入探索 AI 视频创作 —— 访问我们的官方博客，获取进阶技巧、模型横评与创意应用案例。",
+      "cta": "访问博客"
     }
   },
   "about": {
     "hero": {
-      "title": "Quiet confidence for AI video teams.",
-      "subtitle": "MaxVideo AI is the independent hub for AI video production. We route to the right engine for every shot, price before you generate, and keep your team in control without vendor lock-in."
+      "title": "为 AI 视频创作团队提供从容而坚定的技术底气。",
+      "subtitle": "MaxVideoAI 是独立的专业级 AI 视频制作聚合平台。我们为每个镜头精准路由最合适的模型，生成前明晰价格，让您的团队牢牢掌控主动权，拒绝厂商捆绑绑定。"
     },
     "paragraphs": [
-      "We believe professional teams deserve clarity before they hit render. That means price transparency, reliable routing, and shared context between creatives, producers, and stakeholders.",
-      "Independence matters: we stay neutral across engines, integrate with Sora 2, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image, and rotating betas, and list trademarks only to describe compatibility.",
-      "The product is engineered for teams that need precision without noise. Quiet UI, premium defaults, precise controls, and price-before chips that keep finance in the loop.",
-      "We keep the workflow practical: compare models, prepare assets, generate only when the cost and settings are clear, then review outputs from one workspace instead of scattering production context across provider dashboards."
+      "我们坚信，专业团队在点击渲染之前理应获得完全透明的信息。这不仅意味着公开透明的计费价格，更包括稳定可靠的模型调度，以及创意人员、制片人与业务负责人之间的无缝协同。",
+      "保持独立至关重要：我们在所有模型引擎之间保持完全中立，深度集成 Sora 2、Veo 3.1、Veo 3 Fast、Pika 2.2、MiniMax Hailuo 02、混元等前沿模型与公测路线，展示商标仅用于表明技术兼容性。",
+      "产品专为追求精准与高效的团队打造：清爽静谧的界面、考究的预设参数、精细的创作控制，以及让财务对支出一目了然的实时价格标签。",
+      "我们始终立足于务实的生产工作流：对比模型、准备资产，仅在费用与参数完全明确时才触发生成，然后在单一工作区内集中审阅成片，而不是将制作上下文分散在各个不同服务商的后台之中。"
     ],
     "note": "Trademarks and service marks are property of their respective owners. MaxVideo AI stays independent so you can stay current without switching platforms."
   },
   "contact": {
     "hero": {
-      "title": "Contact the team.",
-      "subtitle": "Need support, enterprise onboarding, or press information? Send a note and we’ll reply within one business day."
+      "title": "联系团队",
+      "subtitle": "需要技术支持、企业版接入或商务洽谈？发送消息，我们将在一个工作日内给予回复。"
     },
     "intro": {
-      "body": "Talk to us about support, partnerships, enterprise setup, or editorial coverage. Messages that include context such as team size, target models, deadlines, or compliance requirements reach the right specialist faster. Every request gets a human reply.",
+      "body": "欢迎与我们沟通产品支持、商业合作、企业版定制或媒体报道事宜。若能提供团队规模、目标模型、项目截止日期或合规需求等上下文信息，将有助于我们更快安排对应的专家与您对接。每一封来信都会由人工认真回复。",
       "cards": {
         "productHelp": {
-          "title": "Product help",
-          "body": "For issues with renders, billing, or engine routing, include the job ID and we’ll review the trace directly in the workspace."
+          "title": "产品支持与帮助",
+          "body": "如果遇到渲染异常、账单疑问或模型路由问题，请附带任务 ID（Job ID），我们将直接在工作区后台分析追踪日志。"
         },
         "partnerships": {
           "title": "Partnerships",
           "body": "Agencies and studios can discuss custom support requirements or future collaboration through this form or by emailing {email}."
         },
         "press": {
-          "title": "Press",
-          "body": "Journalists can request interview slots, product demos, or commentary on frontier models. Please include your publication and deadline."
+          "title": "媒体与评测",
+          "body": "获取高分辨率产品素材、基准评测报告或安排团队技术访谈。"
+        },
+        "enterprise": {
+          "title": "企业专属接入",
+          "body": "定制化的企业专属并发保障、多席位团队钱包与个性化计费方案。"
         }
       }
     },
@@ -3126,17 +3141,17 @@
   },
   "changelog": {
     "meta": {
-      "title": "Changelog — MaxVideo AI",
-      "description": "Transparent updates on engines, workflows, and queue performance."
+      "title": "更新日志 — MaxVideoAI",
+      "description": "透明公开关于模型引擎、工作流与生成队列性能的最新动态。"
     },
     "hero": {
       "title": "Changelog",
-      "subtitle": "Every engine update, workflow improvement, and pricing tweak — published weekly. Subscribe inside the app for alerts."
+      "subtitle": "每周发布所有模型迭代、工作流体验改进与计费调整。可在应用内订阅获取即时通知。"
     },
     "intro": {
       "paragraphs": [
-        "We ship updates to MaxVideoAI in tight release trains. Engine upgrades land as soon as providers open access, and workflow improvements follow the same week so production teams can adopt them without relearning the platform.",
-        "Use this log to trace when a capability became available, confirm latency fixes, or share proof of delivery with stakeholders. Entries that affect billing or routing policy link back to the relevant documentation."
+        "我们采用紧凑的敏捷发布列车机制迭代 MaxVideoAI。一旦上游厂商开放接入权限，模型升级第一时间上线；工作流优化同周跟进，确保制作团队无需重新学习即可丝滑使用。",
+        "您可以通过此日志追踪某项功能何时上线、确认性能与延迟优化，或向团队展示交付证明。涉及计费或路由策略调整的条目均附带对应文档链接。"
       ],
       "releaseTagsTitle": "How we tag releases",
       "releaseTags": [
@@ -3175,13 +3190,13 @@
   "status": {
     "hero": {
       "title": "服务状态",
-      "subtitle": "Current service notices published by the MaxVideoAI team."
+      "subtitle": "由 MaxVideoAI 官方团队发布的当前服务运行通告。"
     },
     "currentNotice": {
-      "title": "Current notice",
-      "activeLabel": "Active service notice",
-      "clearLabel": "No active service notice",
-      "clearBody": "There is no administrator-published service notice at this time."
+      "title": "当前通告",
+      "activeLabel": "进行中的服务通告",
+      "clearLabel": "暂无服务异常通告",
+      "clearBody": "当前所有服务运行平稳正常，暂无管理员发布的维护或异常通告。"
     },
     "affected": {
       "title": "If a generation is affected",
@@ -3194,9 +3209,9 @@
     }
   },
   "systemMessages": {
-    "refundInitiated": "Your payment is being refunded. It can take 5–10 business days to appear on your statement.",
-    "partialRefund": "We’ve issued a partial refund of {refundedAmount}. The remaining {remainingAmount} will stay on your statement.",
-    "paymentRetried": "We’ve safely retried your payment; you will not be double-charged."
+    "refundInitiated": "您的退款已发起，通常会在 5–10 个工作日内返还至您的支付账户。",
+    "partialRefund": "我们已为您办理部分退款 {refundedAmount}。剩余的 {remainingAmount} 将保留在您的账单中。",
+    "paymentRetried": "我们已安全为您重试了本次支付；请放心，绝不会产生重复扣费。"
   },
   "gallery": {
     "meta": {
@@ -6941,22 +6956,37 @@
       "descriptionFallback": "Side-by-side comparison of AI video engines with MaxVideoAI metrics and guidance."
     },
     "hero": {
-      "back": "Back to comparisons",
-      "kicker": "Compare engines",
+      "back": "返回模型对比",
+      "kicker": "模型横评对比",
       "intro": "Compare {left} and {right} by quality, controls, pricing and a scorecard across 11 criteria. Explore each model’s examples and full specifications.",
       "introPrelaunch": "Compare {left} and {right} by announced capabilities, available pricing and provisional scores. Availability and specifications may change before launch.",
       "takeawaysTitle": "Key takeaways",
-      "lastUpdatedLabel": "Last updated"
+      "lastUpdatedLabel": "Last updated",
+      "matchup": "模型对决",
+      "vs": "对比",
+      "quickSelectLabel": "快速选择模型对比：",
+      "quickSelectPlaceholder": "切换对比模型…",
+      "shareTooltip": "复制对比链接",
+      "copied": "链接已复制！",
+      "shareAria": "复制当前对比页面链接",
+      "lastUpdated": "评测基准更新时间：{date}",
+      "testedBadge": "真实视频生成验证",
+      "presetNotice": "评分基于同一标准提示词套件在 1080p 分辨率下的测试结果。"
     },
     "scorecard": {
-      "title": "Compare the strengths.",
-      "subtitle": "Scores reflect quality and control on MaxVideoAI across 11 criteria.",
+      "title": "全方位评测得分",
+      "subtitle": "基于画质、动态、音频与性价比等 11 个维度的深度评分对比。",
       "provisionalNote": "Pre-launch scores are provisional and will update once runtime renders and final pricing are available.",
       "strengthsLabel": "Strengths",
       "winnerSummary": "At a glance",
       "winnerSummaryPrelaunch": "Current leader (pre-launch)",
       "generateWith": "Generate with {engine}",
-      "fullProfile": "Full engine profile"
+      "fullProfile": "Full engine profile",
+      "overallScore": "综合评分",
+      "criteriaLabel": "评测维度",
+      "tieLabel": "持平",
+      "winnerPrefix": "{engine} 胜出",
+      "confidenceTooltip": "基于标准化基准测试套件评定"
     },
     "labels": {
       "pending": "Data pending",
@@ -6977,23 +7007,26 @@
       "collapsePrompt": "Hide full prompt"
     },
     "keySpecs": {
-      "title": "Key Specs (Side-by-Side)",
-      "subtitle": "Check duration, resolution, supported inputs and controls. Open each model’s guide for its full feature set.",
+      "title": "核心技术规格对比",
+      "subtitle": "两款模型的关键参数、时长限制与输出格式对比。",
       "keyLabel": "Key spec",
       "latencyNote": "Observed production times over 30 days; settings and queues vary. P90 means 90% of measured renders finished within this time. These are not controlled speed tests.",
-      "latencySource": "Measurement method and limitations"
+      "latencySource": "Measurement method and limitations",
+      "bestForLabel": "最佳应用场景",
+      "pricingTierLabel": "计费模式",
+      "availabilityLabel": "当前状态"
     },
     "specLabels": {
-      "pricing": "Pricing (MaxVideoAI)",
+      "pricing": "预估价格",
       "textToVideo": "Text-to-Video",
       "imageToVideo": "Image-to-Video",
       "videoToVideo": "Video-to-Video",
-      "firstLastFrame": "First/Last frame",
+      "firstLastFrame": "首尾帧控制",
       "referenceImageStyle": "Reference image / style reference",
       "referenceVideo": "Reference video",
-      "maxResolution": "Max resolution",
-      "maxDuration": "Max duration",
-      "aspectRatios": "Aspect ratios",
+      "maxResolution": "最高分辨率",
+      "maxDuration": "最长时长",
+      "aspectRatios": "支持宽高比",
       "fpsOptions": "FPS options",
       "outputFormats": "Output format",
       "audioOutput": "Audio output",
@@ -7002,18 +7035,32 @@
       "cameraMotionControls": "Camera / motion controls",
       "watermark": "Watermark",
       "avgRenderTime": "Avg render time",
-      "observedMedian": "Observed median (30 days)"
+      "observedMedian": "Observed median (30 days)",
+      "modes": "输入模式",
+      "audio": "音频生成",
+      "cameraControl": "运镜控制",
+      "motionControl": "动态控制",
+      "extend": "视频延长",
+      "provider": "技术厂商",
+      "releaseDate": "发布日期"
     },
     "showdown": {
-      "title": "Showdown (same prompt)",
-      "subtitle": "Side-by-side renders from the same prompt on MaxVideoAI. Prompts are identical; outputs may vary by model.",
+      "title": "同题实测画廊",
+      "subtitle": "输入完全相同的提示词，直观对比两款模型的成片表现。",
       "subtitlePrelaunch": "Side-by-side prompts and renders (when available) on MaxVideoAI. Prompts are identical; outputs may vary by model.",
       "note": "Showing up to 3 prompt pairs for clarity.",
-      "footer": "Explore each model’s examples to understand its visual possibilities. The galleries use different prompts and settings; they are not a controlled video test."
+      "footer": "Explore each model’s examples to understand its visual possibilities. The galleries use different prompts and settings; they are not a controlled video test.",
+      "promptLabel": "测试提示词",
+      "settingsLabel": "生成参数",
+      "leftEngineLabel": "{engine} 输出",
+      "rightEngineLabel": "{engine} 输出",
+      "playBoth": "同步播放",
+      "pauseBoth": "同步暂停"
     },
     "prelaunch": {
-      "title": "Pre-launch comparison",
-      "notice": "At least one engine on this page is pre-launch. Runtime renders are not available yet; final pricing and outputs are confirmed at launch."
+      "title": "未上线模型状态说明",
+      "notice": "At least one engine on this page is pre-launch. Runtime renders are not available yet; final pricing and outputs are confirmed at launch.",
+      "body": "该模型目前暂未开放公共 API。当前评分基于官方演示、白皮书技术指标与受限封闭内测生成样本综合推导。"
     },
     "faq": {
       "title": "常见问题",
@@ -7108,10 +7155,12 @@
       }
     },
     "breadcrumb": {
-      "root": "Comparisons"
+      "root": "Comparisons",
+      "home": "首页",
+      "compare": "模型对比"
     },
     "related": {
-      "title": "Related comparisons",
+      "title": "其他热门模型对比",
       "subtitle": "Explore a few more popular side-by-side matchups."
     }
   },

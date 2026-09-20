@@ -278,6 +278,10 @@
       {
         "locale": "es",
         "label": "Español"
+      },
+      {
+        "locale": "zh",
+        "label": "简体中文"
       }
     ],
     "sections": {

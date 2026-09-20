@@ -484,7 +484,8 @@ zh_data["footer"]["links"] = [
 zh_data["footer"]["languages"] = [
     {"locale": "en", "label": "English"},
     {"locale": "fr", "label": "Français"},
-    {"locale": "es", "label": "Español"}
+    {"locale": "es", "label": "Español"},
+    {"locale": "zh", "label": "简体中文"}
 ]
 
 # Ensure workspace.image.authGate and workspace.generate.authGate conform strictly to:
