@@ -183,7 +183,7 @@ async function translateMap(locale: TargetLocale, entries: Record<string, string
       {
         role: 'system',
         content: [
-          `Translate the JSON object values to ${locale === 'fr' ? 'French (France)' : 'Spanish (Spain)'}.`,
+          `Translate the JSON object values to ${locale === 'fr' ? 'French (France)' : locale === 'es' ? 'Spanish (Spain)' : 'Simplified Chinese'}.`,
           'Keep keys unchanged.',
           'Do NOT translate placeholders wrapped in « » and restore them afterwards.',
           'Do NOT translate words wrapped in ‹ ›.',
@@ -373,6 +373,7 @@ async function main() {
   const blogSlugMap: BlogSlugMap = {
     fr: {},
     es: {},
+    zh: {},
   };
 
   for (const filePath of files) {

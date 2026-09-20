@@ -6766,7 +6766,7 @@
       "confirmPassword": "确认密码"
     },
     "placeholders": {
-      "email": "you@domain.com",
+      "email": "您@域名.com",
       "passwordNew": "至少 6 个字符",
       "password": "••••••••"
     },
