@@ -5,7 +5,8 @@ import { PUBLIC_MARKETING_EXAMPLE_CANONICAL_SLUGS } from '../config/model-famili
 import type { PublicExampleCard, PublicExamplesSnapshot } from '../server/local-public-examples-data';
 
 const endpoint = 'https://maxvideoai.com/api/examples' as const;
-const destination = resolve(__dirname, '../.local-review/public-examples.json');
+const destination = resolve(__dirname, '../config/public-examples.json');
+const legacyDestination = resolve(__dirname, '../.local-review/public-examples.json');
 const snapshot: PublicExamplesSnapshot = { version: 1, source: endpoint, capturedAt: new Date().toISOString(), cards: {}, feeds: {} };
 function publicMedia(value: unknown): string | undefined {
   if (value == null || value === '') return undefined;
@@ -55,6 +56,10 @@ for (const family of ['', ...PUBLIC_MARKETING_EXAMPLE_CANONICAL_SLUGS]) {
 await mkdir(dirname(destination), { recursive: true });
 await writeFile(`${destination}.tmp`, JSON.stringify(snapshot, null, 2) + '\n');
 await rename(`${destination}.tmp`, destination);
+try {
+  await mkdir(dirname(legacyDestination), { recursive: true });
+  await writeFile(legacyDestination, JSON.stringify(snapshot, null, 2) + '\n');
+} catch {}
 console.log(`Saved ${Object.keys(snapshot.cards).length} unique public examples. Restart the local preview to refresh its snapshot.`);
 
 }

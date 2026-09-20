@@ -1,5 +1,11 @@
 import { getLocalPublicExample, listLocalModelExamples, isLocalPublicExamplesEnabled, listLocalPublicExamples } from './local-public-examples';
-import { query } from '@/lib/db';
+import {
+  getBundledPublicExample,
+  hasBundledPublicExamples,
+  listBundledModelExamples,
+  listBundledPublicExamples,
+} from './bundled-public-examples';
+import { isDatabaseConfigured, query } from '@/lib/db';
 import { getExampleFamilyEngineAliases } from '@/lib/model-families';
 import { removeVideosFromIndexablePlaylists } from '@/server/indexing';
 import { getExamplesHubPlaylistSlug, getFamilyFeedSourceSlugs, getStarterPlaylistSlug } from '@/server/playlists';
@@ -71,19 +77,33 @@ const PUBLIC_VIDEO_PREDICATE_PLAYLIST = `
 `;
 
 export async function getVideoById(videoId: string): Promise<GalleryVideo | null> {
-  const rows = await query<VideoRow>(
-    `${BASE_SELECT} WHERE job_id = $1 LIMIT 1`,
-    [videoId]
-  );
-  return rows[0] ? mapGalleryVideoRow(rows[0]) : null;
+  if (isDatabaseConfigured()) {
+    try {
+      const rows = await query<VideoRow>(
+        `${BASE_SELECT} WHERE job_id = $1 LIMIT 1`,
+        [videoId]
+      );
+      if (rows[0]) return mapGalleryVideoRow(rows[0]);
+    } catch {
+      // Fall through to bundled example
+    }
+  }
+  return getBundledPublicExample(videoId);
 }
 
 export async function getSeoVideoById(videoId: string): Promise<GalleryVideo | null> {
-  const rows = await query<VideoRow>(
-    `${BASE_SELECT_WITH_SETTINGS} WHERE job_id = $1 AND ${PUBLIC_VIDEO_PREDICATE} LIMIT 1`,
-    [videoId]
-  );
-  return rows[0] ? mapGalleryVideoRow(rows[0]) : null;
+  if (isDatabaseConfigured()) {
+    try {
+      const rows = await query<VideoRow>(
+        `${BASE_SELECT_WITH_SETTINGS} WHERE job_id = $1 AND ${PUBLIC_VIDEO_PREDICATE} LIMIT 1`,
+        [videoId]
+      );
+      if (rows[0]) return mapGalleryVideoRow(rows[0]);
+    } catch {
+      // Fall through to bundled example
+    }
+  }
+  return getBundledPublicExample(videoId);
 }
 
 export async function getVideosByIds(videoIds: string[]): Promise<Map<string, GalleryVideo>> {
@@ -91,11 +111,27 @@ export async function getVideosByIds(videoIds: string[]): Promise<Map<string, Ga
     return new Map();
   }
   const uniqueIds = Array.from(new Set(videoIds));
-  const rows = await query<VideoRow>(
-    `${BASE_SELECT} WHERE job_id = ANY($1::text[])`,
-    [uniqueIds]
-  );
-  return new Map(rows.map((row) => [row.job_id, mapGalleryVideoRow(row)]));
+  const result = new Map<string, GalleryVideo>();
+  if (isDatabaseConfigured()) {
+    try {
+      const rows = await query<VideoRow>(
+        `${BASE_SELECT} WHERE job_id = ANY($1::text[])`,
+        [uniqueIds]
+      );
+      for (const row of rows) {
+        result.set(row.job_id, mapGalleryVideoRow(row));
+      }
+    } catch {
+      // Fall through to bundled examples
+    }
+  }
+  for (const id of uniqueIds) {
+    if (!result.has(id)) {
+      const fallback = getBundledPublicExample(id);
+      if (fallback) result.set(id, fallback);
+    }
+  }
+  return result;
 }
 
 export async function getSeoVideosByIds(videoIds: string[]): Promise<Map<string, GalleryVideo>> {
@@ -103,11 +139,27 @@ export async function getSeoVideosByIds(videoIds: string[]): Promise<Map<string,
     return new Map();
   }
   const uniqueIds = Array.from(new Set(videoIds));
-  const rows = await query<VideoRow>(
-    `${BASE_SELECT_WITH_SETTINGS} WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE}`,
-    [uniqueIds]
-  );
-  return new Map(rows.map((row) => [row.job_id, mapGalleryVideoRow(row)]));
+  const result = new Map<string, GalleryVideo>();
+  if (isDatabaseConfigured()) {
+    try {
+      const rows = await query<VideoRow>(
+        `${BASE_SELECT_WITH_SETTINGS} WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE}`,
+        [uniqueIds]
+      );
+      for (const row of rows) {
+        result.set(row.job_id, mapGalleryVideoRow(row));
+      }
+    } catch {
+      // Fall through to bundled examples
+    }
+  }
+  for (const id of uniqueIds) {
+    if (!result.has(id)) {
+      const fallback = getBundledPublicExample(id);
+      if (fallback) result.set(id, fallback);
+    }
+  }
+  return result;
 }
 
 export async function getPublicVideosByIds(videoIds: string[]): Promise<Map<string, GalleryVideo>> {
@@ -117,16 +169,35 @@ export async function getPublicVideosByIds(videoIds: string[]): Promise<Map<stri
       return video ? [[id, video] as const] : [];
     }));
   }
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return new Map();
   if (!videoIds.length) {
     return new Map();
   }
+  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) {
+    return new Map(videoIds.flatMap(id => {
+      const video = getBundledPublicExample(id);
+      return video ? [[id, video] as const] : [];
+    }));
+  }
   const uniqueIds = Array.from(new Set(videoIds));
-  const rows = await query<VideoRow>(
-    `${BASE_SELECT} WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE}`,
-    [uniqueIds]
-  );
-  return new Map(rows.map((row) => [row.job_id, mapGalleryVideoRow(row)]));
+  const result = new Map<string, GalleryVideo>();
+  try {
+    const rows = await query<VideoRow>(
+      `${BASE_SELECT} WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE}`,
+      [uniqueIds]
+    );
+    for (const row of rows) {
+      result.set(row.job_id, mapGalleryVideoRow(row));
+    }
+  } catch {
+    // Fall through to bundled examples
+  }
+  for (const id of uniqueIds) {
+    if (!result.has(id)) {
+      const fallback = getBundledPublicExample(id);
+      if (fallback) result.set(id, fallback);
+    }
+  }
+  return result;
 }
 
 export async function listPublicVideoPagesForSeoAudit(limit = 1000): Promise<GalleryVideo[]> {
@@ -188,6 +259,12 @@ async function listPlaylistVideosWithOptions({
   if (isLocalPublicExamplesEnabled()) {
     return slug.startsWith('examples-') ? listLocalModelExamples(slug.slice('examples-'.length), limit) : [];
   }
+  if (!isDatabaseConfigured()) {
+    if (slug.startsWith('examples-')) {
+      return listBundledModelExamples(slug.slice('examples-'.length), limit);
+    }
+    return [];
+  }
   const params: unknown[] = [slug];
   const aliasFilter =
     Array.isArray(engineAliases) && engineAliases.length
@@ -204,34 +281,52 @@ async function listPlaylistVideosWithOptions({
         })()
       : '';
 
-  const rows = await query<VideoRow & { order_index: number }>(
-    `
-      SELECT aj.job_id, aj.user_id, aj.engine_id, aj.engine_label, aj.duration_sec, aj.prompt,
-             COALESCE(NULLIF(aj.thumb_url, ''), (${imageThumbFallbackSelect('aj')})) AS thumb_url,
-             aj.video_url, to_jsonb(aj)->>'preview_video_url' AS preview_video_url, to_jsonb(aj)->'keyframe_urls' AS keyframe_urls,
-             aj.aspect_ratio, (${videoOutputDimensionSelect('aj', 'width')}) AS output_width, (${videoOutputDimensionSelect('aj', 'height')}) AS output_height,
-             aj.has_audio, aj.can_upscale, aj.created_at, aj.visibility,
-             aj.indexable, aj.featured, aj.featured_order, aj.final_price_cents, aj.currency, aj.pricing_snapshot, pi.order_index
-      FROM playlists p
-      JOIN playlist_items pi ON pi.playlist_id = p.id
-      JOIN app_jobs aj ON aj.job_id = pi.video_id
-      WHERE p.slug = $1
-        AND p.is_public = TRUE
-        AND ${PUBLIC_VIDEO_PREDICATE_PLAYLIST}
-        ${aliasFilter}
-      ORDER BY
-        CASE WHEN pi.order_index IS NULL THEN 1 ELSE 0 END,
-        pi.order_index DESC,
-        aj.created_at DESC
-      ${limitClause}
-    `,
-    params
-  );
-  return rows.map(mapGalleryVideoRow);
+  let rows: (VideoRow & { order_index: number })[] = [];
+  try {
+    rows = await query<VideoRow & { order_index: number }>(
+      `
+        SELECT aj.job_id, aj.user_id, aj.engine_id, aj.engine_label, aj.duration_sec, aj.prompt,
+               COALESCE(NULLIF(aj.thumb_url, ''), (${imageThumbFallbackSelect('aj')})) AS thumb_url,
+               aj.video_url, to_jsonb(aj)->>'preview_video_url' AS preview_video_url, to_jsonb(aj)->'keyframe_urls' AS keyframe_urls,
+               aj.aspect_ratio, (${videoOutputDimensionSelect('aj', 'width')}) AS output_width, (${videoOutputDimensionSelect('aj', 'height')}) AS output_height,
+               aj.has_audio, aj.can_upscale, aj.created_at, aj.visibility,
+               aj.indexable, aj.featured, aj.featured_order, aj.final_price_cents, aj.currency, aj.pricing_snapshot, pi.order_index
+        FROM playlists p
+        JOIN playlist_items pi ON pi.playlist_id = p.id
+        JOIN app_jobs aj ON aj.job_id = pi.video_id
+        WHERE p.slug = $1
+          AND p.is_public = TRUE
+          AND ${PUBLIC_VIDEO_PREDICATE_PLAYLIST}
+          ${aliasFilter}
+        ORDER BY
+          CASE WHEN pi.order_index IS NULL THEN 1 ELSE 0 END,
+          pi.order_index DESC,
+          aj.created_at DESC
+        ${limitClause}
+      `,
+      params
+    );
+  } catch {
+    // Database query failed (e.g. unseeded or connection issue)
+  }
+  if (rows.length) {
+    return rows.map(mapGalleryVideoRow);
+  }
+  if (slug.startsWith('examples-')) {
+    const modelSlug = slug.slice('examples-'.length);
+    const bundled = listBundledModelExamples(modelSlug, limit);
+    if (bundled.length) return bundled;
+  }
+  return [];
 }
 
 export async function listPlaylistVideos(slug: string, limit: number): Promise<GalleryVideo[]> {
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return [];
+  if (shouldSkipBuildTimeMarketingVideoQueries()) {
+    if (slug.startsWith('examples-')) {
+      return listBundledModelExamples(slug.slice('examples-'.length), limit);
+    }
+    return [];
+  }
   return listPlaylistVideosWithOptions({ slug, limit });
 }
 
@@ -341,8 +436,11 @@ export async function listExampleFamilyPage(
 ): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0 } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset);
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return { items: [], total: 0, limit, offset, hasMore: false };
+  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset);
   const merged = await loadExampleFamilyFeed(familyId, { includeFamilyPlaylist: true });
+  if (!merged.length && hasBundledPublicExamples(familyId)) {
+    return listBundledPublicExamples(familyId, sort, limit, offset);
+  }
   const sorted = sortVideosByPreference(merged, sort);
   return paginateGalleryVideos(sorted, limit, offset);
 }
@@ -350,10 +448,10 @@ export async function listExampleFamilyPage(
 export async function listExamplesPage(options: ListExamplesPageOptions): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0, engineGroup } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(engineGroup ?? '', sort, limit, offset);
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return { items: [], total: 0, limit, offset, hasMore: false };
+  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
   const hubSlug = getExamplesHubPlaylistSlug();
   if (!hubSlug) {
-    return { items: [], total: 0, limit, offset, hasMore: false };
+    return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
   }
 
   const normalizedGroup = engineGroup ? engineGroup.trim().toLowerCase() : null;
@@ -368,7 +466,7 @@ export async function listExamplesPage(options: ListExamplesPageOptions): Promis
   });
 
   if (!aggregated.length) {
-    return { items: [], total: 0, limit, offset, hasMore: false };
+    return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
   }
 
   const candidates = normalizedGroup

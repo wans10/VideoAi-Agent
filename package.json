@@ -50,6 +50,7 @@
     "plugin:release:build": "node scripts/build-maxvideoai-plugin-release.mjs",
     "db:bootstrap:neon": "tsx --tsconfig frontend/tsconfig.json scripts/bootstrap-application-schema.ts",
     "db:migrate:neon": "bash scripts/apply-neon-migrations.sh",
+    "db:seed:examples": "tsx --tsconfig frontend/tsconfig.json scripts/seed-public-examples.ts",
     "neon:branches:check": "node scripts/neon-branch-guard.mjs",
     "neon:branches:prune": "node scripts/neon-branch-guard.mjs --delete-archived",
     "audit:premerge": "rm -rf frontend/.next && pnpm model:launch-assets:check && pnpm --prefix frontend run build && pnpm test:validate && pnpm --prefix frontend run i18n:check && pnpm --prefix frontend run seo:check && pnpm model:check && pnpm models:audit",

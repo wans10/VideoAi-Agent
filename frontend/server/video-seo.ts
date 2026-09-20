@@ -1,6 +1,8 @@
 import { getLocalPublicExample, isLocalPublicExamplesEnabled } from './local-public-examples';
 import { cache } from 'react';
 import { type SeoWatchVideoConfig, VIDEO_SEO_WATCHLIST } from '@/config/video-seo-watchlist';
+
+const requestCache = typeof cache === 'function' ? cache : (<T extends (...args: any[]) => any>(fn: T): T => fn);
 import type { VideoSeoEditorialEntry, VideoSeoIntent } from '@/config/video-seo-editorial';
 import { normalizeEngineId } from '@/lib/engine-alias';
 import { resolveExampleCanonicalSlug } from '@/lib/examples-links';
@@ -143,7 +145,7 @@ export async function listSeoWatchVideos(): Promise<SeoWatchVideoMeta[]> {
     .sort((a, b) => b.priority - a.priority);
 }
 
-const loadSeoWatchVideoRows = cache(async (): Promise<SeoWatchVideoRow[]> => {
+const loadSeoWatchVideoRows = requestCache(async (): Promise<SeoWatchVideoRow[]> => {
   const editorialMap = await listVideoSeoEditorialEntryMap();
   const ids = buildSeoWatchVideoIds(editorialMap);
   const videoMap = await getSeoVideosByIds(ids);
@@ -233,18 +235,19 @@ export async function getVideoWatchPageDataById(id: string): Promise<VideoWatchP
     selectedRows.find((row) => row.entry.id === id || (requestedSlug && row.signals?.canonicalSlug === requestedSlug)) ?? null;
   const excludedEditorialCandidate = selectedRow ? null : await getResolvedVideoSeoEditorialEntryByIdentifier(id);
   const excludedEditorial = excludedEditorialCandidate?.rolloutExcluded ? excludedEditorialCandidate : null;
-  const resolvedId = selectedRow?.entry.id ?? excludedEditorial?.id ?? id;
+  const resolvedEditorial = selectedRow?.editorial ?? excludedEditorialCandidate;
+  const resolvedId = selectedRow?.entry.id ?? resolvedEditorial?.id ?? id;
   const video = selectedRow?.video ?? (await getSeoVideoById(resolvedId));
   if (!video) return null;
 
   const editorial = selectedRow?.editorial ?? excludedEditorial;
   const entry =
     selectedRow?.entry ??
-    (excludedEditorial
+    (resolvedEditorial
       ? buildMetaFromEditorial({
           id: resolvedId,
           base: BASE_WATCH_VIDEO_MAP.get(resolvedId) ?? null,
-          editorial: excludedEditorial,
+          editorial: resolvedEditorial,
           video,
         })
       : null);
@@ -256,6 +259,11 @@ export async function getVideoWatchPageDataById(id: string): Promise<VideoWatchP
     return [toWatchPageRelatedCandidate({ entry: row.entry, video: row.video, signals: row.signals })];
   });
 
+  const isSelected = Boolean(selectedRow);
+  const isEligible = isSelected
+    ? Boolean(selectedRow?.isEligible)
+    : isEligibleSeoWatchVideo(video) && Boolean(signals.indexable) && !excludedEditorial;
+
   return {
     entry,
     video,
@@ -266,8 +274,8 @@ export async function getVideoWatchPageDataById(id: string): Promise<VideoWatchP
       candidates: candidateRows,
       limit: 4,
     }),
-    isSelected: Boolean(selectedRow),
-    isEligible: Boolean(selectedRow?.isEligible),
+    isSelected,
+    isEligible,
   };
 }
 

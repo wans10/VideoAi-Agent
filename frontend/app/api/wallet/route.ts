@@ -47,18 +47,10 @@ const CHECKOUT_COPY_BY_LOCALE: Record<
     productName: string;
   }
 > = {
-  en: {
-    productName: 'Wallet top-up',
-  },
-  fr: {
-    productName: 'Recharge portefeuille',
-  },
-  es: {
-    productName: 'Recarga de billetera',
-  },
-  zh: {
-    productName: '钱包充值',
-  },
+  en: { productName: 'Wallet top-up' },
+  fr: { productName: 'Recharge portefeuille' },
+  es: { productName: 'Recarga de billetera' },
+  zh: { productName: '钱包充值' },
 };
 
 export const dynamic = 'force-dynamic';
