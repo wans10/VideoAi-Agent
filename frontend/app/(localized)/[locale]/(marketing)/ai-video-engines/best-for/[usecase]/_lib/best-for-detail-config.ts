@@ -285,129 +285,153 @@ export const DETAIL_COPY: Record<
 
 export type BestForDetailCopy = (typeof DETAIL_COPY)[AppLocale];
 
-export const USECASE_CRITERIA: Record<string, Partial<Record<AppLocale, string[]>>> = {
+export const USECASE_CRITERIA: Record<string, Record<AppLocale, string[]>> = {
   'image-to-video': {
     en: ['Image fidelity after motion', 'Camera control from a still', 'Clean product and subject preservation'],
     fr: ['Fidélité de l’image après mouvement', 'Contrôle caméra depuis une image fixe', 'Préservation propre du produit ou sujet'],
     es: ['Fidelidad de imagen tras el movimiento', 'Control de cámara desde una imagen fija', 'Preservación limpia del producto o sujeto'],
+    zh: ['运动后的图像还原度', '静态帧镜头运镜控制', '主体与产品细节保真'],
   },
   'cinematic-realism': {
     en: ['Camera language and lighting', 'Natural motion physics', 'High-end visual polish'],
     fr: ['Langage caméra et lumière', 'Physique du mouvement naturelle', 'Rendu visuel premium'],
     es: ['Lenguaje de cámara e iluminación', 'Física de movimiento natural', 'Pulido visual premium'],
+    zh: ['镜头语言与光影质感', '自然运动物理法则', '影视级高阶质感'],
   },
   'character-reference': {
     en: ['Stable identity', 'Wardrobe and prop retention', 'Reference-aware shot control'],
     fr: ['Identité stable', 'Tenue et accessoires conservés', 'Contrôle des plans par référence'],
     es: ['Identidad estable', 'Vestuario y accesorios consistentes', 'Control de planos con referencia'],
+    zh: ['角色面容特征稳定', '服装与道具连贯保留', '基于参考的镜头控制'],
   },
   'reference-to-video': {
     en: ['Strong visual reference following', 'Flexible image or clip guidance', 'Good result with approved assets'],
     fr: ['Respect fort des références visuelles', 'Guidage flexible par image ou clip', 'Bon rendu depuis assets validés'],
     es: ['Seguimiento fuerte de referencias visuales', 'Guía flexible por imagen o clip', 'Buen resultado con assets aprobados'],
+    zh: ['高精度视觉参考还原', '灵活的图片或片段引导', '基于已有素材的出色成片'],
   },
   'multi-shot-video': {
     en: ['Several shots from one prompt', 'Sequence continuity', 'Edited-feeling final output'],
     fr: ['Plusieurs plans depuis un prompt', 'Continuité de séquence', 'Résultat final déjà monté'],
     es: ['Varios planos desde un prompt', 'Continuidad de secuencia', 'Resultado final con sensación de montaje'],
+    zh: ['单次提示生成多镜头', '镜头分镜转场连贯', '自带剪辑质感的成片'],
   },
   '4k-video': {
     en: ['Native or practical high resolution', 'Detail retention', 'Delivery-ready upscale path'],
     fr: ['Haute résolution native ou exploitable', 'Conservation du détail', 'Chemin clair vers une livraison finale'],
     es: ['Alta resolución nativa o práctica', 'Retención de detalle', 'Ruta clara hacia entrega final'],
+    zh: ['原生或实用的超高清分辨率', '极致细节保留', '交付级画质提升流程'],
   },
   ads: {
     en: ['Product clarity', 'Campaign-grade polish', 'Variation-friendly output'],
     fr: ['Clarté produit', 'Finition niveau campagne', 'Sorties faciles à décliner'],
     es: ['Claridad de producto', 'Acabado de campaña', 'Salida fácil de versionar'],
+    zh: ['产品主体清晰明确', '商业级成片质感', '便于多版本派生'],
   },
   'ugc-ads': {
     en: ['Creator-style realism', 'Dialogue and social proof', 'Fast hook testing'],
     fr: ['Réalisme style créateur', 'Dialogue et preuve sociale', 'Tests rapides de hooks'],
     es: ['Realismo estilo creador', 'Diálogo y prueba social', 'Pruebas rápidas de hooks'],
+    zh: ['创作者口播真实质感', '对白与社交背书', '快速测试吸睛开头'],
   },
   'product-videos': {
     en: ['Packshot stability', 'Material and texture quality', 'Clean ecommerce motion'],
     fr: ['Stabilité packshot', 'Qualité matière et texture', 'Mouvement ecommerce propre'],
     es: ['Estabilidad de packshot', 'Calidad de materiales y textura', 'Movimiento ecommerce limpio'],
+    zh: ['静物拍摄稳定性', '材质与纹理表现力', '干净利落的电商动态'],
   },
   'lipsync-dialogue': {
     en: ['Mouth timing', 'Voice and native audio options', 'Face consistency'],
     fr: ['Timing bouche', 'Options voix et audio natif', 'Cohérence du visage'],
     es: ['Sincronía de boca', 'Opciones de voz y audio nativo', 'Consistencia facial'],
+    zh: ['口型动作精准同步', '原生音频与配音选项', '面部神态连贯一致'],
   },
   'fast-drafts': {
     en: ['Iteration speed', 'Low-cost variants', 'Enough control for review'],
     fr: ['Vitesse d’itération', 'Variantes à coût réduit', 'Contrôle suffisant pour valider'],
     es: ['Velocidad de iteración', 'Variantes de bajo precio', 'Control suficiente para revisar'],
+    zh: ['极速迭代验证', '低成本多方案生成', '满足快速评审的控制度'],
   },
   'stylized-anime': {
     en: ['Stylized motion', 'Illustration coherence', 'Non-photoreal flexibility'],
     fr: ['Mouvement stylisé', 'Cohérence d’illustration', 'Flexibilité non photoréaliste'],
     es: ['Movimiento estilizado', 'Coherencia de ilustración', 'Flexibilidad no fotorrealista'],
+    zh: ['风格化艺术动态', '插画画风一致性', '非写实视觉表现力'],
   },
 };
 
-export const USECASE_CHIPS: Record<string, Partial<Record<AppLocale, string[]>>> = {
+export const USECASE_CHIPS: Record<string, Record<AppLocale, string[]>> = {
   'image-to-video': {
     en: ['Image fidelity', 'Motion control', 'Subject lock', 'Reference frames', 'Cost control'],
     fr: ['Fidélité image', 'Contrôle du mouvement', 'Sujet verrouillé', 'Frames de référence', 'Contrôle du coût'],
     es: ['Fidelidad de imagen', 'Control de movimiento', 'Sujeto estable', 'Frames de referencia', 'Control de precio'],
+    zh: ['图像还原', '运动控制', '主体锁定', '参考关键帧', '成本控制'],
   },
   'cinematic-realism': {
     en: ['Camera language', 'Lighting', 'Motion physics', 'Visual polish', 'Cost control'],
     fr: ['Langage caméra', 'Lumière', 'Physique du mouvement', 'Rendu visuel', 'Contrôle du coût'],
     es: ['Lenguaje de cámara', 'Iluminación', 'Física del movimiento', 'Pulido visual', 'Control de precio'],
+    zh: ['镜头语言', '光影表现', '运动物理', '视觉质感', '成本控制'],
   },
   'character-reference': {
     en: ['Identity lock', 'Wardrobe', 'Props', 'Shot continuity', 'Input limits'],
     fr: ['Identité verrouillée', 'Tenue', 'Accessoires', 'Continuité des plans', 'Limites d’entrée'],
     es: ['Identidad estable', 'Vestuario', 'Props', 'Continuidad de planos', 'Límites de entrada'],
+    zh: ['身份锁定', '服饰连贯', '道具保持', '镜头连续性', '输入限制'],
   },
   'reference-to-video': {
     en: ['References', 'Style frames', 'Audio cues', 'Product consistency', 'Output control'],
     fr: ['Références', 'Style frames', 'Repères audio', 'Cohérence produit', 'Contrôle du rendu'],
     es: ['Referencias', 'Style frames', 'Señales de audio', 'Consistencia de producto', 'Control de salida'],
+    zh: ['参考素材', '风格关键帧', '音频提示', '产品一致性', '输出控制'],
   },
   'multi-shot-video': {
     en: ['Shot order', 'Continuity', 'Scene labels', 'Prompt structure', 'Final edit'],
     fr: ['Ordre des plans', 'Continuité', 'Labels de scène', 'Structure du prompt', 'Montage final'],
     es: ['Orden de planos', 'Continuidad', 'Etiquetas de escena', 'Estructura del prompt', 'Edición final'],
+    zh: ['镜头顺序', '连贯性', '分镜标签', '提示词结构', '最终成片'],
   },
   '4k-video': {
     en: ['Native 4K', 'Detail retention', 'Upscale path', 'Final delivery', 'Cost control'],
     fr: ['4K native', 'Détails conservés', 'Chemin upscale', 'Livraison finale', 'Contrôle du coût'],
     es: ['4K nativo', 'Retención de detalle', 'Ruta de upscale', 'Entrega final', 'Control de precio'],
+    zh: ['原生 4K', '细节保留', '画质提升', '交付标准', '成本控制'],
   },
   ads: {
     en: ['Product clarity', 'Offer framing', 'Visual polish', 'Variant testing', 'Review speed'],
     fr: ['Clarté produit', 'Angle offre', 'Rendu propre', 'Tests de variantes', 'Vitesse de review'],
     es: ['Claridad de producto', 'Marco de oferta', 'Pulido visual', 'Pruebas de variantes', 'Velocidad de revisión'],
+    zh: ['产品清晰', '卖点构图', '视觉质感', '多版本测试', '评审效率'],
   },
   'ugc-ads': {
     en: ['Creator realism', 'Dialogue', 'Face consistency', 'Hook testing', 'Social proof'],
     fr: ['Réalisme créateur', 'Dialogue', 'Cohérence visage', 'Tests de hooks', 'Preuve sociale'],
     es: ['Realismo de creador', 'Diálogo', 'Consistencia facial', 'Pruebas de hooks', 'Prueba social'],
+    zh: ['真实博主感', '对白表达', '面部一致性', '开头黄金3秒', '社交背书'],
   },
   'product-videos': {
     en: ['Packshot stability', 'Textures', 'Clean reveals', 'Ecommerce motion', 'Brand fit'],
     fr: ['Stabilité packshot', 'Textures', 'Reveals propres', 'Mouvement ecommerce', 'Fit marque'],
     es: ['Estabilidad de packshot', 'Texturas', 'Reveals limpios', 'Movimiento ecommerce', 'Encaje de marca'],
+    zh: ['静物拍摄稳定', '材质纹理', '干净亮相', '电商运镜', '契合品牌'],
   },
   'lipsync-dialogue': {
     en: ['Mouth timing', 'Voice sync', 'Face consistency', 'Audio options', 'Short dialogue'],
     fr: ['Timing bouche', 'Sync voix', 'Cohérence visage', 'Options audio', 'Dialogue court'],
     es: ['Timing de boca', 'Sync de voz', 'Consistencia facial', 'Opciones de audio', 'Diálogo corto'],
+    zh: ['口型同步', '声音对齐', '面部一致性', '音频选项', '短对白生成'],
   },
   'fast-drafts': {
     en: ['Speed', 'Low cost', 'Rough timing', 'Variant testing', 'Review loop'],
     fr: ['Vitesse', 'Coût bas', 'Timing brouillon', 'Tests de variantes', 'Boucle de review'],
     es: ['Velocidad', 'Bajo precio', 'Timing preliminar', 'Pruebas de variantes', 'Ciclo de revisión'],
+    zh: ['极速生成', '极低成本', '大致节奏', '多版本测试', '快速评审'],
   },
   'stylized-anime': {
     en: ['Line quality', 'Style consistency', 'Color blocks', 'Stylized motion', 'Creative tests'],
     fr: ['Qualité du trait', 'Cohérence de style', 'Aplats de couleur', 'Mouvement stylisé', 'Tests créatifs'],
     es: ['Calidad de línea', 'Consistencia de estilo', 'Bloques de color', 'Movimiento estilizado', 'Pruebas creativas'],
+    zh: ['线条质量', '画风一致性', '色彩色块', '风格化动态', '创意探索'],
   },
 };
 

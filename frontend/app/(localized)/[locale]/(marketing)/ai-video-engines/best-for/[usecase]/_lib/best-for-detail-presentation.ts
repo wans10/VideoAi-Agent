@@ -258,11 +258,11 @@ export function buildUsecaseMistakes(locale: AppLocale, usecaseSlug: string, cri
   ];
 }
 
-export function getUsecaseCriteria(locale: AppLocale, slug: string) {
+export function getUsecaseCriteria(locale: AppLocale, slug: string): string[] {
   return USECASE_CRITERIA[slug]?.[locale] ?? USECASE_CRITERIA[slug]?.en ?? USECASE_CRITERIA['image-to-video'].en;
 }
 
-export function getUsecaseChips(locale: AppLocale, slug: string, fallback: string[]) {
+export function getUsecaseChips(locale: AppLocale, slug: string, fallback: string[]): string[] {
   return USECASE_CHIPS[slug]?.[locale] ?? USECASE_CHIPS[slug]?.en ?? fallback;
 }
 
