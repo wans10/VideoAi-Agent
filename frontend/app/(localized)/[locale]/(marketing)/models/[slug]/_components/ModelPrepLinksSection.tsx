@@ -58,7 +58,7 @@ export function ModelPrepLinksSection({ prepLinksSection, locale }: ModelPrepLin
                         <div className="relative aspect-[16/10] overflow-hidden bg-placeholder">
                           <Image
                             src={visual.imageSrc}
-                            alt={visual.alt[locale] ?? visual.alt.en}
+                            alt={(visual.alt as Record<string, string>)[locale] ?? visual.alt.en}
                             fill
                             className="object-cover transition duration-300 group-hover:scale-[1.02]"
                             sizes="(max-width: 768px) 100vw, 33vw"
@@ -70,7 +70,7 @@ export function ModelPrepLinksSection({ prepLinksSection, locale }: ModelPrepLin
                         <h3 className="text-base font-semibold text-text-primary">{item.label}</h3>
                         {visual ? (
                           <p className="text-sm leading-relaxed text-text-secondary">
-                            {visual.summary[locale] ?? visual.summary.en}
+                            {(visual.summary as Record<string, string>)[locale] ?? visual.summary.en}
                           </p>
                         ) : null}
                       </div>

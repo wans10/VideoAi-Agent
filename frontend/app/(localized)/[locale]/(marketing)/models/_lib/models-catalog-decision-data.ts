@@ -123,7 +123,7 @@ export function buildModelExamplesHref(modelSlug: string): LocalizedLinkHref | n
   return { pathname: '/examples/[model]', params: { model: family } };
 }
 
-function textByLocale<T>(locale: AppLocale, values: Record<AppLocale | 'en', T>): T {
+function textByLocale<T>(locale: AppLocale, values: Partial<Record<AppLocale, T>> & { en: T }): T {
   return values[locale] ?? values.en;
 }
 
@@ -132,6 +132,7 @@ function buildBadges(locale: AppLocale): ModelsCatalogDecisionBadge[] {
     en: ['Price before render', 'Pay-as-you-go', 'Updated specs', 'Vidéo, image et audio'],
     fr: ['Prix avant rendu', "Paiement à l’usage", 'Caractéristiques à jour', 'Vidéo, image et audio'],
     es: ['Precio antes de renderizar', 'Pago por uso', 'Características actualizadas', 'Video, imagen y audio'],
+    zh: ['生成前查看预估价格', '灵活按量付费', '参数规格持续更新', '支持视频、图片与音频'],
   });
   return [
     { label: labels[0], icon: BadgeDollarSign },
@@ -176,6 +177,17 @@ function buildTopPickCopy(locale: AppLocale): Record<string, { reason: string; d
       'veo-3-1': { reason: 'Video con Google', detail: 'Anuncios, referencias y extensión' },
       'happy-horse-1-1': { reason: 'Audio nativo con Alibaba', detail: 'Texto, imagen y referencias con audio nativo' },
     },
+    zh: {
+      'ltx-2-5-pro': { reason: '使用 LTX 创作', detail: '面向生产交付的 LTX 2.5 视频生成' },
+      'wan-3-prime': { reason: '使用 Wan 创作', detail: '高阶旗舰 Wan 3 视频生成' },
+      'grok-imagine-video-1-5': { reason: 'Grok 视频生成', detail: '文本、首帧图与参考图完整工作流' },
+      'flux-3': { reason: 'FLUX 视频生成', detail: '标准画质生成与镜头延展' },
+      'seedance-2-5': { reason: 'Seedance 旗舰模型', detail: '30秒电影级、单图生视频与多参考工作流' },
+      'seedance-2-0': { reason: '最佳原生音频', detail: '原生音频、口型同步与逼真运动物理' },
+      'kling-3-pro': { reason: '最佳控制度', detail: '电影级分镜控制与高精度指令遵循' },
+      'veo-3-1': { reason: 'Google 旗舰选择', detail: '商业广告提示词、素材参考与延展控制' },
+      'happy-horse-1-1': { reason: '阿里原生音频方案', detail: '带原生音效的文生、图生与参考生视频' },
+    },
   });
 }
 
@@ -210,6 +222,16 @@ function buildUseCases(locale: AppLocale): ModelsCatalogUseCase[] {
       ['prompt-control', 'Control del prompt', 'Alta adherencia', 'Kling 3 Pro'],
       ['longest-duration', 'Mayor duracion', 'Clips mas largos y limites de salida', 'LTX 2.3 Fast'],
       ['best-value', 'Mejor valor', 'Iteracion de menor costo', 'LTX 2.3 Fast'],
+    ],
+    zh: [
+      ['cinematic-video', '电影级视频', '影视质感运镜与光影场景', 'Seedance 2.5'],
+      ['native-audio', '原生音频与口型同步', '自然对白、环境音与配音', 'Seedance 2.0'],
+      ['fast-drafts', '高速草稿', '低成本极速方案验证', 'Seedance 2.0 Fast'],
+      ['image-to-video', '图生视频', '赋予静态画面生动动态', 'Seedance 2.5'],
+      ['product-ads', '产品广告', '即开即用的高质感广告镜头', 'Seedance 2.5'],
+      ['prompt-control', '提示词控制', '极致遵循文本描述细节', 'Kling 3 Pro'],
+      ['longest-duration', '超长镜头', '支持更长单次片段输出', 'LTX 2.3 Fast'],
+      ['best-value', '最高性价比', '低成本多版本迭代', 'LTX 2.3 Fast'],
     ],
   });
   const hrefs: LocalizedLinkHref[] = [
@@ -249,6 +271,11 @@ function buildPricingLimits(locale: AppLocale): ModelsCatalogPricingLimitItem[] 
       ['Precio', 'Compara precios de video por segundo e imagen por imagen antes de renderizar.'],
       ['Duracion', 'Revisa la duracion maxima antes de elegir un modelo para drafts o produccion.'],
       ['Calidad de salida', 'Compara 720p, 1080p, 4K, audio, modos de entrada y limites por modelo.'],
+    ],
+    zh: [
+      ['价格透明', '在正式生成前对比按秒视频单价与单张图片成本。'],
+      ['生成时长', '根据草稿或交付需求核对各模型支持的最大时长限制。'],
+      ['输出质量', '全面对比 720p、1080p、4K、音频、输入模式及特定限制。'],
     ],
   });
   const icons = [BadgeDollarSign, Clock3, Trophy];
@@ -351,6 +378,38 @@ function buildDecisionFaqItems(locale: AppLocale): Array<{ question: string; ans
         question: 'Cual es la diferencia entre modelos de video e imagen?',
         answer:
           'Los modelos de video generan clips desde texto, imagenes, referencias de video o primeros/ultimos frames. Los modelos de imagen generan imagenes fijas, ediciones, visuales de producto y referencias antes de animar.',
+      },
+    ],
+    zh: [
+      {
+        question: '我应该从哪款 AI 视频模型开始？',
+        answer:
+          '推荐从 Seedance 2.5 开始体验 30 秒电影级、图生视频及多参考工作流。追求 4K 画质可选用 Seedance 2.0；需要精确场景运镜控制推荐 Kling 3 Pro；而快速测试草稿首选 LTX 2.3 Fast。',
+      },
+      {
+        question: '哪些模型支持原生音效或口型同步？',
+        answer:
+          'Seedance、Kling、Veo、Sora、LTX、Wan 等模型的部分版本支持音频或口型同步。请查看各模型卡片上的“音频”、“口型同步”、文生视频、图生视频、视频重绘及首尾帧支持标注。',
+      },
+      {
+        question: 'AI 视频生成的价格是如何计算的？',
+        answer:
+          '绝大多数视频模型按最终生成的视频秒数计费；图片模型通常按张数或输出分辨率计费。点击进入各模型详情页即可查看精确价格与额度扣除规则。',
+      },
+      {
+        question: 'AI 视频模型单次最多可以生成多长时间？',
+        answer:
+          '不同模型的最大时长有所不同。部分模型单次限制在 8-15 秒，而另一些模型支持更长时间片段或镜头延展。可通过时长筛选器快速查找符合预期的模型。',
+      },
+      {
+        question: '在哪里可以找到提示词范例与效果参考？',
+        answer:
+          '可访问示例展示页面，按模型浏览包括 LTX、Kling、Seedance、Veo、Wan、Sora 及 Pika 的实测提示词与生成效果。',
+      },
+      {
+        question: '视频模型与图片模型有什么区别？',
+        answer:
+          '视频模型通过文字、图片、参考素材或首尾帧生成动态视频片段；图片模型则生成高精静态画面、局部重绘、商品主图或用作视频起始帧的视觉参考。',
       },
     ],
   });

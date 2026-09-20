@@ -165,11 +165,13 @@ export const PREP_LINK_VISUALS = {
       en: 'Build or clean the source still first.',
       fr: "Construisez ou nettoyez d'abord l'image source.",
       es: 'Construye o limpia primero la imagen base.',
+      zh: '先制作或优化用作输入的源图片。',
     },
     alt: {
       en: 'Generate Image workspace example',
       fr: 'Exemple du studio Generate Image',
       es: 'Ejemplo del espacio Generate Image',
+      zh: '图片生成工作台示例',
     },
   },
   '/tools/character-builder': {
@@ -179,11 +181,13 @@ export const PREP_LINK_VISUALS = {
       en: 'Lock identity, outfit, and reference quality.',
       fr: "Verrouillez l'identité, la tenue et la qualité de référence.",
       es: 'Fija la identidad, el vestuario y la calidad de referencia.',
+      zh: '锁定角色面部身份、服装细节与参考质量。',
     },
     alt: {
       en: 'Character Builder reference example',
       fr: 'Exemple de référence Character Builder',
       es: 'Ejemplo de referencia de Character Builder',
+      zh: '角色生成器参考示例',
     },
   },
   '/tools/angle': {
@@ -192,12 +196,14 @@ export const PREP_LINK_VISUALS = {
     summary: {
       en: 'Change the viewpoint before you spend video credits.',
       fr: 'Changez le point de vue avant de dépenser des crédits vidéo.',
-      es: 'Cambia el punto de vista antes de gastar créditos de video.',
+      es: 'Cambia el punto de vista antes de gastar crédits de video.',
+      zh: '在消耗视频额度前先变换机位视角。',
     },
     alt: {
       en: 'Angle tool example',
       fr: "Exemple de l'outil Angle",
       es: 'Ejemplo de la herramienta Angle',
+      zh: '多视角生成工具示例',
     },
   },
 } as const;
