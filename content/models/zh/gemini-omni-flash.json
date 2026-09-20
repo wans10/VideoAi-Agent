@@ -1,0 +1,213 @@
+{
+  "marketingName": "Gemini Omni Flash 1.1",
+  "versionLabel": "1.1",
+  "seo": {
+    "title": "Gemini Omni Flash 1.1 AI Video: 4K, Editing & Audio",
+    "description": "Generate 3–10-second Gemini Omni Flash 1.1 videos from text, frames, references, or source video at 360p through 4K with native audio."
+  },
+  "overview": "Gemini Omni Flash 1.1 is Google’s direct multimodal video route for generation, reference-led creation, first/last-frame control, video editing, extension, and conversational refine.",
+  "decision": {
+    "modelSlug": "gemini-omni-flash",
+    "hero": {
+      "eyebrow": "GOOGLE OMNI FLASH 1.1",
+      "title": "Gemini Omni Flash 1.1",
+      "subtitle": "Create and edit 3–10-second video at 360p, 720p, 1080p, or 4K with references, frame control, and native audio.",
+      "subtitleHighlights": [
+        "3–10s",
+        "360p–4K",
+        "Native audio"
+      ],
+      "paragraph": "Choose Omni Flash 1.1 when the workflow continues beyond one render: generate from text or images, edit or extend a source clip, then refine the stored interaction.",
+      "primaryCta": {
+        "label": "使用 Gemini Omni Flash 1.1 生成",
+        "href": "/app?engine=gemini-omni-flash"
+      },
+      "secondaryCta": {
+        "label": "查看 Google video 案例",
+        "href": "/zh/examples/veo"
+      },
+      "quickLinks": [
+        {
+          "label": "Compare Omni Flash 1.1 with Veo 3.1",
+          "href": "/zh/ai-video-engines/gemini-omni-flash-vs-veo-3-1"
+        },
+        {
+          "label": "View Omni Flash 1.1 pricing",
+          "href": "/zh/pricing#gemini-omni-flash-pricing"
+        },
+        {
+          "label": "Review supported modes",
+          "href": "#specs"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Reviewed Gemini Omni Flash 1.1 examples",
+      "description": "An anonymous bicycle mechanic and a sunrise salt valley test human motion, landscape scale, camera direction, and native audio.",
+      "renderLabel": "View render",
+      "badges": [
+        "1080p",
+        "3–10s",
+        "Native audio"
+      ],
+      "altContext": "An anonymous bicycle mechanic and a sunrise salt valley test human motion, landscape scale, camera direction, and native audio."
+    },
+    "features": [
+      {
+        "title": "360p through 4K",
+        "body": "Choose a resolution that matches fast exploration, review, or final delivery.",
+        "tone": "quality"
+      },
+      {
+        "title": "Multimodal creation and editing",
+        "body": "Generate from text, images, references, first and last frames, or edit and extend an owned source video.",
+        "tone": "reference"
+      },
+      {
+        "title": "Conversational refine",
+        "body": "Continue a stored interaction to revise the same creative direction without rebuilding the workflow.",
+        "tone": "continuity"
+      },
+      {
+        "title": "Native audio",
+        "body": "Direct dialogue, ambience, effects, and music with the picture.",
+        "tone": "audio"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "Best for multimodal iteration",
+        "body": "Use Omni Flash 1.1 when references, video edits, extension, and follow-up refine belong in one Google workflow.",
+        "cta": {
+          "label": "Compare Omni Flash 1.1 with Veo 3.1",
+          "href": "/zh/ai-video-engines/gemini-omni-flash-vs-veo-3-1"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "Generate",
+        "body": "Start with text, one source image, up to ten reference images, or first and last frames."
+      },
+      {
+        "title": "Edit and extend",
+        "body": "Transform or continue an owned source clip with visual and sound direction."
+      },
+      {
+        "title": "Refine",
+        "body": "Use a stored interaction to request a focused follow-up change."
+      }
+    ],
+    "pricingCopy": {
+      "title": "Gemini Omni Flash 1.1 pricing",
+      "subtitle": "Compare the exact total by duration and resolution before rendering.",
+      "footnote": "The live generation quote remains authoritative.",
+      "ctaLabel": "使用 Omni Flash 1.1 生成",
+      "ctaHref": "/app?engine=gemini-omni-flash",
+      "maxDurationNote": "3–10s · 360p–4K"
+    },
+    "meta": {
+      "title": "Gemini Omni Flash 1.1 AI Video: 4K, Editing & Audio",
+      "description": "Generate 3–10-second Gemini Omni Flash 1.1 videos from text, frames, references, or source video at 360p through 4K with native audio."
+    }
+  },
+  "prompting": {
+    "modelSlug": "gemini-omni-flash",
+    "section": {
+      "title": "提示词实验室 — Gemini Omni Flash 1.1",
+      "intro": "Separate the visual action, camera path, and sound direction.",
+      "tip": "Keep the main action observable and give sound cues a clear event to follow.",
+      "guide": {
+        "label": "Official Google documentation",
+        "href": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/omni-1-1-flash"
+      },
+      "referencesTitle": "Prompt Lab — Gemini Omni Flash 1.1"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [],
+    "engineWhy": [],
+    "demo": {
+      "title": "Night-shift bicycle mechanic",
+      "promptLabel": "Production prompt",
+      "prompt": "Visual direction: An anonymous night-shift bicycle mechanic, seen from behind with the face out of frame, seats a tire on a spinning wheel beneath one workshop lamp. Camera direction: A smooth waist-high arc while spokes flash and rubber flexes. Sound direction: Precise ratchet clicks with soft rain against the windows.",
+      "notes": [
+        "Keep the main action observable and give sound cues a clear event to follow."
+      ],
+      "summary": {
+        "subject": "Night-shift bicycle mechanic",
+        "action": "The mechanic seats a tire on a spinning wheel",
+        "camera": "Controlled smooth arc",
+        "style": "Intimate documentary workshop scene",
+        "output": "1080p · 9:16 · native audio"
+      },
+      "presentationOverrides": {
+        "modeLabel": "Text-to-video · 6s",
+        "outputLabel": "1080p",
+        "duration": "6s",
+        "aspectRatio": "9:16",
+        "audioChipMode": "media",
+        "audioChipLabel": null,
+        "altContext": "An anonymous bicycle mechanic and a sunrise salt valley test human motion, landscape scale, camera direction, and native audio."
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "gemini-omni-flash",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "Gemini Omni Flash 1.1 examples",
+      "intro": "Two reviewed 1.1 renders cover an anonymous human action and a large moving landscape.",
+      "defaultCtaLabel": null,
+      "recreateLabel": "Recreate this shot"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "prompt",
+        "icon": "sparkles",
+        "title": "Prompt adherence",
+        "body": "Check the requested action, camera path, and sound timing."
+      },
+      {
+        "id": "motion",
+        "icon": "zap",
+        "title": "动作表现",
+        "body": "检验复杂肢体动作与物理动态的平滑度。"
+      },
+      {
+        "id": "people",
+        "icon": "users",
+        "title": "Human fidelity",
+        "body": "Inspect anatomy and identity handling in human-led clips."
+      },
+      {
+        "id": "finish",
+        "icon": "maximize",
+        "title": "Delivery quality",
+        "body": "Inspect detail and stability at the selected resolution."
+      },
+      {
+        "id": "review",
+        "icon": "shield",
+        "title": "Editorial review",
+        "body": "Reject unwanted text, unsafe imagery, or unapproved likenesses."
+      }
+    ],
+    "fallbackItems": null
+  }
+}
