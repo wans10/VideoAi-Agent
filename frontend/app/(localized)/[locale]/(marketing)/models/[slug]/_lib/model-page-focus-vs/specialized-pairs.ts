@@ -1,7 +1,7 @@
 import type { FocusVsPair } from './types';
 
 export const SPECIALIZED_FOCUS_VS_PAIRS: FocusVsPair[] = [
-{
+  {
     slugA: 'pika-text-to-video',
     slugB: 'ltx-2-3-fast',
     nameA: 'Pika 2.2',
@@ -32,6 +32,14 @@ export const SPECIALIZED_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Clips silenciosos fáciles de editar',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Pika 2.2：',
+        items: [
+          '风格化、专为社交媒体打造的动效呈现',
+          '快速循环动画与趣味多变的视觉效果',
+          '便于后期剪辑合成的无声短视频素材',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -58,9 +66,17 @@ export const SPECIALIZED_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Opciones de revisión con más resolución',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 LTX 2.3 Fast：',
+        items: [
+          '适用范围更广的草稿探索路径',
+          '灵活支持文本生视频与图生视频工作流',
+          '支持更高分辨率的预览与快速审核',
+        ],
+      },
     },
   },
-{
+  {
     slugA: 'minimax-hailuo-02-text',
     slugB: 'ltx-2-fast',
     nameA: 'Hailuo 02',
@@ -91,6 +107,14 @@ export const SPECIALIZED_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Animatics de storyboard rápidos',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Hailuo 02：',
+        items: [
+          '具备复杂物理特性的动态效果草稿',
+          '预算友好的快速视觉构思迭代',
+          '快速生成动态分镜预览动效',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -115,6 +139,14 @@ export const SPECIALIZED_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Más duración por clip para el pacing',
           'Borradores más cercanos a la intención de cámara',
           'Camino fácil hacia LTX 2.3 Pro',
+        ],
+      },
+      zh: {
+        title: '在以下场景推荐使用 LTX 2 Fast：',
+        items: [
+          '单镜头预留更多时长，便于精准把控节奏',
+          '生成结果更能忠实还原运镜意图',
+          '可轻松平滑升级至更高画质的 LTX 2.3 Pro',
         ],
       },
     },

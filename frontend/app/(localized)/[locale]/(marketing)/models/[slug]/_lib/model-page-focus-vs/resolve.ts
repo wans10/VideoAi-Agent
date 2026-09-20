@@ -19,6 +19,7 @@ export function resolveFocusVsConfig(currentSlug: string, locale: AppLocale): Fo
   const ctaLabel = (() => {
     if (locale === 'fr') return `Voir les détails ${otherName} →`;
     if (locale === 'es') return `Ver detalles de ${otherName} →`;
+    if (locale === 'zh') return `查看 ${otherName} 详情 →`;
     return `View ${otherName} details →`;
   })();
   return {

@@ -1,7 +1,7 @@
 import type { AppLocale } from '@/i18n/locales';
 
 export type FocusVsCopy = { title: string; items: string[] };
-export type FocusVsLocalizedCopy = Record<AppLocale, FocusVsCopy>;
+export type FocusVsLocalizedCopy = Partial<Record<AppLocale, FocusVsCopy>> & { en: FocusVsCopy };
 export type FocusVsPair = {
   slugA: string;
   slugB: string;

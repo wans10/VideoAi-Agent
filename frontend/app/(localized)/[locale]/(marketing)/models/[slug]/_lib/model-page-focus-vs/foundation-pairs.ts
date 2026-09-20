@@ -1,7 +1,7 @@
 import type { FocusVsPair } from './types';
 
 export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
-{
+  {
     slugA: 'sora-2',
     slugB: 'sora-2-pro',
     nameA: 'Sora 2',
@@ -31,6 +31,14 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Un primer borrador rápido cuando 720p es suficiente',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Sora 2：',
+        items: [
+          '快速创意验证与片段生成',
+          '分镜、概念设计、UGC 风格短片及短视频广告',
+          '720p 即可满足需求的初版预览',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -57,9 +65,17 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Tomas finales más limpias tras validar la idea',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Sora 2 Pro：',
+        items: [
+          '更高分辨率的成片输出',
+          '更精准的成片控制（包括界面中的音频控制）',
+          '创意验证后的高质量最终镜头',
+        ],
+      },
     },
   },
-{
+  {
     slugA: 'veo-3-1-fast',
     slugB: 'veo-3-1',
     nameA: 'Veo 3.1 Fast',
@@ -89,6 +105,14 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Iteración rápida antes de pasar a los ganadores',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Veo 3.1 Fast：',
+        items: [
+          '快速概念测试与批量草稿生成',
+          '高性价比的 A/B 广告变体与社交循环视频',
+          '在升级高质版本前的快速试错迭代',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -115,9 +139,17 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Seguimiento de prompts más fiable',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Veo 3.1：',
+        items: [
+          '更高保真度的画面质感与精细度',
+          '同一次渲染中一并生成高质量音频',
+          '更稳定、更精准的提示词遵循度',
+        ],
+      },
     },
   },
-{
+  {
     slugA: 'wan-2-5',
     slugB: 'wan-2-6',
     nameA: 'Wan 2.5',
@@ -147,6 +179,14 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Ideación rápida con timing guiado por el audio',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Wan 2.5：',
+        items: [
+          '同批次渲染中直接生成原生音频',
+          '更低成本制作简短小片段',
+          '配合音频节奏进行快速创意探索',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -171,6 +211,14 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Consistencia en reference-to-video',
           'Secuencias multi-shot con timestamps',
           'Más control de formato y estructura',
+        ],
+      },
+      zh: {
+        title: '在以下场景推荐使用 Wan 2.6：',
+        items: [
+          '参考图生视频的高度一致性',
+          '带时间戳的多镜头长序列控制',
+          '更灵活的宽高比与画幅结构控制',
         ],
       },
     },

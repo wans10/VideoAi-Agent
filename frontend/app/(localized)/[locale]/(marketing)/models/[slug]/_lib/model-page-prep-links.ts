@@ -7,6 +7,7 @@ const gptImagePrepLinks = {
   en: [{ href: '/tools/character-builder', label: 'Build a reusable character reference' }, { href: '/tools/angle', label: 'Change the viewpoint before the edit' }, { href: '/app/image?engine=gpt-image-2', label: 'Open GPT Image 2' }],
   fr: [{ href: '/tools/character-builder', label: 'Créer une référence personnage réutilisable' }, { href: '/tools/angle', label: "Changer le point de vue avant l'edit" }, { href: '/app/image?engine=gpt-image-2', label: 'Ouvrir GPT Image 2' }],
   es: [{ href: '/tools/character-builder', label: 'Crear una referencia de personaje reutilizable' }, { href: '/tools/angle', label: 'Cambiar el punto de vista antes del edit' }, { href: '/app/image?engine=gpt-image-2', label: 'Abrir GPT Image 2' }],
+  zh: [{ href: '/tools/character-builder', label: '创建可复用的角色参考' }, { href: '/tools/angle', label: '在编辑前调整视角' }, { href: '/app/image?engine=gpt-image-2', label: '打开 GPT Image 2' }],
 };
 
 export function buildModelPrepLinksSection(modelSlug: string, locale: AppLocale): PrepLinksSection | null {
@@ -25,6 +26,14 @@ export function buildModelPrepLinksSection(modelSlug: string, locale: AppLocale)
         title: 'Prepara la fuente antes del render GPT Image 2',
         body: 'Si el render necesita producto, texto o máscara confiable, prepara la fuente antes de lanzar GPT Image 2.',
         links: gptImagePrepLinks.es,
+      };
+    }
+    if (locale === 'zh') {
+      return {
+        eyebrow: '生成前准备',
+        title: '在进行 GPT Image 2 渲染前准备好源素材',
+        body: '如果渲染需要可靠的产品主体、精确的文字或遮罩，请在启动 GPT Image 2 前完成准备。',
+        links: gptImagePrepLinks.zh,
       };
     }
     return {
@@ -86,6 +95,30 @@ export function buildModelPrepLinksSection(modelSlug: string, locale: AppLocale)
             { href: '/tools/character-builder', label: 'Mantener el mismo personaje' },
             { href: '/tools/angle', label: 'Cambiar el ángulo de cámara antes del video' },
             { href: '/app/image', label: 'Construir la imagen base en Image' },
+          ],
+        };
+  }
+
+  if (locale === 'zh') {
+    return isNanoBananaFamily
+      ? {
+          eyebrow: '生成前准备',
+          title: '在编辑前建立角色参考',
+          body: '如果图像首先需要可复用的角色参考或更好的视角，请在使用 Nano Banana 前调整好。',
+          links: [
+            { href: '/tools/character-builder', label: '创建可复用的角色参考' },
+            { href: '/tools/angle', label: '在编辑前调整视角' },
+            { href: '/app/image', label: '打开图像工具' },
+          ],
+        }
+      : {
+          eyebrow: '生成前准备',
+          title: '在生成视频前准备关键帧',
+          body: '在消耗积分生成动态之前，先锁定角色形象、校正镜头角度或构建源图像。',
+          links: [
+            { href: '/tools/character-builder', label: '保持角色一致性' },
+            { href: '/tools/angle', label: '在视频生成前调整相机角度' },
+            { href: '/app/image', label: '在图像工具中构建源图像' },
           ],
         };
   }

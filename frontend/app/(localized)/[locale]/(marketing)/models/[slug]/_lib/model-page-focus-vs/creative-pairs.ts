@@ -31,6 +31,14 @@ export const CREATIVE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Rough cuts antes de finales',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 LTX 2 Fast：',
+        items: [
+          '批量生成初稿与快速迭代',
+          '快速概念验证与节奏测试',
+          '终稿前的粗剪预览',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -57,9 +65,17 @@ export const CREATIVE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Sincronía audio-visual para finales',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 LTX 2：',
+        items: [
+          '面向客户的高品质成片输出',
+          '更高分辨率与更流畅的动态效果',
+          '成片的音视频同步渲染',
+        ],
+      },
     },
   },
-{
+  {
     slugA: 'nano-banana',
     slugB: 'nano-banana-pro',
     nameA: 'Nano Banana',
@@ -89,6 +105,14 @@ export const CREATIVE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Pruebas de layout ligeras',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Nano Banana：',
+        items: [
+          '快速出图与迅速修图',
+          '快速概念构思与视觉探索',
+          '轻量级构图与排版测试',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -113,6 +137,14 @@ export const CREATIVE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Tipografía y layouts limpios',
           'Familias de producto consistentes',
           'Finales en alta resolución para campañas',
+        ],
+      },
+      zh: {
+        title: '在以下场景推荐使用 Nano Banana Pro：',
+        items: [
+          '清晰的文字排版与构图',
+          '高度一致的产品系列图像',
+          '用于广告营销的高清终稿',
         ],
       },
     },

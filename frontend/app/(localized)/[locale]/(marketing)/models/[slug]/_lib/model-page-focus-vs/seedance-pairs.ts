@@ -1,7 +1,7 @@
 import type { FocusVsPair } from './types';
 
 export const SEEDANCE_FOCUS_VS_PAIRS: FocusVsPair[] = [
-{
+  {
     slugA: 'seedance-1-5-pro',
     slugB: 'kling-3-standard',
     nameA: 'Seedance 1.5 Pro',
@@ -32,6 +32,14 @@ export const SEEDANCE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Clips cortos 4–12 s con audio on/off',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Seedance 1.5 Pro：',
+        items: [
+          '固定机位稳定性与高可复现性生成',
+          '通过 Seed 随机数精确控制画面变体',
+          '4–12 秒支持音频开/关的短片段生成',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -58,9 +66,17 @@ export const SEEDANCE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Voice IDs + end frame opcional',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Kling 3 Standard：',
+        items: [
+          '最长 15 秒的多镜头分镜故事短片',
+          '元素参考功能，保持角色和道具一致性',
+          '专属声音角色定制与可选尾帧控制',
+        ],
+      },
     },
   },
-{
+  {
     slugA: 'seedance-2-0-fast',
     slugB: 'seedance-2-0',
     nameA: 'Seedance 2.0 Fast',
@@ -91,6 +107,14 @@ export const SEEDANCE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Un tier Seedance más ligero para explorar antes',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Seedance 2.0 Fast：',
+        items: [
+          '面向客户交付最终成片前的快速草稿推敲',
+          '快速镜头规划、节奏验证与 A/B 动态测试',
+          '用于前期创意探索的高性价比轻量级模型',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -115,6 +139,14 @@ export const SEEDANCE_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Más acabado de motion y audio nativo para finales',
           'Continuidad multi-shot más fiable para entregables de lanzamiento',
           'El tier principal de Seedance para anuncios flagship y hero scenes',
+        ],
+      },
+      zh: {
+        title: '在以下场景推荐使用 Seedance 2.0：',
+        items: [
+          '成片级更细腻的动态表现与原生音效合成',
+          '针对旗舰宣发素材提供更稳固的多镜头连贯性',
+          '打造重磅广告大片和视觉焦点的主力模型',
         ],
       },
     },
