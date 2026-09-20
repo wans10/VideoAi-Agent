@@ -184,7 +184,7 @@ export function getTopPicksTitle(locale: AppLocale, slug: string) {
     'lipsync-dialogue': {
       en: 'Top picks for dialogue',
       fr: 'Meilleurs choix pour dialogue',
-      es: 'Mejores opciones para dialogue',
+      es: 'Mejores opciones para diálogo',
       zh: '口型与对白精选推荐',
     },
     'fast-drafts': {

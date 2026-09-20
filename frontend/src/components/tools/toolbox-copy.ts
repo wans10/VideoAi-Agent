@@ -38,5 +38,17 @@ const es: Copy = { ...en, workspace: 'Caja de herramientas creativa', title: 'He
   storyboard: { title: 'Storyboard', body: 'Encuentra el ritmo antes de la primera toma.', tag: '02 / Secuencia' },
   angle: { title: 'Angle', body: 'Mira tu idea desde otra perspectiva.', tag: '03 / Perspectiva' },
 } };
+const zh: Copy = { ...en, workspace: '创意工具箱', title: '工具', subtitle: '完善视频剪辑，优化图片细节，或开启创作的下一个阶段。', quick: '快捷工具', workshops: '工作坊', workshopHint: '让创意更进一步。', filtersLabel: '按媒体类型筛选工具', available: '可用', resultCountSingular: '个工具', results: '个工具', all: '全部', image: '图片', video: '视频', audio: '音频', open: '打开工具', workshopOpen: '进入工作坊', illustration: '插图', noAudio: '暂无音频处理工具。', audioHint: '在音频工作台中创作音乐、配音与音效。', audioOpen: '打开音频', source: '来源', import: '导入', library: '从媒体库选择', url: '粘贴 URL', original: '原始', result: '结果', preserved: '原始文件将保持完好。', advanced: '高级选项', implementation: '处理方法', empty: '聚焦您的媒体内容。', emptyHint: '导入文件或从媒体库中选择。', reuse: '使用此结果', back: '工具箱', settings: '调整设置', retryPrice: '重试获取价格', upscale: '超分辨率提升', removeBackground: '去除背景', priceLoading: '计算价格中…', size: '尺寸', format: '格式', background: '背景', keepAudio: '保留音频', done: '完成', compare: '对比', signIn: '登录', processing: '正在处理您的媒体…', processingHint: '等待生成结果。您可以保持此页面开启。', tools: {
+  'upscale-image': { title: '图片超分辨率', body: '放大细节，展现更多精彩。', tag: '图片 → 图片' },
+  'restore-video': { title: '视频修复', body: '修复受损或压缩的视频片段。', tag: '视频 → 视频' },
+  denoise: { title: '视频降噪', body: '减少噪点与颗粒感。', tag: '视频 → 视频' },
+  'fix-blur': { title: '运动模糊修复', body: '恢复更清晰流畅的运动。', tag: '视频 → 视频' },
+  'smooth-motion': { title: '平滑运动', body: '让动态过渡更加流畅自然。', tag: '视频 → 视频' },
+  'upscale-video': { title: '视频超分辨率', body: '逐帧提升画质与分辨率。', tag: '视频 → 视频' },
+  'background-removal': { title: '去除背景', body: '保留主体，置换全新场景。', tag: '视频 → 视频' },
+  'character-builder': { title: '角色生成器', body: '统一角色设定，演绎多维故事。', tag: '01 / 身份' },
+  storyboard: { title: '分镜脚本', body: '在正式开拍前掌握节奏。', tag: '02 / 序列' },
+  angle: { title: '视角生成', body: '从多维度探索灵感与构图。', tag: '03 / 视角' },
+} };
 export type ToolboxVisualId = keyof Copy['tools'];
-export function toolboxCopy(locale: string): Copy { return locale === 'fr' ? fr : locale === 'es' ? es : en; }
+export function toolboxCopy(locale: string): Copy { return locale === 'fr' ? fr : locale === 'es' ? es : locale === 'zh' ? zh : en; }
