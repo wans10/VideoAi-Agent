@@ -143,24 +143,27 @@ test('OpenClaw and n8n use explicit thin indexable route owners', async () => {
       en: 'https://maxvideoai.com/integrations/openclaw',
       fr: 'https://maxvideoai.com/fr/integrations/openclaw',
       es: 'https://maxvideoai.com/es/integraciones/openclaw',
+      zh: 'https://maxvideoai.com/zh/integrations/openclaw',
     },
     n8n: {
       en: 'https://maxvideoai.com/integrations/n8n',
       fr: 'https://maxvideoai.com/fr/integrations/n8n',
       es: 'https://maxvideoai.com/es/integraciones/n8n',
+      zh: 'https://maxvideoai.com/zh/integrations/n8n',
     },
   } as const;
 
   for (const [client, route] of Object.entries({ openclaw, n8n }) as Array<
     ['openclaw' | 'n8n', typeof openclaw]
   >) {
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       const metadata = await route.generateMetadata({ params: Promise.resolve({ locale }) });
       assert.equal(metadata.alternates?.canonical, paths[client][locale]);
       assert.deepEqual(metadata.alternates?.languages, {
         en: paths[client].en,
         fr: paths[client].fr,
         es: paths[client].es,
+        zh: paths[client].zh,
         'x-default': paths[client].en,
       });
       assert.equal(typeof metadata.robots === 'object' ? metadata.robots?.index : metadata.robots, true);
@@ -249,41 +252,47 @@ test('localized routing owns the exact MCP and integration route contract', asyn
   requireFile('frontend/i18n/routing.ts');
   const slugs = JSON.parse(readFileSync('frontend/config/localized-slugs.json', 'utf8')) as Record<
     string,
-    Record<'en' | 'fr' | 'es', string>
+    Record<'en' | 'fr' | 'es' | 'zh', string>
   >;
-  assert.deepEqual(slugs.mcp, { en: 'mcp', fr: 'mcp', es: 'mcp' });
+  assert.deepEqual(slugs.mcp, { en: 'mcp', fr: 'mcp', es: 'mcp', zh: 'mcp' });
   assert.deepEqual(slugs.integrations, {
     en: 'integrations',
     fr: 'integrations',
     es: 'integraciones',
+    zh: 'integrations',
   });
 
   const { routing } = await import('../frontend/i18n/routing.ts');
-  assert.deepEqual(routing.pathnames['/mcp'], { en: '/mcp', fr: '/mcp', es: '/mcp' });
+  assert.deepEqual(routing.pathnames['/mcp'], { en: '/mcp', fr: '/mcp', es: '/mcp', zh: '/mcp' });
   assert.deepEqual(routing.pathnames['/integrations/claude'], {
     en: '/integrations/claude',
     fr: '/integrations/claude',
     es: '/integraciones/claude',
+    zh: '/integrations/claude',
   });
   assert.deepEqual(routing.pathnames['/integrations/chatgpt'], {
     en: '/integrations/chatgpt',
     fr: '/integrations/chatgpt',
     es: '/integraciones/chatgpt',
+    zh: '/integrations/chatgpt',
   });
   assert.deepEqual(routing.pathnames['/integrations/codex'], {
     en: '/integrations/codex',
     fr: '/integrations/codex',
     es: '/integraciones/codex',
+    zh: '/integrations/codex',
   });
   assert.deepEqual(routing.pathnames['/integrations/openclaw'], {
     en: '/integrations/openclaw',
     fr: '/integrations/openclaw',
     es: '/integraciones/openclaw',
+    zh: '/integrations/openclaw',
   });
   assert.deepEqual(routing.pathnames['/integrations/n8n'], {
     en: '/integrations/n8n',
     fr: '/integrations/n8n',
     es: '/integraciones/n8n',
+    zh: '/integrations/n8n',
   });
 });
 
@@ -402,6 +411,7 @@ test('metadata is reciprocal and indexable while publication gates are live', as
         en: 'https://maxvideoai.com/mcp',
         fr: 'https://maxvideoai.com/fr/mcp',
         es: 'https://maxvideoai.com/es/mcp',
+        zh: 'https://maxvideoai.com/zh/mcp',
       },
     },
     {
@@ -410,6 +420,7 @@ test('metadata is reciprocal and indexable while publication gates are live', as
         en: 'https://maxvideoai.com/integrations/chatgpt',
         fr: 'https://maxvideoai.com/fr/integrations/chatgpt',
         es: 'https://maxvideoai.com/es/integraciones/chatgpt',
+        zh: 'https://maxvideoai.com/zh/integrations/chatgpt',
       },
     },
     {
@@ -418,6 +429,7 @@ test('metadata is reciprocal and indexable while publication gates are live', as
         en: 'https://maxvideoai.com/integrations/claude',
         fr: 'https://maxvideoai.com/fr/integrations/claude',
         es: 'https://maxvideoai.com/es/integraciones/claude',
+        zh: 'https://maxvideoai.com/zh/integrations/claude',
       },
     },
     {
@@ -426,18 +438,20 @@ test('metadata is reciprocal and indexable while publication gates are live', as
         en: 'https://maxvideoai.com/integrations/codex',
         fr: 'https://maxvideoai.com/fr/integrations/codex',
         es: 'https://maxvideoai.com/es/integraciones/codex',
+        zh: 'https://maxvideoai.com/zh/integrations/codex',
       },
     },
   ] as const;
 
   for (const route of cases) {
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       const metadata = await route.module.generateMetadata({ params: Promise.resolve({ locale }) });
       assert.equal(metadata.alternates?.canonical, route.paths[locale]);
       assert.deepEqual(metadata.alternates?.languages, {
         en: route.paths.en,
         fr: route.paths.fr,
         es: route.paths.es,
+        zh: route.paths.zh,
         'x-default': route.paths.en,
       });
       assert.equal(typeof metadata.robots === 'object' ? metadata.robots?.index : metadata.robots, true);

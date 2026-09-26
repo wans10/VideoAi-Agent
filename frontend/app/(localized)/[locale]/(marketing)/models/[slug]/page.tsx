@@ -470,7 +470,7 @@ export default async function ModelDetailPage(props: PageParams) {
     // Default every model slug to the canonical marketing renderer so new launches
     // do not silently fall back to the older, thinner detail page.
     const activeLocale = routeLocale ?? 'en';
-    const { dictionary } = await resolveDictionary({ locale: activeLocale });
+    const { dictionary } = await resolveDictionary();
     const detailCopy: DetailCopy = {
       ...DEFAULT_DETAIL_COPY,
       ...(dictionary.models.detail ?? {}),

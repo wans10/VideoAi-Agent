@@ -13,13 +13,12 @@ export function getIntegrationCopy(
   locale: AppLocale,
   client: McpClientId,
 ): IntegrationPageCopy {
-  const copy =
-    locale === 'zh'
-      ? buildChineseIntegrationCopy(client)
-      : locale === 'fr'
-        ? buildFrenchIntegrationCopy(client)
-        : locale === 'es'
-          ? buildSpanishIntegrationCopy(client)
-          : buildEnglishIntegrationCopy(client);
+  const copy = locale === 'zh'
+    ? buildChineseIntegrationCopy(client)
+    : locale === 'fr'
+      ? buildFrenchIntegrationCopy(client)
+      : locale === 'es'
+        ? buildSpanishIntegrationCopy(client)
+        : buildEnglishIntegrationCopy(client);
   return refineIntegrationCopy(copy, locale);
 }

@@ -3242,619 +3242,610 @@
   "workspace": {
     "header": {
       "wallet": {
-        "label": "Wallet",
-        "loading": "Loading…",
-        "unavailable": "Unavailable"
+        "label": "钱包",
+        "loading": "加载中…",
+        "unavailable": "暂不可用"
       },
       "walletTopUp": {
-        "label": "Top up available",
-        "copy": "Click to add funds and keep generating without interruption.",
-        "cta": "Top up",
-        "documentsCta": "Documents"
+        "label": "可充值余额",
+        "copy": "点击充值以保证视频生成不中断。",
+        "cta": "充值",
+        "documentsCta": "文档"
       },
-      "marketingNav": "Marketing navigation",
-      "walletLabel": "Wallet",
-      "memberFallback": "Member",
+      "marketingNav": "营销导航",
+      "walletLabel": "钱包",
+      "memberFallback": "会员",
       "signedIn": "已登录",
       "themeToggle": {
-        "toLight": "Switch to light theme",
-        "toDark": "Switch to dark theme"
+        "toLight": "切换为浅色主题",
+        "toDark": "切换为深色主题"
       },
-      "primaryNav": "Primary navigation",
+      "primaryNav": "主导航",
       "signOut": "退出登录",
       "createAccount": "创建账户",
       "signIn": "登录",
-      "logoAria": "Go to marketing homepage",
+      "logoAria": "前往主页",
       "quickNav": {
-        "video": "Video",
-        "image": "Image",
+        "video": "视频",
+        "image": "图像",
         "library": "媒体库",
-        "menu": "Menu"
+        "menu": "菜单"
       },
-      "createVideo": "Create video",
-      "mobileClose": "Close menu",
-      "mobileToggle": "Open menu",
+      "createVideo": "创建视频",
+      "mobileClose": "关闭菜单",
+      "mobileToggle": "打开菜单",
       "controlLabels": {
         "duration": "时长",
         "resolution": "分辨率",
-        "aspect": "Format",
-        "audio": "Audio",
-        "iterations": "Outputs",
+        "aspect": "画幅比例",
+        "audio": "音频",
+        "iterations": "生成数量",
         "fps": "帧率",
         "hdr": "HDR",
-        "images": "Images",
-        "format": "File format",
+        "images": "图像",
+        "format": "文件格式",
         "quality": "画质",
-        "style": "Style"
+        "style": "风格"
       },
-      "createImage": "Create image",
-      "workspaceLabel": "Creative workspace"
+      "createImage": "创建图像",
+      "workspaceLabel": "创作工作区"
     },
     "sidebar": {
       "aria": {
-        "controls": "Sidebar controls",
-        "expand": "Expand sidebar",
-        "collapse": "Collapse sidebar",
-        "pin": "Pin sidebar open",
-        "unpin": "Unpin sidebar",
-        "menu": "App menu",
-        "home": "Go to home"
+        "controls": "侧边栏控制",
+        "expand": "展开侧边栏",
+        "collapse": "折叠侧边栏",
+        "pin": "固定侧边栏",
+        "unpin": "取消固定侧边栏",
+        "menu": "应用菜单",
+        "home": "前往主页"
       },
       "links": {
         "dashboard": "控制台",
         "generate": "生成视频",
         "generate-image": "生成图像",
         "generate-audio": "生成音频",
-        "tools": "工具",
+        "tools": "创意工具",
         "library": "媒体库",
-        "jobs": "历史记录",
-        "billing": "充值账单",
-        "settings": "设置"
+        "jobs": "生成历史",
+        "billing": "账单与充值",
+        "settings": "账户设置"
       },
       "badges": {
-        "live": "LIVE",
-        "toolsBeta": "BETA"
+        "live": "在线",
+        "toolsBeta": "公测"
       },
       "assistantConnections": {
-        "label": "AI 助手连接",
-        "tooltip": "通过 MCP 连接您的桌面 AI 助手",
-        "claude": "Claude Desktop",
+        "label": "助手连接",
+        "tooltip": "连接您的账户，直接在您的 AI 助手内使用 MaxVideoAI。",
+        "claude": "Claude",
         "chatgpt": "ChatGPT",
         "codex": "Codex"
       },
       "groups": {
-        "create": "Create",
-        "organize": "Workspace",
-        "account": "Account"
+        "create": "创作",
+        "organize": "工作区",
+        "account": "账户"
       },
       "shortLabels": {
-        "generate": "Video",
-        "generate-image": "Image",
-        "generate-audio": "Audio",
-        "tools": "Creative tools",
-        "dashboard": "概览",
-        "library": "媒体库",
-        "jobs": "Activity",
-        "billing": "充值账单",
+        "generate": "视频",
+        "generate-image": "图像",
+        "generate-audio": "音频",
+        "tools": "创意工具",
+        "dashboard": "总览",
+        "library": "媒体",
+        "jobs": "动态",
+        "billing": "账单",
         "settings": "设置"
       }
     },
     "languageToggle": {
-      "ariaLabel": "Change workspace language"
+      "ariaLabel": "切换工作区语言"
     },
     "generate": {
       "errors": {
-        "loadEngines": "Failed to load engines",
-        "noEngines": "No engines available."
+        "loadEngines": "加载生成引擎失败",
+        "noEngines": "暂无可用的生成引擎。"
       },
       "gallery": {
-        "empty": "Launch a generation to populate your gallery. Variants for each run will appear here."
+        "empty": "启动一次生成以填充您的画廊。每次生成的变体都会展示在此处。"
       },
       "messages": {
-        "generatingInProgress": "Generating in progress ({count})…",
-        "seedanceCopyrightBlocked": "Seedance 在开始渲染后终止了该任务，因为其输出审查检测到可能受版权保护的内容。请在重试前修改具有辨识度的角色、品牌、标志、特定作品引用或源媒体素材。",
-        "seedanceCopyrightBlockedRefunded": "Seedance 在开始渲染后终止了该任务，因为其输出审查检测到可能受版权保护的内容。积分已退还至您的钱包。请在重试前修改具有辨识度的角色、品牌、标志、特定作品引用或源媒体素材。"
+        "generatingInProgress": "正在生成中（{count}）…",
+        "seedanceCopyrightBlocked": "Seedance 在启动后中止了此渲染任务，因为其输出审核检测到可能存在版权受限的内容。请在重试前修改可能辨识的角色、品牌、标识、系列IP元素或源素材。",
+        "seedanceCopyrightBlockedRefunded": "Seedance 在启动后中止了此渲染任务，因为其输出审核检测到可能存在版权受限的内容。积分已退还至您的钱包。请在重试前修改可能辨识的角色、品牌、标识、系列IP元素或源素材。"
       },
       "wallet": {
-        "insufficient": "Insufficient wallet balance. Please add funds to continue generating.",
-        "insufficientWithAmount": "Insufficient wallet balance. Add at least {amount} to continue generating."
+        "insufficient": "钱包余额不足，请充值后继续生成。",
+        "insufficientWithAmount": "钱包余额不足。请至少充值 {amount} 以继续生成。"
       },
       "topUp": {
-        "title": "Add credits",
-        "balanceLowTitle": "Wallet balance too low",
-        "suggestedTopUp": "Suggested top-up: {amount}",
-        "presetsLabel": "Add credits",
-        "otherAmountLabel": "Other amount",
-        "minLabel": "Min {amount}",
-        "captchaPrompt": "Security check required before Checkout.",
-        "captchaComplete": "Security check complete. Continue to payment.",
-        "captchaError": "Security check unavailable. Try again.",
-        "rateLimited": "Too many payment attempts. Try again in {time}.",
-        "startError": "Unable to start payment. Try again.",
+        "title": "充值积分",
+        "balanceLowTitle": "钱包余额偏低",
+        "suggestedTopUp": "推荐充值：{amount}",
+        "presetsLabel": "充值金额",
+        "otherAmountLabel": "其他金额",
+        "minLabel": "最低 {amount}",
+        "captchaPrompt": "结账前需要进行安全验证。",
+        "captchaComplete": "安全验证完成，继续付款。",
+        "captchaError": "安全验证暂不可用，请重试。",
+        "rateLimited": "支付尝试过于频繁，请在 {time} 后重试。",
+        "startError": "无法发起支付，请重试。",
         "close": "关闭",
-        "maybeLater": "Maybe later",
-        "submit": "Add funds",
-        "submitting": "Starting top-up…"
+        "maybeLater": "稍后再说",
+        "submit": "立即充值",
+        "submitting": "正在发起充值…"
       },
       "authGate": {
-        "title": "创建账户以开始渲染",
-        "body": "通过初始渲染探索工作区。创建账户后我们将带您返回此处继续。",
+        "title": "创建账户以开始生成",
+        "body": "创建账户后我们将返回此处让您继续创作。",
         "primary": "创建账户",
         "secondary": "登录",
         "close": "稍后再说",
-        "uploadLocked": "登录以上传"
+        "uploadLocked": "登录后即可上传"
       },
       "assetLibrary": {
-        "title": "Select reference image",
+        "title": "选择参考图像",
         "refresh": "刷新",
         "close": "关闭",
-        "fieldFallback": "Reference image",
-        "empty": "No saved images yet. Upload a reference image to see it here.",
-        "emptyUploads": "No uploaded images yet. Upload a reference image to see it here.",
-        "emptyGenerated": "No generated images saved yet. Save a generated image to see it here.",
+        "fieldFallback": "参考图像",
+        "empty": "暂无保存的图像。上传参考图像后将显示在此处。",
+        "emptyUploads": "暂无上传的图像。上传参考图像后将显示在此处。",
+        "emptyGenerated": "暂无已保存的生成图像。保存生成的图像后将显示在此处。",
         "tabs": {
-          "all": "All",
-          "upload": "Uploaded",
-          "generated": "Generated"
+          "all": "全部",
+          "upload": "已上传",
+          "generated": "已生成"
         }
       },
       "processing": {
-        "title": "Processing…",
-        "errorTitle": "Generation failed",
-        "takeLabel": "Take {current}/{total}",
+        "title": "正在处理中…",
+        "errorTitle": "生成失败",
+        "takeLabel": "镜头 {current}/{total}",
         "phrases": [
-          "Routing your render through providers…",
-          "Warming up motion cues…",
-          "Stitching frames into a preview…",
-          "Running safety checks before delivery…"
+          "正在调度生成算力…",
+          "正在初始化动态动作…",
+          "正在缝合帧画面以生成预览…",
+          "正在进行交付前的安全检查…"
         ]
       },
       "assetSlots": {
-        "imageCtaLabel": "Generate reference images",
+        "imageCtaLabel": "生成参考图像",
         "imageCtaHref": "/app/image"
       },
       "controls": {
-        "core": {
-          "title": "Core settings",
-          "subtitle": "Duration, Aspect, Resolution"
-        },
-        "frames": {
-          "label": "Frames",
-          "options": "Options: {options}",
-          "unit": "{count} frames",
-          "hint": "Frames control clip length; values are forwarded without converting to seconds."
-        },
+        "header": "生成参数控制",
+        "empty": "请选择模型以调整参数。",
         "duration": {
-          "optionsLabel": "时长",
-          "maxLabel": "Max {seconds}s",
-          "rangeLabel": "Duration — seconds",
-          "rangeHint": "Min {min}s · Max {max}s",
-          "managed": "Duration is managed directly by this engine."
+          "label": "时长",
+          "suffix": "{value} 秒",
+          "rangeHint": "最短 {min} 秒 · 最长 {max} 秒",
+          "managed": "时长由该模型直接管理。"
         },
         "resolution": {
           "label": "分辨率",
-          "auto": "Auto",
-          "hd": "• HD",
-          "fullHd": "• Full HD",
-          "ultraHd": "• Ultra HD",
-          "proSuffix": "• Pro"
+          "auto": "自动",
+          "hd": "• 高清 (HD)",
+          "fullHd": "• 全高清 (FHD)",
+          "ultraHd": "• 超高清 (UHD)",
+          "proSuffix": "• 专业版"
         },
         "aspect": {
-          "label": "Aspect",
+          "label": "画幅比例",
           "options": {
-            "auto": "Auto",
-            "source": "Source",
-            "custom": "Custom"
+            "auto": "自动",
+            "source": "源画面比例",
+            "custom": "自定义"
           }
         },
-        "iterationsLabel": "Iterations",
+        "iterationsLabel": "生成批次",
         "loop": {
-          "label": "Loop",
-          "on": "On",
-          "off": "Off"
+          "label": "循环播放",
+          "on": "开启",
+          "off": "关闭"
         },
-        "advancedTitle": "Advanced settings",
+        "advancedTitle": "高级参数设置",
         "seed": {
           "label": "随机种子",
-          "placeholder": "Random",
-          "lock": "Lock seed"
+          "placeholder": "随机",
+          "lock": "锁定种子"
         },
         "jitter": {
-          "label": "Jitter",
+          "label": "微调抖动",
           "unit": "%"
         },
-        "fpsSuffix": "{value} fps",
-        "promptStrength": "Prompt strength",
-        "guidance": "Guidance",
-        "inputInfluence": "Input influence",
-        "cfgScale": "Cfg scale",
+        "fpsSuffix": "{value} 帧/秒",
+        "promptStrength": "提示词权重",
+        "guidance": "引导强度",
+        "inputInfluence": "输入影响力",
+        "cfgScale": "CFG 引导尺度",
         "extend": {
-          "label": "Extend",
-          "action": "Extend by",
-          "unit": "seconds"
+          "label": "视频延长",
+          "action": "延长",
+          "unit": "秒"
         },
-        "keyframes": "Keyframes supported"
+        "keyframes": "支持关键帧"
       },
       "preview": {
-        "title": "Composite Preview",
-        "empty": "在此预览生成的视频",
+        "title": "合成预览",
+        "empty": "选择一个镜头以预览",
         "variants": {
-          "singular": "{count} variant",
-          "plural": "{count} variants"
+          "singular": "{count} 个变体",
+          "plural": "{count} 个变体"
         },
         "guided": {
-          "previous": "Previous sample",
-          "next": "Next sample",
-          "badge": "Sample {current}/{total}"
+          "previous": "上一个示例",
+          "next": "下一个示例",
+          "badge": "示例 {current}/{total}"
         },
         "controls": {
           "play": {
-            "on": "Pause",
-            "off": "Play",
-            "ariaOn": "Pause all previews",
-            "ariaOff": "Play all previews"
+            "on": "暂停",
+            "off": "播放",
+            "ariaOn": "暂停所有预览",
+            "ariaOff": "播放所有预览"
           },
           "mute": {
-            "on": "Unmute",
-            "off": "Mute",
-            "ariaOn": "Unmute all previews",
-            "ariaOff": "Mute all previews"
+            "on": "开启声音",
+            "off": "静音",
+            "ariaOn": "开启所有声音",
+            "ariaOff": "静音所有预览"
           },
           "loop": {
-            "on": "Loop on",
-            "off": "Loop off",
-            "ariaOn": "Disable looping",
-            "ariaOff": "Enable looping"
+            "on": "循环开",
+            "off": "循环关",
+            "ariaOn": "禁用循环",
+            "ariaOff": "启用循环"
           },
           "modal": {
-            "label": "Open modal",
-            "aria": "Open preview in modal"
+            "label": "放大查看",
+            "aria": "在弹窗中打开预览"
           },
           "download": {
             "label": "下载",
-            "aria": "下载视频"
+            "aria": "下载预览"
           },
           "openTake": {
-            "label": "Open",
-            "aria": "Open this take"
+            "label": "打开",
+            "aria": "打开此镜头"
           },
-          "copyPrompt": "Copy prompt"
+          "copyPrompt": "复制提示词"
         },
-        "errorTitle": "渲染失败",
-        "errorBody": "视频生成过程中出现错误，已返还消耗的积分。",
+        "errorTitle": "预览不可用",
+        "errorBody": "生成失败，请重试。",
         "placeholder": "—"
       },
       "galleryRail": {
-        "title": "Latest renders",
+        "title": "最近生成",
         "viewAll": "查看全部",
-        "curated": "Starter samples curated by the MaxVideo team are shown until you generate your own videos.",
-        "error": "Failed to load latest renders. Please retry.",
+        "curated": "在您生成自己的视频之前，此处会展示精选入门示例。",
+        "error": "加载最近生成失败，请重试。",
         "retry": "重试",
-        "imageCta": "Generate images",
+        "imageCta": "生成图像",
         "snackbar": {
-          "samples": "Sample clips cannot be removed.",
-          "removed": "Removed from gallery.",
-          "failed": "Unable to remove from gallery."
+          "samples": "示例视频无法删除。",
+          "removed": "已从画廊中移除。",
+          "failed": "无法从画廊中移除。"
         }
       },
       "composer": {
-        "title": "Composer",
-        "subtitle": "Enhance prompt • Non-destructive reruns",
+        "title": "创作台",
+        "subtitle": "优化提示词 • 无损重试",
         "badges": {
-          "payg": "Pay-as-you-go",
-          "priceBefore": "Price-before",
-          "alwaysCurrent": "Always-current"
+          "payg": "按量计费",
+          "priceBefore": "预先报价",
+          "alwaysCurrent": "实时计价"
         },
-        "priceLabel": "This render: {amount}",
+        "priceLabel": "本次生成：{amount}",
         "labels": {
-          "required": "Required",
-          "optional": "Optional"
+          "required": "必填",
+          "optional": "选填"
         },
         "prompt": {
-          "placeholder": "Describe the scene…",
-          "placeholderWithImage": "Describe how the image should move / transform…"
+          "placeholder": "描述场景…",
+          "placeholderWithImage": "描述图像如何运动或转换…"
         },
         "negativePrompt": {
-          "placeholder": "Elements to avoid…",
-          "requiredHint": "Required"
+          "placeholder": "不希望出现的元素…",
+          "requiredHint": "必填"
         },
         "shortcuts": {
-          "generate": "Cmd+Enter • Generate",
-          "price": "G • Price-before",
-          "seed": "S • Lock seed"
+          "generate": "Cmd+Enter • 开始生成",
+          "price": "G • 预先报价",
+          "seed": "S • 锁定种子"
         },
         "iterationsLabel": "×{count}",
         "button": {
-          "idle": "Generate",
-          "loading": "Checking price…"
+          "idle": "生成视频",
+          "loading": "正在核对价格…"
         }
       },
       "engineSelect": {
-        "details": "Details",
-        "clearSearch": "Clear search",
-        "observedTiming": "Observed completions",
-        "avgDuration": "Avg {value}",
-        "choose": "Choose model",
-        "variant": "Variant",
-        "browse": "Explore models",
-        "browseCompact": "Explore models",
-        "inputMode": "Input mode",
-        "unsupportedMode": "Not supported by this model",
+        "details": "详情",
+        "clearSearch": "清除搜索",
+        "observedTiming": "实际完成时间",
+        "avgDuration": "平均 {value}",
+        "choose": "选择模型",
+        "variant": "变体",
+        "browse": "浏览模型",
+        "browseCompact": "浏览模型",
+        "inputMode": "输入模式",
+        "unsupportedMode": "当前模型不支持",
         "badges": {
-          "new": "新"
+          "new": "新上线"
         },
         "modal": {
           "close": "关闭",
-          "title": "Choose the right model for your shot",
-          "subtitle": "Each model has its own strengths - some are fast, others cinematic or experimental. See what fits your project, then generate with confidence.",
-          "searchPlaceholder": "Search by model, provider, or capability",
-          "modeAll": "Mode: All",
-          "modeValue": "Mode: {value}",
-          "resolutionAll": "Resolution: All",
-          "legacyToggleLabel": "Legacy models",
-          "viewModel": "View model page",
-          "viewExamples": "View 示例",
-          "empty": "No models match your filters yet. Adjust the filters or clear the search to explore the full catalogue.",
-          "disclaimer": "Logos are used for descriptive purposes only. Trademarks belong to their respective owners.",
-          "descriptionFallback": "Review this model’s inputs, formats and resolution before generating."
+          "title": "为您的镜头选择合适模型",
+          "subtitle": "每个模型各有专长——有的生成极速，有的富有电影质感或适合实验创意。选择最适合您项目的模型，自信生成。",
+          "searchPlaceholder": "按模型、提供商或能力搜索",
+          "modeAll": "模式：全部",
+          "modeValue": "模式：{value}",
+          "resolutionAll": "分辨率：全部",
+          "legacyToggleLabel": "显示旧版模型",
+          "viewModel": "查看模型主页",
+          "viewExamples": "查看示例",
+          "empty": "暂无符合筛选条件的模型。请调整筛选条件或清空搜索以探索完整目录。",
+          "disclaimer": "徽标仅用于说明目的。商标归各自所有者所有。",
+          "descriptionFallback": "生成前请先了解该模型的输入要求、输出格式和分辨率规格。"
         },
         "guides": {
           "pika-text-to-video": {
-            "description": "Pika 2.2 handles stylized prompts or uploaded stills in one card — perfect for quick loops and product explainers.",
+            "description": "Pika 2.2 支持风格化提示词或上传静态图片——非常适合快速循环和产品解说视频。",
             "badges": [
-              "Text prompts",
-              "Image input",
-              "Fast queue"
+              "文本提示词",
+              "图像输入",
+              "快速队列"
             ]
           },
           "sora-2": {
-            "description": "OpenAI Sora 2 handles cinematic narratives with lip-sync and audio - ideal for hero renders.",
+            "description": "OpenAI Sora 2 支持具唇形同步与音频的电影级叙事——顶级高光镜头的理想之选。",
             "badges": [
-              "Audio native",
-              "Cinematic",
-              "Remix"
+              "原生音频",
+              "电影级质感",
+              "重混创作"
             ]
           },
           "sora-2-pro": {
-            "description": "Sora 2 Pro unlocks 1080p renders, synced dialogue, and image-to-video control for top-tier productions.",
+            "description": "Sora 2 Pro 解锁 1080p 超清生成、同步对话与图生视频控制，专为高标准影视制作打造。",
             "badges": [
               "1080p",
-              "Audio native",
-              "Lip-sync"
+              "原生音频",
+              "唇形同步"
             ]
           },
           "veo-3-1": {
-            "description": "Veo 3.1 now handles direct prompts or reference stills. Swap between text-to-video and image-to-video without leaving the queue.",
+            "description": "Veo 3.1 现支持直接提示词或参考静态图。无需离开队列即可在文生视频和图生视频之间切换。",
             "badges": [
-              "Text prompts",
-              "Multi reference",
-              "Audio native"
+              "文本提示词",
+              "多参考素材",
+              "原生音频"
             ]
           },
           "veo-3-1-fast": {
-            "description": "Veo 3.1 Fast now handles quick text prompts, start-image animation, optional last-frame control, and extend runs with optional audio.",
+            "description": "Veo 3.1 Fast 支持快速文本提示词、首帧图动态化、可选尾帧控制以及带可选音频的延长渲染。",
             "badges": [
-              "Text prompts",
-              "Last frame",
-              "Audio option"
+              "文本提示词",
+              "尾帧控制",
+              "可选音频"
             ]
           },
           "veo-3-1-lite": {
-            "description": "Veo 3.1 Lite handles lower-cost text prompts, start-image animation, and last-frame control with native audio always on.",
+            "description": "Veo 3.1 Lite 提供更高性价比的文本提示词、首帧图动态化与尾帧控制，且原生音频常开。",
             "badges": [
-              "Text prompts",
-              "Last frame",
-              "Audio always on"
+              "文本提示词",
+              "尾帧控制",
+              "音频常开"
             ]
           },
           "minimax-hailuo-02-text": {
-            "description": "Hailuo 02 Standard handles stylized text prompts or animated reference stills with prompt optimiser support.",
+            "description": "Hailuo 02 Standard 支持风格化文本提示词或动态参考静态图，并自带提示词优化器支持。",
             "badges": [
-              "Prompt optimiser",
-              "Image input",
-              "6–10s silent"
+              "提示词优化",
+              "图像输入",
+              "6–10秒无声"
             ]
           },
           "kling-2-5-turbo": {
-            "description": "Kling 2.5 Turbo lives in one card with Pro text, Pro image, and Standard image-to-video modes for cinematic shots or budget loops.",
+            "description": "Kling 2.5 Turbo 整合专业文生视频、专业图生视频与标准图生视频，适合电影级镜头或轻量循环。",
             "badges": [
-              "Text prompts",
-              "Image-to-video",
-              "Standard tier"
+              "文本提示词",
+              "图生视频",
+              "标准档位"
             ]
           },
           "wan-2-5": {
-            "description": "Wan 2.5 handles 5 or 10 second clips with optional background audio plus prompt expansion when you need extra detail.",
+            "description": "Wan 2.5 支持 5 秒或 10 秒片段，带有可选背景音效，并在需要丰富细节时支持提示词扩写。",
             "badges": [
-              "Audio option",
-              "5s or 10s",
+              "音频选项",
+              "5秒或10秒",
               "480p–1080p"
             ]
           },
           "wan-2-6": {
-            "description": "Wan 2.6 merges text, image, and reference-to-video in one card with multi-shot prompting and 720p/1080p tiers.",
+            "description": "Wan 2.6 在单个卡片中融合文本、图像和参考视频生成，支持多镜头提示词以及 720p/1080p 分辨率档位。",
             "badges": [
-              "Text prompts",
-              "Image input",
-              "Reference video"
+              "文本提示词",
+              "图像输入",
+              "参考视频"
             ]
           }
         },
-        "families": "Families",
+        "families": "系列",
         "models": "模型",
-        "searchPlaceholder": "Search models",
-        "catalogueSummary": "Models: {visible}/{total} · Families: {families}",
-        "legacyHiddenOne": "1 legacy model hidden",
-        "legacyHiddenMany": "{count} legacy models hidden",
-        "emptySearch": "No models match “{query}”.",
-        "emptySearchLegacyOne": "1 matching legacy model is hidden. Turn on Legacy models to include it.",
-        "emptySearchLegacyMany": "{count} matching legacy models are hidden. Turn on Legacy models to include them."
+        "searchPlaceholder": "搜索模型",
+        "catalogueSummary": "模型：{visible}/{total} · 系列：{families}",
+        "legacyHiddenOne": "已隐藏 1 个旧版模型",
+        "legacyHiddenMany": "已隐藏 {count} 个旧版模型",
+        "emptySearch": "未找到与“{query}”匹配的模型。",
+        "emptySearchLegacyOne": "有 1 个匹配的旧版模型被隐藏。开启“显示旧版模型”即可查看。",
+        "emptySearchLegacyMany": "有 {count} 个匹配的旧版模型被隐藏。开启“显示旧版模型”即可查看。"
       }
     },
     "image": {
       "hero": {
-        "eyebrow": "Image workspace",
-        "title": "Generate Images",
-        "subtitle": "Create and edit high-fidelity images with Nano Banana and other image engines."
+        "eyebrow": "图像工作区",
+        "title": "生成图像",
+        "subtitle": "使用 Nano Banana 等顶尖图像引擎，创建并编辑高保真图像。"
       },
       "preview": {
-        "eyebrow": "Generate preview",
-        "title": "Latest output",
-        "emptyTitle": "No preview yet.",
-        "emptyDescription": "Run a generation to see the latest image here.",
+        "eyebrow": "生成预览",
+        "title": "最新输出",
+        "emptyTitle": "暂无预览",
+        "emptyDescription": "发起一次生成，最新的图像将在此处展示。",
         "download": "下载",
-        "copy": "Copy link",
+        "copy": "复制链接",
         "copied": "已复制",
-        "editImage": "编辑图像",
-        "openModal": "放大预览",
+        "editImage": "编辑此图像",
+        "openModal": "打开完整预览",
         "cta": "生成图像"
       },
       "engine": {
-        "eyebrow": "Engine",
-        "priceCalculating": "Calculating price…",
-        "priceLabel": "{amount} / run"
+        "eyebrow": "引擎",
+        "priceCalculating": "正在计算价格…",
+        "priceLabel": "{amount} / 次"
       },
       "modeTabs": {
-        "generate": "Create",
+        "generate": "创作",
         "edit": "编辑"
       },
       "composer": {
         "promptLabel": "提示词",
-        "promptPlaceholder": "Describe the image you’d like to generate...",
-        "promptPlaceholderWithImage": "Describe how the image should be edited / transformed…",
-        "charCount": "{count} chars",
-        "presetsHint": "Tap a preset · 1–8 per run",
-        "numImagesLabel": "Number of images",
+        "promptPlaceholder": "描述您想要生成的图像…",
+        "promptPlaceholderWithImage": "描述图像应如何编辑或转换…",
+        "charCount": "{count} 字符",
+        "presetsHint": "点击预设 · 每次运行 1–8 张",
+        "numImagesLabel": "生成张数",
         "numImagesCount": "{count} {unit}",
         "numImagesUnit": {
-          "singular": "image",
-          "plural": "images"
+          "singular": "张图像",
+          "plural": "张图像"
         },
-        "aspectRatioLabel": "宽高比",
-        "aspectRatioHint": "Choose a preset to match your frame.",
-        "aspectRatioAutoNote": "Auto lets the model decide the final crop.",
+        "aspectRatioLabel": "画幅比例",
+        "aspectRatioHint": "选择与画面契合的预设比例。",
+        "aspectRatioAutoNote": "自动模式下由模型决定最佳裁切。",
         "resolutionLabel": "分辨率",
-        "resolutionHint": "Draft in 1K/2K, then switch to 4K for finals (pricing updates automatically).",
-        "resolutionLockedLabel": "Resolution locked by this engine.",
+        "resolutionHint": "可用 1K/2K 进行初稿起草，定稿时切换至 4K（价格将自动更新）。",
+        "resolutionLockedLabel": "该引擎已锁定固定分辨率。",
         "seedLabel": "随机种子",
-        "seedPlaceholder": "Optional",
-        "outputFormatLabel": "Output format",
-        "outputFormatHint": "Choose the file type for the final images.",
+        "seedPlaceholder": "选填",
+        "outputFormatLabel": "输出格式",
+        "outputFormatHint": "选择最终图像的文件类型。",
         "qualityLabel": "画质",
-        "backgroundLabel": "Background",
-        "qualityHint": "Controls model fidelity and cost when supported.",
-        "customWidthLabel": "Width",
-        "customHeightLabel": "Height",
-        "maskUrlLabel": "Mask URL",
-        "maskUrlPlaceholder": "Optional public mask image URL",
-        "enableWebSearchLabel": "Web search",
-        "enableWebSearchHint": "Ground the request with current web context when supported.",
-        "thinkingLevelLabel": "Thinking level",
-        "thinkingLevelHint": "Increase reasoning depth when the engine supports it.",
-        "limitGenerationsLabel": "Limit generations",
-        "limitGenerationsHint": "Reduce extra exploratory generations when supported.",
-        "watermarkLabel": "AI watermark",
-        "watermarkHint": "Add the provider watermark when supported.",
-        "toggleEnabled": "Enabled",
-        "toggleDisabled": "Disabled",
-        "estimatedCost": "Estimated cost: {amount}",
-        "referenceLabel": "Reference images",
-        "referenceHelper": "Optional · up to {count} images",
-        "referenceNote": "Drag & drop, paste, upload from your device, or choose from Media. These references are required for Edit mode.",
-        "referenceButton": "Choose from Media",
-        "characterButton": "Characters",
-        "characterNote": "Pick generated characters to use as identity anchors.",
-        "characterHiddenNotice": "Selected characters are saved and will be reused when you switch back to a compatible engine.",
-        "characterLimitNotice": "Only the first {count} character reference{suffix} will be used with this engine.",
-        "referenceSlotLabel": "Slot {index}",
-        "referenceSlotHint": "Drop image, click to upload, paste, or choose from Media.",
-        "referenceSlotNameFallback": "Image",
+        "backgroundLabel": "背景",
+        "qualityHint": "在支持时调节模型保真度与费用消耗。",
+        "customWidthLabel": "宽度",
+        "customHeightLabel": "高度",
+        "maskUrlLabel": "遮罩 URL",
+        "maskUrlPlaceholder": "可选的公开遮罩图片 URL",
+        "enableWebSearchLabel": "联网搜索",
+        "enableWebSearchHint": "支持时结合最新网络上下文增强生成。",
+        "thinkingLevelLabel": "思考深度",
+        "thinkingLevelHint": "引擎支持时提高推理思考深度。",
+        "limitGenerationsLabel": "限制生成数量",
+        "limitGenerationsHint": "支持时减少额外的探索性生成尝试。",
+        "watermarkLabel": "AI 水印",
+        "watermarkHint": "在模型支持时添加提供商数字水印。",
+        "toggleEnabled": "已启用",
+        "toggleDisabled": "已禁用",
+        "estimatedCost": "预估费用：{amount}",
+        "referenceLabel": "参考图像",
+        "referenceHelper": "选填 · 最多 {count} 张图像",
+        "referenceNote": "拖拽、粘贴、从本地设备上传或从媒体库选择。编辑模式下必须提供参考图。",
+        "referenceButton": "从媒体库选择",
+        "characterButton": "角色素材",
+        "characterNote": "选取已生成的角色作为外观一致性锚点。",
+        "characterHiddenNotice": "已选角色已保存，切换回兼容引擎时将自动复用。",
+        "characterLimitNotice": "此引擎仅会使用前 {count} 个角色参考{suffix}。",
+        "referenceSlotLabel": "槽位 {index}",
+        "referenceSlotHint": "拖入图片、点击上传、粘贴或从媒体库选择。",
+        "referenceSlotNameFallback": "图像",
         "referenceSlotActions": {
           "upload": "上传",
-          "library": "Choose from Media",
-          "replace": "Replace",
-          "remove": "Remove"
+          "library": "从媒体库选择",
+          "replace": "替换",
+          "remove": "移除"
         }
       },
       "history": {
-        "eyebrow": "Recent run",
-        "empty": "Launch a generation to populate your history. Each image variant appears below.",
+        "eyebrow": "最近生成",
+        "empty": "发起一次生成以填充历史记录。每个图像变体均显示在下方。",
         "runsLabel": {
-          "zero": "No runs yet",
-          "other": "{count} runs"
+          "zero": "暂无记录",
+          "other": "{count} 次运行"
         },
-        "noPreview": "No preview",
-        "loadMore": "Load more",
-        "refreshing": "Refreshing history…"
+        "noPreview": "暂无预览",
+        "loadMore": "加载更多",
+        "refreshing": "正在刷新历史…"
       },
       "runButton": {
-        "idle": "Generate",
-        "running": "Generating…"
+        "idle": "生成图像",
+        "running": "正在生成…"
       },
       "errors": {
-        "onlyImages": "Only image files are supported.",
-        "unsupportedFormat": "This engine accepts {formats}.",
-        "uploadFailed": "Unable to upload the selected image. Try again.",
-        "fileTooLarge": "Image exceeds {maxMB} MB. Compress it or choose a smaller file.",
-        "unauthorized": "Session expired — please sign in again and retry the upload.",
-        "promptMissing": "Prompt is required.",
-        "referenceMissing": "Provide at least one source image for edit mode.",
-        "generic": "Image generation failed."
+        "onlyImages": "仅支持图像文件格式。",
+        "unsupportedFormat": "该引擎支持格式：{formats}。",
+        "uploadFailed": "无法上传所选图像，请重试。",
+        "fileTooLarge": "图像大小超过 {maxMB} MB。请压缩后或选择更小的文件重试。",
+        "unauthorized": "登录会话已过期，请重新登录后再上传。",
+        "promptMissing": "提示词为必填项。",
+        "referenceMissing": "编辑模式需要提供至少一张源图像。",
+        "generic": "图像生成失败。"
       },
       "messages": {
-        "success": "Generated {count} image{suffix}.",
-        "generatingInProgress": "Generating in progress ({count})…",
-        "savedToLibrary": "Saved to Media.",
-        "removedFromLibrary": "Removed from Media."
+        "success": "成功生成 {count} 张图像{suffix}。",
+        "generatingInProgress": "正在生成中（{count}）…",
+        "savedToLibrary": "已保存至媒体库。",
+        "removedFromLibrary": "已从媒体库移除。"
       },
       "general": {
-        "uploading": "Uploading…",
-        "cancelUpload": "Cancel upload",
-        "emptyEngines": "No image engines available."
+        "uploading": "正在上传…",
+        "cancelUpload": "取消上传",
+        "emptyEngines": "暂无可用图像引擎。"
       },
       "library": {
-        "button": "Choose from Media",
-        "empty": "No assets saved yet. Upload images from the composer or the Media page.",
-        "overlay": "Use this image",
-        "unsupported": "Unsupported format",
-        "supportedFormats": "Supported formats: {formats}",
-        "assetFallback": "Asset",
+        "button": "从媒体库选择",
+        "empty": "暂无保存的素材。请从创作台或媒体库页面上传图片。",
+        "overlay": "使用此图像",
+        "unsupported": "不支持的文件格式",
+        "supportedFormats": "支持格式：{formats}",
+        "assetFallback": "素材",
         "tabs": {
-          "all": "All images",
-          "upload": "Uploaded images",
-          "generated": "Generated images",
-          "storyboard": "Storyboard assets",
-          "character": "Character assets",
-          "angle": "Angle assets",
-          "upscale": "Upscale assets"
+          "all": "全部图像",
+          "upload": "已上传图像",
+          "generated": "已生成图像",
+          "storyboard": "分镜脚本素材",
+          "character": "角色素材",
+          "angle": "多视角素材",
+          "upscale": "高清重绘素材"
         },
         "modal": {
-          "title": "Choose from Media",
-          "description": "Choose an image you previously imported.",
+          "title": "从媒体库选择",
+          "description": "选取您之前导入的图片素材。",
           "close": "关闭",
-          "error": "Unable to load assets. Please retry.",
-          "empty": "No assets saved yet. Upload images from the composer or the Media page.",
-          "emptyCompatible": "No compatible assets for this model yet.",
-          "emptyUploads": "No uploaded images yet. Upload images from the composer or the Media page.",
-          "emptyGenerated": "No generated images saved yet. Save a generated image to see it here.",
-          "emptyStoryboard": "No storyboard assets saved yet. Save a storyboard image to see it here.",
-          "emptyCharacter": "No character assets saved yet. Generate one in Character Builder first.",
-          "emptyAngle": "No angle assets saved yet. Generate one in the Angle tool first.",
-          "emptyUpscale": "No upscale assets saved yet. Save an upscale result first."
+          "error": "无法加载素材，请重试。",
+          "empty": "暂无保存的素材。请从创作台或媒体库页面上传图片。",
+          "emptyCompatible": "该模型暂无兼容的素材。",
+          "emptyUploads": "暂无上传的图像。请从创作台或媒体库页面上传图片。",
+          "emptyGenerated": "暂无保存的生成图像。保存生成的图像后将显示在此处。",
+          "emptyStoryboard": "暂无保存的分镜素材。保存分镜图像后将显示在此处。",
+          "emptyCharacter": "暂无保存的角色素材。请先在角色一致性工具中生成。",
+          "emptyAngle": "暂无保存的多视角素材。请先在视角转换工具中生成。",
+          "emptyUpscale": "暂无保存的高清重绘素材。请先保存高清重绘结果。"
         }
       },
       "characterPicker": {
-        "title": "Select characters",
-        "description": "Choose from your Character Builder outputs. Selected characters are added as identity references.",
-        "selected": "Selected",
+        "title": "选择角色",
+        "description": "从您的角色一致性工具输出中选择。所选角色将作为身份锚点加入参考。",
+        "selected": "已选择",
         "select": "选择",
-        "done": "Done",
-        "empty": "No character references yet. Generate one in the Character Builder first.",
-        "limitLabel": "Up to {count} character reference{suffix}"
+        "done": "完成",
+        "empty": "暂无角色参考。请先在角色工具中生成角色。",
+        "limitLabel": "最多支持 {count} 个角色参考{suffix}"
       },
       "authGate": {
-        "title": "创建账户以开始渲染",
-        "body": "先探索图像工作区。创建账户后我们将带您返回此处继续。",
+        "title": "创建账户以开始生成图像",
+        "body": "先体验图像创作工作区。创建账户后我们将返回此处让您继续创作。",
         "primary": "创建账户",
         "secondary": "登录",
         "close": "稍后再说"
@@ -3862,31 +3853,32 @@
     },
     "jobs": {
       "activity": {
-        "title": "Activity",
-        "description": "Your generations, in order. Open a result to keep creating.",
-        "source": "Source",
+        "title": "动态",
+        "description": "按时间顺序排列的生成记录。打开结果以继续创作。",
+        "source": "来源",
         "sources": {
-          "all": "All sources",
-          "video": "Video",
-          "image": "Image",
-          "audio": "Audio",
-          "storyboard": "Storyboard",
-          "character": "Character",
-          "angle": "Angle",
-          "upscale": "Upscale",
-          "background-removal": "Background removal",
-          "tool": "工具"
+          "all": "全部来源",
+          "video": "视频",
+          "image": "图像",
+          "audio": "音频",
+          "storyboard": "分镜",
+          "character": "角色",
+          "angle": "视角",
+          "upscale": "高清重绘",
+          "backgroundRemoval": "背景消除"
         },
-        "status": "Status of loaded activity",
-        "statuses": {
-          "all": "All statuses",
-          "pending": "In progress",
+        "empty": "暂无生成动态。启动一次生成，记录将出现在此处。",
+        "loadMore": "加载更多",
+        "loading": "加载中…",
+        "refresh": "刷新",
+        "viewResult": "查看结果",
+        "openOriginal": "打开原件",
+        "delete": "删除",
+        "status": {
           "completed": "已完成",
-          "failed": "失败"
-        },
-        "statusHint": "Status filters apply to loaded activity. Load more to check older generations.",
-        "filteredEmpty": "No matching generations in the loaded activity.",
-        "refresh": "刷新"
+          "pending": "处理中",
+          "failed": "已失败"
+        }
       },
       "title": "历史记录",
       "sections": {
@@ -3927,24 +3919,37 @@
         "collapseSection": "Hide",
         "saving": "Saving…",
         "removing": "Removing…"
+      },
+      "table": {
+        "title": "生成历史",
+        "headers": {
+          "preview": "预览",
+          "prompt": "提示词",
+          "engine": "引擎",
+          "source": "来源",
+          "status": "状态",
+          "duration": "时长",
+          "created": "创建时间",
+          "actions": "操作"
+        },
+        "empty": "暂无生成记录。",
+        "searchPlaceholder": "按提示词或 ID 搜索…",
+        "filters": "筛选",
+        "clearFilters": "清空筛选"
       }
     },
     "dashboard": {
       "create": {
-        "title": "Create",
-        "subtitle": "Start a new render or pick up where you left off.",
-        "videoTitle": "Create video",
-        "videoSubtitle": "Choose your engine and mode, then start a render.",
-        "imageTitle": "Create image",
-        "imageSubtitle": "Generate stills or edits with the image engines.",
-        "engineLabel": "Engine",
-        "newVideo": "New video",
-        "generateAudio": "生成音频",
-        "useLastVideo": "Use last video settings",
-        "startVideoTemplate": "Start from template",
-        "newImage": "New image",
-        "useLastImage": "Use last image settings",
-        "startImageTemplate": "Start from template"
+        "title": "创作",
+        "subtitle": "发起新渲染，或从上次离开的地方继续。",
+        "videoTitle": "创建视频",
+        "videoSubtitle": "选择生成引擎与模式，即可启动视频渲染。",
+        "imageTitle": "创建图像",
+        "imageSubtitle": "使用专业图像模型生成静态视觉或进行修图。",
+        "audioTitle": "创建音频",
+        "audioSubtitle": "生成高品质配乐、音效或自然逼真的旁白配音。",
+        "toolsTitle": "创意工具",
+        "toolsSubtitle": "准备分镜参考、构建一致角色并精修素材。"
       },
       "modes": {
         "t2v": "T2V",
@@ -4043,516 +4048,470 @@
         },
         "statusFallback": "N/A",
         "versionLabel": "Version {index}"
+      },
+      "stats": {
+        "title": "概览",
+        "walletBalance": "钱包余额",
+        "topUp": "充值",
+        "activeJobs": "处理中任务",
+        "completedJobs": "已完成任务",
+        "savedMedia": "已保存素材"
+      },
+      "recents": {
+        "title": "最近生成",
+        "viewAll": "查看全部",
+        "empty": "暂无最近生成。快来开启您的第一个创作吧！"
       }
     },
     "billing": {
-      "title": "充值账单",
+      "title": "账单与充值",
       "hero": {
-        "title": "Add credits",
-        "subtitle": "Choose an amount, then complete payment in secure Stripe Checkout.",
-        "liveMode": "Live Mode",
-        "testMode": "Test Mode"
+        "title": "充值积分",
+        "subtitle": "选择充值金额，在安全的 Stripe Checkout 收银台完成支付。",
+        "liveMode": "正式模式",
+        "testMode": "测试模式"
       },
       "wallet": {
-        "title": "Wallet",
-        "addCreditsTitle": "Add credits",
-        "description": "Your balance pays for successful generations only. Unused credits stay in your wallet.",
-        "balanceLabel": "Current balance",
-        "balanceReady": "Available to create",
-        "balanceLoading": "Loading balance…",
-        "balanceRefreshing": "Refreshing balance…",
-        "balanceUnavailable": "Balance unavailable. Try again.",
-        "guestBalance": "Sign in to view your balance",
-        "refreshBalance": "Refresh balance",
-        "stepChoose": "Choose wallet credits",
-        "stepChooseHint": "Credits are stored in USD and do not expire while your account remains active.",
-        "stepReview": "Review payment",
-        "stepReviewHint": "Pay in EUR or USD. Your bank may charge currency conversion fees.",
-        "paymentAmount": "Amount before tax",
-        "creditsReceived": "Credits received",
-        "quoteCurrent": "Tax may be added. You will see the final total before confirming payment.",
-        "quoteUnavailable": "Finalized in Stripe Checkout",
-        "addFunds": "{amount}",
-        "quickAmount": "{amount}",
-        "selectedAmount": "Selected amount",
-        "checkoutCta": "Card or other methods",
-        "checkoutSecure": "Secure payment by",
-        "checkoutNote": "Credits are added after confirmation; your receipt is saved here.",
-        "customLabel": "Custom amount",
-        "customPresetLabel": "Custom",
-        "customPresetHint": "Enter amount",
-        "customPlaceholder": "Minimum $10",
-        "customHint": "Enter any amount from $10.",
-        "customCta": "Set amount",
-        "customSelectCta": "Set amount",
-        "customInvalid": "Enter a valid amount.",
-        "customMin": "Minimum is $10.",
-        "chooseAmount": "选择",
-        "expressTitle": "Pay instantly",
-        "expressLoading": "Loading secure payment options…",
-        "expressUnavailable": "Instant payment is unavailable. Choose another payment method below.",
-        "expressError": "Unable to open instant payment. Choose another payment method below.",
-        "expressClosed": "Payment window closed. Try again or choose another method below.",
-        "expressAriaLabel": "Express checkout",
-        "captchaPrompt": "Security check required before Checkout.",
-        "captchaComplete": "Security check complete. Continue to payment.",
-        "captchaError": "Security check unavailable. Try again.",
-        "rateLimited": "Too many payment attempts. Try again in {time}.",
-        "autoTopUp": "Enable auto top-up (optional)",
-        "lowBalance": "Your balance is low. Top up to keep creating.",
-        "currencyLabel": "Pay in",
-        "currencyLoading": "Detecting currencies…",
-        "currencyLoadError": "Unable to load currencies. Defaulting to USD.",
-        "currencyDetected": "Auto-detected {currency}",
-        "currencyOverride": "Charging in {selected} (auto: {detected})",
-        "quoteLoading": "Calculating amount…",
-        "quoteError": "Unable to fetch FX quotes. Amount finalized at checkout."
+        "title": "钱包",
+        "addCreditsTitle": "充值积分",
+        "description": "按量计费，无强制月费。生成的每秒视频均从您的充值余额扣费。",
+        "balanceLabel": "可用余额",
+        "starterNotice": "新账户可充值 $10 入门余额立即开始创作。",
+        "autoTopUp": "开启自动充值（选填）",
+        "lowBalance": "您的余额偏低，充值后可继续顺畅创作。",
+        "currencyLabel": "支付币种",
+        "currencyLoading": "正在检测币种…",
+        "currencyLoadError": "无法加载可用币种，默认使用美元 (USD)。",
+        "currencyDetected": "已自动识别为 {currency}",
+        "currencyOverride": "使用 {selected} 结算（自动检测：{detected}）",
+        "quoteLoading": "正在计算金额…",
+        "quoteError": "无法获取实时汇率，最终金额以结账收银台为准。"
       },
       "teams": {
-        "title": "For Teams",
-        "description": "Shared wallet & roles. Let your team create with one balance. Set soft/hard project budgets. Daily summary by email.",
+        "title": "团队功能",
+        "description": "共享钱包与权限管理。让团队共用统一余额，设置软性或硬性项目预算，每日邮件汇总进度。",
         "actions": {
-          "invite": "Invite teammates",
-          "budgets": "Set project budgets"
+          "invite": "邀请团队成员",
+          "budgets": "设置项目预算"
         },
-        "note": "Team note: On shared wallets, status applies to all members.",
-        "comingSoon": "Coming soon — unified wallets, role-based approvals, and budgeting controls. Join the beta at {email}.",
+        "note": "团队说明：在共享钱包模式下，状态适用于团队所有成员。",
+        "comingSoon": "即将推出——统一团队钱包、角色审批流和预算管控。联系 {email} 申请内测。",
         "contactEmail": "support@maxvideoai.com",
-        "statusLive": "Live",
-        "statusSoon": "Coming soon"
+        "statusLive": "在线",
+        "statusSoon": "即将推出"
       },
       "estimator": {
-        "title": "Cost Estimator",
-        "summary": "Select Engine · Duration · Resolution → This render: {value} (estimate)",
+        "title": "费用预估器",
+        "summary": "选择引擎 · 时长 · 分辨率 → 本次生成预估：{value}",
         "estimateLoading": "…",
         "estimateMissing": "—",
         "fields": {
-          "engine": "Engine",
-          "mode": "Mode",
-          "duration": "Duration (sec)",
+          "engine": "引擎",
+          "mode": "模式",
+          "duration": "时长（秒）",
           "resolution": "分辨率"
         },
-        "note": "Note: You’ll be charged only if the generation succeeds."
+        "note": "提示：仅当生成成功后才会扣取费用。"
       },
       "receipts": {
-        "ledgerLabel": "Billing documents",
-        "title": "Receipts & invoices",
-        "subtitle": "Download Stripe documents for wallet top-ups and review charges or refunds.",
-        "openDocuments": "Receipts & invoices",
-        "empty": "No payment documents or wallet activity yet.",
-        "documentsEmpty": "No wallet top-up documents yet.",
-        "activityEmpty": "No wallet activity yet.",
+        "ledgerLabel": "账单凭据",
+        "title": "收据与发票",
+        "subtitle": "下载钱包充值的 Stripe 凭据，查验消费明细与退款记录。",
+        "openDocuments": "收据与发票",
+        "empty": "暂无支付单据或钱包变动记录。",
+        "documentsEmpty": "暂无充值单据。",
+        "activityEmpty": "暂无钱包变动记录。",
         "tabs": {
-          "documents": "Documents",
-          "activity": "Wallet activity"
+          "documents": "单据凭证",
+          "activity": "钱包流水"
         },
-        "loading": "Loading…",
-        "loadMore": "Load more",
-        "exportCsv": "Export CSV",
+        "loading": "加载中…",
+        "loadMore": "加载更多",
+        "exportCsv": "导出 CSV",
         "typeLabels": {
-          "charge": "Charge",
-          "refund": "Refund",
-          "topup": "Top-up"
+          "charge": "扣费",
+          "refund": "退款",
+          "topup": "充值"
         },
         "fields": {
-          "total": "Total",
-          "walletMovement": "Wallet movement",
-          "tax": "Tax",
-          "discount": "Discount",
-          "document": "Document"
+          "total": "总计",
+          "walletMovement": "钱包变动",
+          "tax": "税额",
+          "discount": "折扣",
+          "document": "单据"
         },
-        "viewReceipt": "View receipt",
-        "viewInvoice": "View invoice",
-        "receiptLabel": "Receipt",
-        "invoiceLabel": "Invoice",
-        "contactSupport": "Contact support"
+        "viewReceipt": "查看收据",
+        "viewInvoice": "查看发票",
+        "receiptLabel": "收据",
+        "invoiceLabel": "发票",
+        "contactSupport": "联系客服"
       },
       "checkoutReturn": {
-        "successTitle": "Payment returned",
-        "cancelledTitle": "Checkout cancelled",
-        "refreshingDetail": "Refreshing your balance and payment history…",
-        "refreshedDetail": "Latest wallet and payment history loaded.",
-        "delayedDetail": "Payment returned. Account updates may still be processing; refresh again shortly.",
-        "cancelledDetail": "No charge was completed. Your selected amount has been kept."
+        "successTitle": "支付已返回",
+        "cancelledTitle": "结账已取消",
+        "refreshingDetail": "正在刷新您的余额和支付流水…",
+        "refreshedDetail": "已加载最新的钱包余额与支付历史。",
+        "delayedDetail": "支付已完成返回。账户更新可能仍在处理中，请稍后刷新。",
+        "cancelledDetail": "未产生任何费用，已保留您所选的充值金额。"
       },
       "refunds": {
-        "title": "Protections",
+        "title": "保障政策",
         "points": [
-          "Failed generations are refunded automatically.",
-          "Receipts include itemized tax and payment details.",
-          "No subscription. Add credits only when you need them."
+          "失败的生成任务将全额自动退款至钱包。",
+          "所有单据均包含税费明细与支付详情。",
+          "无订阅捆绑，仅在需要时按量充值。"
         ]
       },
       "faq": {
-        "title": "Micro-FAQ",
+        "title": "常见疑问",
         "entries": [
           {
-            "question": "Do I need a subscription?",
-            "answer": "No. Pay as you go."
+            "question": "我需要订阅会员吗？",
+            "answer": "不需要。采用完全的按需付费模式。"
           },
           {
-            "question": "Can I buy just one small render?",
-            "answer": "Yes — funds are debited per run from your $10 Starter balance."
+            "question": "我可以只充值少量金额试用吗？",
+            "answer": "可以——您可以充值 $10 入门余额，每次生成按实际消耗扣除。"
           },
           {
-            "question": "Will my credits expire?",
-            "answer": "Credits don’t expire while your account remains active."
+            "question": "账户余额会过期失效吗？",
+            "answer": "只要您的账户保持活跃，充值余额永久有效。"
           },
           {
-            "question": "Which price applies?",
-            "answer": "New generations use standard pricing. The exact price is shown before confirmation."
+            "question": "生成计费依据什么标准？",
+            "answer": "新生成根据标准价目表计费，确认生成前会明确展示精确报价。"
           }
         ],
-        "footnote": "VAT included where applicable. Refunds on failed generations. “Works with” indicates compatibility; trademarks belong to their respective owners."
+        "footnote": "在适用情况下包含增值税。失败生成自动退款。“兼容”仅表示技术兼容性，商标归各自所有者所有。"
       },
       "toasts": {
-        "success": "Payment successful. Funds added to your wallet.",
-        "cancelled": "Checkout closed. No charge made.",
-        "returnToWorkspace": "Return to the video workspace"
+        "success": "支付成功，充值金额已到账至您的钱包。",
+        "cancelled": "已关闭收银台，未产生任何扣费。",
+        "returnToWorkspace": "返回视频创作工作区"
       },
       "errors": {
-        "loadReceipts": "We couldn’t load your payment history. Refresh the page or contact support.",
-        "loadMore": "Failed to load more receipts",
-        "loadEngines": "Failed to load engines.",
-        "estimator": "Estimator failed",
-        "lowBalance": "Your balance is low. Top up to keep creating."
+        "loadReceipts": "无法加载支付流水，请刷新页面或联系技术支持。",
+        "loadMore": "加载更多收据失败",
+        "loadEngines": "加载生成引擎失败。",
+        "estimator": "预估费用失败",
+        "lowBalance": "您的余额偏低，充值后可继续创作。"
       },
       "authGate": {
-        "title": "Sign in to add credits",
-        "body": "Your account keeps your credits and payment documents together.",
+        "title": "登录后充值积分",
+        "body": "创建账户后我们将返回此处让您继续创作。",
         "primary": "创建账户",
         "secondary": "登录",
-        "close": "Maybe later"
+        "close": "稍后再说"
       }
     },
     "library": {
       "hero": {
         "title": "媒体库",
-        "subtitle": "Saved media you can reuse across generations.",
+        "subtitle": "保存并管理跨项目复用的图像、视频与音频素材。",
         "ctas": {
           "image": "生成图像",
-          "video": "Generate video"
+          "video": "生成视频"
         }
       },
       "views": {
-        "saved": "Saved media",
-        "review": "Generated media"
+        "saved": "已保存素材",
+        "review": "已生成素材"
       },
       "media": {
-        "images": "Images",
-        "videos": "Videos",
-        "audio": "Audio"
+        "images": "图像",
+        "videos": "视频",
+        "audio": "音频"
       },
       "browser": {
-        "searchPlaceholder": "Search assets…",
+        "searchPlaceholder": "搜索素材…",
         "sourcesTitle": "媒体库",
-        "toolsTitle": "Create or transform",
-        "toolsDescription": "Open another workspace to prepare a better source before importing it here.",
-        "emptySearch": "No assets match this search.",
-        "import": "Import",
-        "importing": "Importing…",
-        "importFailed": "Import failed. Please try again.",
+        "toolsTitle": "创作或处理",
+        "toolsDescription": "在导入此处之前，先在对应工作区准备更优质的源素材。",
+        "emptySearch": "未找到符合搜索条件的素材。",
+        "import": "导入素材",
+        "importing": "正在导入…",
+        "importFailed": "导入失败，请重试。",
         "refresh": "刷新",
-        "searchSaved": "Search names or render IDs…",
-        "searchRenders": "Search prompts or render IDs…",
-        "create": "Create"
+        "searchSaved": "按名称或生成 ID 搜索…",
+        "searchRenders": "按提示词或生成 ID 搜索…",
+        "create": "创建"
       },
       "tabs": {
-        "all": "All images",
-        "upload": "Uploaded images",
-        "generated": "Saved renders",
-        "recent": "Recent renders",
-        "storyboard": "Storyboard assets",
-        "character": "Character assets",
-        "angle": "Angle assets",
-        "upscale": "Upscale assets"
+        "all": "全部图像",
+        "upload": "已上传图像",
+        "generated": "已保存生成",
+        "recent": "最近生成",
+        "storyboard": "分镜脚本素材",
+        "character": "角色素材",
+        "angle": "多视角素材",
+        "upscale": "高清重绘素材"
       },
       "review": {
-        "subtitle": "Choose recent renders to save as reusable media.",
+        "subtitle": "挑选最近生成的作品保存为可复用的媒体素材。",
         "sourcesTitle": "历史记录",
-        "helper": "Choose recent renders to save as reusable media.",
-        "empty": "No recent renders yet. Generate something first, then save the outputs you want to reuse.",
-        "loadError": "Unable to load recent renders.",
-        "saveButton": "Save to Media",
-        "saving": "Saving…",
-        "saved": "Saved",
-        "saveError": "Unable to save this render to Media.",
-        "openRender": "Open render",
-        "linkedResult": "Linked result",
-        "showAll": "All renders"
+        "helper": "挑选最近生成的作品保存为可复用的媒体素材。",
+        "empty": "暂无最近生成。先创作一些内容，再将希望复用的结果保存至此。",
+        "loadError": "无法加载最近生成内容。",
+        "saveButton": "保存到媒体库",
+        "saving": "正在保存…",
+        "saved": "已保存",
+        "saveError": "无法将此生成结果保存到媒体库。",
+        "openRender": "打开渲染",
+        "linkedResult": "关联结果",
+        "showAll": "全部生成"
       },
       "assets": {
         "title": "媒体库",
         "countLabel": "{count}",
-        "loadError": "Unable to load saved assets.",
-        "empty": "Media is empty. Import media or review recent renders to save reusable assets.",
-        "emptyUploads": "No uploaded media yet. Import media from your device to see it here.",
-        "emptyGenerated": "No saved renders yet. Review recent renders and save the outputs you want to reuse.",
-        "emptyStoryboard": "No storyboard assets saved yet. Save a storyboard image to see it here.",
-        "emptyCharacter": "No character assets saved yet. Generate one in Character Builder to see it here.",
-        "emptyAngle": "No angle assets saved yet. Generate one in the Angle tool to see it here.",
-        "emptyUpscale": "No upscale assets saved yet. Save an upscale result to see it here.",
-        "deleteError": "Unable to delete this asset.",
+        "loadError": "无法加载保存的素材。",
+        "empty": "媒体库为空。从本地导入素材或在最近生成中保存想要复用的素材。",
+        "emptyUploads": "暂无上传的素材。从本地设备导入媒体即可在此展示。",
+        "emptyGenerated": "暂无保存的生成素材。浏览最近生成并将想要复用的结果保存至此。",
+        "emptyStoryboard": "暂无保存的分镜素材。保存分镜图像后将展示在此处。",
+        "emptyCharacter": "暂无保存的角色素材。在角色工具中生成后即可保存至此。",
+        "emptyAngle": "暂无保存的多视角素材。在多视角工具中生成后保存至此。",
+        "emptyUpscale": "暂无保存的高清重绘素材。保存高清提升结果后即可在此查看。",
+        "deleteError": "无法删除此素材。",
         "deleteButton": "删除",
         "downloadButton": "下载",
-        "openAssetButton": "Open asset",
-        "useSettingsButton": "Open source",
-        "deleting": "Deleting…",
-        "assetFallback": "Asset"
+        "openAssetButton": "打开素材",
+        "useSettingsButton": "查看原参数",
+        "deleting": "正在删除…",
+        "assetFallback": "素材"
       },
       "sources": {
         "video": {
-          "all": "All videos",
-          "upload": "Uploaded videos",
-          "generated": "Saved renders",
-          "upscale": "Upscaled videos"
+          "all": "全部视频",
+          "upload": "已上传视频",
+          "generated": "已保存视频",
+          "upscale": "高清提升视频"
         },
         "audio": {
-          "all": "All audio",
-          "upload": "Uploaded audio",
-          "generated": "Saved audio renders"
+          "all": "全部音频",
+          "upload": "已上传音频",
+          "generated": "已保存音频"
         }
       }
     },
     "settings": {
       "title": "设置",
       "tabs": {
-        "account": "Account",
-        "connections": "Connected apps",
-        "team": "Team",
-        "privacy": "Privacy & Safety",
-        "notifications": "Notifications"
+        "account": "账户",
+        "connections": "已连接应用",
+        "team": "团队",
+        "privacy": "隐私与安全",
+        "notifications": "通知设置"
       },
       "account": {
-        "title": "Account",
+        "title": "账户",
         "guest": {
-          "description": "Sign in to update your account preferences.",
-          "action": "Log in"
+          "description": "登录以更新您的账户偏好、查看支付凭证及同步跨设备素材。",
+          "signIn": "登录",
+          "createAccount": "创建账户"
         },
-        "fields": {
-          "name": {
-            "label": "Name",
-            "placeholder": "Your name",
-            "help": "1–80 characters."
-          },
-          "email": {
-            "label": "Email",
-            "placeholder": "you@domain.com",
-            "readOnly": "Email changes are managed separately."
-          },
-          "locale": {
-            "label": "语言",
-            "description": "Interface language:"
-          },
-          "theme": {
-            "label": "Appearance",
-            "description": "Saved on this device.",
-            "options": {
-              "light": "Light",
-              "dark": "Dark",
-              "system": "System"
-            }
-          }
+        "profile": {
+          "title": "个人资料",
+          "email": "邮箱地址",
+          "userId": "用户 ID",
+          "copyUserId": "复制 ID",
+          "copied": "已复制"
         },
-        "actions": {
-          "save": "保存",
-          "saving": "Saving…",
-          "cancel": "取消"
-        },
-        "validation": {
-          "required": "Enter a name.",
-          "tooLong": "Name must be 80 characters or fewer."
-        },
-        "status": {
-          "success": "Name saved.",
-          "genericError": "Could not save your name. Try again."
+        "dangerZone": {
+          "title": "危险区域",
+          "signOut": "退出登录",
+          "deleteAccount": "删除账户",
+          "deleteWarning": "删除账户将永久移除您的钱包余额、生成历史与已保存素材，此操作不可逆。"
         }
       },
       "team": {
-        "title": "Team",
-        "srLive": "Live",
-        "srSoon": "Coming soon",
-        "liveDescription": "Manage members, roles, budgets and integrations.",
-        "invite": "Invite member",
-        "createProject": "Create project",
-        "upcomingPrefix": "Coming soon — shared wallets, approvals, and budgets. Join the beta at ",
-        "upcomingEmail": "support@maxvideoai.com",
-        "upcomingSuffix": "."
+        "title": "团队",
+        "description": "管理团队成员与项目协作权限。",
+        "invite": "邀请成员",
+        "comingSoon": "团队功能即将全面开放。"
       },
       "privacy": {
-        "title": "Privacy & Safety",
-        "allowIndexLabel": "Allow indexing by default",
-        "allowIndexDescription": "New videos can appear in the gallery, sitemap, and search previews. You can still uncheck individual renders from their detail view.",
-        "saving": "Saving preference…",
-        "disableHint": "Disable this toggle if you prefer every render to stay private by default. Published videos will keep their current visibility until you change them individually.",
-        "preferenceError": "Failed to update preference"
+        "title": "隐私与安全",
+        "description": "控制数据使用偏好与安全设置。",
+        "dataSharing": "允许用于质量评估与服务改进",
+        "saveSuccess": "偏好已更新",
+        "preferenceError": "更新偏好设置失败"
       },
       "notifications": {
-        "title": "Notifications",
-        "comingSoon": "Coming soon — email digests and web push alerts for spend, queue health, and job status.",
-        "srSoon": "Coming soon",
-        "srLive": "Live",
+        "title": "通知设置",
+        "comingSoon": "即将推出——消费账单、队列健康与任务完成的邮件摘要及浏览器通知。",
+        "srSoon": "即将上线",
+        "srLive": "在线",
         "marketing": {
-          "title": "Marketing emails",
-          "description": "Receive occasional updates, launch announcements, and workflow tips. You can unsubscribe anytime.",
-          "lastUpdatedPrefix": "Last updated:",
-          "confirmPending": "Confirmation required — check your inbox to finish subscribing."
+          "title": "营销与产品更新邮件",
+          "description": "接收不定期功能更新、新模型上线通知及创作技巧。您可以随时取消订阅。",
+          "lastUpdatedPrefix": "最后更新时间：",
+          "confirmPending": "需要验证——请检查您的收件箱以完成订阅。"
         },
         "toggles": {
-          "jobDone": "Job done",
-          "jobFailed": "Job failed",
-          "lowWallet": "Low wallet",
-          "weeklySummary": "Weekly summary"
+          "jobDone": "任务完成通知",
+          "jobFailed": "任务失败通知",
+          "lowWallet": "钱包余额过低警告",
+          "weeklySummary": "每周用量摘要"
         },
         "errors": {
-          "generic": "Failed to update preference"
+          "generic": "更新通知偏好设置失败"
         }
+      },
+      "connections": {
+        "title": "已连接应用",
+        "description": "配置 MCP 插件与 AI 助手集成，直接在 Claude、ChatGPT 或 Codex 中使用 MaxVideoAI。",
+        "claude": "Claude",
+        "chatgpt": "ChatGPT",
+        "codex": "Codex",
+        "connect": "连接",
+        "connected": "已连接",
+        "docs": "查看集成文档"
       }
     },
     "tools": {
-      "disabledTitle": "Tools are unavailable",
-      "disabledBody": "Please check back later.",
-      "eyebrow": "Workspace",
-      "title": "工具",
-      "subtitle": "Prepare references. Refine your images and videos.",
-      "characterEyebrow": "Character consistency",
-      "characterTitle": "Character Builder",
-      "characterBody": "Create a consistent character across eight views.",
-      "characterBadge": "Image",
-      "storyboardEyebrow": "Reference boards",
-      "storyboardTitle": "Storyboard",
-      "storyboardBody": "Turn an idea into a visual shot sequence.",
-      "storyboardBadge": "Image",
-      "angleEyebrow": "Perspective control",
-      "angleTitle": "Angle / Perspective",
-      "angleBody": "Explore a new camera angle from one image.",
-      "angleBadge": "Image",
-      "open": "Open",
-      "backgroundRemovalEyebrow": "Video cleanup",
-      "backgroundRemovalTitle": "Background Removal",
-      "backgroundRemovalBody": "Isolate a subject from its video background.",
-      "backgroundRemovalBadge": "Video",
-      "upscaleEyebrow": "Resolution boost",
-      "upscaleTitle": "Upscale",
-      "upscaleBody": "Increase the resolution of images and videos.",
-      "upscaleBadge": "Image + video"
+      "disabledTitle": "工具暂不可用",
+      "disabledBody": "请稍后再来查看。",
+      "eyebrow": "工作区",
+      "title": "创意工具",
+      "subtitle": "准备参考素材，精修打磨您的图像与视频创作。",
+      "characterEyebrow": "角色一致性",
+      "characterTitle": "角色生成器",
+      "characterBody": "在八个不同视角间生成外观高度统一的一致角色。",
+      "characterBadge": "图像",
+      "storyboardEyebrow": "分镜板规划",
+      "storyboardTitle": "分镜脚本工具",
+      "storyboardBody": "将创意灵感迅速转化为视觉镜头序列规划图。",
+      "storyboardBadge": "图像",
+      "angleEyebrow": "多视角控制",
+      "angleTitle": "视角转换工具",
+      "angleBody": "仅凭单张输入图像，探索生成全新的摄像机机位角度。",
+      "angleBadge": "图像",
+      "open": "打开工具",
+      "backgroundRemovalEyebrow": "视频背景消除",
+      "backgroundRemovalTitle": "背景消除工具",
+      "backgroundRemovalBody": "精准抠出主体，导出透明 WebM 或纯色背景视频。",
+      "backgroundRemovalBadge": "视频",
+      "upscaleEyebrow": "画质超分辨率提升",
+      "upscaleTitle": "高清重绘工具",
+      "upscaleBody": "显著提升图像与视频的清晰度与细节分辨率。",
+      "upscaleBadge": "图像 + 视频"
     },
     "storyboard": {
-      "disabledTitle": "Tools are disabled",
-      "disabledBody": "Enable `FEATURES.workflows.toolsSection` to access this area.",
-      "backToTools": "工具",
-      "title": "Storyboarder",
-      "subtitle": "Create a storyboard reference board for Seedance or Kling.",
-      "subjectStepTitle": "Describe your idea",
-      "referenceStepTitle": "References",
-      "styleStepTitle": "Video style",
-      "modelStepTitle": "Video model",
-      "lengthStepTitle": "Storyboard length",
-      "optionalAutoLabel": "Optional · auto if empty",
-      "subjectLabel": "Subject",
-      "subjectPlaceholder": "Product launch, cooking scene, animated beat...",
-      "actionLabel": "Action",
-      "actionPlaceholder": "Reveal, pour, camera move, product rotation...",
-      "dialogueLabel": "Dialogues",
-      "dialoguePlaceholder": "Voiceover: Ready in thirty seconds.\nTalent: This texture stays rich.",
-      "visualNotesLabel": "Scene notes",
-      "visualNotesPlaceholder": "Location, mood, camera constraints, objects to avoid...",
-      "referenceImageLabel": "Reference images",
-      "referenceImageTitle": "Character, product or scene references",
-      "referenceImageBody": "Upload up to 4 images to keep the same person, product, prop, packaging, style or location across the board.",
-      "referenceImageUpload": "Choose image",
-      "referenceUploading": "Uploading...",
-      "removeReferenceImage": "Remove",
-      "referenceSlotNameFallback": "Reference image",
-      "targetLabel": "Video target",
+      "disabledTitle": "工具已停用",
+      "disabledBody": "需在配置中启用 `FEATURES.workflows.toolsSection` 方可访问此功能。",
+      "backToTools": "创意工具",
+      "title": "分镜脚本工具",
+      "subtitle": "为 Seedance 或 Kling 创建专业分镜参考板。",
+      "subjectStepTitle": "描述您的构想",
+      "referenceStepTitle": "参考素材",
+      "styleStepTitle": "视频风格",
+      "modelStepTitle": "生成模型",
+      "lengthStepTitle": "分镜长度",
+      "optionalAutoLabel": "选填 · 为空时自动生成",
+      "subjectLabel": "主体",
+      "subjectPlaceholder": "产品发布、烹饪场景、动画节奏…",
+      "actionLabel": "动作",
+      "actionPlaceholder": "特写揭晓、倾倒液体、运镜推进、产品旋转…",
+      "dialogueLabel": "对白与配音",
+      "dialoguePlaceholder": "旁白：三十秒内准备就绪。\n演员：这个质感始终如一。",
+      "visualNotesLabel": "场景备注",
+      "visualNotesPlaceholder": "拍摄地点、光影氛围、镜头约束、需要避免的元素…",
+      "referenceImageLabel": "参考图像",
+      "referenceImageTitle": "人物、产品或场景参考图",
+      "referenceImageBody": "最多上传 4 张图像，在整个分镜板中保持相同的人物、产品、道具、包装、风格或场景。",
+      "referenceImageUpload": "选择图像",
+      "referenceUploading": "正在上传…",
+      "removeReferenceImage": "移除",
+      "referenceSlotNameFallback": "参考图像",
+      "targetLabel": "目标生成模型",
       "targetSeedance": "Seedance",
       "targetKling": "Kling",
-      "targetRecommendedLabel": "Recommended",
-      "recognizablePeopleLabel": "Recognizable people",
-      "recognizablePeopleMeta": "For real or identifiable people, use Kling with a separate visual reference.",
-      "styleLabel": "Style",
-      "durationLabel": "时长",
-      "frameCountLabel": "Frames",
-      "formatLabel": "Format",
-      "landscapeLabel": "Landscape",
-      "landscapeMeta": "16:9 video board",
-      "portraitLabel": "Portrait",
-      "portraitMeta": "9:16 mobile board",
-      "shortPreset": "Short",
-      "mediumPreset": "Medium",
-      "longPreset": "Long",
-      "shortPresetMeta": "6s · 4 shots",
-      "mediumPresetMeta": "10s · 6 shots",
-      "longPresetMeta": "15s · 8 shots",
-      "framesLabel": "frames",
-      "tierLabel": "Price",
-      "hdTier": "HD",
-      "fourKTier": "4K",
-      "ultraTier": "4K Ultra",
-      "hdTierMeta": "Medium quality",
-      "fourKTierMeta": "Medium quality",
-      "ultraTierMeta": "High quality",
-      "generate": "Generate storyboard",
-      "generating": "Generating...",
-      "generationFootnote": "This only creates the visual storyboard, not the final video.",
-      "editLabel": "编辑",
-      "editPlaceholder": "Change framing, product color, lighting...",
-      "editAction": "Apply edit",
-      "shotMapTitle": "Shot map",
-      "shotMapEmptyTitle": "Planned storyboard beats",
-      "shotMapEmptyBody": "Adjust the brief, dialogue, style, duration, or frame count to shape the planned storyboard.",
-      "emptyTitle": "Storyboard preview",
-      "emptyBody": "Fill the short brief, then generate a reference board.",
-      "previewTitle": "Storyboard preview",
-      "generatedPreviewLabel": "Storyboarder render",
-      "templateReferenceNote": "The blank template is sent as a hidden structure reference; your own reference images stay separate.",
-      "recentTitle": "Previous storyboards",
-      "recentHint": "Click to preview",
-      "recentEmpty": "No storyboard renders yet.",
-      "recentItemFallback": "Storyboard",
-      "outputTitle": "Generated storyboard",
-      "klingFirstFrameTitle": "Kling first frame",
-      "klingFirstFrameMeta": "Sent to the generator as the start image. The storyboard board is sent separately as reference.",
-      "applyToGenerator": "Apply to generator",
+      "targetRecommendedLabel": "推荐",
+      "recognizablePeopleLabel": "可辨识的人物",
+      "recognizablePeopleMeta": "对于真实或具体身份的人物，建议使用 Kling 并搭配单独的视觉参考。",
+      "styleLabel": "视觉风格",
+      "durationLabel": "总时长",
+      "frameCountLabel": "画面帧数",
+      "formatLabel": "画幅格式",
+      "landscapeLabel": "横屏",
+      "landscapeMeta": "16:9 视频分镜板",
+      "portraitLabel": "竖屏",
+      "portraitMeta": "9:16 移动端分镜板",
+      "shortPreset": "短篇",
+      "mediumPreset": "中篇",
+      "longPreset": "长篇",
+      "shortPresetMeta": "6秒 · 4个镜头",
+      "mediumPresetMeta": "10秒 · 6个镜头",
+      "longPresetMeta": "15秒 · 8个镜头",
+      "framesLabel": "帧",
+      "tierLabel": "价格与档位",
+      "hdTier": "高清 (HD)",
+      "fourKTier": "4K 超清",
+      "ultraTier": "4K 极清",
+      "hdTierMeta": "中等画质",
+      "fourKTierMeta": "高清画质",
+      "ultraTierMeta": "顶级画质",
+      "generate": "生成分镜板",
+      "generating": "正在生成中…",
+      "generationFootnote": "注意：此处仅生成可视化分镜图，并非最终合成的连续视频。",
+      "editLabel": "二次编辑",
+      "editPlaceholder": "更改构图、调整产品颜色、微调光线…",
+      "editAction": "应用更改",
+      "shotMapTitle": "镜头节奏表",
+      "shotMapEmptyTitle": "规划的分镜节奏",
+      "shotMapEmptyBody": "调整简报构想、对白、风格、时长或帧数，即可定制分镜规划图。",
+      "emptyTitle": "分镜板预览",
+      "emptyBody": "填写简短的创作需求，然后生成专业参考分镜板。",
+      "previewTitle": "分镜板预览",
+      "generatedPreviewLabel": "分镜脚本渲染",
+      "templateReferenceNote": "空白模板作为隐藏结构参考提供，您上传的参考图像保持独立。",
+      "recentTitle": "以往分镜",
+      "recentHint": "点击预览",
+      "recentEmpty": "暂无分镜生成记录。",
+      "recentItemFallback": "分镜",
+      "outputTitle": "已生成的分镜板",
+      "klingFirstFrameTitle": "Kling 首帧图",
+      "klingFirstFrameMeta": "作为起始帧发送给生成器，分镜全图将单独作为整体参考。",
+      "applyToGenerator": "应用到生成台",
       "download": "下载",
-      "editImage": "Edit image",
-      "saveToLibrary": "Save to Storyboard library",
-      "savedToLibrary": "Saved to the Storyboard library.",
-      "missingSubject": "Add a subject first.",
-      "klingFirstFrameMissing": "The Kling first frame is missing. Regenerate the storyboard so the first frame can be prepared.",
-      "uploadFailed": "Unable to upload the selected reference image. Try again.",
-      "uploadTooLarge": "The selected image is too large. Use an image under {maxMB} MB.",
-      "generationFailed": "Storyboard generation failed.",
-      "authTitle": "Sign in to generate",
-      "authBody": "Storyboard generation and library saves use your MaxVideoAI wallet.",
+      "editImage": "编辑图像",
+      "saveToLibrary": "保存到分镜媒体库",
+      "savedToLibrary": "已保存至分镜媒体库。",
+      "missingSubject": "请先填写主体内容。",
+      "klingFirstFrameMissing": "Kling 首帧图丢失。请重新生成分镜板以便提取首帧。",
+      "uploadFailed": "无法上传所选的参考图，请重试。",
+      "uploadTooLarge": "所选图像过大，请选择小于 {maxMB} MB 的图片。",
+      "generationFailed": "分镜板生成失败。",
+      "authTitle": "登录后开始生成",
+      "authBody": "分镜生成与保存素材将使用您的 MaxVideoAI 钱包余额。",
       "authPrimary": "创建账户",
       "authSecondary": "登录",
       "close": "关闭",
       "targetNotes": {
-        "seedance": "Seedance is recommended for storyboard boards: product, cooking, film props, animation, stylized or non-human subjects. Real people are excluded.",
-        "kling": "Kling supports realistic human scenes: the storyboard price includes a clean HD first frame, then Apply sends that first frame plus the board reference.",
-        "klingFallback": "Apply sends the clean first frame as the start image and the storyboard board as the reference shot plan."
+        "seedance": "Seedance 强烈推荐用于非人物题材的分镜板：产品、美食烹饪、道具、动画或风格化主体。真实人物除外。",
+        "kling": "Kling 擅长真实人物场景：分镜费用已包含一张高画质首帧图，“应用”操作会将该首帧作为起始图并附带分镜参考。",
+        "klingFallback": "“应用”会将提取的清晰首帧作为起始图像，并将分镜全图作为镜头参考规划发送给视频模型。"
       },
       "styles": {
-        "realistic": "Realistic",
-        "anime": "Anime",
-        "ugc": "UGC",
-        "cinema": "Cinema"
+        "realistic": "写实逼真",
+        "anime": "动漫风格",
+        "ugc": "社交生活实拍 (UGC)",
+        "cinema": "电影质感"
       }
     },
     "audio": {
       "auth": {
         "eyebrow": "生成音频",
-        "title": "Create an account to generate audio",
-        "body": "Build music tracks, cinematic sound design, and Seed Audio voice overs inside the MaxVideoAI workspace.",
+        "title": "创建账户以生成音频",
+        "body": "在 MaxVideoAI 工作区内生成专业音乐配乐、影视级声音设计或 Seed Audio 拟真语音旁白。",
         "createAccount": "创建账户",
         "signIn": "登录"
       },
       "hero": {
         "eyebrow": "生成音频",
-        "title": "Create Audio",
-        "body": "Generate music with Google Lyria 3, cinematic sound design, or realistic voice over with Seed Audio 1.0.",
-        "history": "历史记录"
+        "title": "音频创作台",
+        "body": "使用 Google Lyria 3 创作音乐、设计电影级震撼音效，或借助 Seed Audio 1.0 生成逼真配音。",
+        "history": "音频历史"
       },
       "modes": {
         "music_only": {
@@ -4807,23 +4766,44 @@
           "uploadFinalRender": "Uploading final render…",
           "complete": "Audio render complete."
         }
+      },
+      "form": {
+        "promptLabel": "音频提示词",
+        "promptPlaceholder": "描述您想要创作的音乐风格、声音音效或对白旁白…",
+        "modelLabel": "音频模型",
+        "generateButton": "生成音频",
+        "generatingButton": "正在生成音频…",
+        "durationLabel": "音频时长",
+        "styleLabel": "音乐风格",
+        "voiceLabel": "配音声线"
+      },
+      "player": {
+        "play": "播放",
+        "pause": "暂停",
+        "download": "下载音频",
+        "saveToLibrary": "保存到媒体库",
+        "saved": "已保存"
+      },
+      "history": {
+        "title": "最近音频生成",
+        "empty": "暂无音频生成记录。立即创作您的第一条配乐或音效吧！"
       }
     },
     "toolsAngle": {
-      "disabledTitle": "Tools are disabled",
-      "disabledBody": "Enable `FEATURES.workflows.toolsSection` to access this area.",
-      "back": "Back to Tools",
-      "engine": "Engine",
-      "engineSelect": "Engine selection",
-      "sourceImage": "Source image",
-      "sourceReady": "Source image ready",
-      "sourceFromLibrary": "From Media",
-      "sourceFromPaste": "From pasted URL",
-      "sourceFromDevice": "Uploaded from device",
-      "replace": "Replace",
-      "library": "Choose from Media",
-      "remove": "Remove",
-      "sourceAlt": "Source",
+      "disabledTitle": "工具已停用",
+      "disabledBody": "需在配置中启用 `FEATURES.workflows.toolsSection` 方可访问此功能。",
+      "back": "返回创意工具",
+      "engine": "引擎",
+      "engineSelect": "引擎选择",
+      "sourceImage": "源图像",
+      "sourceReady": "源图像已就绪",
+      "sourceFromLibrary": "来自媒体库",
+      "sourceFromPaste": "来自粘贴的链接",
+      "sourceFromDevice": "从本地设备上传",
+      "replace": "替换",
+      "library": "从媒体库选择",
+      "remove": "移除",
+      "sourceAlt": "视角转换源图像",
       "addSourceTitle": "Add a source image",
       "addSourceBody": "Drop, paste, upload, or choose from Media.",
       "upload": "上传",
@@ -4835,8 +4815,8 @@
       "zoomRange": "Zoom (0 to 10)",
       "degreeUnit": "deg",
       "estimatedCost": "Estimated cost per run",
-      "generate": "Generate",
-      "generating": "Generating...",
+      "generate": "生成视角图像",
+      "generating": "正在生成新视角…",
       "output": "Output",
       "outputTitle": "First frame preview",
       "generatingOverlayTitle": "Generating new angles...",
@@ -4893,26 +4873,32 @@
           "label": "Qwen Multiple Angles",
           "description": "Qwen image edit multiple-angle engine tuned for angle consistency."
         }
-      }
+      },
+      "targetAngle": "目标视角角度",
+      "pitchLabel": "俯仰角 (Pitch)",
+      "yawLabel": "偏航角 (Yaw)",
+      "rollLabel": "翻滚角 (Roll)",
+      "saveToLibrary": "保存到媒体库",
+      "savedToLibrary": "已保存至媒体库。"
     },
     "characterBuilder": {
-      "auto": "Auto",
-      "custom": "Custom",
-      "notSet": "Not set",
-      "open": "Open",
-      "choose": "Choose",
-      "done": "Done",
+      "auto": "自动",
+      "custom": "自定义",
+      "notSet": "未设置",
+      "open": "打开",
+      "choose": "选择",
+      "done": "完成",
       "close": "关闭",
-      "add": "Add",
-      "on": "On",
-      "off": "Off",
-      "disabledTitle": "Tools are disabled",
-      "disabledBody": "Enable `FEATURES.workflows.toolsSection` to access this area.",
-      "back": "Back to Tools",
-      "uploadIdentityStart": "Uploading identity reference…",
-      "uploadStyleStart": "Uploading style reference…",
-      "uploadIdentityDone": "Identity reference uploaded.",
-      "uploadStyleDone": "Style reference uploaded.",
+      "add": "添加",
+      "on": "开启",
+      "off": "关闭",
+      "disabledTitle": "工具已停用",
+      "disabledBody": "需在配置中启用 `FEATURES.workflows.toolsSection` 方可访问此功能。",
+      "back": "返回创意工具",
+      "uploadIdentityStart": "正在上传身份参考图…",
+      "uploadStyleStart": "正在上传风格参考图…",
+      "uploadIdentityDone": "身份参考图上传完成",
+      "uploadStyleDone": "风格参考图上传完成",
       "uploadFailed": "Upload failed.",
       "uploadTooLarge": "Image exceeds {maxMB} MB. Compress it or choose a smaller file.",
       "loadFromJobDone": "Loaded character builder settings from the selected job.",
@@ -4923,7 +4909,7 @@
       "runFullBodyDone": "Generated a full-body correction from the selected result.",
       "runLightingDone": "Generated a lighting variation from the selected result.",
       "runFailed": "Generation failed.",
-      "savedToLibrary": "Saved to Media.",
+      "savedToLibrary": "角色已保存至媒体库。",
       "saveToLibraryFailed": "Failed to save to Media.",
       "pricingError": "Unable to load tool pricing",
       "reset": "重置",
@@ -5241,17 +5227,25 @@
             "description": "Final-grade output. 3x price."
           }
         }
-      }
+      },
+      "title": "角色一致性生成器",
+      "subtitle": "构建在不同镜头视角下保持外观特征完全一致的虚拟角色。",
+      "generate": "生成一致角色",
+      "generating": "正在生成角色中…",
+      "identityReference": "身份面貌参考",
+      "styleReference": "服装与艺术风格参考",
+      "download": "下载所有视角",
+      "saveToLibrary": "保存到角色库"
     },
     "backgroundRemoval": {
-      "disabledTitle": "Tools are disabled",
-      "disabledBody": "Enable `FEATURES.workflows.toolsSection` to access this area.",
-      "back": "Back to tools",
-      "eyebrow": "Video cleanup",
-      "title": "Video Background Remover",
-      "subtitle": "Remove backgrounds from short videos, export transparent WebM or solid-color clips, and reuse results from Media.",
-      "sourceTitle": "Source video",
-      "sourceBody": "Upload a short clip, paste an HTTPS video URL, or reuse a saved video from Media.",
+      "disabledTitle": "工具已停用",
+      "disabledBody": "需在配置中启用 `FEATURES.workflows.toolsSection` 方可访问此功能。",
+      "back": "返回创意工具",
+      "eyebrow": "视频精修",
+      "title": "视频背景消除",
+      "subtitle": "为简短视频抠除背景，导出带透明通道的 WebM 或纯色背景剪辑，并可随时复用于媒体库。",
+      "sourceTitle": "源视频",
+      "sourceBody": "上传短视频片段、粘贴 HTTPS 视频链接或复用媒体库中已保存的视频。",
       "sourceStep": "1",
       "dropzoneTitle": "Drop a video file here",
       "dropzoneBody": "MP4, MOV, or WebM clips up to 60 seconds.",
@@ -5299,55 +5293,63 @@
       "save": "保存",
       "saved": "Saved to Media.",
       "saveFailed": "Could not save this result.",
-      "download": "下载",
+      "download": "下载视频",
       "copyLink": "Copy link",
       "copied": "Link copied.",
       "recentTitle": "Recent background removals",
       "recentEmpty": "Finished results will appear here.",
       "recentFailed": "失败",
       "authTitle": "Sign in to use the tool",
-      "authBody": "Background removal uses wallet billing and private Media storage."
+      "authBody": "Background removal uses wallet billing and private Media storage.",
+      "sourceStepTitle": "导入视频",
+      "outputFormat": "输出格式",
+      "transparentWebm": "透明通道 WebM",
+      "solidGreen": "绿幕纯色背景",
+      "generate": "开始消除背景",
+      "generating": "正在抠除背景中…",
+      "saveToLibrary": "保存至媒体库",
+      "savedToLibrary": "已保存至媒体库。"
     },
     "result": {
-      "title": "Result",
+      "title": "生成结果",
       "close": "关闭",
       "duration": "时长",
-      "aspect": "Format",
-      "audioOn": "On",
-      "audioOff": "Off",
-      "downloading": "Downloading…",
+      "aspect": "画幅格式",
+      "audioOn": "开启",
+      "audioOff": "关闭",
+      "downloading": "正在下载…",
       "download": "下载",
-      "copied": "Link copied",
-      "copyLink": "Copy link",
-      "checking": "Checking…",
-      "refresh": "Refresh status",
-      "openOriginal": "Open original",
-      "remix": "Remix",
-      "reuse": "Use settings",
-      "saving": "Saving…",
-      "saved": "Saved",
-      "retrySave": "Retry save",
-      "save": "Save to Media",
-      "details": "Render details",
+      "copied": "链接已复制",
+      "copyLink": "复制链接",
+      "checking": "检查中…",
+      "refresh": "刷新状态",
+      "openOriginal": "打开原件",
+      "remix": "基于此重新生成",
+      "reuse": "复用此参数",
+      "saving": "正在保存…",
+      "saved": "已保存",
+      "retrySave": "重试保存",
+      "save": "保存到媒体库",
+      "details": "生成详情",
       "status": {
-        "completed": "Ready",
+        "completed": "已就绪",
         "pending": "处理中",
         "failed": "失败"
       },
-      "unavailable": "Preview unavailable",
-      "audioOutput": "Audio output",
-      "processing": "Processing…",
+      "unavailable": "预览不可用",
+      "audioOutput": "音频输出",
+      "processing": "正在处理中…",
       "copy": "复制",
       "copyDone": "已复制",
-      "more": "Show more",
-      "less": "Show less",
+      "more": "展开更多",
+      "less": "收起",
       "metadata": {
-        "job_id": "Render ID",
-        "group": "Group",
-        "created": "Created",
+        "job_id": "任务 ID",
+        "group": "分组",
+        "created": "创建时间",
         "duration": "时长",
-        "cost": "Cost",
-        "batch": "Batch"
+        "cost": "费用",
+        "batch": "批次"
       }
     },
     "studio": {

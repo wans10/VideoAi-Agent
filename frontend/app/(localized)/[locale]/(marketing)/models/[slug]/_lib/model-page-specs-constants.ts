@@ -390,7 +390,7 @@ export const COMPARE_COPY_BY_LOCALE: Record<
         : '每秒价格、分辨率、生成速度与动作风格',
     introSuffix: ' —— 助你快速选对引擎。',
     subline: '每个页面均包含真实生成效果与实用最佳用例。',
-    ctaCompare: (model, other) => `对比 ${model} 与 ${other} →`,
+    ctaCompare: (model, other) => `对比 ${model} vs ${other} →`,
     ctaExplore: (other) => `查看 ${other} →`,
     cardDescription: (model, other, supportsAudio) =>
       supportsAudio

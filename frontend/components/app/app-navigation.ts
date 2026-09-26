@@ -99,13 +99,13 @@ export function getAppNavigationSelection(
   return { primary: activity ? 'create' : null, activity };
 }
 
-const LOCAL_LABELS: Record<string, [string, string]> = {
-  create: ['Créer', 'Crear'], media: ['Médias', 'Medios'], tools: ['Outils', 'Herramientas'], activity: ['Activité', 'Actividad'], account: ['Compte', 'Cuenta'],
-  studio: ['Studio', 'Studio'],
-  video: ['Vidéo', 'Vídeo'], image: ['Image', 'Imagen'], audio: ['Audio', 'Audio'], library: ['Médias', 'Medios'], jobs: ['Activité', 'Actividad'], billing: ['Facturation', 'Facturación'], settings: ['Paramètres', 'Ajustes'], connections: ['Connexions', 'Conexiones'],
-  'character-builder': ['Créateur de personnages', 'Creador de personajes'], storyboard: ['Storyboard', 'Guion gráfico'], angle: ['Angle / Perspective', 'Ángulo / Perspectiva'], upscale: ['Améliorer la résolution', 'Mejorar resolución'], 'background-removal': ['Supprimer le fond', 'Eliminar fondo'],
-  'restore-video': ['Restaurer une vidéo', 'Restaurar vídeo'], denoise: ['Débruiter une vidéo', 'Reducir ruido'], 'fix-blur': ['Corriger le flou', 'Corregir desenfoque'], 'smooth-motion': ['Fluidifier une vidéo', 'Suavizar movimiento'],
+const LOCAL_LABELS: Record<string, [string, string, string]> = {
+  create: ['Créer', 'Crear', '创作'], media: ['Médias', 'Medios', '媒体库'], tools: ['Outils', 'Herramientas', '工具'], activity: ['Activité', 'Actividad', '生成历史'], account: ['Compte', 'Cuenta', '账户'],
+  studio: ['Studio', 'Studio', '工作台'],
+  video: ['Vidéo', 'Vídeo', '视频'], image: ['Image', 'Imagen', '图像'], audio: ['Audio', 'Audio', '音频'], library: ['Médias', 'Medios', '媒体库'], jobs: ['Activité', 'Actividad', '生成历史'], billing: ['Facturation', 'Facturación', '充值账单'], settings: ['Paramètres', 'Ajustes', '设置'], connections: ['Connexions', 'Conexiones', 'AI 助手连接'],
+  'character-builder': ['Créateur de personnages', 'Creador de personajes', '角色构建器'], storyboard: ['Storyboard', 'Guion gráfico', '分镜脚本'], angle: ['Angle / Perspective', 'Ángulo / Perspectiva', '视角变换'], upscale: ['Améliorer la résolution', 'Mejorar resolución', '超分辨率增强'], 'background-removal': ['Supprimer le fond', 'Eliminar fondo', '背景移除'],
+  'restore-video': ['Restaurer une vidéo', 'Restaurar vídeo', '视频修复'], denoise: ['Débruiter une vidéo', 'Reducir ruido', '视频降噪'], 'fix-blur': ['Corriger le flou', 'Corregir desenfoque', '修复动态模糊'], 'smooth-motion': ['Fluidifier une vidéo', 'Suavizar movimiento', '动态平滑'],
 };
 export function appNavLabel(item: Pick<AppNavItem, 'id' | 'label'>, locale: string): string {
-  return (locale === 'fr' ? LOCAL_LABELS[item.id]?.[0] : locale === 'es' ? LOCAL_LABELS[item.id]?.[1] : undefined) ?? item.label;
+  return (locale === 'fr' ? LOCAL_LABELS[item.id]?.[0] : locale === 'es' ? LOCAL_LABELS[item.id]?.[1] : locale === 'zh' ? LOCAL_LABELS[item.id]?.[2] : undefined) ?? item.label;
 }

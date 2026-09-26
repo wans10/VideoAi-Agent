@@ -15,7 +15,9 @@ export function AppNavigation({ variant, studioVisible = false }: {
   const selection = getAppNavigationSelection(pathname, undefined, studioVisible);
   if (variant === 'activities' && !selection.activity) return null;
   const activities = variant === 'activities';
-  const label = activities ? (locale === 'fr' ? 'Type de création' : locale === 'es' ? 'Tipo de creación' : 'Creation type') : (locale === 'fr' ? 'Navigation principale' : locale === 'es' ? 'Navegación principal' : 'Primary navigation');
+  const label = activities
+    ? (locale === 'fr' ? 'Type de création' : locale === 'es' ? 'Tipo de creación' : locale === 'zh' ? '创作类型' : 'Creation type')
+    : (locale === 'fr' ? 'Navigation principale' : locale === 'es' ? 'Navegación principal' : locale === 'zh' ? '主导航' : 'Primary navigation');
   return (
     <nav className={`app-navigation app-navigation-${variant}`} aria-label={label}>
       {(activities ? APP_ACTIVITIES : getAppNavigation(undefined, studioVisible)).map((item) => (
