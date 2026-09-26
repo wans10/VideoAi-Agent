@@ -2,22 +2,22 @@
   "marketingName": "LTX 2 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2 Fast | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "LTX 2 Fast is a historical deep-legacy profile retained for original search intent; start current draft work with LTX 2.5 Fast.",
+    "title": "LTX 2 Fast | AI 视频模型、技术规格与价格 | MaxVideoAI",
+    "description": "LTX 2 Fast 是作为历史早期版本保留的深度归档模型，用以保留原始搜索意图；当前的新草稿创作建议使用 LTX 2.5 Fast。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
-  "overview": "LTX 2 Fast remains self-canonical as a historical deep-legacy profile. Its original specifications and examples stay documented, while new draft generation should begin with LTX 2.5 Fast.",
+  "overview": "LTX 2 Fast 作为历史早期归档版本保持独立规范。其原始技术规格与案例完整保留记录，而新的草稿生成建议使用 LTX 2.5 Fast。",
   "hero": {
-    "title": "LTX 2 Fast — historical deep-legacy LTX model for fast audio-ready drafts",
-    "intro": "LTX 2 Fast is documented here for its historical audio-ready draft workflow, while LTX 2.5 Fast is the current speed-oriented successor.",
-    "badge": "1080p/1440p/4K · 6–20s · Audio on/off · 25/50 fps",
+    "title": "LTX 2 Fast — 适用于快速带音频草稿的历史早期 LTX 模型",
+    "intro": "此处记录 LTX 2 Fast 的历史带音频草稿工作流，而 LTX 2.5 Fast 则是当前主打速度的迭代继承者。",
+    "badge": "1080p/1440p/4K · 6–20 秒 · 音频开/关 · 25/50 fps",
     "ctaPrimary": {
       "label": "使用 LTX 2.5 Fast 生成",
       "href": "/app?engine=ltx-2-5-fast"
     },
     "secondaryLinks": [
       {
-        "label": "See current LTX 2.5 Fast",
+        "label": "查看当前 LTX 2.5 Fast",
         "href": "/zh/models/ltx-2-5-fast"
       },
       {
@@ -25,276 +25,276 @@
         "href": "/zh/examples/ltx"
       },
       {
-        "label": "See LTX pricing",
+        "label": "查看 LTX 价格",
         "href": "/zh/pricing#ltx-2-fast-pricing"
       },
       {
-        "label": "Compare LTX 2.3 Fast vs LTX 2.3 Pro",
+        "label": "对比 LTX 2.3 Fast 与 LTX 2.3 Pro",
         "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-ltx-2-3-pro"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳适用场景",
     "items": [
       {
-        "title": "Rapid concept testing",
+        "title": "快速概念验证",
         "icon": "zap"
       },
       {
-        "title": "Ad drafts & variant testing",
+        "title": "广告草案与多版本测试",
         "icon": "ads"
       },
       {
-        "title": "Social clips & quick iterations",
+        "title": "社媒短片与快速迭代",
         "icon": "smartphone"
       },
       {
-        "title": "Pre-viz & story beats",
+        "title": "前期预览与故事节拍",
         "icon": "storyboard"
       },
       {
-        "title": "Mood pieces & cinematic B-roll",
+        "title": "情绪短片与电影感空镜 (B-roll)",
         "icon": "cinematic"
       },
       {
-        "title": "Rough-cut sequences & loops",
+        "title": "粗剪序列与循环片段",
         "icon": "repeat2"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "6–20 s (12–20 s require 1080p at 25 fps)"
+      "label": "视频时长",
+      "body": "6–20 秒（12–20 秒需为 1080p 且 25 fps）"
     },
     {
-      "label": "Resolution",
-      "body": "1080p, 1440p, 2160p (4K)"
+      "label": "分辨率",
+      "body": "1080p、1440p、2160p (4K)"
     },
     {
-      "label": "Aspect ratios",
+      "label": "画幅比例",
       "body": "16:9"
     },
     {
-      "label": "Frame rate",
-      "body": "25 fps or 50 fps"
+      "label": "帧率",
+      "body": "25 fps 或 50 fps"
     },
     {
-      "label": "Inputs",
-      "body": "Text → Video; Image → Video (PNG/JPG/WebP, ~25 MB), prompt + seed/negatives"
+      "label": "输入方式",
+      "body": "文生视频；图生视频（PNG/JPG/WebP，约 25 MB），支持提示词 + 随机种子/负向提示词"
     },
     {
-      "label": "Audio",
-      "body": "Native audio on by default; toggle off for silent runs"
+      "label": "音频",
+      "body": "默认开启原生音频；可切换关闭以生成无声视频"
     },
     {
-      "label": "Pricing",
-      "body": "Per-second; example: $0.04/s @1080p, $0.08/s @1440p, $0.16/s @4K"
+      "label": "计费方式",
+      "body": "按秒计费；例如：1080p 约 $0.04/秒，1440p 约 $0.08/秒，4K 约 $0.16/秒"
     }
   ],
   "promptStructure": {
-    "title": "Prompting LTX 2 Fast",
-    "quote": "Cinematic [subject] in [environment], [camera move], [lighting/style], [duration 6–20s], 16:9, audio on with [ambience/dialogue/music].",
-    "description": "Keep it concise: subject + environment + motion + style + duration + audio cue.",
+    "title": "LTX 2 Fast 提示词编写",
+    "quote": "电影感 [主体] 在 [环境] 中，[运镜]，[光影/风格]，[时长 6–20秒]，16:9，开启音频并包含 [环境音/对白/音乐]。",
+    "description": "保持简洁精炼：主体 + 环境 + 动作 + 风格 + 时长 + 音频线索。",
     "steps": [
-      "Subject & setting",
-      "Camera move and pacing (fast, slow, tracking, dolly)",
-      "Lighting/grade and mood",
-      "Duration and resolution (note 12–20s = 1080p/25fps)",
-      "Audio cue (ambience/dialogue/music) or disable audio"
+      "主体与场景设定",
+      "运镜方式与节奏（快速、慢速、跟拍、推拉）",
+      "光影/调色与情绪基调",
+      "时长与分辨率（注意：12–20 秒需为 1080p/25fps）",
+      "音频线索（环境音/对白/音乐）或关闭音频"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "For 12–20s, stay at 1080p/25 fps (Fal constraint).",
-      "Use 50 fps for crisper motion on 6–10s runs.",
-      "Keep one clear action; use seeds/negative prompts to refine.",
-      "Audio is on by default—toggle off for cheaper silent drafts."
+      "若生成 12–20 秒视频，请保持在 1080p/25 fps（Fal 路由限制）。",
+      "在 6–10 秒的生成中使用 50 fps 可获得更清晰流畅的动态。",
+      "每个镜头保持一个明确的动作；使用随机种子与负向提示词进行微调。",
+      "默认开启原生音频 — 可切换关闭以降低草稿成本。"
     ]
   },
   "prompts": [
     {
-      "title": "T2V cinematic test",
+      "title": "文生视频电影感测试",
       "prompt": "A cowboy walking through a dusty western town at high noon, tracking shot from behind, cinematic depth, realistic lighting, 4K film grain, native ambience."
     },
     {
-      "title": "I2V neon portrait",
+      "title": "图生视频霓虹人像",
       "prompt": "A woman stands still amid a busy neon-lit street at night. The camera slowly dollies in toward her face as people blur past, their motion emphasizing her calm presence. City lights flicker and reflections shift across her denim jacket.",
-      "notes": "Set duration 6–10s or 12–20s depending on pace; keep 16:9."
+      "notes": "根据节奏设定时长为 6–10 秒或 12–20 秒；保持 16:9 画幅。"
     },
     {
-      "title": "Example prompt – 8s city crosswalk",
+      "title": "示例提示词 — 8秒城市斑马线",
       "prompt": "A young woman crosses a busy city street at golden hour, camera tracking her from a low side angle as she steps onto the crosswalk and walks toward the opposite sidewalk. Warm sunlight hits the side of her face, gentle lens flares appear on the edges of the frame, and cars roll past in the background. Audio: soft city ambience (cars, footsteps, distant voices) plus a light upbeat music bed, no dialogue, no on-screen text."
     },
     {
-      "title": "Example prompt – 18–20s office walkthrough",
+      "title": "示例提示词 — 18–20秒办公室运镜漫游",
       "prompt": "One continuous 18–20 second 16:9 shot inside a bright startup office during the day. The camera starts at the entrance as the glass door opens, then walks forward in one smooth motion behind a team lead. We glide past desks with people working on laptops, a whiteboard covered in sketches, and a lounge corner where two colleagues laugh over a prototype. The camera never cuts and finally settles into a medium shot of the team lead stopping by a large window, turning to camera with a relaxed smile. Audio: natural office ambience (typing, low chatter, distant coffee machine) with a gentle motivational music track underneath, no dialogue, no on-screen text."
     }
   ],
   "faqs": [
     {
-      "q": "How long can LTX 2 Fast run?",
-      "a": "6–20 seconds. Durations above 10 seconds must run at 1080p and 25 fps per Fal constraints."
+      "q": "LTX 2 Fast 最长支持生成多长时间？",
+      "a": "6–20 秒。由于 Fal 路由限制，10 秒以上的生成必须在 1080p 和 25 fps 下运行。"
     },
     {
-      "q": "Does LTX 2 Fast include audio?",
-      "a": "Yes, native audio is on by default. You can toggle it off for silent exports."
+      "q": "LTX 2 Fast 是否包含音频？",
+      "a": "是的，默认开启原生音频。您可以切换关闭它以导出无声音频。"
     },
     {
-      "q": "Which aspect ratios are supported?",
-      "a": "16:9 only in the current Fast routing. Use Wan or Pika for flexible ratios."
+      "q": "支持哪些画幅比例？",
+      "a": "在当前的 Fast 路由中仅支持 16:9。如需更灵活的画幅比例，请使用 Wan 或 Pika。"
     }
   ],
   "custom": {
-    "whyTitle": "Why LTX 2 Fast inside MaxVideoAI",
-    "heroDesc1": "Create 6–20 second clips with native audio, 1080p–4K and 25/50 fps in one card. LTX 2 Fast is the “instant” tier of the LTX 2 family: perfect for rapid social cuts, drafts, storyboards and mood pieces when you want 4K quality without waiting.",
-    "heroDesc2": "Above 10 seconds we automatically keep runs at 1080p/25 fps to match the Fal routing and keep turnarounds reliable.",
-    "heroSupportLine": "Use it for hooks, pacing, and mood exploration, then regenerate winners in the premium tier.",
+    "whyTitle": "为什么在 MaxVideoAI 中使用 LTX 2 Fast",
+    "heroDesc1": "在单个卡片中创建包含原生音频、1080p 至 4K 分辨率以及 25/50 fps 帧率的 6–20 秒片段。LTX 2 Fast 是 LTX 2 家族的“即时”层级：非常适合在无需漫长等待即可获得 4K 质感的情况下，进行快速社媒短片、草案、分镜故事板和情绪片段创作。",
+    "heroDesc2": "超过 10 秒的生成会自动约束在 1080p/25 fps，以匹配 Fal 路由规则并确保交付稳定可靠。",
+    "heroSupportLine": "可用于探索吸睛点、节奏与情绪氛围，随后在旗舰层级中重新生成满意的镜头。",
     "heroHighlights": [
-      "Built for iteration speed||Make lots of variations fast without overthinking the first pass.",
-      "More room per clip||Better for pacing, build-up, and “mini-scene” beats than ultra-short engines.",
-      "Sound-ready drafts||Great for temp dialogue/ambience/SFX timing (or mute and finish audio in post).",
-      "Easy upgrade path||Keep the same prompt structure and rerun the keepers in LTX 2.5 Pro for polish."
+      "为迭代速度而生||快速生成多个变体，无需在首轮构思上过度纠结。",
+      "单片段空间更充裕||相比超短时引擎，更适于展现节奏起伏、情绪铺垫与“微场景”节拍。",
+      "自带声音的草稿||非常适合用于把握对白、环境音与音效的时间节奏（也可静音并在后期制作音频）。",
+      "升级过渡平滑自然||保持相同的提示词结构，即可将选中的满意版本放入 LTX 2.5 Pro 中进行精细打磨。"
     ],
-    "specTitle": "Real Specs – LTX 2 Fast in MaxVideoAI",
-    "specNote": "Specs reflect the live routing via Fal today.",
+    "specTitle": "真实规格 — MaxVideoAI 中的 LTX 2 Fast",
+    "specNote": "规格参数反映当前通过 Fal 的实时路由情况。",
     "specSections": [
       {
-        "title": "Speed tests",
-        "intro": "Designed for rapid iteration and volume. Use it to discover hooks and pacing before polishing.",
+        "title": "速度测试",
+        "intro": "专为快速迭代与批量生成而设计。在精修前用于探索吸睛点与节奏。",
         "items": [
-          "Generate many variants quickly.",
-          "Keep prompts short and direct.",
-          "Test different openings back-to-back.",
-          "Promote winners to Pro."
+          "快速生成多个变体。",
+          "提示词保持简短直接。",
+          "连续测试不同开场画面。",
+          "将满意版本升级至 Pro。"
         ]
       },
       {
-        "title": "Draft workflow",
-        "intro": "The prompt format carries over to LTX 2.5 Pro, so current upgrades stay simple.",
+        "title": "草稿工作流",
+        "intro": "提示词格式与 LTX 2.5 Pro 保持一致，升级过渡清晰简便。",
         "items": [
-          "Reuse shot language for finals.",
-          "Swap in stronger references later.",
-          "Great for social drafts and loops.",
-          "Save prompt templates."
+          "在最终版本中复用镜头语言。",
+          "后续替换为更强大的参考素材。",
+          "非常适合社媒草稿与循环片段。",
+          "保存提示词模板。"
         ]
       }
     ],
-    "whatTitle": "How LTX 2 Fast works in MaxVideoAI",
-    "whatIntro1": "Pick text or image mode, set 6–20 seconds, choose resolution and fps, then prompt. Audio is on by default and can be toggled off.",
-    "whatIntro2": "For 12–20s runs we automatically constrain to 1080p/25 fps to keep routes stable.",
-    "whatFlowTitle": "Workflow",
+    "whatTitle": "LTX 2 Fast 在 MaxVideoAI 中的运作机制",
+    "whatIntro1": "选择文生或图生模式，设定 6–20 秒时长，选择分辨率与帧率，然后输入提示词。原生音频默认开启，可按需关闭。",
+    "whatIntro2": "对于 12–20 秒的生成，系统会自动约束至 1080p/25 fps 以保持路由稳定。",
+    "whatFlowTitle": "工作流",
     "whatFlowSteps": [
-      "Historical LTX 2 Fast flow: Text → Video or Image → Video",
-      "Set duration (6–20s) and aspect ratio 16:9",
-      "Pick resolution/fps (12–20s = 1080p/25)",
-      "Toggle audio on/off, add prompt and optional seed/negative",
-      "Upload one reference still for I2V",
-      "See live price, then generate"
+      "历史 LTX 2 Fast 流程：文生视频或图生视频",
+      "设置时长（6–20 秒）与画幅比例 16:9",
+      "选择分辨率与帧率（12–20 秒限定为 1080p/25fps）",
+      "切换开启/关闭音频，添加提示词以及可选的随机种子/负向提示词",
+      "在图生视频中上传一张参考静止图像",
+      "查看实时价格，随后开始生成"
     ],
-    "tipsTitle": "Tips & limitations",
+    "tipsTitle": "使用技巧与局限性",
     "strengths": [
-      "Draft-first workflow: generate a few variants, pick a winner, then rerun in Pro for polish.",
-      "One clear action + one camera move beats long “wish-list” prompts.",
-      "Audio works best with 1–2 clear cues (ambience + one key sound). Keep dialogue short."
+      "草稿优先工作流：生成数个变体，挑选满意结果，随后在 Pro 中重新生成以精细打磨。",
+      "单一明确动作 + 单一运镜优于长篇累赘的“愿望清单”式提示词。",
+      "音频搭配 1–2 个清晰线索（环境音 + 1 个关键音效）效果最佳；对白保持简短。"
     ],
     "boundaries": [
-      "12–20s runs are locked to 1080p / 25 fps in this routing.",
-      "16:9 only.",
-      "Image→Video uses one reference image (no multi-image control)."
+      "在此路由中，12–20 秒的生成锁定为 1080p / 25 fps。",
+      "仅支持 16:9 画幅。",
+      "图生视频使用单张参考图片（不支持多图控制）。"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "安全规范与人物/肖像权",
     "safetyRules": [
-      "No sexual content, and absolutely nothing involving minors.",
-      "No hateful, harassing, or violent/graphic content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness/voice.",
-      "Don’t include private personal data (faces of non-consenting people, addresses, phone numbers, documents).",
-      "Keep outputs brand-safe; if you use dialogue, keep it clean and short."
+      "严禁色情内容，绝对禁止任何涉及未成年人的内容。",
+      "严禁仇恨、骚扰、暴力或血腥内容。",
+      "不得冒充真人或公众人物；使用任何肖像/声音须获得合法授权。",
+      "不得包含非公开个人数据（未经同意的人物面部、住址、电话号码、证件文档）。",
+      "确保产出符合品牌合规要求；若包含对白，请保持文明简短。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "multishotTitle": "Sequenced clips",
-    "multishotIntro1": "Chain multiple 6–10s renders to build longer beats.",
-    "multishotIntro2": "Use seeds to keep look consistency across clips.",
+    "multishotTitle": "连续镜头序列",
+    "multishotIntro1": "拼接多个 6–10 秒渲染片段以构建更长的叙事节拍。",
+    "multishotIntro2": "使用随机种子保持跨片段的视觉一致性。",
     "multishotTips": [
-      "Keep one subject; reuse the same prompt backbone",
-      "Stitch in your editor; add VO/music there"
+      "保持单一主体；复用相同的提示词核心骨架",
+      "在剪辑软件中完成拼接；并在后期添加旁白/音乐"
     ],
-    "imageTitle": "Image-to-Video tips",
-    "imageIntro": "Upload a single sharp still and direct the motion and audio.",
+    "imageTitle": "图生视频实用技巧",
+    "imageIntro": "上传单张清晰静止图像，并引导动态与音频。",
     "imageFlow": [
-      "Upload 1 still (PNG/JPG/WebP, ~25 MB)",
-      "Set duration and fps; 12–20s lock to 1080p/25",
-      "Describe the camera move, pacing, and audio"
+      "上传 1 张静止图片（PNG/JPG/WebP，约 25 MB）",
+      "设置时长与帧率；12–20 秒锁定为 1080p/25fps",
+      "描述运镜轨迹、动作节奏以及音频"
     ],
     "imageWhy": [
-      "Great for quick animatics from reference frames",
-      "Keeps brand/product framing consistent"
+      "非常适合根据参考关键帧快速制作动态故事板",
+      "保持品牌/产品构图的一致性"
     ],
-    "comparisonTitle": "When to pick LTX 2 Fast",
+    "comparisonTitle": "何时选择 LTX 2 Fast",
     "comparisonPoints": [
-      "Use LTX 2.5 Fast for rapid social clips; switch to LTX 2.5 Pro for premium polish",
-      "For multi-aspect needs, pair with Wan or Veo; Fast is 16:9 only",
-      "For silent drafts, toggle audio off to reduce cost"
+      "使用 LTX 2.5 Fast 进行快速社媒短片创作；需要高级精细质感时切换至 LTX 2.5 Pro",
+      "如需多画幅比例，可搭配 Wan 或 Veo；Fast 仅支持 16:9",
+      "对于无声草稿，可关闭音频以降低生成成本"
     ],
-    "comparisonCta": "Compare LTX 2 Fast vs Pro →",
-    "relatedTitle": "Current LTX 2.5 versions",
-    "relatedSubtitle": "LTX 2.5 Fast is the current fast successor, while LTX 2.5 Pro covers current production work.",
+    "comparisonCta": "对比 LTX 2 Fast 与 Pro →",
+    "relatedTitle": "当前 LTX 2.5 系列版本",
+    "relatedSubtitle": "LTX 2.5 Fast 是当前的速度型继承者，而 LTX 2.5 Pro 则用于当前的正式生产级创作。",
     "relatedItems": [
       {
         "brand": "ltx",
         "title": "LTX 2.5 Fast",
-        "description": "Stay on a fast workflow with the current LTX 2.5 Fast routing for new text-to-video and image-to-video generation.",
+        "description": "通过当前的 LTX 2.5 Fast 路由保持快速工作流，适用于新的文生视频与图生视频创作。",
         "modelSlug": "ltx-2-5-fast",
-        "ctaLabel": "See LTX 2.5 Fast ->"
+        "ctaLabel": "查看 LTX 2.5 Fast ->"
       },
       {
         "brand": "ltx",
         "title": "LTX 2.5 Pro",
-        "description": "Move up to LTX 2.5 Pro when the project needs the current production workflow.",
+        "description": "当项目需要当前正式生产级工作流时，可升级至 LTX 2.5 Pro。",
         "modelSlug": "ltx-2-5-pro",
-        "ctaLabel": "See LTX 2.5 Pro ->"
+        "ctaLabel": "查看 LTX 2.5 Pro ->"
       }
     ],
-    "finalPara1": "Ready for a current fast draft? Open LTX 2.5 Fast and check the live price before you run.",
-    "finalPara2": "Swap to LTX 2.5 Pro when current production needs a higher-fidelity pass.",
-    "finalButton": "Open LTX 2.5 Fast in Generate →",
-    "tipsIntro": "Historically, LTX 2 Fast served as a draft pass for simple shots and quick variations; use LTX 2.5 Fast for current drafts.",
-    "troubleshootingTitle": "Common problems → fast fixes",
+    "finalPara1": "准备好开始当前的快速草稿了吗？打开 LTX 2.5 Fast，在运行前查看实时报价。",
+    "finalPara2": "当生产需要更高精度的成片时，切换至 LTX 2.5 Pro。",
+    "finalButton": "在生成器中打开 LTX 2.5 Fast →",
+    "tipsIntro": "历史上，LTX 2 Fast 用于简单镜头和快速变体的草稿初审；当前草稿创作建议使用 LTX 2.5 Fast。",
+    "troubleshootingTitle": "常见问题 → 快速排查",
     "troubleshootingItems": [
-      "Feels random / inconsistent → remove extra beats; rerun 2–3 tight variations.",
-      "Motion looks weird → slow the action and keep the camera move simple; reduce background clutter.",
-      "Subject drifts off-brand → start from a reference image; keep wardrobe, lighting, and palette consistent.",
-      "Text looks wrong → avoid readable signage, tiny UI, labels, and on-screen text.",
-      "Dialogue drifts → keep lines short; avoid long monologues."
+      "画面显得随机/不一致 → 删去多余节拍；重新运行 2–3 个严格变体。",
+      "动态看起来异常 → 放慢动作节奏并保持简单运镜；减少背景杂乱元素。",
+      "主体偏离品牌调性 → 从参考图像开始；保持服装、光影与色调一致。",
+      "文字显示错误 → 避免生成可读标牌、微小 UI、标签及屏幕文字。",
+      "对白漂移失常 → 缩短台词长度；避免冗长的独白。"
     ]
   },
   "decision": {
     "modelSlug": "ltx-2-fast",
     "hero": {
-      "eyebrow": "HISTORICAL DEEP-LEGACY LTX 2 FAST ROUTE",
+      "eyebrow": "历史早期 LTX 2 FAST 归档路由",
       "title": "LTX 2 Fast",
-      "subtitle": "Fast 16:9 drafts up to 20s for text or image starts, audio-ready review passes, and 1080p to 4K checks.",
+      "subtitle": "最长 20 秒快速 16:9 草稿，支持文本或图像启动、自带音频初审与 1080p 至 4K 质量验证。",
       "subtitleHighlights": [
-        "Fast 16:9 drafts",
-        "up to 20s",
-        "1080p to 4K checks"
+        "快速 16:9 草稿",
+        "最长 20 秒",
+        "1080p 至 4K 质量验证"
       ],
-      "paragraph": "This historical LTX 2 Fast page preserves deep-legacy specifications, examples and search value without redirecting away. New drafts start on LTX 2.5 Fast, the current speed-oriented successor.",
+      "paragraph": "此 LTX 2 Fast 历史页面保留了早期深度归档的技术规格、案例展示与搜索价值，且不进行强制跳转。新的草稿创作建议在当前主打速度的迭代继承者 LTX 2.5 Fast 上开始。",
       "primaryCta": {
-        "label": "View current LTX 2.5 Fast",
+        "label": "查看当前 LTX 2.5 Fast",
         "href": "/zh/models/ltx-2-5-fast"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/ltx"
       },
       "quickLinks": [
         {
-          "label": "View LTX 2.5 Fast",
+          "label": "查看 LTX 2.5 Fast",
           "href": "/zh/models/ltx-2-5-fast"
         },
         {
@@ -308,76 +308,76 @@
       ]
     },
     "media": {
-      "caption": "LTX 2 Fast example",
-      "description": "Fast 16:9 draft loop",
-      "renderLabel": "View draft",
+      "caption": "LTX 2 Fast 案例",
+      "description": "快速 16:9 草稿循环",
+      "renderLabel": "查看草稿",
       "badges": [
-        "Fast route",
-        "20s max",
+        "Fast 快速路由",
+        "最长 20 秒",
         "16:9"
       ],
-      "altContext": "LTX 2 Fast 16:9 draft video render"
+      "altContext": "LTX 2 Fast 16:9 草稿视频渲染"
     },
     "features": [
       {
-        "title": "Fast 16:9 drafts",
-        "body": "Move quickly through older LTX timing and composition checks.",
+        "title": "快速 16:9 草稿",
+        "body": "快速完成以往 LTX 的节奏把控与构图验证。",
         "tone": "duration"
       },
       {
-        "title": "Text or image start",
-        "body": "Use a prompt or one still to test product, subject or scene setup.",
+        "title": "文生或图生启动",
+        "body": "使用提示词或单张静止图像测试产品、主体或场景设定。",
         "tone": "reference"
       },
       {
-        "title": "Up to 20s",
-        "body": "Use longer 1080p/25 fps loops when pacing matters more than polish.",
+        "title": "最长 20 秒",
+        "body": "当整体节奏比细节打磨更关键时，可使用更长的 1080p/25 fps 循环。",
         "tone": "duration"
       },
       {
-        "title": "1080p to 4K",
-        "body": "Shorter checks can still use high-res review settings.",
+        "title": "1080p 至 4K",
+        "body": "较短时长的验证仍可使用高分辨率审核配置。",
         "tone": "quality"
       },
       {
-        "title": "Audio-ready",
-        "body": "Use the audio-enabled route for timing and review passes.",
+        "title": "自带音频",
+        "body": "使用启用音频的路由来把握节奏并进行综合初审。",
         "tone": "audio"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按量计费",
+        "body": "在生成前即可查看精确的实时价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Historical LTX 2 Fast or current LTX 2.5 Fast?",
-        "body": "Keep this page for historical reference and existing drafts. Start a new iteration workflow with LTX 2.5 Fast.",
+        "title": "选择历史 LTX 2 Fast 还是当前 LTX 2.5 Fast？",
+        "body": "保留此页面作为历史参考与已有草稿对照。新的创作迭代工作流请使用 LTX 2.5 Fast。",
         "cta": {
-          "label": "View LTX 2.5 Fast",
+          "label": "查看 LTX 2.5 Fast",
           "href": "/zh/models/ltx-2-5-fast"
         }
       },
       {
-        "title": "Need higher fidelity?",
-        "body": "Move approved draft directions into LTX 2.5 Pro when the shot needs a more polished current pass.",
+        "title": "需要更高保真度与精细画质？",
+        "body": "当镜头需要当前更精致的成片质量时，将已确认的草案方向迁移至 LTX 2.5 Pro。",
         "cta": {
-          "label": "View LTX 2.5 Pro",
+          "label": "查看 LTX 2.5 Pro",
           "href": "/zh/models/ltx-2-5-pro"
         }
       },
       {
-        "title": "Comparing fast value routes?",
-        "body": "Compare LTX 2 Fast with Wan 2.5 when choosing between longer 16:9 LTX loops and lower-cost audio checks.",
+        "title": "对比高性价比快速路由？",
+        "body": "在较长的 16:9 LTX 循环片段与更低成本的音频验证之间权衡时，可将 LTX 2 Fast 与 Wan 2.5 进行对比。",
         "cta": {
-          "label": "Compare LTX 2 Fast vs Wan 2.5",
+          "label": "对比 LTX 2 Fast 与 Wan 2.5",
           "href": "/zh/ai-video-engines/ltx-2-fast-vs-wan-2-5"
         }
       },
       {
-        "title": "Need prompt examples?",
-        "body": "Use short draft prompts with one motion beat, one camera move and a clear review goal.",
+        "title": "需要提示词示例？",
+        "body": "使用简短的草稿提示词：包含单一动作节拍、单一运镜轨迹与清晰的审查目标。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -386,133 +386,133 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Draft prompt",
-        "body": "Keep one subject, one motion idea and one camera move so the fast route stays readable."
+        "title": "草稿提示词",
+        "body": "保持单一主体、单一动态构想与单一运镜，使快速路由保持清晰可读。"
       },
       {
-        "title": "Image start",
-        "body": "Use one still to lock the product, character or environment before testing motion."
+        "title": "图像启动",
+        "body": "在测试动态之前，使用单张静止图像锁定产品、角色或环境。"
       },
       {
-        "title": "Long loop",
-        "body": "Use 12-20s only for 1080p timing checks where pacing matters more than detail."
+        "title": "长循环片段",
+        "body": "仅在节奏把控重于细节表现的 1080p 时序验证中使用 12–20 秒。"
       },
       {
-        "title": "High-res short check",
-        "body": "Use 1440p or 4K on shorter clips when you need to inspect detail."
+        "title": "高分短片检查",
+        "body": "当需要检查画面细节时，可在较短片段中使用 1440p 或 4K。"
       },
       {
-        "title": "Upgrade path",
-        "body": "Move winning directions into LTX 2.5 Fast or Pro depending on the current workflow needed."
+        "title": "升级路径",
+        "body": "根据当前所需的工作流，将满意的创作方向迁移至 LTX 2.5 Fast 或 Pro。"
       }
     ],
     "pricingCopy": {
-      "title": "LTX 2 Fast draft pricing",
-      "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "title": "LTX 2 Fast 草稿价格",
+      "subtitle": "预设草稿参考总价 — 在应用中生成前可查看精确的实时报价。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
       "ctaLabel": "使用 LTX 2.5 Fast 生成",
-      "maxDurationNote": "20s at 1080p / 25 fps",
+      "maxDurationNote": "1080p / 25 fps 下最长 20 秒",
       "ctaHref": "/app?engine=ltx-2-5-fast"
     },
     "meta": {
-      "title": "LTX 2 Fast: Pricing, 20s Drafts & Examples | MaxVideoAI",
-      "description": "Historical LTX 2 Fast reference for 16:9 drafts, 20s timing checks, text-to-video, image-to-video, high-res review options and pricing."
+      "title": "LTX 2 Fast：价格、20秒草稿与案例 | MaxVideoAI",
+      "description": "LTX 2 Fast 历史参考信息，涵盖 16:9 草稿、20 秒节奏验证、文生视频、图生视频、高分辨率审核选项与价格体系。"
     }
   },
   "prompting": {
     "modelSlug": "ltx-2-fast",
     "section": {
-      "title": "How to Write a Great LTX 2 Fast Prompt",
-      "intro": "LTX 2 Fast prefers short prompts with one clear action and a single camera move.",
-      "tip": "Tip: duration + fps are set in the UI - your prompt controls subject, action, camera, lighting, style, and optional sound cues.",
+      "title": "如何编写出色的 LTX 2 Fast 提示词",
+      "intro": "LTX 2 Fast 更适合简短精炼的提示词，包含一个明确动作与单一运镜轨迹。",
+      "tip": "提示：时长和帧率在界面中设置 — 提示词用于控制主体、动作、镜头、光影、风格以及可选的声音线索。",
       "guide": {
         "label": "LTX",
         "href": "https://www.ltx.studio"
       },
-      "referencesTitle": "How LTX 2 Fast uses references"
+      "referencesTitle": "LTX 2 Fast 如何使用参考素材"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
+        "label": "快速",
+        "title": "快速提示词（快速迭代）",
+        "description": "当希望快速探索多个变体时，使用 1–2 句话。",
         "copy": "[Subject + action] in [setting], [camera move], [lighting/style], [optional sound cue].\nNegative: [text, logos, extra people, blur]"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
+        "label": "结构化",
+        "title": "结构化提示词（最利于稳定成片）",
+        "description": "将信息结构化拆分，以便模型能够稳定遵循。",
         "copy": "Subject:\n[Who/what + one action.]\n\nSetting:\n[Where + time + 2 anchors.]\n\nCamera:\n[Shot + angle + one move + lens feel.]\n\nLook:\n[Lighting + palette.]\n\nSound (optional):\n[Ambience + 1 cue.]\n\nNegative:\n[Text, logos, extra people, blur.]"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"film crew brief\")",
-        "description": "Use this when you need a very specific cinematic look or continuity across shots.",
+        "label": "专业级",
+        "title": "专业级提示词（极度详尽的“摄制组简报”）",
+        "description": "当需要极其特定的电影级质感或跨镜头连续性时使用。",
         "copy": "Brief:\n[Goal + vibe.]\n\nSubject + wardrobe:\n[Key traits + materials.]\n\nSet:\n[Location + anchors.]\n\nCinematography:\n[Framing + angle + one move + lens.]\n\nLighting + grade:\n[Key light + palette.]\n\nNegative:\n[What to avoid.]"
       },
       {
         "id": "storyboard",
-        "label": "Storyboard",
-        "title": "Storyboard prompt (multi-shot / shot list)",
-        "description": "Use this when you want a mini-story in one clip. A storyboard prompt (aka multi-shot / shot list prompt) gives clear timing, camera direction, and continuity. Also called shot-list or sequenced prompts.",
+        "label": "分镜脚本",
+        "title": "分镜提示词（多镜头 / 镜头清单）",
+        "description": "适用于希望在单一片段中呈现微型故事的场景。分镜提示词（又称多镜头/分镜清单提示词）提供清晰的时序、镜头调度和连贯性。也称镜头列表或时序提示词。",
         "copy": "Mini sequence (same subject + setting)\nBeat 1 (start): [action + camera]\nBeat 2 (middle): [action + camera]\nBeat 3 (end): [final action + settle]\n\nLook:\n[Lighting + palette.]\n\nSound (optional):\n[Ambience + 1-2 cues]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 探索变体。适用于快速迭代。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 保持一致。适用于需要稳定结果的场景。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = continuity. Use for precise, repeatable looks."
+        "body": "专业级 = 保持连贯。适用于精准、可复现的视觉风格。"
       },
       {
         "tabId": "storyboard",
-        "body": "Storyboard = beat timing. Use for mini-stories in one clip."
+        "body": "分镜脚本 = 节拍时序。适用于在单一片段中呈现微型故事。"
       }
     ],
     "globalPrinciples": [
-      "One subject, one action, one camera move.",
-      "Use concrete visual anchors.",
-      "Keep prompts short; avoid long lists."
+      "单一主体，单一动作，单一运镜。",
+      "使用具体的视觉锚点。",
+      "提示词保持简短；避免罗列冗长清单。"
     ],
     "engineWhy": [
-      "Fast is optimized for quick iterations; simple prompts win.",
-      "Explicit camera language reduces drift.",
-      "Negative prompts help remove logos/text."
+      "Fast 专为快速迭代优化；简洁的提示词效果更佳。",
+      "明确的运镜语言可减少画面漂移。",
+      "负向提示词有助于消除 Logo 和文字杂质。"
     ],
     "demo": {
-      "title": "Demo prompt – fast social clip",
+      "title": "演示提示词 — 快速社媒短片",
       "promptLabel": "文生视频",
       "prompt": "Subject: Young woman at a busy crosswalk\nAction: Waits, then crosses in golden-hour light\nCamera: Starts behind her, then moves into a smooth handheld follow\nStyle: Busy city, warm light, cinematic social clip\nAudio: City ambience, no dialogue",
       "notes": [
-        "Single-beat action",
-        "Clear camera move and mood",
-        "Audio cue baked in"
+        "单节拍动作",
+        "明确的运镜与情绪基调",
+        "内置音频线索"
       ],
       "summary": {
-        "subject": "Young woman at a busy crosswalk",
-        "action": "Waits, then crosses in golden-hour light",
-        "camera": "Starts behind her, then moves into a smooth handheld follow",
-        "style": "Busy city, warm light, cinematic social clip",
-        "output": "City ambience, no dialogue"
+        "subject": "繁忙斑马线上的年轻女性",
+        "action": "等待片刻，随后在黄金时刻的光线下穿过马路",
+        "camera": "从其身后起幅，随后平滑过渡为手持跟随运镜",
+        "style": "繁华都市、温暖光线、电影感社媒短片",
+        "output": "城市环境音，无对白"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Audio",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "LTX 2 Fast AI video example: Demo prompt - fast social clip"
+        "altContext": "LTX 2 Fast AI 视频案例：演示提示词 - 快速社媒短片"
       }
     },
     "imageExamples": null
@@ -520,10 +520,10 @@
   "examples": {
     "modelSlug": "ltx-2-fast",
     "section": {
-      "title": "LTX 2 Fast examples",
-      "intro": "Recent LTX 2 Fast renders with audio on/off for social clips and quick iterations.",
-      "defaultCtaLabel": "View all LTX 2 Fast examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "LTX 2 Fast 案例",
+      "intro": "近期生成的 LTX 2 Fast 渲染作品，支持音频开/关，适用于社媒短片与快速迭代。",
+      "defaultCtaLabel": "查看所有 LTX 2 Fast 案例 →",
+      "recreateLabel": "同款制作 →"
     },
     "filters": [
       {
@@ -554,32 +554,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "Review historical LTX 2 Fast audio-ready draft examples from this deep-legacy model page.",
+        "title": "真实社区生成案例",
+        "body": "在此历史早期归档模型页面中查阅 LTX 2 Fast 自带音频的草稿范例。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键制作同款镜头",
+        "body": "一键进入应用工作台并复用该提示词与参数配置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "对白、环境音与音效与视频画面同步生成。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连贯性",
+        "body": "在连续镜头序列中保持角色、风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "合规与安全保障",
+        "body": "内置安全防护与内容过滤，保障负责任的审查与创作。",
         "icon": "shield"
       }
     ],

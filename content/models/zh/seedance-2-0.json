@@ -2,330 +2,330 @@
   "marketingName": "Seedance 2.0",
   "versionLabel": "2.0",
   "seo": {
-    "title": "Seedance 2.0 | AI Video Model, Pricing, Native Audio & Use Cases | MaxVideoAI",
-    "description": "Use Seedance 2.0 on MaxVideoAI for multi-shot video, native audio, current pricing, key capabilities, and the best use cases for current Seedance workflows."
+    "title": "Seedance 2.0 | AI 视频模型、价格、原生音频与使用场景 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Seedance 2.0 进行多镜头视频生成、原生音频创作，查看实时价格、核心功能规格与当前 Seedance 工作流的最佳使用场景。"
   },
-  "overview": "Seedance 2.0 is the current Dreamina Seedance 2.0 AI video model on MaxVideoAI for multi-shot video, native audio, and reference-guided workflows when you need the main Seedance path for polished ads, launches, and cinematic branded sequences.",
-  "pricingNotes": "Seedance 2 uses provider token pricing. MaxVideoAI applies the display price and shows the final quote before submission.",
+  "overview": "Seedance 2.0 是 MaxVideoAI 上当前主流的 Dreamina Seedance 2.0 AI 视频模型，专为多镜头视频、原生音频以及多模态参考引导工作流而设计，非常适合制作高精广告、新品发布会与电影级品牌大片。",
+  "pricingNotes": "Seedance 2 采用服务商 Token 计费。MaxVideoAI 按规则展示会员价格，并在提交生成前显示最终实时报价。",
   "hero": {
-    "title": "Seedance 2.0 — current Seedance model for multi-shot video and native audio",
-    "intro": "Seedance 2.0 is the current Dreamina Seedance 2.0 AI video model for multi-shot video, native audio, and reference-guided workflows when you need the main Seedance path for polished ads, launches, and cinematic branded sequences. Use this page to review pricing, key capabilities, best use cases, and when this Seedance video workflow is a better fit than Fast or older Seedance versions.",
-    "badge": "3 workflows · 480p/720p/1080p/4K · Auto or 4-15s · Native audio · 9 image / 3 video / 3 audio refs",
+    "title": "Seedance 2.0 — 适用于多镜头视频与原生音频的当前主力 Seedance 模型",
+    "intro": "Seedance 2.0 是当前用于多镜头视频、原生音频以及参考引导工作流的主力 Dreamina Seedance 2.0 AI 视频模型，非常适合需要高品质广告、产品发布会与电影级品牌大片的主力 Seedance 路径。本页面提供实时价格、核心功能、最佳适用场景，以及相比 Fast 版本或早期 Seedance 版本更具优势的对比指引。",
+    "badge": "3 种工作流 · 480p/720p/1080p/4K · 自动或 4–15秒 · 原生音频 · 9图 / 3视频 / 3音频参考",
     "ctaPrimary": {
       "label": "使用 Seedance 2.0 生成",
       "href": "/app?engine=seedance-2-0"
     },
     "secondaryLinks": [
       {
-        "label": "查看 Seedance AI video 案例",
+        "label": "查看 Seedance AI 视频案例",
         "href": "/zh/examples/seedance"
       },
       {
-        "label": "Prepare references with Seedream",
+        "label": "使用 Seedream 准备参考图",
         "href": "/zh/models/seedream"
       },
       {
-        "label": "See Seedance 2.0 Fast",
+        "label": "查看 Seedance 2.0 Fast",
         "href": "/zh/models/seedance-2-0-fast"
       },
       {
-        "label": "See Seedance 2.0 Mini value route",
+        "label": "查看 Seedance 2.0 Mini 性价比方案",
         "href": "/zh/models/dreamina-seedance-2-0-mini"
       },
       {
-        "label": "Compare Seedance 2.0 vs Seedance 2.0 Fast",
+        "label": "对比 Seedance 2.0 与 Seedance 2.0 Fast",
         "href": "/zh/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast"
       },
       {
-        "label": "Compare Seedance 1.5 Pro vs Seedance 2.0",
+        "label": "对比 Seedance 1.5 Pro 与 Seedance 2.0",
         "href": "/zh/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0"
       },
       {
-        "label": "Compare Seedance 2.0 vs Veo 3.1",
+        "label": "对比 Seedance 2.0 与 Veo 3.1",
         "href": "/zh/ai-video-engines/seedance-2-0-vs-veo-3-1"
       },
       {
-        "label": "Compare Kling 3 Pro vs Seedance 2.0",
+        "label": "对比 Kling 3 Pro 与 Seedance 2.0",
         "href": "/zh/ai-video-engines/kling-3-pro-vs-seedance-2-0"
       }
     ]
   },
   "compareLink": {
-    "label": "See Seedance 2.0 vs Seedance 2.0 Fast ->",
+    "label": "查看 Seedance 2.0 与 Seedance 2.0 Fast 对比 ->",
     "href": "/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast"
   },
   "bestUseCases": {
-    "title": "Best use cases for Seedance 2.0",
+    "title": "Seedance 2.0 最佳使用场景",
     "items": [
       {
-        "title": "Action scenes with collisions, debris, and more believable physical interaction",
+        "title": "包含碰撞、碎屑与更真实物理交互的动作场面",
         "icon": "camera"
       },
       {
-        "title": "Multi-shot ads with consistent product and scene continuity",
+        "title": "具备产品与场景高度连贯性的多镜头广告",
         "icon": "product"
       },
       {
-        "title": "Audio-led scenes with synced dialogue, ambience, and sound effects",
+        "title": "同步对白、环境氛围与音效驱动的声音主导场景",
         "icon": "music"
       },
       {
-        "title": "Storyboard-to-video using text and multimodal references",
+        "title": "结合文本与多模态参考的分镜转视频（Storyboard-to-video）",
         "icon": "storyboard"
       },
       {
-        "title": "Director-style camera moves, transitions, and framing control",
+        "title": "导演级专业运镜、转场过渡与画幅构图控制",
         "icon": "clapperboard"
       },
       {
-        "title": "Pre-visualization before final edit (concept to shot list to rough cut)",
+        "title": "终剪前的动态预演（从创意概念到分镜清单再到粗剪）",
         "icon": "layers"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Role",
-      "body": "ByteDance's Dreamina Seedance 2.0 AI video model with a unified multimodal audio-video architecture."
+      "label": "模型定位",
+      "body": "字节跳动（ByteDance）旗下 Dreamina Seedance 2.0 AI 视频模型，基于统一的多模态音视频架构。"
     },
     {
-      "label": "Inputs",
-      "body": "Three workflow types in one family: text-to-video, start image + optional end image in i2v, plus image/video/audio references in ref2v"
+      "label": "输入方式",
+      "body": "同家族支持三大工作流：文生视频、图生视频（支持起始帧+可选结束帧），以及基于图像/视频/音频参考素材的参考生视频（ref2v）。"
     },
     {
-      "label": "Reference limits",
-      "body": "Up to 9 images, 3 video clips, and 3 audio clips, with 12 total files across all ref2v inputs"
+      "label": "参考素材上限",
+      "body": "单次 ref2v 最多支持 9 张图片、3 段视频和 3 个音频片段，总文件数上限为 12 个。"
     },
     {
-      "label": "Duration",
-      "body": "Auto or 4-15 seconds per generation"
+      "label": "生成时长",
+      "body": "每次生成支持自动时长或 4–15 秒。"
     },
     {
-      "label": "Resolution",
-      "body": "480p, 720p, 1080p, and 4K on the standard Dreamina Seedance 2.0 route; Fast and Mini stay on their lower-resolution caps."
+      "label": "分辨率",
+      "body": "标准 Dreamina Seedance 2.0 路径支持 480p、720p、1080p 及 4K；Fast 与 Mini 版本则限制在较低分辨率上限。"
     },
     {
-      "label": "Audio",
-      "body": "Native audio is on by default and can be disabled; MaxVideoAI shows the final quote before generation"
+      "label": "原生音频",
+      "body": "默认开启原生音频，支持按需关闭；MaxVideoAI 在生成前展示精确的最终报价。"
     },
     {
-      "label": "Camera and motion",
-      "body": "Advanced camera control with strong results on dolly zooms, rack focus, tracking shots, POV switches, and smooth handheld movement"
+      "label": "运镜与动态",
+      "body": "高级镜头控制，在希区柯克变焦（dolly zoom）、焦点转移（rack focus）、跟拍镜头、第一人称视角切换和平滑手持运镜上表现出色。"
     },
     {
-      "label": "Notes",
-      "body": "ByteDance documentation and Dreamina product naming refer to this family as Dreamina Seedance 2.0, with text-to-video, image-to-video, reference-to-video, and optimized fast variants inside the Seedance 2 family."
+      "label": "说明",
+      "body": "字节跳动官方文档及即梦（Dreamina）产品命名将该系列称为 Dreamina Seedance 2.0，Seedance 2 家族内包含文生视频、图生视频、参考生视频以及优化后的快速衍生版本。"
     }
   ],
   "promptStructure": {
-    "title": "Prompting Seedance 2.0",
-    "quote": "[Genre] + [subject] + [setting] + [action beats] + [camera language] + [audio cues] + [duration auto or 4-15s] + [shot structure].",
-    "description": "For best consistency, keep each beat explicit and define camera transitions and audio timing in the same prompt.",
+    "title": "Seedance 2.0 提示词结构",
+    "quote": "[类型风格] + [核心主体] + [场景环境] + [动作节拍] + [运镜语言] + [音频线索] + [时长：自动或4-15秒] + [镜头结构]。",
+    "description": "为获得最佳连贯性，请保持每个动作节拍明确清晰，并在同一提示词中同步定义运镜转场与声音时点。",
     "steps": [
-      "Define genre and core subject",
-      "Set location and visual anchors",
-      "Write 2-4 shot beats with timing",
-      "Specify camera motion and transitions",
-      "Add dialogue, ambience, and SFX cues"
+      "定义类型风格与核心主体",
+      "设定场景环境与视觉锚点",
+      "编写 2–4 个带时长分配的分镜节拍",
+      "明确镜头运动与转场方式",
+      "添加对白、环境氛围音与音效线索"
     ]
   },
   "tips": {
-    "title": "Production notes",
+    "title": "制作建议与注意事项",
     "items": [
-      "Keep prompts structured shot-by-shot when you want the strongest multi-shot continuity.",
-      "Use multimodal references to lock wardrobe, props, pacing, and ambience across beats.",
-      "Use Seedream 5.0 Lite when you want to create or clean a reference image before starting an image-to-video run.",
-      "Use the optional end image in i2v when you need a guided last frame.",
-      "Move to Seedance 2.0 Fast when you need cheaper draft passes before final renders.",
-      "Use Seedance 2.0 Mini only when lower-cost batch/value variants matter more than the final polished Seedance 2.0 route.",
-      "Generate shows the active route and the final quote before you submit."
+      "当需要最强的多镜头连贯性时，请按分镜逐一编写结构化提示词。",
+      "利用多模态参考素材锁定各节拍间的服装造型、道具、节奏与环境氛围。",
+      "在启动图生视频前，可先使用 Seedream 5.0 Lite 生成或修饰一张干净的参考图片。",
+      "在图生视频中需要明确的收尾落幅时，使用可选的尾帧图像。",
+      "在最终高精渲染前，可切换至 Seedance 2.0 Fast 进行成本更低的草稿测试。",
+      "仅当批量低成本生产或高性价比优先于最终成品精细度时，选用 Seedance 2.0 Mini。",
+      "生成前工作台会展示当前激活的路线和精确的最终报价。"
     ]
   },
   "prompts": [
     {
-      "title": "Action chase (multi-shot)",
+      "title": "动作追逐（多镜头）",
       "prompt": "Three-shot rooftop chase at dusk, shot 1 wide tracking run, shot 2 handheld close pursuit, shot 3 crane reveal over skyline, realistic footstep impacts and city sirens, 15 seconds total."
     },
     {
-      "title": "Continuous spy thriller",
+      "title": "连续镜头谍战悬疑",
       "prompt": "A spy exits a neon train station, camera follows over shoulder into a rainy alley, rack focus to a coded message, low synth score and distant PA announcements, 12 seconds."
     },
     {
-      "title": "3-shot commercial",
+      "title": "3镜头商业广告",
       "prompt": "Shot 1 macro of watch crown with rim light, shot 2 wrist hero turntable in studio haze, shot 3 lifestyle close-up in city night rain, punchy transitions and polished ad soundtrack, 15 seconds."
     },
     {
-      "title": "Multimodal storyboard reference",
+      "title": "多模态分镜参考",
       "prompt": "Use @Image1..@Image9 as storyboard style anchors, @Video1..@Video3 for pacing references, @Audio1..@Audio3 for rhythm and ambience, keep wardrobe continuity and cinematic 16:9 framing."
     },
     {
-      "title": "Audio-forward dialogue scene",
+      "title": "音频主导对白场景",
       "prompt": "Two-character dialogue in a subway platform at night, synchronized dialogue, ambience and metallic train brakes on cue, smooth dolly and cut-in close-up, stereo mix feel, 10 seconds."
     }
   ],
-  "faqTitle": "FAQ – Seedance 2.0 on MaxVideoAI",
+  "faqTitle": "常见问题 — MaxVideoAI 中的 Seedance 2.0",
   "faqs": [
     {
-      "q": "What is Seedance 2.0 best for?",
-      "a": "Seedance 2.0 is best for polished Seedance AI video workflows, multi-shot ads, branded sequences, audio-led scenes, and reference-guided production where continuity matters more than draft speed."
+      "q": "Seedance 2.0 最适合哪些使用场景？",
+      "a": "Seedance 2.0 最适合高精度的 Seedance AI 视频工作流、多镜头广告、品牌故事片、音频驱动的场景，以及对连贯性要求高于出图速度的多模态参考创作。"
     },
     {
-      "q": "Is Seedance 2.0 also Dreamina Seedance 2.0?",
-      "a": "Yes. ByteDance documentation and Dreamina product naming describe the current API family as Dreamina Seedance 2.0. On MaxVideoAI, this page remains the standard Seedance 2.0 route for final-quality work."
+      "q": "Seedance 2.0 就是 Dreamina Seedance 2.0 吗？",
+      "a": "是的。字节跳动官方文档与即梦（Dreamina）产品命名将当前 API 家族称为 Dreamina Seedance 2.0。在 MaxVideoAI 上，本页面代表用于最终成片交付的标准 Seedance 2.0 路径。"
     },
     {
-      "q": "Does Seedance 2.0 include native audio?",
-      "a": "Yes. Seedance 2.0 supports native audio, including dialogue, ambience, music, and sound effects inside the same generation workflow."
+      "q": "Seedance 2.0 是否支持原生音频？",
+      "a": "是的。Seedance 2.0 支持原生音视频协同生成，可在同一生成流程中直接产出对白、环境音、配乐和音效。"
     },
     {
-      "q": "Does Seedance 2.0 support 4K output?",
-      "a": "Yes. The standard Dreamina Seedance 2.0 route supports 4K output. Seedance 2.0 Fast and Seedance 2.0 Mini remain capped below 4K."
+      "q": "Seedance 2.0 支持 4K 输出吗？",
+      "a": "是的。标准 Dreamina Seedance 2.0 路径支持最高 4K 超高清输出。Seedance 2.0 Fast 和 Seedance 2.0 Mini 则限制在 4K 以下的分辨率。"
     },
     {
-      "q": "How is Seedance 2.0 different from Seedance 2.0 Fast?",
-      "a": "Seedance 2.0 is the stronger current choice for final-quality multi-shot work, native audio, and more demanding reference-driven outputs, while Seedance 2.0 Fast is better for cheaper draft passes and quicker route comparisons."
+      "q": "Seedance 2.0 与 Seedance 2.0 Fast 有何区别？",
+      "a": "Seedance 2.0 是追求终版画质、多镜头连贯性、原生音频及高要求参考引导成片的更强选择；而 Seedance 2.0 Fast 则更适合低成本草稿迭代与快速效果比对。"
     },
     {
-      "q": "When should I use Seedance 2.0 instead of Seedance 1.5 Pro?",
-      "a": "Use Seedance 2.0 when you need stronger multi-shot continuity, broader reference workflows, and the current Seedance production path. Seedance 1.5 Pro still fits shorter, simpler older workflows."
+      "q": "何时应该选择 Seedance 2.0 而非 Seedance 1.5 Pro？",
+      "a": "当需要更强的多镜头连贯性、更丰富的多模态参考工作流以及当前主流的 Seedance 生产能力时，请使用 Seedance 2.0。Seedance 1.5 Pro 依然适用于更短、更简单的传统工作流。"
     },
     {
-      "q": "Is Seedance 2.0 good for multi-shot video?",
-      "a": "Yes. Seedance 2.0 is specifically well suited to multi-shot outputs, guided transitions, and maintaining scene continuity across short cinematic sequences."
+      "q": "Seedance 2.0 适合制作多镜头视频吗？",
+      "a": "非常适合。Seedance 2.0 专为多镜头输出、受控转场以及在短电影级序列中保持场景连贯性进行了深度优化。"
     }
   ],
   "custom": {
-    "whyTitle": "Pricing, native audio and next steps",
-    "heroTrustLine": "Pay-as-you-go on MaxVideoAI · Price shown before you generate",
+    "whyTitle": "价格、原生音频与进阶指引",
+    "heroTrustLine": "MaxVideoAI 按量计费 · 生成前显示透明价格",
     "heroHighlights": [
-      "Pricing and current route||Use Seedance 2.0 when you want the main current Seedance path and need the final quoted price visible before generation.",
-      "Native audio||Dialogue, ambience, music, and sound effects can stay inside the same generation flow instead of being treated as a separate afterthought.",
-      "Seedance 2.0 vs Seedance 2.0 Fast||Choose Seedance 2.0 for stronger final-quality multi-shot work, and use Fast when the job is mainly draft iteration and route comparison.",
-      "Seedance 2.0 Mini value route||Use Mini as the lower-cost batch/value alternative for ecommerce, marketing, and UGC variants.",
-      "Start with Seedance AI video examples||Open the examples page first if you want output patterns, prompt baselines, and settings before committing to a production run."
+      "价格与当前路线||当需要主流的当前 Seedance 交付路线，并希望在生成前获知明确报价时，选择 Seedance 2.0。",
+      "原生音频||对白、环境音、配乐与音效集成于同一生成流程，无需后期额外拼接合成。",
+      "Seedance 2.0 与 Seedance 2.0 Fast 对比||追求终版高品质多镜头画面时选择 Seedance 2.0；若主要进行草稿测试与效果比对，则选用 Fast 版本。",
+      "Seedance 2.0 Mini 性价比方案||Mini 作为低成本批量生成的性价比替代方案，非常适合电商、日常营销及 UGC 内容制作。",
+      "从 Seedance AI 视频案例开始||在正式投入生产渲染前，可先浏览案例库以了解成片模式、提示词基线与参数设置。"
     ],
-    "heroSupportLine": "Start with Seedance AI video examples, use Seedance 2.0 for the main current multi-shot and native-audio workflow, and compare it with Fast when you need quicker draft passes.",
-    "specTitle": "Specs",
-    "specNote": "Only officially sourced claims are listed here, with pricing and workflow details checked live inside Generate.",
+    "heroSupportLine": "先从 Seedance AI 视频案例库获取灵感，使用 Seedance 2.0 进行主流的多镜头与原生音频创作；当需要快速验证草稿时，可与 Fast 版本对比。",
+    "specTitle": "技术规格",
+    "specNote": "此处仅列出官方权威来源的功能规格，价格与工作流详情可在工作台中实时查看。",
     "specSections": [
       {
-        "title": "Multimodal input stack",
-        "intro": "Provider/model-family notes describe Dreamina Seedance 2.0 as a unified multimodal audio-video model.",
+        "title": "多模态输入配置",
+        "intro": "官方技术说明将 Dreamina Seedance 2.0 定义为音视频一体化的统一多模态模型。",
         "items": [
-          "Text instructions + multimodal references",
-          "Up to 9 image references",
-          "Up to 3 video references",
-          "Up to 3 audio references",
-          "Up to 12 total files across the ref2v run"
+          "文本指令 + 多模态参考素材",
+          "最多支持 9 张参考图片",
+          "最多支持 3 个参考视频片段",
+          "最多支持 3 个参考音频片段",
+          "单次 ref2v 运行总文件数上限为 12 个"
         ]
       },
       {
-        "title": "Output style and structure",
-        "intro": "Provider/model-family notes highlight cinematic control, native audio, realistic physics, multi-shot cuts, and up to 15 seconds per generation.",
+        "title": "输出风格与结构控制",
+        "intro": "官方说明强调了电影级运镜控制、原生音频同步、真实物理规律、多镜头剪辑，以及单次生成最长 15 秒。",
         "items": [
-          "480p, 720p, 1080p or 4K on Seedance 2.0 standard",
-          "Auto or 4-15s per generation",
-          "Aspect ratios: auto, 21:9, 16:9, 4:3, 1:1, 3:4, 9:16",
-          "Image-to-video supports an optional end frame",
-          "Natural transitions across multiple shots",
-          "Native audio-video joint generation",
-          "Audio toggle available with the same pricing whether audio is on or off"
+          "标准 Seedance 2.0 支持 480p、720p、1080p 或 4K",
+          "单次生成支持自动时长或 4–15 秒",
+          "画幅比例：自动、21:9、16:9、4:3、1:1、3:4、9:16",
+          "图生视频支持可选尾帧控制",
+          "多镜头间自然平滑的转场过渡",
+          "原生音视频联合生成",
+          "提供音频开关，无论开启或关闭音频计费规则均保持一致"
         ]
       }
     ],
-    "tipsTitle": "Tips and boundaries",
+    "tipsTitle": "技巧与边界限制",
     "strengths": [
-      "Strong cinematic camera direction when beats are explicit.",
-      "Improved continuity with multimodal references.",
-      "Native audio sync in short multi-shot outputs.",
-      "High utility for ads, action beats, and storyboard prototyping."
+      "当分镜节拍明确时，呈现出色的电影级运镜指导。",
+      "借助多模态参考素材显著提升多镜头连贯性。",
+      "在短多镜头视频中实现精准的原生音频同步。",
+      "高度契合商业广告、动作节拍与分镜原型的制作需求。"
     ],
     "troubleshootingItems": [
-      "Cuts feel abrupt -> add transition verbs and timestamps (match cut at 5s, whip pan into Shot 2).",
-      "Continuity drifts -> add anchors (wardrobe, prop, location) and reuse references.",
-      "Audio mismatch -> shorten dialogue, pin SFX to visible action, keep one ambience bed.",
-      "Physics looks off -> simplify simultaneous actions per beat and reduce fast interactions."
+      "剪辑感觉生硬突兀 -> 补充明确的转场动词与时间戳（如：5秒处匹配剪辑 match cut，甩镜 whip pan 切入第2镜）。",
+      "画面连贯性漂移 -> 增加画面锚点（服装、道具、场景位置）并复用相同参考素材。",
+      "音频与画面不同步 -> 缩短台词，将音效精准绑定至可见动作，维持统一的环境底噪。",
+      "物理交互失真 -> 简化每个节拍内的并发动作，减少过于复杂的快速接触交互。"
     ],
     "boundaries": [
-      "Complex action stacks still benefit from simpler, clearly separated beats.",
-      "Reference-heavy prompts work best when each source has one clear job.",
-      "Reference audio only works when at least one image or video reference is attached.",
-      "Check the active provider route before scaling production traffic.",
-      "Use the final quote in Generate before client-facing rollout or automated workflows."
+      "复杂的复合动作在结构清晰、层次分明的节拍下效果更好。",
+      "多参考输入时，为每个参考素材分配单一明确的职责表现最佳。",
+      "仅当上传了至少一张图片或一个视频参考时，音频参考才会生效。",
+      "在扩大批量生产之前，请确认当前激活的服务商路径。",
+      "在面向客户交付或接入自动化工作流前，请在工作台中确认最终报价。"
     ],
     "relatedItems": [
       {
         "brand": "bytedance",
-        "title": "Prepare references with Seedream",
-        "description": "Create or clean a still image in Seedream before using it as a controlled reference for Seedance image-to-video.",
+        "title": "使用 Seedream 准备参考图",
+        "description": "在启动 Seedance 图生视频之前，先使用 Seedream 生成或修饰静止图片作为可控参考图。",
         "modelSlug": "seedream",
-        "ctaLabel": "Explore Seedream ->"
+        "ctaLabel": "探索 Seedream ->"
       },
       {
         "brand": "bytedance",
         "title": "Seedance 2.0 Fast",
-        "description": "Use the faster Seedance version for draft passes, quick timing checks, and early concept loops before you move finals into the standard version.",
+        "description": "在将终版方案送入标准版渲染前，使用更快速的 Seedance 版本进行草稿测试、节奏预演和早期概念验证。",
         "modelSlug": "seedance-2-0-fast",
-        "ctaLabel": "Compare Seedance 2.0 vs Fast ->"
+        "ctaLabel": "对比 Seedance 2.0 与 Fast ->"
       },
       {
         "brand": "bytedance",
         "title": "Seedance 2.0 Mini",
-        "description": "Use Mini as the lower-cost batch/value alternative for ecommerce, marketing, and UGC variants before standard Seedance 2.0 work.",
+        "description": "在标准 Seedance 2.0 之上，Mini 作为针对电商、日常营销及 UGC 变体制作的低成本批量方案。",
         "modelSlug": "dreamina-seedance-2-0-mini",
-        "ctaLabel": "See Seedance 2.0 Mini value route ->"
+        "ctaLabel": "查看 Seedance 2.0 Mini 性价比方案 ->"
       },
       {
         "brand": "ltx",
         "title": "LTX 2.3 Fast",
-        "description": "Compare Seedance 2.0 with LTX 2.3 when choosing between native-audio production work and lower-cost fast drafts.",
+        "description": "在原生音频商业交付与更低成本的快速草稿之间权衡时，可将 Seedance 2.0 与 LTX 2.3 进行对比。",
         "modelSlug": "ltx-2-3-fast",
-        "ctaLabel": "Compare Seedance 2.0 vs LTX 2.3 ->"
+        "ctaLabel": "对比 Seedance 2.0 与 LTX 2.3 ->"
       },
       {
         "brand": "google-veo",
         "title": "Google Veo 3.1",
-        "description": "Compare Seedance 2.0 against Veo 3.1 when you need another premium audio-native engine for ads, launches, and product motion.",
+        "description": "当需要另一款适用于商业广告、发布会及产品动态的顶级原生音频引擎时，可将 Seedance 2.0 与 Veo 3.1 进行对比。",
         "modelSlug": "veo-3-1",
-        "ctaLabel": "Compare Seedance 2.0 vs Veo 3.1 ->"
+        "ctaLabel": "对比 Seedance 2.0 与 Veo 3.1 ->"
       },
       {
         "brand": "kling",
         "title": "Kling 3 Pro",
-        "description": "Open Kling 3 Pro when you want a stronger emphasis on scene sequencing, shot control, and storyboard-style multi-prompt direction.",
+        "description": "当更侧重于场景序列调度、多镜头运镜约束以及分镜式多提示词控制时，可参考 Kling 3 Pro。",
         "modelSlug": "kling-3-pro",
-        "ctaLabel": "Compare Seedance 2.0 vs Kling 3 Pro ->"
+        "ctaLabel": "对比 Seedance 2.0 与 Kling 3 Pro ->"
       }
     ]
   },
   "decision": {
     "modelSlug": "seedance-2-0",
     "hero": {
-      "eyebrow": "DREAMINA / BYTEDANCE CURRENT-GEN MODEL",
+      "eyebrow": "即梦 / 字节跳动当前主力模型",
       "title": "Seedance 2.0",
-      "subtitle": "Native audio, 4K-capable output, multi-shot continuity, and reference-guided video for polished ads, launches and cinematic branded content.",
+      "subtitle": "原生音频、支持 4K 输出、多镜头连贯性与参考素材引导，专为高品质广告、产品发布与电影级品牌大片而打造。",
       "subtitleHighlights": [
-        "Native audio",
-        "4K-capable output",
-        "multi-shot continuity"
+        "原生音频",
+        "支持 4K 输出",
+        "多镜头连贯性"
       ],
-      "paragraph": "Use Seedance 2.0 when you need the current Dreamina Seedance production route: stronger continuity than older versions, 480p/720p/1080p/4K output, native audio in the same generation flow, and multimodal references for text-to-video or image-to-video work.",
+      "paragraph": "当您需要当前主流的 Dreamina Seedance 生产级交付能力时，选择 Seedance 2.0：相比旧版本拥有更强的连贯性、支持 480p/720p/1080p/4K 超高清输出、同流程原生音频生成，以及支持文生视频与图生视频的多模态参考工作流。",
       "primaryCta": {
         "label": "使用 Seedance 2.0 生成",
         "href": "/app?engine=seedance-2-0"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/seedance"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Fast",
+          "label": "对比 Fast 版本",
           "href": "/zh/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast"
         },
         {
-          "label": "Compare vs Mini value route",
+          "label": "对比 Mini 性价比版本",
           "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0?order=seedance-2-0"
         },
         {
@@ -339,76 +339,76 @@
       ]
     },
     "media": {
-      "caption": "Seedance 2.0 example",
-      "description": "Native-audio cinematic sequence",
-      "renderLabel": "View render",
+      "caption": "Seedance 2.0 案例",
+      "description": "原生音频电影级镜头序列",
+      "renderLabel": "查看成片",
       "badges": [
-        "Audio on",
-        "15s",
-        "4K option"
+        "开启音频",
+        "15秒",
+        "可选 4K"
       ],
-      "altContext": "cinematic rooftop running scene"
+      "altContext": "电影级天台追逐奔跑场景"
     },
     "features": [
       {
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "对白、环境音与音效随画面同步生成。",
         "tone": "audio"
       },
       {
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene continuity across short sequences.",
+        "title": "多镜头连贯性",
+        "body": "在连续镜头序列中保持角色身份、视觉风格与场景环境的一致性。",
         "tone": "continuity"
       },
       {
-        "title": "Reference-guided",
-        "body": "Use supported references to guide the output.",
+        "title": "多模态参考引导",
+        "body": "通过上传支持的参考素材精确指导画面生成。",
         "tone": "reference"
       },
       {
-        "title": "Up to 4K",
-        "body": "Use 480p, 720p, 1080p, or 4K on the standard Dreamina Seedance route.",
+        "title": "最高支持 4K",
+        "body": "标准 Dreamina Seedance 路径支持 480p、720p、1080p 或 4K 超高清画质。",
         "tone": "quality"
       },
       {
-        "title": "Max 15s",
-        "body": "Up to 15 seconds per generation.",
+        "title": "最长 15 秒",
+        "body": "单次生成最长支持 15 秒时长。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按量计费",
+        "body": "在生成前即可查看精确的实时扣费金额。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Discover the latest Seedance 2.5",
-        "body": "Compare Seedance 2.5 with Seedance 2.0 for 30-second cinematic video, image and reference workflows, multi-shot ads, product videos, and UGC. Keep Seedance 2.0 for 4K delivery.",
+        "title": "探索最新的 Seedance 2.5",
+        "body": "对比 Seedance 2.5 与 Seedance 2.0，体验 30 秒电影级视频、图像与参考素材工作流、多镜头广告、产品宣传及 UGC 创作。4K 成片输出请继续选用 Seedance 2.0。",
         "cta": {
-          "label": "Discover the latest Seedance 2.5",
+          "label": "探索最新的 Seedance 2.5",
           "href": "/zh/models/seedance-2-5"
         }
       },
       {
-        "title": "Seedance 2.0 or Fast?",
-        "body": "Use Seedance 2.0 for final-quality, native-audio, multi-shot work. Use Fast for cheaper draft passes and timing tests.",
+        "title": "选择 Seedance 2.0 还是 Fast？",
+        "body": "终版高品质、原生音频及精细多镜头制作请选用 Seedance 2.0；快速低成本草稿测试与节奏验证请选用 Fast 版本。",
         "cta": {
-          "label": "Compare Seedance 2.0 vs Fast",
+          "label": "对比 Seedance 2.0 与 Fast",
           "href": "/zh/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast"
         }
       },
       {
-        "title": "Upgrading from Seedance 1.5?",
-        "body": "Seedance 2.0 is the current route for stronger multi-shot continuity, native audio and broader reference workflows.",
+        "title": "从 Seedance 1.5 升级？",
+        "body": "Seedance 2.0 是当前主流的升级路径，具备更强的多镜头连贯性、原生音频生成以及更广泛的多模态参考支持。",
         "cta": {
-          "label": "Compare 1.5 vs 2.0",
+          "label": "对比 1.5 与 2.0",
           "href": "/zh/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0?order=seedance-2-0"
         }
       },
       {
-        "title": "Need prompt examples?",
-        "body": "Start with text-to-video, image-to-video, reference-guided and multi-shot prompt templates.",
+        "title": "需要提示词灵感？",
+        "body": "从文生视频、图生视频、参考引导以及多镜头分镜提示词模板快速开始。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -417,131 +417,131 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Use the prompt for the scene brief: subject, action, camera, style and audio cues."
+        "title": "文本提示词",
+        "body": "使用提示词描述场景大纲：主体、动作、运镜、风格以及音频线索。"
       },
       {
-        "title": "Image reference",
-        "body": "Use images to guide identity, product details, style, composition or environment."
+        "title": "图像参考",
+        "body": "使用图片参考锁定角色身份、产品细节、视觉风格、构图或场景环境。"
       },
       {
-        "title": "Video reference",
-        "body": "Use video references for motion rhythm or camera pacing when the active route exposes them."
+        "title": "视频参考",
+        "body": "当前路径支持时，使用视频参考引导动态节奏或镜头运镜速度。"
       },
       {
-        "title": "Audio reference",
-        "body": "Use audio references for rhythm, ambience or mood when the active route exposes them."
+        "title": "音频参考",
+        "body": "当前路径支持时，使用音频参考引导节奏基调、氛围或情绪风格。"
       },
       {
-        "title": "Continuity anchors",
-        "body": "Repeat wardrobe, props, location, lighting and final pose so short sequences stay coherent."
+        "title": "连贯性锚点",
+        "body": "重复服装、道具、场景、光影与最终姿态的设定描述，确保短序列保持连贯。"
       }
     ],
     "pricingCopy": {
-      "title": "Seedance 2.0 pricing at a glance",
-      "subtitle": "Preset 720p, 1080p, and 4K totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
+      "title": "Seedance 2.0 价格一览",
+      "subtitle": "预设 720p、1080p 与 4K 参考总价 — 在应用中生成前可查看精确的实时报价。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
+      "ctaLabel": "查看完整价格表",
       "ctaHref": "/zh/pricing#seedance-2-0-pricing"
     },
     "meta": {
-      "title": "Seedance 2.0 AI Video: Max Length, Pricing & Best Uses",
-      "description": "See Seedance 2.0 pricing, 4K output, max video length, native audio, reference workflows and when to use it instead of Seedance Fast."
+      "title": "Seedance 2.0 AI 视频：最大时长、价格与最佳用途",
+      "description": "查看 Seedance 2.0 价格、4K 输出、最大视频时长、原生音频、多模态参考工作流，以及何时选择它替代 Seedance Fast。"
     }
   },
   "prompting": {
     "modelSlug": "seedance-2-0",
     "section": {
       "title": "提示词实验室 — Seedance 2.0",
-      "intro": "Seedance 2.0 works best when the brief is ordered and the workflow is explicit. Start with Subject -> Action -> Camera -> Style, then decide whether the shot should stay prompt-led, use a start/end image pair, or lean on multimodal references.",
+      "intro": "Seedance 2.0 在创作需求清晰、工作流结构明确时表现最佳。建议遵循 主体 -> 动作 -> 镜头 -> 风格（Subject -> Action -> Camera -> Style）的顺序构思，然后确定该镜头是采用纯提示词引导、首尾帧控制，还是依赖多模态参考。",
       "tip": null,
       "guide": {
-        "label": "Official Seedance 2.0 page",
+        "label": "Seedance 2.0 官方页面",
         "href": "https://seed.bytedance.com/en/seedance2_0"
       },
-      "referencesTitle": "How Seedance 2.0 uses references"
+      "referencesTitle": "Seedance 2.0 如何使用参考素材"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Text",
-        "title": "Text-to-video prompt",
-        "description": "Use this when the shot starts from language, not from uploaded assets.",
+        "label": "文生视频",
+        "title": "文生视频提示词",
+        "description": "适用于镜头从自然语言描述出发、而非上传素材的场景。",
         "copy": "Subject:\n[Who/what appears + 2-3 defining traits]\n\nAction:\n[One visible action or one timed beat]\n\nCamera:\n[Shot size + angle + one move + optional transition verb]\n\nStyle:\n[Lighting + palette + texture / lens feel]\n\nAudio:\n[Ambience + 1-2 SFX cues + optional short dialogue]\n\nExample:\nA courier in a soaked yellow jacket sprints through a narrow alley at night. He jumps a puddle and looks back once. Camera: wide tracking shot into a short handheld close-up. Style: wet asphalt reflections, cold blue street light, subtle film grain. Audio: footsteps, distant siren, one short breathy line."
       },
       {
         "id": "structured",
-        "label": "Start/End",
-        "title": "Image-to-video with optional end frame",
-        "description": "Use this when the first frame is fixed and you want to guide the landing frame.",
+        "label": "首尾帧",
+        "title": "带可选尾帧的图生视频",
+        "description": "适用于首帧画面已固定、且希望精准引导落幅画面的场景。",
         "copy": "Start image:\n[What must stay fixed from frame 1: subject, wardrobe, props, location]\n\nEnd image (optional):\n[What the last frame should land on: pose, composition, camera distance]\n\nMotion path:\n[How the subject moves between the two frames]\n\nCamera:\n[One move only: push-in / arc / handheld / static]\n\nStyle + lighting:\n[What must stay consistent]\n\nAudio:\n[Ambience / SFX / short dialogue if relevant]\n\nRule:\nDo not ask the end frame to become a different scene. Use it to control the landing frame, not to restart the story."
       },
       {
         "id": "pro",
-        "label": "References",
-        "title": "Reference-to-video prompt",
-        "description": "Use this when identity, pacing, or ambience must stay locked.",
+        "label": "参考生视频",
+        "title": "多模态参考生视频提示词",
+        "description": "适用于角色身份、动作节奏或环境氛围必须严格保持锁定的场景。",
         "copy": "Prompt intent:\n[What the scene should feel like and what must happen]\n\nImage refs:\n@Image1 = [character / hero product]\n@Image2 = [wardrobe / prop / palette]\n...\n\nVideo refs:\n@Video1 = [camera rhythm / action pacing]\n@Video2 = [transition logic]\n\nAudio refs:\n@Audio1 = [ambience bed]\n@Audio2 = [music rhythm / dialogue texture]\n\nContinuity anchors:\n[What must not drift across the run]\n\nOutput goal:\n[Single shot or 2-3 shot sequence, plus landing frame / payoff]\n\nRule:\nEach reference should have one clear job. Do not upload multiple files that fight for the same role."
       },
       {
         "id": "storyboard",
-        "label": "Timeline",
-        "title": "Timeline / multi-shot prompt",
-        "description": "Use this when one generation contains multiple internal beats or cuts.",
+        "label": "时间线分镜",
+        "title": "时间线 / 多镜头分镜提示词",
+        "description": "适用于单次生成包含多个内部动作节拍或镜头切分的场景。",
         "copy": "Duration: [auto / 4-15s]\n\nShot 1 (0-5s):\n[Framing + action + camera move]\n\nTransition:\n[match cut / whip pan / crash zoom / settle]\n\nShot 2 (5-10s):\n[Framing + action + camera move]\n\nShot 3 (10-15s):\n[Reveal / reaction / product payoff / final pose]\n\nContinuity:\n[Wardrobe + props + location + lighting]\n\nAudio plan:\n[Ambience bed + 1-3 timed SFX + optional short dialogue]\n\nUse auto duration only when the model should infer the pacing for you."
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Text = prompt-only generation from a clean brief."
+        "body": "文生视频 = 依据清晰明确的需求大纲进行纯提示词生成。"
       },
       {
         "tabId": "structured",
-        "body": "Start/End = guide the opening frame and the landing frame."
+        "body": "首尾帧 = 精确引导视频的起始画面与收尾落幅。"
       },
       {
         "tabId": "pro",
-        "body": "References = assign each image, video, and audio file a clear job."
+        "body": "参考素材 = 为每个图片、视频和音频文件分配清晰单一的职责。"
       },
       {
         "tabId": "storyboard",
-        "body": "Timeline = use timestamps when you want internal cuts or multi-shot structure."
+        "body": "时间线 = 当需要内部镜头切分或多镜头结构时使用时间戳。"
       }
     ],
     "globalPrinciples": [
-      "Write the core brief in Subject -> Action -> Camera -> Style order.",
-      "Keep one readable action per shot and add timestamps when you want internal cuts.",
-      "Give every reference one job: images for identity/style, videos for pacing/camera, audio for rhythm/ambience.",
-      "Use the optional end image to define the landing frame, not a second unrelated scene.",
-      "Keep dialogue short and pin SFX to visible actions."
+      "按 主体 -> 动作 -> 镜头 -> 风格（Subject -> Action -> Camera -> Style）的顺序编写核心需求。",
+      "每个镜头保持一个清晰可辨的动作；若需要内部镜头切分，请添加明确的时间戳。",
+      "为每个参考素材分配明确职责：图片负责身份/风格，视频负责节奏/运镜，音频负责律动/氛围。",
+      "使用可选尾帧来约束落幅画面，而非作为第二个毫不相干的新场景。",
+      "保持对白简短精炼，并将音效精准绑定到画面中可见的动作上。"
     ],
     "engineWhy": [
-      "Text-to-video is strong for fresh ideation, cinematic camera language, and multi-shot beat planning.",
-      "Image-to-video is strongest when the start frame stays fixed and the optional end frame defines the landing pose or composition.",
-      "Reference-to-video is where Seedance gains its biggest continuity advantage across characters, props, pacing, and audio mood.",
-      "Native audio stays cleaner when music, ambience, dialogue, and SFX are short and tied to visible beats."
+      "文生视频非常适合激发全新灵感构思、施展电影级运镜语言以及多镜头节拍规划。",
+      "图生视频在起始帧保持固定、且通过可选尾帧精确锁定最终姿态或构图时表现最为出色。",
+      "参考生视频是 Seedance 最大发挥连贯性优势的领域，可在角色、道具、节奏和声音情绪上实现跨镜头稳定一致。",
+      "当音乐、环境音、对白与音效简短克制并与可见动作节拍紧密绑定时，原生音频生成的效果最干净纯粹。"
     ],
     "demo": {
-      "title": "Demo prompt — Seedance 2.0",
+      "title": "演示提示词 — Seedance 2.0",
       "promptLabel": "文生视频",
       "prompt": "Subject: School bus mutating into a mechanical creature\nAction: Dark absurd transformation on a deserted street\nCamera: Wide cinematic shot with controlled motion\nStyle: Grounded American realism, horror-comedy tone\nAudio: Uneasy ambience, metal movement, tension",
       "notes": [],
       "summary": {
-        "subject": "School bus mutating into a mechanical creature",
-        "action": "Dark absurd transformation on a deserted street",
-        "camera": "Wide cinematic shot with controlled motion",
-        "style": "Grounded American realism, horror-comedy tone",
-        "output": "Uneasy ambience, metal movement, tension"
+        "subject": "校车异变成机械巨兽",
+        "action": "空旷荒凉街道上的暗黑荒诞变形",
+        "camera": "带有克制运动的电影级广角镜头",
+        "style": "扎实的美式现实主义风格，带有恐怖喜剧基调",
+        "output": "不安的氛围底噪、金属摩擦运动声与紧绷张力"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Audio",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Seedance 2.0 AI video example: Demo prompt - Seedance 2.0"
+        "altContext": "Seedance 2.0 AI 视频示例：演示提示词 — Seedance 2.0"
       }
     },
     "imageExamples": null
@@ -549,10 +549,10 @@
   "examples": {
     "modelSlug": "seedance-2-0",
     "section": {
-      "title": "Seedance 2.0 examples",
-      "intro": "Use this gallery to review prompt patterns, scene structure, and the kinds of beats Seedance 2.0 handles well inside MaxVideoAI.",
-      "defaultCtaLabel": "View all Seedance examples ->",
-      "recreateLabel": "Recreate this shot ->"
+      "title": "Seedance 2.0 案例库",
+      "intro": "通过本案例展厅了解 Seedance 2.0 在 MaxVideoAI 中的提示词模式、镜头结构以及其擅长处理的各类故事节拍。",
+      "defaultCtaLabel": "查看全部 Seedance 案例 ->",
+      "recreateLabel": "复现此镜头 ->"
     },
     "filters": [
       {
@@ -583,32 +583,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Seedance 2.0 — current Seedance model for multi-shot video and native audio.",
+        "title": "真实社区生成效果",
+        "body": "探索 Seedance 2.0 的无限可能 — 适用于多镜头视频与原生音频的当前主力 Seedance 模型。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键载入应用工作台，直接复用其提示词与参数配置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "对白、环境音与音效随画面同步生成。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连贯性",
+        "body": "在连续镜头序列中保持角色身份、视觉风格与场景环境的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "贴合商业生产规范",
+        "body": "内置安全护栏与审核过滤机制，保障负责任的创意审阅。",
         "icon": "shield"
       }
     ],

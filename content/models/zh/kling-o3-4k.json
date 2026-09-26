@@ -2,138 +2,138 @@
   "marketingName": "Kling 3.0 Omni 4K",
   "versionLabel": "3.0 Omni 4K",
   "seo": {
-    "title": "Kling 3.0 Omni 4K Reference-to-Video Generator | MaxVideoAI",
-    "description": "Use Kling 3.0 Omni 4K for native 4K reference-guided Kling video with storyboard images, @Image anchors, optional start/end frames, and delivery-grade output. Use Standard or Pro for source-video V2V."
+    "title": "Kling 3.0 Omni 4K 参考生视频生成器 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Kling 3.0 Omni 4K 进行原生 4K 参考图引导视频生成，支持分镜画面、@Image 锚点、可选起始/结束帧与交付级成片输出。若需源视频生视频（V2V），请使用 Standard 或 Pro。"
   },
-  "overview": "Kling 3.0 Omni 4K is the native 4K Kling route for reference-guided and storyboard-guided delivery renders.",
-  "pricingNotes": "Provider cost is about $0.42/s before the MaxVideoAI margin.",
+  "overview": "Kling 3.0 Omni 4K 是专为参考图引导与分镜脚本引导打造的原生 4K Kling 交付级渲染路由。",
+  "pricingNotes": "在计入 MaxVideoAI 综合费率前，模型供应商基础成本约为 $0.42/秒。",
   "custom": {
-    "relatedTitle": "Move from draft to final delivery",
-    "relatedSubtitle": "Use 4K after the reference plan is validated in Standard or Pro. Keep source-video V2V on Standard or Pro, because the current 4K route is reference-first.",
+    "relatedTitle": "从草稿进阶至最终成片交付",
+    "relatedSubtitle": "在 Standard 或 Pro 中验证参考方案后再使用 4K。由于当前 4K 路由为参考优先设计，源视频 V2V 请继续使用 Standard 或 Pro。",
     "relatedItems": [
       {
         "brand": "kling",
         "title": "Kling 3.0 Omni Pro",
-        "description": "Use Pro when the same storyboard needs source-video V2V, native audio, or more flexible reference testing before final 4K output.",
+        "description": "当同一套分镜方案需要源视频 V2V、原生音频或在最终 4K 导出前进行更灵活的参考图测试时，请使用 Pro。",
         "modelSlug": "kling-o3-pro",
-        "ctaLabel": "Open Kling 3.0 Omni Pro ->"
+        "ctaLabel": "打开 Kling 3.0 Omni Pro ->"
       },
       {
         "brand": "kling",
         "title": "Kling 3 4K",
-        "description": "Use Kling 3 4K when a specific uploaded image should become the start frame for a 4K animation.",
+        "description": "当需要将指定上传的图片作为 4K 动态镜头的首帧（起始帧）时，请使用 Kling 3 4K。",
         "modelSlug": "kling-3-4k",
-        "ctaLabel": "Open Kling 3 4K ->"
+        "ctaLabel": "打开 Kling 3 4K ->"
       },
       {
         "brand": "google-veo",
         "title": "Google Veo 3.1",
-        "description": "Compare against Veo when premium short-form realism and audio-native output are more important than Kling reference-image control.",
+        "description": "当顶级短片真实感与原生音频输出比 Kling 的参考图控制能力更关键时，可对比 Veo。",
         "modelSlug": "veo-3-1",
-        "ctaLabel": "Compare with Veo 3.1 ->"
+        "ctaLabel": "对比 Veo 3.1 ->"
       }
     ],
-    "finalPara1": "Kling 3.0 Omni 4K is the delivery route for approved reference-guided concepts: keep the storyboard and visual anchors stable, then render the final shot at native 4K.",
-    "finalPara2": "For source-video V2V or exploratory reference testing, stay on Standard or Pro first and move to 4K only once the scene direction is locked.",
-    "finalButton": "Generate with Kling 3.0 Omni 4K"
+    "finalPara1": "Kling 3.0 Omni 4K 是已获批参考图方案的成片交付路由：保持分镜与视觉锚点稳定，随后以原生 4K 渲染最终镜头。",
+    "finalPara2": "若需源视频 V2V 或探索性参考测试，建议先在 Standard 或 Pro 中打磨，待镜头方向锁定时再切换至 4K。",
+    "finalButton": "使用 Kling 3.0 Omni 4K 生成"
   },
   "hero": {
-    "title": "Kling 3.0 Omni 4K reference-guided video for final delivery",
-    "intro": "Use Kling 3.0 Omni 4K when reference images, storyboard frames, or style anchors should guide a native 4K Kling render without being forced as the opening frame. This 4K route is not the source-video video-to-video route.",
-    "badge": "Reference images · Native 4K · Storyboard inputs · No V2V",
+    "title": "Kling 3.0 Omni 4K：专为成片交付打造的参考图引导视频生成",
+    "intro": "当需要由参考图片、分镜画面或风格锚点引导原生 4K Kling 渲染，且不强制将图片作为起始帧时，请使用 Kling 3.0 Omni 4K。请注意：此 4K 路由不支持基于源视频的视频生视频（V2V）。",
+    "badge": "参考图片 · 原生 4K · 分镜输入 · 不支持 V2V",
     "ctaPrimary": {
-      "label": "Start with Kling 3.0 Omni 4K",
+      "label": "使用 Kling 3.0 Omni 4K 开始生成",
       "href": "/app?engine=kling-o3-4k"
     },
     "secondaryLinks": [
       {
-        "label": "See Kling 3.0 Omni Pro",
+        "label": "查看 Kling 3.0 Omni Pro",
         "href": "/zh/models/kling-o3-pro"
       },
       {
-        "label": "Use Kling 3 4K start-frame mode",
+        "label": "使用 Kling 3 4K 起始帧模式",
         "href": "/zh/models/kling-3-4k"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳适用场景",
     "items": [
       {
-        "title": "Native 4K reference-guided delivery renders",
+        "title": "原生 4K 参考图引导成片交付渲染",
         "icon": "quality"
       },
       {
-        "title": "Storyboard-guided campaign masters",
+        "title": "分镜脚本引导的宣传活动母片",
         "icon": "storyboard"
       },
       {
-        "title": "Final renders after 3.0 Omni Standard or Pro tests",
+        "title": "经过 3.0 Omni Standard 或 Pro 测试后的定稿终版渲染",
         "icon": "product"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Reference images",
-      "body": "Upload up to 7 reference images and mention them as @Image1, @Image2, etc. for storyboard, style, or composition guidance."
+      "label": "参考图片",
+      "body": "最多支持上传 7 张参考图片，并在提示词中以 @Image1、@Image2 等进行引用，用于分镜、风格或构图引导。"
     },
     {
-      "label": "No source-video V2V",
-      "body": "Kling 3.0 Omni 4K is reference-first for 4K delivery. It does not support source-video video-to-video in the current MaxVideoAI route; use 3.0 Omni Standard or Pro when @Video1 and keep_audio are required."
+      "label": "不支持源视频 V2V",
+      "body": "Kling 3.0 Omni 4K 专为 4K 成片交付的参考图生视频设计。在 MaxVideoAI 当前路由中不支持源视频视频生视频（V2V）；当需要引用 @Video1 或使用 keep_audio 保留原声时，请使用 3.0 Omni Standard 或 Pro。"
     },
     {
-      "label": "Resolution",
-      "body": "Native 4K output."
+      "label": "分辨率",
+      "body": "原生 4K 输出。"
     }
   ],
   "promptStructure": {
-    "title": "Prompting Kling 3.0 Omni 4K references",
-    "quote": "Use @Image1 as the approved storyboard frame and @Image2 as the style reference. Render a native 4K cinematic shot with stable character continuity.",
-    "description": "Treat 3.0 Omni 4K as the delivery pass for an already validated reference workflow. The prompt should map each input image to a clear creative role before the expensive 4K render.",
+    "title": "Kling 3.0 Omni 4K 参考图提示词编写技巧",
+    "quote": "将 @Image1 作为已获批的分镜画面，@Image2 作为风格参考。渲染具备稳定角色一致性的原生 4K 电影级镜头。",
+    "description": "将 3.0 Omni 4K 视作已验证参考工作流的交付阶段。在开始高成本的 4K 渲染前，提示词应为每张输入图片明确分配具体的创作角色。",
     "steps": [
-      "Validate the idea in 3.0 Omni Standard or 3.0 Omni Pro first",
-      "Choose Reference mode for storyboard or style images",
-      "Mention each image as @Image1, @Image2, etc.",
-      "Lock the intended motion, framing, audio choice, and continuity constraints",
-      "Use 3.0 Omni Standard or Pro if the workflow needs @Video1 source-video V2V or keep_audio",
-      "Use Kling 3 4K only when the uploaded image must open the clip"
+      "先在 3.0 Omni Standard 或 3.0 Omni Pro 中验证创意方向",
+      "为分镜或风格图片选择 Reference（参考）模式",
+      "在提示词中分别以 @Image1、@Image2 等引用各张图片",
+      "锁定目标动作、景别构图、音频设置与连续性约束",
+      "若工作流需要 @Video1 源视频 V2V 或 keep_audio，请使用 3.0 Omni Standard 或 Pro",
+      "仅当上传的图片必须作为视频开篇画面时，才使用 Kling 3 4K"
     ]
   },
   "faqs": [
     {
-      "q": "When should I use Kling 3.0 Omni 4K?",
-      "a": "Use it after the reference workflow is approved and you need native 4K output. Use Kling 3.0 Omni Standard or Pro for cheaper iteration."
+      "q": "什么时候应该使用 Kling 3.0 Omni 4K？",
+      "a": "当参考工作流方案已通过审批且需要原生 4K 成片输出时使用。若要进行低成本的构思迭代，请使用 Kling 3.0 Omni Standard 或 Pro。"
     },
     {
-      "q": "Does Kling 3.0 Omni 4K support video-to-video?",
-      "a": "No. The current 4K route is for reference-guided native 4K generation, not source-video V2V. Use Kling 3.0 Omni Standard or Pro when the prompt must reference @Video1 or preserve source audio with keep_audio."
+      "q": "Kling 3.0 Omni 4K 支持视频生视频（Video-to-Video）吗？",
+      "a": "不支持。当前 4K 路由专门用于参考图引导的原生 4K 生成，而非源视频 V2V。当提示词必须引用 @Video1 或通过 keep_audio 保留源视频原声音频时，请使用 Kling 3.0 Omni Standard 或 Pro。"
     }
   ],
   "decision": {
     "modelSlug": "kling-o3-4k",
     "hero": {
-      "eyebrow": "KLING 3.0 OMNI 4K",
+      "eyebrow": "KLING 原生 4K 参考交付路由",
       "title": "Kling 3.0 Omni 4K",
-      "subtitle": "Native 4K reference-guided Kling video for approved storyboard and visual-reference directions. This is not the source-video V2V route.",
+      "subtitle": "专为已获批分镜与视觉参考方向打造的原生 4K 参考引导 Kling 视频。请注意本模型非源视频 V2V 路由。",
       "subtitleHighlights": [
-        "Native 4K",
-        "reference-guided Kling video",
-        "not source-video V2V"
+        "原生 4K",
+        "参考引导 Kling 视频",
+        "非源视频 V2V 路由"
       ],
-      "paragraph": "Use Kling 3.0 Omni 4K when reference images or storyboard frames should guide a native 4K final without being forced as the opening frame. Use O3 Pro or Standard when the workflow needs a source video or @Video1 V2V.",
+      "paragraph": "当需要由参考图片或分镜画面引导原生 4K 终版渲染，且不强制将其作为视频起始帧时，请使用 Kling 3.0 Omni 4K。若工作流需要基于源视频或 @Video1 进行 V2V 生成，请使用 O3 Pro 或 Standard。",
       "primaryCta": {
         "label": "使用 Kling 3.0 Omni 4K 生成",
         "href": "/app?engine=kling-o3-4k"
       },
       "secondaryCta": {
-        "label": "View O3 Pro",
+        "label": "查看 O3 Pro",
         "href": "/zh/models/kling-o3-pro"
       },
       "quickLinks": [
         {
-          "label": "Compare vs O3 Pro",
+          "label": "对比 O3 Pro",
           "href": "/zh/ai-video-engines/kling-o3-4k-vs-kling-o3-pro"
         },
         {
@@ -147,181 +147,181 @@
       ]
     },
     "media": {
-      "caption": "Kling 3.0 Omni 4K example",
-      "description": "Native 4K storyboard delivery render",
-      "renderLabel": "View render",
+      "caption": "Kling 3.0 Omni 4K 案例",
+      "description": "原生 4K 分镜交付渲染",
+      "renderLabel": "查看成片",
       "badges": [
-        "Native 4K",
-        "10s",
-        "Audio off"
+        "原生 4K",
+        "10秒",
+        "关闭音频"
       ],
-      "altContext": "Kling 3.0 Omni 4K storyboard-guided native 4K render"
+      "altContext": "Kling 3.0 Omni 4K 分镜引导原生 4K 渲染"
     },
     "features": [
       {
-        "title": "Native 4K",
-        "body": "Use this route for final reference-guided 4K delivery renders.",
+        "title": "原生 4K 输出",
+        "body": "专用于参考图引导的终版 4K 交付渲染专属路由。",
         "tone": "quality"
       },
       {
-        "title": "Reference images",
-        "body": "Use @Image anchors for style, subject, storyboard or visual continuity.",
+        "title": "参考图片引导",
+        "body": "使用 @Image 锚点控制风格、主体、分镜或视觉连续性。",
         "tone": "reference"
       },
       {
-        "title": "Storyboard delivery",
-        "body": "Move approved storyboard direction into 4K after cheaper Pro or Standard tests.",
+        "title": "分镜成片交付",
+        "body": "在低成本的 Pro 或 Standard 测试通过后，将获批的分镜方案迁移至 4K。",
         "tone": "continuity"
       },
       {
-        "title": "Optional start/end frames",
-        "body": "Use opening or ending frames when the native 4K render needs a stronger structure.",
+        "title": "可选起始/结束帧",
+        "body": "当原生 4K 渲染需要更严格的画面边界结构时，可指定开篇或收尾画面。",
         "tone": "reference"
       },
       {
-        "title": "Not source-video V2V",
-        "body": "Use O3 Pro or Standard when a source video and @Video1 are required.",
+        "title": "不支持源视频 V2V",
+        "body": "当工作流需要源视频输入及 @Video1 控制时，请使用 O3 Pro 或 Standard。",
         "tone": "duration"
       },
       {
-        "title": "Final quote",
-        "body": "The app shows the exact 4K price before generation.",
+        "title": "透明最终报价",
+        "body": "在生成前，应用会实时显示精确的 4K 预估价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "When should you use O3 4K?",
-        "body": "Use O3 4K after the reference or storyboard direction is approved and the output needs native 4K delivery.",
+        "title": "何时应当使用 O3 4K？",
+        "body": "在参考图或分镜创意方向获批定稿，且最终成片需要原生 4K 交付时使用 O3 4K。",
         "cta": {
-          "label": "Start O3 4K render",
+          "label": "开始 O3 4K 渲染",
           "href": "/app?engine=kling-o3-4k"
         }
       },
       {
-        "title": "Need source-video V2V?",
-        "body": "Do not use 4K for source-video V2V. Use O3 Pro or Standard when @Video1 should guide motion or camera continuity.",
+        "title": "需要源视频 V2V？",
+        "body": "请勿将 4K 用于源视频 V2V。当需要 @Video1 引导动作节奏或镜头连续性时，请使用 O3 Pro 或 Standard。",
         "cta": {
-          "label": "View O3 Pro",
+          "label": "查看 O3 Pro",
           "href": "/zh/models/kling-o3-pro"
         }
       },
       {
-        "title": "Still choosing the direction?",
-        "body": "Draft the visual structure in Standard or Pro before paying for the native 4K delivery route.",
+        "title": "仍在探索创意方向？",
+        "body": "在支付原生 4K 交付路由费用前，建议先在 Standard 或 Pro 中起草视觉结构。",
         "cta": {
-          "label": "View O3 Standard",
+          "label": "查看 O3 Standard",
           "href": "/zh/models/kling-o3-standard"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Reference images",
-        "body": "Use @Image anchors for style, subject, product details or storyboard frames."
+        "title": "参考图片",
+        "body": "使用 @Image 锚点控制风格、主体、产品细节或分镜画面。"
       },
       {
-        "title": "Start/end frames",
-        "body": "Add an opening or ending frame when the 4K render needs a defined boundary."
+        "title": "起始/结束帧",
+        "body": "当 4K 渲染需要明确的画面起止边界时，可添加开篇或结尾帧。"
       },
       {
-        "title": "Prompt structure",
-        "body": "Keep the prompt explicit about camera, action, continuity and delivery intent."
+        "title": "提示词结构",
+        "body": "在提示词中对运镜、动作、连续性及交付用途保持清晰明确的描述。"
       },
       {
-        "title": "No source video",
-        "body": "Use O3 Pro or Standard if the workflow requires @Video1."
+        "title": "无源视频输入",
+        "body": "如果工作流需要 @Video1 引导，请使用 O3 Pro 或 Standard。"
       },
       {
-        "title": "Final pass",
-        "body": "Reserve 4K for approved shots, client review, campaign masters or edit-ready inserts."
+        "title": "终版交付渲染",
+        "body": "将 4K 专门留给已获批镜头、客户评审、营销活动母片或易于剪辑的成片素材。"
       }
     ],
     "pricingCopy": {
-      "title": "Kling 3.0 Omni 4K pricing at a glance",
-      "subtitle": "Native 4K preset totals for approved reference-guided delivery renders.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Native 4K reference route",
+      "title": "Kling 3.0 Omni 4K 价格一览",
+      "subtitle": "已获批参考图引导交付渲染的预设原生 4K 方案总览。",
+      "footnote": "所有价格均为预设场景下 MaxVideoAI 美元积分展示价。",
+      "ctaLabel": "查看完整价格表",
+      "maxDurationNote": "原生 4K 参考生视频路由",
       "ctaHref": "/zh/pricing#kling-o3-4k-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni 4K: Native 4K Reference Video | MaxVideoAI",
-      "description": "Use Kling 3.0 Omni 4K for native 4K reference-guided and storyboard-guided video. Use O3 Pro or Standard for source-video V2V."
+      "title": "Kling 3.0 Omni 4K：原生 4K 参考生视频 | MaxVideoAI",
+      "description": "使用 Kling 3.0 Omni 4K 生成原生 4K 参考图引导与分镜引导视频。若需源视频 V2V，请使用 O3 Pro 或 Standard。"
     }
   },
   "prompting": {
     "modelSlug": "kling-o3-4k",
     "section": {
-      "title": "提示词实验室 — Kling 3.0 Omni 4K reference finals",
+      "title": "提示词实验室 — Kling 3.0 Omni 4K 参考终版成片",
       "intro": null,
       "tip": null,
       "guide": null,
-      "referencesTitle": "How O3 4K uses final references"
+      "referencesTitle": "O3 4K 如何使用终版参考素材"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Text",
-        "title": "Final 4K prompt without source video",
-        "description": "Use this for a native 4K final guided by text and references.",
-        "copy": "Subject:\\n[Approved product / character / location]\\n\\nAction:\\n[One short controlled movement]\\n\\nCamera:\\n[Final move: push-in / subtle travel / static]\\n\\nStyle:\\n[Lighting and 4K finish]\\n\\nAudio:\\n[Generated ambience if enabled]\\n\\nExample:\\nA premium product floats on a graphite plinth, slow push-in, clean reflections, crisp textures, native 4K final with no added text."
+        "label": "文本",
+        "title": "无源视频的终版 4K 提示词",
+        "description": "适用于由文本和参考素材引导的原生 4K 终版成片渲染。",
+        "copy": "主体：\n[已获批产品 / 角色 / 场景]\n\n动作：\n[单一受控的简短动态]\n\n运镜：\n[终版运镜：推进 / 微幅平移 / 固定机位]\n\n风格：\n[光影与 4K 质感]\n\n音频：\n[若启用，指定生成的环境音效]\n\n示例：\nA premium product floats on a graphite plinth, slow push-in, clean reflections, crisp textures, native 4K final with no added text."
       },
       {
         "id": "structured",
-        "label": "Refs",
-        "title": "Approved 4K references",
-        "description": "Use this to map images to the final render.",
-        "copy": "@Image1 = [approved storyboard or composition]\\n@Image2 = [style / product / visual identity]\\n@Image3 = [material or color detail]\\n\\nExpected output:\\n[What the 4K final should generate]\\n\\nConstraints:\\n[No deformation, no added text, stable composition]\\n\\nExample:\\nUse @Image1 for composition, @Image2 for lighting style, and @Image3 for product detail. Render a stable, crisp, edit-ready 4K final."
+        "label": "参考图",
+        "title": "定稿 4K 参考素材映射",
+        "description": "用于将多张参考图片映射至最终渲染镜头。",
+        "copy": "@Image1 = [已获批的分镜画面或构图]\n@Image2 = [风格 / 产品 / 视觉主体]\n@Image3 = [材质或色彩细节]\n\n预期输出：\n[4K 终版镜头应生成的画面]\n\n约束条件：\n[无形变、无额外文字、构图稳定]\n\n示例：\nUse @Image1 for composition, @Image2 for lighting style, and @Image3 for product detail. Render a stable, crisp, edit-ready 4K final."
       },
       {
         "id": "pro",
-        "label": "Start/End",
-        "title": "4K start/end frame control",
-        "description": "Use this to control the visual boundary of the final shot.",
-        "copy": "Optional opening frame:\\n[Expected first pose or composition]\\n\\nOptional end frame:\\n[Final landing frame]\\n\\nAction:\\n[One motion path between both states]\\n\\nRule:\\nDo not use @Video1. The current 4K route is reference-to-video, not source-video V2V.\\n\\nExample:\\nStart from @Image1, subtle forward travel, land close to the end frame. Same product, same light, no location break."
+        "label": "起止帧",
+        "title": "4K 首尾帧控制",
+        "description": "用于控制最终镜头的视觉起止边界。",
+        "copy": "可选首帧：\n[预期的初始姿势或构图]\n\n可选尾帧：\n[最终落幅画面]\n\n动作：\n[连接两状态的单一运动轨迹]\n\n规则：\n切勿使用 @Video1。当前 4K 路由为参考生视频，不支持源视频 V2V。\n\n示例：\nStart from @Image1, subtle forward travel, land close to the end frame. Same product, same light, no location break."
       },
       {
         "id": "storyboard",
-        "label": "Final 4K",
-        "title": "4K delivery checklist",
-        "description": "Use this to turn an approved draft into a master.",
-        "copy": "Duration: [3-15s]\\nResolution: native 4K\\n\\nApproved composition:\\n[@Image1]\\n\\nApproved style:\\n[@Image2]\\n\\nFinal motion:\\n[Simple, controlled, edit-ready]\\n\\nAvoid:\\n[@Video1, keep_audio, added text, scene changes]\\n\\nExample:\\nRender the approved shot in native 4K with short motion, clean texture, stable identity, and an edit-ready ending."
+        "label": "4K 终版",
+        "title": "4K 成片交付核对清单",
+        "description": "用于将已通过的草稿方案转化为成片母带。",
+        "copy": "时长：[3–15秒]\n分辨率：原生 4K\n\n已获批构图：\n[@Image1]\n\n已获批风格：\n[@Image2]\n\n终版动作：\n[简洁、受控、便于后期剪辑]\n\n避免包含：\n[@Video1、keep_audio、额外文字、场景突变]\n\n示例：\nRender the approved shot in native 4K with short motion, clean texture, stable identity, and an edit-ready ending."
       }
     ],
     "tabNotes": [],
     "globalPrinciples": [
-      "Give every image one job: composition, style, product, character, or detail.",
-      "Validate motion in Standard or Pro before paying for a native 4K final.",
-      "Do not use @Video1 or keep_audio on the current 4K route.",
-      "Specify camera, action, continuity, and delivery intent in the prompt."
+      "为每张参考图片分配单一明确的职责：构图、风格、产品、角色或细节。",
+      "在支付原生 4K 成片费用前，先在 Standard 或 Pro 中验证动作与动态。",
+      "当前 4K 路由切勿使用 @Video1 或 keep_audio。",
+      "在提示词中明确指定运镜、动作、连续性及成片交付意图。"
     ],
     "engineWhy": [
-      "4K is a delivery route, not the best place to explore direction.",
-      "The page should guide image references and storyboard input without promising source-video V2V.",
-      "Prompts should lock composition, texture, camera motion, and an edit-ready ending.",
-      "If the workflow needs @Video1, move back to O3 Pro or Standard."
+      "4K 是成片交付路由，而非发散探索创意的合适阶段。",
+      "本页面聚焦引导图像参考与分镜输入，明确不支持源视频 V2V。",
+      "提示词应锁定构图、材质细节、镜头运动以及易于后期剪辑的收尾。",
+      "若工作流需要 @Video1 引导，请切换至 O3 Pro 或 Standard。"
     ],
     "demo": {
-      "title": "Demo prompt — O3 4K reference final",
-      "promptLabel": "4K text prompt",
+      "title": "演示提示词 — O3 4K 参考终版成片",
+      "promptLabel": "4K 文本提示词",
       "prompt": "Subject:\nA handmade mechanical moon, brass and porcelain, floating above an old clockmaker’s workbench.\n\nAction:\nTiny gears begin turning inside the moon. It slowly opens like a pocket watch and releases a cloud of glowing fireflies that circle the room.\n\nCamera:\nMedium close-up with a slow orbit around the floating moon, then a gentle upward tilt following the fireflies.\n\nStyle:\nCinematic workshop fantasy, warm candlelight, brass reflections, dust in the air, rich brown and gold palette, handcrafted textures, elegant and mysterious.\n\nAudio:\nSoft ticking gears, delicate metallic clicks, magical shimmer, quiet room tone.",
       "notes": [],
       "summary": {
-        "subject": "Handmade mechanical moon in brass and porcelain",
-        "action": "Opens like a pocket watch and releases glowing fireflies",
-        "camera": "Slow orbit, then upward tilt following the fireflies",
-        "style": "Cinematic workshop fantasy, candlelight, brass reflections",
-        "output": "Selected render is silent; prompt includes ticking and shimmer cues"
+        "subject": "黄铜与白瓷材质的手工机械月亮",
+        "action": "如怀表般缓缓开启，释放出一群环绕房间的微光萤火虫",
+        "camera": "中景特写环绕漂浮的月亮运镜，随后轻柔向上倾斜跟拍萤火虫",
+        "style": "电影感工坊奇幻风格，温暖烛光，黄铜反光",
+        "output": "当前选中的渲染成片为静音；提示词中包含齿轮滴答与微光音效描述"
       },
       "presentationOverrides": {
-        "modeLabel": "4K text prompt",
-        "outputLabel": "Audio",
+        "modeLabel": "4K 文本提示词",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "Kling 3.0 Omni 4K mechanical moon render"
+        "altContext": "Kling 3.0 Omni 4K 机械月亮渲染成片"
       }
     },
     "imageExamples": null
@@ -329,9 +329,9 @@
   "examples": {
     "modelSlug": "kling-o3-4k",
     "section": {
-      "title": "Kling 3.0 Omni 4K reference delivery demos",
-      "intro": "Review native 4K O3 renders built from storyboard or reference images. Use these examples when the creative direction is already approved and the final output needs 4K delivery rather than source-video V2V.",
-      "defaultCtaLabel": "Browse Kling reference examples ->",
+      "title": "Kling 3.0 Omni 4K 参考交付演示案例",
+      "intro": "浏览基于分镜或参考图片生成的原生 4K O3 渲染成片。当创意方向已获批定稿且最终成片需要 4K 交付（而非源视频 V2V）时，可参考这些范例。",
+      "defaultCtaLabel": "浏览 Kling 参考案例 ->",
       "recreateLabel": null
     },
     "filters": [
@@ -363,32 +363,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Kling 3.0 Omni 4K reference-guided video for final delivery.",
+        "title": "真实社区渲染成片",
+        "body": "探索 Kling 3.0 Omni 4K 参考图引导终版交付成片所能呈现的极致画质。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键同款生成",
+        "body": "一键跳转进入应用，直接复用已验证的参数与分镜配置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "对白、环境音与音效同步生成。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连续性",
+        "body": "在序列镜头间保持角色、风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "生产级安全保障",
+        "body": "内置安全合规审核与过滤机制，保障负责任的生产交付。",
         "icon": "shield"
       }
     ],

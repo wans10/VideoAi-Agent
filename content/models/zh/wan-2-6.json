@@ -2,304 +2,304 @@
   "marketingName": "Wan 2.6",
   "versionLabel": "2.6",
   "seo": {
-    "title": "Wan 2.6 (5–15s, 1080p) — Text/Image/Reference Videos",
-    "description": "Wan 2.6 remains an executable previous-generation route for 5–15s text, image and reference clips; review pricing and the upgrade path to Wan 3.",
+    "title": "Wan 2.6 (5–15秒, 1080p) — 文生/图生/参考视频生成",
+    "description": "Wan 2.6 仍作为可运行的上一代旧版模型提供，支持 5–15 秒文生视频、图生视频及参考视频片段；查看价格详情与升级至 Wan 3 的完整路径。",
     "image": "/hero/wan-26.jpg"
   },
-  "overview": "Wan 2.6 remains available as a previous-generation legacy route for existing multi-shot and reference-video workflows. Wan 3 is the current standard successor for new Wan projects.",
+  "overview": "Wan 2.6 仍作为上一代受支持的旧版模型提供，适用于现有的多镜头与参考视频工作流。新启动的 Wan 项目推荐使用当前的标准升级版本 Wan 3。",
   "hero": {
-    "title": "Wan 2.6 – Multi-shot AI video (Text/Image 5–15s, Reference 5–10s, 720p/1080p)",
-    "intro": "Structured 5–15s clips in 720p/1080p — stronger subject consistency with 1–3 reference videos.",
-    "badge": "720p/1080p · Text/Image 5–15s · Reference 5–10s · Optional audio (T2V/I2V)",
+    "title": "Wan 2.6 — 多镜头 AI 视频（文生/图生 5–15秒，参考视频 5–10秒，720p/1080p）",
+    "intro": "生成结构清晰的 5–15 秒 720p/1080p 片段 — 借助 1–3 个参考视频实现更强的主体一致性。",
+    "badge": "720p/1080p · 文生/图生 5–15秒 · 参考视频 5–10秒 · 可选音频 (文生/图生)",
     "ctaPrimary": {
-      "label": "Start generating with Wan 2.6",
+      "label": "使用 Wan 2.6 开始生成",
       "href": "/app?engine=wan-2-6"
     },
     "secondaryLinks": [
       {
-        "label": "Compare Wan 2.6 vs Sora 2 →",
+        "label": "对比 Wan 2.6 与 Sora 2 →",
         "href": "/zh/models/wan-2-5"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳应用场景",
     "items": [
       {
-        "title": "Mini trailers & storyboards",
+        "title": "微预告与分镜设计",
         "icon": "storyboard"
       },
       {
-        "title": "Product hero motion (from a still)",
+        "title": "产品主角动态展示（静态图转动态）",
         "icon": "product"
       },
       {
-        "title": "Subject consistency (reference video)",
+        "title": "主体一致性（参考视频驱动）",
         "icon": "users"
       },
       {
-        "title": "Multi-shot sequences (timestamped beats)",
+        "title": "多镜头分镜序列（时间戳节奏点）",
         "icon": "layers"
       },
       {
-        "title": "Match cuts & clean transitions",
+        "title": "匹配剪辑与利落转场",
         "icon": "repeat2"
       },
       {
-        "title": "Sound beds via audio URL (T2V/I2V)",
+        "title": "通过音频 URL 添加背景音轨（文生/图生）",
         "icon": "volume2"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "Text/Image: 5, 10, 15 s · Reference: 5 or 10 s"
+      "label": "时长",
+      "body": "文生/图生：5、10、15 秒 · 参考视频：5 或 10 秒"
     },
     {
-      "label": "Resolution",
-      "body": "720p or 1080p"
+      "label": "分辨率",
+      "body": "720p 或 1080p"
     },
     {
-      "label": "Aspect ratios",
-      "body": "T2V/R2V: 16:9, 9:16, 1:1, 4:3, 3:4 · I2V: auto from image"
+      "label": "画幅比例",
+      "body": "文生视频/参考视频：16:9、9:16、1:1、4:3、3:4 · 图生视频：自动继承原图比例"
     },
     {
-      "label": "Inputs",
-      "body": "Text prompts, single image still, or 1–3 reference videos"
+      "label": "输入方式",
+      "body": "文字提示词、单张静态图像或 1–3 个参考视频"
     },
     {
-      "label": "Audio",
-      "body": "Optional audio URL on Text/Image modes; disabled on Reference mode"
+      "label": "音频",
+      "body": "文生/图生模式可选填音频 URL；参考视频模式禁用音频"
     },
     {
-      "label": "Pricing",
-      "body": "$0.10/s (720p), $0.15/s (1080p)"
+      "label": "计费方式",
+      "body": "$0.10/秒 (720p)，$0.15/秒 (1080p)"
     }
   ],
   "promptStructure": {
-    "title": "Prompting Wan 2.6",
-    "quote": "Multi-shot prompt with timestamps: [0-3s] shot description... [3-8s] transition... [8-15s] final beat.",
-    "description": "Write shot-level prompts with timestamps, then describe camera, motion, and lighting.",
+    "title": "Wan 2.6 提示词编写指南",
+    "quote": "带时间戳的多镜头提示词：[0-3秒] 镜头描述…… [3-8秒] 转场…… [8-15秒] 结尾定格节奏点。",
+    "description": "编写分镜头提示词并标注时间戳，然后依次描述镜头运镜、主体动作与光影氛围。",
     "steps": [
-      "Global look and subject",
-      "Shots with timestamps ([0-3s], [3-8s], etc.)",
-      "Camera language and pacing",
-      "Lighting and grade",
-      "Optional audio notes (T2V/I2V)"
+      "整体视觉基调与主体特征",
+      "带时间戳的分镜头（[0-3秒]、[3-8秒] 等）",
+      "运镜语言与节奏设计",
+      "光影氛围与调色风格",
+      "可选音频设计要点（文生/图生）"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "Use timestamped shots for mini narratives and clean transitions.",
-      "For I2V, describe motion and camera instead of re-describing the image.",
-      "For R2V, tag references as @Video1/@Video2/@Video3 in the prompt.",
-      "R2V supports 5–10s; plan longer stories as multiple clips."
+      "使用带时间戳的分镜头规划微叙事并实现利落转场。",
+      "图生视频时，重点描述动作与镜头运镜，避免重复描述原图内容。",
+      "参考视频模式下，在提示词中使用 @Video1/@Video2/@Video3 标记素材引用。",
+      "参考视频模式支持 5–10 秒；较长的叙事建议拆解为多个片段生成。"
     ]
   },
   "prompts": [
     {
-      "title": "Vertical social mini-trailer (T2V)",
+      "title": "竖屏社媒微预告 (文生视频)",
       "prompt": "Vertical 9:16, premium social ad. Shot 1 [0-3s] Macro of a product on a wet black surface, slow push-in, specular highlights. Shot 2 [3-8s] Whip pan reveal to a hand picking it up, soft rim light, bokeh city at night. Shot 3 [8-15s] Clean hero shot, subtle rotation, no text, no watermark."
     },
     {
-      "title": "Packshot motion (I2V)",
+      "title": "静物产品动态包装 (图生视频)",
       "prompt": "Continue from first frame. Slow dolly-in, gentle parallax, soft light sweep across the label, tiny dust particles, premium studio look, no text."
     },
     {
-      "title": "Reference dance battle (R2V)",
+      "title": "参考视频街舞对决 (参考视频)",
       "prompt": "Dance battle between @Video1 and @Video2 in an empty museum hall. @Video1 starts center-left, @Video2 enters from right. Dynamic camera orbit, dramatic lighting."
     }
   ],
   "faqs": [
     {
-      "q": "Does Wan 2.6 support audio?",
-      "a": "Audio URLs are optional for Text and Image modes. Reference mode does not support audio uploads."
+      "q": "Wan 2.6 是否支持音频？",
+      "a": "文生视频与图生视频模式支持可选填音频 URL。参考视频模式不支持上传音频。"
     },
     {
-      "q": "How many reference videos can I upload?",
-      "a": "1–3 MP4/MOV references. Tag them in the prompt as @Video1, @Video2, and @Video3."
+      "q": "最多可以上传多少个参考视频？",
+      "a": "支持上传 1–3 个 MP4/MOV 格式参考视频。在提示词中使用 @Video1、@Video2 和 @Video3 进行引用标注。"
     },
     {
-      "q": "What durations are supported?",
-      "a": "Text and Image modes: 5, 10, or 15 seconds. Reference mode: 5 or 10 seconds."
+      "q": "支持生成多长时间的视频？",
+      "a": "文生视频与图生视频模式支持 5、10 或 15 秒。参考视频模式支持 5 或 10 秒。"
     },
     {
-      "q": "Can Reference mode use 15 seconds or audio?",
-      "a": "No. In MaxVideoAI, Wan 2.6 Reference mode is limited to 5 or 10 seconds and does not use the audio URL option. Use Text or Image mode for 15-second or audio-guided tests."
+      "q": "参考视频模式可以使用 15 秒时长或音频吗？",
+      "a": "不可以。在 MaxVideoAI 中，Wan 2.6 参考视频模式限制为 5 或 10 秒，且不提供音频 URL 选项。如需进行 15 秒生成或音频引导测试，请使用文生视频或图生视频模式。"
     }
   ],
   "custom": {
-    "heroSupportLine": "Ideal for storyboards, mini-trailers, and product motion where clean transitions matter.",
-    "whyTitle": "Why Wan 2.6 is powerful",
-    "heroDesc1": "Wan 2.6 unifies Text, Image, and Reference video inputs in one engine card, so you can iterate on short cinematic beats without switching models.",
-    "heroDesc2": "Use multi-shot prompts for mini trailers, animate a single still, or lock character consistency using 1–3 reference videos.",
+    "heroSupportLine": "非常适合需要精准利落转场的分镜表、微预告与产品动态展示。",
+    "whyTitle": "为什么 Wan 2.6 表现出色",
+    "heroDesc1": "Wan 2.6 将文生视频、图生视频与参考视频输入集成在同一引擎卡片中，无需切换模型即可高效迭代电影级短视频片段。",
+    "heroDesc2": "编写多镜头提示词生成微预告，将单张静态图注入生动动态，或通过 1–3 个参考视频牢牢锁定角色一致性。",
     "heroHighlights": [
-      "Three modes, one workflow||Pick text, image, or reference video depending on how much control you need.",
-      "Timestamped shot lists||Beat-by-beat prompts steer pacing and transitions with less drift.",
-      "Reference anchoring||Tag @Video1/@Video2/@Video3 to keep the same subject across variants.",
-      "Optional sound bed input||Add a background track for text/image runs; keep reference runs focused on visuals."
+      "三种模式，统一工作流||根据所需控制粒度自由选择文本、图像或参考视频。",
+      "带时间戳的分镜头清单||按节拍推进的提示词能够有效把控叙事节奏与转场，减少画面漂移。",
+      "参考素材锚定||通过 @Video1/@Video2/@Video3 标签在不同镜头变体间保持同一主体一致性。",
+      "可选背景音频输入||在文生/图生任务中添加背景音轨；参考视频任务则专注于纯视觉呈现。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳应用场景",
     "bestUseCases": [
       {
-        "title": "Mini trailers & storyboards",
+        "title": "微预告与分镜设计",
         "icon": "storyboard"
       },
       {
-        "title": "Product hero motion (from a still)",
+        "title": "产品主角动态展示（静态图转动态）",
         "icon": "product"
       },
       {
-        "title": "Subject consistency (reference video)",
+        "title": "主体一致性（参考视频驱动）",
         "icon": "users"
       },
       {
-        "title": "Multi-shot sequences (timestamped beats)",
+        "title": "多镜头分镜序列（时间戳节奏点）",
         "icon": "layers"
       },
       {
-        "title": "Match cuts & clean transitions",
+        "title": "匹配剪辑与利落转场",
         "icon": "repeat2"
       },
       {
-        "title": "Sound beds via audio URL (T2V/I2V)",
+        "title": "通过音频 URL 添加背景音轨（文生/图生）",
         "icon": "volume2"
       }
     ],
-    "whatTitle": "How Wan 2.6 works in MaxVideoAI",
-    "whatIntro1": "Choose Text, Image, or Reference mode, set duration and resolution, then prompt.",
-    "whatIntro2": "Reference mode keeps subject identity consistent by grounding the model in real video footage.",
-    "whatFlowTitle": "In-app flow",
+    "whatTitle": "Wan 2.6 在 MaxVideoAI 中的工作流程",
+    "whatIntro1": "选择文生、图生或参考视频模式，设定时长与分辨率，随后输入提示词开始创作。",
+    "whatIntro2": "参考视频模式通过真实视频素材进行锚定，从而在生成过程中保持主体身份高度一致。",
+    "whatFlowTitle": "创作流程",
     "whatFlowSteps": [
-      "1. Pick Wan 2.6.",
-      "2. Choose Text → Video, Image → Video, or Reference → Video.",
-      "3. Set duration, resolution, and aspect ratio (T2V/R2V).",
-      "4. Optional: seed.",
-      "5. Optional: attach background audio (T2V/I2V only).",
-      "6. See the final price before rendering."
+      "1. 选择 Wan 2.6 模型。",
+      "2. 选择文生视频、图生视频或参考视频模式。",
+      "3. 设置时长、分辨率及画幅比例（文生/参考视频模式）。",
+      "4. 可选：设置随机种子。",
+      "5. 可选：添加背景音频 URL（仅限文生/图生视频）。",
+      "6. 渲染前在界面查看最终精确计费。"
     ],
-    "specTitle": "Real Specs – Wan 2.6 in MaxVideoAI",
-    "specNote": "Specs reflect the live Fal routing today.",
+    "specTitle": "真实规格 – MaxVideoAI 中的 Wan 2.6",
+    "specNote": "规格反映当前实时的 Fal 路由情况。",
     "specSections": [
       {
-        "title": "Reference-driven consistency",
-        "intro": "Supports text, image, and reference-video workflows for stronger subject continuity. Built for multi-shot sequences.",
+        "title": "参考视频驱动的一致性",
+        "intro": "支持文本、图像与参考视频工作流，带来更强的主体连贯性。专为多镜头序列打造。",
         "items": [
-          "Use reference video to anchor a character.",
-          "Keep wardrobe and lighting constant.",
-          "Specify transitions between beats.",
-          "Great for storyboards and mini-trailers."
+          "使用参考视频锚定角色身份。",
+          "保持服饰穿搭与布光环境恒定。",
+          "明确指定节奏点之间的转场方式。",
+          "非常适合分镜表与微预告制作。"
         ]
       },
       {
-        "title": "Timestamped control",
-        "intro": "Shot lists with timestamps steer pacing and transitions. Clear beat markers work better than adjectives.",
+        "title": "时间戳精细控制",
+        "intro": "带有时间戳的分镜头清单能有效把控叙事节奏与转场。明确的节拍标记比单纯的形容词更有效。",
         "items": [
-          "Number beats in order.",
-          "Call out cuts or match-moves.",
-          "Limit each beat to one main action.",
-          "Add an optional sound bed when needed."
+          "按发生顺序为各节拍编号。",
+          "明确注明硬切或匹配运镜。",
+          "每个节拍仅限制一个核心动作。",
+          "根据需要添加可选的背景音轨。"
         ]
       }
     ],
-    "tipsTitle": "Tips & limitations",
+    "tipsTitle": "使用技巧与限制",
     "strengths": [
-      "Use timestamped beats for pacing (2–3 beats max). One clear action per beat.",
-      "Repeat the same anchors across beats (subject, wardrobe/props, location, lighting, lens feel) to reduce drift.",
-      "For consistency, use Reference mode and tag clips directly in the prompt (@Video1 / @Video2 / @Video3).",
-      "Call out transitions (match cut, whip pan, cut on action) instead of “dynamic” wording.",
-      "Add a sound bed only when you’re in Text/Image modes; keep Reference runs focused on visuals."
+      "使用带时间戳的节拍把控节奏（建议最多 2–3 个节拍）。每个节拍仅安排一个明确动作。",
+      "在各个节拍中复用相同的视觉锚点（主体、服装/道具、场景地点、光影调性、镜头感），以减少画面漂移。",
+      "追求极致一致性时，使用参考视频模式并在提示词中直接标记素材标签（@Video1 / @Video2 / @Video3）。",
+      "明确写出转场方式（如匹配剪辑、快速摇摄甩镜、动作接切），避免使用空泛的“动态”等形容词。",
+      "仅在文生/图生模式下添加背景音轨；参考视频模式应聚焦于视觉画面的纯净度。"
     ],
     "boundaries": [
-      "Reference-to-Video supports only 5s or 10s (not 15s).",
-      "Reference mode uses 1–3 videos and expects @Video1/@Video2/@Video3 tags.",
-      "Prompts are short-form (800 characters); keep the “must-have” details early.",
-      "Audio URL / sound bed is not part of Reference-to-Video in this routing."
+      "参考视频模式仅支持 5 秒或 10 秒（不支持 15 秒）。",
+      "参考视频模式支持 1–3 个视频，且需要在提示词中添加 @Video1/@Video2/@Video3 标签。",
+      "提示词建议保持简练（800 字符内）；请将核心必选项置于提示词开头。",
+      "在此路由配置下，参考视频模式不包含音频 URL / 背景音轨功能。"
     ],
-    "comparisonTitle": "Wan 2.6 vs Wan 2.5 – Quick overview",
+    "comparisonTitle": "Wan 2.6 对比 Wan 2.5 — 快速概览",
     "comparisonPoints": [
-      "Wan 2.6 adds Reference → Video for subject consistency",
-      "Wan 2.6 supports multi-shot prompts and more aspect ratios",
-      "Wan 2.5 includes 480p option and native audio"
+      "Wan 2.6 新增参考视频模式，实现更强的主体一致性",
+      "Wan 2.6 支持多镜头提示词以及更多画幅比例",
+      "Wan 2.5 包含 480p 选项与原生音频生成"
     ],
-    "comparisonCta": "Compare Wan 2.6 vs Wan 2.5 →",
-    "relatedCtaSora2": "Compare Wan 2.6 vs Sora 2 →",
-    "relatedCtaSora2Pro": "Compare Wan 2.6 vs Sora 2 Pro →",
-    "faqTitle": "FAQ – Wan 2.6 in MaxVideoAI",
+    "comparisonCta": "对比 Wan 2.6 与 Wan 2.5 →",
+    "relatedCtaSora2": "对比 Wan 2.6 与 Sora 2 →",
+    "relatedCtaSora2Pro": "对比 Wan 2.6 与 Sora 2 Pro →",
+    "faqTitle": "常见问题 – MaxVideoAI 中的 Wan 2.6",
     "faqs": [
       {
-        "q": "Does Wan 2.6 support audio?",
-        "a": "Audio URLs are optional for Text and Image modes. Reference mode does not support audio uploads."
+        "q": "Wan 2.6 是否支持音频？",
+        "a": "文生视频与图生视频模式支持可选填音频 URL。参考视频模式不支持上传音频。"
       },
       {
-        "q": "How many reference videos can I upload?",
-        "a": "1–3 MP4/MOV references. Tag them as @Video1, @Video2, and @Video3 in the prompt."
+        "q": "最多可以上传多少个参考视频？",
+        "a": "支持上传 1–3 个 MP4/MOV 格式参考视频。在提示词中对应标注为 @Video1、@Video2 和 @Video3。"
       },
       {
-        "q": "What durations are supported?",
-        "a": "Text and Image modes: 5, 10, or 15 seconds. Reference mode: 5 or 10 seconds."
+        "q": "支持生成多长时间的视频？",
+        "a": "文生视频与图生视频模式支持 5、10 或 15 秒。参考视频模式支持 5 或 10 秒。"
       },
       {
-        "q": "Can Reference mode use 15 seconds or audio?",
-        "a": "No. In MaxVideoAI, Wan 2.6 Reference mode is limited to 5 or 10 seconds and does not use the audio URL option. Use Text or Image mode for 15-second or audio-guided tests."
+        "q": "参考视频模式可以使用 15 秒时长或音频吗？",
+        "a": "不可以。在 MaxVideoAI 中，Wan 2.6 参考视频模式限制为 5 或 10 秒，且不提供音频 URL 选项。如需进行 15 秒生成或音频引导测试，请使用文生视频或图生视频模式。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare price, latency and output options across the MaxVideoAI catalog.",
-    "finalPara1": "Wan 2.6 is built for short cinematic sequences with multi-shot control.",
-    "finalPara2": "Start with text or image, then move to reference video for consistency.",
-    "finalButton": "Open Wan 2.6 in Generate →",
-    "quickStartTitle": "Quick start (1 minute)",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "在 MaxVideoAI 模型目录中对比各模型的价格、延迟与输出能力。",
+    "finalPara1": "Wan 2.6 专为具备多镜头控制的电影级短视频序列打造。",
+    "finalPara2": "从文生或图生起步，再进阶至参考视频模式以锁定主体一致性。",
+    "finalButton": "前往生成页面使用 Wan 2.6 →",
+    "quickStartTitle": "快速上手（1 分钟）",
     "quickStartBlocks": [
       {
-        "title": "Text → Video (T2V)",
-        "subtitle": "fastest way to test an idea",
+        "title": "文生视频 (T2V)",
+        "subtitle": "验证创意的最快方式",
         "steps": [
-          "Choose 10s, 720p, 16:9 (safe)",
-          "Describe: subject + location + lighting + camera style",
-          "Add 2–3 timestamped beats if you want multi-shot",
-          "If the mood is right → rerun in 1080p"
+          "选择 10秒、720p、16:9（推荐稳妥设置）",
+          "描述要素：主体 + 场景地点 + 光影 + 镜头风格",
+          "如需多镜头，添加 2–3 个带时间戳的节奏点",
+          "若整体氛围符合预期 → 切换至 1080p 重新渲染"
         ]
       },
       {
-        "title": "Image → Video (I2V)",
-        "subtitle": "perfect to animate a key visual",
+        "title": "图生视频 (I2V)",
+        "subtitle": "赋予主视觉动态生命力",
         "steps": [
-          "Upload the image (the ratio follows automatically)",
-          "Focus on motion (camera + subject) and micro-details (wind, reflections, dust…)",
-          "10–15s = more premium feel (more breathing room)"
+          "上传静态图（系统将自动沿用原图画幅比例）",
+          "聚焦于动态细节（摄影机运镜 + 主体动作）与微观动态（风、倒影、微尘……）",
+          "10–15秒 = 更有高级呼吸感（留出充足展开空间）"
         ]
       },
       {
-        "title": "Reference → Video (R2V)",
-        "subtitle": "lock identity / consistency",
+        "title": "参考视频 (R2V)",
+        "subtitle": "牢牢锁定主体身份与一致性",
         "steps": [
-          "Upload 1–3 videos (varied angles, same subject)",
-          "In the prompt, tag @Video1 / @Video2 / @Video3",
-          "Ask for a simple shot (not a full film)",
-          "Start at 5–10s (10s max) to maximize consistency"
+          "上传 1–3 个视频（同一主体的多角度素材）",
+          "在提示词中对应标记 @Video1 / @Video2 / @Video3",
+          "设计单一镜头动作（切勿一次性塞入整部短片）",
+          "优先从 5–10秒（最长 10秒）起步以最大化一致性"
         ]
       }
     ],
-    "troubleshootingTitle": "Common issues (quick fixes)",
+    "troubleshootingTitle": "常见问题 → 快速排查",
     "troubleshootingItems": [
-      "Subject changes / drift → reduce beats, repeat anchors in every beat, and switch to Reference with cleaner, tighter-framed videos.",
-      "Camera too jittery → replace “dynamic” with “slow, smooth, controlled”; specify “tripod-stable” or “smooth track”.",
-      "Beats feel inconsistent → add timestamps ([0–5s], [5–10s]) and make each beat a single readable action.",
-      "Look deviates from the key visual → start from Image→Video (hero frame), then only ask for motion; keep the style recipe identical.",
-      "Transitions feel jumpy → explicitly name the transition + keep the camera move continuous between beats."
+      "主体形态变化 / 漂移 → 减少节拍数量，在每个节拍中重复核心锚点，并切换到参考视频模式，使用构图更紧凑、背景更干净的视频素材。",
+      "摄影机运动过于晃动 → 将“动态”替换为“缓慢、平稳、受控”；明确注明“三脚架固定机位”或“平滑滑轨推拉”。",
+      "分镜节奏显得不连贯 → 添加时间戳（[0–5秒]、[5–10秒]），并将每个节拍简化为一个清晰可辨的动作。",
+      "视觉风格偏离主视觉 → 从图生视频（核心帧）开始，仅提示动态要求；保持提示词中的风格配方完全一致。",
+      "转场感觉突兀跳脱 → 明确写出转场类型名称，并在节拍切换之间保持镜头运镜的连续性。"
     ],
-    "tipsIntro": "Wan 2.6 is easiest to steer when you use short beats, explicit transitions, and reference anchoring when identity must stay stable.",
-    "safetyTitle": "Safety & people / likeness",
+    "tipsIntro": "当您使用简短分镜节拍、明确转场指令并在需要保持主体稳定时借助参考视频锚定时，Wan 2.6 最容易驾驭。",
+    "safetyTitle": "合规安全与人物肖像规范",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness/voice.",
-      "Don’t include private personal data (addresses, phone numbers, documents, non-consenting faces).",
-      "Some prompts or reference videos may be blocked by provider safety filters."
+      "严禁生成色情内容，严禁涉及未成年人的任何不合规内容。",
+      "严禁生成包含仇恨、骚扰或血腥暴力的内容。",
+      "严禁冒充真实人物或公众人物；使用任何肖像或声音必须获得明确授权。",
+      "不得包含个人隐私数据（地址、电话号码、证件以及未经许可的人脸）。",
+      "部分提示词或参考视频可能会被模型提供商的安全过滤器拦截。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null
@@ -307,30 +307,30 @@
   "decision": {
     "modelSlug": "wan-2-6",
     "hero": {
-      "eyebrow": "PREVIOUS-GENERATION WAN LEGACY ROUTE",
+      "eyebrow": "上一代 WAN 旧版路线",
       "title": "Wan 2.6",
-      "subtitle": "15s multi-shot clips, 5s/10s reference-video consistency, and optional audio for text or image starts.",
+      "subtitle": "支持 15秒多镜头片段、5秒/10秒参考视频一致性，以及文生或图生可选音频。",
       "subtitleHighlights": [
-        "15s multi-shot clips",
-        "5s/10s reference-video consistency",
-        "optional audio for text or image starts"
+        "15秒多镜头片段",
+        "5秒/10秒参考视频一致性",
+        "文生或图生可选音频"
       ],
-      "paragraph": "Wan 2.6 remains executable for previous-generation 720p or 1080p clips, existing examples and established reference-video briefs. Keep it for repeatable legacy work, or use Wan 3 as the current standard successor for a new Wan project.",
+      "paragraph": "Wan 2.6 仍可用于运行上一代 720p 或 1080p 片段、已有案例及既定的参考视频创作需求。您可保留它用于可复现的既有项目，或在新 Wan 项目中选用当前的标准升级版本 Wan 3。",
       "primaryCta": {
         "label": "使用 Wan 2.6 生成",
         "href": "/app?engine=wan-2-6"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/wan"
       },
       "quickLinks": [
         {
-          "label": "View current Wan 3",
+          "label": "查看最新 Wan 3",
           "href": "/zh/models/wan-3"
         },
         {
-          "label": "Compare Wan 2.6 with Sora 2",
+          "label": "对比 Wan 2.6 与 Sora 2",
           "href": "/zh/ai-video-engines/sora-2-vs-wan-2-6?order=wan-2-6"
         },
         {
@@ -344,197 +344,197 @@
       ]
     },
     "media": {
-      "caption": "Wan 2.6 example",
-      "description": "Multi-shot reference-guided clip",
-      "renderLabel": "View render",
+      "caption": "Wan 2.6 案例",
+      "description": "多镜头参考视频引导片段",
+      "renderLabel": "查看渲染结果",
       "badges": [
-        "15s max",
+        "最长 15秒",
         "1080p",
-        "Audio option"
+        "可选音频"
       ],
-      "altContext": "Wan 2.6 multi-shot cinematic clip"
+      "altContext": "Wan 2.6 多镜头电影感片段"
     },
     "features": [
       {
-        "title": "Multi-shot clips",
-        "body": "Plan short sequences with cleaner internal beat structure.",
+        "title": "多镜头片段",
+        "body": "规划节奏结构更清晰的短视频连续镜头序列。",
         "tone": "continuity"
       },
       {
-        "title": "Reference-to-video",
-        "body": "Use supported reference videos for 5s/10s consistency checks; audio is off in this mode.",
+        "title": "参考视频驱动",
+        "body": "使用受支持的参考视频进行 5秒/10秒 一致性生成；此模式下音频关闭。",
         "tone": "reference"
       },
       {
-        "title": "Text or image start",
-        "body": "Generate from a prompt or anchor the first frame with one image.",
+        "title": "文生或图生起步",
+        "body": "直接通过提示词生成，或使用单张图片锁定起始第一帧构图。",
         "tone": "reference"
       },
       {
-        "title": "720p or 1080p",
-        "body": "Choose review or production preview resolution before generation.",
+        "title": "720p 或 1080p",
+        "body": "在生成前根据审阅或成片预览需求自由选择分辨率。",
         "tone": "quality"
       },
       {
-        "title": "Max 15s",
-        "body": "Use 5, 10 or 15 second durations depending on the beat.",
+        "title": "最长 15 秒",
+        "body": "根据分镜节拍需要灵活选择 5、10 或 15 秒时长。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按需付费",
+        "body": "在提交生成前实时查看精确价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Stay on Wan 2.6 or move to Wan 3?",
-        "body": "Keep Wan 2.6 for a repeatable legacy multi-shot workflow. Choose Wan 3 for current text, image and reference-led production.",
+        "title": "保留 Wan 2.6 还是升级至 Wan 3？",
+        "body": "若需要可复现的既有多镜头工作流，可继续使用 Wan 2.6；若开展当前的文生、图生及参考驱动制作，推荐选用 Wan 3。",
         "cta": {
-          "label": "View current Wan 3",
+          "label": "查看最新 Wan 3",
           "href": "/zh/models/wan-3"
         }
       },
       {
-        "title": "Need reference consistency?",
-        "body": "Use reference-to-video for 5s/10s clips when motion rhythm, subject identity or a previous take should guide the next output.",
+        "title": "需要参考视频一致性？",
+        "body": "当需要动作节奏、主体身份或先前的镜头版本引导下一次输出时，使用 5秒/10秒 参考视频模式。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Comparing premium routes?",
-        "body": "Compare Wan 2.6 with Sora 2 or Veo 3.1 when audio, consistency and cinematic polish are the decision points.",
+        "title": "对比旗舰高端路线？",
+        "body": "当音频、一致性与电影级画面质感是关键考量点时，可将 Wan 2.6 与 Sora 2 或 Veo 3.1 进行对比。",
         "cta": {
-          "label": "Compare Wan 2.6 vs Sora 2",
+          "label": "对比 Wan 2.6 与 Sora 2",
           "href": "/zh/ai-video-engines/sora-2-vs-wan-2-6?order=wan-2-6"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Write subject, action, camera, style, duration and optional sound direction."
+        "title": "文本提示词",
+        "body": "编写主体、动作、运镜、风格、时长以及可选的声音指导。"
       },
       {
-        "title": "Image start",
-        "body": "Use one still to lock product shape, character framing or opening composition."
+        "title": "起始图片",
+        "body": "使用单张静态图锁定产品形态、角色构图或开场画面。"
       },
       {
-        "title": "Reference videos",
-        "body": "Use one to three videos for 5s/10s guidance when motion or identity should stay consistent."
+        "title": "参考视频",
+        "body": "当需要动作或主体身份保持一致时，使用 1–3 个视频进行 5秒/10秒 引导生成。"
       },
       {
-        "title": "Audio track",
-        "body": "Attach a short track only for text or image workflows when timing or mood should follow sound."
+        "title": "音频轨道",
+        "body": "仅在文生或图生工作流中添加简短音轨，以便画面节奏或情绪与声音呼应。"
       },
       {
-        "title": "Multi-shot beats",
-        "body": "Use short timestamped beats when a 15 second clip needs internal structure."
+        "title": "多镜头分镜节拍",
+        "body": "当 15 秒视频需要清晰的内部叙事结构时，使用带时间戳的简短分镜头。"
       }
     ],
     "pricingCopy": {
-      "title": "Wan 2.6 pricing at a glance",
-      "subtitle": "Preset 720p/1080p totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 1080p",
+      "title": "Wan 2.6 价格一览",
+      "subtitle": "预设 720p/1080p 总价 — 在生成前可在应用内查看精确的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#wan-2-6-pricing"
     },
     "meta": {
-      "title": "Wan 2.6: Pricing, References & Examples | MaxVideoAI",
-      "description": "Explore Wan 2.6 pricing, 15s multi-shot video, text-to-video, image-to-video, 5s/10s reference-video workflows, optional audio and examples."
+      "title": "Wan 2.6：价格、参考素材与案例 | MaxVideoAI",
+      "description": "了解 Wan 2.6 价格方案、15 秒多镜头视频、文生视频、图生视频、5秒/10秒参考视频工作流、可选音频及精选案例。"
     }
   },
   "prompting": {
     "modelSlug": "wan-2-6",
     "section": {
-      "title": "How to Write a Great Wan 2.6 Prompt",
-      "intro": "Wan 2.6 follows short prompts with clear subject, scene, and motion; use a simple shot list for multi-shot.",
-      "tip": "Tip: duration + aspect ratio are set in the UI - your prompt controls subject, motion, camera, style, and optional sound. Keep prompts concise; prompt expansion helps.",
+      "title": "如何编写出色的 Wan 2.6 提示词",
+      "intro": "Wan 2.6 偏好包含清晰主体、场景和动态的简短提示词；如需多镜头，使用精简的镜头列表。",
+      "tip": "提示：时长与画幅比例可在界面中直接设置 — 提示词用于把控主体、动态、运镜、风格以及可选声音。保持提示词精炼；开启提示词扩展有助于丰富细节。",
       "guide": {
         "label": "Wan AI",
         "href": "https://www.wan-ai.com"
       },
-      "referencesTitle": "How Wan 2.6 uses references"
+      "referencesTitle": "Wan 2.6 如何运用参考素材"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
-        "copy": "[Subject] [motion] in [scene], [camera], [lighting/style], [optional sound cue].\nNegative: [text, logos, extra people, blur]"
+        "label": "快速",
+        "title": "快速提示词（快速迭代）",
+        "description": "需要探索多样变体时使用 1–2 句话。",
+        "copy": "[主体] [动态] 在 [场景]，[运镜]，[光影/风格]，[可选声音线索]。\n负向提示词：[文字, logo, 多余人物, 模糊]"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
-        "copy": "Subject:\n[Who/what + key traits.]\n\nScene:\n[Location + time + 2 anchors.]\n\nMotion:\n[One clear action + camera move.]\n\nLook:\n[Lighting + palette + style.]\n\nSound (optional):\n[Ambience + 1-2 cues.]\n\nNegative:\n[What to avoid.]"
+        "label": "结构化",
+        "title": "结构化提示词（稳定产出的首选）",
+        "description": "分层拆分信息，便于模型稳定一致地遵循要求。",
+        "copy": "主体：\n[人物/物体 + 核心特征。]\n\n场景设定：\n[地点 + 时间 + 2个特征锚点。]\n\n动作：\n[单一明确动作 + 运镜方式。]\n\n视觉质感：\n[光影 + 调色 + 风格。]\n\n声音（可选）：\n[环境音 + 1-2个声音线索。]\n\n负向提示词：\n[规避项。]"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"studio brief\")",
-        "description": "Use this when you need a very specific look or continuity across shots.",
-        "copy": "Shot list (same subject + same setting)\nShot 1: [action + camera]\nShot 2: [action + camera]\nShot 3: [final action/reveal]\n\nLook:\n[Lighting + palette.]\n\nSound (optional):\n[Ambience + 1-2 cues.]\n\nNegative:\n[Text/logos/extra characters.]"
+        "label": "专业简报",
+        "title": "专业级提示词（极度明确的“片场拍摄简报”）",
+        "description": "当需要非常具体的质感或跨镜头连贯性时使用。",
+        "copy": "镜头列表（相同主体 + 相同布景）\n镜头 1: [动作 + 运镜]\n镜头 2: [动作 + 运镜]\n镜头 3: [最终动作/揭晓]\n\n视觉质感：\n[光影 + 色彩基调。]\n\n声音（可选）：\n[环境音 + 1-2个声音线索。]\n\n负向提示词：\n[文字/logo/多余角色。]"
       },
       {
         "id": "storyboard",
-        "label": "Storyboard",
-        "title": "Storyboard prompt (timestamped beats)",
-        "description": "Best for multi-shot sequences in one clip.",
-        "copy": "Shot list (same subject + same setting)\nDuration: [5/10/15s]\n\nBeat 1 (0-3s):\n[Framing + action + camera move]\n\nBeat 2 (3-7s):\n[Framing + action + camera move]\n\nBeat 3 (7-10/15s):\n[Final action/reveal + camera settle]\n\nContinuity:\n[Repeat anchors: wardrobe, props, lighting, background]\n[If using references: tag @Video1/@Video2/@Video3]\n\nSound (optional):\n[Ambience + 1-2 cues]\n\nNegative:\n[Text, logos, extra characters, blur]"
+        "label": "分镜脚本",
+        "title": "分镜脚本提示词（时间戳节拍）",
+        "description": "最适合在单个片段中展现多镜头序列。",
+        "copy": "镜头列表（相同主体 + 相同布景）\n时长: [5/10/15秒]\n\n节拍 1 (0-3秒):\n[取景构图 + 动作 + 运镜方式]\n\n节拍 2 (3-7秒):\n[取景构图 + 动作 + 运镜方式]\n\n节拍 3 (7-10/15秒):\n[最终动作/揭晓 + 镜头定格]\n\n连贯性：\n[复用锚点：服装、道具、光影、背景]\n[若使用参考视频：标记 @Video1/@Video2/@Video3]\n\n声音（可选）：\n[环境音 + 1-2个声音线索]\n\n负向提示词：\n[文字, logo, 多余角色, 模糊]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 探索变体。适合敏捷高效的快速迭代。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 稳定连贯。适合追求可控确定性结果的场景。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = style control. Use for precise, repeatable looks."
+        "body": "专业级 = 风格把控。适合打造精确、可复现的电影级质感。"
       }
     ],
     "globalPrinciples": [
-      "Subject + scene + motion in one clear sentence.",
-      "For multi-shot, keep it to 2-3 beats.",
-      "Add a short negative prompt to avoid artifacts."
+      "用一句话清晰阐明主体 + 场景 + 动态。",
+      "多镜头分镜建议控制在 2–3 个节奏点内。",
+      "添加简短的负向提示词以避免画面瑕疵。"
     ],
     "engineWhy": [
-      "Prompt expansion handles short, concrete prompts.",
-      "Reference mode works best when you specify what must stay consistent.",
-      "Audio cues help pacing; keep them minimal."
+      "提示词扩展功能可以很好地丰富简短明确的提示词。",
+      "参考视频模式在明确指定需要保持一致的元素时效果最佳。",
+      "声音线索有助于推进节奏；保持精炼即可。"
     ],
     "demo": {
-      "title": "Render-ready example",
+      "title": "即刻渲染范例",
       "promptLabel": "文生视频",
       "prompt": "Subject: Product unboxing in a clean studio kitchen\nAction: Person presents a product on a minimalist tabletop\nCamera: Wide 16:9 shot with visible body and clean motion\nStyle: Bright studio, commercial product render\nAudio: Light ambience, audio included when the route exposes it",
       "notes": [
-        "Audio option: URL to a soft ambient bed 3–15s, low volume."
+        "可选音频：3–15 秒轻柔低音量环境音 URL。"
       ],
       "summary": {
-        "subject": "Product unboxing in a clean studio kitchen",
-        "action": "Person presents a product on a minimalist tabletop",
-        "camera": "Wide 16:9 shot with visible body and clean motion",
-        "style": "Bright studio, commercial product render",
-        "output": "Light ambience, audio included when the route exposes it"
+        "subject": "纯净影棚厨房中的产品开箱",
+        "action": "人物在极简桌面上展示产品",
+        "camera": "清晰展示人物与利落动态的 16:9 广角镜头",
+        "style": "明亮影棚，商业产品渲染质感",
+        "output": "轻柔环境音，路由支持时包含音频"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Audio",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Wan 2.6 AI video example: Render-ready example"
+        "altContext": "Wan 2.6 AI 视频案例：即刻渲染范例"
       }
     },
     "imageExamples": null
@@ -542,10 +542,10 @@
   "examples": {
     "modelSlug": "wan-2-6",
     "section": {
-      "title": "Wan 2.6 Example Gallery",
-      "intro": "Recent Wan 2.6 renders across text, image, and reference workflows.",
-      "defaultCtaLabel": "View all Wan 2.6 examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "Wan 2.6 案例展厅",
+      "intro": "涵盖文生视频、图生视频与参考视频工作流的 Wan 2.6 近期渲染案例。",
+      "defaultCtaLabel": "查看全部 Wan 2.6 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -576,32 +576,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Wan 2.6 – Multi-shot AI video (Text/Image 5–15s, Reference 5–10s, 720p/1080p).",
+        "title": "真实社区渲染案例",
+        "body": "探索 Wan 2.6 的丰富表现 — 多镜头 AI 视频（文生/图生 5–15 秒，参考视频 5–10 秒，720p/1080p）。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键直达应用工作区，直接复用该镜头的全部配置参数。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频支持",
+        "body": "同步生成对白、环境音与音效。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头分镜连贯性",
+        "body": "在连续镜头序列中保持角色、视觉风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "生产级合规保障",
+        "body": "内置安全合规围栏与内容过滤器，满足严谨的商用审阅要求。",
         "icon": "shield"
       }
     ],

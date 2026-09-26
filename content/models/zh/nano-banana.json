@@ -2,242 +2,242 @@
   "marketingName": "Nano Banana",
   "versionLabel": "Image",
   "seo": {
-    "title": "Nano Banana – Photoreal Image Generation | MaxVideoAI",
-    "description": "Generate photoreal stills and edits with Nano Banana. Text-to-image and image-to-image for keyframes, thumbnails, and references before you animate in Sora, Veo, or Kling.",
+    "title": "Nano Banana - 逼真图像生成与编辑 | MaxVideoAI",
+    "description": "使用 Nano Banana 生成逼真写实的静态图像并进行编辑。支持文本生图与图像生图，在接入 Sora、Veo 或 Kling 制作视频动画前，快速准备关键帧、缩略图与参考图。",
     "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
   },
-  "overview": "Nano Banana is your photoreal image sidekick in MaxVideoAI. Lock style, lighting, and framing before you render video—text-to-image plus image edits from the same wallet and prompt lab.",
+  "overview": "Nano Banana 是您在 MaxVideoAI 中的逼真图像创作助手。在渲染视频前即可锁定风格、光影与取景构图——在同一个钱包账户和提示词实验室中，无缝使用文本生图与图像编辑功能。",
   "hero": {
-    "title": "Nano Banana – Photoreal Image Generation",
-    "intro": "Fast still generation and edits from natural language — built for quick creative exploration.",
-    "badge": "Text → Image · Image → Image · 1–8 outputs",
+    "title": "Nano Banana - 逼真写实图像生成",
+    "intro": "通过自然语言快速生成静态图像并进行编辑——专为快速创意发想打造。",
+    "badge": "文本 -> 图像 · 图像 -> 图像 · 单次 1–8 张",
     "ctaPrimary": {
-      "label": "Generate an image",
+      "label": "生成图像",
       "href": "/app/image?engine=nano-banana"
     },
     "secondaryLinks": [
       {
-        "label": "Open the image lab",
+        "label": "打开图像实验室",
         "href": "/app/image"
       },
       {
-        "label": "Check live pricing",
+        "label": "查看实时价格",
         "href": "/app"
       },
       {
-        "label": "查看 image 案例",
+        "label": "查看图像案例",
         "href": "/zh/examples?engine=nano-banana"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳使用场景",
     "items": [
       {
-        "title": "Rapid concepting & mood exploration",
+        "title": "快速概念构思与情绪氛围探索",
         "icon": "zap"
       },
       {
-        "title": "Quick edits (restyle / relight / swap details)",
+        "title": "快速图像编辑（重塑风格 / 重新打光 / 局部替换）",
         "icon": "wand2"
       },
       {
-        "title": "Simple composites & multi-image blends",
+        "title": "简易合成与多图融合",
         "icon": "layers"
       },
       {
-        "title": "Thumbnails, headlines, and basic layout text",
+        "title": "视频缩略图、标题与基础版式排版",
         "icon": "type"
       },
       {
-        "title": "Product mockups & quick SKU variants",
+        "title": "产品模型样机与快速 SKU 变体",
         "icon": "product"
       },
       {
-        "title": "Reference boards / keyframes before video",
+        "title": "视频生成前的参考情绪板与关键帧",
         "icon": "storyboard"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Input types",
-      "body": "Text prompts, reference images (JPG/PNG/WebP), and edit mode for restyles or cleanups."
+      "label": "输入类型",
+      "body": "文本提示词、参考图像（JPG/PNG/WebP），以及用于风格重构或画面清理的编辑模式。"
     },
     {
-      "label": "Outputs",
-      "body": "High-res still images tuned for photorealism and text legibility."
+      "label": "输出规格",
+      "body": "针对逼真写实感与文字可读性精心调优的高清静态图像。"
     },
     {
-      "label": "Modes",
-      "body": "Text-to-image; image-to-image for restyle, cleanup, and background replacement."
+      "label": "生成模式",
+      "body": "文本生图；用于风格重塑、画面清理与背景替换的图像生图。"
     },
     {
-      "label": "Typical use",
-      "body": "Prepare 1–4 keyframes before animating in Sora, Veo, Kling, or Wan."
+      "label": "典型应用",
+      "body": "在接入 Sora、Veo、Kling 或 Wan 进行视频动画制作前，预先准备 1–4 张关键帧。"
     }
   ],
   "promptStructure": {
-    "title": "Prompt mini-guide",
-    "quote": "Cinematic [subject] in [environment], [lighting/grade], [lens], keyframe for [video engine].",
-    "description": "Keep prompts descriptive and grounded. Mention subject, setting, lens, lighting, and how you’ll use the frame.",
+    "title": "提示词快速指南",
+    "quote": "电影感 [主体] 置于 [环境] 中，[光影/调色]，[镜头焦段]，作为 [视频引擎] 的关键帧。",
+    "description": "保持提示词具体详实且符合实际。明确阐述主体、场景、镜头、光影以及您打算如何使用该画面。",
     "steps": [
-      "Subject & setting (product, person, room)",
-      "Lighting & lens (studio light, 50mm, soft grade)",
-      "Mood & composition (hero angle, clean background)",
-      "Output intent (keyframe for Sora/Veo/Kling)",
-      "For edits, describe the transformation"
+      "主体与场景环境（产品、人物、空间）",
+      "光影氛围与镜头（影棚光、50mm、柔和调色）",
+      "情绪基调与构图（主视角特写、干净背景）",
+      "输出用途意图（作为 Sora/Veo/Kling 的关键帧）",
+      "针对图像编辑，清晰描述转换与修改需求"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "Generate 2–4 keyframes, then animate them in Veo/Sora/Kling.",
-      "Use edit mode to clean dust, even lighting, or replace backgrounds.",
-      "Lock seeds for consistency across a series.",
-      "Batch (`num_images`) for quick variations."
+      "生成 2–4 张关键帧，然后在 Veo/Sora/Kling 中将其动画化。",
+      "使用编辑模式清理杂质灰尘、匀化光影或替换背景。",
+      "锁定随机种子（Seed）以保持系列画面的连贯一致性。",
+      "批量生成（`num_images`）快速探索多种视觉变体。"
     ]
   },
   "prompts": [
     {
-      "title": "Product hero (text → image)",
+      "title": "产品主视觉（文本生图）",
       "prompt": "Photoreal studio product shot of a wireless earbud on a dark glossy surface, soft rim light, minimal background, 8K, product photography."
     },
     {
-      "title": "Lifestyle keyframe (text → image)",
+      "title": "生活方式关键帧（文本生图）",
       "prompt": "Warm lifestyle scene of a young professional working on a laptop by a big window at golden hour, soft bokeh city lights outside, realistic colours, cinema-grade lighting."
     },
     {
-      "title": "Cleanup (image → image)",
+      "title": "画面精修清理（图像生图）",
       "prompt": "Clean up this product mockup: even out the lighting, remove dust and fingerprints, and place it on a soft gradient background suitable for e-commerce."
     },
     {
-      "title": "Magazine restyle (image → image)",
+      "title": "时尚杂志风重塑（图像生图）",
       "prompt": "Using this portrait photo, match the look of a glossy magazine cover: smoother skin, slightly punchier contrast, subtle colour grading and a neutral studio backdrop."
     }
   ],
   "faqs": [
     {
-      "q": "Is Nano Banana for images or video?",
-      "a": "Images. Use it for photoreal references, thumbnails, and keyframes before sending shots to video engines."
+      "q": "Nano Banana 是用于生成图像还是视频？",
+      "a": "用于生成图像。在将镜头送入视频引擎前，可用它制作逼真写实的参考图、缩略图和关键帧。"
     },
     {
-      "q": "How many images per run?",
-      "a": "Generate multiple outputs per run (controlled by \"num images\" / num_images). Keep batches small for faster iteration."
+      "q": "单次运行可以生成多少张图像？",
+      "a": "单次运行支持生成多张图像（由“生成数量” / num_images 控制）。保持小批量生成可实现更快速的迭代。"
     },
     {
-      "q": "Does edit mode need masks?",
-      "a": "No. Upload one or more images and describe the edit in plain language (what to change, what to keep)."
+      "q": "编辑模式是否需要绘制遮罩（Mask）？",
+      "a": "不需要。上传一张或多张参考图像，直接用自然语言描述编辑需求（明确修改什么、保留什么）即可。"
     }
   ],
-  "pricingNotes": "Live pricing updates inside the workspace. Check the chip before you render.",
+  "pricingNotes": "工作区内实时更新精准定价。在渲染前请核对实时价格标签。",
   "custom": {
-    "heroEyebrow": "Nano Banana Image Model",
-    "heroSupportLine": "Best for rapid concepting, lightweight campaign visuals, and clean reference boards before video.",
+    "heroEyebrow": "Nano Banana 图像模型",
+    "heroSupportLine": "最适合快速概念设计、轻量化营销视觉以及视频动画生成前的干净参考情绪板。",
     "heroSpecChips": [
       {
-        "label": "Text→Image",
+        "label": "文本->图像",
         "icon": "textToVideo"
       },
       {
-        "label": "Image→Image (Edit)",
+        "label": "图像->图像（编辑）",
         "icon": "imageToVideo"
       },
       {
-        "label": "Fast tier"
+        "label": "快速极速档"
       },
       {
-        "label": "Multi-image blends"
+        "label": "多图融合"
       },
       {
-        "label": "Character consistency"
+        "label": "角色一致性"
       },
       {
-        "label": "Low-latency drafts"
+        "label": "低延迟起草"
       }
     ],
-    "whyTitle": "Why Nano Banana is powerful",
-    "heroDesc1": "Generate photoreal stills and edits to lock style, lighting, and framing before you animate in Sora, Veo, or Kling.",
-    "heroDesc2": "Text-to-image and image-to-image share the same wallet and prompt lab as your video engines, with 1–8 outputs per run.",
+    "whyTitle": "Nano Banana 的核心优势",
+    "heroDesc1": "在接入 Sora、Veo 或 Kling 制作视频动画前，生成逼真写实的静态图像并进行编辑，提前锁定风格、光影与构图。",
+    "heroDesc2": "文本生图与图像生图与您的视频生成引擎共享统一钱包与提示词实验室，单次运行支持生成 1–8 张图像。",
     "heroHighlights": [
-      "Speed-first workflow||Built to iterate fast when you need lots of options quickly.",
-      "Edits without heavy tooling||Describe the change in plain English; keep the rest consistent.",
-      "Multi-image creativity||Blend references to stay closer to your intent across variants.",
-      "Great “draft layer” for production||Generate boards, then hand off winners to high-end video engines."
+      "极速优先工作流||专为快速迭代打造，满足短时间内探索大量视觉方案的需求。",
+      "无需繁重工具的语义编辑||直接用简单语言描述修改需求；其余画面自然保持一致。",
+      "多图融合激发创意||融合多张参考图，在各种变体中更贴近您的创作意图。",
+      "制作流程中的优秀“草稿层”||快速生成构思画板，再将选中的优秀方案移交高端视频引擎渲染。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳使用场景",
     "bestUseCases": [
       {
-        "title": "Rapid concepting & mood exploration",
+        "title": "快速概念构思与情绪氛围探索",
         "icon": "zap"
       },
       {
-        "title": "Quick edits (restyle / relight / swap details)",
+        "title": "快速图像编辑（重塑风格 / 重新打光 / 局部替换）",
         "icon": "wand2"
       },
       {
-        "title": "Simple composites & multi-image blends",
+        "title": "简易合成与多图融合",
         "icon": "layers"
       },
       {
-        "title": "Thumbnails, headlines, and basic layout text",
+        "title": "视频缩略图、标题与基础版式排版",
         "icon": "type"
       },
       {
-        "title": "Product mockups & quick SKU variants",
+        "title": "产品模型样机与快速 SKU 变体",
         "icon": "product"
       },
       {
-        "title": "Reference boards / keyframes before video",
+        "title": "视频生成前的参考情绪板与关键帧",
         "icon": "storyboard"
       }
     ],
-    "whatTitle": "How Nano Banana works in MaxVideoAI",
-    "whatIntro1": "Choose text-to-image or image-to-image, set the batch size (1–8), write your prompt or edit instructions, and generate.",
-    "whatIntro2": "Use it to lock style, lighting, and framing before animating in video engines.",
-    "whatFlowTitle": "Workflow",
+    "whatTitle": "Nano Banana 在 MaxVideoAI 中的工作方式",
+    "whatIntro1": "选择“文本生图”或“图像生图”，设置单次批量生成数量（1–8 张），编写提示词或编辑修改指令，即可启动生成。",
+    "whatIntro2": "在将镜头移交至视频引擎渲染前，用它提前锁定视觉风格、光影基调与构图取景。",
+    "whatFlowTitle": "制作流程",
     "whatFlowSteps": [
-      "Open the Image lab with Nano Banana selected",
-      "Pick Text → Image or Image → Image",
-      "Set num_images (1–8) and seed if you need consistency",
-      "Add your prompt; for edits, upload a clean reference",
-      "Check the live price chip and generate"
+      "在图像实验室中选中 Nano Banana",
+      "选择“文本生图”或“图像生图”",
+      "设置生成数量（1–8 张），如需保持画面一致可设置随机种子（Seed）",
+      "输入提示词；若进行编辑，请上传清晰的参考图像",
+      "核对实时价格标签并启动生成"
     ],
-    "tipsTitle": "Tips & limits",
-    "tipsIntro": "Image generation is most predictable when you keep the frame simple, readable, and physically grounded.",
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "当保持构图简约明了、视觉主体清晰且符合物理规律时，图像生成的效果最稳定可控。",
     "strengths": [
-      "Fast photoreal stills for moodboards, thumbnails, and keyframes",
-      "Edit mode for cleanup, relight, and background swaps (no masking)",
-      "Multi-image blends when you assign roles to references",
-      "Short, readable text (headlines > paragraphs)"
+      "快速生成逼真写实静态图，适用于情绪板、缩略图和视频关键帧",
+      "支持无遮罩编辑模式，轻松完成画面清理、重塑光影与背景替换",
+      "支持多图参考融合，可分别为参考图赋予明确角色",
+      "擅长短小精炼的清晰文字排版（大标题效果优于整段文本）"
     ],
     "boundaries": [
-      "Image-only (no motion)",
-      "Edits require an input image (upload at least one reference)",
-      "Small on-screen text is hit-or-miss — overlay critical copy in post"
+      "仅支持静态图像（不支持动态视频）",
+      "图像编辑必须输入源图像（至少上传一张参考图）",
+      "画面中的极小文字成功率不稳定——建议在后期制作中叠加关键正文"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "安全与人物肖像规范",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness.",
-      "Don’t include private personal data (faces of non-consenting people, addresses, phone numbers, documents).",
-      "Some prompts or reference images may be blocked by MaxVideoAI safety filters."
+      "严禁色情内容以及任何涉及未成年人的违规内容。",
+      "严禁仇恨言论、骚扰辱骂或血腥暴力内容。",
+      "未经授权不得仿冒真实人物或公众人物；使用任何肖像均需获得许可。",
+      "不得包含私人个人隐私数据（未经同意的人物面部、住址、电话号码、证件等）。",
+      "部分提示词或参考图可能会被 MaxVideoAI 安全过滤器拦截。"
     ]
   },
   "decision": {
     "modelSlug": "nano-banana",
     "hero": {
-      "eyebrow": "GOOGLE FAST IMAGE ROUTE",
+      "eyebrow": "GOOGLE 极速图像路线",
       "title": "Nano Banana",
-      "subtitle": "Fast still drafts, reference edits and batch image variants for lightweight visual exploration.",
+      "subtitle": "快速静态草图、参考图编辑与批量图像变体，轻松实现轻量化视觉探索。",
       "subtitleHighlights": [
-        "Fast still drafts",
-        "reference edits",
-        "batch image variants"
+        "快速静态草图",
+        "参考图编辑",
+        "批量图像变体"
       ],
-      "paragraph": "Use Nano Banana as the low-friction Google image route for quick still concepts, simple reference edits and multi-image batches before moving finals to Pro or Nano Banana 2.",
+      "paragraph": "在将最终方案移交至 Pro 或 Nano Banana 2 之前，将 Nano Banana 作为低门槛的 Google 图像路线，用于快速构思静态概念、进行简单参考图编辑与多图批量生成。",
       "primaryCta": {
         "label": "使用 Nano Banana 生成",
         "href": "/app/image?engine=nano-banana"
@@ -248,7 +248,7 @@
       },
       "quickLinks": [
         {
-          "label": "Open image workspace",
+          "label": "打开图像工作区",
           "href": "/app/image?engine=nano-banana"
         },
         {
@@ -262,198 +262,198 @@
       ]
     },
     "media": {
-      "caption": "Nano Banana example",
-      "description": "Fast still concept and edit route",
-      "renderLabel": "View image",
+      "caption": "Nano Banana 示例",
+      "description": "极速静态概念与图像编辑路线",
+      "renderLabel": "查看图像",
       "badges": [
-        "Fast",
-        "Batch",
-        "Edit"
+        "极速",
+        "批量",
+        "编辑"
       ],
-      "altContext": "Nano Banana fast still image example"
+      "altContext": "Nano Banana 极速静态图像示例"
     },
     "features": [
       {
-        "title": "Fast still drafts",
-        "body": "Explore image ideas quickly before investing in final routes.",
+        "title": "快速静态草图",
+        "body": "在投入最终精修路线之前，快速探索各种图像创意想法。",
         "tone": "price"
       },
       {
-        "title": "Reference edits",
-        "body": "Upload 1-4 images for prompt-led edits and remixes.",
+        "title": "参考图编辑",
+        "body": "上传 1–4 张图像，通过提示词引导完成图像编辑与重组混合。",
         "tone": "reference"
       },
       {
-        "title": "Batch variants",
-        "body": "Generate multiple outputs from one prompt for visual exploration.",
+        "title": "批量多样变体",
+        "body": "单条提示词即可生成多张输出，便于展开充分的视觉探索。",
         "tone": "duration"
       },
       {
-        "title": "Broad ratios",
-        "body": "Use common social, square, portrait and wide aspect ratios.",
+        "title": "丰富画幅比例",
+        "body": "支持常用的社交媒体规格、方形、竖屏以及宽幅等多种画幅比例。",
         "tone": "quality"
       },
       {
-        "title": "Low unit cost",
-        "body": "Good for early moodboards and storyboard stills.",
+        "title": "极低单张成本",
+        "body": "非常适合早期情绪板探索与分镜脚本静态图的快速制作。",
         "tone": "price"
       },
       {
-        "title": "Image workspace",
-        "body": "Use the same MaxVideoAI wallet, prompts and history as the rest of the app.",
+        "title": "一体化图像工作区",
+        "body": "与应用其他功能共享同一套 MaxVideoAI 钱包、提示词库和生成历史记录。",
         "tone": "continuity"
       }
     ],
     "decisionCards": [
       {
-        "title": "Nano Banana or Nano Banana 2?",
-        "body": "Use Nano Banana for cheaper fast batches. Use Nano Banana 2 for grounding, wider ratios and stronger edit controls.",
+        "title": "选择 Nano Banana 还是 Nano Banana 2？",
+        "body": "需要更低成本的快速批量生成时选用 Nano Banana；需要搜索接地、更宽画幅比例以及更强编辑控制时选用 Nano Banana 2。",
         "cta": {
-          "label": "View Nano Banana 2",
+          "label": "查看 Nano Banana 2",
           "href": "/zh/models/nano-banana-2"
         }
       },
       {
-        "title": "Batching quick variants?",
-        "body": "Keep prompts short, change one visual variable at a time and batch several outputs.",
+        "title": "批量生成快速变体？",
+        "body": "保持提示词精简，每次仅调整一个视觉变量，并一次性批量生成多张结果。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Need higher-res campaign stills?",
-        "body": "Move selected directions into Nano Banana Pro when text polish, campaign finish or higher-res output matters.",
+        "title": "需要更高分辨率的广告大片？",
+        "body": "当需要精致的文字排版、商业广告级质感或更高分辨率输出时，将精选方向推进至 Nano Banana Pro。",
         "cta": {
-          "label": "View Nano Banana Pro",
+          "label": "查看 Nano Banana Pro",
           "href": "/zh/models/nano-banana-pro"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-image",
-        "body": "Describe the subject, style, aspect ratio and one clear composition target."
+        "title": "文本生图工作流",
+        "body": "清晰描述画面主体、视觉风格、画幅比例以及明确的构图目标。"
       },
       {
-        "title": "Image edit",
-        "body": "Upload a reference and state what changes while preserving structure."
+        "title": "图像编辑工作流",
+        "body": "上传参考图，明确阐述修改内容的同时保留整体画面结构。"
       },
       {
-        "title": "Batch variants",
-        "body": "Run several images when exploring moodboards, thumbnails or storyboard stills."
+        "title": "批量变体工作流",
+        "body": "在探索情绪板、缩略图或分镜静态图时，单次运行生成多张图像快速比对。"
       },
       {
-        "title": "Aspect ratio",
-        "body": "Pick the delivery ratio before prompting so composition matches the final crop."
+        "title": "画幅比例选择",
+        "body": "在撰写提示词前先选定交付比例，确保构图与最终裁剪完美契合。"
       },
       {
-        "title": "Upgrade path",
-        "body": "Send winners to Nano Banana 2 or Pro when the still needs grounding or 4K polish."
+        "title": "无缝升级路线",
+        "body": "当静态画面需要搜索接地或 4K 高精质感时，将优选方案导入 Nano Banana 2 或 Pro。"
       }
     ],
     "pricingCopy": {
-      "title": "Nano Banana pricing at a glance",
-      "subtitle": "Preset image totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 8 images",
+      "title": "Nano Banana 定价一览",
+      "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数显示的参考价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最高支持 8 张图像",
       "ctaHref": "/zh/pricing#nano-banana-pricing"
     },
     "meta": {
-      "title": "Nano Banana: Pricing, Fast Image Drafts & Edits | MaxVideoAI",
-      "description": "Explore Nano Banana pricing, fast still drafts, reference image edits, batch variants and lightweight Google image workflows on MaxVideoAI."
+      "title": "Nano Banana：定价、快速静态草图与图像编辑 | MaxVideoAI",
+      "description": "在 MaxVideoAI 上了解 Nano Banana 定价方案、快速静态草图、参考图编辑、批量变体生成以及轻量级 Google 图像创作工作流。"
     }
   },
   "prompting": {
     "modelSlug": "nano-banana",
     "section": {
-      "title": "How to Write a Great Nano Banana Prompt",
-      "intro": "Nano Banana rewards short, literal briefs. Lead with composition, then lighting/style. For edits, say what to change and what must stay the same. For multi-image blends, assign each reference a role.",
-      "tip": "Tip: resolution + aspect ratio are set in the UI — your prompt controls subject, composition, lighting, style, and edit instructions.",
+      "title": "如何撰写优秀的 Nano Banana 提示词",
+      "intro": "Nano Banana 对简短、具象直观的创作简报响应最佳。建议先明确构图，再描述光影与风格。进行图像编辑时，直接说明修改什么、保留什么。多图融合时，请为每张参考图分配明确的角色。",
+      "tip": "提示：分辨率与画幅比例可在界面中直接设置——您的提示词重点控制主体、构图、光影、风格及编辑修改指令。",
       "guide": null,
-      "referencesTitle": "How Nano Banana uses references"
+      "referencesTitle": "Nano Banana 如何使用参考图"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
-        "copy": "[Subject] in [setting]. [Composition]. [Lighting]. [Style anchor].\n\nIf editing:\nEdit: change [X]. Keep [Y] (framing, lighting, identity).\n\nIf using multiple images:\nRefs: Image1 = [main subject]. Image2 = [style/lighting]. (Optional) Image3 = [background/prop]."
+        "label": "快速",
+        "title": "快速提示词（快速迭代）",
+        "description": "用 1–2 句话快速生成多种创意变化。",
+        "copy": "[主体] 置于 [场景] 中。[构图]。[光影]。[风格基准]。\n\n若进行编辑：\n编辑：修改 [X]。保留 [Y]（取景构图、光影、主体特征）。\n\n若使用多张图像：\n参考图：图1 = [主要主体]。图2 = [风格/光影]。（可选）图3 = [背景/道具]。"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
-        "copy": "Subject:\n[Who/what + 2–3 defining details.]\n\nComposition:\n[Framing + angle + background + what stays clean.]\n\nLighting:\n[Key light + mood + 2 palette anchors.]\n\nStyle:\n[Photoreal / illustration + texture/grain + one style reference.]\n\nText (optional):\n[Exact copy in quotes + placement + contrast.]\nExample: “SALE — 20% OFF” top-left, one line, high contrast.\n\nEdit (if editing):\nChange:\n- [list the changes]\nKeep:\n- framing, lighting, identity, logo-free, clean background\n\nReferences (if using multiple images):\nImage1 controls subject/identity\nImage2 controls lighting\nImage3 controls palette/background"
+        "label": "结构化",
+        "title": "结构化提示词（最适合获得稳定结果）" ,
+        "description": "分模块拆解信息，使模型能够稳定严格遵循。",
+        "copy": "主体：\n[谁/什么主体 + 2–3 个关键特征]\n\n构图：\n[取景 + 视角 + 背景 + 保持干净的区域]\n\n光影：\n[主光 + 氛围 + 2 种基调色彩]\n\n风格：\n[写实摄影 / 插画 + 质感/颗粒 + 一处风格参考]\n\n文字排版（可选）：\n[用引号标注精准文案 + 出现位置 + 对比度]\n例如：左上角单行高对比度显示 “SALE — 20% OFF”。\n\n编辑指令（若进行图像编辑）：\n修改项：\n- [列出需要修改的要点]\n保留项：\n- 取景构图、光影、主体特征、无 Logo 干扰、干净背景\n\n参考图设置（若使用多张图像）：\n图1 控制主体/身份\n图2 控制光影\n图3 控制配色/背景"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"studio brief\")",
-        "description": "Use this when you need a very specific look or repeatable results across a set.",
-        "copy": "Brief:\n[Goal + output use case.]\n\nSubject + materials:\n[Details + textures + constraints.]\n\nLayout:\n[Grid + spacing + focal point + negative space.]\n\nLighting + grade:\n[Key light + contrast + palette anchors.]\n\nTypography (optional):\n[Font vibe + hierarchy + exact copy + placement.]\nKeep copy short. Avoid paragraphs.\n\nEdits (if needed):\nChange list:\n- [A]\n- [B]\nKeep list:\n- framing, lighting, identity, background, color palette"
+        "label": "专业",
+        "title": "专业提示词（超精细的“工作室简报”）",
+        "description": "适用于需要极为特定的视觉风格或在整套素材中保持可复现性时。",
+        "copy": "创作简报：\n[创作目标 + 输出使用场景]\n\n主体与材质：\n[细节特征 + 材质纹理 + 约束条件]\n\n版式布局：\n[栅格网格 + 间距 + 视觉焦点 + 留白区域]\n\n光影与调色：\n[主光 + 对比度 + 基调色彩]\n\n文字排版（可选）：\n[字体气质 + 字阶层次 + 精准文案 + 位置]\n保持文案精炼，避免整段长句。\n\n编辑修改（如有需要）：\n修改清单：\n- [A]\n- [B]\n保留清单：\n- 取景构图、光影、主体特征、背景、调色方案"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 多样性。适用于初期快速探索创意变体。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 一致性。适用于需要稳定可预期的高质量结果。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = repeatability. Use for controlled batches."
+        "body": "专业 = 可复现性。适用于受控的批量生成与精细控制。"
       }
     ],
     "globalPrinciples": [
-      "Composition first. Style second.",
-      "Keep prompts short and specific; avoid long wish-lists.",
-      "For edits: \"Change X, keep Y\" beats re-describing the whole scene.",
-      "If text matters: keep it short, high-contrast, and quote it exactly."
+      "构图优先，风格次之。",
+      "保持提示词简明具体，避免罗列冗长的心愿清单。",
+      "针对图像编辑：“修改 X，保留 Y”的效果远胜于重新描述整个画面。",
+      "若包含文字排版：文案保持短小精悍、高对比度，并使用引号准确引用。"
     ],
     "engineWhy": [
-      "Fast tier favors short prompts; long prompts can wander.",
-      "Multi-image works best when each image has a clear role (subject vs lighting vs background).",
-      "Tiny text and dense UI are unreliable — keep copy minimal and overlay critical text in post.",
-      "If an edit over-changes the image, tighten the \"keep\" list (framing, lighting, identity)."
+      "快速档模型更青睐简短提示词；过长的提示词可能导致注意力分散。",
+      "多图融合在每张参考图拥有明确分工时效果最好（主体 vs 光影 vs 背景）。",
+      "极小的画面文字和高密度 UI 排版不够稳定——建议文案尽量极简，关键文案放在后期叠加。",
+      "若编辑导致画面改动过大，请强化“保留”清单（取景构图、光影、主体特征）。"
     ],
     "demo": null,
     "imageExamples": {
-      "title": "Nano Banana image prompt examples",
-      "intro": "Use these for campaign stills, typography posters, reference edits and 2K-to-4K finals.",
-      "workspaceLabel": "Open image workspace",
+      "title": "Nano Banana 图像提示词示例",
+      "intro": "适用于商业广告大片、排版海报、参考图编辑以及从 2K 到 4K 的成片输出。",
+      "workspaceLabel": "打开图像工作区",
       "items": [
         {
           "id": "quality-1",
-          "title": "Campaign still",
-          "badge": "2K still",
+          "title": "商业大片静态图",
+          "badge": "2K 静态图",
           "kind": "quality",
           "prompt": "2K campaign still for an amber perfume bottle on white acrylic, soft studio key light, clean shadow, exact headline \"AURA NOIRE\" top-left, small logo lockup bottom edge."
         },
         {
           "id": "typography-2",
-          "title": "Typography poster",
-          "badge": "Typography",
+          "title": "文字排版海报",
+          "badge": "文字排版",
           "kind": "typography",
           "prompt": "Vertical 4K poster, premium editorial grid, graphite background, exact headline \"MIDNIGHT LAUNCH\", subhead \"LIMITED DROP\", crisp hierarchy, generous margins, readable text."
         },
         {
           "id": "edit-3",
-          "title": "Reference edit",
-          "badge": "Image-to-image",
+          "title": "参考图精修",
+          "badge": "图像生图",
           "kind": "edit",
           "prompt": "Using this product reference, keep the shape, logo and proportions. Change the scene to a midnight-blue studio, improve reflections, remove dust and fingerprints."
         },
         {
           "id": "layout-4",
-          "title": "2K to 4K final",
-          "badge": "4K final",
+          "title": "2K 转 4K 成片",
+          "badge": "4K 成片",
           "kind": "layout",
           "prompt": "Rerun the approved 2K composition as a 4K final. Sharpen fine details, keep typography identical, preserve brand colors, product position and the locked framing."
         }
@@ -463,10 +463,10 @@
   "examples": {
     "modelSlug": "nano-banana",
     "section": {
-      "title": "Nano Banana examples",
-      "intro": "Recent photoreal stills and edits used as keyframes for video workflows.",
-      "defaultCtaLabel": "View image examples →",
-      "recreateLabel": "Recreate this still →"
+      "title": "Nano Banana 案例精选",
+      "intro": "近期作为视频工作流关键帧使用的逼真写实静态图与图像编辑精选案例。",
+      "defaultCtaLabel": "查看图像案例 →",
+      "recreateLabel": "重现该静态图 →"
     },
     "filters": [
       {
@@ -493,72 +493,72 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Still image examples",
-        "body": "Prompt patterns tailored to Nano Banana – Photoreal Image Generation.",
+        "title": "静态图像案例",
+        "body": "专为 Nano Banana 逼真图像生成量身定制的提示词范式。",
         "icon": "image"
       },
       {
         "id": "proof-2",
-        "title": "Typography control",
-        "body": "Exact copy, hierarchy and placement stay explicit.",
+        "title": "文字排版控制",
+        "body": "精准文案、字阶层次与版式位置始终清晰明确。",
         "icon": "type"
       },
       {
         "id": "proof-3",
-        "title": "Reference edits",
-        "body": "Keep product identity, palette, layout or style.",
+        "title": "参考图精修",
+        "body": "稳定保持产品特征、配色方案、构图版式或视觉风格。",
         "icon": "pen"
       },
       {
         "id": "proof-4",
-        "title": "4K finals",
-        "body": "Validate at 2K, then finish at 4K.",
+        "title": "4K 终极成片",
+        "body": "先在 2K 下充分验证构图，再以 4K 完成高质量出图。",
         "icon": "maximize"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Owned references and built-in guardrails.",
+        "title": "生产级可靠",
+        "body": "支持自有参考资产输入并内置严格的合规护栏。",
         "icon": "shield"
       }
     ],
     "fallbackItems": [
       {
         "id": "campaign",
-        "title": "Fast thumbnail concept",
-        "category": "Draft",
+        "title": "快速缩略图概念",
+        "category": "草稿",
         "aspectRatio": "16:9",
-        "alt": "Nano Banana visual concept for a social thumbnail",
+        "alt": "用于社交媒体缩略图的 Nano Banana 视觉概念",
         "tags": [
           "campaign"
         ]
       },
       {
         "id": "typography",
-        "title": "Simple promo still",
-        "category": "Typography",
+        "title": "简易宣传静态图",
+        "category": "文字与版式",
         "aspectRatio": "1:1",
-        "alt": "Nano Banana still with short readable promo copy",
+        "alt": "带有简短可读宣传文案的 Nano Banana 静态图",
         "tags": [
           "typography"
         ]
       },
       {
         "id": "reference",
-        "title": "Reference remix",
-        "category": "Reference",
+        "title": "参考图重组混合",
+        "category": "多模态参考",
         "aspectRatio": "4:3",
-        "alt": "Nano Banana remix guided by a visual reference",
+        "alt": "通过视觉参考图引导的 Nano Banana 重组混合图像",
         "tags": [
           "reference"
         ]
       },
       {
         "id": "final",
-        "title": "Batch concept grid",
-        "category": "Batch",
+        "title": "批量概念矩阵",
+        "category": "批量生成",
         "aspectRatio": "4 variants",
-        "alt": "Nano Banana four-variant exploration grid",
+        "alt": "Nano Banana 四变体创意探索矩阵",
         "tags": [
           "final"
         ]

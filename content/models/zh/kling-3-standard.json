@@ -2,238 +2,238 @@
   "marketingName": "Kling 3 Standard",
   "versionLabel": "v3 Standard",
   "seo": {
-    "title": "Kling 3 Standard | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Kling 3 Standard on MaxVideoAI for lower-cost multi-shot AI video, native audio, and live specs and pricing before you render.",
+    "title": "Kling 3 Standard | AI 视频模型、规格与价格 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Kling 3 Standard 进行高性价比的多镜头 AI 视频创作与原生音频草稿，渲染前可实时查看完整规格与精确价格。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/bb896348-7394-4ef3-9cff-ff392639c8db-job_99e0f0fa-6092-4b8a-8c08-e329c579d0f2.jpg"
   },
-  "overview": "Kling 3 Standard is the current lower-cost Kling AI model for multi-shot prompts, start-frame Kling image-to-video runs, reusable Kling Elements, optional end frames, and native audio draft workflows.",
-  "pricingNotes": "Member display estimates include the MaxVideoAI margin: about $0.16/s with audio, $0.11/s audio off, and $0.20/s with voice control.",
+  "overview": "Kling 3 Standard 是当前主打高性价比的 Kling AI 模型，适用于多镜头分镜提示词、首帧图生视频测试、可复用的 Kling Elements（主体元素）、可选尾帧控制以及原生音频草稿工作流。",
+  "pricingNotes": "会员展示估价已包含 MaxVideoAI 综合成本：开启音频约 $0.16/秒，关闭音频约 $0.11/秒，开启语音控制约 $0.20/秒。",
   "hero": {
-    "title": "Kling 3 Standard — current Kling variant for lower-cost multi-shot video",
-    "intro": "Use Kling 3 Standard when you want the current lower-cost Kling AI model for multi-shot video, start-frame Kling image-to-video tests, reusable Kling Elements, optional end frames, and native audio before moving selected jobs into Kling 3 Pro. Use Kling 3.0 Omni Standard when images should guide the shot without becoming the first frame.",
-    "badge": "1080p · 3–15s · Multi-prompt · Audio on/off",
+    "title": "Kling 3 Standard — 适用于高性价比多镜头视频创作的当前 Kling 模型",
+    "intro": "当您需要当前更具性价比的 Kling AI 模型来生成多镜头视频、进行首帧图生视频测试、使用可复用的 Kling Elements、可选尾帧以及原生音频，并在选定满意效果后再升级至 Kling 3 Pro 时，Kling 3 Standard 是理想选择。若希望参考图片仅作为镜头引导而不作为首帧，请使用 Kling 3.0 Omni Standard。",
+    "badge": "1080p · 3–15秒 · 多镜头提示词 · 音频开关",
     "ctaPrimary": {
-      "label": "Start generating with Kling 3 Standard",
+      "label": "使用 Kling 3 Standard 开始生成",
       "href": "/app?engine=kling-3-standard"
     },
     "secondaryLinks": [
       {
-        "label": "See Kling 3 Pro",
+        "label": "查看 Kling 3 Pro",
         "href": "/zh/models/kling-3-pro"
       },
       {
-        "label": "See Kling 3 4K",
+        "label": "查看 Kling 3 4K",
         "href": "/zh/models/kling-3-4k"
       },
       {
-        "label": "查看 Kling AI video 案例",
+        "label": "查看 Kling AI 视频案例",
         "href": "/zh/examples/kling"
       },
       {
-        "label": "Compare Kling 3 Pro vs Kling 3 Standard",
+        "label": "对比 Kling 3 Pro 与 Kling 3 Standard",
         "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-3-standard"
       },
       {
-        "label": "Compare Kling 3 Pro vs Veo 3.1",
+        "label": "对比 Kling 3 Pro 与 Veo 3.1",
         "href": "/zh/ai-video-engines/kling-3-pro-vs-veo-3-1"
       }
     ]
   },
   "compareLink": {
-    "label": "Compare Kling 3 Pro vs Kling 3 Standard ->",
+    "label": "对比 Kling 3 Pro 与 Kling 3 Standard ->",
     "href": "/ai-video-engines/kling-3-pro-vs-kling-3-standard"
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳应用场景",
     "items": [
       {
-        "title": "Multi-shot storyboard beats (up to 15s)",
+        "title": "多镜头分镜节拍（最长 15 秒）",
         "icon": "storyboard"
       },
       {
-        "title": "Social ads & promos with optional dialogue",
+        "title": "可选对白的社媒广告与推广短片",
         "icon": "ads"
       },
       {
-        "title": "Consistent characters / props across shots (Elements)",
+        "title": "跨镜头角色与道具一致性（Elements 主体元素）",
         "icon": "layers"
       },
       {
-        "title": "Product previews with clean landings (end frame)",
+        "title": "利落定格收尾的产品预览（尾帧控制）",
         "icon": "product"
       },
       {
-        "title": "Campaign variant testing (same shot recipe, different hooks)",
+        "title": "营销变体测试（相同镜头配方，不同创意钩子）",
         "icon": "repeat2"
       },
       {
-        "title": "Pre-viz for edits (sound-on drafts or silent for post)",
+        "title": "剪辑前期预览（带声音草稿或静音供后期制作）",
         "icon": "scissors"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术概览",
   "technicalOverview": [
     {
-      "label": "Details",
-      "body": "Kling 3 Standard is built for structured generation: multi-shot prompts, reusable Kling Elements (@Element1…), optional end frame, and native audio with optional voice IDs. Use it when you want storyboard-style control and lots of variants at a more cost-effective tier."
+      "label": "详情",
+      "body": "Kling 3 Standard 专为结构化生成而打造：多镜头分镜提示词、可复用的 Kling Elements（@Element1…）、可选尾帧以及支持音色 ID 的原生音频。当您需要故事板级的分镜把控，并以更经济的成本探索大量变体时，它是理想之选。"
     },
     {
-      "label": "Duration",
-      "body": "3–15 s per render"
+      "label": "时长",
+      "body": "单次渲染 3–15 秒"
     },
     {
-      "label": "Resolution",
+      "label": "分辨率",
       "body": "1080p"
     },
     {
-      "label": "Aspect ratio",
-      "body": "16:9, 9:16, 1:1"
+      "label": "画幅比例",
+      "body": "16:9、9:16、1:1"
     },
     {
-      "label": "Frame rate",
+      "label": "帧率",
       "body": "24 fps"
     },
     {
-      "label": "Inputs",
-      "body": "Text → Video; Image → Video (PNG/JPG/WebP), optional end frame"
+      "label": "输入方式",
+      "body": "文生视频；图生视频 (PNG/JPG/WebP)，可选尾帧"
     },
     {
-      "label": "Controls",
-      "body": "Multi-prompt scenes, Kling Elements, shot type, voice IDs"
+      "label": "控制选项",
+      "body": "多镜头分镜提示词、Kling Elements 主体元素、景别类型、音色 ID"
     },
     {
-      "label": "Audio",
-      "body": "Native audio on by default; toggle off or enable voice control"
+      "label": "音频",
+      "body": "默认开启原生音频；可切换为静音或开启语音控制"
     }
   ],
   "promptStructure": {
-    "title": "Prompting Kling 3 Standard",
-    "quote": "Scene 1: [shot]. Scene 2: [shot]. Scene 3: [shot]. Set a duration for each scene.",
-    "description": "Break a clip into scenes, then anchor continuity with Kling Elements and an end frame.",
+    "title": "Kling 3 Standard 提示词结构",
+    "quote": "场景 1: [镜头]. 场景 2: [镜头]. 场景 3: [镜头]. 为每个场景设置明确时长。",
+    "description": "将片段拆分为多个分镜场景，然后使用 Kling Elements 和尾帧来锚定连贯性。",
     "steps": [
-      "Split the clip into scenes",
-      "Assign durations",
-      "Use elements for consistency",
-      "Add camera and lighting notes",
-      "Decide on audio or voice IDs"
+      "将片段拆分为多个场景",
+      "为每个场景分配时长",
+      "使用 Elements 保持主体一致性",
+      "添加摄像机运镜与布光说明",
+      "确定是否启用音频或指定音色 ID"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "Total scene duration must be 3–15s.",
-      "Use elements to keep style and characters aligned.",
-      "Voice control is optional and adds a small fee.",
-      "End frames help I2V continuity."
+      "所有场景的总时长必须在 3–15 秒之间。",
+      "使用 Elements 保持风格与角色的一致性。",
+      "语音控制为可选配置，开启会产生少量额外费用。",
+      "尾帧有助于提升图生视频的过渡连贯性。"
     ]
   },
   "prompts": [
     {
-      "title": "Travel cut with three scenes",
+      "title": "三场景旅行混剪",
       "prompt": "Scene 1 (4s): sunrise over a foggy ridge. Scene 2 (6s): hikers crossing a suspension bridge. Scene 3 (4s): close-up of a camera capturing golden hour portraits."
     },
     {
-      "title": "Product hero beats",
+      "title": "产品高光特写节拍",
       "prompt": "Scene 1 (5s): macro of a luxury watch face. Scene 2 (4s): rotating hero shot with rim light. Scene 3 (4s): wrist-on model, soft ambience."
     }
   ],
-  "faqTitle": "FAQ – Kling 3 Standard in MaxVideoAI",
+  "faqTitle": "常见问题 – MaxVideoAI 中的 Kling 3 Standard",
   "faqs": [
     {
-      "q": "Does Standard include multi-prompt?",
-      "a": "Yes. You can split a clip into multiple scenes with separate prompts."
+      "q": "Standard 档位支持多镜头提示词 (multi-prompt) 吗？",
+      "a": "支持。您可以将一个视频片段拆分为多个分镜场景，并为每个场景单独编写提示词。"
     },
     {
-      "q": "What are Kling Elements?",
-      "a": "Kling Elements let you define characters or props once, then reuse them across shots to keep identity and object continuity steadier in the same clip."
+      "q": "什么是 Kling Elements（主体元素）？",
+      "a": "Kling Elements 允许您预先定义角色或道具，并在不同镜头间反复引用，从而在同一片段中更稳定地保持主体身份与物体一致性。"
     },
     {
-      "q": "Is Kling 3 Standard a good Kling AI model for image-to-video prompt testing?",
-      "a": "Yes, when the uploaded image should be the visible start frame. Use Kling 3.0 Omni Standard for lower-cost reference-to-video tests where storyboard images guide the shot without opening the clip."
+      "q": "Kling 3 Standard 适合用于图生视频提示词测试吗？",
+      "a": "是的，非常适合用于上传图片作为开场首帧的场景。若希望故事板图片仅作为分镜指引而不作为开场首帧，建议使用性价比同样极高的 Kling 3.0 Omni Standard 参考生视频模式。"
     },
     {
-      "q": "What is the difference vs Pro?",
-      "a": "Standard includes multi-prompt structure, Elements, native audio, lip sync and voice IDs at a lower rate. Pro is the stronger pass for fidelity, stability and final-quality approvals."
+      "q": "Standard 与 Pro 之间有什么区别？",
+      "a": "Standard 同样具备多镜头提示词结构、Elements、原生音频、对口型唇形同步与音色 ID，但资费更低。Pro 则在画面保真度、动作稳定性与最终交付品质上表现更强。"
     }
   ],
   "custom": {
-    "whyTitle": "Why Kling 3 Standard is powerful",
+    "whyTitle": "为什么 Kling 3 Standard 功能强大",
     "heroHighlights": [
-      "Structured multi-shot generation||Break one clip into multiple prompts and timing beats for storyboard-first control",
-      "Reusable Kling Elements for consistency||Define characters/props once, then reference them as @Element1 / @Element2 to reduce drift across shots",
-      "Native audio when you want it||Generate dialogue + ambience + SFX in the same pass, or toggle audio off for silent drafts",
-      "End-frame control for cleaner finishes||Use an optional end frame to land transitions, match cuts, and product reveals more predictably"
+      "结构化多镜头分镜生成||将单个片段拆分为多组提示词与精准时间节拍，实现故事板级精确把控",
+      "可复用 Kling Elements 保持一致性||一次性定义角色/道具，随后通过 @Element1 / @Element2 引用，减少跨镜头特征漂移",
+      "随心随需的原生音频||单次生成即可同步输出对白、环境音与音效，亦可切换为无声输出以生成静音草稿",
+      "尾帧控制实现利落定格收尾||使用可选尾帧更确定地把控转场过渡、匹配剪辑以及产品定格亮相"
     ],
-    "specTitle": "Real Specs – Kling 3 Standard in MaxVideoAI",
-    "specNote": "Specs reflect the active MaxVideoAI route today.",
+    "specTitle": "真实规格 – MaxVideoAI 中的 Kling 3 Standard",
+    "specNote": "规格反映当前 MaxVideoAI 活跃接入线路的实时标准。",
     "specSections": [
       {
-        "title": "Storyboard-ready multi-shot",
-        "intro": "Split a clip into timed beats for structured shots at a cost-efficient tier.",
+        "title": "故事板级多镜头分镜",
+        "intro": "以极具成本效益的资费档位，将片段拆分为带有时长控制的结构化分镜节拍。",
         "items": [
-          "Best with 2–4 shots and clear timestamps.",
-          "One action per shot for coherence.",
-          "Framing + camera move before style.",
-          "3–15s total duration."
+          "最适合 2–4 个镜头并附带清晰时间戳。",
+          "每个镜头聚焦单一动作以确保画面连贯。",
+          "优先描述构图取景与运镜方式，再描述视觉风格。",
+          "总时长支持 3–15 秒。"
         ]
       },
       {
-        "title": "Elements + audio flexibility",
-        "intro": "Keep characters/props consistent and decide whether to render sound.",
+        "title": "Elements 主体元素与灵活音频",
+        "intro": "保持角色/道具在镜头间稳定一致，并可自由选择是否渲染声音。",
         "items": [
-          "Use @Element1/@Element2 to reduce drift.",
-          "Optional end frame for tidy finishes.",
-          "Native audio on/off, voice IDs supported.",
-          "Great for ads, promos, and variants."
+          "使用 @Element1/@Element2 引用以减少主体漂移。",
+          "支持可选尾帧以实现利落干净的收尾。",
+          "支持原生音频开关与音色 ID 配置。",
+          "非常适合广告短片、社媒推广与多变体测试。"
         ]
       }
     ],
-    "tipsTitle": "Tips & Limitations",
-    "tipsIntro": "Kling 3 Standard is most predictable when you plan it like a storyboard: simple shots, consistent elements, and short dialogue.",
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "当您像规划故事板一样编写提示词时，Kling 3 Standard 的表现最为可控：简洁的镜头、一致的元素以及短小凝练的对白。",
     "strengths": [
-      "3–15s clips with 2–4 shots and clear timestamps/shot labels.",
-      "Use Elements for characters/props you want to keep stable.",
-      "For audio: one short line + ambience + 1 key SFX (keep it minimal).",
-      "Use an end frame when you need a clean landing or match cut."
+      "3–15 秒片段，拆分为 2–4 个镜头并标注清晰的时间戳与分镜标签。",
+      "针对需要保持稳定的角色或道具使用 Elements 主体元素。",
+      "音频编写建议：一句简短台词 + 背景环境音 + 1 个关键音效（保持极简克制）。",
+      "当需要利落的定格收尾或匹配剪辑时，使用尾帧控制。"
     ],
     "troubleshootingItems": [
-      "Drift across shots → repeat anchors + use @Element references; simplify each shot to one action.",
-      "Camera feels chaotic → one move per shot; avoid “dynamic” wording; specify “smooth track” or “tripod-stable”.",
-      "Dialogue/lip sync drifts → shorten lines; reduce fast head turns; keep the shot calmer.",
-      "Random text/logos → strengthen negative (“no text, no logos, no UI”) and keep signage out of frame."
+      "跨镜头特征漂移 → 重复关键视觉锚点 + 使用 @Element 引用；将每个镜头简化为单一动作。",
+      "运镜混乱失控 → 每个镜头仅设定单一运镜；避免使用“动态”等模糊词汇；明确写明“平滑跟拍”或“三脚架稳定固定机位”。",
+      "对白/唇形同步漂移 → 缩短台词长度；减少头部快速转动；保持画面镜头更平稳。",
+      "出现随机文字/logo → 强化负向提示词（“无文字、无 logo、无 UI 界面”），并确保招牌处于取景画框之外。"
     ],
     "boundaries": [
-      "Short-form only (up to 15s); stitch for longer narratives.",
-      "1080p tier in this routing.",
-      "Voice IDs are limited (max 2) and audio language behavior depends on routing.",
-      "End frame is optional and works best when the final composition is clearly described."
+      "仅限短视频生成（最长 15 秒）；长篇叙事需在后期剪辑拼接。",
+      "当前接入线路为 1080p 画质档位。",
+      "音色 ID 数量有限（最多 2 个），音频语言表现取决于接入线路。",
+      "尾帧为可选功能，当最终画面构图在提示词中有明确描述时效果最佳。"
     ],
-    "safetyNote": "Built-in safeguards and best practices for responsible creation with Kling 3 Standard."
+    "safetyNote": "内置安全合规防护围栏与负责任创作的最佳实践指南。"
   },
   "decision": {
     "modelSlug": "kling-3-standard",
     "hero": {
-      "eyebrow": "KLING LOWER-COST STORYBOARD ROUTE",
+      "eyebrow": "KLING 高性价比故事板分镜路线",
       "title": "Kling 3 Standard",
-      "subtitle": "Multi-shot drafts for 1080p start-frame tests, prompt planning, and native audio options.",
+      "subtitle": "适用于 1080p 首帧测试、提示词规划与原生音频选项的多镜头草稿。",
       "subtitleHighlights": [
-        "multi-shot drafts",
-        "1080p start-frame tests",
-        "native audio options"
+        "多镜头草稿",
+        "1080p 首帧测试",
+        "原生音频选项"
       ],
-      "paragraph": "Use Kling 3 Standard when you want lower-cost Kling 3 start-frame testing in 1080p: structured prompts, image-to-video drafts, optional end frames and audio before moving winners into Pro.",
+      "paragraph": "当您需要以更低成本进行 1080p 首帧测试时，选用 Kling 3 Standard 是理想之选：在升级至 Pro 之前，使用结构化提示词、图生视频草稿、可选尾帧以及原生音频快速验证创意。",
       "primaryCta": {
         "label": "使用 Kling 3 Standard 生成",
         "href": "/app?engine=kling-3-standard"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/kling"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Pro",
+          "label": "对比 Kling 3 Pro",
           "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-3-standard?order=kling-3-standard"
         },
         {
@@ -247,199 +247,199 @@
       ]
     },
     "media": {
-      "caption": "Kling 3 Standard example",
-      "description": "Lower-cost start-frame draft",
-      "renderLabel": "View draft",
+      "caption": "Kling 3 Standard 案例",
+      "description": "高性价比首帧测试草稿",
+      "renderLabel": "查看草稿",
       "badges": [
         "1080p",
-        "15s max",
-        "Audio option"
+        "最长 15秒",
+        "可选音频"
       ],
-      "altContext": "Kling 3 Standard start-frame draft"
+      "altContext": "Kling 3 Standard 首帧草稿渲染片段"
     },
     "features": [
       {
-        "title": "Multi-shot drafts",
-        "body": "Plan scenes and beats before spending on the Pro route.",
+        "title": "多镜头分镜草稿",
+        "body": "在投入 Pro 路线预算前，先规划好场景分镜与节奏节拍。",
         "tone": "continuity"
       },
       {
-        "title": "1080p output",
-        "body": "Keep Standard focused on cost-effective review renders.",
+        "title": "1080p 高清输出",
+        "body": "让 Standard 专注服务于高性价比的审阅渲染与前期预览。",
         "tone": "quality"
       },
       {
-        "title": "Image-to-video",
-        "body": "Use one source image and optional end frame for tighter drafts.",
+        "title": "图生视频",
+        "body": "使用一张起步图与可选尾帧，打造节奏紧凑精准的草稿。",
         "tone": "reference"
       },
       {
-        "title": "Native audio options",
-        "body": "Run sound-on or silent tests depending on the review stage.",
+        "title": "原生音频选项",
+        "body": "根据不同审阅阶段，灵活测试带声音效果或无声静音草稿。",
         "tone": "audio"
       },
       {
-        "title": "Max 15s",
-        "body": "Storyboard short sequences up to 15 seconds.",
+        "title": "最长 15 秒",
+        "body": "支持规划长达 15 秒的故事板多镜头短序列。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按需计费",
+        "body": "在点击生成前即可查看精确的实时扣费金额。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Standard or Pro?",
-        "body": "Use Standard for lower-cost start-frame testing. Use Kling 3 Pro when the approved shot needs stronger final fidelity.",
+        "title": "选择 Standard 还是 Pro？",
+        "body": "使用 Standard 进行低成本的首帧测试；当确定的镜头需要更极致的最终画面保真度时，选用 Kling 3 Pro。",
         "cta": {
-          "label": "Compare Standard vs Pro",
+          "label": "对比 Standard 与 Pro",
           "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-3-standard?order=kling-3-standard"
         }
       },
       {
-        "title": "Planning multiple shots?",
-        "body": "Keep each beat short, assign one action per shot, and reuse continuity anchors across the sequence.",
+        "title": "正在规划多镜头分镜？",
+        "body": "保持每个节拍简短凝练，每个镜头分配单一动作，并在整个镜头序列中复用连贯性视觉锚点。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Need final delivery?",
-        "body": "Validate in Standard first, then move approved shots into Pro when fidelity, stability and final-quality approval matter more.",
+        "title": "需要最终商业交付？",
+        "body": "先在 Standard 中验证镜头构图，当保真度、稳定性和成片质量审阅更为重要时，将通过的方案转入 Pro 渲染。",
         "cta": {
-          "label": "View Kling 3 Pro",
+          "label": "查看 Kling 3 Pro",
           "href": "/zh/models/kling-3-pro"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Shot plan",
-        "body": "Split the sequence into short scenes with one clear action per beat."
+        "title": "分镜规划",
+        "body": "将镜头序列拆分为简短场景，每个节拍设定一个明确清晰的动作。"
       },
       {
-        "title": "Image reference",
-        "body": "Use a source image when product framing or subject identity matters."
+        "title": "图片参考",
+        "body": "当产品构图或主体身份至关重要时，使用起始图片作为视觉基准。"
       },
       {
-        "title": "End frame",
-        "body": "Add a landing frame when the final composition needs control."
+        "title": "尾帧控制",
+        "body": "当最终定格构图需要精确把控时，添加一张尾帧图片。"
       },
       {
-        "title": "Audio pass",
-        "body": "Use sound for review context or keep drafts silent for post-production."
+        "title": "音频调试",
+        "body": "开启声音以获取完整的审阅情境，或保持静音草稿供后期剪辑制作。"
       },
       {
-        "title": "Pro handoff",
-        "body": "Move the best Standard drafts to Pro for the primary quality pass."
+        "title": "升级至 Pro",
+        "body": "将经过验证的最佳 Standard 草稿无缝交付至 Pro，进行高品质成片渲染。"
       }
     ],
     "pricingCopy": {
-      "title": "Kling 3 Standard pricing at a glance",
-      "subtitle": "Preset 1080p draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "1080p route",
+      "title": "Kling 3 Standard 价格一览",
+      "subtitle": "预设 1080p 草稿总价 — 提交生成前可在应用内查看精确的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "1080p 路线",
       "ctaHref": "/zh/pricing#kling-3-standard-pricing"
     },
     "meta": {
-      "title": "Kling 3 Standard: Pricing, 1080p Drafts & Examples | MaxVideoAI",
-      "description": "Use Kling 3 Standard for lower-cost 1080p start-frame drafts, image-to-video tests, native audio options and 15 second Kling planning."
+      "title": "Kling 3 Standard：价格、1080p 草稿与案例 | MaxVideoAI",
+      "description": "使用 Kling 3 Standard 进行高性价比的 1080p 首帧草稿创作、图生视频测试、原生音频选项以及最长 15 秒的 Kling 分镜规划。"
     }
   },
   "prompting": {
     "modelSlug": "kling-3-standard",
     "section": {
-      "title": "How to Write a Great Kling 3 Standard Prompt",
-      "intro": "Kling 3 Standard performs best with shot-based direction: clear framing, one action per shot, explicit motion, and (if audio is on) short dialogue plus minimal sound cues.",
+      "title": "如何编写出色的 Kling 3 Standard 提示词",
+      "intro": "Kling 3 Standard 采用基于分镜的指令效果最佳：清晰的取景构图、每个镜头单一动作、明确的动态指示，以及（若开启音频）简短的台词配上克制的音效提示。",
       "tip": null,
       "guide": null,
-      "referencesTitle": "How Kling 3 Standard structures shots and references"
+      "referencesTitle": "Kling 3 Standard 如何组织镜头与参考"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
-        "copy": "[One subject] [one visible action] in [setting], [framing + one camera move], [lighting/style].\nAudio (optional): [ambience + 1 SFX cue OR one short line].\nNegative: no text, no logos, no subtitles/overlays."
+        "label": "快速",
+        "title": "快速提示词（敏捷迭代）",
+        "description": "需要快速探索多样化效果时，使用 1–2 句话。",
+        "copy": "[单一主体] 在 [场景环境] 中展现 [单一可见动作]，[取景构图 + 单一运镜]，[光影/风格]。\n音频（可选）：[背景环境音 + 1 个音效提示 或 一句简短台词]。\n负向提示词：无文字，无 logo，无字幕/浮层。"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
-        "copy": "Scene anchors:\n[Subject + wardrobe/props + 2–3 environment anchors.]\n\nShots (multi-shot):\nShot 1 (0–5s): [framing + action + one camera move]\nShot 2 (5–10s): [framing + action + one camera move]\nShot 3 (10–15s): [final action/reveal + settle or end frame]\n\nElements (optional):\n@Element1 = [main character]\n@Element2 = [prop/product]\n\nAudio (optional):\nDialogue: <<<voice_1>>> “Short line.”\nAmbience + 1–2 SFX cues. Keep it minimal.\n\nConstraints:\nNo logos. No readable text. No subtitles/overlays."
+        "label": "结构化",
+        "title": "结构化提示词（稳定可控的首选）",
+        "description": "分层拆分信息，使模型能够稳定连贯地遵循指令。",
+        "copy": "场景锚点：\n[主体 + 服饰/道具 + 2–3 个环境特征锚点。]\n\n分镜（多镜头）：\n镜头 1 (0–5秒): [取景构图 + 动作 + 单一运镜]\n镜头 2 (5–10秒): [取景构图 + 动作 + 单一运镜]\n镜头 3 (10–15秒): [最终动作/亮点揭示 + 定格或尾帧]\n\nElements 主体元素（可选）：\n@Element1 = [主要角色]\n@Element2 = [道具/产品]\n\n音频（可选）：\n对白: <<<voice_1>>> “简短台词。”\n环境音 + 1–2 个音效提示。保持克制极简。\n\n约束限制：\n无 logo。无清晰可辨文字。无字幕/浮层。"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"film crew brief\")",
-        "description": "Use this when you need a very specific cinematic look or continuity across shots.",
-        "copy": "Director brief:\n[Goal + vibe + intended audience.]\n\nContinuity (repeat across shots):\n- Subject identity + wardrobe/props\n- Location + time + 3 visual anchors\n- Lighting + palette anchors\n- Lens feel + one camera move per shot\n\nMulti-shot plan (up to 15s total):\nShot 1: [framing + action + camera]\nShot 2: [framing + action + camera]\nShot 3: [framing + action + camera]\n(optional) Shot 4–6: [only if needed]\n\nElements:\n@Element1 = [character]\n@Element2 = [product/prop]\n\nAudio (if on):\nDialogue: <<<voice_1>>> “One short line.”\nAmbience + 1–2 SFX cues + optional music vibe.\n\nNegative:\nNo text, no logos, no subtitles/overlays, no jump cuts."
+        "label": "专业简报",
+        "title": "专业级提示词（精准把控的“片场拍摄简报”）",
+        "description": "当需要非常精准的电影级质感或跨镜头连贯性时使用。",
+        "copy": "导演简报：\n[创作目标 + 氛围基调 + 目标受众。]\n\n连贯性（跨镜头复用）：\n- 主体特征 + 服装/道具\n- 地点 + 时间 + 3 个视觉锚点\n- 光影布光 + 色彩基调锚点\n- 镜头质感 + 每个镜头单一运镜\n\n多镜头计划（总长不超过 15 秒）：\n镜头 1: [取景 + 动作 + 运镜]\n镜头 2: [取景 + 动作 + 运镜]\n镜头 3: [取景 + 动作 + 运镜]\n（可选）镜头 4–6: [仅在需要时添加]\n\nElements 主体元素：\n@Element1 = [角色]\n@Element2 = [产品/道具]\n\n音频（若开启）：\n对白: <<<voice_1>>> “一句简短台词。”\n环境音 + 1–2 个音效提示 + 可选音乐基调。\n\n负向提示词：\n无文字，无 logo，无字幕/浮层，无跳接。"
       },
       {
         "id": "storyboard",
-        "label": "Storyboard",
-        "title": "Storyboard prompt (multi-shot / shot list)",
-        "description": "Use this when you want a mini-story in one clip. A storyboard prompt (aka multi-shot / shot list prompt) gives clear timing, camera direction, and continuity. Also called shot-list or sequenced prompts.",
-        "copy": "Duration: [3–15s] • Aspect: [16:9 / 9:16 / 1:1] • Audio: [on/off]\n\nElements (optional):\n@Element1 = [main character/subject]\n@Element2 = [prop/product]\n\nShot 1 (0–3s):\n[Framing + action + camera move]\n\nShot 2 (3–8s):\n[Framing + action + camera move]\n\nShot 3 (8–15s):\n[Final action/reveal + camera settle]\nEnd frame (optional): [describe the final frame you want to land on]\n\nAudio (if on):\nDialogue: <<<voice_1>>> “Short line.”\nAmbience + 1–2 SFX cues.\n\nConstraints:\nNo logos. No readable text. No subtitles/overlays. Keep it to one action per shot."
+        "label": "故事板分镜",
+        "title": "故事板提示词（多镜头 / 分镜镜头列表）",
+        "description": "当希望在单个片段内呈现微型故事叙事时使用。故事板提示词（即多镜头/分镜表提示词）可提供清晰的时间控制、运镜方向与镜头连贯性。",
+        "copy": "时长: [3–15秒] • 画幅: [16:9 / 9:16 / 1:1] • 音频: [开启/关闭]\n\nElements 主体元素（可选）：\n@Element1 = [主角/主要主体]\n@Element2 = [道具/产品]\n\n镜头 1 (0–3秒):\n[取景构图 + 动作 + 运镜方式]\n\n镜头 2 (3–8秒):\n[取景构图 + 动作 + 运镜方式]\n\n镜头 3 (8–15秒):\n[最终动作/亮点定格 + 运镜平稳停靠]\n尾帧（可选）: [描述期望定格着陆的最终画面]\n\n音频（若开启）:\n对白: <<<voice_1>>> “简短台词。”\n环境音 + 1–2 个音效提示。\n\n约束限制:\n无 logo。无清晰可辨文字。无字幕/浮层。每个镜头仅保留一个动作。"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 变体探索。适合敏捷高效的快速迭代。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 稳定一致。适合追求可控确定性结果的场景。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = control. Use for precise, repeatable looks."
+        "body": "专业级 = 风格把控。适合打造精确、可复现的高标准画面质感。"
       },
       {
         "tabId": "storyboard",
-        "body": "Storyboard = shot timing. Use for multi-shot beats."
+        "body": "故事板 = 分镜节奏。适合多镜头节拍把控。"
       }
     ],
     "globalPrinciples": [
-      "Think in shots, not clips: one action per shot is easier to execute cleanly.",
-      "Anchor your subjects early (and reuse the same wording) to reduce drift across shots.",
-      "Put framing + camera movement before style adjectives.",
-      "If audio is on: keep dialogue short and add only 1–2 sound cues."
+      "以分镜镜头而非长视频片段思考：每个镜头单一动作更易干净利落地呈现。",
+      "尽早锚定主体特征（并在各镜头间复用相同表述），以减少跨镜头特征漂移。",
+      "将取景构图与摄影机运镜置于风格形容词之前。",
+      "若开启音频：保持台词短小精炼，仅添加 1–2 个关键音效提示。"
     ],
     "engineWhy": [
-      "Multi-shot works best with 2–4 shots; keep each shot to one readable action.",
-      "Elements improve continuity: reference @Element1/@Element2 consistently across the prompt.",
-      "Voice IDs: reference voices in the prompt as <<<voice_1>>> and <<<voice_2>>> (max 2 voices).",
-      "Audio output supports English and Chinese; other languages may be auto-translated to English when audio is enabled.",
-      "End frame helps land transitions; avoid adding new actions in the final second."
+      "多镜头分镜以 2–4 个镜头效果最佳；每个镜头保持一个清晰可读的动作。",
+      "Elements 主体元素能显著提升连贯性：在整个提示词中保持 @Element1/@Element2 的一致引用。",
+      "音色 ID：在提示词中通过 <<<voice_1>>> 和 <<<voice_2>>> 引用指定声音（最多 2 种音色）。",
+      "音频输出支持中英文；开启音频时其他语种可能会被自动转译为英文。",
+      "尾帧有助于过渡平稳着陆；避免在最后一秒引入新的主体动作。"
     ],
     "demo": {
-      "title": "Demo prompt — Kling 3 Standard",
-      "promptLabel": "Prompt",
+      "title": "演示提示词 — Kling 3 Standard",
+      "promptLabel": "提示词",
       "prompt": "Duration: 12s • Aspect: 16:9 • Audio: on\nShot 1 (0-4s): @Element1 runner in a dark jacket waits under a neon sign, light rain, stable medium shot.\nShot 2 (4-8s): @Element1 crosses the street, smooth side tracking, blue and red reflections on wet pavement.\nShot 3 (8-12s): he slows beside a storefront, camera settles, same wardrobe and lighting anchors.\nAudio: wet street ambience, short footsteps, light breath. No text, no logos, no subtitles.",
       "notes": [],
       "summary": {
-        "subject": "Runner on a neon street",
-        "action": "Three short beats move from launch to crossing and final settle",
-        "camera": "1080p storyboard shots, stable tracking and readable cuts",
-        "style": "Rainy night, neon reflections, social promo look",
-        "output": "Audio on: street ambience and one short footstep cue"
+        "subject": "霓虹街头的跑者",
+        "action": "三个短节拍，从驻足起步、穿过街道到最终定格平稳收尾",
+        "camera": "1080p 故事板分镜，平稳跟拍与清晰可读的剪辑节奏",
+        "style": "雨夜、霓虹倒影、社交推广大片质感",
+        "output": "开启音频：街道雨夜环境音与清晰短促的脚步声"
       },
       "presentationOverrides": {
-        "modeLabel": "Prompt",
-        "outputLabel": "Audio",
+        "modeLabel": "提示词",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Kling 3 Standard storyboard draft render"
+        "altContext": "Kling 3 Standard 故事板草稿渲染效果"
       }
     },
     "imageExamples": null
@@ -447,10 +447,10 @@
   "examples": {
     "modelSlug": "kling-3-standard",
     "section": {
-      "title": "Kling 3 Standard examples",
-      "intro": "Recent Kling 3 Standard renders with multi-shot prompts, Elements, and optional audio.",
-      "defaultCtaLabel": "View all Kling 3 Standard examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "Kling 3 Standard 案例画廊",
+      "intro": "近期使用 Kling 3 Standard 生成的多镜头分镜提示词、Elements 与可选音频渲染案例。",
+      "defaultCtaLabel": "查看全部 Kling 3 Standard 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -481,32 +481,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Storyboard drafts",
-        "body": "See multi-shot tests possible with Kling 3 Standard — current Kling variant for lower-cost multi-shot video.",
+        "title": "故事板分镜草稿",
+        "body": "探索 Kling 3 Standard 支持的多镜头分镜测试 — 适用于高性价比多镜头视频创作的当前 Kling 模型。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate a variant",
-        "body": "Open the app with Kling 3 Standard and reuse the setup.",
+        "title": "复现变体配置",
+        "body": "在应用内直接打开 Kling 3 Standard，一键复用该分镜的全部配置参数。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Audio on/off",
-        "body": "Test with native audio or keep the draft silent for post.",
+        "title": "音频灵活开关",
+        "body": "既可使用原生音频生成真实氛围，亦可输出静音草稿供后期制作。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Source + end frame",
-        "body": "Anchor the subject with a source image and optional end frame.",
+        "title": "起始图与尾帧",
+        "body": "使用起始图片锚定主体特征，并配合可选尾帧实现精准收尾。",
         "icon": "image"
       },
       {
         "id": "proof-5",
-        "title": "Move to Pro",
-        "body": "Move approved directions to Pro for stronger fidelity.",
+        "title": "平滑升级至 Pro",
+        "body": "将经过验证的方向无缝转入 Pro 档位，获取更高的画面保真度与成片质感。",
         "icon": "shield"
       }
     ],

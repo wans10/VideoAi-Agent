@@ -2,102 +2,102 @@
   "marketingName": "FLUX 3 Video Draft",
   "versionLabel": "3 Draft",
   "seo": {
-    "title": "FLUX 3 Video Draft Generator for 720p Iteration",
-    "description": "Use FLUX 3 Video Draft for 720p text, image, first-last-frame and extension trials, with exact source rules, prompt guidance and mode-aware quotes."
+    "title": "FLUX 3 Video Draft 720p 迭代视频生成器",
+    "description": "使用 FLUX 3 Video Draft 进行 720p 文本、图像、首尾帧及延伸测试，包含精确的素材规则、提示词指导和模式专属报价。"
   },
-  "overview": "FLUX 3 Video Draft is the current 720p iteration sibling in the FLUX video family. It mirrors the four launch workflows while returning a draft-oriented result and cache context. Black Forest Labs owns the model; MaxVideoAI distributes these endpoints through Fal. Draft is positioned for testing, not as an automatic substitute for standard FLUX 3 production review.",
+  "overview": "FLUX 3 Video Draft 是 FLUX 视频系列中当前的 720p 迭代版本。它沿用四种发布工作流，同时返回草稿导向的结果和缓存上下文。该模型由 Black Forest Labs 拥有；MaxVideoAI 通过 Fal 分发这些端点。Draft 定位于测试用途，而非标准 FLUX 3 生产审查的自动替代方案。",
   "decision": {
     "modelSlug": "flux-3-draft",
     "hero": {
-      "eyebrow": "CURRENT FLUX VIDEO DRAFT ROUTE",
+      "eyebrow": "当前 FLUX 视频草稿路线",
       "title": "FLUX 3 Video Draft",
-      "subtitle": "Test text, opening-image, first-and-last-frame and source-video extension ideas at the fixed 720p draft tier.",
+      "subtitle": "在固定的 720p 草稿层级测试文本、开场图像、首尾帧和源视频延伸创意。",
       "subtitleHighlights": [
-        "text",
-        "first-and-last-frame",
-        "720p draft tier"
+        "文本",
+        "首尾帧",
+        "720p 草稿层级"
       ],
-      "paragraph": "Choose Draft while comparing scene direction, source compatibility and transition logic before a standard FLUX 3 pass. First-and-last-frame still requires both anchors, and extension still requires a source video with its own mode-specific quote. Black Forest Labs owns FLUX and Fal distributes execution for this MaxVideoAI launch.",
+      "paragraph": "在进行标准 FLUX 3 正式生成前，先使用 Draft 比较场景方向、素材兼容性和转场逻辑。首尾帧模式仍需提供两个锚点，延伸模式仍需提供源视频及其模式专属报价。Black Forest Labs 拥有 FLUX，Fal 负责本次 MaxVideoAI 发布的执行分发。",
       "primaryCta": {
         "label": "使用 FLUX 3 Draft 生成",
         "href": "/app?engine=flux-3-draft"
       },
       "secondaryCta": {
-        "label": "Explore the FLUX gallery",
+        "label": "浏览 FLUX 案例库",
         "href": "/zh/examples/flux"
       },
       "quickLinks": [
         {
-          "label": "Review standard FLUX 3",
+          "label": "查看标准 FLUX 3",
           "href": "/zh/models/flux-3"
         },
         {
-          "label": "Compare FLUX 3 and Draft",
+          "label": "对比 FLUX 3 与 Draft",
           "href": "/zh/ai-video-engines/flux-3-vs-flux-3-draft?order=flux-3-draft"
         },
         {
-          "label": "Review Draft pricing",
+          "label": "查看 Draft 定价",
           "href": "/zh/pricing#flux-3-draft-pricing"
         },
         {
-          "label": "Open Draft Prompt Lab",
+          "label": "打开 Draft 提示词实验室",
           "href": "#prompting"
         }
       ]
     },
     "media": {
-      "caption": "FLUX 3 Draft evidence gallery",
-      "description": "Accepted Draft outputs will appear after review",
-      "renderLabel": "Review accepted draft",
+      "caption": "FLUX 3 Draft 案例展示库",
+      "description": "经审核接受的 Draft 输出将在审查后显示",
+      "renderLabel": "查看已接受的草稿",
       "badges": [
         "Draft",
-        "Four workflows",
+        "四种工作流",
         "720p"
       ],
-      "altContext": "accepted FLUX 3 Video Draft example"
+      "altContext": "已接受的 FLUX 3 Video Draft 示例"
     },
     "features": [
       {
-        "title": "Fixed 720p iteration",
-        "body": "Draft has one supported output tier, which makes it useful for direction tests without pretending to offer the standard model's 1080p option. Choose the sibling after a concept survives review.",
+        "title": "固定 720p 迭代",
+        "body": "Draft 只有一个支持的输出层级，这使其在方向测试中非常实用，而不会假装提供标准模型的 1080p 选项。待概念通过审查后，再切换到同系列的正式版本。",
         "tone": "quality"
       },
       {
-        "title": "Same explicit source roles",
-        "body": "Text needs a prompt, image mode needs an opening image, fl2v needs both start and end images, and extension needs a video. Draft does not relax those required inputs.",
+        "title": "相同的明确素材角色",
+        "body": "文本模式需要提示词，图像模式需要开场图像，fl2v 模式需要起始和结束图像，延伸模式需要视频。Draft 不会放宽这些必需输入项的要求。",
         "tone": "reference"
       },
       {
-        "title": "Fast creative decisions",
-        "body": "Use short controlled scenes to compare camera direction, action timing and visual continuity. Avoid spending the draft loop on several unrelated story beats that cannot be diagnosed.",
+        "title": "快速创意决策",
+        "body": "使用简短的受控场景来比较镜头方向、动作时机和视觉连续性。避免在草稿循环中同时处理多个无关的故事节拍，否则难以诊断问题所在。",
         "tone": "duration"
       },
       {
-        "title": "Draft extension remains separate",
-        "body": "Extension uses a distinct canonical pricing rule even on Draft. The page sends mode extend into the calculator rather than presenting a normal-generation estimate.",
+        "title": "Draft 延伸定价独立计算",
+        "body": "即使在 Draft 模式下，延伸功能也使用独立的规范定价规则。页面会将延伸模式发送至计算器，而不是呈现普通生成的估算价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Best fit: controlled 720p trials",
-        "body": "Use Draft for early frame bridges, source-video continuation tests, motion sketches and prompt comparisons with one measurable change per attempt.",
+        "title": "最适合：受控的 720p 测试",
+        "body": "将 Draft 用于早期帧衔接、源视频延续测试、动作草图和提示词对比，每次尝试仅改变一个可量化的变量。",
         "cta": {
-          "label": "Start a Draft test",
+          "label": "开始 Draft 测试",
           "href": "/app?engine=flux-3-draft"
         }
       },
       {
-        "title": "Not ideal: final production equivalence",
-        "body": "Draft is not described as equivalent to standard FLUX 3 delivery. Move the selected concept to the standard sibling when the production brief calls for that route or 1080p.",
+        "title": "不适合：最终生产等效输出",
+        "body": "Draft 不被描述为与标准 FLUX 3 交付等效。当生产需求要求该路线或 1080p 时，请将选定的概念迁移至标准版本。",
         "cta": {
-          "label": "Open standard FLUX 3",
+          "label": "打开标准 FLUX 3",
           "href": "/zh/models/flux-3"
         }
       },
       {
-        "title": "Design tests that transfer",
-        "body": "Keep source frames, prompt structure and acceptance criteria reusable so the successful draft can be evaluated consistently on the standard model.",
+        "title": "设计可迁移的测试",
+        "body": "保持源帧、提示词结构和验收标准的可复用性，以便成功的草稿能在标准模型上得到一致评估。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -106,117 +106,117 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text sketch",
-        "body": "Test one scene idea with a clear action, camera path and ending."
+        "title": "文本草图",
+        "body": "用清晰的动作、镜头路径和结尾测试一个场景创意。"
       },
       {
-        "title": "Image sketch",
-        "body": "Animate an opening frame while preserving subject and composition."
+        "title": "图像草图",
+        "body": "在保留主体和构图的同时，为开场帧制作动画。"
       },
       {
-        "title": "Frame-bridge sketch",
-        "body": "Use two compatible anchors and specify the plausible transition between them."
+        "title": "帧衔接草图",
+        "body": "使用两个兼容的锚点，并指定它们之间合理的转场方式。"
       },
       {
-        "title": "Extension sketch",
-        "body": "Continue an eligible source clip without resetting identity, camera or light."
+        "title": "延伸草图",
+        "body": "在不重置身份、镜头或光线的情况下，延续符合条件的源片段。"
       }
     ],
     "pricingCopy": {
-      "title": "FLUX 3 Draft scenario pricing",
-      "subtitle": "Compare six seconds of normal 720p generation with six seconds of 720p extension.",
-      "footnote": "Both amounts come from the canonical mode-aware calculator; extension never inherits the normal Draft rate by omission.",
+      "title": "FLUX 3 Draft 场景定价",
+      "subtitle": "对比六秒普通 720p 生成与六秒 720p 延伸的费用。",
+      "footnote": "两种费用均来自规范的模式感知计算器；延伸模式不会因默认省略而继承普通 Draft 费率。",
       "ctaLabel": "使用 FLUX 3 Draft 生成",
       "ctaHref": "/app?engine=flux-3-draft"
     },
     "meta": {
-      "title": "FLUX 3 Video Draft Model, 720p Modes and Pricing",
-      "description": "Review FLUX 3 Draft text, image, frame-bridge and extend workflows, fixed 720p scope, prompting discipline, sibling handoff and canonical quotes."
+      "title": "FLUX 3 Video Draft 模型、720p 模式与定价",
+      "description": "查看 FLUX 3 Draft 的文本、图像、帧衔接和延伸工作流、固定 720p 范围、提示词规范、版本交接及规范报价。"
     }
   },
   "prompting": {
     "modelSlug": "flux-3-draft",
     "section": {
       "title": "提示词实验室 — FLUX 3 Video Draft",
-      "intro": "Use the draft loop to answer one source, motion or transition question at a time.",
-      "tip": "Write the acceptance criterion before rendering so a cheap-looking difference is not mistaken for useful evidence.",
+      "intro": "每次使用草稿循环只解答一个关于素材、动作或转场的问题。",
+      "tip": "在渲染前先写好验收标准，这样低成本的差异才不会被误认为有价值的证据。",
       "guide": {
-        "label": "Read Black Forest Labs' FLUX 3 Video 指南",
+        "label": "阅读 Black Forest Labs 的 FLUX 3 Video 指南",
         "href": "https://bfl.ai/blog/flux-3-video"
       },
-      "referencesTitle": "Prepare transferable draft tests"
+      "referencesTitle": "准备可迁移的草稿测试"
     },
     "tabs": [
       {
         "id": "question",
-        "label": "Question",
-        "title": "Define the draft question",
-        "description": "Choose one uncertainty the render should resolve.",
-        "copy": "Question:\n[Camera, action, frame compatibility or continuation]\n\nSuccess signal:\n[Visible behavior that answers it]\n\nSubject anchors:\n[Details that remain fixed]\n\nFinal beat:\n[How the draft should settle]"
+        "label": "问题",
+        "title": "定义草稿问题",
+        "description": "选择一个渲染应解答的不确定因素。",
+        "copy": "问题：\n[镜头、动作、帧兼容性或延续性]\n\n成功信号：\n[能解答问题的可见行为]\n\n主体锚点：\n[保持固定的细节]\n\n最终节拍：\n[草稿应如何收尾]"
       },
       {
         "id": "sources",
-        "label": "Sources",
-        "title": "Check required inputs",
-        "description": "Attach exactly the source type the selected mode owns.",
-        "copy": "Mode:\n[Text, image, first-last-frame, or extend]\n\nOpening source:\n[Image or source-video state]\n\nEnding source:\n[Required final image for fl2v]\n\nCompatibility:\n[Identity, perspective, lighting and motion direction]"
+        "label": "素材",
+        "title": "检查必需输入项",
+        "description": "精确附上所选模式所需的素材类型。",
+        "copy": "模式：\n[文本、图像、首尾帧或延伸]\n\n开场素材：\n[图像或源视频状态]\n\n结尾素材：\n[fl2v 所需的最终图像]\n\n兼容性：\n[身份、视角、光线和运动方向]"
       },
       {
         "id": "handoff",
-        "label": "Handoff",
-        "title": "Write a reusable production handoff",
-        "description": "Capture the prompt and criteria that should transfer to standard FLUX 3.",
-        "copy": "Keep:\n[Prompt lines and source media that worked]\n\nChange:\n[One issue to correct on the next pass]\n\nProduction target:\n[Resolution and delivery context]\n\nAvoid:\n[Unplanned edits, abrupt reset, malformed geometry, text, logos and unsafe content]"
+        "label": "交接",
+        "title": "撰写可复用的生产交接说明",
+        "description": "记录应迁移至标准 FLUX 3 的提示词和标准。",
+        "copy": "保留：\n[有效的提示词行和素材]\n\n修改：\n[下次迭代需纠正的一个问题]\n\n生产目标：\n[分辨率和交付上下文]\n\n避免：\n[计划外的修改、突兀的重置、几何变形、文字、标志和不安全内容]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "question",
-        "body": "A draft is valuable when it reduces one concrete uncertainty, even if it is not a final asset."
+        "body": "当草稿能减少一个具体的不确定性时，即使它不是最终资产，也具有价值。"
       },
       {
         "tabId": "sources",
-        "body": "The Draft contract does not turn fl2v into arbitrary keyframes or make the end image optional."
+        "body": "Draft 协议不会将 fl2v 转变为任意关键帧，也不会使结尾图像变为可选项。"
       },
       {
         "tabId": "handoff",
-        "body": "Record sources, prompt and acceptance notes before switching to standard FLUX 3."
+        "body": "在切换到标准 FLUX 3 之前，记录素材、提示词和验收说明。"
       }
     ],
     "globalPrinciples": [
-      "Change one major variable per draft.",
-      "Use sources that are compatible in identity and scene logic.",
-      "Keep movement physically readable at short duration.",
-      "Apply rights, consent and safety review even to temporary outputs."
+      "每次草稿只改变一个主要变量。",
+      "使用在身份和场景逻辑上兼容的素材。",
+      "保持运动在短时长内具有物理可读性。",
+      "即使对临时输出也需进行版权、肖像权和内容审查。"
     ],
     "engineWhy": [
-      "A fixed 720p route keeps Draft positioning clear.",
-      "Four explicit modes let teams test the same source contracts before production handoff.",
-      "Separate extension pricing prevents a draft continuation from being quoted as ordinary generation."
+      "固定的 720p 路线使 Draft 的定位保持清晰。",
+      "四种明确的模式让团队在生产交接前测试相同的素材协议。",
+      "独立的延伸定价防止草稿延续被按普通生成计价。"
     ],
     "demo": {
-      "title": "FLUX 3 Draft continuation test",
-      "promptLabel": "Source-video extension draft",
-      "prompt": "Continue the supplied clip from its final frame: the small research boat keeps moving left to right through low morning fog while the camera maintains the same slow aerial track. A buoy passes beneath the frame and the wake widens naturally. Preserve hull colors, crew count, horizon height and cool light. Do not introduce a cut, title, logo or new vessel.",
+      "title": "FLUX 3 Draft 延续测试",
+      "promptLabel": "源视频延伸草稿",
+      "prompt": "从最后一帧继续提供的片段：小型科研船继续在低矮的晨雾中从左向右移动，摄像机保持同样缓慢的航拍轨迹。一个浮标从画面下方经过，船尾水迹自然扩展。保留船体颜色、船员数量、地平线高度和冷调光线。不要引入切换、片名、标志或新船只。",
       "notes": [
-        "The prompt begins from the source clip's ending state.",
-        "Continuity anchors make the draft useful for standard-model handoff."
+        "提示词从源片段的结尾状态开始。",
+        "连续性锚点使草稿有助于向标准模型交接。"
       ],
       "summary": {
-        "subject": "Small research boat in morning fog",
-        "action": "Boat continues past a buoy as its wake expands",
-        "camera": "Unbroken slow aerial track",
-        "style": "Cool restrained maritime documentary",
-        "output": "720p extension draft with mode-aware quote"
+        "subject": "晨雾中的小型科研船",
+        "action": "船只经过浮标，船尾水迹扩展",
+        "camera": "连续缓慢的航拍轨迹",
+        "style": "冷调克制的海洋纪录片风格",
+        "output": "720p 延伸草稿，附模式感知报价"
       },
       "presentationOverrides": {
-        "modeLabel": "Extend",
-        "outputLabel": "720p Draft settings",
+        "modeLabel": "延伸",
+        "outputLabel": "720p Draft 设置",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "FLUX 3 Draft research-boat extension prompt"
+        "altContext": "FLUX 3 Draft 科研船延伸提示词"
       }
     },
     "imageExamples": null
@@ -225,9 +225,9 @@
     "modelSlug": "flux-3-draft",
     "showWhenEmpty": false,
     "section": {
-      "title": "Reviewed FLUX 3 Draft examples",
-      "intro": "This gallery stays hidden until two accepted Draft outputs are durable and attached to the model playlist.",
-      "defaultCtaLabel": "查看 all FLUX 案例",
+      "title": "已审核的 FLUX 3 Draft 案例",
+      "intro": "此案例库在两个经接受的 Draft 输出持久化并关联到模型播放列表之前保持隐藏。",
+      "defaultCtaLabel": "查看全部 FLUX 案例",
       "recreateLabel": null
     },
     "filters": [
@@ -237,25 +237,25 @@
       },
       {
         "id": "action",
-        "label": "动作"
+        "label": "动作测试"
       },
       {
         "id": "edit",
-        "label": "剪辑变化"
+        "label": "延伸草稿"
       }
     ],
     "proofItems": [
       {
         "id": "question",
         "icon": "zap",
-        "title": "Decision value",
-        "body": "Check whether the draft answers its stated creative question."
+        "title": "决策价值",
+        "body": "检验草稿是否解答了其既定的创意问题。"
       },
       {
         "id": "sources",
         "icon": "image",
-        "title": "Source compatibility",
-        "body": "Inspect identity, perspective and transition logic."
+        "title": "素材兼容性",
+        "body": "检查身份、视角和转场逻辑。"
       },
       {
         "id": "motion",
@@ -266,14 +266,14 @@
       {
         "id": "handoff",
         "icon": "maximize",
-        "title": "Production handoff",
-        "body": "Record the prompt and sources worth taking to standard FLUX 3."
+        "title": "生产交接",
+        "body": "记录值得带到标准 FLUX 3 的提示词和素材。"
       },
       {
         "id": "safety",
         "icon": "shield",
-        "title": "Draft safety",
-        "body": "Temporary output still requires rights, likeness and content review."
+        "title": "草稿安全审查",
+        "body": "临时输出仍需进行版权、肖像权和内容审查。"
       }
     ],
     "fallbackItems": null

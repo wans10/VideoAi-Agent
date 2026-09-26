@@ -2,37 +2,37 @@
   "marketingName": "Kling 3.0 Turbo Standard",
   "versionLabel": "3.0 Turbo Standard",
   "seo": {
-    "title": "Kling 3 Turbo Standard AI Video: 720p, Audio & Price",
-    "description": "Generate 3–15-second Kling 3 Turbo Standard videos at 720p from text or an opening image, with native audio and multishot prompting."
+    "title": "Kling 3 Turbo Standard | 720p AI 视频生成、原生音频与价格 | MaxVideoAI",
+    "description": "通过文本或首帧图像生成 3–15 秒 720p 的 Kling 3 Turbo Standard 视频，支持原生音频与多镜头分镜提示词。"
   },
-  "overview": "Kling 3 Turbo Standard is the value-focused 720p route for fast drafts, social concepts, and structured multishot sequences with native audio.",
+  "overview": "Kling 3 Turbo Standard 是主打高性价比的 720p 路线，适用于快速草稿、社交媒体概念短片以及包含原生音频的结构化多镜头分镜序列。",
   "decision": {
     "modelSlug": "kling-3-turbo-standard",
     "hero": {
-      "eyebrow": "KLING TURBO VALUE ROUTE",
+      "eyebrow": "Kling Turbo 高性价比路线",
       "title": "Kling 3.0 Turbo Standard",
-      "subtitle": "Fast 720p text-to-video and image-to-video for 3–15-second drafts, social clips, and multishot concepts.",
+      "subtitle": "快速 720p 文生视频与图生视频，适用于 3–15 秒草稿、社媒短片与多镜头分镜概念。",
       "subtitleHighlights": [
         "720p",
-        "3–15s",
-        "Multishot"
+        "3–15 秒",
+        "多镜头分镜"
       ],
-      "paragraph": "Choose Standard when iteration cost and speed matter more than final 1080p delivery. Use one prompt or a timed sequence of up to six shots.",
+      "paragraph": "当迭代成本与出片速度相比 1080p 最终交付更关键时，请选择 Standard。支持使用单个提示词或包含多达 6 个定时镜头的分镜序列。",
       "primaryCta": {
         "label": "使用 Kling 3.0 Turbo Standard 生成",
         "href": "/app?engine=kling-3-turbo-standard"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/kling"
       },
       "quickLinks": [
         {
-          "label": "See Turbo Pro in 1080p",
+          "label": "查看 1080p 的 Turbo Pro",
           "href": "/zh/models/kling-3-turbo-pro"
         },
         {
-          "label": "Compare the models",
+          "label": "对比两款模型",
           "href": "/zh/ai-video-engines/kling-3-turbo-pro-vs-kling-3-turbo-standard"
         },
         {
@@ -40,141 +40,141 @@
           "href": "/zh/pricing#kling-3-turbo-standard-pricing"
         },
         {
-          "label": "Prompt Lab",
+          "label": "提示词实验室",
           "href": "#prompting"
         }
       ]
     },
     "media": {
-      "caption": "Reviewed launch examples",
-      "description": "Rainy parcel relay",
-      "renderLabel": "View render",
+      "caption": "官方首发审核案例",
+      "description": "雨夜包裹接力",
+      "renderLabel": "查看渲染",
       "badges": [
         "720p",
-        "3–15s",
-        "Multishot",
-        "Native audio"
+        "3–15 秒",
+        "多镜头",
+        "原生音频"
       ],
-      "altContext": "Kling 3.0 Turbo Standard: Rainy parcel relay"
+      "altContext": "Kling 3.0 Turbo Standard：雨夜包裹接力"
     },
     "features": [
       {
-        "title": "720p value tier",
-        "body": "A lower-cost route for rapid concept tests and approved social drafts.",
+        "title": "720p 高性价比档位",
+        "body": "以更低成本快速验证创意概念、推敲镜头节奏并产出社媒审核草稿。",
         "tone": "price"
       },
       {
-        "title": "3–15-second clips",
-        "body": "Choose any whole-second duration and match the number of story beats to the runtime.",
+        "title": "3–15 秒视频片段",
+        "body": "可任选整数秒时长，并根据具体播放时间合理分配分镜节拍数量。",
         "tone": "duration"
       },
       {
-        "title": "Structured multishot prompts",
-        "body": "Direct up to six timed shots while preserving the same subject, prop, and visual language.",
+        "title": "结构化多镜头提示词",
+        "body": "最多可调度 6 个定时镜头，并在切换间稳定保持同一主体、道具与视觉语言。",
         "tone": "continuity"
       },
       {
-        "title": "Native audio",
-        "body": "Generate dialogue, ambience, and effects with the picture.",
+        "title": "原生音频",
+        "body": "在同一次渲染中同步生成对白、环境音与特效声。",
         "tone": "audio"
       }
     ],
     "decisionCards": [
       {
-        "title": "Choose Standard for iteration",
-        "body": "Use 720p Standard to test hooks, staging, rhythm, and multishot structure before a higher-finish pass.",
+        "title": "选择 Standard 进行快速迭代",
+        "body": "在进行更高规格成片渲染前，使用 720p Standard 测试视觉钩子、场面调度、镜头节奏与多镜头结构。",
         "cta": {
           "label": "使用 Kling 3.0 Turbo Standard 生成",
           "href": "/app?engine=kling-3-turbo-standard"
         }
       },
       {
-        "title": "See Turbo Pro in 1080p",
-        "body": "Choose Standard when iteration cost and speed matter more than final 1080p delivery. Use one prompt or a timed sequence of up to six shots.",
+        "title": "查看 1080p 的 Turbo Pro",
+        "body": "当迭代成本与出片速度相比 1080p 最终交付更关键时选择 Standard；支持使用单条提示词或最多 6 个定时镜头的分镜序列。",
         "cta": {
-          "label": "See Turbo Pro in 1080p",
+          "label": "查看 1080p 的 Turbo Pro",
           "href": "/zh/models/kling-3-turbo-pro"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-video",
-        "body": "Give each shot one action, one camera instruction, and one sound cue."
+        "title": "文生视频",
+        "body": "为每个镜头分配一个核心动作、一项运镜指令和一个声音线索。"
       },
       {
-        "title": "Image-to-video",
-        "body": "Animate one opening image by describing motion and camera."
+        "title": "图生视频",
+        "body": "通过清晰描述动态与运镜，让单张首帧静态图片流畅自然地运转起来。"
       }
     ],
     "pricingCopy": {
-      "title": "Kling 3.0 Turbo Standard — View pricing",
-      "subtitle": "The exact price is calculated before rendering from duration, mode, and resolution.",
-      "footnote": "The total shown at generation time remains authoritative.",
+      "title": "Kling 3.0 Turbo Standard 价格一览",
+      "subtitle": "根据视频时长、模式和分辨率，在提交渲染前精确计算费用。",
+      "footnote": "生成时界面显示的费用总额具有最终效力。",
       "ctaLabel": "使用 Kling 3.0 Turbo Standard 生成",
       "ctaHref": "/app?engine=kling-3-turbo-standard"
     },
     "meta": {
-      "title": "Kling 3 Turbo Standard AI Video: 720p, Audio & Price",
-      "description": "Generate 3–15-second Kling 3 Turbo Standard videos at 720p from text or an opening image, with native audio and multishot prompting."
+      "title": "Kling 3 Turbo Standard：720p 画质、原生音频与价格 | MaxVideoAI",
+      "description": "通过文本或首帧图像生成 3–15 秒 720p 的 Kling 3 Turbo Standard 视频，支持原生音频与多镜头分镜提示词。"
     }
   },
   "prompting": {
     "modelSlug": "kling-3-turbo-standard",
     "section": {
       "title": "提示词实验室 — Kling 3 Turbo Standard",
-      "intro": "Keep each shot short, visual, and easy to verify.",
-      "tip": "For multishot work, name each shot and make all shot durations add up to the selected total.",
+      "intro": "保持每个镜头简短、具象且易于验证。",
+      "tip": "创作多镜头时，为每个镜头命名并确保所有镜头时长之和等于所选总时长。",
       "guide": {
-        "label": "Official Kling 3 指南",
+        "label": "Kling 3 官方指南",
         "href": "https://app.klingai.com/cn/quickstart/klingai-video-3-model-user-guide"
       },
-      "referencesTitle": "Build a timed sequence"
+      "referencesTitle": "构建定时镜头序列"
     },
     "tabs": [
       {
         "id": "direction",
-        "label": "Direction",
-        "title": "Build a timed sequence",
-        "description": "Give each shot one action, one camera instruction, and one sound cue.",
+        "label": "导演执导",
+        "title": "构建定时镜头序列",
+        "description": "为每个镜头分配一个核心动作、一项运镜指令和一个声音线索。",
         "copy": "Shot 1: a courier protects a silver parcel beneath a station awning. Shot 2: the same parcel travels in a bicycle basket through rain. Shot 3: the courier hands it to a baker at a warm doorway. Preserve the parcel, rain, direction, and color grade."
       }
     ],
     "tabNotes": [
       {
         "tabId": "direction",
-        "body": "For multishot work, name each shot and make all shot durations add up to the selected total."
+        "body": "创作多镜头时，为每个镜头命名并确保所有镜头时长之和等于所选总时长。"
       }
     ],
     "globalPrinciples": [
-      "Use one readable action per shot.",
-      "Repeat only essential continuity anchors."
+      "每个镜头保持一个清晰可辨的动作。",
+      "仅重复不可或缺的连贯性核心锚点。"
     ],
     "engineWhy": [
-      "Kling 3 Turbo Standard is the value-focused 720p route for fast drafts, social concepts, and structured multishot sequences with native audio."
+      "Kling 3 Turbo Standard 是主打高性价比的 720p 路线，适用于快速草稿、社交媒体概念短片以及包含原生音频的结构化多镜头分镜序列。"
     ],
     "demo": {
-      "title": "Rainy parcel relay",
-      "promptLabel": "Production prompt",
+      "title": "雨夜包裹接力",
+      "promptLabel": "生产级提示词",
       "prompt": "Shot 1: a courier protects a silver parcel beneath a station awning. Shot 2: the same parcel travels in a bicycle basket through rain. Shot 3: the courier hands it to a baker at a warm doorway. Preserve the parcel, rain, direction, and color grade.",
       "notes": [
-        "For multishot work, name each shot and make all shot durations add up to the selected total."
+        "创作多镜头时，为每个镜头命名并确保所有镜头时长之和等于所选总时长。"
       ],
       "summary": {
-        "subject": "Rainy parcel relay",
-        "action": "A parcel moves through three connected beats",
-        "camera": "One controlled camera move",
-        "style": "Fast cinematic commercial sequence",
-        "output": "720p · 24 FPS · native audio"
+        "subject": "雨夜包裹接力",
+        "action": "包裹在三个紧密相扣的节拍中流转接力",
+        "camera": "平稳受控的单次运镜移动",
+        "style": "快节奏电影级广告商业短片",
+        "output": "720p · 24 FPS · 原生音频"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "720p · 24 FPS · native audio",
+        "outputLabel": "720p · 24 FPS · 原生音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "Kling 3.0 Turbo Standard: Rainy parcel relay"
+        "altContext": "Kling 3.0 Turbo Standard：雨夜包裹接力"
       }
     },
     "imageExamples": null
@@ -183,9 +183,9 @@
     "modelSlug": "kling-3-turbo-standard",
     "showWhenEmpty": false,
     "section": {
-      "title": "Reviewed examples",
-      "intro": "Two distinct launch renders show the model on people, scenes, or products.",
-      "defaultCtaLabel": "View the family gallery",
+      "title": "精选案例",
+      "intro": "精选两组具有代表性的首发渲染作品，呈现该模型在人物、场景与产品上的卓越表现。",
+      "defaultCtaLabel": "查看 Kling 系列案例库",
       "recreateLabel": null
     },
     "filters": [
@@ -210,8 +210,8 @@
       {
         "id": "prompt",
         "icon": "sparkles",
-        "title": "Prompt adherence",
-        "body": "Check the requested subject, action, framing, and final beat."
+        "title": "提示词遵循度",
+        "body": "检验所指定的主体、动作、景别构图与最终故事节拍。"
       },
       {
         "id": "motion",
@@ -222,20 +222,20 @@
       {
         "id": "people",
         "icon": "users",
-        "title": "Human fidelity",
-        "body": "Inspect anatomy, identity, clothing, and natural movement."
+        "title": "人物保真度",
+        "body": "考察人体解剖结构、身份特征、服装细节与自然肢体动态。"
       },
       {
         "id": "finish",
         "icon": "maximize",
-        "title": "Visual finish",
-        "body": "Inspect detail, lighting, materials, and resolution."
+        "title": "画面质感",
+        "body": "审视画面细节、光影渲染、材质质感与输出分辨率。"
       },
       {
         "id": "review",
         "icon": "shield",
-        "title": "Editorial review",
-        "body": "Reject unwanted text, marks, unsafe content, or unapproved likenesses."
+        "title": "内容审阅",
+        "body": "剔除不需要的文字、水印瑕疵、不安全内容或未经授权的肖像特征。"
       }
     ],
     "fallbackItems": null

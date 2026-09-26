@@ -2,262 +2,262 @@
   "marketingName": "Luma Uni-1",
   "versionLabel": "Uni-1",
   "seo": {
-    "title": "Luma Uni-1: Image Pricing, References and Editing | MaxVideoAI",
-    "description": "Use Luma Uni-1 in MaxVideoAI for 2K text-to-image, source-image edits, multi-reference layouts, optional web-grounded visual research and MaxVideoAI display pricing.",
+    "title": "Luma Uni-1：图像价格、参考与编辑 | MaxVideoAI",
+    "description": "在 MaxVideoAI 中使用 Luma Uni-1 进行 2K 文生图、原图编辑、多图参考版式设计、可选联网视觉研究，并查看 MaxVideoAI 展示价格。",
     "image": "/assets/model-examples/luma-uni-1/product.webp"
   },
-  "overview": "Luma Uni-1 is a 2K image generation and editing model in MaxVideoAI for still-image concepts, source edits, layout reasoning, multi-reference guidance and visual research. It is an image-only route.",
-  "pricingNotes": "Display prices use MaxVideoAI pricing. Reference and edit examples include source/reference image counts where shown, and the exact app quote appears before generation.",
+  "overview": "Luma Uni-1 是 MaxVideoAI 中的 2K 图像生成与编辑模型，适用于静态图像概念设计、原图编辑、版面推理、多参考引导和视觉研究。这是一条纯图像路线。",
+  "pricingNotes": "展示价格采用 MaxVideoAI 定价。参考与编辑示例在展示处包含源图/参考图数量，生成前会在应用中显示精确报价。",
   "hero": {
-    "title": "Luma Uni-1 - 2K image generation and editing",
-    "intro": "Create still images, edit a source image and guide layouts with references before selecting the best still for product, brand, storyboard or motion handoff work.",
-    "badge": "Text -> Image · Image edit · References · 2K",
+    "title": "Luma Uni-1 — 2K 图像生成与编辑",
+    "intro": "创建静态图像、编辑源图像并利用参考素材引导版式，筛选出用于产品、品牌、分镜或动态过渡的最佳静止画面。",
+    "badge": "文生图 · 图像编辑 · 多图参考 · 2K",
     "ctaPrimary": {
-      "label": "Launch Luma Uni-1",
+      "label": "启动 Luma Uni-1",
       "href": "/app/image?engine=luma-uni-1"
     },
     "secondaryLinks": [
       {
-        "label": "Open the image workspace",
+        "label": "打开图像工作台",
         "href": "/app/image?engine=luma-uni-1"
       },
       {
-        "label": "Check live pricing",
+        "label": "查看实时价格",
         "href": "/zh/pricing#luma-uni-1-pricing"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳使用场景",
     "items": [
       {
-        "title": "2K concept stills from a visual brief",
+        "title": "依据视觉简报生成 2K 概念静态图",
         "icon": "imageToVideo"
       },
       {
-        "title": "Source-image edits that preserve the main subject",
+        "title": "保留核心主体的原图编辑",
         "icon": "layers"
       },
       {
-        "title": "Multi-reference product, layout and style guidance",
+        "title": "多参考图引导的产品、版式与风格设计",
         "icon": "storyboard"
       },
       {
-        "title": "Web-grounded visual research when context matters",
+        "title": "注重现实上下文时的联网视觉研究",
         "icon": "sparkles"
       },
       {
-        "title": "Clean still handoff before motion work",
+        "title": "衔接动态视频制作前的干净静止帧交付",
         "icon": "product"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Workflows",
-      "body": "Text-to-image and image edit"
+      "label": "工作流",
+      "body": "文生图与图像编辑"
     },
     {
-      "label": "Output",
-      "body": "2K still image output"
+      "label": "输出规格",
+      "body": "2K 静态图像输出"
     },
     {
-      "label": "References",
-      "body": "Text requests can use multiple references; edits use the first image as source plus optional references"
+      "label": "参考素材",
+      "body": "文本生成支持多张参考图；编辑模式使用首张图片作为原图，可外加可选参考图"
     },
     {
-      "label": "Aspect ratios",
-      "body": "Wide, square, portrait and extended ratios on text-to-image"
+      "label": "画幅比例",
+      "body": "文生图支持宽屏、方形、竖屏及扩展比例"
     },
     {
-      "label": "Styles",
-      "body": "Auto and manga style controls where exposed"
+      "label": "风格控制",
+      "body": "在支持的界面提供自动（Auto）与漫画（Manga）风格控制"
     },
     {
-      "label": "Output format",
-      "body": "PNG or JPEG in the active image workspace"
+      "label": "输出格式",
+      "body": "当前图像工作台中支持 PNG 或 JPEG"
     },
     {
-      "label": "Pricing",
-      "body": "Public copy uses MaxVideoAI display pricing, not lower provider-cost promises"
+      "label": "价格说明",
+      "body": "公开文案采用 MaxVideoAI 展示价格，而非承诺更低的服务商成本"
     }
   ],
   "promptStructure": {
-    "title": "Prompt mini-guide",
-    "quote": "Artifact + subject + layout + style + reference roles + what to preserve or change.",
-    "description": "Uni-1 works best when references have explicit roles. State which image controls product shape, style, palette, layout or typography direction, then describe the still you want.",
+    "title": "提示词精简指南",
+    "quote": "载体类型 + 主体 + 版式 + 风格 + 参考图职责 + 明确保留与修改的内容。",
+    "description": "Uni-1 在参考图具有明确分工时表现最佳。明确指出哪张图片控制产品形态、风格、色调、版式或文字排版方向，然后描述你想要的静态图。",
     "steps": [
-      "Name the target asset and use case.",
-      "Describe subject, composition, lighting and style.",
-      "For edits, separate preserve instructions from changes.",
-      "Assign one role per reference image.",
-      "Use web search only when current visual context is useful.",
-      "Review text, labels and small details before using the image downstream."
+      "说明目标素材与使用场景。",
+      "描述主体、构图、光影与风格。",
+      "对于编辑任务，将保留要求与修改要求明确分开。",
+      "为每张参考图指定单一职责。",
+      "仅在需要当前最新视觉背景时使用联网搜索。",
+      "在将图像用于后续制作前，检查文字、标签与细部细节。"
     ]
   },
   "tips": {
-    "title": "Tips and limits",
+    "title": "使用技巧与局限",
     "items": [
-      "Use Uni-1 for still images only.",
-      "Use references deliberately instead of uploading unrelated inspiration.",
-      "Do not assume typography is perfect; inspect exact words and labels.",
-      "For source edits, make preservation constraints explicit.",
-      "Use the app quote as the customer-facing price."
+      "Uni-1 仅适用于静态图像生成与编辑。",
+      "有针对性地使用参考图，避免上传无关的灵感素材。",
+      "不要假定文字排版绝对完美；务必仔细检查具体字词与标签。",
+      "对于原图编辑，需明确列出保留限制约束。",
+      "以应用内实时报价作为面向客户的参考价格。"
     ]
   },
   "prompts": [
     {
-      "title": "Product concept still",
+      "title": "产品概念静态图",
       "prompt": "A 2K studio still of a matte white smart speaker on a warm concrete plinth, soft side light, clean label area, premium catalog composition, 16:9."
     },
     {
-      "title": "Source image edit",
+      "title": "原图编辑",
       "prompt": "Preserve the product shape and logo hierarchy from the source image, replace the background with a calm studio tabletop, soften reflections, keep natural shadows."
     },
     {
-      "title": "Multi-reference layout",
+      "title": "多参考图版式",
       "prompt": "Use reference 1 for the product shape, reference 2 for color palette and reference 3 for layout rhythm. Create a clean launch still with readable headline space."
     },
     {
-      "title": "Visual research still",
+      "title": "视觉研究静态图",
       "prompt": "Create a grounded visual direction board image for a premium cycling helmet launch, current retail photography cues, neutral background, product-forward composition."
     }
   ],
   "faqs": [
     {
-      "q": "Is Luma Uni-1 an image model?",
-      "a": "Yes. In MaxVideoAI this page describes still-image generation and image editing only."
+      "q": "Luma Uni-1 是图像模型吗？",
+      "a": "是的。在 MaxVideoAI 中，本页面仅介绍静态图像生成与图像编辑功能。"
     },
     {
-      "q": "Can Uni-1 use references?",
-      "a": "Yes. Text requests can use multiple visual references, and edit requests use the first image as the source plus optional references."
+      "q": "Uni-1 可以使用参考图吗？",
+      "a": "可以。文本请求可以使用多张视觉参考图；编辑请求则使用第一张图片作为原图，外加可选参考图。"
     },
     {
-      "q": "How should I price a Uni-1 run?",
-      "a": "Use the displayed MaxVideoAI quote. Public copy uses MaxVideoAI pricing with margin rather than promising lower provider costs."
+      "q": "Uni-1 生成如何计费？",
+      "a": "请以页面展示的 MaxVideoAI 报价为准。公开文案采用包含利润率的 MaxVideoAI 定价，而非承诺更低的服务商直接成本。"
     },
     {
-      "q": "Should I use Uni-1 or Uni-1 Max?",
-      "a": "Use Uni-1 for exploration and reference preparation. Move to Uni-1 Max when a selected still needs higher fidelity or more careful revisions."
+      "q": "我应该使用 Uni-1 还是 Uni-1 Max？",
+      "a": "概念探索与参考图准备阶段请使用 Uni-1。当选中的静态图需要更高保真度或更精细的细节修改时，请升级至 Uni-1 Max。"
     }
   ],
   "custom": {
-    "heroEyebrow": "Luma Uni-1 Image Model",
-    "heroSupportLine": "Best for 2K still images, source edits and reference-led layouts.",
+    "heroEyebrow": "Luma Uni-1 图像模型",
+    "heroSupportLine": "适用于 2K 静态图像、原图编辑与参考图引导版式的理想选择。",
     "heroSpecChips": [
       {
-        "label": "Text->Image",
+        "label": "文生图",
         "icon": "textToVideo"
       },
       {
-        "label": "Image edit",
+        "label": "图像编辑",
         "icon": "imageToVideo"
       },
       {
-        "label": "2K output",
+        "label": "2K 输出",
         "icon": "resolution"
       },
       {
-        "label": "Multi-reference"
+        "label": "多图参考"
       },
       {
         "label": "PNG / JPEG"
       }
     ],
-    "whyTitle": "Why Uni-1 fits image prep",
-    "heroDesc1": "Uni-1 gives teams a focused Luma still-image route for concepts, source edits and reference preparation before committing to a higher-fidelity image pass or motion workflow.",
-    "heroDesc2": "It is most useful when the brief needs visual reasoning and reference roles, not when exact text perfection is the only success criterion.",
+    "whyTitle": "为什么 Uni-1 适合图像筹备",
+    "heroDesc1": "Uni-1 为团队提供了一条专注的 Luma 静态图像路线，可在投入更高保真度图像或动态工作流之前，进行概念设计、原图编辑与参考图筹备。",
+    "heroDesc2": "当设计需求需要视觉推理与明确参考图分工时最为有效，而不是将绝对完美的文字排版作为唯一成功标准。",
     "heroHighlights": [
-      "Image-only workflow||Use Uni-1 for still creation and edits, not direct motion generation.",
-      "Reference roles||Tell the model which reference controls product, layout, style or palette.",
-      "Web-grounded option||Use web search only when current visual context improves the brief.",
-      "Pricing context||Display prices use MaxVideoAI pricing and the app confirms the final quote."
+      "纯图像工作流||使用 Uni-1 进行静态图像创建与编辑，而非直接生成动态视频。",
+      "明确参考图职责||向模型指定哪张参考图控制产品形态、版式、风格或配色。",
+      "联网增强选项||仅在最新视觉背景有助于完善设计需求时开启网页搜索。",
+      "透明计费环境||展示价格采用 MaxVideoAI 定价，应用内会在生成前确认最终报价。"
     ],
-    "specTitle": "Uni-1 image specs",
-    "specNote": "Specs describe the public MaxVideoAI image workspace route.",
+    "specTitle": "Uni-1 图像规格",
+    "specNote": "规格描述公开的 MaxVideoAI 图像工作台路线。",
     "specSections": [
       {
-        "title": "Image workflows",
+        "title": "图像工作流",
         "items": [
-          "Text-to-image for 2K stills.",
-          "Image edit with one source image.",
-          "Optional references for product, style, layout or palette.",
-          "PNG or JPEG output."
+          "用于 2K 静态图像的文生图。",
+          "基于单张原图的图像编辑。",
+          "可选参考图，用于控制产品、风格、版式或色调。",
+          "PNG 或 JPEG 格式输出。"
         ]
       },
       {
-        "title": "Pricing behavior",
+        "title": "计费机制",
         "items": [
-          "Base image and reference costs follow MaxVideoAI display pricing.",
-          "MaxVideoAI display margin is reflected in public examples.",
-          "The exact app quote is authoritative before generation.",
-          "Direct-provider discounts are not promised in public copy."
+          "基础图像与参考图成本遵循 MaxVideoAI 展示价格。",
+          "公开示例中已计入 MaxVideoAI 综合费率。",
+          "生成前以应用内精确报价为准。",
+          "公开文案不承诺服务商直接折扣。"
         ]
       }
     ],
-    "whatTitle": "How Uni-1 works",
-    "whatIntro1": "Choose Uni-1 in the image workspace, then create a still from text or edit an uploaded source image.",
-    "whatIntro2": "Use references only when each image has a clear purpose.",
-    "whatFlowTitle": "Workflow",
+    "whatTitle": "Uni-1 的运作方式",
+    "whatIntro1": "在图像工作台中选择 Uni-1，然后通过文字创建静态图，或对上传的原图进行编辑。",
+    "whatIntro2": "仅在每张图片都有明确目的时使用参考图。",
+    "whatFlowTitle": "工作流程",
     "whatFlowSteps": [
-      "Choose Luma Uni-1 in the image workspace.",
-      "Select create or edit mode.",
-      "Write the still-image brief.",
-      "Add references with explicit roles.",
-      "Review the displayed price.",
-      "Inspect text and small details before using the result."
+      "在图像工作台中选择 Luma Uni-1。",
+      "选择创建或编辑模式。",
+      "撰写静态图像创作需求。",
+      "添加分工明确的参考图。",
+      "查看展示的价格。",
+      "在使用生成结果前检查文字与细微细节。"
     ],
-    "tipsTitle": "Practical strengths and boundaries",
+    "tipsTitle": "实用优势与局限性",
     "strengths": [
-      "Good for 2K concept stills and reference preparation.",
-      "Useful when the prompt needs visual layout reasoning.",
-      "References can reduce ambiguity when each one has a role."
+      "适合 2K 概念静态图与参考图准备。",
+      "当提示词需要视觉版面推理时非常实用。",
+      "当每张参考图分工明确时，能有效减少歧义。"
     ],
     "boundaries": [
-      "Still images only.",
-      "Exact text and small labels need manual review.",
-      "Web-grounded output still needs human verification.",
-      "Public pricing follows MaxVideoAI display pricing."
+      "仅限静态图像。",
+      "精准文字与细小标签需要人工核对。",
+      "联网生成的结果仍需人工核实验证。",
+      "公开价格遵循 MaxVideoAI 展示价格。"
     ],
-    "safetyTitle": "Safety and likeness",
+    "safetyTitle": "安全规范与肖像权",
     "safetyRules": [
-      "No sexual content or content involving minors.",
-      "No hateful, harassing or graphic-violence requests.",
-      "Do not impersonate real people or public figures without consent.",
-      "Do not include private personal data or sensitive documents."
+      "严禁涉及性内容或未成年人的内容。",
+      "严禁仇恨、骚扰或血腥暴力请求。",
+      "未经许可，不得冒用真人或公众人物肖像。",
+      "不得包含私人个人数据或敏感文件。"
     ],
     "relatedItems": [
       {
         "brand": "luma",
         "title": "Luma Uni-1 Max",
-        "description": "Use Max when a selected still needs higher fidelity, product finish or more careful source-image revisions.",
+        "description": "当选中的静态图需要更高保真度、产品质感或更严谨的原图修改时，请使用 Max。",
         "modelSlug": "luma-uni-1-max",
-        "ctaLabel": "View Uni-1 Max"
+        "ctaLabel": "查看 Uni-1 Max"
       },
       {
         "brand": "luma",
         "title": "Luma Ray 3.2",
-        "description": "Use Ray 3.2 when the selected still is ready to become a short cinematic motion test.",
+        "description": "当选定的静态图准备转化为短篇电影级动态测试时，请使用 Ray 3.2。",
         "modelSlug": "luma-ray-3-2",
-        "ctaLabel": "View Ray 3.2"
+        "ctaLabel": "查看 Ray 3.2"
       }
     ],
-    "finalPara1": "Luma Uni-1 is the practical 2K image route for still creation, edits and reference prep in MaxVideoAI.",
-    "finalButton": "Generate with Luma Uni-1"
+    "finalPara1": "Luma Uni-1 是 MaxVideoAI 中用于静态图创作、编辑与参考图准备的实用 2K 图像路线。",
+    "finalButton": "使用 Luma Uni-1 生成"
   },
   "decision": {
     "modelSlug": "luma-uni-1",
     "hero": {
-      "eyebrow": "LUMA IMAGE GENERATION ROUTE",
+      "eyebrow": "LUMA 图像生成路线",
       "title": "Luma Uni-1",
-      "subtitle": "2K image generation with image edits, multi-reference guidance, layout reasoning and optional web-grounded references.",
+      "subtitle": "支持图像编辑、多图参考引导、版面推理及可选联网参考的 2K 图像生成。",
       "subtitleHighlights": [
-        "2K image generation",
-        "image edits",
-        "multi-reference guidance"
+        "2K 图像生成",
+        "图像编辑",
+        "多图参考引导"
       ],
-      "paragraph": "Use Uni-1 for text-to-image, source-image edits, reference-led layouts and visual research stills when you need a thoughtful Luma image route without claiming perfect typography or guaranteed factual accuracy.",
+      "paragraph": "当您需要一条严谨适用的 Luma 图像路线，且无需承诺完美的文字排版或保证事实准确性时，使用 Uni-1 进行文生图、原图编辑、参考图引导的版式设计及视觉研究静态图生成。",
       "primaryCta": {
         "label": "使用 Luma Uni-1 生成",
         "href": "/app/image?engine=luma-uni-1"
@@ -268,7 +268,7 @@
       },
       "quickLinks": [
         {
-          "label": "Open image workspace",
+          "label": "打开图像工作台",
           "href": "/app/image?engine=luma-uni-1"
         },
         {
@@ -282,161 +282,161 @@
       ]
     },
     "media": {
-      "caption": "Luma Uni-1 example",
-      "description": "Reference-led 2K image generation and edit workflow",
-      "renderLabel": "View image",
+      "caption": "Luma Uni-1 示例",
+      "description": "参考图引导的 2K 图像生成与编辑工作流",
+      "renderLabel": "查看图像",
       "badges": [
         "2K",
-        "Edit",
-        "References"
+        "编辑",
+        "多图参考"
       ],
-      "altContext": "Luma Uni-1 reference-led image example"
+      "altContext": "Luma Uni-1 参考图引导的图像示例"
     },
     "features": [
       {
-        "title": "2K stills",
-        "body": "Create single 2K images for concepts, references and layout exploration.",
+        "title": "2K 静态图",
+        "body": "创建单张 2K 图像，用于概念设计、参考准备与版面探索。",
         "tone": "quality"
       },
       {
-        "title": "Source edits",
-        "body": "Use the first image as the edit source, then guide revisions with the prompt.",
+        "title": "原图编辑",
+        "body": "使用第一张图片作为编辑原图，并通过提示词指导修改细节。",
         "tone": "continuity"
       },
       {
-        "title": "Multi-reference input",
-        "body": "Attach references for product shape, style, typography direction or composition cues.",
+        "title": "多参考图输入",
+        "body": "添加参考图以锁定产品形态、风格、字体排版方向或构图线索。",
         "tone": "reference"
       },
       {
-        "title": "Layout reasoning",
-        "body": "Useful for arranging visual elements, but exact text still needs review.",
+        "title": "版面推理",
+        "body": "有助于合理编排视觉元素，但精确文字仍需人工检查。",
         "tone": "quality"
       },
       {
-        "title": "Web-grounded option",
-        "body": "Use web search only when current visual context helps the still brief.",
+        "title": "联网搜索选项",
+        "body": "仅在最新视觉背景有助于静态图需求时启用网页搜索。",
         "tone": "reference"
       },
       {
-        "title": "Display pricing",
-        "body": "Display prices use MaxVideoAI pricing before generation.",
+        "title": "展示价格",
+        "body": "生成前展示基于 MaxVideoAI 综合费率的价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "When to choose Uni-1",
-        "body": "Choose Uni-1 for 2K still concepts, source edits, reference preparation and visual layout exploration before a final image route.",
+        "title": "何时选择 Uni-1",
+        "body": "在确定最终高精度图像路线之前，选用 Uni-1 进行 2K 静态概念设计、原图编辑、参考图准备及视觉版面探索。",
         "cta": {
-          "label": "Open Uni-1",
+          "label": "打开 Uni-1",
           "href": "/app/image?engine=luma-uni-1"
         }
       },
       {
-        "title": "How to use references",
-        "body": "Give each reference a role: product shape, palette, layout, style or text hierarchy. Keep the prompt explicit about what to preserve.",
+        "title": "如何有效使用参考图",
+        "body": "为每张参考图设定清晰职责：产品形态、配色方案、版式、风格或文字层级。提示词中需明确说明需要保留的内容。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "When to move to Uni-1 Max",
-        "body": "Move selected stills to Max when the hero asset needs higher-fidelity detail, product finish or more careful revisions.",
+        "title": "何时升级至 Uni-1 Max",
+        "body": "当核心素材需要更高精度的细节刻画、产品质感或更严谨的细微修改时，将选定的静态图导入 Max。",
         "cta": {
-          "label": "View Uni-1 Max",
+          "label": "查看 Uni-1 Max",
           "href": "/zh/models/luma-uni-1-max"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-image",
-        "body": "Describe the artifact, subject, layout, visual style, aspect ratio and any text that needs review."
+        "title": "文生图",
+        "body": "描述载体类型、主体、版面、视觉风格、画幅比例以及需要核对的任何文字。"
       },
       {
-        "title": "Source edit",
-        "body": "Upload one source image, then separate preserve instructions from changes."
+        "title": "原图编辑",
+        "body": "上传一张原图，然后将需要保留的指令与需要变更的指令明确区分开。"
       },
       {
-        "title": "Multi-reference layout",
-        "body": "Use references to anchor subject, style, palette and composition instead of asking one prompt to carry everything."
+        "title": "多参考图版式",
+        "body": "利用参考图分别锚定主体、风格、配色和构图，无需让单个提示词承担所有重任。"
       },
       {
-        "title": "Web-grounded visual research",
-        "body": "Enable web search only when recent visual context is useful and still verify the result."
+        "title": "联网视觉研究",
+        "body": "仅在需要最新视觉背景时启用网络搜索，且仍需对生成结果进行人工核实。"
       },
       {
-        "title": "Handoff to video",
-        "body": "Save the clearest still as a start image when the next step is motion in a video model."
+        "title": "衔接动态视频",
+        "body": "当下一步是在视频模型中生成动作时，将最清晰的静态图保存为起始帧图片。"
       }
     ],
     "pricingCopy": {
-      "title": "Luma Uni-1 pricing at a glance",
-      "subtitle": "Display prices use MaxVideoAI pricing; exact price appears before generation.",
-      "footnote": "Reference and edit examples include source/reference image counts where shown; final app quotes remain authoritative.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "One image",
+      "title": "Luma Uni-1 价格一览",
+      "subtitle": "展示价格采用 MaxVideoAI 定价；生成前会在应用中显示精确价格。",
+      "footnote": "参考与编辑示例在展示处包含源图/参考图数量；最终以应用内实时报价为准。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "单张图像",
       "ctaHref": "/zh/pricing#luma-uni-1-pricing"
     },
     "meta": {
-      "title": "Luma Uni-1: Image Pricing, References & Editing | MaxVideoAI",
-      "description": "Explore Luma Uni-1 2K image generation, source-image edits, multi-reference guidance, web-grounded visual research and MaxVideoAI pricing."
+      "title": "Luma Uni-1：图像价格、参考与编辑 | MaxVideoAI",
+      "description": "探索 Luma Uni-1 2K 图像生成、原图编辑、多图参考引导、联网视觉研究以及 MaxVideoAI 价格。"
     }
   },
   "prompting": {
     "modelSlug": "luma-uni-1",
     "section": {
-      "title": "How to write a strong Uni-1 prompt",
-      "intro": "Treat the prompt like a still-image creative brief: artifact, subject, layout, references and constraints.",
-      "tip": "Tip: name the role of every reference image.",
+      "title": "如何编写出色的 Uni-1 提示词",
+      "intro": "像对待静态图像创意简报一样撰写提示词：明确载体、主体、版式、参考图分工与约束条件。",
+      "tip": "提示：为每张参考图指定明确的职责。",
       "guide": null,
-      "referencesTitle": "How Luma Uni-1 uses references"
+      "referencesTitle": "Luma Uni-1 如何使用参考素材"
     },
     "tabs": [],
     "tabNotes": [],
     "globalPrinciples": [
-      "Keep one clear visual goal per request.",
-      "Separate preserve and change instructions for edits.",
-      "Use web search only when the brief needs current context."
+      "每次生成保持一个清晰明确的视觉目标。",
+      "在编辑任务中将保留指令与修改指令区分开来。",
+      "仅在创作需求确实需要最新背景时使用网络搜索。"
     ],
     "engineWhy": [
-      "Reference roles help the image route reason about layout and identity.",
-      "Reviewing typography keeps final assets conservative and production-safe.",
-      "A clean still can become stronger source material for later motion."
+      "明确的参考图职责有助于图像路线更好地推理版式与主体身份。",
+      "仔细审查排版文字，确保最终素材稳健合规并符合生产标准。",
+      "干净的静态图像能为后续的动态视频提供更高质量的源素材。"
     ],
     "demo": null,
     "imageExamples": {
-      "title": "Luma Uni-1 image prompt examples",
-      "intro": "Use these for campaign stills, typography posters, reference edits and 2K-to-4K finals.",
-      "workspaceLabel": "Open image workspace",
+      "title": "Luma Uni-1 图像提示词示例",
+      "intro": "适用于营销大片静态图、文字海报、参考图编辑以及 2K 转 4K 终稿。",
+      "workspaceLabel": "打开图像工作台",
       "items": [
         {
           "id": "quality-1",
-          "title": "Campaign still",
-          "badge": "2K still",
+          "title": "营销大片静态图",
+          "badge": "2K 静态图",
           "kind": "quality",
           "prompt": "2K campaign still for an amber perfume bottle on white acrylic, soft studio key light, clean shadow, exact headline \"AURA NOIRE\" top-left, small logo lockup bottom edge."
         },
         {
           "id": "typography-2",
-          "title": "Typography poster",
-          "badge": "Typography",
+          "title": "文字版式海报",
+          "badge": "文字与版式",
           "kind": "typography",
           "prompt": "Vertical 4K poster, premium editorial grid, graphite background, exact headline \"MIDNIGHT LAUNCH\", subhead \"LIMITED DROP\", crisp hierarchy, generous margins, readable text."
         },
         {
           "id": "edit-3",
-          "title": "Reference edit",
-          "badge": "Image-to-image",
+          "title": "参考图编辑",
+          "badge": "图生图",
           "kind": "edit",
           "prompt": "Using this product reference, keep the shape, logo and proportions. Change the scene to a midnight-blue studio, improve reflections, remove dust and fingerprints."
         },
         {
           "id": "layout-4",
-          "title": "2K to 4K final",
-          "badge": "4K final",
+          "title": "2K 转 4K 终稿",
+          "badge": "4K 终稿",
           "kind": "layout",
           "prompt": "Rerun the approved 2K composition as a 4K final. Sharpen fine details, keep typography identical, preserve brand colors, product position and the locked framing."
         }
@@ -446,10 +446,10 @@
   "examples": {
     "modelSlug": "luma-uni-1",
     "section": {
-      "title": "Luma Uni-1 image examples",
-      "intro": "Use examples to plan source edits, product references and still-image handoffs.",
-      "defaultCtaLabel": "Open the image workspace",
-      "recreateLabel": "Recreate this image"
+      "title": "Luma Uni-1 图像案例",
+      "intro": "参考精选案例规划原图编辑、产品参考图引导与静态图像转视频工作流。",
+      "defaultCtaLabel": "打开图像工作台",
+      "recreateLabel": "复现此图像"
     },
     "filters": [
       {
@@ -462,7 +462,7 @@
       },
       {
         "id": "edit",
-        "label": "剪辑变化"
+        "label": "编辑"
       },
       {
         "id": "reference",
@@ -476,72 +476,72 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Clean stills",
-        "body": "Luma Uni-1 is best tested with a focused visual direction, not overloaded prompts.",
+        "title": "干净的静态图",
+        "body": "测试 Luma Uni-1 时最好设定明确的视觉方向，避免堆砌过载的提示词。",
         "icon": "image"
       },
       {
         "id": "proof-2",
-        "title": "Guided edits",
-        "body": "Edit a source image while keeping product shape, palette, and layout readable.",
+        "title": "受控引导编辑",
+        "body": "在编辑原图时保持产品形态、配色方案和版式结构清晰可辨。",
         "icon": "pen"
       },
       {
         "id": "proof-3",
-        "title": "References",
-        "body": "Use start or style references when consistency matters.",
+        "title": "参考图引导",
+        "body": "在连贯性至关重要时，使用起始参考图或风格参考图。",
         "icon": "users"
       },
       {
         "id": "proof-4",
-        "title": "Simple ratios",
-        "body": "Validate product, square, vertical, or 16:9 stills before video.",
+        "title": "灵活画幅比例",
+        "body": "在制作动态视频前，验证产品、方形、竖屏或 16:9 的静态效果。",
         "icon": "maximize"
       },
       {
         "id": "proof-5",
-        "title": "Video-ready",
-        "body": "Use the strongest stills as start images for Ray 3.2.",
+        "title": "衔接动态视频",
+        "body": "将最出色的静态图作为起始帧图片导入 Ray 3.2。",
         "icon": "shield"
       }
     ],
     "fallbackItems": [
       {
         "id": "product",
-        "title": "2K product still",
-        "category": "Product",
+        "title": "2K 产品静态图",
+        "category": "产品",
         "aspectRatio": "2K · 16:9",
-        "alt": "Luma Uni-1 clean product still with simple studio light",
+        "alt": "带有柔和棚拍光线的 Luma Uni-1 极简产品静态图",
         "tags": [
           "product"
         ]
       },
       {
         "id": "edit",
-        "title": "Source image edit",
-        "category": "Edit",
-        "aspectRatio": "Image edit",
-        "alt": "Luma Uni-1 edit preserving product shape while changing studio tone",
+        "title": "原图编辑",
+        "category": "编辑",
+        "aspectRatio": "图像编辑",
+        "alt": "在改变摄影棚影调的同时保留产品形态的 Luma Uni-1 编辑示例",
         "tags": [
           "edit"
         ]
       },
       {
         "id": "reference",
-        "title": "Reference-led still",
-        "category": "References",
-        "aspectRatio": "2 refs",
-        "alt": "Luma Uni-1 still guided by product and mood references",
+        "title": "参考图引导静态图",
+        "category": "多模态参考",
+        "aspectRatio": "2 张参考图",
+        "alt": "由产品和情绪参考图引导生成的 Luma Uni-1 静态图",
         "tags": [
           "reference"
         ]
       },
       {
         "id": "campaign",
-        "title": "Visual research still",
-        "category": "Direction",
+        "title": "视觉研究静态图",
+        "category": "广告大片",
         "aspectRatio": "1:1",
-        "alt": "Luma Uni-1 retail research still for product direction",
+        "alt": "用于产品方向探索的 Luma Uni-1 零售视觉研究图",
         "tags": [
           "campaign"
         ]

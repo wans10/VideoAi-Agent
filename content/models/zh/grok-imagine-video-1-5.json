@@ -2,102 +2,102 @@
   "marketingName": "Grok Imagine Video 1.5",
   "versionLabel": "1.5",
   "seo": {
-    "title": "Grok Imagine Video 1.5 Generator and Reference Workflow",
-    "description": "Explore Grok Imagine Video 1.5 for text, image and image-reference video, with current limits, reference prompting, safety guidance and canonical quotes."
+    "title": "Grok Imagine Video 1.5 生成器与参考工作流",
+    "description": "探索 Grok Imagine Video 1.5 的文本、图像及图像参考视频功能，包括当前限制、参考提示词、安全指南和规范报价。"
   },
-  "overview": "Grok Imagine Video 1.5 introduces a new xAI video family to MaxVideoAI. The model supports prompt-only generation, opening-image animation and reference-to-video with one to seven images. xAI owns Grok Imagine; MaxVideoAI distributes the launch endpoints through Fal, and Grok remains Fal-only for this release.",
+  "overview": "Grok Imagine Video 1.5 为 MaxVideoAI 引入了全新的 xAI 视频系列。该模型支持纯提示词生成、开场图像动画，以及使用一到七张图像的参考转视频功能。xAI 拥有 Grok Imagine；MaxVideoAI 通过 Fal 分发启动端点，本次发布 Grok 仅限 Fal 使用。",
   "decision": {
     "modelSlug": "grok-imagine-video-1-5",
     "hero": {
-      "eyebrow": "CURRENT GROK VIDEO ROUTE",
+      "eyebrow": "当前 Grok 视频路由",
       "title": "Grok Imagine Video 1.5",
-      "subtitle": "Generate one-to-fifteen-second video from text, an opening image or a named image-reference set, with mode-specific resolution and framing controls.",
+      "subtitle": "从文本、开场图像或命名图像参考集生成一到十五秒的视频，支持模式专属分辨率与构图控制。",
       "subtitleHighlights": [
-        "one-to-fifteen-second",
-        "opening image",
-        "image-reference set"
+        "一到十五秒",
+        "开场图像",
+        "图像参考集"
       ],
-      "paragraph": "Choose Grok Imagine Video 1.5 when the brief benefits from direct prompt generation, first-frame animation or explicit image references addressed inside the prompt. Reference mode supports 480p or 720p and adds a factual per-image pricing input; text and image modes also offer 1080p. xAI is the owner and Fal distributes this MaxVideoAI launch path.",
+      "paragraph": "当任务需要直接提示词生成、首帧动画或在提示词中显式引用图像时，请选择 Grok Imagine Video 1.5。参考模式支持 480p 或 720p，并增加了按图像计费的定价输入；文本和图像模式还提供 1080p。xAI 是所有者，Fal 分发 MaxVideoAI 的启动路径。",
       "primaryCta": {
         "label": "使用 Grok Imagine Video 1.5 生成",
         "href": "/app?engine=grok-imagine-video-1-5"
       },
       "secondaryCta": {
-        "label": "Explore the Grok gallery",
+        "label": "浏览 Grok 案例库",
         "href": "/zh/examples/grok"
       },
       "quickLinks": [
         {
-          "label": "Compare Grok with Sora 2",
+          "label": "对比 Grok 与 Sora 2",
           "href": "/zh/ai-video-engines/grok-imagine-video-1-5-vs-sora-2?order=grok-imagine-video-1-5"
         },
         {
-          "label": "Compare Grok with FLUX 3",
+          "label": "对比 Grok 与 FLUX 3",
           "href": "/zh/ai-video-engines/flux-3-vs-grok-imagine-video-1-5?order=grok-imagine-video-1-5"
         },
         {
-          "label": "Review Grok pricing",
+          "label": "查看 Grok 定价",
           "href": "/zh/pricing#grok-imagine-video-1-5-pricing"
         },
         {
-          "label": "Open Grok Prompt Lab",
+          "label": "打开 Grok 提示词实验室",
           "href": "#prompting"
         }
       ]
     },
     "media": {
-      "caption": "Grok Imagine Video 1.5 evidence gallery",
-      "description": "Accepted Grok examples will appear after launch review",
-      "renderLabel": "Review accepted output",
+      "caption": "Grok Imagine Video 1.5 案例展示库",
+      "description": "审核通过的 Grok 示例将在发布审查后显示",
+      "renderLabel": "查看已通过的输出",
       "badges": [
-        "Text",
-        "Image",
-        "Up to 7 references"
+        "文本",
+        "图像",
+        "最多 7 张参考图"
       ],
-      "altContext": "accepted Grok Imagine Video 1.5 example"
+      "altContext": "已通过审核的 Grok Imagine Video 1.5 示例"
     },
     "features": [
       {
-        "title": "New first-class Grok family",
-        "body": "Grok is not presented as a hidden variant of another provider. It receives its own family position, prompting advice, evidence gate and future comparison context while remaining unpublished until the complete launch graph is ready.",
+        "title": "全新一级 Grok 系列",
+        "body": "Grok 不以其他提供商的隐藏变体形式呈现。它拥有独立的系列定位、提示词建议、证据审核门控和未来对比场景，在完整的发布图谱就绪前保持未发布状态。",
         "tone": "quality"
       },
       {
-        "title": "Prompt and first-frame starts",
-        "body": "Text mode controls framing with supported aspect ratios. Image mode animates one opening image and follows that source for framing, so the prompt should concentrate on movement, camera and scene response.",
+        "title": "提示词与首帧启动",
+        "body": "文本模式通过支持的宽高比控制构图。图像模式为单张开场图像添加动画，并以该来源固定构图，因此提示词应专注于运动、镜头和场景反应。",
         "tone": "reference"
       },
       {
-        "title": "Named image references",
-        "body": "Reference mode accepts one to seven images and addresses them with ordered image tokens. State which source controls identity, wardrobe, object design or environment instead of asking the model to average every image.",
+        "title": "命名图像参考",
+        "body": "参考模式接受一到七张图像，并通过有序图像标记在提示词中引用。请指定哪个来源控制身份、服装、物体设计或环境，而不是让模型对所有图像取平均值。",
         "tone": "continuity"
       },
       {
-        "title": "Mode-aware quoting",
-        "body": "The reference scenario supplies the exact image count to canonical pricing and uses a supported reference resolution. Text and image scenarios remain duration-and-resolution quotes without an invented reference surcharge.",
+        "title": "模式感知报价",
+        "body": "参考场景将确切的图像数量提供给规范定价，并使用支持的参考分辨率。文本和图像场景保持时长与分辨率的报价，不附加虚构的参考附加费。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Best fit: expressive concept scenes",
-        "body": "Use Grok for short cinematic ideas, stylized character actions and image-led concepts where a clear prompt or a small identity reference set can guide the result.",
+        "title": "最佳场景：富有表现力的概念画面",
+        "body": "将 Grok 用于短篇电影创意、风格化角色动作和图像主导的概念，清晰的提示词或少量身份参考集即可引导结果。",
         "cta": {
-          "label": "Start a Grok scene",
+          "label": "开始一个 Grok 场景",
           "href": "/app?engine=grok-imagine-video-1-5"
         }
       },
       {
-        "title": "Not ideal: unsupported reference media",
-        "body": "Reference mode is image-based in the canonical launch contract. Do not describe source video, source audio or a generic document as a supported Grok reference input.",
+        "title": "不适合：不支持的参考媒体",
+        "body": "参考模式在规范的发布合约中以图像为基础。请勿将来源视频、来源音频或通用文档描述为 Grok 支持的参考输入。",
         "cta": {
-          "label": "Compare Grok and FLUX",
+          "label": "对比 Grok 与 FLUX",
           "href": "/zh/ai-video-engines/flux-3-vs-grok-imagine-video-1-5?order=grok-imagine-video-1-5"
         }
       },
       {
-        "title": "Prompt references by role",
-        "body": "Use the ordered image tokens in the prompt and say exactly what to preserve from each one. This reduces identity blending and makes the output easier to audit.",
+        "title": "按角色引用参考图",
+        "body": "在提示词中使用有序图像标记，明确说明每张图像需要保留的内容。这可以减少身份混合，使输出更易于审核。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -106,117 +106,117 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-video",
-        "body": "Choose a supported aspect ratio and describe subject, action, camera, setting and ending for a clip up to 1080p."
+        "title": "文本转视频",
+        "body": "选择支持的宽高比，描述主体、动作、镜头、场景和结尾，生成最高 1080p 的片段。"
       },
       {
-        "title": "Image-to-video",
-        "body": "Animate one opening image up to 1080p; that source fixes the framing because this mode exposes no separate aspect-ratio control."
+        "title": "图像转视频",
+        "body": "为单张开场图像添加动画，最高 1080p；该来源固定构图，因为此模式不提供独立的宽高比控制。"
       },
       {
-        "title": "Reference-to-video",
-        "body": "Attach one to seven images, address them from <IMAGE_0>, name each role, and use only 480p or 720p."
+        "title": "参考图转视频",
+        "body": "附加一到七张图像，从 <IMAGE_0> 开始引用，命名每个角色，仅使用 480p 或 720p。"
       },
       {
-        "title": "Rights and safety",
-        "body": "Use permitted sources, obtain likeness consent, avoid deceptive impersonation, and review accidental text or unsafe details."
+        "title": "权利与安全",
+        "body": "使用已获授权的来源，获取肖像同意，避免欺骗性模仿，并检查意外出现的文字或不安全内容。"
       }
     ],
     "pricingCopy": {
-      "title": "Grok Imagine Video 1.5 scenario pricing",
-      "subtitle": "Compare six-second text scenes at 720p and 1080p with an eight-second 480p scenario using two image references.",
-      "footnote": "Prices depend on your selected settings. MaxVideoAI confirms the quote before you generate.",
+      "title": "Grok Imagine Video 1.5 场景定价",
+      "subtitle": "对比 720p 和 1080p 下六秒文本场景，以及使用两张参考图的八秒 480p 场景。",
+      "footnote": "价格取决于您所选的设置。MaxVideoAI 在生成前确认报价。",
       "ctaLabel": "使用 Grok Imagine Video 1.5 生成",
       "ctaHref": "/app?engine=grok-imagine-video-1-5"
     },
     "meta": {
-      "title": "Grok Imagine Video 1.5 Model, References and Pricing",
-      "description": "Review Grok Imagine Video 1.5 text, image and reference modes, duration, resolution, image-count pricing, prompt tokens, safety and future scoreboards."
+      "title": "Grok Imagine Video 1.5 模型、参考与定价",
+      "description": "了解 Grok Imagine Video 1.5 的文本、图像和参考模式、时长、分辨率、按图像计费定价、提示词标记、安全性及未来评测排行。"
     }
   },
   "prompting": {
     "modelSlug": "grok-imagine-video-1-5",
     "section": {
       "title": "提示词实验室 — Grok Imagine Video 1.5",
-      "intro": "Write an observable scene and, in reference mode, identify exactly what each ordered image contributes.",
-      "tip": "Use image tokens beside the trait they control instead of listing every reference at the end.",
+      "intro": "编写可观察的场景，在参考模式下，明确说明每张有序图像的贡献。",
+      "tip": "将图像标记放在其控制的特征旁边，而不是将所有参考都列在最后。",
       "guide": {
-        "label": "Read xAI's Grok Imagine Video 1.5 指南",
+        "label": "阅读 xAI 的 Grok Imagine Video 1.5 指南",
         "href": "https://docs.x.ai/developers/models/grok-imagine-video-1.5"
       },
-      "referencesTitle": "Make reference roles explicit inside the prompt"
+      "referencesTitle": "在提示词中明确指定参考角色"
     },
     "tabs": [
       {
         "id": "story",
-        "label": "Story",
-        "title": "Define one visible story change",
-        "description": "Give the scene an opening state, an action and a stable ending.",
-        "copy": "Subject:\n[Appearance and protected details]\n\nOpening state:\n[Place, pose, light and composition]\n\nAction:\n[One clear performance or physical change]\n\nEnding:\n[Final pose, object state and camera framing]"
+        "label": "故事",
+        "title": "定义一个可见的故事变化",
+        "description": "为场景设置开场状态、动作和稳定的结尾。",
+        "copy": "主体：\n[外貌与受保护细节]\n\n开场状态：\n[地点、姿态、光线与构图]\n\n动作：\n[一个清晰的表演或物理变化]\n\n结尾：\n[最终姿态、物体状态与镜头构图]"
       },
       {
         "id": "cinema",
-        "label": "Camera",
-        "title": "Direct camera and atmosphere",
-        "description": "Choose movement that supports the action rather than competing with it.",
-        "copy": "Framing:\n[Shot size and lens character]\n\nCamera path:\n[One pan, track, push, pull or orbit]\n\nTiming:\n[When action begins, peaks and settles]\n\nAtmosphere:\n[Light, weather, texture and expected sound context]"
+        "label": "镜头",
+        "title": "指导镜头与氛围",
+        "description": "选择支持动作的运镜，而不是与之竞争。",
+        "copy": "构图：\n[景别与镜头特性]\n\n镜头路径：\n[一个平移、跟拍、推进、拉出或环绕]\n\n时机：\n[动作开始、达到高潮与平息的时机]\n\n氛围：\n[光线、天气、质感与预期声音背景]"
       },
       {
         "id": "images",
-        "label": "Images",
-        "title": "Address every image reference",
-        "description": "Use ordered tokens and one role per source.",
-        "copy": "<IMAGE_0>:\n[Identity, face, wardrobe or hero object]\n\n<IMAGE_1>:\n[Environment, palette or material detail]\n\nPriority:\n[Which source wins if details conflict]\n\nAvoid:\n[Blended identities, duplicates, malformed hands, logos, captions and watermarks]"
+        "label": "图像",
+        "title": "引用每一张参考图",
+        "description": "使用有序标记，每个来源分配一个角色。",
+        "copy": "<IMAGE_0>：\n[身份、面部、服装或主要物体]\n\n<IMAGE_1>：\n[环境、色调或材质细节]\n\n优先级：\n[细节冲突时以哪个来源为准]\n\n避免：\n[身份混合、重复、手部变形、标志、标题和水印]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "story",
-        "body": "A short scene still needs a final beat so the result does not end mid-action."
+        "body": "即使是短场景也需要一个收尾节拍，以避免结果在动作中途结束。"
       },
       {
         "tabId": "cinema",
-        "body": "Image-to-video has no separate aspect-ratio control in the canonical endpoint; frame the source accordingly."
+        "body": "图像转视频在规范端点中没有独立的宽高比控制；请相应地裁剪来源图像。"
       },
       {
         "tabId": "images",
-        "body": "Reference mode supports images only in this launch and the supplied count participates in its quote."
+        "body": "参考模式在本次发布中仅支持图像，提供的数量将计入报价。"
       }
     ],
     "globalPrinciples": [
-      "Keep the main action physically observable.",
-      "Protect identity with explicit traits and reference roles.",
-      "Match narrative complexity to a maximum fifteen-second clip.",
-      "Use sources with permission and avoid deceptive real-person imitation."
+      "保持主要动作在物理上可观察。",
+      "使用明确的特征和参考角色保护身份。",
+      "将叙事复杂度控制在最长十五秒的片段范围内。",
+      "使用已获授权的来源，避免欺骗性地模仿真实人物。"
     ],
     "engineWhy": [
-      "Three distinct modes cover prompt, first-frame and image-reference starts.",
-      "Ordered reference tokens let the prompt connect a source to a specific trait.",
-      "Mode-specific resolution rules keep reference scenarios inside the contract rather than borrowing unsupported 1080p."
+      "三种不同模式涵盖提示词、首帧和图像参考启动。",
+      "有序参考标记使提示词能够将来源与特定特征关联起来。",
+      "模式专属的分辨率规则将参考场景限制在合约范围内，而不借用不支持的 1080p。"
     ],
     "demo": {
-      "title": "Grok reference-led night market",
-      "promptLabel": "Two-image reference prompt",
-      "prompt": "Use <IMAGE_0> for the chef's face, apron and copper pan; use <IMAGE_1> for the rain-lit night-market palette and lantern design. The chef flips noodles once, steam rises into the warm lantern light, and the camera makes a slow push from medium-wide to medium close. Preserve identity and pan shape. End as the noodles settle, with no signs, captions or logos.",
+      "title": "Grok 参考引导的夜市场景",
+      "promptLabel": "双图参考提示词",
+      "prompt": "使用 <IMAGE_0> 提供厨师的面部、围裙和铜锅；使用 <IMAGE_1> 提供雨夜夜市的色调和灯笼设计。厨师翻炒一次面条，蒸汽升入温暖的灯光中，镜头从中远景缓缓推进至中景。保留身份和锅的形状。以面条落定作为结尾，画面中无标牌、字幕或标志。",
       "notes": [
-        "Each image controls a different visual layer.",
-        "The action and final settling beat are easy to inspect."
+        "每张图像控制不同的视觉层次。",
+        "动作和最终的落定节拍易于检验。"
       ],
       "summary": {
-        "subject": "Night-market chef guided by the first image",
-        "action": "Single noodle toss with rising steam",
-        "camera": "Slow push toward a medium close view",
-        "style": "Rain-lit market colors from the second image",
-        "output": "Reference-led clip with actual image count in the canonical quote"
+        "subject": "由第一张图像引导的夜市厨师",
+        "action": "单次翻面配升腾蒸汽",
+        "camera": "缓慢推进至中景",
+        "style": "来自第二张图像的雨夜市场色调",
+        "output": "参考引导片段，规范报价中包含实际图像数量"
       },
       "presentationOverrides": {
-        "modeLabel": "参考生视频",
-        "outputLabel": "Supported reference settings",
+        "modeLabel": "参考转视频",
+        "outputLabel": "支持的参考设置",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "Grok Imagine Video 1.5 two-image night-market prompt"
+        "altContext": "Grok Imagine Video 1.5 双图夜市提示词"
       }
     },
     "imageExamples": null
@@ -225,9 +225,9 @@
     "modelSlug": "grok-imagine-video-1-5",
     "showWhenEmpty": false,
     "section": {
-      "title": "Reviewed Grok Imagine Video 1.5 examples",
-      "intro": "No empty gallery is shown; two accepted durable outputs must be attached before this section appears.",
-      "defaultCtaLabel": "查看 all Grok 案例",
+      "title": "已审核的 Grok Imagine Video 1.5 示例",
+      "intro": "不显示空的案例库；该部分需要附加两个已通过审核的持久输出后才会显示。",
+      "defaultCtaLabel": "查看所有 Grok 案例",
       "recreateLabel": null
     },
     "filters": [
@@ -241,39 +241,39 @@
       },
       {
         "id": "reference",
-        "label": "多模态参考"
+        "label": "图像参考"
       }
     ],
     "proofItems": [
       {
         "id": "identity",
         "icon": "users",
-        "title": "Identity fidelity",
-        "body": "Compare the subject with the image role specified in the prompt."
+        "title": "身份还原度",
+        "body": "将主体与提示词中指定的图像角色进行对比。"
       },
       {
         "id": "reference",
         "icon": "image",
-        "title": "Reference separation",
-        "body": "Check whether identity and environment sources remain distinct."
+        "title": "参考分离度",
+        "body": "检验身份来源与环境来源是否保持独立。"
       },
       {
         "id": "motion",
         "icon": "zap",
-        "title": "动作表现",
-        "body": "检验复杂肢体动作与物理动态的平滑度。"
+        "title": "动作连贯性",
+        "body": "检验接触、解剖结构、时间节奏与最终落定节拍。"
       },
       {
         "id": "composition",
         "icon": "maximize",
-        "title": "Stable composition",
-        "body": "Review camera intent, framing and temporal consistency."
+        "title": "构图稳定性",
+        "body": "审核镜头意图、构图和时间一致性。"
       },
       {
         "id": "safety",
         "icon": "shield",
-        "title": "Responsible output",
-        "body": "Reject unsafe imagery, deceptive likenesses, unwanted text and marks."
+        "title": "负责任的输出",
+        "body": "拒绝不安全图像、欺骗性肖像、不需要的文字和标记。"
       }
     ],
     "fallbackItems": null

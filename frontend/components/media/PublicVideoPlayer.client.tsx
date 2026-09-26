@@ -7,6 +7,7 @@ const labels = {
   en: { error: 'Video unavailable.', retry: 'Retry' },
   fr: { error: 'Vidéo indisponible.', retry: 'Réessayer' },
   es: { error: 'Vídeo no disponible.', retry: 'Reintentar' },
+  zh: { error: '视频不可用。', retry: '重试' },
 };
 
 /** Native comparison player: original fidelity remains the default. */

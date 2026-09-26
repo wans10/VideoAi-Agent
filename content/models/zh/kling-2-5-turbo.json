@@ -2,26 +2,26 @@
   "marketingName": "Kling 2.5 Turbo",
   "versionLabel": "2.5 Turbo",
   "seo": {
-    "title": "Kling 2.5 Turbo | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Kling 2.5 Turbo on MaxVideoAI for fast silent AI video drafts, then move to Kling 3 Standard or Kling 3 Pro for the current Kling workflow.",
+    "title": "Kling 2.5 Turbo | AI 视频模型、规格与价格 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Kling 2.5 Turbo 快速生成无声 AI 视频草稿，随后可根据需要无缝升级至 Kling 3 Standard 或 Kling 3 Pro 当前工作流。",
     "image": "/hero/kling-25.jpg"
   },
-  "overview": "Kling 2.5 Turbo remains available as a supported older Kling model for fast silent 1080p drafts, short camera-led clips, and lower-cost look-dev.",
+  "overview": "Kling 2.5 Turbo 仍作为受支持的旧版 Kling 模型提供，适用于快速生成无声 1080p 草稿、运镜主导的短镜头以及低成本的视觉探索与镜头调试。",
   "hero": {
-    "title": "Kling 2.5 Turbo — supported older Kling model for fast silent drafts",
-    "intro": "Kling 2.5 Turbo remains available for fast silent 1080p drafts and lower-cost look-dev, while Kling 3 Standard and Kling 3 Pro are now the current Kling options for multi-shot workflows and native audio.",
-    "badge": "1080p · 5–10s · Text or Image input · Silent output",
+    "title": "Kling 2.5 Turbo — 适用于快速无声草稿的受支持旧版 Kling 模型",
+    "intro": "Kling 2.5 Turbo 持续可用于快速生成无声 1080p 草稿与低成本视觉探索；而对于需要多镜头分镜与原生音频的场景，推荐使用当前的 Kling 3 Standard 和 Kling 3 Pro。",
+    "badge": "1080p · 5–10秒 · 支持文本或图片输入 · 无声输出",
     "ctaPrimary": {
-      "label": "Start generating with Kling 2.5 Turbo",
+      "label": "使用 Kling 2.5 Turbo 开始生成",
       "href": "/app?engine=kling-2-5-turbo"
     },
     "secondaryLinks": [
       {
-        "label": "See Kling 3 Standard",
+        "label": "查看 Kling 3 Standard",
         "href": "/zh/models/kling-3-standard"
       },
       {
-        "label": "See Kling 3 Pro",
+        "label": "查看 Kling 3 Pro",
         "href": "/zh/models/kling-3-pro"
       },
       {
@@ -29,322 +29,322 @@
         "href": "/zh/examples/kling"
       },
       {
-        "label": "Compare Kling 3 Pro vs Kling 3 Standard",
+        "label": "对比 Kling 3 Pro 与 Kling 3 Standard",
         "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-3-standard"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳应用场景",
     "items": [
       {
-        "title": "Product hero beats",
+        "title": "产品特写高光镜头",
         "icon": "product"
       },
       {
-        "title": "Action & dynamic movement",
+        "title": "动作场面与高动态运动",
         "icon": "zap"
       },
       {
-        "title": "Portrait / selfie animation (from a still)",
+        "title": "单张静态图生成肖像/自拍动画",
         "icon": "ugc"
       },
       {
-        "title": "Cinematic handheld & tracking shots",
+        "title": "电影级手持运镜与跟拍镜头",
         "icon": "camera"
       },
       {
-        "title": "Budget B-roll loops for edits",
+        "title": "经济实用的剪辑 B-roll 循环素材",
         "icon": "repeat2"
       },
       {
-        "title": "Fast look-dev & style variants",
+        "title": "快速视觉探索与风格变体测试",
         "icon": "wand2"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "5 s or 10 s per clip"
+      "label": "时长",
+      "body": "单次片段 5 秒或 10 秒"
     },
     {
-      "label": "Resolution",
-      "body": "1080p Full HD (1920×1080)"
+      "label": "分辨率",
+      "body": "1080p 全高清 (1920×1080)"
     },
     {
-      "label": "Aspect ratios",
-      "body": "16:9, 9:16, 1:1"
+      "label": "画幅比例",
+      "body": "16:9、9:16、1:1"
     },
     {
-      "label": "Inputs",
-      "body": "Text → Video (Pro Text); Image → Video (Pro Image / Standard) with one still"
+      "label": "输入方式",
+      "body": "文生视频 (Pro Text)；图生视频 (Pro Image / Standard)，支持单张静态图"
     },
     {
-      "label": "Audio",
-      "body": "Silent output (no baked audio)"
+      "label": "音频",
+      "body": "无声输出（不包含内嵌音频）"
     },
     {
-      "label": "Controls",
-      "body": "Negative prompt; CFG scale (~0.5–0.7 sweet spot); tier selector (Pro Text / Pro Image / Standard)"
+      "label": "控制选项",
+      "body": "负向提示词；CFG 缩放系数（推荐 ~0.5–0.7）；版本档位选择 (Pro Text / Pro Image / Standard)"
     },
     {
-      "label": "Pricing",
-      "body": "Shown per 5 seconds in-app; example: Pro 5s ≈ $0.35, 10s ≈ $0.70; Standard cheaper (≈$0.21 / $0.42)"
+      "label": "计费方式",
+      "body": "在应用内按每 5 秒计费显示；参考价格：Pro 5秒 ≈ /bin/zsh.35，10秒 ≈ /bin/zsh.70；Standard 更实惠 (≈/bin/zsh.21 / /bin/zsh.42)"
     }
   ],
   "promptStructure": {
-    "title": "Text-to-Video with Kling 2.5 Turbo",
-    "quote": "10 second [aspect ratio] cinematic shot of [subject] in [environment]. Camera [movement] while [main action] plays out, realistic motion and detailed lighting. Style: [gritty / glossy / cinematic]. No text, no logos, no extra characters.",
-    "description": "Write prompts like a short DoP note: subject/framing, environment, camera move, pacing, lighting/look, plus a clear negative prompt.",
+    "title": "Kling 2.5 Turbo 文生视频",
+    "quote": "10 秒 [画幅比例] 电影级镜头：[主体] 处于 [环境] 中。摄像机 [运镜方式]，同时展现 [主要动作]，呈现逼真动态与细腻光影。风格：[写实粗粝 / 质感明亮 / 电影大片]。无文本，无 logo，无多余人物。",
+    "description": "像撰写摄影指导 (DoP) 备忘一样编写提示词：主体/取景、环境、运镜、节奏、光影/风格，并附带清晰的负向提示词。",
     "steps": [
-      "Subject & framing (who/what and how close)",
-      "Environment (one setting)",
-      "Camera move (dolly, tracking, handheld sway, orbit, etc.)",
-      "Motion & pacing over 5/10 seconds",
-      "Lighting & look (gritty, glossy, neon, commercial, etc.)",
-      "Negative prompt to block text/logos/extra characters"
+      "主体与取景（角色/物体以及景别距离）",
+      "场景环境（单一设定场景）",
+      "摄像机运镜（推拉、跟拍、手持晃动、环绕等）",
+      "5/10 秒内的动态与动作节奏",
+      "光影与风格（胶片质感、通透光泽、霓虹、商业大片等）",
+      "负向提示词以排除文字、logo 及多余肢体/人物"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "Keep prompts to 1–2 tight sentences; very long prompts can wander",
-      "Use a strong negative prompt: “no text, no logos, no extra people”",
-      "Pro Text for highest fidelity; Pro Image for portrait/product from a still; Standard for cheaper loops",
-      "Stick to one scene; stitch multiple clips for longer stories",
-      "Add your own audio in the edit or pair with Wan/Sora/Veo clips"
+      "提示词保持 1–2 句精炼描述；过长的提示词可能导致画面焦点发散",
+      "使用强有力的负向提示词：“无文字、无 logo、无多余人物”",
+      "Pro Text 带来最高画质；Pro Image 适合静态肖像/产品图起步；Standard 适合成本更低的循环素材",
+      "单个生成聚焦单一场景；若需较长叙事，可在后期拼接多个片段",
+      "在后期剪辑中自行添加配音配乐，或与 Wan、Sora、Veo 片段组合使用"
     ]
   },
   "compareLink": {
-    "label": "See Kling 3 Standard ->",
+    "label": "查看 Kling 3 Standard ->",
     "href": "/models/kling-3-standard"
   },
   "prompts": [
     {
-      "title": "Alley action (10s, 16:9)",
+      "title": "小巷追逐动作戏 (10秒, 16:9)",
       "prompt": "10s 16:9 handheld tracking shot of a man sprinting through a narrow city alley at night. Camera runs behind and to the side, breathing with footsteps as neon signs and wet cobblestones streak past. High contrast, reflections, realistic motion blur, film grain. No text, no logos, no police cars, no explosions."
     },
     {
-      "title": "Founder portrait drift (5s, 9:16)",
+      "title": "创业者肖像缓推运镜 (5秒, 9:16)",
       "prompt": "5s vertical 9:16 shot of a founder standing by a window at golden hour. Slow handheld drift from chest-up to closer on the face, shallow depth of field, city lights softly blurred. Realistic skin, crisp shirt details, gentle flares. No text, no logos, no extra people."
     }
   ],
   "faqs": [
     {
-      "q": "Does Kling 2.5 Turbo output audio?",
-      "a": "No. It is video-only and produces silent 1080p clips; add sound in your editor or pair with audio-capable engines."
+      "q": "Kling 2.5 Turbo 会输出音频吗？",
+      "a": "不会。该模型仅生成纯视频，输出无声 1080p 片段；您可以在剪辑软件中添加音效，或搭配支持音频的引擎使用。"
     },
     {
-      "q": "What durations and formats are supported?",
-      "a": "5 or 10 seconds in 16:9, 9:16 or 1:1 for both text and image runs."
+      "q": "支持哪些时长和画幅规格？",
+      "a": "文生和图生视频均支持 5 秒或 10 秒时长，画幅比例支持 16:9、9:16 或 1:1。"
     },
     {
-      "q": "Can I upload more than one reference image?",
-      "a": "No. One image per render. Combine references into one board if needed and describe the camera path clearly."
+      "q": "我可以上传多张参考图片吗？",
+      "a": "不支持。单次渲染仅限一张图片。如有多张参考需求，可将其拼为单张画板上传，并在提示词中清晰描述运镜轨迹。"
     },
     {
-      "q": "How is Kling priced?",
-      "a": "Per 5s/10s shown in-app. Pro tiers ~ $0.35 / $0.70; Standard image cheaper. Confirm live price in the chip before rendering."
+      "q": "Kling 的计费标准是怎样的？",
+      "a": "在应用内按 5 秒/10 秒阶梯计费展示。Pro 档位约为 /bin/zsh.35 / /bin/zsh.70；Standard 图像档位更实惠。提交渲染前可在价格标签中查看实时报价。"
     },
     {
-      "q": "When should I use another engine?",
-      "a": "Use Sora/Veo/Wan for native audio or multi-beat stories; use Pika for stylized animation or pixel looks."
+      "q": "什么情况下应该选择其他引擎？",
+      "a": "若需原生同步音频或多镜头多节拍叙事，可选用 Sora、Veo 或 Wan；若需风格化动画或像素艺术，可选用 Pika。"
     }
   ],
   "custom": {
-    "heroDesc1": "Generate cinematic, silent 1080p clips from text or a single still. Choose Pro Text, Pro Image or Standard per render to balance fidelity and cost.",
-    "heroDesc2": "Pick 5 or 10 seconds, 16:9/9:16/1:1, upload one image or write a focused prompt, and get crisp footage ready for editors and social teams.",
-    "heroSupportLine": "Best for product hero beats, dynamic action moments, and portrait/selfie animation from a single still.",
-    "whyTitle": "Why Kling 2.5 Turbo is powerful",
+    "heroDesc1": "基于文本或单张静态图片生成电影级无声 1080p 片段。每次渲染可灵活选择 Pro Text、Pro Image 或 Standard 档位，兼顾画质与成本。",
+    "heroDesc2": "可选 5 秒或 10 秒时长，支持 16:9 / 9:16 / 1:1 画幅，上传单张图片或输入精准提示词，即可产出供剪辑师与社媒团队直接使用的高清素材。",
+    "heroSupportLine": "最适合产品特写高光镜头、高动态运动场景，以及通过单张静态图片生成肖像/自拍动画。",
+    "whyTitle": "为什么 Kling 2.5 Turbo 表现出色",
     "heroHighlights": [
-      "Motion + physics that feel intentional||Strong inertia and believable movement in short beats.",
-      "Camera-first results||Clear framing and one-move shots read like real cinematography.",
-      "Silent by design||Easy to score in post and match your brand audio.",
-      "Clean-up controls||Negative prompts help avoid text, logos, and extra characters.",
-      "Quick quality switching||Move between tiers without rewriting your whole prompt."
+      "自然可信的物理动态||短镜头中具备强烈的惯性与逼真的物理运动。",
+      "运镜优先的视觉效果||清晰的构图与单机位调度呈现真实摄影机的质感。",
+      "纯粹的无声设计||便于后期自由铺设音效，精准匹配品牌声调。",
+      "精准的画面净化控制||负向提示词有助于阻断文字、logo 与多余人物。",
+      "灵活快捷的画质档位切换||无需重写提示词即可在不同档位间自由切换。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳应用场景",
     "bestUseCases": [
       {
-        "title": "Product hero beats",
+        "title": "产品特写高光镜头",
         "icon": "product"
       },
       {
-        "title": "Action & dynamic movement",
+        "title": "动作场面与高动态运动",
         "icon": "zap"
       },
       {
-        "title": "Portrait / selfie animation (from a still)",
+        "title": "单张静态图生成肖像/自拍动画",
         "icon": "ugc"
       },
       {
-        "title": "Cinematic handheld & tracking shots",
+        "title": "电影级手持运镜与跟拍镜头",
         "icon": "camera"
       },
       {
-        "title": "Budget B-roll loops for edits",
+        "title": "经济实用的剪辑 B-roll 循环素材",
         "icon": "repeat2"
       },
       {
-        "title": "Fast look-dev & style variants",
+        "title": "快速视觉探索与风格变体测试",
         "icon": "wand2"
       }
     ],
-    "whatTitle": "What Kling 2.5 Turbo Actually Is in MaxVideoAI",
-    "whatIntro1": "Kling 2.5 Turbo is a high-performance short-form video model for cinematic motion, strong prompt adherence and consistent style.",
-    "whatIntro2": "In MaxVideoAI it is a single, multi-tier engine you can switch per render.",
-    "whatFlowTitle": "MaxVideoAI flow",
+    "whatTitle": "Kling 2.5 Turbo 在 MaxVideoAI 中的实际定位",
+    "whatIntro1": "Kling 2.5 Turbo 是一款高性能短视频生成模型，主打电影级运镜动态、出色的提示词遵循度与稳定的视觉风格。",
+    "whatIntro2": "在 MaxVideoAI 中，它作为单模型多档位引擎提供，每次渲染均可自由切换。",
+    "whatFlowTitle": "MaxVideoAI 创作流程",
     "whatFlowSteps": [
-      "1. Choose Kling 2.5 Turbo.",
-      "2. Pick Text → Video (Pro Text) or Image → Video (Pro Image / Standard).",
-      "3. Set duration (5/10 s), aspect ratio, 1080p.",
-      "4. Choose Pro vs Standard for quality vs budget.",
-      "5. Paste a cinematic, camera-focused prompt and optional negative prompt.",
-      "6. Check exact price before you render.",
-      "7. Compare against Sora, Veo, Wan, MiniMax in the same workspace."
+      "1. 选择 Kling 2.5 Turbo。",
+      "2. 选择文生视频 (Pro Text) 或图生视频 (Pro Image / Standard)。",
+      "3. 设置时长（5秒/10秒）、画幅比例以及 1080p 分辨率。",
+      "4. 在 Pro 与 Standard 之间权衡画质与预算。",
+      "5. 粘贴注重运镜调度的电影感提示词，并按需添加负向提示词。",
+      "6. 渲染前查看精确费用。",
+      "7. 在同一工作区中与 Sora、Veo、Wan、MiniMax 并排对比效果。"
     ],
-    "specTitle": "Real Specs – Kling 2.5 Turbo in MaxVideoAI (1080p, 5–10s)",
-    "specNote": "This describes Kling 2.5 Turbo as used in MaxVideoAI.",
+    "specTitle": "真实规格 – MaxVideoAI 中的 Kling 2.5 Turbo（1080p，5–10秒）",
+    "specNote": "此内容描述在 MaxVideoAI 中使用的 Kling 2.5 Turbo。",
     "specSections": [
       {
-        "title": "Motion & physics",
-        "intro": "Strong on kinetic motion and believable physics. Best for camera-forward action beats.",
+        "title": "动态与物理规律",
+        "intro": "擅长动能表现与可信的物理规律。最适合运镜导向的动作瞬间。",
         "items": [
-          "Use one bold camera move.",
-          "Call out inertia and weight.",
-          "Keep the subject centered for readability.",
-          "Great for action beats and product spins."
+          "使用单一明确的摄像机运镜动作。",
+          "在描述中体现物体的重量感与惯性。",
+          "保持主体居中以确保视觉焦点明确。",
+          "非常适合动作节拍与产品环绕旋转镜头。"
         ]
       },
       {
-        "title": "Silent finishing",
-        "intro": "Outputs are silent by design, making post-sound easy. A good fit for B-roll loops and cutaways.",
+        "title": "无声成片",
+        "intro": "原生输出无声视频，便于后期自由配音配乐。非常适合 B-roll 循环与插镜素材。",
         "items": [
-          "Plan sound in your editor.",
-          "Loop-friendly shots work best.",
-          "Use negative prompts to avoid text/logos.",
-          "Switch tiers without rewriting prompts."
+          "在后期剪辑软件中规划音频设计。",
+          "适合循环播放的镜头效果更佳。",
+          "使用负向提示词避免出现文字与 logo。",
+          "无需重写提示词即可自由切换画质档位。"
         ]
       }
     ],
-    "specValueProp": "Kling 2.5 Turbo is a silent 1080p engine for cinematic short beats with strong motion and physics.",
-    "imageTitle": "Image-to-Video Flow with Kling 2.5 Turbo",
-    "imageIntro": "Animate one still via Pro Image or Standard tiers.",
+    "specValueProp": "Kling 2.5 Turbo 是一款输出 1080p 无声视频的电影级引擎，专为具有强烈动态与真实物理表现的短镜头打造。",
+    "imageTitle": "Kling 2.5 Turbo 图生视频流程",
+    "imageIntro": "通过 Pro Image 或 Standard 档位让单张静态图动起来。",
     "imageFlow": [
-      "Upload a portrait, product shot or keyframe (PNG/JPG/WEBP).",
-      "Pick Pro Image for max fidelity or Standard for cheaper loops.",
-      "Set duration, aspect ratio and 1080p output.",
-      "Describe motion (camera/subject) and add a negative prompt to prevent overlays."
+      "上传肖像、产品实拍或概念关键帧 (PNG/JPG/WEBP)。",
+      "选择 Pro Image 获取最高画质，或选择 Standard 获得更实惠的循环素材。",
+      "设置时长、画幅比例与 1080p 输出。",
+      "描述动态（运镜/主体运动），并添加负向提示词防止产生画面噪点与水印。"
     ],
     "imageWhy": [
-      "Founder portraits to subtle walk-and-talk shots",
-      "Product hero stills with parallax & camera drift",
-      "Cinematic loops from 3D renders or concept frames"
+      "从创始人肖像延伸至细腻的边走边谈镜头",
+      "带有视差与微慢运镜的产品特写静态图",
+      "基于 3D 渲染图或概念画创作的电影级循环背景"
     ],
-    "multishotTitle": "Loops, Mini-Sequences & 10s Stories",
-    "multishotIntro1": "Kling excels at focused 5 or 10 second beats.",
-    "multishotIntro2": "Treat 5s as one gesture; 10s as 2–3 mini beats with a coherent camera path.",
+    "multishotTitle": "循环素材、微序列与 10 秒短故事",
+    "multishotIntro1": "Kling 非常擅长演绎专注凝练的 5 秒或 10 秒节拍。",
+    "multishotIntro2": "将 5 秒视为一个完整动作；将 10 秒视为包含连贯运镜轨迹的 2–3 个微小节拍。",
     "multishotTips": [
-      "One scene, one style; stitch clips for longer edits",
-      "Use Beats 1/2/3 to plan a 10s arc (establish, tension, hero frame)",
-      "Use Recreate-from-gallery to see pacing patterns"
+      "保持单一场景与统一风格；通过多片段拼接完成更长剪辑",
+      "使用第 1/2/3 节拍规划 10 秒叙事弧线（建立场景、营造张力、定格高光）",
+      "利用案例画廊的一键复现功能，学习优质镜头的节奏结构"
     ],
-    "tipsTitle": "Tips & Limitations",
+    "tipsTitle": "使用技巧与边界限制",
     "strengths": [
-      "Camera-first prompts: framing + angle + a single move (dolly / pan / handheld drift) before style.",
-      "Motion/physics cues: call out weight, inertia, friction, and contact (“heavy footsteps”, “objects stay grounded”, “no floaty motion”).",
-      "Keep action readable: one main action per clip; avoid stacked beats in 5–10s.",
-      "Clean frames: use a short negative prompt to block text/logos and extra characters.",
-      "Image→Video shines for portraits/products: start from a clean still and only ask for motion + camera."
+      "运镜优先的提示词：在描述风格前，先明确取景 + 角度 + 单一运镜（推拉/平移/手持微晃）。",
+      "物理运动线索：明确指出重量、惯性、摩擦力与接触感（如“沉重的步伐”、“物体稳固着地”、“无悬浮漂移感”）。",
+      "保持动作清晰可读：单个片段聚焦一个核心动作；避免在 5–10 秒内堆叠过多动作。",
+      "净化画面：添加简短的负向提示词以阻断文字、logo 和多余人物。",
+      "图生视频非常适合肖像与产品：从一张干净的静态图片起步，仅描述动作与运镜。"
     ],
     "boundaries": [
-      "5s or 10s per render.",
-      "Silent output in this tier — add sound in post when needed.",
-      "1080p max, 24 fps.",
-      "Tiny on-screen text is unreliable — overlay critical copy in post."
+      "单次渲染时长为 5 秒或 10 秒。",
+      "当前档位为无声输出 — 需要时请在后期添加音效与配乐。",
+      "最高支持 1080p 分辨率，24 fps 帧率。",
+      "微小屏幕文字生成不稳定 — 关键文案建议在后期剪辑中叠加大字。"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "合规安全与人物肖像规范",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness.",
-      "Don’t include private personal data (addresses, phone numbers, documents, non-consenting faces).",
-      "Use only content you have rights to (images/brands/IP); some prompts or inputs may be blocked by safety filters."
+      "禁止生成色情内容，严禁涉及未成年人的任何不合规内容。",
+      "禁止生成包含仇恨、骚扰或血腥暴力的内容。",
+      "不得冒充现实人物或公众人物；使用任何肖像均需取得授权许可。",
+      "不得包含私人个人数据（住址、电话号码、证件以及未经许可的人脸）。",
+      "仅使用您拥有合法权益的内容（图像/品牌/IP）；部分提示词或输入可能被安全过滤器拦截。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "comparisonTitle": "Kling vs Sora / Veo / Wan / Pika – Quick Overview",
+    "comparisonTitle": "Kling 对比 Sora / Veo / Wan / Pika – 快速横向总览",
     "comparisonPoints": [
-      "Kling 2.5 Turbo: 1080p, silent, cinematic; great for action and hero shots",
-      "Sora 2 / Sora 2 Pro: 720p / high-res (up to 1792×1024) with audio for physics-heavy mini-films",
-      "Veo 3.1: controllable framing presets, audio on/off, 4–8 s beats",
-      "Wan 2.5: 5–10 s with native or uploaded audio for music/VO sync",
-      "Pika 2.2: stylized, silent animation for loops and playful visuals"
+      "Kling 2.5 Turbo：1080p 无声电影级画面；极佳的动作表现与特写高光镜头",
+      "Sora 2 / Sora 2 Pro：720p / 高清（最高 1792×1024）带音频，适合强物理规律的微电影",
+      "Veo 3.1：可控取景预设，音频开关，4–8 秒电影节拍",
+      "Wan 2.5：5–10 秒支持原生或上传音频，适合配乐与对白同步",
+      "Pika 2.2：风格化无声动画，适合循环趣味视觉"
     ],
-    "comparisonCta": "Compare Kling vs Sora 2 Pro →",
-    "faqTitle": "FAQ – Kling 2.5 Turbo in MaxVideoAI",
+    "comparisonCta": "对比 Kling 与 Sora 2 Pro →",
+    "faqTitle": "常见问题 – MaxVideoAI 中的 Kling 2.5 Turbo",
     "faqs": [
       {
-        "q": "Does Kling 2.5 Turbo output audio?",
-        "a": "No. It is video-only and silent; add sound in your editor or via audio-capable engines."
+        "q": "Kling 2.5 Turbo 会输出音频吗？",
+        "a": "不会。该模型仅生成纯视频且为无声输出；可在后期剪辑软件中或通过支持音频的引擎添加声音。"
       },
       {
-        "q": "What durations and formats are supported?",
-        "a": "5 or 10 seconds; 16:9, 9:16, 1:1 for text and image runs."
+        "q": "支持哪些时长和画幅格式？",
+        "a": "文生和图生均支持 5 秒或 10 秒；画幅比例支持 16:9、9:16、1:1。"
       },
       {
-        "q": "Can I upload multiple images?",
-        "a": "One image per render. Merge references into a single board if needed."
+        "q": "我可以上传多张图片吗？",
+        "a": "单次渲染仅限一张图片。如有多张参考图，可先拼接为单张画板再上传。"
       },
       {
-        "q": "How is Kling priced?",
-        "a": "Per 5s/10s shown in-app. Pro ~ $0.35/$0.70; Standard cheaper. Use the price chip before rendering."
+        "q": "Kling 如何收费？",
+        "a": "应用内按 5秒/10秒 阶梯展示。Pro 档位约为 /bin/zsh.35//bin/zsh.70；Standard 更实惠。生成前请查看实时价格标签。"
       },
       {
-        "q": "When should I choose another engine?",
-        "a": "Use Sora/Veo/Wan for native audio; Pika for stylized/pixel looks; Sora/Veo for multi-beat audio stories."
+        "q": "何时应该选择其他引擎？",
+        "a": "需要原生音频时选用 Sora/Veo/Wan；需要风格化或像素风时选用 Pika；需要多节拍音频故事时选用 Sora/Veo。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare pricing, latency, and outputs across the MaxVideoAI catalog.",
-    "finalPara1": "Kling 2.5 Turbo in MaxVideoAI is your 1080p, silent, cinematic engine for short, punchy beats.",
-    "finalPara2": "Use it when camera work and motion carry the story, then layer audio in post or pair with audio engines.",
-    "finalButton": "Open Generate",
-    "tipsIntro": "Kling 2.5 Turbo is easiest to steer when you write for motion: one subject, one clear action, one camera move — and explicit weight/inertia.",
-    "troubleshootingTitle": "Common problems → fast fixes",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "在 MaxVideoAI 目录中横向对比各模型的价格、生成延迟与成片效果。",
+    "finalPara1": "MaxVideoAI 中的 Kling 2.5 Turbo 是专为短小有力、节奏紧凑的镜头打造的 1080p 无声电影级引擎。",
+    "finalPara2": "当运镜调度与物理动态承担核心叙事时，使用它是绝佳选择，随后可在后期铺设声音或与其他音频模型搭配。",
+    "finalButton": "打开生成工作区",
+    "tipsIntro": "为动态而写提示词时，Kling 2.5 Turbo 最易掌控：单一主体、一个明确动作、单一运镜 — 并点明重量感与惯性。",
+    "troubleshootingTitle": "常见问题 → 快速排查",
     "troubleshootingItems": [
-      "Motion feels floaty / fake → add weight + contact cues; slow the action; remove handheld shake; simplify the background.",
-      "Subject/face warps → avoid extreme close-ups + fast turns; reduce facial performance; use Image→Video for stability.",
-      "Identity drifts across takes → reuse the same subject wording + wardrobe + lighting; keep the prompt structure identical.",
-      "Random text/logos appear → strengthen negative prompt (“no text, no logos, no UI, no watermark”) and keep signage out of frame.",
-      "Frame looks chaotic → remove secondary characters/props; keep one hero subject and center the action."
+      "动作感觉轻飘/不真实 → 添加重量与接触线索；放慢动作；移除剧烈的手持抖动；简化背景。",
+      "主体/人脸扭曲变形 → 避免极度特写与快速转头；减少剧烈面部表情；使用图生视频增强稳定性。",
+      "不同镜头间人物特征漂移 → 复用相同的主体描述词 + 服装 + 光影；保持提示词结构完全一致。",
+      "画面中出现随机文字/logo → 增强负向提示词（“无文字、无 logo、无 UI、无水印”），并避免取景框内出现指示牌。",
+      "画面显得杂乱无章 → 移除次要角色与道具；仅保留一个核心主体并使动作居中。"
     ]
   },
   "decision": {
     "modelSlug": "kling-2-5-turbo",
     "hero": {
-      "eyebrow": "SUPPORTED KLING SILENT DRAFT ROUTE",
+      "eyebrow": "受支持的旧版 KLING 无声草稿路线",
       "title": "Kling 2.5 Turbo",
-      "subtitle": "Silent 1080p drafts for text or image starts, camera look-dev, and negative prompt control.",
+      "subtitle": "适用于文生或图生起步、运镜视觉探索与负向提示词控制的无声 1080p 草稿，便于后续升级至 Kling 3。",
       "subtitleHighlights": [
-        "Silent 1080p drafts",
-        "text or image starts",
-        "negative prompt control"
+        "无声 1080p 草稿",
+        "文生或图生起步",
+        "负向提示词控制"
       ],
-      "paragraph": "Use Kling 2.5 Turbo when you need a supported older Kling route for silent short drafts, single-image motion tests, camera-first look-dev, and lower-cost prompt cleanup before moving approved shots into Kling 3.",
+      "paragraph": "当您需要受支持的旧版 Kling 无声工作流，在升级至 Kling 3 Standard 或 Pro 之前快速测试运镜导向镜头、产品高光节拍或进行低成本视觉探索时，选用 Kling 2.5 Turbo 是理想之选。",
       "primaryCta": {
-        "label": "Draft with Kling 2.5 Turbo",
+        "label": "使用 Kling 2.5 Turbo 创作草稿",
         "href": "/app?engine=kling-2-5-turbo"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/kling"
       },
       "quickLinks": [
         {
-          "label": "View Kling 3 Standard",
+          "label": "查看 Kling 3 Standard",
           "href": "/zh/models/kling-3-standard"
         },
         {
@@ -358,68 +358,68 @@
       ]
     },
     "media": {
-      "caption": "Kling 2.5 Turbo example",
-      "description": "Silent short draft for look-dev",
-      "renderLabel": "View draft",
+      "caption": "Kling 2.5 Turbo 案例",
+      "description": "用于视觉探索的无声短视频草稿",
+      "renderLabel": "查看完整渲染",
       "badges": [
-        "Silent",
-        "10s",
-        "1080p"
+        "1080p",
+        "5–10秒",
+        "无声"
       ],
-      "altContext": "silent Kling 2.5 Turbo draft clip"
+      "altContext": "Kling 2.5 Turbo 无声视频草稿片段"
     },
     "features": [
       {
-        "title": "Silent drafts",
-        "body": "Generate video-only clips that are easy to score or edit later.",
+        "title": "无声草稿",
+        "body": "生成纯视频片段，便于后期自由铺设音效或剪辑整合到更宏大的成片中。",
+        "tone": "video"
+      },
+      {
+        "title": "支持文本或图片",
+        "body": "从提示词或单张参考静态图起步，快速生成产品、肖像或动作短节拍。",
         "tone": "quality"
       },
       {
-        "title": "Text or image",
-        "body": "Start from a prompt or one reference still for short motion tests.",
-        "tone": "reference"
+        "title": "运镜视觉探索",
+        "body": "在投入更高成本渲染前，先测试跟拍、推拉、手持或产品环绕等运镜效果。",
+        "tone": "control"
       },
       {
-        "title": "Camera look-dev",
-        "body": "Try tracking, dolly, handheld or product moves before the final route.",
-        "tone": "continuity"
+        "title": "负向提示词",
+        "body": "在短片段中有效阻断多余人物、文字、logo 以及视觉噪点瑕疵。",
+        "tone": "safety"
       },
       {
-        "title": "Negative prompt",
-        "body": "Block extra people, text, logos and visual artifacts with cleanup copy.",
-        "tone": "reference"
-      },
-      {
-        "title": "Max 10s",
-        "body": "Keep one scene and one action inside the exposed short duration.",
+        "title": "最长 10 秒",
+        "body": "在短时长限制内聚焦单一场景与单一核心动作。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按需付费",
+        "body": "在提交生成前实时查看精确价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "When should you use 2.5 Turbo?",
-        "body": "Use it for silent look-dev, camera tests and inexpensive Kling drafts. Use Kling 3 routes when the shot needs the current workflow.",
+        "title": "何时应当使用 2.5 Turbo？",
+        "body": "适合用于无声视觉探索、运镜测试以及高性价比的 Kling 草稿。当镜头需要当前主流工作流时，请选择 Kling 3 系列。",
         "cta": {
-          "label": "View Kling 3 Standard",
+          "label": "查看 Kling 3 Standard",
           "href": "/zh/models/kling-3-standard"
         }
       },
       {
-        "title": "Need audio or stronger finals?",
-        "body": "Move approved recipes into Kling 3 Pro when the render needs stronger current-model fidelity or sound context.",
+        "title": "需要音频或更高精度的成片？",
+        "body": "当渲染需要更先进模型的超高保真度或声音情境时，可将经过验证的参数方案迁移至 Kling 3 Pro。",
         "cta": {
-          "label": "View Kling 3 Pro",
+          "label": "查看 Kling 3 Pro",
           "href": "/zh/models/kling-3-pro"
         }
       },
       {
-        "title": "Cleaning up a prompt?",
-        "body": "Use one action, one camera move and a strong negative prompt before trying more expensive routes.",
+        "title": "正在优化调试提示词？",
+        "body": "在尝试更高成本路线前，先采用单一动作、单一运镜和强效负向提示词进行打磨测试。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -428,122 +428,122 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Write a tight shot brief: subject, action, setting, camera move and style."
+        "title": "文本提示词",
+        "body": "编写凝练的分镜简报：主体、动作、环境设定、运镜方式以及视觉风格。"
       },
       {
-        "title": "Single image",
-        "body": "Use one still when subject shape, product framing or composition should anchor the clip."
+        "title": "单张参考图",
+        "body": "当需要固定主体形态、产品构图或画面布局时，使用单张静态图片作为视觉锚点。"
       },
       {
-        "title": "Negative prompt",
-        "body": "List what to avoid: text, logos, extra characters, distortion or low-quality motion."
+        "title": "负向提示词",
+        "body": "列出需要规避的元素：文字、logo、多余人物、画面畸变或低质量动态。"
       },
       {
-        "title": "CFG scale",
-        "body": "Adjust adherence carefully when the shot needs less drift or more creative freedom."
+        "title": "CFG 缩放系数",
+        "body": "细致微调遵循度系数：降低漂移发散或赋予画面更多创意自由度。"
       },
       {
-        "title": "Upgrade path",
-        "body": "Send the best silent recipe to Kling 3 Standard or Pro when it is ready for review."
+        "title": "升级路径",
+        "body": "当无声草稿调试满意后，可将优质参数配方送入 Kling 3 Standard 或 Pro 进行正式渲染审阅。"
       }
     ],
     "pricingCopy": {
-      "title": "Kling 2.5 Turbo pricing at a glance",
-      "subtitle": "Preset silent draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 1080p",
+      "title": "Kling 2.5 Turbo 价格一览",
+      "subtitle": "预设无声草稿总价 — 提交生成前可在应用内查看精确的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#kling-2-5-turbo-pricing"
     },
     "meta": {
-      "title": "Kling 2.5 Turbo: Pricing & Silent Drafts | MaxVideoAI",
-      "description": "Use Kling 2.5 Turbo for supported older Kling silent drafts, text or image starts, negative prompt control and lower-cost 1080p look-dev."
+      "title": "Kling 2.5 Turbo：价格与无声草稿 | MaxVideoAI",
+      "description": "使用受支持的旧版 Kling 2.5 Turbo 模型生成无声草稿，支持文生或图生起步、负向提示词控制以及低成本 1080p 视觉探索。"
     }
   },
   "prompting": {
     "modelSlug": "kling-2-5-turbo",
     "section": {
-      "title": "How to Write a Great Kling 2.5 Turbo Prompt",
-      "intro": "Kling Turbo responds best to short, concrete prompts and one clear camera move.",
-      "tip": "Tip: duration + aspect ratio are set in the UI - your prompt controls subject, action, camera, lighting, and style. Use Negative prompt to block artifacts.",
+      "title": "如何编写优质的 Kling 2.5 Turbo 提示词",
+      "intro": "Kling Turbo 对简短具体且包含单一清晰运镜的提示词响应最佳。",
+      "tip": "提示：时长与画幅比例可在界面中直接设置 — 提示词用于把控主体、动作、运镜、光影与风格。使用负向提示词阻断画面瑕疵。",
       "guide": {
-        "label": "Kling by Kuaishou",
+        "label": "快手 Kling",
         "href": "https://www.kuaishou.com/en"
       },
-      "referencesTitle": "How Kling 2.5 Turbo uses references"
+      "referencesTitle": "Kling 2.5 Turbo 如何运用参考素材"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
-        "copy": "Prompt: [Subject + action] in [setting], [camera move], [lighting/style].\nNegative: [text, logos, extra limbs, blur]"
+        "label": "快速",
+        "title": "快速提示词（高效迭代）",
+        "description": "需要快速尝试多样化效果时，使用 1–2 句精炼描述。",
+        "copy": "提示词：[主体 + 动作] 处于 [场景环境]，[运镜方式]，[光影/风格]。\n负向提示词：[文字, logo, 多余肢体, 模糊]"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
-        "copy": "Subject:\n[Who/what + one action.]\n\nSetting:\n[Where + time + 2 visual anchors.]\n\nCamera:\n[Shot + angle + one move.]\n\nLook:\n[Lighting + palette + style.]\n\nNegative:\n[What to avoid: text, logos, extra people, blur.]"
+        "label": "结构化",
+        "title": "结构化提示词（输出稳定可控的首选）",
+        "description": "分层拆分关键信息，使模型能够稳定连贯地遵循指令。",
+        "copy": "主体：\n[人物/物体 + 单一动作。]\n\n场景设定：\n[地点 + 时间 + 2个视觉特征锚点。]\n\n运镜：\n[景别 + 机位角度 + 单一运镜。]\n\n视觉质感：\n[光影 + 色调 + 风格。]\n\n负向提示词：\n[规避项：文字、logo、多余人物、模糊。]"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"studio brief\")",
-        "description": "Use this when you need a very specific look or continuity across shots.",
-        "copy": "Brief:\n[Goal + vibe.]\n\nSubject + wardrobe:\n[Key traits + materials.]\n\nSet:\n[Location + 3 anchors.]\n\nCinematography:\n[Framing + angle + one move + lens feel.]\n\nLighting:\n[Key light + palette.]\n\nNegative:\n[Text, logos, extra characters, artifacts.]"
+        "label": "专业简报",
+        "title": "专业级提示词（精准把控的“片场摄影简报”）",
+        "description": "当需要精确的视觉质感或跨镜头连贯性时使用。",
+        "copy": "拍摄简报：\n[创作目标 + 氛围基调。]\n\n主体与服饰：\n[核心特征 + 材质细节。]\n\n布景置景：\n[地点 + 3个特征锚点。]\n\n电影摄影：\n[取景构图 + 拍摄角度 + 单一运镜 + 镜头质感。]\n\n光影布光：\n[主光设定 + 色彩基调。]\n\n负向提示词：\n[文字、logo、多余角色、画面瑕疵。]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 探索变体。适合敏捷高效的快速迭代。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 稳定连贯。适合追求可控确定性结果的场景。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = style control. Use for precise, repeatable looks."
+        "body": "专业级 = 风格把控。适合打造精确、可复现的高标准画面质感。"
       }
     ],
     "globalPrinciples": [
-      "One subject, one action, one camera move.",
-      "Use concrete nouns and settings.",
-      "Add a short negative prompt for text/logos/extra people."
+      "单一主体，单一动作，单一运镜。",
+      "使用具体明确的名词与场景环境描述。",
+      "添加简短的负向提示词以排除文字、logo 与多余人物。"
     ],
     "engineWhy": [
-      "Short, physical actions read best in 5-10s.",
-      "Explicit camera language improves consistency.",
-      "Negative prompts keep frames clean."
+      "短小精炼的肢体动作在 5–10 秒内视觉呈现最自然清晰。",
+      "明确专业的摄影机运镜语言能显著提升画面连贯性。",
+      "负向提示词能有效净化画面，阻断多余噪点与穿帮。"
     ],
     "demo": {
-      "title": "Demo – Founder portrait 5s (9:16)",
+      "title": "演示 – 创业者肖像 5秒 (9:16)",
       "promptLabel": "文生视频",
       "prompt": "Subject: Startup founder by a window\nAction: Holds a vertical portrait moment\nCamera: Slow handheld drift from chest-up to closer on the face\nStyle: Golden-hour light, blurred city background, founder portrait\nAudio: Soft ambience, no dialogue",
       "notes": [
-        "Single subject, single location, clear camera path.",
-        "Room for VO/graphics in post.",
-        "Pro Image for best fidelity on a portrait."
+        "单一主体，单一拍摄场景，运镜轨迹清晰连贯。",
+        "为后期添加配音与图文包装预留充足空间。",
+        "肖像类镜头选用 Pro Image 档位可获得最佳画面保真度。"
       ],
       "summary": {
-        "subject": "Startup founder by a window",
-        "action": "Holds a vertical portrait moment",
-        "camera": "Slow handheld drift from chest-up to closer on the face",
-        "style": "Golden-hour light, blurred city background, founder portrait",
-        "output": "Soft ambience, no dialogue"
+        "subject": "窗边的创业者",
+        "action": "定格竖屏肖像静默时刻",
+        "camera": "缓慢手持运镜从半身推近至面部特写",
+        "style": "黄金时刻柔和光线，虚化城市背景，质感创业者肖像",
+        "output": "柔和环境音，无对白"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Audio",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Kling 2.5 Turbo AI video example: Demo - Founder portrait 5s (9:16)"
+        "altContext": "Kling 2.5 Turbo AI 视频案例：演示 – 创业者肖像 5秒 (9:16)"
       }
     },
     "imageExamples": null
@@ -551,10 +551,10 @@
   "examples": {
     "modelSlug": "kling-2-5-turbo",
     "section": {
-      "title": "Example Gallery: Kling 2.5 Turbo",
-      "intro": "Actual runs from the current Kling route in MaxVideoAI.",
-      "defaultCtaLabel": "View all Kling 2.5 Turbo examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "Kling 2.5 Turbo 案例画廊",
+      "intro": "来自 MaxVideoAI 当前 Kling 线路的真实生成案例。",
+      "defaultCtaLabel": "查看全部 Kling 2.5 Turbo 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -585,32 +585,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Kling 2.5 Turbo — supported older Kling model for fast silent drafts.",
+        "title": "真实社区渲染案例",
+        "body": "探索 Kling 2.5 Turbo 的强大表现 — 适用于快速无声草稿的受支持旧版 Kling 模型。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键直达应用工作区，直接复用该镜头的全部参数配置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频支持",
+        "body": "支持在对应工作流中同步生成对白、环境音与音效。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头分镜连贯性",
+        "body": "在连续镜头序列中保持角色身份、视觉风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "生产级合规保障",
+        "body": "内置安全合规围栏与内容过滤器，满足严谨的商用审阅要求。",
         "icon": "shield"
       }
     ],

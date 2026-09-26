@@ -2,22 +2,22 @@
   "marketingName": "Google Veo 3.1 Fast",
   "versionLabel": "3.1 Fast",
   "seo": {
-    "title": "Veo 3.1 Fast | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Veo 3.1 Fast on MaxVideoAI for faster draft passes, reference-image tests, lower-cost iteration, live specs, and pricing before moving selected outputs into Veo 3.1.",
+    "title": "Veo 3.1 Fast | AI 视频模型、技术规格与价格 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Veo 3.1 Fast 进行快速草稿渲染、参考图测试与低成本迭代，在将选定镜头导入 Veo 3.1 之前即可查看实时参数规格与价格。",
     "image": "/hero/veo-3-1-hero.jpg"
   },
-  "overview": "Veo 3.1 Fast is the current faster Google Veo 3.1 variant for text-to-video drafts, image-to-video tests, 8s reference-to-video runs with 1-4 stills, short concept loops, and lower-cost iteration with optional native audio and live pay-per-second pricing.",
+  "overview": "Veo 3.1 Fast 是 Google Veo 3.1 系列中当前更快速的版本，适用于文生视频草稿、图生视频测试、基于 1–4 张静态图片的 8 秒参考生视频渲染、概念短循环以及低成本迭代，支持可选的原生音频与实时按秒计费。",
   "hero": {
-    "title": "Veo 3.1 Fast — current Veo variant for faster drafts and iteration",
-    "intro": "Use Google Veo 3.1 Fast as the quicker Veo 3 AI workflow for text-to-video drafts, image-to-video tests, reference-to-video runs from 1-4 stills, short concept loops, and lower-cost iteration before moving selected outputs into Veo 3.1.",
-    "badge": "720p/1080p · 4–8s · Text, references, start image, last frame & extend",
+    "title": "Veo 3.1 Fast — 用于快速草稿与高效迭代的当前 Veo 版本",
+    "intro": "使用 Google Veo 3.1 Fast 获得更敏捷的 Veo 3 AI 创作流，适用于文生视频草稿、图生视频测试、基于 1–4 张参考图的 8 秒生成、短概念循环以及更低成本的快速迭代，随后可将获选镜头导入 Veo 3.1 进行最终精修。",
+    "badge": "720p/1080p · 4–8 秒 · 文本、参考图、起始帧、尾帧与延长",
     "ctaPrimary": {
-      "label": "Try Veo 3.1 Fast",
+      "label": "使用 Veo 3.1 Fast 生成",
       "href": "/app?engine=veo-3-1-fast"
     },
     "secondaryLinks": [
       {
-        "label": "See Veo 3.1",
+        "label": "查看 Veo 3.1",
         "href": "/zh/models/veo-3-1"
       },
       {
@@ -25,341 +25,341 @@
         "href": "/zh/examples/veo"
       },
       {
-        "label": "Compare Veo 3.1 vs Veo 3.1 Fast",
+        "label": "对比 Veo 3.1 与 Veo 3.1 Fast",
         "href": "/zh/ai-video-engines/veo-3-1-vs-veo-3-1-fast"
       },
       {
-        "label": "Compare Veo 3.1 Fast vs Veo 3.1 Lite",
+        "label": "对比 Veo 3.1 Fast 与 Veo 3.1 Lite",
         "href": "/zh/ai-video-engines/veo-3-1-fast-vs-veo-3-1-lite"
       },
       {
-        "label": "Compare LTX 2.3 Fast vs Veo 3.1 Fast",
+        "label": "对比 LTX 2.3 Fast 与 Veo 3.1 Fast",
         "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-veo-3-1-fast"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳适用场景",
     "items": [
       {
-        "title": "Rapid concept testing",
+        "title": "概念构思快速验证",
         "icon": "zap"
       },
       {
-        "title": "Ad variants & A/B tests",
+        "title": "广告多版本与 A/B 测试",
         "icon": "ads"
       },
       {
-        "title": "Social drafts & loops",
+        "title": "社交媒体草稿与短循环",
         "icon": "smartphone"
       },
       {
-        "title": "Quick product takes",
+        "title": "产品动态镜头快速探索",
         "icon": "product"
       },
       {
-        "title": "Pre-viz & story beats",
+        "title": "前期故事节拍与视觉预演",
         "icon": "storyboard"
       },
       {
-        "title": "Style exploration (many variants)",
+        "title": "风格多维度发散（多版本探索）",
         "icon": "wand2"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "4 s, 6 s, 8 s per render; Reference mode is 8 s"
+      "label": "时长",
+      "body": "单次渲染 4 秒、6 秒或 8 秒；参考模式固定为 8 秒"
     },
     {
-      "label": "Resolution",
-      "body": "720p or 1080p at 24 fps"
+      "label": "分辨率",
+      "body": "720p 或 1080p（24 fps）"
     },
     {
-      "label": "Formats",
-      "body": "16:9, 9:16, or 1:1; 1:1 is available on text runs and start+last-frame shots"
+      "label": "画幅格式",
+      "body": "16:9、9:16 或 1:1；1:1 支持纯文本生成以及起始帧+尾帧镜头"
     },
     {
-      "label": "Inputs",
-      "body": "Text → Video; Image-to-Video starts from one image; Reference mode accepts 1-4 stills; First/Last frame uses one opening and one ending image; Extend from an existing video"
+      "label": "输入方式",
+      "body": "文生视频；图生视频支持单张起始图片；参考模式支持 1–4 张静态参考图；首尾帧支持指定起始与结束图片；支持基于现有视频片段延长（Extend）"
     },
     {
-      "label": "Audio",
-      "body": "Optional native audio (VO, ambience, SFX) via per-job toggle"
+      "label": "音频",
+      "body": "支持单次任务按需开启原生音频（旁白 VO、环境音、音效 SFX）"
     },
     {
-      "label": "Pricing",
-      "body": "The pricing card uses MaxVideoAI scenario totals for duration, resolution and audio on/off. Specs use the same display pricing helper for audio-on and audio-off per-second rates; the exact quote appears before generation."
+      "label": "计费方式",
+      "body": "价格卡片显示 MaxVideoAI 针对时长、分辨率及音频开关的预设场景总价。技术规格使用相同的展示计费助手呈现音频开启与关闭的按秒费率；生成前会显示确切的实时报价。"
     },
     {
-      "label": "Render timing",
-      "body": "Short queue times; live estimates shown in the jobs rail"
+      "label": "渲染耗时",
+      "body": "排队等待时间短；任务面板中提供实时耗时预估"
     }
   ],
   "promptStructure": {
-    "title": "Text and Reference-to-Video with Google Veo 3.1 Fast",
-    "quote": "8s 16:9 reference-to-video run using three campaign stills: preserve the same jacket, product color and rainy street mood while the camera tracks one step forward. Audio on: city ambience and one short VO line.",
-    "description": "Keep prompts tight, single-scene and sensory. Use one start image for Image-to-Video, attach 1-4 stills in Reference-to-Video for an 8s consistency pass, or use first/last frames when the ending composition is approved.",
+    "title": "Google Veo 3.1 Fast 文本与参考生视频编写指南",
+    "quote": "基于三张广告活动静态参考图的 8 秒 16:9 参考生视频渲染：保持相同的夹克、产品色彩和雨夜街头氛围，同时镜头向前推进追踪一步。开启音频：城市环境音以及一句简短沉稳的旁白。",
+    "description": "保持提示词紧凑、聚焦于单一场景并富于感官细节。图生视频使用单张起始图片，参考生视频中添加 1–4 张参考图进行 8 秒一致性生成，或在结束构图已锁定时使用首尾帧控制。",
     "steps": [
-      "Subject + focal point (one idea for the whole clip)",
-      "Environment in a single location",
-      "Camera motion across 4–8 seconds",
-      "Light and mood (daylight, neon night, warm office, etc.)",
-      "Audio (optional): ambience + short VO, or say “no dialogue”",
-      "Format and duration (16:9, 9:16, or 1:1 when available; 4/6/8 s)",
-      "Reference-to-Video: attach 1-4 stills for an 8s consistency pass; name what each reference should preserve."
+      "主体 + 核心焦点（全片围绕单一核心构思展开）",
+      "单一位置的具体环境",
+      "贯穿 4–8 秒的镜头运镜",
+      "光影与氛围（日间日光、霓虹夜市、温暖办公空间等）",
+      "音频（可选）：环境音 + 简短旁白，或声明“无对白”",
+      "画幅与时长（16:9、9:16，或支持时的 1:1；4/6/8 秒）",
+      "参考生视频：附加 1–4 张参考图进行 8 秒连贯性生成；明确每张参考图需保留的关键要素。"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "⚡ Use Fast as a sandbox for A/B tests and prompt tweaks",
-      "🧩 Use one start image for Image-to-Video, or Reference mode with 1-4 stills when identity, wardrobe, or product continuity matters",
-      "🧷 Add a Last frame when the opening and ending frames are already approved",
-      "🎚️ Audio toggle: rough mix when on, cheaper runs when off",
-      "📱 Optimize for social formats where 4–8 seconds is the story",
-      "🖼️ Single-scene focus; avoid multi-location narratives in this tier",
-      "🔁 Clone winners to Veo 3.1 for final 1080p polish and richer audio"
+      "⚡ 将 Fast 作为 A/B 测试与提示词调优的高速沙盒",
+      "🧩 图生视频使用单张起始图片；当人物身份、服装或产品连续性至关重要时，采用 1–4 张静态图的参考模式",
+      "🧷 当起始构图与最终定格画面均已确认时，添加尾帧控制",
+      "🎚️ 音频开关：开启时获得初步混音，关闭时降低单次生成成本",
+      "📱 针对社交媒体画幅优化，4–8 秒即可讲好微型故事",
+      "🖼️ 聚焦于单一场景；在该级别模型中避免复杂的多场景叙事",
+      "🔁 将优胜版本克隆至 Veo 3.1，获得最终 1080p 精修质感与更丰满的音频"
     ]
   },
   "compareLink": {
-    "label": "Compare Veo 3.1 vs Veo 3.1 Fast ->",
+    "label": "对比 Veo 3.1 与 Veo 3.1 Fast →",
     "href": "/ai-video-engines/veo-3-1-vs-veo-3-1-fast"
   },
   "prompts": [
     {
-      "title": "Misty forest slow push",
+      "title": "薄雾森林缓慢推镜头",
       "prompt": "Misty forest at dawn, slow push-in toward a mossy rock as light rays cut through trees, subtle birdsong, no dialogue, 8s, 16:9 at 1080p."
     },
     {
-      "title": "Reference product walk-through",
+      "title": "参考图引导产品漫游",
       "prompt": "8s 16:9 reference-to-video shot using 1-4 product and wardrobe stills, slow tracking camera through a neon street, preserve face, outfit, logo shape, and material details, subtle city ambience."
     },
     {
-      "title": "Late-night desk draft",
+      "title": "深夜办公桌快速草稿",
       "prompt": "8s 16:9 Veo 3.1 Fast draft of a presenter working late at a minimalist desk, city lights blurred through a large window. Medium close-up, slow handheld drift, cool window light plus warm desk lamp, soft typing and one short calm line."
     }
   ],
   "faqs": [
     {
-      "q": "Can I use Veo 3.1 Fast for text-to-video, image-to-video, and reference testing?",
-      "a": "Yes. Veo 3.1 Fast supports quick text-to-video runs, Image-to-Video from one start image, and 8s Reference mode with 1-4 stills when you want to compare prompts, framing, identity, and timing before finaling in Veo 3.1."
+      "q": "我可以使用 Veo 3.1 Fast 进行文生视频、图生视频和参考图测试吗？",
+      "a": "可以。Veo 3.1 Fast 支持快速文生视频、基于单张起始图片的图生视频，以及支持 1–4 张参考图的 8 秒参考模式，方便你在最终导入 Veo 3.1 之前对比提示词、构图、主体一致性与节奏。"
     },
     {
-      "q": "When should I use Veo 3.1 Fast instead of Veo 3.1?",
-      "a": "Use Fast for exploration, social variants and internal reviews; switch to Veo 3.1 for final hero shots and paid media."
+      "q": "什么时候应该使用 Veo 3.1 Fast 而非 Veo 3.1？",
+      "a": "探索构思、制作社交多版本以及内部评审时使用 Fast；当需要最终主视觉广告片和付费媒体投放时，切换至 Veo 3.1。"
     },
     {
-      "q": "Does Veo 3.1 Fast support vertical videos?",
-      "a": "Yes. Veo 3.1 Fast supports 16:9, 9:16, and 1:1 at 720p or 1080p. Choose 9:16 for mobile-first placements and 1:1 for square social crops."
+      "q": "Veo 3.1 Fast 是否支持竖屏视频？",
+      "a": "支持。Veo 3.1 Fast 支持 720p 或 1080p 规格下的 16:9、9:16 和 1:1 画幅。移动端优先投放建议选择 9:16，方形社交裁切可选择 1:1。"
     },
     {
-      "q": "Can I reuse Veo 3.1 prompts in Fast?",
-      "a": "Yes. Clone a Veo 3.1 render, change engine to Veo 3.1 Fast, keep framing/tone presets, and adjust length/resolution."
+      "q": "我可以在 Fast 中复用 Veo 3.1 的提示词吗？",
+      "a": "可以。克隆 Veo 3.1 的渲染任务，将引擎切换为 Veo 3.1 Fast，保留构图与基调预设，并按需调整时长和分辨率即可。"
     },
     {
-      "q": "How does pricing compare to Veo 3.1?",
-      "a": "Use the pricing card for preset MaxVideoAI display totals: each scenario states duration, resolution and audio on/off. Specs use the same helper for per-second display rates, and Generate shows the exact live quote before you run variants."
+      "q": "它的价格相比 Veo 3.1 如何？",
+      "a": "价格卡片展示了预设的 MaxVideoAI 显示总价：每个场景标明了时长、分辨率和音频开/关状态。技术规格使用相同的计算助手呈现按秒显示费率，在批量运行各版本之前，“生成”页面会显示确切的实时报价。"
     },
     {
-      "q": "Can I run Veo 3.1 Fast from Europe or LATAM?",
-      "a": "Yes. It uses the same MaxVideoAI wallet/workspace and licensed DeepMind routing—no separate billing needed."
+      "q": "我可以在欧洲或拉美地区使用 Veo 3.1 Fast 吗？",
+      "a": "可以。它使用相同的 MaxVideoAI 钱包/工作空间以及正规授权的 DeepMind 路由通道，无需单独结算或额外签约。"
     }
   ],
   "custom": {
-    "heroDesc1": "Veo 3.1 Fast brings DeepMind’s cinematic engine to a lower price point and faster turnaround, perfect for rapid testing, reference-image consistency checks, guided endings, and social loops.",
-    "heroDesc2": "Start from a short text brief, one start image for Image-to-Video, or 1-4 reference stills for an 8s consistency pass. Add a Last frame only when you need to steer the ending, or extend an existing clip, then choose orientation, resolution, audio, and generate variants fast enough to A/B multiple ideas in one session.",
-    "heroSupportLine": "Best for exploring hooks, guided endings, and pacing fast before you regenerate winners in Veo 3.1.",
-    "whyTitle": "Why Veo 3.1 Fast is powerful",
+    "heroDesc1": "Veo 3.1 Fast 将 DeepMind 的电影级生成引擎带入更具性价比的价位与更敏捷的周转速度，非常适合快速测试、参考图一致性验证、尾帧引导与社交媒体短循环。",
+    "heroDesc2": "从简短的文本构思、图生视频单张起始图片或用于 8 秒连贯性生成的 1–4 张参考图开始。仅在需要控制结尾画面时添加尾帧，或直接延长现有片段；随后选择画幅方向、分辨率与音频开关，生成速度足够支持在单次会话中对多个创意开展 A/B 测试。",
+    "heroSupportLine": "非常适合在将优胜镜头导入 Veo 3.1 重新生成前，快速探索黄金前几秒吸睛点、引导转场与视频节奏。",
+    "whyTitle": "为什么 Veo 3.1 Fast 如此强大",
     "heroHighlights": [
-      "Optimized for speed + business workflows||Built for programmatic ad generation and rapid creative testing at scale.",
-      "Keeps Veo’s cinematic intent||Clear camera language + style cues translate well into consistent variants.",
-      "Sound-ready drafts||Great for rough timing and vibe; polish the final take in the premium tier.",
-      "Simple upgrade path||Draft in Fast, then regenerate the keepers in Veo 3.1 for higher-fidelity finals."
+      "专为速度与商业创作流优化||专为规模化广告生成与批量创意快速测试而生。",
+      "保留 Veo 的电影级镜头语言||清晰的运镜语言与风格线索能高度还原为连贯稳定的衍生版本。",
+      "自带原生音频的草稿能力||非常适合把握初步节奏与氛围质感；成片细节可在高阶模型中进一步打磨。",
+      "平滑简便的进阶路径||在 Fast 中起草验证，随后在 Veo 3.1 中重新生成获选镜头，产出更高画质的成片。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳适用场景",
     "bestUseCases": [
       {
-        "title": "Rapid concept testing",
+        "title": "概念构思快速验证",
         "icon": "zap"
       },
       {
-        "title": "Ad variants & A/B tests",
+        "title": "广告多版本与 A/B 测试",
         "icon": "ads"
       },
       {
-        "title": "Social drafts & loops",
+        "title": "社交媒体草稿与短循环",
         "icon": "smartphone"
       },
       {
-        "title": "Quick product takes",
+        "title": "产品动态镜头快速探索",
         "icon": "product"
       },
       {
-        "title": "Pre-viz & story beats",
+        "title": "前期故事节拍与视觉预演",
         "icon": "storyboard"
       },
       {
-        "title": "Style exploration (many variants)",
+        "title": "风格多维度发散（多版本探索）",
         "icon": "wand2"
       }
     ],
-    "whatTitle": "What Veo 3.1 Fast Actually Is in MaxVideoAI",
-    "whatIntro1": "Veo 3.1 Fast is tuned for speed and efficiency within the Veo family.",
-    "whatIntro2": "You keep framing and tone presets, but runs are optimized for cost and turnaround.",
-    "whatFlowTitle": "MaxVideoAI flow:",
+    "whatTitle": "Veo 3.1 Fast 在 MaxVideoAI 中的实际定位",
+    "whatIntro1": "Veo 3.1 Fast 专为 Veo 家族中的高速度与高效率进行了精细调校。",
+    "whatIntro2": "保留相同的构图与色调预设，但生成针对成本控制与交付效率进行了全面优化。",
+    "whatFlowTitle": "MaxVideoAI 创作流程：",
     "whatFlowSteps": [
-      "1. Pick Veo 3.1 Fast as the engine.",
-      "2. Start from text, add one Start image for Image-to-Video, or attach 1-4 reference stills in Reference mode.",
-      "3. Use Reference mode for 8s identity/product consistency, or add a Last frame when you need to steer the ending.",
-      "4. Set duration, orientation and resolution.",
-      "5. Toggle audio on/off, then paste a tight, sensory prompt.",
-      "6. Check the live price and render."
+      "1. 选择 Veo 3.1 Fast 作为生成引擎。",
+      "2. 从纯文本开始，或为图生视频添加单张起始图片，或在参考模式下附加 1–4 张参考素材。",
+      "3. 使用参考模式实现 8 秒主体/产品一致性，或在需要掌控结束落幅时添加尾帧图片。",
+      "4. 设置时长、画幅方向与分辨率。",
+      "5. 选择开启/关闭原生音频，然后输入简炼、富于画面感的提示词。",
+      "6. 确认实时价格并开始渲染。"
     ],
-    "specTitle": "Real Specs – Veo 3.1 Fast in MaxVideoAI (720p/1080p, 4–8s, 8s references)",
-    "specNote": "These specs describe Veo 3.1 Fast exactly as you can use it today via MaxVideoAI.",
+    "specTitle": "真实技术规格 — MaxVideoAI 中的 Veo 3.1 Fast（720p/1080p、4–8秒、8秒参考模式）",
+    "specNote": "这些规格准确描述了您今天通过 MaxVideoAI 所使用的 Veo 3.1 Fast 实时功能。",
     "specSections": [
       {
-        "title": "Draft-speed exploration",
-        "intro": "Built for rapid testing and volume when you need ideas fast. Use it to explore hooks, angles, and pacing.",
+        "title": "草稿级极速探索",
+        "intro": "专为快速验证与高频出片设计，满足快速涌现创意的需求。适合用于探索视频吸睛点、镜头机位与动态节奏。",
         "items": [
-          "Keep prompts short and action-driven.",
-          "Generate many small variants.",
-          "Test multiple openings quickly.",
-          "Use one start image for Image-to-Video; attach 1-4 reference stills when you need an 8s consistency pass.",
-          "Promote winners to the full tier."
+          "保持提示词简短并以动作为导向。",
+          "批量生成多组小版本。",
+          "快速测试多种不同的开场设计。",
+          "图生视频使用单张起始图片；需要 8 秒连贯生成时附加 1–4 张参考图。",
+          "将获选优胜版本升级至完整高阶版本。"
         ]
       },
       {
-        "title": "Upgrade path",
-        "intro": "The same prompt structure upgrades cleanly to the premium tier. Treat Fast as your draft layer.",
+        "title": "平滑升级路径",
+        "intro": "相同的提示词结构可以直接无缝迁移至高阶旗舰模型。将 Fast 视作您的高效草稿工作层。",
         "items": [
-          "Reuse shot language for finals.",
-          "Swap in stronger references later.",
-          "Use Fast for social drafts and loops.",
-          "Save templates to scale campaigns."
+          "最终成片可直接复用相同的镜头语言。",
+          "后续可替换更高精度的参考图。",
+          "使用 Fast 高效产出社交媒体草稿与短循环。",
+          "保存模板以规模化拓展推广活动。"
         ]
       }
     ],
-    "specValueProp": "Veo 3.1 Fast is your rapid-fire test bench: same cinematic language as Veo 3.1, lower cost, faster turnaround.",
-    "imageTitle": "Image and Reference-to-Video Flow with Google Veo 3.1 Fast",
-    "imageIntro": "Animate one start image into a quick loop, or attach 1-4 reference stills for an 8s consistency pass.",
+    "specValueProp": "Veo 3.1 Fast 是您的快速测试工作台：拥有与 Veo 3.1 相同的电影级镜头语言，更低的成本，更迅捷的周转。",
+    "imageTitle": "Google Veo 3.1 Fast 图生视频与参考生视频工作流",
+    "imageIntro": "将单张起始图片转化为动感短循环，或附加 1–4 张参考图进行 8 秒高一致性渲染。",
     "imageFlow": [
-      "Upload one lifestyle or product start image, or attach 1-4 reference stills in Reference mode.",
-      "Choose Image → Video for 4/6/8 s, or Reference mode for an 8s consistency pass.",
-      "Prompt subtle camera and subject motion; add light audio or keep it silent.",
-      "Generate variants by changing one element at a time (camera speed, VO tone, time of day)."
+      "上传一张生活方式或产品起始图片，或在参考模式下附加 1–4 张参考静态图。",
+      "选择 4/6/8 秒图生视频，或选择 8 秒高一致性参考模式。",
+      "通过提示词指导细腻的镜头与主体动作；添加轻量音频或保持静音。",
+      "每次仅修改一个要素（运镜速度、旁白语气、光照时段）以批量生成各版本对比。"
     ],
     "imageWhy": [
-      "Quick hero shots for landing pages or ecommerce",
-      "Animated social posts from brand photography",
-      "Mood loops behind titles or UI elements"
+      "落地页或电商页面的吸睛焦点镜头",
+      "基于品牌静物摄影生成的动态社交贴文",
+      "用作标题或 UI 元素背景的氛围动态循环"
     ],
-    "multishotTitle": "Veo 3.1 Fast as a Testbed",
-    "multishotIntro1": "Use Fast to explore prompts cheaply, then move winners to Veo 3.1.",
-    "multishotIntro2": "Framing and tone presets are shared, so migration is smooth.",
+    "multishotTitle": "将 Veo 3.1 Fast 作为创意试验场",
+    "multishotIntro1": "使用 Fast 低成本探索提示词表现，随后将最佳版本导入 Veo 3.1。",
+    "multishotIntro2": "构图与基调预设保持一致，因此迁移过程非常平滑。",
     "multishotTips": [
-      "Render 2–4 variants in Fast with small prompt tweaks.",
-      "Promote the best to Veo 3.1 for higher fidelity and audio depth.",
-      "Stay single-scene in Fast; use other Veo tiers for multi-beat control."
+      "在 Fast 中微调提示词，渲染 2–4 组不同版本。",
+      "将最佳镜头升级至 Veo 3.1，获得更高画质与更具深度的音频。",
+      "在 Fast 中专注于单一场景；多节拍精准控制建议使用其他 Veo 版本。"
     ],
-    "tipsTitle": "Tips & Limitations",
+    "tipsTitle": "使用技巧与局限",
     "strengths": [
-      "Lead with framing + camera move (wide/medium/close + dolly/pan/handheld) before style.",
-      "Keep one hero subject and one readable action per clip.",
-      "Use 2–3 concrete anchors (time of day, weather, 1–2 set details) instead of long lists.",
-      "For continuity, reuse the same “shot recipe” (palette, lighting, lens feel) and change one variable per take.",
-      "Audio is best with minimal cues: ambience + 1 key sound, or one short VO line."
+      "在描述风格之前，优先指定景别构图与镜头运镜（远景/中景/特写 + 推拉/摇移/手持）。",
+      "每个镜头保持单一核心主体与清晰可辨的动作。",
+      "使用 2–3 个具体锚点（时段、天气、1–2 个置景细节），避免冗长繁琐的清单。",
+      "为了保持连续性，复用相同的“镜头配方”（色调、光影、镜头感），每次尝试仅更改一个变量。",
+      "音频以极简线索效果最佳：环境音 + 1 个关键音效，或一句简短旁白。"
     ],
     "boundaries": [
-      "Single-scene focus works best; multi-location narratives tend to drift.",
-      "This tier is draft-first (slightly less detail/fidelity than full Veo 3.1).",
-      "Tiny UI text and small lettering are unreliable — add in post."
+      "聚焦单场景效果最佳；跨多地点的叙事容易出现漂移。",
+      "该层级以草稿为主（细节与保真度略低于完整版 Veo 3.1）。",
+      "微小 UI 文字与细小招牌字母难以准确还原 — 建议后期添加。"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "安全与肖像权规范",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness/voice.",
-      "Don’t include private personal data (addresses, phone numbers, documents, non-consenting faces).",
-      "Some prompts or references may be blocked by provider safety filters."
+      "严禁包含色情内容，严禁涉及未成年人的任何内容。",
+      "严禁仇恨、骚扰或血腥暴力内容。",
+      "不得伪造或冒充真实人物或公众人物；使用任何肖像/声音须获得合法许可。",
+      "不得包含私人个人数据（住址、电话号码、证件信息、未经授权的人脸）。",
+      "部分提示词或参考图可能会被供应商安全过滤器拦截。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "comparisonTitle": "Veo 3.1 Fast vs Veo 3.1 – Quick Overview",
+    "comparisonTitle": "Veo 3.1 Fast 与 Veo 3.1 快速对比",
     "comparisonPoints": [
-      "Veo 3.1 Fast: cheaper, faster; best for tests, social loops, internal reviews.",
-      "Veo 3.1: higher fidelity and richer audio; best for client-ready and paid media.",
-      "Workflow: Prototype in Fast, then regenerate winners in Veo 3.1."
+      "Veo 3.1 Fast：成本更低、速度更快；最适合测试、社交循环和内部评审。",
+      "Veo 3.1：更高画质与更丰满的音频；最适合交付客户成片和付费商业投放。",
+      "工作流建议：在 Fast 中快速原型打样，随后在 Veo 3.1 中重新生成优胜镜头。"
     ],
-    "comparisonCta": "Compare Veo 3.1 vs Veo 3.1 Fast ->",
-    "faqTitle": "FAQ – Veo 3.1 Fast in MaxVideoAI",
+    "comparisonCta": "对比 Veo 3.1 与 Veo 3.1 Fast →",
+    "faqTitle": "常见问题 — MaxVideoAI 中的 Veo 3.1 Fast",
     "faqs": [
       {
-        "q": "Can I use reference images with Veo 3.1 Fast?",
-        "a": "Yes. Use one start image for Image-to-Video, or Reference mode with 1-4 stills for an 8s run when you need stronger identity, wardrobe, product, or style continuity."
+        "q": "我可以在 Veo 3.1 Fast 中使用参考图吗？",
+        "a": "可以。图生视频使用单张起始图片，或在参考模式下添加 1–4 张静态参考图生成 8 秒视频，以获得更强的人物身份、服装、产品或风格连贯性。"
       },
       {
-        "q": "When should I use Veo 3.1 Fast instead of Veo 3.1?",
-        "a": "Use Fast to explore ideas, social variants, and internal reviews; use Veo 3.1 for final hero shots and paid media."
+        "q": "什么时候应该使用 Veo 3.1 Fast 而非 Veo 3.1？",
+        "a": "探索构思、制作社交多版本以及内部评审时使用 Fast；当需要最终主视觉广告片和付费媒体投放时，切换至 Veo 3.1。"
       },
       {
-        "q": "Does Veo 3.1 Fast support vertical videos?",
-        "a": "Yes—16:9 and 9:16 at 720p or 1080p; pick 9:16 for mobile-first placements."
+        "q": "Veo 3.1 Fast 是否支持竖屏视频？",
+        "a": "支持 — 支持 720p 或 1080p 规格下的 16:9 与 9:16；移动端优先投放建议选择 9:16。"
       },
       {
-        "q": "Can I reuse Veo 3.1 prompts in Fast?",
-        "a": "Yes. Clone a Veo 3.1 render, switch to Veo 3.1 Fast, keep framing/tone presets, tweak length/resolution."
+        "q": "我可以在 Fast 中复用 Veo 3.1 的提示词吗？",
+        "a": "可以。克隆 Veo 3.1 的渲染任务，切换为 Veo 3.1 Fast，保留构图与基调预设，微调时长和分辨率即可。"
       },
       {
-        "q": "How does pricing compare to Veo 3.1?",
-        "a": "Use the pricing card for preset MaxVideoAI display totals: each scenario states duration, resolution and audio on/off. Specs use the same helper for per-second display rates, and Generate shows the exact live quote before you run variants."
+        "q": "它的价格相比 Veo 3.1 如何？",
+        "a": "价格卡片展示了预设的 MaxVideoAI 显示总价：每个场景标明了时长、分辨率和音频开/关状态。技术规格使用相同的计算助手呈现按秒显示费率，在批量运行各版本之前，“生成”页面会显示确切的实时报价。"
       },
       {
-        "q": "Can I run Veo 3.1 Fast from Europe / LATAM?",
-        "a": "Yes. Same MaxVideoAI wallet/workspace and licensed DeepMind routing—no separate billing."
+        "q": "我可以在欧洲或拉美地区使用 Veo 3.1 Fast 吗？",
+        "a": "可以。使用相同的 MaxVideoAI 钱包/工作空间以及正规授权的 DeepMind 路由通道，无需单独结算。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare price tiers, latency, and prompt presets across the rest of the catalog.",
-    "finalPara1": "Veo 3.1 Fast in MaxVideoAI is your rapid-fire test bench for Veo prompts.",
-    "finalPara2": "Same cinematic language, lower stakes, and quality that’s ready for social delivery.",
-    "finalButton": "Open Generate",
-    "tipsIntro": "Veo 3.1 Fast is most reliable when you write a short shot brief: one subject, one action, clear framing, and one camera move.",
-    "troubleshootingTitle": "Common problems → fast fixes",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "在整个模型目录中对比价格梯队、响应延迟与提示词预设。",
+    "finalPara1": "MaxVideoAI 中的 Veo 3.1 Fast 是您针对 Veo 提示词的快速验证工作台。",
+    "finalPara2": "相同的电影级语言，更低的试错门槛，以及直接达到社交分发标准的生成品质。",
+    "finalButton": "在生成中打开",
+    "tipsIntro": "当您编写类似拍摄简报的简明提示词时，Veo 3.1 Fast 最为稳定可靠：单一主体、单一动作、清晰构图与单一运镜。",
+    "troubleshootingTitle": "常见问题 → 快速解决",
     "troubleshootingItems": [
-      "Drift / ignores details → move subject + action + framing to the first line; remove extra beats; keep constraints positive (“clean background”, “centered subject”).",
-      "Motion feels messy → one camera move only; slow the action; simplify the background.",
-      "Off-brand look → lock palette + lighting; reuse the same wording; add a reference frame when you can.",
-      "Text/signage breaks → keep readable text off-screen; overlay critical copy in post.",
-      "VO / lip sync feels off → shorten lines; avoid fast speech and long monologues."
+      "画面漂移 / 忽略细节 → 将主体 + 动作 + 构图放在第一行；删减多余节拍；采用肯定句式约束（“干净背景”、“居中主体”）。",
+      "动作显得杂乱 → 仅保留单一运镜动作；放慢动作节奏；简化背景元素。",
+      "偏离品牌调性 → 锁定色彩基调 + 光影设定；各批次复用相同的措辞；尽可能添加参考帧。",
+      "文字/招牌变形 → 避免在画面中生成可读文字；关键文案留待后期叠加。",
+      "旁白 / 口型不协调 → 缩短文案；避免语速过快和冗长独白。"
     ]
   },
   "decision": {
     "modelSlug": "veo-3-1-fast",
     "hero": {
-      "eyebrow": "GOOGLE FAST VIDEO ROUTE",
+      "eyebrow": "GOOGLE 快速视频路线",
       "title": "Veo 3.1 Fast",
-      "subtitle": "Faster Veo drafts with optional native audio, reference-to-video runs, 4K output, and short concept loops.",
+      "subtitle": "更快速的 Veo 草稿生成，支持可选原生音频、参考生视频、4K 输出与短概念循环。",
       "subtitleHighlights": [
-        "faster Veo drafts",
-        "optional native audio",
-        "4K output"
+        "更快速的 Veo 草稿生成",
+        "可选原生音频",
+        "4K 输出"
       ],
-      "paragraph": "Use Veo 3.1 Fast for quick text-to-video, image-to-video, reference-to-video, first-last frame tests, and 4K checks when you need lower-cost Veo iteration before moving approved shots into Veo 3.1.",
+      "paragraph": "当您在将获选镜头导入 Veo 3.1 之前需要更低成本的 Veo 迭代时，使用 Veo 3.1 Fast 进行快速文生视频、图生视频、参考生视频、首尾帧测试以及 4K 细节检查。",
       "primaryCta": {
         "label": "使用 Veo 3.1 Fast 生成",
         "href": "/app?engine=veo-3-1-fast"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/veo"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Veo 3.1",
+          "label": "与 Veo 3.1 对比",
           "href": "/zh/ai-video-engines/veo-3-1-vs-veo-3-1-fast?order=veo-3-1-fast"
         },
         {
@@ -373,207 +373,207 @@
       ]
     },
     "media": {
-      "caption": "Veo 3.1 Fast example",
-      "description": "Fast Veo draft with optional audio",
-      "renderLabel": "View draft",
+      "caption": "Veo 3.1 Fast 示例",
+      "description": "支持可选音频的快速 Veo 草稿",
+      "renderLabel": "查看草稿",
       "badges": [
-        "Fast route",
-        "8s",
-        "4K option"
+        "Fast 路线",
+        "8秒",
+        "支持 4K"
       ],
-      "altContext": "Veo 3.1 Fast short concept draft"
+      "altContext": "Veo 3.1 Fast 短概念草稿"
     },
     "features": [
       {
-        "title": "Fast Veo drafts",
-        "body": "Test concepts from 720p through 4K before paying for the main production route.",
+        "title": "快速 Veo 草稿",
+        "body": "在付费使用正式生产路线之前，以 720p 至 4K 规格快速测试创意概念。",
         "tone": "quality"
       },
       {
-        "title": "Optional audio",
-        "body": "Toggle native audio on when timing or ambience needs a rough pass.",
+        "title": "可选原生音频",
+        "body": "当节奏或氛围需要粗剪预览时，可按需开启原生音频。",
         "tone": "audio"
       },
       {
-        "title": "Reference-to-video",
-        "body": "Attach 1-3 stills for an 8s consistency pass on identity, product or style.",
+        "title": "参考生视频",
+        "body": "附加 1–3 张参考静态图，在人物、产品或风格上进行 8 秒连贯性渲染。",
         "tone": "reference"
       },
       {
-        "title": "First-last tests",
-        "body": "Bridge approved opening and ending frames for short motion checks.",
+        "title": "首尾帧测试",
+        "body": "连接已确认的起始帧与结束帧，用于简短的动态过渡检查。",
         "tone": "reference"
       },
       {
-        "title": "Extend support",
-        "body": "Continue an existing Fast clip when a draft needs a pickup beat.",
+        "title": "支持片段延长",
+        "body": "当草稿需要补拍节拍时，直接延长现有 Fast 视频片段。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按量付费",
+        "body": "在生成前即可查看确切的实时价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Fast or Veo 3.1?",
-        "body": "Use Fast for prompt tests and short concept loops. Use Veo 3.1 when the selected shot needs final polish.",
+        "title": "选择 Fast 还是 Veo 3.1？",
+        "body": "使用 Fast 进行提示词测试与短概念循环；当精选镜头需要最终成片打磨时使用 Veo 3.1。",
         "cta": {
-          "label": "Compare Veo 3.1 vs Fast",
+          "label": "对比 Veo 3.1 与 Fast",
           "href": "/zh/ai-video-engines/veo-3-1-vs-veo-3-1-fast?order=veo-3-1-fast"
         }
       },
       {
-        "title": "Testing endings?",
-        "body": "Use first-last frames when the opening and final composition are already approved.",
+        "title": "需要测试特定结尾？",
+        "body": "当起始画面与最终画面构图均已确认时，使用首尾帧控制。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Need the cheapest Veo pass?",
-        "body": "Compare Fast with Lite when you are choosing between audio control and lower-cost timing tests.",
+        "title": "需要最实惠的 Veo 渲染方案？",
+        "body": "在音频控制与更低成本的节奏测试之间权衡时，对比 Fast 与 Lite。",
         "cta": {
-          "label": "Compare Fast vs Lite",
+          "label": "对比 Fast 与 Lite",
           "href": "/zh/ai-video-engines/veo-3-1-fast-vs-veo-3-1-lite"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Test subject, camera, style and audio direction in one short Veo draft."
+        "title": "文本提示词",
+        "body": "在单次简短的 Veo 草稿中测试主体、运镜、风格与音频方向。"
       },
       {
-        "title": "Start image",
-        "body": "Use one still when framing, product shape or identity should anchor the first frame."
+        "title": "起始图片",
+        "body": "当需要构图、产品形态或人物身份来锚定首帧时使用起始图片。"
       },
       {
-        "title": "Reference-to-video",
-        "body": "Attach 1-3 stills when identity, wardrobe, product or style continuity matters."
+        "title": "参考生视频",
+        "body": "当人物身份、服装、产品或风格连贯性至关重要时附加 1–3 张参考图。"
       },
       {
-        "title": "4K check",
-        "body": "Use 4K on selected Fast runs when you need to inspect detail before the production route."
+        "title": "4K 细节检查",
+        "body": "在进入正式生产路线前，对精选 Fast 任务使用 4K 检查画面细节。"
       },
       {
-        "title": "First-last frames",
-        "body": "Provide a landing frame when the ending pose or composition matters."
+        "title": "首尾帧控制",
+        "body": "在结尾姿态或最终构图至关重要时提供收尾目标帧。"
       },
       {
-        "title": "Audio toggle",
-        "body": "Turn audio on for rough timing, or off when you only need visual motion."
+        "title": "音频开关",
+        "body": "开启音频以获得初步节奏参考，仅需画面动作时可关闭音频。"
       }
     ],
     "pricingCopy": {
-      "title": "Veo 3.1 Fast pricing at a glance",
-      "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 4K",
+      "title": "Veo 3.1 Fast 价格概览",
+      "subtitle": "预设草稿总价 — 生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高支持 4K",
       "ctaHref": "/zh/pricing#veo-3-1-fast-pricing"
     },
     "meta": {
-      "title": "Veo 3.1 Fast: 4K Pricing, Drafts & Examples | MaxVideoAI",
-      "description": "Use Veo 3.1 Fast for faster Veo drafts up to 4K, optional native audio, first-last frame tests and lower-cost short concept loops before Veo 3.1 finals."
+      "title": "Veo 3.1 Fast：4K 价格、草稿制作与案例 | MaxVideoAI",
+      "description": "使用 Veo 3.1 Fast 体验更快的 Veo 草稿生成（最高支持 4K）、可选原生音频、首尾帧测试以及低成本短概念循环，随后再导入 Veo 3.1 精修成片。"
     }
   },
   "prompting": {
     "modelSlug": "veo-3-1-fast",
     "section": {
-      "title": "How to Write a Great Veo 3.1 Fast Prompt",
-      "intro": "Veo Fast prefers short, concrete prompts and one clear action.",
-      "tip": "Tip: duration + aspect ratio are set in the UI - your prompt controls subject, action, camera, lighting, style, and sound cues.",
+      "title": "如何编写出色的 Veo 3.1 Fast 提示词",
+      "intro": "Veo Fast 更青睐简短具体、包含单一明确动作的提示词。",
+      "tip": "提示：时长与宽高比在界面中设置 — 您的提示词负责控制主体、动作、镜头、光影、风格和声音线索。",
       "guide": {
         "label": "Google DeepMind",
         "href": "https://deepmind.google/technologies/veo/"
       },
-      "referencesTitle": "How Veo 3.1 Fast uses start, reference and ending frames"
+      "referencesTitle": "Veo 3.1 Fast 如何使用起始帧、参考图与尾帧"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want fast Veo variants.",
+        "label": "快速",
+        "title": "快速提示词（高效迭代）",
+        "description": "当希望快速获取多种 Veo 变体时使用 1–2 句话。",
         "copy": "8s 16:9 Veo 3.1 Fast draft of a product founder walking through a rainy neon street, slow handheld tracking move, blue storefront reflections, audio on with city ambience and one short calm line."
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (reliable draft)",
-        "description": "Separate subject, action, camera and audio so the fast route stays readable.",
+        "label": "结构化",
+        "title": "结构化提示词（稳定草稿）",
+        "description": "将主体、动作、镜头和音频分段描述，使快速渲染路线保持清晰意图。",
         "copy": "Subject:\nProduct founder in a navy rain jacket, holding a compact camera bag.\n\nAction:\nWalks one step forward, looks toward the storefront, then pauses.\n\nCamera:\nMedium shot, slow handheld tracking move, 16:9, 8 seconds.\n\nLook:\nRainy neon street, blue reflections, clean commercial grade.\n\nAudio:\nCity ambience, soft footsteps, one short calm VO line."
       },
       {
         "id": "pro",
-        "label": "Reference-to-video",
-        "title": "Reference-to-video prompt (1-4 stills)",
-        "description": "Use this when attached stills should preserve identity, product, wardrobe or style.",
+        "label": "参考生视频",
+        "title": "参考生视频提示词（1–4 张参考图）",
+        "description": "当附加的参考图需要锁定主体身份、产品、服装或风格时使用此模板。",
         "copy": "Reference-to-video, 8s, 16:9, 1080p, audio on. Use reference 1 for face and jacket, reference 2 for the product color, reference 3 for the rainy street palette. Keep the same identity and materials while the subject takes one step forward. Slow push-in, subtle city ambience, no extra characters."
       },
       {
         "id": "storyboard",
-        "label": "First/Last",
-        "title": "First/last frame prompt",
-        "description": "Use this when both opening and ending compositions are already approved.",
+        "label": "首尾帧",
+        "title": "首尾帧提示词",
+        "description": "当开场与结束构图均已确认就绪时使用此方式。",
         "copy": "First/last-frame Veo 3.1 Fast draft, 6s, 9:16, audio off. Start on the approved product table frame, end on the approved close-up hero frame. Smooth push-in only, keep background layout and label position stable, no new props, no text changes."
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = fast T2V variants with audio on/off."
+        "body": "快速 = 音频开启/关闭下的极速文生视频变体生成。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = clearer subject, action, camera and sound cues."
+        "body": "结构化 = 更明确的主体、动作、镜头与声音线索。"
       },
       {
         "tabId": "pro",
-        "body": "Reference-to-video = 1-4 stills for identity, product or style continuity."
+        "body": "参考生视频 = 借助 1–4 张参考图保持身份、产品或风格连贯性。"
       },
       {
         "tabId": "storyboard",
-        "body": "First/Last = use when both endpoint frames are already approved."
+        "body": "首尾帧 = 在首末两端画面均已确认时使用。"
       }
     ],
     "globalPrinciples": [
-      "One subject, one action.",
-      "Call out framing and camera move.",
-      "Use 2-3 visual anchors, not long lists."
+      "单一主体，单一动作。",
+      "明确写出景别与镜头运镜。",
+      "使用 2–3 个视觉锚点，切忌冗长清单。"
     ],
     "engineWhy": [
-      "Fast favors simple beats and short prompts.",
-      "Camera language improves consistency.",
-      "Use style anchors to keep the look stable."
+      "Fast 路线更适合简练节奏与简短提示词。",
+      "镜头运镜术语有助于提升画面稳定性。",
+      "使用风格锚点让画面基调保持统一。"
     ],
     "demo": {
-      "title": "Demo: Veo 3.1 Fast desk draft",
-      "promptLabel": "8s audio-on draft (16:9, 1080p)",
+      "title": "演示：Veo 3.1 Fast 深夜办公桌草稿",
+      "promptLabel": "8 秒开启音频草稿（16:9, 1080p）",
       "prompt": "8s 16:9 Veo 3.1 Fast draft of a presenter working late at a minimalist desk, city lights blurred through a large window.\nCamera: medium close-up with a slow handheld drift, staying on the face, hands and laptop.\nLighting: cool blue window light mixed with a warm desk lamp.\nAudio: soft typing, low city hum and one short calm line.",
       "notes": [
-        "One clear subject and one environment.",
-        "Simple movement that loops cleanly.",
-        "Audio supports the mood without adding complexity."
+        "单一明确的主体与单一环境。",
+        "平滑连贯且利于循环的简明动态。",
+        "音频烘托氛围而不会增加画面复杂度。"
       ],
       "summary": {
-        "subject": "Presenter in a late-night desk scene",
-        "action": "Looks up from a laptop and delivers one calm line",
-        "camera": "Medium close-up, slow handheld drift",
-        "style": "Cool city window light with a warm desk lamp",
-        "output": "Soft typing, city hum, short voice line"
+        "subject": "深夜办公桌前的演讲者",
+        "action": "从笔记本电脑前抬头并平静地说出一句话",
+        "camera": "中景特写，缓慢手持微移",
+        "style": "清冷的窗外城市灯光与温暖的台灯交织",
+        "output": "轻微的打字声、城市低鸣与简短清晰的语音"
       },
       "presentationOverrides": {
-        "modeLabel": "8s audio-on draft (16:9, 1080p)",
-        "outputLabel": "Audio",
+        "modeLabel": "8 秒开启音频草稿（16:9, 1080p）",
+        "outputLabel": "音频",
         "duration": "8s",
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Veo 3.1 Fast late-night desk draft"
+        "altContext": "Veo 3.1 Fast 深夜办公桌草稿"
       }
     },
     "imageExamples": null
@@ -581,10 +581,10 @@
   "examples": {
     "modelSlug": "veo-3-1-fast",
     "section": {
-      "title": "Example Gallery: Real Veo 3.1 Fast Outputs",
-      "intro": "Explore clips generated with Veo 3.1 Fast using the same presets you have.",
-      "defaultCtaLabel": "View all Veo 3.1 Fast examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "案例展厅：真实 Veo 3.1 Fast 生成效果",
+      "intro": "探索使用与您相同的预设参数通过 Veo 3.1 Fast 生成的真实视频片段。",
+      "defaultCtaLabel": "查看全部 Veo 3.1 Fast 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -615,32 +615,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Veo 3.1 Fast — current Veo variant for faster drafts and iteration.",
+        "title": "真实社区生成效果",
+        "body": "探索 Veo 3.1 Fast 的生成可能 — 用于快速草稿与高效迭代的当前 Veo 版本。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键跳转至应用中，直接复用其参数配置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "对白、环境音与音效同步生成。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连贯性",
+        "body": "在连续序列中保持角色、风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "贴合商业生产规范",
+        "body": "内置安全护栏与审核过滤器，保障负责任的创意评审。",
         "icon": "shield"
       }
     ],

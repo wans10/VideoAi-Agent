@@ -18,13 +18,13 @@ export function getPricePerSecondCents(entry: EngineCatalogEntry): number | null
   return null;
 }
 
-export function resolveAudioOffPrice(entry: EngineCatalogEntry): string | null {
+export function resolveAudioOffPrice(entry: EngineCatalogEntry, locale?: string): string | null {
   const perSecond = entry.engine?.pricingDetails?.perSecondCents;
   if (!perSecond || typeof perSecond.default !== 'number') return null;
   const audioOffDelta = entry.engine?.pricingDetails?.addons?.audio_off?.perSecondCents;
   if (typeof audioOffDelta !== 'number') return null;
   const total = applyDisplayedPriceMarginCents(perSecond.default + audioOffDelta);
-  return locale.startsWith('zh') ? `关闭音频: $${(total / 100).toFixed(2)}/秒` : `Audio off: $${(total / 100).toFixed(2)}/s`;
+  return locale?.startsWith('zh') ? `关闭音频: $${(total / 100).toFixed(2)}/秒` : `Audio off: $${(total / 100).toFixed(2)}/s`;
 }
 
 const PRICING_SCORE_MIN = 0.03;
@@ -197,7 +197,7 @@ export async function resolvePricingDisplay(
 
   const baseCents = getPricePerSecondCents(entry);
   if (typeof baseCents === 'number') {
-    const audioOff = resolveAudioOffPrice(entry);
+    const audioOff = resolveAudioOffPrice(entry, locale);
     const audioOffDelta = entry.engine?.pricingDetails?.addons?.audio_off?.perSecondCents;
     const audioOffCents =
       typeof audioOffDelta === 'number' && typeof perSecond?.default === 'number'

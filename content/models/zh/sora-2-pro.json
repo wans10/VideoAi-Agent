@@ -2,52 +2,52 @@
   "marketingName": "OpenAI Sora 2 Pro",
   "versionLabel": "Pro",
   "seo": {
-    "title": "Sora 2 Pro — Longer AI Videos with Native Audio & Controls",
-    "description": "Create longer Sora 2 Pro videos from text/images with native voice + ambience, prompt chaining, and advanced controls—pay-as-you-go via MaxVideoAI.",
+    "title": "Sora 2 Pro — 支持原生音频与进阶控制的更长 AI 视频生成",
+    "description": "在 MaxVideoAI 上通过文生视频与图生视频创建更长的 Sora 2 Pro 视频，具备原生语音与环境音、多提示词分镜串联及进阶控制，按需计费即用即付。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a5cbd8d3-33c7-47b5-8480-7f23aab89891-job_684c1b3d-2679-40d1-adb7-06151b3e8739.jpg"
   },
   "hero": {
     "title": "Sora 2 Pro",
-    "intro": "Longer, production-ready clips from text or images — native voice + ambience with enhanced prompt control.",
-    "badge": "720p/1080p · 4/8/12s · Text→Video · Image→Video · 16:9/9:16 · Audio optional",
+    "intro": "通过文本或图像生成更长、制作级的视频片段 — 具备原生语音与环境音，以及更强大的提示词控制能力。",
+    "badge": "720p/1080p · 4/8/12秒 · 文生视频 · 图生视频 · 16:9/9:16 · 可选音频",
     "ctaPrimary": {
       "label": "使用 Sora 2 Pro 生成",
       "href": "/app?engine=sora-2-pro"
     },
     "secondaryLinks": [
       {
-        "label": "Compare Sora 2 vs Sora 2 Pro",
+        "label": "对比 Sora 2 与 Sora 2 Pro",
         "href": "/zh/ai-video-engines/sora-2-vs-sora-2-pro?order=sora-2-pro"
       },
       {
-        "label": "Explore workflows",
+        "label": "探索工作流",
         "href": "/zh/workflows"
       },
       {
-        "label": "Check live pricing in-app",
+        "label": "在应用内查看实时价格",
         "href": "/app"
       }
     ]
   },
-  "overview": "Generate longer AI videos with sound and scene control using Sora 2 Pro. Perfect for storytelling, explainers, and branded motion design—starting from image or text prompts.",
+  "overview": "使用 Sora 2 Pro 生成包含声音与场景控制的更长 AI 视频。适用于叙事短片、解说视频以及品牌动态设计，支持从图像或文本提示词起步。",
   "custom": {
-    "heroEyebrow": "OpenAI model",
-    "heroSupportLine": "Cleaner detail, steadier motion, more reliable multi-beat continuity.",
+    "heroEyebrow": "OpenAI 旗舰模型",
+    "heroSupportLine": "更清晰的细节、更稳定的动态，以及更可靠的多节拍连贯性。",
     "heroSpecChips": [
       {
         "label": "720p/1080p",
         "icon": "resolution"
       },
       {
-        "label": "4/8/12s",
+        "label": "4/8/12秒",
         "icon": "duration"
       },
       {
-        "label": "Text→Video",
+        "label": "文生视频",
         "icon": "textToVideo"
       },
       {
-        "label": "Image→Video",
+        "label": "图生视频",
         "icon": "imageToVideo"
       },
       {
@@ -55,280 +55,280 @@
         "icon": "aspectRatio"
       },
       {
-        "label": "Audio included",
+        "label": "包含音频",
         "icon": "audio"
       }
     ],
-    "heroTrustLine": "Pay-as-you-go · Price shown before you generate",
-    "heroDesc1": "Sora 2 Pro is the premium sibling to Sora 2. The current MaxVideoAI route exposes 720p/1080p output, explicit audio control, and richer prompt chaining for multi-beat sequences.",
-    "heroDesc2": "Prototype fast with Sora 2, then move into Sora 2 Pro to regenerate your winning shots with tighter control over timing, motion, and sound.",
-    "secondaryCta": "Compare Sora 2 vs Sora 2 Pro (high-res)",
-    "whyTitle": "Why Sora 2 Pro is powerful",
+    "heroTrustLine": "按量计费 · 生成前明示价格",
+    "heroDesc1": "Sora 2 Pro 是 Sora 2 的高阶版本。当前 MaxVideoAI 路线开放了 720p/1080p 输出、明确的音频控制，以及更丰富的多节拍序列提示词串联能力。",
+    "heroDesc2": "先用 Sora 2 进行快速原型探索，随后切入 Sora 2 Pro，以更严格的时间节奏、动态与声音控制重新渲染精选镜头。",
+    "secondaryCta": "对比 Sora 2 与 Sora 2 Pro (高分辨率)",
+    "whyTitle": "为什么 Sora 2 Pro 如此强大",
     "heroHighlights": [
-      "High-res modes for cleaner detail||Sharper textures and more polished frames for client-ready deliverables.",
-      "Synced audio built-in||Dialogue + sound effects land better when you add 1–2 deliberate audio cues.",
-      "Stronger results with structured prompts||Shot lists and clear beats execute more reliably than “adjective soup.”",
-      "Best for final takes||Use it when the concept is locked and you want the cleanest output."
+      "高分辨率模式呈现更细腻质感||更清晰的纹理与更精致的画面，满足商业客户级交付要求。",
+      "内置同步音频支持||添加 1–2 个明确的音频提示词，可让对白与音效呈现更精准。",
+      "结构化提示词带来更佳效果||分镜镜头清单与清晰节拍比“形容词堆砌”的执行效果更稳定可靠。",
+      "终审成片的不二之选||当创意概念锁定并追求极致成片品质时使用。"
     ],
-    "specTitle": "Real Specs – Sora 2 Pro in MaxVideoAI (720p / 1080p, 4–12s)",
-    "specNote": "Current MaxVideoAI route limits. Provider/model-family documentation may describe broader Pro capabilities outside this exposed route.",
+    "specTitle": "真实技术规格 – MaxVideoAI 中的 Sora 2 Pro（720p / 1080p，4–12秒）",
+    "specNote": "当前 MaxVideoAI 路由限制。服务商/模型家族文档可能提及该开放路由之外更广泛的 Pro 功能。",
     "specSections": [
       {
-        "title": "High-fidelity control",
-        "intro": "This tier is tuned for cleaner detail and steadier continuity across beats. Use it when you want client-ready polish.",
+        "title": "高保真度控制",
+        "intro": "此层级专为更细腻的细节与更稳定的跨节拍连贯性而调校。当追求客户级交付质感时使用。",
         "items": [
-          "Prefer structured shot lists over long prose.",
-          "Keep subjects and wardrobe consistent.",
-          "Reference a hero frame to lock style.",
-          "Reserve for final takes once the concept is locked."
+          "相比长篇散文，优先使用结构化的镜头清单。",
+          "保持主体与服装造型的一致性。",
+          "参考主视觉定格帧以锁定整体风格。",
+          "在创意概念锁定后，将其保留用于最终成片输出。"
         ]
       },
       {
-        "title": "Audio-ready finishing",
-        "intro": "Native sound lands in sync with the visuals, helping emotion and timing. It’s ideal for short ads and narrative beats.",
+        "title": "音频就绪后期成片",
+        "intro": "原生声音与画面精准同步，大幅强化情绪表达与节奏感。非常适合短片广告与叙事节拍。",
         "items": [
-          "Call out ambience vs dialogue explicitly.",
-          "Write audio cues as separate beats.",
-          "Generate multiple takes for timing.",
-          "Mute and finish in post when needed."
+          "明确区分环境音与对白提示。",
+          "将音频提示词编写为独立的节拍。",
+          "多次生成以推敲最佳时间节奏。",
+          "如有需要可设为静音，并在后期进行配音剪辑。"
         ]
       }
     ],
-    "specValueProp": "Sora 2 Pro is for polished 720p/1080p outputs with audio control and multi-scene continuity on the current MaxVideoAI route—ideal once your Sora 2 explorations are locked.",
-    "microCta": "Start generating with Sora 2 Pro →",
-    "imageTitle": "Image-to-Video with Sora 2 Pro",
-    "imageIntro": "Lock style with a still, then animate with precise motion and audio cues.",
+    "specValueProp": "Sora 2 Pro 专用于在当前 MaxVideoAI 路由上输出具备音频控制与多场景连贯性的精致 720p/1080p 视频 — 是锁定 Sora 2 前期探索后的理想之选。",
+    "microCta": "开始使用 Sora 2 Pro 生成 →",
+    "imageTitle": "Sora 2 Pro 图生视频工作流",
+    "imageIntro": "使用静态图片锁定视觉风格，随后配合精准的动态与音频提示词让画面生动起来。",
     "imageFlow": [
-      "Create or import a branded keyframe (style locked).",
-      "Send it to Sora 2 Pro as Image → Video.",
-      "Describe motion per beat and any sound you need (VO, ambience, FX).",
-      "Regenerate to polish timing while preserving your look."
+      "创建或导入品牌关键帧图片（风格已锁定）。",
+      "将其发送至 Sora 2 Pro 作为图生视频起始帧。",
+      "按节拍描述动态以及所需的各项声音（旁白、环境音、音效）。",
+      "在保持外观视觉一致的前提下重新生成，以精调时间节奏。"
     ],
     "imageWhy": [
-      "Premium product hero shots",
-      "Campaign intros that must stay on-brand",
-      "High-fidelity explainers with consistent lighting"
+      "高端产品主视觉镜头",
+      "必须保持品牌调性一致的营销宣传片开篇",
+      "拥有稳定光影质感的高保真解说视频"
     ],
-    "multishotTitle": "Multi-Shot & Sequenced Clips in Sora 2 Pro",
-    "multishotIntro1": "Chain 2–3 scenes with explicit timing to keep continuity tight.",
-    "multishotIntro2": "Use the audio toggle and cues to align voice-over, FX, and music hits.",
+    "multishotTitle": "Sora 2 Pro 多镜头与分镜序列视频",
+    "multishotIntro1": "串联 2–3 个具有明确时长的场景，确保严谨紧凑的连贯性。",
+    "multishotIntro2": "利用音频开关与提示词对齐旁白配音、音效与音乐重音点。",
     "multishotTips": [
-      "Cap at 3 scenes for clarity in 12 seconds.",
-      "Repeat core descriptors (outfit, setting, lighting) per scene.",
-      "Specify camera per beat: push-in, crane up, handheld glide.",
-      "Write the transition in the prompt (match cut, whip pan, crossfade)."
+      "在 12 秒内最多安排 3 个场景以保证叙事清晰度。",
+      "在每个场景中重复核心描述词（服装、场景、光影）。",
+      "明确每个节拍的摄影机运镜：推进、升降摇臂、手持滑行等。",
+      "在提示词中写明转场方式（匹配剪辑、快速摇镜、淡入淡出等）。"
     ],
-    "tipsTitle": "Tips & Limitations",
+    "tipsTitle": "使用技巧与局限",
     "strengths": [
-      "720p/1080p delivery for premium outputs on the current MaxVideoAI route",
-      "Audio toggle with explicit cue handling",
-      "Multi-scene chaining with better continuity",
-      "Great for ads, trailers, explainers, client decks",
-      "Pairs with Sora 2 for prototype → Pro finalize"
+      "在当前 MaxVideoAI 路由上输出 720p/1080p 高品质画面",
+      "提供音频开关与精准提示词控制",
+      "多场景串联带来更出色的连贯性",
+      "非常适合商业广告、预告片、解说视频及客户提案展示",
+      "与 Sora 2 搭配：从原型探索到 Pro 终审交付"
     ],
     "boundaries": [
-      "Higher cost-per-second than Sora 2",
-      "12s cap—keep beats tight and focused",
-      "Still no long-form editing; stitch multiple renders",
-      "Needs clear continuity notes to avoid drift",
-      "Tiny on-screen text can remain challenging"
+      "单秒生成成本高于 Sora 2",
+      "单次渲染最长 12 秒 — 需保持节拍紧凑明确",
+      "仍不支持长篇剪辑；需通过后期拼接多段渲染",
+      "需要明确的连贯性提示以避免视觉漂移",
+      "微小的屏幕文字渲染仍存在挑战"
     ],
-    "safetyTitle": "Safety & People / Likeness",
+    "safetyTitle": "安全合规与人物肖像",
     "safetyRules": [
-      "No real people, public figures, minors, hateful or violent content.",
-      "Do not use likeness without consent.",
-      "Sensitive prompts or references may be blocked."
+      "严禁生成真实人物、公众人物、未成年人、仇恨或暴力内容。",
+      "未经授权不得使用他人肖像特征。",
+      "敏感提示词或参考图片可能会被安全拦截。"
     ],
     "safetyInterpretation": [
-      "Generic characters and scenes are fine.",
-      "Famous people or sensitive topics can be filtered."
+      "通用虚构角色与常规场景均受正常支持。",
+      "知名公众人物或敏感话题可能会被过滤。"
     ],
-    "safetyNote": "Stay within safe use to keep Sora 2 Pro reliable for production work.",
-    "comparisonTitle": "Sora 2 vs Sora 2 Pro",
+    "safetyNote": "遵循安全合规规范，确保 Sora 2 Pro 在生产级工作中稳定可靠运行。",
+    "comparisonTitle": "Sora 2 与 Sora 2 Pro 对比",
     "comparisonPoints": [
-      "Prototype in Sora 2 (720p) for speed and cost efficiency.",
-      "Finalize in Sora 2 Pro (720p/1080p on MaxVideoAI today) for polish, audio control, and continuity.",
-      "Same workflow: swap engines in the same GUI when you’re ready to upscale."
+      "使用 Sora 2 (720p) 进行低成本高效率的快速原型构想。",
+      "在 Sora 2 Pro（当前 MaxVideoAI 提供的 720p/1080p 路由）中完成终审渲染，获得更细腻质感、音频控制与连贯性。",
+      "统一的工作流：准备好升级渲染时，在同一界面中无缝切换引擎。"
     ],
-    "comparisonCta": "Compare Sora 2 and Sora 2 Pro →",
-    "faqTitle": "FAQ – Sora 2 Pro in MaxVideoAI",
+    "comparisonCta": "对比 Sora 2 与 Sora 2 Pro →",
+    "faqTitle": "常见问题 – MaxVideoAI 中的 Sora 2 Pro",
     "faqs": [
       {
-        "q": "Does Sora 2 Pro include audio control?",
-        "a": "Yes. Toggle audio on/off in MaxVideoAI, and write voice/ambience/FX cues into your prompt."
+        "q": "Sora 2 Pro 是否包含音频控制功能？",
+        "a": "是的。您可以在 MaxVideoAI 中开启或关闭音频，并在提示词中写入旁白、环境音与音效提示。"
       },
       {
-        "q": "Is it more expensive than Sora 2?",
-        "a": "Yes—Sora 2 Pro is priced higher per second. Check the live rate in Generate before running a job."
+        "q": "它的费用比 Sora 2 更高吗？",
+        "a": "是的 — Sora 2 Pro 的单秒计费略高。在运行生成任务前，可在“生成”工作区中查看实时费率。"
       },
       {
-        "q": "Should I prototype in Sora 2 first?",
-        "a": "Usually yes: explore cheap and fast in Sora 2, then regenerate your selects in Pro at 720p/1080p on the current MaxVideoAI route with audio control."
+        "q": "我应该先在 Sora 2 中进行原型构思吗？",
+        "a": "通常建议如此：先在 Sora 2 中以更低成本快速探索，随后在当前 MaxVideoAI 的 Pro 路由上以 720p/1080p 重新渲染精选镜头并调控音频。"
       },
       {
-        "q": "Can I do image-to-video with Sora 2 Pro?",
-        "a": "Yes. Upload a still (PNG/JPG/WEBP/GIF/AVIF) up to ~50 MB, then describe motion and audio per beat."
+        "q": "我可以使用 Sora 2 Pro 进行图生视频吗？",
+        "a": "可以。上传最大约 50 MB 的静态图片（PNG/JPG/WEBP/GIF/AVIF），然后按节拍描述动态与音频需求。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare pricing, latency, and output options across other engines available in MaxVideoAI.",
-    "finalPara1": "Sora 2 Pro in MaxVideoAI is built for premium, client-ready outputs with control over motion, audio, and continuity.",
-    "finalPara2": "Prototype in Sora 2, then step into Sora 2 Pro when it’s time to polish and deliver in the current higher-quality MaxVideoAI route.",
-    "finalButton": "Generate with Sora 2 Pro →",
-    "tipsIntro": "Sora is most predictable when you keep the shot simple, readable, and physical."
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "对比 MaxVideoAI 中可用的其他引擎的价格、延迟与输出选项。",
+    "finalPara1": "MaxVideoAI 中的 Sora 2 Pro 专为满足客户交付的高端成片而打造，提供对动态、音频与连贯性的精准控制。",
+    "finalPara2": "先在 Sora 2 中快速验证创意，当需要打磨成片并在当前更高品质的 MaxVideoAI 路由上交付时，再升级至 Sora 2 Pro。",
+    "finalButton": "使用 Sora 2 Pro 生成 →",
+    "tipsIntro": "当镜头保持简洁、意图明确且符合物理逻辑时，Sora 的生成效果最稳定可控。"
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳适用场景",
     "items": [
       {
-        "title": "Short cinematic ads",
+        "title": "电影感短片广告",
         "icon": "ads"
       },
       {
-        "title": "UGC-style lifestyle clips",
+        "title": "UGC 风格生活方式短片",
         "icon": "ugc"
       },
       {
-        "title": "Product hero visuals",
+        "title": "产品主视觉镜头",
         "icon": "product"
       },
       {
-        "title": "Storyboards & concept tests",
+        "title": "故事分镜与概念测试",
         "icon": "storyboard"
       },
       {
-        "title": "Cinematic inserts & B-roll",
+        "title": "电影感空镜头与 B-roll 插入镜头",
         "icon": "camera"
       },
       {
-        "title": "Sound-led moments",
+        "title": "声音主导的情感瞬间",
         "icon": "audio"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical Overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "Extended 8–12s runs with multi-scene chaining",
+      "label": "视频时长",
+      "body": "单次 8–12 秒，支持多场景串联",
       "link": {
         "label": "Institute for Sound",
         "href": "https://institute-for-sound.com/openai-sora-2-pro-video-durations"
       }
     },
     {
-      "label": "Resolution",
-      "body": "Current route: 720p/1080p"
+      "label": "分辨率",
+      "body": "当前开放路由：720p/1080p"
     },
     {
-      "label": "Audio",
-      "body": "Voice-over + spatial ambience baked in"
+      "label": "音频支持",
+      "body": "内置旁白配音与空间环境立体声"
     },
     {
-      "label": "Inputs",
-      "body": "Text prompts, reference images, or frame-accurate storyboards",
+      "label": "输入方式",
+      "body": "文本提示词、参考图片或分帧故事脚本",
       "link": {
-        "label": "Storyboard tutorial",
+        "label": "故事分镜教程",
         "href": "/zh/blog/sora-2-sequenced-prompts"
       }
     },
     {
-      "label": "Controls",
-      "body": "Prompt chaining, scene weights, camera paths, audio toggles"
+      "label": "控制选项",
+      "body": "提示词串联、场景权重、运镜轨迹与音频开关"
     },
     {
-      "label": "Pricing",
-      "body": "Live wallet-based pricing — open the Generate workspace for current rates."
+      "label": "计费方式",
+      "body": "基于钱包的实时计费 — 打开“生成”工作区查看当前最新费率。"
     }
   ],
   "promptStructure": {
-    "title": "Prompt Structure",
-    "quote": "Scene 1 → Neon-lit bazaar at dusk, camera pushes through stalls, layered percussion builds → Scene 2 → Rooftop skyline reveal, voice-over continues narration.",
-    "description": "Lay out each beat to keep multi-scene briefs coherent:",
+    "title": "提示词结构",
+    "quote": "场景 1 → 黄昏时分霓虹灯闪烁的集市，摄影机穿行于摊位之间，层层铺垫的打击乐渐强 → 场景 2 → 楼顶天际线揭示镜头，旁白继续解说。",
+    "description": "清晰划分每个节拍，以确保多场景分镜简报连贯协调：",
     "steps": [
-      "Break prompts into Scene 1 / Scene 2 segments",
-      "Specify camera movement + duration per scene",
-      "Call out audio cues (voice, ambience, FX)",
-      "Mention what should stay consistent (characters, wardrobe)",
-      "Add transitions (match cuts, crossfade, whip pan, etc.)"
+      "将提示词拆分为 场景 1 / 场景 2 分段",
+      "明确每个场景的摄影机运镜与持续时长",
+      "标注音频提示词（旁白、环境音、音效）",
+      "指明需要保持一致的元素（角色、服装道具）",
+      "添加转场方式（匹配剪辑、淡入淡出、快速摇镜等）"
     ]
   },
   "tips": {
-    "title": "Tips & Tricks",
+    "title": "实用技巧与建议",
     "items": [
-      "🔗 Use scene weights to emphasize key shots",
-      "🎬 Repeat character descriptors to maintain continuity",
-      "🎧 Write audio beats explicitly when chaining prompts",
-      "🖼️ Upload reference stills for lighting consistency",
-      "🚀 Clone jobs into Veo/Pika to compare motion styles"
+      "🔗 使用场景权重突出关键核心镜头",
+      "🎬 重复角色描述词以保持外观连贯性",
+      "🎧 串联提示词时明确编写对应的音频节拍",
+      "🖼️ 上传参考静止帧以锁定光影风格一致性",
+      "🚀 将任务一键克隆至 Veo/Pika 以对比不同的动态风格"
     ]
   },
   "compareLink": {
-    "label": "Explore Sora 2 ->",
+    "label": "探索 Sora 2 ->",
     "href": "/models/sora-2"
   },
   "prompts": [
     {
-      "title": "Multi-scene legend opener",
+      "title": "多场景史诗开篇",
       "prompt": "Scene 1 → A medieval city under the stars, camera slowly pans above rooftops, lute music plays, voice-over: 'Peace reigned for a century.' → Scene 2 → A rider gallops across the plains at sunrise, orchestral swell, zoom-in to sword hilt glowing.",
-      "notes": "Use multi-prompt chaining to stitch scenes together in a single render."
+      "notes": "使用多提示词串联，在单次渲染中衔接多个场景。"
     },
     {
-      "title": "Torchlit discovery",
+      "title": "火把下的古迹探索",
       "prompt": "Scene 1 → Interior of a jungle temple at dusk, drums echo in the background, voice-over: 'Legends speak of a guardian.' → Scene 2 → Torchlit hallway, camera glides toward ancient glyphs as the music builds.",
-      "notes": "Start from a detailed concept still to keep glyphs and lighting consistent."
+      "notes": "从精细的概念静止图起步，以保持古代符文与光影的连贯一致。"
     }
   ],
   "faqs": [
     {
-      "q": "Does Sora 2 Pro always output audio?",
-      "a": "Audio is on by default for lip-sync and sound design, but you can toggle it off in the composer if you only need visuals."
+      "q": "Sora 2 Pro 是否总是包含音频输出？",
+      "a": "默认开启音频以提供对白同步与声音设计，但如果仅需纯画面，您可以在生成编辑器中将其关闭。"
     },
     {
-      "q": "How is Sora 2 Pro priced in MaxVideoAI?",
-      "a": "The page shows MaxVideoAI preset totals for common Pro scenarios. The Generate workspace remains the source of truth for the exact live quote before you run a job."
+      "q": "Sora 2 Pro 在 MaxVideoAI 中如何计费？",
+      "a": "页面展示了常见 Pro 场景下的 MaxVideoAI 预设总价。“生成”工作区始终作为运行任务前查看精确准确实时报价的基准。"
     },
     {
-      "q": "What is the max duration for Sora 2 Pro?",
-      "a": "The current MaxVideoAI route exposes 4s, 8s and 12s generations. For longer edits, render multiple clips and stitch them in post."
+      "q": "Sora 2 Pro 的最长生成时长是多少？",
+      "a": "当前 MaxVideoAI 路由支持生成 4秒、8秒 与 12秒 视频。如需更长成片，可渲染多个片段并在后期剪辑拼接。"
     },
     {
-      "q": "What resolution does Sora 2 Pro support here?",
-      "a": "The current MaxVideoAI route exposes 720p and 1080p outputs. Provider/model-family docs may describe broader capabilities, but this page reflects the route available in the app."
+      "q": "Sora 2 Pro 在此支持哪些分辨率？",
+      "a": "当前 MaxVideoAI 路由开放 720p 与 1080p 输出。服务商或模型家族文档可能提及更广泛的功能，但本页面如实反映应用内当前可用的路由。"
     },
     {
-      "q": "Can I use image-to-video with Sora 2 Pro?",
-      "a": "Yes. Upload a still as the starting frame and describe the motion, camera and optional sound cues for the generated clip."
+      "q": "我可以使用 Sora 2 Pro 进行图生视频吗？",
+      "a": "可以。上传一张静态图片作为起始帧，并描述生成片段的运动、运镜以及可选的声音提示词。"
     },
     {
-      "q": "When should I use Sora 2 instead of Sora 2 Pro?",
-      "a": "Use Sora 2 for cheaper concept passes and early exploration. Use Sora 2 Pro when a selected shot needs higher-quality review, stronger polish and the Pro route."
+      "q": "什么时候该选择 Sora 2 而非 Sora 2 Pro？",
+      "a": "在需要低成本概念测试和前期探索时使用 Sora 2。当精选镜头需要高画质审阅、更精致的成片效果及 Pro 路由时，再选用 Sora 2 Pro。"
     }
   ],
-  "pricingNotes": "Live pricing updates inside the Generate workspace. Check the current rate before you run a job.",
+  "pricingNotes": "实时价格在“生成”工作区内动态更新。在运行任务前请先查看当前费率。",
   "decision": {
     "modelSlug": "sora-2-pro",
     "hero": {
-      "eyebrow": "OPENAI PRO VIDEO MODEL",
+      "eyebrow": "OPENAI PRO 视频模型",
       "title": "Sora 2 Pro",
-      "subtitle": "Higher-resolution finals, audio control and reference-guided image-to-video for polished short-form production.",
+      "subtitle": "高分辨率成片、音频控制与参考图引导的图生视频，助力高品质短片创作。",
       "subtitleHighlights": [
-        "Higher-resolution finals",
-        "audio control",
-        "reference-guided image-to-video"
+        "高分辨率成片",
+        "音频控制",
+        "参考图引导的图生视频"
       ],
-      "paragraph": "Use Sora 2 Pro when a selected Sora concept needs the current Pro route: 720p or 1080p delivery, text-to-video or image-to-video generation, optional native sound, and final-quality review loops inside MaxVideoAI.",
+      "paragraph": "当精选的 Sora 创意概念需要当前的 Pro 路由时，请选用 Sora 2 Pro：支持 720p 或 1080p 交付、文生视频或图生视频生成、可选原生音频，并在 MaxVideoAI 内提供终审级画质审阅闭环。",
       "primaryCta": {
         "label": "使用 Sora 2 Pro 生成",
         "href": "/app?engine=sora-2-pro"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/sora"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Sora 2",
+          "label": "对比 Sora 2",
           "href": "/zh/ai-video-engines/sora-2-vs-sora-2-pro?order=sora-2-pro"
         },
         {
@@ -342,188 +342,188 @@
       ]
     },
     "media": {
-      "caption": "Sora 2 Pro example",
-      "description": "8s 16:9 Pro continuity render",
-      "renderLabel": "View render",
+      "caption": "Sora 2 Pro 示例",
+      "description": "8秒 16:9 Pro 连贯性渲染",
+      "renderLabel": "查看渲染",
       "badges": [
-        "Audio off",
-        "8s",
+        "关闭音频",
+        "8秒",
         "16:9"
       ],
-      "altContext": "Sora 2 Pro continuity control render"
+      "altContext": "Sora 2 Pro 连贯性控制渲染"
     },
     "features": [
       {
-        "title": "1080p route",
-        "body": "Use Pro for selected shots that need cleaner delivery.",
+        "title": "1080p 路由",
+        "body": "当精选镜头需要更高清交付时选用 Pro。",
         "tone": "quality"
       },
       {
-        "title": "Synced audio",
-        "body": "Keep dialogue, ambience and SFX in the same generation flow.",
+        "title": "同步音频",
+        "body": "在同一生成流程中同步生成对白、环境音与音效。",
         "tone": "audio"
       },
       {
-        "title": "Text-to-video",
-        "body": "Brief a complete short shot with subject, action, camera and sound.",
+        "title": "文生视频",
+        "body": "提供包含主体、动作、镜头与声音的完整短片分镜简报。",
         "tone": "reference"
       },
       {
-        "title": "Image-to-video",
-        "body": "Use a still frame to preserve composition before motion and audio cues.",
+        "title": "图生视频",
+        "body": "使用静态图片锁定构图，随后施加动态与音频提示词。",
         "tone": "continuity"
       },
       {
-        "title": "Max 12s",
-        "body": "Plan tight production beats rather than extended scenes.",
+        "title": "最长 12 秒",
+        "body": "规划紧凑的制作节拍，而非漫无目的的长镜头。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按需计费",
+        "body": "在生成前即可查看精确的实时价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Pro or standard Sora 2?",
-        "body": "Use standard Sora 2 for 720p concept passes. Use Pro when a winning shot needs 1080p output and more final-quality review.",
+        "title": "选择 Pro 还是标准版 Sora 2？",
+        "body": "使用标准版 Sora 2 进行 720p 概念推演。当精选镜头需要 1080p 输出及终审画质审阅时选择 Pro。",
         "cta": {
-          "label": "Compare Sora 2 vs Pro",
+          "label": "对比 Sora 2 与 Pro",
           "href": "/zh/ai-video-engines/sora-2-vs-sora-2-pro?order=sora-2-pro"
         }
       },
       {
-        "title": "Ready for final review?",
-        "body": "Use Pro after the prompt, framing and audio cues are already close. That keeps higher-cost iterations focused.",
+        "title": "准备好进行终审渲染？",
+        "body": "在提示词、构图与音频提示基本确定后再选用 Pro。这有助于集中预算进行高价值迭代。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Comparing premium finals?",
-        "body": "Compare Sora 2 Pro with Veo 3.1 or Kling 3 Pro when selecting a final route for ads, explainers or cinematic inserts.",
+        "title": "对比高端旗舰成片？",
+        "body": "为广告、解说视频或电影感插入镜头选择最终方案时，可将 Sora 2 Pro 与 Veo 3.1 或 Kling 3 Pro 进行对比。",
         "cta": {
-          "label": "Compare Sora 2 Pro vs Veo 3.1",
+          "label": "对比 Sora 2 Pro 与 Veo 3.1",
           "href": "/zh/ai-video-engines/sora-2-pro-vs-veo-3-1"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-video final",
-        "body": "Use a compact director brief with one clear action, camera move and sound plan."
+        "title": "文生视频成片",
+        "body": "使用精炼的导演简报，包含一个明确动作、运镜方案与声音规划。"
       },
       {
-        "title": "Image-to-video final",
-        "body": "Start from an approved still when identity, product shape or framing must stay stable."
+        "title": "图生视频成片",
+        "body": "当角色特征、产品形态或构图必须保持稳定时，从已通过的静态图起步。"
       },
       {
-        "title": "Audio planning",
-        "body": "Separate voice, ambience and SFX so the sound brief does not fight the visual action."
+        "title": "音频规划",
+        "body": "将旁白、环境音与音效分开描述，避免声音指令与画面动作发生冲突。"
       },
       {
-        "title": "Continuity anchors",
-        "body": "Repeat wardrobe, props, location and lighting when a 12s clip contains several beats."
+        "title": "连贯性锚点",
+        "body": "当 12 秒片段包含多个节拍时，在各个节拍中重复服装、道具、地点与光影。"
       },
       {
-        "title": "Cost control",
-        "body": "Prototype in Sora 2, then reserve Pro for the shots worth polishing."
+        "title": "成本控制",
+        "body": "先在 Sora 2 中进行原型构想，将 Pro 保留给真正值得打磨的镜头。"
       }
     ],
     "pricingCopy": {
-      "title": "Sora 2 Pro pricing at a glance",
-      "subtitle": "Preset Pro totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "4/8/12s · up to 1080p",
+      "title": "Sora 2 Pro 价格一览",
+      "subtitle": "Pro 预设总价 — 在应用中生成前可查看精确的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "4/8/12秒 · 最高支持 1080p",
       "ctaHref": "/zh/pricing#sora-2-pro-pricing"
     },
     "meta": {
-      "title": "Sora 2 Pro: Pricing, 1080p & Examples | MaxVideoAI",
-      "description": "Explore Sora 2 Pro pricing, 1080p examples, synced native audio, text-to-video and image-to-video workflows. Compare Sora 2 Pro vs Sora 2."
+      "title": "Sora 2 Pro：价格、1080p 高清与案例 | MaxVideoAI",
+      "description": "探索 Sora 2 Pro 价格、1080p 案例、同步原生音频、文生视频与图生视频工作流。对比 Sora 2 Pro 与 Sora 2。"
     }
   },
   "prompting": {
     "modelSlug": "sora-2-pro",
     "section": {
-      "title": "How to Write a Great Sora 2 Pro Prompt",
-      "intro": "Sora 2 Pro works best when the brief separates the shot, the source image role, the synced audio plan and the final delivery constraints.",
-      "tip": "Tip: duration, aspect ratio and resolution are set in the UI — your prompt controls subject, action, camera, lighting, style and sound.",
+      "title": "如何撰写优秀的 Sora 2 Pro 提示词",
+      "intro": "当简报清晰区分镜头画面、源图片角色、同步音频规划与最终交付约束时，Sora 2 Pro 的表现最佳。",
+      "tip": "提示：时长、画幅比例与分辨率均在界面中设置 — 提示词用于控制主体、动作、运镜、光影、风格与声音。",
       "guide": {
-        "label": "OpenAI Developers",
+        "label": "OpenAI 开发者指南",
         "href": "https://developers.openai.com/cookbook/examples/sora/sora2_prompting_guide/"
       },
-      "referencesTitle": "How Sora 2 Pro uses prompts, references and audio"
+      "referencesTitle": "Sora 2 Pro 如何使用提示词、参考素材与音频"
     },
     "tabs": [
       {
         "id": "text",
-        "label": "Text",
-        "title": "Text-to-video Pro brief",
-        "description": "Use this when the shot starts from language only.",
-        "copy": "Duration / output:\n[4s, 8s or 12s] • [16:9 or 9:16] • [720p or 1080p]\n\nSubject:\n[Who/what appears + 2 defining traits]\n\nAction:\n[One visible action, then one optional reaction]\n\nCamera:\n[Shot size + angle + one camera move]\n\nStyle / lighting:\n[Production look + light source + palette]\n\nAudio:\n[Ambience + 1-2 SFX cues or one short spoken line]\n\nConstraints:\nNo logos, no unreadable text overlays, no extra characters."
+        "label": "文本",
+        "title": "文生视频 Pro 简报",
+        "description": "适用于仅从自然语言起步构思的镜头。",
+        "copy": "时长 / 输出：\n[4秒、8秒 或 12秒] • [16:9 或 9:16] • [720p 或 1080p]\n\n主体：\n[出现的人物/物体 + 2 个关键特征]\n\n动作：\n[一个可见的主体动作，随后一个可选的反应]\n\n运镜：\n[景别大小 + 拍摄角度 + 单一运镜动作]\n\n风格 / 光影：\n[制作质感 + 光源 + 色调]\n\n音频：\n[环境音 + 1-2 个音效提示或一句简短对白]\n\n约束：\n无徽标 Logo、无不可读文字叠加、无多余无关人物。"
       },
       {
         "id": "image",
-        "label": "Image",
-        "title": "Image-to-video from an approved still",
-        "description": "Use this when the first frame, product shape or character identity must stay stable.",
-        "copy": "Source image role:\n[Identity / product shape / composition / environment]\n\nMotion:\n[What changes after frame 1; keep it simple]\n\nCamera:\n[Static / push-in / dolly / handheld drift]\n\nContinuity anchors:\n[Wardrobe, product details, lighting, background]\n\nAudio:\n[Room tone, music bed, SFX, or short dialogue]\n\nFinal frame:\n[Where the motion should land by the last second]"
+        "label": "图片",
+        "title": "基于已确认静态图的图生视频",
+        "description": "适用于起始帧、产品外观或角色身份必须保持稳定的场景。",
+        "copy": "源图片定位：\n[主体特征 / 产品形态 / 构图 / 场景环境]\n\n动态变化：\n[第一帧之后发生的变化；保持简洁]\n\n运镜：\n[固定镜头 / 推进 / 移动滑轨 / 手持微晃]\n\n连贯性锚点：\n[服装造型、产品细节、光影、背景]\n\n音频：\n[空间底噪、背景音乐、音效或简短对白]\n\n落幅画面：\n[在最后一秒动态应该定格在何处]"
       },
       {
         "id": "audio",
-        "label": "Audio",
-        "title": "Synced audio prompt",
-        "description": "Use this when sound timing is part of the decision.",
-        "copy": "Visual beats:\n0-3s: [visible action]\n3-8s: [reaction or reveal]\n8-12s: [final beat]\n\nDialogue:\n[One short line, if needed]\n\nAmbience:\n[Room tone / street bed / crowd / weather]\n\nSFX:\n[Tie each sound to a visible action]\n\nMix note:\n[Keep voice clean / keep music low / no dialogue]"
+        "label": "音频",
+        "title": "同步音频提示词",
+        "description": "适用于声音节点与时间节奏是核心诉求的场景。",
+        "copy": "视觉节拍：\n0-3秒: [可见动作]\n3-8秒: [反应或揭示]\n8-12秒: [最终收尾节拍]\n\n对白：\n[如有需要，附上一句简短台词]\n\n环境声：\n[房间底噪 / 街道背景 / 人群声 / 天气声]\n\n音效：\n[将每种声音与可见的物理动作相绑定]\n\n混音要求：\n[保持人声清晰 / 压低背景乐 / 无对白]"
       },
       {
         "id": "final",
-        "label": "Final",
-        "title": "Final delivery check",
-        "description": "Use this before spending a higher-cost 1080p Pro pass.",
-        "copy": "Delivery target:\n[Client review / ad insert / product hero / cinematic B-roll]\n\nApproved direction:\n[Prompt or image direction already validated in Sora 2]\n\nNon-negotiables:\n[Subject identity, prop, location, motion timing, audio cue]\n\nQuality check:\n[What must look clean at 1080p]\n\nAvoid:\n[Artifacts, extra limbs, fake logos, unintended text, off-beat audio]"
+        "label": "交付",
+        "title": "最终交付成片检查",
+        "description": "在进行成本较高的 1080p Pro 渲染前使用。",
+        "copy": "交付目标：\n[客户审片 / 广告插片 / 产品主视觉 / 电影级 B-roll]\n\n已验证方向：\n[已在 Sora 2 中验证过的提示词或视觉方向]\n\n不可妥协要素：\n[主体身份、道具、场景、动态时长、音频提示点]\n\n画质质检点：\n[在 1080p 下必须呈现清晰细腻的细节]\n\n避免出现：\n[伪影畸变、多余肢体、虚假品牌、意外文字、节奏脱节的音频]"
       }
     ],
     "tabNotes": [],
     "globalPrinciples": [
-      "1 shot = 1 camera move + 1 subject action",
-      "Use visual anchors (specific nouns > vague adjectives)",
-      "Keep characters consistent across shots",
-      "Start from an image for maximum control",
-      "Iterate: change one thing at a time"
+      "单镜头原则：1 次摄影机运镜 + 1 个主体动作",
+      "善用视觉锚点（具体名词优于模糊形容词）",
+      "在不同镜头间保持角色特征一致",
+      "从图片起步以实现最大程度的掌控力",
+      "小步迭代：每次只调整一个变量"
     ],
     "engineWhy": [
-      "Too many beats can cause drift — keep each clip to 2–3 clear actions.",
-      "Image-to-video locks the first frame composition; prompt controls motion and timing.",
-      "Reference image rules are strict — clean stills, no logos, no readable text.",
-      "Audio cues help pacing; describe 1–2 key sounds for rhythm."
+      "节拍过多容易导致画面漂移 — 将每个片段控制在 2–3 个明确动作内。",
+      "图生视频可锁定首帧构图；提示词则专注于引导动态与时间节奏。",
+      "参考图片规范严格 — 请使用干净的静态帧，无品牌 Logo 与清晰可读文字。",
+      "音频提示有助于把控节奏；描述 1–2 个核心声音以确立韵律感。"
     ],
     "demo": {
-      "title": "Demo: 8s Pro scene continuity check",
-      "promptLabel": "Pro scene check",
+      "title": "演示案例：8秒 Pro 场景连贯性校验",
+      "promptLabel": "Pro 场景校验",
       "prompt": "Single CCTV-style 16:9 shot in an active construction area.\nA crew has just poured a smooth wet cement layer. A cat crosses the frame at the wrong moment, leaving paw marks while workers react in the background.\nCamera: fixed security-camera angle, slightly compressed lens, no dramatic push-in.\nStyle: believable site footage, overcast daylight, wet cement texture, practical safety cones and warning tape.\nAudio: off for this render.\nFormat: 8s, 16:9.",
       "notes": [
-        "Matches the hero/gallery render metadata instead of reusing a generic prompt.",
-        "Use the same structure for Pro checks: one scene, one event, clear camera, clear output settings."
+        "与头图/图库案例的渲染元数据精准吻合，而非套用通用提示词模板。",
+        "为 Pro 校验应用相同的结构：单一场景、单一事件、明确运镜与清晰输出配置。"
       ],
       "summary": {
-        "subject": "Cat crossing fresh cement",
-        "action": "The cat crosses the site while workers react",
-        "camera": "Fixed 16:9 CCTV angle",
-        "style": "Believable construction footage, overcast light, wet texture",
-        "output": "Audio off for this render"
+        "subject": "小猫踏过未干水泥地面",
+        "action": "小猫横穿施工现场，背景工人作出反应",
+        "camera": "固定 16:9 监控摄像头视角",
+        "style": "逼真的现场实拍质感、阴天自然光、湿润水泥纹理",
+        "output": "此渲染已关闭音频"
       },
       "presentationOverrides": {
-        "modeLabel": "Pro scene check",
-        "outputLabel": "Audio",
+        "modeLabel": "Pro 场景校验",
+        "outputLabel": "音频",
         "duration": "8s",
         "aspectRatio": null,
         "audioChipMode": "off",
         "audioChipLabel": null,
-        "altContext": "Sora 2 Pro continuity control render"
+        "altContext": "Sora 2 Pro 连贯性控制渲染"
       }
     },
     "imageExamples": null
@@ -531,10 +531,10 @@
   "examples": {
     "modelSlug": "sora-2-pro",
     "section": {
-      "title": "Example Gallery: Sora 2 Pro Outputs",
-      "intro": "See high-res, multi-beat clips rendered with Sora 2 Pro in MaxVideoAI.",
-      "defaultCtaLabel": "View all Sora 2 Pro examples →",
-      "recreateLabel": "Recreate this Pro shot →"
+      "title": "Sora 2 Pro 案例展厅",
+      "intro": "查看在 MaxVideoAI 中使用 Sora 2 Pro 渲染的高清多节拍视频片段。",
+      "defaultCtaLabel": "查看全部 Sora 2 Pro 案例 →",
+      "recreateLabel": "复现此 Pro 镜头 →"
     },
     "filters": [
       {
@@ -565,32 +565,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Sora 2 Pro.",
+        "title": "真实社区渲染案例",
+        "body": "探索 Sora 2 Pro 的创作潜能与丰富表现。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键直达应用工作区，直接复用该镜头的全部配置参数。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频支持",
+        "body": "同步生成对白、环境音与音效。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头分镜连贯性",
+        "body": "在连续镜头序列中保持角色、视觉风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "生产级合规保障",
+        "body": "内置安全合规围栏与内容过滤器，满足严谨的商用审阅要求。",
         "icon": "shield"
       }
     ],

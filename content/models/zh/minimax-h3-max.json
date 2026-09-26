@@ -2,26 +2,26 @@
   "marketingName": "MiniMax H3 Max",
   "versionLabel": "H3 Max",
   "seo": {
-    "title": "MiniMax H3 Max AI Video: Fast 768P, References & Audio",
-    "description": "Generate 5–15-second MiniMax H3 Max videos at 480P or 768P from text, frames, or mixed image, video and audio references."
+    "title": "MiniMax H3 Max AI 视频：快速 768P、参考图与音频",
+    "description": "从文本、帧图像或混合图像、视频及音频参考生成 5–15 秒的 MiniMax H3 Max 视频，分辨率支持 480P 或 768P。"
   },
-  "overview": "MiniMax H3 Max is the focused fast-production Hailuo route for strong prompt adherence, polished 768P visuals, native audio, and multimodal reference direction.",
+  "overview": "MiniMax H3 Max 是专注于快速生产的 Hailuo 路线，具备强提示词遵循能力、精美的 768P 画质、原生音频以及多模态参考引导。",
   "decision": {
     "modelSlug": "minimax-h3-max",
     "hero": {
       "eyebrow": "AI 视频 · MiniMax",
       "title": "MiniMax H3 Max",
-      "subtitle": "Turn more ideas into moving scenes.",
+      "subtitle": "将更多创意转化为动态画面。",
       "subtitleHighlights": [
-        "Turn more ideas into moving scenes"
+        "将更多创意转化为动态画面"
       ],
-      "paragraph": "MiniMax H3 Max generates 5–15-second AI videos in 480P or 768P, with native audio. Start from text, opening and ending images, or mixed references. Choose MiniMax H3 when you need 2K or 4K output.",
+      "paragraph": "MiniMax H3 Max 可生成 5–15 秒的 AI 视频，分辨率支持 480P 或 768P，并带有原生音频。可从文本、首尾帧图像或混合参考出发进行创作。如需 2K 或 4K 输出，请选择 MiniMax H3。",
       "primaryCta": {
         "label": "使用 MiniMax H3 Max 生成",
         "href": "/app?engine=minimax-h3-max"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看示例",
         "href": "/zh/examples/hailuo"
       },
       "quickLinks": [
@@ -30,7 +30,7 @@
           "href": "/zh/models/minimax-h3"
         },
         {
-          "label": "Compare the models",
+          "label": "对比模型",
           "href": "/zh/ai-video-engines/minimax-h3-vs-minimax-h3-max"
         },
         {
@@ -38,138 +38,138 @@
           "href": "/zh/pricing#minimax-h3-max-pricing"
         },
         {
-          "label": "Prompt Lab",
+          "label": "提示词实验室",
           "href": "#prompting"
         }
       ]
     },
     "media": {
-      "caption": "Reviewed launch examples",
-      "description": "Contemporary dance on a mirrored stage",
-      "renderLabel": "View render",
+      "caption": "经审核的发布示例",
+      "description": "在镜面舞台上的当代舞蹈",
+      "renderLabel": "查看渲染",
       "badges": [
         "480P / 768P",
         "5–15s",
-        "Mixed references",
-        "Native audio"
+        "混合参考",
+        "原生音频"
       ],
-      "altContext": "MiniMax H3 Max: Contemporary dance on a mirrored stage"
+      "altContext": "MiniMax H3 Max：在镜面舞台上的当代舞蹈"
     },
     "features": [
       {
-        "title": "Fast polished output",
-        "body": "Use the focused H3 Max route for strong prompt adherence and quick production at 480P or 768P.",
+        "title": "快速精美输出",
+        "body": "使用专注的 H3 Max 路线，在 480P 或 768P 下实现强提示词遵循和快速生产。",
         "tone": "quality"
       },
       {
-        "title": "Text, frames, and references",
-        "body": "Start from a prompt, animate an opening image with an optional ending image, or combine mixed references.",
+        "title": "文本、帧图像与参考",
+        "body": "从提示词出发，为首帧图像添加可选结尾帧动画，或结合混合参考进行创作。",
         "tone": "reference"
       },
       {
-        "title": "5–15-second clips",
-        "body": "Choose any whole-second duration and one of six landscape, square, or vertical ratios for text-to-video.",
+        "title": "5–15 秒视频片段",
+        "body": "可选择任意整数秒时长，以及六种横向、方形或竖向比例之一用于文生视频。",
         "tone": "duration"
       },
       {
-        "title": "Native audio",
-        "body": "Generate dialogue, ambience, music, and synchronized effects with the video.",
+        "title": "原生音频",
+        "body": "与视频同步生成对话、环境音、音乐和音效。",
         "tone": "audio"
       }
     ],
     "decisionCards": [
       {
-        "title": "Choose H3 Max for focused speed",
-        "body": "Use H3 Max when fast 768P production, prompt adherence, and native audio matter more than 2K or 4K delivery.",
+        "title": "选择 H3 Max 以获得专注的速度",
+        "body": "当快速 768P 生产、提示词遵循和原生音频比 2K 或 4K 输出更重要时，请选择 H3 Max。",
         "cta": {
           "label": "使用 MiniMax H3 Max 生成",
           "href": "/app?engine=minimax-h3-max"
         }
       },
       {
-        "title": "See MiniMax H3 for 2K and 4K",
-        "body": "Choose H3 Max for fast 480P or 768P production with prompt expansion and strong visual finish. Keep MiniMax H3 for broad 2K/4K delivery intent.",
+        "title": "选择 MiniMax H3 获得 2K 和 4K",
+        "body": "H3 Max 适合快速 480P 或 768P 生产，具备提示词扩展和强视觉效果。如需广泛的 2K/4K 输出，请选择 MiniMax H3。",
         "cta": {
-          "label": "Review H3 Max specs",
+          "label": "查看 H3 Max 规格",
           "href": "#specs"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-video",
-        "body": "Define the subject, visible change, camera path, and sound response."
+        "title": "文生视频",
+        "body": "定义主体、可见变化、镜头路径和声音反应。"
       },
       {
-        "title": "Image-to-video",
-        "body": "Animate one opening image by describing motion and camera."
+        "title": "图生视频",
+        "body": "通过描述运动和镜头，为一张首帧图像添加动画。"
       }
     ],
     "pricingCopy": {
-      "title": "MiniMax H3 Max — View pricing",
-      "subtitle": "The exact price is calculated before rendering from duration, mode, and resolution.",
-      "footnote": "The total shown at generation time remains authoritative.",
+      "title": "MiniMax H3 Max — 查看定价",
+      "subtitle": "确切价格在渲染前根据时长、模式和分辨率计算得出。",
+      "footnote": "生成时显示的总价格具有最终权威性。",
       "ctaLabel": "使用 MiniMax H3 Max 生成",
       "ctaHref": "/app?engine=minimax-h3-max"
     },
     "meta": {
-      "title": "MiniMax H3 Max AI Video: Fast 768P, References & Audio",
-      "description": "Generate 5–15-second MiniMax H3 Max videos at 480P or 768P from text, frames, or mixed image, video and audio references."
+      "title": "MiniMax H3 Max AI 视频：快速 768P、参考图与音频",
+      "description": "从文本、帧图像或混合图像、视频及音频参考生成 5–15 秒的 MiniMax H3 Max 视频，分辨率支持 480P 或 768P。"
     }
   },
   "prompting": {
     "modelSlug": "minimax-h3-max",
     "section": {
       "title": "提示词实验室 — MiniMax H3 Max",
-      "intro": "Lead with the visible action, then add camera, continuity, and sound.",
-      "tip": "Use balanced expansion for direct prompts and quality expansion when the brief benefits from added cinematic detail.",
+      "intro": "以可见动作为引导，然后添加镜头、连续性和声音描述。",
+      "tip": "对直接提示词使用均衡扩展，当简报从增加的电影细节中受益时使用质量扩展。",
       "guide": null,
-      "referencesTitle": "Direct a focused production shot"
+      "referencesTitle": "引导专注的制作镜头"
     },
     "tabs": [
       {
         "id": "direction",
-        "label": "Direction",
-        "title": "Direct a focused production shot",
-        "description": "Define the subject, visible change, camera path, and sound response.",
-        "copy": "A sculptural ceramic lamp in a dark design studio unfolds from a compact form into a warm glowing arch. One slow orbit, stable materials, precise joints, soft room tone, and a clean final hero frame. No text or logo."
+        "label": "引导方向",
+        "title": "引导专注的制作镜头",
+        "description": "定义主体、可见变化、镜头路径和声音反应。",
+        "copy": "一盏雕塑感的陶瓷台灯在昏暗的设计工作室中，从紧凑的形态展开成温暖发光的弧形。一次缓慢环绕，材质稳定，接缝精准，柔和的室内音效，以及干净的最终主角画面。无文字或标志。"
       }
     ],
     "tabNotes": [
       {
         "tabId": "direction",
-        "body": "Use balanced expansion for direct prompts and quality expansion when the brief benefits from added cinematic detail."
+        "body": "对直接提示词使用均衡扩展，当简报从增加的电影细节中受益时使用质量扩展。"
       }
     ],
     "globalPrinciples": [
-      "Use one readable action per shot.",
-      "Repeat only essential continuity anchors."
+      "每个镜头使用一个清晰的动作。",
+      "只重复必要的连续性锚点。"
     ],
     "engineWhy": [
-      "MiniMax H3 Max is the focused fast-production Hailuo route for strong prompt adherence, polished 768P visuals, native audio, and multimodal reference direction."
+      "MiniMax H3 Max 是专注于快速生产的 Hailuo 路线，具备强提示词遵循能力、精美的 768P 画质、原生音频以及多模态参考引导。"
     ],
     "demo": {
-      "title": "Transforming ceramic lamp",
-      "promptLabel": "Production prompt",
-      "prompt": "A sculptural ceramic lamp in a dark design studio unfolds from a compact form into a warm glowing arch. One slow orbit, stable materials, precise joints, soft room tone, and a clean final hero frame. No text or logo.",
+      "title": "变形陶瓷台灯",
+      "promptLabel": "制作提示词",
+      "prompt": "一盏雕塑感的陶瓷台灯在昏暗的设计工作室中，从紧凑的形态展开成温暖发光的弧形。一次缓慢环绕，材质稳定，接缝精准，柔和的室内音效，以及干净的最终主角画面。无文字或标志。",
       "notes": [
-        "Use balanced expansion for direct prompts and quality expansion when the brief benefits from added cinematic detail."
+        "对直接提示词使用均衡扩展，当简报从增加的电影细节中受益时使用质量扩展。"
       ],
       "summary": {
-        "subject": "Transforming ceramic lamp",
-        "action": "A lamp unfolds into its final form",
-        "camera": "One controlled camera move",
-        "style": "Clean premium product transformation",
-        "output": "480P or 768P · 24 FPS · native audio"
+        "subject": "变形陶瓷台灯",
+        "action": "台灯展开成最终形态",
+        "camera": "一次受控的镜头运动",
+        "style": "干净的高端产品变形",
+        "output": "480P 或 768P · 24 FPS · 原生音频"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "480P or 768P · 24 FPS · native audio",
+        "outputLabel": "480P 或 768P · 24 FPS · 原生音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "MiniMax H3 Max: Transforming ceramic lamp"
+        "altContext": "MiniMax H3 Max：变形陶瓷台灯"
       }
     },
     "imageExamples": null
@@ -178,9 +178,9 @@
     "modelSlug": "minimax-h3-max",
     "showWhenEmpty": false,
     "section": {
-      "title": "Reviewed examples",
-      "intro": "Two distinct launch renders show the model on people, scenes, or products.",
-      "defaultCtaLabel": "View the family gallery",
+      "title": "经审核的示例",
+      "intro": "两个独特的发布渲染展示了该模型在人物、场景或产品上的表现。",
+      "defaultCtaLabel": "查看系列画廊",
       "recreateLabel": null
     },
     "filters": [
@@ -205,8 +205,8 @@
       {
         "id": "prompt",
         "icon": "sparkles",
-        "title": "Prompt adherence",
-        "body": "Check the requested subject, action, framing, and final beat."
+        "title": "提示词遵循",
+        "body": "检查所请求的主体、动作、构图和最终节拍。"
       },
       {
         "id": "motion",
@@ -217,20 +217,20 @@
       {
         "id": "people",
         "icon": "users",
-        "title": "Human fidelity",
-        "body": "Inspect anatomy, identity, clothing, and natural movement."
+        "title": "人物还原度",
+        "body": "检查解剖结构、身份特征、服装和自然动作。"
       },
       {
         "id": "finish",
         "icon": "maximize",
-        "title": "Visual finish",
-        "body": "Inspect detail, lighting, materials, and resolution."
+        "title": "视觉质感",
+        "body": "检查细节、光影、材质和分辨率。"
       },
       {
         "id": "review",
         "icon": "shield",
-        "title": "Editorial review",
-        "body": "Reject unwanted text, marks, unsafe content, or unapproved likenesses."
+        "title": "编辑审核",
+        "body": "拒绝不需要的文字、标记、不安全内容或未经授权的肖像。"
       }
     ],
     "fallbackItems": null

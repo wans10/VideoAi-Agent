@@ -1880,15 +1880,15 @@ function localizeSequenceDefaultName(
   const trimmedName = name.trim();
   const normalizedName = normalizedGeneratedName(trimmedName);
 
-  if (['main sequence', 'sequence principale', 'secuencia principal'].includes(normalizedName)) {
+  if (['main sequence', 'sequence principale', 'secuencia principal', '主序列'].includes(normalizedName)) {
     return { matched: true, value: copy.mainSequenceName };
   }
 
-  if (['untitled sequence', 'sequence sans titre', 'secuencia sin titulo'].includes(normalizedName)) {
+  if (['untitled sequence', 'sequence sans titre', 'secuencia sin titulo', '未命名序列'].includes(normalizedName)) {
     return { matched: true, value: copy.untitledSequenceName };
   }
 
-  const indexedSequenceMatch = normalizedName.match(/^(?:sequence|secuencia)\s+(\d+)$/);
+  const indexedSequenceMatch = normalizedName.match(/^(?:sequence|secuencia|序列)\s*(\d+)$/);
   if (indexedSequenceMatch) {
     return {
       matched: true,
@@ -1907,7 +1907,7 @@ export function localizeStudioGeneratedSequenceDisplayName(
   const defaultName = localizeSequenceDefaultName(trimmedName, copy);
   if (defaultName.matched) return defaultName.value;
 
-  const copyMatch = trimmedName.match(/^(.*)\s+(copy|copie|copia)$/i);
+  const copyMatch = (trimmedName.match(/^(.*)\s+(copy|copie|copia)$/i) || trimmedName.match(/^(.*)\s*副本$/));
   if (!copyMatch) return name;
 
   const baseName = localizeSequenceDefaultName(copyMatch[1], copy);
@@ -1923,11 +1923,11 @@ export function localizeStudioGeneratedFolderDisplayName(
   const trimmedName = name.trim();
   const normalizedName = normalizedGeneratedName(trimmedName);
 
-  if (['untitled folder', 'dossier sans titre', 'carpeta sin titulo'].includes(normalizedName)) {
+  if (['untitled folder', 'dossier sans titre', 'carpeta sin titulo', '未命名文件夹'].includes(normalizedName)) {
     return copy.untitledFolderName;
   }
 
-  const indexedFolderMatch = normalizedName.match(/^(?:new folder|nouveau dossier|nueva carpeta)\s+(\d+)$/);
+  const indexedFolderMatch = normalizedName.match(/^(?:new folder|nouveau dossier|nueva carpeta|新建文件夹)\s*(\d+)$/);
   if (!indexedFolderMatch) return name;
 
   return formatStudioCopyValue(copy.newFolderDefaultName, { index: indexedFolderMatch[1] });
@@ -1935,7 +1935,7 @@ export function localizeStudioGeneratedFolderDisplayName(
 
 export function localizeStudioGeneratedProjectDisplayName(name: string, copy: StudioCopy): string {
   const normalizedName = normalizedGeneratedName(name);
-  if (!['untitled edit', 'montage sans titre', 'edicion sin titulo'].includes(normalizedName)) return name;
+  if (!['untitled edit', 'montage sans titre', 'edicion sin titulo', '未命名项目', '未命名剪辑'].includes(normalizedName)) return name;
   return copy.projects.untitledProject;
 }
 
@@ -2214,6 +2214,81 @@ const STUDIO_CANVAS_TEXT_COPY_KEYS: Record<string, string> = {
   'sparse narration with tension: one line before the reveal, one line on the final frame.': 'templateCinematicVoicePromptText',
   'narration rare avec tension : une ligne avant la revelation, une ligne sur l\'image finale.': 'templateCinematicVoicePromptText',
   'narracion escasa con tension: una linea antes de la revelacion, una linea en el fotograma final.': 'templateCinematicVoicePromptText',
+  '动作特写切入': 'templateActionInsert',
+  '音频资产节点': 'templateAssetAudioNode',
+  '图片资产节点': 'templateAssetImageNode',
+  '视频资产节点': 'templateAssetVideoNode',
+  '音频参考': 'templateAudioReference',
+  'b-roll 细节空镜': 'templateBrollDetail',
+  'b-roll 参考': 'templateBrollReference',
+  '运镜视听语言': 'templateCameraLanguage',
+  '运镜运动': 'templateCameraMovement',
+  '角色形象锚点': 'templateCharacterAnchor',
+  '角色面部近景': 'templateCharacterCloseUp',
+  '紧张而富含情绪的双人对白交锋。保持相同的角色外貌特征、柔和的眼神流动、自然的语言停顿与真实的表演质感。': 'templateCharacterDialoguePromptText',
+  '角色登场亮相': 'templateCharacterReveal',
+  '沉稳而具决断力的画外旁白，在不破坏人物连续性的前提下贯穿连接两个镜头。': 'templateCharacterVoicePromptText',
+  '电影级广角镜头，戏剧化侧逆布光，烟雾弥漫的城市街道。人物在细雨中凝视远方，光影流动极具质感。': 'templateCinematicScenePromptText',
+  '低沉而具有共鸣感的电影预告片配音，为整个大片叙事定下史诗悬疑基调。': 'templateCinematicVoicePromptText',
+  '创作者出镜参考': 'templateCreatorReference',
+  '创作者口播': 'templateCreatorVo',
+  '行动号召转化时刻': 'templateCtaMoment',
+  '开发调试音频区块': 'templateDevAudioBlock',
+  '开发调试图片区块': 'templateDevImageBlock',
+  '开发调试输出区块': 'templateDevOutputBlock',
+  '开发调试提示词区块': 'templateDevPromptBlock',
+  '使用此开发模板调试提示词区块、文本区域、连接手柄、间距以及属性检查器状态。': 'templateDevPromptText',
+  '开发调试镜头区块': 'templateDevShotBlock',
+  '开发调试视频区块': 'templateDevVideoBlock',
+  '对白近景特写': 'templateDialogueCloseUp',
+  '台词对白调度': 'templateDialogueDirection',
+  '爆炸结构视图': 'templateExplodedView',
+  '末尾定格帧': 'templateFinalFrame',
+  '终场台词': 'templateFinalLine',
+  '产品最终定格照': 'templateFinalPackshot',
+  '主角首次亮相': 'templateHeroReveal',
+  '黄金开头吸睛点': 'templateHookOpener',
+  '吸睛口播脚本': 'templateHookScript',
+  '超微距细节特写': 'templateMacroDetails',
+  '视听情绪氛围板': 'templateMoodPlate',
+  '动态运动画板': 'templateMotionBoard',
+  '输出节点': 'templateOutputNode',
+  '分镜 01 场景全景': 'templatePanel01Establish',
+  '分镜 02 核心动作': 'templatePanel02Action',
+  '分镜 03 细节切入': 'templatePanel03Insert',
+  '分镜 04 结尾落幅': 'templatePanel04EndFrame',
+  '画板画面连续性': 'templatePanelContinuity',
+  '表演动作参考': 'templatePerformanceReference',
+  '围绕产品平滑电影级环绕运镜，缓慢推近，高端微距布光。': 'templateProductAdCameraPromptText',
+  '动静之间，精准流转。为每一个非凡瞬间打造的现代精密计时。': 'templateProductAdVoiceoverPromptText',
+  '产品图片': 'templateProductImage',
+  '产品功效实测证明': 'templateProductProof',
+  '实测证明 b-roll': 'templateProofBroll',
+  '情绪反应节拍': 'templateReactionBeat',
+  '反打对向机位': 'templateReverseAngle',
+  '室内环境底噪': 'templateRoomTone',
+  '场景编剧备忘': 'templateSceneNotes',
+  '场景环境提示词': 'templateScenePrompt',
+  '镜头节点': 'templateShotNode',
+  '社交背景音乐垫乐': 'templateSocialBed',
+  '故事板节拍 01': 'templateStoryboardBeat01',
+  '故事板节拍 02': 'templateStoryboardBeat02',
+  '故事板分镜帧组': 'templateStoryboardFrames',
+  '严格按照故事板分镜顺序推进。将每个分镜作为一个动作节拍，保持视线方向连贯，使镜头过渡犹如精心设计的动态样片。': 'templateStoryboardPromptText',
+  '富有节奏感的镜头旁白，跟随分镜画面推进，生动传达场景情绪。': 'templateStoryboardVoicePromptText',
+  '风格参考': 'templateStyleReference',
+  '临时参考配乐': 'templateTempScore',
+  '文本提示词节点': 'templateTextPromptNode',
+  '预告片开场定调': 'templateTrailerEstablish',
+  '预告片重低音脉冲': 'templateTrailerPulse',
+  '预告片高潮亮相': 'templateTrailerReveal',
+  '电影预告片配音': 'templateTrailerVo',
+  'ugc 吸睛钩子': 'templateUgcHook',
+  '快节奏第一人称创作者出镜实拍，手持测评展示，真实自然的光线与日常语调。': 'templateUgcPromptText',
+  '充满热情、真实可信的口播语调，直接与镜头前的观众对话分享体验。': 'templateUgcVoicePromptText',
+  '对白入点提示音': 'templateVoiceCue',
+  '旁白配音': 'templateVoiceOver',
+  '广角全景定调': 'templateWideEstablishing',
 };
 
 export function localizeStudioEdgeKindLabel(kind: string, copy: StudioCopy['canvas']['nodes']): string {
@@ -2227,22 +2302,22 @@ export function localizeStudioConnectorDisplayLabel(
   kind?: string
 ): string {
   const normalizedLabel = normalizedGeneratedName(label);
-  if (['negative prompt', 'prompt negatif', 'prompt negativo'].includes(normalizedLabel)) {
+  if (['negative prompt', 'prompt negatif', 'prompt negativo', '负向提示词'].includes(normalizedLabel)) {
     return copy.connectorNegativePrompt;
   }
-  if (['start image', 'start frame', 'first frame', 'image de depart', 'primera imagen'].includes(normalizedLabel)) {
+  if (['start image', 'start frame', 'first frame', 'image de depart', 'primera imagen', '起始帧'].includes(normalizedLabel)) {
     return copy.connectorStartFrame;
   }
-  if (['end frame (optional)', 'end frame', 'image finale (optionnel)', 'imagen final (opcional)'].includes(normalizedLabel)) {
+  if (['end frame (optional)', 'end frame', 'image finale (optionnel)', 'imagen final (opcional)', '结束帧（可选）', '结束帧'].includes(normalizedLabel)) {
     return copy.connectorEndFrameOptional;
   }
-  if (['last frame', 'derniere image', 'ultimo fotograma'].includes(normalizedLabel)) {
+  if (['last frame', 'derniere image', 'ultimo fotograma', '最后一帧'].includes(normalizedLabel)) {
     return copy.connectorLastFrame;
   }
-  if (['reference images', 'images de reference', 'imagenes de referencia'].includes(normalizedLabel)) {
+  if (['reference images', 'images de reference', 'imagenes de referencia', '参考图', '参考图组'].includes(normalizedLabel)) {
     return copy.connectorReferenceImages;
   }
-  if (['source video', 'video source', 'video de origen'].includes(normalizedLabel)) {
+  if (['source video', 'video source', 'video de origen', '源视频'].includes(normalizedLabel)) {
     return copy.connectorSourceVideo;
   }
   if (kind && STUDIO_EDGE_FALLBACK_LABELS[kind]?.includes(normalizedLabel)) {
@@ -2268,6 +2343,8 @@ function timelineTailSourceName(value: string): string | null {
   if (frPrefixMatch) return frPrefixMatch[1];
   const esPrefixMatch = value.match(/^cola de\s+(.+)$/i);
   if (esPrefixMatch) return esPrefixMatch[1];
+  const zhSuffixMatch = value.match(/^(.+)\s*尾部片段$/);
+  if (zhSuffixMatch) return zhSuffixMatch[1];
   return null;
 }
 
@@ -2291,10 +2368,12 @@ export function resolveStudioGeneratedCanvasTextLocalization(
     return { knownGenerated: false, matched: false, value };
   }
 
-  const shotAudioMatch = trimmedValue.match(/^(?:shot|plan|plano)\s+(\d+)\s+-\s+(.+)\s+audio$/i);
+  const shotAudioMatch =
+    trimmedValue.match(/^(?:shot|plan|plano)\s+(\d+)\s+-\s+(.+)\s+audio$/i) ||
+    trimmedValue.match(/^(?:镜头)\s*(\d+)\s*-\s*(.+?)\s*音频$/);
   if (shotAudioMatch) {
     const shotName = formatStudioCopyValue(copy.templateShotName, { index: shotAudioMatch[1] });
-    const shotDescription = resolveStudioGeneratedCanvasTextLocalization(shotAudioMatch[2], copy);
+    const shotDescription = resolveStudioGeneratedCanvasTextLocalization(shotAudioMatch[2].trim(), copy);
     return {
       knownGenerated: shotDescription.knownGenerated,
       matched: true,
@@ -2302,10 +2381,12 @@ export function resolveStudioGeneratedCanvasTextLocalization(
     };
   }
 
-  const shotWithDescriptionMatch = trimmedValue.match(/^(?:shot|plan|plano)\s+(\d+)\s+-\s+(.+)$/i);
+  const shotWithDescriptionMatch =
+    trimmedValue.match(/^(?:shot|plan|plano)\s+(\d+)\s+-\s+(.+)$/i) ||
+    trimmedValue.match(/^(?:镜头)\s*(\d+)\s*-\s*(.+)$/);
   if (shotWithDescriptionMatch) {
     const shotName = formatStudioCopyValue(copy.templateShotName, { index: shotWithDescriptionMatch[1] });
-    const shotDescription = resolveStudioGeneratedCanvasTextLocalization(shotWithDescriptionMatch[2], copy);
+    const shotDescription = resolveStudioGeneratedCanvasTextLocalization(shotWithDescriptionMatch[2].trim(), copy);
     return {
       knownGenerated: shotDescription.knownGenerated,
       matched: true,
@@ -2313,7 +2394,9 @@ export function resolveStudioGeneratedCanvasTextLocalization(
     };
   }
 
-  const shotMatch = trimmedValue.match(/^(?:shot|plan|plano)\s+(\d+)$/i);
+  const shotMatch =
+    trimmedValue.match(/^(?:shot|plan|plano)\s+(\d+)$/i) ||
+    trimmedValue.match(/^(?:镜头)\s*(\d+)$/);
   if (shotMatch) {
     return {
       knownGenerated: true,
@@ -2322,7 +2405,9 @@ export function resolveStudioGeneratedCanvasTextLocalization(
     };
   }
 
-  const outputMatch = trimmedValue.match(/^(?:output|sortie|salida)\s+(\d+)$/i);
+  const outputMatch =
+    trimmedValue.match(/^(?:output|sortie|salida)\s+(\d+)$/i) ||
+    trimmedValue.match(/^(?:输出)\s*(\d+)$/);
   if (outputMatch) {
     return {
       knownGenerated: true,
@@ -2340,9 +2425,11 @@ export function resolveStudioGeneratedCanvasTextLocalization(
     };
   }
 
-  const audioLabelMatch = trimmedValue.match(/^(.+)\s+audio$/i);
+  const audioLabelMatch =
+    trimmedValue.match(/^(.+)\s+audio$/i) ||
+    trimmedValue.match(/^(.+?)\s*音频$/);
   if (audioLabelMatch) {
-    const localizedName = resolveStudioGeneratedCanvasTextLocalization(audioLabelMatch[1], copy);
+    const localizedName = resolveStudioGeneratedCanvasTextLocalization(audioLabelMatch[1].trim(), copy);
     if (localizedName.knownGenerated) {
       return {
         knownGenerated: true,

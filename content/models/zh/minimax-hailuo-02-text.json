@@ -2,337 +2,337 @@
   "marketingName": "MiniMax Hailuo 02",
   "versionLabel": "02",
   "seo": {
-    "title": "Hailuo 02 (512p/768p) — 6–10s Draft Text-to-Video",
-    "description": "Create low-cost Hailuo 02 draft clips at 512p/768p from text (or images). 6–10s silent videos for storyboards and motion tests—then upgrade winners to Veo/Kling/Wan/Sora in MaxVideoAI.",
+    "title": "Hailuo 02 (512p/768p) — 6–10 秒高性价比文生视频草稿",
+    "description": "在 MaxVideoAI 中以 512p/768p 分辨率低成本生成 Hailuo 02 文本（或图像）草稿片段。6–10 秒无声视频，适用于分镜故事板与动态物理测试，随后可将满意成果迁移至 Veo、Kling、Wan、Sora 渲染成片。",
     "image": "/hero/minimax-video01.jpg"
   },
-  "overview": "MiniMax Hailuo 02 in MaxVideoAI: short, cheap, physics-aware clips at 512p/768p in 6 or 10 seconds. Text or image input, optional end frame, silent output, and wallet-based pricing for rapid drafts and loops.",
+  "overview": "MaxVideoAI 中的 MiniMax Hailuo 02：短小精悍、高性价比、遵循物理规律的 512p/768p 片段，支持 6 秒或 10 秒时长。支持文本或图像输入、可选尾帧控制与无声输出，按需扣费适用于快速草稿与循环测试。",
   "hero": {
-    "title": "MiniMax Hailuo 02 – Budget AI Video Drafts with Strong Physics",
-    "intro": "Silent 6–10s draft clips at 512p/768p — physics-aware motion tests, camera experiments, and fast iteration.",
-    "badge": "512p/768p · 6–10s · Text or Image input · Silent output",
+    "title": "MiniMax Hailuo 02 – 强物理规律表现的高性价比 AI 视频草稿",
+    "intro": "512p/768p 规格的 6–10 秒无声草稿片段 — 适用于物理动态测试、运镜实验与敏捷迭代。",
+    "badge": "512p/768p · 6–10 秒 · 文本或图像输入 · 无声输出",
     "ctaPrimary": {
-      "label": "Try MiniMax Hailuo 02",
+      "label": "体验 MiniMax Hailuo 02",
       "href": "/app?engine=minimax-hailuo-02-text"
     },
     "secondaryLinks": [
       {
-        "label": "Discover the current MiniMax H3 →",
+        "label": "探索最新 MiniMax H3 →",
         "href": "/zh/models/minimax-h3"
       },
       {
-        "label": "Compare MiniMax vs Pika 2.2 →",
+        "label": "对比 MiniMax 与 Pika 2.2 →",
         "href": "/zh/models/pika-text-to-video"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳应用场景",
     "items": [
       {
-        "title": "Motion drafts",
+        "title": "动态草稿",
         "icon": "zap"
       },
       {
-        "title": "Physics & secondary motion",
+        "title": "物理规律与次级动态",
         "icon": "wind"
       },
       {
-        "title": "Storyboard animatics",
+        "title": "分镜故事板动态样片",
         "icon": "storyboard"
       },
       {
-        "title": "Transition tests & match cuts",
+        "title": "转场测试与匹配剪辑",
         "icon": "repeat2"
       },
       {
-        "title": "Start/end-frame guided shots",
+        "title": "首尾帧引导镜头",
         "icon": "image"
       },
       {
-        "title": "Budget multi-variant campaigns",
+        "title": "高性价比多变体测试",
         "icon": "coins"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "6 s or 10 s per clip"
+      "label": "时长",
+      "body": "每段 6 秒或 10 秒"
     },
     {
-      "label": "Resolution",
-      "body": "512p or 768p"
+      "label": "分辨率",
+      "body": "512p 或 768p"
     },
     {
-      "label": "Aspect ratios",
-      "body": "16:9, 9:16, 1:1"
+      "label": "画幅比例",
+      "body": "16:9、9:16、1:1"
     },
     {
-      "label": "Inputs",
-      "body": "Text prompts; optional reference image; optional end frame"
+      "label": "输入方式",
+      "body": "文本提示词；可选参考图像；可选尾帧"
     },
     {
-      "label": "Modes",
-      "body": "Text-to-video and Image-to-video"
+      "label": "生成模式",
+      "body": "文生视频与图生视频"
     },
     {
-      "label": "Audio",
-      "body": "Silent output (no native or uploaded audio)"
+      "label": "音频",
+      "body": "无声输出（不支持原生或上传音频）"
     },
     {
-      "label": "Pricing",
-      "body": "Budget-friendly; wallet-based live pricing in Generate"
+      "label": "计费模式",
+      "body": "经济实惠；在生成界面显示基于钱包的实时计费"
     }
   ],
   "promptStructure": {
-    "title": "Text-to-Video with MiniMax Hailuo 02",
-    "quote": "[Duration] second [aspect ratio] shot of [subject] moving through [environment]. Camera [movement] while [secondary motion] reacts naturally (wind/fur/debris). Style: [realistic/stylized]. No text or logos.",
-    "description": "Keep prompts short and motion-forward: subject in motion, environment, camera, physics, style, and a negative prompt.",
+    "title": "MiniMax Hailuo 02 文生视频提示词结构",
+    "quote": "[时长] 秒 [画幅比例] 镜头，展现 [主体] 穿行于 [场景环境]。摄影机 [运镜方式]，同时 [次级动态] 呈现自然物理反应（风动/毛发/碎片残骸）。风格：[写实/风格化]。画面无文字或图标。",
+    "description": "提示词需精炼且以动态为导向：运动中的主体、场景环境、摄影机运镜、物理规律反应、画面风格以及负向提示词。",
     "steps": [
-      "Subject in motion + style",
-      "Environment & atmosphere",
-      "Camera move (follow/orbit/pan/push/tilt/crane)",
-      "Physics/secondary motion (wind, cloth, particles, fur)",
-      "Aspect & duration (6 or 10 s) plus negative prompt"
+      "运动中的主体 + 画面风格",
+      "场景环境与氛围",
+      "摄影机运镜（跟随/环绕/平移/推近/俯仰/升降）",
+      "物理规律/次级动态（风力、布料、粒子、毛发）",
+      "画幅比例与时长（6 秒或 10 秒）及负向提示词"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与局限",
     "items": [
-      "Use 1–3 sentences; overlong prompts can introduce artifacts",
-      "One main subject/environment/effect per clip for clarity",
-      "Upload reference + end frame to lock composition and landing",
-      "512p for fastest/cheapest drafts; 768p for social-ready output",
-      "Plan to add audio in post or pair with Wan/Sora/Veo clips"
+      "建议使用 1–3 句话；过长的提示词可能引入画面伪影",
+      "每个片段聚焦一个核心主体/场景/特效，保持画面清晰明确",
+      "上传首帧参考图与尾帧以锁定构图与最终定格形态",
+      "512p 适合超快速、超低成本草稿；768p 适合社交媒体分享",
+      "建议后期补充音频，或与 Wan、Sora、Veo 等高级模型成片混合剪辑"
     ]
   },
   "compareLink": {
-    "label": "Compare MiniMax vs Pika 2.2 →",
+    "label": "对比 MiniMax 与 Pika 2.2 →",
     "href": "/models/pika-text-to-video"
   },
   "prompts": [
     {
-      "title": "Windy rooftop drift (10s, 16:9)",
+      "title": "大风楼顶滑行动作 (10秒, 16:9)",
       "prompt": "10s 16:9 glide across a stylized city rooftop at night; coat and hair react to gusts, camera floats past neon signs, puddle reflections, no text/logos/UI."
     },
     {
-      "title": "Fox sprint physics sketch (6s, 16:9)",
+      "title": "狐狸疾驰物理测试 (6秒, 16:9)",
       "prompt": "6s 16:9 shot of a red fox sprinting through a dense forest on a windy day. Camera follows low behind; leaves/dust swirl; realistic fur motion; stylized colors; no text/logos."
     }
   ],
   "faqs": [
     {
-      "q": "Why choose MiniMax over premium engines?",
-      "a": "Great motion/physics at lower per-second cost, ideal for volume ads, explainers and experiments without burning budget."
+      "q": "为什么选择 MiniMax 而不是高端引擎？",
+      "a": "在更低的单秒成本下提供卓越的动态与物理表现，非常适合在不耗尽预算的前提下进行批量广告、解说视频以及动态实验创作。"
     },
     {
-      "q": "What prompt style works best?",
-      "a": "2–3 sentences covering subject, environment, camera and physics; one main idea per clip."
+      "q": "哪种提示词风格效果最好？",
+      "a": "使用 2–3 句话涵盖主体、场景环境、摄影机运镜与物理规律；每个片段聚焦一个核心创意点。"
     },
     {
-      "q": "Does it support vertical video?",
-      "a": "Yes—16:9, 9:16, 1:1 are available in MaxVideoAI."
+      "q": "它支持竖屏视频吗？",
+      "a": "支持。MaxVideoAI 提供 16:9、9:16、1:1 多种画幅比例。"
     },
     {
-      "q": "Does it support audio?",
-      "a": "No. Hailuo 02 outputs silent video; add sound in post or pair with audio-capable engines."
+      "q": "它支持音频生成吗？",
+      "a": "不支持。Hailuo 02 输出无声视频；建议在后期添加音效，或与具备原生音频能力的引擎配合使用。"
     },
     {
-      "q": "What if I need 1080p?",
-      "a": "Use Hailuo 02 for drafts at 512p/768p, then upscale or rerun the prompt in higher-resolution engines (Veo, Kling, Wan, Sora 2 Pro)."
+      "q": "如果我需要 1080p 分辨率怎么办？",
+      "a": "可先使用 Hailuo 02 以 512p/768p 制作草稿，然后进行超分辨率放大，或将提示词迁移至更高分辨率的引擎（如 Veo、Kling、Wan、Sora 2 Pro）中重新渲染。"
     }
   ],
   "custom": {
-    "heroDesc1": "Generate fast, physics-aware drafts at 512p/768p from text or a single image, with optional end frame to lock the landing.",
-    "heroDesc2": "Pick 6 or 10 seconds, choose 16:9/9:16/1:1, and get silent clips ready for storyboards, loops and motion tests.",
-    "heroSupportLine": "Best when you want to explore movement and transitions cheaply before rebuilding the keepers in premium engines.",
-    "whyTitle": "Why MiniMax Hailuo 02 is powerful",
+    "heroDesc1": "通过文本或单张图片快速生成遵循物理规律的 512p/768p 草稿片段，支持添加可选尾帧以锁定动作定格。",
+    "heroDesc2": "选择 6 秒或 10 秒时长，搭配 16:9、9:16 或 1:1 比例，快速产出适用于分镜样片、循环背景和动态测试的无声片段。",
+    "heroSupportLine": "最适合在低成本下探索动作与转场效果，挑选满意版本后再在高端引擎中重建高质量成片。",
+    "whyTitle": "为什么 MiniMax Hailuo 02 功能强劲",
     "heroHighlights": [
-      "Extreme physics cues||Wind, cloth, particles, and inertia read surprisingly well for quick tests.",
-      "End-frame control||Add a target last frame to steer how the shot lands.",
-      "Built for volume||Great when you need lots of variants without burning budget.",
-      "Silent drafts||Easy to score in post (or pair with an audio-capable engine for finals)."
+      "极致物理表现||风力、布料、粒子与惯性在快速测试中展现出令人惊艳的真实感。",
+      "尾帧精准控制||添加目标尾帧即可引导镜头的动作落点与定格构图。",
+      "专为批量生产打造||非常适合需要大量测试变体且无需消耗过多预算的场景。",
+      "无声快速草稿||易于后期配乐配音（或与具备音频能力的引擎搭配渲染终稿）。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳应用场景",
     "bestUseCases": [
       {
-        "title": "Motion drafts",
+        "title": "动态草稿",
         "icon": "zap"
       },
       {
-        "title": "Physics & secondary motion",
+        "title": "物理规律与次级动态",
         "icon": "wind"
       },
       {
-        "title": "Storyboard animatics",
+        "title": "分镜故事板动态样片",
         "icon": "storyboard"
       },
       {
-        "title": "Transition tests & match cuts",
+        "title": "转场测试与匹配剪辑",
         "icon": "repeat2"
       },
       {
-        "title": "Start/end-frame guided shots",
+        "title": "首尾帧引导镜头",
         "icon": "image"
       },
       {
-        "title": "Budget multi-variant campaigns",
+        "title": "高性价比多变体测试",
         "icon": "coins"
       }
     ],
-    "whatTitle": "What MiniMax Hailuo 02 Actually Is in MaxVideoAI",
-    "whatIntro1": "MiniMax’s headline model for short sequences with strong physics and prompt adherence.",
-    "whatIntro2": "In MaxVideoAI it’s wired as a fast, silent draft engine at 512p/768p.",
-    "whatFlowTitle": "MaxVideoAI flow",
+    "whatTitle": "MiniMax Hailuo 02 在 MaxVideoAI 中的核心定位",
+    "whatIntro1": "MiniMax 旗下主打短片段生成的模型，具备卓越的物理规律模拟与极高的提示词遵循度。",
+    "whatIntro2": "在 MaxVideoAI 中，它被定义为一款运行敏捷、无声输出且规格为 512p/768p 的草稿测试引擎。",
+    "whatFlowTitle": "MaxVideoAI 工作流",
     "whatFlowSteps": [
-      "1. Choose MiniMax Hailuo 02.",
-      "2. Select Text → Video or Image → Video.",
-      "3. Pick 6 or 10 seconds, resolution (512p/768p) and aspect ratio.",
-      "4. Optionally upload a reference image and/or end frame.",
-      "5. Paste a short, motion-focused prompt (add physics if needed).",
-      "6. Check wallet-based pricing before render."
+      "1. 选择 MiniMax Hailuo 02。",
+      "2. 选择“文生视频”或“图生视频”。",
+      "3. 选择 6 秒或 10 秒时长、分辨率（512p/768p）以及画幅比例。",
+      "4. 可选上传一张参考图像及/或尾帧。",
+      "5. 粘贴简明精炼且聚焦动作的提示词（必要时补充物理动态说明）。",
+      "6. 在生成前查看基于钱包余额的实时计费。"
     ],
-    "specTitle": "Real Specs – MiniMax Hailuo 02 in MaxVideoAI (512p/768p, 6–10s)",
-    "specNote": "Specs as used today in MaxVideoAI.",
+    "specTitle": "真实规格 – MaxVideoAI 中的 MiniMax Hailuo 02（512p/768p，6–10 秒）",
+    "specNote": "当前在 MaxVideoAI 中实际采用的规格。",
     "specSections": [
       {
-        "title": "Physics-heavy drafts",
-        "intro": "Strong at physical motion like wind, cloth, and particles. Ideal for motion tests and transition exploration.",
+        "title": "重度物理动态草稿",
+        "intro": "擅长风动、布料以及粒子等物理动态模拟。非常适合动作测试与转场探索。",
         "items": [
-          "Call out wind or force direction.",
-          "Use simple scenes for readable motion.",
-          "Test multiple transitions quickly.",
-          "Great for animatics and previz."
+          "明确指定风向或受力方向。",
+          "采用简约场景，保持动作清晰可辨。",
+          "快速测试多种转场过渡效果。",
+          "非常适合制作动态分镜故事板与视觉预览。"
         ]
       },
       {
-        "title": "End-frame control",
-        "intro": "You can guide how a shot lands by defining a target end frame. Useful for match cuts and clean finishes.",
+        "title": "尾帧精准控制",
+        "intro": "可以通过定义目标尾帧来引导镜头如何定格收尾。非常适合匹配剪辑与干净利落的转场衔接。",
         "items": [
-          "Specify what must be preserved.",
-          "Describe the final pose clearly.",
-          "Use as a bridge between two shots.",
-          "Pair with premium engines for finals."
+          "明确需要保持稳定的核心元素。",
+          "清晰描述最终定格姿态或构图。",
+          "作为两个镜头之间的视觉过渡桥梁。",
+          "与高端引擎配合制作最终成片。"
         ]
       }
     ],
-    "specValueProp": "MiniMax Hailuo 02 is a fast, physics-savvy draft engine for cheap, silent motion tests.",
-    "imageTitle": "Image-to-Video with MiniMax Hailuo 02 (+ End Frames)",
-    "imageIntro": "Animate boards/renders/concepts quickly with optional end frame.",
+    "specValueProp": "MiniMax Hailuo 02 是一款敏捷高效、深谙物理特性的草稿引擎，适用于低成本、无声的动态测试。",
+    "imageTitle": "MiniMax Hailuo 02 图生视频（含尾帧控制）",
+    "imageIntro": "为分镜画稿、渲染图和概念设定注入生命力，支持可选尾帧控制。",
     "imageFlow": [
-      "Upload a keyframe or render.",
-      "Optionally upload an end frame.",
-      "Choose 6/10 s, 512p/768p and aspect.",
-      "Prompt for camera + physics; specify landing on the end frame."
+      "上传一张关键帧或渲染图片。",
+      "可选上传一张目标尾帧图片。",
+      "选择 6 秒或 10 秒时长、512p/768p 分辨率及画幅比例。",
+      "输入运镜与物理动态提示词；指定向尾帧平滑定格过渡。"
     ],
     "imageWhy": [
-      "UX/UI boards into quick explainers",
-      "Concept posters into teasers",
-      "Looping backgrounds for streams or hero sections"
+      "将 UX/UI 界面分镜转化为快速产品解说片段",
+      "将概念海报转化为动态宣传预热短片",
+      "制作适用于直播或网页 Hero 区域的无缝循环背景"
     ],
-    "multishotTitle": "Multi-Beat Clips & Loops",
-    "multishotIntro1": "6s: 1–2 beats; 10s: 2–3 beats max in one environment.",
-    "multishotIntro2": "Focus on physics-driven transitions in a single setting.",
+    "multishotTitle": "多节拍片段与循环视频",
+    "multishotIntro1": "6 秒片段：建议 1–2 个动作节拍；10 秒片段：在单一场景下最多 2–3 个动作节拍。",
+    "multishotIntro2": "聚焦于单一场景设定下的物理驱动转场过渡。",
     "multishotTips": [
-      "Beat 1: establish; Beat 2: motion/transition; Beat 3: hero frame",
-      "Keep to one environment/style per clip"
+      "节拍 1：建立场景；节拍 2：动态展开/转场；节拍 3：高光定格",
+      "单个片段内保持统一的环境与视觉风格"
     ],
-    "tipsTitle": "Tips & Limitations",
+    "tipsTitle": "实用技巧与功能局限",
     "strengths": [
-      "Physics-first prompts: call out force direction + material response (wind/cloth/particles/inertia/contact) instead of long style lists.",
-      "Use bracketed camera moves ([pan], [tilt], [push in]) and keep it to one move per clip.",
-      "Keep scenes simple so motion reads (one hero subject, one clear action).",
-      "Use First/Last frame when you need a clean landing (match cuts, transforms, start→end transitions).",
-      "Generate multiple variants fast; pick the best motion, then rebuild finals in a higher-fidelity engine."
+      "以物理规律为主导的提示词：明确指出受力方向与材质物理反馈（风动/布料/粒子/惯性/碰撞接触），而非堆砌冗长的画风形容词。",
+      "使用中括号标记运镜动向（如 [pan]、[tilt]、[push in]），且每个片段仅保留一种运镜方式。",
+      "保持场景精简明确，使主体动作清晰易读（单一主体角色，单一明确动作）。",
+      "需要利落定格收尾时，善用首尾帧控制（适合匹配剪辑、形变过渡及起止衔接）。",
+      "快速批量生成多个变体；挑选动态表现最佳的版本，再迁移至高精度引擎中渲染终稿。"
     ],
     "boundaries": [
-      "Draft resolutions (512p / 768p), not 1080p finals.",
-      "6s or 10s per render in this routing.",
-      "Silent output — add sound in post.",
-      "Tiny on-screen text is unreliable — overlay critical copy in post."
+      "当前仅支持草稿级分辨率（512p / 768p），而非 1080p 终稿交付规格。",
+      "在该路由配置下单次渲染仅限 6 秒或 10 秒时长。",
+      "仅输出无声视频 — 需在后期阶段添加配音配乐。",
+      "画面中的微小文字生成不够可靠 — 关键文案建议后期叠加。"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "安全合规与人物肖像准则",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness.",
-      "Don’t include private personal data (addresses, phone numbers, documents, non-consenting faces).",
-      "Use only content you have rights to (images/brands/IP); some prompts/inputs may be blocked by provider safety filters."
+      "严禁生成色情内容，严禁涉及未成年人相关内容。",
+      "严禁生成仇恨言论、骚扰或血腥暴力内容。",
+      "请勿冒充真实人物或公众人物；使用任何肖像均须获得合法授权。",
+      "不得包含私人敏感数据（如地址、电话号码、证件及未经授权的面部肖像）。",
+      "仅可使用您拥有合法权益的内容（图像/品牌/知识产权）；部分输入提示词可能触发模型服务商的安全合规过滤。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "comparisonTitle": "MiniMax Hailuo 02 vs Pika / Veo / Kling / Wan",
+    "comparisonTitle": "MiniMax Hailuo 02 对比 Pika / Veo / Kling / Wan",
     "comparisonPoints": [
-      "MiniMax Hailuo 02: silent 6–10s at 512p/768p, strong physics, low cost",
-      "Pika 2.2: stylized, silent 5–10s at 720p/1080p",
-      "Veo 3.1 Fast: 4–8s with optional audio at 720p/1080p",
-      "Kling 2.5 Turbo: silent 1080p hero shots, 5–10s",
-      "Wan 2.5: 5–10s with native/uploaded audio and multiple tiers"
+      "MiniMax Hailuo 02：512p/768p 规格 6–10 秒无声视频，强物理规律表现，成本极低",
+      "Pika 2.2：风格化表现，720p/1080p 规格 5–10 秒无声视频",
+      "Veo 3.1 Fast：720p/1080p 规格 4–8 秒视频，支持可选音频生成",
+      "Kling 2.5 Turbo：1080p 规格 5–10 秒高画质核心镜头，无声输出",
+      "Wan 2.5：5–10 秒视频，支持原生/上传音频与多档分辨率"
     ],
-    "comparisonCta": "Compare MiniMax vs Pika 2.2 →",
-    "faqTitle": "FAQ – MiniMax Hailuo 02 in MaxVideoAI",
+    "comparisonCta": "对比 MiniMax 与 Pika 2.2 →",
+    "faqTitle": "常见问题 – MaxVideoAI 中的 MiniMax Hailuo 02",
     "faqs": [
       {
-        "q": "Why choose MiniMax instead of premium engines?",
-        "a": "Strong motion/physics at lower cost; ideal for volume ads and experiments."
+        "q": "为什么选择 MiniMax 而不是高端引擎？",
+        "a": "在更低成本下具备出色的动态与物理规律模拟，非常适合批量广告制作与效果探索。"
       },
       {
-        "q": "What prompt style works best?",
-        "a": "Short, motion-forward: subject, environment, camera, physics; one idea per clip."
+        "q": "哪种提示词风格效果最佳？",
+        "a": "短小精悍且以动作为导向：主体、场景环境、镜头运镜、物理效果；每个片段聚焦一个核心想法。"
       },
       {
-        "q": "Can it do vertical video?",
-        "a": "Yes—16:9, 9:16, 1:1 available in MaxVideoAI."
+        "q": "它支持竖屏视频生成吗？",
+        "a": "支持。MaxVideoAI 提供 16:9、9:16 和 1:1 等多种画幅比例。"
       },
       {
-        "q": "Does it support audio?",
-        "a": "No. Outputs are silent; add sound in post or via audio engines."
+        "q": "它支持音频生成吗？",
+        "a": "不支持。输出为无声视频；建议后期添加声音或配合具备音频能力的引擎使用。"
       },
       {
-        "q": "What if I need 1080p?",
-        "a": "Draft in Hailuo 02 (512p/768p), then upscale or rerun in higher-resolution engines like Veo/Kling/Wan/Sora 2 Pro."
+        "q": "如果我需要 1080p 高清画质怎么办？",
+        "a": "先使用 Hailuo 02（512p/768p）快速制作草稿，然后进行放大处理，或在 Veo、Kling、Wan、Sora 2 Pro 等更高清引擎中重新渲染。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare pricing, latency, and output options across MaxVideoAI.",
-    "finalPara1": "MiniMax Hailuo 02 is your fast, physics-savvy sketch engine for testing motion and transitions cheaply.",
-    "finalPara2": "Use it to explore ideas, then promote winners to higher-end models for audio and high-res finals.",
-    "finalButton": "Open Generate",
-    "tipsIntro": "Hailuo 02 is a draft-tier physics engine: use it for motion tests, transition experiments, and landing clean end frames.",
-    "troubleshootingTitle": "Common problems → fast fixes",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "在 MaxVideoAI 中横向对比价格、延迟与输出选项。",
+    "finalPara1": "MiniMax Hailuo 02 是您探索动作与转场效果的高性价比、深谙物理表现的草稿速写引擎。",
+    "finalPara2": "用它来快速验证创意构想，再将选出的优质版本晋升至高端模型中补充音频并渲染高清成片。",
+    "finalButton": "打开生成器",
+    "tipsIntro": "Hailuo 02 是一款草稿级物理引擎：适合用于动态测试、转场实验以及精准的尾帧定格过渡。",
+    "troubleshootingTitle": "常见问题 → 快速排查解决方案",
     "troubleshootingItems": [
-      "Motion feels floaty → add weight/contact cues (“grounded”, “friction”, “objects don’t slide”), slow the action, reduce camera shake.",
-      "Drift / changes mid-clip → reduce props and secondary characters; repeat the same subject + wardrobe + lighting anchors.",
-      "End frame doesn’t land → describe the final pose/composition explicitly; remove extra actions near the end.",
-      "Jittery camera → specify “tripod-stable” or “smooth track”; avoid “dynamic” wording.",
-      "Random text/logos → add a short negative (“no text, no logos, no UI”) and keep signage out of frame."
+      "动作感觉轻飘发浮 → 添加重力与接触线索（如“接地”、“摩擦力”、“物体不滑动”），放缓动作节奏，降低机位抖动。",
+      "画面中途飘移或发生变化 → 减少道具和次要角色干扰；重复使用相同的主体、服饰与光影特征锚点。",
+      "尾帧未能平滑定格 → 显式且具体地描述最终姿态与构图；删减结尾附近的多余动作指令。",
+      "镜头抖动剧烈不稳定 → 明确指定“三脚架般稳定”或“平滑跟拍”；避免使用容易引起误解的“充满动感”等模糊词汇。",
+      "出现随机文字或 Logo → 添加简短的负向提示词（“无文字、无 logo、无 UI 界面”），并将标牌招牌移出取景框。"
     ]
   },
   "decision": {
     "modelSlug": "minimax-hailuo-02-text",
     "hero": {
-      "eyebrow": "BUDGET MOTION DRAFT ROUTE",
+      "eyebrow": "高性价比动态草稿路线",
       "title": "MiniMax Hailuo 02",
-      "subtitle": "Budget motion drafts for physics-aware tests, start/end frame checks and silent storyboard clips.",
+      "subtitle": "高性价比动态草稿，适用于物理规律测试、首尾帧检查及无声分镜片段。",
       "subtitleHighlights": [
-        "Budget motion drafts",
-        "physics-aware tests",
-        "silent storyboard clips"
+        "高性价比动态草稿",
+        "物理规律测试",
+        "无声分镜片段"
       ],
-      "paragraph": "Use Hailuo 02 for low-cost 6 to 10 second motion tests at 512P or 768P before moving winners into higher-resolution or audio-capable production routes.",
+      "paragraph": "在将优质创意迁移至更高分辨率或具备音频能力的生产级路线之前，可先使用 Hailuo 02 以 512P 或 768P 进行低成本的 6 至 10 秒动态测试。",
       "primaryCta": {
-        "label": "Draft with Hailuo 02",
+        "label": "使用 Hailuo 02 制作草稿",
         "href": "/app?engine=minimax-hailuo-02-text"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/hailuo"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Pika",
+          "label": "对比 Pika",
           "href": "/zh/ai-video-engines/minimax-hailuo-02-text-vs-pika-text-to-video"
         },
         {
@@ -346,192 +346,192 @@
       ]
     },
     "media": {
-      "caption": "Hailuo 02 example",
-      "description": "Silent motion draft for timing and physics",
-      "renderLabel": "View draft",
+      "caption": "Hailuo 02 案例",
+      "description": "用于节奏与物理动态测试的无声草稿",
+      "renderLabel": "查看草稿",
       "badges": [
-        "Silent",
+        "无声",
         "10s",
         "768P"
       ],
-      "altContext": "MiniMax Hailuo 02 silent motion draft example"
+      "altContext": "MiniMax Hailuo 02 无声动态草稿案例"
     },
     "features": [
       {
-        "title": "Budget drafts",
-        "body": "Test motion ideas before spending on final-quality routes.",
+        "title": "高性价比草稿",
+        "body": "在投入高成本渲染成片前，低成本快速验证动作构想。",
         "tone": "price"
       },
       {
-        "title": "Physics tests",
-        "body": "Check object movement, collisions and body motion in short clips.",
+        "title": "物理规律测试",
+        "body": "在短片段中检验物体运动、碰撞以及人体动态表现。",
         "tone": "continuity"
       },
       {
-        "title": "Text or image",
-        "body": "Start from a prompt or a still image depending on how locked the shot is.",
+        "title": "文生或图生",
+        "body": "根据分镜的确定程度，自由选择从提示词还是静态图片开始创作。",
         "tone": "reference"
       },
       {
-        "title": "512P or 768P",
-        "body": "Draft cap on this route; use higher-resolution engines for delivery.",
+        "title": "512P 或 768P",
+        "body": "本路线专设的草稿级规格；终稿交付请使用更高分辨率引擎。",
         "tone": "quality"
       },
       {
-        "title": "6s or 10s",
-        "body": "Choose compact durations for timing and storyboard validation.",
+        "title": "6 秒或 10 秒",
+        "body": "精简的时长规格，专注节奏把控与分镜故事板验证。",
         "tone": "duration"
       },
       {
-        "title": "Silent output",
-        "body": "Plan music, voiceover and SFX in a later production pass.",
+        "title": "无声输出",
+        "body": "将音乐、旁白配音与音效留待后续制作环节统筹添加。",
         "tone": "audio"
       }
     ],
     "decisionCards": [
       {
-        "title": "Hailuo or Pika?",
-        "body": "Use Hailuo for budget motion and physics checks. Use Pika when stylized social loops and seed variants matter more.",
+        "title": "选择 Hailuo 还是 Pika？",
+        "body": "若需低成本动作与物理规律检查，选择 Hailuo；若更看重风格化社交循环视频与随机种子变体，选择 Pika。",
         "cta": {
-          "label": "Compare Hailuo vs Pika",
+          "label": "对比 Hailuo 与 Pika",
           "href": "/zh/ai-video-engines/minimax-hailuo-02-text-vs-pika-text-to-video"
         }
       },
       {
-        "title": "Testing the landing frame?",
-        "body": "Use image-to-video and end-frame planning when the final pose or composition matters.",
+        "title": "需要测试动作定格尾帧？",
+        "body": "当最终姿态或构图至关重要时，采用图生视频并规划尾帧控制。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Need sound or 1080p?",
-        "body": "Compare with Kling 2.6 Pro when you need stronger output quality, audio support or production-ready renders.",
+        "title": "需要音频或 1080p 画质？",
+        "body": "当需要更出色的输出画质、原生音频支持或生产级成片时，建议对比 Kling 2.6 Pro。",
         "cta": {
-          "label": "Compare Hailuo vs Kling",
+          "label": "对比 Hailuo 与 Kling",
           "href": "/zh/ai-video-engines/kling-2-6-pro-vs-minimax-hailuo-02-text?order=minimax-hailuo-02-text"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-video",
-        "body": "Keep the test narrow: one subject, one action and one camera move."
+        "title": "文生视频",
+        "body": "保持测试聚焦克制：单一主体、单一动作与单一运镜方式。"
       },
       {
-        "title": "Image-to-video",
-        "body": "Use a start image when composition or product shape should stay stable."
+        "title": "图生视频",
+        "body": "当构图或产品外观需要保持稳定不变时，使用起始图片。"
       },
       {
-        "title": "End frame",
-        "body": "Plan the landing pose with a clear final composition when available."
+        "title": "尾帧控制",
+        "body": "在条件允许时，通过清晰的最终构图规划画面的动作定格姿态。"
       },
       {
-        "title": "Prompt optimizer",
-        "body": "Use optimization for quick drafts, then tighten the wording after you see motion behavior."
+        "title": "提示词优化器",
+        "body": "利用自动优化快速获取草稿灵感，在观察动态表现后进一步精简润色措辞。"
       },
       {
-        "title": "Upgrade path",
-        "body": "Send approved movement to a higher-resolution or audio-capable engine for finals."
+        "title": "成片升级路径",
+        "body": "将审阅通过的满意动态版本发送至更高分辨率或具备音频能力的引擎中渲染成片。"
       }
     ],
     "pricingCopy": {
-      "title": "MiniMax Hailuo 02 pricing at a glance",
-      "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 768P",
+      "title": "MiniMax Hailuo 02 价格一览",
+      "subtitle": "预设草稿总价 — 在生成前可在应用内查看精确的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高 768P",
       "ctaHref": "/zh/pricing#minimax-hailuo-02-text-pricing"
     },
     "meta": {
-      "title": "MiniMax Hailuo 02: Pricing, Motion Drafts & Examples | MaxVideoAI",
-      "description": "Explore MiniMax Hailuo 02 pricing, budget motion drafts, physics-aware tests, image-to-video starts and silent storyboard examples on MaxVideoAI."
+      "title": "MiniMax Hailuo 02：价格、动态草稿与案例 | MaxVideoAI",
+      "description": "在 MaxVideoAI 上探索 MiniMax Hailuo 02 价格、高性价比动态草稿、物理规律测试、图生视频起点以及无声分镜故事板案例。"
     }
   },
   "prompting": {
     "modelSlug": "minimax-hailuo-02-text",
     "section": {
-      "title": "How to Write a Great Hailuo 02 Prompt",
-      "intro": "Hailuo 02 works best with short prompts and explicit motion cues.",
-      "tip": "Tip: duration + aspect ratio are set in the UI - your prompt controls subject, action, camera, lighting, and style. Use bracketed camera moves like [pan], [tilt], [zoom].",
+      "title": "如何编写优质的 Hailuo 02 提示词",
+      "intro": "Hailuo 02 最适合搭配短小精悍的提示词以及明确具体的动作线索。",
+      "tip": "提示：时长与画幅比例可在界面中直接设置 — 提示词用于把控主体、动作、运镜、光影与风格。使用中括号标记摄影机运镜，例如 [pan]、[tilt]、[zoom]。",
       "guide": {
         "label": "MiniMax",
         "href": "https://www.minimaxi.com"
       },
-      "referencesTitle": "How Hailuo 02 structures motion tests"
+      "referencesTitle": "Hailuo 02 如何构建动态测试"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
-        "copy": "[Subject] [action] in [scene], [camera move in brackets], [lighting/style]."
+        "label": "快速",
+        "title": "快速提示词（敏捷迭代）",
+        "description": "需要快速探索多样化变体时使用 1–2 句话描述。",
+        "copy": "[主体] 在 [场景环境] 中 [执行动作]，[中括号运镜方式]，[光影/风格]。"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
-        "copy": "Subject:\n[Who/what + one action.]\n\nScene:\n[Location + time + 2 anchors.]\n\nCamera:\n[Shot + angle + motion in brackets, e.g., [pan left], [zoom in].]\n\nLook:\n[Lighting + palette + style.]"
+        "label": "结构化",
+        "title": "结构化提示词（输出稳定可控的首选）",
+        "description": "分层拆分信息，使模型能够稳定连贯地遵循各项要求。",
+        "copy": "主体：\n[人物/物体 + 单一动作。]\n\n场景设定：\n[地点 + 时间 + 2个视觉特征锚点。]\n\n运镜：\n[景别 + 机位角度 + 中括号运镜方式，例如 [pan left], [zoom in]。]\n\n视觉质感：\n[光影 + 调色板 + 风格。]"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"studio brief\")",
-        "description": "Use this when you need a very specific look or continuity across shots.",
-        "copy": "Brief:\n[Goal + vibe.]\n\nSubject + setting:\n[Key traits + location + anchors.]\n\nCamera + motion:\n[Framing + bracketed motion cue.]\n\nOptional end frame:\n[Describe the target last frame if using one.]\n\nLighting + style:\n[Key light + palette.]"
+        "label": "专业简报",
+        "title": "专业级提示词（极度明确的“片场拍摄简报”）",
+        "description": "当需要极为具体的视觉质感或跨镜头连贯性时使用。",
+        "copy": "拍摄简报：\n[创作目标 + 氛围基调。]\n\n主体与场景：\n[核心特征 + 地点 + 特征锚点。]\n\n运镜与动态：\n[取景构图 + 中括号运镜动作线索。]\n\n可选尾帧：\n[若使用尾帧，在此描述目标终结画面。]\n\n光影与风格：\n[主光设定 + 色彩基调。]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 探索变体。适合敏捷高效的快速迭代。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 稳定连贯。适合追求可控确定性结果的场景。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = style control. Use for precise, repeatable looks."
+        "body": "专业级 = 风格把控。适合打造精确、可复现的特定视觉质感。"
       }
     ],
     "globalPrinciples": [
-      "Keep prompts short and concrete.",
-      "Use bracketed camera/motion cues.",
-      "Use an end frame (optional) to land the transition."
+      "保持提示词短小精悍且具体明确。",
+      "使用中括号标记摄影机运镜/动作线索。",
+      "使用可选尾帧来平滑引导转场动作定格。"
     ],
     "engineWhy": [
-      "Prompt optimizer can expand short prompts.",
-      "Camera brackets help steer motion.",
-      "End frame improves landing and match cuts."
+      "提示词优化器能够快速扩展精简的想法。",
+      "中括号运镜指令有助于精确引导画面运动。",
+      "尾帧控制能显著改善动作定格与匹配剪辑效果。"
     ],
     "demo": {
-      "title": "Demo – 10s city drift (9:16)",
-      "promptLabel": "Silent motion draft",
+      "title": "演示案例 – 10秒城市漫游 (9:16)",
+      "promptLabel": "无声动态草稿",
       "prompt": "10s silent Hailuo 02 draft in 16:9.\nA cyclist rides through a shallow puddle on an empty concrete path.\nWater splashes outward and the jacket fabric reacts to the motion.\nLow side tracking shot with one smooth push-in, natural dusk light, simple background.\nFocus on physics-driven movement. No dialogue, no music, no SFX.",
       "notes": [
-        "One environment with physical cues.",
-        "Easy to loop as a background.",
-        "Silent output ready for your soundtrack."
+        "具备真实物理反应线索的单一场景。",
+        "易于作为背景进行无缝循环播放。",
+        "无声输出，方便后期自行添加音轨。"
       ],
       "summary": {
-        "subject": "Cyclist on wet pavement",
-        "action": "Rides through a shallow puddle and slows down",
-        "camera": "Low side tracking, one smooth push-in",
-        "style": "Natural dusk light, simple background",
-        "output": "Silent draft, physics-focused motion only"
+        "subject": "湿漉路面上的骑行者",
+        "action": "骑车穿过浅水洼并减速",
+        "camera": "侧面低角度跟拍，配合平滑推近",
+        "style": "黄昏自然光线，极简背景",
+        "output": "无声草稿，仅聚焦物理驱动的动态"
       },
       "presentationOverrides": {
-        "modeLabel": "Silent motion draft",
-        "outputLabel": "Output",
+        "modeLabel": "无声动态草稿",
+        "outputLabel": "输出",
         "duration": "10s",
         "aspectRatio": "16:9",
         "audioChipMode": "silent",
         "audioChipLabel": null,
-        "altContext": "Hailuo 02 AI video example: Demo - 10s city drift (9:16)"
+        "altContext": "Hailuo 02 AI 视频案例：演示案例 – 10秒城市漫游 (9:16)"
       }
     },
     "imageExamples": null
@@ -539,10 +539,10 @@
   "examples": {
     "modelSlug": "minimax-hailuo-02-text",
     "section": {
-      "title": "MiniMax Hailuo 02 Example Gallery",
-      "intro": "See text and image runs rendered with the same configuration you have.",
-      "defaultCtaLabel": "View all MiniMax Hailuo 02 examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "MiniMax Hailuo 02 案例展厅",
+      "intro": "浏览使用与您相同的配置参数渲染生成的文本与图像运行示例。",
+      "defaultCtaLabel": "查看全部 MiniMax Hailuo 02 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -569,32 +569,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Draft renders",
-        "body": "See lightweight motion tests possible with MiniMax Hailuo 02 – Budget AI Video Drafts with Strong Physics.",
+        "title": "草稿级渲染",
+        "body": "探索 MiniMax Hailuo 02 所呈现的轻量级物理动态测试效果。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate a test",
-        "body": "Open the app and reuse the prompt or start image setup.",
+        "title": "一键复现测试",
+        "body": "打开应用工作区，直接复用其提示词或首帧图片设置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Silent output",
-        "body": "No native audio on this route; add sound and voice later.",
+        "title": "无声输出",
+        "body": "本路线无原生音频；可在后续阶段添加音效与配音。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Physics checks",
-        "body": "Review force, collisions, cloth, water and ground contact.",
+        "title": "物理规律检查",
+        "body": "仔细审阅受力、碰撞、布料、水流与地面接触效果。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Draft route",
-        "body": "512P/768P here; move approved shots to a final route.",
+        "title": "草稿测试路线",
+        "body": "当前为 512P/768P 规格；通过后可将镜头迁移至终稿生产路线。",
         "icon": "shield"
       }
     ],

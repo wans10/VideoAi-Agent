@@ -2,294 +2,294 @@
   "marketingName": "Seedance 2.0 Fast",
   "versionLabel": "2.0 Fast",
   "seo": {
-    "title": "Seedance 2.0 Fast | Fast AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Seedance 2.0 Fast on MaxVideoAI for faster AI video drafts, multimodal iterations, and live specs and pricing before you render."
+    "title": "Seedance 2.0 Fast | 快速 AI 视频模型、技术规格与价格 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Seedance 2.0 Fast 进行更快速的 AI 视频草稿制作、多模态迭代，并在渲染前查看实时参数规格与价格。"
   },
-  "overview": "Seedance 2.0 Fast is the current Dreamina Seedance 2.0 Fast AI video route for quicker draft passes, shot planning, and comparison loops before final renders.",
-  "pricingNotes": "Seedance 2.0 Fast uses provider token pricing. MaxVideoAI adds its margin and rounds up to the next cent; Generate shows the final quote before submission.",
+  "overview": "Seedance 2.0 Fast 是 Dreamina Seedance 2.0 系列中当前更快速的 AI 视频路线，适用于在最终成片渲染前进行快速草稿制作、镜头规划和方案对比迭代。",
+  "pricingNotes": "Seedance 2.0 Fast 采用供应商 Token 计费。MaxVideoAI 加入运营利润并向上取整至美分；“生成”页面在提交任务前会显示最终确切报价。",
   "hero": {
-    "title": "Seedance 2.0 Fast — current fast Seedance model for draft passes and iteration",
-    "intro": "Use Seedance 2.0 Fast as the faster Dreamina Seedance 2.0 Fast AI video route for quicker draft passes, shot planning, timing checks, and A/B iterations before moving approved directions into Seedance 2.0.",
-    "badge": "Fast tier · 3 workflows · 480p/720p · Auto or 4-15s · Native audio",
+    "title": "Seedance 2.0 Fast — 用于草稿制作与快速迭代的当前 Seedance 快速模型",
+    "intro": "使用 Seedance 2.0 Fast 作为 Dreamina Seedance 2.0 系列中更快速的 AI 视频路线，在将确认的方向导入 Seedance 2.0 之前，进行更敏捷的草稿制作、镜头规划、节奏检查与 A/B 测试迭代。",
+    "badge": "快速档位 · 3种工作流 · 480p/720p · 自动或4–15秒 · 原生音频",
     "ctaPrimary": {
       "label": "使用 Seedance 2.0 Fast 生成",
       "href": "/app?engine=seedance-2-0-fast"
     },
     "secondaryLinks": [
       {
-        "label": "See standard Seedance 2.0",
+        "label": "查看标准版 Seedance 2.0",
         "href": "/zh/models/seedance-2-0"
       },
       {
-        "label": "See Seedance 2.0 Mini batch value route",
+        "label": "查看 Seedance 2.0 Mini 批量路线",
         "href": "/zh/models/dreamina-seedance-2-0-mini"
       },
       {
-        "label": "Prepare references with Seedream",
+        "label": "使用 Seedream 准备参考素材",
         "href": "/zh/models/seedream"
       },
       {
-        "label": "查看 Seedance AI video 案例",
+        "label": "查看 Seedance AI 视频案例",
         "href": "/zh/examples/seedance"
       },
       {
-        "label": "Compare Seedance 2.0 vs Seedance 2.0 Fast",
+        "label": "对比 Seedance 2.0 与 Seedance 2.0 Fast",
         "href": "/zh/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast"
       },
       {
-        "label": "Compare Seedance 2.0 Fast vs Veo 3.1 Fast",
+        "label": "对比 Seedance 2.0 Fast 与 Veo 3.1 Fast",
         "href": "/zh/ai-video-engines/seedance-2-0-fast-vs-veo-3-1-fast"
       },
       {
-        "label": "Compare Seedance 2.0 Fast vs LTX 2.3 Fast",
+        "label": "对比 LTX 2.3 Fast 与 Seedance 2.0 Fast",
         "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-seedance-2-0-fast"
       }
     ]
   },
   "compareLink": {
-    "label": "Compare Seedance 2.0 vs Seedance 2.0 Fast ->",
+    "label": "对比 Seedance 2.0 与 Seedance 2.0 Fast →",
     "href": "/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast"
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳适用场景",
     "items": [
       {
-        "title": "Storyboard passes before standard runs",
+        "title": "在标准渲染前进行故事板预演",
         "icon": "storyboard"
       },
       {
-        "title": "Quick route comparisons across Seedance Fast, Veo Fast, and LTX Fast",
+        "title": "在 Seedance Fast、Veo Fast 与 LTX Fast 之间快速对比效果",
         "icon": "ads"
       },
       {
-        "title": "Quick timing checks for audio-led shots",
+        "title": "音频主导镜头的快速时间节奏检查",
         "icon": "music"
       },
       {
-        "title": "A/B camera and motion tests before standard Seedance renders",
+        "title": "在标准 Seedance 渲染前进行 A/B 运镜与动态测试",
         "icon": "repeat"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Role in the family",
-      "body": "Optimized fast variant in the Dreamina Seedance 2 family on MaxVideoAI."
+      "label": "产品定位",
+      "body": "MaxVideoAI 上 Dreamina Seedance 2 系列中经优化的快速版本。"
     },
     {
-      "label": "Inputs",
-      "body": "The same three core Seedance 2 workflows: text-to-video, image-to-video with an optional end frame, and ref2v with image, video, and audio references"
+      "label": "输入方式",
+      "body": "与 Seedance 2 相同的核心三大工作流：文生视频、支持可选尾帧的图生视频，以及支持图片、视频和音频参考的 ref2v 参考生视频"
     },
     {
-      "label": "Reference limits",
-      "body": "Up to 9 image references, 3 video references, and 3 audio references, with 12 total files across the full ref2v run"
+      "label": "参考素材限制",
+      "body": "单次 ref2v 生成最多支持 9 张参考图片、3 个参考视频和 3 个参考音频，全部输入上限共计 12 个文件"
     },
     {
-      "label": "Duration target",
-      "body": "Auto or 4-15 seconds per generation"
+      "label": "目标时长",
+      "body": "单次生成支持自动时长或 4–15 秒"
     },
     {
-      "label": "Audio",
-      "body": "Native audio is on by default and can be disabled; MaxVideoAI shows the final display price before each run"
+      "label": "音频",
+      "body": "原生音频默认开启且支持按需关闭；MaxVideoAI 在每次渲染前显示最终确切价格"
     },
     {
-      "label": "Best moment to use it",
-      "body": "Early exploration, shot planning, and pre-final comparison rounds"
+      "label": "最佳使用时机",
+      "body": "早期创意探索、镜头规划以及最终成片前的方案对比轮次"
     },
     {
-      "label": "Provider/model-family notes",
-      "body": "Provider/model-family notes group Fast with the same Dreamina Seedance 2.0 AI video family, keeping cinematic, audio-native, and multimodal workflows in the same route family where exposed."
+      "label": "供应商/模型系列说明",
+      "body": "供应商与模型系列信息将 Fast 归入相同的 Dreamina Seedance 2.0 AI 视频系列，在支持的路线下保持电影感、原生音频与多模态创作流的统一。"
     }
   ],
   "promptStructure": {
-    "title": "Prompting Seedance 2.0 Fast",
-    "quote": "[Shot goal] + [subject] + [one clear action beat] + [camera language] + [one sound cue] + [duration target].",
-    "description": "Keep prompts lean. The fast tier is strongest when each render checks one decision: timing, framing, subject continuity, or audio rhythm.",
+    "title": "Seedance 2.0 Fast 提示词编写",
+    "quote": "[镜头目标] + [主体] + [一个明确动作节拍] + [运镜语言] + [一个声音线索] + [目标时长]。",
+    "description": "保持提示词简炼。快速版本的优势在于每次渲染验证一个决策：时间节奏、构图、主体连续性或声音节拍。",
     "steps": [
-      "Name the single decision you want to validate",
-      "Keep one beat per shot",
-      "Use short camera verbs",
-      "Add one sound cue if rhythm matters",
-      "Escalate winning drafts into standard Seedance 2.0"
+      "明确你想验证的单一决策",
+      "每个镜头保持一个节拍",
+      "使用简短的运镜动词",
+      "在节奏重要时添加一个声音线索",
+      "将获胜的草稿导入标准版 Seedance 2.0 进行最终成片"
     ]
   },
   "tips": {
-    "title": "Production notes",
+    "title": "制作实践建议",
     "items": [
-      "Use Fast for speed, then switch to standard Seedance 2.0 for premium finals.",
-      "Use Seedance 2.0 Mini for lower-cost batch/value variants across ecommerce, marketing, and UGC.",
-      "Use Seedream 5.0 Lite first when a draft needs a cleaner reference image before image-to-video.",
-      "Use the optional end image in i2v when you want a guided last frame during draft passes.",
-      "Keep prompts short and tactical: one beat, one move, one reason to compare.",
-      "Use the compare hub to judge Seedance Fast against Veo Fast and LTX Fast, not against every model at once.",
-      "Generate shows the active route and the final quote before you submit."
+      "使用 Fast 追求速度与效率，确认方向后切换至标准版 Seedance 2.0 渲染高品质成片。",
+      "在电商、营销和 UGC 场景中，使用 Seedance 2.0 Mini 进行更低成本的批量生成。",
+      "在图生视频前，若草稿需要更干净的参考图片，可先使用 Seedream 5.0 Lite 准备素材。",
+      "在图生视频草稿测试中，若希望精准控制定格落幅，可添加可选的尾帧图片。",
+      "保持提示词短小精炼且具战术性：一个节拍、一次运镜、一个明确的对比目的。",
+      "利用模型对比中心将 Seedance Fast 与 Veo Fast、LTX Fast 横向对照，避免盲目对比所有模型。",
+      "在提交任务前，“生成”页面会显示当前有效路线以及最终报价。"
     ]
   },
   "prompts": [
     {
-      "title": "Story beat draft",
+      "title": "故事节拍草稿",
       "prompt": "One-shot concept pass for a product reveal, slow push-in, single hero motion beat, soft room tone, designed to validate pacing and framing rather than final polish."
     },
     {
-      "title": "A/B motion test",
+      "title": "A/B 运镜动态测试",
       "prompt": "Same product on the same table. Version A uses a locked camera and hand reach. Version B uses a short arc move. Keep lighting identical so only motion changes."
     },
     {
-      "title": "Fast social ad loop",
+      "title": "快速社交广告循环",
       "prompt": "Six-second draft of a skincare bottle in a bright bathroom, one clean reveal, one cap twist, one ambient water cue, vertical framing."
     }
   ],
-  "faqTitle": "FAQ – Seedance 2.0 Fast on MaxVideoAI",
+  "faqTitle": "常见问题 – MaxVideoAI 中的 Seedance 2.0 Fast",
   "faqs": [
     {
-      "q": "What is Seedance 2.0 Fast?",
-      "a": "Seedance 2.0 Fast is the quicker Seedance AI video option inside the Seedance 2 family, designed for faster draft passes before you move winning directions into standard Seedance 2.0."
+      "q": "什么是 Seedance 2.0 Fast？",
+      "a": "Seedance 2.0 Fast 是 Seedance 2 系列中更快速的 Seedance AI 视频选项，专为在将确认的方向导入标准版 Seedance 2.0 之前进行快速草稿制作而设计。"
     },
     {
-      "q": "Is Seedance 2.0 Fast part of Dreamina Seedance?",
-      "a": "Yes. ByteDance documentation and Dreamina product naming use Dreamina Seedance 2.0 for the broader model family. Seedance 2.0 Fast is the faster route inside that family on MaxVideoAI."
+      "q": "Seedance 2.0 Fast 是否属于 Dreamina Seedance 系列？",
+      "a": "是的。字节跳动官方文档与即梦 (Dreamina) 产品命名使用 Dreamina Seedance 2.0 指代该模型系列。Seedance 2.0 Fast 是 MaxVideoAI 上该系列中响应更快速的生成路线。"
     },
     {
-      "q": "How much does Seedance 2.0 Fast cost?",
-      "a": "The pricing card shows preset MaxVideoAI display totals for common draft scenarios such as 5s 480p, 8s 720p, and 10s 720p. Generate remains the source of truth for the exact live quote before submission."
+      "q": "Seedance 2.0 Fast 的使用价格是多少？",
+      "a": "价格卡片展示了针对常见草稿场景（如 5 秒 480p、8 秒 720p 以及 10 秒 720p）的 MaxVideoAI 预设展示总价。“生成”页面仍是任务提交前实时确切报价的最终基准。"
     },
     {
-      "q": "Does Seedance 2.0 Fast keep text-to-video, image-to-video, and reference-to-video?",
-      "a": "Yes. Seedance 2.0 Fast keeps the same core workflow family as standard Seedance 2.0: text-to-video, image-to-video with an optional end frame, and multimodal reference-to-video."
+      "q": "Seedance 2.0 Fast 是否保留了文生视频、图生视频和参考生视频功能？",
+      "a": "是的。Seedance 2.0 Fast 保留了与标准版 Seedance 2.0 相同的核心工作流体系：文生视频、支持可选尾帧的图生视频，以及多模态参考生视频。"
     },
     {
-      "q": "How many references does Seedance 2.0 Fast accept?",
-      "a": "Fast supports up to 9 image references, 3 video references, and 3 audio references, with 12 total files across the full ref2v run. Audio references need at least one image or video reference in the active route."
+      "q": "Seedance 2.0 Fast 最多支持多少个参考素材？",
+      "a": "Fast 在单次参考生视频 (ref2v) 中最多支持 9 张参考图片、3 个参考视频和 3 个参考音频，全部素材上限共计 12 个文件。在当前路线中，音频参考需要至少附加一张图片或一个视频参考。"
     },
     {
-      "q": "Does Seedance 2.0 Fast image-to-video support an end frame?",
-      "a": "Yes. The image-to-video workflow supports a start image plus an optional end image when you want to guide the last frame in draft passes."
+      "q": "Seedance 2.0 Fast 图生视频是否支持尾帧？",
+      "a": "支持。图生视频工作流支持起始图片加可选尾帧图片，方便你在草稿测试阶段精准引导视频的结束落幅。"
     },
     {
-      "q": "How long can Seedance 2.0 Fast runs be?",
-      "a": "The current MaxVideoAI route exposes auto duration or explicit runs from 4 to 15 seconds for Seedance 2.0 Fast."
+      "q": "Seedance 2.0 Fast 单次生成时长支持多长？",
+      "a": "当前 MaxVideoAI 路线中，Seedance 2.0 Fast 支持自动时长或 4 至 15 秒的明确时长生成。"
     },
     {
-      "q": "When should I use Seedance 2.0 Fast instead of standard Seedance 2.0?",
-      "a": "Use Fast when the goal is iteration speed, shot planning, timing checks, and quick comparison passes. Move to standard Seedance 2.0 when you want the most polished final take."
+      "q": "什么时候应该使用 Seedance 2.0 Fast 而非标准版 Seedance 2.0？",
+      "a": "当目标是迭代速度、镜头规划、节奏验证和快速多方案对比时，优先使用 Fast。当需要最高品质与最精修的最终成片时，切换至标准版 Seedance 2.0。"
     }
   ],
   "custom": {
-    "whyTitle": "Why Seedance 2.0 Fast matters",
-    "heroTrustLine": "Use Fast to decide quickly, then move selected shots into standard Seedance 2.0",
+    "whyTitle": "为什么选择 Seedance 2.0 Fast",
+    "heroTrustLine": "借助 Fast 快速确认创意方向，再将选定镜头导入标准版 Seedance 2.0 精修",
     "heroHighlights": [
-      "Optimized fast variant||Provider/model-family notes list Fast as the optimized route inside the Seedance 2 family",
-      "Same workflow family||Text-to-video, image-to-video, and reference-to-video stay available in the same Seedance 2 stack",
-      "Native audio plus multimodal references||Fast still sits inside the same audio-native and multimodal Seedance family",
-      "Comparison-ready||Pairs naturally against Veo 3.1 Fast and LTX 2.3 Fast",
-      "Seedance 2.0 Mini batch route||Use Mini for the lower-cost batch/value route for ecommerce, marketing, and UGC variants.",
-      "Built for escalation||Move successful drafts into standard Seedance 2.0 for polished finals"
+      "优化的快速版本||供应商与模型系列说明将 Fast 列为 Seedance 2 系列中经深度优化的快速路线",
+      "相同的核心工作流体系||文生视频、图生视频与参考生视频在同一个 Seedance 2 技术栈中完全保留",
+      "原生音频与多模态参考||Fast 依然完整承袭 Seedance 系列的原生音频与多模态参考能力",
+      "便于横向对比||与 Veo 3.1 Fast 和 LTX 2.3 Fast 天然契合，轻松完成多模型草稿对照",
+      "Seedance 2.0 Mini 批量路线||在电商、营销和 UGC 多版本制作中，可选择成本更低的 Mini 路线进行高通量生成",
+      "无缝进阶成片||将验证成功的草稿方案平滑导入标准版 Seedance 2.0，打造高保真成片"
     ],
-    "specTitle": "Specs and role",
-    "specNote": "Treat Fast as the quick-iteration version in the Seedance 2 family.",
+    "specTitle": "技术规格与定位",
+    "specNote": "将 Fast 定位为 Seedance 2 系列中的高效快速迭代版本。",
     "specSections": [
       {
-        "title": "What Fast is for",
-        "intro": "Provider/model-family notes position Fast as the quicker route inside the Dreamina Seedance 2 family.",
+        "title": "Fast 的定位与用途",
+        "intro": "供应商与模型系列说明将 Fast 定位为 Dreamina Seedance 2 系列中响应更迅速的路线。",
         "items": [
-          "Shot planning before polished renders",
-          "Rapid A/B motion checks",
-          "Creative iteration with shorter feedback loops",
-          "Reference-led timing validation",
-          "Optional end-frame checks in image-to-video"
+          "成片精修前的镜头构思与规划",
+          "运镜动态的敏捷 A/B 测试",
+          "反馈周期更短的创意迭代",
+          "基于参考素材的时间节奏验证",
+          "图生视频中可选尾帧的过渡检查"
         ]
       },
       {
-        "title": "Where it fits",
-        "intro": "Fast keeps the same core mode coverage and format envelope.",
+        "title": "适用场景与工作流衔接",
+        "intro": "Fast 保持了相同的核心功能覆盖与格式规范。",
         "items": [
-          "Fast draft -> compare -> standard Seedance 2.0 final",
-          "Useful against Veo 3.1 Fast and LTX 2.3 Fast",
-          "480p or 720p with auto or 4-15s duration control",
-          "Best when one prompt tests one decision",
-          "Audio-aware workflows stay part of the Seedance family"
+          "快速草稿 -> 方案对比 -> 标准版 Seedance 2.0 终剪成片",
+          "可与 Veo 3.1 Fast 及 LTX 2.3 Fast 进行有效横向对比",
+          "480p 或 720p 分辨率，支持自动或 4–15 秒时长控制",
+          "单条提示词验证单一设计决策时效果最佳",
+          "对音频感知的工作流依然完整保留在 Seedance 系列中"
         ]
       }
     ],
-    "tipsTitle": "Strengths and boundaries",
+    "tipsTitle": "优势与局限",
     "strengths": [
-      "Rapid draft iteration",
-      "Clear side-by-side comparison setup",
-      "Good for shot planning and pacing checks",
-      "Natural stepping stone into standard Seedance 2.0"
+      "敏捷高效的草稿迭代",
+      "清晰直观的多版本横向对比配置",
+      "非常适合镜头规划与动作节奏验证",
+      "平滑衔接至标准版 Seedance 2.0 的理想台阶"
     ],
     "boundaries": [
-      "Do not judge final polish from Fast alone.",
-      "Complex prompts make Fast harder to compare.",
-      "Treat it as a draft tier, not a replacement for the standard tier.",
-      "Use the final quote and route details inside Generate before scaling winners."
+      "请勿仅凭 Fast 的输出评判成片的最终精修质感。",
+      "过于繁复的提示词会增加 Fast 各版本间对比的难度。",
+      "应将其作为草稿档位使用，而非标准版本的直接替代品。",
+      "在扩大获胜方案的规模前，请以“生成”面板中的最终报价和路线详情为准。"
     ],
     "relatedItems": [
       {
         "brand": "bytedance",
         "title": "Seedream 5.0 Lite",
-        "description": "Generate or clean a still image in Seedream before using Seedance 2.0 Fast for quick motion drafts.",
+        "description": "在利用 Seedance 2.0 Fast 制作快速动态草稿前，可先在 Seedream 中生成或清理静态参考图。",
         "modelSlug": "seedream",
-        "ctaLabel": "Prepare references with Seedream ->"
+        "ctaLabel": "使用 Seedream 准备参考素材 →"
       },
       {
         "brand": "bytedance",
         "title": "Seedance 2.0",
-        "description": "Move winning drafts into standard Seedance 2.0 when you need the most polished final render.",
+        "description": "当需要最高保真度的最终成品渲染时，将表现优秀的草稿导入标准版 Seedance 2.0。",
         "modelSlug": "seedance-2-0",
-        "ctaLabel": "See standard Seedance 2.0 ->"
+        "ctaLabel": "查看标准版 Seedance 2.0 →"
       },
       {
         "brand": "bytedance",
         "title": "Seedance 2.0 Mini",
-        "description": "Use Mini for the lower-cost batch/value route for ecommerce, marketing, and UGC.",
+        "description": "在电商、营销和 UGC 多版本场景中，选择 Mini 作为更低成本的批量生成路线。",
         "modelSlug": "dreamina-seedance-2-0-mini",
-        "ctaLabel": "See Seedance 2.0 Mini batch route ->"
+        "ctaLabel": "查看 Seedance 2.0 Mini 批量路线 →"
       },
       {
         "brand": "google-veo",
         "title": "Google Veo 3.1 Fast",
-        "description": "Open Veo 3.1 Fast when you want another audio-native fast tier for ad-style comparison passes.",
+        "description": "当需要另一个原生支持音频的高速档位进行广告风格对比测试时，可开启 Veo 3.1 Fast。",
         "modelSlug": "veo-3-1-fast",
-        "ctaLabel": "Compare Seedance 2.0 Fast vs Veo 3.1 Fast ->"
+        "ctaLabel": "对比 Seedance 2.0 Fast 与 Veo 3.1 Fast →"
       },
       {
         "brand": "lightricks",
         "title": "LTX 2.3 Fast",
-        "description": "Use LTX 2.3 Fast when the draft loop is more about storyboard rhythm and quick structure checks.",
+        "description": "当草稿迭代重点侧重于故事板节奏与快速结构检查时，使用 LTX 2.3 Fast。",
         "modelSlug": "ltx-2-3-fast",
-        "ctaLabel": "Compare Seedance 2.0 Fast vs LTX 2.3 Fast ->"
+        "ctaLabel": "对比 Seedance 2.0 Fast 与 LTX 2.3 Fast →"
       }
     ]
   },
   "decision": {
     "modelSlug": "seedance-2-0-fast",
     "hero": {
-      "eyebrow": "DREAMINA / BYTEDANCE FAST DRAFT ROUTE",
+      "eyebrow": "即梦 / 字节跳动快速草稿路线",
       "title": "Seedance 2.0 Fast",
-      "subtitle": "Fast Seedance draft passes for timing tests, A/B motion checks, and quick reference-guided shot planning.",
+      "subtitle": "适用于草稿制作、时间节奏测试与 A/B 运镜检查的高效 Seedance 镜头规划路线。",
       "subtitleHighlights": [
-        "draft passes",
-        "timing tests",
-        "A/B motion checks"
+        "草稿制作",
+        "时间节奏测试",
+        "A/B 运镜检查"
       ],
-      "paragraph": "Use Seedance 2.0 Fast as the faster Seedance draft route in the Dreamina Seedance family when you need rapid iteration before a final render: block timing, compare motion options, and test text, image, or reference inputs in shorter cycles.",
+      "paragraph": "当你在最终渲染前需要快速迭代时，使用 Seedance 2.0 Fast 作为 Dreamina Seedance 系列中更迅速的草稿路线：以更短的周期锁定时间节奏、对比动态方案，并测试文本、图像或参考输入效果。",
       "primaryCta": {
-        "label": "Draft with Seedance Fast",
+        "label": "使用 Seedance Fast 制作草稿",
         "href": "/app?engine=seedance-2-0-fast"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/seedance"
       },
       "quickLinks": [
         {
-          "label": "Compare vs 2.0",
+          "label": "与 2.0 对比",
           "href": "/zh/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast?order=seedance-2-0-fast"
         },
         {
-          "label": "Compare vs Mini batch route",
+          "label": "与 Mini 批量路线对比",
           "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast?order=seedance-2-0-fast"
         },
         {
@@ -303,68 +303,68 @@
       ]
     },
     "media": {
-      "caption": "Seedance 2.0 Fast example",
-      "description": "Rapid motion draft sequence",
-      "renderLabel": "View draft",
+      "caption": "Seedance 2.0 Fast 示例",
+      "description": "快速运动草稿序列",
+      "renderLabel": "查看草稿",
       "badges": [
-        "Fast route",
-        "Draft pass",
+        "Fast 路线",
+        "草稿制作",
         "9:16"
       ],
-      "altContext": "fast Seedance draft with a moving product camera test"
+      "altContext": "使用运动产品镜头测试的 Seedance 快速草稿"
     },
     "features": [
       {
-        "title": "Fast draft route",
-        "body": "Run quicker Seedance passes for early creative decisions.",
+        "title": "快速草稿路线",
+        "body": "以更快的速度运行 Seedance 生成，辅助早期创意决策。",
         "tone": "duration"
       },
       {
-        "title": "Timing tests",
-        "body": "Check pacing, camera beats and shot rhythm before polishing.",
+        "title": "时间节奏测试",
+        "body": "在精修成片前检查动作节奏、镜头节拍与画面韵律。",
         "tone": "continuity"
       },
       {
-        "title": "Reference tests",
-        "body": "Try supported text, image and reference inputs for shot planning.",
+        "title": "参考素材测试",
+        "body": "尝试支持的文本、图像和参考输入，用于前期镜头规划。",
         "tone": "reference"
       },
       {
-        "title": "Up to 720p",
-        "body": "Use lower-resolution outputs for draft review loops.",
+        "title": "最高 720p",
+        "body": "使用适合草稿评审流的低分辨率输出，降低试错成本。",
         "tone": "quality"
       },
       {
-        "title": "Max 15s",
-        "body": "Draft clips up to 15 seconds per generation.",
+        "title": "最长 15 秒",
+        "body": "单次生成支持草稿片段最长达 15 秒。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按量付费",
+        "body": "生成前即可查看确切的实时价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Fast or Seedance 2.0?",
-        "body": "Use Fast for draft passes, timing tests and A/B motion checks. Move to Seedance 2.0 when you need the production route.",
+        "title": "选择 Fast 还是 Seedance 2.0？",
+        "body": "使用 Fast 进行草稿制作、时间节奏测试与 A/B 动态检查；当需要正式生产路线的高质感成片时，切换至 Seedance 2.0。",
         "cta": {
-          "label": "Compare Fast vs 2.0",
+          "label": "对比 Fast 与 2.0",
           "href": "/zh/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast?order=seedance-2-0-fast"
         }
       },
       {
-        "title": "Planning multiple shots?",
-        "body": "Use short draft loops to lock motion direction, camera language and reference behavior before committing to a final pass.",
+        "title": "正在规划多个镜头？",
+        "body": "利用短平快的草稿循环，在投入最终渲染前锁定运动方向、运镜语言与参考素材表现。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Need another fast baseline?",
-        "body": "Compare Seedance Fast with other fast routes when you are choosing a draft engine for social or ad concepts.",
+        "title": "需要另一个快速基准？",
+        "body": "在为社交平台或广告概念选择草稿引擎时，将 Seedance Fast 与其他快速路线进行横向对比。",
         "cta": {
           "label": "与 LTX Fast 对比",
           "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-seedance-2-0-fast?order=seedance-2-0-fast"
@@ -373,132 +373,132 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Start with the shot idea, movement, camera direction and intended pacing."
+        "title": "文本提示词",
+        "body": "从镜头创意、运动、运镜方向和预期节奏出发编写描述。"
       },
       {
-        "title": "Image reference",
-        "body": "Use a start image to test composition, product framing or style direction."
+        "title": "图像参考",
+        "body": "使用起始图片测试画面构图、产品取景或视觉风格方向。"
       },
       {
-        "title": "Reference input",
-        "body": "Use supported references to check whether a draft follows the intended visual anchors."
+        "title": "参考素材输入",
+        "body": "使用受支持的参考素材，检查草稿是否符合预期的视觉锚点。"
       },
       {
-        "title": "Motion variant",
-        "body": "Run small prompt changes to compare camera speed, subject movement and scene rhythm."
+        "title": "动态变体测试",
+        "body": "通过微调提示词对比镜头运镜速度、主体运动与场景节奏。"
       },
       {
-        "title": "Final handoff",
-        "body": "Carry the strongest draft choices into the production route when polish matters."
+        "title": "成片交付交接",
+        "body": "在追求成片质感时，将表现最佳的草稿方案延续导入正式生产路线。"
       }
     ],
     "pricingCopy": {
-      "title": "Seedance 2.0 Fast draft pricing",
-      "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 720p",
+      "title": "Seedance 2.0 Fast 草稿计费",
+      "subtitle": "预设草稿总价 — 生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高 720p",
       "ctaHref": "/zh/pricing#seedance-2-0-fast-pricing"
     },
     "meta": {
-      "title": "Seedance 2.0 Fast: Draft Pricing & Iteration | MaxVideoAI",
-      "description": "Use Seedance 2.0 Fast for rapid Seedance draft passes, timing tests, A/B motion checks and reference-guided shot planning before final renders."
+      "title": "Seedance 2.0 Fast：草稿计费与快速迭代 | MaxVideoAI",
+      "description": "使用 Seedance 2.0 Fast 进行快速 Seedance 草稿制作、节奏测试、A/B 运镜检查以及基于参考素材的镜头规划，再导入最终渲染。"
     }
   },
   "prompting": {
     "modelSlug": "seedance-2-0-fast",
     "section": {
       "title": "提示词实验室 — Seedance 2.0 Fast",
-      "intro": "Seedance 2.0 Fast works best when each run tests one decision. Keep the brief in Subject -> Action -> Camera -> Style order, then choose the fastest route: text, start/end image, or references.",
+      "intro": "当每次生成仅测试一个决策时，Seedance 2.0 Fast 的表现最为理想。按照 主体 -> 动作 -> 镜头 -> 风格 的顺序编写简报，然后选择最快的路线：纯文本、首尾帧图片或参考素材。",
       "tip": null,
       "guide": {
-        "label": "Seedance 2.0 Fast workflow notes",
+        "label": "Seedance 2.0 Fast 工作流说明",
         "href": "/zh/models/seedance-2-0"
       },
-      "referencesTitle": "How Seedance 2.0 Fast uses references"
+      "referencesTitle": "Seedance 2.0 Fast 如何使用参考素材"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Text",
-        "title": "Text-to-video test prompt",
-        "description": "Use when you want a fast read on framing, motion, or mood from language alone.",
-        "copy": "Subject:\n[Who/what appears]\n\nAction:\n[One visible beat only]\n\nCamera:\n[One short move]\n\nStyle:\n[Lighting + palette]\n\nGoal:\n[What this run is proving: timing / framing / motion / audio]\n\nRule:\nDo not combine multiple decisions in the same Fast run."
+        "label": "纯文本",
+        "title": "文生视频测试提示词",
+        "description": "当你希望仅通过文字快速评估构图、动态或情绪基调时使用。",
+        "copy": "主体：\n[出现的人物/物品]\n\n动作：\n[仅描述一个清晰可见的动作节拍]\n\n镜头：\n[一次简短的运镜]\n\n风格：\n[光影 + 色调]\n\n目标：\n[本次生成验证的重点：节奏 / 构图 / 动态 / 音频]\n\n规则：\n切勿在同一次 Fast 生成中混合测试多个决策。"
       },
       {
         "id": "structured",
-        "label": "Start/End",
-        "title": "Image-to-video transition test",
-        "description": "Use when you need to validate how a start frame lands on an end frame.",
-        "copy": "Start image:\n[What is fixed from frame 1]\n\nEnd image (optional):\n[What the last frame should land on]\n\nMotion path:\n[How the subject travels between the two]\n\nCamera:\n[One move only]\n\nWhat should stay identical across versions:\n[Lighting / wardrobe / background / pace]\n\nUse this when the question is transition quality, not final polish."
+        "label": "首尾帧",
+        "title": "图生视频过渡测试",
+        "description": "当你需要验证起始帧如何过渡衔接并定格在结束帧时使用。",
+        "copy": "起始图片：\n[从第1帧起固定的内容]\n\n结束图片（可选）：\n[最后一帧应定格的画面]\n\n运动路径：\n[主体在首尾两帧之间如何运动]\n\n镜头：\n[仅指定单一运镜]\n\n跨版本须保持一致的要素：\n[光影 / 服装 / 背景 / 节奏]\n\n适用场景：\n当核心问题在于过渡平滑度而非最终成品质感时使用。"
       },
       {
         "id": "pro",
-        "label": "References",
-        "title": "Reference continuity test",
-        "description": "Use when you are checking whether the same reference pack holds together across variants.",
-        "copy": "Prompt intent:\n[What the short draft should prove]\n\nImage refs:\n@Image1 = [identity]\n@Image2 = [product / wardrobe / palette]\n\nVideo refs:\n@Video1 = [camera rhythm / pacing]\n\nAudio refs:\n@Audio1 = [ambience / beat / dialogue texture]\n\nVariant under test:\n[Only one variable: camera / pace / framing / sound]\n\nRule:\nKeep the same source pack while changing one thing."
+        "label": "参考素材",
+        "title": "参考素材连续性测试",
+        "description": "当你检查同一套参考素材在不同变体中是否能保持连贯稳定时使用。",
+        "copy": "提示词意图：\n[简短草稿需要验证的核心内容]\n\n图片参考：\n@Image1 = [主体身份]\n@Image2 = [产品 / 服装 / 色彩]\n\n视频参考：\n@Video1 = [运镜节奏 / 动作速率]\n\n音频参考：\n@Audio1 = [环境音 / 节拍 / 对白质感]\n\n当前测试的变体变量：\n[仅改变单一变量：镜头 / 节奏 / 构图 / 声音]\n\n规则：\n保持相同素材包不变，每次仅微调一处变量。"
       },
       {
         "id": "storyboard",
-        "label": "Compare",
-        "title": "Comparison / handoff prompt",
-        "description": "Use this when Fast is selecting a winner before the standard tier.",
-        "copy": "What stays fixed across A/B:\n[Subject / refs / setting / duration / ratio]\n\nVariant A:\n[Camera / pacing / sound choice]\n\nVariant B:\n[One changed variable only]\n\nWinner criteria:\n[What counts as success]\n\nIf approved, move into standard Seedance 2.0 with:\n[Extra polish, richer sound design, fuller shot plan]"
+        "label": "方案对比",
+        "title": "方案对比与成片交接提示词",
+        "description": "当使用 Fast 筛选出优胜版本、准备导入标准版进行精修前使用。",
+        "copy": "A/B 版本间保持固定的要素：\n[主体 / 参考素材 / 场景 / 时长 / 宽高比]\n\n变体 A：\n[运镜 / 节奏 / 声音方案]\n\n变体 B：\n[仅改变一个变量]\n\n胜出判定标准：\n[满足何种条件视为成功]\n\n若确认通过，导入标准版 Seedance 2.0 并补充：\n[更细腻的成片质感、更丰富的声音设计、更完整的分镜规划]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Text = test the brief itself."
+        "body": "纯文本 = 检验简报创意本身。"
       },
       {
         "tabId": "structured",
-        "body": "Start/End = test the transition and landing frame."
+        "body": "首尾帧 = 测试转场过渡与落幅定格。"
       },
       {
         "tabId": "pro",
-        "body": "References = test continuity with the same source pack."
+        "body": "参考素材 = 测试在同一组素材包下的一致性。"
       },
       {
         "tabId": "storyboard",
-        "body": "Compare = package the winner for standard Seedance 2.0."
+        "body": "方案对比 = 包装获胜方案以导入标准版 Seedance 2.0。"
       }
     ],
     "globalPrinciples": [
-      "Change one variable per run so comparisons stay readable.",
-      "Keep the same references when testing camera, timing, or audio variants.",
-      "Use start/end image tests to validate transitions, not to rewrite the full scene.",
-      "Give every reference one job and trim extra style adjectives.",
-      "Escalate winning drafts into standard Seedance 2.0 for final polish."
+      "每次生成仅改变一个变量，确保对比结果清晰可辨。",
+      "测试镜头、节奏或音频变体时，保持相同的参考素材不变。",
+      "使用首尾帧测试验证过渡效果，而非试图重构整个场景。",
+      "为每个参考素材分配明确职责，删减多余的风格修饰词。",
+      "将获胜草稿导入标准版 Seedance 2.0 进行最终成片精修。"
     ],
     "engineWhy": [
-      "Fast is strongest for prompt-only concept checks before expensive finals.",
-      "Start/end image tests are useful for landing the last frame without over-directing the middle.",
-      "Reference runs are best for continuity A/B checks, not for maximum complexity.",
-      "Short audio cues make side-by-side comparisons easier to judge."
+      "Fast 最大的优势在于昂贵成片渲染前的纯提示词概念检验。",
+      "首尾帧测试非常适合锁定最后一帧落幅，而无需对中间过程过度干预。",
+      "参考素材生成最适合用于一致性 A/B 验证，而非追求极限复杂度。",
+      "简明的声音线索让并排对比评审更为轻松直观。"
     ],
     "demo": {
-      "title": "Demo prompt — Seedance 2.0 Fast",
+      "title": "演示提示词 — Seedance 2.0 Fast",
       "promptLabel": "文生视频",
       "prompt": "Subject: Absurd bank robbery with inflatable weapons\nAction: Robbers enter a tense crime-thriller setup\nCamera: Readable cinematic framing for a fast draft pass\nStyle: Tense thriller with absurd visual humor\nAudio: Bank ambience, tension, no long dialogue",
       "notes": [],
       "summary": {
-        "subject": "Absurd bank robbery with inflatable weapons",
-        "action": "Robbers enter a tense crime-thriller setup",
-        "camera": "Readable cinematic framing for a fast draft pass",
-        "style": "Tense thriller with absurd visual humor",
-        "output": "Bank ambience, tension, no long dialogue"
+        "subject": "使用充气武器的荒诞银行劫案",
+        "action": "劫匪进入紧张的犯罪惊悚片场景",
+        "camera": "适合快速草稿评审的清晰电影感构图",
+        "style": "带有荒诞视觉幽默感的紧张惊悚片",
+        "output": "银行环境音、紧张感，无冗长对白"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Audio",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Seedance 2.0 Fast motion draft render"
+        "altContext": "Seedance 2.0 Fast 动态草稿渲染"
       }
     },
     "imageExamples": null
@@ -506,10 +506,10 @@
   "examples": {
     "modelSlug": "seedance-2-0-fast",
     "section": {
-      "title": "Seedance 2.0 Fast examples",
-      "intro": "Review the kinds of draft passes and comparison prompts that make Seedance 2.0 Fast useful in a real production workflow.",
-      "defaultCtaLabel": "View all Seedance examples ->",
-      "recreateLabel": "Recreate this draft ->"
+      "title": "Seedance 2.0 Fast 案例",
+      "intro": "了解在实际生产工作流中，哪些草稿制作与对比提示词能够充分发挥 Seedance 2.0 Fast 的实用价值。",
+      "defaultCtaLabel": "查看全部 Seedance 案例 →",
+      "recreateLabel": "复现此草稿 →"
     },
     "filters": [
       {
@@ -540,32 +540,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Seedance 2.0 Fast — current fast Seedance model for draft passes and iteration.",
+        "title": "真实社区渲染作品",
+        "body": "探索 Seedance 2.0 Fast 的创作潜力 — 用于草稿制作与快速迭代的当前 Seedance 快速模型。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键跳转至应用并直接复用完整的生成设置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频生成",
+        "body": "同步生成对白、环境音与音效。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连续性",
+        "body": "在连续序列中保持人物、风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "面向生产的可靠性",
+        "body": "内置安全护栏与审核过滤机制，保障合规评审。",
         "icon": "shield"
       }
     ],

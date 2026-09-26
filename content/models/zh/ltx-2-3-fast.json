@@ -2,15 +2,15 @@
   "marketingName": "LTX 2.3 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2.3 Fast | AI Video Model, Specs, Pricing & Max Length | MaxVideoAI",
-    "description": "LTX 2.3 Fast remains an executable previous-generation route for established drafts; review pricing and the upgrade path to LTX 2.5 Fast.",
+    "title": "LTX 2.3 Fast | AI 视频模型、技术参数、价格与最长时长 | MaxVideoAI",
+    "description": "LTX 2.3 Fast 仍作为上一代可用路线保留，适用于既有草稿与测试；查看价格、规格以及升级至 LTX 2.5 Fast 的路径。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
-  "overview": "LTX 2.3 Fast remains available as a previous-generation legacy route for existing drafts and examples. LTX 2.5 Fast is the current speed-oriented successor.",
+  "overview": "LTX 2.3 Fast 作为上一代旧版路线继续可用，适用于既有草稿与示例复现。LTX 2.5 Fast 是当前面向速度的主力后继模型。",
   "hero": {
-    "title": "LTX 2.3 Fast — current fast LTX model for longer drafts, testing and iteration",
-    "intro": "Use LTX 2.3 Fast for lower-cost video generation, longer draft loops, and faster iteration when you want to test ideas, compare prompt behavior, or explore longer clips before moving selected outputs into LTX 2.3 Pro. This page covers the model’s pricing, max length, best use cases, and how it compares to LTX 2.3 Pro for current LTX workflows.",
-    "badge": "T2V + I2V | 6-20 s | 1080p to 4K",
+    "title": "LTX 2.3 Fast — 用于长草稿、测试与快速迭代的 LTX 快速模型",
+    "intro": "在构思测试、对比提示词表现或探索更长片段时，使用 LTX 2.3 Fast 获得更低成本的视频生成、更长的草稿循环与更快的迭代速度，随后再将精选镜头导入 LTX 2.3 Pro。本页面包含该模型的价格、最长时长、最佳使用场景，以及在 LTX 创作流中与 LTX 2.3 Pro 的对比。",
+    "badge": "文生视频 + 图生视频 | 6–20 秒 | 1080p 至 4K",
     "ctaPrimary": {
       "label": "使用 LTX 2.3 Fast 生成",
       "href": "/app?engine=ltx-2-3-fast"
@@ -21,163 +21,163 @@
         "href": "/zh/examples/ltx"
       },
       {
-        "label": "See LTX 2.3 Pro",
+        "label": "查看 LTX 2.3 Pro",
         "href": "/zh/models/ltx-2-3-pro"
       },
       {
-        "label": "Compare LTX 2.3 Fast vs LTX 2.3 Pro",
+        "label": "对比 LTX 2.3 Fast 与 LTX 2.3 Pro",
         "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-ltx-2-3-pro"
       },
       {
-        "label": "Compare LTX 2.3 Fast vs Seedance 2.0 Fast",
+        "label": "对比 LTX 2.3 Fast 与 Seedance 2.0 Fast",
         "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-seedance-2-0-fast"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases for Fast",
+    "title": "Fast 版本的最佳应用场景",
     "items": [
       {
-        "title": "Rapid concept and hook testing",
+        "title": "概念构思与黄金前 3 秒快速测试",
         "icon": "zap"
       },
       {
-        "title": "Vertical social drafts",
+        "title": "竖屏社交媒体草稿",
         "icon": "smartphone"
       },
       {
-        "title": "Start-to-end image transitions",
+        "title": "首尾帧平滑转场过渡",
         "icon": "camera"
       },
       {
-        "title": "Budget-aware campaign variants",
+        "title": "预算友好的营销创意多版本测试",
         "icon": "layers"
       },
       {
-        "title": "Quick product motion tests",
+        "title": "产品动态与运镜快速验证",
         "icon": "product"
       },
       {
-        "title": "Story beats before final polish",
+        "title": "成片精修前的故事节拍预演",
         "icon": "storyboard"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "6 s to 20 s for Text-to-Video and Image-to-Video"
+      "label": "时长",
+      "body": "文生视频与图生视频支持 6 秒至 20 秒"
     },
     {
-      "label": "Long-duration constraint",
-      "body": "Durations above 10 s require 1080p at 25 fps in the current public routing"
+      "label": "长时长限制",
+      "body": "在当前公开路由下，超过 10 秒的时长要求使用 1080p / 25 fps 规格"
     },
     {
-      "label": "Resolution",
-      "body": "1080p, 1440p or 2160p (4K) on supported 6-10 s configurations; >10 s routes use 1080p / 25 fps"
+      "label": "分辨率",
+      "body": "支持 6–10 秒配置下的 1080p、1440p 或 2160p (4K)；>10 秒路线采用 1080p / 25 fps"
     },
     {
-      "label": "Aspect ratios",
-      "body": "16:9 and 9:16"
+      "label": "宽高比",
+      "body": "16:9 与 9:16"
     },
     {
-      "label": "Frame rate",
-      "body": "24, 25, 48 or 50 fps"
+      "label": "帧率",
+      "body": "24、25、48 或 50 fps"
     },
     {
-      "label": "Inputs",
-      "body": "Text prompts or a start image, with an optional end image for Image-to-Video transitions"
+      "label": "输入方式",
+      "body": "文本提示词或首帧图片，图生视频转场支持添加可选尾帧"
     },
     {
-      "label": "Audio",
-      "body": "Native audio toggle for generate modes"
+      "label": "音频",
+      "body": "生成模式支持原生音频开关"
     },
     {
-      "label": "Pricing",
-      "body": "Pay-as-you-go; displayed generate pricing starts around $0.05/s at 1080p, $0.10/s at 1440p, and $0.21/s at 4K"
+      "label": "计费方式",
+      "body": "按量付费；展示的生成计费约为 1080p 起步 $0.05/秒、1440p 起步 $0.10/秒、4K 起步 $0.21/秒"
     }
   ],
   "promptStructure": {
-    "title": "Prompting LTX 2.3 Fast",
-    "quote": "Subject: [who/what]. Action: [single beat]. Camera: [move]. Look: [lighting + color]. Duration: [6-20s]. Format: [16:9 or 9:16]. Audio: [ambience, music or silence].",
-    "description": "Keep prompts tighter than you would for a premium final. LTX 2.3 Fast is best when you define one clear motion idea, one camera move, and one visual mood.",
+    "title": "LTX 2.3 Fast 提示词编写指南",
+    "quote": "主体：[谁/什么]。动作：[单一节拍]。镜头：[运镜方式]。视觉：[光影 + 色彩]。时长：[6–20秒]。画幅：[16:9 或 9:16]。音频：[环境音、音乐或静音]。",
+    "description": "相比最终成片，草稿阶段的提示词应更加紧凑精炼。LTX 2.3 Fast 在定义一个明确的动态意图、一次运镜和一个视觉基调时表现最佳。",
     "steps": [
-      "Lead with one subject and one action.",
-      "Describe the camera move before secondary styling.",
-      "Specify 16:9 or 9:16 based on the destination format.",
-      "Use 6 to 10 seconds for the broadest quality/fps/resolution flexibility.",
-      "When using Image-to-Video, let the start image carry identity and use the prompt for motion."
+      "以单一主体和单一动作为核心。",
+      "在描述次要风格细节之前，先明确镜头运镜。",
+      "根据目标分发平台指定 16:9 或 9:16 画幅。",
+      "使用 6 到 10 秒时长可获得最全面的画质、帧率与分辨率灵活性。",
+      "使用图生视频时，让首帧图片承载主体身份，提示词专注于指导动作与动态。"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "Use LTX 2.3 Fast for idea volume, then rerun winning concepts in LTX 2.3 Pro when you need more workflow flexibility.",
-      "For 12 to 20 seconds, accept the 1080p and 25 fps constraint instead of fighting it.",
-      "Use an end image only when the destination frame matters for the cut.",
-      "Audio is available here, but Audio-to-Video, Extend and Retake are not."
+      "使用 LTX 2.3 Fast 快速批量验证创意，在需要更深度的创作流灵活性时，将获选方案导入 LTX 2.3 Pro 重新渲染。",
+      "对于 12 到 20 秒的长时长生成，请直接采用 1080p 与 25 fps 的规格约束，以确保路由稳定。",
+      "仅在剪辑需要精确的目标帧时才使用尾帧图片。",
+      "此处支持生成原生音频，但不提供音频生视频（Audio-to-Video）、片段延长（Extend）或局部重拍（Retake）功能。"
     ]
   },
   "compareLink": {
-    "label": "Compare LTX 2.3 Fast vs LTX 2.3 Pro ->",
+    "label": "对比 LTX 2.3 Fast 与 LTX 2.3 Pro →",
     "href": "/ai-video-engines/ltx-2-3-fast-vs-ltx-2-3-pro"
   },
   "prompts": [
     {
-      "title": "Fast social product hook",
+      "title": "社交产品快速吸睛镜头（Hook）",
       "prompt": "A 9:16 beauty shot of a skincare bottle on a wet mirror surface, quick push-in, clean reflections, soft high-key lighting, 6 seconds, crisp sonic accent at the end."
     },
     {
-      "title": "Image-to-Video start/end transition",
+      "title": "图生视频首尾帧平滑转场",
       "prompt": "Animate the uploaded start image of a parked sports car into a smooth evening city pull-away, then land on the uploaded end image as taillights streak across the frame."
     },
     {
-      "title": "Longer draft beat",
+      "title": "长镜头草稿节拍",
       "prompt": "A 16:9 office walkthrough for an internal explainer teaser, one smooth camera move through a bright workspace, realistic motion, light ambience, 14 seconds at 1080p."
     }
   ],
   "faqs": [
     {
-      "q": "What is LTX 2.3 Fast best for?",
-      "a": "LTX 2.3 Fast is best for lower-cost testing, longer draft loops, social variants, and prompt exploration before you commit selected outputs to LTX 2.3 Pro."
+      "q": "LTX 2.3 Fast 最适合哪些场景？",
+      "a": "LTX 2.3 Fast 最适合低成本测试、更长的草稿迭代循环、社交媒体多版本制作，以及在将精选方案导入 LTX 2.3 Pro 进行精修前的提示词探索。"
     },
     {
-      "q": "How is LTX 2.3 Fast different from LTX 2.3 Pro?",
-      "a": "LTX 2.3 Fast is the simpler, faster current LTX path for text-to-video and image-to-video generation, while LTX 2.3 Pro is the stronger option when you need more advanced workflows like Audio-to-Video, Extend, and Retake."
+      "q": "LTX 2.3 Fast 与 LTX 2.3 Pro 有何区别？",
+      "a": "LTX 2.3 Fast 是专注于文生视频与图生视频更简单、更快速的 LTX 路线；而当您需要音频生视频（Audio-to-Video）、片段延长（Extend）和局部重拍（Retake）等进阶工作流时，LTX 2.3 Pro 则是功能更强大的选择。"
     },
     {
-      "q": "What is the max length for LTX 2.3 Fast?",
-      "a": "LTX 2.3 Fast currently supports 6 to 20 second clips. Above 10 seconds, current public routing is constrained to 1080p at 25 fps."
+      "q": "LTX 2.3 Fast 支持的最长时长是多少？",
+      "a": "LTX 2.3 Fast 当前支持 6 到 20 秒的片段生成。在当前公开路由中，超过 10 秒的生成统一限制为 1080p / 25 fps。"
     },
     {
-      "q": "Is LTX 2.3 Fast better for testing than Pro?",
-      "a": "Yes. LTX 2.3 Fast is the better current choice when the goal is to test prompt behavior, compare variants quickly, and keep cost lower during early iteration."
+      "q": "LTX 2.3 Fast 是否比 Pro 更适合初期测试？",
+      "a": "是的。当目标是测试提示词表现、快速比对多个版本并在早期迭代中降低制作成本时，LTX 2.3 Fast 是更好的选择。"
     },
     {
-      "q": "When should I use LTX 2.3 Fast instead of LTX 2?",
-      "a": "Use LTX 2.3 Fast when you want the current fast LTX workflow, longer draft coverage, and a clearer path into the LTX 2.3 family. LTX 2 is better treated as an older supported option, not the main fast choice."
+      "q": "什么时候该用 LTX 2.3 Fast 而不是 LTX 2？",
+      "a": "当您需要当前现代化的 LTX 快速工作流、更长的草稿时长支持以及更清晰地对齐 LTX 2.3 系列能力时，推荐使用 LTX 2.3 Fast。LTX 2 应被视为受支持的早期历史版本，而非主要的高速创作路线。"
     }
   ],
   "custom": {
-    "heroDesc1": "LTX 2.3 Fast is the generate-first version of the new LTX 2.3 family. It keeps the broad text/image generation surface, native audio and start/end image support, but drops the editing workflows that belong to LTX 2.3 Pro.",
-    "heroDesc2": "That makes it a cleaner fit for rapid concepting, social aspect-ratio variants and quick hook testing, especially when you want more clip length than ultra-short engines usually allow.",
-    "heroSupportLine": "Start with examples, use Fast for testing and longer drafts, then move selected outputs into LTX 2.3 Pro when the workflow needs more control.",
+    "heroDesc1": "LTX 2.3 Fast 是新一代 LTX 2.3 家族中以纯生成为核心的版本。它保留了广泛的文生/图生能力、原生音频以及首尾帧图片支持，但精简了属于 LTX 2.3 Pro 的片段编辑工作流。",
+    "heroDesc2": "这使其更契合快速概念验证、多画幅社交版本制作以及黄金前 3 秒测试，尤其是在需要比一般极速模型更长的成片时长时。",
+    "heroSupportLine": "先从案例开始探索，使用 Fast 进行测试和长草稿构思，当创作流需要更深度的精细控制时，再将精选方案导入 LTX 2.3 Pro。",
     "heroSpecChips": [
       {
-        "label": "Text→Video",
+        "label": "文生视频",
         "icon": "textToVideo"
       },
       {
-        "label": "Image→Video",
+        "label": "图生视频",
         "icon": "imageToVideo"
       },
       {
-        "label": "Start + end image",
+        "label": "首尾帧控制",
         "icon": "imageToVideo"
       },
       {
-        "label": "6–20s",
+        "label": "6–20秒",
         "icon": "duration"
       },
       {
@@ -185,139 +185,139 @@
         "icon": "resolution"
       },
       {
-        "label": "Audio",
+        "label": "音频",
         "icon": "audio"
       }
     ],
-    "whyTitle": "Pricing, max length and next steps",
+    "whyTitle": "价格、最长时长与进阶路径",
     "heroHighlights": [
-      "Pricing and max length||Use Fast for lower-cost testing across 6 to 20 second clips, with the current 1080p at 25 fps limit applying above 10 seconds.",
-      "Fast vs Pro||Choose Fast for testing, longer draft loops and quicker iteration, then move to Pro when the workflow needs deeper control.",
-      "Start with examples||Open the LTX examples page first if you want reusable prompt patterns, settings and image-to-video baselines before generating.",
-      "Best use cases||Fast is a strong fit for prompt testing, vertical variants, longer drafts and lower-cost motion exploration."
+      "定价与最长时长||使用 Fast 在 6 到 20 秒片段中进行低成本测试，超过 10 秒时适用当前 1080p / 25 fps 规格限制。",
+      "Fast 与 Pro 对比||选择 Fast 进行测试、长草稿循环与快速迭代；当工作流需要更深入的控制力时切换至 Pro。",
+      "从案例开始||生成前可先查看 LTX 案例页面，获取可复用的提示词模式、参数设置与图生视频基准。",
+      "最佳使用场景||Fast 非常适合提示词测试、竖屏多版本、长片段草稿以及低成本动态探索。"
     ],
-    "specTitle": "Real Specs - LTX 2.3 Fast in MaxVideoAI",
-    "specNote": "Specs reflect the live public Fast routing exposed today.",
+    "specTitle": "真实规格 — MaxVideoAI 中的 LTX 2.3 Fast",
+    "specNote": "规格反映了当前公开上线的 Fast 实时路由配置。",
     "specSections": [
       {
-        "title": "Fast generate workflows",
-        "intro": "Fast is optimized around Text-to-Video and Image-to-Video only. It is the easiest LTX 2.3 entry point when the goal is to test more ideas, faster.",
+        "title": "Fast 快速生成工作流",
+        "intro": "Fast 专为文生视频和图生视频进行了精简优化。当目标是更快验证更多创意时，它是最轻巧的 LTX 2.3 入门选择。",
         "items": [
-          "Use Text-to-Video for broad ideation.",
-          "Use Image-to-Video when the first frame or product identity matters.",
-          "Use 9:16 for social-first variants.",
-          "Keep the prompt focused on one motion beat."
+          "使用文生视频进行广泛的创意发散。",
+          "在首帧构图或产品主体一致性至关重要时使用图生视频。",
+          "针对社交媒体优先的投放需求采用 9:16 竖屏规格。",
+          "让提示词紧密聚焦于单一动作节拍。"
         ]
       },
       {
-        "title": "What Fast does not include",
-        "intro": "The product boundary is important for clear UX. Audio-to-Video, Extend and Retake stay on LTX 2.3 Pro so Fast remains simpler and more predictable.",
+        "title": "Fast 未包含的功能",
+        "intro": "明确产品功能边界有助于保持操作体验的清晰简洁。音频生视频（Audio-to-Video）、片段延长（Extend）与局部重拍（Retake）专属于 LTX 2.3 Pro，使 Fast 保持轻快直观与高预测性。",
         "items": [
-          "No uploaded-audio-driven video mode.",
-          "No source-video extension workflow.",
-          "No selective retake workflow.",
-          "Move to LTX 2.3 Pro when those controls matter."
+          "不包含上传音频驱动的视频生成模式。",
+          "不包含源视频片段延长（Extend）工作流。",
+          "不包含选定片段局部重拍（Retake）工作流。",
+          "当需要这些深度控制功能时，请切换至 LTX 2.3 Pro。"
         ]
       }
     ],
-    "whatTitle": "How LTX 2.3 Fast works in MaxVideoAI",
-    "whatIntro1": "Pick LTX 2.3 Fast, stay in the standard generate flow, then switch between text-driven and image-driven input by adding or removing the start image.",
-    "whatIntro2": "The page intentionally avoids Pro editing modes so the options stay coherent with the public Fast routing.",
-    "whatFlowTitle": "Workflow",
+    "whatTitle": "LTX 2.3 Fast 在 MaxVideoAI 中的运作方式",
+    "whatIntro1": "选择 LTX 2.3 Fast，停留在标准生成流程中，通过添加或移除起始图片即可在文本驱动和图像驱动之间无缝切换。",
+    "whatIntro2": "本页面特意避免了 Pro 级别的编辑模式，使选项与公开的 Fast 路由逻辑保持严格一致。",
+    "whatFlowTitle": "创作流程",
     "whatFlowSteps": [
-      "Pick LTX 2.3 Fast as the engine.",
-      "Use text only for Text-to-Video or add a start image for Image-to-Video.",
-      "Optionally add an end image to define the last frame of the transition.",
-      "Choose duration, aspect ratio, resolution and fps, keeping the >10 s constraint in mind.",
-      "Check the live price and use Fast for broad iteration before upgrading winners."
+      "选择 LTX 2.3 Fast 作为生成引擎。",
+      "仅输入文本进行文生视频，或上传起始图片开启图生视频。",
+      "可选择添加尾帧图片，以定义转场过渡的最后一帧构图。",
+      "选择时长、宽高比、分辨率与帧率，并留意 >10 秒时的规格约束。",
+      "在生成前查看实时价格，利用 Fast 快速批量迭代，筛选出最佳版本进行后续升级。"
     ],
-    "tipsTitle": "Practical strengths and boundaries",
+    "tipsTitle": "实用优势与使用边界",
     "strengths": [
-      "Good cost/speed balance for concept exploration, hook testing and aspect-ratio variants.",
-      "Useful when you want a lighter-weight LTX page without extend/retake complexity.",
-      "Start/end image support makes it practical for simple transformation cuts and reveal transitions."
+      "在概念探索、吸睛测试与多画幅衍生版本制作中拥有出色的成本与速度平衡。",
+      "适合需要轻量级 LTX 体验、无需应对延长/重拍等复杂操作的场景。",
+      "支持首尾帧图片，便于进行简单的形态转变切镜与揭示转场。"
     ],
     "boundaries": [
-      "No Audio-to-Video, Extend or Retake on the Fast route.",
-      "Durations above 10 seconds are constrained to 1080p at 25 fps.",
-      "Fast is best used for generation, not source-video repair workflows."
+      "Fast 路由不支持音频生视频、视频延长或局部重拍功能。",
+      "超过 10 秒的时长限制在 1080p 与 25 fps 规格下运行。",
+      "Fast 最适合用于从零生成，不适用于源视频修复或后期调整工作流。"
     ],
-    "safetyTitle": "Safety and likeness guidance",
+    "safetyTitle": "安全与肖像权规范",
     "safetyRules": [
-      "Do not generate sexual content or anything involving minors.",
-      "Do not impersonate real people or public figures without authorization.",
-      "Do not upload private or sensitive personal data.",
-      "Keep prompts brand-safe and rights-cleared when audio is involved."
+      "严禁生成色情内容或涉及未成年人的任何不当内容。",
+      "未经授权不得伪造或冒充真实人物或公众人物肖像。",
+      "严禁上传隐私或敏感的个人身份信息。",
+      "在使用音频时，请确保提示词符合品牌安全规范并拥有合法权利。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "multishotTitle": "Longer fast beats",
-    "multishotIntro1": "Fast can run longer than the LTX 2.3 Pro generate path, which is useful for simple walkthroughs and pacing tests.",
-    "multishotIntro2": "Just remember that >10 second runs trade some flexibility for routing stability.",
+    "multishotTitle": "长时长快速节拍",
+    "multishotIntro1": "Fast 支持比 LTX 2.3 Pro 生成路径更长的单次时长，非常适合简要漫游演示与节奏测试。",
+    "multishotIntro2": "需注意的是，>10 秒的生成为了保持路由稳定性，会牺牲一部分参数灵活性。",
     "multishotTips": [
-      "Use 6 to 10 seconds for the highest flexibility.",
-      "Use 12 to 20 seconds only when the extra room is worth the 1080p/25 fps constraint."
+      "选择 6 到 10 秒可获得最高的分辨率与帧率自由度。",
+      "仅在确实需要更长节奏空间且接受 1080p / 25 fps 限制时，才选择 12 到 20 秒。"
     ],
-    "imageTitle": "Image-to-Video start/end control",
-    "imageIntro": "Fast still supports a start image plus an optional end image, which makes it useful for simple transition planning without moving to a heavier workflow.",
+    "imageTitle": "图生视频首尾帧控制",
+    "imageIntro": "Fast 依然支持起始图片及可选的结束图片，让您无需切换到复杂的重度工作流即可进行清晰的转场规划。",
     "imageFlow": [
-      "Upload the start image that should anchor the first frame.",
-      "Optionally upload an end image when the last frame matters.",
-      "Use the prompt to define the motion and pacing between those two states."
+      "上传用于锚定首帧画面的起始图片。",
+      "当最终画面构图至关重要时，可选择上传结束图片。",
+      "通过提示词定义两帧之间的运镜动作、环境变化与过渡节奏。"
     ],
     "imageWhy": [
-      "Useful for product reveals",
-      "Good for controlled portrait motion",
-      "Helpful for ad cutdowns and social transition tests"
+      "非常适合产品亮相与揭示镜头",
+      "适合受控的人物肖像微动作生成",
+      "有助于快速制作广告切片与社交转场测试"
     ],
-    "comparisonTitle": "When to pick LTX 2.3 Fast",
+    "comparisonTitle": "何时选择 LTX 2.3 Fast",
     "comparisonPoints": [
-      "Choose Fast for idea volume, social variants and first-pass motion tests.",
-      "Move to LTX 2.3 Pro when you need Audio-to-Video, Extend or Retake.",
-      "Use Fast when the job is generation-only and simplicity is more important than editing controls."
+      "当需要批量发散创意、制作多画幅版本或进行首轮动作验证时，选择 Fast。",
+      "当需要音频驱动生成、视频延长（Extend）或局部重拍（Retake）时，转向 LTX 2.3 Pro。",
+      "当任务仅为纯生成且追求简洁快速而非后期剪辑控制时，选择 Fast。"
     ],
-    "comparisonCta": "Compare LTX 2.3 Fast vs Pro ->",
-    "relatedTitle": "Explore other engines",
-    "relatedSubtitle": "Compare LTX 2.3 Fast with LTX 2.3, Veo Fast and older LTX fast tiers while keeping the same page structure.",
-    "finalPara1": "Ready for a lighter LTX generation workflow? Open LTX 2.3 Fast in Generate.",
-    "finalPara2": "Use Fast for speed, then move the winning prompt to LTX 2.3 Pro if the project needs deeper editing tools.",
-    "finalButton": "Open LTX 2.3 Fast in Generate ->",
-    "troubleshootingTitle": "Common problems -> fast fixes",
+    "comparisonCta": "对比 LTX 2.3 Fast 与 Pro →",
+    "relatedTitle": "探索其他视频引擎",
+    "relatedSubtitle": "在相同的页面架构下，对比 LTX 2.3 Fast 与 LTX 2.3、Veo Fast 以及更早期的 LTX 快速阶梯。",
+    "finalPara1": "准备好体验更轻盈的 LTX 视频生成工作流了吗？在“生成”工作台中开启 LTX 2.3 Fast。",
+    "finalPara2": "借助 Fast 的高速度快速验证，若项目需要更深度的剪辑工具，再将优胜提示词导入 LTX 2.3 Pro。",
+    "finalButton": "在生成中打开 LTX 2.3 Fast →",
+    "troubleshootingTitle": "常见问题 → 快速解决",
     "troubleshootingItems": [
-      "Longer runs look less flexible -> keep >10 second clips only for cases where the extra length is worth the 1080p/25 fps cap.",
-      "Image-to-Video feels weak -> improve the start image composition before adding more prompt detail.",
-      "Start-to-end transition feels forced -> make the end image closer to the same visual world.",
-      "The clip feels too busy -> reduce to one action and one camera move.",
-      "You need source-video editing -> move to LTX 2.3 Pro instead of overloading Fast."
+      "长时长生成显得灵活性不足 -> 仅在额外时长确实值得采用 1080p / 25 fps 上限时，才使用 >10 秒规格。",
+      "图生视频表现不够理想 -> 在添加更多提示词细节之前，先优化起始图片本身的构图与画质。",
+      "首尾帧转场显得生硬 -> 确保结束图片与起始图片在视觉风格、光影与世界观上高度协调。",
+      "画面看起来过于杂乱 -> 简化提示词，限制为单一明确动作与单一镜头运镜。",
+      "需要对已有视频进行编辑 -> 直接切换至 LTX 2.3 Pro，而非在 Fast 中尝试超出能力的修复。"
     ]
   },
   "decision": {
     "modelSlug": "ltx-2-3-fast",
     "hero": {
-      "eyebrow": "PREVIOUS-GENERATION LTX FAST LEGACY ROUTE",
+      "eyebrow": "上一代 LTX FAST 路线（LEGACY）",
       "title": "LTX 2.3 Fast",
-      "subtitle": "Fast visual exploration for prompt testing, lower-cost draft loops, and vertical/social drafts.",
+      "subtitle": "快速视觉探索，专为提示词测试、低成本草稿循环与竖屏社交短片打造。",
       "subtitleHighlights": [
-        "visual exploration",
-        "prompt testing",
-        "vertical/social drafts"
+        "视觉探索",
+        "提示词测试",
+        "竖屏社交短片"
       ],
-      "paragraph": "LTX 2.3 Fast stays executable for previous-generation draft loops, saved prompts and existing examples. Continue using it when reproducibility matters, or begin new speed-oriented exploration with its current successor, LTX 2.5 Fast.",
+      "paragraph": "LTX 2.3 Fast 仍支持直接调用，适用于上一代草稿循环、保存的提示词与既有案例复现。在需要结果可重现时可继续使用；若要开展全新的极速探索，建议使用其最新主力后继版本 LTX 2.5 Fast。",
       "primaryCta": {
-        "label": "Draft with LTX 2.3 Fast",
+        "label": "使用 LTX 2.3 Fast 起草",
         "href": "/app?engine=ltx-2-3-fast"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/ltx"
       },
       "quickLinks": [
         {
-          "label": "View current LTX 2.5 Fast",
+          "label": "查看最新 LTX 2.5 Fast",
           "href": "/zh/models/ltx-2-5-fast"
         },
         {
-          "label": "Compare LTX Fast with Seedance Fast",
+          "label": "对比 LTX Fast 与 Seedance Fast",
           "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-seedance-2-0-fast"
         },
         {
@@ -331,68 +331,68 @@
       ]
     },
     "media": {
-      "caption": "LTX 2.3 Fast example",
-      "description": "Fast visual exploration draft",
-      "renderLabel": "View draft",
+      "caption": "LTX 2.3 Fast 示例",
+      "description": "快速视觉探索草稿",
+      "renderLabel": "查看草稿",
       "badges": [
-        "Fast route",
-        "10s",
+        "Fast 路线",
+        "10秒",
         "16:9"
       ],
-      "altContext": "LTX 2.3 Fast cinematic draft example"
+      "altContext": "LTX 2.3 Fast 电影感草稿示例"
     },
     "features": [
       {
-        "title": "Visual exploration",
-        "body": "Move through look, style and scene options quickly.",
+        "title": "视觉探索",
+        "body": "快速尝试不同的视觉外观、风格和场景设定。",
         "tone": "quality"
       },
       {
-        "title": "Prompt testing",
-        "body": "Compare prompt wording before committing to a final route.",
+        "title": "提示词测试",
+        "body": "在投入最终成片前，对比不同提示词措辞的效果差异。",
         "tone": "reference"
       },
       {
-        "title": "Image-to-video drafts",
-        "body": "Use a start image when the draft needs a visual anchor.",
+        "title": "图生视频草稿",
+        "body": "当草稿需要明确的视觉锚点时，使用起始图片进行引导。",
         "tone": "reference"
       },
       {
-        "title": "Vertical/social drafts",
-        "body": "Sketch short concepts for social formats and creative reviews.",
+        "title": "竖屏与社交草稿",
+        "body": "针对移动端社交画幅和创意评审快速绘制概念短片。",
         "tone": "continuity"
       },
       {
-        "title": "Max 20s",
-        "body": "Draft clips up to 20 seconds per generation.",
+        "title": "最长 20 秒",
+        "body": "单次生成支持长达 20 秒的视频片段草稿。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按量付费",
+        "body": "在生成前即可查看确切的实时价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Stay on 2.3 Fast or move to 2.5 Fast?",
-        "body": "Keep 2.3 Fast for repeatable legacy drafts. Choose LTX 2.5 Fast when starting a current iteration workflow.",
+        "title": "留在 2.3 Fast 还是升级至 2.5 Fast？",
+        "body": "若需复现既有旧版草稿，保留 2.3 Fast；开启全新的快速迭代工作流时，推荐选择 LTX 2.5 Fast。",
         "cta": {
-          "label": "View current LTX 2.5 Fast",
+          "label": "查看最新 LTX 2.5 Fast",
           "href": "/zh/models/ltx-2-5-fast"
         }
       },
       {
-        "title": "Testing social concepts?",
-        "body": "Draft vertical ideas, ad hooks and style directions before spending time on a final candidate.",
+        "title": "测试社交创意概念？",
+        "body": "在耗时打磨最终候选版本前，快速起草竖屏灵感、广告吸睛点与视觉风格方向。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Choosing a fast draft engine?",
-        "body": "Compare LTX Fast with Seedance Fast when speed and iteration cost matter more than final polish.",
+        "title": "挑选快速草稿引擎？",
+        "body": "当生成速度与迭代成本比最终精细打磨更重要时，对比 LTX Fast 与 Seedance Fast 的表现。",
         "cta": {
           "label": "与 Seedance Fast 对比",
           "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-seedance-2-0-fast"
@@ -401,130 +401,130 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Test subject, style, camera and format instructions with short prompt variants."
+        "title": "文本提示词",
+        "body": "通过简短的提示词变体测试主体、风格、镜头运镜与画幅指令。"
       },
       {
-        "title": "Start image",
-        "body": "Use image-to-video when a visual seed should define composition or product framing."
+        "title": "起始图片",
+        "body": "当需要视觉种子来锁定构图或产品视角时，使用图生视频。"
       },
       {
-        "title": "Vertical draft",
-        "body": "Frame early social concepts around 9:16 or 16:9 review needs."
+        "title": "竖屏草稿",
+        "body": "围绕 9:16 或 16:9 评审需求，搭建早期社交视频创意构想。"
       },
       {
-        "title": "Look comparison",
-        "body": "Run prompt variants to compare lighting, color and motion direction."
+        "title": "视觉外观对比",
+        "body": "运行多组提示词变体，对比光影、色彩与动作方向的表现。"
       },
       {
-        "title": "Production handoff",
-        "body": "Move the strongest draft into the appropriate final route once the concept is clear."
+        "title": "制作交接",
+        "body": "概念验证明确后，将表现最突出的草稿导入相应的最终生产路线。"
       }
     ],
     "pricingCopy": {
-      "title": "LTX 2.3 Fast draft pricing",
-      "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Longer drafts at 1080p",
+      "title": "LTX 2.3 Fast 草稿计费预估",
+      "subtitle": "预设草稿套餐预估 — 在应用中生成前可查看确切的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "1080p 规格下的长草稿生成",
       "ctaHref": "/zh/pricing#ltx-2-3-fast-pricing"
     },
     "meta": {
-      "title": "LTX 2.3 Fast: Pricing, Max Length & Fast vs Pro",
-      "description": "Compare LTX 2.3 Fast pricing, max length, resolution limits and when to use Fast instead of LTX 2.3 Pro for draft loops and prompt testing."
+      "title": "LTX 2.3 Fast：价格、最长时长与 Fast 对比 Pro",
+      "description": "对比 LTX 2.3 Fast 的价格、最长时长、分辨率限制，以及在草稿循环和提示词测试中何时选用 Fast 代替 LTX 2.3 Pro。"
     }
   },
   "prompting": {
     "modelSlug": "ltx-2-3-fast",
     "section": {
-      "title": "How to Write a Great LTX 2.3 Fast Prompt",
-      "intro": "LTX 2.3 Fast is a generate-first engine, so keep the prompt short, visual and direct.",
-      "tip": "Tip: the UI already handles duration, aspect ratio, resolution, fps and the long-duration routing constraint. Focus the prompt on one subject, one move and one mood.",
+      "title": "如何编写出色的 LTX 2.3 Fast 提示词",
+      "intro": "LTX 2.3 Fast 是专注于快速生成的引擎，因此请保持提示词简短、富有画面感且意图直接。",
+      "tip": "提示：界面已内置处理时长、画幅比例、分辨率、帧率以及长时长路由限制。请将提示词集中于单一主体、一次运镜和一个氛围基调。",
       "guide": null,
-      "referencesTitle": "How LTX 2.3 Fast uses references"
+      "referencesTitle": "LTX 2.3 Fast 如何使用参考素材"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fastest draft)",
-        "description": "Use this for rapid variants and hook testing.",
-        "copy": "[Subject + one action], [camera move], [lighting/style], [optional sound cue], [16:9 or 9:16 vibe]."
+        "label": "快速简写",
+        "title": "快速提示词（最快出草稿）",
+        "description": "适用于快速变体生成与黄金吸睛点测试。",
+        "copy": "[主体 + 单一动作], [镜头运镜], [光影/风格], [可选声音线索], [16:9 或 9:16 氛围]。"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (repeatable)",
-        "description": "Use labeled sections when several people will reuse the same prompt logic.",
-        "copy": "Subject:\n[Who/what]\n\nAction:\n[One clean motion beat]\n\nCamera:\n[Shot + one move]\n\nLook:\n[Lighting + palette]\n\nAudio:\n[Ambience/music cue if needed]"
+        "label": "结构化模板",
+        "title": "结构化提示词（高复用性）",
+        "description": "当团队多人需要复用相同提示词逻辑时使用分段标签。",
+        "copy": "主体：\n[谁/什么]\n\n动作：\n[一个清晰的动作节拍]\n\n镜头：\n[景别 + 一次运镜]\n\n视觉：\n[光影 + 色彩基调]\n\n音频：\n[环境音/音乐线索（如需）]"
       },
       {
         "id": "pro",
-        "label": "Image flow",
-        "title": "Image-to-Video prompt",
-        "description": "Best when the still frame should stay recognizable.",
-        "copy": "Start frame:\n[What the uploaded image already shows]\n\nMotion:\n[What should move]\n\nCamera:\n[Push / pan / drift / orbit]\n\nResolve:\n[Optional end-image target]"
+        "label": "图像流程",
+        "title": "图生视频提示词",
+        "description": "当静态图片中的主体需要保持高辨识度时最为有效。",
+        "copy": "起始帧：\n[上传图片中已包含的内容]\n\n动作：\n[应如何运动]\n\n镜头：\n[推镜头 / 摇镜头 / 移镜头 / 环绕运镜]\n\n结束态：\n[可选的尾帧目标]"
       },
       {
         "id": "storyboard",
-        "label": "Storyboard",
-        "title": "Storyboard prompt (generate-only sequence)",
-        "description": "Use this for short multi-beat clips without switching workflows.",
-        "copy": "Shot 1: [setup]\nShot 2: [core action]\nShot 3: [resolve]\n\nLook:\n[Lighting + grade]\n\nAudio:\n[Ambience + one cue]"
+        "label": "分镜脚本",
+        "title": "分镜提示词（纯生成连贯序列）",
+        "description": "无需切换复杂工作流即可创作简短的多节拍片段。",
+        "copy": "镜头 1: [铺垫起势]\n镜头 2: [核心动作]\n镜头 3: [收尾定格]\n\n视觉：\n[光影 + 调色]\n\n音频：\n[环境音 + 一个重音线索]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = fastest path to usable drafts."
+        "body": "快速简写 = 获得可用草稿的最快途径。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = best when multiple teammates need to reuse the prompt."
+        "body": "结构化模板 = 团队成员协同复用提示词的最佳实践。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = use only when you need stronger continuity inside a generate-only flow."
+        "body": "图像流程 = 仅在纯生成流程中需要更强连贯性时使用。"
       },
       {
         "tabId": "storyboard",
-        "body": "Storyboard = helpful for simple multi-beat social sequences."
+        "body": "分镜脚本 = 适合制作简短的多节拍社交视频序列。"
       }
     ],
     "globalPrinciples": [
-      "One subject, one action and one move beat longer wish-list prompts.",
-      "Use start images for identity and prompts for motion.",
-      "Reserve 12 to 20 second runs for cases where the extra pacing room really matters."
+      "单一主体、单一动作和单一运镜的效果，远胜于长篇罗列愿望清单式的提示词。",
+      "用起始图片锁定主体身份，用提示词指导动态。",
+      "仅在确实需要更长铺垫或节奏舒展时，才使用 12 到 20 秒时长。"
     ],
     "engineWhy": [
-      "Fast responds well to concise prompts.",
-      "Image-to-Video works best when the still already contains the desired composition.",
-      "Start/end image transitions are most reliable when the two frames are clearly related."
+      "Fast 对精炼紧凑的提示词响应最为精准敏捷。",
+      "图生视频在静态图片已具备理想构图时表现最佳。",
+      "当两张图片在视觉世界观上密切关联时，首尾帧转场最为平滑可靠。"
     ],
     "demo": {
-      "title": "Demo prompt - fast cinematic draft",
-      "promptLabel": "Fast draft check",
+      "title": "演示提示词 — 电影感极速草稿",
+      "promptLabel": "极速草稿验证",
       "prompt": "A powerful boxer walks alone through a dark arena tunnel toward the ring, athletic frame wrapped in a hooded robe, shoulders relaxed but dangerous. Low front tracking shot, slow push-in, hard rim light, drifting haze, muted crowd rumble and one sharp impact cue, 10 seconds, 16:9.",
       "notes": [
-        "Built for a fast motion check",
-        "One subject, one move and one atmosphere",
-        "Easy to rerun before a Pro pass"
+        "专为快速验证动作与动态设计",
+        "单一主体、单一运镜与单一环境氛围",
+        "在进行 Pro 级精修前易于快速重跑迭代"
       ],
       "summary": {
-        "subject": "Boxer in a dark tunnel",
-        "action": "Walks toward the ring with controlled tension",
-        "camera": "Low front tracking, slow push-in",
-        "style": "Hard rim light, subtle haze, cinematic arena mood",
-        "output": "Muted crowd rumble and one short impact cue"
+        "subject": "黑暗通道中的拳击手",
+        "action": "带着受控的紧绷张力走向拳击台",
+        "camera": "低角度正面跟拍，缓慢推镜头",
+        "style": "硬朗轮廓光，微茫薄雾，电影级竞技场氛围",
+        "output": "沉闷的人群低吼声与一次清脆的重击音效"
       },
       "presentationOverrides": {
-        "modeLabel": "Fast draft check",
-        "outputLabel": "Audio",
+        "modeLabel": "极速草稿验证",
+        "outputLabel": "音频",
         "duration": "10s",
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "LTX 2.3 Fast boxer draft"
+        "altContext": "LTX 2.3 Fast 拳击手草稿"
       }
     },
     "imageExamples": null
@@ -532,10 +532,10 @@
   "examples": {
     "modelSlug": "ltx-2-3-fast",
     "section": {
-      "title": "LTX 2.3 Fast examples",
-      "intro": "Representative LTX 2.3 Fast examples for reviewing prompt structure, draft pacing and image-to-video setup before generating.",
-      "defaultCtaLabel": "View all LTX 2.3 Fast examples ->",
-      "recreateLabel": "Recreate this shot ->"
+      "title": "LTX 2.3 Fast 案例",
+      "intro": "精选 LTX 2.3 Fast 代表性案例，在生成前帮助您参考提示词结构、草稿节奏与图生视频参数配置。",
+      "defaultCtaLabel": "查看全部 LTX 2.3 Fast 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -566,32 +566,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with LTX 2.3 Fast — current fast LTX model for longer drafts, testing and iteration.",
+        "title": "社区真实渲染",
+        "body": "探索 LTX 2.3 Fast 的无限可能 — 用于长草稿、测试与快速迭代的现代化 LTX 快速模型。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现镜头",
+        "body": "一键跳转至工作台，直接沿用相同的提示词与参数配置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生同步音频",
+        "body": "环境音、音效与音乐随画面动作同步生成。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连贯性",
+        "body": "在镜头序列中保持角色身份、视觉风格与场景基调的一致。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "生产级安全规范",
+        "body": "内置安全过滤与内容审核机制，确保评审安全合规。",
         "icon": "shield"
       }
     ],

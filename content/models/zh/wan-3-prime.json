@@ -2,100 +2,100 @@
   "marketingName": "Wan 3 Prime",
   "versionLabel": "3 Prime",
   "seo": {
-    "title": "Wan 3 Prime AI Video Generator: Premium Wan Workflow",
-    "description": "Assess Wan 3 Prime for premium text, image and mixed-reference production with current limits, practical prompting, sibling comparisons and canonical quotes."
+    "title": "Wan 3 Prime AI 视频生成器：高规格 Wan 工作流",
+    "description": "评估 Wan 3 Prime 在高规格文本、图像与混合参考视频创作中的表现，了解当前限制、实操提示词指南、同系模型对比及标准报价。"
   },
-  "overview": "Wan 3 Prime is the current premium sibling in the Wan 3 family. It keeps the same broad text, image and reference workflow shape while serving briefs that deliberately choose the Prime route. Alibaba/Tongyi owns Wan; MaxVideoAI distributes the launch endpoints through Fal and does not imply a direct owner agreement.",
+  "overview": "Wan 3 Prime 是 Wan 3 家族中当前的高规格版本。它延续了广泛适用的文本、图像与参考素材工作流形态，专为明确选用 Prime 路线的创作需求打造。Wan 模型归阿里巴巴/通义所有；MaxVideoAI 通过 Fal 分发上线接口，并不代表与版权方存在直接合作协议。",
   "decision": {
     "modelSlug": "wan-3-prime",
     "hero": {
       "eyebrow": "AI 视频 · Wan",
       "title": "Wan 3 Prime",
-      "subtitle": "Give your scene more room to unfold.",
+      "subtitle": "让您的场景拥有更从容的展开空间。",
       "subtitleHighlights": [
-        "Give your scene more room to unfold"
+        "让您的场景拥有更从容的展开空间"
       ],
-      "paragraph": "Wan 3 Prime generates AI videos from text, an opening image or mixed references. Choose a duration from 2 to 30 seconds and a resolution from 480p to 1080p. Compare it with Wan 3 to find the option that fits your project and budget.",
+      "paragraph": "Wan 3 Prime 支持从文本、起始图片或混合参考素材生成 AI 视频。可选 2 到 30 秒时长以及 480p 到 1080p 分辨率。将其与 Wan 3 对比，挑选契合项目需求与预算的最佳选项。",
       "primaryCta": {
         "label": "使用 Wan 3 Prime 生成",
         "href": "/app?engine=wan-3-prime"
       },
       "secondaryCta": {
-        "label": "Browse Wan family examples",
+        "label": "浏览 Wan 家族案例",
         "href": "/zh/examples/wan"
       },
       "quickLinks": [
         {
-          "label": "Review standard Wan 3",
+          "label": "了解标准版 Wan 3",
           "href": "/zh/models/wan-3"
         },
         {
-          "label": "Compare Wan 3 and Prime",
+          "label": "对比 Wan 3 与 Prime",
           "href": "/zh/ai-video-engines/wan-3-vs-wan-3-prime?order=wan-3-prime"
         },
         {
-          "label": "Review Prime pricing",
+          "label": "查看 Prime 价格",
           "href": "/zh/pricing#wan-3-prime-pricing"
         },
         {
-          "label": "Open Prime Prompt Lab",
+          "label": "打开 Prime 提示词实验室",
           "href": "#prompting"
         }
       ]
     },
     "media": {
-      "caption": "Wan 3 Prime evidence gallery",
-      "description": "Reviewed Prime outputs will appear after acceptance",
-      "renderLabel": "Review accepted render",
+      "caption": "Wan 3 Prime 实测案例库",
+      "description": "通过审核的 Prime 生成成片将在验收后呈现",
+      "renderLabel": "查看已验收成片",
       "badges": [
         "Prime",
-        "Three modes",
-        "Up to 1080p"
+        "三种模式",
+        "最高 1080p"
       ],
-      "altContext": "accepted Wan 3 Prime production example"
+      "altContext": "Wan 3 Prime 实际生产案例"
     },
     "features": [
       {
-        "title": "Deliberate premium positioning",
-        "body": "Prime is a separate current choice for teams that want the premium Wan route and can assess it against standard Wan 3. The page avoids claiming that it wins every brief or replaces the need for fit analysis.",
+        "title": "明确的高规格定位",
+        "body": "Prime 是为追求 Wan 旗舰路线并希望与标准版 Wan 3 横向评估的团队提供的独立选择。本页面避免宣称其适用于所有任务，也不替代场景适配性分析。",
         "tone": "quality"
       },
       {
-        "title": "Prompt and frame starts",
-        "body": "Create from text or animate a start image, optionally guiding the landing composition with an end frame. Describe the transition and physical response instead of repeating every visible pixel.",
+        "title": "提示词与首尾帧起步",
+        "body": "支持纯文本生成或基于起始图片生成动画，并可添加结束帧以精准把控落幅构图。着重描述状态转变与物理反馈，无需逐一重复画面中已有的可见像素。",
         "tone": "reference"
       },
       {
-        "title": "Structured mixed references",
-        "body": "Reference mode accepts several supported media categories under distinct limits. Assign identity, motion, sound or context roles explicitly and avoid combining file and public-page inputs where the contract forbids it.",
+        "title": "结构化混合参考素材",
+        "body": "参考素材模式支持多种媒体类型，并设有明确的素材上限。明确指定角色身份、动作、声音或场景环境的角色分工，且避免在规则禁止的场景下混用本地文件与公开网页输入。",
         "tone": "continuity"
       },
       {
-        "title": "Delivery-aware duration",
-        "body": "Select a duration between two and thirty seconds and match narrative complexity to that length. A six-second review scenario is useful for price comparison, while longer scenes need a simpler sequence of readable beats.",
+        "title": "按交付需求设定时长",
+        "body": "支持在 2 至 30 秒之间选择时长，并将叙事复杂度与对应时长精准匹配。6 秒审阅场景适合用于价格对比，而更长的场景则需要更加明晰、节拍分明的镜头推进。",
         "tone": "duration"
       }
     ],
     "decisionCards": [
       {
-        "title": "Best fit: reviewed premium briefs",
-        "body": "Use Prime when a production team has a clear reason to test the premium Wan route for a campaign shot, controlled product film or reference-led scene.",
+        "title": "最佳适用：高要求的精选任务",
+        "body": "当制作团队有明确理由为广告大片、精细化产品片或参考素材引导的镜头测试高规格 Wan 路线时，请选用 Prime。",
         "cta": {
-          "label": "Start with Prime",
+          "label": "使用 Prime 开始",
           "href": "/app?engine=wan-3-prime"
         }
       },
       {
-        "title": "Not ideal: defaulting without comparison",
-        "body": "For routine exploration or when the premium route is not a stated requirement, inspect standard Wan 3 before committing the project to Prime.",
+        "title": "不建议：未经验证盲目默认选用",
+        "body": "对于常规概念探索或未明确要求旗舰画质的场景，在正式将项目投入 Prime 之前，建议先评估标准版 Wan 3。",
         "cta": {
-          "label": "See standard Wan 3",
+          "label": "查看标准版 Wan 3",
           "href": "/zh/models/wan-3"
         }
       },
       {
-        "title": "Prompt around evaluation criteria",
-        "body": "State the identity anchors, key action, camera move and final beat that reviewers will inspect. This makes a Prime result easier to accept or reject consistently.",
+        "title": "围绕评估标准撰写提示词",
+        "body": "明确写出评审人员将重点检验的身份锚点、核心动作、运镜路径与终结拍，让 Prime 生成结果的验收判定更加清晰一致。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -104,117 +104,117 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Premium text brief",
-        "body": "Write a compact shot plan with a visible action, controlled camera and stable final composition."
+        "title": "高质感文本任务简报",
+        "body": "编写紧凑的分镜方案，包含清晰可见的动作、克制的运镜与稳定的结尾构图。"
       },
       {
-        "title": "Premium image animation",
-        "body": "Use a strong opening frame and direct motion without asking the model to redesign the source."
+        "title": "高品质图生动画",
+        "body": "使用高质量起始帧并精准指导动态，避免要求模型重新设计输入图像中的已有元素。"
       },
       {
-        "title": "Reference hierarchy",
-        "body": "Name which source governs identity, movement, rhythm or scene context and stay within category limits."
+        "title": "参考素材层级管理",
+        "body": "明确指明各参考素材分别控制身份、动态、节奏还是场景上下文，并严格遵守对应类别的数量限制。"
       },
       {
-        "title": "Responsible delivery",
-        "body": "Verify rights, consent, anatomy, geometry, text and watermark absence before a result enters campaign review."
+        "title": "严谨可靠的成片交付",
+        "body": "在成果进入商业评审前，仔细核实授权、肖像同意、人体结构、几何透视，并确保无瑕疵文本与水印干扰。"
       }
     ],
     "pricingCopy": {
-      "title": "Wan 3 Prime scenario pricing",
-      "subtitle": "Compare the same six-second scene in 720p and 1080p.",
-      "footnote": "Prices depend on your selected settings. MaxVideoAI confirms the quote before you generate.",
+      "title": "Wan 3 Prime 场景计费",
+      "subtitle": "对比同一 6 秒场景在 720p 与 1080p 下的生成价格。",
+      "footnote": "价格取决于所选参数配置。MaxVideoAI 会在生成前与您确认确切报价。",
       "ctaLabel": "使用 Wan 3 Prime 生成",
       "ctaHref": "/app?engine=wan-3-prime"
     },
     "meta": {
-      "title": "Wan 3 Prime AI Video Model and Premium Workflow",
-      "description": "Understand Wan 3 Prime modes, duration, references, prompting, safety, standard-Wan alternative and canonical scenario pricing before generation."
+      "title": "Wan 3 Prime AI 视频模型与高规格工作流",
+      "description": "在生成前全面了解 Wan 3 Prime 的生成模式、时长、参考素材、提示词技巧、安全规范、与标准版 Wan 的取舍及标准场景报价。"
     }
   },
   "prompting": {
     "modelSlug": "wan-3-prime",
     "section": {
       "title": "提示词实验室 — Wan 3 Prime",
-      "intro": "Turn the premium-route decision into a measurable scene brief with explicit continuity and review criteria.",
-      "tip": "Describe one key performance and one camera move before adding secondary atmosphere.",
+      "intro": "将选用高规格路线的决策转化为一份具备明确连贯性与验收标准的场景分镜说明。",
+      "tip": "在增添次要氛围修饰之前，优先描述核心表演动作与单一主体运镜。",
       "guide": {
-        "label": "Read Alibaba Model Studio's Wan 3 指南",
+        "label": "阅读阿里百炼 Wan 3 官方指南",
         "href": "https://docs.modelstudio.console.alibabacloud.com/en/model-studio/wan3-video-generation-guide"
       },
-      "referencesTitle": "Build a Prime brief that can be evaluated"
+      "referencesTitle": "构建一份可衡量、易验收的 Prime 提示词"
     },
     "tabs": [
       {
         "id": "intent",
-        "label": "Intent",
-        "title": "Define why Prime is being tested",
-        "description": "Connect the premium route to a specific production requirement.",
-        "copy": "Delivery context:\n[Campaign, pitch, product film or controlled character scene]\n\nSuccess criterion:\n[The motion, fidelity or continuity reviewers must see]\n\nCore subject:\n[Appearance, materials, wardrobe and protected details]\n\nFinal beat:\n[How the shot resolves]"
+        "label": "创作意图",
+        "title": "明确测试 Prime 的核心目标",
+        "description": "将高规格路线的选择与具体生产需求直接关联。",
+        "copy": "交付背景：\n[营销战役、创意提案、产品宣传片或受控角色场景]\n\n验收标准：\n[评审人员必须检验的动态、画质保真度或连贯性]\n\n核心主体：\n[外观、材质、服装与需受保护的细节]\n\n终结节拍：\n[镜头如何收尾落幅]"
       },
       {
         "id": "direction",
-        "label": "Direction",
-        "title": "Direct performance and camera",
-        "description": "Keep movement physically compatible and easy to judge.",
-        "copy": "Opening frame:\n[Composition, light and subject pose]\n\nPerformance:\n[One primary action with timing]\n\nCamera:\n[Single deliberate track, orbit, pan or push]\n\nEnvironment:\n[Expected shadow, fabric, liquid or particle response]"
+        "label": "导演调度",
+        "title": "调度表演与运镜",
+        "description": "保持动作符合物理规律且易于评估判定。",
+        "copy": "起始画面：\n[构图、光影与主体姿态]\n\n表演动作：\n[带有明确时序的核心单一动作]\n\n摄影运镜：\n[克制且明确的单次平移、环绕、摇镜或推镜头]\n\n环境反馈：\n[预期的阴影、织物、液体或粒子物理反馈]"
       },
       {
         "id": "control",
-        "label": "Control",
-        "title": "Lock references and constraints",
-        "description": "Separate source roles and list only critical exclusions.",
-        "copy": "Identity reference:\n[Source and protected traits]\n\nMotion reference:\n[Source and borrowed movement]\n\nSound reference:\n[Source and timing role]\n\nAvoid:\n[Identity drift, duplicate objects, malformed hands, text, logos and watermarks]"
+        "label": "参考控制",
+        "title": "锁定参考素材与约束边界",
+        "description": "明确区分各素材职责并仅列出关键排除项。",
+        "copy": "主体身份参考：\n[素材来源与需保护的特征]\n\n动作动态参考：\n[素材来源与需借鉴的动态]\n\n声音参考：\n[素材来源与节奏时序作用]\n\n负向规避：\n[身份漂移、重复物体、畸形手部、文字、Logo 与水印]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "intent",
-        "body": "A Prime test should answer a production question rather than repeat a standard draft without a criterion."
+        "body": "Prime 的测试应着眼于解决具体的制作问题，而非漫无目的地重复未设验收标准的常规草案。"
       },
       {
         "tabId": "direction",
-        "body": "Tie camera movement to the subject action so the shot reads as one designed performance."
+        "body": "将镜头运镜与主体动作紧密结合，使整个镜头呈现出精心调度的整体感。"
       },
       {
         "tabId": "control",
-        "body": "Fewer references with named roles reduce ambiguity during evaluation."
+        "body": "精简参考素材并赋予明确分工，可大幅减少生成结果评估时的歧义。"
       }
     ],
     "globalPrinciples": [
-      "Lead with the deliverable and protected subject details.",
-      "Sequence complex action into visible beats that fit the selected duration.",
-      "Use references only when their role is explicit.",
-      "Review likeness consent, source rights and brand safety before publication."
+      "优先明确交付目标及需保护的主体细节。",
+      "将复杂动作拆解为适配所选时长的清晰可视节拍。",
+      "仅在各素材分工明确时使用参考素材。",
+      "在公开发布前，务必审查肖像授权、版权合规及品牌安全性。"
     ],
     "engineWhy": [
-      "Prime offers a first-class premium sibling rather than hiding a tier choice inside one generic Wan label.",
-      "Text, image and mixed-reference modes let one evaluation plan cover several starting materials.",
-      "The shared Wan control range makes standard-versus-Prime decisions comparable when scenarios match."
+      "Prime 作为独立高规格版本提供，而非将档位差异混淆在一个通用的 Wan 标签之下。",
+      "文生、图生及混合参考模式使同一套评估方案能够覆盖多种起点素材。",
+      "在相同场景设定下，统一的 Wan 控制参数使标准版与 Prime 的对比决策更具可比性。"
     ],
     "demo": {
-      "title": "Wan 3 Prime material study",
-      "promptLabel": "Premium product-performance brief",
+      "title": "Wan 3 Prime 材质质感实测",
+      "promptLabel": "高规格产品质感动态简报",
       "prompt": "A handcrafted leather travel case rests on a stone table beside an open window. A craftsperson closes the brass clasp, the case shifts with believable weight, and the camera performs one slow semicircular move as late-afternoon light reveals the grain. Preserve stitching, clasp geometry and hand anatomy. End on a steady three-quarter composition without text or logos.",
       "notes": [
-        "Material behavior and clasp contact create concrete review points.",
-        "The restrained camera move protects the product silhouette."
+        "材质物理反馈与锁扣开合触感构成了明确的验收评审点。",
+        "克制的摄影机运镜有效保护了产品的整体轮廓。"
       ],
       "summary": {
-        "subject": "Handcrafted leather travel case",
-        "action": "Craftsperson closes a brass clasp",
-        "camera": "Slow semicircular move to a steady three-quarter view",
-        "style": "Warm premium craft documentary",
-        "output": "Prime route with render-derived audio status"
+        "subject": "手工皮革旅行箱",
+        "action": "手工艺人扣上黄铜锁扣",
+        "camera": "缓慢半圆形运镜并定格在稳态四分之三侧视角",
+        "style": "温润的高端匠人纪录片质感",
+        "output": "Prime 路线（音频状态根据渲染成片确定）"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Canonical output settings",
+        "outputLabel": "标准输出配置",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "Wan 3 Prime leather case material-study prompt"
+        "altContext": "Wan 3 Prime 皮革箱材质质感提示词演示"
       }
     },
     "imageExamples": null
@@ -223,9 +223,9 @@
     "modelSlug": "wan-3-prime",
     "showWhenEmpty": false,
     "section": {
-      "title": "Reviewed Wan 3 Prime examples",
-      "intro": "The Prime gallery remains absent until two accepted, durable outputs pass editorial review.",
-      "defaultCtaLabel": "查看 all Wan 案例",
+      "title": "Wan 3 Prime 精选审阅案例",
+      "intro": "在获得两个通过编辑审核且稳定留存的成片之前，Prime 案例库将暂不展示。",
+      "defaultCtaLabel": "查看全部 Wan 案例",
       "recreateLabel": null
     },
     "filters": [
@@ -246,32 +246,32 @@
       {
         "id": "materials",
         "icon": "sparkles",
-        "title": "Material fidelity",
-        "body": "Inspect surfaces, reflections, seams and object geometry across motion."
+        "title": "材质保真度",
+        "body": "检查物体表面、光影反射、接缝与几何形体在运动过程中的稳定性。"
       },
       {
         "id": "contact",
         "icon": "users",
-        "title": "Human interaction",
-        "body": "Check hands, contact points, weight and believable response."
+        "title": "人物互动",
+        "body": "仔细检查手部、接触点、重量感与合理的物理交互反馈。"
       },
       {
         "id": "camera",
         "icon": "maximize",
-        "title": "运镜调度",
-        "body": "逐节拍跟踪构图、镜头运镜与转场表现。"
+        "title": "运镜控制",
+        "body": "确认指定的镜头运镜平滑流畅，并始终烘托突出主体。"
       },
       {
         "id": "continuity",
         "icon": "image",
-        "title": "Reference continuity",
-        "body": "Compare protected identity and styling details with their assigned sources."
+        "title": "参考连贯性",
+        "body": "对比需保护的角色身份与风格细节是否与指定参考源高度吻合。"
       },
       {
         "id": "safety",
         "icon": "shield",
-        "title": "Approval gate",
-        "body": "Reject unsafe content, unwanted marks, text errors or unapproved likenesses."
+        "title": "审核把关",
+        "body": "严格剔除不合规内容、无关瑕疵杂记、文字错误或未授权肖像。"
       }
     ],
     "fallbackItems": null

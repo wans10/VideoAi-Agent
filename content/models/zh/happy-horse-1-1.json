@@ -2,193 +2,193 @@
   "marketingName": "Happy Horse 1.1",
   "versionLabel": "1.1",
   "seo": {
-    "title": "Happy Horse 1.1 | Native Audio AI Video Model | MaxVideoAI",
-    "description": "Use Happy Horse 1.1 on MaxVideoAI for text-to-video, image-to-video, reference-to-video, native audio, and lip-sync.",
+    "title": "Happy Horse 1.1 | 原生音频 AI 视频模型 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Happy Horse 1.1 进行文本转视频、图像转视频、参考转视频、原生音频与唇形同步。",
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
-  "overview": "Happy Horse 1.1 is Alibaba's current AI video model on MaxVideoAI for text prompts, first-frame images, and up to nine reference images with native synchronized audio and lip-sync.",
-  "pricingNotes": "Happy Horse 1.1 uses the current Fal rates for text, image, and reference-to-video runs. Video edit remains on legacy Happy Horse 1.0.",
+  "overview": "Happy Horse 1.1 是 MaxVideoAI 上阿里巴巴的当前 AI 视频模型，支持文本提示词、首帧图像以及最多九张参考图像，并具备原生同步音频与唇形同步能力。",
+  "pricingNotes": "Happy Horse 1.1 对文本、图像和参考转视频运行采用当前的 Fal 费率。视频编辑仍保留在旧版 Happy Horse 1.0 上。",
   "hero": {
-    "title": "Happy Horse 1.1 - Alibaba video generation with native audio",
-    "intro": "Generate from text, animate an image, or guide a scene with up to nine references from the current Happy Horse 1.1 model card.",
-    "badge": "Text · Image · Reference · 720p/1080p · Native audio · Lip-sync",
+    "title": "Happy Horse 1.1 - 支持原生音频的阿里巴巴视频生成",
+    "intro": "使用当前 Happy Horse 1.1 模型规格，通过文本生成、使图像动态化，或借助最多九张参考图像来执导场景。",
+    "badge": "文本 · 图像 · 参考 · 720p/1080p · 原生音频 · 唇形同步",
     "ctaPrimary": {
       "label": "使用 Happy Horse 1.1 生成",
       "href": "/app?engine=happy-horse-1-1"
     },
     "secondaryLinks": [
       {
-        "label": "Compare Happy Horse 1.1 vs Seedance 2.0",
+        "label": "对比 Happy Horse 1.1 与 Seedance 2.0",
         "href": "/zh/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
       },
       {
-        "label": "Compare Happy Horse 1.1 vs Veo 3.1",
+        "label": "对比 Happy Horse 1.1 与 Veo 3.1",
         "href": "/zh/ai-video-engines/happy-horse-1-1-vs-veo-3-1"
       },
       {
-        "label": "Open legacy Happy Horse 1.0",
+        "label": "打开旧版 Happy Horse 1.0",
         "href": "/zh/models/happy-horse-1-0"
       }
     ]
   },
   "compareLink": {
-    "label": "Compare Happy Horse 1.1 vs Seedance 2.0 ->",
+    "label": "对比 Happy Horse 1.1 与 Seedance 2.0 ->",
     "href": "/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳使用场景",
     "items": [
       {
-        "title": "Native-audio spokesperson and dialogue clips",
+        "title": "原生音频代言人和对话视频片段",
         "icon": "ugc",
         "href": "/ai-video-engines/best-for/lipsync-dialogue"
       },
       {
-        "title": "Text, image, and reference-to-video production workflows",
+        "title": "文本、图像和参考转视频制作工作流",
         "icon": "layers",
         "href": "/ai-video-engines/best-for/reference-to-video"
       },
       {
-        "title": "Reference-guided character and product consistency",
+        "title": "参考引导的角色和产品一致性",
         "icon": "product",
         "href": "/ai-video-engines/best-for/character-reference"
       },
       {
-        "title": "Creator-style ads with synchronized native audio",
+        "title": "带有同步原生音频的创作者风格广告",
         "icon": "megaphone",
         "href": "/ai-video-engines/best-for/ugc-ads"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术概述",
   "technicalOverview": [
     {
-      "label": "Workflows",
-      "body": "Text-to-video, image-to-video, and reference-to-video are exposed as one current Happy Horse 1.1 model in MaxVideoAI."
+      "label": "工作流",
+      "body": "在 MaxVideoAI 中，文本转视频、图像转视频和参考转视频统一作为当前的 Happy Horse 1.1 模型提供。"
     },
     {
-      "label": "Duration",
-      "body": "3-15 s for generation outputs."
+      "label": "时长",
+      "body": "生成输出为 3-15 秒。"
     },
     {
-      "label": "Resolution",
-      "body": "720p or 1080p"
+      "label": "分辨率",
+      "body": "720p 或 1080p"
     },
     {
-      "label": "Reference images",
-      "body": "1-9 images, addressed as character1 through character9 in the prompt."
+      "label": "参考图像",
+      "body": "1-9 张图像，在提示词中以 character1 到 character9 的方式命名。"
     },
     {
-      "label": "Video edit",
-      "body": "Not exposed on Happy Horse 1.1. Use the legacy Happy Horse 1.0 video-edit route when a source clip must be edited."
+      "label": "视频编辑",
+      "body": "Happy Horse 1.1 未开放视频编辑。当需要编辑源片段时，请使用旧版 Happy Horse 1.0 视频编辑路由。"
     },
     {
-      "label": "Audio",
-      "body": "Native synchronized audio and lip-sync are treated as part of the generation."
+      "label": "音频",
+      "body": "原生同步音频和唇形同步作为生成的一部分处理。"
     }
   ],
   "promptStructure": {
-    "title": "Prompting Happy Horse 1.1",
-    "quote": "Subject + action + camera + audio cue + workflow-specific references.",
-    "description": "Keep prompts direct and assign each reference a clear role. In reference-to-video, name each image as character1, character2, and so on.",
+    "title": "Happy Horse 1.1 提示词指南",
+    "quote": "主体 + 动作 + 镜头 + 音频提示 + 工作流专属参考。",
+    "description": "保持提示词直接明确，并为每个参考分配清晰的角色。在参考转视频中，将每张图像命名为 character1、character2 等。",
     "steps": [
-      "Choose the workflow: text, image, or reference-to-video",
-      "Describe the subject and visible action",
-      "Add camera movement and lighting",
-      "Specify native audio or dialogue cues",
-      "Name references explicitly when using reference-to-video"
+      "选择工作流：文本、图像或参考转视频",
+      "描述主体和可见动作",
+      "添加镜头运动和光线",
+      "指定原生音频或对话提示",
+      "使用参考转视频时明确命名参考"
     ]
   },
   "tips": {
-    "title": "Tips and limits",
+    "title": "技巧与限制",
     "items": [
-      "Use T2V for fresh ideas and spokesperson-style native audio shots.",
-      "Use I2V when a key visual or first frame is already approved.",
-      "Use reference-to-video when identity, wardrobe, product shape, or character continuity matters.",
-      "Use Happy Horse 1.0 only when the job specifically needs legacy video edit."
+      "使用文生视频（T2V）获取新创意和代言人风格的原生音频镜头。",
+      "当关键视觉效果或第一帧已获批准时，使用图生视频（I2V）。",
+      "当身份、服装、产品形状或角色连贯性很重要时，使用参考转视频。",
+      "仅在任务明确需要旧版视频编辑时，才使用 Happy Horse 1.0。"
     ]
   },
   "prompts": [
     {
-      "title": "Native audio launch clip",
-      "prompt": "16:9 studio product launch clip, a confident creator speaks directly to camera with natural lip-sync, warm key light, subtle camera push, clean room tone and soft launch music."
+      "title": "原生音频发布视频片段",
+      "prompt": "16:9 工作室产品发布视频片段，一位自信的创作者直视镜头自然唇形同步，温暖的主光，细腻的镜头推进，干净的室内音效和柔和的发布音乐。"
     },
     {
-      "title": "Reference two-character demo",
-      "prompt": "Use character1 and character2 from the reference images in a cinematic two-person product demo, consistent wardrobe, stable faces, natural synchronized dialogue."
+      "title": "参考双角色演示",
+      "prompt": "使用参考图像中的 character1 和 character2 制作电影级双人产品演示，统一服装，面部稳定，自然同步对话。"
     },
     {
-      "title": "Image-to-video key art",
-      "prompt": "Bring the uploaded campaign still to life with a smooth dolly push, subtle fabric and hair motion, polished ad lighting, and synchronized ambience."
+      "title": "图生视频主视觉",
+      "prompt": "通过平滑的推拉运镜、细腻的布料与发丝动态、精致的广告光影以及同步环境音，让上传的营销静止图生动起来。"
     }
   ],
-  "faqTitle": "FAQ - Happy Horse 1.1 on MaxVideoAI",
+  "faqTitle": "常见问题 - MaxVideoAI 上的 Happy Horse 1.1",
   "faqs": [
     {
-      "q": "What inputs does Happy Horse 1.1 support?",
-      "a": "MaxVideoAI exposes Happy Horse 1.1 as one current model with text-to-video, image-to-video, and reference-to-video workflows."
+      "q": "Happy Horse 1.1 支持哪些输入？",
+      "a": "MaxVideoAI 将 Happy Horse 1.1 作为当前模型提供，支持文本转视频、图像转视频和参考转视频工作流。"
     },
     {
-      "q": "Does Happy Horse 1.1 support lip-sync?",
-      "a": "Yes. Happy Horse 1.1 is treated as a native-audio model with synchronized speech and lip-sync integrated into the generation flow."
+      "q": "Happy Horse 1.1 是否支持唇形同步？",
+      "a": "是的。Happy Horse 1.1 被视为原生音频模型，同步语音和唇形同步已集成到生成流程中。"
     },
     {
-      "q": "Does Happy Horse 1.1 support video edit?",
-      "a": "No. Video edit remains available through the legacy Happy Horse 1.0 route."
+      "q": "Happy Horse 1.1 是否支持视频编辑？",
+      "a": "不支持。视频编辑仍可通过旧版 Happy Horse 1.0 路由使用。"
     }
   ],
   "custom": {
-    "quickPricingTitle": "Pricing route",
+    "quickPricingTitle": "定价路由",
     "quickPricingItems": [
-      "Use 720p for cheaper iteration across text, image, and reference-to-video.",
-      "Use 1080p when the shot is ready for review or publication.",
-      "Use Happy Horse 1.0 only when an approved source clip needs legacy video edit."
+      "使用 720p 在文本、图像和参考转视频之间进行更经济的迭代。",
+      "当镜头准备好审核或发布时，使用 1080p。",
+      "仅当已批准的源片段需要旧版视频编辑时，才使用 Happy Horse 1.0。"
     ],
-    "relatedTitle": "Where Happy Horse 1.1 fits",
-    "relatedSubtitle": "Use Happy Horse 1.1 when native audio, lip-sync, and text/image/reference workflows matter, without placing it above Seedance, Kling, or Veo for flagship quality.",
+    "relatedTitle": "Happy Horse 1.1 的适用场景",
+    "relatedSubtitle": "当原生音频、唇形同步以及文本/图像/参考工作流至关重要时使用 Happy Horse 1.1，而在追求旗舰级画质表现时，Seedance、Kling 或 Veo 仍处于优先地位。",
     "relatedItems": [
       {
         "brand": "bytedance",
         "title": "Seedance 2.0",
-        "description": "Compare against Seedance when the decision is multimodal reference control, native audio behavior, and stronger production continuity.",
+        "description": "当决策涉及多模态参考控制、原生音频表现和更强的制作连贯性时，与 Seedance 进行比较。",
         "modelSlug": "seedance-2-0",
-        "ctaLabel": "Compare Happy Horse 1.1 vs Seedance 2.0 ->"
+        "ctaLabel": "对比 Happy Horse 1.1 与 Seedance 2.0 ->"
       },
       {
         "brand": "google-veo",
         "title": "Google Veo 3.1",
-        "description": "Compare against Veo when premium cinematic realism and audio-native output are the main criteria.",
+        "description": "当首要标准是高端电影级真实感和原生音频输出时，与 Veo 进行比较。",
         "modelSlug": "veo-3-1",
-        "ctaLabel": "Compare Happy Horse 1.1 vs Veo 3.1 ->"
+        "ctaLabel": "对比 Happy Horse 1.1 与 Veo 3.1 ->"
       }
     ],
-    "finalPara1": "Happy Horse 1.1 fits best when the brief needs one current Alibaba model for prompt generation, image animation, reference-guided consistency, native audio, and lip-sync; choose Seedance, Kling, or Veo first when raw realism, image quality, and motion control are the priority.",
-    "finalPara2": "For launch work, start with text or reference-to-video to establish the shot, then use Happy Horse 1.0 only if an approved source clip needs a directed legacy edit.",
-    "finalButton": "Generate with Happy Horse 1.1"
+    "finalPara1": "当需求需要一款集提示词生成、图像动态化、参考引导一致性、原生音频和唇形同步于一体的阿里巴巴当前模型时，Happy Horse 1.1 最为合适；而当纯粹真实感、图像质量和运动控制是首要考量时，优先选择 Seedance、Kling 或 Veo。",
+    "finalPara2": "对于发布工作，先通过文本或参考转视频来确立镜头，仅在已批准的源片段需要定向旧版编辑时才使用 Happy Horse 1.0。",
+    "finalButton": "使用 Happy Horse 1.1 生成"
   },
   "decision": {
     "modelSlug": "happy-horse-1-1",
     "hero": {
-      "eyebrow": "CURRENT ALIBABA VIDEO MODEL",
+      "eyebrow": "阿里巴巴当前视频模型",
       "title": "Happy Horse 1.1",
-      "subtitle": "Native audio, lip-sync, image-to-video and reference-to-video in one current Alibaba route.",
+      "subtitle": "集原生音频、唇形同步、图生视频与参考转视频于一体的阿里巴巴当前路由。",
       "subtitleHighlights": [
-        "Native audio",
-        "image-to-video",
-        "reference-to-video"
+        "原生音频",
+        "图生视频",
+        "参考转视频"
       ],
-      "paragraph": "Use Happy Horse 1.1 when a shot needs synchronized speech or sound from text, a starting image, or up to nine reference images. Keep Happy Horse 1.0 for legacy video-edit jobs.",
+      "paragraph": "当镜头需要从文本、起始图像或最多九张参考图像中生成同步语音或声音时，使用 Happy Horse 1.1。旧版视频编辑任务请保留使用 Happy Horse 1.0。",
       "primaryCta": {
         "label": "使用 Happy Horse 1.1 生成",
         "href": "/app?engine=happy-horse-1-1"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看示例",
         "href": "/zh/examples/happy-horse"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Seedance",
+          "label": "与 Seedance 对比",
           "href": "/zh/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
         },
         {
@@ -202,68 +202,68 @@
       ]
     },
     "media": {
-      "caption": "Happy Horse 1.1 example",
-      "description": "Native-audio text, image and reference video route",
-      "renderLabel": "View render",
+      "caption": "Happy Horse 1.1 示例",
+      "description": "原生音频文本、图像和参考视频路由",
+      "renderLabel": "查看渲染",
       "badges": [
-        "Native audio",
-        "Reference video",
+        "原生音频",
+        "参考视频",
         "1080p"
       ],
-      "altContext": "Happy Horse 1.1 native audio reference-guided video example"
+      "altContext": "Happy Horse 1.1 原生音频参考引导视频示例"
     },
     "features": [
       {
-        "title": "Native audio",
-        "body": "Generate dialogue, ambience and SFX with the render when the route supports it.",
+        "title": "原生音频",
+        "body": "在路由支持时，随渲染生成对话、环境音和音效。",
         "tone": "audio"
       },
       {
-        "title": "Text or image",
-        "body": "Start from a scene brief or a still image to lock subject and composition.",
+        "title": "文本或图像",
+        "body": "从场景简述或静态图像开始，锁定主体和构图。",
         "tone": "reference"
       },
       {
-        "title": "Reference images",
-        "body": "Use up to nine references with character1 through character9 prompt anchors.",
+        "title": "参考图像",
+        "body": "使用最多九张参考图像，并在提示词中使用 character1 至 character9 进行锚定。",
         "tone": "continuity"
       },
       {
-        "title": "Expanded ratios",
-        "body": "Use landscape, vertical, square, classic, wide, tall, 5:4 or 4:5 composition.",
+        "title": "扩展画幅比例",
+        "body": "支持横屏、竖屏、方形、经典、宽幅、高画幅、5:4 或 4:5 构图。",
         "tone": "quality"
       },
       {
-        "title": "720p or 1080p",
-        "body": "Choose the exposed MaxVideoAI resolution before generation.",
+        "title": "720p 或 1080p",
+        "body": "在生成前选择 MaxVideoAI 提供的分辨率。",
         "tone": "quality"
       },
       {
-        "title": "Lower 1080p provider rate",
-        "body": "Happy Horse 1.1 uses the current 1080p provider rate before MaxVideoAI margin.",
+        "title": "更低的 1080p 供应商费率",
+        "body": "Happy Horse 1.1 采用 MaxVideoAI 加成前的当前 1080p 供应商费率。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Happy Horse 1.1 or Seedance?",
-        "body": "Use Happy Horse 1.1 for Alibaba native-audio text, image and reference generation. Use Seedance 2.0 when multimodal references, longer production continuity and current Seedance behavior are the priority.",
+        "title": "Happy Horse 1.1 还是 Seedance？",
+        "body": "使用 Happy Horse 1.1 进行阿里巴巴原生音频文本、图像和参考生成。当多模态参考、更长的制作连贯性和当前 Seedance 表现为首要需求时，使用 Seedance 2.0。",
         "cta": {
-          "label": "Compare Happy Horse vs Seedance",
+          "label": "对比 Happy Horse 与 Seedance",
           "href": "/zh/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
         }
       },
       {
-        "title": "Need video edit?",
-        "body": "Use Happy Horse 1.0 only when you specifically need the legacy video-edit endpoint. New text, image and reference jobs should start on 1.1.",
+        "title": "需要视频编辑？",
+        "body": "仅在明确需要旧版视频编辑端点时使用 Happy Horse 1.0。新的文本、图像和参考任务应在 1.1 上开始。",
         "cta": {
-          "label": "Open legacy Happy Horse 1.0",
+          "label": "打开旧版 Happy Horse 1.0",
           "href": "/zh/models/happy-horse-1-0"
         }
       },
       {
-        "title": "Working from references?",
-        "body": "Assign each file one job: identity, wardrobe, movement, environment or audio mood.",
+        "title": "基于参考进行创作？",
+        "body": "为每个文件分配一个任务：身份、服装、动作、环境或音频情绪。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -272,37 +272,37 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-video",
-        "body": "Write the subject, action, camera, style and audio beats in a compact brief."
+        "title": "文本转视频",
+        "body": "在简洁的简述中写明主体、动作、镜头、风格和音频节拍。"
       },
       {
-        "title": "Image-to-video",
-        "body": "Use a still image to anchor subject, product, wardrobe or composition."
+        "title": "图像转视频",
+        "body": "使用静态图像锚定主体、产品、服装或构图。"
       },
       {
-        "title": "Reference-to-video",
-        "body": "Name each reference as character1, character2 and onward to keep roles clear."
+        "title": "参考转视频",
+        "body": "将每个参考依次命名为 character1、character2 等，以保持角色清晰。"
       },
       {
-        "title": "Legacy video edit",
-        "body": "Switch to Happy Horse 1.0 only when a source video must be edited rather than regenerated."
+        "title": "旧版视频编辑",
+        "body": "仅当源视频必须编辑而非重新生成时，才切换到 Happy Horse 1.0。"
       },
       {
-        "title": "Audio handling",
-        "body": "Keep dialogue short and tie SFX to visible actions for cleaner synchronized output."
+        "title": "音频处理",
+        "body": "保持对话简短，将音效与可见动作绑定，以获得更清晰的同步输出。"
       }
     ],
     "pricingCopy": {
-      "title": "Happy Horse 1.1 pricing at a glance",
-      "subtitle": "Preset native-audio totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 1080p",
+      "title": "Happy Horse 1.1 定价一览",
+      "subtitle": "预设的原生音频总价 - 生成前在应用中查看精确的实时价格。",
+      "footnote": "所有价格均为预设场景下以美元积分显示的 MaxVideoAI 价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#happy-horse-1-1-pricing"
     },
     "meta": {
-      "title": "Happy Horse 1.1: Pricing, Native Audio & Reference Video | MaxVideoAI",
-      "description": "Explore Happy Horse 1.1 pricing, native audio, lip-sync, text-to-video, image-to-video and reference-to-video workflows on MaxVideoAI."
+      "title": "Happy Horse 1.1：定价、原生音频与参考视频 | MaxVideoAI",
+      "description": "在 MaxVideoAI 上探索 Happy Horse 1.1 定价、原生音频、唇形同步、文本转视频、图像转视频及参考转视频工作流。"
     }
   },
   "prompting": {
@@ -312,32 +312,32 @@
       "intro": null,
       "tip": null,
       "guide": null,
-      "referencesTitle": "How Happy Horse 1.1 uses references"
+      "referencesTitle": "Happy Horse 1.1 如何使用参考"
     },
     "tabs": [],
     "tabNotes": [],
     "globalPrinciples": [],
     "engineWhy": [],
     "demo": {
-      "title": "Demo prompt - Happy Horse 1.1",
+      "title": "演示提示词 - Happy Horse 1.1",
       "promptLabel": "文生视频",
       "prompt": "Four-shot energetic studio food-film sequence in a small night market noodle stall after rain. Shot 1: neon reflections on wet pavement, a chef silhouette places a black wok over a blue gas flame, steam already rising. Shot 2: macro close-up of noodles flipping in the wok with orange sparks, camera locked, sizzling oil and quick whoosh. Shot 3: medium side shot as the chef slides the noodles into a ceramic bowl, steam curls across the lens, background lanterns soft and out of focus, no signs or readable text. Shot 4: slow push-in on the finished bowl on a stainless counter while rain taps the awning and steam fades into the neon light, no dialogue, no logos.",
       "notes": [],
       "summary": {
-        "subject": "Night market noodle stall chef",
-        "action": "Flips noodles in a wok and plates the bowl after rain",
-        "camera": "Neon wide shot, macro wok, side plate-up, slow push-in",
-        "style": "Cinematic food film, wet street reflections, steam and lantern bokeh",
-        "output": "Wok sizzle, oil whoosh, rain on the awning, no dialogue"
+        "subject": "雨后夜市面摊厨师",
+        "action": "在炒锅中翻炒面条并在雨后装入碗中",
+        "camera": "霓虹广角镜头、炒锅微距、侧面装盘、缓慢推进",
+        "style": "电影级美食大片质感，湿漉地面的倒影，蒸汽与灯笼散景",
+        "output": "炒锅滋滋声、热油呼啸声、雨打雨棚声，无对话"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Audio",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Happy Horse 1.1 AI video example: Demo prompt - Happy Horse 1.1"
+        "altContext": "Happy Horse 1.1 AI 视频示例：演示提示词 - Happy Horse 1.1"
       }
     },
     "imageExamples": null
@@ -345,9 +345,9 @@
   "examples": {
     "modelSlug": "happy-horse-1-1",
     "section": {
-      "title": "Happy Horse 1.1 model demos",
-      "intro": "Review the model page clips for native audio, lip-sync, and reference-to-video behavior. Comparison pages intentionally stay text/spec focused for this launch.",
-      "defaultCtaLabel": "Start a Happy Horse 1.1 generation ->",
+      "title": "Happy Horse 1.1 模型演示",
+      "intro": "查看模型页面视频片段以了解原生音频、唇形同步和参考转视频表现。本次发布中对比页面有意保持以文字/规格为主。",
+      "defaultCtaLabel": "开始 Happy Horse 1.1 生成 ->",
       "recreateLabel": null
     },
     "filters": [
@@ -379,32 +379,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Happy Horse 1.1.",
+        "title": "真实社区渲染",
+        "body": "了解 Happy Horse 1.1 的无限可能。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "重现任意镜头",
+        "body": "一键跳转到应用并复用设置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "同步生成对话、环境音和音效。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连贯性",
+        "body": "在序列中保持角色、风格和场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "生产就绪",
+        "body": "内置护栏和安全过滤器，用于负责任的审核。",
         "icon": "shield"
       }
     ],

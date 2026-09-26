@@ -2,335 +2,335 @@
   "marketingName": "Wan 2.5",
   "versionLabel": "2.5",
   "seo": {
-    "title": "Wan 2.5 – Text or Image to Video with Optional Audio (480p–1080p, 5–10s)",
-    "description": "Wan 2.5 is a historical deep-legacy profile retained for its original 5–10s audio workflow intent; begin current Wan projects with Wan 3.",
+    "title": "Wan 2.5 — 文生或图生视频及可选音频（480p–1080p，5–10秒）",
+    "description": "Wan 2.5 是已归档的深度旧版规格，保留用于其原生的 5–10 秒音频工作流意图；新的 Wan 项目建议使用 Wan 3 开启。",
     "image": "/hero/wan-25.jpg"
   },
-  "overview": "Wan 2.5 remains self-canonical as a historical deep-legacy profile for its original audio-ready workflow and examples. New Wan generation should begin with Wan 3.",
+  "overview": "Wan 2.5 作为早期深度旧版规格独立保留，用于展示其原生的音频支持工作流与参考案例。新的 Wan 系列生成任务建议使用 Wan 3 开启。",
   "hero": {
-    "title": "Wan 2.5 – historical deep-legacy text or image to video with optional audio",
-    "intro": "This page documents the historical Wan 2.5 audio-ready workflow; Wan 3 is the current standard successor.",
-    "badge": "480p/720p/1080p · 5–10s · Text or Image input · Optional audio",
+    "title": "Wan 2.5 — 早期深度旧版文生或图生视频模型（支持可选音频）",
+    "intro": "本页面记录了 Wan 2.5 历史上的音频工作流；Wan 3 是当前的标准继任模型。",
+    "badge": "480p/720p/1080p · 5–10秒 · 文本或图片输入 · 可选音频",
     "ctaPrimary": {
       "label": "使用 Wan 3 生成",
       "href": "/app?engine=wan-3"
     },
     "secondaryLinks": [
       {
-        "label": "Compare Wan 2.5 vs Sora 2 →",
+        "label": "对比 Wan 2.5 与 Sora 2 →",
         "href": "/zh/models/sora-2"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳应用场景",
     "items": [
       {
-        "title": "Ad hero beats (sound-led)",
+        "title": "广告核心镜头（声音主导）",
         "icon": "ads"
       },
       {
-        "title": "Music-timed reveals",
+        "title": "卡点节奏视觉揭示",
         "icon": "music"
       },
       {
-        "title": "Voiceover hooks & dialogue moments",
+        "title": "画外音 Hook 与对白时刻",
         "icon": "mic"
       },
       {
-        "title": "Product still → motion",
+        "title": "产品静止图转动态",
         "icon": "product"
       },
       {
-        "title": "Portraits & concept art motion",
+        "title": "人像与概念艺术动态化",
         "icon": "ugc"
       },
       {
-        "title": "Look-dev & style exploration",
+        "title": "外观视觉开发与风格探索",
         "icon": "wand2"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "5 s or 10 s per render"
+      "label": "时长",
+      "body": "单次生成 5 秒或 10 秒"
     },
     {
-      "label": "Resolutions",
-      "body": "480p, 720p, 1080p at 24 fps"
+      "label": "分辨率",
+      "body": "480p、720p、1080p（帧率 24 fps）"
     },
     {
-      "label": "Aspect ratios",
-      "body": "16:9, 9:16, 1:1"
+      "label": "画幅比例",
+      "body": "16:9、9:16、1:1"
     },
     {
-      "label": "Inputs",
-      "body": "Text → Video; Image → Video from a single still"
+      "label": "输入方式",
+      "body": "文生视频；单张静止图生视频"
     },
     {
-      "label": "Audio",
-      "body": "Native audio if no track; optional WAV/MP3 upload (3–30 s, ~15 MB) trimmed/looped to 5 or 10 s"
+      "label": "音频能力",
+      "body": "未上传音频时生成原生音效；支持上传 WAV/MP3 音频（3–30 秒，约 15 MB）并裁剪/循环至 5 或 10 秒"
     },
     {
-      "label": "Controls",
-      "body": "Prompt expansion toggle; optional seed; safety toggles"
+      "label": "控制项",
+      "body": "提示词扩展开关；可选随机种子（seed）；安全合规过滤开关"
     },
     {
-      "label": "Pricing",
-      "body": "Per-second by resolution; example: $0.05/s (480p), $0.10/s (720p), $0.15/s (1080p)"
+      "label": "价格模式",
+      "body": "按分辨率按秒计费；参考价格：$0.05/秒（480p）、$0.10/秒（720p）、$0.15/秒（1080p）"
     }
   ],
   "promptStructure": {
-    "title": "Text-to-Video with Wan 2.5",
-    "quote": "[Duration] second [aspect ratio] cinematic shot of [subject] in [environment]. Camera [movement] while [main action] happens. Lighting [style], [grade] look. Audio: [ambience + music/SFX], optional dialogue: “[…]”.",
-    "description": "Write prompts like a shot description plus sound notes: subject/tone, environment, camera, timing, lighting/look, and audio cues.",
+    "title": "Wan 2.5 文生视频提示词结构",
+    "quote": "[时长] 秒 [画幅比例] 电影级镜头，展现 [场景环境] 中的 [主体]。摄影机 [运镜动作]，同时发生 [核心动作]。光影 [风格]，[调色] 质感。音频：[环境音 + 音乐/音效]，可选对白：“[…]”。",
+    "description": "撰写提示词如同编写分镜描述加声音批注：主体/情绪基调、环境、摄影机运镜、时间节奏、光影/外观，以及声音提示。",
     "steps": [
-      "Subject and emotional tone",
-      "Environment (one scene)",
-      "Camera language (dolly, pan, crane, POV, orbit)",
-      "Timing over 5 or 10 seconds",
-      "Lighting and look (golden hour, moody, neon, etc.)",
-      "Audio: ambience, SFX, music, optional short dialogue"
+      "主体与情绪基调",
+      "场景环境（单一场景）",
+      "镜头语言（推拉、平移、升降、第一人称视角、环绕）",
+      "5 秒或 10 秒内的时间节奏",
+      "光影与视觉风格（黄金时刻、沉郁质感、霓虹色调等）",
+      "音频：环境音、音效、音乐与可选简短对白"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与局限",
     "items": [
-      "Attach a trimmed 5–10s WAV/MP3 when you need visuals synced to beats",
-      "Use native audio (no upload) for quick ideation",
-      "Toggle Prompt expansion on for exploration, off for precise briefs",
-      "Iterate cheap at 480p, finish at 1080p once approved",
-      "Keep copy as overlays; tiny text/UI can be unreliable"
+      "当需要画面紧密卡点时，上传一段已裁剪至 5–10 秒的 WAV/MP3 音频",
+      "进行快速创意发散时，使用原生音频（无需上传音轨）",
+      "自由探索时开启提示词扩展，针对精准执行需求时关闭该功能",
+      "在 480p 下低成本迭代，确认方案后再以 1080p 完成成片渲染",
+      "文案内容建议以图层形式后期叠加；直接生成极小文字或 UI 界面通常不稳定"
     ]
   },
   "compareLink": {
-    "label": "Compare Wan 2.5 vs Sora 2 →",
+    "label": "对比 Wan 2.5 与 Sora 2 →",
     "href": "/models/sora-2"
   },
   "prompts": [
     {
-      "title": "Chrome concept car on downbeats (10s, 16:9)",
+      "title": "强拍卡点概念跑车 (10秒, 16:9)",
       "prompt": "10s 16:9 cinematic shot of a chrome concept car emerging from foggy light pulses on synth downbeats. Wide to low-angle push, rain streaks, cool blue rim light, subtle flares. Audio: uploaded track as main music, add low rumble, thunder, raindrops, no dialogue."
     },
     {
-      "title": "Vertical fitness watch story (10s, 9:16)",
+      "title": "竖屏运动手表故事 (10秒, 9:16)",
       "prompt": "10s vertical shot of a fitness smartwatch on a runner’s wrist synced to an energetic electronic track: close-up on beat one with raindrops on glass; pull back on the first big hit as the runner sprints in slow motion on a neon-lit bridge; final beat swings to profile close-up with breath in cold air, watch display glowing. Audio: uploaded track + subtle footsteps, rain, breathing; no VO."
     }
   ],
   "faqs": [
     {
-      "q": "Does Wan 2.5 always generate audio?",
-      "a": "Yes. If you don’t upload a track, Wan generates native audio. If you upload WAV/MP3, your track is trimmed/looped to 5 or 10 seconds and used as the main audio."
+      "q": "Wan 2.5 每次都会生成音频吗？",
+      "a": "是的。如果您未上传音轨，Wan 会自动生成原生音频。如果上传了 WAV/MP3 文件，您的音频将被裁剪或循环至 5 秒或 10 秒，并作为主音频轨道。"
     },
     {
-      "q": "What resolutions and durations should I use?",
-      "a": "480p/5s for fastest look-dev; 720p/5–10s for internal reviews and social; 1080p/10s for hero beats and client-ready shots."
+      "q": "我应该使用什么分辨率和时长？",
+      "a": "480p/5 秒适合最快速、最低成本的视觉概念探索；720p/5–10 秒适合团队内部审阅与社交媒体分享；1080p/10 秒适合核心高光镜头与客户交付成品。"
     },
     {
-      "q": "Can Wan 2.5 handle vertical and square videos?",
-      "a": "Yes. Choose 16:9, 9:16 or 1:1 before rendering; 9:16 is best for mobile-first placements."
+      "q": "Wan 2.5 支持竖屏和方形视频吗？",
+      "a": "支持。渲染前可选择 16:9、9:16 或 1:1；其中 9:16 最适合移动端为主的分发渠道。"
     },
     {
-      "q": "Does Wan 2.5 support Image → Video?",
-      "a": "Yes. Upload one still (portrait, product, concept art) and focus the prompt on motion, camera and audio."
+      "q": "Wan 2.5 是否支持图生视频？",
+      "a": "支持。上传单张静止画面（人像、产品图或概念艺术），并将提示词聚焦于运动动态、摄影机运镜与音频设计。"
     },
     {
-      "q": "How is Wan 2.5 priced versus other engines?",
-      "a": "Per-second by resolution (0.05/0.10/0.15 $/s). It’s mid-tier: cheaper than premium long-form, more capable than ultra-budget silent engines."
+      "q": "Wan 2.5 与其他引擎相比价格如何？",
+      "a": "按分辨率按秒计费（0.05/0.10/0.15 美元/秒）。属于中端定位：比昂贵的高端长篇模型更实惠，比超低预算的无声引擎更强大。"
     }
   ],
   "custom": {
-    "heroDesc1": "Historically, Wan 2.5 storyboarded cinematic beats from a prompt or image with optional WAV/MP3, 5 or 10 seconds at 480p/720p/1080p.",
-    "heroDesc2": "Use it for hero beats and reveals where music, ambience or dialogue matter. Upload a track for tight sync or let Wan score the scene natively.",
-    "heroSupportLine": "Best for music-led reveals, voiceover hooks, and punchy hero beats that feel finished.",
-    "whyTitle": "Why Wan 2.5 is powerful",
+    "heroDesc1": "在以往的工作流中，Wan 2.5 可通过文本提示词或单张图片，结合可选的 WAV/MP3 音轨，生成 5 秒或 10 秒、分辨率涵盖 480p/720p/1080p 的电影感片段。",
+    "heroDesc2": "适用于音乐、氛围或对白至关重要的核心高光镜头与画面揭示。上传音轨以实现精准音画同步，或让 Wan 原生为场景配乐。",
+    "heroSupportLine": "最适合音乐驱动的揭示镜头、画外音 Hook 以及质感出色的有力高光节拍。",
+    "whyTitle": "为什么 Wan 2.5 具备独特优势",
     "heroHighlights": [
-      "Audio + visuals together||Native dialogue, ambience, and SFX in the same render.",
-      "Bring your own track||Use an audio URL/upload to lock timing to music or VO.",
-      "Stronger prompt follow-through||Camera + sound cues land more consistently with structured direction.",
-      "Style-flexible outputs||Works for both realistic and stylized looks when you keep prompts concrete."
+      "音画同步生成||在同一次渲染中同步输出原生对白、环境氛围与音效。",
+      "支持自定义音轨||利用音频 URL 或上传音频，将画面节奏精准锁定于音乐或旁白。",
+      "更强的提示词执行力||结构化指令让摄影机运动与声音线索落地更为稳定。",
+      "灵活多样的视觉风格||保持提示词具体明确时，兼顾写实与风格化观感。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳应用场景",
     "bestUseCases": [
       {
-        "title": "Ad hero beats (sound-led)",
+        "title": "广告核心镜头（声音主导）",
         "icon": "ads"
       },
       {
-        "title": "Music-timed reveals",
+        "title": "卡点节奏视觉揭示",
         "icon": "music"
       },
       {
-        "title": "Voiceover hooks & dialogue moments",
+        "title": "画外音 Hook 与对白时刻",
         "icon": "mic"
       },
       {
-        "title": "Product still → motion",
+        "title": "产品静止图转动态",
         "icon": "product"
       },
       {
-        "title": "Portraits & concept art motion",
+        "title": "人像与概念艺术动态化",
         "icon": "ugc"
       },
       {
-        "title": "Look-dev & style exploration",
+        "title": "外观视觉开发与风格探索",
         "icon": "wand2"
       }
     ],
-    "whatTitle": "What Wan 2.5 Actually Is in MaxVideoAI",
-    "whatIntro1": "Wan 2.5 is a text-and-image-to-video model built for short cinematic clips with native audio.",
-    "whatIntro2": "In MaxVideoAI it’s a flexible, audio-ready engine with tiered pricing by resolution.",
-    "whatFlowTitle": "In-app flow",
+    "whatTitle": "MaxVideoAI 中的 Wan 2.5 实际定位",
+    "whatIntro1": "Wan 2.5 是一款文生和图生视频模型，专为具备原生音频的电影感短片段设计。",
+    "whatIntro2": "在 MaxVideoAI 中，它是按分辨率梯度计费的灵活音频就绪型引擎。",
+    "whatFlowTitle": "工作台操作流程",
     "whatFlowSteps": [
-      "1. Historical Wan 2.5 flow began with a text or image input.",
-      "2. Choose Text → Video or Image → Video.",
-      "3. Set duration (5/10 s), resolution (480p/720p/1080p) and aspect ratio.",
-      "4. (Optional) Attach WAV/MP3.",
-      "5. Decide if Prompt expansion stays on.",
-      "6. Paste a clear, cinematic prompt with subject, camera and sound.",
-      "7. Check live pricing and render."
+      "1. 早期 Wan 2.5 流程以文本或图像输入开始。",
+      "2. 选择“文生视频”或“图生视频”。",
+      "3. 设置时长（5/10 秒）、分辨率（480p/720p/1080p）以及画幅比例。",
+      "4.（可选）上传或附加 WAV/MP3 音频。",
+      "5. 决定是否保持开启“提示词扩展”。",
+      "6. 填入包含主体、运镜与声音线索的清晰电影感提示词。",
+      "7. 查看实时报价并提交渲染。"
     ],
-    "specTitle": "Real Specs – Wan 2.5 in MaxVideoAI (480p–1080p, 5–10s)",
-    "specNote": "These specs preserve the historical Wan 2.5 route as it was exposed through MaxVideoAI.",
+    "specTitle": "核心规格 — MaxVideoAI 中的 Wan 2.5（480p–1080p，5–10秒）",
+    "specNote": "这些规格保留了 Wan 2.5 曾在 MaxVideoAI 中呈现的早期路线设定。",
     "specSections": [
       {
-        "title": "Audio-led workflows",
-        "intro": "Designed for sound-led clips where timing matters. Use it to sync visuals to music or voiceover.",
+        "title": "音频驱动型工作流",
+        "intro": "专为节奏与时机至关重要的声音主导型短片设计。使用它将画面动态精准同步至音乐或旁白。",
         "items": [
-          "Add music or VO cues in the prompt.",
-          "Use an audio URL to lock timing.",
-          "Keep visuals aligned with the beat.",
-          "Great for music-driven reveals."
+          "在提示词中加入音乐或旁白线索。",
+          "使用音频 URL 锁定节奏节点。",
+          "保持视觉动态与音乐节拍对齐。",
+          "非常适合音乐卡点的揭示镜头。"
         ]
       },
       {
-        "title": "Prompt discipline",
-        "intro": "Structured direction yields more reliable results than long prose. Keep instructions clear and sequential.",
+        "title": "提示词编写规范",
+        "intro": "结构化指令比冗长散文更稳定可靠。保持指令层级清晰、按序列推进。",
         "items": [
-          "Write beats in order.",
-          "Specify camera intent before style.",
-          "Keep subject wording consistent.",
-          "Reserve complex styling for later passes."
+          "按发生顺序列出节拍。",
+          "在描述风格之前先明确运镜意图。",
+          "保持主体词汇表述前后一致。",
+          "复杂风格修饰留待后续迭代添加。"
         ]
       }
     ],
-    "specValueProp": "Wan 2.5 historically covered audio-ready 5–10s beats where visuals and sound needed to land together.",
-    "imageTitle": "Image-to-Video Flow with Wan 2.5",
-    "imageIntro": "Animate a single still into an audio-backed beat.",
+    "specValueProp": "Wan 2.5 在早期主要覆盖音频就绪的 5–10 秒片段，让视觉画面与声音节拍同步呈现。",
+    "imageTitle": "Wan 2.5 图生视频流程",
+    "imageIntro": "将单张静止图片赋予动态，化为有音频支撑的节奏节拍。",
     "imageFlow": [
-      "Upload a portrait, product shot or concept art still.",
-      "Choose Image → Video, duration, resolution and aspect ratio.",
-      "Attach audio or let Wan generate it.",
-      "Prompt for motion (camera/subject) and how the beat ends at 5 or 10 s."
+      "上传一张肖像、产品图或概念艺术设计静止图。",
+      "选择“图生视频”，设定时长、分辨率与画幅比例。",
+      "附加自定义音频或由 Wan 原生生成。",
+      "编写动态提示词（运镜/主体运动）以及该片段在 5 或 10 秒时的落幅状态。"
     ],
     "imageWhy": [
-      "Subtle animated intros for portraits",
-      "Product renders that feel alive",
-      "Concept art turned into audio-backed intro beats"
+      "为人像增添细腻生动的动态开场",
+      "让静态产品渲染焕发生机",
+      "将概念艺术转化为带声音的引子镜头"
     ],
-    "multishotTitle": "Audio-Guided Beats & Music Sync",
-    "multishotIntro1": "Wan 2.5 can tie visual movement to a specific track.",
-    "multishotIntro2": "Use downbeats and transitions as anchors in your prompt.",
+    "multishotTitle": "音频引导节拍与音乐卡点",
+    "multishotIntro1": "Wan 2.5 能够将视觉动态与特定音轨精准绑定。",
+    "multishotIntro2": "在提示词中将强拍与转场节拍作为定位锚点。",
     "multishotTips": [
-      "Trim audio to 5 or 10 s for precise beat placement",
-      "Call out when visuals should hit specific beats",
-      "Keep dialogue short and natural within 5–10 s",
-      "Draft with native audio; upload polished tracks for finals"
+      "将音频精确裁剪至 5 或 10 秒，以实现精准节拍对齐",
+      "明确指出画面应在何处命中特定节奏重音",
+      "在 5–10 秒内保持对白简短自然",
+      "使用原生音频快速打样；最终成片上传经过精细处理的音轨"
     ],
-    "tipsTitle": "Tips & Limitations",
+    "tipsTitle": "实用技巧与局限说明",
     "strengths": [
-      "Treat it as a 5–10s “hero beat”: one subject, one clear action, one camera move.",
-      "If timing matters, use an Audio URL and describe what should land on key moments (1–2 cues max).",
-      "Keep dialogue short (one line). Ambience + one SFX cue is usually enough.",
-      "For Image→Video, start from a clean still and prompt motion + camera — don’t re-describe the whole scene.",
-      "Prompt expansion is great for short prompts; keep your input literal and structured so it expands in the right direction."
+      "将其视为 5–10 秒的“核心镜头”：一个明确主体、一个主要动作、一次摄影机运镜。",
+      "如果节奏节点至关重要，使用音频 URL 并注明关键时刻应触发的视觉反应（最多 1–2 个线索）。",
+      "对白保持简短（单句）。环境音加一个音效线索通常效果最佳。",
+      "对于图生视频，从清晰的静止图出发，仅提示运动和运镜 — 无需对整个画面场景重新通篇描述。",
+      "提示词扩展非常适合简短提示词；输入内容应直观结构化，以便扩展沿着正确方向丰富细节。"
     ],
     "boundaries": [
-      "Duration is 5s or 10s per render.",
-      "Audio URL: if audio is longer than the video, it’s truncated; if shorter, the remaining video is silent.",
-      "Prompts are short-form (max ~800 chars). Negative prompts are capped too — keep them minimal.",
-      "Safety checks can block borderline content — keep people/likeness and dialogue brand-safe."
+      "单次渲染时长为 5 秒或 10 秒。",
+      "音频 URL：若音频长于视频则会被裁剪；若音频短于视频，剩余画面部分将静音。",
+      "提示词为短文本形态（上限约 800 字符）。负向提示词也有长度上限 — 建议保持极简。",
+      "安全合规审核可能会拦截擦边内容 — 请确保人物肖像和对白符合品牌安全规范。"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "安全合规与人物肖像",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness/voice.",
-      "Don’t upload private personal data or copyrighted material you don’t have rights to (including audio).",
-      "Some prompts, images, or audio may be blocked by safety filters."
+      "严禁色情、涉及未成年人的违规内容。",
+      "严禁仇恨言论、骚扰或血腥暴力内容。",
+      "切勿冒充真实人物或公众人物；使用任何人物肖像或声音须获得本人许可授权。",
+      "严禁上传无权使用的个人隐私数据或受版权保护素材（包括音频）。",
+      "部分提示词、图像或音频可能会被安全合规过滤器拦截。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "comparisonTitle": "Wan 2.5 vs Sora 2 – Quick Overview",
+    "comparisonTitle": "Wan 2.5 vs Sora 2 — 核心速览",
     "comparisonPoints": [
-      "Wan 2.5: audio-ready 5–10s beats with optional track upload and flexible resolution tiers",
-      "Sora 2: 720p with native audio for realistic UGC/product shots when you want OpenAI-style motion",
-      "Veo 3.1 / Kling / Pika: pick these for framing presets, silent 1080p realism, or stylized loops"
+      "Wan 2.5：支持音频的 5–10 秒片段，支持音轨上传与多档分辨率档位",
+      "Sora 2：720p 原生音频，适合追求 OpenAI 风格自然动作的写实 UGC/产品镜头",
+      "Veo 3.1 / Kling / Pika：若需要画幅预设、无声 1080p 写实感或风格化循环，优先选择这些模型"
     ],
-    "comparisonCta": "Compare Wan 2.5 vs Sora 2 →",
-    "faqTitle": "FAQ – Wan 2.5 in MaxVideoAI",
+    "comparisonCta": "对比 Wan 2.5 与 Sora 2 →",
+    "faqTitle": "常见问题 — MaxVideoAI 中的 Wan 2.5",
     "faqs": [
       {
-        "q": "Does Wan 2.5 always generate audio?",
-        "a": "Yes. Native audio if no track is uploaded; uploaded WAV/MP3 becomes the main soundtrack, trimmed or looped to 5/10 s."
+        "q": "Wan 2.5 每次都会生成音频吗？",
+        "a": "是的。未上传音轨时生成原生音频；上传的 WAV/MP3 文件会被裁剪或循环至 5/10 秒并作为主音轨。"
       },
       {
-        "q": "What resolutions and durations should I use?",
-        "a": "480p/5s for fastest and cheapest tests; 720p/5–10s for internal and social; 1080p/10s for hero beats and client delivery."
+        "q": "我应该使用什么分辨率和时长？",
+        "a": "480p/5 秒适合最快速且经济的测试；720p/5–10 秒适合内部审阅与社媒发布；1080p/10 秒适合核心镜头与客户交付。"
       },
       {
-        "q": "Can Wan 2.5 handle vertical and square videos?",
-        "a": "Yes—16:9, 9:16 or 1:1. Pick 9:16 for mobile-first placements."
+        "q": "Wan 2.5 支持竖屏和方形视频吗？",
+        "a": "支持 — 16:9、9:16 或 1:1。移动端优先场景建议选择 9:16。"
       },
       {
-        "q": "Does Wan 2.5 support Image → Video?",
-        "a": "Yes. Upload one still and focus the prompt on motion, camera and audio."
+        "q": "Wan 2.5 是否支持图生视频？",
+        "a": "支持。上传单张静止图，并将提示词集中于动态、运镜和音频描述。"
       },
       {
-        "q": "How is Wan 2.5 priced versus other engines?",
-        "a": "Per-second by resolution (0.05/0.10/0.15 $/s); mid-tier compared to premium long-form and ultra-budget silent engines."
+        "q": "Wan 2.5 与其他引擎相比价格如何？",
+        "a": "按分辨率按秒计费（0.05/0.10/0.15 美元/秒）；介于高端长篇模型与极低预算无声引擎之间的中端区间。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare price, latency and output options across the MaxVideoAI catalog.",
-    "finalPara1": "Wan 2.5 remains documented as a historical audio-ready short-form route for 5–10 second beats.",
-    "finalPara2": "Use Wan 3 for current text, image and reference-led generation.",
-    "finalButton": "Open Wan 3 in Generate",
-    "tipsIntro": "Historically, Wan 2.5 worked best for short, sound-led beats with a simple visual brief.",
-    "troubleshootingTitle": "Common problems → fast fixes",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "在 MaxVideoAI 模型库中对比价格、延迟与生成效果。",
+    "finalPara1": "Wan 2.5 作为支持音频的 5–10 秒短片生成路线被归档记录。",
+    "finalPara2": "当前进行文本、图像与参考引导的视频生成，请使用 Wan 3。",
+    "finalButton": "在生成工作台中打开 Wan 3",
+    "tipsIntro": "历史上，Wan 2.5 最适合用于具有简明视觉需求、声音主导的短节奏镜头。",
+    "troubleshootingTitle": "常见问题与快速解决",
     "troubleshootingItems": [
-      "Audio feels off → remember uploaded audio is trimmed to the first 5/10s; prompt to the segment you’re actually using.",
-      "Too much happening / messy motion → cut to one main action; remove extra beats; simplify the background.",
-      "Drift / ignores details → move subject + action + camera to the first line; keep constraints positive (“clean background”, “centered subject”).",
-      "Lip sync drifts → shorten the line and slow the delivery; avoid long monologues.",
-      "Prompt expansion changes nuance → disable expansion for literal control, or shorten the prompt and remove ambiguous adjectives."
+      "音频感觉不同步 → 记住上传音频会被裁剪至前 5/10 秒；请针对实际使用的片段编写视觉提示词。",
+      "画面内容过多 / 动作杂乱 → 精简至一个核心动作；删减多余节拍；简化背景元素。",
+      "画面漂移 / 忽略细节 → 将主体 + 动作 + 运镜移至首行；使用肯定性约束（“干净背景”、“主体居中”）。",
+      "口型同步漂移 → 缩短台词并放缓语速；避免长篇大段独白。",
+      "提示词扩展改变了细微意图 → 关闭扩展以获得字面控制，或精简提示词并移除含义模糊的形容词。"
     ]
   },
   "decision": {
     "modelSlug": "wan-2-5",
     "hero": {
-      "eyebrow": "HISTORICAL DEEP-LEGACY WAN ROUTE",
+      "eyebrow": "历史存档深层旧版 WAN 路线",
       "title": "Wan 2.5",
-      "subtitle": "Audio-ready 5-10s clips for text or image starts, prompt expansion, and 480p to 1080p checks.",
+      "subtitle": "支持音频的 5–10 秒短片，适用于文本或图像起点、提示词扩展及 480p 至 1080p 验证。",
       "subtitleHighlights": [
-        "Audio-ready 5-10s clips",
-        "text or image starts",
-        "480p to 1080p checks"
+        "支持音频的 5–10 秒短片",
+        "文本或图像起点",
+        "480p 至 1080p 验证"
       ],
-      "paragraph": "This historical Wan 2.5 page preserves deep-legacy specifications, examples and search value without redirecting away. New generation starts on Wan 3, the current standard successor.",
+      "paragraph": "此 Wan 2.5 历史页面保留了早期的规格参数、生成案例与搜索价值，未作重定向跳转。新的视频生成建议从当前的标准继任模型 Wan 3 开始。",
       "primaryCta": {
-        "label": "View current Wan 3",
+        "label": "查看当前 Wan 3",
         "href": "/zh/models/wan-3"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/wan"
       },
       "quickLinks": [
         {
-          "label": "View Wan 3",
+          "label": "查看 Wan 3",
           "href": "/zh/models/wan-3"
         },
         {
@@ -344,192 +344,192 @@
       ]
     },
     "media": {
-      "caption": "Wan 2.5 example",
-      "description": "Short audio-ready draft clip",
-      "renderLabel": "View render",
+      "caption": "Wan 2.5 生成示例",
+      "description": "支持音频的短篇草稿片段",
+      "renderLabel": "查看渲染效果",
       "badges": [
-        "Audio-ready",
-        "10s max",
+        "支持音频",
+        "最长 10 秒",
         "1080p"
       ],
-      "altContext": "Wan 2.5 short audio-ready draft clip"
+      "altContext": "Wan 2.5 支持音频的短篇草稿视频示例"
     },
     "features": [
       {
-        "title": "Audio-ready tests",
-        "body": "Use native sound or attach a short WAV/MP3 track when timing matters.",
+        "title": "音频就绪测试",
+        "body": "在节奏至关重要时，可使用原生音效或附加一段短 WAV/MP3 音轨。",
         "tone": "audio"
       },
       {
-        "title": "Text or image start",
-        "body": "Generate from a prompt or one source image for quick motion checks.",
+        "title": "文本或图像起点",
+        "body": "通过文本提示词或单张源图片快速生成，用于敏捷动态验证。",
         "tone": "reference"
       },
       {
-        "title": "480p to 1080p",
-        "body": "Pick lower-cost draft resolution or 1080p when the shot needs more detail.",
+        "title": "480p 至 1080p",
+        "body": "自由选择低成本草稿分辨率，或在画面需要更丰富细节时切换至 1080p。",
         "tone": "quality"
       },
       {
-        "title": "Prompt expansion",
-        "body": "Use expansion when a simple brief needs more visual detail.",
+        "title": "提示词扩展",
+        "body": "当简要提示词需要扩充更多视觉细节时，开启提示词扩展功能。",
         "tone": "continuity"
       },
       {
-        "title": "Max 10s",
-        "body": "Historically, Wan 2.5 focused on short single-beat or two-beat clips.",
+        "title": "最长 10 秒",
+        "body": "在以往定位中，Wan 2.5 专注于简短的单节拍或双节拍镜头。",
         "tone": "duration"
       },
       {
-        "title": "Pay-as-you-go",
-        "body": "See exact live price before you generate.",
+        "title": "按量计费",
+        "body": "在生成前即可查看准确的实时报价。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Historical Wan 2.5 or current Wan 3?",
-        "body": "Keep this page for historical reference and existing examples. Start a new Wan brief with Wan 3.",
+        "title": "选择早期 Wan 2.5 还是当前 Wan 3？",
+        "body": "保留此页面用于历史查阅与现有案例参考。开启新的 Wan 项目请使用 Wan 3。",
         "cta": {
-          "label": "View Wan 3",
+          "label": "查看 Wan 3",
           "href": "/zh/models/wan-3"
         }
       },
       {
-        "title": "Need the soundtrack to steer timing?",
-        "body": "Attach a short audio file when rhythm or mood should guide the clip, then keep the visual prompt simple.",
+        "title": "需要音轨引导画面节奏？",
+        "body": "当节拍或情绪需要驱动片段时附加简短音频文件，同时保持视觉提示词精炼。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Comparing audio-native routes?",
-        "body": "Compare Wan 2.5 with Sora 2 when you are choosing between lower-cost checks and Sora-style synced outputs.",
+        "title": "对比原生音频路线？",
+        "body": "在更低成本的动态测试与 Sora 风格音画同步输出之间权衡时，可对比 Wan 2.5 与 Sora 2。",
         "cta": {
-          "label": "Compare Wan 2.5 vs Sora 2",
+          "label": "对比 Wan 2.5 与 Sora 2",
           "href": "/zh/ai-video-engines/sora-2-vs-wan-2-5?order=wan-2-5"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Describe one subject, one action, one camera move and one sound direction."
+        "title": "文生视频提示词",
+        "body": "描述一个主体、一个动作、一次镜头移动以及一个声音方向。"
       },
       {
-        "title": "Image start",
-        "body": "Use a single image to hold framing, product shape or character identity."
+        "title": "单图起点",
+        "body": "使用单张图片锁定构图、产品形态或角色身份特征。"
       },
       {
-        "title": "Audio file",
-        "body": "Attach a short soundtrack when rhythm, ambience or mood should drive the take."
+        "title": "音频文件",
+        "body": "当节奏、氛围或情绪需要引领画面时，附加简短的音轨素材。"
       },
       {
-        "title": "Prompt expansion",
-        "body": "Turn expansion on for sparse briefs; turn it off when every visual detail is deliberate."
+        "title": "提示词扩展",
+        "body": "对于简略提示词开启扩展；当每个视觉细节均有明确设定时关闭扩展。"
       },
       {
-        "title": "Wan 2.6 upgrade",
-        "body": "Move to Wan 2.6 for longer clips, multi-shot plans or reference-video consistency."
+        "title": "升级至 Wan 2.6",
+        "body": "如需更长片段、多镜头规划或基于参考视频的连贯性，建议升级至 Wan 2.6。"
       }
     ],
     "pricingCopy": {
-      "title": "Wan 2.5 pricing at a glance",
-      "subtitle": "Preset short-clip totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "title": "Wan 2.5 计费一览",
+      "subtitle": "预设短片参考总价 — 在应用中生成前可查看精确的实时报价。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
       "ctaLabel": "使用 Wan 3 生成",
-      "maxDurationNote": "Up to 1080p",
+      "maxDurationNote": "最高支持 1080p",
       "ctaHref": "/app?engine=wan-3"
     },
     "meta": {
-      "title": "Wan 2.5: Pricing, Audio Drafts & Examples | MaxVideoAI",
-      "description": "Historical Wan 2.5 reference for short audio-ready AI video drafts, text-to-video, image-to-video, optional soundtrack upload, prompt expansion and pricing."
+      "title": "Wan 2.5：价格、音频草稿与生成案例 | MaxVideoAI",
+      "description": "Wan 2.5 早期规格参考：支持音频的短篇 AI 视频草稿、文生视频、图生视频、可选音轨上传、提示词扩展及价格概览。"
     }
   },
   "prompting": {
     "modelSlug": "wan-2-5",
     "section": {
-      "title": "How to Write a Great Wan 2.5 Prompt",
-      "intro": "Wan 2.5 works best with a single clear action and a short, concrete prompt.",
-      "tip": "Tip: duration + aspect ratio are set in the UI - your prompt controls subject, motion, camera, lighting, style, and optional sound. Prompt expansion helps short prompts.",
+      "title": "如何编写出色的 Wan 2.5 提示词",
+      "intro": "Wan 2.5 最适合搭配单一明确的动作以及简短具体的提示词。",
+      "tip": "提示：时长与画幅比例在界面中设置 — 提示词用于控制主体、动作、运镜、光影、风格以及可选声音。提示词扩展有助于丰富简短输入。",
       "guide": {
         "label": "Wan AI",
         "href": "https://www.wan-ai.com"
       },
-      "referencesTitle": "How Wan 2.5 uses references"
+      "referencesTitle": "Wan 2.5 如何使用参考"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
-        "copy": "[Subject] [action] in [scene], [camera move], [lighting/style], [optional sound cue].\nNegative: [text, logos, extra people, blur]"
+        "label": "快速",
+        "title": "快速提示词（快速迭代）",
+        "description": "当您希望探索多样变体时使用 1–2 句话。",
+        "copy": "[主体] 在 [场景] 中 [执行动作]，[运镜动作]，[光影/风格]，[可选声音线索]。\n负向提示词：[文字、水印、多余人物、模糊]"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
-        "copy": "Subject:\n[Who/what + one action.]\n\nScene:\n[Location + time + 2 anchors.]\n\nCamera:\n[Shot + angle + one move.]\n\nLook:\n[Lighting + palette + style.]\n\nSound (optional):\n[Ambience + 1-2 cues.]\n\nNegative:\n[What to avoid.]"
+        "label": "结构化",
+        "title": "结构化提示词（获得稳定结果的最佳选择）",
+        "description": "将信息分块拆解，便于模型稳定一致地遵循。",
+        "copy": "主体：\n[谁/什么 + 单一动作。]\n\n场景：\n[地点 + 时间 + 2个视觉锚点。]\n\n运镜：\n[景别 + 角度 + 一次运镜动作。]\n\n外观：\n[光影 + 色彩调色 + 风格。]\n\n声音（可选）：\n[环境音 + 1-2个音效线索。]\n\n负向提示词：\n[需要避免的元素。]"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"studio brief\")",
-        "description": "Use this when you need a very specific look or continuity across shots.",
-        "copy": "Brief:\n[Goal + vibe.]\n\nSubject + setting:\n[Key traits + location + anchors.]\n\nCamera:\n[Framing + angle + one move + lens feel.]\n\nLighting + color:\n[Key light + palette.]\n\nSound (optional):\n[Ambience + 1-2 cues.]\n\nNegative:\n[What to avoid.]"
+        "label": "专业级",
+        "title": "专业级提示词（极度具体的“片场简报”）",
+        "description": "当您需要极度特定的视觉风格或跨镜头连贯性时使用。",
+        "copy": "创作简报：\n[目标 + 氛围调性。]\n\n主体与环境：\n[核心特征 + 地点 + 视觉锚点。]\n\n运镜：\n[取景构图 + 拍摄角度 + 一次运镜动作 + 镜头质感。]\n\n光影与色彩：\n[主光设定 + 色彩基调。]\n\n声音（可选）：\n[环境音 + 1-2个音效线索。]\n\n负向提示词：\n[需要避免的元素。]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 丰富变体。适合快速迭代探索。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 稳定连贯。适合追求确定性结果的场景。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = style control. Use for precise, repeatable looks."
+        "body": "专业级 = 风格把控。适合打造精确、可复现的特定视觉质感。"
       }
     ],
     "globalPrinciples": [
-      "One subject, one action.",
-      "Specify camera move and lighting.",
-      "Use a short negative prompt to avoid artifacts."
+      "一个主体，一个动作。",
+      "明确指定摄影机运镜与光影。",
+      "使用简短的负向提示词以避免画面瑕疵。"
     ],
     "engineWhy": [
-      "Short prompts are expanded automatically.",
-      "Audio URL can sync timing; keep cues minimal.",
-      "Avoid multiple beats in one short clip."
+      "短提示词会自动进行扩展丰富。",
+      "音频 URL 可锁定时间节点；声音线索保持极简。",
+      "避免在单个短片段中堆砌过多动作节拍。"
     ],
     "demo": {
-      "title": "Demo: a prompt for Wan 2.5",
+      "title": "演示：Wan 2.5 提示词案例",
       "promptLabel": "文生视频",
       "prompt": "Subject: Fitness smartwatch on a runner’s wrist\nAction: Shot follows the run and beat changes of the track\nCamera: Close-up, then synchronized pull-back\nStyle: Vertical product sport story, rain and music energy\nAudio: Energetic electronic track",
       "notes": [
-        "Audio anchors the transitions.",
-        "Single subject/location, clear camera path.",
-        "Explicit cues for the hits."
+        "音频锚定各个转场节点。",
+        "单一主体与场景，清晰的镜头轨迹。",
+        "明确标注关键节拍点触发的动作。"
       ],
       "summary": {
-        "subject": "Fitness smartwatch on a runner’s wrist",
-        "action": "Shot follows the run and beat changes of the track",
-        "camera": "Close-up, then synchronized pull-back",
-        "style": "Vertical product sport story, rain and music energy",
-        "output": "Energetic electronic track"
+        "subject": "跑者手腕上的运动智能手表",
+        "action": "镜头紧跟跑步节奏与音轨强弱节拍变化",
+        "camera": "特写镜头，随后平滑同步后拉",
+        "style": "竖屏运动产品故事，雨水与动感音乐能量",
+        "output": "动感电子音乐音轨"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "Audio",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Wan 2.5 AI video example: Demo: a prompt for Wan 2.5"
+        "altContext": "Wan 2.5 AI 视频示例：演示：Wan 2.5 提示词案例"
       }
     },
     "imageExamples": null
@@ -537,10 +537,10 @@
   "examples": {
     "modelSlug": "wan-2-5",
     "section": {
-      "title": "Wan 2.5 Example Gallery",
-      "intro": "Clips generated with the exact configuration you have access to in MaxVideoAI.",
-      "defaultCtaLabel": "View all Wan 2.5 examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "Wan 2.5 案例展厅",
+      "intro": "使用您在 MaxVideoAI 中可直接调用的完全相同配置生成的视频片段。",
+      "defaultCtaLabel": "查看全部 Wan 2.5 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -571,32 +571,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Wan 2.5 – Text or Image to Video with Optional Audio in MaxVideoAI (480p–1080p, 5–10s).",
+        "title": "真实社区生成效果",
+        "body": "探索 MaxVideoAI 中 Wan 2.5（文生/图生视频及可选音频，480p–1080p，5–10秒）的无限可能。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键直达应用工作台，快速复用该镜头的参数设置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "同步生成对白、环境音与音效。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连续性",
+        "body": "在连续序列中保持人物、风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "贴合生产规范",
+        "body": "内置安全护栏与审核过滤机制，保障负责任的创意审阅。",
         "icon": "shield"
       }
     ],

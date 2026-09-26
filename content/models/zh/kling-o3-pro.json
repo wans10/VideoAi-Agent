@@ -2,52 +2,52 @@
   "marketingName": "Kling 3.0 Omni Pro",
   "versionLabel": "3.0 Omni Pro",
   "seo": {
-    "title": "Kling 3.0 Omni Pro Reference, Storyboard & Video-to-Video Generator | MaxVideoAI",
-    "description": "Use Kling 3.0 Omni Pro for reference-guided Kling video with storyboard images, source-video V2V, @Image and @Video1 anchors, optional start/end frames, native audio, and live pricing."
+    "title": "Kling 3.0 Omni Pro 参考图、故事板分镜与视频生视频生成器 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Kling 3.0 Omni Pro 进行参考图引导的 Kling 视频创作，支持分镜故事板图片、源视频生视频 (V2V)、@Image 与 @Video1 锚点、可选首尾帧、原生音频与实时报价。"
   },
-  "overview": "Kling 3.0 Omni Pro is the Kling Omni route to use when uploaded images or a source video should guide a render without automatically becoming the first frame.",
-  "pricingNotes": "Provider cost is about $0.168/s with audio on and $0.112/s audio off before the MaxVideoAI margin.",
+  "overview": "Kling 3.0 Omni Pro 是专注于参考引导的 Kling Omni 路线。当上传的图片或源视频应指导渲染方向、且无需自动作为视频首帧时，适合选用此模型。",
+  "pricingNotes": "模型提供商原始成本：开启音频约 /bin/zsh.168/秒，关闭音频约 /bin/zsh.112/秒（未计入 MaxVideoAI 服务利润）。",
   "custom": {
-    "relatedTitle": "Where Kling 3.0 Omni Pro fits",
-    "relatedSubtitle": "Pro is the main O3 route when reference images and source video should guide a shot without forcing a fixed opening frame.",
+    "relatedTitle": "Kling 3.0 Omni Pro 的定位与选型",
+    "relatedSubtitle": "当需要参考图像与源视频指导镜头生成、且不强制固定起始首帧时，Pro 是主流的 O3 路线。",
     "relatedItems": [
       {
         "brand": "kling",
         "title": "Kling 3.0 Omni Standard",
-        "description": "Use Standard for cheaper O3 drafts when you want to test reference images, storyboard direction, or source-video V2V before a Pro pass.",
+        "description": "在进行 Pro 最终生成前，如需以更低成本测试参考图、分镜方向或源视频 V2V，可选用 Standard 进行创意草稿验证。",
         "modelSlug": "kling-o3-standard",
-        "ctaLabel": "Compare Pro vs Standard ->"
+        "ctaLabel": "对比 Pro 与 Standard ->"
       },
       {
         "brand": "kling",
         "title": "Kling 3 Pro",
-        "description": "Use Kling 3 Pro when the uploaded image should be the opening frame and the prompt should animate from that specific start image.",
+        "description": "当上传图片需要作为视频的开头首帧展示、且提示词应从该起始画面展开动态时，请选用 Kling 3 Pro。",
         "modelSlug": "kling-3-pro",
-        "ctaLabel": "Open Kling 3 Pro ->"
+        "ctaLabel": "打开 Kling 3 Pro ->"
       },
       {
         "brand": "bytedance",
         "title": "Seedance 2.0",
-        "description": "Compare against Seedance when the choice is storyboard-to-video continuity, native audio, dialogue, and multi-prompt scene structure.",
+        "description": "当需要在故事板生视频的连贯性、原生音频、对白以及多提示词场景结构之间权衡时，可与 Seedance 对比。",
         "modelSlug": "seedance-2-0",
-        "ctaLabel": "Compare with Seedance 2.0 ->"
+        "ctaLabel": "与 Seedance 2.0 对比 ->"
       }
     ],
-    "finalPara1": "Kling 3.0 Omni Pro is the default Kling route when references should guide identity, style, storyboard beats, camera language, or source-video motion without becoming mandatory opening frames.",
-    "finalPara2": "Use it for production prompts that need @Image and @Video1 anchors, then switch to Kling 3 only when a true start-frame animation is the intended workflow.",
-    "finalButton": "Generate with Kling 3.0 Omni Pro"
+    "finalPara1": "当参考素材需要指导角色身份、艺术风格、分镜节拍、运镜语言或源视频动态，且不作为强制首帧时，Kling 3.0 Omni Pro 是默认首选的 Kling 路线。",
+    "finalPara2": "适用于需要 @Image 与 @Video1 锚点的正式制作提示词；仅当确需严格以首帧图像作为动态起点时，再切换至 Kling 3。",
+    "finalButton": "使用 Kling 3.0 Omni Pro 开始生成"
   },
   "hero": {
-    "title": "Kling 3.0 Omni Pro reference and video-to-video for storyboard-guided AI video",
-    "intro": "Use Kling 3.0 Omni Pro when you want images to guide style, characters, objects, or storyboard structure without forcing the first uploaded image to appear as the opening frame. Use source-video V2V when @Video1 should guide motion, camera language, or scene continuity. Use Kling 3 Pro instead when your uploaded image should be the start frame.",
-    "badge": "Reference images · Source video V2V · @Image/@Video1 anchors · Native audio",
+    "title": "Kling 3.0 Omni Pro — 适用于故事板引导与视频生视频的专业参考模型",
+    "intro": "当希望图片指导风格、角色、主体或分镜结构，且不强制将首张上传图作为视频首帧时，请使用 Kling 3.0 Omni Pro。当需要 @Video1 引导动态、镜头语言或场景连贯性时，可使用源视频 V2V。如果上传图片必须作为视频起始首帧，请选用 Kling 3 Pro。",
+    "badge": "参考图片 · 源视频 V2V · @Image/@Video1 锚点 · 原生音频",
     "ctaPrimary": {
-      "label": "Start with Kling 3.0 Omni Pro",
+      "label": "使用 Kling 3.0 Omni Pro 开始生成",
       "href": "/app?engine=kling-o3-pro"
     },
     "secondaryLinks": [
       {
-        "label": "Use Kling 3 Pro start-frame mode",
+        "label": "使用 Kling 3 Pro 首帧模式",
         "href": "/zh/models/kling-3-pro"
       },
       {
@@ -57,85 +57,85 @@
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳应用场景",
     "items": [
       {
-        "title": "Storyboard images that should guide the scene without opening the clip",
+        "title": "指导场景演进而非作为固定首帧的故事板分镜图",
         "icon": "storyboard"
       },
       {
-        "title": "Source-video V2V for motion, camera language, and scene continuity",
+        "title": "用于控制动态节奏、镜头语言与场景连续性的源视频 V2V",
         "icon": "repeat2"
       },
       {
-        "title": "Style, character, and object references with @Image anchors",
+        "title": "通过 @Image 锚点引导风格、角色与特定主体",
         "icon": "layers"
       },
       {
-        "title": "Multi-shot cinematic prompts with native ambience or dialogue",
+        "title": "带有原生环境音效或简短对白的多镜头电影感提示词",
         "icon": "cinematic"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术概览",
   "technicalOverview": [
     {
-      "label": "Reference mode",
-      "body": "Upload reference or storyboard images in Reference mode and mention them as @Image1, @Image2, and so on. These images guide the generation; they are not treated as the required opening frame."
+      "label": "参考模式",
+      "body": "在参考模式（Reference mode）下上传参考图或分镜图片，并在提示词中使用 @Image1、@Image2 等进行引用。这些图片用于指导画面生成，不会被强制设定为视频首帧。"
     },
     {
-      "label": "Video-to-video",
-      "body": "Upload one 3-10 s source video for V2V and mention it as @Video1. Pro keeps optional @Image references for style or storyboard context, plus keep_audio when the source soundtrack should be preserved."
+      "label": "源视频生视频 (V2V)",
+      "body": "上传一段 3–10 秒的源视频用于 V2V，并在提示词中指代为 @Video1。Pro 支持同时保留可选的 @Image 参考图以控制风格或分镜上下文，并支持 keep_audio 参数以保留原片音频。"
     },
     {
-      "label": "Start frame mode",
-      "body": "Use Image-to-video mode when the uploaded image should be the opening frame. That is different from reference-to-video."
+      "label": "首帧模式",
+      "body": "当上传图片必须作为视频开篇画面时，请使用图生视频（首帧）模式。这与参考图生视频有着本质区别。"
     },
     {
-      "label": "Duration",
-      "body": "3-15 s per render"
+      "label": "视频时长",
+      "body": "单次渲染 3–15 秒"
     },
     {
-      "label": "Resolution",
+      "label": "分辨率",
       "body": "1080p"
     }
   ],
   "promptStructure": {
-    "title": "Prompting Kling 3.0 Omni Pro references",
-    "quote": "Use @Video1 for pacing and camera language, @Image1 as the storyboard composition, and @Image2 as the character style. Generate a three-shot cinematic sequence with consistent lighting and native ambience.",
-    "description": "Tell Kling 3.0 Omni what each reference controls: source-video motion, style, subject, camera composition, storyboard beat, or continuity anchor.",
+    "title": "Kling 3.0 Omni Pro 参考图提示词结构",
+    "quote": "使用 @Video1 控制节奏与镜头语言，@Image1 作为分镜构图参考，@Image2 作为角色风格。生成包含稳定光影与原生环境音效的三镜头电影级序列。",
+    "description": "向 Kling 3.0 Omni 明确各个参考素材的具体职责：源视频动态、艺术风格、主体特征、镜头构图、分镜节拍或连贯性锚点。",
     "steps": [
-      "Choose Reference mode",
-      "Upload 1-4 public reference/storyboard images",
-      "Upload one source video for video-to-video when @Video1 should guide motion or camera rhythm",
-      "Mention each image with @Image1, @Image2, etc.",
-      "Use keep_audio when the source-video audio should be preserved in the V2V output",
-      "Explain the creative intent and generated motion",
-      "Use Start frame only when the image should open the clip"
+      "选择参考模式（Reference mode）",
+      "上传 1–4 张公开参考图或分镜故事板图片",
+      "当需要 @Video1 指导动态或镜头节奏时，上传一段视频生视频源素材",
+      "在提示词中使用 @Image1、@Image2 等清晰指代每张图片",
+      "若需在 V2V 输出中保留源视频音轨，启用 keep_audio",
+      "详细描述创意意图与生成的动作动态",
+      "仅当图片必须作为视频起始画面时，才选用首帧模式"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "Use Kling 3 for start-frame animation.",
-      "Use Kling 3.0 Omni Reference when the images are guidance, not the opening frame.",
-      "Use Kling 3.0 Omni Pro V2V when a source video should guide motion, pacing, or camera continuity.",
-      "Keep one visual role per reference image.",
-      "Use short shot descriptions for storyboard continuity."
+      "若需以图片作为首帧动态起点，请使用 Kling 3。",
+      "当图片仅作为视觉参考而非开篇第一帧时，请使用 Kling 3.0 Omni 参考模式。",
+      "当源视频需要指导动态幅度、叙事节奏或运镜连贯性时，请使用 Kling 3.0 Omni Pro V2V。",
+      "每张参考图片尽量保持单一明确的视觉定位。",
+      "分镜镜头描述保持简洁聚焦，更有利于维持时序连贯性。"
     ]
   },
   "faqs": [
     {
-      "q": "What is the difference between Kling 3 and Kling 3.0 Omni?",
-      "a": "Kling 3 image-to-video treats the uploaded image as the start frame. Kling 3.0 Omni reference-to-video can use uploaded images as visual references or storyboard inputs without forcing them to be the first frame."
+      "q": "Kling 3 与 Kling 3.0 Omni 有什么区别？",
+      "a": "Kling 3 图生视频将上传图片作为起始首帧进行动画生成；而 Kling 3.0 Omni 参考生视频则将上传图片作为视觉参考或分镜输入，不会强制将其作为视频的第一帧。"
     },
     {
-      "q": "How do I reference uploaded images?",
-      "a": "Use Reference mode and mention the images as @Image1, @Image2, and so on in the prompt."
+      "q": "如何引用上传的参考图片？",
+      "a": "在生成界面选择参考模式（Reference mode），并在提示词中使用 @Image1、@Image2 等标签指代对应的图片。"
     },
     {
-      "q": "Does Kling 3.0 Omni Pro support video-to-video?",
-      "a": "Yes. Pro supports source-video V2V with one 3-10 s source clip referenced as @Video1, optional @Image references, and keep_audio for preserving the source soundtrack."
+      "q": "Kling 3.0 Omni Pro 支持视频生视频 (V2V) 吗？",
+      "a": "支持。Pro 支持源视频 V2V 工作流，可传入一段 3–10 秒的源视频并在提示词中指代为 @Video1，同时可搭配可选的 @Image 参考图，并支持 keep_audio 参数以保留原视频原声。"
     }
   ],
   "decision": {
@@ -143,24 +143,24 @@
     "hero": {
       "eyebrow": "KLING 3.0 OMNI PRO",
       "title": "Kling 3.0 Omni Pro",
-      "subtitle": "Reference-to-video, storyboard guidance and source-video V2V for Kling shots where uploaded media should guide the render instead of forcing the first frame.",
+      "subtitle": "支持参考图生视频、故事板引导与源视频 V2V，让上传素材指导画面生成，无需强制固定首帧。",
       "subtitleHighlights": [
-        "Reference-to-video",
-        "storyboard guidance",
-        "source-video V2V"
+        "参考图生视频",
+        "故事板引导",
+        "源视频 V2V"
       ],
-      "paragraph": "Use Kling 3.0 Omni Pro when reference images, storyboard frames or a source video should steer style, character continuity, motion or camera language. Use Kling 3 Pro instead when the uploaded image must visibly open the clip as the start frame.",
+      "paragraph": "当需要参考图像、分镜帧或源视频来掌控艺术风格、角色连续性、动作节奏或镜头语言时，选用 Kling 3.0 Omni Pro。当上传的图片必须作为视频开篇第一帧时，请选用 Kling 3 Pro。",
       "primaryCta": {
         "label": "使用 Kling 3.0 Omni Pro 生成",
         "href": "/app?engine=kling-o3-pro"
       },
       "secondaryCta": {
-        "label": "Compare vs Kling 3 Pro",
+        "label": "对比 Kling 3 Pro",
         "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-o3-pro"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Kling 3 Pro",
+          "label": "对比 Kling 3 Pro",
           "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-o3-pro"
         },
         {
@@ -174,181 +174,181 @@
       ]
     },
     "media": {
-      "caption": "Kling 3.0 Omni Pro example",
-      "description": "Storyboard-guided production render",
-      "renderLabel": "View render",
+      "caption": "Kling 3.0 Omni Pro 示例",
+      "description": "故事板分镜引导的商业级渲染作品",
+      "renderLabel": "查看渲染",
       "badges": [
-        "Storyboard",
-        "12s",
-        "Audio on"
+        "故事板",
+        "12秒",
+        "开启音频"
       ],
-      "altContext": "tiny lighthouse keeper storyboard-guided Kling 3.0 Omni Pro render"
+      "altContext": "Kling 3.0 Omni Pro 故事板分镜引导微型灯塔守护者渲染案例"
     },
     "features": [
       {
-        "title": "Reference images",
-        "body": "Use @Image anchors for style, subject, storyboard or scene continuity without forcing the first image to open.",
+        "title": "参考图片",
+        "body": "使用 @Image 锚点指定风格、主体、故事板或场景连贯性，无需强制首图开篇。",
         "tone": "reference"
       },
       {
-        "title": "Source-video V2V",
-        "body": "Attach a source video and refer to @Video1 when motion, pacing or camera language should guide the shot.",
+        "title": "源视频 V2V",
+        "body": "当动态、节奏或运镜语言需要指导镜头演进时，添加源视频并指代为 @Video1。",
         "tone": "continuity"
       },
       {
-        "title": "Optional start/end frames",
-        "body": "Combine references with opening or ending frames when the shot needs stronger structure.",
+        "title": "可选首尾帧",
+        "body": "当镜头需要更严谨的起承转合结构时，可将参考图与起始帧或结束帧灵活结合。",
         "tone": "reference"
       },
       {
-        "title": "Native audio route",
-        "body": "Generate with audio when the selected O3 route exposes audio controls.",
+        "title": "原生音频支持",
+        "body": "当选定的 O3 路由开放音频控制选项时，可随画面同步生成原生音频。",
         "tone": "audio"
       },
       {
-        "title": "Up to 15s",
-        "body": "Use Pro for longer reference-guided clips before moving final 4K work to the 4K route.",
+        "title": "最长 15 秒",
+        "body": "使用 Pro 创作更长的参考引导镜头片段，确认满意后再平移至 4K 路由进行最终交付。",
         "tone": "duration"
       },
       {
-        "title": "Live quote",
-        "body": "The app shows the exact price before generation.",
+        "title": "实时透明报价",
+        "body": "在应用中生成前，系统将呈现精确清晰的预估价格。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "O3 Pro or Kling 3 Pro?",
-        "body": "Choose O3 Pro when images are references or storyboard inputs. Choose Kling 3 Pro when an uploaded image should be the visible start frame.",
+        "title": "选用 O3 Pro 还是 Kling 3 Pro？",
+        "body": "当图片仅用作参考或故事板输入时选择 O3 Pro；当上传图片必须作为画面的起始首帧时选择 Kling 3 Pro。",
         "cta": {
-          "label": "Compare O3 Pro vs Kling 3 Pro",
+          "label": "对比 O3 Pro 与 Kling 3 Pro",
           "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-o3-pro"
         }
       },
       {
-        "title": "Need source-video guidance?",
-        "body": "Use O3 Pro or Standard for source-video V2V. Prompt with @Video1 when the source clip should control motion or camera continuity.",
+        "title": "需要源视频引导？",
+        "body": "使用 O3 Pro 或 Standard 进行源视频 V2V。当源片段需要掌控动作或镜头连贯性时，在提示词中指代 @Video1。",
         "cta": {
-          "label": "Open O3 Pro composer",
+          "label": "打开 O3 Pro 创作台",
           "href": "/app?engine=kling-o3-pro"
         }
       },
       {
-        "title": "Need native 4K?",
-        "body": "Use O3 4K after the reference direction is approved. Stay on Pro while testing source-video V2V and storyboard structure.",
+        "title": "需要原生 4K？",
+        "body": "在确认参考方案方向无误后选用 O3 4K。在调试源视频 V2V 与故事板结构阶段，建议停留在 Pro。",
         "cta": {
-          "label": "View O3 4K",
+          "label": "查看 O3 4K",
           "href": "/zh/models/kling-o3-4k"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Prompt only",
-        "body": "Use text when no visual anchor is needed and O3 should generate from the scene brief."
+        "title": "仅纯文本",
+        "body": "当无需视觉锚点、完全依靠场景文字描述由 O3 自主生成时使用。"
       },
       {
-        "title": "Reference images",
-        "body": "Use @Image1, @Image2 and more for character, object, style or storyboard guidance."
+        "title": "参考图片",
+        "body": "使用 @Image1、@Image2 等锚点引导角色、物体、艺术风格或分镜故事板。"
       },
       {
-        "title": "Start/end frames",
-        "body": "Add optional opening or ending frames when the first or last pose must be controlled."
+        "title": "首尾帧控制",
+        "body": "当必须精准把控起始动作或最终落幅姿态时，添加可选的起始帧或结束帧。"
       },
       {
-        "title": "Source video",
-        "body": "Use @Video1 for video-to-video motion, pacing, composition or camera continuity."
+        "title": "源视频",
+        "body": "使用 @Video1 进行视频生视频，精确把控动态、节奏、构图或运镜连贯性。"
       },
       {
-        "title": "Reference plus V2V",
-        "body": "Combine source video and reference images when motion and visual identity both matter."
+        "title": "参考图 + V2V",
+        "body": "当动态节奏与视觉身份特征同样重要时，同时结合源视频与参考图像。"
       }
     ],
     "pricingCopy": {
-      "title": "Kling 3.0 Omni Pro pricing at a glance",
-      "subtitle": "Preset totals for reference-guided and video-to-video scenarios. Check the live quote before generating.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
+      "title": "Kling 3.0 Omni Pro 价格一览",
+      "subtitle": "针对参考图引导与源视频 V2V 场景的预设总价。生成前可在工作台中查看实时报价。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
+      "ctaLabel": "查看完整价格表",
       "ctaHref": "/zh/pricing#kling-o3-pro-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Pro: Reference, Storyboard & V2V | MaxVideoAI",
-      "description": "Use Kling 3.0 Omni Pro for reference-to-video, storyboard inputs, source-video V2V, @Image and @Video1 prompts, native audio and live pricing."
+      "title": "Kling 3.0 Omni Pro：参考图、故事板分镜与 V2V | MaxVideoAI",
+      "description": "使用 Kling 3.0 Omni Pro 进行参考图生视频、分镜故事板输入、源视频 V2V、@Image 与 @Video1 提示词、原生音频与实时报价。"
     }
   },
   "prompting": {
     "modelSlug": "kling-o3-pro",
     "section": {
-      "title": "提示词实验室 — Kling 3.0 Omni Pro references and V2V",
+      "title": "提示词实验室 — Kling 3.0 Omni Pro 参考图与 V2V",
       "intro": null,
       "tip": null,
       "guide": null,
-      "referencesTitle": "How O3 Pro uses references and source video"
+      "referencesTitle": "O3 Pro 如何使用参考图与源视频"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Text",
-        "title": "O3 Pro text-to-video prompt",
-        "description": "Use this when no uploaded asset should guide the scene.",
-        "copy": "Subject:\n[Character / product / place + 2 visual traits]\n\nAction:\n[One readable action or 2-3 short beats]\n\nCamera:\n[Camera move + framing + continuity]\n\nStyle:\n[Lighting, texture, palette, cinematic look]\n\nAudio:\n[Native ambience, short SFX, brief dialogue if useful]\n\nExample:\nA designer crosses a night studio holding a glowing prototype. Camera: low tracking shot into a slight push-in. Style: blue reflections, brushed metal, premium finish. Audio: studio ambience, subtle electric hum, no subtitles."
+        "label": "纯文本",
+        "title": "O3 Pro 文生视频提示词",
+        "description": "当无需任何上传素材指导场景时使用此结构。",
+        "copy": "主体：\n[角色 / 产品 / 地点 + 2 个关键视觉特征]\n\n动作：\n[一个清晰可辨的动作 或 2–3 个简短节拍]\n\n运镜：\n[运镜方式 + 取景构图 + 画面连贯性]\n\n风格：\n[光影布光、材质纹理、色彩基调、电影感影调]\n\n音频：\n[原生环境音、简短音效，必要时包含简短对白]\n\n示例：\n设计师手持发光的产品原型穿过夜间工作室。运镜：低机位跟拍并缓慢向前推进。风格：蓝色倒影反光、拉丝金属、高端质感。音频：工作室环境音、细微电流嗡鸣，无字幕。"
       },
       {
         "id": "structured",
-        "label": "Start/End",
-        "title": "Optional start/end frames with references",
-        "description": "Use this when the opening or landing pose must stay controlled.",
-        "copy": "Optional opening frame:\n[What should structure the first beat without overriding references]\n\nOptional end frame:\n[Expected final pose / composition / camera distance]\n\nReferences:\n@Image1 = [composition or character]\n@Image2 = [style, lighting, or object]\n\nAction and camera:\n[One readable motion path between opening and ending]\n\nExample:\nUse @Image1 as the opening composition and @Image2 as the lighting style. The character walks slowly toward camera, then lands in a stable pose close to the end frame. Consistent light, no location change."
+        "label": "首尾帧",
+        "title": "结合参考图的可选首尾帧控制",
+        "description": "当起始动作或结束落幅姿态必须保持精准受控时使用。",
+        "copy": "可选起始帧：\n[用于规范首个节拍的画面结构，但不覆盖参考图指引]\n\n可选结束帧：\n[期望的最终姿态 / 构图 / 镜头距离]\n\n参考素材：\n@Image1 = [构图或角色主体]\n@Image2 = [风格、光影或道具]\n\n动作与运镜：\n[起始与结束之间一条清晰可辨的运动轨迹]\n\n示例：\n以 @Image1 作为起始构图，以 @Image2 作为光影风格基调。角色缓缓朝镜头走来，随后在接近结束帧的位置定格为稳定姿态。保持光影稳定连贯，不切换场景。"
       },
       {
         "id": "pro",
-        "label": "Refs + V2V",
-        "title": "O3 Pro references and source video",
-        "description": "Use this when @Video1 guides motion and @Image guides identity or style.",
-        "copy": "@Video1 = [camera rhythm / motion / pacing]\n@Image1 = [storyboard or composition]\n@Image2 = [character, product, or style]\n\nIntent:\n[What the video should generate without copying every source frame]\n\nContinuity:\n[What must not drift: face, product, location, lighting]\n\nAudio:\n[generate_audio or keep_audio depending on the goal]\n\nExample:\nUse @Video1 for camera rhythm, @Image1 for storyboard composition, and @Image2 for character style. Generate a 12s cinematic three-beat sequence with stable continuity, native ambience, and no added text."
+        "label": "参考图 + V2V",
+        "title": "O3 Pro 参考图与源视频工作流",
+        "description": "当 @Video1 引导动作节奏、@Image 引导主体身份或风格时使用。",
+        "copy": "@Video1 = [运镜节奏 / 动作 / 配速]\n@Image1 = [分镜故事板或构图]\n@Image2 = [角色、产品或风格]\n\n创作意图：\n[视频期望生成的动态内容，而非机械复制源视频的每一帧]\n\n连贯性约束：\n[绝不允许发生漂移的元素：面容、产品、地点、光影]\n\n音频：\n[根据目标选用 generate_audio（重新生成音频）或 keep_audio（保留源片音频）]\n\n示例：\n以 @Video1 控制运镜节奏，以 @Image1 指导分镜构图，以 @Image2 锁定角色风格。生成一段 12 秒的三节拍电影感序列，保持稳定连贯性、原生环境音，且不添加任何文字。"
       },
       {
         "id": "storyboard",
-        "label": "Timeline",
-        "title": "O3 Pro multi-shot timeline",
-        "description": "Use this to structure a reference-guided sequence with continuity.",
-        "copy": "Duration: [8-15s]\n\nShot 1 (0-4s):\n[Composition guided by @Image1 + readable action]\n\nShot 2 (4-8s):\n[Motion or camera inspired by @Video1]\n\nShot 3 (8-12s):\n[Payoff / final pose / product insert]\n\nAnchors:\n[Style @Image2, wardrobe, location, lighting, audio]\n\nExample:\nShot 1: @Image1 defines the scene. Shot 2: @Video1 guides camera speed. Shot 3: @Image2 locks the final style. Short native ambience, character and location continuity."
+        "label": "分镜时间轴",
+        "title": "O3 Pro 多镜头分镜时间轴",
+        "description": "用于构建结构分明、具备跨镜头连续性的分镜序列。",
+        "copy": "时长：[8–15秒]\n\n镜头 1 (0–4秒)：\n[由 @Image1 引导构图 + 清晰明确的动作]\n\n镜头 2 (4–8秒)：\n[由 @Video1 激发的动作或运镜节奏]\n\n镜头 3 (8–12秒)：\n[亮点呈现 / 最终定格姿态 / 产品特写]\n\n锚点锁定：\n[风格 @Image2、服饰道具、场景地点、光影基调、音频]\n\n示例：\n镜头 1：@Image1 定义场景基调。镜头 2：@Video1 指导运镜速度。镜头 3：@Image2 锁定最终风格。简短原生环境音，保持角色与场景连贯一致。"
       }
     ],
     "tabNotes": [],
     "globalPrinciples": [
-      "State whether each asset is a reference or a visible frame.",
-      "Use @Image1, @Image2 for images and @Video1 only for source-video V2V.",
-      "When @Video1 is loaded, the workflow becomes V2V; start/end frames should not drive the shot.",
-      "Keep one readable action per shot and one job per reference.",
-      "Use keep_audio only when the source soundtrack should remain."
+      "明确声明各个资产是作为参考引导还是作为可见的起始/结束帧。",
+      "使用 @Image1、@Image2 引用图片，@Video1 仅用于源视频生视频 (V2V)。",
+      "载入 @Video1 后工作流即转为 V2V，此时起始/结束帧不应主导镜头走向。",
+      "每个镜头保持单一明确的动作，每个参考素材赋予单一清晰的职责。",
+      "仅在需要完整保留源视频音轨时才使用 keep_audio。"
     ],
     "engineWhy": [
-      "Pro is the right route when references, storyboard, and V2V need stronger fidelity.",
-      "Images are not forced into the start frame unless you explicitly choose an opening frame.",
-      "@Video1 guides motion, camera rhythm, and continuity; it does not replace the prompt.",
-      "Native audio and keep_audio work best when short and tied to visible actions."
+      "当参考图、故事板和视频生视频需要更高的画面保真度与细节质感时，Pro 是最理想的路线。",
+      "除非显式指定起始帧，否则上传的图片不会被强制固定为视频首帧。",
+      "@Video1 用于引导动作动态、镜头节奏与连续性，但不能替代文本提示词的作用。",
+      "原生音频与 keep_audio 在音频简短且与画面可见动作紧密结合时表现最佳。"
     ],
     "demo": {
-      "title": "Demo prompt — O3 Pro V2V + references",
-      "promptLabel": "Text prompt",
-      "prompt": "Subject:\nA tiny lighthouse keeper no taller than a coffee cup, wearing a yellow raincoat and carrying a glowing lantern.\n\nAction:\nHe walks across a kitchen table during a storm, climbs a stack of books, and raises his lantern toward a toy lighthouse as the light begins to glow.\n\nCamera:\nMacro close tracking shot at table height, following his small steps. End with a slight push-in on the lantern and lighthouse.\n\nStyle:\nWarm cinematic macro realism, cozy indoor storm atmosphere, shallow depth of field, raindrops on the window, golden lantern light against cool blue shadows.\n\nAudio:\nRain tapping on glass, tiny footsteps on wood, soft lantern hum, distant thunder.",
+      "title": "演示提示词 — O3 Pro V2V 与参考图",
+      "promptLabel": "文生视频提示词",
+      "prompt": "主体：\n一位身高不超过咖啡杯的微型灯塔守护者，身穿黄色雨衣，手提发光灯笼。\n\n动作：\n他在暴风雨中穿越厨房餐桌，攀爬一叠书籍，并将灯笼举向玩具灯塔，灯光随之亮起。\n\n运镜：\n桌面高度微距贴近跟踪运镜，跟随他细小的步伐。结尾对灯笼与灯塔做轻微前推。\n\n风格：\n温馨电影级微距写实感，舒适室内暴风雨氛围，浅景深，窗上雨滴，金色灯笼光映衬冷蓝阴影。\n\n音频：\n雨滴敲击玻璃声、微小木质脚步声、微弱灯光嗡鸣、远处雷声。",
       "notes": [],
       "summary": {
-        "subject": "Tiny lighthouse keeper in a yellow raincoat",
-        "action": "Crosses a kitchen table, climbs books, and lights a toy lighthouse",
-        "camera": "Macro table-height tracking with a slight final push-in",
-        "style": "Warm cinematic macro realism, cozy storm, golden lantern light",
-        "output": "Rain on glass, tiny footsteps, lantern hum, distant thunder"
+        "subject": "身穿黄色雨衣的微型灯塔守护者",
+        "action": "穿过暴风雨中的餐桌，攀爬书堆，点亮玩具灯塔",
+        "camera": "桌面高度微距平移跟踪运镜，结尾微推向灯塔",
+        "style": "温馨电影级微距写实感，舒适室内暴风雨氛围，金色灯光",
+        "output": "雨滴敲击玻璃声、微小木质脚步声、微弱灯光嗡鸣、远处雷声"
       },
       "presentationOverrides": {
-        "modeLabel": "Text prompt",
-        "outputLabel": "Audio",
+        "modeLabel": "提示词",
+        "outputLabel": "音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "Kling 3.0 Omni Pro tiny lighthouse keeper render"
+        "altContext": "Kling 3.0 Omni Pro 微型灯塔守护者渲染效果"
       }
     },
     "imageExamples": null
@@ -356,9 +356,9 @@
   "examples": {
     "modelSlug": "kling-o3-pro",
     "section": {
-      "title": "Kling 3.0 Omni Pro storyboard and V2V demos",
-      "intro": "Review Pro examples for reference images, storyboard inputs, source-video V2V, and native audio. Use these clips to compare O3 reference guidance against Kling 3 start-frame workflows before choosing a production route.",
-      "defaultCtaLabel": "Browse Kling reference examples ->",
+      "title": "Kling 3.0 Omni Pro 故事板分镜与 V2V 案例",
+      "intro": "探索涵盖参考图像、分镜输入、源视频 V2V 以及原生音频的 Pro 案例。在确定商业制作路线前，通过这些镜头直观对比 O3 参考引导与 Kling 3 首帧工作流的差异。",
+      "defaultCtaLabel": "浏览 Kling 参考图案例 ->",
       "recreateLabel": null
     },
     "filters": [
@@ -390,32 +390,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Kling 3.0 Omni Pro reference and video-to-video for storyboard-guided AI video.",
+        "title": "真实社区精选渲染",
+        "body": "探索 Kling 3.0 Omni Pro 在参考图引导与视频生视频方面的丰富表现。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现镜头设置",
+        "body": "一键载入创作工作台，直接复用其提示词结构与参数设定。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "同步原生音频",
+        "body": "随画面同步生成自然逼真的对白、环境音与音效。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头画面连贯性",
+        "body": "在整个镜头序列中保持角色身份、视觉风格与场景环境的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "安全合规护航",
+        "body": "内置安全过滤与内容审核机制，为负责任的创作流程提供保障。",
         "icon": "shield"
       }
     ],

@@ -53,7 +53,7 @@ nodeRequire.extensions['.css'] = (module) => {
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 
 const root = process.cwd();
-const locales = ['en', 'fr', 'es'] as const;
+const locales = ['en', 'fr', 'es', 'zh'] as const;
 
 function requiredStudioCopyPaths(source: unknown, prefix = 'workspace.studio'): string[] {
   if (!source || typeof source !== 'object' || Array.isArray(source)) return [];

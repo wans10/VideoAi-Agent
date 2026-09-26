@@ -2,15 +2,15 @@
   "marketingName": "Seedance 2.5",
   "versionLabel": "2.5",
   "seo": {
-    "title": "Seedance 2.5 AI Video Generator: 30s, 1080p & Audio",
-    "description": "Generate 4–30-second Seedance 2.5 videos at up to 1080p with text, start and end images, multimodal references, video editing, extension and optional audio.",
+    "title": "Seedance 2.5 AI 视频生成器：30秒、1080p 与音频",
+    "description": "使用文本、起始和结束图像、多模态参考、视频编辑、延伸及可选音频，生成最长 30 秒、最高 1080p 的 Seedance 2.5 视频。",
     "image": "/models/seedance-2-5-launch.jpg"
   },
-  "overview": "Create 4–30-second videos in landscape, square or vertical formats at 480p, 720p or 1080p and 24 FPS. Start from text or images, direct the result with multimodal references, edit or extend video, and add generated audio when the project needs it.",
+  "overview": "以横屏、方形或竖屏格式，在 480p、720p 或 1080p、24 FPS 下创建 4–30 秒视频。从文本或图像出发，通过多模态参考引导结果，编辑或延伸视频，并在项目需要时添加生成音频。",
   "hero": {
-    "title": "Seedance 2.5 — create longer AI videos with multimodal control",
-    "intro": "Turn a prompt, frames or references into a coherent 4–30-second video, with output up to 1080p and optional generated audio.",
-    "badge": "New · Up to 30 seconds · 1080p · Native audio",
+    "title": "Seedance 2.5 — 通过多模态控制创作更长的 AI 视频",
+    "intro": "将提示词、帧或参考素材转化为连贯的 4–30 秒视频，输出最高 1080p，支持可选生成音频。",
+    "badge": "新功能 · 最长 30 秒 · 1080p · 原生音频",
     "ctaPrimary": {
       "label": "使用 Seedance 2.5 生成",
       "href": "/app?engine=seedance-2-5"
@@ -21,92 +21,92 @@
         "href": "/zh/examples/seedance"
       },
       {
-        "label": "Open Seedance 2.5 prompt examples",
+        "label": "查看 Seedance 2.5 提示词示例",
         "href": "#prompting"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best uses for Seedance 2.5",
+    "title": "Seedance 2.5 最佳使用场景",
     "items": [
       {
-        "title": "Longer cinematic stories with a clear beginning, progression and ending",
+        "title": "具有清晰开头、发展和结尾的较长电影感故事",
         "icon": "storyboard"
       },
       {
-        "title": "Commercial concepts built around controlled reveals and final frames",
+        "title": "围绕受控揭示和最终帧构建的商业概念",
         "icon": "product"
       },
       {
-        "title": "Human scenes driven by gestures, expressions and brief spoken moments",
+        "title": "由手势、表情和简短对白驱动的人物场景",
         "icon": "users"
       },
       {
-        "title": "Physical action where contact and environmental reactions must remain readable",
+        "title": "接触和环境反应必须保持清晰的肢体动作",
         "icon": "camera"
       }
     ]
   },
-  "technicalOverviewTitle": "Seedance 2.5 overview",
+  "technicalOverviewTitle": "Seedance 2.5 概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "4–30 seconds"
+      "label": "时长",
+      "body": "4–30 秒"
     },
     {
-      "label": "Output",
-      "body": "480p, 720p or 1080p · 21:9, 16:9, 4:3, 1:1, 3:4 or 9:16 · 24 FPS"
+      "label": "输出",
+      "body": "480p、720p 或 1080p · 21:9、16:9、4:3、1:1、3:4 或 9:16 · 24 FPS"
     },
     {
-      "label": "Creation inputs",
-      "body": "Text prompts, start and optional end images, and multimodal references"
+      "label": "创作输入",
+      "body": "文本提示词、起始图像和可选结束图像，以及多模态参考素材"
     },
     {
-      "label": "Video workflows",
-      "body": "Edit a source video or extend one to three clips"
+      "label": "视频工作流",
+      "body": "编辑源视频或将一至三个片段进行延伸"
     },
     {
-      "label": "Audio",
-      "body": "Optional generated audio in the same workflow"
+      "label": "音频",
+      "body": "同一工作流中可选生成音频"
     }
   ],
   "tips": {
-    "title": "How to direct a longer Seedance 2.5 scene",
+    "title": "如何指导较长的 Seedance 2.5 场景",
     "items": [
-      "Write one clear story arc with a beginning, transition and ending.",
-      "Assign one camera move to each timed beat instead of stacking directions.",
-      "Describe visible causes and reactions to keep physical motion readable.",
-      "Keep dialogue brief and pair each line with a specific action or expression."
+      "编写一个具有开头、过渡和结尾的清晰故事弧线。",
+      "为每个定时节拍分配一个镜头运动，而不是叠加多个指令。",
+      "描述可见的原因和反应，以保持肢体动作的可读性。",
+      "保持对白简短，并将每句台词与特定动作或表情配对。"
     ]
   },
   "faqs": [
     {
-      "q": "What does this Seedance 2.5 page show?",
-      "a": "It shows how Seedance 2.5 turns text, frames, multimodal references and source video into longer cinematic outputs with optional generated audio."
+      "q": "这个 Seedance 2.5 页面展示了什么？",
+      "a": "它展示了 Seedance 2.5 如何将文本、帧、多模态参考和源视频转化为具有可选生成音频的较长电影感输出。"
     },
     {
-      "q": "How long are the scenes shown here?",
-      "a": "The featured material includes a 24-second hero render and demonstrates scene planning for videos up to 30 seconds."
+      "q": "这里展示的场景有多长？",
+      "a": "精选素材包含一个 24 秒的主视频渲染，并演示了最长 30 秒视频的场景规划。"
     },
     {
-      "q": "How should I prompt a longer scene?",
-      "a": "Define the concept first, assign actions and camera direction to timed beats, then state the continuity and safety constraints that must remain stable."
+      "q": "如何提示一个较长的场景？",
+      "a": "首先定义概念，将动作和镜头方向分配到定时节拍，然后说明必须保持稳定的连续性和安全约束。"
     },
     {
-      "q": "Can I generate with Seedance 2.5 from this page?",
-      "a": "Seedance 2.5 generation is available to MaxVideoAI users, with the price calculated and shown before each render."
+      "q": "我可以从这个页面使用 Seedance 2.5 生成吗？",
+      "a": "Seedance 2.5 生成功能对 MaxVideoAI 用户开放，价格在每次渲染前计算并显示。"
     }
   ],
   "decision": {
     "modelSlug": "seedance-2-5",
     "hero": {
-      "eyebrow": "From text, images or video",
+      "eyebrow": "从文本、图像或视频出发",
       "title": "Seedance 2.5",
-      "subtitle": "Direct the scene. From first frame to last.",
+      "subtitle": "主导场景。从第一帧到最后一帧。",
       "subtitleHighlights": [
-        "Direct the scene."
+        "主导场景。"
       ],
-      "paragraph": "Create videos from 4 to 30 seconds, up to 1080p. Start with text or images, guide the motion with references, and choose whether to generate sound.",
+      "paragraph": "创建 4 至 30 秒的视频，最高 1080p。从文本或图像出发，用参考素材引导运动，并选择是否生成声音。",
       "primaryCta": {
         "label": "使用 Seedance 2.5 生成",
         "href": "/app?engine=seedance-2-5"
@@ -132,57 +132,57 @@
     },
     "media": {
       "caption": "Seedance 2.5 真实渲染",
-      "description": "A longer cinematic sequence created with MaxVideoAI",
+      "description": "使用 MaxVideoAI 创作的较长电影感序列",
       "renderLabel": "查看完整渲染",
       "badges": [
         "24s",
         "720p",
         "16:9"
       ],
-      "altContext": "long-form cinematic Seedance 2.5 scene with controlled camera movement"
+      "altContext": "具有受控镜头运动的长篇电影感 Seedance 2.5 场景"
     },
     "features": [
       {
-        "title": "4–30-second video",
-        "body": "Choose the duration your story needs and render in 480p, 720p or 1080p at 24 FPS.",
+        "title": "4–30 秒视频",
+        "body": "根据故事需求选择时长，以 24 FPS 在 480p、720p 或 1080p 下渲染。",
         "tone": "duration"
       },
       {
-        "title": "Start and end frame control",
-        "body": "Animate a start image and add an optional end image to guide the transition.",
+        "title": "起始和结束帧控制",
+        "body": "为起始图像制作动画并添加可选的结束图像，以引导过渡效果。",
         "tone": "reference"
       },
       {
-        "title": "Multimodal references",
-        "body": "Guide subject identity, motion, pacing or sound with image, video and audio references.",
+        "title": "多模态参考",
+        "body": "使用图像、视频和音频参考来引导主体身份、运动、节奏或声音。",
         "tone": "continuity"
       },
       {
-        "title": "Edit, extend and add audio",
-        "body": "Transform source video, extend clips and include generated audio when it suits the deliverable.",
+        "title": "编辑、延伸并添加音频",
+        "body": "转换源视频、延伸片段，并在适合交付物时加入生成音频。",
         "tone": "audio"
       }
     ],
     "decisionCards": [
       {
-        "title": "Create from text",
-        "body": "Describe the scene, action, camera and sound to turn a written concept into a complete video.",
+        "title": "从文本创作",
+        "body": "描述场景、动作、镜头和声音，将书面概念转化为完整视频。",
         "cta": {
           "label": "通过文本生成",
           "href": "/app?engine=seedance-2-5"
         }
       },
       {
-        "title": "Control the first and final frames",
-        "body": "Use start and end images when a transition needs to land on a planned composition.",
+        "title": "控制首尾帧",
+        "body": "当过渡需要落在规划好的构图上时，使用起始和结束图像。",
         "cta": {
           "label": "使用 frames 生成",
           "href": "/app?engine=seedance-2-5"
         }
       },
       {
-        "title": "Edit or extend video",
-        "body": "Restyle a source clip or continue one to three clips while keeping the direction in one workflow.",
+        "title": "编辑或延伸视频",
+        "body": "重新风格化源片段，或在一个工作流中延续一至三个片段，同时保持方向一致。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -191,114 +191,114 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text and frame control",
-        "body": "Start from text, or guide the shot with a start image and an optional end image."
+        "title": "文本与帧控制",
+        "body": "从文本出发，或使用起始图像和可选结束图像引导镜头。"
       },
       {
-        "title": "Multimodal references",
-        "body": "Use image, video and audio references to carry visual identity, motion, pacing or sound into the result."
+        "title": "多模态参考",
+        "body": "使用图像、视频和音频参考，将视觉身份、运动、节奏或声音带入结果。"
       },
       {
-        "title": "Video editing and extension",
-        "body": "Edit one source video or extend one to three clips into a longer continuation."
+        "title": "视频编辑与延伸",
+        "body": "编辑一个源视频，或将一至三个片段延伸为更长的延续内容。"
       },
       {
-        "title": "Optional generated audio",
-        "body": "Generate ambience, effects or brief speech with the video, or leave audio off for post-production."
+        "title": "可选生成音频",
+        "body": "与视频一起生成环境音、音效或简短语音，或关闭音频以进行后期制作。"
       }
     ],
     "pricingCopy": {
       "title": "Seedance 2.5 渲染计费",
-      "subtitle": "Choose duration, resolution, inputs and audio, then review the calculated price before you render.",
-      "footnote": "The price is shown before rendering and updates with the settings you select.",
+      "subtitle": "选择时长、分辨率、输入和音频，然后在渲染前查看计算出的价格。",
+      "footnote": "价格在渲染前显示，并随您选择的设置更新。",
       "ctaLabel": "使用 Seedance 2.5 生成",
       "ctaHref": "/app?engine=seedance-2-5"
     },
     "meta": {
-      "title": "Seedance 2.5 AI Video Generator: 30s, 1080p & Audio",
-      "description": "Generate 4–30-second Seedance 2.5 videos at up to 1080p with text, frames, multimodal references, video editing, extension and optional audio."
+      "title": "Seedance 2.5 AI 视频生成器：30秒、1080p 与音频",
+      "description": "使用文本、帧、多模态参考、视频编辑、延伸及可选音频，生成最长 30 秒、最高 1080p 的 Seedance 2.5 视频。"
     }
   },
   "prompting": {
     "modelSlug": "seedance-2-5",
     "section": {
       "title": "提示词实验室 — Seedance 2.5",
-      "intro": "Build a longer scene in three passes: define the concept, direct timed beats, then lock the constraints that protect continuity.",
-      "tip": "Give each time range one visible action and one camera instruction.",
+      "intro": "分三步构建较长场景：定义概念、指导定时节拍，然后锁定保护连续性的约束条件。",
+      "tip": "为每个时间段分配一个可见动作和一个镜头指令。",
       "guide": null,
-      "referencesTitle": "A text-first workflow for longer scenes"
+      "referencesTitle": "适用于较长场景的文本优先工作流"
     },
     "tabs": [
       {
         "id": "concept",
-        "label": "Concept",
-        "title": "Define the scene arc",
-        "description": "Establish who is present, what changes and where the scene must end.",
-        "copy": "Subject and setting:\n[Who appears, where they are, and the defining visual details]\n\nStory change:\n[What happens from the opening moment to the final beat]\n\nEnding frame:\n[The final action, expression or composition]\n\nVisual language:\n[Lighting, palette, texture and lens character]"
+        "label": "概念",
+        "title": "定义场景弧线",
+        "description": "确定出现的人物、发生的变化以及场景必须结束的位置。",
+        "copy": "主体与场景设定：\n[出现的人物、他们所在的位置，以及决定性的视觉细节]\n\n故事变化：\n[从开场到最终节拍发生了什么]\n\n结束帧：\n[最终动作、表情或构图]\n\n视觉语言：\n[光线、色调、质感和镜头特性]"
       },
       {
         "id": "timeline",
-        "label": "Timeline",
-        "title": "Direct timed story beats",
-        "description": "Map actions and camera movement across the full duration.",
-        "copy": "0-6 seconds:\n[Opening composition + first action + camera move]\n\n6-14 seconds:\n[Development beat + reaction + camera transition]\n\n14-22 seconds:\n[Main reveal or performance beat + framing]\n\n22-30 seconds:\n[Resolution + final camera position]\n\nAudio direction:\n[Ambience, brief dialogue and action-linked sound cues]"
+        "label": "时间线",
+        "title": "指导定时故事节拍",
+        "description": "在完整时长内映射动作和镜头运动。",
+        "copy": "0-6 秒：\n[开场构图 + 第一个动作 + 镜头运动]\n\n6-14 秒：\n[发展节拍 + 反应 + 镜头过渡]\n\n14-22 秒：\n[主要揭示或表演节拍 + 取景]\n\n22-30 秒：\n[结局 + 最终镜头位置]\n\n音频方向：\n[环境音、简短对白和与动作关联的声音提示]"
       },
       {
         "id": "constraints",
-        "label": "Constraints",
-        "title": "Protect continuity and clarity",
-        "description": "State the elements that cannot drift while the scene develops.",
-        "copy": "Continuity anchors:\n[Wardrobe, props, location, lighting and screen direction]\n\nPhysical rules:\n[Contact, weight, speed and environmental reactions]\n\nPerformance rules:\n[Eye lines, gestures, facial expression and dialogue timing]\n\nAvoid:\n[Unwanted cuts, duplicate subjects, abrupt camera changes and visual artifacts]"
+        "label": "约束条件",
+        "title": "保护连续性与清晰度",
+        "description": "说明在场景发展过程中不能偏移的元素。",
+        "copy": "连续性锚点：\n[服装、道具、地点、光线和屏幕方向]\n\n物理规则：\n[接触、重量、速度和环境反应]\n\n表演规则：\n[视线方向、手势、面部表情和对白时机]\n\n避免：\n[不必要的剪切、重复主体、突兀的镜头变换和视觉伪影]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "concept",
-        "body": "Concept sets one readable narrative change for the whole scene."
+        "body": "概念为整个场景设定一个清晰可读的叙事变化。"
       },
       {
         "tabId": "timeline",
-        "body": "Timeline assigns one action and one camera move to each beat."
+        "body": "时间线为每个节拍分配一个动作和一个镜头运动。"
       },
       {
         "tabId": "constraints",
-        "body": "Constraints repeat only the details that must remain stable."
+        "body": "约束条件只重复必须保持稳定的细节。"
       }
     ],
     "globalPrinciples": [
-      "Describe a complete scene arc before adding shot-level detail.",
-      "Use time ranges to sequence actions instead of requesting everything at once.",
-      "Keep camera language deliberate and physically compatible with the scene.",
-      "Tie gestures, expressions and brief dialogue to visible story beats."
+      "在添加镜头级细节之前，先描述完整的场景弧线。",
+      "使用时间段来排列动作顺序，而不是一次性请求所有内容。",
+      "保持镜头语言的刻意性，并与场景物理上相容。",
+      "将手势、表情和简短对白与可见的故事节拍关联起来。"
     ],
     "engineWhy": [
-      "Longer scene planning gives setup, development and payoff enough room to read.",
-      "Timed direction makes camera movement and performance easier to evaluate beat by beat.",
-      "Explicit physical rules help preserve believable motion and reactions across the sequence."
+      "较长的场景规划为铺垫、发展和高潮提供了足够的空间。",
+      "定时指导使镜头运动和表演更易于逐节拍评估。",
+      "明确的物理规则有助于在整个序列中保持可信的运动和反应。"
     ],
     "demo": {
-      "title": "Seedance 2.5 timeline demonstration",
-      "promptLabel": "Timed cinematic scene",
-      "prompt": "A grounded city sequence unfolds through clear timed beats. Begin with a wide establishing move, follow one readable human action, transition to a closer performance moment, then settle on a composed ending frame. Keep wardrobe, lighting, direction of movement and environmental reactions consistent throughout.",
+      "title": "Seedance 2.5 时间线演示",
+      "promptLabel": "定时电影场景",
+      "prompt": "一个真实的城市序列通过清晰的定时节拍展开。从宽广的建立性运动开始，跟随一个清晰可读的人物动作，过渡到更近的表演时刻，然后在一个构图完整的结束帧上停驻。在整个过程中保持服装、光线、运动方向和环境反应的一致性。",
       "notes": [
-        "Use the visible action and camera transition to check whether each timed beat remains readable.",
-        "The audio label matches the selected render."
+        "使用可见的动作和镜头过渡来检查每个定时节拍是否保持清晰可读。",
+        "音频标签与所选渲染相匹配。"
       ],
       "summary": {
-        "subject": "One grounded human story in a city setting",
-        "action": "A sequence of timed actions with a clear ending",
-        "camera": "Establishing move, controlled transition and settled final frame",
-        "style": "Cinematic naturalism with stable lighting and wardrobe",
-        "output": "Longer 16:9 scene with media-derived audio status"
+        "subject": "城市场景中一个真实的人物故事",
+        "action": "一系列具有清晰结尾的定时动作",
+        "camera": "建立性运动、受控过渡和稳定的最终帧",
+        "style": "具有稳定光线和服装的电影自然主义风格",
+        "output": "带有媒体派生音频状态的较长 16:9 场景"
       },
       "presentationOverrides": {
-        "modeLabel": "Text-first scene plan",
-        "outputLabel": "720p render",
+        "modeLabel": "文本优先场景规划",
+        "outputLabel": "720p 渲染",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "Seedance 2.5 timed cinematic scene demonstration"
+        "altContext": "Seedance 2.5 定时电影场景演示"
       }
     },
     "imageExamples": null
@@ -308,8 +308,8 @@
     "showWhenEmpty": false,
     "section": {
       "title": "Seedance 2.5 真实生成案例",
-      "intro": "Review accepted MaxVideoAI renders that test longer storytelling, controlled camera movement, physical coherence and natural human performance.",
-      "defaultCtaLabel": "查看 all Seedance 案例",
+      "intro": "查看经过筛选的 MaxVideoAI 渲染作品，测试更长的故事叙述、受控镜头运动、物理连贯性和自然人物表演。",
+      "defaultCtaLabel": "查看所有 Seedance 案例",
       "recreateLabel": null
     },
     "filters": [
@@ -330,8 +330,8 @@
       {
         "id": "continuity",
         "icon": "users",
-        "title": "Scene continuity",
-        "body": "Inspect how people, wardrobe and setting carry across longer sequences."
+        "title": "场景连续性",
+        "body": "检查人物、服装和场景设定在较长序列中的延续性。"
       },
       {
         "id": "camera",
@@ -342,14 +342,14 @@
       {
         "id": "physics",
         "icon": "zap",
-        "title": "Physical coherence",
-        "body": "Observe motion, contact and environmental reactions through the scene."
+        "title": "物理连贯性",
+        "body": "观察场景中的运动、接触和环境反应。"
       },
       {
         "id": "dialogue",
         "icon": "audio",
-        "title": "Human performance",
-        "body": "Evaluate gestures, expressions and short spoken moments where present."
+        "title": "人物表演",
+        "body": "评估手势、表情以及存在的简短对白时刻。"
       },
       {
         "id": "production",

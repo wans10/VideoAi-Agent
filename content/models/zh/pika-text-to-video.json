@@ -2,334 +2,334 @@
   "marketingName": "Pika 2.2",
   "versionLabel": "2.2",
   "seo": {
-    "title": "Pika 2.2 Text-to-Video: 5s/10s, 1080p & Pricing",
-    "description": "Pika 2.2 Text-to-Video on MaxVideoAI: silent 5s or 10s stylized clips in 720p/1080p. See pricing, limits, prompts and examples you can recreate.",
+    "title": "Pika 2.2 文生视频：5秒/10秒、1080p 画质与价格详情",
+    "description": "MaxVideoAI 中的 Pika 2.2 文生视频：720p/1080p 分辨率下的 5 秒或 10 秒无声风格化片段。查看价格、技术限制、提示词技巧以及可一键复现的案例。",
     "image": "/hero/pika-22.jpg"
   },
-  "overview": "Pika 2.2 in MaxVideoAI: silent, stylized Text-to-Video clips at 720p/1080p for 5s or 10s social loops. Ideal for anime, comic, pixel and playful 3D looks built for feeds.",
+  "overview": "MaxVideoAI 中的 Pika 2.2：在 720p/1080p 分辨率下生成 5 秒或 10 秒的无声风格化文生视频片段，专为社交媒体循环播放打造。非常适合动漫、漫画、像素风和极具视觉冲击力的轻快 3D 风格。",
   "hero": {
     "title": "Pika 2.2",
-    "intro": "Max video length: 5s or 10s in 720p/1080p — stylized Text-to-Video built to stand out in the feed.",
-    "badge": "Up to 1080p · 5–10s · Text-to-Video · Silent",
+    "intro": "最长视频时长：720p/1080p 下 5 秒或 10 秒 — 专为在社交信息流中脱颖而出打造的风格化文生视频。",
+    "badge": "最高 1080p · 5–10秒 · 文生视频 · 无声输出",
     "ctaPrimary": {
-      "label": "Start generating with Pika 2.2",
+      "label": "使用 Pika 2.2 开始生成",
       "href": "/app?engine=pika-text-to-video"
     },
     "secondaryLinks": [
       {
-        "label": "Compare Pika 2.2 vs MiniMax Hailuo 02 →",
+        "label": "对比 Pika 2.2 与 MiniMax Hailuo 02 →",
         "href": "/zh/ai-video-engines/minimax-hailuo-02-text-vs-pika-text-to-video?order=pika-text-to-video"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳应用场景",
     "items": [
       {
-        "title": "Social-first stylized clips",
+        "title": "面向社交平台的风格化片段",
         "icon": "smartphone"
       },
       {
-        "title": "Moodboards & styleframes (animated)",
+        "title": "情绪板与动态风格帧",
         "icon": "sparkles"
       },
       {
-        "title": "Loops & motion inserts for editors",
+        "title": "剪辑师适用的循环与动态插片",
         "icon": "repeat"
       },
       {
-        "title": "Gaming / fandom / pop visuals",
+        "title": "游戏 / 同人粉丝 / 流行视觉",
         "icon": "gamepad2"
       },
       {
-        "title": "Backgrounds & UI motion behind titles",
+        "title": "片头背后的动态背景与 UI 动效",
         "icon": "layout"
       },
       {
-        "title": "Prompt-led style loops",
+        "title": "提示词驱动的风格循环",
         "icon": "image"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "5 s or 10 s per render"
+      "label": "时长",
+      "body": "每次生成 5 秒或 10 秒"
     },
     {
-      "label": "Resolution",
-      "body": "720p or 1080p"
+      "label": "分辨率",
+      "body": "720p 或 1080p"
     },
     {
-      "label": "Aspect ratios",
-      "body": "1:1, 16:9, 9:16, 4:5, 5:4, 3:2, 2:3"
+      "label": "画幅比例",
+      "body": "1:1、16:9、9:16、4:5、5:4、3:2、2:3"
     },
     {
-      "label": "Inputs",
-      "body": "Text → Video first; use the related Pika image workflow only when one still must anchor composition"
+      "label": "输入方式",
+      "body": "以文生视频为主；仅在需要用单张静态图固定构图时使用关联的 Pika 图生视频工作流"
     },
     {
-      "label": "Audio",
-      "body": "No audio track is generated (silent by design)"
+      "label": "音频",
+      "body": "不生成音轨（设计上为无声输出）"
     },
     {
-      "label": "Controls",
-      "body": "Seeds and negative prompts to keep style consistent and suppress artifacts"
+      "label": "控制选项",
+      "body": "支持随机种子（Seed）与负向提示词，以保持风格一致并抑制画面伪影"
     },
     {
-      "label": "Pricing",
-      "body": "Per-second; example: ~$0.04/s @720p, ~$0.09/s @1080p; wallet-based pay-as-you-go"
+      "label": "计费方式",
+      "body": "按秒计费；参考示例：720p 约 $0.04/秒，1080p 约 $0.09/秒；基于钱包的按需付费"
     }
   ],
   "promptStructure": {
-    "title": "Text-to-Video with Pika 2.2",
-    "quote": "Stylized [style] animation of [subject] in [environment]. Camera [movement] while [key action] happens over [5/10] seconds, [aspect ratio], with [effects]. No audio.",
-    "description": "Write prompts like a stylized animation brief: subject + style, environment, motion, effects, framing and duration.",
+    "title": "Pika 2.2 文生视频提示词结构",
+    "quote": "风格化 [风格] 动画：[主体] 位于 [场景环境]。摄影机 [运镜方式]，同时在 [5/10] 秒内发生 [核心动作]，画幅 [画幅比例]，带有 [特效]。无音频。",
+    "description": "像写风格化动画拍摄简报一样编写提示词：主体 + 风格、场景环境、动态、特效、取景构图与时长。",
     "steps": [
-      "Subject & style (anime, pixel-art, comic, cel-shaded 3D, etc.)",
-      "Environment (one scene)",
-      "Motion (subject, camera, background elements)",
-      "Effects (trails, glitch, smear frames, particles)",
-      "Framing & duration (close/medium/wide; 5 or 10 seconds; aspect ratio)"
+      "主体与风格（动漫、像素艺术、美漫、三渲二 3D 等）",
+      "场景环境（单一场景）",
+      "动态表现（主体运动、摄影机运镜、背景元素）",
+      "视觉特效（残影轨迹、故障风、抽帧涂抹 smear frames、粒子效果）",
+      "取景构图与时长（特写/中景/全景；5 秒或 10 秒；画幅比例）"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与局限",
     "items": [
-      "Lean into stylized looks (anime, comic, pixel, toon, stylized 3D)",
-      "Keep clips short and high-energy for feeds and overlays",
-      "Use seeds and negative prompts to refine motion and clean artifacts",
-      "Silent output: add your own music/VO in post or rerun in an audio-capable engine",
-      "Keep one subject, one environment and one main effect per clip for clarity"
+      "深耕风格化视觉表现（动漫、美漫、像素、卡通、风格化 3D）",
+      "保持片段短小且充满张力，非常适合社交信息流和视频贴片",
+      "利用随机种子和负向提示词优化动态并消除画面伪影",
+      "无声输出：建议后期自行添加音乐/配音，或在具备音频能力的引擎中重新生成",
+      "每段剪辑保持单一主体、单一场景和单一核心特效，确保画面干净明确"
     ]
   },
   "compareLink": {
-    "label": "Compare Pika 2.2 vs MiniMax Hailuo 02 →",
+    "label": "对比 Pika 2.2 与 MiniMax Hailuo 02 →",
     "href": "/ai-video-engines/minimax-hailuo-02-text-vs-pika-text-to-video?order=pika-text-to-video"
   },
   "prompts": [
     {
-      "title": "Anime courier rooftop run (10s, 9:16)",
+      "title": "动漫信使屋顶奔跑 (10秒, 9:16)",
       "prompt": "Anime-style vertical shot of a teen courier sprinting across neon rooftops at dusk, 10s, 9:16. Camera tracks beside them as holographic billboards whoosh past, smear-frame trails on fast limbs, soft parallax clouds, no logos, no on-screen text."
     },
     {
-      "title": "Pixel wizard loop (5s, 1:1)",
+      "title": "像素巫师循环 (5秒, 1:1)",
       "prompt": "5s seamless pixel-art loop of a tiny wizard stirring a glowing cauldron in a cozy 1:1 cottage interior. Camera locked medium shot. Bubbles rise in a repeating pattern, books float gently, warm candlelight, chunky retro pixels, no text or logos."
     }
   ],
   "faqs": [
     {
-      "q": "Does Pika 2.2 generate audio?",
-      "a": "No. Pika 2.2 in MaxVideoAI always outputs silent clips. Add sound in post or use an audio-capable engine when needed."
+      "q": "Pika 2.2 会生成音频吗？",
+      "a": "不会。MaxVideoAI 中的 Pika 2.2 始终输出无声视频片段。可在后期制作中添加声音，或在需要原生音频时选用具备音频能力的引擎。"
     },
     {
-      "q": "Which duration should I use: 5 or 10 seconds?",
-      "a": "5s for punchy hooks and quick loops; 10s when you need a bit more room for build-up or parallax."
+      "q": "我应该选择 5 秒还是 10 秒时长？",
+      "a": "5 秒适合节奏明快的吸睛开头与快速循环；10 秒适合需要更多情绪铺垫或视差纵深移动的镜头。"
     },
     {
-      "q": "Can Pika 2.2 do vertical video?",
-      "a": "Yes. Choose 9:16 for TikTok, Reels, Shorts and Stories; keep the subject centered for safe crops."
+      "q": "Pika 2.2 支持竖屏视频吗？",
+      "a": "支持。可为 TikTok、Reels、Shorts 和快拍选择 9:16 画幅；建议让主体保持在画面居中位置，以确保各平台安全裁切。"
     },
     {
-      "q": "How do seeds and negative prompts help?",
-      "a": "Reuse a seed to keep iterations related; use negative prompts to block text/logos/extra characters/watermarks."
+      "q": "随机种子（Seed）和负向提示词有什么帮助？",
+      "a": "复用种子可让不同迭代版本保持相近的风格与构图；使用负向提示词可屏蔽文字、Logo、多余人物以及水印。"
     },
     {
-      "q": "When should I use another engine instead?",
-      "a": "For photoreal people/products or built-in sound, use Sora 2 or Veo 3.1; for sound-ready short clips, consider Wan 2.5."
+      "q": "什么时候应该选用其他视频生成引擎？",
+      "a": "如果需要逼真写实的人物/产品或原生音效，建议使用 Sora 2 或 Veo 3.1；如果需要自带音频的短片段，可以考虑 Wan 2.5。"
     }
   ],
   "custom": {
-    "heroDesc1": "Use Pika 2.2 to generate stylized 5s or 10s Text-to-Video clips in up to 1080p. See the price per clip before you run, then recreate proven examples in one click.",
-    "heroDesc2": "Pick 5 or 10 seconds, choose 1:1, 16:9, 9:16, 4:5, 5:4, 3:2 or 2:3, write a compact prompt, and get a silent clip ready for your edit.",
-    "heroSupportLine": "Best when you want a strong look fast: moodboards, loops, cutaways, and playful creative variants.",
-    "whyTitle": "Why Pika 2.2 is powerful",
+    "heroDesc1": "使用 Pika 2.2 生成最高 1080p 分辨率下的风格化 5 秒或 10 秒文生视频片段。在运行任务前即可清晰预览每条片段的价格，并一键复现精选验证案例。",
+    "heroDesc2": "支持选择 5 秒或 10 秒时长，自由搭配 1:1、16:9、9:16、4:5、5:4、3:2 或 2:3 画幅，编写精练提示词，快速产出适合后期剪辑的无声片段。",
+    "heroSupportLine": "最适合需要快速打造鲜明视觉风格的场景：情绪板、循环动效、转场插片以及富有趣味性的创意变体。",
+    "whyTitle": "为什么 Pika 2.2 实力出众",
     "heroHighlights": [
-      "Stylized motion that reads instantly||Great for bold looks (anime/comic/toon/experimental) without chasing photorealism.",
-      "Consistency controls||Seed + negative prompt let you keep a look stable and suppress unwanted artifacts across variants.",
-      "Prompt-led variants||Seed and negative prompt controls help you test style loops without overloading the setup.",
-      "Silent by design (edit-friendly)||Lightweight exports you can score however you like in post."
+      "一目了然的风格化动态||无需刻意追求逼真写实，即可轻松驾驭大胆独特的视觉风格（动漫/美漫/卡通/实验性风格）。",
+      "一致性控制工具||通过随机种子（Seed）与负向提示词，在多版本探索中保持风格稳定并抑制不需要的瑕疵伪影。",
+      "提示词驱动的丰富变体||结合种子与负向提示词控制，无需复杂设置即可高效测试各种风格循环。",
+      "原生无声设计（剪辑友好）||轻量级导出的无声片段，方便您在后期制作中按需自由配乐与配音。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳应用场景",
     "bestUseCases": [
       {
-        "title": "Social-first stylized clips",
+        "title": "面向社交平台的风格化片段",
         "icon": "smartphone"
       },
       {
-        "title": "Moodboards & styleframes (animated)",
+        "title": "情绪板与动态风格帧",
         "icon": "sparkles"
       },
       {
-        "title": "Loops & motion inserts for editors",
+        "title": "剪辑师适用的循环与动态插片",
         "icon": "repeat"
       },
       {
-        "title": "Gaming / fandom / pop visuals",
+        "title": "游戏 / 同人粉丝 / 流行视觉",
         "icon": "gamepad2"
       },
       {
-        "title": "Backgrounds & UI motion behind titles",
+        "title": "片头背后的动态背景与 UI 动效",
         "icon": "layout"
       },
       {
-        "title": "Prompt-led style loops",
+        "title": "提示词驱动的风格循环",
         "icon": "image"
       }
     ],
-    "whatTitle": "What Pika 2.2 Actually Is in MaxVideoAI",
-    "whatIntro1": "Pika 2.2 is a short-form, stylized video model tuned for social-first animation.",
-    "whatIntro2": "In MaxVideoAI it’s wired as a silent engine with tight control over duration, resolution and aspect ratio.",
-    "whatFlowTitle": "In-app flow",
+    "whatTitle": "MaxVideoAI 中的 Pika 2.2 究竟是什么",
+    "whatIntro1": "Pika 2.2 是一款专为面向社交平台的内容动画调优的短视频风格化模型。",
+    "whatIntro2": "在 MaxVideoAI 中，它被配置为无声视频引擎，提供对时长、分辨率和画幅比例的精确把控。",
+    "whatFlowTitle": "应用内生成流程",
     "whatFlowSteps": [
-      "1. Pick Pika 2.2 as the engine.",
-      "2. Choose Text → Video for this page; use the related image-start workflow only when a still must anchor composition.",
-      "3. Set duration (5/10 s), aspect ratio and resolution (720p or 1080p).",
-      "4. (Optional) Set a seed and add a negative prompt.",
-      "5. Paste a lively, style-driven prompt.",
-      "6. See the price per clip before you run the job."
+      "1. 选择 Pika 2.2 作为生成引擎。",
+      "2. 本页面选用“文生视频”；仅在必须用单张静态图固定构图时，才使用关联的图生视频工作流。",
+      "3. 设置视频时长（5秒/10秒）、画幅比例以及分辨率（720p 或 1080p）。",
+      "4. （可选）设定随机种子并添加负向提示词。",
+      "5. 填入充满张力、风格明确的提示词。",
+      "6. 在点击生成前查看每条视频的精确预估价格。"
     ],
-    "specTitle": "Real Specs – Pika 2.2 in MaxVideoAI (720p/1080p, 5–10s)",
-    "specNote": "These specs describe Pika 2.2 exactly as you can use it today via MaxVideoAI.",
+    "specTitle": "真实技术规格 – MaxVideoAI 中的 Pika 2.2（720p/1080p，5–10秒）",
+    "specNote": "这些技术规格准确描述了您今天可以在 MaxVideoAI 中使用的 Pika 2.2 真实功能。",
     "specSections": [
       {
-        "title": "Stylized looks",
-        "intro": "Optimized for bold, social-first aesthetics over photorealism. It excels at playful motion and stylized textures.",
+        "title": "风格化视觉表现",
+        "intro": "专为大胆抢眼、社交平台优先的视觉美学打造，而非追求极致写实。在趣味性动态与风格化材质质感方面尤为出色。",
         "items": [
-          "Call out the art style early.",
-          "Use short, punchy actions.",
-          "Lean into loops and repeats.",
-          "Great for fandom, gaming, and pop visuals."
+          "在提示词开头尽早明确艺术风格。",
+          "运用简短、充满视觉张力的动作。",
+          "充分利用循环与重复动态。",
+          "非常适合同人文化、游戏与流行视觉内容。"
         ]
       },
       {
-        "title": "Consistency tools",
-        "intro": "Seed and negative prompts help keep a look stable across variants. For transformations, describe the start state, end state and transition clearly in the prompt.",
+        "title": "一致性控制工具",
+        "intro": "随机种子与负向提示词有助于在多个变体版本之间保持风格稳定。对于形态变换效果，请在提示词中清晰阐述起始状态、结束状态与过渡动词。",
         "items": [
-          "Lock a seed when iterating.",
-          "Use negative prompts to remove artifacts.",
-          "Define the start state, end state and transition in text.",
-          "Export silent and score in post."
+          "在进行版本迭代微调时锁定随机种子。",
+          "利用负向提示词消除多余伪影与瑕疵。",
+          "在提示词中明确定义初始状态、最终状态与演变过程。",
+          "导出无声成片并在后期制作中添加配乐音效。"
         ]
       }
     ],
-    "specValueProp": "Pika 2.2 is the stylized, silent short-clip engine: fast to iterate with seeds and negative prompts, perfect for social feeds and motion inserts.",
-    "imageTitle": "Related image-start workflow with Pika 2.2 (+ Nano Banana)",
-    "imageIntro": "This page is Text-to-Video first. Use a still only in the related Pika image workflow when composition must stay anchored.",
+    "specValueProp": "Pika 2.2 是专注于风格化、无声短片段的生产利器：搭配种子与负向提示词实现快速迭代，完美契合社交媒体信息流与动态剪辑插片需求。",
+    "imageTitle": "关联的 Pika 2.2 图生视频工作流（+ Nano Banana）",
+    "imageIntro": "本页面以文生视频为主。仅在必须保持构图精确固定时，才在关联的 Pika 图生视频工作流中使用单张参考图。",
     "imageFlow": [
-      "Generate reference stills in Nano Banana (pose, keyframe, product illustration).",
-      "Use the related Pika image workflow with one still when available in the app.",
-      "Describe camera motion, secondary movement and effects instead of restyling.",
-      "Use seeds and negative prompts to keep composition stable across iterations."
+      "在 Nano Banana 中生成参考静态图像（角色姿势、关键帧、产品插画）。",
+      "在应用内可用时，使用关联的 Pika 图像工作流并上传单张静图。",
+      "专注于描述摄影机运镜、次级动态与视觉特效，而非重复指定画风。",
+      "使用随机种子与负向提示词在不同迭代版本中保持构图稳定。"
     ],
     "imageWhy": [
-      "Keep brand palettes/layouts while exploring motion variants",
-      "Turn poster art into animated teasers",
-      "Build looping backgrounds for streams or UI sections"
+      "在探索动态变体的同时严谨保持品牌配色与版式布局",
+      "将静态海报艺术转化为动态先导预告",
+      "为直播推流或 UI 界面制作无缝循环背景"
     ],
-    "multishotTitle": "Loops & Single-Scene Clips – Pika’s Sweet Spot",
-    "multishotIntro1": "Pika 2.2 excels at loops and single-scene beats.",
-    "multishotIntro2": "Design clean loops and simple camera paths for best results.",
+    "multishotTitle": "循环动效与单场景片段 – Pika 的核心优势",
+    "multishotIntro1": "Pika 2.2 在循环播放与单场景动作呈现方面表现尤为突出。",
+    "multishotIntro2": "设计干净的循环动作与简洁的运镜轨迹，以获得最佳生成效果。",
     "multishotTips": [
-      "Make the last frame flow into the first (orbit, bounce, scrolling parallax)",
-      "Keep camera paths simple (pan/orbit/dolly) vs chaotic moves",
-      "One subject, one environment, one main effect per clip",
-      "Use 5s for punchy moments; 10s for a bit of build-up/payoff",
-      "Chain loops in your timeline for longer animations or carousels"
+      "让最后一帧自然承接第一帧（环绕、弹跳、视差滚动等）",
+      "保持摄影机运镜简洁（摇镜/环绕/推拉），避免杂乱无序的镜头晃动",
+      "每个片段保持单一主体、单一场景环境与单一核心特效",
+      "5 秒适合节奏明快的高能瞬间；10 秒适合呈现起承转合或更丰富的视差细节",
+      "在时间线上将多个循环片段串联，制作更长篇幅的动画或轮播内容"
     ],
-    "tipsTitle": "Tips & Limitations",
+    "tipsTitle": "使用技巧与局限",
     "strengths": [
-      "Stylized-first: call out the art style early (anime / toon / comic / pixel / stylized 3D) + 2–3 palette anchors.",
-      "Loop-friendly motion: choose one repeating action (blink, sway, steam, parallax) and keep the camera mostly simple.",
-      "Consistency runs: lock a seed when iterating, and keep the phrasing stable across takes.",
-      "Cleaner outputs: use a short negative prompt to block text/logos and reduce artifacts.",
-      "For transitions, describe the start pose, landing pose and transition verb in the prompt (simple transforms > complex scenes)."
+      "风格优先：在提示词开头明确艺术风格（动漫 / 卡通 / 美漫 / 像素 / 风格化 3D）+ 2–3 个主色调锚点。",
+      "循环友好动态：选择单一重复动作（眨眼、摇摆、蒸汽升腾、视差移动），并保持摄影机运镜相对平稳简洁。",
+      "一致性测试：在微调迭代时锁定随机种子（Seed），并保持各版本间提示词措辞基本一致。",
+      "更干净的画面：使用简短的负向提示词屏蔽文字/Logo，减少画面伪影。",
+      "对于转场变形：在提示词中详细说明初始姿态、着陆姿态与过渡动作动词（简单变换优于复杂大场景跨越）。"
     ],
     "boundaries": [
-      "Short-form only (5–10s in this setup).",
-      "Silent output in this tier — add sound in post when needed.",
-      "Best for stylized motion and inserts; use other engines for strict photoreal output or generated sound.",
-      "Small on-screen text is unreliable — overlay critical copy in post."
+      "仅支持短时长片段（本配置下为 5–10 秒）。",
+      "此规格下为无声输出 — 需要声音时请在后期剪辑中添加音轨。",
+      "最适合风格化动态与插片；对于严苛的逼真写实输出或自带音频生成，请选用其他模型。",
+      "画面中的细小文字生成不可靠 — 关键文案建议在后期制作中以字幕形式叠加。"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "内容安全与人物 / 肖像规则",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t recreate real people/public figures without clear consent/rights (especially from photos/portraits).",
-      "Don’t include private personal data (faces of non-consenting people, addresses, phone numbers, documents).",
-      "Some prompts or reference images may be blocked by provider safety filters."
+      "严禁包含成人/色情内容，严禁涉及未成年人。",
+      "严禁仇恨、骚扰或血腥暴力内容。",
+      "未经明确授权与许可，切勿复现真实人物/公众人物形象（尤其是基于真实照片/肖像）。",
+      "切勿包含个人隐私数据（未经同意的人物面部、住址、电话号码、证件文书等）。",
+      "部分提示词或参考图片可能会触发模型供应商的安全过滤系统而被拦截。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "comparisonTitle": "Pika 2.2 vs MiniMax Hailuo 02 – Quick Overview",
+    "comparisonTitle": "Pika 2.2 vs MiniMax Hailuo 02 – 快速对比概览",
     "comparisonPoints": [
-      "Pika 2.2: stylized, silent short clips for animation looks, loops and playful visuals in 720p/1080p.",
-      "MiniMax Hailuo 02: budget silent drafts with strong physics in 512p/768p for 6–10s beats.",
-      "Sora 2 / Wan 2.5 / Veo 3.1: switch to these when you need generated sound or more realism."
+      "Pika 2.2：在 720p/1080p 分辨率下生成风格化、无声的短视频片段，专为动画质感、循环动效与趣味视觉打造。",
+      "MiniMax Hailuo 02：高性价比的无声草稿模型，在 512p/768p 分辨率下具有出色的物理动态表现，适合 6–10 秒动作节拍测试。",
+      "Sora 2 / Wan 2.5 / Veo 3.1：当需要原生音频生成或更高写实画质时，请切换至这些生产级引擎。"
     ],
-    "comparisonCta": "Compare Pika 2.2 vs MiniMax Hailuo 02 →",
-    "faqTitle": "FAQ – Pika 2.2 in MaxVideoAI",
+    "comparisonCta": "对比 Pika 2.2 与 MiniMax Hailuo 02 →",
+    "faqTitle": "常见问题 – MaxVideoAI 中的 Pika 2.2",
     "faqs": [
       {
-        "q": "Does Pika 2.2 generate audio?",
-        "a": "No. Clips are silent; add your own soundtrack or use an audio-capable engine."
+        "q": "Pika 2.2 会生成音频吗？",
+        "a": "不会。生成的片段为无声视频；可在后期添加配乐，或选用具备音频能力的引擎。"
       },
       {
-        "q": "Which duration should I pick?",
-        "a": "5s for hooks/loops; 10s for a bit more narrative or parallax."
+        "q": "我应该选择哪种时长？",
+        "a": "5 秒适合吸睛开头/循环动效；10 秒适合展现更多叙事铺垫或视差空间感。"
       },
       {
-        "q": "Can I do vertical video?",
-        "a": "Yes, select 9:16 and keep the subject centered for safe crops."
+        "q": "可以生成竖屏视频吗？",
+        "a": "可以，选择 9:16 比例并保持主体居中，以便在各社交平台安全裁切。"
       },
       {
-        "q": "How do seeds and negatives help?",
-        "a": "Seeds keep iterations related; negative prompts block text/logos/extra characters/watermarks."
+        "q": "随机种子与负向提示词有什么帮助？",
+        "a": "随机种子能保持多次迭代的一致性；负向提示词能有效屏蔽文字/Logo/多余人物/水印。"
       },
       {
-        "q": "When to switch engines?",
-        "a": "Use Sora/Veo for photoreal output or generated sound; Wan 2.5 for sound-ready clips; Sora 2 Pro/Veo 3.1 for high-end hero shots."
+        "q": "何时该切换到其他引擎？",
+        "a": "需要逼真写实输出或原生声音时使用 Sora/Veo；需要自带音频的短片段时使用 Wan 2.5；制作高端核心大片时选用 Sora 2 Pro/Veo 3.1。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare pricing, latency, and output options across the rest of the MaxVideoAI catalog.",
-    "finalPara1": "Pika 2.2 in MaxVideoAI is your stylized, silent workhorse for fast loops and expressive animation.",
-    "finalPara2": "Draft hooks here, then translate winners to Sora or Veo when you need realism or generated sound.",
-    "finalButton": "Open Generate",
-    "tipsIntro": "Pika 2.2 shines when you lean into stylized looks, tight loops, and controlled iterations (seed + negative prompt).",
-    "troubleshootingTitle": "Common problems → fast fixes",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "在 MaxVideoAI 模型库中横向对比不同模型的价格、生成延迟与输出特性。",
+    "finalPara1": "MaxVideoAI 中的 Pika 2.2 是您打造快速循环与富有表现力动画的风格化无声主力模型。",
+    "finalPara2": "先在这里构思打磨吸睛镜头，当需要逼真写实度或原生音效时，再将优选方案迁移至 Sora 或 Veo。",
+    "finalButton": "开始生成",
+    "tipsIntro": "当充分拥抱风格化视觉、紧凑循环以及受控迭代（种子 + 负向提示词）时，Pika 2.2 能够发挥出最大威力。",
+    "troubleshootingTitle": "常见问题 → 快速解决排查",
     "troubleshootingItems": [
-      "Looks “uncanny” / too real → push the style harder (texture, line work, palette) and avoid photoreal descriptors.",
-      "Extra limbs / weird anatomy → simplify the action, reduce secondary characters, strengthen the negative prompt.",
-      "Motion feels jittery → one subject, one action, minimal camera move; avoid fast handheld.",
-      "Loop doesn’t loop → explicitly say “seamless loop” + describe what repeats (and keep the start/end state identical).",
-      "Random text/logos appear → add “no text, no logos, no UI” to negative prompt; keep signage out of frame."
+      "画面产生“恐怖谷”效应 / 过于写实 → 强化风格特征（材质质感、线描轮廓、特定色板），避免使用偏向逼真写实的描述词汇。",
+      "多余肢体 / 诡异身体结构 → 简化动作幅度，减少同画面次要人物，强化负向提示词约束。",
+      "画面动态有抖动感 → 保持单一主体、单一动作、微幅摄影机运镜；避免剧烈的手持颠簸运镜。",
+      "循环画面衔接不流畅 → 在提示词中明确写入“seamless loop”（无缝循环）+ 详细描述重复动态内容（并确保首尾状态一致）。",
+      "画面意外出现随机文字/Logo → 在负向提示词中加入“no text, no logos, no UI”（无文字、无 logo、无 UI 界面）；尽量将路标招牌排除在画框外。"
     ]
   },
   "decision": {
     "modelSlug": "pika-text-to-video",
     "hero": {
-      "eyebrow": "PIKA TEXT-TO-VIDEO ROUTE",
-      "title": "Pika 2.2 Text-to-Video",
-      "subtitle": "Text-to-Video social loops with stylized motion, seeds, negative prompts and silent 5s/10s output.",
+      "eyebrow": "Pika 文生视频路线",
+      "title": "Pika 2.2 文生视频",
+      "subtitle": "文生视频社交循环片段，具备风格化动态、种子控制与无声5秒/10秒输出。",
       "subtitleHighlights": [
-        "Text-to-Video social loops",
-        "stylized motion",
-        "silent 5s/10s output"
+        "文生视频社交循环片段",
+        "风格化动态",
+        "无声5秒/10秒输出"
       ],
-      "paragraph": "Use Pika 2.2 for prompt-led, silent stylized animation, variant testing and short social clips when the creative direction is anime, comic, pixel, toon or playful 3D.",
+      "paragraph": "当创意方向为动漫、漫画、像素风、卡通或轻快 3D 风格时，使用 Pika 2.2 制作提示词驱动的无声风格化动画、变体测试以及简短的社交平台视频片段。",
       "primaryCta": {
         "label": "使用 Pika 2.2 生成",
         "href": "/app?engine=pika-text-to-video"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/pika"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Hailuo",
+          "label": "对比 Hailuo",
           "href": "/zh/ai-video-engines/minimax-hailuo-02-text-vs-pika-text-to-video?order=pika-text-to-video"
         },
         {
@@ -343,193 +343,193 @@
       ]
     },
     "media": {
-      "caption": "Pika 2.2 Text-to-Video example",
-      "description": "Stylized silent social clip",
-      "renderLabel": "View render",
+      "caption": "Pika 2.2 文生视频案例",
+      "description": "风格化无声社交短片段",
+      "renderLabel": "查看成片",
       "badges": [
-        "Silent",
+        "无声",
         "10s",
         "1080p"
       ],
-      "altContext": "Pika 2.2 stylized text-to-video social loop"
+      "altContext": "Pika 2.2 风格化文生视频社交循环案例"
     },
     "features": [
       {
-        "title": "Text-to-Video first",
-        "body": "Start from a compact prompt when the idea is style, action and loop timing.",
+        "title": "文生视频为主",
+        "body": "当创意聚焦于视觉风格、动作和循环节奏时，直接从精简的提示词开始创作。",
         "tone": "reference"
       },
       {
-        "title": "Stylized motion",
-        "body": "Create anime, comic, pixel, toon or playful 3D movement.",
+        "title": "风格化动态",
+        "body": "打造动漫、美漫、像素风、卡通或极富趣味性的 3D 动态效果。",
         "tone": "quality"
       },
       {
-        "title": "Seeds",
-        "body": "Reuse seed-driven variants when a style direction starts working.",
+        "title": "随机种子",
+        "body": "当某种风格方向初见成效时，通过固定种子复用并衍生更多变体。",
         "tone": "continuity"
       },
       {
-        "title": "Negative prompts",
-        "body": "Exclude unwanted visual traits while testing a stylized direction.",
+        "title": "负向提示词",
+        "body": "在探索风格化视觉方向的同时排除不希望出现的视觉瑕疵。",
         "tone": "reference"
       },
       {
-        "title": "5s or 10s",
-        "body": "Keep clips compact for loops, social edits and motion tests.",
+        "title": "5秒或10秒",
+        "body": "保持片段短小精练，专为循环播放、社交剪辑和动态测试打造。",
         "tone": "duration"
       },
       {
-        "title": "Silent output",
-        "body": "Add music, voice and SFX after the visual pass.",
+        "title": "无声输出",
+        "body": "在画面渲染确认后，再在后期环节加入配乐、旁白与音效。",
         "tone": "audio"
       }
     ],
     "decisionCards": [
       {
-        "title": "Pika or Hailuo?",
-        "body": "Use Pika for stylized social loops and seed variants. Use Hailuo 02 for lower-cost physics and motion checks.",
+        "title": "选择 Pika 还是 Hailuo？",
+        "body": "若需制作风格化社交循环视频与种子变体，选择 Pika；若需低成本验证物理规律与动作节奏，选择 Hailuo 02。",
         "cta": {
-          "label": "Compare Pika vs Hailuo",
+          "label": "对比 Pika 与 Hailuo",
           "href": "/zh/ai-video-engines/minimax-hailuo-02-text-vs-pika-text-to-video?order=pika-text-to-video"
         }
       },
       {
-        "title": "Building a stylized prompt?",
-        "body": "Lock subject, style, action and exclusions before testing variants with seeds.",
+        "title": "如何构建风格化提示词？",
+        "body": "在使用种子测试变体前，先在提示词中锁定主体、画风、动作与排除项。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Need a broader draft route?",
-        "body": "Compare with LTX 2.3 Fast when you need a more general draft engine before production routes.",
+        "title": "需要更通用的草稿路线？",
+        "body": "在进入最终成片路线之前，若需要更通用的草稿引擎，可与 LTX 2.3 Fast 进行对比。",
         "cta": {
-          "label": "Compare Pika vs LTX 2.3 Fast",
+          "label": "对比 Pika 与 LTX 2.3 Fast",
           "href": "/zh/ai-video-engines/ltx-2-3-fast-vs-pika-text-to-video?order=pika-text-to-video"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text-to-video",
-        "body": "Write subject, action, style family and what to avoid in one compact prompt."
+        "title": "文生视频",
+        "body": "在精炼的提示词中同时阐明主体、动作、画风流派以及需要规避的内容。"
       },
       {
-        "title": "Style anchors",
-        "body": "Name the art direction, palette and loop behavior instead of relying on reference-heavy setup."
+        "title": "风格锚点",
+        "body": "直接指定艺术流派、调色板和循环特征，无需依赖繁复的参考图设置。"
       },
       {
-        "title": "Seed variants",
-        "body": "Keep a useful seed and iterate prompts around the same visual lane."
+        "title": "种子变体",
+        "body": "保留满意的随机种子，围绕相同视觉通道不断微调迭代提示词。"
       },
       {
-        "title": "Negative prompt",
-        "body": "List distracting artifacts, unwanted styles or text elements to avoid."
+        "title": "负向提示词",
+        "body": "列出容易分散注意力的画面瑕疵、违和风格或文字元素，予以屏蔽。"
       },
       {
-        "title": "Related image start",
-        "body": "Use the related Pika image workflow only when one still must anchor composition."
+        "title": "关联图生视频起点",
+        "body": "仅在单张静态图像必须承担构图锁定时，才使用关联的 Pika 图生视频工作流。"
       }
     ],
     "pricingCopy": {
-      "title": "Pika 2.2 pricing at a glance",
-      "subtitle": "Preset stylized clip totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 1080p",
+      "title": "Pika 2.2 价格一览",
+      "subtitle": "预设风格化片段总价 — 在生成前可在应用内查看精确的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#pika-text-to-video-pricing"
     },
     "meta": {
-      "title": "Pika Text-to-Video Limits: 5s/10s, Pricing & Best Uses",
-      "description": "Check Pika 2.2 text-to-video limits, 5s/10s duration, 720p/1080p pricing and when to use another AI video model."
+      "title": "Pika 文生视频限制：5秒/10秒时长、价格与最佳用途 | MaxVideoAI",
+      "description": "查看 Pika 2.2 文生视频技术限制、5秒/10秒时长、720p/1080p 价格以及何时选用其他 AI 视频模型。"
     }
   },
   "prompting": {
     "modelSlug": "pika-text-to-video",
     "section": {
-      "title": "How to Write a Great Pika Prompt",
-      "intro": "Pika performs best with stylized prompts, clear motion, and one camera move.",
-      "tip": "Tip: duration + aspect ratio are set in the UI - your prompt controls subject, action, camera, lighting, and style. Use Negative prompt to block text/logos.",
+      "title": "如何编写出色的 Pika 提示词",
+      "intro": "Pika 在面对风格明确的提示词、清晰连贯的动态以及单一运镜时表现最佳。",
+      "tip": "提示：时长与画幅比例可在界面中直接设置 — 提示词用于把控主体、动作、运镜、光影与艺术风格。使用负向提示词屏蔽文字与 Logo。",
       "guide": {
         "label": "Pika Labs",
         "href": "https://pika.art"
       },
-      "referencesTitle": "How Pika 2.2 structures Text-to-Video prompts"
+      "referencesTitle": "Pika 2.2 如何构建文生视频提示词"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
-        "copy": "Prompt: [Style] + [Subject + action] + [Setting] + [Camera move] + [Lighting].\nNegative: [text, logos, extra limbs, blur]"
+        "label": "快速",
+        "title": "快速提示词（敏捷迭代）",
+        "description": "想要快速探索多样化变体时使用 1–2 句话描述。",
+        "copy": "提示词：[风格] + [主体 + 动作] + [场景环境] + [摄影机运镜] + [光影效果]。\n负向提示词：[文字, logo, 多余肢体, 模糊]"
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
-        "copy": "Subject:\n[Who/what + one action.]\n\nSetting:\n[Where + time + 2 anchors.]\n\nCamera:\n[Shot + angle + one move.]\n\nStyle:\n[Art style + palette + texture.]\n\nNegative:\n[What to avoid.]"
+        "label": "结构化",
+        "title": "结构化提示词（输出稳定可控的首选）",
+        "description": "分层拆分信息，使模型能够稳定连贯地遵循各项要求。",
+        "copy": "主体：\n[人物/物体 + 单一动作。]\n\n场景设定：\n[地点 + 时间 + 2个视觉特征锚点。]\n\n摄影机：\n[景别 + 拍摄角度 + 单一运镜。]\n\n风格：\n[艺术风格 + 调色板 + 质感。]\n\n负向提示词：\n[需要避免的元素。]"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"studio brief\")",
-        "description": "Use this when you need a very specific look or continuity across shots.",
-        "copy": "Brief:\n[Goal + vibe.]\n\nSubject + wardrobe:\n[Key traits + materials.]\n\nSet + lighting:\n[Location + key light + palette.]\n\nCamera:\n[Framing + angle + one move + lens feel.]\n\nStyle controls:\n[Animation style, texture, grain, color.]\n\nNegative:\n[Text, logos, extra characters, artifacts.]"
+        "label": "专业简报",
+        "title": "专业级提示词（极度明确的“片场拍摄简报”）",
+        "description": "当需要极为具体的视觉质感或跨镜头连贯性时使用。",
+        "copy": "拍摄简报：\n[创作目标 + 氛围基调。]\n\n主体与服饰：\n[核心特征 + 材质质感。]\n\n场景与光影：\n[地点 + 主光设定 + 色彩基调。]\n\n摄影机：\n[取景构图 + 拍摄角度 + 单一运镜 + 镜头质感。]\n\n风格把控：\n[动画风格、纹理质感、胶片颗粒、色彩倾向。]\n\n负向提示词：\n[文字、logo、多余角色、画面伪影。]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 探索变体。适合敏捷高效的快速迭代。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 稳定连贯。适合追求可控确定性结果的场景。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = style control. Use for precise, repeatable looks."
+        "body": "专业级 = 风格把控。适合打造精确、可复现的特定视觉质感。"
       }
     ],
     "globalPrinciples": [
-      "One subject, one action, one camera move.",
-      "Use style keywords and color palette anchors.",
-      "Add a short negative prompt for text/logos/extra limbs."
+      "单一主体、单一动作、单一运镜。",
+      "善用艺术风格关键词与色彩调色板锚点。",
+      "添加简短的负向提示词屏蔽文字/Logo/多余肢体。"
     ],
     "engineWhy": [
-      "Short, stylized prompts keep motion clean.",
-      "Camera language helps loops feel intentional.",
-      "Negative prompts reduce artifacts."
+      "简短、风格化的提示词能保持动态干净利落。",
+      "专业的摄影机运镜语言让循环片段更具设计感。",
+      "负向提示词能显著减少画面伪影与瑕疵。"
     ],
     "demo": {
-      "title": "Demo: a prompt for Pika 2.2",
-      "promptLabel": "Text-to-Video",
+      "title": "演示案例：Pika 2.2 提示词",
+      "promptLabel": "文生视频",
       "prompt": "5s Pika 2.2 Text-to-Video loop in 1:1.\nA tiny pixel-art wizard stirs a glowing cauldron inside a cozy cottage.\nLocked medium shot, bubbles rising in a repeatable loop, books floating gently.\nWarm 16-color palette, candlelight, chunky retro pixels, simple repeatable motion.\nNegative prompt: text, logos, blur, extra characters, distorted hands.",
       "notes": [
-        "Clear subject in a single environment.",
-        "Strong style direction (pixel-art, retro palette).",
-        "Simple, repeatable motion for a clean loop.",
-        "Avoid conflicting camera instructions or multiple locations."
+        "单一场景中主体清晰明确。",
+        "鲜明的艺术风格导向（像素风、复古调色板）。",
+        "简洁且可重复的动作，形成利落的无缝循环。",
+        "避免相互冲突的运镜指令或多场景切换。"
       ],
       "summary": {
-        "subject": "Tiny pixel-art wizard",
-        "action": "Stirs a glowing cauldron in a seamless loop",
-        "camera": "Locked medium shot, 1:1 composition",
-        "style": "Retro pixel art, warm palette, candlelight",
-        "output": "Silent clip, no text or logos"
+        "subject": "迷你像素风巫师",
+        "action": "在无缝循环中搅拌发光的坩埚",
+        "camera": "固定中景，1:1 构图",
+        "style": "复古像素艺术、暖调色板、烛光",
+        "output": "无声片段，无文字或 Logo"
       },
       "presentationOverrides": {
-        "modeLabel": "Text-to-Video",
-        "outputLabel": "Output",
+        "modeLabel": "文生视频",
+        "outputLabel": "输出",
         "duration": "5s",
         "aspectRatio": "1:1",
         "audioChipMode": "silent",
         "audioChipLabel": null,
-        "altContext": "Pika 2.2 pixel-art loop"
+        "altContext": "Pika 2.2 像素艺术循环动效案例"
       }
     },
     "imageExamples": null
@@ -537,10 +537,10 @@
   "examples": {
     "modelSlug": "pika-text-to-video",
     "section": {
-      "title": "Pika 2.2 Example Gallery",
-      "intro": "Curated clips generated with the same settings you have in MaxVideoAI.",
-      "defaultCtaLabel": "View all Pika 2.2 examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "Pika 2.2 案例展厅",
+      "intro": "精选使用与 MaxVideoAI 相同配置参数生成的高质量片段示例。",
+      "defaultCtaLabel": "查看全部 Pika 2.2 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -567,32 +567,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Stylized loops",
-        "body": "See silent Text-to-Video loops possible with Pika 2.2.",
+        "title": "风格化循环",
+        "body": "探索 Pika 2.2 能够呈现的无声文生视频循环动效。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate a test",
-        "body": "Open the app and reuse the prompt, aspect ratio and duration.",
+        "title": "一键复现测试",
+        "body": "打开工作区应用，直接复用其提示词、画幅比例与时长设置。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Silent output",
-        "body": "No soundtrack is generated here; add sound and voice later.",
+        "title": "无声输出",
+        "body": "本路线不生成音轨；可在后期制作中自由添加声音与旁白。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Seeds and negatives",
-        "body": "Keep a visual lane and block text, logos or artifacts.",
+        "title": "种子与负向词",
+        "body": "锁定视觉通道，屏蔽画面文字、Logo 或多余伪影。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Social first",
-        "body": "Built for short clips, overlays and loops you can edit later.",
+        "title": "社交优先",
+        "body": "专为短片段、视频贴片和便于后期剪辑的循环动效打造。",
         "icon": "shield"
       }
     ],

@@ -2,6 +2,7 @@
 import { AppGlyph } from '@/components/app/AppGlyph';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 export function WorkspaceEmptyPreview({ media }: { media: 'video' | 'image' | 'audio' }) {
+  const { locale } = useI18n();
   const labels = locale === 'fr'
     ? { video: 'Votre vidéo apparaîtra ici', image: 'Votre image apparaîtra ici', audio: 'Votre audio apparaîtra ici' }
     : locale === 'es'

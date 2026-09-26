@@ -2,106 +2,106 @@
   "marketingName": "FLUX 3 Video",
   "versionLabel": "3",
   "seo": {
-    "title": "FLUX 3 Video Generator: Frames, Images and Extension",
-    "description": "Plan FLUX 3 Video text, image, first-and-last-frame and extension workflows with exact input boundaries, production prompting and canonical mode pricing."
+    "title": "FLUX 3 视频生成器：关键帧、图像与视频延伸",
+    "description": "规划 FLUX 3 Video 的文本、图像、首尾帧与视频延伸工作流，了解精确的输入边界、生产级提示词结构及各模式标准定价。"
   },
-  "overview": "FLUX 3 Video is the current production route in the new FLUX video family. It supports prompt-only generation, opening-image animation, exact first-and-last-frame guidance and source-video extension. Black Forest Labs owns FLUX; MaxVideoAI distributes these launch endpoints through Fal rather than a direct Black Forest Labs route.",
+  "overview": "FLUX 3 Video 是新一代 FLUX 视频家族的当前生产路线，支持纯文本生成、首帧图像动画、精确首尾帧引导及源视频延伸。FLUX 由 Black Forest Labs 拥有，MaxVideoAI 通过 Fal 而非 Black Forest Labs 直连路由分发这些发布端点。",
   "decision": {
     "modelSlug": "flux-3",
     "hero": {
-      "eyebrow": "CURRENT FLUX VIDEO PRODUCTION ROUTE",
+      "eyebrow": "当前 FLUX 视频生产路线",
       "title": "FLUX 3 Video",
-      "subtitle": "Create from text or an image, bridge exact first and last frames, or extend a short source clip at 720p or 1080p.",
+      "subtitle": "从文本或图像创建，精确桥接首尾帧，或以 720p 或 1080p 延伸短片源视频。",
       "subtitleHighlights": [
-        "text or an image",
-        "first and last frames",
-        "extend a short source clip"
+        "文本或图像",
+        "首尾帧",
+        "延伸短片源视频"
       ],
-      "paragraph": "Choose FLUX 3 when a production brief needs one of four explicit workflows. First-and-last-frame mode requires both anchors; extend mode requires an eligible source video and uses its own canonical rate facts. Black Forest Labs owns the model family, while Fal distributes MaxVideoAI execution for this launch.",
+      "paragraph": "当生产任务需要四种明确工作流之一时，请选择 FLUX 3。首尾帧模式需要同时提供起始和结束图像；延伸模式需要符合条件的源视频，并使用其专属的标准定价规则。Black Forest Labs 拥有该模型家族，Fal 负责为此次发布分发 MaxVideoAI 的执行能力。",
       "primaryCta": {
         "label": "使用 FLUX 3 生成",
         "href": "/app?engine=flux-3"
       },
       "secondaryCta": {
-        "label": "Explore the FLUX gallery",
+        "label": "浏览 FLUX 案例库",
         "href": "/zh/examples/flux"
       },
       "quickLinks": [
         {
-          "label": "Review FLUX 3 Draft",
+          "label": "查看 FLUX 3 Draft",
           "href": "/zh/models/flux-3-draft"
         },
         {
-          "label": "Compare FLUX 3 and Draft",
+          "label": "对比 FLUX 3 与 Draft",
           "href": "/zh/ai-video-engines/flux-3-vs-flux-3-draft?order=flux-3"
         },
         {
-          "label": "Compare FLUX 3 with Grok",
+          "label": "对比 FLUX 3 与 Grok",
           "href": "/zh/ai-video-engines/flux-3-vs-grok-imagine-video-1-5?order=flux-3"
         },
         {
-          "label": "Review FLUX 3 pricing",
+          "label": "查看 FLUX 3 定价",
           "href": "/zh/pricing#flux-3-pricing"
         },
         {
-          "label": "Open FLUX Prompt Lab",
+          "label": "打开 FLUX 提示词实验室",
           "href": "#prompting"
         }
       ]
     },
     "media": {
-      "caption": "FLUX 3 production evidence",
-      "description": "Accepted FLUX 3 outputs will appear after review",
-      "renderLabel": "Review accepted output",
+      "caption": "FLUX 3 生产样本",
+      "description": "经审核的 FLUX 3 输出将在审核后显示",
+      "renderLabel": "查看已通过的输出",
       "badges": [
-        "Four workflows",
+        "四种工作流",
         "720p",
         "1080p"
       ],
-      "altContext": "accepted FLUX 3 Video production example"
+      "altContext": "已通过审核的 FLUX 3 Video 生产示例"
     },
     "features": [
       {
-        "title": "Four explicit generation modes",
-        "body": "Text, image, first-and-last-frame and extension each keep their own required inputs. The product does not rename keyframes or draft enhancement as generic supported modes.",
+        "title": "四种明确的生成模式",
+        "body": "文本、图像、首尾帧和延伸各自保留其所需的输入。产品不会将关键帧或草稿增强重新命名为通用支持模式。",
         "tone": "reference"
       },
       {
-        "title": "Exact frame bridge",
-        "body": "First-and-last-frame mode requires both a start and end image. Design compatible anchors and describe the motion that can plausibly connect them within five to twenty seconds.",
+        "title": "精确帧桥接",
+        "body": "首尾帧模式同时需要起始和结束图像。设计兼容的锚点，并描述在五到二十秒内能合理连接它们的运动方式。",
         "tone": "continuity"
       },
       {
-        "title": "Source-video extension",
-        "body": "Extend accepts a short supported source clip. Continue its camera vector, subject trajectory, light and rhythm instead of restarting the scene with unrelated direction.",
+        "title": "源视频延伸",
+        "body": "延伸模式接受一段短小的受支持源片段。请延续其摄像机向量、主体轨迹、光线和节奏，而非以无关方向重新开始场景。",
         "tone": "duration"
       },
       {
-        "title": "Separate extension quote",
-        "body": "The canonical calculator selects extension-specific pricing facts when mode is extend. A page scenario cannot quietly reuse the less expensive normal-generation rate.",
+        "title": "独立的延伸报价",
+        "body": "当模式为延伸时，标准计算器会选取延伸专属的定价数据。页面场景不能悄然复用较便宜的普通生成费率。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "Best fit: controlled production transitions",
-        "body": "Use FLUX 3 for product movement, designed frame bridges, source-video continuation and scene work that benefits from explicit input ownership.",
+        "title": "最佳场景：受控生产过渡",
+        "body": "将 FLUX 3 用于产品运动、精心设计的帧桥接、源视频续接，以及受益于明确输入控制的场景创作。",
         "cta": {
-          "label": "Start a FLUX 3 render",
+          "label": "开始 FLUX 3 渲染",
           "href": "/app?engine=flux-3"
         }
       },
       {
-        "title": "Not ideal: low-cost exploratory batches",
-        "body": "When a team is still testing many directions at 720p, use Draft as the iteration sibling and reserve standard FLUX 3 for the selected brief.",
+        "title": "不适合：低成本探索性批量测试",
+        "body": "若团队仍在 720p 下测试多种方向，请使用 Draft 作为迭代版本，将标准 FLUX 3 留给已确定的方案。",
         "cta": {
-          "label": "Open FLUX 3 Draft",
+          "label": "打开 FLUX 3 Draft",
           "href": "/zh/models/flux-3-draft"
         }
       },
       {
-        "title": "Prompt the transition, not two posters",
-        "body": "For frame bridging, explain how pose, camera, materials and light evolve between anchors. Impossible geometry makes a stable connection less likely.",
+        "title": "描述过渡过程，而非两张海报",
+        "body": "进行帧桥接时，说明姿势、摄像机、材质和光线如何在锚点之间演变。不可能的几何关系会降低稳定连接的概率。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
@@ -110,117 +110,117 @@
     ],
     "referenceWorkflows": [
       {
-        "title": "Text generation",
-        "body": "Define a compact scene, physical action, camera path and stable ending."
+        "title": "文本生成",
+        "body": "定义简洁的场景、物理动作、摄像机路径和稳定的结尾。"
       },
       {
-        "title": "Image animation",
-        "body": "Protect the opening composition and direct movement without redesigning the source."
+        "title": "图像动画",
+        "body": "保护开场构图，引导动作而不重新设计源图像。"
       },
       {
-        "title": "First and last frames",
-        "body": "Supply both required images and describe a physically plausible path between them."
+        "title": "首帧与尾帧",
+        "body": "提供两张必要图像，并描述它们之间物理上可行的运动路径。"
       },
       {
-        "title": "Video extension",
-        "body": "Use an eligible source clip and continue its established motion, camera, identity and atmosphere."
+        "title": "视频延伸",
+        "body": "使用符合条件的源片段，延续其已建立的运动、摄像机、身份和氛围。"
       }
     ],
     "pricingCopy": {
-      "title": "FLUX 3 scenario pricing",
-      "subtitle": "Compare the same six-second video in 720p and 1080p.",
-      "footnote": "Prices depend on your selected settings. MaxVideoAI confirms the quote before you generate.",
+      "title": "FLUX 3 场景定价",
+      "subtitle": "对比相同六秒视频在 720p 和 1080p 下的价格。",
+      "footnote": "价格取决于您选择的设置。MaxVideoAI 将在生成前确认报价。",
       "ctaLabel": "使用 FLUX 3 生成",
       "ctaHref": "/app?engine=flux-3"
     },
     "meta": {
-      "title": "FLUX 3 Video Model, Frame Control and Extend Pricing",
-      "description": "Evaluate FLUX 3 text, image, first-last-frame and extend modes, source limits, prompt structure, safety and canonical mode-aware quotes."
+      "title": "FLUX 3 视频模型、帧控制与延伸定价",
+      "description": "评估 FLUX 3 的文本、图像、首尾帧和延伸模式、源文件限制、提示词结构、安全规则及模式感知的标准报价。"
     }
   },
   "prompting": {
     "modelSlug": "flux-3",
     "section": {
       "title": "提示词实验室 — FLUX 3 Video",
-      "intro": "Choose the workflow first, then write motion that respects every required source and the physics between states.",
-      "tip": "For frame bridging or extension, describe continuity before adding new scene elements.",
+      "intro": "先选择工作流，再撰写尊重所有必要源文件及状态间物理规律的运动描述。",
+      "tip": "进行帧桥接或延伸时，先描述连续性，再添加新的场景元素。",
       "guide": {
-        "label": "Read Black Forest Labs' FLUX 3 Video 指南",
+        "label": "阅读 Black Forest Labs 的 FLUX 3 Video 指南",
         "href": "https://bfl.ai/blog/flux-3-video"
       },
-      "referencesTitle": "Direct generation, frame bridges and continuation"
+      "referencesTitle": "直接生成、帧桥接与续接"
     },
     "tabs": [
       {
         "id": "mode",
-        "label": "Mode",
-        "title": "Select the correct source contract",
-        "description": "Match the brief to text, image, two-frame or extension inputs.",
-        "copy": "Workflow:\n[Text, image, first-last-frame, or extend]\n\nRequired source:\n[None, opening image, two anchors, or source video]\n\nSuccess state:\n[What reviewers must see]\n\nDuration:\n[Length that fits the action and source constraints]"
+        "label": "模式",
+        "title": "选择正确的源文件契约",
+        "description": "将任务匹配到文本、图像、双帧或延伸输入。",
+        "copy": "工作流：\n[文本、图像、首尾帧或延伸]\n\n必需源文件：\n[无、开场图像、两个锚点或源视频]\n\n成功状态：\n[审核人员必须看到的内容]\n\n时长：\n[适合动作和源文件约束的长度]"
       },
       {
         "id": "transition",
-        "label": "Transition",
-        "title": "Describe a plausible path",
-        "description": "Connect pose, camera, materials and light between states.",
-        "copy": "Opening state:\n[Subject pose, framing and environment]\n\nMotion path:\n[Primary action and camera movement]\n\nPhysical response:\n[Weight, contact, fabric, reflections or particles]\n\nEnding state:\n[Final frame or settled composition]"
+        "label": "过渡",
+        "title": "描述可行的路径",
+        "description": "连接状态之间的姿势、摄像机、材质和光线。",
+        "copy": "开场状态：\n[主体姿势、构图和环境]\n\n运动路径：\n[主要动作和摄像机运动]\n\n物理反应：\n[重量、接触、布料、反射或粒子]\n\n结束状态：\n[最终帧或稳定构图]"
       },
       {
         "id": "continuation",
-        "label": "Extend",
-        "title": "Continue source-video momentum",
-        "description": "Preserve established identity, direction and rhythm.",
-        "copy": "Source ending:\n[Last visible action and camera vector]\n\nContinuation:\n[Next action without a reset]\n\nContinuity anchors:\n[Subject, wardrobe, props, light and location]\n\nAvoid:\n[Hard restart, new identity, abrupt lens change, text, logos and unsafe content]"
+        "label": "延伸",
+        "title": "延续源视频的动势",
+        "description": "保留已建立的身份、方向和节奏。",
+        "copy": "源视频结尾：\n[最后可见的动作和摄像机向量]\n\n续接内容：\n[下一个动作，无需重置]\n\n连续性锚点：\n[主体、服装、道具、光线和场地]\n\n避免：\n[硬切重启、新身份、突然换镜、文字、标志和不安全内容]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "mode",
-        "body": "The canonical launch supports fl2v, not a generic keyframe sequence with arbitrary intermediate frames."
+        "body": "标准发布支持 fl2v，而非带有任意中间帧的通用关键帧序列。"
       },
       {
         "tabId": "transition",
-        "body": "Start and end images should share compatible subject identity, perspective and scene logic."
+        "body": "起始和结束图像应共享兼容的主体身份、视角和场景逻辑。"
       },
       {
         "tabId": "continuation",
-        "body": "Extend pricing is mode-specific, and the source clip must satisfy the published format, size and length rules."
+        "body": "延伸定价因模式而异，源片段必须满足已发布的格式、大小和长度规则。"
       }
     ],
     "globalPrinciples": [
-      "Choose a mode before composing the prompt.",
-      "Make movement physically compatible with source media.",
-      "Use one motivated camera path per short scene.",
-      "Review rights, consent, safety, unintended text and watermarks before approval."
+      "在撰写提示词之前先选择模式。",
+      "使运动与源媒体在物理上兼容。",
+      "每个短场景只使用一条有动机的摄像机路径。",
+      "在审批前检查版权、同意、安全性、意外文字和水印。"
     ],
     "engineWhy": [
-      "FLUX 3 separates first-last-frame control from ordinary image animation.",
-      "A dedicated extension route preserves source-video ownership and pricing context.",
-      "Standard output supports 720p and 1080p for review and production decisions."
+      "FLUX 3 将首尾帧控制与普通图像动画区分开来。",
+      "专用的延伸路线保留了源视频的所有权和定价背景。",
+      "标准输出支持 720p 和 1080p，供审核和生产决策使用。"
     ],
     "demo": {
-      "title": "FLUX 3 first-last-frame bridge",
-      "promptLabel": "Controlled frame transition",
-      "prompt": "Begin from the supplied wide frame of a red fabric installation hanging motionless in a white gallery. A gentle airflow lifts the lower panels in sequence while the camera tracks slowly right. Transition naturally into the supplied final close frame where the fabric curves around a polished steel form. Preserve gallery geometry, fabric color and light direction. No visitors, signs or logos.",
+      "title": "FLUX 3 首尾帧桥接",
+      "promptLabel": "受控帧过渡",
+      "prompt": "从所提供的白色画廊中静止悬挂的红色织物装置的宽景帧开始。一股轻柔的气流依次掀起下方面板，同时摄像机缓慢向右跟拍。自然过渡到所提供的最终近景帧，织物在一个抛光钢铁形体上弯曲。保持画廊几何形状、织物颜色和光线方向。无访客、标识或标志。",
       "notes": [
-        "The prompt names the physical force and compatible camera path.",
-        "Both anchors share a location, material and lighting logic."
+        "提示词指明了物理作用力和兼容的摄像机路径。",
+        "两个锚点共享相同的地点、材质和光线逻辑。"
       ],
       "summary": {
-        "subject": "Red fabric installation in a white gallery",
-        "action": "Airflow lifts panels around a steel form",
-        "camera": "Slow rightward track from wide to close",
-        "style": "Minimal architectural art film",
-        "output": "First-last-frame render with canonical settings"
+        "subject": "白色画廊中的红色织物装置",
+        "action": "气流将面板掀起并绕过钢铁形体",
+        "camera": "从宽景到近景的缓慢向右跟拍",
+        "style": "极简建筑艺术电影风格",
+        "output": "使用标准设置的首尾帧渲染"
       },
       "presentationOverrides": {
-        "modeLabel": "First-and-last-frame",
-        "outputLabel": "Supported frame workflow",
+        "modeLabel": "首帧与尾帧",
+        "outputLabel": "支持的帧工作流",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",
         "audioChipLabel": null,
-        "altContext": "FLUX 3 red-fabric frame-bridge prompt"
+        "altContext": "FLUX 3 红色织物帧桥接提示词"
       }
     },
     "imageExamples": null
@@ -229,9 +229,9 @@
     "modelSlug": "flux-3",
     "showWhenEmpty": false,
     "section": {
-      "title": "Reviewed FLUX 3 examples",
-      "intro": "The gallery remains hidden until two accepted FLUX 3 assets are durable and correctly attached.",
-      "defaultCtaLabel": "查看 all FLUX 案例",
+      "title": "已审核的 FLUX 3 示例",
+      "intro": "在两个已通过审核的 FLUX 3 素材稳定附加之前，案例库将保持隐藏。",
+      "defaultCtaLabel": "查看全部 FLUX 案例",
       "recreateLabel": null
     },
     "filters": [
@@ -252,32 +252,32 @@
       {
         "id": "anchors",
         "icon": "image",
-        "title": "Anchor fidelity",
-        "body": "Compare opening and ending compositions with their source frames."
+        "title": "锚点还原度",
+        "body": "将开场和结尾构图与其源帧进行对比。"
       },
       {
         "id": "physics",
         "icon": "zap",
-        "title": "Transition physics",
-        "body": "Inspect contact, material response and plausible motion."
+        "title": "过渡物理效果",
+        "body": "检查接触、材质反应和合理的运动表现。"
       },
       {
         "id": "continuity",
         "icon": "users",
-        "title": "Source continuity",
-        "body": "Check identity, camera vector and environment during extension."
+        "title": "源视频连续性",
+        "body": "在延伸过程中检查身份、摄像机向量和环境的一致性。"
       },
       {
         "id": "delivery",
         "icon": "maximize",
-        "title": "Delivery stability",
-        "body": "Review detail, framing, temporal consistency and final beat."
+        "title": "交付稳定性",
+        "body": "审查细节、构图、时间一致性和最终节拍。"
       },
       {
         "id": "safety",
         "icon": "shield",
-        "title": "Editorial gate",
-        "body": "Reject unsafe content, unwanted marks, text and rights problems."
+        "title": "编辑审核关卡",
+        "body": "拒绝不安全内容、不需要的标记、文字和版权问题。"
       }
     ],
     "fallbackItems": null

@@ -2,30 +2,30 @@
   "marketingName": "Google Veo 3.1 Lite",
   "versionLabel": "3.1 Lite",
   "seo": {
-    "title": "Veo 3.1 Lite | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Veo 3.1 Lite on MaxVideoAI for lower-cost audio-ready drafts, live specs, and pricing before moving selected outputs into Veo 3.1.",
+    "title": "Veo 3.1 Lite | AI 视频模型、技术规格与价格 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上使用 Veo 3.1 Lite 进行低成本、带原生音频的视频草稿创作、实时规格查看与按秒计费，待选定优质产出后再进阶至 Veo 3.1。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/0a6e2df3-0107-4ea7-8f70-6e03e406f39b.jpg"
   },
-  "overview": "Veo 3.1 Lite is the current lower-cost Google Veo 3.1 variant for short text-to-video and image-to-video drafts, timing checks, and prompt testing with native audio included and live pay-per-second pricing.",
+  "overview": "Veo 3.1 Lite 是当前 Google Veo 3.1 系列中成本更低的轻量化版本，适用于简短文生视频与图生视频草稿探索、节奏验证和提示词测试，原生支持音频生成并提供实时按秒计费。",
   "hero": {
-    "title": "Veo 3.1 Lite — current Veo variant for lower-cost audio-ready drafts",
-    "intro": "Use Google Veo 3.1 Lite as the lower-cost Veo 3 AI workflow for short text-to-video and image-to-video drafts with native audio always on, then move winning runs into Veo 3.1 Fast or Veo 3.1.",
-    "badge": "720p/1080p · 4–8s · Text, start image & last frame",
+    "title": "Veo 3.1 Lite — 当前用于低成本、带原生音频草稿创作的 Veo 版本",
+    "intro": "使用 Google Veo 3.1 Lite 作为成本更低的 Veo 3 AI 工作流，进行默认开启原生音频的简短文生视频与图生视频草稿创作，随后可将满意的优质生成迁移至 Veo 3.1 Fast 或 Veo 3.1 进行高清精修。",
+    "badge": "720p/1080p · 4–8 秒 · 文本、起始图片与首尾帧",
     "ctaPrimary": {
-      "label": "Try Veo 3.1 Lite",
+      "label": "体验 Veo 3.1 Lite",
       "href": "/app?engine=veo-3-1-lite"
     },
     "secondaryLinks": [
       {
-        "label": "See Veo 3.1",
+        "label": "查看 Veo 3.1",
         "href": "/zh/models/veo-3-1"
       },
       {
-        "label": "Compare Veo 3.1 Fast vs Veo 3.1 Lite",
+        "label": "对比 Veo 3.1 Fast 与 Veo 3.1 Lite",
         "href": "/zh/ai-video-engines/veo-3-1-fast-vs-veo-3-1-lite"
       },
       {
-        "label": "See Veo 3.1 Fast",
+        "label": "查看 Veo 3.1 Fast",
         "href": "/zh/models/veo-3-1-fast"
       },
       {
@@ -33,322 +33,322 @@
         "href": "/zh/examples/veo"
       },
       {
-        "label": "Compare Veo 3.1 vs Veo 3.1 Fast",
+        "label": "对比 Veo 3.1 与 Veo 3.1 Fast",
         "href": "/zh/ai-video-engines/veo-3-1-vs-veo-3-1-fast"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳适用场景",
     "items": [
       {
-        "title": "Rapid concept testing",
+        "title": "快速概念验证",
         "icon": "zap"
       },
       {
-        "title": "Ad variants & A/B tests",
+        "title": "广告变体与 A/B 测试",
         "icon": "ads"
       },
       {
-        "title": "Social drafts & loops",
+        "title": "社交媒体草稿与循环短片",
         "icon": "smartphone"
       },
       {
-        "title": "Quick product takes",
+        "title": "产品快速镜头",
         "icon": "product"
       },
       {
-        "title": "Pre-viz & story beats",
+        "title": "动态预演与故事节拍",
         "icon": "storyboard"
       },
       {
-        "title": "Style exploration (many variants)",
+        "title": "风格探索（多版本）",
         "icon": "wand2"
       }
     ]
   },
-  "technicalOverviewTitle": "Technical overview",
+  "technicalOverviewTitle": "技术规格概览",
   "technicalOverview": [
     {
-      "label": "Duration",
-      "body": "4 s, 6 s, 8 s per render"
+      "label": "视频时长",
+      "body": "每次渲染 4 秒、6 秒、8 秒"
     },
     {
-      "label": "Resolution",
-      "body": "720p or 1080p at 24 fps"
+      "label": "分辨率",
+      "body": "24 fps 下支持 720p 或 1080p"
     },
     {
-      "label": "Formats",
-      "body": "16:9 or 9:16; image-based runs can keep auto framing from the source image"
+      "label": "画幅格式",
+      "body": "16:9 或 9:16；基于图像的生成可继承源图片的自动构图"
     },
     {
-      "label": "Inputs",
-      "body": "Text → Video; Image-to-Video from one start image; First/Last frame with one opening image and one ending image"
+      "label": "输入方式",
+      "body": "文生视频；单张起始图片的图生视频；基于一张起始图片与一张结束图片的首尾帧控制"
     },
     {
-      "label": "Audio",
-      "body": "Native audio is always on in this tier"
+      "label": "音频",
+      "body": "此版本默认始终开启原生音频"
     },
     {
-      "label": "Pricing",
-      "body": "MaxVideoAI display pricing: $0.07/s at 720p or $0.11/s at 1080p; pay-as-you-go wallet"
+      "label": "价格方案",
+      "body": "MaxVideoAI 展示价格：720p 为 $0.07/秒，1080p 为 $0.11/秒；通过按量付费钱包充值结算"
     },
     {
-      "label": "Render timing",
-      "body": "Short queue times; live estimates shown in the jobs rail"
+      "label": "渲染排队时间",
+      "body": "排队时间短；任务列表栏显示实时预估时长"
     }
   ],
   "promptStructure": {
-    "title": "Text-to-Video with Veo 3.1 Lite",
-    "quote": "Misty forest at dawn, medium shot centered on a mossy rock. Camera slowly pushes forward as soft rays of light appear between the trees, 6 seconds, 16:9 at 1080p. Audio: gentle birds and wind, no dialogue.",
-    "description": "Keep prompts tight, single-scene and sensory. Aim to A/B ideas quickly with minimal changes between variants.",
+    "title": "使用 Veo 3.1 Lite 进行文生视频",
+    "quote": "清晨薄雾弥漫的森林，中景聚焦于长满青苔的岩石。阳光从树木间洒下，摄影机缓慢向前推镜，6 秒，16:9，1080p。音频：柔和的鸟鸣与微风，无对白。",
+    "description": "保持提示词紧凑、聚焦单场景且具有感官细节。旨在以最小的版本差异快速进行创意 A/B 测试。",
     "steps": [
-      "Subject + focal point (one idea for the whole clip)",
-      "Environment in a single location",
-      "Camera motion across 4–8 seconds",
-      "Light and mood (daylight, neon night, warm office, etc.)",
-      "Audio cues: ambience + short VO, or say “no dialogue”",
-      "Format and duration (16:9 or 9:16; 4/6/8 s)"
+      "主体 + 视觉焦点（整段片段聚焦单一核心想法）",
+      "单一地点的环境设定",
+      "跨越 4–8 秒的摄影机运镜",
+      "光影与氛围（日光、霓虹夜景、温馨办公室等）",
+      "声音线索：环境声 + 简短旁白，或注明“无对白”",
+      "画幅格式与时长（16:9 或 9:16；4/6/8 秒）"
     ]
   },
   "tips": {
-    "title": "Tips & limits",
+    "title": "使用技巧与限制",
     "items": [
-      "⚡ Use Lite as the quickest Veo sandbox for A/B tests and prompt tweaks",
-      "🧷 Add a Last frame when the opening and ending frames are already approved",
-      "🔊 Audio is always on, so write simple ambience or dialogue cues directly in the prompt",
-      "📱 Optimize for social formats where 4–8 seconds is the story",
-      "🖼️ Single-scene focus; avoid multi-location narratives in this tier",
-      "🔁 Clone winners to Veo 3.1 for final 1080p polish and richer audio"
+      "⚡ 将 Lite 作为速度最快的 Veo 沙盒，用于 A/B 测试和提示词微调",
+      "🧷 当开篇与收尾构图已获认可时，添加尾帧引导",
+      "🔊 音频始终开启，可直接在提示词中加入简单的环境音或对白线索",
+      "📱 针对以 4–8 秒讲述简短故事的社交媒体格式进行优化",
+      "🖼️ 聚焦单场景；在此版本中避免多地点的长叙事",
+      "🔁 将满意的方案克隆至 Veo 3.1 进行最终 1080p 精修与更丰富的音频渲染"
     ]
   },
   "compareLink": {
-    "label": "Compare Veo 3.1 Fast vs Veo 3.1 Lite ->",
+    "label": "对比 Veo 3.1 Fast 与 Veo 3.1 Lite ->",
     "href": "/ai-video-engines/veo-3-1-fast-vs-veo-3-1-lite"
   },
   "prompts": [
     {
-      "title": "Misty forest slow push",
+      "title": "晨雾森林慢速推镜",
       "prompt": "Misty forest at dawn, slow push-in toward a mossy rock as light rays cut through trees, subtle birdsong, no dialogue, 8s, 16:9 at 1080p."
     },
     {
-      "title": "Vertical late-night desk loop",
+      "title": "竖屏深夜书桌循环",
       "prompt": "6s 9:16 loop of a young woman working late at a minimalist desk, city lights blurred behind her. Slow handheld drift left/right, cool blue window light plus warm desk lamp, quiet typing + city hum, no dialogue."
     }
   ],
   "faqs": [
     {
-      "q": "Is Veo 3.1 Lite good for image-to-video prompt testing?",
-      "a": "Yes. Veo 3.1 Lite is a good fit for cheaper image-to-video tests, short audio-ready drafts, and quick prompt checks before moving winners into higher Veo tiers."
+      "q": "Veo 3.1 Lite 是否适合图生视频的提示词测试？",
+      "a": "是的。Veo 3.1 Lite 非常适合低成本的图生视频测试、简短带音频的草稿生成，以及在将满意方案迁移至更高级别 Veo 前进行快速提示词验证。"
     },
     {
-      "q": "When should I use Veo 3.1 Lite instead of Veo 3.1?",
-      "a": "Use Veo 3.1 Lite for the cheapest Veo tests, social variants, and internal reviews; switch to Veo 3.1 Fast or Veo 3.1 when you need more control or higher-end finals."
+      "q": "何时应该使用 Veo 3.1 Lite 而不是 Veo 3.1？",
+      "a": "在需要极低成本测试、社交媒体变体探索和团队内部审片时使用 Veo 3.1 Lite；当需要更精细的控制或制作级终版成片时，切换至 Veo 3.1 Fast 或 Veo 3.1。"
     },
     {
-      "q": "Does Veo 3.1 Lite support vertical videos?",
-      "a": "Yes. Veo 3.1 Lite supports 16:9 and 9:16 at 720p or 1080p. Choose 9:16 for mobile-first placements."
+      "q": "Veo 3.1 Lite 是否支持竖屏视频？",
+      "a": "支持。Veo 3.1 Lite 支持 720p 或 1080p 下的 16:9 和 9:16 比例。针对移动端分发建议选择 9:16。"
     },
     {
-      "q": "Can I reuse Veo 3.1 prompts in Veo 3.1 Lite?",
-      "a": "Yes. Clone a Veo 3.1 render, change engine to Veo 3.1 Lite, keep framing/tone presets, and adjust length/resolution."
+      "q": "可以在 Veo 3.1 Lite 中复用 Veo 3.1 的提示词吗？",
+      "a": "可以。克隆已有的 Veo 3.1 渲染任务，将生成引擎切换为 Veo 3.1 Lite，保留画幅构图与色调预设，并调整时长与分辨率即可。"
     },
     {
-      "q": "How does pricing compare to Veo 3.1?",
-      "a": "Veo 3.1 Lite is cheaper per second than the other Veo tiers on MaxVideoAI: $0.07/s at 720p or $0.11/s at 1080p, with audio included. Google direct API pricing may differ."
+      "q": "与 Veo 3.1 相比价格如何？",
+      "a": "在 MaxVideoAI 上，Veo 3.1 Lite 的按秒单价比其他 Veo 版本更便宜：720p 为 $0.07/秒，1080p 为 $0.11/秒，且均已包含原生音频。Google 官方 API 直连价格可能有所不同。"
     },
     {
-      "q": "Can I run Veo 3.1 Lite from Europe or LATAM?",
-      "a": "Yes. It uses the same MaxVideoAI wallet/workspace and managed provider routing — no separate billing needed."
+      "q": "能否在欧洲或拉美地区使用 Veo 3.1 Lite？",
+      "a": "可以。它使用相同的 MaxVideoAI 钱包/工作区以及托管的服务商路由调度 — 无需单独开通其他账单。"
     }
   ],
   "custom": {
-    "heroDesc1": "Veo 3.1 Lite brings DeepMind’s cinematic engine to a lower price point and faster turnaround, perfect for rapid testing, guided endings, and social loops.",
-    "heroDesc2": "Start from a short text brief, one start image, or a first/last frame pair, then pick 4/6/8 seconds, choose 16:9 or 9:16, and generate variants fast enough to A/B multiple ideas in one session.",
-    "heroSupportLine": "Best for exploring hooks, guided endings, and pacing fast before you regenerate winners in Veo 3.1.",
-    "whyTitle": "Why Veo 3.1 Lite is powerful",
+    "heroDesc1": "Veo 3.1 Lite 将 DeepMind 电影级引擎带入更亲民的价格与更快的交付速度，非常适合快速测试、引导式结尾与社交媒体循环短片。",
+    "heroDesc2": "从简短文本简报、单张起始图片或首尾帧对起步，选择 4/6/8 秒时长与 16:9 或 9:16 画幅，即可快速生成多个变体，支持在一次会话中对比多个创意。",
+    "heroSupportLine": "在将满意方案用 Veo 3.1 重新渲染前，用于快速探索吸睛开头、引导式结尾与镜头节奏的理想之选。",
+    "whyTitle": "为什么 Veo 3.1 Lite 表现出众",
     "heroHighlights": [
-      "Optimized for speed + business workflows||Built for programmatic ad generation and rapid creative testing at scale.",
-      "Keeps Veo’s cinematic intent||Clear camera language + style cues translate well into consistent variants.",
-      "Native audio included||Every Lite render ships with audio, which makes quick timing and dialogue tests easier.",
-      "Simple upgrade path||Draft in Lite, then regenerate the keepers in Veo 3.1 Fast or Veo 3.1 for higher-fidelity finals."
+      "针对速度与商业工作流深度优化||专为程序化广告生成与大规模创意快速测试而打造。",
+      "延续 Veo 的电影级创作意图||清晰的镜头语言与风格线索能很好地转化为一致的变体画面。",
+      "包含原生音频||每次 Lite 渲染均生成音频，让节奏把握与对白测试更加轻松直观。",
+      "平滑简便的进阶路径||在 Lite 中进行草稿创作，随后将保留的优质镜头用 Veo 3.1 Fast 或 Veo 3.1 重新渲染为高保真终版。"
     ],
-    "bestUseCasesTitle": "Best use cases",
+    "bestUseCasesTitle": "最佳适用场景",
     "bestUseCases": [
       {
-        "title": "Rapid concept testing",
+        "title": "快速概念验证",
         "icon": "zap"
       },
       {
-        "title": "Ad variants & A/B tests",
+        "title": "广告变体与 A/B 测试",
         "icon": "ads"
       },
       {
-        "title": "Social drafts & loops",
+        "title": "社交媒体草稿与循环短片",
         "icon": "smartphone"
       },
       {
-        "title": "Quick product takes",
+        "title": "产品快速镜头",
         "icon": "product"
       },
       {
-        "title": "Pre-viz & story beats",
+        "title": "动态预演与故事节拍",
         "icon": "storyboard"
       },
       {
-        "title": "Style exploration (many variants)",
+        "title": "风格探索（多版本）",
         "icon": "wand2"
       }
     ],
-    "whatTitle": "What Veo 3.1 Lite Actually Is in MaxVideoAI",
-    "whatIntro1": "Veo 3.1 Lite is tuned for speed and efficiency within the Veo family.",
-    "whatIntro2": "You keep framing and tone presets, but runs are optimized for cost and turnaround.",
-    "whatFlowTitle": "MaxVideoAI flow:",
+    "whatTitle": "MaxVideoAI 中的 Veo 3.1 Lite 到底是什么",
+    "whatIntro1": "Veo 3.1 Lite 针对 Veo 家族中的速度与效率进行了专门调优。",
+    "whatIntro2": "您可以保留构图与色调预设，但生成过程已针对成本与交付速度进行了大幅优化。",
+    "whatFlowTitle": "MaxVideoAI 生成流程：",
     "whatFlowSteps": [
-      "1. Pick Veo 3.1 Lite as the engine.",
-      "2. Start from text, add one Start image, or use First/Last frame with one opening and one ending image.",
-      "3. Keep reference input focused; Lite is not a multi-style reference stack.",
-      "4. Set duration, orientation and resolution.",
-      "5. Paste a tight, sensory prompt with any simple ambience or dialogue cues.",
-      "6. Check the live price and render."
+      "1. 选择 Veo 3.1 Lite 作为生成引擎。",
+      "2. 从文本输入起步，添加单张起始图片，或使用一张起始图与一张结束图的首尾帧模式。",
+      "3. 保持参考素材精简聚焦；Lite 并非多风格参考堆栈。",
+      "4. 设定时长、画幅方向与分辨率。",
+      "5. 粘贴精炼且具感官细节的提示词，并附带简单的环境音或对白线索。",
+      "6. 确认实时价格后点击渲染。"
     ],
-    "specTitle": "Real Specs – Veo 3.1 Lite in MaxVideoAI (720p/1080p, 4–8s)",
-    "specNote": "These specs describe Veo 3.1 Lite exactly as you can use it today via MaxVideoAI.",
+    "specTitle": "真实规格 — MaxVideoAI 中的 Veo 3.1 Lite（720p/1080p，4–8 秒）",
+    "specNote": "这些技术规格准确描述了您今天即可通过 MaxVideoAI 使用的 Veo 3.1 Lite 实际能力。",
     "specSections": [
       {
-        "title": "Draft-speed exploration",
-        "intro": "Built for rapid testing and volume when you need ideas fast. Use it to explore hooks, angles, and pacing.",
+        "title": "草稿级极速探索",
+        "intro": "专为快速测试与大批量出图设计，满足您快速捕捉灵感的需求。可用于探索吸睛镜头、拍摄角度与剪辑节奏。",
         "items": [
-          "Keep prompts short and action-driven.",
-          "Generate many small variants.",
-          "Test multiple openings quickly.",
-          "Promote winners to the full tier."
+          "保持提示词短小且动作明确。",
+          "批量生成多个微小变体。",
+          "快速测试多种开篇画面。",
+          "将选中的优质方案提升至完整版本。"
         ]
       },
       {
-        "title": "Upgrade path",
-        "intro": "The same prompt structure upgrades cleanly to the premium tiers. Treat Lite as your draft layer.",
+        "title": "平滑升级路径",
+        "intro": "相同的提示词结构可直接平滑升级至高级版本。将 Lite 作为您的草稿构思层。",
         "items": [
-          "Reuse shot language for finals.",
-          "Switch to Veo 3.1 Fast or Veo 3.1 when you need more control.",
-          "Use Lite for social drafts and loops.",
-          "Save templates to scale campaigns."
+          "在终版中复用相同的镜头语言。",
+          "需要更深入控制时切换至 Veo 3.1 Fast 或 Veo 3.1。",
+          "使用 Lite 制作社交媒体草稿与循环短片。",
+          "保存优质模板以规模化扩展推广计划。"
         ]
       }
     ],
-    "specValueProp": "Veo 3.1 Lite is your rapid-fire test bench: same cinematic language as Veo 3.1, lower cost, faster turnaround.",
-    "imageTitle": "Image and First/Last frame flow with Google Veo 3.1 Lite",
-    "imageIntro": "Animate one start image, or guide both the opening and ending frame when the landing composition matters.",
+    "specValueProp": "Veo 3.1 Lite 是您的快速创意测试台：拥有与 Veo 3.1 相同的电影级镜头语言，成本更低，交付更快。",
+    "imageTitle": "Google Veo 3.1 Lite 的图生视频与首尾帧流程",
+    "imageIntro": "动态化单张起始图片，或在最终落地构图至关重要时同时引导开篇与收尾画面。",
     "imageFlow": [
-      "Upload one lifestyle or product photo as the start image.",
-      "Use First/Last frame only when you have both the opening and ending compositions approved.",
-      "Prompt subtle camera and subject motion, plus any simple ambience or dialogue cues you need.",
-      "Generate variants by changing one element at a time (camera speed, VO tone, time of day)."
+      "上传一张生活方式或产品照片作为起始图片。",
+      "仅在开篇与收尾构图均已确认时使用首尾帧控制。",
+      "描述细腻的摄影机与主体运动，并添加所需的简单环境音或对白线索。",
+      "每次仅修改一个变量（运镜速度、旁白语气、一天中的时间等）来生成不同变体。"
     ],
     "imageWhy": [
-      "Quick hero shots for landing pages or ecommerce",
-      "Animated social posts from brand photography",
-      "Mood loops behind titles or UI elements"
+      "用于落地页或电商展示的快速主视觉镜头",
+      "由品牌静态摄影素材生成的动态社交贴文",
+      "作为标题或 UI 元素背景的情绪循环视频"
     ],
-    "multishotTitle": "Veo 3.1 Lite as a Testbed",
-    "multishotIntro1": "Use Lite to explore prompts cheaply, then move winners to Veo 3.1 Fast or Veo 3.1.",
-    "multishotIntro2": "Framing and tone presets are shared, so migration is smooth.",
+    "multishotTitle": "将 Veo 3.1 Lite 作为创意试验田",
+    "multishotIntro1": "使用 Lite 以低成本探索提示词，随后将优选成果迁移至 Veo 3.1 Fast 或 Veo 3.1。",
+    "multishotIntro2": "由于构图与色调预设相通，迁移过渡十分顺畅自然。",
     "multishotTips": [
-      "Render 2–4 variants in Lite with small prompt tweaks.",
-      "Promote the best to Veo 3.1 Fast or Veo 3.1 for higher fidelity and more workflow control.",
-      "Stay single-scene in Lite; use other Veo tiers for multi-beat control."
+      "在 Lite 中通过微调提示词渲染 2–4 个变体。",
+      "将最佳方案迁移至 Veo 3.1 Fast 或 Veo 3.1，获取更高保真度与更多工作流控制。",
+      "在 Lite 中聚焦单一场景；多节拍精准控制请使用其他 Veo 版本。"
     ],
-    "tipsTitle": "Tips & Limitations",
+    "tipsTitle": "使用技巧与局限性",
     "strengths": [
-      "Lead with framing + camera move (wide/medium/close + dolly/pan/handheld) before style.",
-      "Keep one hero subject and one readable action per clip.",
-      "Use 2–3 concrete anchors (time of day, weather, 1–2 set details) instead of long lists.",
-      "For continuity, reuse the same “shot recipe” (palette, lighting, lens feel) and change one variable per take.",
-      "Audio is best with minimal cues: ambience + 1 key sound, or one short VO line."
+      "在描述风格之前，优先指定景别与运镜（全景/中景/特写 + 推拉/平移/手持）。",
+      "每个片段保持一个核心主体和一个清晰可读的动作。",
+      "使用 2–3 个具象锚点（时间、天气、1–2 个布景细节）而非冗长的形容词列表。",
+      "为了保持连贯性，复用相同的“镜头配方”（色调、光影、镜头感），每次拍摄仅修改一个变量。",
+      "音频提示保持极简效果最好：环境音 + 1 个关键音效，或一句简短旁白台词。"
     ],
     "boundaries": [
-      "Single-scene focus works best; multi-location narratives tend to drift.",
-      "This tier is draft-first (slightly less detail/fidelity than full Veo 3.1).",
-      "Tiny UI text and small lettering are unreliable — add in post."
+      "最适合聚焦单一场景；多地点叙事容易发生画面漂移。",
+      "此版本以草稿优先为主（细节与保真度略低于完整的 Veo 3.1）。",
+      "微小的 UI 界面文字与极小印刷文字不够稳定 — 建议在后期制作中添加。"
     ],
-    "safetyTitle": "Safety & people / likeness",
+    "safetyTitle": "安全合规与肖像权规范",
     "safetyRules": [
-      "No sexual content, and nothing involving minors.",
-      "No hateful, harassing, or graphic-violence content.",
-      "Don’t impersonate real people or public figures; use consent for any likeness/voice.",
-      "Don’t include private personal data (addresses, phone numbers, documents, non-consenting faces).",
-      "Some prompts or references may be blocked by provider safety filters."
+      "严禁涉及色情内容，严禁涉及任何涉及未成年人的违规内容。",
+      "严禁包含仇恨、骚扰或血腥暴力的内容。",
+      "不得冒用真实人物或公众人物；使用任何肖像或声音均需获得授权。",
+      "严禁包含隐私个人数据（住址、电话、证件、未经授权的面孔）。",
+      "部分提示词或参考图片可能会触发服务商安全过滤器拦截。"
     ],
     "safetyInterpretation": [],
     "safetyNote": null,
-    "comparisonTitle": "Veo 3.1 Lite vs Veo 3.1 – Quick Overview",
+    "comparisonTitle": "Veo 3.1 Lite 与 Veo 3.1 — 快速概览",
     "comparisonPoints": [
-      "Veo 3.1 Lite: cheaper, faster; best for tests, social loops, internal reviews.",
-      "Veo 3.1: higher fidelity and richer audio; best for client-ready and paid media.",
-      "Workflow: Prototype in Lite, then regenerate winners in Veo 3.1 Fast or Veo 3.1."
+      "Veo 3.1 Lite：更亲民、更迅速；最适合测试、社交循环短片与内部审片。",
+      "Veo 3.1：更高保真度与更丰富音频；最适合客户交付级作品与付费媒体投放。",
+      "推荐工作流：在 Lite 中快速出样原型，随后将选出的优质方案在 Veo 3.1 Fast 或 Veo 3.1 中重新渲染。"
     ],
-    "comparisonCta": "Compare Veo 3.1 Fast vs Veo 3.1 Lite ->",
-    "faqTitle": "FAQ – Veo 3.1 Lite in MaxVideoAI",
+    "comparisonCta": "对比 Veo 3.1 Fast 与 Veo 3.1 Lite ->",
+    "faqTitle": "常见问题 — MaxVideoAI 中的 Veo 3.1 Lite",
     "faqs": [
       {
-        "q": "When should I use Veo 3.1 Lite instead of Veo 3.1?",
-        "a": "Use Lite to explore ideas, social variants, and internal reviews; use Veo 3.1 Fast or Veo 3.1 for final hero shots and paid media."
+        "q": "何时应该使用 Veo 3.1 Lite 而不是 Veo 3.1？",
+        "a": "在探索创意想法、制作社交媒体变体和进行内部审片时使用 Lite；在制作最终主视觉镜头与付费投放媒体时使用 Veo 3.1 Fast 或 Veo 3.1。"
       },
       {
-        "q": "Does Veo 3.1 Lite support vertical videos?",
-        "a": "Yes—16:9 and 9:16 at 720p or 1080p; pick 9:16 for mobile-first placements."
+        "q": "Veo 3.1 Lite 是否支持竖屏视频？",
+        "a": "支持 — 支持 720p 或 1080p 下的 16:9 与 9:16；移动优先的投放场景请选择 9:16。"
       },
       {
-        "q": "Can I reuse Veo 3.1 prompts in Veo 3.1 Lite?",
-        "a": "Yes. Clone a Veo 3.1 render, switch to Veo 3.1 Lite, keep framing/tone presets, tweak length/resolution."
+        "q": "可以在 Veo 3.1 Lite 中复用 Veo 3.1 的提示词吗？",
+        "a": "可以。克隆已有的 Veo 3.1 渲染任务，切换至 Veo 3.1 Lite，保留画幅与色调预设，微调时长和分辨率即可。"
       },
       {
-        "q": "How does pricing compare to Veo 3.1?",
-        "a": "Lite is cheaper per second on MaxVideoAI: $0.07/s at 720p or $0.11/s at 1080p, with audio always included. Google direct API pricing may differ."
+        "q": "与 Veo 3.1 相比价格如何？",
+        "a": "在 MaxVideoAI 上 Lite 的按秒价格更实惠：720p 为 $0.07/秒，1080p 为 $0.11/秒，且始终包含原生音频。Google 官方 API 直接定价可能有所不同。"
       },
       {
-        "q": "Can I run Veo 3.1 Lite from Europe / LATAM?",
-        "a": "Yes. Same MaxVideoAI wallet/workspace and managed provider routing — no separate billing."
+        "q": "能否在欧洲或拉美地区使用 Veo 3.1 Lite？",
+        "a": "可以。使用相同的 MaxVideoAI 钱包/工作区以及托管的服务商路由 — 无需单独付费或开通账户。"
       }
     ],
-    "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare price tiers, latency, and prompt presets across the rest of the catalog.",
-    "finalPara1": "Veo 3.1 Lite in MaxVideoAI is your rapid-fire test bench for Veo prompts.",
-    "finalPara2": "Same cinematic language, lower stakes, and quality that’s ready for social delivery.",
-    "finalButton": "Open Generate",
-    "tipsIntro": "Veo 3.1 Lite is most reliable when you write a short shot brief: one subject, one action, clear framing, and one camera move.",
-    "troubleshootingTitle": "Common problems → fast fixes",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "对比模型目录中其他模型的价位、延迟表现与提示词预设。",
+    "finalPara1": "MaxVideoAI 中的 Veo 3.1 Lite 是您进行 Veo 提示词快速测试的理想沙盒。",
+    "finalPara2": "相同的电影级语言，更低的试错门槛，以及随时可用于社交媒体交付的画质表现。",
+    "finalButton": "进入生成页面",
+    "tipsIntro": "当撰写简明扼要的镜头简报时，Veo 3.1 Lite 的效果最为稳定可靠：一个主体、一个动作、明确的构图景别以及单一摄影机运镜。",
+    "troubleshootingTitle": "常见问题 → 快速排查",
     "troubleshootingItems": [
-      "Drift / ignores details → move subject + action + framing to the first line; remove extra beats; keep constraints positive (“clean background”, “centered subject”).",
-      "Motion feels messy → one camera move only; slow the action; simplify the background.",
-      "Off-brand look → lock palette + lighting; reuse the same wording; add a reference frame when you can.",
-      "Text/signage breaks → keep readable text off-screen; overlay critical copy in post.",
-      "VO / lip sync feels off → shorten lines; avoid fast speech and long monologues."
+      "画面漂移 / 忽略细节 → 将主体 + 动作 + 景别构图移至第一行；删减多余节拍；使用肯定句式（如“干净背景”、“主体居中”）。",
+      "动态感觉杂乱 → 仅保留单一摄影机运镜；放慢动作节奏；简化背景环境。",
+      "偏离品牌风格 → 锁定色彩调色与光影；复用相同的表述词汇；条件允许时添加参考帧。",
+      "文字/标牌出现破损 → 避免画面中出现可读文本；关键文案留待后期叠加。",
+      "旁白 / 口型不协调 → 缩短台词长度；避免过快的语速和冗长的独白。"
     ]
   },
   "decision": {
     "modelSlug": "veo-3-1-lite",
     "hero": {
-      "eyebrow": "GOOGLE LOWER-COST VIDEO ROUTE",
+      "eyebrow": "GOOGLE 低成本 AI 视频路线",
       "title": "Veo 3.1 Lite",
-      "subtitle": "Lower-cost Veo drafts with optional native audio, short prompt tests, and simple image-to-video checks.",
+      "subtitle": "低成本 Veo 草稿制作，可选原生音频，支持简短提示词测试与简易图生视频验证。",
       "subtitleHighlights": [
-        "lower-cost Veo drafts",
-        "optional native audio",
-        "short prompt tests"
+        "低成本 Veo 草稿制作",
+        "可选原生音频",
+        "简短提示词测试"
       ],
-      "paragraph": "Use Veo 3.1 Lite when you need the cheapest Veo 3.1 route for short drafts, timing checks and prompt comparisons before upgrading winners to Fast or Veo 3.1.",
+      "paragraph": "当您需要经济实惠的 Veo 3.1 路线来进行简短草稿制作、节奏检查和提示词对比，并在确定方案后再升级至 Fast 或 Veo 3.1 时，Veo 3.1 Lite 是理想之选。",
       "primaryCta": {
         "label": "使用 Veo 3.1 Lite 生成",
         "href": "/app?engine=veo-3-1-lite"
       },
       "secondaryCta": {
-        "label": "View examples",
+        "label": "查看案例",
         "href": "/zh/examples/veo"
       },
       "quickLinks": [
         {
-          "label": "Compare vs Fast",
+          "label": "对比 Fast",
           "href": "/zh/ai-video-engines/veo-3-1-fast-vs-veo-3-1-lite?order=veo-3-1-lite"
         },
         {
@@ -362,199 +362,199 @@
       ]
     },
     "media": {
-      "caption": "Veo 3.1 Lite example",
-      "description": "Lower-cost Veo draft with optional audio",
-      "renderLabel": "View draft",
+      "caption": "Veo 3.1 Lite 案例",
+      "description": "带有可选音频的低成本 Veo 草稿",
+      "renderLabel": "查看草稿",
       "badges": [
-        "Optional audio",
-        "8s",
+        "可选音频",
+        "8 秒",
         "720p"
       ],
-      "altContext": "Veo 3.1 Lite short audio-ready draft"
+      "altContext": "Veo 3.1 Lite 简短音频就绪草稿"
     },
     "features": [
       {
-        "title": "Lower-cost Veo",
-        "body": "Use Lite for the cheapest Veo timing and prompt checks.",
+        "title": "更低成本的 Veo",
+        "body": "使用 Lite 进行最具性价比的 Veo 节奏与提示词验证。",
         "tone": "price"
       },
       {
-        "title": "Optional audio",
-        "body": "Toggle native audio on for ambience or off for lower-cost visual tests.",
+        "title": "可选原生音频",
+        "body": "开启原生音频获取环境声，或关闭音频以更低成本进行视觉测试。",
         "tone": "audio"
       },
       {
-        "title": "Text or image",
-        "body": "Start from a prompt or a single visual reference.",
+        "title": "文本或图像输入",
+        "body": "从文本提示词或单张视觉参考图启动生成。",
         "tone": "reference"
       },
       {
-        "title": "First-last tests",
-        "body": "Use paired frames when the ending composition matters.",
+        "title": "首尾帧验证",
+        "body": "在结束画面的构图至关重要时使用配对图帧引导。",
         "tone": "continuity"
       },
       {
-        "title": "Max 8s",
-        "body": "Keep tests short and focused on one clear beat.",
+        "title": "最长 8 秒",
+        "body": "保持测试片段简短精炼，聚焦单一清晰节拍。",
         "tone": "duration"
       },
       {
-        "title": "720p or 1080p",
-        "body": "Choose a cost/quality level before generation.",
+        "title": "720p 或 1080p",
+        "body": "在生成前自由选择适合的成本与画质层级。",
         "tone": "quality"
       }
     ],
     "decisionCards": [
       {
-        "title": "Lite or Fast?",
-        "body": "Use Lite for the lowest-cost Veo drafts. Use Fast when you need reference-to-video control or broader iteration controls.",
+        "title": "选择 Lite 还是 Fast？",
+        "body": "制作最低成本的 Veo 草稿时使用 Lite；需要参考图生视频控制或更广泛的迭代控制时使用 Fast。",
         "cta": {
-          "label": "Compare Lite vs Fast",
+          "label": "对比 Lite 与 Fast",
           "href": "/zh/ai-video-engines/veo-3-1-fast-vs-veo-3-1-lite?order=veo-3-1-lite"
         }
       },
       {
-        "title": "Need audio timing?",
-        "body": "When audio is enabled, write short ambience, SFX or dialogue cues into the prompt instead of leaving sound vague.",
+        "title": "需要音频节奏控制？",
+        "body": "开启音频时，请在提示词中写入简短的环境音、音效或对白线索，避免声音描述过于模糊。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Ready for a final pass?",
-        "body": "Move winning Lite drafts into Veo 3.1 when the concept is approved and needs production polish.",
+        "title": "准备进行终版精修？",
+        "body": "当概念方案通过审核且需要商业制作级质感时，将选出的 Lite 草稿迁移至 Veo 3.1 进行生成。",
         "cta": {
-          "label": "View Veo 3.1",
+          "label": "查看 Veo 3.1",
           "href": "/zh/models/veo-3-1"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Text prompt",
-        "body": "Use one subject, one action, one camera move and a simple audio cue."
+        "title": "文本提示词",
+        "body": "使用一个主体、一个动作、一种镜头运镜以及简明的音频线索。"
       },
       {
-        "title": "Start image",
-        "body": "Anchor composition or product shape with a single image source."
+        "title": "起始图片",
+        "body": "以单张参考图作为画面构图或产品形态的视觉基准。"
       },
       {
-        "title": "Audio cue",
-        "body": "Keep ambience or dialogue short when audio is enabled."
+        "title": "音频线索",
+        "body": "启用音频时，保持环境音或对白描述短小精炼。"
       },
       {
-        "title": "Short timing test",
-        "body": "Use 4, 6 or 8 seconds to test the core beat without overbuilding."
+        "title": "简短节奏测试",
+        "body": "使用 4 秒、6 秒或 8 秒测试核心节拍，避免结构过度复杂。"
       },
       {
-        "title": "Upgrade path",
-        "body": "Promote the best drafts to Fast or Veo 3.1 when you need more control or polish."
+        "title": "平滑进阶路径",
+        "body": "当需要更强控制力或更高质感时，将优质草稿迁移升级至 Fast 或 Veo 3.1。"
       }
     ],
     "pricingCopy": {
-      "title": "Veo 3.1 Lite pricing at a glance",
-      "subtitle": "Preset lower-cost totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
-      "ctaLabel": "View full pricing",
-      "maxDurationNote": "Up to 1080p",
+      "title": "Veo 3.1 Lite 价格一览",
+      "subtitle": "预设低成本参考总价 — 在应用中生成前可查看精确的实时报价。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高支持 1080p",
       "ctaHref": "/zh/pricing#veo-3-1-lite-pricing"
     },
     "meta": {
-      "title": "Veo 3.1 Lite: Pricing, Optional Audio & Examples | MaxVideoAI",
-      "description": "Use Veo 3.1 Lite for lower-cost Veo drafts with optional native audio, short prompt tests and image-to-video checks before upgrading winners."
+      "title": "Veo 3.1 Lite：价格、可选音频与案例展示 | MaxVideoAI",
+      "description": "使用 Veo 3.1 Lite 制作具备可选原生音频的低成本 Veo 草稿，进行短提示词测试与图生视频验证，满意后再进阶升级。"
     }
   },
   "prompting": {
     "modelSlug": "veo-3-1-lite",
     "section": {
-      "title": "How to Write a Great Veo 3.1 Lite Prompt",
-      "intro": "Veo 3.1 Lite prefers short, concrete prompts and one clear action.",
-      "tip": "Tip: duration + aspect ratio are set in the UI - your prompt controls subject, action, camera, lighting, style, and sound cues.",
+      "title": "如何编写出色的 Veo 3.1 Lite 提示词",
+      "intro": "Veo 3.1 Lite 更适合简短、具象的提示词以及单一明确的动作调度。",
+      "tip": "提示：时长与画幅比例在界面中直接设置 — 提示词主要负责控制主体、动作、镜头、光影、风格以及声音线索。",
       "guide": {
-        "label": "Official Veo / Google DeepMind 指南",
+        "label": "官方 Veo / Google DeepMind 指南",
         "href": "https://deepmind.google/technologies/veo/"
       },
-      "referencesTitle": "How Veo 3.1 Lite uses image references"
+      "referencesTitle": "Veo 3.1 Lite 如何使用图像参考"
     },
     "tabs": [
       {
         "id": "quick",
-        "label": "Quick",
-        "title": "Quick prompt (fast iteration)",
-        "description": "Use 1–2 sentences when you want variations.",
+        "label": "快速",
+        "title": "快速提示词（高速迭代）",
+        "description": "想要探索多个变体时，使用 1–2 句话即可。",
         "copy": "[Subject] [action] in [context], [camera move], [lighting/style], [optional sound cue]."
       },
       {
         "id": "structured",
-        "label": "Structured",
-        "title": "Structured prompt (best for reliable results)",
-        "description": "Separate information so the model can follow it consistently.",
+        "label": "结构化",
+        "title": "结构化提示词（最适合可靠产出）",
+        "description": "将信息分块组织，便于模型稳定一致地遵循。",
         "copy": "Subject:\n[Who/what + one action.]\n\nContext:\n[Location + time + 2 visual anchors.]\n\nCamera:\n[Shot + angle + one move.]\n\nLook:\n[Lighting + palette + style.]\n\nSound (optional):\n[Ambience + 1 cue.]"
       },
       {
         "id": "pro",
-        "label": "Pro",
-        "title": "Pro prompt (ultra-specific \"studio brief\")",
-        "description": "Use this when you need a very specific look or continuity across shots.",
+        "label": "专业",
+        "title": "专业提示词（超精细“拍摄简报”）",
+        "description": "当需要特定视觉质感或多镜头连贯性时使用。",
         "copy": "Brief:\n[Goal + vibe.]\n\nSubject:\n[Key traits + wardrobe/props.]\n\nCamera:\n[Framing + one move + lens feel.]\n\nLighting + color:\n[Key light + palette anchors.]\n\nConstraints:\nKeep it simple; avoid extra actions."
       },
       {
         "id": "storyboard",
-        "label": "Storyboard",
-        "title": "Storyboard prompt (short shot list)",
-        "description": "Keep it minimal for faster, cleaner drafts.",
+        "label": "分镜",
+        "title": "分镜提示词（简短镜头清单）",
+        "description": "保持极简，以获得更快、更干净的草稿。",
         "copy": "Shot list (same subject + same setting)\nDuration: [4/6/8s]\n\nShot 1 (0-2s):\n[Framing + action + camera move]\n\nShot 2 (2-6/8s):\n[Framing + action + camera move]\n\nLook + mood:\n[Lighting + palette]\n\nSound (optional):\n[Ambience + 1 cue]"
       }
     ],
     "tabNotes": [
       {
         "tabId": "quick",
-        "body": "Quick = variations. Use for fast iteration."
+        "body": "快速 = 变体探索。用于快速迭代创意。"
       },
       {
         "tabId": "structured",
-        "body": "Structured = consistency. Use when you need reliable results."
+        "body": "结构化 = 稳定性。需要可靠产出时使用。"
       },
       {
         "tabId": "pro",
-        "body": "Pro = style control. Use for precise, repeatable looks."
+        "body": "专业 = 风格控制。用于精准、可重复的特定画面质感。"
       }
     ],
     "globalPrinciples": [
-      "One subject, one action.",
-      "Call out framing and camera move.",
-      "Use 2-3 visual anchors, not long lists."
+      "一个主体，一个动作。",
+      "明确标出景别构图与摄影机运镜。",
+      "使用 2–3 个具象视觉锚点，切忌冗长罗列。"
     ],
     "engineWhy": [
-      "Lite favors simple beats and short prompts.",
-      "Camera language improves consistency.",
-      "Use style anchors to keep the look stable."
+      "Lite 偏好简单的动作节拍与短小精炼的提示词。",
+      "专业的摄影机语言能显著提升画面的稳定性与一致性。",
+      "使用风格锚点保持视觉画面基调稳定。"
     ],
     "demo": {
-      "title": "Demo: prompt pattern for Veo 3.1 Lite",
-      "promptLabel": "Veo Lite prompt",
+      "title": "演示案例：Veo 3.1 Lite 提示词范式",
+      "promptLabel": "Veo Lite 提示词",
       "prompt": "8s Veo 3.1 Lite clip in 16:9, audio included.\nRomantic cinematic reunion on a large train station platform, grand period-drama energy, elegant and timeless.\nA young couple in early-1900s clothing runs toward each other: the man in a dark wool coat and hat, the woman in a long beige dress with a small vintage suitcase.\nWide crane shot descending slowly toward them, slight long-lens feel, smooth cinematic motion.\nSoft morning light filtered through steam and glass, sepia tones, muted browns, brass, and cream. One clear action only, no close foreground signage.",
       "notes": [
-        "Use one emotional action, not a crowded sequence.",
-        "Lock the period details and camera move early.",
-        "Keep signage and foreground extras out of the frame."
+        "聚焦单一富有情感的动作，而非拥挤杂乱的连续序列。",
+        "尽早锁定时代细节与运镜方式。",
+        "避免画面近景中出现指示牌与多余的前景群演。"
       ],
       "summary": {
-        "subject": "Romantic train-platform reunion",
-        "action": "Early-1900s couple runs toward each other",
-        "camera": "Wide crane shot descending slowly",
-        "style": "Morning light, soft steam, sepia period-drama tones",
-        "output": "Train station ambience, no dialogue"
+        "subject": "火车站台上的浪漫重逢",
+        "action": "身着 20 世纪初服饰的年轻情侣奔向彼此",
+        "camera": "缓慢下降的广角升降镜头",
+        "style": "晨光穿透蒸汽、暖褐色年代剧电影质感",
+        "output": "火车站环境音，无对白"
       },
       "presentationOverrides": {
-        "modeLabel": "Veo Lite prompt",
-        "outputLabel": "Audio",
+        "modeLabel": "Veo Lite 提示词",
+        "outputLabel": "音频",
         "duration": "8s",
         "aspectRatio": null,
         "audioChipMode": "on",
         "audioChipLabel": null,
-        "altContext": "Veo 3.1 Lite romantic train-platform reunion"
+        "altContext": "Veo 3.1 Lite 火车站浪漫重逢场景"
       }
     },
     "imageExamples": null
@@ -562,10 +562,10 @@
   "examples": {
     "modelSlug": "veo-3-1-lite",
     "section": {
-      "title": "Example Gallery: Real Veo 3.1 Lite Outputs",
-      "intro": "Explore clips generated with Veo 3.1 Lite using the same presets you have.",
-      "defaultCtaLabel": "View all Veo 3.1 Lite examples →",
-      "recreateLabel": "Recreate this shot →"
+      "title": "真实 Veo 3.1 Lite 生成案例",
+      "intro": "探索使用与您完全相同的预设参数生成的 Veo 3.1 Lite 真实视频片段。",
+      "defaultCtaLabel": "查看全部 Veo 3.1 Lite 案例 →",
+      "recreateLabel": "复现此镜头 →"
     },
     "filters": [
       {
@@ -596,32 +596,32 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Real community renders",
-        "body": "See what's possible with Veo 3.1 Lite — current Veo variant for lower-cost audio-ready drafts.",
+        "title": "真实社区生成效果",
+        "body": "探索 Veo 3.1 Lite 的创作潜能 — 当前用于低成本、带原生音频草稿创作的 Veo 版本。",
         "icon": "sparkles"
       },
       {
         "id": "proof-2",
-        "title": "Recreate any shot",
-        "body": "Jump into the app with one click and reuse the setup.",
+        "title": "一键复现任意镜头",
+        "body": "一键跳转至应用中，直接复用其生成参数与设定。",
         "icon": "zap"
       },
       {
         "id": "proof-3",
-        "title": "Native audio",
-        "body": "Dialogue, ambience and SFX generated in sync.",
+        "title": "原生音频",
+        "body": "对白、环境音与音效同步生成。",
         "icon": "audio"
       },
       {
         "id": "proof-4",
-        "title": "Multi-shot continuity",
-        "body": "Keep characters, style and scene consistency across sequences.",
+        "title": "多镜头连贯性",
+        "body": "在连续序列中保持角色、风格与场景的一致性。",
         "icon": "users"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Built-in guardrails and safety filters for responsible review.",
+        "title": "贴合商业生产规范",
+        "body": "内置安全护栏与审核过滤器，保障负责任的创意评审。",
         "icon": "shield"
       }
     ],

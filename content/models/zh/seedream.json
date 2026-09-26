@@ -2,258 +2,258 @@
   "marketingName": "Seedream 5.0 Lite",
   "versionLabel": "5.0 Lite",
   "seo": {
-    "title": "Seedream 5.0 Lite | Image Generation & Editing | MaxVideoAI",
-    "description": "Create and edit still images with Seedream 5.0 Lite in MaxVideoAI. Prepare clean concepts, product frames, and reference images before Seedance animation."
+    "title": "Seedream 5.0 Lite | 图像生成与精修编辑 | MaxVideoAI",
+    "description": "在 MaxVideoAI 中使用 Seedream 5.0 Lite 创建与编辑静态图像。在进入 Seedance 视频动画前，轻松准备干净的创意概念图、产品帧与参考图像。"
   },
-  "overview": "Seedream 5.0 Lite is an image generation and editing model inside MaxVideoAI for creating clean stills, product concepts, character frames, thematic image sets, and source images that can become stronger references before Seedance 2.0 or Seedance 2.0 Fast image-to-video work.",
-  "pricingNotes": "Seedream 5.0 Lite is priced per successfully generated image, including batch image sets. MaxVideoAI shows the active account price before generation. The $0.24 batch preset is an example of 4 generated images at $0.06 per generated image, not a 15-image price.",
+  "overview": "Seedream 5.0 Lite 是 MaxVideoAI 内置的图像生成与编辑模型，专为创建干净的静态图、产品概念图、角色参考帧、主题视觉套图以及源图像而设计，能够在开展 Seedance 2.0 或 Seedance 2.0 Fast 图生视频创作前提供更加稳固的参考素材。",
+  "pricingNotes": "Seedream 5.0 Lite 按成功生成的图像数量计费（包含批量套图）。MaxVideoAI 在生成前展示当前账户的实时价格。0.24 美元的批量预设是以每张 0.06 美元生成 4 张图像为例，而非 15 张图像的价格。",
   "hero": {
-    "title": "Seedream 5.0 Lite - image generation and editing",
-    "intro": "Use Seedream 5.0 Lite as a standalone image model for text-to-image creation, image-to-image cleanup, batch image sets, and controlled reference stills before animating selected frames in Seedance.",
-    "badge": "Text -> Image · Image -> Image · Batch image sets",
+    "title": "Seedream 5.0 Lite — 图像生成与编辑",
+    "intro": "将 Seedream 5.0 Lite 作为独立的图像模型使用，支持文本生图、图生图精修、批量套图生成，并在将选定画面导入 Seedance 制作动画前打造受控的静态参考图。",
+    "badge": "文字 -> 图像 · 图像 -> 图像 · 批量图像集",
     "ctaPrimary": {
-      "label": "Launch Seedream",
+      "label": "启动 Seedream",
       "href": "/app/image?engine=seedream"
     },
     "secondaryLinks": [
       {
-        "label": "Open the image lab",
+        "label": "打开图像实验室",
         "href": "/app/image"
       },
       {
-        "label": "Animate with Seedance 2.0",
+        "label": "使用 Seedance 2.0 制作动画",
         "href": "/zh/models/seedance-2-0"
       },
       {
-        "label": "Draft with Seedance 2.0 Fast",
+        "label": "使用 Seedance 2.0 Fast 起草",
         "href": "/zh/models/seedance-2-0-fast"
       }
     ]
   },
   "bestUseCases": {
-    "title": "Best use cases",
+    "title": "最佳使用场景",
     "items": [
       {
-        "title": "Clean reference frames before image-to-video animation",
+        "title": "图生视频动画前的干净参考帧",
         "icon": "imageToVideo"
       },
       {
-        "title": "Product stills with controlled backgrounds and lighting",
+        "title": "具备可控背景与光影的产品静态大片",
         "icon": "product"
       },
       {
-        "title": "Character, wardrobe, and prop concepts for storyboards",
+        "title": "用于分镜脚本的角色、服装与道具概念设计",
         "icon": "storyboard"
       },
       {
-        "title": "Storyboard, comic, and brand visual sets with a shared direction",
+        "title": "保持统一视觉风格的分镜、漫画与品牌视觉套图",
         "icon": "storyboard"
       },
       {
-        "title": "Image edits that remove noise before motion tests",
+        "title": "在运镜测试前去除噪点的图像编辑精修",
         "icon": "layers"
       }
     ]
   },
   "promptStructure": {
-    "title": "Prompt mini-guide",
-    "quote": "[Subject] + [composition] + [lighting] + [style] + [what to preserve or change] + [Seedance reference goal].",
-    "description": "Seedream works best when the still image brief is concrete. Describe the subject, frame, materials, lighting, and what must stay stable if the image will become a Seedance reference.",
+    "title": "提示词编写迷你指南",
+    "quote": "[主体] + [构图] + [光影] + [风格] + [保留或修改的内容] + [Seedance 参考目标]。",
+    "description": "当静态图像需求具体明确时，Seedream 能发挥出最佳表现。详细描述主体、取景、材质、光照，以及当该图像作为 Seedance 参考图时必须保持稳定的关键要素。",
     "steps": [
-      "Define the subject and composition",
-      "Add lighting, environment, and material details",
-      "For image sets, state the desired count and shared theme",
-      "State what should stay clean for future animation",
-      "For edits, separate preserve instructions from changes",
-      "Choose the strongest still before moving into Seedance"
+      "定义主体与构图视角",
+      "补充光影、环境与材质细节",
+      "对于成套图像，注明期望生成的张数与共同主题",
+      "明确指出为未来动画制作需保持干净的元素",
+      "对于图像编辑，将保留指令与修改指令分别列出",
+      "在转入 Seedance 之前挑选效果最佳的静态画面"
     ]
   },
   "tips": {
-    "title": "Reference workflow notes",
+    "title": "参考图工作流注意事项",
     "items": [
-      "Use Seedream to create cleaner, more controlled source images before animation.",
-      "Keep the subject readable and avoid overloaded backgrounds when the frame will feed image-to-video.",
-      "For product motion, use Seedream to settle packaging, reflections, and hero angle first.",
-      "Seedream may improve consistency and reduce friction compared with random external images, but Seedance still evaluates each prompt and source image."
+      "在制作动画前，使用 Seedream 创建更干净、更受控的源图像。",
+      "当画面将用于图生视频时，确保主体清晰易辨，并避免背景过于复杂杂乱。",
+      "对于产品动态展示，建议先使用 Seedream 确定包装外观、高光倒影与核心展示角度。",
+      "相较于随机的外部图像，Seedream 能显著提升一致性并减少摩擦，但 Seedance 仍会独立评估每个提示词与源图像。"
     ]
   },
   "prompts": [
     {
-      "title": "Product reference frame",
+      "title": "产品参考帧",
       "prompt": "Premium studio still of a matte black travel mug on a clean graphite plinth, soft rim light, readable logo area, uncluttered background, centered hero angle for later image-to-video animation."
     },
     {
-      "title": "Character wardrobe concept",
+      "title": "角色服装概念",
       "prompt": "Full-body reference image of a courier in a rain jacket, neutral stance, clear silhouette, consistent wardrobe details, overcast city light, designed as a clean Seedance starting frame."
     },
     {
-      "title": "Edit for animation readiness",
+      "title": "动画前图像编辑",
       "prompt": "Clean this product image for animation: preserve the bottle shape and label hierarchy, remove distracting reflections, simplify the background, keep natural studio lighting."
     },
     {
-      "title": "Batch brand visual set",
+      "title": "批量品牌视觉套图",
       "prompt": "Generate six coherent launch visuals for a premium sleep mask brand: same product color, calm morning light, minimal bedroom styling, one image for hero product, one for texture detail, one for lifestyle use, one for packaging, one for social ad crop, one for Seedance reference."
     }
   ],
   "faqs": [
     {
-      "q": "What is Seedream 5.0 Lite?",
-      "a": "Seedream 5.0 Lite is an image generation and editing model available in MaxVideoAI for still-image creation and reference preparation."
+      "q": "什么是 Seedream 5.0 Lite？",
+      "a": "Seedream 5.0 Lite 是 MaxVideoAI 提供的一款图像生成与编辑模型，专为静态图像创作与参考图素材准备而打造。"
     },
     {
-      "q": "How does Seedream connect to Seedance?",
-      "a": "Seedream is a recommended reference-image companion before Seedance 2.0 or Seedance 2.0 Fast. Create or clean a still image first, then use the selected frame as a stronger starting point for image-to-video."
+      "q": "Seedream 如何与 Seedance 协同工作？",
+      "a": "Seedream 是进入 Seedance 2.0 或 Seedance 2.0 Fast 之前推荐的参考图创作工具。您可以先创建或精修静态画面，再将选中的帧作为更优质的起点送入图生视频流程。"
     },
     {
-      "q": "Can Seedream generate batch image sets?",
-      "a": "Yes. When you request more than one image, MaxVideoAI can create related image sets from one brief. This is useful for storyboards, comics, product series, and brand visuals."
+      "q": "Seedream 支持生成批量套图吗？",
+      "a": "支持。当您请求生成多张图像时，MaxVideoAI 能基于同一个创意简报生成风格连贯的成套图像。这对于分镜故事板、漫画、系列产品图和品牌视觉系统非常实用。"
     },
     {
-      "q": "Does Seedream promise Seedance results?",
-      "a": "No. Seedream can help create cleaner source images, but Seedance still evaluates each prompt and source image under its own workflow and safety rules."
+      "q": "使用 Seedream 能保证 Seedance 的生成效果吗？",
+      "a": "不能。Seedream 有助于生成更干净的源素材，但 Seedance 仍会在其自身的工作流与安全审核规范下独立评估每个提示词与输入图像。"
     }
   ],
   "custom": {
-    "heroEyebrow": "Seedream 5.0 Lite Image Model",
-    "heroSupportLine": "Best for clean still images, image edits, and source frames before Seedance motion.",
+    "heroEyebrow": "Seedream 5.0 Lite 图像模型",
+    "heroSupportLine": "适用于高质静态图、图像编辑以及 Seedance 动画前的源参考帧准备。",
     "heroSpecChips": [
       {
-        "label": "Text->Image",
+        "label": "文字->图像",
         "icon": "textToVideo"
       },
       {
-        "label": "Image->Image",
+        "label": "图像->图像",
         "icon": "imageToVideo"
       },
       {
-        "label": "Image sets"
+        "label": "批量图像集"
       },
       {
-        "label": "Multi-image input"
+        "label": "多图参考输入"
       },
       {
         "label": "2K/3K/4K"
       },
       {
-        "label": "2-10 references"
+        "label": "2-10 张参考图"
       }
     ],
-    "whyTitle": "Why Seedream fits the Seedance workflow",
-    "heroDesc1": "Seedream gives creators a focused still-image step before animation: generate the product shot, character frame, or environment plate first, then animate only the frame worth testing.",
-    "heroDesc2": "It is useful when a Seedance run needs a more deliberate source image than a loose prompt or an unprepared external upload.",
+    "whyTitle": "为何选择 Seedream 搭配 Seedance 工作流",
+    "heroDesc1": "Seedream 为创作者在进入视频动画之前提供了一个专注的静态图像创作环节：先生成产品大片、角色参考帧或环境底图，再将经过验证的最佳画面送入动画测试。",
+    "heroDesc2": "当 Seedance 任务需要比自由文本或未处理的外部上传素材更精确、更受控的源图像时，Seedream 尤为适用。",
     "heroHighlights": [
-      "Standalone image model||Use Seedream for still generation and edits even when no video run follows.",
-      "Batch image output||Generate storyboard, comic, product, or brand visual sets when one prompt needs related images.",
-      "Multi-image input||Blend subject, style, and scene references from 2-10 source images when the still needs controlled source material.",
-      "Reference preparation||Create cleaner, more controlled source images before Seedance animation.",
-      "Edit before motion||Refine products, backgrounds, wardrobe, and lighting before image-to-video.",
-      "Seedance companion||Send the selected still into Seedance 2.0 or Seedance 2.0 Fast when motion is the next step."
+      "独立图像模型||即使后续不制作视频，也可使用 Seedream 进行静态图生成与图像编辑。",
+      "批量图像输出||当单个提示词需要相关联的系列图像时，可生成分镜、漫画、产品或品牌视觉套图。",
+      "多图参考输入||当静态图像需要受控的源素材时，可融合 2-10 张源图像的主体、风格和场景参考。",
+      "参考图准备||在 Seedance 动画前创建更干净、更受控的源参考图像。",
+      "运镜前精修||在进入图生视频前，精修产品、背景、服装与光影细节。",
+      "Seedance 创作伴侣||当下一步需要动态效果时，将选定的静态图直接送入 Seedance 2.0 或 Seedance 2.0 Fast。"
     ],
     "specSections": [
       {
-        "title": "Seedream image workflows",
-        "intro": "Use Seedream 5.0 Lite for text, single-image, and multi-image workflows inside the MaxVideoAI Image Lab.",
+        "title": "Seedream 图像工作流",
+        "intro": "在 MaxVideoAI 图像实验室中使用 Seedream 5.0 Lite 进行文本生图、单图编辑与多图参考工作流。",
         "items": [
-          "Text-to-image: create a still image from a prompt with 2K, 3K, or 4K output controls.",
-          "Image-to-image: clean or edit an existing source image while preserving important visual details.",
-          "Multi-image input: blend subject, style, or scene elements from 2-10 reference images.",
-          "Batch image output: create related image sets for storyboards, comics, product visuals, or brand systems."
+          "文字生成图像：根据提示词创建静态图像，支持 2K、3K 或 4K 输出分辨率控制。",
+          "图像生成图像：对现有源图像进行清理或精修，同时保留关键视觉细节。",
+          "多图参考输入：融合 2-10 张参考图像的主体、风格或场景元素。",
+          "批量图像输出：为分镜、漫画、产品视觉或品牌体系创建系列套图。"
         ]
       },
       {
-        "title": "Limits and billing behavior",
+        "title": "使用限制与计费说明",
         "items": [
-          "Reference images plus requested outputs must stay within 15 total images.",
-          "MaxVideoAI prices Seedream by successfully generated image; failed or missing outputs should not be charged as completed images.",
-          "Output controls expose base resolution, aspect ratio, file format, and watermark options where supported.",
-          "The $0.24 batch preset is an example of 4 generated images at $0.06 per generated image, not a 15-image price.",
-          "Output format: choose jpeg or png in the active Image Lab route."
+          "参考图像数与请求生成的输出图像数总和不得超过 15 张。",
+          "MaxVideoAI 按成功生成的图像数量对 Seedream 计费；失败或缺失的输出不会按完成图像收费。",
+          "输出控制支持设置基础分辨率、画幅比例、文件格式以及水印选项（若支持）。",
+          "0.24 美元的批量预设是以每张 0.06 美元生成 4 张图像为例，并非 15 张图像的价格。",
+          "输出格式：在当前图像实验室路由中可选择 jpeg 或 png。"
         ]
       }
     ],
-    "whatTitle": "Reference workflow",
-    "whatIntro1": "Start in the Image Lab, create or edit the still in Seedream, then review whether the frame is clear enough for motion.",
-    "whatIntro2": "Use Seedance 2.0 for polished final animation or Seedance 2.0 Fast for quicker draft checks.",
+    "whatTitle": "参考图工作流程",
+    "whatIntro1": "从图像实验室开始，使用 Seedream 创建或编辑静态图像，随后评估画面是否足够清晰以供动态化。",
+    "whatIntro2": "使用 Seedance 2.0 进行高精成片动画，或使用 Seedance 2.0 Fast 进行更快捷的动态草稿验证。",
     "whatFlowTitle": "Seedream -> Seedance",
     "whatFlowSteps": [
-      "Create or edit a still image with Seedream",
-      "Check subject clarity, background simplicity, and lighting consistency",
-      "Save the best frame as the animation reference",
-      "Use Seedance 2.0 Fast for draft motion checks",
-      "Use Seedance 2.0 when the approved frame needs a more polished final video"
+      "使用 Seedream 创建或编辑静态图像",
+      "检查主体清晰度、背景简洁度与光影一致性",
+      "保存最佳画面作为动画参考图",
+      "使用 Seedance 2.0 Fast 快速验证动态草稿",
+      "当确认的画面需要更高品质成片视频时，使用 Seedance 2.0"
     ],
-    "tipsTitle": "Tips and limits",
-    "tipsIntro": "Treat Seedream as the still-image craft step. It can produce better source material, but it does not replace Seedance prompt and policy checks.",
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "将 Seedream 视为静态图像精雕细琢的环节。它能产生更优质的源素材，但不能替代 Seedance 的提示词优化和安全策略审核。",
     "strengths": [
-      "Generate clean product, character, and environment frames before animation.",
-      "Generate related image sets for storyboards, comics, product variations, and brand systems.",
-      "Use text, single-image, or multi-image inputs for creation, editing, and image fusion.",
-      "Use edit mode to reduce visual noise in existing source images.",
-      "Keep one clear subject per frame when the output will become image-to-video input.",
-      "Use the same language for subject, lighting, and style when moving from Seedream to Seedance."
+      "在动画制作前生成干净的产品、角色和环境参考帧。",
+      "为分镜、漫画、产品多变体和品牌体系生成成套系列图像。",
+      "支持文本、单图或多图输入，适用于创作、编辑与图像融合。",
+      "使用编辑模式消除现有源图像中的视觉噪点与干扰。",
+      "当输出画面将作为图生视频输入时，确保每帧保持一个清晰明确的主体。",
+      "从 Seedream 过渡到 Seedance 时，在主体、光影和风格描述上保持一致的用词。"
     ],
     "boundaries": [
-      "Still images only.",
-      "Multi-image requests should use 2-10 references.",
-      "Batch requests must keep references plus generated outputs within 15 total images.",
-      "Seedance still evaluates each source image and prompt.",
-      "A cleaner reference image may improve consistency, but final animation handling and output quality still depend on the Seedance run.",
-      "Do not use Seedream to prepare content that violates MaxVideoAI safety rules."
+      "仅支持静态图像生成与编辑。",
+      "多图参考请求建议使用 2-10 张参考图。",
+      "批量请求时，参考图数量加上生成的输出图总数不得超过 15 张。",
+      "Seedance 仍会独立评估每张源图像与提示词。",
+      "更干净的参考图有助于提高连贯性，但最终的动态处理与输出品质仍取决于 Seedance 的运行。",
+      "不得使用 Seedream 准备违反 MaxVideoAI 安全规范的内容。"
     ],
-    "safetyTitle": "Safety and likeness",
+    "safetyTitle": "安全与肖像权规范",
     "safetyRules": [
-      "No sexual content or content involving minors.",
-      "No hateful, harassing, or graphic-violence requests.",
-      "Do not impersonate real people or public figures without consent.",
-      "Do not include private personal data or sensitive documents."
+      "禁止生成色情内容或涉及未成年人的内容。",
+      "禁止生成仇恨、骚扰或血腥暴力请求。",
+      "未经许可不得模拟真实人物或公众人物肖像。",
+      "不得包含个人隐私数据或敏感文件。"
     ],
     "relatedItems": [
       {
         "brand": "bytedance",
         "title": "Seedream 5.0 Pro",
-        "description": "Move selected stills to the Pro image route when the job needs one polished 2K or 4K final, dense layout, or complex visual edit.",
+        "description": "当任务需要一张高精 2K 或 4K 终稿、密集版式布局或复杂视觉编辑时，将选定画面转至 Pro 图像路线。",
         "modelSlug": "seedream-5-0-pro",
-        "ctaLabel": "Open Seedream 5.0 Pro ->"
+        "ctaLabel": "打开 Seedream 5.0 Pro ->"
       },
       {
         "brand": "bytedance",
         "title": "Seedance 2.0",
-        "description": "Animate a selected Seedream still with the standard Seedance route when you need a more polished image-to-video result.",
+        "description": "当需要更高品质的图生视频成片效果时，使用标准 Seedance 路线为选定的 Seedream 静态图制作动画。",
         "modelSlug": "seedance-2-0",
-        "ctaLabel": "Animate with Seedance 2.0 ->"
+        "ctaLabel": "使用 Seedance 2.0 制作动画 ->"
       },
       {
         "brand": "bytedance",
         "title": "Seedance 2.0 Fast",
-        "description": "Use Fast for quicker motion drafts after Seedream has produced a clean reference image.",
+        "description": "在 Seedream 生成干净的参考图后，使用 Fast 路线进行更快速的动态草稿预览。",
         "modelSlug": "seedance-2-0-fast",
-        "ctaLabel": "Draft with Seedance 2.0 Fast ->"
+        "ctaLabel": "使用 Seedance 2.0 Fast 起草 ->"
       }
     ]
   },
   "decision": {
     "modelSlug": "seedream",
     "hero": {
-      "eyebrow": "REFERENCE IMAGE PREP MODEL",
+      "eyebrow": "参考图准备模型",
       "title": "Seedream 5.0 Lite",
-      "subtitle": "Clean still references, product frames, and video reference prep before you animate in a separate model.",
+      "subtitle": "打造干净的静态参考图、产品帧与视频参考素材，助您在后续视频模型中轻松制作动画。",
       "subtitleHighlights": [
-        "clean still references",
-        "product frames",
-        "video reference prep"
+        "静态参考图",
+        "产品帧",
+        "视频参考素材"
       ],
-      "paragraph": "Use Seedream as an image generation and editing workspace for source stills: create product frames, character references, ad visuals and controlled image sets before sending the strongest assets to a video model.",
+      "paragraph": "将 Seedream 作为源静态图的生成与编辑工作区：在将最佳素材交付给视频模型之前，创建产品帧、角色参考、广告视觉大片以及受控的系列套图。",
       "primaryCta": {
-        "label": "Prepare references with Seedream",
+        "label": "使用 Seedream 准备参考图",
         "href": "/app/image?engine=seedream"
       },
       "secondaryCta": {
-        "label": "Animate with Seedance",
+        "label": "使用 Seedance 制作动画",
         "href": "/zh/models/seedance-2-0"
       },
       "quickLinks": [
         {
-          "label": "Open image workspace",
+          "label": "打开图像工作区",
           "href": "/app/image?engine=seedream"
         },
         {
@@ -267,161 +267,161 @@
       ]
     },
     "media": {
-      "caption": "Seedream reference example",
-      "description": "Still reference prepared for later animation",
-      "renderLabel": "View still",
+      "caption": "Seedream 参考图示例",
+      "description": "为后续视频动画准备的静态参考图",
+      "renderLabel": "查看静态图",
       "badges": [
-        "Image model",
-        "Up to 10 refs",
+        "图像模型",
+        "最多 10 张参考图",
         "2K-4K"
       ],
-      "altContext": "Seedream product reference still prepared for a later video workflow"
+      "altContext": "为后续视频工作流准备的 Seedream 产品参考静态图"
     },
     "features": [
       {
-        "title": "Still reference prep",
-        "body": "Create clean source images before handing assets to a video route.",
+        "title": "静态参考图准备",
+        "body": "在将素材交付给视频路线之前，先创建干净的源图像。",
         "tone": "reference"
       },
       {
-        "title": "Text or image input",
-        "body": "Start from a prompt or edit with uploaded reference images.",
+        "title": "文本或图像输入",
+        "body": "支持从提示词起步，或上传参考图像进行精修编辑。",
         "tone": "reference"
       },
       {
-        "title": "Up to 10 references",
-        "body": "Guide edits with multiple source images when details need tighter control.",
+        "title": "支持最多 10 张参考图",
+        "body": "当细节需要更严格把控时，通过多张源图像指导编辑。",
         "tone": "continuity"
       },
       {
-        "title": "2K, 3K or 4K images",
-        "body": "Prepare higher-resolution stills for product, character and layout review.",
+        "title": "2K、3K 或 4K 画质",
+        "body": "生成更高分辨率的静态图像，用于产品、角色和版式审查。",
         "tone": "quality"
       },
       {
-        "title": "Up to 15 images total",
-        "body": "Generated and reference images share the exposed Seedream total.",
+        "title": "总计最多 15 张图像",
+        "body": "生成的图像数量与参考图像数量共享 Seedream 设定的总上限。",
         "tone": "duration"
       },
       {
-        "title": "Per-image pricing",
-        "body": "Image presets use the shared pricing helper, not video seconds.",
+        "title": "按单张图像计费",
+        "body": "图像预设采用统一的图像计费逻辑，而非按视频秒数计费。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
-        "title": "When should you choose Seedream?",
-        "body": "Choose Seedream when the next video pass needs cleaner product, character, style or composition references first.",
+        "title": "何时应当选择 Seedream？",
+        "body": "当下一步视频制作需要更干净的产品、角色、风格或构图参考时，优先选择 Seedream。",
         "cta": {
-          "label": "Open Seedream image workspace",
+          "label": "打开 Seedream 图像工作区",
           "href": "/app/image?engine=seedream"
         }
       },
       {
-        "title": "Preparing product frames?",
-        "body": "Generate stills with readable labels, clean backgrounds and stable framing before using them as source assets elsewhere.",
+        "title": "正在准备产品画面？",
+        "body": "在将画面用作其他流程的源素材前，先生成包含清晰标签、干净背景与稳定构图的静态大片。",
         "cta": {
           "label": "打开提示词实验室",
           "href": "#prompting"
         }
       },
       {
-        "title": "Need motion next?",
-        "body": "Seedream prepares the stills. Pick a video model after the reference set is ready.",
+        "title": "下一步需要制作动态效果？",
+        "body": "Seedream 负责打造静态图像。待参考图套件就绪后，挑选合适的视频模型继续创作。",
         "cta": {
-          "label": "Browse video models",
+          "label": "浏览视频模型",
           "href": "/zh/models"
         }
       }
     ],
     "referenceWorkflows": [
       {
-        "title": "Prompted still",
-        "body": "Describe the exact product, character, scene, surface, lens and lighting for a clean source frame."
+        "title": "提示词生图",
+        "body": "精准描述产品、角色、场景、材质表面、镜头与光影，生成干净的源参考帧。"
       },
       {
-        "title": "Reference edit",
-        "body": "Upload source images when the output must preserve identity, product geometry or brand details."
+        "title": "参考图编辑",
+        "body": "当输出画面必须保持身份一致性、产品几何轮廓或品牌细节时上传源图像。"
       },
       {
-        "title": "Reference set",
-        "body": "Create multiple stills for front, side, detail and lifestyle views before the video step."
+        "title": "成套参考图集",
+        "body": "在进入视频环节前，生成正面、侧面、细节特写与生活化场景等多视角静态图。"
       },
       {
-        "title": "Size choice",
-        "body": "Use 2K for fast prep, 3K for review, or 4K when the still needs extra detail."
+        "title": "画质尺寸选择",
+        "body": "使用 2K 进行快速准备，3K 用于评审，或在需要极致细节时使用 4K。"
       },
       {
-        "title": "Video handoff",
-        "body": "Send only the strongest stills into the chosen motion model once the visual direction is clear."
+        "title": "视频交接流转",
+        "body": "在视觉方向明确后，仅将最出色的静态画面导入选定的动态视频模型中。"
       }
     ],
     "pricingCopy": {
-      "title": "Seedream image pricing at a glance",
-      "subtitle": "Per-image preset totals - see the exact live price in the image workspace before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset image scenarios.",
-      "ctaLabel": "View full pricing",
+      "title": "Seedream 图像定价一览",
+      "subtitle": "单张图像预设总览——生成前可在图像工作区中查看确切的实时价格。",
+      "footnote": "所有价格均为 MaxVideoAI 针对预设图像场景以美元点数显示的参考价格。",
+      "ctaLabel": "查看完整定价",
       "ctaHref": "/zh/pricing#seedream-pricing"
     },
     "meta": {
-      "title": "Seedream: Image Pricing & Reference Prep | MaxVideoAI",
-      "description": "Prepare Seedream reference images, product frames, character stills and controlled visual sets in MaxVideoAI before choosing a video model."
+      "title": "Seedream：图像定价与参考图准备 | MaxVideoAI",
+      "description": "在选择视频模型之前，先在 MaxVideoAI 中准备 Seedream 参考图像、产品帧、角色静态图与受控的视觉套图。"
     }
   },
   "prompting": {
     "modelSlug": "seedream",
     "section": {
-      "title": "How to write a strong Seedream prompt",
-      "intro": "Write the still image as if it were the first frame of a shot: subject, composition, lighting, and constraints first.",
-      "tip": "Tip: if the image is going into Seedance, mention the future motion goal without asking Seedream to animate it.",
+      "title": "如何撰写优秀的 Seedream 提示词",
+      "intro": "像对待镜头的第一帧画面那样书写静态图像：优先明确主体、构图、光影与约束条件。",
+      "tip": "提示：如果该图像后续将导入 Seedance，可以在提示词中提及未来的动态目标，但无需要求 Seedream 自身生成动画。",
       "guide": null,
-      "referencesTitle": "How Seedream prepares references"
+      "referencesTitle": "Seedream 如何准备参考素材"
     },
     "tabs": [],
     "tabNotes": [],
     "globalPrinciples": [
-      "Use one clean visual goal per image.",
-      "For image sets, name the sequence, count, and shared visual rules.",
-      "For edits, say what to preserve before what to change.",
-      "Keep the background simple when the still will become a video reference."
+      "每张图像设定一个明确清晰的视觉目标。",
+      "对于成套图像，明确序列、张数以及共享的视觉规则。",
+      "进行图像编辑时，先说明保留的内容，再说明修改的要求。",
+      "当静态图将作为视频参考图时，保持背景简洁清爽。"
     ],
     "engineWhy": [
-      "Controlled stills give image-to-video models clearer starting material.",
-      "Product and character references are easier to animate when silhouette, lighting, and props are already stable.",
-      "Drafting the still first helps separate image quality decisions from motion decisions."
+      "受控的静态图为图生视频模型提供了更明确的起始素材。",
+      "当剪影轮廓、光影与道具已经稳定时，产品和角色参考更容易制作出连贯的动画。",
+      "先起草静态图有助于将图像画质决策与动态运镜决策分步解耦。"
     ],
     "demo": null,
     "imageExamples": {
-      "title": "Seedream 5.0 Lite image prompt examples",
-      "intro": "Seedream prompts for product stills, character reference sheets, image edits and storyboard batches.",
-      "workspaceLabel": "Open image workspace",
+      "title": "Seedream 5.0 Lite 图像提示词示例",
+      "intro": "适用于产品静态图、角色参考设定图、图像精修与分镜批量的 Seedream 提示词。",
+      "workspaceLabel": "打开图像工作区",
       "items": [
         {
           "id": "image-1",
-          "title": "Product reference still",
-          "badge": "2K still",
+          "title": "产品参考静态图",
+          "badge": "2K 静态图",
           "kind": "image",
           "prompt": "2K product still of an amber perfume bottle on white acrylic, soft studio light, clean shadow, readable label, minimal background ready for reference use."
         },
         {
           "id": "references-2",
-          "title": "Character reference sheet",
-          "badge": "2-10 refs",
+          "title": "角色参考设定图",
+          "badge": "2-10 张参考图",
           "kind": "references",
           "prompt": "Character reference sheet with the same face, outfit and palette across four clean views, neutral background, consistent jacket details and accessories."
         },
         {
           "id": "edit-3",
-          "title": "Image edit cleanup",
-          "badge": "Image edit",
+          "title": "图像精修与编辑",
+          "badge": "图像编辑",
           "kind": "edit",
           "prompt": "Using this product image, preserve shape, logo and proportions. Clean dust and unwanted reflections, simplify the environment and keep natural lighting."
         },
         {
           "id": "quality-4",
-          "title": "Storyboard batch",
-          "badge": "4 images",
+          "title": "分镜批量套图",
+          "badge": "4 张图像",
           "kind": "quality",
           "prompt": "Create four coherent launch storyboard images: product hero, material detail, lifestyle context and final frame. Same palette, same lighting, distinct compositions."
         }
@@ -431,10 +431,10 @@
   "examples": {
     "modelSlug": "seedream",
     "section": {
-      "title": "Seedream 5.0 Lite examples",
-      "intro": "Explore real community outputs and see how Seedream 5.0 Lite performs inside MaxVideoAI workflows.",
+      "title": "Seedream 5.0 Lite 示例",
+      "intro": "探索真实的社区作品，了解 Seedream 5.0 Lite 在 MaxVideoAI 工作流程中的表现。",
       "defaultCtaLabel": null,
-      "recreateLabel": "Recreate this still →"
+      "recreateLabel": "重现该静态图 →"
     },
     "filters": [
       {
@@ -451,7 +451,7 @@
       },
       {
         "id": "edit",
-        "label": "剪辑变化"
+        "label": "图像编辑"
       },
       {
         "id": "batch",
@@ -461,72 +461,72 @@
     "proofItems": [
       {
         "id": "proof-1",
-        "title": "Still image examples",
-        "body": "Prompt patterns tailored to Seedream 5.0 Lite.",
+        "title": "静态图像示例",
+        "body": "专为 Seedream 5.0 Lite 量身定制的提示词模式。",
         "icon": "image"
       },
       {
         "id": "proof-2",
-        "title": "Typography control",
-        "body": "Exact copy, hierarchy and placement stay explicit.",
+        "title": "排版文字控制",
+        "body": "精准呈现文字内容、层级结构与布局排版。",
         "icon": "type"
       },
       {
         "id": "proof-3",
-        "title": "Reference edits",
-        "body": "Keep product identity, palette, layout or style.",
+        "title": "参考图编辑",
+        "body": "严谨保持产品特征、调色板、布局或特定风格。",
         "icon": "pen"
       },
       {
         "id": "proof-4",
-        "title": "4K finals",
-        "body": "Validate at 2K, then finish at 4K.",
+        "title": "4K 终稿输出",
+        "body": "先在 2K 下验证效果，再以 4K 输出成片。",
         "icon": "maximize"
       },
       {
         "id": "proof-5",
-        "title": "Production-aware",
-        "body": "Owned references and built-in guardrails.",
+        "title": "面向生产级标准",
+        "body": "支持专属参考素材并内置生产级安全护栏。",
         "icon": "shield"
       }
     ],
     "fallbackItems": [
       {
         "id": "product",
-        "title": "Product reference still",
-        "category": "Product · 2K",
+        "title": "产品参考静态图",
+        "category": "产品 · 2K",
         "aspectRatio": "2K",
-        "alt": "Seedream product still prepared as a clean reference image",
+        "alt": "作为干净参考图准备的 Seedream 产品静态图",
         "tags": [
           "product"
         ]
       },
       {
         "id": "character",
-        "title": "Character reference sheet",
-        "category": "Character",
+        "title": "角色参考设定图",
+        "category": "角色",
         "aspectRatio": "2-10 refs",
-        "alt": "Seedream sheet with consistent views of the same character",
+        "alt": "展示同一角色连贯视角的 Seedream 设定图",
         "tags": [
           "character"
         ]
       },
       {
         "id": "edit",
-        "title": "Clean image edit",
-        "category": "Edit",
+        "title": "干净图像编辑",
+        "category": "编辑",
         "aspectRatio": "Image edit",
-        "alt": "Seedream edit preserving shape, logo and proportions",
+        "alt": "保留形状、Logo 与比例的 Seedream 编辑图",
         "tags": [
           "edit"
         ]
       },
       {
         "id": "batch",
-        "title": "Storyboard batch",
-        "category": "Batch",
+        "title": "分镜批量套图",
+        "category": "批量",
         "aspectRatio": "4 images",
-        "alt": "Seedream four-image storyboard batch",
+        "alt": "包含四张图像的 Seedream 分镜批量套图",
         "tags": [
           "batch"
         ]
