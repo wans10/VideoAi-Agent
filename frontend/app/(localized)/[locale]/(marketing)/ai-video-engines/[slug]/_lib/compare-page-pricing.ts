@@ -24,7 +24,7 @@ export function resolveAudioOffPrice(entry: EngineCatalogEntry): string | null {
   const audioOffDelta = entry.engine?.pricingDetails?.addons?.audio_off?.perSecondCents;
   if (typeof audioOffDelta !== 'number') return null;
   const total = applyDisplayedPriceMarginCents(perSecond.default + audioOffDelta);
-  return `Audio off: $${(total / 100).toFixed(2)}/s`;
+  return locale.startsWith('zh') ? `关闭音频: $${(total / 100).toFixed(2)}/秒` : `Audio off: $${(total / 100).toFixed(2)}/s`;
 }
 
 const PRICING_SCORE_MIN = 0.03;
@@ -103,6 +103,7 @@ function buildPricingDisplayFromPoints(points: MarketingPricePoint[]): ComparePr
 export function getPrelaunchPricingLabel(locale: AppLocale) {
   if (locale === 'fr') return 'Confirmé au lancement';
   if (locale === 'es') return 'Confirmado en lanzamiento';
+  if (locale.startsWith('zh')) return '发布时确认';
   return 'TBD at launch';
 }
 
@@ -122,6 +123,12 @@ export function getPrelaunchCompareNotice(locale: AppLocale) {
     return {
       title: 'Comparación de prelanzamiento',
       body: 'Un motor de esta página está en prelanzamiento. Los renders runtime aún no están disponibles; los precios y resultados finales se confirman en el lanzamiento.',
+    };
+  }
+  if (locale.startsWith('zh')) {
+    return {
+      title: '发布前对比',
+      body: '本页面中至少包含一个处于发布前阶段的模型。暂不提供实际运行渲染；最终定价与成片输出将在正式发布时确认。',
     };
   }
   return {
@@ -210,7 +217,7 @@ export async function resolvePricingDisplay(
   }
 
   return {
-    headline: 'Data pending',
+    headline: locale.startsWith('zh') ? '数据待定' : 'Data pending',
     subline: null,
     prices: [],
     scorePrices: [],

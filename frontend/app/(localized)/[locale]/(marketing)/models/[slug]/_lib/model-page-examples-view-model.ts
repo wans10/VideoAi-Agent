@@ -123,7 +123,7 @@ function getDisplayAspectRatio(video: ExampleGalleryVideo): string | null {
 function getCategory(video: ExampleGalleryVideo, locale: AppLocale): string {
   const tag = inferRenderTag(video.promptFull ?? video.prompt, locale);
   if (tag) return tag;
-  if (video.hasAudio) return locale === 'fr' ? 'Cinématique' : locale === 'es' ? 'Cinemático' : 'Cinematic';
+  if (video.hasAudio) return locale === 'fr' ? 'Cinématique' : locale === 'es' ? 'Cinemático' : locale.startsWith('zh') ? '电影级' : 'Cinematic';
   return 'Render';
 }
 

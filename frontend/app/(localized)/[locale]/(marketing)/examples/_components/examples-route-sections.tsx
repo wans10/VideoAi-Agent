@@ -46,7 +46,7 @@ function resolveExamplesPricingCallout(selectedEngine: string | null, locale: Ap
   if (normalized === 'ltx') {
     return {
       href: `${pricingPath}#ltx-2-5-fast-pricing`,
-      title: locale === 'fr' ? 'Tarifs LTX 2.5' : locale === 'es' ? 'Precios de LTX 2.5' : 'LTX 2.5 pricing',
+      title: locale === 'fr' ? 'Tarifs LTX 2.5' : locale === 'es' ? 'Precios de LTX 2.5' : locale.startsWith('zh') ? 'LTX 2.5 价格' : 'LTX 2.5 pricing',
       body:
         locale === 'fr'
           ? 'Comparez les tarifs actuels LTX 2.5 Fast et Pro selon la durée, la résolution et les options audio.'

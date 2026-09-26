@@ -157,72 +157,88 @@ export function localizeSpecDetailValue(
     return `${labels.notSupported} (${localizeSpecDetailValue(detail, locale, labels)})`;
   }
   if (lower === 'prompt-based only') {
-    return locale === 'fr' ? 'Via prompt uniquement' : locale === 'es' ? 'Solo mediante prompt' : normalized;
+    return locale === 'fr' ? 'Via prompt uniquement' : locale === 'es' ? 'Solo mediante prompt' : locale.startsWith('zh') ? '仅支持提示词' : normalized;
   }
   if (lower === 'single start image') {
-    return locale === 'fr' ? 'une seule image de départ' : locale === 'es' ? 'una sola imagen inicial' : normalized;
+    return locale === 'fr' ? 'une seule image de départ' : locale === 'es' ? 'una sola imagen inicial' : locale.startsWith('zh') ? '单张起始图像' : normalized;
   }
   if (lower === 'not exposed in current maxvideoai route') {
     return locale === 'fr'
       ? 'non disponible dans MaxVideoAI actuellement'
       : locale === 'es'
         ? 'no disponible actualmente en MaxVideoAI'
-        : normalized;
+        : locale.startsWith('zh')
+          ? '当前 MaxVideoAI 路线暂未开放'
+          : normalized;
   }
   if (lower === 'multi reference stills') {
     return locale === 'fr'
       ? 'plusieurs images de référence'
       : locale === 'es'
         ? 'varias imágenes de referencia'
-        : normalized;
+        : locale.startsWith('zh')
+          ? '多张参考静态图'
+          : normalized;
   }
   if (lower === 'source clip for extend / retake') {
     return locale === 'fr'
       ? 'clip source pour extension / retake'
       : locale === 'es'
         ? 'clip fuente para extensión / retake'
-        : normalized;
+        : locale.startsWith('zh')
+          ? '用于扩展 / 重拍的源片段'
+          : normalized;
   }
   if (lower === 'source clip for modify / reframe') {
     return locale === 'fr'
       ? 'clip source pour modify / reframe'
       : locale === 'es'
         ? 'clip fuente para modify / reframe'
-        : normalized;
+        : locale.startsWith('zh')
+          ? '用于修改 / 画幅重构的源片段'
+          : normalized;
   }
   if (lower === 'start + end image in i2v') {
     return locale === 'fr'
       ? 'image de départ + image de fin en image → vidéo'
       : locale === 'es'
         ? 'imagen inicial + imagen final en imagen → video'
-        : normalized;
+        : locale.startsWith('zh')
+          ? '图生视频首尾帧图像'
+          : normalized;
   }
   if (lower === 'reframe workflow') {
-    return locale === 'fr' ? 'workflow reframe' : locale === 'es' ? 'flujo reframe' : normalized;
+    return locale === 'fr' ? 'workflow reframe' : locale === 'es' ? 'flujo reframe' : locale.startsWith('zh') ? '画幅重构工作流' : normalized;
   }
   if (lower === 'modify / reframe workflows') {
     return locale === 'fr'
       ? 'workflows modify / reframe'
       : locale === 'es'
         ? 'flujos modify / reframe'
-        : normalized;
+        : locale.startsWith('zh')
+          ? '修改 / 画幅重构工作流'
+          : normalized;
   }
   if (lower === 'extend / retake workflows') {
     return locale === 'fr'
       ? 'workflows extension / retake'
       : locale === 'es'
         ? 'flujos de extensión / retake'
-        : normalized;
+        : locale.startsWith('zh')
+          ? '扩展 / 重拍工作流'
+          : normalized;
   }
   if (lower === 'no (maxvideoai)') {
-    return locale === 'fr' ? 'Non (MaxVideoAI)' : locale === 'es' ? 'No (MaxVideoAI)' : normalized;
+    return locale === 'fr' ? 'Non (MaxVideoAI)' : locale === 'es' ? 'No (MaxVideoAI)' : locale.startsWith('zh') ? '无水印 (MaxVideoAI)' : normalized;
   }
   if (lower === 'not listed for native 4k route') {
     return locale === 'fr'
       ? 'Non listé pour la route 4K native'
       : locale === 'es'
         ? 'No listado para la ruta 4K nativa'
-        : 'Not listed for native 4K route';
+        : locale.startsWith('zh')
+          ? '原生 4K 路线未列出'
+          : 'Not listed for native 4K route';
   }
   return value;
 }

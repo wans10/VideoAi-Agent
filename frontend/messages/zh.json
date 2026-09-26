@@ -2656,27 +2656,27 @@
   },
   "docs": {
     "meta": {
-      "title": "Docs — Getting Started, Pricing, Jobs & Refunds",
-      "description": "Start here for individual-account onboarding, price-before-generation, jobs, saved media, brand safety, and refunds.",
-      "imageAlt": "Docs — MaxVideoAI",
-      "notFoundTitle": "Doc not found"
+      "title": "文档 — 新手入门、定价计费、任务处理与退款政策",
+      "description": "MaxVideoAI 使用指南：账户引导、预先报价、生成任务、媒体库、品牌安全及自动退款。",
+      "imageAlt": "文档 — MaxVideoAI",
+      "notFoundTitle": "文档未找到"
     },
     "hero": {
       "title": "Documentation",
-      "subtitle": "Start here for individual-account onboarding, price-before-generation, jobs, saved media, brand safety, and refunds."
+      "subtitle": "从这里开始了解个人账户引导、预先报价、生成任务、已保存素材、品牌安全及退款政策。"
     },
     "mcpGuide": {
       "href": "/docs/mcp",
-      "title": "MaxVideoAI MCP technical guide",
-      "description": "Recorded clients, OAuth, the read-only tool registry, privacy, limitations, and recovery guidance."
+      "title": "MaxVideoAI MCP 技术指南",
+      "description": "已支持客户端、OAuth、只读工具注册表、隐私保护、限制说明及恢复指南。"
     },
     "toc": {
-      "title": "On this page",
+      "title": "本页目录",
       "onboarding": "Onboarding",
-      "pricing": "Price system",
+      "pricing": "计费体系",
       "refunds": "Refunds",
       "safety": "品牌安全",
-      "api": "Product access",
+      "api": "产品入口",
       "library": "Library"
     },
     "sections": [
@@ -2727,40 +2727,40 @@
       }
     ],
     "apiNotice": {
-      "public": "Current product availability is described below.",
-      "private": "Only enabled product surfaces are described as available."
+      "public": "当前产品可用性如下所述。",
+      "private": "仅已启用的产品界面显示为可用。"
     },
     "onboardingChecklist": {
-      "title": "Onboarding checklist",
+      "title": "入门清单",
       "items": [
         "✅ Fill the brand brief (tone, goals, deliverables).",
         "✅ Add 1–3 example prompts and reference assets.",
         "✅ Set default aspect ratios and audio preference."
       ],
-      "note": "You can update your inputs and preferences before each generation."
+      "note": "您可以在每次生成前更新输入参数与偏好设置。"
     },
-    "pricingCallout": "✅ You always see the price before you generate.",
+    "pricingCallout": "✅ 生成前始终展示精确价格。",
     "refundsTimeline": {
-      "title": "Refunds timeline",
+      "title": "退款周期",
       "steps": [
         "1) Job fails → the system flags the incident.",
         "2) Auto-refund → wallet credited automatically.",
         "3) Receipt → itemised record with a short incident note."
       ],
-      "note": "You only pay for successful jobs. Refunds appear in the job feed and receipts."
+      "note": "您只需为成功的生成任务付费。退款将直接显示在任务流与收据中。"
     },
-    "refundsCallout": "✅ Failed paid generations are automatically refunded; receipts include a short incident note.",
+    "refundsCallout": "✅ 付费生成失败将自动退款；收据中会包含简短的问题说明。",
     "safetyQuick": {
-      "title": "Quick overview",
+      "title": "快速概览",
       "items": [
         "• Default blocks: illegal content, explicit sexual content, hate/harassment, doxxing.",
         "• Media checks: risky uploads/outputs are quarantined for review.",
         "• Admin controls: request allowlists or restricted keywords per workspace."
       ],
-      "note": "Sensitive cases route to human review with an audit trail and simple escalation options."
+      "note": "敏感案例将通过带有审计记录的流转机制交由人工审核。"
     },
-    "safetyCallout": "⚠️ Sensitive use-cases may require an admin allowlist or human review.",
-    "seeAlsoLabel": "See also:",
+    "safetyCallout": "⚠️ 敏感用例可能需要管理员加白或人工审核。",
+    "seeAlsoLabel": "另请参阅：",
     "seeAlso": {
       "onboarding": [
         {
@@ -2826,20 +2826,20 @@
     "library": {
       "heading": "Library",
       "liveLabel": "Live",
-      "comingSoonLabel": "Coming soon",
-      "summaryLive": "Browse reusable assets, presets, and reference prompts saved to your account.",
-      "summarySoon": "Documentation coming soon."
+      "comingSoonLabel": "即将推出",
+      "summaryLive": "浏览保存到您账户的可复用素材、预设和参考提示词。",
+      "summarySoon": "文档即将上线。"
     },
     "feedback": {
       "srTitle": "Feedback",
-      "prompt": "Was this page helpful?",
+      "prompt": "本页面对您有帮助吗？",
       "yes": "Yes",
       "no": "No",
-      "backToTop": "Back to top"
+      "backToTop": "返回顶部"
     },
-    "lastUpdatedLabel": "Last updated:",
+    "lastUpdatedLabel": "最后更新时间：",
     "jsonLd": {
-      "collectionName": "Docs — Getting Started, Pricing, Jobs & Refunds",
+      "collectionName": "文档 — 新手入门、定价计费、任务处理与退款政策",
       "hasPart": {
         "onboarding": "Onboarding",
         "pricing": "Price system",
@@ -2872,34 +2872,34 @@
         }
       ]
     },
-    "empty": "Documentation coming soon.",
-    "libraryHeading": "Library"
+    "empty": "文档内容即将上线。",
+    "libraryHeading": "媒体库"
   },
   "blog": {
     "hero": {
-      "title": "Ideas, experiments and ways to create.",
-      "subtitle": "Practical guides to AI video, images, references and choosing the right model.",
-      "eyebrow": "The MaxVideoAI journal",
-      "ctaLabel": "Explore the latest guide →"
+      "title": "灵感、实验与创作方式。",
+      "subtitle": "AI 视频、图像、参考素材与模型挑选的实战指南。",
+      "eyebrow": "MaxVideoAI 专栏",
+      "ctaLabel": "浏览最新文章 →"
     },
     "featured": {
-      "eyebrow": "Featured story",
-      "title": "Start with the post that matters now"
+      "eyebrow": "精选推荐",
+      "title": "从当前最关键的实践开始"
     },
     "recent": {
-      "eyebrow": "Recent posts",
-      "title": "More workflow notes, engine updates, and practical guides"
+      "eyebrow": "最新文章",
+      "title": "更多工作流心得、模型动态与实操教程"
     },
     "article": {
-      "backLink": "← Back to blog",
-      "relatedTitle": "Related reading",
-      "relatedBody": "More workflow notes and engine breakdowns curated for you.",
-      "relatedCta": "Read article"
+      "backLink": "← 返回博客",
+      "relatedTitle": "相关阅读",
+      "relatedBody": "为您精选的工作流技巧与模型解析。",
+      "relatedCta": "阅读全文"
     },
-    "empty": "Blog posts coming soon.",
-    "cta": "Read more",
+    "empty": "博客文章即将上线。",
+    "cta": "阅读更多",
     "intro": {
-      "lead": "The journal tracks how teams build reusable references, choose the right tool, and move from approved stills into stronger image and video outputs. We write from real usage inside MaxVideoAI: character references, camera-angle tests, model decisions, and production patterns that hold up under deadlines.",
+      "lead": "本专栏记录团队如何构建可复用参考、挑选合适工具，并将已确认的静态图转化为更出色的图像与视频。我们立足于 MaxVideoAI 的实操经验：角色参考、机位测试、模型决策以及经得起交付考验的生产规范。",
       "cards": [
         {
           "title": "Reference-first workflows",
@@ -2916,7 +2916,7 @@
       ]
     },
     "faq": {
-      "title": "Blog FAQ",
+      "title": "博客常见问答",
       "items": [
         {
           "question": "How often do new posts ship?",
@@ -2931,7 +2931,7 @@
           "answer": "Feature-level updates live in the product changelog, and API updates post inside the developer docs. The blog covers higher-level workflows."
         }
       ],
-      "footnote": "Need more detail? Email press@maxvideo.ai with your request and we’ll route it to the right producer."
+      "footnote": "需要了解更多详情？请发送需求至 press@maxvideo.ai，我们将转交至相关负责人。"
     }
   },
   "videoPage": {
@@ -3051,7 +3051,7 @@
       "name": "Name",
       "email": "Email",
       "topic": "Topic",
-      "selectPlaceholder": "Select a topic",
+      "selectPlaceholder": "选择咨询主题",
       "topics": [
         {
           "value": "support",
@@ -3071,13 +3071,13 @@
         }
       ],
       "message": "Message",
-      "submit": "Send message",
-      "alt": "Prefer email? Write to {email}.",
-      "success": "Message sent. We’ll get back to you shortly.",
-      "error": "We couldn’t send your message. Please try again or reach out by email."
+      "submit": "发送留言",
+      "alt": "更倾向发邮件？请联系 {email}。",
+      "success": "留言已发送，我们将尽快回复您。",
+      "error": "无法发送您的留言，请重试或通过邮件联系我们。"
     },
     "faq": {
-      "title": "Contact FAQ",
+      "title": "联系问答",
       "items": [
         {
           "question": "How fast will someone reply?",
@@ -3094,15 +3094,15 @@
       ]
     },
     "statusCard": {
-      "title": "Check live engine status",
-      "body": "Before opening a ticket, confirm whether an engine is already degraded. Status updates list latency, incident notes, and mitigation steps so you can decide whether to retry or switch models.",
-      "cta": "status page"
+      "title": "查看引擎实时状态",
+      "body": "在提交工单前，请先确认该引擎是否已有服务降级。状态页展示延迟、故障说明与应对措施，帮助您决定是稍后重试还是切换模型。",
+      "cta": "状态监控页"
     }
   },
   "legal": {
     "terms": {
-      "title": "Terms of service",
-      "intro": "These terms constitute the current valid User Agreement.",
+      "title": "服务条款",
+      "intro": "本条款构成当前有效的用户协议。",
       "sections": [
         {
           "heading": "1. Overview",
@@ -3131,8 +3131,8 @@
       ]
     },
     "privacy": {
-      "title": "Privacy policy",
-      "intro": "Highlights of our privacy practices. Final legal copy will live here.",
+      "title": "隐私政策",
+      "intro": "我们隐私保护措施的核心要点说明。",
       "sections": [
         {
           "heading": "1. Data we collect",
@@ -3217,13 +3217,13 @@
       "clearBody": "当前所有服务运行平稳正常，暂无管理员发布的维护或异常通告。"
     },
     "affected": {
-      "title": "If a generation is affected",
-      "body": "Failed generations follow the existing refund policy. If a job is delayed, avoid submitting duplicates and keep its job ID available."
+      "title": "如果您的生成任务受到影响",
+      "body": "失败的生成将依据现行退款政策自动退款。如果任务出现延迟，请避免重复提交并保留任务 ID。"
     },
     "support": {
-      "title": "Need help?",
+      "title": "需要帮助？",
       "prefix": "联系我们",
-      "suffix": "and include the job ID and engine name so the team can investigate."
+      "suffix": "，并附带任务 ID 与引擎名称，以便团队快速排查。"
     }
   },
   "systemMessages": {
@@ -3233,10 +3233,10 @@
   },
   "gallery": {
     "meta": {
-      "title": "AI Video Examples: Prompts, Models & Recorded Costs",
-      "description": "Browse real AI video examples, then open a video to inspect its prompt, settings, duration and recorded render cost before recreating it.",
-      "title_engine": "AI Video Examples — {engineName} | MaxVideoAI",
-      "description_engine": "Browse {engineName} examples, then open a video to inspect its prompt, duration, audio settings and recorded render cost."
+      "title": "AI 视频案例：提示词、模型与生成费用记录",
+      "description": "浏览真实 AI 视频案例，打开视频查看提示词、参数、时长与生成费用，一键复刻创作。",
+      "title_engine": "AI 视频案例 — {engineName} | MaxVideoAI",
+      "description_engine": "浏览 {engineName} 案例，查看其提示词、时长、音频设置与生成费用明细。"
     }
   },
   "workspace": {
@@ -3420,7 +3420,10 @@
           "label": "时长",
           "suffix": "{value} 秒",
           "rangeHint": "最短 {min} 秒 · 最长 {max} 秒",
-          "managed": "时长由该模型直接管理。"
+          "managed": "时长由该模型直接管理。",
+          "optionsLabel": "时长",
+          "maxLabel": "最长 {seconds} 秒",
+          "rangeLabel": "时长 — 秒"
         },
         "resolution": {
           "label": "分辨率",
@@ -3464,7 +3467,17 @@
           "action": "延长",
           "unit": "秒"
         },
-        "keyframes": "支持关键帧"
+        "keyframes": "支持关键帧",
+        "core": {
+          "title": "基础设置",
+          "subtitle": "时长、画幅比例、分辨率"
+        },
+        "frames": {
+          "label": "帧数",
+          "options": "选项：{options}",
+          "unit": "{count} 帧",
+          "hint": "帧数用于控制生成片段长度；数值将直接透传，无需转换为秒。"
+        }
       },
       "preview": {
         "title": "合成预览",
@@ -3865,7 +3878,9 @@
           "character": "角色",
           "angle": "视角",
           "upscale": "高清重绘",
-          "backgroundRemoval": "背景消除"
+          "backgroundRemoval": "背景消除",
+          "background-removal": "背景消除",
+          "tool": "创意工具"
         },
         "empty": "暂无生成动态。启动一次生成，记录将出现在此处。",
         "loadMore": "加载更多",
@@ -3874,51 +3889,55 @@
         "viewResult": "查看结果",
         "openOriginal": "打开原件",
         "delete": "删除",
-        "status": {
-          "completed": "已完成",
+        "status": "已加载动态的状态",
+        "statuses": {
+          "all": "全部状态",
           "pending": "处理中",
+          "completed": "已完成",
           "failed": "已失败"
-        }
+        },
+        "statusHint": "状态筛选适用于已加载的记录。加载更多可查看较早的生成记录。",
+        "filteredEmpty": "已加载记录中暂无匹配的生成。"
       },
       "title": "历史记录",
       "sections": {
-        "video": "Video history",
-        "audio": "Audio history",
-        "image": "Image history",
-        "storyboard": "Storyboard history",
-        "character": "Character history",
-        "angle": "Angle history",
-        "videoEmpty": "No video renders yet.",
-        "audioEmpty": "No audio renders yet.",
-        "imageEmpty": "No image renders yet.",
-        "storyboardEmpty": "No storyboard renders yet.",
-        "characterEmpty": "No character renders yet.",
-        "angleEmpty": "No angle renders yet."
+        "video": "视频历史",
+        "audio": "音频历史",
+        "image": "图像历史",
+        "storyboard": "分镜历史",
+        "character": "角色历史",
+        "angle": "视角历史",
+        "videoEmpty": "暂无视频渲染记录。",
+        "audioEmpty": "暂无音频渲染记录。",
+        "imageEmpty": "暂无图像渲染记录。",
+        "storyboardEmpty": "暂无分镜渲染记录。",
+        "characterEmpty": "暂无角色渲染记录。",
+        "angleEmpty": "暂无视角渲染记录。"
       },
       "teams": {
-        "title": "Teams",
-        "srLive": "Live",
-        "srSoon": "Coming soon",
-        "live": "Shared wallets, approvals, and budgets are enabled in your workspace.",
-        "beta": "Coming soon — shared wallets, approvals, and budgets. Join the beta at {email}.",
+        "title": "团队",
+        "srLive": "已上线",
+        "srSoon": "即将推出",
+        "live": "您的工作区已启用共享钱包、审批流和预算管理。",
+        "beta": "即将推出 —— 共享钱包、审批流和预算。通过 {email} 加入测试。",
         "email": "support@maxvideoai.com"
       },
-      "curated": "Starter renders curated by the MaxVideo team appear here until you generate your own clips.",
-      "error": "Failed to load history.",
+      "curated": "在您生成自己的片段前，MaxVideo 团队精选的初学者渲染效果会显示在这里。",
+      "error": "加载历史记录失败。",
       "retry": "重试",
-      "empty": "No renders yet. Start a generation to populate your history.",
-      "loadMore": "Load more",
-      "loading": "Loading…",
+      "empty": "暂无渲染。开始一次生成以丰富您的历史记录。",
+      "loadMore": "加载更多",
+      "loading": "加载中…",
       "actions": {
-        "addToLibrary": "Add to Media",
-        "removeFromLibrary": "Remove from Media",
-        "recreate": "Generate same settings",
-        "openDetails": "View details",
-        "actions": "Actions",
-        "expandSection": "Show",
-        "collapseSection": "Hide",
-        "saving": "Saving…",
-        "removing": "Removing…"
+        "addToLibrary": "添加到媒体库",
+        "removeFromLibrary": "从媒体库移除",
+        "recreate": "使用相同设置生成",
+        "openDetails": "查看详情",
+        "actions": "操作",
+        "expandSection": "展开",
+        "collapseSection": "收起",
+        "saving": "保存中…",
+        "removing": "移除中…"
       },
       "table": {
         "title": "生成历史",
@@ -3949,105 +3968,123 @@
         "audioTitle": "创建音频",
         "audioSubtitle": "生成高品质配乐、音效或自然逼真的旁白配音。",
         "toolsTitle": "创意工具",
-        "toolsSubtitle": "准备分镜参考、构建一致角色并精修素材。"
+        "toolsSubtitle": "准备分镜参考、构建一致角色并精修素材。",
+        "engineLabel": "生成引擎",
+        "newVideo": "新建视频",
+        "generateAudio": "生成音频",
+        "useLastVideo": "复用上次视频参数",
+        "startVideoTemplate": "从模板开始",
+        "newImage": "新建图像",
+        "useLastImage": "复用上次图像参数",
+        "startImageTemplate": "从模板开始"
       },
       "modes": {
-        "t2v": "T2V",
-        "i2v": "I2V",
-        "r2v": "Reference",
-        "t2i": "Create",
+        "t2v": "文生视频",
+        "i2v": "图生视频",
+        "r2v": "参考生视频",
+        "t2i": "文生图",
         "i2i": "编辑"
       },
       "inProgress": {
-        "title": "In progress",
-        "empty": "No active renders right now.",
-        "etaLabel": "ETA",
-        "progressLabel": "Progress",
-        "open": "Open",
-        "remix": "Remix"
+        "title": "进行中",
+        "empty": "当前没有进行中的渲染任务。",
+        "etaLabel": "预计时间",
+        "progressLabel": "进度",
+        "open": "打开",
+        "remix": "重新混剪"
       },
       "recent": {
-        "title": "Recent renders",
-        "viewAll": "Open History",
-        "empty": "No renders yet. Start a generation to populate your history.",
+        "title": "近期渲染",
+        "viewAll": "查看全部",
+        "empty": "暂无近期渲染。",
         "tabs": {
-          "all": "All",
-          "video": "Video",
-          "image": "Image",
-          "character": "Character",
-          "angle": "Angle",
-          "upscale": "Upscale",
-          "audio": "Audio",
-          "background-removal": "Background removal",
+          "all": "全部",
+          "video": "视频",
+          "image": "图像",
+          "character": "角色",
+          "angle": "视角",
+          "upscale": "高清放大",
+          "audio": "音频",
+          "background-removal": "消除背景",
           "tool": "工具"
-        }
+        },
+        "filterLabel": "筛选",
+        "filters": {
+          "all": "全部",
+          "video": "视频",
+          "audio": "音频",
+          "image": "图像",
+          "storyboard": "分镜",
+          "tools": "工具"
+        },
+        "open": "打开"
       },
       "insights": {
-        "title": "Insights",
-        "spendToday": "Spend today",
-        "spend30": "Spend 30d",
-        "avgCost": "Avg cost",
-        "runway": "Runway",
-        "runwayFallback": "Runway estimate needs completed renders.",
-        "mostUsed": "Most used"
+        "title": "数据洞察",
+        "spendToday": "今日花费",
+        "spend30": "近30天花费",
+        "avgCost": "平均成本",
+        "runway": "剩余可用天数",
+        "runwayFallback": "需要完成的渲染任务来估算剩余可用时间。",
+        "mostUsed": "最常使用"
       },
       "quickStarts": {
-        "title": "Quick starts",
-        "empty": "Save a render as a template to reuse it here.",
-        "use": "Use",
-        "manage": "Open Media",
-        "remove": "Remove",
+        "title": "快捷开始",
+        "empty": "将渲染结果保存为模板，即可在此快捷复用。",
+        "use": "使用",
+        "manage": "打开媒体库",
+        "remove": "移除",
         "meta": {
-          "engine": "Engine",
-          "format": "Format",
+          "engine": "引擎",
+          "format": "格式",
           "duration": "时长",
-          "audio": "Audio",
-          "audioOn": "On",
-          "audioOff": "Off",
+          "audio": "音频",
+          "audioOn": "开启",
+          "audioOff": "关闭",
           "audioUnknown": "—",
-          "price": "Price",
-          "formatAuto": "Auto"
+          "price": "价格",
+          "formatAuto": "自动"
         },
-        "defaultTitle": "Template"
+        "defaultTitle": "模板"
       },
       "tools": {
         "title": "工具",
-        "subtitle": "Prepare stronger source assets before you generate.",
-        "allTools": "Open all tools",
-        "characterTitle": "Create a character",
-        "characterBody": "Build a reusable character reference for image and video workflows.",
-        "characterBadge": "Character reference",
-        "angleTitle": "Change angle view",
-        "angleBody": "Generate a better camera angle from an existing image.",
-        "angleBadge": "New viewpoint"
+        "subtitle": "在生成前准备更优质的源素材。",
+        "allTools": "查看所有工具",
+        "characterTitle": "创建角色",
+        "characterBody": "为图像和视频工作流创建可复用的角色参考。",
+        "characterBadge": "角色参考",
+        "angleTitle": "更改摄像机视角",
+        "angleBody": "从现有图像生成更理想的摄像机机位。",
+        "angleBadge": "新视角"
       },
       "engines": {
-        "title": "Engine status",
-        "allOk": "All engines operational",
-        "error": "Failed to load engines.",
-        "queueLabel": "queue: {count}"
+        "title": "引擎状态",
+        "allOk": "所有引擎运行正常",
+        "error": "加载引擎失败。",
+        "queueLabel": "排队中: {count}"
       },
       "actions": {
         "retry": "重试",
-        "loadMore": "Load more",
+        "loadMore": "加载更多",
         "download": "下载",
-        "remix": "Remix",
-        "template": "Use as template",
-        "noPreview": "No preview"
+        "remix": "混剪",
+        "template": "用作模板",
+        "noPreview": "无预览"
       },
       "lightbox": {
-        "groupTitle": "Group ×{count}",
-        "jobTitle": "Render {id}",
+        "groupTitle": "组 ×{count}",
+        "jobTitle": "渲染任务 {id}",
         "metadata": {
-          "created": "Created",
-          "heroDuration": "Hero duration",
-          "engine": "Engine",
+          "created": "创建时间",
+          "heroDuration": "时长",
+          "engine": "引擎",
           "duration": "时长",
           "status": "状态",
-          "notProvided": "Not provided"
+          "notProvided": "未提供"
         },
-        "statusFallback": "N/A",
-        "versionLabel": "Version {index}"
+        "statusFallback": "不可用",
+        "versionLabel": "版本 {index}"
       },
       "stats": {
         "title": "概览",
@@ -4076,7 +4113,7 @@
         "addCreditsTitle": "充值积分",
         "description": "按量计费，无强制月费。生成的每秒视频均从您的充值余额扣费。",
         "balanceLabel": "可用余额",
-        "starterNotice": "新账户可充值 $10 入门余额立即开始创作。",
+        "starterNotice": "首次充值将激活永久保留权益。",
         "autoTopUp": "开启自动充值（选填）",
         "lowBalance": "您的余额偏低，充值后可继续顺畅创作。",
         "currencyLabel": "支付币种",
@@ -4085,7 +4122,48 @@
         "currencyDetected": "已自动识别为 {currency}",
         "currencyOverride": "使用 {selected} 结算（自动检测：{detected}）",
         "quoteLoading": "正在计算金额…",
-        "quoteError": "无法获取实时汇率，最终金额以结账收银台为准。"
+        "quoteError": "无法获取实时汇率，最终金额以结账收银台为准。",
+        "balanceReady": "可用于创作",
+        "balanceLoading": "正在加载余额…",
+        "balanceRefreshing": "正在刷新余额…",
+        "balanceUnavailable": "余额暂不可用，请重试。",
+        "guestBalance": "登录后查看余额",
+        "refreshBalance": "刷新余额",
+        "stepChoose": "选择充值金额",
+        "stepChooseHint": "积分以美元结算，只要您的账户处于活跃状态即永久有效。",
+        "stepReview": "核对支付信息",
+        "stepReviewHint": "支持使用欧元或美元付款。您的发卡行可能会收取货币转换费。",
+        "paymentAmount": "税前金额",
+        "creditsReceived": "到账积分",
+        "quoteCurrent": "可能会加收相应税费。您将在确认付款前看到最终总额。",
+        "quoteUnavailable": "在 Stripe 收银台确认",
+        "addFunds": "{amount}",
+        "quickAmount": "{amount}",
+        "selectedAmount": "已选金额",
+        "checkoutCta": "银行卡或其他支付方式",
+        "checkoutSecure": "安全支付由以下机构提供",
+        "checkoutNote": "充值金额将在支付确认后到账；您的收据将保存在此处。",
+        "customLabel": "自定义金额",
+        "customPresetLabel": "自定义",
+        "customPresetHint": "输入金额",
+        "customPlaceholder": "最低 $10",
+        "customHint": "请输入 $10 及以上的任意金额。",
+        "customCta": "确认金额",
+        "customSelectCta": "确认金额",
+        "customInvalid": "请输入有效的金额。",
+        "customMin": "最低充值金额为 $10。",
+        "chooseAmount": "选择",
+        "expressTitle": "快捷支付",
+        "expressLoading": "正在加载快捷支付选项…",
+        "expressUnavailable": "快捷支付暂不可用，请选择下方的其他支付方式。",
+        "expressError": "无法打开快捷支付，请选择下方的其他支付方式。",
+        "expressClosed": "支付窗口已关闭。请重试或在下方选择其他支付方式。",
+        "expressAriaLabel": "快捷结账",
+        "captchaPrompt": "结账前需要完成安全验证。",
+        "captchaComplete": "安全验证完成，继续付款。",
+        "captchaError": "安全验证暂不可用，请重试。",
+        "rateLimited": "支付尝试过于频繁，请在 {time} 后重试。",
+        "terms": "所有点数购买均遵守我们的服务条款。"
       },
       "teams": {
         "title": "团队功能",
@@ -4098,7 +4176,8 @@
         "comingSoon": "即将推出——统一团队钱包、角色审批流和预算管控。联系 {email} 申请内测。",
         "contactEmail": "support@maxvideoai.com",
         "statusLive": "在线",
-        "statusSoon": "即将推出"
+        "statusSoon": "即将推出",
+        "contactCta": "联系企业支持"
       },
       "estimator": {
         "title": "费用预估器",
@@ -4277,7 +4356,10 @@
         "openAssetButton": "打开素材",
         "useSettingsButton": "查看原参数",
         "deleting": "正在删除…",
-        "assetFallback": "素材"
+        "assetFallback": "素材",
+        "tabLabels": {
+          "all": "全部"
+        }
       },
       "sources": {
         "video": {
@@ -4307,7 +4389,8 @@
         "guest": {
           "description": "登录以更新您的账户偏好、查看支付凭证及同步跨设备素材。",
           "signIn": "登录",
-          "createAccount": "创建账户"
+          "createAccount": "创建账户",
+          "action": "登录"
         },
         "profile": {
           "title": "个人资料",
@@ -4321,20 +4404,69 @@
           "signOut": "退出登录",
           "deleteAccount": "删除账户",
           "deleteWarning": "删除账户将永久移除您的钱包余额、生成历史与已保存素材，此操作不可逆。"
+        },
+        "fields": {
+          "name": {
+            "label": "昵称",
+            "placeholder": "您的昵称",
+            "help": "1–80 个字符。"
+          },
+          "email": {
+            "label": "邮箱",
+            "placeholder": "you@domain.com",
+            "readOnly": "邮箱变更需单独处理。"
+          },
+          "locale": {
+            "label": "语言",
+            "description": "界面语言："
+          },
+          "theme": {
+            "label": "外观",
+            "description": "保存在此设备上。",
+            "options": {
+              "light": "浅色",
+              "dark": "深色",
+              "system": "跟随系统"
+            }
+          }
+        },
+        "actions": {
+          "save": "保存",
+          "saving": "正在保存…",
+          "cancel": "取消"
+        },
+        "validation": {
+          "required": "请输入昵称。",
+          "tooLong": "昵称长度不能超过 80 个字符。"
+        },
+        "status": {
+          "success": "昵称已保存。",
+          "genericError": "无法保存昵称，请重试。"
         }
       },
       "team": {
         "title": "团队",
         "description": "管理团队成员与项目协作权限。",
         "invite": "邀请成员",
-        "comingSoon": "团队功能即将全面开放。"
+        "comingSoon": "团队功能即将全面开放。",
+        "srLive": "在线",
+        "srSoon": "即将上线",
+        "liveDescription": "管理成员、角色、预算和第三方集成。",
+        "createProject": "创建项目",
+        "upcomingPrefix": "即将推出——共享钱包、权限审批与预算管控。发送邮件至 ",
+        "upcomingEmail": "support@maxvideoai.com",
+        "upcomingSuffix": " 申请内测。"
       },
       "privacy": {
         "title": "隐私与安全",
         "description": "控制数据使用偏好与安全设置。",
         "dataSharing": "允许用于质量评估与服务改进",
         "saveSuccess": "偏好已更新",
-        "preferenceError": "更新偏好设置失败"
+        "preferenceError": "更新偏好设置失败",
+        "allowIndexLabel": "默认允许公开索引",
+        "allowIndexDescription": "新生成的视频可能会出现在画廊、站点地图和搜索预览中。您仍可随时设为私有。",
+        "saving": "正在保存偏好设置…",
+        "disableHint": "如果您希望每次生成默认保持私有，请关闭此开关。公开视频会包含模型参数。"
       },
       "notifications": {
         "title": "通知设置",
@@ -4424,8 +4556,8 @@
       "removeReferenceImage": "移除",
       "referenceSlotNameFallback": "参考图像",
       "targetLabel": "目标生成模型",
-      "targetSeedance": "Seedance",
-      "targetKling": "Kling",
+      "targetSeedance": "Seedance 2.5",
+      "targetKling": "Kling 2.6 Pro",
       "targetRecommendedLabel": "推荐",
       "recognizablePeopleLabel": "可辨识的人物",
       "recognizablePeopleMeta": "对于真实或具体身份的人物，建议使用 Kling 并搭配单独的视觉参考。",
@@ -4515,93 +4647,93 @@
       },
       "modes": {
         "music_only": {
-          "label": "Music Only",
-          "description": "Background music or ambience."
+          "label": "纯音乐",
+          "description": "背景音乐或环境氛围音。"
         },
         "voice_only": {
-          "label": "Voice Over",
-          "description": "Seed Audio narration as an audio file."
+          "label": "配音旁白",
+          "description": "使用 Seed Audio 生成独立的语音旁白音频文件。"
         },
         "cinematic": {
-          "label": "Cinematic",
-          "description": "SFX + optional background music."
+          "label": "电影级音效",
+          "description": "音效设计 + 可选背景音乐。"
         },
         "cinematic_voice": {
-          "label": "Cinematic + Voice",
-          "description": "SFX + background music + VO."
+          "label": "电影音效 + 旁白",
+          "description": "音效 + 背景音乐 + 语音配音综合混音。"
         }
       },
       "preview": {
         "eyebrow": "预览",
-        "title": "Latest output",
-        "audioReady": "Audio render ready",
-        "emptyTitle": "Ready for audio",
-        "emptyBody": "Pick a mode and render.",
+        "title": "最新产出",
+        "audioReady": "音频渲染已就绪",
+        "emptyTitle": "准备渲染音频",
+        "emptyBody": "选择一种模式并开始渲染。",
         "processingLabel": "处理中",
-        "loadingMessage": "Loading audio render…",
-        "processingMessage": "Processing audio render…",
-        "openVideoFile": "Open video file",
-        "openAudioFile": "Open audio file",
+        "loadingMessage": "正在加载音频渲染…",
+        "processingMessage": "正在处理音频渲染…",
+        "openVideoFile": "打开视频文件",
+        "openAudioFile": "打开音频文件",
         "outputKinds": {
-          "audio": "Audio output",
-          "both": "Video + audio",
-          "video": "Video output"
+          "audio": "音频文件",
+          "both": "视频 + 音频",
+          "video": "视频文件"
         }
       },
       "source": {
-        "title": "Source video",
-        "required": "Needed for cinematic modes.",
-        "optional": "Optional for music or voice-only.",
-        "upload": "Upload video",
-        "uploading": "Uploading…",
-        "useGenerated": "Use generated",
+        "title": "源视频",
+        "required": "电影级模式必须提供源视频。",
+        "optional": "纯音乐或纯配音模式可选。",
+        "upload": "上传视频",
+        "uploading": "上传中…",
+        "useGenerated": "使用已生成的视频",
         "clear": "清除",
-        "durationPending": "Duration pending",
-        "restoredLabel": "Restored source video",
-        "jobLabel": "Job {id}",
-        "sourceLabel": "{label} source",
-        "uploadDurationWarning": "The source video uploaded, but its duration could not be read in the browser.",
-        "selectedDurationWarning": "The selected video loaded, but its duration could not be confirmed in the browser."
+        "durationPending": "时长解析中",
+        "restoredLabel": "已恢复源视频",
+        "jobLabel": "任务 {id}",
+        "sourceLabel": "{label} 源",
+        "uploadDurationWarning": "源视频已上传，但无法在浏览器中直接读取其时长。",
+        "selectedDurationWarning": "已加载所选视频，但无法在浏览器中确认其时长。"
       },
       "controls": {
-        "eyebrow": "Controls",
-        "title": "Audio setup",
-        "configureStep": "Configure",
-        "customizeStep": "Customize",
-        "generateStep": "Generate",
-        "chooseType": "Choose the type of audio you want to create",
-        "mood": "Style preset",
-        "intensity": "Intensity",
-        "musicModel": "Lyria model",
-        "musicBpm": "Tempo",
+        "eyebrow": "音频控制",
+        "title": "音频设置",
+        "configureStep": "基础配置",
+        "customizeStep": "个性化定制",
+        "generateStep": "立即生成",
+        "chooseType": "选择您想要创作的音频类型",
+        "mood": "风格预设",
+        "intensity": "强度",
+        "musicModel": "Lyria 音乐模型",
+        "musicBpm": "节拍节奏 (BPM)",
         "duration": "时长",
-        "prompt": "Audio Prompt",
-        "promptMusicPlaceholder": "Describe the music: genre, pace, emotion, instruments, where it should sit in the edit.",
-        "promptCinematicPlaceholder": "Describe the sound design you want: environment, impacts, transitions, texture, and what must stay subtle.",
-        "script": "Narration Script",
-        "scriptVoiceOnlyPlaceholder": "Write the voice over you want Seed Audio to render.",
-        "scriptCinematicPlaceholder": "Write the narration or dialogue that should sit on top of the cinematic audio mix.",
-        "estimatedDuration": "~{seconds}s estimated",
-        "voiceSample": "Voice sample",
-        "uploadVoiceSample": "Upload voice sample",
-        "uploadVoiceSampleHint": ".wav, .mp3, .pcm, or .ogg up to 10MB",
-        "uploadSample": "Upload sample",
-        "cloneEnabled": "Voice clone enabled",
-        "defaultVoice": "Default voice",
-        "voiceType": "Voice type",
-        "voice": "Voice",
-        "delivery": "Delivery",
+        "prompt": "音频提示词",
+        "promptMusicPlaceholder": "描述音乐风格：流派、节奏、情绪、乐器、以及在视频剪辑中的定位。",
+        "promptCinematicPlaceholder": "描述您想要的音效设计：环境音、打击重音、转场音效、声音质感，以及需要保持微妙的细节。",
+        "script": "配音文案/旁白脚本",
+        "scriptVoiceOnlyPlaceholder": "编写您希望 Seed Audio 朗读的旁白配音文本。",
+        "scriptCinematicPlaceholder": "编写叠加在电影级音效混音之上的旁白或对白文案。",
+        "estimatedDuration": "预估约 ~{seconds} 秒",
+        "voiceSample": "声音样本",
+        "uploadVoiceSample": "上传声音样本",
+        "uploadVoiceSampleHint": "支持 .wav、.mp3、.pcm 或 .ogg，最大 10MB",
+        "uploadSample": "上传声音样本",
+        "cloneEnabled": "已启用声音克隆",
+        "defaultVoice": "默认音色",
+        "voiceType": "音色类型",
+        "voice": "音色",
+        "delivery": "演播语调",
         "language": "语言",
-        "seedAudioVoice": "Seed Audio voice",
-        "seedAudioOutputFormat": "Format",
-        "seedAudioSampleRate": "Sample rate",
-        "seedAudioSpeed": "Speed",
-        "seedAudioVolume": "Volume",
-        "seedAudioPitch": "Pitch",
-        "seedAudioSampleTitle": "Voice sample",
-        "seedAudioSamplePending": "Sample audio pending",
+        "seedAudioVoice": "Seed Audio 音色",
+        "seedAudioOutputFormat": "格式",
+        "seedAudioSampleRate": "采样率",
+        "seedAudioSpeed": "语速",
+        "seedAudioVolume": "音量",
+        "seedAudioPitch": "音调",
+        "seedAudioSampleTitle": "声音样本",
+        "seedAudioSamplePending": "样本音频待处理",
         "seedAudioVoices": {
-          "default": "Default",
+          "default": "默认",
           "vivi_mixed_en_zh_ja_es_id": "Vivi",
           "mindy_en_es_id_pt_zh": "Mindy",
           "kian_en_zh": "Kian",
@@ -4621,7 +4753,7 @@
           "sandy_es_mixed_en_zh": "Sandy",
           "felix_zh": "Felix",
           "celeste_zh": "Celeste",
-          "monkey_king_zh": "Monkey King"
+          "monkey_king_zh": "美猴王 (Monkey King)"
         },
         "seedAudioOutputFormats": {
           "mp3": "MP3",
@@ -4630,112 +4762,112 @@
           "ogg_opus": "OGG Opus"
         },
         "moods": {
-          "epic": "Epic",
-          "tense": "Tense",
-          "intimate": "Intimate",
-          "dark": "Dark",
-          "dreamy": "Dreamy",
-          "sci-fi": "Sci-Fi",
-          "documentary": "Documentary"
+          "epic": "史诗震撼",
+          "tense": "紧张悬疑",
+          "intimate": "温暖亲切",
+          "dark": "暗黑深沉",
+          "dreamy": "梦幻空灵",
+          "sci-fi": "科幻未来",
+          "documentary": "纪录片解说"
         },
         "intensities": {
-          "subtle": "Subtle",
+          "subtle": "轻柔微弱",
           "standard": "标准",
-          "intense": "Intense"
+          "intense": "强烈激昂"
         },
         "musicModels": {
-          "clip": "Lyria 3 Clip · fixed 30s",
-          "pro": "Lyria 3 Pro · duration control"
+          "clip": "Lyria 3 Clip · 固定 30 秒",
+          "pro": "Lyria 3 Pro · 自定义时长控制"
         },
         "musicBpmValues": {
-          "70": "70 BPM · slow",
-          "90": "90 BPM · relaxed",
-          "110": "110 BPM · medium",
-          "130": "130 BPM · driving",
-          "150": "150 BPM · fast"
+          "70": "70 BPM · 舒缓慢速",
+          "90": "90 BPM · 放松惬意",
+          "110": "110 BPM · 中速律动",
+          "130": "130 BPM · 强劲有力",
+          "150": "150 BPM · 极速高燃"
         },
         "voiceGenders": {
-          "female": "Female",
-          "male": "Male",
-          "neutral": "Neutral"
+          "female": "女性",
+          "male": "男性",
+          "neutral": "中性"
         },
         "voiceProfiles": {
-          "balanced": "Balanced",
-          "warm": "Warm",
-          "bright": "Bright",
-          "deep": "Deep"
+          "balanced": "均衡自然",
+          "warm": "温暖温和",
+          "bright": "清澈明亮",
+          "deep": "深沉磁性"
         },
         "voiceDeliveries": {
-          "natural": "Natural",
-          "cinematic": "Cinematic",
-          "trailer": "Trailer",
-          "intimate": "Intimate"
+          "natural": "自然叙述",
+          "cinematic": "电影质感",
+          "trailer": "预告片激昂",
+          "intimate": "轻柔低语"
         },
         "languages": {
-          "auto": "Auto",
-          "english": "EN",
-          "french": "FR",
-          "spanish": "ES",
-          "german": "DE"
+          "auto": "自动识别",
+          "english": "英语",
+          "french": "法语",
+          "spanish": "西班牙语",
+          "german": "德语"
         },
         "musicToggle": {
-          "label": "Music",
-          "description": "Background music on. Turn it off for SFX-only or SFX + voice."
+          "label": "背景音乐",
+          "description": "开启背景音乐。关闭后仅生成音效或音效+语音。"
         },
         "exportToggle": {
-          "label": "Export audio file",
-          "description": "Save a separate audio file too."
+          "label": "导出独立音频文件",
+          "description": "额外导出一份独立的音频母带文件。"
         },
         "advanced": {
-          "title": "Advanced Options",
-          "description": "Fine-tune your audio generation settings"
+          "title": "高级设置",
+          "description": "微调音频生成的底层参数"
         },
-        "selectedVoice": "Seed Audio preset voice",
-        "chooseVoice": "Preset voice",
-        "providerStack": "Model stack",
-        "providerStackDescription": "{provider} prepares the base track, then MaxVideoAI masters the final render for your selected output.",
+        "selectedVoice": "Seed Audio 预设音色",
+        "chooseVoice": "预设音色",
+        "providerStack": "模型组合",
+        "providerStackDescription": "{provider} 生成基础音轨，随后 MaxVideoAI 为您所选的输出进行母带混音制作。",
         "providers": {
           "voice": "Seed Audio 1.0",
           "music": "Google Lyria 3",
           "sfx": "Mirelo SFX + MMAudio",
-          "mix": "FFmpeg mastering"
+          "mix": "FFmpeg 母带制作"
         }
       },
       "pricing": {
-        "eyebrow": "Est. Price",
-        "durationEyebrow": "Est. Duration",
-        "missingInputs": "Add required inputs",
-        "missingPrompt": "Add an audio prompt.",
-        "missingSourceVideo": "Add a source video.",
-        "missingOptions": "Set the required options.",
+        "eyebrow": "预估费用",
+        "durationEyebrow": "预估时长",
+        "missingInputs": "请补全必要信息",
+        "missingPrompt": "请输入音频提示词。",
+        "missingSourceVideo": "请添加源视频。",
+        "missingOptions": "请配置必要选项。",
         "summary": "{output} • {duration}",
         "generate": "生成音频",
-        "generating": "Generating…",
-        "thisRender": "This render: {amount}"
+        "generating": "正在生成…",
+        "thisRender": "本次渲染费用：{amount}"
       },
       "picker": {
-        "title": "Choose generated video",
-        "description": "Use one of your existing video renders as the source.",
+        "title": "选择已生成的视频",
+        "description": "使用您现有渲染生成的视频作为配音音效源素材。",
         "close": "关闭",
-        "empty": "No generated videos found yet.",
-        "audioBadge": "Audio"
+        "empty": "尚未找到任何已生成的视频。",
+        "audioBadge": "音频"
       },
       "rail": {
-        "eyebrow": "Latest renders",
+        "eyebrow": "最新渲染",
         "title": "历史记录",
         "viewAll": "查看全部",
-        "loadFailed": "Failed to load latest renders.",
+        "loadFailed": "加载最新渲染失败。",
         "retry": "重试",
-        "empty": "No audio renders yet.",
-        "loadMore": "Load more",
-        "loading": "Loading…",
-        "open": "Open",
-        "file": "File",
+        "empty": "暂无音频渲染记录。",
+        "loadMore": "加载更多",
+        "loading": "加载中…",
+        "open": "打开",
+        "file": "文件",
         "outputs": {
-          "videoAndAudio": "Video + audio",
-          "video": "Video render",
-          "audio": "Audio file",
-          "pending": "Pending render"
+          "videoAndAudio": "视频 + 音频",
+          "video": "视频渲染",
+          "audio": "音频文件",
+          "pending": "渲染排队中"
         },
         "statuses": {
           "pending": "等待中",
@@ -4745,26 +4877,26 @@
         }
       },
       "messages": {
-        "loadGeneratedVideos": "Unable to load generated videos.",
-        "loadSourceJob": "Unable to load source job.",
-        "loadLatestJob": "Unable to load latest audio job.",
-        "sourceUploadFailed": "Source upload failed.",
-        "voiceUploadFailed": "Voice sample upload failed.",
-        "renderComplete": "Audio render complete.",
-        "generationFailed": "Audio generation failed.",
-        "generatingInProgress": "Generating in progress ({count})…",
+        "loadGeneratedVideos": "无法加载已生成的视频。",
+        "loadSourceJob": "无法加载源任务。",
+        "loadLatestJob": "无法加载最新音频任务。",
+        "sourceUploadFailed": "源视频上传失败。",
+        "voiceUploadFailed": "声音样本上传失败。",
+        "renderComplete": "音频渲染已完成。",
+        "generationFailed": "音频生成失败。",
+        "generatingInProgress": "生成正在进行中 ({count})…",
         "processing": {
-          "soundDesign": "Generating cinematic sound design…",
-          "musicTrack": "Generating music track…",
-          "musicBed": "Generating music bed…",
-          "clonedVoice": "Generating reference voice over…",
-          "voice": "Generating voice over…",
-          "masterAudio": "Mastering audio file…",
-          "finalMix": "Mixing final soundtrack…",
-          "uploadAudioRender": "Uploading audio render…",
-          "uploadAudioExport": "Uploading audio export…",
-          "uploadFinalRender": "Uploading final render…",
-          "complete": "Audio render complete."
+          "soundDesign": "正在生成电影级声音设计…",
+          "musicTrack": "正在生成音乐音轨…",
+          "musicBed": "正在生成背景伴奏…",
+          "clonedVoice": "正在生成参考声音配音…",
+          "voice": "正在生成语音旁白…",
+          "masterAudio": "正在进行音频母带处理…",
+          "finalMix": "正在进行最终音轨混音…",
+          "uploadAudioRender": "正在上传音频渲染结果…",
+          "uploadAudioExport": "正在上传导出音频…",
+          "uploadFinalRender": "正在上传最终作品…",
+          "complete": "音频渲染已完成。"
         }
       },
       "form": {
@@ -4804,74 +4936,74 @@
       "library": "从媒体库选择",
       "remove": "移除",
       "sourceAlt": "视角转换源图像",
-      "addSourceTitle": "Add a source image",
-      "addSourceBody": "Drop, paste, upload, or choose from Media.",
+      "addSourceTitle": "添加源图像",
+      "addSourceBody": "拖拽、粘贴、上传，或从媒体库中选择。",
       "upload": "上传",
-      "uploading": "Uploading...",
+      "uploading": "上传中...",
       "formats": "PNG / JPG / WEBP",
-      "cameraControls": "Camera controls",
-      "rotationRange": "Rotation (0-360)",
-      "tiltRange": "Tilt (-30 to +30)",
-      "zoomRange": "Zoom (0 to 10)",
-      "degreeUnit": "deg",
-      "estimatedCost": "Estimated cost per run",
+      "cameraControls": "摄像机控制",
+      "rotationRange": "水平旋转 (0-360)",
+      "tiltRange": "俯仰角度 (-30 至 +30)",
+      "zoomRange": "缩放比例 (0 至 10)",
+      "degreeUnit": "度",
+      "estimatedCost": "单次预估费用",
       "generate": "生成视角图像",
       "generating": "正在生成新视角…",
-      "output": "Output",
-      "outputTitle": "First frame preview",
-      "generatingOverlayTitle": "Generating new angles...",
-      "generatingOverlayBody": "Your last output stays visible until the new run is ready.",
-      "latency": "Latency",
-      "safeGuardrails": "Cinema-safe guardrails were applied to this run.",
-      "emptyTitle": "No output yet",
-      "emptyBody": "Upload an image, tune rotation/tilt/zoom, and click Generate.",
-      "previousJobs": "Previous jobs",
-      "openJobs": "Open Jobs",
-      "angleJob": "Angle job",
+      "output": "输出",
+      "outputTitle": "首帧预览",
+      "generatingOverlayTitle": "正在生成新视角...",
+      "generatingOverlayBody": "上一次输出将保持显示，直到新渲染就绪。",
+      "latency": "延迟",
+      "safeGuardrails": "本次生成已应用电影级安全防护。",
+      "emptyTitle": "暂无输出",
+      "emptyBody": "上传图像，调整旋转/俯仰/缩放角度，然后点击“生成”。",
+      "previousJobs": "历史任务",
+      "openJobs": "打开任务",
+      "angleJob": "视角任务",
       "close": "关闭",
-      "libraryChoose": "Choose from Media",
-      "libraryBody": "Use an uploaded or saved image as the source frame.",
-      "libraryError": "Failed to load Media images",
-      "libraryEmpty": "No images saved yet.",
-      "libraryLoadMore": "Load more",
-      "useImage": "Use image",
-      "assetFallback": "Asset",
+      "libraryChoose": "从媒体库选择",
+      "libraryBody": "使用已上传或已保存的图像作为源素材帧。",
+      "libraryError": "加载媒体库图像失败",
+      "libraryEmpty": "尚未保存任何图像。",
+      "libraryLoadMore": "加载更多",
+      "useImage": "使用图像",
+      "assetFallback": "素材",
       "tabs": {
-        "all": "All",
-        "upload": "Uploaded",
-        "generated": "Generated"
+        "all": "全部",
+        "upload": "已上传",
+        "generated": "已生成"
       },
-      "engineHelpFlux": "FLUX supports eye-level to high-angle only. Negative tilt switches to Qwen automatically for low-angle shots.",
-      "engineHelpQwen": "Low-angle shot detected. Qwen Multiple Angles is now active.",
-      "orbitTitle": "3D Angle Picker",
-      "orbitHint": "Hold and drag to change camera angle",
-      "rotationShort": "Rotation",
-      "tiltShort": "Tilt",
-      "zoomShort": "Zoom",
-      "bestAngles": "Generate from 4 best angles",
-      "addToLibrary": "Add to Media",
-      "alreadyInLibrary": "Already in Media",
+      "engineHelpFlux": "FLUX 仅支持平视到俯视视角。负俯仰角会自动切换至 Qwen 进行仰角拍摄。",
+      "engineHelpQwen": "检测到仰视角度，已自动激活 Qwen 多角度引擎。",
+      "orbitTitle": "3D 视角选择器",
+      "orbitHint": "按住并拖动以调整摄像机视角",
+      "rotationShort": "旋转",
+      "tiltShort": "俯仰",
+      "zoomShort": "缩放",
+      "bestAngles": "生成 4 个最佳视角",
+      "addToLibrary": "保存到媒体库",
+      "alreadyInLibrary": "已在媒体库中",
       "download": "下载",
-      "angleLabel": "Angle {index}",
-      "angleSelected": "selected",
-      "priceError": "Unable to load tool pricing",
-      "uploadFailed": "Upload failed",
-      "uploadTooLarge": "Image exceeds {maxMB} MB. Compress it or choose a smaller file.",
-      "invalidUrl": "Paste or drop a valid image URL.",
-      "referenceName": "Reference",
-      "libraryImageName": "Media image",
-      "missingSource": "Upload a source image first.",
-      "generationFailed": "Generation failed",
-      "angleOutputLabel": "Angle Output",
-      "librarySaveFailed": "Media save failed",
+      "angleLabel": "视角 {index}",
+      "angleSelected": "已选中",
+      "priceError": "无法获取工具价格",
+      "uploadFailed": "上传失败",
+      "uploadTooLarge": "图像超出 {maxMB} MB。请压缩或选择更小的文件。",
+      "invalidUrl": "请粘贴或拖拽有效的图像 URL。",
+      "referenceName": "参考图",
+      "libraryImageName": "媒体库图像",
+      "missingSource": "请先上传源图像。",
+      "generationFailed": "生成失败",
+      "angleOutputLabel": "视角输出",
+      "librarySaveFailed": "保存到媒体库失败",
       "engines": {
         "flux-multiple-angles": {
-          "label": "FLUX Multiple Angles",
-          "description": "FLUX LoRA multi-angle engine with horizontal/vertical/zoom controls."
+          "label": "FLUX 多视角",
+          "description": "支持水平、俯仰与缩放控制的 FLUX LoRA 多视角引擎。"
         },
         "qwen-multiple-angles": {
-          "label": "Qwen Multiple Angles",
-          "description": "Qwen image edit multiple-angle engine tuned for angle consistency."
+          "label": "Qwen 多视角",
+          "description": "专为机位视角一致性调优的 Qwen 图像编辑多视角引擎。"
         }
       },
       "targetAngle": "目标视角角度",
@@ -4899,332 +5031,332 @@
       "uploadStyleStart": "正在上传风格参考图…",
       "uploadIdentityDone": "身份参考图上传完成",
       "uploadStyleDone": "风格参考图上传完成",
-      "uploadFailed": "Upload failed.",
-      "uploadTooLarge": "Image exceeds {maxMB} MB. Compress it or choose a smaller file.",
-      "loadFromJobDone": "Loaded character builder settings from the selected job.",
-      "duplicateDone": "Builder settings copied from that result.",
-      "missingRun": "Character builder run is missing.",
-      "runGenerateOneDone": "Generated a new character reference.",
-      "runGenerateFourDone": "Generated 4 character reference options.",
-      "runFullBodyDone": "Generated a full-body correction from the selected result.",
-      "runLightingDone": "Generated a lighting variation from the selected result.",
-      "runFailed": "Generation failed.",
+      "uploadFailed": "上传失败。",
+      "uploadTooLarge": "图像超出 {maxMB} MB。请压缩或选择更小的文件。",
+      "loadFromJobDone": "已从所选任务载入角色构建器设置。",
+      "duplicateDone": "已复制该结果的构建器设置。",
+      "missingRun": "缺少角色构建器运行记录。",
+      "runGenerateOneDone": "已生成新的角色参考图。",
+      "runGenerateFourDone": "已生成 4 组角色参考方案。",
+      "runFullBodyDone": "已根据所选结果生成全身校正图。",
+      "runLightingDone": "已根据所选结果生成光影变体。",
+      "runFailed": "生成失败。",
       "savedToLibrary": "角色已保存至媒体库。",
-      "saveToLibraryFailed": "Failed to save to Media.",
-      "pricingError": "Unable to load tool pricing",
+      "saveToLibraryFailed": "保存到媒体库失败。",
+      "pricingError": "无法加载工具价格",
       "reset": "重置",
-      "resetDone": "Builder settings reset to defaults.",
+      "resetDone": "设置已重置为默认值。",
       "top": {
-        "start": "Start",
-        "buildLook": "Build the look",
-        "generate": "Generate",
-        "resultsEyebrow": "Results",
-        "resultsTitle": "Review outputs"
+        "start": "开始创建",
+        "buildLook": "设定外观",
+        "generate": "立即生成",
+        "resultsEyebrow": "生成结果",
+        "resultsTitle": "查看产出"
       },
       "sourceMode": {
-        "scratchTitle": "Start from scratch",
-        "scratchBody": "Build the character visually.",
-        "imageTitle": "Start from image",
-        "imageBody": "Infer the look from a reference.",
-        "autoTraits": "Auto traits",
-        "scratchNote": "Start from visual traits only. You can switch to image mode any time."
+        "scratchTitle": "从零构思",
+        "scratchBody": "通过视觉特征逐步设定角色。",
+        "imageTitle": "从图像导入",
+        "imageBody": "从参考图中提取外观特征。",
+        "autoTraits": "自动提取特征",
+        "scratchNote": "仅从视觉特征开始设定，您可以随时切换为参考图模式。"
       },
       "references": {
-        "identityTitle": "Identity reference",
-        "identityBody": "Upload the face or character you want to anchor.",
-        "styleTitle": "Style inspiration",
-        "styleBody": "Optional. Use a second image for outfit or style direction.",
-        "addInspiration": "Add inspiration image",
-        "addInspirationBody": "Optional outfit or styling reference.",
-        "remove": "Remove"
+        "identityTitle": "人物身份参考",
+        "identityBody": "上传您想要作为一致性锚点的面孔或角色图像。",
+        "styleTitle": "艺术风格灵感",
+        "styleBody": "选填。上传第二张图像以指定服装或风格方向。",
+        "addInspiration": "添加灵感参考图",
+        "addInspirationBody": "选填的服装或造型参考。",
+        "remove": "移除"
       },
       "library": {
-        "open": "Choose from Media",
-        "choose": "Choose from Media",
-        "body": "Use an uploaded or saved image as a reference.",
-        "error": "Failed to load Media images",
-        "empty": "No images available in Media yet.",
-        "loadMore": "Load more",
+        "open": "从媒体库选择",
+        "choose": "从媒体库选择",
+        "body": "使用已上传或已保存的图像作为参考素材。",
+        "error": "加载媒体库图像失败",
+        "empty": "媒体库中暂无可用图像。",
+        "loadMore": "加载更多",
         "tabs": {
-          "all": "All",
-          "upload": "Uploads",
-          "generated": "Generated",
-          "character": "Character",
-          "angle": "Angle"
+          "all": "全部",
+          "upload": "已上传",
+          "generated": "已生成",
+          "character": "角色",
+          "angle": "视角"
         }
       },
       "sections": {
-        "gender": "Gender presentation",
-        "age": "Age",
-        "customGenderPlaceholder": "Describe the presentation you want to preserve",
-        "hair": "Hair",
-        "hairOpenEditor": "Open the hair editor",
+        "gender": "性别特征",
+        "age": "年龄段",
+        "customGenderPlaceholder": "描述您想要保留的人物外貌特征",
+        "hair": "发型与发色",
+        "hairOpenEditor": "打开发型编辑器",
         "hairEdit": "编辑",
         "hairClose": "关闭",
-        "outfit": "Outfit",
-        "moreOutfits": "More outfits",
-        "customHair": "Custom hair prompt",
-        "customHairPlaceholder": "Describe the hair you want to preserve or generate",
-        "customOutfit": "Custom outfit prompt",
-        "customOutfitPlaceholder": "Describe the clothes or wardrobe you want to see",
-        "accessoriesFeatures": "Accessories & features",
-        "realism": "Realism style",
-        "moreControls": "Advanced controls",
-        "optional": "Optional",
-        "setCount": "{count} set",
-        "skinTone": "Skin tone",
-        "faceCues": "Face cues",
-        "eyeColor": "Eye color",
-        "bodyBuild": "Body build",
-        "consistency": "Consistency",
-        "referenceStrength": "Reference strength",
-        "accessories": "Accessories",
-        "distinctiveFeatures": "Distinctive features",
-        "customDetails": "Custom details prompt",
-        "customDetailsPlaceholder": "Describe accessories, marks, features, or visible identity details",
-        "advancedNotes": "Advanced notes",
-        "advancedNotesPlaceholder": "Optional extra notes",
-        "mustRemainVisible": "Must remain visible",
-        "mustRemainPlaceholder": "Add a detail"
+        "outfit": "服装穿搭",
+        "moreOutfits": "更多服饰",
+        "customHair": "自定义发型提示词",
+        "customHairPlaceholder": "描述想要保留或生成的发型细节",
+        "customOutfit": "自定义服装提示词",
+        "customOutfitPlaceholder": "描述想要展现的服装款式与穿搭",
+        "accessoriesFeatures": "配饰与特征",
+        "realism": "写实风格",
+        "moreControls": "高级控制",
+        "optional": "可选",
+        "setCount": "已设置 {count} 项",
+        "skinTone": "肤色",
+        "faceCues": "面部轮廓",
+        "eyeColor": "眼睛颜色",
+        "bodyBuild": "体型体态",
+        "consistency": "特征一致性",
+        "referenceStrength": "参考强度",
+        "accessories": "饰品配件",
+        "distinctiveFeatures": "独特特征",
+        "customDetails": "自定义细节提示词",
+        "customDetailsPlaceholder": "描述配饰、胎记、独特印记或可辨识的外观细节",
+        "advancedNotes": "高级补充说明",
+        "advancedNotesPlaceholder": "选填的补充说明",
+        "mustRemainVisible": "必须保持可见",
+        "mustRemainPlaceholder": "添加必须保留的特征"
       },
       "outputOptions": {
-        "fullBodyRequired": "Full body required",
-        "includeCloseUps": "4 close-ups below",
-        "neutralStudioBackground": "Neutral background",
-        "preserveFacialDetails": "Preserve facial details",
-        "avoid3dRenderLook": "Avoid 3D look"
+        "fullBodyRequired": "需要全身视图",
+        "includeCloseUps": "包含 4 个特写镜头",
+        "neutralStudioBackground": "中性摄影棚背景",
+        "preserveFacialDetails": "保留面部细节",
+        "avoid3dRenderLook": "避免 3D 渲染质感"
       },
       "generatePanel": {
-        "portraitTitle": "Portrait reference",
-        "portraitBody": "Face-forward portrait anchor",
-        "sheetTitle": "Character sheet",
-        "sheetBody": "Multi-angle full-body sheet",
+        "portraitTitle": "肖像参考",
+        "portraitBody": "正脸正视锚点",
+        "sheetTitle": "角色多角度图",
+        "sheetBody": "多角度全身图",
         "quality": "画质",
-        "format": "Format",
-        "pricePerImage": "{price} per image",
-        "generateReference": "Generate reference",
-        "generateFour": "Generate 4 options"
+        "format": "画面规格",
+        "pricePerImage": "{price} / 张",
+        "generateReference": "生成角色参考",
+        "generateFour": "生成 4 个备选方案"
       },
       "summary": {
-        "dna": "Character DNA",
-        "snapshot": "Live snapshot",
-        "builderBadge": "Builder",
-        "noReferenceImage": "No reference image",
-        "identity": "Identity",
-        "hair": "Hair",
-        "outfit": "Outfit",
-        "style": "Style",
-        "output": "Output",
+        "dna": "角色特征",
+        "snapshot": "实时概览",
+        "builderBadge": "构建器",
+        "noReferenceImage": "暂无参考图像",
+        "identity": "身份",
+        "hair": "发型",
+        "outfit": "服装",
+        "style": "风格",
+        "output": "输出",
         "quality": "画质",
-        "format": "Format",
-        "autoFromReference": "Auto from reference",
-        "photoreal": "Photoreal"
+        "format": "规格",
+        "autoFromReference": "从参考图自动提取",
+        "photoreal": "写实"
       },
       "hairEditor": {
-        "title": "Hair editor",
-        "body": "Pick only what matters.",
-        "color": "Color",
-        "length": "Length",
-        "style": "Style"
+        "title": "发型编辑器",
+        "body": "仅选择关键的发型要素。",
+        "color": "发色",
+        "length": "长度",
+        "style": "样式"
       },
       "followUp": {
-        "selectedEyebrow": "Selected result",
-        "selectedTitle": "Current reference",
-        "selectedAlt": "Selected character reference",
-        "baseReference": "Base reference output",
-        "fullBodyRefinement": "Full-body refinement",
-        "lightingRefinement": "Lighting refinement",
-        "importNote": "Import this reference manually into a video model when you are ready.",
-        "pinnedEyebrow": "Pinned base",
-        "pinnedTitle": "Refinement base",
-        "pinnedAlt": "Pinned base reference",
-        "pinnedLabel": "Pinned base",
-        "unpin": "Unpin",
-        "pinEmpty": "Select a result, then pin it if you want a stable base for refinements.",
-        "refineTitle": "Refine",
-        "fixFullBody": "Fix full body",
-        "createLighting": "Create lighting variant",
-        "refineFootnote": "This tool stops at reusable reference image creation."
+        "selectedEyebrow": "已选结果",
+        "selectedTitle": "当前参考",
+        "selectedAlt": "所选角色参考",
+        "baseReference": "基础参考输出",
+        "fullBodyRefinement": "全身精修",
+        "lightingRefinement": "光影微调",
+        "importNote": "准备就绪后，可将此参考图手动导入视频模型进行创作。",
+        "pinnedEyebrow": "已固定基准",
+        "pinnedTitle": "精修基准",
+        "pinnedAlt": "已固定基础参考",
+        "pinnedLabel": "固定基准",
+        "unpin": "取消固定",
+        "pinEmpty": "选择一个生成结果并固定，即可作为后续精修的稳定基准。",
+        "refineTitle": "细节精修",
+        "fixFullBody": "修复全身",
+        "createLighting": "生成光影变体",
+        "refineFootnote": "本工具止于生成可复用的参考图像素材。"
       },
       "resultCard": {
-        "generatedAlt": "Generated character reference",
-        "referenceOutput": "Reference output",
-        "fullBodyFix": "Full-body fix",
-        "lightingVariant": "Lighting variant",
-        "pending": "Rendering",
-        "pendingBody": "This output will appear here as soon as it is ready.",
-        "selected": "Selected",
-        "base": "Base",
-        "unpinBase": "Unpin base",
-        "useAsBase": "Use as base",
+        "generatedAlt": "生成的角色参考",
+        "referenceOutput": "参考图输出",
+        "fullBodyFix": "全身修复",
+        "lightingVariant": "光影变体",
+        "pending": "渲染中",
+        "pendingBody": "生成就绪后将立即在此展示。",
+        "selected": "已选择",
+        "base": "基础原图",
+        "unpinBase": "取消固定",
+        "useAsBase": "作为基准",
         "download": "下载",
         "save": "保存",
-        "duplicate": "Duplicate",
+        "duplicate": "复制副本",
         "select": "选择"
       },
       "options": {
         "gender": {
-          "woman": "Woman",
-          "man": "Man",
-          "androgynous": "Androgynous",
-          "custom": "Custom"
+          "woman": "女性",
+          "man": "男性",
+          "androgynous": "中性",
+          "custom": "自定义"
         },
         "age": {
-          "teen": "Teen",
-          "young-adult": "Young adult",
-          "adult": "Adult",
-          "mature": "Mature",
-          "senior": "Senior"
+          "teen": "青少年",
+          "young-adult": "青年",
+          "adult": "青年/成年",
+          "mature": "中年",
+          "senior": "老年"
         },
         "skinTone": {
-          "fair": "Fair",
-          "light": "Light",
-          "medium": "Medium",
-          "olive": "Olive",
-          "deep": "Deep",
-          "rich": "Rich"
+          "fair": "白皙",
+          "light": "偏白",
+          "medium": "自然",
+          "olive": "小麦色",
+          "deep": "偏深",
+          "rich": "黝黑"
         },
         "faceCues": {
-          "soft": "Soft",
-          "angular": "Angular",
-          "round": "Round",
-          "defined": "Defined",
-          "strong-jaw": "Strong jaw"
+          "soft": "柔和",
+          "angular": "棱角分明",
+          "round": "圆润",
+          "defined": "立体精致",
+          "strong-jaw": "下颌线分明"
         },
         "hairColor": {
-          "black": "Black",
-          "dark-brown": "Dark brown",
-          "brown": "Brown",
-          "blonde": "Blonde",
-          "red": "Red",
-          "gray": "Gray",
-          "fantasy": "Fantasy"
+          "black": "黑色",
+          "dark-brown": "深棕色",
+          "brown": "棕色",
+          "blonde": "金色",
+          "red": "红色",
+          "gray": "灰色",
+          "fantasy": "个性幻彩"
         },
         "hairLength": {
-          "short": "Short",
-          "medium": "Medium",
-          "long": "Long",
-          "very-long": "Very long"
+          "short": "短发",
+          "medium": "中长发",
+          "long": "长发",
+          "very-long": "特长发"
         },
         "hairstyle": {
-          "straight": "Straight",
-          "wavy-bob": "Wavy bob",
-          "curly": "Curly",
-          "ponytail": "Ponytail",
-          "braids": "Braids",
-          "buzz-cut": "Buzz cut",
-          "afro": "Afro",
-          "tied-back": "Tied back"
+          "straight": "直发",
+          "wavy-bob": "微卷波波头",
+          "curly": "卷发",
+          "ponytail": "马尾",
+          "braids": "编发",
+          "buzz-cut": "寸头",
+          "afro": "爆炸头",
+          "tied-back": "束发/马尾"
         },
         "eyeColor": {
-          "brown": "Brown",
-          "hazel": "Hazel",
-          "blue": "Blue",
-          "green": "Green",
-          "gray": "Gray",
-          "amber": "Amber"
+          "brown": "棕褐色",
+          "hazel": "淡褐色",
+          "blue": "蓝色",
+          "green": "绿色",
+          "gray": "灰色",
+          "amber": "琥珀色"
         },
         "bodyBuild": {
-          "slim": "Slim",
-          "average": "Average",
-          "athletic": "Athletic",
-          "strong": "Strong",
-          "curvy": "Curvy"
+          "slim": "苗条",
+          "average": "匀称",
+          "athletic": "健美",
+          "strong": "强壮",
+          "curvy": "丰满"
         },
         "outfit": {
-          "casual": "Casual",
-          "business": "Business",
-          "streetwear": "Streetwear",
-          "formal": "Formal",
-          "luxury": "Luxury",
-          "sci-fi": "Sci-fi",
-          "fantasy": "Fantasy",
-          "tactical": "Tactical"
+          "casual": "休闲",
+          "business": "商务",
+          "streetwear": "街头潮牌",
+          "formal": "正装",
+          "luxury": "轻奢",
+          "sci-fi": "科幻未来",
+          "fantasy": "奇幻风",
+          "tactical": "战术风"
         },
         "realism": {
-          "photoreal": "Photoreal",
-          "cinematic": "Cinematic",
-          "stylized": "Stylized",
-          "animated": "Animated"
+          "photoreal": "写实摄影",
+          "cinematic": "电影质感",
+          "stylized": "艺术风格化",
+          "animated": "动画动漫"
         },
         "accessories": {
-          "glasses": "Glasses",
-          "sunglasses": "Sunglasses",
-          "earrings": "Earrings",
-          "necklace": "Necklace",
-          "hat": "Hat",
-          "headscarf": "Headscarf"
+          "glasses": "眼镜",
+          "sunglasses": "墨镜",
+          "earrings": "耳环",
+          "necklace": "项链",
+          "hat": "帽子",
+          "headscarf": "头巾"
         },
         "distinctive": {
-          "freckles": "Freckles",
-          "scar": "Scar",
-          "tattoo": "Tattoo",
-          "piercing": "Piercing",
-          "beard": "Beard",
-          "beauty-mark": "Beauty mark",
-          "makeup": "Makeup",
-          "wrinkles": "Wrinkles"
+          "freckles": "雀斑",
+          "scar": "疤痕",
+          "tattoo": "纹身",
+          "piercing": "穿孔",
+          "beard": "胡须",
+          "beauty-mark": "美人痣",
+          "makeup": "妆容",
+          "wrinkles": "皱纹"
         },
         "outputMode": {
           "portrait-reference": {
-            "label": "Portrait reference",
-            "description": "Centered face-forward anchor for later reuse."
+            "label": "肖像参考",
+            "description": "正脸居中锚点，用于后续一致性复用。"
           },
           "character-sheet": {
-            "label": "Character sheet",
-            "description": "Full-body turnaround with clean multi-angle coverage."
+            "label": "角色多角度图",
+            "description": "全身多视角覆盖，提供干净的角度参考。"
           }
         },
         "consistency": {
           "exploratory": {
-            "label": "Exploratory",
-            "description": "Keep identity recognizable while allowing more variation."
+            "label": "自由探索",
+            "description": "保持身份特征可辨识，同时允许更多创意变化。"
           },
           "balanced": {
-            "label": "Balanced",
-            "description": "Aim for stable identity with a little creative flexibility."
+            "label": "均衡稳定",
+            "description": "在稳定的身份一致性与适度灵活性之间取得平衡。"
           },
           "strict": {
-            "label": "Strict",
-            "description": "Bias strongly toward identity preservation across outputs."
+            "label": "严格一致",
+            "description": "极力保持跨视角生成中的面部与外观一致性。"
           }
         },
         "referenceStrength": {
           "loose": {
-            "label": "Loose",
-            "description": "Use the reference for general vibe and broad identity cues."
+            "label": "轻微参考",
+            "description": "仅从参考图中获取整体氛围与大致外观特征。"
           },
           "balanced": {
-            "label": "Balanced",
-            "description": "Preserve the core face and styling while allowing cleanup."
+            "label": "标准参考",
+            "description": "保留核心面部与造型，同时允许适当优化打磨。"
           },
           "strong": {
-            "label": "Strong",
-            "description": "Stay close to the uploaded identity and key visible markers."
+            "label": "高度参考",
+            "description": "高度忠实于上传的身份外观与关键可见特征。"
           }
         },
         "quality": {
           "draft": {
             "label": "标准",
-            "description": "Fast exploratory passes on Nano Banana 2."
+            "description": "基于 Nano Banana 2 进行快速探索性生成。"
           },
           "final": {
-            "label": "Pro",
-            "description": "Cleaner export-ready references on Nano Banana Pro."
+            "label": "专业级 (Pro)",
+            "description": "基于 Nano Banana Pro 生成导出级精细参考图。"
           }
         },
         "format": {
           "standard": {
             "label": "1K",
-            "description": "Base render size."
+            "description": "基础渲染尺寸。"
           },
           "2k": {
             "label": "2K",
-            "description": "Sharper output. 2x price."
+            "description": "更清晰的画面，2 倍积分价格。"
           },
           "4k": {
             "label": "4K",
-            "description": "Final-grade output. 3x price."
+            "description": "终稿级极清画面，3 倍积分价格。"
           }
         }
       },
@@ -5247,60 +5379,60 @@
       "sourceTitle": "源视频",
       "sourceBody": "上传短视频片段、粘贴 HTTPS 视频链接或复用媒体库中已保存的视频。",
       "sourceStep": "1",
-      "dropzoneTitle": "Drop a video file here",
-      "dropzoneBody": "MP4, MOV, or WebM clips up to 60 seconds.",
-      "upload": "Upload video",
-      "urlLabel": "Video URL",
+      "dropzoneTitle": "将视频文件拖拽至此处",
+      "dropzoneBody": "支持最长 60 秒的 MP4、MOV 或 WebM 片段。",
+      "upload": "上传视频",
+      "urlLabel": "视频链接",
       "urlPlaceholder": "https://example.com/source.mp4",
-      "urlHelp": "Paste a direct HTTPS video URL.",
+      "urlHelp": "粘贴直接可访问的 HTTPS 视频链接。",
       "library": "媒体库",
-      "libraryHelp": "Choose a private video from Media.",
+      "libraryHelp": "从媒体库中选择私有视频。",
       "libraryRefresh": "刷新",
-      "libraryAll": "All videos",
-      "libraryUploaded": "Uploaded",
-      "libraryGenerated": "Generated",
-      "libraryBackgroundRemoval": "Background removal",
-      "metadataLoading": "Reading video metadata...",
-      "metadataRequired": "Add a readable video source to estimate price.",
-      "metadataReady": "Ready for background removal",
-      "durationTooLong": "This tool supports clips up to 60 seconds.",
-      "settingsTitle": "Video settings",
+      "libraryAll": "全部视频",
+      "libraryUploaded": "已上传",
+      "libraryGenerated": "已生成",
+      "libraryBackgroundRemoval": "背景消除",
+      "metadataLoading": "正在读取视频元数据…",
+      "metadataRequired": "请添加有效的视频源以预估费用。",
+      "metadataReady": "已就绪，可开始消除背景",
+      "durationTooLong": "本工具支持最长 60 秒的视频片段。",
+      "settingsTitle": "视频参数设置",
       "settingsStep": "2",
-      "backgroundColor": "Background",
-      "outputCodec": "Output",
-      "outputCodecHint": "Use WebM VP9 for transparent playback, or choose MP4/MOV with a green or solid background for editing tools.",
-      "moreFormats": "More formats",
-      "formatRecommendation": "WebM VP9 is the transparent export. Use MP4 or MOV with a solid background when the destination strips alpha.",
-      "preserveAudio": "Preserve audio",
-      "audioOn": "audio",
-      "audioMuted": "muted",
-      "priceBeforeGeneration": "Price shown before generation",
-      "priceLoading": "Loading price...",
-      "priceUnavailable": "Price unavailable",
-      "priceReady": "Estimated for this clip",
-      "run": "Remove Background",
-      "running": "Processing...",
+      "backgroundColor": "背景",
+      "outputCodec": "输出格式",
+      "outputCodecHint": "使用 WebM VP9 格式支持透明通道播放；或选择带绿幕纯色背景的 MP4/MOV 以便剪辑软件抠像。",
+      "moreFormats": "更多格式",
+      "formatRecommendation": "WebM VP9 为透明导出格式。当目标平台不支持透明通道时，建议导出纯色背景的 MP4 或 MOV。",
+      "preserveAudio": "保留原声",
+      "audioOn": "含音频",
+      "audioMuted": "静音",
+      "priceBeforeGeneration": "生成前明确展示价格",
+      "priceLoading": "正在计算价格…",
+      "priceUnavailable": "价格暂不可用",
+      "priceReady": "针对当前片段预估",
+      "run": "消除背景",
+      "running": "处理中...",
       "previewTitle": "预览",
       "previewStep": "3",
-      "sourcePreview": "Source",
-      "resultPreview": "Result",
-      "compareSource": "Show source",
-      "compareResult": "Show result",
-      "noPreview": "Add a video to preview the source.",
-      "emptyPreviewSource": "Source clip",
-      "emptyPreviewResult": "Transparent result",
-      "checkerboard": "Transparent output preview",
+      "sourcePreview": "原素材",
+      "resultPreview": "结果",
+      "compareSource": "查看原片",
+      "compareResult": "查看效果",
+      "noPreview": "添加视频后可预览源画面。",
+      "emptyPreviewSource": "源片段",
+      "emptyPreviewResult": "透明效果",
+      "checkerboard": "透明通道棋盘格预览",
       "save": "保存",
-      "saved": "Saved to Media.",
-      "saveFailed": "Could not save this result.",
+      "saved": "已保存至媒体库。",
+      "saveFailed": "保存结果失败。",
       "download": "下载视频",
-      "copyLink": "Copy link",
-      "copied": "Link copied.",
-      "recentTitle": "Recent background removals",
-      "recentEmpty": "Finished results will appear here.",
+      "copyLink": "复制链接",
+      "copied": "链接已复制。",
+      "recentTitle": "最近背景消除记录",
+      "recentEmpty": "处理完成的结果将展示在此处。",
       "recentFailed": "失败",
-      "authTitle": "Sign in to use the tool",
-      "authBody": "Background removal uses wallet billing and private Media storage.",
+      "authTitle": "登录后使用本工具",
+      "authBody": "背景消除使用钱包计费并保存在私有媒体库中。",
       "sourceStepTitle": "导入视频",
       "outputFormat": "输出格式",
       "transparentWebm": "透明通道 WebM",
@@ -6874,7 +7006,7 @@
       "slugOverrides": {
         "kling-2-6-pro-vs-ltx-2": {
           "title": "Kling 2.6 Pro vs LTX 2 — Speed 对比 Quality | MaxVideoAI",
-          "description": "Compare models by quality, speed, pricing, modes, and an 11-point scorecard. Pick the winner by use case."
+          "description": "从生成画质、速度、价格、支持模式及 11 项综合评分对比两款模型。根据实际使用场景选择最佳方案。"
         },
         "ltx-2-fast-vs-wan-2-6": {
           "title": "LTX 2 Fast 对比 WAN 2.6 — Quality, Speed & Cost | MaxVideoAI",

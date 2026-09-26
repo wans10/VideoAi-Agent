@@ -50,8 +50,8 @@ export function GalleryRailCards({
             allowRemove={false}
             metaLabel={feedType === 'image' ? resolveAspectRatioLabel(group) : undefined}
             menuVariant={feedType === 'video' ? 'gallery' : 'gallery-image'}
-            openLabel={locale === 'fr' ? 'Aperçu' : locale === 'es' ? 'Vista previa' : 'Preview'}
-            actionMenuLabel={locale === 'fr' ? 'Réutiliser' : locale === 'es' ? 'Reutilizar' : 'Reuse'}
+            openLabel={locale === 'fr' ? 'Aperçu' : locale === 'es' ? 'Vista previa' : locale.startsWith('zh') ? '预览' : 'Preview'}
+            actionMenuLabel={locale === 'fr' ? 'Réutiliser' : locale === 'es' ? 'Reutilizar' : locale.startsWith('zh') ? '复用' : 'Reuse'}
             showOpenOverlay={false}
             selected={selectedGroupId === group.id}
             eagerPreview={feedType === 'video' && index < backgroundWarmCount}

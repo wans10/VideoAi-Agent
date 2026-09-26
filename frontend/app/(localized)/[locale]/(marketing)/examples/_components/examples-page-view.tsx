@@ -162,7 +162,7 @@ export function ExamplesPageView({
   usesCurrentAndSupportedBlocks,
 }: ExamplesPageViewProps) {
   const hasRouteHero = Boolean(mainVideo && mainVideoFeature.contentUrl);
-  const familyNotesLabel = locale === 'fr' ? 'Notes sur la famille' : locale === 'es' ? 'Notas de la familia' : 'Family notes';
+  const familyNotesLabel = locale === 'fr' ? 'Notes sur la famille' : locale === 'es' ? 'Notas de la familia' : locale.startsWith('zh') ? '家族模型说明' : 'Family notes';
 
   return (
     <>

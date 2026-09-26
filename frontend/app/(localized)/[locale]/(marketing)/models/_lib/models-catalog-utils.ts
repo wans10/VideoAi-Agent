@@ -217,6 +217,7 @@ export function getMinPricePerSecond(entry?: EngineCatalogEntry | null) {
 export function getPrelaunchPricingLabel(locale: AppLocale) {
   if (locale === 'fr') return 'Confirmé au lancement';
   if (locale === 'es') return 'Confirmado en lanzamiento';
+  if (locale.startsWith('zh')) return '发布时确认';
   return 'TBD at launch';
 }
 

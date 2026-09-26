@@ -15,6 +15,7 @@ export default function CompareVideoDialog({ item, name, locale, href, onClose }
   const { dialogRef, onDialogKeyDown } = useAccessibleModal({ onClose });
   const copy = locale === 'fr' ? { close: 'Fermer la vidéo', details: 'Voir le prompt et les réglages' }
     : locale === 'es' ? { close: 'Cerrar el video', details: 'Ver el prompt y los ajustes' }
+    : locale.startsWith('zh') ? { close: '关闭视频', details: '查看提示词与参数配置' }
     : { close: 'Close video', details: 'View prompt and settings' };
   return createPortal(<div className="compare-video-backdrop" onClick={event => { if (event.target === event.currentTarget) onClose(); }}>
     <section ref={dialogRef} className="compare-video-dialog" role="dialog" aria-modal="true" aria-labelledby={id} tabIndex={-1} onKeyDown={onDialogKeyDown}>

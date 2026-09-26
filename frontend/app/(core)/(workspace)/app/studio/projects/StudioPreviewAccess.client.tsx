@@ -76,7 +76,7 @@ export default function StudioPreviewAccess({ visitor = false }: { visitor?: boo
           <h1>{copy.title}</h1>
           <p className={styles.intro}>{copy.body}</p>
           <div className={styles.actions}>
-            <Link className={styles.primaryAction} href="/app" prefetch={false}>{locale === 'fr' ? 'Créer une vidéo' : locale === 'es' ? 'Crear un vídeo' : 'Create a video'}</Link>
+            <Link className={styles.primaryAction} href="/app" prefetch={false}>{locale === 'fr' ? 'Créer une vidéo' : locale === 'es' ? 'Crear un vídeo' : locale.startsWith('zh') ? '创作视频' : 'Create a video'}</Link>
             {visitor ? <Link href={buildLoginHref({ mode: 'signin', nextPath })} prefetch={false}>{locale === 'fr' ? 'Déjà invité ? Se connecter' : locale === 'es' ? '¿Ya tienes invitación? Inicia sesión' : 'Already invited? Sign in'}</Link> : null}
           </div>
           <p className={styles.note}><LockKeyhole className="mr-1 inline h-3 w-3" aria-hidden />{copy.status}. {copy.note}</p>

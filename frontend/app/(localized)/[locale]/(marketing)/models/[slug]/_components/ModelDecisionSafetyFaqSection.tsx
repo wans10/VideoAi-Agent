@@ -35,6 +35,11 @@ function getSafetyCopy(locale: AppLocale, modelName: string) {
       body: `Controles integrados y buenas prácticas para crear de forma responsable con ${modelName}.`,
     };
   }
+  if (locale.startsWith('zh')) {
+    return {
+      body: `内置防护机制与最佳实践，帮助您负责任地使用 ${modelName} 进行创作。`,
+    };
+  }
   return {
     body: `Built-in safeguards and best practices for responsible creation with ${modelName}.`,
   };

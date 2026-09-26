@@ -175,7 +175,7 @@ export default async function DocPage(props: { params: Promise<Params> }) {
     ...docs.filter((entry) => entry.slug !== doc.slug && !neighborDocs.some((neighbor) => neighbor.slug === entry.slug)),
   ].slice(0, 3);
   const overviewLabel =
-    locale === 'fr' ? 'Vue d’ensemble Docs' : locale === 'es' ? 'Resumen de Docs' : 'Docs overview';
+    locale === 'fr' ? 'Vue d’ensemble Docs' : locale === 'es' ? 'Resumen de Docs' : locale.startsWith('zh') ? '文档概览' : 'Docs overview';
   const availableLocales = await resolveDocLocales(doc.slug);
   const seo = resolveLocalizedFallbackSeo({
     locale,

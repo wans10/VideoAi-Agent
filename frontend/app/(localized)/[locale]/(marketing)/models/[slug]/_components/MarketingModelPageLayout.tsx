@@ -198,7 +198,9 @@ export function MarketingModelPageLayout({
         ? 'Silencieux'
         : locale === 'es'
           ? 'Sin audio'
-          : 'Silent'
+          : locale.startsWith('zh')
+            ? '静音'
+            : 'Silent'
       : resolveAudioPricingLabels(locale).on;
   const resolvedPrimaryCta = primaryCta;
   const normalizeCtaHref = (href?: string | null): LocalizedLinkHref | null => {

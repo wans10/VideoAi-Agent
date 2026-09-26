@@ -68,11 +68,12 @@ function heroExampleLabel(locale: AppLocale, name: string, family: HomepageExamp
   const familyLabel = family === 'ltx' ? 'LTX' : name;
   if (locale === 'fr') return `Voir les exemples ${familyLabel}`;
   if (locale === 'es') return `Ver ejemplos ${familyLabel}`;
+  if (locale.startsWith('zh')) return `查看 ${familyLabel} 示例`;
   return `View ${familyLabel} examples`;
 }
 
 function heroModelLabel(locale: AppLocale) {
-  return locale === 'fr' ? 'Caractéristiques et tarifs' : locale === 'es' ? 'Características y precios' : 'Specs & pricing';
+  return locale === 'fr' ? 'Caractéristiques et tarifs' : locale === 'es' ? 'Características y precios' : locale.startsWith('zh') ? '规格与价格' : 'Specs & pricing';
 }
 
 function buildHeroEngineLinks(locale: AppLocale, engineId: string, fallbackName: string): HeroEngineLinks {

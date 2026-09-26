@@ -24,6 +24,7 @@ function getDecisionMediaAlt(locale: AppLocale, altContext: string) {
   if (altContext.trim()) return altContext;
   if (locale === 'fr') return 'Aperçu du modèle';
   if (locale === 'es') return 'Vista previa de video del modelo';
+  if (locale.startsWith('zh')) return '模型视频预览';
   return 'Model video preview';
 }
 
@@ -80,7 +81,7 @@ export function ModelDecisionMediaCard({
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-[#242320] text-sm font-semibold text-white/70">
-            {locale === 'fr' ? 'Aucun aperçu disponible pour le moment.' : locale === 'es' ? 'Aún no hay una vista previa disponible.' : 'No preview available yet.'}
+            {locale === 'fr' ? 'Aucun aperçu disponible pour le moment.' : locale === 'es' ? 'Aún no hay una vista previa disponible.' : locale.startsWith('zh') ? '暂无可用预览。' : 'No preview available yet.'}
           </div>
         )}
 

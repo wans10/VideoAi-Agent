@@ -76,6 +76,7 @@ const SPEC_ICON_META: Record<KeySpecKey, { icon: typeof Check; tone: string }> =
 function getDetailsLabel(locale: AppLocale) {
   if (locale === 'fr') return 'Détails';
   if (locale === 'es') return 'Detalles';
+  if (locale.startsWith('zh')) return '详细参数';
   return 'Details';
 }
 
