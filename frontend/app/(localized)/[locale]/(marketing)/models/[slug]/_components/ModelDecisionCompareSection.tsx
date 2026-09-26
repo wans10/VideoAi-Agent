@@ -53,6 +53,7 @@ type ModelDecisionCompareSectionProps = {
 function getFocusSubtitle(locale: AppLocale) {
   if (locale === 'fr') return 'Deux versions, des besoins différents.';
   if (locale === 'es') return 'Dos versiones para necesidades distintas.';
+  if (locale === 'zh') return '两个版本，满足不同创作诉求。';
   return 'Two versions for different needs.';
 }
 
@@ -63,6 +64,9 @@ function getCompareIntro(locale: AppLocale) {
   if (locale === 'es') {
     return 'Compara precios, formatos y funciones de cada modelo antes de elegir.';
   }
+  if (locale === 'zh') {
+    return '在选定模型前，全方位对比价格、格式规格与核心功能。';
+  }
   return 'Compare prices, formats, and capabilities before choosing your model.';
 }
 
@@ -70,12 +74,16 @@ function getCardTitle({
   heroTitle,
   label,
   modelSlug,
+  locale,
 }: {
   heroTitle: string;
   label: string;
   modelSlug?: string | null;
+  locale?: AppLocale;
 }) {
-  return modelSlug === 'seedream' ? label : `${heroTitle} vs ${label}`;
+  if (modelSlug === 'seedream') return label;
+  if (locale === 'zh') return `${heroTitle} 对比 ${label}`;
+  return `${heroTitle} vs ${label}`;
 }
 
 export function ModelDecisionCompareSection({
@@ -189,7 +197,7 @@ export function ModelDecisionCompareSection({
                   : localizeModelsPath(entry.modelSlug ?? '');
                 const ctaLabel = canCompare ? entry.ctaLabel ?? compareCopy.ctaCompare(label) : compareCopy.ctaExplore(label);
                 const description = locale === 'en' ? entry.description || compareCopy.cardDescription(label) : compareCopy.cardDescription(label);
-                const cardTitle = canCompare ? getCardTitle({ heroTitle, label, modelSlug: entry.modelSlug }) : label;
+                const cardTitle = canCompare ? getCardTitle({ heroTitle, label, modelSlug: entry.modelSlug, locale }) : label;
                 return (
                   <article
                     key={entry.modelSlug}

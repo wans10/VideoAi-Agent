@@ -35,6 +35,11 @@ function getSafetyCopy(locale: AppLocale, modelName: string) {
       body: `Controles integrados y buenas prácticas para crear de forma responsable con ${modelName}.`,
     };
   }
+  if (locale === 'zh') {
+    return {
+      body: `内置安全规范与最佳实践，助您负责任地使用 ${modelName} 创作。`,
+    };
+  }
   return {
     body: `Built-in safeguards and best practices for responsible creation with ${modelName}.`,
   };
@@ -55,6 +60,14 @@ function getDecisionSafetyRules(locale: AppLocale) {
       'Evita personas reales, celebridades y personajes protegidos.',
       'No uses la imagen o parecido de una persona sin consentimiento.',
       'Evita franquicias, logos y propiedad intelectual protegida.',
+    ];
+  }
+  if (locale === 'zh') {
+    return [
+      '请使用原创角色及您拥有合法权限的参考素材。',
+      '避免使用真实人物、知名公众人物和受保护的角色形象。',
+      '未经许可严禁使用任何他人的肖像。',
+      '避免涉及受版权保护的特许品牌、标识 Logo 及受保护知识产权。',
     ];
   }
   return [

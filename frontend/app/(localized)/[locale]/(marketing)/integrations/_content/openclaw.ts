@@ -176,10 +176,73 @@ function spanish(): IntegrationText {
   };
 }
 
+function chinese(): IntegrationText {
+  const copy = english();
+  return {
+    ...copy,
+    metaTitle: 'MaxVideoAI 接入 OpenClaw | AI 视频创作',
+    metaDescription: '通过直连 MCP 或 ClawHub 将 OpenClaw 连接至 MaxVideoAI，在明确限制下进行 AI 视频的规划、定价、确认生成与结果取回。',
+    eyebrow: 'OPENCLAW AI 视频集成',
+    heroTitle: '在 OpenClaw 中使用 MaxVideoAI 创作 AI 视频',
+    heroIntro: '通过直接远程 MCP 服务器连接或从 ClawHub 安装 MaxVideoAI 1.0.0。已测试的 OpenClaw 流程涵盖 OAuth、任务规划、明确确认付费生成、任务恢复、撤销以及重新连接；私有参考素材导入与频道内直接渲染仍属于未验证范围。',
+    unavailable: 'OpenClaw 可通过直连 MCP 与收录的 ClawHub 软件包使用，并在产生扣费前要求明确授权。私有参考素材导入、频道附件及频道内直接渲染属于未验证范围。',
+    setupLabel: '连接 OpenClaw',
+    backLabel: '查看所有支持的工作流',
+    checkpointLabel: '测试检查点',
+    machineStatusLabel: '主机凭据状态',
+    statuses: { openclawGateway: '在 OpenClaw 2026.9.4 上测试（带有限制）：测试了 OAuth 拒绝与同意、模型发现、任务规划、单次明确付费确认、已接受任务恢复、权限撤销、重新连接、令牌刷新以及 ClawHub 安装。' },
+    setupEyebrow: '连接 OPENCLAW',
+    setupTitle: '配置远程 MCP，无需在配置中存储 MaxVideoAI 凭据',
+    setupIntro: 'OpenClaw 支持共享操作员 OAuth 与每个请求者独立身份模式。在连接前选择频道的身份隔离边界；两种模式均禁止在提示词或提交的代码中保存凭据。',
+    guides: [{
+      ...copy.guides[0],
+      title: '在 OpenClaw 中注册 MaxVideoAI',
+      intro: '通过带 OAuth 的生产 Streamable HTTP 端点进行保存，然后通过 OpenClaw MCP 命令启动浏览器授权。',
+      commandLabel: 'OpenClaw 验证命令',
+      setupValues: [{ label: 'MaxVideoAI MCP 端点', value: MCP_PRODUCTION_RESOURCE_URL }],
+      authTrigger: '保存服务器后，运行 openclaw mcp login maxvideoai。',
+      installInstruction: getIntegrationInstallInstruction('zh', 'openclawGateway'),
+      steps: [
+        { title: '选择身份模式', body: '仅在操作员独占 Agent 时使用共享 OAuth。当每个受信任发送者需要连接各自的 MaxVideoAI 账户时，请使用独立请求者 OAuth。' },
+        { title: '保存远程服务器', body: '将 HTTPS 端点注册为带 OAuth 的 Streamable HTTP。切勿将 Bearer Token 或密码添加到配置文件中。' },
+        { title: '认证与检查', body: '运行 login，在浏览器中完成授权，并在准备报价前检查账户状态与当前可用模型目录。' },
+      ],
+      limitation: '私有参考素材导入、频道附件和频道内内联渲染未通过验证。如果频道内无法渲染结果，请使用返回的 MaxVideoAI 素材库链接。',
+    }],
+    oauthTitle: '明确区分频道身份与 MaxVideoAI 账户身份',
+    oauthBody: '共享 OAuth 由操作员统一管理。独立请求者 OAuth 按受信任发送者隔离账户。无论哪种情况，均由浏览器处理 MaxVideoAI 登录和授权；对话中绝不会暴露密码或支付信息。',
+    oauthSteps: ['为部署选择共享或独立请求者身份模式', '在浏览器中完成 MaxVideoAI 登录与授权', '测试退出登录、权限失效观察以及显式重新登录'],
+    workflowEyebrow: '预期安全流程',
+    workflowTitle: '自主规划；仅在获得明确新授权后扣费',
+    workflowIntro: 'Agent 可以在准备具体的生成请求前发现模型、推荐方案并评估项目预算。生成报价不等于授权扣费。',
+    workflowSteps: [
+      { title: '发现与预算', body: '读取当前账户和模型详情，在不产生扣费的情况下对比并规划项目预算。' },
+      { title: '准备具体报价', body: '同时校验提示词、参数设置和参考素材，向用户展示短时有效的报价单。' },
+      { title: '要求明确授权', body: '仅确认用户明确同意的最新报价；绝不能从构思或预算对话中默许扣费。' },
+      { title: '获取已接受的任务', body: '超时后查询已接受任务的状态，并返回正规的结果或素材库链接，绝不重复提交扣费任务。' },
+    ],
+    referencesTitle: '将私有参考素材保留在 MaxVideoAI 托管流程中',
+    referencesPlanning: 'OpenClaw 可以协助构思参考素材需求，但当前支持的素材类型和规格上限由所选模型实时提供。',
+    referencesGated: 'OpenClaw 中的私有参考素材导入与频道附件尚未经过验证。请直接在 MaxVideoAI 中添加私有素材，并通过账户素材库和结果链接访问，避开未经测试的频道内渲染路径。',
+    helpEyebrow: '支持范围',
+    helpTitle: '已测试 OpenClaw 路径涵盖的内容',
+    helpIntro: '直连 MCP 和 ClawHub 软件包在以下特定边界内可用。',
+    helpItems: [
+      { question: 'MaxVideoAI 是否已上架 ClawHub？', answer: '是的。MaxVideoAI 1.0.0 已在 ClawHub 上架（@camgraphe）。该上架状态与直接 MCP 宿主验证分开管理。' },
+      { question: '所有渠道都支持相同的参考素材吗？', answer: '尚未声明对私有参考素材导入或渠道附件的兼容性。内联渠道渲染也仍属于未验证状态。' },
+      { question: '发生超时后该怎么处理？', answer: '通过任务 ID 取回已接受任务的状态；绝不要自动创建另一个付费生成任务。' },
+    ],
+    disconnectTitle: '断开 OpenClaw 连接并撤销 MaxVideoAI 授权',
+    disconnectBody: '在 OpenClaw 中删除或注销服务器会话，并在 MaxVideoAI 中撤销权限。重新连接需要重新在浏览器中确认授权。',
+    disconnectSteps: ['在 OpenClaw 中注销或删除服务器', '在 MaxVideoAI 账户连接设置中撤销授权', '在重新连接前确认访问已被有效阻断'],
+    supportLabel: '联系 MaxVideoAI 技术支持',
+  };
+}
+
 export function buildOpenClawIntegrationCopy(locale: AppLocale): IntegrationPageCopy {
   return buildIntegrationCopy({
     client: 'openclaw',
     locale,
-    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : english(),
+    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : locale === 'zh' ? chinese() : english(),
   });
 }

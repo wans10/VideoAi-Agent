@@ -22,7 +22,7 @@ function guides(locale: AppLocale, text: {
         { title: text.approval, body: text.limitation },
       ],
       commands: [],
-      setupValues: [{ label: locale === 'fr' ? 'Adresse MCP' : locale === 'es' ? 'Dirección MCP' : 'MCP endpoint', value: MCP_PRODUCTION_RESOURCE_URL }],
+      setupValues: [{ label: locale === 'zh' ? 'MCP 端点' : locale === 'fr' ? 'Adresse MCP' : locale === 'es' ? 'Dirección MCP' : 'MCP endpoint', value: MCP_PRODUCTION_RESOURCE_URL }],
       limitation: text.limitation,
     },
   ];
@@ -206,10 +206,70 @@ function spanish(): IntegrationText {
   };
 }
 
+function chinese(): IntegrationText {
+  const copy = english();
+  return {
+    ...copy,
+    metaTitle: '通过 n8n 与 MaxVideoAI 实现 AI 视频自动化',
+    metaDescription: '在测试验证过的自托管 n8n 部署中，通过 MaxVideoAI 和确定性 MCP Client 节点运行安全授权的 AI 视频工作流。',
+    eyebrow: 'N8N AI 视频自动化',
+    heroTitle: '使用 MaxVideoAI 在 n8n 中设计可复现的 AI 视频工作流',
+    heroIntro: '受支持的路径是在已测试的自托管 n8n 2.38.7 中使用确定性 MCP Client 节点。私有工作流（ID 19591）处于“待处理/审核中”；在平台限制新提交期间，另外两个候选流暂未提交。这并非公共官方模板。',
+    unavailable: '自托管的确定性 MCP Client 路径支持在确认前进行显式授权。n8n Cloud 以及通过 MCP Client Tool 调用的 AI Agent 不在支持范围内。',
+    setupLabel: '连接自托管 n8n',
+    backLabel: '查看所有支持的工作流',
+    checkpointLabel: '自托管检查点',
+    machineStatusLabel: '主机凭据状态',
+    statuses: {
+      n8nMcpClient: '已在自托管 n8n 2.38.7 上受限测试：通过纯净导入、项目级 OAuth、确定性规划、精确授权、单次确认、恢复与撤销验证。',
+      n8nMcpClientTool: '未执行：MCP Client Tool 1.4 导入了 5 个选定的规划工具，没有准备或确认工具。由于未配置 Chat Model 凭据，未执行 Agent 调用。',
+    },
+    setupEyebrow: '选择执行形态',
+    setupTitle: '在支持的工作流中使用确定性 MCP Client 步骤',
+    setupIntro: '经过测试的 MCP Client 路径通过 n8n 管理的 OAuth 凭据进行连接。独立的 AI Agent MCP Client Tool 配置暂未运行，且导出的模板中不包含任何凭据。',
+    guides: guides('zh', {
+      deterministicTitle: '用于确定性工作流步骤的 MCP Client',
+      deterministicIntro: '当工作流执行顺序和输入参数需要严格可控时，每个节点选择一个 MaxVideoAI 工具。',
+      select: '为 MaxVideoAI 端点创建 OAuth2 凭据，然后在节点中选择具体的工具和 JSON 输入。',
+      credential: '连接 OAuth 凭据',
+      approval: '将授权审核与准备流程分离',
+      limitation: '准备好的报价不会自动触发扣费。将批准事件与对应的 quoteId 匹配，仅确认该报价一次，并通过任务 ID 获取已接受的任务，避免重复确认。在 MaxVideoAI 上，相同报价的重复确认是幂等的。',
+    }),
+    oauthTitle: '凭据管理遵循受支持的 n8n 部署方式',
+    oauthBody: 'n8n 负责存储 OAuth 凭据；导出的工作流不包含 MaxVideoAI 令牌。自托管检查点涵盖了项目范围、浏览器同意、权限撤销和访问失效验证。Cloud、刷新和重新连接属于单独的核查项。',
+    oauthSteps: ['为远程 MCP 端点创建 OAuth2 凭据', '使用目标账户在浏览器中完成 MaxVideoAI 授权同意', '在特定的 n8n 部署环境中测试令牌刷新、权限撤销与重连'],
+    workflowEyebrow: '安全授权的自动化',
+    workflowTitle: '分离规划、准确报价、授权审核与结果恢复',
+    workflowIntro: '确定性节点让资金扣费边界清晰可见。AI Agent 工具可以辅助挑选和规划，但不会获得自动付费确认权限。',
+    workflowSteps: [
+      { title: '模型发现与预算', body: '读取当前模型能力并计算限定的项目预算，不产生任何扣费。' },
+      { title: '准备具体请求', body: '校验所选的提示词和参数设置，并保存生成的最新报价单。' },
+      { title: '等待人工审批', body: '展示准确的报价单，在最终确认前等待明确的人工审批事件。' },
+      { title: '确认一次并取回结果', body: '仅确认唯一获得批准的 quoteId，轮询或恢复已接受任务的状态，超时后切勿重新提交。' },
+    ],
+    referencesTitle: '私有参考素材自动化仍未经验证',
+    referencesPlanning: '三个审查过的 JSON 工作流均未调用 list_media 或 create_reference_upload_link。n8n 中的私有素材自动化仍未验证，不属于已发布范围。',
+    referencesGated: '切勿在导出的模板中添加带签名的素材链接、私有凭据或二进制数据。在声明支持私有素材前，必须具备单独记录的测试验证。',
+    helpEyebrow: '工作流安全',
+    helpTitle: '防止重复扣费与凭据泄露',
+    helpIntro: '经过测试的自托管确定性范围已在 MaxVideoAI 发布。仅私有工作流 19591 处于审核中，其余版本暂未提交至公共目录。',
+    helpItems: [
+      { question: '我应该使用哪个 n8n 节点？', answer: '使用 MCP Client 节点执行受支持的确定性步骤。用于 Agent 的 MCP Client Tool 暂未经测试且不支持。' },
+      { question: '它支持 n8n Cloud 吗？', answer: '不支持 n8n Cloud。目前测试并支持的范围是自托管 n8n 2.38.7。' },
+      { question: '可以自动确认扣费吗？', answer: '不可以。候选模板必须包含匹配最新 quoteId 的授权步骤。MaxVideoAI 确保同一报价单的确认具有幂等性。' },
+      { question: '轮询发生超时后该怎么处理？', answer: '恢复已接受任务的状态。不要将超时恢复引导回重复确认，也不要创建替代任务。' },
+    ],
+    disconnectTitle: '断开 n8n 与 MaxVideoAI 的连接',
+    disconnectBody: '在 n8n 中停用或删除 OAuth 凭据，并在 MaxVideoAI 账户连接中撤销授权。模板不包含凭据且无法自行重新连接。',
+    disconnectSteps: ['停用使用该凭据的工作流', '删除 n8n 中的凭据并撤销 MaxVideoAI 授权', '在创建新凭据前确认受保护节点已无法访问'],
+    supportLabel: '联系 MaxVideoAI 技术支持',
+  };
+}
+
 export function buildN8nIntegrationCopy(locale: AppLocale): IntegrationPageCopy {
   return buildIntegrationCopy({
     client: 'n8n',
     locale,
-    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : english(),
+    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : locale === 'zh' ? chinese() : english(),
   });
 }

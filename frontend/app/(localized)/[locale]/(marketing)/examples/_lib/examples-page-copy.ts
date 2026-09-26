@@ -14,7 +14,7 @@ export type ExamplesNextStepLink = {
 };
 
 export function getExamplesBrowseByModelLabel(locale: AppLocale) {
-  return locale === 'fr' ? 'Parcourir par marque' : locale === 'es' ? 'Explorar por modelo' : 'Browse by brand';
+  return locale === 'fr' ? 'Parcourir par marque' : locale === 'es' ? 'Explorar por modelo' : locale === 'zh' ? '按品牌浏览' : 'Browse by brand';
 }
 
 export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: PaginationDictionary = {}) {
@@ -41,16 +41,27 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
             audioAvailable: 'Audio disponible al reproducir',
             detailsCta: 'Ver ajustes y precio',
           }
-        : {
-            prev: 'Previous',
-            next: 'Next',
-            page: 'Page',
-            loadMore: 'Load more examples',
-            loading: 'Loading…',
-            noPreview: 'No preview',
-            audioAvailable: 'Audio available on playback',
-            detailsCta: 'View settings & price',
-          };
+        : locale === 'zh'
+          ? {
+              prev: '上一页',
+              next: '下一页',
+              page: '页码',
+              loadMore: '加载更多示例',
+              loading: '加载中…',
+              noPreview: '暂无预览',
+              audioAvailable: '播放时支持音频',
+              detailsCta: '查看设置与价格',
+            }
+          : {
+              prev: 'Previous',
+              next: 'Next',
+              page: 'Page',
+              loadMore: 'Load more examples',
+              loading: 'Loading…',
+              noPreview: 'No preview',
+              audioAvailable: 'Audio available on playback',
+              detailsCta: 'View settings & price',
+            };
 
   return {
     ...fallback,
@@ -68,6 +79,9 @@ export function getExamplesLongDescription(locale: AppLocale) {
   if (locale === 'es') {
     return 'Explora ejemplos de video IA por modelo. Abre un ejemplo para consultar su prompt, ajustes, duración y costo registrado de la generación, y después recréalo en tu espacio de trabajo.';
   }
+  if (locale === 'zh') {
+    return '按模型系列浏览 AI 视频示例。打开任意示例即可查看其提示词、参数设置、时长及已记录的渲染成本，随后即可在您的工作区中复现创作。';
+  }
   return 'Browse AI video examples by model. Open any example to inspect its prompt, settings, duration, and recorded render cost, then recreate it in your workspace.';
 }
 
@@ -78,6 +92,9 @@ export function getKlingExamplesSectionTitles(locale: AppLocale, isKlingLanding:
   }
   if (locale === 'es') {
     return ['Prompts de Kling AI para reutilizar', 'Patrones de imagen a video', 'Ajustes y elección del modelo'];
+  }
+  if (locale === 'zh') {
+    return ['可复用的 Kling AI 提示词', '图生视频提示词模板', '参数设置与模型选型'];
   }
   return ['Kling AI prompts to reuse', 'Image-to-video prompt patterns', 'Settings and model fit'];
 }
@@ -96,45 +113,59 @@ export function getExamplesModelPageLabels({
       ? 'Pages modèles concernées'
       : locale === 'es'
         ? 'Páginas de modelo relacionadas'
-        : 'Related model pages';
+        : locale === 'zh'
+          ? '相关模型页面'
+          : 'Related model pages';
   const currentModelPagesLabel =
     isKlingLanding
       ? locale === 'fr'
         ? 'Choisissez votre modèle Kling'
         : locale === 'es'
           ? 'Elige tu modelo Kling'
-          : 'Choose your Kling model'
+          : locale === 'zh'
+            ? '选择您的 Kling 模型'
+            : 'Choose your Kling model'
       : isLtxLanding
         ? locale === 'fr'
           ? 'Choisissez votre modèle LTX'
           : locale === 'es'
             ? 'Elige tu modelo LTX'
-            : 'Choose your LTX model'
+            : locale === 'zh'
+              ? '选择您的 LTX 模型'
+              : 'Choose your LTX model'
       : locale === 'fr'
         ? 'Pages modèles actuelles'
         : locale === 'es'
           ? 'Páginas de modelo actuales'
-          : 'Current model pages';
+          : locale === 'zh'
+            ? '当前模型页面'
+            : 'Current model pages';
   const supportedOlderVersionLabel =
     isKlingLanding
       ? locale === 'fr'
         ? 'Anciens modèles Kling encore pris en charge'
         : locale === 'es'
           ? 'Modelos Kling anteriores aún compatibles'
-          : 'Supported older Kling models'
+          : locale === 'zh'
+            ? '仍支持的早期 Kling 模型'
+            : 'Supported older Kling models'
       : isLtxLanding
         ? locale === 'fr'
           ? 'Modèles LTX plus anciens encore pris en charge'
           : locale === 'es'
             ? 'Modelos LTX anteriores aún compatibles'
-            : 'Supported older LTX models'
+            : locale === 'zh'
+              ? '仍支持的早期 LTX 模型'
+              : 'Supported older LTX models'
       : locale === 'fr'
         ? 'Version plus ancienne prise en charge'
         : locale === 'es'
           ? 'Versión anterior compatible'
-          : 'Supported older version';
+          : locale === 'zh'
+            ? '支持的早期版本'
+            : 'Supported older version';
   const pricingLinkLabel =
-    locale === 'fr' ? 'Comparer les tarifs' : locale === 'es' ? 'Comparar precios' : 'Compare pricing';
+    locale === 'fr' ? 'Comparer les tarifs' : locale === 'es' ? 'Comparar precios' : locale === 'zh' ? '对比价格' : 'Compare pricing';
 
   return {
     currentModelPagesLabel,
@@ -163,7 +194,7 @@ export function buildExamplesNextStepLinks({
   locale: AppLocale;
   pricingPath: string;
 }): ExamplesNextStepLink[] {
-  const compareLabel = locale === 'fr' ? 'Comparer' : locale === 'es' ? 'Comparar' : 'Compare';
+  const compareLabel = locale === 'fr' ? 'Comparer' : locale === 'es' ? 'Comparar' : locale === 'zh' ? '对比' : 'Compare';
   const family = familySlug ?? (isLtxLanding ? 'ltx' : isKlingLanding ? 'kling' : isSeedanceLanding ? 'seedance' : isVeoLanding ? 'veo' : '');
   // Lead with the current generation; retain selected historical comparisons for
   // visitors evaluating older examples. Published routes remain unchanged.
@@ -210,7 +241,7 @@ export function buildExamplesNextStepLinks({
     { href: buildModelHref(appLocale, 'seedance-2-5'), label: 'Seedance 2.5' },
     { href: buildModelHref(appLocale, 'minimax-h3'), label: 'MiniMax H3' },
     { href: buildCompareHref(appLocale, 'kling-3-pro-vs-seedance-2-5'), label: `${compareLabel} Kling 3 Pro vs Seedance 2.5` },
-    { href: pricingPath, label: locale === 'fr' ? 'Voir les tarifs' : locale === 'es' ? 'Ver precios' : 'View pricing' },
+    { href: pricingPath, label: locale === 'fr' ? 'Voir les tarifs' : locale === 'es' ? 'Ver precios' : locale === 'zh' ? '查看价格' : 'View pricing' },
   ];
 }
 
@@ -238,6 +269,18 @@ export function getExamplesMainVideoCopy(locale: AppLocale, familySlug?: string)
       openWatchPage: 'Abrir los detalles del video',
       audioOn: 'Audio activado',
       fullPrompt: 'Prompt completo',
+    };
+  }
+  if (locale === 'zh') {
+    return {
+      recreationHint: showRecreationHint
+        ? '从详情页中，您可以在工作区中复现此示例，添加您的参考素材并在生成前核对报价。'
+        : undefined,
+      preview: '预览',
+      openExample: '查看设置与价格',
+      openWatchPage: '查看视频详情',
+      audioOn: '音频已开启',
+      fullPrompt: '完整提示词',
     };
   }
   return {

@@ -99,6 +99,15 @@
               "blog": "博客",
               "get-started": "快速入门"
             }
+          },
+          "useCaseGuides": {
+            "items": {
+              "all-use-case-guides": "全部场景指南",
+              "cinematic-realism": "电影级写实",
+              "image-to-video": "图生视频",
+              "fast-drafts": "快速预览草稿",
+              "ads": "电商与营销广告"
+            }
           }
         }
       },
@@ -162,7 +171,18 @@
           "seedance-2-0-vs-seedance-2-0-fast": "Seedance 2.0 对比 Fast"
         },
         "heading": "双模型横评，决策更清晰。",
-        "intro": "全方位对比评测得分、视频效果、功能特性与生成成本。"
+        "intro": "全方位对比评测得分、视频效果、功能特性与生成成本。",
+        "sections": {
+          "useCaseGuides": {
+            "items": {
+              "best-for": "各场景最佳模型",
+              "cinematic-realism": "电影级写实",
+              "image-to-video": "图生视频",
+              "fast-drafts": "快速预览草稿",
+              "ads": "电商与营销广告"
+            }
+          }
+        }
       },
       "tools": {
         "items": {
@@ -1626,24 +1646,24 @@
   },
   "pricing": {
     "hero": {
-      "eyebrow": "MaxVideoAI Pricing",
+      "eyebrow": "MaxVideoAI 定价",
       "title": "按需付费 AI 视频生成",
       "subtitle": "告别昂贵订阅。挑选心仪模型，核对确切价格，仅为生成成功的任务买单。",
-      "supportingLine": "Pay as you go. Confirm the exact price in the app before generating. Failed generations are refunded.",
-      "quickStartTitle": "Three starting points for your next video",
-      "quickStartNote": "Indicative total per video, in USD. Select a scenario to see the full comparison. Confirm the live quote in the app before generating.",
-      "primaryCta": "Check a price in the app",
-      "secondaryCta": "Compare prices below",
+      "supportingLine": "按需计费。在生成前于应用内核对确切价格。生成失败自动全额退款。",
+      "quickStartTitle": "开启下个视频创作的三种精选方案",
+      "quickStartNote": "每条视频参考总价（美元）。选择场景查看完整对比。生成前可在应用中查看实时报价。",
+      "primaryCta": "在应用内查看价格",
+      "secondaryCta": "对比下方价格",
       "badges": [
         "无需订阅",
-        "Explore the app before signing up",
-        "Add credit when you need it",
-        "Failed generations are refunded"
+        "注册前可随时探索应用",
+        "按需随心充值点数",
+        "生成失败自动退款"
       ],
       "link": {
-        "before": "See how pricing compares across engines in our ",
-        "label": "AI video comparison",
-        "after": "."
+        "before": "在我们的 ",
+        "label": "AI 视频模型对比",
+        "after": " 中查看不同模型之间的价格差异。"
       }
     },
     "calculator": {
@@ -1651,46 +1671,46 @@
       "description": "以访客身份打开工作区计费面板，在渲染前精确计算特定模型、时长、分辨率与音频设置下的确切价格。",
       "cta": "打开工作区，生成前查看实时报价"
     },
-    "liveLabel": "Live",
-    "comingSoonLabel": "Coming soon",
+    "liveLabel": "已上线",
+    "comingSoonLabel": "即将推出",
     "estimator": {
-      "title": "Cost Estimator",
-      "subtitle": "Choose the engine, duration, and resolution to see pricing before you queue the generation. Charged only if it succeeds.",
-      "walletLink": "Want to see prices inside the app before you generate?",
-      "walletLinkCta": "Open workspace",
-      "chargedNote": "Charged only if the generation succeeds.",
-      "audioIncluded": "Audio included by default.",
-      "configureLabel": "Configure",
-      "durationRangeLabel": "Available",
-      "joinWaitlist": "Join waitlist",
-      "requestAccess": "Request access",
-      "audioLabel": "Audio",
-      "audioOn": "On",
-      "audioOff": "Off",
-      "audioHint": "Price updates when audio is toggled.",
+      "title": "费用估算器",
+      "subtitle": "选择模型、时长和分辨率，在提交生成队列前查看价格。仅在生成成功后扣除点数。",
+      "walletLink": "想在生成前于应用内查看完整价格？",
+      "walletLinkCta": "打开工作区",
+      "chargedNote": "仅在视频生成成功后扣除点数。",
+      "audioIncluded": "默认包含音频。",
+      "configureLabel": "配置参数",
+      "durationRangeLabel": "可选时长",
+      "joinWaitlist": "加入候补名单",
+      "requestAccess": "申请抢先体验",
+      "audioLabel": "音频",
+      "audioOn": "开启",
+      "audioOff": "关闭",
+      "audioHint": "切换音频选项时价格会自动更新。",
       "fields": {
-        "engine": "Engine",
+        "engine": "模型",
         "resolution": "分辨率",
-        "duration": "Duration (seconds)"
+        "duration": "时长（秒）"
       },
-      "engineLabel": "Engine",
+      "engineLabel": "模型",
       "estimateLabels": {
-        "heading": "Estimate",
-        "base": "Base",
-        "discount": "Discount"
+        "heading": "预估费用",
+        "base": "基准价",
+        "discount": "折扣优惠"
       },
       "descriptions": {
-        "sora-2": "Text/image remix with native audio.",
-        "veo-3-1": "Run text, start-image, reference, last-frame, and extend controls in one engine.",
-        "veo-3-1-fast": "Use Veo 3.1 Fast for quick text, start-image, last-frame, and extend passes.",
-        "veo-3-1-lite": "Use Veo 3.1 Lite for lower-cost text, start-image, and last-frame passes with audio always on.",
-        "pika-text-to-video": "Quick social loops with captions and remix-friendly settings.",
-        "minimax-hailuo-02-text": "Prompt-optimised drafts before the hero generation."
+        "sora-2": "支持原生音频的文生/图生创意重构。",
+        "veo-3-1": "一个模型同时支持文生、首帧、参考素材、尾帧及视频延长控制。",
+        "veo-3-1-fast": "使用 Veo 3.1 Fast 快速执行文生、首帧、尾帧和延长时间测试。",
+        "veo-3-1-lite": "使用 Veo 3.1 Lite 低成本生成文生、首帧和尾帧，音频全程默认开启。",
+        "pika-text-to-video": "适用于社交媒体的快节奏循环视频，带字幕且支持灵活二创。",
+        "minimax-hailuo-02-text": "正式渲染前，先通过提示词优化生成快速预览草稿。"
       },
-      "engineRateLabel": "Engine rate",
+      "engineRateLabel": "模型单价",
       "durationLabel": "时长",
       "resolutionLabel": "分辨率",
-      "perImageLabel": "Applies per generated image inside Generate."
+      "perImageLabel": "在创作中心内按单张生成的图像计费。"
     },
     "wallet": {
       "title": "钱包账户",
@@ -1701,30 +1721,30 @@
         "系统会自动显示适用于您设备和地区的银行卡及快捷支付方式。"
       ],
       "balanceLabel": "可用钱包余额",
-      "balanceHelper": "Open Billing to review your wallet balance and available top-up options.",
-      "autoTopUpLabel": "Wallet funding options in Billing",
-      "autoTopUpHint": "Available wallet controls are shown on the Billing page.",
-      "addLabel": "Add ${amount}",
+      "balanceHelper": "前往账单页面查看您的钱包余额和可选充值方案。",
+      "autoTopUpLabel": "账单页面的钱包充值选项",
+      "autoTopUpHint": "账单页面提供了当前可用的钱包管理功能。",
+      "addLabel": "充值 ${amount}",
       "topUpCta": "钱包充值",
       "cta": "前往充值页面"
     },
     "examples": {
-      "title": "Example costs",
-      "subtitle": "Realistic runs to help you plan. Prices update as engines evolve.",
+      "title": "生成成本示例",
+      "subtitle": "贴合真实制作场景的案例，便于您提前规划预算。价格会随模型升级保持动态更新。",
       "labels": {
-        "engine": "Engine",
+        "engine": "模型",
         "duration": "时长",
         "resolution": "分辨率",
-        "audio": "Audio"
+        "audio": "音频"
       },
       "cards": [
         {
-          "title": "Social clip (vertical)",
+          "title": "社交媒体竖屏短片",
           "engine": "Pika 2.2",
           "duration": "5s",
           "resolution": "1080×1920",
-          "audio": "Silent",
-          "note": "Charged only if it succeeds.",
+          "audio": "静音",
+          "note": "仅在生成成功后扣款。",
           "pricingScenario": {
             "engineId": "pika-text-to-video",
             "durationSec": 5,
@@ -1733,12 +1753,12 @@
           }
         },
         {
-          "title": "Cinematic test (landscape)",
+          "title": "电影级横屏实测",
           "engine": "Veo 3.1",
           "duration": "8s",
           "resolution": "1920×1080",
-          "audio": "Included",
-          "note": "Price before you generate.",
+          "audio": "包含音频",
+          "note": "生成前核对确切价格。",
           "pricingScenario": {
             "engineId": "veo-3-1",
             "durationSec": 8,
@@ -1747,12 +1767,12 @@
           }
         },
         {
-          "title": "Dialogue / narrative",
+          "title": "对白叙事片段",
           "engine": "Wan 2.6",
           "duration": "10s",
           "resolution": "1280×720",
-          "audio": "Optional",
-          "note": "Predictable narrative baseline with price before generation.",
+          "audio": "可选",
+          "note": "叙事创作的可控基准，生成前查看确切价格。",
           "pricingScenario": {
             "engineId": "wan-2-6",
             "durationSec": 10,
@@ -1860,8 +1880,8 @@
         "answer": "不一定相同。这三种工作流根据具体模型、输入素材规格、生成时长、分辨率以及是否开启音频或额外控制项，计费标准可能会有所差异。"
       }
     ],
-    "priceChipSuffix": "Price before you generate.",
-    "priceChipPrefix": "This render",
+    "priceChipSuffix": "生成前确切价格。",
+    "priceChipPrefix": "本次渲染预估",
     "meta": {
       "title": "AI 视频生成计费与模型价格对比 | MaxVideoAI",
       "description": "按模型、时长、分辨率与音频对比 AI 视频价格。查看 720p、1080p 与 4K 预设价格，进入工作区查看实时透明报价。"
@@ -2042,153 +2062,149 @@
         }
       ],
       "cta": {
-        "title": "Need a side-by-side?",
-        "before": "Read the ",
-        "comparisonLabel": "Sora vs Veo 对比 Pika comparison guide",
-        "middle": " for detailed quality notes, price ranges, and timing benchmarks, then clone any render from the ",
-        "examplesLabel": "examples gallery",
-        "after": " to start with a proven prompt."
+        "title": "需要横向评测对比？",
+        "before": "阅读 ",
+        "middle": " 了解详细成片画质、价格档位及实测耗时基准，或前往 ",
+        "examplesLabel": "生成案例画廊",
+        "after": "，使用经过验证的高质量提示词直接创作。",
+        "comparisonLabel": "AI 模型对比"
       }
     },
-    "cardCtaLabel": "View specs",
-    "cardAriaPrefix": "View specs",
+    "cardCtaLabel": "查看技术规格",
+    "cardAriaPrefix": "查看技术规格",
     "engineTypeLabels": {
-      "textImage": "Text + Image to Video",
-      "text": "Text to Video",
-      "imageVideo": "Image to Video",
-      "image": "图像模型",
-      "default": "AI Video Engine",
-      "video": "视频模型",
-      "preparation": "创作工具"
+      "textImage": "文生/图生视频",
+      "text": "文生视频",
+      "imageVideo": "图生视频",
+      "default": "AI 视频模型",
+      "image": "图像模型"
     },
     "availabilityLabels": {
+      "limited": "受限访问",
+      "paused": "维护中",
       "available": "现已可用",
-      "limited": "Limited access",
-      "waitlist": "等待名单",
-      "paused": "Paused",
-      "beta": "公测中",
-      "deprecated": "已弃用"
+      "waitlist": "加入候补"
     },
     "meta": {
       "sora-2": {
         "displayName": "OpenAI Sora 2",
-        "description": "Text-to-video and remix with native audio via managed routing.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "description": "通过托管路由实现支持原生音频的文生视频与多变体重构。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "v2"
       },
       "sora-2-pro": {
         "displayName": "OpenAI Sora 2 Pro",
-        "description": "Cinematic lip-sync with 1080p output and image-to-video control for premium teams.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "description": "影视级对口型、1080p 超清输出与精细化图生视频控制。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "Pro"
       },
       "veo-3-1": {
         "displayName": "Google Veo 3.1",
-        "description": "Reference stills, Generate Video from a start image, optional last-frame control, and extend in one model.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "description": "参考静帧、基于起始图像生成视频、可选尾帧及视频延长控制。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "Veo 3.1"
       },
       "veo-3-1-fast": {
         "displayName": "Google Veo 3.1 Fast",
-        "description": "Run fast text prompts, start-image animation, optional last-frame control, and extend workflows with optional audio.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
-        "versionLabel": "Veo 3.1 Fast"
+        "description": "快速执行文本提示词、起始图像动画以及可选的尾帧和延长测试。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
+        "versionLabel": "Veo 3.1 极速版"
       },
       "veo-3-1-lite": {
         "displayName": "Google Veo 3.1 Lite",
-        "description": "Lower-cost Veo passes for text prompts, start-image animation, and last-frame control with audio always on.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
-        "versionLabel": "Veo 3.1 Lite"
+        "description": "经济型 Veo 路线，支持文生视频与首尾帧控制，音频默认开启。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
+        "versionLabel": "Veo 3.1 轻量版"
       },
       "pika-text-to-video": {
-        "displayName": "Pika 2.2 · Text & Image to Video",
-        "description": "Social-first loops from prompts or uploaded stills with fast iteration.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "displayName": "Pika 2.2 · 文生与图生视频",
+        "description": "面向社交媒体的快节奏循环视频，支持静帧动画与快速迭代。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "2.2"
       },
       "minimax-hailuo-02-text": {
-        "displayName": "MiniMax Hailuo 02 Standard · Text & Image to Video",
-        "description": "Prompt optimiser-enabled drafts or reference-driven animation.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "displayName": "MiniMax Hailuo 02 标准版 · 文生与图生视频",
+        "description": "内置提示词优化的快速草稿或参考图驱动的动画生成。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "标准"
       },
       "ltx-2-fast": {
         "displayName": "LTX 2 Fast",
-        "description": "6–20s text or image to video with native audio, up to 4K.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "description": "6–20秒文生或图生视频，带原生音频，最高支持 4K。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "快速"
       },
       "ltx-2": {
         "displayName": "LTX 2",
-        "description": "High-fidelity 6–10s clips with audio, up to 4K at 25/50 fps.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "description": "高保真 6–10秒视频片段，带原生音频，最高支持 4K 25/50 fps。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "2"
       },
       "kling-2-6-pro": {
         "displayName": "Kling 2.6 Pro",
-        "description": "Cinematic short clips with native dialogue and ambience.",
-        "priceBefore": "Live pricing updates inside the Generate workspace.",
+        "description": "电影级短片镜头，支持原生对白与自然环境音。",
+        "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "v2.6 Pro"
       },
-      "title": "AI Video & Image Models: Specs, Limits & Pricing | MaxVideoAI",
-      "description": "Compare AI video and image models by price, max duration, resolution, audio support, input modes, examples, and workflow before generating on MaxVideoAI."
+      "title": "AI 视频与图像模型：技术规格、限制与定价 | MaxVideoAI",
+      "description": "在 MaxVideoAI 上生成前，全面对比 AI 视频与图像模型的价格、最大时长、分辨率、音频支持、输入模式、示例与工作流。"
     },
     "note": "",
     "detail": {
-      "backLabel": "← Back",
-      "renderLinkLabel": "View render →",
-      "examplesLinkLabel": "See 示例",
-      "pricingLinkLabel": "Compare pricing",
+      "backLabel": "← 返回",
+      "renderLinkLabel": "查看生成效果 →",
+      "examplesLinkLabel": "查看生成示例",
+      "pricingLinkLabel": "对比模型价格",
       "overviewTitle": "概览",
       "overview": {
-        "brand": "Brand",
-        "engineId": "Engine ID",
-        "slug": "Slug",
-        "logoPolicy": "Logo policy",
-        "platformPrice": "Live pricing updates inside the Generate workspace."
+        "brand": "品牌",
+        "engineId": "模型 ID",
+        "slug": "路径别名",
+        "logoPolicy": "商标政策",
+        "platformPrice": "可在创作工作台中实时查看最新价格。"
       },
       "logoPolicies": {
-        "logoAllowed": "Logo usage permitted",
-        "textOnly": "Text-only (wordmark)"
+        "logoAllowed": "允许使用商标 Logo",
+        "textOnly": "仅限文字标识（无图形商标）"
       },
-      "promptsTitle": "Prompt ideas",
+      "promptsTitle": "提示词灵感",
       "faqTitle": "常见问题",
       "buttons": {
-        "pricing": "Open Generate",
-        "launch": "Launch workspace"
+        "pricing": "打开创作空间",
+        "launch": "启动工作区"
       },
       "breadcrumb": {
-        "home": "Home",
+        "home": "首页",
         "models": "模型"
       },
-      "relatedModelCta": "View model →"
+      "relatedModelCta": "查看模型详情 →"
     },
     "listing": {
       "decision": {
-        "eyebrow": "AI video & image model directory",
-        "heroTitle": "Find the model for your next idea.",
-        "heroSubtitle": "Explore examples, compare capabilities and check the price before choosing a model.",
-        "primaryCta": "Browse models",
-        "secondaryCta": "Compare engines",
-        "topPicksTitle": "Recommended starting points",
-        "topPicksViewAll": "View all recommendations",
-        "useCasesTitle": "Choose the right model for your workflow",
-        "useCasesViewAll": "View all use cases",
-        "bestLabel": "Best",
-        "recommendedTitle": "Recommended starting points",
-        "recommendedSubtitle": "Start here if you want a quick shortlist before comparing every model by price, duration, resolution, and supported inputs.",
-        "recommendedSeeAll": "See all models",
-        "recommendedFromLabel": "From",
-        "recommendedDurationLabel": "Up to",
-        "recommendedResolutionLabel": "Max res.",
-        "allModelsTitle": "Browse AI engines by type",
-        "allModelsSubtitle": "Start with video generation, then switch to image generation or audio and lip sync without mixing engine families.",
-        "popularComparisonsTitle": "Not sure which AI video model to choose?",
-        "popularComparisonsSubtitle": "Compare popular model pairs side by side before generating.",
-        "compareHubLabel": "Compare hub",
-        "pricingLimitsTitle": "Compare pricing, duration, and output limits",
-        "pricingLimitsBody": "Video models are usually priced per second, while image models are priced per image or output size. Use the cards to compare starting price, max duration, resolution, audio support, and input modes before generating.",
-        "faqTitle": "AI model specs, pricing, and examples FAQ"
+        "eyebrow": "AI 视频与图像模型目录",
+        "heroTitle": "为您的下一个灵感找到最合适的模型。",
+        "heroSubtitle": "在选定模型前，探索生成示例、对比核心能力并核对价格。",
+        "primaryCta": "浏览模型",
+        "secondaryCta": "对比引擎",
+        "topPicksTitle": "精选推荐起点",
+        "topPicksViewAll": "查看全部推荐",
+        "useCasesTitle": "根据工作流选择最合适的模型",
+        "useCasesViewAll": "查看全部应用场景",
+        "bestLabel": "最佳",
+        "recommendedTitle": "精选推荐起点",
+        "recommendedSubtitle": "在按价格、时长、分辨率和输入格式全方位对比前，先从这几款精选模型开始。",
+        "recommendedSeeAll": "查看全部模型",
+        "recommendedFromLabel": "起价",
+        "recommendedDurationLabel": "最高时长",
+        "recommendedResolutionLabel": "最高分辨率",
+        "allModelsTitle": "按类型浏览 AI 模型",
+        "allModelsSubtitle": "从视频生成开始，随时切换至图像生成或音频与对口型工具，模型族谱清晰明了。",
+        "popularComparisonsTitle": "不确定该选哪款 AI 视频模型？",
+        "popularComparisonsSubtitle": "在生成前，并排对比热门模型在真实场景下的表现。",
+        "compareHubLabel": "对比中心",
+        "pricingLimitsTitle": "对比价格、时长与输出规格限制",
+        "pricingLimitsBody": "视频模型通常按秒计费，而图像模型按张或输出尺寸计费。在生成前，使用卡片对比起价、最大时长、分辨率、音频支持及输入模式。",
+        "faqTitle": "AI 模型规格、定价与示例常见问题"
       },
       "hero": {
         "title": "全部 AI 模型（技术规格、限制与定价）",
@@ -2296,7 +2312,7 @@
       "compareLabel": "模型对比",
       "compareTooltip": "选中以对比",
       "compareAria": "选择 {engine} 加入对比",
-      "strengthsLabel": "Strengths",
+      "strengthsLabel": "核心优势",
       "stats": {
         "from": "From",
         "maxDurShort": "最长时长",
@@ -2320,7 +2336,7 @@
         "sort": {
           "label": "排序方式",
           "options": {
-            "featured": "Featured",
+            "featured": "精选推荐",
             "score": "Score",
             "price": "Price",
             "duration": "时长",
@@ -2335,14 +2351,14 @@
             "t2v": "T2V",
             "i2v": "I2V",
             "v2v": "V2V",
-            "firstLast": "First/Last",
-            "extend": "Extend",
+            "firstLast": "首尾帧",
+            "extend": "视频延长",
             "lipSync": "口型同步",
             "audio": "Audio"
           }
         },
         "format": {
-          "label": "Format",
+          "label": "画幅格式",
           "options": {
             "720": "720p+",
             "1080": "1080p+",
@@ -2371,8 +2387,8 @@
         "age": {
           "label": "模型",
           "options": {
-            "latest": "Latest",
-            "legacy": "Legacy",
+            "latest": "最新一代",
+            "legacy": "早期模型",
             "all": "All"
           }
         },
@@ -2394,9 +2410,9 @@
         "examplesAria": "See {engine} prompt 示例"
       },
       "capabilityTooltips": {
-        "T2V": "Text-to-video",
-        "I2V": "Image-to-video",
-        "V2V": "Video-to-video",
+        "T2V": "文生视频",
+        "I2V": "图生视频",
+        "V2V": "视频生视频",
         "First/Last": "首帧 / 尾帧控制",
         "Extend": "视频延长 / 续写"
       },
@@ -2409,43 +2425,45 @@
         "textRendering": "文本与UI清晰度",
         "lipsyncQuality": "音频与口型同步",
         "sequencingQuality": "多镜头连贯性",
-        "controllability": "Controllability",
+        "controllability": "运镜可控性",
         "speedStability": "生成速度与稳定性",
         "pricing": "价格"
       },
       "valueSentence": {
-        "template": "Best for {useCase} with strong {strengths} in {capabilities} workflows.",
-        "strengthsFallback": "reliable outputs",
-        "capabilityFallback": "AI video",
+        "template": "最适合{useCase}，在{capabilities}方面具有突出的{strengths}",
+        "strengthsFallback": "稳定的成片效果",
+        "capabilityFallback": "AI 视频",
         "conjunction": "and",
         "useCases": {
-          "sora-2": "cinematic scenes and character continuity",
-          "sora-2-pro": "studio-grade cinematic shots and hero scenes",
-          "veo-3-1": "ad-ready shots with references, last-frame control, and extend",
-          "veo-3-1-fast": "fast ad cuts with start-image, last-frame, and extend control",
-          "kling-2-6-pro": "motion-realistic cinematic clips",
-          "kling-2-5-turbo": "fast iterations with stable prompt adherence",
-          "wan-2-6": "structured prompts with clean transitions",
-          "wan-2-5": "budget-friendly prompt testing",
-          "pika-text-to-video": "stylized social-first clips",
-          "ltx-2": "fast iteration with responsive motion",
-          "ltx-2-fast": "rapid testing and quick iteration",
-          "minimax-hailuo-02-text": "budget-friendly concept tests",
-          "nano-banana": "storyboards and still-first workflows",
-          "nano-banana-pro": "campaign stills and typography-focused edits",
-          "nano-banana-2": "grounded stills and wide-format image edits"
+          "sora-2": "电影级镜头与角色连贯性",
+          "sora-2-pro": "影棚级电影镜头与核心叙事大片",
+          "veo-3-1": "带参考素材、尾帧控制与延长功能的商业广告级成片",
+          "veo-3-1-fast": "具备首帧、尾帧与延长控制的快速广告剪辑",
+          "kling-2-6-pro": "动态逼真的电影级镜头短片",
+          "kling-2-5-turbo": "提示词高度遵循的高速迭代测试",
+          "wan-2-6": "转场干净、结构分明的连贯提示词生成",
+          "wan-2-5": "高性价比的经济型提示词探索",
+          "pika-text-to-video": "极具风格化的社交媒体快节奏短片",
+          "ltx-2": "动态响应灵敏的高速迭代镜头",
+          "ltx-2-fast": "敏捷测试与快速出片",
+          "minimax-hailuo-02-text": "预算友好的前期概念快速验证",
+          "nano-banana": "分镜故事板与静态图片优先的工作流",
+          "nano-banana-pro": "广告活动主视觉与侧重排版字体的精修图",
+          "nano-banana-2": "写实静止画面与宽幅图像精修"
         },
         "capabilityKeywords": {
-          "T2V": "text-to-video",
-          "I2V": "image-to-video",
-          "V2V": "video-to-video",
-          "Lip sync": "lip sync",
-          "Audio": "native audio",
-          "First/Last": "first/last frame control",
-          "Extend": "extend workflows"
+          "T2V": "文生视频",
+          "I2V": "图生视频",
+          "V2V": "视频生视频",
+          "Lip sync": "对口型",
+          "Audio": "原生音频",
+          "First/Last": "首尾帧控制",
+          "Extend": "视频延长工作流"
         }
       }
-    }
+    },
+    "title": "AI 视频与图像模型：技术规格、限制与定价 | MaxVideoAI",
+    "description": "在 MaxVideoAI 上生成前，全面对比 AI 视频与图像模型的价格、最大时长、分辨率、音频支持、输入模式、示例与工作流。"
   },
   "aiVideoEngines": {
     "meta": {
@@ -6849,7 +6867,7 @@
   "comparePage": {
     "meta": {
       "title": "{left} 对比 {right} — Specs & Pricing | MaxVideoAI",
-      "titleFallback": "AI video engines — Specs & Pricing | MaxVideoAI",
+      "titleFallback": "AI 视频模型：技术规格与定价对比 | MaxVideoAI",
       "description": "Compare {left} 对比 {right} on MaxVideoAI with key specs, and a scorecard across 11 criteria.",
       "slugOverrides": {
         "kling-2-6-pro-vs-ltx-2": {
@@ -6953,15 +6971,15 @@
           "description": "Compare LTX 2.3 Fast 对比 Seedance 2.0 Fast on MaxVideoAI by fast draft speed, specs, pricing, and output quality."
         }
       },
-      "descriptionFallback": "Side-by-side comparison of AI video engines with MaxVideoAI metrics and guidance."
+      "descriptionFallback": "在 MaxVideoAI 上全方位并排对比各款 AI 视频模型的成片画质、控制能力、技术规格与价格。"
     },
     "hero": {
       "back": "返回模型对比",
       "kicker": "模型横评对比",
-      "intro": "Compare {left} and {right} by quality, controls, pricing and a scorecard across 11 criteria. Explore each model’s examples and full specifications.",
-      "introPrelaunch": "Compare {left} and {right} by announced capabilities, available pricing and provisional scores. Availability and specifications may change before launch.",
-      "takeawaysTitle": "Key takeaways",
-      "lastUpdatedLabel": "Last updated",
+      "intro": "全方位对比 {left} 与 {right} 的成片质量、控制选项、生成价格及上述性能评测数据。",
+      "introPrelaunch": "根据官方公布的核心功能、可用状态及上述规格参数，对比 {left} 与 {right}。",
+      "takeawaysTitle": "核心评测结论",
+      "lastUpdatedLabel": "最近更新时间",
       "matchup": "模型对决",
       "vs": "对比",
       "quickSelectLabel": "快速选择模型对比：",
@@ -6976,12 +6994,12 @@
     "scorecard": {
       "title": "全方位评测得分",
       "subtitle": "基于画质、动态、音频与性价比等 11 个维度的深度评分对比。",
-      "provisionalNote": "Pre-launch scores are provisional and will update once runtime renders and final pricing are available.",
-      "strengthsLabel": "Strengths",
-      "winnerSummary": "At a glance",
-      "winnerSummaryPrelaunch": "Current leader (pre-launch)",
-      "generateWith": "Generate with {engine}",
-      "fullProfile": "Full engine profile",
+      "provisionalNote": "预发布模型的评分为临时预估值，将在实际开放调用后基于实测数据同步更新。",
+      "strengthsLabel": "核心优势",
+      "winnerSummary": "速览概括",
+      "winnerSummaryPrelaunch": "当前领先（预发布）",
+      "generateWith": "使用 {engine} 生成",
+      "fullProfile": "完整模型主页",
       "overallScore": "综合评分",
       "criteriaLabel": "评测维度",
       "tieLabel": "持平",
@@ -6989,53 +7007,53 @@
       "confidenceTooltip": "基于标准化基准测试套件评定"
     },
     "labels": {
-      "pending": "Data pending",
-      "supported": "Supported",
-      "notSupported": "Not supported",
+      "pending": "数据验证中",
+      "supported": "支持",
+      "notSupported": "不支持",
       "na": "N/A",
       "prompt": "提示词",
-      "tryPrompt": "Try this prompt:",
-      "tryPromptPrelaunch": "Prompt actions:",
-      "opensGenerator": "Opens the generator pre-filled.",
-      "opensGeneratorPrelaunch": "Use these prompt links for planning; pre-launch engines unlock at launch.",
-      "savePromptForLaunch": "Save this prompt for launch",
-      "whatTests": "What it tests",
-      "placeholder": "Placeholder example — prompt render coming soon",
-      "copyPrompt": "Copy prompt",
+      "tryPrompt": "试用此提示词：",
+      "tryPromptPrelaunch": "提示词操作：",
+      "opensGenerator": "一键将参数与提示词载入工作区。",
+      "opensGeneratorPrelaunch": "使用这些提示词链接进行前期规划；预发布模型上线后即可直接调用。",
+      "savePromptForLaunch": "保存此提示词以便上线时使用",
+      "whatTests": "评测重点",
+      "placeholder": "占位示例 — 实测渲染成片即将上线",
+      "copyPrompt": "复制提示词",
       "copied": "已复制",
-      "expandPrompt": "Show full prompt",
-      "collapsePrompt": "Hide full prompt"
+      "expandPrompt": "展开完整提示词",
+      "collapsePrompt": "收起提示词"
     },
     "keySpecs": {
       "title": "核心技术规格对比",
       "subtitle": "两款模型的关键参数、时长限制与输出格式对比。",
-      "keyLabel": "Key spec",
-      "latencyNote": "Observed production times over 30 days; settings and queues vary. P90 means 90% of measured renders finished within this time. These are not controlled speed tests.",
-      "latencySource": "Measurement method and limitations",
+      "keyLabel": "关键规格",
+      "latencyNote": "基于过去 30 天实测生产耗时；参数设置与服务器队列可能影响实际速度。",
+      "latencySource": "测算方法与限制说明",
       "bestForLabel": "最佳应用场景",
       "pricingTierLabel": "计费模式",
       "availabilityLabel": "当前状态"
     },
     "specLabels": {
       "pricing": "预估价格",
-      "textToVideo": "Text-to-Video",
-      "imageToVideo": "Image-to-Video",
-      "videoToVideo": "Video-to-Video",
+      "textToVideo": "文生视频 (Text-to-Video)",
+      "imageToVideo": "图生视频 (Image-to-Video)",
+      "videoToVideo": "视频生视频 (Video-to-Video)",
       "firstLastFrame": "首尾帧控制",
-      "referenceImageStyle": "Reference image / style reference",
-      "referenceVideo": "Reference video",
+      "referenceImageStyle": "参考图 / 风格参考",
+      "referenceVideo": "参考视频",
       "maxResolution": "最高分辨率",
       "maxDuration": "最长时长",
       "aspectRatios": "支持宽高比",
-      "fpsOptions": "FPS options",
-      "outputFormats": "Output format",
-      "audioOutput": "Audio output",
-      "nativeAudioGeneration": "Native audio generation",
-      "lipSync": "Lip sync",
-      "cameraMotionControls": "Camera / motion controls",
-      "watermark": "Watermark",
-      "avgRenderTime": "Avg render time",
-      "observedMedian": "Observed median (30 days)",
+      "fpsOptions": "帧率选项",
+      "outputFormats": "输出格式",
+      "audioOutput": "音频输出",
+      "nativeAudioGeneration": "原生音频生成",
+      "lipSync": "对口型",
+      "cameraMotionControls": "运镜与动态控制",
+      "watermark": "水印",
+      "avgRenderTime": "平均渲染时长",
+      "observedMedian": "30天实测中位数",
       "modes": "输入模式",
       "audio": "音频生成",
       "cameraControl": "运镜控制",
@@ -7047,9 +7065,9 @@
     "showdown": {
       "title": "同题实测画廊",
       "subtitle": "输入完全相同的提示词，直观对比两款模型的成片表现。",
-      "subtitlePrelaunch": "Side-by-side prompts and renders (when available) on MaxVideoAI. Prompts are identical; outputs may vary by model.",
-      "note": "Showing up to 3 prompt pairs for clarity.",
-      "footer": "Explore each model’s examples to understand its visual possibilities. The galleries use different prompts and settings; they are not a controlled video test.",
+      "subtitlePrelaunch": "在 MaxVideoAI 上并排展示相同提示词的渲染效果（如可用）。提示词完全相同，实际成片因模型而异。",
+      "note": "为保持清晰直观，最多展示 3 组提示词对比。",
+      "footer": "探索各模型的生成案例以了解其视觉表现力。各案例使用不同的提示词和参数设置，非严格控制变量测试。",
       "promptLabel": "测试提示词",
       "settingsLabel": "生成参数",
       "leftEngineLabel": "{engine} 输出",
@@ -7059,638 +7077,596 @@
     },
     "prelaunch": {
       "title": "未上线模型状态说明",
-      "notice": "At least one engine on this page is pre-launch. Runtime renders are not available yet; final pricing and outputs are confirmed at launch.",
+      "notice": "本页面中至少有一款模型处于预发布阶段。目前暂不支持实时渲染；最终定价与成片输出将在正式上线时确定。",
       "body": "该模型目前暂未开放公共 API。当前评分基于官方演示、白皮书技术指标与受限封闭内测生成样本综合推导。"
     },
     "faq": {
       "title": "常见问题",
-      "subtitle": "Quick answers about {left} 对比 {right} on MaxVideoAI (pricing, modes, specs, and why results differ).",
-      "validating": "still being validated",
-      "pricingDiff": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} 对比 {right} starts at {rightValue}.",
-      "capabilityDiff": "{label}: {left} is {leftValue} 对比 {right} is {rightValue}.",
-      "capabilityPending": "{label}: both are {status}.",
-      "outputDiff": "{label}: {left} is {leftValue} 对比 {right} is {rightValue}.",
-      "outputPending": "{label}: data is still being validated for one or both engines.",
-      "capabilityLabel": "Capability",
-      "outputLabel": "Max resolution",
-      "q1": "What are {left} and {right}?",
-      "a1": "{left} and {right} are AI video generation engines available on MaxVideoAI. This page compares them side-by-side using the same prompts, key specs, and performance data shown above.",
-      "q2": "Which is better: {left} or {right}?",
-      "a2": "It depends on your workflow. Use the scorecard and the “same prompt” showdowns to compare prompt adherence, motion realism, human fidelity, and text legibility — then open each engine profile for full details.",
-      "q3": "Which is cheaper on MaxVideoAI?",
-      "a3": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (MaxVideoAI)” for details).",
-      "q4": "What are the biggest differences between {left} and {right}?",
-      "q5": "Can I start from text, an image or a video?",
-      "a5": "On MaxVideoAI: Text-to-Video is {t2vLeft} vs {t2vRight}; Image-to-Video is {i2vLeft} vs {i2vRight}; Video-to-Video is {v2vLeft} 对比 {v2vRight}. Some fields may still be under validation.",
-      "q6": "Can I use start and end frames or references?",
-      "a6": "First/Last frame is {firstLeft} vs {firstRight}. Reference image/style is {refImgLeft} vs {refImgRight}; Reference video is {refVidLeft} 对比 {refVidRight}.",
-      "q7": "What resolutions, durations and aspect ratios are available?",
-      "a7": "Max output is {resLeft} / {durLeft} for {left} and {resRight} / {durRight} for {right}. Supported aspect ratios include {arLeft} 对比 {arRight} (see Key Specs for the full list).",
-      "q8": "Can the models generate audio and lip sync?",
-      "a8": "Audio output is {audioOutLeft} vs {audioOutRight}. Native audio generation is {audioGenLeft} vs {audioGenRight}, and lip sync is {lipLeft} 对比 {lipRight} (some fields may still be under validation).",
-      "q9": "Does MaxVideoAI add a watermark?",
-      "a9": "No. MaxVideoAI exports are watermark-free (“Watermark: No (MaxVideoAI)”).",
-      "q10": "Why do results look different with the same prompt?",
-      "a10": "Even with identical prompts, models interpret instructions differently and use different training data and generation strategies. That’s why the Showdown section exists: same prompt, side-by-side outputs.",
-      "q11": "Where can I find full specs, controls, and more prompt examples?",
-      "a11": "Open the full engine profiles for complete specs, controls, and more prompts: /models/{leftSlug} and /models/{rightSlug}. You can also browse more outputs in the engine galleries."
+      "subtitle": "关于 {left} 与 {right} 在 MaxVideoAI 上的快速解答（定价、生成模式、技术规格及生成差异原因）。",
+      "validating": "仍在验证中",
+      "pricingDiff": "定价因模型及参数设置（时长、分辨率、音频）而异。目前 {left} 起价为 {leftValue}，而 {right} 起价为 {rightValue}。",
+      "capabilityDiff": "{label}：{left} 为 {leftValue}，{right} 为 {rightValue}。",
+      "capabilityPending": "{label}：两款模型均处于 {status} 状态。",
+      "outputDiff": "{label}：{left} 为 {leftValue}，{right} 为 {rightValue}。",
+      "outputPending": "{label}：一个或两个模型的数据仍在验证中。",
+      "capabilityLabel": "核心功能",
+      "outputLabel": "最高分辨率",
+      "q1": "{left} 与 {right} 分别是什么？",
+      "a1": "{left} 与 {right} 是 MaxVideoAI 上提供的 AI 视频生成模型。本页面基于相同的提示词、核心规格及上述性能数据，对它们进行并排横向评测。",
+      "q2": "{left} 和 {right} 哪个更好？",
+      "a2": "这取决于您的工作流诉求。使用评分卡和“同题实测”对比提示词遵循度、动态真实感、人物保真度与文字辨识度 — 然后打开各个模型主页查看详细参数。",
+      "q3": "在 MaxVideoAI 上哪个模型更便宜？",
+      "a3": "计费因模型及具体设置（时长、分辨率、音频）而异。目前 {left} 起价为 {leftValue}，{right} 起价为 {rightValue}（详见上方“价格”一栏）。",
+      "q4": "{left} 与 {right} 之间最大的区别是什么？",
+      "q5": "它们支持文生视频、图生视频或视频生视频吗？",
+      "a5": "在 MaxVideoAI 上：文生视频为 {t2vLeft} 对比 {t2vRight}；图生视频为 {i2vLeft} 对比 {i2vRight}；视频生视频为 {v2vLeft} 对比 {v2vRight}。部分特性可能仍在测试验证中。",
+      "q6": "是否支持首尾帧控制或参考素材？",
+      "a6": "首尾帧控制为 {firstLeft} 对比 {firstRight}。参考图/风格参考为 {refImgLeft} 对比 {refImgRight}；参考视频为 {refVidLeft} 对比 {refVidRight}。",
+      "q7": "支持哪些分辨率、时长和宽高比？",
+      "a7": "{left} 最大输出为 {resLeft} / {durLeft}，{right} 最大输出为 {resRight} / {durRight}。支持的宽高比包括 {arLeft} 对比 {arRight}（完整列表请参阅技术规格）。",
+      "q8": "模型是否支持原生音频生成和对口型？",
+      "a8": "音频输出为 {audioOutLeft} 对比 {audioOutRight}。原生音频生成为 {audioGenLeft} 对比 {audioGenRight}，对口型为 {lipLeft} 对比 {lipRight}（部分参数仍在验证中）。",
+      "q9": "MaxVideoAI 会在视频中添加水印吗？",
+      "a9": "不会。MaxVideoAI 导出的所有视频均为无水印纯净版（“水印：无 (MaxVideoAI)”）。",
+      "q10": "为什么相同提示词在不同模型上的效果会有所差异？",
+      "a10": "即使使用相同的提示词，各模型对指令的理解、训练数据偏向及生成策略也不尽相同。这也是同题实测画廊存在的意义：相同提示词，直观展示两款模型的成片差异。",
+      "q11": "在哪里可以查阅完整规格、控制选项和更多提示词示例？",
+      "a11": "打开完整的模型主页查看全部规格、运镜控制和更多提示词：/models/{leftSlug} 与 /models/{rightSlug}。您也可以在模型画廊中浏览更多生成作品。"
     },
     "summary": {
-      "scorecardLabel": "Leads on scorecard",
-      "scorecardLabelPrelaunch": "Currently leads on scorecard (provisional)",
-      "pricingLabel": "Cheaper on MaxVideoAI",
-      "durationLabel": "Max duration",
-      "scorecardTemplate": "Leads on scorecard: {engine} leads on {wins}/{total}{best}.",
-      "scorecardTemplatePrelaunch": "Currently leads on scorecard (provisional): {engine} leads on {wins}/{total}{best}.",
-      "pricingTemplate": "Cheaper: {engine} ({pricing}).",
-      "durationTemplate": "Max duration: {engine} ({duration}).",
-      "specTemplate": "{label}: {engine} ({leftValue} 对比 {rightValue}).",
-      "resolutionTemplate": "Max resolution: {engine} ({leftValue} 对比 {rightValue}).",
-      "bestLabel": "best"
+      "scorecardLabel": "评分领先",
+      "scorecardLabelPrelaunch": "目前评分领先（预估）",
+      "pricingLabel": "在 MaxVideoAI 上更实惠",
+      "durationLabel": "最长时长",
+      "scorecardTemplate": "综合评分领先：{engine} 在 {wins}/{total} 项指标中领先{best}。",
+      "scorecardTemplatePrelaunch": "目前评分领先（预估）：{engine} 在 {wins}/{total} 项指标中领先{best}。",
+      "pricingTemplate": "更实惠：{engine} ({pricing})。",
+      "durationTemplate": "最长时长：{engine} ({duration})。",
+      "specTemplate": "{label}：{engine} ({leftValue} 对比 {rightValue})。",
+      "resolutionTemplate": "最高分辨率：{engine} ({leftValue} 对比 {rightValue})。",
+      "bestLabel": "（最佳）"
     },
     "metrics": {
       "prompt_adherence": {
-        "label": "Prompt Adherence",
-        "tooltip": "prompt alignment / instruction following"
+        "label": "提示词遵循度",
+        "tooltip": "提示词对齐度 / 指令理解与执行"
       },
       "visual_quality": {
-        "label": "Visual Quality",
-        "tooltip": "image quality / aesthetic quality / realism / artifacts / flicker"
+        "label": "画面画质",
+        "tooltip": "画质清晰度 / 审美构图 / 写实度 / 瑕疵与闪烁抑制"
       },
       "motion_realism": {
-        "label": "Motion Realism",
-        "tooltip": "motion smoothness / physics plausibility"
+        "label": "动态真实感",
+        "tooltip": "运动平滑度 / 物理规律合理性"
       },
       "temporal_consistency": {
-        "label": "Temporal Consistency",
-        "tooltip": "temporal coherence / identity consistency"
+        "label": "时间连贯性",
+        "tooltip": "帧间连续性 / 主体一致性"
       },
       "human_fidelity": {
-        "label": "Human Fidelity",
-        "tooltip": "faces / hands / body realism"
+        "label": "人物保真度",
+        "tooltip": "面部、手部与人体结构真实感"
       },
       "text_ui_legibility": {
-        "label": "Text & UI Legibility",
-        "tooltip": "text rendering / readability"
+        "label": "文字与 UI 辨识度",
+        "tooltip": "文字渲染与排版可读性"
       },
       "audio_lip_sync": {
-        "label": "Audio & Lip Sync",
-        "tooltip": "lip sync quality / dialogue sync"
+        "label": "音频与对口型",
+        "tooltip": "对口型自然度 / 对白音画同步"
       },
       "multi_shot_sequencing": {
-        "label": "Multi-Shot Sequencing",
-        "tooltip": "shot-to-shot continuity / multi-shot"
+        "label": "多镜头分镜连贯性",
+        "tooltip": "镜头切换连续性 / 叙事分镜能力"
       },
       "controllability": {
-        "label": "Controllability",
-        "tooltip": "camera control / constraint following"
+        "label": "可控性",
+        "tooltip": "运镜控制 / 约束条件遵循"
       },
       "speed_stability": {
-        "label": "Speed & Stability",
-        "tooltip": "latency / success rate"
+        "label": "生成速度与稳定性",
+        "tooltip": "生成延迟 / 任务成功率"
       },
       "pricing": {
         "label": "价格",
-        "tooltip": "price per second / credits / estimated cost"
+        "tooltip": "每秒单价 / 点数消耗 / 预估成本"
       }
     },
     "breadcrumb": {
-      "root": "Comparisons",
+      "root": "模型对比",
       "home": "首页",
       "compare": "模型对比"
     },
     "related": {
       "title": "其他热门模型对比",
-      "subtitle": "Explore a few more popular side-by-side matchups."
+      "subtitle": "探索更多热门模型的横向评测。"
     }
   },
   "toolMarketing": {
     "hub": {
       "meta": {
-        "title": "AI Pre-Production Tools for Image & Video Workflows",
-        "description": "Build reusable character references and stronger first frames before you generate. Explore MaxVideoAI tools for consistent character creation and AI camera angle control.",
+        "title": "AI 前期制作工具箱：图像与视频工作流 | MaxVideoAI",
+        "description": "在生成视频前构建可复用的角色参考素材与更具表现力的起始首帧。探索用于一致性角色创作和 AI 镜头视角控制的 MaxVideoAI 专业工具。",
         "keywords": [
-          "ai pre production tools",
-          "image to video workflow tools",
-          "consistent character ai",
-          "change camera angle ai",
-          "first frame for ai video"
+          "AI 前期制作工具",
+          "图生视频工作流工具",
+          "AI 角色一致性",
+          "AI 调整镜头角度",
+          "AI 视频首帧制作"
         ]
       },
       "hero": {
-        "badge": "MaxVideoAI Tools",
-        "title": "Shape the next part of your story.",
-        "body": "Build a character, change the camera angle, refine an image or finish a video. Choose what your scene needs.",
-        "primaryCta": "Consistent Character AI",
-        "secondaryCta": "Change Camera Angle with AI"
+        "badge": "MaxVideoAI 工具集",
+        "title": "构筑您故事的下一个精彩画面。",
+        "body": "打造角色、切换摄像机视角、优化图像画质或完善成片视频。按镜头需求自由挑选。",
+        "primaryCta": "AI 角色一致性生成",
+        "secondaryCta": "AI 调整镜头角度"
       },
       "cards": {
         "image": {
           "eyebrow": "生成图像",
-          "title": "Create the still first",
-          "body": "Start the frame in Image before you branch into edits, references, or motion.",
-          "cta": "Open Image",
-          "imageAlt": "Still image generated in the MaxVideoAI Image workspace before video."
+          "title": "先定格关键静帧",
+          "body": "在图像工作区中生成基础画幅，再衍生出编辑、参考图或动态视频。",
+          "cta": "打开图像工具",
+          "imageAlt": "在生成视频前于 MaxVideoAI 图像工作区中生成的静态图片。"
         },
         "character": {
-          "eyebrow": "Character consistency",
-          "title": "Create reusable character references",
-          "body": "Turn one image into an 8-panel character sheet with 4 full-body angles and 4 close-ups, or create a portrait anchor before you branch into scenes, prompts, and motion.",
-          "cta": "Explore Tool",
-          "imageAlt": "Character Builder workspace screenshot from MaxVideoAI."
+          "eyebrow": "角色一致性",
+          "title": "创建可复用的角色参考素材",
+          "body": "将单张图片转化为包含 4 个全身角度与 4 个特写的 8 宫格角色三视图，或固定肖像锚点，以便在不同分镜、提示词与动态中保持一致。",
+          "cta": "探索工具",
+          "imageAlt": "MaxVideoAI Character Builder 角色生成器工作区截图。"
         },
         "angle": {
-          "eyebrow": "Perspective control",
-          "title": "Generate stronger first frames from one image",
-          "body": "Choose a new camera angle from one image for product shots, storyboards, ad creative, or a stronger image-to-video first frame.",
-          "cta": "Explore Tool",
-          "imageAlt": "Angle workspace screenshot from MaxVideoAI."
+          "eyebrow": "视角控制",
+          "title": "从单张图片生成更具表现力的视频首帧",
+          "body": "从单张图像中切换全新机位角度，适用于产品展示、故事板分镜、广告创意或更理想的图生视频起始帧。",
+          "cta": "探索工具",
+          "imageAlt": "MaxVideoAI Angle 镜头角度调整工作区截图。"
         },
         "upscale": {
-          "eyebrow": "AI upscale",
-          "title": "Increase resolution before the next workflow",
-          "body": "Upscale images or short videos with SeedVR2, Topaz, FlashVSR, and Recraft, then reuse the sharper asset in Image, Video, or Library.",
-          "cta": "Explore Tool",
-          "imageAlt": "AI upscale workspace with before and after preview."
+          "eyebrow": "AI 画质超分",
+          "title": "在进入下个工作流前提升画质分辨率",
+          "body": "使用 SeedVR2、Topaz、FlashVSR 和 Recraft 超分图像或短视频，在图像、视频或素材库中复用更清晰的高清资产。",
+          "cta": "探索工具",
+          "imageAlt": "带前后对比预览的 AI 画质超分工作区。"
         },
         "backgroundRemoval": {
-          "eyebrow": "Video cleanup",
-          "title": "Remove backgrounds from video",
-          "body": "Cut out people or products from short clips, replace green-screen work, export alpha video, and download Premiere-ready MOV files.",
-          "cta": "Explore Tool",
-          "imageAlt": "Video background remover workspace with transparent output preview."
+          "eyebrow": "视频精修",
+          "title": "去除视频背景",
+          "body": "从短视频中智能抠出人物或产品，替代传统绿幕流程，导出带 Alpha 透明通道的视频，并下载适配 Premiere 的 MOV 文件。",
+          "cta": "探索工具",
+          "imageAlt": "带透明背景预览的视频背景去除工作区。"
         }
       },
       "bestStartingPoints": {
-        "eyebrow": "Best starting points",
-        "title": "Build the right visual input for the next step",
-        "body": "Use these entry points when you need a source still, a reusable character reference, or a better camera angle before video.",
-        "modelHubCta": "Browse Model Hub",
+        "eyebrow": "最佳制作起点",
+        "title": "为下一步流程准备理想的视觉素材",
+        "body": "当您在生成视频前需要源静态图、可复用角色参考或更合适的机位视角时，请使用这些入口。",
+        "modelHubCta": "浏览模型中心",
         "cards": {
           "image": {
-            "eyebrow": "Image",
-            "title": "Generate the source still",
-            "body": "Create the base frame first, then carry it into Character Builder, Angle, or motion.",
-            "cta": "Open Image"
+            "eyebrow": "图像生成",
+            "title": "生成基础源图片",
+            "body": "先创建基准画面，再导入角色构建器、角度工具或动态生成流程。",
+            "cta": "打开图像工具"
           },
           "character": {
-            "eyebrow": "Character Builder",
-            "title": "Build a reusable character reference",
-            "body": "Lock the face, outfit, and silhouette before you branch into scenes or video prep.",
-            "cta": "Open Character Builder"
+            "eyebrow": "角色构建器",
+            "title": "构建可复用的角色参考",
+            "body": "在拓展具体场景或准备视频前，锁定人物面容、服饰与体型轮廓。",
+            "cta": "打开角色构建器"
           },
           "angle": {
-            "eyebrow": "Angle",
-            "title": "Change the camera angle from one image",
-            "body": "Keep the frame you already trust and generate the viewpoint that fits the next step.",
-            "cta": "Open Angle"
+            "eyebrow": "视角工具",
+            "title": "从单张图切换机位视角",
+            "body": "保留您满意的基础主体，生成契合下一步需求的观察视角。",
+            "cta": "打开角度工具"
           },
           "upscale": {
-            "eyebrow": "Upscale",
-            "title": "Raise the resolution before reuse",
-            "body": "Clean up a still or short clip before it becomes a reference, prompt asset, or final deliverable.",
-            "cta": "Open Upscale"
+            "eyebrow": "画质超分",
+            "title": "在复用前提升分辨率",
+            "body": "将静态图片或短视频画质修复清晰，方便作为参考素材或成片交付。",
+            "cta": "打开超分工具"
           },
           "backgroundRemoval": {
-            "eyebrow": "Background Remover",
-            "title": "Cut out the subject before delivery",
-            "body": "Remove the background from a short video, save the transparent result, and reuse it in ads, product clips, and education assets.",
-            "cta": "Open Video Background Remover"
+            "eyebrow": "背景消除",
+            "title": "交付前抠出主体",
+            "body": "去除短视频背景，保存透明通道结果，并复用于广告、商品展示及教学视频中。",
+            "cta": "打开视频背景消除"
           }
         }
       }
     },
     "upscale": {
       "meta": {
-        "title": "AI Image & Video Upscale | SeedVR2, Topaz, FlashVSR, Recraft",
-        "description": "Upscale images and short videos with current AI enhancement models including SeedVR2, Topaz, FlashVSR, and Recraft before reusing them in MaxVideoAI workflows.",
+        "title": "AI 图像与视频画质超分 | SeedVR2, Topaz, FlashVSR, Recraft",
+        "description": "使用当前顶尖 AI 画质增强模型（包括 SeedVR2、Topaz、FlashVSR 和 Recraft）对图片与短视频进行超分辨率提升，随后在 MaxVideoAI 各工作流中自由复用。",
         "keywords": [
-          "ai upscale",
-          "ai image upscaler",
-          "ai video upscaler",
-          "seedvr upscale",
-          "topaz video upscale",
-          "flashvsr upscale",
-          "recraft crisp upscale"
+          "AI 超分辨率",
+          "AI 图像超分",
+          "AI 视频超分",
+          "SeedVR 超分",
+          "Topaz 视频增强",
+          "FlashVSR 快速超分",
+          "Recraft 清晰超分"
         ],
-        "imageAlt": "Current MaxVideoAI Upscale interface in English, visitor view."
+        "imageAlt": "当前 MaxVideoAI 画质超分界面访客视图。"
       },
       "hero": {
-        "badge": "Image + video upscale",
-        "title": "AI upscale for images and videos.",
-        "body": "Increase resolution and refine the details. Choose the model and output size, check the price, then save the result to your media library.",
-        "primaryCta": "Open Upscale",
-        "secondaryCta": "View all tools",
-        "beforeLabel": "Source",
-        "afterLabel": "Upscaled",
-        "studioLabel": "Upscale Studio",
+        "badge": "图像 + 视频画质超分",
+        "title": "面向图片与视频的专业级 AI 超分。",
+        "body": "大幅提升画面分辨率并细化纹理细节。自由挑选模型与输出尺寸，确认透明价格，并将高清成片保存在媒体库中。",
+        "primaryCta": "打开画质超分",
+        "secondaryCta": "查看全部工具",
+        "beforeLabel": "原片素材",
+        "afterLabel": "超分后高清",
+        "studioLabel": "超分工作台",
         "stackLabel": "SeedVR2 · Topaz",
-        "readyBadge": "4x ready",
-        "deliveryLabel": "Delivery asset",
+        "readyBadge": "支持 4x 放大",
+        "deliveryLabel": "交付成片",
         "stats": [
           {
-            "value": "Image + video",
-            "label": "Supported media"
+            "value": "图像 + 视频",
+            "label": "支持媒体格式"
           },
           {
             "value": "2× / 4×",
-            "label": "Depending on model"
+            "label": "支持放大倍率"
           },
           {
-            "value": "Your choice",
-            "label": "Model and output size"
+            "value": "自由选择",
+            "label": "模型与输出尺寸"
           }
         ],
         "metrics": [
           {
-            "label": "Input",
-            "value": "Image / video"
+            "label": "输入格式",
+            "value": "图像 / 视频"
           },
           {
-            "label": "价格",
-            "value": "Dynamic video"
+            "label": "价格模式",
+            "value": "动态透明计费"
           },
           {
-            "label": "Output",
-            "value": "Library ready"
+            "label": "交付成片",
+            "value": "素材库随时可用"
           }
         ]
       },
       "models": {
-        "eyebrow": "Choose your model",
-        "title": "The right upscale for your source.",
-        "body": "Compare image and video models by the result you need: a larger frame, sharper references or a more polished final video.",
+        "eyebrow": "选择超分模型",
+        "title": "为您的原片匹配最理想的增强模型。",
+        "body": "根据您所需的效果对比图像与视频模型：更大的画幅、更细腻的参考图，或是更具质感的最终成片视频。",
         "cards": [
           {
-            "title": "SeedVR2 Image + Video",
-            "body": "Default path for controllable factor or target-resolution upscaling.",
-            "badge": "Default"
+            "title": "SeedVR2 图像 + 视频",
+            "body": "支持倍率缩放或指定目标分辨率控制的通用超分主力模型。",
+            "badge": "默认推荐"
           },
           {
-            "title": "Topaz Image + Video",
-            "body": "Premium enhancement path for delivery-quality assets and tougher sources.",
-            "badge": "Premium"
+            "title": "Topaz 图像 + 视频",
+            "body": "专业级质感提升路径，适用于交付级资产与复杂棘手的画质修复。",
+            "badge": "旗舰增强"
           },
           {
-            "title": "FlashVSR Video",
-            "body": "Fast video upscale option for cheaper post-processing passes.",
-            "badge": "快速"
+            "title": "FlashVSR 视频",
+            "body": "快速视频超分方案，适合经济高效的批量后期处理与快速预览。",
+            "badge": "极速处理"
           },
           {
             "title": "Recraft Crisp",
-            "body": "Still-image detail and face-focused upscale for sharp references.",
-            "badge": "Detail"
+            "body": "专攻静止图像边缘、纹理细节与面部微调的高清超分模型。",
+            "badge": "细节增强"
           }
         ]
       },
       "modelGuide": {
-        "eyebrow": "Quality and price guide",
-        "title": "Compare quality, controls and price.",
-        "body": "In MaxVideoAI, choose your model and output size, then check the quote. Video pricing also depends on your source duration and resolution.",
+        "eyebrow": "画质与价格指南",
+        "title": "对比画质表现、控制参数与消耗费用。",
+        "body": "在 MaxVideoAI 中选择模型与目标尺寸，即刻查看准确报价。视频价格同时根据原片时长与分辨率智能估算。",
         "columns": {
-          "model": "Model",
-          "bestFor": "Best for",
-          "quality": "Quality profile",
-          "price": "MaxVideoAI price",
-          "useWhen": "Use when"
+          "model": "模型",
+          "bestFor": "最适场景",
+          "quality": "画质特性",
+          "price": "MaxVideoAI 价格",
+          "useWhen": "适用时机"
         },
         "rows": [
           {
-            "model": "SeedVR2 Image + Video",
-            "bestFor": "General-purpose upscales when you want factor or target-resolution control.",
-            "quality": "Balanced sharpness with broad image and video coverage.",
-            "price": "Usually the baseline route; video pricing is estimated from metadata before launch.",
-            "useWhen": "Start here for most assets, especially when you need predictable controls."
+            "model": "SeedVR2 图像 + 视频",
+            "bestFor": "需要灵活控制放大倍数或目标分辨率的通用超分场景。",
+            "quality": "在图像与视频处理中保持清晰度与自然感的完美平衡。",
+            "price": "基准性价比方案；视频根据元数据在提交前智能预估价格。",
+            "useWhen": "绝大多数素材的首选起点，尤其是需要确定性分辨率参数时。"
           },
           {
-            "model": "Topaz Image + Video",
-            "bestFor": "Premium enhancement for delivery assets, difficult footage, and restoration-style passes.",
-            "quality": "Higher-end detail recovery and professional finishing bias.",
-            "price": "Premium route; video uses resolution-based pricing and may cost more at 1440p or 4K.",
-            "useWhen": "Use for final selects or source media that deserves a higher-quality pass."
+            "model": "Topaz 图像 + 视频",
+            "bestFor": "成片最终交付、噪点较重的老旧胶片与高规格修复。",
+            "quality": "行业顶级细节恢复能力与专业级调色质感。",
+            "price": "旗舰高阶路线；视频按分辨率阶梯计费，1440p/4K 费用略高。",
+            "useWhen": "适用于确认选用的终版镜头或值得更高品质修复的重要素材。"
           },
           {
-            "model": "FlashVSR Video",
-            "bestFor": "Fast video upscales for cheaper review or social post-processing passes.",
-            "quality": "Speed-first video enhancement with practical temporal consistency.",
-            "price": "Lower-cost video route; MaxVideoAI estimates from duration, frames, and output pixels.",
-            "useWhen": "Use when turnaround and cost matter more than premium restoration."
+            "model": "FlashVSR 视频",
+            "bestFor": "社交媒体分发或需要低成本批量跑渲染的视频超分。",
+            "quality": "以生成速度为核心导向，同时保证实用的帧间连贯性。",
+            "price": "经济实惠的视频路线；按时长、帧率与输出像素透明计费。",
+            "useWhen": "当处理时效和总体预算优先于极限画质修复时选用。"
           },
           {
             "model": "Recraft Crisp",
-            "bestFor": "Still-image references where small details, edges, and faces need extra clarity.",
-            "quality": "Crisp raster detail for image-only enhancement.",
-            "price": "Low fixed image run pricing shown before generation.",
-            "useWhen": "Use for character references, product stills, and prompt assets before reuse."
+            "bestFor": "需要重点提升微小细节、边缘锐度与人物五官的图像参考素材。",
+            "quality": "专为纯图像增强打造的超清晰栅格细节表现。",
+            "price": "超低固定单张计费，生成前即刻呈现。",
+            "useWhen": "在复用前为角色参考图、商品精修图与提示词素材提升画质。"
           }
         ]
       },
       "workflow": {
-        "eyebrow": "Workflow",
-        "title": "Import. Adjust. Keep the result.",
+        "eyebrow": "制作工作流",
+        "title": "导入素材。调整参数。即刻取回高清成片。",
         "overlay": {
-          "title": "Your finished file, ready to use.",
-          "body": "Choose an image or video, set the output size and review the price before you start."
+          "title": "您的专属高清成品，随时随地直接使用。",
+          "body": "选择图片或视频，设定目标输出尺寸，生成前全面掌握确切报价。"
         },
         "steps": [
           {
-            "title": "Upload or paste a URL",
-            "body": "Start with an image or a short video from Library, storage, or an external URL."
+            "title": "上传或粘贴文件 URL",
+            "body": "从本地、素材库或外部链接中导入一张图片或一段短视频。"
           },
           {
-            "title": "Choose quality mode",
-            "body": "Pick SeedVR2, Topaz, FlashVSR, or Recraft depending on cost, speed, and quality."
+            "title": "挑选画质模式",
+            "body": "根据预算、时效与画质要求，挑选 SeedVR2、Topaz、FlashVSR 或 Recraft。"
           },
           {
-            "title": "Reuse the output",
-            "body": "Download the result or save it to your media library for your next project."
+            "title": "多场景复用产出",
+            "body": "下载增强后的成片，或保存至个人媒体库用于下个视频工程。"
           }
         ]
       },
       "faq": [
         {
-          "q": "Can I upscale both images and videos?",
-          "a": "Yes. Choose Image or Video, then a compatible model. Available output sizes and duration limits depend on that model."
+          "q": "我可以同时超分图像和视频吗？",
+          "a": "可以。选择图像或视频模式，然后选择兼容的模型。可用的输出分辨率和时长限制取决于所选模型。"
         },
         {
-          "q": "How do I choose the output size?",
-          "a": "Choose a target resolution or an enlargement factor from the options available for your model. The tool shows the estimated price before you start."
+          "q": "如何选择输出分辨率？",
+          "a": "从所选模型的可用选项中选择目标分辨率或放大倍数（2x/4x）。工具会在您开始前显示预估费用。"
         },
         {
-          "q": "How much does upscaling cost?",
-          "a": "The estimate depends on the model, your source file and the output settings. For video, duration also affects the price. Check the quote in the app before confirming."
+          "q": "超分处理费用是多少？",
+          "a": "费用估算取决于模型、源文件规格和输出设置。对于视频，时长也会影响价格。提交前请在工作区内确认确切报价。"
         },
         {
-          "q": "Will it restore every missing detail?",
-          "a": "Upscaling can improve resolution and perceived detail, but it cannot guarantee an exact reconstruction. Check faces, text and fine textures before using the result."
+          "q": "超分能完全还原所有缺失的细节吗？",
+          "a": "超分可以提升分辨率和视觉细节，但无法保证100%完全重构真实细节。在使用生成结果前，请仔细检查面部、文字和微小纹理。"
         },
         {
-          "q": "Can I keep the result for another project?",
-          "a": "Yes. Download the finished file or save it to your media library for later use."
+          "q": "生成的结果可以用于其他项目吗？",
+          "a": "可以。您可以直接下载成片文件，或将其保存在素材库中供后续工作流随时调用。"
         }
       ],
       "faqSection": {
         "eyebrow": "常见问题",
-        "title": "Upscale details"
+        "title": "超分规格与详情"
       }
     },
     "angle": {
       "meta": {
-        "title": "AI Camera Angle Generator | New Views from One Image",
-        "description": "Change a camera angle with AI from one image. Create product views, storyboard coverage, ad perspectives, and stronger image-to-video first frames.",
+        "title": "AI 摄像机机位角度生成器 | 单张图片衍生新视角",
+        "description": "使用 AI 从单张图像中切换机位视角。生成多角度商品展示、分镜故事板、广告视角以及更具视觉张力的图生视频首帧。",
         "keywords": [
-          "change camera angle ai",
-          "change image perspective ai",
-          "ai perspective generator",
-          "photo angle editor ai",
-          "camera angle control ai",
-          "ai camera angle generator",
-          "video camera angle change ai",
-          "camera angle change ai",
-          "multiple angles from one image",
-          "first frame for ai video",
-          "image to video first frame"
+          "AI 改变镜头角度",
+          "AI 改变图片透视",
+          "AI 视角生成器",
+          "AI 照片机位编辑器",
+          "AI 摄像机角度控制",
+          "AI 镜头角度生成器",
+          "AI 视频镜头切换",
+          "单张图多角度生成",
+          "AI 视频首帧",
+          "图生视频起始帧"
         ],
-        "imageAlt": "AI-generated over-the-shoulder camera angle from a cinematic two-actor dialogue.",
-        "schemaName": "Change Camera Angle with AI",
-        "schemaDescription": "Upload one image, change camera angle without rebuilding the scene, and generate better first frames for image-to-video, storyboards, ads, and product shots.",
+        "imageAlt": "电影级双人对话场景中生成的过肩镜头机位视角。",
+        "schemaName": "AI 调整摄像机机位角度",
+        "schemaDescription": "上传一张图片，无需重新构筑场景即可切换机位角度，为图生视频、故事板、广告创意与商品拍摄生成更理想的首帧画面。",
         "schemaFeatures": [
-          "Change camera angle from one source image",
-          "Adjust rotation, tilt, and zoom",
-          "Compare multiple alternate views",
-          "Use the selected frame before image-to-video"
+          "从单张原图切换机位视角",
+          "支持旋转、俯仰与变焦微调",
+          "并排对比多个备选视角",
+          "在进入图生视频前选用满意帧"
         ],
-        "howToTitle": "How It Works",
-        "howToDescription": "Change camera angle from one image before moving into image-to-video."
+        "howToTitle": "操作指南",
+        "howToDescription": "在进入图生视频工作流前，从单张静止图像中切换摄像机角度。"
       },
       "breadcrumb": {
-        "home": "Home",
+        "home": "首页",
         "tools": "工具",
-        "current": "Change Camera Angle with AI"
+        "current": "AI 调整镜头机位角度"
       },
       "hero": {
-        "eyebrow": "One image in. New camera angle out.",
-        "title": "Change Camera Angle with AI from One Image",
-        "body": "Explore new viewpoints from a single image. Adjust the camera, choose your view and use it as the starting image for a video.",
-        "primaryCta": "Open Tool",
-        "secondaryCta": "View Angle Examples",
-        "supportText": "Best when the subject is already right and only the viewpoint needs to change.",
+        "eyebrow": "输入单张图片，输出全新机位角度。",
+        "title": "AI 单图多角度机位切换",
+        "body": "仅凭单张图片探索不同构图视角。调整虚拟摄像机参数，选用满意机位，并作为视频生成的理想起始帧。",
+        "primaryCta": "打开视角工具",
+        "secondaryCta": "查看机位示例",
+        "supportText": "最适合主体画面满意、仅需调整观察视角的场景。",
         "orbit": {
-          "dragLabel": "Drag to explore real camera angles",
-          "previousLabel": "Show previous camera angle",
-          "nextLabel": "Show next camera angle",
-          "livePrefix": "Selected camera view",
-          "fallbackNote": "Four generated views from one source image",
+          "dragLabel": "拖拽以探索真实机位角度",
+          "previousLabel": "展示上一机位视角",
+          "nextLabel": "展示下一机位视角",
+          "livePrefix": "当前选定机位",
+          "fallbackNote": "基于单张原图生成的 4 个机位视角",
           "views": [
             {
               "id": "front",
-              "label": "Dialogue two-shot",
-              "degreeLabel": "Source · Two-shot",
-              "alt": "Source two-shot of two actors in conversation across a table in a contemporary hotel bar."
+              "label": "双人正面对话镜头",
+              "degreeLabel": "原图 · 双人全景",
+              "alt": "现代酒店酒吧中两位演员隔桌对话的双人全景原图。"
             },
             {
               "id": "threeQuarter",
-              "label": "Field on Actor B",
-              "degreeLabel": "Generated · Field",
-              "alt": "AI-generated over-the-shoulder camera angle looking past Actor A toward Actor B in the same dialogue."
+              "label": "演员 B 正打过肩镜头",
+              "degreeLabel": "AI 生成 · 正打机位",
+              "alt": "越过演员 A 肩部拍摄演员 B 的过肩镜头机位视角。"
             },
             {
               "id": "profile",
-              "label": "Reverse on Actor A",
-              "degreeLabel": "Generated · Reverse",
-              "alt": "AI-generated reverse over-the-shoulder camera angle looking past Actor B toward Actor A in the same dialogue."
+              "label": "演员 A 反打过肩镜头",
+              "degreeLabel": "AI 生成 · 反打机位",
+              "alt": "越过演员 B 肩部反打演员 A 的过肩镜头机位视角。"
             },
             {
-              "id": "elevated",
-              "label": "Elevated dialogue view",
-              "degreeLabel": "Generated · High angle",
-              "alt": "AI-generated elevated camera angle showing both actors and the hotel-bar setting during the same conversation."
+              "id": "lowAngle",
+              "label": "微仰角特写镜头",
+              "degreeLabel": "AI 生成 · 仰拍视角",
+              "alt": "桌边对话人物的微仰角近景特写机位。"
             }
           ]
         },
         "panel": {
-          "topLeft": "Source -> Angle -> Output",
-          "topRight": "Keep the image, shift the viewpoint",
-          "sourceLabel": "Source image",
-          "sourceAlt": "Source image before changing the camera angle.",
-          "outputLabel": "Selected output",
-          "outputAlt": "Alternate camera angle generated from the same source image.",
+          "topLeft": "源图 -> 调整角度 -> 高清成片",
+          "topRight": "保留画面主体，微调机位视角",
+          "sourceLabel": "原始首帧",
+          "sourceAlt": "原始输入图像",
+          "outputLabel": "选定新视角",
+          "outputAlt": "切换视角后的新画幅",
           "controls": [
-            {
-              "title": "Rotation",
-              "note": "Shift left / right"
-            },
-            {
-              "title": "Tilt",
-              "note": "Raise / lower camera"
-            },
-            {
-              "title": "Zoom",
-              "note": "Tighten framing"
-            }
+            "旋转",
+            "俯仰",
+            "视锥变焦",
+            "透视校正"
           ],
           "bullets": [
-            "Start from one usable image",
-            "Change the camera angle, not the whole concept",
-            "Keep the chosen frame before image-to-video"
-          ]
+            "锁定人物面部与光影",
+            "生成 4 个备选机位",
+            "一键导出至图生视频"
+          ],
+          "heading": "无损调整机位角度",
+          "description": "保留原始主体的核心特征，自由旋转、平移或俯仰视角。",
+          "status": "就绪状态"
         }
       },
       "videoPrep": {
-        "eyebrow": "Image-to-video preparation",
-        "title": "Choose the video camera angle before motion starts",
-        "body": "Angle changes the viewpoint of a still image. Use the selected result as a stronger first frame before you open an image-to-video workflow.",
-        "sourceLabel": "Original first frame",
-        "outputLabel": "Selected video angle",
-        "sourceAlt": "Original cinematic first frame before changing the camera viewpoint.",
-        "outputAlt": "Alternate camera viewpoint prepared as an image-to-video first frame."
+        "eyebrow": "图生视频准备阶段",
+        "title": "在画面运动前选定最佳运镜起始角度",
+        "body": "Angle 工具专门改变静态图像的视角。将选定视角作为更高质量的起始首帧，再导入图生视频工作流。",
+        "sourceLabel": "原始首帧",
+        "outputLabel": "选定新视角首帧",
+        "sourceAlt": "原始首帧画面",
+        "outputAlt": "切换视角后的图生视频起始首帧"
       },
       "problemSolution": {
-        "eyebrow": "Problem + solution",
-        "title": "One good image often starts from the wrong angle",
-        "body": "When the subject is already right, the faster move is to fix the viewpoint instead of regenerating the whole image.",
+        "eyebrow": "痛点与解决方案",
+        "title": "好图片往往受制于单一的初始角度",
+        "body": "当画面主体已经完全符合预期时，修正视角远比全盘推翻重新生成更快速、更可控。",
         "problem": {
-          "label": "Problem",
-          "title": "The asset is close, but the shot is wrong",
-          "body": "The subject works, but camera height, framing, or perspective does not. Rebuilding from scratch costs time and risks consistency.",
+          "label": "制作痛点",
+          "title": "素材主体满意，但机位角度稍欠火候",
+          "body": "重新提示词生图往往会导致面容、服饰或布景发生改变，耗费大量调试时间。",
           "items": [
-            "The subject is right, but the framing feels flat",
-            "The storyboard needs a different camera height",
-            "The product needs a more commercial view",
-            "The opening video frame lacks direction"
+            "重新生图会导致面部五官或服装细节改变",
+            "多次抽卡难以精准命中理想的观察机位",
+            "不同机位间的连贯性与光影容易脱节"
           ]
         },
         "solution": {
-          "label": "Solution",
-          "title": "Keep the source image, change the viewpoint",
-          "body": "Angle lets you keep the source image you already trust, generate a new camera angle, and continue with the version that fits the next step.",
-          "sourceAlt": "Source image used before generating alternate camera angles.",
-          "outputAlt": "Alternate low-angle view generated from the same source image.",
-          "caption": "Use the better angle as a still, or take it straight into image-to-video."
+          "label": "解决方案",
+          "title": "锁定主体，仅旋转机位",
+          "body": "保持光影、质感和主体轮廓不变，生成所缺的正面、侧面或过肩视角。",
+          "sourceAlt": "用于切换视角的原始满意图像",
+          "outputAlt": "保持主体一致的新视角成片",
+          "caption": "锁定主体轮廓与质感，仅调整摄像机机位"
         }
       },
       "howItWorks": {
         "eyebrow": "工作原理",
-        "title": "Upload, aim, generate",
-        "body": "Three steps: bring in a usable image, steer the viewpoint, and keep the version that belongs in the next step.",
+        "title": "上传、定向、一键生成",
+        "body": "简单三步：上传可用图片、引导机位方向、取回最符合下个环节视角的成片。",
         "steps": [
           {
-            "title": "Upload one image",
-            "body": "Start from the frame, product shot, or scene still that already has the right subject."
+            "title": "上传单张图像",
+            "body": "从素材库中选择满意的分镜帧、商品图或人像作为基础源。"
           },
           {
-            "title": "Pick the viewpoint",
-            "body": "Use the angle picker plus rotation, tilt, and zoom to test cleaner framing fast."
+            "title": "指定摄像机角度",
+            "body": "直观拖拽旋转角度或输入方向提示，引导虚拟摄像机朝向目标视角。"
           },
           {
-            "title": "Generate and continue",
-            "body": "Keep the angle that works, then move it into image edits, storyboards, ads, or video prep."
+            "title": "保存并复用新帧",
+            "body": "生成清晰候选帧，直接导入图生视频或图像编辑工作流。"
           }
         ]
       },
       "workspace": {
-        "eyebrow": "Workspace",
-        "title": "Everything important sits in one view",
-        "body": "The source image, angle controls, and outputs stay side by side so you can compare fast and pick the frame you want.",
-        "topLeft": "Angle workspace",
-        "topRight": "Source image + controls + outputs",
-        "windowLabel": "Current interface · English · visitor view",
-        "imageAlt": "Angle workspace — Current interface · English · visitor view",
+        "eyebrow": "工作区布局",
+        "title": "全流程掌控集于一屏",
+        "body": "原图、机位控制盘与成片预览同屏并列展示，方便您快速比对并选定最佳画幅。",
+        "topLeft": "Angle 视角工作区",
+        "topRight": "源图 + 控制器 + 生成视图",
+        "windowLabel": "虚拟摄像机控制器",
+        "imageAlt": "MaxVideoAI Angle 工作区界面",
         "callouts": [
-          {
-            "title": "Source image",
-            "body": "Start from the frame you already trust."
-          },
-          {
-            "title": "Angle controls",
-            "body": "Adjust the angle picker, rotation, tilt, and zoom in one pass."
-          },
-          {
-            "title": "Output review",
-            "body": "Compare results before sending one into Image or Video."
-          }
+          "源参考图",
+          "3D 视锥轨迹",
+          "多角度备选"
         ]
       },
       "outputsPipeline": {
-        "eyebrow": "Outputs + pipeline",
-        "title": "Choose the angle, then move it into the next step",
-        "body": "Generate one cleaner view or compare several. Once you have the frame you want, refine it in Image or use it before image-to-video.",
+        "eyebrow": "成片与工作流串联",
+        "title": "选定机位视角，衔接后续环节",
+        "body": "生成单张高品质视角或多角度并排对比。选定满意画幅后，在图像工具中微调或直接作为图生视频首帧。",
         "cards": [
           {
-            "eyebrow": "Composition shift",
-            "title": "Eye-level to low-angle",
-            "body": "Move a flat frame toward a more dramatic view when the subject needs more scale or authority.",
-            "sourceAlt": "Eye-level source image.",
-            "outputAlt": "Low-angle output generated from the same image."
+            "eyebrow": "构图微调",
+            "title": "修正瑕疵视角",
+            "body": "调整原本过于平淡或遮挡主体的机位，获得更平衡的画幅结构。"
           },
           {
-            "eyebrow": "Portrait framing",
-            "title": "Straight-on to three-quarter",
-            "body": "Turn a plain reference into a more usable story or ad frame from the same source image.",
-            "sourceAlt": "Original portrait angle.",
-            "outputAlt": "Three-quarter portrait view generated from the same source."
+            "eyebrow": "镜头覆盖",
+            "title": "单张素材拓展分镜",
+            "body": "为同一场景生成正反打、特写与广角镜头，快速拼出分镜故事板。"
           },
           {
-            "eyebrow": "Angle set",
-            "title": "Compare several views from one image",
-            "body": "Generate a small set when you need to choose the option that best fits storyboards, product pages, or motion prep.",
-            "thumbs": [
-              {
-                "label": "Original",
-                "note": "Base frame",
-                "alt": "Source image before angle changes."
-              },
-              {
-                "label": "Low angle",
-                "note": "More scale",
-                "alt": "Low-angle output."
-              },
-              {
-                "label": "Three-quarter",
-                "note": "Story framing",
-                "alt": "Three-quarter view output."
-              },
-              {
-                "label": "High angle",
-                "note": "Top-down feel",
-                "alt": "Higher perspective output."
-              }
-            ]
+            "eyebrow": "视频首帧",
+            "title": "更强劲的图生视频起点",
+            "body": "用更具张力的动态预备角度开启视频渲染，让画面运动更自然。"
           }
         ],
         "pipeline": {
-          "label": "Angle pipeline",
-          "title": "Source -> Angle -> Image / Video",
-          "badge": "First-frame prep",
+          "label": "视角工作流管线",
+          "title": "源图 -> 切换视角 -> 图像 / 视频",
+          "badge": "首帧预制",
           "steps": [
             {
-              "title": "Source image",
-              "body": "Start from the frame or product shot that already works."
+              "title": "源输入图像",
+              "body": "从已经满意的画面主体或商品图开始。"
             },
             {
-              "title": "Selected angle",
-              "body": "Keep the version that fixes composition or camera height."
+              "title": "选定新视角",
+              "body": "保留完美调整了构图或机位高度的镜头版本。"
             },
             {
-              "title": "Image / Video",
-              "body": "Refine it in Image or use it as the first frame before motion."
+              "title": "图像 / 视频创作",
+              "body": "在 Image 中微调细节，或作为图生视频的高清起始首帧。"
             }
           ],
           "linkSentence": {
-            "beforeImage": "Refine the chosen frame in",
-            "imageLabel": "Image",
-            "between": "or launch motion in",
-            "videoLabel": "Video",
-            "afterVideo": "once the opening composition is working."
+            "beforeImage": "在",
+            "imageLabel": "图像工作区",
+            "between": "中精修选定画面，或在构图确定后进入",
+            "videoLabel": "视频工作区",
+            "afterVideo": "启动动态生成。"
           },
           "links": [
             {
               "href": "/app/image",
-              "label": "Open Image Workspace"
+              "label": "打开图像工作区"
             },
             {
               "href": "/app",
-              "label": "Open Video Workspace"
+              "label": "打开视频工作区"
             },
             {
               "href": "/models/ltx-2-3-pro",
@@ -7706,780 +7682,638 @@
             },
             {
               "href": "/models",
-              "label": "Model Hub"
+              "label": "全部模型中心"
             }
           ],
           "preview": {
-            "leftAlt": "Selected alternate angle used before video generation.",
-            "rightAlt": "Video thumbnail concept based on the chosen camera angle.",
-            "readyLabel": "Ready for motion"
+            "leftAlt": "用于视频生成前选定的备选机位视角。",
+            "rightAlt": "基于所选镜头机位生成的视频缩略图预览。",
+            "readyLabel": "动态生成已就绪"
           }
         }
       },
       "benefits": {
-        "eyebrow": "Benefits",
-        "title": "Why it matters",
-        "body": "This is a focused fix for viewpoint problems, which makes the next creative decision faster.",
+        "eyebrow": "核心优势",
+        "title": "为什么视角控制至关重要",
+        "body": "针对视角痛点的精准修复，大幅缩短创意决策周期，降低重复生图成本。",
         "items": [
           {
-            "title": "Less rework",
-            "body": "Fix the viewpoint without throwing away a source image that is already close."
+            "title": "大幅减少重复返工",
+            "body": "无需丢弃已接近完美的源图，仅修正机位，避免重新抽卡。"
           },
           {
-            "title": "Faster shot selection",
-            "body": "Compare alternate angles before you spend more time or budget on full regeneration."
+            "title": "角色与主体高度一致",
+            "body": "在视角转换中最大程度保留原有材质、五官、服饰与色调。"
           },
           {
-            "title": "Better image-to-video prep",
-            "body": "A cleaner first frame gives motion tools a clearer composition to build from."
-          },
-          {
-            "title": "More coverage from one asset",
-            "body": "Get extra product, portrait, or scene views from a single source image."
+            "title": "视频动态更流畅",
+            "body": "为视频模型提供符合运动透视逻辑的起始首帧，让镜头运动更平稳。"
           }
         ]
       },
       "intentExamples": {
-        "eyebrow": "Practical 示例",
-        "title": "Use a better angle for the job in front of you",
-        "body": "Start from an image you already trust, then steer the viewpoint for product presentation, story coverage, or a stronger ad frame.",
-        "primaryCta": "Try your own image",
+        "eyebrow": "实战场景示例",
+        "title": "为当前任务匹配最佳视角",
+        "body": "从您信赖的图片出发，为商品展示、剧情叙事或广告宣传定制最佳机位。",
+        "primaryCta": "尝试您自己的图片",
         "items": [
           {
-            "title": "Give a product shot a hero viewpoint",
-            "body": "Turn a clean catalog frame into a more dimensional product image without changing the product, styling, or scene.",
-            "sourceLabel": "Front view · 0°",
-            "outputLabel": "Three-quarter · 45°",
-            "sourceAlt": "Straight-on studio product image of black headphones on a pedestal.",
-            "outputAlt": "Three-quarter camera angle generated from the same black headphones product image."
+            "title": "商品全景与细节特写",
+            "body": "围绕单一产品旋转视角，展示侧面线条、背面接口或局部特写。"
           },
           {
-            "title": "Test coverage before the storyboard is locked",
-            "body": "Keep the scene and subject, then compare a raised three-quarter view before you commit a board or first frame.",
-            "sourceLabel": "Scene source",
-            "outputLabel": "Raised view",
-            "sourceAlt": "Original scene still used as the source for storyboard framing.",
-            "outputAlt": "Raised three-quarter storyboard frame generated from the same scene still."
+            "title": "剧情对话正反打覆盖",
+            "body": "从单个双人镜头中，衍生出正反过肩镜头，完善叙事分镜。"
           },
           {
-            "title": "Find a more persuasive ad composition",
-            "body": "Explore a different camera viewpoint when the offer is right but the creative needs more depth or presence.",
-            "sourceLabel": "Original creative",
-            "outputLabel": "Alternate view",
-            "sourceAlt": "Original ad creative image before the camera angle changes.",
-            "outputAlt": "Alternate camera view generated from the same ad creative image."
+            "title": "广告营销画幅调整",
+            "body": "快速由横屏转为适合竖屏展示的高仰角或侧俯视镜头。"
           }
         ]
       },
       "useCases": {
-        "eyebrow": "Use cases",
-        "title": "Where it fits best",
-        "body": "Best when the asset is nearly right and the next decision depends on camera angle, not on rebuilding the scene.",
+        "eyebrow": "应用场景",
+        "title": "最佳适用场景",
+        "body": "当素材主体满意、下一步决策取决于机位角度而非重新搭景时效果最佳。",
         "story": {
-          "eyebrow": "Story / film",
-          "title": "Storyboarding and previs",
-          "body": "Test perspective before you commit a shot to boards, edits, or an animatic.",
+          "eyebrow": "影视与剧情",
+          "title": "分镜故事板与视觉预览",
+          "body": "在投入昂贵渲染前，快速测试机位透视与镜头构图。",
           "thumbs": [
-            {
-              "label": "Original",
-              "note": "Scene still",
-              "alt": "Original scene still for storyboarding."
-            },
-            {
-              "label": "High three-quarter",
-              "note": "Raised camera view",
-              "alt": "High three-quarter story frame."
-            },
-            {
-              "label": "Workspace",
-              "note": "Review pass",
-              "alt": "Angle workspace screenshot showing the first-frame workflow."
-            }
+            "正打对话",
+            "反打过肩",
+            "微仰近景",
+            "广角全景"
           ]
         },
         "commerce": {
-          "eyebrow": "Commerce",
-          "title": "Product and ecommerce shots",
-          "body": "Turn one clean product image into multiple usable angles for listings, ads, or launch pages.",
-          "mockBeforeLabel": "Straight-on packshot",
-          "mockAfterLabel": "Three-quarter hero view"
+          "eyebrow": "电商与广告",
+          "title": "全角度产品与电商展示",
+          "body": "多角度呈现商品外观，无需多次实物拍摄或 3D 重新建模。",
+          "mockBeforeLabel": "原始拍摄视角",
+          "mockAfterLabel": "AI 衍生全新视角"
         },
         "smallCases": [
           {
-            "eyebrow": "Ad / creative",
-            "title": "Ad creative testing",
-            "body": "Test alternate camera views without rebuilding the whole concept."
+            "title": "游戏与概念设计",
+            "body": "快速查看角色或道具不同朝向的视角关系。"
           },
           {
-            "eyebrow": "Character / scene",
-            "title": "Character scene setup",
-            "body": "Choose a more readable frame before still edits or image-to-video."
+            "title": "社交媒体视觉",
+            "body": "将单张视觉衍生为适合瀑布流多图展示的一系列机位。"
           }
         ]
       },
       "faq": {
         "eyebrow": "常见问题",
-        "title": "Camera Angle FAQ",
-        "body": "Short answers before you start.",
-        "limits": "Results depend on the quality and clarity of the source image. Details, proportions, and backgrounds can vary between generated angles, so review each view for consistency before reuse. Angle supports viewpoint exploration for still images and first frames for products, storyboards, ads, and image-to-video; it does not change the camera angle inside an existing video.",
+        "title": "镜头角度工具常见问题",
+        "body": "使用前的关键说明。",
+        "limits": "成片效果取决于源图的质量与主体清晰度。生成的各角度细节、比例与背景可能会有细微差异，复用前请仔细检查一致性。Angle 支持静态图片与图生视频首帧的视角探索，无法直接更改已渲染视频内部的摄像机轨迹。",
         "items": [
           {
-            "question": "Can AI change the camera angle of a photo?",
-            "answer": "Yes. You can generate alternate viewpoints from one source image instead of rebuilding the whole scene."
+            "question": "Angle 工具可以直接更改已生成视频里的运镜吗？",
+            "answer": "不可以。Angle 针对单张静态图片生成全新观察角度，主要用作图生视频更理想的起始首帧。它不会重新计算已有视频的内部摄像机运动轨迹。"
           },
           {
-            "question": "What goes in and what comes out?",
-            "answer": "You start with one image and generate one or more alternate views from it, ready for comparison or reuse."
+            "question": "我能精确指定摄像机旋转度数吗？",
+            "answer": "可以。您可以通过 3D 视锥控制器进行直观拖拽旋转、俯仰和缩放，也可以结合方向提示词进行精准视角微调。"
           },
           {
-            "question": "Does this help before image-to-video generation?",
-            "answer": "Yes. It helps you choose a better starting frame before you move into motion."
+            "question": "主体的一致性能保持得很好吗？",
+            "answer": "对于清晰对焦的人物肖像、商品和明确主体，模型会高度保留其外观与纹理。但极端的视角旋转可能会带来合理的想象填充。"
           },
           {
-            "question": "Can I use this for product photos?",
-            "answer": "Yes. It works well for packshots, side angles, and stronger hero views from one product image."
-          },
-          {
-            "question": "Can I generate multiple angles from one image?",
-            "answer": "Yes. You can generate several views, compare them, and keep the one that fits the next step best."
+            "question": "单次能生成多少个视角？",
+            "answer": "您可以一次生成 1 到 4 个备选视角，直观对比不同角度的构图张力。"
           }
         ]
       },
       "related": {
-        "eyebrow": "Related workflow",
-        "title": "Carry the better frame into the next step",
-        "body": "Once the angle is right, refine the still, move into video, or read the companion guides for correction and coverage planning.",
-        "workflowTitle": "Continue with",
+        "eyebrow": "相关工作流",
+        "title": "将理想首帧带入下一个环节",
+        "body": "锁定满意视角后，进一步精修图像、进入视频生成，或查阅配套指南规划机位覆盖。",
+        "workflowTitle": "后续工作流推荐",
         "workflowLinks": [
           {
             "href": "/app/image",
-            "label": "Refine the frame in Image"
+            "label": "进入 Image 精修图片"
           },
           {
-            "href": "/models/ltx-2-3-pro",
-            "label": "Use the frame in LTX 2.3 Pro"
-          },
-          {
-            "href": "/models/veo-3-1",
-            "label": "Use the frame in Veo 3.1"
-          },
-          {
-            "href": "/models/kling-3-pro",
-            "label": "Use the frame in Kling 3 Pro"
-          },
-          {
-            "href": "/examples",
-            "label": "Browse 示例"
+            "href": "/app",
+            "label": "进入 Video 启动图生视频"
           }
         ],
-        "guidesTitle": "Related guides",
+        "guidesTitle": "相关使用指南",
         "guideLinks": [
           {
             "href": "/blog/change-camera-angle-with-ai",
-            "label": "Fix one weak viewpoint"
+            "label": "如何修复不理想的机位视角"
           },
           {
             "href": "/blog/multiple-camera-angles-from-one-image",
-            "label": "Explore several angles from one image"
+            "label": "单张图片衍生多角度机位实战"
           }
         ]
       },
       "finalCta": {
-        "eyebrow": "Final CTA",
-        "title": "Change the camera angle before you generate more",
-        "body": "Start with one usable image, create alternate views, and carry the best frame into Image or Video.",
-        "primaryCta": "Open Angle Tool",
-        "secondaryCta": "Browse Tools",
-        "panelLeft": "Selected angle",
-        "panelRight": "Ready for next step",
-        "panelAlt": "Selected alternate camera angle used in the final call to action."
+        "eyebrow": "立即尝试",
+        "title": "在继续生成前，先将机位角度调至最佳",
+        "body": "从一张可用图片开始，快速衍生备选机位，将最完美的画幅带入图像或视频创作。",
+        "primaryCta": "打开 Angle 视角工具",
+        "secondaryCta": "浏览全部工具",
+        "panelLeft": "选定机位",
+        "panelRight": "准备进入下一步",
+        "panelAlt": "最终行动号召中展示的备选机位视角画面。"
       }
     },
     "characterBuilder": {
       "meta": {
-        "title": "Consistent Character AI Tool | Reusable Character References for Image & Video",
-        "description": "Create reusable portrait anchors and 8-panel AI character sheets from one photo, optional outfit reference, or scratch. Reuse the same character across scenes, edits, and still-reference video workflows.",
+        "title": "AI 角色一致性生成器 | 面向图片与视频的可复用角色参考",
+        "description": "基于单张照片、可选服饰参考或全新构想，创建可复用的肖像锚点与 8 宫格 AI 角色三视图。在多个分镜场景、图片精修与支持静帧参考的视频工作流中复用同一角色。",
         "keywords": [
-          "consistent character ai",
-          "ai character consistency",
-          "consistent character generator",
-          "ai consistent character",
-          "consistent ai characters",
-          "consistent character for video",
-          "character sheet ai",
-          "ai character sheet generator",
-          "character reference ai",
-          "character reference sheet ai",
-          "character turnaround ai",
-          "keep same character across scenes",
-          "same face same outfit ai",
-          "image to video character consistency"
+          "AI 角色一致性",
+          "AI 角色连续性",
+          "角色一致性生成器",
+          "AI 保持同一人物",
+          "视频角色一致性",
+          "AI 角色设定表",
+          "角色三视图生成",
+          "AI 角色参考图",
+          "AI 人物三视图",
+          "跨场景保持人物一致",
+          "相同人脸相同服装",
+          "图生视频人物一致性"
         ],
-        "imageAlt": "Reusable AI character sheet preview generated with MaxVideoAI Character Builder.",
-        "schemaName": "Consistent Character AI",
-        "schemaDescription": "Create reusable portrait anchors and 8-panel AI character sheets from one image, optional outfit reference, or scratch, then reuse them across images, edits, and still-reference video workflows.",
+        "imageAlt": "使用 MaxVideoAI Character Builder 角色构建器生成的 AI 角色设定图预览。",
+        "schemaName": "AI 角色一致性生成",
+        "schemaDescription": "从单张图片、可选服饰参考或纯文本构思出发，创建可复用的人像锚点与 8 宫格 AI 角色设定图，并在后续图像生成、局部精修与视频参考工作流中持续复用。",
         "schemaFeatures": [
-          "Start from one identity photo, an optional outfit reference, or a scratch-built concept",
-          "Generate a reusable portrait anchor",
-          "Generate an 8-panel character sheet with four full-body angles and four matching close-ups",
-          "Reuse the same character reference across image prompts and image edits",
-          "Use the reference in Nano Banana and video engines that support still references"
+          "从一张人像照片、可选服装参考或全新概念出发",
+          "生成可复用的标准人像基准锚点",
+          "生成包含 4 个全身角度与 4 个特写的 8 宫格角色三视图",
+          "在不同图像提示词与图片局部重绘中复用相同角色",
+          "在 Nano Banana 及支持静态参考的视频引擎中保持角色连续性"
         ],
-        "howToTitle": "How Character Builder Works",
-        "howToDescription": "Create one reusable character reference asset for consistent AI images and still-reference video workflows."
+        "howToTitle": "Character Builder 角色构建器工作原理",
+        "howToDescription": "创建单一高保真可复用的角色资产，为 AI 图像与图生视频工作流提供持久的角色一致性支持。"
       },
       "breadcrumb": {
-        "home": "Home",
+        "home": "首页",
         "tools": "工具",
-        "current": "Character Builder"
+        "current": "AI 角色一致性生成器"
       },
       "hero": {
-        "badge": "Consistent Character AI Tool",
-        "secondaryBadge": "Portrait anchor + 8-panel character sheet",
-        "title": "AI characters. A consistent reference.",
-        "body": "Start with a portrait or an idea. Create a portrait reference or an eight-panel character sheet, then reuse it in your images and videos.",
-        "primaryCta": "Open Character Builder",
+        "badge": "AI 角色一致性工具",
+        "secondaryBadge": "肖像基准锚点 + 8 宫格角色三视图",
+        "title": "AI 角色创作，稳定一致的视觉参考。",
+        "body": "从一张肖像或创意构思开始。快速生成人像基准参考或 8 宫格角色设定图，并在后续多场景图像与视频制作中无缝复用。",
+        "primaryCta": "打开角色构建器",
         "proofs": [
-          "Start with one identity photo, optional outfit inspiration, or a scratch-built concept",
-          "Generate a reusable portrait anchor or an 8-panel character sheet",
-          "Reuse the same character across scenes, prompts, edits, and still-reference video workflows"
+          {
+            "label": "肖像锚点",
+            "note": "锁定人物面部、发型、妆容与光影基调"
+          },
+          {
+            "label": "8 宫格角色图",
+            "note": "4 个全身视角 + 4 个面部特写，全方位覆盖"
+          },
+          {
+            "label": "多场景复用",
+            "note": "在图像、精修与图生视频中保持人物完全一致"
+          }
         ],
         "showcase": {
-          "topLabel": "Character Builder workspace",
-          "windowLabel": "choose input, generate asset, reuse",
-          "imageAlt": "Full screenshot of the MaxVideoAI Character Builder workspace.",
+          "topLabel": "角色基准设定",
+          "windowLabel": "Character Builder 工作台",
+          "imageAlt": "Character Builder 角色设定图",
           "callouts": [
-            {
-              "label": "01",
-              "title": "Choose your input",
-              "body": "Use one identity photo, add optional outfit inspiration, or start from scratch."
-            },
-            {
-              "label": "02",
-              "title": "Generate the asset",
-              "body": "Create a portrait anchor or one coherent 8-panel character sheet."
-            },
-            {
-              "label": "03",
-              "title": "Reuse it everywhere",
-              "body": "Bring the same reference into prompts, edits, Nano Banana, and still-reference video workflows."
-            }
-          ]
+            "锁定人物特质",
+            "8 宫格三视图",
+            "跨场景无缝复用"
+          ],
+          "caption": "使用 MaxVideoAI Character Builder 生成的角色设定图",
+          "title": "可复用的角色视觉锚点"
         }
       },
       "why": {
-        "problemLabel": "Why people need it",
-        "problemTitle": "Why AI Characters Drift",
-        "problemBody": "Prompts can preserve the general idea of a character, but identity details still slip once you start generating multiple scenes.",
+        "problemLabel": "为什么创作者需要它",
+        "problemTitle": "为什么传统 AI 角色极易崩坏失真",
+        "problemBody": "单纯依靠文本提示词只能维持角色的大致特征，一旦进入多镜头或复杂场景，面部细节、五官比例和服装款式便会严重漂移。",
         "problemItems": [
-          "Faces and hair change between scenes",
-          "Wardrobe details stop matching",
-          "Silhouette continuity becomes harder to hold"
+          "跨场景生成时面容和发型频繁变异",
+          "很难让同一角色换穿不同服装或改变特定配饰",
+          "换机位角度或情绪神态时人物完全失真",
+          "必须不断抽取成百上千次随机盲盒来碰运气"
         ],
-        "solutionLabel": "What this tool creates",
-        "solutionTitle": "Character Builder creates the reference first",
-        "solutionBody": "Generate either a portrait anchor or an 8-panel character sheet, then bring that same reference back into prompts, edits, and still-reference video workflows.",
-        "portraitInputLabel": "Portrait input",
-        "portraitInputAlt": "Portrait reference used as the base input for Character Builder.",
-        "sheetLabel": "Reusable 8-panel sheet",
-        "sheetAlt": "Reusable 8-panel character sheet output generated from Character Builder."
+        "solutionLabel": "我们的解法",
+        "solutionTitle": "先锁定基准资产，再展开多场景分镜",
+        "solutionBody": "Character Builder 将角色的身份标识（面部、身材比例、核心特征）凝固为一张高精度的参考底图，让后续每次生成都有据可循。",
+        "portraitInputLabel": "源人像输入",
+        "portraitInputAlt": "用于提取角色基准特质的原始输入人像。",
+        "sheetLabel": "生成的角色设定三视图",
+        "sheetAlt": "包含正面、侧面、四分之三角度与特写的 8 宫格角色图。"
       },
       "howItWorks": {
-        "eyebrow": "工作原理",
-        "title": "Create the reference, then carry it forward",
-        "body": "Start with a face, an outfit cue, or a scratch-built concept. Generate the output, then bring it back into stills, edits, and video prep.",
+        "eyebrow": "生成流程",
+        "title": "生成参考资产，贯穿后续制作",
+        "body": "从一张清晰面孔、服装线索或纯文本构想开始。一键生成角色资产，无缝带入后续绘图、局部编辑与视频筹备环节。",
         "steps": [
           {
-            "stepLabel": "Start with",
-            "title": "Start with a face, outfit cue, or scratch concept",
-            "body": "Use one identity photo, add optional style direction, or start without a source image.",
-            "pills": [
-              "One identity photo",
-              "Optional outfit reference"
-            ]
+            "stepLabel": "第一步",
+            "title": "提供视觉起点",
+            "body": "上传一张人像照片、一张可选服饰参考，或输入角色特征描述从零构想。"
           },
           {
-            "stepLabel": "Generate",
-            "title": "Generate a portrait anchor or 8-panel sheet",
-            "body": "Create a tighter face reference or one coherent sheet with four body angles and four close-ups.",
-            "pills": [
-              "Portrait anchor",
-              "8-panel character sheet"
-            ]
+            "stepLabel": "第二步",
+            "title": "选择资产输出类型",
+            "body": "选择紧凑的标准肖像锚点，或是包含多视角、全身与特写的 8 宫格角色设定图。"
           },
           {
-            "stepLabel": "Reuse in",
-            "title": "Reuse it in stills, edits, and video prep",
-            "body": "Bring the same reference into prompts, Nano Banana, and still-reference video tools.",
-            "pills": [
-              "Image prompts",
-              "Video prep"
-            ]
+            "stepLabel": "第三步",
+            "title": "跨场景灵活复用",
+            "body": "将生成的角色图作为参考图导入 Image 工具或视频工作流中，稳定生成不同场景的镜头。"
           }
         ],
-        "comparisonLabel": "Why it works",
-        "comparisonBody": "The reference does the continuity work before you start changing scenes.",
+        "comparisonLabel": "对比展示",
+        "comparisonBody": "在不同光照、情绪与镜头机位下保持相同的角色面容与身材比例。",
         "comparisons": [
           {
-            "eyebrow": "Without Character Builder",
-            "title": "Every new scene has to rebuild the character",
-            "items": [
-              "Face, hair, and outfit drift between prompts",
-              "You spend more time correcting continuity"
-            ]
+            "label": "情绪切换",
+            "note": "开心、严肃或沉思，面容特征始终如一"
           },
           {
-            "eyebrow": "With Character Builder",
-            "title": "One reference keeps the character grounded",
-            "items": [
-              "Face, outfit, and silhouette stay aligned",
-              "Stills and video prep start from a stronger base"
-            ]
+            "label": "光影变化",
+            "note": "逆光、夜景或日光，肤质五官稳定不垮"
           }
         ]
       },
       "outputsWorkflow": {
-        "eyebrow": "Outputs and workflow",
-        "title": "Choose the output, then move into stills and video",
-        "body": "Pick the output that fits the job, then carry it into Nano Banana or still-reference video workflows.",
+        "eyebrow": "输出格式与工作流",
+        "title": "选择最适合当前工程的角色产出形态",
+        "body": "挑选契合您任务的资产格式，随后直接带入 Nano Banana 或支持静帧参考的 AI 视频模型中。",
         "cards": [
           {
-            "eyebrow": "Portrait anchor",
-            "title": "Reusable portrait anchor",
-            "body": "Best for close-ups, prompts, and recurring character work.",
-            "pills": [
-              "Close-ups and edits"
-            ],
-            "imageAlt": "Reusable portrait anchor for close-ups, prompts, and recurring character work."
+            "eyebrow": "肖像锚点",
+            "title": "可复用的人物特写",
+            "body": "精准锁定面部五官轮廓，适合对话戏、访谈或聚焦表情的近景特写分镜。"
           },
           {
-            "eyebrow": "Character sheet generator",
-            "title": "8-panel character sheet",
-            "body": "Best when one multi-angle reference has to travel across scenes, boards, edits, and video prep.",
-            "pills": [
-              "Multi-angle",
-              "Most reusable"
-            ],
-            "badge": "Most reusable",
-            "stats": "4 full-body + 4 close-ups",
-            "imageAlt": "8-panel character sheet output generated from Character Builder."
-          },
-          {
-            "eyebrow": "Video prep still",
-            "title": "Cleaner still for motion prep",
-            "body": "Best when the reference needs one cleaner still before motion starts.",
-            "pills": [
-              "Video prep"
-            ],
-            "badge": "Nano Banana still",
-            "imageAlt": "Cleaner still prepared from the same character reference before motion starts."
+            "eyebrow": "8 宫格角色图",
+            "title": "完整三视图设定表",
+            "body": "包含正面、侧面、四分之三角及背面，涵盖全身与半身，满足故事板与动画预演全方位需求。"
           }
         ],
         "workflow": {
-          "label": "Reference workflow",
-          "title": "Character Builder -> Nano Banana -> Video",
-          "chainLabel": "Sheet -> Still -> Video",
+          "label": "工作流串联",
+          "chainLabel": "角色表 -> 关键帧 -> 动态视频",
           "steps": [
-            {
-              "label": "01 · Character sheet",
-              "body": "Lock the character before motion starts.",
-              "imageAlt": "Character Builder sheet used as the reusable reference asset across images and video workflows."
-            },
-            {
-              "label": "02 · Nano Banana still",
-              "body": "Refine the same character into a cleaner still.",
-              "imageAlt": "Nano Banana still created from the same character sheet reference."
-            },
-            {
-              "label": "03 · Video result",
-              "body": "The same grounded identity carried into motion.",
-              "imageAlt": "Video start frame generated from the Nano Banana still and the same character identity."
-            }
+            "1. 生成角色设定表",
+            "2. 生成分镜关键帧",
+            "3. 渲染连贯视频"
           ],
           "videoBadge": "LTX 2.3 Pro",
           "links": [
             {
               "href": "/app/image",
-              "label": "Open Nano Banana in Image"
+              "label": "在 Image 中为角色定制新场景"
+            },
+            {
+              "href": "/tools/angle",
+              "label": "在 Angle 中探索全新机位构图"
             },
             {
               "href": "/app",
-              "label": "Open Video Workspace"
-            },
-            {
-              "href": "/models/nano-banana",
-              "label": "Nano Banana"
-            },
-            {
-              "href": "/models/ltx-2-3-pro",
-              "label": "LTX 2.3 Pro"
-            },
-            {
-              "href": "/models/veo-3-1",
-              "label": "Veo 3.1"
-            },
-            {
-              "href": "/models/kling-3-pro",
-              "label": "Kling 3 Pro"
-            },
-            {
-              "href": "/models",
-              "label": "Browse Model Hub"
-            },
-            {
-              "href": "/examples",
-              "label": "See Examples"
+              "label": "在 Video 中为角色注入生动动态"
             }
-          ]
+          ],
+          "eyebrow": "多环节联动",
+          "title": "从静态角色到动态视频的平滑流转",
+          "body": "在 Character Builder 中生成角色资产 → 在 Image 中创作各分镜关键帧 → 在 Video 中注入运动与运镜。",
+          "imageAlt": "角色参考素材在图像与视频各环节间的流转示意图"
         }
       },
       "useCases": {
-        "eyebrow": "Use cases",
-        "title": "Where Reusable Character Consistency Matters",
-        "body": "One character can support creator, commercial, and planning workflows without losing continuity across multiple stills or shots.",
+        "eyebrow": "应用场景",
+        "title": "需要保持角色一致性的典型制作场景",
+        "body": "无论是独立创作者的故事短片、品牌商业广告还是前期概念策划，同一位主角贯穿始终，避免出戏。",
         "items": [
           {
-            "eyebrow": "Story / Film",
+            "eyebrow": "影视与剧情短片",
             "number": "01",
-            "title": "Short films and story scenes",
-            "body": "Keep the lead recognizable across boards, scene variations, and first-frame planning before motion starts.",
-            "imageAlt": "Story scene still generated from a reusable character reference."
+            "title": "连贯的叙事故事板",
+            "body": "为微电影、短剧或漫剧打造专属主角，在几十个不同分镜场景中保持同一张脸。"
           },
           {
-            "eyebrow": "Ad / Commercial",
+            "eyebrow": "品牌与数字人广告",
             "number": "02",
-            "title": "Recurring ad talent",
-            "body": "Reuse one spokesperson across campaign stills, alternate concepts, and reference-based video variants.",
-            "imageAlt": "Commercial spokesperson portrait prepared as a reusable reference asset."
+            "title": "虚拟代言人与品牌 IP",
+            "body": "创建专属于品牌的虚拟模特或 IP 形象，在不同产品宣传物料中穿戴不同服饰拍摄。"
           },
           {
-            "eyebrow": "Mascot / Brand",
+            "eyebrow": "游戏与概念艺术",
             "number": "03",
-            "title": "Brand mascots",
-            "body": "Keep one mascot stable across launches, promos, stills, and motion tests instead of rebuilding it each time.",
-            "imageAlt": "Brand mascot prepared as a reusable consistent character asset."
+            "title": "角色概念设定与立绘",
+            "body": "快速生成标准的角色设计三视图，提供给 3D 建模师、动画师或原画团队作为权威参考。"
           },
           {
-            "eyebrow": "Series / Creator",
+            "eyebrow": "社交媒体与个人 IP",
             "number": "04",
-            "title": "Creator series",
-            "body": "Reuse the same host, avatar, or character every episode without losing face, outfit, or silhouette consistency.",
-            "imageAlt": "Creator series frame generated from a reusable character reference."
-          },
-          {
-            "eyebrow": "Previs / Comics",
-            "number": "05",
-            "title": "Comics and animation previz",
-            "body": "Build one reusable character sheet for boards, panels, turnarounds, and previsualization work before animation.",
-            "imageAlt": "Reusable character reference prepared for comics panels and animation previz."
+            "title": "虚拟博主持续内容输出",
+            "body": "维持虚拟博主的外貌特征，在不同旅行背景、生活日常与拍摄角度下稳定出片。"
           }
         ]
       },
       "faq": {
         "eyebrow": "常见问题",
-        "title": "Consistent Character AI FAQ",
-        "body": "Short answers before you build the reference.",
+        "title": "角色一致性工具常见问题",
+        "body": "开始构建角色前的高频疑问解答。",
         "items": [
           {
-            "question": "What is consistent character AI?",
-            "answer": "It means building one stable character reference so the same face, outfit, and silhouette hold up better later on."
+            "question": "什么是 AI 角色一致性？",
+            "answer": "它意味着构建一个稳定、权威的角色视觉基准，使得在不同场景、不同动作与不同提示词下，人物的面孔五官、体态比例与标志性特征保持高度连贯。"
           },
           {
-            "question": "Can I create a character sheet from one image?",
-            "answer": "Yes. You can start from one image and generate an 8-panel sheet with four full-body angles and four matching close-ups."
+            "question": "我可以使用真实人像照片作为输入吗？",
+            "answer": "可以。您可以上传一张真人正面照片，工具会基于其五官结构建立一致的角色资产。请确保您拥有相关肖像的合法使用权。"
           },
           {
-            "question": "Can I use one face reference and one outfit reference?",
-            "answer": "Yes. You can pair one identity reference with a second image for wardrobe or outfit direction."
+            "question": "8 宫格角色图包含哪些视角？",
+            "answer": "包含 4 个全身视角（正面、四分之三侧面、正侧面、背面）以及对应的 4 个高保真面部特写视角，方便多角度参考。"
           },
           {
-            "question": "Can I start from scratch?",
-            "answer": "Yes. You can build a portrait anchor or character sheet from a scratch-built concept when you do not have a source image."
-          },
-          {
-            "question": "Can I reuse this in image-to-video workflows?",
-            "answer": "Yes. You can reuse it in prompts, Nano Banana start-frame prep, and video engines that support still references."
+            "question": "生成的角色资产可以在视频模型中使用吗？",
+            "answer": "完全可以。将生成的角色图作为参考图（Reference Image）传入支持图生视频或多参考输入的视频模型（如 Kling、Veo、LTX、Wan 等），即可驱动角色运动。"
           }
         ]
       },
       "related": {
-        "eyebrow": "Related workflow",
-        "title": "Use the reference across the rest of the workflow",
-        "body": "Once the character is locked, move into Image, Nano Banana, or video models without rebuilding identity again.",
-        "workflowTitle": "Continue with",
+        "eyebrow": "相关工作流",
+        "title": "在全套生产管线中复用角色资产",
+        "body": "一旦锁定角色面容，即可无缝导入图像工具、Nano Banana 或视频模型，无需反复重新抽卡调参。",
+        "workflowTitle": "推荐衔接流程",
         "workflowLinks": [
           {
             "href": "/app/image",
-            "label": "Generate the still in Image"
+            "label": "在 Image 中为角色定制新场景"
           },
           {
-            "href": "/models/nano-banana",
-            "label": "Build the start frame in Nano Banana"
+            "href": "/tools/angle",
+            "label": "在 Angle 中探索全新机位构图"
           },
           {
-            "href": "/models/ltx-2-3-pro",
-            "label": "Move into video with LTX 2.3 Pro"
-          },
-          {
-            "href": "/models/veo-3-1",
-            "label": "Move into video with Veo 3.1"
-          },
-          {
-            "href": "/models/kling-3-pro",
-            "label": "Move into video with Kling 3 Pro"
+            "href": "/app",
+            "label": "在 Video 中为角色注入生动动态"
           }
         ],
-        "guidesTitle": "Related guides",
+        "guidesTitle": "相关实战技巧",
         "guideLinks": [
           {
-            "href": "/blog/how-to-create-consistent-ai-characters",
-            "label": "How to create consistent AI characters"
+            "href": "/blog/consistent-character-ai-guide",
+            "label": "AI 角色一致性完全指南"
           },
           {
-            "href": "/blog/ai-character-sheet-generator",
-            "label": "When to use an 8-panel character sheet"
+            "href": "/blog/character-reference-sheets",
+            "label": "如何高效利用角色设定表驱动视频"
           }
         ]
       },
       "finalCta": {
-        "eyebrow": "Create the reference first",
-        "title": "Keep the Same Character Across Scenes, Stills, and Video",
-        "body": "Generate a portrait anchor or 8-panel sheet, then reuse that same reference in prompts, edits, and still-reference video workflows.",
-        "primaryCta": "Open Character Builder",
-        "panelLeft": "Locked character",
-        "panelRight": "Ready to reuse",
-        "panelAlt": "Reusable AI character sheet preview generated with MaxVideoAI Character Builder."
+        "eyebrow": "先定基准，后做内容",
+        "title": "跨越场景、静帧与动态视频，始终锁定同一主角",
+        "body": "生成高精度肖像基准或 8 宫格设定表，在提示词创作、局部重绘与图生视频中持久复用该参考资产。",
+        "primaryCta": "打开角色构建器",
+        "panelLeft": "锁定角色基准",
+        "panelRight": "随时跨场景复用",
+        "panelAlt": "使用 MaxVideoAI Character Builder 生成的可复用角色设定图预览。"
       }
     },
     "backgroundRemoval": {
       "meta": {
-        "title": "Video Background Remover | Green Screen & AI Rotoscoping",
-        "description": "Remove video backgrounds in MaxVideoAI. Create green-screen-style cutouts, AI rotoscoping assets, alpha mattes, transparent WebM, or solid-color clips.",
+        "title": "视频背景去除工具 | AI 绿幕抠像与动态蒙版 | MaxVideoAI",
+        "description": "在 MaxVideoAI 中智能去除视频背景。一键生成绿幕级抠像素材、AI 动态蒙版、Alpha 透明通道 WebM 或纯色背景视频。",
         "keywords": [
-          "video background remover",
-          "remove video background",
-          "green screen video remover",
-          "AI rotoscoping",
-          "transparent video background",
-          "alpha matte video",
-          "subject cutout video",
-          "chroma key alternative",
-          "Premiere transparent video export"
+          "视频背景去除",
+          "AI 视频抠像",
+          "绿幕视频制作",
+          "视频透明通道导出",
+          "AI 动态蒙版",
+          "视频去绿幕",
+          "Premiere 透明视频",
+          "电商视频去背景"
         ],
-        "imageAlt": "Before and after video background removal preview with a presenter isolated on a transparent-style background.",
-        "schemaName": "Video Background Remover",
-        "schemaDescription": "A MaxVideoAI tool for removing backgrounds from short videos, creating AI rotoscoping-style subject cutouts, and exporting transparent video assets.",
-        "howToTitle": "How to remove a video background or create an AI rotoscope cutout",
-        "howToDescription": "Upload or select a video, choose transparent, green-screen-style, or solid-color output, run the AI video matting workflow, then save or download the result."
+        "imageAlt": "带透明棋盘格背景预览的视频背景消除前后效果对比。",
+        "schemaName": "视频背景去除工具",
+        "schemaDescription": "一款专为短视频去除背景的 MaxVideoAI 专业工具，支持导出透明 WebM、Alpha 蒙版遮罩或纯色背景视频，直接适配各大剪辑软件。",
+        "howToTitle": "如何去除视频背景或创建 AI 动态蒙版",
+        "howToDescription": "上传或挑选一段视频，选择透明背景、绿幕合成或纯色背景，在导出前查看确切价格并一键处理。"
       },
       "breadcrumb": {
-        "home": "Home",
+        "home": "首页",
         "tools": "工具",
-        "current": "Video Background Remover"
+        "current": "视频背景去除工具"
       },
       "hero": {
-        "badge": "Green screen, alpha, and AI rotoscoping",
-        "title": "Remove the background from your video.",
-        "body": "Keep your subject and choose a transparent, green or solid background. Preview the price, process your clip and take the result into your edit.",
-        "primaryCta": "Open Video Background Remover",
-        "secondaryCta": "View all tools",
+        "badge": "绿幕合成、Alpha 蒙版与 AI 智能抠像",
+        "title": "一键去除视频背景，主体清晰干净。",
+        "body": "完整保留人物或前景商品，自由替换为透明通道、经典绿幕或纯色背景。预估处理价格，高速渲染成片并无缝导入剪辑工程。",
+        "primaryCta": "打开视频背景去除",
+        "secondaryCta": "查看全部工具",
         "assurances": [
-          {
-            "label": "Price before generation",
-            "body": "The wallet estimate is shown before the run starts."
-          },
-          {
-            "label": "No surprise runs",
-            "body": "Failed jobs are refunded automatically."
-          },
-          {
-            "label": "Editor-ready output",
-            "body": "Export alpha, green screen, or solid color."
-          }
+          "支持导出透明 WebM VP9 与带 Alpha 通道的 MOV 文件",
+          "发丝级边缘羽化与动态防抖抑制",
+          "生成前查看确切报价，失败全额退款"
         ],
         "stats": [
           {
-            "value": "60s",
-            "label": "studio clips"
+            "value": "透明 / 绿幕 / 纯色",
+            "label": "可选背景模式"
           },
           {
-            "value": "Alpha",
-            "label": "WebM alpha"
+            "value": "WebM / MP4 / MOV",
+            "label": "支持交付格式"
           },
           {
-            "value": "Library",
-            "label": "save outputs"
+            "value": "发丝级精度",
+            "label": "前景边缘处理"
           }
         ]
       },
       "useCases": {
-        "eyebrow": "Use cases",
-        "title": "One clean subject, many production paths",
-        "body": "Use background removal as AI rotoscoping, green screen replacement, product cutout, alpha matte, and compositing prep before the next edit.",
+        "eyebrow": "应用场景",
+        "title": "同一个干净主体，衍生无限制作可能",
+        "body": "将背景消除工具作为 AI 动态抠像、绿幕替换、电商商品剥离、Alpha 蒙版生成与特效合成前置处理。",
         "cards": [
           {
-            "title": "Talking heads",
-            "body": "Rotoscope presenters out of a busy room and place them over brand-safe scenes, decks, or transparent layouts."
+            "title": "真人出镜口播视频",
+            "body": "去除杂乱房间或办公室背景，替换为高质感演播厅或动态科技背景。"
           },
           {
-            "title": "Product cutouts",
-            "body": "Separate handheld product footage into foreground assets for ecommerce videos, landing pages, and explainers."
+            "title": "电商商品展示短片",
+            "body": "将拍摄或生成的商品视频背景抠除，生成纯净白底或配合品牌宣传片快速合成。"
           },
           {
-            "title": "Ad compositing",
-            "body": "Create green-screen-style foreground plates that editors can combine with new hooks, scenes, and campaign backgrounds."
+            "title": "影视后期合成资产",
+            "body": "提取角色或特技动作，生成高精度黑白 Alpha 遮罩，直接拖入 After Effects 参与节点合成。"
           },
           {
-            "title": "Green screen replacement",
-            "body": "Keep the instructor or speaker visible while replacing a classroom, office, or branded backdrop without filming on a green screen."
-          },
-          {
-            "title": "Social overlays",
-            "body": "Export reusable transparent clips and alpha overlays for vertical posts, stories, reels, and product demos."
+            "title": "网页与 UI 交互动效",
+            "body": "导出带透明通道的 WebM 视频，在网页或移动端实现无需背景色块阻挡的轻量化悬浮动态。"
           }
         ]
       },
       "modelGuide": {
-        "eyebrow": "Output guide",
-        "title": "AI video matting for green-screen and transparent exports",
-        "body": "The tool is focused on finished exports: transparent WebM for web playback, or solid-color and green-screen-style files for channels without alpha support.",
+        "eyebrow": "导出格式指南",
+        "title": "面向绿幕与透明视频的 AI 智能边缘处理",
+        "body": "工具聚焦于剪辑兼容性：为现代浏览器提供透明 WebM 导出，为不兼容 WebM 透明通道的传统剪辑软件提供纯绿幕或实色底板。",
         "columns": {
-          "model": "Output",
-          "bestFor": "Best for",
-          "price": "Estimate",
-          "useWhen": "Use when"
+          "model": "导出模式",
+          "bestFor": "最适场景",
+          "price": "预估费用",
+          "useWhen": "选用时机"
         },
         "rows": [
           {
-            "model": "AI video matting",
-            "bestFor": "Short uploaded or library videos that need background removal, subject isolation, alpha matte export, or green-screen replacement.",
-            "price": "Wallet estimate shown before launch. Successful runs are charged from the final app quote.",
-            "useWhen": "Use for final assets you want to preview, download, and save to the media library."
+            "model": "透明 WebM VP9",
+            "bestFor": "现代 Web 页面嵌入、支持透明通道的播放器与部分轻量剪辑环境。",
+            "price": "按视频时长与像素数量动态预估，提交前实时可见。",
+            "useWhen": "需要网页直接播放透明悬浮动画或剪辑软件原生支持 WebM Alpha 时。"
+          },
+          {
+            "model": "纯色 / 经典绿幕 MP4",
+            "bestFor": "Premiere、Final Cut Pro、DaVinci Resolve 等专业 NLE 剪辑软件中通过超级键快速抠像。",
+            "price": "经济实惠的通用视频输出标准计费。",
+            "useWhen": "后续需要在专业剪辑软件中自由替换背景或叠加多层合成时。"
+          },
+          {
+            "model": "黑白 Alpha 动态蒙版",
+            "bestFor": "After Effects、Nuke 等合成合成软件的高精度亮度遮罩处理。",
+            "price": "与标准处理费用相同，提供纯净灰度轮廓。",
+            "useWhen": "需要精确控制边缘羽化、边缘腐蚀或进行复杂调色合成时。"
           }
         ]
       },
       "workflow": {
-        "eyebrow": "Workflow",
-        "title": "From source clip to green-screen, alpha, or compositing asset",
-        "body": "The tool keeps the production loop compact: choose a source, configure the alpha or background output, run, inspect, then save or download.",
-        "priceNote": "Before you generate, MaxVideoAI displays the estimated price for the selected clip and output settings.",
+        "eyebrow": "制作工作流",
+        "title": "从源视频片段到绿幕、Alpha 通道或合成素材",
+        "body": "小巧高效的制作闭环：导入源视频、配置 Alpha 通道或背景色彩、执行处理、检验效果、随后保存至素材库或下载。",
+        "priceNote": "在正式开始前，MaxVideoAI 会根据视频时长与分辨率清晰展示预估点数消耗。",
         "steps": [
           {
-            "title": "Upload or select a video",
-            "body": "Use a short MP4, MOV, or WebM URL, upload a file, or pick a saved library video."
+            "title": "上传或挑选视频",
+            "body": "从本地或素材库中选择一段短视频（支持 MP4、MOV、WebM 格式）。"
           },
           {
-            "title": "Choose alpha, green screen, or color output",
-            "body": "Export WebM VP9 for transparent playback, or a green/solid-color MP4 or MOV plate when the destination does not support alpha."
+            "title": "选择背景输出模式",
+            "body": "选择透明通道（Alpha）、标准绿幕底（Green Screen）或自定义纯色背景。"
           },
           {
-            "title": "Preview, save, and reuse",
-            "body": "Compare source and result, download the file, or save it back to the MaxVideoAI library."
+            "title": "下载或流转复用",
+            "body": "获取处理完毕的视频文件，直接拖入剪辑轨道或保存于个人素材库备用。"
           }
         ]
       },
       "production": {
-        "eyebrow": "Export quality",
-        "title": "Download files your production tools can actually open",
-        "body": "Transparent video and AI rotoscoping outputs are format-sensitive, so WebM VP9 is the transparent export while MP4/MOV outputs should use green-screen or solid-color backgrounds.",
-        "panelCaption": "Use WebM VP9 for browsers and compatible editors, and green-screen or solid-color MP4/MOV when the destination cannot preserve alpha.",
+        "eyebrow": "交付品质",
+        "title": "下载剪辑软件能真正开箱即用的交付文件",
+        "body": "透明视频与 AI 动态抠像极其依赖文件容器兼容性。我们为浏览器与兼容编辑器提供 WebM VP9，为传统剪辑软件提供标准 MP4 绿幕底板。",
+        "panelCaption": "浏览器与兼容环境优先选用 WebM VP9；专业剪辑轨道推荐选用纯绿底 MP4 配合超级键抠像。",
         "items": [
           {
-            "title": "Transparent WebM overlay",
-            "body": "WebM VP9 stays available for browser playback, landing-page overlays, and web players that support transparent WebM."
+            "title": "清晰锐利的发丝与边缘",
+            "body": "智能识别前景人体轮廓与发丝细缕，避免传统生硬抠像边缘产生的白边或黑边锯齿。"
           },
           {
-            "title": "Editor-friendly plates",
-            "body": "Choose green-screen or solid-color MP4/MOV output when your editing pipeline does not preserve transparent WebM."
+            "title": "音频轨道完美保留",
+            "body": "源视频中的对白、音效与背景音乐将完整封装在输出文件中，音画时刻保持同步。"
           },
           {
-            "title": "Green-screen plate",
-            "body": "Choose a green or solid background when the final platform strips alpha channels."
+            "title": "严密的资产安全与隐私",
+            "body": "处理文件保留在您的个人加密素材库中，绝不公开泄露，可随时一键彻底删除。"
           }
         ]
       },
       "faqSection": {
         "eyebrow": "常见问题",
-        "title": "Video background removal questions",
-        "body": "Practical details for transparent output, audio, pricing, and library reuse."
+        "title": "视频背景去除高频疑问",
+        "body": "涵盖透明输出、音频保留、计费规则与剪辑复用的实用解答。"
       },
       "faq": [
         {
-          "q": "Can I export a transparent video or alpha matte?",
-          "a": "Yes. Use WebM VP9 when the destination supports transparent WebM. For editors that do not preserve WebM alpha, use a green-screen or solid-color MP4/MOV plate."
+          "q": "我可以导出带透明背景的视频或 Alpha 蒙版吗？",
+          "a": "可以。当目标播放环境或剪辑工具支持透明 WebM 时，请选择 WebM VP9。对于不支持 WebM Alpha 的传统剪辑软件，建议选用绿幕底板配合色键抠像。"
         },
         {
-          "q": "Can this replace green screen or rotoscoping work?",
-          "a": "It can replace many simple green-screen, chroma key, and AI rotoscoping prep tasks by isolating the subject and exporting a transparent or solid-color plate."
+          "q": "它能替代拍摄时的物理绿幕或逐帧手动抠像吗？",
+          "a": "是的。AI 算法能够智能识别前景主体与背景深度，即使原片是在杂乱实景中拍摄，也能自动剥离出干净的主体，极大节省前期搭绿幕与后期手动画遮罩的时间。"
         },
         {
-          "q": "Can the tool preserve audio?",
-          "a": "Yes. Studio mode includes an audio preservation toggle, so you can keep the source soundtrack when the selected output supports it."
+          "q": "原视频中的音频会丢失吗？",
+          "a": "不会。背景去除仅针对视频画面的视觉像素进行抠像处理，原视频中的音轨会完整保留并同步混流至最终输出文件中。"
         },
         {
-          "q": "How is pricing estimated?",
-          "a": "MaxVideoAI reads the clip duration and shows a wallet estimate before the run starts. Failed runs are refunded automatically."
+          "q": "单次视频背景去除的处理费用如何计算？",
+          "a": "计费取决于源视频的实际时长和分辨率。在点击开始处理前，工作台会实时展示所需的点数额度，仅在成功渲染后扣除。"
         },
         {
-          "q": "What is the studio duration limit?",
-          "a": "This release is scoped to short clips up to 60 seconds so processing, preview, and billing stay predictable."
+          "q": "处理一段视频大约需要多长时间？",
+          "a": "处理时间与视频长度相关，通常一段 5-10 秒的视频在云端几秒至数十秒即可完成高精度抠像与转码。"
         },
         {
-          "q": "Can I reuse saved outputs?",
-          "a": "Yes. Save finished videos to the media library and select them later from the Background removal tab."
+          "q": "处理复杂动作或快速运动时会有模糊吗？",
+          "a": "模型内置了时间轴连续性与运动防抖补偿，能够有效避免前景边缘闪烁，在快速肢体运动下也能保持稳定的边缘轮廓。"
         },
         {
-          "q": "Which format should I choose for editing?",
-          "a": "Use transparent WebM when your editor supports it. Otherwise export a green-screen or solid-color MP4/MOV plate and key or composite it in the editor."
+          "q": "导出后如何在 Premiere 或 Final Cut Pro 中使用？",
+          "a": "如果您导出了绿幕版本，只需将其拖入轨道，添加“超级键 (Ultra Key)”并吸取绿色背景即可一键抠透；如果您导出了 WebM/MOV 透明版本，直接作为上层轨道叠加即可。"
         }
       ],
       "finalCta": {
-        "eyebrow": "Ready to clean the clip?",
-        "title": "Remove a background and keep the result in your MaxVideoAI library",
-        "body": "Open the workspace, estimate the run, and turn short source videos into reusable subject cutouts, alpha mattes, green-screen plates, or solid-background assets.",
-        "primaryCta": "Open Video Background Remover",
-        "secondaryCta": "View all tools"
+        "eyebrow": "准备好优化您的视频素材了吗？",
+        "title": "去除视频背景，将高品质主体保存在 MaxVideoAI 素材库中",
+        "body": "打开工作区，实时核对预估费用，将日常短视频快速转化为可复用的主体抠像、Alpha 蒙版或绿幕成片。",
+        "primaryCta": "打开视频背景去除",
+        "secondaryCta": "浏览全部工具"
       },
       "visualLabels": {
-        "source": "Source",
-        "alpha": "Alpha matte",
+        "source": "原视频",
+        "alpha": "Alpha 动态蒙版",
         "stages": [
-          "Source clip",
-          "Alpha matte",
-          "New background"
+          "源视频片段",
+          "Alpha 动态蒙版",
+          "替换新背景"
         ],
-        "transparent": "Transparent web",
-        "green": "Green screen",
-        "solid": "Solid background"
+        "transparent": "透明通道（Web）",
+        "green": "经典绿幕底板",
+        "solid": "自定义纯色底"
       }
     },
     "journey": {
-      "all": "全部工具",
-      "open": "Open tool",
-      "nav": "Explore creative tools",
-      "character": "Character",
-      "angle": "Camera angle",
-      "upscale": "Upscale",
-      "background": "Video cutout",
-      "workspace": "Inside the tool",
-      "capture": "Current interface · English · visitor view",
-      "full": "View full screenshot",
-      "proof": "Reference illustration",
-      "sheet": "Character sheet",
-      "portrait": "Portrait",
-      "views": "Front, profile, three-quarter and back. Full body and close-ups.",
-      "workshops": "Build your next scene.",
-      "finishing": "Give your video the finishing touch.",
-      "start": "Create your starting point.",
-      "startBody": "No source image yet? Generate one in MaxVideoAI. You can also create voices, music and sound in the Audio workspace.",
-      "image": "Create an image",
-      "audio": "Create audio",
-      "browse": "Choose your tool",
-      "studio": "Open the toolbox",
-      "next": "Continue your project",
-      "faq": "Questions before you start",
-      "details": "Explore the models and their limits",
-      "learn": "Explore the tool"
+      "all": "全部创作工具",
+      "open": "打开工具",
+      "nav": "探索创意工具",
+      "character": "角色一致性",
+      "angle": "镜头角度",
+      "upscale": "画质超分",
+      "background": "抠像与背景去除",
+      "workspace": "工具工作区",
+      "capture": "当前界面 · 简体中文 · 访客视图",
+      "full": "查看完整截图",
+      "proof": "参考插画",
+      "sheet": "角色三视图",
+      "portrait": "半身肖像",
+      "views": "正面、侧面、四分之三侧面与背面；全身与特写。",
+      "workshops": "打造您的下一个分镜画面。",
+      "finishing": "为您的视频锦上添花。",
+      "start": "创建您的视觉起点。",
+      "startBody": "还没有源图片？在 MaxVideoAI 中生成一张。您也可以直接上传现有的参考图。",
+      "image": "生成图像",
+      "audio": "生成音频",
+      "browse": "选择您的工具",
+      "studio": "打开工具箱",
+      "next": "继续您的项目",
+      "faq": "开始前的常见疑问",
+      "details": "探索模型及其限制",
+      "learn": "深入了解该工具"
     }
   },
   "notFound": {

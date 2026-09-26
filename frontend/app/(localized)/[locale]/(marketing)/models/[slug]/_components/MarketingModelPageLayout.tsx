@@ -285,7 +285,7 @@ export function MarketingModelPageLayout({
     question: entry.question,
     answer: entry.answer,
   }));
-  const faqTitle = copy.faqTitle ?? 'FAQ';
+  const faqTitle = copy.faqTitle ?? (locale === 'zh' ? '常见问题' : 'FAQ');
   const faqJsonLdEntries = faqList.slice(0, 6);
   const prepLinksSection = buildModelPrepLinksSection(engine.modelSlug, locale);
   const pricingCallout = buildModelPricingCallout(engine.modelSlug, locale);
