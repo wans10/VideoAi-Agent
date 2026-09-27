@@ -122,11 +122,11 @@
   "prompts": [
     {
       "title": "电影感夜巷对白",
-      "prompt": "Two friends walk through a rain-soaked neon alley at night, camera tracks at shoulder height, reflective puddles, soft thunder, quiet dialogue: “Did you get the shot?” “Yeah, Kling 2.6 nailed it.”"
+      "prompt": "两位朋友深夜穿行于被雨水浸透的霓虹小巷，摄像机在肩膀高度跟拍，地面倒映着霓虹光，远处传来低沉的雷声，两人轻声对话：\"拍到了吗？\"\"拍到了，Kling 2.6 完美呈现。\""
     },
     {
       "title": "产品特写竖屏展示",
-      "prompt": "Vertical close-up of a smartwatch rotating over a soft neon gradient background, camera dolly with gentle parallax, crisp reflections, 1080p, subtle electronic ambience and SFX."
+      "prompt": "竖屏特写：智能手表在柔和霓虹渐变背景上缓缓旋转，摄像机以轻柔视差推进，反光清晰锐利，1080p，搭配若隐若现的电子环境音与音效。"
     }
   ],
   "faqs": [
@@ -439,7 +439,7 @@
     "demo": {
       "title": "演示提示词：Kling 2.6 Pro",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Young woman in a night coffee shop\nAction: Works by a rain-streaked window\nCamera: Cinematic vertical shot with gentle motion\nStyle: Warm cafe, rain reflections, intimate mood\nAudio: Cafe ambience and subtle rain",
+      "prompt": "主体：夜间咖啡馆里的年轻女子\n动作：在布满雨滴的窗边工作\n运镜：轻柔微动的电影感竖屏镜头\n风格：温馨咖啡馆，雨水倒影，静谧亲切的氛围\n音频：咖啡馆环境音与轻柔雨声",
       "notes": [],
       "summary": {
         "subject": "夜间咖啡馆里的年轻女子",

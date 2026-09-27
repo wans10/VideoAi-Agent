@@ -131,15 +131,15 @@
   "prompts": [
     {
       "title": "薄雾森林缓慢推镜头",
-      "prompt": "Misty forest at dawn, slow push-in toward a mossy rock as light rays cut through trees, subtle birdsong, no dialogue, 8s, 16:9 at 1080p."
+      "prompt": "黎明时分的薄雾森林，光线穿透树冠，镜头缓慢推向一块布满苔藓的岩石，隐约的鸟鸣声，无对白，8s，16:9，1080p。"
     },
     {
       "title": "参考图引导产品漫游",
-      "prompt": "8s 16:9 reference-to-video shot using 1-4 product and wardrobe stills, slow tracking camera through a neon street, preserve face, outfit, logo shape, and material details, subtle city ambience."
+      "prompt": "8s 16:9 参考生视频镜头，使用 1-4 张产品与服装静态参考图，缓慢追踪镜头穿越霓虹灯街道，保留人物面部、服装、Logo 形状与材质细节，轻柔的城市环境音。"
     },
     {
       "title": "深夜办公桌快速草稿",
-      "prompt": "8s 16:9 Veo 3.1 Fast draft of a presenter working late at a minimalist desk, city lights blurred through a large window. Medium close-up, slow handheld drift, cool window light plus warm desk lamp, soft typing and one short calm line."
+      "prompt": "8s 16:9 Veo 3.1 Fast 草稿，演讲者深夜工作于极简风格桌前，城市灯光透过大窗虚化成背景光晕。中景特写，缓慢手持微移，清冷的窗外蓝光与温暖的桌面台灯交织，轻柔的键盘声与一句简短平静的旁白。"
     }
   ],
   "faqs": [
@@ -498,28 +498,28 @@
         "label": "快速",
         "title": "快速提示词（高效迭代）",
         "description": "当希望快速获取多种 Veo 变体时使用 1–2 句话。",
-        "copy": "8s 16:9 Veo 3.1 Fast draft of a product founder walking through a rainy neon street, slow handheld tracking move, blue storefront reflections, audio on with city ambience and one short calm line."
+        "copy": "8s 16:9 Veo 3.1 Fast 草稿，一位产品创始人走过雨夜霓虹街道，缓慢手持追踪镜头，蓝色橱窗倒影，开启音频并包含城市环境音与一句简短平静的旁白。"
       },
       {
         "id": "structured",
         "label": "结构化",
         "title": "结构化提示词（稳定草稿）",
         "description": "将主体、动作、镜头和音频分段描述，使快速渲染路线保持清晰意图。",
-        "copy": "Subject:\nProduct founder in a navy rain jacket, holding a compact camera bag.\n\nAction:\nWalks one step forward, looks toward the storefront, then pauses.\n\nCamera:\nMedium shot, slow handheld tracking move, 16:9, 8 seconds.\n\nLook:\nRainy neon street, blue reflections, clean commercial grade.\n\nAudio:\nCity ambience, soft footsteps, one short calm VO line."
+        "copy": "主体：\n身穿深蓝色雨衣、手持小型相机包的产品创始人。\n\n动作：\n向前走一步，视线转向橱窗，随后停顿。\n\n镜头：\n中景，缓慢手持追踪，16:9，8 秒。\n\n视觉风格：\n雨夜霓虹街道，蓝色倒影，商业级干净质感。\n\n音频：\n城市环境音，轻柔脚步声，一句简短平静的旁白。"
       },
       {
         "id": "pro",
         "label": "参考生视频",
         "title": "参考生视频提示词（1–4 张参考图）",
         "description": "当附加的参考图需要锁定主体身份、产品、服装或风格时使用此模板。",
-        "copy": "Reference-to-video, 8s, 16:9, 1080p, audio on. Use reference 1 for face and jacket, reference 2 for the product color, reference 3 for the rainy street palette. Keep the same identity and materials while the subject takes one step forward. Slow push-in, subtle city ambience, no extra characters."
+        "copy": "参考生视频，8s，16:9，1080p，开启音频。使用参考图 1 锁定人脸与夹克，参考图 2 锁定产品色彩，参考图 3 锁定雨夜街道色调。保留相同的人物身份与材质，同时主体向前走一步。缓慢推镜，轻柔城市环境音，不出现多余人物。"
       },
       {
         "id": "storyboard",
         "label": "首尾帧",
         "title": "首尾帧提示词",
         "description": "当开场与结束构图均已确认就绪时使用此方式。",
-        "copy": "First/last-frame Veo 3.1 Fast draft, 6s, 9:16, audio off. Start on the approved product table frame, end on the approved close-up hero frame. Smooth push-in only, keep background layout and label position stable, no new props, no text changes."
+        "copy": "首尾帧 Veo 3.1 Fast 草稿，6s，9:16，关闭音频。以已确认的产品桌面帧为起始，以已确认的产品特写主视觉帧为结束。仅使用平滑推镜，保持背景布局与标签位置稳定，不添加新道具，不更改文字。"
       }
     ],
     "tabNotes": [
@@ -553,7 +553,7 @@
     "demo": {
       "title": "演示：Veo 3.1 Fast 深夜办公桌草稿",
       "promptLabel": "8 秒开启音频草稿（16:9, 1080p）",
-      "prompt": "8s 16:9 Veo 3.1 Fast draft of a presenter working late at a minimalist desk, city lights blurred through a large window.\nCamera: medium close-up with a slow handheld drift, staying on the face, hands and laptop.\nLighting: cool blue window light mixed with a warm desk lamp.\nAudio: soft typing, low city hum and one short calm line.",
+      "prompt": "8s 16:9 Veo 3.1 Fast 草稿，演讲者深夜工作于极简风格桌前，城市灯光透过大窗虚化成背景光晕。\n镜头：中景特写，缓慢手持微移，始终聚焦于面部、双手与笔记本电脑。\n光影：清冷的蓝色窗外光与温暖的桌面台灯交织。\n音频：轻柔的键盘声、低沉的城市噪音与一句简短平静的旁白。",
       "notes": [
         "单一明确的主体与单一环境。",
         "平滑连贯且利于循环的简明动态。",

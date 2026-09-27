@@ -120,20 +120,20 @@
   "prompts": [
     {
       "title": "文生视频奢华大堂镜头",
-      "prompt": "Elegant boutique hotel lobby at dusk, warm practical lighting reflecting on polished marble, slow dolly forward, restrained cinematic pacing, 9s, 16:9 at 1080p."
+      "prompt": "黄昏时分的精品酒店大堂，温暖的实用光源映照在抛光大理石上，镜头缓慢向前推进，克制的电影级节奏，9s，16:9，1080p。"
     },
     {
       "title": "图生视频时尚大片静图",
-      "prompt": "Animate the uploaded editorial still into a subtle forward move with soft fabric motion and stable facial identity, keep the studio lighting premium, 5s."
+      "prompt": "将上传的时尚大片静图动画化为带有轻微前推运动的效果，配以柔和的面料飘动与稳定的面部识别，保持高级棚拍光效，5s。"
     },
     {
       "title": "Modify 风格转换",
-      "prompt": "Keep the source clip timing and camera path, refresh the wardrobe into metallic silk, cool the highlights, simplify the set dressing, flex_2.",
+      "prompt": "保留源片段的剪辑节奏与摄影机轨迹，将服装更新为金属质感丝绸，降低高光色温，简化场景布置，flex_2。",
       "notes": "请先上传源视频，然后选择与修改幅度相匹配的 modify 预设。"
     },
     {
       "title": "面向社交平台的竖屏重构",
-      "prompt": "Reframe the uploaded landscape fashion clip into a clean 9:16 crop, keep the face and shoulders prioritized, maintain motion continuity across the full shot."
+      "prompt": "将上传的横屏时尚片段重构为干净的 9:16 竖屏裁切，优先保留人脸与肩部构图，在完整镜头中保持运动连贯性。"
     }
   ],
   "faqs": [
@@ -400,7 +400,7 @@
     "demo": {
       "title": "演示提示词 — Luma Ray 2",
       "promptLabel": "Ray 2 工作流",
-      "prompt": "9s Luma Ray 2 render in 16:9, silent output.\nA premium product sits on a golden-hour cafe table with clean reflections and a soft background.\nSlow forward dolly, stable camera, one readable motion beat, cinematic depth of field.\nPreserve product framing, avoid unreadable text, added logos or overly fast motion.\nFor Modify/Reframe, keep the approved source motion and specify only what changes.",
+      "prompt": "Luma Ray 2 渲染，9s，16:9，无声输出。\n一款优质产品置于黄金时段的咖啡桌上，清晰的反光与柔和的背景虚化。\n缓慢向前推镜，机位稳定，单一可读运动节拍，电影级景深。\n保持产品构图，避免文字模糊、附加品牌标识或过快运动。\n针对 Modify/Reframe，保留已确认的源视频运动，仅指定需要修改的内容。",
       "notes": [],
       "summary": {
         "subject": "黄金时段咖啡馆中的产品特写",

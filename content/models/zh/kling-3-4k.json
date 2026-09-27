@@ -107,11 +107,11 @@
   "prompts": [
     {
       "title": "原生 4K 产品亮相特写",
-      "prompt": "Native 4K cinematic product reveal: macro reflections across a polished device, slow dolly push, controlled studio lighting, crisp edges, subtle ambient audio."
+      "prompt": "原生 4K 电影级产品亮相：精致设备表面的微距反光细节，缓慢推镜头，可控摄影棚布光，线条锐利清晰，细腻环境音效。"
     },
     {
       "title": "4K 旅游宣传母片",
-      "prompt": "16:9 native 4K travel hero shot: sunrise over a cliffside hotel, smooth drone glide, warm haze, ocean spray, refined luxury campaign feel."
+      "prompt": "16:9 原生 4K 旅游宣传主镜头：悬崖边酒店的日出时分，流畅的无人机滑动，温暖光晕，海浪飞溅，精致奢华的广告质感。"
     }
   ],
   "faqTitle": "常见问题 — MaxVideoAI 中的 Kling 3 4K",
@@ -371,28 +371,28 @@
         "label": "终版母片",
         "title": "终版 4K 交付提示词",
         "description": "当镜头配方已经审批定稿时使用。",
-        "copy": "模板（复制 / 粘贴）\n镜头目标：[最终交付用途：产品母片、宣传短片、大屏评审]\n主体：[已定稿的产品 / 角色 / 场景]\n动作：[单一清晰明确的动作]\n运镜：[锁定构图 + 单一运镜动作]\n风格：[已通过的光影、色调、镜头质感]\n交付规格：原生 4K，[时长]，[画幅比例]，音频 [开/关]\n\n示例：\nFinal native 4K product master for a premium smartwatch on a dark graphite plinth. One slow dolly push reveals the screen reflection and polished metal edge. Locked 16:9 framing, crisp studio highlights, black background, no extra text, no logo changes. Audio off for editorial finishing."
+        "copy": "模板（复制 / 粘贴）\n镜头目标：[最终交付用途：产品母片、宣传短片、大屏评审]\n主体：[已定稿的产品 / 角色 / 场景]\n动作：[单一清晰明确的动作]\n运镜：[锁定构图 + 单一运镜动作]\n风格：[已通过的光影、色调、镜头质感]\n交付规格：原生 4K，[时长]，[画幅比例]，音频 [开/关]\n\n示例：\n为深色石墨底座上的高端智能手表制作最终原生 4K 产品母片。一次缓慢推镜头展示屏幕反光与抛光金属边缘。16:9 锁定构图，清晰摄影棚高光，黑色背景，无额外文字，不更改 Logo。关闭音频供后期精剪调配。"
       },
       {
         "id": "structured",
         "label": "参考图",
         "title": "图生视频母片提示词",
         "description": "当需要借助源帧图片控制产品特征或画面构图时使用。",
-        "copy": "模板（复制 / 粘贴）\n源图片作用：[主体特征 / 产品外观结构 / 最终构图]\n保持不变：[形态、Logo、配色、姿势、构图]\n动态表现：[单一动态节拍]\n运镜：[微幅推进 / 环绕运镜 / 固定机位]\n尾帧：[如需要，指定平稳落幅画面]\n交付规格：原生 4K，[时长]，音频 [开/关]\n\n示例：\nUse the approved product still as the source frame. Preserve bottle shape, label placement and amber glass color. Add a subtle 4K macro orbit with controlled reflections, keep the bottle centered, land on the same clean frontal composition, no added text. Audio on with soft studio ambience only."
+        "copy": "模板（复制 / 粘贴）\n源图片作用：[主体特征 / 产品外观结构 / 最终构图]\n保持不变：[形态、Logo、配色、姿势、构图]\n动态表现：[单一动态节拍]\n运镜：[微幅推进 / 环绕运镜 / 固定机位]\n尾帧：[如需要，指定平稳落幅画面]\n交付规格：原生 4K，[时长]，音频 [开/关]\n\n示例：\n以已审批的产品静帧作为源帧。保持瓶身形态、标签位置与琥珀色玻璃颜色。加入微妙的 4K 微距环绕运镜与可控反光，保持瓶身居中，以同样干净的正面构图收尾，不添加文字。开启音频，仅保留柔和的摄影棚环境音。"
       },
       {
         "id": "pro",
         "label": "音频决策",
         "title": "音频决策提示词",
         "description": "当 4K 交付成片需要伴音背景时使用。",
-        "copy": "模板（复制 / 粘贴）\n音频定位：[评审参考音 / 终版环境氛围 / 简短人声 / 静音]\n与声音绑定的画面动作：[发出声音的具体动作]\n避免包含：[长段对白、冲突背景音乐、干扰画外音]\n导出说明：[音频 开/关]\n\n示例：\nNative 4K fashion campaign master, model turns once under soft studio light. Audio on: quiet fabric movement, subtle room tone, one low cinematic hit at the turn. No dialogue, no music bed, no off-screen sounds."
+        "copy": "模板（复制 / 粘贴）\n音频定位：[评审参考音 / 终版环境氛围 / 简短人声 / 静音]\n与声音绑定的画面动作：[发出声音的具体动作]\n避免包含：[长段对白、冲突背景音乐、干扰画外音]\n导出说明：[音频 开/关]\n\n示例：\n原生 4K 时尚广告母片，模特在柔和摄影棚灯光下转身一次。音频开启：轻微的布料摩擦声，微妙的室内环境音，转身时一声低沉的电影感击鼓。无对白，无音乐底床，无画外音。"
       },
       {
         "id": "storyboard",
         "label": "成本控制",
         "title": "4K 升级核对清单",
         "description": "在由 Standard 或 Pro 进阶到 4K 之前使用。",
-        "copy": "核对清单\n1. 提示词已在低成本 Kling 路由中测试通过。\n2. 源首帧或尾帧图片已最终定稿。\n3. 画幅比例与时长与成片交付标准一致。\n4. 已明确是否开启音频。\n5. 仅将最终定稿的镜头迁移至 Kling 3 4K。\n\n示例：\nApproved Kling 3 Pro 1080p shot becomes the 4K master: same subject, same camera path, same timing, same source frame, native 4K output for final delivery."
+        "copy": "核对清单\n1. 提示词已在低成本 Kling 路由中测试通过。\n2. 源首帧或尾帧图片已最终定稿。\n3. 画幅比例与时长与成片交付标准一致。\n4. 已明确是否开启音频。\n5. 仅将最终定稿的镜头迁移至 Kling 3 4K。\n\n示例：\n已审批的 Kling 3 Pro 1080p 镜头升级为 4K 母片：相同主体、相同运镜路径、相同时序、相同源帧，原生 4K 输出用于最终交付。"
       }
     ],
     "tabNotes": [],
@@ -413,7 +413,7 @@
     "demo": {
       "title": "演示提示词 — Kling 3 4K",
       "promptLabel": "终版 4K 母片",
-      "prompt": "Native 4K Kling 3 delivery render, 16:9, 6 seconds, audio off.\nA premium smartwatch rests on a dark graphite plinth in a minimal studio.\nOne slow dolly push reveals the polished edge, glass reflection and screen detail.\nLocked product framing, crisp highlights, clean black background, no added text or logo changes.\nUse this only after the composition and timing are approved in Standard or Pro.",
+      "prompt": "Kling 3 原生 4K 交付渲染，16:9，6秒，关闭音频。\n一块高端智能手表静置于极简摄影棚的深色石墨底座上。\n一次缓慢推镜头展示抛光边缘、玻璃反光与屏幕细节。\n产品锁定构图，清晰高光，干净黑色背景，不添加文字或 Logo 改动。\n仅在 Standard 或 Pro 中完成构图与时序审批后再使用此提示词。",
       "notes": [],
       "summary": {
         "subject": "高端智能手表产品母片",

@@ -119,11 +119,11 @@
   "prompts": [
     {
       "title": "固定机位霓虹雨巷",
-      "prompt": "A moody 16:9 neon alley in light rain, camera locked, reflective puddles, subtle ambience, soft audio bed."
+      "prompt": "16:9 氛围浓郁的霓虹小巷，细雨纷飞，固定机位，地面积水倒影，低调环境音，轻柔音乐底噪。"
     },
     {
       "title": "带尾帧的图生视频",
-      "prompt": "Animate the start image with a slow push-in, then resolve into the provided end frame, gentle ambience."
+      "prompt": "对起始图片进行慢速推进动画，然后过渡至提供的尾帧，温柔的环境音氛围。"
     }
   ],
   "faqTitle": "常见问题 – MaxVideoAI 中的 Seedance 1.5 Pro",
@@ -424,7 +424,7 @@
     "demo": {
       "title": "演示提示词 — Seedance 1.5 Pro",
       "promptLabel": "固定机位提示词",
-      "prompt": "10s Seedance 1.5 Pro clip in 16:9, audio on.\nA motorcycle rider crosses a wet street at night and slows inside the frame.\ncamera_fixed enabled: low locked shot, slight push-in, one readable motion beat.\nNight cinematic look, wet street reflections, simple background, no added text.\nAudio: short engine cue, light rain, street ambience, no dialogue.\nSeed: reuse the same seed when comparing only lighting, timing or audio intensity.",
+      "prompt": "10s Seedance 1.5 Pro 片段，16:9，音频开启。\n一名摩托车骑手穿越湿滑的夜间街道，在画面内缓缓减速。\n开启 camera_fixed：低角度固定镜头，轻微推进，一个清晰可读的运动节拍。\n夜间电影级质感，湿润街道倒影，简洁背景，无文字叠加。\n音频：短促引擎声，轻柔雨声，街道环境音，无对白。\n随机种子：仅对比光影、节奏或音频强度时，复用相同的随机种子。",
       "notes": [],
       "summary": {
         "subject": "湿滑雨夜街道上的摩托车骑手",

@@ -118,11 +118,11 @@
   "prompts": [
     {
       "title": "高端产品核心特写",
-      "prompt": "Ultra-cinematic beauty shot of a perfume bottle on a glossy black table, soft spotlight and drifting particles in the air, slow 180° camera orbit, shallow depth of field, 4K, 50 fps, subtle atmospheric soundtrack."
+      "prompt": "极致电影感产品特写：一瓶香水置于光亮黑色桌面，柔和聚光灯与飘动粒子环绕，摄像机缓慢作180°环绕运镜，浅景深，4K，50 fps，细腻大气环境音效。"
     },
     {
       "title": "图生视频旅行航拍",
-      "prompt": "From this coastline photo, turn it into a dynamic aerial shot: the camera glides low over the ocean, then rises smoothly above the cliffs toward a warm sunset, cinematic lighting, gentle ocean waves and ambient sound."
+      "prompt": "以这张海岸线照片为起点，将其转化为动态航拍镜头：摄像机低掠海面平滑滑行，随后缓缓爬升越过崖顶朝向温暖日落，电影级光影，轻柔海浪与环境音效。"
     }
   ],
   "faqs": [
@@ -485,7 +485,7 @@
     "demo": {
       "title": "演示提示词 – 高端产品核心特写",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Futuristic coastal megacity\nAction: Camera glides between glass towers and flying traffic\nCamera: Wide aerial view with cinematic travel motion\nStyle: Sunset, glass reflections, premium 4K cityscape\nAudio: Subtle futuristic ambience",
+      "prompt": "主体：未来主义滨海巨型都市\n动作：摄像机在玻璃摩天大楼与穿梭的空中车流之间平滑滑行\n运镜：广角航拍俯瞰视野，具有电影般的穿梭动态\n风格：日落余晖，玻璃倒影，高端 4K 城市景观\n音频：细腻的未来主义环境音效",
       "notes": [
         "单一核心主体",
         "明确的运镜与光影设定",

@@ -105,19 +105,19 @@
   "prompts": [
     {
       "title": "产品主视觉静态图",
-      "prompt": "Premium 2K hero still of a ceramic skincare bottle on pale stone, crisp label hierarchy, soft studio reflections, controlled shadow, campaign landing page composition, 4:3."
+      "prompt": "高品质 2K 主视觉静态图，浅色石面上的陶瓷护肤瓶，清晰的标签层级，柔和的棚拍反光，受控阴影，广告着陆页构图，4:3。"
     },
     {
       "title": "海报版式布局",
-      "prompt": "Minimal event poster concept with the exact headline \"NIGHT GARDEN\", large elegant typography, dark botanical texture, centered venue block, premium editorial spacing."
+      "prompt": "简约活动海报概念，精确标题文案\"NIGHT GARDEN\"，大号优雅字体，深色植物纹理背景，居中场地信息模块，高端编辑留白。"
     },
     {
       "title": "高细节编辑",
-      "prompt": "Preserve the uploaded product geometry and label order, improve material realism, clean the background, sharpen edge detail, keep natural highlights."
+      "prompt": "保留上传产品的几何形态与标签顺序，提升材质真实感，清理背景，锐化边缘细节，保留自然高光。"
     },
     {
       "title": "多参考图创意指导",
-      "prompt": "Use reference 1 for product identity, reference 2 for surface material, and reference 3 for campaign mood. Create a polished 2K launch still with clear headline space."
+      "prompt": "参考图1用于产品识别，参考图2用于表面材质，参考图3用于广告氛围。生成一张精致的 2K 发布静态图，保留清晰的标题文字空间。"
     }
   ],
   "faqs": [
@@ -413,28 +413,28 @@
           "title": "广告大片静态图",
           "badge": "2K 静态图",
           "kind": "quality",
-          "prompt": "2K campaign still for an amber perfume bottle on white acrylic, soft studio key light, clean shadow, exact headline \"AURA NOIRE\" top-left, small logo lockup bottom edge."
+          "prompt": "2K 广告静态图，白色亚克力台面上的琥珀色香水瓶，柔和的棚拍主光，干净阴影，精确标题\"AURA NOIRE\"置于左上角，小号品牌 Logo 锁定在底部边缘。"
         },
         {
           "id": "typography-2",
           "title": "文字排版海报",
           "badge": "文字与版式",
           "kind": "typography",
-          "prompt": "Vertical 4K poster, premium editorial grid, graphite background, exact headline \"MIDNIGHT LAUNCH\", subhead \"LIMITED DROP\", crisp hierarchy, generous margins, readable text."
+          "prompt": "竖版 4K 海报，高端编辑网格，石墨色背景，精确标题\"MIDNIGHT LAUNCH\"，副标题\"LIMITED DROP\"，清晰层级，充裕留白，文字清晰可读。"
         },
         {
           "id": "edit-3",
           "title": "参考图精修",
           "badge": "图生图",
           "kind": "edit",
-          "prompt": "Using this product reference, keep the shape, logo and proportions. Change the scene to a midnight-blue studio, improve reflections, remove dust and fingerprints."
+          "prompt": "使用此产品参考图，保留形态、Logo 与比例。将场景更换为午夜蓝棚拍风格，改善反光效果，去除灰尘与指纹。"
         },
         {
           "id": "layout-4",
           "title": "2K 转 4K 终稿",
           "badge": "4K 终稿",
           "kind": "layout",
-          "prompt": "Rerun the approved 2K composition as a 4K final. Sharpen fine details, keep typography identical, preserve brand colors, product position and the locked framing."
+          "prompt": "将已审定的 2K 构图重新生成为 4K 终稿。锐化精细细节，保持字体排版完全一致，保留品牌色彩、产品位置与已锁定的取景构图。"
         }
       ]
     }

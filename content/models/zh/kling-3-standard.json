@@ -131,11 +131,11 @@
   "prompts": [
     {
       "title": "三场景旅行混剪",
-      "prompt": "Scene 1 (4s): sunrise over a foggy ridge. Scene 2 (6s): hikers crossing a suspension bridge. Scene 3 (4s): close-up of a camera capturing golden hour portraits."
+      "prompt": "场景 1 (4s): 雾气笼罩的山脊上日出初现。场景 2 (6s): 徒步者正穿越一座吊桥。场景 3 (4s): 特写镜头，相机捕捉黄金时段的人像瞬间。"
     },
     {
       "title": "产品高光特写节拍",
-      "prompt": "Scene 1 (5s): macro of a luxury watch face. Scene 2 (4s): rotating hero shot with rim light. Scene 3 (4s): wrist-on model, soft ambience."
+      "prompt": "场景 1 (5s): 奢华腕表表盘的微距特写。场景 2 (4s): 配合边缘光的主体旋转展示镜头。场景 3 (4s): 模特佩戴腕表，柔和氛围光。"
     }
   ],
   "faqTitle": "常见问题 – MaxVideoAI 中的 Kling 3 Standard",
@@ -423,7 +423,7 @@
     "demo": {
       "title": "演示提示词 — Kling 3 Standard",
       "promptLabel": "提示词",
-      "prompt": "Duration: 12s • Aspect: 16:9 • Audio: on\nShot 1 (0-4s): @Element1 runner in a dark jacket waits under a neon sign, light rain, stable medium shot.\nShot 2 (4-8s): @Element1 crosses the street, smooth side tracking, blue and red reflections on wet pavement.\nShot 3 (8-12s): he slows beside a storefront, camera settles, same wardrobe and lighting anchors.\nAudio: wet street ambience, short footsteps, light breath. No text, no logos, no subtitles.",
+      "prompt": "时长: 12s • 画幅: 16:9 • 音频: 开启\n镜头 1 (0-4s): @Element1 身穿深色夹克的跑者在霓虹招牌下等候，细雨蒙蒙，稳定中景固定机位。\n镜头 2 (4-8s): @Element1 穿越街道，平滑侧面跟拍，湿滑路面上映出蓝红光晕倒影。\n镜头 3 (8-12s): 他在一家商铺前放慢脚步，镜头平稳停驻，保持一致的服装与布光视觉锚点。\n音频: 湿润街道环境音，短促脚步声，轻微呼吸声。无文字，无 logo，无字幕。",
       "notes": [],
       "summary": {
         "subject": "霓虹街头的跑者",

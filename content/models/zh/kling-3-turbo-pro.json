@@ -137,7 +137,7 @@
         "label": "导演执导",
         "title": "导演精美镜头序列",
         "description": "分别明确主体、动作、运镜、连贯性锚点与声音线索。",
-        "copy": "A remote observatory in a snowstorm. The dome rotates, the telescope aligns with a break in the clouds, and one distant lightning flash silhouettes the ridge. Slow controlled camera move, stable architecture, cold blue grade, wind and mechanical audio."
+        "copy": "暴风雪中的偏远天文台。圆顶缓缓旋转，望远镜对准云层间的空隙，远处一道闪电勾勒出山脊的轮廓。镜头平稳受控地缓移，建筑结构稳定，冷蓝色调，伴随风声与机械运转音效。"
       }
     ],
     "tabNotes": [
@@ -156,7 +156,7 @@
     "demo": {
       "title": "风雪天文台信号",
       "promptLabel": "生产级提示词",
-      "prompt": "A remote observatory in a snowstorm. The dome rotates, the telescope aligns with a break in the clouds, and one distant lightning flash silhouettes the ridge. Slow controlled camera move, stable architecture, cold blue grade, wind and mechanical audio.",
+      "prompt": "暴风雪中的偏远天文台。圆顶缓缓旋转，望远镜对准云层间的空隙，远处一道闪电勾勒出山脊的轮廓。镜头平稳受控地缓移，建筑结构稳定，冷蓝色调，伴随风声与机械运转音效。",
       "notes": [
         "仅重复跨越每次镜头切换必须保留的角色身份、关键道具与色彩锚点。"
       ],

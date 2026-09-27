@@ -321,7 +321,7 @@
     "demo": {
       "title": "演示提示词 - Happy Horse 1.0",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Museum curator in a portrait gallery\nAction: Walks through as painted faces come alive\nCamera: Smooth dolly through the gallery\nStyle: Surreal realism, dawn light, marble reflections and soft dust\nAudio: Quiet museum ambience, no dialogue",
+      "prompt": "主体：肖像画廊中的博物馆策展人\n动作：穿行其中，画中面孔逐渐鲜活\n镜头：平滑的画廊移动镜头\n风格：超现实主义，黎明光线，大理石倒影和柔和尘埃\n音频：安静的博物馆环境音，无对话",
       "notes": [],
       "summary": {
         "subject": "肖像画廊中的博物馆策展人",

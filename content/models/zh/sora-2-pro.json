@@ -270,12 +270,12 @@
   "prompts": [
     {
       "title": "多场景史诗开篇",
-      "prompt": "Scene 1 → A medieval city under the stars, camera slowly pans above rooftops, lute music plays, voice-over: 'Peace reigned for a century.' → Scene 2 → A rider gallops across the plains at sunrise, orchestral swell, zoom-in to sword hilt glowing.",
+      "prompt": "场景 1 → 星空下的中世纪城市，摄影机缓缓在屋顶上方横摇，鲁特琴音乐响起，旁白：\"和平延续了一个世纪。\" → 场景 2 → 骑士在日出时分策马横穿平原，管弦乐声浪涌起，镜头推进至剑柄光芒闪耀。",
       "notes": "使用多提示词串联，在单次渲染中衔接多个场景。"
     },
     {
       "title": "火把下的古迹探索",
-      "prompt": "Scene 1 → Interior of a jungle temple at dusk, drums echo in the background, voice-over: 'Legends speak of a guardian.' → Scene 2 → Torchlit hallway, camera glides toward ancient glyphs as the music builds.",
+      "prompt": "场景 1 → 黄昏时分的丛林神庙内部，鼓声在背景中回响，旁白：\"传说中守护者的身影犹在。\" → 场景 2 → 火把照亮的走廊，摄影机滑向古老象形文字，音乐渐渐升腾。",
       "notes": "从精细的概念静止图起步，以保持古代符文与光影的连贯一致。"
     }
   ],
@@ -504,7 +504,7 @@
     "demo": {
       "title": "演示案例：8秒 Pro 场景连贯性校验",
       "promptLabel": "Pro 场景校验",
-      "prompt": "Single CCTV-style 16:9 shot in an active construction area.\nA crew has just poured a smooth wet cement layer. A cat crosses the frame at the wrong moment, leaving paw marks while workers react in the background.\nCamera: fixed security-camera angle, slightly compressed lens, no dramatic push-in.\nStyle: believable site footage, overcast daylight, wet cement texture, practical safety cones and warning tape.\nAudio: off for this render.\nFormat: 8s, 16:9.",
+      "prompt": "一个固定 CCTV 风格的 16:9 镜头，拍摄活跃施工现场。\n刚浇筑完一层平整的湿水泥。一只猫在错误的时刻穿过画面，留下爪印，背景中工人作出反应。\n摄影机：固定安防摄像头视角，轻微压缩感镜头，无戏剧性推进。\n风格：逼真的现场实拍质感，阴天自然光，湿润水泥纹理，现场安全锥与警戒带。\n音频：此次渲染关闭音频。\n格式：8s，16:9。",
       "notes": [
         "与头图/图库案例的渲染元数据精准吻合，而非套用通用提示词模板。",
         "为 Pro 校验应用相同的结构：单一场景、单一事件、明确运镜与清晰输出配置。"

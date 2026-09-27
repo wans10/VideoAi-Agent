@@ -102,19 +102,19 @@
   "prompts": [
     {
       "title": "产品主视觉（文本生图）",
-      "prompt": "Photoreal studio product shot of a wireless earbud on a dark glossy surface, soft rim light, minimal background, 8K, product photography."
+      "prompt": "真实感影棚产品静物图：无线耳机置于深色光泽台面上，柔和轮廓补光，极简背景，8K，商业产品摄影。"
     },
     {
       "title": "生活方式关键帧（文本生图）",
-      "prompt": "Warm lifestyle scene of a young professional working on a laptop by a big window at golden hour, soft bokeh city lights outside, realistic colours, cinema-grade lighting."
+      "prompt": "温暖生活方式场景：一位年轻专业人士在黄金时段于宽大落地窗旁使用笔记本电脑，窗外柔和的城市散景光晕，色彩真实，电影级灯光。"
     },
     {
       "title": "画面精修清理（图像生图）",
-      "prompt": "Clean up this product mockup: even out the lighting, remove dust and fingerprints, and place it on a soft gradient background suitable for e-commerce."
+      "prompt": "精修这张产品样机：均匀整合光影，去除灰尘和指纹，并将产品置于适合电商展示的柔和渐变背景上。"
     },
     {
       "title": "时尚杂志风重塑（图像生图）",
-      "prompt": "Using this portrait photo, match the look of a glossy magazine cover: smoother skin, slightly punchier contrast, subtle colour grading and a neutral studio backdrop."
+      "prompt": "以这张人像照片为基础，匹配高端光面杂志封面的视觉风格：更细腻的肌肤质感、略微增强的对比度、微妙的色彩调色，以及干净的中性影棚背景。"
     }
   ],
   "faqs": [
@@ -434,28 +434,28 @@
           "title": "商业大片静态图",
           "badge": "2K 静态图",
           "kind": "quality",
-          "prompt": "2K campaign still for an amber perfume bottle on white acrylic, soft studio key light, clean shadow, exact headline \"AURA NOIRE\" top-left, small logo lockup bottom edge."
+          "prompt": "琥珀色香水瓶置于白色亚克力台面上的 2K 广告大片，柔和影棚主光，干净阴影，左上角精确标题文字 \"AURA NOIRE\"，底部边缘小型品牌 Logo 组合。"
         },
         {
           "id": "typography-2",
           "title": "文字排版海报",
           "badge": "文字排版",
           "kind": "typography",
-          "prompt": "Vertical 4K poster, premium editorial grid, graphite background, exact headline \"MIDNIGHT LAUNCH\", subhead \"LIMITED DROP\", crisp hierarchy, generous margins, readable text."
+          "prompt": "竖版 4K 海报，高端编辑网格，石墨色背景，精确标题文字 \"MIDNIGHT LAUNCH\"，副标题 \"LIMITED DROP\"，清晰的字阶层次，宽大留白，文字清晰可读。"
         },
         {
           "id": "edit-3",
           "title": "参考图精修",
           "badge": "图像生图",
           "kind": "edit",
-          "prompt": "Using this product reference, keep the shape, logo and proportions. Change the scene to a midnight-blue studio, improve reflections, remove dust and fingerprints."
+          "prompt": "以此产品参考图为基础，保持形态、Logo 和比例不变。将场景更换为午夜蓝影棚，优化反光质感，去除灰尘和指纹。"
         },
         {
           "id": "layout-4",
           "title": "2K 转 4K 成片",
           "badge": "4K 成片",
           "kind": "layout",
-          "prompt": "Rerun the approved 2K composition as a 4K final. Sharpen fine details, keep typography identical, preserve brand colors, product position and the locked framing."
+          "prompt": "以 4K 高质量重新渲染已审定的 2K 构图。锐化细节，保持文字排版一致，保留品牌配色、产品位置和已锁定的取景构图。"
         }
       ]
     }
@@ -557,7 +557,7 @@
         "id": "final",
         "title": "批量概念矩阵",
         "category": "批量生成",
-        "aspectRatio": "4 variants",
+        "aspectRatio": "4 种变体",
         "alt": "Nano Banana 四变体创意探索矩阵",
         "tags": [
           "final"

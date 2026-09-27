@@ -72,15 +72,15 @@
   "prompts": [
     {
       "title": "搜索接地零售概念",
-      "prompt": "Design a premium skincare launch still inspired by current luxury retail display language, pale stone pedestal, controlled daylight, restrained serif typography, polished campaign finish."
+      "prompt": "设计一张高端护肤品发布静态图，灵感来源于当下奢侈品零售陈列语言，浅石色展示台，受控自然采光，克制衬线字体排版，精致大片级成品效果。"
     },
     {
       "title": "超宽建筑展板",
-      "prompt": "8:1 panoramic still of a futuristic airport concourse at sunrise, polished concrete, long reflections, sparse travelers, cinematic but editorially clean composition."
+      "prompt": "8:1 全景静态图，展现日出时分未来感十足的机场候机大厅，抛光混凝土地面，修长倒影，稀疏旅客，电影感十足却又编辑风格利落的构图。"
     },
     {
       "title": "多图参考产品精修",
-      "prompt": "Combine these reference images into one final campaign still: keep the bag silhouette and stitching exact, unify the leather tone, clean reflections, and match the soft studio lighting."
+      "prompt": "将这些参考图合并为一张最终的广告静态图：保持包款轮廓与车线完全一致，统一皮革色调，清洁反光，并匹配柔和的棚拍光效。"
     }
   ],
   "faqs": [
@@ -370,28 +370,28 @@
           "title": "搜索接地产品场景",
           "badge": "1K 搜索接地",
           "kind": "quality",
-          "prompt": "1K product still for an outdoor water bottle on pale stone, natural daylight, premium e-commerce campaign style, current urban hiking context if web grounding is enabled."
+          "prompt": "1K 户外水壶产品静态图，放置于浅色石面上，自然日光，高端电商广告风格，如启用联网搜索接地则参考当前都市徒步场景。"
         },
         {
           "id": "edit-2",
           "title": "产品精修编辑",
           "badge": "图像编辑",
           "kind": "edit",
-          "prompt": "Using this product reference, keep the shape, logo, main color and proportions. Change the environment to a light mineral studio, clean reflections and remove dust."
+          "prompt": "使用这张产品参考图，保持形状、Logo、主色调与比例不变。将背景环境替换为浅色矿石质感棚拍风格，清洁反光，去除灰尘。"
         },
         {
           "id": "image-3",
           "title": "多图参考编辑",
           "badge": "最多 14 张参考图",
           "kind": "image",
-          "prompt": "Combine the references into one cohesive still: reference 1 for product identity, reference 2 for material, reference 3 for palette, reference 4 for composition. Do not blend competing styles."
+          "prompt": "将参考图合并为一张统一的静态图：参考图1用于产品主体识别，参考图2用于材质质感，参考图3用于配色方案，参考图4用于构图版式。不要混入相互冲突的风格。"
         },
         {
           "id": "layout-4",
           "title": "超宽画幅 4K 静态图",
           "badge": "4K · 21:9",
           "kind": "layout",
-          "prompt": "4K still in 21:9 for a launch banner, product on the left, negative space on the right for text added later, soft light, photorealistic finish."
+          "prompt": "4K · 21:9 发布主视觉横幅静态图，产品位于左侧，右侧留有足够负空间供后期添加文案，柔和光效，照片级写实质感。"
         }
       ]
     }

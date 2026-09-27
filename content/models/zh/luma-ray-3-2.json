@@ -116,19 +116,19 @@
   "prompts": [
     {
       "title": "Modify 源视频修改",
-      "prompt": "Keep the original camera move and timing from the source video, change the room into a bright editorial showroom, preserve product scale and subject motion, 5s, 720p."
+      "prompt": "保留源视频的原始运镜与节奏时序，将场景改为明亮的编辑展厅风格，保留产品比例与主体动作，5秒，720p。"
     },
     {
       "title": "关键帧定向编辑",
-      "prompt": "Preserve the walking pace and camera dolly from the source clip. At the marked keyframes, shift the jacket from black nylon to cream technical fabric while keeping face, hands and background motion stable."
+      "prompt": "保留源视频片段中的步行节奏与摄影机推轨运镜。在标记的关键帧处，将夹克从黑色尼龙材质变为奶白色技术面料，同时保持面部、双手与背景动态稳定不变。"
     },
     {
       "title": "Reframe 画幅重构交付",
-      "prompt": "Reframe the source surfing clip to 9:16, keep the rider centered, extend the wave and sky naturally, preserve the original action timing."
+      "prompt": "将源视频冲浪片段 Reframe 重构为 9:16 竖屏，保持骑手居中，自然延伸海浪与天空，保留原始动作节奏时序。"
     },
     {
       "title": "辅助动态生成测试",
-      "prompt": "Short silent product motion test: slow push-in on a premium speaker on a dark stone plinth, controlled reflections, soft rim light, subtle fabric vibration, 5s, 16:9, 720p."
+      "prompt": "短小无声产品动态测试：镜头缓慢推入放置于深色石台上的高端音箱，反光柔和可控，边缘轮廓光细腻，织物微微震动，5秒，16:9，720p。"
     }
   ],
   "faqs": [
@@ -426,7 +426,7 @@
     "demo": {
       "title": "演示提示词 — Luma Ray 3.2",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Armored skull biker\nAction: Motorcycle approaches and stops\nCamera: Low front tracking, slight push-in\nStyle: Cinematic, wet street reflections\nAudio: Engine revs, metal clinks, distant thunder",
+      "prompt": "主体：骷髅机甲骑士\n动作：摩托车驶近并平稳停下\n镜头：低角度正面跟拍，轻微向前推进\n风格：电影级质感，潮湿路面倒影\n音频：引擎轰鸣，金属碰撞，远方雷鸣",
       "notes": [],
       "summary": {
         "subject": "骷髅机甲骑士",

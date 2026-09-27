@@ -306,7 +306,7 @@
     "demo": {
       "title": "演示提示词 — O3 Standard 参考图草稿",
       "promptLabel": "文生视频提示词",
-      "prompt": "Subject:\nA giant origami whale made of folded newspaper, gliding through a dry European street like it is swimming underwater.\n\nAction:\nThe paper whale passes between buildings, creating a wave of loose paper. People step back in surprise as the whale’s tail gently sweeps newspapers into the air.\n\nCamera:\nLow wide tracking shot moving alongside the whale, keeping the full body readable. Smooth forward motion, no sudden cuts.\n\nStyle:\nCinematic magical realism, soft afternoon light, paper textures, muted beige and blue-gray palette, elegant surreal mood, realistic city with a poetic fantasy element.\n\nAudio:\nSoft paper rustling, distant city ambience, deep whale-like paper creak, gentle wind swell.",
+      "prompt": "主体：\n一头由折叠报纸制成的巨型折纸鲸鱼，在干燥的欧洲街道上缓缓滑行，仿佛正在水下游动。\n\n动作：\n纸鲸穿行于楼宇之间，掀起漫天飘散的纸浪。路人惊讶地向后退步，鲸鱼尾鳍轻轻将报纸扫入空中。\n\n运镜：\n低机位广角跟拍镜头与鲸鱼并行移动，保持完整身体清晰可辨。平稳向前推进，无突兀剪切。\n\n风格：\n电影级魔幻现实主义、柔和午后光线、纸张纹理质感、静谧米色与蓝灰色调、优雅超现实氛围，现实城市中融入诗意奇幻元素。\n\n音频：\n轻柔纸张沙沙声、远处城市环境音、低沉如鲸鸣的纸张摩擦声、温和的风声涌动。",
       "notes": [],
       "summary": {
         "subject": "由折叠报纸制成的巨型折纸鲸鱼",

@@ -118,20 +118,20 @@
   "prompts": [
     {
       "title": "文生视频电影感测试",
-      "prompt": "A cowboy walking through a dusty western town at high noon, tracking shot from behind, cinematic depth, realistic lighting, 4K film grain, native ambience."
+      "prompt": "一位牛仔在正午时分穿越尘土飞扬的西部小镇，从背后跟拍，电影级景深，写实光影，4K 胶片质感，自然环境音。"
     },
     {
       "title": "图生视频霓虹人像",
-      "prompt": "A woman stands still amid a busy neon-lit street at night. The camera slowly dollies in toward her face as people blur past, their motion emphasizing her calm presence. City lights flicker and reflections shift across her denim jacket.",
+      "prompt": "一位女性静静站立在夜晚霓虹闪烁的繁忙街道中央。镜头缓缓向她的面部推进，身旁人群虚化掠过，动感映衬出她的从容淡定。城市灯光闪烁，反光在她的牛仔夹克上流动变幻。",
       "notes": "根据节奏设定时长为 6–10 秒或 12–20 秒；保持 16:9 画幅。"
     },
     {
       "title": "示例提示词 — 8秒城市斑马线",
-      "prompt": "A young woman crosses a busy city street at golden hour, camera tracking her from a low side angle as she steps onto the crosswalk and walks toward the opposite sidewalk. Warm sunlight hits the side of her face, gentle lens flares appear on the edges of the frame, and cars roll past in the background. Audio: soft city ambience (cars, footsteps, distant voices) plus a light upbeat music bed, no dialogue, no on-screen text."
+      "prompt": "一位年轻女性在黄金时刻穿越繁忙的城市街道，镜头以低角度侧跟，她踏上斑马线向对面走去。温暖阳光打在她脸侧，画面边缘出现轻柔的镜头光晕，背景中车辆缓缓驶过。音频：柔和的城市环境音（汽车声、脚步声、远处人声）搭配轻快的背景音乐垫底，无对白，无屏幕文字。"
     },
     {
       "title": "示例提示词 — 18–20秒办公室运镜漫游",
-      "prompt": "One continuous 18–20 second 16:9 shot inside a bright startup office during the day. The camera starts at the entrance as the glass door opens, then walks forward in one smooth motion behind a team lead. We glide past desks with people working on laptops, a whiteboard covered in sketches, and a lounge corner where two colleagues laugh over a prototype. The camera never cuts and finally settles into a medium shot of the team lead stopping by a large window, turning to camera with a relaxed smile. Audio: natural office ambience (typing, low chatter, distant coffee machine) with a gentle motivational music track underneath, no dialogue, no on-screen text."
+      "prompt": "一个连续的 18–20 秒 16:9 镜头，场景设在白天一家明亮的创业公司办公室内。镜头从入口处起幅，玻璃门打开，随后跟随一位团队负责人向前流畅推进。我们滑过摆放着笔记本电脑的办公桌、满是草图的白板，以及一处休闲角落——两位同事正在为一个原型开心大笑。镜头全程不切，最终在团队负责人停步于一扇大窗前的中景稳定落幅，她轻松地转向镜头微笑。音频：自然的办公室环境音（键盘声、低声交谈、远处咖啡机声），搭配一段轻柔励志的背景音乐，无对白，无屏幕文字。"
     }
   ],
   "faqs": [
@@ -437,28 +437,28 @@
         "label": "快速",
         "title": "快速提示词（快速迭代）",
         "description": "当希望快速探索多个变体时，使用 1–2 句话。",
-        "copy": "[Subject + action] in [setting], [camera move], [lighting/style], [optional sound cue].\nNegative: [text, logos, extra people, blur]"
+        "copy": "[主体 + 动作] 在 [场景] 中，[运镜方式]，[光影/风格]，[可选音效线索]。\n负向提示词：[文字、Logo、多余人物、模糊]"
       },
       {
         "id": "structured",
         "label": "结构化",
         "title": "结构化提示词（最利于稳定成片）",
         "description": "将信息结构化拆分，以便模型能够稳定遵循。",
-        "copy": "Subject:\n[Who/what + one action.]\n\nSetting:\n[Where + time + 2 anchors.]\n\nCamera:\n[Shot + angle + one move + lens feel.]\n\nLook:\n[Lighting + palette.]\n\nSound (optional):\n[Ambience + 1 cue.]\n\nNegative:\n[Text, logos, extra people, blur.]"
+        "copy": "主体：\n[人物/事物 + 单一动作。]\n\n场景：\n[地点 + 时间 + 2 个视觉锚点。]\n\n镜头：\n[景别 + 角度 + 单一运镜 + 镜头质感。]\n\n视觉风格：\n[光影 + 色调。]\n\n音效（可选）：\n[环境音 + 1 个线索。]\n\n负向提示词：\n[文字、Logo、多余人物、模糊。]"
       },
       {
         "id": "pro",
         "label": "专业级",
         "title": "专业级提示词（极度详尽的“摄制组简报”）",
         "description": "当需要极其特定的电影级质感或跨镜头连续性时使用。",
-        "copy": "Brief:\n[Goal + vibe.]\n\nSubject + wardrobe:\n[Key traits + materials.]\n\nSet:\n[Location + anchors.]\n\nCinematography:\n[Framing + angle + one move + lens.]\n\nLighting + grade:\n[Key light + palette.]\n\nNegative:\n[What to avoid.]"
+        "copy": "简报：\n[目标 + 氛围基调。]\n\n主体 + 服装：\n[关键特征 + 材质。]\n\n场景：\n[地点 + 视觉锚点。]\n\n摄影：\n[构图 + 角度 + 单一运镜 + 镜头。]\n\n光影 + 调色：\n[主光 + 色调。]\n\n负向提示词：\n[需要避免的内容。]"
       },
       {
         "id": "storyboard",
         "label": "分镜脚本",
         "title": "分镜提示词（多镜头 / 镜头清单）",
         "description": "适用于希望在单一片段中呈现微型故事的场景。分镜提示词（又称多镜头/分镜清单提示词）提供清晰的时序、镜头调度和连贯性。也称镜头列表或时序提示词。",
-        "copy": "Mini sequence (same subject + setting)\nBeat 1 (start): [action + camera]\nBeat 2 (middle): [action + camera]\nBeat 3 (end): [final action + settle]\n\nLook:\n[Lighting + palette.]\n\nSound (optional):\n[Ambience + 1-2 cues]"
+        "copy": "微型序列（相同主体 + 场景）\n节拍 1（开场）：[动作 + 运镜]\n节拍 2（中段）：[动作 + 运镜]\n节拍 3（结尾）：[最终动作 + 落幅稳定]\n\n视觉风格：\n[光影 + 色调。]\n\n音效（可选）：\n[环境音 + 1–2 个线索]"
       }
     ],
     "tabNotes": [
@@ -492,7 +492,7 @@
     "demo": {
       "title": "演示提示词 — 快速社媒短片",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Young woman at a busy crosswalk\nAction: Waits, then crosses in golden-hour light\nCamera: Starts behind her, then moves into a smooth handheld follow\nStyle: Busy city, warm light, cinematic social clip\nAudio: City ambience, no dialogue",
+      "prompt": "主体：繁忙斑马线上的年轻女性\n动作：等待片刻，随后在黄金时刻光线下穿过马路\n镜头：从其身后起幅，随后平滑过渡为手持跟随运镜\n风格：繁华都市、温暖光线、电影感社媒短片\n音频：城市环境音，无对白",
       "notes": [
         "单节拍动作",
         "明确的运镜与情绪基调",

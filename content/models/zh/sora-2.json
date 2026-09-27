@@ -401,28 +401,28 @@
         "label": "快速",
         "title": "快速动作提示词",
         "description": "适用于 4 秒吸睛点的敏捷快速测试。",
-        "copy": "[Subject] performs [one visible action] in [setting]. Camera: [one move]. Lighting: [time of day / mood]. Audio: [ambience + one SFX]."
+        "copy": "[主体] 在 [场景] 中完成 [一个可见动作]。摄影机：[一次运镜]。光影：[时段 / 情绪]。音频：[环境音 + 一个音效]。"
       },
       {
         "id": "structured",
         "label": "结构化",
         "title": "结构化视频提示词",
         "description": "当片段需要高度可复现的动作与音效时使用。",
-        "copy": "Subject:\n[Who/what + one visible action]\n\nSetting:\n[Where + time of day + 2 visual anchors]\n\nCamera:\n[Framing + angle + one move]\n\nLighting:\n[Key light + palette + contrast]\n\nAudio:\n[Ambience + 1 SFX cue + optional dialogue under 8 words]\n\nConstraints:\nNo logos. No readable text. No protected likeness."
+        "copy": "主体：\n[人物/事物 + 一个可见动作]\n\n场景：\n[地点 + 时段 + 2 个视觉锚点]\n\n摄影机：\n[景别 + 角度 + 一次运镜]\n\n光影：\n[主光源 + 色调 + 对比度]\n\n音频：\n[环境音 + 1 个音效提示 + 可选对白不超过 8 个字]\n\n限制：\n无 Logo。无可读文字。无受保护肖像。"
       },
       {
         "id": "pro",
         "label": "专业级",
         "title": "图生视频提示词",
         "description": "适用于以单张获批的静态图片作为开篇画框的场景。",
-        "copy": "Source image role:\n[What must stay fixed: subject, product shape, wardrobe or composition]\n\nMotion:\n[One action that starts from the still]\n\nCamera:\n[Move slowly / push-in / handheld drift / locked-off]\n\nEnding:\n[Where the subject or product should land by the final second]\n\nAudio:\n[Short ambience + visible SFX]\n\nAvoid:\nChanging identity, adding logos, or introducing extra subjects."
+        "copy": "源图片定位：\n[必须保持固定的内容：主体、产品外形、服装或构图]\n\n运动：\n[从静态图开始的一个动作]\n\n摄影机：\n[缓慢移动 / 推进 / 手持漂移 / 固定机位]\n\n结尾：\n[最后一秒主体或产品的落幅位置]\n\n音频：\n[简短环境音 + 可见动作音效]\n\n避免：\n改变形象、添加 Logo 或引入额外主体。"
       },
       {
         "id": "storyboard",
         "label": "分镜故事板",
         "title": "故事板提示词（镜头序列清单）",
         "description": "适用于在单个视频片段中实现多节拍镜头连贯性的场景。",
-        "copy": "Storyboard / shot list (same subject + same setting)\nDuration: [4/8/12s] • Aspect: [16:9 or 9:16]\n\nBeat 1 (0-2s):\n[Framing + subject action + camera move]\n\nBeat 2 (2-6s):\n[Action continues, do not change location]\n\nBeat 3 (6-8/12s):\n[Final reveal + camera settle]\n\nContinuity:\n[Repeat wardrobe, props, lighting, background]\n\nAudio:\n[Ambience + 1 SFX cue + short dialogue if needed]\n\nConstraints:\nNo logos. No readable text. No protected people."
+        "copy": "故事板 / 镜头序列清单（相同主体 + 相同场景）\n时长：[4/8/12s] • 比例：[16:9 或 9:16]\n\n节拍 1（0–2s）：\n[景别 + 主体动作 + 摄影机运镜]\n\n节拍 2（2–6s）：\n[动作延续，不切换地点]\n\n节拍 3（6–8/12s）：\n[最终揭示 + 摄影机稳定落幅]\n\n连贯性：\n[保持服装、道具、光影与背景一致]\n\n音频：\n[环境音 + 1 个音效提示 + 可选简短对白]\n\n限制：\n无 Logo。无可读文字。无受保护人物。"
       }
     ],
     "tabNotes": [
@@ -455,7 +455,7 @@
     "demo": {
       "title": "演示案例：序列化多镜头提示词",
       "promptLabel": "720p 生活方式广告提示词",
-      "prompt": "8-second lifestyle spot: a 30-year-old runner with a smartwatch at sunrise in an urban park.\nShot 1 (2s): close-up on the watch as he tightens the strap, sun flare on the glass.\nShot 2 (4s): side tracking shot as he runs, warm light behind buildings.\nShot 3 (2s): close-up on his face glancing at the screen, slight smile, visible breath in cool air.\nLighting: golden hour, natural cinematic tones.\nAudio: rhythmic footsteps + soft optimistic music.\nCamera: dynamic handheld, 50mm feel.\nNegative: no logos, no slow motion, no on-screen text.",
+      "prompt": "8 秒生活方式广告：一位 30 岁的跑步者戴着智能手表，在日出时分的城市公园中晨跑。\n镜头 1（2s）：手表特写，他收紧表带，阳光在表镜上折射出光晕。\n镜头 2（4s）：侧面跟踪镜头，他奔跑前行，温暖的晨光映射在建筑轮廓上。\n镜头 3（2s）：面部特写，他低头瞥向手表屏幕，嘴角微扬，冷空气中可见呼吸白雾。\n光影：黄金时刻，自然电影感色调。\n音频：有节奏的脚步声 + 柔和乐观的背景音乐。\n摄影机：动感手持，50mm 焦段感。\n负向提示：无 Logo，无慢动作，无屏幕文字。",
       "notes": [
         "展示了镜头转场、场景与主体连贯性、清晰的动作轨迹，以及在 10 秒内展开的完整微型故事。",
         "可将这一结构复用到美妆护肤、SaaS 产品、健身运动或任何 3 节拍微电影叙事中。"

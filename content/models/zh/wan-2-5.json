@@ -112,11 +112,11 @@
   "prompts": [
     {
       "title": "强拍卡点概念跑车 (10秒, 16:9)",
-      "prompt": "10s 16:9 cinematic shot of a chrome concept car emerging from foggy light pulses on synth downbeats. Wide to low-angle push, rain streaks, cool blue rim light, subtle flares. Audio: uploaded track as main music, add low rumble, thunder, raindrops, no dialogue."
+      "prompt": "10秒 16:9 电影感镜头：铬合金概念跑车在合成器低音强拍的雾状光脉冲中浮现。广角至低角度推进，雨滴痕迹，冷蓝轮廓光，微妙光晕。音频：上传音轨作为主音乐，叠加低沉轰鸣声、雷声、雨滴声，无对白。"
     },
     {
       "title": "竖屏运动手表故事 (10秒, 9:16)",
-      "prompt": "10s vertical shot of a fitness smartwatch on a runner’s wrist synced to an energetic electronic track: close-up on beat one with raindrops on glass; pull back on the first big hit as the runner sprints in slow motion on a neon-lit bridge; final beat swings to profile close-up with breath in cold air, watch display glowing. Audio: uploaded track + subtle footsteps, rain, breathing; no VO."
+      "prompt": "10秒竖屏镜头：健身智能手表佩戴在跑者手腕上，与动感电子音轨同步：第一拍时玻璃上雨滴的特写；在第一个大高潮时后拉，跑者在霓虹灯桥上慢动作冲刺；最后一拍切换至侧面特写，呼出寒气，手表显示屏发出光芒。音频：上传音轨 + 轻微脚步声、雨声、呼吸声；无旁白。"
     }
   ],
   "faqs": [
@@ -509,7 +509,7 @@
     "demo": {
       "title": "演示：Wan 2.5 提示词案例",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Fitness smartwatch on a runner’s wrist\nAction: Shot follows the run and beat changes of the track\nCamera: Close-up, then synchronized pull-back\nStyle: Vertical product sport story, rain and music energy\nAudio: Energetic electronic track",
+      "prompt": "主体：跑者手腕上的运动智能手表\n动作：镜头紧跟跑步节奏与音轨强弱节拍变化\n运镜：特写镜头，随后平滑同步后拉\n风格：竖屏运动产品故事，雨水与动感音乐能量\n音频：动感电子音乐音轨",
       "notes": [
         "音频锚定各个转场节点。",
         "单一主体与场景，清晰的镜头轨迹。",

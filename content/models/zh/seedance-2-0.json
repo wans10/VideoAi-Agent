@@ -145,23 +145,23 @@
   "prompts": [
     {
       "title": "动作追逐（多镜头）",
-      "prompt": "Three-shot rooftop chase at dusk, shot 1 wide tracking run, shot 2 handheld close pursuit, shot 3 crane reveal over skyline, realistic footstep impacts and city sirens, 15 seconds total."
+      "prompt": "黄昏时分天台三镜头追逐：镜头1宽景跟踪奔跑，镜头2手持近景紧追，镜头3起重机升镜俯瞰天际线，真实脚步冲击声与城市警报，共15秒。"
     },
     {
       "title": "连续镜头谍战悬疑",
-      "prompt": "A spy exits a neon train station, camera follows over shoulder into a rainy alley, rack focus to a coded message, low synth score and distant PA announcements, 12 seconds."
+      "prompt": "间谍走出霓虹灯火的火车站，镜头越过肩膀跟入雨夜小巷，焦点转移至一张密码纸条，低沉合成器背景音与远处广播声，12秒。"
     },
     {
       "title": "3镜头商业广告",
-      "prompt": "Shot 1 macro of watch crown with rim light, shot 2 wrist hero turntable in studio haze, shot 3 lifestyle close-up in city night rain, punchy transitions and polished ad soundtrack, 15 seconds."
+      "prompt": "镜头1边缘光下手表表冠微距，镜头2摄影棚烟雾中腕部英雄转台，镜头3城市夜雨中生活方式近景，有力转场与精致广告配乐，15秒。"
     },
     {
       "title": "多模态分镜参考",
-      "prompt": "Use @Image1..@Image9 as storyboard style anchors, @Video1..@Video3 for pacing references, @Audio1..@Audio3 for rhythm and ambience, keep wardrobe continuity and cinematic 16:9 framing."
+      "prompt": "使用 @Image1..@Image9 作为分镜风格锚点，@Video1..@Video3 作为节奏参考，@Audio1..@Audio3 作为律动与氛围，保持服装连贯性与电影级 16:9 构图。"
     },
     {
       "title": "音频主导对白场景",
-      "prompt": "Two-character dialogue in a subway platform at night, synchronized dialogue, ambience and metallic train brakes on cue, smooth dolly and cut-in close-up, stereo mix feel, 10 seconds."
+      "prompt": "深夜地铁站台双人对话场景，对白同步、环境音与金属刹车声精准入点，平滑推轨镜头与插入式近景切换，立体声混音质感，10秒。"
     }
   ],
   "faqTitle": "常见问题 — MaxVideoAI 中的 Seedance 2.0",
@@ -467,28 +467,28 @@
         "label": "文生视频",
         "title": "文生视频提示词",
         "description": "适用于镜头从自然语言描述出发、而非上传素材的场景。",
-        "copy": "Subject:\n[Who/what appears + 2-3 defining traits]\n\nAction:\n[One visible action or one timed beat]\n\nCamera:\n[Shot size + angle + one move + optional transition verb]\n\nStyle:\n[Lighting + palette + texture / lens feel]\n\nAudio:\n[Ambience + 1-2 SFX cues + optional short dialogue]\n\nExample:\nA courier in a soaked yellow jacket sprints through a narrow alley at night. He jumps a puddle and looks back once. Camera: wide tracking shot into a short handheld close-up. Style: wet asphalt reflections, cold blue street light, subtle film grain. Audio: footsteps, distant siren, one short breathy line."
+        "copy": "主体：\n[出场人物/物体 + 2-3个定义特征]\n\n动作：\n[一个可见动作或一个有时间节点的节拍]\n\n镜头：\n[景别 + 角度 + 一个运镜 + 可选转场动词]\n\n风格：\n[光效 + 色调 + 质感/镜头感]\n\n音频：\n[环境音 + 1-2个音效线索 + 可选简短对白]\n\n示例：\n一名穿着湿透黄色外套的快递员在深夜冲过狭窄小巷。他跳过一个水坑，回头看了一眼。镜头：宽景跟踪切入短促手持近景。风格：湿沥青倒影、冷蓝街灯、细微胶片颗粒。音频：脚步声、远处警报、一句简短的喘息台词。"
       },
       {
         "id": "structured",
         "label": "首尾帧",
         "title": "带可选尾帧的图生视频",
         "description": "适用于首帧画面已固定、且希望精准引导落幅画面的场景。",
-        "copy": "Start image:\n[What must stay fixed from frame 1: subject, wardrobe, props, location]\n\nEnd image (optional):\n[What the last frame should land on: pose, composition, camera distance]\n\nMotion path:\n[How the subject moves between the two frames]\n\nCamera:\n[One move only: push-in / arc / handheld / static]\n\nStyle + lighting:\n[What must stay consistent]\n\nAudio:\n[Ambience / SFX / short dialogue if relevant]\n\nRule:\nDo not ask the end frame to become a different scene. Use it to control the landing frame, not to restart the story."
+        "copy": "起始图像：\n[第1帧必须固定的内容：主体、服装、道具、场景]\n\n结束图像（可选）：\n[最后一帧的落点：姿态、构图、镜头距离]\n\n运动路径：\n[主体在两帧之间的移动方式]\n\n镜头：\n[仅选一个运镜：推进 / 环绕 / 手持 / 固定]\n\n风格 + 光效：\n[必须保持一致的视觉元素]\n\n音频：\n[环境音 / 音效 / 简短对白（如有需要）]\n\n规则：\n不要让结束帧变成另一个场景。用它来控制落幅画面，而非重新开始故事。"
       },
       {
         "id": "pro",
         "label": "参考生视频",
         "title": "多模态参考生视频提示词",
         "description": "适用于角色身份、动作节奏或环境氛围必须严格保持锁定的场景。",
-        "copy": "Prompt intent:\n[What the scene should feel like and what must happen]\n\nImage refs:\n@Image1 = [character / hero product]\n@Image2 = [wardrobe / prop / palette]\n...\n\nVideo refs:\n@Video1 = [camera rhythm / action pacing]\n@Video2 = [transition logic]\n\nAudio refs:\n@Audio1 = [ambience bed]\n@Audio2 = [music rhythm / dialogue texture]\n\nContinuity anchors:\n[What must not drift across the run]\n\nOutput goal:\n[Single shot or 2-3 shot sequence, plus landing frame / payoff]\n\nRule:\nEach reference should have one clear job. Do not upload multiple files that fight for the same role."
+        "copy": "提示词意图：\n[场景的整体感受以及必须发生的事情]\n\n图片参考：\n@Image1 = [角色 / 主角产品]\n@Image2 = [服装 / 道具 / 色调]\n...\n\n视频参考：\n@Video1 = [镜头节奏 / 动作节拍]\n@Video2 = [转场逻辑]\n\n音频参考：\n@Audio1 = [环境底噪]\n@Audio2 = [音乐律动 / 对白质感]\n\n连贯性锚点：\n[整次运行中不能偏移的内容]\n\n输出目标：\n[单镜头或2-3镜头序列，加上落幅画面/收尾亮点]\n\n规则：\n每个参考素材应有一个明确的职责。不要上传多个争夺同一角色的文件。"
       },
       {
         "id": "storyboard",
         "label": "时间线分镜",
         "title": "时间线 / 多镜头分镜提示词",
         "description": "适用于单次生成包含多个内部动作节拍或镜头切分的场景。",
-        "copy": "Duration: [auto / 4-15s]\n\nShot 1 (0-5s):\n[Framing + action + camera move]\n\nTransition:\n[match cut / whip pan / crash zoom / settle]\n\nShot 2 (5-10s):\n[Framing + action + camera move]\n\nShot 3 (10-15s):\n[Reveal / reaction / product payoff / final pose]\n\nContinuity:\n[Wardrobe + props + location + lighting]\n\nAudio plan:\n[Ambience bed + 1-3 timed SFX + optional short dialogue]\n\nUse auto duration only when the model should infer the pacing for you."
+        "copy": "时长：[自动 / 4-15s]\n\n镜头1（0-5s）：\n[景别 + 动作 + 运镜]\n\n转场：\n[匹配剪辑 / 甩镜 / 急速变焦 / 稳定落幅]\n\n镜头2（5-10s）：\n[景别 + 动作 + 运镜]\n\n镜头3（10-15s）：\n[揭示 / 反应 / 产品亮点 / 最终姿态]\n\n连贯性：\n[服装 + 道具 + 场景 + 光效]\n\n音频方案：\n[环境底噪 + 1-3个有时间节点的音效 + 可选简短对白]\n\n仅当需要模型自行推断节奏时，才使用自动时长。"
       }
     ],
     "tabNotes": [
@@ -525,7 +525,7 @@
     "demo": {
       "title": "演示提示词 — Seedance 2.0",
       "promptLabel": "文生视频",
-      "prompt": "Subject: School bus mutating into a mechanical creature\nAction: Dark absurd transformation on a deserted street\nCamera: Wide cinematic shot with controlled motion\nStyle: Grounded American realism, horror-comedy tone\nAudio: Uneasy ambience, metal movement, tension",
+      "prompt": "主体：校车异变为机械生物\n动作：荒凉街道上的暗黑荒诞变形\n镜头：带有克制运动的电影级广角镜头\n风格：扎实的美式现实主义，恐怖喜剧基调\n音频：不安氛围底噪、金属运动声、紧绷张力",
       "notes": [],
       "summary": {
         "subject": "校车异变成机械巨兽",

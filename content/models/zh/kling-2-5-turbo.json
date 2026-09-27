@@ -124,11 +124,11 @@
   "prompts": [
     {
       "title": "小巷追逐动作戏 (10秒, 16:9)",
-      "prompt": "10s 16:9 handheld tracking shot of a man sprinting through a narrow city alley at night. Camera runs behind and to the side, breathing with footsteps as neon signs and wet cobblestones streak past. High contrast, reflections, realistic motion blur, film grain. No text, no logos, no police cars, no explosions."
+      "prompt": "10秒 16:9 手持跟拍镜头，一名男子深夜飞奔穿越狭窄城市小巷。摄像机跟随其后侧运动，随脚步起伏呼吸，霓虹招牌与湿润石板路从身旁掠过。高对比度，光影反射，真实动态模糊，胶片颗粒感。无文字，无 logo，无警车，无爆炸。"
     },
     {
       "title": "创业者肖像缓推运镜 (5秒, 9:16)",
-      "prompt": "5s vertical 9:16 shot of a founder standing by a window at golden hour. Slow handheld drift from chest-up to closer on the face, shallow depth of field, city lights softly blurred. Realistic skin, crisp shirt details, gentle flares. No text, no logos, no extra people."
+      "prompt": "5秒竖屏 9:16 镜头，一位创始人在黄金时刻站立于窗边。缓慢手持运镜从半身推近至面部特写，浅景深，城市灯光柔和虚化。皮肤质感真实，衬衫细节清晰，光斑自然柔和。无文字，无 logo，无多余人物。"
     }
   ],
   "faqs": [
@@ -523,7 +523,7 @@
     "demo": {
       "title": "演示 – 创业者肖像 5秒 (9:16)",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Startup founder by a window\nAction: Holds a vertical portrait moment\nCamera: Slow handheld drift from chest-up to closer on the face\nStyle: Golden-hour light, blurred city background, founder portrait\nAudio: Soft ambience, no dialogue",
+      "prompt": "主体：窗边的创业者\n动作：定格一个竖屏肖像静默时刻\n运镜：缓慢手持运镜从半身推近至面部特写\n风格：黄金时刻光线，虚化城市背景，创业者肖像质感\n音频：柔和环境音，无对白",
       "notes": [
         "单一主体，单一拍摄场景，运镜轨迹清晰连贯。",
         "为后期添加配音与图文包装预留充足空间。",

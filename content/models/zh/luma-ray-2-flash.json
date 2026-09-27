@@ -120,19 +120,19 @@
   "prompts": [
     {
       "title": "隧道极速亮相",
-      "prompt": "Futuristic sports car entering a wet tunnel, quick cinematic push-in, specular reflections on the asphalt, bold contrast, teaser energy, 5s, 16:9."
+      "prompt": "未来感跑车驶入潮湿隧道，快速电影感推镜头，沥青路面镜面反光，强烈明暗对比，预告片张力，5s，16:9。"
     },
     {
       "title": "静图动画预演",
-      "prompt": "Animate the uploaded storyboard frame into a short previs shot with clean parallax, readable subject motion, and restrained lighting transitions, 5s."
+      "prompt": "将上传的分镜帧动画化为简短的预演镜头，呈现干净的视差效果、清晰的主体运动以及克制的灯光过渡，5s。"
     },
     {
       "title": "快速 Modify 调整",
-      "prompt": "Keep the source clip camera path and timing, shift the setting into a cleaner showroom look, brighter key light, simpler background, flex_1."
+      "prompt": "保留源视频片段的运镜轨迹与节奏时间轴，将场景风格转变为更简洁的展厅氛围，明亮主光，简洁背景，flex_1。"
     },
     {
       "title": "方形电商 Reframe 重构",
-      "prompt": "Reframe the uploaded product teaser into a 1:1 square crop, keep the bottle centered and fully readable across the full move."
+      "prompt": "将上传的产品预告视频重构为 1:1 方形裁剪，在完整运镜过程中始终保持瓶身居中且清晰可辨。"
     }
   ],
   "faqs": [
@@ -399,7 +399,7 @@
     "demo": {
       "title": "演示提示词 — Luma Ray 2 Flash",
       "promptLabel": "Flash 草稿",
-      "prompt": "5s Luma Ray 2 Flash draft in 16:9, silent output.\nA futuristic sports car enters a wet tunnel and reveals its silhouette in a band of light.\nShort push-in, low stable camera, fast asphalt reflections, clean contrast.\nOne motion beat, teaser energy, no readable text, no added logo.\nUse Flash to validate direction and timing before a Ray 2 pass.",
+      "prompt": "5s Luma Ray 2 Flash 草稿，16:9，无声输出。\n一辆未来感跑车驶入潮湿隧道，在一道光带中勾勒出车身剪影。\n简短推镜头，低角度稳定机位，飞速沥青反光，纯净对比度。\n单一动作节拍，预告片张力，无可读文字，无附加 Logo。\n用 Flash 验证方向与节奏，再进行 Ray 2 终版渲染。",
       "notes": [],
       "summary": {
         "subject": "潮湿隧道中的跑车",

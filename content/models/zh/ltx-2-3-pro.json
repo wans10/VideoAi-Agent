@@ -132,15 +132,15 @@
   "prompts": [
     {
       "title": "文生视频电影感广告节拍",
-      "prompt": "A premium sneaker launch film in 16:9, dramatic side light, slow tracking move across the product, light mist in the air, subtle reflections on the floor, 8 seconds, polished brand-audio bed."
+      "prompt": "高端运动鞋发布影片，16:9 画幅，强烈侧光，镜头缓慢横移扫过产品，空气中弥漫轻薄雾气，地面呈现精致倒影，8 秒，品牌级精良音乐底床。"
     },
     {
       "title": "图生视频带尾帧转场",
-      "prompt": "Start from the uploaded still of a fashion portrait, introduce a slow handheld push-in and soft hair movement, then resolve toward the uploaded end frame as neon reflections intensify."
+      "prompt": "以上传的时尚人像静帧作为起始画面，加入缓慢手持推进镜头与轻柔发丝飘动，随着霓虹倒影逐渐增强，画面向上传的尾帧过渡。"
     },
     {
       "title": "音频生视频舞台表演配置",
-      "prompt": "Use the uploaded audio as the timing backbone for a moody stage performance, with restrained camera movement, strong backlight, and emotional close-ups that rise with the chorus.",
+      "prompt": "以上传音频作为情绪化舞台表演的时序主干，镜头运动克制，强烈背光，随副歌情绪攀升的特写情感镜头。",
       "notes": "先上传音频；可选的起始图片有助于锁定首帧画面。"
     }
   ],
@@ -514,7 +514,7 @@
     "demo": {
       "title": "演示提示词 — 电影感罗盘揭示",
       "promptLabel": "文生视频生成提示词",
-      "prompt": "A rugged adventurer stands on the edge of a vast desert cliff at golden hour, sunburned face, worn leather jacket, scarf moving in the wind. He opens an ancient brass compass in his hand, and a glowing map made of floating light and dust unfolds above it, illuminating his face and the sand around him. The camera starts wide behind him to show the endless dunes, then pushes in slowly as he raises the compass, ending on a dramatic close view of his eyes reflecting the glowing map. Warm sun, drifting dust, rich bronze textures, epic but clean composition, premium cinematic adventure tone, simple and iconic. Wind over the dunes, faint metallic click from the compass, low atmospheric desert rumble, no text, no logos, no watermark.",
+      "prompt": "一位粗犷的探险家在黄金时刻站立于辽阔沙漠悬崖边缘，晒黑的面庞，磨损的皮夹克，围巾随风飘动。他打开手中一枚古旧黄铜罗盘，一幅由漂浮光影与微尘构成的发光地图在其上方徐徐展开，照亮了他的面孔和周围的沙地。镜头从他身后的大远景起幅，展现无垠沙丘，随后在他举起罗盘时缓慢推进，最终落在他双眼倒映发光地图的戏剧性近景上。温暖阳光、漂浮微尘、丰富青铜质感、史诗而干净的构图，高级电影探险基调，简洁而具标志性。沙丘上的风声、罗盘轻微的金属咔哒声、低沉的大气沙漠轰鸣，无文字，无标志，无水印。",
       "notes": [
         "单一主体与一个揭示动作节拍",
         "镜头路径从环境全景过渡到特写",

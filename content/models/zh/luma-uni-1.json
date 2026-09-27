@@ -109,19 +109,19 @@
   "prompts": [
     {
       "title": "产品概念静态图",
-      "prompt": "A 2K studio still of a matte white smart speaker on a warm concrete plinth, soft side light, clean label area, premium catalog composition, 16:9."
+      "prompt": "一张哑光白色智能音箱放置在温暖混凝土台座上的 2K 棚拍静态图，柔和侧光，干净的标签区域，高端目录画面构图，16:9。"
     },
     {
       "title": "原图编辑",
-      "prompt": "Preserve the product shape and logo hierarchy from the source image, replace the background with a calm studio tabletop, soften reflections, keep natural shadows."
+      "prompt": "保留源图的产品形态和标志层级，将背景替换为平静的摄影棚台面，柔化反光，保留自然阴影。"
     },
     {
       "title": "多参考图版式",
-      "prompt": "Use reference 1 for the product shape, reference 2 for color palette and reference 3 for layout rhythm. Create a clean launch still with readable headline space."
+      "prompt": "使用参考图 1 控制产品形态，参考图 2 控制配色方案，参考图 3 控制版式节奏。生成一张带有可读标题空间的干净发布静态图。"
     },
     {
       "title": "视觉研究静态图",
-      "prompt": "Create a grounded visual direction board image for a premium cycling helmet launch, current retail photography cues, neutral background, product-forward composition."
+      "prompt": "为高端自行车头盔发布会创作一张扎实的视觉方向参考板图片，融入当前零售摄影风格，中性背景，以产品为主体的构图。"
     }
   ],
   "faqs": [
@@ -417,28 +417,28 @@
           "title": "营销大片静态图",
           "badge": "2K 静态图",
           "kind": "quality",
-          "prompt": "2K campaign still for an amber perfume bottle on white acrylic, soft studio key light, clean shadow, exact headline \"AURA NOIRE\" top-left, small logo lockup bottom edge."
+          "prompt": "白色亚克力台面上琥珀色香水瓶的 2K 广告大片静态图，柔和摄影棚主光，干净阴影，左上角精确标题\"AURA NOIRE\"，底部边缘小标志锁定区。"
         },
         {
           "id": "typography-2",
           "title": "文字版式海报",
           "badge": "文字与版式",
           "kind": "typography",
-          "prompt": "Vertical 4K poster, premium editorial grid, graphite background, exact headline \"MIDNIGHT LAUNCH\", subhead \"LIMITED DROP\", crisp hierarchy, generous margins, readable text."
+          "prompt": "竖版 4K 海报，高端编辑网格，石墨背景，精确标题\"MIDNIGHT LAUNCH\"，副标题\"LIMITED DROP\"，清晰的层级结构，充裕留白，文字清晰易读。"
         },
         {
           "id": "edit-3",
           "title": "参考图编辑",
           "badge": "图生图",
           "kind": "edit",
-          "prompt": "Using this product reference, keep the shape, logo and proportions. Change the scene to a midnight-blue studio, improve reflections, remove dust and fingerprints."
+          "prompt": "使用此产品参考图，保留形态、标志和比例。将场景更换为午夜蓝摄影棚，改善反光，去除灰尘和指纹。"
         },
         {
           "id": "layout-4",
           "title": "2K 转 4K 终稿",
           "badge": "4K 终稿",
           "kind": "layout",
-          "prompt": "Rerun the approved 2K composition as a 4K final. Sharpen fine details, keep typography identical, preserve brand colors, product position and the locked framing."
+          "prompt": "以 4K 终稿重新运行已审定的 2K 构图。锐化精细细节，保持排版字体完全一致，保留品牌色彩、产品位置和已锁定的画面构图。"
         }
       ]
     }

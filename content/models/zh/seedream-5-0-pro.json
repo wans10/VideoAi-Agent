@@ -59,11 +59,11 @@
   "prompts": [
     {
       "title": "清洁能源城市信息图表",
-      "prompt": "Create a cinematic high-density infographic about a clean-energy city district, layered map view, legible labels, data callouts, glass UI overlays, premium editorial lighting."
+      "prompt": "为清洁能源城市区域创作电影级高密度信息图表，分层地图视角，清晰标签，数据标注，玻璃质感 UI 叠加层，高端编辑照明。"
     },
     {
       "title": "广告制作编辑",
-      "prompt": "Transform these references into one cohesive campaign visual: preserve product shape, merge the architectural backdrop, add dramatic rim light, and keep all typography clean."
+      "prompt": "将这些参考图整合为一张统一的活动视觉图：保留产品形状，融入建筑背景，添加戏剧性轮廓光，并保持所有排版简洁。"
     }
   ],
   "faqs": [
@@ -302,28 +302,28 @@
           "title": "广告静态图像",
           "badge": "2K 静态图像",
           "kind": "quality",
-          "prompt": "2K campaign still for an amber perfume bottle on white acrylic, soft studio key light, clean shadow, exact headline \"AURA NOIRE\" top-left, small logo lockup bottom edge."
+          "prompt": "2K 广告静态图像：白色亚克力台面上的琥珀色香水瓶，柔和的棚内主光，干净的阴影，左上角精确标题\"AURA NOIRE\"，底部边缘小型 logo 锁定版。"
         },
         {
           "id": "typography-2",
           "title": "排版海报",
           "badge": "排版",
           "kind": "typography",
-          "prompt": "Vertical 4K poster, premium editorial grid, graphite background, exact headline \"MIDNIGHT LAUNCH\", subhead \"LIMITED DROP\", crisp hierarchy, generous margins, readable text."
+          "prompt": "竖版 4K 海报，高端编辑网格，石墨色背景，精确标题\"MIDNIGHT LAUNCH\"，副标题\"LIMITED DROP\"，清晰层次结构，充裕留白，文字清晰可读。"
         },
         {
           "id": "edit-3",
           "title": "参考编辑",
           "badge": "图像到图像",
           "kind": "edit",
-          "prompt": "Using this product reference, keep the shape, logo and proportions. Change the scene to a midnight-blue studio, improve reflections, remove dust and fingerprints."
+          "prompt": "使用此产品参考图，保留形状、logo 和比例。将场景更改为午夜蓝棚室，改善反光效果，去除灰尘和指纹。"
         },
         {
           "id": "layout-4",
           "title": "2K 升至 4K 最终成品",
           "badge": "4K 最终成品",
           "kind": "layout",
-          "prompt": "Rerun the approved 2K composition as a 4K final. Sharpen fine details, keep typography identical, preserve brand colors, product position and the locked framing."
+          "prompt": "将已批准的 2K 构图重新输出为 4K 最终版。锐化精细细节，保持排版完全一致，保留品牌色彩、产品位置和锁定构图。"
         }
       ]
     }

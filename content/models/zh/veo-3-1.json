@@ -141,11 +141,11 @@
   "prompts": [
     {
       "title": "电影级产品主视觉镜头（16:9，1080p，开启音频）",
-      "prompt": "8s hero shot of a premium product on a tabletop, slow dolly, branded grade, clean sonic logo on the final frame."
+      "prompt": "8秒桌面高端产品主视觉大片，缓慢推拉运镜，品牌调色风格，最终帧叠加干净的品牌音效标识。"
     },
     {
       "title": "无线耳机微故事叙事",
-      "prompt": "Shot 1 (0–3 s): macro close-up of one earbud rotating on a wooden desk, shallow depth, warm lamp glow. Shot 2 (3–6 s): medium shot of a professional putting the earbuds in before stepping onto a city street, soft bokeh. Shot 3 (6–8 s): close-up of the charging case clicking shut near a laptop, soft logo reflection. Camera: smooth dollies, handheld feel. Lighting: warm interior → cool street. Audio: city ambience + soft electronic bed + VO: “Block the noise, keep the focus.” No subtitles. Negative: no brands, no on-screen text, no extreme wides."
+      "prompt": "镜头1（0–3秒）：一只无线耳机在木质桌面上旋转的微距特写，浅景深，温暖台灯光晕。镜头2（3–6秒）：年轻职场人戴上耳机、走向繁华城市街道的中景，背景柔焦虚化。镜头3（6–8秒）：充电盒在笔记本电脑旁合盖瞬间的特写，壳体上映出微妙反光。摄影机：节拍间平滑推拉运镜，手持感但稳定。灯光：温暖室内光过渡至清冷街道夜色，轻微电影颗粒感。音频：低沉城市环境音 + 舒缓电子背景音乐 + 旁白：\"屏蔽噪音，保持专注。\"无字幕。反向限制：无可见品牌标识，无画面内文字，无超广角畸变。"
     }
   ],
   "faqs": [
@@ -580,7 +580,7 @@
     "demo": {
       "title": "演示案例：无线耳机产品微故事叙事",
       "promptLabel": "8 秒参考图引导产品广告（16:9，1080p，原生音频）",
-      "prompt": "Shot 1 (0-3s): macro close-up of one wireless earbud rotating on a wooden desk, shallow depth of field, warm desk lamp glow.\nShot 2 (3-6s): medium shot of a young professional putting the earbuds on before stepping into a lively city street, soft bokeh in the background.\nShot 3 (6-8s): close-up of the charging case clicking shut beside a laptop, subtle reflections on the shell.\nCamera: smooth dolly moves between beats, handheld feel but stable.\nLighting: warm interior shifting to cool evening street light, light film grain.\nAudio: low city ambience, soft electronic music bed, short voiceover: \"Block the noise, keep the focus.\" No subtitles.\nNegative: no visible brands, no on-screen text, no ultra-wide distortion.",
+      "prompt": "镜头1（0-3秒）：一只无线耳机在木质桌面上旋转的微距特写，浅景深，温暖台灯光晕。\n镜头2（3-6秒）：年轻职场人戴上耳机、走入热闹城市街道前的中景，背景柔焦虚化。\n镜头3（6-8秒）：充电盒在笔记本电脑旁合盖瞬间的特写，壳体上映出微妙反光。\n摄影机：节拍间平滑推拉运镜，手持感但稳定。\n灯光：温暖室内光过渡至清冷傍晚街道光，轻微电影颗粒感。\n音频：低沉城市环境音，舒缓电子背景音乐，短旁白：\"屏蔽噪音，保持专注。\"无字幕。\n反向限制：无可见品牌标识，无画面内文字，无超广角畸变。",
       "notes": [
         "摘要、提示词与演示渲染均基于同一款无线耳机产品广告展开。",
         "3 节拍结构完美适配开启原生音频的 8 秒 Veo 3.1 渲染成片。"

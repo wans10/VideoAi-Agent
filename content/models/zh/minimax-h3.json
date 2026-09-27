@@ -246,21 +246,21 @@
         "label": "角色表演",
         "title": "定义角色与动作",
         "description": "建立身份、表情、肢体语言以及场景中的可见变化。",
-        "copy": "Character:\n[Appearance, wardrobe, expression and voice]\n\nSetting:\n[Location, time, weather and visual anchors]\n\nAction:\n[One clear physical action and reaction]\n\nSound:\n[Dialogue, ambience and synchronized effects]"
+        "copy": "角色：\n[外貌、服装、表情与声音]\n\n场景：\n[地点、时间、天气与视觉锚点]\n\n动作：\n[一个清晰的肢体动作与反应]\n\n声音：\n[对白、环境音与同步音效]"
       },
       {
         "id": "shots",
         "label": "镜头调度",
         "title": "指导镜头序列",
         "description": "编写具有明确构图和转场的简短镜头进程。",
-        "copy": "Opening shot:\n[Composition + first action + camera move]\n\nDevelopment shot:\n[Performance beat + transition]\n\nFinal shot:\n[Resolution + final frame]\n\nAudio timing:\n[Sound cue linked to each visible event]"
+        "copy": "开场镜头：\n[构图 + 第一个动作 + 运镜]\n\n发展镜头：\n[表演节拍 + 转场]\n\n结尾镜头：\n[收尾 + 最终画面]\n\n音频时序：\n[与每个可见事件关联的声音提示]"
       },
       {
         "id": "references",
         "label": "参考素材",
         "title": "为每个参考素材分配角色",
         "description": "告诉 H3 从每个图片、视频或音频参考中提取什么要素。",
-        "copy": "Image references:\n[Identity, wardrobe, location or visual style]\n\nVideo references:\n[Motion, gesture, camera or timing]\n\nAudio references:\n[Voice, rhythm or sonic texture]\n\nContinuity rules:\n[Details that must not drift between shots]"
+        "copy": "图像参考：\n[身份、服装、地点或视觉风格]\n\n视频参考：\n[动作、手势、运镜或节奏]\n\n音频参考：\n[声音、节奏或音质纹理]\n\n连贯性规则：\n[跨镜头中不可偏移的细节]"
       }
     ],
     "tabNotes": [
@@ -291,7 +291,7 @@
     "demo": {
       "title": "灯塔看守人救援场景序列",
       "promptLabel": "用于此次渲染的生产级提示词",
-      "prompt": "Create a 15-second cinematic 16:9 film with native multi-shot continuity and native stereo sound. Original fictional character: ELARA, a 34-year-old lighthouse keeper with wind-burned olive skin, dark wavy hair tied back, a weathered mustard raincoat, charcoal sweater, and practical sea boots. Keep her face, clothing, and proportions consistent in every shot. 0.0–3.5 seconds: wide exterior at blue hour, a stone lighthouse on a violent Atlantic cliff, rain sweeping sideways, Elara runs toward the tower carrying a small weathered signal case; handheld tracking camera, realistic wet fabric and foot contact. 3.5–7.5 seconds: interior spiral stairwell, medium close tracking shot as she climbs fast, breath visible, one hand gripping the rail, practical amber lamps, no cuts that break identity. 7.5–11.5 seconds: lantern room, she reaches the controls and throws the emergency lever; orbit from her determined face to the huge Fresnel lens as it powers on. At 10.5 seconds Elara says clearly, with natural lip sync: “Harbor light is alive. Bring them home.” 11.5–15.0 seconds: exterior aerial pullback as the rescue beam sweeps across black waves and reveals a distant lifeboat turning toward safety. Audio: native stereo only—storm wind outside, rain on glass, boots on iron stairs, strained breathing, lever clunk, electrical rise, deep lighthouse mechanism, distant surf, and Elara's exact spoken line. No music. No subtitles, captions, on-screen text, logos, watermarks, beauty-ad framing, or product pack shot. Photorealistic skin and motion, coherent hands, restrained cinematic contrast.",
+      "prompt": "制作一段 15 秒的电影级 16:9 短片，具备原生多镜头连贯性与原生立体声音效。原创虚构角色：ELARA，34 岁的灯塔看守人，皮肤因海风侵蚀呈橄榄色，深色波浪发向后束起，身穿一件饱经风霜的芥末黄雨衣、炭灰色毛衣和实用型海靴。在每个镜头中保持她的面部、服装和身材比例一致。0.0–3.5 秒：蓝调时刻的室外宽景，石砌灯塔矗立于大西洋狂暴崖壁上，横扫的侧雨，Elara 手持一只古旧信号箱奔向塔楼；手持跟踪运镜，真实还原湿衣摩擦与脚步着地感。3.5–7.5 秒：室内螺旋楼梯，中近景跟拍她快速攀爬，呼吸可见，一只手紧抓扶手，暖琥珀色实用灯光，不得出现破坏身份连贯性的剪切。7.5–11.5 秒：灯室，她抵达控制台并扳动紧急手柄；镜头从她坚毅的面孔环绕运镜至巨型菲涅耳透镜启动发光。10.5 秒时，Elara 清晰地说出台词，口型自然同步：\"Harbor light is alive. Bring them home.\"（港湾灯光已亮起，引导他们回家。）11.5–15.0 秒：室外空中拉远，救援光束扫过黑暗海浪，一艘远处的救生艇转向驶往安全地带。音频：仅限原生立体声——室外暴风声、雨水打在玻璃上、靴子踩在铁制楼梯上、急促呼吸声、手柄扣合声、电力启动声、灯塔深沉机械声、远处浪涛声，以及 Elara 的原声台词。无背景音乐。无字幕、说明文字、屏幕文字、标志、水印、美容广告式构图或产品展示镜头。写实皮肤与动态，连贯手部表现，克制的电影级对比度。",
       "notes": [
         "Elara 的面部、芥末黄雨衣与身材比例在四个故事节拍中锚定了连贯性。",
         "每个定时的镜头都将可见动作与运镜指令及同步声音线索相匹配。"

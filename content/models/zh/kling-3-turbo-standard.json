@@ -137,7 +137,7 @@
         "label": "导演执导",
         "title": "构建定时镜头序列",
         "description": "为每个镜头分配一个核心动作、一项运镜指令和一个声音线索。",
-        "copy": "Shot 1: a courier protects a silver parcel beneath a station awning. Shot 2: the same parcel travels in a bicycle basket through rain. Shot 3: the courier hands it to a baker at a warm doorway. Preserve the parcel, rain, direction, and color grade."
+        "copy": "镜头 1：快递员在车站遮雨棚下保护一个银色包裹。镜头 2：同一个包裹在雨中随自行车篮颠簸前行。镜头 3：快递员在温暖的门口将包裹交给一位面包师。保持包裹、雨景、镜头方向和色彩风格的一致性。"
       }
     ],
     "tabNotes": [
@@ -156,7 +156,7 @@
     "demo": {
       "title": "雨夜包裹接力",
       "promptLabel": "生产级提示词",
-      "prompt": "Shot 1: a courier protects a silver parcel beneath a station awning. Shot 2: the same parcel travels in a bicycle basket through rain. Shot 3: the courier hands it to a baker at a warm doorway. Preserve the parcel, rain, direction, and color grade.",
+      "prompt": "镜头 1：快递员在车站遮雨棚下保护一个银色包裹。镜头 2：同一个包裹在雨中随自行车篮颠簸前行。镜头 3：快递员在温暖的门口将包裹交给一位面包师。保持包裹、雨景、镜头方向和色彩风格的一致性。",
       "notes": [
         "创作多镜头时，为每个镜头命名并确保所有镜头时长之和等于所选总时长。"
       ],

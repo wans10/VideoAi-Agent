@@ -143,11 +143,11 @@
   "prompts": [
     {
       "title": "多场景城市蒙太奇",
-      "prompt": "Scene 1 (4s): wide skyline at dusk, slow dolly. Scene 2 (5s): close-up neon reflections in rain, shallow depth. Scene 3 (4s): hero walk-through alley, ambient audio."
+      "prompt": "场景 1 (4s)：黄昏时分的广角天际线，缓慢推进镜头。场景 2 (5s)：雨中霓虹灯倒影特写，浅景深。场景 3 (4s)：主角穿越小巷，环境音效。"
     },
     {
       "title": "产品主视觉序列",
-      "prompt": "Scene 1 (5s): macro watch face, crisp reflections. Scene 2 (4s): rotating hero shot with rim light. Scene 3 (4s): wrist-on model, soft ambience."
+      "prompt": "场景 1 (5s)：微距手表表盘，清晰倒影。场景 2 (4s)：轮廓光旋转主视觉镜头。场景 3 (4s)：手腕佩戴模特，柔和环境光。"
     }
   ],
   "faqTitle": "常见问题 — MaxVideoAI 中的 Kling 3 Pro",
@@ -380,28 +380,28 @@
         "label": "单镜头",
         "title": "单镜头提示词",
         "description": "适用于只需单一清晰动作与单次运镜的场景。",
-        "copy": "[One subject] [one visible action] in [setting], [framing + one camera move], [lighting/style].\nAudio (optional): [ambience + 1 SFX cue OR one short line].\nNegative: no text, no logos, no subtitles/overlays."
+        "copy": "[一个主体] [一个可见动作] 在 [场景中]，[构图 + 一个运镜]，[光线/风格]。\n音频（可选）：[环境音 + 1 个音效线索，或一句简短台词]。\n负向提示词：不要文字，不要Logo，不要字幕/覆盖层。"
       },
       {
         "id": "structured",
         "label": "多镜头",
         "title": "多镜头提示词",
         "description": "适用于结构化的 multi_prompt 分镜比单纯随机变化更关键的场景。",
-        "copy": "Scene anchors:\n[Subject + wardrobe/props + 2–3 environment anchors.]\n\nMulti-shot plan (3–15s total):\nShot 1 (0–4s): [framing + action + one camera move]\nShot 2 (4–10s): [framing + action + one camera move]\nShot 3 (10–15s): [final action/reveal + settle]\n\nElements (optional):\n@Element1 = [main character/subject]\n@Element2 = [prop/product]\n\nAudio (optional):\nDialogue: <<<voice_1>>> “Short line.”\nAmbience + 1–2 SFX cues. Keep it minimal.\n\nConstraints:\nNo logos. No readable text. No subtitles/overlays."
+        "copy": "场景锚点：\n[主体 + 服装/道具 + 2–3 个环境锚点。]\n\n多镜头规划（总计 3–15s）：\n镜头 1 (0–4s)：[构图 + 动作 + 一个运镜]\n镜头 2 (4–10s)：[构图 + 动作 + 一个运镜]\n镜头 3 (10–15s)：[最终动作/揭示 + 收稳]\n\nElements（可选）：\n@Element1 = [主角/主体]\n@Element2 = [道具/产品]\n\n音频（可选）：\n对白：<<<voice_1>>> \"短句台词。\"\n环境音 + 1–2 个音效线索。保持极简。\n\n约束条件：\n不要Logo。不要可读文字。不要字幕/覆盖层。"
       },
       {
         "id": "pro",
         "label": "元素与音频",
         "title": "Elements 元素与声音提示词",
         "description": "适用于整段视频中角色身份、道具和声音必须严格保持锁定的场景。",
-        "copy": "Director brief:\n[Goal + vibe + intended audience.]\n\nElements:\n@Element1 = [character]\n@Element2 = [product / prop]\n\nShot type:\n[customize | intelligent]\n\nContinuity:\n- Identity + wardrobe / props\n- Location + time + 3 anchors\n- Lighting + palette\n\nAudio (if on):\nDialogue: <<<voice_1>>> \"One short line.\"\nAmbience + 1–2 SFX cues.\n\nRule:\nIf audio is on, keep dialogue brief and avoid adding too many sound instructions."
+        "copy": "导演简介：\n[目标 + 氛围 + 目标受众。]\n\nElements：\n@Element1 = [角色]\n@Element2 = [产品/道具]\n\n镜头类型：\n[customize | intelligent]\n\n连贯性：\n- 身份 + 服装/道具\n- 地点 + 时间 + 3 个锚点\n- 光线 + 色调\n\n音频（若开启）：\n对白：<<<voice_1>>> \"一句短台词。\"\n环境音 + 1–2 个音效线索。\n\n规则：\n若开启音频，保持台词简短，避免添加过多声音指令。"
       },
       {
         "id": "storyboard",
         "label": "分镜清单",
         "title": "分镜清单提示词",
         "description": "适用于需要完整多镜头序列、配合 shot_type 与可选尾帧的创作。",
-        "copy": "Duration: [3–15s] • Aspect: [16:9 / 9:16 / 1:1] • Audio: [on/off] • shot_type: [customize | intelligent]\n\nElements (optional):\n@Element1 = [main character/subject]\n@Element2 = [prop/product]\n\nShot 1 (0–3s):\n[Framing + action + camera move]\n\nShot 2 (3–8s):\n[Framing + action + camera move]\n\nShot 3 (8–15s):\n[Final action/reveal + camera settle]\nEnd frame (optional): [describe the final frame you want to land on]\n\nAudio (if on):\nDialogue: <<<voice_1>>> “Short line.”\nAmbience + 1–2 SFX cues.\n\nConstraints:\nNo logos. No readable text. No subtitles/overlays. Keep it to one action per shot."
+        "copy": "时长：[3–15s] • 画幅：[16:9 / 9:16 / 1:1] • 音频：[开/关] • shot_type：[customize | intelligent]\n\nElements（可选）：\n@Element1 = [主角/主体]\n@Element2 = [道具/产品]\n\n镜头 1 (0–3s)：\n[构图 + 动作 + 运镜]\n\n镜头 2 (3–8s)：\n[构图 + 动作 + 运镜]\n\n镜头 3 (8–15s)：\n[最终动作/揭示 + 运镜收稳]\n尾帧（可选）：[描述您希望落幅的最终画面]\n\n音频（若开启）：\n对白：<<<voice_1>>> \"短句台词。\"\n环境音 + 1–2 个音效线索。\n\n约束条件：\n不要Logo。不要可读文字。不要字幕/覆盖层。每个镜头只保持一个动作。"
       }
     ],
     "tabNotes": [
@@ -439,7 +439,7 @@
     "demo": {
       "title": "演示提示词 — Kling 3 Pro",
       "promptLabel": "生产级提示词",
-      "prompt": "Duration: 12s • Aspect: 16:9 • Audio: on • shot_type: customize\n@Element1 = female presenter in a navy blazer\n@Element2 = translucent product prototype on a graphite plinth\nShot 1 (0-4s): medium shot of @Element1 holding @Element2, premium studio, soft key light, stable camera.\nShot 2 (4-8s): @Element1 walks toward a demo screen, smooth side tracking, same wardrobe and product anchors.\nShot 3 (8-12s): close-up of the prototype on the plinth, controlled reflections, camera settles on the final composition.\nAudio: <<<voice_1>>> “Here is the next generation of our platform.” Quiet studio ambience, one soft UI chime. No text, no logos, no subtitles.",
+      "prompt": "时长：12s • 画幅：16:9 • 音频：开 • shot_type：customize\n@Element1 = 身着藏青色西装外套的女主讲人\n@Element2 = 放置于石墨色展台上的半透明产品原型\n镜头 1 (0-4s)：@Element1 手持 @Element2 的中景，高端摄影棚，柔和主光，稳定机位。\n镜头 2 (4-8s)：@Element1 走向演示大屏，平滑侧面跟拍，保持相同服装与产品锚点。\n镜头 3 (8-12s)：展台上原型特写，受控光影倒影，镜头收稳于最终构图。\n音频：<<<voice_1>>> \"这就是我们平台的下一代产品。\" 安静的摄影棚环境音，一声轻柔的 UI 提示音。不要文字，不要Logo，不要字幕。\"",
       "notes": [],
       "summary": {
         "subject": "产品发布会主讲人",

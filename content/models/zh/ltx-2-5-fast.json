@@ -199,7 +199,7 @@
     "demo": {
       "title": "LTX 2.5 Fast 动态研究",
       "promptLabel": "受控图生视频草稿",
-      "prompt": "Animate the supplied editorial still of a cyclist waiting beneath a concrete overpass. The rider looks left, shifts weight onto one pedal, and starts forward as the camera makes a gentle parallel track. Preserve the jacket, bicycle frame, face and wet pavement reflections. Keep background traffic soft and end with the cyclist crossing the brightest patch of light.",
+      "prompt": "为提供的编辑静态图片添加动态效果：一名骑行者在混凝土立交桥下等待。骑行者向左看，将重心转移到一侧踏板上，随后向前出发，同时镜头进行平缓的平行平移跟拍。保留夹克、自行车车架、面部特征及湿润路面的反光。保持背景车流的柔和感，以骑行者穿越最明亮光斑作为结尾。",
       "notes": [
         "提示词在保护源图像主体身份的同时，要求执行单一清晰可辨的动作。",
         "单一横向运镜让不同草稿之间的横向对比更加直观明了。"

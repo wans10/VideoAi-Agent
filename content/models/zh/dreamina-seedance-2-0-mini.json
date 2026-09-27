@@ -116,19 +116,19 @@
   "prompts": [
     {
       "title": "电商产品批量测试",
-      "prompt": "Create an 8 second 720p 16:9 product motion variant for a matte black speaker on a kitchen counter, slow push-in, clean morning light, use the product image reference for shape accuracy."
+      "prompt": "为厨房台面上的哑光黑色音箱制作一个 8 秒 720p 16:9 产品动态变体，缓慢推镜头，干净的清晨光线，使用产品图像参考素材保证外观准确。"
     },
     {
       "title": "UGC 吸睛开头组合",
-      "prompt": "Generate a 4 second 480p vertical UGC hook: creator lifts the skincare bottle toward camera, one bright bathroom beat, natural handheld motion, batch version A for opening-frame comparison."
+      "prompt": "生成一段 4 秒 480p 竖屏 UGC 吸睛开头：创作者将护肤品瓶子举向镜头，明亮卫生间单一动作节拍，自然手持运镜，变体 A 用于开场画面对比。"
     },
     {
       "title": "视频编辑微调",
-      "prompt": "Use the source video as a lower-cost video editing pass, keep the subject and product framing stable, adjust pacing for a marketing cut, 8 seconds at 720p."
+      "prompt": "以源视频作为低成本视频编辑遍，保持主体与产品构图稳定，调整节奏剪辑适配营销剪辑版本，720p 时长 8 秒。"
     },
     {
       "title": "画面延展测试",
-      "prompt": "Extend the short source clip into a 15 second 720p product ending with a smooth camera drift and clean final pose for review."
+      "prompt": "将短片源素材延展为 15 秒 720p 产品结尾，配以平滑摄像机漂移与干净的最终定格姿态，便于评审。"
     }
   ],
   "faqTitle": "常见问题 – MaxVideoAI 中的 Seedance 2.0 Mini",
@@ -435,7 +435,7 @@
     "demo": {
       "title": "演示提示词 — Seedance 2.0 Mini",
       "promptLabel": "提示词",
-      "prompt": "8 second 720p 16:9 cinematic golden-hour city crosswalk scene. A father and his small daughter move through the crowd as a bus passes behind them and the street suddenly fills with upward motion.\nShot 1: medium-wide street-level view, normal city life around them, documentary push forward, warm rim light and long shadows.\nShot 2: smooth slow-motion push-in as the background reacts naturally; keep the father and child as the emotional focus, hands connected and faces realistic.\nShot 3: close medium on the child looking up with quiet awe, then the father smiles with relief. Warm sunlight flickers across the final frame.\nAudio setting for this curated render: off. For new Mini renders, enable native audio if you want traffic ambience, footsteps, pass-by sound, or short dialogue. Constraints: no readable text, no logos, no subtitles, no UI.",
+      "prompt": "8 秒 720p 16:9 电影级黄金时段城市斑马线场景。父亲与幼女穿行于人群之中，一辆公交车从身后驶过，街道上突然泛起一阵向上涌动的动态浪潮。\n镜头一：街道平视中远景，周遭普通城市生活，纪实风格前推镜头，暖色轮廓光与长影。\n镜头二：背景自然反应时平滑慢动作推入；父亲与孩子作为情感焦点，手相牵，面部真实。\n镜头三：中近景聚焦孩子安静仰望的神情，随后父亲欣慰微笑。暖阳光芒在最后一帧中轻轻闪烁。\n此精选渲染的音频设置：关闭。若进行新的 Mini 渲染，需要交通环境音、脚步声、路人音效或短对白时，可开启原生音频。约束条件：不得出现可读文字、徽标、字幕或界面元素。",
       "notes": [],
       "summary": {
         "subject": "黄金时段城市斑马线上的父亲与幼女",

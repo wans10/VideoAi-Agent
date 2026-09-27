@@ -73,15 +73,15 @@
   "prompts": [
     {
       "title": "包装营销静态大片",
-      "prompt": "A premium catalog product photo of a coffee bag labeled \"Summit Roast\", mountain artwork, readable tasting notes, rustic wooden table, soft morning light, shallow depth of field."
+      "prompt": "精品画册产品摄影，咖啡袋标签印有\"Summit Roast\"，山地艺术图案，清晰可读的品鉴说明，质朴木桌，柔和晨光，浅景深。"
     },
     {
       "title": "带精准标签的信息图表",
-      "prompt": "A clean editorial infographic titled \"Creator Launch Checklist\", 12 labeled modules, crisp typography, white background, precise spacing, subtle blue and graphite accents."
+      "prompt": "整洁的编辑风信息图表，标题为\"创作者发布清单\"，12个带标注的模块，清晰字体排版，白色背景，精确间距，低调的蓝色与石墨色点缀。"
     },
     {
       "title": "参考图产品精修编辑",
-      "prompt": "Keep the exact product shape and label hierarchy from the reference, replace the background with a bright e-commerce tabletop scene, remove distracting reflections, preserve readable text."
+      "prompt": "保留参考图中的精确产品造型与标签层级，将背景替换为明亮的电商桌面场景，去除干扰性反光，保留清晰可读的文字。"
     }
   ],
   "faqs": [
@@ -332,42 +332,42 @@
           "title": "带清晰标签的产品静态图",
           "badge": "High · 1024x768",
           "kind": "image",
-          "prompt": "Catalog product photo of a premium coffee bag titled \"SUMMIT ROAST\", readable tasting notes, light wood table, soft daylight, clean framing, e-commerce background."
+          "prompt": "精品画册产品摄影，咖啡袋标题为\"SUMMIT ROAST\"，清晰可读的品鉴说明，浅色木桌，柔和日光，干净构图，电商风格背景。"
         },
         {
           "id": "typography-2",
           "title": "精确文字海报",
           "badge": "4K 文字",
           "kind": "typography",
-          "prompt": "Vertical 4K poster with exact title \"CREATOR LAUNCH CHECKLIST\", 8 numbered modules, crisp typography, white background, navy and cyan accents, even margins."
+          "prompt": "竖版 4K 海报，精确标题\"CREATOR LAUNCH CHECKLIST\"，8个编号模块，清晰字体排版，白色背景，海军蓝与青色点缀，均匀页边距。"
         },
         {
           "id": "layout-3",
           "title": "UI 界面原型",
           "badge": "1920x1080",
           "kind": "layout",
-          "prompt": "1920x1080 SaaS analytics dashboard screen mockup, white cards, left navigation, readable headings, realistic metrics, premium product UI style."
+          "prompt": "1920x1080 SaaS 数据分析仪表盘界面原型，白色卡片，左侧导航，清晰标题，真实感数据指标，高端产品 UI 风格。"
         },
         {
           "id": "edit-4",
           "title": "受控图像编辑",
           "badge": "图像编辑",
           "kind": "edit",
-          "prompt": "Using this product image, preserve shape, label, proportions and main reflection. Replace the background with a bright studio, remove dust and distracting reflections."
+          "prompt": "使用此产品图，保留造型、标签、比例与主要反光。将背景替换为明亮的棚拍风格，去除灰尘与干扰性反光。"
         },
         {
           "id": "quality-5",
           "title": "遮罩引导编辑",
           "badge": "遮罩 URL",
           "kind": "quality",
-          "prompt": "Modify only the masked region: replace the secondary copy with \"LIMITED RESERVE\", keep logo, packaging color, shadow and perspective unchanged."
+          "prompt": "仅修改遮罩区域：将副文案替换为\"LIMITED RESERVE\"，保持 logo、包装颜色、阴影与透视不变。"
         },
         {
           "id": "layout-6",
           "title": "4K 商业主视觉大片",
           "badge": "3840x2160",
           "kind": "layout",
-          "prompt": "4K product-page hero still, black smartphone on graphite surface, readable screen text, controlled reflection, premium studio lighting, negative space on the right."
+          "prompt": "4K 产品页主视觉大片，黑色智能手机置于石墨色台面，清晰可读的屏幕文字，受控反光，专业棚拍灯光，右侧留有负空间。"
         }
       ]
     }

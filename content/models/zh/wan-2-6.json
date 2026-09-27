@@ -102,11 +102,11 @@
   "prompts": [
     {
       "title": "竖屏社媒微预告 (文生视频)",
-      "prompt": "Vertical 9:16, premium social ad. Shot 1 [0-3s] Macro of a product on a wet black surface, slow push-in, specular highlights. Shot 2 [3-8s] Whip pan reveal to a hand picking it up, soft rim light, bokeh city at night. Shot 3 [8-15s] Clean hero shot, subtle rotation, no text, no watermark."
+      "prompt": "竖屏 9:16，高端社媒广告。镜头 1 [0-3秒] 微距拍摄产品置于湿润黑色表面，缓慢推进，高光镜面反射。镜头 2 [3-8秒] 甩镜揭示手部拿起产品，柔和轮廓光，夜晚城市虚化背景。镜头 3 [8-15秒] 干净主角特写，轻微旋转，无文字，无水印。"
     },
     {
       "title": "静物产品动态包装 (图生视频)",
-      "prompt": "Continue from first frame. Slow dolly-in, gentle parallax, soft light sweep across the label, tiny dust particles, premium studio look, no text."
+      "prompt": "从第一帧继续。缓慢向前推镜，轻柔视差效果，柔光在标签上缓缓扫过，细小尘埃颗粒，高端影棚质感，无文字。"
     },
     {
       "title": "参考视频街舞对决 (参考视频)",
@@ -516,7 +516,7 @@
     "demo": {
       "title": "即刻渲染范例",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Product unboxing in a clean studio kitchen\nAction: Person presents a product on a minimalist tabletop\nCamera: Wide 16:9 shot with visible body and clean motion\nStyle: Bright studio, commercial product render\nAudio: Light ambience, audio included when the route exposes it",
+      "prompt": "主体：纯净影棚厨房中的产品开箱\n动作：人物在极简桌面上展示产品\n运镜：16:9 广角镜头，清晰展示人物与利落动态\n风格：明亮影棚，商业产品渲染质感\n声音：轻柔环境音，路由支持时包含音频",
       "notes": [
         "可选音频：3–15 秒轻柔低音量环境音 URL。"
       ],

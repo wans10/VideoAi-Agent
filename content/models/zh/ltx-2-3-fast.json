@@ -126,15 +126,15 @@
   "prompts": [
     {
       "title": "社交产品快速吸睛镜头（Hook）",
-      "prompt": "A 9:16 beauty shot of a skincare bottle on a wet mirror surface, quick push-in, clean reflections, soft high-key lighting, 6 seconds, crisp sonic accent at the end."
+      "prompt": "9:16 画幅，护肤瓶置于潮湿镜面上的美妆特写，快速推镜，干净倒影，柔和高调打光，6 秒，结尾加一个清脆音效点缀。"
     },
     {
       "title": "图生视频首尾帧平滑转场",
-      "prompt": "Animate the uploaded start image of a parked sports car into a smooth evening city pull-away, then land on the uploaded end image as taillights streak across the frame."
+      "prompt": "将上传的停泊跑车起始图片制作成流畅的傍晚城市远离镜头，最终衔接上传的结束图片——尾灯光轨划过画面。"
     },
     {
       "title": "长镜头草稿节拍",
-      "prompt": "A 16:9 office walkthrough for an internal explainer teaser, one smooth camera move through a bright workspace, realistic motion, light ambience, 14 seconds at 1080p."
+      "prompt": "16:9 画幅，办公室漫游镜头，用于内部宣传预告片，一个流畅运镜穿越明亮工作空间，真实运动感，轻盈氛围，1080p 下 14 秒。"
     }
   ],
   "faqs": [
@@ -504,7 +504,7 @@
     "demo": {
       "title": "演示提示词 — 电影感极速草稿",
       "promptLabel": "极速草稿验证",
-      "prompt": "A powerful boxer walks alone through a dark arena tunnel toward the ring, athletic frame wrapped in a hooded robe, shoulders relaxed but dangerous. Low front tracking shot, slow push-in, hard rim light, drifting haze, muted crowd rumble and one sharp impact cue, 10 seconds, 16:9.",
+      "prompt": "一名强壮的拳击手独自穿行于黑暗的竞技场通道，走向拳击台，运动型身材裹着连帽浴袍，肩膀放松却暗藏杀气。低角度正面跟拍，缓慢推镜头，硬朗轮廓光，飘散薄雾，压抑的人群低吼声与一次清脆的重击音效，10 秒，16:9。",
       "notes": [
         "专为快速验证动作与动态设计",
         "单一主体、单一运镜与单一环境氛围",

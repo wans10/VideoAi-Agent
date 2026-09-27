@@ -265,28 +265,28 @@
         "label": "文本",
         "title": "无源视频的终版 4K 提示词",
         "description": "适用于由文本和参考素材引导的原生 4K 终版成片渲染。",
-        "copy": "主体：\n[已获批产品 / 角色 / 场景]\n\n动作：\n[单一受控的简短动态]\n\n运镜：\n[终版运镜：推进 / 微幅平移 / 固定机位]\n\n风格：\n[光影与 4K 质感]\n\n音频：\n[若启用，指定生成的环境音效]\n\n示例：\nA premium product floats on a graphite plinth, slow push-in, clean reflections, crisp textures, native 4K final with no added text."
+        "copy": "主体：\n[已获批产品 / 角色 / 场景]\n\n动作：\n[单一受控的简短动态]\n\n运镜：\n[终版运镜：推进 / 微幅平移 / 固定机位]\n\n风格：\n[光影与 4K 质感]\n\n音频：\n[若启用，指定生成的环境音效]\n\n示例：\n高端产品漂浮于石墨色基座之上，缓慢推进，干净的反光，清晰的质感，原生 4K 终版成片，无附加文字。"
       },
       {
         "id": "structured",
         "label": "参考图",
         "title": "定稿 4K 参考素材映射",
         "description": "用于将多张参考图片映射至最终渲染镜头。",
-        "copy": "@Image1 = [已获批的分镜画面或构图]\n@Image2 = [风格 / 产品 / 视觉主体]\n@Image3 = [材质或色彩细节]\n\n预期输出：\n[4K 终版镜头应生成的画面]\n\n约束条件：\n[无形变、无额外文字、构图稳定]\n\n示例：\nUse @Image1 for composition, @Image2 for lighting style, and @Image3 for product detail. Render a stable, crisp, edit-ready 4K final."
+        "copy": "@Image1 = [已获批的分镜画面或构图]\n@Image2 = [风格 / 产品 / 视觉主体]\n@Image3 = [材质或色彩细节]\n\n预期输出：\n[4K 终版镜头应生成的画面]\n\n约束条件：\n[无形变、无额外文字、构图稳定]\n\n示例：\n以 @Image1 控制构图，@Image2 控制光影风格，@Image3 控制产品细节。渲染一个稳定、清晰、可直接剪辑的 4K 终版成片。"
       },
       {
         "id": "pro",
         "label": "起止帧",
         "title": "4K 首尾帧控制",
         "description": "用于控制最终镜头的视觉起止边界。",
-        "copy": "可选首帧：\n[预期的初始姿势或构图]\n\n可选尾帧：\n[最终落幅画面]\n\n动作：\n[连接两状态的单一运动轨迹]\n\n规则：\n切勿使用 @Video1。当前 4K 路由为参考生视频，不支持源视频 V2V。\n\n示例：\nStart from @Image1, subtle forward travel, land close to the end frame. Same product, same light, no location break."
+        "copy": "可选首帧：\n[预期的初始姿势或构图]\n\n可选尾帧：\n[最终落幅画面]\n\n动作：\n[连接两状态的单一运动轨迹]\n\n规则：\n切勿使用 @Video1。当前 4K 路由为参考生视频，不支持源视频 V2V。\n\n示例：\n从 @Image1 出发，微幅前推，落定于尾帧构图。同一产品，同一光线，无场景跳变。"
       },
       {
         "id": "storyboard",
         "label": "4K 终版",
         "title": "4K 成片交付核对清单",
         "description": "用于将已通过的草稿方案转化为成片母带。",
-        "copy": "时长：[3–15秒]\n分辨率：原生 4K\n\n已获批构图：\n[@Image1]\n\n已获批风格：\n[@Image2]\n\n终版动作：\n[简洁、受控、便于后期剪辑]\n\n避免包含：\n[@Video1、keep_audio、额外文字、场景突变]\n\n示例：\nRender the approved shot in native 4K with short motion, clean texture, stable identity, and an edit-ready ending."
+        "copy": "时长：[3–15秒]\n分辨率：原生 4K\n\n已获批构图：\n[@Image1]\n\n已获批风格：\n[@Image2]\n\n终版动作：\n[简洁、受控、便于后期剪辑]\n\n避免包含：\n[@Video1、keep_audio、额外文字、场景突变]\n\n示例：\n以原生 4K 渲染已获批镜头，运动简短，质感清晰，主体一致，收尾干净利落，可直接用于剪辑。"
       }
     ],
     "tabNotes": [],
@@ -305,7 +305,7 @@
     "demo": {
       "title": "演示提示词 — O3 4K 参考终版成片",
       "promptLabel": "4K 文本提示词",
-      "prompt": "Subject:\nA handmade mechanical moon, brass and porcelain, floating above an old clockmaker’s workbench.\n\nAction:\nTiny gears begin turning inside the moon. It slowly opens like a pocket watch and releases a cloud of glowing fireflies that circle the room.\n\nCamera:\nMedium close-up with a slow orbit around the floating moon, then a gentle upward tilt following the fireflies.\n\nStyle:\nCinematic workshop fantasy, warm candlelight, brass reflections, dust in the air, rich brown and gold palette, handcrafted textures, elegant and mysterious.\n\nAudio:\nSoft ticking gears, delicate metallic clicks, magical shimmer, quiet room tone.",
+      "prompt": "主体：\n一颗手工打造的机械月亮，黄铜与白瓷材质，悬浮于一位老钟表匠的工作台上方。\n\n动作：\n月亮内部细小的齿轮开始转动。它缓缓开启，如怀表般展开，释放出一团闪烁的萤火虫，在房间里环绕飞翔。\n\n运镜：\n中景特写，围绕悬浮的月亮缓慢环绕运镜，然后轻柔向上倾斜，跟随萤火虫移动。\n\n风格：\n电影感工坊奇幻风格，温暖的烛光，黄铜反光，空气中漂浮的尘埃，浓郁的棕色与金色调，手工质感，优雅而神秘。\n\n音频：\n轻柔的齿轮滴答声，精致的金属叮当声，神奇的微光音效，安静的室内环境音。",
       "notes": [],
       "summary": {
         "subject": "黄铜与白瓷材质的手工机械月亮",

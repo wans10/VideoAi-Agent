@@ -115,11 +115,11 @@
   "prompts": [
     {
       "title": "大风楼顶滑行动作 (10秒, 16:9)",
-      "prompt": "10s 16:9 glide across a stylized city rooftop at night; coat and hair react to gusts, camera floats past neon signs, puddle reflections, no text/logos/UI."
+      "prompt": "10秒 16:9 夜晚在风格化城市屋顶上滑行；外套与头发随阵风飘动，镜头飘过霓虹灯招牌与地面水洼倒影，无文字/logo/UI元素。"
     },
     {
       "title": "狐狸疾驰物理测试 (6秒, 16:9)",
-      "prompt": "6s 16:9 shot of a red fox sprinting through a dense forest on a windy day. Camera follows low behind; leaves/dust swirl; realistic fur motion; stylized colors; no text/logos."
+      "prompt": "6秒 16:9 红狐在大风天穿越密林疾驰的镜头。摄影机低位跟拍；树叶与尘土飞旋；真实毛发动态；风格化色彩；无文字/logo。"
     }
   ],
   "faqs": [
@@ -511,7 +511,7 @@
     "demo": {
       "title": "演示案例 – 10秒城市漫游 (9:16)",
       "promptLabel": "无声动态草稿",
-      "prompt": "10s silent Hailuo 02 draft in 16:9.\nA cyclist rides through a shallow puddle on an empty concrete path.\nWater splashes outward and the jacket fabric reacts to the motion.\nLow side tracking shot with one smooth push-in, natural dusk light, simple background.\nFocus on physics-driven movement. No dialogue, no music, no SFX.",
+      "prompt": "10秒无声 Hailuo 02 草稿，16:9。\n骑行者骑车穿过空旷混凝土小径上的浅水洼。\n水花向外溅射，夹克面料随动作产生自然形变。\n低角度侧面跟拍，配合一次平滑推近，黄昏自然光，简洁背景。\n聚焦物理驱动的动态表现。无对白，无音乐，无音效。",
       "notes": [
         "具备真实物理反应线索的单一场景。",
         "易于作为背景进行无缝循环播放。",

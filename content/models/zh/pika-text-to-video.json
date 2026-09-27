@@ -111,11 +111,11 @@
   "prompts": [
     {
       "title": "动漫信使屋顶奔跑 (10秒, 9:16)",
-      "prompt": "Anime-style vertical shot of a teen courier sprinting across neon rooftops at dusk, 10s, 9:16. Camera tracks beside them as holographic billboards whoosh past, smear-frame trails on fast limbs, soft parallax clouds, no logos, no on-screen text."
+      "prompt": "动漫风格竖屏镜头：一名少年快递员在黄昏时分疾速奔跑于霓虹灯璀璨的屋顶之上，10秒，9:16。摄影机在其身侧跟随追踪，全息广告牌呼啸而过，四肢高速运动时留下残影轨迹，柔和的视差云层，无 Logo，无屏幕文字。"
     },
     {
       "title": "像素巫师循环 (5秒, 1:1)",
-      "prompt": "5s seamless pixel-art loop of a tiny wizard stirring a glowing cauldron in a cozy 1:1 cottage interior. Camera locked medium shot. Bubbles rise in a repeating pattern, books float gently, warm candlelight, chunky retro pixels, no text or logos."
+      "prompt": "5秒无缝像素艺术循环：一名迷你巫师在温馨的 1:1 小屋室内搅拌着发光的大锅。摄影机固定中景。气泡以循环方式不断升腾，书本轻柔漂浮，暖调烛光，粗犷的复古像素风格，无文字或 Logo。"
     }
   ],
   "faqs": [
@@ -508,7 +508,7 @@
     "demo": {
       "title": "演示案例：Pika 2.2 提示词",
       "promptLabel": "文生视频",
-      "prompt": "5s Pika 2.2 Text-to-Video loop in 1:1.\nA tiny pixel-art wizard stirs a glowing cauldron inside a cozy cottage.\nLocked medium shot, bubbles rising in a repeatable loop, books floating gently.\nWarm 16-color palette, candlelight, chunky retro pixels, simple repeatable motion.\nNegative prompt: text, logos, blur, extra characters, distorted hands.",
+      "prompt": "5s Pika 2.2 文生视频循环，1:1 画幅。\n迷你像素艺术巫师在温馨的小屋内搅拌发光大锅。\n固定中景，气泡以可重复循环的方式升腾，书本轻柔漂浮。\n暖调 16 色调色板，烛光，粗犷的复古像素，简洁可重复的动作。\n负向提示词：文字、Logo、模糊、多余角色、变形的手。",
       "notes": [
         "单一场景中主体清晰明确。",
         "鲜明的艺术风格导向（像素风、复古调色板）。",

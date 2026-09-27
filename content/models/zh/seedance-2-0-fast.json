@@ -129,15 +129,15 @@
   "prompts": [
     {
       "title": "故事节拍草稿",
-      "prompt": "One-shot concept pass for a product reveal, slow push-in, single hero motion beat, soft room tone, designed to validate pacing and framing rather than final polish."
+      "prompt": "产品发布的一次性概念验证，缓慢推镜，单一主体动作节拍，柔和室内环境音，旨在验证节奏与构图而非最终成片精修。"
     },
     {
       "title": "A/B 运镜动态测试",
-      "prompt": "Same product on the same table. Version A uses a locked camera and hand reach. Version B uses a short arc move. Keep lighting identical so only motion changes."
+      "prompt": "相同产品置于同一桌面。版本 A 使用固定机位与手部伸取动作。版本 B 使用短弧线运镜。保持光线完全一致，仅让运动方式产生差异。"
     },
     {
       "title": "快速社交广告循环",
-      "prompt": "Six-second draft of a skincare bottle in a bright bathroom, one clean reveal, one cap twist, one ambient water cue, vertical framing."
+      "prompt": "护肤品瓶在明亮浴室中的六秒草稿，一次干净的产品展示，一次瓶盖旋开动作，一个环境水声线索，竖屏构图。"
     }
   ],
   "faqTitle": "常见问题 – MaxVideoAI 中的 Seedance 2.0 Fast",
@@ -482,7 +482,7 @@
     "demo": {
       "title": "演示提示词 — Seedance 2.0 Fast",
       "promptLabel": "文生视频",
-      "prompt": "Subject: Absurd bank robbery with inflatable weapons\nAction: Robbers enter a tense crime-thriller setup\nCamera: Readable cinematic framing for a fast draft pass\nStyle: Tense thriller with absurd visual humor\nAudio: Bank ambience, tension, no long dialogue",
+      "prompt": "Subject: 使用充气武器的荒诞银行劫案\nAction: 劫匪进入紧张的犯罪惊悚片场景\nCamera: 适合快速草稿评审的清晰电影感构图\nStyle: 带有荒诞视觉幽默感的紧张惊悚片\nAudio: 银行环境音、紧张感，无冗长对白",
       "notes": [],
       "summary": {
         "subject": "使用充气武器的荒诞银行劫案",

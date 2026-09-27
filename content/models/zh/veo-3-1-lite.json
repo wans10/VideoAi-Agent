@@ -129,11 +129,11 @@
   "prompts": [
     {
       "title": "晨雾森林慢速推镜",
-      "prompt": "Misty forest at dawn, slow push-in toward a mossy rock as light rays cut through trees, subtle birdsong, no dialogue, 8s, 16:9 at 1080p."
+      "prompt": "清晨薄雾笼罩的森林，摄影机缓缓向长满青苔的岩石推进，阳光穿透树木投下光束，隐约鸟鸣，无对白，8s，16:9，1080p。"
     },
     {
       "title": "竖屏深夜书桌循环",
-      "prompt": "6s 9:16 loop of a young woman working late at a minimalist desk, city lights blurred behind her. Slow handheld drift left/right, cool blue window light plus warm desk lamp, quiet typing + city hum, no dialogue."
+      "prompt": "6s 9:16 循环镜头：一位年轻女性深夜在简约书桌前工作，身后城市灯光虚化朦胧。手持摄影机缓慢左右漂移，冷蓝色窗光与暖色台灯共存，轻柔键盘敲击声与城市低鸣，无对白。"
     }
   ],
   "faqs": [
@@ -483,28 +483,28 @@
         "label": "快速",
         "title": "快速提示词（高速迭代）",
         "description": "想要探索多个变体时，使用 1–2 句话即可。",
-        "copy": "[Subject] [action] in [context], [camera move], [lighting/style], [optional sound cue]."
+        "copy": "[主体] [动作] 在 [场景/环境]，[摄影机运镜]，[光影/风格]，[可选音效线索]。"
       },
       {
         "id": "structured",
         "label": "结构化",
         "title": "结构化提示词（最适合可靠产出）",
         "description": "将信息分块组织，便于模型稳定一致地遵循。",
-        "copy": "Subject:\n[Who/what + one action.]\n\nContext:\n[Location + time + 2 visual anchors.]\n\nCamera:\n[Shot + angle + one move.]\n\nLook:\n[Lighting + palette + style.]\n\nSound (optional):\n[Ambience + 1 cue.]"
+        "copy": "主体：\n[谁/什么 + 一个动作。]\n\n场景：\n[地点 + 时间 + 2 个视觉锚点。]\n\n摄影机：\n[景别 + 角度 + 一个运镜。]\n\n画面质感：\n[光影 + 色调 + 风格。]\n\n声音（可选）：\n[环境音 + 1 个音效线索。]"
       },
       {
         "id": "pro",
         "label": "专业",
         "title": "专业提示词（超精细“拍摄简报”）",
         "description": "当需要特定视觉质感或多镜头连贯性时使用。",
-        "copy": "Brief:\n[Goal + vibe.]\n\nSubject:\n[Key traits + wardrobe/props.]\n\nCamera:\n[Framing + one move + lens feel.]\n\nLighting + color:\n[Key light + palette anchors.]\n\nConstraints:\nKeep it simple; avoid extra actions."
+        "copy": "简报：\n[目标 + 氛围基调。]\n\n主体：\n[关键特征 + 服装/道具。]\n\n摄影机：\n[构图 + 一个运镜 + 镜头感。]\n\n光影 + 色彩：\n[主光 + 色调锚点。]\n\n约束条件：\n保持简单；避免多余动作。"
       },
       {
         "id": "storyboard",
         "label": "分镜",
         "title": "分镜提示词（简短镜头清单）",
         "description": "保持极简，以获得更快、更干净的草稿。",
-        "copy": "Shot list (same subject + same setting)\nDuration: [4/6/8s]\n\nShot 1 (0-2s):\n[Framing + action + camera move]\n\nShot 2 (2-6/8s):\n[Framing + action + camera move]\n\nLook + mood:\n[Lighting + palette]\n\nSound (optional):\n[Ambience + 1 cue]"
+        "copy": "分镜清单（相同主体 + 相同场景）\n时长：[4/6/8s]\n\n镜头 1（0-2s）：\n[构图 + 动作 + 摄影机运镜]\n\n镜头 2（2-6/8s）：\n[构图 + 动作 + 摄影机运镜]\n\n画面质感 + 情绪：\n[光影 + 色调]\n\n声音（可选）：\n[环境音 + 1 个音效线索]"
       }
     ],
     "tabNotes": [
@@ -534,7 +534,7 @@
     "demo": {
       "title": "演示案例：Veo 3.1 Lite 提示词范式",
       "promptLabel": "Veo Lite 提示词",
-      "prompt": "8s Veo 3.1 Lite clip in 16:9, audio included.\nRomantic cinematic reunion on a large train station platform, grand period-drama energy, elegant and timeless.\nA young couple in early-1900s clothing runs toward each other: the man in a dark wool coat and hat, the woman in a long beige dress with a small vintage suitcase.\nWide crane shot descending slowly toward them, slight long-lens feel, smooth cinematic motion.\nSoft morning light filtered through steam and glass, sepia tones, muted browns, brass, and cream. One clear action only, no close foreground signage.",
+      "prompt": "8s Veo 3.1 Lite 片段，16:9，含音频。\n浪漫电影级火车站台重逢，宏大年代剧气质，优雅而隽永。\n一对身着 20 世纪初服饰的年轻情侣奔向彼此：男方穿深色羊毛大衣、戴礼帽，女方身着米色长裙、手提小型复古旅行箱。\n宽广升降镜头缓缓下降靠近二人，轻微长焦感，流畅电影运镜。\n柔和晨光透过蒸汽与玻璃漫射，棕褐色调，哑光棕褐色、黄铜色与奶油色主色。仅保留一个清晰动作，近景中不出现指示牌。",
       "notes": [
         "聚焦单一富有情感的动作，而非拥挤杂乱的连续序列。",
         "尽早锁定时代细节与运镜方式。",

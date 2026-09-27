@@ -199,7 +199,7 @@
     "demo": {
       "title": "LTX 2.5 Pro 生产级镜头",
       "promptLabel": "受控产品序列",
-      "prompt": "A brushed-steel espresso machine stands on a dark walnut counter in a quiet café before opening. A barista locks the portafilter into place, steam briefly curls in the side light, and the camera performs a slow push toward the polished control dial. Preserve machine geometry, hand anatomy and reflected window lines. End on a stable close three-quarter composition without labels or logos.",
+      "prompt": "一台拉丝钢材质的意式浓缩咖啡机静置于幽静咖啡馆开门前的深色胡桃木台面上。咖啡师将手柄锁入机头，蒸汽在侧光中短暂升腾，镜头缓缓推向抛光控制旋钮。保留机器几何形态、手部解剖结构与映照的窗框线条。以无文字标识、无品牌标志的稳定近景四分之三构图作为收尾定格。",
       "notes": [
         "接触交互与材质反光构成具象的保真度检查点。",
         "明确指定结尾特写构图，确保成片剪辑的可用性。"

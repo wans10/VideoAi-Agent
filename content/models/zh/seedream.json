@@ -80,19 +80,19 @@
   "prompts": [
     {
       "title": "产品参考帧",
-      "prompt": "Premium studio still of a matte black travel mug on a clean graphite plinth, soft rim light, readable logo area, uncluttered background, centered hero angle for later image-to-video animation."
+      "prompt": "哑光黑色旅行杯置于干净石墨色底座上的高端棚拍静物照，柔和边缘光，Logo 清晰可读，背景简洁整洁，正面主体角度，便于后续图生视频动画制作。"
     },
     {
       "title": "角色服装概念",
-      "prompt": "Full-body reference image of a courier in a rain jacket, neutral stance, clear silhouette, consistent wardrobe details, overcast city light, designed as a clean Seedance starting frame."
+      "prompt": "快递员身穿雨衣的全身参考图，自然站姿，轮廓清晰，服装细节统一，阴天城市光线，专为干净的 Seedance 起始帧而设计。"
     },
     {
       "title": "动画前图像编辑",
-      "prompt": "Clean this product image for animation: preserve the bottle shape and label hierarchy, remove distracting reflections, simplify the background, keep natural studio lighting."
+      "prompt": "对此产品图进行动画前处理：保留瓶身形状与标签层级，去除干扰性反光，简化背景，保持自然棚拍光线。"
     },
     {
       "title": "批量品牌视觉套图",
-      "prompt": "Generate six coherent launch visuals for a premium sleep mask brand: same product color, calm morning light, minimal bedroom styling, one image for hero product, one for texture detail, one for lifestyle use, one for packaging, one for social ad crop, one for Seedance reference."
+      "prompt": "为高端睡眠眼罩品牌生成六张连贯的上市宣传图：相同产品色调，平静晨光，极简卧室风格，分别用于：主推产品图、材质细节图、生活方式使用图、包装展示图、社交媒体广告裁切图、Seedance 参考图。"
     }
   ],
   "faqs": [
@@ -402,28 +402,28 @@
           "title": "产品参考静态图",
           "badge": "2K 静态图",
           "kind": "image",
-          "prompt": "2K product still of an amber perfume bottle on white acrylic, soft studio light, clean shadow, readable label, minimal background ready for reference use."
+          "prompt": "琥珀色香水瓶置于白色亚克力台面上的 2K 产品静物照，柔和棚拍光线，干净阴影，标签清晰可读，极简背景，适合作为参考素材使用。"
         },
         {
           "id": "references-2",
           "title": "角色参考设定图",
           "badge": "2-10 张参考图",
           "kind": "references",
-          "prompt": "Character reference sheet with the same face, outfit and palette across four clean views, neutral background, consistent jacket details and accessories."
+          "prompt": "角色参考设定图，同一面孔、服装与配色在四个干净视角中保持一致，中性背景，外套细节与配件统一。"
         },
         {
           "id": "edit-3",
           "title": "图像精修与编辑",
           "badge": "图像编辑",
           "kind": "edit",
-          "prompt": "Using this product image, preserve shape, logo and proportions. Clean dust and unwanted reflections, simplify the environment and keep natural lighting."
+          "prompt": "使用此产品图，保留形状、Logo 与比例。清除灰尘与多余反光，简化环境背景，保持自然光线。"
         },
         {
           "id": "quality-4",
           "title": "分镜批量套图",
           "badge": "4 张图像",
           "kind": "quality",
-          "prompt": "Create four coherent launch storyboard images: product hero, material detail, lifestyle context and final frame. Same palette, same lighting, distinct compositions."
+          "prompt": "生成四张连贯的上市分镜图：产品主图、材质细节图、生活方式场景图和最终收尾图。统一配色，统一光线，各帧构图有所区别。"
         }
       ]
     }
@@ -505,7 +505,7 @@
         "id": "character",
         "title": "角色参考设定图",
         "category": "角色",
-        "aspectRatio": "2-10 refs",
+        "aspectRatio": "2-10 张参考图",
         "alt": "展示同一角色连贯视角的 Seedream 设定图",
         "tags": [
           "character"
@@ -515,7 +515,7 @@
         "id": "edit",
         "title": "干净图像编辑",
         "category": "编辑",
-        "aspectRatio": "Image edit",
+        "aspectRatio": "图像编辑",
         "alt": "保留形状、Logo 与比例的 Seedream 编辑图",
         "tags": [
           "edit"
@@ -525,7 +525,7 @@
         "id": "batch",
         "title": "分镜批量套图",
         "category": "批量",
-        "aspectRatio": "4 images",
+        "aspectRatio": "4 张图像",
         "alt": "包含四张图像的 Seedream 分镜批量套图",
         "tags": [
           "batch"

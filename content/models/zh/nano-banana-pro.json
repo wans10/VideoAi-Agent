@@ -84,19 +84,19 @@
   "prompts": [
     {
       "title": "4K 产品主视觉（文本生图）",
-      "prompt": "4K editorial hero of a matte black electric motorcycle on a wet rooftop at night, neon skyline reflections, include the copy \"FULL TORQUE\" in luminous sans-serif type on the billboard behind, cinematic 35mm depth of field."
+      "prompt": "4K 广告大片：哑光黑色电动摩托车停在雨夜屋顶，霓虹天际线倒影，身后广告牌上以发光无衬线字体呈现文案\"FULL TORQUE\"，电影感 35mm 景深。"
     },
     {
       "title": "发布会海报（文本生图）",
-      "prompt": "Vertical event poster for a fintech summit, clean Swiss layout, teal and charcoal palette, accurate headline text: \"NEO CAPITAL LIVE\" and subhead \"PARIS 2025\", soft volumetric backlight."
+      "prompt": "竖版金融科技峰会活动海报，简洁瑞士网格排版，蓝绿与炭灰配色，精准标题文字：\"NEO CAPITAL LIVE\"，副标题\"PARIS 2025\"，柔和体积光背景。"
     },
     {
       "title": "参考图精修（图像生图）",
-      "prompt": "Using this studio product shot, relight it with softer gradients, remove dust and fingerprints, add a faint reflection, and place it on a neutral 4K background for packaging."
+      "prompt": "以此工作室产品实拍图为基础，优化光影使其更为柔和渐变，去除灰尘与指纹，添加微弱倒影，置于中性 4K 背景上用于包装呈现。"
     },
     {
       "title": "多图连贯性（图像生图）",
-      "prompt": "Blend these brand portraits into a cohesive autumn campaign: warm tungsten rim light, matching wardrobe palette, subtle falling leaves particles, keep each person’s identity intact."
+      "prompt": "将这组品牌人物形象融合成一套统一的秋日系列视觉：暖色钨丝灯轮廓光、统一服饰配色方案、细腻的飘落树叶粒子效果，保持每位人物的独特形象不变。"
     }
   ],
   "faqs": [
@@ -420,28 +420,28 @@
           "title": "商业大片静态图",
           "badge": "2K 静态图",
           "kind": "quality",
-          "prompt": "2K campaign still for an amber perfume bottle on white acrylic, soft studio key light, clean shadow, exact headline \"AURA NOIRE\" top-left, small logo lockup bottom edge."
+          "prompt": "2K 香氛广告静态图：琥珀色香水瓶置于白色亚克力台面上，柔和工作室主光，干净投影，左上角精准标题\"AURA NOIRE\"，底部边缘配小型品牌标志组合。"
         },
         {
           "id": "typography-2",
           "title": "文字排版海报",
           "badge": "文字排版",
           "kind": "typography",
-          "prompt": "Vertical 4K poster, premium editorial grid, graphite background, exact headline \"MIDNIGHT LAUNCH\", subhead \"LIMITED DROP\", crisp hierarchy, generous margins, readable text."
+          "prompt": "竖版 4K 海报，高端编辑排版网格，石墨黑背景，精准标题\"MIDNIGHT LAUNCH\"，副标题\"LIMITED DROP\"，清晰字阶层次，充足边距，文字清晰易读。"
         },
         {
           "id": "edit-3",
           "title": "参考图精修",
           "badge": "图像生图",
           "kind": "edit",
-          "prompt": "Using this product reference, keep the shape, logo and proportions. Change the scene to a midnight-blue studio, improve reflections, remove dust and fingerprints."
+          "prompt": "以此产品参考图为基础，保留形状、Logo 与比例，将场景更换为午夜蓝工作室背景，强化倒影效果，去除灰尘与指纹。"
         },
         {
           "id": "layout-4",
           "title": "2K 转 4K 成片",
           "badge": "4K 成片",
           "kind": "layout",
-          "prompt": "Rerun the approved 2K composition as a 4K final. Sharpen fine details, keep typography identical, preserve brand colors, product position and the locked framing."
+          "prompt": "以已审定的 2K 构图重新渲染为 4K 终稿：锐化细节纹理，保持排版文字完全一致，保留品牌配色、产品位置与锁定取景框。"
         }
       ]
     }
