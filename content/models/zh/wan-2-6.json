@@ -110,7 +110,7 @@
     },
     {
       "title": "参考视频街舞对决 (参考视频)",
-      "prompt": "Dance battle between @Video1 and @Video2 in an empty museum hall. @Video1 starts center-left, @Video2 enters from right. Dynamic camera orbit, dramatic lighting."
+      "prompt": "@Video1 和 @Video2 在空旷的博物馆大厅里展开舞蹈对决。@Video1 从中左位置起势，@Video2 从右侧登场。动态环绕镜头，戏剧性灯光。"
     }
   ],
   "faqs": [
