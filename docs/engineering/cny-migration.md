@@ -2,6 +2,8 @@
 
 The intended launch policy is 1 USD = 8 CNY. The project has no registered users at the time of this decision, so no historical wallet or receipt migration is required. This is a change to customer prices and ledger units, not a number-formatting change.
 
+The payment-currency selector now defaults to CNY when no account preference or deployment override exists. The 1Panel Compose config enables CNY alone, so a saved test-account EUR preference cannot override the China launch payment currency. Neon migration 50 permits CNY profile preferences; it must run before CNY preferences are written. This changes settlement selection only. The pricing catalog, top-up credit tiers, wallet ledger, receipts, and model quotes are still USD until the commercial migration below is complete.
+
 ## Current ownership
 
 - `frontend/config/pricing-policy.json` and provider price facts are authored in USD. The canonical pricing kernel checks that facts and policy use the same currency. The historical billing and public pricing baselines are frozen USD references.

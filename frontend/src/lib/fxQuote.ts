@@ -4,6 +4,7 @@ import { fetchUsdRatesFrankfurter } from './fxProvider';
 const ZERO_DECIMAL_CURRENCIES = new Set(['JPY']);
 const SUPPORTED_TARGETS = new Set(['EUR', 'USD', 'GBP', 'CHF', 'CNY']);
 const USD_MINOR_UNIT = 100;
+export const USD_TO_CNY_FIXED_RATE = 8;
 
 function getMarginBps(): number {
   const raw = process.env.FX_MARGIN_BPS ?? ENV.FX_MARGIN_BPS ?? '';
@@ -21,9 +22,6 @@ function getFallbackRate(targetCurrency: string): { rate: number; source: string
   if (Number.isFinite(parsed) && parsed > 0) {
     return { rate: parsed, source: `env:${envKey}` };
   }
-  // A guessed CNY rate would charge a materially wrong amount. Keep this
-  // payment currency unavailable until a real or explicitly configured rate exists.
-  if (targetCurrency === 'CNY') throw new Error('cny_fx_rate_unavailable');
   // Basic defaults as last resort
   switch (targetCurrency) {
     case 'EUR':
@@ -72,6 +70,18 @@ export async function convertUsdToCurrencyAmount({
       rate: 1,
       rateWithMargin: 1,
       source: 'identity',
+      marginBps: 0,
+      rateTimestamp: new Date().toISOString(),
+    };
+  }
+
+  if (normalizedTarget === 'CNY') {
+    return {
+      currency: 'CNY',
+      amountMinor: Math.max(1, Math.round(usdAmountCents * USD_TO_CNY_FIXED_RATE)),
+      rate: USD_TO_CNY_FIXED_RATE,
+      rateWithMargin: USD_TO_CNY_FIXED_RATE,
+      source: 'fixed:usd-cny',
       marginBps: 0,
       rateTimestamp: new Date().toISOString(),
     };

@@ -20,7 +20,7 @@ import {
   buildWalletTopUpCheckoutSessionParams,
   normalizeWalletTopUpAmountCents,
 } from '@/lib/stripe-checkout';
-import { defaultLocale, type AppLocale } from '@/i18n/locales';
+import { defaultExperienceLocale, type AppLocale } from '@/i18n/locales';
 import { getOrCreateStripeCustomerForUser } from '@/server/stripe-customers';
 import { buildRestrictedAccountPayload, getActiveAccountRestriction } from '@/server/fraud-cleanup';
 import {
@@ -76,7 +76,7 @@ function hasAnalyticsConsent(req: NextRequest): boolean {
 }
 
 function normalizeRequestLocale(value: unknown): AppLocale | null {
-  if (value === 'fr' || value === 'es' || value === 'en') {
+  if (value === 'fr' || value === 'es' || value === 'en' || value === 'zh') {
     return value;
   }
   return null;
@@ -95,7 +95,8 @@ function resolveCheckoutLocale(req: NextRequest, bodyLocale: unknown): AppLocale
   const acceptLanguage = req.headers.get('accept-language') ?? '';
   if (/\bfr\b/i.test(acceptLanguage)) return 'fr';
   if (/\bes\b/i.test(acceptLanguage)) return 'es';
-  return defaultLocale;
+  if (/\bzh\b/i.test(acceptLanguage)) return 'zh';
+  return defaultExperienceLocale;
 }
 
 async function resolveAuthenticatedUser(req: NextRequest): Promise<string | null> {

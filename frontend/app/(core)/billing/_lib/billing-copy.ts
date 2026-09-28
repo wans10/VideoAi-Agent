@@ -64,7 +64,7 @@ export const DEFAULT_BILLING_COPY = {
     lowBalance: 'Your balance is low. Top up to keep creating.',
     currencyLabel: "Pay in",
     currencyLoading: 'Detecting currencies…',
-    currencyLoadError: 'Unable to load currencies. Defaulting to USD.',
+    currencyLoadError: 'Unable to load currencies. Defaulting to CNY.',
     currencyDetected: 'Auto-detected {currency}',
     currencyOverride: 'Charging in {selected} (auto: {detected})',
     quoteLoading: "Calculating amount…",

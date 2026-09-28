@@ -4118,7 +4118,7 @@
         "lowBalance": "您的余额偏低，充值后可继续顺畅创作。",
         "currencyLabel": "支付币种",
         "currencyLoading": "正在检测币种…",
-        "currencyLoadError": "无法加载可用币种，默认使用美元 (USD)。",
+        "currencyLoadError": "无法加载可用币种，默认使用人民币 (CNY)。",
         "currencyDetected": "已自动识别为 {currency}",
         "currencyOverride": "使用 {selected} 结算（自动检测：{detected}）",
         "quoteLoading": "正在计算金额…",

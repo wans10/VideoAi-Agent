@@ -25,13 +25,13 @@ function request(country?: string) {
   });
 }
 
-test('new payments offer EUR/USD, with USD in the US and EUR elsewhere', (t) => {
+test('new payments default to CNY regardless of geolocation', (t) => {
   useDefaultPolicy(t);
-  assert.deepEqual(resolveEnabledCurrencies(), ['eur', 'usd']);
-  assert.equal(resolveCurrency(request('US')).currency, 'usd');
+  assert.deepEqual(resolveEnabledCurrencies(), ['cny', 'eur', 'usd']);
   for (const country of ['FR', 'ES', 'BE', 'GB', 'CH', 'CA', 'BR', 'AU', 'IN', undefined]) {
-    assert.equal(resolveCurrency(request(country)).currency, 'eur', country ?? 'unknown country');
+    assert.equal(resolveCurrency(request(country)).currency, 'cny', country ?? 'unknown country');
   }
+  assert.equal(resolveCurrency(request('US')).currency, 'cny');
 });
 
 test('supported customer choices override location and retired preferences fall back without changing history', (t) => {
@@ -40,12 +40,20 @@ test('supported customer choices override location and retired preferences fall 
   assert.deepEqual(resolveCurrency(request('FR'), { preferred_currency: 'usd' }), { currency: 'usd', source: 'user_pref' });
   for (const preferred_currency of ['gbp', 'chf'] as const) {
     assert.equal(normalizeCurrencyCode(preferred_currency), preferred_currency);
-    assert.equal(resolveCurrency(request('GB'), { preferred_currency }).currency, 'eur');
-    assert.equal(resolveCurrency(request('US'), { preferred_currency }).currency, 'usd');
+    assert.equal(resolveCurrency(request('GB'), { preferred_currency }).currency, 'cny');
+    assert.equal(resolveCurrency(request('US'), { preferred_currency }).currency, 'cny');
   }
 });
 
-test('top-up quotes reject disabled currencies and honor explicit EUR/USD before location', async (t) => {
+test('CNY-only deployment ignores an old EUR preference', (t) => {
+  useDefaultPolicy(t);
+  process.env.ENABLED_CURRENCIES = 'cny';
+  assert.deepEqual(resolveEnabledCurrencies(), ['cny']);
+  assert.equal(resolveCurrency(request('FR'), { preferred_currency: 'eur' }).currency, 'cny');
+  assert.equal(resolveCurrency(request('US'), { preferred_currency: 'usd' }).currency, 'cny');
+});
+
+test('top-up quotes reject disabled currencies and honor explicit currency before the CNY default', async (t) => {
   useDefaultPolicy(t);
   const requireFrontend = createRequire(resolve('frontend/package.json'));
   const folder = mkdtempSync(join(tmpdir(), 'billing-currency-'));
@@ -80,7 +88,8 @@ test('top-up quotes reject disabled currencies and honor explicit EUR/USD before
   }
   assert.equal(route.calls.length, 0);
   for (const [currency, country, expected] of [
-    ['EUR', 'US', 'EUR'], ['USD', 'FR', 'USD'], [undefined, 'US', 'USD'], [undefined, 'GB', 'EUR'],
+    ['EUR', 'US', 'EUR'], ['USD', 'FR', 'USD'], ['CNY', 'US', 'CNY'],
+    [undefined, 'US', 'CNY'], [undefined, 'GB', 'CNY'],
   ] as const) {
     const response = await quote(currency, country);
     assert.equal(response.status, 200);

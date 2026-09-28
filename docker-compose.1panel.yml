@@ -29,6 +29,8 @@ services:
         required: false
     environment:
       NODE_ENV: production
+      DEFAULT_CURRENCY: CNY
+      ENABLED_CURRENCIES: cny
       PORT: 3000
       HOSTNAME: 0.0.0.0
       DATABASE_URL: ${DATABASE_URL:-postgresql://videoai_user:xDP6QpdkXSEXTkTz@1Panel-postgresql-AEf7:5432/videoai}

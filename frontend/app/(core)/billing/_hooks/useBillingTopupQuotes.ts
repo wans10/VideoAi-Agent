@@ -7,19 +7,21 @@ import { useBillingRequestOwner } from './useBillingRequestOwner';
 
 export function useBillingTopupQuotes({
   authLoading,
+  llmhubPayEnabled,
   session,
   normalizedChargeCurrency,
   selectedTopupCents,
   quoteErrorMessage,
 }: {
   authLoading: boolean;
+  llmhubPayEnabled: boolean;
   session: BillingSession;
   normalizedChargeCurrency: string;
   selectedTopupCents: number;
   quoteErrorMessage: string;
 }) {
-  // CNY is handled by LLM Hub Pay's own quote and checkout, not Stripe.
-  const accountId = authLoading || normalizedChargeCurrency === 'CNY' ? null : session?.user?.id ?? null;
+  // When LLM Hub Pay is available, its own quote handles CNY checkout.
+  const accountId = authLoading || (normalizedChargeCurrency === 'CNY' && llmhubPayEnabled) ? null : session?.user?.id ?? null;
   const accessTokenRef = useRef(session?.access_token);
   accessTokenRef.current = session?.access_token;
   const amounts = JSON.stringify([...new Set([

@@ -159,6 +159,7 @@ export function BillingClient({
   );
   const { topupQuotes, quoteLoading, quoteError } = useBillingTopupQuotes({
     authLoading,
+    llmhubPayEnabled,
     session,
     normalizedChargeCurrency,
     selectedTopupCents,

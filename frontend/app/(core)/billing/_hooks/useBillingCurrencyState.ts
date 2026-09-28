@@ -16,24 +16,24 @@ export function useBillingCurrencyState({ authLoading, copy, llmhubPayEnabled = 
   const walletCurrencyOverride = copy.wallet.currencyOverride ?? DEFAULT_BILLING_COPY.wallet.currencyOverride;
   const walletCurrencyLoading = copy.wallet.currencyLoading ?? DEFAULT_BILLING_COPY.wallet.currencyLoading;
   const walletCurrencyLoadError = copy.wallet.currencyLoadError ?? DEFAULT_BILLING_COPY.wallet.currencyLoadError;
-  const [currencyOptions, setCurrencyOptions] = useState<string[]>(['USD']);
-  const [chargeCurrency, setChargeCurrency] = useState<string>('USD');
-  const [autoCurrency, setAutoCurrency] = useState<string>('USD');
+  const [currencyOptions, setCurrencyOptions] = useState<string[]>(['CNY']);
+  const [chargeCurrency, setChargeCurrency] = useState<string>('CNY');
+  const [autoCurrency, setAutoCurrency] = useState<string>('CNY');
   const [currencyLoading, setCurrencyLoading] = useState(false);
   const [currencyError, setCurrencyError] = useState<string | null>(null);
   const userCurrencyOverrideRef = useRef(false);
   const sessionRef = useRef(session);
   sessionRef.current = session;
   const sessionUserId = session?.user?.id ?? null;
-  const autoCurrencyRef = useRef('USD');
-  const normalizedChargeCurrency = (chargeCurrency || 'USD').toUpperCase();
-  const normalizedAutoCurrency = (autoCurrency || 'USD').toUpperCase();
+  const autoCurrencyRef = useRef('CNY');
+  const normalizedChargeCurrency = (chargeCurrency || 'CNY').toUpperCase();
+  const normalizedAutoCurrency = (autoCurrency || 'CNY').toUpperCase();
   const paymentCurrencyOptions = llmhubPayEnabled && !currencyOptions.includes('CNY')
     ? [...currencyOptions, 'CNY']
     : currencyOptions;
 
   const applyDetectedCurrency = useCallback((currency: string) => {
-    const resolvedCurrency = String(currency || 'USD').toUpperCase();
+    const resolvedCurrency = String(currency || 'CNY').toUpperCase();
     setAutoCurrency(resolvedCurrency);
     if (!userCurrencyOverrideRef.current) {
       setChargeCurrency(resolvedCurrency);
@@ -49,9 +49,9 @@ export function useBillingCurrencyState({ authLoading, copy, llmhubPayEnabled = 
     let canceled = false;
     async function loadCurrencySummary() {
       if (!sessionUserId) {
-        setCurrencyOptions(['USD']);
+        setCurrencyOptions(['CNY']);
         if (!userCurrencyOverrideRef.current) {
-          setChargeCurrency((autoCurrencyRef.current || 'USD').toUpperCase());
+          setChargeCurrency((autoCurrencyRef.current || 'CNY').toUpperCase());
         }
         return;
       }
@@ -66,11 +66,11 @@ export function useBillingCurrencyState({ authLoading, copy, llmhubPayEnabled = 
           throw new Error(data?.error ?? 'currency_summary_failed');
         }
         if (canceled) return;
-        const enabled = Array.isArray(data.enabled) && data.enabled.length ? data.enabled : ['USD'];
-        const normalized = enabled.map((code: string) => String(code ?? 'USD').toUpperCase());
+        const enabled = Array.isArray(data.enabled) && data.enabled.length ? data.enabled : ['CNY'];
+        const normalized = enabled.map((code: string) => String(code ?? 'CNY').toUpperCase());
         setCurrencyOptions(normalized);
         if (!userCurrencyOverrideRef.current) {
-          const preferred = String(data.currency ?? data.defaultCurrency ?? autoCurrencyRef.current ?? 'USD').toUpperCase();
+          const preferred = String(data.currency ?? data.defaultCurrency ?? autoCurrencyRef.current ?? 'CNY').toUpperCase();
           setChargeCurrency(preferred);
         }
       } catch (error) {
@@ -91,7 +91,7 @@ export function useBillingCurrencyState({ authLoading, copy, llmhubPayEnabled = 
   }, [authLoading, sessionUserId, walletCurrencyLoadError]);
 
   const handleCurrencyChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    const next = String(event.target.value || 'USD').toUpperCase();
+    const next = String(event.target.value || 'CNY').toUpperCase();
     userCurrencyOverrideRef.current = true;
     setChargeCurrency(next);
   }, []);

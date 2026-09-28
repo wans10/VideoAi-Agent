@@ -1,11 +1,11 @@
 import { isDatabaseConfigured, query } from '@/lib/db';
 import type { NextRequest } from 'next/server';
 
-export type Currency = 'eur' | 'usd' | 'gbp' | 'chf';
+export type Currency = 'cny' | 'eur' | 'usd' | 'gbp' | 'chf';
 
 export type CurrencyResolutionSource = 'user_pref' | 'geo' | 'default' | 'manual';
 
-const KNOWN_CURRENCIES: Currency[] = ['eur', 'usd', 'gbp', 'chf'];
+const KNOWN_CURRENCIES: Currency[] = ['cny', 'eur', 'usd', 'gbp', 'chf'];
 
 export function normalizeCurrencyCode(value: string | null | undefined): Currency | null {
   if (!value) return null;
@@ -14,12 +14,12 @@ export function normalizeCurrencyCode(value: string | null | undefined): Currenc
 }
 
 export function resolveEnabledCurrencies(): Currency[] {
-  const raw = process.env.ENABLED_CURRENCIES ?? 'eur,usd';
+  const raw = process.env.ENABLED_CURRENCIES ?? 'cny,eur,usd';
   const parsed = raw
     .split(',')
     .map((entry) => normalizeCurrencyCode(entry))
     .filter((entry): entry is Currency => entry !== null);
-  return parsed.length ? parsed : ['eur', 'usd'];
+  return parsed.length ? parsed : ['cny', 'eur', 'usd'];
 }
 
 export function resolveDefaultCurrency(enabled: Currency[]): Currency {
@@ -27,6 +27,7 @@ export function resolveDefaultCurrency(enabled: Currency[]): Currency {
   if (fromEnv && enabled.includes(fromEnv)) {
     return fromEnv;
   }
+  if (enabled.includes('cny')) return 'cny';
   if (enabled.includes('eur')) return 'eur';
   if (enabled.includes('usd')) return 'usd';
   return enabled[0] ?? 'usd';
@@ -47,6 +48,12 @@ export function resolveCurrency(
   const headerCountry = req.headers.get('x-vercel-ip-country');
   const geoCountry = (req as unknown as { geo?: { country?: string | null } }).geo?.country;
   const country = (headerCountry ?? geoCountry ?? '').toUpperCase();
+
+  // China is the launch market. Location does not change the default payment
+  // currency; explicit account choice or deployment policy can still do so.
+  if (fallback === 'cny') {
+    return { currency: 'cny', source: 'default', ...(country ? { country } : {}) };
+  }
 
   const preferCurrency = (desired: Currency): Currency => (enabled.includes(desired) ? desired : fallback);
 
