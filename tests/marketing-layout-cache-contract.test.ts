@@ -39,9 +39,9 @@ test('canonical localized marketing pages receive cache headers on the middlewar
 });
 
 test('new visitors start on the Chinese homepage without caching the language choice', async () => {
-  const response = await middleware(new NextRequest('https://maxvideoai.com/'));
+  const response = await middleware(new NextRequest('https://videoai.omninodetech.com/'));
   assert.equal(response.status, 307);
-  assert.equal(response.headers.get('location'), 'https://maxvideoai.com/zh');
+  assert.equal(response.headers.get('location'), 'https://videoai.omninodetech.com/zh');
   assert.equal(response.headers.get('cache-control'), 'private, no-store');
   assert.equal(response.headers.get('vercel-cdn-cache-control'), null);
 
