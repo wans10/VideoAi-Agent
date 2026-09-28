@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { USD_TOPUP_TIERS } from '@/config/topupTiers';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 import type { BillingSession, TopupQuote } from '../_lib/billing-types';
 import { useBillingRequestOwner } from './useBillingRequestOwner';
 
@@ -25,7 +25,7 @@ export function useBillingTopupQuotes({
   const accessTokenRef = useRef(session?.access_token);
   accessTokenRef.current = session?.access_token;
   const amounts = JSON.stringify([...new Set([
-    ...USD_TOPUP_TIERS.map((tier) => tier.amountCents),
+    ...TOPUP_TIERS.map((tier) => tier.amountCents),
     selectedTopupCents,
   ])]);
   const identity = accountId ? JSON.stringify([
@@ -64,11 +64,11 @@ export function useBillingTopupQuotes({
         if (!isActive() || !requestScope.isCurrent(requestToken)) return;
         const mapped: Record<number, TopupQuote> = {};
         (data.quotes ?? []).forEach((entry: Record<string, unknown>) => {
-          const usdAmount = Number(entry?.usdAmountCents);
+          const walletAmount = Number(entry?.walletAmountCents ?? entry?.usdAmountCents);
           const localAmount = Number(entry?.localAmountMinor);
           const quoteCurrency = String(entry?.currency ?? normalizedChargeCurrency).toUpperCase();
-          if (Number.isFinite(usdAmount) && usdAmount > 0 && Number.isFinite(localAmount)) {
-            mapped[usdAmount] = { amountMinor: localAmount, currency: quoteCurrency };
+          if (Number.isFinite(walletAmount) && walletAmount > 0 && Number.isFinite(localAmount)) {
+            mapped[walletAmount] = { amountMinor: localAmount, currency: quoteCurrency };
           }
         });
         setState({ owner, quotes: mapped, loading: false, error: null });

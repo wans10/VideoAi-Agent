@@ -19,7 +19,7 @@ export const esPayAsYouGoContent = {
     intro: 'Genera videos con IA a partir de texto, imágenes, audio o video con créditos de pago por uso. Compara LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo y otros modelos, y aprueba la cotización antes de cada generación.',
     primaryCta: 'Ver cotización del video',
     secondaryCta: 'Ver precios por modelo',
-    trustItems: ['Sin suscripción obligatoria', 'Créditos iniciales desde 10 USD', 'Precio visible antes de generar', 'Fallos del proveedor reembolsados'],
+    trustItems: ['Sin suscripción obligatoria', 'Créditos iniciales desde 80 CNY', 'Precio visible antes de generar', 'Fallos del proveedor reembolsados'],
     quote: {
       consoleLabel: 'Cotizador de MaxVideoAI',
       title: 'Precio antes de generar',

@@ -5,13 +5,14 @@ import { Wallet } from 'lucide-react';
 import { UIIcon } from '@/components/ui/UIIcon';
 import { AppGlyph } from '@/components/app/AppGlyph';
 import { ButtonLink } from '@/components/ui/Button';
+import { formatWalletBalance } from '@/lib/customer-currency';
 
 type HeaderTranslate = (key: string, fallback: string) => string | undefined;
 
 type HeaderWalletStatusProps = {
   promptId: string;
   t: HeaderTranslate;
-  wallet: { balance: number } | null;
+  wallet: { balance: number; currency?: string } | null;
   walletLoading: boolean;
   walletPromptOpen: boolean;
   onOpenPrompt: () => void;
@@ -27,7 +28,7 @@ export function HeaderWalletStatus({
   onOpenPrompt,
   onSchedulePromptClose,
 }: HeaderWalletStatusProps) {
-  const walletAmount = wallet ? `$${wallet.balance.toFixed(2)}` : walletLoading ? '...' : '--';
+  const walletAmount = wallet ? formatWalletBalance(wallet.balance, wallet.currency) : walletLoading ? '...' : '--';
   const walletBaseLabel = t('workspace.header.wallet.label', 'Wallet') ?? 'Wallet';
   const missingLabel = walletLoading
     ? t('workspace.header.wallet.loading', 'Loading…') ?? 'Loading…'

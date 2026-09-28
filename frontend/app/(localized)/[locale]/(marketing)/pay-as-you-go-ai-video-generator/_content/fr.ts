@@ -19,7 +19,7 @@ export const frPayAsYouGoContent = {
     intro: 'Générez des vidéos IA à partir de texte, d’images, d’audio ou de vidéo avec des crédits prépayés. Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles, puis validez le devis avant chaque génération.',
     primaryCta: 'Obtenir un devis vidéo',
     secondaryCta: 'Voir les prix par modèle',
-    trustItems: ['Aucun abonnement requis', 'Crédits de départ dès 10 USD', 'Prix affiché avant la génération', 'Échecs du fournisseur remboursés'],
+    trustItems: ['Aucun abonnement requis', 'Crédits de départ dès 80 CNY', 'Prix affiché avant la génération', 'Échecs du fournisseur remboursés'],
     quote: {
       consoleLabel: 'Simulateur de devis MaxVideoAI',
       title: 'Prix avant la génération',

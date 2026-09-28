@@ -22,6 +22,7 @@ import {
   resolveServerBillingPolicy,
   type ResolveServerPricingPolicyDependencies,
 } from './resolve-pricing-policy';
+import { customerSnapshot, providerUsdSnapshot } from '@/lib/customer-currency';
 
 /** Finishing tools supply vendor facts; the canonical kernel owns all customer rounding and margins. */
 export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: string; quality: string; vendorBudgetUsd: number; durationSec: number; profileId: string; pricingSource: string }): Promise<PricingSnapshot> {
@@ -38,8 +39,8 @@ export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: 
     scenario: { id: `billing:tool:${input.toolId}:${input.quality}`, engineId, mode: `${input.toolId}:${input.quality}`, membershipTier: LIVE_MEMBERSHIP_POLICY.tier, discountPercent: 0 },
     policy, compatibilityProfile,
   });
-  return projectCanonicalQuoteToSnapshot({ quote, base: { seconds: input.durationSec, rate: input.vendorBudgetUsd, unit: 'video', amountCents: input.vendorBudgetUsd * 100 }, addons: [], vendorAccountId,
-    meta: { surface: 'tool', toolId: input.toolId, quality: input.quality, profileId: input.profileId, providerCostSource: input.pricingSource, providerCostKind: 'conservative-budget', vendorBudgetUsd: input.vendorBudgetUsd, ruleId: policy.sourceRuleId } });
+  return customerSnapshot(projectCanonicalQuoteToSnapshot({ quote, base: { seconds: input.durationSec, rate: input.vendorBudgetUsd, unit: 'video', amountCents: input.vendorBudgetUsd * 100 }, addons: [], vendorAccountId,
+    meta: { surface: 'tool', toolId: input.toolId, quality: input.quality, profileId: input.profileId, providerCostSource: input.pricingSource, providerCostKind: 'conservative-budget', vendorBudgetUsd: input.vendorBudgetUsd, ruleId: policy.sourceRuleId } }));
 }
 
 export async function computeCanonicalBillingSnapshot(
@@ -122,7 +123,7 @@ export async function computeCanonicalBillingSnapshot(
       membershipDiscounts: memberTierDiscounts,
     },
   });
-  return snapshot;
+  return customerSnapshot(snapshot);
 }
 
 export async function computeCanonicalAudioBillingSnapshot(input: AudioPricingInput, dependencies: { pricingPolicy?: ResolveServerPricingPolicyDependencies } = {}): Promise<PricingSnapshot> {
@@ -166,7 +167,7 @@ export async function computeCanonicalAudioBillingSnapshot(input: AudioPricingIn
     },
   });
   delete snapshot.margin.ruleId;
-  return snapshot;
+  return customerSnapshot(snapshot);
 }
 
 export type CanonicalStoryboardSnapshotInput = {
@@ -179,7 +180,7 @@ export async function computeCanonicalStoryboardBillingSnapshot(
   input: CanonicalStoryboardSnapshotInput,
   dependencies: { pricingPolicy?: ResolveServerPricingPolicyDependencies } = {}
 ): Promise<PricingSnapshot> {
-  const projection = buildStoryboardPricingProjection(input);
+  const projection = buildStoryboardPricingProjection({ ...input, snapshot: providerUsdSnapshot(input.snapshot) });
   const { policy, vendorAccountId } = await resolveServerBillingPolicy(
     {
       engineId: STORYBOARD_BILLING_ENGINE_ID,
@@ -209,11 +210,11 @@ export async function computeCanonicalStoryboardBillingSnapshot(
     policy,
     compatibilityProfile,
   });
-  return projectCanonicalQuoteToSnapshot({
+  return customerSnapshot(projectCanonicalQuoteToSnapshot({
     quote,
     base: projection.base,
     addons: projection.addons,
     vendorAccountId,
     meta: projection.meta,
-  });
+  }));
 }

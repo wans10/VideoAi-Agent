@@ -1,4 +1,5 @@
 import { PARTNER_BRAND_MAP } from '@/lib/brand-partners';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { isImageOnlyModel, supportsAudioGeneration, supportsVideoGeneration } from '@/lib/models/catalog';
 import {
   buildAuthoredPublicOfferFacts,
@@ -250,7 +251,7 @@ export function resolveModelOfferAmountCents(engine: FalEngineEntry, pricingEngi
 function buildProductOffer(engine: FalEngineEntry, pricingEngine: EngineCaps, canonical: string) {
   const amountCents = resolveModelOfferAmountCents(engine, pricingEngine);
   if (amountCents == null || amountCents < 0) return undefined;
-  const currency = engine.pricingHint?.currency ?? pricingEngine.pricingDetails?.currency ?? pricingEngine.pricing?.currency ?? 'USD';
+  const currency = CUSTOMER_CURRENCY;
   return {
     '@type': 'Offer',
     url: canonical,

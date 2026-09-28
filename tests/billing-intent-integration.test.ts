@@ -23,7 +23,7 @@ test('billing hydrates selection from the validated URL intent', () => {
 test('billing auth gate carries the current amount in a canonical return target', () => {
   assert.match(clientSource, /buildBillingIntentTarget\(\{/);
   assert.match(clientSource, /amountCents:\s*selectedTopupCents/);
-  assert.match(clientSource, /currency:\s*'USD'/);
+  assert.match(clientSource, /currency:\s*CUSTOMER_CURRENCY/);
   assert.doesNotMatch(clientSource, /const loginRedirectTarget = pathname \|\| '\/billing'/);
 });
 

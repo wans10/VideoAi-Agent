@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     const guard = await evaluateWalletCheckoutGuard({
       userId, clientIp, amountCents, mode: 'hosted',
       hasCompletedTopUp: wallet.hasCompletedTopUp,
-      isPresetTopupTier: Boolean(findTopupTier({ usdAmountCents: amountCents })),
+      isPresetTopupTier: Boolean(findTopupTier({ amountCents })),
       captchaToken: typeof body.captchaToken === 'string' ? body.captchaToken : null,
       metadata: { provider: 'llmhub_pay', type, currency: 'CNY' },
     });

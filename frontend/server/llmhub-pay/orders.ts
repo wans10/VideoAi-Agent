@@ -1,6 +1,7 @@
 import { query, withDbTransaction, type QueryExecutor } from '@/lib/db';
 import { recordConfirmedMcpWalletFunding, resolveMcpTrialToWalletWindowSeconds } from '@/server/agent-api/mcp-funnel';
 import type { LlmhubPayType, SignedFields } from './client';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 type OrderRow = {
   out_trade_no: string;
@@ -86,14 +87,15 @@ export async function settleLlmhubPayOrderInTransaction(executor: QueryExecutor,
     wallet_amount_cents: order.wallet_amount_cents,
     settlement_amount_fen: paidAmountFen,
     settlement_currency: 'CNY',
+    wallet_currency: CUSTOMER_CURRENCY,
   };
   const receipts = await executor.query<{ id: string; created_at: Date }>(
     `INSERT INTO app_receipts
         (user_id, type, amount_cents, currency, description, metadata,
          original_amount_cents, original_currency, fx_rate, llmhub_pay_out_trade_no)
-       VALUES ($1, 'topup', $2, 'USD', 'Wallet top-up', $3::jsonb, $4, 'CNY', $5, $6)
+       VALUES ($1, 'topup', $2, $3, 'Wallet top-up', $4::jsonb, $5, 'CNY', $6, $7)
        ON CONFLICT DO NOTHING RETURNING id::text AS id, created_at`,
-    [order.user_id, order.wallet_amount_cents, JSON.stringify(metadata), paidAmountFen,
+    [order.user_id, order.wallet_amount_cents, CUSTOMER_CURRENCY, JSON.stringify(metadata), paidAmountFen,
       order.quote_metadata?.rateWithMargin ?? null, outTradeNo]
   );
   if (receipts.length !== 1) throw new Error('llmhub_receipt_conflict');
@@ -115,7 +117,7 @@ export async function confirmLlmhubPayOrder(fields: SignedFields, pid: string): 
         receiptId: result.receipt.id,
         userId: result.order.user_id,
         amountCents: result.order.wallet_amount_cents,
-        currency: 'USD',
+        currency: CUSTOMER_CURRENCY,
         occurredAt: result.receipt.created_at,
       }, { executor: { query }, conversionWindowSeconds: resolveMcpTrialToWalletWindowSeconds() });
     } catch (error) {

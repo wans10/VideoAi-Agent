@@ -9,8 +9,9 @@ import type { EngineCaps, PricingSnapshot } from '@/types/engines';
 import type { GptImage2ImageSize } from '@/lib/image/gptImage2';
 import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-generation';
 import { applyStoryboardImagePricing } from './storyboard-image-billing';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
-const DISPLAY_CURRENCY = 'USD';
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
 
 export async function resolveImageGenerationPricingSnapshot(params: {
   engine: EngineCaps;
@@ -58,7 +59,7 @@ export async function resolveImageGenerationPricingSnapshot(params: {
         quality: params.quality,
         referenceImageCount,
         membershipTier,
-        currency: DISPLAY_CURRENCY,
+        currency: 'USD',
         addons: params.enableWebSearch ? { enable_web_search: true } : undefined,
         });
 
@@ -86,7 +87,7 @@ export async function resolveImageGenerationPricingSnapshot(params: {
     quality: params.quality,
     resolvedAspectRatio: params.resolvedAspectRatio,
     membershipTier,
-    currency: DISPLAY_CURRENCY,
+    currency: 'USD',
   });
   return { pricing, membershipTier };
 }

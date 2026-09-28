@@ -17,10 +17,11 @@ import type { EngineCaps, Mode, PricingSnapshot } from '@/types/engines';
 import type { TrustedPreflightMediaPricingFacts } from '@/server/engines';
 import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
 import { buildReceiptSnapshot } from './receipt-snapshot';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 
-const DISPLAY_CURRENCY = 'USD';
-const DISPLAY_CURRENCY_LOWER = 'usd';
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
+const DISPLAY_CURRENCY_LOWER = CUSTOMER_CURRENCY.toLowerCase();
 
 type PaymentIntentLike = {
   id: string;
@@ -180,7 +181,7 @@ export async function resolveGenerateBillingPreflight(params: {
     inputAudioDurationSec: params.inputAudioDurationSec,
     verifiedReferenceTokenCount,
     durationOption: params.lumaDurationLabel ?? params.rawDurationOption ?? null,
-    currency: DISPLAY_CURRENCY,
+    currency: 'USD',
     addons: pricingAddons,
   });
   const { cents: settlementAmountCents, rate: settlementFxRate, source: settlementFxSource } = await convertCentsFn(

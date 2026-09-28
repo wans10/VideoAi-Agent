@@ -19,7 +19,7 @@ export const enPayAsYouGoContent = {
     intro: 'Generate AI videos from text, images, audio, or video with pay-as-you-go credits. Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models, review the price before each generation, and only spend credits on completed renders.',
     primaryCta: 'Get a video quote',
     secondaryCta: 'View model pricing',
-    trustItems: ['No subscription required', 'Starter credits from $10', 'Price shown before generation', 'Provider failures refunded'],
+    trustItems: ['No subscription required', 'Starter credits from ¥80', 'Price shown before generation', 'Provider failures refunded'],
     quote: {
       consoleLabel: 'MaxVideoAI quote console',
       title: 'Price before generation',

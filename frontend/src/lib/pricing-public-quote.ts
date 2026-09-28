@@ -12,6 +12,7 @@ import {
 import { buildAudioPricingPresentation, type AudioPricingInput } from '@/lib/audio-generation';
 import { getVersionedPricingPolicy, resolveLiveAudioPricingProfile } from '@/lib/pricing-policy-defaults';
 import { selectPricingRule, type PricingRuleLite } from '@/lib/pricing-rules';
+import { customerQuote, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 
 export type PublicPricingMembershipTier = 'member' | 'plus' | 'pro';
 
@@ -85,7 +86,7 @@ export function quotePublicPricing(input: QuotePublicPricingInput): CanonicalPri
   const membershipTier = LIVE_MEMBERSHIP_POLICY.tier;
   const discountPercent = LIVE_MEMBERSHIP_POLICY.discountPercent;
 
-  return quoteCanonicalPricing({
+  return customerQuote(quoteCanonicalPricing({
     facts: {
       ...input.facts,
       currency: policy.rule.currency,
@@ -101,7 +102,7 @@ export function quotePublicPricing(input: QuotePublicPricingInput): CanonicalPri
     },
     policy,
     compatibilityProfile,
-  });
+  }));
 }
 
 export function projectPublicPricingSnapshot(input: {
@@ -110,12 +111,18 @@ export function projectPublicPricingSnapshot(input: {
   addons: PricingSnapshot['addons'];
   meta?: Record<string, unknown>;
 }): PricingSnapshot {
-  return projectCanonicalQuoteToSnapshot({
+  const isConverted = input.quote.currency === 'CNY';
+  const snapshot = projectCanonicalQuoteToSnapshot({
     quote: input.quote,
-    base: input.base,
-    addons: input.addons,
-    meta: input.meta,
+    base: isConverted
+      ? { ...input.base, rate: input.base.rate * USD_TO_CNY_CUSTOMER_RATE, amountCents: input.base.amountCents * USD_TO_CNY_CUSTOMER_RATE }
+      : input.base,
+    addons: isConverted
+      ? input.addons.map((addon) => ({ ...addon, amountCents: addon.amountCents * USD_TO_CNY_CUSTOMER_RATE }))
+      : input.addons,
+    meta: { ...input.meta, ...(isConverted ? { customerCurrencyConversion: { sourceCurrency: 'USD', rate: USD_TO_CNY_CUSTOMER_RATE, sourceTotalCents: input.quote.customerTotalCents / USD_TO_CNY_CUSTOMER_RATE } } : {}) },
   });
+  return snapshot;
 }
 
 export function scalePublicPricingQuote(

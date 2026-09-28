@@ -1651,7 +1651,7 @@
       "subtitle": "告别昂贵订阅。挑选心仪模型，核对确切价格，仅为生成成功的任务买单。",
       "supportingLine": "按需计费。在生成前于应用内核对确切价格。生成失败自动全额退款。",
       "quickStartTitle": "开启下个视频创作的三种精选方案",
-      "quickStartNote": "每条视频参考总价（美元）。选择场景查看完整对比。生成前可在应用中查看实时报价。",
+      "quickStartNote": "每条视频参考总价（人民币）。选择场景查看完整对比。生成前可在应用中查看实时报价。",
       "primaryCta": "在应用内查看价格",
       "secondaryCta": "对比下方价格",
       "badges": [
@@ -4130,7 +4130,7 @@
         "guestBalance": "登录后查看余额",
         "refreshBalance": "刷新余额",
         "stepChoose": "选择充值金额",
-        "stepChooseHint": "积分以美元结算，只要您的账户处于活跃状态即永久有效。",
+        "stepChooseHint": "积分以人民币记账，只要您的账户处于活跃状态即永久有效。",
         "stepReview": "核对支付信息",
         "stepReviewHint": "选择支付币种；发卡行可能收取货币转换费。",
         "paymentAmount": "税前金额",
@@ -4144,7 +4144,7 @@
         "checkoutSecure": "安全支付由以下机构提供",
         "checkoutNote": "充值金额将在支付确认后到账；您的收据将保存在此处。",
         "llmhubTitle": "支付宝或微信支付",
-        "llmhubDescription": "使用人民币付款。支付确认后，所选美元额度将计入钱包。",
+        "llmhubDescription": "使用人民币付款。支付确认后，所选人民币金额将计入钱包。",
         "llmhubPaymentAmount": "人民币应付金额",
         "llmhubQuoteLoading": "正在计算…",
         "llmhubQuoteUnavailable": "暂时无法获取人民币报价",
@@ -4155,12 +4155,12 @@
         "customLabel": "自定义金额",
         "customPresetLabel": "自定义",
         "customPresetHint": "输入金额",
-        "customPlaceholder": "最低 $10",
-        "customHint": "请输入 $10 及以上的任意金额。",
+        "customPlaceholder": "最低 ¥80",
+        "customHint": "请输入 ¥80 及以上的任意金额。",
         "customCta": "确认金额",
         "customSelectCta": "确认金额",
         "customInvalid": "请输入有效的金额。",
-        "customMin": "最低充值金额为 $10。",
+        "customMin": "最低充值金额为 ¥80。",
         "chooseAmount": "选择",
         "expressTitle": "快捷支付",
         "expressLoading": "正在加载快捷支付选项…",
@@ -4261,7 +4261,7 @@
           },
           {
             "question": "我可以只充值少量金额试用吗？",
-            "answer": "可以——您可以充值 $10 入门余额，每次生成按实际消耗扣除。"
+            "answer": "可以——您可以充值 ¥80 入门余额，每次生成按实际消耗扣除。"
           },
           {
             "question": "账户余额会过期失效吗？",

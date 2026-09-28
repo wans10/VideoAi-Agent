@@ -1,3 +1,5 @@
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+
 export const DEFAULT_BILLING_COPY = {
   title: 'Billing',
   hero: {
@@ -18,7 +20,7 @@ export const DEFAULT_BILLING_COPY = {
     guestBalance: 'Sign in to view your balance',
     refreshBalance: 'Refresh balance',
     stepChoose: 'Choose wallet credits',
-    stepChooseHint: 'Credits are stored in USD and do not expire while your account remains active.',
+    stepChooseHint: 'Credits are stored in CNY and do not expire while your account remains active.',
     stepReview: 'Review payment',
     stepReviewHint: 'Choose a payment currency. Your bank may charge conversion fees.',
     paymentAmount: "Amount before tax",
@@ -32,7 +34,7 @@ export const DEFAULT_BILLING_COPY = {
     checkoutSecure: 'Secure payment by',
     checkoutNote: "Credits are added after confirmation; your receipt is saved here.",
     llmhubTitle: 'Alipay or WeChat Pay',
-    llmhubDescription: 'Pay in CNY. Your wallet receives the selected USD credits after payment confirmation.',
+    llmhubDescription: 'Pay in CNY. The selected CNY amount is credited after payment confirmation.',
     llmhubPaymentAmount: 'CNY payment',
     llmhubQuoteLoading: 'Calculating…',
     llmhubQuoteUnavailable: 'CNY quote unavailable',
@@ -43,12 +45,12 @@ export const DEFAULT_BILLING_COPY = {
     customLabel: 'Custom amount',
     customPresetLabel: 'Custom',
     customPresetHint: 'Enter amount',
-    customPlaceholder: 'Minimum $10',
-    customHint: 'Enter any amount from $10.',
+    customPlaceholder: 'Minimum ¥80',
+    customHint: 'Enter any amount from ¥80.',
     customCta: 'Set amount',
     customSelectCta: 'Set amount',
     customInvalid: 'Enter a valid amount.',
-    customMin: 'Minimum is $10.',
+    customMin: 'Minimum is ¥80.',
     chooseAmount: 'Select',
     expressTitle: "Pay instantly",
     expressLoading: "Loading secure payment options…",
@@ -141,7 +143,7 @@ export const DEFAULT_BILLING_COPY = {
     title: 'Micro-FAQ',
     entries: [
       { question: 'Do I need a subscription?', answer: 'No. Pay as you go.' },
-      { question: 'Can I buy just one small render?', answer: 'Yes — funds are debited per run from your $10 Starter balance.' },
+      { question: 'Can I buy just one small render?', answer: `Yes — funds are debited per run from your ${CUSTOMER_CURRENCY === 'CNY' ? '¥80' : '$10'} Starter balance.` },
       { question: 'Will my credits expire?', answer: 'Credits don’t expire while your account remains active.' },
       { question: 'Which price applies?', answer: 'New generations use standard pricing. The exact price is shown before confirmation.' },
     ],

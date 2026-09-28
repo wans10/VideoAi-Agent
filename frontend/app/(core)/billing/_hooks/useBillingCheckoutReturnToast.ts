@@ -5,6 +5,7 @@ import {
   type WalletCheckoutReturnTarget,
 } from '@/lib/wallet/checkout-return';
 import { recordCheckoutInteractionEvent } from '../_lib/checkout-interaction-events';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 type CheckoutReturnToastOptions = {
   accountId: string | null;
@@ -48,7 +49,7 @@ export function useBillingCheckoutReturnToast({
       : amountParam
         ? Math.max(0, Math.round(Number(amountParam) * 100))
         : null;
-    const parsedCurrency = String(currencyParam ?? 'USD').toUpperCase();
+    const parsedCurrency = String(currencyParam ?? CUSTOMER_CURRENCY).toUpperCase();
     if (!status) return undefined;
     const returnStatus = status === 'success' ? 'success' : status === 'cancelled' ? 'cancelled' : status === 'pending' ? 'pending' : null;
     if (!returnStatus) return undefined;

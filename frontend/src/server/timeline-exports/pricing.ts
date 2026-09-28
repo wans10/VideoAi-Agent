@@ -1,4 +1,5 @@
 import type { TimelineExportEstimateInput, TimelineExportPriceEstimate, TimelineExportQuota } from './contracts';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 
 export const MAX_FREE_TIMELINE_SERVER_EXPORTS = 2;
 
@@ -36,14 +37,15 @@ export function estimateTimelineExportPrice(input: TimelineExportEstimateInput):
   const unitCentsPerSecond = QUALITY_CENTS_PER_SECOND[input.qualityPreset];
   const multiplier = resolutionMultiplier(input.resolution) * fpsMultiplier(input.fps);
   const durationSec = Math.max(1, Math.ceil(input.durationSec));
-  const paidAmountCents = Math.max(15, Math.round(durationSec * unitCentsPerSecond * multiplier));
+  const conversionRate = CUSTOMER_CURRENCY === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1;
+  const paidAmountCents = Math.max(15, Math.round(durationSec * unitCentsPerSecond * multiplier)) * conversionRate;
   const billingKind = input.freeExportsRemaining > 0 ? 'free' : 'paid';
   return {
     billingKind,
     amountCents: billingKind === 'free' ? 0 : paidAmountCents,
-    currency: 'USD',
+    currency: CUSTOMER_CURRENCY,
     freeExportsRemaining: input.freeExportsRemaining,
-    unitCentsPerSecond,
+    unitCentsPerSecond: unitCentsPerSecond * conversionRate,
     multiplier,
   };
 }

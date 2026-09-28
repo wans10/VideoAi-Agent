@@ -1,5 +1,6 @@
 import { isDatabaseConfigured, query } from '@/lib/db';
 import type { NextRequest } from 'next/server';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 export type Currency = 'cny' | 'eur' | 'usd' | 'gbp' | 'chf';
 
@@ -14,6 +15,7 @@ export function normalizeCurrencyCode(value: string | null | undefined): Currenc
 }
 
 export function resolveEnabledCurrencies(): Currency[] {
+  if (CUSTOMER_CURRENCY === 'CNY') return ['cny'];
   const raw = process.env.ENABLED_CURRENCIES ?? 'cny,eur,usd';
   const parsed = raw
     .split(',')

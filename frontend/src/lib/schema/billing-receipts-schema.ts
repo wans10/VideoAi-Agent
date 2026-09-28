@@ -7,7 +7,7 @@ export async function ensureBillingReceiptsSchema(): Promise<void> {
         user_id TEXT NOT NULL,
         type TEXT NOT NULL CHECK (type IN ('topup','charge','refund','discount','tax')),
         amount_cents INTEGER NOT NULL CHECK (amount_cents >= 0),
-        currency TEXT NOT NULL DEFAULT 'USD',
+        currency TEXT NOT NULL DEFAULT 'CNY',
         description TEXT,
         metadata JSONB,
         job_id TEXT,
@@ -121,7 +121,7 @@ export async function ensureBillingReceiptsSchema(): Promise<void> {
       ALTER TABLE app_receipts
       ADD COLUMN IF NOT EXISTS platform_revenue_cents BIGINT,
       ADD COLUMN IF NOT EXISTS destination_acct TEXT,
-      ADD COLUMN IF NOT EXISTS currency TEXT DEFAULT 'USD';
+      ADD COLUMN IF NOT EXISTS currency TEXT DEFAULT 'CNY';
     `);
 
     const appReceiptsPublicViewSql = `

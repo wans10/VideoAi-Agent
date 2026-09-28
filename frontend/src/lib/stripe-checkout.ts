@@ -1,4 +1,5 @@
 import type Stripe from 'stripe';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 
 type CheckoutUiMode = 'hosted' | 'elements';
 type WalletTopUpCheckoutSessionParams = Omit<
@@ -12,7 +13,7 @@ type WalletTopUpCheckoutSessionParams = Omit<
 };
 
 const WALLET_TOPUP_CHECKOUT_SESSION_TTL_SECONDS = 31 * 60;
-const WALLET_TOPUP_MIN_AMOUNT_CENTS = 1000;
+const WALLET_TOPUP_MIN_AMOUNT_CENTS = TOPUP_TIERS[0].amountCents;
 
 type BuildWalletTopUpCheckoutSessionParamsArgs = {
   currency: string;

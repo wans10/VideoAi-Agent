@@ -50,12 +50,13 @@ import { executeAfterInitialJobReservation } from '@/server/generations/initial-
 import type { ExecuteImageGenerationOptions } from './image-generation-execution-contract';
 import { markImageProviderOutcomeAmbiguous, shouldKeepImageProviderOutcomePending } from './image-provider-failure-policy';
 import { resolveImageGenerationPricingSnapshot } from './image-generation-pricing';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 export { buildResponseFromExistingJob } from './existing-image-job-response';
 export { ImageGenerationExecutionError } from './image-generation-error';
 export type { ExecuteImageGenerationOptions } from './image-generation-execution-contract';
-const DISPLAY_CURRENCY = 'USD';
-const DISPLAY_CURRENCY_LOWER: Currency = 'usd';
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
+const DISPLAY_CURRENCY_LOWER: Currency = CUSTOMER_CURRENCY.toLowerCase() as Currency;
 
 export async function executeImageGeneration({
   userId,

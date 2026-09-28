@@ -144,6 +144,7 @@ test('CNY selection never requests a Stripe top-up quote', async () => {
   function Probe({ currency }: { currency: string }) {
     state = useBillingTopupQuotes({
       authLoading: false,
+      llmhubPayEnabled: true,
       session: { user: { id: 'account-a' }, access_token: 'token-a' },
       normalizedChargeCurrency: currency,
       selectedTopupCents: 1000,

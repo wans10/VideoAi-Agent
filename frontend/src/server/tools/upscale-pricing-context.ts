@@ -1,4 +1,5 @@
 import { computeBillingProductSnapshot, repriceCanonicalFixedProductSnapshot } from '@/lib/billing-products';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 import {
   UPSCALE_VIDEO_DYNAMIC_MARGIN_MULTIPLIER,
   estimateImageUpscaleCostUsd,
@@ -55,7 +56,8 @@ export async function resolveUpscalePricingContext({
         targetResolution,
         factor: upscaleFactor,
       });
-      const dynamicCents = Math.max(1, Math.ceil(estimate.costUsd * 100 * UPSCALE_VIDEO_DYNAMIC_MARGIN_MULTIPLIER));
+      const dynamicCents = Math.max(1, Math.ceil(estimate.costUsd * 100 * UPSCALE_VIDEO_DYNAMIC_MARGIN_MULTIPLIER))
+        * (CUSTOMER_CURRENCY === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1);
       const dynamicFloorCents = pricing.totalCents;
       pricing = repriceCanonicalFixedProductSnapshot(pricing, dynamicCents, {
         ...(dynamicCents > dynamicFloorCents

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { writeLastKnownWallet } from '@/lib/last-known';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { BillingSession } from '../_lib/billing-types';
 import { useBillingRequestOwner } from './useBillingRequestOwner';
 
@@ -54,7 +55,7 @@ export function useBillingSessionState({
       if (!isActive() || !requestScope.isCurrent(requestToken)) return false;
       const balance = typeof data?.balance === 'number' ? data.balance : null;
       if (balance === null) throw new Error('wallet_balance_missing');
-      const currency = typeof data.currency === 'string' ? data.currency : 'USD';
+      const currency = typeof data.currency === 'string' ? data.currency : CUSTOMER_CURRENCY;
       const nextWallet = {
         balance,
         currency,

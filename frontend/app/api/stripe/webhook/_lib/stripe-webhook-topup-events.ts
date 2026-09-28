@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { buildTopupAttributionGa4Params } from '@/server/wallet-attribution';
 import {
   chargeReceiptUrl,
@@ -61,7 +62,7 @@ export function buildCheckoutSessionTopupInput(
     walletAmountCents: session.metadata.wallet_amount_cents
       ? Number(session.metadata.wallet_amount_cents)
       : amountCents,
-    walletCurrency: session.metadata.wallet_currency ?? 'USD',
+    walletCurrency: session.metadata.wallet_currency ?? CUSTOMER_CURRENCY,
     settlementAmountCents: amountCents,
     settlementCurrency,
     paymentIntentId,
@@ -119,7 +120,7 @@ export function buildPaymentIntentTopupInput(
     walletAmountCents: intent.metadata.wallet_amount_cents
       ? Number(intent.metadata.wallet_amount_cents)
       : amountCents,
-    walletCurrency: intent.metadata.wallet_currency ?? 'USD',
+    walletCurrency: intent.metadata.wallet_currency ?? CUSTOMER_CURRENCY,
     settlementAmountCents: amountCents,
     settlementCurrency,
     paymentIntentId: intent.id,

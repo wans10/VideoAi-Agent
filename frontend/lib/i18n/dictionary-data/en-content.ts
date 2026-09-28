@@ -1,4 +1,5 @@
 import type { Dictionary } from '../dictionary-types';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 
 export const examples: Dictionary['examples'] = {
     hero: {
@@ -79,7 +80,7 @@ export const docs: Dictionary['docs'] = {
         title: 'Price system',
         items: [
           'Preview the exact price before you render. The price chip updates with duration, resolution, and automatic discounts.',
-          'Starter Credits ($10) and rolling Member status (Member / Plus / Pro) update daily.',
+          `Starter Credits (${TOPUP_TIERS[0].label}) and rolling Member status (Member / Plus / Pro) update daily.`,
         ],
       },
       {

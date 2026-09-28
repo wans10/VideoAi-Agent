@@ -24,6 +24,7 @@ import { isLumaAgentsImageEngineId, isLumaRay32EngineId, type LumaAgentsImageMod
 import { buildSlugMap, type LocalizedSlugKey } from '@/lib/i18nSlugs';
 import { formatCurrencyForLocale } from './pricingPageContent';
 import { getPricingHubCopy } from './pricingHubCopy';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 
 const FALLBACK_CURRENCY = 'USD';
 
@@ -252,7 +253,8 @@ type AudioRateMode = 'default' | 'audio_off';
 
 function formatPrice(locale: AppLocale, cents: number | null | undefined, currency = FALLBACK_CURRENCY) {
   if (typeof cents !== 'number' || !Number.isFinite(cents)) return getPricingHubCopy(locale).liveQuote;
-  return formatCurrencyForLocale(locale, currency, cents / 100);
+  const convert = CUSTOMER_CURRENCY === 'CNY' && currency === 'USD';
+  return formatCurrencyForLocale(locale, convert ? 'CNY' : currency, cents * (convert ? USD_TO_CNY_CUSTOMER_RATE : 1) / 100);
 }
 
 function formatRateDisplay(locale: AppLocale, cents: number | null | undefined, currency = FALLBACK_CURRENCY) {

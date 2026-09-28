@@ -3,6 +3,8 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import test from 'node:test';
 import type { AppLocale } from '../frontend/i18n/locales.ts';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency';
+import { TOPUP_TIERS } from '../frontend/src/config/topupTiers';
 import { I18nProvider } from '../frontend/lib/i18n/I18nProvider.tsx';
 import { buildMetadataUrls, SITE_BASE_URL } from '../frontend/lib/metadataUrls.ts';
 import { buildSeoMetadata } from '../frontend/lib/seo/metadata.ts';
@@ -390,8 +392,8 @@ for (const locale of locales) {
       },
       offers: {
         '@type': 'Offer',
-        price: '10.00',
-        priceCurrency: 'USD',
+        price: (TOPUP_TIERS[0].amountCents / 100).toFixed(2),
+        priceCurrency: CUSTOMER_CURRENCY,
         availability: 'https://schema.org/InStock',
         description: content.jsonLd.service.offer,
         url: canonical,
@@ -407,8 +409,8 @@ for (const locale of locales) {
       description: content.jsonLd.webApplication.description,
       offers: {
         '@type': 'Offer',
-        price: '10.00',
-        priceCurrency: 'USD',
+        price: (TOPUP_TIERS[0].amountCents / 100).toFixed(2),
+        priceCurrency: CUSTOMER_CURRENCY,
         description: content.jsonLd.webApplication.offer,
         url: canonical,
       },

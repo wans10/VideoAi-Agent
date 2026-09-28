@@ -1,4 +1,5 @@
 import { query, withDbTransaction } from '@/lib/db';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { ensureBillingSchema } from '@/lib/schema';
 import { lockUserWalletInExecutor } from '@/lib/wallet';
 import type { WorkspaceTimelineExportQualityPreset } from '../../../app/(core)/(workspace)/app/studio/workspace/_lib/workspace-timeline-export';
@@ -20,7 +21,7 @@ export type TimelineExportBillingReservation = {
   billingKind: 'free' | 'paid';
   billingStatus: TimelineExportBillingStatus;
   amountCents: number;
-  currency: 'USD';
+  currency: 'USD' | 'CNY';
   freeLimit: number;
   freeExportsRemaining: number;
   usedFreeExports: number;
@@ -61,7 +62,7 @@ export async function reserveTimelineExportBilling(params: {
         billingKind: 'free',
         billingStatus: 'free_reserved',
         amountCents: 0,
-        currency: 'USD',
+        currency: CUSTOMER_CURRENCY,
         freeLimit: quota.freeLimit,
         freeExportsRemaining: Math.max(0, quota.freeExportsRemaining - 1),
         usedFreeExports,
@@ -76,8 +77,8 @@ export async function reserveTimelineExportBilling(params: {
       )::int AS balance_cents
        FROM app_receipts
       WHERE user_id = $1
-        AND (currency IS NULL OR UPPER(currency) = 'USD')`,
-      [params.userId]
+        AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD'))`,
+      [params.userId, CUSTOMER_CURRENCY]
     );
     const balanceCents = Number(walletRows[0]?.balance_cents ?? 0);
     if (balanceCents < estimate.amountCents) {
@@ -89,11 +90,12 @@ export async function reserveTimelineExportBilling(params: {
           user_id, type, amount_cents, currency, description, job_id, surface,
           billing_product_key, pricing_snapshot, metadata
         )
-        VALUES ($1,'charge',$2,'USD',$3,$4,'timeline_export','server_render',$5::jsonb,$6::jsonb)
+        VALUES ($1,'charge',$2,$3,$4,$5,'timeline_export','server_render',$6::jsonb,$7::jsonb)
         ON CONFLICT DO NOTHING`,
       [
         params.userId,
         estimate.amountCents,
+        CUSTOMER_CURRENCY,
         `Server export ${params.projectName} - ${Math.ceil(params.durationSec)}s`,
         params.exportId,
         JSON.stringify(params.pricingSnapshot),
@@ -105,7 +107,7 @@ export async function reserveTimelineExportBilling(params: {
       billingKind: 'paid',
       billingStatus: 'paid_reserved',
       amountCents: estimate.amountCents,
-      currency: 'USD',
+      currency: CUSTOMER_CURRENCY,
       freeLimit: quota.freeLimit,
       freeExportsRemaining: 0,
       usedFreeExports,
@@ -184,7 +186,7 @@ export async function createTimelineExportJobWithReservation(params: {
             billingKind: 'free',
             billingStatus: 'free_reserved',
             amountCents: 0,
-            currency: 'USD',
+            currency: CUSTOMER_CURRENCY,
             freeLimit: quota.freeLimit,
             freeExportsRemaining: Math.max(0, quota.freeExportsRemaining - 1),
             usedFreeExports,
@@ -193,7 +195,7 @@ export async function createTimelineExportJobWithReservation(params: {
             billingKind: 'paid',
             billingStatus: 'paid_reserved',
             amountCents: estimate.amountCents,
-            currency: 'USD',
+            currency: CUSTOMER_CURRENCY,
             freeLimit: quota.freeLimit,
             freeExportsRemaining: 0,
             usedFreeExports,
@@ -208,8 +210,8 @@ export async function createTimelineExportJobWithReservation(params: {
         )::int AS balance_cents
          FROM app_receipts
         WHERE user_id = $1
-          AND (currency IS NULL OR UPPER(currency) = 'USD')`,
-        [params.userId]
+          AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD'))`,
+        [params.userId, CUSTOMER_CURRENCY]
       );
       const balanceCents = Number(walletRows[0]?.balance_cents ?? 0);
       if (balanceCents < estimate.amountCents) {
@@ -221,11 +223,12 @@ export async function createTimelineExportJobWithReservation(params: {
             user_id, type, amount_cents, currency, description, job_id, surface,
             billing_product_key, pricing_snapshot, metadata
           )
-          VALUES ($1,'charge',$2,'USD',$3,$4,'timeline_export','server_render',$5::jsonb,$6::jsonb)
+          VALUES ($1,'charge',$2,$3,$4,$5,'timeline_export','server_render',$6::jsonb,$7::jsonb)
           ON CONFLICT DO NOTHING`,
         [
           params.userId,
           estimate.amountCents,
+          CUSTOMER_CURRENCY,
           `Server export ${params.projectName} - ${Math.ceil(params.durationSec)}s`,
           exportId,
           JSON.stringify(params.pricingSnapshot),
@@ -276,9 +279,9 @@ export async function releaseFailedTimelineExportBilling(params: {
         user_id, type, amount_cents, currency, description, job_id, surface,
         billing_product_key, metadata
       )
-      VALUES ($1,'refund',$2,'USD','Refund failed server export',$3,'timeline_export','server_render',$4::jsonb)
+      VALUES ($1,'refund',$2,$3,'Refund failed server export',$4,'timeline_export','server_render',$5::jsonb)
       ON CONFLICT DO NOTHING`,
-    [params.userId, params.amountCents, params.exportId, JSON.stringify({ reason: 'timeline_export_failed' })]
+    [params.userId, params.amountCents, CUSTOMER_CURRENCY, params.exportId, JSON.stringify({ reason: 'timeline_export_failed' })]
   );
   return 'refunded';
 }

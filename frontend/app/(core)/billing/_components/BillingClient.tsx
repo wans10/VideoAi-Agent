@@ -8,6 +8,7 @@ import { HeaderBar } from '@/components/HeaderBar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { useHostedWalletCheckout } from '@/hooks/useHostedWalletCheckout';
 import { CURRENCY_LOCALE } from '@/lib/intl';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import type { WalletCheckoutReturnTarget } from '@/lib/wallet/checkout-return';
@@ -86,7 +87,7 @@ export function BillingClient({
   };
 
   const formatLocalAmount = useCallback((amountMinor: number, currency: string) => {
-    const upper = (currency ?? 'USD').toUpperCase();
+    const upper = (currency ?? CUSTOMER_CURRENCY).toUpperCase();
     const zeroDecimal = upper === 'JPY';
     const divisor = zeroDecimal ? 1 : 100;
     const value = amountMinor / divisor;
@@ -102,12 +103,12 @@ export function BillingClient({
     try {
       return new Intl.NumberFormat(billingIntlLocale, {
         style: 'currency',
-        currency: 'USD',
+        currency: CUSTOMER_CURRENCY,
         currencyDisplay: 'narrowSymbol',
         maximumFractionDigits: amountCents % 100 === 0 ? 0 : 2,
       }).format(amount);
     } catch {
-      return `$${amount.toFixed(amountCents % 100 === 0 ? 0 : 2)}`;
+      return `${CUSTOMER_CURRENCY === 'CNY' ? '¥' : '$'}${amount.toFixed(amountCents % 100 === 0 ? 0 : 2)}`;
     }
   };
   const {
@@ -153,7 +154,7 @@ export function BillingClient({
       ? signedLoginRedirectTarget
       : buildBillingIntentTarget({
         amountCents: selectedTopupCents,
-        currency: 'USD',
+        currency: CUSTOMER_CURRENCY,
       }),
     [initialBillingIntent?.amountCents, selectedTopupCents, signedLoginRedirectTarget]
   );

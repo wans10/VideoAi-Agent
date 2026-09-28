@@ -100,7 +100,7 @@ test('wallet retains its real billing destination and distinguishes zero from mi
   for (const [locale, loading, unavailable] of [['en', 'Loading…', 'Unavailable'], ['fr', 'Chargement…', 'Indisponible'], ['es', 'Cargando…', 'No disponible']]) {
     const dictionary = JSON.parse(readFileSync(`frontend/messages/${locale}.json`, 'utf8'));
     const t = (key: string, fallback: string) => key.split('.').reduce((obj, part) => obj?.[part], dictionary) ?? fallback;
-    for (const [walletLoading, wallet, expected] of [[true, null, loading], [false, null, unavailable], [false, { balance: 0 }, '$0.00'], [false, { balance: 12.3 }, '$12.30']] as const) {
+    for (const [walletLoading, wallet, expected] of [[true, null, loading], [false, null, unavailable], [false, { balance: 0, currency: 'USD' }, '$0.00'], [false, { balance: 12.3, currency: 'USD' }, '$12.30'], [false, { balance: 12.3, currency: 'CNY' }, '¥12.30']] as const) {
       const markup = renderToStaticMarkup(React.createElement(HeaderWalletStatus, { walletLoading, wallet, t, promptId: 'wallet', walletPromptOpen: false, onOpenPrompt() {}, onSchedulePromptClose() {} }));
       assert.ok(markup.includes(`aria-label="Wallet: ${expected}"`), `${locale}: ${expected}`);
       assert.match(markup, /href="\/billing"/);

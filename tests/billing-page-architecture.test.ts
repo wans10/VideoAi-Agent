@@ -195,10 +195,10 @@ test('billing feature modules own their explicit responsibilities', () => {
   assert.match(analyticsHookSource, /topup_started/);
   assert.match(quotesHookSource, /export function useBillingTopupQuotes/);
   assert.match(quotesHookSource, /\/api\/topup\/quote/);
-  assert.match(quotesHookSource, /USD_TOPUP_TIERS/);
+  assert.match(quotesHookSource, /TOPUP_TIERS/);
   assert.match(topupSelectionHookSource, /export function useBillingTopupSelection/);
   assert.match(topupSelectionHookSource, /parseAmountToCents/);
-  assert.match(topupSelectionHookSource, /USD_TOPUP_TIERS/);
+  assert.match(topupSelectionHookSource, /TOPUP_TIERS/);
   assert.match(copySource, /export const DEFAULT_BILLING_COPY/);
   assert.match(intentSource, /export function parseBillingIntent/);
   assert.match(intentSource, /export function buildBillingIntentTarget/);

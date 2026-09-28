@@ -41,7 +41,7 @@ export type TimelineExportEstimateInput = {
 export type TimelineExportPriceEstimate = {
   billingKind: TimelineExportBillingKind;
   amountCents: number;
-  currency: 'USD';
+  currency: 'USD' | 'CNY';
   freeExportsRemaining: number;
   unitCentsPerSecond: number;
   multiplier: number;

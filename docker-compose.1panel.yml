@@ -23,6 +23,7 @@ services:
         NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-https://sbayxqlhqhjsripkktdx.supabase.co}
         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+        NEXT_PUBLIC_CUSTOMER_CURRENCY: CNY
         NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:-}
     env_file:
       - path: .env.production
@@ -30,6 +31,7 @@ services:
     environment:
       NODE_ENV: production
       DEFAULT_CURRENCY: CNY
+      NEXT_PUBLIC_CUSTOMER_CURRENCY: CNY
       ENABLED_CURRENCIES: cny
       PORT: 3000
       HOSTNAME: 0.0.0.0

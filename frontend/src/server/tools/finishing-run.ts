@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { getFalClient } from '@/lib/fal-client';
 import { isStorageConfigured } from '@/server/storage';
 import { validateToolBlock } from '@/lib/toolbox/contract';
@@ -8,7 +9,7 @@ import { prepareFinishingTool } from './finishing-prepare';
 import { requireFinishingProfileReleased } from './finishing-release';
 import { reserveFinishingJob, markFinishingSubmitted, failFinishingJob } from './finishing-jobs';
 
-const requestSchema = z.object({ block: z.unknown(), requestId: z.string().uuid(), acceptedQuote: z.object({ totalCents: z.number().int().positive(), currency: z.literal('USD') }).strict() }).strict();
+const requestSchema = z.object({ block: z.unknown(), requestId: z.string().uuid(), acceptedQuote: z.object({ totalCents: z.number().int().positive(), currency: z.literal(CUSTOMER_CURRENCY) }).strict() }).strict();
 const defaults = {
   prepare: prepareFinishingTool, requireReleased: requireFinishingProfileReleased, storageReady: isStorageConfigured,
   reserve: reserveFinishingJob, submitted: markFinishingSubmitted, fail: failFinishingJob,

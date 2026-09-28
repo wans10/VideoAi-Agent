@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { LogOut, UserRound, Wallet } from 'lucide-react';
 import { useHeaderAccountState } from '@/components/header/useHeaderAccountState';
+import { formatWalletBalance } from '@/lib/customer-currency';
 import styles from '../_styles/studio-session.module.css';
 import type { StudioCopy } from '../../_lib/studio-copy';
 
@@ -40,7 +41,7 @@ export function StudioHeaderSession({ account, exitToProjectsDisabled, onExitToP
   const walletPromptRef = useRef<HTMLDivElement>(null);
   const sessionButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const walletAmount = wallet ? `$${wallet.balance.toFixed(2)}` : authResolved ? '--' : '...';
+  const walletAmount = wallet ? formatWalletBalance(wallet.balance, wallet.currency) : authResolved ? '--' : '...';
   const sessionLabel = email ?? (authResolved ? studioCopy.topbar.noSession : studioCopy.topbar.loadingSession);
   const initials = initialsFromEmail(email);
 

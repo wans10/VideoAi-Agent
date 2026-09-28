@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { useHostedWalletCheckout } from '@/hooks/useHostedWalletCheckout';
+import { TOPUP_TIERS } from '@/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { AppLocale } from '@/i18n/locales';
 import { dispatchGaEvent } from '@/lib/analytics/ga-events';
 import { classifyTopupFailure } from '@/lib/analytics/topup-failure';
@@ -93,7 +95,7 @@ export function useWorkspacePricingGate({
   });
   const [topUpModal, setTopUpModal] = useState<TopUpModalState>(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [topUpAmount, setTopUpAmount] = useState<number>(1000);
+  const [topUpAmount, setTopUpAmount] = useState<number>(TOPUP_TIERS[0].amountCents);
   const [topUpError, setTopUpError] = useState<string | null>(null);
 
   const showComposerError = useCallback((message: string) => {
@@ -138,7 +140,7 @@ export function useWorkspacePricingGate({
   } = useHostedWalletCheckout({
     accessToken,
     amountCents: topUpAmount,
-    currency: 'USD',
+    currency: CUSTOMER_CURRENCY,
     locale,
     source: 'workspace',
     returnTarget: '/app',
@@ -156,7 +158,7 @@ export function useWorkspacePricingGate({
 
   const closeTopUpModal = useCallback(() => {
     setTopUpModal(null);
-    setTopUpAmount(1000);
+    setTopUpAmount(TOPUP_TIERS[0].amountCents);
     setTopUpError(null);
     resetCheckout();
   }, [resetCheckout]);
@@ -170,10 +172,10 @@ export function useWorkspacePricingGate({
     const value = Number(event.target.value);
     setTopUpError(null);
     if (Number.isNaN(value)) {
-      setTopUpAmount(1000);
+      setTopUpAmount(TOPUP_TIERS[0].amountCents);
       return;
     }
-    setTopUpAmount(Math.max(1000, Math.round(value * 100)));
+    setTopUpAmount(Math.max(TOPUP_TIERS[0].amountCents, Math.round(value * 100)));
   }, []);
 
   const handleConfirmTopUp = useCallback(() => {

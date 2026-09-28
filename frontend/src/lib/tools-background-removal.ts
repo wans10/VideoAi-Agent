@@ -1,3 +1,5 @@
+import { USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
+
 import {
   BACKGROUND_REMOVAL_DYNAMIC_PRICE_MULTIPLIER,
   BACKGROUND_REMOVAL_MAX_STUDIO_DURATION_SECONDS,
@@ -126,7 +128,8 @@ export function buildBackgroundRemovalPricingPreview(params: {
 
   const priceMultiplier = getBackgroundRemovalPriceMultiplier(params.outputCodec);
   const estimatedCostUsd = estimateBackgroundRemovalCostUsd(durationSec, params.outputCodec);
-  const dynamicCents = Math.max(1, Math.ceil(estimatedCostUsd * 100));
+  const dynamicCents = Math.max(1, Math.ceil(estimatedCostUsd * 100))
+    * (currency === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1);
 
   return {
     totalCents: Math.max(unitPriceCents, dynamicCents),

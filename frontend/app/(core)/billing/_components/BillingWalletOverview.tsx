@@ -2,6 +2,7 @@
 
 import { FileText, RefreshCw, WalletCards } from 'lucide-react';
 import { Button, ButtonLink } from '@/components/ui/Button';
+import { formatWalletBalance } from '@/lib/customer-currency';
 import type { BillingWalletStatus } from '../_hooks/useBillingSessionState';
 import type { BillingCopy } from '../_lib/billing-copy';
 import styles from './billing-layout.module.css';
@@ -48,7 +49,7 @@ export function BillingWalletOverview({
         </div>
         <div className={styles.balanceValue}>
           <span>{copy.wallet.balanceLabel}</span>
-          <strong data-wallet-balance>{wallet ? `$${wallet.balance.toFixed(2)}` : '—'}</strong>
+          <strong data-wallet-balance>{wallet ? formatWalletBalance(wallet.balance, wallet.currency) : '—'}</strong>
           <small role="status" aria-live="polite">{balanceStatus}</small>
         </div>
         <Button

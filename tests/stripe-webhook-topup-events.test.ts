@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type Stripe from 'stripe';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency';
 
 import {
   buildCheckoutSessionTopupInput,
@@ -12,6 +13,27 @@ test('Checkout Session credits only a paid top-up', () => {
   assert.equal(isPaidTopupCheckoutSession({ payment_status: 'paid' } as Stripe.Checkout.Session), true);
   assert.equal(isPaidTopupCheckoutSession({ payment_status: 'unpaid' } as Stripe.Checkout.Session), false);
   assert.equal(isPaidTopupCheckoutSession({ payment_status: 'no_payment_required' } as Stripe.Checkout.Session), false);
+});
+
+test('CNY Stripe checkout credits exactly the settled ¥80 amount', () => {
+  if (CUSTOMER_CURRENCY !== 'CNY') return;
+  const session = {
+    id: 'cs_cny',
+    amount_total: 8000,
+    currency: 'cny',
+    metadata: {
+      kind: 'topup',
+      user_id: 'user_cny',
+      wallet_amount_cents: '8000',
+      wallet_currency: 'CNY',
+      settlement_currency: 'CNY',
+    },
+  } as unknown as Stripe.Checkout.Session;
+  const input = buildCheckoutSessionTopupInput(session, { receiptsPriceOnly: true, resolvedReceiptUrl: null });
+  assert.equal(input?.walletCurrency, 'CNY');
+  assert.equal(input?.walletAmountCents, 8000);
+  assert.equal(input?.settlementAmountCents, 8000);
+  assert.equal(input?.settlementCurrency, 'cny');
 });
 
 test('Checkout Session maps canonical amount, currency, FX, destination, and documents', () => {

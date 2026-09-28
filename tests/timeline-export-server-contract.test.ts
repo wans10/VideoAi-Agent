@@ -53,8 +53,8 @@ test('timeline server export estimate scales with duration, resolution, fps, and
     qualityPreset: 'standard',
     freeExportsRemaining: 0,
   });
-  assert.equal(standard.amountCents, 180);
-  assert.equal(standard.currency, 'USD');
+  assert.equal(standard.amountCents, 180 * (process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY === 'CNY' ? 8 : 1));
+  assert.equal(standard.currency, process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY === 'CNY' ? 'CNY' : 'USD');
   assert.equal(standard.billingKind, 'paid');
 
   const free = estimateTimelineExportPrice({

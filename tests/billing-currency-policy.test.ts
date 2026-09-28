@@ -7,6 +7,7 @@ import test, { type TestContext } from 'node:test';
 import { build } from 'esbuild';
 import { NextRequest } from 'next/server';
 import { normalizeCurrencyCode, resolveCurrency, resolveEnabledCurrencies } from '../frontend/src/lib/currency';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency';
 
 function useDefaultPolicy(t: TestContext) {
   for (const key of ['ENABLED_CURRENCIES', 'DEFAULT_CURRENCY']) {
@@ -27,7 +28,7 @@ function request(country?: string) {
 
 test('new payments default to CNY regardless of geolocation', (t) => {
   useDefaultPolicy(t);
-  assert.deepEqual(resolveEnabledCurrencies(), ['cny', 'eur', 'usd']);
+  assert.deepEqual(resolveEnabledCurrencies(), CUSTOMER_CURRENCY === 'CNY' ? ['cny'] : ['cny', 'eur', 'usd']);
   for (const country of ['FR', 'ES', 'BE', 'GB', 'CH', 'CA', 'BR', 'AU', 'IN', undefined]) {
     assert.equal(resolveCurrency(request(country)).currency, 'cny', country ?? 'unknown country');
   }
@@ -36,8 +37,13 @@ test('new payments default to CNY regardless of geolocation', (t) => {
 
 test('supported customer choices override location and retired preferences fall back without changing history', (t) => {
   useDefaultPolicy(t);
-  assert.deepEqual(resolveCurrency(request('US'), { preferred_currency: 'eur' }), { currency: 'eur', source: 'user_pref' });
-  assert.deepEqual(resolveCurrency(request('FR'), { preferred_currency: 'usd' }), { currency: 'usd', source: 'user_pref' });
+  if (CUSTOMER_CURRENCY === 'USD') {
+    assert.deepEqual(resolveCurrency(request('US'), { preferred_currency: 'eur' }), { currency: 'eur', source: 'user_pref' });
+    assert.deepEqual(resolveCurrency(request('FR'), { preferred_currency: 'usd' }), { currency: 'usd', source: 'user_pref' });
+  } else {
+    assert.equal(resolveCurrency(request('US'), { preferred_currency: 'eur' }).currency, 'cny');
+    assert.equal(resolveCurrency(request('FR'), { preferred_currency: 'usd' }).currency, 'cny');
+  }
   for (const preferred_currency of ['gbp', 'chf'] as const) {
     assert.equal(normalizeCurrencyCode(preferred_currency), preferred_currency);
     assert.equal(resolveCurrency(request('GB'), { preferred_currency }).currency, 'cny');
@@ -87,10 +93,15 @@ test('top-up quotes reject disabled currencies and honor explicit currency befor
     assert.equal((await response.json()).error, 'Unsupported currency');
   }
   assert.equal(route.calls.length, 0);
-  for (const [currency, country, expected] of [
-    ['EUR', 'US', 'EUR'], ['USD', 'FR', 'USD'], ['CNY', 'US', 'CNY'],
-    [undefined, 'US', 'CNY'], [undefined, 'GB', 'CNY'],
-  ] as const) {
+  if (CUSTOMER_CURRENCY === 'CNY') {
+    for (const currency of ['EUR', 'USD']) {
+      assert.equal((await quote(currency)).status, 400);
+    }
+  }
+  const supportedCases = CUSTOMER_CURRENCY === 'CNY'
+    ? [['CNY', 'US', 'CNY'], [undefined, 'US', 'CNY'], [undefined, 'GB', 'CNY']] as const
+    : [['EUR', 'US', 'EUR'], ['USD', 'FR', 'USD'], ['CNY', 'US', 'CNY'], [undefined, 'US', 'CNY'], [undefined, 'GB', 'CNY']] as const;
+  for (const [currency, country, expected] of supportedCases) {
     const response = await quote(currency, country);
     assert.equal(response.status, 200);
     const data = await response.json();

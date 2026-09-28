@@ -1,7 +1,8 @@
 'use client';
 
 import type { Ref } from 'react';
-import { USD_TOPUP_TIERS } from '@/config/topupTiers';
+import { TOPUP_TIERS } from '@/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import type { BillingCopy } from '../_lib/billing-copy';
@@ -51,7 +52,7 @@ export function WalletAmountPicker({
       </legend>
 
       <div className={styles.amountGrid}>
-        {USD_TOPUP_TIERS.map((tier) => {
+        {TOPUP_TIERS.map((tier) => {
           const isSelected = selectedTopupCents === tier.amountCents;
           return (
             <Button
@@ -89,12 +90,12 @@ export function WalletAmountPicker({
         <div className={styles.customAmountEditor}>
           <label htmlFor="billing-custom-amount">{copy.wallet.customLabel}</label>
           <div>
-            <span aria-hidden="true">$</span>
+            <span aria-hidden="true">{CUSTOMER_CURRENCY === 'CNY' ? '¥' : '$'}</span>
             <Input
               ref={customAmountInputRef}
               id="billing-custom-amount"
               type="number"
-              min={10}
+              min={TOPUP_TIERS[0].amountCents / 100}
               step={1}
               inputMode="decimal"
               value={customAmountInput}

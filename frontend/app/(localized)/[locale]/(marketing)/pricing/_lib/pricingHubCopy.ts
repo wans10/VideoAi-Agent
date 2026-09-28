@@ -1,4 +1,5 @@
 import type { AppLocale } from '@/i18n/locales';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 type PricingHubCopy = {
   liveQuote: string;
@@ -219,7 +220,7 @@ const en: PricingHubCopy = {
     title: 'AI video prices by engine',
     intro:
       'Compare preset MaxVideoAI total prices for common video scenarios. Unsupported combinations are marked clearly. Open the app for the exact live quote before generation.',
-    currencyLabel: 'Prices shown in USD credits.',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Prices shown in CNY.' : 'Prices shown in USD credits.',
     cheapestCurrentGen: 'Cheapest current-gen',
     tableHeaders: { engine: 'Engine', caps: 'Caps', actions: 'Actions' },
     tabs: { video: 'Video', image: 'Image', audio: 'Audio', tools: 'Tools & Upscale' },
@@ -333,7 +334,7 @@ const en: PricingHubCopy = {
     cards: [
       {
         title: 'Pay-as-you-go credits',
-        body: 'Use credits without a required subscription. Starter credits begin at $10, and you can top up when you need more generations.',
+        body: `Use credits without a required subscription. Starter credits begin at ${CUSTOMER_CURRENCY === 'CNY' ? '¥80' : '$10'}, and you can top up when you need more generations.`,
         link: {
           href: '/pay-as-you-go-ai-video-generator',
           label: 'How pay-as-you-go credits work',
@@ -406,7 +407,7 @@ const fr: PricingHubCopy = {
     title: 'Prix vidéo IA par moteur',
     intro:
       'Comparez les prix totaux MaxVideoAI pour des scénarios vidéo courants. Les combinaisons non disponibles sont indiquées clairement. Ouvrez l’app pour le devis exact avant génération.',
-    currencyLabel: 'Prix affichés en crédits USD.',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Prix affichés en CNY.' : 'Prix affichés en crédits USD.',
     cheapestCurrentGen: 'Moins cher génération actuelle',
     tableHeaders: { engine: 'Moteur', caps: 'Caps', actions: 'Actions' },
     tabs: { video: 'Vidéo', image: 'Image', audio: 'Audio', tools: 'Outils & upscale' },
@@ -520,7 +521,7 @@ const fr: PricingHubCopy = {
     cards: [
       {
         title: 'Crédits à l’usage',
-        body: 'Utilisez des crédits sans abonnement obligatoire. Les crédits de démarrage commencent à 10 $, et vous rechargez quand vous avez besoin de générer.',
+        body: `Utilisez des crédits sans abonnement obligatoire. Les crédits de démarrage commencent à ${CUSTOMER_CURRENCY === 'CNY' ? '80 CNY' : '10 $'}, et vous rechargez quand vous avez besoin de générer.`,
         link: {
           href: '/pay-as-you-go-ai-video-generator',
           label: 'Comprendre les crédits à l’usage',
@@ -593,7 +594,7 @@ const es: PricingHubCopy = {
     title: 'Precios de video IA por motor',
     intro:
       'Compara precios totales de MaxVideoAI para escenarios de video comunes. Las combinaciones no disponibles se marcan claramente. Abre la app para ver el precio exacto antes de generar.',
-    currencyLabel: 'Precios mostrados en créditos USD.',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Precios mostrados en CNY.' : 'Precios mostrados en créditos USD.',
     cheapestCurrentGen: 'Más barato generación actual',
     tableHeaders: { engine: 'Motor', caps: 'Caps', actions: 'Acciones' },
     tabs: { video: 'Video', image: 'Imagen', audio: 'Audio', tools: 'Herramientas & upscale' },
@@ -707,7 +708,7 @@ const es: PricingHubCopy = {
     cards: [
       {
         title: 'Créditos de pago por uso',
-        body: 'Usa créditos sin suscripción obligatoria. Los créditos iniciales empiezan en $10 y puedes recargar cuando necesites más generaciones.',
+        body: `Usa créditos sin suscripción obligatoria. Los créditos iniciales empiezan en ${CUSTOMER_CURRENCY === 'CNY' ? '80 CNY' : '$10'} y puedes recargar cuando necesites más generaciones.`,
         link: {
           href: '/pay-as-you-go-ai-video-generator',
           label: 'Cómo funcionan los créditos por uso',
@@ -777,7 +778,7 @@ const zh: PricingHubCopy = {
     title: '各引擎 AI 视频价格',
     intro:
       '对比常见视频场景下 MaxVideoAI 的预设总价。不支持的组合已明确标出。可在生成前打开应用查看实时精准报价。',
-    currencyLabel: '价格以美元点数显示。',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? '价格以人民币显示。' : '价格以美元点数显示。',
     cheapestCurrentGen: '当代最实惠',
     tableHeaders: { engine: '模型引擎', caps: '规格能力', actions: '操作' },
     tabs: { video: '视频', image: '图片', audio: '音频', tools: '工具与超分辨率' },
@@ -891,7 +892,7 @@ const zh: PricingHubCopy = {
     cards: [
       {
         title: '按需付费点数',
-        body: '使用点数额度，无需强制订阅。起充金额低至 $10，需要更多生成时可随时充值。',
+        body: `使用点数额度，无需强制订阅。起充金额低至 ${CUSTOMER_CURRENCY === 'CNY' ? '¥80' : '$10'}，需要更多生成时可随时充值。`,
         link: {
           href: '/pay-as-you-go-ai-video-generator',
           label: '了解按需付费运作方式',

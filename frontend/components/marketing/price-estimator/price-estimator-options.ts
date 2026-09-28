@@ -1,4 +1,5 @@
 import type { EngineAvailability, EngineCaps, EngineInputField, Mode } from '@/types/engines';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { PricingKernel } from '@maxvideoai/pricing';
 import { getPartnerByEngineId } from '@/lib/brand-partners';
 import { listFalEngines, type FalEngineEntry } from '@/config/falEngines';
@@ -424,7 +425,7 @@ export function buildEngineOption(
     durationOptions,
     defaultDuration,
     resolutions: rates,
-    currency,
+    currency: CUSTOMER_CURRENCY,
     availability: entry.availability,
     availabilityLink,
     showResolution: !perImageConfig,

@@ -73,7 +73,7 @@ test('metadata and JSON-LD read exact-locale editorial content', () => {
   assert.doesNotMatch(pageSource, /const PAYG_META/);
   assert.doesNotMatch(jsonLdSource, /\ben:\s*\{|\bes:\s*\{|\bfr:\s*\{/);
   assert.match(jsonLdSource, /copy: PayAsYouGoContent\['jsonLd'\]/);
-  assert.match(jsonLdSource, /price: '10\.00'/);
+  assert.match(jsonLdSource, /TOPUP_TIERS\[0\]\.amountCents/);
 });
 
 test('semantic ID inventories are fixed and exhaustive', () => {
@@ -109,7 +109,7 @@ test('editorial content owns semantic strings but no computed pricing or React r
     localeSources,
     /buildPricingHubData|VideoPricingRow|priceCells|quotes\[|finalPriceCents|lucide-react|React/,
   );
-  assert.match(localeSources, /Starter credits from \$10/);
+  assert.match(localeSources, /Starter credits from ¥80/);
   assert.deepEqual(
     getPayAsYouGoContent('en').workflow.items.map((item) => item.icon),
     ['engine', 'preview', 'video', 'refund'],

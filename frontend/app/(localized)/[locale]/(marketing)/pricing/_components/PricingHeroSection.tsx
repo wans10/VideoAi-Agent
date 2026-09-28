@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import type { ReactNode } from 'react';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 type PricingHeroSectionProps = {
   badges?: string[];
@@ -15,7 +16,7 @@ type PricingHeroSectionProps = {
   children?: ReactNode;
 };
 
-const DEFAULT_BADGES = ['No subscription', 'Guest preview', 'Starter credits from $10', 'Refunds on failed generations'];
+const DEFAULT_BADGES = ['No subscription', 'Guest preview', `Starter credits from ${CUSTOMER_CURRENCY === 'CNY' ? '¥80' : '$10'}`, 'Refunds on failed generations'];
 
 export function PricingHeroSection({
   badges = DEFAULT_BADGES,

@@ -8,6 +8,7 @@ import { getModelFamilyDefinition } from '../frontend/config/model-families.ts';
 import { getPublishedComparisonSlugs, getHubEngines } from '../frontend/lib/compare-hub/data.ts';
 import { orderExamplesHubFamilyIds } from '../frontend/lib/examples/familyOrder.ts';
 import { normalizeHomepageAdminPriceLabel } from '../frontend/lib/homepage-price-label.ts';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency.ts';
 import { normalizeFalDurationValueForModel } from '../frontend/src/lib/fal.ts';
 import { getVisibleAssetSlotCount, getVisibleAssetSlots } from '../frontend/lib/asset-slot-layout.ts';
 import { getHappyHorseAssetState, getUnifiedHappyHorseMode } from '../frontend/lib/happy-horse-workflow.ts';
@@ -535,9 +536,10 @@ test('Engine select keeps its app-specific family priority stable', () => {
 });
 
 test('Homepage admin hero pricing labels preserve per-second suffixes', () => {
-  assert.equal(normalizeHomepageAdminPriceLabel('from $0.18/s', 'en'), 'from $0.18/s');
-  assert.equal(normalizeHomepageAdminPriceLabel('from $0.29 /s', 'en'), 'from $0.29/s');
-  assert.equal(normalizeHomepageAdminPriceLabel('à partir de 0,18 EUR/s', 'fr'), 'à partir de 0,18 €/s');
+  assert.equal(normalizeHomepageAdminPriceLabel('from $0.18/s', 'en'), CUSTOMER_CURRENCY === 'CNY' ? 'from CN¥1.44/s' : 'from $0.18/s');
+  assert.equal(normalizeHomepageAdminPriceLabel('from $0.29 /s', 'en'), CUSTOMER_CURRENCY === 'CNY' ? 'from CN¥2.32/s' : 'from $0.29/s');
+  assert.equal(normalizeHomepageAdminPriceLabel('à partir de 0,18 EUR/s', 'fr'), CUSTOMER_CURRENCY === 'CNY' ? null : 'à partir de 0,18 €/s');
+  assert.equal(normalizeHomepageAdminPriceLabel('起 ¥1.44/s', 'zh'), '起 ¥1.44/s');
   assert.equal(normalizeHomepageAdminPriceLabel('headline only', 'en'), null);
 });
 

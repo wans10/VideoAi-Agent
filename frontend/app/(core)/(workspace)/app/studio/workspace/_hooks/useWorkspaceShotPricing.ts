@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { runPreflight } from '@/lib/api';
 import { authFetch } from '@/lib/authFetch';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { validateShotConnections } from '../_lib/workspace-capabilities';
 import {
   buildWorkspaceStoryboardImageEstimateRequest,
@@ -77,7 +78,7 @@ type UseWorkspaceShotPricingOptions = {
 };
 
 function simulationPricingEstimate(): WorkspacePricingEstimate {
-  return { status: 'ready', label: 'Simulation', totalCents: 0, currency: 'USD' };
+  return { status: 'ready', label: 'Simulation', totalCents: 0, currency: CUSTOMER_CURRENCY };
 }
 
 function hasUnpersistedPricingInput(request: WorkspacePricingRequest['request']): boolean {

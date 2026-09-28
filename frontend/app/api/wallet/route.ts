@@ -35,8 +35,9 @@ import { withCheckoutSessionPreparationLock } from '@/server/checkout-session-co
 import { getWalletSummary } from '@/server/wallet-summary';
 import { buildCheckoutAttemptAttributionMetadata, buildWalletAttributionMetadata, normalizeWalletAttribution } from '@/server/wallet-attribution';
 import { resolveWalletDirectPricingGate } from '@/lib/wallet-direct-pricing';
-const WALLET_DISPLAY_CURRENCY = 'USD';
-const WALLET_DISPLAY_CURRENCY_LOWER = 'usd';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+const WALLET_DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
+const WALLET_DISPLAY_CURRENCY_LOWER = CUSTOMER_CURRENCY.toLowerCase();
 const STRIPE_TAX_CODE_ELECTRONIC_SERVICES = ENV.STRIPE_TAX_CODE_ELECTRONIC_SERVICES ?? 'txcd_10103001';
 const STRIPE_API_VERSION = '2023-10-16';
 const STRIPE_HOSTED_CHECKOUT_API_VERSION = '2025-02-24.acacia' as Stripe.LatestApiVersion;
@@ -425,7 +426,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const tier = findTopupTier({ usdAmountCents: amountCents });
+    const tier = findTopupTier({ amountCents });
     const captchaToken = typeof body.captchaToken === 'string' ? body.captchaToken : null;
     const checkoutGuard = await evaluateWalletCheckoutGuard({
       userId,

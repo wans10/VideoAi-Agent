@@ -3,8 +3,9 @@ import { reserveWalletChargeInExecutor } from '@/lib/wallet';
 import type { Currency } from '@/lib/currency';
 import { lockInitialJobReservation, runInitialJobTransaction, type WalletReservation } from '@/server/generations/initial-job-reservation';
 import { validateInitialVideoFunding } from './initial-video-job-funding';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
-const DISPLAY_CURRENCY = 'USD';
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
 
 export type PaymentMode = 'wallet' | 'direct' | 'platform' | 'mcp_trial';
 

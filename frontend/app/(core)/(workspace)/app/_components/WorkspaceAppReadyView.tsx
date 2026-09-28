@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { useWorkspaceDraftHydration } from '../_hooks/useWorkspaceDraftHydration';
 import { WorkspaceActiveDraftStatus } from './WorkspaceActiveDraftStatus';
 import { useWorkspaceModelReview } from '../_hooks/useWorkspaceModelReview';
@@ -367,7 +368,7 @@ export function WorkspaceAppReadyView({
         onRefreshJob={handleRefreshJob}
         topUpModal={topUpModal}
         topUpCopy={workspaceCopy.topUp}
-        currency="USD"
+        currency={CUSTOMER_CURRENCY}
         topUpAmount={topUpAmount}
         isTopUpLoading={isTopUpLoading}
         topUpError={topUpError}

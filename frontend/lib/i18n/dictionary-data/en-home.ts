@@ -1,4 +1,5 @@
 import type { Dictionary } from '../dictionary-types';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 
 export const home: Dictionary['home'] = {
     badges: ['PAY-AS-YOU-GO', 'PRICE-BEFORE', 'ALWAYS-CURRENT'],
@@ -125,7 +126,7 @@ export const home: Dictionary['home'] = {
     pricing: {
       badge: 'Pricing',
       title: 'Starter Credits unlock the full workspace.',
-      body: 'Load $10 and run your first renders immediately. Add $10 / $25 / $50 whenever you need more wallet balance.',
+      body: `Load ${TOPUP_TIERS[0].label} and run your first renders immediately. Add ${TOPUP_TIERS.slice(0, 3).map((tier) => tier.label).join(' / ')} whenever you need more wallet balance.`,
       link: 'Go to pricing',
     },
     trust: {

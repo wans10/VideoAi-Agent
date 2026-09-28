@@ -19,7 +19,7 @@ export const zhPayAsYouGoContent = {
     intro: '使用按需付费点数从文本、图像、音频或视频生成 AI 视频。对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等模型，生成前查看实时报价，仅对成功渲染扣除点数。',
     primaryCta: '获取视频报价',
     secondaryCta: '查看模型定价',
-    trustItems: ['无需按月订阅', '起充金额仅需 $10', '生成前显示价格', '失败任务全额退款'],
+    trustItems: ['无需按月订阅', '起充金额仅需 ¥80', '生成前显示价格', '失败任务全额退款'],
     quote: {
       consoleLabel: 'MaxVideoAI 报价控制台',
       title: '生成前获知精准价格',
@@ -305,4 +305,3 @@ export const zhPayAsYouGoContent = {
     },
   },
 } satisfies PayAsYouGoContent;
-

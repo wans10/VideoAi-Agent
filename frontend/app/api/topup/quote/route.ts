@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { USD_TOPUP_TIERS } from '@/config/topupTiers';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 import { convertUsdToCurrencyAmount } from '@/lib/fxQuote';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { normalizeCurrencyCode, resolveCurrency, resolveEnabledCurrencies } from '@/lib/currency';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 
@@ -21,10 +22,10 @@ export async function POST(req: NextRequest) {
         .map((value: unknown) => (typeof value === 'number' ? Math.round(value) : Number.parseInt(String(value), 10)))
         .filter((value: number): value is number => Number.isFinite(value) && value > 0)
     : [];
-  const usdAmounts = rawAmounts.length ? rawAmounts : USD_TOPUP_TIERS.map((tier) => tier.amountCents);
+  const walletAmounts = rawAmounts.length ? rawAmounts : TOPUP_TIERS.map((tier) => tier.amountCents);
 
   const quotes = [] as Array<{
-    usdAmountCents: number;
+    walletAmountCents: number;
     localAmountMinor: number;
     currency: string;
     rate: number;
@@ -34,11 +35,13 @@ export async function POST(req: NextRequest) {
     rateTimestamp: string;
   }>;
 
-  for (const amount of usdAmounts) {
+  for (const amount of walletAmounts) {
     try {
-      const quote = await convertUsdToCurrencyAmount({ usdAmountCents: amount, targetCurrency });
+      const quote = CUSTOMER_CURRENCY === 'CNY' && targetCurrency === 'cny'
+        ? { currency: 'CNY', amountMinor: amount, rate: 1, rateWithMargin: 1, source: 'identity', marginBps: 0, rateTimestamp: new Date().toISOString() }
+        : await convertUsdToCurrencyAmount({ usdAmountCents: amount, targetCurrency });
       quotes.push({
-        usdAmountCents: amount,
+        walletAmountCents: amount,
         localAmountMinor: quote.amountMinor,
         currency: quote.currency,
         rate: quote.rate,

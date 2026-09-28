@@ -1,8 +1,9 @@
 import { query, type QueryExecutor } from '@/lib/db';
 import { normalizeCurrencyCode, type Currency } from '@/lib/currency';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
-const WALLET_CURRENCY = 'USD';
-const WALLET_CURRENCY_LOWER = 'usd';
+const WALLET_CURRENCY = CUSTOMER_CURRENCY;
+const WALLET_CURRENCY_LOWER = CUSTOMER_CURRENCY.toLowerCase();
 
 type WalletLedgerSummaryRow = {
   topups_cents: number | string | null;
@@ -30,10 +31,10 @@ export async function getWalletSummary(
 ): Promise<WalletSummary> {
   const params = [userId, WALLET_CURRENCY, WALLET_CURRENCY_LOWER] as const;
   const sql = `SELECT
-      COALESCE(SUM(CASE WHEN type = 'topup' AND (currency IS NULL OR UPPER(currency) = $2) THEN amount_cents ELSE 0 END), 0)::bigint AS topups_cents,
-      COALESCE(SUM(CASE WHEN type = 'charge' AND (currency IS NULL OR UPPER(currency) = $2) THEN amount_cents ELSE 0 END), 0)::bigint AS charges_cents,
-      COALESCE(SUM(CASE WHEN type = 'refund' AND (currency IS NULL OR UPPER(currency) = $2) THEN amount_cents ELSE 0 END), 0)::bigint AS refunds_cents,
-      COUNT(*) FILTER (WHERE type = 'topup' AND amount_cents > 0)::int AS completed_topups,
+      COALESCE(SUM(CASE WHEN type = 'topup' AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD')) THEN amount_cents ELSE 0 END), 0)::bigint AS topups_cents,
+      COALESCE(SUM(CASE WHEN type = 'charge' AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD')) THEN amount_cents ELSE 0 END), 0)::bigint AS charges_cents,
+      COALESCE(SUM(CASE WHEN type = 'refund' AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD')) THEN amount_cents ELSE 0 END), 0)::bigint AS refunds_cents,
+      COUNT(*) FILTER (WHERE type = 'topup' AND amount_cents > 0 AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD')))::int AS completed_topups,
       COALESCE(STRING_AGG(DISTINCT LOWER(currency), ',') FILTER (WHERE currency IS NOT NULL AND LOWER(currency) <> $3), '') AS mismatched_currencies
      FROM app_receipts
     WHERE user_id = $1`;

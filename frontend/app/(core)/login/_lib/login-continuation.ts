@@ -1,4 +1,6 @@
 import type { AuthCopy, Locale } from './login-copy';
+import { TOPUP_TIERS } from '@/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 export type LoginContinuationKind = 'billing' | 'video' | 'image' | 'audio' | 'library' | 'tool';
 
@@ -18,11 +20,11 @@ function applyAmount(template: string, amount: string): string {
   return template.replace(/\{amount\}/g, amount);
 }
 
-function formatUsdAmount(amountCents: number, locale: Locale): string {
+function formatTopupAmount(amountCents: number, locale: Locale): string {
   const localeTag = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : locale === 'zh' ? 'zh-CN' : 'en-US';
   return new Intl.NumberFormat(localeTag, {
     style: 'currency',
-    currency: 'USD',
+    currency: CUSTOMER_CURRENCY,
     maximumFractionDigits: amountCents % 100 === 0 ? 0 : 2,
   }).format(amountCents / 100);
 }
@@ -40,8 +42,8 @@ export function buildLoginContinuation({ copy, locale, nextPath }: LoginContinua
   if (isRoute(pathname, '/billing')) {
     const amount = Number(target.searchParams.get('amount'));
     const currency = target.searchParams.get('currency')?.toUpperCase();
-    if (Number.isSafeInteger(amount) && amount >= 1000 && currency === 'USD') {
-      const amountLabel = formatUsdAmount(amount, locale);
+    if (Number.isSafeInteger(amount) && amount >= TOPUP_TIERS[0].amountCents && currency === CUSTOMER_CURRENCY) {
+      const amountLabel = formatTopupAmount(amount, locale);
       return {
         kind: 'billing',
         title: applyAmount(copy.billing.title, amountLabel),

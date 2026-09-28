@@ -6,6 +6,8 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { DEFAULT_BILLING_COPY } from '../frontend/app/(core)/billing/_lib/billing-copy';
+import { TOPUP_TIERS } from '../frontend/src/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 
@@ -17,13 +19,14 @@ async function loadBillingPresentation() {
     module.exports = { __esModule: true, default: classes };
   };
   try {
-    const [{ BillingWalletOverview }, { WalletCheckoutSummary }, { ReceiptsPanel }, { WalletTopupPanel }] = await Promise.all([
+    const [{ BillingWalletOverview }, { WalletCheckoutSummary }, { ReceiptsPanel }, { WalletTopupPanel }, { WalletAmountPicker }] = await Promise.all([
       import('../frontend/app/(core)/billing/_components/BillingWalletOverview'),
       import('../frontend/app/(core)/billing/_components/WalletCheckoutSummary'),
       import('../frontend/app/(core)/billing/_components/ReceiptsPanel'),
       import('../frontend/app/(core)/billing/_components/WalletTopupPanel'),
+      import('../frontend/app/(core)/billing/_components/WalletAmountPicker'),
     ]);
-    return { BillingWalletOverview, WalletCheckoutSummary, ReceiptsPanel, WalletTopupPanel };
+    return { BillingWalletOverview, WalletCheckoutSummary, ReceiptsPanel, WalletTopupPanel, WalletAmountPicker };
   } finally {
     if (previousCssLoader) require.extensions['.css'] = previousCssLoader;
     else delete require.extensions['.css'];
@@ -51,6 +54,38 @@ test('wallet overview makes the available balance, refresh action, and billing d
     DEFAULT_BILLING_COPY.receipts.openDocuments,
   );
   assert.match(document.body.textContent ?? '', new RegExp(DEFAULT_BILLING_COPY.hero.testMode));
+});
+
+test('CNY wallet balance and selectable recharge amounts render as renminbi', async () => {
+  if (CUSTOMER_CURRENCY !== 'CNY') return;
+  const { BillingWalletOverview, WalletAmountPicker } = await loadBillingPresentation();
+  const overview = new JSDOM(renderToStaticMarkup(React.createElement(BillingWalletOverview, {
+    copy: DEFAULT_BILLING_COPY,
+    stripeMode: 'live',
+    wallet: { balance: 0, currency: 'CNY' },
+    walletStatus: 'ready',
+    onRefresh() {},
+  }))).window.document;
+  assert.equal(overview.querySelector('[data-wallet-balance]')?.textContent, '¥0.00');
+
+  const picker = new JSDOM(renderToStaticMarkup(React.createElement(WalletAmountPicker, {
+    applyCustomAmount() {},
+    copy: DEFAULT_BILLING_COPY,
+    customAmountCents: null,
+    customAmountError: null,
+    customAmountInput: '',
+    customAmountInputRef: null,
+    customAmountValid: false,
+    customCardActive: false,
+    formatUsdAmount: (amountCents: number) => `¥${amountCents / 100}`,
+    onCustomAmountInputChange() {},
+    onOpenCustomAmountEditor() {},
+    onPresetSelected() {},
+    selectedTopupCents: TOPUP_TIERS[0].amountCents,
+  }))).window.document;
+  const buttons = Array.from(picker.querySelectorAll('button')).map((button) => button.textContent ?? '');
+  for (const tier of TOPUP_TIERS) assert.ok(buttons.some((button) => button.includes(tier.label)), tier.label);
+  assert.ok(!buttons.some((button) => button.includes('$')));
 });
 
 test('checkout summary separates the quoted payment from USD wallet credits', async () => {

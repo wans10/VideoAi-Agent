@@ -6,6 +6,7 @@ import { Composer } from '@/components/Composer';
 import { CoreSettingsBar } from '@/components/CoreSettingsBar';
 import type { HomePriceModel, HomePriceStep } from './home-price-demo-types';
 import type { AppLocale } from '@/i18n/locales';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 const noop = () => {};
 const COPY = {
@@ -23,7 +24,7 @@ export function HomePriceAppSurface({model,step,locale}:{model:HomePriceModel;st
    <div className="price-app-top"><strong>MaxVideoAI</strong><span>{c.video}</span></div>
    <div className="price-app-model"><small>{c.model}</small><strong>{model.engine.label}<span>Alibaba · 3.0</span></strong></div>
    <Composer density="workspace" engine={model.engine} caps={model.engine.modeCaps?.t2v}
-     prompt={c.prompt} onPromptChange={noop} price={step.amountCents / 100} currency="USD"
+     prompt={c.prompt} onPromptChange={noop} price={step.amountCents / 100} currency={CUSTOMER_CURRENCY}
      isLoading={false} promptRequired assetFields={[]} assets={{}} onGenerate={noop} generateLabel={c.generate}
      settingsBar={<CoreSettingsBar density="workspace" engine={model.engine} caps={model.engine.modeCaps?.t2v} mode="t2v"
        durationSec={step.seconds} onDurationChange={noop} resolution={step.resolution} onResolutionChange={noop}

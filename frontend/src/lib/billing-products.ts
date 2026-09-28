@@ -8,6 +8,7 @@ import {
   type PricingSnapshot,
 } from '@maxvideoai/pricing';
 import { getVersionedPricingPolicy } from '@/lib/pricing-policy-defaults';
+import { customerSnapshot, providerUsdSnapshot } from '@/lib/customer-currency';
 import type { BillingProductRecord, BillingProductUnitKind, JobSurface } from '@/types/billing';
 
 const CACHE_TTL_MS = 60_000;
@@ -283,7 +284,7 @@ export function buildCanonicalFixedProductSnapshot(input: {
     meta: input.meta,
   });
   snapshot.margin = { amountCents: quote.marginCents, flatCents: quote.breakdown.marginFlatCents };
-  return snapshot;
+  return customerSnapshot(snapshot);
 }
 
 export function repriceCanonicalFixedProductSnapshot(
@@ -291,7 +292,9 @@ export function repriceCanonicalFixedProductSnapshot(
   dynamicTotalCents: number,
   meta: Record<string, unknown>
 ): PricingSnapshot {
-  const totalCents = Math.max(pricing.totalCents, Math.round(dynamicTotalCents));
+  const sourcePricing = providerUsdSnapshot(pricing);
+  const sourceDynamicTotalCents = pricing.currency === 'CNY' ? dynamicTotalCents / 8 : dynamicTotalCents;
+  const totalCents = Math.max(sourcePricing.totalCents, Math.round(sourceDynamicTotalCents));
   const engineId =
     typeof pricing.meta?.engineId === 'string' && pricing.meta.engineId
       ? pricing.meta.engineId
@@ -300,7 +303,7 @@ export function repriceCanonicalFixedProductSnapshot(
         : 'fixed-product';
   return buildCanonicalFixedProductSnapshot({
     engineId,
-    currency: pricing.currency,
+    currency: sourcePricing.currency,
     amountCents: totalCents,
     quantity: pricing.base.seconds,
     unit: pricing.base.unit ?? 'run',

@@ -80,7 +80,7 @@ test('order creation submits signed form fields and accepts only signed HTTPS ju
   await assert.rejects(() => createLlmhubPayOrder(input, config, async () => Response.json({ code: -3, msg: 'error', sign: 'invalid', sign_type: 'RSA' })), /invalid_response_signature/);
 });
 
-test('signed payment settlement checks merchant, order, type and exact CNY amount before one USD receipt', async () => {
+test('signed payment settlement checks merchant, order, type and exact CNY amount before one wallet receipt', async () => {
   const order = {
     out_trade_no: 'mv123', user_id: 'user-1', wallet_amount_cents: 1000,
     settlement_amount_fen: 7250, payment_type: 'alipay', provider_trade_no: null,
@@ -95,8 +95,9 @@ test('signed payment settlement checks merchant, order, type and exact CNY amoun
       if (sql.includes('INSERT INTO app_receipts')) {
         assert.equal(params?.[0], 'user-1');
         assert.equal(params?.[1], 1000);
-        assert.equal(params?.[3], 7250);
-        assert.equal(params?.[5], 'mv123');
+        assert.equal(params?.[2], process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY === 'CNY' ? 'CNY' : 'USD');
+        assert.equal(params?.[4], 7250);
+        assert.equal(params?.[6], 'mv123');
         return [{ id: '42', created_at: new Date() }] as T[];
       }
       return [];

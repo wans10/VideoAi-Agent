@@ -3,6 +3,7 @@ import { buildSlugMap } from '@/lib/i18nSlugs';
 import { SITE_BASE_URL } from '@/lib/metadataUrls';
 import { getBreadcrumbLabels } from '@/lib/seo/breadcrumbs';
 import { buildMarketingServiceJsonLd } from '@/lib/seo/marketingServiceJsonLd';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 
 export const PRICING_SLUG_MAP = buildSlugMap('pricing');
 
@@ -50,8 +51,8 @@ export function buildPricingServiceJsonLd({ canonical, locale }: { canonical: st
     category: locale === 'fr' ? 'Tarification' : locale === 'es' ? 'Precios' : 'Pricing',
     url: canonical,
     offers: {
-      priceCurrency: 'USD',
-      price: '10.00',
+      priceCurrency: CUSTOMER_CURRENCY,
+      price: (10 * (CUSTOMER_CURRENCY === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1)).toFixed(2),
       availability: 'https://schema.org/InStock',
       url: canonical,
     },

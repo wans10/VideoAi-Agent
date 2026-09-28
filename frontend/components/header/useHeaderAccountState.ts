@@ -10,7 +10,7 @@ import {
 } from '@/lib/last-known';
 import { hasSupabaseAuthCookie } from '@/lib/supabase-session-hint';
 
-type HeaderWalletState = { balance: number } | null;
+type HeaderWalletState = { balance: number; currency?: string } | null;
 
 async function getSupabaseClient() {
   const { supabase } = await import('@/lib/supabaseClient');
@@ -60,8 +60,8 @@ export function useHeaderAccountState() {
           if (walletRes.ok) {
             const nextBalance = typeof walletJson?.balance === 'number' ? walletJson.balance : null;
             if (nextBalance !== null) {
-              setWallet({ balance: nextBalance });
               const nextCurrency = typeof walletJson?.currency === 'string' ? walletJson.currency : undefined;
+              setWallet({ balance: nextBalance, currency: nextCurrency });
               writeLastKnownWallet(
                 { balance: nextBalance, currency: nextCurrency },
                 userId ?? readLastKnownUserId()

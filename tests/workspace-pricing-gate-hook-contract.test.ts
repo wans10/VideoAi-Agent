@@ -69,7 +69,7 @@ test('workspace pricing and auth gate orchestration is owned by route-local modu
   assert.match(hookSource, /useHostedWalletCheckout\(\{/);
   assert.match(hookSource, /getSufficientTopUpAmountCents/);
   assert.match(hookSource, /returnTarget: '\/app'/);
-  assert.match(hookSource, /currency: 'USD'/);
+  assert.match(hookSource, /currency: CUSTOMER_CURRENCY/);
   assert.match(hookSource, /dispatchGaEvent\('topup_started'/);
   assert.match(hookSource, /dispatchGaEvent\('topup_failed'/);
   assert.doesNotMatch(hookSource, /authFetch\('\/api\/wallet',\s*\{/);

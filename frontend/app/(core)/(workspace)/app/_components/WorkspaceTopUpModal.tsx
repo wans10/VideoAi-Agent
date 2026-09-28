@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useAccessibleModal } from '@/components/ui/useAccessibleModal';
 import { CURRENCY_LOCALE } from '@/lib/intl';
+import { TOPUP_TIERS } from '@/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { TopUpModalState } from '../_hooks/useWorkspacePricingGate';
 
 type WorkspaceTopUpCopy = {
@@ -69,9 +71,10 @@ export function WorkspaceTopUpModal({
     onClose,
     closeDisabled: isTopUpLoading,
   });
+  const amountLocale = currency === 'CNY' ? 'zh-CN' : CURRENCY_LOCALE;
   const suggestedTopUpAmountLabel = (() => {
     try {
-      return new Intl.NumberFormat(CURRENCY_LOCALE, { style: 'currency', currency }).format(topUpAmount / 100);
+      return new Intl.NumberFormat(amountLocale, { style: 'currency', currency }).format(topUpAmount / 100);
     } catch {
       return `${currency} ${(topUpAmount / 100).toFixed(2)}`;
     }
@@ -111,10 +114,10 @@ export function WorkspaceTopUpModal({
             <div className="mt-4">
               <p className="text-xs font-semibold uppercase tracking-micro text-text-muted">{copy.title}</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {[1000, 2500, 5000].map((value) => {
+                {TOPUP_TIERS.slice(0, 3).map(({ amountCents: value }) => {
                   const formatted = (() => {
                     try {
-                      return new Intl.NumberFormat(CURRENCY_LOCALE, { style: 'currency', currency }).format(value / 100);
+                      return new Intl.NumberFormat(amountLocale, { style: 'currency', currency }).format(value / 100);
                     } catch {
                       return `${currency} ${(value / 100).toFixed(2)}`;
                     }
@@ -146,20 +149,20 @@ export function WorkspaceTopUpModal({
                 <div className="mt-1 flex items-center gap-2">
                   <div className="relative flex-1">
                     <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-text-secondary">
-                      $
+                      {CUSTOMER_CURRENCY === 'CNY' ? '¥' : '$'}
                     </span>
                     <Input
                       id="custom-topup"
                       type="number"
-                      min={10}
+                      min={TOPUP_TIERS[0].amountCents / 100}
                       step={1}
-                      value={Math.max(10, Math.round(topUpAmount / 100))}
+                      value={Math.max(TOPUP_TIERS[0].amountCents / 100, Math.round(topUpAmount / 100))}
                       onChange={onCustomAmountChange}
                       className="h-10 pl-6 pr-3"
                     />
                   </div>
                   <span className="text-xs text-text-muted">
-                    {copy.minLabel.replace('{amount}', '$10')}
+                    {copy.minLabel.replace('{amount}', TOPUP_TIERS[0].label)}
                   </span>
                 </div>
               </div>
