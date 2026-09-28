@@ -16,7 +16,7 @@ import { SessionWatchdog } from '@/components/auth/SessionWatchdog';
 import { SWRFocusResync } from '@/components/swr/SWRFocusResync';
 import { SWRProvider } from '@/components/swr/SWRProvider';
 import { I18nProvider } from '@/lib/i18n/I18nProvider';
-import { defaultLocale, locales, type AppLocale } from '@/i18n/locales';
+import { defaultExperienceLocale, locales, type AppLocale } from '@/i18n/locales';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { resolveDictionary } from '@/lib/i18n/server';
 import { LocaleSync } from '@/components/i18n/LocaleSync';
@@ -54,7 +54,7 @@ export default async function CoreLayout({ children }: { children: ReactNode }) 
   const locale = [cookieStore.get(LOCALE_COOKIE)?.value, cookieStore.get('NEXT_LOCALE')?.value].find(
     (candidate): candidate is AppLocale =>
       typeof candidate === 'string' && (locales as readonly string[]).includes(candidate)
-  ) ?? defaultLocale;
+  ) ?? defaultExperienceLocale;
   const { dictionary, fallback } = await resolveDictionary({ locale });
 
   const homeUrl = `${NORMALIZED_SITE_URL}/`;

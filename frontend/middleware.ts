@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { isbot as detectBot } from 'isbot';
-import { defaultLocale, localePathnames } from '@/i18n/locales';
+import { defaultExperienceLocale, defaultLocale, localePathnames } from '@/i18n/locales';
 import mcpPublication from '@/config/mcp-publication.json';
 import { FEATURES } from '@/content/feature-flags';
 import { LOGOUT_INTENT_COOKIE } from '@/lib/logout-intent-cookie';
@@ -19,6 +19,7 @@ import {
   handleI18nRouting,
   handleMarketingSlug,
   hasLocalePrefix,
+  getPreferredLocale,
   isDottedLocalizedEnglishModelCompatibilityPath,
   isLoopbackHost,
   mergeResponseCookies,
@@ -165,6 +166,19 @@ export async function middleware(req: NextRequest) {
     isMarketingPath || isDottedModelCompatibilityPath ? handleMarketingSlug(req, pathname) : null;
   if (marketingResponse) {
     return finalizeResponse(marketingResponse, hasLogoutIntentCookie, trackingNoindex, appNoindex);
+  }
+
+  // The English homepage remains a canonical public URL. Human visitors use
+  // their chosen language, or Chinese when they have not chosen one yet.
+  const homepageLocale = getPreferredLocale(req) ?? defaultExperienceLocale;
+  if (pathname === '/' && !isBotRequest && homepageLocale !== defaultLocale &&
+      (req.method === 'GET' || req.method === 'HEAD') &&
+      req.nextUrl.searchParams.get('nolocale') !== '1') {
+    const url = req.nextUrl.clone();
+    url.pathname = `/${localePathnames[homepageLocale]}`;
+    const redirect = NextResponse.redirect(url, 307);
+    redirect.headers.set('Cache-Control', 'private, no-store');
+    return finalizeResponse(redirect, hasLogoutIntentCookie, trackingNoindex, appNoindex);
   }
 
   let response: NextResponse;

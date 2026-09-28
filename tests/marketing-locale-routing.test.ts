@@ -104,7 +104,7 @@ test('public marketing URLs remain authoritative over browser locale detection',
   const routingLocaleSource = readFileSync(routingLocalePath, 'utf8');
 
   assert.match(routingLocaleSource, /localeDetection:\s*false/);
-  assert.doesNotMatch(middlewareSource, /getPreferredLocale\(req\)/);
+  assert.match(middlewareSource, /const homepageLocale = getPreferredLocale\(req\) \?\? defaultExperienceLocale/);
 });
 
 test('private MCP reference-upload handoffs bypass marketing locale routing', () => {
@@ -143,8 +143,8 @@ test('real middleware resolves every dotted public alias in localized English mo
 
   assert.equal(dottedAliases.length, 6);
   assert.ok(
-    middlewareConfig.matcher.includes('/:locale(fr|es)/models/:slug([^/]*\\.[^/]*)'),
-    'the middleware matcher must admit only single-slug dotted FR/ES English model compatibility paths'
+    middlewareConfig.matcher.includes('/:locale(fr|es|zh)/models/:slug([^/]*\\.[^/]*)'),
+    'the middleware matcher must admit only single-slug dotted localized English model compatibility paths'
   );
 
   for (const { alias, canonicalSlug } of dottedAliases) {

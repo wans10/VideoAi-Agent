@@ -18,5 +18,5 @@ test('login locale accepts the first supported cookie value', () => {
   assert.equal(resolveInitialAuthLocale('fr', 'en'), 'fr');
   assert.equal(resolveInitialAuthLocale('de', 'es'), 'es');
   assert.equal(resolveInitialAuthLocale(undefined, 'EN'), 'en');
-  assert.equal(resolveInitialAuthLocale('pt', undefined), 'en');
+  assert.equal(resolveInitialAuthLocale('pt', undefined), 'zh');
 });

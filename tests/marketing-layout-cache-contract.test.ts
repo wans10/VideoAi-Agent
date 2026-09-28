@@ -38,14 +38,26 @@ test('canonical localized marketing pages receive cache headers on the middlewar
   }
 });
 
-test('default homepage receives cache headers on the middleware response', async () => {
+test('new visitors start on the Chinese homepage without caching the language choice', async () => {
   const response = await middleware(new NextRequest('https://maxvideoai.com/'));
+  assert.equal(response.status, 307);
+  assert.equal(response.headers.get('location'), 'https://maxvideoai.com/zh');
+  assert.equal(response.headers.get('cache-control'), 'private, no-store');
+  assert.equal(response.headers.get('vercel-cdn-cache-control'), null);
 
-  assert.equal(response.headers.get('cache-control'), 'public, max-age=0, must-revalidate');
-  assert.equal(
-    response.headers.get('vercel-cdn-cache-control'),
-    'max-age=300, stale-while-revalidate=60'
-  );
+  const frenchResponse = await middleware(new NextRequest('https://maxvideoai.com/', {
+    headers: { cookie: 'mvid_locale=fr' },
+  }));
+  assert.equal(frenchResponse.headers.get('location'), 'https://maxvideoai.com/fr');
+
+  for (const headers of [
+    { cookie: 'mvid_locale=en' },
+    { 'user-agent': 'Googlebot' },
+  ]) {
+    const englishResponse = await middleware(new NextRequest('https://maxvideoai.com/', { headers }));
+    assert.equal(englishResponse.headers.get('location'), null);
+    assert.equal(englishResponse.headers.get('cache-control'), 'public, max-age=0, must-revalidate');
+  }
 });
 
 test('cache-safe English pricing and model pages receive the middleware CDN policy', async () => {

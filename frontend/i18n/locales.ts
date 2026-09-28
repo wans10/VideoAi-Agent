@@ -3,6 +3,9 @@ export const locales = ['en', 'fr', 'es', 'zh'] as const;
 export type AppLocale = (typeof locales)[number];
 
 export const defaultLocale: AppLocale = 'en';
+// English keeps the existing unprefixed public URLs and SEO canonical targets.
+// New visitors start in Chinese; core routes and the homepage use this preference.
+export const defaultExperienceLocale: AppLocale = 'zh';
 
 export function isAppLocale(value: unknown): value is AppLocale {
   return typeof value === 'string' && (locales as readonly string[]).includes(value);

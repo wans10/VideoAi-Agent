@@ -1,4 +1,5 @@
 import { LOCALE_OPTIONS, type AuthMode, type Locale } from './login-copy';
+import { defaultExperienceLocale } from '@/i18n/locales';
 
 export type LoginQueryValue = string | string[] | undefined;
 
@@ -18,5 +19,5 @@ export function resolveInitialAuthLocale(
       return normalized as Locale;
     }
   }
-  return 'en';
+  return defaultExperienceLocale;
 }

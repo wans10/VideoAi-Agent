@@ -11,6 +11,7 @@ test('core routes resolve their dictionary from the workspace locale cookie', ()
   assert.match(coreLayoutSource, /cookieStore\.get\(LOCALE_COOKIE\)\?\.value/);
   assert.match(coreLayoutSource, /cookieStore\.get\('NEXT_LOCALE'\)\?\.value/);
   assert.match(coreLayoutSource, /resolveDictionary\(\{ locale \}\)/);
+  assert.match(coreLayoutSource, /\) \?\? defaultExperienceLocale;/);
 });
 
 test('workspace cookie support stays scoped away from the global marketing request config', () => {

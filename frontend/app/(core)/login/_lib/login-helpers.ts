@@ -1,4 +1,5 @@
 import { safeInternalReturnTarget } from '@/lib/auth-return-target';
+import { defaultExperienceLocale } from '@/i18n/locales';
 import { LOCALE_OPTIONS, type AuthMode, type Locale } from './login-copy';
 
 export const DEFAULT_NEXT_PATH = '/generate';
@@ -30,7 +31,7 @@ export function detectLocale(): Locale {
       return match[1].toLowerCase() as Locale;
     }
   }
-  return 'en';
+  return defaultExperienceLocale;
 }
 
 export function formatTemplate(template: string, replacements: Record<string, string>): string {
