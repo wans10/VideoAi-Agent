@@ -2,7 +2,7 @@ import { ENV } from '@/lib/env';
 import { fetchUsdRatesFrankfurter } from './fxProvider';
 
 const ZERO_DECIMAL_CURRENCIES = new Set(['JPY']);
-const SUPPORTED_TARGETS = new Set(['EUR', 'USD', 'GBP', 'CHF']);
+const SUPPORTED_TARGETS = new Set(['EUR', 'USD', 'GBP', 'CHF', 'CNY']);
 const USD_MINOR_UNIT = 100;
 
 function getMarginBps(): number {
@@ -21,6 +21,9 @@ function getFallbackRate(targetCurrency: string): { rate: number; source: string
   if (Number.isFinite(parsed) && parsed > 0) {
     return { rate: parsed, source: `env:${envKey}` };
   }
+  // A guessed CNY rate would charge a materially wrong amount. Keep this
+  // payment currency unavailable until a real or explicitly configured rate exists.
+  if (targetCurrency === 'CNY') throw new Error('cny_fx_rate_unavailable');
   // Basic defaults as last resort
   switch (targetCurrency) {
     case 'EUR':

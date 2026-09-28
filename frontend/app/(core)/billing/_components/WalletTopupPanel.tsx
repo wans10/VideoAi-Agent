@@ -7,6 +7,7 @@ import { TurnstileChallenge } from './TurnstileChallenge';
 import { WalletAmountPicker } from './WalletAmountPicker';
 import { WalletCheckoutSummary } from './WalletCheckoutSummary';
 import { WalletExpressCheckout } from './WalletExpressCheckout';
+import { LlmhubPayCheckout } from './LlmhubPayCheckout.client';
 import type { BillingCopy } from '../_lib/billing-copy';
 import type { BillingSession } from '../_lib/billing-types';
 import styles from './billing-topup.module.css';
@@ -39,6 +40,9 @@ type WalletTopupPanelProps = {
   isTopupStarting: boolean;
   hostedCheckoutStarting: boolean;
   locale: string;
+  llmhubPayEnabled: boolean;
+  onAuthRequired: () => void;
+  onLlmhubRateLimited: (seconds: number | null) => void;
   normalizedChargeCurrency: string;
   onCustomAmountInputChange: (value: string) => void;
   onOpenCustomAmountEditor: () => void;
@@ -83,6 +87,9 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
     isTopupStarting,
     hostedCheckoutStarting,
     locale,
+    llmhubPayEnabled,
+    onAuthRequired,
+    onLlmhubRateLimited,
     normalizedChargeCurrency,
     onCustomAmountInputChange,
     onOpenCustomAmountEditor,
@@ -199,6 +206,18 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
               />
             ) : null}
           </WalletCheckoutSummary>
+          {llmhubPayEnabled ? (
+            <LlmhubPayCheckout
+              accessToken={session?.access_token ?? null}
+              amountCents={selectedTopupCents}
+              captchaToken={checkoutCaptchaToken}
+              copy={copy}
+              enabled={!currencyLoading && !hostedCheckoutStarting}
+              onAuthRequired={onAuthRequired}
+              onCaptchaRequired={handleCheckoutCaptchaRequired}
+              onRateLimited={onLlmhubRateLimited}
+            />
+          ) : null}
         </section>
 
         {wallet && wallet.balance < 2 ? <p className="mt-3 text-sm text-state-warning">{copy.wallet.lowBalance}</p> : null}

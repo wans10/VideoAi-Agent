@@ -14,21 +14,26 @@ export function BillingCheckoutReturnNotice({
   copy: BillingCopy;
   href: WalletCheckoutReturnTarget | null;
   reconciliationStatus: BillingCheckoutReconciliationStatus;
-  status: 'success' | 'cancelled';
+  status: 'success' | 'cancelled' | 'pending';
 }) {
   const isSuccess = status === 'success';
-  const detail = !isSuccess
-    ? copy.checkoutReturn.cancelledDetail
-    : reconciliationStatus === 'refreshing' || reconciliationStatus === 'idle'
-      ? copy.checkoutReturn.refreshingDetail
-      : reconciliationStatus === 'delayed'
-        ? copy.checkoutReturn.delayedDetail
-        : copy.checkoutReturn.refreshedDetail;
-  const Icon = !isSuccess
-    ? CircleX
-    : reconciliationStatus === 'refreshing' || reconciliationStatus === 'idle'
-      ? LoaderCircle
-      : CheckCircle2;
+  const isPending = status === 'pending';
+  const detail = isPending
+    ? copy.checkoutReturn.pendingDetail
+    : !isSuccess
+      ? copy.checkoutReturn.cancelledDetail
+      : reconciliationStatus === 'refreshing' || reconciliationStatus === 'idle'
+        ? copy.checkoutReturn.refreshingDetail
+        : reconciliationStatus === 'delayed'
+          ? copy.checkoutReturn.delayedDetail
+          : copy.checkoutReturn.refreshedDetail;
+  const Icon = isPending
+    ? LoaderCircle
+    : !isSuccess
+      ? CircleX
+      : reconciliationStatus === 'refreshing' || reconciliationStatus === 'idle'
+        ? LoaderCircle
+        : CheckCircle2;
 
   return (
     <section className={styles.returnNotice} data-status={status} role="status" aria-live="polite">
@@ -38,7 +43,7 @@ export function BillingCheckoutReturnNotice({
         className={reconciliationStatus === 'refreshing' ? styles.spinning : undefined}
       />
       <div>
-        <strong>{isSuccess ? copy.checkoutReturn.successTitle : copy.checkoutReturn.cancelledTitle}</strong>
+        <strong>{isSuccess ? copy.checkoutReturn.successTitle : isPending ? copy.checkoutReturn.pendingTitle : copy.checkoutReturn.cancelledTitle}</strong>
         <p>{detail}</p>
       </div>
       {href ? <ButtonLink href={href} size="sm">{copy.toasts.returnToWorkspace}</ButtonLink> : null}

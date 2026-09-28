@@ -287,6 +287,42 @@
   text-align: center;
 }
 
+.llmhubCheckout {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.llmhubCheckout > p,
+.llmhubAmount {
+  margin-top: 7px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.llmhubButtons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.llmhubButtons button {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.llmhubButtons button:disabled { opacity: 0.5; cursor: not-allowed; }
+.llmhubButtons button:not(:disabled):hover { border-color: var(--text-primary); }
+.llmhubError { color: var(--warning) !important; }
+
 .checkoutTrust {
   display: flex;
   align-items: center;

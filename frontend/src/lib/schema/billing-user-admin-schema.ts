@@ -32,6 +32,28 @@ export async function ensureBillingUserAdminSchema(): Promise<void> {
         ON checkout_attempts (user_id, created_at DESC);
     `);
 
+    await query(`ALTER TABLE checkout_attempts ADD COLUMN IF NOT EXISTS llmhub_pay_out_trade_no TEXT`);
+    await query(`CREATE INDEX IF NOT EXISTS checkout_attempts_llmhub_pay_order_idx
+      ON checkout_attempts (llmhub_pay_out_trade_no) WHERE llmhub_pay_out_trade_no IS NOT NULL`);
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS llmhub_pay_topup_orders (
+        out_trade_no TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        wallet_amount_cents INTEGER NOT NULL CHECK (wallet_amount_cents >= 1000),
+        settlement_amount_fen INTEGER NOT NULL CHECK (settlement_amount_fen > 0),
+        payment_type TEXT NOT NULL CHECK (payment_type IN ('alipay', 'wxpay')),
+        provider_trade_no TEXT UNIQUE,
+        status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'failed')),
+        checkout_attempt_id BIGINT REFERENCES checkout_attempts(id) ON DELETE SET NULL,
+        quote_metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+      )
+    `);
+    await query(`CREATE INDEX IF NOT EXISTS llmhub_pay_topup_orders_user_created_idx
+      ON llmhub_pay_topup_orders (user_id, created_at DESC)`);
+
     await query(`
       CREATE INDEX IF NOT EXISTS checkout_attempts_ip_created_idx
         ON checkout_attempts (ip_hash, created_at DESC);

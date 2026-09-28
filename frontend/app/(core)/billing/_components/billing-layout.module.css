@@ -210,6 +210,12 @@
   background: var(--surface-2);
 }
 
+.returnNotice[data-status='pending'] {
+  border-color: var(--border);
+  color: var(--warning);
+  background: var(--surface-2);
+}
+
 .returnNotice strong {
   display: block;
   color: var(--text-primary);

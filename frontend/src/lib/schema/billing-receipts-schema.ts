@@ -41,6 +41,10 @@ export async function ensureBillingReceiptsSchema(): Promise<void> {
       ADD COLUMN IF NOT EXISTS stripe_document_synced_at TIMESTAMPTZ;
     `);
 
+    await query(`ALTER TABLE app_receipts ADD COLUMN IF NOT EXISTS llmhub_pay_out_trade_no TEXT`);
+    await query(`CREATE UNIQUE INDEX IF NOT EXISTS app_receipts_llmhub_pay_order_unique
+      ON app_receipts (llmhub_pay_out_trade_no) WHERE llmhub_pay_out_trade_no IS NOT NULL`);
+
     await query(`
       CREATE INDEX IF NOT EXISTS app_receipts_user_created_idx ON app_receipts (user_id, created_at DESC);
     `);

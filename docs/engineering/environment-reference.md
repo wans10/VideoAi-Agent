@@ -17,6 +17,10 @@ This reference records the environment variables and operational ownership previ
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Public | Stripe publishable key used by the browser. |
 | `STRIPE_SECRET_KEY` | Server | Stripe secret key for server-side payment operations. |
 | `STRIPE_WEBHOOK_SECRET` | Server, optional | Stripe webhook signing secret. |
+| `LLMHUB_PAY_PID` | Server, optional | LLM Hub Pay V2 merchant ID; with both RSA keys and `NEXT_PUBLIC_SITE_URL`, enables the Billing page's Alipay and WeChat Pay choices. |
+| `LLMHUB_PAY_MERCHANT_PRIVATE_KEY` | Server, optional | Merchant RSA private key used to sign V2 create and query requests. Never expose to the browser. |
+| `LLMHUB_PAY_PLATFORM_PUBLIC_KEY` | Server, optional | Platform RSA public key used to verify create/query responses and payment callbacks. |
+| `FX_RATE_USD_CNY` | Server, optional | Explicit USD/CNY fallback for wallet top-up quotes if the live FX source is unavailable; without either source, CNY checkout fails closed. |
 
 ## Legal, consent, and marketing variables
 

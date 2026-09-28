@@ -41,11 +41,13 @@ const EMPTY_SEARCH_PARAMS = new URLSearchParams();
 type BillingClientProps = {
   initialBillingIntent: BillingIntent | null;
   signedLoginRedirectTarget: string | null;
+  llmhubPayEnabled: boolean;
 };
 
 export function BillingClient({
   initialBillingIntent,
   signedLoginRedirectTarget,
+  llmhubPayEnabled,
 }: BillingClientProps) {
   const { locale, t } = useI18n();
   const rawCopy = t('workspace.billing', DEFAULT_BILLING_COPY);
@@ -70,7 +72,7 @@ export function BillingClient({
   const [expressPaying, setExpressPaying] = useState(false);
   useEffect(() => { setExpressPaying(false); }, [session?.user?.id]);
   const [checkoutReturnTarget, setCheckoutReturnTarget] = useState<WalletCheckoutReturnTarget | null>(null);
-  const [checkoutReturnStatus, setCheckoutReturnStatus] = useState<'success' | 'cancelled' | null>(null);
+  const [checkoutReturnStatus, setCheckoutReturnStatus] = useState<'success' | 'cancelled' | 'pending' | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const billingIntlLocale = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : locale === 'zh' ? 'zh-CN' : CURRENCY_LOCALE;
 
@@ -209,6 +211,7 @@ export function BillingClient({
     onSuccess: reconcileCheckoutReturn,
     onToast: setToast,
     successMessage: copy.toasts.success,
+    pendingMessage: copy.checkoutReturn.pendingTitle,
   });
 
   const handleHostedTopupStarted = useCallback(({ amountCents, currency }: { amountCents: number; currency: string }) => {
@@ -351,6 +354,9 @@ export function BillingClient({
                 isTopupStarting={hostedCheckout.isSubmitting || expressPaying}
                 hostedCheckoutStarting={hostedCheckout.isSubmitting}
                 locale={locale}
+                llmhubPayEnabled={llmhubPayEnabled}
+                onAuthRequired={() => setAuthModalOpen(true)}
+                onLlmhubRateLimited={handleHostedRateLimited}
                 normalizedChargeCurrency={normalizedChargeCurrency}
                 onCustomAmountInputChange={onCustomAmountInputChange}
                 onOpenCustomAmountEditor={openCustomAmountEditor}

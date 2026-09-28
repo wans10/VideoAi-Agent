@@ -1,6 +1,7 @@
 import { BillingClient } from './_components/BillingClient';
 import { DEFAULT_BILLING_INTENT } from './_lib/billing-intent';
 import { resolveMcpTopupBillingIntent } from '@/server/agent-api/topup-handoff';
+import { getLlmhubPayConfig, getLlmhubPaySiteOrigin } from '@/server/llmhub-pay/client';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,5 +19,6 @@ export default async function BillingPage({
   return <BillingClient
     initialBillingIntent={signed?.billingIntent ?? (hasMcpToken ? DEFAULT_BILLING_INTENT : null)}
     signedLoginRedirectTarget={signed?.loginRedirectTarget ?? null}
+    llmhubPayEnabled={Boolean(getLlmhubPayConfig() && process.env.DATABASE_URL && getLlmhubPaySiteOrigin())}
   />;
 }

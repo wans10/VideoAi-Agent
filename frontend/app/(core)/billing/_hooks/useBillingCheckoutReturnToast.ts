@@ -14,10 +14,11 @@ type CheckoutReturnToastOptions = {
   onCancelled: (amountCents: number | null, currency: string) => void;
   onGoogleAdsConversion: (value?: number, currency?: string) => void;
   onReturnTarget: (target: WalletCheckoutReturnTarget | null) => void;
-  onStatus: (status: 'success' | 'cancelled') => void;
+  onStatus: (status: 'success' | 'cancelled' | 'pending') => void;
   onSuccess: () => void;
   onToast: (message: string | null) => void;
   successMessage: string;
+  pendingMessage: string;
 };
 
 export function useBillingCheckoutReturnToast({
@@ -32,6 +33,7 @@ export function useBillingCheckoutReturnToast({
   onSuccess,
   onToast,
   successMessage,
+  pendingMessage,
 }: CheckoutReturnToastOptions) {
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -48,10 +50,10 @@ export function useBillingCheckoutReturnToast({
         : null;
     const parsedCurrency = String(currencyParam ?? 'USD').toUpperCase();
     if (!status) return undefined;
-    const returnStatus = status === 'success' ? 'success' : status === 'cancelled' ? 'cancelled' : null;
+    const returnStatus = status === 'success' ? 'success' : status === 'cancelled' ? 'cancelled' : status === 'pending' ? 'pending' : null;
     if (!returnStatus) return undefined;
-    if (returnStatus === 'success' && (authLoading || !accountId)) return undefined;
-    const message = returnStatus === 'success' ? successMessage : cancelledMessage;
+    if (returnStatus !== 'cancelled' && (authLoading || !accountId)) return undefined;
+    const message = returnStatus === 'success' ? successMessage : returnStatus === 'pending' ? pendingMessage : cancelledMessage;
 
     onStatus(returnStatus);
     onToast(message);
@@ -83,10 +85,14 @@ export function useBillingCheckoutReturnToast({
         });
       }
     }
+    if (returnStatus === 'pending') {
+      onReturnTarget(null);
+      onSuccess();
+    }
     ['status', 'amount', 'amountCents', 'currency', 'settlementCurrency', 'topupTier', 'checkoutSessionId'].forEach(
       (param) => url.searchParams.delete(param)
     );
     window.history.replaceState({}, '', url.toString());
     return () => window.clearTimeout(timeout);
-  }, [accountId, authLoading, cancelledMessage, onAmountReturned, onCancelled, onGoogleAdsConversion, onReturnTarget, onStatus, onSuccess, onToast, successMessage]);
+  }, [accountId, authLoading, cancelledMessage, onAmountReturned, onCancelled, onGoogleAdsConversion, onReturnTarget, onStatus, onSuccess, onToast, pendingMessage, successMessage]);
 }

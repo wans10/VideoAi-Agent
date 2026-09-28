@@ -27,7 +27,8 @@ test('first-top-up reuse preserves fraud cooldown and guard/report counts reflec
   await pg.pool.query(`
     CREATE TABLE checkout_attempts (id bigserial PRIMARY KEY, user_id text, ip_hash text, amount_cents int,
       mode text, outcome text, reason text, metadata jsonb, captcha_required boolean DEFAULT false,
-      captcha_passed boolean DEFAULT false, stripe_checkout_session_id text, created_at timestamptz DEFAULT now());
+      captcha_passed boolean DEFAULT false, stripe_checkout_session_id text, llmhub_pay_out_trade_no text,
+      created_at timestamptz DEFAULT now());
     CREATE TABLE checkout_interaction_events (id bigserial PRIMARY KEY, user_id text, checkout_attempt_id bigint,
       stripe_checkout_session_id text, event_name text, metadata jsonb, created_at timestamptz DEFAULT now());
     CREATE TABLE app_receipts (id bigserial PRIMARY KEY, stripe_checkout_session_id text, type text);
