@@ -4020,7 +4020,7 @@
       "title": "Billing",
       "hero": {
         "title": "Add credits",
-        "subtitle": "Choose an amount, then complete payment in secure Stripe Checkout.",
+        "subtitle": "Choose an amount, then complete payment with your preferred method.",
         "liveMode": "Live Mode",
         "testMode": "Test Mode"
       },
@@ -4038,7 +4038,7 @@
         "stepChoose": "Choose wallet credits",
         "stepChooseHint": "Credits are stored in USD and do not expire while your account remains active.",
         "stepReview": "Review payment",
-        "stepReviewHint": "Pay in EUR or USD. Your bank may charge currency conversion fees.",
+        "stepReviewHint": "Choose a payment currency. Your bank may charge conversion fees.",
         "paymentAmount": "Amount before tax",
         "creditsReceived": "Credits received",
         "quoteCurrent": "Tax may be added. You will see the final total before confirming payment.",
@@ -4117,7 +4117,7 @@
       "receipts": {
         "ledgerLabel": "Billing documents",
         "title": "Receipts & invoices",
-        "subtitle": "Download Stripe documents for wallet top-ups and review charges or refunds.",
+        "subtitle": "Review wallet activity and download available documents for Stripe top-ups.",
         "openDocuments": "Receipts & invoices",
         "empty": "No payment documents or wallet activity yet.",
         "documentsEmpty": "No wallet top-up documents yet.",

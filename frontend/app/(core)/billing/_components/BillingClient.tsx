@@ -121,6 +121,7 @@ export function BillingClient({
   } = useBillingCurrencyState({
     authLoading,
     copy,
+    llmhubPayEnabled,
     session,
   });
   const { wallet, walletStatus, refreshWallet, stripeMode } = useBillingSessionState({

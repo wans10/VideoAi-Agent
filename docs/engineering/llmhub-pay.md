@@ -2,6 +2,8 @@
 
 LLM Hub Pay is an optional Billing-page payment choice alongside Stripe. The merchant charges CNY through Alipay or WeChat Pay; the existing wallet remains denominated in USD. The source protocol is the merchant's V2 documentation at `https://payment.llmhub.com.cn/doc/` (`sign_note`, `paytype`, `pay_create`, `pay_query`, `pay_notify`). Do not use the V1 MD5 endpoints for this integration.
 
+When the gateway is configured, Billing adds CNY to its payment-currency selector. Selecting CNY shows the LLM Hub Pay quote and Alipay/WeChat buttons; EUR/USD continue through Stripe. CNY here is a payment currency only: it is not added to wallet currency preferences or Stripe's enabled-currency policy.
+
 ## Ownership
 
 - `frontend/server/llmhub-pay/client.ts` owns form encoding, SHA256WithRSA signing, platform-signature verification, and signed create/query responses. It requests `method=jump` so the payment provider returns an HTTPS redirect URL.

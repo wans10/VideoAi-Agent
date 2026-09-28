@@ -4104,7 +4104,7 @@
       "title": "账单与充值",
       "hero": {
         "title": "充值积分",
-        "subtitle": "选择充值金额，在安全的 Stripe Checkout 收银台完成支付。",
+        "subtitle": "选择充值金额，再使用您偏好的支付方式完成付款。",
         "liveMode": "正式模式",
         "testMode": "测试模式"
       },
@@ -4132,7 +4132,7 @@
         "stepChoose": "选择充值金额",
         "stepChooseHint": "积分以美元结算，只要您的账户处于活跃状态即永久有效。",
         "stepReview": "核对支付信息",
-        "stepReviewHint": "支持使用欧元或美元付款。您的发卡行可能会收取货币转换费。",
+        "stepReviewHint": "选择支付币种；发卡行可能收取货币转换费。",
         "paymentAmount": "税前金额",
         "creditsReceived": "到账积分",
         "quoteCurrent": "可能会加收相应税费。您将在确认付款前看到最终总额。",
@@ -4204,7 +4204,7 @@
       "receipts": {
         "ledgerLabel": "账单凭据",
         "title": "收据与发票",
-        "subtitle": "下载钱包充值的 Stripe 凭据，查验消费明细与退款记录。",
+        "subtitle": "查看钱包充值与消费记录；Stripe 充值可下载相关凭据。",
         "openDocuments": "收据与发票",
         "empty": "暂无支付单据或钱包变动记录。",
         "documentsEmpty": "暂无充值单据。",

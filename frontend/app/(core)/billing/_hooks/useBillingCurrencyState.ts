@@ -7,10 +7,11 @@ import { DEFAULT_BILLING_COPY, type BillingCopy } from '../_lib/billing-copy';
 type UseBillingCurrencyStateOptions = {
   authLoading: boolean;
   copy: BillingCopy;
+  llmhubPayEnabled?: boolean;
   session: BillingSession;
 };
 
-export function useBillingCurrencyState({ authLoading, copy, session }: UseBillingCurrencyStateOptions) {
+export function useBillingCurrencyState({ authLoading, copy, llmhubPayEnabled = false, session }: UseBillingCurrencyStateOptions) {
   const walletCurrencyDetected = copy.wallet.currencyDetected ?? DEFAULT_BILLING_COPY.wallet.currencyDetected;
   const walletCurrencyOverride = copy.wallet.currencyOverride ?? DEFAULT_BILLING_COPY.wallet.currencyOverride;
   const walletCurrencyLoading = copy.wallet.currencyLoading ?? DEFAULT_BILLING_COPY.wallet.currencyLoading;
@@ -27,6 +28,9 @@ export function useBillingCurrencyState({ authLoading, copy, session }: UseBilli
   const autoCurrencyRef = useRef('USD');
   const normalizedChargeCurrency = (chargeCurrency || 'USD').toUpperCase();
   const normalizedAutoCurrency = (autoCurrency || 'USD').toUpperCase();
+  const paymentCurrencyOptions = llmhubPayEnabled && !currencyOptions.includes('CNY')
+    ? [...currencyOptions, 'CNY']
+    : currencyOptions;
 
   const applyDetectedCurrency = useCallback((currency: string) => {
     const resolvedCurrency = String(currency || 'USD').toUpperCase();
@@ -106,7 +110,7 @@ export function useBillingCurrencyState({ authLoading, copy, session }: UseBilli
     applyDetectedCurrency,
     chargeCurrency,
     currencyLoading,
-    currencyOptions,
+    currencyOptions: paymentCurrencyOptions,
     currencyStatus,
     currencyStatusClass: currencyError ? 'text-state-warning' : 'text-text-secondary',
     handleCurrencyChange,

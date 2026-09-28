@@ -18,7 +18,8 @@ export function useBillingTopupQuotes({
   selectedTopupCents: number;
   quoteErrorMessage: string;
 }) {
-  const accountId = authLoading ? null : session?.user?.id ?? null;
+  // CNY is handled by LLM Hub Pay's own quote and checkout, not Stripe.
+  const accountId = authLoading || normalizedChargeCurrency === 'CNY' ? null : session?.user?.id ?? null;
   const accessTokenRef = useRef(session?.access_token);
   accessTokenRef.current = session?.access_token;
   const amounts = JSON.stringify([...new Set([

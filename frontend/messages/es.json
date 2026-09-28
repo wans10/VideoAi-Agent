@@ -3871,7 +3871,7 @@
       "title": "Facturación",
       "hero": {
         "title": "Añadir créditos",
-        "subtitle": "Elige un importe y finaliza el pago en el Checkout seguro de Stripe.",
+        "subtitle": "Elige un importe y paga con el método que prefieras.",
         "liveMode": "Modo en vivo",
         "testMode": "Modo de prueba"
       },
@@ -3889,7 +3889,7 @@
         "stepChoose": "Elige créditos para la billetera",
         "stepChooseHint": "Los créditos se guardan en USD y no caducan mientras tu cuenta siga activa.",
         "stepReview": "Revisar el pago",
-        "stepReviewHint": "Paga en EUR o USD. Tu banco puede aplicar comisiones de cambio.",
+        "stepReviewHint": "Elige una moneda de pago. Tu banco puede aplicar comisiones de cambio.",
         "paymentAmount": "Importe sin impuestos",
         "creditsReceived": "Créditos recibidos",
         "quoteCurrent": "Pueden añadirse impuestos. Verás el total final antes de confirmar el pago.",
@@ -3968,7 +3968,7 @@
       "receipts": {
         "ledgerLabel": "Documentos de facturación",
         "title": "Recibos y facturas",
-        "subtitle": "Descarga los documentos de Stripe de tus recargas y consulta cargos o reembolsos.",
+        "subtitle": "Consulta la actividad de tu billetera y descarga los documentos disponibles de las recargas con Stripe.",
         "openDocuments": "Recibos y facturas",
         "empty": "Aún no hay documentos de pago ni movimientos de la billetera.",
         "documentsEmpty": "Aún no hay documentos de recargas.",

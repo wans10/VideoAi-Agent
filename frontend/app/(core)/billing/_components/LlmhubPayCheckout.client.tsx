@@ -12,6 +12,7 @@ export function LlmhubPayCheckout({
   amountCents,
   captchaToken,
   copy,
+  creditsLabel,
   enabled,
   onAuthRequired,
   onCaptchaRequired,
@@ -21,6 +22,7 @@ export function LlmhubPayCheckout({
   amountCents: number;
   captchaToken: string | null;
   copy: BillingCopy;
+  creditsLabel: string;
   enabled: boolean;
   onAuthRequired: () => void;
   onCaptchaRequired: () => void;
@@ -91,6 +93,7 @@ export function LlmhubPayCheckout({
       <strong>{copy.wallet.llmhubTitle}</strong>
       <p>{copy.wallet.llmhubDescription}</p>
       <div className={styles.llmhubAmount}>{copy.wallet.llmhubPaymentAmount}: <strong>{amountLabel}</strong></div>
+      <div className={styles.llmhubAmount}>{copy.wallet.creditsReceived}: <strong>{creditsLabel}</strong></div>
       <div className={styles.llmhubButtons}>
         <button type="button" disabled={!enabled || (Boolean(accessToken) && (!quote || loading)) || paying} onClick={() => void start('alipay')}>{copy.wallet.llmhubAlipay}</button>
         <button type="button" disabled={!enabled || (Boolean(accessToken) && (!quote || loading)) || paying} onClick={() => void start('wxpay')}>{copy.wallet.llmhubWxpay}</button>

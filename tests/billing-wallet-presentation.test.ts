@@ -166,6 +166,36 @@ test('currency selector displays the quoted currency while enabled options are s
   assert.match(document.body.textContent ?? '', /€8.60/);
 });
 
+test('CNY payment shows only Alipay and WeChat Pay with USD wallet credits', async () => {
+  const { WalletTopupPanel } = await loadBillingPresentation();
+  const noop = () => {};
+  const markup = renderToStaticMarkup(React.createElement(WalletTopupPanel, {
+    applyCustomAmount: noop, checkoutCaptchaError: null, checkoutCaptchaRequired: true,
+    checkoutCaptchaResetGeneration: 0, checkoutCaptchaToken: null, copy: DEFAULT_BILLING_COPY,
+    currencyLoading: false, currencyOptions: ['EUR', 'USD', 'CNY'], currencyStatus: 'Charging in CNY',
+    currencyStatusClass: '', customAmountCents: null, customAmountError: null, customAmountInput: '',
+    customAmountInputRef: null, customAmountValid: false, customCardActive: false,
+    formatUsdAmount: (cents) => `$${cents / 100}`, handleCheckoutCaptchaError: noop,
+    handleCheckoutCaptchaRequired: noop, handleCheckoutCaptchaToken: noop, handleCurrencyChange: noop,
+    handleExpressTopupFailed: noop, handleExpressTopupStarted: noop, handleTopUp: noop,
+    isTopupStarting: false, hostedCheckoutStarting: false, llmhubPayEnabled: true, locale: 'zh',
+    normalizedChargeCurrency: 'CNY', onCustomAmountInputChange: noop,
+    onOpenCustomAmountEditor: noop, onPresetSelected: noop,
+    onAuthRequired: noop, onLlmhubRateLimited: noop,
+    quoteError: null, quoteLoading: false, selectedTopupAmountLabel: '$10', selectedTopupCents: 1000,
+    selectedTopupPaymentLabel: null, session: null,
+    stripePromise: null, turnstileSiteKey: '', wallet: null,
+  }));
+  const document = new JSDOM(markup).window.document;
+  assert.equal(document.querySelector('select')?.value, 'CNY');
+  assert.match(document.body.textContent ?? '', /Alipay/);
+  assert.match(document.body.textContent ?? '', /WeChat Pay/);
+  assert.match(document.body.textContent ?? '', /Credits received:\s*\$10/);
+  assert.match(document.body.textContent ?? '', /Security check required/);
+  assert.equal(document.querySelector('[aria-label="Stripe"]'), null);
+  assert.equal(document.querySelector('.checkoutButton'), null);
+});
+
 test('receipt document and support links have 44px touch targets', () => {
   const css = readFileSync('frontend/app/(core)/billing/_components/billing-receipts.module.css', 'utf8');
   assert.match(css, /\.receiptDetails a\s*\{[^}]*min-height:\s*44px/);
