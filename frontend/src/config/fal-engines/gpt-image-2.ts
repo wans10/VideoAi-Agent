@@ -213,8 +213,8 @@ const GPT_IMAGE_2_ENGINE: EngineCaps = {
   updatedAt: '2026-04-23T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'fal.ai',
-    modelSlug: 'openai/gpt-image-2',
+    provider: 'llmhub',
+    modelSlug: 'gpt-image-2',
   },
   availability: 'available',
   brandId: 'openai',
@@ -236,7 +236,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: [
       {
         mode: 't2i',
-        falModelId: 'openai/gpt-image-2',
+        falModelId: 'gpt-image-2',
         ui: {
           modes: ['t2i'],
           resolution: [
@@ -259,7 +259,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         mode: 'i2i',
-        falModelId: 'openai/gpt-image-2/edit',
+        falModelId: 'gpt-image-2',
         ui: {
           modes: ['i2i'],
           resolution: [
@@ -284,7 +284,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
         },
       },
     ],
-    defaultFalModelId: 'openai/gpt-image-2',
+    defaultFalModelId: 'gpt-image-2',
     seo: {
       title: 'GPT Image 2 - OpenAI Image Generation & Editing | MaxVideoAI',
       description:

@@ -92,7 +92,7 @@ const NANO_BANANA_ENGINE: EngineCaps = {
   updatedAt: '2025-03-01T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'google_vertex_image',
+    provider: 'llmhub',
     modelSlug: 'gemini-2.5-flash-image',
   },
   availability: 'available',
@@ -115,7 +115,7 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: [
       {
         mode: 't2i',
-        falModelId: 'fal-ai/nano-banana',
+        falModelId: 'gemini-2.5-flash-image',
         ui: {
           modes: ['t2i'],
           aspectRatio: ['9:16', '16:9', '1:1', '4:5', '5:4', '4:3', '3:4', '3:2', '2:3', '21:9'],
@@ -124,7 +124,7 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         mode: 'i2i',
-        falModelId: 'fal-ai/nano-banana/edit',
+        falModelId: 'gemini-2.5-flash-image',
         ui: {
           modes: ['i2i'],
           aspectRatio: ['auto', '9:16', '16:9', '1:1', '4:5', '5:4', '4:3', '3:4', '3:2', '2:3', '21:9'],
@@ -134,7 +134,7 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
         },
       },
     ],
-    defaultFalModelId: 'fal-ai/nano-banana',
+    defaultFalModelId: 'gemini-2.5-flash-image',
     seo: {
       title: 'Nano Banana – Google Text-to-Image on MaxVideoAI',
       description:

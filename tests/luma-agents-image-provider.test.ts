@@ -47,6 +47,7 @@ function baseParams() {
 
 test('Luma image direct routes only for admins before public rollout', () => {
   const env = {
+    LUMA_AGENTS_API_KEY: 'test-key',
     LUMA_AGENTS_ENABLED: 'true',
     LUMA_AGENTS_IMAGE_DIRECT_ENABLED: 'true',
     LUMA_AGENTS_PUBLIC_ROUTING_ENABLED: 'false',
@@ -62,6 +63,7 @@ test('Luma image direct routes public requests only after public routing is enab
     lumaAgentsImageDirectEnabled({
       isAdmin: false,
       env: {
+        LUMA_AGENTS_API_KEY: 'test-key',
         LUMA_AGENTS_ENABLED: 'true',
         LUMA_AGENTS_IMAGE_DIRECT_ENABLED: 'true',
         LUMA_AGENTS_PUBLIC_ROUTING_ENABLED: 'true',

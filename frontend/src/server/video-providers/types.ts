@@ -20,6 +20,7 @@ export type NormalizedVideoProviderTask = {
 
 export type VideoProviderKey =
   | 'fal'
+  | 'llmhub'
   | 'alibaba_model_studio'
   | 'kling_direct'
   | 'byteplus_modelark'

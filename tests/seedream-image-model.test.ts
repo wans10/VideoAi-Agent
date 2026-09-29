@@ -27,8 +27,8 @@ test('Seedream 5.0 Lite is registered as a public ByteDance image model', () => 
   assert.equal(entry.type, 'image');
   assert.equal(entry.category, 'image');
   assert.deepEqual(entry.engine.modes, ['t2i', 'i2i']);
-  assert.equal(entry.engine.providerMeta?.provider, 'byteplus_modelark');
-  assert.equal(entry.engine.providerMeta?.modelSlug, 'seedream-5-0-260128');
+  assert.equal(entry.engine.providerMeta?.provider, 'llmhub');
+  assert.equal(entry.engine.providerMeta?.modelSlug, 'doubao-seedream-5.0-lite');
   assert.ok(entry.engine.resolutions.includes('4K'));
   assert.ok(entry.engine.resolutions.includes('6240x2656'));
   assert.deepEqual(entry.engine.inputSchema?.optional?.find((field) => field.id === 'aspect_ratio')?.values, [

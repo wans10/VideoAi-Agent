@@ -11,13 +11,13 @@ const GOOGLE_IMAGE_MODEL_IDS = {
   'nano-banana-pro': 'gemini-3-pro-image',
 } as const;
 
-test('every Nano Banana entry declares a Vertex image provider', () => {
+test('every Nano Banana entry declares its LLM Hub Gemini model', () => {
   const entries = listFalEngines();
 
   for (const [id, modelSlug] of Object.entries(GOOGLE_IMAGE_MODEL_IDS)) {
     const entry = entries.find((candidate) => candidate.id === id);
     assert.ok(entry, `${id} should be registered`);
-    assert.equal(entry.engine.providerMeta?.provider, 'google_vertex_image');
+    assert.equal(entry.engine.providerMeta?.provider, 'llmhub');
     assert.equal(entry.engine.providerMeta?.modelSlug, modelSlug);
   }
 });

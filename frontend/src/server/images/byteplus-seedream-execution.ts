@@ -25,6 +25,7 @@ import { persistCompletedImageGeneration } from './image-generation-completion';
 import { persistFailedImageGeneration } from './image-generation-failure';
 import { recordRefundReceipt, type PendingReceipt } from './image-generation-receipts';
 import { ImageGenerationExecutionError } from './image-generation-error';
+import { shouldFallbackImageDirectSubmit } from './image-direct-fallback-policy';
 import { copyGeneratedImagesToStorage } from './image-output-storage';
 import { resolveBytePlusSeedreamOutputPricing } from './byteplus-seedream-pricing';
 import { assertBytePlusSeedreamExecutable } from './byteplus-seedream-policy';
@@ -58,6 +59,7 @@ async function signReferenceUrls(urls: string[]): Promise<string[]> {
 }
 
 export async function executeBytePlusSeedreamGeneration(params: {
+  onPreAcceptanceFailure?: () => Promise<ImageGenerationResponse>;
   billingProductKey: BillingProductKey | null;
   characterReferenceCount: number;
   combinedImageUrls: string[];
@@ -231,6 +233,12 @@ export async function executeBytePlusSeedreamGeneration(params: {
       resolution: params.resolution,
     } satisfies ImageGenerationResponse;
   } catch (error) {
+    if (params.onPreAcceptanceFailure && error instanceof BytePlusSeedreamError
+      && shouldFallbackImageDirectSubmit({
+        provider: 'byteplus_modelark', providerJobId, status: error.status, fallbackAvailable: true,
+      })) {
+      return params.onPreAcceptanceFailure();
+    }
     console.error('[images] BytePlus Seedream generation failed', error);
     const { message, providerBody, providerStatus } = await persistFailedImageGeneration({
       characterReferenceCount: params.characterReferenceCount,

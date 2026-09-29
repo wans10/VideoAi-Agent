@@ -291,6 +291,7 @@ export async function executePreparedVideoGeneration(params: ExecutePreparedVide
           localKey,
           inputSchema,
           referenceValuesByField,
+          request: body,
           deps: { logMetricFn: logMetric },
         });
         return submission.ok
@@ -303,6 +304,7 @@ export async function executePreparedVideoGeneration(params: ExecutePreparedVide
       }
       return adapters.submitGenerateProviderTask({
         providerRoutingPlan,
+        request: body,
         providerKey,
         falPayload,
         jobId,

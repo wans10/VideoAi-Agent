@@ -18190,7 +18190,7 @@
       "updatedAt": "2025-03-01T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-2.5-flash-image"
       },
       "availability": "available",
@@ -18199,7 +18199,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "fal-ai/nano-banana",
+        "falModelId": "gemini-2.5-flash-image",
         "ui": {
           "modes": [
             "t2i"
@@ -18221,7 +18221,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "fal-ai/nano-banana/edit",
+        "falModelId": "gemini-2.5-flash-image",
         "ui": {
           "modes": [
             "i2i"
@@ -18470,7 +18470,7 @@
       "updatedAt": "2026-06-30T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-3.1-flash-lite-image"
       },
       "availability": "available",
@@ -18796,7 +18796,7 @@
       "updatedAt": "2025-03-05T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-3-pro-image"
       },
       "availability": "available",
@@ -19135,7 +19135,7 @@
       "updatedAt": "2026-03-17T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-3.1-flash-image"
       },
       "availability": "available",
@@ -19534,8 +19534,8 @@
       "updatedAt": "2026-04-23T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "fal.ai",
-        "modelSlug": "openai/gpt-image-2"
+        "provider": "llmhub",
+        "modelSlug": "gpt-image-2"
       },
       "availability": "available",
       "brandId": "openai"
@@ -19543,7 +19543,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "openai/gpt-image-2",
+        "falModelId": "gpt-image-2",
         "ui": {
           "modes": [
             "t2i"
@@ -19568,7 +19568,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "openai/gpt-image-2/edit",
+        "falModelId": "gpt-image-2",
         "ui": {
           "modes": [
             "i2i"
@@ -19924,13 +19924,13 @@
           "auto": 0.05268
         },
         "currency": "USD",
-        "notes": "fal.ai provider pricing varies by deterministic quality and image_size."
+        "notes": "Provider pricing varies by deterministic quality and image size."
       },
       "updatedAt": "2026-09-15T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "fal.ai",
-        "modelSlug": "openai/gpt-image-2.5/flare"
+        "provider": "llmhub",
+        "modelSlug": "gpt-image-2.5-flare"
       },
       "availability": "available",
       "brandId": "openai"
@@ -19938,7 +19938,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "openai/gpt-image-2.5/flare/text-to-image",
+        "falModelId": "gpt-image-2.5-flare",
         "ui": {
           "modes": [
             "t2i"
@@ -19963,7 +19963,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "openai/gpt-image-2.5/flare/edit",
+        "falModelId": "gpt-image-2.5-flare",
         "ui": {
           "modes": [
             "i2i"
@@ -20319,13 +20319,13 @@
           "auto": 0.05268
         },
         "currency": "USD",
-        "notes": "fal.ai provider pricing varies by deterministic quality and image_size."
+        "notes": "Provider pricing varies by deterministic quality and image size."
       },
       "updatedAt": "2026-09-15T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "fal.ai",
-        "modelSlug": "openai/gpt-image-2.5/sunburst"
+        "provider": "llmhub",
+        "modelSlug": "gpt-image-2.5-sunburst"
       },
       "availability": "available",
       "brandId": "openai"
@@ -20333,7 +20333,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "openai/gpt-image-2.5/sunburst/text-to-image",
+        "falModelId": "gpt-image-2.5-sunburst",
         "ui": {
           "modes": [
             "t2i"
@@ -20358,7 +20358,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "openai/gpt-image-2.5/sunburst/edit",
+        "falModelId": "gpt-image-2.5-sunburst",
         "ui": {
           "modes": [
             "i2i"
@@ -20629,8 +20629,8 @@
       "updatedAt": "2026-05-11T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "byteplus_modelark",
-        "modelSlug": "seedream-5-0-260128"
+        "provider": "llmhub",
+        "modelSlug": "doubao-seedream-5.0-lite"
       },
       "availability": "available",
       "brandId": "bytedance"
@@ -20638,7 +20638,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "byteplus/seedream-5-0-lite",
+        "falModelId": "doubao-seedream-5.0-lite",
         "ui": {
           "modes": [
             "t2i"
@@ -20664,7 +20664,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "byteplus/seedream-5-0-lite",
+        "falModelId": "doubao-seedream-5.0-lite",
         "ui": {
           "modes": [
             "i2i"

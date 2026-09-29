@@ -18,12 +18,12 @@ import { getModelPageTemplateConfig } from '../frontend/app/(localized)/[locale]
 
 const expectedEndpoints = {
   'gpt-image-2-5-flare': {
-    t2i: 'openai/gpt-image-2.5/flare/text-to-image',
-    i2i: 'openai/gpt-image-2.5/flare/edit',
+    t2i: 'gpt-image-2.5-flare',
+    i2i: 'gpt-image-2.5-flare',
   },
   'gpt-image-2-5-sunburst': {
-    t2i: 'openai/gpt-image-2.5/sunburst/text-to-image',
-    i2i: 'openai/gpt-image-2.5/sunburst/edit',
+    t2i: 'gpt-image-2.5-sunburst',
+    i2i: 'gpt-image-2.5-sunburst',
   },
 } as const;
 
@@ -35,7 +35,7 @@ const expectedMarketingImages = {
 } as const;
 
 for (const [engineId, endpoints] of Object.entries(expectedEndpoints)) {
-  test(`${engineId} exposes the two exact fal.ai routes`, () => {
+  test(`${engineId} exposes its exact provider model IDs`, () => {
     const entry = listFalEngines().find((candidate) => candidate.id === engineId);
 
     assert.ok(entry);
@@ -82,7 +82,7 @@ test('GPT Image family detection includes 2.5 without changing legacy GPT Image 
   assert.equal(normalizeGptImageQuality('max', 'gpt-image-2'), 'high');
 });
 
-test('GPT Image 2.5 pricing preserves fal.ai fractional provider cents', () => {
+test('GPT Image 2.5 pricing preserves the existing fractional provider facts pending LLM Hub cost verification', () => {
   const hd = resolveGptImage25PricingTier('1024x768');
   const fourK = resolveGptImage25PricingTier('3840x2160');
 
@@ -165,7 +165,7 @@ test('GPT Image 2.5 rejects invalid custom dimensions before provider execution'
 
 test('fal.ai payload forwards GPT Image 2.5 background control', () => {
   const input = buildFalImageGenerationInput({
-    falModelId: 'openai/gpt-image-2.5/flare/text-to-image',
+    falModelId: 'openai/gpt-image-2.5/sunburst/text-to-image',
     effectivePrompt: 'transparent product cutout',
     numImages: 1,
     mode: 't2i',

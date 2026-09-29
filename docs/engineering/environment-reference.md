@@ -7,6 +7,9 @@ This reference records the environment variables and operational ownership previ
 | Variable | Scope | Purpose |
 | --- | --- | --- |
 | `FAL_KEY` / `FAL_API_KEY` | Server | Fal.ai API key used by server-side provider access. Prefer `FAL_KEY` on Vercel. |
+| `LLMHUB_API_KEY` | Server | LLM Hub model inference key through `api.llmhub.com.cn`; independent of LLM Hub Pay merchant credentials. Required when a matching model uses LLM Hub as its primary route or fallback. Configure it in the server's `.env.production` or secret store. |
+| `LLMHUB_INFERENCE_ROUTING_ENABLED` | Server | Enables LLM Hub for its verified video modes when the configured direct provider is unavailable. A direct provider that safely rejects a submission before accepting a task can also switch to LLM Hub. Other modes retain their current provider. |
+| `LLMHUB_VIDEO_POLL_TOKEN` | Server | Optional local token for `/api/cron/llmhub-video-poll`; use `CRON_SECRET` or an authorized scheduler in production. |
 | `GOOGLE_VERTEX_PROJECT_ID` / `GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON` | Server | Google Vertex AI project and service account for direct Google providers such as Veo and Lyria 3. |
 | `GOOGLE_VERTEX_LYRIA_ENABLED` | Server, optional | Enables Google Vertex Lyria 3 as the primary `generate audio` music provider when credentials are configured. Set `0` to force Fal music providers. |
 | `GOOGLE_VERTEX_LYRIA_LOCATION` | Server, optional | Vertex location for Lyria 3 interactions. Defaults to `global`. |

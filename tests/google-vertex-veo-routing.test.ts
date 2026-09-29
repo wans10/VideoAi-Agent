@@ -20,6 +20,11 @@ import { resolveVideoProviderRoutingPlan } from '../frontend/src/server/video-pr
 import { normalizeProviderRoutedResolution } from '../frontend/app/api/generate/_lib/provider-resolution';
 import { submitGoogleVertexVeoGenerateTask } from '../frontend/app/api/generate/_lib/google-vertex-veo-submission';
 
+const directCredentials = {
+  GOOGLE_VERTEX_PROJECT_ID: 'test-project',
+  GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON: '{"client_email":"test@example.com","private_key":"test-key"}',
+};
+
 test('Google Vertex Veo router selects admin-only direct routing for all public Veo 3.1 slugs', () => {
   const engineIds = ['veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite'];
   assert.ok(engineIds.every(isGoogleVertexVeoEngine));
@@ -30,6 +35,7 @@ test('Google Vertex Veo router selects admin-only direct routing for all public 
       mode: 't2v',
       isAdmin: true,
       env: {
+        ...directCredentials,
         GOOGLE_VERTEX_VEO_ENABLED: 'true',
         GOOGLE_VERTEX_VEO_PUBLIC_ROUTING_ENABLED: 'false',
         GOOGLE_VERTEX_VEO_ADMIN_ONLY: 'true',
@@ -51,6 +57,7 @@ test('Google Vertex Veo router is unavailable for public users while public rout
       mode: 't2v',
       isAdmin: false,
       env: {
+        ...directCredentials,
         GOOGLE_VERTEX_VEO_ENABLED: 'true',
         GOOGLE_VERTEX_VEO_PUBLIC_ROUTING_ENABLED: 'false',
         GOOGLE_VERTEX_VEO_ADMIN_ONLY: 'true',
@@ -62,6 +69,7 @@ test('Google Vertex Veo router is unavailable for public users while public rout
 
 test('Google Vertex Veo router enables public direct Extend only when input staging is configured', () => {
   const baseEnv = {
+    ...directCredentials,
     GOOGLE_VERTEX_VEO_ENABLED: 'true',
     GOOGLE_VERTEX_VEO_PUBLIC_ROUTING_ENABLED: 'false',
     GOOGLE_VERTEX_VEO_ADMIN_ONLY: 'true',

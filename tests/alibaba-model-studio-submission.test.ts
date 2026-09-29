@@ -202,6 +202,35 @@ test('Alibaba submission falls back once for a retryable error before acceptance
   assert.equal(queries.some((entry) => entry.params.includes('fallback_started')), true);
 });
 
+test('Alibaba submission prefers LLM Hub to Fal after a safe rejected submit', async () => {
+  const { queryFn } = createQueryRecorder();
+  let llmhubCalls = 0;
+  let falCalls = 0;
+  const { params } = baseParams({
+    submitLlmhubFallback: async (directAttemptId: number) => {
+      assert.equal(directAttemptId, 1);
+      llmhubCalls += 1;
+      return { ok: true, kind: 'accepted', body: { provider: 'llmhub', jobId: 'job_alibaba_test' } };
+    },
+    deps: {
+      queryFn,
+      getAlibabaModelStudioClientFn: () => ({
+        createVideo: async () => { throw new AlibabaModelStudioError('Rate limited', { status: 429 }); },
+        getTask: async () => acceptedTask(),
+      }),
+      submitFalGenerateTaskFn: async () => {
+        falCalls += 1;
+        return { ok: true, generationResult: { provider: 'fal', thumbUrl: '/thumb.svg' } };
+      },
+    },
+  });
+  const result = await submitAlibabaModelStudioGenerateTask(params);
+  assert.equal(result.ok, true);
+  if (result.ok && result.kind === 'accepted') assert.equal(result.body.provider, 'llmhub');
+  assert.equal(llmhubCalls, 1);
+  assert.equal(falCalls, 0);
+});
+
 test('Alibaba submission never falls back after a provider task ID was accepted', async () => {
   const { queryFn } = createQueryRecorder({ failAppJobUpdateAfterAcceptance: true });
   let falCalls = 0;

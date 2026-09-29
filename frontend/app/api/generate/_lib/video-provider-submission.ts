@@ -1,6 +1,7 @@
 import type { GeneratePayload, GenerateResult } from '@/lib/fal';
 import type { Mode, PricingSnapshot, ProviderClientErrorPolicy } from '@/types/engines';
-import type { VideoProviderRoutingPlan } from '@/server/video-providers/router';
+import { isLlmhubVideoRoutingSelected, type VideoProviderRoutingPlan } from '@/server/video-providers/router';
+import { resolveLlmhubVideoModel } from '@/server/video-providers/llmhub/model-map';
 import { submitFalGenerateTask } from './fal-submission';
 import { submitAlibabaModelStudioGenerateTask } from './alibaba-model-studio-submission';
 import { submitGoogleVertexOmniGenerateTask } from './google-vertex-omni-submission';
@@ -10,6 +11,8 @@ import { submitLumaAgentsGenerateTask } from './luma-agents-submission';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 import { createProviderJobTracker } from './provider-job-tracker';
+import { submitLlmhubGenerateTask } from './llmhub-submission';
+import { llmhubVideoSize } from '@/server/video-providers/llmhub/video-size';
 
 type LogMetricFn = Parameters<typeof submitFalGenerateTask>[0]['logMetricFn'];
 
@@ -30,6 +33,7 @@ export type GenerateProviderSubmissionResult =
 
 export async function submitGenerateProviderTask(params: {
   providerRoutingPlan: VideoProviderRoutingPlan;
+  request?: Record<string, unknown>;
   providerKey: string;
   falPayload: GeneratePayload;
   jobId: string;
@@ -63,6 +67,46 @@ export async function submitGenerateProviderTask(params: {
   logMetricFn: LogMetricFn;
   clientErrorPolicy?: ProviderClientErrorPolicy;
 }): Promise<GenerateProviderSubmissionResult> {
+  const submitLlmhub = (modelId: string, fallbackFromAttemptId?: number) =>
+    submitLlmhubGenerateTask({
+      jobId: params.jobId,
+      userId: params.userId,
+      engineId: params.engineId,
+      engineLabel: params.engineLabel,
+      modelId,
+      mode: params.mode,
+      prompt: params.prompt,
+      durationSec: params.durationSec,
+      size: llmhubVideoSize(params.effectiveResolution, params.aspectRatio, params.engineId),
+      resolution: params.effectiveResolution,
+      aspectRatio: params.aspectRatio,
+      audioEnabled: params.audioEnabled,
+      imageUrl: params.imageUrl,
+      placeholderThumb: params.placeholderThumb,
+      pricing: params.pricing,
+      paymentStatus: params.paymentStatus,
+      pendingReceipt: params.pendingReceipt,
+      walletChargeReserved: params.walletChargeReserved,
+      batchId: params.batchId,
+      groupId: params.groupId,
+      iterationIndex: params.iterationIndex,
+      iterationCount: params.iterationCount,
+      renderIds: params.renderIds,
+      heroRenderId: params.heroRenderId,
+      localKey: params.localKey,
+      fallbackFromAttemptId,
+    });
+  const fallbackModel = params.request
+    && isLlmhubVideoRoutingSelected(params.engineId, params.mode, undefined, params.request)
+    && process.env.LLMHUB_API_KEY?.trim()
+    && (!params.engineId.startsWith('veo-3-1')
+      || (params.durationSec === 8 && params.effectiveResolution === '720p'
+        && params.aspectRatio === '16:9' && params.audioEnabled !== false))
+      ? resolveLlmhubVideoModel(params.engineId, params.mode)
+      : null;
+  if (params.providerRoutingPlan.kind === 'llmhub_primary') {
+    return submitLlmhub(params.providerRoutingPlan.modelId);
+  }
   if (params.providerRoutingPlan.kind === 'alibaba_model_studio_primary') {
     const alibabaSubmission = await submitAlibabaModelStudioGenerateTask({
       jobId: params.jobId,
@@ -84,6 +128,14 @@ export async function submitGenerateProviderTask(params: {
       paymentMode: params.paymentMode,
       walletChargeReserved: params.walletChargeReserved,
       fallbackToFalEnabled: params.providerRoutingPlan.fallbackEnabled,
+      submitLlmhubFallback: fallbackModel ? async (directAttemptId) => {
+        const result = await submitLlmhub(fallbackModel, directAttemptId);
+        return result.kind === 'accepted_response'
+          ? { ok: true, kind: 'accepted' as const, body: result.body }
+          : result.kind === 'error_response'
+            ? { ok: false, status: result.status, body: result.body }
+            : { ok: true, kind: 'fal_result' as const, generationResult: result.generationResult };
+      } : undefined,
       falPayload: params.falPayload,
       falInputSummary: params.falInputSummary,
       isLumaRay2: params.isLumaRay2,
@@ -215,6 +267,14 @@ export async function submitGenerateProviderTask(params: {
       paymentMode: params.paymentMode,
       walletChargeReserved: params.walletChargeReserved,
       fallbackToFalEnabled: false,
+      submitLlmhubFallback: fallbackModel ? async (directAttemptId) => {
+        const result = await submitLlmhub(fallbackModel, directAttemptId ?? undefined);
+        return result.kind === 'accepted_response'
+          ? { ok: true, kind: 'accepted' as const, body: result.body }
+          : result.kind === 'error_response'
+            ? { ok: false, status: result.status, body: result.body }
+            : { ok: true, kind: 'fal_result' as const, generationResult: result.generationResult };
+      } : undefined,
       falPayload: params.falPayload,
       falInputSummary: params.falInputSummary,
       isLumaRay2: params.isLumaRay2,

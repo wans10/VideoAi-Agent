@@ -52,6 +52,7 @@ export type ExecuteLumaAgentsImageGenerationParams = {
   falAspectRatio: string | null;
   providerImageSize: string | GptImage2ImageSize | null;
   resolutionEngineParam: string | null | undefined;
+  requestedResolution?: string;
   normalizedSeed: number | null;
   outputFormat: string | null;
   quality: string | null;
@@ -69,6 +70,7 @@ export type ExecuteLumaAgentsImageGenerationParams = {
   userId: string;
   requestId?: string | null;
   style?: string | null;
+  watermark?: boolean;
   fallbackToFalEnabled?: boolean;
   pollIntervalMs?: number;
   syncTimeoutMs?: number;
@@ -82,7 +84,7 @@ export type ExecuteLumaAgentsImageGenerationParams = {
   onProviderMode?: (providerMode: string) => void;
 };
 
-type ExecuteImageProviderWithOptionalLumaDirectParams = ExecuteLumaAgentsImageGenerationParams & {
+export type ExecuteImageProviderWithOptionalLumaDirectParams = ExecuteLumaAgentsImageGenerationParams & {
   useLumaDirect: boolean;
 };
 
@@ -91,7 +93,8 @@ type LumaAgentsImageRoutingEnv = Partial<
     | 'LUMA_AGENTS_ENABLED'
     | 'LUMA_AGENTS_IMAGE_DIRECT_ENABLED'
     | 'LUMA_AGENTS_PUBLIC_ROUTING_ENABLED'
-    | 'LUMA_AGENTS_ADMIN_ONLY',
+    | 'LUMA_AGENTS_ADMIN_ONLY'
+    | 'LUMA_AGENTS_API_KEY',
     string | undefined
   >
 >;
@@ -121,6 +124,7 @@ function readImageRoutingEnv(env: LumaAgentsImageRoutingEnv | undefined, key: ke
 export function lumaAgentsImageDirectEnabled(params: LumaAgentsImageDirectRoutingParams = {}): boolean {
   if (!flagEnabled(readImageRoutingEnv(params.env, 'LUMA_AGENTS_ENABLED'))) return false;
   if (!flagEnabled(readImageRoutingEnv(params.env, 'LUMA_AGENTS_IMAGE_DIRECT_ENABLED'))) return false;
+  if (!readImageRoutingEnv(params.env, 'LUMA_AGENTS_API_KEY')?.trim()) return false;
 
   const isAdmin = params.isAdmin === true;
   const adminOnly = flagEnabled(readImageRoutingEnv(params.env, 'LUMA_AGENTS_ADMIN_ONLY') ?? 'true');

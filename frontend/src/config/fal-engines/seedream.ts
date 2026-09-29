@@ -121,8 +121,8 @@ const SEEDREAM_ENGINE: EngineCaps = {
   updatedAt: '2026-05-11T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'byteplus_modelark',
-    modelSlug: 'seedream-5-0-260128',
+    provider: 'llmhub',
+    modelSlug: 'doubao-seedream-5.0-lite',
   },
   availability: 'available',
   brandId: 'bytedance',
@@ -274,7 +274,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: [
       {
         mode: 't2i',
-        falModelId: 'byteplus/seedream-5-0-lite',
+        falModelId: 'doubao-seedream-5.0-lite',
         ui: {
           modes: ['t2i'],
           resolution: [...SEEDREAM_BASE_RESOLUTION_VALUES],
@@ -284,7 +284,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         mode: 'i2i',
-        falModelId: 'byteplus/seedream-5-0-lite',
+        falModelId: 'doubao-seedream-5.0-lite',
         ui: {
           modes: ['i2i'],
           resolution: [...SEEDREAM_BASE_RESOLUTION_VALUES],
@@ -295,7 +295,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
         },
       },
     ],
-    defaultFalModelId: 'byteplus/seedream-5-0-lite',
+    defaultFalModelId: 'doubao-seedream-5.0-lite',
     seo: {
       title: 'Seedream 5.0 Lite AI Image Generator for Reference Images | MaxVideoAI',
       description:

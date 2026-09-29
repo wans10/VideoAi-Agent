@@ -140,7 +140,7 @@ const NANO_BANANA_PRO_ENGINE: EngineCaps = {
   updatedAt: '2025-03-05T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'google_vertex_image',
+    provider: 'llmhub',
     modelSlug: 'gemini-3-pro-image',
   },
   availability: 'available',
