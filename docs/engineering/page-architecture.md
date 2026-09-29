@@ -143,9 +143,10 @@ authored projections explicitly.
 
 Enriched comparison editorial content, including slug-specific metadata, is owned by
 `content/comparisons/<canonical-slug>.json`. Each document contains one `slug` plus complete
-`en`, `fr`, and `es` projections. Keep those locale projections structurally aligned and edit
-them together; do not add locale-specific TypeScript maps, an English fallback, a generated
-registry, or direct JSON imports in routes.
+`en`, `fr`, and `es` projections. Indexable Chinese trend comparisons also include a complete
+`zh` projection. Keep authored locale projections structurally aligned and edit them together;
+do not add locale-specific TypeScript maps, an English fallback, a generated registry, or direct
+JSON imports in routes.
 
 Routes and metadata builders consume document-backed content through:
 

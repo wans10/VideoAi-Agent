@@ -10,7 +10,7 @@ import {
   type BlogSlugLocale,
 } from '../frontend/config/blog-slugs.ts';
 
-const locales: BlogSlugLocale[] = ['en', 'fr', 'es'];
+const locales: BlogSlugLocale[] = ['en', 'fr', 'es', 'zh'];
 
 function readFrontMatterValue(source: string, key: string): string | null {
   const match = source.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
@@ -60,6 +60,26 @@ test('blog slug switch map covers every localized blog frontmatter slug', () => 
         slug,
         `${locale}/${file} should be present in BLOG_SLUGS_BY_CANONICAL`
       );
+    }
+  }
+});
+
+test('every published English blog article has authored Chinese content and a local canonical', () => {
+  const chineseDir = path.join(process.cwd(), 'content', 'zh', 'blog');
+  const chineseFiles = readdirSync(chineseDir).filter((file) => file.endsWith('.mdx'));
+  assert.equal(chineseFiles.length, Object.keys(BLOG_SLUGS_BY_CANONICAL).length);
+
+  for (const [canonicalSlug, localizedSlugs] of Object.entries(BLOG_SLUGS_BY_CANONICAL)) {
+    const slug = localizedSlugs.zh;
+    const source = readFileSync(path.join(chineseDir, `${slug}.mdx`), 'utf8');
+    assert.equal(readFrontMatterValue(source, 'lang'), 'zh');
+    assert.equal(readFrontMatterValue(source, 'slug'), slug);
+    assert.equal(readFrontMatterValue(source, 'canonicalSlug'), canonicalSlug);
+    assert.equal(readFrontMatterValue(source, 'canonical'), `https://maxvideoai.com/zh/blog/${slug}`);
+    assert.ok((source.match(/[\u4e00-\u9fff]/g) ?? []).length > 300, `${slug} needs substantive Chinese copy`);
+    assert.doesNotMatch(source, /\]\(\/blog\//, `${slug} should not link to English blog paths`);
+    for (const [, linkedSlug] of source.matchAll(/\]\(\/zh\/blog\/([^#?)]+)[^)]*\)/g)) {
+      assert.ok(chineseFiles.includes(`${linkedSlug}.mdx`), `${slug} links to missing Chinese article ${linkedSlug}`);
     }
   }
 });

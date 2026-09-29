@@ -4,6 +4,7 @@ const COMPARISON_PATH_BY_LOCALE = {
   en: '/ai-video-engines',
   fr: '/fr/comparatif',
   es: '/es/comparativa',
+  zh: '/zh/ai-video-engines',
 };
 const comparisonIndexation = JSON.parse(
   readFileSync(new URL('../frontend/config/comparison-indexation.json', import.meta.url), 'utf8'),
@@ -12,6 +13,7 @@ const COMPARISON_NOINDEX_BY_LOCALE = {
   en: new Set(),
   fr: new Set(comparisonIndexation.noindexByLocale.fr),
   es: new Set(comparisonIndexation.noindexByLocale.es),
+  zh: new Set(comparisonIndexation.noindexByLocale.zh ?? []),
 };
 
 const EXCLUDED_ENGINE_SLUGS = new Set([
@@ -91,4 +93,5 @@ export function addComparisonHubUrls(urls, site) {
   urls.add(toAbsoluteUrl(site, '/ai-video-engines'));
   urls.add(toAbsoluteUrl(site, '/fr/comparatif'));
   urls.add(toAbsoluteUrl(site, '/es/comparativa'));
+  urls.add(toAbsoluteUrl(site, '/zh/ai-video-engines'));
 }

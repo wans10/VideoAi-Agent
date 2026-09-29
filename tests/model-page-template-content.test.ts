@@ -10,6 +10,7 @@ import { buildModelSchemaPayloads } from '../frontend/app/(localized)/[locale]/(
 import { parseModelPromptingContent } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prompting-content.ts';
 import { parseModelExamplesContent } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-examples-content.ts';
 import { buildModelDecisionDataFromContent } from './helpers/model-decision-content.ts';
+import { CNY_BUILD, expectedCustomerPrice, expectedOfferPrice } from './helpers/customer-currency-expectations.ts';
 
 const MIGRATED_TEMPLATE_SLUGS = [
   'seedance-1-5-pro',
@@ -388,10 +389,10 @@ test('Nano Banana 2 uses display pricing and still-image scenario labels', () =>
   assert.deepEqual(
     nano2.pricing.scenarios.map((scenario) => [scenario.label, scenario.value]),
     [
-      ['Entry draft', '$0.06'],
-      ['Standard preview', '$0.11'],
-      ['4K still', '$0.21'],
-      ['Reference edit set', '$0.44'],
+      ['Entry draft', expectedCustomerPrice('$0.06')],
+      ['Standard preview', expectedCustomerPrice('$0.11')],
+      ['4K still', expectedCustomerPrice('$0.21')],
+      ['Reference edit set', expectedCustomerPrice('$0.44')],
     ]
   );
 
@@ -412,9 +413,9 @@ test('GPT Image 2 stays image-first with text, edit, mask, and display-pricing c
   assert.deepEqual(
     gptImage.pricing.scenarios.map((scenario) => [scenario.label, scenario.value, scenario.note]),
     [
-      ['Product still', '$0.20', 'High-resolution still'],
-      ['4K hero still', '$0.54', 'High-resolution still'],
-      ['4 medium variants', '$0.24', 'Check live quote'],
+      ['Product still', expectedCustomerPrice('$0.20'), 'High-resolution still'],
+      ['4K hero still', expectedCustomerPrice('$0.54'), 'High-resolution still'],
+      ['4 medium variants', expectedCustomerPrice('$0.24'), 'Check live quote'],
     ]
   );
   assert.doesNotMatch(
@@ -439,9 +440,9 @@ test('Seedream uses image-prep identity, official guide copy, and batch pricing 
   assert.deepEqual(
     seedream.pricing.scenarios.map((scenario) => [scenario.label, scenario.value, scenario.note]),
     [
-      ['2K image', '$0.06', 'Single generated still'],
-      ['4K image', '$0.06', 'High-resolution still'],
-      ['Reference batch', '$0.24', '4 generated images · $0.06/image'],
+      ['2K image', expectedCustomerPrice('$0.06'), 'Single generated still'],
+      ['4K image', expectedCustomerPrice('$0.06'), 'High-resolution still'],
+      ['Reference batch', expectedCustomerPrice('$0.24'), CNY_BUILD ? '4 generated images' : '4 generated images · $0.06/image'],
     ]
   );
 
@@ -1296,8 +1297,8 @@ test('new Luma model product schemas emit priced offers without synthetic rating
     assert.ok(product, `${slug} should emit Product schema`);
     assert.ok(product.offers, `${slug} Product schema should emit an offer when pricing is available`);
     assert.equal(product.offers?.['@type'], 'Offer');
-    assert.equal(product.offers?.priceCurrency, 'USD');
-    assert.equal(product.offers?.price, expectedPrice);
+    assert.equal(product.offers?.priceCurrency, CNY_BUILD ? 'CNY' : 'USD');
+    assert.equal(product.offers?.price, expectedOfferPrice(expectedPrice));
     assert.ok(product.offers?.shippingDetails, `${slug} Product offer should include digital shipping details`);
     const returnPolicy = product.offers?.hasMerchantReturnPolicy as Record<string, unknown> | undefined;
     assert.ok(returnPolicy, `${slug} Product offer should include a return policy`);
@@ -1349,7 +1350,7 @@ test('indexed legacy model schemas reuse their authored prices without republish
       | undefined;
 
     assert.ok(product, `${slug} should emit Product schema from its authored price`);
-    assert.equal(product.offers?.price, expectedPrice);
-    assert.equal(product.offers?.priceCurrency, 'USD');
+    assert.equal(product.offers?.price, expectedOfferPrice(expectedPrice));
+    assert.equal(product.offers?.priceCurrency, CNY_BUILD ? 'CNY' : 'USD');
   }
 });

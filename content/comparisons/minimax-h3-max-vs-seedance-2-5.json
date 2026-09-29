@@ -47,5 +47,21 @@
       { "href": "/es/modelos/minimax-h3-max", "label": "MiniMax H3 Max" },
       { "href": "/es/modelos/seedance-2-5", "label": "Seedance 2.5" }
     ]
+  },
+  "zh": {
+    "meta": {
+      "title": "MiniMax H3 Max 对比 Seedance 2.5：评分与适用场景",
+      "description": "比较 MiniMax H3 Max 与 Seedance 2.5 的评分、生成速度、画质、音频、参考素材和实际使用成本。",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "选型结论",
+      "body": "注重整体画质、运动表现和多镜头连贯性，可优先测试 Seedance 2.5；更看重生成速度与成本，可测试 MiniMax H3 Max。请用相同任务核对画面结果，并以实时人民币报价比较费用。"
+    },
+    "primaryLinksTitle": "了解这两个模型",
+    "primaryLinks": [
+      { "href": "/zh/models/minimax-h3-max", "label": "MiniMax H3 Max" },
+      { "href": "/zh/models/seedance-2-5", "label": "Seedance 2.5" }
+    ]
   }
 }

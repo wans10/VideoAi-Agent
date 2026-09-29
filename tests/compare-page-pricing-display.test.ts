@@ -7,6 +7,7 @@ import {
   computePricingScore,
   resolvePricingDisplay,
 } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-pricing.ts';
+import { CNY_BUILD } from './helpers/customer-currency-expectations.ts';
 
 test('Seedance 2.0 comparison pricing exposes 1080p but scores the comparable 720p tier', async () => {
   const standard = CATALOG_BY_SLUG.get('seedance-2-0');
@@ -26,15 +27,15 @@ test('Seedance 2.0 comparison pricing exposes 1080p but scores the comparable 72
     PRICING_ENGINES.get('seedance-2-0-fast')
   );
 
-  assert.equal(standardPricing.headline, '720p: $0.38/s');
-  assert.deepEqual(standardPricing.secondaryLines, ['1080p: $0.94/s', '4K: $1.94/s']);
-  assert.equal(standardPricing.scoreLine, '720p: $0.38/s');
+  assert.equal(standardPricing.headline, CNY_BUILD ? '720p: ¥3.02/s' : '720p: $0.38/s');
+  assert.deepEqual(standardPricing.secondaryLines, CNY_BUILD ? ['1080p: ¥7.49/s', '4K: ¥15.55/s'] : ['1080p: $0.94/s', '4K: $1.94/s']);
+  assert.equal(standardPricing.scoreLine, standardPricing.headline);
   assert.deepEqual(standardPricing.scorePrices, [0.38]);
   assert.equal(computePricingScore(standardPricing.scorePrices ?? standardPricing.prices), 6.4);
 
-  assert.equal(fastPricing.headline, '480p: $0.14/s');
-  assert.deepEqual(fastPricing.secondaryLines, ['720p: $0.30/s']);
-  assert.equal(fastPricing.scoreLine, '720p: $0.30/s');
+  assert.equal(fastPricing.headline, CNY_BUILD ? '480p: ¥1.09/s' : '480p: $0.14/s');
+  assert.deepEqual(fastPricing.secondaryLines, CNY_BUILD ? ['720p: ¥2.43/s'] : ['720p: $0.30/s']);
+  assert.equal(fastPricing.scoreLine, CNY_BUILD ? '720p: ¥2.43/s' : '720p: $0.30/s');
   assert.deepEqual(fastPricing.scorePrices, [0.3]);
   assert.equal(computePricingScore(fastPricing.scorePrices ?? fastPricing.prices), 7.2);
 });

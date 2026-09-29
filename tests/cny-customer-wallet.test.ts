@@ -7,7 +7,7 @@ import { TOPUP_TIERS } from '../frontend/src/config/topupTiers';
 import { quoteLlmhubPayTopup } from '../frontend/server/llmhub-pay/quote';
 import { quotePublicPricing, projectPublicPricingSnapshot } from '../frontend/src/lib/pricing-public-quote';
 import { buildCanonicalFixedProductSnapshot } from '../frontend/src/lib/billing-products';
-import { buildPricingHubData } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData';
+import { buildPricingHubData, getImagePresetQuote, getPresetQuote } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData';
 import { reserveWalletChargeInExecutor } from '../frontend/src/lib/wallet';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { computeCanonicalAudioBillingSnapshot, computeCanonicalBillingSnapshot } from '../frontend/server/pricing/quote-billing';
@@ -78,6 +78,20 @@ test('the Chinese pricing page highlights display renminbi quotes', () => {
     assert.match(item.featured!.price, /¥/);
     assert.doesNotMatch(item.featured!.price, /\$/);
   }
+
+  const engines = new Map(listFalEngines().map((entry) => [entry.id, entry]));
+  const seedance = engines.get('seedance-2-0');
+  const gptImage = engines.get('gpt-image-2');
+  assert.ok(seedance);
+  assert.ok(gptImage);
+  const video = getPresetQuote(seedance, {
+    id: '5s-480p', label: '5s 480p', subLabel: 'Draft', resolution: '480p', durationSec: 5, audio: false,
+  }, 'zh');
+  const image = getImagePresetQuote(gptImage, { id: 'product-still', resolution: '1024x768', quality: 'medium' }, 'zh');
+  assert.equal(video.amountCents, 680);
+  assert.equal(video.display, '¥6.80');
+  assert.equal(image.amountCents, 48);
+  assert.equal(image.display, '¥0.48');
 });
 
 test('CNY wallet rejects a stale USD charge before touching the ledger', async () => {

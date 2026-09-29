@@ -1,5 +1,6 @@
 import type { AppLocale } from '@/i18n/locales';
 import type { FalEngineEntry } from '@/config/falEngines';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 import { getImagePresetQuote, getPresetQuote, type VideoPriceScenario } from '../../../pricing/_lib/pricingHubData';
 import type {
@@ -345,7 +346,17 @@ function getMaxDurationSeconds(entry: FalEngineEntry) {
   return entry.engine.pricingDetails?.maxDurationSec ?? entry.engine.maxDurationSec;
 }
 
+const CNY_MONETARY_COPY: Record<AppLocale, Record<'audioExtraValue' | 'fourGeneratedImages', string>> = {
+  en: { audioExtraValue: '¥0 extra', fourGeneratedImages: '4 generated images' },
+  fr: { audioExtraValue: '0 ¥ en plus', fourGeneratedImages: '4 images générées' },
+  es: { audioExtraValue: '0 ¥ extra', fourGeneratedImages: '4 imágenes generadas' },
+  zh: { audioExtraValue: '音频无额外费用', fourGeneratedImages: '4 张生成图像' },
+};
+
 function getPricingLabel(locale: AppLocale, key: string) {
+  if (CUSTOMER_CURRENCY === 'CNY' && (key === 'audioExtraValue' || key === 'fourGeneratedImages')) {
+    return CNY_MONETARY_COPY[locale][key];
+  }
   const copy = SCENARIO_COPY[locale] ?? SCENARIO_COPY.en;
   return copy[key] ?? SCENARIO_COPY.en[key] ?? key;
 }

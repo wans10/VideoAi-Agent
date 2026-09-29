@@ -20,6 +20,7 @@ import { getImagePresetQuote, getPresetQuote } from '../frontend/app/(localized)
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
 import { buildSeoMetadata } from '../frontend/lib/seo/metadata.ts';
 import { buildModelDecisionDataFromContent } from './helpers/model-decision-content.ts';
+import { CNY_BUILD, expectedCustomerPrice } from './helpers/customer-currency-expectations.ts';
 
 function getEngine(engineId: string) {
   const entry = listFalEngines().find((candidate) => candidate.id === engineId || candidate.modelSlug === engineId);
@@ -318,8 +319,10 @@ test('LTX 2.3 Fast SEO metadata can omit the site-name suffix', async () => {
       id: 'pricePerSecond',
       key: 'pricePerSecond',
       label: 'Price per second',
-      value: '1080p: $0.05 per second',
-      valueLines: ['1080p: $0.05 per second', '1440p: $0.11 per second', '4k: $0.21 per second'],
+      value: CNY_BUILD ? '1080p: CN¥0.43 per second' : '1080p: $0.05 per second',
+      valueLines: CNY_BUILD
+        ? ['1080p: CN¥0.43 per second', '1440p: CN¥0.84 per second', '4k: CN¥1.67 per second']
+        : ['1080p: $0.05 per second', '1440p: $0.11 per second', '4k: $0.21 per second'],
     },
   ]);
   assert.match(modelPageSource, /ltx-2-3-fast/);
@@ -484,8 +487,10 @@ test('Pika price rows keep per-second context visible for Google snippets', asyn
       id: 'pricePerSecond',
       key: 'pricePerSecond',
       label: 'Pika 2.2 price per second',
-      value: '720p: $0.05 per second',
-      valueLines: ['720p: $0.05 per second', '1080p: $0.12 per second'],
+      value: CNY_BUILD ? '720p: CN¥0.42 per second' : '720p: $0.05 per second',
+      valueLines: CNY_BUILD
+        ? ['720p: CN¥0.42 per second', '1080p: CN¥0.94 per second']
+        : ['720p: $0.05 per second', '1080p: $0.12 per second'],
     },
   ]);
 });
@@ -799,7 +804,11 @@ test('Seedance 2.0 decision pricing scenarios reuse pricing page quotes', () => 
   );
   assert.deepEqual(
     scenarios.map((scenario) => scenario.value),
-    ['$0.85', '$3.03', '$9.36', '$9.73', '$0 extra', '15s']
+    [
+      ...['$0.85', '$3.03', '$9.36', '$9.73'].map(expectedCustomerPrice),
+      CNY_BUILD ? '¥0 extra' : '$0 extra',
+      '15s',
+    ]
   );
   assert.deepEqual(
     scenarios.map((scenario) => scenario.label),
@@ -877,7 +886,7 @@ test('migrated model pricing scenarios return configured IDs and helper values',
     );
     assert.deepEqual(
       scenarios.map((scenario) => scenario.value),
-      expectedValues
+      expectedValues.map((value) => value.startsWith('$') ? expectedCustomerPrice(value) : value)
     );
     assert.equal(scenarios.every((scenario) => scenario.value.trim().length > 0 && scenario.value !== '—'), true);
     assert.equal(scenarios.every((scenario) => scenario.label.trim().length > 0), true);

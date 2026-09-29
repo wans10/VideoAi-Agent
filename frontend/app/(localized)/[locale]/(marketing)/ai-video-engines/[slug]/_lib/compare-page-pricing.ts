@@ -1,6 +1,7 @@
 import type { AppLocale } from '@/i18n/locales';
 import { computeMarketingPricePoints, type MarketingPricePoint } from '@/lib/pricing-marketing';
 import { applyDisplayedPriceMarginCents } from '@/lib/pricing-display';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 import type { EngineCaps } from '@/types/engines';
 import type { ComparePricingDisplay, EngineCatalogEntry } from './compare-page-types';
 
@@ -24,7 +25,8 @@ export function resolveAudioOffPrice(entry: EngineCatalogEntry, locale?: string)
   const audioOffDelta = entry.engine?.pricingDetails?.addons?.audio_off?.perSecondCents;
   if (typeof audioOffDelta !== 'number') return null;
   const total = applyDisplayedPriceMarginCents(perSecond.default + audioOffDelta);
-  return locale?.startsWith('zh') ? `关闭音频: $${(total / 100).toFixed(2)}/秒` : `Audio off: $${(total / 100).toFixed(2)}/s`;
+  const display = formatPriceLine(null, customerDisplayCents(total), CUSTOMER_CURRENCY);
+  return locale?.startsWith('zh') ? `关闭音频: ${display.replace('/s', '/秒')}` : `Audio off: ${display}`;
 }
 
 const PRICING_SCORE_MIN = 0.03;
@@ -57,13 +59,19 @@ export function formatPriceLabel(label: string) {
   return label;
 }
 
-export function formatPriceLine(label: string | null, cents: number) {
-  const value = `$${(cents / 100).toFixed(2)}/s`;
+export function formatPriceLine(label: string | null, cents: number, currency = 'USD') {
+  const symbol = currency === 'CNY' ? '¥' : '$';
+  const value = `${symbol}${(cents / 100).toFixed(2)}/s`;
   return label ? `${formatPriceLabel(label)}: ${value}` : value;
 }
 
-function toPriceValue(cents: number) {
-  return Math.round(cents) / 100;
+function customerDisplayCents(usdCents: number) {
+  return CUSTOMER_CURRENCY === 'CNY' ? usdCents * USD_TO_CNY_CUSTOMER_RATE : usdCents;
+}
+
+function toScorePriceValue(point: MarketingPricePoint) {
+  const usdCents = point.currency === 'CNY' ? point.cents / USD_TO_CNY_CUSTOMER_RATE : point.cents;
+  return Math.round(usdCents) / 100;
 }
 
 function sortPricePoints(points: MarketingPricePoint[]) {
@@ -87,16 +95,16 @@ function pickComparablePricePoint(points: MarketingPricePoint[]) {
 function buildPricingDisplayFromPoints(points: MarketingPricePoint[]): ComparePricingDisplay | null {
   if (!points.length) return null;
   const sorted = sortPricePoints(points);
-  const lines = sorted.map((point) => formatPriceLine(point.resolution, point.cents));
+  const lines = sorted.map((point) => formatPriceLine(point.resolution, point.cents, point.currency));
   const comparablePoint = pickComparablePricePoint(points);
 
   return {
     headline: lines[0],
     subline: lines[1] ?? null,
     secondaryLines: lines.slice(1),
-    prices: sorted.map((point) => toPriceValue(point.cents)),
-    scoreLine: comparablePoint ? formatPriceLine(comparablePoint.resolution, comparablePoint.cents) : undefined,
-    scorePrices: comparablePoint ? [toPriceValue(comparablePoint.cents)] : undefined,
+    prices: sorted.map(toScorePriceValue),
+    scoreLine: comparablePoint ? formatPriceLine(comparablePoint.resolution, comparablePoint.cents, comparablePoint.currency) : undefined,
+    scorePrices: comparablePoint ? [toScorePriceValue(comparablePoint)] : undefined,
   };
 }
 
@@ -184,13 +192,13 @@ export async function resolvePricingDisplay(
     });
     const minEntry = sorted[0];
     const maxEntry = sorted[sorted.length - 1];
-    const headline = formatPriceLine(minEntry.label, minEntry.cents);
-    const subline = formatPriceLine(maxEntry.label, maxEntry.cents);
+    const headline = formatPriceLine(minEntry.label, customerDisplayCents(minEntry.cents), CUSTOMER_CURRENCY);
+    const subline = formatPriceLine(maxEntry.label, customerDisplayCents(maxEntry.cents), CUSTOMER_CURRENCY);
     return {
       headline,
       subline,
       prices: [minEntry.cents / 100, maxEntry.cents / 100],
-      scoreLine: formatPriceLine(minEntry.label, minEntry.cents),
+      scoreLine: headline,
       scorePrices: [minEntry.cents / 100],
     };
   }
@@ -208,10 +216,10 @@ export async function resolvePricingDisplay(
       prices.push(audioOffCents / 100);
     }
     return {
-      headline: formatPriceLine(null, baseCents),
+      headline: formatPriceLine(null, customerDisplayCents(baseCents), CUSTOMER_CURRENCY),
       subline: audioOff,
       prices,
-      scoreLine: formatPriceLine(null, baseCents),
+      scoreLine: formatPriceLine(null, customerDisplayCents(baseCents), CUSTOMER_CURRENCY),
       scorePrices: [baseCents / 100],
     };
   }

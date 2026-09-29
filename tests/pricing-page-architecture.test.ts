@@ -143,7 +143,8 @@ test('hero is compact and uses the requested CTA copy', () => {
   assert.match(heroSource, /Compare prices below/);
   assert.match(heroSource, /No subscription/);
   assert.match(heroSource, /Guest preview/);
-  assert.match(heroSource, /Starter credits from \$10/);
+  assert.match(heroSource, /Starter credits from/);
+  assert.match(heroSource, /CUSTOMER_CURRENCY === 'CNY' \? '¥80' : '\$10'/);
   assert.match(heroSource, /min-h-\[260px\]|min-h-\[300px\]|min-h-\[320px\]|min-h-\[340px\]/);
   assert.doesNotMatch(heroSource, /min-h-\[520px\]/);
   assert.doesNotMatch(heroSource, /MarketingHeroImage/);

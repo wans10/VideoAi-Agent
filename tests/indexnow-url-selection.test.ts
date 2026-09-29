@@ -54,6 +54,8 @@ test('localized comparison URLs omit selected locales while hub URLs remain unch
     'https://maxvideoai.com/es/comparativa',
     'https://maxvideoai.com/es/comparativa/ltx-2-vs-veo-3-1-lite',
     'https://maxvideoai.com/fr/comparatif',
+    'https://maxvideoai.com/zh/ai-video-engines',
+    'https://maxvideoai.com/zh/ai-video-engines/ltx-2-vs-veo-3-1-lite',
   ]);
   assert.ok(!urls.has('https://maxvideoai.com/fr/comparatif/ltx-2-vs-veo-3-1-lite'));
   assert.ok(!urls.has('https://maxvideoai.com/fr/ai-video-engines'));
@@ -111,7 +113,8 @@ test('IndexNow dry run excludes private, parameterized, redirecting, and noindex
       pathname.includes('-vs-') &&
       (pathname.startsWith('/ai-video-engines/') ||
         pathname.startsWith('/fr/comparatif/') ||
-        pathname.startsWith('/es/comparativa/')),
+        pathname.startsWith('/es/comparativa/') ||
+        pathname.startsWith('/zh/ai-video-engines/')),
   );
 
   const expectedComparisonUrlCount = getHubComparisonSlugsForSitemap().reduce(

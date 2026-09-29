@@ -91,6 +91,7 @@ function collectUrlsFromChangedFiles(changedFiles) {
     toAbsoluteUrl('/sitemap-en.xml'),
     toAbsoluteUrl('/sitemap-fr.xml'),
     toAbsoluteUrl('/sitemap-es.xml'),
+    toAbsoluteUrl('/sitemap-zh.xml'),
     toAbsoluteUrl('/sitemap-models.xml'),
   ]);
 
@@ -145,7 +146,8 @@ function collectUrlsFromChangedFiles(changedFiles) {
     if (
       filePath === 'frontend/config/engine-catalog.json' ||
       filePath === 'frontend/config/compare-config.json' ||
-      filePath === 'frontend/config/compare-hub.json'
+      filePath === 'frontend/config/compare-hub.json' ||
+      filePath === 'frontend/config/comparison-indexation.json'
     ) {
       comparisonPublicationTouched = true;
     }

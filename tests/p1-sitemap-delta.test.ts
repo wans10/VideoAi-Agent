@@ -12,16 +12,19 @@ const comparisonPaths = getHubComparisonSlugsForSitemap().map(
 const modelPaths = modelRoster.map(({ modelSlug }) => `/models/${modelSlug}`);
 const dynamicPaths = new Set([...modelPaths, ...comparisonPaths]);
 
-test('P1 plus GPT Image 2.5 add eleven English routes while the safe GSC cleanup prunes 82 weak localized locs', () => {
+test('P1 EN/FR/ES route delta stays stable while Chinese comparison URLs follow the publication policy', () => {
   assert.equal(modelPaths.length - fixture.publishedModelCount, 5);
   assert.equal(comparisonPaths.length - fixture.publishedComparisonCount, 6);
   assert.equal(dynamicPaths.size - fixture.dynamicEnglishCanonicalCount, 11);
 
-  const localizedLocCount = modelRoster.length * 3 + getHubComparisonSlugsForSitemap().reduce(
-    (total, slug) => total + getIndexableComparisonLocales(slug).length,
+  const legacyLocalizedLocCount = modelRoster.length * 3 + getHubComparisonSlugsForSitemap().reduce(
+    (total, slug) => total + getIndexableComparisonLocales(slug).filter((locale) => locale !== 'zh').length,
     0,
   );
-  assert.equal(localizedLocCount - fixture.localizedLocCount, 29 - 82);
+  assert.equal(legacyLocalizedLocCount - fixture.localizedLocCount, 29 - 82);
+  for (const slug of ['seedance-2-5-vs-wan-3', 'minimax-h3-max-vs-seedance-2-5']) {
+    assert.ok(getIndexableComparisonLocales(slug).includes('zh'), `${slug} must have a Chinese sitemap URL`);
+  }
   for (const path of fixture.expectedNewEnglishPaths) assert.equal(dynamicPaths.has(path), true, path);
   for (const path of [
     '/ai-video-engines/seedance-2-5-vs-wan-3',
