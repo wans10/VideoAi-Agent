@@ -10,6 +10,7 @@ import type { LoginContinuation } from '../_lib/login-continuation';
 import { formatTemplate } from '../_lib/login-helpers';
 import type { AuthFieldErrors, AuthFieldName } from '../_lib/login-validation';
 import { LoginPasswordField } from './LoginPasswordField';
+import { AuthBrandStory } from '@/components/brand/AuthBrandStory';
 
 type SignupSuggestion = { email: string; password: string };
 
@@ -136,14 +137,16 @@ export function LoginAuthSurface({
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-bg p-4 sm:p-6">
+    <main className="videoai-auth">
+      <AuthBrandStory />
+      <div className="videoai-auth-form">
       <div className="mb-3 w-full max-w-md sm:mb-6">
         <Button type="button" onClick={onBack} variant="ghost" size="sm" className="gap-2">
           <span aria-hidden>←</span>
           <span>{authCopy.back}</span>
         </Button>
       </div>
-      <div className="w-full max-w-md space-y-4 rounded-card border border-border bg-surface p-4 shadow-card sm:space-y-6 sm:p-6">
+      <div className="videoai-auth-card w-full max-w-md space-y-4 sm:space-y-6">
         <header className="space-y-3">
           <div>
             <h1 className="text-lg font-semibold text-text-primary">
@@ -454,6 +457,7 @@ export function LoginAuthSurface({
             {error}
           </p>
         )}
+      </div>
       </div>
     </main>
   );

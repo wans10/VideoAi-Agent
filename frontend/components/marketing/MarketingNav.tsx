@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import clsx from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
@@ -36,8 +36,6 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
   const avatarRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const desktopDropdownCloseTimeout = useRef<number | null>(null);
-  const brand = t('nav.brand', 'MaxVideoAI') ?? 'MaxVideoAI';
-  const compactBrand = brand.replace(/\s+/g, '');
   const links = MARKETING_SITE_NAV_LINKS;
   const login = t('nav.login', 'Log in');
   const cta = t('nav.cta', 'Generate');
@@ -271,8 +269,8 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
 
   return (
     <>
-    <header className={clsx('sticky top-0 z-40 border-b border-hairline bg-surface dark:bg-surface-glass-90 dark:backdrop-blur-xl', isHomePage && 'home-monochrome')}>
-      <div className="mx-auto flex h-16 max-w-[1460px] items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className={clsx('videoai-public-header sticky top-0 z-40 border-b border-hairline bg-surface', isHomePage && 'home-monochrome')}>
+      <div className="videoai-public-nav mx-auto flex h-16 max-w-[1460px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3 sm:gap-6">
           <Button
             type="button"
@@ -293,16 +291,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
             prefetch={false}
             className="flex items-center gap-1.5 text-text-primary whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg sm:gap-2"
           >
-            <Image
-              src="/assets/branding/logo-mark.svg"
-              alt=""
-              aria-hidden="true"
-              width={28}
-              height={28}
-              className="h-7 w-7 shrink-0"
-              priority
-            />
-            <span className="text-sm font-semibold tracking-tight sm:text-lg">{compactBrand}</span>
+            <BrandLockup caption={locale === 'zh' ? '影像工作室' : 'CREATIVE STUDIO'} />
           </Link>
           <MarketingDesktopNav
             desktopDropdownOpen={desktopDropdownOpen}

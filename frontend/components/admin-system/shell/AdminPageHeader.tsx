@@ -14,7 +14,7 @@ export function AdminPageHeader({
   actions,
 }: AdminPageHeaderProps) {
   return (
-    <header className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+    <header className="videoai-admin-heading flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
       <div className="min-w-0 max-w-3xl">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-text-muted">{eyebrow}</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-text-primary sm:text-[2rem]">{title}</h1>

@@ -42,8 +42,8 @@ test('login cookie banner preserves access to auth conversion actions', () => {
   );
   assert.match(
     bannerSource,
-    /min-\[1200px\]:left-auto[\s\S]*min-\[1200px\]:right-4[\s\S]*min-\[1200px\]:w-\[22rem\]/,
-    'wide login screens should move consent away from the centered auth card'
+    /min-\[1200px\]:left-4[\s\S]*min-\[1200px\]:right-auto[\s\S]*min-\[1200px\]:w-\[22rem\]/,
+    'wide login screens should keep consent on the story side, away from the right-hand auth form'
   );
   assert.match(
     bannerSource,

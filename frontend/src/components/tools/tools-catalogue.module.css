@@ -1,17 +1,17 @@
 .catalogue { max-width: 1540px; margin: auto; padding: 38px 36px 32px; color: var(--app-ink, var(--text-primary)); }
 .heading { padding: 0 0 17px; }
-.heading h1 { font-size: 10px; font-weight: 650; letter-spacing: .19em; line-height: 1.2; text-transform: uppercase; color: var(--app-muted, var(--text-secondary)); }
+.heading h1 { font-size: clamp(26px, 3vw, 36px); font-weight: 600; letter-spacing: -.035em; line-height: 1.3; color: var(--app-muted, var(--text-secondary)); }
 .sectionBar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; }
-.sectionBar h2 { font-size: 15px; font-weight: 600; letter-spacing: -.02em; }
+.sectionBar h2 { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
 .sectionBar p { margin-top: 3px; font-size: 11px; color: var(--app-muted, var(--text-secondary)); }
-.filters { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--app-line, var(--border)); border-radius: 13px; background: color-mix(in srgb, var(--app-panel, var(--surface)) 78%, transparent); }
-.filters button { min-height: 38px; padding: 0 15px; border-radius: 9px; color: var(--app-muted, var(--text-secondary)); font-size: 12px; font-weight: 600; transition: background 150ms, color 150ms, box-shadow 150ms; }
+.filters { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--app-line, var(--border)); border-radius: 8px; background: color-mix(in srgb, var(--app-panel, var(--surface)) 78%, transparent); }
+.filters button { min-height: 44px; padding: 0 15px; border-radius: 9px; color: var(--app-muted, var(--text-secondary)); font-size: 12px; font-weight: 600; transition: background 150ms, color 150ms, box-shadow 150ms; }
 .filters button[aria-pressed=true] { background: var(--app-ink, var(--text-primary)); color: var(--app-bg, var(--bg)); }
 .quickGrid, .workshopGrid { display: grid; gap: 18px; padding: 0; margin: 0; list-style: none; }
 .quickGrid { grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 15px; }
 .workshopGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .quickGrid li, .workshopGrid li { min-width: 0; }
-.quickTool { display: flex; flex-direction: column; position: relative; width: 100%; height: 100%; text-align: left; overflow: hidden; border: 1px solid var(--app-line, var(--border)); border-radius: 18px; color: inherit; background: var(--app-panel, var(--surface)); box-shadow: 0 12px 32px rgba(0,0,0,.035); text-decoration: none; transition: border-color 160ms, transform 160ms, box-shadow 160ms; }
+.quickTool { display: flex; flex-direction: column; position: relative; width: 100%; height: 100%; text-align: left; overflow: hidden; border: 1px solid var(--app-line, var(--border)); border-radius: 12px; color: inherit; background: var(--app-panel, var(--surface)); box-shadow: 0 12px 32px rgba(0,0,0,.035); text-decoration: none; transition: border-color 160ms, transform 160ms, box-shadow 160ms; }
 .quickTool:hover { border-color: color-mix(in srgb, var(--app-accent, var(--brand)) 65%, var(--app-line, var(--border))); box-shadow: 0 16px 38px rgba(0,0,0,.08); transform: translateY(-2px); }
 .quickArt { position: relative; aspect-ratio: 1.65; overflow: hidden; background: #253638; }
 .quickArt::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 52%, rgba(5,10,11,.3)); }
@@ -22,7 +22,7 @@
 .quickCaption h3 { display: flex; justify-content: space-between; gap: 10px; margin-top: 7px; font-size: 16px; line-height: 1.25; font-weight: 620; letter-spacing: -.03em; }
 .quickCaption p { font-size: 12px; line-height: 1.48; color: var(--app-muted, var(--text-secondary)); margin-top: 7px; }
 .workshopSection { margin-top: 32px; padding-top: 26px; border-top: 1px solid var(--app-line, var(--border)); }
-.workshop { display: block; height: 100%; color: inherit; text-decoration: none; border-radius: 13px; }
+.workshop { display: block; height: 100%; color: inherit; text-decoration: none; border-radius: 8px; }
 .workshopArt { position: relative; display: flex; aspect-ratio: 16 / 10; overflow: hidden; background: #d6ccba; border-radius: 12px; }
 .workshopArt img { object-fit: cover; transition: transform 180ms; }
 .workshop:hover img { transform: scale(1.025); }
@@ -30,7 +30,7 @@
 .workshopCaption h3 { display: flex; justify-content: space-between; gap: 10px; font-size: 21px; font-weight: 550; letter-spacing: -.035em; margin-top: 7px; }
 .workshopCaption p { margin-top: 5px; font-size: 12px; line-height: 1.5; color: var(--app-muted, var(--text-secondary)); }
 .footer { display: flex; justify-content: center; align-items: center; gap: 9px; padding: 28px 0 5px; color: var(--app-muted, var(--text-secondary)); font-size: 11px; }
-.empty { padding: 36px; border: 1px solid var(--app-line, var(--border)); border-radius: 18px; background: var(--app-panel, var(--surface)); }
+.empty { padding: 36px; border: 1px solid var(--app-line, var(--border)); border-radius: 12px; background: var(--app-panel, var(--surface)); }
 .sound { display: block; color: var(--app-accent, var(--brand)); font-size: 28px; margin-bottom: 16px; }
 .empty h3 { font-size: 18px; }.empty p { color: var(--app-muted, var(--text-secondary)); margin: 8px 0; font-size: 13px; }.empty a { display: inline-flex; align-items: center; gap: 20px; min-height: 44px; font-size: 13px; }
 .catalogue :is(a, button):focus-visible { outline: 2px solid var(--app-accent, var(--brand)); outline-offset: 4px; }

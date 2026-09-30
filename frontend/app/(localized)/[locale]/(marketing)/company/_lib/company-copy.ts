@@ -21,12 +21,12 @@ export type CompanyCopy = {
 const COPY: Record<AppLocale, CompanyCopy> = {
   en: {
     meta: {
-      title: 'Company & Trust — MaxVideoAI',
-      description: 'Find MaxVideoAI company, editorial, operational, content-rights, privacy, and legal resources.',
+      title: 'Company & Trust — VideoAI',
+      description: 'Find VideoAI company, editorial, operational, content-rights, privacy, and legal resources.',
     },
     hero: {
       eyebrow: 'Company & Trust',
-      title: 'The people, standards, and policies behind MaxVideoAI.',
+      title: 'The people, standards, and policies behind VideoAI.',
       intro:
         'Use this hub to understand who maintains the product, how editorial research is handled, where to check operations, and which terms apply to your content.',
     },
@@ -34,7 +34,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
       {
         title: 'People & editorial',
         links: [
-          { href: '/about', label: 'About', description: 'Meet the founder and understand what MaxVideoAI builds.' },
+          { href: '/about', label: 'About', description: 'Meet the founder and understand what VideoAI builds.' },
           { href: '/editorial-standards', label: 'Editorial Standards', description: 'Authorship, sources, corrections, and benchmark updates.' },
           { href: '/benchmarks', label: 'Benchmark Lab', description: 'Editorial scores, sourced specifications, observed speed, and methodology.' },
         ],
@@ -43,7 +43,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
         title: 'Product operations',
         links: [
           { href: '/docs', label: 'Docs', description: 'Product onboarding and practical references.' },
-          { href: '/workflows', label: 'Workflows', description: 'How MaxVideoAI production flows are structured.' },
+          { href: '/workflows', label: 'Workflows', description: 'How VideoAI production flows are structured.' },
           { href: '/status', label: 'Status', description: 'Current service notices and support guidance.' },
           { href: '/changelog', label: 'Changelog', description: 'Recent product, model, and workflow updates.' },
           { href: '/contact', label: 'Contact', description: 'Support, partnerships, and press requests.' },
@@ -75,12 +75,12 @@ const COPY: Record<AppLocale, CompanyCopy> = {
   },
   fr: {
     meta: {
-      title: 'Entreprise & confiance — MaxVideoAI',
-      description: 'Retrouvez les ressources MaxVideoAI sur l’entreprise, l’éditorial, les opérations, les droits, la confidentialité et le juridique.',
+      title: 'Entreprise & confiance — VideoAI',
+      description: 'Retrouvez les ressources VideoAI sur l’entreprise, l’éditorial, les opérations, les droits, la confidentialité et le juridique.',
     },
     hero: {
       eyebrow: 'Entreprise & confiance',
-      title: 'Les personnes, les normes et les politiques derrière MaxVideoAI.',
+      title: 'Les personnes, les normes et les politiques derrière VideoAI.',
       intro:
         'Ce hub explique qui maintient le produit, comment la recherche éditoriale est conduite, où suivre les opérations et quelles conditions s’appliquent à vos contenus.',
     },
@@ -88,7 +88,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
       {
         title: 'Personnes & éditorial',
         links: [
-          { href: '/about', label: 'À propos', description: 'Découvrez le fondateur et ce que construit MaxVideoAI.' },
+          { href: '/about', label: 'À propos', description: 'Découvrez le fondateur et ce que construit VideoAI.' },
           { href: '/editorial-standards', label: 'Normes éditoriales', description: 'Auteurs, sources, corrections et mises à jour des benchmarks.' },
           { href: '/benchmarks', label: 'Benchmark Lab', description: 'Scores éditoriaux, spécifications sourcées, vitesse observée et méthodologie.' },
         ],
@@ -97,7 +97,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
         title: 'Opérations produit',
         links: [
           { href: '/docs', label: 'Docs', description: 'Onboarding produit et références pratiques.' },
-          { href: '/workflows', label: 'Workflows', description: 'Structure des flux de production MaxVideoAI.' },
+          { href: '/workflows', label: 'Workflows', description: 'Structure des flux de production VideoAI.' },
           { href: '/status', label: 'Statut', description: 'Notifications de service actuelles et conseils support.' },
           { href: '/changelog', label: 'Changelog', description: 'Évolutions récentes du produit, des modèles et des workflows.' },
           { href: '/contact', label: 'Contact', description: 'Support, partenariats et demandes presse.' },
@@ -129,12 +129,12 @@ const COPY: Record<AppLocale, CompanyCopy> = {
   },
   es: {
     meta: {
-      title: 'Empresa y confianza — MaxVideoAI',
-      description: 'Consulta los recursos de MaxVideoAI sobre empresa, edición, operaciones, derechos de contenido, privacidad y aspectos legales.',
+      title: 'Empresa y confianza — VideoAI',
+      description: 'Consulta los recursos de VideoAI sobre empresa, edición, operaciones, derechos de contenido, privacidad y aspectos legales.',
     },
     hero: {
       eyebrow: 'Empresa y confianza',
-      title: 'Las personas, los estándares y las políticas detrás de MaxVideoAI.',
+      title: 'Las personas, los estándares y las políticas detrás de VideoAI.',
       intro:
         'Este centro explica quién mantiene el producto, cómo se gestiona la investigación editorial, dónde revisar las operaciones y qué términos se aplican a tu contenido.',
     },
@@ -142,7 +142,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
       {
         title: 'Personas y edición',
         links: [
-          { href: '/about', label: 'Acerca de', description: 'Conoce al fundador y lo que desarrolla MaxVideoAI.' },
+          { href: '/about', label: 'Acerca de', description: 'Conoce al fundador y lo que desarrolla VideoAI.' },
           { href: '/editorial-standards', label: 'Estándares editoriales', description: 'Autoría, fuentes, correcciones y actualizaciones de benchmarks.' },
           { href: '/benchmarks', label: 'Benchmark Lab', description: 'Puntuaciones editoriales, especificaciones con fuentes, velocidad observada y metodología.' },
         ],
@@ -151,7 +151,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
         title: 'Operaciones del producto',
         links: [
           { href: '/docs', label: 'Docs', description: 'Incorporación al producto y referencias prácticas.' },
-          { href: '/workflows', label: 'Flujos de trabajo', description: 'Cómo se estructuran los flujos de producción de MaxVideoAI.' },
+          { href: '/workflows', label: 'Flujos de trabajo', description: 'Cómo se estructuran los flujos de producción de VideoAI.' },
           { href: '/status', label: 'Estado', description: 'Avisos actuales del servicio y orientación de soporte.' },
           { href: '/changelog', label: 'Changelog', description: 'Actualizaciones recientes del producto, los modelos y los flujos.' },
           { href: '/contact', label: 'Contacto', description: 'Soporte, alianzas y solicitudes de prensa.' },
@@ -183,12 +183,12 @@ const COPY: Record<AppLocale, CompanyCopy> = {
   },
   zh: {
     meta: {
-      title: '公司与信任 — MaxVideoAI',
-      description: '查看 MaxVideoAI 关于公司、编辑准则、产品运营、内容权益、隐私和法律条款的资源。',
+      title: '公司与信任 — VideoAI',
+      description: '查看 VideoAI 关于公司、编辑准则、产品运营、内容权益、隐私和法律条款的资源。',
     },
     hero: {
       eyebrow: '公司与信任',
-      title: 'MaxVideoAI 背后的人员、标准与政策。',
+      title: 'VideoAI 背后的人员、标准与政策。',
       intro:
         '通过本中心了解谁在维护产品、编辑评测如何进行、在哪里查看服务状态，以及适用于您内容的各项条款。',
     },
@@ -196,7 +196,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
       {
         title: '团队与编辑',
         links: [
-          { href: '/about', label: '关于我们', description: '认识创始人并了解 MaxVideoAI 构建的产品。' },
+          { href: '/about', label: '关于我们', description: '认识创始人并了解 VideoAI 构建的产品。' },
           { href: '/editorial-standards', label: '编辑准则', description: '署名、来源出处、勘误及基准更新。' },
           { href: '/benchmarks', label: '基准实验室', description: '编辑评分、核实规格、实测速度与评测方法。' },
         ],
@@ -205,7 +205,7 @@ const COPY: Record<AppLocale, CompanyCopy> = {
         title: '产品运营',
         links: [
           { href: '/docs', label: '文档', description: '产品快速入门与实用技术参考。' },
-          { href: '/workflows', label: '工作流', description: 'MaxVideoAI 生产工作流的架构与组织。' },
+          { href: '/workflows', label: '工作流', description: 'VideoAI 生产工作流的架构与组织。' },
           { href: '/status', label: '服务状态', description: '当前服务公告与支持指引。' },
           { href: '/changelog', label: '更新日志', description: '最新产品功能、模型及工作流更新。' },
           { href: '/contact', label: '联系我们', description: '技术支持、商务合作与媒体联络。' },

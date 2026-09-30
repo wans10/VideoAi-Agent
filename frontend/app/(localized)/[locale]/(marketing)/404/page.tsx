@@ -15,6 +15,7 @@ export async function generateMetadata(props: Localized404PageProps): Promise<Me
   const { dictionary, fallback } = await resolveDictionary({ locale: params.locale });
   return {
     title: dictionary.notFound.metaTitle || fallback.notFound.metaTitle,
+    robots: { index: false, follow: true },
   };
 }
 

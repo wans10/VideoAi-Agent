@@ -366,7 +366,7 @@ export function WorkspaceComposerSurface({
             : 'Open Storyboarder before generating with Seedance or Kling.';
     return {
       id: 'storyboard-launch',
-      label: 'Storyboard',
+      label: uiLocale === 'zh' ? '分镜脚本' : 'Storyboard',
       tooltip,
       active: false,
       icon: 'sparkles',

@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import { Link, usePathname, type LocalizedLinkHref } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
@@ -115,7 +115,6 @@ export function MarketingFooter() {
     { key: 'status', label: labelFor('footer.sections.company.items.status', 'Status'), href: { pathname: '/status' } },
   ];
 
-  const brandLabel = t('nav.brand', 'MaxVideo AI') ?? 'MaxVideo AI';
   const enginesTitle = labelFor('footer.sections.engines.title', 'AI Video Engines');
   const comparisonsTitle = labelFor('footer.sections.comparisons.title', 'Popular comparisons');
   const useCasesTitle = labelFor('footer.sections.useCases.title', 'Use cases');
@@ -137,8 +136,7 @@ export function MarketingFooter() {
             prefetch={false}
             className="inline-flex items-center gap-4 font-display text-lg font-semibold tracking-tight text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
           >
-            <Image src="/assets/branding/logo-mark.svg" alt="" aria-hidden="true" width={32} height={32} className="h-8 w-8" />
-            <span>{brandLabel}</span>
+            <BrandLockup caption={locale === 'zh' ? '每一个想法，都值得成片。' : 'MAKE ROOM FOR YOUR NEXT IDEA.'} />
           </Link>
           <div className="flex items-center gap-4 md:gap-6">
             <div className="flex items-center gap-1">

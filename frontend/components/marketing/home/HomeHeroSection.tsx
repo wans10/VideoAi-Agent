@@ -103,6 +103,7 @@ function applyHomeLcpPoster(item: HeroVideoShowcaseItem): HeroVideoShowcaseItem 
 
 export function HomeHero({
   copy,
+  proofStats,
   previews,
   programmedHeroItems = [],
 }: {
@@ -138,11 +139,11 @@ export function HomeHero({
     return [applyHomeLcpPoster(localizedItem)];
   });
   return (
-    <section className="home-hero-section cinema-opening">
+    <section className="home-hero-section cinema-opening videoai-home-opening">
       <div className="container-page cinema-opening-grid">
         <div className="cinema-opening-copy">
-          <p className="mb-5 text-xs uppercase tracking-micro text-text-muted">{copy.eyebrow}</p>
-          <h1>{copy.title}</h1>
+          <p className="videoai-kicker">{copy.eyebrow}</p>
+          <h1>{copy.title.split('\n').map((line, index) => <span key={`${index}-${line}`}>{line}</span>)}</h1>
           <p className="mt-5 text-base leading-7 text-text-secondary lg:text-lg">{copy.subtitle}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <ButtonLink href="/app" prefetch={false} linkComponent={Link} size="lg" data-analytics-event="hero_start_render_click" data-analytics-cta-name="start_render" data-analytics-cta-location="home_hero">{copy.primaryCta}<span aria-hidden>↗</span></ButtonLink>
@@ -150,6 +151,7 @@ export function HomeHero({
           </div>
         </div>
         <div className="cinema-opening-stage">
+          <div className="videoai-preview-caption"><span>{copy.mockup.outputLabel}</span><span aria-hidden="true">FRAME / 01</span></div>
           <HeroVideoShowcase items={videoItems}
             playLabel={copy.mockup.playLabel} pauseLabel={copy.mockup.pauseLabel}
             loadingLabel={copy.mockup.loadingLabel} errorLabel={copy.mockup.errorLabel} retryLabel={copy.mockup.retryLabel} fullscreenLabel={copy.mockup.fullscreenLabel}
@@ -159,6 +161,7 @@ export function HomeHero({
         <HomeHeroSecondaryLinks compareLabel={copy.examplesCta} trustBadges={copy.trustBadges ?? []} />
       </div>
       <div id="model-brands" className="container-page cinema-models">
+        <div className="videoai-proof-strip">{proofStats.slice(0, 3).map((stat) => <div key={stat.id}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div>
         <div className="cinema-model-marks">{[
           ['kling-3-pro','Kling','/brand/partners/kling/kling-mark-light.png'],
           ['seedance-2-5','Seedance','/brand/partners/bytedance/bytedance-mark-light.svg'],

@@ -294,13 +294,11 @@ test('marketing footer separates Best-For use cases from popular comparisons', (
   assert.equal(useCaseBlock.includes('MARKETING_NAV_BEST_FOR_USE_CASES'), false);
 });
 
-test('marketing brand logo images are decorative when brand text is visible', () => {
-  assert.match(marketingNavSource, /src="\/assets\/branding\/logo-mark\.svg"[\s\S]+alt=""/);
-  assert.match(marketingNavSource, /src="\/assets\/branding\/logo-mark\.svg"[\s\S]+aria-hidden/);
-  assert.match(marketingFooterSource, /src="\/assets\/branding\/logo-mark\.svg"[\s\S]+alt=""/);
-  assert.match(marketingFooterSource, /src="\/assets\/branding\/logo-mark\.svg"[\s\S]+aria-hidden/);
-  assert.doesNotMatch(marketingNavSource, /alt="MaxVideoAI"/);
-  assert.doesNotMatch(marketingFooterSource, /alt="MaxVideoAI"/);
+test('marketing brand mark is decorative alongside the visible wordmark', () => {
+  for (const source of [marketingNavSource, marketingFooterSource]) assert.match(source, /<BrandLockup/);
+  const brand = readFileSync('frontend/components/brand/BrandLockup.tsx', 'utf8');
+  assert.match(brand, /<svg[^>]+aria-hidden="true"/);
+  assert.match(brand, /<strong>Video<span>AI<\/span><\/strong>/);
 });
 
 test('marketing footer promotes the current shared comparison selection', () => {

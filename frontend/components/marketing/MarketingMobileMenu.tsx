@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import { useMarketingMenuFocus } from './useMarketingMenuFocus';
 import { AudioWaveform, Boxes, ChevronDown, Clapperboard, Images, Plug, Scale, WalletCards, Wrench, X, type LucideIcon } from 'lucide-react';
-import Image from 'next/image';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import { Link } from '@/i18n/navigation';
 import { LanguageToggle } from '@/components/marketing/LanguageToggle';
 import { Button } from '@/components/ui/Button';
@@ -59,7 +59,7 @@ export function MarketingMobileMenu({
       className="marketing-menu-panel"
     >
       <div className="marketing-menu-header">
-        <span className="flex items-center gap-2 text-base font-semibold"><Image src="/assets/branding/logo-mark.svg" alt="" aria-hidden="true" width={28} height={28} />MaxVideoAI</span>
+        <BrandLockup />
         <Button
           type="button"
           size="sm"

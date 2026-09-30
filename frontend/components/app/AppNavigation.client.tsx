@@ -20,6 +20,7 @@ export function AppNavigation({ variant, studioVisible = false }: {
     : (locale === 'fr' ? 'Navigation principale' : locale === 'es' ? 'Navegación principal' : locale === 'zh' ? '主导航' : 'Primary navigation');
   return (
     <nav className={`app-navigation app-navigation-${variant}`} aria-label={label}>
+      {variant === 'rail' ? <p className="app-navigation-caption">{locale === 'zh' ? '我的工作室' : locale === 'fr' ? 'Mon studio' : locale === 'es' ? 'Mi estudio' : 'MY STUDIO'}</p> : null}
       {(activities ? APP_ACTIVITIES : getAppNavigation(undefined, studioVisible)).map((item) => (
         <Link
           key={item.id}

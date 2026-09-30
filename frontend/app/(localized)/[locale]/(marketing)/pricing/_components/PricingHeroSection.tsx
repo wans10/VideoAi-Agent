@@ -24,7 +24,7 @@ export function PricingHeroSection({
   calculatorLabel = 'Open app for live pricing before you generate',
   compareHref = '#video-pricing',
   compareLabel = 'Compare prices below',
-  eyebrow = 'MaxVideoAI Pricing',
+  eyebrow = 'VideoAI Pricing',
   subtitle = 'Compare video, image, audio and tool costs before you generate.',
   supportingLine = 'Pay as you go. See the exact live price in the app before launch. Failed generations are refunded.',
   title = 'AI Video Pricing Comparison',

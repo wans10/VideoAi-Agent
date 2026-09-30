@@ -84,24 +84,24 @@
     sans-serif;
 }
 
-/* Studio's matte surfaces and saffron commands are scoped to this editor. */
+/* VideoAI's warm surfaces and vermilion commands stay scoped to the editor. */
 .editorShell {
   --studio-bg:#171918;
   --studio-bg-soft:#202321;
   --studio-surface:#292c29;
   --studio-surface-strong:#202320;
   --studio-border:#454942;
-  --studio-text:#eeeee6;
+  --studio-text:#f7f5f0;
   --studio-text-strong:#faf9f1;
   --studio-text-muted:#b5b9af;
-  --studio-primary:#e6bf76;
-  --studio-primary-2:#e6bf76;
-  --studio-active-control-bg:#e6bf76;
+  --studio-primary:#e88169;
+  --studio-primary-2:#e88169;
+  --studio-active-control-bg:#e88169;
   --studio-on-primary:#24251f;
-  --studio-accent-text:#edc984;
+  --studio-accent-text:#f49c86;
   --studio-control-bg:#333730;
   --studio-control-bg-hover:#41463b;
-  --studio-control-text:#eeeee6;
+  --studio-control-text:#f7f5f0;
   --studio-popover-bg:#252924;
   --studio-popover-accent-bg:#252924;
   --studio-popover-header-bg:#202320;
@@ -112,40 +112,40 @@
   --studio-media-tile-hover-bg:#343a30;
   --studio-media-dialog-bg:#252924;
   --studio-media-footer-bg:#202320;
-  --studio-select-text:#eeeee6;
+  --studio-select-text:#f7f5f0;
   min-width:0;
   width:100%;
   height:100dvh;
 }
 
 .editorShell.editorShell[data-studio-theme="light"] {
-  --studio-bg:#eeeee6;
-  --studio-bg-soft:#e7e8de;
-  --studio-surface:#fafaf4;
-  --studio-surface-strong:#f6f6ef;
-  --studio-border:#cccec3;
-  --studio-text:#33372d;
-  --studio-text-strong:#20261b;
-  --studio-text-muted:#666f5c;
-  --studio-primary:#d6ad5d;
-  --studio-primary-2:#d6ad5d;
-  --studio-active-control-bg:#e8c98c;
-  --studio-on-primary:#282c20;
-  --studio-accent-text:#755217;
-  --studio-control-bg:#efefe6;
-  --studio-control-bg-hover:#e2e5d6;
-  --studio-control-text:#33372d;
-  --studio-popover-bg:#fafaf4;
-  --studio-popover-accent-bg:#fafaf4;
-  --studio-popover-header-bg:#efefe6;
-  --studio-media-sidebar-bg:#f6f6ef;
-  --studio-media-input-bg:#fafaf4;
-  --studio-media-tool-bg:#efefe6;
-  --studio-media-tile-bg:#fafaf4;
-  --studio-media-tile-hover-bg:#eeefe3;
-  --studio-media-dialog-bg:#fafaf4;
-  --studio-media-footer-bg:#f6f6ef;
-  --studio-select-text:#33372d;
+  --studio-bg:#f7f5f0;
+  --studio-bg-soft:#efede6;
+  --studio-surface:#fffefa;
+  --studio-surface-strong:#f7f5f0;
+  --studio-border:#deded5;
+  --studio-text:#20211f;
+  --studio-text-strong:#20211f;
+  --studio-text-muted:#696b64;
+  --studio-primary:#b83c2b;
+  --studio-primary-2:#b83c2b;
+  --studio-active-control-bg:#b83c2b;
+  --studio-on-primary:#ffffff;
+  --studio-accent-text:#9c3022;
+  --studio-control-bg:#efede6;
+  --studio-control-bg-hover:#e7e4db;
+  --studio-control-text:#20211f;
+  --studio-popover-bg:#fffefa;
+  --studio-popover-accent-bg:#fffefa;
+  --studio-popover-header-bg:#efede6;
+  --studio-media-sidebar-bg:#f7f5f0;
+  --studio-media-input-bg:#fffefa;
+  --studio-media-tool-bg:#efede6;
+  --studio-media-tile-bg:#fffefa;
+  --studio-media-tile-hover-bg:#efede6;
+  --studio-media-dialog-bg:#fffefa;
+  --studio-media-footer-bg:#f7f5f0;
+  --studio-select-text:#20211f;
 }
 
 .editorShell[data-studio-theme="light"] {

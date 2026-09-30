@@ -199,7 +199,7 @@ export function CookieBanner() {
         className={clsx(
           'pointer-events-auto fixed z-[1100] flex justify-center',
           isLoginRoute
-            ? 'bottom-1 left-0 right-0 px-3 min-[1200px]:bottom-4 min-[1200px]:left-auto min-[1200px]:right-4 min-[1200px]:w-[22rem] min-[1200px]:px-0'
+            ? 'bottom-1 left-0 right-0 px-3 min-[1200px]:bottom-4 min-[1200px]:left-4 min-[1200px]:right-auto min-[1200px]:w-[22rem] min-[1200px]:px-0'
             : 'bottom-1 left-0 right-0 px-3 sm:bottom-4 sm:px-6'
         )}
       >

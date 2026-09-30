@@ -1,3 +1,5 @@
+import { defaultExperienceLocale } from '@/i18n/locales';
+import { isAppExperiencePath } from '@/lib/app-experience-path';
 export type CookieBannerLocale = 'en' | 'fr' | 'es' | 'zh';
 
 export type CookieBannerCopy = {
@@ -153,5 +155,5 @@ export function resolveCookieBannerLocale(pathname: string | null): CookieBanner
   if (pathname?.startsWith('/fr')) return 'fr';
   if (pathname?.startsWith('/es')) return 'es';
   if (pathname?.startsWith('/zh')) return 'zh';
-  return 'en';
+  return isAppExperiencePath(pathname) || pathname === '/login' ? defaultExperienceLocale : 'en';
 }

@@ -7,6 +7,7 @@ import { buildLoginHref } from '@/lib/auth-entry-href';
 import { AdminAuthError, requireAdmin } from '@/server/admin';
 import { fetchAdminHealth } from '@/server/admin-metrics';
 import { AdminLayout as AdminShellLayout } from '@/components/admin/AdminLayout';
+import '@/styles/videoai-admin.css';
 
 export const dynamic = 'force-dynamic';
 

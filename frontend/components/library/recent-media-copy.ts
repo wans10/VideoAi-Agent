@@ -1,4 +1,13 @@
 export function recentMediaCopy(locale: string) {
+  if (locale.startsWith('zh')) return {
+    title: '最近素材', activity: '生成动态', open: '打开最近素材', close: '关闭',
+    image: '图像', video: '视频', audio: '音频', use: '用作参考',
+    loading: '正在加载素材…', error: '素材加载失败，请重试。', retry: '重试', refresh: '刷新', refreshing: '正在刷新…',
+    empty: '此分类暂无已完成的素材。', auth: '登录后查看您的素材。',
+    helper: '选择最近素材以添加', role: '参考用途', required: '必填', slot: '位置', add: '添加', replace: '替换',
+    noRole: '此模型和模式不支持这种参考类型。', preparing: '正在准备…', drop: '将最近素材拖到此处，选择参考用途。',
+    issues: { kind: '素材类型不兼容。', metadata: '缺少必要信息，请导入原文件以校验。', duration: '时长不符合此用途的要求。', size: '文件过大。', format: '文件格式不兼容。', field_limit: '此位置已满，请选择要替换的素材。', reference_budget: '已达到参考素材总数上限。' },
+  };
   if (locale.startsWith('fr')) return {
     title: 'Récents', activity: 'Activité', open: 'Ouvrir les récents', close: 'Fermer',
     image: 'Images', video: 'Vidéos', audio: 'Audio', use: 'Utiliser en référence',

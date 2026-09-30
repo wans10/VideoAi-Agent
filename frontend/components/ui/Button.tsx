@@ -9,7 +9,7 @@ type ButtonVariant = 'primary' | 'outline' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const baseClasses =
-  'inline-flex items-center justify-center gap-2 font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-60';
+  'videoai-button inline-flex items-center justify-center gap-2 font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-60';
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: 'bg-[image:var(--brand-gradient)] text-on-brand shadow-[var(--shadow-brand-button)] hover:bg-[image:var(--brand-gradient-strong)] active:brightness-95',

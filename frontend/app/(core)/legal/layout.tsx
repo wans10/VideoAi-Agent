@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { resolveLocale } from '@/lib/i18n/server';
 import type { AppLocale } from '@/i18n/locales';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 
 const LAYOUT_COPY: Record<AppLocale, { title: string; back: string }> = {
   en: { title: 'Legal', back: 'Back to homepage' },
@@ -16,10 +17,10 @@ export default async function LegalLayout({ children }: { children: React.ReactN
   const homeHref = localizePathFromEnglish(locale, '/');
 
   return (
-    <main className="bg-bg py-10 sm:py-16">
+    <main className="videoai-document bg-bg py-10 sm:py-16">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-5 sm:px-8">
         <header className="flex items-baseline justify-between gap-4">
-          <h2 className="text-2xl font-semibold text-text-primary">{copy.title}</h2>
+          <BrandLockup caption={copy.title} />
           <Link
             href={homeHref}
             className="text-sm font-medium text-brand transition hover:text-brandHover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"

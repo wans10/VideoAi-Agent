@@ -1,0 +1,26 @@
+/* Shared by every authenticated admin page; no effect on public or creator shells. */
+.videoai-admin { font-family: var(--font-app), var(--font-cjk), system-ui, sans-serif; color: var(--text-primary); background: var(--bg); }
+.videoai-admin > div > aside { width: 248px; background: var(--surface); }
+.videoai-admin aside > div:first-child { padding: 24px 18px 18px; }
+.videoai-admin aside nav { padding-inline: 12px; }
+.videoai-admin aside li > a { min-height: 44px; border-radius: 7px; font-size: 13px; }
+.videoai-admin aside li > a[aria-current="page"] { background: var(--brand-soft); color: var(--brand); }
+.videoai-admin-heading { padding-bottom: 24px; border-bottom: 1px solid var(--hairline); margin-bottom: 4px; }
+.videoai-admin-heading h1 { font-size: clamp(26px, 2.5vw, 36px); font-weight: 650; }
+.videoai-admin-heading > div:first-child > p:first-child { color: var(--brand); letter-spacing: .08em; font-size: 11px; }
+.videoai-admin main { padding: 28px; }
+.videoai-admin main > div { gap: 24px; }
+.videoai-admin :is(table, input, select) { font-variant-numeric: tabular-nums; }
+.videoai-admin table { width: 100%; font-size: 13px; }
+.videoai-admin table th { background: var(--surface-2); color: var(--text-secondary); font-weight: 550; font-size: 12px; padding-block: 13px; }
+.videoai-admin table td { padding-block: 13px; border-color: var(--hairline); }
+.videoai-admin table tbody tr:hover { background: var(--surface-2); }
+.videoai-admin main :is(.rounded-2xl, .rounded-3xl) { border-radius: 12px; }
+.videoai-admin :is(input, select) { border-color: var(--border); min-height: 40px; }
+.videoai-admin :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+@media (max-width: 767px) {
+  .videoai-admin > div > aside { width: min(290px, 88vw); }
+  .videoai-admin main { padding: 20px 16px; }
+  .videoai-admin-heading { padding-bottom: 20px; }
+  .videoai-admin :is(input, select) { font-size: 16px; min-height: 44px; }
+}

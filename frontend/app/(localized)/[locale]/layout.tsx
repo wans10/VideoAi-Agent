@@ -32,12 +32,12 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
     shortcut: ['/favicon.ico'],
-    other: [{ rel: 'mask-icon', url: '/favicon.svg', color: '#4F5D75' }],
+    other: [{ rel: 'mask-icon', url: '/favicon.svg', color: '#b83c2b' }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#4F5D75',
+  themeColor: '#b83c2b',
 };
 
 export default async function LocaleLayout(props: LocaleLayoutProps) {

@@ -356,7 +356,7 @@ test('Angle landing owns a page-scoped graphite dark theme contract', () => {
   }
 
   for (const [token, lightValue, darkValue] of [
-    ['--angle-surface-inset', '#f4f2ee', '#25221f'],
+    ['--angle-surface-inset', '#f7f5f0', '#25221f'],
     ['--angle-use-case-media-border', '#d3c8ba', 'rgb(205 186 155 / 22%)'],
     [
       '--angle-workspace-background',
@@ -369,12 +369,12 @@ test('Angle landing owns a page-scoped graphite dark theme contract', () => {
     ['--angle-workspace-window-muted', '#736d65', '#909baa'],
     ['--angle-workspace-placeholder', '#dfd8cd', '#2b2723'],
     ['--angle-limits-text', '#514c46', '#d0d6df'],
-    ['--angle-benefit-border', '#d8d0c5', 'rgb(205 186 155 / 14%)'],
-    ['--angle-related-border', '#d8d0c5', 'rgb(205 186 155 / 14%)'],
+    ['--angle-benefit-border', '#deded5', 'rgb(205 186 155 / 14%)'],
+    ['--angle-related-border', '#deded5', 'rgb(205 186 155 / 14%)'],
     ['--angle-final-shadow', '0 34px 100px rgb(41 39 36 / 20%)', '0 34px 100px rgb(0 0 0 / 48%), inset 0 1px 0 rgb(255 255 255 / 4%)'],
     ['--angle-final-orbit-node-border', '#2a2d36', '#1b1a18'],
   ] as const) {
-    assert.ok(pageBlock.includes(`${token}: ${lightValue};`), `${token} should preserve its exact warm light value`);
+    assert.ok(pageBlock.includes(`${token}: ${lightValue};`), `${token} should use its specified studio light value`);
     assert.ok(darkPageBlock.includes(`${token}: ${darkValue};`), `${token} should define its intended graphite value`);
   }
 
@@ -433,13 +433,13 @@ test('Angle lead sections consume semantic theme colors instead of light palette
     ['--angle-hero-support-border', '#b9afa1', 'rgb(205 186 155 / 24%)'],
     ['--angle-hero-support-copy', '#68625b', '#a7b1bf'],
     ['--angle-proof-label', '#766f67', '#909baa'],
-    ['--angle-proof-output-border', '#c3a579', 'rgb(201 163 106 / 60%)'],
+    ['--angle-proof-output-border', '#dca797', 'rgb(201 163 106 / 60%)'],
     ['--angle-proof-output-shadow', '0 30px 80px rgba(41,39,36,0.08)', '0 30px 80px rgb(0 0 0 / 36%), inset 0 1px 0 rgb(255 255 255 / 4%)'],
     ['--angle-proof-media-placeholder', '#e8e0d4', '#2b2723'],
     ['--angle-workflow-number', '#777169', '#909baa'],
-    ['--angle-workflow-soft-accent', '#ede0ce', '#20345f'],
+    ['--angle-workflow-soft-accent', '#f5e4dd', '#20345f'],
   ] as const) {
-    assert.ok(pageBlock.includes(`${token}: ${lightValue};`), `${token} should preserve its exact warm light value`);
+    assert.ok(pageBlock.includes(`${token}: ${lightValue};`), `${token} should use its specified studio light value`);
     assert.ok(darkPageBlock.includes(`${token}: ${darkValue};`), `${token} should define its intended graphite value`);
   }
 
