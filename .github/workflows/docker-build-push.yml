@@ -6,6 +6,7 @@ on:
       - main
       - feat/add-zh-i18n
       - feat/llmhub-pay
+      - feat/videoai-studio-design
     tags:
       - 'v*'
   workflow_dispatch:
@@ -41,7 +42,7 @@ jobs:
         with:
           images: ${{ env.DOCKERHUB_USER }}/videoai-web
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || inputs.push_latest }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || github.ref == 'refs/heads/feat/videoai-studio-design' || inputs.push_latest }}
             type=ref,event=branch
             type=sha,prefix=,format=short
             type=ref,event=tag
@@ -52,7 +53,7 @@ jobs:
         with:
           images: ${{ env.DOCKERHUB_USER }}/videoai-db-migrate
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || inputs.push_latest }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || github.ref == 'refs/heads/feat/videoai-studio-design' || inputs.push_latest }}
             type=ref,event=branch
             type=sha,prefix=,format=short
             type=ref,event=tag
