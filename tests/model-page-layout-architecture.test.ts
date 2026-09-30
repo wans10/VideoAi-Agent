@@ -40,7 +40,8 @@ test('scored video model pages link their specs to the benchmark methodology', (
   const layoutSource = readSource(layoutPath);
   const specsSectionSource = readSource(specsSectionPath);
 
-  assert.match(modelPageSource, /loadBenchmarkScoreSlugs/);
+  assert.match(modelPageSource, /loadModelPageInputs/);
+  assert.match(readSource(join(root, 'frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-inputs.ts')), /loadBenchmarkScoreSlugs/);
   assert.match(layoutSource, /showBenchmarkLink/);
   assert.match(specsSectionSource, /BenchmarkMethodologyLink/);
 });
@@ -74,7 +75,7 @@ test('model page layout delegates prep link copy and schema payload composition'
   assert.match(schemaBuilderSource, /shippingDetails/, 'Product offers should include Merchant listings shipping details');
   assert.match(schemaBuilderSource, /hasMerchantReturnPolicy/, 'Product offers should include a Merchant listings return policy');
   assert.match(schemaBuilderSource, /applicableCountry/, 'Product return policy should include the Google Merchant applicableCountry property');
-  assert.match(schemaBuilderSource, /returnPolicyCountry/, 'Product return policy should include the required returnPolicyCountry property');
+  assert.doesNotMatch(schemaBuilderSource, /returnPolicyCountry\s*:/, 'Digital Product return policy must not invent physical return destinations');
   assert.match(schemaBuilderSource, /MerchantReturnNotPermitted/, 'Digital Product offers should mark returns as not permitted');
   assert.match(prepLinksSectionSource, /export type PrepLinksSection/, 'prep links section should export its contract');
 });

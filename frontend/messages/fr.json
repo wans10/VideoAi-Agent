@@ -1,4 +1,24 @@
 {
+  "passwordRecovery": {
+    "title": "Choisissez un nouveau mot de passe",
+    "intro": "Continuez pour vérifier votre lien de réinitialisation.",
+    "verify": "Continuer",
+    "verifying": "Vérification du lien…",
+    "password": "Nouveau mot de passe",
+    "confirm": "Confirmez le nouveau mot de passe",
+    "save": "Enregistrer le nouveau mot de passe",
+    "saving": "Enregistrement…",
+    "saved": "Votre mot de passe a été modifié.",
+    "continueToApp": "Accéder à l’application",
+    "requestNew": "Demander un nouveau lien",
+    "invalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau. Si vous avez changé de navigateur, essayez d’ouvrir le lien initial dans le navigateur utilisé pour le demander.",
+    "tooShort": "Utilisez au moins 6 caractères.",
+    "mismatch": "Les mots de passe ne correspondent pas.",
+    "weak": "Choisissez un mot de passe plus robuste.",
+    "same": "Choisissez un mot de passe différent du précédent.",
+    "unavailable": "Impossible de modifier votre mot de passe. Réessayez.",
+    "ready": "Saisissez et confirmez votre nouveau mot de passe."
+  },
   "nav": {
     "account": {
       "signedIn": "Connecté",
@@ -285,8 +305,8 @@
     },
     "sections": [
       {
-        "title": "Disponibilité de Sora 2 et plans de repli",
-        "body": "Sora 2 reste déployé par vagues : MaxVideoAI s’occupe donc des vérifications, de la conformité régionale et du routage prédictif lorsque la capacité varie. Les producteurs peuvent comparer leurs storyboards aux {{sora:références Sora 2}} et basculer sur des presets Sora 2 Pro ou des séquences Veo 3 lorsque la vitesse prime sur la fidélité maximale. Nous documentons les structures de prompt, les validations d’images et les bonnes pratiques de post‑production pour rester alignés avec la revue OpenAI tout en respectant les délais. Les équipes locales reçoivent aussi un bulletin hebdomadaire couvrant audio, durée et traçabilité pour les secteurs réglementés."
+        "title": "Archives Sora et alternatives",
+        "body": "La génération Sora est fermée. OpenAI et fal.ai arrêtent l’API le 24 septembre 2026. Choisissez Seedance 2.5, MiniMax H3 ou Wan 3 pour une nouvelle vidéo. Vos vidéos existantes restent dans votre bibliothèque."
       },
       {
         "title": "Veo 3 : texte‑vers‑vidéo cinématique pour créatifs",
@@ -341,8 +361,8 @@
         "answer": "Rechargez votre wallet individuel avec le paiement sécurisé Stripe Checkout. La carte et les options de paiement express disponibles sont affichées avant le paiement."
       },
       {
-        "question": "En combien de temps une équipe peut‑elle lancer Sora 2 ?",
-        "answer": "La plupart des équipes créatives commencent à prompt en deux jours ouvrés. Nous fournissons des templates d’onboarding et des presets Veo ou Pika de secours pendant la finalisation de l’accès Sora."
+        "question": "Peut-on encore générer avec Sora ?",
+        "answer": "La génération Sora est fermée. OpenAI et fal.ai arrêtent l’API le 24 septembre 2026. Choisissez Seedance 2.5, MiniMax H3 ou Wan 3 pour une nouvelle vidéo. Vos vidéos existantes restent dans votre bibliothèque."
       },
       {
         "question": "Puis‑je suivre les mises à jour modèles sans relire toute la doc ?",
@@ -364,7 +384,7 @@
         "href": "/return-policy"
       }
     ],
-    "brandNote": "Centre indépendant pour la vidéo IA professionnelle — prix affiché avant génération, restez sur les derniers modèles, un espace pour chaque plan. Fonctionne avec Seedance, Kling, Veo, LTX, Wan, Pika, Sora et plus. Les marques appartiennent à leurs propriétaires.",
+    "brandNote": "Centre indépendant pour la vidéo IA professionnelle — prix affiché avant génération, restez sur les derniers modèles, un espace pour chaque plan. Fonctionne avec Seedance, Kling, Veo, LTX, Wan, Pika et plus. Les marques appartiennent à leurs propriétaires.",
     "languageLabel": "Langue",
     "languages": [
       {
@@ -1141,7 +1161,7 @@
         "title": "Voyez le coût avant de générer.",
         "subtitle": "MaxVideoAI affiche le prix avant chaque génération vidéo, pour garder vos crédits sous contrôle.",
         "cta": "Voir les tarifs",
-        "supportingText": "MaxVideoAI est un générateur vidéo IA multi-modèles au paiement à l’usage pour Seedance, Kling, Veo, LTX, Wan, Pika, Sora et plus.",
+        "supportingText": "MaxVideoAI est un générateur vidéo IA multi-modèles au paiement à l’usage pour Seedance, Kling, Veo, LTX, Wan, Pika et plus.",
         "modelsLink": "Modèles",
         "examplesLink": "Exemples",
         "compareLink": "Comparer les modèles",
@@ -1166,7 +1186,7 @@
       },
       "providers": {
         "title": "Modèles et fournisseurs pris en charge",
-        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax, Luma et Sora sont accessibles depuis un seul catalogue de modèles.",
+        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax, Luma sont accessibles depuis un seul catalogue de modèles.",
         "cta": "Voir tous les modèles",
         "items": [
           {
@@ -1346,7 +1366,7 @@
     "worksWith": {
       "label": "Fonctionne avec",
       "brands": [
-        "Sora 2",
+        "Seedance 2.5",
         "Veo 3.1",
         "LTX 2 Fast",
         "LTX 2",
@@ -1397,7 +1417,7 @@
       },
       {
         "title": "Tous vos modèles au même endroit.",
-        "body": "Basculez entre Sora, Veo, Pika, MiniMax et Hunyuan sans jongler entre plusieurs tableaux de bord ni clés API."
+        "body": "Basculez entre Seedance 2.5, Veo, Pika, MiniMax et Hunyuan sans jongler entre plusieurs tableaux de bord ni clés API."
       }
     ],
     "ways": [
@@ -1581,8 +1601,8 @@
       "description": "Réponses rapides aux questions les plus fréquentes.",
       "items": [
         {
-          "q": "Sora 2 est-il disponible dans l’UE ?",
-          "a": "La disponibilité de Sora 2 reste limitée. MaxVideoAI route votre brief vers les modèles déjà ouverts aujourd’hui et conserve des presets prêts pour Sora dès que la capacité arrive."
+          "q": "Peut-on encore générer avec Sora ?",
+          "a": "La génération Sora est fermée. OpenAI et fal.ai arrêtent l’API le 24 septembre 2026. Choisissez Seedance 2.5, MiniMax H3 ou Wan 3 pour une nouvelle vidéo. Vos vidéos existantes restent dans votre bibliothèque."
         },
         {
           "q": "Puis-je activer l’audio ?",
@@ -1669,7 +1689,7 @@
       "compare": {
         "title": "Comparez les modèles vidéo IA avant de générer",
         "body": "Testez et comparez plusieurs modèles dans un espace unifié. Analysez leurs forces (vitesse, précision, mouvement, réalisme, style), choisissez le bon pour chaque plan et gardez un contrôle total sur le coût avant génération.",
-        "worksWith": "Compatible avec MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Sora 2, Wan 2.6, Pika 2.2... et d’autres.",
+        "worksWith": "Compatible avec MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Wan 2.6, Pika 2.2... et d’autres.",
         "popularLinks": [
           {
             "label": "Comparatif MiniMax H3 vs Seedance 2.5",
@@ -2117,8 +2137,8 @@
       "cards": [
         {
           "emoji": "🎬",
-          "title": "Quand choisir Sora",
-          "body": "Choisissez Sora 2 ou Sora 2 Pro pour une physique cinématique, la continuité personnage ou l’audio intégré. Plus cher à la seconde, mais parfait pour les plans principaux."
+          "title": "Archives Sora et alternatives",
+          "body": "La génération Sora est fermée. OpenAI et fal.ai arrêtent l’API le 24 septembre 2026. Choisissez Seedance 2.5, MiniMax H3 ou Wan 3 pour une nouvelle vidéo. Vos vidéos existantes restent dans votre bibliothèque."
         },
         {
           "emoji": "🎯",
@@ -2133,7 +2153,7 @@
         {
           "emoji": "🖼️",
           "title": "Quand choisir Nano Banana",
-          "body": "Préparez ou retouchez des visuels photoréalistes avant de passer à l’animation. Nano Banana partage wallet et prompt lab pour peaufiner vos prises Veo/Sora en texte→image ou retouche de références."
+          "body": "Préparez ou retouchez des visuels photoréalistes avant de passer à l’animation. Nano Banana partage wallet et prompt lab pour peaufiner vos prises Veo/Seedance 2.5 en texte→image ou retouche de références."
         }
       ],
       "cta": {
@@ -2667,7 +2687,7 @@
     "mcpGuide": {
       "href": "/fr/docs/mcp",
       "title": "Guide technique du MCP MaxVideoAI",
-      "description": "Clients vérifiés, OAuth, registre d’outils en lecture seule, confidentialité, limites et récupération."
+      "description": "Clients compatibles, OAuth, outils disponibles, confirmation des générations, confidentialité, limites et récupération."
     },
     "toc": {
       "title": "Sur cette page",
@@ -2709,19 +2729,19 @@
         ]
       },
       {
-        "title": "Filtres de sécurité de marque",
+        "title": "Contrôles des contenus",
         "items": [
-          "Nous bloquons par défaut prompts, imports et sorties risqués afin de rester conformes sans surveillance constante.",
-          "Les cas sensibles passent en revue humaine avec piste d’audit et options d’escalade simples.",
-          "Les administrateurs peuvent demander des listes d’autorisation ou de blocage personnalisées par espace de travail."
+          "Les fournisseurs de modèles appliquent leurs propres contrôles de sécurité et peuvent refuser un prompt, une référence ou un résultat généré.",
+          "Vérifiez les restrictions du modèle sélectionné et utilisez des médias de référence que vous êtes autorisé à utiliser.",
+          "Si une demande est bloquée, consultez le message dans les détails du job et vérifiez le prompt et les références avant de réessayer."
         ]
       },
       {
         "title": "Accès au produit",
         "items": [
           "Utilisez l’espace web pour les fonctionnalités décrites dans cette documentation.",
-          "Les instructions de connexion MCP apparaissent uniquement pour les comptes inclus dans un déploiement activé.",
-          "Les interfaces programmatiques ne sont publiées qu’après validation de leurs propres preuves et critères de déploiement."
+          "Le guide MCP public explique comment connecter un client compatible et autoriser l’accès à votre compte MaxVideoAI.",
+          "Les actions disponibles dépendent du client connecté. Consultez les outils compatibles et les étapes de confirmation des générations dans le guide."
         ]
       }
     ],
@@ -2732,9 +2752,9 @@
     "onboardingChecklist": {
       "title": "Checklist d’onboarding",
       "items": [
-        "✅ Remplir le brief de marque (ton, objectifs, livrables).",
-        "✅ Ajouter 1–3 prompts d’exemple et des assets de référence.",
-        "✅ Définir les ratios par défaut et la préférence audio."
+        "✅ Choisissez un modèle et un mode de génération.",
+        "✅ Rédigez un prompt et ajoutez les références requises par ce mode.",
+        "✅ Vérifiez les réglages disponibles et le prix avant de générer."
       ],
       "note": "Vous pouvez modifier vos entrées et préférences avant chaque génération."
     },
@@ -2752,13 +2772,13 @@
     "safetyQuick": {
       "title": "Aperçu rapide",
       "items": [
-        "• Blocs par défaut : contenu illégal, sexuel explicite, haine/harcèlement, doxxing.",
-        "• Vérifications média : uploads/rendus risqués mis en quarantaine pour revue.",
-        "• Contrôles admin : demander des listes d’autorisation ou des mots-clés restreints par espace de travail."
+        "• Entrées : les types de références acceptés et leurs limites varient selon le modèle et le mode de génération.",
+        "• Contrôles du fournisseur : une demande peut être refusée selon les règles de contenu du modèle sélectionné.",
+        "• Détails du job : consultez le statut et le message d’erreur si une génération échoue."
       ],
-      "note": "Les cas sensibles passent en revue humaine avec piste d’audit et options d’escalade."
+      "note": "Vérifiez les médias générés avant de les utiliser ou de les publier."
     },
-    "safetyCallout": "⚠️ Certains usages sensibles peuvent exiger une liste d’autorisation admin ou une revue humaine.",
+    "safetyCallout": "Vérifiez le résultat avant publication, notamment s’il contient des personnes, des marques ou des informations personnelles.",
     "seeAlsoLabel": "Voir aussi :",
     "seeAlso": {
       "onboarding": [
@@ -2826,7 +2846,7 @@
       "heading": "Bibliothèque",
       "liveLabel": "En ligne",
       "comingSoonLabel": "À venir",
-      "summaryLive": "Parcourez les assets, presets et prompts de référence enregistrés dans votre compte.",
+      "summaryLive": "Parcourez les médias enregistrés dans votre compte et réutilisez-les comme références dans les modes de génération compatibles.",
       "summarySoon": "Documentation à venir."
     },
     "feedback": {
@@ -2866,8 +2886,8 @@
           "answer": "Les générations payantes échouées sont automatiquement remboursées; chaque job inclut une courte note d’incident."
         },
         {
-          "question": "Peut-on contourner le brand-safety pour des projets spécifiques ?",
-          "answer": "Oui. Les admins peuvent demander des allowlists ou des mots-clés restreints par studio; les cas sensibles passent en revue humaine avec une piste d’audit."
+          "question": "Pourquoi une génération peut-elle être bloquée ?",
+          "answer": "Les fournisseurs de modèles appliquent leurs propres contrôles de contenu. Si une demande est bloquée, consultez le message du job et vérifiez le prompt et les médias de référence avant de réessayer."
         }
       ]
     },
@@ -3014,7 +3034,7 @@
     },
     "paragraphs": [
       "Nous pensons que les équipes professionnelles méritent de la clarté avant de générer. Cela signifie transparence des prix, routage fiable et contexte partagé entre créatifs, producteurs et parties prenantes.",
-      "L'indépendance compte : nous restons neutres entre les modèles, nous nous intégrons à Sora 2, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image, et des bêtas rotatives, et n'énumérons les marques déposées que pour décrire la compatibilité.",
+      "L'indépendance compte : nous restons neutres entre les modèles, nous nous intégrons à Seedance 2.5, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image, et des bêtas rotatives, et n'énumérons les marques déposées que pour décrire la compatibilité.",
       "Le produit est conçu pour les équipes ayant besoin de précision sans bruit. Interface discrète, paramètres par défaut premium, contrôles précis et puces « prix avant » qui tiennent la finance informée.",
       "Nous gardons le flux de production concret : comparer les modèles, préparer les assets, générer seulement lorsque le coût et les réglages sont clairs, puis relire les sorties dans un seul espace plutôt que disperser le contexte entre plusieurs tableaux de bord fournisseurs."
     ],
@@ -3983,6 +4003,7 @@
         "fields": {
           "total": "Total",
           "walletMovement": "Mouvement du portefeuille",
+          "paymentAmount": "Montant payé (taxes comprises)",
           "tax": "Taxe",
           "discount": "Remise",
           "document": "Document"
@@ -6848,9 +6869,11 @@
       "signupSuggestionReady": "Parfait, créons votre compte.",
       "creatingAccount": "Création du compte…",
       "accountRedirecting": "Compte créé. Redirection…",
-      "confirmEmail": "Consultez votre boîte de réception pour confirmer votre e-mail.",
+      "confirmEmail": "Si votre compte nécessite une confirmation, consultez vos e-mails. Vous avez déjà un compte ? Connectez-vous ou choisissez « Mot de passe oublié ? » sur le formulaire de connexion pour récupérer votre accès.",
       "sendingReset": "Envoi du lien…",
-      "resetSent": "E-mail de réinitialisation envoyé.",
+      "resetSent": "Si un compte existe pour cette adresse e-mail, vous recevrez un lien de réinitialisation. Vérifiez votre boîte de réception et vos courriers indésirables.",
+      "resetUnavailable": "Impossible d’envoyer le lien de réinitialisation. Réessayez plus tard. Si le problème persiste, contactez l’assistance.",
+      "resetRateLimited": "Trop de demandes. Patientez quelques minutes avant de demander un nouveau lien.",
       "googleUnavailable": "La connexion Google est indisponible car l’URL de redirection n’a pas pu être déterminée.",
       "googleRedirecting": "Redirection vers Google…",
       "completingSignIn": "Finalisation de la connexion…",
@@ -7055,7 +7078,7 @@
       "capabilityLabel": "Capacité",
       "outputLabel": "Résolution max",
       "q1": "Que sont {left} et {right} ?",
-      "a1": "{left} et {right} sont des modèles de génération vidéo IA disponibles sur MaxVideoAI. Cette page les compare face à face avec les mêmes prompts, les caractéristiques clés et les données ci-dessus.",
+      "a1": "{left} et {right} sont des modèles de génération vidéo IA documentés sur MaxVideoAI. Cette page les compare face à face avec les mêmes prompts, les caractéristiques clés et les données ci-dessus.",
       "q2": "Quel est le meilleur : {left} ou {right} ?",
       "a2": "Cela dépend du flux de production. Utilisez la grille de scores et les duels “même prompt” pour comparer l’adhérence au prompt, le réalisme du mouvement, la fidélité humaine et la lisibilité du texte — puis ouvrez chaque profil pour les détails complets.",
       "q3": "Lequel est le moins cher sur MaxVideoAI ?",
@@ -8467,5 +8490,25 @@
     "body": "Nous ne trouvons pas cette URL. Elle est peut-etre obsolete ou n'a jamais existe. Utilisez les liens ci-dessous pour continuer a explorer MaxVideoAI.",
     "homeLabel": "Retour a l'accueil",
     "modelsLabel": "Voir les modeles video"
+  },
+  "passwordRecovery": {
+    "title": "Choisissez un nouveau mot de passe",
+    "intro": "Continuez pour vérifier votre lien de réinitialisation.",
+    "verify": "Continuer",
+    "verifying": "Vérification du lien…",
+    "password": "Nouveau mot de passe",
+    "confirm": "Confirmez le nouveau mot de passe",
+    "save": "Enregistrer le nouveau mot de passe",
+    "saving": "Enregistrement…",
+    "saved": "Votre mot de passe a été modifié.",
+    "continueToApp": "Accéder à l’application",
+    "requestNew": "Demander un nouveau lien",
+    "invalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau. Si vous avez changé de navigateur, essayez d’ouvrir le lien initial dans le navigateur utilisé pour le demander.",
+    "tooShort": "Utilisez au moins 6 caractères.",
+    "mismatch": "Les mots de passe ne correspondent pas.",
+    "weak": "Choisissez un mot de passe plus robuste.",
+    "same": "Choisissez un mot de passe différent du précédent.",
+    "unavailable": "Impossible de modifier votre mot de passe. Réessayez.",
+    "ready": "Saisissez et confirmez votre nouveau mot de passe."
   }
 }

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import clsx from 'clsx';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { Link, usePathname } from '@/i18n/navigation';
 import { useI18n } from '@/lib/i18n/I18nProvider';
@@ -44,7 +44,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
   const generateLabel = cta;
   const loginLabelMobile = locale === 'fr' ? 'Connexion' : locale === 'es' ? 'Entrar' : 'Log in';
   const generateLabelMobile = locale === 'fr' ? 'Générer' : locale === 'es' ? 'Generar' : 'Generate';
-  const loginHref = buildLoginHref({ mode: 'signin', nextPath: '/app' });
+  const loginHref = buildLoginHref({ mode: 'signin', nextPath: '/app', locale });
   const isAuthenticated = Boolean(email);
 
   const handleAdminNavigation = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -107,7 +107,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
         .then(({ supabase }) => supabase.auth.getSession().then(({ data }) => ({ supabase, data })))
         .then(async ({ supabase, data }) => {
           if (logoutIntentActive) {
-            await supabase.auth.signOut().catch(() => undefined);
+            await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
             return;
           }
           const session = data.session ?? null;
@@ -163,7 +163,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
     clearLastKnownAccount();
     writeLastKnownUserId(null);
     void import('@/lib/supabaseClient')
-      .then(({ supabase }) => supabase.auth.signOut())
+      .then(({ supabase }) => supabase.auth.signOut({ scope: 'local' }))
       .catch(() => undefined);
     const payload = JSON.stringify({});
     if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
@@ -235,7 +235,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
     }
   }, [pathname]);
 
-  const closeDesktopDropdown = (delay = 0) => {
+  const closeDesktopDropdown = useCallback((delay = 0) => {
     if (desktopDropdownCloseTimeout.current) {
       window.clearTimeout(desktopDropdownCloseTimeout.current);
       desktopDropdownCloseTimeout.current = null;
@@ -248,7 +248,12 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
       setDesktopDropdownOpen(null);
       desktopDropdownCloseTimeout.current = null;
     }, delay);
-  };
+  }, []);
+
+  const openDesktopDropdown = useCallback((key: string) => {
+    if (desktopDropdownCloseTimeout.current) window.clearTimeout(desktopDropdownCloseTimeout.current);
+    setDesktopDropdownOpen(key);
+  }, []);
 
   const initials = useMemo(() => {
     if (!email) return '?';
@@ -310,10 +315,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
             pathname={pathname}
             t={t}
             onCloseDesktopDropdown={closeDesktopDropdown}
-            onOpenDesktopDropdown={(key) => {
-              if (desktopDropdownCloseTimeout.current) window.clearTimeout(desktopDropdownCloseTimeout.current);
-              setDesktopDropdownOpen(key);
-            }}
+            onOpenDesktopDropdown={openDesktopDropdown}
           />
         </div>
         <div className="flex items-center gap-2 whitespace-nowrap sm:gap-3 lg:gap-4">

@@ -233,12 +233,12 @@ test('marketing footer keeps crawlable Best-For hub and priority child links', (
   );
 });
 
-test('examples navigation can expose every public family without a one-column desktop menu', () => {
+test('examples navigation exposes discoverable families without promoting archives', () => {
   const examplesDropdown = MARKETING_NAV_DROPDOWNS.examples;
   assert.equal(examplesDropdown?.desktopColumns, 2);
   assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['ltx', 'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse']);
   const allEntries = [...examplesDropdown!.items, ...examplesDropdown!.sections!.flatMap(section => section.items)];
-  assert.deepEqual(allEntries.map(item => item.key).sort(), ['veo','seedance','ltx','kling','wan','happy-horse','sora','luma','grok','flux','pika','hailuo'].sort());
+  assert.deepEqual(allEntries.map(item => item.key).sort(), ['veo','seedance','ltx','kling','wan','happy-horse','luma','grok','flux','pika','hailuo'].sort());
   assert.equal(new Set(allEntries.map(item => item.key)).size, allEntries.length);
   assert.match(marketingDesktopNavSource, /dropdown\.desktopColumns === 2/);
   assert.match(marketingDesktopNavSource, /two-columns/);
@@ -327,7 +327,7 @@ test('marketing footer links to the pay-as-you-go support page without promoting
 test('marketing nav keeps logged-out state after an explicit workspace logout intent', () => {
   assert.match(marketingNavSource, /import \{ consumeLogoutIntent, setLogoutIntent \} from '@\/lib\/logout-intent';/);
   assert.match(marketingNavSource, /const logoutIntentActive = consumeLogoutIntent\(\);/);
-  assert.match(marketingNavSource, /if \(logoutIntentActive\) \{\s*await supabase\.auth\.signOut\(\)\.catch\(\(\) => undefined\);\s*return;/s);
+  assert.match(marketingNavSource, /if \(logoutIntentActive\) \{\s*await supabase\.auth\.signOut\(\{ scope: 'local' \}\)\.catch\(\(\) => undefined\);\s*return;/s);
   assert.match(marketingNavSource, /if \(logoutIntentActive\) return;/);
 });
 

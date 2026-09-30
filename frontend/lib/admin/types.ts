@@ -12,7 +12,7 @@ export type AmountSeriesPoint = {
 export type MonthlyPoint = TimeSeriesPoint;
 export type MonthlyAmountPoint = AmountSeriesPoint;
 
-export type MetricsRangeLabel = '24h' | '7d' | '30d' | '90d';
+export type MetricsRangeLabel = '24h' | '7d' | '30d' | '90d' | 'custom';
 
 export type MetricsRange = {
   label: MetricsRangeLabel;
@@ -128,6 +128,7 @@ export type EngineHealthStat = {
 };
 
 export type AdminHealthSnapshot = {
+  providerCreditFailures24h?: Array<{ provider: string; count: number; lastFailureAt: string | null }>;
   failedRenders24h: number;
   refundedFailures24h: number;
   stalePendingJobs: number;

@@ -4,7 +4,12 @@ import test from 'node:test';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { getAgentModelDetails } from '../frontend/src/server/agent-api/model-details';
 import { recommendAgentModels } from '../frontend/src/server/agent-api/model-recommendations';
-import type { AgentModelCatalogDeps } from '../frontend/src/server/agent-api/model-catalog';
+import { resolveAgentGenerationModeExecutability } from '../frontend/src/server/agent-runtime/model-executability';
+import {
+  listAgentModels,
+  listPublicAgentGenerationEngines,
+  type AgentModelCatalogDeps,
+} from '../frontend/src/server/agent-api/model-catalog';
 import type { EngineCaps } from '../frontend/types/engines';
 
 function candidate(
@@ -77,6 +82,49 @@ function realRegistryDeps(): AgentModelCatalogDeps {
     },
   };
 }
+
+test('Sora remains historical by exact choice and cannot generate or be recommended', async () => {
+  const catalogDeps = realRegistryDeps();
+  const discovery = await listAgentModels({}, catalogDeps);
+  const executable = await listPublicAgentGenerationEngines(catalogDeps);
+  for (const id of ['sora-2', 'sora-2-pro']) {
+    assert.equal(discovery.some((model) => model.id === id), false, id);
+    const exact = await listAgentModels({ id }, catalogDeps);
+    assert.equal(exact.length, 1, id);
+    assert.equal(exact[0].lifecycle, 'deep_legacy', id);
+    assert.equal(exact[0].recommendedByDefault, false, id);
+    assert.equal(exact[0].generationEnabled, false, id);
+    assert.equal(executable.some((entry) => entry.engine.id === id), false, id);
+    const recommendations = await recommendAgentModels({ id, preferredModelIds: [id] }, catalogDeps);
+    assert.deepEqual(recommendations.recommendations, [], id);
+    const details = await getAgentModelDetails(id, catalogDeps);
+    assert.ok(details.promptingSources.some((source) => source.provider === 'OpenAI'), id);
+  }
+});
+
+test('H3 Max recommendations derive executable image and reference modes from the shared runtime', async () => {
+  const catalogDeps: AgentModelCatalogDeps = {
+    ...realRegistryDeps(),
+    isModeExecutable: (engine, mode) => resolveAgentGenerationModeExecutability(engine, mode, {
+      bytePlusEnabled: false,
+      bytePlusApiKey: '',
+      falApiKey: 'test-credential-no-network',
+      providerEnv: {},
+    }).executable,
+  };
+  const details = await getAgentModelDetails('minimax-h3-max', catalogDeps);
+  assert.equal(details.lifecycle, 'current');
+  assert.deepEqual(details.modes.map((mode) => mode.mode), ['t2v', 'i2v', 'ref2v']);
+  assert.equal(details.modes[0].audio, 'always_generated');
+  assert.deepEqual(details.modes[0].resolutions, ['480P', '768P', '1080P']);
+  assert.ok(details.modes[0].settings.some((setting) => setting.key === 'promptExpansionMode'));
+  assert.equal(details.guidance?.bestFor.includes('reference_guided'), true);
+  assert.equal(details.links.examples, 'https://maxvideoai.com/examples/hailuo');
+  const recommendation = await recommendAgentModels({ id: 'minimax-h3-max', useCase: 'product_video' }, catalogDeps);
+  assert.equal(recommendation.recommendations[0]?.model.id, 'minimax-h3-max');
+  assert.ok(recommendation.recommendations[0].reasons.some((reason) => reason.includes('Reviewed guidance')));
+  assert.equal((await recommendAgentModels({ id: 'minimax-h3-max', mode: 'ref2v' }, catalogDeps)).recommendations[0]?.model.id, 'minimax-h3-max');
+});
 
 test('recommendations keep explicit capabilities as hard constraints and cap stable ties at three', async () => {
   const catalogDeps = deps([

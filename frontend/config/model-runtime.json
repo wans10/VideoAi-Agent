@@ -1846,10 +1846,13 @@
         "internal": [
           "pika-2-2",
           "pika-22",
-          "pika22"
+          "pika22",
+          "pika-image-to-video"
         ],
         "publicSlugs": [
           "pika-2-2",
+          "pika-2-2-text-to-video",
+          "pika-2-2-text-and-image-to-video",
           "pika-image-to-video",
           "pika-image-video"
         ]
@@ -2403,7 +2406,7 @@
         "examples": {
           "published": true,
           "includeInFamilyCopy": true,
-          "current": true,
+          "current": false,
           "familyRank": 1
         },
         "compare": {
@@ -2441,19 +2444,16 @@
           ]
         },
         "app": {
-          "published": true,
-          "discoveryRank": 0,
-          "variantGroup": "sora",
-          "variantLabel": "Standard"
+          "published": false
         },
         "pricing": {
-          "published": true
+          "published": false
         },
         "sitemap": {
           "published": true
         }
       },
-      "lifecycle": "current",
+      "lifecycle": "deep_legacy",
       "successorId": null,
       "successorSlug": null
     },
@@ -2480,7 +2480,7 @@
         "examples": {
           "published": true,
           "includeInFamilyCopy": true,
-          "current": true,
+          "current": false,
           "familyRank": 0
         },
         "compare": {
@@ -2512,19 +2512,16 @@
           ]
         },
         "app": {
-          "published": true,
-          "discoveryRank": 1,
-          "variantGroup": "sora",
-          "variantLabel": "Pro"
+          "published": false
         },
         "pricing": {
-          "published": true
+          "published": false
         },
         "sitemap": {
           "published": true
         }
       },
-      "lifecycle": "current",
+      "lifecycle": "deep_legacy",
       "successorId": null,
       "successorSlug": null
     },
@@ -2540,6 +2537,7 @@
         ],
         "publicSlugs": [
           "google-veo-3",
+          "google-veo-3-1",
           "veo-3",
           "veo-3-1-first-last",
           "veo3",
@@ -2616,7 +2614,9 @@
       "aliases": {
         "internal": [
           "veo3",
-          "veo3-fast"
+          "veo3-fast",
+          "veo-3-fast",
+          "veo3fast"
         ],
         "publicSlugs": [
           "google-veo-3-1-fast",
@@ -2699,6 +2699,7 @@
         ],
         "publicSlugs": [
           "veo-3-lite",
+          "google-veo-3-1-lite",
           "veo3-lite",
           "veo3.1-lite",
           "veo3lite"
