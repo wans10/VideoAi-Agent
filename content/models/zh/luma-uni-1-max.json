@@ -2,12 +2,12 @@
   "marketingName": "Luma Uni-1 Max",
   "versionLabel": "Uni-1 Max",
   "seo": {
-    "title": "Luma Uni-1 Max：价格、2K 图像与编辑 | MaxVideoAI",
-    "description": "在 MaxVideoAI 中使用 Luma Uni-1 Max 打造高品质 2K 静态图、产品视觉、文字排版布局、原图编辑以及多图参考引导的图像工作流。",
+    "title": "Luma Uni-1 Max：价格、2K 图像与编辑 | VideoAI",
+    "description": "在 VideoAI 中使用 Luma Uni-1 Max 打造高品质 2K 静态图、产品视觉、文字排版布局、原图编辑以及多图参考引导的图像工作流。",
     "image": "/assets/model-examples/luma-uni-1-max/hero-product.webp"
   },
-  "overview": "Luma Uni-1 Max 是 MaxVideoAI 中保真度更高的 Uni 图像路线，专为需要更强产品细节、严谨精修、文字排版布局以及参考图引导创意方向的精选静态图而设计。",
-  "pricingNotes": "展示价格采用 MaxVideoAI 定价。Uni-1 Max 并非更便宜或更快速的替代方案；当静态图像需要更高保真度的渲染路线时，请选用该模型。",
+  "overview": "Luma Uni-1 Max 是 VideoAI 中保真度更高的 Uni 图像路线，专为需要更强产品细节、严谨精修、文字排版布局以及参考图引导创意方向的精选静态图而设计。",
+  "pricingNotes": "展示价格采用 VideoAI 定价。Uni-1 Max 并非更便宜或更快速的替代方案；当静态图像需要更高保真度的渲染路线时，请选用该模型。",
   "hero": {
     "title": "Luma Uni-1 Max — 高品质 2K 图像生成与编辑",
     "intro": "借助更高保真度的 Uni 图像路线，打造主视觉大片、产品图、海报概念以及严谨的原图精修。",
@@ -76,7 +76,7 @@
     },
     {
       "label": "价格说明",
-      "body": "公开示例采用 MaxVideoAI 展示价格"
+      "body": "公开示例采用 VideoAI 展示价格"
     }
   ],
   "promptStructure": {
@@ -135,7 +135,7 @@
     },
     {
       "q": "Uni-1 Max 的价格如何展示？",
-      "a": "展示示例采用计入利润率的 MaxVideoAI 定价。生成前应用界面会显示确切的实时报价。"
+      "a": "展示示例采用计入利润率的 VideoAI 定价。生成前应用界面会显示确切的实时报价。"
     }
   ],
   "custom": {
@@ -168,10 +168,10 @@
       "更高保真度的静态图像路线||当精选图像需要更丰富的细节和更细腻的质感时，使用 Max。",
       "聚焦产品与文字排版||清晰明确地描述标签、层级与材质表面，并在生成后仔细检查结果。",
       "参考图引导精修||通过原图加上目标明确的参考图，实现高度受控的修改。",
-      "透明的价格机制||展示价格采用 MaxVideoAI 定价，生成前应用会确认最终报价。"
+      "透明的价格机制||展示价格采用 VideoAI 定价，生成前应用会确认最终报价。"
     ],
     "specTitle": "Uni-1 Max 图像规格",
-    "specNote": "规格描述公开的 MaxVideoAI 图像工作台路线。",
+    "specNote": "规格描述公开的 VideoAI 图像工作台路线。",
     "specSections": [
       {
         "title": "图像工作流",
@@ -185,8 +185,8 @@
       {
         "title": "计费机制",
         "items": [
-          "基础图像与参考图成本遵循 MaxVideoAI 展示价格。",
-          "公开示例中已计入 MaxVideoAI 综合费率。",
+          "基础图像与参考图成本遵循 VideoAI 展示价格。",
+          "公开示例中已计入 VideoAI 综合费率。",
           "生成前以应用内精确报价为准。",
           "Max 是一条更高保真度的路线，而非更低价格的承诺。"
         ]
@@ -214,7 +214,7 @@
       "仅限静态图像。",
       "并非定位为总是比 Uni-1 更便宜或更快速。",
       "精确文字排版与标签仍需人工审核。",
-      "公开价格遵循 MaxVideoAI 展示价格。"
+      "公开价格遵循 VideoAI 展示价格。"
     ],
     "safetyTitle": "安全规范与肖像权",
     "safetyRules": [
@@ -239,7 +239,7 @@
         "ctaLabel": "查看 Ray 3.2"
       }
     ],
-    "finalPara1": "Luma Uni-1 Max 是 MaxVideoAI 中用于主视觉图像、产品图及严谨原图编辑的高品质 Uni 静态图像路线。",
+    "finalPara1": "Luma Uni-1 Max 是 VideoAI 中用于主视觉图像、产品图及严谨原图编辑的高品质 Uni 静态图像路线。",
     "finalButton": "使用 Luma Uni-1 Max 生成"
   },
   "decision": {
@@ -316,7 +316,7 @@
       },
       {
         "title": "透明展示价格",
-        "body": "生成前展示基于 MaxVideoAI 定价的费用明细。",
+        "body": "生成前展示基于 VideoAI 定价的费用明细。",
         "tone": "price"
       }
     ],
@@ -370,14 +370,14 @@
     ],
     "pricingCopy": {
       "title": "Luma Uni-1 Max 价格一览",
-      "subtitle": "展示价格采用 MaxVideoAI 定价；生成前会在应用中显示精确价格。",
+      "subtitle": "展示价格采用 VideoAI 定价；生成前会在应用中显示精确价格。",
       "footnote": "Max 并非更便宜或更快速的替代方案；当静态图像需要更高保真度路线时选用。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "单张图像",
       "ctaHref": "/zh/pricing#luma-uni-1-max-pricing"
     },
     "meta": {
-      "title": "Luma Uni-1 Max：价格、2K 图像与编辑 | MaxVideoAI",
+      "title": "Luma Uni-1 Max：价格、2K 图像与编辑 | VideoAI",
       "description": "探索 Luma Uni-1 Max 定价、高品质 2K 静态图生成、原图编辑、文字敏感型排版以及多图参考引导的图像工作流。"
     }
   },

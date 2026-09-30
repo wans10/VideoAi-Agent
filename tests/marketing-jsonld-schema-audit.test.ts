@@ -435,26 +435,18 @@ test('marketing JSON-LD builders emit baseline-valid schema payloads', () => {
 test('site Organization schema keeps one canonical complete entity', () => {
   const organization = buildSiteOrganizationSchema();
 
-  assert.equal(organization['@id'], 'https://maxvideoai.com/#organization');
-  assert.equal(organization.name, 'MaxVideoAI');
-  assert.equal(organization.alternateName, 'MaxVideo AI');
-  assert.deepEqual(organization.sameAs, [
-    'https://x.com/MaxVideoAI',
-    'https://www.linkedin.com/company/maxvideoai/',
-    'https://github.com/camgraphe/maxvideoai',
-    'https://github.com/camgraphe/maxvideoai-plugin',
-    'https://www.producthunt.com/products/maxvideoai',
-    'https://www.youtube.com/channel/UCi5XkvmzIaG8gvJPLEs94Mw',
-  ]);
+  assert.equal(organization['@id'], 'https://videoai.omninodetech.com/#organization');
+  assert.equal(organization.name, 'VideoAI');
+  assert.ok(!('sameAs' in organization), 'Do not claim the original product social profiles');
   const reference = buildSiteOrganizationReference();
   assert.equal(reference['@id'], organization['@id']);
-  assert.ok(reference.sameAs.every((profile) => organization.sameAs.includes(profile)));
+  assert.ok(!('sameAs' in reference));
   const coreLayout = readFileSync('frontend/app/(core)/layout.tsx', 'utf8');
   assert.match(coreLayout, /const orgSchema = buildSiteOrganizationSchema\(\)/);
   assert.doesNotMatch(coreLayout, /sameAs:/);
 });
 
-test('blog Article schema identifies the visible person while retaining MaxVideoAI as publisher', () => {
+test('blog Article schema identifies the visible person while retaining VideoAI as publisher', () => {
   const localization = buildBlogPostLocalization({
     canonicalSlug: 'author-schema-sample',
     locale: 'en',
@@ -480,10 +472,10 @@ test('blog Article schema identifies the visible person while retaining MaxVideo
     '@type': 'Person',
     name: 'Adrien Millot',
     jobTitle: 'Founder & Product Lead',
-    url: 'https://maxvideoai.com/about#adrien-millot',
+    url: 'https://videoai.omninodetech.com/about#adrien-millot',
   });
   assert.equal(articleSchema.publisher['@type'], 'Organization');
-  assert.equal(articleSchema.publisher.name, 'MaxVideo AI');
+  assert.equal(articleSchema.publisher.name, 'VideoAI');
 });
 
 test('restricted FAQPage usage is inventoried without allowing deprecated schema types', () => {

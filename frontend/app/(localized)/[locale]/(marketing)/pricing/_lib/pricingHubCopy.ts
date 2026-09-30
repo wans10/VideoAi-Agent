@@ -219,7 +219,7 @@ const en: PricingHubCopy = {
     ariaTabs: 'Pricing surfaces',
     title: 'AI video prices by engine',
     intro:
-      'Compare preset MaxVideoAI total prices for common video scenarios. Unsupported combinations are marked clearly. Open the app for the exact live quote before generation.',
+      'Compare preset VideoAI total prices for common video scenarios. Unsupported combinations are marked clearly. Open the app for the exact live quote before generation.',
     currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Prices shown in CNY.' : 'Prices shown in USD credits.',
     cheapestCurrentGen: 'Cheapest current-gen',
     tableHeaders: { engine: 'Engine', caps: 'Caps', actions: 'Actions' },
@@ -257,7 +257,7 @@ const en: PricingHubCopy = {
       currentGenValue: (count) => `${count} engines`,
     },
     globalNote:
-      'Prices are current MaxVideoAI display prices for preset scenarios. Open the app for the exact live price before each generation, including provider limits, duration rounding and job-level rounding.',
+      'Prices are current VideoAI display prices for preset scenarios. Open the app for the exact live price before each generation, including provider limits, duration rounding and job-level rounding.',
   },
   popularChecks: {
     title: 'Popular price checks',
@@ -279,7 +279,7 @@ const en: PricingHubCopy = {
   },
   otherSurfaces: {
     title: 'Image, audio and tool pricing',
-    intro: 'Compact MaxVideoAI price references for image generation, audio generation, character prep, angle tools and upscale.',
+    intro: 'Compact VideoAI price references for image generation, audio generation, character prep, angle tools and upscale.',
     imageTitle: 'Image generation pricing',
     audioTitle: 'Audio pricing',
     toolTitle: 'Prep tools and upscale pricing',
@@ -406,7 +406,7 @@ const fr: PricingHubCopy = {
     ariaTabs: 'Surfaces tarifaires',
     title: 'Prix vidéo IA par moteur',
     intro:
-      'Comparez les prix totaux MaxVideoAI pour des scénarios vidéo courants. Les combinaisons non disponibles sont indiquées clairement. Ouvrez l’app pour le devis exact avant génération.',
+      'Comparez les prix totaux VideoAI pour des scénarios vidéo courants. Les combinaisons non disponibles sont indiquées clairement. Ouvrez l’app pour le devis exact avant génération.',
     currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Prix affichés en CNY.' : 'Prix affichés en crédits USD.',
     cheapestCurrentGen: 'Moins cher génération actuelle',
     tableHeaders: { engine: 'Moteur', caps: 'Caps', actions: 'Actions' },
@@ -444,7 +444,7 @@ const fr: PricingHubCopy = {
       currentGenValue: (count) => `${count} moteurs`,
     },
     globalNote:
-      'Les prix sont les prix affichés MaxVideoAI pour ces scénarios prédéfinis. Ouvrez l’app pour le prix exact avant chaque génération, avec les limites provider, l’arrondi de durée et l’arrondi par job.',
+      'Les prix sont les prix affichés VideoAI pour ces scénarios prédéfinis. Ouvrez l’app pour le prix exact avant chaque génération, avec les limites provider, l’arrondi de durée et l’arrondi par job.',
   },
   popularChecks: {
     title: 'Vérifications de prix fréquentes',
@@ -466,7 +466,7 @@ const fr: PricingHubCopy = {
   },
   otherSurfaces: {
     title: 'Prix image, audio et outils',
-    intro: 'Références compactes MaxVideoAI pour la génération d’images, l’audio, la préparation de personnages, les angles caméra et l’upscale.',
+    intro: 'Références compactes VideoAI pour la génération d’images, l’audio, la préparation de personnages, les angles caméra et l’upscale.',
     imageTitle: 'Prix génération d’images',
     audioTitle: 'Prix audio',
     toolTitle: 'Prix outils de préparation et upscale',
@@ -593,7 +593,7 @@ const es: PricingHubCopy = {
     ariaTabs: 'Superficies de precios',
     title: 'Precios de video IA por motor',
     intro:
-      'Compara precios totales de MaxVideoAI para escenarios de video comunes. Las combinaciones no disponibles se marcan claramente. Abre la app para ver el precio exacto antes de generar.',
+      'Compara precios totales de VideoAI para escenarios de video comunes. Las combinaciones no disponibles se marcan claramente. Abre la app para ver el precio exacto antes de generar.',
     currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Precios mostrados en CNY.' : 'Precios mostrados en créditos USD.',
     cheapestCurrentGen: 'Más barato generación actual',
     tableHeaders: { engine: 'Motor', caps: 'Caps', actions: 'Acciones' },
@@ -631,7 +631,7 @@ const es: PricingHubCopy = {
       currentGenValue: (count) => `${count} motores`,
     },
     globalNote:
-      'Los precios son los precios mostrados por MaxVideoAI para escenarios predefinidos. Abre la app para ver el precio exacto antes de cada generación, incluyendo límites del proveedor, redondeo de duración y redondeo por job.',
+      'Los precios son los precios mostrados por VideoAI para escenarios predefinidos. Abre la app para ver el precio exacto antes de cada generación, incluyendo límites del proveedor, redondeo de duración y redondeo por job.',
   },
   popularChecks: {
     title: 'Consultas de precio frecuentes',
@@ -653,7 +653,7 @@ const es: PricingHubCopy = {
   },
   otherSurfaces: {
     title: 'Precios de imagen, audio y herramientas',
-    intro: 'Referencias compactas de MaxVideoAI para generación de imágenes, audio, preparación de personajes, herramientas de ángulo y upscale.',
+    intro: 'Referencias compactas de VideoAI para generación de imágenes, audio, preparación de personajes, herramientas de ángulo y upscale.',
     imageTitle: 'Precios de generación de imágenes',
     audioTitle: 'Precios de audio',
     toolTitle: 'Precios de herramientas de prep y upscale',
@@ -777,7 +777,7 @@ const zh: PricingHubCopy = {
     ariaTabs: '定价分区',
     title: '各引擎 AI 视频价格',
     intro:
-      '对比常见视频场景下 MaxVideoAI 的预设总价。不支持的组合已明确标出。可在生成前打开应用查看实时精准报价。',
+      '对比常见视频场景下 VideoAI 的预设总价。不支持的组合已明确标出。可在生成前打开应用查看实时精准报价。',
     currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? '价格以人民币显示。' : '价格以美元点数显示。',
     cheapestCurrentGen: '当代最实惠',
     tableHeaders: { engine: '模型引擎', caps: '规格能力', actions: '操作' },
@@ -815,7 +815,7 @@ const zh: PricingHubCopy = {
       currentGenValue: (count) => `${count} 个引擎`,
     },
     globalNote:
-      '所列价格为预设场景下的 MaxVideoAI 当前展示价格。生成前请在应用内查看实时精确价格，包括供应商限制、时长取整及任务级取整。',
+      '所列价格为预设场景下的 VideoAI 当前展示价格。生成前请在应用内查看实时精确价格，包括供应商限制、时长取整及任务级取整。',
   },
   popularChecks: {
     title: '热门价格速查',
@@ -837,7 +837,7 @@ const zh: PricingHubCopy = {
   },
   otherSurfaces: {
     title: '图像、音频与工具定价',
-    intro: '涵盖图像生成、音频生成、角色预设、机位工具及超分辨率的 MaxVideoAI 价格参考。',
+    intro: '涵盖图像生成、音频生成、角色预设、机位工具及超分辨率的 VideoAI 价格参考。',
     imageTitle: '图像生成定价',
     audioTitle: '音频定价',
     toolTitle: '预设工具与超分辨率定价',

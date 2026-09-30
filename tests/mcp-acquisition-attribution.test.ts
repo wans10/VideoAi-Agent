@@ -548,6 +548,6 @@ test('the public GitHub source callout stays useful and untracked from the MCP w
   }
   assert.equal(
     getMcpPageCopy('en').answers.repositoryLabel,
-    'Inspect the public MaxVideoAI plugin source on GitHub',
+    'Inspect the public VideoAI plugin source on GitHub',
   );
 });

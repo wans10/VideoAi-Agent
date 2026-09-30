@@ -1,6 +1,6 @@
-# MaxVideoAI Studio Editor Guide
+# VideoAI Studio Editor Guide
 
-This folder owns the MaxVideoAI Studio product surface:
+This folder owns the VideoAI Studio product surface:
 
 - `projects/`: project creation and project list entry point.
 - `workspace/`: the canvas generation editor, viewer, timeline, export dialog, and route-local editor UI.
@@ -57,7 +57,7 @@ Prefer adding new behavior by extending contracts and pure helpers instead of gr
 - Timeline drags must be frame-aware and must revert if an operation cannot resolve cleanly.
 - Video clips with linked audio should move together by default until explicitly unlinked.
 - Project settings are sequence/project state, not scattered controls inside unrelated panels.
-- Export belongs to the timeline toolbar because it exports the active sequence. Keep the topbar for Canvas/Viewer switching, the shared MaxVideoAI menu, wallet/session, and an explicit saved exit.
+- Export belongs to the timeline toolbar because it exports the active sequence. Keep the topbar for Canvas/Viewer switching, the shared VideoAI menu, wallet/session, and an explicit saved exit.
 - Product Studio is Live by default and exposes no Mock/Live toggle. A local simulation may be selected only by the explicit non-production E2E query owned by `studio-generation-mode.ts`; production must always ignore it.
 - Reuse `AppSiteMenuButton` for app destinations, language, and appearance. Every same-tab app navigation from Studio must pass through the workspace save/ACK boundary before leaving the editor.
 - Server MP4 export requires a job worker, storage, billing/idempotency, and completed artifact URL. Local manifest or EDL export is a different feature.

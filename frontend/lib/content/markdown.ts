@@ -120,7 +120,8 @@ export async function getContentEntries(root: string): Promise<ContentEntry[]> {
     return existing();
   }
 
-  const cached = unstable_cache(async () => getContentEntriesUncached(root), ['contentEntries', root], {
+  // Next's data cache can survive builds; this content release invalidates legacy brand copy.
+  const cached = unstable_cache(async () => getContentEntriesUncached(root), ['contentEntries:videoai-2026-09-30', root], {
     revalidate: MARKDOWN_CACHE_REVALIDATE_SECONDS,
   });
   cachedEntriesByRoot.set(root, cached);

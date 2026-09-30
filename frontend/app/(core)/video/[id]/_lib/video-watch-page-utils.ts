@@ -8,7 +8,7 @@ export type DetailRow = { key: string; label: string; value: string };
 export const SITE = SITE_ORIGIN.replace(/\/$/, '');
 export const FALLBACK_THUMB = `${SITE}/og/price-before.png`;
 export const FALLBACK_POSTER = `${SITE}/og/price-before.png`;
-export const TITLE_SUFFIX = ' — MaxVideoAI';
+export const TITLE_SUFFIX = ' — VideoAI';
 
 const TRAILING_BRAND_SUFFIX = /\s+[—-]\s*MaxVideo\s*AI\s*$/i;
 

@@ -1,0 +1,49 @@
+/* Tools are a working inventory; supporting sections use the same paper surfaces. */
+.marketing-site.videoai-site .studio-toolkit { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 32px 64px; align-items: start; }
+.marketing-site.videoai-site .studio-toolkit > .chapter-heading { display: block; border: 0; padding: 0; margin: 0; }
+.marketing-site.videoai-site .studio-toolkit .chapter-heading h2 { margin-block: 16px 24px; }
+.marketing-site.videoai-site .studio-toolkit .chapter-heading .text-link { margin-top: 24px; }
+.marketing-site .home-tool-visuals { display: grid; gap: 16px; }
+.marketing-site .home-tool-visual { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; padding: 12px; min-width: 0; border: 1px solid var(--hairline); background: var(--surface); border-radius: 12px; align-items: center; }
+.marketing-site .home-tool-visual:hover { border-color: var(--brand); }
+.marketing-site .home-tool-visual > div { position: relative; aspect-ratio: 4/3; border-radius: 6px; overflow: hidden; background: var(--surface-2); }
+.marketing-site .home-tool-visual img { object-fit: cover; }
+.marketing-site .home-tool-visual > span { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-right: 12px; }
+.marketing-site .home-tool-visual small { font-size: 12px; color: var(--text-muted); }
+.marketing-site .home-tool-visual small b { color: var(--brand); font: 12px ui-monospace, monospace; }
+.marketing-site .home-tool-visual h3 { font-size: 24px; line-height: 1.4; margin-top: 12px; }
+.marketing-site .home-tool-visual > span > span:last-child { color: var(--brand); }
+.marketing-site .home-tool-shortcuts { grid-column: 1/-1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 24px; border-top: 1px solid var(--hairline); }
+.marketing-site .home-tool-shortcut { display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 68px; padding: 10px 14px; background: var(--surface-2); border-radius: 8px; font-size: 14px; }
+.marketing-site .home-tool-shortcut img { width: 48px; height: 40px; object-fit: cover; border-radius: 4px; }
+.marketing-site .home-tool-shortcut > span:last-child { margin-left: auto; color: var(--brand); }
+.marketing-site .home-tool-shortcut:hover { background: var(--brand-soft); }
+.marketing-site .studio-toolkit .tool-gallery-note { grid-column: 1/-1; margin: 0; font-size: 12px; color: var(--text-muted); }
+.marketing-site.videoai-site .home-price-lab { border-block: 1px solid var(--hairline); }
+.marketing-site.videoai-site .price-walkthrough { background: var(--surface); border: 1px solid var(--hairline); border-radius: 16px; padding: 24px; gap: 24px 40px; }
+.marketing-site.videoai-site .price-walkthrough-stage { border: 1px solid var(--hairline); border-radius: 10px; }
+.marketing-site.videoai-site .price-walkthrough-steps button { border-radius: 8px; padding: 16px; }
+.marketing-site.videoai-site .price-walkthrough-steps button[aria-pressed=true] { background: var(--brand-soft); border-color: var(--brand); }
+.marketing-site.videoai-site .price-step-number { color: var(--brand); }
+.marketing-site.videoai-site .price-walkthrough-guarantees { border-top: 1px solid var(--hairline); margin-top: 0; padding-top: 20px; }
+.marketing-site.videoai-site .home-faq-chapter .studio-faq-layout { display: block; }
+.marketing-site.videoai-site .studio-faq-layout > div:first-child { max-width: 720px; margin: 0 0 32px; text-align: left; }
+.marketing-site.videoai-site .studio-faq-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.marketing-site.videoai-site .studio-faq-list details { padding: 8px 24px; border: 1px solid var(--hairline); background: var(--surface); border-radius: 10px; }
+.marketing-site.videoai-site .studio-faq-list summary { font-size: 15px; line-height: 1.8; }
+.studio-faq-index { font: 12px ui-monospace, monospace; color: var(--brand); margin-right: 16px; }
+.marketing-site.videoai-site .studio-faq-list details > p { padding-bottom: 16px; }
+@media (max-width: 1000px) {
+  .marketing-site.videoai-site .studio-toolkit { grid-template-columns: 1fr; gap: 28px; }
+  .marketing-site .home-tool-visual h3 { font-size: 22px; }
+}
+@media (max-width: 700px) {
+  .marketing-site .home-tool-visual { grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 8px; }
+  .marketing-site .home-tool-visual h3 { font-size: 18px; margin-top: 8px; }
+  .marketing-site .home-tool-visual > span { gap: 8px; padding-right: 4px; }
+  .marketing-site .home-tool-shortcuts { grid-template-columns: 1fr; gap: 8px; }
+  .marketing-site.videoai-site .price-walkthrough { padding: 16px; }
+  .marketing-site.videoai-site .price-walkthrough-steps button { padding: 10px 6px; }
+  .marketing-site.videoai-site .studio-faq-list { grid-template-columns: 1fr; }
+  .marketing-site.videoai-site .studio-faq-list details { padding-inline: 16px; }
+}

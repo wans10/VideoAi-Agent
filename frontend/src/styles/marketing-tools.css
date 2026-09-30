@@ -87,7 +87,7 @@
 .marketing-site .background-removal-page .bg-slate-950{background:#1b1a18}
 .marketing-site .background-removal-page>section:first-of-type>.container-page{min-height:0;padding-block:48px}
 .marketing-site .background-removal-page>section:first-of-type h1{font-size:clamp(36px,4.4vw,60px);line-height:1.05}
-.marketing-site .background-removal-page :is(.text-lime-300,.text-lime-200){color:#dab17b}
+.marketing-site .background-removal-page :is(.text-lime-300,.text-lime-200){color:#ef8a71}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){
  .marketing-site .tools-hub-card img{transition:transform .35s ease}
  .marketing-site .tools-hub-card:hover img{transform:scale(1.025)}

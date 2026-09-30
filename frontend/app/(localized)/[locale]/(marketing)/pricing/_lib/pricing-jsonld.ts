@@ -35,13 +35,13 @@ export function buildPricingBreadcrumbJsonLd({ canonical, locale }: { canonical:
 export function buildPricingServiceJsonLd({ canonical, locale }: { canonical: string; locale: AppLocale }) {
   return buildMarketingServiceJsonLd({
     name:
-      locale === 'fr' ? 'Tarifs MaxVideoAI' : locale === 'es' ? 'Precios de MaxVideoAI' : 'MaxVideoAI pricing',
+      locale === 'fr' ? 'Tarifs VideoAI' : locale === 'es' ? 'Precios de VideoAI' : 'VideoAI pricing',
     description:
       locale === 'fr'
-        ? 'Comparez les prix MaxVideoAI par moteur, durée, résolution, audio, image et outils.'
+        ? 'Comparez les prix VideoAI par moteur, durée, résolution, audio, image et outils.'
         : locale === 'es'
-          ? 'Compara precios de MaxVideoAI por motor, duración, resolución, audio, imagen y herramientas.'
-          : 'Compare MaxVideoAI prices by engine, duration, resolution, audio, image and tools.',
+          ? 'Compara precios de VideoAI por motor, duración, resolución, audio, imagen y herramientas.'
+          : 'Compare VideoAI prices by engine, duration, resolution, audio, image and tools.',
     serviceType:
       locale === 'fr'
         ? 'Comparaison de prix IA'

@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana Pro",
   "versionLabel": "Pro",
   "seo": {
-    "title": "Nano Banana Pro - 1K/2K/4K 文本生图与图像编辑 | MaxVideoAI",
-    "description": "使用 Nano Banana Pro 生成 1K、2K 与 4K 高清静态图像。MaxVideoAI 支持高保真画质输出、多图参考及商业化工作流控制。",
+    "title": "Nano Banana Pro - 1K/2K/4K 文本生图与图像编辑 | VideoAI",
+    "description": "使用 Nano Banana Pro 生成 1K、2K 与 4K 高清静态图像。VideoAI 支持高保真画质输出、多图参考及商业化工作流控制。",
     "image": "https://media.maxvideoai.com/marketing/marketing/5977bed2-7e9a-489c-a437-3232c99bc078.png"
   },
-  "overview": "Nano Banana Pro 是面向品牌的专业级升级方案，适用于清晰文字排版、连贯人物角色与可直接交付的高清静态图像。在 MaxVideoAI 图像实验室中，您可以先以 1K 或 2K 快速起草构图，待画面定稿后一键切换至 4K 渲染。",
+  "overview": "Nano Banana Pro 是面向品牌的专业级升级方案，适用于清晰文字排版、连贯人物角色与可直接交付的高清静态图像。在 VideoAI 图像实验室中，您可以先以 1K 或 2K 快速起草构图，待画面定稿后一键切换至 4K 渲染。",
   "hero": {
     "title": "Nano Banana Pro - 1K/2K/4K 文本生图与图像编辑",
     "intro": "工作室级静态图像生成与语义编辑——专为广告大片素材和精致排版设计。",
@@ -114,7 +114,7 @@
     },
     {
       "q": "可以使用多少张参考图像？",
-      "a": "在 MaxVideoAI 界面中，建议保持参考图组合精简以获得更好的控制效果。具体上限取决于当前使用的生效路由。"
+      "a": "在 VideoAI 界面中，建议保持参考图组合精简以获得更好的控制效果。具体上限取决于当前使用的生效路由。"
     },
     {
       "q": "它是否支持无遮罩编辑？",
@@ -122,7 +122,7 @@
     },
     {
       "q": "生成的内容可以用于商业用途吗？",
-      "a": "只要您的输入提示词、参考图像和生成输出符合您的许可协议及 MaxVideoAI 使用条款，即可用于商业项目。"
+      "a": "只要您的输入提示词、参考图像和生成输出符合您的许可协议及 VideoAI 使用条款，即可用于商业项目。"
     }
   ],
   "pricingNotes": "2K 图像每张 $0.20，4K 图像每张 $0.39。生成前可在工作区内查看实时精准报价。",
@@ -154,7 +154,7 @@
     ],
     "whyTitle": "Nano Banana Pro 的核心优势",
     "heroDesc1": "生成质感细腻、文字清晰锐利的 1K、2K 或 4K 静态画面，与您的视频生成引擎无缝衔接。",
-    "heroDesc2": "在 MaxVideoAI 内享受统一钱包、一体化提示词实验室以及完整的生成日志。",
+    "heroDesc2": "在 VideoAI 内享受统一钱包、一体化提示词实验室以及完整的生成日志。",
     "heroHighlights": [
       "清晰文字与排版||专为商业营销素材打造，文字排版清晰锐利、毫不糊化。",
       "无需遮罩的语义编辑||直接用语言描述改动需求；构图、光影与主体特征自然保持一致。",
@@ -185,7 +185,7 @@
       "仅支持静态图像（不支持动态视频）。",
       "4K 输出为每张 $0.30（1K/2K 为每张 $0.15）。",
       "单次批量生成支持 1–8 张图像。",
-      "参考图及图像数量上限取决于当前生效的 MaxVideoAI 路由与界面规格。"
+      "参考图及图像数量上限取决于当前生效的 VideoAI 路由与界面规格。"
     ],
     "safetyTitle": "安全与肖像权规范",
     "safetyRules": [
@@ -193,7 +193,7 @@
       "严禁仇恨言论、骚扰辱骂或血腥暴力内容。",
       "未经授权不得仿冒真实人物或公众人物；使用任何肖像均需获得许可。",
       "不得包含私人隐私数据（未经同意的人物面部、住址、电话号码、证件等）。",
-      "部分提示词或参考图可能会被 MaxVideoAI 安全过滤器拦截。"
+      "部分提示词或参考图可能会被 VideoAI 安全过滤器拦截。"
     ],
     "relatedTitle": "Nano Banana 系列",
     "relatedSubtitle": "根据交付需求选用合适的 Google 图像模型，而非单纯依赖视频基准跑分。",
@@ -288,7 +288,7 @@
       },
       {
         "title": "一体化图像工作区",
-        "body": "无需离开 MaxVideoAI，即可直接生成和编辑静态视觉素材。",
+        "body": "无需离开 VideoAI，即可直接生成和编辑静态视觉素材。",
         "tone": "duration"
       }
     ],
@@ -343,13 +343,13 @@
     "pricingCopy": {
       "title": "Nano Banana Pro 定价一览",
       "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数显示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数显示的参考价格。",
       "ctaLabel": "查看完整定价",
       "maxDurationNote": "最高支持 4K",
       "ctaHref": "/zh/pricing#nano-banana-pro-pricing"
     },
     "meta": {
-      "title": "Nano Banana Pro：定价、4K 图像与文字排版 | MaxVideoAI",
+      "title": "Nano Banana Pro：定价、4K 图像与文字排版 | VideoAI",
       "description": "了解 Nano Banana Pro 价格方案、2K 与 4K 商业静态大片、聚焦文字排版的图像生成、参考图精修及品牌素材工作流。"
     }
   },

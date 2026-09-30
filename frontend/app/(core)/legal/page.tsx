@@ -58,7 +58,7 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
     title: 'Legal center',
     description: 'The definitive source for our legal agreements, privacy commitments, and compliance resources.',
     intro:
-      'Every document here reflects the current production terms for MaxVideoAI. We update policies whenever routing infrastructure, data retention, or partner requirements change, and the most recent version id is referenced directly in the workspace. Use this hub to confirm contractual language, review subprocessors, or download artefacts for your compliance team.',
+      'Every document here reflects the current production terms for VideoAI. We update policies whenever routing infrastructure, data retention, or partner requirements change, and the most recent version id is referenced directly in the workspace. Use this hub to confirm contractual language, review subprocessors, or download artefacts for your compliance team.',
     columns: [
       {
         title: 'Staying informed',
@@ -116,7 +116,7 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
     title: 'Centro legal',
     description: 'El repositorio oficial de nuestros acuerdos, compromisos de privacidad y recursos de cumplimiento.',
     intro:
-      'Cada documento refleja los términos vigentes en MaxVideoAI. Actualizamos las políticas cuando cambian el enrutamiento, la retención de datos o los requisitos de nuestros socios, y la versión activa aparece directamente en el espacio de trabajo. Usa este hub para revisar el lenguaje contractual, consultar subprocesadores o compartir artefactos con tu equipo de compliance.',
+      'Cada documento refleja los términos vigentes en VideoAI. Actualizamos las políticas cuando cambian el enrutamiento, la retención de datos o los requisitos de nuestros socios, y la versión activa aparece directamente en el espacio de trabajo. Usa este hub para revisar el lenguaje contractual, consultar subprocesadores o compartir artefactos con tu equipo de compliance.',
     columns: [
       {
         title: 'Mantente informado',
@@ -145,7 +145,7 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
     title: '法律中心',
     description: '我们法律协议、隐私承诺与合规资源的权威来源。',
     intro:
-      '此处的每份文件均反映 MaxVideoAI 的当前生产条款。当路由基础设施、数据保留或合作伙伴要求发生变化时，我们会更新政策，并在工作区中直接引用最新版本 ID。使用此中心确认合同条款、审查数据子处理者或为您的合规团队下载相关文档。',
+      '此处的每份文件均反映 VideoAI 的当前生产条款。当路由基础设施、数据保留或合作伙伴要求发生变化时，我们会更新政策，并在工作区中直接引用最新版本 ID。使用此中心确认合同条款、审查数据子处理者或为您的合规团队下载相关文档。',
     columns: [
       {
         title: '保持知情',
@@ -190,10 +190,10 @@ export default async function LegalIndexPage() {
         {part}
         {index < parts.length - 1 ? (
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
             className="font-semibold text-brand hover:text-brandHover"
           />
         ) : null}

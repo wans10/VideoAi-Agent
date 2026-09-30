@@ -1,3 +1,4 @@
+import { formatCustomerUsdAmount } from '@/lib/customer-currency';
 import {
   BadgeCheck,
   BadgeDollarSign,
@@ -98,7 +99,7 @@ export const KLING_3_PRO_HERO_RENDER = {
     'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/7b1f1c7b-f7f0-473e-9610-82723604b690.mp4',
   resolution: '16:9',
   duration: '0:12',
-  estimateValue: '$2.63',
+  estimateValue: formatCustomerUsdAmount(2.63),
   estimateMeta: '12s generation',
 } as const;
 
@@ -122,7 +123,7 @@ export const HERO_ENGINE_MEDIA: Record<
       'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/6e299d72-22dd-46f4-8260-4d6887777558.mp4',
     resolution: '16:9',
     duration: '0:12',
-    estimateValue: '$1.19',
+    estimateValue: formatCustomerUsdAmount(1.19),
     estimateMeta: '12s generation',
   },
   'seedance-2-5': {
@@ -132,7 +133,7 @@ export const HERO_ENGINE_MEDIA: Record<
       'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/085cc0a7-063d-4801-91f9-ec3d9c5eb95d.mp4',
     resolution: '16:9',
     duration: '0:10',
-    estimateValue: '$1.46',
+    estimateValue: formatCustomerUsdAmount(1.46),
     estimateMeta: '10s generation',
   },
   'wan-3-prime': {
@@ -142,7 +143,7 @@ export const HERO_ENGINE_MEDIA: Record<
       'https://media.maxvideoai.com/media-assets/by-content/c780259ed79d025b4ac74ccc513f18bf/c8567e3b0531ae10a993534c41d5f76ec8a1fc2329294d0c8fdb7e4b38ab349a.mp4',
     resolution: '16:9',
     duration: '0:05',
-    estimateValue: '$0.70',
+    estimateValue: formatCustomerUsdAmount(0.70),
     estimateMeta: '5s generation',
   },
   'kling-3-pro': {
@@ -155,15 +156,8 @@ export const HERO_ENGINE_MEDIA: Record<
       'https://media.maxvideoai.com/media-assets/by-content/c780259ed79d025b4ac74ccc513f18bf/2506829a4f4f3d7e5d2bd864a701fc6cc2fb7c53182f7a7f5ca10cc580c70aa8.mp4',
     resolution: '16:9',
     duration: '0:06',
-    estimateValue: '$0.72',
+    estimateValue: formatCustomerUsdAmount(0.72),
     estimateMeta: '6s generation',
-  },
-  'seedance-2-0': {
-    posterSrc: '/hero/showcase-seedance-2-0-business-workflow.webp',
-    videoSrc:
-      'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/9d6811c9-226c-44bd-8b56-b3aa74039d59.mp4',
-    resolution: '16:9',
-    duration: '0:05',
   },
   'veo-3-1': {
     posterSrc: '/hero/showcase-veo-3-1.webp',
@@ -178,9 +172,9 @@ export const HERO_ENGINE_MEDIA: Record<
     chips: ['Cinematic', 'Audio'],
     resolution: '16:9',
     duration: '0:08',
-    estimateValue: '$0.52',
+    estimateValue: formatCustomerUsdAmount(0.52),
     estimateMeta: '8s generation',
-    imageAlt: 'Veo 3.1 Lite romantic train-station reunion generated with MaxVideoAI.',
+    imageAlt: 'Veo 3.1 Lite romantic train-station reunion generated with VideoAI.',
   },
   'ltx-2-3-pro': {
     posterSrc:
@@ -188,7 +182,7 @@ export const HERO_ENGINE_MEDIA: Record<
     videoSrc: 'https://media.maxvideoai.com/renders/marketing/4334436e-af77-48ff-a9df-fd6bf7f140db.mp4',
     resolution: '16:9',
     duration: '0:10',
-    estimateValue: '$0.78',
+    estimateValue: formatCustomerUsdAmount(0.78),
     estimateMeta: '10s generation',
   },
   'happy-horse-1-1': {
@@ -197,7 +191,7 @@ export const HERO_ENGINE_MEDIA: Record<
     videoSrc: 'https://media.maxvideoai.com/renders/marketing/f808f22b-c463-421f-b5dc-ec6c898ece40.mp4',
     resolution: '16:9',
     duration: '0:10',
-    estimateValue: '$1.82',
+    estimateValue: formatCustomerUsdAmount(1.82),
     estimateMeta: '10s generation',
     price: '$0.18/sec',
   },

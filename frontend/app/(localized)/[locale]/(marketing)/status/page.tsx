@@ -14,20 +14,20 @@ export const revalidate = 30;
 const STATUS_SLUG_MAP = buildSlugMap('status');
 const STATUS_META: Record<AppLocale, { title: string; description: string }> = {
   en: {
-    title: 'Service status — MaxVideoAI',
-    description: 'Read current MaxVideoAI service notices and get help with an affected AI video generation.',
+    title: 'Service status — VideoAI',
+    description: 'Read current VideoAI service notices and get help with an affected AI video generation.',
   },
   fr: {
-    title: 'État du service — MaxVideoAI',
-    description: 'Consultez les avis de service MaxVideoAI et obtenez de l’aide pour une génération vidéo IA affectée.',
+    title: 'État du service — VideoAI',
+    description: 'Consultez les avis de service VideoAI et obtenez de l’aide pour une génération vidéo IA affectée.',
   },
   es: {
-    title: 'Estado del servicio — MaxVideoAI',
-    description: 'Consulta los avisos de servicio de MaxVideoAI y obtén ayuda con una generación de video IA afectada.',
+    title: 'Estado del servicio — VideoAI',
+    description: 'Consulta los avisos de servicio de VideoAI y obtén ayuda con una generación de video IA afectada.',
   },
   zh: {
-    title: '服务状态 — MaxVideoAI',
-    description: '查看当前 MaxVideoAI 服务公告，获取受影响 AI 视频生成任务的帮助。',
+    title: '服务状态 — VideoAI',
+    description: '查看当前 VideoAI 服务公告，获取受影响 AI 视频生成任务的帮助。',
   },
 };
 
@@ -41,8 +41,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     description: metaCopy.description,
     hreflangGroup: 'status',
     slugMap: STATUS_SLUG_MAP,
-    keywords: ['AI video service status', 'MaxVideoAI service notice', 'generation support'],
-    imageAlt: 'MaxVideoAI service status.',
+    keywords: ['AI video service status', 'VideoAI service notice', 'generation support'],
+    imageAlt: 'VideoAI service status.',
   });
 }
 
@@ -137,7 +137,7 @@ export default async function StatusPage(props: { params: Promise<{ locale: AppL
             <h2 className="text-lg font-semibold text-text-primary">{content.support.title}</h2>
             <p className="mt-2 text-sm leading-relaxed text-text-secondary">
               {content.support.prefix}{' '}
-              <ObfuscatedEmailLink user="support" domain="maxvideoai.com" label="support@maxvideoai.com" />{' '}
+              <ObfuscatedEmailLink user="contact" domain="llmhub.com.cn" label="contact@llmhub.com.cn" />{' '}
               {content.support.suffix}
             </p>
           </section>

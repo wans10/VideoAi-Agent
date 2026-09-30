@@ -27,7 +27,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   veo: {
-    metaTitle: "Ejemplos de Veo 3.1, prompts y ajustes de video | MaxVideoAI",
+    metaTitle: "Ejemplos de Veo 3.1, prompts y ajustes de video | VideoAI",
     metaDescription: "Mira ejemplos de Veo 3.1 con prompts, ajustes y costos registrados. Explora cómo crear videos a partir de texto o imágenes y adapta un ejemplo.",
     heroTitle: "Ejemplos de Veo 3.1, prompts y ajustes de video",
     subtitle: "Ejemplos de Veo 3.1 y Gemini Omni Flash 1.1: prompts, fuentes y ajustes para revisar.",
@@ -52,12 +52,12 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   luma: {
-    metaTitle: 'Ejemplos de Luma Ray 3.2 Modify y Reframe | MaxVideoAI',
+    metaTitle: 'Ejemplos de Luma Ray 3.2 Modify y Reframe | VideoAI',
     metaDescription: "Mira ejemplos de video Luma Ray 3.2 Modify y Reframe, con prompts y ajustes. Edita tu propio video y consulta el precio antes de generar.",
     subtitle: "Cambia una escena con Modify o adapta su encuadre con Reframe: ejemplos de video Luma Ray 3.2.",
     intro: "Explora ejemplos de Luma Ray 3.2 Modify y Reframe. Abre un video para ver el prompt y los ajustes utilizados. Los ejemplos de Ray 2 y Ray 2 Flash conservan el nombre del modelo que los generó.",
     promptPatterns: "Para Modify, indica qué quieres conservar del video original y después qué quieres cambiar. Para Reframe, señala qué sujeto debe seguir visible y cómo completar el nuevo encuadre. Las imágenes guía y los fotogramas clave dependen del modo elegido.",
-    strengthsLimits: "Evalúa cuánto se conserva del video original, si se cumple el cambio solicitado y si el sujeto se mantiene consistente. Ray 3.2 no genera audio en MaxVideoAI. Las fuentes y los ajustes admitidos difieren de Ray 2 y Ray 2 Flash: revisa el modelo de cada ejemplo.",
+    strengthsLimits: "Evalúa cuánto se conserva del video original, si se cumple el cambio solicitado y si el sujeto se mantiene consistente. Ray 3.2 no genera audio en VideoAI. Las fuentes y los ajustes admitidos difieren de Ray 2 y Ray 2 Flash: revisa el modelo de cada ejemplo.",
     pricingNotes: "La ficha muestra el costo registrado del ejemplo. Tu nuevo video tiene una cotización según el modo y los ajustes elegidos. Revisa el precio antes de generar y empieza con una prueba corta antes de editar un video más largo.",
     faq: [
       {
@@ -96,7 +96,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   kling: {
-    metaTitle: 'Ejemplos de video IA Kling, prompts y ajustes | MaxVideoAI',
+    metaTitle: 'Ejemplos de video IA Kling, prompts y ajustes | VideoAI',
     metaDescription: "Mira ejemplos de video de Kling 3 y Kling 3.0 Omni: prompts, animación de imágenes, referencias, ajustes y costos registrados.",
     heroTitle: 'Ejemplos de video IA Kling, prompts y ajustes',
     subtitle: "Ejemplos de Kling 3 y Kling 3.0 Omni: descubre cómo una imagen inicial o las referencias guían una toma.",
@@ -132,7 +132,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   seedance: {
-    metaTitle: 'Ejemplos de Seedance 2.5, prompts y ajustes | MaxVideoAI',
+    metaTitle: 'Ejemplos de Seedance 2.5, prompts y ajustes | VideoAI',
     metaDescription: "Mira ejemplos de video Seedance 2.5 con prompts y ajustes. Compara resultados de otras versiones y usa un ejemplo como punto de partida.",
     heroTitle: 'Ejemplos de video IA Seedance 2.5, prompts y ajustes',
     subtitle: "Seedance 2.5 y versiones anteriores: mira los resultados y encuentra un prompt para tu idea.",
@@ -141,7 +141,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     promptPatterns:
       'Para Seedance 2.5, define una acción principal, la dirección de cámara y el papel de cada referencia antes de añadir detalles de escena. Mantén la misma estructura de prompt al comparar 2.5 con Seedance 2.0, Fast o Mini.',
     strengthsLimits:
-      'Usa Seedance 2.5 cuando importen una mayor duración, el audio generado, las referencias mixtas, la edición o la extensión. En MaxVideoAI, este modelo admite salida horizontal, cuadrada y vertical en 480p, 720p o 1080p; conserva Seedance 2.0 cuando necesites 4K.',
+      'Usa Seedance 2.5 cuando importen una mayor duración, el audio generado, las referencias mixtas, la edición o la extensión. En VideoAI, este modelo admite salida horizontal, cuadrada y vertical en 480p, 720p o 1080p; conserva Seedance 2.0 cuando necesites 4K.',
     pricingNotes: "La duración, el audio y los archivos fuente pueden influir en el precio. La ficha muestra el costo registrado del ejemplo; el generador indica la cotización actual para tus ajustes antes de iniciar.",
     faq: [
       {
@@ -162,7 +162,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   ltx: {
-    metaTitle: "Ejemplos de video LTX, prompts y ajustes | MaxVideoAI",
+    metaTitle: "Ejemplos de video LTX, prompts y ajustes | VideoAI",
     metaDescription: "Mira ejemplos de video LTX 2.5 Pro y Fast, con prompts y ajustes. Compara también resultados de LTX 2.3 y LTX 2, identificados por modelo.",
     heroTitle: "Ejemplos de video LTX, prompts y ajustes",
     subtitle: "Ejemplos de LTX 2.5 Pro y Fast, con las versiones anteriores claramente identificadas.",
@@ -250,7 +250,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
   grok: {
     subtitle: 'Ejemplos de Grok Imagine Video 1.5 para texto a vídeo, imagen inicial y clips guiados por referencia.',
     intro:
-      'Esta página permite estudiar Grok Imagine Video 1.5 mediante la ruta Fal de MaxVideoAI. Incluye texto a vídeo, imagen a vídeo desde una imagen inicial y generación guiada por entre una y siete imágenes de referencia; esta disponibilidad no implica una integración directa con xAI. La galería sirve para elegir una estrategia de entrada, no para asumir que un mismo prompt funciona en todos los modos. El texto es adecuado cuando la composición puede inventarse desde el brief. Una imagen inicial resulta más útil cuando el primer encuadre, la posición del sujeto, el producto, el vestuario o la paleta ya existen. Un conjunto de referencias encaja cuando cada fuente autorizada tiene una función distinta, como identidad, diseño de objeto, entorno o iluminación. Para leer un ejemplo, revisa juntos el prompt, el modo, la duración, la resolución, el encuadre y la salida aceptada. Una imagen atractiva no demuestra por sí sola fidelidad a las referencias, texto incidental legible, manos estables o continuidad hasta el último beat. Define criterios de aceptación antes del render y conserva revisión humana para semejanzas, derechos de las fuentes y seguridad de marca.',
+      'Esta página permite estudiar Grok Imagine Video 1.5 mediante la ruta Fal de VideoAI. Incluye texto a vídeo, imagen a vídeo desde una imagen inicial y generación guiada por entre una y siete imágenes de referencia; esta disponibilidad no implica una integración directa con xAI. La galería sirve para elegir una estrategia de entrada, no para asumir que un mismo prompt funciona en todos los modos. El texto es adecuado cuando la composición puede inventarse desde el brief. Una imagen inicial resulta más útil cuando el primer encuadre, la posición del sujeto, el producto, el vestuario o la paleta ya existen. Un conjunto de referencias encaja cuando cada fuente autorizada tiene una función distinta, como identidad, diseño de objeto, entorno o iluminación. Para leer un ejemplo, revisa juntos el prompt, el modo, la duración, la resolución, el encuadre y la salida aceptada. Una imagen atractiva no demuestra por sí sola fidelidad a las referencias, texto incidental legible, manos estables o continuidad hasta el último beat. Define criterios de aceptación antes del render y conserva revisión humana para semejanzas, derechos de las fuentes y seguridad de marca.',
     promptPatterns:
       'Para texto a vídeo, define sujeto, acción, cámara y luz, y describe el final que debe seguir visible cuando termine el clip. Mantén una acción principal y una intención de cámara para poder diagnosticar los fallos de movimiento. Con una imagen inicial, describe solo lo que debe evolucionar: qué permanece fijo, qué se mueve, cómo reacciona la cámara y qué detalles visuales deben sobrevivir. No pidas al prompt rediseñar la fuente y conservarla exactamente al mismo tiempo. Para referencias, asigna una función clara a cada imagen en lugar de repetir todos sus detalles. Nombra las imágenes en orden, indica cuál controla a la persona, prenda, objeto, lugar o paleta y explica cómo se combinan esos papeles en una sola toma. Una o dos referencias precisas pueden ser más claras que siete fuentes contradictorias. Coloca las restricciones negativas después de la dirección positiva y resérvalas para riesgos visibles como logotipos no deseados, sujetos duplicados, extremidades extra, subtítulos accidentales o cortes de cámara. Al comparar dos prompts, cambia una sola variable y mantén estables las fuentes, la duración, la resolución y el encuadre.',
     strengthsLimits:
@@ -260,14 +260,14 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     faq: [
       { question: '¿Grok puede partir de una imagen?', answer: 'Sí. Imagen a vídeo utiliza una imagen inicial y pide al prompt dirigir el movimiento desde esa composición. Referencia a vídeo admite un grupo de imágenes con funciones nombradas. Elige una imagen inicial cuando exista un único fotograma autoritativo y referencias cuando identidad, objeto, entorno o paleta procedan de fuentes autorizadas distintas.' },
       { question: '¿Cuántas referencias admite?', answer: 'El flujo de referencia admite de una a siete imágenes. La capacidad no es un objetivo: usa solo las fuentes necesarias, da a cada una un propósito distinto y elimina material redundante o contradictorio. Mantén también el orden de las imágenes al probar prompts para poder atribuir los cambios de fidelidad a la instrucción y no a una lista reordenada.' },
-      { question: '¿Es una ruta directa de xAI?', answer: 'No. xAI es propietario de la familia Grok, mientras MaxVideoAI distribuye actualmente este modelo mediante Fal. Los ejemplos describen la capacidad expuesta por esa ruta y no prometen acceso directo a la API de xAI, comportamiento idéntico de cola ni funciones que no aparezcan en los detalles actuales.' },
+      { question: '¿Es una ruta directa de xAI?', answer: 'No. xAI es propietario de la familia Grok, mientras VideoAI distribuye actualmente este modelo mediante Fal. Los ejemplos describen la capacidad expuesta por esa ruta y no prometen acceso directo a la API de xAI, comportamiento idéntico de cola ni funciones que no aparezcan en los detalles actuales.' },
       { question: '¿Cómo debería revisar un ejemplo de Grok?', answer: 'Comprueba si la composición inicial o las referencias nombradas siguen siendo reconocibles y puntúa después movimiento, cámara, anatomía, geometría, texto no deseado, marcas de agua y beat final. Revisa el clip completo, no solo la miniatura, y considera cualquier comportamiento pedido pero ausente como un dato de la prueba.' },
     ],
   },
   flux: {
     subtitle: 'Ejemplos de FLUX 3 y FLUX 3 Draft para texto a vídeo, fotogramas inicial/final y Extend.',
     intro:
-      'Esta página compara la ruta FLUX 3 estándar con FLUX 3 Draft mediante la distribución Fal de MaxVideoAI. Incluye texto a vídeo, imagen a vídeo desde un fotograma inicial, transiciones entre primera y última imagen y el flujo Extend separado para continuar un clip existente. La vista de familia ayuda a elegir tanto el nivel de modelo como la entrada. Draft sirve para exploración controlada a 720p cuando el equipo todavía debe validar acción, cámara, compatibilidad de fuentes o lógica de transición. FLUX 3 estándar es el modelo hermano orientado a producción y expone la opción de resolución superior indicada en su página. Ninguna etiqueta elimina la necesidad de revisar la salida. Un ejemplo útil registra el papel de la fuente, el prompt, el modo, la duración, la resolución y la pregunta visual que debe responder. Compara tareas equivalentes: un puente entre dos imágenes se evalúa por el recorrido entre anclas, una extensión por la continuidad con el clip fuente y un inicio de texto por la toma inventada desde el brief. Black Forest Labs es propietario de FLUX; la ruta aquí descrita se distribuye mediante Fal y no afirma ejecución directa en el proveedor.',
+      'Esta página compara la ruta FLUX 3 estándar con FLUX 3 Draft mediante la distribución Fal de VideoAI. Incluye texto a vídeo, imagen a vídeo desde un fotograma inicial, transiciones entre primera y última imagen y el flujo Extend separado para continuar un clip existente. La vista de familia ayuda a elegir tanto el nivel de modelo como la entrada. Draft sirve para exploración controlada a 720p cuando el equipo todavía debe validar acción, cámara, compatibilidad de fuentes o lógica de transición. FLUX 3 estándar es el modelo hermano orientado a producción y expone la opción de resolución superior indicada en su página. Ninguna etiqueta elimina la necesidad de revisar la salida. Un ejemplo útil registra el papel de la fuente, el prompt, el modo, la duración, la resolución y la pregunta visual que debe responder. Compara tareas equivalentes: un puente entre dos imágenes se evalúa por el recorrido entre anclas, una extensión por la continuidad con el clip fuente y un inicio de texto por la toma inventada desde el brief. Black Forest Labs es propietario de FLUX; la ruta aquí descrita se distribuye mediante Fal y no afirma ejecución directa en el proveedor.',
     promptPatterns:
       'Describe una sola toma, un movimiento de cámara específico, una acción medible del sujeto, el entorno físico y un final que pueda revisarse. Evita combinar varios beats sin relación en un render de diagnóstico. Para imagen a vídeo, indica primero qué debe conservarse de la composición inicial y añade después el movimiento. Al usar primera y última imagen, aporta las dos anclas obligatorias y escribe la transición: cómo evolucionan pose, posición del objeto, material, cámara y luz sin un salto imposible. Perspectiva e identidad compatibles facilitan evaluar el puente. Para Extend, describe lo que sucede después del clip fuente en vez de repetirlo. Continúa primero el vector final de cámara, la trayectoria del sujeto, la iluminación, el ritmo y el estado de la escena antes de introducir algo nuevo. Un corte oculto, una pose reiniciada o un sujeto sustituido son fallos de continuidad aunque el último fotograma resulte atractivo. Usa Draft para comparar una sola variable y conserva los archivos fuente ganadores, la estructura del prompt y los criterios de aceptación al probar FLUX 3 estándar.',
     strengthsLimits:

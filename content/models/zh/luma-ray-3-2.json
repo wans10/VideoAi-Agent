@@ -2,12 +2,12 @@
   "marketingName": "Luma Ray 3.2",
   "versionLabel": "Ray 3.2",
   "seo": {
-    "title": "Luma Ray 3.2 视频 Modify 修改、Reframe 重构、价格与案例 | MaxVideoAI",
-    "description": "在 MaxVideoAI 中使用 Luma Ray 3.2 进行源视频 Modify 修改、AI 视频 Reframe 画幅重构、关键帧与引导帧控制、5秒/10秒无声视频生成，获取提示词、案例展示与实时价格。",
+    "title": "Luma Ray 3.2 视频 Modify 修改、Reframe 重构、价格与案例 | VideoAI",
+    "description": "在 VideoAI 中使用 Luma Ray 3.2 进行源视频 Modify 修改、AI 视频 Reframe 画幅重构、关键帧与引导帧控制、5秒/10秒无声视频生成，获取提示词、案例展示与实时价格。",
     "image": "/hero/luma-dream.jpg"
   },
-  "overview": "Luma Ray 3.2 在 MaxVideoAI 中定位为以编辑为核心的 Luma 视频路线：修改现有源视频片段、利用引导帧或关键帧精准把控特定时刻，并将已确认的成片 Reframe 重构为新画幅比例。文生视频与图生视频依然可用，适合进行短小灵活的 Luma 动态测试；Ray 3.2 本身不生成原生音频或对口型。",
-  "pricingNotes": "所有 Ray 3.2 路线（包括 Modify 和 Reframe）在 MaxVideoAI 中的客户报价均严格对齐 Fal 参考价格加上配置的利润率。底层路由调度不会改变生成前向客户展示的结算价格。",
+  "overview": "Luma Ray 3.2 在 VideoAI 中定位为以编辑为核心的 Luma 视频路线：修改现有源视频片段、利用引导帧或关键帧精准把控特定时刻，并将已确认的成片 Reframe 重构为新画幅比例。文生视频与图生视频依然可用，适合进行短小灵活的 Luma 动态测试；Ray 3.2 本身不生成原生音频或对口型。",
+  "pricingNotes": "所有 Ray 3.2 路线（包括 Modify 和 Reframe）在 VideoAI 中的客户报价均严格对齐 Fal 参考价格加上配置的利润率。底层路由调度不会改变生成前向客户展示的结算价格。",
   "hero": {
     "title": "Luma Ray 3.2 — 面向现代 Luma 视频的 Modify 修改与 Reframe 画幅重构",
     "intro": "当源视频节奏与运镜已符合预期时，利用 Ray 3.2 Modify 改变画面质感或受指引的特定时刻，或使用 Reframe 生成竖屏、方形、横屏与超宽画幅的交付成片。纯提示词与起始静图生成依然可用，适合用于快速的短小时长无声动态测试。",
@@ -84,7 +84,7 @@
     },
     {
       "label": "计费方式",
-      "body": "全新生成、Modify 与 Reframe 均采用相同的 Fal 参考报价加 MaxVideoAI 利润率结算逻辑"
+      "body": "全新生成、Modify 与 Reframe 均采用相同的 Fal 参考报价加 VideoAI 利润率结算逻辑"
     }
   ],
   "promptStructure": {
@@ -133,7 +133,7 @@
   ],
   "faqs": [
     {
-      "q": "Luma Ray 3.2 在 MaxVideoAI 中支持哪些功能？",
+      "q": "Luma Ray 3.2 在 VideoAI 中支持哪些功能？",
       "a": "该模型页面主要聚焦源视频 Modify 修改、Reframe 画幅重构、引导帧/关键帧编辑，同时支持在需要全新 Luma 无声视频片段时进行简短的文生视频与图生视频。"
     },
     {
@@ -146,7 +146,7 @@
     },
     {
       "q": "价格是如何展示的？",
-      "a": "页面展示的示例基于包含利润率的 MaxVideoAI 标准价格。生成前应用界面会显示确切的实时结算报价。"
+      "a": "页面展示的示例基于包含利润率的 VideoAI 标准价格。生成前应用界面会显示确切的实时结算报价。"
     },
     {
       "q": "Ray 3.2 是否支持生成音频？",
@@ -193,10 +193,10 @@
       "以 Modify 为核心价值||当源视频节奏已完美契合、仅需改变视觉风格时，使用 Ray 3.2 能够最高效达成目标。",
       "引导帧与关键帧精准把控||借助单张引导帧或索引关键帧，精准引导特定时刻的视觉演变。",
       "Reframe 多规格交付||将已确认片段向外外绘拓展为全新的画幅比例。",
-      "专注无声输出||Ray 3.2 在 MaxVideoAI 中为纯视频输出，音频部分可在下游流程单独规划。"
+      "专注无声输出||Ray 3.2 在 VideoAI 中为纯视频输出，音频部分可在下游流程单独规划。"
     ],
     "specTitle": "Ray 3.2 规格参数",
-    "specNote": "规格涵盖 MaxVideoAI 中开放的 Ray 3.2 全新生成、Modify 修改与 Reframe 重构能力。",
+    "specNote": "规格涵盖 VideoAI 中开放的 Ray 3.2 全新生成、Modify 修改与 Reframe 重构能力。",
     "specSections": [
       {
         "title": "编辑与画幅重构能力",
@@ -215,7 +215,7 @@
       {
         "title": "运行与调度须知",
         "items": [
-          "MaxVideoAI 确保 Ray 3.2 请求严格运行在受支持的配置下。",
+          "VideoAI 确保 Ray 3.2 请求严格运行在受支持的配置下。",
           "服务提供商容量在高峰期可能有所波动。",
           "所有 Ray 3.2 公开模式均保持基于 Fal 参考价格加利润率的客户报价。",
           "底层内部路由调度不会影响前端展示给客户的结算价格。"
@@ -247,7 +247,7 @@
     "boundaries": [
       "全新生成时长限制为 5 秒或 10 秒。",
       "可选分辨率档位为 540p、720p 与 1080p。",
-      "Ray 3.2 在 MaxVideoAI 中输出均为无声视频。",
+      "Ray 3.2 在 VideoAI 中输出均为无声视频。",
       "当项目需要原生音轨、人物对白或对口型时，Ray 3.2 并非最佳全能选择。",
       "在服务提供商用量高峰期，处理排队容量可能存在波动。"
     ],
@@ -258,7 +258,7 @@
       "未经授权不得仿冒真实人物或公众人物。",
       "请勿上传私密个人数据或敏感文件。"
     ],
-    "finalPara1": "当 Modify 修改、引导帧/关键帧控制以及 Reframe 画幅重构比原生音频生成更重要时，Ray 3.2 是 MaxVideoAI 中最理想的现代化 Luma 视频路线。",
+    "finalPara1": "当 Modify 修改、引导帧/关键帧控制以及 Reframe 画幅重构比原生音频生成更重要时，Ray 3.2 是 VideoAI 中最理想的现代化 Luma 视频路线。",
     "finalButton": "使用 Luma Ray 3.2 开始生成"
   },
   "decision": {
@@ -335,7 +335,7 @@
       },
       {
         "title": "专属无声设计",
-        "body": "Ray 3.2 在 MaxVideoAI 中仅输出纯视频；音乐、旁白或音效可在后期流程中添加。",
+        "body": "Ray 3.2 在 VideoAI 中仅输出纯视频；音乐、旁白或音效可在后期流程中添加。",
         "tone": "price"
       }
     ],
@@ -389,14 +389,14 @@
     ],
     "pricingCopy": {
       "title": "Luma Ray 3.2 价格一览",
-      "subtitle": "预设的 Ray 3.2 费用采用 MaxVideoAI 展示价格；确切金额将在生成前明确显示。",
+      "subtitle": "预设的 Ray 3.2 费用采用 VideoAI 展示价格；确切金额将在生成前明确显示。",
       "footnote": "所有 Ray 3.2 路线均保持基于 Fal 参考价格加预设利润率的统一客户报价；直接交付调度不会改变客户端结算价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#luma-ray-3-2-pricing"
     },
     "meta": {
-      "title": "Luma Ray 3.2 视频 Modify 修改、Reframe 重构与案例 | MaxVideoAI",
+      "title": "Luma Ray 3.2 视频 Modify 修改、Reframe 重构与案例 | VideoAI",
       "description": "探索 Luma Ray 3.2 源视频 Modify 修改、AI 视频 Reframe 画幅重构、引导帧/关键帧控制、5秒/10秒无声输出、价格详情、提示词技巧与精选案例。"
     }
   },
@@ -493,7 +493,7 @@
       {
         "id": "proof-3",
         "title": "纯视频无声输出",
-        "body": "Ray 3.2 在此 MaxVideoAI 路线下不生成原生音频。",
+        "body": "Ray 3.2 在此 VideoAI 路线下不生成原生音频。",
         "icon": "audio"
       },
       {

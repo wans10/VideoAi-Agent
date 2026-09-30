@@ -2,12 +2,12 @@
   "marketingName": "Kling 3 Pro",
   "versionLabel": "v3 Pro",
   "seo": {
-    "title": "Kling 3 Pro | AI 视频模型、技术规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Kling 3 Pro 进行多镜头 AI 视频创作、场景控制与原生音频生成，渲染前即可查看实时参数规格与价格。",
+    "title": "Kling 3 Pro | AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 3 Pro 进行多镜头 AI 视频创作、场景控制与原生音频生成，渲染前即可查看实时参数规格与价格。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/27311f53-6265-4eac-b88b-021d57eca35b-job_665a317f-f4dc-41c8-ade4-4a0a891627c8.jpg"
   },
-  "overview": "Kling 3 Pro 是 MaxVideoAI 上当前主流的 Kling AI 视频模型，支持多镜头视频生成、首帧图生视频工作流、可复用的 Kling Elements（元素）、可选尾帧控制以及原生音频生成。",
-  "pricingNotes": "会员展示预估价格已包含 MaxVideoAI 综合费率：开启音频约 $0.22/秒，关闭音频约 $0.15/秒，启用语音控制约 $0.26/秒。",
+  "overview": "Kling 3 Pro 是 VideoAI 上当前主流的 Kling AI 视频模型，支持多镜头视频生成、首帧图生视频工作流、可复用的 Kling Elements（元素）、可选尾帧控制以及原生音频生成。",
+  "pricingNotes": "会员展示预估价格已包含 VideoAI 综合费率：开启音频约 $0.22/秒，关闭音频约 $0.15/秒，启用语音控制约 $0.26/秒。",
   "hero": {
     "title": "Kling 3 Pro — 适用于多镜头视频与场景控制的当前主力 Kling 模型",
     "intro": "Kling 3 Pro 是当前用于多镜头视频、首帧图生视频工作流、可复用 Kling Elements、可选尾帧以及原生音频的主力 Kling AI 模型，非常适合在广告、预告片和电影级序列中实现强大的场景控制。若希望上传的图片作为参考素材而非视频首帧，请使用 Kling 3.0 Omni。",
@@ -150,7 +150,7 @@
       "prompt": "场景 1 (5s)：微距手表表盘，清晰倒影。场景 2 (4s)：轮廓光旋转主视觉镜头。场景 3 (4s)：手腕佩戴模特，柔和环境光。"
     }
   ],
-  "faqTitle": "常见问题 — MaxVideoAI 中的 Kling 3 Pro",
+  "faqTitle": "常见问题 — VideoAI 中的 Kling 3 Pro",
   "faqs": [
     {
       "q": "什么是多提示词（multi-prompt）？",
@@ -178,7 +178,7 @@
       "尾帧控制实现更干净的收尾||使用可选的结束帧，让转场、匹配剪辑和产品展示的落幅更具确定性",
       "镜头类型适配不同创作需求||根据意图选择 shot_type：\"intelligent\"（智能）用于自动覆盖，\"customize\"（自定义）用于严格镜头控制"
     ],
-    "specTitle": "真实规格 — MaxVideoAI 中的 Kling 3 Pro",
+    "specTitle": "真实规格 — VideoAI 中的 Kling 3 Pro",
     "specNote": "规格参数对应当前实际的 Fal 路由能力。",
     "specSections": [
       {
@@ -223,7 +223,7 @@
       "Voice ID 数量有限（最多 2 个），音频语言表现取决于实际路由支持。",
       "尾帧为可选设置，在清晰描述最终构图时效果最佳。"
     ],
-    "safetyNote": "MaxVideoAI 内置安全防护与合规指引，助力负责任地使用 Kling 3 Pro 进行创作。"
+    "safetyNote": "VideoAI 内置安全防护与合规指引，助力负责任地使用 Kling 3 Pro 进行创作。"
   },
   "decision": {
     "modelSlug": "kling-3-pro",
@@ -282,7 +282,7 @@
       },
       {
         "title": "3–15 秒时长",
-        "body": "自由选择 MaxVideoAI 提供的精准时长范围。",
+        "body": "自由选择 VideoAI 提供的精准时长范围。",
         "tone": "duration"
       },
       {
@@ -352,13 +352,13 @@
     "pricingCopy": {
       "title": "Kling 3 Pro 价格一览",
       "subtitle": "开启音频的 1080p 预设参考总价 — 在应用中生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数计费的展示价格。",
       "ctaLabel": "查看完整价格表",
       "maxDurationNote": "1080p 最长支持 15 秒",
       "ctaHref": "/zh/pricing#kling-3-pro-pricing"
     },
     "meta": {
-      "title": "Kling 3 Pro：价格、原生音频与 15 秒镜头控制 | MaxVideoAI",
+      "title": "Kling 3 Pro：价格、原生音频与 15 秒镜头控制 | VideoAI",
       "description": "生成具备分镜控制、原生音频、1080p 画质、3–15 秒时长的 Kling 3 Pro 视频，支持负向提示词、CFG 调节与可选尾帧指引。"
     }
   },

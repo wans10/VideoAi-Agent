@@ -16,7 +16,7 @@ export const DEFAULT_AUDIO_WORKSPACE_COPY = {
   auth: {
     eyebrow: 'Generate Audio',
     title: 'Create an account to generate audio',
-    body: 'Build music tracks, cinematic sound design, and Seed Audio voice overs inside the MaxVideoAI workspace.',
+    body: 'Build music tracks, cinematic sound design, and Seed Audio voice overs inside the VideoAI workspace.',
     createAccount: 'Create account',
     signIn: 'Sign in',
   },
@@ -206,7 +206,7 @@ export const DEFAULT_AUDIO_WORKSPACE_COPY = {
     selectedVoice: 'Seed Audio preset voice',
     chooseVoice: 'Preset voice',
     providerStack: 'Model stack',
-    providerStackDescription: '{provider} prepares the base track, then MaxVideoAI masters the final render for your selected output.',
+    providerStackDescription: '{provider} prepares the base track, then VideoAI masters the final render for your selected output.',
     providers: {
       voice: 'Seed Audio 1.0',
       music: 'Google Lyria 3',

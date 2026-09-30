@@ -2,11 +2,11 @@
   "marketingName": "Luma Ray 2",
   "versionLabel": "Ray 2",
   "seo": {
-    "title": "Luma Ray 2 规格、价格与旧版工作流 | MaxVideoAI",
-    "description": "在 MaxVideoAI 中使用 Luma Ray 2 上一代 Luma 路线制作电影级镜头、图生视频、源视频修改 (Modify) 以及成片画幅重构 (Reframe)。对于需要 Modify 关键帧控制或重构的新项目，建议使用 Ray 3.2。",
+    "title": "Luma Ray 2 规格、价格与旧版工作流 | VideoAI",
+    "description": "在 VideoAI 中使用 Luma Ray 2 上一代 Luma 路线制作电影级镜头、图生视频、源视频修改 (Modify) 以及成片画幅重构 (Reframe)。对于需要 Modify 关键帧控制或重构的新项目，建议使用 Ray 3.2。",
     "image": "/hero/luma-dream.jpg"
   },
-  "overview": "Luma Ray 2 是 MaxVideoAI 中的上一代 Luma 路线。可用于复用旧版提示词、过往对比测试以及保持 Ray 2 兼容生成；对于涉及 Modify 关键帧和 Reframe 画幅重构的新 Luma 视频项目，建议直接使用 Ray 3.2。",
+  "overview": "Luma Ray 2 是 VideoAI 中的上一代 Luma 路线。可用于复用旧版提示词、过往对比测试以及保持 Ray 2 兼容生成；对于涉及 Modify 关键帧和 Reframe 画幅重构的新 Luma 视频项目，建议直接使用 Ray 3.2。",
   "hero": {
     "title": "Luma Ray 2 — 单页面集成电影感生成、Modify 修改与 Reframe 画幅重构",
     "intro": "当您需要复用旧版 Luma 提示词或保持兼容 Ray 2 的文生视频、图生视频、源视频 Modify 修改和 Reframe 任务时，请使用 Ray 2。对于新的 Luma 生产制作，Ray 3.2 是当前主流推荐路线。",
@@ -79,7 +79,7 @@
     },
     {
       "label": "Modify 选项",
-      "body": "MaxVideoAI 开放的 Modify 预设：adhere_1 至 adhere_3、flex_1 至 flex_3 以及 reimagine_1 至 reimagine_3"
+      "body": "VideoAI 开放的 Modify 预设：adhere_1 至 adhere_3、flex_1 至 flex_3 以及 reimagine_1 至 reimagine_3"
     },
     {
       "label": "Reframe 选项",
@@ -138,12 +138,12 @@
   ],
   "faqs": [
     {
-      "q": "Luma Ray 2 在 MaxVideoAI 中支持哪些工作流？",
+      "q": "Luma Ray 2 在 VideoAI 中支持哪些工作流？",
       "a": "Ray 2 在单一模型页面内整合了核心 Luma 工作流：文生视频、图生视频、源视频 Modify 修改和 Reframe 画幅重构。"
     },
     {
       "q": "Modify（源视频修改）提供了哪些选项？",
-      "a": "Modify 基于上传的源视频运行，支持可选提示词和可选参考静图。MaxVideoAI 开放了从 adhere_1 到 reimagine_3 的多种控制强度预设。"
+      "a": "Modify 基于上传的源视频运行，支持可选提示词和可选参考静图。VideoAI 开放了从 adhere_1 到 reimagine_3 的多种控制强度预设。"
     },
     {
       "q": "Reframe（画幅重构）提供了哪些选项？",
@@ -155,7 +155,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "Luma Ray 2 在 MaxVideoAI 中不再只是单一的文生视频页面，而是采用与更成熟的 LTX 和 Veo 页面相同的工作流优先模式：统一模型入口，集成多个实用的 Luma 工作流。",
+    "heroDesc1": "Luma Ray 2 在 VideoAI 中不再只是单一的文生视频页面，而是采用与更成熟的 LTX 和 Veo 页面相同的工作流优先模式：统一模型入口，集成多个实用的 Luma 工作流。",
     "heroDesc2": "这在实际制作中至关重要。您可以直接从文本生成镜头、使静图动起来、修改满意的源视频片段，并为社交平台重新构图已确认的母带，无需切换模型系列或重新适应操作界面。",
     "heroSupportLine": "适用于追求高品质电影质感，且需要在同一个 Luma 界面中同时完成生成与源视频编辑的专业制作。",
     "heroSpecChips": [
@@ -191,8 +191,8 @@
       "Reframe 画幅重构兼顾实用与交付||当已确认的横屏母带需要分发至付费信息流、移动端或电商展示位时，支持直接导出方形与竖屏版本。",
       "清晰明确的产品梯度定位||Ray 2 作为旗舰高品质路线，Ray 2 Flash 专注高效草稿，两者均开放完整真实的公共工作流能力。"
     ],
-    "specTitle": "真实规格 — MaxVideoAI 中的 Luma Ray 2",
-    "specNote": "这些规格描述了 MaxVideoAI 当前开放的真实 Luma 路由能力，而非精简的功能占位符。",
+    "specTitle": "真实规格 — VideoAI 中的 Luma Ray 2",
+    "specNote": "这些规格描述了 VideoAI 当前开放的真实 Luma 路由能力，而非精简的功能占位符。",
     "specSections": [
       {
         "title": "生成工作流",
@@ -215,7 +215,7 @@
         ]
       }
     ],
-    "whatTitle": "Luma Ray 2 在 MaxVideoAI 中的运行机制",
+    "whatTitle": "Luma Ray 2 在 VideoAI 中的运行机制",
     "whatIntro1": "选择 Luma Ray 2 后，可使用“生成视频”进行文本或静图创作，或在上传源视频后切换至“Modify / Reframe”进行片段级编辑。",
     "whatIntro2": "这既保持了模型层级的清晰简明，又把实用的 Luma 工作流整合在最合理的位置：模型页面与统一工作区之内。",
     "whatFlowTitle": "操作流程",
@@ -380,7 +380,7 @@
       "ctaHref": "/zh/pricing#luma-ray-2-pricing"
     },
     "meta": {
-      "title": "Luma Ray 2 旧版：价格、Modify 与 Reframe | MaxVideoAI",
+      "title": "Luma Ray 2 旧版：价格、Modify 与 Reframe | VideoAI",
       "description": "了解上一代 Luma 路线 Luma Ray 2 的旧版价格、案例展示、Modify、Reframe、Ray 2 Flash 差异对比及 Ray 3.2 迁移指引。"
     }
   },
@@ -467,7 +467,7 @@
       {
         "id": "proof-3",
         "title": "无声输出",
-        "body": "Ray 2 在此 MaxVideoAI 路线下不生成原生音频。",
+        "body": "Ray 2 在此 VideoAI 路线下不生成原生音频。",
         "icon": "audio"
       },
       {

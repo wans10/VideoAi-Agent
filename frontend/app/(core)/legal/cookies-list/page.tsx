@@ -16,22 +16,22 @@ type CookieRow = {
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
     title: 'Cookie list',
-    description: 'Inventory of cookies and SDKs used by MaxVideoAI.',
+    description: 'Inventory of cookies and SDKs used by VideoAI.',
     imageAlt: 'Cookie inventory table.',
   },
   fr: {
     title: 'Liste des cookies',
-    description: 'Inventaire des cookies et SDK utilisés par MaxVideoAI.',
+    description: 'Inventaire des cookies et SDK utilisés par VideoAI.',
     imageAlt: 'Tableau d’inventaire des cookies.',
   },
   es: {
     title: 'Lista de cookies',
-    description: 'Inventario de cookies y SDK utilizados por MaxVideoAI.',
+    description: 'Inventario de cookies y SDK utilizados por VideoAI.',
     imageAlt: 'Tabla de inventario de cookies.',
   },
   zh: {
     title: 'Cookie 清单',
-    description: 'MaxVideoAI 使用的 Cookie 和 SDK 清单。',
+    description: 'VideoAI 使用的 Cookie 和 SDK 清单。',
     imageAlt: 'Cookie 清单表格。',
   },
 };
@@ -52,7 +52,7 @@ const PAGE_COPY: Record<
 > = {
   en: {
     title: 'Cookie & SDK inventory',
-    intro: 'We track the cookies and SDKs used on maxvideoai.com. Non-essential technologies are only activated after consent.',
+    intro: 'We track the cookies and SDKs used on videoai.omninodetech.com. Non-essential technologies are only activated after consent.',
     lastUpdated: 'Last updated: 26 October 2025',
     categoryLabel: {
       essential: 'Essential',
@@ -72,7 +72,7 @@ const PAGE_COPY: Record<
   },
   fr: {
     title: 'Inventaire des cookies et SDK',
-    intro: 'Nous référençons les cookies et SDK utilisés sur maxvideoai.com. Les technologies non essentielles ne sont activées qu’après consentement.',
+    intro: 'Nous référençons les cookies et SDK utilisés sur videoai.omninodetech.com. Les technologies non essentielles ne sont activées qu’après consentement.',
     lastUpdated: 'Dernière mise à jour : 26 octobre 2025',
     categoryLabel: {
       essential: 'Essentiels',
@@ -92,7 +92,7 @@ const PAGE_COPY: Record<
   },
   es: {
     title: 'Inventario de cookies y SDK',
-    intro: 'Mantenemos un inventario de los cookies y SDK utilizados en maxvideoai.com. Las tecnologías no esenciales solo se activan tras el consentimiento.',
+    intro: 'Mantenemos un inventario de los cookies y SDK utilizados en videoai.omninodetech.com. Las tecnologías no esenciales solo se activan tras el consentimiento.',
     lastUpdated: 'Última actualización: 26 de octubre de 2025',
     categoryLabel: {
       essential: 'Esenciales',
@@ -112,7 +112,7 @@ const PAGE_COPY: Record<
   },
   zh: {
     title: 'Cookie 与 SDK 清单',
-    intro: '我们记录 maxvideoai.com 上使用的 Cookie 和 SDK。非必要技术仅在获得同意后才会激活。',
+    intro: '我们记录 videoai.omninodetech.com 上使用的 Cookie 和 SDK。非必要技术仅在获得同意后才会激活。',
     lastUpdated: '最后更新：2025年10月26日',
     categoryLabel: {
       essential: '必要',
@@ -150,7 +150,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
     {
       name: 'mv-consent',
-      provider: 'MaxVideoAI',
+      provider: 'VideoAI',
       purpose: 'Stores cookie banner preferences (timestamp, categories).',
       duration: '13 months',
       category: 'essential',
@@ -173,7 +173,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
     {
       name: 'mv-consent',
-      provider: 'MaxVideoAI',
+      provider: 'VideoAI',
       purpose: 'Enregistre les préférences du bandeau cookies (horodatage, catégories).',
       duration: '13 mois',
       category: 'essential',
@@ -196,7 +196,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
     {
       name: 'mv-consent',
-      provider: 'MaxVideoAI',
+      provider: 'VideoAI',
       purpose: 'Almacena las preferencias del banner de cookies (marca temporal, categorías).',
       duration: '13 meses',
       category: 'essential',
@@ -219,7 +219,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
     {
       name: 'mv-consent',
-      provider: 'MaxVideoAI',
+      provider: 'VideoAI',
       purpose: '存储 Cookie 横幅偏好（时间戳、类别）。',
       duration: '13 个月',
       category: 'essential',
@@ -309,10 +309,10 @@ export default async function CookiesListPage() {
         <p className="text-sm text-text-secondary">
           {copy.contactIntro}{' '}
           <ObfuscatedEmailLink
-            user="privacy"
-            domain="maxvideoai.com"
-            label="privacy@maxvideoai.com"
-            placeholder="privacy [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

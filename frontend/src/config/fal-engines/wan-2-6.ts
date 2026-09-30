@@ -209,9 +209,9 @@ export const WAN_2_6_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'wan/v2.6/text-to-video',
     seo: {
-      title: 'Wan 2.6 AI Video Generator (Text, Image & Reference) – MaxVideoAI',
+      title: 'Wan 2.6 AI Video Generator (Text, Image & Reference) – VideoAI',
       description:
-        'Generate 5–15s cinematic clips with Wan 2.6 inside MaxVideoAI. Use multi-shot text prompts, animate a still image, or keep subject consistency with 1–3 reference videos. 720p/1080p, per-second pricing.',
+        'Generate 5–15s cinematic clips with Wan 2.6 inside VideoAI. Use multi-shot text prompts, animate a still image, or keep subject consistency with 1–3 reference videos. 720p/1080p, per-second pricing.',
       canonicalPath: '/models/wan-2-6',
     },
     type: 'textImage',

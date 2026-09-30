@@ -112,7 +112,7 @@ export function ReferenceUploadClient({
           <p className="font-semibold">Reference {mediaLabel} ready</p>
         </div>
         <p className="mt-3 text-sm leading-6 text-text-secondary">
-          This private {mediaLabel} is saved to your connected MaxVideoAI library. Return to ChatGPT, Claude, or Codex so it can call <code className="font-mono text-text-primary">list_media</code> and use the file in your next request.
+          This private {mediaLabel} is saved to your connected VideoAI library. Return to ChatGPT, Claude, or Codex so it can call <code className="font-mono text-text-primary">list_media</code> and use the file in your next request.
         </p>
         <p className="mt-3 break-all rounded-input bg-bg p-3 font-mono text-xs text-text-muted">
           {assetId}
@@ -138,7 +138,7 @@ export function ReferenceUploadClient({
         Choose one reference {mediaLabel}
       </label>
       <p className="mt-1 text-sm leading-6 text-text-secondary">
-        Maximum {maxMB} MB. The {mediaLabel} stays private in your MaxVideoAI library.
+        Maximum {maxMB} MB. The {mediaLabel} stays private in your VideoAI library.
       </p>
       <label
         className="mt-4 flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-input border border-dashed border-border-strong bg-bg px-4 py-6 text-center transition hover:border-brand/60"

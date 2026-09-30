@@ -28,7 +28,7 @@ export const LTX_2_5_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     { mode: 'a2v', falModelId: LTX_2_5_FAST_ENDPOINTS.a2v, ui: engine.modeCaps!.a2v! },
   ],
   defaultFalModelId: LTX_2_5_FAST_ENDPOINTS.t2v,
-  seo: { title: 'LTX 2.5 Fast AI Video | MaxVideoAI', description: 'Generate fast LTX 2.5 video from text, images, or source audio.', canonicalPath: '/models/ltx-2-5-fast' },
+  seo: { title: 'LTX 2.5 Fast AI Video | VideoAI', description: 'Generate fast LTX 2.5 video from text, images, or source audio.', canonicalPath: '/models/ltx-2-5-fast' },
   demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/7411e4e4-1f5b-4a30-a5cc-38a27a42d328.mp4',
   media: {
     videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/7411e4e4-1f5b-4a30-a5cc-38a27a42d328.mp4',

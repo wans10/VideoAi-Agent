@@ -121,7 +121,7 @@ export function SeoCockpitView({ data, range, unifiedBriefs, urlInspectionItems 
 
         <AdminSection
           title="Family Strategy"
-          description="Real MaxVideoAI model families, categorized by strategy and supported by GSC demand."
+          description="Real VideoAI model families, categorized by strategy and supported by GSC demand."
         >
           <div className="grid gap-3">
             {data.familyTracker.slice(0, 10).map((family) => (
@@ -165,7 +165,7 @@ export function SeoCockpitView({ data, range, unifiedBriefs, urlInspectionItems 
 
       <AdminSection
         title="Internal Links"
-        description="Source-to-target link recommendations from cached GSC signals and MaxVideoAI model/page relationships."
+        description="Source-to-target link recommendations from cached GSC signals and VideoAI model/page relationships."
         action={<AdminActionLink href={`/admin/seo/internal-links?range=${range}`} prefetch={false}>Open builder</AdminActionLink>}
       >
         {data.internalLinkSuggestions.length ? (

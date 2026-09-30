@@ -13,7 +13,7 @@ import { resolveStudioMarketingStarter } from './studio-project-marketing-entry'
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Studio Projects | MaxVideoAI',
+  title: 'Studio Projects | VideoAI',
   robots: {
     index: false,
     follow: false,

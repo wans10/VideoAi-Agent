@@ -2,11 +2,11 @@
   "marketingName": "GPT Image 2.5 Sunburst",
   "versionLabel": "2.5 Sunburst",
   "seo": {
-    "title": "GPT Image 2.5 Sunburst - Text-to-Image & Editing | MaxVideoAI",
-    "description": "Generate and edit images with GPT Image 2.5 Sunburst in MaxVideoAI. Text-to-image, image-to-image, image-size presets, custom size, quality levels, output formats, and optional mask URL control.",
+    "title": "GPT Image 2.5 Sunburst - Text-to-Image & Editing | VideoAI",
+    "description": "Generate and edit images with GPT Image 2.5 Sunburst in VideoAI. Text-to-image, image-to-image, image-size presets, custom size, quality levels, output formats, and optional mask URL control.",
     "image": "https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4e0c6297-2c04-4d32-a75a-f82ba3337548.png"
   },
-  "overview": "GPT Image 2.5 Sunburst is a quality-first image model inside MaxVideoAI. One Image Lab entry covers text-to-image and image-to-image, with image-size presets, custom width/height, quality, number of outputs, output format, and mask URL when an edit needs a constrained region.",
+  "overview": "GPT Image 2.5 Sunburst is a quality-first image model inside VideoAI. One Image Lab entry covers text-to-image and image-to-image, with image-size presets, custom width/height, quality, number of outputs, output format, and mask URL when an edit needs a constrained region.",
   "hero": {
     "title": "GPT Image 2.5 Sunburst - quality-first image generation and edits",
     "intro": "Image generation for crisp typography, photoreal product shots, UI mockups, infographics, and controlled reference edits.",
@@ -95,10 +95,10 @@
     },
     {
       "q": "How much does GPT Image 2.5 Sunburst cost?",
-      "a": "The price depends on your selected size, quality and number of images. MaxVideoAI shows the quote before you generate, so you can adjust the settings to fit your budget."
+      "a": "The price depends on your selected size, quality and number of images. VideoAI shows the quote before you generate, so you can adjust the settings to fit your budget."
     }
   ],
-  "pricingNotes": "Image costs vary by quality and size. MaxVideoAI shows the final display price before generation; use the app quote for customer-facing estimates.",
+  "pricingNotes": "Image costs vary by quality and size. VideoAI shows the final display price before generation; use the app quote for customer-facing estimates.",
   "custom": {
     "heroEyebrow": "GPT Image 2.5 Sunburst Image Model",
     "heroSupportLine": "Best for text-heavy images, product photography, UI mockups, and controlled edits.",
@@ -123,7 +123,7 @@
     ],
     "whyTitle": "Why GPT Image 2.5 Sunburst stands out",
     "heroDesc1": "GPT Image 2.5 Sunburst is built for high-fidelity stills where text rendering, product detail, and prompt adherence matter more than raw speed.",
-    "heroDesc2": "In MaxVideoAI it runs in the Image Lab as one model entry for Create and Edit, with shared wallet, reusable references, quality controls, and live pricing before you run.",
+    "heroDesc2": "In VideoAI it runs in the Image Lab as one model entry for Create and Edit, with shared wallet, reusable references, quality controls, and live pricing before you run.",
     "heroHighlights": [
       "Readable text||Use it for posters, labels, infographics, and UI screens that need clean typography.",
       "Product fidelity||Strong fit for packaging, catalog shots, and e-commerce images with visible labels.",
@@ -151,7 +151,7 @@
     ],
     "boundaries": [
       "Still images only.",
-      "The MaxVideoAI composer currently allows up to 4 outputs per request.",
+      "The VideoAI composer currently allows up to 4 outputs per request.",
       "Edit mode requires at least one reference image.",
       "Mask input is URL-based."
     ],
@@ -290,14 +290,14 @@
     "pricingCopy": {
       "title": "GPT Image 2.5 Sunburst pricing at a glance",
       "subtitle": "Preset image totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 4 images",
       "ctaHref": "/pricing#gpt-image-2-5-sunburst-pricing"
     },
     "meta": {
-      "title": "GPT Image 2.5 Sunburst: Pricing, Text Rendering & Editing | MaxVideoAI",
-      "description": "Explore GPT Image 2.5 Sunburst pricing, readable text rendering, product stills, custom image sizes, reference edits and mask-guided image workflows on MaxVideoAI."
+      "title": "GPT Image 2.5 Sunburst: Pricing, Text Rendering & Editing | VideoAI",
+      "description": "Explore GPT Image 2.5 Sunburst pricing, readable text rendering, product stills, custom image sizes, reference edits and mask-guided image workflows on VideoAI."
     }
   },
   "prompting": {
@@ -376,7 +376,7 @@
     "modelSlug": "gpt-image-2-5-sunburst",
     "section": {
       "title": "GPT Image 2.5 Sunburst examples",
-      "intro": "Explore real community outputs and see how GPT Image 2.5 Sunburst performs inside MaxVideoAI workflows.",
+      "intro": "Explore real community outputs and see how GPT Image 2.5 Sunburst performs inside VideoAI workflows.",
       "defaultCtaLabel": null,
       "recreateLabel": "Recreate this still →"
     },

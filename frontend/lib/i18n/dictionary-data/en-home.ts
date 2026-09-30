@@ -18,7 +18,7 @@ export const home: Dictionary['home'] = {
     heroScreenshot: {
       title: 'Every control in one view.',
       body: 'Composer, live pricing, gallery rail, and job feed stay together so you can tweak prompts, review outputs, and monitor the queue without leaving the screen.',
-      alt: 'MaxVideo AI workspace showing the composer, live price chip, and gallery preview in a single dashboard.',
+      alt: 'VideoAI workspace showing the composer, live price chip, and gallery preview in a single dashboard.',
     },
     proofTabs: [
       {

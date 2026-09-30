@@ -159,10 +159,10 @@ export function getImageAlt({
               zh: `${engineLabel} 标志`,
             }
           : {
-              en: `MaxVideoAI interface: ${shortLabel}`,
-              fr: `Interface MaxVideoAI: ${shortLabel}`,
-              es: `Interfaz de MaxVideoAI: ${shortLabel}`,
-              zh: `MaxVideoAI 界面：${shortLabel}`,
+              en: `VideoAI interface: ${shortLabel}`,
+              fr: `Interface VideoAI: ${shortLabel}`,
+              es: `Interfaz de VideoAI: ${shortLabel}`,
+              zh: `VideoAI 界面：${shortLabel}`,
             };
 
   const fallbackByLocale: Record<SupportedLocale, string> = {

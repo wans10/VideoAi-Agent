@@ -2,11 +2,11 @@
   "marketingName": "Happy Horse 1.1",
   "versionLabel": "1.1",
   "seo": {
-    "title": "Happy Horse 1.1 | 原生音频 AI 视频模型 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Happy Horse 1.1 进行文本转视频、图像转视频、参考转视频、原生音频与唇形同步。",
+    "title": "Happy Horse 1.1 | 原生音频 AI 视频模型 | VideoAI",
+    "description": "在 VideoAI 上使用 Happy Horse 1.1 进行文本转视频、图像转视频、参考转视频、原生音频与唇形同步。",
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
-  "overview": "Happy Horse 1.1 是 MaxVideoAI 上阿里巴巴的当前 AI 视频模型，支持文本提示词、首帧图像以及最多九张参考图像，并具备原生同步音频与唇形同步能力。",
+  "overview": "Happy Horse 1.1 是 VideoAI 上阿里巴巴的当前 AI 视频模型，支持文本提示词、首帧图像以及最多九张参考图像，并具备原生同步音频与唇形同步能力。",
   "pricingNotes": "Happy Horse 1.1 对文本、图像和参考转视频运行采用当前的 Fal 费率。视频编辑仍保留在旧版 Happy Horse 1.0 上。",
   "hero": {
     "title": "Happy Horse 1.1 - 支持原生音频的阿里巴巴视频生成",
@@ -64,7 +64,7 @@
   "technicalOverview": [
     {
       "label": "工作流",
-      "body": "在 MaxVideoAI 中，文本转视频、图像转视频和参考转视频统一作为当前的 Happy Horse 1.1 模型提供。"
+      "body": "在 VideoAI 中，文本转视频、图像转视频和参考转视频统一作为当前的 Happy Horse 1.1 模型提供。"
     },
     {
       "label": "时长",
@@ -122,11 +122,11 @@
       "prompt": "通过平滑的推拉运镜、细腻的布料与发丝动态、精致的广告光影以及同步环境音，让上传的营销静止图生动起来。"
     }
   ],
-  "faqTitle": "常见问题 - MaxVideoAI 上的 Happy Horse 1.1",
+  "faqTitle": "常见问题 - VideoAI 上的 Happy Horse 1.1",
   "faqs": [
     {
       "q": "Happy Horse 1.1 支持哪些输入？",
-      "a": "MaxVideoAI 将 Happy Horse 1.1 作为当前模型提供，支持文本转视频、图像转视频和参考转视频工作流。"
+      "a": "VideoAI 将 Happy Horse 1.1 作为当前模型提供，支持文本转视频、图像转视频和参考转视频工作流。"
     },
     {
       "q": "Happy Horse 1.1 是否支持唇形同步？",
@@ -235,12 +235,12 @@
       },
       {
         "title": "720p 或 1080p",
-        "body": "在生成前选择 MaxVideoAI 提供的分辨率。",
+        "body": "在生成前选择 VideoAI 提供的分辨率。",
         "tone": "quality"
       },
       {
         "title": "更低的 1080p 供应商费率",
-        "body": "Happy Horse 1.1 采用 MaxVideoAI 加成前的当前 1080p 供应商费率。",
+        "body": "Happy Horse 1.1 采用 VideoAI 加成前的当前 1080p 供应商费率。",
         "tone": "price"
       }
     ],
@@ -295,14 +295,14 @@
     "pricingCopy": {
       "title": "Happy Horse 1.1 定价一览",
       "subtitle": "预设的原生音频总价 - 生成前在应用中查看精确的实时价格。",
-      "footnote": "所有价格均为预设场景下以美元积分显示的 MaxVideoAI 价格。",
+      "footnote": "所有价格均为预设场景下以美元积分显示的 VideoAI 价格。",
       "ctaLabel": "查看完整定价",
       "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#happy-horse-1-1-pricing"
     },
     "meta": {
-      "title": "Happy Horse 1.1：定价、原生音频与参考视频 | MaxVideoAI",
-      "description": "在 MaxVideoAI 上探索 Happy Horse 1.1 定价、原生音频、唇形同步、文本转视频、图像转视频及参考转视频工作流。"
+      "title": "Happy Horse 1.1：定价、原生音频与参考视频 | VideoAI",
+      "description": "在 VideoAI 上探索 Happy Horse 1.1 定价、原生音频、唇形同步、文本转视频、图像转视频及参考转视频工作流。"
     }
   },
   "prompting": {

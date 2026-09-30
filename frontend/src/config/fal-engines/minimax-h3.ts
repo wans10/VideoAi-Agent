@@ -285,7 +285,7 @@ export const MINIMAX_H3_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     defaultFalModelId: MINIMAX_H3_ENDPOINTS.t2v,
     seo: {
       title: 'MiniMax H3 – Native-Audio Multimodal AI Video',
-      description: 'Create 5–15 second character-led videos from text, images, video, and audio references with MiniMax H3 in MaxVideoAI.',
+      description: 'Create 5–15 second character-led videos from text, images, video, and audio references with MiniMax H3 in VideoAI.',
       canonicalPath: '/models/minimax-h3',
     },
     type: 'Text + Image + References · Native audio',

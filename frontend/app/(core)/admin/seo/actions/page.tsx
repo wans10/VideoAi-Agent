@@ -64,7 +64,7 @@ export default async function AdminSeoActionsPage(props: PageProps) {
       <AdminPageHeader
         eyebrow="SEO"
         title="Codex Action Queue"
-        description="Copy-ready implementation briefs generated from MaxVideoAI Search Console opportunity clusters."
+        description="Copy-ready implementation briefs generated from VideoAI Search Console opportunity clusters."
         actions={
           <>
             <RangeTabs current={range} />

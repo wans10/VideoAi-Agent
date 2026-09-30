@@ -179,9 +179,9 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "Qué es realmente Wan 2.5 en MaxVideoAI",
+    "whatTitle": "Qué es realmente Wan 2.5 en VideoAI",
     "whatIntro1": "Wan 2.5 es un modelo de texto e imagen a video diseñado para clips cinematográficos cortos con audio nativo.",
-    "whatIntro2": "En MaxVideoAI es un motor audio‑ready y flexible con pricing por resolución.",
+    "whatIntro2": "En VideoAI es un motor audio‑ready y flexible con pricing por resolución.",
     "whatFlowTitle": "Flujo en la app",
     "whatFlowSteps": [
       "1. El flujo histórico de Wan 2.5 comenzaba con una entrada de texto o imagen.",
@@ -192,8 +192,8 @@
       "6. Pega un prompt claro y cinematográfico con sujeto, cámara y sonido.",
       "7. Revisa el precio en vivo y renderiza."
     ],
-    "specTitle": "Especificaciones reales — Wan 2.5 en MaxVideoAI (480p–1080p, 5–10 s)",
-    "specNote": "Estas specs conservan la ruta histórica de Wan 2.5 tal como se exponía en MaxVideoAI.",
+    "specTitle": "Especificaciones reales — Wan 2.5 en VideoAI (480p–1080p, 5–10 s)",
+    "specNote": "Estas specs conservan la ruta histórica de Wan 2.5 tal como se exponía en VideoAI.",
     "specSections": [
       {
         "title": "Flujos guiados por audio",
@@ -270,7 +270,7 @@
       "Veo 3.1 / Kling / Pika: elige estos para presets de encuadre, realismo 1080p silencioso o loops estilizados"
     ],
     "comparisonCta": "Comparar Wan 2.5 vs Sora 2 →",
-    "faqTitle": "FAQ – Wan 2.5 en MaxVideoAI",
+    "faqTitle": "FAQ – Wan 2.5 en VideoAI",
     "faqs": [
       {
         "q": "¿Wan 2.5 siempre genera audio?",
@@ -294,7 +294,7 @@
       }
     ],
     "relatedTitle": "Explora otros modelos",
-    "relatedSubtitle": "Compara precio, latencia y opciones de salida en el catálogo de MaxVideoAI.",
+    "relatedSubtitle": "Compara precio, latencia y opciones de salida en el catálogo de VideoAI.",
     "finalPara1": "Wan 2.5 permanece documentado como ruta histórica con audio para beats de 5 a 10 s.",
     "finalPara2": "Usa Wan 3 para cualquier generación nueva desde texto, imagen o referencias.",
     "finalButton": "Abrir Wan 3 en Generate",
@@ -437,13 +437,13 @@
     "pricingCopy": {
       "title": "Precios de Wan 2.5 de un vistazo",
       "subtitle": "Totales de clips cortos. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Generar con Wan 3",
       "maxDurationNote": "Hasta 1080p",
       "ctaHref": "/app?engine=wan-3"
     },
     "meta": {
-      "title": "Wan 2.5: precios, drafts con audio y ejemplos | MaxVideoAI",
+      "title": "Wan 2.5: precios, drafts con audio y ejemplos | VideoAI",
       "description": "Referencia histórica de Wan 2.5 para borradores cortos de video IA con audio, texto a video, imagen a video, carga de audio opcional, expansión de prompt y precios."
     }
   },
@@ -538,7 +538,7 @@
     "modelSlug": "wan-2-5",
     "section": {
       "title": "Galería de ejemplos Wan 2.5",
-      "intro": "Clips generados con la configuración exacta disponible en MaxVideoAI.",
+      "intro": "Clips generados con la configuración exacta disponible en VideoAI.",
       "defaultCtaLabel": "Ver todos los ejemplos Wan 2.5 →",
       "recreateLabel": "Recrear esta toma →"
     },
@@ -572,7 +572,7 @@
       {
         "id": "proof-1",
         "title": "Resultados reales",
-        "body": "Mira qué es posible con Wan 2.5 – Texto o imagen a video con audio opcional en MaxVideoAI (480p–1080p, 5–10 s).",
+        "body": "Mira qué es posible con Wan 2.5 – Texto o imagen a video con audio opcional en VideoAI (480p–1080p, 5–10 s).",
         "icon": "sparkles"
       },
       {

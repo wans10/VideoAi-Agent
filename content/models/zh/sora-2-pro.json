@@ -3,7 +3,7 @@
   "versionLabel": "Pro",
   "seo": {
     "title": "Sora 2 Pro — 支持原生音频与进阶控制的更长 AI 视频生成",
-    "description": "在 MaxVideoAI 上通过文生视频与图生视频创建更长的 Sora 2 Pro 视频，具备原生语音与环境音、多提示词分镜串联及进阶控制，按需计费即用即付。",
+    "description": "在 VideoAI 上通过文生视频与图生视频创建更长的 Sora 2 Pro 视频，具备原生语音与环境音、多提示词分镜串联及进阶控制，按需计费即用即付。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a5cbd8d3-33c7-47b5-8480-7f23aab89891-job_684c1b3d-2679-40d1-adb7-06151b3e8739.jpg"
   },
   "hero": {
@@ -60,7 +60,7 @@
       }
     ],
     "heroTrustLine": "按量计费 · 生成前明示价格",
-    "heroDesc1": "Sora 2 Pro 是 Sora 2 的高阶版本。当前 MaxVideoAI 路线开放了 720p/1080p 输出、明确的音频控制，以及更丰富的多节拍序列提示词串联能力。",
+    "heroDesc1": "Sora 2 Pro 是 Sora 2 的高阶版本。当前 VideoAI 路线开放了 720p/1080p 输出、明确的音频控制，以及更丰富的多节拍序列提示词串联能力。",
     "heroDesc2": "先用 Sora 2 进行快速原型探索，随后切入 Sora 2 Pro，以更严格的时间节奏、动态与声音控制重新渲染精选镜头。",
     "secondaryCta": "对比 Sora 2 与 Sora 2 Pro (高分辨率)",
     "whyTitle": "为什么 Sora 2 Pro 如此强大",
@@ -70,8 +70,8 @@
       "结构化提示词带来更佳效果||分镜镜头清单与清晰节拍比“形容词堆砌”的执行效果更稳定可靠。",
       "终审成片的不二之选||当创意概念锁定并追求极致成片品质时使用。"
     ],
-    "specTitle": "真实技术规格 – MaxVideoAI 中的 Sora 2 Pro（720p / 1080p，4–12秒）",
-    "specNote": "当前 MaxVideoAI 路由限制。服务商/模型家族文档可能提及该开放路由之外更广泛的 Pro 功能。",
+    "specTitle": "真实技术规格 – VideoAI 中的 Sora 2 Pro（720p / 1080p，4–12秒）",
+    "specNote": "当前 VideoAI 路由限制。服务商/模型家族文档可能提及该开放路由之外更广泛的 Pro 功能。",
     "specSections": [
       {
         "title": "高保真度控制",
@@ -94,7 +94,7 @@
         ]
       }
     ],
-    "specValueProp": "Sora 2 Pro 专用于在当前 MaxVideoAI 路由上输出具备音频控制与多场景连贯性的精致 720p/1080p 视频 — 是锁定 Sora 2 前期探索后的理想之选。",
+    "specValueProp": "Sora 2 Pro 专用于在当前 VideoAI 路由上输出具备音频控制与多场景连贯性的精致 720p/1080p 视频 — 是锁定 Sora 2 前期探索后的理想之选。",
     "microCta": "开始使用 Sora 2 Pro 生成 →",
     "imageTitle": "Sora 2 Pro 图生视频工作流",
     "imageIntro": "使用静态图片锁定视觉风格，随后配合精准的动态与音频提示词让画面生动起来。",
@@ -120,7 +120,7 @@
     ],
     "tipsTitle": "使用技巧与局限",
     "strengths": [
-      "在当前 MaxVideoAI 路由上输出 720p/1080p 高品质画面",
+      "在当前 VideoAI 路由上输出 720p/1080p 高品质画面",
       "提供音频开关与精准提示词控制",
       "多场景串联带来更出色的连贯性",
       "非常适合商业广告、预告片、解说视频及客户提案展示",
@@ -147,15 +147,15 @@
     "comparisonTitle": "Sora 2 与 Sora 2 Pro 对比",
     "comparisonPoints": [
       "使用 Sora 2 (720p) 进行低成本高效率的快速原型构想。",
-      "在 Sora 2 Pro（当前 MaxVideoAI 提供的 720p/1080p 路由）中完成终审渲染，获得更细腻质感、音频控制与连贯性。",
+      "在 Sora 2 Pro（当前 VideoAI 提供的 720p/1080p 路由）中完成终审渲染，获得更细腻质感、音频控制与连贯性。",
       "统一的工作流：准备好升级渲染时，在同一界面中无缝切换引擎。"
     ],
     "comparisonCta": "对比 Sora 2 与 Sora 2 Pro →",
-    "faqTitle": "常见问题 – MaxVideoAI 中的 Sora 2 Pro",
+    "faqTitle": "常见问题 – VideoAI 中的 Sora 2 Pro",
     "faqs": [
       {
         "q": "Sora 2 Pro 是否包含音频控制功能？",
-        "a": "是的。您可以在 MaxVideoAI 中开启或关闭音频，并在提示词中写入旁白、环境音与音效提示。"
+        "a": "是的。您可以在 VideoAI 中开启或关闭音频，并在提示词中写入旁白、环境音与音效提示。"
       },
       {
         "q": "它的费用比 Sora 2 更高吗？",
@@ -163,7 +163,7 @@
       },
       {
         "q": "我应该先在 Sora 2 中进行原型构思吗？",
-        "a": "通常建议如此：先在 Sora 2 中以更低成本快速探索，随后在当前 MaxVideoAI 的 Pro 路由上以 720p/1080p 重新渲染精选镜头并调控音频。"
+        "a": "通常建议如此：先在 Sora 2 中以更低成本快速探索，随后在当前 VideoAI 的 Pro 路由上以 720p/1080p 重新渲染精选镜头并调控音频。"
       },
       {
         "q": "我可以使用 Sora 2 Pro 进行图生视频吗？",
@@ -171,9 +171,9 @@
       }
     ],
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "对比 MaxVideoAI 中可用的其他引擎的价格、延迟与输出选项。",
-    "finalPara1": "MaxVideoAI 中的 Sora 2 Pro 专为满足客户交付的高端成片而打造，提供对动态、音频与连贯性的精准控制。",
-    "finalPara2": "先在 Sora 2 中快速验证创意，当需要打磨成片并在当前更高品质的 MaxVideoAI 路由上交付时，再升级至 Sora 2 Pro。",
+    "relatedSubtitle": "对比 VideoAI 中可用的其他引擎的价格、延迟与输出选项。",
+    "finalPara1": "VideoAI 中的 Sora 2 Pro 专为满足客户交付的高端成片而打造，提供对动态、音频与连贯性的精准控制。",
+    "finalPara2": "先在 Sora 2 中快速验证创意，当需要打磨成片并在当前更高品质的 VideoAI 路由上交付时，再升级至 Sora 2 Pro。",
     "finalButton": "使用 Sora 2 Pro 生成 →",
     "tipsIntro": "当镜头保持简洁、意图明确且符合物理逻辑时，Sora 的生成效果最稳定可控。"
   },
@@ -285,16 +285,16 @@
       "a": "默认开启音频以提供对白同步与声音设计，但如果仅需纯画面，您可以在生成编辑器中将其关闭。"
     },
     {
-      "q": "Sora 2 Pro 在 MaxVideoAI 中如何计费？",
-      "a": "页面展示了常见 Pro 场景下的 MaxVideoAI 预设总价。“生成”工作区始终作为运行任务前查看精确准确实时报价的基准。"
+      "q": "Sora 2 Pro 在 VideoAI 中如何计费？",
+      "a": "页面展示了常见 Pro 场景下的 VideoAI 预设总价。“生成”工作区始终作为运行任务前查看精确准确实时报价的基准。"
     },
     {
       "q": "Sora 2 Pro 的最长生成时长是多少？",
-      "a": "当前 MaxVideoAI 路由支持生成 4秒、8秒 与 12秒 视频。如需更长成片，可渲染多个片段并在后期剪辑拼接。"
+      "a": "当前 VideoAI 路由支持生成 4秒、8秒 与 12秒 视频。如需更长成片，可渲染多个片段并在后期剪辑拼接。"
     },
     {
       "q": "Sora 2 Pro 在此支持哪些分辨率？",
-      "a": "当前 MaxVideoAI 路由开放 720p 与 1080p 输出。服务商或模型家族文档可能提及更广泛的功能，但本页面如实反映应用内当前可用的路由。"
+      "a": "当前 VideoAI 路由开放 720p 与 1080p 输出。服务商或模型家族文档可能提及更广泛的功能，但本页面如实反映应用内当前可用的路由。"
     },
     {
       "q": "我可以使用 Sora 2 Pro 进行图生视频吗？",
@@ -317,7 +317,7 @@
         "音频控制",
         "参考图引导的图生视频"
       ],
-      "paragraph": "当精选的 Sora 创意概念需要当前的 Pro 路由时，请选用 Sora 2 Pro：支持 720p 或 1080p 交付、文生视频或图生视频生成、可选原生音频，并在 MaxVideoAI 内提供终审级画质审阅闭环。",
+      "paragraph": "当精选的 Sora 创意概念需要当前的 Pro 路由时，请选用 Sora 2 Pro：支持 720p 或 1080p 交付、文生视频或图生视频生成、可选原生音频，并在 VideoAI 内提供终审级画质审阅闭环。",
       "primaryCta": {
         "label": "使用 Sora 2 Pro 生成",
         "href": "/app?engine=sora-2-pro"
@@ -435,13 +435,13 @@
     "pricingCopy": {
       "title": "Sora 2 Pro 价格一览",
       "subtitle": "Pro 预设总价 — 在应用中生成前可查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "4/8/12秒 · 最高支持 1080p",
       "ctaHref": "/zh/pricing#sora-2-pro-pricing"
     },
     "meta": {
-      "title": "Sora 2 Pro：价格、1080p 高清与案例 | MaxVideoAI",
+      "title": "Sora 2 Pro：价格、1080p 高清与案例 | VideoAI",
       "description": "探索 Sora 2 Pro 价格、1080p 案例、同步原生音频、文生视频与图生视频工作流。对比 Sora 2 Pro 与 Sora 2。"
     }
   },
@@ -532,7 +532,7 @@
     "modelSlug": "sora-2-pro",
     "section": {
       "title": "Sora 2 Pro 案例展厅",
-      "intro": "查看在 MaxVideoAI 中使用 Sora 2 Pro 渲染的高清多节拍视频片段。",
+      "intro": "查看在 VideoAI 中使用 Sora 2 Pro 渲染的高清多节拍视频片段。",
       "defaultCtaLabel": "查看全部 Sora 2 Pro 案例 →",
       "recreateLabel": "复现此 Pro 镜头 →"
     },

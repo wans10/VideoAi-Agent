@@ -2,12 +2,13 @@
 
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
-import { ArrowUpRight, ChevronDown } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Boxes, Film, Scale, Wrench, Plug, WalletCards, BookOpen } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { MarketingNavEntryContent } from '@/components/marketing/MarketingNavEntryContent';
 import { MARKETING_NAV_DROPDOWNS, type MarketingTopNavLink } from '@/config/navigation';
 
 type MarketingTranslate = <T = unknown>(key: string, fallback?: T) => T | undefined;
+const NAV_ICONS = { models: Boxes, examples: Film, compare: Scale, tools: Wrench, connect: Plug, pricing: WalletCards, blog: BookOpen };
 type Props = {
   desktopDropdownOpen: string | null;
   links: readonly MarketingTopNavLink[];
@@ -35,7 +36,8 @@ export function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, o
       const dropdown = MARKETING_NAV_DROPDOWNS[item.key];
       const label = t<string>(`nav.linkLabels.${item.key}`, item.key) ?? item.key;
       const active = pathname === item.href || pathname?.startsWith(`${item.href}/`);
-      if (!dropdown) return <Link key={item.key} href={item.href} prefetch={false} className="marketing-nav-trigger" aria-current={active ? 'page' : undefined}>{label}</Link>;
+      const Icon = NAV_ICONS[item.key as keyof typeof NAV_ICONS] ?? BookOpen;
+      if (!dropdown) return <Link key={item.key} href={item.href} prefetch={false} className="marketing-nav-trigger" aria-current={active ? 'page' : undefined}><Icon className="studio-navigation-icon" size={18} aria-hidden="true" />{label}</Link>;
       const isOpen = desktopDropdownOpen === item.key;
       const panelId = `marketing-${item.key}-dropdown`;
       const twoColumns = dropdown.desktopColumns === 2 || item.key === 'compare';
@@ -52,31 +54,33 @@ export function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, o
         <button type="button" className={clsx('marketing-nav-trigger', active && 'is-active')} aria-expanded={isOpen} aria-controls={panelId}
           onClick={event => event.detail === 0 && isOpen ? onCloseDesktopDropdown(0) : onOpenDesktopDropdown(item.key)}
           onKeyDown={event => { if (event.key === 'ArrowDown') { event.preventDefault(); onOpenDesktopDropdown(item.key); } }}>
-          {label}{item.key === 'connect' ? <span className="marketing-mcp-tag">MCP</span> : null}<ChevronDown size={12} aria-hidden="true" />
+          <Icon className="studio-navigation-icon" size={18} aria-hidden="true" />{label}{item.key === 'connect' ? <span className="marketing-mcp-tag">MCP</span> : null}<ChevronDown className="studio-navigation-chevron" size={12} aria-hidden="true" />
         </button>
-        <div id={panelId} className="marketing-mega-menu" hidden={!isOpen}>
-          <header className="marketing-mega-heading"><div><p>{t(`nav.dropdown.${item.key}.heading`, dropdown.heading)}</p><span>{t(`nav.dropdown.${item.key}.intro`, dropdown.intro)}</span></div>
+        <div id={panelId} className="marketing-mega-menu studio-navigation-panel" hidden={!isOpen}>
+          <header className="studio-menu-intro"><span className="studio-menu-section">{label}</span><div><p>{t(`nav.dropdown.${item.key}.heading`, dropdown.heading)}</p><span>{t(`nav.dropdown.${item.key}.intro`, dropdown.intro)}</span></div>
             <Link href={dropdown.allHref} prefetch={false} onClick={() => onCloseDesktopDropdown(0)}>{t(dropdown.allLabelKey, dropdown.allLabelFallback)}<ArrowUpRight size={16} aria-hidden="true" /></Link>
           </header>
-          <div className={clsx('marketing-mega-content', dropdown.sections?.length && 'has-aside')}>
+          <div className="marketing-mega-content">
             <div className={clsx('marketing-mega-links', twoColumns && 'two-columns')}>
-              {dropdown.items.map(entry => {
+              {dropdown.items.map((entry, index) => {
                 const entryLabel = t<string>(`nav.dropdown.${item.key}.items.${entry.key}`, entry.label) ?? entry.label;
                 const badgeLabel = entry.badge ? t<string>(`nav.badges.${entry.badge}`, entry.badge) : undefined;
                 const description = entry.description ? t<string>(`nav.dropdown.${item.key}.descriptions.${entry.key}`, entry.description) : undefined;
                 return <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className="marketing-mega-link">
-                  <MarketingNavEntryContent entry={entry} label={entryLabel} badgeLabel={badgeLabel} showModelLogo={item.key === 'models'} />
-                  {description ? <small>{description}</small> : null}
+                  <span className="studio-menu-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="studio-menu-entry"><MarketingNavEntryContent entry={entry} label={entryLabel} badgeLabel={badgeLabel} showModelLogo={item.key === 'models'} />
+                  {description ? <small>{description}</small> : null}</span>
+                  <ArrowUpRight className="studio-menu-arrow" size={16} aria-hidden="true" />
                 </Link>;
               })}
             </div>
-            {dropdown.sections?.length ? <aside className="marketing-mega-aside">{dropdown.sections.map(section => <div key={section.key}>
-              {!section.hideTitle ? <p className="marketing-menu-caption">{section.titleKey ? t(section.titleKey, section.titleFallback) : section.titleFallback}</p> : null}
-              {section.items.map(entry => <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className={clsx('marketing-aside-link', entry.emphasized && 'font-semibold text-text-primary')}>
-                <MarketingNavEntryContent entry={entry} label={t<string>(`nav.dropdown.${item.key}.sections.${section.key}.items.${entry.key}`, entry.label) ?? entry.label} showModelLogo={false} /><ArrowUpRight size={13} aria-hidden="true" />
-              </Link>)}
-            </div>)}</aside> : null}
           </div>
+            {dropdown.sections?.length ? <aside className="studio-menu-guides">{dropdown.sections.map(section => <div key={section.key}>
+              {!section.hideTitle ? <p className="marketing-menu-caption">{section.titleKey ? t(section.titleKey, section.titleFallback) : section.titleFallback}</p> : null}
+              <div className="studio-menu-guide-links">{section.items.map(entry => <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className={clsx('marketing-aside-link', entry.emphasized && 'font-semibold text-text-primary')}>
+                <MarketingNavEntryContent entry={entry} label={t<string>(`nav.dropdown.${item.key}.sections.${section.key}.items.${entry.key}`, entry.label) ?? entry.label} showModelLogo={false} /><ArrowUpRight size={13} aria-hidden="true" />
+              </Link>)}</div>
+            </div>)}</aside> : null}
         </div>
       </div>;
     })}

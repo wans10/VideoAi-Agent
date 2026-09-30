@@ -146,7 +146,7 @@ const KLING_3_STANDARD_ENGINE: EngineCaps = {
     unit: 'USD/s',
     base: 0.126,
     currency: 'USD',
-    notes: 'Provider cost: $0.084/s audio off and $0.126/s audio on. MaxVideoAI display prices add platform margin before showing quotes.',
+    notes: 'Provider cost: $0.084/s audio off and $0.126/s audio on. VideoAI display prices add platform margin before showing quotes.',
   },
   updatedAt: '2026-04-25T00:00:00Z',
   ttlSec: 600,
@@ -202,7 +202,7 @@ export const KLING_3_STANDARD_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/kling-video/v3/standard/text-to-video',
     seo: {
-      title: 'Kling 3 Standard – Multi-prompt Text & Image to Video | MaxVideoAI',
+      title: 'Kling 3 Standard – Multi-prompt Text & Image to Video | VideoAI',
       description:
         'Use Kling 3 Standard for multi-prompt sequences, start-frame image-to-video, Kling Elements, and native audio at a lower $/s rate in 1080p.',
       canonicalPath: '/models/kling-3-standard',

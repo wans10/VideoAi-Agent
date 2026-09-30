@@ -349,7 +349,7 @@ export function TransparentPricingBlock({ copy, cards }: { copy: SectionCopy; ca
             </span>
             <span>
               {copy.supportingText ??
-                'MaxVideoAI is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika, Sora and more.'}
+                'VideoAI is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika, Sora and more.'}
             </span>
           </p>
           <nav aria-label="Pricing section links" className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-brand">
@@ -413,13 +413,13 @@ export function ProviderEngineStrip({ copy, providers }: { copy: SectionCopy; pr
 export function HomeFaq({ copy, items }: { copy: SectionCopy; items: FaqItem[] }) {
   return (
     <section className="home-faq-chapter dark-section-neon bg-bg section">
-      <div className="container-page max-w-[900px] stack-gap-lg">
+      <div className="container-page studio-faq-layout">
         <SectionHeader title={copy.title} subtitle={copy.subtitle} />
-        <div className="space-y-3">
-          {items.map((item) => (
-            <details key={item.question} className="dark-neon-panel group rounded-card border border-hairline bg-surface p-5">
+        <div className="studio-faq-list">
+          {items.map((item, index) => (
+            <details key={item.question} className="studio-faq-item group">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left font-semibold text-text-primary">
-                <span>{item.question}</span>
+                <span><b className="studio-faq-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</b>{item.question}</span>
                 <span aria-hidden className="text-text-muted transition group-open:rotate-45">+</span>
               </summary>
               <p className="mt-3 text-sm leading-7 text-text-secondary">{item.answer}</p>

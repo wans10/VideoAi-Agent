@@ -52,10 +52,10 @@ function titleForModel(label: string, locale: AppLocale) {
 function bodyForModel(slug: string, label: string, locale: AppLocale) {
   if (slug === 'seedance-2-0') {
     return locale === 'fr'
-      ? 'Voyez les prix MaxVideoAI actuels pour 5 s 720p, 10 s 1080p et les routes avec audio.'
+      ? 'Voyez les prix VideoAI actuels pour 5 s 720p, 10 s 1080p et les routes avec audio.'
       : locale === 'es'
-        ? 'Consulta precios actuales de MaxVideoAI para 5 s 720p, 10 s 1080p y rutas con audio.'
-        : 'See current MaxVideoAI prices for 5s 720p, 10s 1080p and audio-enabled routes.';
+        ? 'Consulta precios actuales de VideoAI para 5 s 720p, 10 s 1080p y rutas con audio.'
+        : 'See current VideoAI prices for 5s 720p, 10s 1080p and audio-enabled routes.';
   }
   if (slug === 'ltx-2-3-fast') {
     return locale === 'fr'

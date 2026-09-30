@@ -6145,7 +6145,7 @@
         "unit": "USD/s",
         "base": 0.168,
         "currency": "USD",
-        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on. VideoAI display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -6540,7 +6540,7 @@
         "unit": "USD/s",
         "base": 0.126,
         "currency": "USD",
-        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on. VideoAI display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -6898,7 +6898,7 @@
           "4k": 0.42
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.420/s native 4K output. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.420/s native 4K output. VideoAI display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -7312,7 +7312,7 @@
           "1080p": 0.126
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on for Kling 3.0 Omni Standard. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on for Kling 3.0 Omni Standard. VideoAI display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -7956,7 +7956,7 @@
           "1080p": 0.168
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on for Kling 3.0 Omni Pro. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on for Kling 3.0 Omni Pro. VideoAI display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -8557,7 +8557,7 @@
           "4k": 0.42
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.420/s for Kling 3.0 Omni 4K. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.420/s for Kling 3.0 Omni 4K. VideoAI display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -9885,7 +9885,7 @@
           "1080p": 0.18
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. VideoAI display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-22T00:00:00Z",
       "ttlSec": 600,
@@ -11668,7 +11668,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 is billed from output tokens. MaxVideoAI adds its margin and rounds up to the next cent before showing the live quote."
+        "notes": "Seedance 2 is billed from output tokens. VideoAI adds its margin and rounds up to the next cent before showing the live quote."
       },
       "updatedAt": "2026-04-05T00:00:00Z",
       "ttlSec": 600,
@@ -12382,7 +12382,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 Fast is billed from output tokens. MaxVideoAI adds its margin and rounds up to the next cent before showing the live quote."
+        "notes": "Seedance 2 Fast is billed from output tokens. VideoAI adds its margin and rounds up to the next cent before showing the live quote."
       },
       "updatedAt": "2026-04-05T00:00:00Z",
       "ttlSec": 600,
@@ -13007,7 +13007,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 Mini is billed from output tokens with one flat public MaxVideoAI rate across text, image, reference, source-video, and extend workflows."
+        "notes": "Seedance 2 Mini is billed from output tokens with one flat public VideoAI rate across text, image, reference, source-video, and extend workflows."
       },
       "updatedAt": "2026-06-15T00:00:00Z",
       "ttlSec": 600,
@@ -19130,7 +19130,7 @@
           }
         },
         "currency": "USD",
-        "notes": "Raw provider pricing is converted to MaxVideoAI display pricing before the live quote is shown."
+        "notes": "Raw provider pricing is converted to VideoAI display pricing before the live quote is shown."
       },
       "updatedAt": "2026-03-17T00:00:00Z",
       "ttlSec": 600,
@@ -20624,7 +20624,7 @@
         "unit": "image",
         "base": 0.035,
         "currency": "USD",
-        "notes": "Seedream 5.0 Lite is billed per successfully generated image; MaxVideoAI customer pricing may include platform margin."
+        "notes": "Seedream 5.0 Lite is billed per successfully generated image; VideoAI customer pricing may include platform margin."
       },
       "updatedAt": "2026-05-11T00:00:00Z",
       "ttlSec": 600,

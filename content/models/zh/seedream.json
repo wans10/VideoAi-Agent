@@ -2,11 +2,11 @@
   "marketingName": "Seedream 5.0 Lite",
   "versionLabel": "5.0 Lite",
   "seo": {
-    "title": "Seedream 5.0 Lite | 图像生成与精修编辑 | MaxVideoAI",
-    "description": "在 MaxVideoAI 中使用 Seedream 5.0 Lite 创建与编辑静态图像。在进入 Seedance 视频动画前，轻松准备干净的创意概念图、产品帧与参考图像。"
+    "title": "Seedream 5.0 Lite | 图像生成与精修编辑 | VideoAI",
+    "description": "在 VideoAI 中使用 Seedream 5.0 Lite 创建与编辑静态图像。在进入 Seedance 视频动画前，轻松准备干净的创意概念图、产品帧与参考图像。"
   },
-  "overview": "Seedream 5.0 Lite 是 MaxVideoAI 内置的图像生成与编辑模型，专为创建干净的静态图、产品概念图、角色参考帧、主题视觉套图以及源图像而设计，能够在开展 Seedance 2.0 或 Seedance 2.0 Fast 图生视频创作前提供更加稳固的参考素材。",
-  "pricingNotes": "Seedream 5.0 Lite 按成功生成的图像数量计费（包含批量套图）。MaxVideoAI 在生成前展示当前账户的实时价格。0.24 美元的批量预设是以每张 0.06 美元生成 4 张图像为例，而非 15 张图像的价格。",
+  "overview": "Seedream 5.0 Lite 是 VideoAI 内置的图像生成与编辑模型，专为创建干净的静态图、产品概念图、角色参考帧、主题视觉套图以及源图像而设计，能够在开展 Seedance 2.0 或 Seedance 2.0 Fast 图生视频创作前提供更加稳固的参考素材。",
+  "pricingNotes": "Seedream 5.0 Lite 按成功生成的图像数量计费（包含批量套图）。VideoAI 在生成前展示当前账户的实时价格。0.24 美元的批量预设是以每张 0.06 美元生成 4 张图像为例，而非 15 张图像的价格。",
   "hero": {
     "title": "Seedream 5.0 Lite — 图像生成与编辑",
     "intro": "将 Seedream 5.0 Lite 作为独立的图像模型使用，支持文本生图、图生图精修、批量套图生成，并在将选定画面导入 Seedance 制作动画前打造受控的静态参考图。",
@@ -98,7 +98,7 @@
   "faqs": [
     {
       "q": "什么是 Seedream 5.0 Lite？",
-      "a": "Seedream 5.0 Lite 是 MaxVideoAI 提供的一款图像生成与编辑模型，专为静态图像创作与参考图素材准备而打造。"
+      "a": "Seedream 5.0 Lite 是 VideoAI 提供的一款图像生成与编辑模型，专为静态图像创作与参考图素材准备而打造。"
     },
     {
       "q": "Seedream 如何与 Seedance 协同工作？",
@@ -106,7 +106,7 @@
     },
     {
       "q": "Seedream 支持生成批量套图吗？",
-      "a": "支持。当您请求生成多张图像时，MaxVideoAI 能基于同一个创意简报生成风格连贯的成套图像。这对于分镜故事板、漫画、系列产品图和品牌视觉系统非常实用。"
+      "a": "支持。当您请求生成多张图像时，VideoAI 能基于同一个创意简报生成风格连贯的成套图像。这对于分镜故事板、漫画、系列产品图和品牌视觉系统非常实用。"
     },
     {
       "q": "使用 Seedream 能保证 Seedance 的生成效果吗？",
@@ -152,7 +152,7 @@
     "specSections": [
       {
         "title": "Seedream 图像工作流",
-        "intro": "在 MaxVideoAI 图像实验室中使用 Seedream 5.0 Lite 进行文本生图、单图编辑与多图参考工作流。",
+        "intro": "在 VideoAI 图像实验室中使用 Seedream 5.0 Lite 进行文本生图、单图编辑与多图参考工作流。",
         "items": [
           "文字生成图像：根据提示词创建静态图像，支持 2K、3K 或 4K 输出分辨率控制。",
           "图像生成图像：对现有源图像进行清理或精修，同时保留关键视觉细节。",
@@ -164,7 +164,7 @@
         "title": "使用限制与计费说明",
         "items": [
           "参考图像数与请求生成的输出图像数总和不得超过 15 张。",
-          "MaxVideoAI 按成功生成的图像数量对 Seedream 计费；失败或缺失的输出不会按完成图像收费。",
+          "VideoAI 按成功生成的图像数量对 Seedream 计费；失败或缺失的输出不会按完成图像收费。",
           "输出控制支持设置基础分辨率、画幅比例、文件格式以及水印选项（若支持）。",
           "0.24 美元的批量预设是以每张 0.06 美元生成 4 张图像为例，并非 15 张图像的价格。",
           "输出格式：在当前图像实验室路由中可选择 jpeg 或 png。"
@@ -198,7 +198,7 @@
       "批量请求时，参考图数量加上生成的输出图总数不得超过 15 张。",
       "Seedance 仍会独立评估每张源图像与提示词。",
       "更干净的参考图有助于提高连贯性，但最终的动态处理与输出品质仍取决于 Seedance 的运行。",
-      "不得使用 Seedream 准备违反 MaxVideoAI 安全规范的内容。"
+      "不得使用 Seedream 准备违反 VideoAI 安全规范的内容。"
     ],
     "safetyTitle": "安全与肖像权规范",
     "safetyRules": [
@@ -360,13 +360,13 @@
     "pricingCopy": {
       "title": "Seedream 图像定价一览",
       "subtitle": "单张图像预设总览——生成前可在图像工作区中查看确切的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设图像场景以美元点数显示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设图像场景以美元点数显示的参考价格。",
       "ctaLabel": "查看完整定价",
       "ctaHref": "/zh/pricing#seedream-pricing"
     },
     "meta": {
-      "title": "Seedream：图像定价与参考图准备 | MaxVideoAI",
-      "description": "在选择视频模型之前，先在 MaxVideoAI 中准备 Seedream 参考图像、产品帧、角色静态图与受控的视觉套图。"
+      "title": "Seedream：图像定价与参考图准备 | VideoAI",
+      "description": "在选择视频模型之前，先在 VideoAI 中准备 Seedream 参考图像、产品帧、角色静态图与受控的视觉套图。"
     }
   },
   "prompting": {
@@ -432,7 +432,7 @@
     "modelSlug": "seedream",
     "section": {
       "title": "Seedream 5.0 Lite 示例",
-      "intro": "探索真实的社区作品，了解 Seedream 5.0 Lite 在 MaxVideoAI 工作流程中的表现。",
+      "intro": "探索真实的社区作品，了解 Seedream 5.0 Lite 在 VideoAI 工作流程中的表现。",
       "defaultCtaLabel": null,
       "recreateLabel": "重现该静态图 →"
     },

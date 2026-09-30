@@ -8,7 +8,7 @@ import { AngleLandingSections } from './AngleLandingSections';
 
 export async function AngleLandingView({ content }: { content: AngleLandingContent }) {
   const locale = await resolveLocale();
-  const canonicalUrl = `https://maxvideoai.com${localizePathFromEnglish(locale, '/tools/angle')}`;
+  const canonicalUrl = `https://videoai.omninodetech.com${localizePathFromEnglish(locale, '/tools/angle')}`;
   const breadcrumbJsonLd = buildToolBreadcrumbJsonLd({
     locale,
     breadcrumb: content.breadcrumb,

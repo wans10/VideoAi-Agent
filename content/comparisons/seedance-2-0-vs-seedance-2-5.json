@@ -26,7 +26,7 @@
       },
       {
         "title": "Compare the current price",
-        "body": "The pricing cards on this page are calculated from the live MaxVideoAI pricing projection. Compare the exact mode and output settings you plan to render instead of relying on a fixed estimate."
+        "body": "The pricing cards on this page are calculated from the live VideoAI pricing projection. Compare the exact mode and output settings you plan to render instead of relying on a fixed estimate."
       }
     ],
     "primaryLinksTitle": "Choose your Seedance workflow",
@@ -101,7 +101,7 @@
       },
       {
         "title": "Comparer le prix actuel",
-        "body": "Les cartes de prix de cette page sont calculées depuis la projection tarifaire MaxVideoAI en direct. Comparez le mode et les réglages que vous comptez réellement utiliser, plutôt qu’une estimation figée."
+        "body": "Les cartes de prix de cette page sont calculées depuis la projection tarifaire VideoAI en direct. Comparez le mode et les réglages que vous comptez réellement utiliser, plutôt qu’une estimation figée."
       }
     ],
     "primaryLinksTitle": "Choisissez votre workflow Seedance",
@@ -176,7 +176,7 @@
       },
       {
         "title": "Comparar el precio actual",
-        "body": "Las tarjetas de precio de esta página se calculan con la proyección tarifaria en vivo de MaxVideoAI. Compara el modo y los ajustes que vas a renderizar, en lugar de depender de una estimación fija."
+        "body": "Las tarjetas de precio de esta página se calculan con la proyección tarifaria en vivo de VideoAI. Compara el modo y los ajustes que vas a renderizar, en lugar de depender de una estimación fija."
       }
     ],
     "primaryLinksTitle": "Elige tu flujo Seedance",

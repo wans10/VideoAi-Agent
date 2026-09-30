@@ -34,9 +34,9 @@ test('workspace first paint agrees with the hook for default, saved and system t
   }
 });
 
-test('blocked storage still gives the app its dark default', () => {
+test('blocked storage still gives the app its light default', () => {
   const dom = runBootstrap('/app', undefined, false, true);
-  assert.equal(dom.window.document.documentElement.getAttribute('data-theme'), 'dark');
+  assert.equal(dom.window.document.documentElement.getAttribute('data-theme'), null);
   dom.window.close();
 });
 

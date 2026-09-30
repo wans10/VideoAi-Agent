@@ -82,7 +82,7 @@ export const DEFAULT_BILLING_COPY = {
     note: 'Team note: On shared wallets, status applies to all members.',
     comingSoon:
       'Coming soon — unified wallets, role-based approvals, and budgeting controls. Join the beta at {email}.',
-    contactEmail: 'support@maxvideoai.com',
+    contactEmail: 'contact@llmhub.com.cn',
     statusLive: 'Live',
     statusSoon: 'Coming soon',
   },

@@ -242,10 +242,10 @@
           "n8n": "n8n"
         },
         "descriptions": {
-          "claude": "添加 MaxVideoAI MCP 连接器。",
+          "claude": "添加 VideoAI MCP 连接器。",
           "chatgpt": "自定义 MCP 应用 · 适用于支持的工作区。",
-          "codex": "添加 MaxVideoAI 插件。",
-          "openclaw": "安装 MaxVideoAI 技能。",
+          "codex": "添加 VideoAI 插件。",
+          "openclaw": "安装 VideoAI 技能。",
           "n8n": "自托管 AI 视频自动化工作流。"
         },
         "sections": {
@@ -400,18 +400,18 @@
         "manageCookies": "Cookie 设置"
       }
     },
-    "crawlerNote": "MaxVideoAI 允许 AI 爬虫（GPTBot、OAI-SearchBot、Google-Extended 和 CCBot）索引公开模型页面和文档，用于学术研究与教育展示。",
+    "crawlerNote": "VideoAI 允许 AI 爬虫（GPTBot、OAI-SearchBot、Google-Extended 和 CCBot）索引公开模型页面和文档，用于学术研究与教育展示。",
     "mcpFeature": {
       "title": "与您的 AI 助手协同创作。",
       "body": "支持 Claude、ChatGPT、Codex 或 OpenClaw。在 n8n 中构建视频自动化工作流。通过 MCP 连接您的模型与积分额度。",
-      "cta": "探索 MaxVideoAI MCP",
+      "cta": "探索 VideoAI MCP",
       "section": "智能助手与 MCP",
       "docs": "MCP 文档",
       "anchors": {
         "claude": "连接 Claude",
-        "chatgpt": "MaxVideoAI ChatGPT 插件",
-        "codex": "MaxVideoAI Codex 插件",
-        "openclaw": "MaxVideoAI OpenClaw 技能",
+        "chatgpt": "VideoAI ChatGPT 插件",
+        "codex": "VideoAI Codex 插件",
+        "openclaw": "VideoAI OpenClaw 技能",
         "n8n": "n8n 视频自动化"
       }
     }
@@ -1063,9 +1063,9 @@
       },
       "pricingTrust": {
         "title": "生成之前，费用了然于心。",
-        "subtitle": "MaxVideoAI 在每次生成前均会展示确切价格，让您对积分使用始终心中有数。",
+        "subtitle": "VideoAI 在每次生成前均会展示确切价格，让您对积分使用始终心中有数。",
         "cta": "查看价格方案",
-        "supportingText": "MaxVideoAI 是支持 Seedance、Kling、Veo、LTX、Wan、Pika、Sora 等前沿模型的多模型按需付费 AI 视频创作平台。",
+        "supportingText": "VideoAI 是支持 Seedance、Kling、Veo、LTX、Wan、Pika、Sora 等前沿模型的多模型按需付费 AI 视频创作平台。",
         "modelsLink": "模型",
         "examplesLink": "示例",
         "compareLink": "对比模型",
@@ -1157,7 +1157,7 @@
         "items": [
           {
             "question": "当前最好的 AI 视频生成模型是哪个？",
-            "answer": "没有哪一个 AI 视频模型能完美适配所有创作场景。请根据您想要生成的具体场景对比真实效果，重点关注参考素材支持、视频时长、分辨率、音频以及生成费用。MaxVideoAI 将各大主流 AI 视频模型汇聚于同一工作区，无需为每个平台单独订阅即可灵活选用。",
+            "answer": "没有哪一个 AI 视频模型能完美适配所有创作场景。请根据您想要生成的具体场景对比真实效果，重点关注参考素材支持、视频时长、分辨率、音频以及生成费用。VideoAI 将各大主流 AI 视频模型汇聚于同一工作区，无需为每个平台单独订阅即可灵活选用。",
             "links": [
               {
                 "label": "对比 AI 视频模型",
@@ -1167,7 +1167,7 @@
           },
           {
             "question": "如何制作 AI 生成视频？",
-            "answer": "制作 AI 视频时，输入您的画面描述或导入一张起点图片，挑选模型并配置参数。确认生成费用后，先渲染一段短片段测试效果，再进一步微调提示词或参考素材。您也可以直接在 MaxVideoAI 中生成首帧起点图片。对于支持视频输入的模型和模式，还可以直接导入已有视频片段进行转换。",
+            "answer": "制作 AI 视频时，输入您的画面描述或导入一张起点图片，挑选模型并配置参数。确认生成费用后，先渲染一段短片段测试效果，再进一步微调提示词或参考素材。您也可以直接在 VideoAI 中生成首帧起点图片。对于支持视频输入的模型和模式，还可以直接导入已有视频片段进行转换。",
             "links": [
               {
                 "label": "开始创作",
@@ -1177,7 +1177,7 @@
           },
           {
             "question": "我可以从静态图片生成 AI 视频吗？",
-            "answer": "可以。图生视频功能可赋予静态图片生动的动态效果，无论是人物、风景、插画还是商品实拍图。导入您拥有使用权的照片，或在 MaxVideoAI 中即时生成一张，然后描述期望的运镜或动作。不同模型对参考图的支持类型及动态还原精度各有差异。",
+            "answer": "可以。图生视频功能可赋予静态图片生动的动态效果，无论是人物、风景、插画还是商品实拍图。导入您拥有使用权的照片，或在 VideoAI 中即时生成一张，然后描述期望的运镜或动作。不同模型对参考图的支持类型及动态还原精度各有差异。",
             "links": [
               {
                 "label": "探索图生视频模型",
@@ -1222,7 +1222,7 @@
           },
           {
             "question": "有按需付费且无需订阅的 AI 视频生成工具吗？",
-            "answer": "有。MaxVideoAI 采用完全按需付费的模式：按需充值积分，随时用于视频生成，没有任何强制月费或订阅。若生成过程中遇到系统级技术失败，积分将自动全额退还至您的账户。成片效果与个人艺术预期不符不属于技术生成失败。",
+            "answer": "有。VideoAI 采用完全按需付费的模式：按需充值积分，随时用于视频生成，没有任何强制月费或订阅。若生成过程中遇到系统级技术失败，积分将自动全额退还至您的账户。成片效果与个人艺术预期不符不属于技术生成失败。",
             "links": [
               {
                 "label": "了解按需付费机制",
@@ -1288,7 +1288,7 @@
     "heroScreenshot": {
       "title": "全部控制面板，一屏尽览。",
       "body": "提示词编辑器、实时计费、画廊轨道与任务历史紧密集成，无需切换页面即可微调提示词、查看输出并监控生成队列。",
-      "alt": "MaxVideoAI 工作区面板，在单一仪表板中展示编辑器、实时价格与画廊预览。"
+      "alt": "VideoAI 工作区面板，在单一仪表板中展示编辑器、实时价格与画廊预览。"
     },
     "proofTabs": [
       {
@@ -1465,7 +1465,7 @@
     "pricing": {
       "badge": "渲染之前",
       "title": "确认生成前，费用清晰可见。",
-      "body": "MaxVideoAI 在所有模型上均坚持以钱包积分计费：提交前即可查看确切报价，任务失败自动退款，在统一工作区内轻松掌控预算支出。",
+      "body": "VideoAI 在所有模型上均坚持以钱包积分计费：提交前即可查看确切报价，任务失败自动退款，在统一工作区内轻松掌控预算支出。",
       "link": "查看价格方案"
     },
     "trust": {
@@ -1505,7 +1505,7 @@
       "items": [
         {
           "q": "Sora 2 可以在欧盟/国内正常使用吗？",
-          "a": "Sora 2 当前可用性有限。MaxVideoAI 会将您的需求智能路由至当前可用模型，并为 Sora 预留好现成预设。"
+          "a": "Sora 2 当前可用性有限。VideoAI 会将您的需求智能路由至当前可用模型，并为 Sora 预留好现成预设。"
         },
         {
           "q": "我可以为视频添加音频吗？",
@@ -1523,7 +1523,7 @@
     },
     "priceChipSuffix": "生成前清晰可见。",
     "meta": {
-      "title": "按需付费 AI 视频生成平台 | MaxVideoAI",
+      "title": "按需付费 AI 视频生成平台 | VideoAI",
       "description": "生成前并排对比 Seedance、Kling、Veo、LTX、Wan、Pika 等前沿模型。先看真实成片，明晰生成价格，按需充值积分随心创作。"
     },
     "compare": {
@@ -1562,7 +1562,7 @@
       "startupFameLabel": "精选收录于 Startup Fame"
     },
     "seoContent": {
-      "heroParagraph": "MaxVideoAI 是一个多模型 AI 视频生成平台。您可以先对比各大 AI 视频模型，再通过文本提示词、静态图片或已有视频片段进行生成。生成前实时展示透明价格，助您胸有成竹地挑选最适合的渲染引擎。",
+      "heroParagraph": "VideoAI 是一个多模型 AI 视频生成平台。您可以先对比各大 AI 视频模型，再通过文本提示词、静态图片或已有视频片段进行生成。生成前实时展示透明价格，助您胸有成竹地挑选最适合的渲染引擎。",
       "heroPoints": [
         "涵盖文生视频、图生视频与视频生视频全流程",
         "并排横向对比多个主流 AI 视频模型效果",
@@ -1591,7 +1591,7 @@
       },
       "compare": {
         "title": "生成前全面对比 AI 视频模型",
-        "body": "MaxVideoAI 让您可以在单一工作区内测试各大主流 AI 视频模型。各引擎在生成速度、提示词遵循度、动作幅度、写实度与艺术风格上各具特色。您可以并排对比真实成片，为每个镜头挑选最匹配的模型，且每次生成前价格一目了然。",
+        "body": "VideoAI 让您可以在单一工作区内测试各大主流 AI 视频模型。各引擎在生成速度、提示词遵循度、动作幅度、写实度与艺术风格上各具特色。您可以并排对比真实成片，为每个镜头挑选最匹配的模型，且每次生成前价格一目了然。",
         "worksWith": "支持 MiniMax H3、Seedance 2.5、Veo 3.1、Kling 3、LTX 2.3、Sora 2、Wan 2.6、Pika 2.2、Nano Banana 等众多前沿模型。",
         "popularLinks": [
           {
@@ -1612,7 +1612,7 @@
           }
         ],
         "seeAllLabel": "查看全部 AI 视频模型对比",
-        "imageAlt": "MaxVideoAI 模型对比页面截图，并排展示两款 AI 视频模型。",
+        "imageAlt": "VideoAI 模型对比页面截图，并排展示两款 AI 视频模型。",
         "carouselIntro": "按功能特性、参数限制与最佳应用场景对比 AI 视频模型，或",
         "carouselLinkLabel": "浏览全部 AI 视频模型对比"
       },
@@ -1637,8 +1637,8 @@
             "a": "不需要。您只需输入提示词并进行简单的参数选择即可生成高质量视频片段。对于进阶工作流，您还可以通过变体与参考图进一步调整细化。"
           },
           {
-            "q": "MaxVideoAI 可以免费使用吗？",
-            "a": "MaxVideoAI 采用完全按需付费的积分制，每次生成前都会清晰展示确切费用，无任何强制月费或隐形收费。"
+            "q": "VideoAI 可以免费使用吗？",
+            "a": "VideoAI 采用完全按需付费的积分制，每次生成前都会清晰展示确切费用，无任何强制月费或隐形收费。"
           }
         ]
       }
@@ -1795,7 +1795,7 @@
     "teams": {
       "title": "团队协作",
       "description": "基于角色的审批流、团队共享钱包与成片交付交接功能即将上线。立即加入公测，率先体验团队管控功能。",
-      "comingSoonNote": "团队版功能当前处于定向邀测阶段。请联系 support@maxvideoai.com 申请体验。",
+      "comingSoonNote": "团队版功能当前处于定向邀测阶段。请联系 contact@llmhub.com.cn 申请体验。",
       "points": [
         "规划中：基于角色的共享钱包，支持财务、制作人与业务负责人的多层级审批。",
         "规划中：支持按项目归集任务历史、收据明细与使用量看板导出。",
@@ -1846,11 +1846,11 @@
         },
         {
           "question": "我必须按月订阅会员吗？",
-          "answer": "完全不需要。MaxVideoAI 采用按需付费（Pay-As-You-Go）积分模式。您可以根据每个镜头的需求自由挑选模型并生成，没有任何强制性的月费或年费订阅。"
+          "answer": "完全不需要。VideoAI 采用按需付费（Pay-As-You-Go）积分模式。您可以根据每个镜头的需求自由挑选模型并生成，没有任何强制性的月费或年费订阅。"
         },
         {
           "question": "为什么部分廉价模型没有优先推荐？",
-          "answer": "部分上一代老模型在简单测试时费用可能更低，但 MaxVideoAI 优先推荐最新一代主流模型，因为它们在新项目中的画质、动态与遵循度通常更优秀。老款经济型模型仍会在表格中保留列出。"
+          "answer": "部分上一代老模型在简单测试时费用可能更低，但 VideoAI 优先推荐最新一代主流模型，因为它们在新项目中的画质、动态与遵循度通常更优秀。老款经济型模型仍会在表格中保留列出。"
         },
         {
           "question": "图像、音频和辅助工具的计费与视频一样吗？",
@@ -1858,22 +1858,22 @@
         },
         {
           "question": "为什么表格展示总价而不是按秒单价？",
-          "answer": "大多数创作者更关心单次成片的完整总支出，而非抽象的每秒单价。MaxVideoAI 展示了 8s 1080p、10s 1080p 和 4K 等常见场景的预估总价。单秒费率会因模型、时长、分辨率及舍入规则变化，工作区在提交前会始终展示精确的成片总价。"
+          "answer": "大多数创作者更关心单次成片的完整总支出，而非抽象的每秒单价。VideoAI 展示了 8s 1080p、10s 1080p 和 4K 等常见场景的预估总价。单秒费率会因模型、时长、分辨率及舍入规则变化，工作区在提交前会始终展示精确的成片总价。"
         },
         {
           "question": "价格变动的频率是怎样的？",
-          "answer": "当底层提供商调整接口费率或 MaxVideoAI 接入新模型时，价格可能会随之更新。价格页面展示当前的基准对比，工作区内始终以提交前的实时报价为准。"
+          "answer": "当底层提供商调整接口费率或 VideoAI 接入新模型时，价格可能会随之更新。价格页面展示当前的基准对比，工作区内始终以提交前的实时报价为准。"
         }
       ]
     },
     "supplementalFaq": [
       {
         "question": "如果我想了解 OpenAI Sora 的价格呢？",
-        "answer": "您可以查阅 Sora 替代方案专区，在生成前按成本、时长与成片质量横向对比当前 MaxVideoAI 上已接入的可用模型。"
+        "answer": "您可以查阅 Sora 替代方案专区，在生成前按成本、时长与成片质量横向对比当前 VideoAI 上已接入的可用模型。"
       },
       {
         "question": "生成的视频会有水印吗？",
-        "answer": "没有。通过 MaxVideoAI 渲染生成的全部视频交付文件均无任何平台水印。"
+        "answer": "没有。通过 VideoAI 渲染生成的全部视频交付文件均无任何平台水印。"
       },
       {
         "question": "文生视频、图生视频与视频生视频费用相同吗？",
@@ -1883,13 +1883,13 @@
     "priceChipSuffix": "生成前确切价格。",
     "priceChipPrefix": "本次渲染预估",
     "meta": {
-      "title": "AI 视频生成计费与模型价格对比 | MaxVideoAI",
+      "title": "AI 视频生成计费与模型价格对比 | VideoAI",
       "description": "按模型、时长、分辨率与音频对比 AI 视频价格。查看 720p、1080p 与 4K 预设价格，进入工作区查看实时透明报价。"
     }
   },
   "workflows": {
     "meta": {
-      "title": "AI 视频创作工作流：实时透明计费与多变体生成 | MaxVideoAI",
+      "title": "AI 视频创作工作流：实时透明计费与多变体生成 | VideoAI",
       "description": "在单一工作区内生成 AI 视频：选择模型、设置时长/分辨率/宽高比、预览实时价格、一次生成最多 4 个变体、复用提示词并即刻下载。"
     },
     "hero": {
@@ -2036,7 +2036,7 @@
     },
     "intro": {
       "paragraphs": [
-        "Each engine in this catalog is wired into the MaxVideoAI workspace with monitored latency, price tracking, and fallbacks. We add models as soon as providers open real capacity—not waitlist demos—so you know what can ship to production today.",
+        "Each engine in this catalog is wired into the VideoAI workspace with monitored latency, price tracking, and fallbacks. We add models as soon as providers open real capacity—not waitlist demos—so you know what can ship to production today.",
         "Pick an engine to see the prompt presets, duration limits, and current route we use to keep renders flowing, then duplicate it into your own workspace."
       ],
       "cards": [
@@ -2146,8 +2146,8 @@
         "priceBefore": "可在创作空间中实时查看最新价格。",
         "versionLabel": "v2.6 Pro"
       },
-      "title": "AI 视频与图像模型：技术规格、限制与定价 | MaxVideoAI",
-      "description": "在 MaxVideoAI 上生成前，全面对比 AI 视频与图像模型的价格、最大时长、分辨率、音频支持、输入模式、示例与工作流。"
+      "title": "AI 视频与图像模型：技术规格、限制与定价 | VideoAI",
+      "description": "在 VideoAI 上生成前，全面对比 AI 视频与图像模型的价格、最大时长、分辨率、音频支持、输入模式、示例与工作流。"
     },
     "note": "",
     "detail": {
@@ -2218,7 +2218,7 @@
       },
       "legacyToggleLabel": "显示早期旧款模型",
       "grid": {
-        "srTitle": "MaxVideoAI 平台上的 AI 视频与图像模型规格、限制与价格列表",
+        "srTitle": "VideoAI 平台上的 AI 视频与图像模型规格、限制与价格列表",
         "bridgeText": "先通过模型卡片了解核心能力，再进入视频中心或图像中心深入查看技术规格与真实示例。"
       },
       "quickCompare": {
@@ -2462,8 +2462,8 @@
         }
       }
     },
-    "title": "AI 视频与图像模型：技术规格、限制与定价 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上生成前，全面对比 AI 视频与图像模型的价格、最大时长、分辨率、音频支持、输入模式、示例与工作流。"
+    "title": "AI 视频与图像模型：技术规格、限制与定价 | VideoAI",
+    "description": "在 VideoAI 上生成前，全面对比 AI 视频与图像模型的价格、最大时长、分辨率、音频支持、输入模式、示例与工作流。"
   },
   "aiVideoEngines": {
     "meta": {
@@ -2472,13 +2472,13 @@
     },
     "hero": {
       "title": "主流前沿 AI 视频生成平台 —— Sora 2、Veo 3、Pika 等更多模型",
-      "intro": "MaxVideoAI 为团队提供符合合规要求、实时监控且达生产级稳定性的前沿文生视频模型聚合。通过此中心掌握各模型可用状态、权衡创意取舍，从第一天起就为项目配备正确的护栏规范。",
+      "intro": "VideoAI 为团队提供符合合规要求、实时监控且达生产级稳定性的前沿文生视频模型聚合。通过此中心掌握各模型可用状态、权衡创意取舍，从第一天起就为项目配备正确的护栏规范。",
       "secondary": "还不确定选哪个模型？阅读我们的 {{article:模型对比文章}}。"
     },
     "sections": [
       {
         "title": "Sora 2 可用性与替代方案",
-        "body": "Sora 2 仍处于分批灰度阶段，MaxVideoAI 在容量高峰期为您提供追踪审计、合规保护与智能调度。制作团队可以参考 {{sora:Sora 2 参考项目}} 评估分镜，并在交期紧迫时无缝切换至 Sora 2 Pro 预设或 Veo 3 镜头序列。我们持续沉淀提示词结构、素材审核与后期制作最佳实践，确保每个任务既符合审核准则，又能准时保质交付。"
+        "body": "Sora 2 仍处于分批灰度阶段，VideoAI 在容量高峰期为您提供追踪审计、合规保护与智能调度。制作团队可以参考 {{sora:Sora 2 参考项目}} 评估分镜，并在交期紧迫时无缝切换至 Sora 2 Pro 预设或 Veo 3 镜头序列。我们持续沉淀提示词结构、素材审核与后期制作最佳实践，确保每个任务既符合审核准则，又能准时保质交付。"
       },
       {
         "title": "Veo 3：专为创作者打造的电影级文生视频",
@@ -2486,16 +2486,16 @@
       },
       {
         "title": "Pika 2.2：快节奏社交媒体短视频利器",
-        "body": "当团队需要趣味循环动效或短视频切片时，Pika 2.2 能以更具性价比的预算输出多种画幅规格。MaxVideoAI 提供精心挑选的预设模板，让剪辑师无需离开工作区即可在竖屏 Reels 与方形商品图之间自由转换。在我们的 {{pika:Pika 快速上手指南}} 中并排对比文生视频与图生视频模式，直接复用已通过品牌安全验证的提示词库。"
+        "body": "当团队需要趣味循环动效或短视频切片时，Pika 2.2 能以更具性价比的预算输出多种画幅规格。VideoAI 提供精心挑选的预设模板，让剪辑师无需离开工作区即可在竖屏 Reels 与方形商品图之间自由转换。在我们的 {{pika:Pika 快速上手指南}} 中并排对比文生视频与图生视频模式，直接复用已通过品牌安全验证的提示词库。"
       },
       {
-        "title": "MaxVideoAI 如何高效调度多模型生产",
-        "body": "MaxVideoAI 为创意主管在统一标准界面背后协调多模型并发算力。我们的编排层保持提示词高度兼容，记录每次渲染的完整日志，并提供实时诊断信息，让您清楚何时重试或何时无缝分流至 {{veoFast:Veo 3.1 Fast}} 或 {{hailuo:MiniMax Hailuo}} 等风格化模型。团队可在统一工作区内获取报价单据、操作审计轨迹与合规说明。"
+        "title": "VideoAI 如何高效调度多模型生产",
+        "body": "VideoAI 为创意主管在统一标准界面背后协调多模型并发算力。我们的编排层保持提示词高度兼容，记录每次渲染的完整日志，并提供实时诊断信息，让您清楚何时重试或何时无缝分流至 {{veoFast:Veo 3.1 Fast}} 或 {{hailuo:MiniMax Hailuo}} 等风格化模型。团队可在统一工作区内获取报价单据、操作审计轨迹与合规说明。"
       }
     ],
     "comparison": {
       "title": "热门顶尖视频生成模型横向评测",
-      "intro": "无论是追求顶级画质保真度，还是高性价比的快速循环短视频，MaxVideoAI 确保每个模型随时满足生产环境需求。",
+      "intro": "无论是追求顶级画质保真度，还是高性价比的快速循环短视频，VideoAI 确保每个模型随时满足生产环境需求。",
       "cards": [
         {
           "label": "Sora 2",
@@ -2538,11 +2538,11 @@
       },
       {
         "question": "无需刷新文档即可监控模型变动吗？",
-        "answer": "MaxVideoAI 工作区实时高亮显示延迟状态、输出参数上限与策略调整，方便制作人员第一时间获悉何时重试或切换至备选模型。"
+        "answer": "VideoAI 工作区实时高亮显示延迟状态、输出参数上限与策略调整，方便制作人员第一时间获悉何时重试或切换至备选模型。"
       }
     ],
     "cta": {
-      "body": "正在寻找进阶连贯提示词方案？查阅 {{blog:MaxVideoAI 博客}} 上的最新指南，获取品牌故事实战教程与模型更新动态。"
+      "body": "正在寻找进阶连贯提示词方案？查阅 {{blog:VideoAI 博客}} 上的最新指南，获取品牌故事实战教程与模型更新动态。"
     }
   },
   "examples": {
@@ -2657,8 +2657,8 @@
   "docs": {
     "meta": {
       "title": "文档 — 新手入门、定价计费、任务处理与退款政策",
-      "description": "MaxVideoAI 使用指南：账户引导、预先报价、生成任务、媒体库、品牌安全及自动退款。",
-      "imageAlt": "文档 — MaxVideoAI",
+      "description": "VideoAI 使用指南：账户引导、预先报价、生成任务、媒体库、品牌安全及自动退款。",
+      "imageAlt": "文档 — VideoAI",
       "notFoundTitle": "文档未找到"
     },
     "hero": {
@@ -2667,7 +2667,7 @@
     },
     "mcpGuide": {
       "href": "/docs/mcp",
-      "title": "MaxVideoAI MCP 技术指南",
+      "title": "VideoAI MCP 技术指南",
       "description": "已支持客户端、OAuth、只读工具注册表、隐私保护、限制说明及恢复指南。"
     },
     "toc": {
@@ -2879,7 +2879,7 @@
     "hero": {
       "title": "灵感、实验与创作方式。",
       "subtitle": "AI 视频、图像、参考素材与模型挑选的实战指南。",
-      "eyebrow": "MaxVideoAI 专栏",
+      "eyebrow": "VideoAI 专栏",
       "ctaLabel": "浏览最新文章 →"
     },
     "featured": {
@@ -2899,19 +2899,19 @@
     "empty": "博客文章即将上线。",
     "cta": "阅读更多",
     "intro": {
-      "lead": "本专栏记录团队如何构建可复用参考、挑选合适工具，并将已确认的静态图转化为更出色的图像与视频。我们立足于 MaxVideoAI 的实操经验：角色参考、机位测试、模型决策以及经得起交付考验的生产规范。",
+      "lead": "本专栏记录团队如何构建可复用参考、挑选合适工具，并将已确认的静态图转化为更出色的图像与视频。我们立足于 VideoAI 的实操经验：角色参考、机位测试、模型决策以及经得起交付考验的生产规范。",
       "cards": [
         {
-          "title": "Reference-first workflows",
-          "body": "How to build reusable character references, start frames, and still assets before moving into edits or video."
+          "title": "从参考素材开始",
+          "body": "先准备可复用的角色参考、首帧和静态素材，再进入编辑与视频制作。"
         },
         {
-          "title": "Tool guides",
-          "body": "Practical breakdowns for Character Builder, Angle, and the workflows that turn one approved image into more usable outputs."
+          "title": "工具实操指南",
+          "body": "学习角色构建、机位调整与素材处理，将一张确认后的图片扩展为更多可用素材。"
         },
         {
-          "title": "Model notes",
-          "body": "When to use Nano Banana, Veo, Kling, Sora, and the rest of the model hub once the reference or frame is ready."
+          "title": "模型使用笔记",
+          "body": "参考素材准备好后，了解 Nano Banana、Veo、Kling、Sora 等模型各自适合的创作任务。"
         }
       ]
     },
@@ -2924,21 +2924,21 @@
         },
         {
           "question": "Can I suggest a topic or request coverage?",
-          "answer": "Yes—send topics to press@maxvideo.ai and include reference renders if you can. We prioritize stories that help production teams stay current."
+          "answer": "Yes—send topics to contact@llmhub.com.cn and include reference renders if you can. We prioritize stories that help production teams stay current."
         },
         {
           "question": "Where can I find release notes?",
           "answer": "Feature-level updates live in the product changelog, and API updates post inside the developer docs. The blog covers higher-level workflows."
         }
       ],
-      "footnote": "需要了解更多详情？请发送需求至 press@maxvideo.ai，我们将转交至相关负责人。"
+      "footnote": "需要了解更多详情？请发送需求至 contact@llmhub.com.cn，我们将转交至相关负责人。"
     }
   },
   "videoPage": {
     "backLink": "← 返回",
     "hero": {
-      "titleFallback": "MaxVideoAI 成片展示",
-      "intro": "本视频由 MaxVideoAI 上的 {engine} 生成 —— 探索下方内容，了解如何创作类似精彩成片。",
+      "titleFallback": "VideoAI 成片展示",
+      "intro": "本视频由 VideoAI 上的 {engine} 生成 —— 探索下方内容，了解如何创作类似精彩成片。",
       "promptLabel": "提示词",
       "promptFallback": "暂无提示词信息。",
       "copy": "复制提示词",
@@ -2955,7 +2955,7 @@
       "aspectFallback": "自适应宽高比",
       "sentences": [
         "这段由 AI 生成的视频展现了 {promptStyle} 的视觉魅力，直接选自我们的公开精选示例库。",
-        "{engineName} 在 MaxVideoAI 内完成了本次渲染，以 {aspectRatioLabel} 宽高比交付了 {durationLabel} 的成片，且 {audioState}。",
+        "{engineName} 在 VideoAI 内完成了本次渲染，以 {aspectRatioLabel} 宽高比交付了 {durationLabel} 的成片，且 {audioState}。",
         "该成片展现了流畅连贯的动态表现、清澈的光影层次与自然的反射折射，便于创意与产品团队直观评判模型的实际能力。",
         "提示词风格保留了 {promptTone} 的艺术特征，您可以结合图片参考、配音或超分辨率功能进一步重组与拓展。",
         "使用下方的模型卡片、价格链接与博客资源，横向对比模型或在您的工作区中开启同款创作。"
@@ -3011,7 +3011,7 @@
   "about": {
     "hero": {
       "title": "为 AI 视频创作团队提供从容而坚定的技术底气。",
-      "subtitle": "MaxVideoAI 是独立的专业级 AI 视频制作聚合平台。我们为每个镜头精准路由最合适的模型，生成前明晰价格，让您的团队牢牢掌控主动权，拒绝厂商捆绑绑定。"
+      "subtitle": "VideoAI 是独立的专业级 AI 视频制作聚合平台。我们为每个镜头精准路由最合适的模型，生成前明晰价格，让您的团队牢牢掌控主动权，拒绝厂商捆绑绑定。"
     },
     "paragraphs": [
       "我们坚信，专业团队在点击渲染之前理应获得完全透明的信息。这不仅意味着公开透明的计费价格，更包括稳定可靠的模型调度，以及创意人员、制片人与业务负责人之间的无缝协同。",
@@ -3019,7 +3019,7 @@
       "产品专为追求精准与高效的团队打造：清爽静谧的界面、考究的预设参数、精细的创作控制，以及让财务对支出一目了然的实时价格标签。",
       "我们始终立足于务实的生产工作流：对比模型、准备资产，仅在费用与参数完全明确时才触发生成，然后在单一工作区内集中审阅成片，而不是将制作上下文分散在各个不同服务商的后台之中。"
     ],
-    "note": "商标和服务标志归其各自所有者所有。MaxVideo AI 保持独立运营，让您无需切换平台即可掌握最新 AI 技术。"
+    "note": "商标和服务标志归其各自所有者所有。VideoAI 保持独立运营，让您无需切换平台即可掌握最新 AI 技术。"
   },
   "contact": {
     "hero": {
@@ -3085,7 +3085,7 @@
         },
         {
           "question": "Do you offer live demos?",
-          "answer": "Yes. Include your preferred time zone and the models you want to see. We run demos inside the MaxVideoAI workspace so you can watch routing and pricing in real time."
+          "answer": "Yes. Include your preferred time zone and the models you want to see. We run demos inside the VideoAI workspace so you can watch routing and pricing in real time."
         },
         {
           "question": "Where can I check service status?",
@@ -3106,7 +3106,7 @@
       "sections": [
         {
           "heading": "1. Overview",
-          "body": "These Terms govern your use of MaxVideo AI. By accessing the service you agree to the obligations below."
+          "body": "These Terms govern your use of VideoAI. By accessing the service you agree to the obligations below."
         },
         {
           "heading": "2. Accounts",
@@ -3114,11 +3114,11 @@
         },
         {
           "heading": "3. Usage & Compliance",
-          "body": "Use MaxVideo AI only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies."
+          "body": "Use VideoAI only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies."
         },
         {
           "heading": "4. User Content & Generated Media",
-          "body": "User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant MaxVideoAI a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting/desindexation by contacting support if a privacy toggle is unavailable, and we will honor the request. You retain ownership of your prompts, uploads, descriptions, and brand assets, while MaxVideoAI retains ownership of the platform, interfaces, transformations, and technical improvements built atop the service."
+          "body": "User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant VideoAI a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting/desindexation by contacting support if a privacy toggle is unavailable, and we will honor the request. You retain ownership of your prompts, uploads, descriptions, and brand assets, while VideoAI retains ownership of the platform, interfaces, transformations, and technical improvements built atop the service."
         },
         {
           "heading": "5. Billing",
@@ -3126,7 +3126,7 @@
         },
         {
           "heading": "6. Liability",
-          "body": "MaxVideo AI is provided as-is. We limit liability to the maximum extent permitted by law."
+          "body": "VideoAI is provided as-is. We limit liability to the maximum extent permitted by law."
         }
       ]
     },
@@ -3152,14 +3152,14 @@
         },
         {
           "heading": "5. Your choices",
-          "body": "Request export or deletion any time via support@maxvideoai.com. Admins control retention windows."
+          "body": "Request export or deletion any time via contact@llmhub.com.cn. Admins control retention windows."
         }
       ]
     }
   },
   "changelog": {
     "meta": {
-      "title": "更新日志 — MaxVideoAI",
+      "title": "更新日志 — VideoAI",
       "description": "透明公开关于模型引擎、工作流与生成队列性能的最新动态。"
     },
     "hero": {
@@ -3168,7 +3168,7 @@
     },
     "intro": {
       "paragraphs": [
-        "我们采用紧凑的敏捷发布列车机制迭代 MaxVideoAI。一旦上游厂商开放接入权限，模型升级第一时间上线；工作流优化同周跟进，确保制作团队无需重新学习即可丝滑使用。",
+        "我们采用紧凑的敏捷发布列车机制迭代 VideoAI。一旦上游厂商开放接入权限，模型升级第一时间上线；工作流优化同周跟进，确保制作团队无需重新学习即可丝滑使用。",
         "您可以通过此日志追踪某项功能何时上线、确认性能与延迟优化，或向团队展示交付证明。涉及计费或路由策略调整的条目均附带对应文档链接。"
       ],
       "releaseTagsTitle": "版本标记说明",
@@ -3208,7 +3208,7 @@
   "status": {
     "hero": {
       "title": "服务状态",
-      "subtitle": "由 MaxVideoAI 官方团队发布的当前服务运行通告。"
+      "subtitle": "由 VideoAI 官方团队发布的当前服务运行通告。"
     },
     "currentNotice": {
       "title": "当前通告",
@@ -3235,7 +3235,7 @@
     "meta": {
       "title": "AI 视频案例：提示词、模型与生成费用记录",
       "description": "浏览真实 AI 视频案例，打开视频查看提示词、参数、时长与生成费用，一键复刻创作。",
-      "title_engine": "AI 视频案例 — {engineName} | MaxVideoAI",
+      "title_engine": "AI 视频案例 — {engineName} | VideoAI",
       "description_engine": "浏览 {engineName} 案例，查看其提示词、时长、音频设置与生成费用明细。"
     }
   },
@@ -3317,7 +3317,7 @@
       },
       "assistantConnections": {
         "label": "助手连接",
-        "tooltip": "连接您的账户，直接在您的 AI 助手内使用 MaxVideoAI。",
+        "tooltip": "连接您的账户，直接在您的 AI 助手内使用 VideoAI。",
         "claude": "Claude",
         "chatgpt": "ChatGPT",
         "codex": "Codex"
@@ -3920,7 +3920,7 @@
         "srSoon": "即将推出",
         "live": "您的工作区已启用共享钱包、审批流和预算管理。",
         "beta": "即将推出 —— 共享钱包、审批流和预算。通过 {email} 加入测试。",
-        "email": "support@maxvideoai.com"
+        "email": "contact@llmhub.com.cn"
       },
       "curated": "在您生成自己的片段前，MaxVideo 团队精选的初学者渲染效果会显示在这里。",
       "error": "加载历史记录失败。",
@@ -4183,7 +4183,7 @@
         },
         "note": "团队说明：在共享钱包模式下，状态适用于团队所有成员。",
         "comingSoon": "即将推出——统一团队钱包、角色审批流和预算管控。联系 {email} 申请内测。",
-        "contactEmail": "support@maxvideoai.com",
+        "contactEmail": "contact@llmhub.com.cn",
         "statusLive": "在线",
         "statusSoon": "即将推出",
         "contactCta": "联系企业支持"
@@ -4465,7 +4465,7 @@
         "liveDescription": "管理成员、角色、预算和第三方集成。",
         "createProject": "创建项目",
         "upcomingPrefix": "即将推出——共享钱包、权限审批与预算管控。发送邮件至 ",
-        "upcomingEmail": "support@maxvideoai.com",
+        "upcomingEmail": "contact@llmhub.com.cn",
         "upcomingSuffix": " 申请内测。"
       },
       "privacy": {
@@ -4502,7 +4502,7 @@
       },
       "connections": {
         "title": "已连接应用",
-        "description": "配置 MCP 插件与 AI 助手集成，直接在 Claude、ChatGPT 或 Codex 中使用 MaxVideoAI。",
+        "description": "配置 MCP 插件与 AI 助手集成，直接在 Claude、ChatGPT 或 Codex 中使用 VideoAI。",
         "claude": "Claude",
         "chatgpt": "ChatGPT",
         "codex": "Codex",
@@ -4626,7 +4626,7 @@
       "uploadTooLarge": "所选图像过大，请选择小于 {maxMB} MB 的图片。",
       "generationFailed": "分镜板生成失败。",
       "authTitle": "登录后开始生成",
-      "authBody": "分镜生成与保存素材将使用您的 MaxVideoAI 钱包余额。",
+      "authBody": "分镜生成与保存素材将使用您的 VideoAI 钱包余额。",
       "authPrimary": "创建账户",
       "authSecondary": "登录",
       "close": "关闭",
@@ -4646,7 +4646,7 @@
       "auth": {
         "eyebrow": "生成音频",
         "title": "创建账户以生成音频",
-        "body": "在 MaxVideoAI 工作区内生成专业音乐配乐、影视级声音设计或 Seed Audio 拟真语音旁白。",
+        "body": "在 VideoAI 工作区内生成专业音乐配乐、影视级声音设计或 Seed Audio 拟真语音旁白。",
         "createAccount": "创建账户",
         "signIn": "登录"
       },
@@ -4836,7 +4836,7 @@
         "selectedVoice": "Seed Audio 预设音色",
         "chooseVoice": "预设音色",
         "providerStack": "模型组合",
-        "providerStackDescription": "{provider} 生成基础音轨，随后 MaxVideoAI 为您所选的输出进行母带混音制作。",
+        "providerStackDescription": "{provider} 生成基础音轨，随后 VideoAI 为您所选的输出进行母带混音制作。",
         "providers": {
           "voice": "Seed Audio 1.0",
           "music": "Google Lyria 3",
@@ -5497,8 +5497,8 @@
     },
     "studio": {
       "projects": {
-        "metaTitle": "Studio 项目 | MaxVideoAI",
-        "heroBadge": "MaxVideoAI Studio",
+        "metaTitle": "Studio 项目 | VideoAI",
+        "heroBadge": "VideoAI Studio",
         "title": "我的项目",
         "subtitle": "创建新项目或继续已有项目。",
         "createTitle": "新建项目",
@@ -5611,7 +5611,7 @@
         "emptyProjects": "暂无 Studio 项目。创建一个新项目开始创作吧。"
       },
       "topbar": {
-        "productName": "MaxVideoAI 编辑器",
+        "productName": "VideoAI 编辑器",
         "breadcrumbProjects": "项目列表",
         "breadcrumbWorkspace": "工作区",
         "workspaceViewLabel": "工作区视图",
@@ -5833,7 +5833,7 @@
         "projectAssetNotFound": "未找到项目媒体资产。"
       },
       "canvas": {
-        "ariaLabel": "MaxVideoAI 编辑器画布",
+        "ariaLabel": "VideoAI 编辑器画布",
         "guide": {
           "controls": {
             "menu": "引导选项",
@@ -6892,7 +6892,7 @@
         "serverMp4": "云端 MP4",
         "freeExportsRemaining": "剩余 {count} 次免费云端导出额度",
         "freeExportsRemainingPlural": "剩余 {count} 次免费云端导出额度",
-        "finalRenderJob": "最终渲染任务将在 MaxVideoAI 高性能云端服务器上运行。",
+        "finalRenderJob": "最终渲染任务将在 VideoAI 高性能云端服务器上运行。",
         "serverProgress": "云端导出进度",
         "downloadMp4": "下载 MP4",
         "advanced": "高级选项",
@@ -7141,112 +7141,112 @@
   },
   "comparePage": {
     "meta": {
-      "title": "{left} 对比 {right} — Specs & Pricing | MaxVideoAI",
-      "titleFallback": "AI 视频模型：技术规格与定价对比 | MaxVideoAI",
-      "description": "Compare {left} 对比 {right} on MaxVideoAI with key specs, and a scorecard across 11 criteria.",
+      "title": "{left} 对比 {right} — Specs & Pricing | VideoAI",
+      "titleFallback": "AI 视频模型：技术规格与定价对比 | VideoAI",
+      "description": "Compare {left} 对比 {right} on VideoAI with key specs, and a scorecard across 11 criteria.",
       "slugOverrides": {
         "kling-2-6-pro-vs-ltx-2": {
-          "title": "Kling 2.6 Pro vs LTX 2 — Speed 对比 Quality | MaxVideoAI",
+          "title": "Kling 2.6 Pro vs LTX 2 — Speed 对比 Quality | VideoAI",
           "description": "从生成画质、速度、价格、支持模式及 11 项综合评分对比两款模型。根据实际使用场景选择最佳方案。"
         },
         "ltx-2-fast-vs-wan-2-6": {
-          "title": "LTX 2 Fast 对比 WAN 2.6 — Quality, Speed & Cost | MaxVideoAI",
+          "title": "LTX 2 Fast 对比 WAN 2.6 — Quality, Speed & Cost | VideoAI",
           "description": "Compare LTX 2 Fast vs WAN 2.6 with key specs, pricing, and an 11-point scorecard. See speed/stability 对比 video-to-video support."
         },
         "wan-2-5-vs-wan-2-6": {
-          "title": "WAN 2.5 对比 WAN 2.6 — What's New + Specs | MaxVideoAI",
+          "title": "WAN 2.5 对比 WAN 2.6 — What's New + Specs | VideoAI",
           "description": "See what changed in WAN 2.6 对比 2.5: longer clips, multi-shot output, video-to-video support, pricing, and an 11-point scorecard."
         },
         "ltx-2-fast-vs-wan-2-5": {
-          "title": "LTX 2 Fast 对比 WAN 2.5 — Quality, Speed & Cost | MaxVideoAI",
+          "title": "LTX 2 Fast 对比 WAN 2.5 — Quality, Speed & Cost | VideoAI",
           "description": "Compare LTX 2 Fast 对比 WAN 2.5 with key specs, pricing, and an 11-point scorecard. Pick the best engine for your workflow."
         },
         "kling-3-pro-vs-wan-2-6": {
-          "title": "Kling 3 Pro 对比 WAN 2.6 — Quality, Audio & Cost | MaxVideoAI",
+          "title": "Kling 3 Pro 对比 WAN 2.6 — Quality, Audio & Cost | VideoAI",
           "description": "Compare Kling 3 Pro 对比 WAN 2.6 by quality, audio, speed, modes, pricing, and an 11-point scorecard."
         },
         "kling-3-pro-vs-veo-3-1": {
-          "title": "Kling 3 Pro 对比 Veo 3.1 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Kling 3 Pro 对比 Veo 3.1 on MaxVideoAI by specs, pricing, scene control, native audio behavior, and output quality."
+          "title": "Kling 3 Pro 对比 Veo 3.1 | AI Video Model Comparison | VideoAI",
+          "description": "Compare Kling 3 Pro 对比 Veo 3.1 on VideoAI by specs, pricing, scene control, native audio behavior, and output quality."
         },
         "ltx-2-3-pro-vs-veo-3-1": {
-          "title": "LTX 2.3 Pro 对比 Veo 3.1 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Pro 对比 Veo 3.1 on MaxVideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro 对比 Veo 3.1 | AI Video Model Comparison | VideoAI",
+          "description": "Compare LTX 2.3 Pro 对比 Veo 3.1 on VideoAI by specs, pricing, audio behavior, and output quality."
         },
         "ltx-2-vs-veo-3-1-fast": {
-          "title": "LTX 2 vs Veo 3.1 Fast — Speed 对比 Quality | MaxVideoAI",
+          "title": "LTX 2 vs Veo 3.1 Fast — Speed 对比 Quality | VideoAI",
           "description": "Compare LTX 2 对比 Veo 3.1 Fast: speed/queue time, cost, max duration, and output quality, with a detailed scorecard."
         },
         "ltx-2-vs-veo-3-1": {
-          "title": "LTX 2 对比 Veo 3.1 — Quality, Cost & Modes | MaxVideoAI",
+          "title": "LTX 2 对比 Veo 3.1 — Quality, Cost & Modes | VideoAI",
           "description": "Compare LTX 2 对比 Google Veo 3.1 by quality, motion realism, text legibility, modes, pricing, and an 11-point scorecard."
         },
         "seedance-2-0-vs-veo-3-1": {
-          "title": "Seedance 2.0 对比 Veo 3.1 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Seedance 2.0 对比 Veo 3.1 on MaxVideoAI by specs, pricing, audio workflows, and model capabilities."
+          "title": "Seedance 2.0 对比 Veo 3.1 | AI Video Model Comparison | VideoAI",
+          "description": "Compare Seedance 2.0 对比 Veo 3.1 on VideoAI by specs, pricing, audio workflows, and model capabilities."
         },
         "kling-3-pro-vs-seedance-2-0": {
-          "title": "Kling 3 Pro 对比 Seedance 2.0 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Kling 3 Pro 对比 Seedance 2.0 on MaxVideoAI by specs, pricing, scene control, and multi-shot output quality."
+          "title": "Kling 3 Pro 对比 Seedance 2.0 | AI Video Model Comparison | VideoAI",
+          "description": "Compare Kling 3 Pro 对比 Seedance 2.0 on VideoAI by specs, pricing, scene control, and multi-shot output quality."
         },
         "seedance-2-0-fast-vs-veo-3-1-fast": {
-          "title": "Seedance 2.0 Fast 对比 Veo 3.1 Fast | Fast AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Seedance 2.0 Fast 对比 Veo 3.1 Fast on MaxVideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "Seedance 2.0 Fast 对比 Veo 3.1 Fast | Fast AI Video Model Comparison | VideoAI",
+          "description": "Compare Seedance 2.0 Fast 对比 Veo 3.1 Fast on VideoAI by fast draft speed, specs, pricing, and output quality."
         },
         "ltx-2-3-pro-vs-seedance-2-0": {
-          "title": "LTX 2.3 Pro 对比 Seedance 2.0 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Pro 对比 Seedance 2.0 on MaxVideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro 对比 Seedance 2.0 | AI Video Model Comparison | VideoAI",
+          "description": "Compare LTX 2.3 Pro 对比 Seedance 2.0 on VideoAI by specs, pricing, audio behavior, and output quality."
         },
         "seedance-2-0-vs-sora-2": {
-          "title": "Seedance 2.0 对比 Sora 2 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Seedance 2.0 对比 Sora 2 on MaxVideoAI by specs, pricing, audio behavior, and cinematic output quality."
+          "title": "Seedance 2.0 对比 Sora 2 | AI Video Model Comparison | VideoAI",
+          "description": "Compare Seedance 2.0 对比 Sora 2 on VideoAI by specs, pricing, audio behavior, and cinematic output quality."
         },
         "seedance-1-5-pro-vs-veo-3-1": {
-          "title": "Seedance 1.5 Pro vs Veo 3.1 — Speed 对比 Quality | MaxVideoAI",
+          "title": "Seedance 1.5 Pro vs Veo 3.1 — Speed 对比 Quality | VideoAI",
           "description": "Compare Seedance 1.5 Pro 对比 Google Veo 3.1 by cinematic quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "ltx-2-vs-seedance-2-0": {
-          "title": "LTX 2 对比 Seedance 2 — Scores & Pricing | MaxVideoAI",
+          "title": "LTX 2 对比 Seedance 2 — Scores & Pricing | VideoAI",
           "description": "Compare LTX 2 对比 Seedance 2.0 by quality, speed, modes, pricing, and an 11-point scorecard to pick by use case."
         },
         "kling-3-standard-vs-veo-3-1": {
-          "title": "Kling 3 Std 对比 Veo 3.1 — Scores & Pricing | MaxVideoAI",
+          "title": "Kling 3 Std 对比 Veo 3.1 — Scores & Pricing | VideoAI",
           "description": "Compare Kling 3 Standard 对比 Google Veo 3.1 by quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "kling-3-pro-vs-sora-2": {
-          "title": "Kling 3 Pro 对比 Sora 2 — Scores & Pricing | MaxVideoAI",
+          "title": "Kling 3 Pro 对比 Sora 2 — Scores & Pricing | VideoAI",
           "description": "Compare Kling 3 Pro 对比 OpenAI Sora 2 by quality, speed, max duration, pricing, and an 11-point scorecard."
         },
         "kling-3-pro-vs-sora-2-pro": {
-          "title": "Kling 3 Pro 对比 Sora 2 Pro | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Kling 3 Pro 对比 Sora 2 Pro on MaxVideoAI by specs, pricing, scene control, audio behavior, and output quality."
+          "title": "Kling 3 Pro 对比 Sora 2 Pro | AI Video Model Comparison | VideoAI",
+          "description": "Compare Kling 3 Pro 对比 Sora 2 Pro on VideoAI by specs, pricing, scene control, audio behavior, and output quality."
         },
         "sora-2-vs-sora-2-pro": {
-          "title": "Sora 2 对比 Sora 2 Pro — Differences & Cost | MaxVideoAI",
+          "title": "Sora 2 对比 Sora 2 Pro — Differences & Cost | VideoAI",
           "description": "Compare Sora 2 对比 Sora 2 Pro: output quality, native audio, max resolution/duration, and pricing—with a detailed scorecard."
         },
         "kling-3-4k-vs-kling-3-pro": {
-          "title": "Kling 3 4K vs Kling 3 Pro | Native 4K 对比 1080p | MaxVideoAI",
-          "description": "Compare Kling 3 4K 对比 Kling 3 Pro on MaxVideoAI: native 4K delivery, 1080p iteration, pricing, modes, and when to use each route."
+          "title": "Kling 3 4K vs Kling 3 Pro | Native 4K 对比 1080p | VideoAI",
+          "description": "Compare Kling 3 4K 对比 Kling 3 Pro on VideoAI: native 4K delivery, 1080p iteration, pricing, modes, and when to use each route."
         },
         "kling-2-6-pro-vs-seedance-2-0": {
-          "title": "Kling 2.6 Pro 对比 Seedance 2 — Scores & Pricing | MaxVideoAI",
+          "title": "Kling 2.6 Pro 对比 Seedance 2 — Scores & Pricing | VideoAI",
           "description": "Compare Kling 2.6 Pro 对比 Seedance 2.0 by quality, audio, speed, pricing, and an 11-point scorecard."
         },
         "kling-3-standard-vs-ltx-2": {
-          "title": "Kling 3 Std vs LTX 2 — Speed 对比 Quality | MaxVideoAI",
+          "title": "Kling 3 Std vs LTX 2 — Speed 对比 Quality | VideoAI",
           "description": "Compare Kling 3 Standard 对比 LTX 2 by quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "ltx-2-3-fast-vs-ltx-2-3-pro": {
-          "title": "LTX 2.3 Fast 对比 LTX 2.3 Pro | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Fast vs LTX 2.3 Pro on MaxVideoAI by current fast 对比 current pro tradeoffs, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast 对比 LTX 2.3 Pro | AI Video Model Comparison | VideoAI",
+          "description": "Compare LTX 2.3 Fast vs LTX 2.3 Pro on VideoAI by current fast 对比 current pro tradeoffs, specs, pricing, and output quality."
         },
         "ltx-2-3-fast-vs-seedance-2-0-fast": {
-          "title": "LTX 2.3 Fast 对比 Seedance 2.0 Fast | Fast AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Fast 对比 Seedance 2.0 Fast on MaxVideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast 对比 Seedance 2.0 Fast | Fast AI Video Model Comparison | VideoAI",
+          "description": "Compare LTX 2.3 Fast 对比 Seedance 2.0 Fast on VideoAI by fast draft speed, specs, pricing, and output quality."
         }
       },
-      "descriptionFallback": "在 MaxVideoAI 上全方位并排对比各款 AI 视频模型的成片画质、控制能力、技术规格与价格。"
+      "descriptionFallback": "在 VideoAI 上全方位并排对比各款 AI 视频模型的成片画质、控制能力、技术规格与价格。"
     },
     "hero": {
       "back": "返回模型对比",
@@ -7340,7 +7340,7 @@
     "showdown": {
       "title": "同题实测画廊",
       "subtitle": "输入完全相同的提示词，直观对比两款模型的成片表现。",
-      "subtitlePrelaunch": "在 MaxVideoAI 上并排展示相同提示词的渲染效果（如可用）。提示词完全相同，实际成片因模型而异。",
+      "subtitlePrelaunch": "在 VideoAI 上并排展示相同提示词的渲染效果（如可用）。提示词完全相同，实际成片因模型而异。",
       "note": "为保持清晰直观，最多展示 3 组提示词对比。",
       "footer": "探索各模型的生成案例以了解其视觉表现力。各案例使用不同的提示词和参数设置，非严格控制变量测试。",
       "promptLabel": "测试提示词",
@@ -7357,7 +7357,7 @@
     },
     "faq": {
       "title": "常见问题",
-      "subtitle": "关于 {left} 与 {right} 在 MaxVideoAI 上的快速解答（定价、生成模式、技术规格及生成差异原因）。",
+      "subtitle": "关于 {left} 与 {right} 在 VideoAI 上的快速解答（定价、生成模式、技术规格及生成差异原因）。",
       "validating": "仍在验证中",
       "pricingDiff": "定价因模型及参数设置（时长、分辨率、音频）而异。目前 {left} 起价为 {leftValue}，而 {right} 起价为 {rightValue}。",
       "capabilityDiff": "{label}：{left} 为 {leftValue}，{right} 为 {rightValue}。",
@@ -7367,22 +7367,22 @@
       "capabilityLabel": "核心功能",
       "outputLabel": "最高分辨率",
       "q1": "{left} 与 {right} 分别是什么？",
-      "a1": "{left} 与 {right} 是 MaxVideoAI 上提供的 AI 视频生成模型。本页面基于相同的提示词、核心规格及上述性能数据，对它们进行并排横向评测。",
+      "a1": "{left} 与 {right} 是 VideoAI 上提供的 AI 视频生成模型。本页面基于相同的提示词、核心规格及上述性能数据，对它们进行并排横向评测。",
       "q2": "{left} 和 {right} 哪个更好？",
       "a2": "这取决于您的工作流诉求。使用评分卡和“同题实测”对比提示词遵循度、动态真实感、人物保真度与文字辨识度 — 然后打开各个模型主页查看详细参数。",
-      "q3": "在 MaxVideoAI 上哪个模型更便宜？",
+      "q3": "在 VideoAI 上哪个模型更便宜？",
       "a3": "计费因模型及具体设置（时长、分辨率、音频）而异。目前 {left} 起价为 {leftValue}，{right} 起价为 {rightValue}（详见上方“价格”一栏）。",
       "q4": "{left} 与 {right} 之间最大的区别是什么？",
       "q5": "它们支持文生视频、图生视频或视频生视频吗？",
-      "a5": "在 MaxVideoAI 上：文生视频为 {t2vLeft} 对比 {t2vRight}；图生视频为 {i2vLeft} 对比 {i2vRight}；视频生视频为 {v2vLeft} 对比 {v2vRight}。部分特性可能仍在测试验证中。",
+      "a5": "在 VideoAI 上：文生视频为 {t2vLeft} 对比 {t2vRight}；图生视频为 {i2vLeft} 对比 {i2vRight}；视频生视频为 {v2vLeft} 对比 {v2vRight}。部分特性可能仍在测试验证中。",
       "q6": "是否支持首尾帧控制或参考素材？",
       "a6": "首尾帧控制为 {firstLeft} 对比 {firstRight}。参考图/风格参考为 {refImgLeft} 对比 {refImgRight}；参考视频为 {refVidLeft} 对比 {refVidRight}。",
       "q7": "支持哪些分辨率、时长和宽高比？",
       "a7": "{left} 最大输出为 {resLeft} / {durLeft}，{right} 最大输出为 {resRight} / {durRight}。支持的宽高比包括 {arLeft} 对比 {arRight}（完整列表请参阅技术规格）。",
       "q8": "模型是否支持原生音频生成和对口型？",
       "a8": "音频输出为 {audioOutLeft} 对比 {audioOutRight}。原生音频生成为 {audioGenLeft} 对比 {audioGenRight}，对口型为 {lipLeft} 对比 {lipRight}（部分参数仍在验证中）。",
-      "q9": "MaxVideoAI 会在视频中添加水印吗？",
-      "a9": "不会。MaxVideoAI 导出的所有视频均为无水印纯净版（“水印：无 (MaxVideoAI)”）。",
+      "q9": "VideoAI 会在视频中添加水印吗？",
+      "a9": "不会。VideoAI 导出的所有视频均为无水印纯净版（“水印：无 (VideoAI)”）。",
       "q10": "为什么相同提示词在不同模型上的效果会有所差异？",
       "a10": "即使使用相同的提示词，各模型对指令的理解、训练数据偏向及生成策略也不尽相同。这也是同题实测画廊存在的意义：相同提示词，直观展示两款模型的成片差异。",
       "q11": "在哪里可以查阅完整规格、控制选项和更多提示词示例？",
@@ -7391,7 +7391,7 @@
     "summary": {
       "scorecardLabel": "评分领先",
       "scorecardLabelPrelaunch": "目前评分领先（预估）",
-      "pricingLabel": "在 MaxVideoAI 上更实惠",
+      "pricingLabel": "在 VideoAI 上更实惠",
       "durationLabel": "最长时长",
       "scorecardTemplate": "综合评分领先：{engine} 在 {wins}/{total} 项指标中领先{best}。",
       "scorecardTemplatePrelaunch": "目前评分领先（预估）：{engine} 在 {wins}/{total} 项指标中领先{best}。",
@@ -7460,8 +7460,8 @@
   "toolMarketing": {
     "hub": {
       "meta": {
-        "title": "AI 前期制作工具箱：图像与视频工作流 | MaxVideoAI",
-        "description": "在生成视频前构建可复用的角色参考素材与更具表现力的起始首帧。探索用于一致性角色创作和 AI 镜头视角控制的 MaxVideoAI 专业工具。",
+        "title": "AI 前期制作工具箱：图像与视频工作流 | VideoAI",
+        "description": "在生成视频前构建可复用的角色参考素材与更具表现力的起始首帧。探索用于一致性角色创作和 AI 镜头视角控制的 VideoAI 专业工具。",
         "keywords": [
           "AI 前期制作工具",
           "图生视频工作流工具",
@@ -7483,21 +7483,21 @@
           "title": "先定格关键静帧",
           "body": "在图像工作区中生成基础画幅，再衍生出编辑、参考图或动态视频。",
           "cta": "打开图像工具",
-          "imageAlt": "在生成视频前于 MaxVideoAI 图像工作区中生成的静态图片。"
+          "imageAlt": "在生成视频前于 VideoAI 图像工作区中生成的静态图片。"
         },
         "character": {
           "eyebrow": "角色一致性",
           "title": "创建可复用的角色参考素材",
           "body": "将单张图片转化为包含 4 个全身角度与 4 个特写的 8 宫格角色三视图，或固定肖像锚点，以便在不同分镜、提示词与动态中保持一致。",
           "cta": "探索工具",
-          "imageAlt": "MaxVideoAI Character Builder 角色生成器工作区截图。"
+          "imageAlt": "VideoAI Character Builder 角色生成器工作区截图。"
         },
         "angle": {
           "eyebrow": "视角控制",
           "title": "从单张图片生成更具表现力的视频首帧",
           "body": "从单张图像中切换全新机位角度，适用于产品展示、故事板分镜、广告创意或更理想的图生视频起始帧。",
           "cta": "探索工具",
-          "imageAlt": "MaxVideoAI Angle 镜头角度调整工作区截图。"
+          "imageAlt": "VideoAI Angle 镜头角度调整工作区截图。"
         },
         "upscale": {
           "eyebrow": "AI 画质超分",
@@ -7556,7 +7556,7 @@
     "upscale": {
       "meta": {
         "title": "AI 图像与视频画质超分 | SeedVR2, Topaz, FlashVSR, Recraft",
-        "description": "使用当前顶尖 AI 画质增强模型（包括 SeedVR2、Topaz、FlashVSR 和 Recraft）对图片与短视频进行超分辨率提升，随后在 MaxVideoAI 各工作流中自由复用。",
+        "description": "使用当前顶尖 AI 画质增强模型（包括 SeedVR2、Topaz、FlashVSR 和 Recraft）对图片与短视频进行超分辨率提升，随后在 VideoAI 各工作流中自由复用。",
         "keywords": [
           "AI 超分辨率",
           "AI 图像超分",
@@ -7566,7 +7566,7 @@
           "FlashVSR 快速超分",
           "Recraft 清晰超分"
         ],
-        "imageAlt": "当前 MaxVideoAI 画质超分界面访客视图。"
+        "imageAlt": "当前 VideoAI 画质超分界面访客视图。"
       },
       "hero": {
         "badge": "图像 + 视频画质超分",
@@ -7639,12 +7639,12 @@
       "modelGuide": {
         "eyebrow": "画质与价格指南",
         "title": "对比画质表现、控制参数与消耗费用。",
-        "body": "在 MaxVideoAI 中选择模型与目标尺寸，即刻查看准确报价。视频价格同时根据原片时长与分辨率智能估算。",
+        "body": "在 VideoAI 中选择模型与目标尺寸，即刻查看准确报价。视频价格同时根据原片时长与分辨率智能估算。",
         "columns": {
           "model": "模型",
           "bestFor": "最适场景",
           "quality": "画质特性",
-          "price": "MaxVideoAI 价格",
+          "price": "VideoAI 价格",
           "useWhen": "适用时机"
         },
         "rows": [
@@ -7891,7 +7891,7 @@
         "topLeft": "Angle 视角工作区",
         "topRight": "源图 + 控制器 + 生成视图",
         "windowLabel": "虚拟摄像机控制器",
-        "imageAlt": "MaxVideoAI Angle 工作区界面",
+        "imageAlt": "VideoAI Angle 工作区界面",
         "callouts": [
           {
             "title": "源图像",
@@ -8211,7 +8211,7 @@
           "AI 角色同脸同服装",
           "图生视频角色一致性"
         ],
-        "imageAlt": "使用 MaxVideoAI Character Builder 角色构建器生成的 AI 角色设定图预览。",
+        "imageAlt": "使用 VideoAI Character Builder 角色构建器生成的 AI 角色设定图预览。",
         "schemaName": "AI 角色一致性生成",
         "schemaDescription": "从单张图片、可选服饰参考或纯文本构思出发，创建可复用的人像锚点与 8 宫格 AI 角色设定图，并在后续图像生成、局部精修与视频参考工作流中持续复用。",
         "schemaFeatures": [
@@ -8261,7 +8261,7 @@
               "body": "将同一参考素材用于提示词、编辑、Nano Banana 和静帧参考视频流程。"
             }
           ],
-          "caption": "使用 MaxVideoAI Character Builder 生成的角色设定图",
+          "caption": "使用 VideoAI Character Builder 生成的角色设定图",
           "title": "可复用的角色视觉锚点"
         }
       },
@@ -8554,13 +8554,13 @@
         "primaryCta": "打开角色构建器",
         "panelLeft": "锁定角色基准",
         "panelRight": "随时跨场景复用",
-        "panelAlt": "使用 MaxVideoAI Character Builder 生成的可复用角色设定图预览。"
+        "panelAlt": "使用 VideoAI Character Builder 生成的可复用角色设定图预览。"
       }
     },
     "backgroundRemoval": {
       "meta": {
-        "title": "视频背景去除工具 | AI 绿幕抠像与动态蒙版 | MaxVideoAI",
-        "description": "在 MaxVideoAI 中智能去除视频背景。一键生成绿幕级抠像素材、AI 动态蒙版、Alpha 透明通道 WebM 或纯色背景视频。",
+        "title": "视频背景去除工具 | AI 绿幕抠像与动态蒙版 | VideoAI",
+        "description": "在 VideoAI 中智能去除视频背景。一键生成绿幕级抠像素材、AI 动态蒙版、Alpha 透明通道 WebM 或纯色背景视频。",
         "keywords": [
           "视频背景去除",
           "AI 视频抠像",
@@ -8574,7 +8574,7 @@
         ],
         "imageAlt": "带透明棋盘格背景预览的视频背景消除前后效果对比。",
         "schemaName": "视频背景去除工具",
-        "schemaDescription": "一款专为短视频去除背景的 MaxVideoAI 专业工具，支持导出透明 WebM、Alpha 蒙版遮罩或纯色背景视频，直接适配各大剪辑软件。",
+        "schemaDescription": "一款专为短视频去除背景的 VideoAI 专业工具，支持导出透明 WebM、Alpha 蒙版遮罩或纯色背景视频，直接适配各大剪辑软件。",
         "howToTitle": "如何去除视频背景或创建 AI 动态蒙版",
         "howToDescription": "上传或挑选一段视频，选择透明背景、绿幕合成或纯色背景，在导出前查看确切价格并一键处理。"
       },
@@ -8680,7 +8680,7 @@
         "eyebrow": "制作工作流",
         "title": "从源视频片段到绿幕、Alpha 通道或合成素材",
         "body": "小巧高效的制作闭环：导入源视频、配置 Alpha 通道或背景色彩、执行处理、检验效果、随后保存至素材库或下载。",
-        "priceNote": "在正式开始前，MaxVideoAI 会根据视频时长与分辨率清晰展示预估点数消耗。",
+        "priceNote": "在正式开始前，VideoAI 会根据视频时长与分辨率清晰展示预估点数消耗。",
         "steps": [
           {
             "title": "上传或挑选视频",
@@ -8753,7 +8753,7 @@
       ],
       "finalCta": {
         "eyebrow": "准备好优化您的视频素材了吗？",
-        "title": "去除视频背景，将高品质主体保存在 MaxVideoAI 素材库中",
+        "title": "去除视频背景，将高品质主体保存在 VideoAI 素材库中",
         "body": "打开工作区，实时核对预估费用，将日常短视频快速转化为可复用的主体抠像、Alpha 蒙版或绿幕成片。",
         "primaryCta": "打开视频背景去除",
         "secondaryCta": "浏览全部工具"
@@ -8789,7 +8789,7 @@
       "workshops": "打造您的下一个分镜画面。",
       "finishing": "为您的视频锦上添花。",
       "start": "创建您的视觉起点。",
-      "startBody": "还没有源图片？在 MaxVideoAI 中生成一张。您也可以直接上传现有的参考图。",
+      "startBody": "还没有源图片？在 VideoAI 中生成一张。您也可以直接上传现有的参考图。",
       "image": "生成图像",
       "audio": "生成音频",
       "browse": "选择您的工具",
@@ -8803,7 +8803,7 @@
   "notFound": {
     "metaTitle": "页面未找到",
     "title": "页面未找到",
-    "body": "我们未能找到该链接，它可能已被删除或从未存在过。请使用下方链接继续探索 MaxVideoAI。",
+    "body": "我们未能找到该链接，它可能已被删除或从未存在过。请使用下方链接继续探索 VideoAI。",
     "homeLabel": "返回首页",
     "modelsLabel": "查看视频模型"
   }

@@ -36,7 +36,7 @@ export type HeroVideoShowcaseItem = {
 
 function parsePriceAmount(value?: string | null) {
   if (!value) return null;
-  const match = value.match(/([$€£])?\s*([0-9]+(?:[.,][0-9]+)?)/);
+  const match = value.match(/([$€£¥￥])?\s*([0-9]+(?:[.,][0-9]+)?)/);
   if (!match) return null;
   const amount = Number(match[2].replace(',', '.'));
   if (!Number.isFinite(amount)) return null;

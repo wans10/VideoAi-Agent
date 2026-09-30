@@ -128,13 +128,13 @@ test('homepage marketing media stays on optimized WebP sources', () => {
 
 test('Seedance 2.5 route metadata is index-follow with the accepted launch social card', () => {
   const expectedUrls = {
-    en: 'https://maxvideoai.com/models/seedance-2-5',
-    fr: 'https://maxvideoai.com/fr/modeles/seedance-2-5',
-    es: 'https://maxvideoai.com/es/modelos/seedance-2-5',
+    en: 'https://videoai.omninodetech.com/models/seedance-2-5',
+    fr: 'https://videoai.omninodetech.com/fr/modeles/seedance-2-5',
+    es: 'https://videoai.omninodetech.com/es/modelos/seedance-2-5',
   } as const;
   const expectedLanguages = { ...expectedUrls, 'x-default': expectedUrls.en };
   const socialImagePath = '/models/seedance-2-5-launch.jpg';
-  const socialImageUrl = `https://maxvideoai.com${socialImagePath}`;
+  const socialImageUrl = `https://videoai.omninodetech.com${socialImagePath}`;
   const engine = getFalEngineById('seedance-2-5');
 
   assert.ok(engine);

@@ -128,7 +128,7 @@
     },
     {
       "q": "¿El modo Referencia permite 15 segundos o audio?",
-      "a": "No. En MaxVideoAI, el modo Referencia de Wan 2.6 está limitado a 5 o 10 segundos y no usa la opción de URL de audio. Usa Texto o Imagen para pruebas de 15 segundos o guiadas por audio."
+      "a": "No. En VideoAI, el modo Referencia de Wan 2.6 está limitado a 5 o 10 segundos y no usa la opción de URL de audio. Usa Texto o Imagen para pruebas de 15 segundos o guiadas por audio."
     }
   ],
   "custom": {
@@ -169,7 +169,7 @@
         "icon": "volume2"
       }
     ],
-    "whatTitle": "Cómo funciona Wan 2.6 en MaxVideoAI",
+    "whatTitle": "Cómo funciona Wan 2.6 en VideoAI",
     "whatIntro1": "Elige modo Texto, Imagen o Referencia, define duración y resolución, y luego escribe el prompt.",
     "whatIntro2": "El modo Referencia mantiene la identidad del sujeto anclando el modelo a metraje real.",
     "whatFlowTitle": "Flujo en la app",
@@ -181,7 +181,7 @@
       "5. Opcional: audio de fondo (solo T2V/I2V).",
       "6. Revisa el precio final antes de renderizar."
     ],
-    "specTitle": "Especificaciones reales — Wan 2.6 en MaxVideoAI",
+    "specTitle": "Especificaciones reales — Wan 2.6 en VideoAI",
     "specNote": "Estas specs reflejan el routing de Fal hoy.",
     "specSections": [
       {
@@ -228,7 +228,7 @@
     "comparisonCta": "Comparar Wan 2.6 vs Wan 2.5 →",
     "relatedCtaSora2": "Comparar Wan 2.6 vs Sora 2 →",
     "relatedCtaSora2Pro": "Comparar Wan 2.6 vs Sora 2 Pro →",
-    "faqTitle": "FAQ – Wan 2.6 en MaxVideoAI",
+    "faqTitle": "FAQ – Wan 2.6 en VideoAI",
     "faqs": [
       {
         "q": "¿Wan 2.6 soporta audio?",
@@ -244,11 +244,11 @@
       },
       {
         "q": "¿El modo Referencia permite 15 segundos o audio?",
-        "a": "No. En MaxVideoAI, el modo Referencia de Wan 2.6 está limitado a 5 o 10 segundos y no usa la opción de URL de audio. Usa Texto o Imagen para pruebas de 15 segundos o guiadas por audio."
+        "a": "No. En VideoAI, el modo Referencia de Wan 2.6 está limitado a 5 o 10 segundos y no usa la opción de URL de audio. Usa Texto o Imagen para pruebas de 15 segundos o guiadas por audio."
       }
     ],
     "relatedTitle": "Explora otros modelos",
-    "relatedSubtitle": "Compara precio, latencia y opciones de salida en el catálogo de MaxVideoAI.",
+    "relatedSubtitle": "Compara precio, latencia y opciones de salida en el catálogo de VideoAI.",
     "finalPara1": "Wan 2.6 está diseñado para secuencias cinematográficas cortas con control multi‑shot.",
     "finalPara2": "Empieza con texto o imagen y luego pasa a referencia de video para consistencia.",
     "finalButton": "Abrir Wan 2.6 en Generate →",
@@ -437,13 +437,13 @@
     "pricingCopy": {
       "title": "Precios de Wan 2.6 de un vistazo",
       "subtitle": "Totales 720p/1080p predefinidos. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 1080p",
       "ctaHref": "/es/precios#wan-2-6-pricing"
     },
     "meta": {
-      "title": "Wan 2.6: precios, referencias y ejemplos | MaxVideoAI",
+      "title": "Wan 2.6: precios, referencias y ejemplos | VideoAI",
       "description": "Explora Wan 2.6: precios, video multi-shot hasta 15 s, texto a video, imagen a video, referencias 5s/10s, audio opcional y ejemplos."
     }
   },

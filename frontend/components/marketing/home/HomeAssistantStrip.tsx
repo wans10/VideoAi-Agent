@@ -3,10 +3,10 @@ import Link from 'next/link';
 import type { AppLocale } from '@/i18n/locales';
 
 const COPY = {
-  en: { title: 'Create with your assistant, too.', body: 'Turn your conversation into a video. Review the price, approve the generation, and find the result in MaxVideoAI.', more: 'Codex and other assistants', cta: 'Explore connections' },
-  fr: { title: 'Créez aussi avec votre assistant.', body: 'Passez de votre conversation à une vidéo. Vérifiez le prix, validez la génération et retrouvez le résultat dans MaxVideoAI.', more: 'Codex et d’autres assistants', cta: 'Voir les connexions' },
-  es: { title: 'Crea también con tu asistente.', body: 'Convierte tu conversación en un video. Revisa el precio, autoriza la generación y encuentra el resultado en MaxVideoAI.', more: 'Codex y otros asistentes', cta: 'Ver las conexiones' },
-  zh: { title: '同样能在你的 AI 助手中直接创作。', body: '将对话灵感转化为视频。核对价格、确认生成，然后在 MaxVideoAI 中查看成片。', more: 'Codex 及其他主流助手', cta: '探索助手集成' },
+  en: { title: 'Create with your assistant, too.', body: 'Turn your conversation into a video. Review the price, approve the generation, and find the result in VideoAI.', more: 'Codex and other assistants', cta: 'Explore connections' },
+  fr: { title: 'Créez aussi avec votre assistant.', body: 'Passez de votre conversation à une vidéo. Vérifiez le prix, validez la génération et retrouvez le résultat dans VideoAI.', more: 'Codex et d’autres assistants', cta: 'Voir les connexions' },
+  es: { title: 'Crea también con tu asistente.', body: 'Convierte tu conversación en un video. Revisa el precio, autoriza la generación y encuentra el resultado en VideoAI.', more: 'Codex y otros asistentes', cta: 'Ver las conexiones' },
+  zh: { title: '同样能在你的 AI 助手中直接创作。', body: '将对话灵感转化为视频。核对价格、确认生成，然后在 VideoAI 中查看成片。', more: 'Codex 及其他主流助手', cta: '探索助手集成' },
 };
 
 export function HomeAssistantStrip({locale, href}: {locale:AppLocale; href:string}) {

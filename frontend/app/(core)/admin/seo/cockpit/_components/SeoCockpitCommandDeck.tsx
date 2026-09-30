@@ -59,7 +59,7 @@ export function SeoCommandDeck({
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">Command deck</p>
               <h2 className="mt-2 text-2xl font-semibold tracking-normal text-text-primary">SEO Cockpit</h2>
               <p className="mt-2 text-sm leading-6 text-text-secondary">
-                Action-first read of MaxVideoAI Search Console demand, model-family priority, and Codex implementation work.
+                Action-first read of VideoAI Search Console demand, model-family priority, and Codex implementation work.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -118,7 +118,7 @@ export function SeoCommandDeck({
               icon={Layers3}
               label="Family dictionary"
               value={`${familyCount} app families`}
-              helper="Derived from MaxVideoAI model-family config"
+              helper="Derived from VideoAI model-family config"
             />
           </div>
         </aside>

@@ -64,7 +64,7 @@ export function CompareScorecardSection({
           <p className="mt-1 text-sm text-text-secondary">
             {replaceCriteriaCount(
               compareCopy.scorecard?.subtitle ??
-                `Scores reflect quality and control on MaxVideoAI across ${criteriaCount} criteria.`,
+                `Scores reflect quality and control on VideoAI across ${criteriaCount} criteria.`,
               criteriaCount
             )}
           </p>

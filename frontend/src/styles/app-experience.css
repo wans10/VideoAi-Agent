@@ -650,3 +650,19 @@
   .app-experience.videoai-workspace [data-workspace-prompt] { min-height: 100px; height: 100px; }
   .app-experience.videoai-workspace .app-empty-preview { min-height: 120px; }
 }
+
+/* The writing desk: titled composition, a ruled mode switch and a separate output shelf. */
+.app-experience.videoai-workspace .studio-creation-title { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--app-line); }
+.studio-creation-title .app-eyebrow { margin-bottom: 8px; font-size: 10px; letter-spacing: .1em; }
+.app-experience.videoai-workspace .app-mode-switch { border: 0; border-bottom: 1px solid var(--app-line); padding: 0; border-radius: 0; background: none; width: 100%; gap: 24px; }
+.app-experience.videoai-workspace .app-mode-switch button { padding: 10px 0; border: 0; border-radius: 0; border-bottom: 2px solid transparent; background: none; box-shadow: none; }
+.app-experience.videoai-workspace .app-mode-switch button[aria-pressed=true] { border-bottom-color: var(--app-accent); color: var(--app-accent); background: none; box-shadow: none; }
+.app-experience.videoai-workspace .app-prompt-surface { border-radius: 4px; border-top: 3px solid var(--app-accent); }
+.app-experience.videoai-workspace .app-empty-preview { border: 1px solid var(--app-line); border-radius: 4px; background: var(--surface-2); }
+.app-experience.videoai-workspace .app-composer-toolbar { border-top: 1px solid var(--app-line); padding-top: 16px; }
+.app-experience.videoai-workspace .app-rail-media-card { border-radius: 4px; }
+@media (max-width: 767px) {
+ .app-experience.videoai-workspace .studio-creation-title { padding-bottom: 12px; }
+ .app-experience.videoai-workspace .studio-creation-title h1 { font-size: 22px; }
+ .app-experience.videoai-workspace .app-mode-switch button { flex: none; }
+}

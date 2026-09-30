@@ -2,8 +2,8 @@
   "marketingName": "Google Veo 3.1 Fast",
   "versionLabel": "3.1 Fast",
   "seo": {
-    "title": "Veo 3.1 Fast | AI 视频模型、技术规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Veo 3.1 Fast 进行快速草稿渲染、参考图测试与低成本迭代，在将选定镜头导入 Veo 3.1 之前即可查看实时参数规格与价格。",
+    "title": "Veo 3.1 Fast | AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Veo 3.1 Fast 进行快速草稿渲染、参考图测试与低成本迭代，在将选定镜头导入 Veo 3.1 之前即可查看实时参数规格与价格。",
     "image": "/hero/veo-3-1-hero.jpg"
   },
   "overview": "Veo 3.1 Fast 是 Google Veo 3.1 系列中当前更快速的版本，适用于文生视频草稿、图生视频测试、基于 1–4 张静态图片的 8 秒参考生视频渲染、概念短循环以及低成本迭代，支持可选的原生音频与实时按秒计费。",
@@ -91,7 +91,7 @@
     },
     {
       "label": "计费方式",
-      "body": "价格卡片显示 MaxVideoAI 针对时长、分辨率及音频开关的预设场景总价。技术规格使用相同的展示计费助手呈现音频开启与关闭的按秒费率；生成前会显示确切的实时报价。"
+      "body": "价格卡片显示 VideoAI 针对时长、分辨率及音频开关的预设场景总价。技术规格使用相同的展示计费助手呈现音频开启与关闭的按秒费率；生成前会显示确切的实时报价。"
     },
     {
       "label": "渲染耗时",
@@ -161,11 +161,11 @@
     },
     {
       "q": "它的价格相比 Veo 3.1 如何？",
-      "a": "价格卡片展示了预设的 MaxVideoAI 显示总价：每个场景标明了时长、分辨率和音频开/关状态。技术规格使用相同的计算助手呈现按秒显示费率，在批量运行各版本之前，“生成”页面会显示确切的实时报价。"
+      "a": "价格卡片展示了预设的 VideoAI 显示总价：每个场景标明了时长、分辨率和音频开/关状态。技术规格使用相同的计算助手呈现按秒显示费率，在批量运行各版本之前，“生成”页面会显示确切的实时报价。"
     },
     {
       "q": "我可以在欧洲或拉美地区使用 Veo 3.1 Fast 吗？",
-      "a": "可以。它使用相同的 MaxVideoAI 钱包/工作空间以及正规授权的 DeepMind 路由通道，无需单独结算或额外签约。"
+      "a": "可以。它使用相同的 VideoAI 钱包/工作空间以及正规授权的 DeepMind 路由通道，无需单独结算或额外签约。"
     }
   ],
   "custom": {
@@ -206,10 +206,10 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "Veo 3.1 Fast 在 MaxVideoAI 中的实际定位",
+    "whatTitle": "Veo 3.1 Fast 在 VideoAI 中的实际定位",
     "whatIntro1": "Veo 3.1 Fast 专为 Veo 家族中的高速度与高效率进行了精细调校。",
     "whatIntro2": "保留相同的构图与色调预设，但生成针对成本控制与交付效率进行了全面优化。",
-    "whatFlowTitle": "MaxVideoAI 创作流程：",
+    "whatFlowTitle": "VideoAI 创作流程：",
     "whatFlowSteps": [
       "1. 选择 Veo 3.1 Fast 作为生成引擎。",
       "2. 从纯文本开始，或为图生视频添加单张起始图片，或在参考模式下附加 1–4 张参考素材。",
@@ -218,8 +218,8 @@
       "5. 选择开启/关闭原生音频，然后输入简炼、富于画面感的提示词。",
       "6. 确认实时价格并开始渲染。"
     ],
-    "specTitle": "真实技术规格 — MaxVideoAI 中的 Veo 3.1 Fast（720p/1080p、4–8秒、8秒参考模式）",
-    "specNote": "这些规格准确描述了您今天通过 MaxVideoAI 所使用的 Veo 3.1 Fast 实时功能。",
+    "specTitle": "真实技术规格 — VideoAI 中的 Veo 3.1 Fast（720p/1080p、4–8秒、8秒参考模式）",
+    "specNote": "这些规格准确描述了您今天通过 VideoAI 所使用的 Veo 3.1 Fast 实时功能。",
     "specSections": [
       {
         "title": "草稿级极速探索",
@@ -295,7 +295,7 @@
       "工作流建议：在 Fast 中快速原型打样，随后在 Veo 3.1 中重新生成优胜镜头。"
     ],
     "comparisonCta": "对比 Veo 3.1 与 Veo 3.1 Fast →",
-    "faqTitle": "常见问题 — MaxVideoAI 中的 Veo 3.1 Fast",
+    "faqTitle": "常见问题 — VideoAI 中的 Veo 3.1 Fast",
     "faqs": [
       {
         "q": "我可以在 Veo 3.1 Fast 中使用参考图吗？",
@@ -315,16 +315,16 @@
       },
       {
         "q": "它的价格相比 Veo 3.1 如何？",
-        "a": "价格卡片展示了预设的 MaxVideoAI 显示总价：每个场景标明了时长、分辨率和音频开/关状态。技术规格使用相同的计算助手呈现按秒显示费率，在批量运行各版本之前，“生成”页面会显示确切的实时报价。"
+        "a": "价格卡片展示了预设的 VideoAI 显示总价：每个场景标明了时长、分辨率和音频开/关状态。技术规格使用相同的计算助手呈现按秒显示费率，在批量运行各版本之前，“生成”页面会显示确切的实时报价。"
       },
       {
         "q": "我可以在欧洲或拉美地区使用 Veo 3.1 Fast 吗？",
-        "a": "可以。使用相同的 MaxVideoAI 钱包/工作空间以及正规授权的 DeepMind 路由通道，无需单独结算。"
+        "a": "可以。使用相同的 VideoAI 钱包/工作空间以及正规授权的 DeepMind 路由通道，无需单独结算。"
       }
     ],
     "relatedTitle": "探索其他模型",
     "relatedSubtitle": "在整个模型目录中对比价格梯队、响应延迟与提示词预设。",
-    "finalPara1": "MaxVideoAI 中的 Veo 3.1 Fast 是您针对 Veo 提示词的快速验证工作台。",
+    "finalPara1": "VideoAI 中的 Veo 3.1 Fast 是您针对 Veo 提示词的快速验证工作台。",
     "finalPara2": "相同的电影级语言，更低的试错门槛，以及直接达到社交分发标准的生成品质。",
     "finalButton": "在生成中打开",
     "tipsIntro": "当您编写类似拍摄简报的简明提示词时，Veo 3.1 Fast 最为稳定可靠：单一主体、单一动作、清晰构图与单一运镜。",
@@ -470,13 +470,13 @@
     "pricingCopy": {
       "title": "Veo 3.1 Fast 价格概览",
       "subtitle": "预设草稿总价 — 生成前可在应用中查看确切的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以 USD 额度展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高支持 4K",
       "ctaHref": "/zh/pricing#veo-3-1-fast-pricing"
     },
     "meta": {
-      "title": "Veo 3.1 Fast：4K 价格、草稿制作与案例 | MaxVideoAI",
+      "title": "Veo 3.1 Fast：4K 价格、草稿制作与案例 | VideoAI",
       "description": "使用 Veo 3.1 Fast 体验更快的 Veo 草稿生成（最高支持 4K）、可选原生音频、首尾帧测试以及低成本短概念循环，随后再导入 Veo 3.1 精修成片。"
     }
   },

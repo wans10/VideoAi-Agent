@@ -201,7 +201,7 @@ export function MarketingModelPrelaunchPageLayout({
                           {content.custom.prelaunch.statusItems[1].value}
                         </span>
                         <span className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">
-                          MaxVideoAI
+                          VideoAI
                         </span>
                       </div>
                       <div className="space-y-2">

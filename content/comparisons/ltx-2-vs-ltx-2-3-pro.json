@@ -49,7 +49,7 @@
       "subtitle": "Answers for staying on the established Pro route or adopting LTX 2.3 Pro controls.",
       "items": [
         {
-          "question": "Is LTX Video 2.0 Pro still accessible on MaxVideoAI?",
+          "question": "Is LTX Video 2.0 Pro still accessible on VideoAI?",
           "answer": "Yes. It remains available for ten-second 16:9 text/image generation with audio in 1080p, 1440p, or 4K."
         },
         {
@@ -112,7 +112,7 @@
       "subtitle": "Réponses pour rester sur LTX 2.0 Pro ou adopter les contrôles de LTX 2.3 Pro.",
       "items": [
         {
-          "question": "LTX Video 2.0 Pro est-il toujours accessible sur MaxVideoAI ?",
+          "question": "LTX Video 2.0 Pro est-il toujours accessible sur VideoAI ?",
           "answer": "Oui. Il reste disponible pour des générations de 10 secondes en 16:9 à partir d’un texte ou d’une image, avec audio, en 1080p, 1440p ou 4K."
         },
         {
@@ -175,7 +175,7 @@
       "subtitle": "Respuestas para quedarse en la ruta Pro conocida o adoptar los controles de 2.3 Pro.",
       "items": [
         {
-          "question": "¿LTX Video 2.0 Pro sigue disponible en MaxVideoAI?",
+          "question": "¿LTX Video 2.0 Pro sigue disponible en VideoAI?",
           "answer": "Sí. Sigue disponible para generar desde texto o imagen en 16:9 durante diez segundos, con audio y salida en 1080p, 1440p o 4K."
         },
         {

@@ -22,10 +22,10 @@ function AssistantMark({ assistant }: { assistant: (typeof assistants)[number] }
 
 export function AppAssistantConnections({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
   const copy = locale === 'fr'
-    ? { title: 'Créez avec votre assistant', detail: 'Les modèles MaxVideoAI, depuis votre conversation.', connect: 'Connecter', all: 'Tous les assistants', newTab: 'nouvel onglet' }
+    ? { title: 'Créez avec votre assistant', detail: 'Les modèles VideoAI, depuis votre conversation.', connect: 'Connecter', all: 'Tous les assistants', newTab: 'nouvel onglet' }
     : locale === 'es'
-      ? { title: 'Crea con tu asistente', detail: 'Los modelos de MaxVideoAI, desde tu conversación.', connect: 'Conectar', all: 'Todos los asistentes', newTab: 'pestaña nueva' }
-      : { title: 'Create with your assistant', detail: 'MaxVideoAI models, from your conversation.', connect: 'Connect', all: 'All assistants', newTab: 'new tab' };
+      ? { title: 'Crea con tu asistente', detail: 'Los modelos de VideoAI, desde tu conversación.', connect: 'Conectar', all: 'Todos los asistentes', newTab: 'pestaña nueva' }
+      : { title: 'Create with your assistant', detail: 'VideoAI models, from your conversation.', connect: 'Connect', all: 'All assistants', newTab: 'new tab' };
   return <section className="app-assistant-connections" aria-label={copy.title}>
     <h3>{copy.title}</h3><p>{copy.detail}</p>
     <div className="app-assistant-options">{assistants.map((assistant) => <Link key={assistant.id} href={getPathname({ locale, href: assistant.href })} target="_blank" rel="noopener noreferrer" prefetch={false} onClick={onNavigate}>

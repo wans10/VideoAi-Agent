@@ -165,7 +165,7 @@ async function fetchJobStatus(jobId: string): Promise<JobStatusResult> {
   const normalizedMessage =
     normalizeJobMessage(payload.message) ??
     (normalizedStatus === 'failed'
-      ? 'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+      ? 'VideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
       : undefined);
 
   const observation = normalizeGenerationObservation(payload.observation) ?? { stage: generationStage(payload.status) };

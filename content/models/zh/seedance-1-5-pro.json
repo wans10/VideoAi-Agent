@@ -2,8 +2,8 @@
   "marketingName": "Seedance 1.5 Pro",
   "versionLabel": "v1.5 Pro",
   "seo": {
-    "title": "Seedance 1.5 Pro | AI 视频模型、规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用受支持的 Seedance 1.5 Pro 模型生成电影级短片段，并可转向 Seedance 2.0 体验当前的 Seedance 工作流。",
+    "title": "Seedance 1.5 Pro | AI 视频模型、规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用受支持的 Seedance 1.5 Pro 模型生成电影级短片段，并可转向 Seedance 2.0 体验当前的 Seedance 工作流。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a0297366-57f7-4ca8-b3b6-f02c7da4d7f2-job_3f82e69d-ef44-4c46-aded-16d06dd4a1ab.jpg"
   },
   "overview": "Seedance 1.5 Pro 仍作为受支持的旧版 Seedance Pro 工作流提供，适用于电影级短片段、可复现变体以及固定机位设置。",
@@ -126,7 +126,7 @@
       "prompt": "对起始图片进行慢速推进动画，然后过渡至提供的尾帧，温柔的环境音氛围。"
     }
   ],
-  "faqTitle": "常见问题 – MaxVideoAI 中的 Seedance 1.5 Pro",
+  "faqTitle": "常见问题 – VideoAI 中的 Seedance 1.5 Pro",
   "faqs": [
     {
       "q": "固定机位（camera fixed）有什么作用？",
@@ -149,8 +149,8 @@
       "a": "文生视频支持 480p 和 720p。图生视频支持 480p、720p 和 1080p。"
     },
     {
-      "q": "Seedance 1.5 Pro 仍然是 MaxVideoAI 上的主力 Seedance Pro 工作流吗？",
-      "a": "Seedance 1.5 Pro 是 MaxVideoAI 上受支持的旧版 Seedance Pro 工作流，但 Seedance 2.0 现已成为适用于更广泛生产级工作的主流主力 Seedance 模型。"
+      "q": "Seedance 1.5 Pro 仍然是 VideoAI 上的主力 Seedance Pro 工作流吗？",
+      "a": "Seedance 1.5 Pro 是 VideoAI 上受支持的旧版 Seedance Pro 工作流，但 Seedance 2.0 现已成为适用于更广泛生产级工作的主流主力 Seedance 模型。"
     }
   ],
   "custom": {
@@ -161,7 +161,7 @@
       "首尾帧控制（图生视频）||提供可选尾帧以引导镜头落幅（转场过渡、匹配剪辑、利落收尾）",
       "单次渲染原生音频||一次生成对白、环境音与音效 — 或关闭音频以生成无声草稿并用于后期混音"
     ],
-    "specTitle": "真实规格 – MaxVideoAI 中的 Seedance 1.5 Pro",
+    "specTitle": "真实规格 – VideoAI 中的 Seedance 1.5 Pro",
     "specNote": "规格反映当前实时的 Fal 路由情况。",
     "specSections": [
       {
@@ -338,13 +338,13 @@
     "pricingCopy": {
       "title": "Seedance 1.5 Pro 价格一览",
       "subtitle": "预设开启音频总价 — 在生成前可在应用内查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。关闭音频路线在应用内的报价可能更低。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。关闭音频路线在应用内的报价可能更低。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "1080p 仅限图生视频",
       "ctaHref": "/zh/pricing#seedance-1-5-pro-pricing"
     },
     "meta": {
-      "title": "Seedance 1.5 Pro：价格与固定机位 | MaxVideoAI",
+      "title": "Seedance 1.5 Pro：价格与固定机位 | VideoAI",
       "description": "探索 Seedance 1.5 Pro 价格、案例、固定机位拍摄、随机种子控制、音频开启/关闭以及首尾帧工作流。对比 Seedance 1.5 Pro 与 Seedance 2.0。"
     }
   },

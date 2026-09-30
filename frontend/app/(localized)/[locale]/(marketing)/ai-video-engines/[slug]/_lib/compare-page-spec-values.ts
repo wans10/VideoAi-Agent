@@ -115,7 +115,7 @@ export function buildSpecValues(
       'cameraMotionControls',
       resolveStatus(entry.engine?.motionControls)
     ),
-    watermark: 'No (MaxVideoAI)',
+    watermark: 'No (VideoAI)',
   };
 }
 
@@ -164,11 +164,11 @@ export function localizeSpecDetailValue(
   }
   if (lower === 'not exposed in current maxvideoai route') {
     return locale === 'fr'
-      ? 'non disponible dans MaxVideoAI actuellement'
+      ? 'non disponible dans VideoAI actuellement'
       : locale === 'es'
-        ? 'no disponible actualmente en MaxVideoAI'
+        ? 'no disponible actualmente en VideoAI'
         : locale.startsWith('zh')
-          ? '当前 MaxVideoAI 路线暂未开放'
+          ? '当前 VideoAI 路线暂未开放'
           : normalized;
   }
   if (lower === 'multi reference stills') {
@@ -229,7 +229,7 @@ export function localizeSpecDetailValue(
           : normalized;
   }
   if (lower === 'no (maxvideoai)') {
-    return locale === 'fr' ? 'Non (MaxVideoAI)' : locale === 'es' ? 'No (MaxVideoAI)' : locale.startsWith('zh') ? '无水印 (MaxVideoAI)' : normalized;
+    return locale === 'fr' ? 'Non (VideoAI)' : locale === 'es' ? 'No (VideoAI)' : locale.startsWith('zh') ? '无水印 (VideoAI)' : normalized;
   }
   if (lower === 'not listed for native 4k route') {
     return locale === 'fr'

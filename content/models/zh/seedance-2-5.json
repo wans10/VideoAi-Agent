@@ -94,7 +94,7 @@
     },
     {
       "q": "我可以从这个页面使用 Seedance 2.5 生成吗？",
-      "a": "Seedance 2.5 生成功能对 MaxVideoAI 用户开放，价格在每次渲染前计算并显示。"
+      "a": "Seedance 2.5 生成功能对 VideoAI 用户开放，价格在每次渲染前计算并显示。"
     }
   ],
   "decision": {
@@ -132,7 +132,7 @@
     },
     "media": {
       "caption": "Seedance 2.5 真实渲染",
-      "description": "使用 MaxVideoAI 创作的较长电影感序列",
+      "description": "使用 VideoAI 创作的较长电影感序列",
       "renderLabel": "查看完整渲染",
       "badges": [
         "24s",
@@ -308,7 +308,7 @@
     "showWhenEmpty": false,
     "section": {
       "title": "Seedance 2.5 真实生成案例",
-      "intro": "查看经过筛选的 MaxVideoAI 渲染作品，测试更长的故事叙述、受控镜头运动、物理连贯性和自然人物表演。",
+      "intro": "查看经过筛选的 VideoAI 渲染作品，测试更长的故事叙述、受控镜头运动、物理连贯性和自然人物表演。",
       "defaultCtaLabel": "查看所有 Seedance 案例",
       "recreateLabel": null
     },
@@ -355,7 +355,7 @@
         "id": "production",
         "icon": "shield",
         "title": "真实生产级渲染",
-        "body": "此页面展示的每一个案例均通过 MaxVideoAI 真实生成。"
+        "body": "此页面展示的每一个案例均通过 VideoAI 真实生成。"
       }
     ],
     "fallbackItems": null

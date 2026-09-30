@@ -3,10 +3,10 @@
   "versionLabel": "2.2",
   "seo": {
     "title": "Pika 2.2 文生视频：5秒/10秒、1080p 画质与价格详情",
-    "description": "MaxVideoAI 中的 Pika 2.2 文生视频：720p/1080p 分辨率下的 5 秒或 10 秒无声风格化片段。查看价格、技术限制、提示词技巧以及可一键复现的案例。",
+    "description": "VideoAI 中的 Pika 2.2 文生视频：720p/1080p 分辨率下的 5 秒或 10 秒无声风格化片段。查看价格、技术限制、提示词技巧以及可一键复现的案例。",
     "image": "/hero/pika-22.jpg"
   },
-  "overview": "MaxVideoAI 中的 Pika 2.2：在 720p/1080p 分辨率下生成 5 秒或 10 秒的无声风格化文生视频片段，专为社交媒体循环播放打造。非常适合动漫、漫画、像素风和极具视觉冲击力的轻快 3D 风格。",
+  "overview": "VideoAI 中的 Pika 2.2：在 720p/1080p 分辨率下生成 5 秒或 10 秒的无声风格化文生视频片段，专为社交媒体循环播放打造。非常适合动漫、漫画、像素风和极具视觉冲击力的轻快 3D 风格。",
   "hero": {
     "title": "Pika 2.2",
     "intro": "最长视频时长：720p/1080p 下 5 秒或 10 秒 — 专为在社交信息流中脱颖而出打造的风格化文生视频。",
@@ -121,7 +121,7 @@
   "faqs": [
     {
       "q": "Pika 2.2 会生成音频吗？",
-      "a": "不会。MaxVideoAI 中的 Pika 2.2 始终输出无声视频片段。可在后期制作中添加声音，或在需要原生音频时选用具备音频能力的引擎。"
+      "a": "不会。VideoAI 中的 Pika 2.2 始终输出无声视频片段。可在后期制作中添加声音，或在需要原生音频时选用具备音频能力的引擎。"
     },
     {
       "q": "我应该选择 5 秒还是 10 秒时长？",
@@ -178,9 +178,9 @@
         "icon": "image"
       }
     ],
-    "whatTitle": "MaxVideoAI 中的 Pika 2.2 究竟是什么",
+    "whatTitle": "VideoAI 中的 Pika 2.2 究竟是什么",
     "whatIntro1": "Pika 2.2 是一款专为面向社交平台的内容动画调优的短视频风格化模型。",
-    "whatIntro2": "在 MaxVideoAI 中，它被配置为无声视频引擎，提供对时长、分辨率和画幅比例的精确把控。",
+    "whatIntro2": "在 VideoAI 中，它被配置为无声视频引擎，提供对时长、分辨率和画幅比例的精确把控。",
     "whatFlowTitle": "应用内生成流程",
     "whatFlowSteps": [
       "1. 选择 Pika 2.2 作为生成引擎。",
@@ -190,8 +190,8 @@
       "5. 填入充满张力、风格明确的提示词。",
       "6. 在点击生成前查看每条视频的精确预估价格。"
     ],
-    "specTitle": "真实技术规格 – MaxVideoAI 中的 Pika 2.2（720p/1080p，5–10秒）",
-    "specNote": "这些技术规格准确描述了您今天可以在 MaxVideoAI 中使用的 Pika 2.2 真实功能。",
+    "specTitle": "真实技术规格 – VideoAI 中的 Pika 2.2（720p/1080p，5–10秒）",
+    "specNote": "这些技术规格准确描述了您今天可以在 VideoAI 中使用的 Pika 2.2 真实功能。",
     "specSections": [
       {
         "title": "风格化视觉表现",
@@ -269,7 +269,7 @@
       "Sora 2 / Wan 2.5 / Veo 3.1：当需要原生音频生成或更高写实画质时，请切换至这些生产级引擎。"
     ],
     "comparisonCta": "对比 Pika 2.2 与 MiniMax Hailuo 02 →",
-    "faqTitle": "常见问题 – MaxVideoAI 中的 Pika 2.2",
+    "faqTitle": "常见问题 – VideoAI 中的 Pika 2.2",
     "faqs": [
       {
         "q": "Pika 2.2 会生成音频吗？",
@@ -293,8 +293,8 @@
       }
     ],
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "在 MaxVideoAI 模型库中横向对比不同模型的价格、生成延迟与输出特性。",
-    "finalPara1": "MaxVideoAI 中的 Pika 2.2 是您打造快速循环与富有表现力动画的风格化无声主力模型。",
+    "relatedSubtitle": "在 VideoAI 模型库中横向对比不同模型的价格、生成延迟与输出特性。",
+    "finalPara1": "VideoAI 中的 Pika 2.2 是您打造快速循环与富有表现力动画的风格化无声主力模型。",
     "finalPara2": "先在这里构思打磨吸睛镜头，当需要逼真写实度或原生音效时，再将优选方案迁移至 Sora 或 Veo。",
     "finalButton": "开始生成",
     "tipsIntro": "当充分拥抱风格化视觉、紧凑循环以及受控迭代（种子 + 负向提示词）时，Pika 2.2 能够发挥出最大威力。",
@@ -436,13 +436,13 @@
     "pricingCopy": {
       "title": "Pika 2.2 价格一览",
       "subtitle": "预设风格化片段总价 — 在生成前可在应用内查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#pika-text-to-video-pricing"
     },
     "meta": {
-      "title": "Pika 文生视频限制：5秒/10秒时长、价格与最佳用途 | MaxVideoAI",
+      "title": "Pika 文生视频限制：5秒/10秒时长、价格与最佳用途 | VideoAI",
       "description": "查看 Pika 2.2 文生视频技术限制、5秒/10秒时长、720p/1080p 价格以及何时选用其他 AI 视频模型。"
     }
   },
@@ -538,7 +538,7 @@
     "modelSlug": "pika-text-to-video",
     "section": {
       "title": "Pika 2.2 案例展厅",
-      "intro": "精选使用与 MaxVideoAI 相同配置参数生成的高质量片段示例。",
+      "intro": "精选使用与 VideoAI 相同配置参数生成的高质量片段示例。",
       "defaultCtaLabel": "查看全部 Pika 2.2 案例 →",
       "recreateLabel": "复现此镜头 →"
     },

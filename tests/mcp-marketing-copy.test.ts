@@ -30,7 +30,7 @@ test('each integration has a distinct searchable title and truthful installation
   const titles=new Set<string>();
   for(const client of getMcpPublicIntegrationIds()){
    const copy=getIntegrationCopy(locale,client);titles.add(copy.meta.title);
-   assert.match(copy.meta.title,/MaxVideoAI/);assert.match(copy.meta.title,/MCP/);
+   assert.match(copy.meta.title,/VideoAI/);assert.match(copy.meta.title,/MCP/);
    assert.ok(copy.meta.title.length<75);assert.ok(copy.hero.title.length<80);
    assert.ok(copy.setup.hostGuides.length>0);
    for(const guide of copy.setup.hostGuides)assert.ok(guide.installInstruction.length>40);

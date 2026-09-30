@@ -2,12 +2,12 @@
   "marketingName": "Kling 3 Standard",
   "versionLabel": "v3 Standard",
   "seo": {
-    "title": "Kling 3 Standard | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Kling 3 Standard on MaxVideoAI for lower-cost multi-shot AI video, native audio, and live specs and pricing before you render.",
+    "title": "Kling 3 Standard | AI Video Model, Specs & Pricing | VideoAI",
+    "description": "Use Kling 3 Standard on VideoAI for lower-cost multi-shot AI video, native audio, and live specs and pricing before you render.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/bb896348-7394-4ef3-9cff-ff392639c8db-job_99e0f0fa-6092-4b8a-8c08-e329c579d0f2.jpg"
   },
   "overview": "Kling 3 Standard is the current lower-cost Kling AI model for multi-shot prompts, start-frame Kling image-to-video runs, reusable Kling Elements, optional end frames, and native audio draft workflows.",
-  "pricingNotes": "Member display estimates include the MaxVideoAI margin: about $0.16/s with audio, $0.11/s audio off, and $0.20/s with voice control.",
+  "pricingNotes": "Member display estimates include the VideoAI margin: about $0.16/s with audio, $0.11/s audio off, and $0.20/s with voice control.",
   "hero": {
     "title": "Kling 3 Standard — current Kling variant for lower-cost multi-shot video",
     "intro": "Use Kling 3 Standard when you want the current lower-cost Kling AI model for multi-shot video, start-frame Kling image-to-video tests, reusable Kling Elements, optional end frames, and native audio before moving selected jobs into Kling 3 Pro. Use Kling 3.0 Omni Standard when images should guide the shot without becoming the first frame.",
@@ -138,7 +138,7 @@
       "prompt": "Scene 1 (5s): macro of a luxury watch face. Scene 2 (4s): rotating hero shot with rim light. Scene 3 (4s): wrist-on model, soft ambience."
     }
   ],
-  "faqTitle": "FAQ – Kling 3 Standard in MaxVideoAI",
+  "faqTitle": "FAQ – Kling 3 Standard in VideoAI",
   "faqs": [
     {
       "q": "Does Standard include multi-prompt?",
@@ -165,8 +165,8 @@
       "Native audio when you want it||Generate dialogue + ambience + SFX in the same pass, or toggle audio off for silent drafts",
       "End-frame control for cleaner finishes||Use an optional end frame to land transitions, match cuts, and product reveals more predictably"
     ],
-    "specTitle": "Real Specs – Kling 3 Standard in MaxVideoAI",
-    "specNote": "Specs reflect the active MaxVideoAI route today.",
+    "specTitle": "Real Specs – Kling 3 Standard in VideoAI",
+    "specNote": "Specs reflect the active VideoAI route today.",
     "specSections": [
       {
         "title": "Storyboard-ready multi-shot",
@@ -340,13 +340,13 @@
     "pricingCopy": {
       "title": "Kling 3 Standard pricing at a glance",
       "subtitle": "Preset 1080p draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "1080p route",
       "ctaHref": "/pricing#kling-3-standard-pricing"
     },
     "meta": {
-      "title": "Kling 3 Standard: Pricing, 1080p Drafts & Examples | MaxVideoAI",
+      "title": "Kling 3 Standard: Pricing, 1080p Drafts & Examples | VideoAI",
       "description": "Use Kling 3 Standard for lower-cost 1080p start-frame drafts, image-to-video tests, native audio options and 15 second Kling planning."
     }
   },

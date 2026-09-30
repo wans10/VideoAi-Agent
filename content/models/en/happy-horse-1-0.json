@@ -2,11 +2,11 @@
   "marketingName": "Happy Horse 1.0",
   "versionLabel": "1.0",
   "seo": {
-    "title": "Happy Horse 1.0 | Legacy Video Edit Route | MaxVideoAI",
-    "description": "Use the legacy Happy Horse 1.0 video-edit route on MaxVideoAI. Use Happy Horse 1.1 for new text, image and reference generations.",
+    "title": "Happy Horse 1.0 | Legacy Video Edit Route | VideoAI",
+    "description": "Use the legacy Happy Horse 1.0 video-edit route on VideoAI. Use Happy Horse 1.1 for new text, image and reference generations.",
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
-  "overview": "Happy Horse 1.0 is the legacy Happy Horse 1.0 video-edit route on MaxVideoAI. Use Happy Horse 1.1 for new text, image and reference generations, and keep 1.0 when a source clip needs video-to-video editing.",
+  "overview": "Happy Horse 1.0 is the legacy Happy Horse 1.0 video-edit route on VideoAI. Use Happy Horse 1.1 for new text, image and reference generations, and keep 1.0 when a source clip needs video-to-video editing.",
   "pricingNotes": "Text, image, and R2V runs use standard per-second rates by resolution. Video edit is billed at a combined input/output rate, so it costs double the standard rate for the selected resolution.",
   "hero": {
     "title": "Happy Horse 1.0 - legacy video-edit route",
@@ -122,7 +122,7 @@
       "prompt": "Edit the uploaded clip into a premium launch scene: preserve the person and pacing, refresh the lighting to warm studio gold, keep audio natural with synchronized speech."
     }
   ],
-  "faqTitle": "FAQ - Happy Horse 1.0 on MaxVideoAI",
+  "faqTitle": "FAQ - Happy Horse 1.0 on VideoAI",
   "faqs": [
     {
       "q": "What should Happy Horse 1.0 be used for now?",
@@ -235,7 +235,7 @@
       },
       {
         "title": "720p or 1080p",
-        "body": "Choose the exposed MaxVideoAI resolution before generation.",
+        "body": "Choose the exposed VideoAI resolution before generation.",
         "tone": "quality"
       },
       {
@@ -295,14 +295,14 @@
     "pricingCopy": {
       "title": "Happy Horse 1.0 pricing at a glance",
       "subtitle": "Preset native-audio totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 1080p",
       "ctaHref": "/pricing#happy-horse-1-0-pricing"
     },
     "meta": {
-      "title": "Happy Horse 1.0 Legacy Video Edit Route | MaxVideoAI",
-      "description": "Use Happy Horse 1.0 as the legacy Alibaba video-edit route on MaxVideoAI. Use Happy Horse 1.1 for new text, image and reference generations."
+      "title": "Happy Horse 1.0 Legacy Video Edit Route | VideoAI",
+      "description": "Use Happy Horse 1.0 as the legacy Alibaba video-edit route on VideoAI. Use Happy Horse 1.1 for new text, image and reference generations."
     }
   },
   "prompting": {

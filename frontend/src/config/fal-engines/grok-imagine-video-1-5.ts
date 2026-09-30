@@ -104,7 +104,7 @@ export const GROK_IMAGINE_VIDEO_1_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     { mode: 'ref2v', falModelId: GROK_IMAGINE_VIDEO_1_5_ENDPOINTS.ref2v, ui: engine.modeCaps!.ref2v! },
   ],
   defaultFalModelId: GROK_IMAGINE_VIDEO_1_5_ENDPOINTS.t2v,
-  seo: { title: 'Grok Imagine Video 1.5 | MaxVideoAI', description: 'Generate Grok Imagine Video 1.5 clips from text, an image, or up to seven image references.', canonicalPath: '/models/grok-imagine-video-1-5' },
+  seo: { title: 'Grok Imagine Video 1.5 | VideoAI', description: 'Generate Grok Imagine Video 1.5 clips from text, an image, or up to seven image references.', canonicalPath: '/models/grok-imagine-video-1-5' },
   demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/8357a0bc-65ef-4573-8a3d-4cba08df6ee9.mp4',
   media: {
     videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/8357a0bc-65ef-4573-8a3d-4cba08df6ee9.mp4',

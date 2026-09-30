@@ -65,8 +65,8 @@ export async function UpscaleLandingPage({ content }: { content: UpscaleLandingC
     serviceType: 'AI image and video upscale',
     provider: {
       '@type': 'Organization',
-      name: 'MaxVideoAI',
-      url: 'https://maxvideoai.com',
+      name: 'VideoAI',
+      url: 'https://videoai.omninodetech.com',
     },
     areaServed: 'Worldwide',
   };

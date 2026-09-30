@@ -128,7 +128,7 @@
     },
     {
       "q": "参考视频模式可以使用 15 秒时长或音频吗？",
-      "a": "不可以。在 MaxVideoAI 中，Wan 2.6 参考视频模式限制为 5 或 10 秒，且不提供音频 URL 选项。如需进行 15 秒生成或音频引导测试，请使用文生视频或图生视频模式。"
+      "a": "不可以。在 VideoAI 中，Wan 2.6 参考视频模式限制为 5 或 10 秒，且不提供音频 URL 选项。如需进行 15 秒生成或音频引导测试，请使用文生视频或图生视频模式。"
     }
   ],
   "custom": {
@@ -169,7 +169,7 @@
         "icon": "volume2"
       }
     ],
-    "whatTitle": "Wan 2.6 在 MaxVideoAI 中的工作流程",
+    "whatTitle": "Wan 2.6 在 VideoAI 中的工作流程",
     "whatIntro1": "选择文生、图生或参考视频模式，设定时长与分辨率，随后输入提示词开始创作。",
     "whatIntro2": "参考视频模式通过真实视频素材进行锚定，从而在生成过程中保持主体身份高度一致。",
     "whatFlowTitle": "创作流程",
@@ -181,7 +181,7 @@
       "5. 可选：添加背景音频 URL（仅限文生/图生视频）。",
       "6. 渲染前在界面查看最终精确计费。"
     ],
-    "specTitle": "真实规格 – MaxVideoAI 中的 Wan 2.6",
+    "specTitle": "真实规格 – VideoAI 中的 Wan 2.6",
     "specNote": "规格反映当前实时的 Fal 路由情况。",
     "specSections": [
       {
@@ -228,7 +228,7 @@
     "comparisonCta": "对比 Wan 2.6 与 Wan 2.5 →",
     "relatedCtaSora2": "对比 Wan 2.6 与 Sora 2 →",
     "relatedCtaSora2Pro": "对比 Wan 2.6 与 Sora 2 Pro →",
-    "faqTitle": "常见问题 – MaxVideoAI 中的 Wan 2.6",
+    "faqTitle": "常见问题 – VideoAI 中的 Wan 2.6",
     "faqs": [
       {
         "q": "Wan 2.6 是否支持音频？",
@@ -244,11 +244,11 @@
       },
       {
         "q": "参考视频模式可以使用 15 秒时长或音频吗？",
-        "a": "不可以。在 MaxVideoAI 中，Wan 2.6 参考视频模式限制为 5 或 10 秒，且不提供音频 URL 选项。如需进行 15 秒生成或音频引导测试，请使用文生视频或图生视频模式。"
+        "a": "不可以。在 VideoAI 中，Wan 2.6 参考视频模式限制为 5 或 10 秒，且不提供音频 URL 选项。如需进行 15 秒生成或音频引导测试，请使用文生视频或图生视频模式。"
       }
     ],
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "在 MaxVideoAI 模型目录中对比各模型的价格、延迟与输出能力。",
+    "relatedSubtitle": "在 VideoAI 模型目录中对比各模型的价格、延迟与输出能力。",
     "finalPara1": "Wan 2.6 专为具备多镜头控制的电影级短视频序列打造。",
     "finalPara2": "从文生或图生起步，再进阶至参考视频模式以锁定主体一致性。",
     "finalButton": "前往生成页面使用 Wan 2.6 →",
@@ -437,13 +437,13 @@
     "pricingCopy": {
       "title": "Wan 2.6 价格一览",
       "subtitle": "预设 720p/1080p 总价 — 在生成前可在应用内查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#wan-2-6-pricing"
     },
     "meta": {
-      "title": "Wan 2.6：价格、参考素材与案例 | MaxVideoAI",
+      "title": "Wan 2.6：价格、参考素材与案例 | VideoAI",
       "description": "了解 Wan 2.6 价格方案、15 秒多镜头视频、文生视频、图生视频、5秒/10秒参考视频工作流、可选音频及精选案例。"
     }
   },

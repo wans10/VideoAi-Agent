@@ -5,7 +5,7 @@
     "title": "FLUX 3 Video Draft 720p 迭代视频生成器",
     "description": "使用 FLUX 3 Video Draft 进行 720p 文本、图像、首尾帧及延伸测试，包含精确的素材规则、提示词指导和模式专属报价。"
   },
-  "overview": "FLUX 3 Video Draft 是 FLUX 视频系列中当前的 720p 迭代版本。它沿用四种发布工作流，同时返回草稿导向的结果和缓存上下文。该模型由 Black Forest Labs 拥有；MaxVideoAI 通过 Fal 分发这些端点。Draft 定位于测试用途，而非标准 FLUX 3 生产审查的自动替代方案。",
+  "overview": "FLUX 3 Video Draft 是 FLUX 视频系列中当前的 720p 迭代版本。它沿用四种发布工作流，同时返回草稿导向的结果和缓存上下文。该模型由 Black Forest Labs 拥有；VideoAI 通过 Fal 分发这些端点。Draft 定位于测试用途，而非标准 FLUX 3 生产审查的自动替代方案。",
   "decision": {
     "modelSlug": "flux-3-draft",
     "hero": {
@@ -17,7 +17,7 @@
         "首尾帧",
         "720p 草稿层级"
       ],
-      "paragraph": "在进行标准 FLUX 3 正式生成前，先使用 Draft 比较场景方向、素材兼容性和转场逻辑。首尾帧模式仍需提供两个锚点，延伸模式仍需提供源视频及其模式专属报价。Black Forest Labs 拥有 FLUX，Fal 负责本次 MaxVideoAI 发布的执行分发。",
+      "paragraph": "在进行标准 FLUX 3 正式生成前，先使用 Draft 比较场景方向、素材兼容性和转场逻辑。首尾帧模式仍需提供两个锚点，延伸模式仍需提供源视频及其模式专属报价。Black Forest Labs 拥有 FLUX，Fal 负责本次 VideoAI 发布的执行分发。",
       "primaryCta": {
         "label": "使用 FLUX 3 Draft 生成",
         "href": "/app?engine=flux-3-draft"

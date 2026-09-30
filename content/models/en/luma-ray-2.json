@@ -2,11 +2,11 @@
   "marketingName": "Luma Ray 2",
   "versionLabel": "Ray 2",
   "seo": {
-    "title": "Luma Ray 2 Specs, Pricing and Legacy Workflows | MaxVideoAI",
-    "description": "Use Luma Ray 2 in MaxVideoAI as a previous-generation Luma route for cinematic shots, image-to-video, source-video modify, and delivery reframes. Start new Luma work on Ray 3.2 when Modify keyframes or Reframe matter.",
+    "title": "Luma Ray 2 Specs, Pricing and Legacy Workflows | VideoAI",
+    "description": "Use Luma Ray 2 in VideoAI as a previous-generation Luma route for cinematic shots, image-to-video, source-video modify, and delivery reframes. Start new Luma work on Ray 3.2 when Modify keyframes or Reframe matter.",
     "image": "/hero/luma-dream.jpg"
   },
-  "overview": "Luma Ray 2 is a previous-generation Luma route in MaxVideoAI. Keep it for legacy prompts, older comparisons, and Ray 2-compatible generation, while new Luma video work should start on Ray 3.2 for Modify keyframes and Reframe.",
+  "overview": "Luma Ray 2 is a previous-generation Luma route in VideoAI. Keep it for legacy prompts, older comparisons, and Ray 2-compatible generation, while new Luma video work should start on Ray 3.2 for Modify keyframes and Reframe.",
   "hero": {
     "title": "Luma Ray 2 - cinematic generation, modify, and reframe on one page",
     "intro": "Use Ray 2 when you need to revisit older Luma prompts or keep Ray 2-compatible text-to-video, image-to-video, source-video Modify, and Reframe runs. For new Luma production, Ray 3.2 is the current route.",
@@ -79,7 +79,7 @@
     },
     {
       "label": "Modify options",
-      "body": "Modify presets exposed in MaxVideoAI: adhere_1 to adhere_3, flex_1 to flex_3, and reimagine_1 to reimagine_3"
+      "body": "Modify presets exposed in VideoAI: adhere_1 to adhere_3, flex_1 to flex_3, and reimagine_1 to reimagine_3"
     },
     {
       "label": "Reframe options",
@@ -138,12 +138,12 @@
   ],
   "faqs": [
     {
-      "q": "What workflows does Luma Ray 2 expose in MaxVideoAI?",
+      "q": "What workflows does Luma Ray 2 expose in VideoAI?",
       "a": "Ray 2 keeps the active Luma workflow family inside one model page: text-to-video, image-to-video, modify, and reframe."
     },
     {
       "q": "Which options are exposed in Modify?",
-      "a": "Modify uses a source video plus an optional prompt and optional reference still. MaxVideoAI exposes strength presets from adhere_1 through reimagine_3."
+      "a": "Modify uses a source video plus an optional prompt and optional reference still. VideoAI exposes strength presets from adhere_1 through reimagine_3."
     },
     {
       "q": "Which options are exposed in Reframe?",
@@ -155,7 +155,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "Luma Ray 2 is no longer just a narrow text-to-video page inside MaxVideoAI. It now follows the same workflow-first pattern used on the richer LTX and Veo pages: one public model, multiple active Luma workflows.",
+    "heroDesc1": "Luma Ray 2 is no longer just a narrow text-to-video page inside VideoAI. It now follows the same workflow-first pattern used on the richer LTX and Veo pages: one public model, multiple active Luma workflows.",
     "heroDesc2": "That matters in production. You can generate a shot from text, animate a still, modify a winning source clip, and reframe the approved master for social without changing the model family or relearning the controls.",
     "heroSupportLine": "Best for premium cinematic work when you want generation and source-video edits inside one Luma surface.",
     "heroSpecChips": [
@@ -191,8 +191,8 @@
       "Reframe is practical, not cosmetic||Square and vertical outputs matter when the approved master has to ship across paid social, mobile, and commerce placements.",
       "Cleaner family story||Ray 2 stays the premium tier, Ray 2 Flash stays the fast tier, but both models now expose the real public workflow surface."
     ],
-    "specTitle": "Real specs - Luma Ray 2 in MaxVideoAI",
-    "specNote": "These specs describe the active Luma routing exposed in MaxVideoAI today, not a reduced placeholder surface.",
+    "specTitle": "Real specs - Luma Ray 2 in VideoAI",
+    "specNote": "These specs describe the active Luma routing exposed in VideoAI today, not a reduced placeholder surface.",
     "specSections": [
       {
         "title": "Generate workflows",
@@ -215,7 +215,7 @@
         ]
       }
     ],
-    "whatTitle": "How Luma Ray 2 works in MaxVideoAI",
+    "whatTitle": "How Luma Ray 2 works in VideoAI",
     "whatIntro1": "Choose Luma Ray 2, then stay in Generate Video for text or still-led creation, or switch to Modify / Reframe when you are working from an uploaded source clip.",
     "whatIntro2": "This keeps the family simple at the model level while still exposing the active Luma workflows where they belong: inside the model page and workspace.",
     "whatFlowTitle": "Workflow",
@@ -380,7 +380,7 @@
       "ctaHref": "/pricing#luma-ray-2-pricing"
     },
     "meta": {
-      "title": "Luma Ray 2 Legacy: Pricing, Modify & Reframe | MaxVideoAI",
+      "title": "Luma Ray 2 Legacy: Pricing, Modify & Reframe | VideoAI",
       "description": "Explore Luma Ray 2 as a previous-generation Luma route, with legacy pricing, examples, Modify, Reframe, Ray 2 Flash context and Ray 3.2 migration guidance."
     }
   },
@@ -467,7 +467,7 @@
       {
         "id": "proof-3",
         "title": "Silent output",
-        "body": "Ray 2 does not generate native audio on this MaxVideoAI route.",
+        "body": "Ray 2 does not generate native audio on this VideoAI route.",
         "icon": "audio"
       },
       {

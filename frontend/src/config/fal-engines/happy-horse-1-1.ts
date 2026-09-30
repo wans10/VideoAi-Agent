@@ -147,7 +147,7 @@ const HAPPY_HORSE_1_1_ENGINE: EngineCaps = {
     },
     currency: 'USD',
     notes:
-      'Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. MaxVideoAI display prices add platform margin before showing quotes.',
+      'Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. VideoAI display prices add platform margin before showing quotes.',
   },
   updatedAt: '2026-06-22T00:00:00Z',
   ttlSec: 600,
@@ -223,9 +223,9 @@ export const HAPPY_HORSE_1_1_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: HAPPY_HORSE_1_1_ENDPOINTS.t2v,
     seo: {
-      title: 'Happy Horse 1.1 - Alibaba Native-Audio AI Video Model | MaxVideoAI',
+      title: 'Happy Horse 1.1 - Alibaba Native-Audio AI Video Model | VideoAI',
       description:
-        'Generate Happy Horse 1.1 videos on MaxVideoAI with text, image, and reference-to-video workflows plus native synchronized audio and lip-sync.',
+        'Generate Happy Horse 1.1 videos on VideoAI with text, image, and reference-to-video workflows plus native synchronized audio and lip-sync.',
       canonicalPath: '/models/happy-horse-1-1',
     },
     type: 'textImageReferenceVideo',
@@ -259,19 +259,19 @@ export const HAPPY_HORSE_1_1_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     faqs: [
       {
-        question: 'What Happy Horse 1.1 workflows are available in MaxVideoAI?',
+        question: 'What Happy Horse 1.1 workflows are available in VideoAI?',
         answer:
           'Happy Horse 1.1 is exposed as one current model with text-to-video, image-to-video, and reference-to-video generation.',
       },
       {
         question: 'Does Happy Horse 1.1 include lip-sync?',
         answer:
-          'Yes. MaxVideoAI treats Happy Horse 1.1 as an audio-native model with synchronized native audio and lip-sync, without a separate lip-sync toggle.',
+          'Yes. VideoAI treats Happy Horse 1.1 as an audio-native model with synchronized native audio and lip-sync, without a separate lip-sync toggle.',
       },
       {
         question: 'Does Happy Horse 1.1 support video editing?',
         answer:
-          'Happy Horse 1.1 does not expose video editing in the current MaxVideoAI route. Happy Horse 1.0 remains available as the legacy video-edit route.',
+          'Happy Horse 1.1 does not expose video editing in the current VideoAI route. Happy Horse 1.0 remains available as the legacy video-edit route.',
       },
     ],
     pricingHint: {

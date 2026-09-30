@@ -84,8 +84,8 @@ test('P1 LLM discovery exposes current names, canonical URLs, families, and scor
   for (const id of P1_IDS) {
     const model = projection.currentModels.find((candidate) => candidate.id === id);
     assert.equal(model?.label, expectedLabels[id]);
-    assert.equal(model?.href, `https://maxvideoai.com/models/${id}`);
-    assert.equal(text.split(`](https://maxvideoai.com/models/${id})`).length - 1, 1, id);
+    assert.equal(model?.href, `https://videoai.omninodetech.com/models/${id}`);
+    assert.equal(text.split(`](https://videoai.omninodetech.com/models/${id})`).length - 1, 1, id);
   }
   assert.deepEqual(projection.families.map(({ id }) => id).sort(), ['hailuo', 'kling', 'veo']);
   assert.deepEqual(

@@ -66,7 +66,7 @@ function buildHeroVideoItems(copy: HomeHeroContent['mockup'], previews: HomeExam
       videoSrc: fallbackMedia.videoSrc ?? preview?.videoSrc ?? null,
       duration: fallbackMedia.duration,
       resolution: fallbackMedia.resolution,
-      imageAlt: engine.imageAlt ?? preview?.imageAlt ?? `${engineName} AI video preview in MaxVideoAI.`,
+      imageAlt: engine.imageAlt ?? preview?.imageAlt ?? `${engineName} AI video preview in VideoAI.`,
     };
   });
 }
@@ -89,7 +89,7 @@ function applyCuratedHeroMedia(item: HeroVideoShowcaseItem): HeroVideoShowcaseIt
     mediaInfo: [modeLabel, durationLabel, media.resolution].filter(Boolean).join(' · '),
     estimateValue: media.estimateValue ?? item.estimateValue,
     estimateMeta: media.estimateMeta ?? item.estimateMeta,
-    imageAlt: media.imageAlt ?? `${item.name} AI video preview in MaxVideoAI.`,
+    imageAlt: media.imageAlt ?? `${item.name} AI video preview in VideoAI.`,
   };
 }
 

@@ -5,7 +5,7 @@
     "title": "Wan 3 Prime AI 视频生成器：高规格 Wan 工作流",
     "description": "评估 Wan 3 Prime 在高规格文本、图像与混合参考视频创作中的表现，了解当前限制、实操提示词指南、同系模型对比及标准报价。"
   },
-  "overview": "Wan 3 Prime 是 Wan 3 家族中当前的高规格版本。它延续了广泛适用的文本、图像与参考素材工作流形态，专为明确选用 Prime 路线的创作需求打造。Wan 模型归阿里巴巴/通义所有；MaxVideoAI 通过 Fal 分发上线接口，并不代表与版权方存在直接合作协议。",
+  "overview": "Wan 3 Prime 是 Wan 3 家族中当前的高规格版本。它延续了广泛适用的文本、图像与参考素材工作流形态，专为明确选用 Prime 路线的创作需求打造。Wan 模型归阿里巴巴/通义所有；VideoAI 通过 Fal 分发上线接口，并不代表与版权方存在直接合作协议。",
   "decision": {
     "modelSlug": "wan-3-prime",
     "hero": {
@@ -123,7 +123,7 @@
     "pricingCopy": {
       "title": "Wan 3 Prime 场景计费",
       "subtitle": "对比同一 6 秒场景在 720p 与 1080p 下的生成价格。",
-      "footnote": "价格取决于所选参数配置。MaxVideoAI 会在生成前与您确认确切报价。",
+      "footnote": "价格取决于所选参数配置。VideoAI 会在生成前与您确认确切报价。",
       "ctaLabel": "使用 Wan 3 Prime 生成",
       "ctaHref": "/app?engine=wan-3-prime"
     },

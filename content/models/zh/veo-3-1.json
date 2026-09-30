@@ -2,11 +2,11 @@
   "marketingName": "Google Veo 3.1",
   "versionLabel": "3.1",
   "seo": {
-    "title": "Veo 3.1 | Google AI 视频模型、规格参数与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Veo 3.1 进行电影级 AI 视频生成、参考图引导控制与原生音频合成，渲染前即可查看实时参数规格与价格。",
+    "title": "Veo 3.1 | Google AI 视频模型、规格参数与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Veo 3.1 进行电影级 AI 视频生成、参考图引导控制与原生音频合成，渲染前即可查看实时参数规格与价格。",
     "image": "/hero/veo-3-1-hero.jpg"
   },
-  "overview": "Veo 3.1 是 MaxVideoAI 上当前主流的 Google AI 视频模型，支持电影级视频、文生视频、图生视频、参考图引导工作流、原生音频合成以及实时按秒计费。",
+  "overview": "Veo 3.1 是 VideoAI 上当前主流的 Google AI 视频模型，支持电影级视频、文生视频、图生视频、参考图引导工作流、原生音频合成以及实时按秒计费。",
   "hero": {
     "title": "Veo 3.1 — 适用于电影级视频与参考图引导控制的当前主力 Veo 模型",
     "intro": "Google Veo 3.1 是当前用于电影级视频、文生视频、图生视频以及参考图引导工作流的主力 Veo 3 AI 视频模型，非常适合在广告大片、产品宣传片和品牌序列中打造高完成度的精细视觉呈现。",
@@ -87,7 +87,7 @@
     },
     {
       "label": "分辨率",
-      "body": "当前 MaxVideoAI 路线支持 720p 或 1080p（帧率为 24 fps）"
+      "body": "当前 VideoAI 路线支持 720p 或 1080p（帧率为 24 fps）"
     },
     {
       "label": "画面比例",
@@ -151,11 +151,11 @@
   "faqs": [
     {
       "q": "什么是 Veo 3.1？",
-      "a": "在 MaxVideoAI 上，Veo 3.1 是当前主流的 Google AI 视频模型，专为电影级高质感短片、文生视频、图生视频、参考图引导控制、原生音频合成及片段延长工作流而设计。"
+      "a": "在 VideoAI 上，Veo 3.1 是当前主流的 Google AI 视频模型，专为电影级高质感短片、文生视频、图生视频、参考图引导控制、原生音频合成及片段延长工作流而设计。"
     },
     {
       "q": "Veo 3.1 是否支持在欧洲或英国地区使用？",
-      "a": "支持。MaxVideoAI 通过受支持的官方服务接口调度 Veo 任务，因此您无需单独签订 Veo 企业合同，即可在欧洲、英国以及大多数支持地区直接进行渲染。"
+      "a": "支持。VideoAI 通过受支持的官方服务接口调度 Veo 任务，因此您无需单独签订 Veo 企业合同，即可在欧洲、英国以及大多数支持地区直接进行渲染。"
     },
     {
       "q": "Veo 3.1 是否支持生成竖屏视频？",
@@ -179,7 +179,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "在 MaxVideoAI 工作区中直接使用 Google DeepMind 的 Veo 3.1 生成短小精悍的电影级质感视频。文生视频、起始图片动态化、参考图引导控制、可选尾帧引导、片段延长与原生音频合成全流程整合于同一引擎中。",
+    "heroDesc1": "在 VideoAI 工作区中直接使用 Google DeepMind 的 Veo 3.1 生成短小精悍的电影级质感视频。文生视频、起始图片动态化、参考图引导控制、可选尾帧引导、片段延长与原生音频合成全流程整合于同一引擎中。",
     "heroDesc2": "描述场景画面，选择 4 秒、6 秒或 8 秒时长，挑选 16:9、9:16 或 1:1 比例，按需决定是否开启原生音频；随后直接由文本生成、添加起始图片、切换至参考图模式实现多图控场，或在需要精准定格落幅时添加尾帧。",
     "heroSupportLine": "专为品牌主视觉大片、首尾定向转场过渡、精美产品亮相以及可复现的系列营销变体量身打造。",
     "whyTitle": "为什么 Veo 3.1 如此强大",
@@ -216,10 +216,10 @@
         "icon": "storyboard"
       }
     ],
-    "whatTitle": "Veo 3.1 在 MaxVideoAI 中的实际定位与能力",
+    "whatTitle": "Veo 3.1 在 VideoAI 中的实际定位与能力",
     "whatIntro1": "在技术层面上，Veo 3.1 是 DeepMind 最新的短视频生成模型，具备更丰富的音频表现和更紧密的提示词遵循度。",
-    "whatIntro2": "在 MaxVideoAI 中，Veo 3.1 被封装为一个高可控性、生产就绪的专业视频引擎：",
-    "whatFlowTitle": "MaxVideoAI 将所有这些能力整合在简明流畅的操作流程中：",
+    "whatIntro2": "在 VideoAI 中，Veo 3.1 被封装为一个高可控性、生产就绪的专业视频引擎：",
+    "whatFlowTitle": "VideoAI 将所有这些能力整合在简明流畅的操作流程中：",
     "whatFlowSteps": [
       "1. 选择 Veo 3.1 作为生成引擎。",
       "2. 直接通过文本生成或添加起始图片。",
@@ -228,8 +228,8 @@
       "5. 设定视频时长（4/6/8 秒）、画面比例以及分辨率（720p 或 1080p）。",
       "6. 在同一界面内与其他生成引擎对比生成效果与价格。"
     ],
-    "specTitle": "真实技术参数 — MaxVideoAI 中的 Veo 3.1 路线（720p/1080p，4–8 秒）",
-    "specNote": "以上参数基于 MaxVideoAI 当前上线的 Veo 3.1 路线。720p/1080p 为 MaxVideoAI 提供的路线选项，并不代表所有底层提供商可能具备的全部功能上限。",
+    "specTitle": "真实技术参数 — VideoAI 中的 Veo 3.1 路线（720p/1080p，4–8 秒）",
+    "specNote": "以上参数基于 VideoAI 当前上线的 Veo 3.1 路线。720p/1080p 为 VideoAI 提供的路线选项，并不代表所有底层提供商可能具备的全部功能上限。",
     "specSections": [
       {
         "title": "可精细调度的镜头构图",
@@ -252,7 +252,7 @@
         ]
       }
     ],
-    "specValueProp": "MaxVideoAI 中的 Veo 3.1 为你提供景别预设、原生音频控制、种子值以及片段延长等工具，使其表现如同受你指挥的虚拟摄影机，而非无法预测的黑盒。",
+    "specValueProp": "VideoAI 中的 Veo 3.1 为你提供景别预设、原生音频控制、种子值以及片段延长等工具，使其表现如同受你指挥的虚拟摄影机，而非无法预测的黑盒。",
     "imageTitle": "使用 Google Veo 3.1 进行图生视频工作流（+ Nano Banana）",
     "imageIntro": "将 Google Veo 3.1 与 Nano Banana 搭配使用，先锁定静态风格，再专注迭代动态表现。",
     "imageFlow": [
@@ -285,7 +285,7 @@
     ],
     "boundaries": [
       "单次渲染最长 8 秒；可通过镜头拼接（或 Extend 片段延长）制作更长内容。",
-      "当前 MaxVideoAI 路线开放的分辨率为 720p 和 1080p。",
+      "当前 VideoAI 路线开放的分辨率为 720p 和 1080p。",
       "固定为 24 fps。",
       "微小界面文字与排版字母较难精准渲染 — 建议在后期制作中添加。"
     ],
@@ -329,11 +329,11 @@
         "ctaLabel": "对比 Veo 3.1 与 Sora 2 Pro →"
       }
     ],
-    "faqTitle": "常见问题 — MaxVideoAI 中的 Veo 3.1",
+    "faqTitle": "常见问题 — VideoAI 中的 Veo 3.1",
     "faqs": [
       {
         "q": "Veo 3.1 是否支持在欧洲或英国地区使用？",
-        "a": "支持。MaxVideoAI 通过受支持的官方服务接口调度 Veo 任务，因此您无需单独签订 Veo 企业合同，即可在欧洲、英国以及大多数支持地区直接进行渲染。"
+        "a": "支持。VideoAI 通过受支持的官方服务接口调度 Veo 任务，因此您无需单独签订 Veo 企业合同，即可在欧洲、英国以及大多数支持地区直接进行渲染。"
       },
       {
         "q": "Veo 3.1 是否支持生成竖屏视频？",
@@ -353,8 +353,8 @@
       }
     ],
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "对比 MaxVideoAI 提供的其他生成引擎的价格、延迟与输出选项。",
-    "finalPara1": "MaxVideoAI 中的 Veo 3.1 为你提供按量付费、即开即用的便捷途径，直接体验 DeepMind 旗下可控性极佳的短视频生成引擎。",
+    "relatedSubtitle": "对比 VideoAI 提供的其他生成引擎的价格、延迟与输出选项。",
+    "finalPara1": "VideoAI 中的 Veo 3.1 为你提供按量付费、即开即用的便捷途径，直接体验 DeepMind 旗下可控性极佳的短视频生成引擎。",
     "finalPara2": "细腻的景别与音频控制使其体验如同由你掌镜的虚拟摄影机，而不仅仅是一个黑盒生成器。",
     "finalButton": "进入生成页面",
     "tipsIntro": "当提示词像专业分镜阐述一样撰写时，Veo 3.1 的可控性最强：明确景别、单一镜头运镜以及清晰的光影提示。",
@@ -494,7 +494,7 @@
     "pricingCopy": {
       "title": "Veo 3.1 价格一览",
       "subtitle": "开启音频预设总价 — 在应用中生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高支持 4K，最长 8 秒",
       "ctaHref": "/zh/pricing#veo-3-1-pricing"
@@ -608,7 +608,7 @@
     "modelSlug": "veo-3-1",
     "section": {
       "title": "真实 Veo 3.1 生成案例",
-      "intro": "查看使用与您在 MaxVideoAI 中相同的设置生成的真实 Veo 3.1 渲染视频。",
+      "intro": "查看使用与您在 VideoAI 中相同的设置生成的真实 Veo 3.1 渲染视频。",
       "defaultCtaLabel": "查看全部 Veo 3.1 案例 →",
       "recreateLabel": "复现此镜头 →"
     },

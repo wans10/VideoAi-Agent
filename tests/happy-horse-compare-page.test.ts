@@ -94,11 +94,11 @@ test('llms.txt lists the new Happy Horse and Seedance Mini SEO surfaces', () => 
   const llmsSource = buildLlmsText(mcpPublication);
 
   [
-    'https://maxvideoai.com/models/happy-horse-1-1',
-    'https://maxvideoai.com/models/dreamina-seedance-2-0-mini',
-    'https://maxvideoai.com/models/luma-ray-3-2',
-    ...HAPPY_HORSE_SEO_EXPANSION_SLUGS.map((slug) => `https://maxvideoai.com/ai-video-engines/${slug}`),
-    'https://maxvideoai.com/ai-video-engines/best-for/lipsync-dialogue',
-    'https://maxvideoai.com/ai-video-engines/best-for/fast-drafts',
+    'https://videoai.omninodetech.com/models/happy-horse-1-1',
+    'https://videoai.omninodetech.com/models/dreamina-seedance-2-0-mini',
+    'https://videoai.omninodetech.com/models/luma-ray-3-2',
+    ...HAPPY_HORSE_SEO_EXPANSION_SLUGS.map((slug) => `https://videoai.omninodetech.com/ai-video-engines/${slug}`),
+    'https://videoai.omninodetech.com/ai-video-engines/best-for/lipsync-dialogue',
+    'https://videoai.omninodetech.com/ai-video-engines/best-for/fast-drafts',
   ].forEach((url) => assert.match(llmsSource, new RegExp(url.replaceAll('.', '\\.')), `Missing llms.txt URL ${url}`));
 });

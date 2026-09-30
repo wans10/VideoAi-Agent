@@ -9,7 +9,14 @@ const localizedSlugConfig = require('./config/localized-slugs.json');
 
 const { Client } = require('pg');
 
-const SITE_URL = 'https://maxvideoai.com';
+const SITE_URL = (() => {
+  for (const value of [process.env.NEXT_PUBLIC_SITE_URL, process.env.SITE_URL]) {
+    if (!value?.trim()) continue;
+    try { return new URL(/^https?:\/\//i.test(value.trim()) ? value.trim() : `https://${value.trim()}`).origin; }
+    catch { /* Fall back to the next configured origin. */ }
+  }
+  return 'https://videoai.omninodetech.com';
+})();
 const LOCALES = ['en', 'fr', 'es', 'zh'];
 const LOCALE_PREFIXES = { en: '', fr: 'fr', es: 'es', zh: 'zh' };
 const ENGLISH_ONLY_PATHS = new Set(['/return-policy']);

@@ -2,8 +2,8 @@
   "marketingName": "Seedance 1.5 Pro",
   "versionLabel": "v1.5 Pro",
   "seo": {
-    "title": "Seedance 1.5 Pro | Modèle vidéo IA, specs et prix | MaxVideoAI",
-    "description": "Utilisez le modèle Seedance 1.5 Pro encore pris en charge sur MaxVideoAI pour des clips courts, puis passez à Seedance 2.0 pour le workflow Seedance actuel.",
+    "title": "Seedance 1.5 Pro | Modèle vidéo IA, specs et prix | VideoAI",
+    "description": "Utilisez le modèle Seedance 1.5 Pro encore pris en charge sur VideoAI pour des clips courts, puis passez à Seedance 2.0 pour le workflow Seedance actuel.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a0297366-57f7-4ca8-b3b6-f02c7da4d7f2-job_3f82e69d-ef44-4c46-aded-16d06dd4a1ab.jpg"
   },
   "overview": "Seedance 1.5 Pro reste disponible comme ancien workflow Seedance Pro encore pris en charge pour des clips cinématiques courts, des variantes répétables et des setups camera_fixed.",
@@ -126,7 +126,7 @@
       "prompt": "Animez l’image de départ avec un léger push‑in, puis résolvez vers l’image de fin fournie, ambiance douce."
     }
   ],
-  "faqTitle": "FAQ – Seedance 1.5 Pro dans MaxVideoAI",
+  "faqTitle": "FAQ – Seedance 1.5 Pro dans VideoAI",
   "faqs": [
     {
       "q": "À quoi sert camera_fixed ?",
@@ -149,8 +149,8 @@
       "a": "T2V supporte 480p et 720p. I2V supporte 480p, 720p et 1080p."
     },
     {
-      "q": "Seedance 1.5 Pro reste-t-il le workflow Seedance Pro principal sur MaxVideoAI ?",
-      "a": "Seedance 1.5 Pro reste le workflow Seedance Pro plus ancien encore pris en charge sur MaxVideoAI, mais Seedance 2.0 est désormais le modèle Seedance actuel principal pour des usages de production plus larges."
+      "q": "Seedance 1.5 Pro reste-t-il le workflow Seedance Pro principal sur VideoAI ?",
+      "a": "Seedance 1.5 Pro reste le workflow Seedance Pro plus ancien encore pris en charge sur VideoAI, mais Seedance 2.0 est désormais le modèle Seedance actuel principal pour des usages de production plus larges."
     }
   ],
   "custom": {
@@ -161,7 +161,7 @@
       "Contrôle image de départ + image de fin (I2V)||Ajoutez une image de fin optionnelle pour guider l’atterrissage (transitions, match cuts, finitions propres)",
       "Audio natif dans le même rendu||Générez dialogue, ambience et SFX en une passe — ou coupez l’audio pour des tests silencieux et la post"
     ],
-    "specTitle": "Specs réelles — Seedance 1.5 Pro dans MaxVideoAI",
+    "specTitle": "Specs réelles — Seedance 1.5 Pro dans VideoAI",
     "specNote": "Les specs reflètent le routage Fal en production.",
     "specSections": [
       {
@@ -335,13 +335,13 @@
     "pricingCopy": {
       "title": "Prix Seedance 1.5 Pro en un coup d’œil",
       "subtitle": "Prix totaux avec audio — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD. Les routes audio off peuvent être moins chères dans l’app.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD. Les routes audio off peuvent être moins chères dans l’app.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "1080p en I2V uniquement",
       "ctaHref": "/fr/tarifs#seedance-1-5-pro-pricing"
     },
     "meta": {
-      "title": "Seedance 1.5 Pro : tarifs et camera fixed | MaxVideoAI",
+      "title": "Seedance 1.5 Pro : tarifs et camera fixed | VideoAI",
       "description": "Explorez prix Seedance 1.5 Pro, exemples, camera_fixed, seed, audio on/off et workflows image de départ/fin. Comparez Seedance 1.5 Pro vs Seedance 2.0."
     }
   },

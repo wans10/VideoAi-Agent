@@ -28,8 +28,8 @@ const NORMALIZED_SITE_URL = SITE_ORIGIN;
 export const metadata: Metadata = {
   metadataBase: new URL(`${NORMALIZED_SITE_URL}/`),
   title: {
-    default: 'MaxVideoAI — AI Video Generator Hub',
-    template: '%s — MaxVideoAI',
+    default: 'VideoAI — AI Video Generator Hub',
+    template: '%s — VideoAI',
   },
   description: 'Generate cinematic AI videos via Sora 2, Veo 3, Pika & more. Pay-as-you-go, no watermarks.',
   icons: {
@@ -65,7 +65,7 @@ export default async function CoreLayout({ children }: { children: ReactNode }) 
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     url: homeUrl,
-    name: 'MaxVideoAI',
+    name: 'VideoAI',
     ...(enableSearchSchema
       ? {
           potentialAction: {

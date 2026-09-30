@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import { CREATIVE_FILMS } from '@/components/marketing/creative-films';
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { UIIcon } from '@/components/ui/UIIcon';
@@ -40,7 +38,7 @@ export function ModelsCatalogHero({
   return (
     <section className="catalog-editorial-hero relative isolate overflow-hidden border-b border-hairline bg-bg">
       <div className="container-page relative z-10 max-w-[1248px] py-10 sm:py-12 lg:min-h-[430px] lg:py-10">
-        <div className="catalog-opening">
+        <div className="catalog-reference-opening">
           <div className="min-w-0">
             <header className="min-w-0 max-w-[720px]">
               <p className="videoai-kicker">{eyebrow}</p>
@@ -89,14 +87,7 @@ export function ModelsCatalogHero({
             </div>
           </div>
 
-          <div className="catalog-creative-stack videoai-contact-sheet" aria-hidden="true">
-            {[CREATIVE_FILMS[0], CREATIVE_FILMS[3], CREATIVE_FILMS[1]].map((film, index) => (
-              <div key={film.key}>
-                <Image src={film.poster} alt="" aria-hidden="true" fill sizes="(max-width: 700px) 90vw, 480px" />
-                <span><b>{String(index + 1).padStart(2, '0')}</b>{film.model}</span>
-              </div>
-            ))}
-          </div>
+
         </div>
         {topPicks.length ? <ModelsCatalogTopPicksPanel title={topPicksTitle} viewAllLabel={topPicksViewAllLabel} items={topPicks}/> : null}
       </div>

@@ -20,6 +20,11 @@ export function formatWalletBalance(balance: number, currency: string = CUSTOMER
   }
 }
 
+/** Display a frozen USD-denominated example in the configured customer currency. */
+export function formatCustomerUsdAmount(usdAmount: number): string {
+  return formatWalletBalance(CUSTOMER_CURRENCY === 'CNY' ? usdAmount * USD_TO_CNY_CUSTOMER_RATE : usdAmount);
+}
+
 function convertCents(value: number): number {
   return value * USD_TO_CNY_CUSTOMER_RATE;
 }

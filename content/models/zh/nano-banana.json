@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana",
   "versionLabel": "Image",
   "seo": {
-    "title": "Nano Banana - 逼真图像生成与编辑 | MaxVideoAI",
+    "title": "Nano Banana - 逼真图像生成与编辑 | VideoAI",
     "description": "使用 Nano Banana 生成逼真写实的静态图像并进行编辑。支持文本生图与图像生图，在接入 Sora、Veo 或 Kling 制作视频动画前，快速准备关键帧、缩略图与参考图。",
     "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
   },
-  "overview": "Nano Banana 是您在 MaxVideoAI 中的逼真图像创作助手。在渲染视频前即可锁定风格、光影与取景构图——在同一个钱包账户和提示词实验室中，无缝使用文本生图与图像编辑功能。",
+  "overview": "Nano Banana 是您在 VideoAI 中的逼真图像创作助手。在渲染视频前即可锁定风格、光影与取景构图——在同一个钱包账户和提示词实验室中，无缝使用文本生图与图像编辑功能。",
   "hero": {
     "title": "Nano Banana - 逼真写实图像生成",
     "intro": "通过自然语言快速生成静态图像并进行编辑——专为快速创意发想打造。",
@@ -193,7 +193,7 @@
         "icon": "storyboard"
       }
     ],
-    "whatTitle": "Nano Banana 在 MaxVideoAI 中的工作方式",
+    "whatTitle": "Nano Banana 在 VideoAI 中的工作方式",
     "whatIntro1": "选择“文本生图”或“图像生图”，设置单次批量生成数量（1–8 张），编写提示词或编辑修改指令，即可启动生成。",
     "whatIntro2": "在将镜头移交至视频引擎渲染前，用它提前锁定视觉风格、光影基调与构图取景。",
     "whatFlowTitle": "制作流程",
@@ -223,7 +223,7 @@
       "严禁仇恨言论、骚扰辱骂或血腥暴力内容。",
       "未经授权不得仿冒真实人物或公众人物；使用任何肖像均需获得许可。",
       "不得包含私人个人隐私数据（未经同意的人物面部、住址、电话号码、证件等）。",
-      "部分提示词或参考图可能会被 MaxVideoAI 安全过滤器拦截。"
+      "部分提示词或参考图可能会被 VideoAI 安全过滤器拦截。"
     ]
   },
   "decision": {
@@ -300,7 +300,7 @@
       },
       {
         "title": "一体化图像工作区",
-        "body": "与应用其他功能共享同一套 MaxVideoAI 钱包、提示词库和生成历史记录。",
+        "body": "与应用其他功能共享同一套 VideoAI 钱包、提示词库和生成历史记录。",
         "tone": "continuity"
       }
     ],
@@ -355,14 +355,14 @@
     "pricingCopy": {
       "title": "Nano Banana 定价一览",
       "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数显示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数显示的参考价格。",
       "ctaLabel": "查看完整定价",
       "maxDurationNote": "最高支持 8 张图像",
       "ctaHref": "/zh/pricing#nano-banana-pricing"
     },
     "meta": {
-      "title": "Nano Banana：定价、快速静态草图与图像编辑 | MaxVideoAI",
-      "description": "在 MaxVideoAI 上了解 Nano Banana 定价方案、快速静态草图、参考图编辑、批量变体生成以及轻量级 Google 图像创作工作流。"
+      "title": "Nano Banana：定价、快速静态草图与图像编辑 | VideoAI",
+      "description": "在 VideoAI 上了解 Nano Banana 定价方案、快速静态草图、参考图编辑、批量变体生成以及轻量级 Google 图像创作工作流。"
     }
   },
   "prompting": {

@@ -2,11 +2,11 @@
   "marketingName": "Seedream 5.0 Pro",
   "versionLabel": "5.0 Pro",
   "seo": {
-    "title": "Seedream 5.0 Pro - 专业字节跳动图像生成 | MaxVideoAI",
-    "description": "使用 MaxVideoAI 中的 Seedream 5.0 Pro 创建专业静态图像、密集信息图表、视觉编辑和 4K 广告素材。"
+    "title": "Seedream 5.0 Pro - 专业字节跳动图像生成 | VideoAI",
+    "description": "使用 VideoAI 中的 Seedream 5.0 Pro 创建专业静态图像、密集信息图表、视觉编辑和 4K 广告素材。"
   },
-  "overview": "Seedream 5.0 Pro 是 MaxVideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
-  "pricingNotes": "Seedream 5.0 Pro 以单图专业输出路线方式提供。MaxVideoAI 在生成前显示确切的实时报价。",
+  "overview": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
+  "pricingNotes": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
   "hero": {
     "title": "Seedream 5.0 Pro - 专业图像制作",
     "intro": "使用 Seedream Pro 制作高细节静态图像、结构化信息图表、受控编辑和 4K 广告就绪图像。",
@@ -73,7 +73,7 @@
     },
     {
       "q": "Seedream 5.0 Pro 支持批量输出吗？",
-      "a": "不支持。MaxVideoAI 将 Seedream 5.0 Pro 设定为每次请求生成一张图像，以匹配直接提供商路线。"
+      "a": "不支持。VideoAI 将 Seedream 5.0 Pro 设定为每次请求生成一张图像，以匹配直接提供商路线。"
     }
   ],
   "custom": {
@@ -203,7 +203,7 @@
     "features": [
       {
         "title": "功能特性",
-        "body": "Seedream 5.0 Pro 是 MaxVideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
+        "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
         "tone": "quality"
       },
       {
@@ -218,14 +218,14 @@
       },
       {
         "title": "实时价格",
-        "body": "Seedream 5.0 Pro 以单图专业输出路线方式提供。MaxVideoAI 在生成前显示确切的实时报价。",
+        "body": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
         "title": "打开 Seedream Lite",
-        "body": "Seedream 5.0 Pro 是 MaxVideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
+        "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
         "cta": {
           "label": "打开 Seedream Lite",
           "href": "/models/seedream"
@@ -255,7 +255,7 @@
       },
       {
         "title": "图像到图像",
-        "body": "Seedream 5.0 Pro 是 MaxVideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。"
+        "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。"
       },
       {
         "title": "输出设置",
@@ -263,19 +263,19 @@
       },
       {
         "title": "价格查询",
-        "body": "Seedream 5.0 Pro 以单图专业输出路线方式提供。MaxVideoAI 在生成前显示确切的实时报价。"
+        "body": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。"
       }
     ],
     "pricingCopy": {
       "title": "Seedream 5.0 Pro 定价一览",
-      "subtitle": "Seedream 5.0 Pro 以单图专业输出路线方式提供。MaxVideoAI 在生成前显示确切的实时报价。",
-      "footnote": "Seedream 5.0 Pro 以单图专业输出路线方式提供。MaxVideoAI 在生成前显示确切的实时报价。",
+      "subtitle": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
+      "footnote": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
       "ctaLabel": "查看完整定价",
       "ctaHref": "/pricing#seedream-5-0-pro-pricing"
     },
     "meta": {
-      "title": "Seedream 5.0 Pro - 专业字节跳动图像生成 | MaxVideoAI",
-      "description": "使用 MaxVideoAI 中的 Seedream 5.0 Pro 创建专业静态图像、密集信息图表、视觉编辑和 4K 广告素材。"
+      "title": "Seedream 5.0 Pro - 专业字节跳动图像生成 | VideoAI",
+      "description": "使用 VideoAI 中的 Seedream 5.0 Pro 创建专业静态图像、密集信息图表、视觉编辑和 4K 广告素材。"
     }
   },
   "prompting": {
@@ -332,7 +332,7 @@
     "modelSlug": "seedream-5-0-pro",
     "section": {
       "title": "Seedream 5.0 Pro 示例",
-      "intro": "探索真实的社区作品，了解 Seedream 5.0 Pro 在 MaxVideoAI 工作流程中的表现。",
+      "intro": "探索真实的社区作品，了解 Seedream 5.0 Pro 在 VideoAI 工作流程中的表现。",
       "defaultCtaLabel": null,
       "recreateLabel": null
     },

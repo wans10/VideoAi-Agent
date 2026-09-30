@@ -37,8 +37,8 @@ const qaContext = {
   hasStableVideoAsset: true,
   hasStableThumbnailAsset: true,
   hasInternalLinkTargets: true,
-  canonicalUrl: `https://maxvideoai.com/video/${canonicalSlug}`,
-  expectedCanonicalUrl: `https://maxvideoai.com/video/${canonicalSlug}`,
+  canonicalUrl: `https://videoai.omninodetech.com/video/${canonicalSlug}`,
+  expectedCanonicalUrl: `https://videoai.omninodetech.com/video/${canonicalSlug}`,
   canonicalTargetIndexable: true,
   technicallyIndexable: true,
   duplicateVideoObjectNames: new Set<string>(),
@@ -59,8 +59,8 @@ test('video SEO canonical slugs normalize titles and strip redundant branding', 
 });
 
 test('video SEO canonical URL builder prefers the approved readable slug', () => {
-  assert.equal(buildExpectedVideoCanonicalUrl(videoId, canonicalSlug), `https://maxvideoai.com/video/${canonicalSlug}`);
-  assert.equal(buildExpectedVideoCanonicalUrl(videoId), `https://maxvideoai.com/video/${videoId}`);
+  assert.equal(buildExpectedVideoCanonicalUrl(videoId, canonicalSlug), `https://videoai.omninodetech.com/video/${canonicalSlug}`);
+  assert.equal(buildExpectedVideoCanonicalUrl(videoId), `https://videoai.omninodetech.com/video/${videoId}`);
 });
 
 test('video watch routing redirects legacy job URLs only after the slugged page is indexable', () => {
@@ -111,8 +111,8 @@ test('video SEO editorial validation protects existing canonical slugs from acci
     payload: { ...completeApprovedPayload, canonicalSlug: existing.canonicalSlug },
     qaContext: {
       ...qaContext,
-      canonicalUrl: 'https://maxvideoai.com/video/existing-veo-canonical-slug',
-      expectedCanonicalUrl: 'https://maxvideoai.com/video/existing-veo-canonical-slug',
+      canonicalUrl: 'https://videoai.omninodetech.com/video/existing-veo-canonical-slug',
+      expectedCanonicalUrl: 'https://videoai.omninodetech.com/video/existing-veo-canonical-slug',
     },
   });
   assert.equal(unchanged.ok, true);

@@ -3,10 +3,10 @@
   "versionLabel": "02",
   "seo": {
     "title": "Hailuo 02 (512p/768p) — 6–10 秒高性价比文生视频草稿",
-    "description": "在 MaxVideoAI 中以 512p/768p 分辨率低成本生成 Hailuo 02 文本（或图像）草稿片段。6–10 秒无声视频，适用于分镜故事板与动态物理测试，随后可将满意成果迁移至 Veo、Kling、Wan、Sora 渲染成片。",
+    "description": "在 VideoAI 中以 512p/768p 分辨率低成本生成 Hailuo 02 文本（或图像）草稿片段。6–10 秒无声视频，适用于分镜故事板与动态物理测试，随后可将满意成果迁移至 Veo、Kling、Wan、Sora 渲染成片。",
     "image": "/hero/minimax-video01.jpg"
   },
-  "overview": "MaxVideoAI 中的 MiniMax Hailuo 02：短小精悍、高性价比、遵循物理规律的 512p/768p 片段，支持 6 秒或 10 秒时长。支持文本或图像输入、可选尾帧控制与无声输出，按需扣费适用于快速草稿与循环测试。",
+  "overview": "VideoAI 中的 MiniMax Hailuo 02：短小精悍、高性价比、遵循物理规律的 512p/768p 片段，支持 6 秒或 10 秒时长。支持文本或图像输入、可选尾帧控制与无声输出，按需扣费适用于快速草稿与循环测试。",
   "hero": {
     "title": "MiniMax Hailuo 02 – 强物理规律表现的高性价比 AI 视频草稿",
     "intro": "512p/768p 规格的 6–10 秒无声草稿片段 — 适用于物理动态测试、运镜实验与敏捷迭代。",
@@ -133,7 +133,7 @@
     },
     {
       "q": "它支持竖屏视频吗？",
-      "a": "支持。MaxVideoAI 提供 16:9、9:16、1:1 多种画幅比例。"
+      "a": "支持。VideoAI 提供 16:9、9:16、1:1 多种画幅比例。"
     },
     {
       "q": "它支持音频生成吗？",
@@ -182,10 +182,10 @@
         "icon": "coins"
       }
     ],
-    "whatTitle": "MiniMax Hailuo 02 在 MaxVideoAI 中的核心定位",
+    "whatTitle": "MiniMax Hailuo 02 在 VideoAI 中的核心定位",
     "whatIntro1": "MiniMax 旗下主打短片段生成的模型，具备卓越的物理规律模拟与极高的提示词遵循度。",
-    "whatIntro2": "在 MaxVideoAI 中，它被定义为一款运行敏捷、无声输出且规格为 512p/768p 的草稿测试引擎。",
-    "whatFlowTitle": "MaxVideoAI 工作流",
+    "whatIntro2": "在 VideoAI 中，它被定义为一款运行敏捷、无声输出且规格为 512p/768p 的草稿测试引擎。",
+    "whatFlowTitle": "VideoAI 工作流",
     "whatFlowSteps": [
       "1. 选择 MiniMax Hailuo 02。",
       "2. 选择“文生视频”或“图生视频”。",
@@ -194,8 +194,8 @@
       "5. 粘贴简明精炼且聚焦动作的提示词（必要时补充物理动态说明）。",
       "6. 在生成前查看基于钱包余额的实时计费。"
     ],
-    "specTitle": "真实规格 – MaxVideoAI 中的 MiniMax Hailuo 02（512p/768p，6–10 秒）",
-    "specNote": "当前在 MaxVideoAI 中实际采用的规格。",
+    "specTitle": "真实规格 – VideoAI 中的 MiniMax Hailuo 02（512p/768p，6–10 秒）",
+    "specNote": "当前在 VideoAI 中实际采用的规格。",
     "specSections": [
       {
         "title": "重度物理动态草稿",
@@ -272,7 +272,7 @@
       "Wan 2.5：5–10 秒视频，支持原生/上传音频与多档分辨率"
     ],
     "comparisonCta": "对比 MiniMax 与 Pika 2.2 →",
-    "faqTitle": "常见问题 – MaxVideoAI 中的 MiniMax Hailuo 02",
+    "faqTitle": "常见问题 – VideoAI 中的 MiniMax Hailuo 02",
     "faqs": [
       {
         "q": "为什么选择 MiniMax 而不是高端引擎？",
@@ -284,7 +284,7 @@
       },
       {
         "q": "它支持竖屏视频生成吗？",
-        "a": "支持。MaxVideoAI 提供 16:9、9:16 和 1:1 等多种画幅比例。"
+        "a": "支持。VideoAI 提供 16:9、9:16 和 1:1 等多种画幅比例。"
       },
       {
         "q": "它支持音频生成吗？",
@@ -296,7 +296,7 @@
       }
     ],
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "在 MaxVideoAI 中横向对比价格、延迟与输出选项。",
+    "relatedSubtitle": "在 VideoAI 中横向对比价格、延迟与输出选项。",
     "finalPara1": "MiniMax Hailuo 02 是您探索动作与转场效果的高性价比、深谙物理表现的草稿速写引擎。",
     "finalPara2": "用它来快速验证创意构想，再将选出的优质版本晋升至高端模型中补充音频并渲染高清成片。",
     "finalButton": "打开生成器",
@@ -439,14 +439,14 @@
     "pricingCopy": {
       "title": "MiniMax Hailuo 02 价格一览",
       "subtitle": "预设草稿总价 — 在生成前可在应用内查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高 768P",
       "ctaHref": "/zh/pricing#minimax-hailuo-02-text-pricing"
     },
     "meta": {
-      "title": "MiniMax Hailuo 02：价格、动态草稿与案例 | MaxVideoAI",
-      "description": "在 MaxVideoAI 上探索 MiniMax Hailuo 02 价格、高性价比动态草稿、物理规律测试、图生视频起点以及无声分镜故事板案例。"
+      "title": "MiniMax Hailuo 02：价格、动态草稿与案例 | VideoAI",
+      "description": "在 VideoAI 上探索 MiniMax Hailuo 02 价格、高性价比动态草稿、物理规律测试、图生视频起点以及无声分镜故事板案例。"
     }
   },
   "prompting": {

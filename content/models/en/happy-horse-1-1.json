@@ -2,11 +2,11 @@
   "marketingName": "Happy Horse 1.1",
   "versionLabel": "1.1",
   "seo": {
-    "title": "Happy Horse 1.1 | Native Audio AI Video Model | MaxVideoAI",
-    "description": "Use Happy Horse 1.1 on MaxVideoAI for text-to-video, image-to-video, reference-to-video, native audio, and lip-sync.",
+    "title": "Happy Horse 1.1 | Native Audio AI Video Model | VideoAI",
+    "description": "Use Happy Horse 1.1 on VideoAI for text-to-video, image-to-video, reference-to-video, native audio, and lip-sync.",
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
-  "overview": "Happy Horse 1.1 is Alibaba's current AI video model on MaxVideoAI for text prompts, first-frame images, and up to nine reference images with native synchronized audio and lip-sync.",
+  "overview": "Happy Horse 1.1 is Alibaba's current AI video model on VideoAI for text prompts, first-frame images, and up to nine reference images with native synchronized audio and lip-sync.",
   "pricingNotes": "Happy Horse 1.1 uses the current Fal rates for text, image, and reference-to-video runs. Video edit remains on legacy Happy Horse 1.0.",
   "hero": {
     "title": "Happy Horse 1.1 - Alibaba video generation with native audio",
@@ -64,7 +64,7 @@
   "technicalOverview": [
     {
       "label": "Workflows",
-      "body": "Text-to-video, image-to-video, and reference-to-video are exposed as one current Happy Horse 1.1 model in MaxVideoAI."
+      "body": "Text-to-video, image-to-video, and reference-to-video are exposed as one current Happy Horse 1.1 model in VideoAI."
     },
     {
       "label": "Duration",
@@ -122,11 +122,11 @@
       "prompt": "Bring the uploaded campaign still to life with a smooth dolly push, subtle fabric and hair motion, polished ad lighting, and synchronized ambience."
     }
   ],
-  "faqTitle": "FAQ - Happy Horse 1.1 on MaxVideoAI",
+  "faqTitle": "FAQ - Happy Horse 1.1 on VideoAI",
   "faqs": [
     {
       "q": "What inputs does Happy Horse 1.1 support?",
-      "a": "MaxVideoAI exposes Happy Horse 1.1 as one current model with text-to-video, image-to-video, and reference-to-video workflows."
+      "a": "VideoAI exposes Happy Horse 1.1 as one current model with text-to-video, image-to-video, and reference-to-video workflows."
     },
     {
       "q": "Does Happy Horse 1.1 support lip-sync?",
@@ -235,12 +235,12 @@
       },
       {
         "title": "720p or 1080p",
-        "body": "Choose the exposed MaxVideoAI resolution before generation.",
+        "body": "Choose the exposed VideoAI resolution before generation.",
         "tone": "quality"
       },
       {
         "title": "Lower 1080p provider rate",
-        "body": "Happy Horse 1.1 uses the current 1080p provider rate before MaxVideoAI margin.",
+        "body": "Happy Horse 1.1 uses the current 1080p provider rate before VideoAI margin.",
         "tone": "price"
       }
     ],
@@ -295,14 +295,14 @@
     "pricingCopy": {
       "title": "Happy Horse 1.1 pricing at a glance",
       "subtitle": "Preset native-audio totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 1080p",
       "ctaHref": "/pricing#happy-horse-1-1-pricing"
     },
     "meta": {
-      "title": "Happy Horse 1.1: Pricing, Native Audio & Reference Video | MaxVideoAI",
-      "description": "Explore Happy Horse 1.1 pricing, native audio, lip-sync, text-to-video, image-to-video and reference-to-video workflows on MaxVideoAI."
+      "title": "Happy Horse 1.1: Pricing, Native Audio & Reference Video | VideoAI",
+      "description": "Explore Happy Horse 1.1 pricing, native audio, lip-sync, text-to-video, image-to-video and reference-to-video workflows on VideoAI."
     }
   },
   "prompting": {

@@ -6,10 +6,10 @@ export function buildSoftwareSchema(content: RedesignContent, locale: AppLocale 
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'MaxVideoAI',
+    name: 'VideoAI',
     applicationCategory: 'VideoEditorApplication',
     operatingSystem: 'Web',
-    url: `https://maxvideoai.com${locale === 'en' ? '' : `/${locale}`}`,
+    url: `https://videoai.omninodetech.com${locale === 'en' ? '' : `/${locale}`}`,
     inLanguage: locale,
     description: content.hero.subtitle,
     featureList: [

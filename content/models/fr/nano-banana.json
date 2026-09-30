@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana",
   "versionLabel": "Image",
   "seo": {
-    "title": "Nano Banana – Génération d’images photoréalistes | MaxVideoAI",
+    "title": "Nano Banana – Génération d’images photoréalistes | VideoAI",
     "description": "Générez des stills photoréalistes et des edits avec Nano Banana. Text‑to‑image et image‑to‑image pour keyframes, thumbnails et références avant d’animer dans Sora, Veo ou Kling.",
     "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
   },
-  "overview": "Nano Banana est votre sidekick image photoréaliste dans MaxVideoAI. Verrouillez style, lumière et cadrage avant de rendre en vidéo — text‑to‑image + edits depuis le même wallet et le même lab de prompts.",
+  "overview": "Nano Banana est votre sidekick image photoréaliste dans VideoAI. Verrouillez style, lumière et cadrage avant de rendre en vidéo — text‑to‑image + edits depuis le même wallet et le même lab de prompts.",
   "hero": {
     "title": "Nano Banana – Génération d’images photoréalistes",
     "intro": "Génération rapide de stills et d’edits en langage naturel — faite pour l’exploration créative express.",
@@ -193,7 +193,7 @@
         "icon": "storyboard"
       }
     ],
-    "whatTitle": "Comment Nano Banana fonctionne dans MaxVideoAI",
+    "whatTitle": "Comment Nano Banana fonctionne dans VideoAI",
     "whatIntro1": "Choisissez text‑to‑image ou image‑to‑image, définissez le batch (1–8), écrivez votre prompt ou vos instructions d’edit, puis générez.",
     "whatIntro2": "Utilisez‑le pour verrouiller style, lumière et cadrage avant de passer à la vidéo.",
     "whatFlowTitle": "Workflow",
@@ -300,7 +300,7 @@
       },
       {
         "title": "Workspace image",
-        "body": "Même wallet, prompts et historique que le reste de MaxVideoAI.",
+        "body": "Même wallet, prompts et historique que le reste de VideoAI.",
         "tone": "continuity"
       }
     ],
@@ -355,14 +355,14 @@
     "pricingCopy": {
       "title": "Prix Nano Banana en un coup d’œil",
       "subtitle": "Prix totaux par scénario image — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 8 images",
       "ctaHref": "/fr/tarifs#nano-banana-pricing"
     },
     "meta": {
-      "title": "Nano Banana : tarifs, brouillons image rapides et retouches | MaxVideoAI",
-      "description": "Explorez Nano Banana : prix, brouillons image rapides, retouches par références, variantes en lot et workflows Google légers dans MaxVideoAI."
+      "title": "Nano Banana : tarifs, brouillons image rapides et retouches | VideoAI",
+      "description": "Explorez Nano Banana : prix, brouillons image rapides, retouches par références, variantes en lot et workflows Google légers dans VideoAI."
     }
   },
   "prompting": {

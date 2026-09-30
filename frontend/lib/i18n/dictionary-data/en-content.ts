@@ -4,7 +4,7 @@ import { TOPUP_TIERS } from '@/config/topupTiers';
 export const examples: Dictionary['examples'] = {
     hero: {
       title: 'Engine showcases.',
-      subtitle: 'Hover to loop, click to expand. Each clip previews the motion and style you can route in MaxVideo AI.',
+      subtitle: 'Hover to loop, click to expand. Each clip previews the motion and style you can route in VideoAI.',
       body: 'Open any example to inspect its prompt, settings and recorded render cost, then recreate it in your workspace.',
     },
     items: [
@@ -121,7 +121,7 @@ export const docs: Dictionary['docs'] = {
 
 export const blog: Dictionary['blog'] = {
     hero: {
-      title: 'The MaxVideo AI blog.',
+      title: 'The VideoAI blog.',
       subtitle:
         'News on engines, customer stories, prompt guides, and price-before best practices. Subscribe in-app to get updates in your queue digest.',
     },
@@ -133,7 +133,7 @@ export const about: Dictionary['about'] = {
     hero: {
       title: 'Quiet confidence for AI video teams.',
       subtitle:
-        'MaxVideo AI is the independent hub for AI video production. We route to the right engine for every shot, price before you generate, and keep your team in control without vendor lock-in.',
+        'VideoAI is the independent hub for AI video production. We route to the right engine for every shot, price before you generate, and keep your team in control without vendor lock-in.',
     },
     paragraphs: [
       'We believe professional teams deserve clarity before they hit render. That means price transparency, reliable routing, and shared context between creatives, producers, and stakeholders.',
@@ -141,7 +141,7 @@ export const about: Dictionary['about'] = {
       'The product is engineered for teams that need precision without noise. Quiet UI, premium defaults, precise controls, and price-before chips that keep finance in the loop.',
     ],
     note:
-      'Trademarks and service marks are property of their respective owners. MaxVideo AI stays independent so you can stay current without switching platforms.',
+      'Trademarks and service marks are property of their respective owners. VideoAI stays independent so you can stay current without switching platforms.',
   };
 
 export const contact: Dictionary['contact'] = {

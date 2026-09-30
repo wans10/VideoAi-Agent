@@ -5,7 +5,7 @@
     "title": "Générateur vidéo IA Wan 3 : texte, image et références",
     "description": "Découvrez quand choisir Wan 3 pour générer depuis un texte, animer une image ou guider une scène avec des références, avec conseils et tarifs calculés."
   },
-  "overview": "Wan 3 est la route standard actuelle de la famille Wan pour les équipes qui souhaitent réunir texte, image et références dans un même modèle. Alibaba/Tongyi possède le modèle ; MaxVideoAI distribue ces endpoints de lancement via Fal, sans revendiquer une intégration directe avec Alibaba.",
+  "overview": "Wan 3 est la route standard actuelle de la famille Wan pour les équipes qui souhaitent réunir texte, image et références dans un même modèle. Alibaba/Tongyi possède le modèle ; VideoAI distribue ces endpoints de lancement via Fal, sans revendiquer une intégration directe avec Alibaba.",
   "decision": {
     "modelSlug": "wan-3",
     "hero": {
@@ -123,7 +123,7 @@
     "pricingCopy": {
       "title": "Tarification par scénario Wan 3",
       "subtitle": "Comparez une scène en 720p avec la même scène en 1080p.",
-      "footnote": "Le prix dépend de vos réglages. MaxVideoAI confirme le devis avant de générer.",
+      "footnote": "Le prix dépend de vos réglages. VideoAI confirme le devis avant de générer.",
       "ctaLabel": "Générer avec Wan 3",
       "ctaHref": "/app?engine=wan-3"
     },

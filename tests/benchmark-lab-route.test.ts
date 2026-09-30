@@ -163,17 +163,17 @@ test('benchmark metadata is self-canonical, reciprocal, regionalized, and indexa
   }
 });
 
-test('benchmark schema is limited to WebPage and BreadcrumbList with MaxVideoAI as publisher', () => {
+test('benchmark schema is limited to WebPage and BreadcrumbList with VideoAI as publisher', () => {
   const copy = getBenchmarkCopy('en');
   const webPage = buildBenchmarkWebPageJsonLd({
-    canonicalUrl: 'https://maxvideoai.com/benchmarks',
+    canonicalUrl: 'https://videoai.omninodetech.com/benchmarks',
     copy,
     editorialProfile: getEditorialProfile('en'),
     inLanguage: 'en-US',
     modifiedAt: '2026-07-11',
   });
   const breadcrumb = buildBenchmarkBreadcrumbJsonLd({
-    canonicalUrl: 'https://maxvideoai.com/benchmarks',
+    canonicalUrl: 'https://videoai.omninodetech.com/benchmarks',
     copy,
   });
   const schemas = [webPage, breadcrumb];
@@ -181,14 +181,14 @@ test('benchmark schema is limited to WebPage and BreadcrumbList with MaxVideoAI 
   assert.deepEqual(schemas.map((schema) => schema['@type']), ['WebPage', 'BreadcrumbList']);
   assert.deepEqual(webPage.publisher, {
     '@type': 'Organization',
-    name: 'MaxVideoAI',
-    url: 'https://maxvideoai.com',
+    name: 'VideoAI',
+    url: 'https://videoai.omninodetech.com',
   });
   assert.deepEqual(webPage.author, {
     '@type': 'Person',
     name: 'Adrien Millot',
     jobTitle: 'Founder & Product Lead',
-    url: 'https://maxvideoai.com/about#adrien-millot',
+    url: 'https://videoai.omninodetech.com/about#adrien-millot',
   });
   assert.equal(JSON.stringify(schemas).includes('Dataset'), false);
 });
@@ -284,9 +284,9 @@ test('page builder preserves Seedance 2.5 official evidence while distinguishing
   assert.ok(pageData.specs.every((row) => row.sourceUrl == null || /^https?:\/\//.test(row.sourceUrl)));
 
   const localizedLabels = {
-    en: ['MaxVideoAI production route contract', 'Generic API mechanics'],
-    fr: ['Contrat de la route de production MaxVideoAI', 'Mécanique API générique'],
-    es: ['Contrato de la ruta de producción de MaxVideoAI', 'Mecánica de la API genérica'],
+    en: ['VideoAI production route contract', 'Generic API mechanics'],
+    fr: ['Contrat de la route de production VideoAI', 'Mécanique API générique'],
+    es: ['Contrato de la ruta de producción de VideoAI', 'Mecánica de la API genérica'],
   } as const;
   for (const locale of ['en', 'fr', 'es'] as const) {
     const copy = getBenchmarkCopy(locale);
@@ -330,9 +330,9 @@ test('localized sitemap generation emits each benchmark locale URL exactly once'
       .map((alternate) => alternate.href)
   );
   for (const expected of [
-    'https://maxvideoai.com/benchmarks',
-    'https://maxvideoai.com/fr/benchmarks',
-    'https://maxvideoai.com/es/benchmarks',
+    'https://videoai.omninodetech.com/benchmarks',
+    'https://videoai.omninodetech.com/fr/benchmarks',
+    'https://videoai.omninodetech.com/es/benchmarks',
   ]) {
     assert.equal(localizedUrls.filter((url) => url === expected).length, 1, `${expected} must appear once`);
   }

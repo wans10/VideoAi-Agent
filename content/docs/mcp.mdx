@@ -1,20 +1,20 @@
 ---
-title: "MaxVideoAI MCP: connectors, plugins and workflows"
-description: "Connect MaxVideoAI to Claude, ChatGPT, Codex, OpenClaw or self-hosted n8n. Setup, OAuth, exact quotes, approvals, references and recovery."
+title: "VideoAI MCP: connectors, plugins and workflows"
+description: "Connect VideoAI to Claude, ChatGPT, Codex, OpenClaw or self-hosted n8n. Setup, OAuth, exact quotes, approvals, references and recovery."
 date: "2026-07-14"
 updatedAt: "2026-09-15"
 authorId: "adrien-millot"
 image: "/og/price-before.png"
 keywords:
-  - "MaxVideoAI plugin"
+  - "VideoAI plugin"
   - "AI video plugin for ChatGPT"
   - "Claude AI video connector"
-  - "MaxVideoAI MCP"
+  - "VideoAI MCP"
   - "Codex MCP"
 slug: "mcp"
 ---
 
-MaxVideoAI connects compatible assistants and automation tools to the models, credits and private media library of your MaxVideoAI account. Use it to compare current video models, prepare a quote, approve generation and recover the result.
+VideoAI connects compatible assistants and automation tools to the models, credits and private media library of your VideoAI account. Use it to compare current video models, prepare a quote, approve generation and recover the result.
 
 ## Choose your integration
 
@@ -22,11 +22,11 @@ MaxVideoAI connects compatible assistants and automation tools to the models, cr
 | --- | --- | --- |
 | [Claude connector](/integrations/claude) | Custom remote MCP connector | Claude Desktop tested; Claude Code has a separate, unverified host path. |
 | [ChatGPT MCP app](/integrations/chatgpt) | Developer mode | Full MCP write actions require an eligible Business, Enterprise or Edu workspace. Pro supports read/fetch only. No public directory listing is claimed. |
-| [Codex plugin](/integrations/codex) | MaxVideoAI plugin 0.3.3 or remote MCP | Codex CLI tested. |
+| [Codex plugin](/integrations/codex) | VideoAI plugin 0.3.3 or remote MCP | Codex CLI tested. |
 | [OpenClaw skill](/integrations/openclaw) | Direct MCP or listed ClawHub skill | Tested with limits; private-reference import and inline channel rendering are unverified. |
 | [n8n video workflow](/integrations/n8n) | Manual, self-hosted MCP Client | Tested on 2.38.7 with explicit approval. No public template listing or n8n Cloud support is claimed. |
 
-Cursor, GitHub Copilot, Gemini CLI and Microsoft Copilot are in preparation. Their MaxVideoAI setup pages are not published.
+Cursor, GitHub Copilot, Gemini CLI and Microsoft Copilot are in preparation. Their VideoAI setup pages are not published.
 
 ## MCP server address
 
@@ -34,22 +34,22 @@ Cursor, GitHub Copilot, Gemini CLI and Microsoft Copilot are in preparation. The
 https://api.maxvideoai.com/mcp
 ```
 
-Use Streamable HTTP with OAuth 2.1. The requested scopes are `openid,email,profile`. Do not append a token, password, query parameter or API key. Follow the guide for your client: it opens the MaxVideoAI sign-in and OAuth consent screen in your browser.
+Use Streamable HTTP with OAuth 2.1. The requested scopes are `openid,email,profile`. Do not append a token, password, query parameter or API key. Follow the guide for your client: it opens the VideoAI sign-in and OAuth consent screen in your browser.
 
 ## Authorize your account
 
 1. Configure the connection using the guide above.
-2. Sign in to MaxVideoAI or create an account, and confirm your email if requested.
+2. Sign in to VideoAI or create an account, and confirm your email if requested.
 3. Review the authorization, then return to the client and check the connected account.
 4. Review and approve the exact quote before any paid generation.
 
-Connecting is free and planning adds no MaxVideoAI subscription. Paid generations use the same MaxVideoAI credit balance as the website; your assistant provider may have its own plan requirements. Remove the integration from the client and revoke its authorization in MaxVideoAI to disconnect.
+Connecting is free and planning adds no VideoAI subscription. Paid generations use the same VideoAI credit balance as the website; your assistant provider may have its own plan requirements. Remove the integration from the client and revoke its authorization in VideoAI to disconnect.
 
 Compatibility is recorded per host. Claude Desktop and Codex CLI have verified checkpoints; ChatGPT web and Claude Code have no recorded end-to-end checkpoint. OpenClaw and the self-hosted n8n MCP Client retain their tested-with-limits status. See the integration guides for dates and restrictions.
 
 ## What the assistant should do
 
-The assistant remains responsible for the creative conversation: brief, script, shot plan, prompt writing, and reference ideas. It should use MaxVideoAI when it needs changing facts or an account action:
+The assistant remains responsible for the creative conversation: brief, script, shot plan, prompt writing, and reference ideas. It should use VideoAI when it needs changing facts or an account action:
 
 - call `list_models` and `get_model_details` instead of relying on model memory;
 - ask only for choices that materially affect quality, budget, duration, audio, or references;
@@ -71,22 +71,22 @@ Quality is not a single preset. For multi-shot work, the assistant may compare a
 | `recommend_models` | Match the brief to a short list of factual model options and trade-offs. | No. |
 | `calculate_project_budget` | Compare one to four complete project proposals at current prices. | No. An estimate is not a quote. |
 | `list_media` | List the connected user's ready private image, video, or audio assets. | No. |
-| `create_reference_upload_link` | Create a short-lived private MaxVideoAI browser upload handoff. | Creates a handoff, never a provider job. |
+| `create_reference_upload_link` | Create a short-lived private VideoAI browser upload handoff. | Creates a handoff, never a provider job. |
 | `import_reference_files` | Import up to eight user-authorized host attachments or generated file results into the private library. | Stores private assets; never starts a generation. |
 | `prepare_generation` | Validate model, settings, references, ownership, and balance; return an exact short-lived quote. | No charge and no generation. |
 | `confirm_generation` | Approve one exact quote and submit its job idempotently. | Yes, only after explicit approval. |
 | `get_generation_status` | Read a known job, completion, output, failure, and refund state. | No. |
 | `list_recent_generations` | Recover recent jobs instead of accidentally submitting duplicates. | No. |
 | `present_generation` | Present a completed owned image or playable video inline in compatible hosts. | No. Uses the result link and library as fallback. |
-| `create_topup_link` | Open a secure MaxVideoAI credit top-up handoff for the missing amount. | Payment happens only on MaxVideoAI. |
+| `create_topup_link` | Open a secure VideoAI credit top-up handoff for the missing amount. | Payment happens only on VideoAI. |
 
 Production publication flags decide which write-capable tools are exposed. A client must not infer availability from this reference alone; its live `tools/list` response is authoritative.
 
 ## Images, video, and audio references
 
-The assistant may help invent, create, or select reference media. MaxVideoAI accepts and stores the media but does not require the assistant to surrender its creative role.
+The assistant may help invent, create, or select reference media. VideoAI accepts and stores the media but does not require the assistant to surrender its creative role.
 
-Use `list_media` for an asset already in the connected MaxVideoAI library. When ChatGPT or another compatible host exposes user-authorized attachments or a generated file result, `import_reference_files` imports up to eight files and returns private `assetId` values ready for the request; no new library listing is needed.
+Use `list_media` for an asset already in the connected VideoAI library. When ChatGPT or another compatible host exposes user-authorized attachments or a generated file result, `import_reference_files` imports up to eight files and returns private `assetId` values ready for the request; no new library listing is needed.
 
 If the host does not expose file handles, call `create_reference_upload_link` with `image`, `video`, or `audio`. A compatible ChatGPT or Claude surface can display its in-chat multi-file importer. The returned HTTPS browser page remains the manual fallback. Codex and Claude Code can use one link per local file with the packaged helper. No path sends a raw local filename to the MCP server, publishes a public URL, or requires Computer Use.
 
@@ -103,18 +103,18 @@ When the user chooses a concrete request, `prepare_generation` performs final va
 If credits are insufficient:
 
 1. call `create_topup_link` for that quote;
-2. send the user to the returned MaxVideoAI billing page;
+2. send the user to the returned VideoAI billing page;
 3. after the user says payment is complete, call `get_account_status` again;
 4. call `prepare_generation` again because the previous quote is no longer valid;
 5. show the fresh exact price and request approval again.
 
-The plugin itself, model advice, and project budgets require no separate subscription. Paid generations use the existing pay-as-you-go MaxVideoAI credit balance.
+The plugin itself, model advice, and project budgets require no separate subscription. Paid generations use the existing pay-as-you-go VideoAI credit balance.
 
 ## Jobs, library, failures, and retries
 
-An accepted job is not yet a completed video. Poll `get_generation_status` for a known job or call `list_recent_generations` to recover it. Once it is completed, `present_generation` can render the image or playable video inline in an MCP Apps-compatible host. Other clients keep the returned result link and MaxVideoAI library destination as the universal fallback. Do not submit the same paid generation again merely because the first call timed out.
+An accepted job is not yet a completed video. Poll `get_generation_status` for a known job or call `list_recent_generations` to recover it. Once it is completed, `present_generation` can render the image or playable video inline in an MCP Apps-compatible host. Other clients keep the returned result link and VideoAI library destination as the universal fallback. Do not submit the same paid generation again merely because the first call timed out.
 
-Successful images and videos are saved to the same private MaxVideoAI account library used by the website. Return only the official result, workspace, or library destination supplied by MaxVideoAI.
+Successful images and videos are saved to the same private VideoAI account library used by the website. Return only the official result, workspace, or library destination supplied by VideoAI.
 
 For a definitive technical failure, explain the returned failure and refund state. Do not retry automatically. A creative retry is a new paid attempt and needs a new quote and a new explicit approval.
 
@@ -124,8 +124,8 @@ An eligible verified account may receive one introductory Seedance 2 Mini genera
 
 ## Disconnect and revoke
 
-1. Remove MaxVideoAI from the client.
-2. Open [MaxVideoAI account connections](/account/connections).
+1. Remove VideoAI from the client.
+2. Open [VideoAI account connections](/account/connections).
 3. Revoke the relevant grant.
 4. Confirm that the next protected call requires a fresh browser approval.
 
@@ -153,7 +153,7 @@ The request has no valid bearer grant. Let the client follow the `WWW-Authentica
 
 ### `INTERNAL_ERROR`
 
-Keep the returned `correlationId`, stop repeated submissions, and contact MaxVideoAI support if the failure persists.
+Keep the returned `correlationId`, stop repeated submissions, and contact VideoAI support if the failure persists.
 
 ### A mode is missing
 

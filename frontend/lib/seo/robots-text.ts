@@ -46,13 +46,13 @@ const PRIVATE_PATH_RULES = [
 ];
 
 const SITEMAP_RULES = [
-  'Sitemap: https://maxvideoai.com/sitemap.xml',
-  'Sitemap: https://maxvideoai.com/sitemap-en.xml',
-  'Sitemap: https://maxvideoai.com/sitemap-fr.xml',
-  'Sitemap: https://maxvideoai.com/sitemap-es.xml',
-  'Sitemap: https://maxvideoai.com/sitemap-models.xml',
-  'Sitemap: https://maxvideoai.com/sitemap-video-pages.xml',
-  'Sitemap: https://maxvideoai.com/sitemap-video.xml',
+  'Sitemap: https://videoai.omninodetech.com/sitemap.xml',
+  'Sitemap: https://videoai.omninodetech.com/sitemap-en.xml',
+  'Sitemap: https://videoai.omninodetech.com/sitemap-fr.xml',
+  'Sitemap: https://videoai.omninodetech.com/sitemap-es.xml',
+  'Sitemap: https://videoai.omninodetech.com/sitemap-models.xml',
+  'Sitemap: https://videoai.omninodetech.com/sitemap-video-pages.xml',
+  'Sitemap: https://videoai.omninodetech.com/sitemap-video.xml',
 ];
 
 function group(agents: string[], rules: string[]) {
@@ -61,11 +61,11 @@ function group(agents: string[], rules: string[]) {
 
 export function buildRobotsText(surface: RobotsSurface): string {
   if (surface === 'protocol') {
-    return '# MaxVideoAI protocol host\n\nUser-agent: *\nDisallow: /\n';
+    return '# VideoAI protocol host\n\nUser-agent: *\nDisallow: /\n';
   }
 
   const blocks = [
-    '# robots.txt - MaxVideoAI public site',
+    '# robots.txt - VideoAI public site',
     [
       '# Training-only crawlers are blocked from public content.',
       group(

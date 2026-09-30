@@ -105,7 +105,7 @@ export function buildBlogPostMetadata({
     BLOG_TITLE_OVERRIDES[localization.canonicalSlug]?.[locale] ??
     BLOG_TITLE_OVERRIDES[localization.canonicalSlug]?.en ??
     null;
-  const pageTitle = overrideTitle ?? `${post.title} — MaxVideo AI`;
+  const pageTitle = overrideTitle ?? `${post.title} — VideoAI`;
   const imageUrl = resolveAbsoluteImageUrl(post.image);
 
   return buildSeoMetadata({
@@ -188,7 +188,7 @@ export function buildBlogPostJsonLd({
     },
     publisher: {
       '@type': 'Organization',
-      name: 'MaxVideo AI',
+      name: 'VideoAI',
       logo: {
         '@type': 'ImageObject',
         url: publisherLogoUrl,

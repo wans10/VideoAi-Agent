@@ -38,7 +38,7 @@ test('the commercial copy leads with the outcome and removes stale internal prev
   assert.match(copy, /ChatGPT/i);
   assert.match(copy, /Claude/i);
   assert.match(copy, /exact (?:price|quote)/i);
-  assert.match(copy, /MaxVideoAI library/i);
+  assert.match(copy, /VideoAI library/i);
   assert.match(copy, /top[ -]?up/i);
   assert.match(copy, /image, video (?:and|or) audio/i);
 

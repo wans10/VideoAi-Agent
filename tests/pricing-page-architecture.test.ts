@@ -222,8 +222,8 @@ test('video matrix renders exact scenario columns and compact links', () => {
   assert.match(videoMatrixSource, /EngineIcon/);
   assert.match(hubCopySource, /AI video prices by engine/);
   assert.match(hubCopySource, /Prix vidéo IA par moteur/);
-  assert.match(hubCopySource, /Compare preset MaxVideoAI total prices/);
-  assert.match(hubCopySource, /Comparez les prix totaux MaxVideoAI/);
+  assert.match(hubCopySource, /Compare preset VideoAI total prices/);
+  assert.match(hubCopySource, /Comparez les prix totaux VideoAI/);
   assert.match(hubCopySource, /Compare by scenario/);
   assert.match(hubCopySource, /Comparer par scénario/);
   assert.match(hubCopySource, /Recommended video engines/);
@@ -258,8 +258,8 @@ test('video matrix renders exact scenario columns and compact links', () => {
   assert.match(hubCopySource, /Plus/);
   assert.match(hubCopySource, /Cheapest 4K output/);
   assert.match(hubCopySource, /Dedicated 4K engine/);
-  assert.match(hubCopySource, /Prices are current MaxVideoAI display prices for preset scenarios/);
-  assert.match(hubCopySource, /Les prix sont les prix affichés MaxVideoAI/);
+  assert.match(hubCopySource, /Prices are current VideoAI display prices for preset scenarios/);
+  assert.match(hubCopySource, /Les prix sont les prix affichés VideoAI/);
   assert.doesNotMatch(videoMatrixSource, /engineName\.slice/);
   assert.doesNotMatch(videoMatrixSource, /from \$/i);
   assert.doesNotMatch(videoMatrixSource, /per output second/);
@@ -353,7 +353,7 @@ test('pricing metadata and FAQ target comparison intent first', () => {
 
   assert.equal(
     pricing?.meta?.title,
-    'AI Video Pricing: Compare Models | MaxVideoAI'
+    'AI Video Pricing: Compare Models | VideoAI'
   );
   assert.equal(
     pricing?.meta?.description,

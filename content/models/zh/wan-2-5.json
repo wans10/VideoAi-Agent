@@ -179,9 +179,9 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "MaxVideoAI 中的 Wan 2.5 实际定位",
+    "whatTitle": "VideoAI 中的 Wan 2.5 实际定位",
     "whatIntro1": "Wan 2.5 是一款文生和图生视频模型，专为具备原生音频的电影感短片段设计。",
-    "whatIntro2": "在 MaxVideoAI 中，它是按分辨率梯度计费的灵活音频就绪型引擎。",
+    "whatIntro2": "在 VideoAI 中，它是按分辨率梯度计费的灵活音频就绪型引擎。",
     "whatFlowTitle": "工作台操作流程",
     "whatFlowSteps": [
       "1. 早期 Wan 2.5 流程以文本或图像输入开始。",
@@ -192,8 +192,8 @@
       "6. 填入包含主体、运镜与声音线索的清晰电影感提示词。",
       "7. 查看实时报价并提交渲染。"
     ],
-    "specTitle": "核心规格 — MaxVideoAI 中的 Wan 2.5（480p–1080p，5–10秒）",
-    "specNote": "这些规格保留了 Wan 2.5 曾在 MaxVideoAI 中呈现的早期路线设定。",
+    "specTitle": "核心规格 — VideoAI 中的 Wan 2.5（480p–1080p，5–10秒）",
+    "specNote": "这些规格保留了 Wan 2.5 曾在 VideoAI 中呈现的早期路线设定。",
     "specSections": [
       {
         "title": "音频驱动型工作流",
@@ -270,7 +270,7 @@
       "Veo 3.1 / Kling / Pika：若需要画幅预设、无声 1080p 写实感或风格化循环，优先选择这些模型"
     ],
     "comparisonCta": "对比 Wan 2.5 与 Sora 2 →",
-    "faqTitle": "常见问题 — MaxVideoAI 中的 Wan 2.5",
+    "faqTitle": "常见问题 — VideoAI 中的 Wan 2.5",
     "faqs": [
       {
         "q": "Wan 2.5 每次都会生成音频吗？",
@@ -294,7 +294,7 @@
       }
     ],
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "在 MaxVideoAI 模型库中对比价格、延迟与生成效果。",
+    "relatedSubtitle": "在 VideoAI 模型库中对比价格、延迟与生成效果。",
     "finalPara1": "Wan 2.5 作为支持音频的 5–10 秒短片生成路线被归档记录。",
     "finalPara2": "当前进行文本、图像与参考引导的视频生成，请使用 Wan 3。",
     "finalButton": "在生成工作台中打开 Wan 3",
@@ -437,13 +437,13 @@
     "pricingCopy": {
       "title": "Wan 2.5 计费一览",
       "subtitle": "预设短片参考总价 — 在应用中生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以 USD 额度展示的参考价格。",
       "ctaLabel": "使用 Wan 3 生成",
       "maxDurationNote": "最高支持 1080p",
       "ctaHref": "/app?engine=wan-3"
     },
     "meta": {
-      "title": "Wan 2.5：价格、音频草稿与生成案例 | MaxVideoAI",
+      "title": "Wan 2.5：价格、音频草稿与生成案例 | VideoAI",
       "description": "Wan 2.5 早期规格参考：支持音频的短篇 AI 视频草稿、文生视频、图生视频、可选音轨上传、提示词扩展及价格概览。"
     }
   },
@@ -538,7 +538,7 @@
     "modelSlug": "wan-2-5",
     "section": {
       "title": "Wan 2.5 案例展厅",
-      "intro": "使用您在 MaxVideoAI 中可直接调用的完全相同配置生成的视频片段。",
+      "intro": "使用您在 VideoAI 中可直接调用的完全相同配置生成的视频片段。",
       "defaultCtaLabel": "查看全部 Wan 2.5 案例 →",
       "recreateLabel": "复现此镜头 →"
     },
@@ -572,7 +572,7 @@
       {
         "id": "proof-1",
         "title": "真实社区生成效果",
-        "body": "探索 MaxVideoAI 中 Wan 2.5（文生/图生视频及可选音频，480p–1080p，5–10秒）的无限可能。",
+        "body": "探索 VideoAI 中 Wan 2.5（文生/图生视频及可选音频，480p–1080p，5–10秒）的无限可能。",
         "icon": "sparkles"
       },
       {

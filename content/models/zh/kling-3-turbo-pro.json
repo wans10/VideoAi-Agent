@@ -2,7 +2,7 @@
   "marketingName": "Kling 3.0 Turbo Pro",
   "versionLabel": "3.0 Turbo Pro",
   "seo": {
-    "title": "Kling 3 Turbo Pro | 1080p AI 视频生成、原生音频与价格 | MaxVideoAI",
+    "title": "Kling 3 Turbo Pro | 1080p AI 视频生成、原生音频与价格 | VideoAI",
     "description": "通过文本或首帧图像生成 3–15 秒 1080p 的 Kling 3 Turbo Pro 视频，支持原生音频与多镜头分镜提示词。"
   },
   "overview": "Kling 3 Turbo Pro 是专注于 1080p 交付品质的高效模型，适用于快速营销镜头、电影级场景以及包含原生音频的精细多镜头序列。",
@@ -115,7 +115,7 @@
       "ctaHref": "/app?engine=kling-3-turbo-pro"
     },
     "meta": {
-      "title": "Kling 3 Turbo Pro：1080p 画质、原生音频与价格 | MaxVideoAI",
+      "title": "Kling 3 Turbo Pro：1080p 画质、原生音频与价格 | VideoAI",
       "description": "通过文本或首帧图像生成 3–15 秒 1080p 的 Kling 3 Turbo Pro 视频，支持原生音频与多镜头分镜提示词。"
     }
   },

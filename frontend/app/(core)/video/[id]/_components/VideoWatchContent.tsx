@@ -48,7 +48,7 @@ export function VideoWatchContent({ page }: { page: WatchPageData }) {
         contentUrl: videoUrl,
         publisher: {
           '@type': 'Organization',
-          name: 'MaxVideoAI',
+          name: 'VideoAI',
           url: SITE,
           logo: {
             '@type': 'ImageObject',

@@ -2,11 +2,11 @@
   "marketingName": "Luma Ray 2 Flash",
   "versionLabel": "Ray 2 Flash",
   "seo": {
-    "title": "Luma Ray 2 Flash 技术规格、价格与旧版草稿工作流 | MaxVideoAI",
-    "description": "在 MaxVideoAI 中将 Luma Ray 2 Flash 用作上一代快速 Luma 路线，适用于既有草稿、图生视频测试、源视频 Modify 调整以及社交平台画幅重构（Reframe）。新的 Luma 编辑与画幅重构工作请使用 Ray 3.2。",
+    "title": "Luma Ray 2 Flash 技术规格、价格与旧版草稿工作流 | VideoAI",
+    "description": "在 VideoAI 中将 Luma Ray 2 Flash 用作上一代快速 Luma 路线，适用于既有草稿、图生视频测试、源视频 Modify 调整以及社交平台画幅重构（Reframe）。新的 Luma 编辑与画幅重构工作请使用 Ray 3.2。",
     "image": "/hero/luma-ray2-flash.jpg"
   },
-  "overview": "Luma Ray 2 Flash 是 MaxVideoAI 中的上一代快速 Luma 路线。可保留用于既有 Ray 2 Flash 草稿和对比参考；对于新的 Modify、关键帧引导以及 Reframe 工作，Ray 3.2 则是当前主力 Luma 路线。",
+  "overview": "Luma Ray 2 Flash 是 VideoAI 中的上一代快速 Luma 路线。可保留用于既有 Ray 2 Flash 草稿和对比参考；对于新的 Modify、关键帧引导以及 Reframe 工作，Ray 3.2 则是当前主力 Luma 路线。",
   "hero": {
     "title": "Luma Ray 2 Flash — 极速起草、源视频 Modify 与画幅重构 Reframe",
     "intro": "当需要重温早期快速 Luma 草稿或进行兼容 Ray 2 Flash 的源视频探索时使用 Ray 2 Flash。对于全新的 Luma 编辑、引导/关键帧处理及 Reframe 分发交付，建议直接选用 Ray 3.2。",
@@ -79,7 +79,7 @@
     },
     {
       "label": "Modify 选项",
-      "body": "MaxVideoAI 中开放的 Modify 预设：adhere_1 至 adhere_3、flex_1 至 flex_3 以及 reimagine_1 至 reimagine_3"
+      "body": "VideoAI 中开放的 Modify 预设：adhere_1 至 adhere_3、flex_1 至 flex_3 以及 reimagine_1 至 reimagine_3"
     },
     {
       "label": "Reframe 选项",
@@ -154,7 +154,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "Luma Ray 2 Flash 现在遵循与 MaxVideoAI 中更完备的 LTX 和 Veo 页面相同的工作流完整模式。它仍然属于双模型家族，但每个模型现在都直接开放核心 Luma 工作流路线，而不再隐藏源视频编辑工具。",
+    "heroDesc1": "Luma Ray 2 Flash 现在遵循与 VideoAI 中更完备的 LTX 和 Veo 页面相同的工作流完整模式。它仍然属于双模型家族，但每个模型现在都直接开放核心 Luma 工作流路线，而不再隐藏源视频编辑工具。",
     "heroDesc2": "这赋予了该模型家族更清晰的产品逻辑：Ray 2 专注高保真旗舰质感，Flash 保持极速响应，两款模型均完整支持全新生成以及源视频 Modify 和 Reframe 画幅重构工作流。",
     "heroSupportLine": "当需要在同一个 Luma 体系内兼顾快速迭代与真实的 Modify 和 Reframe 工具时，这是理想之选。",
     "heroSpecChips": [
@@ -190,8 +190,8 @@
       "无需旗舰支出即可完成分发编辑||即使最终创意尚未进入旗舰渲染阶段，Reframe 依然能高效产出适配多端的内容版本。",
       "清晰平滑的升级路径||一旦创意概念、Modify 预设或裁剪构图策略确定获批，团队可将完全相同的工作流无缝迁移至 Ray 2。"
     ],
-    "specTitle": "真实规格 — MaxVideoAI 中的 Luma Ray 2 Flash",
-    "specNote": "这些规格描述了当前 MaxVideoAI 中开放的实时 Luma 路由，而非经过删减的占位页面。",
+    "specTitle": "真实规格 — VideoAI 中的 Luma Ray 2 Flash",
+    "specNote": "这些规格描述了当前 VideoAI 中开放的实时 Luma 路由，而非经过删减的占位页面。",
     "specSections": [
       {
         "title": "生成工作流",
@@ -214,7 +214,7 @@
         ]
       }
     ],
-    "whatTitle": "Luma Ray 2 Flash 在 MaxVideoAI 中的运作方式",
+    "whatTitle": "Luma Ray 2 Flash 在 VideoAI 中的运作方式",
     "whatIntro1": "选择 Luma Ray 2 Flash，对于纯文本或图像驱动的草稿创作，停留在“生成视频”界面；如需基于源视频片段展开调整，则切换至 Modify / Reframe。",
     "whatIntro2": "这样既保持了模型层面的直观易懂，又在模型页面与工作区中完整开放了至关重要的真实生产工作流。",
     "whatFlowTitle": "工作流步骤",
@@ -373,13 +373,13 @@
     "pricingCopy": {
       "title": "旧版 Luma Ray 2 Flash 计费一览",
       "subtitle": "预设旧版草稿参考总价 — 当前 Luma Modify 与 Reframe 任务请优先使用 Ray 3.2。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以 USD 额度展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高支持 1080p",
       "ctaHref": "/zh/pricing#luma-ray-2-flash-pricing"
     },
     "meta": {
-      "title": "Luma Ray 2 Flash 旧版：价格与草稿起草 | MaxVideoAI",
+      "title": "Luma Ray 2 Flash 旧版：价格与草稿起草 | VideoAI",
       "description": "将 Luma Ray 2 Flash 作为上一代快速 Luma 路线使用，获取旧版草稿价格、Modify、Reframe、Ray 2 对比参考以及 Ray 3.2 迁移指引。"
     }
   },

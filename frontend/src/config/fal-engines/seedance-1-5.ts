@@ -193,7 +193,7 @@ export const SEEDANCE_1_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/bytedance/seedance/v1.5/pro/text-to-video',
     seo: {
-      title: 'Seedance 1.5 Pro – Cinematic Text & Image to Video | MaxVideoAI',
+      title: 'Seedance 1.5 Pro – Cinematic Text & Image to Video | VideoAI',
       description:
         'Generate Seedance 1.5 Pro clips with cinematic motion, camera lock, and native audio. Supports text-to-video or image-to-video up to 12s.',
       canonicalPath: '/models/seedance-1-5-pro',

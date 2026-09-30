@@ -6,13 +6,13 @@ import { buildSeoMetadata } from '@/lib/seo/metadata';
 export function generateMetadata(): Metadata {
   return buildSeoMetadata({
     locale: 'en',
-    title: 'Refund & Return Policy | MaxVideoAI',
-    description: 'Refund and return policy for MaxVideoAI digital AI video generation credits and services.',
+    title: 'Refund & Return Policy | VideoAI',
+    description: 'Refund and return policy for VideoAI digital AI video generation credits and services.',
     englishPath: '/return-policy',
     availableLocales: ['en'],
-    canonicalOverride: 'https://maxvideoai.com/return-policy',
+    canonicalOverride: 'https://videoai.omninodetech.com/return-policy',
     ogType: 'article',
-    imageAlt: 'MaxVideoAI refund and return policy.',
+    imageAlt: 'VideoAI refund and return policy.',
     titleBranding: 'none',
   });
 }
@@ -20,10 +20,10 @@ export function generateMetadata(): Metadata {
 function SupportEmailLink() {
   return (
     <ObfuscatedEmailLink
-      user="support"
-      domain="maxvideoai.com"
-      label="support@maxvideoai.com"
-      placeholder="support [at] maxvideoai.com"
+      user="contact"
+      domain="llmhub.com.cn"
+      label="contact@llmhub.com.cn"
+      placeholder="contact [at] llmhub.com.cn"
       className="font-medium"
     />
   );
@@ -53,7 +53,7 @@ export default function ReturnPolicyPage() {
             <section className="stack-gap-sm">
               <h3 className="text-lg font-semibold text-text-primary">1. Overview</h3>
               <p>
-                MaxVideoAI provides digital AI video generation services, wallet credits, and related software access. We do not sell or
+                VideoAI provides digital AI video generation services, wallet credits, and related software access. We do not sell or
                 ship physical products. Because our services are digital, there is no physical return process and no product exchange
                 process.
               </p>
@@ -62,7 +62,7 @@ export default function ReturnPolicyPage() {
             <section className="stack-gap-sm">
               <h3 className="text-lg font-semibold text-text-primary">2. Failed or defective generations</h3>
               <p>
-                If a generation job fails because of a technical issue on MaxVideoAI&apos;s side, we may automatically refund the related
+                If a generation job fails because of a technical issue on VideoAI&apos;s side, we may automatically refund the related
                 charge to the user&apos;s wallet or, where appropriate, refund the original payment method.
               </p>
               <p>A failed or defective generation may include:</p>
@@ -108,7 +108,7 @@ export default function ReturnPolicyPage() {
 
             <section className="stack-gap-sm">
               <h3 className="text-lg font-semibold text-text-primary">6. Exchanges</h3>
-              <p>We do not offer exchanges, because MaxVideoAI provides digital services and not physical products.</p>
+              <p>We do not offer exchanges, because VideoAI provides digital services and not physical products.</p>
             </section>
 
             <section className="stack-gap-sm">
@@ -117,7 +117,7 @@ export default function ReturnPolicyPage() {
                 To request a refund review, contact us at <SupportEmailLink /> with:
               </p>
               <ul className="ml-5 list-disc space-y-2">
-                <li>the email address linked to your MaxVideoAI account;</li>
+                <li>the email address linked to your VideoAI account;</li>
                 <li>the transaction ID or receipt, if available;</li>
                 <li>the generation/job ID, if applicable;</li>
                 <li>a short explanation of the issue.</li>

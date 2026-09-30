@@ -30,8 +30,8 @@ export function buildBenchmarkWebPageJsonLd({
     },
     publisher: {
       '@type': 'Organization',
-      name: 'MaxVideoAI',
-      url: 'https://maxvideoai.com',
+      name: 'VideoAI',
+      url: 'https://videoai.omninodetech.com',
     },
   };
 }

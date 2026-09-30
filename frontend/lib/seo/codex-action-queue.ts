@@ -56,7 +56,7 @@ export function formatCodexActionQueueMarkdown(
   unifiedActionBriefs: UnifiedPageActionBrief[] = []
 ): string {
   const sections = [
-    '# Codex SEO Action Queue - MaxVideoAI',
+    '# Codex SEO Action Queue - VideoAI',
     '',
     `Generated actions: ${actions.length}`,
     '',
@@ -156,7 +156,7 @@ function buildAcceptanceCriteria(opportunity: StrategicSeoOpportunity, targetPat
   const criteria = [
     `Target URL remains ${targetPath}`,
     `${compactIntentLabel(opportunity.intent)} intent is visible on the page without generic or robotic copy`,
-    'Copy stays compact, premium, and aligned with existing MaxVideoAI page structure',
+    'Copy stays compact, premium, and aligned with existing VideoAI page structure',
   ];
 
   if (opportunity.intent === 'prompt_examples' || opportunity.intent === 'prompt_guide') {

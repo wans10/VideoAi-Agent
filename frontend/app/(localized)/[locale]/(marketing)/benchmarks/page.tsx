@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: A
     title: copy.meta.title,
     description: copy.meta.description,
     titleBranding: 'none',
-    keywords: ['AI video benchmarks', 'AI video model scores', 'AI video generation speed', 'MaxVideoAI methodology'],
+    keywords: ['AI video benchmarks', 'AI video model scores', 'AI video generation speed', 'VideoAI methodology'],
     imageAlt: copy.hero.title,
   });
 }

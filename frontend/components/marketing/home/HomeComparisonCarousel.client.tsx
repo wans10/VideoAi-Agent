@@ -47,8 +47,9 @@ export function HomeComparisonCarousel({ locale, data, methodology }: { locale: 
     zh: ['生成结果对提示词指令的遵循程度。', '整体画面质量与细节清晰度。', '动态动作的自然度与连贯性。'],
   }[locale] ?? ['How closely the result follows the instructions.', 'Overall image quality and visual detail.', 'How natural and coherent the movement looks.'];
   const metrics = copy.labels.map((label, i) => ({id:String(i), label, tooltip:tips[i], leftValue:data.left.scores[i] ?? null, rightValue:right.scores[i] ?? null}));
-  return <div ref={root} className="choice-scorecard comparison-carousel" onMouseEnter={() => setEngaged(true)} onMouseLeave={() => setEngaged(false)} onFocusCapture={() => setEngaged(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setEngaged(false); }}>
+  return <div ref={root} className="studio-comparison-panel comparison-carousel" onMouseEnter={() => setEngaged(true)} onMouseLeave={() => setEngaged(false)} onFocusCapture={() => setEngaged(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setEngaged(false); }}>
     <div className="comparison-switcher" aria-label={copy.select}>
+      <span className="studio-comparison-prompt">{copy.select}</span>
       {data.opponents.map((model, i) => <button key={model.slug} type="button" aria-pressed={index === i} onClick={() => {setIndex(i); setPaused(true);}}>{model.name}</button>)}
       {!reduced ? <button type="button" className="comparison-rotation" aria-label={paused ? copy.resume : copy.pause} onClick={() => setPaused(value => !value)}>{paused ? '▶' : 'Ⅱ'}</button> : null}
     </div>

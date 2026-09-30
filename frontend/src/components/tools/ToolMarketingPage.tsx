@@ -133,7 +133,7 @@ export function ToolMarketingPage({
   schemaDescription,
   schemaFeatures,
 }: ToolMarketingPageProps) {
-  const canonicalUrl = `https://maxvideoai.com${canonicalPath}`;
+  const canonicalUrl = `https://videoai.omninodetech.com${canonicalPath}`;
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -142,13 +142,13 @@ export function ToolMarketingPage({
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://maxvideoai.com',
+        item: 'https://videoai.omninodetech.com',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Tools',
-        item: 'https://maxvideoai.com/tools',
+        item: 'https://videoai.omninodetech.com/tools',
       },
       {
         '@type': 'ListItem',

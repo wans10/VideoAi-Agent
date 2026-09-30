@@ -25,13 +25,13 @@ test('metadata preserves authored long localized titles without synthesizing an 
   assert.deepEqual(metadata.title, {
     absolute: 'Generador de vídeo con IA Seedance 2.5: 30 segundos, 1080p y audio',
   });
-  assert.equal(metadata.alternates?.canonical, 'https://maxvideoai.com/es/modelos/seedance-2-5');
+  assert.equal(metadata.alternates?.canonical, 'https://videoai.omninodetech.com/es/modelos/seedance-2-5');
 });
 
 test('short titles retain branding and authored branded titles are not branded twice', () => {
   for (const [title, expected] of [
-    ['  Pricing  ', 'Pricing — MaxVideoAI'],
-    ['AI Video Pricing | MaxVideoAI', 'AI Video Pricing | MaxVideoAI'],
+    ['  Pricing  ', 'Pricing — VideoAI'],
+    ['AI Video Pricing | VideoAI', 'AI Video Pricing | VideoAI'],
   ]) {
     const metadata = buildSeoMetadata({ locale: 'en', title, description: 'Pricing.', englishPath: '/pricing' });
     assert.deepEqual(metadata.title, { absolute: expected });

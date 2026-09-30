@@ -160,7 +160,7 @@ export const LTX_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/ltx-2/text-to-video',
     seo: {
-      title: 'LTX-2 Pro AI Video – High-Fidelity Text & Image to Video with Audio | MaxVideoAI',
+      title: 'LTX-2 Pro AI Video – High-Fidelity Text & Image to Video with Audio | VideoAI',
       description:
         'Create high-fidelity cinematic AI videos with LTX-2 Pro. Text and image to video with synchronized audio, up to 4K and 50 fps, ideal for premium campaigns and production work.',
       canonicalPath: '/models/ltx-2',

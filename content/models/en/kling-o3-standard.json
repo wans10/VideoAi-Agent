@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni Standard",
   "versionLabel": "3.0 Omni Standard",
   "seo": {
-    "title": "Kling 3.0 Omni Standard Reference & Video-to-Video Generator | MaxVideoAI",
+    "title": "Kling 3.0 Omni Standard Reference & Video-to-Video Generator | VideoAI",
     "description": "Use Kling 3.0 Omni Standard for lower-cost reference-guided Kling video, storyboard images, source-video V2V, @Image and @Video1 anchors, optional audio, and clear start-frame separation."
   },
   "overview": "Kling 3.0 Omni Standard is the lower-cost Kling Omni route for reference-to-video, storyboard drafts, and source-video video-to-video experiments.",
-  "pricingNotes": "Provider cost is about $0.126/s with audio on and $0.084/s audio off before the MaxVideoAI margin.",
+  "pricingNotes": "Provider cost is about $0.126/s with audio on and $0.084/s audio off before the VideoAI margin.",
   "custom": {
     "relatedTitle": "Choose the right Kling route",
     "relatedSubtitle": "Use Standard for lower-cost O3 reference drafts, Pro when source-video V2V and stronger continuity matter, and Kling 3 Standard when the image must become the first frame.",
@@ -241,12 +241,12 @@
     "pricingCopy": {
       "title": "Kling 3.0 Omni Standard pricing at a glance",
       "subtitle": "Lower-cost preset totals for reference-guided drafts and source-video V2V tests.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "ctaHref": "/pricing#kling-o3-standard-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Standard: Reference Drafts & V2V | MaxVideoAI",
+      "title": "Kling 3.0 Omni Standard: Reference Drafts & V2V | VideoAI",
       "description": "Use Kling 3.0 Omni Standard for lower-cost reference-to-video, storyboard drafts, source-video V2V, @Image and @Video1 prompts."
     }
   },

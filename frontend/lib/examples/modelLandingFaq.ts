@@ -6,7 +6,7 @@ const HUB_FAQ_BY_LOCALE: Record<AppLocale, { title: string; items: ExampleFaqIte
     title: 'Examples FAQ',
     items: [
       {
-        question: "Can I reuse these examples in MaxVideoAI?",
+        question: "Can I reuse these examples in VideoAI?",
         answer: "Yes. Open an example and reuse its available prompt and settings as a starting point in your workspace. Add your own required images or video: private source files are not copied. Review the settings before generating.",
       },
       {
@@ -35,7 +35,7 @@ const HUB_FAQ_BY_LOCALE: Record<AppLocale, { title: string; items: ExampleFaqIte
     title: 'Questions sur les exemples',
     items: [
       {
-        question: "Puis-je reprendre ces exemples dans MaxVideoAI ?",
+        question: "Puis-je reprendre ces exemples dans VideoAI ?",
         answer: "Oui. Ouvrez un exemple et reprenez le prompt et les réglages disponibles comme point de départ dans le studio. Ajoutez vos propres images ou vidéos si nécessaire : les fichiers sources privés ne sont pas copiés. Vérifiez les réglages avant de générer.",
       },
       {
@@ -64,7 +64,7 @@ const HUB_FAQ_BY_LOCALE: Record<AppLocale, { title: string; items: ExampleFaqIte
     title: 'Preguntas sobre los ejemplos',
     items: [
       {
-        question: "¿Puedo reutilizar estos ejemplos en MaxVideoAI?",
+        question: "¿Puedo reutilizar estos ejemplos en VideoAI?",
         answer: "Sí. Abre un ejemplo y usa su prompt y los ajustes disponibles como punto de partida en el estudio. Agrega tus propias imágenes o videos cuando sea necesario: los archivos fuente privados no se copian. Revisa los ajustes antes de generar.",
       },
       {
@@ -93,7 +93,7 @@ const HUB_FAQ_BY_LOCALE: Record<AppLocale, { title: string; items: ExampleFaqIte
     title: '案例常见问题',
     items: [
       {
-        question: '我可以在 MaxVideoAI 中复用这些案例吗？',
+        question: '我可以在 VideoAI 中复用这些案例吗？',
         answer: '可以。打开任意案例，即可将其提示词和参数设置作为工作区的起点。如有需要，请上传您自己的图像或视频：私有源文件不会被复制。生成前请确认各项设置。',
       },
       {

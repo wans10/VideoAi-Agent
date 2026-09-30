@@ -2,8 +2,8 @@
   "marketingName": "Kling 2.6 Pro",
   "versionLabel": "v2.6 Pro",
   "seo": {
-    "title": "Kling 2.6 Pro | AI 视频模型、原生音频、规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Kling 2.6 Pro 生成支持原生音频的短视频片段，并可与 Kling 3 Pro 对比以体验当前的 Kling 创作工作流。",
+    "title": "Kling 2.6 Pro | AI 视频模型、原生音频、规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 2.6 Pro 生成支持原生音频的短视频片段，并可与 Kling 3 Pro 对比以体验当前的 Kling 创作工作流。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/4db8923c-6762-47af-a0bd-5d50c28842f6-job_45f1fe48-ed93-452d-819b-9b956cd2d489.jpg"
   },
   "overview": "Kling 2.6 Pro 仍作为受支持的旧版 Kling AI 模型提供，适用于生成带原生音频的电影级短片段，支持文生视频或图生视频输入，并输出 1080p 高清画面。",
@@ -158,7 +158,7 @@
       "出色的电影级意图还原||明确的摄像机运镜与节拍能够精准呈现，镜头漂移更少。",
       "后期制作灵活多变||可在草稿阶段开启音频，或关闭音频在剪辑软件中完成混音。"
     ],
-    "specTitle": "真实规格 – MaxVideoAI 中的 Kling 2.6 Pro",
+    "specTitle": "真实规格 – VideoAI 中的 Kling 2.6 Pro",
     "specNote": "规格反映当前实时的 Fal 路由情况。",
     "specSections": [
       {
@@ -182,7 +182,7 @@
         ]
       }
     ],
-    "whatTitle": "Kling 2.6 Pro 在 MaxVideoAI 中的工作流程",
+    "whatTitle": "Kling 2.6 Pro 在 VideoAI 中的工作流程",
     "whatIntro1": "选择文生或图生模式，设置 5 秒或 10 秒 1080p，挑选画幅比例 (16:9/9:16/1:1)，开启或关闭音频，并输入提示词。",
     "whatIntro2": "当您需要带对白、动态强烈且环境音同步的视频片段时，选用 Kling 2.6 Pro。",
     "whatFlowTitle": "创作流程",
@@ -356,13 +356,13 @@
     "pricingCopy": {
       "title": "Kling 2.6 Pro 价格一览",
       "subtitle": "预设 1080p 总价 — 在生成前可在应用内查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#kling-2-6-pro-pricing"
     },
     "meta": {
-      "title": "Kling 2.6 Pro：价格、音频与案例 | MaxVideoAI",
+      "title": "Kling 2.6 Pro：价格、音频与案例 | VideoAI",
       "description": "使用 Kling 2.6 Pro 生成支持原生音频的受支持旧版 Kling 1080p 短片段，支持文生视频、图生视频、负向提示词以及丰富案例。"
     }
   },

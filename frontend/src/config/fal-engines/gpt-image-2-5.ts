@@ -170,12 +170,12 @@ function buildEntry(variant: Variant): RawFalEngineEntry {
     ],
     defaultFalModelId: generationModelId,
     seo: {
-      title: `GPT Image 2.5 ${variantLabel} – AI Image Generation & Editing | MaxVideoAI`,
-      description: `Generate and edit images with GPT Image 2.5 ${variantLabel} through LLM Hub in MaxVideoAI.`,
+      title: `GPT Image 2.5 ${variantLabel} – AI Image Generation & Editing | VideoAI`,
+      description: `Generate and edit images with GPT Image 2.5 ${variantLabel} through LLM Hub in VideoAI.`,
       canonicalPath: `/models/gpt-image-2-5-${variant}`,
     },
     type: 'image',
-    seoText: `GPT Image 2.5 ${variantLabel} provides ${positioning} in the MaxVideoAI Image workspace.`,
+    seoText: `GPT Image 2.5 ${variantLabel} provides ${positioning} in the VideoAI Image workspace.`,
     media: {
       videoUrl: MARKETING_IMAGE_BY_VARIANT[variant],
       imagePath: MARKETING_IMAGE_BY_VARIANT[variant],

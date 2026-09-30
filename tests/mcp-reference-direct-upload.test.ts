@@ -1082,7 +1082,7 @@ test('browser and deployed routes use chunk relay and expose no signed PUT capab
   assert.match(client, /\/part/u);
   assert.match(client, /x-content-sha256/iu);
   assert.match(client, /\/complete/u);
-  assert.match(client, /saved to your connected MaxVideoAI library/iu);
+  assert.match(client, /saved to your connected VideoAI library/iu);
   assert.match(client, /ChatGPT, Claude, or Codex/iu);
   assert.match(client, /list_media/u);
   assert.doesNotMatch(client, /method:\s*'PUT'|uploadUrl/u);

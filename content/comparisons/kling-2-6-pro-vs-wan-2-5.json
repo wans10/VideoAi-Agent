@@ -50,7 +50,7 @@
       "items": [
         {
           "question": "Are Kling 2.6 Pro and Wan 2.5 still available?",
-          "answer": "Yes. MaxVideoAI keeps both legacy models available for established jobs. Each supports audio and clips up to 10 seconds."
+          "answer": "Yes. VideoAI keeps both legacy models available for established jobs. Each supports audio and clips up to 10 seconds."
         },
         {
           "question": "Who should stay on Kling 2.6 Pro or Wan 2.5?",
@@ -113,7 +113,7 @@
       "items": [
         {
           "question": "Kling 2.6 Pro et Wan 2.5 sont-ils encore disponibles ?",
-          "answer": "Oui. Les deux modèles historiques restent disponibles sur MaxVideoAI pour les projets établis. Chacun prend en charge l’audio et des clips allant jusqu’à 10 secondes."
+          "answer": "Oui. Les deux modèles historiques restent disponibles sur VideoAI pour les projets établis. Chacun prend en charge l’audio et des clips allant jusqu’à 10 secondes."
         },
         {
           "question": "Qui devrait rester sur Kling 2.6 Pro ou Wan 2.5 ?",
@@ -132,7 +132,7 @@
       "description": "Compara Kling 2.6 Pro y Wan 2.5 en diálogo 1080p, audio, duración y resolución para decidir si conservar estos modelos anteriores o migrar a sus sucesores.",
       "titleBranding": "none"
     },
-    "heroIntro": "Compara Kling 2.6 Pro con Wan 2.5 Text & Image to Video como dos modelos anteriores que siguen disponibles en MaxVideoAI. Ambos llegan a 10 segundos con audio; Kling apunta a diálogo cinematográfico en 1080p fijo, mientras Wan ofrece una escala económica desde 480p hasta 1080p.",
+    "heroIntro": "Compara Kling 2.6 Pro con Wan 2.5 Text & Image to Video como dos modelos anteriores que siguen disponibles en VideoAI. Ambos llegan a 10 segundos con audio; Kling apunta a diálogo cinematográfico en 1080p fijo, mientras Wan ofrece una escala económica desde 480p hasta 1080p.",
     "quickVerdict": {
       "title": "Veredicto rápido",
       "body": "Quédate en Kling 2.6 Pro para diálogo cinematográfico probado en 1080p o mantén Wan 2.5 por su flexibilidad económica de resolución. Ambos siguen accesibles; migra trabajos nuevos exigentes a Kling 3 Pro actual o a Wan 2.6 para producción de texto o imagen de hasta 15 segundos."
@@ -176,7 +176,7 @@
       "items": [
         {
           "question": "¿Kling 2.6 Pro y Wan 2.5 siguen disponibles?",
-          "answer": "Sí. MaxVideoAI mantiene ambos modelos anteriores disponibles para trabajos establecidos. Cada uno admite audio y clips de hasta 10 segundos."
+          "answer": "Sí. VideoAI mantiene ambos modelos anteriores disponibles para trabajos establecidos. Cada uno admite audio y clips de hasta 10 segundos."
         },
         {
           "question": "¿Quién debería quedarse en Kling 2.6 Pro o Wan 2.5?",

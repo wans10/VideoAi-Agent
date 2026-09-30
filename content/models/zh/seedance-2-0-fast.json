@@ -2,11 +2,11 @@
   "marketingName": "Seedance 2.0 Fast",
   "versionLabel": "2.0 Fast",
   "seo": {
-    "title": "Seedance 2.0 Fast | 快速 AI 视频模型、技术规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Seedance 2.0 Fast 进行更快速的 AI 视频草稿制作、多模态迭代，并在渲染前查看实时参数规格与价格。"
+    "title": "Seedance 2.0 Fast | 快速 AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Seedance 2.0 Fast 进行更快速的 AI 视频草稿制作、多模态迭代，并在渲染前查看实时参数规格与价格。"
   },
   "overview": "Seedance 2.0 Fast 是 Dreamina Seedance 2.0 系列中当前更快速的 AI 视频路线，适用于在最终成片渲染前进行快速草稿制作、镜头规划和方案对比迭代。",
-  "pricingNotes": "Seedance 2.0 Fast 采用供应商 Token 计费。MaxVideoAI 加入运营利润并向上取整至美分；“生成”页面在提交任务前会显示最终确切报价。",
+  "pricingNotes": "Seedance 2.0 Fast 采用供应商 Token 计费。VideoAI 加入运营利润并向上取整至美分；“生成”页面在提交任务前会显示最终确切报价。",
   "hero": {
     "title": "Seedance 2.0 Fast — 用于草稿制作与快速迭代的当前 Seedance 快速模型",
     "intro": "使用 Seedance 2.0 Fast 作为 Dreamina Seedance 2.0 系列中更快速的 AI 视频路线，在将确认的方向导入 Seedance 2.0 之前，进行更敏捷的草稿制作、镜头规划、节奏检查与 A/B 测试迭代。",
@@ -75,7 +75,7 @@
   "technicalOverview": [
     {
       "label": "产品定位",
-      "body": "MaxVideoAI 上 Dreamina Seedance 2 系列中经优化的快速版本。"
+      "body": "VideoAI 上 Dreamina Seedance 2 系列中经优化的快速版本。"
     },
     {
       "label": "输入方式",
@@ -91,7 +91,7 @@
     },
     {
       "label": "音频",
-      "body": "原生音频默认开启且支持按需关闭；MaxVideoAI 在每次渲染前显示最终确切价格"
+      "body": "原生音频默认开启且支持按需关闭；VideoAI 在每次渲染前显示最终确切价格"
     },
     {
       "label": "最佳使用时机",
@@ -140,7 +140,7 @@
       "prompt": "护肤品瓶在明亮浴室中的六秒草稿，一次干净的产品展示，一次瓶盖旋开动作，一个环境水声线索，竖屏构图。"
     }
   ],
-  "faqTitle": "常见问题 – MaxVideoAI 中的 Seedance 2.0 Fast",
+  "faqTitle": "常见问题 – VideoAI 中的 Seedance 2.0 Fast",
   "faqs": [
     {
       "q": "什么是 Seedance 2.0 Fast？",
@@ -148,11 +148,11 @@
     },
     {
       "q": "Seedance 2.0 Fast 是否属于 Dreamina Seedance 系列？",
-      "a": "是的。字节跳动官方文档与即梦 (Dreamina) 产品命名使用 Dreamina Seedance 2.0 指代该模型系列。Seedance 2.0 Fast 是 MaxVideoAI 上该系列中响应更快速的生成路线。"
+      "a": "是的。字节跳动官方文档与即梦 (Dreamina) 产品命名使用 Dreamina Seedance 2.0 指代该模型系列。Seedance 2.0 Fast 是 VideoAI 上该系列中响应更快速的生成路线。"
     },
     {
       "q": "Seedance 2.0 Fast 的使用价格是多少？",
-      "a": "价格卡片展示了针对常见草稿场景（如 5 秒 480p、8 秒 720p 以及 10 秒 720p）的 MaxVideoAI 预设展示总价。“生成”页面仍是任务提交前实时确切报价的最终基准。"
+      "a": "价格卡片展示了针对常见草稿场景（如 5 秒 480p、8 秒 720p 以及 10 秒 720p）的 VideoAI 预设展示总价。“生成”页面仍是任务提交前实时确切报价的最终基准。"
     },
     {
       "q": "Seedance 2.0 Fast 是否保留了文生视频、图生视频和参考生视频功能？",
@@ -168,7 +168,7 @@
     },
     {
       "q": "Seedance 2.0 Fast 单次生成时长支持多长？",
-      "a": "当前 MaxVideoAI 路线中，Seedance 2.0 Fast 支持自动时长或 4 至 15 秒的明确时长生成。"
+      "a": "当前 VideoAI 路线中，Seedance 2.0 Fast 支持自动时长或 4 至 15 秒的明确时长生成。"
     },
     {
       "q": "什么时候应该使用 Seedance 2.0 Fast 而非标准版 Seedance 2.0？",
@@ -396,13 +396,13 @@
     "pricingCopy": {
       "title": "Seedance 2.0 Fast 草稿计费",
       "subtitle": "预设草稿总价 — 生成前可在应用中查看确切的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以 USD 额度展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高 720p",
       "ctaHref": "/zh/pricing#seedance-2-0-fast-pricing"
     },
     "meta": {
-      "title": "Seedance 2.0 Fast：草稿计费与快速迭代 | MaxVideoAI",
+      "title": "Seedance 2.0 Fast：草稿计费与快速迭代 | VideoAI",
       "description": "使用 Seedance 2.0 Fast 进行快速 Seedance 草稿制作、节奏测试、A/B 运镜检查以及基于参考素材的镜头规划，再导入最终渲染。"
     }
   },

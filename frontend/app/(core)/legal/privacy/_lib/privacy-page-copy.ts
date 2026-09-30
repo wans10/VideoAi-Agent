@@ -3,22 +3,22 @@ import type { AppLocale } from '@/i18n/locales';
 export const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
     title: 'Privacy Policy',
-    description: 'How MaxVideoAI collects, uses, stores, and protects personal data.',
+    description: 'How VideoAI collects, uses, stores, and protects personal data.',
     imageAlt: 'Privacy Policy overview.',
   },
   fr: {
     title: 'Politique de confidentialité',
-    description: 'Comment MaxVideoAI collecte, utilise, conserve et protège les données personnelles.',
+    description: 'Comment VideoAI collecte, utilise, conserve et protège les données personnelles.',
     imageAlt: 'Aperçu de la politique de confidentialité.',
   },
   es: {
     title: 'Política de privacidad',
-    description: 'Cómo MaxVideoAI recopila, utiliza, almacena y protege los datos personales.',
+    description: 'Cómo VideoAI recopila, utiliza, almacena y protege los datos personales.',
     imageAlt: 'Resumen de la política de privacidad.',
   },
   zh: {
     title: '隐私政策',
-    description: 'MaxVideoAI 如何收集、使用、存储和保护个人数据。',
+    description: 'VideoAI 如何收集、使用、存储和保护个人数据。',
     imageAlt: '隐私政策概览。',
   },
 };

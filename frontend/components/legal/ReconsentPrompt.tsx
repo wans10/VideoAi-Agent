@@ -237,7 +237,7 @@ export function ReconsentPrompt({ enabled = true }: ReconsentPromptProps) {
           We&apos;ve updated our legal terms
         </h2>
         <p className="text-sm text-text-secondary">
-          To continue using MaxVideoAI, please review and accept the updated documents below.
+          To continue using VideoAI, please review and accept the updated documents below.
         </p>
         {status.mode === 'soft' && !status.shouldBlock ? (
           <p className="text-xs font-medium uppercase tracking-wide text-brand">

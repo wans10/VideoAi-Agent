@@ -288,25 +288,25 @@ test('wave 1 applies locale exclusions to comparison metadata and hreflang alter
   assert.deepEqual(frenchSelected.robots, { index: false, follow: true });
   assert.equal(
     frenchSelected.alternates?.canonical,
-    `https://maxvideoai.com/fr/comparatif/${frenchSelectedSlug}`,
+    `https://videoai.omninodetech.com/fr/comparatif/${frenchSelectedSlug}`,
   );
   assert.deepEqual(frenchSelected.alternates?.languages, {
-    en: `https://maxvideoai.com/ai-video-engines/${frenchSelectedSlug}`,
-    es: `https://maxvideoai.com/es/comparativa/${frenchSelectedSlug}`,
-    zh: `https://maxvideoai.com/zh/ai-video-engines/${frenchSelectedSlug}`,
-    'x-default': `https://maxvideoai.com/ai-video-engines/${frenchSelectedSlug}`,
+    en: `https://videoai.omninodetech.com/ai-video-engines/${frenchSelectedSlug}`,
+    es: `https://videoai.omninodetech.com/es/comparativa/${frenchSelectedSlug}`,
+    zh: `https://videoai.omninodetech.com/zh/ai-video-engines/${frenchSelectedSlug}`,
+    'x-default': `https://videoai.omninodetech.com/ai-video-engines/${frenchSelectedSlug}`,
   });
 
   assert.deepEqual(spanishSelected.robots, { index: false, follow: true });
   assert.equal(
     spanishSelected.alternates?.canonical,
-    `https://maxvideoai.com/es/comparativa/${spanishSelectedSlug}`,
+    `https://videoai.omninodetech.com/es/comparativa/${spanishSelectedSlug}`,
   );
   assert.deepEqual(spanishSelected.alternates?.languages, {
-    en: `https://maxvideoai.com/ai-video-engines/${spanishSelectedSlug}`,
-    fr: `https://maxvideoai.com/fr/comparatif/${spanishSelectedSlug}`,
-    zh: `https://maxvideoai.com/zh/ai-video-engines/${spanishSelectedSlug}`,
-    'x-default': `https://maxvideoai.com/ai-video-engines/${spanishSelectedSlug}`,
+    en: `https://videoai.omninodetech.com/ai-video-engines/${spanishSelectedSlug}`,
+    fr: `https://videoai.omninodetech.com/fr/comparatif/${spanishSelectedSlug}`,
+    zh: `https://videoai.omninodetech.com/zh/ai-video-engines/${spanishSelectedSlug}`,
+    'x-default': `https://videoai.omninodetech.com/ai-video-engines/${spanishSelectedSlug}`,
   });
 
   assert.notEqual(
@@ -327,7 +327,7 @@ test('wave 1 applies locale exclusions to comparison metadata and hreflang alter
   );
   assert.equal(
     frenchUnselected.alternates?.canonical,
-    `https://maxvideoai.com/fr/comparatif/${spanishSelectedSlug}`,
+    `https://videoai.omninodetech.com/fr/comparatif/${spanishSelectedSlug}`,
   );
 });
 

@@ -2,8 +2,8 @@
   "marketingName": "Google Veo 3.1 Lite",
   "versionLabel": "3.1 Lite",
   "seo": {
-    "title": "Veo 3.1 Lite | AI 视频模型、技术规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Veo 3.1 Lite 进行低成本、带原生音频的视频草稿创作、实时规格查看与按秒计费，待选定优质产出后再进阶至 Veo 3.1。",
+    "title": "Veo 3.1 Lite | AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Veo 3.1 Lite 进行低成本、带原生音频的视频草稿创作、实时规格查看与按秒计费，待选定优质产出后再进阶至 Veo 3.1。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/0a6e2df3-0107-4ea7-8f70-6e03e406f39b.jpg"
   },
   "overview": "Veo 3.1 Lite 是当前 Google Veo 3.1 系列中成本更低的轻量化版本，适用于简短文生视频与图生视频草稿探索、节奏验证和提示词测试，原生支持音频生成并提供实时按秒计费。",
@@ -91,7 +91,7 @@
     },
     {
       "label": "价格方案",
-      "body": "MaxVideoAI 展示价格：720p 为 $0.07/秒，1080p 为 $0.11/秒；通过按量付费钱包充值结算"
+      "body": "VideoAI 展示价格：720p 为 $0.07/秒，1080p 为 $0.11/秒；通过按量付费钱包充值结算"
     },
     {
       "label": "渲染排队时间",
@@ -155,11 +155,11 @@
     },
     {
       "q": "与 Veo 3.1 相比价格如何？",
-      "a": "在 MaxVideoAI 上，Veo 3.1 Lite 的按秒单价比其他 Veo 版本更便宜：720p 为 $0.07/秒，1080p 为 $0.11/秒，且均已包含原生音频。Google 官方 API 直连价格可能有所不同。"
+      "a": "在 VideoAI 上，Veo 3.1 Lite 的按秒单价比其他 Veo 版本更便宜：720p 为 $0.07/秒，1080p 为 $0.11/秒，且均已包含原生音频。Google 官方 API 直连价格可能有所不同。"
     },
     {
       "q": "能否在欧洲或拉美地区使用 Veo 3.1 Lite？",
-      "a": "可以。它使用相同的 MaxVideoAI 钱包/工作区以及托管的服务商路由调度 — 无需单独开通其他账单。"
+      "a": "可以。它使用相同的 VideoAI 钱包/工作区以及托管的服务商路由调度 — 无需单独开通其他账单。"
     }
   ],
   "custom": {
@@ -200,10 +200,10 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "MaxVideoAI 中的 Veo 3.1 Lite 到底是什么",
+    "whatTitle": "VideoAI 中的 Veo 3.1 Lite 到底是什么",
     "whatIntro1": "Veo 3.1 Lite 针对 Veo 家族中的速度与效率进行了专门调优。",
     "whatIntro2": "您可以保留构图与色调预设，但生成过程已针对成本与交付速度进行了大幅优化。",
-    "whatFlowTitle": "MaxVideoAI 生成流程：",
+    "whatFlowTitle": "VideoAI 生成流程：",
     "whatFlowSteps": [
       "1. 选择 Veo 3.1 Lite 作为生成引擎。",
       "2. 从文本输入起步，添加单张起始图片，或使用一张起始图与一张结束图的首尾帧模式。",
@@ -212,8 +212,8 @@
       "5. 粘贴精炼且具感官细节的提示词，并附带简单的环境音或对白线索。",
       "6. 确认实时价格后点击渲染。"
     ],
-    "specTitle": "真实规格 — MaxVideoAI 中的 Veo 3.1 Lite（720p/1080p，4–8 秒）",
-    "specNote": "这些技术规格准确描述了您今天即可通过 MaxVideoAI 使用的 Veo 3.1 Lite 实际能力。",
+    "specTitle": "真实规格 — VideoAI 中的 Veo 3.1 Lite（720p/1080p，4–8 秒）",
+    "specNote": "这些技术规格准确描述了您今天即可通过 VideoAI 使用的 Veo 3.1 Lite 实际能力。",
     "specSections": [
       {
         "title": "草稿级极速探索",
@@ -288,7 +288,7 @@
       "推荐工作流：在 Lite 中快速出样原型，随后将选出的优质方案在 Veo 3.1 Fast 或 Veo 3.1 中重新渲染。"
     ],
     "comparisonCta": "对比 Veo 3.1 Fast 与 Veo 3.1 Lite ->",
-    "faqTitle": "常见问题 — MaxVideoAI 中的 Veo 3.1 Lite",
+    "faqTitle": "常见问题 — VideoAI 中的 Veo 3.1 Lite",
     "faqs": [
       {
         "q": "何时应该使用 Veo 3.1 Lite 而不是 Veo 3.1？",
@@ -304,16 +304,16 @@
       },
       {
         "q": "与 Veo 3.1 相比价格如何？",
-        "a": "在 MaxVideoAI 上 Lite 的按秒价格更实惠：720p 为 $0.07/秒，1080p 为 $0.11/秒，且始终包含原生音频。Google 官方 API 直接定价可能有所不同。"
+        "a": "在 VideoAI 上 Lite 的按秒价格更实惠：720p 为 $0.07/秒，1080p 为 $0.11/秒，且始终包含原生音频。Google 官方 API 直接定价可能有所不同。"
       },
       {
         "q": "能否在欧洲或拉美地区使用 Veo 3.1 Lite？",
-        "a": "可以。使用相同的 MaxVideoAI 钱包/工作区以及托管的服务商路由 — 无需单独付费或开通账户。"
+        "a": "可以。使用相同的 VideoAI 钱包/工作区以及托管的服务商路由 — 无需单独付费或开通账户。"
       }
     ],
     "relatedTitle": "探索其他模型",
     "relatedSubtitle": "对比模型目录中其他模型的价位、延迟表现与提示词预设。",
-    "finalPara1": "MaxVideoAI 中的 Veo 3.1 Lite 是您进行 Veo 提示词快速测试的理想沙盒。",
+    "finalPara1": "VideoAI 中的 Veo 3.1 Lite 是您进行 Veo 提示词快速测试的理想沙盒。",
     "finalPara2": "相同的电影级语言，更低的试错门槛，以及随时可用于社交媒体交付的画质表现。",
     "finalButton": "进入生成页面",
     "tipsIntro": "当撰写简明扼要的镜头简报时，Veo 3.1 Lite 的效果最为稳定可靠：一个主体、一个动作、明确的构图景别以及单一摄影机运镜。",
@@ -455,13 +455,13 @@
     "pricingCopy": {
       "title": "Veo 3.1 Lite 价格一览",
       "subtitle": "预设低成本参考总价 — 在应用中生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高支持 1080p",
       "ctaHref": "/zh/pricing#veo-3-1-lite-pricing"
     },
     "meta": {
-      "title": "Veo 3.1 Lite：价格、可选音频与案例展示 | MaxVideoAI",
+      "title": "Veo 3.1 Lite：价格、可选音频与案例展示 | VideoAI",
       "description": "使用 Veo 3.1 Lite 制作具备可选原生音频的低成本 Veo 草稿，进行短提示词测试与图生视频验证，满意后再进阶升级。"
     }
   },

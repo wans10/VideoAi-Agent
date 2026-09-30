@@ -518,7 +518,7 @@ test('readiness packages follow the live registry and canonical localized route 
   assert.deepEqual(directoryTools, [...OPERATIONAL_TOOLS].sort());
 
   const localeUrls = (englishPath: string) =>
-    (['en', 'fr', 'es'] as const).map((locale) => getLocalizedUrl(locale, englishPath)).sort();
+    (['en', 'fr', 'es'] as const).map((locale) => new URL(getLocalizedUrl(locale, englishPath)).pathname).map(path => `https://maxvideoai.com${path}`).sort();
   assert.deepEqual(httpsUrls(markdownRow(directory, 'Canonical landing page')), localeUrls('/mcp'));
   assert.deepEqual(httpsUrls(markdownRow(directory, 'Privacy URLs')), localeUrls('/legal/privacy'));
   assert.deepEqual(httpsUrls(markdownRow(directory, 'Terms URLs')), localeUrls('/legal/terms'));

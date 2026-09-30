@@ -150,7 +150,7 @@ test('pay-as-you-go route is discoverable by middleware and query cleanup', () =
   assert.match(read(routingPath), /\/pay-as-you-go-ai-video-generator/);
   assert.match(read(middlewarePath), /pay-as-you-go-ai-video-generator/);
   assert.match(read(queryPath), /pay-as-you-go-ai-video-generator/);
-  assert.match(read(llmsBuilderPath), /https:\/\/maxvideoai\.com\/pay-as-you-go-ai-video-generator/);
+  assert.match(read(llmsBuilderPath), /https:\/\/videoai\.omninodetech\.com\/pay-as-you-go-ai-video-generator/);
 });
 
 test('pay-as-you-go page localizes every route-local content surface', () => {

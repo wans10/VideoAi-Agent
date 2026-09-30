@@ -2,11 +2,11 @@
   "marketingName": "Seedance 2.0",
   "versionLabel": "2.0",
   "seo": {
-    "title": "Seedance 2.0 | AI 视频模型、价格、原生音频与使用场景 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Seedance 2.0 进行多镜头视频生成、原生音频创作，查看实时价格、核心功能规格与当前 Seedance 工作流的最佳使用场景。"
+    "title": "Seedance 2.0 | AI 视频模型、价格、原生音频与使用场景 | VideoAI",
+    "description": "在 VideoAI 上使用 Seedance 2.0 进行多镜头视频生成、原生音频创作，查看实时价格、核心功能规格与当前 Seedance 工作流的最佳使用场景。"
   },
-  "overview": "Seedance 2.0 是 MaxVideoAI 上当前主流的 Dreamina Seedance 2.0 AI 视频模型，专为多镜头视频、原生音频以及多模态参考引导工作流而设计，非常适合制作高精广告、新品发布会与电影级品牌大片。",
-  "pricingNotes": "Seedance 2 采用服务商 Token 计费。MaxVideoAI 按规则展示会员价格，并在提交生成前显示最终实时报价。",
+  "overview": "Seedance 2.0 是 VideoAI 上当前主流的 Dreamina Seedance 2.0 AI 视频模型，专为多镜头视频、原生音频以及多模态参考引导工作流而设计，非常适合制作高精广告、新品发布会与电影级品牌大片。",
+  "pricingNotes": "Seedance 2 采用服务商 Token 计费。VideoAI 按规则展示会员价格，并在提交生成前显示最终实时报价。",
   "hero": {
     "title": "Seedance 2.0 — 适用于多镜头视频与原生音频的当前主力 Seedance 模型",
     "intro": "Seedance 2.0 是当前用于多镜头视频、原生音频以及参考引导工作流的主力 Dreamina Seedance 2.0 AI 视频模型，非常适合需要高品质广告、产品发布会与电影级品牌大片的主力 Seedance 路径。本页面提供实时价格、核心功能、最佳适用场景，以及相比 Fast 版本或早期 Seedance 版本更具优势的对比指引。",
@@ -107,7 +107,7 @@
     },
     {
       "label": "原生音频",
-      "body": "默认开启原生音频，支持按需关闭；MaxVideoAI 在生成前展示精确的最终报价。"
+      "body": "默认开启原生音频，支持按需关闭；VideoAI 在生成前展示精确的最终报价。"
     },
     {
       "label": "运镜与动态",
@@ -164,7 +164,7 @@
       "prompt": "深夜地铁站台双人对话场景，对白同步、环境音与金属刹车声精准入点，平滑推轨镜头与插入式近景切换，立体声混音质感，10秒。"
     }
   ],
-  "faqTitle": "常见问题 — MaxVideoAI 中的 Seedance 2.0",
+  "faqTitle": "常见问题 — VideoAI 中的 Seedance 2.0",
   "faqs": [
     {
       "q": "Seedance 2.0 最适合哪些使用场景？",
@@ -172,7 +172,7 @@
     },
     {
       "q": "Seedance 2.0 就是 Dreamina Seedance 2.0 吗？",
-      "a": "是的。字节跳动官方文档与即梦（Dreamina）产品命名将当前 API 家族称为 Dreamina Seedance 2.0。在 MaxVideoAI 上，本页面代表用于最终成片交付的标准 Seedance 2.0 路径。"
+      "a": "是的。字节跳动官方文档与即梦（Dreamina）产品命名将当前 API 家族称为 Dreamina Seedance 2.0。在 VideoAI 上，本页面代表用于最终成片交付的标准 Seedance 2.0 路径。"
     },
     {
       "q": "Seedance 2.0 是否支持原生音频？",
@@ -197,7 +197,7 @@
   ],
   "custom": {
     "whyTitle": "价格、原生音频与进阶指引",
-    "heroTrustLine": "MaxVideoAI 按量计费 · 生成前显示透明价格",
+    "heroTrustLine": "VideoAI 按量计费 · 生成前显示透明价格",
     "heroHighlights": [
       "价格与当前路线||当需要主流的当前 Seedance 交付路线，并希望在生成前获知明确报价时，选择 Seedance 2.0。",
       "原生音频||对白、环境音、配乐与音效集成于同一生成流程，无需后期额外拼接合成。",
@@ -440,7 +440,7 @@
     "pricingCopy": {
       "title": "Seedance 2.0 价格一览",
       "subtitle": "预设 720p、1080p 与 4K 参考总价 — 在应用中生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数计费的展示价格。",
       "ctaLabel": "查看完整价格表",
       "ctaHref": "/zh/pricing#seedance-2-0-pricing"
     },
@@ -550,7 +550,7 @@
     "modelSlug": "seedance-2-0",
     "section": {
       "title": "Seedance 2.0 案例库",
-      "intro": "通过本案例展厅了解 Seedance 2.0 在 MaxVideoAI 中的提示词模式、镜头结构以及其擅长处理的各类故事节拍。",
+      "intro": "通过本案例展厅了解 Seedance 2.0 在 VideoAI 中的提示词模式、镜头结构以及其擅长处理的各类故事节拍。",
       "defaultCtaLabel": "查看全部 Seedance 案例 ->",
       "recreateLabel": "复现此镜头 ->"
     },

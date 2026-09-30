@@ -165,7 +165,7 @@ const SEEDANCE_2_0_ENGINE: EngineCaps = {
   pricing: {
     unit: 'USD/s',
     currency: 'USD',
-    notes: 'Seedance 2 is billed from output tokens. MaxVideoAI adds its margin and rounds up to the next cent before showing the live quote.',
+    notes: 'Seedance 2 is billed from output tokens. VideoAI adds its margin and rounds up to the next cent before showing the live quote.',
   },
   updatedAt: '2026-04-05T00:00:00Z',
   ttlSec: 600,
@@ -188,7 +188,7 @@ export const SEEDANCE_2_STANDARD_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     versionLabel: '2.0',
     availability: SEEDANCE_2_LAUNCH_CONFIG.availability,
     logoPolicy: 'textOnly',
-    billingNote: 'Seedance 2 uses token-based provider pricing. Generate shows the active route, applies the MaxVideoAI margin, and rounds the quote up to the next cent before each run.',
+    billingNote: 'Seedance 2 uses token-based provider pricing. Generate shows the active route, applies the VideoAI margin, and rounds the quote up to the next cent before each run.',
     engine: SEEDANCE_2_0_ENGINE,
     modes: [
       {
@@ -319,14 +319,14 @@ export const SEEDANCE_2_STANDARD_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
           'Start with text-to-video for prompt-led ideation, use image-to-video when you need a start frame or an optional end frame, and move to reference-to-video when you want image, video, or audio guidance.',
       },
       {
-        question: 'Does Seedance 2.0 support reference-to-video on MaxVideoAI?',
+        question: 'Does Seedance 2.0 support reference-to-video on VideoAI?',
         answer:
           'Yes. Seedance 2.0 exposes a dedicated reference-to-video route with up to 9 images, up to 3 reference videos, and up to 3 reference audio files, with 12 total files across the run.',
       },
       {
         question: 'Does Seedance 2.0 support video editing and extend?',
         answer:
-          'Yes. The MaxVideoAI Seedance 2.0 route supports video edit and extend workflows alongside text, image, and reference-to-video generation.',
+          'Yes. The VideoAI Seedance 2.0 route supports video edit and extend workflows alongside text, image, and reference-to-video generation.',
       },
     ],
     pricingHint: {

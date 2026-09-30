@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni 4K",
   "versionLabel": "3.0 Omni 4K",
   "seo": {
-    "title": "Kling 3.0 Omni 4K reference-to-video | MaxVideoAI",
+    "title": "Kling 3.0 Omni 4K reference-to-video | VideoAI",
     "description": "Utilisez Kling 3.0 Omni 4K pour des vidéos Kling natives 4K guidées par références, storyboard et ancres @Image. Utilisez Standard ou Pro pour le V2V depuis vidéo source."
   },
   "overview": "Kling 3.0 Omni 4K est la route native 4K pour les rendus Kling guidés par références et storyboard.",
-  "pricingNotes": "Coût provider approximatif avant marge MaxVideoAI : $0.42/s.",
+  "pricingNotes": "Coût provider approximatif avant marge VideoAI : $0.42/s.",
   "custom": {
     "relatedTitle": "Passer du draft à la livraison finale",
     "relatedSubtitle": "Utilisez 4K après validation du plan de références en Standard ou Pro. Gardez le V2V depuis vidéo source sur Standard ou Pro, car la route 4K actuelle est orientée références.",
@@ -54,7 +54,7 @@
     },
     {
       "label": "Pas de V2V depuis vidéo source",
-      "body": "Kling 3.0 Omni 4K est une route 4K orientée références. Elle ne supporte pas le source-video video-to-video dans la route MaxVideoAI actuelle ; utilisez 3.0 Omni Standard ou Pro quand @Video1 et keep_audio sont requis."
+      "body": "Kling 3.0 Omni 4K est une route 4K orientée références. Elle ne supporte pas le source-video video-to-video dans la route VideoAI actuelle ; utilisez 3.0 Omni Standard ou Pro quand @Video1 et keep_audio sont requis."
     },
     {
       "label": "Résolution",
@@ -213,13 +213,13 @@
     "pricingCopy": {
       "title": "Prix Kling 3.0 Omni 4K en un coup d’œil",
       "subtitle": "Totaux 4K natifs pour rendus de livraison guidés par références.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Route référence 4K native",
       "ctaHref": "/fr/tarifs#kling-o3-4k-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni 4K : vidéo référence 4K native | MaxVideoAI",
+      "title": "Kling 3.0 Omni 4K : vidéo référence 4K native | VideoAI",
       "description": "Utilisez Kling 3.0 Omni 4K pour vidéo 4K native guidée par références et storyboard. Utilisez O3 Pro ou Standard pour V2V source."
     }
   },

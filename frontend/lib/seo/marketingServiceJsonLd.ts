@@ -17,9 +17,9 @@ type BuildMarketingServiceJsonLdInput = {
 
 const MAXVIDEOAI_ORGANIZATION = {
   '@type': 'Organization',
-  name: 'MaxVideoAI',
-  url: 'https://maxvideoai.com',
-  logo: 'https://maxvideoai.com/favicon-512.png',
+  name: 'VideoAI',
+  url: 'https://videoai.omninodetech.com',
+  logo: 'https://videoai.omninodetech.com/favicon-512.png',
 } as const;
 
 export function buildMarketingServiceJsonLd({

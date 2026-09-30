@@ -48,7 +48,7 @@ export async function generateMetadata(props: { params: Promise<BlogPostParams> 
   const params = await props.params;
   const post = await getPost(params.locale, params.slug);
   if (!post) {
-    return { title: 'Post not found — MaxVideo AI' };
+    return { title: 'Post not found — VideoAI' };
   }
 
   const canonicalSlug = getCanonicalBlogSlug(post);

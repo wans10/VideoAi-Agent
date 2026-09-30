@@ -2,11 +2,11 @@
   "marketingName": "Seedance 2.0 Fast",
   "versionLabel": "2.0 Fast",
   "seo": {
-    "title": "Seedance 2.0 Fast | Modèle vidéo IA rapide, specs et prix | MaxVideoAI",
-    "description": "Utilisez Seedance 2.0 Fast sur MaxVideoAI pour des tests plus rapides, des itérations multimodales et des specs/prix visibles avant génération."
+    "title": "Seedance 2.0 Fast | Modèle vidéo IA rapide, specs et prix | VideoAI",
+    "description": "Utilisez Seedance 2.0 Fast sur VideoAI pour des tests plus rapides, des itérations multimodales et des specs/prix visibles avant génération."
   },
   "overview": "Seedance 2.0 Fast est le modèle vidéo IA Dreamina Seedance 2.0 Fast actuel pour des tests plus courts, du shot planning et des boucles de comparaison avant rendu final.",
-  "pricingNotes": "Seedance 2.0 Fast suit une tarification fournisseur par tokens. MaxVideoAI ajoute sa marge et arrondit au centime supérieur ; Generate affiche le devis final avant validation.",
+  "pricingNotes": "Seedance 2.0 Fast suit une tarification fournisseur par tokens. VideoAI ajoute sa marge et arrondit au centime supérieur ; Generate affiche le devis final avant validation.",
   "hero": {
     "title": "Seedance 2.0 Fast — modèle Seedance rapide actuel pour les tests et l'itération",
     "intro": "Utilisez Seedance 2.0 Fast comme le modèle vidéo IA Dreamina Seedance 2.0 Fast le plus rapide pour des tests plus rapides, du shot planning, des checks de timing et des itérations A/B avant de passer les directions validées dans Seedance 2.0.",
@@ -75,7 +75,7 @@
   "technicalOverview": [
     {
       "label": "Rôle dans la famille",
-      "body": "Variante rapide optimisée dans la famille Dreamina Seedance 2 sur MaxVideoAI."
+      "body": "Variante rapide optimisée dans la famille Dreamina Seedance 2 sur VideoAI."
     },
     {
       "label": "Entrées",
@@ -91,7 +91,7 @@
     },
     {
       "label": "Audio",
-      "body": "Audio natif activé par défaut et désactivable ; MaxVideoAI affiche le prix final avant chaque run"
+      "body": "Audio natif activé par défaut et désactivable ; VideoAI affiche le prix final avant chaque run"
     },
     {
       "label": "Quand l'utiliser",
@@ -139,7 +139,7 @@
       "prompt": "Version de travail verticale de six secondes d'un flacon skincare dans une salle de bain lumineuse, une révélation propre, une rotation de bouchon et un léger son d'eau."
     }
   ],
-  "faqTitle": "FAQ – Seedance 2.0 Fast sur MaxVideoAI",
+  "faqTitle": "FAQ – Seedance 2.0 Fast sur VideoAI",
   "faqs": [
     {
       "q": "Qu'est-ce que Seedance 2.0 Fast ?",
@@ -147,11 +147,11 @@
     },
     {
       "q": "Seedance 2.0 Fast fait-il partie de Dreamina Seedance ?",
-      "a": "Oui. La documentation ByteDance et le nom produit Dreamina utilisent Dreamina Seedance 2.0 pour la famille modèle plus large. Seedance 2.0 Fast est la route plus rapide de cette famille sur MaxVideoAI."
+      "a": "Oui. La documentation ByteDance et le nom produit Dreamina utilisent Dreamina Seedance 2.0 pour la famille modèle plus large. Seedance 2.0 Fast est la route plus rapide de cette famille sur VideoAI."
     },
     {
       "q": "Combien coûte Seedance 2.0 Fast ?",
-      "a": "La carte de prix affiche des totaux MaxVideoAI pour des scénarios de brouillon courants, comme 5 s en 480p, 8 s en 720p et 10 s en 720p. Generate reste la source de vérité pour le devis live exact avant validation."
+      "a": "La carte de prix affiche des totaux VideoAI pour des scénarios de brouillon courants, comme 5 s en 480p, 8 s en 720p et 10 s en 720p. Generate reste la source de vérité pour le devis live exact avant validation."
     },
     {
       "q": "Seedance 2.0 Fast conserve-t-il text-to-video, image-to-video et reference-to-video ?",
@@ -167,7 +167,7 @@
     },
     {
       "q": "Quelle durée peut-on viser avec Seedance 2.0 Fast ?",
-      "a": "La route MaxVideoAI actuelle expose une durée auto ou explicite de 4 à 15 secondes pour Seedance 2.0 Fast."
+      "a": "La route VideoAI actuelle expose une durée auto ou explicite de 4 à 15 secondes pour Seedance 2.0 Fast."
     },
     {
       "q": "Quand utiliser Seedance 2.0 Fast plutôt que Seedance 2.0 standard ?",
@@ -395,13 +395,13 @@
     "pricingCopy": {
       "title": "Prix des brouillons Seedance 2.0 Fast",
       "subtitle": "Prix totaux par scénario de brouillon — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 720p",
       "ctaHref": "/fr/tarifs#seedance-2-0-fast-pricing"
     },
     "meta": {
-      "title": "Seedance 2.0 Fast : prix brouillons et itérations | MaxVideoAI",
+      "title": "Seedance 2.0 Fast : prix brouillons et itérations | VideoAI",
       "description": "Utilisez Seedance 2.0 Fast pour des brouillons rapides, tests de rythme, variantes de mouvement et plans guidés par références avant rendu final."
     }
   },

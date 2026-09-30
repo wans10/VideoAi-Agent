@@ -2,12 +2,12 @@
   "marketingName": "Kling 3 4K",
   "versionLabel": "v3 4K",
   "seo": {
-    "title": "Kling 3 4K | Modele video IA 4K natif | MaxVideoAI",
-    "description": "Utilisez Kling 3 4K sur MaxVideoAI pour des rendus de livraison texte-vers-video et image-vers-video en 4K native, clips de 3 a 15 s, audio optionnel et prix final visible.",
+    "title": "Kling 3 4K | Modele video IA 4K natif | VideoAI",
+    "description": "Utilisez Kling 3 4K sur VideoAI pour des rendus de livraison texte-vers-video et image-vers-video en 4K native, clips de 3 a 15 s, audio optionnel et prix final visible.",
     "image": "/hero/kling-3-4k-hero.jpg"
   },
   "overview": "Kling 3 4K est la route video IA Kling en 4K native pour les rendus finaux, prompts approuves, masters image-vers-video, cadrage verrouille et audio natif optionnel.",
-  "pricingNotes": "Les estimations affichées aux membres incluent la marge MaxVideoAI : environ 0,55 $/s pour la sortie 4K native. Gardez cette route pour les rendus finaux validés.",
+  "pricingNotes": "Les estimations affichées aux membres incluent la marge VideoAI : environ 0,55 $/s pour la sortie 4K native. Gardez cette route pour les rendus finaux validés.",
   "hero": {
     "title": "Kling 3 4K - generation video 4K native",
     "intro": "Utilisez Kling 3 4K quand un prompt ou une start frame est deja valide et que le plan doit sortir en 4K native pour livraison, montage ou revue grand format. Utilisez Kling 3.0 Omni 4K quand des images de reference ou de storyboard doivent guider le plan sans l'ouvrir.",
@@ -114,11 +114,11 @@
       "prompt": "Plan hero voyage 16:9 en 4K natif : lever de soleil sur un hotel en falaise, glide drone fluide, brume chaude, embruns, rendu campagne luxe."
     }
   ],
-  "faqTitle": "FAQ - Kling 3 4K dans MaxVideoAI",
+  "faqTitle": "FAQ - Kling 3 4K dans VideoAI",
   "faqs": [
     {
       "q": "Kling 3 4K genere-t-il une sortie 4K native ?",
-      "a": "Oui. Kling 3 4K est la route de livraison 4K native sur MaxVideoAI pour les plans texte-vers-video ou image-vers-video selectionnes."
+      "a": "Oui. Kling 3 4K est la route de livraison 4K native sur VideoAI pour les plans texte-vers-video ou image-vers-video selectionnes."
     },
     {
       "q": "Quand utiliser Kling 3 4K plutot que Kling 3 Pro ?",
@@ -126,7 +126,7 @@
     },
     {
       "q": "Kling 3 4K prend-il en charge image-vers-video ?",
-      "a": "Oui. La route MaxVideoAI actuelle prend en charge image-vers-video depuis une image source, avec image de fin optionnelle quand la route active l expose."
+      "a": "Oui. La route VideoAI actuelle prend en charge image-vers-video depuis une image source, avec image de fin optionnelle quand la route active l expose."
     },
     {
       "q": "Kling 3 4K prend-il en charge audio et lip sync ?",
@@ -187,7 +187,7 @@
       "Le mouvement est trop charge -> reduisez a une action lisible et un mouvement camera."
     ],
     "boundaries": [
-      "Utilisez texte ou une image source ; pas d entree video sur la route Kling 3 4K actuelle de MaxVideoAI.",
+      "Utilisez texte ou une image source ; pas d entree video sur la route Kling 3 4K actuelle de VideoAI.",
       "La 4K native sert aux plans de livraison selectionnes, pas a l exploration large de prompts.",
       "Les clips restent courts, jusqu a 15 secondes par generation.",
       "Les ratios 1:1, 16:9 et 9:16 sont pris en charge sur cette route.",
@@ -197,7 +197,7 @@
     "faqs": [
       {
         "q": "Kling 3 4K genere-t-il une sortie 4K native ?",
-        "a": "Oui. Kling 3 4K est la route de livraison 4K native sur MaxVideoAI pour les plans texte-vers-video ou image-vers-video selectionnes."
+        "a": "Oui. Kling 3 4K est la route de livraison 4K native sur VideoAI pour les plans texte-vers-video ou image-vers-video selectionnes."
       },
       {
         "q": "Quand utiliser Kling 3 4K plutot que Kling 3 Pro ?",
@@ -205,7 +205,7 @@
       },
       {
         "q": "Kling 3 4K prend-il en charge image-vers-video ?",
-        "a": "Oui. La route MaxVideoAI actuelle prend en charge image-vers-video depuis une image source, avec image de fin optionnelle quand la route active l expose."
+        "a": "Oui. La route VideoAI actuelle prend en charge image-vers-video depuis une image source, avec image de fin optionnelle quand la route active l expose."
       },
       {
         "q": "Kling 3 4K prend-il en charge audio et lip sync ?",
@@ -346,13 +346,13 @@
     "pricingCopy": {
       "title": "Prix Kling 3 4K en un coup d’œil",
       "subtitle": "Prix totaux en 4K native — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Route 4K native",
       "ctaHref": "/fr/tarifs#kling-3-4k-pricing"
     },
     "meta": {
-      "title": "Kling 3 4K : tarifs 4K native et exemples | MaxVideoAI",
+      "title": "Kling 3 4K : tarifs 4K native et exemples | VideoAI",
       "description": "Utilisez Kling 3 4K pour des rendus de livraison en 4K native, plans image-vidéo approuvés, masters produit et clips finaux jusqu’à 15 s."
     }
   },
@@ -404,7 +404,7 @@
       "Controlez le cout en validant plus bas, puis en passant seulement les plans approuves dans Kling 3 4K."
     ],
     "engineWhy": [
-      "Kling 3 4K est expose en texte-vers-video et image-vers-video sur MaxVideoAI, pas comme route avec entree video.",
+      "Kling 3 4K est expose en texte-vers-video et image-vers-video sur VideoAI, pas comme route avec entree video.",
       "L image-vers-video accepte une image source, avec image de fin optionnelle quand la route active l expose.",
       "La route sort en 4K native, donc elle sert mieux les masters finaux que l exploration large de prompts.",
       "Le lip sync est pris en charge, mais le prompt doit garder un dialogue court et un cadrage visage stable.",

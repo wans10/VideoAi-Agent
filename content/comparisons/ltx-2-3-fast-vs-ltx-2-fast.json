@@ -49,7 +49,7 @@
       "subtitle": "Specific answers for staying on LTX 2.0 Fast or moving to LTX 2.3 Fast.",
       "items": [
         {
-          "question": "Is LTX Video 2.0 Fast still available on MaxVideoAI?",
+          "question": "Is LTX Video 2.0 Fast still available on VideoAI?",
           "answer": "Yes. It remains available for established 16:9 text and image workflows with audio, up to 20 seconds, and 1080p, 1440p, or 4K output."
         },
         {
@@ -112,7 +112,7 @@
       "subtitle": "Réponses pour rester sur LTX 2.0 Fast ou migrer vers les contrôles de LTX 2.3 Fast.",
       "items": [
         {
-          "question": "LTX Video 2.0 Fast est-il encore disponible sur MaxVideoAI ?",
+          "question": "LTX Video 2.0 Fast est-il encore disponible sur VideoAI ?",
           "answer": "Oui. Il reste disponible pour les générations 16:9 à partir d’un texte ou d’une image, avec audio, jusqu’à 20 secondes, en 1080p, 1440p ou 4K."
         },
         {
@@ -175,7 +175,7 @@
       "subtitle": "Respuestas para quedarse en LTX 2.0 Fast o pasar a LTX 2.3 Fast.",
       "items": [
         {
-          "question": "¿LTX Video 2.0 Fast sigue disponible en MaxVideoAI?",
+          "question": "¿LTX Video 2.0 Fast sigue disponible en VideoAI?",
           "answer": "Sí. Sigue disponible para flujos 16:9 de texto e imagen con audio, hasta 20 segundos y salida en 1080p, 1440p o 4K."
         },
         {

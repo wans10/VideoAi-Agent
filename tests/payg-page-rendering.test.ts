@@ -91,7 +91,7 @@ const representative = {
     lookupHref: '/pricing#seedance-2-0-pricing',
     showcase: {
       title: 'Example videos with model and price context',
-      intro: 'A short strip from public MaxVideoAI renders, showing the model, duration, and recorded render price when available.',
+      intro: 'A short strip from public VideoAI renders, showing the model, duration, and recorded render price when available.',
       cta: 'Test your prompt with a live quote',
       mediaPhrase: 'example video generated with',
     },
@@ -126,7 +126,7 @@ const representative = {
     lookupHref: '/fr/pricing#seedance-2-0-pricing',
     showcase: {
       title: 'Vidéos d’exemple avec modèle et prix',
-      intro: 'Une courte sélection de rendus publics MaxVideoAI montrant le modèle, la durée et le prix enregistré lorsqu’il est disponible.',
+      intro: 'Une courte sélection de rendus publics VideoAI montrant le modèle, la durée et le prix enregistré lorsqu’il est disponible.',
       cta: 'Testez votre prompt avec un devis en temps réel',
       mediaPhrase: 'vidéo d’exemple générée avec',
     },
@@ -161,7 +161,7 @@ const representative = {
     lookupHref: '/es/pricing#seedance-2-0-pricing',
     showcase: {
       title: 'Videos de ejemplo con modelo y precio',
-      intro: 'Una selección breve de renders públicos de MaxVideoAI que muestra el modelo, la duración y el precio registrado cuando está disponible.',
+      intro: 'Una selección breve de renders públicos de VideoAI que muestra el modelo, la duración y el precio registrado cuando está disponible.',
       cta: 'Prueba tu prompt con una cotización en tiempo real',
       mediaPhrase: 'video de ejemplo generado con',
     },
@@ -386,7 +386,7 @@ for (const locale of locales) {
       areaServed: 'Worldwide',
       provider: {
         '@type': 'Organization',
-        name: 'MaxVideoAI',
+        name: 'VideoAI',
         url: SITE_BASE_URL,
         logo: `${SITE_BASE_URL}/favicon-512.png`,
       },
@@ -402,7 +402,7 @@ for (const locale of locales) {
     assert.deepEqual(webApplication, {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'MaxVideoAI',
+      name: 'VideoAI',
       applicationCategory: 'MultimediaApplication',
       operatingSystem: 'Web',
       url: canonical,

@@ -47,7 +47,7 @@ export default async function PrivacyPage() {
         <p className="text-sm text-text-secondary">
           {locale === 'en' ? (
             <>
-              Controller: MaxVideoAI (sole proprietorship in formation, France). Registered office: see{' '}
+              Controller: VideoAI (sole proprietorship in formation, France). Registered office: see{' '}
               <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
                 legal mentions
               </Link>
@@ -55,7 +55,7 @@ export default async function PrivacyPage() {
             </>
           ) : locale === 'fr' ? (
             <>
-              Responsable de traitement : MaxVideoAI (entreprise individuelle en France). Adresse : voir{' '}
+              Responsable de traitement : VideoAI (entreprise individuelle en France). Adresse : voir{' '}
               <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
                 Mentions légales
               </Link>
@@ -63,7 +63,7 @@ export default async function PrivacyPage() {
             </>
           ) : (
             <>
-              Responsable: MaxVideoAI (empresa individual en Francia). Dirección: consulta las{' '}
+              Responsable: VideoAI (empresa individual en Francia). Dirección: consulta las{' '}
               <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
                 menciones legales
               </Link>
@@ -74,19 +74,19 @@ export default async function PrivacyPage() {
         <p className="text-sm text-text-secondary">
           {header.contactLabel}{' '}
           <ObfuscatedEmailLink
-            user="privacy"
-            domain="maxvideoai.com"
-            label="privacy@maxvideoai.com"
-            placeholder="privacy [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
             unstyled
             className="font-medium"
           />{' '}
           ·{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
             unstyled
             className="font-medium"
           />

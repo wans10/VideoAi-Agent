@@ -75,7 +75,7 @@ test('llms.txt lists the Luma and Mini comparison wave', () => {
   LUMA_MINI_SEO_COMPARISONS.forEach((slug) =>
     assert.match(
       llmsSource,
-      new RegExp(`https://maxvideoai\\.com/ai-video-engines/${slug}`),
+      new RegExp(`https://videoai\\.omninodetech\\.com/ai-video-engines/${slug}`),
       `Missing llms.txt URL for ${slug}`
     )
   );

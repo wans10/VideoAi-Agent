@@ -57,12 +57,12 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
   const metaTitle =
     localized.metaTitle ??
     (locale === 'fr'
-      ? `Exemples vidéo IA ${label} (prompts + réglages) | MaxVideoAI`
+      ? `Exemples vidéo IA ${label} (prompts + réglages) | VideoAI`
       : locale === 'es'
-        ? `Ejemplos de video con IA de ${label} (prompts + ajustes) | MaxVideoAI`
+        ? `Ejemplos de video con IA de ${label} (prompts + ajustes) | VideoAI`
         : locale === 'zh'
-          ? `${label} AI 视频案例（提示词 + 参数设置）| MaxVideoAI`
-          : `${label} AI Video Examples (Prompts + Settings) | MaxVideoAI`);
+          ? `${label} AI 视频案例（提示词 + 参数设置）| VideoAI`
+          : `${label} AI Video Examples (Prompts + Settings) | VideoAI`);
   const sectionPromptTitle =
     locale === 'fr'
       ? `Prompts sur les modèles ${label}`

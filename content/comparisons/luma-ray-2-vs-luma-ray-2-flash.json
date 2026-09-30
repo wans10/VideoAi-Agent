@@ -50,7 +50,7 @@
       "items": [
         {
           "question": "Are Luma Ray 2 and Ray 2 Flash still available?",
-          "answer": "Yes. Both legacy Luma routes remain available on MaxVideoAI for text, image, video modification, and reframe workflows."
+          "answer": "Yes. Both legacy Luma routes remain available on VideoAI for text, image, video modification, and reframe workflows."
         },
         {
           "question": "Who should stay on Luma Ray 2 instead of Flash?",
@@ -113,7 +113,7 @@
       "items": [
         {
           "question": "Luma Ray 2 et Ray 2 Flash sont-ils toujours disponibles ?",
-          "answer": "Oui. Les deux workflows Luma historiques restent disponibles sur MaxVideoAI pour la génération depuis texte ou image, la modification vidéo et le recadrage."
+          "answer": "Oui. Les deux workflows Luma historiques restent disponibles sur VideoAI pour la génération depuis texte ou image, la modification vidéo et le recadrage."
         },
         {
           "question": "Qui devrait rester sur Luma Ray 2 plutôt que passer à Flash ?",
@@ -132,7 +132,7 @@
       "description": "Compara Luma Ray 2 y Ray 2 Flash en velocidad de borrador, modificación, reencuadre, duración y la migración desde estos modelos anteriores a Ray 3.2.",
       "titleBranding": "none"
     },
-    "heroIntro": "Compara Luma Ray 2 con Luma Ray 2 Flash como dos modelos anteriores de Luma que siguen disponibles en MaxVideoAI. Ambos son silenciosos, llegan a nueve segundos y 1080p, y admiten texto, imagen, modificación de video y reencuadre; Flash está orientado a borradores más rápidos.",
+    "heroIntro": "Compara Luma Ray 2 con Luma Ray 2 Flash como dos modelos anteriores de Luma que siguen disponibles en VideoAI. Ambos son silenciosos, llegan a nueve segundos y 1080p, y admiten texto, imagen, modificación de video y reencuadre; Flash está orientado a borradores más rápidos.",
     "quickVerdict": {
       "title": "Veredicto rápido",
       "body": "Quédate en Luma Ray 2 para el flujo estándar anterior disponible o elige Luma Ray 2 Flash para iterar borradores más rápido con los mismos modos catalogados. Migra la producción nueva de Luma a Luma Ray 3.2 actual cuando su generación más reciente encaje con el proyecto."
@@ -176,7 +176,7 @@
       "items": [
         {
           "question": "¿Luma Ray 2 y Ray 2 Flash siguen disponibles?",
-          "answer": "Sí. Ambos modelos anteriores de Luma siguen disponibles en MaxVideoAI para flujos de texto, imagen, modificación de video y reencuadre."
+          "answer": "Sí. Ambos modelos anteriores de Luma siguen disponibles en VideoAI para flujos de texto, imagen, modificación de video y reencuadre."
         },
         {
           "question": "¿Quién debería quedarse en Luma Ray 2 en vez de usar Flash?",

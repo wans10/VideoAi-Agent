@@ -271,7 +271,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
     <>
     <header className={clsx('videoai-public-header sticky top-0 z-40 border-b border-hairline bg-surface', isHomePage && 'home-monochrome')}>
       <div className="videoai-public-nav mx-auto flex h-16 max-w-[1460px] items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3 sm:gap-6">
+        <div className="studio-navigation-main flex items-center gap-3 sm:gap-6">
           <Button
             type="button"
             size="sm"
@@ -293,6 +293,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
           >
             <BrandLockup caption={locale === 'zh' ? '影像工作室' : 'CREATIVE STUDIO'} />
           </Link>
+          <p className="studio-navigation-caption">{locale === 'zh' ? '从灵感，到成片。' : locale === 'fr' ? 'De l’idée au film.' : locale === 'es' ? 'De la idea a la escena.' : 'From idea to moving image.'}</p>
           <MarketingDesktopNav
             desktopDropdownOpen={desktopDropdownOpen}
             links={links}
@@ -305,7 +306,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
             }}
           />
         </div>
-        <div className="flex items-center gap-2 whitespace-nowrap sm:gap-3 lg:gap-4">
+        <div className="studio-navigation-account flex items-center gap-2 whitespace-nowrap sm:gap-3 lg:gap-4">
           <div className="hidden items-center gap-1 md:flex">
             <LanguageToggle variant="icon" />
 

@@ -13,7 +13,7 @@ import { CharacterBuilderLandingSections } from './CharacterBuilderLandingSectio
 
 export async function CharacterBuilderLandingView({ content }: { content: CharacterBuilderLandingContent }) {
   const locale = await resolveLocale();
-  const canonicalUrl = `https://maxvideoai.com${localizePathFromEnglish(locale, '/tools/character-builder')}`;
+  const canonicalUrl = `https://videoai.omninodetech.com${localizePathFromEnglish(locale, '/tools/character-builder')}`;
   const breadcrumbJsonLd = buildToolBreadcrumbJsonLd({
     locale,
     breadcrumb: content.breadcrumb,

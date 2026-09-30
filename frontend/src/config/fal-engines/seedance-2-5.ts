@@ -263,8 +263,8 @@ export const SEEDANCE_2_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: SEEDANCE_2_5_MODES.map(seedance25Mode),
     defaultFalModelId: BYTEPLUS_SEEDANCE_2_5_ENDPOINTS.t2v,
     seo: {
-      title: 'Seedance 2.5 — MaxVideoAI',
-      description: 'Seedance 2.5 video generation workflows on MaxVideoAI.',
+      title: 'Seedance 2.5 — VideoAI',
+      description: 'Seedance 2.5 video generation workflows on VideoAI.',
       canonicalPath: '/models/seedance-2-5',
     },
     type: 'textImage',

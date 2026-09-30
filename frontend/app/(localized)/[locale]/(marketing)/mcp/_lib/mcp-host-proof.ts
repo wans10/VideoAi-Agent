@@ -30,33 +30,33 @@ const copy: Record<AppLocale, Pick<McpHostProof, 'eyebrow' | 'heading' | 'captio
     eyebrow: 'Claude Desktop · Controlled test',
     heading: 'Video result shown in Claude',
     caption:
-      'A completed MaxVideoAI video displayed inline in Claude Desktop during a controlled test. The result is saved to the connected MaxVideoAI library. The $0.95 shown is the amount recorded for this capture, not a current quote.',
+      'A completed VideoAI video displayed inline in Claude Desktop during a controlled test. The result is saved to the connected VideoAI library. The $0.95 shown is the amount recorded for this capture, not a current quote.',
     alt:
-      'Claude Desktop conversation showing a completed MaxVideoAI video in an inline player, a $0.95 capture amount, library-save confirmation, and an Open in MaxVideoAI button.',
+      'Claude Desktop conversation showing a completed VideoAI video in an inline player, a $0.95 capture amount, library-save confirmation, and an Open in VideoAI button.',
   },
   fr: {
     eyebrow: 'Claude Desktop · Test contrôlé',
     heading: 'Résultat vidéo affiché dans Claude',
     caption:
-      'Une vidéo MaxVideoAI terminée affichée directement dans Claude Desktop lors d’un test contrôlé. Le résultat est enregistré dans la bibliothèque MaxVideoAI connectée. Les 0,95 $ affichés correspondent à cette capture, pas à un devis actuel.',
+      'Une vidéo VideoAI terminée affichée directement dans Claude Desktop lors d’un test contrôlé. Le résultat est enregistré dans la bibliothèque VideoAI connectée. Les 0,95 $ affichés correspondent à cette capture, pas à un devis actuel.',
     alt:
-      'Conversation Claude Desktop montrant une vidéo MaxVideoAI terminée dans un lecteur intégré, un montant de capture de 0,95 $, la confirmation d’enregistrement dans la bibliothèque et le bouton Ouvrir dans MaxVideoAI.',
+      'Conversation Claude Desktop montrant une vidéo VideoAI terminée dans un lecteur intégré, un montant de capture de 0,95 $, la confirmation d’enregistrement dans la bibliothèque et le bouton Ouvrir dans VideoAI.',
   },
   es: {
     eyebrow: 'Claude Desktop · Prueba controlada',
     heading: 'Resultado de video mostrado en Claude',
     caption:
-      'Un video MaxVideoAI terminado mostrado en línea en Claude Desktop durante una prueba controlada. El resultado se guarda en la biblioteca MaxVideoAI conectada. Los 0,95 $ mostrados corresponden a esta captura, no a un precio actual.',
+      'Un video VideoAI terminado mostrado en línea en Claude Desktop durante una prueba controlada. El resultado se guarda en la biblioteca VideoAI conectada. Los 0,95 $ mostrados corresponden a esta captura, no a un precio actual.',
     alt:
-      'Conversación de Claude Desktop con un video MaxVideoAI terminado en un reproductor integrado, un importe de captura de 0,95 $, confirmación de guardado en la biblioteca y un botón para abrir MaxVideoAI.',
+      'Conversación de Claude Desktop con un video VideoAI terminado en un reproductor integrado, un importe de captura de 0,95 $, confirmación de guardado en la biblioteca y un botón para abrir VideoAI.',
   },
   zh: {
     eyebrow: 'Claude Desktop · 受控测试',
     heading: '在 Claude 中展示的视频生成结果',
     caption:
-      '受控测试期间在 Claude Desktop 内置播放器中展示的已完成 MaxVideoAI 视频。结果已保存至已连接的 MaxVideoAI 媒体库。截图中显示的 $0.95 为当时记录的金额，非当前报价。',
+      '受控测试期间在 Claude Desktop 内置播放器中展示的已完成 VideoAI 视频。结果已保存至已连接的 VideoAI 媒体库。截图中显示的 $0.95 为当时记录的金额，非当前报价。',
     alt:
-      'Claude Desktop 对话界面展示了内置播放器中完成的 MaxVideoAI 视频、$0.95 记录金额、媒体库保存确认以及在 MaxVideoAI 中打开按钮。',
+      'Claude Desktop 对话界面展示了内置播放器中完成的 VideoAI 视频、$0.95 记录金额、媒体库保存确认以及在 VideoAI 中打开按钮。',
   },
 };
 

@@ -116,9 +116,9 @@ test('models sitemap retains every localized H3, Seedance 2.5 and Seedance 2.0 c
 
   for (const slug of ['minimax-h3', 'seedance-2-5', 'seedance-2-0']) {
     const urls = {
-      en: `https://maxvideoai.com/models/${slug}`,
-      fr: `https://maxvideoai.com/fr/modeles/${slug}`,
-      es: `https://maxvideoai.com/es/modelos/${slug}`,
+      en: `https://videoai.omninodetech.com/models/${slug}`,
+      fr: `https://videoai.omninodetech.com/fr/modeles/${slug}`,
+      es: `https://videoai.omninodetech.com/es/modelos/${slug}`,
     } as const;
 
     for (const [hreflang, url] of Object.entries(urls)) {

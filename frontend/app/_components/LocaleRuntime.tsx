@@ -37,7 +37,7 @@ export async function LocaleRuntime({ children, locale, clientMessageNamespaces 
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     url: homeUrl,
-    name: 'MaxVideoAI',
+    name: 'VideoAI',
     inLanguage: localeRegions[locale],
     ...(enableSearchSchema
       ? {

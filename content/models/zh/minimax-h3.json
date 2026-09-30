@@ -98,7 +98,7 @@
     },
     {
       "q": "我可以直接在此页面使用 MiniMax H3 生成吗？",
-      "a": "可以。MiniMax H3 已在 MaxVideoAI 上线，每次渲染前均会展示精确价格。"
+      "a": "可以。MiniMax H3 已在 VideoAI 上线，每次渲染前均会展示精确价格。"
     }
   ],
   "decision": {
@@ -320,7 +320,7 @@
     "showWhenEmpty": false,
     "section": {
       "title": "MiniMax H3 真实输出案例",
-      "intro": "查看经过验证的 MaxVideoAI 渲染案例，测试角色连贯性、运镜调度、参考控制与同步音效。",
+      "intro": "查看经过验证的 VideoAI 渲染案例，测试角色连贯性、运镜调度、参考控制与同步音效。",
       "defaultCtaLabel": "查看全部 MiniMax H3 案例",
       "recreateLabel": "复现此场景"
     },
@@ -371,7 +371,7 @@
         "id": "production",
         "icon": "shield",
         "title": "真实生产级渲染",
-        "body": "此页面上的每个案例均通过 MaxVideoAI 生成。"
+        "body": "此页面上的每个案例均通过 VideoAI 生成。"
       }
     ],
     "fallbackItems": null

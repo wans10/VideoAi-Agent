@@ -157,11 +157,11 @@ test('Chinese trend comparisons own editorial metadata, verdicts, links and reci
       availableLocales: getIndexableComparisonLocales(slug),
       titleBranding: override.meta.titleBranding,
     });
-    assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com/zh/ai-video-engines/${slug}`);
+    assert.equal(metadata.alternates?.canonical, `https://videoai.omninodetech.com/zh/ai-video-engines/${slug}`);
     assert.deepEqual(metadata.alternates?.languages, {
-      en: `https://maxvideoai.com/ai-video-engines/${slug}`,
-      zh: `https://maxvideoai.com/zh/ai-video-engines/${slug}`,
-      'x-default': `https://maxvideoai.com/ai-video-engines/${slug}`,
+      en: `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
+      zh: `https://videoai.omninodetech.com/zh/ai-video-engines/${slug}`,
+      'x-default': `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
     });
   }
 });
@@ -187,15 +187,15 @@ test('the three priority Seedance 2.5 comparisons keep their curated EN/FR/ES co
       });
       assert.equal(
         metadata.alternates?.canonical,
-        `https://maxvideoai.com${CANONICAL_COMPARISON_PREFIX_BY_LOCALE[locale]}/${slug}`,
+        `https://videoai.omninodetech.com${CANONICAL_COMPARISON_PREFIX_BY_LOCALE[locale]}/${slug}`,
         `${locale} ${slug} self-canonical`,
       );
       assert.deepEqual(metadata.alternates?.languages, {
-        en: `https://maxvideoai.com/ai-video-engines/${slug}`,
-        fr: `https://maxvideoai.com/fr/comparatif/${slug}`,
-        es: `https://maxvideoai.com/es/comparativa/${slug}`,
-        zh: `https://maxvideoai.com/zh/ai-video-engines/${slug}`,
-        'x-default': `https://maxvideoai.com/ai-video-engines/${slug}`,
+        en: `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
+        fr: `https://videoai.omninodetech.com/fr/comparatif/${slug}`,
+        es: `https://videoai.omninodetech.com/es/comparativa/${slug}`,
+        zh: `https://videoai.omninodetech.com/zh/ai-video-engines/${slug}`,
+        'x-default': `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
       });
     }
   }
@@ -267,18 +267,18 @@ test('the real metadata builder projects a localized generic fallback with canon
   });
 
   assert.deepEqual(metadata.title, {
-    absolute: 'Kling 3 Pro vs Veo 3.1 | Comparatif de modèles vidéo IA | MaxVideoAI',
+    absolute: 'Kling 3 Pro vs Veo 3.1 | Comparatif de modèles vidéo IA | VideoAI',
   });
   assert.match(metadata.description ?? '', /Kling 3 Pro.*Veo 3.1/);
   assert.match(metadata.description ?? '', /caractéristiques, prix/);
   assert.doesNotMatch(metadata.description ?? '', /prompts identiques/);
-  assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com/fr/comparatif/${slug}`);
+  assert.equal(metadata.alternates?.canonical, `https://videoai.omninodetech.com/fr/comparatif/${slug}`);
   assert.deepEqual(metadata.alternates?.languages, {
-    en: `https://maxvideoai.com/ai-video-engines/${slug}`,
-    fr: `https://maxvideoai.com/fr/comparatif/${slug}`,
-    es: `https://maxvideoai.com/es/comparativa/${slug}`,
-    zh: `https://maxvideoai.com/zh/ai-video-engines/${slug}`,
-    'x-default': `https://maxvideoai.com/ai-video-engines/${slug}`,
+    en: `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
+    fr: `https://videoai.omninodetech.com/fr/comparatif/${slug}`,
+    es: `https://videoai.omninodetech.com/es/comparativa/${slug}`,
+    zh: `https://videoai.omninodetech.com/zh/ai-video-engines/${slug}`,
+    'x-default': `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
   });
 });
 

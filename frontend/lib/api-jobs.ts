@@ -35,7 +35,7 @@ function normalizeJobFromApi(job: Job): Job {
       ? undefined
       : messageFromApi ??
         (status === 'failed'
-          ? 'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+          ? 'VideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
           : undefined);
 
   return {

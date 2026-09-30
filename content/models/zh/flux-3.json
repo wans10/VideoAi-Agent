@@ -5,7 +5,7 @@
     "title": "FLUX 3 视频生成器：关键帧、图像与视频延伸",
     "description": "规划 FLUX 3 Video 的文本、图像、首尾帧与视频延伸工作流，了解精确的输入边界、生产级提示词结构及各模式标准定价。"
   },
-  "overview": "FLUX 3 Video 是新一代 FLUX 视频家族的当前生产路线，支持纯文本生成、首帧图像动画、精确首尾帧引导及源视频延伸。FLUX 由 Black Forest Labs 拥有，MaxVideoAI 通过 Fal 而非 Black Forest Labs 直连路由分发这些发布端点。",
+  "overview": "FLUX 3 Video 是新一代 FLUX 视频家族的当前生产路线，支持纯文本生成、首帧图像动画、精确首尾帧引导及源视频延伸。FLUX 由 Black Forest Labs 拥有，VideoAI 通过 Fal 而非 Black Forest Labs 直连路由分发这些发布端点。",
   "decision": {
     "modelSlug": "flux-3",
     "hero": {
@@ -17,7 +17,7 @@
         "首尾帧",
         "延伸短片源视频"
       ],
-      "paragraph": "当生产任务需要四种明确工作流之一时，请选择 FLUX 3。首尾帧模式需要同时提供起始和结束图像；延伸模式需要符合条件的源视频，并使用其专属的标准定价规则。Black Forest Labs 拥有该模型家族，Fal 负责为此次发布分发 MaxVideoAI 的执行能力。",
+      "paragraph": "当生产任务需要四种明确工作流之一时，请选择 FLUX 3。首尾帧模式需要同时提供起始和结束图像；延伸模式需要符合条件的源视频，并使用其专属的标准定价规则。Black Forest Labs 拥有该模型家族，Fal 负责为此次发布分发 VideoAI 的执行能力。",
       "primaryCta": {
         "label": "使用 FLUX 3 生成",
         "href": "/app?engine=flux-3"
@@ -129,7 +129,7 @@
     "pricingCopy": {
       "title": "FLUX 3 场景定价",
       "subtitle": "对比相同六秒视频在 720p 和 1080p 下的价格。",
-      "footnote": "价格取决于您选择的设置。MaxVideoAI 将在生成前确认报价。",
+      "footnote": "价格取决于您选择的设置。VideoAI 将在生成前确认报价。",
       "ctaLabel": "使用 FLUX 3 生成",
       "ctaHref": "/app?engine=flux-3"
     },

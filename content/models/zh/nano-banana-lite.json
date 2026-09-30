@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana Lite",
   "versionLabel": "Lite",
   "seo": {
-    "title": "Nano Banana Lite - 快速 1K Google 图像生成 | MaxVideoAI",
-    "description": "通过 MaxVideoAI 使用 Nano Banana Lite 快速生成 1K 静态图像和本地编辑，直接路由至 Google Gemini 图像 API。"
+    "title": "Nano Banana Lite - 快速 1K Google 图像生成 | VideoAI",
+    "description": "通过 VideoAI 使用 Nano Banana Lite 快速生成 1K 静态图像和本地编辑，直接路由至 Google Gemini 图像 API。"
   },
   "overview": "Nano Banana Lite 是 Google Nano Banana 图像系列中快速、高效的 1K 成员。适用于大批量静态草稿、社交概念、本地图像编辑，以及在将精选想法推进至 Nano Banana 2 或 Nano Banana Pro 之前的快速视觉探索。",
-  "pricingNotes": "Nano Banana Lite 按每张 1K 图像计费。MaxVideoAI 在生成前显示准确的实时报价。",
+  "pricingNotes": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
   "hero": {
     "title": "Nano Banana Lite - 快速 1K 图像生成",
     "intro": "通过直连 Google Lite 路由，快速生成静态图像草稿、进行快速本地编辑和大批量创意探索。",
@@ -214,7 +214,7 @@
       },
       {
         "title": "实时价格",
-        "body": "Nano Banana Lite 按每张 1K 图像计费。MaxVideoAI 在生成前显示准确的实时报价。",
+        "body": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
         "tone": "price"
       }
     ],
@@ -259,19 +259,19 @@
       },
       {
         "title": "价格确认",
-        "body": "Nano Banana Lite 按每张 1K 图像计费。MaxVideoAI 在生成前显示准确的实时报价。"
+        "body": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。"
       }
     ],
     "pricingCopy": {
       "title": "Nano Banana Lite 定价概览",
-      "subtitle": "Nano Banana Lite 按每张 1K 图像计费。MaxVideoAI 在生成前显示准确的实时报价。",
-      "footnote": "Nano Banana Lite 按每张 1K 图像计费。MaxVideoAI 在生成前显示准确的实时报价。",
+      "subtitle": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
+      "footnote": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
       "ctaLabel": "查看完整价格",
       "ctaHref": "/zh/pricing#nano-banana-lite-pricing"
     },
     "meta": {
-      "title": "Nano Banana Lite - 快速 1K Google 图像生成 | MaxVideoAI",
-      "description": "通过 MaxVideoAI 使用 Nano Banana Lite 快速生成 1K 静态图像和本地编辑，直接路由至 Google Gemini 图像 API。"
+      "title": "Nano Banana Lite - 快速 1K Google 图像生成 | VideoAI",
+      "description": "通过 VideoAI 使用 Nano Banana Lite 快速生成 1K 静态图像和本地编辑，直接路由至 Google Gemini 图像 API。"
     }
   },
   "prompting": {
@@ -328,7 +328,7 @@
     "modelSlug": "nano-banana-lite",
     "section": {
       "title": "Nano Banana Lite 示例",
-      "intro": "探索真实社区作品，了解 Nano Banana Lite 在 MaxVideoAI 工作流中的表现。",
+      "intro": "探索真实社区作品，了解 Nano Banana Lite 在 VideoAI 工作流中的表现。",
       "defaultCtaLabel": null,
       "recreateLabel": null
     },

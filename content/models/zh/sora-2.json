@@ -3,7 +3,7 @@
   "versionLabel": "2",
   "seo": {
     "title": "Sora 2 文生视频与图生视频 — 原生音频与生成案例",
-    "description": "通过文本或图像生成具备原生旁白与环境音效的 Sora 2 视频。探索可一键复现的精选案例、实战提示词结构以及 MaxVideoAI 灵活透明的按量付费价格。",
+    "description": "通过文本或图像生成具备原生旁白与环境音效的 Sora 2 视频。探索可一键复现的精选案例、实战提示词结构以及 VideoAI 灵活透明的按量付费价格。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a5cbd8d3-33c7-47b5-8480-7f23aab89891-job_684c1b3d-2679-40d1-adb7-06151b3e8739.jpg"
   },
   "hero": {
@@ -29,7 +29,7 @@
     },
     {
       "q": "Sora 2 能否生成 1080p 视频？",
-      "a": "当前 MaxVideoAI 上的 Sora 2 路线输出分辨率为 720p。如果选中的镜头需要 1080p 审阅成片，请使用 Sora 2 Pro。"
+      "a": "当前 VideoAI 上的 Sora 2 路线输出分辨率为 720p。如果选中的镜头需要 1080p 审阅成片，请使用 Sora 2 Pro。"
     },
     {
       "q": "Sora 2 是否支持图生视频？",
@@ -74,7 +74,7 @@
       }
     ],
     "heroTrustLine": "按量计费 · 生成前显示明确价格",
-    "heroDesc1": "直接在浏览器中使用 Sora 2 创作具有电影质感的短视频。MaxVideoAI 为您提供即开即用的 Sora 2 文生视频与图生视频功能，具备透明的按秒计费模式，并为测试验证、原型构思与社媒短片制作打造了专属工作区。",
+    "heroDesc1": "直接在浏览器中使用 Sora 2 创作具有电影质感的短视频。VideoAI 为您提供即开即用的 Sora 2 文生视频与图生视频功能，具备透明的按秒计费模式，并为测试验证、原型构思与社媒短片制作打造了专属工作区。",
     "heroDesc2": "只需描述您的场景，选择时长（4、8 或 12 秒），挑选 16:9 或 9:16 画幅比例，Sora 2 即可生成适用于广告投放、内容创作或客户提案的精致视频素材。",
     "hideQuickPricing": true,
     "showPricePerSecondInSpecs": true,
@@ -123,10 +123,10 @@
         ]
       }
     ],
-    "whatTitle": "Sora 2 在 MaxVideoAI 中的实际定位",
+    "whatTitle": "Sora 2 在 VideoAI 中的实际定位",
     "whatIntro1": "从官方定义来看，OpenAI Sora 2 是 OpenAI 旗下的短视频生成引擎。而在实际应用中，它的表现方式很大程度上取决于平台的集成与调度机制。",
-    "whatIntro2": "在 MaxVideoAI 中，Sora 2 被打造为一个聚焦核心能力、贴合专业生产的视频生成引擎：",
-    "whatFlowTitle": "MaxVideoAI 将这一切整合为清晰简洁的工作流：",
+    "whatIntro2": "在 VideoAI 中，Sora 2 被打造为一个聚焦核心能力、贴合专业生产的视频生成引擎：",
+    "whatFlowTitle": "VideoAI 将这一切整合为清晰简洁的工作流：",
     "whatFlowSteps": [
       "1. 选择 Sora 2 作为生成引擎。",
       "2. 选择文生视频或图生视频模式。",
@@ -135,8 +135,8 @@
       "5. 在生成前查看每条片段的明确结算价格。",
       "6. 在同一界面内横向对比其他生成引擎效果。"
     ],
-    "specTitle": "MaxVideoAI 上的 Sora 2 规格参数",
-    "specNote": "当前 MaxVideoAI 路线参数限制。模型官方家族可能包含超出当前平台所开放路线的更宽泛能力。",
+    "specTitle": "VideoAI 上的 Sora 2 规格参数",
+    "specNote": "当前 VideoAI 路线参数限制。模型官方家族可能包含超出当前平台所开放路线的更宽泛能力。",
     "specSections": [
       {
         "title": "提示词与镜头语言",
@@ -160,7 +160,7 @@
       }
     ],
     "imageTitle": "Sora 2 图生视频工作流（搭配 Nano Banana）",
-    "imageIntro": "在 MaxVideoAI 中使用 Sora 2 的一大优势在于能够与 Nano Banana 等图像生成引擎无缝协同。",
+    "imageIntro": "在 VideoAI 中使用 Sora 2 的一大优势在于能够与 Nano Banana 等图像生成引擎无缝协同。",
     "imageFlow": [
       "在 Nano Banana 中生成符合品牌调性或创意设想的参考静态图。",
       "将该静态图直接导入 Sora 2 作为图生视频的起始帧。",
@@ -190,7 +190,7 @@
       "非常适合打造极具真实感的 UGC 风格素材与电影感插镜"
     ],
     "boundaries": [
-      "当前 MaxVideoAI 上的 Sora 2 路线输出为 720p。若需要 1080p 审阅成片请使用 Sora 2 Pro。",
+      "当前 VideoAI 上的 Sora 2 路线输出为 720p。若需要 1080p 审阅成片请使用 Sora 2 Pro。",
       "单次生成时长为 4–12 秒，不支持长视频直出。更长叙事需拼接多段生成片段。",
       "不支持视频输入作为源素材；仅支持文本或图像起步。",
       "不支持固定随机种子（Seed）；通过精炼提示词并重新运行来进行方案迭代。",
@@ -204,7 +204,7 @@
       "凡违反上述原则的提示词与输入图片均会被系统拦截。",
       "通用虚构角色与常规生活/工作场景均可正常生成。",
       "涉及公众人物或敏感话题的提示词可能会被安全过滤。",
-      "这是确保 MaxVideoAI 与 Sora 2 为专业创作者提供安全、合规生产环境的基础。"
+      "这是确保 VideoAI 与 Sora 2 为专业创作者提供安全、合规生产环境的基础。"
     ],
     "safetyNote": null,
     "comparisonTitle": "Sora 2 与 Sora 2 Pro 快速对比",
@@ -215,7 +215,7 @@
     ],
     "comparisonCta": "从 Sora 2 快速起步，需要更高分辨率时无缝升级至 Sora 2 Pro →",
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "横向对比 MaxVideoAI 提供的其他生成引擎的价格、响应耗时与输出选项。",
+    "relatedSubtitle": "横向对比 VideoAI 提供的其他生成引擎的价格、响应耗时与输出选项。",
     "relatedItems": [
       {
         "brand": "openai",
@@ -227,7 +227,7 @@
       {
         "brand": "google-veo",
         "title": "Google Veo 3.1",
-        "description": "在 MaxVideoAI 上使用 Google DeepMind 打造的 Veo 3.1 生成自带原生音频的 8 秒电影感视频。支持多图参考生视频引导与高保真输出，按量付费每秒仅需 /bin/zsh.52 起。",
+        "description": "在 VideoAI 上使用 Google DeepMind 打造的 Veo 3.1 生成自带原生音频的 8 秒电影感视频。支持多图参考生视频引导与高保真输出，按量付费每秒仅需 /bin/zsh.52 起。",
         "modelSlug": "veo-3-1",
         "ctaLabel": "对比 OpenAI Sora 2 与 Google Veo 3.1 →"
       },
@@ -239,7 +239,7 @@
         "ctaLabel": "对比 OpenAI Sora 2 与 Kling 3 Pro →"
       }
     ],
-    "finalPara1": "MaxVideoAI 中的 Sora 2 让您无需搭建繁琐的算力设施或凭空猜测成本，即可通过简单直接的按量付费方式，体验顶尖的短视频生成模型。",
+    "finalPara1": "VideoAI 中的 Sora 2 让您无需搭建繁琐的算力设施或凭空猜测成本，即可通过简单直接的按量付费方式，体验顶尖的短视频生成模型。",
     "finalPara2": "利用它快速验证创意、构建微型镜头序列并探索艺术方向。当您需要更高分辨率或更精细的控制力时，随时可以平滑升级至 Sora 2 Pro。",
     "finalButton": "立即使用 Sora 2 开始生成 →",
     "tipsIntro": "当镜头保持简洁、意图直观且符合物理直觉时，Sora 的生成表现最稳定可控。"
@@ -373,13 +373,13 @@
     "pricingCopy": {
       "title": "Sora 2 价格一览",
       "subtitle": "预设 720p 计费总额 — 在应用中点击生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高支持 720p",
       "ctaHref": "/zh/pricing#sora-2-pricing"
     },
     "meta": {
-      "title": "Sora 2：价格、原生音频与案例展示 | MaxVideoAI",
+      "title": "Sora 2：价格、原生音频与案例展示 | VideoAI",
       "description": "探索 Sora 2 的实时价格、精选案例、原生同步音频、文生视频与图生视频工作流。横向对比 Sora 2 与 Pro 及其他主流 AI 视频生成模型。"
     }
   },
@@ -483,7 +483,7 @@
     "modelSlug": "sora-2",
     "section": {
       "title": "精选案例展厅：真实 Sora 2 生成效果",
-      "intro": "查看使用与您在 MaxVideoAI 中完全相同的参数生成的真实 Sora 2 渲染视频。",
+      "intro": "查看使用与您在 VideoAI 中完全相同的参数生成的真实 Sora 2 渲染视频。",
       "defaultCtaLabel": "查看全部 Sora 2 案例 →",
       "recreateLabel": "复现此镜头 →"
     },

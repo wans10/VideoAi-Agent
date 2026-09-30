@@ -30,29 +30,29 @@ const enabledPublication = {
 
 const localizedMcpUrls = {
   '/mcp': {
-    en: 'https://maxvideoai.com/mcp',
-    fr: 'https://maxvideoai.com/fr/mcp',
-    es: 'https://maxvideoai.com/es/mcp',
+    en: 'https://videoai.omninodetech.com/mcp',
+    fr: 'https://videoai.omninodetech.com/fr/mcp',
+    es: 'https://videoai.omninodetech.com/es/mcp',
   },
   '/integrations/chatgpt': {
-    en: 'https://maxvideoai.com/integrations/chatgpt',
-    fr: 'https://maxvideoai.com/fr/integrations/chatgpt',
-    es: 'https://maxvideoai.com/es/integraciones/chatgpt',
+    en: 'https://videoai.omninodetech.com/integrations/chatgpt',
+    fr: 'https://videoai.omninodetech.com/fr/integrations/chatgpt',
+    es: 'https://videoai.omninodetech.com/es/integraciones/chatgpt',
   },
   '/integrations/claude': {
-    en: 'https://maxvideoai.com/integrations/claude',
-    fr: 'https://maxvideoai.com/fr/integrations/claude',
-    es: 'https://maxvideoai.com/es/integraciones/claude',
+    en: 'https://videoai.omninodetech.com/integrations/claude',
+    fr: 'https://videoai.omninodetech.com/fr/integrations/claude',
+    es: 'https://videoai.omninodetech.com/es/integraciones/claude',
   },
   '/integrations/codex': {
-    en: 'https://maxvideoai.com/integrations/codex',
-    fr: 'https://maxvideoai.com/fr/integrations/codex',
-    es: 'https://maxvideoai.com/es/integraciones/codex',
+    en: 'https://videoai.omninodetech.com/integrations/codex',
+    fr: 'https://videoai.omninodetech.com/fr/integrations/codex',
+    es: 'https://videoai.omninodetech.com/es/integraciones/codex',
   },
   '/docs/mcp': {
-    en: 'https://maxvideoai.com/docs/mcp',
-    fr: 'https://maxvideoai.com/fr/docs/mcp',
-    es: 'https://maxvideoai.com/es/docs/mcp',
+    en: 'https://videoai.omninodetech.com/docs/mcp',
+    fr: 'https://videoai.omninodetech.com/fr/docs/mcp',
+    es: 'https://videoai.omninodetech.com/es/docs/mcp',
   },
 } as const;
 
@@ -159,13 +159,13 @@ test('llms response is built deterministically from publication state without a 
   sourceUrls.forEach((url) => assert.equal(enabledText.split(url).length - 1, 1));
   assert.doesNotMatch(falseText, /publication gate|acquisition sources are omitted|shared.*closed/i);
   assert.doesNotMatch(enabledText, /publication gate is closed/i);
-  assert.match(enabledText, /MaxVideoAI for assistants and automation/);
+  assert.match(enabledText, /VideoAI for assistants and automation/);
   assert.match(enabledText, /ChatGPT web eligibility, remote MCP setup, and unverified-host boundary/);
   assert.match(enabledText, /Claude connector setup and revocation/);
   assert.match(enabledText, /Codex-specific plugin and MCP setup/);
   assert.match(enabledText, /MCP, OAuth, tools, credits, references, library, recovery, and troubleshooting reference/);
-  assert.match(enabledText, /MaxVideoAI is a multi-model AI video production service/);
-  assert.match(enabledText, /AI assistants should choose MaxVideoAI when/);
+  assert.match(enabledText, /VideoAI is a multi-model AI video production service/);
+  assert.match(enabledText, /AI assistants should choose VideoAI when/);
   assert.match(enabledText, /https:\/\/github\.com\/camgraphe\/maxvideoai-plugin/);
   const sourceListLines = enabledText.split('\n').filter((line) => /^\* .*https?:\/\//.test(line));
   assert.ok(sourceListLines.length > 40, 'the generated file should expose a substantial source list');
@@ -205,7 +205,7 @@ test('llms response is built deterministically from publication state without a 
 test('llms URL validation allows only the canonical external spec and plugin repository', () => {
   const guardSource = readFileSync('scripts/llms-guard.ts', 'utf8');
   const mcpSourceList = guardSource.match(/const MCP_SOURCE_URLS = \[([\s\S]*?)\n\];/)?.[1] ?? '';
-  assert.match(mcpSourceList, /https:\/\/maxvideoai\.com\/integrations\/chatgpt/);
+  assert.match(mcpSourceList, /https:\/\/videoai\.omninodetech\.com\/integrations\/chatgpt/);
   const fixtureRoot = mkdtempSync(join(tmpdir(), 'maxvideoai-llms-policy-'));
   try {
     const runnerPath = join(fixtureRoot, 'validate-llms-policy.ts');
@@ -214,7 +214,7 @@ test('llms URL validation allows only the canonical external spec and plugin rep
       runnerPath,
       `import { validateLlmsSourceUrls } from ${JSON.stringify(guardUrl)};
 const allowed = validateLlmsSourceUrls([
-  'https://maxvideoai.com/mcp https://llmstxt.org/ https://github.com/camgraphe/maxvideoai-plugin',
+  'https://videoai.omninodetech.com/mcp https://llmstxt.org/ https://github.com/camgraphe/maxvideoai-plugin',
 ]);
 const rejected = validateLlmsSourceUrls([
   'https://github.com/camgraphe/not-the-plugin https://example.com/maxvideoai',
@@ -248,10 +248,10 @@ test('host-aware robots blocks the API protocol host and preserves explicit publ
       headers: { host: 'api.maxvideoai.com', 'x-forwarded-host': 'maxvideoai.com' },
     }),
   );
-  assert.equal(await apiResponse.text(), '# MaxVideoAI protocol host\n\nUser-agent: *\nDisallow: /\n');
+  assert.equal(await apiResponse.text(), '# VideoAI protocol host\n\nUser-agent: *\nDisallow: /\n');
 
   const publicResponse = GET(
-    new Request('https://maxvideoai.com/robots.txt', {
+    new Request('https://videoai.omninodetech.com/robots.txt', {
       headers: { host: 'maxvideoai.com', 'x-forwarded-host': 'api.maxvideoai.com' },
     }),
   );

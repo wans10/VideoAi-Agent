@@ -40,7 +40,7 @@ test('French compare article keeps its crawlable ASCII slug aligned', () => {
 
   assert.equal(BLOG_SLUGS_BY_CANONICAL['compare-ai-video-engines'].fr, slug);
   assert.equal(readFrontMatterValue(source, 'slug'), slug);
-  assert.equal(readFrontMatterValue(source, 'canonical'), `https://maxvideoai.com/fr/blog/${slug}`);
+  assert.equal(readFrontMatterValue(source, 'canonical'), `https://videoai.omninodetech.com/fr/blog/${slug}`);
 });
 
 test('blog slug switch map covers every localized blog frontmatter slug', () => {
@@ -75,7 +75,7 @@ test('every published English blog article has authored Chinese content and a lo
     assert.equal(readFrontMatterValue(source, 'lang'), 'zh');
     assert.equal(readFrontMatterValue(source, 'slug'), slug);
     assert.equal(readFrontMatterValue(source, 'canonicalSlug'), canonicalSlug);
-    assert.equal(readFrontMatterValue(source, 'canonical'), `https://maxvideoai.com/zh/blog/${slug}`);
+    assert.equal(readFrontMatterValue(source, 'canonical'), `https://videoai.omninodetech.com/zh/blog/${slug}`);
     assert.ok((source.match(/[\u4e00-\u9fff]/g) ?? []).length > 300, `${slug} needs substantive Chinese copy`);
     assert.doesNotMatch(source, /\]\(\/blog\//, `${slug} should not link to English blog paths`);
     for (const [, linkedSlug] of source.matchAll(/\]\(\/zh\/blog\/([^#?)]+)[^)]*\)/g)) {

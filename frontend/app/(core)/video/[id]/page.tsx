@@ -30,7 +30,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   if (!isRenderable(page)) {
     return {
       title: { absolute: `Video unavailable${TITLE_SUFFIX}` },
-      description: 'This video is no longer available on MaxVideoAI.',
+      description: 'This video is no longer available on VideoAI.',
       robots: { index: false, follow: true },
       alternates: { canonical },
     };
@@ -52,7 +52,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     alternates: { canonical },
     openGraph: {
       type: 'video.other',
-      siteName: 'MaxVideoAI',
+      siteName: 'VideoAI',
       url: canonical,
       title: metaTitle,
       description,
@@ -64,8 +64,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       title: metaTitle,
       description,
       images: [thumbnail],
-      site: '@MaxVideoAI',
-      creator: '@MaxVideoAI',
+      site: '@VideoAI',
+      creator: '@VideoAI',
     },
   };
 }

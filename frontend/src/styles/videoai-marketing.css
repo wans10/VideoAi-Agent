@@ -49,13 +49,6 @@
 .videoai-site .videoai-public-nav > div:first-child { gap: 38px; }
 .videoai-site .marketing-desktop-nav { gap: 24px; font-size: 14px; }
 .marketing-site.videoai-site .marketing-nav-trigger { font-size: 14px; font-weight: 500; position: relative; }
-.marketing-site.videoai-site .marketing-nav-trigger.is-active::before { content: ''; width: 5px; height: 5px; background: var(--brand); position: absolute; bottom: 0; left: 50%; }
-.marketing-site.videoai-site .marketing-mega-menu { background: var(--surface); border-radius: 0 0 12px 12px; box-shadow: 0 20px 40px #20211f14; border-top: 2px solid var(--brand); }
-.marketing-site.videoai-site .marketing-mega-heading { padding: 24px 28px; }
-.marketing-site.videoai-site .marketing-mega-heading p { font-size: 24px; font-weight: 550; }
-.marketing-site.videoai-site .marketing-mega-link { min-height: 54px; padding: 12px; }
-.marketing-site.videoai-site .marketing-mega-link small { font-size: 12px; }
-.marketing-site.videoai-site .marketing-mega-aside { background: var(--surface-2); }
 .marketing-site.videoai-site .marketing-entry-picto { background: var(--brand-soft); color: var(--brand); }
 .marketing-site.videoai-site .marketing-new-badge { background: var(--brand-soft); color: #9c3022; border-color: #dca797; font-size: 10px; }
 .marketing-site.videoai-site .marketing-mcp-tag { border-color: var(--border); color: var(--text-muted); }

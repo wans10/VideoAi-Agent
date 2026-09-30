@@ -52,18 +52,18 @@ export async function buildComparePageMetadata(props: {
   const pairHasNativeAudio = Boolean(resolved?.left.engine?.audio) || Boolean(resolved?.right.engine?.audio);
   const criteriaCount = pairHasNativeAudio ? 11 : 10;
   const titleTemplate =
-    metaOverride.title ?? compareCopy.meta?.title ?? '{left} vs {right} — Side-by-Side Specs, Pricing & Quality | MaxVideoAI';
+    metaOverride.title ?? compareCopy.meta?.title ?? '{left} vs {right} — Side-by-Side Specs, Pricing & Quality | VideoAI';
   const titleFallback =
     compareCopy.meta?.titleFallback ??
-    'Compare AI video engines — Side-by-Side Specs, Pricing & Quality | MaxVideoAI';
+    'Compare AI video engines — Side-by-Side Specs, Pricing & Quality | VideoAI';
   const descriptionTemplate = replaceCriteriaCount(
     metaOverride.description ??
       compareCopy.meta?.description ??
-      `Compare {left} vs {right} on MaxVideoAI with pricing, key specs, and a scorecard across ${criteriaCount} criteria.`,
+      `Compare {left} vs {right} on VideoAI with pricing, key specs, and a scorecard across ${criteriaCount} criteria.`,
     criteriaCount
   );
   const descriptionFallback =
-    compareCopy.meta?.descriptionFallback ?? 'Side-by-side comparison of AI video engines with MaxVideoAI metrics and guidance.';
+    compareCopy.meta?.descriptionFallback ?? 'Side-by-side comparison of AI video engines with VideoAI metrics and guidance.';
   const title = resolved
     ? formatTemplate(titleTemplate, {
         left: formatEngineMetaName(resolved.left),

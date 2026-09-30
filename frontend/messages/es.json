@@ -242,10 +242,10 @@
           "n8n": "n8n"
         },
         "descriptions": {
-          "claude": "Conecta MaxVideoAI mediante MCP.",
+          "claude": "Conecta VideoAI mediante MCP.",
           "chatgpt": "App MCP · espacios elegibles.",
-          "codex": "Agrega el plugin de MaxVideoAI.",
-          "openclaw": "Instala el skill MaxVideoAI.",
+          "codex": "Agrega el plugin de VideoAI.",
+          "openclaw": "Instala el skill VideoAI.",
           "n8n": "Workflows de video con IA autoalojados."
         },
         "sections": {
@@ -280,13 +280,13 @@
     },
     "hero": {
       "title": "Ejecuta generadores de video IA en Europa — Sora 2, Veo 3, Pika y más",
-      "intro": "MaxVideoAI mantiene los motores texto‑a‑video en regla, monitorizados y listos para producción en equipos europeos. Usa este hub para entender la disponibilidad, comparar compromisos creativos y lanzar proyectos con las garantías adecuadas desde el primer día.",
+      "intro": "VideoAI mantiene los motores texto‑a‑video en regla, monitorizados y listos para producción en equipos europeos. Usa este hub para entender la disponibilidad, comparar compromisos creativos y lanzar proyectos con las garantías adecuadas desde el primer día.",
       "secondary": "¿No sabes qué modelo elegir? Lee nuestra {{article:comparativa}}."
     },
     "sections": [
       {
         "title": "Disponibilidad de Sora 2 y alternativas",
-        "body": "Sora 2 sigue desplegándose por fases, así que MaxVideoAI gestiona todo el rastro de verificación, la conformidad regional y el enrutado predictivo cuando la capacidad fluctúa. Los productores pueden comparar storyboards con las {{sora:referencias de Sora 2}} y pasar a presets Sora 2 Pro o secuencias Veo 3 cuando la rapidez pesa más que la fidelidad de frontera. Documentamos estructuras de prompts, aprobaciones de material y mejores prácticas de postproducción para que cada brief cumpla con la revisión de OpenAI sin retrasar entregas. Los equipos regionales reciben además notas semanales sobre audio, duración y trazabilidad para sectores regulados."
+        "body": "Sora 2 sigue desplegándose por fases, así que VideoAI gestiona todo el rastro de verificación, la conformidad regional y el enrutado predictivo cuando la capacidad fluctúa. Los productores pueden comparar storyboards con las {{sora:referencias de Sora 2}} y pasar a presets Sora 2 Pro o secuencias Veo 3 cuando la rapidez pesa más que la fidelidad de frontera. Documentamos estructuras de prompts, aprobaciones de material y mejores prácticas de postproducción para que cada brief cumpla con la revisión de OpenAI sin retrasar entregas. Los equipos regionales reciben además notas semanales sobre audio, duración y trazabilidad para sectores regulados."
       },
       {
         "title": "Veo 3: texto a video cinemático",
@@ -294,16 +294,16 @@
       },
       {
         "title": "Pika 2.2 para social rápido",
-        "body": "Cuando hace falta generar loops divertidos o clips cortos, Pika 2.2 entrega varios formatos con costos contenidos. MaxVideoAI publica presets curados para saltar de reels verticales a piezas cuadradas sin salir del workspace. Compara texto‑a‑video e imagen‑a‑video en nuestra {{pika:guía rápida de Pika}} y reutiliza bancos de prompts ya aprobados para campañas seguras para la marca. Controles diarios de calidad detectan derivas de estilo o artefactos para decidir si regenerar, escalar o pasar el archivo a un animador."
+        "body": "Cuando hace falta generar loops divertidos o clips cortos, Pika 2.2 entrega varios formatos con costos contenidos. VideoAI publica presets curados para saltar de reels verticales a piezas cuadradas sin salir del workspace. Compara texto‑a‑video e imagen‑a‑video en nuestra {{pika:guía rápida de Pika}} y reutiliza bancos de prompts ya aprobados para campañas seguras para la marca. Controles diarios de calidad detectan derivas de estilo o artefactos para decidir si regenerar, escalar o pasar el archivo a un animador."
       },
       {
-        "title": "Cómo MaxVideoAI orquesta producción multi‑motor",
-        "body": "MaxVideoAI coordina capacidad multi‑motor detrás de una interfaz coherente para equipos creativos. Nuestra capa de orquestación mantiene los prompts portables, registra cada render y expone diagnósticos para saber cuándo reintentar o cambiar a otro motor como {{veoFast:Veo 3.1 Fast}} o {{hailuo:MiniMax Hailuo}} para estilos más artísticos. Los equipos acceden en un mismo espacio a tarifas, auditorías y notas de cumplimiento, con playbooks automáticos para aumentar prioridad o cambiar región cuando sube la demanda."
+        "title": "Cómo VideoAI orquesta producción multi‑motor",
+        "body": "VideoAI coordina capacidad multi‑motor detrás de una interfaz coherente para equipos creativos. Nuestra capa de orquestación mantiene los prompts portables, registra cada render y expone diagnósticos para saber cuándo reintentar o cambiar a otro motor como {{veoFast:Veo 3.1 Fast}} o {{hailuo:MiniMax Hailuo}} para estilos más artísticos. Los equipos acceden en un mismo espacio a tarifas, auditorías y notas de cumplimiento, con playbooks automáticos para aumentar prioridad o cambiar región cuando sube la demanda."
       }
     ],
     "comparison": {
       "title": "Compara los principales generadores",
-      "intro": "Ya sea fidelidad extrema o loops económicos, MaxVideoAI mantiene cada motor listo para producción.",
+      "intro": "Ya sea fidelidad extrema o loops económicos, VideoAI mantiene cada motor listo para producción.",
       "cards": [
         {
           "label": "Sora 2",
@@ -350,7 +350,7 @@
       }
     ],
     "cta": {
-      "body": "¿Buscas recetas de prompts encadenadas? Consulta las últimas guías del {{blog:blog de MaxVideoAI}} para walkthroughs narrativos y novedades de motores."
+      "body": "¿Buscas recetas de prompts encadenadas? Consulta las últimas guías del {{blog:blog de VideoAI}} para walkthroughs narrativos y novedades de motores."
     }
   },
   "footer": {
@@ -480,18 +480,18 @@
         "manageCookies": "Configuración de cookies"
       }
     },
-    "crawlerNote": "MaxVideoAI permite que los rastreadores de IA (GPTBot, OAI-SearchBot, Google-Extended y CCBot) indexen las páginas públicas de modelos y la documentación con fines educativos y de investigación.",
+    "crawlerNote": "VideoAI permite que los rastreadores de IA (GPTBot, OAI-SearchBot, Google-Extended y CCBot) indexen las páginas públicas de modelos y la documentación con fines educativos y de investigación.",
     "mcpFeature": {
       "title": "Crea con tu asistente de IA.",
       "body": "Crea con Claude, ChatGPT, Codex u OpenClaw. Automatiza tus videos con n8n. Tus modelos y créditos, conectados por MCP.",
-      "cta": "Descubre MaxVideoAI MCP",
+      "cta": "Descubre VideoAI MCP",
       "section": "Asistentes y MCP",
       "docs": "Documentación MCP",
       "anchors": {
         "claude": "Conectar Claude",
-        "chatgpt": "MaxVideoAI para ChatGPT",
-        "codex": "Plugin de MaxVideoAI para Codex",
-        "openclaw": "Skill de MaxVideoAI para OpenClaw",
+        "chatgpt": "VideoAI para ChatGPT",
+        "codex": "Plugin de VideoAI para Codex",
+        "openclaw": "Skill de VideoAI para OpenClaw",
         "n8n": "Automatizar videos con n8n"
       }
     }
@@ -1143,9 +1143,9 @@
       },
       "pricingTrust": {
         "title": "Conoce el precio antes de generar.",
-        "subtitle": "MaxVideoAI muestra el precio antes de cada generación de video para que mantengas el control de tus créditos.",
+        "subtitle": "VideoAI muestra el precio antes de cada generación de video para que mantengas el control de tus créditos.",
         "cta": "Ver precios",
-        "supportingText": "MaxVideoAI es un generador de video IA multi-modelo de pago por uso para Seedance, Kling, Veo, LTX, Wan, Pika, Sora y más.",
+        "supportingText": "VideoAI es un generador de video IA multi-modelo de pago por uso para Seedance, Kling, Veo, LTX, Wan, Pika, Sora y más.",
         "modelsLink": "Modelos",
         "examplesLink": "Ejemplos",
         "compareLink": "Comparar modelos",
@@ -1237,7 +1237,7 @@
         "items": [
           {
             "question": "¿Cuál es el mejor generador de video IA ahora mismo?",
-            "answer": "No hay un mejor generador de video con IA para todos los proyectos. Compara resultados similares a la escena que buscas y revisa las referencias admitidas, la duración, la resolución, el audio y el precio. MaxVideoAI reúne varios modelos en un mismo espacio, sin contratar una suscripción para cada uno.",
+            "answer": "No hay un mejor generador de video con IA para todos los proyectos. Compara resultados similares a la escena que buscas y revisa las referencias admitidas, la duración, la resolución, el audio y el precio. VideoAI reúne varios modelos en un mismo espacio, sin contratar una suscripción para cada uno.",
             "links": [
               {
                 "label": "Comparar modelos de video con IA",
@@ -1247,7 +1247,7 @@
           },
           {
             "question": "¿Cómo creo videos generados con IA?",
-            "answer": "Describe tu escena o importa una imagen inicial, elige un modelo y ajusta sus opciones. Revisa el precio, genera una prueba corta y afina la descripción o las referencias. También puedes crear tu imagen inicial en MaxVideoAI. Algunos modelos y modos permiten usar clips existentes.",
+            "answer": "Describe tu escena o importa una imagen inicial, elige un modelo y ajusta sus opciones. Revisa el precio, genera una prueba corta y afina la descripción o las referencias. También puedes crear tu imagen inicial en VideoAI. Algunos modelos y modos permiten usar clips existentes.",
             "links": [
               {
                 "label": "Empezar a crear",
@@ -1257,7 +1257,7 @@
           },
           {
             "question": "¿Puedo generar videos IA desde una imagen?",
-            "answer": "Sí. La generación de imagen a video anima una imagen fija: un personaje, un paisaje, un dibujo o una foto de producto. Importa una imagen que tengas derecho a usar, o créala en MaxVideoAI, y describe el movimiento. Las referencias admitidas y la fidelidad del resultado dependen del modelo.",
+            "answer": "Sí. La generación de imagen a video anima una imagen fija: un personaje, un paisaje, un dibujo o una foto de producto. Importa una imagen que tengas derecho a usar, o créala en VideoAI, y describe el movimiento. Las referencias admitidas y la fidelidad del resultado dependen del modelo.",
             "links": [
               {
                 "label": "Explorar modelos de imagen a video",
@@ -1302,7 +1302,7 @@
           },
           {
             "question": "¿Existe un generador de video IA de pago por uso?",
-            "answer": "Sí. MaxVideoAI funciona con créditos de pago por uso, sin suscripción. Recargas tu saldo cuando lo necesitas. Si una generación falla por un problema técnico, los créditos se devuelven automáticamente. Un resultado terminado que no cumple tus expectativas creativas no es lo mismo que una falla técnica.",
+            "answer": "Sí. VideoAI funciona con créditos de pago por uso, sin suscripción. Recargas tu saldo cuando lo necesitas. Si una generación falla por un problema técnico, los créditos se devuelven automáticamente. Un resultado terminado que no cumple tus expectativas creativas no es lo mismo que una falla técnica.",
             "links": [
               {
                 "label": "Cómo funciona el pago por uso",
@@ -1368,7 +1368,7 @@
     "heroScreenshot": {
       "title": "Todo en una sola vista.",
       "body": "El Composer, el precio en tiempo real, la galería y las colas de generación quedan en una misma vista: ajustas el prompt, comparas resultados y sigues el progreso sin salir de la pantalla.",
-      "alt": "Espacio de trabajo de MaxVideo AI que muestra el Composer, el precio en tiempo real y la vista previa de la galería en un único panel."
+      "alt": "Espacio de trabajo de VideoAI que muestra el Composer, el precio en tiempo real y la vista previa de la galería en un único panel."
     },
     "proofTabs": [
       {
@@ -1545,7 +1545,7 @@
     "pricing": {
       "badge": "Antes de generar",
       "title": "Conoce el precio antes de comprometerte.",
-      "body": "MaxVideoAI mantiene el precio visible entre modelos: ves el precio antes de lanzar, los fallos se reembolsan automáticamente y controlas el gasto desde un solo espacio.",
+      "body": "VideoAI mantiene el precio visible entre modelos: ves el precio antes de lanzar, los fallos se reembolsan automáticamente y controlas el gasto desde un solo espacio.",
       "link": "Ver precios"
     },
     "trust": {
@@ -1585,7 +1585,7 @@
       "items": [
         {
           "q": "¿Sora 2 está disponible en la UE?",
-          "a": "La disponibilidad de Sora 2 es limitada. MaxVideoAI enruta tu brief hacia los motores con capacidad hoy y guarda presets listos para Sora en cuanto se abra la capacidad."
+          "a": "La disponibilidad de Sora 2 es limitada. VideoAI enruta tu brief hacia los motores con capacidad hoy y guarda presets listos para Sora en cuanto se abra la capacidad."
         },
         {
           "q": "¿Puedo activar audio?",
@@ -1603,7 +1603,7 @@
     },
     "priceChipSuffix": "Visible antes de lanzar.",
     "meta": {
-      "title": "Generador de video IA de pago por uso | MaxVideoAI",
+      "title": "Generador de video IA de pago por uso | VideoAI",
       "description": "Compara Seedance, Kling, Veo, LTX, Wan, Pika y más antes de generar. Previsualiza resultados reales, mira el precio por adelantado y genera con pago por uso."
     },
     "compare": {
@@ -1642,7 +1642,7 @@
       "startupFameLabel": "Destacado en Startup Fame"
     },
     "seoContent": {
-      "heroParagraph": "MaxVideoAI es un generador de video con IA multi-modelo: comparas modelos y luego generas a partir de un prompt de texto, una imagen o un video existente. El precio se muestra antes de iniciar la generación para elegir el modelo adecuado con confianza.",
+      "heroParagraph": "VideoAI es un generador de video con IA multi-modelo: comparas modelos y luego generas a partir de un prompt de texto, una imagen o un video existente. El precio se muestra antes de iniciar la generación para elegir el modelo adecuado con confianza.",
       "heroPoints": [
         "Texto a video, imagen a video y video a video",
         "Compara resultados entre varios modelos de video con IA",
@@ -1671,7 +1671,7 @@
       },
       "compare": {
         "title": "Compara modelos de video con IA antes de generar",
-        "body": "MaxVideoAI te permite probar varios modelos en un solo lugar. Cada modelo tiene fortalezas distintas (velocidad, fidelidad al prompt, movimiento, realismo y estilo). Compara resultados lado a lado, elige el mejor modelo para cada toma y mantén el precio visible antes de generar.",
+        "body": "VideoAI te permite probar varios modelos en un solo lugar. Cada modelo tiene fortalezas distintas (velocidad, fidelidad al prompt, movimiento, realismo y estilo). Compara resultados lado a lado, elige el mejor modelo para cada toma y mantén el precio visible antes de generar.",
         "worksWith": "Compatible con MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Sora 2, Wan 2.6, Pika 2.2... y más.",
         "popularLinks": [
           {
@@ -1692,7 +1692,7 @@
           }
         ],
         "seeAllLabel": "Ver todas las comparativas de modelos de video con IA",
-        "imageAlt": "Captura de una comparativa de MaxVideoAI con dos modelos de video con IA lado a lado.",
+        "imageAlt": "Captura de una comparativa de VideoAI con dos modelos de video con IA lado a lado.",
         "carouselIntro": "Compara modelos de video con IA por capacidades, límites y objetivos creativos, o",
         "carouselLinkLabel": "ver todas las comparativas de modelos de video con IA"
       },
@@ -1717,8 +1717,8 @@
             "a": "No. Puedes generar clips con prompts y ajustes simples. Para flujos más avanzados, también puedes remezclar e iterar con variaciones."
           },
           {
-            "q": "¿MaxVideoAI es gratis?",
-            "a": "MaxVideoAI funciona con créditos por uso y muestra el precio antes de generar."
+            "q": "¿VideoAI es gratis?",
+            "a": "VideoAI funciona con créditos por uso y muestra el precio antes de generar."
           }
         ]
       }
@@ -1726,7 +1726,7 @@
   },
   "pricing": {
     "hero": {
-      "eyebrow": "Precios de MaxVideoAI",
+      "eyebrow": "Precios de VideoAI",
       "title": "Primero el precio. Después, tu creación.",
       "subtitle": "Compara los costos de video, imagen, audio y herramientas antes de crear.",
       "supportingLine": "Paga por uso. Revisa el precio exacto en la app antes de generar. Las generaciones fallidas se reembolsan.",
@@ -1873,7 +1873,7 @@
     "teams": {
       "title": "Equipos",
       "description": "Aprobaciones basadas en roles, billeteras compartidas y entregas se implementarán próximamente. Únete a la beta para probar los controles de equipo antes.",
-      "comingSoonNote": "Las funciones de equipos están en beta privada. Contacta con support@maxvideoai.com para unirte al despliegue.",
+      "comingSoonNote": "Las funciones de equipos están en beta privada. Contacta con contact@llmhub.com.cn para unirte al despliegue.",
       "points": [
         "Previsto: billeteras compartidas basadas en roles con aprobaciones para finanzas, productores y stakeholders.",
         "Previsto: resúmenes diarios automatizados sobre gasto, reembolsos y salud de la cola.",
@@ -1924,11 +1924,11 @@
         },
         {
           "question": "¿Necesito una suscripción?",
-          "answer": "No. MaxVideoAI usa créditos pay-as-you-go. Puedes comparar precios, elegir el motor adecuado para cada trabajo y generar sin suscripción obligatoria."
+          "answer": "No. VideoAI usa créditos pay-as-you-go. Puedes comparar precios, elegir el motor adecuado para cada trabajo y generar sin suscripción obligatoria."
         },
         {
           "question": "¿Por qué algunos motores más baratos no aparecen destacados primero?",
-          "answer": "Algunas rutas de generación anterior pueden ser más baratas para pruebas simples, pero MaxVideoAI destaca primero los motores de generación actual porque suelen ser mejores para proyectos nuevos. Las rutas budget más antiguas siguen listadas aparte cuando están disponibles."
+          "answer": "Algunas rutas de generación anterior pueden ser más baratas para pruebas simples, pero VideoAI destaca primero los motores de generación actual porque suelen ser mejores para proyectos nuevos. Las rutas budget más antiguas siguen listadas aparte cuando están disponibles."
         },
         {
           "question": "¿Imagen, audio y herramientas se cobran igual que video?",
@@ -1936,22 +1936,22 @@
         },
         {
           "question": "¿Por qué la tabla muestra precios totales en vez de costo por segundo?",
-          "answer": "La mayoría de usuarios compara el costo completo de un render, no tarifas brutas por segundo. MaxVideoAI muestra precios totales para escenarios comunes como 8 s 1080p, 10 s 1080p y salida 4K. Las tarifas por segundo o de proveedor pueden variar según motor, duración, resolución y redondeos, y la app muestra el presupuesto exacto antes de generar."
+          "answer": "La mayoría de usuarios compara el costo completo de un render, no tarifas brutas por segundo. VideoAI muestra precios totales para escenarios comunes como 8 s 1080p, 10 s 1080p y salida 4K. Las tarifas por segundo o de proveedor pueden variar según motor, duración, resolución y redondeos, y la app muestra el presupuesto exacto antes de generar."
         },
         {
           "question": "¿Con qué frecuencia cambian los precios?",
-          "answer": "Los precios pueden cambiar cuando los proveedores actualizan tarifas o cuando MaxVideoAI añade nuevos motores. La página muestra comparaciones actuales y la app siempre muestra el presupuesto en vivo antes de generar."
+          "answer": "Los precios pueden cambiar cuando los proveedores actualizan tarifas o cuando VideoAI añade nuevos motores. La página muestra comparaciones actuales y la app siempre muestra el presupuesto en vivo antes de generar."
         }
       ]
     },
     "supplementalFaq": [
       {
         "question": "¿Qué hago si busco precios de Sora?",
-        "answer": "Usa la sección de alternativas a Sora para comparar los modelos actualmente disponibles en MaxVideoAI por costo, duración y calidad."
+        "answer": "Usa la sección de alternativas a Sora para comparar los modelos actualmente disponibles en VideoAI por costo, duración y calidad."
       },
       {
         "question": "¿Los videos llevan marca de agua?",
-        "answer": "No. Los renders producidos mediante MaxVideoAI se entregan sin watermark."
+        "answer": "No. Los renders producidos mediante VideoAI se entregan sin watermark."
       },
       {
         "question": "¿Cuestan lo mismo los workflows de text-to-video AI, image-to-video AI y video-to-video AI?",
@@ -1961,13 +1961,13 @@
     "priceChipSuffix": "Precio antes de generar.",
     "priceChipPrefix": "Esta generación",
     "meta": {
-      "title": "Precios de video IA: compara modelos | MaxVideoAI",
+      "title": "Precios de video IA: compara modelos | VideoAI",
       "description": "Compara precios de video IA por motor, duración, resolución y audio. Ve precios 720p, 1080p y 4K, luego abre la app para el precio en vivo."
     }
   },
   "workflows": {
     "meta": {
-      "title": "Flujo de trabajo de video IA: genera variantes con precio en vivo | MaxVideoAI",
+      "title": "Flujo de trabajo de video IA: genera variantes con precio en vivo | VideoAI",
       "description": "Genera videos IA en un solo espacio: elige un motor, ajusta la duración, la resolución y el formato, previsualiza el precio, genera hasta 4 variantes, copia prompts y descarga."
     },
     "hero": {
@@ -2114,7 +2114,7 @@
     },
     "intro": {
       "paragraphs": [
-        "Cada modelo de este catálogo está conectado al espacio de trabajo de MaxVideoAI con latencia monitorizada, seguimiento de precios y planes de respaldo. Añadimos modelos en cuanto los proveedores abren capacidad real, no demos limitadas, para saber qué puede entrar en producción hoy.",
+        "Cada modelo de este catálogo está conectado al espacio de trabajo de VideoAI con latencia monitorizada, seguimiento de precios y planes de respaldo. Añadimos modelos en cuanto los proveedores abren capacidad real, no demos limitadas, para saber qué puede entrar en producción hoy.",
         "Elige un modelo para ver los presets de prompt, los límites de duración y la ruta actual que usamos para mantener la cola en marcha, luego duplícalo en tu espacio."
       ],
       "cards": [
@@ -2224,8 +2224,8 @@
         "priceBefore": "Precios en vivo dentro del workspace Generate.",
         "versionLabel": "v2.6 Pro"
       },
-      "title": "Modelos IA de video e imagen: specs, límites y precios | MaxVideoAI",
-      "description": "Compara modelos IA de video e imagen por precio, duración máxima, resolución, audio, modos de entrada, ejemplos y workflow antes de generar en MaxVideoAI."
+      "title": "Modelos IA de video e imagen: specs, límites y precios | VideoAI",
+      "description": "Compara modelos IA de video e imagen por precio, duración máxima, resolución, audio, modos de entrada, ejemplos y workflow antes de generar en VideoAI."
     },
     "note": "Los precios de los modelos cambian rápido; confirma la pastilla Precio-Antes antes de lanzar.",
     "detail": {
@@ -2295,7 +2295,7 @@
       },
       "legacyToggleLabel": "Mostrar modelos antiguos",
       "grid": {
-        "srTitle": "Modelos IA de video e imagen con especificaciones, límites y precios en MaxVideoAI",
+        "srTitle": "Modelos IA de video e imagen con especificaciones, límites y precios en VideoAI",
         "bridgeText": "Usa las fichas de modelo para validar capacidades y luego entra en el espacio de video o imagen para afinar la selección."
       },
       "quickCompare": {
@@ -2653,7 +2653,7 @@
     "meta": {
       "title": "Docs — primeros pasos, precios, trabajos y reembolsos",
       "description": "Empieza aquí con la cuenta individual, el precio antes de generar, los trabajos, los medios guardados, la seguridad de marca y los reembolsos.",
-      "imageAlt": "Docs — MaxVideoAI",
+      "imageAlt": "Docs — VideoAI",
       "notFoundTitle": "Documento no encontrado"
     },
     "hero": {
@@ -2662,7 +2662,7 @@
     },
     "mcpGuide": {
       "href": "/es/docs/mcp",
-      "title": "Guía técnica del MCP de MaxVideoAI",
+      "title": "Guía técnica del MCP de VideoAI",
       "description": "Clientes verificados, OAuth, registro de herramientas de solo lectura, privacidad, límites y recuperación."
     },
     "toc": {
@@ -2874,7 +2874,7 @@
     "hero": {
       "title": "Ideas y formas de crear.",
       "subtitle": "Guías prácticas de video con IA, imágenes, referencias y selección de modelos.",
-      "eyebrow": "El blog de MaxVideoAI",
+      "eyebrow": "El blog de VideoAI",
       "ctaLabel": "Explorar la guía más reciente →"
     },
     "featured": {
@@ -2894,7 +2894,7 @@
     "empty": "Publicaciones del blog próximamente.",
     "cta": "Leer más",
     "intro": {
-      "lead": "Una idea, una imagen o un personaje: cada proyecto empieza de una forma distinta. Aquí encontrarás métodos para crear tus referencias, elegir un modelo y dar movimiento a tus imágenes en MaxVideoAI.",
+      "lead": "Una idea, una imagen o un personaje: cada proyecto empieza de una forma distinta. Aquí encontrarás métodos para crear tus referencias, elegir un modelo y dar movimiento a tus imágenes en VideoAI.",
       "cards": [
         {
           "title": "Crea tus referencias",
@@ -2919,21 +2919,21 @@
         },
         {
           "question": "¿Puedo sugerir un tema o pedir cobertura?",
-          "answer": "Sí; envía tus ideas a press@maxvideo.ai e incluye renders de referencia si puedes. Priorizamos historias que ayuden a los equipos de producción."
+          "answer": "Sí; envía tus ideas a contact@llmhub.com.cn e incluye renders de referencia si puedes. Priorizamos historias que ayuden a los equipos de producción."
         },
         {
           "question": "¿Dónde encuentro las notas de versión?",
           "answer": "Las novedades del producto viven en el changelog y las actualizaciones de API en la documentación para desarrolladores. El blog cubre guías y aprendizajes de campo."
         }
       ],
-      "footnote": "¿Necesitas más detalles? Escribe a press@maxvideo.ai y lo derivaremos al productor adecuado."
+      "footnote": "¿Necesitas más detalles? Escribe a contact@llmhub.com.cn y lo derivaremos al productor adecuado."
     }
   },
   "videoPage": {
     "backLink": "← Volver",
     "hero": {
-      "titleFallback": "Render MaxVideoAI",
-      "intro": "Este video se generó con {engine} en MaxVideoAI — descubre cómo producir renders similares a continuación.",
+      "titleFallback": "Render VideoAI",
+      "intro": "Este video se generó con {engine} en VideoAI — descubre cómo producir renders similares a continuación.",
       "promptLabel": "Prompt",
       "promptFallback": "Prompt no disponible.",
       "copy": "Copiar prompt",
@@ -2950,7 +2950,7 @@
       "aspectFallback": "un formato adaptable",
       "sentences": [
         "Este video generado por IA muestra {promptStyle} y proviene directamente de nuestra playlist pública de Ejemplos.",
-        "{engineName} gestionó este render dentro de MaxVideoAI, entregando {durationLabel} con {aspectRatioLabel} y {audioState}.",
+        "{engineName} gestionó este render dentro de VideoAI, entregando {durationLabel} con {aspectRatioLabel} y {audioState}.",
         "La secuencia destaca un movimiento coherente, iluminación nítida y reflejos naturales para que los equipos creativos evalúen el modelo.",
         "El estilo del prompt mantiene señales de {promptTone} que puedes remezclar o ampliar con referencias visuales, narración o upscale.",
         "Utiliza la tarjeta del motor, el enlace de precios y el blog para comparar modelos o iniciar una ejecución similar."
@@ -3006,7 +3006,7 @@
   "about": {
     "hero": {
       "title": "Confianza discreta para equipos de video con IA.",
-      "subtitle": "MaxVideo AI es el núcleo independiente para la producción de video con IA. Enrutamos al motor adecuado para cada plano, mostramos el precio antes de generar y mantenemos a tu equipo en control sin bloqueo de proveedor."
+      "subtitle": "VideoAI es el núcleo independiente para la producción de video con IA. Enrutamos al motor adecuado para cada plano, mostramos el precio antes de generar y mantenemos a tu equipo en control sin bloqueo de proveedor."
     },
     "paragraphs": [
       "Creemos que los equipos profesionales merecen claridad antes de iniciar el render. Eso significa transparencia de precios, enrutamiento fiable y contexto compartido entre creativos, productores y stakeholders.",
@@ -3014,7 +3014,7 @@
       "El producto está diseñado para equipos que necesitan precisión sin ruido. Interfaz discreta, ajustes predefinidos premium, controles precisos y etiquetas de precio antes de generar que mantienen a finanzas en el bucle.",
       "Mantenemos el flujo de trabajo práctico: comparar modelos, preparar recursos, generar sólo cuando el coste y los ajustes están claros, y revisar los resultados desde un único workspace sin repartir el contexto entre paneles de proveedores."
     ],
-    "note": "Las marcas registradas y signos de servicio son propiedad de sus respectivos propietarios. MaxVideo AI se mantiene independiente para que puedas mantenerte al día sin cambiar de plataforma."
+    "note": "Las marcas registradas y signos de servicio son propiedad de sus respectivos propietarios. VideoAI se mantiene independiente para que puedas mantenerte al día sin cambiar de plataforma."
   },
   "contact": {
     "hero": {
@@ -3076,7 +3076,7 @@
         },
         {
           "question": "¿Ofrecen demos en vivo?",
-          "answer": "Sí. Solo indica tu zona horaria y los modelos que quieres ver. Hacemos las demos dentro del workspace de MaxVideoAI para que puedas seguir el enrutamiento y los precios en tiempo real."
+          "answer": "Sí. Solo indica tu zona horaria y los modelos que quieres ver. Hacemos las demos dentro del workspace de VideoAI para que puedas seguir el enrutamiento y los precios en tiempo real."
         },
         {
           "question": "¿Dónde reviso el estado del servicio?",
@@ -3097,7 +3097,7 @@
       "sections": [
         {
           "heading": "1. Panorama general",
-          "body": "Estas Condiciones rigen el uso de MaxVideo AI. Al acceder al servicio aceptas las obligaciones siguientes."
+          "body": "Estas Condiciones rigen el uso de VideoAI. Al acceder al servicio aceptas las obligaciones siguientes."
         },
         {
           "heading": "2. Cuentas",
@@ -3105,11 +3105,11 @@
         },
         {
           "heading": "3. Uso y cumplimiento",
-          "body": "Usa MaxVideo AI solo cumpliendo las leyes aplicables, respeta los límites de licencia, no subas recursos ilegales o que infrinjan derechos y no intentes generar contenido prohibido o inseguro. Podemos revisar, bloquear o eliminar renders y suspender el acceso cuando las piezas violen estos Términos o nuestras políticas."
+          "body": "Usa VideoAI solo cumpliendo las leyes aplicables, respeta los límites de licencia, no subas recursos ilegales o que infrinjan derechos y no intentes generar contenido prohibido o inseguro. Podemos revisar, bloquear o eliminar renders y suspender el acceso cuando las piezas violen estos Términos o nuestras políticas."
         },
         {
           "heading": "4. Contenido del usuario y medios generados",
-          "body": "Tus cargas (fotos, logotipos, material de referencia, prompts) siguen siendo de tu propiedad. Podemos almacenar, procesar y mostrar esos elementos únicamente para producir el render texto-a-video o imagen-a-video solicitado y para entregar las funciones del workspace que habilites. Para cada medio generado, otorgas a MaxVideoAI una licencia mundial, no exclusiva, libre de regalías, transferible y sublicenciable para alojar, reproducir, indexar, exhibir y usar los videos con el fin de operar el servicio, mejorar el enrutamiento y los modelos, realizar revisiones de seguridad y presentar la galería de Examples, las páginas de modelos u otras activaciones de marketing. Puedes marcar un render como privado dentro de tu workspace o solicitar su desindexación contactando al soporte si no existe un interruptor de privacidad, y atenderemos esa solicitud. Conservas la propiedad de tus prompts, cargas, descripciones y activos de marca, mientras que MaxVideoAI mantiene la propiedad de la plataforma, las interfaces, las transformaciones y las mejoras técnicas construidas sobre el servicio."
+          "body": "Tus cargas (fotos, logotipos, material de referencia, prompts) siguen siendo de tu propiedad. Podemos almacenar, procesar y mostrar esos elementos únicamente para producir el render texto-a-video o imagen-a-video solicitado y para entregar las funciones del workspace que habilites. Para cada medio generado, otorgas a VideoAI una licencia mundial, no exclusiva, libre de regalías, transferible y sublicenciable para alojar, reproducir, indexar, exhibir y usar los videos con el fin de operar el servicio, mejorar el enrutamiento y los modelos, realizar revisiones de seguridad y presentar la galería de Examples, las páginas de modelos u otras activaciones de marketing. Puedes marcar un render como privado dentro de tu workspace o solicitar su desindexación contactando al soporte si no existe un interruptor de privacidad, y atenderemos esa solicitud. Conservas la propiedad de tus prompts, cargas, descripciones y activos de marca, mientras que VideoAI mantiene la propiedad de la plataforma, las interfaces, las transformaciones y las mejoras técnicas construidas sobre el servicio."
         },
         {
           "heading": "5. Facturación",
@@ -3117,7 +3117,7 @@
         },
         {
           "heading": "6. Responsabilidad",
-          "body": "MaxVideo AI se proporciona tal cual. Limitamos la responsabilidad al máximo permitido por ley."
+          "body": "VideoAI se proporciona tal cual. Limitamos la responsabilidad al máximo permitido por ley."
         }
       ]
     },
@@ -3143,14 +3143,14 @@
         },
         {
           "heading": "5. Tus opciones",
-          "body": "Solicita exportación o eliminación cuando quieras escribiendo a support@maxvideoai.com. Los administradores controlan las ventanas de retención."
+          "body": "Solicita exportación o eliminación cuando quieras escribiendo a contact@llmhub.com.cn. Los administradores controlan las ventanas de retención."
         }
       ]
     }
   },
   "changelog": {
     "meta": {
-      "title": "Registro de cambios — MaxVideo AI",
+      "title": "Registro de cambios — VideoAI",
       "description": "Actualizaciones transparentes sobre motores, flujos de trabajo y rendimiento de las colas."
     },
     "hero": {
@@ -3159,7 +3159,7 @@
     },
     "intro": {
       "paragraphs": [
-        "Publicamos las actualizaciones de MaxVideoAI en ciclos cortos y constantes. Las mejoras de motores aparecen en cuanto los proveedores abren acceso real y los cambios de workflow llegan en la misma semana para que los equipos adopten la novedad sin reaprender la plataforma.",
+        "Publicamos las actualizaciones de VideoAI en ciclos cortos y constantes. Las mejoras de motores aparecen en cuanto los proveedores abren acceso real y los cambios de workflow llegan en la misma semana para que los equipos adopten la novedad sin reaprender la plataforma.",
         "Usa este registro para ver cuándo se activó una capacidad, confirmar una corrección de latencia o compartir una prueba de entrega con tu equipo. Si una entrada afecta a facturación o políticas de enrutamiento, enlaza directamente con la documentación correspondiente."
       ],
       "releaseTagsTitle": "Cómo etiquetamos las versiones",
@@ -3199,7 +3199,7 @@
   "status": {
     "hero": {
       "title": "Estado del servicio",
-      "subtitle": "Avisos de servicio actuales publicados por el equipo de MaxVideoAI."
+      "subtitle": "Avisos de servicio actuales publicados por el equipo de VideoAI."
     },
     "currentNotice": {
       "title": "Aviso actual",
@@ -3226,7 +3226,7 @@
     "meta": {
       "title": "Ejemplos de video IA: prompts, modelos y costes registrados",
       "description": "Explora ejemplos de video IA y abre un video para consultar su prompt, ajustes, duración y coste registrado antes de recrearlo.",
-      "title_engine": "Ejemplos de video IA — {engineName} | MaxVideoAI",
+      "title_engine": "Ejemplos de video IA — {engineName} | VideoAI",
       "description_engine": "Explora ejemplos de {engineName} y abre un video para consultar su prompt, duración, ajustes de audio y coste registrado."
     }
   },
@@ -3308,7 +3308,7 @@
       },
       "assistantConnections": {
         "label": "Conectar",
-        "tooltip": "Conecta tu cuenta para usar MaxVideoAI directamente desde tu asistente de IA.",
+        "tooltip": "Conecta tu cuenta para usar VideoAI directamente desde tu asistente de IA.",
         "claude": "Claude",
         "chatgpt": "ChatGPT",
         "codex": "Codex"
@@ -3731,7 +3731,7 @@
         "srSoon": "Próximamente",
         "live": "Billeteras compartidas, aprobaciones y presupuestos están activos en tu espacio de trabajo.",
         "beta": "Próximamente — billeteras compartidas, aprobaciones y presupuestos. Únete a la beta en {email}.",
-        "email": "support@maxvideoai.com"
+        "email": "contact@llmhub.com.cn"
       },
       "curated": "Los renders iniciales seleccionados por el equipo MaxVideo aparecen aquí hasta que generes tus propios clips.",
       "error": "No se pudo cargar el historial.",
@@ -3948,7 +3948,7 @@
         },
         "note": "Nota: en billeteras compartidas, el estado aplica a todos.",
         "comingSoon": "Próximamente — billeteras unificadas, aprobaciones por rol y control de presupuestos. Únete a la beta en {email}.",
-        "contactEmail": "support@maxvideoai.com",
+        "contactEmail": "contact@llmhub.com.cn",
         "statusLive": "En vivo",
         "statusSoon": "Próximamente"
       },
@@ -4378,7 +4378,7 @@
         "invite": "Invitar miembro",
         "createProject": "Crear proyecto",
         "upcomingPrefix": "Muy pronto — billeteras compartidas, aprobaciones y presupuestos. Únete a la beta en ",
-        "upcomingEmail": "support@maxvideoai.com",
+        "upcomingEmail": "contact@llmhub.com.cn",
         "upcomingSuffix": "."
       },
       "privacy": {
@@ -4526,7 +4526,7 @@
       "uploadTooLarge": "La imagen seleccionada es demasiado grande. Usa una imagen de menos de {maxMB} MB.",
       "generationFailed": "Falló la generación del storyboard.",
       "authTitle": "Inicia sesión para generar",
-      "authBody": "La generación storyboard y los guardados en biblioteca usan tu wallet MaxVideoAI.",
+      "authBody": "La generación storyboard y los guardados en biblioteca usan tu wallet VideoAI.",
       "authPrimary": "Crear cuenta",
       "authSecondary": "Iniciar sesión",
       "close": "Cerrar",
@@ -4546,7 +4546,7 @@
       "auth": {
         "eyebrow": "Generar audio",
         "title": "Crea una cuenta para generar audio",
-        "body": "Crea pistas musicales, diseño sonoro cinematográfico y voces en off con Seed Audio dentro del espacio de MaxVideoAI.",
+        "body": "Crea pistas musicales, diseño sonoro cinematográfico y voces en off con Seed Audio dentro del espacio de VideoAI.",
         "createAccount": "Crear cuenta",
         "signIn": "Iniciar sesión"
       },
@@ -4736,7 +4736,7 @@
         "selectedVoice": "Voz preset de Seed Audio",
         "chooseVoice": "Voz preset",
         "providerStack": "Pila de modelos",
-        "providerStackDescription": "{provider} prepara la pista base y luego MaxVideoAI masteriza el render final para la salida elegida.",
+        "providerStackDescription": "{provider} prepara la pista base y luego VideoAI masteriza el render final para la salida elegida.",
         "providers": {
           "voice": "Seed Audio 1.0",
           "music": "Google Lyria 3",
@@ -5354,8 +5354,8 @@
     },
     "studio": {
       "projects": {
-        "metaTitle": "Proyectos Studio | MaxVideoAI",
-        "heroBadge": "MaxVideoAI Studio",
+        "metaTitle": "Proyectos Studio | VideoAI",
+        "heroBadge": "VideoAI Studio",
         "title": "Mis proyectos",
         "subtitle": "Crea un proyecto nuevo o retoma uno existente.",
         "createTitle": "Nuevo proyecto",
@@ -5437,7 +5437,7 @@
         }
       },
       "topbar": {
-        "productName": "Editor MaxVideoAI",
+        "productName": "Editor VideoAI",
         "breadcrumbProjects": "Proyectos",
         "breadcrumbWorkspace": "Workspace",
         "workspaceViewLabel": "Vista del workspace",
@@ -5658,7 +5658,7 @@
         "invalidProjectMediaUpload": "Sube una imagen, un video o un audio para el proyecto."
       },
       "canvas": {
-        "ariaLabel": "Lienzo de MaxVideoAI Editor",
+        "ariaLabel": "Lienzo de VideoAI Editor",
         "guide": {
           "controls": {
             "menu": "Opciones de la guía",
@@ -6353,7 +6353,7 @@
           "copyLastAnswer": "Copiar ultima respuesta",
           "reuseLastMessage": "Reusar ultimo mensaje",
           "clearConversation": "Borrar conversacion",
-          "defaultChatSystemPrompt": "Ayudas a planificar un grafo de generacion de MaxVideoAI Studio. Responde con instrucciones de produccion concisas y reutilizables."
+          "defaultChatSystemPrompt": "Ayudas a planificar un grafo de generacion de VideoAI Studio. Responde con instrucciones de produccion concisas y reutilizables."
         },
         "map": {
           "navigationLabel": "Navegación del lienzo",
@@ -6619,7 +6619,7 @@
         "serverMp4": "MP4 de servidor",
         "freeExportsRemaining": "Queda {count} exportación gratuita de servidor",
         "freeExportsRemainingPlural": "Quedan {count} exportaciones gratuitas de servidor",
-        "finalRenderJob": "El render final se ejecuta en los servidores de MaxVideoAI.",
+        "finalRenderJob": "El render final se ejecuta en los servidores de VideoAI.",
         "serverProgress": "Progreso de exportación del servidor",
         "downloadMp4": "Descargar MP4",
         "advanced": "Avanzado",
@@ -6868,112 +6868,112 @@
   },
   "comparePage": {
     "meta": {
-      "title": "{left} vs {right} — Specs y precios | MaxVideoAI",
-      "titleFallback": "Motores de video IA — Specs y precios | MaxVideoAI",
-      "description": "Compara {left} vs {right} en MaxVideoAI con specs clave y un scorecard en 11 criterios.",
+      "title": "{left} vs {right} — Specs y precios | VideoAI",
+      "titleFallback": "Motores de video IA — Specs y precios | VideoAI",
+      "description": "Compara {left} vs {right} en VideoAI con specs clave y un scorecard en 11 criterios.",
       "slugOverrides": {
         "kling-2-6-pro-vs-ltx-2": {
-          "title": "Kling 2.6 Pro vs LTX 2 — Velocidad o calidad | MaxVideoAI",
+          "title": "Kling 2.6 Pro vs LTX 2 — Velocidad o calidad | VideoAI",
           "description": "Compara los modelos por calidad, velocidad, precios, modos y scorecard de 11 puntos. Elige el ganador según el objetivo creativo."
         },
         "ltx-2-fast-vs-wan-2-6": {
-          "title": "LTX 2 Fast vs WAN 2.6 — Calidad, velocidad y costo | MaxVideoAI",
+          "title": "LTX 2 Fast vs WAN 2.6 — Calidad, velocidad y costo | VideoAI",
           "description": "Compara LTX 2 Fast vs WAN 2.6 con specs clave, precios y un scorecard de 11 puntos. Revisa velocidad/estabilidad frente al soporte de video a video."
         },
         "wan-2-5-vs-wan-2-6": {
-          "title": "WAN 2.5 vs WAN 2.6 — Novedades + specs | MaxVideoAI",
+          "title": "WAN 2.5 vs WAN 2.6 — Novedades + specs | VideoAI",
           "description": "Mira qué cambia en WAN 2.6 vs 2.5: clips más largos, salida multi-shot, soporte de video a video, precios y scorecard de 11 puntos."
         },
         "ltx-2-fast-vs-wan-2-5": {
-          "title": "LTX 2 Fast vs WAN 2.5 — Calidad, velocidad y costo | MaxVideoAI",
+          "title": "LTX 2 Fast vs WAN 2.5 — Calidad, velocidad y costo | VideoAI",
           "description": "Compara LTX 2 Fast vs WAN 2.5 con specs clave, precios y un scorecard de 11 puntos. Elige el mejor motor para tu flujo de trabajo."
         },
         "kling-3-pro-vs-wan-2-6": {
-          "title": "Kling 3 Pro vs WAN 2.6 — Calidad, audio y costo | MaxVideoAI",
+          "title": "Kling 3 Pro vs WAN 2.6 — Calidad, audio y costo | VideoAI",
           "description": "Compara Kling 3 Pro vs WAN 2.6 por calidad, audio, velocidad, modos, precios y scorecard de 11 puntos."
         },
         "kling-3-pro-vs-veo-3-1": {
-          "title": "Kling 3 Pro vs Veo 3.1 | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara Kling 3 Pro vs Veo 3.1 en MaxVideoAI por specs, precios, control de escena, comportamiento del audio nativo y calidad de salida."
+          "title": "Kling 3 Pro vs Veo 3.1 | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara Kling 3 Pro vs Veo 3.1 en VideoAI por specs, precios, control de escena, comportamiento del audio nativo y calidad de salida."
         },
         "ltx-2-3-pro-vs-veo-3-1": {
-          "title": "LTX 2.3 Pro vs Veo 3.1 | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara LTX 2.3 Pro vs Veo 3.1 en MaxVideoAI por specs, precios, comportamiento de audio y calidad de salida."
+          "title": "LTX 2.3 Pro vs Veo 3.1 | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara LTX 2.3 Pro vs Veo 3.1 en VideoAI por specs, precios, comportamiento de audio y calidad de salida."
         },
         "ltx-2-vs-veo-3-1-fast": {
-          "title": "LTX 2 vs Veo 3.1 Fast — Velocidad o calidad | MaxVideoAI",
+          "title": "LTX 2 vs Veo 3.1 Fast — Velocidad o calidad | VideoAI",
           "description": "Compara LTX 2 vs Veo 3.1 Fast: velocidad/tiempo en cola, costo, duración máxima y calidad de salida, con una evaluación detallada."
         },
         "ltx-2-vs-veo-3-1": {
-          "title": "LTX 2 vs Veo 3.1 — Calidad, costo y modos | MaxVideoAI",
+          "title": "LTX 2 vs Veo 3.1 — Calidad, costo y modos | VideoAI",
           "description": "Compara LTX 2 vs Google Veo 3.1 por calidad, realismo del movimiento, legibilidad del texto, modos, precios y scorecard de 11 puntos."
         },
         "seedance-2-0-vs-veo-3-1": {
-          "title": "Seedance 2.0 vs Veo 3.1 | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara Seedance 2.0 vs Veo 3.1 en MaxVideoAI por specs, precios, workflows de audio y capacidades de cada modelo."
+          "title": "Seedance 2.0 vs Veo 3.1 | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara Seedance 2.0 vs Veo 3.1 en VideoAI por specs, precios, workflows de audio y capacidades de cada modelo."
         },
         "kling-3-pro-vs-seedance-2-0": {
-          "title": "Kling 3 Pro vs Seedance 2.0 | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara Kling 3 Pro vs Seedance 2.0 en MaxVideoAI por specs, precios, control de escena y calidad multi-shot."
+          "title": "Kling 3 Pro vs Seedance 2.0 | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara Kling 3 Pro vs Seedance 2.0 en VideoAI por specs, precios, control de escena y calidad multi-shot."
         },
         "seedance-2-0-fast-vs-veo-3-1-fast": {
-          "title": "Seedance 2.0 Fast vs Veo 3.1 Fast | Comparación rápida de modelos de video IA | MaxVideoAI",
-          "description": "Compara Seedance 2.0 Fast vs Veo 3.1 Fast en MaxVideoAI por velocidad de borrador, specs, precios y calidad lado a lado."
+          "title": "Seedance 2.0 Fast vs Veo 3.1 Fast | Comparación rápida de modelos de video IA | VideoAI",
+          "description": "Compara Seedance 2.0 Fast vs Veo 3.1 Fast en VideoAI por velocidad de borrador, specs, precios y calidad lado a lado."
         },
         "ltx-2-3-pro-vs-seedance-2-0": {
-          "title": "LTX 2.3 Pro vs Seedance 2.0 | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara LTX 2.3 Pro vs Seedance 2.0 en MaxVideoAI por specs, precios, comportamiento de audio y calidad de salida."
+          "title": "LTX 2.3 Pro vs Seedance 2.0 | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara LTX 2.3 Pro vs Seedance 2.0 en VideoAI por specs, precios, comportamiento de audio y calidad de salida."
         },
         "seedance-2-0-vs-sora-2": {
-          "title": "Seedance 2.0 vs Sora 2 | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara Seedance 2.0 vs Sora 2 en MaxVideoAI por specs, precios, comportamiento de audio y calidad cinematográfica lado a lado."
+          "title": "Seedance 2.0 vs Sora 2 | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara Seedance 2.0 vs Sora 2 en VideoAI por specs, precios, comportamiento de audio y calidad cinematográfica lado a lado."
         },
         "seedance-1-5-pro-vs-veo-3-1": {
-          "title": "Seedance 1.5 Pro vs Veo 3.1 — Velocidad o calidad | MaxVideoAI",
+          "title": "Seedance 1.5 Pro vs Veo 3.1 — Velocidad o calidad | VideoAI",
           "description": "Compara Seedance 1.5 Pro vs Google Veo 3.1 por calidad cinematográfica, velocidad, precios, modos y scorecard de 11 puntos."
         },
         "ltx-2-vs-seedance-2-0": {
-          "title": "LTX 2 vs Seedance 2 — Puntuaciones y precios | MaxVideoAI",
+          "title": "LTX 2 vs Seedance 2 — Puntuaciones y precios | VideoAI",
           "description": "Compara LTX 2 vs Seedance 2.0 por calidad, velocidad, modos, precios y scorecard de 11 puntos para elegir según el objetivo creativo."
         },
         "kling-3-standard-vs-veo-3-1": {
-          "title": "Kling 3 Std vs Veo 3.1 — Puntuaciones y precios | MaxVideoAI",
+          "title": "Kling 3 Std vs Veo 3.1 — Puntuaciones y precios | VideoAI",
           "description": "Compara Kling 3 Standard vs Google Veo 3.1 por calidad, velocidad, precios, modos y scorecard de 11 puntos."
         },
         "kling-3-pro-vs-sora-2": {
-          "title": "Kling 3 Pro vs Sora 2 — Puntuaciones y precios | MaxVideoAI",
+          "title": "Kling 3 Pro vs Sora 2 — Puntuaciones y precios | VideoAI",
           "description": "Compara Kling 3 Pro vs OpenAI Sora 2 por calidad, velocidad, duración máxima, precios y scorecard de 11 puntos."
         },
         "kling-3-pro-vs-sora-2-pro": {
-          "title": "Kling 3 Pro vs Sora 2 Pro | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara Kling 3 Pro vs Sora 2 Pro en MaxVideoAI por specs, precios, control de escena, comportamiento de audio y calidad de salida."
+          "title": "Kling 3 Pro vs Sora 2 Pro | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara Kling 3 Pro vs Sora 2 Pro en VideoAI por specs, precios, control de escena, comportamiento de audio y calidad de salida."
         },
         "sora-2-vs-sora-2-pro": {
-          "title": "Sora 2 vs Sora 2 Pro — Diferencias y costo | MaxVideoAI",
+          "title": "Sora 2 vs Sora 2 Pro — Diferencias y costo | VideoAI",
           "description": "Compara Sora 2 vs Sora 2 Pro: calidad de salida, audio nativo, resolución/duración máximas y precios, con una evaluación detallada."
         },
         "kling-3-4k-vs-kling-3-pro": {
-          "title": "Kling 3 4K vs Kling 3 Pro | 4K nativo vs 1080p | MaxVideoAI",
-          "description": "Compara Kling 3 4K y Kling 3 Pro en MaxVideoAI: entrega 4K nativa, iteracion 1080p, precios, modos y cuando usar cada ruta."
+          "title": "Kling 3 4K vs Kling 3 Pro | 4K nativo vs 1080p | VideoAI",
+          "description": "Compara Kling 3 4K y Kling 3 Pro en VideoAI: entrega 4K nativa, iteracion 1080p, precios, modos y cuando usar cada ruta."
         },
         "kling-2-6-pro-vs-seedance-2-0": {
-          "title": "Kling 2.6 Pro vs Seedance 2 — Puntuaciones y precios | MaxVideoAI",
+          "title": "Kling 2.6 Pro vs Seedance 2 — Puntuaciones y precios | VideoAI",
           "description": "Compara Kling 2.6 Pro vs Seedance 2.0 por calidad, audio, velocidad, precios y scorecard de 11 puntos."
         },
         "kling-3-standard-vs-ltx-2": {
-          "title": "Kling 3 Std vs LTX 2 — Velocidad o calidad | MaxVideoAI",
+          "title": "Kling 3 Std vs LTX 2 — Velocidad o calidad | VideoAI",
           "description": "Compara Kling 3 Standard vs LTX 2 por calidad, velocidad, precios, modos y scorecard de 11 puntos."
         },
         "ltx-2-3-fast-vs-ltx-2-3-pro": {
-          "title": "LTX 2.3 Fast vs LTX 2.3 Pro | Comparación de modelos de video IA | MaxVideoAI",
-          "description": "Compara LTX 2.3 Fast vs LTX 2.3 Pro en MaxVideoAI por tradeoffs entre fast y pro actuales, specs, precios y calidad lado a lado."
+          "title": "LTX 2.3 Fast vs LTX 2.3 Pro | Comparación de modelos de video IA | VideoAI",
+          "description": "Compara LTX 2.3 Fast vs LTX 2.3 Pro en VideoAI por tradeoffs entre fast y pro actuales, specs, precios y calidad lado a lado."
         },
         "ltx-2-3-fast-vs-seedance-2-0-fast": {
-          "title": "LTX 2.3 Fast vs Seedance 2.0 Fast | Comparación rápida de modelos de video IA | MaxVideoAI",
-          "description": "Compara LTX 2.3 Fast vs Seedance 2.0 Fast en MaxVideoAI por velocidad de borrador, specs, precios y calidad lado a lado."
+          "title": "LTX 2.3 Fast vs Seedance 2.0 Fast | Comparación rápida de modelos de video IA | VideoAI",
+          "description": "Compara LTX 2.3 Fast vs Seedance 2.0 Fast en VideoAI por velocidad de borrador, specs, precios y calidad lado a lado."
         }
       },
-      "descriptionFallback": "Comparación lado a lado de modelos de video IA con métricas y guía de MaxVideoAI."
+      "descriptionFallback": "Comparación lado a lado de modelos de video IA con métricas y guía de VideoAI."
     },
     "hero": {
       "back": "Volver a comparativas",
@@ -6985,7 +6985,7 @@
     },
     "scorecard": {
       "title": "Compara los puntos fuertes.",
-      "subtitle": "Las puntuaciones reflejan la calidad y el control en MaxVideoAI a lo largo de 11 criterios.",
+      "subtitle": "Las puntuaciones reflejan la calidad y el control en VideoAI a lo largo de 11 criterios.",
       "provisionalNote": "Las puntuaciones de prelanzamiento son provisionales y se actualizarán cuando haya renders runtime y precio final.",
       "strengthsLabel": "Fortalezas",
       "winnerSummary": "Lo esencial",
@@ -7019,7 +7019,7 @@
       "latencySource": "Método de medición y límites"
     },
     "specLabels": {
-      "pricing": "Precios (MaxVideoAI)",
+      "pricing": "Precios (VideoAI)",
       "textToVideo": "Texto a video",
       "imageToVideo": "Imagen a video",
       "videoToVideo": "Video a video",
@@ -7041,8 +7041,8 @@
     },
     "showdown": {
       "title": "Showdown (mismo prompt)",
-      "subtitle": "Renders lado a lado del mismo prompt en MaxVideoAI. Los prompts son idénticos; los resultados pueden variar según el modelo.",
-      "subtitlePrelaunch": "Prompts y renders lado a lado (cuando estén disponibles) en MaxVideoAI. Los prompts son idénticos; los resultados pueden variar según el modelo.",
+      "subtitle": "Renders lado a lado del mismo prompt en VideoAI. Los prompts son idénticos; los resultados pueden variar según el modelo.",
+      "subtitlePrelaunch": "Prompts y renders lado a lado (cuando estén disponibles) en VideoAI. Los prompts son idénticos; los resultados pueden variar según el modelo.",
       "note": "Mostrando hasta 3 pares de prompts para claridad.",
       "footer": "Explora los ejemplos de cada modelo para conocer sus posibilidades visuales. Las galerías usan prompts y ajustes diferentes; no son una prueba de video en condiciones idénticas."
     },
@@ -7052,7 +7052,7 @@
     },
     "faq": {
       "title": "FAQ",
-      "subtitle": "Respuestas rápidas sobre {left} vs {right} en MaxVideoAI (precios, modos, especificaciones y por qué difieren los resultados).",
+      "subtitle": "Respuestas rápidas sobre {left} vs {right} en VideoAI (precios, modos, especificaciones y por qué difieren los resultados).",
       "validating": "aún en validación",
       "pricingDiff": "Los precios varían según el modelo y los ajustes (duración, resolución, audio). Actualmente, {left} parte de {leftValue} vs {right} parte de {rightValue}.",
       "capabilityDiff": "{label}: {left} es {leftValue} vs {right} es {rightValue}.",
@@ -7062,22 +7062,22 @@
       "capabilityLabel": "Capacidad",
       "outputLabel": "Resolución máx.",
       "q1": "¿Qué son {left} y {right}?",
-      "a1": "{left} y {right} son modelos de generación de video IA disponibles en MaxVideoAI. Esta página los compara lado a lado usando los mismos prompts, especificaciones clave y los datos anteriores.",
+      "a1": "{left} y {right} son modelos de generación de video IA disponibles en VideoAI. Esta página los compara lado a lado usando los mismos prompts, especificaciones clave y los datos anteriores.",
       "q2": "¿Cuál es mejor: {left} o {right}?",
       "a2": "Depende de tu flujo de trabajo. Usa el scorecard y los showdowns con el mismo prompt para comparar adherencia al prompt, realismo del movimiento, fidelidad humana y legibilidad del texto — luego abre cada perfil para los detalles completos.",
-      "q3": "¿Cuál es más barato en MaxVideoAI?",
-      "a3": "Los precios varían según el modelo y los ajustes (duración, resolución, audio). Actualmente, {left} parte de {leftValue} y {right} parte de {rightValue} (consulta “Precios (MaxVideoAI)” para más detalles).",
+      "q3": "¿Cuál es más barato en VideoAI?",
+      "a3": "Los precios varían según el modelo y los ajustes (duración, resolución, audio). Actualmente, {left} parte de {leftValue} y {right} parte de {rightValue} (consulta “Precios (VideoAI)” para más detalles).",
       "q4": "¿Cuáles son las mayores diferencias entre {left} y {right}?",
       "q5": "¿Puedo partir de texto, una imagen o un video?",
-      "a5": "En MaxVideoAI: Texto a video es {t2vLeft} vs {t2vRight}; Imagen a video es {i2vLeft} vs {i2vRight}; Video a video es {v2vLeft} vs {v2vRight}. Algunos campos aún pueden estar en validación.",
+      "a5": "En VideoAI: Texto a video es {t2vLeft} vs {t2vRight}; Imagen a video es {i2vLeft} vs {i2vRight}; Video a video es {v2vLeft} vs {v2vRight}. Algunos campos aún pueden estar en validación.",
       "q6": "¿Puedo usar imágenes de inicio y final o referencias?",
       "a6": "Primer/último fotograma es {firstLeft} vs {firstRight}. Imagen/estilo de referencia es {refImgLeft} vs {refImgRight}; video de referencia es {refVidLeft} vs {refVidRight}.",
       "q7": "¿Qué resoluciones, duraciones y formatos están disponibles?",
       "a7": "Salida máx.: {resLeft} / {durLeft} para {left} y {resRight} / {durRight} para {right}. Las relaciones de aspecto incluyen {arLeft} vs {arRight} (ver Especificaciones clave para la lista completa).",
       "q8": "¿Los modelos pueden generar audio y sincronizar los labios?",
       "a8": "Salida de audio es {audioOutLeft} vs {audioOutRight}. Generación de audio nativa es {audioGenLeft} vs {audioGenRight}, y lip sync es {lipLeft} vs {lipRight} (algunos campos aún pueden estar en validación).",
-      "q9": "¿MaxVideoAI añade marca de agua?",
-      "a9": "No. Las exportaciones de MaxVideoAI son sin marca de agua (“Watermark: No (MaxVideoAI)”).",
+      "q9": "¿VideoAI añade marca de agua?",
+      "a9": "No. Las exportaciones de VideoAI son sin marca de agua (“Watermark: No (VideoAI)”).",
       "q10": "¿Por qué los resultados se ven diferentes con el mismo prompt?",
       "a10": "Incluso con prompts idénticos, los modelos interpretan las instrucciones de forma distinta y usan datos de entrenamiento diferentes. Por eso existe la sección Showdown: mismo prompt, salidas lado a lado.",
       "q11": "¿Dónde encuentro especificaciones completas, controles y más ejemplos de prompts?",
@@ -7086,7 +7086,7 @@
     "summary": {
       "scorecardLabel": "Líder en scorecard",
       "scorecardLabelPrelaunch": "Líder actual en scorecard (provisional)",
-      "pricingLabel": "Más barato en MaxVideoAI",
+      "pricingLabel": "Más barato en VideoAI",
       "durationLabel": "Duración máx.",
       "scorecardTemplate": "Líder en scorecard: {engine} lidera {wins}/{total}{best}.",
       "scorecardTemplatePrelaunch": "Actualmente lidera en scorecard (provisional): {engine} lidera {wins}/{total}{best}.",
@@ -7154,7 +7154,7 @@
     "hub": {
       "meta": {
         "title": "Herramientas de preproducción con IA para imagen y video",
-        "description": "Crea referencias de personaje reutilizables y mejores fotogramas iniciales antes de generar. Descubre las herramientas de MaxVideoAI para mantener personajes consistentes y ajustar el ángulo de cámara.",
+        "description": "Crea referencias de personaje reutilizables y mejores fotogramas iniciales antes de generar. Descubre las herramientas de VideoAI para mantener personajes consistentes y ajustar el ángulo de cámara.",
         "keywords": [
           "herramientas IA de preproducción",
           "image-to-video",
@@ -7164,7 +7164,7 @@
         ]
       },
       "hero": {
-        "badge": "Herramientas MaxVideoAI",
+        "badge": "Herramientas VideoAI",
         "title": "Dale forma a lo que sigue en tu proyecto.",
         "body": "Crea un personaje, cambia el ángulo, amplía una imagen o mejora un video. Elige lo que necesita tu escena.",
         "primaryCta": "Personajes IA consistentes",
@@ -7176,21 +7176,21 @@
           "title": "Crea primero la imagen base",
           "body": "Empieza con la imagen base en Image antes de pasar a ediciones, referencias o movimiento.",
           "cta": "Abrir Image",
-          "imageAlt": "Imagen fija generada en el workspace Image de MaxVideoAI antes del video."
+          "imageAlt": "Imagen fija generada en el workspace Image de VideoAI antes del video."
         },
         "character": {
           "eyebrow": "Consistencia del personaje",
           "title": "Crea referencias reutilizables de personaje",
           "body": "Convierte una imagen en una hoja de personaje de 8 vistas con 4 vistas de cuerpo completo y 4 close-ups, o crea una referencia de retrato antes de pasar a escenas, prompts y animación.",
           "cta": "Explorar herramienta",
-          "imageAlt": "Captura de la interfaz Character Builder de MaxVideoAI."
+          "imageAlt": "Captura de la interfaz Character Builder de VideoAI."
         },
         "angle": {
           "eyebrow": "Control de perspectiva",
           "title": "Genera mejores encuadres desde una imagen",
           "body": "Elige un nuevo ángulo de cámara desde una imagen para producto, storyboard, creatividad publicitaria o un mejor primer fotograma image-to-video.",
           "cta": "Explorar herramienta",
-          "imageAlt": "Captura de la interfaz Angle de MaxVideoAI."
+          "imageAlt": "Captura de la interfaz Angle de VideoAI."
         },
         "upscale": {
           "eyebrow": "Upscale IA",
@@ -7249,7 +7249,7 @@
     "upscale": {
       "meta": {
         "title": "Upscale IA de imagen y video | SeedVR2, Topaz, FlashVSR, Recraft",
-        "description": "Upscalea imágenes y videos cortos con modelos actuales de mejora IA como SeedVR2, Topaz, FlashVSR y Recraft antes de reutilizarlos en MaxVideoAI.",
+        "description": "Upscalea imágenes y videos cortos con modelos actuales de mejora IA como SeedVR2, Topaz, FlashVSR y Recraft antes de reutilizarlos en VideoAI.",
         "keywords": [
           "upscale IA",
           "upscaler imagen IA",
@@ -7259,7 +7259,7 @@
           "flashvsr upscale",
           "recraft crisp upscale"
         ],
-        "imageAlt": "Interfaz actual de Upscale en MaxVideoAI, en inglés y en modo visitante."
+        "imageAlt": "Interfaz actual de Upscale en VideoAI, en inglés y en modo visitante."
       },
       "hero": {
         "badge": "Upscale imagen + video",
@@ -7332,12 +7332,12 @@
       "modelGuide": {
         "eyebrow": "Guía de calidad y precio",
         "title": "Compara calidad, ajustes y precio.",
-        "body": "En MaxVideoAI, elige el modelo y el tamaño de salida, y revisa la cotización. En video, el precio también depende de la duración y resolución del archivo original.",
+        "body": "En VideoAI, elige el modelo y el tamaño de salida, y revisa la cotización. En video, el precio también depende de la duración y resolución del archivo original.",
         "columns": {
           "model": "Modelo",
           "bestFor": "Ideal para",
           "quality": "Perfil de calidad",
-          "price": "Precio MaxVideoAI",
+          "price": "Precio VideoAI",
           "useWhen": "Úsalo cuando"
         },
         "rows": [
@@ -7359,7 +7359,7 @@
             "model": "FlashVSR Video",
             "bestFor": "Upscales de video rápidos para revisión o postproducción social con menor costo.",
             "quality": "Mejora de video priorizando velocidad con coherencia temporal práctica.",
-            "price": "Ruta de video más económica; MaxVideoAI estima por duración, frames y píxeles de salida.",
+            "price": "Ruta de video más económica; VideoAI estima por duración, frames y píxeles de salida.",
             "useWhen": "Úsalo cuando rapidez y costo importan más que restauración premium."
           },
           {
@@ -7422,7 +7422,7 @@
     },
     "angle": {
       "meta": {
-        "title": "Cambiar el ángulo de una imagen con IA | MaxVideoAI",
+        "title": "Cambiar el ángulo de una imagen con IA | VideoAI",
         "description": "Cambia el ángulo de cámara de una imagen con IA. Crea vistas de producto, encuadres de storyboard y mejores fotogramas para image-to-video.",
         "keywords": [
           "cambiar ángulo de cámara IA",
@@ -7933,7 +7933,7 @@
         "showcase": {
           "topLabel": "Interfaz Character Builder",
           "windowLabel": "elegir la entrada, generar la referencia, reutilizarla",
-          "imageAlt": "Captura completa de la interfaz Character Builder de MaxVideoAI.",
+          "imageAlt": "Captura completa de la interfaz Character Builder de VideoAI.",
           "callouts": [
             {
               "label": "01",
@@ -8240,7 +8240,7 @@
     "backgroundRemoval": {
       "meta": {
         "title": "Eliminar fondos de video | Pantalla verde y rotoscopia IA",
-        "description": "Elimina fondos de video en MaxVideoAI. Crea recortes tipo pantalla verde, assets de rotoscopia IA, mates alfa, WebM transparente o clips con color sólido.",
+        "description": "Elimina fondos de video en VideoAI. Crea recortes tipo pantalla verde, assets de rotoscopia IA, mates alfa, WebM transparente o clips con color sólido.",
         "keywords": [
           "eliminar fondos de video",
           "quitar fondo de video",
@@ -8254,7 +8254,7 @@
         ],
         "imageAlt": "Vista antes y después de eliminación de fondo de video con un presentador aislado sobre fondo transparente.",
         "schemaName": "Video Background Remover",
-        "schemaDescription": "Herramienta MaxVideoAI para eliminar fondos de videos cortos, crear recortes estilo rotoscopia IA y exportar assets de video transparentes.",
+        "schemaDescription": "Herramienta VideoAI para eliminar fondos de videos cortos, crear recortes estilo rotoscopia IA y exportar assets de video transparentes.",
         "howToTitle": "Cómo eliminar fondos de video o crear un recorte con IA",
         "howToDescription": "Sube o selecciona un video, elige salida transparente, pantalla verde o color sólido, ejecuta el recorte de video con IA y guarda o descarga el resultado."
       },
@@ -8348,7 +8348,7 @@
         "eyebrow": "Workflow",
         "title": "Del clip fuente al asset alpha, pantalla verde o compositing",
         "body": "Elige una fuente, configura la salida alpha o el nuevo fondo, ejecuta, revisa y guarda o descarga.",
-        "priceNote": "Antes de generar, MaxVideoAI muestra el precio estimado según el clip y los ajustes de salida seleccionados.",
+        "priceNote": "Antes de generar, VideoAI muestra el precio estimado según el clip y los ajustes de salida seleccionados.",
         "steps": [
           {
             "title": "Sube o selecciona un video",
@@ -8404,7 +8404,7 @@
         },
         {
           "q": "¿Cómo se estima el precio?",
-          "a": "MaxVideoAI lee la duración y muestra una estimación de wallet antes de iniciar. Los runs fallidos se reembolsan automáticamente."
+          "a": "VideoAI lee la duración y muestra una estimación de wallet antes de iniciar. Los runs fallidos se reembolsan automáticamente."
         },
         {
           "q": "¿Cuál es el límite de duración?",
@@ -8421,7 +8421,7 @@
       ],
       "finalCta": {
         "eyebrow": "¿Listo para limpiar el clip?",
-        "title": "Elimina un fondo y guarda el resultado en tu biblioteca MaxVideoAI",
+        "title": "Elimina un fondo y guarda el resultado en tu biblioteca VideoAI",
         "body": "Abre el workspace, estima el run y convierte videos cortos en sujetos recortados, mates alfa, placas de pantalla verde o recursos con fondo sólido reutilizables.",
         "primaryCta": "Abrir herramienta de video",
         "secondaryCta": "Ver herramientas"
@@ -8457,7 +8457,7 @@
       "workshops": "Prepara tu próxima escena.",
       "finishing": "Dale el toque final a tu video.",
       "start": "Crea tu punto de partida.",
-      "startBody": "¿Todavía no tienes una imagen? Créala en MaxVideoAI. En el espacio Audio también puedes generar voces, música y sonidos.",
+      "startBody": "¿Todavía no tienes una imagen? Créala en VideoAI. En el espacio Audio también puedes generar voces, música y sonidos.",
       "image": "Crear una imagen",
       "audio": "Crear audio",
       "browse": "Elige tu herramienta",
@@ -8471,7 +8471,7 @@
   "notFound": {
     "metaTitle": "Página no encontrada",
     "title": "Página no encontrada",
-    "body": "No encontramos esa URL. Es posible que ya no exista o que nunca haya existido. Usa los enlaces de abajo para seguir explorando MaxVideoAI.",
+    "body": "No encontramos esa URL. Es posible que ya no exista o que nunca haya existido. Usa los enlaces de abajo para seguir explorando VideoAI.",
     "homeLabel": "Volver al inicio",
     "modelsLabel": "Ver modelos de video"
   }

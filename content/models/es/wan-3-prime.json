@@ -5,7 +5,7 @@
     "title": "Generador de video con IA Wan 3 Prime: flujo premium",
     "description": "Evalúa Wan 3 Prime para una producción premium desde texto, imagen o referencias, con consejos, elección del modelo hermano y cotizaciones canónicas."
   },
-  "overview": "Wan 3 Prime es el modelo premium actual de la familia Wan 3. Conserva los flujos de texto, imagen y referencias para briefs que eligen de forma deliberada la ruta Prime. Alibaba/Tongyi es propietario de Wan; MaxVideoAI distribuye estos endpoints mediante Fal sin sugerir un acuerdo directo con el propietario.",
+  "overview": "Wan 3 Prime es el modelo premium actual de la familia Wan 3. Conserva los flujos de texto, imagen y referencias para briefs que eligen de forma deliberada la ruta Prime. Alibaba/Tongyi es propietario de Wan; VideoAI distribuye estos endpoints mediante Fal sin sugerir un acuerdo directo con el propietario.",
   "decision": {
     "modelSlug": "wan-3-prime",
     "hero": {
@@ -123,7 +123,7 @@
     "pricingCopy": {
       "title": "Precios por escenario de Wan 3 Prime",
       "subtitle": "Compara la misma escena de seis segundos en 720p y 1080p.",
-      "footnote": "El precio depende de tus ajustes. MaxVideoAI confirma la cotización antes de generar.",
+      "footnote": "El precio depende de tus ajustes. VideoAI confirma la cotización antes de generar.",
       "ctaLabel": "Generar con Wan 3 Prime",
       "ctaHref": "/app?engine=wan-3-prime"
     },

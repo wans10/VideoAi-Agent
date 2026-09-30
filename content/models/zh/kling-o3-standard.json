@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni Standard",
   "versionLabel": "3.0 Omni Standard",
   "seo": {
-    "title": "Kling 3.0 Omni Standard 参考图与视频生视频生成器 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Kling 3.0 Omni Standard 进行更低成本的参考图引导 Kling 视频创作，支持分镜故事板图片、源视频生视频 (V2V)、@Image 与 @Video1 锚点、可选音频以及明确的首帧分离控制。"
+    "title": "Kling 3.0 Omni Standard 参考图与视频生视频生成器 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 3.0 Omni Standard 进行更低成本的参考图引导 Kling 视频创作，支持分镜故事板图片、源视频生视频 (V2V)、@Image 与 @Video1 锚点、可选音频以及明确的首帧分离控制。"
   },
   "overview": "Kling 3.0 Omni Standard 是 Kling Omni 系列中主打高性价比的路由，适用于参考图生视频、分镜草稿以及源视频生视频 (V2V) 探索试验。",
-  "pricingNotes": "模型提供商原始成本：开启音频约 $0.126/秒，关闭音频约 $0.084/秒（未计入 MaxVideoAI 服务利润）。",
+  "pricingNotes": "模型提供商原始成本：开启音频约 $0.126/秒，关闭音频约 $0.084/秒（未计入 VideoAI 服务利润）。",
   "custom": {
     "relatedTitle": "选择合适的 Kling 路由",
     "relatedSubtitle": "对于低成本的 O3 参考图草稿选用 Standard；当更看重源视频 V2V 与更强连贯性时选用 Pro；当上传图片必须作为视频首帧时选用 Kling 3 Standard。",
@@ -241,12 +241,12 @@
     "pricingCopy": {
       "title": "Kling 3.0 Omni Standard 价格一览",
       "subtitle": "针对参考图引导草稿和源视频 V2V 测试的低成本预设总价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数计费的展示价格。",
       "ctaLabel": "查看完整价格表",
       "ctaHref": "/zh/pricing#kling-o3-standard-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Standard：参考图草稿与视频生视频 (V2V) | MaxVideoAI",
+      "title": "Kling 3.0 Omni Standard：参考图草稿与视频生视频 (V2V) | VideoAI",
       "description": "使用 Kling 3.0 Omni Standard 进行更低成本的参考图生视频、分镜草稿与源视频 V2V 创作，支持 @Image 与 @Video1 提示词。"
     }
   },

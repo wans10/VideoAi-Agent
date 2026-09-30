@@ -181,8 +181,8 @@ test('URL Inspection API calls happen only through manual inspection action', as
             verdict: 'PASS',
             pageFetchState: 'SUCCESSFUL',
             indexingState: 'INDEXING_ALLOWED',
-            googleCanonical: 'https://maxvideoai.com/examples/ltx',
-            userCanonical: 'https://maxvideoai.com/examples/ltx',
+            googleCanonical: 'https://videoai.omninodetech.com/examples/ltx',
+            userCanonical: 'https://videoai.omninodetech.com/examples/ltx',
           },
         },
       });
@@ -194,7 +194,7 @@ test('URL Inspection API calls happen only through manual inspection action', as
     assert.equal(requests.length, 1);
     assert.equal(requests[0]?.url, 'https://searchconsole.googleapis.com/v1/urlInspection/index:inspect');
     assert.deepEqual(requests[0]?.body, {
-      inspectionUrl: 'https://maxvideoai.com/examples/ltx',
+      inspectionUrl: 'https://videoai.omninodetech.com/examples/ltx',
       siteUrl: 'sc-domain:maxvideoai.com',
       languageCode: 'en-US',
     });

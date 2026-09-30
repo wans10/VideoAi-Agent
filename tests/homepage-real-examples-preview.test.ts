@@ -367,6 +367,6 @@ test('homepage final sections keep alternating backgrounds before the footer', (
 
   assert.match(pricingSource, /<section className="home-payg-chapter dark-section-neon border-b border-hairline bg-surface section">/);
   assert.match(faqSource, /<section className="home-faq-chapter dark-section-neon bg-bg section">/);
-  assert.match(faqSource, /dark-neon-panel group rounded-card border border-hairline bg-surface p-5/);
+  assert.match(faqSource, /studio-faq-item group/);
   assert.doesNotMatch(faqSource, /<section className="bg-surface section">/);
 });

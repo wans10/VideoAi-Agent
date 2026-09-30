@@ -53,7 +53,7 @@ export const pricing: Dictionary['pricing'] = {
     teams: {
       title: 'Teams',
       description: 'Role-based approvals, shared wallets, and delivery hand-offs roll out next. Join the beta to test team controls early.',
-      comingSoonNote: 'Teams features are in private beta. Contact support@maxvideoai.com to join the rollout.',
+      comingSoonNote: 'Teams features are in private beta. Contact contact@llmhub.com.cn to join the rollout.',
       points: [
         'Role-based shared wallets with approvals across finance, producers, and stakeholders.',
         'Automated daily summaries covering spend, refunds, and queue health.',
@@ -98,7 +98,7 @@ export const pricing: Dictionary['pricing'] = {
 export const calculator: Dictionary['calculator'] = {
     hero: {
       title: 'Estimate your AI video cost before you generate.',
-      subtitle: 'This public calculator mirrors the estimator inside MaxVideo AI. Pick an engine, duration, and resolution to preview the cost chip with no login required.',
+      subtitle: 'This public calculator mirrors the estimator inside VideoAI. Pick an engine, duration, and resolution to preview the cost chip with no login required.',
     },
     lite: {
       title: 'Lite calculator',

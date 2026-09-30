@@ -9,22 +9,22 @@ import { buildSeoMetadata } from '@/lib/seo/metadata';
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
     title: 'Acceptable Use Policy',
-    description: 'Rules that govern how MaxVideoAI may be used, including restrictions on abusive or illegal content.',
+    description: 'Rules that govern how VideoAI may be used, including restrictions on abusive or illegal content.',
     imageAlt: 'Acceptable Use Policy',
   },
   fr: {
     title: 'Politique d’utilisation acceptable',
-    description: 'Règles encadrant l’usage de MaxVideoAI, y compris les restrictions liées aux contenus abusifs ou illicites.',
+    description: 'Règles encadrant l’usage de VideoAI, y compris les restrictions liées aux contenus abusifs ou illicites.',
     imageAlt: 'Politique d’utilisation acceptable',
   },
   es: {
     title: 'Política de uso aceptable',
-    description: 'Reglas que rigen el uso de MaxVideoAI, incluidas las restricciones sobre contenido abusivo o ilegal.',
+    description: 'Reglas que rigen el uso de VideoAI, incluidas las restricciones sobre contenido abusivo o ilegal.',
     imageAlt: 'Política de uso aceptable',
   },
   zh: {
     title: '可接受使用政策',
-    description: '规范 MaxVideoAI 使用的规则，包括对滥用或非法内容的限制。',
+    description: '规范 VideoAI 使用的规则，包括对滥用或非法内容的限制。',
     imageAlt: '可接受使用政策',
   },
 };
@@ -48,25 +48,25 @@ const HEADER_COPY: Record<AppLocale, { title: string; effective: string; company
   en: {
     title: 'Acceptable Use Policy',
     effective: 'Effective date: 28 October 2025',
-    companyLine: 'Company: MaxVideoAI',
+    companyLine: 'Company: VideoAI',
     contactLabel: 'Contact:',
   },
   fr: {
     title: "Politique d’utilisation acceptable",
     effective: "Date d’entrée en vigueur : 28 octobre 2025",
-    companyLine: 'Société : MaxVideoAI',
+    companyLine: 'Société : VideoAI',
     contactLabel: 'Contact :',
   },
   es: {
     title: 'Política de uso aceptable',
     effective: 'Fecha de entrada en vigor: 28 de octubre de 2025',
-    companyLine: 'Empresa: MaxVideoAI',
+    companyLine: 'Empresa: VideoAI',
     contactLabel: 'Contacto:',
   },
   zh: {
     title: '可接受使用政策',
     effective: '生效日期：2025年10月28日',
-    companyLine: '公司：MaxVideoAI',
+    companyLine: '公司：VideoAI',
     contactLabel: '联系方式：',
   },
 };
@@ -97,10 +97,10 @@ export default async function AcceptableUsePage() {
         <p className="text-sm text-text-secondary">
           {header.contactLabel}{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
         </p>
       </header>
@@ -114,7 +114,7 @@ function AupArticleEn({ takedownHref }: { takedownHref: string }) {
   return (
     <article className="space-y-4 text-base leading-relaxed text-text-secondary">
       <p>
-        This Acceptable Use Policy (“AUP”) explains how you may use the MaxVideoAI platform. It applies to all prompts, uploads, and outputs you generate or distribute through the Service. If you
+        This Acceptable Use Policy (“AUP”) explains how you may use the VideoAI platform. It applies to all prompts, uploads, and outputs you generate or distribute through the Service. If you
         violate this AUP we may suspend or terminate your account and remove offending content.
       </p>
 
@@ -143,16 +143,16 @@ function AupArticleEn({ takedownHref }: { takedownHref: string }) {
       <section className="space-y-2">
         <h2 className="text-lg font-semibold text-text-primary">Report abuse</h2>
         <p>
-          If you believe content generated through MaxVideoAI breaches this policy or your rights, notify us via the{' '}
+          If you believe content generated through VideoAI breaches this policy or your rights, notify us via the{' '}
           <Link href={takedownHref} className="text-brand underline hover:text-brandHover">
             Notice &amp; Takedown form
           </Link>{' '}
           or email{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           . We review reports promptly and take appropriate action.
         </p>
@@ -165,7 +165,7 @@ function AupArticleFr({ takedownHref }: { takedownHref: string }) {
   return (
     <article className="space-y-4 text-base leading-relaxed text-text-secondary">
       <p>
-        Cette Politique d’utilisation acceptable (« AUP ») précise comment vous pouvez utiliser la plateforme MaxVideoAI. Elle s’applique à tous les prompts, fichiers importés et sorties générées ou
+        Cette Politique d’utilisation acceptable (« AUP ») précise comment vous pouvez utiliser la plateforme VideoAI. Elle s’applique à tous les prompts, fichiers importés et sorties générées ou
         partagées via le Service. En cas de violation, nous pouvons suspendre ou fermer votre compte et supprimer le contenu en cause.
       </p>
 
@@ -198,16 +198,16 @@ function AupArticleFr({ takedownHref }: { takedownHref: string }) {
       <section className="space-y-2">
         <h2 className="text-lg font-semibold text-text-primary">Signaler un abus</h2>
         <p>
-          Si vous estimez qu’un contenu généré via MaxVideoAI viole cette politique ou vos droits, signalez-le via le{' '}
+          Si vous estimez qu’un contenu généré via VideoAI viole cette politique ou vos droits, signalez-le via le{' '}
           <Link href={takedownHref} className="text-brand underline hover:text-brandHover">
             formulaire Notification &amp; retrait
           </Link>{' '}
           ou écrivez à{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           . Nous examinons chaque signalement et agissons rapidement.
         </p>
@@ -220,7 +220,7 @@ function AupArticleEs({ takedownHref }: { takedownHref: string }) {
   return (
     <article className="space-y-4 text-base leading-relaxed text-text-secondary">
       <p>
-        Esta Política de Uso Aceptable («PUA») explica cómo puedes utilizar la plataforma MaxVideoAI. Aplica a todos los prompts, cargas y salidas que generes o compartas mediante el Servicio. Si infringes
+        Esta Política de Uso Aceptable («PUA») explica cómo puedes utilizar la plataforma VideoAI. Aplica a todos los prompts, cargas y salidas que generes o compartas mediante el Servicio. Si infringes
         esta política podremos suspender o cancelar tu cuenta y eliminar el contenido infractor.
       </p>
 
@@ -253,16 +253,16 @@ function AupArticleEs({ takedownHref }: { takedownHref: string }) {
       <section className="space-y-2">
         <h2 className="text-lg font-semibold text-text-primary">Reporta abusos</h2>
         <p>
-          Si crees que un contenido generado con MaxVideoAI vulnera esta política o tus derechos, notifícanos mediante el{' '}
+          Si crees que un contenido generado con VideoAI vulnera esta política o tus derechos, notifícanos mediante el{' '}
           <Link href={takedownHref} className="text-brand underline hover:text-brandHover">
             formulario de Notificación y retirada
           </Link>{' '}
           o escribe a{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           . Revisamos cada informe y actuamos con rapidez.
         </p>

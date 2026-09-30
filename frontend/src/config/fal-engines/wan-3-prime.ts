@@ -30,7 +30,7 @@ export const WAN_3_PRIME_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     { mode: 'extend', falModelId: WAN_3_PRIME_ENDPOINTS.extend, ui: WAN_3_MODE_CAPS.extend! },
   ],
   defaultFalModelId: WAN_3_PRIME_ENDPOINTS.t2v,
-  seo: { title: 'Wan 3 Prime AI Video Generator | MaxVideoAI', description: 'Generate premium Wan 3 Prime video from text, images, or mixed references.', canonicalPath: '/models/wan-3-prime' },
+  seo: { title: 'Wan 3 Prime AI Video Generator | VideoAI', description: 'Generate premium Wan 3 Prime video from text, images, or mixed references.', canonicalPath: '/models/wan-3-prime' },
   demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/a583d7e2-c805-4fba-9f77-6139c2269e79.mp4',
   media: {
     videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/a583d7e2-c805-4fba-9f77-6139c2269e79.mp4',

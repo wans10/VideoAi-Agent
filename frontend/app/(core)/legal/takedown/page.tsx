@@ -8,22 +8,22 @@ import { buildSeoMetadata } from '@/lib/seo/metadata';
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
     title: 'Notice & Takedown',
-    description: 'Report abusive or unlawful content generated through MaxVideoAI.',
+    description: 'Report abusive or unlawful content generated through VideoAI.',
     imageAlt: 'Notice and takedown policy',
   },
   fr: {
     title: 'Notification & retrait',
-    description: 'Signaler un contenu abusif ou illicite généré via MaxVideoAI.',
+    description: 'Signaler un contenu abusif ou illicite généré via VideoAI.',
     imageAlt: 'Politique de notification et retrait',
   },
   es: {
     title: 'Notificación y retirada',
-    description: 'Reporta contenido abusivo o ilegal generado a través de MaxVideoAI.',
+    description: 'Reporta contenido abusivo o ilegal generado a través de VideoAI.',
     imageAlt: 'Política de notificación y retirada',
   },
   zh: {
     title: '通知与下架',
-    description: '举报通过 MaxVideoAI 生成的滥用或非法内容。',
+    description: '举报通过 VideoAI 生成的滥用或非法内容。',
     imageAlt: '通知与下架政策',
   },
 };
@@ -47,25 +47,25 @@ const HEADER_COPY: Record<AppLocale, { title: string; effective: string; company
   en: {
     title: 'Notice & Takedown',
     effective: 'Effective date: 28 October 2025',
-    companyLine: 'Company: MaxVideoAI',
+    companyLine: 'Company: VideoAI',
     contactLabel: 'Contact:',
   },
   fr: {
     title: 'Notification & retrait',
     effective: "Date d’entrée en vigueur : 28 octobre 2025",
-    companyLine: 'Société : MaxVideoAI',
+    companyLine: 'Société : VideoAI',
     contactLabel: 'Contact :',
   },
   es: {
     title: 'Notificación y retirada',
     effective: 'Fecha de entrada en vigor: 28 de octubre de 2025',
-    companyLine: 'Empresa: MaxVideoAI',
+    companyLine: 'Empresa: VideoAI',
     contactLabel: 'Contacto:',
   },
   zh: {
     title: '通知与下架',
     effective: '生效日期：2025年10月28日',
-    companyLine: '公司：MaxVideoAI',
+    companyLine: '公司：VideoAI',
     contactLabel: '联系方式：',
   },
 };
@@ -74,7 +74,7 @@ const FORM_COPY: Record<AppLocale, TakedownFormCopy> = {
   en: {
     emailLabel: 'Contact email',
     urlLabel: 'URL of the content',
-    urlPlaceholder: 'https://maxvideoai.com/video/...',
+    urlPlaceholder: 'https://videoai.omninodetech.com/video/...',
     reasonLabel: 'Reason',
     reasons: {
       copyright: 'Copyright / IP infringement',
@@ -96,7 +96,7 @@ const FORM_COPY: Record<AppLocale, TakedownFormCopy> = {
   fr: {
     emailLabel: 'E-mail de contact',
     urlLabel: 'URL du contenu',
-    urlPlaceholder: 'https://maxvideoai.com/video/...',
+    urlPlaceholder: 'https://videoai.omninodetech.com/video/...',
     reasonLabel: 'Motif',
     reasons: {
       copyright: 'Atteinte aux droits d’auteur / IP',
@@ -118,7 +118,7 @@ const FORM_COPY: Record<AppLocale, TakedownFormCopy> = {
   es: {
     emailLabel: 'Correo de contacto',
     urlLabel: 'URL del contenido',
-    urlPlaceholder: 'https://maxvideoai.com/video/...',
+    urlPlaceholder: 'https://videoai.omninodetech.com/video/...',
     reasonLabel: 'Motivo',
     reasons: {
       copyright: 'Infracción de copyright / PI',
@@ -140,7 +140,7 @@ const FORM_COPY: Record<AppLocale, TakedownFormCopy> = {
   zh: {
     emailLabel: '联系邮箱',
     urlLabel: '内容 URL',
-    urlPlaceholder: 'https://maxvideoai.com/video/...',
+    urlPlaceholder: 'https://videoai.omninodetech.com/video/...',
     reasonLabel: '原因',
     reasons: {
       copyright: '版权 / 知识产权侵权',
@@ -167,15 +167,15 @@ function TakedownArticle({ locale }: { locale: AppLocale }) {
       return (
         <article className="space-y-4 text-base leading-relaxed text-text-secondary">
           <p>
-            如果通过 MaxVideoAI 生成的内容侵犯了您的合法权益或违反了法律法规，请使用此表单申请审查。我们将确认收到、迅速展开调查并采取适当措施（包括在必要时下架内容或暂停账户）。
+            如果通过 VideoAI 生成的内容侵犯了您的合法权益或违反了法律法规，请使用此表单申请审查。我们将确认收到、迅速展开调查并采取适当措施（包括在必要时下架内容或暂停账户）。
           </p>
           <p>
             紧急情况（涉及人身安全或执法请求），请发送邮件至{' '}
             <ObfuscatedEmailLink
-              user="legal"
-              domain="maxvideoai.com"
-              label="legal@maxvideoai.com"
-              placeholder="legal [at] maxvideoai.com"
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
             />{' '}
             并在主题中注明“URGENT”。
           </p>
@@ -185,16 +185,16 @@ function TakedownArticle({ locale }: { locale: AppLocale }) {
       return (
         <article className="space-y-4 text-base leading-relaxed text-text-secondary">
           <p>
-            Si un contenu généré via MaxVideoAI porte atteinte à vos droits ou enfreint la loi, utilisez ce formulaire pour demander un examen. Nous accusons réception, enquêtons rapidement et prenons
+            Si un contenu généré via VideoAI porte atteinte à vos droits ou enfreint la loi, utilisez ce formulaire pour demander un examen. Nous accusons réception, enquêtons rapidement et prenons
             les mesures appropriées (suppression ou suspension de compte si nécessaire).
           </p>
           <p>
             Pour les urgences (sécurité personnelle ou demandes officielles), écrivez à{' '}
             <ObfuscatedEmailLink
-              user="legal"
-              domain="maxvideoai.com"
-              label="legal@maxvideoai.com"
-              placeholder="legal [at] maxvideoai.com"
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
             />{' '}
             avec « URGENT » dans l’objet.
           </p>
@@ -204,16 +204,16 @@ function TakedownArticle({ locale }: { locale: AppLocale }) {
       return (
         <article className="space-y-4 text-base leading-relaxed text-text-secondary">
           <p>
-            Si un contenido generado con MaxVideoAI vulnera tus derechos o la ley, utiliza este formulario para solicitar una revisión. Confirmaremos la recepción, investigaremos con rapidez y actuaremos
+            Si un contenido generado con VideoAI vulnera tus derechos o la ley, utiliza este formulario para solicitar una revisión. Confirmaremos la recepción, investigaremos con rapidez y actuaremos
             en consecuencia (incluida la retirada del contenido o la suspensión de cuentas cuando proceda).
           </p>
           <p>
             Para casos urgentes (seguridad personal o solicitudes policiales), escribe a{' '}
             <ObfuscatedEmailLink
-              user="legal"
-              domain="maxvideoai.com"
-              label="legal@maxvideoai.com"
-              placeholder="legal [at] maxvideoai.com"
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
             />{' '}
             con “URGENT” en el asunto.
           </p>
@@ -223,16 +223,16 @@ function TakedownArticle({ locale }: { locale: AppLocale }) {
       return (
         <article className="space-y-4 text-base leading-relaxed text-text-secondary">
           <p>
-            If content generated through MaxVideoAI infringes your rights or violates the law, use this form to request a review. We will acknowledge receipt, investigate promptly, and take appropriate
+            If content generated through VideoAI infringes your rights or violates the law, use this form to request a review. We will acknowledge receipt, investigate promptly, and take appropriate
             action (including removal or account suspension when justified).
           </p>
           <p>
             For urgent reports (personal safety or law-enforcement matters), email{' '}
             <ObfuscatedEmailLink
-              user="legal"
-              domain="maxvideoai.com"
-              label="legal@maxvideoai.com"
-              placeholder="legal [at] maxvideoai.com"
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
             />{' '}
             with “URGENT” in the subject line.
           </p>
@@ -255,10 +255,10 @@ export default async function TakedownPage() {
         <p className="text-sm text-text-secondary">
           {header.contactLabel}{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
         </p>
       </header>

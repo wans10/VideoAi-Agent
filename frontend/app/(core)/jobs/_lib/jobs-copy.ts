@@ -33,7 +33,7 @@ export const DEFAULT_JOBS_COPY = {
     srSoon: 'Coming soon',
     live: 'Shared wallets, approvals, and budgets are enabled in your workspace.',
     beta: 'Coming soon — shared wallets, approvals, and budgets. Join the beta at {email}.',
-    email: 'support@maxvideoai.com',
+    email: 'contact@llmhub.com.cn',
   },
   curated: 'Starter renders curated by the MaxVideo team appear here until you generate your own clips.',
   error: 'Failed to load history.',

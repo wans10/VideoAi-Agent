@@ -60,5 +60,5 @@ test('the workspace promotion explains the assistant workflow without a redundan
   assert.doesNotMatch(markup, /AI assistants/);
   assert.doesNotMatch(markup, /Connect to (Claude|ChatGPT|Codex)/);
   assert.match(markup, /role="tooltip"/);
-  assert.match(markup, /Connect your account to use MaxVideoAI directly from your AI assistant/);
+  assert.match(markup, /Connect your account to use VideoAI directly from your AI assistant/);
 });

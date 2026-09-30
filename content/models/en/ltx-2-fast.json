@@ -2,7 +2,7 @@
   "marketingName": "LTX 2 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2 Fast | AI Video Model, Specs & Pricing | MaxVideoAI",
+    "title": "LTX 2 Fast | AI Video Model, Specs & Pricing | VideoAI",
     "description": "LTX 2 Fast is a historical deep-legacy profile retained for original search intent; start current draft work with LTX 2.5 Fast.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
@@ -149,7 +149,7 @@
     }
   ],
   "custom": {
-    "whyTitle": "Why LTX 2 Fast inside MaxVideoAI",
+    "whyTitle": "Why LTX 2 Fast inside VideoAI",
     "heroDesc1": "Create 6–20 second clips with native audio, 1080p–4K and 25/50 fps in one card. LTX 2 Fast is the “instant” tier of the LTX 2 family: perfect for rapid social cuts, drafts, storyboards and mood pieces when you want 4K quality without waiting.",
     "heroDesc2": "Above 10 seconds we automatically keep runs at 1080p/25 fps to match the Fal routing and keep turnarounds reliable.",
     "heroSupportLine": "Use it for hooks, pacing, and mood exploration, then regenerate winners in the premium tier.",
@@ -159,7 +159,7 @@
       "Sound-ready drafts||Great for temp dialogue/ambience/SFX timing (or mute and finish audio in post).",
       "Easy upgrade path||Keep the same prompt structure and rerun the keepers in LTX 2.5 Pro for polish."
     ],
-    "specTitle": "Real Specs – LTX 2 Fast in MaxVideoAI",
+    "specTitle": "Real Specs – LTX 2 Fast in VideoAI",
     "specNote": "Specs reflect the live routing via Fal today.",
     "specSections": [
       {
@@ -183,7 +183,7 @@
         ]
       }
     ],
-    "whatTitle": "How LTX 2 Fast works in MaxVideoAI",
+    "whatTitle": "How LTX 2 Fast works in VideoAI",
     "whatIntro1": "Pick text or image mode, set 6–20 seconds, choose resolution and fps, then prompt. Audio is on by default and can be toggled off.",
     "whatIntro2": "For 12–20s runs we automatically constrain to 1080p/25 fps to keep routes stable.",
     "whatFlowTitle": "Workflow",
@@ -409,13 +409,13 @@
     "pricingCopy": {
       "title": "LTX 2 Fast draft pricing",
       "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "Generate with LTX 2.5 Fast",
       "maxDurationNote": "20s at 1080p / 25 fps",
       "ctaHref": "/app?engine=ltx-2-5-fast"
     },
     "meta": {
-      "title": "LTX 2 Fast: Pricing, 20s Drafts & Examples | MaxVideoAI",
+      "title": "LTX 2 Fast: Pricing, 20s Drafts & Examples | VideoAI",
       "description": "Historical LTX 2 Fast reference for 16:9 drafts, 20s timing checks, text-to-video, image-to-video, high-res review options and pricing."
     }
   },

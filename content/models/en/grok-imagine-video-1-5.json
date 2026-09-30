@@ -5,7 +5,7 @@
     "title": "Grok Imagine Video 1.5 Generator and Reference Workflow",
     "description": "Explore Grok Imagine Video 1.5 for text, image and image-reference video, with current limits, reference prompting, safety guidance and canonical quotes."
   },
-  "overview": "Grok Imagine Video 1.5 introduces a new xAI video family to MaxVideoAI. The model supports prompt-only generation, opening-image animation and reference-to-video with one to seven images. xAI owns Grok Imagine; MaxVideoAI distributes the launch endpoints through Fal, and Grok remains Fal-only for this release.",
+  "overview": "Grok Imagine Video 1.5 introduces a new xAI video family to VideoAI. The model supports prompt-only generation, opening-image animation and reference-to-video with one to seven images. xAI owns Grok Imagine; VideoAI distributes the launch endpoints through Fal, and Grok remains Fal-only for this release.",
   "decision": {
     "modelSlug": "grok-imagine-video-1-5",
     "hero": {
@@ -17,7 +17,7 @@
         "opening image",
         "image-reference set"
       ],
-      "paragraph": "Choose Grok Imagine Video 1.5 when the brief benefits from direct prompt generation, first-frame animation or explicit image references addressed inside the prompt. Reference mode supports 480p or 720p and adds a factual per-image pricing input; text and image modes also offer 1080p. xAI is the owner and Fal distributes this MaxVideoAI launch path.",
+      "paragraph": "Choose Grok Imagine Video 1.5 when the brief benefits from direct prompt generation, first-frame animation or explicit image references addressed inside the prompt. Reference mode supports 480p or 720p and adds a factual per-image pricing input; text and image modes also offer 1080p. xAI is the owner and Fal distributes this VideoAI launch path.",
       "primaryCta": {
         "label": "Generate with Grok Imagine Video 1.5",
         "href": "/app?engine=grok-imagine-video-1-5"
@@ -125,7 +125,7 @@
     "pricingCopy": {
       "title": "Grok Imagine Video 1.5 scenario pricing",
       "subtitle": "Compare six-second text scenes at 720p and 1080p with an eight-second 480p scenario using two image references.",
-      "footnote": "Prices depend on your selected settings. MaxVideoAI confirms the quote before you generate.",
+      "footnote": "Prices depend on your selected settings. VideoAI confirms the quote before you generate.",
       "ctaLabel": "Generate with Grok Imagine Video 1.5",
       "ctaHref": "/app?engine=grok-imagine-video-1-5"
     },

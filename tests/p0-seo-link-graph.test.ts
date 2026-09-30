@@ -177,9 +177,9 @@ test('the supplied-roster sitemap fixture emits exactly one reciprocal canonical
 
   for (const id of P0_IDS) {
     const urls = {
-      en: `https://maxvideoai.com/models/${id}`,
-      fr: `https://maxvideoai.com/fr/modeles/${id}`,
-      es: `https://maxvideoai.com/es/modelos/${id}`,
+      en: `https://videoai.omninodetech.com/models/${id}`,
+      fr: `https://videoai.omninodetech.com/fr/modeles/${id}`,
+      es: `https://videoai.omninodetech.com/es/modelos/${id}`,
     } as const;
     assert.equal(routeEntries.filter((entry) => entry.englishPath === `/models/${id}`).length, 1, id);
     for (const locale of LOCALES) {
@@ -364,7 +364,7 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
   assert.deepEqual(unrelatedProjection.primaryComparisons, [{
     slug: 'flux-3-vs-grok-imagine-video-1-5',
     label: 'FLUX 3 vs Grok Imagine Video 1.5',
-    href: 'https://maxvideoai.com/ai-video-engines/flux-3-vs-grok-imagine-video-1-5',
+    href: 'https://videoai.omninodetech.com/ai-video-engines/flux-3-vs-grok-imagine-video-1-5',
   }]);
 
   const wanUpgradeModels = wanOnlyModels.map((model) => {
@@ -409,7 +409,7 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
   assert.deepEqual(upgradeProjection.primaryComparisons, [{
     slug: 'wan-2-6-vs-wan-3',
     label: 'Wan 2.6 vs Wan 3',
-    href: 'https://maxvideoai.com/ai-video-engines/wan-2-6-vs-wan-3',
+    href: 'https://videoai.omninodetech.com/ai-video-engines/wan-2-6-vs-wan-3',
   }]);
 
   const deepLegacyPairModels = wanOnlyModels.map((model) => model.id === 'wan-3'
@@ -460,7 +460,7 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
   });
   const fixtureText = llms.buildLlmsText(mcpPublication, fixtureProjection);
   for (const id of P0_IDS) {
-    assert.equal(fixtureText.split(`](https://maxvideoai.com/models/${id})`).length - 1, 1, id);
+    assert.equal(fixtureText.split(`](https://videoai.omninodetech.com/models/${id})`).length - 1, 1, id);
   }
   for (const family of ['ltx', 'wan', 'grok', 'flux']) {
     assert.equal(fixtureText.split(`/examples/${family}`).length - 1, 1, family);

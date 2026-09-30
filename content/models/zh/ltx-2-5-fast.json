@@ -5,7 +5,7 @@
     "title": "LTX 2.5 Fast AI 视频生成器：快速创意迭代与动作测试",
     "description": "使用 LTX 2.5 Fast 进行当前的文生视频、图生视频及源音频驱动迭代，包含实用时长与分辨率限制、提示词建议及实时权威报价。"
   },
-  "overview": "LTX 2.5 Fast 是 LTX 家族中面向速度的主力路线，适用于视觉探索、动态测试与草稿迭代。LTX 由 Lightricks 开发；MaxVideoAI 在上线阶段通过 Fal 提供该接入。此路线支持文生视频、图生视频，以及由源音频资产驱动的独立音生视频工作流。",
+  "overview": "LTX 2.5 Fast 是 LTX 家族中面向速度的主力路线，适用于视觉探索、动态测试与草稿迭代。LTX 由 Lightricks 开发；VideoAI 在上线阶段通过 Fal 提供该接入。此路线支持文生视频、图生视频，以及由源音频资产驱动的独立音生视频工作流。",
   "decision": {
     "modelSlug": "ltx-2-5-fast",
     "hero": {
@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "LTX 2.5 Fast 场景定价",
       "subtitle": "对比 720p 或 4K 的文生视频，与由 6 秒音频生成的视频计费。",
-      "footnote": "价格取决于所选配置。MaxVideoAI 会在生成前确认报价。对于音生视频，计费基于源音频的实际时长。",
+      "footnote": "价格取决于所选配置。VideoAI 会在生成前确认报价。对于音生视频，计费基于源音频的实际时长。",
       "ctaLabel": "使用 LTX 2.5 Fast 生成",
       "ctaHref": "/app?engine=ltx-2-5-fast"
     },

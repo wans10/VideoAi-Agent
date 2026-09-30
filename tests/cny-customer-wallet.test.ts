@@ -2,7 +2,7 @@ import './_setup-cny-env';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { CanonicalPricingQuote, PricingSnapshot } from '@maxvideoai/pricing';
-import { CUSTOMER_CURRENCY, customerQuote, customerSnapshot, providerUsdSnapshot } from '../frontend/src/lib/customer-currency';
+import { CUSTOMER_CURRENCY, formatCustomerUsdAmount, customerQuote, customerSnapshot, providerUsdSnapshot } from '../frontend/src/lib/customer-currency';
 import { TOPUP_TIERS } from '../frontend/src/config/topupTiers';
 import { quoteLlmhubPayTopup } from '../frontend/server/llmhub-pay/quote';
 import { quotePublicPricing, projectPublicPricingSnapshot } from '../frontend/src/lib/pricing-public-quote';
@@ -126,4 +126,13 @@ test('video, image and audio server charges use the same CNY units as customer q
   assert.equal(audioQuote.currency, 'CNY');
   assert.equal(audioCharge.currency, 'CNY');
   assert.equal(audioCharge.totalCents, audioQuote.totalCents);
+});
+
+test('curated homepage estimates use the configured CNY display instead of USD literals', async () => {
+  const { HERO_ENGINE_MEDIA } = await import('../frontend/components/marketing/home/home-redesign-visuals');
+  assert.equal(formatCustomerUsdAmount(1.19), '¥9.52');
+  assert.equal(HERO_ENGINE_MEDIA['minimax-h3-max'].estimateValue, '¥9.52');
+  for (const media of Object.values(HERO_ENGINE_MEDIA)) {
+    if (media.estimateValue) assert.match(media.estimateValue, /^¥/);
+  }
 });

@@ -2,8 +2,8 @@
   "marketingName": "Kling 2.5 Turbo",
   "versionLabel": "2.5 Turbo",
   "seo": {
-    "title": "Kling 2.5 Turbo | AI 视频模型、规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Kling 2.5 Turbo 快速生成无声 AI 视频草稿，随后可根据需要无缝升级至 Kling 3 Standard 或 Kling 3 Pro 当前工作流。",
+    "title": "Kling 2.5 Turbo | AI 视频模型、规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 2.5 Turbo 快速生成无声 AI 视频草稿，随后可根据需要无缝升级至 Kling 3 Standard 或 Kling 3 Pro 当前工作流。",
     "image": "/hero/kling-25.jpg"
   },
   "overview": "Kling 2.5 Turbo 仍作为受支持的旧版 Kling 模型提供，适用于快速生成无声 1080p 草稿、运镜主导的短镜头以及低成本的视觉探索与镜头调试。",
@@ -192,10 +192,10 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "Kling 2.5 Turbo 在 MaxVideoAI 中的实际定位",
+    "whatTitle": "Kling 2.5 Turbo 在 VideoAI 中的实际定位",
     "whatIntro1": "Kling 2.5 Turbo 是一款高性能短视频生成模型，主打电影级运镜动态、出色的提示词遵循度与稳定的视觉风格。",
-    "whatIntro2": "在 MaxVideoAI 中，它作为单模型多档位引擎提供，每次渲染均可自由切换。",
-    "whatFlowTitle": "MaxVideoAI 创作流程",
+    "whatIntro2": "在 VideoAI 中，它作为单模型多档位引擎提供，每次渲染均可自由切换。",
+    "whatFlowTitle": "VideoAI 创作流程",
     "whatFlowSteps": [
       "1. 选择 Kling 2.5 Turbo。",
       "2. 选择文生视频 (Pro Text) 或图生视频 (Pro Image / Standard)。",
@@ -205,8 +205,8 @@
       "6. 渲染前查看精确费用。",
       "7. 在同一工作区中与 Sora、Veo、Wan、MiniMax 并排对比效果。"
     ],
-    "specTitle": "真实规格 – MaxVideoAI 中的 Kling 2.5 Turbo（1080p，5–10秒）",
-    "specNote": "此内容描述在 MaxVideoAI 中使用的 Kling 2.5 Turbo。",
+    "specTitle": "真实规格 – VideoAI 中的 Kling 2.5 Turbo（1080p，5–10秒）",
+    "specNote": "此内容描述在 VideoAI 中使用的 Kling 2.5 Turbo。",
     "specSections": [
       {
         "title": "动态与物理规律",
@@ -284,7 +284,7 @@
       "Pika 2.2：风格化无声动画，适合循环趣味视觉"
     ],
     "comparisonCta": "对比 Kling 与 Sora 2 Pro →",
-    "faqTitle": "常见问题 – MaxVideoAI 中的 Kling 2.5 Turbo",
+    "faqTitle": "常见问题 – VideoAI 中的 Kling 2.5 Turbo",
     "faqs": [
       {
         "q": "Kling 2.5 Turbo 会输出音频吗？",
@@ -308,8 +308,8 @@
       }
     ],
     "relatedTitle": "探索其他模型",
-    "relatedSubtitle": "在 MaxVideoAI 目录中横向对比各模型的价格、生成延迟与成片效果。",
-    "finalPara1": "MaxVideoAI 中的 Kling 2.5 Turbo 是专为短小有力、节奏紧凑的镜头打造的 1080p 无声电影级引擎。",
+    "relatedSubtitle": "在 VideoAI 目录中横向对比各模型的价格、生成延迟与成片效果。",
+    "finalPara1": "VideoAI 中的 Kling 2.5 Turbo 是专为短小有力、节奏紧凑的镜头打造的 1080p 无声电影级引擎。",
     "finalPara2": "当运镜调度与物理动态承担核心叙事时，使用它是绝佳选择，随后可在后期铺设声音或与其他音频模型搭配。",
     "finalButton": "打开生成工作区",
     "tipsIntro": "为动态而写提示词时，Kling 2.5 Turbo 最易掌控：单一主体、一个明确动作、单一运镜 — 并点明重量感与惯性。",
@@ -451,13 +451,13 @@
     "pricingCopy": {
       "title": "Kling 2.5 Turbo 价格一览",
       "subtitle": "预设无声草稿总价 — 提交生成前可在应用内查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最高 1080p",
       "ctaHref": "/zh/pricing#kling-2-5-turbo-pricing"
     },
     "meta": {
-      "title": "Kling 2.5 Turbo：价格与无声草稿 | MaxVideoAI",
+      "title": "Kling 2.5 Turbo：价格与无声草稿 | VideoAI",
       "description": "使用受支持的旧版 Kling 2.5 Turbo 模型生成无声草稿，支持文生或图生起步、负向提示词控制以及低成本 1080p 视觉探索。"
     }
   },
@@ -552,7 +552,7 @@
     "modelSlug": "kling-2-5-turbo",
     "section": {
       "title": "Kling 2.5 Turbo 案例画廊",
-      "intro": "来自 MaxVideoAI 当前 Kling 线路的真实生成案例。",
+      "intro": "来自 VideoAI 当前 Kling 线路的真实生成案例。",
       "defaultCtaLabel": "查看全部 Kling 2.5 Turbo 案例 →",
       "recreateLabel": "复现此镜头 →"
     },

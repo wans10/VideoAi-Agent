@@ -192,9 +192,9 @@ test('homepage titles keep the pay-as-you-go differentiator without getting too 
     es: spanishMessages.home?.meta?.title ?? '',
   };
 
-  assert.equal(titles.en, 'Pay-as-you-go AI Video Generator | MaxVideoAI');
-  assert.equal(titles.fr, 'Générateur vidéo IA sans abonnement | MaxVideoAI');
-  assert.equal(titles.es, 'Generador de video IA de pago por uso | MaxVideoAI');
+  assert.equal(titles.en, 'Pay-as-you-go AI Video Generator | VideoAI');
+  assert.equal(titles.fr, 'Générateur vidéo IA sans abonnement | VideoAI');
+  assert.equal(titles.es, 'Generador de video IA de pago por uso | VideoAI');
   assert.ok(titles.en.length <= 55, `English title is too long: ${titles.en.length}`);
   assert.ok(titles.fr.length <= 55, `French title is too long: ${titles.fr.length}`);
   assert.ok(titles.es.length <= 55, `Spanish title is too long: ${titles.es.length}`);
@@ -245,7 +245,7 @@ test('homepage FAQ targets search-intent questions and shares the same items wit
   assert.match(answerText, /compare AI video engines/i);
   assert.match(answerText, /pay-as-you-go AI video generator/);
   assert.doesNotMatch(answerText, /creative tools/i);
-  assert.doesNotMatch(expectedQuestions.join(' '), /What is MaxVideoAI\?/);
+  assert.doesNotMatch(expectedQuestions.join(' '), /What is VideoAI\?/);
 });
 
 test('homepage renders existing workflow SEO terms as visible HTML content', () => {
@@ -268,22 +268,11 @@ test('homepage renders existing workflow SEO terms as visible HTML content', () 
 
 });
 
-test('homepage keeps the Startup Fame dofollow link in the unified model-choice chapter', () => {
+test('homepage does not advertise inherited product awards', () => {
   const selectorSource = readFileSync('frontend/components/marketing/home/HomeModelChoice.tsx', 'utf8');
-  const gallerySource = readFileSync('frontend/components/marketing/home/HomeCreativeWorlds.tsx', 'utf8');
-  const hubCtaIndex = gallerySource.indexOf('href="/ai-video-engines/best-for"');
-  const startupFameIndex = selectorSource.indexOf('<StartupFameLink');
-  const startupComponentSource = readFileSync('frontend/components/marketing/home/HomeStartupFameLink.tsx', 'utf8');
-
-  assert.match(homeSource, /startupFameLabel={startupFameLabel}/);
-  assert.ok(hubCtaIndex >= 0, 'Best-for hub CTA should render inside the selector');
-  assert.ok(startupFameIndex >= 0);
-  assert.ok(homeSource.indexOf('<HomeModelChoice') > homeSource.indexOf('<HomeCreativeWorlds'), 'Attribution stays after the gallery and its best-for links');
-  assert.match(homeSource, /dictionary\.home\.partners\?\.startupFameLabel/);
-  assert.match(startupComponentSource, /https:\/\/startupfa\.me\/s\/maxvideoai\?utm_source=maxvideoai\.com/);
-  assert.doesNotMatch(startupComponentSource, /nofollow/);
-  assert.doesNotMatch(startupComponentSource, /<section/);
-  assert.match(startupComponentSource, /text-\[10px\]/);
+  const shotSource = readFileSync('frontend/components/marketing/home/HomeShotTypeEngineSelector.tsx', 'utf8');
+  assert.doesNotMatch(selectorSource, /<StartupFameLink/);
+  assert.doesNotMatch(shotSource, /<StartupFameLink/);
 });
 
 test('homepage disables prefetch for workspace CTAs that are blocked in robots.txt', () => {

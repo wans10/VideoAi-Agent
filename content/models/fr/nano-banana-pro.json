@@ -2,8 +2,8 @@
   "marketingName": "Nano Banana Pro",
   "versionLabel": "Pro",
   "seo": {
-    "title": "Nano Banana Pro – 4K Text‑to‑Image & Editing | MaxVideoAI",
-    "description": "Générez des stills 2K et 4K avec Nano Banana Pro. Sorties 2K/4K haute fidélité, références multi‑image et workflow commercial directement dans MaxVideoAI.",
+    "title": "Nano Banana Pro – 4K Text‑to‑Image & Editing | VideoAI",
+    "description": "Générez des stills 2K et 4K avec Nano Banana Pro. Sorties 2K/4K haute fidélité, références multi‑image et workflow commercial directement dans VideoAI.",
     "image": "https://media.maxvideoai.com/marketing/marketing/5977bed2-7e9a-489c-a437-3232c99bc078.png"
   },
   "overview": "Nano Banana Pro est l’upgrade premium pour les marques qui ont besoin de texte lisible, de personnages cohérents et de stills prêts à exporter. Itérez en 2K puis basculez en 4K quand le frame est verrouillé — dans le même image lab.",
@@ -114,7 +114,7 @@
     },
     {
       "q": "Combien d’images de référence ?",
-      "a": "Dans l’UI MaxVideoAI, gardez les références légères pour conserver le contrôle. Les limites avancées dépendent de la route active."
+      "a": "Dans l’UI VideoAI, gardez les références légères pour conserver le contrôle. Les limites avancées dépendent de la route active."
     },
     {
       "q": "Supporte‑t‑il les edits sans masque ?",
@@ -122,7 +122,7 @@
     },
     {
       "q": "Est‑il autorisé en usage commercial ?",
-      "a": "Utilisez-le pour du travail commercial lorsque vos inputs, références et sorties respectent vos licences et les règles MaxVideoAI."
+      "a": "Utilisez-le pour du travail commercial lorsque vos inputs, références et sorties respectent vos licences et les règles VideoAI."
     }
   ],
   "pricingNotes": "0,20 $ par image 2K, 0,39 $ en 4K. Prix affichés en live dans le studio avant rendu.",
@@ -154,7 +154,7 @@
     ],
     "whyTitle": "Pourquoi Nano Banana Pro est puissant",
     "heroDesc1": "Générez des stills 2K ou 4K avec une typographie ultra‑lisible, juste à côté de vos modèles vidéo.",
-    "heroDesc2": "Un seul wallet, un seul lab de prompts, et un logging complet dans MaxVideoAI.",
+    "heroDesc2": "Un seul wallet, un seul lab de prompts, et un logging complet dans VideoAI.",
     "heroHighlights": [
       "Texte et layouts lisibles||Pensé pour des assets marketing où la typo doit tenir.",
       "Edits sémantiques sans masques||Décrivez le changement; gardez le reste cohérent (composition, lumière, identité).",
@@ -185,7 +185,7 @@
       "Images fixes uniquement (pas de motion).",
       "Les sorties 4K sont à 0,39 $/image (2K à 0,20 $/image).",
       "Les batches sont de 1–8 images à la fois.",
-      "Les limites de références/images dépendent de la route MaxVideoAI active et des plafonds UI."
+      "Les limites de références/images dépendent de la route VideoAI active et des plafonds UI."
     ],
     "safetyTitle": "Sécurité & personnes / ressemblance",
     "safetyRules": [
@@ -270,7 +270,7 @@
       },
       {
         "title": "Workspace image",
-        "body": "Générez et éditez vos assets dans MaxVideoAI.",
+        "body": "Générez et éditez vos assets dans VideoAI.",
         "tone": "duration"
       }
     ],
@@ -325,13 +325,13 @@
     "pricingCopy": {
       "title": "Prix Nano Banana Pro en un coup d’œil",
       "subtitle": "Prix totaux par scénario image — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 4K",
       "ctaHref": "/fr/tarifs#nano-banana-pro-pricing"
     },
     "meta": {
-      "title": "Nano Banana Pro : tarifs, images 4K et typographie | MaxVideoAI",
+      "title": "Nano Banana Pro : tarifs, images 4K et typographie | VideoAI",
       "description": "Explorez Nano Banana Pro : prix, visuels campagne 2K/4K, génération typographique, retouches par références et workflows brand assets."
     }
   },

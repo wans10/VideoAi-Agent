@@ -3,10 +3,10 @@
   "versionLabel": "02",
   "seo": {
     "title": "Hailuo 02 (512p/768p) — tests texte → vidéo (6–10s)",
-    "description": "Créez des tests Hailuo 02 à faible coût en 512p/768p depuis texte (ou images). Vidéos silencieuses 6–10s pour storyboards et tests de mouvement, puis upgrade vers Veo/Kling/Wan/Sora dans MaxVideoAI.",
+    "description": "Créez des tests Hailuo 02 à faible coût en 512p/768p depuis texte (ou images). Vidéos silencieuses 6–10s pour storyboards et tests de mouvement, puis upgrade vers Veo/Kling/Wan/Sora dans VideoAI.",
     "image": "/hero/minimax-video01.jpg"
   },
-  "overview": "MiniMax Hailuo 02 dans MaxVideoAI : clips courts et économiques, orientés physique, en 512p/768p sur 6 ou 10 s. Entrée texte ou image, frame finale optionnelle, sortie silencieuse et pricing wallet pour des tests rapides et des loops.",
+  "overview": "MiniMax Hailuo 02 dans VideoAI : clips courts et économiques, orientés physique, en 512p/768p sur 6 ou 10 s. Entrée texte ou image, frame finale optionnelle, sortie silencieuse et pricing wallet pour des tests rapides et des loops.",
   "hero": {
     "title": "MiniMax Hailuo 02 – Tests vidéo IA économiques avec forte physique",
     "intro": "Tests silencieux 6–10s en 512p/768p — tests de mouvement, essais caméra et itération rapide.",
@@ -133,7 +133,7 @@
     },
     {
       "q": "Supporte‑t‑il la vidéo verticale ?",
-      "a": "Oui — 16:9, 9:16, 1:1 sont disponibles dans MaxVideoAI."
+      "a": "Oui — 16:9, 9:16, 1:1 sont disponibles dans VideoAI."
     },
     {
       "q": "Supporte‑t‑il l’audio ?",
@@ -182,10 +182,10 @@
         "icon": "coins"
       }
     ],
-    "whatTitle": "Ce qu’est vraiment MiniMax Hailuo 02 dans MaxVideoAI",
+    "whatTitle": "Ce qu’est vraiment MiniMax Hailuo 02 dans VideoAI",
     "whatIntro1": "Le modèle phare MiniMax pour séquences courtes avec forte physique et bonne adhérence au prompt.",
-    "whatIntro2": "Dans MaxVideoAI, il est câblé comme modèle de brouillon rapide et silencieux en 512p/768p.",
-    "whatFlowTitle": "Flux MaxVideoAI",
+    "whatIntro2": "Dans VideoAI, il est câblé comme modèle de brouillon rapide et silencieux en 512p/768p.",
+    "whatFlowTitle": "Flux VideoAI",
     "whatFlowSteps": [
       "1. Choisissez MiniMax Hailuo 02.",
       "2. Sélectionnez Texte → Vidéo ou Image → Vidéo.",
@@ -194,8 +194,8 @@
       "5. Collez un prompt court orienté motion (ajoutez la physique si besoin).",
       "6. Vérifiez le prix via wallet avant rendu."
     ],
-    "specTitle": "Specs réelles — MiniMax Hailuo 02 dans MaxVideoAI (512p/768p, 6–10 s)",
-    "specNote": "Specs telles qu’utilisées aujourd’hui dans MaxVideoAI.",
+    "specTitle": "Specs réelles — MiniMax Hailuo 02 dans VideoAI (512p/768p, 6–10 s)",
+    "specNote": "Specs telles qu’utilisées aujourd’hui dans VideoAI.",
     "specSections": [
       {
         "title": "Tests orientés physique",
@@ -272,7 +272,7 @@
       "Wan 2.5 : 5–10 s avec audio natif/upload et plusieurs tiers"
     ],
     "comparisonCta": "Comparer MiniMax vs Pika 2.2 →",
-    "faqTitle": "FAQ – MiniMax Hailuo 02 dans MaxVideoAI",
+    "faqTitle": "FAQ – MiniMax Hailuo 02 dans VideoAI",
     "faqs": [
       {
         "q": "Pourquoi choisir MiniMax plutôt que des modèles premium ?",
@@ -284,7 +284,7 @@
       },
       {
         "q": "Peut‑il faire du vertical ?",
-        "a": "Oui — 16:9, 9:16, 1:1 disponibles dans MaxVideoAI."
+        "a": "Oui — 16:9, 9:16, 1:1 disponibles dans VideoAI."
       },
       {
         "q": "Supporte‑t‑il l’audio ?",
@@ -296,7 +296,7 @@
       }
     ],
     "relatedTitle": "Explorer d’autres modèles",
-    "relatedSubtitle": "Comparez prix, latence et options de sortie sur MaxVideoAI.",
+    "relatedSubtitle": "Comparez prix, latence et options de sortie sur VideoAI.",
     "finalPara1": "MiniMax Hailuo 02 est votre modèle rapide et orienté physique pour tester motion et transitions à bas coût.",
     "finalPara2": "Utilisez‑le pour explorer, puis passez les gagnants sur des modèles plus premium pour l’audio et la haute résolution.",
     "finalButton": "Ouvrir Generate",
@@ -439,14 +439,14 @@
     "pricingCopy": {
       "title": "Prix MiniMax Hailuo 02 en un coup d’œil",
       "subtitle": "Prix totaux de brouillon — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 768P",
       "ctaHref": "/fr/tarifs#minimax-hailuo-02-text-pricing"
     },
     "meta": {
-      "title": "MiniMax Hailuo 02 : tarifs, brouillons mouvement et exemples | MaxVideoAI",
-      "description": "Explorez MiniMax Hailuo 02 : prix, brouillons mouvement économiques, tests physiques, image-to-video et exemples storyboard silencieux sur MaxVideoAI."
+      "title": "MiniMax Hailuo 02 : tarifs, brouillons mouvement et exemples | VideoAI",
+      "description": "Explorez MiniMax Hailuo 02 : prix, brouillons mouvement économiques, tests physiques, image-to-video et exemples storyboard silencieux sur VideoAI."
     }
   },
   "prompting": {

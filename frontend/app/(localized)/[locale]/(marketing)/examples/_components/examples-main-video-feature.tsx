@@ -53,7 +53,7 @@ export function ExamplesMainVideoFeature({
 }) {
   const reuseCopy = getExampleReuseCopy(locale);
   return (
-    <section className="mx-auto w-full max-w-[920px]">
+    <section className="studio-screening mx-auto w-full max-w-[920px]">
       <article className="group relative overflow-hidden rounded-[22px] border border-hairline bg-surface shadow-card">
         <Link
           href={exampleHref}

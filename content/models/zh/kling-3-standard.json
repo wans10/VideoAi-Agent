@@ -2,12 +2,12 @@
   "marketingName": "Kling 3 Standard",
   "versionLabel": "v3 Standard",
   "seo": {
-    "title": "Kling 3 Standard | AI 视频模型、规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Kling 3 Standard 进行高性价比的多镜头 AI 视频创作与原生音频草稿，渲染前可实时查看完整规格与精确价格。",
+    "title": "Kling 3 Standard | AI 视频模型、规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 3 Standard 进行高性价比的多镜头 AI 视频创作与原生音频草稿，渲染前可实时查看完整规格与精确价格。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/bb896348-7394-4ef3-9cff-ff392639c8db-job_99e0f0fa-6092-4b8a-8c08-e329c579d0f2.jpg"
   },
   "overview": "Kling 3 Standard 是当前主打高性价比的 Kling AI 模型，适用于多镜头分镜提示词、首帧图生视频测试、可复用的 Kling Elements（主体元素）、可选尾帧控制以及原生音频草稿工作流。",
-  "pricingNotes": "会员展示估价已包含 MaxVideoAI 综合成本：开启音频约 $0.16/秒，关闭音频约 $0.11/秒，开启语音控制约 $0.20/秒。",
+  "pricingNotes": "会员展示估价已包含 VideoAI 综合成本：开启音频约 $0.16/秒，关闭音频约 $0.11/秒，开启语音控制约 $0.20/秒。",
   "hero": {
     "title": "Kling 3 Standard — 适用于高性价比多镜头视频创作的当前 Kling 模型",
     "intro": "当您需要当前更具性价比的 Kling AI 模型来生成多镜头视频、进行首帧图生视频测试、使用可复用的 Kling Elements、可选尾帧以及原生音频，并在选定满意效果后再升级至 Kling 3 Pro 时，Kling 3 Standard 是理想选择。若希望参考图片仅作为镜头引导而不作为首帧，请使用 Kling 3.0 Omni Standard。",
@@ -138,7 +138,7 @@
       "prompt": "场景 1 (5s): 奢华腕表表盘的微距特写。场景 2 (4s): 配合边缘光的主体旋转展示镜头。场景 3 (4s): 模特佩戴腕表，柔和氛围光。"
     }
   ],
-  "faqTitle": "常见问题 – MaxVideoAI 中的 Kling 3 Standard",
+  "faqTitle": "常见问题 – VideoAI 中的 Kling 3 Standard",
   "faqs": [
     {
       "q": "Standard 档位支持多镜头提示词 (multi-prompt) 吗？",
@@ -165,8 +165,8 @@
       "随心随需的原生音频||单次生成即可同步输出对白、环境音与音效，亦可切换为无声输出以生成静音草稿",
       "尾帧控制实现利落定格收尾||使用可选尾帧更确定地把控转场过渡、匹配剪辑以及产品定格亮相"
     ],
-    "specTitle": "真实规格 – MaxVideoAI 中的 Kling 3 Standard",
-    "specNote": "规格反映当前 MaxVideoAI 活跃接入线路的实时标准。",
+    "specTitle": "真实规格 – VideoAI 中的 Kling 3 Standard",
+    "specNote": "规格反映当前 VideoAI 活跃接入线路的实时标准。",
     "specSections": [
       {
         "title": "故事板级多镜头分镜",
@@ -340,13 +340,13 @@
     "pricingCopy": {
       "title": "Kling 3 Standard 价格一览",
       "subtitle": "预设 1080p 草稿总价 — 提交生成前可在应用内查看精确的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "1080p 路线",
       "ctaHref": "/zh/pricing#kling-3-standard-pricing"
     },
     "meta": {
-      "title": "Kling 3 Standard：价格、1080p 草稿与案例 | MaxVideoAI",
+      "title": "Kling 3 Standard：价格、1080p 草稿与案例 | VideoAI",
       "description": "使用 Kling 3 Standard 进行高性价比的 1080p 首帧草稿创作、图生视频测试、原生音频选项以及最长 15 秒的 Kling 分镜规划。"
     }
   },

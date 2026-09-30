@@ -183,7 +183,7 @@ function buildPrompt(
   const promptParts = textFromKinds(nodes, edges, shotNode.id, ['prompt', 'style', 'camera', 'dialogue', 'narration'], canvasNodeCopy);
   if (promptParts.length) return promptParts.join('\n\n');
   const outputName = canvasNodeCopy ? localizeWorkspaceShotOutputName(shotNode, canvasNodeCopy) : settings.outputName;
-  return `${outputName}. Premium AI video shot for a polished MaxVideoAI project.`;
+  return `${outputName}. Premium AI video shot for a polished VideoAI project.`;
 }
 
 export function prepareWorkspaceShotGenerationInputs(params: {

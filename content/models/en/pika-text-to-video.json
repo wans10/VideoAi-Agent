@@ -3,10 +3,10 @@
   "versionLabel": "2.2",
   "seo": {
     "title": "Pika 2.2 Text-to-Video: 5s/10s, 1080p & Pricing",
-    "description": "Pika 2.2 Text-to-Video on MaxVideoAI: silent 5s or 10s stylized clips in 720p/1080p. See pricing, limits, prompts and examples you can recreate.",
+    "description": "Pika 2.2 Text-to-Video on VideoAI: silent 5s or 10s stylized clips in 720p/1080p. See pricing, limits, prompts and examples you can recreate.",
     "image": "/hero/pika-22.jpg"
   },
-  "overview": "Pika 2.2 in MaxVideoAI: silent, stylized Text-to-Video clips at 720p/1080p for 5s or 10s social loops. Ideal for anime, comic, pixel and playful 3D looks built for feeds.",
+  "overview": "Pika 2.2 in VideoAI: silent, stylized Text-to-Video clips at 720p/1080p for 5s or 10s social loops. Ideal for anime, comic, pixel and playful 3D looks built for feeds.",
   "hero": {
     "title": "Pika 2.2",
     "intro": "Max video length: 5s or 10s in 720p/1080p — stylized Text-to-Video built to stand out in the feed.",
@@ -121,7 +121,7 @@
   "faqs": [
     {
       "q": "Does Pika 2.2 generate audio?",
-      "a": "No. Pika 2.2 in MaxVideoAI always outputs silent clips. Add sound in post or use an audio-capable engine when needed."
+      "a": "No. Pika 2.2 in VideoAI always outputs silent clips. Add sound in post or use an audio-capable engine when needed."
     },
     {
       "q": "Which duration should I use: 5 or 10 seconds?",
@@ -178,9 +178,9 @@
         "icon": "image"
       }
     ],
-    "whatTitle": "What Pika 2.2 Actually Is in MaxVideoAI",
+    "whatTitle": "What Pika 2.2 Actually Is in VideoAI",
     "whatIntro1": "Pika 2.2 is a short-form, stylized video model tuned for social-first animation.",
-    "whatIntro2": "In MaxVideoAI it’s wired as a silent engine with tight control over duration, resolution and aspect ratio.",
+    "whatIntro2": "In VideoAI it’s wired as a silent engine with tight control over duration, resolution and aspect ratio.",
     "whatFlowTitle": "In-app flow",
     "whatFlowSteps": [
       "1. Pick Pika 2.2 as the engine.",
@@ -190,8 +190,8 @@
       "5. Paste a lively, style-driven prompt.",
       "6. See the price per clip before you run the job."
     ],
-    "specTitle": "Real Specs – Pika 2.2 in MaxVideoAI (720p/1080p, 5–10s)",
-    "specNote": "These specs describe Pika 2.2 exactly as you can use it today via MaxVideoAI.",
+    "specTitle": "Real Specs – Pika 2.2 in VideoAI (720p/1080p, 5–10s)",
+    "specNote": "These specs describe Pika 2.2 exactly as you can use it today via VideoAI.",
     "specSections": [
       {
         "title": "Stylized looks",
@@ -269,7 +269,7 @@
       "Sora 2 / Wan 2.5 / Veo 3.1: switch to these when you need generated sound or more realism."
     ],
     "comparisonCta": "Compare Pika 2.2 vs MiniMax Hailuo 02 →",
-    "faqTitle": "FAQ – Pika 2.2 in MaxVideoAI",
+    "faqTitle": "FAQ – Pika 2.2 in VideoAI",
     "faqs": [
       {
         "q": "Does Pika 2.2 generate audio?",
@@ -293,8 +293,8 @@
       }
     ],
     "relatedTitle": "Explore other models",
-    "relatedSubtitle": "Compare pricing, latency, and output options across the rest of the MaxVideoAI catalog.",
-    "finalPara1": "Pika 2.2 in MaxVideoAI is your stylized, silent workhorse for fast loops and expressive animation.",
+    "relatedSubtitle": "Compare pricing, latency, and output options across the rest of the VideoAI catalog.",
+    "finalPara1": "Pika 2.2 in VideoAI is your stylized, silent workhorse for fast loops and expressive animation.",
     "finalPara2": "Draft hooks here, then translate winners to Sora or Veo when you need realism or generated sound.",
     "finalButton": "Open Generate",
     "tipsIntro": "Pika 2.2 shines when you lean into stylized looks, tight loops, and controlled iterations (seed + negative prompt).",
@@ -436,7 +436,7 @@
     "pricingCopy": {
       "title": "Pika 2.2 pricing at a glance",
       "subtitle": "Preset stylized clip totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 1080p",
       "ctaHref": "/pricing#pika-text-to-video-pricing"
@@ -538,7 +538,7 @@
     "modelSlug": "pika-text-to-video",
     "section": {
       "title": "Pika 2.2 Example Gallery",
-      "intro": "Curated clips generated with the same settings you have in MaxVideoAI.",
+      "intro": "Curated clips generated with the same settings you have in VideoAI.",
       "defaultCtaLabel": "View all Pika 2.2 examples →",
       "recreateLabel": "Recreate this shot →"
     },

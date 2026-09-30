@@ -3,7 +3,7 @@
   "versionLabel": "2",
   "seo": {
     "title": "Sora 2 Texto/Imagen a video — audio nativo + ejemplos",
-    "description": "Genera videos con Sora 2 desde texto o imágenes con voz en off nativa y ambiente. Ejemplos que puedes recrear, estructura de prompts y precios por uso en MaxVideoAI.",
+    "description": "Genera videos con Sora 2 desde texto o imágenes con voz en off nativa y ambiente. Ejemplos que puedes recrear, estructura de prompts y precios por uso en VideoAI.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a5cbd8d3-33c7-47b5-8480-7f23aab89891-job_684c1b3d-2679-40d1-adb7-06151b3e8739.jpg"
   },
   "hero": {
@@ -29,7 +29,7 @@
     },
     {
       "q": "¿Sora 2 puede generar 1080p?",
-      "a": "La ruta actual de Sora 2 en MaxVideoAI sale en 720p. Usa Sora 2 Pro cuando la toma elegida necesite salida de revisión en 1080p."
+      "a": "La ruta actual de Sora 2 en VideoAI sale en 720p. Usa Sora 2 Pro cuando la toma elegida necesite salida de revisión en 1080p."
     },
     {
       "q": "¿Sora 2 admite imagen→video?",
@@ -74,7 +74,7 @@
       }
     ],
     "heroTrustLine": "Pago por uso · Precio mostrado antes de generar",
-    "heroDesc1": "Crea videos cortos y cinematográficos con Sora 2 directamente desde tu navegador. MaxVideoAI da acceso inmediato a texto→video e imagen→video, con precio claro por segundo y un flujo pensado para probar, prototipar y producir clips listos para publicar.",
+    "heroDesc1": "Crea videos cortos y cinematográficos con Sora 2 directamente desde tu navegador. VideoAI da acceso inmediato a texto→video e imagen→video, con precio claro por segundo y un flujo pensado para probar, prototipar y producir clips listos para publicar.",
     "heroDesc2": "Describe la escena, elige una duración (4, 8 o 12 segundos), selecciona 16:9 o 9:16 y deja que Sora 2 genere tomas utilizables para anuncios, contenido o proyectos cliente.",
     "hideQuickPricing": true,
     "showPricePerSecondInSpecs": true,
@@ -123,10 +123,10 @@
         ]
       }
     ],
-    "whatTitle": "Qué es realmente Sora 2 en MaxVideoAI",
+    "whatTitle": "Qué es realmente Sora 2 en VideoAI",
     "whatIntro1": "En teoría, Sora 2 es el motor de texto→video corto de OpenAI. En la práctica, su comportamiento depende de la integración.",
-    "whatIntro2": "En MaxVideoAI, Sora 2 se presenta como un motor claro y listo para producción:",
-    "whatFlowTitle": "MaxVideoAI lo envuelve en un flujo simple:",
+    "whatIntro2": "En VideoAI, Sora 2 se presenta como un motor claro y listo para producción:",
+    "whatFlowTitle": "VideoAI lo envuelve en un flujo simple:",
     "whatFlowSteps": [
       "1. Elegir Sora 2 como motor.",
       "2. Seleccionar Texto → Video o Imagen → Video.",
@@ -135,8 +135,8 @@
       "5. Ver el precio final antes de generar.",
       "6. Comparar con otros motores en la misma interfaz."
     ],
-    "specTitle": "Specs de Sora 2 en MaxVideoAI",
-    "specNote": "Límites de la ruta actual en MaxVideoAI. Las capacidades más amplias de la familia del modelo pueden diferir de lo que esta ruta expone en la app.",
+    "specTitle": "Specs de Sora 2 en VideoAI",
+    "specNote": "Límites de la ruta actual en VideoAI. Las capacidades más amplias de la familia del modelo pueden diferir de lo que esta ruta expone en la app.",
     "specSections": [
       {
         "title": "Prompting y lenguaje de plano",
@@ -160,7 +160,7 @@
       }
     ],
     "imageTitle": "Flujo Imagen→Video con Sora 2 (+ Nano Banana)",
-    "imageIntro": "Una ventaja de Sora en MaxVideoAI es combinarlo con un motor de imagen como Nano Banana.",
+    "imageIntro": "Una ventaja de Sora en VideoAI es combinarlo con un motor de imagen como Nano Banana.",
     "imageFlow": [
       "Genera un frame de referencia en Nano Banana que coincida con tu estilo o idea.",
       "Envía ese still a Sora 2 como Imagen → Video.",
@@ -190,7 +190,7 @@
       "Ideal para tomas UGC e inserts cinematográficos"
     ],
     "boundaries": [
-      "La ruta actual de Sora 2 en MaxVideoAI sale en 720p. Usa Sora 2 Pro para salida de revisión en 1080p.",
+      "La ruta actual de Sora 2 en VideoAI sale en 720p. Usa Sora 2 Pro para salida de revisión en 1080p.",
       "Es 4–12 s, no long‑form. Une varios clips para ediciones largas.",
       "Sin entrada de video; empieza desde texto o imagen.",
       "Sin seeds; itera afinando el prompt.",
@@ -204,7 +204,7 @@
       "Algunos prompts o imágenes se bloquearán si violan estos principios.",
       "Personajes y escenas genéricas están bien.",
       "Los prompts sensibles pueden ser filtrados.",
-      "Así MaxVideoAI y Sora 2 se mantienen usables y seguros para profesionales."
+      "Así VideoAI y Sora 2 se mantienen usables y seguros para profesionales."
     ],
     "safetyNote": null,
     "comparisonTitle": "Sora 2 vs Sora 2 Pro — resumen rápido",
@@ -239,7 +239,7 @@
         "ctaLabel": "Comparar OpenAI Sora 2 vs Kling 3 Pro ->"
       }
     ],
-    "finalPara1": "Sora 2 en MaxVideoAI te da una forma directa y pay‑as‑you‑go de usar uno de los mejores modelos de video corto — sin infraestructura ni complicaciones.",
+    "finalPara1": "Sora 2 en VideoAI te da una forma directa y pay‑as‑you‑go de usar uno de los mejores modelos de video corto — sin infraestructura ni complicaciones.",
     "finalPara2": "Úsalo para explorar ideas, construir mini‑secuencias y probar direcciones creativas rápido. Para más resolución o control, pasa a Sora 2 Pro.",
     "finalButton": "Generar con Sora 2 →",
     "tipsIntro": "Sora es más predecible cuando el plano se mantiene simple, legible y físico."
@@ -373,13 +373,13 @@
     "pricingCopy": {
       "title": "Precios de Sora 2 de un vistazo",
       "subtitle": "Totales predefinidos en 720p. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 720p",
       "ctaHref": "/es/precios#sora-2-pricing"
     },
     "meta": {
-      "title": "Sora 2: precios, audio nativo y ejemplos | MaxVideoAI",
+      "title": "Sora 2: precios, audio nativo y ejemplos | VideoAI",
       "description": "Explora precios de Sora 2, ejemplos, audio nativo sincronizado, texto a video e imagen a video. Compara Sora 2 vs Pro y otros modelos de video IA."
     }
   },
@@ -483,7 +483,7 @@
     "modelSlug": "sora-2",
     "section": {
       "title": "Galería de ejemplos: renders Sora 2",
-      "intro": "Algunos renders Sora 2 hechos con los mismos ajustes que tienes en MaxVideoAI.",
+      "intro": "Algunos renders Sora 2 hechos con los mismos ajustes que tienes en VideoAI.",
       "defaultCtaLabel": "Ver todos los ejemplos de Sora 2 →",
       "recreateLabel": "Recrear este plano →"
     },

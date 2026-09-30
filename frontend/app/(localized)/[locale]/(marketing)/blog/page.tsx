@@ -13,24 +13,24 @@ import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink'
 const BLOG_SLUG_MAP = buildSlugMap('blog');
 const BLOG_META = {
   en: {
-    title: 'AI Video Workflows & Model Guides | MaxVideoAI',
+    title: 'AI Video Workflows & Model Guides | VideoAI',
     description:
-      'Reference-first workflows, tool guides, model notes, and production learnings from teams building images and video with MaxVideoAI.',
+      'Reference-first workflows, tool guides, model notes, and production learnings from teams building images and video with VideoAI.',
   },
   fr: {
-    title: 'Guides vidéo IA, modèles et workflows | MaxVideoAI',
+    title: 'Guides vidéo IA, modèles et workflows | VideoAI',
     description:
-      'Workflows orientés référence, guides d’outils, notes sur les modèles et retours de production d’équipes qui créent images et vidéos avec MaxVideoAI.',
+      'Workflows orientés référence, guides d’outils, notes sur les modèles et retours de production d’équipes qui créent images et vidéos avec VideoAI.',
   },
   es: {
-    title: 'Guías de video IA, modelos y workflows | MaxVideoAI',
+    title: 'Guías de video IA, modelos y workflows | VideoAI',
     description:
-      'Workflows basados en referencias, guías de herramientas, notas sobre modelos y aprendizajes de producción de equipos que crean imágenes y video con MaxVideoAI.',
+      'Workflows basados en referencias, guías de herramientas, notas sobre modelos y aprendizajes de producción de equipos que crean imágenes y video con VideoAI.',
   },
   zh: {
-    title: 'AI 视频工作流与模型指南 | MaxVideoAI',
+    title: 'AI 视频工作流与模型指南 | VideoAI',
     description:
-      '参考图工作流、工具指南、模型实测笔记，以及来自团队使用 MaxVideoAI 制作图像与视频的生产实践经验。',
+      '参考图工作流、工具指南、模型实测笔记，以及来自团队使用 VideoAI 制作图像与视频的生产实践经验。',
   },
 } satisfies Record<AppLocale, { title: string; description: string }>;
 
@@ -104,7 +104,7 @@ const DEFAULT_BLOG_FAQ = {
     {
       question: 'Can I suggest a topic or request coverage?',
       answer:
-        'Yes—send topics to press@maxvideo.ai and include reference renders if you can. We prioritize stories that help production teams stay current.',
+        'Yes—send topics to contact@llmhub.com.cn and include reference renders if you can. We prioritize stories that help production teams stay current.',
     },
     {
       question: 'Where can I find release notes?',
@@ -113,10 +113,10 @@ const DEFAULT_BLOG_FAQ = {
     },
   ],
   footnote:
-    'Need more detail? Email press@maxvideo.ai with your request and we’ll route it to the right producer.',
+    'Need more detail? Email contact@llmhub.com.cn with your request and we’ll route it to the right producer.',
 };
 
-const PRESS_EMAIL = 'press@maxvideo.ai';
+const PRESS_EMAIL = 'contact@llmhub.com.cn';
 
 function renderPressEmail(text?: string) {
   if (typeof text !== 'string' || !text.includes(PRESS_EMAIL)) {
@@ -128,10 +128,10 @@ function renderPressEmail(text?: string) {
       {part}
       {index < parts.length - 1 ? (
         <ObfuscatedEmailLink
-          user="press"
-          domain="maxvideo.ai"
-          label="press@maxvideo.ai"
-          placeholder="press [at] maxvideo.ai"
+          user="contact"
+          domain="llmhub.com.cn"
+          label="contact@llmhub.com.cn"
+          placeholder="contact [at] llmhub.com.cn"
         />
       ) : null}
     </span>
@@ -223,7 +223,7 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: A
 
         {(content.intro?.cards?.length ?? 0) > 0 ? (
           <section className="container-page max-w-6xl">
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="studio-journal-list">
               {(content.intro?.cards ?? []).map((card) => (
                 <article
                   key={card.title}
@@ -247,8 +247,7 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: A
             </div>
           </div>
 
-          <article className="group overflow-hidden rounded-[8px] border border-hairline bg-white shadow-[0_18px_54px_rgba(33,49,78,0.06)] transition hover:-translate-y-1 hover:shadow-float dark:bg-white/[0.055]">
-            <div className="grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-stretch">
+          <article className="studio-journal-entry group">
               <div className="relative min-h-[280px] overflow-hidden bg-bg sm:min-h-[360px]">
                 <Image
                   src={normalizeImageSrc(featured.image)}
@@ -294,7 +293,6 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: A
                   <span aria-hidden>→</span>
                 </Link>
               </div>
-            </div>
           </article>
         </section>
 
@@ -309,18 +307,18 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: A
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="studio-journal-list">
               {rest.map((post) => {
                 const postLinkProps = getBlogLinkProps(locale, post);
                 return (
                   <article
                     key={`${getCanonicalBlogSlug(post)}-${locale}`}
-                    className="group overflow-hidden rounded-[8px] border border-hairline bg-white shadow-[0_18px_54px_rgba(33,49,78,0.06)] transition hover:-translate-y-1 hover:shadow-float dark:bg-white/[0.055]"
+                    className="studio-journal-entry group"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-bg">
                       <Image
                         src={normalizeImageSrc(post.image)}
-                        alt={post.title ?? 'MaxVideoAI blog cover'}
+                        alt={post.title ?? 'VideoAI blog cover'}
                         fill
                         loading="lazy"
                         decoding="async"

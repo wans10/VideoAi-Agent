@@ -73,7 +73,7 @@ export default async function AdminSeoUrlInspectionPage(props: PageProps) {
       <AdminPageHeader
         eyebrow="SEO"
         title="URL Inspection"
-        description="Manual-only Google URL Inspection for a curated set of MaxVideoAI priority pages. No sitemap scan, no auto-refresh."
+        description="Manual-only Google URL Inspection for a curated set of VideoAI priority pages. No sitemap scan, no auto-refresh."
         actions={
           <>
             <RangeTabs current={range} />

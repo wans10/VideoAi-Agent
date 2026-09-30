@@ -128,8 +128,9 @@ export function MarketingFooter() {
     'text-sm text-text-secondary transition hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg';
 
   return (
-    <footer className="marketing-editorial-footer border-t border-hairline bg-surface">
+    <footer className="marketing-editorial-footer studio-directory-footer border-t border-hairline bg-surface">
       <div className="container-page flex flex-col gap-8 py-10">
+        <div className="studio-footer-opening"><p>{locale === 'zh' ? '把灵感，留在画面里。' : locale === 'fr' ? 'Faites place à vos idées.' : locale === 'es' ? 'Dale espacio a tus ideas.' : 'Make room for your ideas.'}</p><Link href="/app" prefetch={false}>{labelFor('nav.cta', 'Open studio')} <span aria-hidden="true">↗</span></Link></div>
         <div className="flex items-center justify-between gap-4 text-sm text-text-muted">
           <Link
             href="/"
@@ -148,11 +149,11 @@ export function MarketingFooter() {
         <MarketingFooterAssistants copy={{
           title: labelFor('footer.mcpFeature.title', 'Create with your AI assistant.'),
           body: labelFor('footer.mcpFeature.body', 'Your models and credits, from your conversation.'),
-          cta: labelFor('footer.mcpFeature.cta', 'Discover MaxVideoAI MCP'),
+          cta: labelFor('footer.mcpFeature.cta', 'Discover VideoAI MCP'),
           docs: labelFor('footer.mcpFeature.docs', 'MCP documentation'),
           anchors: Object.fromEntries(['claude', 'chatgpt', 'codex', 'openclaw', 'n8n'].map(id => [id, labelFor(`footer.mcpFeature.anchors.${id}`, id)])),
         }} />
-        <div className="grid grid-cols-2 gap-x-4 gap-y-6 text-text-secondary sm:gap-x-6 sm:gap-y-8 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8">
+        <div className="studio-footer-directory grid grid-cols-2 gap-x-4 gap-y-6 text-text-secondary sm:gap-x-6 sm:gap-y-8 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8">
           <div>
             <p className={sectionTitleClass}>{enginesTitle}</p>
             <nav className="mt-3 flex flex-col gap-2" aria-label={enginesTitle}>

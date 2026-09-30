@@ -2,11 +2,11 @@
   "marketingName": "Seedream 5.0 Pro",
   "versionLabel": "5.0 Pro",
   "seo": {
-    "title": "Seedream 5.0 Pro - Professional ByteDance Image Generation | MaxVideoAI",
-    "description": "Create professional still images, dense infographics, visual edits, and 4K campaign assets with Seedream 5.0 Pro in MaxVideoAI."
+    "title": "Seedream 5.0 Pro - Professional ByteDance Image Generation | VideoAI",
+    "description": "Create professional still images, dense infographics, visual edits, and 4K campaign assets with Seedream 5.0 Pro in VideoAI."
   },
-  "overview": "Seedream 5.0 Pro is the professional ByteDance image route in MaxVideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation.",
-  "pricingNotes": "Seedream 5.0 Pro is exposed as a single-image professional output route. MaxVideoAI shows the exact live quote before generation.",
+  "overview": "Seedream 5.0 Pro is the professional ByteDance image route in VideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation.",
+  "pricingNotes": "Seedream 5.0 Pro is exposed as a single-image professional output route. VideoAI shows the exact live quote before generation.",
   "hero": {
     "title": "Seedream 5.0 Pro - professional image production",
     "intro": "Use Seedream Pro for high-detail stills, structured infographics, controlled edits, and 4K campaign-ready images.",
@@ -73,7 +73,7 @@
     },
     {
       "q": "Does Seedream 5.0 Pro support batch output?",
-      "a": "No. MaxVideoAI exposes Seedream 5.0 Pro as one generated image per request to match the direct provider route."
+      "a": "No. VideoAI exposes Seedream 5.0 Pro as one generated image per request to match the direct provider route."
     }
   ],
   "custom": {
@@ -203,7 +203,7 @@
     "features": [
       {
         "title": "Capabilities",
-        "body": "Seedream 5.0 Pro is the professional ByteDance image route in MaxVideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation.",
+        "body": "Seedream 5.0 Pro is the professional ByteDance image route in VideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation.",
         "tone": "quality"
       },
       {
@@ -218,14 +218,14 @@
       },
       {
         "title": "Live price",
-        "body": "Seedream 5.0 Pro is exposed as a single-image professional output route. MaxVideoAI shows the exact live quote before generation.",
+        "body": "Seedream 5.0 Pro is exposed as a single-image professional output route. VideoAI shows the exact live quote before generation.",
         "tone": "price"
       }
     ],
     "decisionCards": [
       {
         "title": "Open Seedream Lite",
-        "body": "Seedream 5.0 Pro is the professional ByteDance image route in MaxVideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation.",
+        "body": "Seedream 5.0 Pro is the professional ByteDance image route in VideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation.",
         "cta": {
           "label": "Open Seedream Lite",
           "href": "/models/seedream"
@@ -255,7 +255,7 @@
       },
       {
         "title": "Image-to-image",
-        "body": "Seedream 5.0 Pro is the professional ByteDance image route in MaxVideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation."
+        "body": "Seedream 5.0 Pro is the professional ByteDance image route in VideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation."
       },
       {
         "title": "Output setup",
@@ -263,19 +263,19 @@
       },
       {
         "title": "Price check",
-        "body": "Seedream 5.0 Pro is exposed as a single-image professional output route. MaxVideoAI shows the exact live quote before generation."
+        "body": "Seedream 5.0 Pro is exposed as a single-image professional output route. VideoAI shows the exact live quote before generation."
       }
     ],
     "pricingCopy": {
       "title": "Seedream 5.0 Pro pricing at a glance",
-      "subtitle": "Seedream 5.0 Pro is exposed as a single-image professional output route. MaxVideoAI shows the exact live quote before generation.",
-      "footnote": "Seedream 5.0 Pro is exposed as a single-image professional output route. MaxVideoAI shows the exact live quote before generation.",
+      "subtitle": "Seedream 5.0 Pro is exposed as a single-image professional output route. VideoAI shows the exact live quote before generation.",
+      "footnote": "Seedream 5.0 Pro is exposed as a single-image professional output route. VideoAI shows the exact live quote before generation.",
       "ctaLabel": "View full pricing",
       "ctaHref": "/pricing#seedream-5-0-pro-pricing"
     },
     "meta": {
-      "title": "Seedream 5.0 Pro - Professional ByteDance Image Generation | MaxVideoAI",
-      "description": "Create professional still images, dense infographics, visual edits, and 4K campaign assets with Seedream 5.0 Pro in MaxVideoAI."
+      "title": "Seedream 5.0 Pro - Professional ByteDance Image Generation | VideoAI",
+      "description": "Create professional still images, dense infographics, visual edits, and 4K campaign assets with Seedream 5.0 Pro in VideoAI."
     }
   },
   "prompting": {
@@ -332,7 +332,7 @@
     "modelSlug": "seedream-5-0-pro",
     "section": {
       "title": "Seedream 5.0 Pro examples",
-      "intro": "Explore real community outputs and see how Seedream 5.0 Pro performs inside MaxVideoAI workflows.",
+      "intro": "Explore real community outputs and see how Seedream 5.0 Pro performs inside VideoAI workflows.",
       "defaultCtaLabel": null,
       "recreateLabel": null
     },

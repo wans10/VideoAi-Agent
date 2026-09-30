@@ -43,19 +43,19 @@ export default async function TermsPage() {
         <p className="text-sm text-text-secondary">
           {header.contactLabel}{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
             unstyled
             className="font-medium"
           />{' '}
           ·{' '}
           <ObfuscatedEmailLink
-            user="support"
-            domain="maxvideoai.com"
-            label="support@maxvideoai.com"
-            placeholder="support [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
             unstyled
             className="font-medium"
           />

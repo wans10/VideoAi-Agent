@@ -62,7 +62,7 @@ type SidebarTranslate = (path: string, fallback: string) => string | undefined;
 export function AssistantConnectionsCard({ t }: { t: SidebarTranslate }) {
   const tooltip = t(
     'workspace.sidebar.assistantConnections.tooltip',
-    'Connect your account to use MaxVideoAI directly from your AI assistant.',
+    'Connect your account to use VideoAI directly from your AI assistant.',
   );
 
   return (

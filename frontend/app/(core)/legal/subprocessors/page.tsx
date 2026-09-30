@@ -15,22 +15,22 @@ type Subprocessor = {
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
     title: 'Sub-processors',
-    description: 'Third-party providers used by MaxVideoAI to deliver the Service.',
+    description: 'Third-party providers used by VideoAI to deliver the Service.',
     imageAlt: 'Sub-processors list',
   },
   fr: {
     title: 'Sous-traitants ultérieurs',
-    description: 'Prestataires tiers utilisés par MaxVideoAI pour fournir le Service.',
+    description: 'Prestataires tiers utilisés par VideoAI pour fournir le Service.',
     imageAlt: 'Liste des sous-traitants ultérieurs',
   },
   es: {
     title: 'Subencargados del tratamiento',
-    description: 'Proveedores externos utilizados por MaxVideoAI para prestar el Servicio.',
+    description: 'Proveedores externos utilizados por VideoAI para prestar el Servicio.',
     imageAlt: 'Lista de subencargados del tratamiento',
   },
   zh: {
     title: '子处理者',
-    description: 'MaxVideoAI 用于提供服务的第三方服务商。',
+    description: 'VideoAI 用于提供服务的第三方服务商。',
     imageAlt: '子处理者列表',
   },
 };
@@ -331,10 +331,10 @@ export default async function SubprocessorsPage() {
       <p className="text-sm text-text-secondary">
         {copy.contactIntro}{' '}
         <ObfuscatedEmailLink
-          user="privacy"
-          domain="maxvideoai.com"
-          label="privacy@maxvideoai.com"
-          placeholder="privacy [at] maxvideoai.com"
+          user="contact"
+          domain="llmhub.com.cn"
+          label="contact@llmhub.com.cn"
+          placeholder="contact [at] llmhub.com.cn"
         />
         .
       </p>

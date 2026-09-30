@@ -21,7 +21,7 @@ export function formatInternalLinkMarkdown(item: InternalLinkSuggestion): string
     'Implementation note:',
     item.verifyExistingLinkFirst
       ? 'Verify whether this internal link already exists first. If it exists with clear anchor text, refine only if needed instead of adding a duplicate link.'
-      : 'Add the link where it naturally helps users move between related MaxVideoAI pages.',
+      : 'Add the link where it naturally helps users move between related VideoAI pages.',
     '',
     'Acceptance criteria:',
     ...item.acceptanceCriteria.map((criterion) => `- ${criterion}`),

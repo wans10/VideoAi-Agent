@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni 4K",
   "versionLabel": "3.0 Omni 4K",
   "seo": {
-    "title": "Kling 3.0 Omni 4K 参考生视频生成器 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Kling 3.0 Omni 4K 进行原生 4K 参考图引导视频生成，支持分镜画面、@Image 锚点、可选起始/结束帧与交付级成片输出。若需源视频生视频（V2V），请使用 Standard 或 Pro。"
+    "title": "Kling 3.0 Omni 4K 参考生视频生成器 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 3.0 Omni 4K 进行原生 4K 参考图引导视频生成，支持分镜画面、@Image 锚点、可选起始/结束帧与交付级成片输出。若需源视频生视频（V2V），请使用 Standard 或 Pro。"
   },
   "overview": "Kling 3.0 Omni 4K 是专为参考图引导与分镜脚本引导打造的原生 4K Kling 交付级渲染路由。",
-  "pricingNotes": "在计入 MaxVideoAI 综合费率前，模型供应商基础成本约为 $0.42/秒。",
+  "pricingNotes": "在计入 VideoAI 综合费率前，模型供应商基础成本约为 $0.42/秒。",
   "custom": {
     "relatedTitle": "从草稿进阶至最终成片交付",
     "relatedSubtitle": "在 Standard 或 Pro 中验证参考方案后再使用 4K。由于当前 4K 路由为参考优先设计，源视频 V2V 请继续使用 Standard 或 Pro。",
@@ -81,7 +81,7 @@
     },
     {
       "label": "不支持源视频 V2V",
-      "body": "Kling 3.0 Omni 4K 专为 4K 成片交付的参考图生视频设计。在 MaxVideoAI 当前路由中不支持源视频视频生视频（V2V）；当需要引用 @Video1 或使用 keep_audio 保留原声时，请使用 3.0 Omni Standard 或 Pro。"
+      "body": "Kling 3.0 Omni 4K 专为 4K 成片交付的参考图生视频设计。在 VideoAI 当前路由中不支持源视频视频生视频（V2V）；当需要引用 @Video1 或使用 keep_audio 保留原声时，请使用 3.0 Omni Standard 或 Pro。"
     },
     {
       "label": "分辨率",
@@ -240,13 +240,13 @@
     "pricingCopy": {
       "title": "Kling 3.0 Omni 4K 价格一览",
       "subtitle": "已获批参考图引导交付渲染的预设原生 4K 方案总览。",
-      "footnote": "所有价格均为预设场景下 MaxVideoAI 美元积分展示价。",
+      "footnote": "所有价格均为预设场景下 VideoAI 美元积分展示价。",
       "ctaLabel": "查看完整价格表",
       "maxDurationNote": "原生 4K 参考生视频路由",
       "ctaHref": "/zh/pricing#kling-o3-4k-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni 4K：原生 4K 参考生视频 | MaxVideoAI",
+      "title": "Kling 3.0 Omni 4K：原生 4K 参考生视频 | VideoAI",
       "description": "使用 Kling 3.0 Omni 4K 生成原生 4K 参考图引导与分镜引导视频。若需源视频 V2V，请使用 O3 Pro 或 Standard。"
     }
   },

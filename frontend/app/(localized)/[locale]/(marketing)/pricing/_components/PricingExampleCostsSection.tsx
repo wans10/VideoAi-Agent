@@ -12,21 +12,6 @@ const EXAMPLE_CARD_VISUALS: Array<{ Icon: LucideIcon; accentClass: string; chart
   { Icon: Mic2, accentClass: 'bg-state-warning/10 text-state-warning', chartClass: 'text-state-warning' },
 ];
 
-function MiniSparkline({ className }: { className: string }) {
-  return (
-    <svg aria-hidden viewBox="0 0 122 42" className={`h-12 w-32 ${className}`}>
-      <path
-        d="M3 34 C16 22 24 20 34 26 C45 33 48 13 60 15 C72 17 74 25 85 18 C98 9 104 11 119 4"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
-      />
-    </svg>
-  );
-}
-
 type PricingExampleCostsSectionProps = {
   cards: ExampleCardConfig[];
   exampleCosts: ExampleCostsContent;
@@ -58,9 +43,7 @@ export function PricingExampleCostsSection({
           return (
             <article
               key={card.title}
-              className={`rounded-[8px] border bg-white p-5 shadow-[0_18px_54px_rgba(33,49,78,0.06)] transition hover:-translate-y-1 hover:shadow-float dark:bg-white/[0.055] ${
-                index === 1 ? 'border-[#356BE8]/70' : 'border-hairline'
-              }`}
+              className="studio-price-ticket"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -82,7 +65,7 @@ export function PricingExampleCostsSection({
                     {card.engine}
                   </p>
                 </div>
-                <MiniSparkline className={visual.chartClass} />
+                <span className="studio-price-ticket-index" aria-hidden>{String(index + 1).padStart(2, '0')}</span>
               </div>
               {card.note ? (
                 <p className="mt-3 line-clamp-2 text-xs leading-5 text-text-muted">{card.note}</p>

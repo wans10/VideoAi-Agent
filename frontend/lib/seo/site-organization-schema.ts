@@ -7,9 +7,8 @@ export function buildSiteOrganizationReference() {
   return {
     '@type': 'Organization',
     '@id': `${SITE_ORIGIN}/#organization`,
-    name: 'MaxVideoAI',
+    name: 'VideoAI',
     url: `${SITE_ORIGIN}/`,
-    sameAs: [MAXVIDEOAI_PLUGIN_REPOSITORY_URL, MAXVIDEOAI_YOUTUBE_CHANNEL_URL],
   } as const;
 }
 
@@ -18,19 +17,10 @@ export function buildSiteOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': `${SITE_ORIGIN}/#organization`,
-    name: 'MaxVideoAI',
-    alternateName: 'MaxVideo AI',
+    name: 'VideoAI',
     url: `${SITE_ORIGIN}/`,
     logo: `${SITE_ORIGIN}/favicon-512.png`,
     description:
       'Independent hub for AI video generation. Price before you generate. Works with Seedance, Kling, Veo, LTX, Wan, Pika, Sora and more.',
-    sameAs: [
-      'https://x.com/MaxVideoAI',
-      'https://www.linkedin.com/company/maxvideoai/',
-      'https://github.com/camgraphe/maxvideoai',
-      MAXVIDEOAI_PLUGIN_REPOSITORY_URL,
-      'https://www.producthunt.com/products/maxvideoai',
-      MAXVIDEOAI_YOUTUBE_CHANNEL_URL,
-    ],
   };
 }

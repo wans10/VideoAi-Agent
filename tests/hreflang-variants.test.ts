@@ -28,9 +28,9 @@ test('Spanish hreflang uses a supported generic language code', () => {
 test('Seedance 2.5 and 2.0 expose reciprocal EN, FR, ES, and x-default model routes', () => {
   for (const slug of ['seedance-2-5', 'seedance-2-0'] as const) {
     const expectedUrls = {
-      en: `https://maxvideoai.com/models/${slug}`,
-      fr: `https://maxvideoai.com/fr/modeles/${slug}`,
-      es: `https://maxvideoai.com/es/modelos/${slug}`,
+      en: `https://videoai.omninodetech.com/models/${slug}`,
+      fr: `https://videoai.omninodetech.com/fr/modeles/${slug}`,
+      es: `https://videoai.omninodetech.com/es/modelos/${slug}`,
     };
     const expectedLanguages = { ...expectedUrls, 'x-default': expectedUrls.en };
 

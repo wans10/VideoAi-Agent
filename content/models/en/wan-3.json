@@ -5,7 +5,7 @@
     "title": "Wan 3 AI Video Generator: Text, Image and References",
     "description": "Learn when to use Wan 3 for text-to-video, image animation or mixed reference direction, with current constraints, prompting guidance and canonical pricing."
   },
-  "overview": "Wan 3 is the current standard route in the Wan family for teams that want one model across text, image and reference-led production. Alibaba/Tongyi owns the model; MaxVideoAI distributes these launch endpoints through Fal rather than claiming a direct Alibaba integration.",
+  "overview": "Wan 3 is the current standard route in the Wan family for teams that want one model across text, image and reference-led production. Alibaba/Tongyi owns the model; VideoAI distributes these launch endpoints through Fal rather than claiming a direct Alibaba integration.",
   "decision": {
     "modelSlug": "wan-3",
     "hero": {
@@ -123,7 +123,7 @@
     "pricingCopy": {
       "title": "Wan 3 scenario pricing",
       "subtitle": "Compare a scene in 720p with the same scene in 1080p.",
-      "footnote": "Prices depend on your selected settings. MaxVideoAI confirms the quote before you generate.",
+      "footnote": "Prices depend on your selected settings. VideoAI confirms the quote before you generate.",
       "ctaLabel": "Generate with Wan 3",
       "ctaHref": "/app?engine=wan-3"
     },

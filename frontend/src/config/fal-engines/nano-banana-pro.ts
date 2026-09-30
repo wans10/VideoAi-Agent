@@ -186,14 +186,14 @@ export const NANO_BANANA_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'gemini-3-pro-image',
     seo: {
-      title: 'Nano Banana Pro – 4K Text-to-Image & Editing | MaxVideoAI',
+      title: 'Nano Banana Pro – 4K Text-to-Image & Editing | VideoAI',
       description:
-        'Generate studio-quality stills with Google’s Gemini 3-powered Nano Banana Pro. 1K, 2K, and 4K outputs, multi-image reference editing, and razor-sharp typography in MaxVideoAI.',
+        'Generate studio-quality stills with Google’s Gemini 3-powered Nano Banana Pro. 1K, 2K, and 4K outputs, multi-image reference editing, and razor-sharp typography in VideoAI.',
       canonicalPath: '/models/nano-banana-pro',
     },
     type: 'image',
     seoText:
-      'Nano Banana Pro brings Google’s Gemini 3 Pro image stack into MaxVideoAI. Render 1K/2K explorations, upgrade to 4K finals, or upload references for precise edits—without leaving the workspace.',
+      'Nano Banana Pro brings Google’s Gemini 3 Pro image stack into VideoAI. Render 1K/2K explorations, upgrade to 4K finals, or upload references for precise edits—without leaving the workspace.',
     media: {
       videoUrl: 'https://media.maxvideoai.com/marketing/marketing/5977bed2-7e9a-489c-a437-3232c99bc078.png',
       imagePath: 'https://media.maxvideoai.com/marketing/marketing/5977bed2-7e9a-489c-a437-3232c99bc078.png',
@@ -222,7 +222,7 @@ export const NANO_BANANA_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'How many reference images can I use for edits?',
         answer:
-          'The provider endpoint accepts up to 14 images via API. The MaxVideoAI composer lets you upload 1–4 refs to keep wardrobe, layout, or people consistent across edits.',
+          'The provider endpoint accepts up to 14 images via API. The VideoAI composer lets you upload 1–4 refs to keep wardrobe, layout, or people consistent across edits.',
       },
       {
         question: 'Is Nano Banana Pro licensed for commercial projects?',

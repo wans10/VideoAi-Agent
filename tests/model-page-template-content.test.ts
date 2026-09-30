@@ -104,17 +104,17 @@ function readModelContentJson(locale: (typeof LOCALES)[number], slug: string) {
 test('Seedance 2.0 keeps unique titles while introducing a localized Seedance 2.5 discovery module', () => {
   const expectations = {
     en: {
-      title: 'Seedance 2.0 | AI Video Model, Pricing, Native Audio & Use Cases | MaxVideoAI',
+      title: 'Seedance 2.0 | AI Video Model, Pricing, Native Audio & Use Cases | VideoAI',
       href: '/models/seedance-2-5',
       anchor: /Discover (?:the latest )?Seedance 2\.5/i,
     },
     fr: {
-      title: 'Seedance 2.0 | Modèle vidéo IA, prix, audio natif et cas d’usage | MaxVideoAI',
+      title: 'Seedance 2.0 | Modèle vidéo IA, prix, audio natif et cas d’usage | VideoAI',
       href: '/fr/modeles/seedance-2-5',
       anchor: /Découvrir (?:le nouveau )?Seedance 2\.5/i,
     },
     es: {
-      title: 'Seedance 2.0 | Modelo de video IA, precios, audio nativo y ejemplos | MaxVideoAI',
+      title: 'Seedance 2.0 | Modelo de video IA, precios, audio nativo y ejemplos | VideoAI',
       href: '/es/modelos/seedance-2-5',
       anchor: /Descubrir (?:el nuevo )?Seedance 2\.5/i,
     },

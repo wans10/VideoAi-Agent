@@ -7,7 +7,7 @@ import WorkspacePage from './WorkspacePage.client';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'MaxVideoAI Editor',
+  title: 'VideoAI Editor',
   robots: {
     index: false,
     follow: false,

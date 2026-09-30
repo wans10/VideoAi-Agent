@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni Pro",
   "versionLabel": "3.0 Omni Pro",
   "seo": {
-    "title": "Kling 3.0 Omni Pro 参考图、故事板分镜与视频生视频生成器 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Kling 3.0 Omni Pro 进行参考图引导的 Kling 视频创作，支持分镜故事板图片、源视频生视频 (V2V)、@Image 与 @Video1 锚点、可选首尾帧、原生音频与实时报价。"
+    "title": "Kling 3.0 Omni Pro 参考图、故事板分镜与视频生视频生成器 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 3.0 Omni Pro 进行参考图引导的 Kling 视频创作，支持分镜故事板图片、源视频生视频 (V2V)、@Image 与 @Video1 锚点、可选首尾帧、原生音频与实时报价。"
   },
   "overview": "Kling 3.0 Omni Pro 是专注于参考引导的 Kling Omni 路线。当上传的图片或源视频应指导渲染方向、且无需自动作为视频首帧时，适合选用此模型。",
-  "pricingNotes": "模型提供商原始成本：开启音频约 /bin/zsh.168/秒，关闭音频约 /bin/zsh.112/秒（未计入 MaxVideoAI 服务利润）。",
+  "pricingNotes": "模型提供商原始成本：开启音频约 /bin/zsh.168/秒，关闭音频约 /bin/zsh.112/秒（未计入 VideoAI 服务利润）。",
   "custom": {
     "relatedTitle": "Kling 3.0 Omni Pro 的定位与选型",
     "relatedSubtitle": "当需要参考图像与源视频指导镜头生成、且不强制固定起始首帧时，Pro 是主流的 O3 路线。",
@@ -267,12 +267,12 @@
     "pricingCopy": {
       "title": "Kling 3.0 Omni Pro 价格一览",
       "subtitle": "针对参考图引导与源视频 V2V 场景的预设总价。生成前可在工作台中查看实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数计费的展示价格。",
       "ctaLabel": "查看完整价格表",
       "ctaHref": "/zh/pricing#kling-o3-pro-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Pro：参考图、故事板分镜与 V2V | MaxVideoAI",
+      "title": "Kling 3.0 Omni Pro：参考图、故事板分镜与 V2V | VideoAI",
       "description": "使用 Kling 3.0 Omni Pro 进行参考图生视频、分镜故事板输入、源视频 V2V、@Image 与 @Video1 提示词、原生音频与实时报价。"
     }
   },

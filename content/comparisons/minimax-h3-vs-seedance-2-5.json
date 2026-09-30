@@ -57,7 +57,7 @@
         },
         {
           "question": "Where can I compare the current generation cost?",
-          "answer": "Open each model in the MaxVideoAI workspace or visit the pricing page for the live total before generating."
+          "answer": "Open each model in the VideoAI workspace or visit the pricing page for the live total before generating."
         }
       ]
     }
@@ -119,7 +119,7 @@
         },
         {
           "question": "Où comparer le coût actuel d'une génération ?",
-          "answer": "Ouvrez chaque modèle dans l'espace MaxVideoAI ou consultez la page des tarifs pour voir le total en direct avant de générer."
+          "answer": "Ouvrez chaque modèle dans l'espace VideoAI ou consultez la page des tarifs pour voir le total en direct avant de générer."
         }
       ]
     }
@@ -181,7 +181,7 @@
         },
         {
           "question": "¿Dónde puedo comparar el coste actual de generación?",
-          "answer": "Abre cada modelo en el espacio de MaxVideoAI o visita la página de precios para ver el total en directo antes de generar."
+          "answer": "Abre cada modelo en el espacio de VideoAI o visita la página de precios para ver el total en directo antes de generar."
         }
       ]
     }

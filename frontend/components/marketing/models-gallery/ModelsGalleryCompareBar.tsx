@@ -16,8 +16,7 @@ export function ModelsGalleryCompareBar({
   onClear,
 }: ModelsGalleryCompareBarProps) {
   return (
-    <div className="fixed inset-x-4 bottom-6 z-40 mx-auto max-w-4xl rounded-2xl border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.78))] px-4 py-3 shadow-[0_18px_40px_rgba(15,23,42,0.22),0_6px_16px_rgba(15,23,42,0.16)] backdrop-blur dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.9))]">
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.7),transparent)] dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent)]" />
+    <div className="studio-model-compare-tray">
       <div className="relative flex flex-wrap items-center justify-between gap-3 text-sm">
         <div className="font-semibold text-text-primary">
           {selectedCards.length === 2

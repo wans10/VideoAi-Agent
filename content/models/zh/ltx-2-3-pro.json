@@ -2,8 +2,8 @@
   "marketingName": "LTX 2.3 Pro",
   "versionLabel": "2.3",
   "seo": {
-    "title": "LTX 2.3 Pro | AI 视频模型、规格与价格 | MaxVideoAI",
-    "description": "LTX 2.3 Pro 仍作为 MaxVideoAI 上可用的上一代路线保留；查看其控制项、价格以及升级至 LTX 2.5 Pro 的路径。",
+    "title": "LTX 2.3 Pro | AI 视频模型、规格与价格 | VideoAI",
+    "description": "LTX 2.3 Pro 仍作为 VideoAI 上可用的上一代路线保留；查看其控制项、价格以及升级至 LTX 2.5 Pro 的路径。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/f397ab6d-d0ef-44eb-977a-3419f494d17e-job_cda079d3-9895-45a0-866c-2dbf57593463.jpg"
   },
   "overview": "LTX 2.3 Pro 仍作为上一代旧版路线继续可用，适用于既有工作流、案例复现及搜索意图。LTX 2.5 Pro 是当前的主力生产后继模型。",
@@ -99,7 +99,7 @@
     },
     {
       "label": "计费方式",
-      "body": "按量付费；本页面展示预设生成场景的 MaxVideoAI 显示总价，应用内则按工作流展示精确的实时报价。"
+      "body": "按量付费；本页面展示预设生成场景的 VideoAI 显示总价，应用内则按工作流展示精确的实时报价。"
     }
   ],
   "promptStructure": {
@@ -159,11 +159,11 @@
     },
     {
       "q": "LTX 2.3 Fast 是否包含音频生视频、片段延长或局部重拍功能？",
-      "a": "不包含。在当前 MaxVideoAI 路由中，LTX 2.3 Fast 仅限于文生视频与图生视频。"
+      "a": "不包含。在当前 VideoAI 路由中，LTX 2.3 Fast 仅限于文生视频与图生视频。"
     },
     {
       "q": "LTX 2.3 Pro 的费用是多少？",
-      "a": "可通过价格卡片查看预设场景的 MaxVideoAI 参考总价，并在“生成”工作台中确认精确的实时报价。价格因工作流、时长、分辨率、帧率及音频配置而异。"
+      "a": "可通过价格卡片查看预设场景的 VideoAI 参考总价，并在“生成”工作台中确认精确的实时报价。价格因工作流、时长、分辨率、帧率及音频配置而异。"
     },
     {
       "q": "4K 分辨率是否适用于音频生视频、片段延长和局部重拍？",
@@ -171,7 +171,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "LTX 2.3 Pro 是 MaxVideoAI 中工作流最完备的 LTX 页面。它在单一引擎中涵盖了视频生成、音频驱动动画、源视频延长以及局部精准重拍，而无需将这些任务分散在不同模型页面之间。",
+    "heroDesc1": "LTX 2.3 Pro 是 VideoAI 中工作流最完备的 LTX 页面。它在单一引擎中涵盖了视频生成、音频驱动动画、源视频延长以及局部精准重拍，而无需将这些任务分散在不同模型页面之间。",
     "heroDesc2": "这对实际生产至关重要：你可以从文本起草分镜、用图片进行精修、测试音频驱动版本、延长优胜片段，并仅重拍有瑕疵的选区，全程无需更换引擎。",
     "heroSupportLine": "最适合希望在同一 LTX 界面中完成构思探索、声音驱动动画与快速剪辑修复的团队。",
     "heroSpecChips": [
@@ -206,8 +206,8 @@
       "更高效的剪辑杠杆||片段延长（Extend）与局部重拍（Retake）是保留优质镜头、避免从零重来的实用工具。",
       "适配现代内容规格||横屏与竖屏生成模式，助你轻松兼顾主宣传片与社交媒体多版本规划。"
     ],
-    "specTitle": "真实规格 — MaxVideoAI 中的 LTX 2.3 Pro",
-    "specNote": "这些规格描述了 MaxVideoAI 今日上线的实时路由配置，而非理论上的未来特性列表。",
+    "specTitle": "真实规格 — VideoAI 中的 LTX 2.3 Pro",
+    "specNote": "这些规格描述了 VideoAI 今日上线的实时路由配置，而非理论上的未来特性列表。",
     "specSections": [
       {
         "title": "视频生成工作流",
@@ -230,7 +230,7 @@
         ]
       }
     ],
-    "whatTitle": "LTX 2.3 Pro 在 MaxVideoAI 中的运作方式",
+    "whatTitle": "LTX 2.3 Pro 在 VideoAI 中的运作方式",
     "whatIntro1": "选择 LTX 2.3 Pro，可停留在“生成视频”中进行标准文本/图像流程，或在需要源视频剪辑时切换至“延长视频”/“重拍视频”。当存在音频素材时，系统会自动启用音频生视频。",
     "whatIntro2": "这一结构使页面聚焦于单一引擎，同时真实映射了应用中开放的实际路由选项。",
     "whatFlowTitle": "创作流程",
@@ -434,13 +434,13 @@
     "pricingCopy": {
       "title": "LTX 2.3 Pro 价格概览",
       "subtitle": "预设生产场景预估 — 在应用中生成前可查看确切的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以 USD 额度展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "最长 20 秒路线；生成预设因模式而异",
       "ctaHref": "/zh/pricing#ltx-2-3-pro-pricing"
     },
     "meta": {
-      "title": "LTX 2.3 Pro：价格、音频、延长与重拍 | MaxVideoAI",
+      "title": "LTX 2.3 Pro：价格、音频、延长与重拍 | VideoAI",
       "description": "使用 LTX 2.3 Pro 进行生产级 LTX 视频工作流：音频生视频、片段延长、局部重拍、图生视频以及高分辨率生成渲染。"
     }
   },

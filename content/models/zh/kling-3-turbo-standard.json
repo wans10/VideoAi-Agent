@@ -2,7 +2,7 @@
   "marketingName": "Kling 3.0 Turbo Standard",
   "versionLabel": "3.0 Turbo Standard",
   "seo": {
-    "title": "Kling 3 Turbo Standard | 720p AI 视频生成、原生音频与价格 | MaxVideoAI",
+    "title": "Kling 3 Turbo Standard | 720p AI 视频生成、原生音频与价格 | VideoAI",
     "description": "通过文本或首帧图像生成 3–15 秒 720p 的 Kling 3 Turbo Standard 视频，支持原生音频与多镜头分镜提示词。"
   },
   "overview": "Kling 3 Turbo Standard 是主打高性价比的 720p 路线，适用于快速草稿、社交媒体概念短片以及包含原生音频的结构化多镜头分镜序列。",
@@ -115,7 +115,7 @@
       "ctaHref": "/app?engine=kling-3-turbo-standard"
     },
     "meta": {
-      "title": "Kling 3 Turbo Standard：720p 画质、原生音频与价格 | MaxVideoAI",
+      "title": "Kling 3 Turbo Standard：720p 画质、原生音频与价格 | VideoAI",
       "description": "通过文本或首帧图像生成 3–15 秒 720p 的 Kling 3 Turbo Standard 视频，支持原生音频与多镜头分镜提示词。"
     }
   },

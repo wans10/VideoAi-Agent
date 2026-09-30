@@ -62,7 +62,7 @@
         },
         {
           "question": "Can Kling 3 Pro edit or extend a source video?",
-          "answer": "Not on the current MaxVideoAI Kling 3 Pro route. Seedance 2.5 supports both video editing and extension, so it is the direct choice when an existing clip is the input."
+          "answer": "Not on the current VideoAI Kling 3 Pro route. Seedance 2.5 supports both video editing and extension, so it is the direct choice when an existing clip is the input."
         },
         {
           "question": "Which model supports longer clips?",
@@ -137,7 +137,7 @@
         },
         {
           "question": "Kling 3 Pro peut-il monter ou prolonger une vidéo source ?",
-          "answer": "Pas sur la route Kling 3 Pro actuelle de MaxVideoAI. Seedance 2.5 prend en charge le montage vidéo et l’extension : c’est le choix direct lorsqu’un clip existant sert d’entrée."
+          "answer": "Pas sur la route Kling 3 Pro actuelle de VideoAI. Seedance 2.5 prend en charge le montage vidéo et l’extension : c’est le choix direct lorsqu’un clip existant sert d’entrée."
         },
         {
           "question": "Quel modèle produit les clips les plus longs ?",
@@ -212,7 +212,7 @@
         },
         {
           "question": "¿Kling 3 Pro puede editar o extender un vídeo fuente?",
-          "answer": "No en la ruta actual de Kling 3 Pro en MaxVideoAI. Seedance 2.5 admite edición y extensión de vídeo, por lo que es la elección directa cuando la entrada es un clip existente."
+          "answer": "No en la ruta actual de Kling 3 Pro en VideoAI. Seedance 2.5 admite edición y extensión de vídeo, por lo que es la elección directa cuando la entrada es un clip existente."
         },
         {
           "question": "¿Qué modelo admite clips más largos?",

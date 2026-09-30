@@ -243,10 +243,10 @@ test('Seedance 2.5 localized marketing content converts in EN, FR, and ES withou
     assert.match(
       document.faqs.at(-1)?.a ?? '',
       locale === 'en'
-        ? /available to MaxVideoAI users.*price.*shown before each render/i
+        ? /available to VideoAI users.*price.*shown before each render/i
         : locale === 'fr'
-          ? /accessible aux utilisateurs de MaxVideoAI.*prix.*affiché avant chaque rendu/i
-          : /disponible para los usuarios de MaxVideoAI.*precio.*muestra antes de cada render/i,
+          ? /accessible aux utilisateurs de VideoAI.*prix.*affiché avant chaque rendu/i
+          : /disponible para los usuarios de VideoAI.*precio.*muestra antes de cada render/i,
     );
     assert.equal(prompting.modelSlug, slug);
     assert.equal(examples.modelSlug, slug);
@@ -281,9 +281,9 @@ test('Seedance 2.5 emits canonical localized metadata URLs and complete public s
   assert.equal(engine.surfaces.pricing.includeInEstimator, true);
 
   const expectedMetadataUrls = {
-    en: 'https://maxvideoai.com/models/seedance-2-5',
-    fr: 'https://maxvideoai.com/fr/modeles/seedance-2-5',
-    es: 'https://maxvideoai.com/es/modelos/seedance-2-5',
+    en: 'https://videoai.omninodetech.com/models/seedance-2-5',
+    fr: 'https://videoai.omninodetech.com/fr/modeles/seedance-2-5',
+    es: 'https://videoai.omninodetech.com/es/modelos/seedance-2-5',
   } as const;
   for (const locale of locales) {
     const metadataUrls = buildMetadataUrls(locale, buildDetailSlugMap(slug), {
@@ -308,8 +308,8 @@ test('Seedance 2.5 emits canonical localized metadata URLs and complete public s
     heroTitle: 'Seedance 2.5',
     inLanguage: 'en-US',
     localizedCanonical: canonical,
-    localizedHomeUrl: 'https://maxvideoai.com/',
-    localizedModelsUrl: 'https://maxvideoai.com/models',
+    localizedHomeUrl: 'https://videoai.omninodetech.com/',
+    localizedModelsUrl: 'https://videoai.omninodetech.com/models',
     pricingEngine: engine.engine,
     resolvedBreadcrumb: { home: 'Home', models: 'Models' },
   }) as Array<Record<string, unknown>>;
@@ -360,11 +360,11 @@ test('Seedance 2.5 emits canonical localized metadata URLs and complete public s
       heroTitle: 'Seedance 2.5',
       inLanguage: locale === 'en' ? 'en-US' : locale === 'fr' ? 'fr-FR' : 'es-ES',
       localizedCanonical,
-      localizedHomeUrl: locale === 'en' ? 'https://maxvideoai.com/' : `https://maxvideoai.com/${locale}`,
+      localizedHomeUrl: locale === 'en' ? 'https://videoai.omninodetech.com/' : `https://videoai.omninodetech.com/${locale}`,
       localizedModelsUrl:
         locale === 'en'
-          ? 'https://maxvideoai.com/models'
-          : `https://maxvideoai.com/${locale}/${locale === 'fr' ? 'modeles' : 'modelos'}`,
+          ? 'https://videoai.omninodetech.com/models'
+          : `https://videoai.omninodetech.com/${locale}/${locale === 'fr' ? 'modeles' : 'modelos'}`,
       pricingEngine: engine.engine,
       resolvedBreadcrumb: { home: 'Home', models: 'Models' },
     }) as Array<Record<string, unknown>>;

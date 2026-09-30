@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana Lite",
   "versionLabel": "Lite",
   "seo": {
-    "title": "Nano Banana Lite - Fast 1K Google Image Generation | MaxVideoAI",
-    "description": "Generate fast 1K still images and local edits with Nano Banana Lite in MaxVideoAI, routed directly through Google's Gemini image API."
+    "title": "Nano Banana Lite - Fast 1K Google Image Generation | VideoAI",
+    "description": "Generate fast 1K still images and local edits with Nano Banana Lite in VideoAI, routed directly through Google's Gemini image API."
   },
   "overview": "Nano Banana Lite is the fast, efficient 1K member of the Google Nano Banana image family. Use it for high-volume still drafts, social concepts, local image edits, and quick visual exploration before moving selected ideas to Nano Banana 2 or Nano Banana Pro.",
-  "pricingNotes": "Nano Banana Lite is priced per 1K image. MaxVideoAI shows the exact live quote before generation.",
+  "pricingNotes": "Nano Banana Lite is priced per 1K image. VideoAI shows the exact live quote before generation.",
   "hero": {
     "title": "Nano Banana Lite - fast 1K image generation",
     "intro": "Use the direct Google Lite route for fast still-image drafts, quick local edits, and high-volume creative exploration.",
@@ -214,7 +214,7 @@
       },
       {
         "title": "Live price",
-        "body": "Nano Banana Lite is priced per 1K image. MaxVideoAI shows the exact live quote before generation.",
+        "body": "Nano Banana Lite is priced per 1K image. VideoAI shows the exact live quote before generation.",
         "tone": "price"
       }
     ],
@@ -259,19 +259,19 @@
       },
       {
         "title": "Price check",
-        "body": "Nano Banana Lite is priced per 1K image. MaxVideoAI shows the exact live quote before generation."
+        "body": "Nano Banana Lite is priced per 1K image. VideoAI shows the exact live quote before generation."
       }
     ],
     "pricingCopy": {
       "title": "Nano Banana Lite pricing at a glance",
-      "subtitle": "Nano Banana Lite is priced per 1K image. MaxVideoAI shows the exact live quote before generation.",
-      "footnote": "Nano Banana Lite is priced per 1K image. MaxVideoAI shows the exact live quote before generation.",
+      "subtitle": "Nano Banana Lite is priced per 1K image. VideoAI shows the exact live quote before generation.",
+      "footnote": "Nano Banana Lite is priced per 1K image. VideoAI shows the exact live quote before generation.",
       "ctaLabel": "View full pricing",
       "ctaHref": "/pricing#nano-banana-lite-pricing"
     },
     "meta": {
-      "title": "Nano Banana Lite - Fast 1K Google Image Generation | MaxVideoAI",
-      "description": "Generate fast 1K still images and local edits with Nano Banana Lite in MaxVideoAI, routed directly through Google's Gemini image API."
+      "title": "Nano Banana Lite - Fast 1K Google Image Generation | VideoAI",
+      "description": "Generate fast 1K still images and local edits with Nano Banana Lite in VideoAI, routed directly through Google's Gemini image API."
     }
   },
   "prompting": {
@@ -328,7 +328,7 @@
     "modelSlug": "nano-banana-lite",
     "section": {
       "title": "Nano Banana Lite examples",
-      "intro": "Explore real community outputs and see how Nano Banana Lite performs inside MaxVideoAI workflows.",
+      "intro": "Explore real community outputs and see how Nano Banana Lite performs inside VideoAI workflows.",
       "defaultCtaLabel": null,
       "recreateLabel": null
     },

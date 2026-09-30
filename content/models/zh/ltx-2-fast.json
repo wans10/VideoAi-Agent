@@ -2,7 +2,7 @@
   "marketingName": "LTX 2 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2 Fast | AI 视频模型、技术规格与价格 | MaxVideoAI",
+    "title": "LTX 2 Fast | AI 视频模型、技术规格与价格 | VideoAI",
     "description": "LTX 2 Fast 是作为历史早期版本保留的深度归档模型，用以保留原始搜索意图；当前的新草稿创作建议使用 LTX 2.5 Fast。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
@@ -149,7 +149,7 @@
     }
   ],
   "custom": {
-    "whyTitle": "为什么在 MaxVideoAI 中使用 LTX 2 Fast",
+    "whyTitle": "为什么在 VideoAI 中使用 LTX 2 Fast",
     "heroDesc1": "在单个卡片中创建包含原生音频、1080p 至 4K 分辨率以及 25/50 fps 帧率的 6–20 秒片段。LTX 2 Fast 是 LTX 2 家族的“即时”层级：非常适合在无需漫长等待即可获得 4K 质感的情况下，进行快速社媒短片、草案、分镜故事板和情绪片段创作。",
     "heroDesc2": "超过 10 秒的生成会自动约束在 1080p/25 fps，以匹配 Fal 路由规则并确保交付稳定可靠。",
     "heroSupportLine": "可用于探索吸睛点、节奏与情绪氛围，随后在旗舰层级中重新生成满意的镜头。",
@@ -159,7 +159,7 @@
       "自带声音的草稿||非常适合用于把握对白、环境音与音效的时间节奏（也可静音并在后期制作音频）。",
       "升级过渡平滑自然||保持相同的提示词结构，即可将选中的满意版本放入 LTX 2.5 Pro 中进行精细打磨。"
     ],
-    "specTitle": "真实规格 — MaxVideoAI 中的 LTX 2 Fast",
+    "specTitle": "真实规格 — VideoAI 中的 LTX 2 Fast",
     "specNote": "规格参数反映当前通过 Fal 的实时路由情况。",
     "specSections": [
       {
@@ -183,7 +183,7 @@
         ]
       }
     ],
-    "whatTitle": "LTX 2 Fast 在 MaxVideoAI 中的运作机制",
+    "whatTitle": "LTX 2 Fast 在 VideoAI 中的运作机制",
     "whatIntro1": "选择文生或图生模式，设定 6–20 秒时长，选择分辨率与帧率，然后输入提示词。原生音频默认开启，可按需关闭。",
     "whatIntro2": "对于 12–20 秒的生成，系统会自动约束至 1080p/25 fps 以保持路由稳定。",
     "whatFlowTitle": "工作流",
@@ -409,13 +409,13 @@
     "pricingCopy": {
       "title": "LTX 2 Fast 草稿价格",
       "subtitle": "预设草稿参考总价 — 在应用中生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以美元点数计费的展示价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数计费的展示价格。",
       "ctaLabel": "使用 LTX 2.5 Fast 生成",
       "maxDurationNote": "1080p / 25 fps 下最长 20 秒",
       "ctaHref": "/app?engine=ltx-2-5-fast"
     },
     "meta": {
-      "title": "LTX 2 Fast：价格、20秒草稿与案例 | MaxVideoAI",
+      "title": "LTX 2 Fast：价格、20秒草稿与案例 | VideoAI",
       "description": "LTX 2 Fast 历史参考信息，涵盖 16:9 草稿、20 秒节奏验证、文生视频、图生视频、高分辨率审核选项与价格体系。"
     }
   },

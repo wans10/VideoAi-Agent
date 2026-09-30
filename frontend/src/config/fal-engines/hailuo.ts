@@ -153,7 +153,7 @@ export const HAILUO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'MiniMax Hailuo 02 – Stylized Text & Image to Video',
       description:
-        'Generate fast, stylized motion from prompts or animate uploaded stills with MiniMax Hailuo 02. Ideal for testing motion concepts, loops, and storyboard passes—silent and budget-friendly via MaxVideoAI.',
+        'Generate fast, stylized motion from prompts or animate uploaded stills with MiniMax Hailuo 02. Ideal for testing motion concepts, loops, and storyboard passes—silent and budget-friendly via VideoAI.',
       canonicalPath: '/models/minimax-hailuo-02-text',
     },
     type: 'Text + Image · Stylized',
@@ -186,7 +186,7 @@ export const HAILUO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         question: 'Can I supply an end frame for Hailuo image-to-video runs?',
-        answer: 'Upload an optional end frame in the composer. MaxVideoAI forwards it so the clip resolves on your target image.',
+        answer: 'Upload an optional end frame in the composer. VideoAI forwards it so the clip resolves on your target image.',
       },
     ],
     pricingHint: {

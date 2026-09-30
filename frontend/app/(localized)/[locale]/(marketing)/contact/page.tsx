@@ -15,20 +15,20 @@ const CONTACT_SLUG_MAP = buildSlugMap('contact');
 const STATUS_SLUG_MAP = buildSlugMap('status');
 const CONTACT_META: Record<AppLocale, { title: string; description: string }> = {
   en: {
-    title: 'Contact MaxVideoAI — Support & Partnerships',
-    description: 'Reach the MaxVideoAI team for support, partnerships, and enterprise onboarding.',
+    title: 'Contact VideoAI — Support & Partnerships',
+    description: 'Reach the VideoAI team for support, partnerships, and enterprise onboarding.',
   },
   fr: {
-    title: 'Contact — MaxVideoAI',
-    description: "Contactez l’équipe MaxVideoAI pour le support, les partenariats ou les demandes entreprise.",
+    title: 'Contact — VideoAI',
+    description: "Contactez l’équipe VideoAI pour le support, les partenariats ou les demandes entreprise.",
   },
   es: {
-    title: 'Contacto — MaxVideoAI',
-    description: 'Habla con el equipo de MaxVideoAI para soporte, alianzas o solicitudes para equipos.',
+    title: 'Contacto — VideoAI',
+    description: 'Habla con el equipo de VideoAI para soporte, alianzas o solicitudes para equipos.',
   },
   zh: {
-    title: '联系 MaxVideoAI — 技术支持与商务合作',
-    description: '联系 MaxVideoAI 团队获取技术支持、商务合作洽谈及企业接入咨询。',
+    title: '联系 VideoAI — 技术支持与商务合作',
+    description: '联系 VideoAI 团队获取技术支持、商务合作洽谈及企业接入咨询。',
   },
 };
 
@@ -49,7 +49,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     hreflangGroup: 'contact',
     slugMap: CONTACT_SLUG_MAP,
     keywords: ['AI video', 'text-to-video', 'price calculator', 'pay-as-you-go', 'model-agnostic'],
-    imageAlt: 'Contact MaxVideo AI.',
+    imageAlt: 'Contact VideoAI.',
   });
 }
 
@@ -137,7 +137,7 @@ export default async function ContactPage(
               <p className="mt-2">
                 {renderPlaceholderText(
                   introCards.partnerships?.body,
-                  <ObfuscatedEmailLink user="partners" domain="maxvideo.ai" label="partners@maxvideo.ai" />
+                  <ObfuscatedEmailLink user="contact" domain="llmhub.com.cn" label="contact@llmhub.com.cn" />
                 )}
               </p>
             </div>
@@ -223,7 +223,7 @@ export default async function ContactPage(
           </form>
           <div className="mt-6 rounded-card border border-dashed border-hairline bg-bg px-4 py-3 text-sm text-text-secondary">
             {content.form.alt.split('{email}')[0]}
-            <ObfuscatedEmailLink user="support" domain="maxvideoai.com" label="support@maxvideoai.com" />
+            <ObfuscatedEmailLink user="contact" domain="llmhub.com.cn" label="contact@llmhub.com.cn" />
             {content.form.alt.split('{email}')[1] ?? ''}
           </div>
         </section>

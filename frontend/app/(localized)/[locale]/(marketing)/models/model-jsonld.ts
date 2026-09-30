@@ -29,8 +29,8 @@ export function buildModelServiceJsonLd(slug: string) {
     engine.seo?.description ??
     engine.seoText ??
     (isImageModel
-      ? 'Generate AI still images with this model on MaxVideoAI.'
-      : 'Generate AI videos with this model on MaxVideoAI.');
+      ? 'Generate AI still images with this model on VideoAI.'
+      : 'Generate AI videos with this model on VideoAI.');
   const name = engine.cardTitle ?? engine.marketingName;
   const availability = AVAILABILITY_MAP[engine.availability] ?? AVAILABILITY_MAP.limited;
 
@@ -42,9 +42,9 @@ export function buildModelServiceJsonLd(slug: string) {
     description,
     provider: {
       '@type': 'Organization',
-      name: 'MaxVideoAI',
-      url: 'https://maxvideoai.com',
-      logo: 'https://maxvideoai.com/favicon-512.png',
+      name: 'VideoAI',
+      url: 'https://videoai.omninodetech.com',
+      logo: 'https://videoai.omninodetech.com/favicon-512.png',
     },
     areaServed: 'Worldwide',
     url,

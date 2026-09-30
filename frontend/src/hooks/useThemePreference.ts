@@ -8,7 +8,7 @@ export const THEME_CHANGE_EVENT = 'mv-app-theme-change';
 export type ThemePreference = 'light' | 'dark' | 'system';
 export type ResolvedTheme = 'light' | 'dark';
 
-const DEFAULT_THEME_PREFERENCE: ThemePreference = 'dark';
+const DEFAULT_THEME_PREFERENCE: ThemePreference = 'light';
 
 type ThemeSnapshot = {
   preference: ThemePreference;
@@ -89,7 +89,7 @@ export function subscribeToThemePreference(browserWindow: Window, notify: (snaps
   };
 }
 
-const SERVER_SNAPSHOT: ThemeSnapshot = { preference: 'dark', resolvedTheme: 'dark' };
+const SERVER_SNAPSHOT: ThemeSnapshot = { preference: 'light', resolvedTheme: 'light' };
 
 export function useThemePreference() {
   const [snapshot, setSnapshot] = useState<ThemeSnapshot>(SERVER_SNAPSHOT);

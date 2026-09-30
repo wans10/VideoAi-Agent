@@ -21,7 +21,7 @@ const ENGLISH_COPY = {
   plan: 'Plan',
   planBody: 'Arrange shots and their dependencies.',
   create: 'Generate',
-  createBody: 'Create with MaxVideoAI models.',
+  createBody: 'Create with VideoAI models.',
   edit: 'Edit',
   editBody: 'Assemble image, video and sound.',
 };
@@ -39,7 +39,7 @@ const FRENCH_COPY = {
   plan: 'Structurer',
   planBody: 'Organisez les plans et leurs dépendances.',
   create: 'Générer',
-  createBody: 'Créez avec les modèles MaxVideoAI.',
+  createBody: 'Créez avec les modèles VideoAI.',
   edit: 'Monter',
   editBody: 'Assemblez image, vidéo et son.',
 };
@@ -57,7 +57,7 @@ const SPANISH_COPY = {
   plan: 'Planificar',
   planBody: 'Organiza los planos y sus dependencias.',
   create: 'Generar',
-  createBody: 'Crea con los modelos de MaxVideoAI.',
+  createBody: 'Crea con los modelos de VideoAI.',
   edit: 'Editar',
   editBody: 'Combina imagen, vídeo y sonido.',
 };

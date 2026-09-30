@@ -11,8 +11,8 @@ const COPY = {
 };
 export function HomeComparisonSection({ locale, scores }: { locale: AppLocale; scores: HomeComparisonData }) {
  const copy = COPY[locale] ?? COPY.en;
- return <article id="compare" className="choice-comparison comparison-feature">
-  <div><p className="editorial-eyebrow">{copy.eyebrow}</p><h2>{copy.title}</h2><p>{copy.body}</p><p className="comparison-editorial-label">{copy.method}</p></div>
+ return <article id="compare" className="studio-comparison">
+  <header className="studio-comparison-heading"><div><p className="editorial-eyebrow">{copy.eyebrow}</p><h2>{copy.title}</h2></div><div><p>{copy.body}</p><p className="comparison-editorial-label">{copy.method}</p></div></header>
   <HomeComparisonCarousel locale={locale} data={scores} methodology={<BenchmarkMethodologyLink locale={locale}/>}/>
  </article>;
 }

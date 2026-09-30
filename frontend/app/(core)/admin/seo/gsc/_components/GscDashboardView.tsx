@@ -94,7 +94,7 @@ export function GscDashboardView({ data, range }: GscDashboardViewProps) {
 
         <AdminSection
           title="Family clusters"
-          description="Query and URL clusters aligned to MaxVideoAI engine families and search intents."
+          description="Query and URL clusters aligned to VideoAI engine families and search intents."
         >
           {data.familySummaries.length ? (
             <FamilyClusterList families={data.familySummaries} />

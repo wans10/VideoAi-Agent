@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana Lite",
   "versionLabel": "Lite",
   "seo": {
-    "title": "Nano Banana Lite - génération image Google 1K rapide | MaxVideoAI",
-    "description": "Générez des images 1K rapides et des edits locaux avec Nano Banana Lite dans MaxVideoAI, via le provider Google direct."
+    "title": "Nano Banana Lite - génération image Google 1K rapide | VideoAI",
+    "description": "Générez des images 1K rapides et des edits locaux avec Nano Banana Lite dans VideoAI, via le provider Google direct."
   },
   "overview": "Nano Banana Lite est le modèle Google Nano Banana le plus rapide pour les images 1K. Utilisez-le pour les brouillons visuels, concepts sociaux, edits locaux et explorations rapides avant de passer à Nano Banana 2 ou Pro.",
-  "pricingNotes": "Nano Banana Lite est facturé par image 1K. MaxVideoAI affiche le devis exact avant génération.",
+  "pricingNotes": "Nano Banana Lite est facturé par image 1K. VideoAI affiche le devis exact avant génération.",
   "hero": {
     "title": "Nano Banana Lite - génération image 1K rapide",
     "intro": "Utilisez la route Google Lite directe pour créer des brouillons image, edits locaux et variations créatives rapides.",
@@ -120,7 +120,7 @@
       },
       {
         "title": "Prix en direct",
-        "body": "Nano Banana Lite est facturé par image 1K. MaxVideoAI affiche le devis exact avant génération.",
+        "body": "Nano Banana Lite est facturé par image 1K. VideoAI affiche le devis exact avant génération.",
         "tone": "price"
       }
     ],
@@ -165,19 +165,19 @@
       },
       {
         "title": "Vérification du prix",
-        "body": "Nano Banana Lite est facturé par image 1K. MaxVideoAI affiche le devis exact avant génération."
+        "body": "Nano Banana Lite est facturé par image 1K. VideoAI affiche le devis exact avant génération."
       }
     ],
     "pricingCopy": {
       "title": "Nano Banana Lite tarifs en bref",
-      "subtitle": "Nano Banana Lite est facturé par image 1K. MaxVideoAI affiche le devis exact avant génération.",
-      "footnote": "Nano Banana Lite est facturé par image 1K. MaxVideoAI affiche le devis exact avant génération.",
+      "subtitle": "Nano Banana Lite est facturé par image 1K. VideoAI affiche le devis exact avant génération.",
+      "footnote": "Nano Banana Lite est facturé par image 1K. VideoAI affiche le devis exact avant génération.",
       "ctaLabel": "Voir tous les tarifs",
       "ctaHref": "/fr/tarifs#nano-banana-lite-pricing"
     },
     "meta": {
-      "title": "Nano Banana Lite - génération image Google 1K rapide | MaxVideoAI",
-      "description": "Générez des images 1K rapides et des edits locaux avec Nano Banana Lite dans MaxVideoAI, via le provider Google direct."
+      "title": "Nano Banana Lite - génération image Google 1K rapide | VideoAI",
+      "description": "Générez des images 1K rapides et des edits locaux avec Nano Banana Lite dans VideoAI, via le provider Google direct."
     }
   },
   "prompting": {
@@ -234,7 +234,7 @@
     "modelSlug": "nano-banana-lite",
     "section": {
       "title": "Exemples Nano Banana Lite",
-      "intro": "Explorez des rendus de la communauté et voyez comment Nano Banana Lite se comporte dans des workflows MaxVideoAI.",
+      "intro": "Explorez des rendus de la communauté et voyez comment Nano Banana Lite se comporte dans des workflows VideoAI.",
       "defaultCtaLabel": null,
       "recreateLabel": "Recréer ce rendu →"
     },

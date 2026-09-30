@@ -2,7 +2,7 @@
   "marketingName": "LTX 2.3 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2.3 Fast | AI 视频模型、技术参数、价格与最长时长 | MaxVideoAI",
+    "title": "LTX 2.3 Fast | AI 视频模型、技术参数、价格与最长时长 | VideoAI",
     "description": "LTX 2.3 Fast 仍作为上一代可用路线保留，适用于既有草稿与测试；查看价格、规格以及升级至 LTX 2.5 Fast 的路径。",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
@@ -196,7 +196,7 @@
       "从案例开始||生成前可先查看 LTX 案例页面，获取可复用的提示词模式、参数设置与图生视频基准。",
       "最佳使用场景||Fast 非常适合提示词测试、竖屏多版本、长片段草稿以及低成本动态探索。"
     ],
-    "specTitle": "真实规格 — MaxVideoAI 中的 LTX 2.3 Fast",
+    "specTitle": "真实规格 — VideoAI 中的 LTX 2.3 Fast",
     "specNote": "规格反映了当前公开上线的 Fast 实时路由配置。",
     "specSections": [
       {
@@ -220,7 +220,7 @@
         ]
       }
     ],
-    "whatTitle": "LTX 2.3 Fast 在 MaxVideoAI 中的运作方式",
+    "whatTitle": "LTX 2.3 Fast 在 VideoAI 中的运作方式",
     "whatIntro1": "选择 LTX 2.3 Fast，停留在标准生成流程中，通过添加或移除起始图片即可在文本驱动和图像驱动之间无缝切换。",
     "whatIntro2": "本页面特意避免了 Pro 级别的编辑模式，使选项与公开的 Fast 路由逻辑保持严格一致。",
     "whatFlowTitle": "创作流程",
@@ -424,7 +424,7 @@
     "pricingCopy": {
       "title": "LTX 2.3 Fast 草稿计费预估",
       "subtitle": "预设草稿套餐预估 — 在应用中生成前可查看确切的实时价格。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设场景以 USD 额度展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以 USD 额度展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "maxDurationNote": "1080p 规格下的长草稿生成",
       "ctaHref": "/zh/pricing#ltx-2-3-fast-pricing"

@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana Pro",
   "versionLabel": "Pro",
   "seo": {
-    "title": "Nano Banana Pro - 1K/2K/4K Text-to-Image & Editing | MaxVideoAI",
-    "description": "Generate 1K, 2K, and 4K stills with Nano Banana Pro. High-fidelity output, multi-image references, and commercial workflow controls directly in MaxVideoAI.",
+    "title": "Nano Banana Pro - 1K/2K/4K Text-to-Image & Editing | VideoAI",
+    "description": "Generate 1K, 2K, and 4K stills with Nano Banana Pro. High-fidelity output, multi-image references, and commercial workflow controls directly in VideoAI.",
     "image": "https://media.maxvideoai.com/marketing/marketing/5977bed2-7e9a-489c-a437-3232c99bc078.png"
   },
-  "overview": "Nano Banana Pro is the premium upgrade for brands that need legible text, consistent characters, and export-ready stills. Draft 1K or 2K explorations, then flip to 4K when the frame is locked—all inside the MaxVideoAI image lab.",
+  "overview": "Nano Banana Pro is the premium upgrade for brands that need legible text, consistent characters, and export-ready stills. Draft 1K or 2K explorations, then flip to 4K when the frame is locked—all inside the VideoAI image lab.",
   "hero": {
     "title": "Nano Banana Pro - 1K/2K/4K Text-to-Image & Editing",
     "intro": "Studio-grade still generation and semantic edits — built for campaign assets and clean typography.",
@@ -114,7 +114,7 @@
     },
     {
       "q": "How many reference images can I use?",
-      "a": "In the MaxVideoAI UI, keep reference sets lightweight for control. Advanced limits depend on the active route."
+      "a": "In the VideoAI UI, keep reference sets lightweight for control. Advanced limits depend on the active route."
     },
     {
       "q": "Does it support no-mask edits?",
@@ -122,7 +122,7 @@
     },
     {
       "q": "Is it cleared for commercial work?",
-      "a": "Use it for commercial work when your inputs, references, and outputs follow your licensing and MaxVideoAI usage requirements."
+      "a": "Use it for commercial work when your inputs, references, and outputs follow your licensing and VideoAI usage requirements."
     }
   ],
   "pricingNotes": "$0.20 per 2K image, $0.39 at 4K. Pricing shown live inside the workspace before you render.",
@@ -154,7 +154,7 @@
     ],
     "whyTitle": "Why Nano Banana Pro is powerful",
     "heroDesc1": "Generate 1K, 2K, or 4K stills with laser-sharp text and tone, right next to your video engines.",
-    "heroDesc2": "One wallet, one prompt lab, and full logging inside MaxVideoAI.",
+    "heroDesc2": "One wallet, one prompt lab, and full logging inside VideoAI.",
     "heroHighlights": [
       "Readable text and layouts||Built for marketing assets where typography actually needs to hold up.",
       "Semantic edits without masks||Describe the change; keep the rest consistent (composition, lighting, identity).",
@@ -185,7 +185,7 @@
       "Still images only (no motion).",
       "4K outputs are $0.30/image (1K/2K are $0.15/image).",
       "Batch runs are 1–8 images at a time.",
-      "Reference/image limits depend on the active MaxVideoAI route and UI caps."
+      "Reference/image limits depend on the active VideoAI route and UI caps."
     ],
     "safetyTitle": "Safety & people / likeness",
     "safetyRules": [
@@ -193,7 +193,7 @@
       "No hateful, harassing, or graphic-violence content.",
       "Don’t impersonate real people or public figures; use consent for any likeness.",
       "Don’t include private personal data (faces of non-consenting people, addresses, phone numbers, documents).",
-      "Some prompts or reference images may be blocked by MaxVideoAI safety filters."
+      "Some prompts or reference images may be blocked by VideoAI safety filters."
     ],
     "relatedTitle": "Nano Banana family",
     "relatedSubtitle": "Use the Google image model that matches the delivery need, not a video benchmark score.",
@@ -288,7 +288,7 @@
       },
       {
         "title": "Image workspace",
-        "body": "Generate and edit still assets without leaving MaxVideoAI.",
+        "body": "Generate and edit still assets without leaving VideoAI.",
         "tone": "duration"
       }
     ],
@@ -343,13 +343,13 @@
     "pricingCopy": {
       "title": "Nano Banana Pro pricing at a glance",
       "subtitle": "Preset image totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 4K",
       "ctaHref": "/pricing#nano-banana-pro-pricing"
     },
     "meta": {
-      "title": "Nano Banana Pro: Pricing, 4K Images & Typography | MaxVideoAI",
+      "title": "Nano Banana Pro: Pricing, 4K Images & Typography | VideoAI",
       "description": "Explore Nano Banana Pro pricing, 2K and 4K campaign stills, typography-focused image generation, reference edits and brand asset workflows."
     }
   },

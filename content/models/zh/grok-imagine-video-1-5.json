@@ -5,7 +5,7 @@
     "title": "Grok Imagine Video 1.5 生成器与参考工作流",
     "description": "探索 Grok Imagine Video 1.5 的文本、图像及图像参考视频功能，包括当前限制、参考提示词、安全指南和规范报价。"
   },
-  "overview": "Grok Imagine Video 1.5 为 MaxVideoAI 引入了全新的 xAI 视频系列。该模型支持纯提示词生成、开场图像动画，以及使用一到七张图像的参考转视频功能。xAI 拥有 Grok Imagine；MaxVideoAI 通过 Fal 分发启动端点，本次发布 Grok 仅限 Fal 使用。",
+  "overview": "Grok Imagine Video 1.5 为 VideoAI 引入了全新的 xAI 视频系列。该模型支持纯提示词生成、开场图像动画，以及使用一到七张图像的参考转视频功能。xAI 拥有 Grok Imagine；VideoAI 通过 Fal 分发启动端点，本次发布 Grok 仅限 Fal 使用。",
   "decision": {
     "modelSlug": "grok-imagine-video-1-5",
     "hero": {
@@ -17,7 +17,7 @@
         "开场图像",
         "图像参考集"
       ],
-      "paragraph": "当任务需要直接提示词生成、首帧动画或在提示词中显式引用图像时，请选择 Grok Imagine Video 1.5。参考模式支持 480p 或 720p，并增加了按图像计费的定价输入；文本和图像模式还提供 1080p。xAI 是所有者，Fal 分发 MaxVideoAI 的启动路径。",
+      "paragraph": "当任务需要直接提示词生成、首帧动画或在提示词中显式引用图像时，请选择 Grok Imagine Video 1.5。参考模式支持 480p 或 720p，并增加了按图像计费的定价输入；文本和图像模式还提供 1080p。xAI 是所有者，Fal 分发 VideoAI 的启动路径。",
       "primaryCta": {
         "label": "使用 Grok Imagine Video 1.5 生成",
         "href": "/app?engine=grok-imagine-video-1-5"
@@ -125,7 +125,7 @@
     "pricingCopy": {
       "title": "Grok Imagine Video 1.5 场景定价",
       "subtitle": "对比 720p 和 1080p 下六秒文本场景，以及使用两张参考图的八秒 480p 场景。",
-      "footnote": "价格取决于您所选的设置。MaxVideoAI 在生成前确认报价。",
+      "footnote": "价格取决于您所选的设置。VideoAI 在生成前确认报价。",
       "ctaLabel": "使用 Grok Imagine Video 1.5 生成",
       "ctaHref": "/app?engine=grok-imagine-video-1-5"
     },

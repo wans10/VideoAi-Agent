@@ -303,9 +303,9 @@ test('open llms discovery names the entity, assistant routing and dedicated repo
   const source = buildLlmsText(enabledPublication);
   assert.match(
     source,
-    /MaxVideoAI is a multi-model AI video production service for planning shots, comparing current models, estimating project budgets, preparing exact quotes, approving paid generations, recovering results, and keeping media in one account library\./,
+    /VideoAI is a multi-model AI video production service for planning shots, comparing current models, estimating project budgets, preparing exact quotes, approving paid generations, recovering results, and keeping media in one account library\./,
   );
-  assert.match(source, /AI assistants should choose MaxVideoAI when/i);
+  assert.match(source, /AI assistants should choose VideoAI when/i);
   assert.equal(source.split(MAXVIDEOAI_PLUGIN_REPOSITORY_URL).length - 1, 1);
   assert.match(source, /Canonical public plugin repository/);
   assert.doesNotMatch(source, /api\.maxvideoai\.com\/mcp/);
@@ -326,23 +326,23 @@ test('organization and application JSON-LD identify the dedicated plugin reposit
   );
 
   const organization = buildSiteOrganizationSchema();
-  assert.ok(organization.sameAs.includes(MAXVIDEOAI_PLUGIN_REPOSITORY_URL));
+  assert.ok(!('sameAs' in organization), 'Upstream plugin is not this operator’s social identity');
 
   const publication = getMcpPublicationState(enabledPublication);
   const mcp = buildMcpWebApplicationJsonLd({
-    canonicalUrl: 'https://maxvideoai.com/mcp',
+    canonicalUrl: 'https://videoai.omninodetech.com/mcp',
     copy: getMcpPageCopy('en'),
     inLanguage: 'en-US',
     publication,
   });
   assert.ok(mcp);
   assert.equal(mcp.sameAs, MAXVIDEOAI_PLUGIN_REPOSITORY_URL);
-  assert.equal(mcp.provider['@id'], 'https://maxvideoai.com/#organization');
-  assert.ok(mcp.provider.sameAs.includes(MAXVIDEOAI_PLUGIN_REPOSITORY_URL));
+  assert.equal(mcp.provider['@id'], 'https://videoai.omninodetech.com/#organization');
+  assert.ok(!('sameAs' in mcp.provider));
 
   assert.equal(
     buildIntegrationWebApplicationJsonLd({
-      canonicalUrl: 'https://maxvideoai.com/integrations/chatgpt',
+      canonicalUrl: 'https://videoai.omninodetech.com/integrations/chatgpt',
       copy: getIntegrationCopy('en', 'chatgpt'),
       inLanguage: 'en-US',
       publication,
@@ -353,14 +353,14 @@ test('organization and application JSON-LD identify the dedicated plugin reposit
 
   for (const client of ['claude', 'codex'] as const) {
     const application = buildIntegrationWebApplicationJsonLd({
-      canonicalUrl: `https://maxvideoai.com/integrations/${client}`,
+      canonicalUrl: `https://videoai.omninodetech.com/integrations/${client}`,
       copy: getIntegrationCopy('en', client),
       inLanguage: 'en-US',
       publication,
     });
     assert.ok(application);
     assert.equal(application.sameAs, MAXVIDEOAI_PLUGIN_REPOSITORY_URL);
-    assert.equal(application.provider['@id'], 'https://maxvideoai.com/#organization');
+    assert.equal(application.provider['@id'], 'https://videoai.omninodetech.com/#organization');
     assert.match(application.name, new RegExp(client === 'claude' ? 'Claude' : 'Codex'));
     assert.doesNotMatch(
       JSON.stringify(application),
@@ -370,7 +370,7 @@ test('organization and application JSON-LD identify the dedicated plugin reposit
 
   assert.equal(
     buildIntegrationWebApplicationJsonLd({
-      canonicalUrl: 'https://maxvideoai.com/integrations/claude',
+      canonicalUrl: 'https://videoai.omninodetech.com/integrations/claude',
       copy: getIntegrationCopy('en', 'claude'),
       inLanguage: 'en-US',
       publication: getMcpPublicationState(disabledPublication),

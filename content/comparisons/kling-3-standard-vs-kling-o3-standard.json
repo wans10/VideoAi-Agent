@@ -54,7 +54,7 @@
         },
         {
           "question": "Do Kling 3 Standard and Omni Standard cost the same?",
-          "answer": "The catalog lists the same provider base rates for both: $0.084 per second with audio off and $0.126 per second with audio on, before MaxVideoAI platform margin."
+          "answer": "The catalog lists the same provider base rates for both: $0.084 per second with audio off and $0.126 per second with audio on, before VideoAI platform margin."
         },
         {
           "question": "Which Kling Standard model should I use for reference assets?",
@@ -117,7 +117,7 @@
         },
         {
           "question": "Kling 3 Standard et Omni Standard coûtent-ils le même prix ?",
-          "answer": "Le catalogue indique les mêmes tarifs fournisseur : 0,084 $ par seconde sans audio et 0,126 $ avec audio, avant la marge appliquée par MaxVideoAI."
+          "answer": "Le catalogue indique les mêmes tarifs fournisseur : 0,084 $ par seconde sans audio et 0,126 $ avec audio, avant la marge appliquée par VideoAI."
         },
         {
           "question": "Quel modèle choisir pour travailler avec des références ?",
@@ -180,7 +180,7 @@
         },
         {
           "question": "¿Kling 3 Standard y Omni Standard cuestan lo mismo?",
-          "answer": "El catálogo indica las mismas tarifas del proveedor: US$0.084 por segundo sin audio y US$0.126 con audio, antes del margen aplicado por MaxVideoAI."
+          "answer": "El catálogo indica las mismas tarifas del proveedor: US$0.084 por segundo sin audio y US$0.126 con audio, antes del margen aplicado por VideoAI."
         },
         {
           "question": "¿Qué modelo debo usar con recursos de referencia?",

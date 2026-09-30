@@ -14,14 +14,14 @@ export function PrivacyArticleEs({
   return (
     <article className="stack-gap-lg text-base leading-relaxed text-text-secondary">
       <p>
-        Esta política explica cómo MaxVideoAI («nosotros») recopila, utiliza, comparte y protege tus datos personales cuando visitas maxvideoai.com, creas una cuenta, adquieres recargas o generas
+        Esta política explica cómo VideoAI («nosotros») recopila, utiliza, comparte y protege tus datos personales cuando visitas videoai.omninodetech.com, creas una cuenta, adquieres recargas o generas
         contenido con IA.
       </p>
 
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">1. Alcance</h3>
         <p>
-          Cubre el tratamiento de datos dentro del espacio de trabajo de MaxVideoAI: gestión de cuentas, facturación, analíticas, generación de contenido y soporte.
+          Cubre el tratamiento de datos dentro del espacio de trabajo de VideoAI: gestión de cuentas, facturación, analíticas, generación de contenido y soporte.
         </p>
       </section>
 
@@ -137,10 +137,10 @@ export function PrivacyArticleEs({
         <p>
           Según la ley aplicable puedes ejercer acceso, rectificación, supresión, restricción, portabilidad u oposición. También puedes retirar tu consentimiento escribiendo a{' '}
           <ObfuscatedEmailLink
-            user="privacy"
-            domain="maxvideoai.com"
-            label="privacy@maxvideoai.com"
-            placeholder="privacy [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           . Puedes presentar reclamaciones ante tu autoridad local (por ejemplo, la AEPD o la CNIL).
         </p>
@@ -163,10 +163,10 @@ export function PrivacyArticleEs({
         <p>
           ¿Dudas sobre privacidad? Escribe a{' '}
           <ObfuscatedEmailLink
-            user="privacy"
-            domain="maxvideoai.com"
-            label="privacy@maxvideoai.com"
-            placeholder="privacy [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

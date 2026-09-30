@@ -139,7 +139,7 @@ export async function generateMetadata(props: { params: Promise<Params> }): Prom
   const entryPublication = resolveDocsEntryPublication(doc.slug, publication);
   return buildSeoMetadata({
     locale,
-    title: `${doc.title} — MaxVideo AI Docs`,
+    title: `${doc.title} — VideoAI Docs`,
     description: doc.description,
     image: doc.image ?? '/og/price-before.png',
     imageAlt: doc.title,

@@ -2,8 +2,8 @@
   "marketingName": "Kling 2.6 Pro",
   "versionLabel": "v2.6 Pro",
   "seo": {
-    "title": "Kling 2.6 Pro | Modèle vidéo IA, audio natif, specs et prix | MaxVideoAI",
-    "description": "Utilisez Kling 2.6 Pro sur MaxVideoAI pour des clips vidéo IA courts prêts pour l’audio, puis comparez-le à Kling 3 Pro pour le workflow Kling actuel.",
+    "title": "Kling 2.6 Pro | Modèle vidéo IA, audio natif, specs et prix | VideoAI",
+    "description": "Utilisez Kling 2.6 Pro sur VideoAI pour des clips vidéo IA courts prêts pour l’audio, puis comparez-le à Kling 3 Pro pour le workflow Kling actuel.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/4db8923c-6762-47af-a0bd-5d50c28842f6-job_45f1fe48-ed93-452d-819b-9b956cd2d489.jpg"
   },
   "overview": "Kling 2.6 Pro reste disponible comme ancien modèle Kling IA encore pris en charge pour des clips cinématiques courts avec audio natif, entrée texte-vers-video ou image-vers-video et sortie 1080p.",
@@ -158,7 +158,7 @@
       "Intention cinématique fidèle||Direction caméra claire et beats qui dérivent moins.",
       "Flexible pour la post‑prod||Gardez l’audio pour les tests, ou coupez‑le et finissez dans votre éditeur."
     ],
-    "specTitle": "Specs réelles — Kling 2.6 Pro dans MaxVideoAI",
+    "specTitle": "Specs réelles — Kling 2.6 Pro dans VideoAI",
     "specNote": "Les specs reflètent le routage Fal en production.",
     "specSections": [
       {
@@ -182,7 +182,7 @@
         ]
       }
     ],
-    "whatTitle": "Comment Kling 2.6 Pro fonctionne dans MaxVideoAI",
+    "whatTitle": "Comment Kling 2.6 Pro fonctionne dans VideoAI",
     "whatIntro1": "Choisissez le mode texte ou image, réglez 5 ou 10 s en 1080p, choisissez le format (16:9/9:16/1:1), activez/désactivez l’audio et prompt.",
     "whatIntro2": "Utilisez Kling 2.6 Pro quand vous voulez des clips prêts pour le dialogue avec une motion solide et une ambiance synchronisée.",
     "whatFlowTitle": "Workflow",
@@ -356,13 +356,13 @@
     "pricingCopy": {
       "title": "Prix Kling 2.6 Pro en un coup d’œil",
       "subtitle": "Prix totaux 1080p prédéfinis — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 1080p",
       "ctaHref": "/fr/tarifs#kling-2-6-pro-pricing"
     },
     "meta": {
-      "title": "Kling 2.6 Pro : tarifs, audio et exemples | MaxVideoAI",
+      "title": "Kling 2.6 Pro : tarifs, audio et exemples | VideoAI",
       "description": "Utilisez Kling 2.6 Pro pour des clips Kling 1080p encore pris en charge avec audio natif, texte-vidéo, image-vidéo, prompt négatif et exemples."
     }
   },

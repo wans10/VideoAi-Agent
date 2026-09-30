@@ -1,3 +1,4 @@
+import { formatWalletBalance, formatCustomerUsdAmount, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 import { listFalEngines, type FalEngineEntry } from '@/config/falEngines';
 import { listRuntimeModels } from '@/config/model-runtime';
 import type { AppLocale } from '@/i18n/locales';
@@ -232,8 +233,8 @@ export async function buildModelsCatalogCards({
     const showPrelaunchPricePlaceholder = isPrelaunchWaitlist;
     const priceFrom = hasConfirmedPricing
       ? isImageOnly
-        ? `$${(priceFromCents / 100).toFixed(2)}`
-        : `$${(priceFromCents / 100).toFixed(2)}/s`
+        ? (pricingRange ? formatWalletBalance(priceFromCents / 100, pricingRange.currency) : formatCustomerUsdAmount(priceFromCents / 100))
+        : `${pricingRange ? formatWalletBalance(priceFromCents / 100, pricingRange.currency) : formatCustomerUsdAmount(priceFromCents / 100)}/s`
       : showPrelaunchPricePlaceholder
         ? getPrelaunchPricingLabel(activeLocale)
         : 'Data pending';
@@ -322,7 +323,8 @@ export async function buildModelsCatalogCards({
         audio: Boolean(audioSupported),
         maxResolution: maxResolution.value,
         maxDuration: maxDuration.value,
-        priceFrom: hasConfirmedPricing ? priceFromCents / 100 : null,
+        // Filter bands use the provider's USD scale; displayed quotes retain their own currency.
+        priceFrom: hasConfirmedPricing ? priceFromCents / 100 / (pricingRange?.currency === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1) : null,
         legacy: Boolean(engine.isLegacy),
       },
     };

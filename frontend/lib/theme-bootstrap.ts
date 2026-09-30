@@ -8,7 +8,7 @@ export const THEME_BOOTSTRAP = `(function(){
   if(app){
     var saved=null;
     try{saved=window.localStorage.getItem('mv-app-theme');}catch(e){}
-    theme=saved==='light'?'light':'dark';
+    theme=saved==='dark'?'dark':'light';
     if(saved==='system'){try{theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}catch(e){theme='light';}}
   }
   if(theme==='dark')document.documentElement.setAttribute('data-theme','dark');

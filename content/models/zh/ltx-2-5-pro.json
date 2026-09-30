@@ -2,10 +2,10 @@
   "marketingName": "LTX 2.5 Pro",
   "versionLabel": "2.5 Pro",
   "seo": {
-    "title": "LTX 2.5 Pro 专业级 AI 视频生成器 | 生产制作工作流与价格 | MaxVideoAI",
+    "title": "LTX 2.5 Pro 专业级 AI 视频生成器 | 生产制作工作流与价格 | VideoAI",
     "description": "选择 LTX 2.5 Pro 进行面向生产制作的文生视频、图生视频与源音频驱动视频创作，提供精确的工作流限制、提示词指南与标准价格。"
   },
-  "overview": "LTX 2.5 Pro 是 LTX 系列当前默认的生产级路线。它支持 720p 或 1080p 下的文生视频、图生视频以及独立的源音频驱动工作流。Lightricks 拥有 LTX 模型；在本次首发上线中，MaxVideoAI 通过 Fal 分发这些端点接口。",
+  "overview": "LTX 2.5 Pro 是 LTX 系列当前默认的生产级路线。它支持 720p 或 1080p 下的文生视频、图生视频以及独立的源音频驱动工作流。Lightricks 拥有 LTX 模型；在本次首发上线中，VideoAI 通过 Fal 分发这些端点接口。",
   "decision": {
     "modelSlug": "ltx-2-5-pro",
     "hero": {
@@ -127,12 +127,12 @@
     "pricingCopy": {
       "title": "LTX 2.5 Pro 场景化价格参考",
       "subtitle": "对比 720p 或 1080p 规格下的 6 秒文生视频与基于 6 秒音频创作的视频价格。",
-      "footnote": "实际费用取决于所选具体配置。MaxVideoAI 会在生成前确认报价。对于音频驱动视频，价格严格按上传音频的时长计算。",
+      "footnote": "实际费用取决于所选具体配置。VideoAI 会在生成前确认报价。对于音频驱动视频，价格严格按上传音频的时长计算。",
       "ctaLabel": "使用 LTX 2.5 Pro 生成",
       "ctaHref": "/app?engine=ltx-2-5-pro"
     },
     "meta": {
-      "title": "LTX 2.5 Pro：AI 视频模型、音频驱动视频与实时价格 | MaxVideoAI",
+      "title": "LTX 2.5 Pro：AI 视频模型、音频驱动视频与实时价格 | VideoAI",
       "description": "了解 LTX 2.5 Pro 的文生视频、图生视频与音频驱动视频工作流，涵盖时长与分辨率限制、专业提示词编写、安全规范以及标准报价场景。"
     }
   },

@@ -30,12 +30,12 @@ test('return policy route is a public crawlable legal page with Merchant Center 
   const source = read(returnPolicyPagePath);
   const normalizedSource = source.replace(/\s+/g, ' ');
   assert.match(source, /export function generateMetadata|export async function generateMetadata/);
-  assert.match(source, /Refund & Return Policy \| MaxVideoAI/);
+  assert.match(source, /Refund & Return Policy \| VideoAI/);
   assert.match(
     source,
-    /Refund and return policy for MaxVideoAI digital AI video generation credits and services\./
+    /Refund and return policy for VideoAI digital AI video generation credits and services\./
   );
-  assert.match(source, /canonicalOverride:\s*'https:\/\/maxvideoai\.com\/return-policy'/);
+  assert.match(source, /canonicalOverride:\s*'https:\/\/videoai\.omninodetech\.com\/return-policy'/);
   assert.match(source, /availableLocales:\s*\['en'\]/);
   assert.doesNotMatch(source, /noindex|index:\s*false/i, 'return policy must stay indexable');
 
@@ -44,7 +44,7 @@ test('return policy route is a public crawlable legal page with Merchant Center 
   assert.match(normalizedSource, /digital AI video generation services, wallet credits, and related software access/);
   assert.match(normalizedSource, /We do not sell or ship physical products/);
   assert.match(normalizedSource, /there is no physical return process and no product exchange process/);
-  assert.match(normalizedSource, /technical issue on MaxVideoAI(?:'|&apos;)s side/);
+  assert.match(normalizedSource, /technical issue on VideoAI(?:'|&apos;)s side/);
   assert.match(normalizedSource, /credits charged for a generation that never starts or never completes/);
   assert.match(normalizedSource, /subjective dissatisfaction with an AI-generated result/);
   assert.match(normalizedSource, /successfully delivered/);
@@ -53,8 +53,8 @@ test('return policy route is a public crawlable legal page with Merchant Center 
   assert.match(normalizedSource, /Promotional, bonus, or free credits have no cash value/);
   assert.match(normalizedSource, /EU, EEA, or UK/);
   assert.match(normalizedSource, /We do not offer exchanges/);
-  assert.match(source, /user="support"/);
-  assert.match(source, /domain="maxvideoai\.com"/);
+  assert.match(source, /user="contact"/);
+  assert.match(source, /domain="llmhub\.com\.cn"/);
   assert.ok(lineCount(source) <= 240, `return policy page should stay focused, got ${lineCount(source)} lines`);
 });
 

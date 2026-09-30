@@ -14,3 +14,13 @@ test('route-specific editorial CSS is owned by its page, not every marketing req
     assert.ok(readFileSync(marketing + route, 'utf8').includes(`import '@/styles/marketing-${style}.css'`));
   }
 });
+
+test('homepage assessment and studio sections stay within the home stylesheet dependency', () => {
+  const home = readFileSync('frontend/src/styles/marketing-home.css', 'utf8');
+  const layout = readFileSync(marketing + 'layout.tsx', 'utf8');
+  for (const style of ['home-comparison.css', 'home-studio-sections.css']) {
+    assert.ok(home.includes(`@import "./${style}"`));
+    assert.ok(!layout.includes(style));
+  }
+  assert.doesNotMatch(home, /comparison-feature|comparison-duel/, 'retired homepage duel styles must not compete with the assessment sheet');
+});

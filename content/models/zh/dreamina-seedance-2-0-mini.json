@@ -2,11 +2,11 @@
   "marketingName": "Dreamina Seedance 2.0 Mini",
   "versionLabel": "2.0 Mini",
   "seo": {
-    "title": "Dreamina Seedance 2.0 Mini | 低成本 AI 视频模型、技术规格与价格 | MaxVideoAI",
-    "description": "在 MaxVideoAI 上使用 Dreamina Seedance 2.0 Mini 进行更低成本的 480p/720p 批量视频生成、电商变体制作、UGC 吸睛片段、视频编辑、画面延展及多模态参考测试。"
+    "title": "Dreamina Seedance 2.0 Mini | 低成本 AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Dreamina Seedance 2.0 Mini 进行更低成本的 480p/720p 批量视频生成、电商变体制作、UGC 吸睛片段、视频编辑、画面延展及多模态参考测试。"
   },
-  "overview": "Dreamina Seedance 2.0 Mini 是 MaxVideoAI 上兼具高性价比的 Seedance AI 视频路线，适用于低成本批量生产场景：电商多变体、日常营销测试、UGC 吸睛开头（Hook）、多模态参考生视频、视频编辑及画面延展，支持 4–15 秒的 480p 或 720p 视频片段。",
-  "pricingNotes": "Dreamina Seedance 2.0 Mini 采用基于 Token 的生成计费。MaxVideoAI 按规则展示会员价格，并在提交生成前显示最终确切报价。",
+  "overview": "Dreamina Seedance 2.0 Mini 是 VideoAI 上兼具高性价比的 Seedance AI 视频路线，适用于低成本批量生产场景：电商多变体、日常营销测试、UGC 吸睛开头（Hook）、多模态参考生视频、视频编辑及画面延展，支持 4–15 秒的 480p 或 720p 视频片段。",
+  "pricingNotes": "Dreamina Seedance 2.0 Mini 采用基于 Token 的生成计费。VideoAI 按规则展示会员价格，并在提交生成前显示最终确切报价。",
   "hero": {
     "title": "Dreamina Seedance 2.0 Mini — 适用于批量视频变体的低成本高性价比路线",
     "intro": "当您在将最终精修镜头导入 Seedance 2.0 之前，需要一条高性价比路线来批量生成 480p/720p 视频变体时，Dreamina Seedance 2.0 Mini 是理想之选。本页面持续追踪聚焦批量生成的参数规格、提示词模式、实时价格与模型对比评分。",
@@ -131,7 +131,7 @@
       "prompt": "将短片源素材延展为 15 秒 720p 产品结尾，配以平滑摄像机漂移与干净的最终定格姿态，便于评审。"
     }
   ],
-  "faqTitle": "常见问题 – MaxVideoAI 中的 Seedance 2.0 Mini",
+  "faqTitle": "常见问题 – VideoAI 中的 Seedance 2.0 Mini",
   "faqs": [
     {
       "q": "Seedance 2.0 Mini 最适合哪些使用场景？",
@@ -139,7 +139,7 @@
     },
     {
       "q": "Seedance 2.0 Mini 支持哪些分辨率与生成时长？",
-      "a": "MaxVideoAI 上的 Mini 路线支持 480p 或 720p 输出分辨率，单次生成时长支持 4–15 秒，帧率为 24fps。"
+      "a": "VideoAI 上的 Mini 路线支持 480p 或 720p 输出分辨率，单次生成时长支持 4–15 秒，帧率为 24fps。"
     },
     {
       "q": "Seedance 2.0 Mini 是否支持音频与对口型？",
@@ -152,7 +152,7 @@
   ],
   "custom": {
     "whyTitle": "在最终 Seedance 高精渲染前进行低成本批量验证",
-    "heroTrustLine": "在 MaxVideoAI 上按量付费 · 生成前即可查看实时报价",
+    "heroTrustLine": "在 VideoAI 上按量付费 · 生成前即可查看实时报价",
     "heroHighlights": [
       "低成本批量与高性价比路线||Mini 专为性价比设计，非常适合对大量电商、营销或 UGC 变体进行评审。",
       "480p/720p 与 4–15 秒时长||使用紧凑适中的格式进行批量验证，严格契合 Mini 的原生输出规格。",
@@ -161,11 +161,11 @@
     ],
     "heroSupportLine": "使用 Mini 进行高性价比批量生成，使用 Seedance 2.0 Fast 进行速度优先的草稿制作，使用标准版 Seedance 2.0 交付精修成品。",
     "specTitle": "技术规格",
-    "specNote": "Mini 的规格严格对应 MaxVideoAI 提供的生成路线与 Dreamina Seedance 官方模型能力范围。",
+    "specNote": "Mini 的规格严格对应 VideoAI 提供的生成路线与 Dreamina Seedance 官方模型能力范围。",
     "specSections": [
       {
         "title": "模型与规格限制",
-        "intro": "Dreamina Seedance 2.0 Mini 在 MaxVideoAI 上运行，其 API 模型 ID 为 dreamina-seedance-2-0-mini-260615。",
+        "intro": "Dreamina Seedance 2.0 Mini 在 VideoAI 上运行，其 API 模型 ID 为 dreamina-seedance-2-0-mini-260615。",
         "items": [
           "开发团队：字节跳动（ByteDance）",
           "模型 ID：dreamina-seedance-2-0-mini-260615",
@@ -350,7 +350,7 @@
     "pricingCopy": {
       "title": "Seedance 2.0 Mini 高性价比计费",
       "subtitle": "预设 480p/720p、4–15 秒 Mini 生成参考总价 — 在应用中生成前可查看精确的实时报价。",
-      "footnote": "所有价格均为 MaxVideoAI 针对预设 Mini 场景以 USD 额度展示的参考价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设 Mini 场景以 USD 额度展示的参考价格。",
       "ctaLabel": "查看完整价格",
       "ctaHref": "/zh/pricing#dreamina-seedance-2-0-mini-pricing"
     },

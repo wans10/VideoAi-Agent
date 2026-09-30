@@ -20,7 +20,7 @@ export function DocsFeedbackSection({ content }: DocsFeedbackSectionProps) {
             {feedbackCopy.yes ?? 'Yes'}
           </Link>
           <a
-            href="mailto:support@maxvideoai.com"
+            href="mailto:contact@llmhub.com.cn"
             className="rounded-md border border-hairline px-3 py-1.5 text-sm hover:shadow-sm"
           >
             {feedbackCopy.no ?? 'No'}
