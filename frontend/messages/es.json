@@ -499,14 +499,14 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "Generador de video con IA de pago por uso",
+        "eyebrow": "VideoAI · Estudio creativo",
         "badgeChips": [
           "Generador de video IA multi-modelo",
           "Precio antes de generar",
           "Pago por uso · sin suscripción"
         ],
-        "title": "Video con IA.\nSin suscripción.",
-        "subtitle": "Elige tu modelo. Dale vida a tus ideas. Paga por lo que creas, sin suscripción.",
+        "title": "Dale vida\na tus ideas.",
+        "subtitle": "Video, imágenes y sonido en un mismo estudio. Desde tu primera referencia hasta tu próxima creación.",
         "primaryCta": "Crear un video",
         "secondaryCta": "Explorar ejemplos",
         "examplesCta": "Comparar modelos",

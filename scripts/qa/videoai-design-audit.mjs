@@ -45,7 +45,18 @@ try {
             return ['color', 'backgroundColor', 'borderTopColor'].filter(prop => oldAccents.has(style[prop])).map(prop => ({ tag: el.tagName, className: el.getAttribute('class')?.slice(0, 120), property: prop, color: style[prop] }));
           }).slice(0, 30);
           const luminance = values => values.slice(0, 3).map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((n, v, i) => n + v * [.2126, .7152, .0722][i], 0);
+          const heroBehindHeading = heading => {
+            const title = heading.getBoundingClientRect();
+            return [...document.querySelectorAll('[data-hero-player]')].some(player => {
+              const media = player.getBoundingClientRect();
+              return title.left >= media.left && title.right <= media.right && title.top >= media.top && title.bottom <= media.bottom;
+            });
+          };
+          const headingsOnMedia = [...document.querySelectorAll('h1')].filter(heroBehindHeading).map(el => el.textContent?.trim());
           const headingContrast = [...document.querySelectorAll('h1')].map(heading => {
+            // Sibling video/picture layers are not represented by ancestor backgroundColor.
+            // Record these headings for screenshot review instead of reporting a false solid-color ratio.
+            if (heroBehindHeading(heading)) return null;
             let ancestor = heading;
             let background;
             while (ancestor) {
@@ -66,6 +77,7 @@ try {
             .filter(el => /max\s?video\s?ai/i.test(el.tagName === 'IMG' ? el.getAttribute('alt') ?? '' : [...el.childNodes].filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join(' ')))
             .map(el => ({ tag: el.tagName, text: (el.textContent || el.getAttribute('alt'))?.slice(0, 160) })).slice(0, 20),
           headingContrast,
+          headingsOnMedia,
           legacyAccents,
           catalogPrices: [...document.querySelectorAll('.studio-recommendation-price strong, .studio-model-specs dd')]
             .map(el => el.textContent?.trim()).filter(text => /[$¥￥]|CNY|USD/.test(text)),

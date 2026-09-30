@@ -499,14 +499,14 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "Générateur vidéo IA sans abonnement",
+        "eyebrow": "VideoAI · Studio créatif",
         "badgeChips": [
           "Générateur vidéo IA multi-modèles",
           "Prix avant de générer",
           "À l’usage · sans abonnement"
         ],
-        "title": "La vidéo IA.\nSans abonnement.",
-        "subtitle": "Choisissez votre modèle. Donnez vie à vos idées. Payez à l’usage, sans abonnement.",
+        "title": "Donnez vie\nà vos idées.",
+        "subtitle": "Vidéo, images et son dans un même studio. De votre première référence à votre prochaine création.",
         "primaryCta": "Créer une vidéo",
         "secondaryCta": "Explorer les exemples",
         "examplesCta": "Comparer les modèles",

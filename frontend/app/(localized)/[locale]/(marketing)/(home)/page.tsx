@@ -79,7 +79,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const itemListSchema = buildItemListSchema(content, providers);
 
   return (
-    <div className="home-monochrome home-cinema">
+    <div className="home-monochrome home-cinema home-showcase">
       <HomeHero
         copy={hero}
         proofStats={proofStats}

@@ -399,14 +399,14 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "Pay-as-you-go AI video generator",
+        "eyebrow": "VideoAI · Creative studio",
         "badgeChips": [
           "Multi-engine AI video generator",
           "Price before you generate",
           "Pay-as-you-go · no subscription"
         ],
-        "title": "AI video.\nPay as you go.",
-        "subtitle": "Choose your model. Bring your ideas to life. Pay only for what you create.",
+        "title": "Make room\nfor imagination.",
+        "subtitle": "Video, images and sound in one creative workspace. From your first reference to your next finished piece.",
         "primaryCta": "Create a video",
         "secondaryCta": "Explore examples",
         "examplesCta": "Compare engines",

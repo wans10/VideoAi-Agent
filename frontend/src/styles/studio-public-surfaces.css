@@ -32,7 +32,7 @@
 .studio-model-actions input { width: 16px; height: 16px; accent-color: var(--brand); }
 .studio-model-actions :is(a,button):hover { text-decoration: underline; text-underline-offset: 4px; }
 .studio-model-actions :is(a,button,input):focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
-.marketing-site.videoai-site .studio-model-compare-tray { position: fixed; bottom: 20px; left: max(228px, calc(50vw - 350px)); right: 20px; z-index: 40; max-width: 900px; margin-inline: auto; padding: 20px; border: 1px solid var(--border); border-top: 3px solid var(--brand); background: var(--surface); box-shadow: 0 12px 40px #20211f26; }
+.marketing-site.videoai-site .studio-model-compare-tray { position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 40; max-width: 900px; margin-inline: auto; padding: 20px; border: 1px solid var(--border); border-top: 3px solid var(--brand); background: var(--surface); box-shadow: 0 12px 40px #20211f26; }
 .studio-model-compare-tray :is(button,a) { min-height: 44px; display: inline-flex; align-items: center; border-radius: 4px; }
 .marketing-site.videoai-site .pricing-opening-grid { display: flex; flex-direction: column; align-items: stretch; gap: 32px; padding-block: 48px 32px; }
 .marketing-site.videoai-site .pricing-opening-grid h1 { font-size: clamp(36px, 4.5vw, 64px); }

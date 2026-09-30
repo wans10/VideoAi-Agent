@@ -7,7 +7,7 @@ VideoAI's visual identity is a Chinese-first professional image and video studio
 - `frontend/src/styles/tokens.css`: shared color, spacing, typography and control tokens, including dark mode.
 - `frontend/components/brand/BrandLockup.tsx`: frame/cut mark and VideoAI wordmark.
 - `frontend/src/styles/videoai-brand.css`: shared brand, document and authentication presentation.
-- `frontend/src/styles/videoai-marketing.css`: public navigation, footer and page-family compositions. Home-specific composition remains in `marketing-home.css`.
+- `frontend/src/styles/videoai-marketing.css` and `marketing-navigation.css`: sticky horizontal top navigation and dropdowns. `videoai-site-layout.css` owns the editorial footer and compact dropdown adjustments; the public site has no left navigation rail. Home-specific composition remains in `marketing-home.css`.
 - `frontend/src/styles/app-experience.css` and `app-shell.css`: creation surfaces and product navigation, including mobile safe areas.
 - Billing CSS modules: wallet, amount picker, checkout and receipt presentation.
 - Admin shell components and `videoai-admin.css`: operational navigation, page headings and data surfaces.
@@ -171,3 +171,37 @@ The final contact/blog focused run passed 12 of 13 tests. Its remaining legal-ad
 The last rebuild passed (`/tmp/videoai-studio-final-rebuild.log`). All **16 final browser checks passed**: models, blog, background-removal and contact at 1440/1024/390/320 px. No page exception, overflow, legacy accent/name match, USD catalog label or cramped journal title was reported on these selected routes. Model recommendations displayed values such as `¥0.53/s` and `¥0.72/s`. The separately rendered English/French/Spanish model-detail paths passed three further checks. Evidence: `/tmp/videoai-studio-final-pages/report.json`, screenshots in that directory, and `/tmp/videoai-studio-localized-smoke/report.json`.
 
 Earlier corrected model-detail, comparison, documentation and MCP FAQ samples remain in `/tmp/videoai-studio-verified-pages/`; its MCP integration failures remain explicitly deferred, not reclassified as passes. The final four-route check supersedes that run for the catalog, blog and background-removal layouts. This evidence covers representative page families and widths, not every route or authenticated state. Production performance improvement is not claimed.
+
+
+## Owner correction: restore top navigation
+
+The owner rejected the left navigation rail after viewing the deployed model catalog. Public navigation now returns to the sticky horizontal header at every desktop width; mobile retains its existing top bar and menu. The 208 px shell grid, vertical navigation/account alignment, side-opening menus and rail-specific page-width compensations were removed from `videoai-site-layout.css`. Existing top-navigation styles own the horizontal layout and centered dropdown placement. The model comparison tray now centers across the full viewport. The earlier rail screenshots document an intermediate design, not the accepted navigation direction.
+
+Verification for this correction: nine local browser checks passed (Chinese catalog at 1440/1280/1024/768/390/320 px, English catalog at 1024 px, home at 1440 px, pricing at 1024 px). Checks include full-width top-header geometry, no navigation/account overlap or horizontal overflow, dropdown positioning, Escape/focus restoration and sticky scrolling. Five navigation/landmark contracts, frontend lint, exposure checks and diff whitespace checks passed. Evidence: `/tmp/videoai-top-nav/report.json` and screenshots. This CSS-only correction was verified in the local development preview; no new production build or deployment is claimed.
+
+## Homepage reference: Kling public landing page
+
+The owner supplied `https://klingai.com/` as a homepage design reference. Its public SSR HTML and stylesheet were retrieved on this pass: large video hero, explicit creation entry points, model/image capabilities, canvas, industry examples and creator sections. Live reference-site browser access failed because the computer-use connector lacked an auth token; this is source-based reference analysis, not a claim of inspecting its live interactions.
+
+VideoAI adapts that content hierarchy with its own media and warm paper/ink/vermilion identity. `home-showcase.css` is imported only through the homepage stylesheet and scoped to `.home-showcase`. Desktop uses the existing hero player as a large showreel, with a readable left shade, overlaid title/actions, unobstructed playback controls, model selection and CNY quote below it. Mobile retains intro/actions followed by the critical poster and video, then supporting destinations. Capability entries and larger tool artwork lead into the existing real-example, model comparison, pricing and FAQ sections. The previously approved top navigation remains.
+
+No reference-site images, videos, logos, creator endorsements, model availability or commercial claims were copied. Existing VideoAI media selection, critical poster files, deferred readers, reduced-motion behavior, quote owners and generation links remain intact. The hero title/subtitle are authored in all four existing message locales. No new auto-playing readers or video prefetches are added.
+
+Thirty-nine focused home/hero/LCP/CNY tests passed. The first development-mode baseline capture was obstructed by Next's debug overlay from the absent local database and is excluded from visual/performance comparison. Production-mode before/after runs are recorded separately; these are local samples and cannot establish production Core Web Vitals improvements.
+
+The first production screenshot pass passed five viewport checks (1440/1024/768/390/320) and five overlay-interaction checks. Manual screenshot review nevertheless caught dark workflow-preview text inheriting the new light-section color, plus a low-contrast central play icon. The preview now owns explicit light text tokens; the play control uses white on a dark translucent circle. The primary action is vermilion on both desktop and mobile. These fixes are included in the subsequent release build, rather than treating the first screenshot pass as final acceptance.
+
+Automated solid-background heading contrast checks now explicitly report headings over the hero media in `headingsOnMedia`, for screenshot review. A video or picture sibling behind overlaid text cannot be evaluated from the heading's ancestor background color; reporting it as white-on-white would be incorrect. Other solid-background checks remain unchanged.
+
+Final release build passed, including lint, TypeScript, registry and media gates (`/tmp/videoai-home-showcase-release-build.log`); exposure and diff checks passed. The expanded focused suite passed 49 tests. Final desktop/mobile captures passed in `/tmp/videoai-home-cinema-after/`. Five release interaction checks passed at 1440/1024/768/390/320 px, including button hit targets, selected model changes, CNY quote symbols, a white play icon, vermilion primary actions and readable workflow-preview labels. See `/tmp/videoai-home-showcase-release-interactions.log` and `/tmp/videoai-home-showcase-interactions.json`. Interior-section screenshots are in `/tmp/videoai-home-showcase-final/`; the corrected preview is captured separately in `/tmp/videoai-studio-preview-*.png`.
+
+Same local production-mode harness, reduced motion, desktop 1440×1000 and mobile 390×844:
+
+| Viewport | Before LCP | After LCP | Before / after CLS |
+| --- | ---: | ---: | ---: |
+| Desktop | 248 ms | 260 ms | 0 / 0 |
+| Mobile | 80 ms | 96 ms | 0 / 0 |
+
+These are unthrottled single local samples. The 12–16 ms difference does not establish a repeatable production regression or improvement. The critical poster sources and bytes remain unchanged, and no layout shift was observed in these samples. Database-dependent endpoints remain unavailable in this local preview; no authenticated generation or checkout was tested. The changes, including the preceding top-navigation restoration, are still uncommitted and unpushed at this acceptance checkpoint.
+
+English, French and Spanish desktop homepage smoke checks also passed: `/tmp/videoai-home-showcase-locales/report.json`. They preserved their localized heading, path and canonical output without page exceptions or overflow.

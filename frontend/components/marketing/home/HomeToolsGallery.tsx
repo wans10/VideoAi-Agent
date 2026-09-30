@@ -33,7 +33,7 @@ export function HomeToolsGallery({locale}: {locale:AppLocale}) {
     <div className="container-page studio-toolkit">
       <header className="chapter-heading"><div><p className="editorial-eyebrow">{copy.eyebrow}</p><h2>{copy.title}</h2></div><div><p>{copy.body}</p><Link href="/tools" className="text-link">{copy.cta}<span aria-hidden>↗</span></Link></div></header>
       <div className="home-tool-visuals">{cards.map((card,index) => <Link key={card.key} href={card.href} className="home-tool-visual" data-analytics-event="tool_card_click" data-analytics-cta-name={card.key} data-analytics-cta-location="toolbox" data-analytics-tool-name={card.key} data-analytics-tool-surface="public">
-        <div><Image src={card.src} alt={copy.labels[index]} fill unoptimized sizes="(max-width: 700px) 112px, 180px" loading="lazy" /></div>
+        <div><Image src={card.src} alt={copy.labels[index]} fill unoptimized sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" loading="lazy" /></div>
         <span><span><small><b aria-hidden="true">0{index + 1} / </b>{copy.names[index]}</small><h3>{copy.labels[index]}</h3></span><span aria-hidden>↗</span></span>
       </Link>)}</div>
       <div className="home-tool-shortcuts">{smallCards.map((card, index) => <Link key={card.key} href={card.href} prefetch={false} className="home-tool-shortcut" data-analytics-event="tool_card_click" data-analytics-cta-name={card.key} data-analytics-cta-location="toolbox" data-analytics-tool-name={card.key} data-analytics-tool-surface="public">
