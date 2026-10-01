@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 3 4K 对比 Standard：原生 4K 还是更低成本？",
+      "description": "在 VideoAI 上对比 Kling 3 4K 与 Kling 3 Standard 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "在当前 Kling 系列中对比 Kling 3 4K 和 Kling 3 Standard。两者都支持最长 15 秒、文本或图像输入、音频及 16:9、9:16、1:1。选择下一次生成是 1080p 草稿还是原生 4K 成片。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "更低成本的 1080p 草稿及已确认的高清交付选择 Kling 3 Standard，可带或不带音频。概念已确认且交付确实需要原生 4K 最终母版时，再选择 Kling 3 4K。"
+    },
+    "topCards": [
+      {
+        "title": "用 Kling 3 Standard 制作草稿",
+        "body": "Standard 输出 1080p，让团队在将已确认镜头以最终分辨率交付之前控制草稿成本。"
+      },
+      {
+        "title": "用 Kling 3 4K 制作成片",
+        "body": "4K 档位固定输出原生 4K，适合已确认的母版、大屏展示和高分辨率裁切。"
+      },
+      {
+        "title": "共有的 Kling 3 基础",
+        "body": "两款当前档位都支持文生视频、图生视频、可选音频、15 秒视频和相同的三种核心宽高比。"
+      },
+      {
+        "title": "分辨率决定选择",
+        "body": "Standard 以 1080p 和较低提供商基础成本迭代；4K 档位仅提供原生 4K，提供商基础成本更高。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-3-4k",
+        "label": "查看 Kling 3 4K 详情"
+      },
+      {
+        "href": "/models/kling-3-standard",
+        "label": "查看 Kling 3 Standard 详情"
+      },
+      {
+        "href": "/ai-video-engines/kling-3-4k-vs-kling-3-pro",
+        "label": "对比 Kling 3 4K 对比 Kling 3 Pro"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解低成本 1080p 草稿与已确认的原生 4K 母版制作。",
+      "items": [
+        {
+          "question": "Kling 3 4K 总比 Kling 3 Standard 更好吗？",
+          "answer": "不是。需要原生 4K 时，Kling 3 4K 更合适。Standard 迭代更经济，也适合已确认的 1080p 交付。"
+        },
+        {
+          "question": "两款 Kling 3 档位都支持音频和 15 秒吗？",
+          "answer": "是。两者都支持可选音频、文本或图像输入，以及 16:9、9:16、1:1 下最长 15 秒的视频。"
+        },
+        {
+          "question": "4K 宣传片母版应该采用什么 Kling 工作流？",
+          "answer": "先用 Kling 3 Standard 在 1080p 下开发并确认概念；最终选定镜头需要原生 4K 时，再用 Kling 3 4K。"
+        }
+      ]
+    }
   }
 }

@@ -227,7 +227,7 @@
       {
         "brand": "google-veo",
         "title": "Google Veo 3.1",
-        "description": "在 VideoAI 上使用 Google DeepMind 打造的 Veo 3.1 生成自带原生音频的 8 秒电影感视频。支持多图参考生视频引导与高保真输出，按量付费每秒仅需 /bin/zsh.52 起。",
+        "description": "在 VideoAI 上使用 Google DeepMind 打造的 Veo 3.1 生成自带原生音频的 8 秒电影感视频。支持多图参考生视频引导与高保真输出，按量付费每秒仅需 $0.52 起。",
         "modelSlug": "veo-3-1",
         "ctaLabel": "对比 OpenAI Sora 2 与 Google Veo 3.1 →"
       },

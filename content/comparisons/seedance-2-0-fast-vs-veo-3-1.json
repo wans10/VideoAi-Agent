@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 Fast 对比 Veo 3.1：草稿还是最终 4K 输出？",
+      "description": "在 VideoAI 上对比 Seedance 2.0 Fast 与 Google Veo 3.1 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Seedance 2.0 Fast 和 Google Veo 3.1，选择广泛草稿 / 编辑工作流或高分辨率成片。Seedance Fast 最长 15 秒，480p / 720p，支持参考、编辑、延长；Veo 3.1 提供精细 8 秒广告和辅助镜头，最高 4K。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "快速规划、更长草稿、参考密集迭代、编辑或延长，且 720p 足够时选择 Seedance 2.0 Fast；精细短广告、辅助镜头、首尾帧控制及 1080p / 4K 交付，分辨率比时长更重要时选择 Google Veo 3.1。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Seedance 2.0 Fast",
+        "body": "4 至 15 秒草稿、视觉参考、编辑、延长及灵活画幅使用 Seedance Fast。"
+      },
+      {
+        "title": "选择 Veo 3.1",
+        "body": "精细 8 秒广告 / 辅助镜头、首尾帧控制、音频和 1080p / 4K 交付使用 Veo。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "Seedance 在 480p / 720p 下提供更长时长和更广泛编辑；Veo 视频较短，但最终分辨率显著更高。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "镜头规划和迭代编辑适合 Seedance；已确认宣传镜头、精细产品画面和高分辨率母版适合 Veo。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0-fast",
+        "label": "查看 Seedance 2.0 Fast 详情"
+      },
+      {
+        "href": "/models/veo-3-1",
+        "label": "查看 Google Veo 3.1 详情"
+      },
+      {
+        "href": "/ai-video-engines/seedance-2-0-fast-vs-veo-3-1-fast",
+        "label": "对比 Seedance 2.0 Fast 对比 Veo 3.1 Fast"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择快速 Seedance 工作流或最终成片级 Veo 输出。",
+      "items": [
+        {
+          "question": "Seedance 2.0 Fast 和 Veo 3.1 哪款更适合草稿？",
+          "answer": "Seedance 2.0 Fast 面向快速草稿、参考测试和镜头规划，也支持最长 15 秒、480p / 720p 的编辑和延长。"
+        },
+        {
+          "question": "哪款更适合最终 4K 交付？",
+          "answer": "精细 4K 母版更适合 Google Veo 3.1；Seedance 2.0 Fast 最高 720p，更适合作为迭代和编辑方案。"
+        },
+        {
+          "question": "两款都支持音频和参考工作流吗？",
+          "answer": "是。两者均支持音频和参考引导。Seedance 增加视频生视频编辑和更多画幅；Veo 增加首尾帧控制及更高分辨率。"
+        }
+      ]
+    }
   }
 }

@@ -269,7 +269,7 @@ export function MarketingModelPageLayout({
       ? 'Problèmes fréquents → solutions rapides'
       : locale === 'es'
         ? 'Problemas comunes → soluciones rápidas'
-        : 'Common problems → fast fixes'
+        : locale === 'zh' ? '常见问题与快速修正' : 'Common problems → fast fixes'
     : null;
   const troubleshootingItems =
     copy.troubleshootingItems.length

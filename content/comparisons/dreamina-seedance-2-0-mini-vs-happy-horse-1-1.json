@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 Mini 对比 Happy Horse 1.1：批量成本、音频与适用场景",
+      "description": "在 VideoAI 上对比 Dreamina Seedance 2.0 Mini 与 Happy Horse 1.1 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "需要低成本的 Dreamina Seedance 方案，用于电商批量制作、社交媒体变体、视频编辑、延长测试或高频 480p / 720p 生成时，选择 Seedance 2.0 Mini。场景依赖原生同步音频、对白、口型同步和更好的说话角色表现时，选择 Happy Horse 1.1。目前此 Mini 对比页仅展示评分、规格、定位与选择建议，尚无并排视频样片。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "查看 Seedance 2.0 Mini 详情"
+      },
+      {
+        "href": "/models/happy-horse-1-1",
+        "label": "查看 Happy Horse 1.1 详情"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast",
+        "label": "对比 Seedance Fast 对比 Mini"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 Seedance Mini 的批量成本优势与 Happy Horse 的原生音频输出之间做出选择。",
+      "items": [
+        {
+          "question": "何时应该选择 Seedance 2.0 Mini？",
+          "answer": "低成本批量制作、电商变体、UGC 开场吸引力测试、视频编辑、延长及高频实验中，如果 480p 或 720p 足够，可选择 Mini。"
+        },
+        {
+          "question": "何时 Happy Horse 1.1 更合适？",
+          "answer": "原生音频、多语言口型同步、说话角色和参考主体比最低单次变体成本更重要时，选择 Happy Horse 1.1。"
+        },
+        {
+          "question": "为什么此 Mini 页面仅展示评分？",
+          "answer": "精选 Mini 并排样片准备好之前，Mini 对比页使用评分、规格与选择建议，因此当前尚未展示对比视频。"
+        }
+      ]
+    }
   }
 }

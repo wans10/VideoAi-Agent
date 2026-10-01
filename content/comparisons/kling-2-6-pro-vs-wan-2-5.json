@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 2.6 Pro 对比 Wan 2.5：画质、音频与价格",
+      "description": "在 VideoAI 上对比 Kling 2.6 Pro 与 Wan 2.5 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比两个仍可用的旧版工作流：Kling 2.6 Pro 和 Wan 2.5 文生视频 / 图生视频。两者都支持最长 10 秒及音频；Kling 面向固定 1080p 电影对白，Wan 提供 480p 至 1080p 的低成本分辨率梯度。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "成熟的 1080p 电影对白可继续用 Kling 2.6 Pro；低分辨率预算灵活性可继续用 Wan 2.5。两款仍可用；新的复杂项目可升级至 Kling 3 Pro，或使用 Wan 2.6 文本 / 图像模式进行最长 15 秒制作。"
+    },
+    "topCards": [
+      {
+        "title": "对白继续用 Kling",
+        "body": "现有成熟的 1080p 工作流已能提供带音频的短电影对白时，可继续使用 Kling 2.6 Pro。"
+      },
+      {
+        "title": "分辨率性价比继续用 Wan",
+        "body": "低成本 480p / 720p 草稿和可选 1080p 比电影级定位更重要时，可继续用 Wan 2.5。"
+      },
+      {
+        "title": "两条当前升级路径",
+        "body": "选择当前 Kling Pro 方案 Kling 3 Pro，或使用 Wan 2.6 文生视频 / 图生视频制作最长 15 秒视频。"
+      },
+      {
+        "title": "共有的旧版限制",
+        "body": "两款旧模型都支持音频和最长 10 秒；主要差别是固定 1080p 对白与灵活的低成本梯度。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-2-6-pro",
+        "label": "查看 available Kling 2.6 Pro 详情"
+      },
+      {
+        "href": "/models/wan-2-5",
+        "label": "查看 available Wan 2.5 详情"
+      },
+      {
+        "href": "/ai-video-engines/kling-3-pro-vs-wan-2-6",
+        "label": "对比 Kling 3 Pro 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解两款旧版方案及当前 Kling 和 Wan 后继版本。",
+      "items": [
+        {
+          "question": "Kling 2.6 Pro 和 Wan 2.5 仍然可用吗？",
+          "answer": "可以。VideoAI 保留两款旧模型用于成熟任务，两者都支持音频和最长 10 秒视频。"
+        },
+        {
+          "question": "哪些用户适合继续用 Kling 2.6 Pro 或 Wan 2.5？",
+          "answer": "已验证的 1080p 对白提示词可继续用 Kling；简单的低分辨率草稿中，如果 480p / 720p 价格梯度是决定因素，可继续用 Wan。"
+        },
+        {
+          "question": "旧版 Kling 和 Wan 用户应该选择哪些后继模型？",
+          "answer": "复杂的 Kling 项目升级至当前 Kling 3 Pro；更广泛的 Wan 制作迁移至当前 Wan 2.6 文生视频 / 图生视频。"
+        }
+      ]
+    }
   }
 }

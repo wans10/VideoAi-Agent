@@ -1,21 +1,91 @@
 {
   "slug": "ltx-2-3-fast-vs-ltx-2-5-fast",
   "en": {
-    "meta": { "title": "LTX 2.3 Fast vs LTX 2.5 Fast: Scores & Specs", "description": "Compare LTX 2.3 Fast and LTX 2.5 Fast scores, speed, pricing and output limits.", "titleBranding": "none" },
-    "quickVerdict": { "title": "Quick verdict", "body": "Choose LTX 2.5 Fast for stronger drafts, native multishot, 4K and clips up to 20 seconds. Use 2.3 Fast only for legacy jobs." },
+    "meta": {
+      "title": "LTX 2.3 Fast vs LTX 2.5 Fast: Scores & Specs",
+      "description": "Compare LTX 2.3 Fast and LTX 2.5 Fast scores, speed, pricing and output limits.",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "Quick verdict",
+      "body": "Choose LTX 2.5 Fast for stronger drafts, native multishot, 4K and clips up to 20 seconds. Use 2.3 Fast only for legacy jobs."
+    },
     "primaryLinksTitle": "Explore the models",
-    "primaryLinks": [{ "href": "/models/ltx-2-3-fast", "label": "LTX 2.3 Fast" }, { "href": "/models/ltx-2-5-fast", "label": "LTX 2.5 Fast" }]
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "LTX 2.3 Fast"
+      },
+      {
+        "href": "/models/ltx-2-5-fast",
+        "label": "LTX 2.5 Fast"
+      }
+    ]
   },
   "fr": {
-    "meta": { "title": "LTX 2.3 Fast vs LTX 2.5 Fast : notes et specs", "description": "Comparez LTX 2.3 Fast et LTX 2.5 Fast sur les notes, vitesse, prix et limites.", "titleBranding": "none" },
-    "quickVerdict": { "title": "Verdict rapide", "body": "Choisissez LTX 2.5 Fast pour de meilleurs drafts, le multishot natif, la 4K et jusqu’à 20 secondes. Réservez 2.3 Fast aux anciens projets." },
+    "meta": {
+      "title": "LTX 2.3 Fast vs LTX 2.5 Fast : notes et specs",
+      "description": "Comparez LTX 2.3 Fast et LTX 2.5 Fast sur les notes, vitesse, prix et limites.",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "Verdict rapide",
+      "body": "Choisissez LTX 2.5 Fast pour de meilleurs drafts, le multishot natif, la 4K et jusqu’à 20 secondes. Réservez 2.3 Fast aux anciens projets."
+    },
     "primaryLinksTitle": "Explorer les modèles",
-    "primaryLinks": [{ "href": "/models/ltx-2-3-fast", "label": "LTX 2.3 Fast" }, { "href": "/models/ltx-2-5-fast", "label": "LTX 2.5 Fast" }]
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "LTX 2.3 Fast"
+      },
+      {
+        "href": "/models/ltx-2-5-fast",
+        "label": "LTX 2.5 Fast"
+      }
+    ]
   },
   "es": {
-    "meta": { "title": "LTX 2.3 Fast vs LTX 2.5 Fast: notas y specs", "description": "Compara LTX 2.3 Fast y LTX 2.5 Fast en notas, velocidad, precio y límites.", "titleBranding": "none" },
-    "quickVerdict": { "title": "Veredicto rápido", "body": "Elige LTX 2.5 Fast para mejores borradores, multishot nativo, 4K y clips de hasta 20 segundos. Reserva 2.3 Fast para trabajos legacy." },
+    "meta": {
+      "title": "LTX 2.3 Fast vs LTX 2.5 Fast: notas y specs",
+      "description": "Compara LTX 2.3 Fast y LTX 2.5 Fast en notas, velocidad, precio y límites.",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "Veredicto rápido",
+      "body": "Elige LTX 2.5 Fast para mejores borradores, multishot nativo, 4K y clips de hasta 20 segundos. Reserva 2.3 Fast para trabajos legacy."
+    },
     "primaryLinksTitle": "Explorar los modelos",
-    "primaryLinks": [{ "href": "/models/ltx-2-3-fast", "label": "LTX 2.3 Fast" }, { "href": "/models/ltx-2-5-fast", "label": "LTX 2.5 Fast" }]
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "LTX 2.3 Fast"
+      },
+      {
+        "href": "/models/ltx-2-5-fast",
+        "label": "LTX 2.5 Fast"
+      }
+    ]
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Fast 对比 LTX 2.5 Fast：评分与规格",
+      "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 LTX 2.5 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "更强草稿、原生多镜头、4K 和最长 20 秒选择 LTX 2.5 Fast；2.3 Fast 仅用于旧版任务。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+    },
+    "primaryLinksTitle": "了解模型",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "LTX 2.3 Fast"
+      },
+      {
+        "href": "/models/ltx-2-5-fast",
+        "label": "LTX 2.5 Fast"
+      }
+    ]
   }
 }

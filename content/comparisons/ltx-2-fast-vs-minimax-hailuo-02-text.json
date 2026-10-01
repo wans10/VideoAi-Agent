@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2 Fast 对比 Hailuo 02：分辨率、音频与用途",
+      "description": "在 VideoAI 上对比 LTX Video 2.0 Fast 与 MiniMax Hailuo 02 Standard 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 LTX Video 2.0 Fast 和 MiniMax Hailuo 02 Standard，选择较长高分辨率横屏或低分辨率风格化画幅。LTX 最长 20 秒，含音频且最高 4K；Hailuo 为无音频 512P / 768P 动态增加竖屏和方形。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "快速横屏视频、原生音频、最长 20 秒及 1080p、1440p、4K 选择 LTX Video 2.0 Fast；无音频风格化概念需要竖屏、方形或横屏，且可接受低分辨率时，选择 MiniMax Hailuo 02 Standard。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+    },
+    "topCards": [
+      {
+        "title": "选择 LTX 2 Fast",
+        "body": "更长 16:9 社交视频、含音频生成及 1080p 至 4K 输出使用 LTX。"
+      },
+      {
+        "title": "选择 Hailuo 02",
+        "body": "无音频风格化动态需要 16:9、9:16、1:1，且 512P / 768P 满足渠道要求时，使用 Hailuo。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "LTX 提供时长、音频和高分辨率，但仅 16:9；Hailuo 以较低分辨率提供更多社交画幅。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "LTX 适合较长横屏宣传和配乐视频；Hailuo 适合风格化竖屏开场、方形内容和视觉测试。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-fast",
+        "label": "查看 LTX Video 2.0 Fast 详情"
+      },
+      {
+        "href": "/models/minimax-hailuo-02-text",
+        "label": "查看 MiniMax Hailuo 02 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-ltx-2-fast",
+        "label": "对比 LTX 2.3 Fast 对比 LTX 2 Fast"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在高分辨率 LTX 与灵活画幅 Hailuo 之间选择。",
+      "items": [
+        {
+          "question": "哪款更适合较长高分辨率视频？",
+          "answer": "LTX Video 2.0 Fast 最长 20 秒，提供 1080p、1440p、4K 和原生音频；Hailuo 02 最长 10 秒、最高 768P。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+        },
+        {
+          "question": "哪款更适合竖屏或方形社交视频？",
+          "answer": "MiniMax Hailuo 02 Standard 支持 9:16、1:1、16:9；LTX Video 2.0 Fast 仅限 16:9，适合横屏。"
+        },
+        {
+          "question": "LTX 2 Fast 和 Hailuo 02 都生成音频吗？",
+          "answer": "不是。LTX Video 2.0 Fast 支持原生音频，Hailuo 02 输出无音频视频。可单独添加声音或不需要声音时再选择 Hailuo。"
+        }
+      ]
+    }
   }
 }

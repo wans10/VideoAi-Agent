@@ -19,7 +19,7 @@ const SITE_URL = (() => {
 })();
 const LOCALES = ['en', 'fr', 'es', 'zh'];
 const LOCALE_PREFIXES = { en: '', fr: 'fr', es: 'es', zh: 'zh' };
-const ENGLISH_ONLY_PATHS = new Set(['/return-policy']);
+const POLICY_LOCALES = ['en', 'zh'];
 const mcpIndexable =
   mcpPublication.publicIndexing &&
   mcpPublication.transport &&
@@ -301,7 +301,7 @@ module.exports = {
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
     const englishPath = toEnglishPath(normalizedPath);
     const loc = `${SITE_URL}${normalizedPath === '/' ? '/' : normalizedPath}`;
-    const publishableLocales = ENGLISH_ONLY_PATHS.has(englishPath) ? ['en'] : LOCALES;
+    const publishableLocales = englishPath === '/return-policy' ? POLICY_LOCALES : LOCALES;
     const alternateRefs = [
       ...publishableLocales.map((locale) => ({
         href: buildLocaleHref(locale, englishPath),

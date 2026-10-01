@@ -34,7 +34,7 @@ type LinkKey =
 const LINKS: Array<{ href: string; key: LinkKey; docKey?: 'terms' | 'privacy' | 'cookies'; localize?: boolean }> = [
   { href: '/legal/terms', key: 'terms', docKey: 'terms' },
   { href: '/legal/privacy', key: 'privacy', docKey: 'privacy' },
-  { href: '/return-policy', key: 'returnPolicy', localize: false },
+  { href: '/return-policy', key: 'returnPolicy', localize: true },
   { href: '/legal/cookies-list', key: 'cookies', docKey: 'cookies' },
   { href: '/legal/acceptable-use', key: 'acceptableUse' },
   { href: '/legal/takedown', key: 'takedown' },
@@ -178,7 +178,7 @@ export default async function LegalIndexPage() {
   const documents = await getLegalDocuments(['terms', 'privacy', 'cookies']);
   const localizedLinks = LINKS.map((entry) => ({
     ...entry,
-    href: entry.localize === false ? entry.href : localizePathFromEnglish(locale, entry.href),
+    href: (entry.localize === false || (entry.href === '/return-policy' && locale !== 'zh')) ? entry.href : localizePathFromEnglish(locale, entry.href),
   }));
   const renderEmailText = (text: string) => {
     if (!text.includes(EMAIL_TOKEN)) {

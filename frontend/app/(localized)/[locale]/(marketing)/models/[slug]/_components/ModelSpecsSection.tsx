@@ -83,6 +83,7 @@ function getDetailsLabel(locale: AppLocale) {
 function getDecisionSpecFallbackNote(locale: AppLocale) {
   if (locale === 'fr') return 'Les formats, réglages et limites à connaître avant de créer.';
   if (locale === 'es') return 'Los formatos, ajustes y límites que conviene conocer antes de crear.';
+  if (locale === 'zh') return '创作前需确认的格式、设置与限制。';
   return 'Formats, settings and limits to check before creating.';
 }
 
@@ -126,7 +127,7 @@ function ModelDecisionSpecsPanel({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h2 className="!text-left text-[1.7rem] font-semibold leading-tight tracking-normal text-slate-950 dark:text-white">
-              {specTitle && specTitle !== 'Specs' ? specTitle : locale === 'fr' ? 'Caractéristiques' : locale === 'es' ? 'Características' : 'Specifications'}
+              {specTitle && specTitle !== 'Specs' ? specTitle : locale === 'fr' ? 'Caractéristiques' : locale === 'es' ? 'Características' : locale === 'zh' ? '规格参数' : 'Specifications'}
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
               {specNote ?? getDecisionSpecFallbackNote(locale)}

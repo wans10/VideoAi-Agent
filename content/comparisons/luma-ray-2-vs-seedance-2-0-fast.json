@@ -200,5 +200,72 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Luma Ray 2 对比 Seedance 2.0 Fast：编辑还是升级？",
+      "description": "在 VideoAI 上对比 Luma Ray 2 与 Seedance 2.0 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Luma Ray 2 和 Seedance 2.0 Fast，选择旧版 1080p 修改 / 重新构图或当前含音频工作流。Luma 最长 9 秒、1080p；Seedance Fast 最长 15 秒、720p，提供参考素材、编辑和延长。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "成熟的无音频 1080p 源视频修改或重新构图可继续用 Luma Ray 2；当前音频、参考素材、编辑和延长及最高 720p 选择 Seedance 2.0 Fast；适当时新 Luma 生成可迁移至 Luma Ray 3.2。"
+    },
+    "topCards": [
+      {
+        "title": "1080p 重新构图继续用 Luma",
+        "body": "现有无音频修改 / 重新构图、更多画幅和 1080p 上限已满足源视频任务时，继续用 Ray 2。"
+      },
+      {
+        "title": "音频选择 Seedance Fast",
+        "body": "Seedance Fast 增加音频、图像和视频参考、编辑、延长、动态控制，以及最高 720p、最长 15 秒视频。"
+      },
+      {
+        "title": "分辨率与工作流广度的取舍",
+        "body": "Luma 最高 1080p 但无音频；Seedance Fast 最高 720p，但提供更广泛的制作工具。"
+      },
+      {
+        "title": "当前 Luma 迁移路径",
+        "body": "新 Luma 项目可升级至 Luma Ray 3.2；成熟 Ray 2 修改 / 重新构图任务仍可继续。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/luma-ray-2",
+        "label": "查看 available Luma Ray 2 详情"
+      },
+      {
+        "href": "/models/seedance-2-0-fast",
+        "label": "查看 Seedance 2.0 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/seedance-2-0-fast-vs-veo-3-1-fast",
+        "label": "对比 Seedance 2.0 Fast 对比 Google Veo 3.1 Fast"
+      },
+      {
+        "href": "/models/luma-ray-3-2",
+        "label": "查看 current Luma Ray 3.2 详情"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解旧版 Luma 编辑、当前 Seedance 制作和新 Ray 方案。",
+      "items": [
+        {
+          "question": "Luma Ray 2 仍可用于修改和重新构图吗？",
+          "answer": "可以。仍支持最高 1080p 的旧版无音频源视频修改与重新构图。"
+        },
+        {
+          "question": "哪些用户适合继续用 Ray 2 而非 Seedance 2.0 Fast？",
+          "answer": "1080p 源视频修改 / 重新构图是核心需求时继续用 Ray 2；音频、参考素材、更长视频、编辑或延长选择 Seedance Fast。"
+        },
+        {
+          "question": "Luma 用户何时应迁移至 Luma Ray 3.2？",
+          "answer": "新 Ray 工作流适合新的生成需求时选择 Luma Ray 3.2；已验证的 Ray 2 修改和重新构图任务可继续。"
+        }
+      ]
+    }
   }
 }

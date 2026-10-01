@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Happy Horse 1.1 对比 Seedance 2.0 Fast：音频、草稿与适用场景",
+      "description": "在 VideoAI 上对比 Happy Horse 1.1 与 Seedance 2.0 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "任务由说话角色、原生同步音频、口型同步和可复用参考素材驱动时，选择 Happy Horse 1.1。需要更低成本的 Seedance 草稿、时序检查、提示词探索，以及快速衔接完整 Seedance 2.0 工作流时，选择 Seedance 2.0 Fast。本页帮助团队判断下一次测试应验证表演和对白，还是更快迭代视觉方向。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/happy-horse-1-1",
+        "label": "查看 Happy Horse 1.1 详情"
+      },
+      {
+        "href": "/models/seedance-2-0-fast",
+        "label": "查看 Seedance 2.0 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/happy-horse-1-1-vs-seedance-2-0",
+        "label": "对比 Happy Horse 对比 Seedance 2.0"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在音频优先的 Happy Horse 生成与快速 Seedance 迭代之间做出选择。",
+      "items": [
+        {
+          "question": "何时应该选择 Happy Horse 1.1？",
+          "answer": "测试需要原生音频、口型同步、说话主体，或需要由参考角色推动场景时，选择 Happy Horse 1.1。"
+        },
+        {
+          "question": "何时应该选择 Seedance 2.0 Fast？",
+          "answer": "需要更低成本的 Seedance 提示词测试、草稿时序、分镜探索，以及进入 Seedance 2.0 主模型前的快速迭代时，选择 Seedance 2.0 Fast。"
+        },
+        {
+          "question": "哪款更适合批量测试？",
+          "answer": "大量视觉草稿迭代通常更适合 Seedance 2.0 Fast；每条样片都需测试音频、对白或角色参考时，Happy Horse 1.1 更合适。"
+        }
+      ]
+    }
   }
 }

@@ -30,10 +30,22 @@
     ],
     "primaryLinksTitle": "Explore both models",
     "primaryLinks": [
-      { "href": "/models/minimax-h3", "label": "MiniMax H3 model guide" },
-      { "href": "/app?engine=minimax-h3", "label": "Create with MiniMax H3" },
-      { "href": "/models/veo-3-1", "label": "Veo 3.1 model guide" },
-      { "href": "/app?engine=veo-3-1", "label": "Create with Veo 3.1" }
+      {
+        "href": "/models/minimax-h3",
+        "label": "MiniMax H3 model guide"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Create with MiniMax H3"
+      },
+      {
+        "href": "/models/veo-3-1",
+        "label": "Veo 3.1 model guide"
+      },
+      {
+        "href": "/app?engine=veo-3-1",
+        "label": "Create with Veo 3.1"
+      }
     ],
     "faq": {
       "title": "MiniMax H3 vs Veo 3.1 FAQ",
@@ -92,10 +104,22 @@
     ],
     "primaryLinksTitle": "Explorer les deux modèles",
     "primaryLinks": [
-      { "href": "/fr/modeles/minimax-h3", "label": "Guide du modèle MiniMax H3" },
-      { "href": "/app?engine=minimax-h3", "label": "Créer avec MiniMax H3" },
-      { "href": "/fr/modeles/veo-3-1", "label": "Guide du modèle Veo 3.1" },
-      { "href": "/app?engine=veo-3-1", "label": "Créer avec Veo 3.1" }
+      {
+        "href": "/fr/modeles/minimax-h3",
+        "label": "Guide du modèle MiniMax H3"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Créer avec MiniMax H3"
+      },
+      {
+        "href": "/fr/modeles/veo-3-1",
+        "label": "Guide du modèle Veo 3.1"
+      },
+      {
+        "href": "/app?engine=veo-3-1",
+        "label": "Créer avec Veo 3.1"
+      }
     ],
     "faq": {
       "title": "FAQ MiniMax H3 vs Veo 3.1",
@@ -154,10 +178,22 @@
     ],
     "primaryLinksTitle": "Explorar ambos modelos",
     "primaryLinks": [
-      { "href": "/es/modelos/minimax-h3", "label": "Guía del modelo MiniMax H3" },
-      { "href": "/app?engine=minimax-h3", "label": "Crear con MiniMax H3" },
-      { "href": "/es/modelos/veo-3-1", "label": "Guía del modelo Veo 3.1" },
-      { "href": "/app?engine=veo-3-1", "label": "Crear con Veo 3.1" }
+      {
+        "href": "/es/modelos/minimax-h3",
+        "label": "Guía del modelo MiniMax H3"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Crear con MiniMax H3"
+      },
+      {
+        "href": "/es/modelos/veo-3-1",
+        "label": "Guía del modelo Veo 3.1"
+      },
+      {
+        "href": "/app?engine=veo-3-1",
+        "label": "Crear con Veo 3.1"
+      }
     ],
     "faq": {
       "title": "Preguntas sobre MiniMax H3 vs Veo 3.1",
@@ -182,6 +218,80 @@
         {
           "question": "¿Puede una producción usar ambos modelos?",
           "answer": "Sí. Una división práctica es usar H3 para variantes con muchas referencias y Veo 3.1 para determinados planos cinematográficos premium."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "MiniMax H3 对比 Veo 3.1：4K、参考与电影镜头",
+      "description": "在 VideoAI 上对比 MiniMax H3 与 Google Veo 3.1 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。"
+    },
+    "heroIntro": "MiniMax H3 侧重性价比与参考素材数量，提供直接 2K / 4K、原生立体声音频和广泛多模态参考方案。工作流、镜头风格和交付条件符合需求时，Veo 3.1 仍是成熟的高品质电影制作方案。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "参考密集角色制作、原生音频性价比和灵活高分辨率批量生成选择 MiniMax H3；成熟的 Veo 视觉语言最符合需求时，高品质电影镜头选择 Veo 3.1。"
+    },
+    "topCards": [
+      {
+        "title": "性价比与参考数量：MiniMax H3",
+        "body": "H3 可组合大量图像、视频和音频线索，并在同一方案中提供高分辨率与原生音频。"
+      },
+      {
+        "title": "高品质电影方案：Veo 3.1",
+        "body": "精细电影镜头、可控相机语言和高品质主镜头，Veo 3.1 仍是可靠选择。"
+      },
+      {
+        "title": "4K 规划",
+        "body": "两者都可用于面向 4K 的制作；H3 提供明确的 768P、2K、4K 选项，便于规划生成方案。"
+      },
+      {
+        "title": "实际制作分工",
+        "body": "角色变体和多模态参考场景使用 H3；精选电影主镜头使用 Veo 3.1。"
+      }
+    ],
+    "primaryLinksTitle": "了解两款模型",
+    "primaryLinks": [
+      {
+        "href": "/models/minimax-h3",
+        "label": "MiniMax H3 模型指南"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "使用 MiniMax H3 创作"
+      },
+      {
+        "href": "/models/veo-3-1",
+        "label": "Veo 3.1 模型指南"
+      },
+      {
+        "href": "/app?engine=veo-3-1",
+        "label": "使用 Veo 3.1 创作"
+      }
+    ],
+    "faq": {
+      "title": "MiniMax H3 对比 Veo 3.1 常见问题",
+      "subtitle": "从制作角度比较两款支持 4K 的方案。",
+      "items": [
+        {
+          "question": "哪款更适合高品质电影镜头？",
+          "answer": "电影精细度和 Veo 相机语言符合需求时，Veo 3.1 是成熟的高品质方案。"
+        },
+        {
+          "question": "哪款支持更多参考素材？",
+          "answer": "场景需组合大量图像、视频和音频参考时，MiniMax H3 更合适。"
+        },
+        {
+          "question": "MiniMax H3 可以生成带原生音频的 4K 视频吗？",
+          "answer": "可以。H3 提供直接 4K 方案，并随视频生成原生立体声音频。"
+        },
+        {
+          "question": "哪款更适合角色主导的批量制作？",
+          "answer": "角色变体同时重视参考数量、原生音频和性价比时，H3 尤其有效。"
+        },
+        {
+          "question": "制作中能同时用两款吗？",
+          "answer": "可以。参考素材较多的变体用 H3，精选高品质电影镜头用 Veo 3.1，是一种实用分工。"
         }
       ]
     }

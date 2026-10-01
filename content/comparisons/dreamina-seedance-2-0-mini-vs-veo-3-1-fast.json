@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 Mini 对比 Veo 3.1 Fast：成本、音频与适用场景",
+      "description": "在 VideoAI 上对比 Dreamina Seedance 2.0 Mini 与 Google Veo 3.1 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "从画质、分辨率、音频与成本对比 Seedance 2.0 Mini 和 Veo 3.1 Fast。Mini 适合低成本 480p / 720p 批量生成；更高分辨率交付可考虑 Veo 3.1 Fast。结合评分、规格与可用示例评估项目需求。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "查看 Seedance 2.0 Mini 详情"
+      },
+      {
+        "href": "/models/veo-3-1-fast",
+        "label": "查看 Veo 3.1 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0",
+        "label": "对比 Seedance 2.0 对比 Mini"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 Seedance Mini 的成本优势与 Veo 3.1 Fast 的制作灵活性之间做出选择。",
+      "items": [
+        {
+          "question": "何时应该选择 Seedance 2.0 Mini 而非 Veo 3.1 Fast？",
+          "answer": "主要目标是低成本批量制作时，可选择 Mini，例如大量电商变体、UGC 开场、营销测试、视频编辑或 480p / 720p 延长测试。"
+        },
+        {
+          "question": "何时 Veo 3.1 Fast 更合适？",
+          "answer": "更看重 Veo 画质、精细的最终草稿或更高分辨率交付，而非最低成本的批量方案时，选择 Veo 3.1 Fast。"
+        },
+        {
+          "question": "这里有 Mini 对比视频吗？",
+          "answer": "没有。精选 Mini 并排视频准备好之前，此页仅使用评分、规格与文字建议。"
+        }
+      ]
+    }
   }
 }

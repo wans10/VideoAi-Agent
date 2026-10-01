@@ -6,7 +6,7 @@
     "description": "在 VideoAI 上使用 Kling 3.0 Omni Pro 进行参考图引导的 Kling 视频创作，支持分镜故事板图片、源视频生视频 (V2V)、@Image 与 @Video1 锚点、可选首尾帧、原生音频与实时报价。"
   },
   "overview": "Kling 3.0 Omni Pro 是专注于参考引导的 Kling Omni 路线。当上传的图片或源视频应指导渲染方向、且无需自动作为视频首帧时，适合选用此模型。",
-  "pricingNotes": "模型提供商原始成本：开启音频约 /bin/zsh.168/秒，关闭音频约 /bin/zsh.112/秒（未计入 VideoAI 服务利润）。",
+  "pricingNotes": "模型提供商原始成本：开启音频约 $0.168/秒，关闭音频约 $0.112/秒（未计入 VideoAI 服务利润）。",
   "custom": {
     "relatedTitle": "Kling 3.0 Omni Pro 的定位与选型",
     "relatedSubtitle": "当需要参考图像与源视频指导镜头生成、且不强制固定起始首帧时，Pro 是主流的 O3 路线。",

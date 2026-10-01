@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 对比 Veo 3.1 Fast：控制还是速度？",
+      "description": "在 VideoAI 上对比 Seedance 2.0 与 Google Veo 3.1 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Seedance 2.0 和 Google Veo 3.1 Fast，选择广泛的 15 秒参考 / 编辑工作流或专注 8 秒的快速方案。两者支持音频与 4K，但控制和计价方式不同。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "更长、参考素材密集，且需要编辑、延长、动态控制或更多画幅时选择 Seedance 2.0；短快速迭代、首尾帧控制和更简单的分辨率计价梯度选择 Google Veo 3.1 Fast。"
+    },
+    "topCards": [
+      {
+        "title": "控制能力选择 Seedance",
+        "body": "Seedance 最长 15 秒，结合参考、编辑、延长、动态控制、音频和 480p 至 4K。"
+      },
+      {
+        "title": "迭代选择 Veo Fast",
+        "body": "Veo Fast 侧重快速 8 秒制作，提供音频、参考、首尾帧、延长和最高 4K。"
+      },
+      {
+        "title": "不同计价方式",
+        "body": "Seedance 按 token 动态计价，Veo Fast 按分辨率每秒计价，因此没有始终更便宜的一方。"
+      },
+      {
+        "title": "长视频编辑或快速短镜头",
+        "body": "延长、编辑、参考丰富的序列适合 Seedance；短广告和需要明确分辨率选项的镜头适合 Veo Fast。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/models/veo-3-1-fast",
+        "label": "查看 Google Veo 3.1 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/seedance-2-0-vs-veo-3-1",
+        "label": "对比 Seedance 2.0 对比 Google Veo 3.1"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择更长可控工作流或更短快速方案。",
+      "items": [
+        {
+          "question": "Seedance 2.0 和 Veo 3.1 Fast 哪款更长？",
+          "answer": "Seedance 2.0 最长 15 秒，Google Veo 3.1 Fast 最长 8 秒。镜头长度决定需求时 Seedance 更合适。"
+        },
+        {
+          "question": "哪款提供更多视频编辑控制？",
+          "answer": "Seedance 2.0 提供视频生视频编辑、延长、参考和动态控制；Veo Fast 在更专注快速工作流中提供参考、首尾帧与延长。"
+        },
+        {
+          "question": "Seedance 2.0 比 Veo 3.1 Fast 便宜吗？",
+          "answer": "没有固定答案：Seedance 按 token 动态计价，Veo Fast 每秒价格随分辨率与音频变化。"
+        }
+      ]
+    }
   }
 }

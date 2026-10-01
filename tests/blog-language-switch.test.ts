@@ -79,8 +79,12 @@ test('every published English blog article has authored Chinese content and a lo
     assert.equal(readFrontMatterValue(source, 'lang'), 'zh');
     assert.equal(readFrontMatterValue(source, 'slug'), slug);
     assert.equal(readFrontMatterValue(source, 'canonicalSlug'), canonicalSlug);
-    assert.equal(readFrontMatterValue(source, 'canonical'), `https://videoai.omninodetech.com/zh/blog/${slug}`);
-    assert.ok((source.match(/[\u4e00-\u9fff]/g) ?? []).length > 300, `${slug} needs substantive Chinese copy`);
+    const englishSlug = localizedSlugs.en;
+    const englishSource = readFileSync(path.join(process.cwd(), 'content/en/blog', `${englishSlug}.mdx`), 'utf8');
+    const origin = new URL(readFrontMatterValue(englishSource, 'canonical')!).origin;
+    assert.equal(readFrontMatterValue(source, 'canonical'), `${origin}/zh/blog/${slug}`);
+    const artifact = source.includes('editorialArtifact:') ? readFileSync(path.join(chineseDir, `${slug}.article.json`), 'utf8') : '';
+    assert.ok(((source + artifact).match(/[\u4e00-\u9fff]/g) ?? []).length > 300, `${slug} needs substantive Chinese copy`);
     assert.doesNotMatch(source, /\]\(\/blog\//, `${slug} should not link to English blog paths`);
     for (const [, linkedSlug] of source.matchAll(/\]\(\/zh\/blog\/([^#?)]+)[^)]*\)/g)) {
       assert.ok(chineseFiles.includes(`${linkedSlug}.mdx`), `${slug} links to missing Chinese article ${linkedSlug}`);

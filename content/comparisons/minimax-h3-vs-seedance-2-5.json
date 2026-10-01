@@ -30,10 +30,22 @@
     ],
     "primaryLinksTitle": "Explore both models",
     "primaryLinks": [
-      { "href": "/models/minimax-h3", "label": "MiniMax H3 model guide" },
-      { "href": "/app?engine=minimax-h3", "label": "Create with MiniMax H3" },
-      { "href": "/models/seedance-2-5", "label": "Seedance 2.5 model guide" },
-      { "href": "/app?engine=seedance-2-5", "label": "Create with Seedance 2.5" }
+      {
+        "href": "/models/minimax-h3",
+        "label": "MiniMax H3 model guide"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Create with MiniMax H3"
+      },
+      {
+        "href": "/models/seedance-2-5",
+        "label": "Seedance 2.5 model guide"
+      },
+      {
+        "href": "/app?engine=seedance-2-5",
+        "label": "Create with Seedance 2.5"
+      }
     ],
     "faq": {
       "title": "MiniMax H3 vs Seedance 2.5 FAQ",
@@ -92,10 +104,22 @@
     ],
     "primaryLinksTitle": "Explorer les deux modèles",
     "primaryLinks": [
-      { "href": "/fr/modeles/minimax-h3", "label": "Guide du modèle MiniMax H3" },
-      { "href": "/app?engine=minimax-h3", "label": "Créer avec MiniMax H3" },
-      { "href": "/fr/modeles/seedance-2-5", "label": "Guide du modèle Seedance 2.5" },
-      { "href": "/app?engine=seedance-2-5", "label": "Créer avec Seedance 2.5" }
+      {
+        "href": "/fr/modeles/minimax-h3",
+        "label": "Guide du modèle MiniMax H3"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Créer avec MiniMax H3"
+      },
+      {
+        "href": "/fr/modeles/seedance-2-5",
+        "label": "Guide du modèle Seedance 2.5"
+      },
+      {
+        "href": "/app?engine=seedance-2-5",
+        "label": "Créer avec Seedance 2.5"
+      }
     ],
     "faq": {
       "title": "FAQ MiniMax H3 vs Seedance 2.5",
@@ -154,10 +178,22 @@
     ],
     "primaryLinksTitle": "Explorar ambos modelos",
     "primaryLinks": [
-      { "href": "/es/modelos/minimax-h3", "label": "Guía del modelo MiniMax H3" },
-      { "href": "/app?engine=minimax-h3", "label": "Crear con MiniMax H3" },
-      { "href": "/es/modelos/seedance-2-5", "label": "Guía del modelo Seedance 2.5" },
-      { "href": "/app?engine=seedance-2-5", "label": "Crear con Seedance 2.5" }
+      {
+        "href": "/es/modelos/minimax-h3",
+        "label": "Guía del modelo MiniMax H3"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Crear con MiniMax H3"
+      },
+      {
+        "href": "/es/modelos/seedance-2-5",
+        "label": "Guía del modelo Seedance 2.5"
+      },
+      {
+        "href": "/app?engine=seedance-2-5",
+        "label": "Crear con Seedance 2.5"
+      }
     ],
     "faq": {
       "title": "Preguntas sobre MiniMax H3 vs Seedance 2.5",
@@ -182,6 +218,80 @@
         {
           "question": "¿Dónde puedo comparar el coste actual de generación?",
           "answer": "Abre cada modelo en el espacio de VideoAI o visita la página de precios para ver el total en directo antes de generar."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "MiniMax H3 对比 Seedance 2.5：画质、音频与性价比",
+      "description": "在 VideoAI 上对比 MiniMax H3 与 Seedance 2.5 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。"
+    },
+    "heroIntro": "追求最佳画质、动态及较长多镜头序列时，Seedance 2.5 是更强的综合选择；需要原生立体声音频、密集参考输入和直接 2K / 4K 交付时，MiniMax H3 更具性价比。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "最佳整体成片和更可靠的多镜头调度选择 Seedance 2.5；高分辨率、含音频的角色制作、丰富参考控制和更低制作成本选择 MiniMax H3。"
+    },
+    "topCards": [
+      {
+        "title": "综合领先：Seedance 2.5",
+        "body": "Seedance 2.5 综合 9.1 分，高于 H3 的 8.5 分，在视觉还原、动态、人体结构、口型同步和镜头序列上更强。"
+      },
+      {
+        "title": "性价比领先：MiniMax H3",
+        "body": "H3 在同一制作方案中结合较强角色连贯性、原生立体声音频和直接 2K / 4K 输出。"
+      },
+      {
+        "title": "参考素材工作流",
+        "body": "H3 接受角色图、视频片段与音频参考的广泛组合，适合侧重身份一致性的场景。"
+      },
+      {
+        "title": "建议的制作分工",
+        "body": "最高精细度的主镜头序列用 Seedance 2.5；参考素材较多、含音频的变体及高分辨率批量制作用 H3。"
+      }
+    ],
+    "primaryLinksTitle": "了解两款模型",
+    "primaryLinks": [
+      {
+        "href": "/models/minimax-h3",
+        "label": "MiniMax H3 模型指南"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "使用 MiniMax H3 创作"
+      },
+      {
+        "href": "/models/seedance-2-5",
+        "label": "Seedance 2.5 模型指南"
+      },
+      {
+        "href": "/app?engine=seedance-2-5",
+        "label": "使用 Seedance 2.5 创作"
+      }
+    ],
+    "faq": {
+      "title": "MiniMax H3 对比 Seedance 2.5 常见问题",
+      "subtitle": "帮助你选择合适的制作方案。",
+      "items": [
+        {
+          "question": "哪款综合评分更高？",
+          "answer": "Seedance 2.5 综合 9.1 分，MiniMax H3 为 8.5 分。"
+        },
+        {
+          "question": "哪款更适合多镜头叙事？",
+          "answer": "复杂镜头推进和高品质序列连贯性更适合 Seedance 2.5。"
+        },
+        {
+          "question": "哪款更适合参考素材较多的角色制作？",
+          "answer": "MiniMax H3 很灵活，其参考工作流可组合多张图像、视频片段和音频参考。"
+        },
+        {
+          "question": "MiniMax H3 可以生成原生音频吗？",
+          "answer": "可以。H3 在视频工作流中生成原生立体声音频。"
+        },
+        {
+          "question": "在哪里比较当前生成成本？",
+          "answer": "生成前在 VideoAI 工作台打开各模型，或访问价格页查看实时总价。"
         }
       ]
     }

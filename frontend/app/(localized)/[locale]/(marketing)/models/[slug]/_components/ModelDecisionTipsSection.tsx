@@ -56,6 +56,7 @@ function getTipsIntro(copy: SoraCopy, modelName: string, locale: AppLocale) {
   if (locale === 'es') {
     return `Buenas prácticas, correcciones frecuentes y límites importantes para obtener mejores resultados con ${modelName}.`;
   }
+  if (locale === 'zh') return `使用 ${modelName} 的实用建议、常见修正方法和重要限制。`;
   return (
     `Best practices, common fixes, and important limitations to help you get the strongest results with ${modelName}.`
   );
@@ -65,6 +66,7 @@ function getTipsTitle(copy: SoraCopy, locale: AppLocale) {
   if (copy.tipsTitle) return copy.tipsTitle;
   if (locale === 'fr') return 'Conseils et limites';
   if (locale === 'es') return 'Consejos y límites';
+  if (locale === 'zh') return '技巧与限制';
   return 'Tips and boundaries';
 }
 
@@ -72,6 +74,7 @@ function getTroubleshootingTitle(title: string | null, locale: AppLocale) {
   if (title) return title;
   if (locale === 'fr') return 'Problèmes fréquents → solutions rapides';
   if (locale === 'es') return 'Problemas comunes → soluciones rápidas';
+  if (locale === 'zh') return '常见问题与快速修正';
   return 'Common problems → fast fixes';
 }
 

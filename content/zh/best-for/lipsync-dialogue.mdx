@@ -1,0 +1,42 @@
+---
+title: 口型同步与对白适用的 AI 视频模型
+description: 对比说话角色、原生音频、口型同步、声音参考与对白场景。
+date: 2026-09-16
+slug: lipsync-dialogue
+lang: zh
+---
+
+## 评估重点
+对白质量依赖口部时序、脸部稳定性、声音清晰度、身体动态、镜头节奏与音频连贯性。模型应同时维持这些因素，而非仅让嘴唇动起来。
+
+## 推荐模型
+1. **[Seedance 2.5](/zh/models/seedance-2-5)** — 更长对白、声音参考、原生音频、连贯镜头与编辑的综合选择。
+2. **[Happy Horse 1.1](/zh/models/happy-horse-1-1)** — 口型同步优先的专用选择，当前音频表现强。
+3. **[Kling O3 Pro](/zh/models/kling-o3-pro)** — 重复说话角色、道具和规划段落的结构化对白序列。
+4. **[MiniMax H3](/zh/models/minimax-h3)** — 最高 4K 的原生立体声对白，结合视觉、动态和声音参考。
+5. **[MiniMax H3 Max](/zh/models/minimax-h3-max)** — 快速精细 768p 说话片段的 MiniMax 方案。
+
+## 推荐理由
+Seedance 2.5 在内部口型同步、一致性、动态和序列综合评分中最强。Happy Horse 1.1 取代 1.0 成为当前专项模型。Kling O3 Pro 侧重序列控制，两款 H3 结合声音、音效、视觉与动态生成。
+
+## 对白提示词检查清单
+- 每个段落只使用一两句短对白。
+- 保持脸部可见，并限制运镜幅度。
+- 为每位说话者提供稳定视觉与声音参考。
+- 分开描述对白、环境声和音效。
+- 说话者、相机或动作变化时使用新段落。
+
+## 对比主要选择
+- [MiniMax H3 对比 Seedance 2.5](/zh/ai-video-engines/minimax-h3-vs-seedance-2-5)
+- [MiniMax H3 Max 对比 Seedance 2.5](/zh/ai-video-engines/minimax-h3-max-vs-seedance-2-5)
+- [Happy Horse 1.1 对比 Kling O3 Pro](/zh/ai-video-engines/happy-horse-1-1-vs-kling-o3-pro)
+
+## 常见问题
+### 口型同步最适合哪款？
+Seedance 2.5 是最强综合选择；口型同步是主要需求时，Happy Horse 1.1 是专注的专项模型。
+
+### 多位说话角色适合哪款？
+更长参考驱动对白使用 Seedance 2.5，紧密规划序列使用 Kling O3 Pro。
+
+### 每句对白应多长？
+短句更稳妥。将长脚本拆成段落，以保持可信脸部动态和时序。

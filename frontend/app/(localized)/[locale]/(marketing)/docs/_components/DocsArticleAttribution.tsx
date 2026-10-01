@@ -51,7 +51,7 @@ export function DocsArticleAttribution({
       </span>
       <span aria-hidden="true">·</span>
       <span>
-        {locale === 'fr' ? 'Mis à jour le' : locale === 'es' ? 'Actualizado el' : 'Updated'}{' '}
+        {locale === 'fr' ? 'Mis à jour le' : locale === 'es' ? 'Actualizado el' : locale === 'zh' ? '更新于' : 'Updated'}{' '}
         {formatDate(updatedAt ?? date, locale)}
       </span>
     </div>

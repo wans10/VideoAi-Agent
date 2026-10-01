@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Hailuo 02 对比 Seedance 2.0：价格、音频与4K",
+      "description": "在 VideoAI 上对比 MiniMax Hailuo 02 Standard 与 Seedance 2.0 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 MiniMax Hailuo 02 Standard 和 Seedance 2.0，选择低成本风格化动态或完整制作工具。Hailuo 输出最长 10 秒的无音频 512P / 768P；Seedance 增加音频、4K、参考、编辑、延长及 15 秒输出。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "低成本无音频风格化 512P / 768P 视频选择 MiniMax Hailuo 02 Standard；需要音频、4K、参考、编辑、延长、动态控制、更多画幅或最长 15 秒时选择 Seedance 2.0。"
+    },
+    "topCards": [
+      {
+        "title": "简单风格化选择 Hailuo",
+        "body": "Hailuo 02 提供 16:9、9:16、1:1 的文本 / 图像动态，分辨率 512P / 768P，时长 6 或 10 秒，无音频，按列出每秒价格计费。"
+      },
+      {
+        "title": "更深入制作选择 Seedance",
+        "body": "Seedance 2.0 增加生成音频、480p 至 4K、参考、视频编辑、延长、动态控制和更多画幅。"
+      },
+      {
+        "title": "考虑声音与成片需求",
+        "body": "Hailuo 始终无音频且最高 768P；Seedance 可在生成工作流中提供音频和高分辨率母版。"
+      },
+      {
+        "title": "按任务复杂度选择",
+        "body": "经济概念动态适合 Hailuo；参考驱动宣传、更长镜头、编辑源视频、延长和最终分辨率制作适合 Seedance。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/minimax-hailuo-02-text",
+        "label": "查看 MiniMax Hailuo 02 Standard 详情"
+      },
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/ai-video-engines/minimax-hailuo-02-text-vs-wan-2-6",
+        "label": "对比 MiniMax Hailuo 02 Standard 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解低成本无音频 Hailuo 概念与完整 Seedance 制作。",
+      "items": [
+        {
+          "question": "MiniMax Hailuo 02 Standard 生成音频吗？",
+          "answer": "不生成。512P 和 768P 输出均无音频，最终视频需要声音时须单独添加。"
+        },
+        {
+          "question": "哪款支持 4K 和参考驱动制作？",
+          "answer": "Seedance 2.0 支持 4K、音频、参考输入、编辑、延长与动态控制；Hailuo 侧重简单文本 / 图像动态。"
+        },
+        {
+          "question": "何时 Hailuo 02 比 Seedance 2.0 更合适？",
+          "answer": "低成本、6 秒或 10 秒无音频风格化概念已足够，且 512P / 768P 满足交付时，选择 Hailuo。"
+        }
+      ]
+    }
   }
 }

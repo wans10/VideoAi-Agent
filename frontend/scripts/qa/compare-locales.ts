@@ -10,6 +10,7 @@ const COMPARE_INTERNAL_PATHS = [
 ];
 
 const fixtures: LocaleFixture[] = [
+  { englishPath: '/ai-video-engines/minimax-h3-vs-seedance-2-5', requiredTextByLocale: { zh: ['为什么这些模型的生成结果会不同？'] }, forbiddenTextByLocale: { zh: ['It depends on your workflow', 'Why can results differ'] } },
   {
     englishPath: '/ai-video-engines',
     localizableInternalPaths: COMPARE_INTERNAL_PATHS,

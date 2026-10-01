@@ -48,7 +48,7 @@ export function MarketingFooter() {
   const renderedPolicyLinks = policyLinks.length ? policyLinks : defaultPolicyLinks.filter(isPolicyLink);
   const localizedPolicyLinks = renderedPolicyLinks.map((item) => ({
     ...item,
-    href: item.href.startsWith('/legal') ? localizeFooterPath(locale, item.href) : item.href,
+    href: (item.href.startsWith('/legal') || (item.href === '/return-policy' && locale === 'zh')) ? localizeFooterPath(locale, item.href) : item.href,
   }));
 
   const engineLinks: FooterLink[] = [...FOOTER_MODELS.map((item) => ({

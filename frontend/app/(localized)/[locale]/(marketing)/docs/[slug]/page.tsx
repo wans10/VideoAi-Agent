@@ -221,7 +221,7 @@ export default async function DocPage(props: { params: Promise<Params> }) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: locale === 'fr' ? 'Accueil' : locale === 'es' ? 'Inicio' : 'Home',
+        name: locale === 'fr' ? 'Accueil' : locale === 'es' ? 'Inicio' : locale === 'zh' ? '首页' : 'Home',
         item: homeUrl,
       },
       {

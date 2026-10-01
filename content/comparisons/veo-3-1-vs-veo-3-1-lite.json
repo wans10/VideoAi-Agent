@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Veo 3.1 对比 Veo 3.1 Lite：4K、参考素材与价格",
+      "description": "在 VideoAI 上对比 Google Veo 3.1 与 Google Veo 3.1 Lite 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Google Veo 3.1 和 Lite，选择预算草稿或最终制作。两者支持音频、文本 / 图像、最长 8 秒、首尾帧和延长；标准 Veo 以更高列价增加 4K 和多参考图模式。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "预算 720p / 1080p 草稿选择 Lite；多参考图或 4K 选择标准 Veo 3.1。两者支持音频、8 秒、首尾帧和延长，但 Lite 没有 4K 或多参考图模式。"
+    },
+    "topCards": [
+      {
+        "title": "经济草稿选择 Lite",
+        "body": "Veo 3.1 Lite 为含音频的文本、单图、首尾帧和延长工作流提供更低的 720p / 1080p 列价梯度。"
+      },
+      {
+        "title": "4K 选择标准 Veo",
+        "body": "Google Veo 3.1 最高 4K，支持专用多参考图模式，用于保持身份、服装或视觉风格。"
+      },
+      {
+        "title": "了解两款共有能力",
+        "body": "两者都支持音频、最长 8 秒、16:9 / 9:16、文本 / 图像、首尾帧和 7 秒延长。"
+      },
+      {
+        "title": "适用 Veo 工作流",
+        "body": "经济草稿或已确认 1080p 交付使用 Lite；4K 母版或专用多参考图制作使用标准 Veo。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/veo-3-1",
+        "label": "查看 Google Veo 3.1 详情"
+      },
+      {
+        "href": "/models/veo-3-1-lite",
+        "label": "查看 Google Veo 3.1 Lite 详情"
+      },
+      {
+        "href": "/ai-video-engines/veo-3-1-fast-vs-veo-3-1-lite",
+        "label": "对比 Google Veo 3.1 Fast 对比 Veo 3.1 Lite"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解 Veo Lite 草稿、4K 交付及参考图工作流。",
+      "items": [
+        {
+          "question": "Google Veo 3.1 Lite 能生成 4K 吗？",
+          "answer": "不能。Lite 支持 720p、1080p；最终生成或延长需要 4K 时选择标准 Veo 3.1。"
+        },
+        {
+          "question": "Veo 3.1 Lite 支持多张参考图吗？",
+          "answer": "不支持。Lite 支持单张起始图及首尾帧；专用 1 至 3 张参考图模式属于标准 Veo 3.1。"
+        },
+        {
+          "question": "Google Veo 3.1 和 Lite 共有哪些能力？",
+          "answer": "两者支持音频、文本 / 图像、首尾帧、延长、16:9 / 9:16 和最长 8 秒生成。"
+        }
+      ]
+    }
   }
 }

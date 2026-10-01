@@ -74,5 +74,30 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 3 Pro 对比 Standard：画质、控制与价格",
+      "description": "在 VideoAI 上对比 Kling 3 Pro 与 Kling 3 Standard 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。"
+    },
+    "heroIntro": "对比 Kling 3 Pro 和 Kling 3 Standard，为多镜头视频、Kling 图生视频、可复用 Kling Elements 元素及原生音频输出选择当前 Kling AI 模型。",
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在当前 Kling Pro 与 Standard 档位之间选择。",
+      "items": [
+        {
+          "question": "哪款当前 Kling AI 模型更适合图生视频和提示词测试？",
+          "answer": "低成本提示词测试和可重复图生视频测试更适合 Kling 3 Standard；更精确的场景控制和更重要的最终输出更适合 Kling 3 Pro。"
+        },
+        {
+          "question": "Kling 3 Pro 和 Kling 3 Standard 都支持 Kling Elements 吗？",
+          "answer": "是。两款当前模型都支持 Kling Elements 来维持角色和道具连贯性；序列更复杂或连贯性更重要时，Kling 3 Pro 更合适。"
+        },
+        {
+          "question": "何时应该选择 Kling 3 Pro 而非 Kling 3 Standard？",
+          "answer": "需要更强场景控制、更复杂的多镜头连贯性和更重要的最终输出时，选择 Kling 3 Pro；成本控制和重复草稿测试更重要时，选择 Kling 3 Standard。"
+        }
+      ]
+    }
   }
 }

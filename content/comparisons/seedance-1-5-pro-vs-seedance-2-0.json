@@ -209,5 +209,75 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 1.5 Pro 对比 2.0：变化、升级与用途",
+      "description": "在 VideoAI 上对比 Seedance 1.5 Pro 与 Seedance 2.0 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。"
+    },
+    "heroIntro": "对比 Seedance 1.5 Pro 和 Seedance 2.0，了解旧版 Pro 与较新 Seedance 模型在原生音频、多镜头连贯性和参考工作流方面的变化。先了解取舍，再前往模型详情、Seedance 示例页或适合用途的视频工作流。",
+    "topCards": [
+      {
+        "title": "主要变化",
+        "body": "Seedance 2.0 比 Seedance 1.5 Pro 提供更强多镜头连贯性、更广泛参考输入及更新的音频优先制作路径。"
+      },
+      {
+        "title": "何时继续用 Seedance 1.5 Pro",
+        "body": "主要需要短、可重复的视频、简单相机设置，且旧版工作流已在制作中验证时，可继续用 Seedance 1.5 Pro。"
+      },
+      {
+        "title": "何时升级至 Seedance 2.0",
+        "body": "需要更好镜头间连贯性、更丰富原生音频或更灵活的高价值创作模型时，可升级。"
+      },
+      {
+        "title": "适用场景",
+        "body": "本页帮助你在仍支持的旧版短可控 Seedance 视频与 Seedance 2.0 多镜头广告、发布片及复杂参考序列之间选择。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/examples/seedance",
+        "label": "查看 Seedance AI 视频案例"
+      },
+      {
+        "href": "/models/seedance-2-0-fast",
+        "label": "查看 Seedance 2.0 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/seedance-2-0-vs-seedance-2-0-fast",
+        "label": "对比 Seedance 2.0 对比 Seedance 2.0 Fast"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你决定继续用 Seedance 1.5 Pro 还是切换至 Seedance 2.0。",
+      "items": [
+        {
+          "question": "Seedance 1.5 Pro 和 Seedance 2.0 有哪些变化？",
+          "answer": "Seedance 2.0 是较新版本，提供更强多镜头连贯性和更广泛参考工作流；Seedance 1.5 Pro 仍适合短、简单、可重复的视频。"
+        },
+        {
+          "question": "Seedance 2.0 比 Seedance 1.5 Pro 更好吗？",
+          "answer": "对多数较新的工作流是如此。需要连贯性、灵活性及更广泛制作用途时，Seedance 2.0 更适合；Seedance 1.5 Pro 作为旧版方案仍适合短视频。"
+        },
+        {
+          "question": "何时应该从 Seedance 1.5 Pro 升级至 Seedance 2.0？",
+          "answer": "需要更好多镜头表现、更丰富原生音频或更多提示词 / 参考制作空间时可升级；现有 1.5 Pro 短视频工作流稳定时，无需立即迁移所有任务。"
+        },
+        {
+          "question": "Seedance 1.5 Pro 对某些工作流仍然够用吗？",
+          "answer": "是。仍适合短、可重复电影镜头，以及已有验证提示词模式且暂不需要更广泛 2.0 工作流的团队。"
+        },
+        {
+          "question": "哪款更适合多镜头和原生音频？",
+          "answer": "Seedance 2.0 的多镜头连贯性与较新原生音频工作流更合适；Seedance 1.5 Pro 可视为短视频的简单旧版选择。"
+        }
+      ]
+    }
   }
 }

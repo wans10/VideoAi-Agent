@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 2.6 Pro 对比 Kling 3 Pro：值得升级吗？",
+      "description": "在 VideoAI 上对比 Kling 2.6 Pro 与 Kling 3 Pro 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Kling 2.6 Pro 和 Kling 3 Pro，判断成熟的旧版 Kling 工作流是否足够，或当前版本是否值得更高价格。两者都提供带音频的 1080p 视频，但 Kling 3 Pro 将时长提高至 15 秒，并侧重更复杂的多镜头电影级控制。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "熟悉的 5 秒或 10 秒对白镜头及更低含音频价格可继续用 Kling 2.6 Pro。需要最长 15 秒、当前 Kling 版本和结构化多镜头制作，且可接受额外成本时，升级至 Kling 3 Pro。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Kling 2.6 Pro",
+        "body": "成熟的 1080p 提示词模式、短电影对白和含音频每秒 0.14 美元的较低价格，可继续使用旧版方案。"
+      },
+      {
+        "title": "选择 Kling 3 Pro",
+        "body": "最长 15 秒和更重视多镜头电影级序列的项目，可使用当前 Pro 模型。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "两者都支持文生视频、图生视频、1080p 和音频；取舍在于旧版性价比与当前版本的时长和工作流能力。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "Kling 2.6 Pro 适合可重复制作的短对白镜头；Kling 3 Pro 适合宣传片主镜头、预先规划的序列和更长电影段落。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-2-6-pro",
+        "label": "查看 Kling 2.6 Pro 详情"
+      },
+      {
+        "href": "/models/kling-3-pro",
+        "label": "查看 Kling 3 Pro 详情"
+      },
+      {
+        "href": "/ai-video-engines/kling-3-pro-vs-kling-3-standard",
+        "label": "对比 Kling 3 Pro 对比 Kling 3 Standard"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你判断是否从 Kling 2.6 Pro 升级至 Kling 3 Pro。",
+      "items": [
+        {
+          "question": "Kling 3 Pro 是 Kling 2.6 Pro 的直接升级吗？",
+          "answer": "Kling 3 Pro 是当前 Pro 方案，将最长时长从 10 秒提高至 15 秒。Kling 2.6 Pro 仍可用于成熟的旧版短视频工作流。"
+        },
+        {
+          "question": "两款 Kling Pro 都生成音频吗？",
+          "answer": "是。两款目录方案都支持带音频的 1080p 文生视频和图生视频。Kling 2.6 Pro 含音频每秒 0.14 美元；Kling 3 Pro 在平台加价前列价每秒 0.168 美元。"
+        },
+        {
+          "question": "何时 Kling 3 Pro 值得更高价格？",
+          "answer": "15 秒输出、当前 Kling 版本或多镜头电影规划更重要时，选择 Kling 3 Pro；已验证的 10 秒工作流已满足需求时，可继续用 2.6 Pro。"
+        }
+      ]
+    }
   }
 }

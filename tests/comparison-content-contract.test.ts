@@ -133,7 +133,7 @@ test('comparison documents are dynamically discovered with unique identities and
     assert.equal(document.slug, fileName.slice(0, -'.json'.length));
     assert.deepEqual(
       Object.keys(document).sort(),
-      CHINESE_TREND_SLUGS.has(document.slug) ? ['en', 'es', 'fr', 'slug', 'zh'] : ['en', 'es', 'fr', 'slug'],
+      ['en', 'es', 'fr', 'slug', 'zh'],
     );
     assert.equal(identities.has(document.slug), false, `duplicate comparison identity ${document.slug}`);
     identities.add(document.slug);

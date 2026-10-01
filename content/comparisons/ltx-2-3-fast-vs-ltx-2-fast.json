@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Fast 对比 LTX 2.0 Fast：升级还是继续使用？",
+      "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 LTX Video 2.0 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 LTX 2.3 Fast 与仍可用的 LTX Video 2.0 Fast。两者都包含音频、支持 4K，并采用相同的分辨率价格档位；2.3 Fast 增加竖屏、更多帧率及首尾帧控制。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "两者仍可用，列出的价格档位相同。成熟的 16:9 工作流可继续用 LTX Video 2.0 Fast；需要 9:16、首尾帧控制和更多帧率时，选择 LTX 2.3 Fast。两者超过 10 秒都要求 1080p、25 fps。"
+    },
+    "topCards": [
+      {
+        "title": "继续使用成熟的 Fast 方案",
+        "body": "已验证的 16:9 文生视频 / 图生视频工作流已满足需求，且需要音频及最高 4K 时，可继续用 LTX Video 2.0 Fast。"
+      },
+      {
+        "title": "使用更新的 Fast 控制",
+        "body": "9:16 交付、图像模式中的可选尾帧引导，以及 24、25、48、50 fps 选择可使用 LTX 2.3 Fast。"
+      },
+      {
+        "title": "两款共有长视频限制",
+        "body": "两款 Fast 最长都为 20 秒，且超过 10 秒均要求 1080p、25 fps。"
+      },
+      {
+        "title": "适用 Fast 工作流",
+        "body": "已验证的横屏制作使用 2.0 Fast；需求涉及竖屏交付、尾帧引导或更多帧率时，使用 2.3 Fast。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "查看 current LTX 2.3 Fast 详情"
+      },
+      {
+        "href": "/models/ltx-2-fast",
+        "label": "查看 available LTX Video 2.0 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-ltx-2-3-pro",
+        "label": "对比 LTX 2.3 Fast 对比 LTX 2.3 Pro"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你决定继续用 LTX 2.0 Fast 还是切换至 LTX 2.3 Fast。",
+      "items": [
+        {
+          "question": "LTX Video 2.0 Fast 在 VideoAI 仍可用吗？",
+          "answer": "可以。仍支持成熟的 16:9 文本 / 图像工作流及音频，最长 20 秒，输出可选 1080p、1440p 或 4K。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+        },
+        {
+          "question": "LTX 2.3 Fast 比 LTX Video 2.0 Fast 增加什么？",
+          "answer": "增加 9:16 输出、图像生成的首尾帧引导，并在 25 / 50 fps 之外增加 24 / 48 fps。"
+        },
+        {
+          "question": "任一 LTX Fast 能生成超过 10 秒的 4K 吗？",
+          "answer": "不能。LTX 2.3 Fast 和 LTX Video 2.0 Fast 超过 10 秒均要求 1080p、25 fps；1440p / 4K 仅支持 10 秒及以内。"
+        }
+      ]
+    }
   }
 }

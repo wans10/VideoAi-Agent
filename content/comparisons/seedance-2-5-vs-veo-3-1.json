@@ -224,5 +224,80 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.5 对比 Veo 3.1：更长时长与控制，还是高品质写实？",
+      "description": "在 VideoAI 上对比 Seedance 2.5 与 Google Veo 3.1 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "最长 30 秒、大量多模态参考、视频编辑或延长的广泛工作流选择 Seedance 2.5；精准提示词还原、写实画面、4K 或紧凑 8 秒电影镜头优先时选择 Veo 3.1。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "Seedance 2.5 提供更长且参考更丰富的工作流：4 至 30 秒、合计最多 50 份图像 / 视频 / 音频参考、编辑、延长、可选生成音频，最高 1080p。Veo 3.1 面向提示词还原、写实精细画面、原生音频、首尾帧控制及最高 4K 的高品质短片，最长 8 秒。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Seedance 2.5",
+        "body": "更长序列、复杂参考组合、源视频编辑、延长及结合视觉 / 音频引导的统一工作流使用 Seedance。"
+      },
+      {
+        "title": "选择 Veo 3.1",
+        "body": "高品质短镜头、强提示词还原、写实精细度、原生音频、首尾帧控制或 4K 交付优先时使用 Veo。"
+      },
+      {
+        "title": "时长与成片取舍",
+        "body": "Seedance 提供显著更长时长空间；Veo 最长 8 秒，但最终输出分辨率更高。"
+      },
+      {
+        "title": "按实际需求计价",
+        "body": "实时价格卡计算各方案当前成本。比较最终镜头需要的模式、时长、分辨率和音频。"
+      }
+    ],
+    "primaryLinksTitle": "选择制作方案",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-5",
+        "label": "查看 Seedance 2.5 详情"
+      },
+      {
+        "href": "/app?engine=seedance-2-5",
+        "label": "使用 Seedance 2.5 生成"
+      },
+      {
+        "href": "/models/veo-3-1",
+        "label": "查看 Veo 3.1 详情"
+      },
+      {
+        "href": "/app?engine=veo-3-1",
+        "label": "使用 Veo 3.1 生成"
+      }
+    ],
+    "faq": {
+      "title": "Seedance 2.5 对比 Veo 3.1 常见问题",
+      "subtitle": "帮助你选择较长多模态制作或高品质短片成片方案。",
+      "items": [
+        {
+          "question": "哪款更适合较长 AI 视频？",
+          "answer": "Seedance 2.5 最长 30 秒，Veo 3.1 最长 8 秒。较长连续序列是必要条件时选择 Seedance。"
+        },
+        {
+          "question": "哪款提示词还原和写实效果更好？",
+          "answer": "精准指令理解和写实精细度优先时，Veo 3.1 定位更高；广泛多模态控制和时长优先时，Seedance 2.5 更合适。"
+        },
+        {
+          "question": "哪款接受更多参考素材？",
+          "answer": "Seedance 2.5 接受更多图像、视频、音频组合参考。Veo 3.1 参考模式支持 1 至 3 张静态图，另有首尾帧和延长工作流。"
+        },
+        {
+          "question": "4K 输出应该选哪款？",
+          "answer": "4K 交付必需时选择 Veo 3.1。Seedance 2.5 输出 480p、720p、1080p，应按其更长时长和更广泛控制需求选择。"
+        },
+        {
+          "question": "Seedance 2.5 和 Veo 3.1 价格如何比较？",
+          "answer": "在实时价格区域比较相同任务。当前时长、分辨率、模式和音频决定有效对比，因此指南不固定写死数字价格。"
+        }
+      ]
+    }
   }
 }

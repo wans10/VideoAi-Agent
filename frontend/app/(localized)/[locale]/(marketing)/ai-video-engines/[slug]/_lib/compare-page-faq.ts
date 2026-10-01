@@ -151,7 +151,14 @@ export function buildCompareFaqItems({
   );
   const faqTemplates = compareCopy.faq ?? {};
   const kling3Native4kFaqCopy = pairHasKling3Native4k
-    ? activeLocale === 'fr'
+    ? activeLocale === 'zh'
+      ? {
+          a1: '{left} 和 {right} 是 VideoAI 上收录的 AI 视频生成模型。本页对比原生 4K 输出、迭代成本、核心规格及上方展示的性能数据。',
+          a2: '选择取决于你的工作流。请结合评分与规格，判断镜头需要原生 4K 输出还是更低成本的迭代方案，再打开各模型详情页查看完整信息。',
+          q10: '为什么这些生成方案的结果会不同？',
+          a10: '即使指令相似，模型对约束和设置的理解也会不同。对于 Kling 3 4K，建议先比较规格与成本，再仅将已确认的最终镜头生成为原生 4K。',
+        }
+      : activeLocale === 'fr'
       ? {
           a1: '{left} et {right} sont des modèles de génération vidéo IA documentés sur VideoAI. Cette page compare la livraison 4K native, le coût d’itération, les caractéristiques clés et les données ci-dessus.',
           a2: 'Cela dépend du flux de production. Utilisez la grille de scores et les caractéristiques pour décider si le plan a besoin d’une livraison 4K native ou d’une route d’itération moins coûteuse, puis ouvrez chaque profil pour les détails complets.',
@@ -173,7 +180,14 @@ export function buildCompareFaqItems({
           }
     : null;
   const noShowdownFaqCopy = !hasShowdownSlots
-    ? activeLocale === 'fr'
+    ? activeLocale === 'zh'
+      ? {
+          a1: '{left} 和 {right} 是 VideoAI 上收录的 AI 视频生成模型。本页对比核心规格、价格、控制选项及上方展示的性能数据。',
+          a2: '选择取决于你的工作流。请结合评分与规格，对比控制选项、参考素材、音频、价格和生成限制，再打开各模型详情页查看完整信息。',
+          q10: '为什么这些模型的生成结果会不同？',
+          a10: '不同模型对指令、视觉参考素材和生成约束的理解不同。',
+        }
+      : activeLocale === 'fr'
       ? {
           a1: '{left} et {right} sont des moteurs de génération vidéo IA documentés sur VideoAI. Cette page compare les specs clés, les prix, les contrôles et les données de performance ci-dessus.',
           a2: 'Cela dépend de votre workflow. Utilisez la grille de scores et les specs pour comparer le contrôle, les références, l’audio, le prix et les limites de génération, puis ouvrez chaque profil pour les détails complets.',

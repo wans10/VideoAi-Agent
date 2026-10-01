@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "canonicalSlug": "30-second-music-promo-two-minimax-h3-clips",
+  "publication": {
+    "articleId": "b489a156-2c41-44ea-8108-75ab768d940f",
+    "version": 1,
+    "digest": "dab27d6b24f2b3c432e2b5b2b4a6fa9a572c9db7e33d95b3f6ac7ad04b05e02f",
+    "publishedAt": "2026-09-21T19:44:46.016Z"
+  },
+  "article": {
+    "locale": "zh",
+    "audience": "zh-CN",
+    "slug": "30-second-music-promo-two-minimax-h3-clips",
+    "title": "用两段 MiniMax H3 视频制作 30 秒音乐宣传片",
+    "description": "规划两个不同的 15 秒场景，分配视觉与音频参考，设计明确过渡，再将选定视频与原始音乐组装。",
+    "keywords": [
+      "MiniMax H3",
+      "music promo",
+      "AI music video",
+      "reference-to-video",
+      "30-second video",
+      "video editing",
+      "MaxVideoAI"
+    ],
+    "blocks": [
+      {
+        "id": "editorial-hero",
+        "type": "media",
+        "assetId": "editorial-hero",
+        "heading": "",
+        "presentation": "single",
+        "alt": "虚构表演者站在蓝色排练室与琥珀色舞台之间，以抽象波形连接。",
+        "caption": "示意图。一段音乐、两个场景、一次预先规划的切换。"
+      },
+      {
+        "id": "one-track-two-scenes",
+        "type": "text",
+        "heading": "把一段音乐变成两个场景",
+        "paragraphs": [
+          {
+            "text": "想象副歌响起时，蓝色排练室切换成琥珀色舞台。同一表演者、同一首歌，突然进入更宏大的时刻。我们要制作的故事是：前半段期待，后半段释放。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "起点是一首你有权使用的歌曲，以及几份视觉参考。"
+              },
+              {
+                "text": "MaxVideoAI 上的 MiniMax H3",
+                "href": "https://maxvideoai.com/zh/models/minimax-h3"
+              },
+              {
+                "text": "最长生成 15 秒，因此 30 秒宣传片需要两个独立请求。在视频编辑器里拼接选定片段，并使用一段连续的原始音乐。"
+              }
+            ],
+            "sourceIds": [
+              "source-1"
+            ]
+          },
+          {
+            "text": "虚构表演者穿深灰夹克和象牙白衬衫。灯光、场景与情绪变化时，这些细节保持稳定。下方示意图展示计划，最终剪辑由选定片段决定。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "reference-role-board",
+        "type": "media",
+        "assetId": "reference-role-board",
+        "heading": "保留表演者，改变场景",
+        "presentation": "single",
+        "alt": "两组参考共用同一表演者肖像，但场景、颜色、手势和音频片段不同。",
+        "caption": "示意图。为两个 MaxVideoAI 请求准备共用身份参考及各场景专属引导。"
+      },
+      {
+        "id": "give-each-half-a-job",
+        "type": "text",
+        "heading": "为两半分别安排任务",
+        "paragraphs": [
+          {
+            "text": "先听音乐再生成。选择中间附近有音乐转折的 30 秒片段，如副歌进入、节拍变化或情绪展开。保留完整片段用于最终配乐，再在音频编辑器中制作连续的两个 15 秒摘录。标记实际听到的重音。",
+            "sourceIds": [
+              "source-6"
+            ]
+          },
+          {
+            "spans": [
+              {
+                "text": "前 15 秒：期待。",
+                "bold": true
+              },
+              {
+                "text": "蓝色排练室里，表演者在麦克风旁安静开始。镜头缓慢推进，右手抬至头侧。给场景一个明确动作目标，避免罗列大量动作。"
+              }
+            ],
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "后 15 秒：释放。",
+                "bold": true
+              },
+              {
+                "text": "琥珀色舞台从接近抬手姿势开始，再展开更大幅度表演动作。新提示词从零计时：此片段第 3 秒就是完整宣传片第 18 秒。"
+              }
+            ],
+            "sourceIds": []
+          },
+          {
+            "text": "每个请求准备一张明确身份与服装图、一张场景配色图、一张手势或构图图。复用身份图，把排练室换成舞台。添加对应音频摘录作为节奏与情绪引导。H3 音频参考必须同时有视觉参考，这个小组合能让各输入用途更明确。",
+            "sourceIds": [
+              "source-1",
+              "source-4"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "make-the-cut-intentional",
+        "type": "comparison",
+        "heading": "为切换提供衔接点",
+        "columns": [
+          "剪切思路",
+          "适用情况"
+        ],
+        "rows": [
+          [
+            "匹配手势",
+            "两段素材中抬起的手落在相近位置，大小也相近。这是首选。"
+          ],
+          [
+            "跟随视线",
+            "手势不同，但人物看向画面中的同一区域。"
+          ],
+          [
+            "保持画面运动方向",
+            "明显动作在剪切前后朝同一方向移动。"
+          ],
+          [
+            "使用有意的对比",
+            "素材在景别、角度或姿势上有符合音乐的明显变化。选择实际素材能提供的对比。"
+          ]
+        ]
+      },
+      {
+        "id": "boundary-compositions",
+        "type": "media",
+        "assetId": "boundary-compositions",
+        "heading": "匹配手势，或明确对比",
+        "presentation": "single",
+        "alt": "两种计划切换：蓝色与琥珀色场景中的抬手匹配，以及反转方向、扩大视野的对比切换。",
+        "caption": "示意图。上方为手势匹配的边界构图，下方为刻意对比。"
+      },
+      {
+        "id": "set-up-two-generations",
+        "type": "text",
+        "heading": "在 MaxVideoAI 中提交两个请求",
+        "paragraphs": [
+          {
+            "spans": [
+              {
+                "text": "选择"
+              },
+              {
+                "text": "MiniMax H3 的参考生视频模式",
+                "href": "https://maxvideoai.com/zh/models/minimax-h3"
+              },
+              {
+                "text": "。每次设为 15 秒、9:16、2K，保持两个片段输出设置一致，再附上该场景的图像和对应音频。示例每次使用三张图与一段音频。"
+              }
+            ],
+            "sourceIds": [
+              "source-1"
+            ]
+          },
+          {
+            "text": "用已标记的音乐重音替换下方时间占位符，每个请求只复制一个提示词。音频参考引导生成，最终配乐保留原始录音。手势匹配是尝试方向，不保证独立片段完美衔接。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "generate-two-separate-clips",
+        "type": "prompt",
+        "heading": "提示词 A · 建立期待",
+        "template": "SEQUENCE A — BLUE REHEARSAL ROOM\n\nCreate a 15-second vertical video using the supplied fictional adult performer as the identity reference: short dark curls, charcoal jacket, ivory shirt. Preserve this identity and wardrobe. The setting is a sparse rehearsal room with cool cobalt-blue lighting, acoustic treatment and a simple microphone stand. Keep the movement restrained and avoid readable background text.\n\nLocal 0–[A] seconds: the performer stands quietly near the microphone; the camera makes one slow push-in.\nLocal [A]–[B] seconds: around my marked musical accent, the performer begins raising their right hand; hold a steady medium composition.\nLocal [B]–15 seconds: the right hand settles beside the head near the planned screen position; ease into a medium-close final composition suitable for a cut.\n\nUse the attached first audio excerpt only as guidance for rhythm, energy and mood.",
+        "note": "使用排练参考和第一段音频，用 0 至 15 秒内的局部时间替换 [A]、[B]。"
+      },
+      {
+        "id": "generate-stage-clip",
+        "type": "prompt",
+        "heading": "提示词 B · 展开舞台",
+        "template": "SEQUENCE B — AMBER STAGE\n\nCreate a separate 15-second vertical video using the same fictional adult performer identity and the same charcoal jacket and ivory shirt. The setting is a warm amber stage with a few broad beams of light. Begin with the performer’s right hand beside the head, near the same screen position planned for the end of Sequence A. Avoid readable signage or background text.\n\nLocal 0–[C] seconds: the hand opens outward into the performance; hold framing similar to Sequence A’s closing composition.\nLocal [C]–[D] seconds: around my marked musical accent, the performer expands into a broader gesture; make one controlled pullback.\nLocal [D]–15 seconds: the performer settles into an open stage pose; hold the wider composition through the end.\n\nUse the attached second audio excerpt only as guidance for rhythm, energy and mood.",
+        "note": "以舞台参考和第二段音频开始独立请求，替换 [C]、[D]，本片段从零计时。"
+      },
+      {
+        "id": "finish-over-the-original-track",
+        "type": "steps",
+        "heading": "让两段片段像同一支宣传片",
+        "steps": [
+          {
+            "title": "选择衔接顺畅的一对",
+            "body": "检查表演者、服装、手和动态。先尝试抬手切换；不合适时，采用实际素材能提供的明确对比。两个属于同一故事的镜头比单独漂亮片段更有用。"
+          },
+          {
+            "title": "把画面放在原始音乐上",
+            "body": "在编辑器中将 A 放在 0–15 秒、B 放在 15–30 秒，下方铺完整音乐并静音两段生成音频。听完整个切换，音乐应保持连续。"
+          },
+          {
+            "title": "保留足够画面覆盖音乐",
+            "body": "两个 15 秒片段没有备用长度，裁切或叠化会减少画面总长。缺口用可用备选或你有权使用的插入镜头补足，或另行生成补充素材。"
+          },
+          {
+            "title": "适度完成后期",
+            "body": "将表演者姓名和发行信息作为可编辑标题添加，平衡两场景并在手机尺寸观看。一起保存提示词、参考和选定片段，为下次宣传留下可用示例。"
+          }
+        ]
+      },
+      {
+        "id": "external-edit-timeline",
+        "type": "media",
+        "assetId": "external-edit-timeline",
+        "heading": "让原始音乐贯穿剪辑",
+        "presentation": "single",
+        "alt": "外部编辑时间轴包含相邻蓝色与琥珀色片段、静音片段音轨、连续原始音乐及独立标题。",
+        "caption": "示意图。在外部编辑器组装 MaxVideoAI 片段，静音生成音频，下面铺原始音乐。"
+      },
+      {
+        "id": "workflow-responsibilities",
+        "type": "diagram",
+        "heading": "从参考准备到完整宣传片",
+        "nodes": [
+          {
+            "kind": "file",
+            "label": "授权音乐和选定图像"
+          },
+          {
+            "kind": "file",
+            "label": "A/B 参考组合与完整 30 秒音乐"
+          },
+          {
+            "kind": "model",
+            "label": "MaxVideoAI H3：两个独立 15 秒请求"
+          },
+          {
+            "kind": "video",
+            "label": "选定 A、B 视频"
+          },
+          {
+            "kind": "model",
+            "label": "外部编辑器：原始音乐与标题"
+          },
+          {
+            "kind": "video",
+            "label": "完整 30 秒宣传片"
+          }
+        ],
+        "connections": [
+          "在外部工具准备图片和两段音频摘录",
+          "提交各组参考；保留完整音乐供剪辑使用",
+          "分别生成，检查并选择素材",
+          "导入视频和保留音乐；将视频音频静音",
+          "检查完整覆盖并导出"
+        ],
+        "alt": "从外部参考准备、两次独立 MaxVideoAI 生成，到外部剪辑及完整宣传片的工作流。",
+        "caption": "MaxVideoAI 生成源视频；素材准备和最终组装在外部工具完成。"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "source-1",
+      "title": "MiniMax H3",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/minimax-h3",
+      "retrievedAt": "2026-09-21"
+    },
+    {
+      "id": "source-2",
+      "title": "ComfyUI MiniMax H3 Timeline Director",
+      "publisher": "Songssx on GitHub",
+      "url": "https://github.com/Songssx/ComfyUI-MiniMaxH3-TimelineDirector",
+      "retrievedAt": "2026-09-21"
+    },
+    {
+      "id": "source-3",
+      "title": "MiniMax H3 Model Card",
+      "publisher": "MiniMax",
+      "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3",
+      "retrievedAt": "2026-09-21"
+    },
+    {
+      "id": "source-4",
+      "title": "MiniMax H3 Full-Reference Video Prompt Writing Guide",
+      "publisher": "MiniMax",
+      "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/docs/VIDEO_PROMPT_WRITING_GUIDE_ref_en.md",
+      "retrievedAt": "2026-09-21"
+    },
+    {
+      "id": "source-5",
+      "title": "MiniMax H3 Core Nodes",
+      "publisher": "Comfy-Org",
+      "url": "https://github.com/Comfy-Org/ComfyUI/blob/master/comfy_extras/nodes_minimax_h3.py",
+      "retrievedAt": "2026-09-21"
+    },
+    {
+      "id": "source-6",
+      "title": "How to Make an AI Music Video: A Production Workflow for Artists",
+      "publisher": "Leopati",
+      "url": "https://www.leopati.com/how-to-make-an-ai-music-video/",
+      "retrievedAt": "2026-09-21",
+      "publishedAt": "2026-09-05"
+    },
+    {
+      "id": "source-7",
+      "title": "SLICE: How We Made a 2-Minute AI Short Film with Seedance 2.5",
+      "publisher": "Magnific",
+      "url": "https://www.magnific.com/blog/slice-ai-short-film-seedance-2-5/",
+      "retrievedAt": "2026-09-21",
+      "publishedAt": "2026-09-06"
+    }
+  ],
+  "assets": [
+    {
+      "id": "editorial-hero",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "c2c9a85d9ac915a9f81d518a0837da1ac09d14465ce79e4e5f13f15df5a716cf",
+      "url": "https://media.maxvideoai.com/editorial/published/c2c9a85d9ac915a9f81d518a0837da1ac09d14465ce79e4e5f13f15df5a716cf.webp"
+    },
+    {
+      "id": "reference-role-board",
+      "kind": "generated-illustration",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "b9b22430ab583c85ae05b6fdde4771ce048031ced9ebfcfff11ae7c2a722b813",
+      "url": "https://media.maxvideoai.com/editorial/published/b9b22430ab583c85ae05b6fdde4771ce048031ced9ebfcfff11ae7c2a722b813.webp"
+    },
+    {
+      "id": "boundary-compositions",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "597aa28bedd9db1c0e337c9ecb1f327b083372478436300e5ac93175daa46747",
+      "url": "https://media.maxvideoai.com/editorial/published/597aa28bedd9db1c0e337c9ecb1f327b083372478436300e5ac93175daa46747.webp"
+    },
+    {
+      "id": "external-edit-timeline",
+      "kind": "generated-illustration",
+      "width": 1774,
+      "height": 887,
+      "sha256": "e0fe984f28105f158b309849d32c7a887cc552c6a3d2655d0123bc48887c208f",
+      "url": "https://media.maxvideoai.com/editorial/published/e0fe984f28105f158b309849d32c7a887cc552c6a3d2655d0123bc48887c208f.webp"
+    }
+  ]
+}

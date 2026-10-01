@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Happy Horse 1.1 对比 Kling O3 Pro：音频、参考素材与适用场景",
+      "description": "在 VideoAI 上对比 Happy Horse 1.1 与 Kling 3.0 Omni Pro 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "需求侧重原生音频、对白、多语言口型同步、参考角色以及 Alibaba 风格的文生视频、图生视频或参考生视频时，选择 Happy Horse 1.1。需要更广泛的全能控制、源视频转换、更强参考工作流和 Kling 风格的连贯性时，选择 Kling O3 Pro。本页帮助团队在音频优先的角色工作流与更复杂的参考或视频生视频制作方案之间选择。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/happy-horse-1-1",
+        "label": "查看 Happy Horse 1.1 详情"
+      },
+      {
+        "href": "/models/kling-o3-pro",
+        "label": "查看 Kling O3 Pro 详情"
+      },
+      {
+        "href": "/ai-video-engines/happy-horse-1-1-vs-kling-3-pro",
+        "label": "对比 Happy Horse 对比 Kling 3 Pro"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 Alibaba 原生音频生成与 Kling 全能制作控制之间做出选择。",
+      "items": [
+        {
+          "question": "何时应该选择 Happy Horse 1.1 而非 Kling O3 Pro？",
+          "answer": "说话角色、原生同步音频、口型同步测试和参考图工作流中，如果角色表演与声音表现是核心需求，选择 Happy Horse 1.1。"
+        },
+        {
+          "question": "何时 Kling O3 Pro 更合适？",
+          "answer": "需要更广泛的源视频、参考素材或转换控制，且项目更重视可控视觉制作而非原生对白时，选择 Kling O3 Pro。"
+        },
+        {
+          "question": "两款都适合参考素材驱动的视频吗？",
+          "answer": "适合，但侧重点不同。Happy Horse 1.1 侧重参考图及具备音频的角色输出；Kling O3 Pro 更适合更广泛的全能参考控制和视频生视频风格转换。"
+        }
+      ]
+    }
   }
 }

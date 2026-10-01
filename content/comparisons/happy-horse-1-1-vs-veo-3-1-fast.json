@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Happy Horse 1.1 对比 Veo 3.1 Fast：音频、速度与适用场景",
+      "description": "在 VideoAI 上对比 Happy Horse 1.1 与 Google Veo 3.1 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "社交媒体或 UGC 场景需要原生音频、对白、口型同步及可控参考角色时，选择 Happy Horse 1.1。需要 Veo 风格、更快草稿循环、更高交付分辨率的选择空间，以及进入最终 Veo 工作流前的精细短片概念时，选择 Veo 3.1 Fast。本页区分音频优先的角色生成与快速高品质视觉草稿方案。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/happy-horse-1-1",
+        "label": "查看 Happy Horse 1.1 详情"
+      },
+      {
+        "href": "/models/veo-3-1-fast",
+        "label": "查看 Veo 3.1 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/happy-horse-1-1-vs-veo-3-1",
+        "label": "对比 Happy Horse 对比 Veo 3.1"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在原生音频角色制作与快速 Veo 草稿之间做出选择。",
+      "items": [
+        {
+          "question": "何时 Happy Horse 1.1 比 Veo 3.1 Fast 更合适？",
+          "answer": "对白表演、同步音频、口型同步和参考角色比 Veo 风格的最终画面精细度更重要时，选择 Happy Horse 1.1。"
+        },
+        {
+          "question": "何时应该改用 Veo 3.1 Fast？",
+          "answer": "需要精细快速草稿、电影级概念，且 Veo 画质和分辨率空间比原生口型同步角色工作流更重要时，使用 Veo 3.1 Fast。"
+        },
+        {
+          "question": "哪款更适合 UGC 广告？",
+          "answer": "广告依赖说话主体时，Happy Horse 1.1 更有优势；依赖高品质产品画面、场景精细度或快速 Veo 风格草稿时，Veo 3.1 Fast 更有优势。"
+        }
+      ]
+    }
   }
 }

@@ -9,7 +9,7 @@ export function generateMetadata(): Metadata {
     title: 'Refund & Return Policy | VideoAI',
     description: 'Refund and return policy for VideoAI digital AI video generation credits and services.',
     englishPath: '/return-policy',
-    availableLocales: ['en'],
+    availableLocales: ['en', 'zh'],
     canonicalOverride: 'https://videoai.omninodetech.com/return-policy',
     ogType: 'article',
     imageAlt: 'VideoAI refund and return policy.',

@@ -4,12 +4,13 @@ import React from 'react';
 import { EditorialVisual } from './EditorialVisual';
 import type { EditorialBlock, EditorialDraft } from '@/lib/editorial/schema';
 
-type Locale = 'en' | 'fr' | 'es';
+type Locale = 'en' | 'fr' | 'es' | 'zh';
 type MediaUrl = (assetId: string) => string;
 export type EditorialReaderContent={article:EditorialDraft['locales']['en'];assets:Array<Pick<EditorialDraft['assets'][number],'id'|'kind'|'width'|'height'>>;sources:Array<Pick<EditorialDraft['sources'][number],'id'|'title'|'publisher'|'url'|'retrievedAt'>>};
 export type EditorialImageProps={src:string;alt:string;width:number;height:number;priority:boolean;style?:React.CSSProperties};
 type RenderImage=(props:EditorialImageProps)=>React.ReactNode;
 const labels = {
+  zh: { illustration: '示意图', capture: '截图', sources: '来源', draft: '私有草稿', prompt: '示例提示词 · 英文' },
   en: { illustration: 'Illustration', capture: 'Capture', sources: 'Sources', draft: 'Private draft', prompt: 'Example prompt' },
   fr: { illustration: 'Illustration', capture: 'Capture', sources: 'Sources', draft: 'Brouillon privé', prompt: 'Exemple de prompt · anglais' },
   es: { illustration: 'Ilustración', capture: 'Captura', sources: 'Fuentes', draft: 'Borrador privado · LATAM', prompt: 'Ejemplo de prompt · inglés' },
@@ -36,7 +37,7 @@ function renderBlock(block: EditorialBlock, draft: EditorialReaderContent, local
           <div className="ed-panel-image">{/* eslint-disable-next-line @next/next/no-img-element */}{renderImage({src:url,alt:panel.alt,width:asset.width,height:asset.height,priority:false,style:{objectPosition:`${i * 50}% center`}})}</div>
           <figcaption><strong>{panel.title}</strong><p>{panel.caption}</p></figcaption>
         </figure>)}</div> : renderImage({src:url,alt:block.alt??"",width:asset.width,height:asset.height,priority:block.id===heroId})}
-        <figcaption>{asset.kind === 'generated-illustration' && !/illustration|ilustraci[oó]n/i.test(block.caption) && <span>{labels[locale].illustration} · </span>}{block.caption}</figcaption>
+        <figcaption>{asset.kind === 'generated-illustration' && !/illustration|ilustraci[oó]n|示意图/i.test(block.caption) && <span>{labels[locale].illustration} · </span>}{block.caption}</figcaption>
       </figure>
     </section>;
   }
@@ -57,7 +58,7 @@ export function EditorialReader({content,locale,mediaUrl,eyebrow,byline,renderIm
   const variant=content.article;
   const image=renderImage??(p=><img src={p.src} alt={p.alt} width={p.width} height={p.height} loading={p.priority?'eager':'lazy'} {...(p.priority?{fetchpriority:'high'}:{})} style={p.style}/>);
   const heroId=variant.blocks.find(b=>b.type==='media')?.id;
-  return <article lang={locale === 'es' ? 'es-419' : locale === 'fr' ? 'fr-FR' : 'en'} className="ed-article">
+  return <article lang={locale === 'zh' ? 'zh-CN' : locale === 'es' ? 'es-419' : locale === 'fr' ? 'fr-FR' : 'en'} className="ed-article">
     <header><span className="ed-eyebrow">{eyebrow}</span><h1>{variant.title}</h1><p className="ed-deck">{variant.description}</p>{byline}</header>
     {variant.blocks.map(block=>renderBlock(block,content,locale,mediaUrl,image,heroId))}
     <details className="ed-sources"><summary>{labels[locale].sources} · {content.sources.length}</summary><ol>{content.sources.map((source,i)=><li key={source.id} id={`source-${source.id}`}><a href={source.url} rel="noopener noreferrer">[{i+1}] {source.title}</a><p>{source.publisher} · {source.retrievedAt}</p></li>)}</ol></details>

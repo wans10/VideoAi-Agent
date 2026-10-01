@@ -36,7 +36,7 @@ test('return policy route is a public crawlable legal page with Merchant Center 
     /Refund and return policy for VideoAI digital AI video generation credits and services\./
   );
   assert.match(source, /canonicalOverride:\s*'https:\/\/videoai\.omninodetech\.com\/return-policy'/);
-  assert.match(source, /availableLocales:\s*\['en'\]/);
+  assert.match(source, /availableLocales:\s*\['en', 'zh'\]/);
   assert.doesNotMatch(source, /noindex|index:\s*false/i, 'return policy must stay indexable');
 
   assert.match(source, /Refund &amp; Return Policy/);
@@ -74,7 +74,7 @@ test('return policy is exposed through legal surfaces without broken localizatio
 
   assert.match(legalIndexSource, /href:\s*'\/return-policy'/);
   assert.match(legalIndexSource, /key:\s*'returnPolicy'/);
-  assert.match(legalIndexSource, /localize:\s*false/);
+  assert.match(legalIndexSource, /localize:\s*true/);
   assert.match(footerSource, /\/return-policy/);
   assert.match(footerSource, /isPolicyLink/);
   assert.match(navigationSource, /\/return-policy/);
@@ -98,14 +98,14 @@ test('return policy is exposed through legal surfaces without broken localizatio
   }
 
   assert.ok(
-    !existsSync(localizedReturnPolicyPagePath),
-    'return policy should stay canonical at /return-policy instead of publishing localized copies'
+    existsSync(localizedReturnPolicyPagePath),
+    'return policy must publish an explicit Chinese translation'
   );
 });
 
-test('return policy is present in the sitemap as an English-only legal URL', () => {
+test('return policy sitemap exposes English and Chinese versions', () => {
   const source = read(sitemapConfigPath);
   assert.match(source, /\/return-policy/);
-  assert.match(source, /ENGLISH_ONLY_PATHS/);
-  assert.match(source, /ENGLISH_ONLY_PATHS\.has\(englishPath\)/);
+  assert.match(source, /POLICY_LOCALES = \['en', 'zh'\]/);
+  assert.match(source, /englishPath === '\/return-policy' \? POLICY_LOCALES/);
 });

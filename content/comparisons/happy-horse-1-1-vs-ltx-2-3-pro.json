@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Happy Horse 1.1 对比 LTX 2.3 Pro：音频、4K、编辑与适用场景",
+      "description": "在 VideoAI 上对比 Happy Horse 1.1 与 LTX 2.3 Pro 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "短营销或 UGC 场景依赖原生音频、口型同步、对白和参考角色时，选择 Happy Horse 1.1。需要更长视频、更高分辨率交付、4K 输出空间、延长或局部重做及更广泛的成片处理时，选择 LTX 2.3 Pro。本页区分音频优先的角色模型与更灵活的制作、编辑模型。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/happy-horse-1-1",
+        "label": "查看 Happy Horse 1.1 详情"
+      },
+      {
+        "href": "/models/ltx-2-3-pro",
+        "label": "查看 LTX 2.3 Pro 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-pro-vs-seedance-2-0",
+        "label": "对比 LTX 2.3 Pro 对比 Seedance 2.0"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在原生音频角色输出与 LTX 制作控制之间做出选择。",
+      "items": [
+        {
+          "question": "何时应该选择 Happy Horse 1.1？",
+          "answer": "原生音频、口型同步、短对白和参考角色工作中，如果角色表演是主要评估依据，选择 Happy Horse 1.1。"
+        },
+        {
+          "question": "何时应该选择 LTX 2.3 Pro？",
+          "answer": "需要更长视频、面向 4K 的交付、延长或局部重做，且视觉控制比口型同步更重要时，选择 LTX 2.3 Pro。"
+        },
+        {
+          "question": "哪款更适合产品广告？",
+          "answer": "带对白的代言人或 UGC 风格产品广告更适合 Happy Horse 1.1；精细产品动态、更高分辨率成片及编辑较多的制作更适合 LTX 2.3 Pro。"
+        }
+      ]
+    }
   }
 }

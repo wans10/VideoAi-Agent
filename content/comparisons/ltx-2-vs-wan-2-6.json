@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.0 Pro 对比 Wan 2.6：4K、时长与参考素材",
+      "description": "在 VideoAI 上对比 LTX Video 2.0 Pro 与 Wan 2.6 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比仍可用的 LTX Video 2.0 Pro 和 Wan 2.6 文生视频 / 图生视频。LTX 适合最长 10 秒、高分辨率 16:9、最高 4K；Wan 提供更多宽高比、最长 15 秒文本 / 图像模式及独立无音频参考视频方案。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "高分辨率横屏交付可继续用 LTX Video 2.0 Pro；更多宽高比、最长 15 秒文本 / 图像视频及可选音频，或独立 5 / 10 秒无音频参考视频制作选择 Wan 2.6。"
+    },
+    "topCards": [
+      {
+        "title": "高分辨率继续用 LTX",
+        "body": "16:9 文本 / 图像制作、1080p、1440p、4K、音频及最长 10 秒可继续用 LTX Video 2.0 Pro。"
+      },
+      {
+        "title": "五种画幅使用 Wan 文本模式",
+        "body": "Wan 2.6 文生视频支持 16:9、9:16、1:1、4:3、3:4；图生视频则跟随源图宽高比。两种模式都支持 5 至 15 秒和可选音频。"
+      },
+      {
+        "title": "单独核对参考视频限制",
+        "body": "Wan 2.6 参考视频是独立模式：接受 16:9、9:16、1:1、4:3、3:4，输出 5 或 10 秒，不生成音频。"
+      },
+      {
+        "title": "按交付需求选择",
+        "body": "高分辨率横屏母版适合 LTX；1080p 足够时，更长通用镜头或参考驱动连贯性适合 Wan。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2",
+        "label": "查看 available LTX Video 2.0 Pro 详情"
+      },
+      {
+        "href": "/models/wan-2-6",
+        "label": "查看 current Wan 2.6 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-wan-2-6",
+        "label": "对比 LTX 2.3 Fast 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解高分辨率 LTX 交付及 Wan 文本、图像、参考工作流。",
+      "items": [
+        {
+          "question": "4K 制作应该继续用 LTX Video 2.0 Pro 吗？",
+          "answer": "可以。该方案支持 1080p、1440p、4K 横屏；Wan 2.6 最高 1080p。"
+        },
+        {
+          "question": "Wan 2.6 文本和图像生成有多长？",
+          "answer": "文生视频支持 5 至 15 秒及五种宽高比；图生视频时长相同，但跟随源图宽高比。"
+        },
+        {
+          "question": "Wan 2.6 参考视频模式支持音频或 15 秒吗？",
+          "answer": "不支持。此独立模式由 1 至 3 段参考视频生成 5 或 10 秒无音频结果；15 秒上限仅用于文本 / 图像模式。"
+        }
+      ]
+    }
   }
 }

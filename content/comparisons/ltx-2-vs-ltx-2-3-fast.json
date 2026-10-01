@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.0 Pro 对比 LTX 2.3 Fast：价格、4K与升级",
+      "description": "在 VideoAI 上对比 LTX Video 2.0 Pro 与 LTX 2.3 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比仍可用的 LTX Video 2.0 Pro 与 LTX 2.3 Fast。两者都有音频及高分辨率横屏生成；2.3 Fast 增加 9:16、更多帧率、更低的共有分辨率列价及受限的更长视频。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "熟悉的 10 秒 16:9 方案可继续用 LTX Video 2.0 Pro；更低的共有分辨率列价、竖屏及更长视频选择 LTX 2.3 Fast。超过 10 秒要求 1080p、25 fps。"
+    },
+    "topCards": [
+      {
+        "title": "继续熟悉的 Pro 工作流",
+        "body": "成熟的 16:9 文本 / 图像方案、10 秒上限、音频和 25 / 50 fps 已满足制作时，可继续用 LTX Video 2.0 Pro。"
+      },
+      {
+        "title": "竖屏交付选择 Fast",
+        "body": "LTX 2.3 Fast 增加 9:16、24 / 48 fps，并在 1080p、1440p、4K 提供更低的列出每秒价格。"
+      },
+      {
+        "title": "谨慎规划较长 Fast 视频",
+        "body": "Fast 最长 20 秒，但超过 10 秒仅限 1080p 与 25 fps 的组合。"
+      },
+      {
+        "title": "按制作需求选择方案",
+        "body": "熟悉的横屏序列继续用 2.0 Pro；成本敏感的竖屏或符合时长限制的更长镜头使用 2.3 Fast。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2",
+        "label": "查看 available LTX Video 2.0 Pro 详情"
+      },
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "查看 current LTX 2.3 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-vs-ltx-2-3-pro",
+        "label": "对比 LTX Video 2.0 Pro 对比 LTX 2.3 Pro"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解从 LTX 2.0 Pro 转至 2.3 Fast 的成本、画面方向及迁移选择。",
+      "items": [
+        {
+          "question": "哪些团队应该继续用 LTX Video 2.0 Pro？",
+          "answer": "已验证 10 秒 16:9 文本 / 图像工作流的团队可继续使用，尤其当前提示词和交付设置已有效时。"
+        },
+        {
+          "question": "为何从 LTX 2.0 Pro 切换至 LTX 2.3 Fast？",
+          "answer": "需要 9:16、24 / 48 fps、共有分辨率下更低列价，或符合 1080p、25 fps 规则的超过 10 秒视频时，可迁移。"
+        },
+        {
+          "question": "LTX 2.3 Fast 支持 20 秒 4K 吗？ 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。",
+          "answer": "不支持。虽然最长 20 秒，但超过 10 秒必须用 1080p、25 fps；4K 必须在 10 秒及以内。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+        }
+      ]
+    }
   }
 }

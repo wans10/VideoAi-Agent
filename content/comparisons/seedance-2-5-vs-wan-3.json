@@ -12,8 +12,14 @@
     },
     "primaryLinksTitle": "Explore the models",
     "primaryLinks": [
-      { "href": "/models/seedance-2-5", "label": "Seedance 2.5" },
-      { "href": "/models/wan-3", "label": "Wan 3" }
+      {
+        "href": "/models/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/models/wan-3",
+        "label": "Wan 3"
+      }
     ]
   },
   "fr": {
@@ -28,8 +34,14 @@
     },
     "primaryLinksTitle": "Explorer les modèles",
     "primaryLinks": [
-      { "href": "/fr/modeles/seedance-2-5", "label": "Seedance 2.5" },
-      { "href": "/fr/modeles/wan-3", "label": "Wan 3" }
+      {
+        "href": "/fr/modeles/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/fr/modeles/wan-3",
+        "label": "Wan 3"
+      }
     ]
   },
   "es": {
@@ -44,8 +56,14 @@
     },
     "primaryLinksTitle": "Explorar los modelos",
     "primaryLinks": [
-      { "href": "/es/modelos/seedance-2-5", "label": "Seedance 2.5" },
-      { "href": "/es/modelos/wan-3", "label": "Wan 3" }
+      {
+        "href": "/es/modelos/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/es/modelos/wan-3",
+        "label": "Wan 3"
+      }
     ]
   },
   "zh": {
@@ -60,8 +78,14 @@
     },
     "primaryLinksTitle": "了解这两个模型",
     "primaryLinks": [
-      { "href": "/zh/models/seedance-2-5", "label": "Seedance 2.5" },
-      { "href": "/zh/models/wan-3", "label": "Wan 3" }
+      {
+        "href": "/zh/models/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/zh/models/wan-3",
+        "label": "Wan 3"
+      }
     ]
   }
 }

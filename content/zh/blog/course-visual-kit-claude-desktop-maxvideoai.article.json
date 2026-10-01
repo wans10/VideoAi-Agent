@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 1,
+  "canonicalSlug": "course-visual-kit-claude-desktop-maxvideoai",
+  "publication": {
+    "articleId": "dcbc4abc-22f9-479a-9044-bcb74f349543",
+    "version": 1,
+    "digest": "a66051aa6601545dad6a2ca5adc87f2b0ef52f9b13225ea9b9a293b89cb7430c",
+    "publishedAt": "2026-09-23T11:42:06.359Z"
+  },
+  "article": {
+    "locale": "zh",
+    "audience": "zh-CN",
+    "slug": "course-visual-kit-claude-desktop-maxvideoai",
+    "title": "用 Claude Desktop 和 MaxVideoAI 制作课程视觉素材包",
+    "description": "规划统一的视觉方向，制作一张无文字主图和三张模块变体，添加可编辑标题，再将选定细节制作成简短课程片头。",
+    "keywords": [
+      "course visual kit",
+      "Claude Desktop",
+      "MaxVideoAI",
+      "GPT Image 2.5 Flare",
+      "Kling 3 Pro",
+      "course cover design",
+      "module cards",
+      "editable titles",
+      "image-to-video"
+    ],
+    "blocks": [
+      {
+        "id": "editorial-hero",
+        "type": "media",
+        "assetId": "editorial-hero",
+        "heading": "",
+        "presentation": "single",
+        "alt": "陶土器皿周围分布着钴蓝釉面、弯曲泥条和带纹理的窑砖。",
+        "caption": "示意图。陶土、钴蓝和重复出现的曲线确立课程的视觉方向。"
+      },
+      {
+        "id": "visual-bible",
+        "type": "text",
+        "heading": "确定所有素材共用的少量视觉规则",
+        "paragraphs": [
+          {
+            "text": "课程大纲已完成，但封面、模块卡片和片头视频仍可能像来自四个不同项目。设想一门名为《泥、色、火》的陶艺课，包含成型、施釉和烧制三个模块。目标是让不同场景拥有可辨认的统一方向，而不是假定一致性会自动实现。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "先用可重复的选择建立简明视觉规范："
+              },
+              {
+                "text": "温暖的陶土与粉白表面、克制的钴蓝点缀、左上方柔光、反复出现的弯曲泥条图案，以及主体上方充足的留白。",
+                "bold": true
+              },
+              {
+                "text": "这些要素足够具体，便于跨图片比较，同时允许每个模块选择自己的主体和构图。"
+              }
+            ],
+            "sourceIds": []
+          },
+          {
+            "text": "将文字与图像分开。《泥、色、火》以及“成型”“施釉”“烧制”等模块名称，之后在图形工具中以可编辑文字添加。因此，生成图片应有明确的标题安全区域，但不应把文字、标签或占位符直接生成在画面中。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "工作流程包含五个相连的决策：定义视觉规范，用"
+              },
+              {
+                "text": "MaxVideoAI 中的 GPT Image 2.5 Flare",
+                "href": "https://maxvideoai.com/zh/models/gpt-image-2-5-flare"
+              },
+              {
+                "text": "选定一张无文字主封面，将其改编为三个模块场景，以可编辑图层排版标题，再把无文字装饰细节制作成片头动画。先选定主图可以为后续请求提供具体参考，但不能保证像素完全匹配。"
+              }
+            ],
+            "sourceIds": [
+              "source-1"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "master-composition",
+        "type": "media",
+        "assetId": "master-composition",
+        "heading": "为课程标题留出空间",
+        "presentation": "single",
+        "alt": "拟定封面中的陶土器皿和钴蓝点缀位于下方，顶部保留大面积空白。",
+        "caption": "示意图。器皿上方保留清晰区域，供后续添加可编辑标题。"
+      },
+      {
+        "id": "visual-bible-prompt",
+        "type": "prompt",
+        "heading": "请 Claude Desktop 整理视觉规范",
+        "template": "Help me prepare a reusable visual bible for an imagined ceramics course called “Clay, Color, Fire.” The launch kit will contain one course cover, three module cards—Shaping, Glazing, and Firing—and a short opening video.\n\nOrganize the brief under these headings:\n1. Palette\n2. Materials and surface textures\n3. Lighting\n4. Framing and subject scale\n5. Recurring visual motif\n6. Reference roles\n7. Preserve rules\n8. Change rules\n9. Editable-title zones\n10. Animation-safe decorative region\n\nUse these proposed anchors as a starting point, not as fixed facts:\n- warm clay and chalk surfaces\n- restrained cobalt accents\n- soft light from the upper left\n- a recurring curved clay-line motif\n- generous empty space above the main subject\n\nDefine the role of each future asset clearly. The approved master cover should act as a visual reference for palette, lighting character, ceramic texture, motif, and title space. The three module scenes may change their subject and framing to represent shaping, glazing, and firing. A separate text-free crop of the motif or glaze may later become the motion source.\n\nSeparate what should be preserved from what may change. Keep all course and module titles outside the image-generation instructions because they will be added later as editable text layers. Identify a decorative area that could move without containing titles, logos, instructional details, or essential course information.\n\nDo not assume that reference images, masks, layouts, fonts, or brand assets already exist. List any unresolved creative choices and ask me to choose among concise options before finalizing the visual bible. End with a short reusable summary that can be pasted into later image and motion requests.",
+        "note": "此处 Claude Desktop 负责整理创意要求和后续请求。图像生成、标题排版和视频后期仍是独立制作步骤，由各自连接的工具或外部工具完成。"
+      },
+      {
+        "id": "master-cover",
+        "type": "steps",
+        "heading": "连接生成服务，再选定一张主图",
+        "steps": [
+          {
+            "title": "连接可信的远程服务",
+            "body": "按照 MaxVideoAI 官方 Claude 集成说明 https://maxvideoai.com/zh/integrations/claude，在 Claude Desktop 中添加远程 MCP 连接器。在浏览器完成 OAuth，仔细检查权限，仅在服务器和授权范围合适时连接。Anthropic 的配置指南见 https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp。"
+          },
+          {
+            "title": "在本课程会话中启用连接器",
+            "body": "完成账户级配置后，在包含已确认视觉规范的会话中启用连接器。明确分工：Claude Desktop 作为 MCP 宿主准备并校验请求，MaxVideoAI 执行生成。"
+          },
+          {
+            "title": "选择设置前先查询当前可用路线",
+            "body": "请 Claude Desktop 检查当前暴露的工具、Flare 模式、账户余额和生成设置。根据 https://maxvideoai.com/zh/models/gpt-image-2-5-flare 的当前说明，确认 GPT Image 2.5 Flare 支持所需的文生图请求，不要依赖记忆中的设置。"
+          },
+          {
+            "title": "为目标封面选择设置",
+            "body": "选择适合竖版封面、能保留大面积顶部标题区的图片尺寸。早期探索构图时，Low 或 Medium 质量可降低成本；最终选定图像应使用合适的质量。输出格式应适配外部图形工作流程。明确决定候选数量——文档记载每次请求最多四张——并带着比较计划生成。"
+          },
+          {
+            "title": "付费前检查精确请求",
+            "body": "检查精确报价中的创意提示词、尺寸、质量、输出格式、候选数量、价格和对账户余额的影响。仅在这些内容符合视觉规范与预算时批准付费生成。"
+          },
+          {
+            "title": "选择能作为参考的图像",
+            "body": "按目标裁切比较返回的候选图。选择主体比例、陶土与钴蓝配色、左上方光照、重复泥条图案和可用标题留白最清晰的一张。单独保存选定的无文字静帧，作为三个模块请求的参考；它不能保证后续输出完全一致。"
+          }
+        ]
+      },
+      {
+        "id": "master-image-prompt",
+        "type": "prompt",
+        "heading": "生成图像时不生成标题",
+        "template": "Create a vertical cover image for the imagined ceramics course “Clay, Color, Fire.”\n\nShow one rounded terracotta ceramic vessel in the lower two-thirds of the composition, resting on a warm chalk surface. Add a restrained cobalt-glaze accent and one graceful curved clay-line motif near the lower edge.\n\nUse tactile ceramic textures and soft light from the upper left. Keep the earth-and-cobalt palette controlled and the arrangement quiet and sculptural.\n\nLeave the upper third pale, uncluttered, and genuinely empty so an editable course title can be added later in a graphics tool. Maintain clear separation between the vessel and this title-safe area.\n\nInclude no lettering, title placeholders, numbers, logos, watermarks, interface elements, or instructional overlays.",
+        "note": "将这段创意提示词与封面选定的尺寸、质量、输出格式和候选数量配合使用。这些操作设置应在提示词之外配置。检查精确报价，仅在设置与费用正确时批准请求。"
+      },
+      {
+        "id": "module-variations",
+        "type": "comparison",
+        "heading": "选择新场景生成或限定区域修正",
+        "columns": [
+          "决策",
+          "适用情况",
+          "陶艺课程示例",
+          "应保留内容",
+          "实际边界"
+        ],
+        "rows": [
+          [
+            "参考引导的场景变化",
+            "模块需要不同教学主体或构图，同时保留已确认方向。",
+            "把主图器皿场景改为成型、施釉或烧制。附上主图作为风格与材质参考，而非要求复制构图。",
+            "陶土与钴蓝配色、左上方柔光、有触感的陶瓷表面、弯曲泥条图案和充足标题留白。",
+            "附上至少一张参考图，检查编辑设置并批准精确报价。选择前逐张与主图比较；保留指令约束请求，但不能保证像素不变。"
+          ],
+          [
+            "局部蒙版修正",
+            "候选已合适，只有一个独立背景元素需要修改。",
+            "移除多余背景道具，不重新设计器皿、图案、光照或标题安全区域。",
+            "已准备修正区域之外的一切，尤其是主体、阴影、配色、光照、重复图案和标题留白。",
+            "在外部工具准备限定区域。使用前确认当前蒙版要求和对齐。文档路线要求公开蒙版 URL，不能暴露私密素材。图形工具的图层蒙版本身不代表导出文件兼容。"
+          ]
+        ]
+      },
+      {
+        "id": "module-scene-family",
+        "type": "media",
+        "assetId": "module-scene-family",
+        "heading": "改变主体，保留视觉要素",
+        "presentation": "single",
+        "alt": "三个上下排列的陶艺场景分别展示成型工具、施釉材料和窑内器皿，配色与光照一致。",
+        "caption": "示意图。成型、施釉和烧制场景改变主体，同时重复配色、光照、纹理和曲线。"
+      },
+      {
+        "id": "module-edit-prompt",
+        "type": "prompt",
+        "heading": "描述新模块，同时保留视觉方向",
+        "template": "Use the attached approved master still as a style and material reference for a new course-module image. Do not duplicate its complete composition.\n\nMODULE SCENE\n[Describe the selected shaping, glazing, or firing scene.]\n\nPRESERVE\nPreserve the controlled earth-and-cobalt palette, warm chalk surfaces, tactile ceramic textures, soft light from the upper left, and the recurring curved clay-line motif. Retain a generous, uncluttered title-safe area at the top. Keep the image free of text, numbers, logos, watermarks, and instructional overlays.\n\nCHANGE\nReplace the central subject and adjust the framing to communicate the module scene clearly. Keep the composition restrained, with one primary ceramic subject and only the objects needed to identify the module.",
+        "note": "“成型”使用成型台上未完全成型的陶土器皿和一件简单工具。“施釉”使用带钴蓝釉面的陶瓷器皿，旁边放施釉刷。“烧制”将器皿放在未点火的窑室搁板上，呈现耐火砖纹理，不加入火焰、控制面板、温度或操作细节。附上已选定的无文字主图，确认当前编辑控件与路线设置，每次生成前检查精确报价。"
+      },
+      {
+        "id": "masked-repair-prompt",
+        "type": "prompt",
+        "heading": "只修正一个区域，避免重做模块卡片",
+        "template": "Use the attached module candidate and the prepared mask to make one bounded correction.\n\nCHANGE INSIDE THE MASK\nRemove the unwanted background object and reconstruct the surrounding background so it remains visually unobtrusive.\n\nPRESERVE\nOutside the prepared region, preserve the ceramic subject, its silhouette and shadow, the controlled earth-and-cobalt palette, the soft upper-left lighting, the tactile surface details, the recurring curved clay-line motif, and the empty title-safe area. Do not add text, numbers, logos, watermarks, instructional overlays, or new objects.",
+        "note": "仅当选中候选有局部缺陷且已在外部工具准备蒙版时，使用此可选请求。提交前确认当前路线的蒙版要求，并确保蒙版与源图对齐。文档中的 Flare 路线要求公开可访问的蒙版 URL，因此不要暴露私密课程素材；无法安全提供合适输入时，跳过蒙版编辑。蒙版和保留指令约束请求，但不能保证所有未遮罩像素保持不变。"
+      },
+      {
+        "id": "bounded-mask-detail",
+        "type": "media",
+        "assetId": "bounded-mask-detail",
+        "heading": "让修正区域避开器皿",
+        "presentation": "single",
+        "alt": "半透明覆盖层包围一个小型背景道具，避开陶瓷器皿和空白标题区。",
+        "caption": "示意图。可在 Photoshop 中准备假想修正区域，避开器皿和标题空间。"
+      },
+      {
+        "id": "editable-titles",
+        "type": "steps",
+        "heading": "制作标题仍可修改的卡片",
+        "steps": [
+          {
+            "title": "将选定静帧导入图形工具",
+            "body": "在 Photoshop 或其他外部图形工具中，为封面和各模块卡片分别建立工作版式。放置已选定的无文字静帧，保留原图，并使用顶部留白排版标题。"
+          },
+          {
+            "title": "所有标题均使用可编辑文字",
+            "body": "封面使用课程标题《泥、色、火》，各模块卡片分别添加“成型”“施釉”“烧制”，每个标题放在独立的可编辑文字图层上。文字不嵌入生成像素，便于后续纠错、翻译、调整尺寸和版式，无需重新生成图像。"
+          },
+          {
+            "title": "重复清晰的视觉层级",
+            "body": "四个版式使用一致的标题位置、对齐、字体系列、间距规则，以及与重复图案的关系。仅在格式需要时调整字号。这种重复让不同场景形成统一课程，同时让图片表达各模块内容。"
+          },
+          {
+            "title": "保留工作文件和干净的源静帧",
+            "body": "保存带完整文字图层的工作版式，再在外部工具中按发布所需格式导出交付副本。单独保留未经修改的无文字主图和模块静帧，便于从主图取出适合动画的细节，避免将标题带入动画。"
+          }
+        ]
+      },
+      {
+        "id": "motif-opener",
+        "type": "steps",
+        "heading": "选择装饰细节制作动画，再在外部工具完成片头",
+        "steps": [
+          {
+            "title": "选择适合运动的已确认图像区域",
+            "body": "选择弯曲泥条图案与克制钴蓝釉面交汇的局部。避开标题、教学信息、必须精确保留的器皿边缘和复杂道具。装饰区域能减少运动模型需要保留的重要元素。"
+          },
+          {
+            "title": "准备一张无文字源图",
+            "body": "在外部工具裁切选定细节，保留足够的周围陶瓷纹理，便于轻微运镜。将这张静帧作为 Kling 3 Pro 的唯一源图。文档中的图生视频路线不接受参考视频；只有已准备好合适的目标静帧时，可选尾帧指引才有用。"
+          },
+          {
+            "title": "设置一个克制的镜头",
+            "body": "建议生成五秒、1080p、关闭音频的镜头，让标题和声音之后单独制作。附上准备好的裁切图，确认当前时长、分辨率、音频和运动控件，在批准生成前检查精确报价和账户余额影响。"
+          },
+          {
+            "title": "添加标题前检查运动",
+            "body": "使用专门的运动提示词生成后，检查釉面闪光是否细微、泥条图案是否可辨认、相机推进是否平静，以及结尾能否稳定停留。保留指令引导请求，但不能保证运动中不发生变形。"
+          },
+          {
+            "title": "在视频剪辑软件中组装并导出",
+            "body": "将接受的视频导入外部剪辑软件，添加可编辑课程标题，选择并混合声音，在该工具中导出最终片头。将生成的无文字视频、源静帧和分层卡片版式一起保留，便于后续调整标题或节奏，无需重建整个素材包。"
+          }
+        ]
+      },
+      {
+        "id": "motif-motion-study",
+        "type": "media",
+        "assetId": "motif-motion-study",
+        "heading": "让釉面动起来，标题留给后期",
+        "presentation": "single",
+        "alt": "三个示意画面随高光变化，轻轻靠近钴蓝釉面细节和弯曲泥条图案。",
+        "caption": "示意图。Kling 3 Pro 的拟定运动：缓慢推进、细微釉面闪光和稳定结尾。"
+      },
+      {
+        "id": "motif-animation-prompt",
+        "type": "prompt",
+        "heading": "描述轻微运动和平静结尾",
+        "template": "Create a single continuous opening shot from the supplied ceramic detail. Begin with the existing cobalt-glaze area and curved terracotta clay-line motif clearly recognizable. Introduce a subtle shimmer across the glaze highlight while the camera makes one slow, steady push forward. Keep the ceramic texture, earth-and-cobalt palette, soft lighting, and overall motif arrangement as close to the source image as possible. Avoid dramatic transformations, new objects, abrupt movement, or changes to the material character. Let the motion settle gradually into a calm final composition that can hold for the course title to be added later. No text, letters, logos, captions, instructional overlays, interface elements, or watermarks.",
+        "note": "附上已选定的无文字裁切图，分别设置时长、分辨率和音频。保留指令引导动画，但不能保证每个轮廓或纹理保持不变。"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "source-1",
+      "title": "GPT Image 2.5 Flare",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/gpt-image-2-5-flare",
+      "retrievedAt": "2026-09-23"
+    },
+    {
+      "id": "source-2",
+      "title": "Kling 3 Pro",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/kling-3-pro",
+      "retrievedAt": "2026-09-23"
+    },
+    {
+      "id": "source-3",
+      "title": "Create AI Videos with Claude",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/integrations/claude",
+      "retrievedAt": "2026-09-23"
+    },
+    {
+      "id": "source-4",
+      "title": "Claude for Creative Work",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-for-creative-work",
+      "retrievedAt": "2026-09-23",
+      "publishedAt": "2026-04-28"
+    },
+    {
+      "id": "source-5",
+      "title": "Introducing ChatGPT Images 2.5",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/introducing-chatgpt-images-2-5/",
+      "retrievedAt": "2026-09-23",
+      "publishedAt": "2026-09-08"
+    },
+    {
+      "id": "source-6",
+      "title": "Get Started with Custom Connectors Using Remote MCP",
+      "publisher": "Anthropic",
+      "url": "https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp",
+      "retrievedAt": "2026-09-23",
+      "publishedAt": "2026-08-11"
+    },
+    {
+      "id": "source-7",
+      "title": "Kling VIDEO 3.0 Model Guide",
+      "publisher": "Kling AI",
+      "url": "https://kling.ai/quickstart/klingai-video-3-model-user-guide",
+      "retrievedAt": "2026-09-23",
+      "publishedAt": "2026-02-06"
+    },
+    {
+      "id": "source-8",
+      "title": "Add and Edit Layer Masks in Photoshop",
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/photoshop/desktop/create-masks/layer-masks/add-layer-masks.html",
+      "retrievedAt": "2026-09-23"
+    },
+    {
+      "id": "source-9",
+      "title": "Add Text in Photoshop",
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/photoshop/desktop/text-typography/get-started-with-text/add-text.html",
+      "retrievedAt": "2026-09-23"
+    }
+  ],
+  "assets": [
+    {
+      "id": "editorial-hero",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "b9ef69f5b373515dbc08c45947fea500cc0883ffef422d90d8c6246ecbc1ce6c",
+      "url": "https://media.maxvideoai.com/editorial/published/b9ef69f5b373515dbc08c45947fea500cc0883ffef422d90d8c6246ecbc1ce6c.webp"
+    },
+    {
+      "id": "master-composition",
+      "kind": "generated-illustration",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "1be6b4b9e421dc646ad18581a8945d85f65226cb2ad5d141c844ed68c3f17ead",
+      "url": "https://media.maxvideoai.com/editorial/published/1be6b4b9e421dc646ad18581a8945d85f65226cb2ad5d141c844ed68c3f17ead.webp"
+    },
+    {
+      "id": "module-scene-family",
+      "kind": "generated-illustration",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "1707d2ae4f6a4c40cb53faaa006afeccfe7098e7016c0a24c55a08bfa1606e6c",
+      "url": "https://media.maxvideoai.com/editorial/published/1707d2ae4f6a4c40cb53faaa006afeccfe7098e7016c0a24c55a08bfa1606e6c.webp"
+    },
+    {
+      "id": "bounded-mask-detail",
+      "kind": "generated-illustration",
+      "width": 1145,
+      "height": 1374,
+      "sha256": "8850fa7d1ba64d743fea039563dfeacdc586dfd24b2fa7d4f42022e2166bcc8e",
+      "url": "https://media.maxvideoai.com/editorial/published/8850fa7d1ba64d743fea039563dfeacdc586dfd24b2fa7d4f42022e2166bcc8e.webp"
+    },
+    {
+      "id": "motif-motion-study",
+      "kind": "generated-illustration",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "0a82ea5f597b511e20f83e3f25a00ede136118ff1791562da2c5c3a8ec288e7a",
+      "url": "https://media.maxvideoai.com/editorial/published/0a82ea5f597b511e20f83e3f25a00ede136118ff1791562da2c5c3a8ec288e7a.webp"
+    }
+  ]
+}

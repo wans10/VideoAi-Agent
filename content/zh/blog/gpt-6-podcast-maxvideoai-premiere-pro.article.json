@@ -1,0 +1,530 @@
+{
+  "schemaVersion": 1,
+  "canonicalSlug": "gpt-6-podcast-maxvideoai-premiere-pro",
+  "publication": {
+    "articleId": "013127f5-9a5e-4a3e-9650-4dc65ba0a4cd",
+    "version": 2,
+    "digest": "0589f32538e34ca762907ed0233ffa92ca03e0d4a0e2f41e426eab3b71935fd4",
+    "publishedAt": "2026-09-27T11:32:38.145Z"
+  },
+  "article": {
+    "locale": "zh",
+    "audience": "zh-CN",
+    "slug": "gpt-6-podcast-maxvideoai-premiere-pro",
+    "title": "我们如何用 Codex 和 MaxVideoAI 制作 AI 播客",
+    "description": "六段生成素材，一次 86 秒访谈。了解这部虚构 AI 播客背后的提示词、角色参考和 Premiere Pro 剪辑。",
+    "keywords": [
+      "GPT-6 video production",
+      "AI podcast",
+      "MaxVideoAI workflow",
+      "Wan 3 Prime",
+      "Premiere Pro automation",
+      "Codex video editing",
+      "AI dialogue film"
+    ],
+    "blocks": [
+      {
+        "id": "editorial-hero",
+        "type": "media",
+        "assetId": "podcast-cover",
+        "heading": "",
+        "presentation": "single",
+        "alt": "两位虚构播客人物在暖光演播室中相对而坐，主持人穿炭灰色服装，嘉宾穿米色服装。",
+        "caption": "我们用 AI 制作的虚构访谈。"
+      },
+      {
+        "id": "opening",
+        "type": "text",
+        "heading": "两位人物，一次令人尴尬的揭晓",
+        "paragraphs": [
+          {
+            "text": "自信的嘉宾告诉采访者，他通过与 AI 对话完成视频制作。采访者要求证明，最后却发现自己就是演示的一部分。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "spans": [
+              {
+                "text": "这就是我们这部"
+              },
+              {
+                "text": "86 秒虚构播客",
+                "bold": true
+              },
+              {
+                "text": "的创意。Codex 中的 GPT-6 Astra 和 Sol 负责制作及 Premiere Pro 剪辑；Adrien 指导项目并审阅各版。先看成片，再了解如何把六次独立生成组织成一段对话。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "finished-interview",
+        "type": "video",
+        "heading": "观看 86 秒成片",
+        "videoId": "hwF_A1VlA_U",
+        "sourceId": "podcast-production",
+        "credit": "MaxVideoAI / Adrien",
+        "startSeconds": 0,
+        "caption": "包含片尾卡的虚构访谈。"
+      },
+      {
+        "id": "setup",
+        "type": "text",
+        "heading": "一个项目，三种工具",
+        "paragraphs": [
+          {
+            "spans": [
+              {
+                "text": "制作从 Codex 开始。"
+              },
+              {
+                "text": "Codex 的 MaxVideoAI 连接",
+                "href": "https://maxvideoai.com/zh/integrations/codex"
+              },
+              {
+                "text": "负责报价、已获批准的视频生成和参考素材。另行配置的本地脚本让 Codex 操作 Premiere Pro，完成剪辑、字幕、声音和导出。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production",
+              "codex-plugin"
+            ]
+          },
+          {
+            "text": "Adrien 提供创意、制作方向和反馈，批准生成报价，选择音乐并确认最终结果。Astra 和 Sol 执行项目，包括修改剪辑。若要复现这套配置，除 MaxVideoAI 连接外，还需单独配置 Premiere 自动化。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "casting",
+        "type": "text",
+        "heading": "第一段视频成为角色参考",
+        "paragraphs": [
+          {
+            "text": "第一段可用结果是包含两位人物的 18 秒演播室镜头，为后续制作奠定基础：穿炭灰色服装的严肃主持人、穿米色服装且格外自信的嘉宾，以及带暖光和麦克风的共同场景。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "spans": [
+              {
+                "text": "此前两次图像生成因网络错误失败。项目通过"
+              },
+              {
+                "text": "从已成功的视频中提取参考帧",
+                "bold": true
+              },
+              {
+                "text": "继续推进。同一段视频中的 7.5 秒声音片段也成为嘉宾音色身份的参考。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "text": "这些参考把面孔、服装和演播室带入后续请求。主持人的笔记本与笔、嘉宾的手表，以及两人相对的视线，为提示词提供了具体连续性细节。下一次请求可以专注新台词或更近的机位，无需从头描述角色。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cast-and-studio-reference",
+        "type": "media",
+        "assetId": "podcast-casting",
+        "heading": "",
+        "presentation": "single",
+        "alt": "从 S02 提取的参考帧，左侧为虚构主持人，右侧为穿米色服装的嘉宾，两人位于同一演播室。",
+        "caption": "第一段生成视频中的这一帧成为角色和演播室参考。"
+      },
+      {
+        "id": "take-direction",
+        "type": "text",
+        "heading": "为剪辑需求编写提示词",
+        "paragraphs": [
+          {
+            "spans": [
+              {
+                "text": "六段源素材使用"
+              },
+              {
+                "text": "MaxVideoAI 中的 Wan 3 Prime",
+                "href": "https://maxvideoai.com/zh/models/wan-3-prime"
+              },
+              {
+                "text": "生成。首段视频建立场景，后续请求复用图像和声音参考。嘉宾解释部分要求稳定的近景、克制的手势和清晰对话，把音乐和图形留给剪辑阶段。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production",
+              "wan-prime"
+            ]
+          },
+          {
+            "text": "主持人的 28 秒素材 H01 将多个问题分为独立段落，要求开头和结尾安静倾听，并在台词间短暂停顿。这些额外节拍为剪辑提供入点、出点，或切换到另一人物的空间。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "text": "下方截图也展示了一处有启发的偏差：H01 要求只拍主持人，返回镜头却包含两位人物。拿到素材后仍需完整观看，并依据实际内容使用。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "h01-generation-record",
+        "type": "media",
+        "assetId": "podcast-h01-interface",
+        "heading": "",
+        "presentation": "single",
+        "alt": "MaxVideoAI 中的原始 H01 生成记录，画面包含两位人物，旁边显示提交的提示词、Wan 3 Prime、28 秒时长和 10.20 美元额度费用。",
+        "caption": "MaxVideoAI 中的 H01：提示词要求只有主持人，返回镜头却包含两位人物。"
+      },
+      {
+        "id": "take-prompt",
+        "type": "prompt",
+        "heading": "H01 提示词中为剪辑预留空间的部分",
+        "template": "PERFORMANCE: Serious and intelligent American interviewer with dry humor and genuine curiosity, firm mid-low slightly textured American English voice, crisp but conversational, not an announcer. He asks the following seven questions/replies in order. These are separate usable passages that will later be intercut with the other speaker. Only this man speaks; there is NO off-camera reply. Do not speak section labels or invent any words. Leave about 0.65 seconds of silent listening between passages. Fit all dialogue naturally within the take, roughly 155 words per minute during speech, with two seconds of quiet listening at the start and two seconds at the end.",
+        "note": "这是已提交 H01 提示词中的原始表演指示摘录。完整请求还包含对话、相机和连续性要求。留意台词前、台词之间和台词后的安静空间。"
+      },
+      {
+        "id": "editing",
+        "type": "text",
+        "heading": "减少切换后，开场更自然",
+        "paragraphs": [
+          {
+            "text": "对话只是剪辑所需素材的一部分。H02 请求了八秒主持人无声反应，W01 提供另外六秒全景素材，让另一人物继续说话时有画面可切换。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "text": "Codex 通过项目的本地自动化操作 Premiere，围绕停顿、视线和反应组织对话。声音保持原速，节奏来自剪切和台词周围留出的空间。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "spans": [
+              {
+                "text": "最初开场过于繁忙。根据 Adrien 的反馈，"
+              },
+              {
+                "text": "前 21.17 秒的九个镜头减少为五个",
+                "bold": true
+              },
+              {
+                "text": "。连续 13.73 秒的双人镜头让嘉宾的开场回答有了呼吸空间，包括“Easily”和“On my own”前后的停顿。随后较长的主持人反应为下一问题做铺垫。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "text": "值得借鉴的剪辑决策是：给好的表演足够时间发挥。即使有另一个机位可用，也不代表此刻就需要切换。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "reveal",
+        "type": "text",
+        "heading": "让场景揭示自己的制作方式",
+        "paragraphs": [
+          {
+            "text": "揭晓时嘉宾仍留在画面中，侧边面板展示主持人提示词摘录和角色参考。面板在 Premiere 中设计并添加，出现时机跟随嘉宾手势，让解释成为场景的一部分。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "text": "后期添加字幕、音乐和六秒片尾卡，把 80 秒对话扩展为 86 秒。Adrien 否定此前的音乐选择后，为最终版选用了 Aphelion。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "spans": [
+              {
+                "text": "Scott Buckley 的 Aphelion",
+                "href": "https://www.scottbuckley.com.au/library/aphelion/"
+              },
+              {
+                "text": "依据"
+              },
+              {
+                "text": "CC BY 4.0",
+                "href": "https://creativecommons.org/licenses/by/4.0/"
+              },
+              {
+                "text": "许可使用。音乐经过截取、均衡处理，在对话下方混音并淡入淡出；到片尾卡时音量升高。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production",
+              "aphelion",
+              "cc-by"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "recorded-prompt-reveal",
+        "type": "media",
+        "assetId": "podcast-prompt",
+        "heading": "",
+        "presentation": "single",
+        "alt": "揭晓片段的一帧，嘉宾留在画面中，旁边的编辑面板引用已记录的主持人提示词。",
+        "caption": "最终揭晓画面：嘉宾保持可见，面板同时展示提示词。"
+      },
+      {
+        "id": "vertical",
+        "type": "text",
+        "heading": "为竖版短片单独剪辑",
+        "paragraphs": [
+          {
+            "text": "保留的竖版短片长 35.17 秒，分辨率为 1080 × 1920，由现有素材剪成。它需要重新构图：让人物、麦克风和字幕清晰可见，再为较窄画面将片尾标志重新居中。另一条拟定短片被舍弃。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "text": "制作自己的项目时，选择能在手机上形成一个小故事的段落。与其保留横版成片的每个时刻，不如给竖版剪辑清晰的开头和回报。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "selected-vertical-short",
+        "type": "media",
+        "assetId": "podcast-vertical",
+        "heading": "",
+        "presentation": "single",
+        "alt": "选定的 35.17 秒虚构播客竖版短片画面，保留原始英文字幕。",
+        "caption": "35 秒竖版剪辑的一帧，带原始英文字幕。"
+      },
+      {
+        "id": "cost-context",
+        "type": "text",
+        "heading": "六次生成消耗了多少额度",
+        "paragraphs": [
+          {
+            "spans": [
+              {
+                "text": "2026 年 9 月 26–27 日生成的六段 1080p 素材合计"
+              },
+              {
+                "text": "112 秒源视频，消耗 40.80 美元 MaxVideoAI 额度",
+                "bold": true
+              },
+              {
+                "text": "。表格展示实际制作记录。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "text": "这是使用免费额度完成的概念验证。总额仅包含六次视频生成，不含 Codex 使用、Premiere Pro，以及指导或审阅时间。新项目应以每次生成前展示的报价为准。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "costs",
+        "type": "comparison",
+        "heading": "40.80 美元额度的用途",
+        "columns": [
+          "素材编号",
+          "用途",
+          "源素材时长",
+          "额度（美元）"
+        ],
+        "rows": [
+          [
+            "S02",
+            "角色、演播室和开场",
+            "18 秒",
+            "6.56"
+          ],
+          [
+            "H01",
+            "主持人提问",
+            "28 秒",
+            "10.20"
+          ],
+          [
+            "G02",
+            "嘉宾说明工作流程",
+            "30 秒",
+            "10.92"
+          ],
+          [
+            "G03",
+            "揭晓",
+            "22 秒",
+            "8.01"
+          ],
+          [
+            "W01",
+            "无声全景素材",
+            "6 秒",
+            "2.19"
+          ],
+          [
+            "H02",
+            "主持人无声反应",
+            "8 秒",
+            "2.92"
+          ],
+          [
+            "合计",
+            "六段已完成素材",
+            "112 秒",
+            "40.80"
+          ]
+        ]
+      },
+      {
+        "id": "reuse",
+        "type": "text",
+        "heading": "从一个能够完成的场景开始",
+        "paragraphs": [
+          {
+            "text": "第一次尝试保持简单：两个角色、一个场景和一小段对话。先用一段可用视频建立角色与场景，提取参考，再生成剪辑所需的对话和倾听镜头。尽早观看组装结果，薄弱处会告诉你需要改什么。",
+            "sourceIds": [
+              "podcast-production"
+            ]
+          },
+          {
+            "spans": [
+              {
+                "text": "如果创意要求已经在 Codex 中，"
+              },
+              {
+                "text": "MaxVideoAI 助手连接",
+                "href": "https://maxvideoai.com/mcp"
+              },
+              {
+                "text": "可以把模型选择、报价和生成带入项目，同时应规划好剪辑工具。本案例的成果，是通过多次具体修改完成的一段对话。"
+              }
+            ],
+            "sourceIds": [
+              "podcast-production",
+              "max-mcp",
+              "codex-plugin"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "wan-prime",
+      "title": "Wan 3 Prime: inputs and reference modes",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/wan-3-prime",
+      "retrievedAt": "2026-09-27"
+    },
+    {
+      "id": "codex-plugin",
+      "title": "Connect the MaxVideoAI plugin in Codex",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/integrations/codex",
+      "retrievedAt": "2026-09-27"
+    },
+    {
+      "id": "max-mcp",
+      "title": "MaxVideoAI assistant workflow",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/mcp",
+      "retrievedAt": "2026-09-27"
+    },
+    {
+      "id": "podcast-production",
+      "title": "Is This the End of Video Editing? — author-supplied production records",
+      "publisher": "MaxVideoAI / Adrien",
+      "url": "https://www.youtube.com/watch?v=hwF_A1VlA_U",
+      "retrievedAt": "2026-09-27"
+    },
+    {
+      "id": "aphelion",
+      "title": "Aphelion",
+      "publisher": "Scott Buckley",
+      "url": "https://www.scottbuckley.com.au/library/aphelion/",
+      "retrievedAt": "2026-09-27"
+    },
+    {
+      "id": "cc-by",
+      "title": "Creative Commons Attribution 4.0 International",
+      "publisher": "Creative Commons",
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "retrievedAt": "2026-09-27"
+    }
+  ],
+  "assets": [
+    {
+      "id": "podcast-cover",
+      "kind": "generated-illustration",
+      "width": 1600,
+      "height": 900,
+      "sha256": "e26fe3c3276ac7c2e410963db95382bf70ff94591ee418d1bb5bb3139cd0328e",
+      "url": "https://media.maxvideoai.com/editorial/published/e26fe3c3276ac7c2e410963db95382bf70ff94591ee418d1bb5bb3139cd0328e.webp"
+    },
+    {
+      "id": "podcast-casting",
+      "kind": "generated-illustration",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "e222c54f9da4c56d3c7d8f8a0fa8681ed0a29208bd495b73a4146b8065ec274e",
+      "url": "https://media.maxvideoai.com/editorial/published/e222c54f9da4c56d3c7d8f8a0fa8681ed0a29208bd495b73a4146b8065ec274e.webp"
+    },
+    {
+      "id": "podcast-prompt",
+      "kind": "generated-illustration",
+      "width": 1600,
+      "height": 900,
+      "sha256": "c37ca85efdb4613d817cd7bee845f133e7c7968c9c396291679abdc67b8b87be",
+      "url": "https://media.maxvideoai.com/editorial/published/c37ca85efdb4613d817cd7bee845f133e7c7968c9c396291679abdc67b8b87be.webp"
+    },
+    {
+      "id": "podcast-vertical",
+      "kind": "generated-illustration",
+      "width": 720,
+      "height": 1280,
+      "sha256": "8861d310afba62072fc362fa1386b233543a5971182b30869156c961b4c24b52",
+      "url": "https://media.maxvideoai.com/editorial/published/8861d310afba62072fc362fa1386b233543a5971182b30869156c961b4c24b52.webp"
+    },
+    {
+      "id": "podcast-h01-interface",
+      "kind": "verified-capture",
+      "width": 1122,
+      "height": 741,
+      "sha256": "54d115fb39f53d82bb6652fe2e8b2cbcb7aa44644d327185bf51abbff0399901",
+      "url": "https://media.maxvideoai.com/editorial/published/54d115fb39f53d82bb6652fe2e8b2cbcb7aa44644d327185bf51abbff0399901.webp"
+    }
+  ]
+}

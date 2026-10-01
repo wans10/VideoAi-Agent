@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Veo 3.1 Fast 对比 Wan 2.5：速度、4K与性价比",
+      "description": "在 VideoAI 上对比 Google Veo 3.1 Fast 与 Wan 2.5 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Google Veo 3.1 Fast 和 Wan 2.5 文生视频 / 图生视频，选择当前 4K 控制或低成本旧版工作流。Veo Fast 最长 8 秒；仍可用的 Wan 2.5 以更简单文本 / 图像输入提供最长 10 秒。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "快速制作、4K、参考、首尾帧控制和延长选择 Veo 3.1 Fast；低成本简单视频且需要多 2 秒可继续 Wan 2.5。最长 15 秒含音频文本 / 图像，或 5 / 10 秒无音频参考制作可迁移 Wan 2.6。"
+    },
+    "topCards": [
+      {
+        "title": "控制能力选择 Veo Fast",
+        "body": "8 秒工作流、720p、1080p、4K、音频、参考、首尾帧和延长使用 Veo Fast。"
+      },
+      {
+        "title": "简单视频保留 Wan 2.5",
+        "body": "现有文本 / 图像生成、480p 至 1080p 价格梯度和 10 秒上限已符合任务时，可继续用 Wan。"
+      },
+      {
+        "title": "更新 Wan 控制能力",
+        "body": "最长 15 秒文本 / 图像及可选音频选择 Wan 2.6；独立无音频参考模式接受 1 至 3 段视频，生成 5 或 10 秒。"
+      },
+      {
+        "title": "核心时长取舍",
+        "body": "Veo Fast 最长 8 秒，但增加制作控制和 4K；Wan 2.5 以最高 1080p 提供简单 10 秒视频。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/veo-3-1-fast",
+        "label": "查看 Google Veo 3.1 Fast 详情"
+      },
+      {
+        "href": "/models/wan-2-5",
+        "label": "查看 available Wan 2.5 详情"
+      },
+      {
+        "href": "/ai-video-engines/veo-3-1-fast-vs-wan-2-6",
+        "label": "对比 Google Veo 3.1 Fast 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解快速 Veo 制作、简单 Wan 性价比及 Wan 2.6 迁移路径。",
+      "items": [
+        {
+          "question": "Wan 2.5 与 Veo 3.1 Fast 同时仍可用吗？",
+          "answer": "可以。Wan 2.5 仍提供最长 10 秒、480p、720p、1080p 的旧版文本 / 图像方案。"
+        },
+        {
+          "question": "何时应该继续用 Wan 2.5？",
+          "answer": "10 秒及最高 1080p 已足够，且高级参考 / 帧控制没有额外价值时，可继续低成本简单 Wan 2.5。"
+        },
+        {
+          "question": "何时 Wan 2.6 是更合适的升级？",
+          "answer": "最长 15 秒、1080p 文本 / 图像及可选音频，或由 1 至 3 段参考驱动的独立 5 / 10 秒无音频生成可选择 Wan 2.6。"
+        }
+      ]
+    }
   }
 }

@@ -35,7 +35,7 @@ const NON_LOCALIZED_PREFIXES = [
   '/_vercel',
   '/apple-app-site-association',
 ];
-export const LOCALE_STRIPPABLE_PREFIXES = NON_LOCALIZED_PREFIXES.filter((prefix) => prefix !== '/legal');
+export const LOCALE_STRIPPABLE_PREFIXES = NON_LOCALIZED_PREFIXES.filter((prefix) => !['/legal', '/return-policy'].includes(prefix));
 const PLACEHOLDER_SEGMENTS = new Set(['[locale]', '[lang]', '[language]']);
 export const LOCALIZED_SEGMENT_VALUES = Array.from(
   new Set(

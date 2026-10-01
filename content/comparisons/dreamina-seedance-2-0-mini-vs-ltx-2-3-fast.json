@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Fast 对比 Seedance 2.0 Mini：性价比、规格与适用场景",
+      "description": "在 VideoAI 上对比 Dreamina Seedance 2.0 Mini 与 LTX 2.3 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "需要快速探索 LTX 效果、更高分辨率的选择空间和轻量创作草稿时，选择 LTX 2.3 Fast。480p / 720p 批量生成、电商变体、UGC 开场、视频编辑和延长测试可使用低成本的 Dreamina Seedance 2.0 Mini。目前页面仅展示评分与规格，尚无 Mini 对比视频。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "查看 LTX 2.3 Fast 详情"
+      },
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "查看 Seedance 2.0 Mini 详情"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast",
+        "label": "对比 Seedance Fast 对比 Mini"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 LTX 快速草稿与 Seedance Mini 的批量成本优势之间做出选择。",
+      "items": [
+        {
+          "question": "何时应该选择 LTX 2.3 Fast？",
+          "answer": "需要快速探索画面、测试 LTX 风格的提示词，且其分辨率和草稿表现更符合创作需求时，选择 LTX 2.3 Fast。"
+        },
+        {
+          "question": "何时应该选择 Seedance 2.0 Mini？",
+          "answer": "低成本 Seedance 批量生成、产品变体、社交媒体测试、UGC 开场、视频编辑和延长中，如果 480p / 720p 足够，可选择 Mini。"
+        },
+        {
+          "question": "为什么此对比页仅展示评分？",
+          "answer": "Mini 对比页先提供评分、规格与选择建议。精选 Mini 输出选定后，再补充并排视频。"
+        }
+      ]
+    }
   }
 }

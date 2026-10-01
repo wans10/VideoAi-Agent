@@ -152,6 +152,7 @@ export const routing = defineRouting({
       es: '/empresa',
       zh: '/company',
     },
+    '/return-policy': '/return-policy',
     '/legal/terms': {
       en: '/legal/terms',
       fr: '/legal/terms',

@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Veo 3.1 对比 Wan 2.5：4K、音频、价格与升级",
+      "description": "在 VideoAI 上对比 Google Veo 3.1 与 Wan 2.5 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Google Veo 3.1 和 Wan 2.5，选择精细 4K 制作或低成本旧版视频。Wan 2.5 仍支持最长 10 秒简单任务；Veo 增加参考、首尾帧和延长。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "精细最终广告、4K、参考及高级控制选择 Veo 3.1。低成本最长 10 秒文本 / 图像可继续 Wan 2.5；最长 15 秒含音频文本 / 图像或独立 5 / 10 秒无音频参考制作可迁移 Wan 2.6。"
+    },
+    "topCards": [
+      {
+        "title": "精细 4K 选择 Veo",
+        "body": "Veo 支持 720p 至 4K、原生音频、参考、首尾帧和延长，适合可控最终制作。"
+      },
+      {
+        "title": "简单性价比继续用 Wan 2.5",
+        "body": "现有 480p、720p、1080p 文本 / 图像工作流已满足最长 10 秒预算视频时，可继续用 Wan 2.5。"
+      },
+      {
+        "title": "升级 Wan 工作流",
+        "body": "5、10、15 秒文本 / 图像及可选音频选择 Wan 2.6；其独立无音频参考模式支持 5 或 10 秒。"
+      },
+      {
+        "title": "8 秒或 10 秒",
+        "body": "Veo 侧重最长 8 秒可控视频；不需要高级控制时，旧版 Wan 多提供 2 秒。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/veo-3-1",
+        "label": "查看 Google Veo 3.1 详情"
+      },
+      {
+        "href": "/models/wan-2-5",
+        "label": "查看 available Wan 2.5 详情"
+      },
+      {
+        "href": "/ai-video-engines/veo-3-1-vs-wan-2-6",
+        "label": "对比 Google Veo 3.1 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择 Veo 控制、旧版 Wan 性价比或当前 Wan 升级。",
+      "items": [
+        {
+          "question": "Wan 2.5 在 VideoAI 仍可用吗？",
+          "answer": "可以。仍支持最长 10 秒、480p、720p、1080p 的旧版文生视频和图生视频。"
+        },
+        {
+          "question": "哪些用户适合继续 Wan 2.5 而非 Veo 3.1？",
+          "answer": "低成本简单视频和多 2 秒比 4K、参考、首尾帧或延长更重要时，可继续 Wan 2.5。"
+        },
+        {
+          "question": "Wan 2.5 用户何时应迁移至 Wan 2.6？",
+          "answer": "最长 15 秒文本 / 图像及可选音频，或 1 至 3 段参考视频的独立 5 / 10 秒无音频模式选择 Wan 2.6。"
+        }
+      ]
+    }
   }
 }

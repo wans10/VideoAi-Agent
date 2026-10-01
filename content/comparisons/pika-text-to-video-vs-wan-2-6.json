@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Pika 2.2 对比 Wan 2.6：价格、音频与适用场景",
+      "description": "在 VideoAI 上对比 Pika 2.2 Text & Image to Video 与 Wan 2.6 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Pika 2.2 文生视频 / 图生视频和 Wan 2.6，选择低成本短循环或更长含音频制作。Pika 提供经济的简单提示词 / 图像动画；Wan 增加 15 秒和参考视频控制。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "低成本 5 / 10 秒无音频循环、风格化测试和简单图像动画选择 Pika 2.2；最长 15 秒、原生音频或 1 至 3 段参考视频选择 Wan 2.6，并接受更高的 720p / 1080p 生成价格。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Pika 2.2",
+        "body": "低成本 720p 测试、短无音频循环和简单文生视频 / 图生视频使用 Pika。"
+      },
+      {
+        "title": "选择 Wan 2.6",
+        "body": "最长 15 秒、可选音频、1080p 交付或参考视频引导的工作流使用 Wan。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "Pika 720p 每秒 0.04 美元起；Wan 每秒 0.10 美元起，但增加时长、音频和参考视频控制。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "风格化社交循环和概念测试适合 Pika；更长通用镜头、旁白视频和参考驱动序列适合 Wan。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/pika-text-to-video",
+        "label": "查看 Pika 2.2 详情"
+      },
+      {
+        "href": "/models/wan-2-6",
+        "label": "查看 Wan 2.6 详情"
+      },
+      {
+        "href": "/ai-video-engines/minimax-hailuo-02-text-vs-pika-text-to-video",
+        "label": "对比 Hailuo 02 对比 Pika 2.2"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 Pika 2.2 和 Wan 2.6 之间选择。",
+      "items": [
+        {
+          "question": "Pika 2.2 和 Wan 2.6 哪款适合低成本视频测试？",
+          "answer": "720p 下 Pika 2.2 更便宜，适合短无音频循环。Wan 2.6 更贵，但测试需要音频、更长时长或参考视频时更有价值。"
+        },
+        {
+          "question": "Wan 2.6 提供哪些 Pika 2.2 没有的功能？",
+          "answer": "Wan 2.6 支持最长 15 秒、可选音频，以及 1 至 3 段视频参考驱动的参考生视频；Pika 2.2 仅限无音频文生视频和图生视频。"
+        },
+        {
+          "question": "精细 1080p 视频应该用哪款？",
+          "answer": "两款都提供 1080p。简单无音频镜头且价格更低可选择 Pika；最终视频受益于原生音频、更长时长或参考视频引导时，选择 Wan。"
+        }
+      ]
+    }
   }
 }

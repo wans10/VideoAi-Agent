@@ -5,7 +5,7 @@ import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import type { CompanyCopy } from '../_lib/company-copy';
 
 export function CompanyTrustView({ copy, locale }: { copy: CompanyCopy; locale: AppLocale }) {
-  const href = (path: string) => (path === '/return-policy' ? path : localizePathFromEnglish(locale, path));
+  const href = (path: string) => (path === '/return-policy' && locale !== 'zh' ? path : localizePathFromEnglish(locale, path));
 
   return (
     <div className="videoai-company container-page max-w-6xl space-y-12 py-8 sm:space-y-16 sm:py-10">

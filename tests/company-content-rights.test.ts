@@ -52,6 +52,7 @@ test('Company route delegates visual ownership to a focused view', () => {
   assert.ok(page.split('\n').length <= 100);
   assert.match(view, /generated-media-rights/);
   assert.match(view, /return-policy/);
+  assert.match(view, /locale !== 'zh'/);
   assert.doesNotMatch(view, /['"]use client['"]/);
 });
 

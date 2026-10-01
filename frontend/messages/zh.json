@@ -1402,9 +1402,9 @@
       "items": [
         {
           "id": "veo-teaser",
-          "label": "Veo 3 · Launch teaser",
-          "description": "Narrative lighting with audio on for the campaign reveal.",
-          "alt": "Google Veo 3 cinematic teaser.",
+          "label": "Veo 3 · 发布预告",
+          "description": "使用叙事灯光与音频，为宣传活动制作揭幕镜头。",
+          "alt": "Google Veo 3 电影级预告。",
           "meta": {
             "slug": "veo-3-1",
             "pricing": {
@@ -1422,9 +1422,9 @@
         },
         {
           "id": "veo31-fast-demo",
-          "label": "Veo 3.1 Fast · Frame bridge",
-          "description": "8s bridge between a first and last frame using Veo 3.1 Fast.",
-          "alt": "Veo 3.1 Fast transition example.",
+          "label": "Veo 3.1 Fast · 首尾帧过渡",
+          "description": "使用 Veo 3.1 Fast 制作首帧与尾帧之间的 8 秒过渡。",
+          "alt": "Veo 3.1 Fast 过渡示例。",
           "meta": {
             "slug": "veo-3-1-fast",
             "pricing": {
@@ -1442,9 +1442,9 @@
         },
         {
           "id": "minimax-hailuo",
-          "label": "MiniMax Hailuo 02 · Concept draft",
-          "description": "Prompt optimiser enabled to block out a storyboard cut before the hero generation.",
-          "alt": "MiniMax Hailuo Standard concept animation.",
+          "label": "MiniMax Hailuo 02 · 概念草稿",
+          "description": "开启提示词优化，在生成主镜头前先制作分镜概念草稿。",
+          "alt": "MiniMax Hailuo Standard 概念动画。",
           "meta": {
             "slug": "minimax-hailuo-02-text",
             "pricing": {
@@ -1534,14 +1534,14 @@
       "ariaPrefix": "查看预设：",
       "seePresets": "查看预设参数 →",
       "statLabels": {
-        "max": "Max",
+        "max": "最高",
         "audio": "音频",
         "bestFor": "最佳应用场景"
       },
       "cardLabels": {
-        "avg": "Avg",
+        "avg": "平均",
         "modes": "模式",
-        "max": "Max",
+        "max": "最高",
         "res": "Res"
       },
       "modeLabels": {
@@ -2036,29 +2036,29 @@
     },
     "intro": {
       "paragraphs": [
-        "Each engine in this catalog is wired into the VideoAI workspace with monitored latency, price tracking, and fallbacks. We add models as soon as providers open real capacity—not waitlist demos—so you know what can ship to production today.",
-        "Pick an engine to see the prompt presets, duration limits, and current route we use to keep renders flowing, then duplicate it into your own workspace."
+        "目录中的每款模型都已接入 VideoAI 工作台，并配有延迟监测、价格追踪及备用路由。提供商开放实际可用容量后，我们才会接入模型，让你了解当前可用于正式制作的方案。",
+        "选择模型，查看提示词预设、时长限制和当前生成路由，然后在自己的工作台中使用。"
       ],
       "cards": [
         {
           "emoji": "🎬",
-          "title": "When to choose Sora",
-          "body": "Reach for Sora 2 or Sora 2 Pro when you need cinematic physics, character continuity, or audio baked directly into the render. These tiers cost more per second but deliver hero-quality footage."
+          "title": "何时选择 Sora",
+          "body": "需要电影级物理效果、角色连贯性或随视频一起生成的音频时，可选择 Sora 2 或 Sora 2 Pro。这些档位的每秒成本较高，适合制作高质量主镜头。"
         },
         {
           "emoji": "🎯",
-          "title": "When to choose Veo",
-          "body": "Veo 3 tiers provide precise framing controls and tone presets, plus fast variants for iteration. They are ideal for ad cuts, b-roll, and campaigns that demand consistent camera moves."
+          "title": "何时选择 Veo",
+          "body": "Veo 3 系列提供精准构图控制和风格预设，并有适合迭代的快速版本，适用于广告、辅助镜头及需要一致运镜的宣传片。"
         },
         {
           "emoji": "⚡",
-          "title": "When to choose Pika or MiniMax",
-          "body": "Pika 2.2 excels at stylised loops and social edits, while MiniMax Hailuo 02 keeps budgets low for volume runs. Both complement Sora and Veo when you need fast alternates or lightweight briefs."
+          "title": "何时选择 Pika 或 MiniMax",
+          "body": "Pika 2.2 擅长风格化循环视频和社交媒体短片，MiniMax Hailuo 02 适合低预算批量生成。需要快速备选镜头或轻量创作时，两者可与 Sora 和 Veo 配合使用。"
         },
         {
           "emoji": "🖼️",
-          "title": "When to choose Nano Banana",
-          "body": "Storyboard or edit photoreal stills before jumping into motion. Nano Banana shares the same wallet and prompt lab, so you can prep Veo/Sora shots with text-to-image or reference edits."
+          "title": "何时选择 Nano Banana",
+          "body": "先制作分镜或编辑写实静态图，再进入视频制作。Nano Banana 使用同一钱包和提示词实验室，可通过文生图或参考图编辑，为 Veo / Sora 镜头准备素材。"
         }
       ],
       "cta": {
@@ -2347,7 +2347,7 @@
         "mode": {
           "label": "输入模式",
           "options": {
-            "all": "All",
+            "all": "全部",
             "t2v": "T2V",
             "i2v": "I2V",
             "v2v": "V2V",
@@ -2363,7 +2363,7 @@
             "720": "720p+",
             "1080": "1080p+",
             "2160": "4K",
-            "all": "All"
+            "all": "全部"
           }
         },
         "duration": {
@@ -2371,14 +2371,14 @@
           "options": {
             "8": "≤8s",
             "20": "20s+",
-            "all": "All",
+            "all": "全部",
             "10-15": "10–15s"
           }
         },
         "price": {
           "label": "价格",
           "options": {
-            "all": "All",
+            "all": "全部",
             "cheap": "$",
             "mid": "$$",
             "premium": "$$$"
@@ -2389,7 +2389,7 @@
           "options": {
             "latest": "最新一代",
             "legacy": "早期模型",
-            "all": "All"
+            "all": "全部"
           }
         },
         "searchPlaceholder": "搜索模型…",
@@ -2433,7 +2433,7 @@
         "template": "最适合{useCase}，在{capabilities}方面具有突出的{strengths}",
         "strengthsFallback": "稳定的成片效果",
         "capabilityFallback": "AI 视频",
-        "conjunction": "and",
+        "conjunction": "和",
         "useCases": {
           "sora-2": "电影级镜头与角色连贯性",
           "sora-2-pro": "影棚级电影镜头与核心叙事大片",
@@ -2557,10 +2557,10 @@
     },
     "items": [
       {
-        "title": "Sora 2 cinematic",
+        "title": "Sora 2 电影级镜头",
         "engine": "Sora 2 · Text-to-video · 16:9",
-        "description": "Cinematic motion pass capturing atmospheric lighting and parallax.",
-        "alt": "Sora 2 example clip.",
+        "description": "呈现氛围灯光和视差效果的电影级运动镜头。",
+        "alt": "Sora 2 视频示例。",
         "meta": {
           "slug": "sora-2",
           "pricing": {
@@ -2576,10 +2576,10 @@
         }
       },
       {
-        "title": "Veo 3 branded flythrough",
+        "title": "Veo 3 品牌穿行镜头",
         "engine": "Veo 3.1 · Image-to-video · 16:9",
-        "description": "Depth-rich branded flythrough emphasising camera control.",
-        "alt": "Veo 3 example clip.",
+        "description": "突出相机控制与空间层次的品牌穿行镜头。",
+        "alt": "Veo 3 视频示例。",
         "meta": {
           "slug": "veo-3-1",
           "pricing": {
@@ -2595,10 +2595,10 @@
         }
       },
       {
-        "title": "Veo 3.1 Fast storyboard pass",
+        "title": "Veo 3.1 Fast 分镜预览",
         "engine": "Veo 3.1 Fast · Text-to-video · 16:9",
-        "description": "Fast queue render to preview motion with optional ambient audio.",
-        "alt": "Veo 3.1 Fast example clip.",
+        "description": "快速生成运动预览，可选环境音频。",
+        "alt": "Veo 3.1 Fast 视频示例。",
         "meta": {
           "slug": "veo-3-1-fast",
           "pricing": {
@@ -2614,10 +2614,10 @@
         }
       },
       {
-        "title": "Pika 2.2 social loop",
+        "title": "Pika 2.2 社交媒体循环短片",
         "engine": "Pika 2.2 · Text-to-video · 16:9",
-        "description": "Fast-paced social loop with stylised motion accents.",
-        "alt": "Pika 2.2 example clip.",
+        "description": "节奏明快、带有风格化动态效果的循环短片。",
+        "alt": "Pika 2.2 视频示例。",
         "meta": {
           "slug": "pika-text-to-video",
           "pricing": {
@@ -2633,10 +2633,10 @@
         }
       },
       {
-        "title": "MiniMax Hailuo concept pass",
-        "engine": "MiniMax Hailuo 02 · Text/Image-to-video · 16:9",
-        "description": "Animated concept art pass driven by a single reference frame.",
-        "alt": "MiniMax Hailuo Standard example clip.",
+        "title": "MiniMax Hailuo 概念镜头",
+        "engine": "MiniMax Hailuo 02 · 文生视频 / 图生视频 · 16:9",
+        "description": "由单张参考帧驱动的概念艺术动画。",
+        "alt": "MiniMax Hailuo Standard 视频示例。",
         "meta": {
           "slug": "minimax-hailuo-02-text",
           "pricing": {
@@ -2849,26 +2849,26 @@
         "library": "媒体库"
       },
       "about": [
-        "onboarding",
-        "refund policy",
-        "brand safety",
-        "jobs",
-        "product access"
+        "入门",
+        "退款政策",
+        "内容安全",
+        "任务",
+        "产品访问"
       ],
       "breadcrumbHome": "首页",
       "breadcrumbDocs": "文档",
       "faq": [
         {
-          "question": "Do Starter Credits expire?",
-          "answer": "No. Unused credits remain in your individual wallet while the account stays active."
+          "question": "初始额度会过期吗？",
+          "answer": "不会。账号保持活跃期间，未使用额度会保留在你的个人钱包中。"
         },
         {
-          "question": "How are failed paid generations refunded?",
-          "answer": "Failed paid generations are automatically refunded; each job includes a short incident note."
+          "question": "付费生成失败后如何退款？",
+          "answer": "付费生成失败会自动退款，每个任务都附有简短的问题说明。"
         },
         {
-          "question": "Can we override brand-safety for specific projects?",
-          "answer": "Yes. Admins can request custom allowlists or restricted keywords per workspace; sensitive cases route to human review with an audit trail."
+          "question": "可以为特定项目调整内容安全规则吗？",
+          "answer": "可以。管理员可为工作区申请自定义允许列表或受限关键词；敏感情况会转交人工审核，并保留审计记录。"
         }
       ]
     },
@@ -2919,16 +2919,16 @@
       "title": "博客常见问答",
       "items": [
         {
-          "question": "How often do new posts ship?",
-          "answer": "We publish every week (and sometimes twice a week) as engines shift. Subscribe in the workspace to get a digest when new coverage lands."
+          "question": "多久发布一篇新文章？",
+          "answer": "我们通常每周发布文章，模型更新较多时可能每周发布两次。在工作台订阅后，可在新内容发布时收到摘要。"
         },
         {
-          "question": "Can I suggest a topic or request coverage?",
-          "answer": "Yes—send topics to contact@llmhub.com.cn and include reference renders if you can. We prioritize stories that help production teams stay current."
+          "question": "可以建议选题或申请专题报道吗？",
+          "answer": "可以。请将选题发送至 contact@llmhub.com.cn，并尽可能附上参考生成结果。我们优先选择有助于制作团队了解最新进展的内容。"
         },
         {
-          "question": "Where can I find release notes?",
-          "answer": "Feature-level updates live in the product changelog, and API updates post inside the developer docs. The blog covers higher-level workflows."
+          "question": "在哪里查看版本更新说明？",
+          "answer": "功能更新发布在产品更新日志中，API 更新发布在开发者文档中。博客侧重介绍整体工作流。"
         }
       ],
       "footnote": "需要了解更多详情？请发送需求至 contact@llmhub.com.cn，我们将转交至相关负责人。"
@@ -3055,19 +3055,19 @@
       "topics": [
         {
           "value": "support",
-          "label": "Support"
+          "label": "技术支持"
         },
         {
           "value": "sales",
-          "label": "Sales"
+          "label": "销售咨询"
         },
         {
           "value": "partnerships",
-          "label": "Partnerships"
+          "label": "合作咨询"
         },
         {
           "value": "press",
-          "label": "Press"
+          "label": "媒体咨询"
         }
       ],
       "message": "留言内容",
@@ -3080,16 +3080,16 @@
       "title": "联系问答",
       "items": [
         {
-          "question": "How fast will someone reply?",
-          "answer": "We answer during European and US business hours. Most support tickets receive a human response in under 12 hours, enterprise requests inside 24."
+          "question": "多久能收到回复？",
+          "answer": "我们在欧洲和美国的工作时间回复。大多数支持请求会在 12 小时内收到人工回复，企业咨询通常在 24 小时内收到回复。"
         },
         {
-          "question": "Do you offer live demos?",
-          "answer": "Yes. Include your preferred time zone and the models you want to see. We run demos inside the VideoAI workspace so you can watch routing and pricing in real time."
+          "question": "提供在线演示吗？",
+          "answer": "提供。请说明你所在的时区和希望了解的模型。演示在 VideoAI 工作台中进行，你可以实时查看模型路由和价格。"
         },
         {
-          "question": "Where can I check service status?",
-          "answer": "Visit the {email} for current engine latency and incident history before opening a ticket."
+          "question": "在哪里查看服务状态？",
+          "answer": "提交工单前，请访问 {email} 查看当前模型延迟和历史事件。"
         }
       ]
     },
@@ -3105,28 +3105,28 @@
       "intro": "本条款构成当前有效的用户协议。",
       "sections": [
         {
-          "heading": "1. Overview",
-          "body": "These Terms govern your use of VideoAI. By accessing the service you agree to the obligations below."
+          "heading": "1. 概述",
+          "body": "本条款适用于你对 VideoAI 的使用。访问本服务即表示你同意以下义务。"
         },
         {
-          "heading": "2. Accounts",
-          "body": "You are responsible for maintaining account security and ensuring teammates comply with these Terms."
+          "heading": "2. 账号",
+          "body": "你有责任维护账号安全，并确保团队成员遵守本条款。"
         },
         {
-          "heading": "3. Usage & Compliance",
-          "body": "Use VideoAI only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies."
+          "heading": "3. 使用与合规",
+          "body": "请遵守适用法律和许可限制使用 VideoAI，不得上传违法或侵权素材，也不得尝试生成被禁止或不安全的内容。如视频违反本条款或平台政策，我们可能审核、阻止或移除生成结果，并暂停访问权限。"
         },
         {
-          "heading": "4. User Content & Generated Media",
-          "body": "User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant VideoAI a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting/desindexation by contacting support if a privacy toggle is unavailable, and we will honor the request. You retain ownership of your prompts, uploads, descriptions, and brand assets, while VideoAI retains ownership of the platform, interfaces, transformations, and technical improvements built atop the service."
+          "heading": "4. 用户内容与生成媒体",
+          "body": "你上传的照片、标志、参考视频和提示词仍归你所有。我们仅为生成所请求的文生视频或图生视频结果，以及提供你启用的工作台功能而存储、处理和展示上传素材。对于每份生成媒体，你授予 VideoAI 全球范围、非独占、免版税、可转让及可再许可的许可，以托管、复制、索引、展示和以其他方式使用视频，用于运营服务、改进路由和模型、开展安全审核，以及在示例图库、模板页面或其他营销位置展示。你可在工作台将生成结果设为私密；如无隐私开关，可联系支持团队申请下架或移除索引，我们将尊重该请求。你的提示词、上传素材、描述和品牌资产仍归你所有；平台、界面、转换及基于服务构建的技术改进归 VideoAI 所有。"
         },
         {
-          "heading": "5. Billing",
-          "body": "Wallet charges apply only to successful renders. Refunds are issued automatically for failed jobs."
+          "heading": "5. 计费",
+          "body": "钱包仅对成功生成的结果扣费。失败任务会自动退款。"
         },
         {
-          "heading": "6. Liability",
-          "body": "VideoAI is provided as-is. We limit liability to the maximum extent permitted by law."
+          "heading": "6. 责任",
+          "body": "VideoAI 按现状提供服务。在法律允许的最大范围内，我们限制相关责任。"
         }
       ]
     },
@@ -3135,24 +3135,24 @@
       "intro": "我们隐私保护措施的核心要点说明。",
       "sections": [
         {
-          "heading": "1. Data we collect",
-          "body": "Workspace details, usage metrics, and billing information needed to deliver the service."
+          "heading": "1. 我们收集的数据",
+          "body": "为提供服务所需的工作区信息、使用指标和账单信息。"
         },
         {
-          "heading": "2. How we use data",
-          "body": "Operate routing, improve product quality, and communicate critical updates."
+          "heading": "2. 数据使用方式",
+          "body": "用于运营模型路由、改进产品质量及传达重要更新。"
         },
         {
-          "heading": "3. Storage & security",
-          "body": "We store data in encrypted systems with least-privilege access. Render assets auto-expire per workspace policy."
+          "heading": "3. 存储与安全",
+          "body": "我们使用加密系统和最小权限访问机制存储数据。生成素材按工作区策略自动过期。"
         },
         {
-          "heading": "4. Sharing",
-          "body": "We only share data with underlying engine providers when routing renders. We never sell customer data."
+          "heading": "4. 数据共享",
+          "body": "我们仅在路由生成请求时与底层模型提供商共享数据，不会出售客户数据。"
         },
         {
-          "heading": "5. Your choices",
-          "body": "Request export or deletion any time via contact@llmhub.com.cn. Admins control retention windows."
+          "heading": "5. 你的选择",
+          "body": "可随时通过 contact@llmhub.com.cn 申请导出或删除数据。管理员可控制保留期限。"
         }
       ]
     }
@@ -3174,34 +3174,34 @@
       "releaseTagsTitle": "版本标记说明",
       "releaseTags": [
         {
-          "label": "Engine",
-          "body": "new models, quality shifts, or pricing moves."
+          "label": "模型",
+          "body": "新模型、画质调整或价格变化。"
         },
         {
-          "label": "Workflow",
-          "body": "UI, automation, or queue enhancements."
+          "label": "工作流",
+          "body": "界面、自动化或队列改进。"
         },
         {
-          "label": "Trust",
-          "body": "policy, audit, or compliance adjustments."
+          "label": "信任与合规",
+          "body": "政策、审计或合规调整。"
         }
       ]
     },
     "entries": [
       {
         "date": "2024-06-12",
-        "title": "Veo templates + queue transparency",
-        "body": "Added Veo V2 routing, a queue-length indicator on the Price-Before chip, and clearer wallet balance notices."
+        "title": "Veo 模板与队列透明度",
+        "body": "新增 Veo V2 路由、生成前价格标签中的队列长度指示，以及更清晰的钱包余额提示。"
       },
       {
         "date": "2024-06-05",
-        "title": "Refund automation",
-        "body": "Failed paid generations are automatically refunded when a render fails or a provider returns an error."
+        "title": "自动退款",
+        "body": "付费生成失败或提供商返回错误时，相关费用会自动退回。"
       },
       {
         "date": "2024-05-29",
-        "title": "Brand kit hand-off",
-        "body": "Workflows export brand kits into FCPXML and AE JSON for post teams."
+        "title": "品牌素材交接",
+        "body": "工作流支持将品牌素材导出为 FCPXML 和 AE JSON，交付后期制作团队。"
       }
     ]
   },
@@ -5980,7 +5980,7 @@
             "landscape": "横屏",
             "portrait": "竖屏",
             "characterPortraitReference": "肖像参考",
-            "characterSheet": "角色三视图",
+            "characterSheet": "角色设定表",
             "characterExploratory": "探索",
             "characterBalanced": "均衡",
             "characterStrict": "严格",
@@ -7144,109 +7144,109 @@
   },
   "comparePage": {
     "meta": {
-      "title": "{left} 对比 {right} — Specs & Pricing | VideoAI",
+      "title": "{left} 对比 {right} — 技术规格与价格 | VideoAI",
       "titleFallback": "AI 视频模型：技术规格与定价对比 | VideoAI",
-      "description": "Compare {left} 对比 {right} on VideoAI with key specs, and a scorecard across 11 criteria.",
+      "description": "在 VideoAI 上对比 {left} 与 {right} 的核心规格、价格和 11 项综合评分，为你的创作工作流选择模型。",
       "slugOverrides": {
         "kling-2-6-pro-vs-ltx-2": {
-          "title": "Kling 2.6 Pro vs LTX 2 — Speed 对比 Quality | VideoAI",
-          "description": "从生成画质、速度、价格、支持模式及 11 项综合评分对比两款模型。根据实际使用场景选择最佳方案。"
+          "title": "Kling 2.6 Pro 对比 LTX 2 — 速度与画质 | VideoAI",
+          "description": "对比 Kling 2.6 Pro 与 LTX 2 的画质、速度、价格、生成模式和 11 项评分，根据实际场景选择模型。"
         },
         "ltx-2-fast-vs-wan-2-6": {
-          "title": "LTX 2 Fast 对比 WAN 2.6 — Quality, Speed & Cost | VideoAI",
-          "description": "Compare LTX 2 Fast vs WAN 2.6 with key specs, pricing, and an 11-point scorecard. See speed/stability 对比 video-to-video support."
+          "title": "LTX 2 Fast 对比 WAN 2.6 — 画质、速度与成本 | VideoAI",
+          "description": "对比 LTX 2 Fast 与 WAN 2.6 的规格、价格和 11 项评分，了解速度、稳定性与视频生视频支持之间的差异。"
         },
         "wan-2-5-vs-wan-2-6": {
-          "title": "WAN 2.5 对比 WAN 2.6 — What's New + Specs | VideoAI",
-          "description": "See what changed in WAN 2.6 对比 2.5: longer clips, multi-shot output, video-to-video support, pricing, and an 11-point scorecard."
+          "title": "WAN 2.5 对比 WAN 2.6 — 升级变化与规格 | VideoAI",
+          "description": "了解 WAN 2.6 相较于 2.5 的变化：更长视频、多镜头输出、视频生视频支持、价格和 11 项评分。"
         },
         "ltx-2-fast-vs-wan-2-5": {
-          "title": "LTX 2 Fast 对比 WAN 2.5 — Quality, Speed & Cost | VideoAI",
-          "description": "Compare LTX 2 Fast 对比 WAN 2.5 with key specs, pricing, and an 11-point scorecard. Pick the best engine for your workflow."
+          "title": "LTX 2 Fast 对比 WAN 2.5 — 画质、速度与成本 | VideoAI",
+          "description": "对比 LTX 2 Fast 与 WAN 2.5 的核心规格、价格和 11 项评分，为你的工作流选择模型。"
         },
         "kling-3-pro-vs-wan-2-6": {
-          "title": "Kling 3 Pro 对比 WAN 2.6 — Quality, Audio & Cost | VideoAI",
-          "description": "Compare Kling 3 Pro 对比 WAN 2.6 by quality, audio, speed, modes, pricing, and an 11-point scorecard."
+          "title": "Kling 3 Pro 对比 WAN 2.6 — 画质、音频与成本 | VideoAI",
+          "description": "从画质、音频、速度、模式、价格和 11 项评分对比 Kling 3 Pro 与 WAN 2.6。"
         },
         "kling-3-pro-vs-veo-3-1": {
-          "title": "Kling 3 Pro 对比 Veo 3.1 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Kling 3 Pro 对比 Veo 3.1 on VideoAI by specs, pricing, scene control, native audio behavior, and output quality."
+          "title": "Kling 3 Pro 对比 Veo 3.1 | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 Kling 3 Pro 与 Veo 3.1 的规格、价格、场景控制、原生音频表现与输出画质。"
         },
         "ltx-2-3-pro-vs-veo-3-1": {
-          "title": "LTX 2.3 Pro 对比 Veo 3.1 | AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Pro 对比 Veo 3.1 on VideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro 对比 Veo 3.1 | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 LTX 2.3 Pro 与 Veo 3.1 的规格、价格、音频表现与输出画质。"
         },
         "ltx-2-vs-veo-3-1-fast": {
-          "title": "LTX 2 vs Veo 3.1 Fast — Speed 对比 Quality | VideoAI",
-          "description": "Compare LTX 2 对比 Veo 3.1 Fast: speed/queue time, cost, max duration, and output quality, with a detailed scorecard."
+          "title": "LTX 2 对比 Veo 3.1 Fast — 速度与画质 | VideoAI",
+          "description": "通过详细评分对比 LTX 2 与 Veo 3.1 Fast 的速度、排队时间、成本、最大时长与输出画质。"
         },
         "ltx-2-vs-veo-3-1": {
-          "title": "LTX 2 对比 Veo 3.1 — Quality, Cost & Modes | VideoAI",
-          "description": "Compare LTX 2 对比 Google Veo 3.1 by quality, motion realism, text legibility, modes, pricing, and an 11-point scorecard."
+          "title": "LTX 2 对比 Veo 3.1 — 画质、成本与模式 | VideoAI",
+          "description": "从画质、动态真实感、文字清晰度、模式、价格和 11 项评分对比 LTX 2 与 Google Veo 3.1。"
         },
         "seedance-2-0-vs-veo-3-1": {
-          "title": "Seedance 2.0 对比 Veo 3.1 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Seedance 2.0 对比 Veo 3.1 on VideoAI by specs, pricing, audio workflows, and model capabilities."
+          "title": "Seedance 2.0 对比 Veo 3.1 | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 Seedance 2.0 与 Veo 3.1 的规格、价格、音频工作流与模型能力。"
         },
         "kling-3-pro-vs-seedance-2-0": {
-          "title": "Kling 3 Pro 对比 Seedance 2.0 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Kling 3 Pro 对比 Seedance 2.0 on VideoAI by specs, pricing, scene control, and multi-shot output quality."
+          "title": "Kling 3 Pro 对比 Seedance 2.0 | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 Kling 3 Pro 与 Seedance 2.0 的规格、价格、场景控制与多镜头输出画质。"
         },
         "seedance-2-0-fast-vs-veo-3-1-fast": {
-          "title": "Seedance 2.0 Fast 对比 Veo 3.1 Fast | Fast AI Video Model Comparison | VideoAI",
-          "description": "Compare Seedance 2.0 Fast 对比 Veo 3.1 Fast on VideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "Seedance 2.0 Fast 对比 Veo 3.1 Fast | 快速 AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 Seedance 2.0 Fast 与 Veo 3.1 Fast 的草稿生成速度、规格、价格与输出画质。"
         },
         "ltx-2-3-pro-vs-seedance-2-0": {
-          "title": "LTX 2.3 Pro 对比 Seedance 2.0 | AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Pro 对比 Seedance 2.0 on VideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro 对比 Seedance 2.0 | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 LTX 2.3 Pro 与 Seedance 2.0 的规格、价格、音频表现与输出画质。"
         },
         "seedance-2-0-vs-sora-2": {
-          "title": "Seedance 2.0 对比 Sora 2 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Seedance 2.0 对比 Sora 2 on VideoAI by specs, pricing, audio behavior, and cinematic output quality."
+          "title": "Seedance 2.0 对比 Sora 2 | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 Seedance 2.0 与 Sora 2 的规格、价格、音频表现与电影级输出画质。"
         },
         "seedance-1-5-pro-vs-veo-3-1": {
-          "title": "Seedance 1.5 Pro vs Veo 3.1 — Speed 对比 Quality | VideoAI",
-          "description": "Compare Seedance 1.5 Pro 对比 Google Veo 3.1 by cinematic quality, speed, pricing, modes, and an 11-point scorecard."
+          "title": "Seedance 1.5 Pro 对比 Veo 3.1 — 速度与画质 | VideoAI",
+          "description": "从电影级画质、速度、价格、模式和 11 项评分对比 Seedance 1.5 Pro 与 Google Veo 3.1。"
         },
         "ltx-2-vs-seedance-2-0": {
-          "title": "LTX 2 对比 Seedance 2 — Scores & Pricing | VideoAI",
-          "description": "Compare LTX 2 对比 Seedance 2.0 by quality, speed, modes, pricing, and an 11-point scorecard to pick by use case."
+          "title": "LTX 2 对比 Seedance 2 — 评分与价格 | VideoAI",
+          "description": "从画质、速度、模式、价格和 11 项评分对比 LTX 2 与 Seedance 2.0，按使用场景选择模型。"
         },
         "kling-3-standard-vs-veo-3-1": {
-          "title": "Kling 3 Std 对比 Veo 3.1 — Scores & Pricing | VideoAI",
-          "description": "Compare Kling 3 Standard 对比 Google Veo 3.1 by quality, speed, pricing, modes, and an 11-point scorecard."
+          "title": "Kling 3 Std 对比 Veo 3.1 — 评分与价格 | VideoAI",
+          "description": "从画质、速度、价格、模式和 11 项评分对比 Kling 3 Standard 与 Google Veo 3.1。"
         },
         "kling-3-pro-vs-sora-2": {
-          "title": "Kling 3 Pro 对比 Sora 2 — Scores & Pricing | VideoAI",
-          "description": "Compare Kling 3 Pro 对比 OpenAI Sora 2 by quality, speed, max duration, pricing, and an 11-point scorecard."
+          "title": "Kling 3 Pro 对比 Sora 2 — 评分与价格 | VideoAI",
+          "description": "从画质、速度、最大时长、价格和 11 项评分对比 Kling 3 Pro 与 OpenAI Sora 2。"
         },
         "kling-3-pro-vs-sora-2-pro": {
-          "title": "Kling 3 Pro 对比 Sora 2 Pro | AI Video Model Comparison | VideoAI",
-          "description": "Compare Kling 3 Pro 对比 Sora 2 Pro on VideoAI by specs, pricing, scene control, audio behavior, and output quality."
+          "title": "Kling 3 Pro 对比 Sora 2 Pro | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 Kling 3 Pro 与 Sora 2 Pro 的规格、价格、场景控制、音频表现与输出画质。"
         },
         "sora-2-vs-sora-2-pro": {
-          "title": "Sora 2 对比 Sora 2 Pro — Differences & Cost | VideoAI",
-          "description": "Compare Sora 2 对比 Sora 2 Pro: output quality, native audio, max resolution/duration, and pricing—with a detailed scorecard."
+          "title": "Sora 2 对比 Sora 2 Pro — 差异与成本 | VideoAI",
+          "description": "通过详细评分对比 Sora 2 与 Sora 2 Pro 的输出画质、原生音频、最高分辨率、最长时长和价格。"
         },
         "kling-3-4k-vs-kling-3-pro": {
-          "title": "Kling 3 4K vs Kling 3 Pro | Native 4K 对比 1080p | VideoAI",
-          "description": "Compare Kling 3 4K 对比 Kling 3 Pro on VideoAI: native 4K delivery, 1080p iteration, pricing, modes, and when to use each route."
+          "title": "Kling 3 4K 对比 Kling 3 Pro | 原生 4K 与 1080p | VideoAI",
+          "description": "在 VideoAI 上对比 Kling 3 4K 与 Kling 3 Pro：原生 4K 交付、1080p 迭代、价格、模式及各方案的适用场景。"
         },
         "kling-2-6-pro-vs-seedance-2-0": {
-          "title": "Kling 2.6 Pro 对比 Seedance 2 — Scores & Pricing | VideoAI",
-          "description": "Compare Kling 2.6 Pro 对比 Seedance 2.0 by quality, audio, speed, pricing, and an 11-point scorecard."
+          "title": "Kling 2.6 Pro 对比 Seedance 2 — 评分与价格 | VideoAI",
+          "description": "从画质、音频、速度、价格和 11 项评分对比 Kling 2.6 Pro 与 Seedance 2.0。"
         },
         "kling-3-standard-vs-ltx-2": {
-          "title": "Kling 3 Std vs LTX 2 — Speed 对比 Quality | VideoAI",
-          "description": "Compare Kling 3 Standard 对比 LTX 2 by quality, speed, pricing, modes, and an 11-point scorecard."
+          "title": "Kling 3 Std 对比 LTX 2 — 速度与画质 | VideoAI",
+          "description": "从画质、速度、价格、模式和 11 项评分对比 Kling 3 Standard 与 LTX 2。"
         },
         "ltx-2-3-fast-vs-ltx-2-3-pro": {
-          "title": "LTX 2.3 Fast 对比 LTX 2.3 Pro | AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Fast vs LTX 2.3 Pro on VideoAI by current fast 对比 current pro tradeoffs, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast 对比 LTX 2.3 Pro | AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 LTX 2.3 Pro 的快速版和专业版取舍、规格、价格及输出画质。"
         },
         "ltx-2-3-fast-vs-seedance-2-0-fast": {
-          "title": "LTX 2.3 Fast 对比 Seedance 2.0 Fast | Fast AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Fast 对比 Seedance 2.0 Fast on VideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast 对比 Seedance 2.0 Fast | 快速 AI 视频模型对比 | VideoAI",
+          "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 Seedance 2.0 Fast 的草稿生成速度、规格、价格与输出画质。"
         }
       },
       "descriptionFallback": "在 VideoAI 上全方位并排对比各款 AI 视频模型的成片画质、控制能力、技术规格与价格。"
@@ -7491,7 +7491,7 @@
         "character": {
           "eyebrow": "角色一致性",
           "title": "创建可复用的角色参考素材",
-          "body": "将单张图片转化为包含 4 个全身角度与 4 个特写的 8 宫格角色三视图，或固定肖像锚点，以便在不同分镜、提示词与动态中保持一致。",
+          "body": "将单张图片转化为包含 4 个全身角度与 4 个特写的 8 宫格角色设定表，或固定肖像锚点，以便在不同分镜、提示词与动态中保持一致。",
           "cta": "探索工具",
           "imageAlt": "VideoAI Character Builder 角色生成器工作区截图。"
         },
@@ -8197,7 +8197,7 @@
     "characterBuilder": {
       "meta": {
         "title": "AI 角色一致性生成器 | 面向图片与视频的可复用角色参考",
-        "description": "基于单张照片、可选服饰参考或全新构想，创建可复用的肖像锚点与 8 宫格 AI 角色三视图。在多个分镜场景、图片精修与支持静帧参考的视频工作流中复用同一角色。",
+        "description": "基于单张照片、可选服饰参考或全新构想，创建可复用的肖像锚点与 8 宫格 AI 角色设定表。在多个分镜场景、图片精修与支持静帧参考的视频工作流中复用同一角色。",
         "keywords": [
           "AI 角色一致性",
           "AI 角色连续性",
@@ -8205,9 +8205,9 @@
           "AI 保持同一人物",
           "视频角色一致性",
           "AI 角色设定表",
-          "角色三视图生成",
+          "角色设定表生成",
           "AI 角色参考图",
-          "AI 人物三视图",
+          "AI 人物设定表",
           "跨场景保持人物一致",
           "相同人脸相同服装",
           "图生视频人物一致性",
@@ -8220,7 +8220,7 @@
         "schemaFeatures": [
           "从一张人像照片、可选服装参考或全新概念出发",
           "生成可复用的标准人像基准锚点",
-          "生成包含 4 个全身角度与 4 个特写的 8 宫格角色三视图",
+          "生成包含 4 个全身角度与 4 个特写的 8 宫格角色设定表",
           "在不同图像提示词与图片局部重绘中复用相同角色",
           "在 Nano Banana 及支持静态参考的视频引擎中保持角色连续性"
         ],
@@ -8234,7 +8234,7 @@
       },
       "hero": {
         "badge": "AI 角色一致性工具",
-        "secondaryBadge": "肖像基准锚点 + 8 宫格角色三视图",
+        "secondaryBadge": "肖像基准锚点 + 8 宫格角色设定表",
         "title": "AI 角色创作，稳定一致的视觉参考。",
         "body": "从一张肖像或创意构思开始。快速生成人像基准参考或 8 宫格角色设定图，并在后续多场景图像与视频制作中无缝复用。",
         "primaryCta": "打开角色构建器",
@@ -8283,7 +8283,7 @@
         "solutionBody": "Character Builder 将角色的身份标识（面部、身材比例、核心特征）凝固为一张高精度的参考底图，让后续每次生成都有据可循。",
         "portraitInputLabel": "源人像输入",
         "portraitInputAlt": "用于提取角色基准特质的原始输入人像。",
-        "sheetLabel": "生成的角色设定三视图",
+        "sheetLabel": "生成的角色设定表",
         "sheetAlt": "包含正面、侧面、四分之三角度与特写的 8 宫格角色图。"
       },
       "howItWorks": {
@@ -8360,7 +8360,7 @@
           },
           {
             "eyebrow": "8 宫格角色图",
-            "title": "完整三视图设定表",
+            "title": "完整角色设定表",
             "body": "包含正面、侧面、四分之三角及背面，涵盖全身与半身，满足故事板与动画预演全方位需求。",
             "pills": [
               "多视角",
@@ -8465,7 +8465,7 @@
             "eyebrow": "游戏与概念艺术",
             "number": "03",
             "title": "角色概念设定与立绘",
-            "body": "快速生成标准的角色设计三视图，提供给 3D 建模师、动画师或原画团队作为权威参考。",
+            "body": "快速生成标准的角色设定表，提供给 3D 建模师、动画师或原画团队作为权威参考。",
             "imageAlt": "作为可复用且形象一致的角色素材制作的品牌吉祥物。"
           },
           {
@@ -8786,7 +8786,7 @@
       "capture": "当前界面 · 简体中文 · 访客视图",
       "full": "查看完整截图",
       "proof": "参考插画",
-      "sheet": "角色三视图",
+      "sheet": "角色设定表",
       "portrait": "半身肖像",
       "views": "正面、侧面、四分之三侧面与背面；全身与特写。",
       "workshops": "打造您的下一个分镜画面。",

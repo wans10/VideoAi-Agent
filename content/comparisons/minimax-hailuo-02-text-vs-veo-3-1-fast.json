@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Hailuo 02 对比 Veo 3.1 Fast：价格、音频与4K",
+      "description": "在 VideoAI 上对比 MiniMax Hailuo 02 Standard 与 Google Veo 3.1 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 MiniMax Hailuo 02 Standard 和 Google Veo 3.1 Fast，选择低成本风格化探索或更广泛的精细制作。Hailuo 无音频 512P / 768P 每秒 0.045 美元；Veo Fast 增加音频、参考、延长和最高 4K。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "低成本无音频风格化概念，尤其 768P 足够且需最长 10 秒时，选择 MiniMax Hailuo 02 Standard。含音频广告、参考引导镜头、首尾帧控制、延长或 1080p / 4K 成片选择 Google Veo 3.1 Fast。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Hailuo 02",
+        "body": "每秒 0.045 美元的风格化测试、无音频社交概念及最长 10 秒 512P / 768P 视频使用 Hailuo。"
+      },
+      {
+        "title": "选择 Veo 3.1 Fast",
+        "body": "音频、参考、首尾帧控制、延长及 720p 至 4K 交付使用 Veo Fast。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "Hailuo 更便宜且多 2 秒时长；Veo Fast 更贵，但增加分辨率、声音与制作控制。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "风格化探索和低成本开场适合 Hailuo；广告变体、产品镜头、对白与精细母版适合 Veo Fast。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/minimax-hailuo-02-text",
+        "label": "查看 MiniMax Hailuo 02 详情"
+      },
+      {
+        "href": "/models/veo-3-1-fast",
+        "label": "查看 Google Veo 3.1 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/seedance-2-0-fast-vs-veo-3-1-fast",
+        "label": "对比 Seedance 2.0 Fast 对比 Veo 3.1 Fast"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择低成本 Hailuo 或可用于正式制作的 Veo Fast。",
+      "items": [
+        {
+          "question": "Hailuo 02 和 Veo 3.1 Fast 哪款便宜？",
+          "answer": "Hailuo 02 列价每秒 0.045 美元；Veo 3.1 Fast 720p 含音频每秒 0.10 美元起，随分辨率增加，因此无音频低成本测试可选择 Hailuo。"
+        },
+        {
+          "question": "哪款支持音频和 4K？",
+          "answer": "Google Veo 3.1 Fast 支持原生音频和最高 4K；MiniMax Hailuo 02 Standard 无音频且最高 768P。"
+        },
+        {
+          "question": "何时应选择 Hailuo 02 而非 Veo Fast？",
+          "answer": "不需要声音和高分辨率的低成本风格化探索选择 Hailuo；参考、帧控制、音频或精细交付更重要时选择 Veo Fast。"
+        }
+      ]
+    }
   }
 }

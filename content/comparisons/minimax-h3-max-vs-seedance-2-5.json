@@ -12,8 +12,14 @@
     },
     "primaryLinksTitle": "Explore the models",
     "primaryLinks": [
-      { "href": "/models/minimax-h3-max", "label": "MiniMax H3 Max" },
-      { "href": "/models/seedance-2-5", "label": "Seedance 2.5" }
+      {
+        "href": "/models/minimax-h3-max",
+        "label": "MiniMax H3 Max"
+      },
+      {
+        "href": "/models/seedance-2-5",
+        "label": "Seedance 2.5"
+      }
     ]
   },
   "fr": {
@@ -28,8 +34,14 @@
     },
     "primaryLinksTitle": "Explorer les modèles",
     "primaryLinks": [
-      { "href": "/fr/modeles/minimax-h3-max", "label": "MiniMax H3 Max" },
-      { "href": "/fr/modeles/seedance-2-5", "label": "Seedance 2.5" }
+      {
+        "href": "/fr/modeles/minimax-h3-max",
+        "label": "MiniMax H3 Max"
+      },
+      {
+        "href": "/fr/modeles/seedance-2-5",
+        "label": "Seedance 2.5"
+      }
     ]
   },
   "es": {
@@ -44,8 +56,14 @@
     },
     "primaryLinksTitle": "Explorar los modelos",
     "primaryLinks": [
-      { "href": "/es/modelos/minimax-h3-max", "label": "MiniMax H3 Max" },
-      { "href": "/es/modelos/seedance-2-5", "label": "Seedance 2.5" }
+      {
+        "href": "/es/modelos/minimax-h3-max",
+        "label": "MiniMax H3 Max"
+      },
+      {
+        "href": "/es/modelos/seedance-2-5",
+        "label": "Seedance 2.5"
+      }
     ]
   },
   "zh": {
@@ -60,8 +78,14 @@
     },
     "primaryLinksTitle": "了解这两个模型",
     "primaryLinks": [
-      { "href": "/zh/models/minimax-h3-max", "label": "MiniMax H3 Max" },
-      { "href": "/zh/models/seedance-2-5", "label": "Seedance 2.5" }
+      {
+        "href": "/zh/models/minimax-h3-max",
+        "label": "MiniMax H3 Max"
+      },
+      {
+        "href": "/zh/models/seedance-2-5",
+        "label": "Seedance 2.5"
+      }
     ]
   }
 }
