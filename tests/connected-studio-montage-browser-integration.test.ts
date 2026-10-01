@@ -38,6 +38,7 @@ test('connected Studio persists ordered MCP and UI montages with private playbac
     const prepareFresh = async (browserSession = session) => {
       const owned = await browserFixture!.newContext(browserSession, { viewport: { width: 1440, height: 900 }, locale: 'en-US', colorScheme: 'light', reducedMotion: 'reduce' });
       try {
+        await owned.context.addCookies([{ name: 'mvid_locale', value: 'en', url: runtime.browserOrigin }, { name: 'NEXT_LOCALE', value: 'en', url: runtime.browserOrigin }]);
         assert.deepEqual((await owned.context.storageState()).origins, [], 'No Studio draft, global localStorage or previous browser cache seeds this context.');
         // These unrelated account/consent readers are outside this minimal SQL fixture.
         // Project, sequence, workspace, media access, montage and Auth requests remain real.
@@ -511,6 +512,9 @@ test('connected Studio persists ordered MCP and UI montages with private playbac
       try {
         await creator.page.setViewportSize({ width: 390, height: 844 });
         await creator.page.emulateMedia({ reducedMotion: 'reduce', colorScheme: 'dark' });
+        // The app defaults to light independently of the OS; opt into the
+        // dark-theme scenario without seeding any Studio draft or project state.
+        await creator.page.addInitScript(() => window.localStorage.setItem('mv-app-theme', 'dark'));
         const library = await runtime.database.pool.query(`SELECT public_id, kind, url, mime_type, metadata
           FROM media_assets WHERE user_id=$1 ORDER BY public_id`, [STUDIO_FIXTURE_OWNERS[0]]);
         let libraryAttempts = 0;
