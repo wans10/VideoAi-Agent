@@ -19,7 +19,7 @@ export function VideoSharePanel({ asset, locale, fixedShareUrl }: { asset: Asset
   const copy = videoShareCopy(locale);
   const panelRef = useRef<HTMLElement>(null);
   const [signature, setSignature] = useState(copy.defaultSignature);
-  const [hashtag, setHashtag] = useState('#MaxVideoAI');
+  const [hashtag, setHashtag] = useState('#VideoAI');
   const [shareUrl, setShareUrl] = useState<string | null>(fixedShareUrl ?? null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(!fixedShareUrl);
@@ -31,7 +31,7 @@ export function VideoSharePanel({ asset, locale, fixedShareUrl }: { asset: Asset
   const [fileError, setFileError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [revoking, setRevoking] = useState(false);
-  const filename = suggestDownloadFilename(asset.url, 'maxvideoai-video.mp4');
+  const filename = suggestDownloadFilename(asset.url, 'videoai-video.mp4');
   const downloadHref = asset.source === 'public-example' && asset.jobId
     ? `/api/video-shares/public-download?${new URLSearchParams({ jobId: asset.jobId })}`
     : buildAppDownloadUrl(asset.url, filename);
