@@ -105,6 +105,7 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
       localized.heroTitle ??
       (locale === 'fr' ? `Exemples ${label}` : locale === 'es' ? `Ejemplos de ${label}` : locale === 'zh' ? `${label} 案例` : `${label} Examples`),
     heroSubtitle: localized.subtitle,
+    guideTitle: localized.guideTitle,
     intro: localized.intro,
     summary:
       localized.summary ??
@@ -117,15 +118,15 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
             : `${variantsSentence} Open an example to review its prompt, settings, and recorded render cost before running a new render.`),
     sections: [
       {
-        title: sectionPromptTitle,
+        title: localized.sectionTitles?.[0] ?? sectionPromptTitle,
         body: localized.promptPatterns,
       },
       {
-        title: sectionLimitsTitle,
+        title: localized.sectionTitles?.[1] ?? sectionLimitsTitle,
         body: localized.strengthsLimits,
       },
       {
-        title: sectionPricingTitle,
+        title: localized.sectionTitles?.[2] ?? sectionPricingTitle,
         body: localized.pricingNotes,
       },
     ],

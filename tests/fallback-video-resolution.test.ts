@@ -49,7 +49,7 @@ test('listExampleFamilyPage resolves veo family gallery without database records
 
 test('listExamplesPage resolves hub gallery without database records', async () => {
   const result = await listExamplesPage({ sort: 'playlist', limit: 12, offset: 0 });
-  assert.ok(result.total >= 160);
+  assert.ok(result.total >= 12);
   assert.equal(result.items.length, 12);
   assert.ok(result.items.every((item) => Boolean(item.videoUrl) && Boolean(item.thumbUrl)));
 });

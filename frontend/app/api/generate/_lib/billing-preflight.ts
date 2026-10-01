@@ -126,15 +126,16 @@ export async function resolveGenerateBillingPreflight(params: {
   const buildReceiptSnapshotFn = deps.buildReceiptSnapshotFn ?? buildReceiptSnapshot;
   const getPlatformFeeCentsFn = deps.getPlatformFeeCentsFn ?? getPlatformFeeCents;
   const ensureUserPreferredCurrencyFn = deps.ensureUserPreferredCurrencyFn ?? ensureUserPreferredCurrency;
+  const referenceTokenBudget = params.trustedMediaPricingFacts?.referenceTokenBudget;
   const verifiedReferenceTokenCount =
     params.trustedMediaPricingFacts?.verifiedReferenceTokenCount;
   if (
     isMinimaxH3MaxEngineId(params.engine.id)
     && params.mode === 'ref2v'
     && (
-      typeof verifiedReferenceTokenCount !== 'number'
-      || !Number.isInteger(verifiedReferenceTokenCount)
-      || verifiedReferenceTokenCount < 0
+      typeof (referenceTokenBudget ?? verifiedReferenceTokenCount) !== 'number'
+      || !Number.isInteger(referenceTokenBudget ?? verifiedReferenceTokenCount)
+      || (referenceTokenBudget ?? verifiedReferenceTokenCount ?? -1) < 0
     )
   ) {
     return {
@@ -179,6 +180,7 @@ export async function resolveGenerateBillingPreflight(params: {
     inputVideoDurationSec: params.inputVideoDurationSec,
     inheritedDurationSec: params.inheritedDurationSec,
     inputAudioDurationSec: params.inputAudioDurationSec,
+    referenceTokenBudget,
     verifiedReferenceTokenCount,
     durationOption: params.lumaDurationLabel ?? params.rawDurationOption ?? null,
     currency: 'USD',
@@ -220,6 +222,10 @@ export async function resolveGenerateBillingPreflight(params: {
   }
   if (typeof params.inputAudioDurationSec === 'number') {
     requestMeta.inputAudioDurationSec = params.inputAudioDurationSec;
+  }
+  if (typeof referenceTokenBudget === 'number') {
+    requestMeta.referenceTokenBudget = referenceTokenBudget;
+    requestMeta.referencePricingBasis = 'normalized-media-budget-2026-09-22';
   }
   if (typeof verifiedReferenceTokenCount === 'number') {
     requestMeta.verifiedReferenceTokenCount = verifiedReferenceTokenCount;
@@ -272,6 +278,7 @@ export async function resolveGenerateBillingPreflight(params: {
       description: `Run ${params.engine.label} - ${params.durationSec}s`,
       jobId: params.jobId,
       snapshot: receiptSnapshot,
+      auditPricingSnapshot: pricing,
       applicationFeeCents: priceOnlyReceipts ? null : applicationFeeCents,
       vendorAccountId,
     };
@@ -370,6 +377,7 @@ export async function resolveGenerateBillingPreflight(params: {
       description: `Run ${params.engine.label} - ${params.durationSec}s`,
       jobId: params.jobId,
       snapshot: receiptSnapshot,
+      auditPricingSnapshot: pricing,
       applicationFeeCents: null,
       vendorAccountId,
       stripePaymentIntentId,

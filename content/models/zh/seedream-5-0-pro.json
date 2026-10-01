@@ -168,7 +168,7 @@
       },
       "secondaryCta": {
         "label": "打开 Seedream Lite",
-        "href": "/models/seedream"
+        "href": "/zh/models/seedream"
       },
       "quickLinks": [
         {
@@ -177,7 +177,7 @@
         },
         {
           "label": "查看定价",
-          "href": "/pricing#seedream-5-0-pro-pricing"
+          "href": "/zh/pricing#seedream-5-0-pro-pricing"
         },
         {
           "label": "提示词示例",
@@ -185,7 +185,7 @@
         },
         {
           "label": "使用 Seedance 2.0 制作动画",
-          "href": "/models/seedance-2-0"
+          "href": "/zh/models/seedance-2-0"
         }
       ]
     },
@@ -228,7 +228,7 @@
         "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
         "cta": {
           "label": "打开 Seedream Lite",
-          "href": "/models/seedream"
+          "href": "/zh/models/seedream"
         }
       },
       {
@@ -236,7 +236,7 @@
         "body": "使用 Seedream Pro 制作高细节静态图像、结构化信息图表、受控编辑和 4K 广告就绪图像。",
         "cta": {
           "label": "使用 Seedance 2.0 制作动画",
-          "href": "/models/seedance-2-0"
+          "href": "/zh/models/seedance-2-0"
         }
       },
       {
@@ -271,7 +271,7 @@
       "subtitle": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
       "footnote": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
       "ctaLabel": "查看完整定价",
-      "ctaHref": "/pricing#seedream-5-0-pro-pricing"
+      "ctaHref": "/zh/pricing#seedream-5-0-pro-pricing"
     },
     "meta": {
       "title": "Seedream 5.0 Pro - 专业字节跳动图像生成 | VideoAI",
@@ -343,11 +343,11 @@
       },
       {
         "id": "cinematic",
-        "label": "电影风格"
+        "label": "电影感"
       },
       {
         "id": "product",
-        "label": "产品 / 广告"
+        "label": "产品"
       },
       {
         "id": "action",
@@ -355,11 +355,11 @@
       },
       {
         "id": "vertical",
-        "label": "竖版"
+        "label": "竖屏"
       },
       {
         "id": "audio",
-        "label": "有声音"
+        "label": "音频"
       }
     ],
     "proofItems": [

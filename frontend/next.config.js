@@ -98,9 +98,15 @@ const nextConfig = {
   // Other hosts retain the existing Next.js output behavior.
   output: process.env.NEXT_OUTPUT_STANDALONE === 'true' ? 'standalone' : undefined,
   reactStrictMode: true,
+  // Keep loopback auth redirects on the browser's cookie origin in local dev.
+  // Production retains Next.js URL normalization and its public routing policy.
+  skipMiddlewareUrlNormalize: process.env.NODE_ENV === 'development',
   compress: true,
   trailingSlash: false,
   transpilePackages: ['@maxvideoai/pricing'],
+  experimental: {
+    webpackMemoryOptimizations: true,
+  },
   images: {
     deviceSizes: imageOptimizer.deviceSizes,
     imageSizes: imageOptimizer.imageSizes,

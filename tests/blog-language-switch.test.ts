@@ -67,9 +67,13 @@ test('blog slug switch map covers every localized blog frontmatter slug', () => 
 test('every published English blog article has authored Chinese content and a local canonical', () => {
   const chineseDir = path.join(process.cwd(), 'content', 'zh', 'blog');
   const chineseFiles = readdirSync(chineseDir).filter((file) => file.endsWith('.mdx'));
-  assert.equal(chineseFiles.length, Object.keys(BLOG_SLUGS_BY_CANONICAL).length);
+  assert.equal(chineseFiles.length, Object.values(BLOG_SLUGS_BY_CANONICAL).filter(slugs => 'zh' in slugs).length);
 
   for (const [canonicalSlug, localizedSlugs] of Object.entries(BLOG_SLUGS_BY_CANONICAL)) {
+    if (!('zh' in localizedSlugs)) {
+      assert.equal(resolveLocalizedBlogSlug(canonicalSlug, 'zh'), null, 'untranslated articles must not claim a Chinese canonical');
+      continue;
+    }
     const slug = localizedSlugs.zh;
     const source = readFileSync(path.join(chineseDir, `${slug}.mdx`), 'utf8');
     assert.equal(readFrontMatterValue(source, 'lang'), 'zh');

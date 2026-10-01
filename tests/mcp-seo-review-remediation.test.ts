@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import assert from 'node:assert/strict';
 import {
   copyFileSync,
@@ -129,7 +130,7 @@ test('enabled postbuild XML contains all 15 localized MCP owners with reciprocal
     const loc = extractLoc(block);
     const owner = Object.values(localizedMcpUrls).find((locales) => Object.values(locales).includes(loc as never));
     assert.ok(owner, `${loc} should map to one MCP intent owner`);
-    assert.deepEqual(extractAlternates(block), { ...owner, 'x-default': owner.en });
+    assert.deepEqual(extractAlternates(block), { ...owner, zh: owner.en.replace(SITE_ORIGIN, `${SITE_ORIGIN}/zh`), 'x-default': owner.en });
   }
   assert.doesNotMatch(xml, /api\.maxvideoai\.com\/mcp/);
 });

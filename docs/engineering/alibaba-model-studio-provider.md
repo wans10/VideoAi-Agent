@@ -28,6 +28,8 @@ Wan 2.5, Wan 2.6, and HappyHorse 1.0 are intentionally outside this direct route
 
 Wan 3 Standard and Prime share the same authored capability schema. Reference mode accepts image, video, audio, one public HTTPS document URL, or one public HTTPS webpage URL. Document and webpage references are mutually exclusive and require prompt expansion. The direct adapter maps them to Alibaba `file` and `link` media; the Fal pre-acceptance fallback adds Fal's required `enable_thinking=true` internally, so that transport-specific switch is not exposed as a MaxVideoAI product control.
 
+Reference audio is limited to MP3 and WAV. Keep the authored field formats aligned with the direct adapter so M4A and other unsupported uploads fail with a clear format message before wallet reservation. The adapter retains a specific MP3/WAV message for requests that bypass that early check.
+
 The workspace prompt-expansion control maps to Alibaba `prompt_extend`. Fal's `enable_safety_checker` has no documented direct Alibaba equivalent and remains transport-specific rather than a public cross-provider option.
 
 Alibaba's smart duration (`duration=-1`) is deliberately not exposed. MaxVideoAI quotes and reserves an exact customer amount before submission, while smart duration makes the billed output length unknown at quote time. Keep the explicit 2–30 second duration until a separately reviewed estimate-and-reconciliation billing contract exists.
@@ -78,7 +80,11 @@ A provider success is not an application completion. The output video is first c
 
 ## Pricing and observability
 
-Customer quotes continue to come from the canonical MaxVideoAI pricing pipeline. They are not derived from the Alibaba provider-cost calculation. The attempt ledger stores a catalog-rate provider-cost estimate separately for margin and operational reporting:
+Customer quotes come from the canonical MaxVideoAI pricing pipeline. For Wan 3 and Prime, `wan3-pricing.ts` adds verified input-video seconds to output cost at the same resolved per-second rate, before the existing commercial policy applies. This follows [Alibaba's input-plus-output billing rule](https://www.alibabacloud.com/help/en/model-studio/model-pricing), including video-bearing reference mode, editing and extension. Owned metadata supplies input duration; repeated URLs count once, using the largest persisted duration when aliases disagree. Missing video duration fails closed. The output base remains the requested output duration and an `input_video_duration` addon itemizes the source cost. Explicit provider-rate overrides remain authoritative.
+
+The [Wan API duration contract](https://www.alibabacloud.com/help/en/model-studio/wan3-video-generation-api-reference) caps input videos at 15 seconds combined and input plus output at 30 seconds whenever videos are supplied, including reference mode. Quotes and generation enforce that contract before billing. Images, audio, document and webpage references add no video-duration charge.
+
+The attempt ledger separately stores a catalog-rate provider-cost estimate for margin and operational reporting:
 
 - Wan 3 and Wan 3 Prime count source-video plus generated duration where applicable;
 - HappyHorse 1.1 counts generated output duration;

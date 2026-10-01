@@ -1,7 +1,6 @@
 import '@/styles/marketing-mcp.css';
 import '@/styles/marketing-redesign.css';
 import '@/styles/marketing-cinema.css';
-import '@/styles/marketing-tools.css';
 import '@/styles/marketing-navigation.css';
 import '@/styles/videoai-marketing.css';
 import '@/styles/videoai-site-layout.css';

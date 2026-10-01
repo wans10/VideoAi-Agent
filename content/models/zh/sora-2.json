@@ -547,5 +547,33 @@
     ],
     "fallbackItems": null,
     "showWhenEmpty": true
+  },
+  "archive": {
+    "title": "Sora 2：已关闭生成",
+    "intro": "Sora 2 已在 VideoAI 归档。新生成已在 2026 年 9 月 24 日 API 停用前关闭。您可以比较 Seedance 2.5、MiniMax H3 和 Wan 3。",
+    "alternativesTitle": "选择下一次创作的模型",
+    "chooseLabel": "了解此模型",
+    "historyTitle": "您已有的视频",
+    "historyBody": "您已有的 VideoAI 视频保留在媒体库中，仍可查看和下载可用结果。创建新视频时请选择其他模型，并在生成前确认设置与价格。",
+    "historyLabel": "打开我的媒体库",
+    "examplesLabel": "查看历史 Sora 案例",
+    "sourcesLabel": "阅读官方停用公告",
+    "alternatives": [
+      {
+        "modelId": "seedance-2-5",
+        "title": "Seedance 2.5",
+        "description": "探索长镜头和多模态参考，生成前请确认所选模式与报价。"
+      },
+      {
+        "modelId": "minimax-h3",
+        "title": "MiniMax H3",
+        "description": "使用文本、图像或参考素材创作带原生音频的视频，请确认镜头设置。"
+      },
+      {
+        "modelId": "wan-3",
+        "title": "Wan 3",
+        "description": "探索文本、图像和参考工作流，以及可用的编辑与延长功能。"
+      }
+    ]
   }
 }

@@ -18,6 +18,8 @@ const CAPABILITY_COPY: Record<string, { fr: string; es: string; zh: string }> = 
   'start image + optional end image': { fr: 'image de départ et image de fin facultative', es: 'imagen inicial e imagen final opcional', zh: '起始图 + 可选尾帧图' },
   'prompt-based camera and multi-shot control': { fr: 'Caméra et séquence de plans guidées par le prompt', es: 'Cámara y secuencia de tomas guiadas por el prompt', zh: '基于提示词的相机运镜与多镜头控制' },
   'prompt-based camera control': { fr: 'Caméra guidée par le prompt', es: 'Cámara guiada por el prompt', zh: '基于提示词的相机运镜控制' },
+  'start image, end image, or both': { fr: 'image de début, image de fin ou les deux', es: 'imagen inicial, imagen final o ambas', zh: '首帧、尾帧或两者' },
+  'video editing and extension': { fr: 'modification et extension vidéo', es: 'edición y extensión de video', zh: '视频编辑与延长' },
 };
 
 /** Shared exact capability translation for model and comparison pages. */

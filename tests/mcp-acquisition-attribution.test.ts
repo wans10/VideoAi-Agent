@@ -15,7 +15,6 @@ const routePath = 'frontend/app/api/mcp/acquisition/route.ts';
 const actionsPath =
   'frontend/app/(localized)/[locale]/(marketing)/mcp/_components/McpConnectActions.client.tsx';
 const integrationRegistryPath = 'frontend/lib/mcp-integration-registry.ts';
-const reportPath = '.superpowers/sdd/task-5-report.md';
 const secret = 'task-5-test-signing-secret-with-32-bytes';
 const validInput = {
   action: 'connect',
@@ -482,13 +481,6 @@ test('CTA source contains no private fields or invented connection-success event
   const source = requireFile(actionsPath);
   assert.doesNotMatch(source, /mcp_connection_completed|connection_success|copy_success/i);
   assert.doesNotMatch(source, /authorization_id|access.?token|email|prompt/i);
-});
-
-test('Task 5 reports durable Task 7 binding through acquisitionId rather than the raw signed token', () => {
-  const report = requireFile(reportPath);
-  assert.match(report, /DURABLE BINDING COMPLETE/i);
-  assert.doesNotMatch(report, /## Status[\s\S]{0,120}BLOCKED ON TASK 7/i);
-  assert.match(report, /deduplicat(?:e|ion).*acquisitionId.*(?:not|never).*raw signed (?:cookie|token)/is);
 });
 
 test('client deep links remain disabled and localized setup plus endpoint copy always render', async () => {

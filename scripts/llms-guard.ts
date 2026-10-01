@@ -18,6 +18,9 @@ const REQUIRED_URLS = [
   'https://videoai.omninodetech.com/docs',
   'https://videoai.omninodetech.com/models/veo-3-1',
   'https://videoai.omninodetech.com/models/kling-3-pro',
+  'https://videoai.omninodetech.com/models/minimax-h3',
+  'https://videoai.omninodetech.com/models/minimax-h3-max',
+  'https://videoai.omninodetech.com/models/seedance-2-5',
   'https://videoai.omninodetech.com/legal/privacy',
   'https://videoai.omninodetech.com/legal/terms',
 ];
@@ -47,6 +50,9 @@ const FORBIDDEN_EXACT_URLS = [
   'https://videoai.omninodetech.com/models/kling',
   'https://videoai.omninodetech.com/privacy',
   'https://videoai.omninodetech.com/terms',
+  'https://videoai.omninodetech.com/models/sora-2',
+  'https://videoai.omninodetech.com/models/sora-2-pro',
+  'https://videoai.omninodetech.com/ai-video-engines/grok-imagine-video-1-5-vs-sora-2',
 ];
 
 const FORBIDDEN_URL_PATTERNS = [

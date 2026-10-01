@@ -1,4 +1,24 @@
 {
+  "passwordRecovery": {
+    "title": "Elige una nueva contraseña",
+    "intro": "Continúa para verificar tu enlace de restablecimiento.",
+    "verify": "Continuar",
+    "verifying": "Verificando el enlace…",
+    "password": "Nueva contraseña",
+    "confirm": "Confirma la nueva contraseña",
+    "save": "Guardar nueva contraseña",
+    "saving": "Guardando…",
+    "saved": "Tu contraseña se ha actualizado.",
+    "continueToApp": "Ir a la aplicación",
+    "requestNew": "Solicitar otro enlace",
+    "invalid": "Este enlace no es válido o ha caducado. Solicita uno nuevo. Si cambiaste de navegador, prueba a abrir el enlace original en el navegador donde lo solicitaste.",
+    "tooShort": "Usa al menos 6 caracteres.",
+    "mismatch": "Las contraseñas no coinciden.",
+    "weak": "Elige una contraseña más segura.",
+    "same": "Elige una contraseña diferente de la actual.",
+    "unavailable": "No pudimos actualizar tu contraseña. Inténtalo de nuevo.",
+    "ready": "Introduce y confirma tu nueva contraseña."
+  },
   "nav": {
     "account": {
       "signedIn": "Sesión iniciada",
@@ -285,8 +305,8 @@
     },
     "sections": [
       {
-        "title": "Disponibilidad de Sora 2 y alternativas",
-        "body": "Sora 2 sigue desplegándose por fases, así que VideoAI gestiona todo el rastro de verificación, la conformidad regional y el enrutado predictivo cuando la capacidad fluctúa. Los productores pueden comparar storyboards con las {{sora:referencias de Sora 2}} y pasar a presets Sora 2 Pro o secuencias Veo 3 cuando la rapidez pesa más que la fidelidad de frontera. Documentamos estructuras de prompts, aprobaciones de material y mejores prácticas de postproducción para que cada brief cumpla con la revisión de OpenAI sin retrasar entregas. Los equipos regionales reciben además notas semanales sobre audio, duración y trazabilidad para sectores regulados."
+        "title": "Archivo de Sora y alternativas",
+        "body": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
       },
       {
         "title": "Veo 3: texto a video cinemático",
@@ -341,8 +361,8 @@
         "answer": "Recarga tu billetera individual mediante el pago seguro de Stripe Checkout. La tarjeta y las opciones de pago exprés disponibles se muestran antes de pagar."
       },
       {
-        "question": "¿Cuánto se tarda en arrancar un proyecto con Sora 2?",
-        "answer": "La mayoría de equipos empieza a escribir prompts en dos días laborables. Compartimos plantillas de primeros pasos y presets de apoyo para Veo o Pika mientras se activa Sora."
+        "question": "¿Se puede seguir generando con Sora?",
+        "answer": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
       },
       {
         "question": "¿Puedo seguir los cambios de los modelos sin revisar toda la documentación?",
@@ -364,7 +384,7 @@
         "href": "/return-policy"
       }
     ],
-    "brandNote": "Centro independiente para video profesional con IA: precio antes de generar, acceso a los motores más recientes y un espacio de trabajo para cada toma. Funciona con Seedance, Kling, Veo, LTX, Wan, Pika, Sora y más. Las marcas pertenecen a sus respectivos propietarios.",
+    "brandNote": "Centro independiente para video profesional con IA: precio antes de generar, acceso a los motores más recientes y un espacio de trabajo para cada toma. Funciona con Seedance, Kling, Veo, LTX, Wan, Pika y más. Las marcas pertenecen a sus respectivos propietarios.",
     "languageLabel": "Idioma",
     "languages": [
       {
@@ -1145,7 +1165,7 @@
         "title": "Conoce el precio antes de generar.",
         "subtitle": "VideoAI muestra el precio antes de cada generación de video para que mantengas el control de tus créditos.",
         "cta": "Ver precios",
-        "supportingText": "VideoAI es un generador de video IA multi-modelo de pago por uso para Seedance, Kling, Veo, LTX, Wan, Pika, Sora y más.",
+        "supportingText": "VideoAI es un generador de video IA multi-modelo de pago por uso para Seedance, Kling, Veo, LTX, Wan, Pika y más.",
         "modelsLink": "Modelos",
         "examplesLink": "Ejemplos",
         "compareLink": "Comparar modelos",
@@ -1170,7 +1190,7 @@
       },
       "providers": {
         "title": "Modelos y proveedores compatibles",
-        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax, Luma y Sora están disponibles desde un solo catálogo de modelos.",
+        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax, Luma están disponibles desde un solo catálogo de modelos.",
         "cta": "Ver todos los modelos",
         "items": [
           {
@@ -1350,7 +1370,7 @@
     "worksWith": {
       "label": "Funciona con",
       "brands": [
-        "Sora 2",
+        "Seedance 2.5",
         "Veo 3.1",
         "LTX 2 Fast",
         "LTX 2",
@@ -1401,7 +1421,7 @@
       },
       {
         "title": "Todos tus modelos en un solo lugar.",
-        "body": "Cambia entre Sora, Veo, Pika, MiniMax y Hunyuan sin saltar entre tableros ni claves API."
+        "body": "Cambia entre Seedance 2.5, Veo, Pika, MiniMax y Hunyuan sin saltar entre tableros ni claves API."
       }
     ],
     "ways": [
@@ -1584,8 +1604,8 @@
       "description": "Respuestas rápidas a las dudas más habituales.",
       "items": [
         {
-          "q": "¿Sora 2 está disponible en la UE?",
-          "a": "La disponibilidad de Sora 2 es limitada. VideoAI enruta tu brief hacia los motores con capacidad hoy y guarda presets listos para Sora en cuanto se abra la capacidad."
+          "q": "¿Se puede seguir generando con Sora?",
+          "a": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
         },
         {
           "q": "¿Puedo activar audio?",
@@ -1672,7 +1692,7 @@
       "compare": {
         "title": "Compara modelos de video con IA antes de generar",
         "body": "VideoAI te permite probar varios modelos en un solo lugar. Cada modelo tiene fortalezas distintas (velocidad, fidelidad al prompt, movimiento, realismo y estilo). Compara resultados lado a lado, elige el mejor modelo para cada toma y mantén el precio visible antes de generar.",
-        "worksWith": "Compatible con MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Sora 2, Wan 2.6, Pika 2.2... y más.",
+        "worksWith": "Compatible con MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Wan 2.6, Pika 2.2... y más.",
         "popularLinks": [
           {
             "label": "Comparativa MiniMax H3 vs Seedance 2.5",
@@ -2120,8 +2140,8 @@
       "cards": [
         {
           "emoji": "🎬",
-          "title": "Cuándo elegir Sora",
-          "body": "Usa Sora 2 o Sora 2 Pro para física cinematográfica, continuidad de personajes o audio integrado."
+          "title": "Archivo de Sora y alternativas",
+          "body": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
         },
         {
           "emoji": "🎯",
@@ -2136,7 +2156,7 @@
         {
           "emoji": "🖼️",
           "title": "Cuándo elegir Nano Banana",
-          "body": "Boceta o edita fotogramas fotorrealistas antes de pasar a movimiento. Nano Banana comparte wallet y prompt lab, así preparas tomas para Veo/Sora con texto→imagen o ediciones de referencia."
+          "body": "Boceta o edita fotogramas fotorrealistas antes de pasar a movimiento. Nano Banana comparte wallet y prompt lab, así preparas tomas para Veo/Seedance 2.5 con texto→imagen o ediciones de referencia."
         }
       ],
       "cta": {
@@ -2663,7 +2683,7 @@
     "mcpGuide": {
       "href": "/es/docs/mcp",
       "title": "Guía técnica del MCP de VideoAI",
-      "description": "Clientes verificados, OAuth, registro de herramientas de solo lectura, privacidad, límites y recuperación."
+      "description": "Clientes compatibles, OAuth, herramientas disponibles, confirmación de generaciones, privacidad, límites y recuperación."
     },
     "toc": {
       "title": "En esta página",
@@ -2705,19 +2725,19 @@
         ]
       },
       {
-        "title": "Filtros de seguridad de marca",
+        "title": "Controles de contenido",
         "items": [
-          "Bloqueamos por defecto prompts, subidas y salidas riesgosas para que el equipo cumpla las políticas sin vigilancia extra.",
-          "Los casos sensibles pasan a revisión humana con trazabilidad y opciones de escalado simples.",
-          "Los administradores pueden pedir listas personalizadas de elementos permitidos o bloqueados por espacio de trabajo."
+          "Los proveedores de modelos aplican sus propios controles de seguridad y pueden rechazar un prompt, una referencia o un resultado generado.",
+          "Revisa las restricciones del modelo seleccionado y utiliza medios de referencia que tengas permiso para usar.",
+          "Si una solicitud se bloquea, consulta el mensaje en los detalles del trabajo y revisa el prompt y las referencias antes de intentarlo de nuevo."
         ]
       },
       {
         "title": "Acceso al producto",
         "items": [
           "Usa el espacio web para las funciones descritas en esta documentación.",
-          "Las instrucciones de conexión MCP solo aparecen para las cuentas incluidas en un despliegue habilitado.",
-          "Las interfaces programáticas solo se publican después de superar sus propias pruebas y criterios de despliegue."
+          "La guía pública de MCP explica cómo conectar un cliente compatible y autorizar el acceso a tu cuenta de MaxVideoAI.",
+          "Las acciones disponibles dependen del cliente conectado. Consulta las herramientas compatibles y los pasos de confirmación de las generaciones en la guía."
         ]
       }
     ],
@@ -2728,9 +2748,9 @@
     "onboardingChecklist": {
       "title": "Checklist inicial",
       "items": [
-        "✅ Completa el brief de marca (tono, objetivos, entregables).",
-        "✅ Añade 1–3 prompts de ejemplo y activos de referencia.",
-        "✅ Define ratios por defecto y preferencia de audio."
+        "✅ Elige un modelo y un modo de generación.",
+        "✅ Escribe un prompt y añade las referencias requeridas por ese modo.",
+        "✅ Revisa los ajustes disponibles y el precio antes de generar."
       ],
       "note": "Puedes modificar tus entradas y preferencias antes de cada generación."
     },
@@ -2748,13 +2768,13 @@
     "safetyQuick": {
       "title": "Resumen rápido",
       "items": [
-        "• Bloqueos por defecto: contenido ilegal, sexual explícito, odio/hostigamiento, doxxing.",
-        "• Revisiones de medios: uploads/renders de riesgo se ponen en cuarentena para revisión.",
-        "• Controles admin: solicitar listas permitidas o palabras clave restringidas por espacio de trabajo."
+        "• Entradas: los tipos de referencia admitidos y sus límites varían según el modelo y el modo de generación.",
+        "• Controles del proveedor: una solicitud puede rechazarse según las reglas de contenido del modelo seleccionado.",
+        "• Detalles del trabajo: consulta el estado y el mensaje de error si una generación falla."
       ],
-      "note": "Los casos sensibles pasan a revisión humana con trazabilidad y opciones de escalado."
+      "note": "Revisa los medios generados antes de utilizarlos o publicarlos."
     },
-    "safetyCallout": "⚠️ Algunos casos sensibles pueden requerir una lista permitida administrada o revisión humana.",
+    "safetyCallout": "Revisa el resultado antes de publicarlo, especialmente si incluye personas, marcas o información personal.",
     "seeAlsoLabel": "Ver también:",
     "seeAlso": {
       "onboarding": [
@@ -2822,7 +2842,7 @@
       "heading": "Biblioteca",
       "liveLabel": "En vivo",
       "comingSoonLabel": "Próximamente",
-      "summaryLive": "Explora los activos, presets y prompts de referencia guardados en tu cuenta.",
+      "summaryLive": "Explora los medios guardados en tu cuenta y reutilízalos como referencias en los modos de generación compatibles.",
       "summarySoon": "Documentación próximamente."
     },
     "feedback": {
@@ -2862,8 +2882,8 @@
           "answer": "Las generaciones de pago fallidas se reembolsan automáticamente; cada trabajo incluye una breve nota del incidente."
         },
         {
-          "question": "¿Podemos anular el brand-safety para proyectos específicos?",
-          "answer": "Sí. Los admins pueden solicitar allowlists o palabras clave restringidas por workspace; los casos sensibles pasan a revisión humana con trazabilidad."
+          "question": "¿Por qué puede bloquearse una generación?",
+          "answer": "Los proveedores de modelos aplican sus propios controles de contenido. Si una solicitud se bloquea, consulta el mensaje del trabajo y revisa el prompt y los medios de referencia antes de intentarlo de nuevo."
         }
       ]
     },
@@ -3010,7 +3030,7 @@
     },
     "paragraphs": [
       "Creemos que los equipos profesionales merecen claridad antes de iniciar el render. Eso significa transparencia de precios, enrutamiento fiable y contexto compartido entre creativos, productores y stakeholders.",
-      "La independencia importa: nos mantenemos neutrales entre motores, nos integramos con Sora 2, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image y betas rotativas, y listamos marcas sólo para describir compatibilidad.",
+      "La independencia importa: nos mantenemos neutrales entre motores, nos integramos con Seedance 2.5, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image y betas rotativas, y listamos marcas sólo para describir compatibilidad.",
       "El producto está diseñado para equipos que necesitan precisión sin ruido. Interfaz discreta, ajustes predefinidos premium, controles precisos y etiquetas de precio antes de generar que mantienen a finanzas en el bucle.",
       "Mantenemos el flujo de trabajo práctico: comparar modelos, preparar recursos, generar sólo cuando el coste y los ajustes están claros, y revisar los resultados desde un único workspace sin repartir el contexto entre paneles de proveedores."
     ],
@@ -3988,6 +4008,7 @@
         "fields": {
           "total": "Total",
           "walletMovement": "Movimiento de la billetera",
+          "paymentAmount": "Importe pagado (impuestos incluidos)",
           "tax": "Impuestos",
           "discount": "Descuento",
           "document": "Documento"
@@ -6855,9 +6876,11 @@
       "signupSuggestionReady": "Perfecto, vamos a crear tu cuenta.",
       "creatingAccount": "Creando cuenta…",
       "accountRedirecting": "Cuenta creada. Redirigiendo…",
-      "confirmEmail": "Revisa tu bandeja de entrada para confirmar el correo.",
+      "confirmEmail": "Si tu cuenta necesita confirmación, revisa tu correo. ¿Ya tienes una cuenta? Inicia sesión o elige «¿Olvidaste tu contraseña?» en el formulario de acceso para recuperarla.",
       "sendingReset": "Enviando enlace…",
-      "resetSent": "Correo de restablecimiento enviado.",
+      "resetSent": "Si existe una cuenta con este correo electrónico, recibirás un enlace de restablecimiento. Revisa tu bandeja de entrada y la carpeta de spam.",
+      "resetUnavailable": "No pudimos enviar el enlace de restablecimiento. Inténtalo más tarde. Si el problema persiste, contacta con soporte.",
+      "resetRateLimited": "Demasiadas solicitudes. Espera unos minutos antes de solicitar otro enlace.",
       "googleUnavailable": "El acceso con Google no está disponible porque no se pudo resolver la URL de redirección.",
       "googleRedirecting": "Redirigiendo a Google…",
       "completingSignIn": "Completando el inicio de sesión…",
@@ -7062,7 +7085,7 @@
       "capabilityLabel": "Capacidad",
       "outputLabel": "Resolución máx.",
       "q1": "¿Qué son {left} y {right}?",
-      "a1": "{left} y {right} son modelos de generación de video IA disponibles en VideoAI. Esta página los compara lado a lado usando los mismos prompts, especificaciones clave y los datos anteriores.",
+      "a1": "{left} y {right} son modelos de generación de video IA documentados en VideoAI. Esta página los compara lado a lado usando los mismos prompts, especificaciones clave y los datos anteriores.",
       "q2": "¿Cuál es mejor: {left} o {right}?",
       "a2": "Depende de tu flujo de trabajo. Usa el scorecard y los showdowns con el mismo prompt para comparar adherencia al prompt, realismo del movimiento, fidelidad humana y legibilidad del texto — luego abre cada perfil para los detalles completos.",
       "q3": "¿Cuál es más barato en VideoAI?",
@@ -8474,5 +8497,25 @@
     "body": "No encontramos esa URL. Es posible que ya no exista o que nunca haya existido. Usa los enlaces de abajo para seguir explorando VideoAI.",
     "homeLabel": "Volver al inicio",
     "modelsLabel": "Ver modelos de video"
+  },
+  "passwordRecovery": {
+    "title": "Elige una nueva contraseña",
+    "intro": "Continúa para verificar tu enlace de restablecimiento.",
+    "verify": "Continuar",
+    "verifying": "Verificando el enlace…",
+    "password": "Nueva contraseña",
+    "confirm": "Confirma la nueva contraseña",
+    "save": "Guardar nueva contraseña",
+    "saving": "Guardando…",
+    "saved": "Tu contraseña se ha actualizado.",
+    "continueToApp": "Ir a la aplicación",
+    "requestNew": "Solicitar otro enlace",
+    "invalid": "Este enlace no es válido o ha caducado. Solicita uno nuevo. Si cambiaste de navegador, prueba a abrir el enlace original en el navegador donde lo solicitaste.",
+    "tooShort": "Usa al menos 6 caracteres.",
+    "mismatch": "Las contraseñas no coinciden.",
+    "weak": "Elige una contraseña más segura.",
+    "same": "Elige una contraseña diferente de la actual.",
+    "unavailable": "No pudimos actualizar tu contraseña. Inténtalo de nuevo.",
+    "ready": "Introduce y confirma tu nueva contraseña."
   }
 }

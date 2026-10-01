@@ -9,6 +9,7 @@ import { SupabaseHashSessionHandler } from '@/components/auth/SupabaseHashSessio
 import { resolveLocale } from '@/lib/i18n/server';
 import { buildThemeTokensStyle } from '@/lib/theme-tokens';
 import { getThemeTokensSettingCached } from '@/server/app-settings';
+import { withPublicPageTiming } from '@/server/public-page-timing';
 
 type RootLayoutProps = {
   children: ReactNode;
@@ -32,7 +33,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   const locale = await resolveLocale();
-  const themeTokens = await getThemeTokensSettingCached();
+  const themeTokens = await withPublicPageTiming({ route: 'root-layout', locale }, (measure) =>
+    measure('theme-tokens', () => getThemeTokensSettingCached())
+  );
   const themeStyle = buildThemeTokensStyle(themeTokens);
 
   return (

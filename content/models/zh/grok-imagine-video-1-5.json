@@ -241,7 +241,7 @@
       },
       {
         "id": "reference",
-        "label": "图像参考"
+        "label": "多模态参考"
       }
     ],
     "proofItems": [
@@ -260,8 +260,8 @@
       {
         "id": "motion",
         "icon": "zap",
-        "title": "动作连贯性",
-        "body": "检验接触、解剖结构、时间节奏与最终落定节拍。"
+        "title": "动作表现",
+        "body": "检验复杂肢体动作与物理动态的平滑度。"
       },
       {
         "id": "composition",

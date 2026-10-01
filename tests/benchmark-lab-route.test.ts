@@ -143,15 +143,16 @@ test('score table renders localized editorial provenance for every current row',
 
 test('benchmark metadata is self-canonical, reciprocal, regionalized, and indexable in every locale', async () => {
   const cases = [
-    { locale: 'en', canonical: 'https://maxvideoai.com/benchmarks', ogLocale: 'en_US' },
-    { locale: 'fr', canonical: 'https://maxvideoai.com/fr/benchmarks', ogLocale: 'fr_FR' },
-    { locale: 'es', canonical: 'https://maxvideoai.com/es/benchmarks', ogLocale: 'es_419' },
+    { locale: 'en', canonical: 'https://videoai.omninodetech.com/benchmarks', ogLocale: 'en_US' },
+    { locale: 'fr', canonical: 'https://videoai.omninodetech.com/fr/benchmarks', ogLocale: 'fr_FR' },
+    { locale: 'es', canonical: 'https://videoai.omninodetech.com/es/benchmarks', ogLocale: 'es_419' },
   ] as const;
   const languages = {
-    en: 'https://maxvideoai.com/benchmarks',
-    fr: 'https://maxvideoai.com/fr/benchmarks',
-    es: 'https://maxvideoai.com/es/benchmarks',
-    'x-default': 'https://maxvideoai.com/benchmarks',
+    en: 'https://videoai.omninodetech.com/benchmarks',
+    fr: 'https://videoai.omninodetech.com/fr/benchmarks',
+    es: 'https://videoai.omninodetech.com/es/benchmarks',
+    zh: 'https://videoai.omninodetech.com/zh/benchmarks',
+    'x-default': 'https://videoai.omninodetech.com/benchmarks',
   };
 
   for (const entry of cases) {
@@ -347,6 +348,7 @@ test('middleware and i18n routing recognize every public benchmark URL', () => {
     en: '/benchmarks',
     fr: '/benchmarks',
     es: '/benchmarks',
+    zh: '/benchmarks',
   });
   assert.ok(existsSync(defaultPagePath), 'the canonical English URL needs a default-locale wrapper');
   const defaultPage = readFileSync(defaultPagePath, 'utf8');

@@ -35,7 +35,8 @@ test('bundled public examples provides veo showcase feed', () => {
 test('bundled public examples provides hub showcase feed', () => {
   assert.equal(hasBundledPublicExamples(''), true);
   const result = listBundledPublicExamples('', 'playlist', 12, 0);
-  assert.ok(result.total >= 160);
+  assert.ok(result.total >= 12);
+  assert.ok(result.items.every(item => !['sora-2', 'sora-2-pro'].includes(item.engineId)), 'current hub excludes archived Sora models');
   assert.equal(result.items.length, 12);
 });
 

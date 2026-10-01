@@ -136,7 +136,7 @@ test('pricing page does not regain calculator-first or long model-section owners
 
 test('hero is compact and uses the requested CTA copy', () => {
   assert.match(heroSource, /export function PricingHeroSection/);
-  assert.match(heroSource, /MaxVideoAI Pricing/);
+  assert.match(heroSource, /VideoAI Pricing/);
   assert.match(heroSource, /AI Video Pricing Comparison/);
   assert.match(heroSource, /eyebrow/);
   assert.match(heroSource, /Open app for live pricing before you generate/);

@@ -23,6 +23,7 @@ export type Resolution =
   | '480p'
   | '720p'
   | '1080p'
+  | '1080P'
   | '1440p'
   | '4k'
   | '1k'
@@ -334,6 +335,9 @@ export interface PreflightResponse {
   error?: {
     code: string;
     message: string;
+    field?: string;
+    durationSec?: number;
+    maxDurationSec?: number;
     suggestions?: Record<string, unknown>[];
   };
 }

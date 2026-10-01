@@ -16,6 +16,19 @@ export type FeaturedMedia = {
   aspectRatio?: string | null;
 };
 
+export function isPlayableVideoUrl(src: string | null | undefined): boolean {
+  return Boolean(src && /\.(?:mp4|webm|mov)(?:[?#].*)?$/i.test(src));
+}
+
+export function getHeroMediaBadges(media: FeaturedMedia, authored: string[], audioBadgeLabel: string): Array<string | null> {
+  if (!isPlayableVideoUrl(media.videoUrl)) return authored;
+  return [
+    media.hasAudio ? audioBadgeLabel : null,
+    typeof media.durationSec === 'number' && media.durationSec > 0 ? `${media.durationSec}s` : null,
+    /^\d+:\d+$/.test(media.aspectRatio ?? '') ? media.aspectRatio! : null,
+  ];
+}
+
 function formatPriceLabel(priceCents: number | null | undefined, currency: string | null | undefined): string | null {
   if (typeof priceCents !== 'number' || Number.isNaN(priceCents)) {
     return null;
@@ -128,10 +141,17 @@ function isLandscape(aspect: string | null | undefined): boolean {
   return w / h >= 1;
 }
 
+function isWideVideo(card: ExampleGalleryVideo): boolean {
+  if (!isPlayableVideoUrl(card.videoUrl)) return false;
+  const [width, height] = (card.aspectRatio ?? '').split(':').map(Number);
+  return Number.isFinite(width) && Number.isFinite(height) && height > 0 && width / height >= 1.5;
+}
+
 export function pickHeroMedia(
   cards: ExampleGalleryVideo[],
   preferredId: string | null,
-  fallback: FeaturedMedia
+  fallback: FeaturedMedia,
+  options?: { preserveOrder?: boolean }
 ): FeaturedMedia {
   // Image model heroes are deliberately curated in the engine registry. Keep a
   // model playlist available to the gallery without letting its first item
@@ -139,11 +159,16 @@ export function pickHeroMedia(
   if (!fallback.videoUrl && fallback.posterUrl) {
     return fallback;
   }
+  // Explicit admin order owns the selected hero; legacy galleries keep landscape preference.
+  if (options?.preserveOrder) {
+    const first = cards.find((card) => isPlayableVideoUrl(card.videoUrl)) ?? cards[0];
+    return toFeaturedMedia(first) ?? fallback;
+  }
   const preferred = preferredId ? cards.find((card) => card.id === preferredId) : null;
-  if (preferred) {
+  if (preferred && isWideVideo(preferred)) {
     return toFeaturedMedia(preferred) ?? fallback;
   }
-  const playable = cards.find((card) => Boolean(card.videoUrl)) ?? cards[0];
+  const playable = cards.find(isWideVideo) ?? cards.find((card) => isPlayableVideoUrl(card.videoUrl)) ?? cards[0];
   return toFeaturedMedia(playable) ?? fallback;
 }
 

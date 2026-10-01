@@ -249,8 +249,8 @@ test('a future PAYG config fails closed until its canonical pricing row is visib
   assert.deepEqual(visible.priceLookups.items.map((item) => item.id), [futureId]);
   assert.deepEqual(visible.exampleCosts.items.map((item) => item.id), [futureId]);
   assert.equal(visible.modelTesting.items[0]?.href, `/models/${futureId}`);
-  assert.equal(visible.priceLookups.items[0]?.href, `/pricing#${futureId}-pricing`);
-  assert.equal(visible.exampleCosts.items[0]?.href, `/pricing#${futureId}-pricing`);
+  assert.deepEqual(visible.priceLookups.items[0]?.href, { pathname: '/pricing', hash: `${futureId}-pricing` });
+  assert.deepEqual(visible.exampleCosts.items[0]?.href, { pathname: '/pricing', hash: `${futureId}-pricing` });
 });
 
 test('explicit published model fallbacks remain available without a pricing row', () => {
@@ -412,6 +412,6 @@ test('P0 discovery config and localized content own no finished price or rate', 
   }
   assert.doesNotMatch(paygDataSource, /(?:amount|total|rate)Cents\s*:/);
   assert.doesNotMatch(localeSource, /\$(?:0|[1-9]\d*\.\d)|\b\d+(?:\.\d+)?\s*cents?\b/i);
-  assert.equal((jsonLdSource.match(/price: '10\.00'/g) ?? []).length, 2);
+  assert.doesNotMatch(jsonLdSource, /price: '10\.00'/, 'workspace schema does not advertise an unrelated fixed purchase price');
   assert.doesNotMatch(jsonLdSource, /ltx-2-5|wan-3|grok-imagine-video-1-5|flux-3/);
 });

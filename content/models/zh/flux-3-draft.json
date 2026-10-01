@@ -237,11 +237,11 @@
       },
       {
         "id": "action",
-        "label": "动作测试"
+        "label": "动作"
       },
       {
         "id": "edit",
-        "label": "延伸草稿"
+        "label": "剪辑变化"
       }
     ],
     "proofItems": [

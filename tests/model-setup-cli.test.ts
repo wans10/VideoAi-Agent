@@ -58,7 +58,7 @@ test('model scaffold retargets EN FR ES identities and preserves Examples filter
 
   try {
     mkdirSync(sandboxFrontend, { recursive: true });
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       const localeRoot = join(sandboxRoot, 'content/models', locale);
       mkdirSync(localeRoot, { recursive: true });
       copyFileSync(
@@ -87,9 +87,9 @@ test('model scaffold retargets EN FR ES identities and preserves Examples filter
     const expectedGuideHrefs = {
       en: `/models/${targetSlug}`,
       fr: `/fr/modeles/${targetSlug}`,
-      es: `/es/modelos/${targetSlug}`,
+      es: `/es/modelos/${targetSlug}`, zh: `/zh/models/${targetSlug}`,
     } as const;
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       const source = JSON.parse(
         readFileSync(join(root, 'content/models', locale, `${sourceSlug}.json`), 'utf8'),
       ) as { examples?: { showWhenEmpty: boolean; filters: Array<{ id: string }> } };

@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { useWorkspaceDraftHydration } from '../_hooks/useWorkspaceDraftHydration';
@@ -206,10 +207,14 @@ export function WorkspaceAppReadyView({
     previewAutoPlayRequestId,
   } = gallery;
 
+  const currentSetup = useMemo(
+    () => form ? { form, inputAssets, klingElements, prompt, negativePrompt, multiPromptEnabled, multiPromptScenes, shotType, voiceIdsInput, cfgScale } : null,
+    [form, inputAssets, klingElements, prompt, negativePrompt, multiPromptEnabled, multiPromptScenes, shotType, voiceIdsInput, cfgScale],
+  );
   const modelReview = useWorkspaceModelReview({
     recoverySetup: activeDraft.recoverySetup,
     onRemoveRecovery: activeDraft.removeRecovery,
-    current: form ? {form, inputAssets, klingElements, prompt, negativePrompt, multiPromptEnabled, multiPromptScenes, shotType, voiceIdsInput, cfgScale} : null,
+    current: currentSetup,
     engines, locale: uiLocale, authStatus: app.authStatus,
     onGuestEngineChange: composer.handleEngineChange, onRequestAuth: () => setAuthModalOpen(true),
     onModelSwitchNotice: showNotice,

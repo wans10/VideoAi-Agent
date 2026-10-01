@@ -27,6 +27,7 @@ import {
   buildModelServiceJsonLd,
 } from '../frontend/app/(localized)/[locale]/(marketing)/models/model-jsonld.ts';
 import { buildModelSchemaPayloads } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-schema-payloads.ts';
+import { resolveProviderInfo } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-schema.ts';
 import { buildExamplesJsonLd } from '../frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-page-jsonld.ts';
 import {
   buildBlogPostJsonLd,
@@ -34,6 +35,7 @@ import {
 } from '../frontend/app/(localized)/[locale]/(marketing)/blog/[slug]/_lib/blog-post-seo.ts';
 import { getFalEngineBySlug } from '../frontend/src/config/falEngines.ts';
 import { getEditorialProfile } from '../frontend/lib/editorial/profile.ts';
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -162,7 +164,8 @@ function assertRequiredProperties(record: JsonRecord, path: string) {
 
     if (type === 'MerchantReturnPolicy') {
       assert.ok(hasPresentProperty(record, 'applicableCountry'), `${path} MerchantReturnPolicy should include applicableCountry`);
-      assert.ok(hasPresentProperty(record, 'returnPolicyCountry'), `${path} MerchantReturnPolicy should include returnPolicyCountry`);
+      assert.equal(record.returnPolicyCategory, 'https://schema.org/MerchantReturnNotPermitted', `${path} consumed digital generations retain their non-returnable policy`);
+      assert.ok(!hasOwn(record, 'returnPolicyCountry'), `${path} digital MerchantReturnPolicy must not invent physical return destinations`);
     }
   }
 }
@@ -435,15 +438,79 @@ test('marketing JSON-LD builders emit baseline-valid schema payloads', () => {
 test('site Organization schema keeps one canonical complete entity', () => {
   const organization = buildSiteOrganizationSchema();
 
-  assert.equal(organization['@id'], 'https://videoai.omninodetech.com/#organization');
+  // Prebuild also runs on preview deployments; origin policy is covered separately.
+  assert.equal(organization['@id'], `${SITE_ORIGIN}/#organization`);
   assert.equal(organization.name, 'VideoAI');
-  assert.ok(!('sameAs' in organization), 'Do not claim the original product social profiles');
-  const reference = buildSiteOrganizationReference();
+  assert.match(organization.description, /pay-as-you-go/);
+  assert.match(organization.description, /web workspace and MCP integrations/);
+  assert.doesNotMatch(organization.description, /Sora|Pika|Seedance|Kling|Veo/);
+  assert.ok(!('sameAs' in organization), 'custom brand does not claim upstream social accounts');  const reference = buildSiteOrganizationReference();
   assert.equal(reference['@id'], organization['@id']);
   assert.ok(!('sameAs' in reference));
   const coreLayout = readFileSync('frontend/app/(core)/layout.tsx', 'utf8');
   assert.match(coreLayout, /const orgSchema = buildSiteOrganizationSchema\(\)/);
   assert.doesNotMatch(coreLayout, /sameAs:/);
+});
+
+test('homepage application features use the declared language and canonical provider entity', () => {
+  const expected = { en: /Pay-as-you-go/, fr: /paiement à l’usage/, es: /pago por uso/ } as const;
+  for (const locale of ['en', 'fr', 'es'] as const) {
+    const schema = buildSoftwareSchema({ hero: { subtitle: 'Visible localized subtitle' } } as never, locale);
+    assert.equal(schema.inLanguage, locale);
+    assert.equal(schema.url, `https://videoai.omninodetech.com${locale === 'en' ? '' : `/${locale}`}`);
+    assert.equal(schema.provider['@id'], `${SITE_ORIGIN}/#organization`);
+    assert.match(schema.featureList[0], expected[locale]);
+    if (locale !== 'en') assert.doesNotMatch(schema.featureList.join(' '), /Pay-as-you-go|Auto-refunds/);
+  }
+});
+
+test('generic services do not advertise wallet deposits as model or comparison prices', () => {
+  for (const locale of ['en', 'fr', 'es'] as const) {
+    const schema = emittedSchema(buildPricingServiceJsonLd({ canonical: 'https://videoai.omninodetech.com/pricing', locale })) as JsonRecord;
+    assert.equal(hasOwn(schema, 'offers'), false);
+  }
+  for (const slug of ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'sora-2']) {
+    const schema = buildModelServiceJsonLd(slug);
+    assert.ok(schema, `${slug} should retain its service identity`);
+    assert.equal(hasOwn(schema, 'offers'), false, `${slug} must not inherit a flat EUR 10 offer`);
+  }
+});
+
+test('model Product schemas distinguish the actual manufacturer from VideoAI', () => {
+  for (const slug of ['seedance-2-0', 'seedance-2-5', 'seedream', 'seedream-5-0-pro']) {
+    const engine = getRequiredEngine(slug);
+    assert.equal(resolveProviderInfo(engine).url, 'https://www.bytedance.com/en/');
+  }
+  const unknownManufacturer = { ...getRequiredEngine('seedance-2-5'), brandId: 'unverified-provider' } as never;
+  assert.equal(resolveProviderInfo(unknownManufacturer).url, undefined, 'an unknown manufacturer must not inherit VideoAI’s URL');
+  const expectedProviders = [
+    ['gemini-omni-flash', 'Google DeepMind', 'https://deepmind.google/models/'],
+    ['nano-banana-pro', 'Google DeepMind', 'https://deepmind.google/models/'],
+    ['grok-imagine-video-1-5', 'xAI', 'https://x.ai/'],
+    ['flux-3', 'Black Forest Labs', 'https://bfl.ai/'],
+  ];
+  for (const [slug, name, url] of expectedProviders) {
+    assert.deepEqual(resolveProviderInfo(getRequiredEngine(slug)), { name, url });
+  }
+});
+
+test('historical models with app publication disabled keep editorial schemas without a purchasable Product', () => {
+  for (const slug of ['ltx-2', 'ltx-2-fast', 'wan-2-5']) {
+    const engine = getRequiredEngine(slug);
+    assert.equal(engine.surfaces.app.enabled, false);
+    for (const [locale, prefix] of [['en', '/models'], ['fr', '/fr/modeles'], ['es', '/es/modelos']]) {
+      const canonical = `https://videoai.omninodetech.com${prefix}/${slug}`;
+      const schemas = buildModelSchemaPayloads({
+        engine, canonical, localizedCanonical: canonical,
+        description: 'Historical model reference', heroTitle: engine.marketingName,
+        heroPosterAbsolute: 'https://videoai.omninodetech.com/favicon-512.png', inLanguage: locale,
+        localizedHomeUrl: 'https://videoai.omninodetech.com', localizedModelsUrl: `https://videoai.omninodetech.com${prefix}`,
+        pricingEngine: engine.engine, resolvedBreadcrumb: { home: 'Home', models: 'Models' },
+      }) as JsonRecord[];
+      assert.deepEqual(schemas.map((schema) => schema['@type']), ['WebPage', 'BreadcrumbList']);
+      assert.equal(schemas[0].url, canonical);
+    }
+  }
 });
 
 test('blog Article schema identifies the visible person while retaining VideoAI as publisher', () => {
@@ -472,7 +539,7 @@ test('blog Article schema identifies the visible person while retaining VideoAI 
     '@type': 'Person',
     name: 'Adrien Millot',
     jobTitle: 'Founder & Product Lead',
-    url: 'https://videoai.omninodetech.com/about#adrien-millot',
+    url: `${SITE_ORIGIN}/about#adrien-millot`,
   });
   assert.equal(articleSchema.publisher['@type'], 'Organization');
   assert.equal(articleSchema.publisher.name, 'VideoAI');

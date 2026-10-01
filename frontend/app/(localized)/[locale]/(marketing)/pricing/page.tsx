@@ -29,8 +29,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     description: t('description'),
     hreflangGroup: 'pricing',
     slugMap: PRICING_SLUG_MAP,
-    image: '/og/pricing-hub.png',
-    imageAlt: 'VideoAI pricing comparison tables.',
+    image: '/og/pricing-2026-09-25.png',
+    imageAlt: 'VideoAI pricing: see the price before creating.',
   });
 }
 

@@ -3,7 +3,7 @@
   "versionLabel": "H3 Max",
   "seo": {
     "title": "MiniMax H3 Max AI 视频：快速 768P、参考图与音频",
-    "description": "从文本、帧图像或混合图像、视频及音频参考生成 5–15 秒的 MiniMax H3 Max 视频，分辨率支持 480P 或 768P。"
+    "description": "从文本、帧图像或混合图像、视频及音频参考生成 5–15 秒的 MiniMax H3 Max 视频，分辨率支持 480P、768P 或 1080P。"
   },
   "overview": "MiniMax H3 Max 是专注于快速生产的 Hailuo 路线，具备强提示词遵循能力、精美的 768P 画质、原生音频以及多模态参考引导。",
   "decision": {
@@ -15,7 +15,7 @@
       "subtitleHighlights": [
         "将更多创意转化为动态画面"
       ],
-      "paragraph": "MiniMax H3 Max 可生成 5–15 秒的 AI 视频，分辨率支持 480P 或 768P，并带有原生音频。可从文本、首尾帧图像或混合参考出发进行创作。如需 2K 或 4K 输出，请选择 MiniMax H3。",
+      "paragraph": "MiniMax H3 Max 可生成 5–15 秒的 AI 视频，分辨率支持 480P、768P 或 1080P，并带有原生音频。可从文本、首尾帧图像或混合参考出发进行创作。如需 2K 或 4K 输出，请选择 MiniMax H3。",
       "primaryCta": {
         "label": "使用 MiniMax H3 Max 生成",
         "href": "/app?engine=minimax-h3-max"
@@ -48,7 +48,7 @@
       "description": "在镜面舞台上的当代舞蹈",
       "renderLabel": "查看渲染",
       "badges": [
-        "480P / 768P",
+        "480P / 768P / 1080P",
         "5–15s",
         "混合参考",
         "原生音频"
@@ -58,7 +58,7 @@
     "features": [
       {
         "title": "快速精美输出",
-        "body": "使用专注的 H3 Max 路线，在 480P 或 768P 下实现强提示词遵循和快速生产。",
+        "body": "使用专注的 H3 Max 路线，在 480P、768P 或 1080P 下实现强提示词遵循和快速生产。",
         "tone": "quality"
       },
       {
@@ -88,7 +88,7 @@
       },
       {
         "title": "选择 MiniMax H3 获得 2K 和 4K",
-        "body": "H3 Max 适合快速 480P 或 768P 生产，具备提示词扩展和强视觉效果。如需广泛的 2K/4K 输出，请选择 MiniMax H3。",
+        "body": "H3 Max 适合快速 480P、768P 或 1080P 生产，具备提示词扩展和强视觉效果。如需广泛的 2K/4K 输出，请选择 MiniMax H3。",
         "cta": {
           "label": "查看 H3 Max 规格",
           "href": "#specs"
@@ -114,7 +114,7 @@
     },
     "meta": {
       "title": "MiniMax H3 Max AI 视频：快速 768P、参考图与音频",
-      "description": "从文本、帧图像或混合图像、视频及音频参考生成 5–15 秒的 MiniMax H3 Max 视频，分辨率支持 480P 或 768P。"
+      "description": "从文本、帧图像或混合图像、视频及音频参考生成 5–15 秒的 MiniMax H3 Max 视频，分辨率支持 480P、768P 或 1080P。"
     }
   },
   "prompting": {
@@ -160,11 +160,11 @@
         "action": "台灯展开成最终形态",
         "camera": "一次受控的镜头运动",
         "style": "干净的高端产品变形",
-        "output": "480P 或 768P · 24 FPS · 原生音频"
+        "output": "480P、768P 或 1080P · 24 FPS · 原生音频"
       },
       "presentationOverrides": {
         "modeLabel": "文生视频",
-        "outputLabel": "480P 或 768P · 24 FPS · 原生音频",
+        "outputLabel": "480P、768P 或 1080P · 24 FPS · 原生音频",
         "duration": null,
         "aspectRatio": null,
         "audioChipMode": "media",

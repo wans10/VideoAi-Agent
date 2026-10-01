@@ -344,7 +344,7 @@ export async function submitBytePlusGenerateTask(params: {
           params.jobId,
           failureMessage,
           BYTEPLUS_MODELARK_PROVIDER,
-          params.pendingReceipt ? (params.paymentMode === 'wallet' ? 'refunded_wallet' : 'refunded') : null,
+          null,
           providerFailureJson,
           trialDisposition,
         ]
@@ -352,6 +352,8 @@ export async function submitBytePlusGenerateTask(params: {
     } catch (updateError) {
       console.warn('[byteplus] failed to mark submission failure', { jobId: params.jobId }, updateError);
     }
+    let paymentStatus = params.paymentStatus;
+    let refundedAmountCents: number | undefined;
     if (params.pendingReceipt) {
       await rollbackPendingPaymentFn({
         pendingReceipt: params.pendingReceipt,
@@ -362,6 +364,31 @@ export async function submitBytePlusGenerateTask(params: {
           reason: failureMessage,
         }),
       });
+      // Rollback deliberately swallows persistence errors. Confirm the ledger
+      // before telling the customer that their payment has been returned.
+      try {
+        const receipt = params.pendingReceipt;
+        const walletRefund = params.paymentMode === 'wallet' && params.walletChargeReserved;
+        const refunds = await queryFn(
+          `SELECT id FROM app_receipts
+           WHERE job_id = $1 AND type = 'refund'
+             AND user_id = $2 AND amount_cents = $3 AND currency = $4
+             AND stripe_refund_id IS ${walletRefund ? '' : 'NOT '}NULL
+           LIMIT 1`,
+          [params.jobId, params.userId, receipt.amountCents, receipt.currency]
+        );
+        if (Array.isArray(refunds) && refunds.length > 0) {
+          paymentStatus = walletRefund ? 'refunded_wallet' : 'refunded';
+          if (walletRefund) refundedAmountCents = receipt.amountCents;
+          await queryFn(
+            `UPDATE app_jobs SET payment_status = $2, updated_at = NOW()
+             WHERE job_id = $1 AND user_id = $3`,
+            [params.jobId, paymentStatus, params.userId]
+          );
+        }
+      } catch (refundError) {
+        console.warn('[byteplus] could not confirm refund state', { jobId: params.jobId }, refundError);
+      }
     }
     logMetricFn?.('failed', {
       jobId: params.jobId,
@@ -381,6 +408,10 @@ export async function submitBytePlusGenerateTask(params: {
         ok: false,
         error: errorCode,
         message: failureMessage,
+        jobId: params.jobId,
+        failureCode,
+        paymentStatus,
+        ...(refundedAmountCents !== undefined ? { refundedAmountCents, currency: params.pendingReceipt!.currency } : {}),
       },
     };
   }

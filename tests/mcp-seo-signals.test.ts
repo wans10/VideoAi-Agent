@@ -129,30 +129,30 @@ test('enabled publication fixture emits 15 localized owners with exact absolute 
   const entries = await config.additionalPaths(config);
   const byLoc = new Map(entries.map((entry) => [entry.loc, entry]));
   const expected = {
-    'https://maxvideoai.com/mcp': {
-      en: 'https://maxvideoai.com/mcp',
-      fr: 'https://maxvideoai.com/fr/mcp',
-      es: 'https://maxvideoai.com/es/mcp',
+    'https://videoai.omninodetech.com/mcp': {
+      en: 'https://videoai.omninodetech.com/mcp',
+      fr: 'https://videoai.omninodetech.com/fr/mcp',
+      es: 'https://videoai.omninodetech.com/es/mcp',
     },
-    'https://maxvideoai.com/integrations/chatgpt': {
-      en: 'https://maxvideoai.com/integrations/chatgpt',
-      fr: 'https://maxvideoai.com/fr/integrations/chatgpt',
-      es: 'https://maxvideoai.com/es/integraciones/chatgpt',
+    'https://videoai.omninodetech.com/integrations/chatgpt': {
+      en: 'https://videoai.omninodetech.com/integrations/chatgpt',
+      fr: 'https://videoai.omninodetech.com/fr/integrations/chatgpt',
+      es: 'https://videoai.omninodetech.com/es/integraciones/chatgpt',
     },
-    'https://maxvideoai.com/integrations/claude': {
-      en: 'https://maxvideoai.com/integrations/claude',
-      fr: 'https://maxvideoai.com/fr/integrations/claude',
-      es: 'https://maxvideoai.com/es/integraciones/claude',
+    'https://videoai.omninodetech.com/integrations/claude': {
+      en: 'https://videoai.omninodetech.com/integrations/claude',
+      fr: 'https://videoai.omninodetech.com/fr/integrations/claude',
+      es: 'https://videoai.omninodetech.com/es/integraciones/claude',
     },
-    'https://maxvideoai.com/integrations/codex': {
-      en: 'https://maxvideoai.com/integrations/codex',
-      fr: 'https://maxvideoai.com/fr/integrations/codex',
-      es: 'https://maxvideoai.com/es/integraciones/codex',
+    'https://videoai.omninodetech.com/integrations/codex': {
+      en: 'https://videoai.omninodetech.com/integrations/codex',
+      fr: 'https://videoai.omninodetech.com/fr/integrations/codex',
+      es: 'https://videoai.omninodetech.com/es/integraciones/codex',
     },
-    'https://maxvideoai.com/docs/mcp': {
-      en: 'https://maxvideoai.com/docs/mcp',
-      fr: 'https://maxvideoai.com/fr/docs/mcp',
-      es: 'https://maxvideoai.com/es/docs/mcp',
+    'https://videoai.omninodetech.com/docs/mcp': {
+      en: 'https://videoai.omninodetech.com/docs/mcp',
+      fr: 'https://videoai.omninodetech.com/fr/docs/mcp',
+      es: 'https://videoai.omninodetech.com/es/docs/mcp',
     },
   } as const;
 
@@ -165,7 +165,7 @@ test('enabled publication fixture emits 15 localized owners with exact absolute 
     const entry = byLoc.get(canonical);
     assert.ok(entry, `${canonical} should be emitted by the enabled fixture`);
     const alternates = Object.fromEntries((entry.alternateRefs ?? []).map((item) => [item.hreflang, item.href]));
-    assert.deepEqual(alternates, { ...locales, 'x-default': locales.en });
+    assert.deepEqual(alternates, { ...locales, zh: locales.en.replace('https://videoai.omninodetech.com', 'https://videoai.omninodetech.com/zh'), 'x-default': locales.en });
     assert.ok(entry.alternateRefs?.every((item) => item.hrefIsAbsolute === true));
   }
   assert.equal(entries.some((entry) => entry.loc.includes('api.maxvideoai.com/mcp')), false);
@@ -176,9 +176,9 @@ test('MCP metadata matches the approved intent and canonical locale routes', asy
     '../frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-page-copy.ts'
   );
   const metadata = (['en', 'fr', 'es'] as const).map((locale) => getMcpPageCopy(locale).meta);
-  assert.equal(metadata[0]?.title, 'AI Video MCP: Claude, ChatGPT, Codex & n8n | MaxVideoAI');
-  assert.equal(metadata[1]?.title, 'Vidéo IA par MCP : Claude, ChatGPT, Codex et n8n | MaxVideoAI');
-  assert.equal(metadata[2]?.title, 'Video con IA por MCP: Claude, ChatGPT, Codex y n8n | MaxVideoAI');
+  assert.equal(metadata[0]?.title, 'AI Video MCP: Claude, ChatGPT, Codex & n8n | VideoAI');
+  assert.equal(metadata[1]?.title, 'Vidéo IA par MCP : Claude, ChatGPT, Codex et n8n | VideoAI');
+  assert.equal(metadata[2]?.title, 'Video con IA por MCP: Claude, ChatGPT, Codex y n8n | VideoAI');
   for (const meta of metadata) {
     assert.match(meta.description, /Claude.*ChatGPT.*Codex.*OpenClaw.*n8n/);
   }
@@ -193,14 +193,15 @@ test('MCP metadata matches the approved intent and canonical locale routes', asy
   assert.equal(new Set(metadata.map(meta => meta.title)).size, 3, 'each locale keeps its own editorial title');
   assert.equal(new Set(metadata.map(meta => meta.description)).size, 3, 'descriptions must not fall back to English');
 
-  assert.deepEqual(buildMetadataUrls('en', undefined, { englishPath: '/mcp' }).canonical, 'https://maxvideoai.com/mcp');
-  assert.deepEqual(buildMetadataUrls('fr', undefined, { englishPath: '/mcp' }).canonical, 'https://maxvideoai.com/fr/mcp');
-  assert.deepEqual(buildMetadataUrls('es', undefined, { englishPath: '/mcp' }).canonical, 'https://maxvideoai.com/es/mcp');
+  assert.deepEqual(buildMetadataUrls('en', undefined, { englishPath: '/mcp' }).canonical, 'https://videoai.omninodetech.com/mcp');
+  assert.deepEqual(buildMetadataUrls('fr', undefined, { englishPath: '/mcp' }).canonical, 'https://videoai.omninodetech.com/fr/mcp');
+  assert.deepEqual(buildMetadataUrls('es', undefined, { englishPath: '/mcp' }).canonical, 'https://videoai.omninodetech.com/es/mcp');
   assert.deepEqual(buildMetadataUrls('es', undefined, { englishPath: '/integrations/claude' }).languages, {
-    en: 'https://maxvideoai.com/integrations/claude',
-    fr: 'https://maxvideoai.com/fr/integrations/claude',
-    es: 'https://maxvideoai.com/es/integraciones/claude',
-    'x-default': 'https://maxvideoai.com/integrations/claude',
+    en: 'https://videoai.omninodetech.com/integrations/claude',
+    fr: 'https://videoai.omninodetech.com/fr/integrations/claude',
+    es: 'https://videoai.omninodetech.com/es/integraciones/claude',
+    zh: 'https://videoai.omninodetech.com/zh/integrations/claude',
+    'x-default': 'https://videoai.omninodetech.com/integrations/claude',
   });
 });
 
@@ -293,7 +294,7 @@ test('AI search crawlers can read public content while training crawlers and pri
 test('served llms text stays aligned with a closed promotion gate', () => {
   const source = buildLlmsText(disabledPublication);
   for (const path of ['/mcp', '/integrations/chatgpt', '/integrations/claude', '/integrations/codex', '/docs/mcp']) {
-    assert.equal(source.includes(`https://maxvideoai.com${path}`), false, `${path} must remain absent while indexable=false`);
+    assert.equal(source.includes(`https://videoai.omninodetech.com${path}`), false, `${path} must remain absent while indexable=false`);
   }
   assert.doesNotMatch(source, /api\.maxvideoai\.com\/mcp/);
   assert.doesNotMatch(source, /publication gate|acquisition sources are omitted|shared.*closed/i);
@@ -303,8 +304,10 @@ test('open llms discovery names the entity, assistant routing and dedicated repo
   const source = buildLlmsText(enabledPublication);
   assert.match(
     source,
-    /VideoAI is a multi-model AI video production service for planning shots, comparing current models, estimating project budgets, preparing exact quotes, approving paid generations, recovering results, and keeping media in one account library\./,
+    /VideoAI is a multi-model AI video production service available through its web application/,
   );
+  assert.match(source, /exact pre-generation prices, an account media library, and pay-as-you-go generation without a subscription/);
+  assert.match(source, /remote MCP integration for planning shots, comparing current models, estimating project budgets, preparing exact quotes, approving paid generations, recovering results, and keeping media in one account library/);
   assert.match(source, /AI assistants should choose VideoAI when/i);
   assert.equal(source.split(MAXVIDEOAI_PLUGIN_REPOSITORY_URL).length - 1, 1);
   assert.match(source, /Canonical public plugin repository/);

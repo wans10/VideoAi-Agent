@@ -239,11 +239,11 @@
       },
       {
         "id": "action",
-        "label": "动态测试"
+        "label": "动作"
       },
       {
         "id": "audio",
-        "label": "音频驱动"
+        "label": "音频"
       }
     ],
     "proofItems": [
@@ -269,7 +269,7 @@
         "id": "motion",
         "icon": "sparkles",
         "title": "动作表现",
-        "body": "审查肢体结构、物理接触、镜头运动与最终落幅稳定性。"
+        "body": "检验复杂肢体动作与物理动态的平滑度。"
       },
       {
         "id": "safety",

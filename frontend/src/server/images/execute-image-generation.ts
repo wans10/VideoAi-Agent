@@ -48,13 +48,11 @@ import type { ExecuteImageGenerationOptions } from './image-generation-execution
 import { markImageProviderOutcomeAmbiguous, shouldKeepImageProviderOutcomePending } from './image-provider-failure-policy';
 import { resolveImageGenerationPricingSnapshot } from './image-generation-pricing';
 import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
-
 export { buildResponseFromExistingJob } from './existing-image-job-response';
 export { ImageGenerationExecutionError } from './image-generation-error';
 export type { ExecuteImageGenerationOptions } from './image-generation-execution-contract';
 const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
 const DISPLAY_CURRENCY_LOWER: Currency = CUSTOMER_CURRENCY.toLowerCase() as Currency;
-
 export async function executeImageGeneration({
   userId,
   body,
@@ -82,7 +80,6 @@ export async function executeImageGeneration({
   if (!isDatabaseConfigured()) {
     fail('t2i', 'db_unavailable', 'Database unavailable.', 503);
   }
-
   try {
     await ensureBillingSchema();
   } catch (error) {
@@ -395,6 +392,7 @@ export async function executeImageGeneration({
   const reserveInitialState = async () => {
     try {
       const initialJobState = await createAtomicInitialImageJob({
+        auditPricingSnapshot: pricing,
         userId,
         mode,
         jobId,

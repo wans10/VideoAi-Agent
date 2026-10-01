@@ -1,3 +1,4 @@
+import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
 import { randomUUID } from 'crypto';
 import type { NextRequest } from 'next/server';
 import { isDatabaseConfigured } from '@/lib/db';
@@ -112,6 +113,9 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
   providerEnv?: VideoProviderRoutingEnv;
 }): GenerateRouteContextResult {
   const { body, engine, jobId, mode, providerEnv } = params;
+  if (isArchivedGenerationModel(engine.id)) {
+    return { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } };
+  }
   if (isMinimaxH3MaxEngineId(engine.id) && !isMinimaxH3MaxRuntimeModeAvailable(mode)) {
     return { ok: false, status: 503, body: { ok: false, error: 'Engine unavailable' } };
   }
@@ -193,6 +197,9 @@ export async function resolveGenerateRouteContext(params: {
     ...params.boundaryOverrides,
   };
   const requestedEngineId = String(body.engineId || '');
+  if (isArchivedGenerationModel(requestedEngineId)) {
+    return { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } };
+  }
   const requestedLlmhubMode = typeof body.mode === 'string' ? body.mode.trim().toLowerCase() : 't2v';
   const registeredForRouting = getBaseEngineIncludingHidden(requestedEngineId)
     ?? getPrivateRuntimeEngineById(requestedEngineId);

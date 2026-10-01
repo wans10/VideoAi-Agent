@@ -156,7 +156,7 @@ Two non-quote projections remain intentionally narrow: storyboard bundle code ad
 
 ## Admin commercial mutation workflow
 
-The admin navigation exposes `Pricing policy`, `Membership`, and `Billing products`. Each domain loads its own inventory and immutable history. Pricing-policy and billing-product mutations follow `preview → explicit confirmation → immediate transactional apply`; confirmation recomputes the preview and rejects a stale fingerprint. Membership is historical and read-only, and its mutation endpoints return `membership_retired`.
+The admin redesign exposes `Billing products` under Settings. `/admin/pricing` redirects to Settings and engine settings are read-only; historical membership remains accessible by its direct URL. The existing pricing service, inventory/history APIs, DB overrides and cache retain their original behavior. Retiring the UI does not migrate or delete pricing data. Pricing-policy and billing-product mutations follow `preview → explicit confirmation → immediate transactional apply`; confirmation recomputes the preview and rejects a stale fingerprint. Membership is historical and read-only, and its mutation endpoints return `membership_retired`.
 
 Routing fields are excluded from commercial proposals: `vendorAccountId` is read-only context, an update preserves the stored routing value, and a new policy rule cannot create a routing override. Rollback creates a new immutable event and is a new mutation, never a history rewrite. Clients send only the target and immutable event identifiers. The server reads the event, derives the historical state, computes a fresh canonical preview, and requires the normal explicit confirmation. Event history renders actor, timestamp, operation, target, and the server-recorded scenario delta range. The former direct membership-tier and raw pricing-rule mutation routes have been removed.
 
@@ -172,11 +172,11 @@ Each domain then completed a controlled `preview → confirmation → history �
 
 Use only the owner for the value being changed:
 
-1. `/admin/pricing` for engine policy selectors, margins, surcharges, currency, and compatibility profiles.
+1. Engine policy changes use the engineering workflow and the retained pricing service contract; `/admin/pricing` no longer offers an editor. Inventory the effective DB rules first: a code fallback change does not replace a more specific DB override. Any intended DB rule change must preserve the authorized preview/confirmation/history protocol.
 2. `/admin/membership` to inspect historical `member`, `plus`, and `pro` thresholds, discounts, and immutable events. It cannot apply or roll back changes.
 3. `/admin/billing-products` for active fixed products referenced by production billing consumers.
 
-For pricing policy or billing products, inspect the current source and provenance, edit the proposed value, request the canonical server preview, review every affected row and warning, then either cancel or explicitly confirm. Confirmation applies immediately. If the server reports `preview_stale`, discard the preview, refresh current state, and preview again. To undo a committed change in either active domain, select its immutable history event and run the same preview-confirm flow; rollback never edits or deletes history. Membership history has no active rollback control.
+For the retained pricing policy service or the billing-products UI, inspect the current source and provenance, prepare the proposed value, request the canonical server preview, review every affected row and warning, then either cancel or explicitly confirm. Confirmation applies immediately. If the server reports `preview_stale`, discard the preview, refresh current state, and preview again. To undo a committed change in either active domain, select its immutable history event and run the same preview-confirm flow; rollback never edits or deletes history. Membership history has no active rollback control.
 
 Before confirming a real change, work in a configured environment with an authenticated admin and a database containing the current migrations. Record the intended policy diff, then run the read-only guards:
 
@@ -216,3 +216,56 @@ The billing adapter supplies the output-only pricing basis, minimum, and fixed a
 ## Product schema offer repair — 2026-09-10
 
 Indexed legacy model pages resolve Product offers independently from pricing-estimator publication. This lets Luma Ray 2, Luma Ray 2 Flash, Wan 2.5, LTX 2 Fast, and LTX 2 reuse their existing canonical or authored prices in JSON-LD without republishing those models in the estimator or changing billing. The two Luma rows that previously had no structured-data amount are recorded in `tests/fixtures/product-schema-offer-fix-2026-09-10.json`; the frozen historical fixture remains unchanged.
+
+The September 2026 machine-readable audit adds an execution-publication guard:
+the Product schema builder requires the registry-derived `surfaces.app.enabled`.
+Deep-legacy LTX 2, LTX 2 Fast and Wan 2.5 retain their historical WebPage,
+FAQ and breadcrumb identity, but emit no purchasable Product/Offer while app
+publication is disabled. The canonical pricing functions and historical
+fixtures are unchanged; executable legacy models such as Luma Ray 2 still
+qualify independently of estimator publication.
+
+
+## Customer-facing Product offer correction — 2026-09-21
+
+The machine-readable audit found 41 incorrect customer Offer amounts across
+32 video and 9 image entries. Some were provider costs (for example H3
+10s / 2K: 130 → 169 cents); others were stale hints in either direction.
+The default executable video/image schema now obtains its amount from the
+existing public scenario owner (`getPresetQuote` / `getImagePresetQuote`).
+Hints may select duration and resolution, but do not supply customer amounts.
+Video scenarios explicitly use text-to-video, native/default audio and no
+references. Image scenarios use one high-quality output and no references.
+Unavailable exact quotes omit the offer rather than falling back to a stale hint.
+
+The 41 reviewed schema-only differences are recorded in
+`tests/fixtures/product-schema-customer-price-fix-2026-09-21.json`. The public
+baseline guard checks every exact previous amount against the immutable
+historical or launch fixture and changes only the two listed schema price
+fields. All 610 projection rows are still checked. Neither historical fixture
+is rewritten. Billing, commercial policy, customer quote calculations, DB
+overrides and stored receipts are unchanged.
+
+`tests/product-schema-customer-price.test.ts` verifies video and per-image
+scenarios in all locales. Explicit Luma offer scenarios and Seedance token
+compatibility profiles remain in their existing owners. In particular, Luma
+Ray 3.2's 5s / 540p offer must not be compared with a 720p preview, and Seedance
+2.0's one-cent provider-reference versus public-rounded-vendor difference is
+not treated as a missing margin. Disabled app entries still cannot emit a
+purchasable Product. Correcting historical Sora page prices does not repromote
+those models in discovery or change their lifecycle.
+
+The model layout computes a single typed `ModelPublicOffer` result and passes it
+to both the localized visible generation example and Product/Offer. The amount-only
+resolver remains the offline baseline interface. The offer name states the same
+scenario as the visible line; it is not labeled a minimum price. Physical return
+destinations are omitted for digital generations; sales-country applicability and
+the existing consumed-generation policy are unchanged.
+
+## Multimodal reference cost budgets
+
+Wan 3 and Prime use actual owned input-video duration plus requested output duration as the provider cost basis. The browser-safe `wan3-pricing.ts` owner augments both public and billing facts using the existing resolved provider rate; canonical commercial policy remains the only margin owner. It preserves output duration in `base.seconds`, itemizes input video separately, and records input/output/billable duration metadata. Site preflight, generation, MCP preparation and confirmation derive these facts from owned media, never client duration claims. Source videos are deduplicated by URL and missing durations reject the quote. At 720p, a 10-second source plus 5-second output gives provider facts of $1.50/$2.10 and current standard customer quotes of $1.95/$2.73 for Wan 3/Prime. No-video scenarios retain their existing prices. See [Alibaba pricing ownership](alibaba-model-studio-provider.md#pricing-and-observability).
+
+H3 Max reference generation uses a versioned conservative supplier-cost budget from verified owned media, then the existing canonical commercial policy. The fixed customer quote is authoritative; estimated supplier tokens are never presented as an invoice. See [multimodal reference parity](multimodal-reference-parity.md) for the dated authorization, formula, examples and limitations.
+
+The same provider review adds H3 480P and H3 Max 1080P. Seven exact public projection changes are recorded in `tests/fixtures/h3-capability-pricing-change-2026-09-22.json`, preserving the historical fixture. H3's 10-second estimator entry is now $0.65 at 480P, its 768P pricing-hub entry is $0.78, and H3 Max's newly available 1080P scenarios are $1.67 for eight seconds or $2.08 for ten seconds. These apply the existing 30% markup to reviewed regular supplier rates; reference surcharges are additional and quoted from the selected media. The baseline guard validates each previous row and every field of each replacement.

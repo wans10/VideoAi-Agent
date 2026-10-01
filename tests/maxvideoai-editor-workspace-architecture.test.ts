@@ -1063,7 +1063,7 @@ test('MaxVideoAI editor workspace is an isolated authenticated app route', () =>
   assert.match(shellStyleSource, /\.canvasEditorBodyInspectorOpen[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*340px/, 'Canvas body should expand the inspector column when a node is selected');
   assert.match(shellStyleSource, /\.canvasInspectorSlot[\s\S]*transition:/, 'Canvas inspector slot should animate open and close with lightweight transitions');
   assert.match(workspaceEditorLayoutSource, /WorkspaceTimeline/, 'editor layout should compose the bottom timeline');
-  assert.match(readFileSync(appSiteMenuPath, 'utf8'), /\/assets\/branding\/logo-mark\.svg/, 'shared app menu should provide the real MaxVideoAI logo mark to the editor header');
+  assert.match(readFileSync(appSiteMenuPath, 'utf8'), /BrandLockup/, 'shared app menu should provide the real MaxVideoAI logo mark to the editor header');
   assert.doesNotMatch(workspaceEditorTopbarSource, /brandMark[\s\S]*>\s*M\s*</, 'editor header should not render a placeholder M logo');
   assert.match(shellStyleSource, /:global\(\.app-site-trigger\)/, 'editor shell should adapt the shared app menu trigger without changing global app CSS');
   assert.match(workspaceEditorTopbarSource, /focusMode === 'viewer'/, 'top switch should expose a Viewer mode instead of a second Timeline mode');

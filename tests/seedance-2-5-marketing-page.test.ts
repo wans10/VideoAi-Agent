@@ -105,7 +105,7 @@ test('Seedance 2.5 uses the public conversion template with pricing and comparis
 test('Seedance 2.5 launches with three localized, indexable comparison decisions', () => {
   for (const comparisonSlug of priorityComparisonSlugs) {
     assert.equal(isPublishedComparisonSlug(comparisonSlug), true, `${comparisonSlug} publication`);
-    assert.deepEqual(getIndexableComparisonLocales(comparisonSlug), locales, `${comparisonSlug} indexation`);
+    assert.deepEqual(getIndexableComparisonLocales(comparisonSlug), [...locales, 'zh'], `${comparisonSlug} indexation`);
 
     for (const locale of locales) {
       const override = getComparePageOverride(locale, comparisonSlug);
@@ -288,13 +288,14 @@ test('Seedance 2.5 emits canonical localized metadata URLs and complete public s
   for (const locale of locales) {
     const metadataUrls = buildMetadataUrls(locale, buildDetailSlugMap(slug), {
       englishPath: `/models/${slug}`,
-      availableLocales: [...locales],
+      availableLocales: [...locales, 'zh'],
     });
     assert.equal(metadataUrls.canonical, expectedMetadataUrls[locale]);
     assert.deepEqual(metadataUrls.languages, {
       en: expectedMetadataUrls.en,
       fr: expectedMetadataUrls.fr,
       es: expectedMetadataUrls.es,
+      zh: 'https://videoai.omninodetech.com/zh/models/seedance-2-5',
       'x-default': expectedMetadataUrls.en,
     });
   }

@@ -258,8 +258,8 @@
       {
         "id": "camera",
         "icon": "maximize",
-        "title": "运镜控制",
-        "body": "确认指定的镜头运镜平滑流畅，并始终烘托突出主体。"
+        "title": "运镜调度",
+        "body": "逐节拍跟踪构图、镜头运镜与转场表现。"
       },
       {
         "id": "continuity",

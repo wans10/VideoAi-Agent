@@ -12,6 +12,8 @@ import {
 import { resolveVideoProviderRoutingPlan } from '../frontend/src/server/video-providers/router';
 
 const directFirstEnv = {
+  KLING_ACCESS_KEY: 'synthetic-test-key',
+  KLING_SECRET_KEY: 'synthetic-test-secret',
   KLING_DIRECT_ENABLED: 'true',
   KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'true',
   KLING_DIRECT_ADMIN_ONLY: 'false',

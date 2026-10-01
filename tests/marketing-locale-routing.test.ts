@@ -115,6 +115,10 @@ test('private MCP reference-upload handoffs bypass marketing locale routing', ()
   );
 });
 
+test('private video share links bypass marketing locale routing', () => {
+  assert.equal(shouldHandleLocale(`/s/${'A'.repeat(32)}`), false);
+});
+
 test('model-shaped compatibility redirects are not owned by marketing middleware', () => {
   const source = readFileSync('frontend/lib/middleware/routing-marketing.ts', 'utf8');
   assert.doesNotMatch(source, /['"]\/models\/(?:luma-dream-machine|pika-image-to-video)/);
@@ -169,4 +173,8 @@ test('real middleware resolves every dotted public alias in localized English mo
   assert.equal(staticAssetResponse.status, 200);
   assert.equal(staticAssetResponse.headers.get('location'), null);
   assert.equal(staticAssetResponse.headers.get('x-middleware-next'), '1');
+});
+
+test('password recovery routes bypass locale rewriting for Chinese visitors', () => {
+  assert.equal(shouldHandleLocale('/auth/reset-password'), false);
 });

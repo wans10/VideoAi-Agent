@@ -83,7 +83,7 @@ test('app shell keeps account authority, localized separate public links, and na
   assert.doesNotMatch(menu, /fetch\(|useHeaderAccountState|supabase/);
   assert.match(menu, /getPathname\(\{ locale, href: item.href \}\)/);
   assert.match(menu, /target="_blank" rel="noopener noreferrer"/);
-  assert.match(menu, /\/assets\/branding\/logo-mark\.svg/);
+  assert.match(menu, /BrandLockup/);
   assert.match(menu, /showModal\(\)/);
   assert.match(menu, /addEventListener\('close', restoreFocus\)/);
   assert.match(menu, /openerRef\.current\?\.focus\(\)/);

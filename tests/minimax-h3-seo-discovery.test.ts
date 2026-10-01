@@ -55,7 +55,7 @@ test('H3 comparison pages are enriched, localized, canonical, and indexable', ()
   for (const slug of COMPARISONS) {
     assert.equal(isPublishedComparisonSlug(slug), true, `${slug} published pair`);
     assert.ok(sitemapSlugs.includes(slug), `${slug} comparison sitemap membership`);
-    assert.deepEqual(getIndexableComparisonLocales(slug), LOCALES, `${slug} locale indexation`);
+    assert.deepEqual(getIndexableComparisonLocales(slug), [...LOCALES, 'zh'], `${slug} locale indexation`);
 
     const raw = readFileSync(path.join(REPO_ROOT, 'content', 'comparisons', `${slug}.json`), 'utf8');
     assert.doesNotMatch(raw, /provisional|estimated|sample|disclaimer|scorecard-only/i);
@@ -80,13 +80,14 @@ test('H3 comparison pages are enriched, localized, canonical, and indexable', ()
       });
       assert.equal(
         metadata.alternates?.canonical,
-        `https://maxvideoai.com${COMPARISON_PREFIX[locale]}/${slug}`,
+        `https://videoai.omninodetech.com${COMPARISON_PREFIX[locale]}/${slug}`,
       );
       assert.deepEqual(metadata.alternates?.languages, {
-        en: `https://maxvideoai.com/ai-video-engines/${slug}`,
-        fr: `https://maxvideoai.com/fr/comparatif/${slug}`,
-        es: `https://maxvideoai.com/es/comparativa/${slug}`,
-        'x-default': `https://maxvideoai.com/ai-video-engines/${slug}`,
+        en: `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
+        fr: `https://videoai.omninodetech.com/fr/comparatif/${slug}`,
+        es: `https://videoai.omninodetech.com/es/comparativa/${slug}`,
+        zh: `https://videoai.omninodetech.com/zh/ai-video-engines/${slug}`,
+        'x-default': `https://videoai.omninodetech.com/ai-video-engines/${slug}`,
       });
     }
   }

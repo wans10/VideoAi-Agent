@@ -4226,7 +4226,8 @@
           "walletMovement": "钱包变动",
           "tax": "税额",
           "discount": "折扣",
-          "document": "单据"
+          "document": "单据",
+          "paymentAmount": "实际支付金额"
         },
         "viewReceipt": "查看收据",
         "viewInvoice": "查看发票",
@@ -7135,7 +7136,9 @@
       "googleRedirecting": "正在跳转至 Google…",
       "completingSignIn": "正在完成登录…",
       "completeSignInError": "无法完成登录。",
-      "consentSaveError": "无法保存您的 Cookie 偏好设置，请重试。"
+      "consentSaveError": "无法保存您的 Cookie 偏好设置，请重试。",
+      "resetRateLimited": "请求过于频繁，请稍后再申请重置链接。",
+      "resetUnavailable": "暂时无法发送重置邮件，请稍后重试。"
     },
     "oauthCallbackError": "Google 登录未完成，请重试。"
   },
@@ -8806,5 +8809,25 @@
     "body": "我们未能找到该链接，它可能已被删除或从未存在过。请使用下方链接继续探索 VideoAI。",
     "homeLabel": "返回首页",
     "modelsLabel": "查看视频模型"
+  },
+  "passwordRecovery": {
+    "title": "设置新密码",
+    "intro": "继续以安全验证您的重置链接。",
+    "verify": "继续",
+    "verifying": "正在验证链接…",
+    "password": "新密码",
+    "confirm": "确认新密码",
+    "save": "保存新密码",
+    "saving": "正在保存…",
+    "saved": "密码已更新。",
+    "continueToApp": "进入工作台",
+    "requestNew": "申请新链接",
+    "invalid": "链接无效或已过期，请重新申请。如果您更换了浏览器，请尝试在申请链接时使用的浏览器中打开原始链接。",
+    "tooShort": "密码至少需要 6 个字符。",
+    "mismatch": "两次输入的密码不一致。",
+    "weak": "请选择更强的密码。",
+    "same": "新密码不能与当前密码相同。",
+    "unavailable": "暂时无法更新密码，请重试。",
+    "ready": "请输入并确认您的新密码。"
   }
 }

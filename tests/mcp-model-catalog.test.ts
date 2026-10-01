@@ -70,6 +70,7 @@ function realRegistryDeps(falApiKey = ENV.FAL_API_KEY): AgentModelCatalogDeps {
     bytePlusLasApiKey: ENV.BYTEPLUS_LAS_API_KEY,
     bytePlusLasEnabled: (ENV as typeof ENV & { SEEDANCE_2_5_LAS_ENABLED?: string }).SEEDANCE_2_5_LAS_ENABLED === 'true',
     falApiKey,
+    providerEnv: { LLMHUB_API_KEY: '' },
   });
   return {
     async listEngines() {
@@ -233,15 +234,15 @@ test('mode-scoped catalog filtering uses modeCaps while aggregate discovery stay
   assert.equal(aggregate.referenceImages, true);
 });
 
-test('real Sora 2 Pro never publishes ref2v without an executable mode capability', async () => {
+test('archived Sora 2 Pro retains historical modes without generation', async () => {
   const registryDeps = realRegistryDeps('test-fal-key');
   const [soraModel] = await listAgentModels({ id: 'sora-2-pro' }, registryDeps);
   const soraCapability = (await listPublicAgentGenerationEngines(registryDeps))
     .find((candidate) => candidate.engine.id === 'sora-2-pro');
   assert.ok(soraModel);
-  assert.ok(soraCapability);
+  assert.equal(soraCapability, undefined);
+  assert.equal(soraModel.generationEnabled, false);
   assert.deepEqual(soraModel.modes, ['t2v', 'i2v']);
-  assert.deepEqual(soraCapability.publicModes, ['t2v', 'i2v']);
 });
 
 test('catalog never advertises H3 generation without an effective Fal credential', async () => {
@@ -302,7 +303,7 @@ test('catalog mirrors real execution gates for newly registered video models', {
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v'],
         aspectRatios: ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', 'auto'],
-        resolutions: ['768P', '2K', '4K'],
+        resolutions: ['480P', '768P', '2K', '4K'],
         maxDurationSec: 15,
         audio: true,
         referenceImages: true,

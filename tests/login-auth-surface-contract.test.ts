@@ -38,7 +38,7 @@ test('mode switch is named and duplicate bottom actions are removed', () => {
 });
 
 test('mobile density keeps readable controls without clipped overflow', () => {
-  assert.match(surface, /p-4 sm:p-6/);
+  assert.match(surface, /videoai-auth-card/, 'custom card owns responsive spacing');
   assert.match(surface, /mb-3[^"\n]*sm:mb-6/);
   assert.doesNotMatch(surface, /overflow-hidden/);
 });

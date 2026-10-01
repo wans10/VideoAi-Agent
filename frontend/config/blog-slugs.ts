@@ -1,6 +1,41 @@
 export type BlogSlugLocale = 'en' | 'fr' | 'es' | 'zh';
 
 export const BLOG_SLUGS_BY_CANONICAL = {
+  "voiceover-to-visual-capsule-ltx-2-5-pro": {
+    en: "voiceover-to-visual-capsule-ltx-2-5-pro",
+    fr: "voiceover-to-visual-capsule-ltx-2-5-pro",
+    es: "voiceover-to-visual-capsule-ltx-2-5-pro",
+  },
+  "gpt-6-podcast-maxvideoai-premiere-pro": {
+    en: "gpt-6-podcast-maxvideoai-premiere-pro",
+    fr: "gpt-6-podcast-maxvideoai-premiere-pro",
+    es: "gpt-6-podcast-maxvideoai-premiere-pro",
+  },
+  "animated-cafe-menu-flux-3-codex-cli": {
+    en: "animated-cafe-menu-flux-3-codex-cli",
+    fr: "animated-cafe-menu-flux-3-codex-cli",
+    es: "animated-cafe-menu-flux-3-codex-cli",
+  },
+  "blender-animatic-ai-product-reveal-source-vs-reference": {
+    en: "blender-animatic-ai-product-reveal-source-vs-reference",
+    fr: "blender-animatic-ai-product-reveal-source-vs-reference",
+    es: "blender-animatic-ai-product-reveal-source-vs-reference",
+  },
+  "course-visual-kit-claude-desktop-maxvideoai": {
+    en: "course-visual-kit-claude-desktop-maxvideoai",
+    fr: "course-visual-kit-claude-desktop-maxvideoai",
+    es: "course-visual-kit-claude-desktop-maxvideoai",
+  },
+  "pack-broll-codex-cli-maxvideoai": {
+    en: "pack-broll-codex-cli-maxvideoai",
+    fr: "pack-broll-codex-cli-maxvideoai",
+    es: "pack-broll-codex-cli-maxvideoai",
+  },
+  "30-second-music-promo-two-minimax-h3-clips": {
+    en: "30-second-music-promo-two-minimax-h3-clips",
+    fr: "30-second-music-promo-two-minimax-h3-clips",
+    es: "30-second-music-promo-two-minimax-h3-clips",
+  },
   'access-sora-2-without-invite': {
     en: 'access-sora-2-without-invite',
     fr: 'acceder-a-sora-2-sans-invitation',
@@ -49,10 +84,12 @@ export const BLOG_SLUGS_BY_CANONICAL = {
     es: 'las-actualizaciones-de-veo-3-traen-controles-cinematograficos',
     zh: 'veo-3-updates',
   },
-} as const satisfies Record<string, Record<BlogSlugLocale, string>>;
+} as const satisfies Record<string, { en: string } & Partial<Record<BlogSlugLocale, string>>>;
+
+const localizedBlogSlugs: Record<string, Partial<Record<BlogSlugLocale, string>>> = BLOG_SLUGS_BY_CANONICAL;
 
 export function resolveBlogCanonicalSlug(locale: BlogSlugLocale, slug: string): string | null {
-  for (const [canonicalSlug, localizedSlugs] of Object.entries(BLOG_SLUGS_BY_CANONICAL)) {
+  for (const [canonicalSlug, localizedSlugs] of Object.entries(localizedBlogSlugs)) {
     if (localizedSlugs[locale] === slug) {
       return canonicalSlug;
     }
@@ -62,5 +99,5 @@ export function resolveBlogCanonicalSlug(locale: BlogSlugLocale, slug: string): 
 }
 
 export function resolveLocalizedBlogSlug(canonicalSlug: string, locale: BlogSlugLocale): string | null {
-  return BLOG_SLUGS_BY_CANONICAL[canonicalSlug as keyof typeof BLOG_SLUGS_BY_CANONICAL]?.[locale] ?? null;
+  return localizedBlogSlugs[canonicalSlug]?.[locale] ?? null;
 }
