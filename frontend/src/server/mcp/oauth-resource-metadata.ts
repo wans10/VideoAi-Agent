@@ -53,7 +53,7 @@ export function buildProtectedResourceMetadata(
 
   return {
     resource: resource.toString(),
-    resource_name: 'MaxVideoAI MCP',
+    resource_name: 'VideoAI MCP',
     authorization_servers: [authorizationServer],
     bearer_methods_supported: ['header'],
     scopes_supported: ['openid', 'email', 'profile'],

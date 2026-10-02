@@ -68,6 +68,8 @@ test('order creation submits signed form fields and accepts only signed HTTPS ju
     const request = Object.fromEntries(new URLSearchParams(init?.body as URLSearchParams));
     assert.equal(request.method, 'jump');
     assert.equal(request.money, '12.30');
+    assert.equal(request.name, 'VideoAI 账户充值');
+    assert.equal(request.type, input.type);
     assert.equal(verifyLlmhubPayFields(request, merchantPublicKey), true);
     const payload = { code: 0, trade_no: 'platform123', pay_type: 'jump', pay_info: 'https://pay.example.com/checkout', timestamp: '1721206072', sign_type: 'RSA' };
     return Response.json({ ...payload, sign: signLlmhubPayFields(payload, platformPrivateKey) });
@@ -75,6 +77,14 @@ test('order creation submits signed form fields and accepts only signed HTTPS ju
   assert.deepEqual(await createLlmhubPayOrder(input, config, fakeFetch as typeof fetch), {
     tradeNo: 'platform123', url: 'https://pay.example.com/checkout',
   });
+  assert.deepEqual(await createLlmhubPayOrder({ ...input, type: 'wxpay' }, config, (async (url, init) => {
+    const request = Object.fromEntries(new URLSearchParams(init?.body as URLSearchParams));
+    assert.equal(request.name, 'VideoAI 账户充值');
+    assert.equal(request.type, 'wxpay');
+    assert.equal(verifyLlmhubPayFields(request, merchantPublicKey), true);
+    const payload = { code: 0, trade_no: 'wx123', pay_type: 'jump', pay_info: 'https://pay.example.com/wxpay', sign_type: 'RSA' };
+    return Response.json({ ...payload, sign: signLlmhubPayFields(payload, platformPrivateKey) });
+  }) as typeof fetch), { tradeNo: 'wx123', url: 'https://pay.example.com/wxpay' });
   await assert.rejects(() => createLlmhubPayOrder(input, config, async () => Response.json({ code: 0, trade_no: '123', pay_type: 'jump', pay_info: 'https://evil.example' })), /invalid_response_signature/);
   await assert.rejects(() => createLlmhubPayOrder(input, config, async () => Response.json({ code: -3, msg: '时间戳字段不正确' })), /llmhub_api_-3: 时间戳字段不正确/);
   await assert.rejects(() => createLlmhubPayOrder(input, config, async () => Response.json({ code: -3, msg: 'error', sign: 'invalid', sign_type: 'RSA' })), /invalid_response_signature/);

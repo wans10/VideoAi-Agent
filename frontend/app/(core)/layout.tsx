@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     default: 'VideoAI — AI Video Generator Hub',
     template: '%s — VideoAI',
   },
-  description: 'Create AI videos, images and audio in MaxVideoAI’s web workspace or through MCP integrations. Compare models, see the price before generating and pay as you go.',
+  description: 'Create AI videos, images and audio in VideoAI’s web workspace or through MCP integrations. Compare models, see the price before generating and pay as you go.',
   icons: {
     icon: [
       { url: '/favicon.ico' },

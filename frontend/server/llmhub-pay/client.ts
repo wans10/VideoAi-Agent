@@ -1,3 +1,4 @@
+import { WALLET_TOPUP_PRODUCT_NAME } from '@/lib/product-brand';
 import { createSign, createVerify } from 'node:crypto';
 
 const API_ORIGIN = 'https://payment.llmhub.com.cn';
@@ -132,7 +133,7 @@ export async function createLlmhubPayOrder(input: {
     out_trade_no: input.outTradeNo,
     notify_url: input.notifyUrl,
     return_url: input.returnUrl,
-    name: 'MaxVideoAI wallet credits',
+    name: WALLET_TOPUP_PRODUCT_NAME,
     money: input.money,
     clientip: input.clientIp,
   }, config, fetchImpl);

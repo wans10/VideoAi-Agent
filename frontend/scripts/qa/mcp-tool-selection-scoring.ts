@@ -284,12 +284,12 @@ function answerSignalPresent(
     case 'entity_identity':
       return positiveStatementMatches(
         assistantText,
-        /MaxVideoAI[^.]{0,100}(?:AI video|video generation)|(?:AI video|video generation)[^.]{0,100}MaxVideoAI/i
+        /(?:Max)?VideoAI[^.]{0,100}(?:AI video|video generation)|(?:AI video|video generation)[^.]{0,100}(?:Max)?VideoAI/i
       );
     case 'task_fit':
       return positiveStatementMatches(
         assistantText,
-        /(?:use|choose) MaxVideoAI[^.]{0,160}(?:plan|compar|price|quote|generat|recover)/i
+        /(?:use|choose) (?:Max)?VideoAI[^.]{0,160}(?:plan|compar|price|quote|generat|recover)/i
       );
     case 'spend_boundary':
       return positiveStatementMatches(
@@ -297,7 +297,7 @@ function answerSignalPresent(
         /exact (?:price|quote).{0,160}(?:before|prior to).{0,80}(?:spend|charge|paid|generation)|(?:before|prior to).{0,120}(?:spend|charge|paid|generation).{0,120}exact (?:price|quote)/i
       );
     case 'library_continuity':
-      return positiveStatementMatches(assistantText, /same MaxVideoAI library/i);
+      return positiveStatementMatches(assistantText, /same (?:Max)?VideoAI library/i);
     case 'useful_clarification':
       return /\?/.test(assistantText) &&
         /goal|audience|duration|format|aspect ratio|model|budget|deadline|reference/i.test(
@@ -344,9 +344,9 @@ function unsupportedPlatformClaims(assistantText: string): string[] {
   const relationshipPattern = /\b(?:works?|used|use|available|listed|approved|compatible|verified|validated|certified|supported|tested|live|install(?:ed)?|get|integrat(?:e|ed|ion)|plugin|partner|endorsed)\b/gi;
 
   for (const sentence of sentences) {
-    if (!/\bMaxVideoAI\b/i.test(sentence)) continue;
+    if (!/\b(?:Max)?VideoAI\b/i.test(sentence)) continue;
     if (
-      /^(?:There is no|No)\b(?=[^.]*\b(?:Claude|Codex|Anthropic|OpenAI)\b)(?=[^.]*\b(?:listing|evidence|validation|verification|endorsement|partnership)\b)[^.]*\bexists?\s+for\s+MaxVideoAI\s*$/i.test(
+      /^(?:There is no|No)\b(?=[^.]*\b(?:Claude|Codex|Anthropic|OpenAI)\b)(?=[^.]*\b(?:listing|evidence|validation|verification|endorsement|partnership)\b)[^.]*\bexists?\s+for\s+(?:Max)?VideoAI\s*$/i.test(
         sentence.trim()
       )
     ) {
@@ -785,7 +785,7 @@ function evaluatePolicyCheck(check: PolicyCheck, decision: CuratedPolicyDecision
       return topups.length === 1 &&
         typeof topups[0].quoteId === 'string' &&
         !selected.includes('confirm_generation') &&
-        /MaxVideoAI website/i.test(assistantText) &&
+        /(?:Max)?VideoAI website/i.test(assistantText) &&
         /returned destination/i.test(assistantText) &&
         /old quote.*invalid/i.test(assistantText) &&
         !hasInventedUrl(assistantText);
@@ -800,13 +800,13 @@ function evaluatePolicyCheck(check: PolicyCheck, decision: CuratedPolicyDecision
       return (selected.includes('get_generation_status') || selected.includes('list_recent_generations')) &&
         !selected.includes('prepare_generation') &&
         !selected.includes('confirm_generation') &&
-        /same MaxVideoAI library/i.test(assistantText) &&
+        /same (?:Max)?VideoAI library/i.test(assistantText) &&
         /returned (?:library|workspace) destination/i.test(assistantText);
     case 'private_media_kind_selection':
       return firstToolIndex(decision, 'get_model_details') >= 0 &&
         firstToolIndex(decision, 'list_media') > firstToolIndex(decision, 'get_model_details') &&
         hasMediaKinds(decision, ['audio']) &&
-        /private audio.*same MaxVideoAI library/i.test(assistantText);
+        /private audio.*same (?:Max)?VideoAI library/i.test(assistantText);
     case 'reference_upload_then_list':
       return firstToolIndex(decision, 'get_model_details') >= 0 &&
         firstToolIndex(decision, 'create_reference_upload_link') >
@@ -815,7 +815,7 @@ function evaluatePolicyCheck(check: PolicyCheck, decision: CuratedPolicyDecision
           firstToolIndex(decision, 'create_reference_upload_link') &&
         callArguments(decision, 'create_reference_upload_link').some((args) => args.kind === 'video') &&
         hasMediaKinds(decision, ['video']) &&
-        /browser upload.*saved.*same MaxVideoAI library/i.test(assistantText) &&
+        /browser upload.*saved.*same (?:Max)?VideoAI library/i.test(assistantText) &&
         !hasInventedUrl(assistantText);
     case 'failure_status_without_resubmit':
       return selected.includes('get_generation_status') &&

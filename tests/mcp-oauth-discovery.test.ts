@@ -9,7 +9,7 @@ import * as oauthMetadataModule from '../frontend/src/server/mcp/oauth-resource-
 import { buildProtectedResourceMetadata } from '../frontend/src/server/mcp/oauth-resource-metadata';
 import { GET as getProtectedResourceMetadata } from '../frontend/app/.well-known/oauth-protected-resource/mcp/route';
 
-test('protected resource metadata identifies MaxVideoAI and Supabase OAuth', () => {
+test('protected resource metadata identifies VideoAI and Supabase OAuth', () => {
   assert.deepEqual(
     buildProtectedResourceMetadata({
       resourceUrl: 'https://api.maxvideoai.com/mcp',
@@ -17,7 +17,7 @@ test('protected resource metadata identifies MaxVideoAI and Supabase OAuth', () 
     }),
     {
       resource: 'https://api.maxvideoai.com/mcp',
-      resource_name: 'MaxVideoAI MCP',
+      resource_name: 'VideoAI MCP',
       authorization_servers: ['https://project-ref.supabase.co/auth/v1'],
       bearer_methods_supported: ['header'],
       scopes_supported: ['openid', 'email', 'profile'],
@@ -44,7 +44,7 @@ test('protected resource metadata permits explicit loopback HTTP for local OAuth
     }),
     {
       resource: 'http://127.0.0.1:3100/mcp',
-      resource_name: 'MaxVideoAI MCP',
+      resource_name: 'VideoAI MCP',
       authorization_servers: ['http://127.0.0.1:54321/auth/v1'],
       bearer_methods_supported: ['header'],
       scopes_supported: ['openid', 'email', 'profile'],

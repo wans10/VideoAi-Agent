@@ -25,7 +25,7 @@ export function buildVideoSitemapXml(watchVideos: EligibleSeoWatchVideoRow[]): s
         ...(signals.capabilityTags ?? []),
         ...(signals.styleTags ?? []),
         signals.aspectRatio ?? video.aspectRatio ?? 'auto',
-        'MaxVideoAI',
+        'VideoAI',
       ]
         .filter((keyword): keyword is string => Boolean(keyword && keyword.trim().length))
         .map((keyword) => `<video:tag>${escapeXml(keyword)}</video:tag>`)

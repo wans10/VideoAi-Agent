@@ -2794,7 +2794,7 @@
         "title": "Product access",
         "items": [
           "Use the web workspace for the product capabilities described in these docs.",
-          "The public MCP guide explains how to connect a supported client and authorize access to your MaxVideoAI account.",
+          "The public MCP guide explains how to connect a supported client and authorize access to your VideoAI account.",
           "Available actions depend on the connected client. Review the supported tools and generation approval steps in the guide."
         ]
       }

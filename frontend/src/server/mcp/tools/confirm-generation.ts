@@ -22,7 +22,7 @@ export function registerConfirmGenerationTool(
   server.registerTool(
     'confirm_generation',
     {
-      title: 'Confirm a MaxVideoAI generation',
+      title: 'Confirm a VideoAI generation',
       description: [
         'Use only after explicit user approval of the exact fresh quote returned by prepare_generation.',
         'Display its exact price and wait for that approval first; ambiguous assent is not confirmation.',

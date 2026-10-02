@@ -43,7 +43,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || userId.length > 128
     || userId !== userId.trim()
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before using reference media.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before using reference media.');
   }
 }
 

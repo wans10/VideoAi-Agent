@@ -53,15 +53,15 @@ const DEFAULT_PUBLIC_MEDIA_HOSTS = new Set([
 ]);
 
 const AGENT_FAILURE_COPY = {
-  default: 'MaxVideoAI could not complete this render.',
+  default: 'VideoAI could not complete this render.',
   busy: 'The render queue is temporarily busy.',
   noOutput: 'The render finished without a usable output.',
   safety: 'This request was blocked by safety checks. Rephrase it with safer, more neutral wording before preparing a new request.',
-  start: 'MaxVideoAI could not start this render.',
-  storage: 'The render finished, but MaxVideoAI could not prepare the output for download.',
+  start: 'VideoAI could not start this render.',
+  storage: 'The render finished, but VideoAI could not prepare the output for download.',
   timeout: 'This render exceeded the expected processing window.',
   unsupported: 'This request is not supported with the selected inputs. Adjust the prompt, media, or settings before preparing a new request.',
-  pollingStalled: 'This render needs manual review. Contact MaxVideoAI support with your request ID before preparing another attempt.',
+  pollingStalled: 'This render needs manual review. Contact VideoAI support with your request ID before preparing another attempt.',
   seedanceTaskType:
     'Seedance could not identify the intended video edit or extension. Refer to the source directly as Video 1 before preparing a new request.',
 } as const;

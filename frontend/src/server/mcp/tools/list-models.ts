@@ -10,7 +10,7 @@ import { runAgentTool } from '@/server/mcp/tool-result';
 const generationMode = z.enum(CANONICAL_GENERATION_MODES);
 export const listModelsInputSchema = z.object({
   id: z.string().trim().min(1).nullable().default(null)
-    .describe('Exact public MaxVideoAI model ID, or null unless the user named one.'),
+    .describe('Exact public VideoAI model ID, or null unless the user named one.'),
   surface: z.enum(['video', 'image']).nullable().default(null)
     .describe('Requested media surface, or null unless the user constrained it.'),
   mode: generationMode.nullable().default(null)
@@ -37,9 +37,9 @@ export function registerListModelsTool(
   server.registerTool(
     'list_models',
     {
-      title: 'List MaxVideoAI models',
+      title: 'List VideoAI models',
       description:
-        'Use this when the user needs current public MaxVideoAI image or video model capabilities, including audio and reference-image support. Every filtering field is nullable: send null when the user did not state that constraint, never a placeholder. Do not use it for generation, exact pricing, private models, or provider guarantees.',
+        'Use this when the user needs current public VideoAI image or video model capabilities, including audio and reference-image support. Every filtering field is nullable: send null when the user did not state that constraint, never a placeholder. Do not use it for generation, exact pricing, private models, or provider guarantees.',
       inputSchema: listModelsInputSchema,
       annotations: {
         readOnlyHint: true,

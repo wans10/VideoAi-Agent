@@ -27,6 +27,7 @@ test('wallet top-up Checkout uses Stripe dynamic payment methods for wallets', (
   const after = Math.floor(Date.now() / 1000);
 
   assert.equal(params.mode, 'payment');
+  assert.equal(params.line_items?.[0]?.price_data?.product_data?.name, 'VideoAI wallet top-up');
   assert.equal(params.payment_method_types, undefined);
   assert.equal(typeof params.expires_at, 'number');
   assert.ok(params.expires_at >= before + 30 * 60);

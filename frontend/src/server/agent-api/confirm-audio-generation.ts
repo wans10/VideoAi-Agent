@@ -97,7 +97,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || !principal.clientId.trim()
     || principal.clientId !== principal.clientId.trim()
     || principal.clientId.length > 256) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before confirming Audio.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before confirming Audio.');
   }
 }
 
@@ -112,7 +112,7 @@ function spendingError(dependencies: ConfirmAudioGenerationDependencies): AgentA
   } catch {
     throw new AgentApiError('INTERNAL_ERROR', 'The spending approval handoff is unavailable.');
   }
-  return new AgentApiError('SPENDING_LIMIT_EXCEEDED', 'This generation is above the spending controls configured in MaxVideoAI.', false, { type: 'open_url', url });
+  return new AgentApiError('SPENDING_LIMIT_EXCEEDED', 'This generation is above the spending controls configured in VideoAI.', false, { type: 'open_url', url });
 }
 
 function pricingWithoutEvidence(snapshot: Record<string, unknown>): Record<string, unknown> {
@@ -190,8 +190,8 @@ async function readAudioStatus(
   const paymentStatus = typeof row.payment_status === 'string' ? row.payment_status : null;
   const message = status === 'failed'
     ? paymentStatus === 'refunded_wallet'
-      ? 'MaxVideoAI could not complete this Audio attempt. The wallet charge was refunded. Prepare a fresh quote before trying again.'
-      : 'MaxVideoAI could not complete this Audio attempt. Wallet reconciliation may require review. Do not resubmit this quote.'
+      ? 'VideoAI could not complete this Audio attempt. The wallet charge was refunded. Prepare a fresh quote before trying again.'
+      : 'VideoAI could not complete this Audio attempt. Wallet reconciliation may require review. Do not resubmit this quote.'
     : typeof row.message === 'string' ? row.message : null;
   return {
     jobId: input.jobId,
@@ -252,7 +252,7 @@ async function confirmationTransaction(
       throw new AgentApiError('ENGINE_UNAVAILABLE', 'Paid Audio generation is not available.');
     }
     if (await dependencies.getAccountRestriction(principal.userId, { executor })) {
-      throw new AgentApiError('ACCOUNT_RESTRICTED', 'This account is temporarily restricted. Open MaxVideoAI for help.');
+      throw new AgentApiError('ACCOUNT_RESTRICTED', 'This account is temporarily restricted. Open VideoAI for help.');
     }
     if (hashCanonicalAudioRequest(quote.request) !== quote.requestHash) staleQuote();
     const capability = dependencies.listCapabilities();

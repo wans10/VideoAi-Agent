@@ -11,7 +11,7 @@ export function buildVideoShareIntent(target: LinkShareTarget, url: string, sign
   const note = signature.trim();
   const message = note ? `${url}\n\n${note}` : url;
   if (target === 'email') {
-    const subject = locale.startsWith('fr') ? 'Vidéo partagée avec MaxVideoAI' : locale.startsWith('es') ? 'Vídeo compartido con MaxVideoAI' : locale.startsWith('zh') ? '通过 MaxVideoAI 分享的视频' : 'Video shared with MaxVideoAI';
+    const subject = locale.startsWith('fr') ? 'Vidéo partagée avec VideoAI' : locale.startsWith('es') ? 'Vídeo compartido con VideoAI' : locale.startsWith('zh') ? '通过 VideoAI 分享的视频' : 'Video shared with VideoAI';
     return `mailto:?${new URLSearchParams({ subject, body: message })}`;
   }
   if (target === 'x') {

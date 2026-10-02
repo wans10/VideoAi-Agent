@@ -2,7 +2,7 @@ import type { CanonicalExampleModelSlug, LocalizedModelDescriptor } from '@/lib/
 
 export const FR_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedModelDescriptor>> = {
   sora: {
-    "metaTitle": "Exemples historiques Sora | MaxVideoAI",
+    "metaTitle": "Exemples historiques Sora | VideoAI",
     "metaDescription": "Ces vidéos ont été créées avec Sora. Les nouvelles générations Sora sont fermées. Découvrez Seedance 2.5, MiniMax H3 et Wan 3 pour votre prochaine vidéo.",
     "heroTitle": "Exemples historiques Sora",
     "subtitle": "Ces vidéos ont été créées avec Sora. Les nouvelles générations Sora sont fermées. Découvrez Seedance 2.5, MiniMax H3 et Wan 3 pour votre prochaine vidéo.",
@@ -71,7 +71,7 @@ export const FR_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   wan: {
-    metaTitle: 'Exemples Wan 3 et Wan 3 Prime : prompts et réglages | MaxVideoAI',
+    metaTitle: 'Exemples Wan 3 et Wan 3 Prime : prompts et réglages | VideoAI',
     metaDescription: 'Regardez des exemples vidéo Wan 3 et Wan 3 Prime. Ouvrez chaque résultat pour voir son prompt, ses réglages et son coût enregistré ; les anciennes versions restent identifiées.',
     heroTitle: 'Exemples Wan 3 et Wan 3 Prime',
     subtitle: 'Comparez les vidéos Wan 3 et Wan 3 Prime. Ouvrez un clip pour voir son prompt, ses réglages et son coût enregistré.',

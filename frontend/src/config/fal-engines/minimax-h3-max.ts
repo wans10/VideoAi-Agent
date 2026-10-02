@@ -229,7 +229,7 @@ export const MINIMAX_H3_MAX_ENGINE: EngineCaps = {
     base: 0.08,
     byResolution: { '480P': 0.05, '768P': 0.08, '1080P': 0.16 },
     currency: 'USD',
-    notes: 'Output catalog rates are $0.05/s at 480P, $0.08/s at 768P, and $0.16/s at 1080P. Reference generation also bills normalized media tokens above 4,096; MaxVideoAI quotes a fixed price from a conservative budget based on verified reference metadata.',
+    notes: 'Output catalog rates are $0.05/s at 480P, $0.08/s at 768P, and $0.16/s at 1080P. Reference generation also bills normalized media tokens above 4,096; VideoAI quotes a fixed price from a conservative budget based on verified reference metadata.',
   },
   updatedAt: '2026-09-03T00:00:00Z',
   ttlSec: 600,

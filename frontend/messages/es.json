@@ -2814,7 +2814,7 @@
         "title": "Acceso al producto",
         "items": [
           "Usa el espacio web para las funciones descritas en esta documentación.",
-          "La guía pública de MCP explica cómo conectar un cliente compatible y autorizar el acceso a tu cuenta de MaxVideoAI.",
+          "La guía pública de MCP explica cómo conectar un cliente compatible y autorizar el acceso a tu cuenta de VideoAI.",
           "Las acciones disponibles dependen del cliente conectado. Consulta las herramientas compatibles y los pasos de confirmación de las generaciones en la guía."
         ]
       }

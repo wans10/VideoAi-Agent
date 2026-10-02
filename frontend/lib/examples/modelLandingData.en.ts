@@ -2,7 +2,7 @@ import type { CanonicalExampleModelSlug, LocalizedModelDescriptor } from '@/lib/
 
 export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedModelDescriptor>> = {
   sora: {
-    "metaTitle": "Historical Sora examples | MaxVideoAI",
+    "metaTitle": "Historical Sora examples | VideoAI",
     "metaDescription": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
     "heroTitle": "Historical Sora examples",
     "subtitle": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
@@ -72,7 +72,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   wan: {
-    metaTitle: 'Wan 3 & Wan 3 Prime Examples: Prompts & Settings | MaxVideoAI',
+    metaTitle: 'Wan 3 & Wan 3 Prime Examples: Prompts & Settings | VideoAI',
     metaDescription: 'Watch Wan 3 and Wan 3 Prime video examples. Open each result for its prompt, settings and recorded cost; earlier Wan versions remain identified.',
     heroTitle: 'Wan 3 & Wan 3 Prime examples',
     subtitle: 'Compare Wan 3 and Wan 3 Prime videos. Open a clip for its prompt, settings and recorded cost.',
@@ -267,7 +267,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   grok: {
-    metaTitle: 'Grok Imagine Video 1.5 Examples, Prompts & Settings | MaxVideoAI',
+    metaTitle: 'Grok Imagine Video 1.5 Examples, Prompts & Settings | VideoAI',
     heroTitle: 'Grok Imagine Video 1.5 examples',
     subtitle: 'Grok Imagine Video 1.5 examples for text-to-video, opening-image animation, and reference-guided clips.',
     intro:

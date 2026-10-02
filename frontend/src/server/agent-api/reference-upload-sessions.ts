@@ -174,7 +174,7 @@ function parseOptionalSession(rows: SessionRow[]): ReferenceUploadSession | null
 function requireIdentity(userId: unknown, oauthClientId?: unknown): void {
   if (!boundedText(userId, 128)
     || (oauthClientId !== undefined && !nullableBoundedText(oauthClientId, 256))) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before uploading reference media.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before uploading reference media.');
   }
 }
 

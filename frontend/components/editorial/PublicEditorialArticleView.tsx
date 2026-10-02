@@ -4,7 +4,7 @@ import type {PublicEditorialArticle} from '@/lib/editorial/public-article';
 import {EditorialReader} from './EditorialReader';
 
 export function PublicEditorialArticleView({article,byline}:{article:PublicEditorialArticle;byline?:React.ReactNode}){
- return <div data-editorial-digest={article.publication.digest}><EditorialReader content={article} locale={article.article.locale} eyebrow={article.article.locale === 'zh' ? 'MaxVideoAI · 创作工作流程' : 'MaxVideoAI · Creative workflows'} byline={byline}
+ return <div data-editorial-digest={article.publication.digest}><EditorialReader content={article} locale={article.article.locale} eyebrow={article.article.locale === 'zh' ? 'VideoAI · 创作工作流程' : 'VideoAI · Creative workflows'} byline={byline}
  mediaUrl={id=>article.assets.find(a=>a.id===id)!.url}
  renderImage={p=><Image src={p.src} alt={p.alt} width={p.width} height={p.height} priority={p.priority} fetchPriority={p.priority?'high':undefined} sizes="(min-width: 984px) 920px, (min-width: 701px) calc(100vw - 64px), calc(100vw - 36px)" style={{width:'100%',height:'auto',...p.style}}/>}/></div>;
 }

@@ -1,4 +1,5 @@
 'use client';
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 
 import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -7,7 +8,7 @@ import type { AppLocale } from '@/i18n/locales';
 import type { HomePriceModel } from './home-price-demo-types';
 
 function HomePriceAppPlaceholder() {
- return <div className="price-app-placeholder">MaxVideoAI · Wan 3</div>;
+ return <div className="price-app-placeholder">{PRODUCT_BRAND_NAME} · Wan 3</div>;
 }
 
 const AppSurface = dynamic(() => import('./HomePriceAppSurface.client').then(module => module.HomePriceAppSurface), {ssr:false,loading:HomePriceAppPlaceholder});

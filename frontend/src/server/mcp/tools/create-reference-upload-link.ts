@@ -29,7 +29,7 @@ export function registerCreateReferenceUploadLinkTool(
         'For local files in Codex or Claude Code, create one link per file and use the packaged local helper.',
         'The helper reads local bytes: never send a raw local path to the MCP server, publish a public URL, or depend on Computer Use.',
         'After the importer or helper returns asset IDs, use them directly without relisting.',
-        'After a browser upload is saved to the same connected MaxVideoAI library, call list_media by media kind.',
+        'After a browser upload is saved to the same connected VideoAI library, call list_media by media kind.',
         'A handoff is not proof of upload completion.',
         'If the handoff fails, is denied or unavailable, explain the blocker and ask to authorize or retry it; do not invent a replacement URL.',
         'This does not start generation or modify an existing asset.',

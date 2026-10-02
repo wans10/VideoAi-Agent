@@ -1,3 +1,4 @@
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import { requireCurrentWalletDirectPricingPolicy } from '@/server/pricing/wallet-direct-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
@@ -48,10 +49,10 @@ const CHECKOUT_COPY_BY_LOCALE: Record<
     productName: string;
   }
 > = {
-  en: { productName: 'Wallet top-up' },
-  fr: { productName: 'Recharge portefeuille' },
-  es: { productName: 'Recarga de billetera' },
-  zh: { productName: '钱包充值' },
+  en: { productName: `${PRODUCT_BRAND_NAME} Wallet top-up` },
+  fr: { productName: `${PRODUCT_BRAND_NAME} Recharge portefeuille` },
+  es: { productName: `${PRODUCT_BRAND_NAME} Recarga de billetera` },
+  zh: { productName: `${PRODUCT_BRAND_NAME} 账户充值` },
 };
 
 export const dynamic = 'force-dynamic';

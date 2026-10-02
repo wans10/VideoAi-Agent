@@ -371,7 +371,7 @@
         "id": "production",
         "icon": "shield",
         "title": "真实生产级渲染",
-        "body": "此页面展示的每一个案例均通过 MaxVideoAI 真实生成。"
+        "body": "以下为该模型的生成样片，供你查看画面表现与相关设置。"
       }
     ],
     "fallbackItems": null

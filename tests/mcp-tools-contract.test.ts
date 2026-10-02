@@ -42,37 +42,37 @@ const account: AgentAccountStatus = {
     connections: {
       type: 'open_url',
       purpose: 'account_connections',
-      label: 'Manage the MaxVideoAI connection',
+      label: 'Manage the VideoAI connection',
       url: 'https://maxvideoai.com/account/connections',
     },
     billing: {
       type: 'open_url',
       purpose: 'billing',
-      label: 'Add MaxVideoAI credits',
+      label: 'Add VideoAI credits',
       url: 'https://maxvideoai.com/billing',
     },
     library: {
       type: 'open_url',
       purpose: 'media_library',
-      label: 'Open the MaxVideoAI media library',
+      label: 'Open the VideoAI media library',
       url: 'https://maxvideoai.com/app/library',
     },
     videoWorkspace: {
       type: 'open_url',
       purpose: 'video_workspace',
-      label: 'Open the MaxVideoAI video workspace',
+      label: 'Open the VideoAI video workspace',
       url: 'https://maxvideoai.com/app',
     },
     imageWorkspace: {
       type: 'open_url',
       purpose: 'image_workspace',
-      label: 'Open the MaxVideoAI image workspace',
+      label: 'Open the VideoAI image workspace',
       url: 'https://maxvideoai.com/app/image',
     },
     support: {
       type: 'open_url',
       purpose: 'support',
-      label: 'Contact MaxVideoAI support',
+      label: 'Contact VideoAI support',
       url: 'https://maxvideoai.com/contact',
     },
   },
@@ -285,7 +285,7 @@ test('server advertises only the five read-only discovery tools with narrow guid
   assert.ok(accountTool);
   assert.equal(
     accountTool.description,
-    'Use this when the user asks which MaxVideoAI account is connected, its current credit balance, trial state, spending limits, or safe account destinations. Do not use it to reveal a private email, collect payment details, charge credits, change the wallet, or generate media.',
+    'Use this when the user asks which VideoAI account is connected, its current credit balance, trial state, spending limits, or safe account destinations. Do not use it to reveal a private email, collect payment details, charge credits, change the wallet, or generate media.',
   );
   for (const tool of result.tools.filter((candidate) => candidate.name !== 'get_account_status')) {
     assert.match(tool.description ?? '', /Use this when/i);

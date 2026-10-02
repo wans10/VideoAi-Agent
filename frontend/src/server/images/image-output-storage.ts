@@ -72,7 +72,7 @@ async function copyImageToStorage(params: {
     });
     const storedUrl = normalizeMediaUrl(upload.url) ?? upload.url;
     if (params.requireOwnedOutput && !params.deps.extractStorageKeyFromUrl(storedUrl)) {
-      throw new Error('Uploaded image URL is not owned by MaxVideoAI storage');
+      throw new Error('Uploaded image URL is not owned by VideoAI storage');
     }
     return {
       ...params.image,
@@ -89,7 +89,7 @@ async function copyImageToStorage(params: {
       error,
     });
     if (params.requireOwnedOutput) {
-      throw new Error('Could not persist generated image to MaxVideoAI storage', { cause: error });
+      throw new Error('Could not persist generated image to VideoAI storage', { cause: error });
     }
     return params.image;
   }
@@ -119,7 +119,7 @@ export async function copyGeneratedImagesToStorage(params: {
   });
   if (!deps.isStorageConfigured()) {
     if (params.requireOwnedOutput && hasExternalOutput) {
-      throw new Error('MaxVideoAI storage is required for generated image outputs');
+      throw new Error('VideoAI storage is required for generated image outputs');
     }
     return params.images;
   }

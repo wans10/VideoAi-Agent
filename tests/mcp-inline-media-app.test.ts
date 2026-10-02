@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -18,8 +19,9 @@ import {
   type MaxVideoAiMcpServices,
 } from '../frontend/src/server/mcp/server';
 
-const TEMPLATE_URI = 'ui://maxvideoai/generation-result-v5.html';
+const TEMPLATE_URI = 'ui://maxvideoai/generation-result-v6.html';
 const LEGACY_TEMPLATE_URIS = [
+  'ui://maxvideoai/generation-result-v5.html',
   'ui://maxvideoai/generation-result-v1.html',
   'ui://maxvideoai/generation-result-v2.html',
   'ui://maxvideoai/generation-result-v3.html',
@@ -186,7 +188,7 @@ test('generation presenter resource is a portable light and dark MCP App with na
   assert.match(html, /<audio\b[^>]*id=["']audio["'][^>]*controls[^>]*preload=["']metadata["'][^>]*hidden/is);
   assert.doesNotMatch(html, /<audio\b[^>]*autoplay/is);
   assert.match(html, /request\(['"]ui\/initialize['"]/);
-  assert.match(html, /appInfo:\s*\{[^}]*name:\s*['"]MaxVideoAI generation result['"]/s);
+  assert.match(html, /appInfo:\s*\{[^}]*name:\s*['"]VideoAI generation result['"]/s);
   assert.match(html, /appCapabilities:\s*\{[^}]*availableDisplayModes:\s*\[['"]inline['"]\]/s);
   assert.match(html, /protocolVersion:\s*['"]2026-01-26['"]/);
   assert.match(html, /ui\/notifications\/initialized/);
@@ -212,7 +214,7 @@ test('generation presenter resource is a portable light and dark MCP App with na
   assert.match(html, /min-height:\s*44px/);
   assert.match(html, /grid-template-columns:\s*minmax\(0, 1fr\) minmax\(0, 1fr\)/);
   assert.match(html, /\.action-buttons #open\s*\{[^}]*grid-column:\s*1 \/ -1/);
-  assert.match(html, /MaxVideoAI/);
+  assert.match(html, /VideoAI/);
   assert.doesNotMatch(html, /dangerouslySetInnerHTML|eval\(|new Function\(|document\.write\(/);
 
   const meta = (content?._meta ?? {}) as Record<string, unknown>;
@@ -231,13 +233,17 @@ test('generation presenter keeps previous resource versions readable for existin
   t.after(() => session.close());
 
   const resources = await session.client.listResources();
+  const v5 = await session.client.readResource({ uri: 'ui://maxvideoai/generation-result-v5.html' });
+  assert.equal(createHash('sha256').update(v5.contents[0]?.text ?? '').digest('hex'),
+    'ccc9d74bf6371097622813897e764f8c9bd0e29f8b4a866d2f94b4d46fe22e2b');
+  assert.doesNotMatch(buildGenerationResultAppHtml(), /MaxVideoAI/);
   for (const uri of LEGACY_TEMPLATE_URIS) {
     assert.ok(resources.resources.some((resource) => resource.uri === uri));
     const result = await session.client.readResource({ uri });
     assert.equal(result.contents.length, 1);
     assert.equal(result.contents[0]?.uri, uri);
     assert.equal(result.contents[0]?.mimeType, 'text/html;profile=mcp-app');
-    assert.match(result.contents[0]?.text ?? '', /MaxVideoAI generation result/);
+    assert.match(result.contents[0]?.text ?? '', /VideoAI generation result/);
   }
 });
 
@@ -539,7 +545,7 @@ test('Audio soundtrack fallback keeps its durable MIME and filename extension', 
   const recovery = buildAgentGenerationRecovery(soundtrackAudioStatus());
   assert.deepEqual(buildGenerationResourceLinks(recovery), [{
     uri: 'https://media.maxvideoai.com/generated/cinematic-soundtrack',
-    name: 'MaxVideoAI output',
+    name: 'VideoAI output',
     description: 'output for generation cinematic-soundtrack-job',
     mimeType: 'audio/mpeg',
   }]);

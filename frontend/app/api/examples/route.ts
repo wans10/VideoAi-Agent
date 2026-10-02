@@ -140,7 +140,7 @@ function toExampleCard(video: GalleryVideo, locale: AppLocale) {
   const engineMeta = engineKey ? ENGINE_META.get(engineKey) ?? null : null;
   const descriptor = canonicalEngineId ? resolveFilterDescriptor(canonicalEngineId, engineMeta) : null;
   const priceLabel = formatPrice(video.finalPriceCents ?? null, video.currency ?? null);
-  const promptDisplay = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'MaxVideoAI render');
+  const promptDisplay = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'VideoAI render');
   const modelSlug = engineMeta?.modelSlug ?? (descriptor ? getExampleFamilyPrimaryModelSlug(descriptor.id) : null);
   const modelHref = modelSlug ? buildModelHref(locale, modelSlug) : null;
   return {

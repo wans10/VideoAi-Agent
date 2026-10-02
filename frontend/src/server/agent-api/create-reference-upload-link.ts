@@ -79,7 +79,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
       || principal.clientId !== principal.clientId.trim()
     ))
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before uploading reference media.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before uploading reference media.');
   }
 }
 
@@ -106,7 +106,7 @@ export function createReferenceUploadLinkService(
       destination: {
         type: 'open_url',
         purpose: 'reference_upload',
-        label: `Upload a private ${input.kind} reference to MaxVideoAI`,
+        label: `Upload a private ${input.kind} reference to VideoAI`,
         url: `${origin}/mcp/reference-upload/${created.token}`,
       },
       expiresAt: created.session.expiresAt.toISOString(),

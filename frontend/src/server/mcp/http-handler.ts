@@ -253,7 +253,7 @@ function withPrivateCaching(response: Response): Response {
 function unauthorized(config: McpConfig, request: Request): Response {
   const credentialRejected = readRequestBearerAccessToken(request) !== null;
   const message = credentialRejected
-    ? 'Authentication required. Reconnect MaxVideoAI in your host to continue.'
+    ? 'Authentication required. Reconnect VideoAI in your host to continue.'
     : 'Authentication required.';
   // Keep first-connect discovery unchanged; rejected credentials need a standard
   // challenge the host can act on. Never expose token contents or guess expiry.

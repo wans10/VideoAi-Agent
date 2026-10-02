@@ -1,4 +1,5 @@
 'use client';
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/Button';
@@ -83,7 +84,7 @@ export function PasswordRecoveryForm({ locale, next }: { locale: AppLocale; next
   return (
     <main className="flex min-h-screen items-center justify-center bg-bg px-5 py-12 text-text-primary">
       <section className="w-full max-w-md space-y-5 rounded-card border border-border bg-surface p-6">
-        <p className="text-sm font-semibold">MaxVideoAI</p>
+        <p className="text-sm font-semibold">{PRODUCT_BRAND_NAME}</p>
         <h1 className="text-2xl font-semibold">{copy.title}</h1>
         {(phase === 'loading' || phase === 'verifying') && <p role="status">{copy.verifying}</p>}
         {phase === 'verify' && <>

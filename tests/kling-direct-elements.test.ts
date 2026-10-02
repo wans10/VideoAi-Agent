@@ -8,7 +8,7 @@ import {
 } from '../frontend/src/server/video-providers/kling-direct/elements';
 import { KlingDirectError } from '../frontend/src/server/video-providers/kling-direct/errors';
 
-test('Kling direct element payload maps MaxVideoAI source assets to the Element API', () => {
+test('Kling direct element payload maps VideoAI source assets to the Element API', () => {
   assert.deepEqual(
     buildKlingDirectElementCreatePayload({
       element: {
@@ -20,8 +20,8 @@ test('Kling direct element payload maps MaxVideoAI source assets to the Element 
       index: 0,
     }),
     {
-      element_name: 'MaxVideoAI element 1',
-      element_description: 'MaxVideoAI source element for video generation.',
+      element_name: 'VideoAI element 1',
+      element_description: 'VideoAI source element for video generation.',
       reference_type: 'image_refer',
       element_image_list: {
         frontal_image: 'https://cdn.maxvideoai.com/front.png',
@@ -44,8 +44,8 @@ test('Kling direct element payload maps MaxVideoAI source assets to the Element 
       index: 1,
     }),
     {
-      element_name: 'MaxVideoAI element 2',
-      element_description: 'MaxVideoAI source element for video generation.',
+      element_name: 'VideoAI element 2',
+      element_description: 'VideoAI source element for video generation.',
       reference_type: 'video_refer',
       element_video_list: {
         refer_videos: [{ video_url: 'https://cdn.maxvideoai.com/subject.mp4' }],

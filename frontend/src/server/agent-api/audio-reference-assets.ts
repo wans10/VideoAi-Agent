@@ -56,7 +56,7 @@ export async function resolveOwnedAudioReference(
   dependencies: { executor?: QueryExecutor } = {},
 ): Promise<ResolvedAudioReference> {
   if (!principal || principal.authMethod !== 'oauth' || !principal.userId?.trim()) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before using reference media.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before using reference media.');
   }
   const parsed = toolAssetRefSchema.safeParse(reference.asset);
   if (!parsed.success) invalidReference();

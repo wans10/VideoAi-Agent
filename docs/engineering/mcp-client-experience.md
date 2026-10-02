@@ -1,5 +1,36 @@
 # MaxVideoAI : découverte, fluidité et continuité MCP
 
+## VideoAI display-brand update — 2026-10-02
+
+The current deployment's server instructions, tool titles/descriptions, account
+destinations and user-facing service results now say **VideoAI**. Protocol IDs,
+URLs, capability gates, exact-quote approval and one-attempt policies are unchanged.
+This is a display-brand correction, not a new host publication or certification.
+
+The reference widget now uses `ui://maxvideoai/reference-upload-v3.html`; the
+generation widget uses `ui://maxvideoai/generation-result-v6.html`. Old resource
+URIs continue serving their frozen documents. SHA-256 regression tests preserve
+reference v2 (`64bae6da32d126fa68ddcb2637e4d42fedbe18cf448604e880f05261656db050`)
+and generation v5 (`ccc9d74bf6371097622813897e764f8c9bd0e29f8b4a866d2f94b4d46fe22e2b`),
+along with the existing reference v1 contract. Old conversations may therefore
+still show the original brand until a current resource is selected.
+
+Measured UTF-8 sizes: instructions across all 32 capability combinations are
+**1,003–1,866 bytes**; the 20 authored tool descriptions are **117–1,758 bytes**
+each, totaling **13,179 bytes**. Every individual field stays below 2,000 bytes.
+After reviewing the brand-only metadata and resource URI changes, the curated
+policy fingerprint was refreshed to
+`ff2acf573c12a53e69489573343a25c9b3397d867a27604d32cd92bd7765a5b8`.
+Curated decisions are unchanged; the evaluator recognizes both current and
+historical brand wording. `pnpm mcp:client:check` passes (145 tests, one skip
+because Codex authoring validators are unavailable, plus deterministic offline
+evaluation). These checks do not establish
+real-host selection behavior. No package publication, production deployment or
+new Codex/Claude/ChatGPT host verification was performed for this change.
+
+Current website brand ownership and attribution exceptions are documented in
+[product-brand.md](product-brand.md).
+
 Créé le **21 septembre 2026**, revu le **22 septembre 2026**. Responsable : ingénierie MaxVideoAI.
 Statut : plugin **0.3.6 publié**, serveur déployé et paquet installé dans Codex
 au [point de contrôle du 22 septembre](../operations/mcp-main-repository-release-v0.3.6.md).

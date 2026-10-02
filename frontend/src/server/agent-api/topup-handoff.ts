@@ -254,7 +254,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || !safeIdentifier(principal.userId, 128)
     || (principal.clientId !== null && !safeIdentifier(principal.clientId, 256))
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before creating a top-up handoff.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before creating a top-up handoff.');
   }
 }
 
@@ -343,7 +343,7 @@ export async function createMcpTopupHandoff(
         destination: {
           type: 'open_url',
           purpose: 'billing',
-          label: 'Add credits securely on MaxVideoAI',
+          label: 'Add credits securely on VideoAI',
           url: billingUrl.toString(),
         },
         freshQuoteRequired: true,

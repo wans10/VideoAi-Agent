@@ -3,11 +3,20 @@ import test from 'node:test';
 
 import {
   buildUserFacingRefundDescription,
+  isGenericFailureDescription,
   toUserFacingFailureMessage,
   toUserFacingRefundReason,
 } from '../frontend/server/user-facing-failure-messages';
 
 const forbidden = /fal(?:\.ai)?|fail\.ai|byteplus|modelark|google\s+vertex|kling\s+direct|provider/i;
+
+test('historical messages use the current display brand and retain generic classification', () => {
+  const stored = 'MaxVideoAI needs a different reference. Change the image and try again.';
+  const displayed = 'VideoAI needs a different reference. Change the image and try again.';
+  assert.equal(toUserFacingFailureMessage(stored), displayed);
+  assert.equal(toUserFacingRefundReason(stored), displayed);
+  assert.equal(isGenericFailureDescription('MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'), true);
+});
 
 test('content refusals explain that reference media may also need changing', () => {
   const message = toUserFacingFailureMessage('The request content was blocked by safety checks.');
@@ -50,14 +59,14 @@ test('raw HTTP status failures never leak into job or refund copy', () => {
 
   assert.equal(
     toUserFacingFailureMessage(rawMessage),
-    'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+    'VideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
   );
   assert.equal(toUserFacingRefundReason(rawMessage), 'Render could not be completed.');
 });
 
 test('refund reasons classify storage preparation failures', () => {
   const reason = toUserFacingRefundReason(
-    'The provider finished this render, but the video could not be copied to MaxVideoAI storage.'
+    'The provider finished this render, but the video could not be copied to VideoAI storage.'
   );
 
   assert.equal(reason, 'Output could not be prepared for download.');

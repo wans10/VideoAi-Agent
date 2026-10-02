@@ -18,13 +18,13 @@ import {
   buildBackgroundRemovalOutputRetentionMetadata,
 } from '../frontend/src/server/tools/background-removal-output-persistence.ts';
 
-test('background removal outputs must be owned by MaxVideoAI before completion', () => {
+test('background removal outputs must be owned by VideoAI before completion', () => {
   const source = readFileSync(join(process.cwd(), 'frontend/src/server/tools/background-removal-output-persistence.ts'), 'utf8');
-  assert.match(source, /MaxVideoAI storage is required for background removal outputs/);
+  assert.match(source, /VideoAI storage is required for background removal outputs/);
   assert.doesNotMatch(source, /catch \(error\) \{[\s\S]*?return output;/);
 });
 
-test('studio provider input maps MaxVideoAI controls to Bria v3 schema', () => {
+test('studio provider input maps VideoAI controls to Bria v3 schema', () => {
   assert.deepEqual(
     buildBackgroundRemovalProviderInput({
       videoUrl: 'https://example.com/source.mp4',

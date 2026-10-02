@@ -98,7 +98,7 @@ const canonicalSettingsSchema = z.object({
   thinkingLevel: z.string().trim().min(1).max(64).nullable().default(null),
   watermark: z.boolean().nullable().default(null),
 }).strict().describe(
-  'Canonical MaxVideoAI settings only. Read the selected mode from get_model_details and include only compatible fields.',
+  'Canonical VideoAI settings only. Read the selected mode from get_model_details and include only compatible fields.',
 );
 export const prepareGenerationInputSchema = z.object({
   schemaVersion: z.literal(1).nullable().default(null),
@@ -133,7 +133,7 @@ export function registerPrepareGenerationTool(
   server.registerTool(
     'prepare_generation',
     {
-      title: 'Prepare a MaxVideoAI generation',
+      title: 'Prepare a VideoAI generation',
       description: [
         'Use this to validate a complete selected AI video or image request and save an exact short-lived quote.',
         'Read get_model_details for the selected mode first, including t2v, i2v, i2v_standard, ref2v, fl2v, v2v, r2v, extend, a2v, retake and reframe.',

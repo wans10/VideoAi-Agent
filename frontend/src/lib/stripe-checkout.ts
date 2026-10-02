@@ -1,3 +1,4 @@
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import type Stripe from 'stripe';
 import { TOPUP_TIERS } from '@/config/topupTiers';
 
@@ -53,7 +54,7 @@ export function buildWalletTopUpCheckoutSessionParams({
   cancelUrl,
   returnUrl,
   locale = 'auto',
-  productName = 'Wallet top-up',
+  productName = `${PRODUCT_BRAND_NAME} wallet top-up`,
   sessionMetadata,
   paymentIntentMetadata,
   productTaxCode,
