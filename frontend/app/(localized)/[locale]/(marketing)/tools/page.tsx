@@ -23,7 +23,5 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
 
 export default async function ToolsPage(props: { params: Promise<{ locale: AppLocale }> }) {
   const params = await props.params;
-  const { dictionary } = await resolveDictionary({ locale: params.locale });
-
-  return <ToolsMarketingHubPage content={dictionary.toolMarketing.hub} />;
+  return <ToolsMarketingHubPage locale={params.locale} />;
 }

@@ -67,17 +67,21 @@
       }
     ],
     "login": "Iniciar sesión",
-    "cta": "Generar",
+    "cta": "Abrir el estudio",
     "linkLabels": {
       "models": "Modelos",
       "examples": "Ejemplos",
       "tools": "Herramientas",
       "image": "Generar imagen",
       "compare": "Comparativas",
-      "pricing": "Precios",
+      "pricing": "Presupuesto",
       "docs": "Documentación",
       "blog": "Blog",
-      "connect": "Asistentes"
+      "connect": "Asistentes",
+      "production": "Producción",
+      "craft": "Cámara y arte",
+      "screening": "Sala de proyección",
+      "pipeline": "Flujo de producción"
     },
     "badges": {
       "new": "Nuevo"
@@ -278,7 +282,81 @@
         }
       },
       "moreModels": "Más posibilidades",
-      "resourcesTitle": "Guías y recursos"
+      "resourcesTitle": "Guías y recursos",
+      "production": {
+        "heading": "Pon en marcha tu próxima escena.",
+        "intro": "Elige tu etapa: un plano, una referencia visual o un sonido.",
+        "all": "Abrir el estudio",
+        "items": {
+          "shot": "Generar un plano",
+          "storyboard": "Planificar una secuencia",
+          "look": "Desarrollar el estilo visual",
+          "sound": "Diseñar el sonido"
+        },
+        "descriptions": {
+          "shot": "Construye el siguiente plano con una idea, imagen o clip.",
+          "storyboard": "Organiza los planos antes de generar.",
+          "look": "Explora escenarios, iluminación y dirección visual.",
+          "sound": "Prepara voz, música y efectos para tus planos."
+        }
+      },
+      "craft": {
+        "heading": "Encuentra el encuadre antes de la toma.",
+        "intro": "Personaje, punto de vista y acabado al servicio de una intención visual.",
+        "all": "Explorar el taller",
+        "items": {
+          "character": "Desarrollo de personajes",
+          "angle": "Estudios de cámara",
+          "upscale": "Acabado de imagen",
+          "isolate": "Aislamiento del sujeto"
+        },
+        "descriptions": {
+          "character": "Crea referencias de personajes reutilizables.",
+          "angle": "Explora encuadres y puntos de vista desde una imagen.",
+          "upscale": "Amplía imágenes y mejora su nitidez.",
+          "isolate": "Elimina fondos de vídeo para la composición."
+        }
+      },
+      "screening": {
+        "heading": "Mira el plano. Estudia el proceso.",
+        "intro": "Parte de resultados reales para preparar tu próxima escena.",
+        "all": "Ver los planos",
+        "items": {
+          "reels": "Biblioteca de planos",
+          "cinematic": "Estudios cinematográficos",
+          "commercial": "Piezas publicitarias",
+          "journal": "Cuaderno de producción"
+        },
+        "descriptions": {
+          "reels": "Examina planos generados, prompts y ajustes.",
+          "cinematic": "Explora luz, movimiento de cámara y realismo.",
+          "commercial": "Elige un enfoque para piezas de producto.",
+          "journal": "Métodos de prompts, flujos de trabajo y práctica."
+        },
+        "reference": "Referencias de producción",
+        "sections": {
+          "reference": {
+            "items": {
+              "models": "Directorio de modelos",
+              "compare": "Capacidades y costes",
+              "docs": "Guías de producción"
+            }
+          }
+        }
+      },
+      "pipeline": {
+        "heading": "Conecta la producción con tu proceso.",
+        "intro": "Usa VideoAI desde asistentes compatibles y revisa el presupuesto antes de generar.",
+        "all": "Ver conexiones",
+        "items": {
+          "claude": "Claude",
+          "chatgpt": "ChatGPT",
+          "codex": "Codex",
+          "openclaw": "OpenClaw",
+          "n8n": "n8n"
+        },
+        "descriptions": {}
+      }
     },
     "primaryNavigation": "Navegación principal",
     "lightTheme": "Usar tema claro",
@@ -286,7 +364,7 @@
     "mobileToggle": "Abrir menú",
     "mobileClose": "Cerrar menú",
     "menuCreate": "Crear",
-    "menuExplore": "Explorar",
+    "menuExplore": "Áreas de producción",
     "menuMedia": {
       "video": "Video",
       "image": "Imagen",
@@ -519,17 +597,17 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "VideoAI · Estudio creativo",
+        "eyebrow": "VideoAI / Estudio de creación visual",
         "badgeChips": [
           "Generador de video IA multi-modelo",
           "Precio antes de generar",
           "Pago por uso · sin suscripción"
         ],
-        "title": "Dale vida\na tus ideas.",
-        "subtitle": "Video, imágenes y sonido en un mismo estudio. Desde tu primera referencia hasta tu próxima creación.",
-        "primaryCta": "Crear un video",
-        "secondaryCta": "Explorar ejemplos",
-        "examplesCta": "Comparar modelos",
+        "title": "La escena en tu mente.\nEl plano en tu pantalla.",
+        "subtitle": "Un estudio de IA para creadores visuales. Desarrolla personajes y escenarios, planifica la cobertura y prueba planos, una decisión a la vez.",
+        "primaryCta": "Abrir el estudio",
+        "secondaryCta": "Entrar en la sala",
+        "examplesCta": "Consultar capacidades",
         "trustBadges": [
           "Precio antes de generar",
           "Paga solo generaciones correctas",
@@ -1746,14 +1824,14 @@
   },
   "pricing": {
     "hero": {
-      "eyebrow": "Precios de VideoAI",
-      "title": "Primero el precio. Después, tu creación.",
-      "subtitle": "Compara los costos de video, imagen, audio y herramientas antes de crear.",
+      "eyebrow": "Presupuesto de producción",
+      "title": "Invierte en los planos que merecen otra toma.",
+      "subtitle": "Planifica pruebas antes de producir más tomas. Compara escenarios unitarios y reserva margen para reintentos, referencias y acabado.",
       "supportingLine": "Paga por uso. Revisa el precio exacto en la app antes de generar. Las generaciones fallidas se reembolsan.",
-      "quickStartTitle": "Tres puntos de partida para tu próximo video",
-      "quickStartNote": "Total orientativo por video, en CNY. Selecciona un escenario para ver la comparación completa. Confirma el presupuesto en la app antes de generar.",
-      "primaryCta": "Consultar un precio en la app",
-      "secondaryCta": "Comparar precios abajo",
+      "quickStartTitle": "Precios de referencia por plano",
+      "quickStartNote": "Precios actuales para los escenarios indicados. El gasto depende de las generaciones y los ajustes reales.",
+      "primaryCta": "Revisar presupuesto en producción",
+      "secondaryCta": "Ver precios por generación",
       "badges": [
         "Sin suscripción",
         "Explora la app antes de registrarte",
@@ -2566,9 +2644,9 @@
     "engineFilterLabel": "Modelos",
     "engineFilterAllLabel": "Todos",
     "hero": {
-      "title": "Un mundo de historias por crear.",
-      "subtitle": "Explora videos reales creados con IA: personajes, escenas de cine, animación y experimentos visuales.",
-      "body": "Abre un ejemplo para ver el prompt, los ajustes y el costo registrado al generarlo. Úsalo como punto de partida para tu propio proyecto."
+      "title": "Sala de proyección",
+      "subtitle": "Mira primero. Decide después cómo rodar.",
+      "body": "Abre un plano para consultar prompt, ajustes y coste registrado. Estudia encuadre, movimiento y continuidad antes de tu prueba."
     },
     "items": [
       {
@@ -7187,9 +7265,9 @@
         ]
       },
       "hero": {
-        "badge": "Herramientas VideoAI",
-        "title": "Dale forma a lo que sigue en tu proyecto.",
-        "body": "Crea un personaje, cambia el ángulo, amplía una imagen o mejora un video. Elige lo que necesita tu escena.",
+        "badge": "Taller de cámara y arte",
+        "title": "Construye el encuadre\nantes de la toma.",
+        "body": "Referencias de personajes, estudios de cámara y acabado: elige la etapa de tu próxima decisión visual.",
         "primaryCta": "Personajes IA consistentes",
         "secondaryCta": "Cambiar ángulo de cámara"
       },
@@ -7285,10 +7363,10 @@
         "imageAlt": "Interfaz actual de Upscale en VideoAI, en inglés y en modo visitante."
       },
       "hero": {
-        "badge": "Upscale imagen + video",
-        "title": "Amplía imágenes y videos con IA.",
-        "body": "Aumenta la resolución y mejora los detalles. Elige el modelo y el tamaño de salida, revisa el precio y guarda el resultado en tus medios.",
-        "primaryCta": "Abrir Upscale",
+        "badge": "Acabado de imagen / Posproducción",
+        "title": "Que el plano resista una mirada cercana.",
+        "body": "Prueba la ampliación en una imagen o un clip seleccionado. Revisa textura y movimiento antes de elegir el tamaño de salida.",
+        "primaryCta": "Probar un clip",
         "secondaryCta": "Ver herramientas",
         "beforeLabel": "Fuente",
         "afterLabel": "Upscale",
@@ -7326,9 +7404,9 @@
         ]
       },
       "models": {
-        "eyebrow": "Elige tu modelo",
-        "title": "La ampliación adecuada para tu archivo.",
-        "body": "Compara modelos de imagen y video según lo que necesitas: una imagen más grande, referencias más nítidas o un video listo para entregar.",
+        "eyebrow": "Procesamiento",
+        "title": "Elige según el material original.",
+        "body": "Decide si necesitas mejorar tamaño, textura o movimiento y compara las opciones de procesamiento.",
         "cards": [
           {
             "title": "SeedVR2 Imagen + Video",
@@ -7395,8 +7473,8 @@
         ]
       },
       "workflow": {
-        "eyebrow": "Flujo",
-        "title": "Importa. Ajusta. Guarda el resultado.",
+        "eyebrow": "Prueba y revisión",
+        "title": "Prueba un fragmento antes de procesar más.",
         "overlay": {
           "title": "Tu archivo, listo para usar.",
           "body": "Elige una imagen o un video, ajusta el tamaño de salida y revisa el precio antes de comenzar."
@@ -7485,7 +7563,7 @@
         "secondaryCta": "Ver ejemplos",
         "supportText": "Funciona mejor cuando el sujeto ya está bien y solo hace falta cambiar el punto de vista.",
         "orbit": {
-          "dragLabel": "Arrastra para explorar ángulos de cámara reales",
+          "dragLabel": "Arrastra para explorar estudios de cámara con IA",
           "previousLabel": "Mostrar el ángulo anterior",
           "nextLabel": "Mostrar el ángulo siguiente",
           "livePrefix": "Vista de cámara seleccionada",
@@ -7837,12 +7915,12 @@
             "answer": "Sí. Puedes generar otros puntos de vista a partir de una sola imagen fuente en lugar de reconstruir toda la escena."
           },
           {
-            "question": "¿Qué entra y qué sale?",
-            "answer": "Empiezas con una imagen y generas una o varias vistas alternativas listas para comparar o reutilizar."
+            "question": "¿Los ángulos corresponden exactamente a una cámara real?",
+            "answer": "Rotación, inclinación y zoom guían la generación sin garantizar posición, distancia focal ni coordenadas 3D exactas. Revisa la composición antes de usarla."
           },
           {
-            "question": "¿Esto ayuda antes de image-to-video?",
-            "answer": "Sí. Te ayuda a elegir un mejor fotograma de arranque antes de pasar a movimiento."
+            "question": "¿Cómo comprobar la continuidad entre ángulos?",
+            "answer": "Revisa rostros, vestuario, manos, miradas y fondo. La IA imagina las zonas no visibles, sobre todo en cambios amplios de ángulo; no se garantiza una continuidad exacta."
           },
           {
             "question": "¿Puedo usarlo para fotos de producto?",
@@ -7943,11 +8021,11 @@
         "current": "Character Builder"
       },
       "hero": {
-        "badge": "Herramienta de personajes IA consistentes",
+        "badge": "Personaje / Preparación",
         "secondaryBadge": "Ancla de retrato + hoja de personaje de 8 paneles",
-        "title": "Crea personajes con IA consistentes.",
-        "body": "Empieza con un retrato o una idea. Crea un retrato de referencia o una hoja de ocho vistas y reutilízala en tus imágenes y videos.",
-        "primaryCta": "Abrir Character Builder",
+        "title": "Conoce al personaje antes de encuadrarlo.",
+        "body": "Empieza por el retrato y la hoja de referencia. Define rasgos y vestuario, y revisa cada vista antes de reutilizarla en imagen o vídeo.",
+        "primaryCta": "Preparar referencias",
         "proofs": [
           "Empieza con un retrato de referencia, una inspiración opcional de vestuario o un concepto creado desde cero",
           "Genera un ancla de retrato reutilizable o una hoja de personaje de 8 paneles",
@@ -7994,9 +8072,9 @@
         "sheetAlt": "Hoja de personaje de 8 paneles generada por Character Builder."
       },
       "howItWorks": {
-        "eyebrow": "Cómo funciona",
-        "title": "Crea la referencia y luego llévala a todo el flujo",
-        "body": "Empieza con un rostro, una pista de vestuario o un concepto creado desde cero. Genera la salida y luego reutilízala en Image, en edición y en la preparación de video.",
+        "eyebrow": "Preparación de referencias",
+        "title": "Empieza con una referencia reconocible.",
+        "body": "Usa un retrato claro, indicaciones de vestuario o una descripción. Revisa los resultados antes de elegir las referencias.",
         "steps": [
           {
             "stepLabel": "Empezar con",
@@ -8048,9 +8126,9 @@
         ]
       },
       "outputsWorkflow": {
-        "eyebrow": "Resultados y flujo",
-        "title": "Elige la salida y luego pasa a imagen y video",
-        "body": "Elige la salida que mejor encaja con el trabajo y luego llévala a Nano Banana o a flujos de video basados en imagen fija.",
+        "eyebrow": "De la referencia al plano",
+        "title": "Un personaje, tres materiales de trabajo.",
+        "body": "El retrato define rasgos, la hoja compara vistas y la imagen de escena prepara el vídeo. Elige según la siguiente tarea.",
         "cards": [
           {
             "eyebrow": "Ancla de retrato",
@@ -8212,9 +8290,9 @@
         ]
       },
       "related": {
-        "eyebrow": "Flujo relacionado",
-        "title": "Reutiliza la referencia en el resto del flujo",
-        "body": "Cuando el personaje ya está fijado, pasa a Image, Nano Banana o a los modelos de video sin reconstruir la identidad.",
+        "eyebrow": "Siguiente paso",
+        "title": "Lleva la referencia elegida al siguiente plano.",
+        "body": "Estudia posiciones de cámara, edita una escena o prueba movimiento. Reutiliza referencias y revisa cada resultado.",
         "workflowTitle": "Continuar con",
         "workflowLinks": [
           {
@@ -8251,9 +8329,9 @@
         ]
       },
       "finalCta": {
-        "eyebrow": "Crea la referencia primero",
-        "title": "Mantén el mismo personaje de una escena a otra",
-        "body": "Genera un ancla de retrato o una hoja de 8 paneles y luego reutiliza esa misma referencia en prompts, ediciones y flujos de video basados en imagen fija.",
+        "eyebrow": "Preparación",
+        "title": "Prepara al personaje de la siguiente escena.",
+        "body": "Genera retratos u hojas de referencia y elige una versión para continuar la producción.",
         "primaryCta": "Abrir Character Builder",
         "panelLeft": "Personaje definido",
         "panelRight": "Listo para reutilizar",
@@ -8287,10 +8365,10 @@
         "current": "Video Background Remover"
       },
       "hero": {
-        "badge": "Pantalla verde, alpha y rotoscopia IA",
-        "title": "Elimina el fondo de tus videos.",
-        "body": "Conserva el sujeto y elige un fondo transparente, verde o de color. Revisa el precio, procesa el clip y lleva el resultado a tu edición.",
-        "primaryCta": "Abrir herramienta de video",
+        "badge": "Separación / Composición",
+        "title": "Lleva al personaje a la siguiente escena.",
+        "body": "Aísla un sujeto para montaje y composición. Revisa los bordes y el formato de salida antes de procesar el clip completo.",
+        "primaryCta": "Preparar material de composición",
         "secondaryCta": "Ver herramientas",
         "assurances": [
           {
@@ -8368,9 +8446,9 @@
         ]
       },
       "workflow": {
-        "eyebrow": "Workflow",
-        "title": "Del clip fuente al asset alpha, pantalla verde o compositing",
-        "body": "Elige una fuente, configura la salida alpha o el nuevo fondo, ejecuta, revisa y guarda o descarga.",
+        "eyebrow": "Pasos",
+        "title": "Importa, separa, revisa y recupera.",
+        "body": "Elige el vídeo y el tratamiento del fondo. Revisa los bordes antes de guardar o descargar.",
         "priceNote": "Antes de generar, VideoAI muestra el precio estimado según el clip y los ajustes de salida seleccionados.",
         "steps": [
           {
@@ -8388,9 +8466,9 @@
         ]
       },
       "production": {
-        "eyebrow": "Calidad de export",
-        "title": "Descarga archivos que tus herramientas de edición puedan abrir",
-        "body": "El video transparente y los exports cercanos a rotoscopia IA dependen mucho del formato: WebM VP9 es el export transparente, mientras que las salidas MP4/MOV deben usar pantalla verde o color sólido.",
+        "eyebrow": "Entrega del material",
+        "title": "Elige un formato compatible con el siguiente paso.",
+        "body": "El canal alfa depende del contenedor y del editor. Prueba primero un WebM transparente o un MP4 con fondo verde.",
         "panelCaption": "Usa WebM VP9 para navegadores y editores compatibles, y MP4/MOV en pantalla verde o color sólido cuando el destino no conserve alpha.",
         "items": [
           {
@@ -8443,9 +8521,9 @@
         }
       ],
       "finalCta": {
-        "eyebrow": "¿Listo para limpiar el clip?",
-        "title": "Elimina un fondo y guarda el resultado en tu biblioteca VideoAI",
-        "body": "Abre el workspace, estima el run y convierte videos cortos en sujetos recortados, mates alfa, placas de pantalla verde o recursos con fondo sólido reutilizables.",
+        "eyebrow": "Preparación",
+        "title": "Empieza con un clip corto.",
+        "body": "Revisa el precio actual y prueba la separación y la compatibilidad con material representativo.",
         "primaryCta": "Abrir herramienta de video",
         "secondaryCta": "Ver herramientas"
       },
@@ -8497,25 +8575,5 @@
     "body": "No encontramos esa URL. Es posible que ya no exista o que nunca haya existido. Usa los enlaces de abajo para seguir explorando VideoAI.",
     "homeLabel": "Volver al inicio",
     "modelsLabel": "Ver modelos de video"
-  },
-  "passwordRecovery": {
-    "title": "Elige una nueva contraseña",
-    "intro": "Continúa para verificar tu enlace de restablecimiento.",
-    "verify": "Continuar",
-    "verifying": "Verificando el enlace…",
-    "password": "Nueva contraseña",
-    "confirm": "Confirma la nueva contraseña",
-    "save": "Guardar nueva contraseña",
-    "saving": "Guardando…",
-    "saved": "Tu contraseña se ha actualizado.",
-    "continueToApp": "Ir a la aplicación",
-    "requestNew": "Solicitar otro enlace",
-    "invalid": "Este enlace no es válido o ha caducado. Solicita uno nuevo. Si cambiaste de navegador, prueba a abrir el enlace original en el navegador donde lo solicitaste.",
-    "tooShort": "Usa al menos 6 caracteres.",
-    "mismatch": "Las contraseñas no coinciden.",
-    "weak": "Elige una contraseña más segura.",
-    "same": "Elige una contraseña diferente de la actual.",
-    "unavailable": "No pudimos actualizar tu contraseña. Inténtalo de nuevo.",
-    "ready": "Introduce y confirma tu nueva contraseña."
   }
 }

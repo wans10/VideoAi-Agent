@@ -77,15 +77,15 @@ export default async function HomePage(props: { params: Promise<{ locale: string
         programmedHeroItems={programmedHeroItems}
       />
       <DeferredMarketingContent><HomeCreationSection locale={locale} assistantHref={mcpLink?.href} /></DeferredMarketingContent>
+      <DeferredMarketingContent><HomeToolsGallery locale={locale} /></DeferredMarketingContent>
       <DeferredMarketingContent><HomeCreativeWorlds locale={locale} cards={primaryBestForCards} examples={examples} providers={providers} examplesCopy={content.examples} /></DeferredMarketingContent>
       <DeferredMarketingContent>
-        <HomeModelChoice locale={locale} scores={comparisonScores} startupFameLabel={startupFameLabel} comparisons={buildHomeComparisonLinks()}/>
-      </DeferredMarketingContent>
-      <DeferredMarketingContent>
-        <HomeToolsGallery locale={locale} />
-      </DeferredMarketingContent>
-      <DeferredMarketingContent>
         <HomePricingSection locale={locale} models={buildHomePriceDemo(locale)} copy={content.pricingTrust} />
+      </DeferredMarketingContent>
+      <DeferredMarketingContent>
+        <details className="production-technical-reference container-page"><summary>{dictionary.nav.dropdown.screening.reference}</summary>
+          <HomeModelChoice locale={locale} scores={comparisonScores} startupFameLabel={startupFameLabel} comparisons={buildHomeComparisonLinks()}/>
+        </details>
       </DeferredMarketingContent>
       <DeferredMarketingContent>
         {workflowSeoCopy ? <WorkflowSeoSummary copy={workflowSeoCopy} locale={locale} /> : null}

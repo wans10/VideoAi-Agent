@@ -1,3 +1,4 @@
+import { getMcpProductionCopy } from './mcp-production-copy';
 import type { AppLocale } from '@/i18n/locales';
 import { MCP_N8N_PUBLIC_TEMPLATE_URL } from '@/lib/mcp-n8n-template';
 
@@ -90,4 +91,4 @@ const zh: EditorialCopy = {
   faq: [{question:'VideoAI 是连接器、应用还是插件？',answer:'MCP 是通用连接协议。Claude 称其为自定义连接器；ChatGPT 在开发者模式下使用自定义 MCP 应用；Codex 提供插件，OpenClaw 提供技能，n8n 则使用 MCP Client 节点的工作流。安装和账号要求因客户端而异。'},{question:'ChatGPT 插件目录中有 VideoAI 吗？',answer:'目前未上架公开目录。当前路径为开发者模式下的自定义 MCP 应用。完整的 MCP 写入操作需要适用的 Business、Enterprise 或 Edu 工作区及其管理员权限。Pro 账号在开发者模式下仅限于读取权限。'},{question:'可以在 n8n 中自动化视频生成吗？',answer:'可以，已在自托管的 n8n 2.38.7 MCP Client 工作流中通过测试。精准报价、人工审核和最终确认必须作为独立步骤。目前需手动配置；n8n Cloud 和 AI Agent 调用暂未在此处验证。'},{question:'我还可以生成图像和音频吗？',answer:'在选定模型和环境支持的情况下，MCP 支持文生图和图生图编辑。音频参考和音频驱动视频取决于所选视频模型。目前暂不通过此 MCP 集成公开提供独立音频生成和成片剪辑。'}],
   setupTitle: '一次连接，即刻创作。', setupIntro: '按照适用于你环境的步骤操作，然后授权你的 VideoAI 账户。', setupDetails:'连接详情', verified:'兼容性与限制', account:'授权内容', all:'全部集成',
 };
-export function getMcpEditorialCopy(locale: AppLocale): EditorialCopy { return ({ en, fr, es, zh })[locale] ?? en; }
+export function getMcpEditorialCopy(locale: AppLocale): EditorialCopy { return { ...({ en, fr, es, zh })[locale], ...getMcpProductionCopy(locale) }; }

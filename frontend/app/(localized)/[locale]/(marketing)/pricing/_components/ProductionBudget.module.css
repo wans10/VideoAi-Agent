@@ -1,0 +1,28 @@
+.sheet { padding:40px 0 48px; }
+.sheet header { display:flex; justify-content:space-between; gap:32px; align-items:baseline; }
+.sheet h2 { font-size:clamp(26px,3vw,38px); line-height:1.35; }
+.sheet header p { max-width:40ch; font-size:13px; color:var(--text-muted); line-height:1.8; }
+.ledger { margin-top:28px; border-top:2px solid var(--text-primary); }
+.columns,.row { display:grid; grid-template-columns:.8fr 1.1fr 1.1fr; gap:40px; }
+.columns { font-size:11px; color:var(--text-muted); padding:14px 0; }
+.row { border-top:1px solid var(--hairline); padding:24px 0; }
+.row h3 { font-size:19px; display:flex; align-items:baseline; gap:20px; }
+.row h3 span { color:var(--brand); font:12px monospace; }
+.row p { font-size:14px; line-height:1.85; color:var(--text-secondary); }
+.row small { display:none; }
+.rule { border-top:1px solid var(--hairline); padding:20px 0; font-size:14px; max-width:85ch; line-height:1.85; }
+.sheet a { display:inline-flex; min-height:44px; align-items:center; font-size:14px; color:var(--brand); }
+@media(max-width:700px) { .sheet header { display:block; }.sheet header p { margin-top:16px; }.columns { display:none; }.row { grid-template-columns:1fr; gap:16px; }.row p { padding-left:36px; }.row small { display:block; color:var(--text-muted); font-size:11px; margin-bottom:4px; }.sheet { padding:28px 0; } }
+
+.hero { border-bottom:1px solid var(--hairline); background:var(--bg); }
+.opening { padding-top:48px; }
+.eyebrow { font-size:12px; color:var(--brand); }
+.opening h1 { font-size:clamp(34px,4.2vw,60px); line-height:1.2; letter-spacing:-.04em; margin:20px 0 28px; max-width:23ch; }
+.brief { display:grid; grid-template-columns:1.5fr 1fr; gap:48px; align-items:start; }
+.intro { max-width:60ch; font-size:16px; line-height:1.9; }
+.support { max-width:66ch; font-size:13px; color:var(--text-muted); line-height:1.9; margin-top:12px; }
+.actions { display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
+.actions a { display:inline-flex; gap:12px; min-height:44px; align-items:center; font-size:14px; }
+.actions .primary { padding:12px 20px; background:var(--brand); color:var(--on-brand); }
+.terms { list-style:none; display:flex; flex-wrap:wrap; gap:12px 28px; border-block:1px solid var(--hairline); margin-top:32px; padding:16px 0; font-size:12px; color:var(--text-muted); }
+@media(max-width:700px) { .opening { padding-top:32px; }.brief { grid-template-columns:1fr; gap:24px; }.terms { gap:10px 20px; }.terms li { max-width:100%; } }

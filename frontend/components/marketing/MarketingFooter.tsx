@@ -4,6 +4,7 @@ import { BrandLockup } from '@/components/brand/BrandLockup';
 import { Link, usePathname, type LocalizedLinkHref } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { StudioFooterDepartments } from './StudioFooterDepartments';
 import { MarketingFooterAssistants } from '@/components/marketing/MarketingFooterAssistants';
 import { LanguageToggle } from '@/components/marketing/LanguageToggle';
 import { MARKETING_NAV_BEST_FOR_HUB } from '@/config/navigation';
@@ -153,6 +154,8 @@ export function MarketingFooter() {
           docs: labelFor('footer.mcpFeature.docs', 'MCP documentation'),
           anchors: Object.fromEntries(['claude', 'chatgpt', 'codex', 'openclaw', 'n8n'].map(id => [id, labelFor(`footer.mcpFeature.anchors.${id}`, id)])),
         }} />
+        <StudioFooterDepartments t={t} />
+        <details className="production-footer-reference"><summary>{labelFor('nav.dropdown.screening.reference', 'Production reference')}</summary>
         <div className="studio-footer-directory grid grid-cols-2 gap-x-4 gap-y-6 text-text-secondary sm:gap-x-6 sm:gap-y-8 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8">
           <div>
             <p className={sectionTitleClass}>{enginesTitle}</p>
@@ -210,6 +213,7 @@ export function MarketingFooter() {
           </div>
         </div>
 
+        </details>
         <div className="border-t border-hairline pt-6">
           <p className={sectionTitleClass}>{policiesTitle}</p>
           <nav className="mt-3 flex flex-wrap gap-4" aria-label={policiesTitle}>

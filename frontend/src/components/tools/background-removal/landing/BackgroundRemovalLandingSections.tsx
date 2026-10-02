@@ -1,9 +1,10 @@
+import { resolveLocale } from '@/lib/i18n/server';
+import { ProductionReviewNotes } from '../../production/ProductionReviewNotes';
 import { ToolWorkspacePreview } from '@/components/tools/landing/ToolWorkspacePreview';
 import {
   ArrowRight,
   CheckCircle2,
   Download,
-  Eraser,
   FileVideo,
   Film,
   Layers3,
@@ -18,7 +19,6 @@ import { ButtonLink } from '@/components/ui/Button';
 import {
   BACKGROUND_REMOVAL_GREEN_SCREEN_EXPORT,
   BACKGROUND_REMOVAL_HERO_BEFORE_AFTER,
-  BACKGROUND_REMOVAL_PRODUCT_CUTOUT,
   BACKGROUND_REMOVAL_WORKFLOW_STAGES,
   type BackgroundRemovalLandingContent,
 } from './background-removal-landing-assets';
@@ -117,47 +117,6 @@ function HeroSection({ content }: { content: BackgroundRemovalLandingContent }) 
         </div>
         <div className="hidden lg:block">
           <HeroVisual content={content} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function UseCasesSection({ content }: { content: BackgroundRemovalLandingContent }) {
-  const icons = [Film, Scissors, Layers3, Palette, Library];
-
-  return (
-    <section className="bg-bg py-14 sm:py-16">
-      <div className="container-page max-w-[1240px]">
-        <div className="grid gap-10 lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start">
-          <div className="stack-gap-md">
-            <SectionIntro eyebrow={content.useCases.eyebrow} title={content.useCases.title} body={content.useCases.body} />
-            <div className="relative overflow-hidden rounded-[8px] border border-hairline bg-surface shadow-card">
-              <div className="relative aspect-[4/3]">
-                <MarketingHeroImage
-                  alt=""
-                  imageClassName="object-cover object-center"
-                  priority={false}
-                  sizes="(max-width: 1024px) 100vw, 360px"
-                  src={BACKGROUND_REMOVAL_PRODUCT_CUTOUT}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {content.useCases.cards.map((card, index) => {
-              const Icon = icons[index] ?? Eraser;
-              return (
-                <article key={card.title} className="group rounded-[8px] border border-hairline bg-surface p-4 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-brand/45">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-slate-950 text-[#ffb4a2] dark:bg-white/[0.08]">
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <h3 className="mt-5 text-base font-semibold text-text-primary">{card.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-text-secondary">{card.body}</p>
-                </article>
-              );
-            })}
-          </div>
         </div>
       </div>
     </section>
@@ -347,15 +306,16 @@ function FinalCtaSection({ content }: { content: BackgroundRemovalLandingContent
   );
 }
 
-export function BackgroundRemovalLandingSections({ content }: { content: BackgroundRemovalLandingContent }) {
+export async function BackgroundRemovalLandingSections({ content }: { content: BackgroundRemovalLandingContent }) {
+  const locale = await resolveLocale();
   return (
     <>
       <HeroSection content={content} />
+      <ProductionReviewNotes locale={locale} kind="separation" />
+      <ProductionSection content={content} />
       <WorkflowSection content={content} />
       <ToolWorkspacePreview tool="background-removal" title={content.hero.badge} body={content.workflow.body} />
-      <UseCasesSection content={content} />
-      <ModelGuideSection content={content} />
-      <ProductionSection content={content} />
+      <details className="tool-model-details"><summary>{content.modelGuide.title}<span aria-hidden="true">+</span></summary><ModelGuideSection content={content} /></details>
       <FaqSection content={content} />
       <FinalCtaSection content={content} />
     </>

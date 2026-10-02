@@ -1,3 +1,4 @@
+import styles from './ProductionBudget.module.css';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import type { ReactNode } from 'react';
@@ -31,38 +32,18 @@ export function PricingHeroSection({
   children,
 }: PricingHeroSectionProps) {
   return (
-    <header className="pricing-editorial-hero relative min-h-[260px] border-b border-hairline bg-bg">
-      <div className="container-page pricing-opening-grid">
-        <div className="max-w-[780px]">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-micro text-text-muted">{eyebrow}</p>
-          <h1 className="text-[32px] font-semibold leading-[1.08] tracking-normal text-text-primary sm:text-[40px]">
-            {title}
-          </h1>
-          <p className="mt-3 max-w-[680px] text-base leading-7 text-text-secondary sm:text-lg">{subtitle}</p>
-          <p className="mt-1 max-w-[740px] text-sm leading-6 text-text-muted">{supportingLine}</p>
-          <Link
-            href={compareHref}
-            className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 text-sm font-semibold text-brand transition hover:underline"
-          >
-            {compareLabel}
-            <ArrowDown className="h-4 w-4" strokeWidth={1.8} />
-          </Link>
-
-
+    <header className={`${styles.hero} min-h-[260px]`}>
+      <div className={`container-page ${styles.opening}`}>
+        <p className={styles.eyebrow}>{eyebrow}</p>
+        <h1>{title}</h1>
+        <div className={styles.brief}>
+          <div><p className={styles.intro}>{subtitle}</p><p className={styles.support}>{supportingLine}</p></div>
+          <div className={styles.actions}>
+            <Link href={calculatorHref} prefetch={false} className={styles.primary}>{calculatorLabel}<ArrowUpRight size={17}/></Link>
+            <Link href={compareHref}>{compareLabel}<ArrowDown size={17}/></Link>
+          </div>
         </div>
-
-        <div className="pricing-payment-note">
-          <ol>{badges.map((badge,index)=><li key={badge}><span aria-hidden>{String(index+1).padStart(2,'0')}</span><p>{badge}</p></li>)}</ol>
-          <Link
-            href={calculatorHref}
-            prefetch={false}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[8px] bg-text-primary px-5 text-sm font-semibold text-bg shadow-card transition hover:bg-text-primary/90"
-          >
-            {calculatorLabel}
-            <ArrowUpRight className="h-4 w-4" strokeWidth={1.8} />
-          </Link>
-
-        </div>
+        <ul className={styles.terms}>{badges.map(badge => <li key={badge}>{badge}</li>)}</ul>
       </div>
       {children}
     </header>

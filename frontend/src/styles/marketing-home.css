@@ -279,3 +279,29 @@
   .marketing-site.videoai-site .videoai-studio-preview-body { grid-template-columns: 1fr; }
   .marketing-site.videoai-site .videoai-studio-preview-output { min-height: 220px; }
 }
+
+/* Production-led homepage: a brief, departments and camera tests. */
+.production-brief-section { padding: 88px 0; background: var(--surface); border-block: 1px solid var(--border); }
+.production-brief-heading { display: grid; grid-template-columns: 1.15fr .85fr; gap: 90px; align-items: center; }
+.production-brief-heading h2 { white-space: pre-line; font-size: clamp(32px,3.5vw,52px); line-height: 1.28; letter-spacing: -.04em; margin: 18px 0 24px; }
+.production-brief-heading > div > p:last-child { max-width: 42em; font-size: 16px; line-height: 1.9; color: var(--text-secondary); }
+.production-slate { border: 1px solid var(--border); background: var(--bg); transform: rotate(-1.5deg); box-shadow: 12px 12px 0 var(--surface-2); padding: 0 24px 24px; overflow: hidden; }
+.production-slate-stripes { height: 24px; background: repeating-linear-gradient(125deg,var(--text-primary) 0 28px,var(--bg) 28px 50px); margin: 0 -24px 24px; border-bottom: 1px solid var(--border); }
+.production-slate > strong { display: block; font-size: 12px; letter-spacing: .16em; color: var(--brand); }
+.production-slate dl { margin: 20px 0; }
+.production-slate dl > div { padding: 14px 0; border-top: 1px solid var(--border); }
+.production-slate dt { font-size: 12px; color: var(--text-secondary); margin-bottom: 7px; }
+.production-slate dd { margin: 0; line-height: 1.7; font-size: 17px; }
+.production-slate > small { font-size: 12px; color: var(--text-secondary); }
+.production-stage-list { list-style: none; padding: 0; margin: 64px 0 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 36px; }
+.production-stage-list li { border-top: 2px solid var(--text-primary); padding-top: 20px; display: flex; flex-direction: column; align-items: flex-start; }
+.production-stage-list li > span { font-size: 12px; color: var(--brand); letter-spacing: .1em; }
+.production-stage-list h3 { font-size: 24px; margin: 22px 0 14px; }
+.production-stage-list p { color: var(--text-secondary); font-size: 15px; line-height: 1.85; margin-bottom: 24px; }
+.production-stage-list a { display: flex; align-items: center; gap: 20px; min-height: 44px; margin-top: auto; font-size: 14px; border-bottom: 1px solid var(--brand); }
+.production-pipeline-note { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 26px 30px; margin-top: 56px; background: var(--surface-2); }
+.production-pipeline-note p { font-size: 14px; line-height: 1.75; color: var(--text-secondary); margin-top: 8px; }
+.production-pipeline-note a { display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; min-height: 44px; font-size: 14px; }
+@media(max-width:760px) { .production-brief-section { padding: 52px 0; } .production-brief-heading { grid-template-columns: 1fr; gap: 34px; } .production-slate { transform: none; box-shadow: none; } .production-stage-list { grid-template-columns: 1fr; gap: 30px; margin-top: 44px; } .production-pipeline-note { flex-direction: column; align-items: flex-start; padding: 24px; } }
+.production-technical-reference { border-top: 1px solid var(--border); }
+.production-technical-reference > summary { padding: 28px 0; cursor: pointer; font-size: 15px; color: var(--text-secondary); }

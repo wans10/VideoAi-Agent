@@ -350,7 +350,7 @@ test('examples route components own nav and JSON-LD rendering', () => {
   assert.ok(nextStepsIndex > gallerySectionIndex);
   assert.match(
     pageViewSource,
-    /<ExamplesIntroHero[\s\S]*?heroTitle=\{heroTitle\}/,
+    /<ExamplesIntroHero[\s\S]*?heroTitle=\{isModelLanding \? heroTitle : room\.title\}/,
   );
   assert.match(pageViewSource, /detailsCtaLabel=\{galleryUiCopy\.detailsCta\}/);
   assert.match(pageViewSource, /ExamplesJsonLdScripts/, 'page view should compose JSON-LD scripts');

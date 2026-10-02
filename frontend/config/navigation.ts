@@ -1,3 +1,4 @@
+import { STUDIO_NAV_LINKS, STUDIO_NAV_DROPDOWNS } from './studio-navigation';
 import { getMcpPublicIntegrationIds, getMcpIntegration } from '@/lib/mcp-integration-registry';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import mcpPublication from '@/config/mcp-publication.json';
@@ -40,11 +41,12 @@ export type MarketingNavDropdown = {
   heading?: string;
 };
 
-export type MarketingTopNavKey = 'models' | 'examples' | 'tools' | 'compare' | 'pricing' | 'blog' | 'connect';
+export type MarketingTopNavKey = 'models' | 'examples' | 'tools' | 'compare' | 'pricing' | 'blog' | 'connect' | 'production' | 'craft' | 'screening' | 'pipeline';
 
 export type MarketingTopNavLink = {
   key: MarketingTopNavKey;
   href: string;
+  activePaths?: readonly string[];
 };
 
 export const MARKETING_TOP_NAV_LINKS = [
@@ -56,11 +58,7 @@ export const MARKETING_TOP_NAV_LINKS = [
   { key: 'blog', href: '/blog' },
 ] as const satisfies readonly MarketingTopNavLink[];
 
-export const MARKETING_SITE_NAV_LINKS: readonly MarketingTopNavLink[] = [
-  ...MARKETING_TOP_NAV_LINKS.filter((item) => item.key !== 'blog' && item.key !== 'pricing'),
-  { key: 'connect', href: '/mcp' },
-  { key: 'pricing', href: '/pricing' },
-];
+export const MARKETING_SITE_NAV_LINKS = STUDIO_NAV_LINKS;
 
 type LabeledSlug = {
   slug: string;
@@ -300,6 +298,8 @@ const MARKETING_RESOURCES_SECTION: MarketingNavSection = {
 };
 
 export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdown>> = {
+  ...STUDIO_NAV_DROPDOWNS,
+  pipeline: { items: MARKETING_NAV_ASSISTANTS, desktopColumns: 2, heading: "Connect production to your practice.", intro: "Use VideoAI from supported assistants and automation hosts.", allHref: "/mcp", allLabelKey: "nav.dropdown.pipeline.all", allLabelFallback: "Explore connections" },
   models: {
     items: MARKETING_NAV_MODELS,
     desktopColumns: 2,

@@ -24,3 +24,30 @@
   .marketing-site.videoai-site .studio-directory-footer .marketing-footer-assistants-access { grid-template-columns: 1fr; }
   .marketing-site.videoai-site .studio-directory-footer .marketing-footer-assistants { padding: 20px; }
 }
+
+/* Production navigation: departments and briefs instead of a model index. */
+.marketing-site.videoai-site .production-navigation-panel { grid-template-columns: minmax(200px, .7fr) minmax(0, 2fr); max-width: 1080px; border-radius: 0 0 16px 16px; }
+.marketing-site.videoai-site .production-navigation-panel .studio-menu-intro { background: var(--text-primary); color: var(--bg); padding: 30px; }
+.production-navigation-panel .studio-menu-intro .studio-menu-section { color: #edaa98; letter-spacing: .14em; }
+.marketing-site.videoai-site .production-navigation-panel .studio-menu-intro p { color: var(--bg); font-size: 27px; line-height: 1.4; }
+.marketing-site.videoai-site .production-navigation-panel .studio-menu-intro div > span { color: #d4d3cc; font-size: 14px; line-height: 1.8; }
+.marketing-site.videoai-site .production-navigation-panel .studio-menu-intro > a { color: #edaa98; border-color: #5b5c54; }
+.marketing-site.videoai-site .production-navigation-panel .marketing-mega-content { padding: 18px; }
+.marketing-site.videoai-site .production-navigation-panel .marketing-mega-links { gap: 8px; }
+.marketing-site > header .production-navigation-panel .marketing-mega-link { grid-template-columns: minmax(0, 1fr) 16px; padding: 22px 18px; border: 1px solid var(--border); border-radius: 8px; align-items: start; }
+.production-navigation-panel .studio-menu-index { display: none; }
+.production-navigation-panel .studio-menu-entry > small { display: block; margin-top: 12px; font-size: 14px; line-height: 1.7; color: var(--text-secondary); max-width: 27ch; }
+.production-navigation-panel .studio-menu-entry .marketing-entry-content { font-size: 17px; font-weight: 600; }
+.production-navigation-panel .studio-menu-arrow { margin-top: 8px; }
+.production-mobile-description { display: block; margin: 6px 0 5px 40px; font-size: 14px; line-height: 1.65; color: var(--text-secondary); }
+@media (min-width:1024px) and (max-width:1279px) { .marketing-site.videoai-site .production-navigation-panel .studio-menu-intro { padding: 22px; } }
+.production-footer-departments { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 32px; margin: 42px 0; }
+.production-footer-departments nav { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.production-footer-departments h2 { font-size: 13px; color: var(--brand); margin-bottom: 10px; letter-spacing: .08em; }
+.production-footer-departments a { min-height: 28px; font-size: 14px; color: var(--text-secondary); }
+.production-footer-reference { border-top: 1px solid var(--border); }
+.production-footer-reference > summary { cursor: pointer; padding: 24px 0; font-size: 14px; }
+@media(max-width:760px) { .production-footer-departments { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 32px 20px; } }
+
+.marketing-menu-subnav > a.production-mobile-entry { display: block; }
+.production-mobile-entry .marketing-entry-content { width: 100%; }

@@ -1,6 +1,5 @@
 import { resolveLocale } from '@/lib/i18n/server';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
-import { ToolJourneyNav } from '@/components/tools/landing/ToolJourneyNav';
 import { FAQSchema } from '@/components/seo/FAQSchema';
 import { buildMarketingServiceJsonLd } from '@/lib/seo/marketingServiceJsonLd';
 import {
@@ -34,7 +33,7 @@ export async function BackgroundRemovalLandingView({ content }: { content: Backg
   });
 
   return (
-    <div className="background-removal-page tool-detail-page"><ToolJourneyNav active="background-removal" />
+    <div className="background-removal-page tool-detail-page">
       <BackgroundRemovalLandingSections content={content} />
       <FAQSchema questions={content.faq.map((entry) => ({ question: entry.q, answer: entry.a }))} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />

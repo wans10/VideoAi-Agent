@@ -1,7 +1,8 @@
+import production from '../../production/ProductionDepartments.module.css';
 import { resolveDictionary } from '@/lib/i18n/server';
 import { CharacterReferenceShowcase } from './CharacterReferenceShowcase.client';
 import Image from 'next/image';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { ButtonLink } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -13,7 +14,6 @@ import {
   type CharacterBuilderLandingContent,
 } from './character-builder-landing-assets';
 import {
-  HeroProofCard,
   HowItWorksPill,
   SectionHeader,
 } from './CharacterBuilderLandingPrimitives';
@@ -21,70 +21,20 @@ import {
 export async function CharacterBuilderHeroSection({ content }: { content: CharacterBuilderLandingContent }) {
   const {dictionary}=await resolveDictionary();
   const c=dictionary.toolMarketing.journey;
-  return (
-    <section className="tool-hero-surface character-builder-hero relative overflow-hidden border-b border-hairline bg-[radial-gradient(circle_at_top_left,rgba(244,127,94,0.12),transparent_28%),radial-gradient(circle_at_right,rgba(76,132,255,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,249,252,0.96))]">
-      <div className="container-page relative max-w-[88rem] pb-10 pt-8 sm:pb-12 sm:pt-10 lg:pb-12 lg:pt-12">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:items-start lg:gap-12">
-          <div className="max-w-4xl stack-gap-lg lg:pt-6">
-            <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-[13px] text-text-muted">
-              <Link href="/" className="transition hover:text-text-primary">
-                {content.breadcrumb.home}
-              </Link>
-              <ChevronRight className="h-3.5 w-3.5" />
-              <Link href="/tools" className="transition hover:text-text-primary">
-                {content.breadcrumb.tools}
-              </Link>
-              <ChevronRight className="h-3.5 w-3.5" />
-              <span className="font-semibold text-text-secondary">{content.breadcrumb.current}</span>
-            </nav>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="tool-hero-pill inline-flex w-fit items-center rounded-full border border-slate-200/90 bg-white/90 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 shadow-[0_16px_34px_rgba(15,23,42,0.06)]">
-                {content.hero.badge}
-              </div>
-              <div className="tool-hero-pill tool-hero-pill--accent inline-flex w-fit items-center rounded-full border border-[#e6b99b] bg-[#fff3ea] px-4 py-2 text-[11px] font-semibold text-[#a55a31] shadow-[0_14px_28px_rgba(244,127,94,0.08)]">
-                {content.hero.secondaryBadge}
-              </div>
-            </div>
-
-            <div className="stack-gap-sm">
-              <h1 className="max-w-[18ch] text-[clamp(3rem,5vw,4.8rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-text-primary">
-                {content.hero.title}
-              </h1>
-              <p className="max-w-2xl text-[1.02rem] leading-8 text-text-secondary sm:text-lg">{content.hero.body}</p>
-            </div>
-
-            <div className="flex flex-wrap gap-3 pt-1">
-              <ButtonLink
-                href="/app/tools/character-builder"
-                linkComponent={Link}
-                size="lg"
-                data-analytics-event="tool_cta_click"
-                data-analytics-cta-name="character_builder_try_tool_hero"
-                data-analytics-cta-location="tool_character_builder_hero"
-                data-analytics-tool-name="character_builder"
-                data-analytics-tool-surface="public"
-                data-analytics-target-family="app_tools"
-              >
-                {content.hero.primaryCta}
-                <ArrowRight className="h-4 w-4" />
-              </ButtonLink>
-            </div>
-
-            <div className="grid gap-3 xl:max-w-[40rem]">
-              {content.hero.proofs.map((item) => (
-                <HeroProofCard key={item}>{item}</HeroProofCard>
-              ))}
-            </div>
-          </div>
-
-          <div className="character-hero-visual">
-            <CharacterReferenceShowcase sheet={c.sheet} portrait={c.portrait} note={c.proof} views={c.views} />
-          </div>
-        </div>
+  return <header className={production.characterOpening}><div className="container-page">
+    <div className={production.characterHeading}><p className={production.kicker}>{content.hero.badge}</p><h1>{content.hero.title}</h1></div>
+    <div className={production.characterDesk}>
+      <div className="character-hero-visual"><CharacterReferenceShowcase sheet={c.sheet} portrait={c.portrait} note={c.proof} views={c.views} /></div>
+      <div className={production.characterBrief}><p>{content.hero.body}</p>
+        <ButtonLink href="/app/tools/character-builder" linkComponent={Link} size="lg"
+          data-analytics-event="tool_cta_click" data-analytics-cta-name="character_builder_try_tool_hero"
+          data-analytics-cta-location="tool_character_builder_hero" data-analytics-tool-name="character_builder"
+          data-analytics-tool-surface="public" data-analytics-target-family="app_tools">
+          {content.hero.primaryCta}<ArrowRight className="h-4 w-4" />
+        </ButtonLink>
       </div>
-    </section>
-  );
+    </div>
+  </div></header>;
 }
 
 export function CharacterBuilderWhySection({ content }: { content: CharacterBuilderLandingContent }) {

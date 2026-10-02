@@ -15,7 +15,7 @@ const videos: ExampleGalleryVideo[] = Array.from({length:24},(_,i)=>i%4===1?'9:1
   ...(i === 0 ? { recreateHref: '/app?from=v0' } : {}),
 }));
 
-async function renderGallery(prioritizeFirstPoster: boolean, openingEnabled = true) {
+async function renderGallery(prioritizeFirstPoster: boolean, openingEnabled = true, locale: 'en' | 'zh' = 'en') {
   const require = createRequire(import.meta.url);
   const previous = require.extensions['.css'];
   require.extensions['.css'] = () => {};
@@ -23,7 +23,7 @@ async function renderGallery(prioritizeFirstPoster: boolean, openingEnabled = tr
     const { default: Grid } = await import('../frontend/components/examples/ExamplesGalleryGrid.client');
     return new JSDOM(renderToStaticMarkup(React.createElement(Grid, {
       initialExamples: videos, prioritizeFirstPoster, openingEnabled, sort: 'playlist', initialOffset: 8,
-      pageOffsetEnd: 16, locale: 'en',
+      pageOffsetEnd: 16, locale,
     })));
   } finally {
     if (previous) require.extensions['.css'] = previous;
@@ -117,4 +117,16 @@ test('the server gallery sends card summaries while full prompts stay in the on-
     if (previous) require.extensions['.css'] = previous;
     else delete require.extensions['.css'];
   }
+});
+
+test('Simplified Chinese screening controls and opening guidance render without English fallback', async () => {
+  const dom = await renderGallery(true, true, 'zh');
+  try {
+    const doc = dom.window.document;
+    const guide = doc.querySelector('[data-gallery-guide]');
+    assert.match(guide?.textContent ?? '', /提示词.*生成设置.*记录成本/);
+    assert.match(guide?.textContent ?? '', /进入制作台试拍/);
+    assert.doesNotMatch(guide?.textContent ?? '', /Prompt|Settings|Recorded cost|Create in the app/);
+    assert.ok([...doc.querySelectorAll('button')].some(button => /暂停样片预览/.test(button.textContent ?? '')));
+  } finally { dom.window.close(); }
 });

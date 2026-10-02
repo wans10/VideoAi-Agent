@@ -132,3 +132,9 @@
   .marketing-site .mcp-redesign .mcp-host-guide > summary { padding-block: 22px; }
   .marketing-site .mcp-redesign .mcp-host-guide-body { padding-bottom: 24px; }
 }
+
+.production-pipeline-handoff { list-style:none; padding:0; margin:40px 0; border-top:2px solid var(--text-primary); }
+.production-pipeline-handoff li { display:grid; grid-template-columns:.55fr 1fr 1.5fr; gap:32px; padding:28px 0; border-bottom:1px solid var(--hairline); align-items:baseline; }
+.production-pipeline-stage { display:flex; gap:20px; align-items:baseline; }.production-pipeline-stage span { font:12px monospace; color:var(--brand); }.production-pipeline-stage p { font-size:13px; }
+.production-pipeline-handoff h3 { font-size:25px; line-height:1.4; }.production-pipeline-handoff li>p { font-size:15px; color:var(--text-secondary); line-height:1.85; }
+@media(max-width:700px) { .production-pipeline-handoff li { grid-template-columns:1fr; gap:16px; }.production-pipeline-handoff h3,.production-pipeline-handoff li>p { padding-left:36px; } }

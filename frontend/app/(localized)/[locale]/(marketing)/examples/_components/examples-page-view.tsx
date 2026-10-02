@@ -1,3 +1,6 @@
+import { ScreeningRoomNotes } from './ScreeningRoomNotes';
+import { getScreeningRoomCopy } from '../_lib/screening-room-copy';
+import screening from './ScreeningRoom.module.css';
 import clsx from 'clsx';
 import styles from './examples-editorial.module.css';
 import type { ExampleGalleryVideo } from '@/components/examples/ExamplesGalleryGrid';
@@ -161,23 +164,10 @@ export function ExamplesPageView({
   totalPages,
   usesCurrentAndSupportedBlocks,
 }: ExamplesPageViewProps) {
-  const hubSubtitle = locale === 'fr'
-    ? 'Explorez les vidéos. Retrouvez leur prompt. Créez la vôtre.'
-    : locale === 'es'
-      ? 'Explora los vídeos. Copia el prompt. Crea tu versión.'
-      : locale === 'zh' ? '探索视频，查看提示词，创作你的版本。' : 'Explore the videos. Find the prompt. Create your own.';
+  const room = getScreeningRoomCopy(locale);
 
   return (
     <>
-      <ExamplesEngineFilterNav
-        locale={locale}
-        browseByModelLabel={browseByModelLabel}
-        engineFilterAllLabel={engineFilterAllLabel}
-        engineFilterOptions={engineFilterOptions}
-        getEngineFilterHref={getEngineFilterHref}
-        selectedEngine={selectedEngine}
-      />
-
       <div
         className={clsx(
           'container-page max-w-[1800px]',
@@ -186,10 +176,24 @@ export function ExamplesPageView({
       >
         <div className="space-y-6 sm:space-y-8">
           <ExamplesIntroHero
-            heroLead={heroLead}
-            heroSubtitle={isModelLanding ? heroSubtitle : hubSubtitle}
-            heroTitle={heroTitle}
+            heroLead={isModelLanding ? heroLead : room.lead}
+            heroSubtitle={isModelLanding ? heroSubtitle : room.subtitle}
+            heroTitle={isModelLanding ? heroTitle : room.title}
           />
+
+          {engineFilterOptions.length ? (
+            <details className={screening.index} open={isModelLanding}>
+              <summary>{room.filter}</summary>
+              <ExamplesEngineFilterNav
+                locale={locale}
+                browseByModelLabel={browseByModelLabel}
+                engineFilterAllLabel={engineFilterAllLabel}
+                engineFilterOptions={engineFilterOptions}
+                getEngineFilterHref={getEngineFilterHref}
+                selectedEngine={selectedEngine}
+              />
+            </details>
+          ) : null}
 
           <ExamplesGallerySection
             familyLabel={isModelLanding ? modelLandingLabel : undefined}
@@ -225,10 +229,12 @@ export function ExamplesPageView({
           />
 
           <div className={styles.editorial}>
+            <ScreeningRoomNotes locale={locale} />
             {isModelLanding && heroBody && modelLandingLabel ? (
               <ExamplesFamilyIntro body={heroBody} label={modelLandingLabel} locale={locale} title={modelLandingGuideTitle} />
             ) : null}
 
+            <details className={screening.index} open={isModelLanding}><summary>{room.reference}</summary>
             <ExamplesModelLinksSection
               currentModelPagesLabel={currentModelPagesLabel}
               galleryExamples={initialExamples}
@@ -248,6 +254,8 @@ export function ExamplesPageView({
             <ExamplesSummarySection longDescription={longDescription} modelLandingSummary={modelLandingSummary} />
 
             <ExamplesModelLandingCardsSection sections={modelLandingSections} />
+
+            </details>
 
             <ExamplesNextStepsSection locale={locale} nextStepLinks={nextStepLinks} />
 

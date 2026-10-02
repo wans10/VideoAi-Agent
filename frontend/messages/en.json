@@ -67,17 +67,21 @@
       }
     ],
     "login": "Log in",
-    "cta": "Generate",
+    "cta": "Open studio",
     "linkLabels": {
       "models": "Models",
       "examples": "Examples",
       "tools": "Tools",
       "image": "Generate image",
       "compare": "Compare",
-      "pricing": "Pricing",
+      "pricing": "Budget",
       "docs": "Docs",
       "blog": "Blog",
-      "connect": "Assistants"
+      "connect": "Assistants",
+      "production": "Production",
+      "craft": "Camera & art",
+      "screening": "Screening room",
+      "pipeline": "Pipeline"
     },
     "badges": {
       "new": "New"
@@ -258,7 +262,81 @@
         }
       },
       "moreModels": "More creative possibilities",
-      "resourcesTitle": "Guides & resources"
+      "resourcesTitle": "Guides & resources",
+      "production": {
+        "heading": "Set your next scene in motion.",
+        "intro": "Choose the stage you need: a shot, a visual reference or a sound.",
+        "all": "Open production desk",
+        "items": {
+          "shot": "Generate a shot",
+          "storyboard": "Plan a sequence",
+          "look": "Develop the look",
+          "sound": "Design the sound"
+        },
+        "descriptions": {
+          "shot": "Build the next shot from a brief, reference or clip.",
+          "storyboard": "Work out the visual sequence before generation.",
+          "look": "Explore the setting, lighting and visual direction.",
+          "sound": "Prepare voice, music and effects for your shots."
+        }
+      },
+      "craft": {
+        "heading": "Find the frame before the take.",
+        "intro": "Character, camera position and finishing, working toward one visual intention.",
+        "all": "Explore the workshop",
+        "items": {
+          "character": "Character development",
+          "angle": "Camera studies",
+          "upscale": "Image finishing",
+          "isolate": "Subject isolation"
+        },
+        "descriptions": {
+          "character": "Build character references you can return to.",
+          "angle": "Study coverage and viewpoints from one image.",
+          "upscale": "Upscale images and refine their clarity.",
+          "isolate": "Remove video backgrounds for compositing."
+        }
+      },
+      "screening": {
+        "heading": "Watch the shot. Study the process.",
+        "intro": "Use real outputs to develop the approach for your next scene.",
+        "all": "Enter the shot library",
+        "items": {
+          "reels": "Shot library",
+          "cinematic": "Cinematic studies",
+          "commercial": "Commercial work",
+          "journal": "Production journal"
+        },
+        "descriptions": {
+          "reels": "Inspect generated shots, prompts and settings.",
+          "cinematic": "Explore light, camera movement and realism.",
+          "commercial": "Find an approach for product-led short films.",
+          "journal": "Prompt methods, workflow breakdowns and practice."
+        },
+        "reference": "Production reference",
+        "sections": {
+          "reference": {
+            "items": {
+              "models": "Model directory",
+              "compare": "Capabilities & costs",
+              "docs": "Production guides"
+            }
+          }
+        }
+      },
+      "pipeline": {
+        "heading": "Connect production to your practice.",
+        "intro": "Use VideoAI from supported assistants and automation hosts. Review the quote before generation.",
+        "all": "Explore connections",
+        "items": {
+          "claude": "Claude",
+          "chatgpt": "ChatGPT",
+          "codex": "Codex",
+          "openclaw": "OpenClaw",
+          "n8n": "n8n"
+        },
+        "descriptions": {}
+      }
     },
     "primaryNavigation": "Main navigation",
     "lightTheme": "Use light theme",
@@ -266,7 +344,7 @@
     "mobileToggle": "Open menu",
     "mobileClose": "Close menu",
     "menuCreate": "Create",
-    "menuExplore": "Explore",
+    "menuExplore": "Production departments",
     "menuMedia": {
       "video": "Video",
       "image": "Image",
@@ -419,17 +497,17 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "VideoAI · Creative studio",
+        "eyebrow": "VideoAI / Independent image-making",
         "badgeChips": [
           "Multi-engine AI video generator",
           "Price before you generate",
           "Pay-as-you-go · no subscription"
         ],
-        "title": "Make room\nfor imagination.",
-        "subtitle": "Video, images and sound in one creative workspace. From your first reference to your next finished piece.",
-        "primaryCta": "Create a video",
-        "secondaryCta": "Explore examples",
-        "examplesCta": "Compare engines",
+        "title": "The scene in your mind.\nThe shot on your screen.",
+        "subtitle": "An AI production desk for image-makers. Develop characters and settings, plan coverage and test moving shots—one creative decision at a time.",
+        "primaryCta": "Open the studio",
+        "secondaryCta": "Enter the screening room",
+        "examplesCta": "Explore model capabilities",
         "trustBadges": [
           "Live price before you generate",
           "Pay only successful generations",
@@ -1646,14 +1724,14 @@
   },
   "pricing": {
     "hero": {
-      "eyebrow": "VideoAI Pricing",
-      "title": "See the price. Then make the shot.",
-      "subtitle": "Compare video, image, audio and tool costs before you create.",
+      "eyebrow": "Production budget",
+      "title": "Spend on the shots worth pursuing.",
+      "subtitle": "Plan tests before committing to more takes. Compare single-generation scenarios and leave room for retries, references and finishing.",
       "supportingLine": "Pay as you go. Confirm the exact price in the app before generating. Failed generations are refunded.",
-      "quickStartTitle": "Three starting points for your next video",
-      "quickStartNote": "Indicative total per video, in CNY. Select a scenario to see the full comparison. Confirm the live quote in the app before generating.",
-      "primaryCta": "Check a price in the app",
-      "secondaryCta": "Compare prices below",
+      "quickStartTitle": "Single-shot price references",
+      "quickStartNote": "Current quotes for the stated scenarios. Project spend depends on actual generation count and settings.",
+      "primaryCta": "Review a quote in the production desk",
+      "secondaryCta": "Check single-generation prices",
       "badges": [
         "No subscription",
         "Explore the app before signing up",
@@ -2546,9 +2624,9 @@
     "engineFilterLabel": "Engines",
     "engineFilterAllLabel": "All",
     "hero": {
-      "title": "A world of stories to create.",
-      "subtitle": "Explore real AI videos: characters, cinematic scenes, animation and visual experiments.",
-      "body": "Open an example to see the prompt, settings and recorded generation cost. Then use it as a starting point for your own creation."
+      "title": "Screening room",
+      "subtitle": "Watch first. Decide how to shoot next.",
+      "body": "Open a shot to inspect its prompt, settings and recorded cost. Study framing, motion and continuity before your own test."
     },
     "items": [
       {
@@ -7167,9 +7245,9 @@
         ]
       },
       "hero": {
-        "badge": "VideoAI Tools",
-        "title": "Shape the next part of your story.",
-        "body": "Build a character, change the camera angle, refine an image or finish a video. Choose what your scene needs.",
+        "badge": "Camera & art workshop",
+        "title": "Build the frame\nbefore the take.",
+        "body": "Character references, camera studies and finishing. Enter the stage that resolves the next visual decision.",
         "primaryCta": "Consistent Character AI",
         "secondaryCta": "Change Camera Angle with AI"
       },
@@ -7265,10 +7343,10 @@
         "imageAlt": "Current VideoAI Upscale interface in English, visitor view."
       },
       "hero": {
-        "badge": "Image + video upscale",
-        "title": "AI upscale for images and videos.",
-        "body": "Increase resolution and refine the details. Choose the model and output size, check the price, then save the result to your media library.",
-        "primaryCta": "Open Upscale",
+        "badge": "Image finishing / Post-production",
+        "title": "Make the selected shot hold up.",
+        "body": "Try upscaling an image or clip you intend to keep. Inspect texture and motion before choosing the output size and processing route.",
+        "primaryCta": "Test a source clip",
         "secondaryCta": "View all tools",
         "beforeLabel": "Source",
         "afterLabel": "Upscaled",
@@ -7306,9 +7384,9 @@
         ]
       },
       "models": {
-        "eyebrow": "Choose your model",
-        "title": "The right upscale for your source.",
-        "body": "Compare image and video models by the result you need: a larger frame, sharper references or a more polished final video.",
+        "eyebrow": "Processing routes",
+        "title": "Choose for the source you have.",
+        "body": "Decide whether size, texture or motion needs attention, then check the fit of each processing model.",
         "cards": [
           {
             "title": "SeedVR2 Image + Video",
@@ -7375,8 +7453,8 @@
         ]
       },
       "workflow": {
-        "eyebrow": "Workflow",
-        "title": "Import. Adjust. Keep the result.",
+        "eyebrow": "Test and review",
+        "title": "Try an excerpt before processing more.",
         "overlay": {
           "title": "Your finished file, ready to use.",
           "body": "Choose an image or video, set the output size and review the price before you start."
@@ -7465,7 +7543,7 @@
         "secondaryCta": "View Angle Examples",
         "supportText": "Best when the subject is already right and only the viewpoint needs to change.",
         "orbit": {
-          "dragLabel": "Drag to explore real camera angles",
+          "dragLabel": "Drag to browse AI camera studies",
           "previousLabel": "Show previous camera angle",
           "nextLabel": "Show next camera angle",
           "livePrefix": "Selected camera view",
@@ -7817,12 +7895,12 @@
             "answer": "Yes. You can generate alternate viewpoints from one source image instead of rebuilding the whole scene."
           },
           {
-            "question": "What goes in and what comes out?",
-            "answer": "You start with one image and generate one or more alternate views from it, ready for comparison or reuse."
+            "question": "Do angle values match a physical camera exactly?",
+            "answer": "Rotation, tilt and zoom guide AI generation; they do not guarantee a precise camera position, focal length or 3D coordinate. Judge the generated composition before using it in production."
           },
           {
-            "question": "Does this help before image-to-video generation?",
-            "answer": "Yes. It helps you choose a better starting frame before you move into motion."
+            "question": "How should I check continuity between angles?",
+            "answer": "Review faces, clothing, hands, eyelines and background in each frame. AI infers areas the source cannot show, especially across large angle changes, so exact continuity is not guaranteed."
           },
           {
             "question": "Can I use this for product photos?",
@@ -7923,11 +8001,11 @@
         "current": "Character Builder"
       },
       "hero": {
-        "badge": "Consistent Character AI Tool",
+        "badge": "Character development / Preparation",
         "secondaryBadge": "Portrait anchor + 8-panel character sheet",
-        "title": "AI characters. A consistent reference.",
-        "body": "Start with a portrait or an idea. Create a portrait reference or an eight-panel character sheet, then reuse it in your images and videos.",
-        "primaryCta": "Open Character Builder",
+        "title": "Meet the character before planning the shot.",
+        "body": "Start with a portrait and reference sheet. Establish appearance, costume and recognisable features, then review each view before reusing it in image or video work.",
+        "primaryCta": "Prepare character references",
         "proofs": [
           "Start with one identity photo, optional outfit inspiration, or a scratch-built concept",
           "Generate a reusable portrait anchor or an 8-panel character sheet",
@@ -7974,9 +8052,9 @@
         "sheetAlt": "Reusable 8-panel character sheet output generated from Character Builder."
       },
       "howItWorks": {
-        "eyebrow": "How it works",
-        "title": "Create the reference, then carry it forward",
-        "body": "Start with a face, an outfit cue, or a scratch-built concept. Generate the output, then bring it back into stills, edits, and video prep.",
+        "eyebrow": "Reference preparation",
+        "title": "Start with a recognisable reference.",
+        "body": "Generate from a clear portrait, costume cues or a description. Inspect the results and select references for the next production step.",
         "steps": [
           {
             "stepLabel": "Start with",
@@ -8028,9 +8106,9 @@
         ]
       },
       "outputsWorkflow": {
-        "eyebrow": "Outputs and workflow",
-        "title": "Choose the output, then move into stills and video",
-        "body": "Pick the output that fits the job, then carry it into Nano Banana or still-reference video workflows.",
+        "eyebrow": "From reference to shot",
+        "title": "One character. Three production materials.",
+        "body": "Use a portrait for identity, a sheet to compare views and a scene image to prepare image-to-video. Choose for the next task.",
         "cards": [
           {
             "eyebrow": "Portrait anchor",
@@ -8192,9 +8270,9 @@
         ]
       },
       "related": {
-        "eyebrow": "Related workflow",
-        "title": "Use the reference across the rest of the workflow",
-        "body": "Once the character is locked, move into Image, Nano Banana, or video models without rebuilding identity again.",
+        "eyebrow": "Next production step",
+        "title": "Carry the selected reference into the next shot.",
+        "body": "Study camera positions, edit a scene or test a moving shot. Reusing references helps guide the work; review each result.",
         "workflowTitle": "Continue with",
         "workflowLinks": [
           {
@@ -8231,9 +8309,9 @@
         ]
       },
       "finalCta": {
-        "eyebrow": "Create the reference first",
-        "title": "Keep the Same Character Across Scenes, Stills, and Video",
-        "body": "Generate a portrait anchor or 8-panel sheet, then reuse that same reference in prompts, edits, and still-reference video workflows.",
+        "eyebrow": "Begin preparation",
+        "title": "Prepare a character for the next scene.",
+        "body": "Generate portraits or reference sheets and select a version for further production.",
         "primaryCta": "Open Character Builder",
         "panelLeft": "Locked character",
         "panelRight": "Ready to reuse",
@@ -8267,10 +8345,10 @@
         "current": "Video Background Remover"
       },
       "hero": {
-        "badge": "Green screen, alpha, and AI rotoscoping",
-        "title": "Remove the background from your video.",
-        "body": "Keep your subject and choose a transparent, green or solid background. Preview the price, process your clip and take the result into your edit.",
-        "primaryCta": "Open Video Background Remover",
+        "badge": "Subject separation / Compositing",
+        "title": "Carry the subject into the next scene.",
+        "body": "Separate a subject from existing footage for editing and compositing. Check the edges and export format before processing a complete clip.",
+        "primaryCta": "Prepare a composite source",
         "secondaryCta": "View all tools",
         "assurances": [
           {
@@ -8348,9 +8426,9 @@
         ]
       },
       "workflow": {
-        "eyebrow": "Workflow",
-        "title": "From source clip to green-screen, alpha, or compositing asset",
-        "body": "The tool keeps the production loop compact: choose a source, configure the alpha or background output, run, inspect, then save or download.",
+        "eyebrow": "Working steps",
+        "title": "Import. Separate. Inspect. Retrieve.",
+        "body": "Choose the source video and background treatment. Inspect the edges after processing, then save to your library or download.",
         "priceNote": "Before you generate, VideoAI displays the estimated price for the selected clip and output settings.",
         "steps": [
           {
@@ -8368,9 +8446,9 @@
         ]
       },
       "production": {
-        "eyebrow": "Export quality",
-        "title": "Download files your production tools can actually open",
-        "body": "Transparent video and AI rotoscoping outputs are format-sensitive, so WebM VP9 is the transparent export while MP4/MOV outputs should use green-screen or solid-color backgrounds.",
+        "eyebrow": "Media handoff",
+        "title": "Choose a format the next step can read.",
+        "body": "Alpha support depends on the container and editing software. Test a short transparent WebM or green-screen MP4 export first.",
         "panelCaption": "Use WebM VP9 for browsers and compatible editors, and green-screen or solid-color MP4/MOV when the destination cannot preserve alpha.",
         "items": [
           {
@@ -8423,9 +8501,9 @@
         }
       ],
       "finalCta": {
-        "eyebrow": "Ready to clean the clip?",
-        "title": "Remove a background and keep the result in your VideoAI library",
-        "body": "Open the workspace, estimate the run, and turn short source videos into reusable subject cutouts, alpha mattes, green-screen plates, or solid-background assets.",
+        "eyebrow": "Begin preparation",
+        "title": "Start with one short clip.",
+        "body": "Check the current quote in the workspace and use representative footage to test separation and export compatibility.",
         "primaryCta": "Open Video Background Remover",
         "secondaryCta": "View all tools"
       },
@@ -8477,25 +8555,5 @@
     "body": "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring VideoAI.",
     "homeLabel": "Back to homepage",
     "modelsLabel": "Browse video models"
-  },
-  "passwordRecovery": {
-    "title": "Choose a new password",
-    "intro": "Continue to verify your reset link securely.",
-    "verify": "Continue",
-    "verifying": "Verifying your link…",
-    "password": "New password",
-    "confirm": "Confirm new password",
-    "save": "Save new password",
-    "saving": "Saving…",
-    "saved": "Your password has been updated.",
-    "continueToApp": "Continue to the app",
-    "requestNew": "Request a new link",
-    "invalid": "This link is invalid or has expired. Request a new one. If you used another browser, try opening the original link in the browser where you requested it.",
-    "tooShort": "Use at least 6 characters.",
-    "mismatch": "The passwords do not match.",
-    "weak": "Choose a stronger password.",
-    "same": "Choose a password different from your current one.",
-    "unavailable": "We could not update your password. Please try again.",
-    "ready": "Enter and confirm your new password."
   }
 }

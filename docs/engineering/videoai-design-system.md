@@ -1,6 +1,6 @@
 # VideoAI studio design system
 
-VideoAI's visual identity is a Chinese-first professional image and video studio. Warm paper, ink, framed media and vermilion editing marks replace the inherited bronze/cool-blue theme. Chinese copy uses a native CJK sans-serif stack; no remote font service is required.
+VideoAI is a Chinese-first professional image-making studio. Organize the public experience around production intentions: visual development, coverage, shot tests, sound and finishing. Warm paper, ink, framed media and vermilion editing marks support that identity. Chinese copy uses a native CJK sans-serif stack; no remote font service is required.
 
 ## Ownership
 
@@ -205,3 +205,9 @@ Same local production-mode harness, reduced motion, desktop 1440×1000 and mobil
 These are unthrottled single local samples. The 12–16 ms difference does not establish a repeatable production regression or improvement. The critical poster sources and bytes remain unchanged, and no layout shift was observed in these samples. Database-dependent endpoints remain unavailable in this local preview; no authenticated generation or checkout was tested. The changes, including the preceding top-navigation restoration, are still uncommitted and unpushed at this acceptance checkpoint.
 
 English, French and Spanish desktop homepage smoke checks also passed: `/tmp/videoai-home-showcase-locales/report.json`. They preserved their localized heading, path and canonical output without page exceptions or overflow.
+
+## Production information architecture (2026-10-02)
+
+The current direction is documented in [the production studio brief](../design/production-studio/README.md). Public primary navigation uses production departments, not model/provider categories. Author each page around the creator's decision, preparation, observable output and next production stage; changing colors or translating an inherited outline is insufficient.
+
+`frontend/config/studio-navigation.ts` owns the department definitions. The shared navigation facade retains technical catalogs for secondary discovery and existing product consumers. Homepage and Angle now have production-led compositions; do not interpret shared styling as evidence that every other detail page has been independently redesigned.

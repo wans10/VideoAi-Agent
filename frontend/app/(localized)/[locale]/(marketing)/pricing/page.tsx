@@ -1,3 +1,4 @@
+import { ProductionBudgetSheet } from './_components/ProductionBudgetSheet';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { FAQSchema } from '@/components/seo/FAQSchema';
@@ -59,6 +60,7 @@ export default async function PricingPage(props: { params: Promise<{ locale: App
         supportingLine={content.hero.supportingLine}
         title={content.hero.title}
       >
+        <ProductionBudgetSheet locale={locale} />
         <PricingQuickStart
           highlights={pricingHub.video.highlights}
           title={content.hero.quickStartTitle}

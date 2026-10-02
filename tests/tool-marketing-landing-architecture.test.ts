@@ -95,7 +95,7 @@ test('tool marketing landing views own SEO orchestration and delegate sections',
   assert.match(angleViewSource, /export async function AngleLandingView/, 'angle view should export the render orchestrator');
   assert.match(characterViewSource, /export async function CharacterBuilderLandingView/, 'character builder view should export the render orchestrator');
   assert.match(backgroundRemovalViewSource, /export async function BackgroundRemovalLandingView/, 'background removal view should export the render orchestrator');
-  assert.match(angleViewSource, /AngleLandingSections/, 'angle view should delegate visible rendering to section components');
+  assert.match(angleViewSource, /AngleProductionSections/, 'angle view should delegate visible rendering to section components');
   assert.match(characterViewSource, /CharacterBuilderLandingSections/, 'character builder view should delegate visible rendering to section components');
   assert.match(backgroundRemovalViewSource, /BackgroundRemovalLandingSections/, 'background removal view should delegate visible rendering to section components');
 

@@ -26,7 +26,7 @@ export function getExamplesEditorialSections(
 }
 
 export function getExamplesBrowseByModelLabel(locale: AppLocale) {
-  return locale === 'fr' ? 'Parcourir par marque' : locale === 'es' ? 'Explorar por modelo' : locale === 'zh' ? '按品牌浏览' : 'Browse by brand';
+  return locale === 'fr' ? 'Parcourir par famille de modèles' : locale === 'es' ? 'Explorar por familia de modelos' : locale === 'zh' ? '按模型系列浏览' : 'Browse by model family';
 }
 
 export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: PaginationDictionary = {}) {

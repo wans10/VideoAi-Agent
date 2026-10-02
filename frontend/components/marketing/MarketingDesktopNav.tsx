@@ -2,13 +2,13 @@
 
 import clsx from 'clsx';
 import { memo, useEffect, useRef } from 'react';
-import { ArrowUpRight, ChevronDown, Boxes, Film, Scale, Wrench, Plug, WalletCards, BookOpen } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Boxes, Film, Scale, Wrench, Plug, WalletCards, BookOpen, Clapperboard, Camera, Projector, Workflow } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { MarketingNavEntryContent } from '@/components/marketing/MarketingNavEntryContent';
 import { MARKETING_NAV_DROPDOWNS, type MarketingTopNavLink } from '@/config/navigation';
 
 type MarketingTranslate = <T = unknown>(key: string, fallback?: T) => T | undefined;
-const NAV_ICONS = { models: Boxes, examples: Film, compare: Scale, tools: Wrench, connect: Plug, pricing: WalletCards, blog: BookOpen };
+const NAV_ICONS = { production: Clapperboard, craft: Camera, screening: Projector, pipeline: Workflow, models: Boxes, examples: Film, compare: Scale, tools: Wrench, connect: Plug, pricing: WalletCards, blog: BookOpen, Clapperboard, Camera, Projector, Workflow };
 type Props = {
   desktopDropdownOpen: string | null;
   links: readonly MarketingTopNavLink[];
@@ -37,7 +37,7 @@ export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDr
     {links.map(item => {
       const dropdown = MARKETING_NAV_DROPDOWNS[item.key];
       const label = t<string>(`nav.linkLabels.${item.key}`, item.key) ?? item.key;
-      const active = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+      const active = (item.activePaths ?? [item.href]).some(path => pathname === path || (path !== '/app' && pathname?.startsWith(`${path}/`)));
       const Icon = NAV_ICONS[item.key as keyof typeof NAV_ICONS] ?? BookOpen;
       if (!dropdown) return <Link key={item.key} href={item.href} prefetch={false} className="marketing-nav-trigger" aria-current={active ? 'page' : undefined}><Icon className="studio-navigation-icon" size={18} aria-hidden="true" />{label}</Link>;
       const isOpen = desktopDropdownOpen === item.key;
@@ -58,7 +58,7 @@ export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDr
           onKeyDown={event => { if (event.key === 'ArrowDown') { event.preventDefault(); onOpenDesktopDropdown(item.key); } }}>
           <Icon className="studio-navigation-icon" size={18} aria-hidden="true" />{label}{item.key === 'connect' ? <span className="marketing-mcp-tag">MCP</span> : null}<ChevronDown className="studio-navigation-chevron" size={12} aria-hidden="true" />
         </button>
-        <div id={panelId} className="marketing-mega-menu studio-navigation-panel" hidden={!isOpen}>
+        <div id={panelId} className="marketing-mega-menu studio-navigation-panel production-navigation-panel" hidden={!isOpen}>
           <header className="studio-menu-intro"><span className="studio-menu-section">{label}</span><div><p>{t(`nav.dropdown.${item.key}.heading`, dropdown.heading)}</p><span>{t(`nav.dropdown.${item.key}.intro`, dropdown.intro)}</span></div>
             <Link href={dropdown.allHref} prefetch={false} onClick={() => onCloseDesktopDropdown(0)}>{t(dropdown.allLabelKey, dropdown.allLabelFallback)}<ArrowUpRight size={16} aria-hidden="true" /></Link>
           </header>

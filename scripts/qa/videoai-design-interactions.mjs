@@ -34,8 +34,8 @@ try {
         await expect(dialog).not.toBeVisible();
         await expect(trigger).toBeFocused();
       }
-      await page.locator('.home-create-chapter').scrollIntoViewIfNeeded();
-      await expect(page.locator('.videoai-studio-preview')).toBeVisible();
+      await page.locator('.production-brief-section').scrollIntoViewIfNeeded();
+      await expect(page.locator('.production-slate')).toBeVisible();
       await page.screenshot({ path: `${output}/${width}-creation-section.png` });
     });
     await check('workspace theme changes and persists', async () => {

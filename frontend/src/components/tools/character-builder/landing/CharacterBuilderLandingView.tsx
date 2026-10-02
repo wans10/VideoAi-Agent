@@ -1,6 +1,5 @@
 import { resolveLocale } from '@/lib/i18n/server';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
-import { ToolJourneyNav } from '@/components/tools/landing/ToolJourneyNav';
 import { FAQSchema } from '@/components/seo/FAQSchema';
 import { buildMarketingServiceJsonLd } from '@/lib/seo/marketingServiceJsonLd';
 import {
@@ -36,7 +35,7 @@ export async function CharacterBuilderLandingView({ content }: { content: Charac
   });
 
   return (
-    <div className="character-builder-page tool-detail-page"><ToolJourneyNav active="character-builder" />
+    <div className="character-builder-page tool-detail-page">
       <CharacterBuilderLandingSections content={content} />
       <FAQSchema questions={[...content.faq.items]} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
