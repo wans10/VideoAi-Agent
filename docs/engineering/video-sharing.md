@@ -1,6 +1,6 @@
 # Video sharing
 
-The Result modal and media library use `MediaActionPanel.client.tsx`. Video sharing is a compact, secondary panel below the original download action. The creation composer does not carry a prominent share CTA. Public example videos can use the same panel without a signed-in account. Public `/video/[id]` watch pages place a small share button directly below the player and lazy-load that panel when opened.
+The Result modal and media library use `MediaActionPanel.client.tsx`. Image and video sharing use a compact secondary panel below the original download action. The creation composer does not carry a prominent share CTA. Public example videos can use the same panel without a signed-in account. Public `/video/[id]` watch pages keep a compact canonical-link row and creator-center links; they do not mount the owned-media panel.
 
 ## Link ownership
 
@@ -9,37 +9,53 @@ The Result modal and media library use `MediaActionPanel.client.tsx`. Video shar
 - `GET /api/video-shares/public-download` streams a verified public example from the owned media CDN. It supports real MP4 saving and compatible browser file shares for visitors; it does not accept an arbitrary source URL.
 - `/s/[token]` reads the current source at request time, is excluded from indexing, and disappears if the source is removed or the owner deactivates the link. `DELETE /api/video-shares` requires the owner.
 - The token page reuses the public video site's navigation, footer, and watch-page visual language, but only shows the video and generic context. It never promotes a private generation into the indexable `/video/[id]` example route or reveals its prompt or account details. All token URLs use the same route template.
-- The underlying original may already be publicly reachable. Deactivating the MaxVideoAI share page does not revoke direct media URLs that a recipient copied separately.
+- The underlying original may already be publicly reachable. Deactivating the VideoAI share page does not revoke direct media URLs that a recipient copied separately.
 - Signed, temporary, private, and placeholder media URLs cannot receive a lasting link. File sharing remains available when the browser supports it.
 
 The two URL types have different acquisition roles. `/s/[token]` is an unlisted landing page for recipient visits from social posts, messages, and email; it is never submitted as an SEO video page. Curated `/video/[id]` examples are the public, indexable watch pages with editorial context and video metadata. Publishing a customer's generation into that catalog would require a separate, explicit opt-in and quality/rights review; sharing a link must not silently do it.
 
 Apply `neon/migrations/49_video_share_links.sql` before deploying the API and page. This migration does not run in a request path. The new URL must remain same-origin in local development and use `SITE_ORIGIN` in production.
 
-## Destinations and suggested text
+## Domestic destinations — 2026-10-02
 
-| Visible | Behavior |
+The active UI offers **抖音 (Douyin), 小红书 (Xiaohongshu), and 快手 (Kuaishou)**.
+`frontend/components/library/domestic-share-platforms.ts` owns their official
+creator-center URLs. All three returned HTTP 200 with the expected official
+page title during read-only verification on 2026-10-02.
+
+| Action | Behavior |
 | --- | --- |
-| Link | Copy the MaxVideoAI page URL. |
-| E-mail | Open a draft with the link and editable “Video created with MaxVideoAI” style footer. |
-| TikTok, Reels, Shorts | Offer the browser's native video file share when supported, plus MP4 saving. Suggest editable `#MaxVideoAI`; a destination app may ignore prefilled text. |
-| X | Offer the same browser-native MP4 share as other video destinations when supported; the creator can choose X if it appears in the system sheet. Otherwise save MP4, open an X draft with editable `#MaxVideoAI` and the share link when available, then attach the MP4 before posting. A separate link-only action explicitly says it produces an image preview. X's intent URL cannot attach the file. |
-| More | WhatsApp and Telegram receive link plus editable footer. LinkedIn and Facebook receive the URL only because their share dialogs do not guarantee custom text. Native link share is offered where available. |
+| Select platform | Show preparation steps; does not upload, launch a native share or publish. |
+| Download original | Use the existing authorized download path for the exact selected image/video, retaining its original filename/type. |
+| Copy caption | Copy the editable caption; changing platforms preserves the text. |
+| Open creator center | Open the official portal in a new tab, without adding private media URLs, tokens or text to its query string. The user logs in, selects a publishing mode, attaches the file and confirms. |
+| Share through phone apps | Prepare a file only after selection when Web Share file APIs exist. A separate click opens the system sheet; the browser cannot force a particular destination app. |
+| Video link | Preserve owned unlisted video-link creation, copying and revocation. |
+| Public reader | Copy the canonical watch URL for messages such as WeChat/QQ, or open a creator center with explicit manual-upload guidance. |
 
-The user may edit or erase either suggestion. No watermark is applied to the video. `video-share-intents.ts` builds the platform URLs; `VideoSharePanel.client.tsx` owns the browser share/file behavior; `video-share-copy.ts` owns EN/FR/ES UI copy.
+Images do not call the video share-link endpoint or create a public token page.
+They use original-file download and optional native file sharing. Audio retains
+its existing basic share behavior. Unsupported browsers, downloads or native
+file sharing keep the manual download/portal path available. No watermark,
+transcoding, account OAuth connection or automatic post is introduced.
 
-The existing consent-aware `cta_click` event records panel openings and destination selections with a `video_share_*` action name. It does not send the video URL, token, caption, or hashtag. Use those counts to judge which destinations merit deeper integrations.
+The platform must accept the chosen media type and publishing mode; an open
+creator center is not a completed upload. For native sharing the installed app
+may ignore text or may not appear at all. Direct platform publishing would need
+separate platform authorization, API eligibility and explicit user review.
 
-The browser's file-share API does not select a specific destination app. It lets the user choose an installed app; saving the MP4 remains a clear alternative. Keep this distinction in UI text and QA. The `/s/[token]` page currently advertises a `summary_large_image` X card, so a link-only X post shows a still cover rather than an in-feed video. A Player Card is a separate integration with platform-specific validation and cannot be treated as a native uploaded video.
-
-## Direct publishing assessment
-
-Direct publishing is a separate, account-connected product feature for each platform, not an extension of a share URL. X supports OAuth user-context media upload followed by Post creation with a `media_id`; video upload can require chunking and processing before publication, and API usage is billed. TikTok Direct Post requires creator authorization, explicit posting choices and an app audit for public visibility. Instagram Reels publishing through the Meta API targets professional accounts and uses a media container before publishing. YouTube upload requires channel authorization, and unverified API projects can publish only private videos. Each integration needs a creator review step, account connection, status/error handling and platform-specific policy checks. None should be represented by the current destination icons as an automatic post.
-
-The short-term browser flow is MP4 via the operating system's share sheet where `canShare({ files })` succeeds, with a manual MP4 fallback. The destination app may omit suggested text, so `#MaxVideoAI` is editable and never guaranteed. E-mail, WhatsApp and Telegram share the MaxVideoAI landing link; they do not claim to attach the MP4. LinkedIn and Facebook receive a link only. Avoid adding a watermark to the exported original; TikTok's content-sharing guidelines also prohibit unwanted promotional branding in shared videos.
-
-Platform references: [Web Share files and user activation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share), [X video upload and Post creation](https://docs.x.com/x-api/media/quickstart/media-upload-chunked), [X API billing](https://docs.x.com/x-api/getting-started/pricing), [TikTok direct posting](https://developers.tiktok.com/docs/en/content-posting-api-reference-direct-post), [TikTok content sharing and watermark rules](https://developers.tiktok.com/docs/en/content-sharing-guidelines), [Instagram Reels publishing](https://www.postman.com/meta/instagram/folder/y6xustx/reels-publishing), [YouTube uploads](https://developers.google.com/youtube/v3/docs/videos/insert), and [LinkedIn link-post guidance](https://www.linkedin.com/help/linkedin/answer/a525301/sharing-articles-or-links?lang=en). Recheck these before introducing direct publishing or changing text assumptions.
+The existing video-link server ownership/privacy contracts are unchanged.
+`video-share-intents.ts` retains historical pure intent helpers for compatibility,
+but foreign-platform links/icons are no longer rendered in these two panels.
+Analytics record platform/action identifiers only; never captions, tokens, signed
+media or private account details.
 
 ## Validation
 
-Run `tests/video-sharing.test.ts` and `tests/media-library-contract.test.ts`, frontend lint and typecheck, then smoke-test the Result modal at desktop and mobile widths. Verify a logged-in generated video with the migration applied before release: create, open, copy, e-mail, deactivate, and refresh its `/s/[token]` page. Public examples should resolve to an existing watch page for visitors.
+Run `tests/domestic-media-sharing-dom.test.ts`, `tests/video-watch-share-dom.test.ts`,
+`tests/video-sharing.test.ts` and `tests/media-library-contract.test.ts`, plus
+frontend lint and typecheck. DOM tests verify exact original-file URL/type,
+no image token creation, no automatic native sharing, caption preservation,
+canonical-link copy, and clipboard recovery. Local Chrome fixtures at 390/900 px
+cover image/video panels without horizontal overflow. Actual posting inside
+Douyin, Xiaohongshu, Kuaishou and installed mobile apps was not performed.

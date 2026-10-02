@@ -21,6 +21,6 @@ export function buildSiteOrganizationSchema() {
     url: `${SITE_ORIGIN}/`,
     logo: `${SITE_ORIGIN}/favicon-512.png`,
     description:
-      'VideoAI is a pay-as-you-go platform for AI video, image and audio generation, with a web workspace and MCP integrations for compatible AI assistants. Compare models and review the price before generating, without a subscription.',
+      'VideoAI is a pay-as-you-go platform for AI video, image and audio generation, with a web workspace for creative production. Compare models and review the price before generating, without a subscription.',
   };
 }

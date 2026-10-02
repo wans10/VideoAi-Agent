@@ -1,3 +1,4 @@
+import { publishedLocales } from '@/i18n/locales';
 export type RobotsSurface = 'public' | 'protocol';
 
 const PUBLIC_ASSET_RULES = [
@@ -47,9 +48,7 @@ const PRIVATE_PATH_RULES = [
 
 const SITEMAP_RULES = [
   'Sitemap: https://videoai.omninodetech.com/sitemap.xml',
-  'Sitemap: https://videoai.omninodetech.com/sitemap-en.xml',
-  'Sitemap: https://videoai.omninodetech.com/sitemap-fr.xml',
-  'Sitemap: https://videoai.omninodetech.com/sitemap-es.xml',
+  ...publishedLocales.map(locale => `Sitemap: https://videoai.omninodetech.com/sitemap-${locale}.xml`),
   'Sitemap: https://videoai.omninodetech.com/sitemap-models.xml',
   'Sitemap: https://videoai.omninodetech.com/sitemap-video-pages.xml',
   'Sitemap: https://videoai.omninodetech.com/sitemap-video.xml',

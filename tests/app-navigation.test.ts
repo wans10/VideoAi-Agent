@@ -25,8 +25,9 @@ test('creation activities select Create together without selecting unrelated app
 });
 
 test('every existing destination keeps a named complete-menu path and tools obey their flag', () => {
-  const expected = ['/app', '/app/image', '/app/audio', '/app/library', '/jobs', '/settings', '/account/connections', '/billing', '/app/tools', '/app/tools/character-builder', '/app/tools/storyboard', '/app/tools/angle', '/app/tools/upscale', '/app/tools/background-removal', '/app/tools/restore-video', '/app/tools/denoise', '/app/tools/fix-blur', '/app/tools/smooth-motion'];
+  const expected = ['/app', '/app/image', '/app/audio', '/app/library', '/jobs', '/settings', '/billing', '/app/tools', '/app/tools/character-builder', '/app/tools/storyboard', '/app/tools/angle', '/app/tools/upscale', '/app/tools/background-removal', '/app/tools/restore-video', '/app/tools/denoise', '/app/tools/fix-blur', '/app/tools/smooth-motion'];
   const menu = getAppMenuItems(true, true);
+  assert.ok(menu.every(item => item.href !== '/account/connections'), 'MCP connections stay hidden');
   for (const href of expected) assert.ok(menu.some((item) => item.href === href && item.label.length), href);
   assert.equal(new Set(menu.map((item) => item.href)).size, menu.length);
   assert.ok(menu.every((item) => item.href !== '/dashboard'));

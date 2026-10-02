@@ -1,3 +1,4 @@
+import { publishedLocales } from '@/i18n/locales';
 import { NextResponse } from 'next/server';
 import { buildLocaleSitemapXml } from '@/lib/sitemapData';
 
@@ -5,6 +6,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-static';
 
 export async function GET() {
+  if (!publishedLocales.includes('es')) return new NextResponse(null, { status: 404 });
   try {
     const xml = await buildLocaleSitemapXml('es');
     const urlCount = (xml.match(/<url>/g) ?? []).length;

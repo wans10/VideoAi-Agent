@@ -402,6 +402,7 @@ const DYNAMIC_ROUTE_GENERATORS: Record<string, DynamicRouteGenerator> = {
 };
 
 function validateLocaleCounts(entries: CanonicalPathEntry[]): void {
+  if (LOCALES.length < 2) return;
   const counts: Record<AppLocale, number> = { en: 0, fr: 0, es: 0, zh: 0 };
   entries.forEach((entry) => {
     if (entry.disableAlternates) {

@@ -1,4 +1,4 @@
-.index { border-block:1px solid var(--hairline); margin:16px 0 24px; }
+.index { padding-inline:20px; border-block:1px solid var(--hairline); margin:16px 0 24px; }
 .index>summary { cursor:pointer; padding:12px 0; font-size:13px; color:var(--text-secondary); }
 .notes { padding:36px 0 56px; }
 .notes header { display:grid; grid-template-columns:1fr 1fr; gap:40px; }

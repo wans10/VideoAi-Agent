@@ -34,7 +34,7 @@ function MediaContent({ asset, locale, children, details }: { asset: AssetBrowse
   const name = recentMediaFilename(asset.url, asset.kind);
   const label = meaningfulMediaLabel(asset.url, recentMediaCopy(locale)[asset.kind]);
   const share = async () => {
-    if (asset.kind === 'video') { setSharing(value => !value); return; }
+    if (asset.kind === 'video' || asset.kind === 'image') { setSharing(value => !value); return; }
     if (typeof navigator.share !== 'function') { setSharing(value => !value); return; }
     try { await navigator.share({ title: label, url: asset.url }); }
     catch (failure) { if (!(failure instanceof Error && failure.name === 'AbortError')) setSharing(true); }
@@ -56,7 +56,7 @@ function MediaContent({ asset, locale, children, details }: { asset: AssetBrowse
         <button type="button" aria-expanded={sharing} onClick={() => void share()} data-analytics-event={sharing ? undefined : 'cta_click'} data-analytics-cta-name="video_share_open" data-analytics-cta-location="result_modal"><Share2 size={16} aria-hidden />{labels[0]}</button>
         <a href={asset.url} target="_blank" rel="noreferrer" aria-label={labels[3]} title={labels[3]}><ExternalLink size={16} aria-hidden /></a>
       </div>
-      {sharing && asset.kind === 'video' ? <VideoSharePanel asset={asset} locale={locale} /> : sharing ? <div className="app-media-share">
+      {sharing && (asset.kind === 'video' || asset.kind === 'image') ? <VideoSharePanel asset={asset} locale={locale} /> : sharing ? <div className="app-media-share">
         <button type="button" onClick={async () => { const ok = await copyTextToClipboard(asset.url); setCopied(ok); setError(!ok); }}>{copied ? <Check size={16} aria-hidden /> : <Link2 size={16} aria-hidden />}{copied ? labels[2] : labels[1]}</button>
         <small>{labels[6]}</small>
         {error ? <p role="alert">{labels[5]}</p> : null}

@@ -1,5 +1,17 @@
 # MaxVideoAI : découverte, fluidité et continuité MCP
 
+## Temporary website hiding — 2026-10-02
+
+The site owner requested hiding MCP until needed. `publicMarketing` and
+`publicIndexing` are now false; server capabilities and stored authorizations
+remain intact. Public navigation, workspace promotion, MCP pages and discovery
+links follow the closed gates. See [site-experience.md](site-experience.md).
+The client evaluator accepts an intentionally fully closed marketing state,
+reports `productionPublicationActive: false`, and keeps all tool, spending and
+curated-policy assertions. Partially opened invalid publication states still
+fail. The 145 client checks pass with the existing authoring-validator skip;
+no instruction/tool byte sizes or policy fingerprint changed in this update.
+
 ## VideoAI display-brand update — 2026-10-02
 
 The current deployment's server instructions, tool titles/descriptions, account

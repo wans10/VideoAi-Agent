@@ -1,9 +1,16 @@
 # Authentication and locale continuity
 
+As of 2026-10-02, the deployment publishes only Simplified Chinese. The
+[site experience policy](site-experience.md) takes precedence over historical
+language cookies and redirects public URLs to Chinese. The mechanisms below
+remain available when multilingual publication is re-enabled; core language
+selection always passes through `resolveSiteLocale` before rendering.
+
 Public marketing pages derive language from their URL (`/` is English, `/fr`
 French, `/es` Spanish). Their cached output must remain independent of cookies,
 browser language and IP location. Core routes such as `/login`, `/app` and
-`/billing` use the `mvid_locale` cookie, then `NEXT_LOCALE`, then English.
+`/billing` use the `mvid_locale` cookie, then `NEXT_LOCALE`, then the configured
+experience default, subject to the deployment's published-language policy.
 
 ## Crossing into the application
 

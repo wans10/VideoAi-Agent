@@ -1,5 +1,7 @@
 'use client';
 
+import { publishedLocales } from '@/i18n/locales';
+
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
@@ -19,7 +21,7 @@ const FLAG_MAP: Record<Locale, string> = {
   zh: '🇨🇳',
 };
 
-export function AppLanguageToggle() {
+function AppLanguageToggleControl() {
   const router = useRouter();
   const pathname = usePathname();
   const { locale, t } = useI18n();
@@ -38,7 +40,7 @@ export function AppLanguageToggle() {
       (Object.entries(localeLabels) as Array<[Locale, string]>).map(([localeKey, label]) => ({
         locale: localeKey,
         label,
-      })),
+      })).filter(option => publishedLocales.includes(option.locale)),
     []
   );
 
@@ -128,4 +130,8 @@ export function AppLanguageToggle() {
       ) : null}
     </div>
   );
+}
+
+export function AppLanguageToggle() {
+  return publishedLocales.length > 1 ? <AppLanguageToggleControl /> : null;
 }

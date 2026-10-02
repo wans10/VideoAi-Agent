@@ -1,3 +1,4 @@
+import mcpPublication from '@/config/mcp-publication.json';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getPathname } from '@/i18n/navigation';
@@ -21,6 +22,7 @@ function AssistantMark({ assistant }: { assistant: (typeof assistants)[number] }
 }
 
 export function AppAssistantConnections({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
+  if (!mcpPublication.publicMarketing) return null;
   const copy = locale === 'fr'
     ? { title: 'Créez avec votre assistant', detail: 'Les modèles VideoAI, depuis votre conversation.', connect: 'Connecter', all: 'Tous les assistants', newTab: 'nouvel onglet' }
     : locale === 'es'

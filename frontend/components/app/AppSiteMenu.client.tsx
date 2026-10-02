@@ -1,11 +1,14 @@
 'use client';
 
+import mcpPublication from '@/config/mcp-publication.json';
+
 import { BrandLockup } from '@/components/brand/BrandLockup';
 import Link from 'next/link';
 import { useEffect, useId, useImperativeHandle, useRef, type MouseEvent, type MutableRefObject, type ReactNode } from 'react';
 import { AppLanguageToggle } from '@/components/AppLanguageToggle';
 import { MARKETING_TOP_NAV_LINKS } from '@/config/navigation';
 import { getPathname } from '@/i18n/navigation';
+import { publishedLocales } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { AppGlyph } from './AppGlyph';
 import { AppAssistantConnections, AppAssistantMarks } from './AppAssistantConnections';
@@ -98,7 +101,7 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
             </nav>
           </section>
           <section className="app-site-preferences" aria-labelledby={`${titleId}-preferences`}><h3 id={`${titleId}-preferences`}>{copy.preferences}</h3>
-            <div><span>{copy.language}</span><AppLanguageToggle /></div>
+            {publishedLocales.length > 1 ? <div><span>{copy.language}</span><AppLanguageToggle /></div> : null}
             <div><span>{copy.theme}</span><button type="button" onClick={onToggleTheme}>{themeToggleLabel}</button></div>
           </section>
           <div className="app-site-auth">
@@ -125,9 +128,9 @@ export function AppSiteMenu({ children, ...props }: Props) {
     <>
       <AppSiteMenuButton {...props} controllerRef={controllerRef} />
       <div className="app-header-actions">
-        <button className="app-assistant-shortcut" type="button" aria-haspopup="dialog" onClick={(event) => controllerRef.current?.open(event.currentTarget)}>
+        {mcpPublication.publicMarketing ? <button className="app-assistant-shortcut" type="button" aria-haspopup="dialog" onClick={(event) => controllerRef.current?.open(event.currentTarget)}>
           <AppAssistantMarks /><span>{copy.connect}</span>
-        </button>
+        </button> : null}
         {children}
         <div className="app-header-account">
           {props.email ? <button type="button" onClick={(event) => controllerRef.current?.open(event.currentTarget)} aria-haspopup="dialog"><AppGlyph name="settings" /><span>{copy.account}</span></button>

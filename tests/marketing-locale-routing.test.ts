@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
-import test from 'node:test';
+import test, { before, after } from 'node:test';
+import { publishedLocales, locales } from '../frontend/i18n/locales';
+
+// Legacy route mappings must also survive a future multilingual reopening.
+const deploymentLocales = [...publishedLocales];
+before(() => { publishedLocales.splice(0, publishedLocales.length, ...locales); });
+after(() => { publishedLocales.splice(0, publishedLocales.length, ...deploymentLocales); });
 import { NextRequest } from 'next/server';
 import registry from '../frontend/config/model-registry.json' with { type: 'json' };
 import { shouldHandleLocale } from '../frontend/lib/middleware/routing-locale.ts';

@@ -58,7 +58,7 @@ export const MARKETING_TOP_NAV_LINKS = [
   { key: 'blog', href: '/blog' },
 ] as const satisfies readonly MarketingTopNavLink[];
 
-export const MARKETING_SITE_NAV_LINKS = STUDIO_NAV_LINKS;
+export const MARKETING_SITE_NAV_LINKS = STUDIO_NAV_LINKS.filter(item => item.key !== 'pipeline' || getMcpPublicationState(mcpPublication).renderPublicPage);
 
 type LabeledSlug = {
   slug: string;

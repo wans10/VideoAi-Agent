@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { resolveSiteLanguageRedirect } from '@/lib/middleware/site-language';
 import { NextResponse } from 'next/server';
 import { createIsbotFromList, list as botPatterns } from 'isbot';
 import { defaultExperienceLocale, defaultLocale, localePathnames } from '@/i18n/locales';
@@ -110,6 +111,8 @@ export async function middleware(req: NextRequest) {
   }
 
   const originalPathname = req.nextUrl.pathname;
+  const siteLanguageRedirect = resolveSiteLanguageRedirect(req);
+  if (siteLanguageRedirect) return finalizeResponse(siteLanguageRedirect, hasLogoutIntentCookie);
   const isDottedModelMatcherCandidate = DOTTED_LOCALIZED_ENGLISH_MODEL_CANDIDATE.test(originalPathname);
   const isDottedModelCompatibilityPath =
     isDottedModelMatcherCandidate && isDottedLocalizedEnglishModelCompatibilityPath(originalPathname);

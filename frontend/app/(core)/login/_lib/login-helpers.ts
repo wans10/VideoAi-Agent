@@ -1,5 +1,5 @@
 import { safeInternalReturnTarget } from '@/lib/auth-return-target';
-import { defaultExperienceLocale } from '@/i18n/locales';
+import { defaultExperienceLocale, resolveSiteLocale } from '@/i18n/locales';
 import { LOCALE_OPTIONS, type AuthMode, type Locale } from './login-copy';
 
 export const DEFAULT_NEXT_PATH = '/generate';
@@ -24,11 +24,11 @@ export function detectLocale(): Locale {
   if (typeof document !== 'undefined') {
     const attr = document.documentElement.lang?.slice(0, 2).toLowerCase();
     if (attr && LOCALE_OPTIONS.includes(attr as Locale)) {
-      return attr as Locale;
+      return resolveSiteLocale(attr);
     }
     const match = document.cookie.match(/(?:NEXT_LOCALE|mvid_locale)=([a-z]{2})/i);
     if (match && LOCALE_OPTIONS.includes(match[1].toLowerCase() as Locale)) {
-      return match[1].toLowerCase() as Locale;
+      return resolveSiteLocale(match[1].toLowerCase());
     }
   }
   return defaultExperienceLocale;

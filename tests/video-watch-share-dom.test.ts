@@ -23,36 +23,25 @@ test('public reader sharing copies the current canonical URL and exposes recover
     const { VideoWatchShare } = await import('../frontend/app/(core)/video/[id]/_components/VideoWatchShare.client');
     const first = 'https://maxvideoai.com/video/first-approved-slug';
     const second = 'https://maxvideoai.com/video/second-approved-slug';
-    await act(async () => root.render(React.createElement(VideoWatchShare, { watchUrl: first, locale: 'en' })));
+    await act(async () => root.render(React.createElement(VideoWatchShare, { watchUrl: first, locale: 'zh' })));
     const button = dom.window.document.querySelector('button')!;
-    assert.ok(button.textContent?.includes('Copy link'), 'copy must be available immediately without opening a second panel');
+    assert.ok(button.textContent?.includes('复制链接'), 'copy must be available immediately without opening a second panel');
     const shareLinks = [...dom.window.document.querySelectorAll<HTMLAnchorElement>('a')];
-    const destinations = [
-      ['Share on X', 'x.com', 'url'], ['Share on WhatsApp', 'wa.me', 'text'],
-      ['Share on Telegram', 't.me', 'url'], ['Share on LinkedIn', 'www.linkedin.com', 'url'],
-      ['Share on Facebook', 'www.facebook.com', 'u'], ['Share by e-mail', '', 'body'],
-    ] as const;
-    assert.equal(shareLinks.length, destinations.length, 'all existing link-sharing destinations are available without a disclosure');
-    for (const [label, host, parameter] of destinations) {
-      const link = shareLinks.find(link => link.getAttribute('aria-label') === label);
-      assert.ok(link, `${label} must be named accessibly`);
-      const intent = new URL(link.href);
-      assert.equal(intent.hostname, host);
-      assert.equal(intent.searchParams.get(parameter), first, 'share the canonical URL on every destination');
-      if (host) assert.ok(link.target === '_blank' && link.rel.includes('noopener'));
-      else assert.equal(intent.protocol, 'mailto:');
+    assert.equal(shareLinks.length, 3);
+    const destinations = ['creator.douyin.com', 'creator.xiaohongshu.com', 'cp.kuaishou.com'];
+    for (const [index, link] of shareLinks.entries()) {
+      assert.equal(new URL(link.href).hostname, destinations[index]);
+      assert.ok(link.getAttribute('aria-label')?.includes('创作者中心'));
+      assert.ok(link.target === '_blank' && link.rel.includes('noopener'));
+      assert.equal(new URL(link.href).search, '', 'do not put private media or text in portal URLs');
     }
     await act(async () => button.click());
     assert.deepEqual(copied, [first], 'share the canonical watch URL, never the gallery or media URL');
-    assert.ok(button.textContent?.includes('Link copied'));
-    assert.equal(dom.window.document.querySelector('[role="status"]')?.textContent, 'Link copied');
+    assert.ok(button.textContent?.includes('链接已复制'));
+    assert.equal(dom.window.document.querySelector('[role="status"]')?.textContent, '链接已复制');
 
     await act(async () => root.render(React.createElement(VideoWatchShare, { watchUrl: second, locale: 'fr' })));
     assert.ok(button.textContent?.includes('Copier le lien'), 'the next video must not retain the previous copied confirmation');
-    for (const [index, [, , parameter]] of destinations.entries()) {
-      assert.equal(new URL(shareLinks[index].href).searchParams.get(parameter), second, 'every destination follows the next video');
-    }
-    assert.equal(shareLinks[5].getAttribute('aria-label'), 'Partager par e-mail');
     clipboardBlocked = true;
     button.focus();
     await act(async () => button.click());

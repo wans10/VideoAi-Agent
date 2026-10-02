@@ -1,3 +1,4 @@
+import mcpPublication from '@/config/mcp-publication.json';
 import { FEATURES } from '@/content/feature-flags';
 import type { AppGlyphName } from './AppGlyph';
 
@@ -80,7 +81,7 @@ export function getAppMenuItems(
     { id: 'jobs', label: 'Activity', href: '/jobs', glyph: 'prompt' },
     { id: 'billing', label: 'Billing', href: '/billing', glyph: 'wallet' },
     { id: 'settings', label: 'Settings', href: '/settings', glyph: 'settings' },
-    { id: 'connections', label: 'Connections', href: '/account/connections', glyph: 'connect' },
+    ...(mcpPublication.publicMarketing ? [{ id: 'connections', label: 'Connections', href: '/account/connections', glyph: 'connect' } satisfies AppNavItem] : []),
   ];
 }
 export function getAppNavigationSelection(

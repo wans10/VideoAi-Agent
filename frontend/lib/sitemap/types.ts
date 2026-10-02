@@ -1,4 +1,4 @@
-import type { AppLocale } from '@/i18n/locales';
+import { publishedLocales, type AppLocale } from '@/i18n/locales';
 
 export type SitemapEntry = {
   url: string;
@@ -30,7 +30,7 @@ export const LOCALE_SITEMAP_PATHS: Record<AppLocale, string> = {
   zh: '/sitemap-zh.xml',
 };
 
-export const LOCALES: AppLocale[] = ['en', 'fr', 'es', 'zh'];
+export const LOCALES: AppLocale[] = publishedLocales;
 
 export const BASE_EXTRA_CANONICAL_PATHS: CanonicalPathEntry[] = [
   { englishPath: '/legal/cookies-list', locales: ['en', 'fr', 'es', 'zh'] },

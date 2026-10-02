@@ -1,3 +1,4 @@
+import mcpPublication from '@/config/mcp-publication.json';
 export type SettingsTab = 'account' | 'connections' | 'privacy' | 'notifications';
 export type SettingsContentTab = Exclude<SettingsTab, 'connections'>;
 
@@ -6,7 +7,7 @@ export const SETTINGS_TAB_ITEMS: ReadonlyArray<{
   href: string;
 }> = [
   { id: 'account', href: '/settings' },
-  { id: 'connections', href: '/account/connections' },
+  ...(mcpPublication.publicMarketing ? [{ id: 'connections' as const, href: '/account/connections' }] : []),
   { id: 'privacy', href: '/settings?tab=privacy' },
   { id: 'notifications', href: '/settings?tab=notifications' },
 ];

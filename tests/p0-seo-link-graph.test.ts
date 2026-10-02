@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 
-import type { AppLocale } from '../frontend/i18n/locales.ts';
+import { publishedLocales, siteDefaultLocale, type AppLocale } from '../frontend/i18n/locales.ts';
 import * as runtime from '../frontend/config/model-runtime.ts';
 import * as comparisons from '../frontend/lib/compare-hub/data.ts';
 import * as llms from '../frontend/lib/seo/llms-text.ts';
@@ -180,14 +180,15 @@ test('the supplied-roster sitemap fixture emits exactly one reciprocal canonical
       en: `https://videoai.omninodetech.com/models/${id}`,
       fr: `https://videoai.omninodetech.com/fr/modeles/${id}`,
       es: `https://videoai.omninodetech.com/es/modelos/${id}`,
+      zh: `https://videoai.omninodetech.com/zh/models/${id}`,
     } as const;
     assert.equal(routeEntries.filter((entry) => entry.englishPath === `/models/${id}`).length, 1, id);
-    for (const locale of LOCALES) {
+    for (const locale of publishedLocales) {
       assert.equal(xml.split(`<loc>${urls[locale]}</loc>`).length - 1, 1, `${id}:${locale}`);
-      for (const alternate of LOCALES) {
+      for (const alternate of publishedLocales) {
         assert.match(xml, new RegExp(`hreflang="${alternate}" href="${urls[alternate]}"`));
       }
-      assert.match(xml, new RegExp(`hreflang="x-default" href="${urls.en}"`));
+      assert.match(xml, new RegExp(`hreflang="x-default" href="${urls[siteDefaultLocale]}"`));
     }
   }
 });
@@ -205,13 +206,13 @@ test('published model fixtures have unique localized metadata and 2-4 rendered e
         title: decision.meta.title,
         description: decision.meta.description,
         englishPath: `/models/${id}`,
-        availableLocales: [...LOCALES],
+        availableLocales: [...LOCALES, 'zh'],
         robots: { index: true, follow: true },
       });
       titles.add(String(metadata.title && typeof metadata.title === 'object' ? metadata.title.absolute : metadata.title));
       descriptions.add(String(metadata.description));
       assert.match(String(metadata.alternates?.canonical), new RegExp(locale === 'en' ? `/models/${id}$` : `/${locale}/(?:modeles|modelos)/${id}$`));
-      assert.deepEqual(Object.keys(metadata.alternates?.languages ?? {}).sort(), ['en', 'es', 'fr', 'x-default']);
+      assert.deepEqual(Object.keys(metadata.alternates?.languages ?? {}).sort(), [...publishedLocales, 'x-default'].sort());
 
       const rendered = buildModelDecisionData({
         engine: entries.get(id)!,

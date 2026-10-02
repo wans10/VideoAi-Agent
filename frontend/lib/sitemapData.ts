@@ -1,4 +1,4 @@
-import { defaultLocale, type AppLocale } from '@/i18n/locales';
+import { siteDefaultLocale, publishedLocales, type AppLocale } from '@/i18n/locales';
 import modelRoster from '@/config/model-roster.json';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { HREFLANG_VARIANTS } from '@/lib/seo/alternateLocales';
@@ -24,6 +24,7 @@ export type { SitemapEntry };
 export { escapeXml, LOCALES, LOCALE_SITEMAP_PATHS };
 
 export async function getLocaleSitemapEntries(locale: AppLocale): Promise<SitemapEntry[]> {
+  if (!publishedLocales.includes(locale)) return [];
   const seen = new Set<string>();
   const entries: SitemapEntry[] = [];
   const canonicalEntries = await getCanonicalPathEntries();
@@ -76,7 +77,7 @@ export async function buildLocaleSitemapXml(locale: AppLocale): Promise<string> 
           ] as const)
         );
         const xDefaultHref =
-          hrefByLocale.get(defaultLocale) ??
+          hrefByLocale.get(siteDefaultLocale) ??
           hrefByLocale.get(locale) ??
           hrefByLocale.values().next().value ??
           buildAbsoluteUrl(entry.englishPath);
@@ -161,15 +162,15 @@ export async function buildModelsSitemapXmlFromRoster(
   buildModelRouteEntriesFromRoster(roster, options).forEach((modelRoute) => {
     const englishPath = modelRoute.englishPath;
     const lastModified = modelRoute.lastModified;
-    const localizedEntries = (modelRoute.locales ?? []).map((locale) => ({
+    const localizedEntries = (modelRoute.locales ?? []).filter((locale) => publishedLocales.includes(locale)).map((locale) => ({
       locale,
       url: buildAbsoluteUrl(localizePathFromEnglish(locale, englishPath)),
     }));
-    if (!localizedEntries.some((entry) => entry.locale === 'en')) {
+    if (publishedLocales.includes('en') && !localizedEntries.some((entry) => entry.locale === 'en')) {
       localizedEntries.push({ locale: 'en', url: buildAbsoluteUrl(englishPath) });
     }
     const xDefaultHref =
-      localizedEntries.find((entry) => entry.locale === defaultLocale)?.url ?? localizedEntries[0]?.url ?? buildAbsoluteUrl(englishPath);
+      localizedEntries.find((entry) => entry.locale === siteDefaultLocale)?.url ?? localizedEntries[0]?.url ?? buildAbsoluteUrl(englishPath);
     localizedEntries.forEach((record) => {
       const hrefByLocale = new Map(localizedEntries.map((entry) => [entry.locale, entry.url] as const));
       const alternateLinks = HREFLANG_VARIANTS

@@ -1,5 +1,5 @@
 import { LOCALE_OPTIONS, type AuthMode, type Locale } from './login-copy';
-import { defaultExperienceLocale } from '@/i18n/locales';
+import { defaultExperienceLocale, resolveSiteLocale } from '@/i18n/locales';
 
 export type LoginQueryValue = string | string[] | undefined;
 
@@ -16,7 +16,7 @@ export function resolveInitialAuthLocale(
   for (const candidate of candidates) {
     const normalized = candidate?.trim().slice(0, 2).toLowerCase();
     if (normalized && LOCALE_OPTIONS.includes(normalized as Locale)) {
-      return normalized as Locale;
+      return resolveSiteLocale(normalized);
     }
   }
   return defaultExperienceLocale;

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
+import { publishedLocales, siteDefaultLocale } from '../frontend/i18n/locales';
 
 const frontendRequire = createRequire(new URL('../frontend/package.json', import.meta.url));
 
@@ -119,15 +120,17 @@ test('models sitemap retains every localized H3, Seedance 2.5 and Seedance 2.0 c
       en: `https://videoai.omninodetech.com/models/${slug}`,
       fr: `https://videoai.omninodetech.com/fr/modeles/${slug}`,
       es: `https://videoai.omninodetech.com/es/modelos/${slug}`,
+      zh: `https://videoai.omninodetech.com/zh/models/${slug}`,
     } as const;
 
-    for (const [hreflang, url] of Object.entries(urls)) {
+    for (const hreflang of publishedLocales) {
+      const url = urls[hreflang];
       assert.match(xml, new RegExp(`<loc>${url}</loc>`), `${url} sitemap membership`);
       assert.match(xml, new RegExp(`hreflang="${hreflang}" href="${url}"`), `${url} alternate membership`);
     }
     assert.match(
       xml,
-      new RegExp(`hreflang="x-default" href="${urls.en}"`),
+      new RegExp(`hreflang="x-default" href="${urls[siteDefaultLocale]}"`),
       `${slug} x-default membership`,
     );
   }

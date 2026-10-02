@@ -1,5 +1,7 @@
 'use client';
 
+import { publishedLocales } from '@/i18n/locales';
+
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Globe } from 'lucide-react';
@@ -29,7 +31,7 @@ function shouldBypassLocale(pathname: string | null | undefined) {
 
 type LanguageToggleVariant = 'select' | 'icon';
 
-export function LanguageToggle({ variant = 'select' }: { variant?: LanguageToggleVariant }) {
+function LanguageToggleControl({ variant = 'select' }: { variant?: LanguageToggleVariant }) {
   const { locale, t } = useI18n();
   const defaultOptions: Array<{ locale: Locale; label: string }> = [
     { locale: 'en', label: 'English' },
@@ -38,7 +40,8 @@ export function LanguageToggle({ variant = 'select' }: { variant?: LanguageToggl
     { locale: 'zh', label: '简体中文' },
   ];
   const maybeOptions = t('footer.languages', defaultOptions);
-  const options = Array.isArray(maybeOptions) && maybeOptions.length ? maybeOptions : defaultOptions;
+  const options = (Array.isArray(maybeOptions) && maybeOptions.length ? maybeOptions : defaultOptions)
+    .filter(option => publishedLocales.includes(option.locale));
   const label = t('footer.languageLabel', 'Language') ?? 'Language';
   const [pendingLocale, setPendingLocale] = useState<Locale>(locale);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -172,4 +175,8 @@ export function LanguageToggle({ variant = 'select' }: { variant?: LanguageToggl
       ) : null}
     </div>
   );
+}
+
+export function LanguageToggle(props: { variant?: LanguageToggleVariant }) {
+  return publishedLocales.length > 1 ? <LanguageToggleControl {...props} /> : null;
 }

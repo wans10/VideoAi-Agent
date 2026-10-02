@@ -41,11 +41,11 @@
 .production-navigation-panel .studio-menu-arrow { margin-top: 8px; }
 .production-mobile-description { display: block; margin: 6px 0 5px 40px; font-size: 14px; line-height: 1.65; color: var(--text-secondary); }
 @media (min-width:1024px) and (max-width:1279px) { .marketing-site.videoai-site .production-navigation-panel .studio-menu-intro { padding: 22px; } }
-.production-footer-departments { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 32px; margin: 42px 0; }
+.production-footer-departments { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 32px; margin: 42px 0; }
 .production-footer-departments nav { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .production-footer-departments h2 { font-size: 13px; color: var(--brand); margin-bottom: 10px; letter-spacing: .08em; }
 .production-footer-departments a { min-height: 28px; font-size: 14px; color: var(--text-secondary); }
-.production-footer-reference { border-top: 1px solid var(--border); }
+.production-footer-reference { border: 1px solid var(--border); padding-inline: clamp(20px, 3vw, 40px); }
 .production-footer-reference > summary { cursor: pointer; padding: 24px 0; font-size: 14px; }
 @media(max-width:760px) { .production-footer-departments { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 32px 20px; } }
 

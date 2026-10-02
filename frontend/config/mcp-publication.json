@@ -1,6 +1,6 @@
 {
-  "publicMarketing": true,
-  "publicIndexing": true,
+  "publicMarketing": false,
+  "publicIndexing": false,
   "transport": true,
   "oauth": true,
   "discovery": true,

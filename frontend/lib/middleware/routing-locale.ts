@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { routing } from '@/i18n/routing';
-import { localePathnames, locales, type AppLocale } from '@/i18n/locales';
+import { localePathnames, locales, publishedLocales, siteDefaultLocale, resolveSiteLocale, type AppLocale } from '@/i18n/locales';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { getAuthRequestUrl } from '@/lib/auth-request-url';
 import localizedSlugConfig from '@/config/localized-slugs.json';
@@ -179,6 +179,7 @@ export function resolveSharedLocaleCookieDomain(hostname: string): string | unde
 }
 
 export function getPreferredLocale(req: NextRequest): (typeof locales)[number] | null {
+  if (publishedLocales.length === 1) return siteDefaultLocale;
   const cookieLocale = req.cookies.get(LOCALE_COOKIE)?.value;
   if (cookieLocale && LOCALE_SET.has(cookieLocale as (typeof locales)[number])) {
     return cookieLocale as (typeof locales)[number];
@@ -281,7 +282,7 @@ export function resolveLangParamRedirect(req: NextRequest, pathname: string): Ne
   if (!LOCALE_SET.has(lang as AppLocale)) {
     return null;
   }
-  const targetLocale = lang as AppLocale;
+  const targetLocale = resolveSiteLocale(lang);
   const { pathWithoutLocale } = splitLocaleFromPath(pathname);
   const localizedPath = shouldHandleLocale(pathWithoutLocale)
     ? localizePathForLocale(targetLocale, pathWithoutLocale)
@@ -320,7 +321,7 @@ export function createCoreLocaleResponse(req: NextRequest, pathname: string): Ne
   if (source.origin !== req.nextUrl.origin) return null;
   const { pathWithoutLocale } = splitLocaleFromPath(source.pathname);
   if (!shouldHandleLocale(pathWithoutLocale)) return null;
-  const locale = extractLocaleFromPathname(source.pathname) ?? 'en';
+  const locale = resolveSiteLocale(extractLocaleFromPathname(source.pathname) ?? 'en');
   if (req.cookies.get(LOCALE_COOKIE)?.value === locale && req.cookies.get(NEXT_LOCALE_COOKIE)?.value === locale) return null;
   req.cookies.set(LOCALE_COOKIE, locale);
   req.cookies.set(NEXT_LOCALE_COOKIE, locale);
