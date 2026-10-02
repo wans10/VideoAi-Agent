@@ -95,6 +95,7 @@ export function formatCapabilityValue(value: string) {
 }
 
 export function getFallbackCapabilityDifference(locale: AppLocale) {
+  if (locale === 'zh') return '核心模式：两个模型均支持相同的主要生成方式，主要差异在于分辨率、成本和成片的精细程度。';
   if (locale === 'fr') {
     return 'Modes clés : les deux modèles couvrent les mêmes routes principales; la vraie différence se joue sur la résolution, le coût et le niveau de finition.';
   }

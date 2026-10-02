@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import { Button } from '@/components/ui/Button';
 import {
   SettingsKlingV3Controls,
@@ -146,6 +147,7 @@ function StandaloneSeedControls({
 > & {
   state: SettingsControlState;
 }) {
+  const { locale } = useI18n();
   const { controlsCopy, seed, setSeed } = state;
   const seedField = [...(engine.inputSchema?.required ?? []), ...(engine.inputSchema?.optional ?? [])].find((field) => {
     if (field.id !== 'seed') return false;
@@ -180,7 +182,7 @@ function StandaloneSeedControls({
       </label>
       {showSafetyCheckerControl ? (
         <label className="flex flex-col gap-1.5 text-sm text-text-secondary">
-          <span className="text-[11px] font-semibold uppercase tracking-micro text-text-muted">Safety checker</span>
+          <span className="text-[11px] font-semibold uppercase tracking-micro text-text-muted">{locale === 'zh' ? '安全检查' : 'Safety checker'}</span>
           <div className="flex flex-wrap gap-2">
             {[true, false].map((option) => (
               <Button
@@ -196,7 +198,7 @@ function StandaloneSeedControls({
                     : 'border-hairline bg-surface text-text-secondary hover:border-text-muted hover:bg-surface-2'
                 )}
               >
-                {option ? 'On' : 'Off'}
+                {locale === 'zh' ? (option ? '开启' : '关闭') : (option ? 'On' : 'Off')}
               </Button>
             ))}
           </div>

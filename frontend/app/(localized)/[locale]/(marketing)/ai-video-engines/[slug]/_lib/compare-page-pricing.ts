@@ -157,7 +157,7 @@ export async function resolvePricingDisplay(
   pricingEngine?: EngineCaps | null
 ): Promise<ComparePricingDisplay> {
   if (entry.surfaces?.app?.enabled === false) {
-    return { headline: locale === 'fr' ? 'Génération indisponible' : locale === 'es' ? 'Generación no disponible' : 'Generation unavailable', subline: null, prices: [], scorePrices: [] };
+    return { headline: locale === 'fr' ? 'Génération indisponible' : locale === 'es' ? 'Generación no disponible' : locale === 'zh' ? '暂不可生成' : 'Generation unavailable', subline: null, prices: [], scorePrices: [] };
   }
   const availability = String(entry.availability ?? '').toLowerCase();
   if (availability === 'waitlist') {

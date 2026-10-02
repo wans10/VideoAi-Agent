@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import { useMemo } from 'react';
 import { Wallet } from 'lucide-react';
 import type { ItemizationLine, PreflightResponse } from '@/types/engines';
@@ -50,6 +51,8 @@ const ICONS: Record<string, string | undefined> = {
 };
 
 export function PriceFactorsBar({ preflight, currency = 'USD', isLoading = false, onNavigate, iterations = 1 }: PriceFactorsBarProps) {
+  const { locale } = useI18n();
+  const zh = locale === 'zh';
   const safeIterations = Math.max(1, Math.floor(iterations || 1));
   const formatter = useMemo(() => new Intl.NumberFormat('en-US', { style: 'currency', currency }), [currency]);
 
@@ -165,7 +168,7 @@ export function PriceFactorsBar({ preflight, currency = 'USD', isLoading = false
   }
 
   const busy = isLoading && items.length > 0;
-  const totalLabel = safeIterations > 1 ? 'Total for this batch' : 'This render';
+  const totalLabel = zh ? (safeIterations > 1 ? '本批总价' : '本次生成') : (safeIterations > 1 ? 'Total for this batch' : 'This render');
   const memberDiscountTotal = safeIterations > 1
     ? Math.abs(
         (preflight?.itemization?.discounts ?? []).reduce(
@@ -191,7 +194,7 @@ export function PriceFactorsBar({ preflight, currency = 'USD', isLoading = false
           size="sm"
           onClick={onNavigate ? () => onNavigate(item.kind) : undefined}
           className="min-h-0 h-auto items-center gap-2 rounded-input border-hairline bg-surface px-3 py-2 text-[12px] leading-4 tracking-[0.08em] text-text-secondary hover:border-text-muted hover:bg-surface-2"
-          title={item.tooltip}
+          title={zh ? `${chineseFactorLabel(item)} ${formatAmount(item.amount, formatter, item.emphasizeSign)}` : item.tooltip}
         >
           {item.icon && (
             item.icon === '/assets/icons/wallet.svg' ? (
@@ -200,7 +203,7 @@ export function PriceFactorsBar({ preflight, currency = 'USD', isLoading = false
               <Image src={item.icon} alt="" width={16} height={16} className="h-4 w-4" aria-hidden />
             )
           )}
-          <span className="uppercase text-text-muted">{item.label}</span>
+          <span className="uppercase text-text-muted">{zh ? chineseFactorLabel(item) : item.label}</span>
           <span
             className={clsx(
               'font-medium',
@@ -217,7 +220,7 @@ export function PriceFactorsBar({ preflight, currency = 'USD', isLoading = false
           {totalLabel}: {formatTotal((preflight.total || 0) * safeIterations, formatter)}
           {safeIterations > 1 && memberDiscountTotal > AMOUNT_EPSILON && (
             <span className="ml-2 rounded-full bg-surface-on-media-20 px-2 py-0.5 text-[11px] font-semibold text-on-brand">
-              Member saves {formatTotal(memberDiscountTotal, formatter)}
+              {zh ? '会员节省 ' : 'Member saves '}{formatTotal(memberDiscountTotal, formatter)}
             </span>
           )}
         </span>
@@ -385,4 +388,12 @@ function prettifyUnit(unit: string) {
 
 function formatPercent(value: number) {
   return `${Math.round(value * 100)}%`;
+}
+
+function chineseFactorLabel(item: PriceFactorItem): string {
+  if (item.id === 'iterations') return item.label;
+  const labels: Record<string, string> = { base: '基础费用', duration: '时长', resolution: '分辨率', upscale4k: '提升分辨率', audio: '音频', audio_off: '关闭音频', extend: '延长视频', keyframes: '关键帧', input_video_duration: '输入视频', discount: '优惠', margin: '平台费用', fee: '费用', tax: '税费' };
+  const label = labels[item.kind] ?? '附加费用';
+  const detail = item.label.match(/(?:×\s*)?\d+(?:\.\d+)?(?:%|s)?/g)?.join(' ');
+  return detail ? `${label} ${detail.replace(/s\b/g, '秒')}` : label;
 }

@@ -24,7 +24,7 @@ export function WorkspaceReferenceInventory({ fields, assets, locale, renderFiel
         const kind = entry.field.type === 'audio' ? 'audio' : entry.field.type === 'video' ? 'video' : 'image';
         const isSourceVideo = kind === 'video' && entry.field.id === 'video_url';
         const isKnownCollection = ['image_urls', 'video_urls', 'audio_urls'].includes(entry.field.id);
-        const label = isSourceVideo ? locale === 'fr' ? 'Vidéo source' : locale === 'es' ? 'Video fuente' : 'Source video'
+        const label = isSourceVideo ? locale === 'fr' ? 'Vidéo source' : locale === 'es' ? 'Video fuente' : locale === 'zh' ? '源视频' : 'Source video'
           : isKnownCollection ? copy.kinds[kind]
           : resolveWorkspaceReferenceFieldTitle(entry.field, entry.role ?? 'generic', locale);
         const count = (assets[entry.field.id] ?? []).filter(Boolean).length;

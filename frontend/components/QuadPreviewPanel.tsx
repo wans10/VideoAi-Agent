@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PriceFactorsBar } from '@/components/PriceFactorsBar';
@@ -35,6 +36,7 @@ export function QuadPreviewPanel({
   onSaveComposite,
   onRefreshJob,
 }: QuadPreviewPanelProps) {
+  const { locale } = useI18n();
   const [isPlaying, setIsPlaying] = useState(true);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const lastPrimaryReadyEventKeyRef = useRef<string | null>(null);
@@ -97,7 +99,7 @@ export function QuadPreviewPanel({
       sortedTiles.map((tile) => ({
         id: tile.id,
         jobId: tile.id,
-        label: `Version ${tile.iterationIndex + 1}`,
+        label: locale === 'zh' ? `版本 ${tile.iterationIndex + 1}` : `Version ${tile.iterationIndex + 1}`,
         videoUrl: tile.videoUrl ?? undefined,
         thumbUrl: tile.thumbUrl ?? undefined,
         aspectRatio: tile.aspectRatio,
@@ -109,10 +111,10 @@ export function QuadPreviewPanel({
         createdAt: undefined,
         hasAudio: Boolean(tile.hasAudio),
       })),
-    [sortedTiles]
+    [locale, sortedTiles]
   );
 
-  const groupTitle = `Prise ×${iterationCount}`;
+  const groupTitle = locale === 'zh' ? `生成结果 ×${iterationCount}` : `Prise ×${iterationCount}`;
   const heroTile = sortedTiles.find((tile) => tile.localKey === heroKey) ?? sortedTiles[0];
   const heroKeyResolved = heroTile?.localKey ?? null;
   const handlePrimaryVideoReady = useCallback(
@@ -130,9 +132,9 @@ export function QuadPreviewPanel({
     <Card className="space-y-4 p-4">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-[12px] font-semibold uppercase tracking-micro text-text-muted">Batch preview</h2>
+          <h2 className="text-[12px] font-semibold uppercase tracking-micro text-text-muted">{locale === 'zh' ? '批量预览' : 'Batch preview'}</h2>
           <p className="text-[12px] text-text-secondary">
-            {iterationCount} takes · {totalPrice ? `Batch total ${totalPrice}` : 'Pricing pending'}
+            {locale === 'zh' ? `${iterationCount} 个版本 · ${totalPrice ? `本批总价 ${totalPrice}` : '价格待确认'}` : <>{iterationCount} takes · {totalPrice ? `Batch total ${totalPrice}` : 'Pricing pending'}</>}
           </p>
         </div>
         {hasMosaicMedia && (
@@ -144,7 +146,7 @@ export function QuadPreviewPanel({
             className="min-h-0 h-auto rounded-input border-hairline bg-surface px-3 py-1.5 text-[12px] font-medium text-text-secondary hover:border-text-muted hover:bg-surface-2"
           >
             <Image src="/assets/icons/save.svg" alt="" width={14} height={14} className="h-3.5 w-3.5" aria-hidden />
-            Save composite
+            {locale === 'zh' ? '保存拼接预览' : 'Save composite'}
           </Button>
         )}
       </header>
@@ -197,7 +199,7 @@ export function QuadPreviewPanel({
               isPlaying ? 'border-hairline bg-surface text-text-secondary hover:border-text-muted hover:bg-surface-2' : 'border-brand bg-surface-2 text-brand'
             )}
           >
-            {isPlaying ? 'Pause' : 'Play'}
+            {locale === 'zh' ? (isPlaying ? '暂停' : '播放') : (isPlaying ? 'Pause' : 'Play')}
           </Button>
           <Button
             type="button"
@@ -207,12 +209,12 @@ export function QuadPreviewPanel({
             className="min-h-0 h-auto rounded-full border-hairline bg-surface px-3 py-1 text-[11px] font-semibold uppercase tracking-micro text-text-secondary hover:border-text-muted hover:bg-surface-2"
           >
             <Image src="/assets/icons/expand.svg" alt="" width={12} height={12} className="h-3 w-3" />
-            Open takes
+            {locale === 'zh' ? '查看所有版本' : 'Open takes'}
           </Button>
         </div>
         {heroTile && (
           <span className="text-[10px] uppercase tracking-micro text-text-muted">
-            Hero • V{heroTile.iterationIndex + 1}
+            {locale === 'zh' ? '主结果' : 'Hero'} • V{heroTile.iterationIndex + 1}
           </span>
         )}
       </div>
@@ -223,8 +225,8 @@ export function QuadPreviewPanel({
           subtitle={heroTile ? `${heroTile.engineLabel} • V${heroTile.iterationIndex + 1}` : undefined}
           prompt={heroTile?.prompt ?? undefined}
           metadata={[
-            { label: 'Iterations', value: String(iterationCount) },
-            { label: 'Duration (hero)', value: heroTile ? `${heroTile.durationSec}s` : 'N/A' },
+            { label: locale === 'zh' ? '版本数量' : 'Iterations', value: String(iterationCount) },
+            { label: locale === 'zh' ? '主结果时长' : 'Duration (hero)', value: heroTile ? `${heroTile.durationSec}s` : 'N/A' },
           ]}
           entries={lightboxEntries}
           onClose={() => setIsLightboxOpen(false)}

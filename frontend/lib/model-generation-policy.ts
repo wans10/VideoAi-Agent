@@ -15,6 +15,7 @@ export function isArchivedGenerationModel(id: string | null | undefined): boolea
 }
 
 export function archivedGenerationMessage(locale: string): string {
+  if (locale === 'zh') return '此模型已不可用，请选择其他模型再生成。已生成的视频仍保留在您的素材库中。';
   if (locale === 'fr') return 'Ce modèle n’est plus disponible. Choisissez un autre modèle avant de générer. Vos vidéos existantes restent dans votre bibliothèque.';
   if (locale === 'es') return 'Este modelo ya no está disponible. Elige otro modelo antes de generar. Tus vídeos existentes permanecen en tu biblioteca.';
   return 'This model is no longer available. Choose another model before generating. Your existing videos remain in your library.';

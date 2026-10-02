@@ -6,8 +6,22 @@ import {
   SEEDANCE_TASK_TYPE_CONSTRAINT,
 } from './video-failure-codes';
 
-type Locale = 'en' | 'fr' | 'es';
+type Locale = 'en' | 'fr' | 'es' | 'zh';
 const copy = {
+  zh: {
+    image: 'Seedance 拦截了一张参考图片，因为它可能包含可识别的人物或私密内容。请使用不包含可识别人物的图片、风格化图片或生成的参考图片，然后重试。',
+    video: 'Seedance 拦截了一段参考视频，因为它可能包含可识别的人物。请换用不包含可识别人物的参考视频，然后重试。',
+    media: 'Seedance 在安全检查中拦截了参考素材。请检查提示词及参考图片、视频或音频，然后重试。',
+    duration: '参考视频的总时长超过了 Seedance 的 30 秒限制。请裁剪或移除一段参考视频，然后重试。',
+    task: 'Seedance 无法对源视频执行所选的编辑或延长操作。请明确说明源视频中需要更改或延续的内容，然后重试。',
+    unsupported: 'Seedance 无法接受所选的参考素材或设置。请检查参考文件、时长、分辨率和宽高比，然后重试。',
+    refunded: '积分已退回到你的钱包。',
+    refundAmount: '{amount} 已退回到你的钱包。',
+    refund: '退款',
+    measured: '测得的总时长：{duration} 秒。',
+    unverified: '无法确认一段参考视频的时长。请重新上传该视频，然后再尝试生成。',
+    noCharge: '未扣除积分。',
+  },
   en: {
     image: 'Seedance blocked a reference image because it may contain a recognizable person or private content. Use a non-identifiable, stylized, or generated reference image and try again.',
     video: 'Seedance blocked a reference video because it may contain a recognizable person. Replace that video with a reference without identifiable people before trying again.',
@@ -53,7 +67,7 @@ const copy = {
 } satisfies Record<Locale, Record<string, string>>;
 
 function localeKey(locale: string): Locale {
-  return locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en';
+  return locale.startsWith('zh') ? 'zh' : locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en';
 }
 
 // Match only known customer copy for historical jobs without structured codes.

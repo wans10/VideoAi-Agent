@@ -136,3 +136,19 @@ test('reference video refund descriptions are localized without exposing provide
   assert.match(localizeSeedanceRefundDescription(description, 'es-ES')!, /Reembolso Seedance 2.5.*duración total/);
   assert.equal(localizeSeedanceRefundDescription('Refund Kling - 5s - Provider failed.', 'fr'), 'Refund Kling - 5s - Provider failed.');
 });
+
+test('Chinese failure and preflight guidance retain the remedy and confirmed refund boundary', () => {
+  for (const failureCode of ['seedance_reference_image_blocked', 'seedance_reference_video_blocked', 'seedance_reference_media_blocked', 'seedance_reference_video_duration_exceeded', 'seedance_task_type_constraint', 'seedance_inputs_rejected']) {
+    const message = getWorkspaceGenerationFailureMessage({ failureCode, message: 'English fallback', paymentStatus: 'paid_wallet' }, copy, { locale: 'zh' });
+    assert.match(message!, /[\u3400-\u9fff]/);
+    assert.doesNotMatch(message!, /English|退回/);
+  }
+  const refunded = getWorkspaceGenerationFailureMessage({ failureCode: 'seedance_reference_video_blocked', paymentStatus: 'refunded_wallet', finalPriceCents: 346, currency: 'USD' }, copy, { locale: 'zh' });
+  assert.match(refunded!, /参考视频/);
+  assert.match(refunded!, /3\.46.*退回/);
+  const preflight = getWorkspaceGenerationRequestFailureMessage({ error: 'MEDIA_COMBINED_DURATION_EXCEEDED', field: 'extension_source_videos', durationSec: 44 }, 'Fallback', copy, { locale: 'zh', engineId: 'seedance-2-5' });
+  assert.match(preflight, /30 秒/);
+  assert.match(preflight, /44 秒/);
+  assert.match(preflight, /未扣除积分/);
+  assert.doesNotMatch(preflight, /退回|Fallback/);
+});

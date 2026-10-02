@@ -85,3 +85,30 @@ test('localized host setup titles and introductions do not inherit the English g
     }
   }
 });
+
+test('all five Chinese integrations localize complete copy and rendered setup controls', () => {
+  const evidence = getMcpCompatibilityEvidence();
+  const chinese = /[\u3400-\u9fff]/;
+  function inspect(value: unknown, key = '') {
+    if (Array.isArray(value)) value.forEach((child, index) => inspect(child, `${key}.${index}`));
+    else if (value && typeof value === 'object') Object.entries(value).forEach(([name, child]) => inspect(child, `${key}.${name}`));
+    else if (typeof value === 'string' && value && !value.startsWith('/') && !value.startsWith('https://') && !/(?:^|\.)(?:client|clientLabel|hostId|href|src|value|commands)(?:\.|$)/.test(key)) {
+      assert.match(value, chinese, `Chinese editorial copy required at ${key}: ${value}`);
+    }
+  }
+  for (const client of getMcpPublicIntegrationIds()) {
+    const copy = getIntegrationCopy('zh', client);
+    inspect(copy, client);
+    const html = renderToStaticMarkup(React.createElement(IntegrationPageView, {
+      copy, compatibility: evidence.clients[client]!, locale: 'zh', publication: live,
+    }));
+    assert.doesNotMatch(html, /Connect VideoAI to Claude|Open connector settings|Copy for guidance|Copy MCP address|The browser opens VideoAI|Your credits, private references/);
+    assert.match(html, /复制 MCP 地址/);
+    assert.match(html, /授权您的账户/);
+    assert.doesNotMatch(html, /Pending \/|处于审核中|正在归档中/);
+    if (client === 'n8n') assert.match(html, /19591-turn-creative-briefs-into-approved-maxvideoai-generations-with-human-review/);
+    if (client === 'codex') {
+      assert.match(copy.setup.hostGuides[0].commands[0], /plugin marketplace add/);
+    }
+  }
+});

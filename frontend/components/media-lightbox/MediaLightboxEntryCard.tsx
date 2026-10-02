@@ -164,7 +164,7 @@ export function MediaLightboxEntryCard({
           <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-text-primary">
             {typeof entry.durationSec === 'number' ? <MetaItem icon={Clock3} label={t('workspace.result.duration', 'Duration') ?? 'Duration'} value={`${entry.durationSec}s`} /> : null}
             {entry.aspectRatio ? <MetaItem icon={Monitor} label={t('workspace.result.aspect', 'Format') ?? 'Format'} value={entry.aspectRatio} /> : null}
-            <MetaItem icon={AudioWaveform} label="Audio" value={entry.hasAudio || audioUrl ? t('workspace.result.audioOn', 'On') ?? 'On' : t('workspace.result.audioOff', 'Off') ?? 'Off'} />
+            <MetaItem icon={AudioWaveform} label={t('workspace.result.audioOutput', 'Audio') ?? 'Audio'} value={entry.hasAudio || audioUrl ? t('workspace.result.audioOn', 'On') ?? 'On' : t('workspace.result.audioOff', 'Off') ?? 'Off'} />
 
           </div>
         </div>
@@ -212,7 +212,7 @@ export function MediaLightboxEntryCard({
                 {t('workspace.result.unavailable', 'Preview unavailable')}
               </div>
             ) : null}
-            {entry.hasAudio ? <span className="sr-only">Audio available</span> : null}
+            {entry.hasAudio ? <span className="sr-only">{t('workspace.result.audioOutput', 'Audio available')}</span> : null}
             {isProcessing ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-surface-on-media-dark-45 px-3 text-center text-on-inverse backdrop-blur-sm">
                 <GenerationPendingStatus

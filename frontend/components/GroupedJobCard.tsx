@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import clsx from 'clsx';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import { ChevronDown, Maximize2, Plus, SlidersHorizontal } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { EngineCaps } from '@/types/engines';
@@ -71,6 +72,7 @@ export function GroupedJobCard({
   eagerPreview = false,
   warmOnVisible = false,
 }: GroupedJobCardProps) {
+  const { locale } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -228,7 +230,7 @@ export function GroupedJobCard({
               previews={previews}
             />
           </div>
-          {heroHasAudio ? <span className="sr-only">Audio available</span> : null}
+          {heroHasAudio ? <span className="sr-only">{locale === 'zh' ? '包含音频' : 'Audio available'}</span> : null}
           {group.count > 1 ? (
             <div className="absolute left-3 top-3 inline-flex items-center rounded-full bg-surface-on-media-dark-65 px-2.5 py-0.5 text-[11px] font-semibold text-on-inverse shadow">
               {splitLabel}

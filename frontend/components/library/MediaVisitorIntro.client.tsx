@@ -8,7 +8,7 @@ export function MediaVisitorIntro({ locale, nextPath }: { locale: string; nextPa
     ? ['Vos créations, prêtes pour la suite', 'Retrouvez vos images, vidéos et sons. Réutilisez-les dans votre prochaine création.', 'Créer une vidéo', 'Se connecter à mes médias', 'Aperçu · exemples de projets']
     : locale === 'es'
       ? ['Tus creaciones, listas para lo que sigue', 'Reúne imágenes, vídeos y sonidos. Reutilízalos en tu próxima creación.', 'Crear un vídeo', 'Ver mis medios', 'Vista previa · ejemplos de proyectos']
-      : ['Your creations, ready for what’s next', 'Keep images, videos and sound together. Reuse them in your next creation.', 'Create a video', 'Sign in to my media', 'Preview · example projects'];
+      : locale === 'zh' ? ['让作品继续启发创作', '集中管理图片、视频和声音，在下一次创作中复用。', '生成视频', '登录查看我的素材', '预览 · 示例项目'] : ['Your creations, ready for what’s next', 'Keep images, videos and sound together. Reuse them in your next creation.', 'Create a video', 'Sign in to my media', 'Preview · example projects'];
   return <section className="mx-auto max-w-3xl py-6 sm:py-12">
     <h1 className="max-w-xl text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">{copy[0]}</h1>
     <p className="mt-4 max-w-lg text-sm text-text-secondary">{copy[1]}</p>

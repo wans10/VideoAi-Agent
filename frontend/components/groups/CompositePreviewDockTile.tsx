@@ -4,6 +4,7 @@ import { normalizeGenerationObservation } from '@/lib/generation-observation';
 
 import { AppDemoVideo } from '@/components/media/AppDemoVideo.client';
 import clsx from 'clsx';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import Image from 'next/image';
 import type { VideoItem } from '@/types/video-groups';
 import { ProcessingOverlay } from '@/components/groups/ProcessingOverlay';
@@ -49,6 +50,7 @@ export function CompositePreviewDockTile({
   showGroupError,
   tileCount,
 }: CompositePreviewDockTileProps) {
+  const { locale } = useI18n();
   const video = isVideo(item);
   const mediaFitClass = 'object-contain';
   const itemStatus = resolvePreviewItemStatus(item);
@@ -121,7 +123,7 @@ export function CompositePreviewDockTile({
         )}
       </div>
       {hasAudio && itemStatus === 'completed' && video ? (
-        <span className="sr-only">Audio available</span>
+        <span className="sr-only">{locale === 'zh' ? '包含音频' : 'Audio available'}</span>
       ) : null}
       <div className="pointer-events-none block" style={{ width: '100%', aspectRatio: '16 / 9' }} aria-hidden />
       <div

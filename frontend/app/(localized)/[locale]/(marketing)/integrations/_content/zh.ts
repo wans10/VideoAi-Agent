@@ -76,7 +76,7 @@ function buildChineseGuides(client: McpClientId): IntegrationHostGuide[] {
     {
       hostId: 'codexCli',
       title: '在 Codex 中安装 VideoAI 插件',
-      intro: '添加经过标记的 VideoAI 市场，安装插件，然后从新的 Codex 对话中授权您的账户。',
+      intro: '添加指定发布标签的 VideoAI 插件市场，安装插件，然后从新的 Codex 对话中授权您的账户。',
       installInstruction: getIntegrationInstallInstruction('zh', 'codexCli'),
       steps: [
         { title: '添加市场', body: `在已审核的 ${MAXVIDEOAI_PUBLIC_PLUGIN_VERSION} 发布版本标签下注册公开 VideoAI 仓库。` },
@@ -137,12 +137,12 @@ export function buildChineseIntegrationCopy(client: McpClientId): IntegrationPag
       backHref: localizedIntegrationPath('zh', 'mcp'),
     },
     compatibility: {
-      checkpointLabel: client === 'chatgpt' ? '流程已验证' : '兼容性已核实',
+      checkpointLabel: '兼容性检查点',
       machineStatusLabel: '宿主环境状态',
       statuses: {
         claudeDesktop: 'Claude Desktop 1.37937.1 在受控测试环境下已完成 OAuth、模型发现、预算预估、确切报价、素材管理、任务恢复与充值跳转全流程验证。',
-        claudeCode: '共享连接器配置已就绪，直接在 Claude Code 生产环境下的完整验证记录正在归档中。',
-        chatgptWeb: 'ChatGPT 开发者模式可直连 VideoAI MCP 并在首次使用时触发 OAuth。此流程独立于 OpenAI 目录政策。',
+        claudeCode: 'Claude Code 使用独立的宿主路径；目前尚无直接端到端验证检查点。',
+        chatgptWeb: 'ChatGPT 开发者模式可直连 VideoAI MCP；目前尚无 ChatGPT 网页端到端验证检查点。此连接方式独立于 OpenAI 目录政策。',
         codexCli: 'Codex CLI 0.150.0-alpha.8 已在生产环境下通过插件安装、OAuth、账户、目录、推荐、预算、确切报价、付费生成与内联播放契约检查。',
       },
     },

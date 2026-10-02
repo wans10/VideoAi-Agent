@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import Image from 'next/image';
 import { getAspectClass } from './quad-preview-helpers';
 import type { QuadMosaicStatus, QuadPreviewTile } from './quad-preview-types';
@@ -24,6 +25,7 @@ export function QuadMosaicFigure({
   primaryAspect,
   onPrimaryVideoReady,
 }: QuadMosaicFigureProps) {
+  const { locale } = useI18n();
   return (
     <figure className="overflow-hidden rounded-card border border-border bg-surface-glass-80 p-3 text-center">
       <div className={clsx('relative w-full', getAspectClass(primaryAspect))}>
@@ -78,13 +80,13 @@ export function QuadMosaicFigure({
                     <div className="absolute inset-0 bg-gradient-to-br from-surface-2 via-surface to-surface-2" />
                   )}
                   {Boolean(preview?.hasAudio) && tileStatus !== 'failed' ? (
-                    <span className="sr-only">Audio available</span>
+                    <span className="sr-only">{locale === 'zh' ? '包含音频' : 'Audio available'}</span>
                   ) : null}
                 </div>
                 <div className="absolute inset-0 z-10" data-quad-player-root={slotKey} />
                 {showPendingOverlay ? (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-surface-on-media-dark-45 px-2 text-center text-[10px] text-on-inverse backdrop-blur-sm">
-                    <span className="uppercase tracking-micro">Processing</span>
+                    <span className="uppercase tracking-micro">{locale === 'zh' ? '处理中' : 'Processing'}</span>
                     {(statusInfo?.message || preview?.message) ? (
                       <span className="mt-1 max-w-[140px] text-[10px] text-on-media-80">
                         {statusInfo?.message ?? preview?.message}
@@ -98,7 +100,7 @@ export function QuadMosaicFigure({
                 ) : null}
                 {showFailedOverlay ? (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-1 rounded-input bg-error-bg px-3 text-center text-[10px] text-error">
-                    <span className="font-semibold uppercase tracking-micro text-error">Failed</span>
+                    <span className="font-semibold uppercase tracking-micro text-error">{locale === 'zh' ? '失败' : 'Failed'}</span>
                     {failureMessage ? <span className="line-clamp-4 text-[10px] leading-tight text-error">{failureMessage}</span> : null}
                   </div>
                 ) : null}
@@ -107,7 +109,7 @@ export function QuadMosaicFigure({
           })}
         </div>
       </div>
-      <figcaption className="mt-2 text-[11px] text-text-muted">Composite preview</figcaption>
+      <figcaption className="mt-2 text-[11px] text-text-muted">{locale === 'zh' ? '拼接预览' : 'Composite preview'}</figcaption>
     </figure>
   );
 }

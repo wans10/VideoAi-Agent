@@ -176,10 +176,72 @@ function spanish(): IntegrationText {
   };
 }
 
+function chinese(): IntegrationText {
+  return {
+    metaTitle: 'VideoAI 与 OpenClaw | AI 视频制作',
+    metaDescription: '通过直连 MCP 或 ClawHub 将 OpenClaw 连接到 VideoAI，规划视频、获取报价、批准生成并找回任务，了解已验证范围与限制。',
+    eyebrow: 'OPENCLAW AI 视频集成',
+    heroTitle: '通过 OpenClaw 和 VideoAI 制作 AI 视频',
+    heroIntro: '直连远程 MCP 服务器，或从 ClawHub 安装 VideoAI 1.0.0。已测试的路径覆盖 OAuth、规划、明确批准的一次生成、任务恢复、撤销和重新连接；私有参考导入和频道内展示尚未验证。',
+    unavailable: 'OpenClaw 可通过直连 MCP 和已上架的 ClawHub 软件包使用，消费前需要明确批准。私有参考导入、频道附件和频道内联展示不在已验证范围内。',
+    setupLabel: '连接 OpenClaw',
+    backLabel: '查看所有受支持的工作流程',
+    checkpointLabel: '测试检查点',
+    machineStatusLabel: '宿主验证状态',
+    statuses: { openclawGateway: 'OpenClaw 2026.9.4 已在有限条件下测试：覆盖 OAuth 拒绝与批准、发现、规划、一次明确批准的付费提交、已接收任务恢复、撤销、重新连接、凭据刷新及 ClawHub 安装。' },
+    setupEyebrow: '连接 OPENCLAW',
+    setupTitle: '配置远程 MCP，无需保存 VideoAI 密码',
+    setupIntro: 'OpenClaw 支持操作者共用 OAuth 和按请求者区分身份的模式。连接前先确定频道的身份边界；两种模式均不允许在提示词或提交到仓库的配置中保存凭据。',
+    guides: [{
+      hostId: 'openclawGateway',
+      title: '在 OpenClaw 中添加 VideoAI',
+      intro: '将生产环境 Streamable HTTP 地址配置为使用 OAuth，再通过 OpenClaw MCP 命令启动浏览器授权。',
+      installInstruction: getIntegrationInstallInstruction('zh', 'openclawGateway'),
+      steps: [
+        { title: '选择身份模式', body: '只有操作者自己的代理才使用共用 OAuth。每个可信发送者需连接独立 VideoAI 账户时，使用按请求者区分的 OAuth。' },
+        { title: '保存远程服务器', body: '将 HTTPS 地址注册为使用 OAuth 的 Streamable HTTP 服务。不要将 bearer token 或密码加入配置。' },
+        { title: '授权并检查连接', body: '运行登录命令，在浏览器完成授权，然后查询账户状态和当前模型目录，再准备报价。' },
+      ],
+      commandLabel: 'OpenClaw 连接检查命令',
+      commands: COMMANDS,
+      setupValues: [{ label: 'VideoAI MCP 地址', value: MCP_PRODUCTION_RESOURCE_URL }],
+      authTrigger: '保存服务器后，运行 openclaw mcp login maxvideoai。',
+      limitation: '私有参考导入、频道附件和频道内联展示尚未验证。如果频道无法展示结果，请打开返回的 VideoAI 素材库入口。',
+    }],
+    oauthTitle: '明确频道身份与 VideoAI 账户的对应关系',
+    oauthBody: '共用 OAuth 由操作者管理；按请求者区分的 OAuth 将各个可信发送者的账户隔离。两种模式均在浏览器完成 VideoAI 登录和授权，不向对话提供密码或支付信息。',
+    oauthSteps: ['选择共用身份或按请求者区分的身份模式', '在浏览器完成 VideoAI 登录与授权', '测试退出、确认访问失效，再明确发起新登录'],
+    workflowEyebrow: '预期工作流程',
+    workflowTitle: '自主规划，获得新的明确批准后才消费',
+    workflowIntro: '代理可先发现模型、推荐方案和估算项目预算，再准备一份精确请求。准备报价不代表获得消费授权。',
+    workflowSteps: [
+      { title: '查询与估算预算', body: '读取当前账户和模型信息，在不消费的情况下比较限定范围的项目预算。' },
+      { title: '准备精确报价', body: '一起校验提示词、设置和参考素材，向用户展示带有效期的报价。' },
+      { title: '取得明确批准', body: '只确认用户明确批准且仍有效的精确报价，不能从创意简报或预算推断消费授权。' },
+      { title: '找回已接收任务', body: '超时后查询原任务并返回正式结果或素材库链接，避免重复提交和扣费。' },
+    ],
+    referencesTitle: '通过 VideoAI 的入口管理私有参考素材',
+    referencesPlanning: 'OpenClaw 可协助规划参考素材的用途，当前支持的类型与限制以所选模型返回的信息为准。',
+    referencesGated: 'OpenClaw 的私有参考导入和频道附件尚未验证。请通过 VideoAI 添加私有媒体，再使用账户素材库和结果链接，不依赖未经验证的频道展示。',
+    helpEyebrow: '支持范围',
+    helpTitle: 'OpenClaw 已测试路径包含什么',
+    helpIntro: '直连 MCP 和 ClawHub 软件包可用，但保留以下宿主相关限制。',
+    helpItems: [
+      { question: 'VideoAI 已在 ClawHub 上架吗？', answer: '是。VideoAI 1.0.0 已在 @camgraphe 名下上架。上架状态与直连 MCP 宿主验证是两件独立的事。' },
+      { question: '所有频道都能发送相同的参考素材吗？', answer: '尚未确认私有参考导入或频道附件受支持，频道内展示也仍未验证。' },
+      { question: '调用超时后怎么办？', answer: '根据任务标识找回已接收的原任务，不要自动创建新的付费任务来替代它。' },
+    ],
+    disconnectTitle: '断开 OpenClaw 并撤销 VideoAI 授权',
+    disconnectBody: '删除 OpenClaw 中保存的服务器或退出登录，再到 VideoAI 账户连接设置撤销授权。重新连接需在浏览器中再次明确批准。',
+    disconnectSteps: ['运行 OpenClaw MCP 退出命令或删除已保存服务器', '在 VideoAI 账户连接设置撤销授权', '确认访问失效，再测试重新登录'],
+    supportLabel: '联系 VideoAI 支持',
+  };
+}
+
 export function buildOpenClawIntegrationCopy(locale: AppLocale): IntegrationPageCopy {
   return buildIntegrationCopy({
     client: 'openclaw',
     locale,
-    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : english(),
+    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : locale === 'zh' ? chinese() : english(),
   });
 }

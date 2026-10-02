@@ -1,3 +1,6 @@
+'use client';
+
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
 import type { Mode } from '@/types/engines';
@@ -44,6 +47,7 @@ export function SettingsKlingV3Controls({
   voiceControlActive,
   voiceIdsValue,
 }: SettingsKlingV3ControlsProps) {
+  const { locale } = useI18n();
   const isCompact = layout === 'compact';
   const labelClass = isCompact
     ? 'text-[11px] font-semibold uppercase tracking-micro text-text-muted'
@@ -58,11 +62,11 @@ export function SettingsKlingV3Controls({
   const body = (
     <>
       <label className={fieldClass}>
-        <span className={labelClass}>Shot type</span>
+        <span className={labelClass}>{locale === 'zh' ? '镜头模式' : 'Shot type'}</span>
         <div className="flex flex-wrap gap-2">
           {(['customize', 'intelligent'] as const).map((option) => (
             <Button
-              key={option}
+              key={locale === 'zh' ? (option === 'customize' ? '自定义' : '智能') : option}
               type="button"
               size="sm"
               variant="outline"
@@ -73,17 +77,17 @@ export function SettingsKlingV3Controls({
               }}
               className={clsx(toggleButtonClass, activeToggleClass(option === klingShotType))}
             >
-              {option}
+              {locale === 'zh' ? (option === 'customize' ? '自定义' : '智能') : option}
             </Button>
           ))}
         </div>
         {mode === 'i2v' ? (
-          <span className="text-[11px] text-text-muted">Shot type is locked to customize for image-to-video.</span>
+          <span className="text-[11px] text-text-muted">{locale === 'zh' ? '图生视频固定使用自定义镜头模式。' : 'Shot type is locked to customize for image-to-video.'}</span>
         ) : null}
       </label>
       {showVoiceControls ? (
         <label className={fieldClass}>
-          <span className={labelClass}>Voice IDs (CSV)</span>
+          <span className={labelClass}>{locale === 'zh' ? '音色 ID（逗号分隔）' : 'Voice IDs (CSV)'}</span>
           <input
             type="text"
             placeholder="voice_1, voice_2"
@@ -91,9 +95,9 @@ export function SettingsKlingV3Controls({
             onChange={(event) => onVoiceIdsChange?.(event.currentTarget.value)}
             className={inputClass}
           />
-          <span className="text-[11px] text-text-muted">Voice control pricing: $0.392/s</span>
+          <span className="text-[11px] text-text-muted">{locale === 'zh' ? '音色控制价格：0.392 美元/秒' : 'Voice control pricing: $0.392/s'}</span>
           {voiceControlActive ? (
-            <span className="text-[11px] text-text-muted">Audio locked on while voice control is enabled.</span>
+            <span className="text-[11px] text-text-muted">{locale === 'zh' ? '启用音色控制时，音频保持开启。' : 'Audio locked on while voice control is enabled.'}</span>
           ) : null}
         </label>
       ) : null}
@@ -103,7 +107,7 @@ export function SettingsKlingV3Controls({
   if (isCompact) {
     return (
       <div className="space-y-3">
-        <span className={labelClass}>Kling controls</span>
+        <span className={labelClass}>{locale === 'zh' ? 'Kling 控制选项' : 'Kling controls'}</span>
         <div className="grid gap-3 md:grid-cols-2">{body}</div>
       </div>
     );
@@ -111,7 +115,7 @@ export function SettingsKlingV3Controls({
 
   return (
     <div className="space-y-2">
-      <span className={labelClass}>Kling controls</span>
+      <span className={labelClass}>{locale === 'zh' ? 'Kling 控制选项' : 'Kling controls'}</span>
       <div className="space-y-2 rounded-input border border-border bg-surface p-3">{body}</div>
     </div>
   );
@@ -126,6 +130,7 @@ export function SettingsSeedanceAdvancedControls({
   safetyChecker,
   seedValue,
 }: SettingsSeedanceAdvancedControlsProps) {
+  const { locale } = useI18n();
   const isCompact = layout === 'compact';
   const labelClass = isCompact
     ? 'text-[11px] font-semibold uppercase tracking-micro text-text-muted'
@@ -140,18 +145,18 @@ export function SettingsSeedanceAdvancedControls({
   const body = (
     <>
       <label className={fieldClass}>
-        <span className={labelClass}>Seed</span>
+        <span className={labelClass}>{locale === 'zh' ? '随机种子' : 'Seed'}</span>
         <input
           type="number"
-          placeholder="-1 for random"
+          placeholder={locale === 'zh' ? '-1 表示随机' : '-1 for random'}
           value={seedValue}
           onChange={(event) => onSeedChange?.(event.currentTarget.value)}
           className={inputClass}
         />
-        <span className="text-[11px] text-text-muted">Use -1 for random.</span>
+        <span className="text-[11px] text-text-muted">{locale === 'zh' ? '使用 -1 随机生成。' : 'Use -1 for random.'}</span>
       </label>
       <label className={fieldClass}>
-        <span className={labelClass}>Camera fixed</span>
+        <span className={labelClass}>{locale === 'zh' ? '固定镜头' : 'Camera fixed'}</span>
         <div className="flex flex-wrap gap-2">
           {[true, false].map((option) => (
             <Button
@@ -162,13 +167,13 @@ export function SettingsSeedanceAdvancedControls({
               onClick={() => onCameraFixedChange?.(option)}
               className={clsx(toggleButtonClass, activeToggleClass(option === cameraFixed))}
             >
-              {option ? 'On' : 'Off'}
+              {locale === 'zh' ? (option ? '开启' : '关闭') : (option ? 'On' : 'Off')}
             </Button>
           ))}
         </div>
       </label>
       <label className={fieldClass}>
-        <span className={labelClass}>Safety checker</span>
+        <span className={labelClass}>{locale === 'zh' ? '安全检查' : 'Safety checker'}</span>
         <div className="flex flex-wrap gap-2">
           {[true, false].map((option) => (
             <Button
@@ -179,7 +184,7 @@ export function SettingsSeedanceAdvancedControls({
               onClick={() => onSafetyCheckerChange?.(option)}
               className={clsx(toggleButtonClass, activeToggleClass(option === safetyChecker))}
             >
-              {option ? 'On' : 'Off'}
+              {locale === 'zh' ? (option ? '开启' : '关闭') : (option ? 'On' : 'Off')}
             </Button>
           ))}
         </div>
@@ -190,7 +195,7 @@ export function SettingsSeedanceAdvancedControls({
   if (isCompact) {
     return (
       <div className="space-y-3">
-        <span className={labelClass}>Seedance advanced</span>
+        <span className={labelClass}>{locale === 'zh' ? 'Seedance 高级设置' : 'Seedance advanced'}</span>
         <div className="grid gap-3 md:grid-cols-3">{body}</div>
       </div>
     );
@@ -198,7 +203,7 @@ export function SettingsSeedanceAdvancedControls({
 
   return (
     <div className="space-y-2">
-      <span className={labelClass}>Seedance advanced</span>
+      <span className={labelClass}>{locale === 'zh' ? 'Seedance 高级设置' : 'Seedance advanced'}</span>
       <div className="space-y-3 rounded-input border border-border bg-surface p-3">{body}</div>
     </div>
   );

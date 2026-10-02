@@ -63,19 +63,19 @@ function resolveExamplesPricingCallout(selectedEngine: string | null, locale: Ap
           ? 'Comparez les tarifs actuels LTX 2.5 Fast et Pro selon la durée, la résolution et les options audio.'
           : locale === 'es'
             ? 'Compara los precios actuales de LTX 2.5 Fast y Pro según duración, resolución y opciones de audio.'
-            : 'Compare current LTX 2.5 Fast and Pro prices by duration, resolution and audio options.',
+            : locale === 'zh' ? '按时长、分辨率和音频选项比较 LTX 2.5 Fast 与 Pro 的当前价格。' : 'Compare current LTX 2.5 Fast and Pro prices by duration, resolution and audio options.',
     };
   }
   if (normalized === 'kling') {
     return {
       href: `${pricingPath}#kling-o3-pro-pricing`,
-      title: locale === 'fr' ? 'Tarifs Kling' : locale === 'es' ? 'Precios de Kling' : 'Kling pricing',
+      title: locale === 'fr' ? 'Tarifs Kling' : locale === 'es' ? 'Precios de Kling' : locale === 'zh' ? 'Kling 价格' : 'Kling pricing',
       body:
         locale === 'fr'
           ? 'Comparez Kling 3 et Kling 3.0 Omni selon vos images de départ, la durée et la résolution souhaitées.'
           : locale === 'es'
             ? 'Compara Kling 3 y Kling 3.0 Omni según tus imágenes de referencia, la duración y la resolución.'
-            : 'Compare Kling 3 and Kling 3.0 Omni prices for your source images, duration and resolution.',
+            : locale === 'zh' ? '根据源图、时长和分辨率，比较 Kling 3 与 Kling 3.0 Omni 的价格。' : 'Compare Kling 3 and Kling 3.0 Omni prices for your source images, duration and resolution.',
     };
   }
   return null;
@@ -156,14 +156,14 @@ export function ExamplesFamilyIntro({ body, label, locale, title }: ExamplesFami
     <section className={styles.familyIntro} aria-labelledby="examples-family-guide-title">
       <div className={styles.familyIntroHeading}>
         <span className={styles.eyebrow}>
-          {locale === 'fr' ? 'Famille de modèles' : locale === 'es' ? 'Familia de modelos' : 'Model family'}
+          {locale === 'fr' ? 'Famille de modèles' : locale === 'es' ? 'Familia de modelos' : locale === 'zh' ? '模型家族' : 'Model family'}
         </span>
         <h2 id="examples-family-guide-title">
           {title ?? (locale === 'fr'
             ? `Explorer la famille ${label}`
             : locale === 'es'
               ? `Explora la familia ${label}`
-              : `Explore the ${label} family`)}
+              : locale === 'zh' ? `探索 ${label} 模型家族` : `Explore the ${label} family`)}
         </h2>
       </div>
       <p>{body}</p>
@@ -200,7 +200,7 @@ export function ExamplesModelLinksSection({
       <div className={styles.sectionHeading}>
         <div>
           <span className={styles.eyebrow}>
-            {locale === 'fr' ? 'Les modèles' : locale === 'es' ? 'Los modelos' : 'The models'}
+            {locale === 'fr' ? 'Les modèles' : locale === 'es' ? 'Los modelos' : locale === 'zh' ? '模型' : 'The models'}
           </span>
           <h2 id="examples-model-pages-title">{usesCurrentAndSupportedBlocks ? currentModelPagesLabel : modelPagesLabel}</h2>
         </div>
@@ -394,11 +394,11 @@ export function ExamplesNextStepsSection({ locale, nextStepLinks }: ExamplesNext
     <section className={styles.nextSteps}>
       <div className={styles.sectionHeading}>
         <span className={styles.eyebrow}>
-          {locale === 'fr' ? 'Continuer' : locale === 'es' ? 'Continuar' : 'Keep exploring'}
+          {locale === 'fr' ? 'Continuer' : locale === 'es' ? 'Continuar' : locale === 'zh' ? '继续探索' : 'Keep exploring'}
         </span>
         <h2>{hasMatchups
-          ? locale === 'fr' ? 'Les duels de modèles' : locale === 'es' ? 'Duelos de modelos' : 'Model matchups'
-          : locale === 'fr' ? 'Aller plus loin' : locale === 'es' ? 'Siguientes pasos' : 'Next steps'}</h2>
+          ? locale === 'fr' ? 'Les duels de modèles' : locale === 'es' ? 'Duelos de modelos' : locale === 'zh' ? '模型对比' : 'Model matchups'
+          : locale === 'fr' ? 'Aller plus loin' : locale === 'es' ? 'Siguientes pasos' : locale === 'zh' ? '下一步' : 'Next steps'}</h2>
       </div>
       {comparisonLinks.length ? (
         <div className={styles.comparisonGrid}>

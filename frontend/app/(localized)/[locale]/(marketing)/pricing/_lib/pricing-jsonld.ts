@@ -34,7 +34,7 @@ export function buildPricingBreadcrumbJsonLd({ canonical, locale }: { canonical:
 export function buildPricingServiceJsonLd({ canonical, locale }: { canonical: string; locale: AppLocale }) {
   return buildMarketingServiceJsonLd({
     name:
-      locale === 'fr' ? 'Tarifs VideoAI' : locale === 'es' ? 'Precios de VideoAI' : 'VideoAI pricing',
+      locale === 'fr' ? 'Tarifs VideoAI' : locale === 'es' ? 'Precios de VideoAI' : locale === 'zh' ? 'VideoAI 价格' : 'VideoAI pricing',
     description:
       locale === 'fr'
         ? 'Comparez les prix VideoAI par moteur, durée, résolution, audio, image et outils.'
@@ -47,7 +47,7 @@ export function buildPricingServiceJsonLd({ canonical, locale }: { canonical: st
         : locale === 'es'
           ? 'Comparación de precios de IA'
           : 'AI pricing comparison',
-    category: locale === 'fr' ? 'Tarification' : locale === 'es' ? 'Precios' : 'Pricing',
+    category: locale === 'fr' ? 'Tarification' : locale === 'es' ? 'Precios' : locale === 'zh' ? '价格' : 'Pricing',
     url: canonical,
   });
 }

@@ -26,7 +26,7 @@ export function getExamplesEditorialSections(
 }
 
 export function getExamplesBrowseByModelLabel(locale: AppLocale) {
-  return locale === 'fr' ? 'Parcourir par marque' : locale === 'es' ? 'Explorar por modelo' : 'Browse by brand';
+  return locale === 'fr' ? 'Parcourir par marque' : locale === 'es' ? 'Explorar por modelo' : locale === 'zh' ? '按品牌浏览' : 'Browse by brand';
 }
 
 export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: PaginationDictionary = {}) {
@@ -53,7 +53,9 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
             audioAvailable: 'Audio disponible al reproducir',
             detailsCta: 'Ver ajustes y precio',
           }
-        : {
+        : locale === 'zh' ? {
+            prev: '上一页', next: '下一页', page: '页', loadMore: '加载更多案例', loading: '加载中…', noPreview: '暂无预览', audioAvailable: '播放时可听音频', detailsCta: '查看设置与价格',
+          } : {
             prev: 'Previous',
             next: 'Next',
             page: 'Page',
@@ -80,6 +82,7 @@ export function getExamplesLongDescription(locale: AppLocale) {
   if (locale === 'es') {
     return 'Explora ejemplos de video IA por modelo. Abre un ejemplo para consultar su prompt, ajustes, duración y costo registrado de la generación, y después recréalo en tu espacio de trabajo.';
   }
+  if (locale === 'zh') return '按模型浏览 AI 视频案例。打开案例查看提示词、设置、时长和历史生成费用，再到工作台复用创作。';
   return 'Browse AI video examples by model. Open any example to inspect its prompt, settings, duration, and recorded render cost, then recreate it in your workspace.';
 }
 
@@ -91,6 +94,7 @@ export function getKlingExamplesSectionTitles(locale: AppLocale, isKlingLanding:
   if (locale === 'es') {
     return ['Prompts de Kling AI para reutilizar', 'Patrones de imagen a video', 'Ajustes y elección del modelo'];
   }
+  if (locale === 'zh') return ['可复用的 Kling AI 提示词', '图生视频提示词模式', '设置与模型选择'];
   return ['Kling AI prompts to reuse', 'Image-to-video prompt patterns', 'Settings and model fit'];
 }
 
@@ -110,51 +114,51 @@ export function getExamplesModelPageLabels({
       ? 'Pages modèles concernées'
       : locale === 'es'
         ? 'Páginas de modelo relacionadas'
-        : 'Related model pages';
+        : locale === 'zh' ? '相关模型页面' : 'Related model pages';
   const currentModelPagesLabel =
     isKlingLanding
       ? locale === 'fr'
         ? 'Choisissez votre modèle Kling'
         : locale === 'es'
           ? 'Elige tu modelo Kling'
-          : 'Choose your Kling model'
+          : locale === 'zh' ? '选择您的 Kling 模型' : 'Choose your Kling model'
       : isLtxLanding
         ? locale === 'fr'
           ? 'Choisissez votre modèle LTX'
           : locale === 'es'
             ? 'Elige tu modelo LTX'
-            : 'Choose your LTX model'
+            : locale === 'zh' ? '选择您的 LTX 模型' : 'Choose your LTX model'
       : isSeedanceLanding
         ? locale === 'fr'
           ? 'Choisissez votre modèle Seedance'
           : locale === 'es'
             ? 'Elige tu modelo Seedance'
-            : 'Choose your Seedance model'
+            : locale === 'zh' ? '选择您的 Seedance 模型' : 'Choose your Seedance model'
         : locale === 'fr'
           ? 'Pages modèles actuelles'
           : locale === 'es'
             ? 'Páginas de modelo actuales'
-            : 'Current model pages';
+            : locale === 'zh' ? '当前模型页面' : 'Current model pages';
   const supportedOlderVersionLabel =
     isKlingLanding
       ? locale === 'fr'
         ? 'Anciens modèles Kling encore pris en charge'
         : locale === 'es'
           ? 'Modelos Kling anteriores aún compatibles'
-          : 'Supported older Kling models'
+          : locale === 'zh' ? '仍受支持的旧版 Kling 模型' : 'Supported older Kling models'
       : isLtxLanding
         ? locale === 'fr'
           ? 'Modèles LTX plus anciens encore pris en charge'
           : locale === 'es'
             ? 'Modelos LTX anteriores aún compatibles'
-            : 'Supported older LTX models'
+            : locale === 'zh' ? '仍受支持的旧版 LTX 模型' : 'Supported older LTX models'
       : locale === 'fr'
         ? 'Version plus ancienne prise en charge'
         : locale === 'es'
           ? 'Versión anterior compatible'
-          : 'Supported older version';
+          : locale === 'zh' ? '仍受支持的旧版模型' : 'Supported older version';
   const pricingLinkLabel =
-    locale === 'fr' ? 'Comparer les tarifs' : locale === 'es' ? 'Comparar precios' : 'Compare pricing';
+    locale === 'fr' ? 'Comparer les tarifs' : locale === 'es' ? 'Comparar precios' : locale === 'zh' ? '比较价格' : 'Compare pricing';
 
   return {
     currentModelPagesLabel,
@@ -183,12 +187,12 @@ export function buildExamplesNextStepLinks({
   locale: AppLocale;
   pricingPath: string;
 }): ExamplesNextStepLink[] {
-  const compareLabel = locale === 'fr' ? 'Comparer' : locale === 'es' ? 'Comparar' : 'Compare';
+  const compareLabel = locale === 'fr' ? 'Comparer' : locale === 'es' ? 'Comparar' : locale === 'zh' ? '对比' : 'Compare';
   const comparisonLink = (slug: string, label: string): ExamplesNextStepLink => {
     const separator = slug.indexOf('-vs-');
     return {
       href: buildCompareHref(appLocale, slug),
-      label: `${compareLabel} ${label}`,
+      label: locale === 'zh' ? label.replace(/ vs /g, ' 对比 ') : `${compareLabel} ${label}`,
       comparison: separator > 0 ? [slug.slice(0, separator), slug.slice(separator + 4)] : undefined,
     };
   };
@@ -239,7 +243,7 @@ export function buildExamplesNextStepLinks({
     { href: buildModelHref(appLocale, 'minimax-h3'), label: 'MiniMax H3', modelSlug: 'minimax-h3' },
     { href: buildModelHref(appLocale, 'wan-3'), label: 'Wan 3', modelSlug: 'wan-3' },
     comparisonLink('kling-3-pro-vs-seedance-2-5', 'Kling 3 Pro vs Seedance 2.5'),
-    { href: pricingPath, label: locale === 'fr' ? 'Voir les tarifs' : locale === 'es' ? 'Ver precios' : 'View pricing' },
+    { href: pricingPath, label: locale === 'fr' ? 'Voir les tarifs' : locale === 'es' ? 'Ver precios' : locale === 'zh' ? '查看价格' : 'View pricing' },
   ];
 }
 
@@ -269,6 +273,10 @@ export function getExamplesMainVideoCopy(locale: AppLocale, familySlug?: string)
       fullPrompt: 'Prompt completo',
     };
   }
+  if (locale === 'zh') return {
+    recreationHint: showRecreationHint ? '在详情页将此案例带入工作台，添加您的源素材，并在生成前检查报价。' : undefined,
+    preview: '预览', openExample: '查看设置与价格', openWatchPage: '打开视频详情', audioOn: '音频已开启', fullPrompt: '完整提示词',
+  };
   return {
     recreationHint: showRecreationHint
       ? 'From the detail page, recreate this example in your workspace, add your sources and review the quote before generating.'

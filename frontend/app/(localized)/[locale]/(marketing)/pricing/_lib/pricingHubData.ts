@@ -853,6 +853,7 @@ function quoteImageScenarioCents(engine: EngineCaps, preset: ImagePriceScenario)
 }
 
 function formatImageQuantityNote(locale: AppLocale, quantity: number, resolution: string) {
+  if (locale === 'zh') return `${quantity} 张图片 · ${resolution}`;
   const label =
     locale === 'fr'
       ? quantity > 1
@@ -873,15 +874,18 @@ function formatLumaImageReferenceNote(locale: AppLocale, mode: LumaAgentsImageMo
     if (referenceImageCount <= 0) return '2K';
     if (locale === 'fr') return `${referenceImageCount} refs image · 2K`;
     if (locale === 'es') return `${referenceImageCount} refs de imagen · 2K`;
+    if (locale === 'zh') return `${referenceImageCount} 张参考图 · 2K`;
     return `${referenceImageCount} image refs · 2K`;
   }
   if (referenceImageCount <= 0) {
     if (locale === 'fr') return 'Source edit · 2K';
     if (locale === 'es') return 'Edición de fuente · 2K';
+    if (locale === 'zh') return '源图编辑 · 2K';
     return 'Source edit · 2K';
   }
   if (locale === 'fr') return `Source + ${referenceImageCount} refs · 2K`;
   if (locale === 'es') return `Fuente + ${referenceImageCount} refs · 2K`;
+  if (locale === 'zh') return `源图 + ${referenceImageCount} 张参考图 · 2K`;
   return `Source + ${referenceImageCount} refs · 2K`;
 }
 
