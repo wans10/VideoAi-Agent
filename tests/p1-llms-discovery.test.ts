@@ -115,9 +115,7 @@ test('default llms output includes priority models once and drops the stale Sora
   }
   assert.doesNotMatch(text, /sora-2|Sora 2|## Engines \(key pages\)|## Current launch models/);
   assert.match(text, /available through its web application/);
-  assert.match(text, /In addition to the web application.*remote MCP integration/);
-  assert.match(text, /Public n8n template 19591 is listed; OAuth setup remains manual/);
-  assert.doesNotMatch(text, /no public template listing/i);
+  assert.doesNotMatch(text, /remote MCP integration|Public n8n template|\/integrations\/|\/docs\/mcp/);
   for (const slug of [
     'gemini-omni-flash-vs-veo-3-1',
     'seedance-2-0-vs-seedance-2-0-fast',
@@ -127,6 +125,13 @@ test('default llms output includes priority models once and drops the stale Sora
   }
   const urls = [...text.matchAll(/\]\((https:\/\/[^)]+)\)/g)].map((match) => match[1]);
   assert.equal(new Set(urls).size, urls.length, 'source links must not be duplicated');
+});
+
+test('reopening MCP publication restores its documented discovery sources', () => {
+  const text = buildLlmsText({ ...mcpPublication, publicMarketing: true, publicIndexing: true });
+  assert.match(text, /In addition to the web application.*remote MCP integration/);
+  assert.match(text, /Public n8n template 19591 is listed; OAuth setup remains manual/);
+  assert.doesNotMatch(text, /no public template listing/i);
 });
 
 test('curated llms model links follow lifecycle, publication, canonical slug and label changes', () => {

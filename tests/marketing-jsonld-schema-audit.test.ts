@@ -442,7 +442,8 @@ test('site Organization schema keeps one canonical complete entity', () => {
   assert.equal(organization['@id'], `${SITE_ORIGIN}/#organization`);
   assert.equal(organization.name, 'VideoAI');
   assert.match(organization.description, /pay-as-you-go/);
-  assert.match(organization.description, /web workspace and MCP integrations/);
+  assert.match(organization.description, /web workspace for creative production/);
+  assert.doesNotMatch(organization.description, /MCP integrations/);
   assert.doesNotMatch(organization.description, /Sora|Pika|Seedance|Kling|Veo/);
   assert.ok(!('sameAs' in organization), 'custom brand does not claim upstream social accounts');  const reference = buildSiteOrganizationReference();
   assert.equal(reference['@id'], organization['@id']);
