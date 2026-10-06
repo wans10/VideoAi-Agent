@@ -192,9 +192,9 @@ test('homepage titles keep the pay-as-you-go differentiator without getting too 
     es: spanishMessages.home?.meta?.title ?? '',
   };
 
-  assert.equal(titles.en, 'Pay-as-you-go AI Video Generator | VideoAI');
-  assert.equal(titles.fr, 'Générateur vidéo IA sans abonnement | VideoAI');
-  assert.equal(titles.es, 'Generador de video IA de pago por uso | VideoAI');
+  assert.equal(titles.en, 'Pay-as-you-go AI Video Generator | Keyvo');
+  assert.equal(titles.fr, 'Générateur vidéo IA sans abonnement | Keyvo');
+  assert.equal(titles.es, 'Generador de video IA de pago por uso | Keyvo');
   assert.ok(titles.en.length <= 55, `English title is too long: ${titles.en.length}`);
   assert.ok(titles.fr.length <= 55, `French title is too long: ${titles.fr.length}`);
   assert.ok(titles.es.length <= 55, `Spanish title is too long: ${titles.es.length}`);

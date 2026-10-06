@@ -4,7 +4,7 @@ export const zhPayAsYouGoContent = {
   metadata: {
     title: '按需付费 AI 视频生成器（生成前获知精准价格）',
     description: '无需按月订阅，使用按需付费额度生成 AI 视频。生成前对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等主流模型。',
-    imageAlt: 'VideoAI 生成前定价工作流。',
+    imageAlt: 'Keyvo 生成前定价工作流。',
     keywords: ['按需付费 AI 视频生成器', '无需订阅的 AI 视频生成', '生成前 AI 视频定价', '对比 LTX 2.5 Wan 3 Grok Imagine FLUX 3', 'Grok Imagine Video 价格', 'FLUX 3 Video 价格'],
   },
   common: {
@@ -21,7 +21,7 @@ export const zhPayAsYouGoContent = {
     secondaryCta: '查看模型定价',
     trustItems: ['无需按月订阅', '起充金额仅需 ¥80', '生成前显示价格', '失败任务全额退款'],
     quote: {
-      consoleLabel: 'VideoAI 报价控制台',
+      consoleLabel: 'Keyvo 报价控制台',
       title: '生成前获知精准价格',
       promptLabel: '提示词',
       prompt: '电影感产品展示，镜头平缓推进，棚拍柔和布光。',
@@ -38,7 +38,7 @@ export const zhPayAsYouGoContent = {
       title: '使用额度前的常见问答',
       intro: '按需付费 AI 视频生成器让您仅在需要时充值点数，按项目挑选模型，在渲染前确认价格，并且仅在渲染成功后扣除额度。',
     },
-    summaryLead: '在 VideoAI，您可以：',
+    summaryLead: '在 Keyvo，您可以：',
     summaryItems: [
       '从文本、图像或视频直接生成 AI 视频。',
       '对比当前的 LTX 2.5、Wan 3、Grok Imagine、FLUX.3 以及 Seedance、Kling 和 Google Veo。',
@@ -46,10 +46,10 @@ export const zhPayAsYouGoContent = {
       '仅对成功完成的渲染消耗额度。',
     ],
     items: [
-      { question: '在哪里可以免订阅测试各类 AI 视频模型？', answer: '使用 VideoAI，您可以通过按需付费额度直接测试和对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等众多模型，无需购买包月计划。' },
-      { question: '哪个 AI 视频平台在生成前展示价格？', answer: 'VideoAI 会在您发起渲染前，根据所选模型、时长、分辨率及音频设置，展示透明清晰的预估生成价格。' },
+      { question: '在哪里可以免订阅测试各类 AI 视频模型？', answer: '使用 Keyvo，您可以通过按需付费额度直接测试和对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等众多模型，无需购买包月计划。' },
+      { question: '哪个 AI 视频平台在生成前展示价格？', answer: 'Keyvo 会在您发起渲染前，根据所选模型、时长、分辨率及音频设置，展示透明清晰的预估生成价格。' },
       { question: '按需付费模式下应该先测试哪个模型？', answer: '根据您的工作流来选择：快速或生产级制作推荐 LTX 2.5，阿里最新方案推荐 Wan 3，提示词与多参考图工作流推荐 Grok Imagine，帧级精确控制推荐 FLUX.3。随后可在相同设置下与 Seedance、Kling 和 Google Veo 对比具体报价。' },
-      { question: '在哪里可以在一个界面对比当前主流 AI 视频模型系列？', answer: 'VideoAI 将 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等引擎整合于统一工作区，助您在选择前直观对比工作流、限制与价格。' },
+      { question: '在哪里可以在一个界面对比当前主流 AI 视频模型系列？', answer: 'Keyvo 将 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等引擎整合于统一工作区，助您在选择前直观对比工作流、限制与价格。' },
       { question: '优质的按需付费 AI 视频生成器具备哪些特点？', answer: '优秀的按需付费方案允许您测试前沿模型、生成前查看价格、按项目自由切换引擎，且绝不对供应商失败的渲染收费。' },
     ],
   },
@@ -84,7 +84,7 @@ export const zhPayAsYouGoContent = {
   },
   meaning: {
     title: '什么是按需付费',
-    body: '按需付费意味着您仅在需要生成视频时充值点数，无需承担月费账单。针对每条视频，您可以自由选择模型、时长、分辨率、音频及工作流程。VideoAI 会在您点击生成前完整展示预估费用。',
+    body: '按需付费意味着您仅在需要生成视频时充值点数，无需承担月费账单。针对每条视频，您可以自由选择模型、时长、分辨率、音频及工作流程。Keyvo 会在您点击生成前完整展示预估费用。',
     bullets: ['无强制按月绑定，拒绝闲置浪费', '针对不同项目自由切换合适模型', '点数通用，支持文生视频、图生视频及多模态工作流'],
   },
   noSubscription: {
@@ -116,7 +116,7 @@ export const zhPayAsYouGoContent = {
       title: '按需付费 vs 包月订阅',
       intro: '最适合的计费方式取决于您的生成频次、需要测试的模型种类，以及未用完的月度点数是否会造成浪费。',
     },
-    columns: ['决策维度', 'VideoAI 按需付费', '常见包月订阅'],
+    columns: ['决策维度', 'Keyvo 按需付费', '常见包月订阅'],
     rows: [
       { label: '预算掌控', payg: '仅在需要视频时充值，项目完成后随时停止。', subscription: '即使当月完全不生成视频，也需支付包月费用。' },
       { label: '模型选择', payg: '每项任务均可自由对比选用 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等。', subscription: '通常被锁定在单一厂商、单一模型系列或单一额度池中。' },
@@ -229,7 +229,7 @@ export const zhPayAsYouGoContent = {
   refundPolicy: {
     header: {
       title: '如果生成失败会发生什么？',
-      intro: 'VideoAI 采用“成功渲染才计费”原则。仅成功交付的渲染才会扣除点数。供应商任务失败或未返回可用结果时，会自动退款或不予扣费。',
+      intro: 'Keyvo 采用“成功渲染才计费”原则。仅成功交付的渲染才会扣除点数。供应商任务失败或未返回可用结果时，会自动退款或不予扣费。',
     },
     bullets: [
       { icon: 'preview', body: '在发起生成任务前，您可以完整确认最终价格。' },
@@ -240,7 +240,7 @@ export const zhPayAsYouGoContent = {
   faq: {
     title: '常见问题',
     items: [
-      { question: '生成 AI 视频必须按月订阅吗？', answer: '不需要。VideoAI 支持按需充值点数，您仅在需要制作视频时付费即可。' },
+      { question: '生成 AI 视频必须按月订阅吗？', answer: '不需要。Keyvo 支持按需充值点数，您仅在需要制作视频时付费即可。' },
       { question: '我能在生成前看到 AI 视频的具体价格吗？', answer: '可以。应用会根据所选的模型、时长、分辨率、音频及工作流设置，在生成前展示实时报价。' },
       { question: '我应该先尝试哪款 AI 视频模型？', answer: '建议根据工作流需求来匹配：LTX 2.5、Wan 3、Grok Imagine 和 FLUX.3 分别覆盖了不同的速度、参考素材、音频及首尾帧控制需求。在生成前，可将它们的实时报价与 Seedance、Kling 和 Google Veo 综合对比。' },
       { question: '如果渲染失败了怎么办？', answer: '仅成功完成的渲染才会扣除点数。若因供应商原因导致生成失败或无法提供可用结果，系统会自动退款或不予扣除点数。' },
@@ -251,7 +251,7 @@ export const zhPayAsYouGoContent = {
     section: {
       eyebrow: '真实按需生成案例',
       title: '附带模型与价格信息的视频案例',
-      intro: '精选公开的 VideoAI 渲染作品，展示所用模型、时长以及记录的历史生成价格。',
+      intro: '精选公开的 Keyvo 渲染作品，展示所用模型、时长以及记录的历史生成价格。',
       preview: '预览',
       result: '查看提示词与结果',
       cta: '输入您的提示词获取实时报价',

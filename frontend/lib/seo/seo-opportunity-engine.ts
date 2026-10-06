@@ -372,10 +372,10 @@ function buildObservedIssue(cluster: SeoQueryCluster, issueType: StrategicSeoIss
     return `Pricing, specs, limits, or duration intent is present and should be answered quickly: ${metricLine}.`;
   }
   if (issueType === 'brand_typo') {
-    return `Brand typo demand is appearing in GSC and should route clearly back to VideoAI: ${metricLine}.`;
+    return `Brand typo demand is appearing in GSC and should route clearly back to Keyvo: ${metricLine}.`;
   }
   if (issueType === 'outdated_deprioritized_model') {
-    return `Sora demand is present, but Sora is de-prioritized against VideoAI's current model strategy: ${metricLine}.`;
+    return `Sora demand is present, but Sora is de-prioritized against Keyvo's current model strategy: ${metricLine}.`;
   }
   return `The model family has enough strategic demand to deserve focused improvement: ${metricLine}.`;
 }
@@ -394,7 +394,7 @@ function buildSuggestedAction(cluster: SeoQueryCluster, issueType: StrategicSeoI
     return 'Make price, credit, duration, resolution, or limit details easier to scan near the top of the target page.';
   }
   if (issueType === 'brand_typo') {
-    return 'Create copy and metadata coverage that reinforces the correct VideoAI spelling while capturing common typo demand.';
+    return 'Create copy and metadata coverage that reinforces the correct Keyvo spelling while capturing common typo demand.';
   }
   if (issueType === 'outdated_deprioritized_model') {
     return 'Keep the page useful but route attention toward stronger current model families with comparison links and updated positioning.';
@@ -402,7 +402,7 @@ function buildSuggestedAction(cluster: SeoQueryCluster, issueType: StrategicSeoI
   if (issueType === 'good_position_zero_clicks' || issueType === 'high_impressions_low_ctr') {
     return 'Tighten the title/meta direction and above-the-fold promise so the visible snippet mirrors the query intent more directly.';
   }
-  return 'Strengthen the target page with a focused content block and clearer internal links from related VideoAI hubs.';
+  return 'Strengthen the target page with a focused content block and clearer internal links from related Keyvo hubs.';
 }
 
 function buildExpectedImpact(cluster: SeoQueryCluster, issueType: StrategicSeoIssueType) {
@@ -413,7 +413,7 @@ function buildExpectedImpact(cluster: SeoQueryCluster, issueType: StrategicSeoIs
   if (issueType === 'good_position_zero_clicks' || issueType === 'high_impressions_low_ctr') {
     return 'A clearer snippet promise should improve CTR without needing new demand.';
   }
-  if (issueType === 'outdated_deprioritized_model') return 'The page can preserve Sora traffic while steering users toward higher-priority VideoAI model families.';
+  if (issueType === 'outdated_deprioritized_model') return 'The page can preserve Sora traffic while steering users toward higher-priority Keyvo model families.';
   return 'The page should capture more qualified clicks by matching the observed search intent more explicitly.';
 }
 
@@ -435,7 +435,7 @@ function buildCodexTaskDraft(opportunity: StrategicSeoOpportunity) {
     'Acceptance criteria:',
     `- Target page remains ${target}`,
     '- Query intent is visible without generic or robotic copy',
-    '- Page remains compact, premium, and aligned with the existing VideoAI page structure',
+    '- Page remains compact, premium, and aligned with the existing Keyvo page structure',
   ].join('\n');
 }
 

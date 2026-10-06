@@ -87,7 +87,7 @@ export const FLUX_3_DRAFT_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     { mode: 'extend', falModelId: FLUX_3_DRAFT_ENDPOINTS.extend, ui: DRAFT_CAPS.extend! },
   ],
   defaultFalModelId: FLUX_3_DRAFT_ENDPOINTS.t2v,
-  seo: { title: 'FLUX 3 Draft AI Video | VideoAI', description: 'Generate fast 720p FLUX 3 drafts from text, images, first/last frames, or source video.', canonicalPath: '/models/flux-3-draft' },
+  seo: { title: 'FLUX 3 Draft AI Video | Keyvo', description: 'Generate fast 720p FLUX 3 drafts from text, images, first/last frames, or source video.', canonicalPath: '/models/flux-3-draft' },
   demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e0c9044a-9eb3-4f51-b847-a9a5f7e6f809.mp4',
   media: {
     videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e0c9044a-9eb3-4f51-b847-a9a5f7e6f809.mp4',

@@ -7,7 +7,7 @@ import { PasswordRecoveryForm } from './_components/PasswordRecoveryForm.client'
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'VideoAI — 重置密码',
+  title: 'Keyvo — 重置密码',
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
 };

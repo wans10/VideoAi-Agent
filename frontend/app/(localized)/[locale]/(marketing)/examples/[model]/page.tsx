@@ -98,10 +98,10 @@ export async function generateMetadata(
   const canonical = resolveExampleCanonicalSlug(normalized) ?? normalized;
   const modelLanding = getExampleModelLanding(params.locale, canonical);
   const modelLabel = modelLanding?.label ?? canonical.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
-  const title = modelLanding?.metaTitle ?? `${modelLabel} AI Video Examples | VideoAI`;
+  const title = modelLanding?.metaTitle ?? `${modelLabel} AI Video Examples | Keyvo`;
   const description =
     modelLanding?.metaDescription ??
-    `Explore ${modelLabel} examples with prompts and settings, then open a video detail page to see its recorded render cost on VideoAI.`;
+    `Explore ${modelLabel} examples with prompts and settings, then open a video detail page to see its recorded render cost on Keyvo.`;
   const heroResult = await listExampleFamilyPage(canonical, {
     sort: DEFAULT_SORT,
     limit: EXAMPLES_HERO_SELECTION_LIMIT,
@@ -118,7 +118,7 @@ export async function generateMetadata(
     description,
     englishPath: `/examples/${canonical}`,
     image: ogImage,
-    imageAlt: 'VideoAI — Examples gallery preview',
+    imageAlt: 'Keyvo — Examples gallery preview',
     titleBranding: params.locale === 'en' && UNBRANDED_EXAMPLE_MODEL_TITLE_SLUGS.has(canonical) ? 'none' : 'auto',
     robots: {
       index: !noindex,

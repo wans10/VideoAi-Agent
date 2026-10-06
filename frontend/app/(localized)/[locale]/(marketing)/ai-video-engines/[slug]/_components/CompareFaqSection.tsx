@@ -45,7 +45,7 @@ export function CompareFaqSection({
         {formatTemplate(
           pageOverride?.faq?.subtitle ??
             compareCopy.faq?.subtitle ??
-            'Quick answers about {left} vs {right} on VideoAI (pricing, modes, specs, and why results differ).',
+            'Quick answers about {left} vs {right} on Keyvo (pricing, modes, specs, and why results differ).',
           { left: formatEngineName(left), right: formatEngineName(right) }
         )}
       </p>

@@ -70,7 +70,7 @@ export function buildDocsTechArticleJsonLd({
       : {}),
     publisher: {
       '@type': 'Organization',
-      name: 'VideoAI',
+      name: 'Keyvo',
       url: SITE_BASE_URL,
       logo: {
         '@type': 'ImageObject',

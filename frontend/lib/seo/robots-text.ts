@@ -1,4 +1,5 @@
 import { publishedLocales } from '@/i18n/locales';
+import { SITE_ORIGIN } from '@/lib/siteOrigin';
 export type RobotsSurface = 'public' | 'protocol';
 
 const PUBLIC_ASSET_RULES = [
@@ -47,11 +48,11 @@ const PRIVATE_PATH_RULES = [
 ];
 
 const SITEMAP_RULES = [
-  'Sitemap: https://videoai.omninodetech.com/sitemap.xml',
-  ...publishedLocales.map(locale => `Sitemap: https://videoai.omninodetech.com/sitemap-${locale}.xml`),
-  'Sitemap: https://videoai.omninodetech.com/sitemap-models.xml',
-  'Sitemap: https://videoai.omninodetech.com/sitemap-video-pages.xml',
-  'Sitemap: https://videoai.omninodetech.com/sitemap-video.xml',
+  `Sitemap: ${SITE_ORIGIN}/sitemap.xml`,
+  ...publishedLocales.map(locale => `Sitemap: ${SITE_ORIGIN}/sitemap-${locale}.xml`),
+  `Sitemap: ${SITE_ORIGIN}/sitemap-models.xml`,
+  `Sitemap: ${SITE_ORIGIN}/sitemap-video-pages.xml`,
+  `Sitemap: ${SITE_ORIGIN}/sitemap-video.xml`,
 ];
 
 function group(agents: string[], rules: string[]) {
@@ -60,11 +61,11 @@ function group(agents: string[], rules: string[]) {
 
 export function buildRobotsText(surface: RobotsSurface): string {
   if (surface === 'protocol') {
-    return '# VideoAI protocol host\n\nUser-agent: *\nDisallow: /\n';
+    return '# Keyvo protocol host\n\nUser-agent: *\nDisallow: /\n';
   }
 
   const blocks = [
-    '# robots.txt - VideoAI public site',
+    '# robots.txt - Keyvo public site',
     [
       '# Training-only crawlers are blocked from public content.',
       group(

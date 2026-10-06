@@ -91,10 +91,10 @@ export function buildKlingDirectElementCreatePayload(params: {
   index: number;
 }): KlingDirectElementCreatePayload {
   const videoUrl = cleanString(params.element.videoUrl);
-  const elementName = `VideoAI element ${params.index + 1}`;
+  const elementName = `Keyvo element ${params.index + 1}`;
   const base = {
     element_name: elementName,
-    element_description: 'VideoAI source element for video generation.',
+    element_description: 'Keyvo source element for video generation.',
     external_task_id: params.externalTaskId,
   };
 

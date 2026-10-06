@@ -15,20 +15,20 @@ const CONTACT_SLUG_MAP = buildSlugMap('contact');
 const STATUS_SLUG_MAP = buildSlugMap('status');
 const CONTACT_META: Record<AppLocale, { title: string; description: string }> = {
   en: {
-    title: 'Contact VideoAI — Support & Partnerships',
-    description: 'Reach the VideoAI team for support, partnerships, and enterprise onboarding.',
+    title: 'Contact Keyvo — Support & Partnerships',
+    description: 'Reach the Keyvo team for support, partnerships, and enterprise onboarding.',
   },
   fr: {
-    title: 'Contact — VideoAI',
-    description: "Contactez l’équipe VideoAI pour le support, les partenariats ou les demandes entreprise.",
+    title: 'Contact — Keyvo',
+    description: "Contactez l’équipe Keyvo pour le support, les partenariats ou les demandes entreprise.",
   },
   es: {
-    title: 'Contacto — VideoAI',
-    description: 'Habla con el equipo de VideoAI para soporte, alianzas o solicitudes para equipos.',
+    title: 'Contacto — Keyvo',
+    description: 'Habla con el equipo de Keyvo para soporte, alianzas o solicitudes para equipos.',
   },
   zh: {
-    title: '联系 VideoAI — 技术支持与商务合作',
-    description: '联系 VideoAI 团队获取技术支持、商务合作洽谈及企业接入咨询。',
+    title: '联系 Keyvo — 技术支持与商务合作',
+    description: '联系 Keyvo 团队获取技术支持、商务合作洽谈及企业接入咨询。',
   },
 };
 
@@ -49,7 +49,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     hreflangGroup: 'contact',
     slugMap: CONTACT_SLUG_MAP,
     keywords: ['AI video', 'text-to-video', 'price calculator', 'pay-as-you-go', 'model-agnostic'],
-    imageAlt: 'Contact VideoAI.',
+    imageAlt: 'Contact Keyvo.',
   });
 }
 

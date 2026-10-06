@@ -6,7 +6,7 @@ export async function persistFalWebhookImageOutputs(params: {
   userId: string | null;
 }): Promise<string[]> {
   if (!params.userId) {
-    throw new Error('A VideoAI owner is required for Fal webhook image outputs');
+    throw new Error('A Keyvo owner is required for Fal webhook image outputs');
   }
   const images = await copyGeneratedImagesToStorage({
     images: params.imageUrls.map((url) => ({ url })),

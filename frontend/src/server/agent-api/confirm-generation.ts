@@ -265,7 +265,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
         || principal.clientId !== principal.clientId.trim()
         || principal.clientId.length > 256))
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before confirming a generation.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect Keyvo before confirming a generation.');
   }
 }
 
@@ -297,7 +297,7 @@ function spendingError(dependencies: ConfirmGenerationDependencies): AgentApiErr
   }
   return new AgentApiError(
     'SPENDING_LIMIT_EXCEEDED',
-    'This generation is above the spending controls configured in VideoAI.',
+    'This generation is above the spending controls configured in Keyvo.',
     false,
     { type: 'open_url', url },
   );
@@ -346,7 +346,7 @@ async function confirmationTransaction(
     if (await dependencies.getAccountRestriction(principal.userId, { executor })) {
       throw new AgentApiError(
         'ACCOUNT_RESTRICTED',
-        'This account is temporarily restricted. Open VideoAI for help.',
+        'This account is temporarily restricted. Open Keyvo for help.',
       );
     }
     if (hashCanonicalGenerationRequest(quote.request) !== quote.requestHash) {

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import ts from 'typescript';
 
 // Source attribution, actual legal identities and legacy input sanitizers are
 // deliberately distinct from the current service's display brand.
@@ -25,4 +26,35 @@ test('active page copy, dictionaries and onboarding docs do not restore the sour
   const unexpected = roots.flatMap(filesIn).filter((file) =>
     !exceptions.has(file) && /\bMaxVideoAI\b/.test(readFileSync(file, 'utf8')));
   assert.deepEqual(unexpected, [], 'Review display branding or document a source-attribution exception');
+});
+
+test('published product copy and runtime strings reject the intermediate VideoAI brand', () => {
+  const roots = ['frontend/app', 'frontend/components', 'frontend/lib', 'frontend/server',
+    'frontend/src', 'frontend/messages', 'content/docs', 'content/fr/docs', 'content/es/docs',
+    'content/zh/docs'];
+  const offenders: string[] = [];
+  for (const file of roots.flatMap(filesIn)) {
+    // Frozen MCP documents and host integration evidence retain their original identity.
+    if (exceptions.has(file) || file.includes('/mcp/') || file.includes('/integrations/') ||
+      file === 'frontend/lib/password-recovery.ts') continue;
+    const source = readFileSync(file, 'utf8');
+    const blocked = /(?<![\w@./:-])VideoAI(?![\w/-])|videoai\.omninodetech\.com/;
+    if (/\.(json|mdx)$/.test(file)) {
+      if (blocked.test(source)) offenders.push(file);
+      continue;
+    }
+    const tree = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+    function visit(node: ts.Node) {
+      if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node) ||
+        ts.isTemplateHead(node) || ts.isTemplateMiddle(node) || ts.isTemplateTail(node) ||
+        ts.isJsxText(node)) {
+        if (blocked.test(node.text)) {
+          offenders.push(`${file}:${tree.getLineAndCharacterOfPosition(node.getStart(tree)).line + 1}`);
+        }
+      }
+      ts.forEachChild(node, visit);
+    }
+    visit(tree);
+  }
+  assert.deepEqual(offenders, []);
 });

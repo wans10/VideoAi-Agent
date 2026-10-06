@@ -15,7 +15,7 @@ const SITE_URL = (() => {
     try { return new URL(/^https?:\/\//i.test(value.trim()) ? value.trim() : `https://${value.trim()}`).origin; }
     catch { /* Fall back to the next configured origin. */ }
   }
-  return 'https://videoai.omninodetech.com';
+  return 'https://app.keyvo.cn';
 })();
 const LOCALES = ['en', 'fr', 'es', 'zh'];
 const LOCALE_PREFIXES = { en: '', fr: 'fr', es: 'es', zh: 'zh' };

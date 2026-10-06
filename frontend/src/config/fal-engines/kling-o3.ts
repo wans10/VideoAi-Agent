@@ -93,9 +93,9 @@ function buildPricingNotes(tier: KlingO3Tier) {
   if (tier.audioOffDiscountCents) {
     const audioOff = ((tier.basePerSecondCents + tier.audioOffDiscountCents) / 100).toFixed(3);
     const audioOn = (tier.basePerSecondCents / 100).toFixed(3);
-    return `Provider cost: $${audioOff}/s audio off and $${audioOn}/s audio on for ${tier.label}. VideoAI display prices add platform margin before showing quotes.`;
+    return `Provider cost: $${audioOff}/s audio off and $${audioOn}/s audio on for ${tier.label}. Keyvo display prices add platform margin before showing quotes.`;
   }
-  return `Provider cost: $${(tier.basePerSecondCents / 100).toFixed(3)}/s for ${tier.label}. VideoAI display prices add platform margin before showing quotes.`;
+  return `Provider cost: $${(tier.basePerSecondCents / 100).toFixed(3)}/s for ${tier.label}. Keyvo display prices add platform margin before showing quotes.`;
 }
 
 function buildKlingO3Engine(tier: KlingO3Tier): EngineCaps {
@@ -379,8 +379,8 @@ function buildKlingO3RegistryEntry(tier: KlingO3Tier): RawFalEngineEntry {
     defaultFalModelId: tier.defaultModelSlug,
     seo: {
       title: supportsVideoToVideo(tier)
-        ? `${tier.label} Reference, Storyboard and Video-to-Video Generator | VideoAI`
-        : `${tier.label} Reference and Storyboard 4K Generator | VideoAI`,
+        ? `${tier.label} Reference, Storyboard and Video-to-Video Generator | Keyvo`
+        : `${tier.label} Reference and Storyboard 4K Generator | Keyvo`,
       description: supportsVideoToVideo(tier)
         ? `Use ${tier.label} for reference-guided Kling video, storyboard images, @Image prompt anchors, optional start/end frames, video-to-video, and native audio.`
         : `Use ${tier.label} for native 4K reference-guided Kling video, storyboard images, @Image prompt anchors, optional start/end frames, and native audio.`,

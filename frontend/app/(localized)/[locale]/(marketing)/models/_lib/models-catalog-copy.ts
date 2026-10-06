@@ -51,7 +51,7 @@ export const MODELS_SCOPE_NAV_LABELS: Record<AppLocale, ScopeNavLabelMap> = {
 const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePageDefaults>> = {
   en: {
     all: {
-      metaTitle: 'AI Models: Specs, Limits & Pricing | VideoAI',
+      metaTitle: 'AI Models: Specs, Limits & Pricing | Keyvo',
       metaDescription:
         'Catalog of AI video and image models with specs, limits, and pricing signals. Review capabilities before you generate.',
       heroTitle: 'AI Models (Specs, Limits, and Pricing)',
@@ -60,7 +60,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Open any model for full specs, pricing details, and workflow guidance.',
         'Use the category hubs to focus on video or image generation without mixing intents.',
       ],
-      gridSrTitle: 'AI video and image models with specs, limits, and pricing on VideoAI',
+      gridSrTitle: 'AI video and image models with specs, limits, and pricing on Keyvo',
       bridgeText: 'Use the model cards to review capabilities first, then jump into the video or image hub for a tighter shortlist.',
       chooseOutcomeTitle: 'Choose a model family first',
       chooseOutcomeSubtitle: 'Start with the type of media you need to generate, then refine by limits and pricing.',
@@ -82,7 +82,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       ],
     },
     video: {
-      metaTitle: 'AI Video Models: Specs, Limits & Pricing | VideoAI',
+      metaTitle: 'AI Video Models: Specs, Limits & Pricing | Keyvo',
       metaDescription:
         'Compare AI video models by input support, duration, resolution, pricing, and workflow fit before choosing Sora, Veo, Kling, Seedance, Luma, or Pika.',
       heroTitle: 'AI Video Models (Specs, Limits, and Pricing)',
@@ -91,7 +91,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Check text-to-video, image-to-video, extension, and edit support by model.',
         'Use the video compare hub only after the shortlist is clear.',
       ],
-      gridSrTitle: 'AI video models with specs, limits, and pricing on VideoAI',
+      gridSrTitle: 'AI video models with specs, limits, and pricing on Keyvo',
       bridgeText: 'Use the model cards to review video capabilities, limits, and pricing before selecting an engine for production.',
       chooseOutcomeTitle: 'Choose by video workflow and constraints',
       chooseOutcomeSubtitle: 'Start from supported video inputs, duration limits, and price exposure.',
@@ -114,7 +114,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       breadcrumbCurrent: 'Video models',
     },
     image: {
-      metaTitle: 'AI Image Models: Specs, Limits & Pricing | VideoAI',
+      metaTitle: 'AI Image Models: Specs, Limits & Pricing | Keyvo',
       metaDescription:
         'Review AI image models by generation mode, references, resolution, and per-image pricing before you create stills.',
       heroTitle: 'AI Image Models (Specs, Limits, and Pricing)',
@@ -123,7 +123,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Check text-to-image and edit workflows, reference limits, and resolution options.',
         'Use the image workspace when you are ready to generate stills or reference-led edits.',
       ],
-      gridSrTitle: 'AI image models with specs, limits, and pricing on VideoAI',
+      gridSrTitle: 'AI image models with specs, limits, and pricing on Keyvo',
       bridgeText: 'Use the model cards to review still-image workflows, edit constraints, and pricing before choosing a model.',
       chooseOutcomeTitle: 'Choose by still-image workflow',
       chooseOutcomeSubtitle: 'Start from create vs edit, reference needs, output size, and price per image.',
@@ -148,7 +148,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
   },
   fr: {
     all: {
-      metaTitle: 'Modèles IA : specs, limites et prix | VideoAI',
+      metaTitle: 'Modèles IA : specs, limites et prix | Keyvo',
       metaDescription:
         "Catalogue des modèles IA vidéo et image avec specs, limites et signaux de prix. Vérifiez les capacités avant de générer.",
       heroTitle: 'Modèles IA (specs, limites et prix)',
@@ -157,7 +157,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Ouvrez chaque modèle pour ses specs, prix et conseils de workflow.',
         'Parcourez les espaces vidéo et image pour trouver rapidement les modèles les plus pertinents.',
       ],
-      gridSrTitle: 'Modèles IA vidéo et image avec specs, limites et prix sur VideoAI',
+      gridSrTitle: 'Modèles IA vidéo et image avec specs, limites et prix sur Keyvo',
       bridgeText: "Consultez les fiches modèles pour valider les capacités, puis ouvrez les espaces vidéo ou image pour affiner votre sélection.",
       chooseOutcomeTitle: 'Choisir d’abord une famille de modèles',
       chooseOutcomeSubtitle: "Commencez par le média à générer, puis affinez par limites et prix.",
@@ -179,7 +179,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       ],
     },
     video: {
-      metaTitle: 'Modèles vidéo IA : specs, limites et prix | VideoAI',
+      metaTitle: 'Modèles vidéo IA : specs, limites et prix | Keyvo',
       metaDescription:
         'Comparez les modèles vidéo IA par entrées, durée, résolution, prix et fit workflow avant de choisir Sora, Veo, Kling, Seedance, Luma ou Pika.',
       heroTitle: 'Modèles vidéo IA (specs, limites et prix)',
@@ -188,7 +188,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         "Vérifiez texte→vidéo, image→vidéo, extension et édition selon le modèle.",
         'Utilisez le comparatif vidéo uniquement une fois la shortlist clarifiée.',
       ],
-      gridSrTitle: 'Modèles vidéo IA avec specs, limites et prix sur VideoAI',
+      gridSrTitle: 'Modèles vidéo IA avec specs, limites et prix sur Keyvo',
       bridgeText: 'Utilisez les cartes modèle pour valider les capacités vidéo, les limites et les prix avant sélection.',
       chooseOutcomeTitle: 'Choisir par workflow vidéo et contraintes',
       chooseOutcomeSubtitle: 'Partez des entrées vidéo supportées, des durées max et du coût.',
@@ -211,7 +211,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       breadcrumbCurrent: 'Modèles vidéo',
     },
     image: {
-      metaTitle: "Modèles d'image IA : specs, limites et prix | VideoAI",
+      metaTitle: "Modèles d'image IA : specs, limites et prix | Keyvo",
       metaDescription:
         "Consultez les modèles d'image IA par mode de génération, références, résolution et prix par image avant création.",
       heroTitle: "Modèles d'image IA (specs, limites et prix)",
@@ -220,7 +220,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Vérifiez create/edit, limites de références et options de résolution.',
         "Utilisez l’Image Lab quand vous êtes prêt à générer des images fixes ou des retouches guidées.",
       ],
-      gridSrTitle: "Modèles d'image IA avec specs, limites et prix sur VideoAI",
+      gridSrTitle: "Modèles d'image IA avec specs, limites et prix sur Keyvo",
       bridgeText: "Utilisez les cartes modèle pour valider les workflows image, les contraintes de retouche et le prix avant choix.",
       chooseOutcomeTitle: "Choisir par workflow d'image fixe",
       chooseOutcomeSubtitle: "Partez de create vs edit, des besoins en références, de la taille de sortie et du prix par image.",
@@ -245,7 +245,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
   },
   es: {
     all: {
-      metaTitle: 'Modelos IA: especificaciones, límites y precios | VideoAI',
+      metaTitle: 'Modelos IA: especificaciones, límites y precios | Keyvo',
       metaDescription:
         'Catálogo de modelos IA de video e imagen con especificaciones, límites y señales de precio. Revisa capacidades antes de generar.',
       heroTitle: 'Modelos IA (especificaciones, límites y precios)',
@@ -254,7 +254,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Abre cualquier modelo para ver especificaciones, precios y guía de flujo de trabajo.',
         'Usa los espacios de video e imagen para identificar la mejor selección más rápido.',
       ],
-      gridSrTitle: 'Modelos IA de video e imagen con especificaciones, límites y precios en VideoAI',
+      gridSrTitle: 'Modelos IA de video e imagen con especificaciones, límites y precios en Keyvo',
       bridgeText: 'Usa las fichas de modelo para validar capacidades y luego entra en el espacio de video o imagen para afinar la selección.',
       chooseOutcomeTitle: 'Elige primero una familia de modelos',
       chooseOutcomeSubtitle: 'Empieza por el medio que quieres generar y luego filtra por límites y precio.',
@@ -276,7 +276,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       ],
     },
     video: {
-      metaTitle: 'Modelos de video IA: especificaciones, límites y precios | VideoAI',
+      metaTitle: 'Modelos de video IA: especificaciones, límites y precios | Keyvo',
       metaDescription:
         'Compara modelos de video IA por entradas, duración, resolución, precio y ajuste de workflow antes de elegir Sora, Veo, Kling, Seedance, Luma o Pika.',
       heroTitle: 'Modelos de video IA (especificaciones, límites y precios)',
@@ -285,7 +285,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Comprueba soporte texto→video, imagen→video, extensión y edición por modelo.',
         'Usa el comparativo de video solo cuando la selección ya esté clara.',
       ],
-      gridSrTitle: 'Modelos de video IA con especificaciones, límites y precios en VideoAI',
+      gridSrTitle: 'Modelos de video IA con especificaciones, límites y precios en Keyvo',
       bridgeText: 'Usa las fichas de modelo para revisar capacidades de video, límites y precios antes de elegir modelo.',
       chooseOutcomeTitle: 'Elige por flujo de trabajo de video y restricciones',
       chooseOutcomeSubtitle: 'Empieza por entradas de video soportadas, duración máxima y precio.',
@@ -308,7 +308,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       breadcrumbCurrent: 'Modelos de video',
     },
     image: {
-      metaTitle: 'Modelos de imagen IA: especificaciones, límites y precios | VideoAI',
+      metaTitle: 'Modelos de imagen IA: especificaciones, límites y precios | Keyvo',
       metaDescription:
         'Revisa modelos de imagen IA por modo de generación, referencias, resolución y precio por imagen antes de crear imágenes fijas.',
       heroTitle: 'Modelos de imagen IA (especificaciones, límites y precios)',
@@ -317,7 +317,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         'Comprueba create/edit, límites de referencias y opciones de resolución.',
         'Usa Image Lab cuando estés listo para generar imágenes fijas o hacer ediciones guiadas.',
       ],
-      gridSrTitle: 'Modelos de imagen IA con especificaciones, límites y precios en VideoAI',
+      gridSrTitle: 'Modelos de imagen IA con especificaciones, límites y precios en Keyvo',
       bridgeText: 'Usa las tarjetas de modelo para revisar flujos de imagen, límites de edición y precio antes de elegir.',
       chooseOutcomeTitle: 'Elige por flujo de trabajo de imagen fija',
       chooseOutcomeSubtitle: 'Empieza por create vs edit, necesidades de referencia, tamaño de salida y precio por imagen.',
@@ -342,7 +342,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
   },
   zh: {
     all: {
-      metaTitle: 'AI 视频与图像模型：规格、限制与定价 | VideoAI',
+      metaTitle: 'AI 视频与图像模型：规格、限制与定价 | Keyvo',
       metaDescription:
         'AI 视频与图像模型目录，包含规格、限制和定价信号。在生成前全面评估各项模型能力。',
       heroTitle: 'AI 模型（规格、限制与定价）',
@@ -351,7 +351,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         '查看每个模型的规格、定价以及工作流建议。',
         '在视频与图像分类间快速筛选，锁定最适合你创作的引擎。',
       ],
-      gridSrTitle: 'VideoAI 上的 AI 视频与图像模型，包含规格、限制与定价',
+      gridSrTitle: 'Keyvo 上的 AI 视频与图像模型，包含规格、限制与定价',
       bridgeText: '使用模型卡片验证能力，然后打开视频或图像工作区细化选择。',
       chooseOutcomeTitle: '按模型家族选择',
       chooseOutcomeSubtitle: '先确定生成媒体类型，再按限制与定价进一步缩小范围。',
@@ -375,7 +375,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       breadcrumbCurrent: '所有模型',
     },
     video: {
-      metaTitle: 'AI 视频模型：规格、限制与定价 | VideoAI',
+      metaTitle: 'AI 视频模型：规格、限制与定价 | Keyvo',
       metaDescription:
         'AI 视频生成模型目录，涵盖 Kling、Haiper、Luma 等。在生成前比较动作控制、时长限制和定价。',
       heroTitle: 'AI 视频模型（规格、限制与定价）',
@@ -384,7 +384,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         '查看文生视频与图生视频限制、运镜控制和扩展选项。',
         '准备好生成连续镜头时，直接打开视频工作区。',
       ],
-      gridSrTitle: 'VideoAI 上的 AI 视频模型，包含规格、限制与定价',
+      gridSrTitle: 'Keyvo 上的 AI 视频模型，包含规格、限制与定价',
       bridgeText: '使用模型卡片比较动态质量、生成时长与定价，选出最适合的视频引擎。',
       chooseOutcomeTitle: '按视频生成工作流选择',
       chooseOutcomeSubtitle: '从文生视频、图生视频、动作控制或制作时长需求出发进行选择。',
@@ -407,7 +407,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
       breadcrumbCurrent: '视频模型',
     },
     image: {
-      metaTitle: 'AI 图像模型：规格、限制与定价 | VideoAI',
+      metaTitle: 'AI 图像模型：规格、限制与定价 | Keyvo',
       metaDescription:
         'AI 图像生成模型目录，包含 Nano Banana、Midjourney 等。在生成前核对参考图限制、分辨率与定价。',
       heroTitle: 'AI 图像模型（规格、限制与定价）',
@@ -416,7 +416,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
         '核对文生图与编辑工作流、参考图像限制及分辨率选项。',
         '准备好生成静态图或参考图引导编辑时，使用图像工作区。',
       ],
-      gridSrTitle: 'VideoAI 上的 AI 图像模型，包含规格、限制与定价',
+      gridSrTitle: 'Keyvo 上的 AI 图像模型，包含规格、限制与定价',
       bridgeText: '使用模型卡片审查图像工作流、编辑约束与价格，选择最合适的图像模型。',
       chooseOutcomeTitle: '按静态图像工作流选择',
       chooseOutcomeSubtitle: '根据创建还是编辑、参考图需求、输出尺寸及单图费用进行决策。',

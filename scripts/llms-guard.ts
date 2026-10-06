@@ -7,30 +7,30 @@ import { getMcpPublicationState } from '../frontend/lib/mcp-publication';
 import { buildLlmsText } from '../frontend/lib/seo/llms-text';
 
 const REQUIRED_URLS = [
-  'https://videoai.omninodetech.com/',
-  'https://videoai.omninodetech.com/pay-as-you-go-ai-video-generator',
-  'https://videoai.omninodetech.com/pricing',
-  'https://videoai.omninodetech.com/models',
-  'https://videoai.omninodetech.com/examples',
-  'https://videoai.omninodetech.com/ai-video-engines',
-  'https://videoai.omninodetech.com/ai-video-engines/best-for',
-  'https://videoai.omninodetech.com/blog',
-  'https://videoai.omninodetech.com/docs',
-  'https://videoai.omninodetech.com/models/veo-3-1',
-  'https://videoai.omninodetech.com/models/kling-3-pro',
-  'https://videoai.omninodetech.com/models/minimax-h3',
-  'https://videoai.omninodetech.com/models/minimax-h3-max',
-  'https://videoai.omninodetech.com/models/seedance-2-5',
-  'https://videoai.omninodetech.com/legal/privacy',
-  'https://videoai.omninodetech.com/legal/terms',
+  'https://app.keyvo.cn/',
+  'https://app.keyvo.cn/pay-as-you-go-ai-video-generator',
+  'https://app.keyvo.cn/pricing',
+  'https://app.keyvo.cn/models',
+  'https://app.keyvo.cn/examples',
+  'https://app.keyvo.cn/ai-video-engines',
+  'https://app.keyvo.cn/ai-video-engines/best-for',
+  'https://app.keyvo.cn/blog',
+  'https://app.keyvo.cn/docs',
+  'https://app.keyvo.cn/models/veo-3-1',
+  'https://app.keyvo.cn/models/kling-3-pro',
+  'https://app.keyvo.cn/models/minimax-h3',
+  'https://app.keyvo.cn/models/minimax-h3-max',
+  'https://app.keyvo.cn/models/seedance-2-5',
+  'https://app.keyvo.cn/legal/privacy',
+  'https://app.keyvo.cn/legal/terms',
 ];
 
 const MCP_SOURCE_URLS = [
-  'https://videoai.omninodetech.com/mcp',
-  'https://videoai.omninodetech.com/integrations/chatgpt',
-  'https://videoai.omninodetech.com/integrations/claude',
-  'https://videoai.omninodetech.com/integrations/codex',
-  'https://videoai.omninodetech.com/docs/mcp',
+  'https://app.keyvo.cn/mcp',
+  'https://app.keyvo.cn/integrations/chatgpt',
+  'https://app.keyvo.cn/integrations/claude',
+  'https://app.keyvo.cn/integrations/codex',
+  'https://app.keyvo.cn/docs/mcp',
 ];
 
 const ENABLED_PUBLICATION = {
@@ -46,29 +46,29 @@ const ENABLED_PUBLICATION = {
 };
 
 const FORBIDDEN_EXACT_URLS = [
-  'https://videoai.omninodetech.com/models/veo-3-fast',
-  'https://videoai.omninodetech.com/models/kling',
-  'https://videoai.omninodetech.com/privacy',
-  'https://videoai.omninodetech.com/terms',
-  'https://videoai.omninodetech.com/models/sora-2',
-  'https://videoai.omninodetech.com/models/sora-2-pro',
-  'https://videoai.omninodetech.com/ai-video-engines/grok-imagine-video-1-5-vs-sora-2',
+  'https://app.keyvo.cn/models/veo-3-fast',
+  'https://app.keyvo.cn/models/kling',
+  'https://app.keyvo.cn/privacy',
+  'https://app.keyvo.cn/terms',
+  'https://app.keyvo.cn/models/sora-2',
+  'https://app.keyvo.cn/models/sora-2-pro',
+  'https://app.keyvo.cn/ai-video-engines/grok-imagine-video-1-5-vs-sora-2',
 ];
 
 const FORBIDDEN_URL_PATTERNS = [
-  /http:\/\/videoai\.omninodetech\.com(?:\/|\b)/,
-  /https:\/\/www\.videoai\.omninodetech\.com(?:\/|\b)/,
-  /https:\/\/api\.videoai\.omninodetech\.com(?:\/|\b)/,
+  /http:\/\/app\.keyvo\.cn(?:\/|\b)/,
+  /https:\/\/www\.app\.keyvo\.cn(?:\/|\b)/,
+  /https:\/\/api\.app\.keyvo\.cn(?:\/|\b)/,
 ];
 
 const PRIVATE_PATH_PATTERNS = [
-  /https:\/\/videoai\.omninodetech\.com\/api(?:\/|\b)/,
-  /https:\/\/videoai\.omninodetech\.com\/admin(?:\/|\b)/,
-  /https:\/\/videoai\.omninodetech\.com\/app(?:\/|\b)/,
-  /https:\/\/videoai\.omninodetech\.com\/billing(?:\/|\b)/,
-  /https:\/\/videoai\.omninodetech\.com\/settings(?:\/|\b)/,
-  /https:\/\/videoai\.omninodetech\.com\/dashboard(?:\/|\b)/,
-  /https:\/\/videoai\.omninodetech\.com\/jobs(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/api(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/admin(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/app(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/billing(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/settings(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/dashboard(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/jobs(?:\/|\b)/,
 ];
 
 const ALLOWED_EXTERNAL_URLS = new Set([
@@ -96,7 +96,7 @@ export function validateLlmsSourceUrls(candidates: string[]): string[] {
     }
     for (const url of listedUrls) {
       assert(
-        url.startsWith('https://videoai.omninodetech.com/') || ALLOWED_EXTERNAL_URLS.has(url),
+        url.startsWith('https://app.keyvo.cn/') || ALLOWED_EXTERNAL_URLS.has(url),
         `External or noncanonical URL in llms.txt: ${url}`,
       );
     }

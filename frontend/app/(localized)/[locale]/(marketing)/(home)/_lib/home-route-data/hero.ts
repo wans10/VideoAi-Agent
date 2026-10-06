@@ -203,7 +203,7 @@ export function buildProgrammedHeroItems(
         videoSrc: resolvePublicMarketingVideoUrl(video.videoUrl),
         duration,
         resolution,
-        imageAlt: `${video.engineLabel} AI video programmed for the VideoAI homepage.`,
+        imageAlt: `${video.engineLabel} AI video programmed for the Keyvo homepage.`,
       };
     });
 }

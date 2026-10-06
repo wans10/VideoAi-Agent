@@ -31,7 +31,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     hreflangGroup: 'pricing',
     slugMap: PRICING_SLUG_MAP,
     image: '/og/pricing-2026-09-25.png',
-    imageAlt: 'VideoAI pricing: see the price before creating.',
+    imageAlt: 'Keyvo pricing: see the price before creating.',
   });
 }
 

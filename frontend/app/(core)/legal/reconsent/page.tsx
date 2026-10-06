@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSeoMetadata({
     locale,
     title: 'Legal re-consent',
-    description: 'Review and accept the updated VideoAI legal documents.',
+    description: 'Review and accept the updated Keyvo legal documents.',
     hreflangGroup: 'legalReconsent',
     englishPath: '/legal/reconsent',
     availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],

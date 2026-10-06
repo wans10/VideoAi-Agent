@@ -262,7 +262,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     description: t('description'),
     hreflangGroup: 'workflows',
     slugMap: WORKFLOWS_SLUG_MAP,
-    imageAlt: 'Workflows - VideoAI',
+    imageAlt: 'Workflows - Keyvo',
     robots: {
       index: true,
       follow: true,

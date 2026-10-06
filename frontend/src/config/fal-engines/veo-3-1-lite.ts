@@ -262,12 +262,12 @@ export const VEO_3_1_LITE_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Veo 3.1 Lite – Text, Start Image, First/Last & Extend Video',
       description:
-        'Use Veo 3.1 Lite for lower-cost text prompts, start-image animation, optional first/last-frame control, and Extend with optional native audio inside one unified VideoAI model page.',
+        'Use Veo 3.1 Lite for lower-cost text prompts, start-image animation, optional first/last-frame control, and Extend with optional native audio inside one unified Keyvo model page.',
       canonicalPath: '/models/veo-3-1-lite',
     },
     type: 'Text, start image, last frame, extend',
     seoText:
-      'Veo 3.1 Lite keeps the unified Veo workflow on VideoAI for text prompts, single start-image animation, optional first/last-frame control, and 7-second Extend with native audio controls and lower-cost 720p or 1080p pricing.',
+      'Veo 3.1 Lite keeps the unified Veo workflow on Keyvo for text prompts, single start-image animation, optional first/last-frame control, and 7-second Extend with native audio controls and lower-cost 720p or 1080p pricing.',
     demoUrl: 'https://media.maxvideoai.com/renders/marketing/a01fb42f-92d9-4312-b1a1-a721fae5400b.mp4',
     media: {
       videoUrl: 'https://media.maxvideoai.com/renders/marketing/a01fb42f-92d9-4312-b1a1-a721fae5400b.mp4',
@@ -302,7 +302,7 @@ export const VEO_3_1_LITE_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Can I disable audio in Veo 3.1 Lite?',
         answer:
-          'Yes. VideoAI exposes the Veo 3.1 Lite audio toggle, so you can generate video with native audio or use the lower-cost video-only path.',
+          'Yes. Keyvo exposes the Veo 3.1 Lite audio toggle, so you can generate video with native audio or use the lower-cost video-only path.',
       },
     ],
     pricingHint: {

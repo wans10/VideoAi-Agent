@@ -6,13 +6,13 @@ import { buildSeoMetadata } from '@/lib/seo/metadata';
 export function generateMetadata(): Metadata {
   return buildSeoMetadata({
     locale: 'en',
-    title: 'Refund & Return Policy | VideoAI',
-    description: 'Refund and return policy for VideoAI digital AI video generation credits and services.',
+    title: 'Refund & Return Policy | Keyvo',
+    description: 'Refund and return policy for Keyvo digital AI video generation credits and services.',
     englishPath: '/return-policy',
     availableLocales: ['en', 'zh'],
-    canonicalOverride: 'https://videoai.omninodetech.com/return-policy',
+    canonicalOverride: 'https://app.keyvo.cn/return-policy',
     ogType: 'article',
-    imageAlt: 'VideoAI refund and return policy.',
+    imageAlt: 'Keyvo refund and return policy.',
     titleBranding: 'none',
   });
 }
@@ -53,7 +53,7 @@ export default function ReturnPolicyPage() {
             <section className="stack-gap-sm">
               <h3 className="text-lg font-semibold text-text-primary">1. Overview</h3>
               <p>
-                VideoAI provides digital AI video generation services, wallet credits, and related software access. We do not sell or
+                Keyvo provides digital AI video generation services, wallet credits, and related software access. We do not sell or
                 ship physical products. Because our services are digital, there is no physical return process and no product exchange
                 process.
               </p>
@@ -62,7 +62,7 @@ export default function ReturnPolicyPage() {
             <section className="stack-gap-sm">
               <h3 className="text-lg font-semibold text-text-primary">2. Failed or defective generations</h3>
               <p>
-                If a generation job fails because of a technical issue on VideoAI&apos;s side, we may automatically refund the related
+                If a generation job fails because of a technical issue on Keyvo&apos;s side, we may automatically refund the related
                 charge to the user&apos;s wallet or, where appropriate, refund the original payment method.
               </p>
               <p>A failed or defective generation may include:</p>
@@ -108,7 +108,7 @@ export default function ReturnPolicyPage() {
 
             <section className="stack-gap-sm">
               <h3 className="text-lg font-semibold text-text-primary">6. Exchanges</h3>
-              <p>We do not offer exchanges, because VideoAI provides digital services and not physical products.</p>
+              <p>We do not offer exchanges, because Keyvo provides digital services and not physical products.</p>
             </section>
 
             <section className="stack-gap-sm">
@@ -117,7 +117,7 @@ export default function ReturnPolicyPage() {
                 To request a refund review, contact us at <SupportEmailLink /> with:
               </p>
               <ul className="ml-5 list-disc space-y-2">
-                <li>the email address linked to your VideoAI account;</li>
+                <li>the email address linked to your Keyvo account;</li>
                 <li>the transaction ID or receipt, if available;</li>
                 <li>the generation/job ID, if applicable;</li>
                 <li>a short explanation of the issue.</li>

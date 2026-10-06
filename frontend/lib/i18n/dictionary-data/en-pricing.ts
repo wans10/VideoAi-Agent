@@ -98,7 +98,7 @@ export const pricing: Dictionary['pricing'] = {
 export const calculator: Dictionary['calculator'] = {
     hero: {
       title: 'Estimate your AI video cost before you generate.',
-      subtitle: 'This public calculator mirrors the estimator inside VideoAI. Pick an engine, duration, and resolution to preview the cost chip with no login required.',
+      subtitle: 'This public calculator mirrors the estimator inside Keyvo. Pick an engine, duration, and resolution to preview the cost chip with no login required.',
     },
     lite: {
       title: 'Lite calculator',

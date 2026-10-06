@@ -271,7 +271,7 @@ function buildClientVideo({
   const modelHref = modelSlug ? buildModelHref(locale, modelSlug) : null;
   const promptDisplay =
     locale === 'en'
-      ? formatPromptExcerpt(video.promptExcerpt || video.prompt || 'VideoAI render')
+      ? formatPromptExcerpt(video.promptExcerpt || video.prompt || 'Keyvo render')
       : buildLocalizedExampleLabel(
           locale,
           engineMeta?.label ?? video.engineLabel ?? 'Engine',

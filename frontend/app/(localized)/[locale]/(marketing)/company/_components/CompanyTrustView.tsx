@@ -10,7 +10,7 @@ export function CompanyTrustView({ copy, locale }: { copy: CompanyCopy; locale: 
   return (
     <div className="videoai-company container-page max-w-6xl space-y-12 py-8 sm:space-y-16 sm:py-10">
       <nav className="flex items-center justify-between border-b border-hairline pb-6">
-        <Link href="/" aria-label="VideoAI"><BrandLockup /></Link>
+        <Link href="/" aria-label="Keyvo"><BrandLockup /></Link>
         <Link href="/app" className="editorial-action">{locale === 'zh' ? '进入工作室' : locale === 'fr' ? 'Créer' : locale === 'es' ? 'Crear' : 'Open studio'} <span aria-hidden>↗</span></Link>
       </nav>
       <header className="max-w-4xl">

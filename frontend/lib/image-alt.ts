@@ -159,10 +159,10 @@ export function getImageAlt({
               zh: `${engineLabel} 标志`,
             }
           : {
-              en: `VideoAI interface: ${shortLabel}`,
-              fr: `Interface VideoAI: ${shortLabel}`,
-              es: `Interfaz de VideoAI: ${shortLabel}`,
-              zh: `VideoAI 界面：${shortLabel}`,
+              en: `Keyvo interface: ${shortLabel}`,
+              fr: `Interface Keyvo: ${shortLabel}`,
+              es: `Interfaz de Keyvo: ${shortLabel}`,
+              zh: `Keyvo 界面：${shortLabel}`,
             };
 
   const fallbackByLocale: Record<SupportedLocale, string> = {

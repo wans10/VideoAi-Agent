@@ -17,14 +17,14 @@ function isLoopbackHostname(hostname: string): boolean {
 
 function parseTrustedAccountUrl(value: string): URL {
   if (typeof value !== 'string' || value !== value.trim()) {
-    throw new Error('Expected a trusted VideoAI account URL.');
+    throw new Error('Expected a trusted Keyvo account URL.');
   }
 
   let parsed: URL;
   try {
     parsed = new URL(value);
   } catch {
-    throw new Error('Expected a trusted VideoAI account URL.');
+    throw new Error('Expected a trusted Keyvo account URL.');
   }
 
   const hostname = parsed.hostname.toLowerCase();
@@ -45,7 +45,7 @@ function parseTrustedAccountUrl(value: string): URL {
     || parsed.pathname !== ACCOUNT_CONNECTIONS_PATH
     || (!production && !officialStaging && !loopback)
   ) {
-    throw new Error('Expected a trusted VideoAI account URL.');
+    throw new Error('Expected a trusted Keyvo account URL.');
   }
 
   return parsed;
@@ -73,28 +73,28 @@ export function buildAgentAccountDestinations(accountUrl: string): AgentAccountD
       origin,
       ACCOUNT_CONNECTIONS_PATH,
       'account_connections',
-      'Manage the VideoAI connection',
+      'Manage the Keyvo connection',
     ),
-    billing: destination(origin, '/billing', 'billing', 'Add VideoAI credits'),
+    billing: destination(origin, '/billing', 'billing', 'Add Keyvo credits'),
     library: destination(
       origin,
       '/app/library',
       'media_library',
-      'Open the VideoAI media library',
+      'Open the Keyvo media library',
     ),
     videoWorkspace: destination(
       origin,
       '/app',
       'video_workspace',
-      'Open the VideoAI video workspace',
+      'Open the Keyvo video workspace',
     ),
     imageWorkspace: destination(
       origin,
       '/app/image',
       'image_workspace',
-      'Open the VideoAI image workspace',
+      'Open the Keyvo image workspace',
     ),
-    support: destination(origin, '/contact', 'support', 'Contact VideoAI support'),
+    support: destination(origin, '/contact', 'support', 'Contact Keyvo support'),
   };
 }
 
@@ -118,7 +118,7 @@ export function buildAgentGenerationDestination(
   return {
     type: 'open_url',
     purpose: 'generation',
-    label: `Open this ${surface} in VideoAI`,
+    label: `Open this ${surface} in Keyvo`,
     url: url.toString(),
   };
 }

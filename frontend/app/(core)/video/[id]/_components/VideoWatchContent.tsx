@@ -30,7 +30,7 @@ export async function VideoWatchContent({ page, quoteContext }: { page: WatchPag
         contentUrl: videoUrl,
         publisher: {
           '@type': 'Organization',
-          name: 'VideoAI',
+          name: 'Keyvo',
           url: SITE,
           logo: {
             '@type': 'ImageObject',

@@ -177,22 +177,22 @@ export function buildCompareDetailPageText({
   const heroIntroTemplate = replaceCriteriaCount(
     pairHasKling3Native4k
       ? (pageHeroIntro ??
-        `This page compares {left} vs {right} on VideoAI across native 4K delivery, iteration cost, key specs, and a scorecard across ${criteriaCount} criteria. Use it to decide when 4K is worth the premium before opening each engine profile for full specs.`)
+        `This page compares {left} vs {right} on Keyvo across native 4K delivery, iteration cost, key specs, and a scorecard across ${criteriaCount} criteria. Use it to decide when 4K is worth the premium before opening each engine profile for full specs.`)
       : hasPrelaunchEngine
         ? (compareCopy.hero?.introPrelaunch ??
-          `This page compares {left} vs {right} on VideoAI using the same prompts, side-by-side prompts and renders (when available), key specs, and a scorecard across ${criteriaCount} criteria. Use it to shortlist the best fit — then open each engine profile for full specs and prompt examples.`)
+          `This page compares {left} vs {right} on Keyvo using the same prompts, side-by-side prompts and renders (when available), key specs, and a scorecard across ${criteriaCount} criteria. Use it to shortlist the best fit — then open each engine profile for full specs and prompt examples.`)
         : !hasShowdownSlots
           ? (pageHeroIntro ?? noShowdownHeroIntro)
         : (pageHeroIntro ??
           compareCopy.hero?.intro ??
-          `This page compares {left} vs {right} on VideoAI using the same prompts, side-by-side renders, key specs, and a scorecard across ${criteriaCount} criteria. Use it to shortlist the best fit — then open each engine profile for full specs and prompt examples.`),
+          `This page compares {left} vs {right} on Keyvo using the same prompts, side-by-side renders, key specs, and a scorecard across ${criteriaCount} criteria. Use it to shortlist the best fit — then open each engine profile for full specs and prompt examples.`),
     criteriaCount
   );
   const showdownSubtitle = hasPrelaunchEngine
     ? (compareCopy.showdown?.subtitlePrelaunch ??
-      'Side-by-side prompts and renders (when available) on VideoAI. Prompts are identical; outputs may vary by model.')
+      'Side-by-side prompts and renders (when available) on Keyvo. Prompts are identical; outputs may vary by model.')
     : (compareCopy.showdown?.subtitle ??
-      'Side-by-side renders from the same prompt on VideoAI. Prompts are identical; outputs may vary by model.');
+      'Side-by-side renders from the same prompt on Keyvo. Prompts are identical; outputs may vary by model.');
   const scorecardProvisionalNote = hasPrelaunchEngine
     ? (compareCopy.scorecard?.provisionalNote ??
       'Pre-launch scores are provisional and will update once runtime renders and final pricing are available.')

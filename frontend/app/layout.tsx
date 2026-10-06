@@ -18,7 +18,7 @@ type RootLayoutProps = {
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? process.env.GTM_ID ?? '';
 
 export const metadata: Metadata = {
-  applicationName: 'VideoAI',
+  applicationName: 'Keyvo',
   manifest: '/site.webmanifest',
   icons: {
     icon: [

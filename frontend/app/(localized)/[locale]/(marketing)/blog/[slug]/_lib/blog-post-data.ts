@@ -33,9 +33,9 @@ export const localeDateMap: Record<AppLocale, string> = {
 
 export const BLOG_TITLE_OVERRIDES: Partial<Record<string, Partial<Record<AppLocale, string>>>> = {
   'sora-2-sequenced-prompts': {
-    en: 'Sora 2 sequenced prompts for AI video – VideoAI blog',
-    fr: 'Sora 2 prompts séquencés vidéo IA – Blog VideoAI',
-    es: 'Sora 2 prompts secuenciales para video IA – Blog VideoAI',
+    en: 'Sora 2 sequenced prompts for AI video – Keyvo blog',
+    fr: 'Sora 2 prompts séquencés vidéo IA – Blog Keyvo',
+    es: 'Sora 2 prompts secuenciales para video IA – Blog Keyvo',
   },
 };
 

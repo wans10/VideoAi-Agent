@@ -440,7 +440,7 @@ test('site Organization schema keeps one canonical complete entity', () => {
 
   // Prebuild also runs on preview deployments; origin policy is covered separately.
   assert.equal(organization['@id'], `${SITE_ORIGIN}/#organization`);
-  assert.equal(organization.name, 'VideoAI');
+  assert.equal(organization.name, 'Keyvo');
   assert.match(organization.description, /pay-as-you-go/);
   assert.match(organization.description, /web workspace for creative production/);
   assert.doesNotMatch(organization.description, /MCP integrations/);
@@ -458,7 +458,7 @@ test('homepage application features use the declared language and canonical prov
   for (const locale of ['en', 'fr', 'es'] as const) {
     const schema = buildSoftwareSchema({ hero: { subtitle: 'Visible localized subtitle' } } as never, locale);
     assert.equal(schema.inLanguage, locale);
-    assert.equal(schema.url, `https://videoai.omninodetech.com${locale === 'en' ? '' : `/${locale}`}`);
+    assert.equal(schema.url, `https://app.keyvo.cn${locale === 'en' ? '' : `/${locale}`}`);
     assert.equal(schema.provider['@id'], `${SITE_ORIGIN}/#organization`);
     assert.match(schema.featureList[0], expected[locale]);
     if (locale !== 'en') assert.doesNotMatch(schema.featureList.join(' '), /Pay-as-you-go|Auto-refunds/);
@@ -467,7 +467,7 @@ test('homepage application features use the declared language and canonical prov
 
 test('generic services do not advertise wallet deposits as model or comparison prices', () => {
   for (const locale of ['en', 'fr', 'es'] as const) {
-    const schema = emittedSchema(buildPricingServiceJsonLd({ canonical: 'https://videoai.omninodetech.com/pricing', locale })) as JsonRecord;
+    const schema = emittedSchema(buildPricingServiceJsonLd({ canonical: 'https://app.keyvo.cn/pricing', locale })) as JsonRecord;
     assert.equal(hasOwn(schema, 'offers'), false);
   }
   for (const slug of ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'sora-2']) {
@@ -500,12 +500,12 @@ test('historical models with app publication disabled keep editorial schemas wit
     const engine = getRequiredEngine(slug);
     assert.equal(engine.surfaces.app.enabled, false);
     for (const [locale, prefix] of [['en', '/models'], ['fr', '/fr/modeles'], ['es', '/es/modelos']]) {
-      const canonical = `https://videoai.omninodetech.com${prefix}/${slug}`;
+      const canonical = `https://app.keyvo.cn${prefix}/${slug}`;
       const schemas = buildModelSchemaPayloads({
         engine, canonical, localizedCanonical: canonical,
         description: 'Historical model reference', heroTitle: engine.marketingName,
-        heroPosterAbsolute: 'https://videoai.omninodetech.com/favicon-512.png', inLanguage: locale,
-        localizedHomeUrl: 'https://videoai.omninodetech.com', localizedModelsUrl: `https://videoai.omninodetech.com${prefix}`,
+        heroPosterAbsolute: 'https://app.keyvo.cn/favicon-512.png', inLanguage: locale,
+        localizedHomeUrl: 'https://app.keyvo.cn', localizedModelsUrl: `https://app.keyvo.cn${prefix}`,
         pricingEngine: engine.engine, resolvedBreadcrumb: { home: 'Home', models: 'Models' },
       }) as JsonRecord[];
       assert.deepEqual(schemas.map((schema) => schema['@type']), ['WebPage', 'BreadcrumbList']);
@@ -514,7 +514,7 @@ test('historical models with app publication disabled keep editorial schemas wit
   }
 });
 
-test('blog Article schema identifies the visible person while retaining VideoAI as publisher', () => {
+test('blog Article schema identifies the visible person while retaining Keyvo as publisher', () => {
   const localization = buildBlogPostLocalization({
     canonicalSlug: 'author-schema-sample',
     locale: 'en',
@@ -543,7 +543,7 @@ test('blog Article schema identifies the visible person while retaining VideoAI 
     url: `${SITE_ORIGIN}/about#adrien-millot`,
   });
   assert.equal(articleSchema.publisher['@type'], 'Organization');
-  assert.equal(articleSchema.publisher.name, 'VideoAI');
+  assert.equal(articleSchema.publisher.name, 'Keyvo');
 });
 
 test('restricted FAQPage usage is inventoried without allowing deprecated schema types', () => {

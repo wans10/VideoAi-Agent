@@ -28,7 +28,7 @@ import { shouldHandleCanvasPaste } from '../_lib/workspace-canvas-shortcuts';
 import type { StudioCopy } from '../../_lib/studio-copy';
 
 export const WORKSPACE_GRAPH_CLIPBOARD_TYPE = 'application/x-maxvideoai-canvas-graph';
-export const WORKSPACE_GRAPH_CLIPBOARD_TEXT = 'VideoAI canvas graph selection';
+export const WORKSPACE_GRAPH_CLIPBOARD_TEXT = 'Keyvo canvas graph selection';
 
 export type WorkspacePaletteDropRequest = {
   kind: WorkspaceNodeKind;

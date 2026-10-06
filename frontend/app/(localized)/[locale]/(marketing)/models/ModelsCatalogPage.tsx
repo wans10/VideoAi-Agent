@@ -99,7 +99,7 @@ export async function generateModelsMetadata({
           englishPath: getModelsScopeEnglishPath(scope),
         }),
     image: '/og/models-2026-09-25.png',
-    imageAlt: 'VideoAI video, image and audio model directory.',
+    imageAlt: 'Keyvo video, image and audio model directory.',
   });
   return meta;
 }

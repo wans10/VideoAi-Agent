@@ -57,12 +57,12 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
   const metaTitle =
     localized.metaTitle ??
     (locale === 'fr'
-      ? `Exemples vidéo IA ${label} (prompts + réglages) | VideoAI`
+      ? `Exemples vidéo IA ${label} (prompts + réglages) | Keyvo`
       : locale === 'es'
-        ? `Ejemplos de video con IA de ${label} (prompts + ajustes) | VideoAI`
+        ? `Ejemplos de video con IA de ${label} (prompts + ajustes) | Keyvo`
         : locale === 'zh'
-          ? `${label} AI 视频案例（提示词 + 参数设置）| VideoAI`
-          : `${label} AI Video Examples (Prompts + Settings) | VideoAI`);
+          ? `${label} AI 视频案例（提示词 + 参数设置）| Keyvo`
+          : `${label} AI Video Examples (Prompts + Settings) | Keyvo`);
   const sectionPromptTitle =
     locale === 'fr'
       ? `Prompts sur les modèles ${label}`

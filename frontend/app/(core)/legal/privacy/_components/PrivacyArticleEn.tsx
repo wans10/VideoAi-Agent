@@ -14,14 +14,14 @@ export function PrivacyArticleEn({
   return (
     <article className="stack-gap-lg text-base leading-relaxed text-text-secondary">
       <p>
-        This Privacy Policy explains how VideoAI (“we”, “us”) collects, uses, discloses, and protects personal data when you visit videoai.omninodetech.com, create an account, purchase
+        This Privacy Policy explains how Keyvo (“we”, “us”) collects, uses, discloses, and protects personal data when you visit app.keyvo.cn, create an account, purchase
         top-ups, or generate AI outputs.
       </p>
 
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">1. Scope</h3>
         <p>
-          The Policy covers the processing of personal data across the VideoAI workspace, including account management, billing, analytics, content generation, and support interactions.
+          The Policy covers the processing of personal data across the Keyvo workspace, including account management, billing, analytics, content generation, and support interactions.
         </p>
       </section>
 

@@ -14,14 +14,14 @@ export function PrivacyArticleEs({
   return (
     <article className="stack-gap-lg text-base leading-relaxed text-text-secondary">
       <p>
-        Esta política explica cómo VideoAI («nosotros») recopila, utiliza, comparte y protege tus datos personales cuando visitas videoai.omninodetech.com, creas una cuenta, adquieres recargas o generas
+        Esta política explica cómo Keyvo («nosotros») recopila, utiliza, comparte y protege tus datos personales cuando visitas app.keyvo.cn, creas una cuenta, adquieres recargas o generas
         contenido con IA.
       </p>
 
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">1. Alcance</h3>
         <p>
-          Cubre el tratamiento de datos dentro del espacio de trabajo de VideoAI: gestión de cuentas, facturación, analíticas, generación de contenido y soporte.
+          Cubre el tratamiento de datos dentro del espacio de trabajo de Keyvo: gestión de cuentas, facturación, analíticas, generación de contenido y soporte.
         </p>
       </section>
 

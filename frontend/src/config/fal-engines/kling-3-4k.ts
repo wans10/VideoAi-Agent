@@ -130,7 +130,7 @@ const KLING_3_4K_ENGINE: EngineCaps = {
       '4k': 0.42,
     },
     currency: 'USD',
-    notes: 'Provider cost: $0.420/s native 4K output. VideoAI display prices add platform margin before showing quotes.',
+    notes: 'Provider cost: $0.420/s native 4K output. Keyvo display prices add platform margin before showing quotes.',
   },
   updatedAt: '2026-04-25T00:00:00Z',
   ttlSec: 600,
@@ -186,7 +186,7 @@ export const KLING_3_4K_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/kling-video/v3/4k/text-to-video',
     seo: {
-      title: 'Kling 3 4K - Native 4K Text & Image to Video | VideoAI',
+      title: 'Kling 3 4K - Native 4K Text & Image to Video | Keyvo',
       description:
         'Generate native 4K Kling 3 videos from text or images. Use Kling 3 4K for final delivery renders with 3-15s clips and native audio.',
       canonicalPath: '/models/kling-3-4k',

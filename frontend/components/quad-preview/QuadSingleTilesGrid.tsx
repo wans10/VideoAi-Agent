@@ -150,7 +150,7 @@ export function QuadSingleTilesGrid({
                   <span className="font-semibold uppercase tracking-micro text-error">{locale === 'zh' ? '生成失败' : 'Generation failed'}</span>
                   <span className="text-[11px] leading-snug text-error">
                     {failureMessage ??
-                      'VideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
+                      'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
                   </span>
                 </div>
               ) : tile.status !== 'completed' ? (
@@ -168,7 +168,7 @@ export function QuadSingleTilesGrid({
                   <p className="text-[10px] font-semibold uppercase tracking-micro text-error">{locale === 'zh' ? '退款说明' : 'Refund note'}</p>
                   <p className="mt-1 text-[11px] leading-snug text-error">
                     {failureMessage ??
-                      'VideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
+                      'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
                   </p>
                 </div>
               ) : null}

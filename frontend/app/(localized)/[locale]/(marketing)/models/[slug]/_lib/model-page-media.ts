@@ -86,7 +86,7 @@ export function toGalleryCard(
   fromPath?: string,
   appPath = '/app'
 ): ExampleGalleryVideo {
-  const promptExcerpt = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'VideoAI render');
+  const promptExcerpt = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'Keyvo render');
   const isImageWorkspace = appPath === '/app/image';
   const videoHrefBase = isImageWorkspace
     ? `${appPath}?job=${encodeURIComponent(video.id)}`

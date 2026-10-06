@@ -231,8 +231,8 @@ export function McpSpendingControls({
             />
             <MoneyControl
               id="mcp-web-approval"
-              label="Require a VideoAI web review above"
-              help="Amounts strictly above this value must be reviewed on VideoAI."
+              label="Require a Keyvo web review above"
+              help="Amounts strictly above this value must be reviewed on Keyvo."
               draft={webApproval}
               disabled={saving}
               onChange={setWebApproval}

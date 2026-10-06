@@ -83,7 +83,7 @@ export default async function McpConnectionsPage() {
                     <p className="text-xs font-semibold uppercase tracking-micro text-text-muted">Account security</p>
                     <h2 id="connected-applications-title" className="mt-1 text-2xl font-semibold text-text-primary">Connected applications</h2>
                     <p className="mt-2 max-w-3xl text-sm leading-6 text-text-secondary">
-                      Review applications allowed to access VideoAI. Disconnecting an application ends its access and requires a new approval before it can reconnect.
+                      Review applications allowed to access Keyvo. Disconnecting an application ends its access and requires a new approval before it can reconnect.
                     </p>
                   </div>
                 </div>

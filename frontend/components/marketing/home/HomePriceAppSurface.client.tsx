@@ -25,7 +25,7 @@ export function HomePriceAppSurface({model,step,locale}:{model:HomePriceModel;st
  const c = COPY[locale] ?? COPY.en;
  const dictionary = {workspace:model.workspaceCopy} as unknown as Dictionary;
  return <I18nProvider locale={locale} dictionary={dictionary} fallback={dictionary}><div className="price-app-surface" ref={applyDemoInert} aria-hidden="true">
-   <div className="price-app-top"><strong>VideoAI</strong><span>{c.video}</span></div>
+   <div className="price-app-top"><strong>Keyvo</strong><span>{c.video}</span></div>
    <div className="price-app-model"><small>{c.model}</small><strong>{model.engine.label}<span>Alibaba · 3.0</span></strong></div>
    <Composer density="workspace" engine={model.engine} caps={model.engine.modeCaps?.t2v}
      prompt={c.prompt} onPromptChange={noop} price={step.amountCents / 100} currency={CUSTOMER_CURRENCY}

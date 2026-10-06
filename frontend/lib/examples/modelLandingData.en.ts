@@ -2,7 +2,7 @@ import type { CanonicalExampleModelSlug, LocalizedModelDescriptor } from '@/lib/
 
 export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedModelDescriptor>> = {
   sora: {
-    "metaTitle": "Historical Sora examples | VideoAI",
+    "metaTitle": "Historical Sora examples | Keyvo",
     "metaDescription": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
     "heroTitle": "Historical Sora examples",
     "subtitle": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
@@ -22,9 +22,9 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ]
 },
   veo: {
-    metaTitle: 'Veo 3.1 Examples, Prompts, Settings & Image-to-Video | VideoAI',
+    metaTitle: 'Veo 3.1 Examples, Prompts, Settings & Image-to-Video | Keyvo',
     metaDescription:
-      'Browse Veo 3.1 examples, prompts, settings, and image-to-video patterns, then open a video detail page to see its recorded render cost on VideoAI.',
+      'Browse Veo 3.1 examples, prompts, settings, and image-to-video patterns, then open a video detail page to see its recorded render cost on Keyvo.',
     heroTitle: 'Veo 3.1 examples, prompts, settings and image-to-video patterns',
     subtitle: "Veo 3.1 and Gemini Omni Flash 1.1 examples, with prompts, inputs and settings to inspect.",
     intro: "Compare Google video examples from Veo 3.1, Fast and Lite alongside Gemini Omni Flash 1.1. Open a result to inspect its prompt and settings, then adapt the example in your workspace.",
@@ -48,13 +48,13 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   luma: {
-    metaTitle: 'Luma Ray 3.2 Modify & Reframe Examples | VideoAI',
+    metaTitle: 'Luma Ray 3.2 Modify & Reframe Examples | Keyvo',
     metaDescription: "See Luma Ray 3.2 Modify and Reframe video examples. Inspect prompts and settings for editing a source clip, then check the price before creating your own.",
     heroTitle: 'Luma Ray 3.2 video examples',
     subtitle: "Luma Ray 3.2 video edits: change a scene with Modify or adapt its framing with Reframe.",
     intro: "Explore Luma Ray 3.2 Modify and Reframe examples. Open a video to inspect the prompt and settings used to edit it. Ray 2 and Ray 2 Flash examples retain their original model labels.",
     promptPatterns: "For Modify, describe what to preserve from the source video, then the change you want. For Reframe, identify the subject that must remain visible and what should fill the new frame. Use guide images or keyframes only in modes that support them.",
-    strengthsLimits: "Judge Ray 3.2 on how well it preserves the source, follows the requested edit and keeps the subject consistent. It does not generate audio in VideoAI. The supported inputs and settings differ from Ray 2 and Ray 2 Flash; check the model shown on each example.",
+    strengthsLimits: "Judge Ray 3.2 on how well it preserves the source, follows the requested edit and keeps the subject consistent. It does not generate audio in Keyvo. The supported inputs and settings differ from Ray 2 and Ray 2 Flash; check the model shown on each example.",
     pricingNotes: "The detail page shows the recorded cost of the example. Your new edit has its own quote based on the selected mode and settings. Check that price before generating and test a short clip before committing to a longer edit.",
     faq: [
       {
@@ -72,7 +72,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   wan: {
-    metaTitle: 'Wan 3 & Wan 3 Prime Examples: Prompts & Settings | VideoAI',
+    metaTitle: 'Wan 3 & Wan 3 Prime Examples: Prompts & Settings | Keyvo',
     metaDescription: 'Watch Wan 3 and Wan 3 Prime video examples. Open each result for its prompt, settings and recorded cost; earlier Wan versions remain identified.',
     heroTitle: 'Wan 3 & Wan 3 Prime examples',
     subtitle: 'Compare Wan 3 and Wan 3 Prime videos. Open a clip for its prompt, settings and recorded cost.',
@@ -148,7 +148,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   seedance: {
-    metaTitle: 'Seedance 2.5 Video Examples, Prompts & Settings | VideoAI',
+    metaTitle: 'Seedance 2.5 Video Examples, Prompts & Settings | Keyvo',
     metaDescription: "Watch Seedance 2.5 video examples with prompts and settings. Compare results from other Seedance versions and use an example as a starting point.",
     heroTitle: 'Seedance 2.5, 2.0, Fast & Mini video examples',
     subtitle: "Seedance 2.5 and earlier versions: watch the results, inspect the prompts and find a starting point.",
@@ -157,7 +157,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     promptPatterns:
       'For Seedance 2.5, define one core action, camera direction and reference role before adding scene detail. Keep the same prompt structure when comparing 2.5 with Seedance 2.0, Fast or Mini.',
     strengthsLimits:
-      'Use Seedance 2.5 when longer duration, generated audio, mixed references, editing or extension matter. Its public VideoAI route supports landscape, square and vertical output at 480p, 720p or 1080p; keep Seedance 2.0 when 4K delivery is required.',
+      'Use Seedance 2.5 when longer duration, generated audio, mixed references, editing or extension matter. Its public Keyvo route supports landscape, square and vertical output at 480p, 720p or 1080p; keep Seedance 2.0 when 4K delivery is required.',
     pricingNotes: "Duration, audio and source media can influence the price. The example detail shows its recorded cost; the generator shows the current quote for your selected settings before you launch.",
     faq: [
       {
@@ -178,7 +178,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   ltx: {
-    metaTitle: "LTX Video Examples, Prompts & Settings | VideoAI",
+    metaTitle: "LTX Video Examples, Prompts & Settings | Keyvo",
     metaDescription:
       "Explore LTX 2.5 Pro and Fast video examples, prompts and settings, with clearly labelled LTX 2.3 and LTX 2 examples for older workflows.",
     heroTitle: "LTX video examples, prompts and settings",
@@ -267,11 +267,11 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   grok: {
-    metaTitle: 'Grok Imagine Video 1.5 Examples, Prompts & Settings | VideoAI',
+    metaTitle: 'Grok Imagine Video 1.5 Examples, Prompts & Settings | Keyvo',
     heroTitle: 'Grok Imagine Video 1.5 examples',
     subtitle: 'Grok Imagine Video 1.5 examples for text-to-video, opening-image animation, and reference-guided clips.',
     intro:
-      'Use this family page to study Grok Imagine Video 1.5 through VideoAI’s Fal route. It covers text-to-video, image-to-video from one opening image, and reference-to-video workflows using one to seven reference images; availability on VideoAI does not imply a direct xAI integration. Treat the gallery as evidence for choosing an input strategy, not as a promise that one prompt works for every mode. Text starts are useful when composition can be invented from the brief. An opening image is better when the first composition, subject placement, wardrobe, product, or palette already exists. A reference set is appropriate when several permitted images have separate jobs, such as identity, object design, environment, or lighting. Review prompt, mode, duration, resolution, framing, and accepted output together. A visually attractive result does not by itself prove reference fidelity, readable incidental text, stable hands, or continuity through the final beat. Compare examples with the same acceptance criteria and keep likeness consent, source rights, and brand safety in the production review.',
+      'Use this family page to study Grok Imagine Video 1.5 through Keyvo’s Fal route. It covers text-to-video, image-to-video from one opening image, and reference-to-video workflows using one to seven reference images; availability on Keyvo does not imply a direct xAI integration. Treat the gallery as evidence for choosing an input strategy, not as a promise that one prompt works for every mode. Text starts are useful when composition can be invented from the brief. An opening image is better when the first composition, subject placement, wardrobe, product, or palette already exists. A reference set is appropriate when several permitted images have separate jobs, such as identity, object design, environment, or lighting. Review prompt, mode, duration, resolution, framing, and accepted output together. A visually attractive result does not by itself prove reference fidelity, readable incidental text, stable hands, or continuity through the final beat. Compare examples with the same acceptance criteria and keep likeness consent, source rights, and brand safety in the production review.',
     promptPatterns:
       'For text-to-video, state the subject, action, camera, and light, then describe the ending that should still be visible when the clip stops. Keep one main action and one camera intention so motion failures are diagnosable. For an opening image, describe only the motion that should develop: what remains fixed, what moves, how the camera reacts, and which visual details must survive. Do not ask the prompt to redesign the source and preserve it at the same time. For reference work, assign a clear role to each reference instead of repeating visual detail. Name the images in order, identify which one controls the person, garment, object, location, or palette, and explain how those roles meet in a single shot. One or two precise references can be clearer than seven conflicting sources. Put negative constraints after the positive shot direction and reserve them for visible failure risks such as unwanted logos, duplicate subjects, extra limbs, accidental captions, or a camera cut. When comparing two prompts, change one variable and keep source images, duration, resolution, and framing stable.',
     strengthsLimits:
@@ -281,7 +281,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     faq: [
       { question: 'Can Grok start from an image?', answer: 'Yes. Image-to-video uses one opening image and asks the prompt to direct motion from that composition. Reference-to-video accepts a set of images with named roles. Choose the opening-image route for one authoritative frame and the reference route when identity, object, setting, or palette must come from separate permitted sources.' },
       { question: 'How many references can I use?', answer: 'The reference workflow accepts one to seven images. Capacity is not a target: use only the sources needed for the brief, give each one a distinct purpose, and remove redundant or contradictory material. Keep the image order stable while testing prompts so fidelity changes can be attributed to the instruction rather than a reordered set.' },
-      { question: 'Is this a direct xAI route?', answer: 'No. xAI owns the Grok model family, while VideoAI currently distributes this model through Fal. The examples describe the capability exposed by that route and should not be read as a claim of direct xAI API access, identical queue behavior, or features not visible in the current model details.' },
+      { question: 'Is this a direct xAI route?', answer: 'No. xAI owns the Grok model family, while Keyvo currently distributes this model through Fal. The examples describe the capability exposed by that route and should not be read as a claim of direct xAI API access, identical queue behavior, or features not visible in the current model details.' },
       { question: 'How should I review a Grok example?', answer: 'Check whether the opening composition or named references remain recognizable, then score motion, camera, anatomy, geometry, unwanted text, watermarking, and the final beat. Review the whole clip rather than one thumbnail, and treat any requested but missing behavior as evidence rather than explaining it away after generation.' },
     ],
   },
@@ -289,7 +289,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     heroTitle: 'FLUX 3 & FLUX 3 Draft examples',
     subtitle: 'FLUX 3 and FLUX 3 Draft examples for text-to-video, image animation, start/end frames, and Extend.',
     intro:
-      'This page compares the standard FLUX 3 route with FLUX 3 Draft through VideoAI’s Fal distribution. Use it for text-to-video, image-to-video from an opening frame, first-and-last-frame transitions, and the separate Extend workflow for continuing an existing clip. The family view helps decide both model tier and input workflow. Draft is for controlled 720p exploration when the team still needs to validate action, camera, source compatibility, or transition logic. Standard FLUX 3 is the production-oriented sibling and exposes the higher resolution option shown on its model page. Neither label removes the need to review the output. A useful example records the source role, prompt, mode, duration, resolution, and visual acceptance question. Compare like with like: a frame bridge should be judged on the path between anchors, an extension on continuity with the source clip, and a text start on the shot invented from the brief. Black Forest Labs owns FLUX; the route described here is Fal-distributed rather than a claim of direct provider execution.',
+      'This page compares the standard FLUX 3 route with FLUX 3 Draft through Keyvo’s Fal distribution. Use it for text-to-video, image-to-video from an opening frame, first-and-last-frame transitions, and the separate Extend workflow for continuing an existing clip. The family view helps decide both model tier and input workflow. Draft is for controlled 720p exploration when the team still needs to validate action, camera, source compatibility, or transition logic. Standard FLUX 3 is the production-oriented sibling and exposes the higher resolution option shown on its model page. Neither label removes the need to review the output. A useful example records the source role, prompt, mode, duration, resolution, and visual acceptance question. Compare like with like: a frame bridge should be judged on the path between anchors, an extension on continuity with the source clip, and a text start on the shot invented from the brief. Black Forest Labs owns FLUX; the route described here is Fal-distributed rather than a claim of direct provider execution.',
     promptPatterns:
       'Describe one shot, a specific camera move, a measurable subject action, the physical environment, and an ending that can be reviewed. Avoid combining several unrelated beats in one diagnostic render. For image-to-video, say what must remain from the opening composition before adding motion. When using first and last frames, supply both required anchors and write the transition between them: how pose, object position, material, camera, and light evolve without an impossible jump. Compatible perspective and identity make the bridge easier to assess. For Extend, describe what should happen after the source clip rather than restating it. Continue the final camera vector, subject trajectory, lighting, rhythm, and scene state before introducing anything new. A hidden cut, reset pose, or replacement subject is a continuity failure even if the last frame looks polished. Use Draft to compare one variable at a time and keep the winning source files, prompt structure, and acceptance criteria unchanged when testing standard FLUX 3.',
     strengthsLimits:

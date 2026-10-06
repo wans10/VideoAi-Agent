@@ -146,7 +146,7 @@ const KLING_3_PRO_ENGINE: EngineCaps = {
     unit: 'USD/s',
     base: 0.168,
     currency: 'USD',
-    notes: 'Provider cost: $0.112/s audio off and $0.168/s audio on. VideoAI display prices add platform margin before showing quotes.',
+    notes: 'Provider cost: $0.112/s audio off and $0.168/s audio on. Keyvo display prices add platform margin before showing quotes.',
   },
   updatedAt: '2026-04-25T00:00:00Z',
   ttlSec: 600,
@@ -202,7 +202,7 @@ export const KLING_3_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/kling-video/v3/pro/text-to-video',
     seo: {
-      title: 'Kling 3 Pro – Multi-prompt Text & Image to Video | VideoAI',
+      title: 'Kling 3 Pro – Multi-prompt Text & Image to Video | Keyvo',
       description:
         'Direct Kling 3 Pro renders with multi-prompt sequencing, start-frame image-to-video, Kling Elements, and native audio. Generate cinematic 3-15s clips in 1080p.',
       canonicalPath: '/models/kling-3-pro',

@@ -47,7 +47,7 @@ export async function persistBackgroundRemovalOutput(params: {
   durationSec?: number | null;
 }): Promise<BackgroundRemovalToolOutput> {
   const { output, userId, jobId, providerJobId, engineId, engineLabel, outputCodec, durationSec } = params;
-  if (!isStorageConfigured()) throw new Error('VideoAI storage is required for background removal outputs');
+  if (!isStorageConfigured()) throw new Error('Keyvo storage is required for background removal outputs');
   if (!output.url) throw new Error('Background removal output URL is missing');
 
   try {

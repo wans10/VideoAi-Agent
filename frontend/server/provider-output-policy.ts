@@ -1,5 +1,5 @@
 export const PROVIDER_VIDEO_COPY_FAILURE_MESSAGE =
-  'The render finished, but VideoAI could not prepare the video for download. Please retry.';
+  'The render finished, but Keyvo could not prepare the video for download. Please retry.';
 export const PROVIDER_VIDEO_COPY_RETRY_MESSAGE =
   'Generated video is ready. Preparing it for download.';
 const DEFAULT_PROVIDER_VIDEO_COPY_MAX_ATTEMPTS = 6;

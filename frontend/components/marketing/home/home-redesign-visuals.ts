@@ -174,7 +174,7 @@ export const HERO_ENGINE_MEDIA: Record<
     duration: '0:08',
     estimateValue: formatCustomerUsdAmount(0.52),
     estimateMeta: '8s generation',
-    imageAlt: 'Veo 3.1 Lite romantic train-station reunion generated with VideoAI.',
+    imageAlt: 'Veo 3.1 Lite romantic train-station reunion generated with Keyvo.',
   },
   'ltx-2-3-pro': {
     posterSrc:

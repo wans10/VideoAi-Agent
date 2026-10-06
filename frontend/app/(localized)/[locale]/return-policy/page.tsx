@@ -10,12 +10,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (locale !== 'zh') permanentRedirect('/return-policy');
   return buildSeoMetadata({
     locale: 'zh',
-    title: '退款与退换政策 | VideoAI',
-    description: '了解 VideoAI 数字化 AI 视频生成服务和钱包额度的退款规则、生成失败处理、未使用余额审核及消费者权利。',
+    title: '退款与退换政策 | Keyvo',
+    description: '了解 Keyvo 数字化 AI 视频生成服务和钱包额度的退款规则、生成失败处理、未使用余额审核及消费者权利。',
     englishPath: '/return-policy',
     availableLocales: ['en', 'zh'],
     ogType: 'article',
-    imageAlt: 'VideoAI 退款与退换政策',
+    imageAlt: 'Keyvo 退款与退换政策',
     titleBranding: 'none',
   });
 }

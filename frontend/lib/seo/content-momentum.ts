@@ -307,7 +307,7 @@ function buildRecommendedAction(draft: MomentumDraft) {
 function buildWhyItMatters(draft: MomentumDraft) {
   if (draft.type === 'protect_winner') return 'Growing pages are usually the best place to compound gains without creating new low-signal content.';
   if (draft.type === 'refresh_candidate') return 'Declining pages with existing demand are often faster to recover than brand-new pages are to rank.';
-  if (draft.type === 'outdated_model_attention') return 'Older model demand can still be useful, but it should point users toward the current VideoAI model ecosystem.';
+  if (draft.type === 'outdated_model_attention') return 'Older model demand can still be useful, but it should point users toward the current Keyvo model ecosystem.';
   if (draft.type === 'rising_family') return `${draft.family} is gaining demand and can guide where SEO/dev time should go next.`;
   if (draft.type === 'declining_family') return `${draft.family} is losing demand, so refresh work should be defensive and evidence-led.`;
   if (draft.type === 'mixed_family_momentum') return 'Mixed signals are useful for monitoring, but they should not outrank cleaner growth or decay signals.';
@@ -318,7 +318,7 @@ function buildAcceptanceCriteria(draft: MomentumDraft) {
   const criteria = [
     'Use cached GSC comparison data as context; do not call external SEO APIs',
     'Do not create a new page unless another detector separately justifies it',
-    'Copy stays compact, premium, and aligned with existing VideoAI page structure',
+    'Copy stays compact, premium, and aligned with existing Keyvo page structure',
   ];
 
   if (draft.type === 'protect_winner' || draft.type === 'gaining_page' || draft.type === 'gaining_cluster') {

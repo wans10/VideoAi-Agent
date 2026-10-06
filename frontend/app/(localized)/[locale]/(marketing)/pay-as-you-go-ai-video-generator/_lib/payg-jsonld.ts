@@ -52,7 +52,7 @@ export function buildPayAsYouGoWebApplicationJsonLd({ canonical, copy }: { canon
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'VideoAI',
+    name: 'Keyvo',
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Web',
     url: canonical,

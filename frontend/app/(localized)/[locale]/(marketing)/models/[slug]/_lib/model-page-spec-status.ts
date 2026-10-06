@@ -44,11 +44,11 @@ export function localizeSpecStatus(value: string, locale: AppLocale): string {
   }
   if (lower === 'not exposed in current maxvideoai route') {
     return locale === 'fr'
-      ? 'Non disponible dans VideoAI actuellement'
+      ? 'Non disponible dans Keyvo actuellement'
       : locale === 'es'
-        ? 'No disponible actualmente en VideoAI'
+        ? 'No disponible actualmente en Keyvo'
         : locale === 'zh'
-          ? '当前 VideoAI 路线暂未开放'
+          ? '当前 Keyvo 路线暂未开放'
           : normalized;
   }
   if (lower === 'multi reference stills') {
@@ -154,7 +154,7 @@ export function localizeSpecStatus(value: string, locale: AppLocale): string {
           : normalized;
   }
   if (lower === 'no (maxvideoai)') {
-    return locale === 'fr' ? 'Non (VideoAI)' : locale === 'es' ? 'No (VideoAI)' : locale === 'zh' ? '否 (VideoAI)' : normalized;
+    return locale === 'fr' ? 'Non (Keyvo)' : locale === 'es' ? 'No (Keyvo)' : locale === 'zh' ? '否 (Keyvo)' : normalized;
   }
   if (locale !== 'en') {
     const month = normalized.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4})$/);

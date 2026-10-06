@@ -97,7 +97,7 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
   const model = resolveRuntimePublicSlug(slug);
   if (!model || !isRuntimeModelPagePublished(model)) {
     return {
-      title: 'Model not found - VideoAI',
+      title: 'Model not found - Keyvo',
       robots: { index: false, follow: false },
     };
   }
@@ -124,7 +124,7 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
   const engine = getFalEngineBySlug(slug);
   if (!isPublishedModelPage(engine)) {
     return {
-      title: 'Model not found - VideoAI',
+      title: 'Model not found - Keyvo',
       robots: { index: false, follow: false },
     };
   }
@@ -134,13 +134,13 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
     locale,
     decisionContent: localized.decision,
   });
-  const fallbackTitle = engine.seo.title ?? `${engine.marketingName} — VideoAI`;
+  const fallbackTitle = engine.seo.title ?? `${engine.marketingName} — Keyvo`;
   const title = decisionData?.meta.title ?? localized.seo.title ?? fallbackTitle;
   const description =
     decisionData?.meta.description ??
     localized.seo.description ??
     engine.seo.description ??
-    'Explore availability, prompts, pricing, and render policies for this model on VideoAI.';
+    'Explore availability, prompts, pricing, and render policies for this model on Keyvo.';
   const ogImagePath =
     localized.seo.image ?? MODEL_OG_IMAGE_MAP[canonicalSlug] ?? engine.media?.imagePath ?? '/og/brand-2026-09-25.png';
   return buildSeoMetadata({
@@ -235,8 +235,8 @@ async function renderMarketingModelPage({
     id: `${engine.modelSlug}-hero-fallback`,
     prompt:
       engine.type === 'image'
-        ? `${modelName} demo still from VideoAI`
-        : `${modelName} demo clip from VideoAI`,
+        ? `${modelName} demo still from Keyvo`
+        : `${modelName} demo clip from Keyvo`,
     videoUrl:
       engine.type === 'image'
         ? null

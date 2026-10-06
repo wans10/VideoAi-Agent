@@ -26,7 +26,7 @@ export const LTX_2_5_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     { mode: 'a2v', falModelId: LTX_2_5_PRO_ENDPOINTS.a2v, ui: engine.modeCaps!.a2v! },
   ],
   defaultFalModelId: LTX_2_5_PRO_ENDPOINTS.t2v,
-  seo: { title: 'LTX 2.5 Pro AI Video | VideoAI', description: 'Generate high-quality LTX 2.5 Pro video from text, images, or source audio.', canonicalPath: '/models/ltx-2-5-pro' },
+  seo: { title: 'LTX 2.5 Pro AI Video | Keyvo', description: 'Generate high-quality LTX 2.5 Pro video from text, images, or source audio.', canonicalPath: '/models/ltx-2-5-pro' },
   demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e2ce09fa-62e0-4143-990c-37d9290e9af1.mp4',
   media: {
     videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e2ce09fa-62e0-4143-990c-37d9290e9af1.mp4',

@@ -150,7 +150,7 @@ export function MarketingFooter() {
         <MarketingFooterAssistants copy={{
           title: labelFor('footer.mcpFeature.title', 'Create with your AI assistant.'),
           body: labelFor('footer.mcpFeature.body', 'Your models and credits, from your conversation.'),
-          cta: labelFor('footer.mcpFeature.cta', 'Discover VideoAI MCP'),
+          cta: labelFor('footer.mcpFeature.cta', 'Discover Keyvo MCP'),
           docs: labelFor('footer.mcpFeature.docs', 'MCP documentation'),
           anchors: Object.fromEntries(['claude', 'chatgpt', 'codex', 'openclaw', 'n8n'].map(id => [id, labelFor(`footer.mcpFeature.anchors.${id}`, id)])),
         }} />

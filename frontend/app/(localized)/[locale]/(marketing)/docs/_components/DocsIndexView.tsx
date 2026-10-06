@@ -28,7 +28,7 @@ export function DocsIndexView({ content, docs, locale, metadataUrls, site }: Doc
       <div className="container-page max-w-5xl section">
         <div className="stack-gap-lg">
           <header className="videoai-docs-heading stack-gap-sm">
-            <p className="videoai-kicker">VideoAI / {locale === 'zh' ? '创作指南' : locale === 'fr' ? 'Guides' : locale === 'es' ? 'Guías' : 'Field guide'}</p>
+            <p className="videoai-kicker">Keyvo / {locale === 'zh' ? '创作指南' : locale === 'fr' ? 'Guides' : locale === 'es' ? 'Guías' : 'Field guide'}</p>
             <h1 className="text-3xl font-semibold text-text-primary sm:text-5xl">{content.hero.title}</h1>
             <p className="sm:max-w-[62ch] text-base leading-relaxed text-text-secondary">
               {content.hero.subtitle}

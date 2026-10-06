@@ -22,7 +22,7 @@ test('OAuth language cleanup keeps the loopback origin that owns the PKCE cookie
     const response = await middleware(request);
     assert.equal(response.headers.get('location'),
       'http://127.0.0.1:3210/auth/callback?next=%2Fadmin%2Fplaylists&code=test-code');
-    assert.equal(response.cookies.get('mvid_locale')?.value, locale);
+    assert.equal(response.cookies.get('mvid_locale')?.value, 'zh');
   }
 });
 

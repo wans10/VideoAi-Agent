@@ -47,7 +47,7 @@ export default async function PrivacyPage() {
         <p className="text-sm text-text-secondary">
           {locale === 'en' ? (
             <>
-              Controller: VideoAI (sole proprietorship in formation, France). Registered office: see{' '}
+              Controller: Keyvo (sole proprietorship in formation, France). Registered office: see{' '}
               <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
                 legal mentions
               </Link>
@@ -55,7 +55,7 @@ export default async function PrivacyPage() {
             </>
           ) : locale === 'fr' ? (
             <>
-              Responsable de traitement : VideoAI (entreprise individuelle en France). Adresse : voir{' '}
+              Responsable de traitement : Keyvo (entreprise individuelle en France). Adresse : voir{' '}
               <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
                 Mentions légales
               </Link>
@@ -63,7 +63,7 @@ export default async function PrivacyPage() {
             </>
           ) : (
             <>
-              Responsable: VideoAI (empresa individual en Francia). Dirección: consulta las{' '}
+              Responsable: Keyvo (empresa individual en Francia). Dirección: consulta las{' '}
               <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
                 menciones legales
               </Link>

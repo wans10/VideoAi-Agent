@@ -60,9 +60,9 @@ export function buildCompareWebPageJsonLd({
   const descriptionTemplate = replaceCriteriaCount(
     metaOverride?.description ??
       (pairHasKling3Native4k
-        ? `Compare {left} vs {right} across native 4K delivery, iteration cost, key specs, and a scorecard across ${criteriaCount} criteria on VideoAI.`
+        ? `Compare {left} vs {right} across native 4K delivery, iteration cost, key specs, and a scorecard across ${criteriaCount} criteria on Keyvo.`
         : compareCopy.meta?.description ??
-          `Compare {left} vs {right} with pricing, key specs, and a scorecard across ${criteriaCount} criteria on VideoAI.`),
+          `Compare {left} vs {right} with pricing, key specs, and a scorecard across ${criteriaCount} criteria on Keyvo.`),
     criteriaCount
   );
 

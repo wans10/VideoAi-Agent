@@ -186,9 +186,9 @@ function messageForCategory(category: FailureCategory): string {
     case 'safety':
       return 'This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before trying again.';
     case 'start':
-      return 'VideoAI could not start this render. Please retry in a few moments.';
+      return `${PRODUCT_BRAND_NAME} could not start this render. Please retry in a few moments.`;
     case 'storage':
-      return 'The render finished, but VideoAI could not prepare the output for download. Please retry.';
+      return `The render finished, but ${PRODUCT_BRAND_NAME} could not prepare the output for download. Please retry.`;
     case 'timeout':
       return 'This render exceeded the expected processing window. Please retry in a few moments.';
     case 'unsupported':

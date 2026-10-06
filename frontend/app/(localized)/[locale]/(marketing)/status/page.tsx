@@ -14,20 +14,20 @@ export const revalidate = 30;
 const STATUS_SLUG_MAP = buildSlugMap('status');
 const STATUS_META: Record<AppLocale, { title: string; description: string }> = {
   en: {
-    title: 'Service status — VideoAI',
-    description: 'Read current VideoAI service notices and get help with an affected AI video generation.',
+    title: 'Service status — Keyvo',
+    description: 'Read current Keyvo service notices and get help with an affected AI video generation.',
   },
   fr: {
-    title: 'État du service — VideoAI',
-    description: 'Consultez les avis de service VideoAI et obtenez de l’aide pour une génération vidéo IA affectée.',
+    title: 'État du service — Keyvo',
+    description: 'Consultez les avis de service Keyvo et obtenez de l’aide pour une génération vidéo IA affectée.',
   },
   es: {
-    title: 'Estado del servicio — VideoAI',
-    description: 'Consulta los avisos de servicio de VideoAI y obtén ayuda con una generación de video IA afectada.',
+    title: 'Estado del servicio — Keyvo',
+    description: 'Consulta los avisos de servicio de Keyvo y obtén ayuda con una generación de video IA afectada.',
   },
   zh: {
-    title: '服务状态 — VideoAI',
-    description: '查看当前 VideoAI 服务公告，获取受影响 AI 视频生成任务的帮助。',
+    title: '服务状态 — Keyvo',
+    description: '查看当前 Keyvo 服务公告，获取受影响 AI 视频生成任务的帮助。',
   },
 };
 
@@ -41,8 +41,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     description: metaCopy.description,
     hreflangGroup: 'status',
     slugMap: STATUS_SLUG_MAP,
-    keywords: ['AI video service status', 'VideoAI service notice', 'generation support'],
-    imageAlt: 'VideoAI service status.',
+    keywords: ['AI video service status', 'Keyvo service notice', 'generation support'],
+    imageAlt: 'Keyvo service status.',
   });
 }
 

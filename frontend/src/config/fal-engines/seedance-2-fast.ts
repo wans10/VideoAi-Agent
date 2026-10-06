@@ -161,7 +161,7 @@ const SEEDANCE_2_0_FAST_ENGINE: EngineCaps = {
   pricing: {
     unit: 'USD/s',
     currency: 'USD',
-    notes: 'Seedance 2 Fast is billed from output tokens. VideoAI adds its margin and rounds up to the next cent before showing the live quote.',
+    notes: 'Seedance 2 Fast is billed from output tokens. Keyvo adds its margin and rounds up to the next cent before showing the live quote.',
   },
   updatedAt: '2026-04-05T00:00:00Z',
   ttlSec: 600,
@@ -184,7 +184,7 @@ export const SEEDANCE_2_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     versionLabel: '2.0 Fast',
     availability: SEEDANCE_2_LAUNCH_CONFIG.availability,
     logoPolicy: 'textOnly',
-    billingNote: 'Seedance 2 Fast uses token-based provider pricing. Generate shows the active route, applies the VideoAI margin, and rounds the quote up to the next cent before each run.',
+    billingNote: 'Seedance 2 Fast uses token-based provider pricing. Generate shows the active route, applies the Keyvo margin, and rounds the quote up to the next cent before each run.',
     engine: SEEDANCE_2_0_FAST_ENGINE,
     modes: [
       {
@@ -259,7 +259,7 @@ export const SEEDANCE_2_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Seedance 2.0 Fast — ByteDance Draft-Speed Video and Reference Model',
       description:
-        'Seedance 2.0 Fast is the draft-speed Seedance 2 tier on VideoAI for faster iteration, shorter feedback loops, 480p/720p output, and quick text, image, and reference-based comparisons.',
+        'Seedance 2.0 Fast is the draft-speed Seedance 2 tier on Keyvo for faster iteration, shorter feedback loops, 480p/720p output, and quick text, image, and reference-based comparisons.',
       canonicalPath: '/models/seedance-2-0-fast',
     },
     type: 'textImage',
@@ -322,7 +322,7 @@ export const SEEDANCE_2_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Can Seedance 2.0 Fast edit or extend a video?',
         answer:
-          'Yes. The VideoAI Seedance 2.0 Fast route supports video edit and extend workflows for quick source-clip tests before a higher-polish final.',
+          'Yes. The Keyvo Seedance 2.0 Fast route supports video edit and extend workflows for quick source-clip tests before a higher-polish final.',
       },
     ],
     pricingHint: {

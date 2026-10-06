@@ -1,0 +1,251 @@
+{
+  "commit": "ca689b97beb74633d8f2d8d1dc0ed6094cc05b63",
+  "branch": "feat/white-label-keyvo",
+  "scannedFiles": 5581,
+  "legacyMatchingLines": 16589,
+  "literalCandidates": 1062,
+  "checks": [
+    {
+      "id": "brand.constant",
+      "status": "PASS",
+      "actual": "Keyvo"
+    },
+    {
+      "id": "origin.default",
+      "status": "PASS",
+      "actual": "https://app.keyvo.cn"
+    },
+    {
+      "id": "manifest.brand",
+      "status": "PASS",
+      "actual": {
+        "name": "Keyvo",
+        "short_name": "Keyvo",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#f7f5f0",
+        "theme_color": "#b83c2b",
+        "icons": [
+          {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+          },
+          {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wallet.cny-label",
+      "status": "PASS",
+      "actual": "Keyvo 账户充值"
+    },
+    {
+      "id": "robots.http-handler.sitemap-hosts",
+      "status": "PASS",
+      "actual": [
+        "app.keyvo.cn",
+        "app.keyvo.cn",
+        "app.keyvo.cn",
+        "app.keyvo.cn",
+        "app.keyvo.cn"
+      ]
+    },
+    {
+      "id": "llms.http-handler.brand-and-hosts",
+      "status": "PASS",
+      "actual": 6974
+    },
+    {
+      "id": "organization.schema.brand",
+      "status": "PASS",
+      "actual": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://app.keyvo.cn/#organization",
+        "name": "Keyvo",
+        "url": "https://app.keyvo.cn/",
+        "logo": "https://app.keyvo.cn/favicon-512.png",
+        "description": "Keyvo is a pay-as-you-go platform for AI video, image and audio generation, with a web workspace for creative production. Compare models and review the price before generating, without a subscription."
+      }
+    },
+    {
+      "id": "service.schema.provider",
+      "status": "PASS",
+      "actual": {
+        "@type": "Organization",
+        "name": "Keyvo",
+        "url": "https://app.keyvo.cn",
+        "logo": "https://app.keyvo.cn/favicon-512.png"
+      }
+    },
+    {
+      "id": "failure.start.brand",
+      "status": "PASS",
+      "actual": "Keyvo could not start this render. Please retry in a few moments."
+    },
+    {
+      "id": "failure.storage.brand",
+      "status": "PASS",
+      "actual": "The render finished, but Keyvo could not prepare the output for download. Please retry."
+    },
+    {
+      "id": "failure.historical-normalization",
+      "status": "PASS",
+      "actual": "Keyvo needs a different reference."
+    },
+    {
+      "id": "job-group.failure.brand",
+      "status": "PASS",
+      "actual": {
+        "groups": [
+          {
+            "id": "audit-group",
+            "source": "history",
+            "splitMode": "quad",
+            "batchId": null,
+            "count": 2,
+            "totalPriceCents": null,
+            "currency": null,
+            "createdAt": "2026-10-06T12:42:33.432Z",
+            "hero": {
+              "id": "audit-1",
+              "jobId": "audit-1",
+              "batchId": "audit-group",
+              "iterationIndex": null,
+              "iterationCount": null,
+              "engineId": "audit",
+              "priceCents": null,
+              "currency": null,
+              "thumbUrl": null,
+              "videoUrl": null,
+              "previewVideoUrl": null,
+              "audioUrl": null,
+              "aspectRatio": null,
+              "status": "failed",
+              "progress": null,
+              "message": "Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.",
+              "etaLabel": null,
+              "etaSeconds": null,
+              "createdAt": "2026-10-06T12:42:33.432Z",
+              "source": "job",
+              "job": {
+                "jobId": "audit-1",
+                "groupId": "audit-group",
+                "status": "failed",
+                "engineId": "audit",
+                "createdAt": "2026-10-06T12:42:33.432Z"
+              }
+            },
+            "previews": [
+              {
+                "id": "audit-1",
+                "thumbUrl": null,
+                "videoUrl": null,
+                "previewVideoUrl": null,
+                "aspectRatio": null
+              },
+              {
+                "id": "audit-2",
+                "thumbUrl": null,
+                "videoUrl": null,
+                "previewVideoUrl": null,
+                "aspectRatio": null
+              }
+            ],
+            "members": [
+              {
+                "id": "audit-1",
+                "jobId": "audit-1",
+                "batchId": "audit-group",
+                "iterationIndex": null,
+                "iterationCount": null,
+                "engineId": "audit",
+                "priceCents": null,
+                "currency": null,
+                "thumbUrl": null,
+                "videoUrl": null,
+                "previewVideoUrl": null,
+                "audioUrl": null,
+                "aspectRatio": null,
+                "status": "failed",
+                "progress": null,
+                "message": "Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.",
+                "etaLabel": null,
+                "etaSeconds": null,
+                "createdAt": "2026-10-06T12:42:33.432Z",
+                "source": "job",
+                "job": {
+                  "jobId": "audit-1",
+                  "groupId": "audit-group",
+                  "status": "failed",
+                  "engineId": "audit",
+                  "createdAt": "2026-10-06T12:42:33.432Z"
+                }
+              },
+              {
+                "id": "audit-2",
+                "jobId": "audit-2",
+                "batchId": "audit-group",
+                "iterationIndex": null,
+                "iterationCount": null,
+                "engineId": "audit",
+                "priceCents": null,
+                "currency": null,
+                "thumbUrl": null,
+                "videoUrl": null,
+                "previewVideoUrl": null,
+                "audioUrl": null,
+                "aspectRatio": null,
+                "status": "failed",
+                "progress": null,
+                "message": "Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.",
+                "etaLabel": null,
+                "etaSeconds": null,
+                "createdAt": "2026-10-06T12:42:33.432Z",
+                "source": "job",
+                "job": {
+                  "jobId": "audit-2",
+                  "groupId": "audit-group",
+                  "status": "failed",
+                  "engineId": "audit",
+                  "createdAt": "2026-10-06T12:42:33.432Z"
+                }
+              }
+            ]
+          }
+        ],
+        "ungrouped": []
+      }
+    },
+    {
+      "id": "supabase.site-and-callback",
+      "status": "PASS",
+      "actual": "https://app.keyvo.cn"
+    },
+    {
+      "id": "supabase.email-subjects",
+      "status": "PASS",
+      "actual": [
+        "Keyvo — Confirm your email",
+        "Keyvo — Reset your password",
+        "Keyvo — Your sign-in link"
+      ]
+    },
+    {
+      "id": "email.templates.brand-and-hosts",
+      "status": "PASS",
+      "actual": []
+    },
+    {
+      "id": "sitemap.build-config.default-host",
+      "status": "PASS",
+      "actual": "https://app.keyvo.cn"
+    }
+  ],
+  "note": "Inventory and AST candidates are not all defects. Includes historical attribution, protocol IDs, media URLs and inactive translations. No secret environment files are read."
+}

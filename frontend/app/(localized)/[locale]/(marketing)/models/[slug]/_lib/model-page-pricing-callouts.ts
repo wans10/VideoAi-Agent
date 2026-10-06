@@ -51,17 +51,17 @@ function titleForModel(label: string, locale: AppLocale) {
 
 function bodyForModel(slug: string, label: string, locale: AppLocale) {
   if (locale === 'zh') {
-    if (slug === 'seedance-2-0') return '查看 5 秒 720p、10 秒 1080p 和带音频模式的当前 VideoAI 价格。';
+    if (slug === 'seedance-2-0') return '查看 5 秒 720p、10 秒 1080p 和带音频模式的当前 Keyvo 价格。';
     if (slug === 'ltx-2-3-fast') return '比较 LTX 2.3 Fast 在 8 秒、10 秒、1080p 和 4K 输出条件下的价格。';
     if (slug.startsWith('kling-3')) return `按时长、音频和分辨率比较 ${label} 与其他 Kling 模型。`;
     return `生成前按视频场景比较 ${label} 的价格。`;
   }
   if (slug === 'seedance-2-0') {
     return locale === 'fr'
-      ? 'Voyez les prix VideoAI actuels pour 5 s 720p, 10 s 1080p et les routes avec audio.'
+      ? 'Voyez les prix Keyvo actuels pour 5 s 720p, 10 s 1080p et les routes avec audio.'
       : locale === 'es'
-        ? 'Consulta precios actuales de VideoAI para 5 s 720p, 10 s 1080p y rutas con audio.'
-        : 'See current VideoAI prices for 5s 720p, 10s 1080p and audio-enabled routes.';
+        ? 'Consulta precios actuales de Keyvo para 5 s 720p, 10 s 1080p y rutas con audio.'
+        : 'See current Keyvo prices for 5s 720p, 10s 1080p and audio-enabled routes.';
   }
   if (slug === 'ltx-2-3-fast') {
     return locale === 'fr'

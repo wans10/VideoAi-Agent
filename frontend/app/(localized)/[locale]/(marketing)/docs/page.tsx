@@ -26,12 +26,12 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
 
   return buildSeoMetadata({
     locale,
-    title: `${title} — VideoAI`,
+    title: `${title} — Keyvo`,
     description,
     hreflangGroup: 'docs',
     slugMap: DOCS_SLUG_MAP,
     image: ogImage,
-    imageAlt: 'Docs — VideoAI',
+    imageAlt: 'Docs — Keyvo',
     robots: {
       index: true,
       follow: true,

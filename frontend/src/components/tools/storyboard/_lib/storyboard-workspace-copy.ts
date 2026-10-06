@@ -85,7 +85,7 @@ export const DEFAULT_STORYBOARD_COPY = {
   uploadTooLarge: 'The selected image is too large. Use an image under {maxMB} MB.',
   generationFailed: 'Storyboard generation failed.',
   authTitle: 'Sign in to generate',
-  authBody: 'Storyboard generation and library saves use your VideoAI wallet.',
+  authBody: 'Storyboard generation and library saves use your Keyvo wallet.',
   authPrimary: 'Log in',
   authSecondary: 'Sign in',
   close: 'Close',

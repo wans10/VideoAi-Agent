@@ -36,7 +36,7 @@ export async function LocaleRuntime({ children, locale, clientMessageNamespaces 
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     url: homeUrl,
-    name: 'VideoAI',
+    name: 'Keyvo',
     inLanguage: localeRegions[locale],
   };
 

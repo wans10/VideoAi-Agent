@@ -35,7 +35,7 @@ async function runTest(to?: string) {
     await mailer.sendMail({
       to: recipient,
       from,
-      subject: 'VideoAI SMTP test',
+      subject: 'Keyvo SMTP test',
       html: `<p>This is a test email sent at ${new Date().toISOString()}.</p>`,
     });
     return NextResponse.json({ success: true });

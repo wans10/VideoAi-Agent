@@ -308,7 +308,7 @@ test('handoff locks quote and wallet in one transaction, recommends exact shortf
     {
       type: 'open_url',
       purpose: 'billing',
-      label: 'Add credits securely on VideoAI',
+      label: 'Add credits securely on Keyvo',
     },
   );
   const url = new URL(result.destination.url);
@@ -478,7 +478,7 @@ test('create_topup_link has exact UUID input, annotations, and explicit non-paym
         destination: {
           type: 'open_url',
           purpose: 'billing',
-          label: 'Add credits securely on VideoAI',
+          label: 'Add credits securely on Keyvo',
           url: 'https://maxvideoai.com/billing?mcp_topup=opaque',
         },
         freshQuoteRequired: true,

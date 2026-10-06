@@ -65,8 +65,8 @@ export async function UpscaleLandingPage({ content }: { content: UpscaleLandingC
     serviceType: 'AI image and video upscale',
     provider: {
       '@type': 'Organization',
-      name: 'VideoAI',
-      url: 'https://videoai.omninodetech.com',
+      name: 'Keyvo',
+      url: 'https://app.keyvo.cn',
     },
     areaServed: 'Worldwide',
   };

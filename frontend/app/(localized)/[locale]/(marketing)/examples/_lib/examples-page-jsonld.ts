@@ -70,8 +70,8 @@ export function buildExamplesJsonLd({
           '@context': 'https://schema.org',
           '@type': 'ItemList',
           name: modelLandingLabel
-            ? `AI video examples for ${modelLandingLabel} on VideoAI`
-            : 'AI video examples on VideoAI',
+            ? `AI video examples for ${modelLandingLabel} on Keyvo`
+            : 'AI video examples on Keyvo',
           numberOfItems: itemListElements.length,
           itemListOrder: 'https://schema.org/ItemListOrderAscending',
           url: canonicalUrl,
@@ -114,7 +114,7 @@ function buildExamplesItemListElements({
     const engineLabel = engineMeta?.label ?? video.engineLabel ?? canonicalEngineId ?? 'Engine';
     const detailPath = `/video/${encodeURIComponent(video.id)}`;
     const absoluteUrl = `${SITE}${detailPath}`;
-    const fallbackLabel = `VideoAI example ${video.id}`;
+    const fallbackLabel = `Keyvo example ${video.id}`;
     const name =
       locale === 'en'
         ? video.promptExcerpt || video.prompt || `${engineLabel} video example` || fallbackLabel

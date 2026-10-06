@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSeoMetadata({
     locale,
     title: 'Cookie Policy',
-    description: 'Overview of cookies and similar technologies used by VideoAI.',
+    description: 'Overview of cookies and similar technologies used by Keyvo.',
     hreflangGroup: 'legalCookies',
     englishPath: '/legal/cookies',
     availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],

@@ -60,7 +60,7 @@ const DEFAULT_SETTINGS_COPY = {
   privacy: {
     title: 'Privacy & Safety',
     summary:
-      'New renders are private by default. Public publishing and search exposure are handled through the VideoAI review workflow.',
+      'New renders are private by default. Public publishing and search exposure are handled through the Keyvo review workflow.',
     reviewNote:
       'If the team promotes a render publicly, it can still stay out of the video SEO rollout unless it is explicitly curated as a watch page.',
     supportPrefix: 'If you need a public render delisted or removed, contact ',

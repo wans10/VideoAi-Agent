@@ -285,12 +285,12 @@ export const VEO_3_1_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Veo 3.1 – Text, Start Image, References & Extend Video',
       description:
-        'Generate cinematic Veo 3.1 videos with text prompts, start-image animation, multi-reference guidance, optional last-frame control, and extend workflows in one unified VideoAI model page.',
+        'Generate cinematic Veo 3.1 videos with text prompts, start-image animation, multi-reference guidance, optional last-frame control, and extend workflows in one unified Keyvo model page.',
       canonicalPath: '/models/veo-3-1',
     },
     type: 'Text, start image, references, last frame, extend',
     seoText:
-      'Veo 3.1 on VideoAI unifies text prompts, single start-image animation, multi-reference guidance, optional last-frame control, and video extension in one coherent workflow with optional native audio.',
+      'Veo 3.1 on Keyvo unifies text prompts, single start-image animation, multi-reference guidance, optional last-frame control, and video extension in one coherent workflow with optional native audio.',
     demoUrl: 'https://media.maxvideoai.com/renders/marketing/24eb7037-bfd1-4f18-bdfa-be98c5dc46d7.mp4',
     media: {
       videoUrl: 'https://media.maxvideoai.com/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4',
@@ -300,7 +300,7 @@ export const VEO_3_1_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     prompts: [
       {
         title: 'Scripted hero read',
-        prompt: 'Two person street interview in New York City.\nSample dialogue:\nHost: “Did you hear the news?”\nPerson: “Yes, Veo 3.1 text-to-video just landed inside VideoAI.”\nCinematic handheld camera, rich ambient audio, confident VO tone.',
+        prompt: 'Two person street interview in New York City.\nSample dialogue:\nHost: “Did you hear the news?”\nPerson: “Yes, Veo 3.1 text-to-video just landed inside Keyvo.”\nCinematic handheld camera, rich ambient audio, confident VO tone.',
         mode: 't2v',
       },
       {
@@ -319,7 +319,7 @@ export const VEO_3_1_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     faqs: [
       {
         question: 'Does Veo 3 ship with the latest motion tuning?',
-        answer: 'Yes. VideoAI syncs routing with Google DeepMind updates so motion tuning stays current without manual work.',
+        answer: 'Yes. Keyvo syncs routing with Google DeepMind updates so motion tuning stays current without manual work.',
       },
       {
         question: 'Can I use more than one image with Veo 3.1?',

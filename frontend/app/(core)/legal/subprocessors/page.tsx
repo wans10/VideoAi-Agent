@@ -15,22 +15,22 @@ type Subprocessor = {
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
     title: 'Sub-processors',
-    description: 'Third-party providers used by VideoAI to deliver the Service.',
+    description: 'Third-party providers used by Keyvo to deliver the Service.',
     imageAlt: 'Sub-processors list',
   },
   fr: {
     title: 'Sous-traitants ultérieurs',
-    description: 'Prestataires tiers utilisés par VideoAI pour fournir le Service.',
+    description: 'Prestataires tiers utilisés par Keyvo pour fournir le Service.',
     imageAlt: 'Liste des sous-traitants ultérieurs',
   },
   es: {
     title: 'Subencargados del tratamiento',
-    description: 'Proveedores externos utilizados por VideoAI para prestar el Servicio.',
+    description: 'Proveedores externos utilizados por Keyvo para prestar el Servicio.',
     imageAlt: 'Lista de subencargados del tratamiento',
   },
   zh: {
     title: '子处理者',
-    description: 'VideoAI 用于提供服务的第三方服务商。',
+    description: 'Keyvo 用于提供服务的第三方服务商。',
     imageAlt: '子处理者列表',
   },
 };

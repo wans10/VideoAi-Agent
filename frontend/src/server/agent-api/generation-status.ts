@@ -122,7 +122,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || !safeIdentifier(principal.userId, 128)
     || (principal.clientId !== null && !safeIdentifier(principal.clientId, 256))
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before recovering generations.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect Keyvo before recovering generations.');
   }
 }
 
@@ -281,7 +281,7 @@ function resource(
   const suffix = index === undefined ? '' : ` ${index + 1}`;
   return {
     uri,
-    name: `VideoAI ${role}${suffix}`,
+    name: `Keyvo ${role}${suffix}`,
     description: `${role} for generation ${recovery.jobId}`,
     mimeType: mimeType(uri, role, recovery.surface),
   };
@@ -301,7 +301,7 @@ export function buildGenerationResourceLinks(
     return [
       ...(recovery.result.audioUrl ? [{
         uri: recovery.result.audioUrl,
-        name: 'VideoAI output',
+        name: 'Keyvo output',
         description: `output for generation ${recovery.jobId}`,
         mimeType: recovery.result.mimeType,
       }] : []),
@@ -310,7 +310,7 @@ export function buildGenerationResourceLinks(
           ? resource(recovery, recovery.result.videoUrl, 'output')
           : {
               uri: recovery.result.videoUrl,
-              name: 'VideoAI output',
+              name: 'Keyvo output',
               description: `output for generation ${recovery.jobId}`,
               mimeType: recovery.result.mimeType,
             },

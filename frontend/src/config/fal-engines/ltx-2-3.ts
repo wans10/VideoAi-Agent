@@ -310,9 +310,9 @@ export const LTX_2_3_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/ltx-2.3/text-to-video',
     seo: {
-      title: 'LTX 2.3 Pro AI Video – Text, Image, Audio, Extend & Retake | VideoAI',
+      title: 'LTX 2.3 Pro AI Video – Text, Image, Audio, Extend & Retake | Keyvo',
       description:
-        'Use LTX 2.3 Pro on VideoAI for text-to-video, image-to-video, audio-to-video, extend-video and retake-video workflows with official 1080p/1440p/4K and 24/25/48/50 fps options.',
+        'Use LTX 2.3 Pro on Keyvo for text-to-video, image-to-video, audio-to-video, extend-video and retake-video workflows with official 1080p/1440p/4K and 24/25/48/50 fps options.',
       canonicalPath: '/models/ltx-2-3-pro',
     },
     type: 'textImage',

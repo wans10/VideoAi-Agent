@@ -136,14 +136,14 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'gemini-2.5-flash-image',
     seo: {
-      title: 'Nano Banana – Google Text-to-Image on VideoAI',
+      title: 'Nano Banana – Google Text-to-Image on Keyvo',
       description:
-        'Generate photoreal stills or remix reference shots with Nano Banana, the Google-powered image model available with VideoAI credits.',
+        'Generate photoreal stills or remix reference shots with Nano Banana, the Google-powered image model available with Keyvo credits.',
       canonicalPath: '/models/nano-banana',
     },
     type: 'image',
     seoText:
-      'Bring your existing VideoAI workflow to still imagery. Nano Banana covers both text-to-image runs and prompt-driven edits from the same prompt lab, wallet, and logging stack.',
+      'Bring your existing Keyvo workflow to still imagery. Nano Banana covers both text-to-image runs and prompt-driven edits from the same prompt lab, wallet, and logging stack.',
     media: {
       videoUrl: '',
       imagePath: 'https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png',
@@ -174,7 +174,7 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   {
     question: 'How does pricing work for Nano Banana?',
     answer:
-      'Each image costs $0.039 from your VideoAI wallet. Running 4 outputs in a batch equals $0.156, so you always know the spend up front.',
+      'Each image costs $0.039 from your Keyvo wallet. Running 4 outputs in a batch equals $0.156, so you always know the spend up front.',
   },
 ],
 pricingHint: {

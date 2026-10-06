@@ -29,10 +29,10 @@ const NORMALIZED_SITE_URL = SITE_ORIGIN;
 export const metadata: Metadata = {
   metadataBase: new URL(`${NORMALIZED_SITE_URL}/`),
   title: {
-    default: 'VideoAI — 影像制作工作室',
-    template: '%s — VideoAI',
+    default: 'Keyvo — 影像制作工作室',
+    template: '%s — Keyvo',
   },
-  description: '在 VideoAI 影像工作室创作视频、图片和声音。比较模型，生成前确认价格，按需付费。',
+  description: '在 Keyvo 影像工作室创作视频、图片和声音。比较模型，生成前确认价格，按需付费。',
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -65,7 +65,7 @@ export default async function CoreLayout({ children }: { children: ReactNode }) 
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     url: homeUrl,
-    name: 'VideoAI',
+    name: 'Keyvo',
   };
 
   return (

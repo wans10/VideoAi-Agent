@@ -42,7 +42,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     imageAlt: t('title'),
     ogType: 'website',
     titleBranding: 'none',
-    keywords: ['AI video engines', 'AI video engine comparison', 'compare AI video generators', 'Sora vs Veo', 'VideoAI'],
+    keywords: ['AI video engines', 'AI video engine comparison', 'compare AI video generators', 'Sora vs Veo', 'Keyvo'],
   });
 }
 

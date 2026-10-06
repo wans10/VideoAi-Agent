@@ -39,15 +39,14 @@ const emptySectionOpenings = [
   '<section class="border-b border-hairline bg-surface">',
   '<section class="border-b border-hairline bg-bg">',
   '<section class="border-b border-hairline bg-surface">',
-  '<section class="border-b border-hairline bg-surface">',
   '<section id="compare-price-per-model" class="border-b border-hairline bg-bg">',
   '<section class="border-b border-hairline bg-surface">',
   '<section class="border-b border-hairline bg-surface">',
   '<section class="border-b border-hairline bg-bg">',
   '<section class="bg-surface">',
 ] as const;
-const emptySectionHeadingCounts = [1, 6, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1] as const;
-const approvedHeadingsPerSection = [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] as const;
+const emptySectionHeadingCounts = [1, 6, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1] as const;
+const approvedHeadingsPerSection = [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1] as const;
 const showcaseVideo: PayAsYouGoShowcaseVideo = {
   id: 'parity-video',
   engineId: 'kling-3-pro',
@@ -71,7 +70,6 @@ const representative = {
       'Who uses pay-as-you-go AI video credits?',
       'Pay-as-you-go vs subscription',
       'How pay-as-you-go credits work',
-      'Plan the model mix before generation',
       'What changes the live quote',
       'Compare price per model',
       'Check prices for popular AI video models',
@@ -91,7 +89,7 @@ const representative = {
     lookupHref: '/pricing#seedance-2-0-pricing',
     showcase: {
       title: 'Example videos with model and price context',
-      intro: 'A short strip from public VideoAI renders, showing the model, duration, and recorded render price when available.',
+      intro: 'A short strip from public Keyvo renders, showing the model, duration, and recorded render price when available.',
       cta: 'Test your prompt with a live quote',
       mediaPhrase: 'example video generated with',
     },
@@ -106,7 +104,6 @@ const representative = {
       'Qui utilise des crédits vidéo IA prépayés ?',
       'Paiement à l’usage ou abonnement',
       'Comment fonctionne le paiement à l’usage',
-      'Planifiez les modèles avant la génération',
       'Ce qui fait varier le devis en direct',
       'Comparez le prix par modèle',
       'Consultez les prix des modèles de vidéo IA populaires',
@@ -126,7 +123,7 @@ const representative = {
     lookupHref: '/fr/tarifs#seedance-2-0-pricing',
     showcase: {
       title: 'Vidéos d’exemple avec modèle et prix',
-      intro: 'Une courte sélection de rendus publics VideoAI montrant le modèle, la durée et le prix enregistré lorsqu’il est disponible.',
+      intro: 'Une courte sélection de rendus publics Keyvo montrant le modèle, la durée et le prix enregistré lorsqu’il est disponible.',
       cta: 'Testez votre prompt avec un devis en temps réel',
       mediaPhrase: 'vidéo d’exemple générée avec',
     },
@@ -141,7 +138,6 @@ const representative = {
       '¿Quién usa créditos de video con IA de pago por uso?',
       'Pago por uso vs. suscripción',
       'Cómo funcionan los créditos de pago por uso',
-      'Planifica los modelos antes de generar',
       'Qué cambia la cotización en tiempo real',
       'Compara el precio por modelo',
       'Consulta precios de modelos de video con IA populares',
@@ -161,7 +157,7 @@ const representative = {
     lookupHref: '/es/precios#seedance-2-0-pricing',
     showcase: {
       title: 'Videos de ejemplo con modelo y precio',
-      intro: 'Una selección breve de renders públicos de VideoAI que muestra el modelo, la duración y el precio registrado cuando está disponible.',
+      intro: 'Una selección breve de renders públicos de Keyvo que muestra el modelo, la duración y el precio registrado cuando está disponible.',
       cta: 'Prueba tu prompt con una cotización en tiempo real',
       mediaPhrase: 'video de ejemplo generado con',
     },
@@ -294,7 +290,7 @@ for (const locale of locales) {
     const { semantic } = render(locale, []);
     const expected = representative[locale];
     assertExactHeadingStructure(semantic.topLevelHeadings, expected.headings);
-    assert.equal(semantic.topLevelHeadings.length, 15);
+    assert.equal(semantic.topLevelHeadings.length, 14);
     assert.deepEqual(semantic.sectionOpenings, emptySectionOpenings);
     assert.ok(semantic.textNodes.includes(expected.heroIntro));
     assert.ok(semantic.headings.includes(expected.naturalQuestion));
@@ -386,7 +382,7 @@ for (const locale of locales) {
       areaServed: 'Worldwide',
       provider: {
         '@type': 'Organization',
-        name: 'VideoAI',
+        name: 'Keyvo',
         url: SITE_BASE_URL,
         logo: `${SITE_BASE_URL}/favicon-512.png`,
       },
@@ -402,7 +398,7 @@ for (const locale of locales) {
     assert.deepEqual(webApplication, {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'VideoAI',
+      name: 'Keyvo',
       applicationCategory: 'MultimediaApplication',
       operatingSystem: 'Web',
       url: canonical,

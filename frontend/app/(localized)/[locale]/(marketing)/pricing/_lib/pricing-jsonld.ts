@@ -34,13 +34,13 @@ export function buildPricingBreadcrumbJsonLd({ canonical, locale }: { canonical:
 export function buildPricingServiceJsonLd({ canonical, locale }: { canonical: string; locale: AppLocale }) {
   return buildMarketingServiceJsonLd({
     name:
-      locale === 'fr' ? 'Tarifs VideoAI' : locale === 'es' ? 'Precios de VideoAI' : locale === 'zh' ? 'VideoAI 价格' : 'VideoAI pricing',
+      locale === 'fr' ? 'Tarifs Keyvo' : locale === 'es' ? 'Precios de Keyvo' : locale === 'zh' ? 'Keyvo 价格' : 'Keyvo pricing',
     description:
       locale === 'fr'
-        ? 'Comparez les prix VideoAI par moteur, durée, résolution, audio, image et outils.'
+        ? 'Comparez les prix Keyvo par moteur, durée, résolution, audio, image et outils.'
         : locale === 'es'
-          ? 'Compara precios de VideoAI por motor, duración, resolución, audio, imagen y herramientas.'
-          : 'Compare VideoAI prices by engine, duration, resolution, audio, image and tools.',
+          ? 'Compara precios de Keyvo por motor, duración, resolución, audio, imagen y herramientas.'
+          : 'Compare Keyvo prices by engine, duration, resolution, audio, image and tools.',
     serviceType:
       locale === 'fr'
         ? 'Comparaison de prix IA'

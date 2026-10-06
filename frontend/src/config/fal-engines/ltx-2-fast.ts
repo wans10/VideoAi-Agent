@@ -160,7 +160,7 @@ export const LTX_2_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/ltx-2/text-to-video/fast',
     seo: {
-      title: 'LTX-2 Fast AI Video – Text & Image to Video with Audio | VideoAI',
+      title: 'LTX-2 Fast AI Video – Text & Image to Video with Audio | Keyvo',
       description:
         'Generate fast cinematic AI videos with LTX-2 Fast. Text and image to video with synchronized audio, up to 4K, ideal for rapid iteration and social content.',
       canonicalPath: '/models/ltx-2-fast',

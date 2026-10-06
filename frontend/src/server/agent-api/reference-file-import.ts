@@ -76,7 +76,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || principal.userId.length > 128
     || principal.userId !== principal.userId.trim()
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before importing reference media.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect Keyvo before importing reference media.');
   }
 }
 

@@ -316,7 +316,7 @@ function virtualCapability(input: {
   return {
     id: input.id,
     label: input.label,
-    provider: 'VideoAI',
+    provider: 'Keyvo',
     providerEngineSlug: input.id,
     availability: 'available',
     family: input.family,

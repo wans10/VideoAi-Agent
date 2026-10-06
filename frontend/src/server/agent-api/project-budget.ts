@@ -199,7 +199,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || principal.userId.length > 128
     || principal.userId !== principal.userId.trim()
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect VideoAI before calculating a project budget.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect Keyvo before calculating a project budget.');
   }
 }
 

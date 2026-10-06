@@ -166,9 +166,9 @@ export const KLING_2_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/kling-video/v2.5-turbo/pro/text-to-video',
     seo: {
-      title: 'Kling 2.5 Turbo – Text & Image to Video on VideoAI',
+      title: 'Kling 2.5 Turbo – Text & Image to Video on Keyvo',
       description:
-        'Route cinematic Kling 2.5 Turbo shots through VideoAI with instant switching between Pro text, Pro image, and Standard budget tiers.',
+        'Route cinematic Kling 2.5 Turbo shots through Keyvo with instant switching between Pro text, Pro image, and Standard budget tiers.',
       canonicalPath: '/models/kling-2-5-turbo',
     },
     type: 'textImage',
@@ -210,7 +210,7 @@ export const KLING_2_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Does Kling generate audio?',
         answer:
-          'Kling 2.5 Turbo outputs silent MP4 files. Layer VO or music afterwards in VideoAI or route the brief through Sora 2 Pro if you need narration baked in.',
+          'Kling 2.5 Turbo outputs silent MP4 files. Layer VO or music afterwards in Keyvo or route the brief through Sora 2 Pro if you need narration baked in.',
       },
       {
         question: 'Can I tweak CFG scale?',

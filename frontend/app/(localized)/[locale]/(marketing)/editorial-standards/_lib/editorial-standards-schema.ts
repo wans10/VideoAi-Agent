@@ -19,8 +19,8 @@ export function buildEditorialStandardsWebPageJsonLd({
     dateModified: copy.hero.reviewedDate,
     publisher: {
       '@type': 'Organization',
-      name: 'VideoAI',
-      url: 'https://videoai.omninodetech.com',
+      name: 'Keyvo',
+      url: 'https://app.keyvo.cn',
     },
   };
 }

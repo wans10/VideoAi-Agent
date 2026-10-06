@@ -201,7 +201,7 @@ function buildTitle(cluster: SeoQueryCluster, issueType: CtrDoctorIssueType, tar
   if (cluster.modelFamily !== 'Other' && cluster.modelFamily !== 'Brand') {
     return `Improve ${cluster.modelFamily} ${intent} snippet on ${targetPath}`;
   }
-  if (cluster.intent === 'brand_typo') return `Tune VideoAI brand typo snippet on ${targetPath}`;
+  if (cluster.intent === 'brand_typo') return `Tune Keyvo brand typo snippet on ${targetPath}`;
   return `Improve ${intent} snippet on ${targetPath}`;
 }
 
@@ -239,7 +239,7 @@ function buildTitleDirection(cluster: SeoQueryCluster, issueType: CtrDoctorIssue
     return `Lead with pricing, specs, duration, or limits only when that is the real page promise; avoid overclaiming if the page is a broader pricing page.`;
   }
   if (cluster.intent === 'brand_typo') {
-    return 'Use the correct VideoAI spelling and natural brand reassurance; do not add awkward typo strings to the visible title.';
+    return 'Use the correct Keyvo spelling and natural brand reassurance; do not add awkward typo strings to the visible title.';
   }
   if (cluster.intent === 'examples' && cluster.modelFamily !== 'Other' && cluster.modelFamily !== 'Brand') {
     return `Make ${cluster.modelFamily} examples explicit in the title if that matches the page, especially for "${cluster.label}".`;
@@ -255,7 +255,7 @@ function buildMetaDirection(cluster: SeoQueryCluster, issueType: CtrDoctorIssueT
     return 'Keep this as a future snippet review unless the page starts ranking closer; do not spend major copy work on it yet.';
   }
   if (cluster.intent === 'comparison') {
-    return 'Use the meta description to state what is compared, who each option fits, and that users can generate through VideoAI.';
+    return 'Use the meta description to state what is compared, who each option fits, and that users can generate through Keyvo.';
   }
   if (cluster.intent === 'prompt_examples') {
     return 'Mention examples, prompt patterns, and practical outputs without turning the snippet into a keyword list.';
@@ -264,9 +264,9 @@ function buildMetaDirection(cluster: SeoQueryCluster, issueType: CtrDoctorIssueT
     return 'Answer price/spec/limit intent quickly in plain language, including pay-as-you-go context only if the target page supports it.';
   }
   if (cluster.intent === 'brand_typo') {
-    return 'Confirm the correct VideoAI brand and product category naturally, with no typo stuffing.';
+    return 'Confirm the correct Keyvo brand and product category naturally, with no typo stuffing.';
   }
-  return 'Clarify the user outcome and why this VideoAI page is the right result for the cluster.';
+  return 'Clarify the user outcome and why this Keyvo page is the right result for the cluster.';
 }
 
 function buildH1Direction(cluster: SeoQueryCluster, issueType: CtrDoctorIssueType) {
@@ -309,7 +309,7 @@ function buildAcceptanceCriteria(cluster: SeoQueryCluster, issueType: CtrDoctorI
     'Review current title/meta/H1 before editing; do not assume current metadata if it is not available in code',
     `${compactIntentLabel(cluster.intent)} intent is clearer in the snippet direction or first screen`,
     'No keyword stuffing or robotic copy',
-    'Page remains compact, premium, and aligned with the existing VideoAI design',
+    'Page remains compact, premium, and aligned with the existing Keyvo design',
   ];
   if (cluster.intent === 'prompt_examples') criteria.push('Prompt examples or prompt patterns are visible if appropriate for the page');
   if (cluster.intent === 'comparison') criteria.push('Compared models or variants are named clearly');

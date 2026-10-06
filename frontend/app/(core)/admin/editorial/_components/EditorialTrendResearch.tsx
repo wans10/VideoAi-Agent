@@ -5,7 +5,7 @@ type Research = EditorialDraft['research'];
 export function EditorialTrendResearch({ research }: { research: Research }) {
   return <section className="rounded-2xl border border-hairline bg-surface p-5 sm:p-7" aria-labelledby="trend-heading">
     <h2 id="trend-heading" className="text-lg font-bold text-text-primary">Topic and trend research</h2>
-    <p className="mt-2 text-sm leading-6 text-text-secondary">Scanned {new Date(research.scannedAt).toLocaleString()} · Recommendation: {research.recommendation} · VideoAI fit: {research.productFit.rationale}</p>
+    <p className="mt-2 text-sm leading-6 text-text-secondary">Scanned {new Date(research.scannedAt).toLocaleString()} · Recommendation: {research.recommendation} · Keyvo fit: {research.productFit.rationale}</p>
     {research.candidates?.length ? <div className="mt-5 space-y-3">
       <h3 className="text-sm font-bold text-text-primary">Topic shortlist</h3>
       <ul className="grid gap-3 sm:grid-cols-2">{research.candidates.map((candidate) => <li key={candidate.topicKey} className="rounded-xl border border-hairline bg-bg p-4">

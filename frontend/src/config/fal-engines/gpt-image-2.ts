@@ -286,14 +286,14 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'gpt-image-2',
     seo: {
-      title: 'GPT Image 2 - OpenAI Image Generation & Editing | VideoAI',
+      title: 'GPT Image 2 - OpenAI Image Generation & Editing | Keyvo',
       description:
-        'Use GPT Image 2 in VideoAI for text-to-image, image edits, high-fidelity text rendering, product photography, image_size presets/custom size, quality controls, and PNG/JPEG/WEBP output.',
+        'Use GPT Image 2 in Keyvo for text-to-image, image edits, high-fidelity text rendering, product photography, image_size presets/custom size, quality controls, and PNG/JPEG/WEBP output.',
       canonicalPath: '/models/gpt-image-2',
     },
     type: 'image',
     seoText:
-      'GPT Image 2 brings OpenAI’s quality-first image model into the same VideoAI image workspace as Nano Banana: one model selector for text-to-image and image-to-image, with image_size presets, custom width/height, quality, output format, and mask URL controls.',
+      'GPT Image 2 brings OpenAI’s quality-first image model into the same Keyvo image workspace as Nano Banana: one model selector for text-to-image and image-to-image, with image_size presets, custom width/height, quality, output format, and mask URL controls.',
     media: {
       videoUrl: 'https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4ea3493c-6831-4f08-bedc-803506e0792f.png',
       imagePath: 'https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4ea3493c-6831-4f08-bedc-803506e0792f.png',
@@ -325,7 +325,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Does GPT Image 2 support both generation and editing?',
         answer:
-          'Yes. VideoAI exposes one GPT Image 2 entry with text-to-image mapped to openai/gpt-image-2 and image-to-image mapped to openai/gpt-image-2/edit.',
+          'Yes. Keyvo exposes one GPT Image 2 entry with text-to-image mapped to openai/gpt-image-2 and image-to-image mapped to openai/gpt-image-2/edit.',
       },
       {
         question: 'Which GPT Image 2 controls are available?',
@@ -335,7 +335,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'How is GPT Image 2 priced?',
         answer:
-          'Provider prices follow the quality x size table: 1024x768 is $0.01 / $0.04 / $0.15 and 3840x2160 is $0.02 / $0.11 / $0.41 for Low / Medium / High before VideoAI account pricing rules.',
+          'Provider prices follow the quality x size table: 1024x768 is $0.01 / $0.04 / $0.15 and 3840x2160 is $0.02 / $0.11 / $0.41 for Low / Medium / High before Keyvo account pricing rules.',
       },
     ],
     pricingHint: {

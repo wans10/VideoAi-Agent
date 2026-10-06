@@ -334,7 +334,7 @@ test('completed Audio recovery targets the Audio workspace and exposes the exact
   assert.equal(recovery.workspace.url, 'https://maxvideoai.com/app/audio?job=audio-job-1');
   assert.deepEqual(buildGenerationResourceLinks(recovery), [{
     uri: 'https://cdn.maxvideoai.com/generated/audio-job-1.wav',
-    name: 'VideoAI output',
+    name: 'Keyvo output',
     description: 'output for generation audio-job-1',
     mimeType: 'audio/wav',
   }]);

@@ -56,7 +56,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
   const content = dictionary.changelog as {
     meta?: { title?: string; description?: string };
   };
-  const title = content.meta?.title ?? 'Changelog — VideoAI';
+  const title = content.meta?.title ?? 'Changelog — Keyvo';
   const description = content.meta?.description ?? 'Transparent updates on engines, workflows, and queue performance.';
 
   return buildSeoMetadata({

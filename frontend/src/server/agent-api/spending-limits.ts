@@ -241,7 +241,7 @@ function exceeded(
     allowed: false,
     code: 'SPENDING_LIMIT_EXCEEDED',
     reason,
-    message: 'This generation is above the spending controls configured in VideoAI.',
+    message: 'This generation is above the spending controls configured in Keyvo.',
     approvalUrl: MCP_SPENDING_APPROVAL_PATH,
     acceptedTodayCents,
     projectedTodayCents,

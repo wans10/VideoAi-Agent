@@ -1,6 +1,7 @@
 # Product display branding
 
-Reviewed 2026-10-02. The current service display name is **VideoAI**.
+Reviewed 2026-10-06. The current service display name is **Keyvo**, served at
+`https://app.keyvo.cn`.
 `frontend/lib/product-brand.ts` owns the shared name and CNY wallet top-up
 product label. New payment orders use the current brand; stored transactions
 and external receipts are not rewritten. Accepted historical render failures
@@ -19,8 +20,11 @@ Treat the following as separate from service display copy:
 - Legal operator name, address and contact details require verified owner input.
   The inherited legal mentions page is still pending that information; do not
   manufacture an entity by replacing its name with the product brand.
-- Domains, package names, persisted keys, schema identifiers and integration
-  commands are compatibility contracts. A display-name change does not rename them.
+- `frontend/lib/siteOrigin.ts` owns the default commercial origin. Public SEO
+  builders consume that origin. Supabase Auth site/callback configuration must
+  match `app.keyvo.cn`; hosted configuration must be synchronized separately.
+- Package names, persisted keys, schema identifiers, original media sources and
+  integration commands remain compatibility contracts; do not rename them blindly.
 - Cached MCP documents remain immutable at their old URIs. New display copy
   uses new resource versions; see [mcp-client-experience.md](mcp-client-experience.md).
 
@@ -35,3 +39,7 @@ Additional service checks passed after updating the old display-name assertions
 tests; 19 could not initialize their disposable database in this environment.
 They are not claimed as passing. Frontend lint, TypeScript, exposure lint,
 model-registry projection checks and `git diff --check` passed.
+
+The coverage guard also parses runtime string/template literals and JSX text to
+reject the intermediate VideoAI display name and old commercial domain. Frozen
+MCP resources and historical host evidence remain excluded explicitly.

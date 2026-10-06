@@ -7,6 +7,7 @@ on:
       - feat/add-zh-i18n
       - feat/llmhub-pay
       - feat/videoai-studio-design
+      - feat/white-label-keyvo
     tags:
       - 'v*'
   workflow_dispatch:
@@ -42,7 +43,7 @@ jobs:
         with:
           images: ${{ env.DOCKERHUB_USER }}/videoai-web
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || github.ref == 'refs/heads/feat/videoai-studio-design' || inputs.push_latest }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || github.ref == 'refs/heads/feat/videoai-studio-design' || github.ref == 'refs/heads/feat/white-label-keyvo' || inputs.push_latest }}
             type=ref,event=branch
             type=sha,prefix=,format=short
             type=ref,event=tag
@@ -53,7 +54,7 @@ jobs:
         with:
           images: ${{ env.DOCKERHUB_USER }}/videoai-db-migrate
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || github.ref == 'refs/heads/feat/videoai-studio-design' || inputs.push_latest }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/add-zh-i18n' || github.ref == 'refs/heads/feat/llmhub-pay' || github.ref == 'refs/heads/feat/videoai-studio-design' || github.ref == 'refs/heads/feat/white-label-keyvo' || inputs.push_latest }}
             type=ref,event=branch
             type=sha,prefix=,format=short
             type=ref,event=tag
@@ -79,7 +80,7 @@ jobs:
           labels: ${{ steps.meta-web.outputs.labels }}
           build-args: |
             NEXT_PUBLIC_API_BASE=/api
-            NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL || 'https://videoai.omninodetech.com' }}
+            NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL || 'https://app.keyvo.cn' }}
             NEXT_PUBLIC_SUPABASE_URL=${{ vars.NEXT_PUBLIC_SUPABASE_URL || 'https://sbayxqlhqhjsripkktdx.supabase.co' }}
             NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY || secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
             NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '' }}

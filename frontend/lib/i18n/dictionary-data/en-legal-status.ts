@@ -7,7 +7,7 @@ export const legal: Dictionary['legal'] = {
       sections: [
         {
           heading: '1. Overview',
-          body: 'These Terms govern your use of VideoAI. By accessing the service you agree to the obligations below.',
+          body: 'These Terms govern your use of Keyvo. By accessing the service you agree to the obligations below.',
         },
         {
           heading: '2. Accounts',
@@ -16,12 +16,12 @@ export const legal: Dictionary['legal'] = {
         {
           heading: '3. Usage & Compliance',
           body:
-            'Use VideoAI only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies.',
+            'Use Keyvo only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies.',
         },
         {
           heading: '4. User Content & Generated Media',
           body:
-            'User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant VideoAI a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting by contacting support if a privacy toggle is unavailable, and we will honor the request.',
+            'User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant Keyvo a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting by contacting support if a privacy toggle is unavailable, and we will honor the request.',
         },
         {
           heading: '5. Billing',
@@ -29,7 +29,7 @@ export const legal: Dictionary['legal'] = {
         },
         {
           heading: '6. Liability',
-          body: 'VideoAI is provided as-is. We limit liability to the maximum extent permitted by law.',
+          body: 'Keyvo is provided as-is. We limit liability to the maximum extent permitted by law.',
         },
       ],
     },
@@ -73,7 +73,7 @@ export const changelog: Dictionary['changelog'] = {
 export const status: Dictionary['status'] = {
   hero: {
     title: 'Service status',
-    subtitle: 'Current service notices published by the VideoAI team.',
+    subtitle: 'Current service notices published by the Keyvo team.',
   },
   currentNotice: {
     title: 'Current notice',

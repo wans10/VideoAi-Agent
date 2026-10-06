@@ -10,11 +10,11 @@ export const LATEST_CHARACTER_SHEET_ASSETS = [
   },
   {
     url: 'https://media.maxvideoai.com/marketing/marketing/b508fe8d-a858-41a4-8b27-c9706ea3a50c.png',
-    alt: 'Recent coherent character sheet render from VideoAI with multi-angle full-body views and close-ups.',
+    alt: 'Recent coherent character sheet render from Keyvo with multi-angle full-body views and close-ups.',
   },
   {
     url: 'https://media.maxvideoai.com/marketing/marketing/1123d92d-7204-4be9-bd39-5ddb85e09fba.png',
-    alt: 'Recent VideoAI character sheet render combining four body angles and four close-up identity views.',
+    alt: 'Recent Keyvo character sheet render combining four body angles and four close-up identity views.',
   },
   {
     url: 'https://media.maxvideoai.com/marketing/marketing/f195f99e-04b7-4512-85c6-a602d0250b19.png',

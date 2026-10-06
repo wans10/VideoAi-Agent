@@ -230,6 +230,6 @@ export function buildSpecValues(
       'cameraMotionControls',
       resolveStatus(engineCaps?.motionControls)
     ),
-    watermark: resolveKeySpecValue(specs, 'watermark', 'No visible VideoAI watermark'),
+    watermark: resolveKeySpecValue(specs, 'watermark', 'No visible Keyvo watermark'),
   };
 }

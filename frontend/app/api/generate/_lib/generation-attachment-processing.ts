@@ -52,7 +52,7 @@ export async function processAndValidateGenerationAttachments(
       body: {
         ok: false,
         error: 'OWNED_MEDIA_REQUIRED',
-        message: 'This mode requires media saved in your VideoAI library.',
+        message: 'This mode requires media saved in your Keyvo library.',
       },
       metric: undefined,
     };

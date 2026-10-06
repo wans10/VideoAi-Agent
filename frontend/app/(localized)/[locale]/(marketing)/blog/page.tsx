@@ -13,24 +13,24 @@ import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink'
 const BLOG_SLUG_MAP = buildSlugMap('blog');
 const BLOG_META = {
   en: {
-    title: 'AI Video Workflows & Model Guides | VideoAI',
+    title: 'AI Video Workflows & Model Guides | Keyvo',
     description:
-      'Reference-first workflows, tool guides, model notes, and production learnings from teams building images and video with VideoAI.',
+      'Reference-first workflows, tool guides, model notes, and production learnings from teams building images and video with Keyvo.',
   },
   fr: {
-    title: 'Guides vidéo IA, modèles et workflows | VideoAI',
+    title: 'Guides vidéo IA, modèles et workflows | Keyvo',
     description:
-      'Workflows orientés référence, guides d’outils, notes sur les modèles et retours de production d’équipes qui créent images et vidéos avec VideoAI.',
+      'Workflows orientés référence, guides d’outils, notes sur les modèles et retours de production d’équipes qui créent images et vidéos avec Keyvo.',
   },
   es: {
-    title: 'Guías de video IA, modelos y workflows | VideoAI',
+    title: 'Guías de video IA, modelos y workflows | Keyvo',
     description:
-      'Workflows basados en referencias, guías de herramientas, notas sobre modelos y aprendizajes de producción de equipos que crean imágenes y video con VideoAI.',
+      'Workflows basados en referencias, guías de herramientas, notas sobre modelos y aprendizajes de producción de equipos que crean imágenes y video con Keyvo.',
   },
   zh: {
-    title: 'AI 视频工作流与模型指南 | VideoAI',
+    title: 'AI 视频工作流与模型指南 | Keyvo',
     description:
-      '参考图工作流、工具指南、模型实测笔记，以及来自团队使用 VideoAI 制作图像与视频的生产实践经验。',
+      '参考图工作流、工具指南、模型实测笔记，以及来自团队使用 Keyvo 制作图像与视频的生产实践经验。',
   },
 } satisfies Record<AppLocale, { title: string; description: string }>;
 
@@ -318,7 +318,7 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: A
                     <div className="relative aspect-[16/10] overflow-hidden bg-bg">
                       <Image
                         src={normalizeImageSrc(post.image)}
-                        alt={post.title ?? 'VideoAI blog cover'}
+                        alt={post.title ?? 'Keyvo blog cover'}
                         fill
                         loading="lazy"
                         decoding="async"

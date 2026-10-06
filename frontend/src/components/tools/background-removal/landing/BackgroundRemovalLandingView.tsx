@@ -12,7 +12,7 @@ import type { BackgroundRemovalLandingContent } from './background-removal-landi
 
 export async function BackgroundRemovalLandingView({ content }: { content: BackgroundRemovalLandingContent }) {
   const locale = await resolveLocale();
-  const canonicalUrl = `https://videoai.omninodetech.com${localizePathFromEnglish(locale, '/tools/background-removal')}`;
+  const canonicalUrl = `https://app.keyvo.cn${localizePathFromEnglish(locale, '/tools/background-removal')}`;
   const breadcrumbJsonLd = buildToolBreadcrumbJsonLd({
     locale,
     breadcrumb: content.breadcrumb,

@@ -153,27 +153,27 @@ export function buildCompareFaqItems({
   const kling3Native4kFaqCopy = pairHasKling3Native4k
     ? activeLocale === 'zh'
       ? {
-          a1: '{left} 和 {right} 是 VideoAI 上收录的 AI 视频生成模型。本页对比原生 4K 输出、迭代成本、核心规格及上方展示的性能数据。',
+          a1: '{left} 和 {right} 是 Keyvo 上收录的 AI 视频生成模型。本页对比原生 4K 输出、迭代成本、核心规格及上方展示的性能数据。',
           a2: '选择取决于你的工作流。请结合评分与规格，判断镜头需要原生 4K 输出还是更低成本的迭代方案，再打开各模型详情页查看完整信息。',
           q10: '为什么这些生成方案的结果会不同？',
           a10: '即使指令相似，模型对约束和设置的理解也会不同。对于 Kling 3 4K，建议先比较规格与成本，再仅将已确认的最终镜头生成为原生 4K。',
         }
       : activeLocale === 'fr'
       ? {
-          a1: '{left} et {right} sont des modèles de génération vidéo IA documentés sur VideoAI. Cette page compare la livraison 4K native, le coût d’itération, les caractéristiques clés et les données ci-dessus.',
+          a1: '{left} et {right} sont des modèles de génération vidéo IA documentés sur Keyvo. Cette page compare la livraison 4K native, le coût d’itération, les caractéristiques clés et les données ci-dessus.',
           a2: 'Cela dépend du flux de production. Utilisez la grille de scores et les caractéristiques pour décider si le plan a besoin d’une livraison 4K native ou d’une route d’itération moins coûteuse, puis ouvrez chaque profil pour les détails complets.',
           q10: 'Pourquoi les résultats peuvent-ils différer entre ces routes ?',
           a10: 'Même avec des instructions proches, les modèles interprètent différemment les contraintes et les réglages. Pour Kling 3 4K, comparez d’abord les caractéristiques et l’échelle de coût, puis rendez seulement les plans finalisés en 4K native.',
         }
       : activeLocale === 'es'
         ? {
-            a1: '{left} y {right} son modelos de generación de video IA documentados en VideoAI. Esta página compara entrega 4K nativa, precio de iteración, especificaciones clave y los datos anteriores.',
+            a1: '{left} y {right} son modelos de generación de video IA documentados en Keyvo. Esta página compara entrega 4K nativa, precio de iteración, especificaciones clave y los datos anteriores.',
             a2: 'Depende de tu flujo de trabajo. Usa el scorecard y las especificaciones para decidir si el plano necesita entrega 4K nativa o una ruta de iteración de menor precio, luego abre cada perfil para los detalles completos.',
             q10: '¿Por qué pueden diferir los resultados entre estas rutas?',
             a10: 'Incluso con instrucciones similares, los modelos interpretan las restricciones y los ajustes de forma distinta. Para Kling 3 4K, compara primero las especificaciones y la escala de precio, luego renderiza en 4K nativo solo los planos aprobados.',
           }
         : {
-            a1: '{left} and {right} are AI video generation engines documented on VideoAI. This page compares native 4K delivery, iteration cost, key specs, and performance data shown above.',
+            a1: '{left} and {right} are AI video generation engines documented on Keyvo. This page compares native 4K delivery, iteration cost, key specs, and performance data shown above.',
             a2: 'It depends on your workflow. Use the scorecard and specs to decide whether the job needs native 4K delivery or a lower-cost iteration route, then open each engine profile for full details.',
             q10: 'Why can results differ between these routes?',
             a10: 'Even with similar instructions, models interpret constraints and settings differently. For Kling 3 4K, compare the specs and cost ladder first, then render only approved final shots in native 4K.',
@@ -182,27 +182,27 @@ export function buildCompareFaqItems({
   const noShowdownFaqCopy = !hasShowdownSlots
     ? activeLocale === 'zh'
       ? {
-          a1: '{left} 和 {right} 是 VideoAI 上收录的 AI 视频生成模型。本页对比核心规格、价格、控制选项及上方展示的性能数据。',
+          a1: '{left} 和 {right} 是 Keyvo 上收录的 AI 视频生成模型。本页对比核心规格、价格、控制选项及上方展示的性能数据。',
           a2: '选择取决于你的工作流。请结合评分与规格，对比控制选项、参考素材、音频、价格和生成限制，再打开各模型详情页查看完整信息。',
           q10: '为什么这些模型的生成结果会不同？',
           a10: '不同模型对指令、视觉参考素材和生成约束的理解不同。',
         }
       : activeLocale === 'fr'
       ? {
-          a1: '{left} et {right} sont des moteurs de génération vidéo IA documentés sur VideoAI. Cette page compare les specs clés, les prix, les contrôles et les données de performance ci-dessus.',
+          a1: '{left} et {right} sont des moteurs de génération vidéo IA documentés sur Keyvo. Cette page compare les specs clés, les prix, les contrôles et les données de performance ci-dessus.',
           a2: 'Cela dépend de votre workflow. Utilisez la grille de scores et les specs pour comparer le contrôle, les références, l’audio, le prix et les limites de génération, puis ouvrez chaque profil pour les détails complets.',
           q10: 'Pourquoi les résultats peuvent-ils différer entre ces modèles ?',
           a10: 'Les modèles interprètent les instructions, les références visuelles et les contraintes de génération différemment.',
         }
       : activeLocale === 'es'
         ? {
-            a1: '{left} y {right} son motores de generación de video IA documentados en VideoAI. Esta página compara especificaciones clave, precios, controles y los datos de rendimiento anteriores.',
+            a1: '{left} y {right} son motores de generación de video IA documentados en Keyvo. Esta página compara especificaciones clave, precios, controles y los datos de rendimiento anteriores.',
             a2: 'Depende de tu flujo de trabajo. Usa la puntuación y las especificaciones para comparar control, referencias, audio, precio y límites de generación, luego abre cada perfil para los detalles completos.',
             q10: '¿Por qué pueden diferir los resultados entre estos modelos?',
             a10: 'Los modelos interpretan instrucciones, referencias visuales y restricciones de generación de forma distinta.',
           }
         : {
-            a1: '{left} and {right} are AI video generation engines documented on VideoAI. This page compares key specs, pricing, controls, and performance data shown above.',
+            a1: '{left} and {right} are AI video generation engines documented on Keyvo. This page compares key specs, pricing, controls, and performance data shown above.',
             a2: 'It depends on your workflow. Use the scorecard and specs to compare control, references, audio, pricing, and generation limits, then open each engine profile for full details.',
             q10: 'Why can results differ between these models?',
             a10: 'Models interpret instructions, visual references, and generation constraints differently.',
@@ -219,7 +219,7 @@ export function buildCompareFaqItems({
         kling3Native4kFaqCopy?.a1 ??
           noShowdownFaqCopy?.a1 ??
           faqTemplates.a1 ??
-          '{left} and {right} are AI video generation engines documented on VideoAI. This page compares them side-by-side using the same prompts, key specs, and performance data shown above.',
+          '{left} and {right} are AI video generation engines documented on Keyvo. This page compares them side-by-side using the same prompts, key specs, and performance data shown above.',
         { left: formatEngineName(left), right: formatEngineName(right) }
       ),
     },
@@ -235,13 +235,13 @@ export function buildCompareFaqItems({
         'It depends on your workflow. Use the scorecard and the “same prompt” showdowns to compare prompt adherence, motion realism, human fidelity, and text legibility — then open each engine profile for full details.',
     },
     {
-      question: faqTemplates.q3 ?? 'Which is cheaper on VideoAI?',
+      question: faqTemplates.q3 ?? 'Which is cheaper on Keyvo?',
       answer: formatTemplate(
         stripAudioReferencesForSilentPair(
           faqTemplates.a3 ??
           (pairHasNativeAudio
-            ? 'Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (VideoAI)” for details).'
-            : 'Pricing varies by engine and settings (duration and resolution). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (VideoAI)” for details).'),
+            ? 'Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (Keyvo)” for details).'
+            : 'Pricing varies by engine and settings (duration and resolution). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (Keyvo)” for details).'),
           pairHasNativeAudio
         ),
         {
@@ -264,7 +264,7 @@ export function buildCompareFaqItems({
         faqTemplates.q5 ?? 'Do they support Text-to-Video / Image-to-Video / Video-to-Video?',
       answer: formatTemplate(
         faqTemplates.a5 ??
-          'On VideoAI: Text-to-Video is {t2vLeft} vs {t2vRight}; Image-to-Video is {i2vLeft} vs {i2vRight}; Video-to-Video is {v2vLeft} vs {v2vRight}. Some fields may still be under validation.',
+          'On Keyvo: Text-to-Video is {t2vLeft} vs {t2vRight}; Image-to-Video is {i2vLeft} vs {i2vRight}; Video-to-Video is {v2vLeft} vs {v2vRight}. Some fields may still be under validation.',
         {
           t2vLeft: faqT2vLeft,
           t2vRight: faqT2vRight,
@@ -327,10 +327,10 @@ export function buildCompareFaqItems({
         ]
       : []),
     {
-      question: faqTemplates.q9 ?? 'Does VideoAI add a watermark?',
+      question: faqTemplates.q9 ?? 'Does Keyvo add a watermark?',
       answer:
         faqTemplates.a9 ??
-        'No. VideoAI exports are watermark-free (“Watermark: No (VideoAI)”).',
+        'No. Keyvo exports are watermark-free (“Watermark: No (Keyvo)”).',
     },
     {
       question:

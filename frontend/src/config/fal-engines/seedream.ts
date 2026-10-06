@@ -116,7 +116,7 @@ const SEEDREAM_ENGINE: EngineCaps = {
     base: 0.035,
     currency: 'USD',
     notes:
-      'Seedream 5.0 Lite is billed per successfully generated image; VideoAI customer pricing may include platform margin.',
+      'Seedream 5.0 Lite is billed per successfully generated image; Keyvo customer pricing may include platform margin.',
   },
   updatedAt: '2026-05-11T00:00:00Z',
   ttlSec: 600,
@@ -297,9 +297,9 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'doubao-seedream-5.0-lite',
     seo: {
-      title: 'Seedream 5.0 Lite AI Image Generator for Reference Images | VideoAI',
+      title: 'Seedream 5.0 Lite AI Image Generator for Reference Images | Keyvo',
       description:
-        'Use Seedream 5.0 Lite in VideoAI to generate clean AI reference images, product shots, character concepts, ad visuals, and source frames before animating with Seedance 2.0.',
+        'Use Seedream 5.0 Lite in Keyvo to generate clean AI reference images, product shots, character concepts, ad visuals, and source frames before animating with Seedance 2.0.',
       canonicalPath: '/models/seedream',
     },
     type: 'image',
@@ -329,7 +329,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Is Seedream an image model or a video model?',
         answer:
-          'Seedream is exposed as an image generation and editing model in VideoAI. Use Seedance 2.0 or Seedance 2.0 Fast when you want to animate a still image into video.',
+          'Seedream is exposed as an image generation and editing model in Keyvo. Use Seedance 2.0 or Seedance 2.0 Fast when you want to animate a still image into video.',
       },
       {
         question: 'Does Seedream remove Seedance safety checks?',
@@ -383,9 +383,9 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'dola-seedream-5-0-pro-260628',
     seo: {
-      title: 'Seedream 5.0 Pro AI Image Generator | VideoAI',
+      title: 'Seedream 5.0 Pro AI Image Generator | Keyvo',
       description:
-        'Use Seedream 5.0 Pro in VideoAI for professional ByteDance image generation, visual editing, infographics, and 4K campaign-ready stills.',
+        'Use Seedream 5.0 Pro in Keyvo for professional ByteDance image generation, visual editing, infographics, and 4K campaign-ready stills.',
       canonicalPath: '/models/seedream-5-0-pro',
     },
     type: 'image',
@@ -420,7 +420,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Does Seedream 5.0 Pro support batch output?',
         answer:
-          'No. VideoAI exposes Seedream 5.0 Pro as a single-image professional output route, matching the direct provider API constraints.',
+          'No. Keyvo exposes Seedream 5.0 Pro as a single-image professional output route, matching the direct provider API constraints.',
       },
     ],
     pricingHint: {

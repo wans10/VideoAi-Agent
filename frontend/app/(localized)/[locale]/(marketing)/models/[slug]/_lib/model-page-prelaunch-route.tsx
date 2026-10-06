@@ -24,11 +24,11 @@ export function buildModelPrelaunchMetadata({
 }): Metadata {
   const title =
     localizedContent.seo.title ??
-    `${localizedContent.marketingName ?? model.slug} — VideoAI`;
+    `${localizedContent.marketingName ?? model.slug} — Keyvo`;
   const description =
     localizedContent.seo.description ??
     localizedContent.overview ??
-    'Track the announced launch status for this model on VideoAI.';
+    'Track the announced launch status for this model on Keyvo.';
   const detailSlugMap = buildDetailSlugMap(model.slug);
   const publishableLocales = Array.from(
     resolveLocalesForEnglishPath(`/models/${model.slug}`),

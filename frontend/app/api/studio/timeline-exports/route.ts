@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       request: parsedRequest,
       requestOrigin: req.nextUrl.origin,
     });
-    const projectName = request.manifest.projectName || 'VideoAI Export';
+    const projectName = request.manifest.projectName || 'Keyvo Export';
     const resolution = resolveTimelineExportResolution(request);
     const fps = resolveTimelineExportFps(request);
     const pricingSnapshot = {

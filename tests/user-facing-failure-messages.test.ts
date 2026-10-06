@@ -10,6 +10,13 @@ import {
 
 const forbidden = /fal(?:\.ai)?|fail\.ai|byteplus|modelark|google\s+vertex|kling\s+direct|provider/i;
 
+test('classified start and storage failures use the current product brand', () => {
+  assert.equal(toUserFacingFailureMessage('Could not start request'),
+    'Keyvo could not start this render. Please retry in a few moments.');
+  assert.equal(toUserFacingFailureMessage('Output could not be copied to storage'),
+    'The render finished, but Keyvo could not prepare the output for download. Please retry.');
+});
+
 test('historical messages use the current display brand and retain generic classification', () => {
   const stored = 'MaxVideoAI needs a different reference. Change the image and try again.';
   const displayed = 'Keyvo needs a different reference. Change the image and try again.';

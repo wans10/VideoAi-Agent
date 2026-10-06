@@ -32,10 +32,10 @@ export function buildSoftwareSchema(content: RedesignContent, locale: AppLocale 
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'VideoAI',
+    name: 'Keyvo',
     applicationCategory: 'VideoEditorApplication',
     operatingSystem: 'Web',
-    url: `https://videoai.omninodetech.com${locale === 'en' ? '' : `/${locale}`}`,
+    url: `https://app.keyvo.cn${locale === 'en' ? '' : `/${locale}`}`,
     inLanguage: locale,
     description: content.hero.subtitle,
     provider: buildSiteOrganizationReference(),

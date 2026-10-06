@@ -28,8 +28,8 @@ export function buildModelPrelaunchSchemaPayloads({
       inLanguage,
       isPartOf: {
         '@type': 'WebSite',
-        name: 'VideoAI',
-        url: 'https://videoai.omninodetech.com/',
+        name: 'Keyvo',
+        url: 'https://app.keyvo.cn/',
       },
     },
     {

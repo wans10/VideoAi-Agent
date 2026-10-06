@@ -1,3 +1,6 @@
+import { SITE_ORIGIN } from '@/lib/siteOrigin';
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
+
 type MarketingServiceOffer = {
   availability?: string;
   description?: string;
@@ -17,9 +20,9 @@ type BuildMarketingServiceJsonLdInput = {
 
 const MAXVIDEOAI_ORGANIZATION = {
   '@type': 'Organization',
-  name: 'VideoAI',
-  url: 'https://videoai.omninodetech.com',
-  logo: 'https://videoai.omninodetech.com/favicon-512.png',
+  name: PRODUCT_BRAND_NAME,
+  url: SITE_ORIGIN,
+  logo: `${SITE_ORIGIN}/favicon-512.png`,
 } as const;
 
 export function buildMarketingServiceJsonLd({
