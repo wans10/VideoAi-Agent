@@ -28,6 +28,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Validate Keyvo build origin
+        if: github.ref == 'refs/heads/feat/white-label-keyvo'
+        env:
+          BUILD_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://app.keyvo.cn' }}
+        run: |
+          if [ "$BUILD_SITE_URL" != "https://app.keyvo.cn" ]; then
+            echo "::error::NEXT_PUBLIC_SITE_URL must be https://app.keyvo.cn for the Keyvo image. Update the repository variable."
+            exit 1
+          fi
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
