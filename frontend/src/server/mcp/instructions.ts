@@ -13,7 +13,7 @@ export function buildMaxVideoAiMcpInstructions(
   capabilities: MaxVideoAiMcpInstructionCapabilities,
 ): string {
   const instructions = [
-    'VideoAI: plan AI video/image work, compare models, budget Shorts, Reels and ads, animate images, and recover media in one account.',
+    'Keyvo: plan AI video/image work, compare models, budget Shorts, Reels and ads, animate images, and recover media in one account.',
   ];
 
   if (capabilities.paidGeneration) {

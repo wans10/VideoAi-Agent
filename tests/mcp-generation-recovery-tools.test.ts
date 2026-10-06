@@ -526,11 +526,11 @@ test('recovery tools expose exact annotations and schemas and cap response resou
   const tools = (await session.client.listTools()).tools;
   assert.match(
     tools.find((tool) => tool.name === 'get_generation_status')?.description ?? '',
-    /VideoAI library/i,
+    /(?:VideoAI|Keyvo) library/i,
   );
   assert.match(
     tools.find((tool) => tool.name === 'list_recent_generations')?.description ?? '',
-    /same connected user.*VideoAI library/i,
+    /same connected user.*(?:VideoAI|Keyvo) library/i,
   );
   for (const name of ['get_generation_status', 'list_recent_generations', 'present_generation']) {
     const tool = tools.find((candidate) => candidate.name === name);

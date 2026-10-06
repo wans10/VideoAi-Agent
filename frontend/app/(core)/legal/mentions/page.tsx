@@ -55,7 +55,7 @@ const COPY: Record<AppLocale, MentionsCopy> = {
   en: {
     meta: {
       title: 'Legal Notice',
-      description: 'Mandatory legal notice information for VideoAI.',
+      description: 'Mandatory legal notice information for Keyvo.',
       imageAlt: 'Legal notice',
     },
     heading: 'Legal Notice',
@@ -63,7 +63,7 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     publisher: {
       title: 'Website publisher',
       companyLabel: 'Company name:',
-      companyValue: 'MaxVideoAI (sole proprietorship currently being registered)',
+      companyValue: 'Keyvo (sole proprietorship currently being registered)',
       addressLabel: 'Address:',
       addressValue: "324 Rue De La Mare D'ovillers, 60730 Novillers, France",
       directorLabel: 'Publishing director:',
@@ -83,11 +83,11 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     intellectualProperty: {
       title: 'Intellectual property',
       body:
-        'All content (text, visuals, interface, and features) available on videoai.omninodetech.com is protected by copyright and, where applicable, industrial property rights. Any unauthorized reproduction or representation is prohibited.',
+        'All content (text, visuals, interface, and features) available on app.keyvo.cn is protected by copyright and, where applicable, industrial property rights. Any unauthorized reproduction or representation is prohibited.',
     },
     personalData: {
       title: 'Personal data',
-      prefix: 'VideoAI collects and processes personal data in accordance with the',
+      prefix: 'Keyvo collects and processes personal data in accordance with the',
       privacyLinkLabel: 'Privacy Policy',
       middle: '. To exercise your GDPR rights (access, correction, deletion, objection, portability), contact',
       suffix: '.',
@@ -95,13 +95,13 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     credits: {
       title: 'Credits',
       body:
-        'Illustrations and assets generated with VideoAI and its inference partners. Mentioned trademarks remain the property of their respective owners.',
+        'Illustrations and assets generated with Keyvo and its inference partners. Mentioned trademarks remain the property of their respective owners.',
     },
   },
   fr: {
     meta: {
       title: 'Mentions légales',
-      description: 'Informations légales obligatoires pour VideoAI.',
+      description: 'Informations légales obligatoires pour Keyvo.',
       imageAlt: 'Mentions légales',
     },
     heading: 'Mentions légales',
@@ -109,7 +109,7 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     publisher: {
       title: 'Éditeur du site',
       companyLabel: 'Dénomination :',
-      companyValue: 'MaxVideoAI (entreprise individuelle en cours d’immatriculation)',
+      companyValue: 'Keyvo (entreprise individuelle en cours d’immatriculation)',
       addressLabel: 'Adresse :',
       addressValue: "324 Rue De La Mare D'ovillers, 60730 Novillers, France",
       directorLabel: 'Responsable de la publication :',
@@ -129,11 +129,11 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     intellectualProperty: {
       title: 'Propriété intellectuelle',
       body:
-        'L’ensemble des contenus (textes, visuels, interface, fonctionnalités) présentés sur videoai.omninodetech.com est protégé par le droit d’auteur et, le cas échéant, par des droits de propriété industrielle. Toute reproduction ou représentation non autorisée est interdite.',
+        'L’ensemble des contenus (textes, visuels, interface, fonctionnalités) présentés sur app.keyvo.cn est protégé par le droit d’auteur et, le cas échéant, par des droits de propriété industrielle. Toute reproduction ou représentation non autorisée est interdite.',
     },
     personalData: {
       title: 'Données personnelles',
-      prefix: 'VideoAI collecte et traite des données personnelles conformément à la',
+      prefix: 'Keyvo collecte et traite des données personnelles conformément à la',
       privacyLinkLabel: 'Politique de confidentialité',
       middle: '. Pour exercer vos droits RGPD (accès, rectification, suppression, opposition, portabilité), contactez',
       suffix: '.',
@@ -141,13 +141,13 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     credits: {
       title: 'Crédits',
       body:
-        'Illustrations et contenus générés via VideoAI et ses partenaires d’inférence. Les marques citées restent la propriété de leurs titulaires respectifs.',
+        'Illustrations et contenus générés via Keyvo et ses partenaires d’inférence. Les marques citées restent la propriété de leurs titulaires respectifs.',
     },
   },
   es: {
     meta: {
       title: 'Aviso legal',
-      description: 'Información legal obligatoria de VideoAI.',
+      description: 'Información legal obligatoria de Keyvo.',
       imageAlt: 'Aviso legal',
     },
     heading: 'Aviso legal',
@@ -156,7 +156,7 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     publisher: {
       title: 'Editor del sitio',
       companyLabel: 'Denominación:',
-      companyValue: 'MaxVideoAI (empresa individual en proceso de registro)',
+      companyValue: 'Keyvo (empresa individual en proceso de registro)',
       addressLabel: 'Dirección:',
       addressValue: "324 Rue De La Mare D'ovillers, 60730 Novillers, France",
       directorLabel: 'Responsable de la publicación:',
@@ -176,11 +176,11 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     intellectualProperty: {
       title: 'Propiedad intelectual',
       body:
-        'Todos los contenidos (textos, elementos visuales, interfaz y funcionalidades) publicados en videoai.omninodetech.com están protegidos por derechos de autor y, cuando corresponda, por derechos de propiedad industrial. Queda prohibida cualquier reproducción o representación no autorizada.',
+        'Todos los contenidos (textos, elementos visuales, interfaz y funcionalidades) publicados en app.keyvo.cn están protegidos por derechos de autor y, cuando corresponda, por derechos de propiedad industrial. Queda prohibida cualquier reproducción o representación no autorizada.',
     },
     personalData: {
       title: 'Datos personales',
-      prefix: 'VideoAI recopila y trata datos personales conforme a la',
+      prefix: 'Keyvo recopila y trata datos personales conforme a la',
       privacyLinkLabel: 'Política de privacidad',
       middle:
         '. Para ejercer tus derechos RGPD (acceso, rectificación, supresión, oposición y portabilidad), contacta con',
@@ -189,13 +189,13 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     credits: {
       title: 'Créditos',
       body:
-        'Ilustraciones y contenidos generados con VideoAI y sus socios de inferencia. Las marcas citadas siguen siendo propiedad de sus respectivos titulares.',
+        'Ilustraciones y contenidos generados con Keyvo y sus socios de inferencia. Las marcas citadas siguen siendo propiedad de sus respectivos titulares.',
     },
   },
   zh: {
     meta: {
       title: '法律声明',
-      description: 'VideoAI 法定法律声明信息。',
+      description: 'Keyvo 法定法律声明信息。',
       imageAlt: '法律声明',
     },
     heading: '法律声明',
@@ -203,7 +203,7 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     publisher: {
       title: '网站发布者',
       companyLabel: '公司名称：',
-      companyValue: 'MaxVideoAI（设立中的个人独资企业）',
+      companyValue: 'Keyvo（设立中的个人独资企业）',
       addressLabel: '地址：',
       addressValue: "324 Rue De La Mare D'ovillers, 60730 Novillers, France",
       directorLabel: '出版负责人：',
@@ -223,11 +223,11 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     intellectualProperty: {
       title: '知识产权',
       body:
-        'videoai.omninodetech.com 上提供的所有内容（文本、视觉图像、界面和功能）均受版权保护，并适当时受工业产权法保护。未经许可，严禁任何形式的复制或传播。',
+        'app.keyvo.cn 上提供的所有内容（文本、视觉图像、界面和功能）均受版权保护，并适当时受工业产权法保护。未经许可，严禁任何形式的复制或传播。',
     },
     personalData: {
       title: '个人数据',
-      prefix: 'VideoAI 根据',
+      prefix: 'Keyvo 根据',
       privacyLinkLabel: '隐私政策',
       middle: ' 收集和处理个人数据。如需行使 GDPR 权利（访问、更正、删除、反对、数据迁移），请联系',
       suffix: '。',
@@ -235,7 +235,7 @@ const COPY: Record<AppLocale, MentionsCopy> = {
     credits: {
       title: '版权归属',
       body:
-        '插图和素材均使用 VideoAI 及其推理合作伙伴生成。所提及的商标仍为其各自所有者的财产。',
+        '插图和素材均使用 Keyvo 及其推理合作伙伴生成。所提及的商标仍为其各自所有者的财产。',
     },
   },
 };

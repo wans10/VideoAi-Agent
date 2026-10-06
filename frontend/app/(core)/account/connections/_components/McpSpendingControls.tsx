@@ -186,7 +186,7 @@ export function McpSpendingControls({
         <p className="text-xs font-semibold uppercase tracking-micro text-text-muted">Wallet protection</p>
         <h2 className="mt-2 text-xl font-semibold text-text-primary">Paid generations</h2>
         <p className="mt-2 text-sm leading-6 text-text-secondary">
-          Codex, Claude, or another compatible host may use automatic tool approval. VideoAI cannot override that host setting, but this switch and these limits are always enforced by VideoAI before wallet spending.
+          Codex, Claude, or another compatible host may use automatic tool approval. Keyvo cannot override that host setting, but this switch and these limits are always enforced by Keyvo before wallet spending.
         </p>
       </div>
 

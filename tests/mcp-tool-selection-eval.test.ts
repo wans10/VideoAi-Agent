@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -1123,8 +1123,9 @@ test('offline package command is deterministic, complete, and never claims real 
     'frontend/tsconfig.scripts.json',
     'frontend/scripts/qa/mcp-tool-selection-eval.ts',
   ];
-  const first = execFileSync('./frontend/node_modules/.bin/tsx', command, { encoding: 'utf8' });
-  const second = execFileSync('./frontend/node_modules/.bin/tsx', command, { encoding: 'utf8' });
+  const tsxBin = existsSync('./frontend/node_modules/.bin/tsx') ? './frontend/node_modules/.bin/tsx' : './node_modules/.bin/tsx';
+  const first = execFileSync(tsxBin, command, { encoding: 'utf8' });
+  const second = execFileSync(tsxBin, command, { encoding: 'utf8' });
   assert.equal(first, second);
   const report = JSON.parse(first) as {
     executionMode: string;

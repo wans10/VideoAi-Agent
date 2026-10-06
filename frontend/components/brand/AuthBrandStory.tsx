@@ -16,6 +16,6 @@ export function AuthBrandStory() {
   return <aside className="videoai-auth-story">
     <BrandLockup caption={copy.caption} />
     <div><div className="videoai-auth-frame" aria-hidden="true"><span>SCENE / 001</span></div><h2>{copy.title}</h2><p>{copy.body}</p></div>
-    <small>VIDEOAI / CREATIVE STUDIO</small>
+    <small>KEYVO / CREATIVE STUDIO</small>
   </aside>;
 }

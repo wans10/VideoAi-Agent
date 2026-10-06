@@ -8,7 +8,7 @@ export function useWorkspaceJobRefresh() {
     try {
       const status = await getJobStatus(jobId);
       if (status.status === 'failed') {
-        throw new Error(status.message ?? 'VideoAI could not complete this render.');
+        throw new Error(status.message ?? 'Keyvo could not complete this render.');
       }
       if (status.status !== 'completed' && !status.videoUrl) {
         throw new Error('This render is still processing.');

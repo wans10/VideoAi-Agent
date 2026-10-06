@@ -39,7 +39,7 @@
         "studio": "Beta"
       }
     },
-    "brand": "VideoAI",
+    "brand": "Keyvo",
     "links": [
       {
         "key": "models",
@@ -246,10 +246,10 @@
           "n8n": "n8n"
         },
         "descriptions": {
-          "claude": "Add the VideoAI MCP connector.",
+          "claude": "Add the Keyvo MCP connector.",
           "chatgpt": "Custom MCP app · eligible workspaces.",
-          "codex": "Add the VideoAI plugin.",
-          "openclaw": "Install the VideoAI skill.",
+          "codex": "Add the Keyvo plugin.",
+          "openclaw": "Install the Keyvo skill.",
           "n8n": "Self-hosted AI video workflows."
         },
         "sections": {
@@ -326,7 +326,7 @@
       },
       "pipeline": {
         "heading": "Connect production to your practice.",
-        "intro": "Use VideoAI from supported assistants and automation hosts. Review the quote before generation.",
+        "intro": "Use Keyvo from supported assistants and automation hosts. Review the quote before generation.",
         "all": "Explore connections",
         "items": {
           "claude": "Claude",
@@ -478,18 +478,18 @@
         "manageCookies": "Cookie settings"
       }
     },
-    "crawlerNote": "VideoAI allows AI crawlers (GPTBot, OAI-SearchBot, Google-Extended, and CCBot) to index public model pages and documentation for educational and research visibility.",
+    "crawlerNote": "Keyvo allows AI crawlers (GPTBot, OAI-SearchBot, Google-Extended, and CCBot) to index public model pages and documentation for educational and research visibility.",
     "mcpFeature": {
       "title": "Create with your AI assistant.",
       "body": "Create with Claude, ChatGPT, Codex or OpenClaw. Build video workflows in n8n. Your models and credits, connected through MCP.",
-      "cta": "Discover VideoAI MCP",
+      "cta": "Discover Keyvo MCP",
       "section": "Assistants & MCP",
       "docs": "MCP documentation",
       "anchors": {
         "claude": "Connect Claude",
-        "chatgpt": "VideoAI for ChatGPT",
-        "codex": "VideoAI plugin for Codex",
-        "openclaw": "VideoAI skill for OpenClaw",
+        "chatgpt": "Keyvo for ChatGPT",
+        "codex": "Keyvo plugin for Codex",
+        "openclaw": "Keyvo skill for OpenClaw",
         "n8n": "Video automation with n8n"
       }
     }
@@ -497,7 +497,7 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "VideoAI / Independent image-making",
+        "eyebrow": "Keyvo / Independent image-making",
         "badgeChips": [
           "Multi-engine AI video generator",
           "Price before you generate",
@@ -846,7 +846,7 @@
             "useCase": "Audio-native workflows",
             "cta": "Examples & prompts",
             "modelCta": "Specs & pricing",
-            "imageSrc": "https://media.maxvideoai.com/rendersthumbs/301cc489-d689-477f-94c4-0b051deda0bc/1212fdd0-0299-4e07-8546-c8fc0925432d.webp",
+            "imageSrc": "https://media.app.keyvo.cn/rendersthumbs/301cc489-d689-477f-94c4-0b051deda0bc/1212fdd0-0299-4e07-8546-c8fc0925432d.webp",
             "imageAlt": "Happy Horse 1.1 AI video example for audio-native reference workflows.",
             "examplesSlug": "happy-horse"
           },
@@ -1141,9 +1141,9 @@
       },
       "pricingTrust": {
         "title": "Know the cost before you generate.",
-        "subtitle": "VideoAI shows the price before every video generation, so you stay in control of your credits.",
+        "subtitle": "Keyvo shows the price before every video generation, so you stay in control of your credits.",
         "cta": "View pricing",
-        "supportingText": "VideoAI is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika and more.",
+        "supportingText": "Keyvo is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika and more.",
         "modelsLink": "Models",
         "examplesLink": "Examples",
         "compareLink": "Compare engines",
@@ -1235,7 +1235,7 @@
         "items": [
           {
             "question": "What is the best AI video generator right now?",
-            "answer": "There is no single best AI video generator for every project. Compare real outputs for the scene you want, then check reference support, duration, resolution, audio and price. VideoAI brings several AI video models into one workspace, so you can choose without subscribing to each one.",
+            "answer": "There is no single best AI video generator for every project. Compare real outputs for the scene you want, then check reference support, duration, resolution, audio and price. Keyvo brings several AI video models into one workspace, so you can choose without subscribing to each one.",
             "links": [
               {
                 "label": "Compare AI video models",
@@ -1245,7 +1245,7 @@
           },
           {
             "question": "How do I make AI-generated videos?",
-            "answer": "To make AI-generated videos, describe your scene or import a starting image, choose a model and check its settings. Review the price, generate a short test, then refine the prompt or references. You can also create your starting image in VideoAI. Existing clips can be used with models and modes that support video inputs.",
+            "answer": "To make AI-generated videos, describe your scene or import a starting image, choose a model and check its settings. Review the price, generate a short test, then refine the prompt or references. You can also create your starting image in Keyvo. Existing clips can be used with models and modes that support video inputs.",
             "links": [
               {
                 "label": "Start creating",
@@ -1255,7 +1255,7 @@
           },
           {
             "question": "Can I generate AI videos from an image?",
-            "answer": "Yes. Image-to-video AI animates a still image: a character, a landscape, a drawing or a product photo. Import an image you have the rights to use, or create one in VideoAI, then describe the motion. Supported reference types and how closely the result follows them depend on the model.",
+            "answer": "Yes. Image-to-video AI animates a still image: a character, a landscape, a drawing or a product photo. Import an image you have the rights to use, or create one in Keyvo, then describe the motion. Supported reference types and how closely the result follows them depend on the model.",
             "links": [
               {
                 "label": "Explore image-to-video models",
@@ -1300,7 +1300,7 @@
           },
           {
             "question": "Is there a pay-as-you-go AI video generator?",
-            "answer": "Yes. VideoAI is a pay-as-you-go AI video generator: add credits when you need them and use them for your generations, without a subscription. A failed generation is automatically recredited. A completed result that does not match your creative expectations is not the same as a technical failure.",
+            "answer": "Yes. Keyvo is a pay-as-you-go AI video generator: add credits when you need them and use them for your generations, without a subscription. A failed generation is automatically recredited. A completed result that does not match your creative expectations is not the same as a technical failure.",
             "links": [
               {
                 "label": "How pay-as-you-go works",
@@ -1366,7 +1366,7 @@
     "heroScreenshot": {
       "title": "Every control in one view.",
       "body": "Composer, live pricing, gallery rail, and job feed stay together so you can tweak prompts, review outputs, and monitor the queue without leaving the screen.",
-      "alt": "VideoAI workspace showing the composer, live price chip, and gallery preview in a single dashboard."
+      "alt": "Keyvo workspace showing the composer, live price chip, and gallery preview in a single dashboard."
     },
     "proofTabs": [
       {
@@ -1493,7 +1493,7 @@
             }
           },
           "media": {
-            "videoSrc": "https://media.maxvideoai.com/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
+            "videoSrc": "https://media.app.keyvo.cn/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
             "posterSrc": "/hero/veo-3-1-hero.jpg",
             "hasAudio": true
           }
@@ -1513,7 +1513,7 @@
             }
           },
           "media": {
-            "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
+            "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
             "posterSrc": "/hero/veo-3-1-hero.jpg",
             "hasAudio": true
           }
@@ -1533,7 +1533,7 @@
             }
           },
           "media": {
-            "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
+            "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
             "posterSrc": "/hero/minimax-video01.jpg",
             "hasAudio": true
           }
@@ -1543,7 +1543,7 @@
     "pricing": {
       "badge": "Before you render",
       "title": "Know the cost before you commit.",
-      "body": "VideoAI stays wallet-first across engines: the quote is visible before launch, failed jobs auto-refund, and you keep spend under control from one workspace.",
+      "body": "Keyvo stays wallet-first across engines: the quote is visible before launch, failed jobs auto-refund, and you keep spend under control from one workspace.",
       "link": "See pricing"
     },
     "trust": {
@@ -1601,7 +1601,7 @@
     },
     "priceChipSuffix": "Shown before you launch.",
     "meta": {
-      "title": "Pay-as-you-go AI Video Generator | VideoAI",
+      "title": "Pay-as-you-go AI Video Generator | Keyvo",
       "description": "Compare Seedance, Kling, Veo, LTX, Wan, Pika and more before you generate. Preview real outputs, see pricing upfront, and generate with pay-as-you-go credits."
     },
     "compare": {
@@ -1640,7 +1640,7 @@
       "startupFameLabel": "Featured on Startup Fame"
     },
     "seoContent": {
-      "heroParagraph": "VideoAI is a multi-engine AI video generator where you compare AI video models first, then generate videos from text prompts, images, or existing footage. Live pricing is visible before every generation so you can pick the right engine with confidence.",
+      "heroParagraph": "Keyvo is a multi-engine AI video generator where you compare AI video models first, then generate videos from text prompts, images, or existing footage. Live pricing is visible before every generation so you can pick the right engine with confidence.",
       "heroPoints": [
         "Text-to-video, image-to-video, and video-to-video workflows",
         "Compare results across multiple AI video models",
@@ -1669,7 +1669,7 @@
       },
       "compare": {
         "title": "Compare AI video models before you generate",
-        "body": "VideoAI lets you test multiple AI video models in one workspace. Engines differ on speed, prompt fidelity, motion, realism, and style, so you can review outputs side by side, choose the best model for each shot, and keep pricing visible before every generation.",
+        "body": "Keyvo lets you test multiple AI video models in one workspace. Engines differ on speed, prompt fidelity, motion, realism, and style, so you can review outputs side by side, choose the best model for each shot, and keep pricing visible before every generation.",
         "worksWith": "Works with MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Wan 2.6, Pika 2.2, Nano Banana, and more.",
         "popularLinks": [
           {
@@ -1690,7 +1690,7 @@
           }
         ],
         "seeAllLabel": "See all AI video engine comparisons",
-        "imageAlt": "VideoAI comparison page screenshot showing two AI engines side by side.",
+        "imageAlt": "Keyvo comparison page screenshot showing two AI engines side by side.",
         "carouselIntro": "Compare AI video models by capabilities, limits, and best-fit use cases, or",
         "carouselLinkLabel": "browse all AI video engine comparisons"
       },
@@ -1715,8 +1715,8 @@
             "a": "No. You can generate clips with prompts and simple settings. For advanced workflows, you can still remix and iterate with variations."
           },
           {
-            "q": "Is VideoAI free?",
-            "a": "VideoAI uses pay-as-you-go credits with pricing shown before you generate."
+            "q": "Is Keyvo free?",
+            "a": "Keyvo uses pay-as-you-go credits with pricing shown before you generate."
           }
         ]
       }
@@ -1922,11 +1922,11 @@
         },
         {
           "question": "Do I need a subscription?",
-          "answer": "No. VideoAI uses pay-as-you-go credits. You can compare prices, choose the right engine per job and generate without a required subscription."
+          "answer": "No. Keyvo uses pay-as-you-go credits. You can compare prices, choose the right engine per job and generate without a required subscription."
         },
         {
           "question": "Why are some cheaper engines not highlighted first?",
-          "answer": "Some previous-generation routes may be cheaper for simple tests, but VideoAI highlights current-generation engines first because they are usually better choices for new projects. Older budget routes are still listed separately when available."
+          "answer": "Some previous-generation routes may be cheaper for simple tests, but Keyvo highlights current-generation engines first because they are usually better choices for new projects. Older budget routes are still listed separately when available."
         },
         {
           "question": "Are image, audio and tools priced the same as video?",
@@ -1934,22 +1934,22 @@
         },
         {
           "question": "Why does the table show total prices instead of cost per second?",
-          "answer": "Most users compare the full cost of a render, not raw per-second rates. VideoAI shows preset total prices for common scenarios such as 8s 1080p, 10s 1080p and 4K output. Per-second or provider-level rates can vary by engine, duration, resolution and rounding, and the app shows the exact live quote before generation."
+          "answer": "Most users compare the full cost of a render, not raw per-second rates. Keyvo shows preset total prices for common scenarios such as 8s 1080p, 10s 1080p and 4K output. Per-second or provider-level rates can vary by engine, duration, resolution and rounding, and the app shows the exact live quote before generation."
         },
         {
           "question": "How often do prices change?",
-          "answer": "Prices may change when providers update rates or when VideoAI adds new engines. The pricing page shows current preset comparisons, while the app always shows the live quote before generation."
+          "answer": "Prices may change when providers update rates or when Keyvo adds new engines. The pricing page shows current preset comparisons, while the app always shows the live quote before generation."
         }
       ]
     },
     "supplementalFaq": [
       {
         "question": "What if I am looking for Sora pricing?",
-        "answer": "Use the Sora alternatives section to compare currently available VideoAI models by cost, duration and quality before you generate."
+        "answer": "Use the Sora alternatives section to compare currently available Keyvo models by cost, duration and quality before you generate."
       },
       {
         "question": "Do videos have watermarks?",
-        "answer": "No. Renders produced through VideoAI are delivered without watermarks."
+        "answer": "No. Renders produced through Keyvo are delivered without watermarks."
       },
       {
         "question": "Do text-to-video AI, image-to-video AI, and video-to-video AI workflows cost the same?",
@@ -1959,13 +1959,13 @@
     "priceChipSuffix": "Price before you generate.",
     "priceChipPrefix": "This render",
     "meta": {
-      "title": "AI Video Pricing: Compare Models | VideoAI",
+      "title": "AI Video Pricing: Compare Models | Keyvo",
       "description": "Compare AI video prices by engine, duration, resolution and audio. See preset prices for 720p, 1080p and 4K, then open the app for live pricing."
     }
   },
   "workflows": {
     "meta": {
-      "title": "AI Video Workflow: Generate Variants With Live Pricing | VideoAI",
+      "title": "AI Video Workflow: Generate Variants With Live Pricing | Keyvo",
       "description": "Generate AI videos in one workspace: choose an engine, set duration/resolution/aspect, preview price, generate up to 4 variants, copy prompts, and download."
     },
     "hero": {
@@ -2112,7 +2112,7 @@
     },
     "intro": {
       "paragraphs": [
-        "Each engine in this catalog is wired into the VideoAI workspace with monitored latency, price tracking, and fallbacks. We add models as soon as providers open real capacity—not waitlist demos—so you know what can ship to production today.",
+        "Each engine in this catalog is wired into the Keyvo workspace with monitored latency, price tracking, and fallbacks. We add models as soon as providers open real capacity—not waitlist demos—so you know what can ship to production today.",
         "Pick an engine to see the prompt presets, duration limits, and current route we use to keep renders flowing, then duplicate it into your own workspace."
       ],
       "cards": [
@@ -2222,8 +2222,8 @@
         "priceBefore": "Live pricing updates inside the Generate workspace.",
         "versionLabel": "v2.6 Pro"
       },
-      "title": "AI Video & Image Models: Specs, Limits & Pricing | VideoAI",
-      "description": "Compare AI video and image models by price, max duration, resolution, audio support, input modes, examples, and workflow before generating on VideoAI."
+      "title": "AI Video & Image Models: Specs, Limits & Pricing | Keyvo",
+      "description": "Compare AI video and image models by price, max duration, resolution, audio support, input modes, examples, and workflow before generating on Keyvo."
     },
     "note": "",
     "detail": {
@@ -2293,7 +2293,7 @@
       },
       "legacyToggleLabel": "Show legacy models",
       "grid": {
-        "srTitle": "AI video and image models with specs, limits, and pricing on VideoAI",
+        "srTitle": "AI video and image models with specs, limits, and pricing on Keyvo",
         "bridgeText": "Use model cards to review capabilities first, then jump into the video or image hub for a tighter shortlist."
       },
       "quickCompare": {
@@ -2545,7 +2545,7 @@
     },
     "hero": {
       "title": "Run AI Video Generators in Europe — Sora 2, Veo 3, Pika & More",
-      "intro": "VideoAI keeps cinematic text-to-video engines compliant, monitored, and production-ready for European teams. Use this hub to understand availability, compare creative trade-offs, and launch projects with the right guardrails from day one.",
+      "intro": "Keyvo keeps cinematic text-to-video engines compliant, monitored, and production-ready for European teams. Use this hub to understand availability, compare creative trade-offs, and launch projects with the right guardrails from day one.",
       "secondary": "Not sure which model to pick? Read our {{article:comparison article}}."
     },
     "sections": [
@@ -2559,16 +2559,16 @@
       },
       {
         "title": "Pika 2.2 for fast social content",
-        "body": "When teams need playful loops or short-form edits, Pika 2.2 delivers multi-aspect outputs at a fraction of the budget. VideoAI exposes curated presets so editors can jump from vertical reels to square product shots without leaving the workspace. Compare text-to-video and image-to-video modes side-by-side on our {{pika:Pika quickstart guide}} and reuse prompt banks that have already been cleared for brand-safe campaigns. Daily QA passes flag style drift or artefacts so you know when to regenerate, upscale, or hand off to animators for refinement."
+        "body": "When teams need playful loops or short-form edits, Pika 2.2 delivers multi-aspect outputs at a fraction of the budget. Keyvo exposes curated presets so editors can jump from vertical reels to square product shots without leaving the workspace. Compare text-to-video and image-to-video modes side-by-side on our {{pika:Pika quickstart guide}} and reuse prompt banks that have already been cleared for brand-safe campaigns. Daily QA passes flag style drift or artefacts so you know when to regenerate, upscale, or hand off to animators for refinement."
       },
       {
-        "title": "How VideoAI routes multi-engine production",
-        "body": "VideoAI coordinates multi-engine capacity behind one consistent interface for creative leads. Our orchestration layer keeps prompts portable, logs every render, and exposes diagnostics so you know when to retry or hand off to another engine like {{veoFast:Veo 3.1 Fast}} or {{hailuo:MiniMax Hailuo}} for stylised outputs. Teams also gain access to rate cards, audit trails, and regional compliance notes in one workspace, and automated playbooks explain how to escalate priority or swap render regions when demand peaks."
+        "title": "How Keyvo routes multi-engine production",
+        "body": "Keyvo coordinates multi-engine capacity behind one consistent interface for creative leads. Our orchestration layer keeps prompts portable, logs every render, and exposes diagnostics so you know when to retry or hand off to another engine like {{veoFast:Veo 3.1 Fast}} or {{hailuo:MiniMax Hailuo}} for stylised outputs. Teams also gain access to rate cards, audit trails, and regional compliance notes in one workspace, and automated playbooks explain how to escalate priority or swap render regions when demand peaks."
       }
     ],
     "comparison": {
       "title": "Compare the top video generators",
-      "intro": "Whether you need frontier fidelity or budget-friendly loops, VideoAI keeps each engine ready for production workloads.",
+      "intro": "Whether you need frontier fidelity or budget-friendly loops, Keyvo keeps each engine ready for production workloads.",
       "cards": [
         {
           "label": "Sora 2",
@@ -2611,11 +2611,11 @@
       },
       {
         "question": "Can I monitor model changes without refreshing documentation?",
-        "answer": "The VideoAI workspace highlights latency, output limits, and policy updates in real time, so producers know when to retry or pivot to alternative engines."
+        "answer": "The Keyvo workspace highlights latency, output limits, and policy updates in real time, so producers know when to retry or pivot to alternative engines."
       }
     ],
     "cta": {
-      "body": "Looking for sequenced prompt recipes? Read the latest guides on the {{blog:VideoAI blog}} for branded storytelling walkthroughs and engine updates."
+      "body": "Looking for sequenced prompt recipes? Read the latest guides on the {{blog:Keyvo blog}} for branded storytelling walkthroughs and engine updates."
     }
   },
   "examples": {
@@ -2644,7 +2644,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/marketing/15d61929-c1ef-4173-bb8c-75cb74b3ee19.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/marketing/15d61929-c1ef-4173-bb8c-75cb74b3ee19.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2663,7 +2663,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2682,7 +2682,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2701,7 +2701,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/marketing/5e0ea541-cd07-48e9-841d-42b5679e1f3f.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/marketing/5e0ea541-cd07-48e9-841d-42b5679e1f3f.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2720,7 +2720,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
           "aspectRatio": "16:9"
         }
       }
@@ -2731,7 +2731,7 @@
     "meta": {
       "title": "Docs — Getting Started, Pricing, Jobs & Refunds",
       "description": "Start here for individual-account onboarding, price-before-generation, jobs, saved media, brand safety, and refunds.",
-      "imageAlt": "Docs — VideoAI",
+      "imageAlt": "Docs — Keyvo",
       "notFoundTitle": "Doc not found"
     },
     "hero": {
@@ -2740,7 +2740,7 @@
     },
     "mcpGuide": {
       "href": "/docs/mcp",
-      "title": "VideoAI MCP technical guide",
+      "title": "Keyvo MCP technical guide",
       "description": "Supported clients, OAuth, available tools, generation approvals, privacy, limitations, and recovery guidance."
     },
     "toc": {
@@ -2794,7 +2794,7 @@
         "title": "Product access",
         "items": [
           "Use the web workspace for the product capabilities described in these docs.",
-          "The public MCP guide explains how to connect a supported client and authorize access to your VideoAI account.",
+          "The public MCP guide explains how to connect a supported client and authorize access to your Keyvo account.",
           "Available actions depend on the connected client. Review the supported tools and generation approval steps in the guide."
         ]
       }
@@ -2952,7 +2952,7 @@
     "hero": {
       "title": "Ideas, experiments and ways to create.",
       "subtitle": "Practical guides to AI video, images, references and choosing the right model.",
-      "eyebrow": "The VideoAI journal",
+      "eyebrow": "The Keyvo journal",
       "ctaLabel": "Explore the latest guide →"
     },
     "featured": {
@@ -2972,7 +2972,7 @@
     "empty": "Blog posts coming soon.",
     "cta": "Read more",
     "intro": {
-      "lead": "The journal tracks how teams build reusable references, choose the right tool, and move from approved stills into stronger image and video outputs. We write from real usage inside VideoAI: character references, camera-angle tests, model decisions, and production patterns that hold up under deadlines.",
+      "lead": "The journal tracks how teams build reusable references, choose the right tool, and move from approved stills into stronger image and video outputs. We write from real usage inside Keyvo: character references, camera-angle tests, model decisions, and production patterns that hold up under deadlines.",
       "cards": [
         {
           "title": "Reference-first workflows",
@@ -3010,8 +3010,8 @@
   "videoPage": {
     "backLink": "← Back",
     "hero": {
-      "titleFallback": "VideoAI render",
-      "intro": "This video was generated with {engine} on VideoAI — discover how to create similar renders below.",
+      "titleFallback": "Keyvo render",
+      "intro": "This video was generated with {engine} on Keyvo — discover how to create similar renders below.",
       "promptLabel": "Prompt",
       "promptFallback": "Prompt unavailable.",
       "copy": "Copy prompt",
@@ -3028,7 +3028,7 @@
       "aspectFallback": "an adaptive aspect ratio",
       "sentences": [
         "This AI-generated video showcases {promptStyle} and ships straight from our public Examples playlist.",
-        "{engineName} handled this render inside VideoAI, delivering {durationLabel} at {aspectRatioLabel} with {audioState}.",
+        "{engineName} handled this render inside Keyvo, delivering {durationLabel} at {aspectRatioLabel} with {audioState}.",
         "The footage highlights consistent motion, crisp lighting, and natural reflections so creative and product teams can judge how the model behaves.",
         "Prompt styling keeps {promptTone} cues that you can remix or extend with image references, narration, or upscaling.",
         "Use the engine card, pricing link, and blog resources below to compare models or start a similar run in your workspace."
@@ -3084,7 +3084,7 @@
   "about": {
     "hero": {
       "title": "Quiet confidence for AI video teams.",
-      "subtitle": "VideoAI is the independent hub for AI video production. We route to the right engine for every shot, price before you generate, and keep your team in control without vendor lock-in."
+      "subtitle": "Keyvo is the independent hub for AI video production. We route to the right engine for every shot, price before you generate, and keep your team in control without vendor lock-in."
     },
     "paragraphs": [
       "We believe professional teams deserve clarity before they hit render. That means price transparency, reliable routing, and shared context between creatives, producers, and stakeholders.",
@@ -3092,7 +3092,7 @@
       "The product is engineered for teams that need precision without noise. Quiet UI, premium defaults, precise controls, and price-before chips that keep finance in the loop.",
       "We keep the workflow practical: compare models, prepare assets, generate only when the cost and settings are clear, then review outputs from one workspace instead of scattering production context across provider dashboards."
     ],
-    "note": "Trademarks and service marks are property of their respective owners. VideoAI stays independent so you can stay current without switching platforms."
+    "note": "Trademarks and service marks are property of their respective owners. Keyvo stays independent so you can stay current without switching platforms."
   },
   "contact": {
     "hero": {
@@ -3154,7 +3154,7 @@
         },
         {
           "question": "Do you offer live demos?",
-          "answer": "Yes. Include your preferred time zone and the models you want to see. We run demos inside the VideoAI workspace so you can watch routing and pricing in real time."
+          "answer": "Yes. Include your preferred time zone and the models you want to see. We run demos inside the Keyvo workspace so you can watch routing and pricing in real time."
         },
         {
           "question": "Where can I check service status?",
@@ -3175,7 +3175,7 @@
       "sections": [
         {
           "heading": "1. Overview",
-          "body": "These Terms govern your use of VideoAI. By accessing the service you agree to the obligations below."
+          "body": "These Terms govern your use of Keyvo. By accessing the service you agree to the obligations below."
         },
         {
           "heading": "2. Accounts",
@@ -3183,11 +3183,11 @@
         },
         {
           "heading": "3. Usage & Compliance",
-          "body": "Use VideoAI only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies."
+          "body": "Use Keyvo only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies."
         },
         {
           "heading": "4. User Content & Generated Media",
-          "body": "User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant VideoAI a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting/desindexation by contacting support if a privacy toggle is unavailable, and we will honor the request. You retain ownership of your prompts, uploads, descriptions, and brand assets, while VideoAI retains ownership of the platform, interfaces, transformations, and technical improvements built atop the service."
+          "body": "User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant Keyvo a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting/desindexation by contacting support if a privacy toggle is unavailable, and we will honor the request. You retain ownership of your prompts, uploads, descriptions, and brand assets, while Keyvo retains ownership of the platform, interfaces, transformations, and technical improvements built atop the service."
         },
         {
           "heading": "5. Billing",
@@ -3195,7 +3195,7 @@
         },
         {
           "heading": "6. Liability",
-          "body": "VideoAI is provided as-is. We limit liability to the maximum extent permitted by law."
+          "body": "Keyvo is provided as-is. We limit liability to the maximum extent permitted by law."
         }
       ]
     },
@@ -3228,7 +3228,7 @@
   },
   "changelog": {
     "meta": {
-      "title": "Changelog — VideoAI",
+      "title": "Changelog — Keyvo",
       "description": "Transparent updates on engines, workflows, and queue performance."
     },
     "hero": {
@@ -3237,7 +3237,7 @@
     },
     "intro": {
       "paragraphs": [
-        "We ship updates to VideoAI in tight release trains. Engine upgrades land as soon as providers open access, and workflow improvements follow the same week so production teams can adopt them without relearning the platform.",
+        "We ship updates to Keyvo in tight release trains. Engine upgrades land as soon as providers open access, and workflow improvements follow the same week so production teams can adopt them without relearning the platform.",
         "Use this log to trace when a capability became available, confirm latency fixes, or share proof of delivery with stakeholders. Entries that affect billing or routing policy link back to the relevant documentation."
       ],
       "releaseTagsTitle": "How we tag releases",
@@ -3277,7 +3277,7 @@
   "status": {
     "hero": {
       "title": "Service status",
-      "subtitle": "Current service notices published by the VideoAI team."
+      "subtitle": "Current service notices published by the Keyvo team."
     },
     "currentNotice": {
       "title": "Current notice",
@@ -3304,7 +3304,7 @@
     "meta": {
       "title": "AI Video Examples: Prompts, Models & Recorded Costs",
       "description": "Browse real AI video examples, then open a video to inspect its prompt, settings, duration and recorded render cost before recreating it.",
-      "title_engine": "AI Video Examples — {engineName} | VideoAI",
+      "title_engine": "AI Video Examples — {engineName} | Keyvo",
       "description_engine": "Browse {engineName} examples, then open a video to inspect its prompt, duration, audio settings and recorded render cost."
     }
   },
@@ -3386,7 +3386,7 @@
       },
       "assistantConnections": {
         "label": "Connect",
-        "tooltip": "Connect your account to use VideoAI directly from your AI assistant.",
+        "tooltip": "Connect your account to use Keyvo directly from your AI assistant.",
         "claude": "Claude",
         "chatgpt": "ChatGPT",
         "codex": "Codex"
@@ -4605,7 +4605,7 @@
       "uploadTooLarge": "The selected image is too large. Use an image under {maxMB} MB.",
       "generationFailed": "Storyboard generation failed.",
       "authTitle": "Sign in to generate",
-      "authBody": "Storyboard generation and library saves use your VideoAI wallet.",
+      "authBody": "Storyboard generation and library saves use your Keyvo wallet.",
       "authPrimary": "Create account",
       "authSecondary": "Sign in",
       "close": "Close",
@@ -4625,7 +4625,7 @@
       "auth": {
         "eyebrow": "Generate Audio",
         "title": "Create an account to generate audio",
-        "body": "Build music tracks, cinematic sound design, and Seed Audio voice overs inside the VideoAI workspace.",
+        "body": "Build music tracks, cinematic sound design, and Seed Audio voice overs inside the Keyvo workspace.",
         "createAccount": "Create account",
         "signIn": "Sign in"
       },
@@ -4815,7 +4815,7 @@
         "selectedVoice": "Seed Audio preset voice",
         "chooseVoice": "Preset voice",
         "providerStack": "Model stack",
-        "providerStackDescription": "{provider} prepares the base track, then VideoAI masters the final render for your selected output.",
+        "providerStackDescription": "{provider} prepares the base track, then Keyvo masters the final render for your selected output.",
         "providers": {
           "voice": "Seed Audio 1.0",
           "music": "Google Lyria 3",
@@ -5433,8 +5433,8 @@
     },
     "studio": {
       "projects": {
-        "metaTitle": "Studio Projects | VideoAI",
-        "heroBadge": "VideoAI Studio",
+        "metaTitle": "Studio Projects | Keyvo",
+        "heroBadge": "Keyvo Studio",
         "title": "My projects",
         "subtitle": "Create a new project or resume an existing one.",
         "createTitle": "New project",
@@ -5516,7 +5516,7 @@
         }
       },
       "topbar": {
-        "productName": "VideoAI Editor",
+        "productName": "Keyvo Editor",
         "breadcrumbProjects": "Projects",
         "breadcrumbWorkspace": "Workspace",
         "workspaceViewLabel": "Workspace view",
@@ -5737,7 +5737,7 @@
         "invalidProjectMediaUpload": "Upload image, video, or audio media for the project."
       },
       "canvas": {
-        "ariaLabel": "VideoAI editor canvas",
+        "ariaLabel": "Keyvo editor canvas",
         "guide": {
           "controls": {
             "menu": "Guide options",
@@ -6432,7 +6432,7 @@
           "copyLastAnswer": "Copy last answer",
           "reuseLastMessage": "Reuse last message",
           "clearConversation": "Clear conversation",
-          "defaultChatSystemPrompt": "You are helping plan a VideoAI Studio generation graph. Answer with concise, reusable production instructions."
+          "defaultChatSystemPrompt": "You are helping plan a Keyvo Studio generation graph. Answer with concise, reusable production instructions."
         },
         "map": {
           "navigationLabel": "Canvas navigation",
@@ -6698,7 +6698,7 @@
         "serverMp4": "Server MP4",
         "freeExportsRemaining": "{count} free server export remaining",
         "freeExportsRemainingPlural": "{count} free server exports remaining",
-        "finalRenderJob": "Final render job runs on VideoAI servers.",
+        "finalRenderJob": "Final render job runs on Keyvo servers.",
         "serverProgress": "Server export progress",
         "downloadMp4": "Download MP4",
         "advanced": "Advanced",
@@ -6949,112 +6949,112 @@
   },
   "comparePage": {
     "meta": {
-      "title": "{left} vs {right} — Specs & Pricing | VideoAI",
-      "titleFallback": "AI video engines — Specs & Pricing | VideoAI",
-      "description": "Compare {left} vs {right} on VideoAI with key specs, and a scorecard across 11 criteria.",
+      "title": "{left} vs {right} — Specs & Pricing | Keyvo",
+      "titleFallback": "AI video engines — Specs & Pricing | Keyvo",
+      "description": "Compare {left} vs {right} on Keyvo with key specs, and a scorecard across 11 criteria.",
       "slugOverrides": {
         "kling-2-6-pro-vs-ltx-2": {
-          "title": "Kling 2.6 Pro vs LTX 2 — Speed vs Quality | VideoAI",
+          "title": "Kling 2.6 Pro vs LTX 2 — Speed vs Quality | Keyvo",
           "description": "Compare models by quality, speed, pricing, modes, and an 11-point scorecard. Pick the winner by use case."
         },
         "ltx-2-fast-vs-wan-2-6": {
-          "title": "LTX 2 Fast vs WAN 2.6 — Quality, Speed & Cost | VideoAI",
+          "title": "LTX 2 Fast vs WAN 2.6 — Quality, Speed & Cost | Keyvo",
           "description": "Compare LTX 2 Fast vs WAN 2.6 with key specs, pricing, and an 11-point scorecard. See speed/stability vs video-to-video support."
         },
         "wan-2-5-vs-wan-2-6": {
-          "title": "WAN 2.5 vs WAN 2.6 — What's New + Specs | VideoAI",
+          "title": "WAN 2.5 vs WAN 2.6 — What's New + Specs | Keyvo",
           "description": "See what changed in WAN 2.6 vs 2.5: longer clips, multi-shot output, video-to-video support, pricing, and an 11-point scorecard."
         },
         "ltx-2-fast-vs-wan-2-5": {
-          "title": "LTX 2 Fast vs WAN 2.5 — Quality, Speed & Cost | VideoAI",
+          "title": "LTX 2 Fast vs WAN 2.5 — Quality, Speed & Cost | Keyvo",
           "description": "Compare LTX 2 Fast vs WAN 2.5 with key specs, pricing, and an 11-point scorecard. Pick the best engine for your workflow."
         },
         "kling-3-pro-vs-wan-2-6": {
-          "title": "Kling 3 Pro vs WAN 2.6 — Quality, Audio & Cost | VideoAI",
+          "title": "Kling 3 Pro vs WAN 2.6 — Quality, Audio & Cost | Keyvo",
           "description": "Compare Kling 3 Pro vs WAN 2.6 by quality, audio, speed, modes, pricing, and an 11-point scorecard."
         },
         "kling-3-pro-vs-veo-3-1": {
-          "title": "Kling 3 Pro vs Veo 3.1 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Kling 3 Pro vs Veo 3.1 on VideoAI by specs, pricing, scene control, native audio behavior, and output quality."
+          "title": "Kling 3 Pro vs Veo 3.1 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Kling 3 Pro vs Veo 3.1 on Keyvo by specs, pricing, scene control, native audio behavior, and output quality."
         },
         "ltx-2-3-pro-vs-veo-3-1": {
-          "title": "LTX 2.3 Pro vs Veo 3.1 | AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Pro vs Veo 3.1 on VideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro vs Veo 3.1 | AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Pro vs Veo 3.1 on Keyvo by specs, pricing, audio behavior, and output quality."
         },
         "ltx-2-vs-veo-3-1-fast": {
-          "title": "LTX 2 vs Veo 3.1 Fast — Speed vs Quality | VideoAI",
+          "title": "LTX 2 vs Veo 3.1 Fast — Speed vs Quality | Keyvo",
           "description": "Compare LTX 2 vs Veo 3.1 Fast: speed/queue time, cost, max duration, and output quality, with a detailed scorecard."
         },
         "ltx-2-vs-veo-3-1": {
-          "title": "LTX 2 vs Veo 3.1 — Quality, Cost & Modes | VideoAI",
+          "title": "LTX 2 vs Veo 3.1 — Quality, Cost & Modes | Keyvo",
           "description": "Compare LTX 2 vs Google Veo 3.1 by quality, motion realism, text legibility, modes, pricing, and an 11-point scorecard."
         },
         "seedance-2-0-vs-veo-3-1": {
-          "title": "Seedance 2.0 vs Veo 3.1 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Seedance 2.0 vs Veo 3.1 on VideoAI by specs, pricing, audio workflows, and model capabilities."
+          "title": "Seedance 2.0 vs Veo 3.1 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Seedance 2.0 vs Veo 3.1 on Keyvo by specs, pricing, audio workflows, and model capabilities."
         },
         "kling-3-pro-vs-seedance-2-0": {
-          "title": "Kling 3 Pro vs Seedance 2.0 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Kling 3 Pro vs Seedance 2.0 on VideoAI by specs, pricing, scene control, and multi-shot output quality."
+          "title": "Kling 3 Pro vs Seedance 2.0 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Kling 3 Pro vs Seedance 2.0 on Keyvo by specs, pricing, scene control, and multi-shot output quality."
         },
         "seedance-2-0-fast-vs-veo-3-1-fast": {
-          "title": "Seedance 2.0 Fast vs Veo 3.1 Fast | Fast AI Video Model Comparison | VideoAI",
-          "description": "Compare Seedance 2.0 Fast vs Veo 3.1 Fast on VideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "Seedance 2.0 Fast vs Veo 3.1 Fast | Fast AI Video Model Comparison | Keyvo",
+          "description": "Compare Seedance 2.0 Fast vs Veo 3.1 Fast on Keyvo by fast draft speed, specs, pricing, and output quality."
         },
         "ltx-2-3-pro-vs-seedance-2-0": {
-          "title": "LTX 2.3 Pro vs Seedance 2.0 | AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Pro vs Seedance 2.0 on VideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro vs Seedance 2.0 | AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Pro vs Seedance 2.0 on Keyvo by specs, pricing, audio behavior, and output quality."
         },
         "seedance-2-0-vs-sora-2": {
-          "title": "Seedance 2.0 vs Sora 2 | AI Video Model Comparison | VideoAI",
-          "description": "Compare Seedance 2.0 vs Sora 2 on VideoAI by specs, pricing, audio behavior, and cinematic output quality."
+          "title": "Seedance 2.0 vs Sora 2 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Seedance 2.0 vs Sora 2 on Keyvo by specs, pricing, audio behavior, and cinematic output quality."
         },
         "seedance-1-5-pro-vs-veo-3-1": {
-          "title": "Seedance 1.5 Pro vs Veo 3.1 — Speed vs Quality | VideoAI",
+          "title": "Seedance 1.5 Pro vs Veo 3.1 — Speed vs Quality | Keyvo",
           "description": "Compare Seedance 1.5 Pro vs Google Veo 3.1 by cinematic quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "ltx-2-vs-seedance-2-0": {
-          "title": "LTX 2 vs Seedance 2 — Scores & Pricing | VideoAI",
+          "title": "LTX 2 vs Seedance 2 — Scores & Pricing | Keyvo",
           "description": "Compare LTX 2 vs Seedance 2.0 by quality, speed, modes, pricing, and an 11-point scorecard to pick by use case."
         },
         "kling-3-standard-vs-veo-3-1": {
-          "title": "Kling 3 Std vs Veo 3.1 — Scores & Pricing | VideoAI",
+          "title": "Kling 3 Std vs Veo 3.1 — Scores & Pricing | Keyvo",
           "description": "Compare Kling 3 Standard vs Google Veo 3.1 by quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "kling-3-pro-vs-sora-2": {
-          "title": "Kling 3 Pro vs Sora 2 — Scores & Pricing | VideoAI",
+          "title": "Kling 3 Pro vs Sora 2 — Scores & Pricing | Keyvo",
           "description": "Compare Kling 3 Pro vs OpenAI Sora 2 by quality, speed, max duration, pricing, and an 11-point scorecard."
         },
         "kling-3-pro-vs-sora-2-pro": {
-          "title": "Kling 3 Pro vs Sora 2 Pro | AI Video Model Comparison | VideoAI",
-          "description": "Compare Kling 3 Pro vs Sora 2 Pro on VideoAI by specs, pricing, scene control, audio behavior, and output quality."
+          "title": "Kling 3 Pro vs Sora 2 Pro | AI Video Model Comparison | Keyvo",
+          "description": "Compare Kling 3 Pro vs Sora 2 Pro on Keyvo by specs, pricing, scene control, audio behavior, and output quality."
         },
         "sora-2-vs-sora-2-pro": {
-          "title": "Sora 2 vs Sora 2 Pro — Differences & Cost | VideoAI",
+          "title": "Sora 2 vs Sora 2 Pro — Differences & Cost | Keyvo",
           "description": "Compare Sora 2 vs Sora 2 Pro: output quality, native audio, max resolution/duration, and pricing—with a detailed scorecard."
         },
         "kling-3-4k-vs-kling-3-pro": {
-          "title": "Kling 3 4K vs Kling 3 Pro | Native 4K vs 1080p | VideoAI",
-          "description": "Compare Kling 3 4K vs Kling 3 Pro on VideoAI: native 4K delivery, 1080p iteration, pricing, modes, and when to use each route."
+          "title": "Kling 3 4K vs Kling 3 Pro | Native 4K vs 1080p | Keyvo",
+          "description": "Compare Kling 3 4K vs Kling 3 Pro on Keyvo: native 4K delivery, 1080p iteration, pricing, modes, and when to use each route."
         },
         "kling-2-6-pro-vs-seedance-2-0": {
-          "title": "Kling 2.6 Pro vs Seedance 2 — Scores & Pricing | VideoAI",
+          "title": "Kling 2.6 Pro vs Seedance 2 — Scores & Pricing | Keyvo",
           "description": "Compare Kling 2.6 Pro vs Seedance 2.0 by quality, audio, speed, pricing, and an 11-point scorecard."
         },
         "kling-3-standard-vs-ltx-2": {
-          "title": "Kling 3 Std vs LTX 2 — Speed vs Quality | VideoAI",
+          "title": "Kling 3 Std vs LTX 2 — Speed vs Quality | Keyvo",
           "description": "Compare Kling 3 Standard vs LTX 2 by quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "ltx-2-3-fast-vs-ltx-2-3-pro": {
-          "title": "LTX 2.3 Fast vs LTX 2.3 Pro | AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Fast vs LTX 2.3 Pro on VideoAI by current fast vs current pro tradeoffs, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast vs LTX 2.3 Pro | AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Fast vs LTX 2.3 Pro on Keyvo by current fast vs current pro tradeoffs, specs, pricing, and output quality."
         },
         "ltx-2-3-fast-vs-seedance-2-0-fast": {
-          "title": "LTX 2.3 Fast vs Seedance 2.0 Fast | Fast AI Video Model Comparison | VideoAI",
-          "description": "Compare LTX 2.3 Fast vs Seedance 2.0 Fast on VideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast vs Seedance 2.0 Fast | Fast AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Fast vs Seedance 2.0 Fast on Keyvo by fast draft speed, specs, pricing, and output quality."
         }
       },
-      "descriptionFallback": "Side-by-side comparison of AI video engines with VideoAI metrics and guidance."
+      "descriptionFallback": "Side-by-side comparison of AI video engines with Keyvo metrics and guidance."
     },
     "hero": {
       "back": "Back to comparisons",
@@ -7066,7 +7066,7 @@
     },
     "scorecard": {
       "title": "Compare the strengths.",
-      "subtitle": "Scores reflect quality and control on VideoAI across 11 criteria.",
+      "subtitle": "Scores reflect quality and control on Keyvo across 11 criteria.",
       "provisionalNote": "Pre-launch scores are provisional and will update once runtime renders and final pricing are available.",
       "strengthsLabel": "Strengths",
       "winnerSummary": "At a glance",
@@ -7100,7 +7100,7 @@
       "latencySource": "Measurement method and limitations"
     },
     "specLabels": {
-      "pricing": "Pricing (VideoAI)",
+      "pricing": "Pricing (Keyvo)",
       "textToVideo": "Text-to-Video",
       "imageToVideo": "Image-to-Video",
       "videoToVideo": "Video-to-Video",
@@ -7122,8 +7122,8 @@
     },
     "showdown": {
       "title": "Showdown (same prompt)",
-      "subtitle": "Side-by-side renders from the same prompt on VideoAI. Prompts are identical; outputs may vary by model.",
-      "subtitlePrelaunch": "Side-by-side prompts and renders (when available) on VideoAI. Prompts are identical; outputs may vary by model.",
+      "subtitle": "Side-by-side renders from the same prompt on Keyvo. Prompts are identical; outputs may vary by model.",
+      "subtitlePrelaunch": "Side-by-side prompts and renders (when available) on Keyvo. Prompts are identical; outputs may vary by model.",
       "note": "Showing up to 3 prompt pairs for clarity.",
       "footer": "Explore each model’s examples to understand its visual possibilities. The galleries use different prompts and settings; they are not a controlled video test."
     },
@@ -7133,7 +7133,7 @@
     },
     "faq": {
       "title": "FAQ",
-      "subtitle": "Quick answers about {left} vs {right} on VideoAI (pricing, modes, specs, and why results differ).",
+      "subtitle": "Quick answers about {left} vs {right} on Keyvo (pricing, modes, specs, and why results differ).",
       "validating": "still being validated",
       "pricingDiff": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} vs {right} starts at {rightValue}.",
       "capabilityDiff": "{label}: {left} is {leftValue} vs {right} is {rightValue}.",
@@ -7143,22 +7143,22 @@
       "capabilityLabel": "Capability",
       "outputLabel": "Max resolution",
       "q1": "What are {left} and {right}?",
-      "a1": "{left} and {right} are AI video generation engines documented on VideoAI. This page compares them side-by-side using the same prompts, key specs, and performance data shown above.",
+      "a1": "{left} and {right} are AI video generation engines documented on Keyvo. This page compares them side-by-side using the same prompts, key specs, and performance data shown above.",
       "q2": "Which is better: {left} or {right}?",
       "a2": "It depends on your workflow. Use the scorecard and the “same prompt” showdowns to compare prompt adherence, motion realism, human fidelity, and text legibility — then open each engine profile for full details.",
-      "q3": "Which is cheaper on VideoAI?",
-      "a3": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (VideoAI)” for details).",
+      "q3": "Which is cheaper on Keyvo?",
+      "a3": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (Keyvo)” for details).",
       "q4": "What are the biggest differences between {left} and {right}?",
       "q5": "Can I start from text, an image or a video?",
-      "a5": "On VideoAI: Text-to-Video is {t2vLeft} vs {t2vRight}; Image-to-Video is {i2vLeft} vs {i2vRight}; Video-to-Video is {v2vLeft} vs {v2vRight}. Some fields may still be under validation.",
+      "a5": "On Keyvo: Text-to-Video is {t2vLeft} vs {t2vRight}; Image-to-Video is {i2vLeft} vs {i2vRight}; Video-to-Video is {v2vLeft} vs {v2vRight}. Some fields may still be under validation.",
       "q6": "Can I use start and end frames or references?",
       "a6": "First/Last frame is {firstLeft} vs {firstRight}. Reference image/style is {refImgLeft} vs {refImgRight}; Reference video is {refVidLeft} vs {refVidRight}.",
       "q7": "What resolutions, durations and aspect ratios are available?",
       "a7": "Max output is {resLeft} / {durLeft} for {left} and {resRight} / {durRight} for {right}. Supported aspect ratios include {arLeft} vs {arRight} (see Key Specs for the full list).",
       "q8": "Can the models generate audio and lip sync?",
       "a8": "Audio output is {audioOutLeft} vs {audioOutRight}. Native audio generation is {audioGenLeft} vs {audioGenRight}, and lip sync is {lipLeft} vs {lipRight} (some fields may still be under validation).",
-      "q9": "Does VideoAI add a watermark?",
-      "a9": "No. VideoAI exports are watermark-free (“Watermark: No (VideoAI)”).",
+      "q9": "Does Keyvo add a watermark?",
+      "a9": "No. Keyvo exports are watermark-free (“Watermark: No (Keyvo)”).",
       "q10": "Why do results look different with the same prompt?",
       "a10": "Even with identical prompts, models interpret instructions differently and use different training data and generation strategies. That’s why the Showdown section exists: same prompt, side-by-side outputs.",
       "q11": "Where can I find full specs, controls, and more prompt examples?",
@@ -7167,7 +7167,7 @@
     "summary": {
       "scorecardLabel": "Leads on scorecard",
       "scorecardLabelPrelaunch": "Currently leads on scorecard (provisional)",
-      "pricingLabel": "Cheaper on VideoAI",
+      "pricingLabel": "Cheaper on Keyvo",
       "durationLabel": "Max duration",
       "scorecardTemplate": "Leads on scorecard: {engine} leads on {wins}/{total}{best}.",
       "scorecardTemplatePrelaunch": "Currently leads on scorecard (provisional): {engine} leads on {wins}/{total}{best}.",
@@ -7235,7 +7235,7 @@
     "hub": {
       "meta": {
         "title": "AI Pre-Production Tools for Image & Video Workflows",
-        "description": "Build reusable character references and stronger first frames before you generate. Explore VideoAI tools for consistent character creation and AI camera angle control.",
+        "description": "Build reusable character references and stronger first frames before you generate. Explore Keyvo tools for consistent character creation and AI camera angle control.",
         "keywords": [
           "ai pre production tools",
           "image to video workflow tools",
@@ -7257,21 +7257,21 @@
           "title": "Create the still first",
           "body": "Start the frame in Image before you branch into edits, references, or motion.",
           "cta": "Open Image",
-          "imageAlt": "Still image generated in the VideoAI Image workspace before video."
+          "imageAlt": "Still image generated in the Keyvo Image workspace before video."
         },
         "character": {
           "eyebrow": "Character consistency",
           "title": "Create reusable character references",
           "body": "Turn one image into an 8-panel character sheet with 4 full-body angles and 4 close-ups, or create a portrait anchor before you branch into scenes, prompts, and motion.",
           "cta": "Explore Tool",
-          "imageAlt": "Character Builder workspace screenshot from VideoAI."
+          "imageAlt": "Character Builder workspace screenshot from Keyvo."
         },
         "angle": {
           "eyebrow": "Perspective control",
           "title": "Generate stronger first frames from one image",
           "body": "Choose a new camera angle from one image for product shots, storyboards, ad creative, or a stronger image-to-video first frame.",
           "cta": "Explore Tool",
-          "imageAlt": "Angle workspace screenshot from VideoAI."
+          "imageAlt": "Angle workspace screenshot from Keyvo."
         },
         "upscale": {
           "eyebrow": "AI upscale",
@@ -7330,7 +7330,7 @@
     "upscale": {
       "meta": {
         "title": "AI Image & Video Upscale | SeedVR2, Topaz, FlashVSR, Recraft",
-        "description": "Upscale images and short videos with current AI enhancement models including SeedVR2, Topaz, FlashVSR, and Recraft before reusing them in VideoAI workflows.",
+        "description": "Upscale images and short videos with current AI enhancement models including SeedVR2, Topaz, FlashVSR, and Recraft before reusing them in Keyvo workflows.",
         "keywords": [
           "ai upscale",
           "ai image upscaler",
@@ -7340,7 +7340,7 @@
           "flashvsr upscale",
           "recraft crisp upscale"
         ],
-        "imageAlt": "Current VideoAI Upscale interface in English, visitor view."
+        "imageAlt": "Current Keyvo Upscale interface in English, visitor view."
       },
       "hero": {
         "badge": "Image finishing / Post-production",
@@ -7413,12 +7413,12 @@
       "modelGuide": {
         "eyebrow": "Quality and price guide",
         "title": "Compare quality, controls and price.",
-        "body": "In VideoAI, choose your model and output size, then check the quote. Video pricing also depends on your source duration and resolution.",
+        "body": "In Keyvo, choose your model and output size, then check the quote. Video pricing also depends on your source duration and resolution.",
         "columns": {
           "model": "Model",
           "bestFor": "Best for",
           "quality": "Quality profile",
-          "price": "VideoAI price",
+          "price": "Keyvo price",
           "useWhen": "Use when"
         },
         "rows": [
@@ -7440,7 +7440,7 @@
             "model": "FlashVSR Video",
             "bestFor": "Fast video upscales for cheaper review or social post-processing passes.",
             "quality": "Speed-first video enhancement with practical temporal consistency.",
-            "price": "Lower-cost video route; VideoAI estimates from duration, frames, and output pixels.",
+            "price": "Lower-cost video route; Keyvo estimates from duration, frames, and output pixels.",
             "useWhen": "Use when turnaround and cost matter more than premium restoration."
           },
           {
@@ -7982,7 +7982,7 @@
           "same face same outfit ai",
           "image to video character consistency"
         ],
-        "imageAlt": "Reusable AI character sheet preview generated with VideoAI Character Builder.",
+        "imageAlt": "Reusable AI character sheet preview generated with Keyvo Character Builder.",
         "schemaName": "Consistent Character AI",
         "schemaDescription": "Create reusable portrait anchors and 8-panel AI character sheets from one image, optional outfit reference, or scratch, then reuse them across images, edits, and still-reference video workflows.",
         "schemaFeatures": [
@@ -8014,7 +8014,7 @@
         "showcase": {
           "topLabel": "Character Builder workspace",
           "windowLabel": "choose input, generate asset, reuse",
-          "imageAlt": "Full screenshot of the VideoAI Character Builder workspace.",
+          "imageAlt": "Full screenshot of the Keyvo Character Builder workspace.",
           "callouts": [
             {
               "label": "01",
@@ -8315,13 +8315,13 @@
         "primaryCta": "Open Character Builder",
         "panelLeft": "Locked character",
         "panelRight": "Ready to reuse",
-        "panelAlt": "Reusable AI character sheet preview generated with VideoAI Character Builder."
+        "panelAlt": "Reusable AI character sheet preview generated with Keyvo Character Builder."
       }
     },
     "backgroundRemoval": {
       "meta": {
         "title": "Video Background Remover | Green Screen & AI Rotoscoping",
-        "description": "Remove video backgrounds in VideoAI. Create green-screen-style cutouts, AI rotoscoping assets, alpha mattes, transparent WebM, or solid-color clips.",
+        "description": "Remove video backgrounds in Keyvo. Create green-screen-style cutouts, AI rotoscoping assets, alpha mattes, transparent WebM, or solid-color clips.",
         "keywords": [
           "video background remover",
           "remove video background",
@@ -8335,7 +8335,7 @@
         ],
         "imageAlt": "Before and after video background removal preview with a presenter isolated on a transparent-style background.",
         "schemaName": "Video Background Remover",
-        "schemaDescription": "A VideoAI tool for removing backgrounds from short videos, creating AI rotoscoping-style subject cutouts, and exporting transparent video assets.",
+        "schemaDescription": "A Keyvo tool for removing backgrounds from short videos, creating AI rotoscoping-style subject cutouts, and exporting transparent video assets.",
         "howToTitle": "How to remove a video background or create an AI rotoscope cutout",
         "howToDescription": "Upload or select a video, choose transparent, green-screen-style, or solid-color output, run the AI video matting workflow, then save or download the result."
       },
@@ -8429,7 +8429,7 @@
         "eyebrow": "Working steps",
         "title": "Import. Separate. Inspect. Retrieve.",
         "body": "Choose the source video and background treatment. Inspect the edges after processing, then save to your library or download.",
-        "priceNote": "Before you generate, VideoAI displays the estimated price for the selected clip and output settings.",
+        "priceNote": "Before you generate, Keyvo displays the estimated price for the selected clip and output settings.",
         "steps": [
           {
             "title": "Upload or select a video",
@@ -8441,7 +8441,7 @@
           },
           {
             "title": "Preview, save, and reuse",
-            "body": "Compare source and result, download the file, or save it back to the VideoAI library."
+            "body": "Compare source and result, download the file, or save it back to the Keyvo library."
           }
         ]
       },
@@ -8485,7 +8485,7 @@
         },
         {
           "q": "How is pricing estimated?",
-          "a": "VideoAI reads the clip duration and shows a wallet estimate before the run starts. Failed runs are refunded automatically."
+          "a": "Keyvo reads the clip duration and shows a wallet estimate before the run starts. Failed runs are refunded automatically."
         },
         {
           "q": "What is the studio duration limit?",
@@ -8538,7 +8538,7 @@
       "workshops": "Build your next scene.",
       "finishing": "Give your video the finishing touch.",
       "start": "Create your starting point.",
-      "startBody": "No source image yet? Generate one in VideoAI. You can also create voices, music and sound in the Audio workspace.",
+      "startBody": "No source image yet? Generate one in Keyvo. You can also create voices, music and sound in the Audio workspace.",
       "image": "Create an image",
       "audio": "Create audio",
       "browse": "Choose your tool",
@@ -8552,7 +8552,7 @@
   "notFound": {
     "metaTitle": "Page not found",
     "title": "Page not found",
-    "body": "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring VideoAI.",
+    "body": "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring Keyvo.",
     "homeLabel": "Back to homepage",
     "modelsLabel": "Browse video models"
   }

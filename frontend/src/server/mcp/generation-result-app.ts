@@ -69,7 +69,7 @@ function buildGenerationResultAppV4Html(): string {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MaxVideoAI generation</title>
+    <title>Keyvo generation</title>
     <style>
       :root {
         color-scheme: light dark;
@@ -232,14 +232,14 @@ function buildGenerationResultAppV4Html(): string {
     </style>
   </head>
   <body>
-    <article class="card" aria-label="MaxVideoAI generation result">
+    <article class="card" aria-label="Keyvo generation result">
       <header class="header">
-        <div class="brand">MaxVideoAI</div>
+        <div class="brand">Keyvo</div>
         <div class="status" id="status">Ready</div>
       </header>
       <section class="media" aria-live="polite">
         <video id="video" controls playsinline preload="metadata" hidden></video>
-        <img class="image" id="image" alt="Generated MaxVideoAI result" hidden />
+        <img class="image" id="image" alt="Generated Keyvo result" hidden />
         <div class="empty" id="empty">Waiting for a completed generation result.</div>
       </section>
       <section class="details">
@@ -253,10 +253,10 @@ function buildGenerationResultAppV4Html(): string {
         </div>
       </section>
       <footer class="actions">
-        <span class="saved" id="saved">Saved to your MaxVideoAI library</span>
+        <span class="saved" id="saved">Saved to your Keyvo library</span>
         <div class="action-buttons">
           <button class="secondary" type="button" id="download" disabled>Download</button>
-          <button type="button" id="open" disabled>Open in MaxVideoAI</button>
+          <button type="button" id="open" disabled>Open in Keyvo</button>
         </div>
       </footer>
     </article>
@@ -351,8 +351,8 @@ function buildGenerationResultAppV4Html(): string {
         surface.textContent = result?.surface === 'image' ? 'Image' : 'Video';
         price.textContent = money(result?.priceCents, result?.currency);
         saved.textContent = result?.savedToLibrary
-          ? 'Saved to your MaxVideoAI library'
-          : 'Available in your connected MaxVideoAI account';
+          ? 'Saved to your Keyvo library'
+          : 'Available in your connected Keyvo account';
         openUrl = destination;
         openButton.disabled = !openUrl;
         downloadUrl = isComplete ? safeUrl(download?.url) : null;
@@ -383,7 +383,7 @@ function buildGenerationResultAppV4Html(): string {
           image.hidden = false;
         } else {
           empty.textContent = isComplete
-            ? 'The result is saved in MaxVideoAI and can be opened from your library.'
+            ? 'The result is saved in Keyvo and can be opened from your library.'
             : 'This generation is not completed yet.';
           empty.hidden = false;
         }
@@ -450,7 +450,7 @@ function buildGenerationResultAppV4Html(): string {
 
       async function connectMcpApp() {
         await request('ui/initialize', {
-          appInfo: { name: 'MaxVideoAI generation result', version: '1.0.0' },
+          appInfo: { name: 'Keyvo generation result', version: '1.0.0' },
           appCapabilities: { availableDisplayModes: ['inline'] },
           protocolVersion: '2026-01-26',
         });
@@ -580,19 +580,19 @@ function buildGenerationResultAppV5Html(): string {
     )
     .replace(
       '<section class="media" aria-live="polite">',
-      '<section class="audio-art" id="audio-art" hidden aria-hidden="true">\n        <strong class="audio-art-title">Original Audio</strong>\n        <span class="audio-art-copy">Generated and saved by MaxVideoAI</span>\n      </section>\n      <section class="media" id="media" aria-live="polite">',
+      '<section class="audio-art" id="audio-art" hidden aria-hidden="true">\n        <strong class="audio-art-title">Original Audio</strong>\n        <span class="audio-art-copy">Generated and saved by Keyvo</span>\n      </section>\n      <section class="media" id="media" aria-live="polite">',
     )
     .replace(
       '<video id="video" controls playsinline preload="metadata" hidden></video>',
-      '<video id="video" controls playsinline preload="metadata" hidden></video>\n        <audio id="audio" controls preload="metadata" hidden aria-label="Generated MaxVideoAI audio"></audio>',
+      '<video id="video" controls playsinline preload="metadata" hidden></video>\n        <audio id="audio" controls preload="metadata" hidden aria-label="Generated Keyvo audio"></audio>',
     )
     .replace(
       '<span class="detail-value" id="price">—</span>\n        </div>',
       '<span class="detail-value" id="price">—</span>\n        </div>\n        <div>\n          <span class="detail-label">Duration</span>\n          <span class="detail-value" id="duration">—</span>\n        </div>',
     )
     .replace(
-      '<button type="button" id="open" disabled>Open in MaxVideoAI</button>',
-      '<button class="secondary" type="button" id="reuse" disabled>Reuse settings</button>\n          <button type="button" id="open" disabled>Open in MaxVideoAI</button>',
+      '<button type="button" id="open" disabled>Open in Keyvo</button>',
+      '<button class="secondary" type="button" id="reuse" disabled>Reuse settings</button>\n          <button type="button" id="open" disabled>Open in Keyvo</button>',
     )
     .replace(
       "const video = document.getElementById('video');",
@@ -664,7 +664,7 @@ function buildGenerationResultAppV5Html(): string {
     )
     .replace(
       ": 'This generation is not completed yet.';",
-      ": result?.status === 'failed'\n              ? 'This generation failed. Open MaxVideoAI to review the failure and refund state.'\n              : 'This generation is not completed yet.';",
+      ": result?.status === 'failed'\n              ? 'This generation failed. Open Keyvo to review the failure and refund state.'\n              : 'This generation is not completed yet.';",
     )
     .replace(
       "video.pause();\n          window.parent.postMessage",
@@ -699,8 +699,8 @@ export function registerGenerationResultApp(server: McpServer): void {
       `maxvideoai-generation-result-${index + 1}`,
       resourceUri,
       {
-        title: 'VideoAI generation result',
-        description: 'Inline player for one completed VideoAI generation.',
+        title: 'Keyvo generation result',
+        description: 'Inline player for one completed Keyvo generation.',
         mimeType: 'text/html;profile=mcp-app',
         _meta: {
           ui: {
@@ -723,7 +723,7 @@ export function registerGenerationResultApp(server: McpServer): void {
               prefersBorder: true,
               csp: { connectDomains: [], resourceDomains },
             },
-            'openai/widgetDescription': 'A playable VideoAI generation saved in the connected account.',
+            'openai/widgetDescription': 'A playable Keyvo generation saved in the connected account.',
             'openai/widgetPrefersBorder': true,
             'openai/widgetCSP': {
               connect_domains: [],

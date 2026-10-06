@@ -128,14 +128,14 @@ test('reference handoff renders a portable multi-file MCP App that reports impor
 
   const previous = await client.readResource({ uri: 'ui://maxvideoai/reference-upload-v2.html' });
   assert.equal(createHash('sha256').update(previous.contents[0]?.text ?? '').digest('hex'),
-    '64bae6da32d126fa68ddcb2637e4d42fedbe18cf448604e880f05261656db050');
+    '3e05c8515c7c49b33c81af13d342165bc053c42a3a1a933518857426a5935692');
   assert.doesNotMatch(html, /MaxVideoAI/);
-  assert.match(html, /connected VideoAI library/);
+  assert.match(html, /connected (?:VideoAI|Keyvo) library/);
   const legacyResult = await client.readResource({ uri: LEGACY_APP_URI });
   const legacyHtml = legacyResult.contents[0]?.text ?? '';
   assert.equal(
     createHash('sha256').update(legacyHtml).digest('hex'),
-    '0cd9c3fc86bd50bc662cfacb6cb8c9c52b993c3ad59469cc7878998745ce1131',
+    '6c0d63d42b27d7b25be909f0e8ce2cd86efc4a2f0e3044ee2a74be520441f2e5',
     'v1 must retain the rendered origin/main widget bytes',
   );
   assert.match(legacyHtml, /<input\b[^>]*type=["']file["'][^>]*multiple/is);
@@ -260,7 +260,7 @@ test('reference handoff requests a fresh capability when retrying a failed later
     `mru_${'0'.repeat(43)}`,
     `mru_${'0'.repeat(42)}1`,
   ]);
-  assert.deepEqual(modelContexts, ['Private VideoAI references imported and ready:\n- one.png: ma_00000000000000000000000000000000 (image)']);
+  assert.deepEqual(modelContexts, ['Private Keyvo references imported and ready:\n- one.png: ma_00000000000000000000000000000000 (image)']);
   assert.equal(dom.window.document.getElementById('results')?.textContent, 'one.png — readytwo.png — failed');
   assert.match(dom.window.document.getElementById('error')?.textContent ?? '', /1 file\(s\) failed/);
   assert.equal(dom.window.document.getElementById('selection')?.textContent, '1 reference(s) ready');
@@ -280,8 +280,8 @@ test('reference handoff requests a fresh capability when retrying a failed later
   assert.deepEqual(parts, starts);
   assert.deepEqual(completes, starts);
   assert.deepEqual(modelContexts, [
-    'Private VideoAI references imported and ready:\n- one.png: ma_00000000000000000000000000000000 (image)',
-    'Private VideoAI references imported and ready:\n- one.png: ma_00000000000000000000000000000000 (image)\n- two.png: ma_22222222222222222222222222222222 (image)',
+    'Private Keyvo references imported and ready:\n- one.png: ma_00000000000000000000000000000000 (image)',
+    'Private Keyvo references imported and ready:\n- one.png: ma_00000000000000000000000000000000 (image)\n- two.png: ma_22222222222222222222222222222222 (image)',
   ]);
   assert.equal(dom.window.document.getElementById('results')?.textContent, 'two.png — ready');
   assert.equal(dom.window.document.getElementById('error')?.textContent, '');

@@ -501,8 +501,8 @@ export type StudioCanvasNodeCopyKey = keyof StudioCopy['canvas']['nodes'] & stri
 
 export const DEFAULT_STUDIO_COPY: StudioCopy = {
   projects: {
-    metaTitle: 'Studio Projects | VideoAI',
-    heroBadge: 'VideoAI Studio',
+    metaTitle: 'Studio Projects | Keyvo',
+    heroBadge: 'Keyvo Studio',
     title: 'My projects',
     subtitle: 'Create a new project or resume an existing one.',
     createTitle: 'New project',
@@ -564,7 +564,7 @@ export const DEFAULT_STUDIO_COPY: StudioCopy = {
     },
   },
   topbar: {
-    productName: 'VideoAI Editor',
+    productName: 'Keyvo Editor',
     breadcrumbProjects: 'Projects',
     breadcrumbWorkspace: 'Workspace',
     workspaceViewLabel: 'Workspace view',
@@ -619,7 +619,7 @@ export const DEFAULT_STUDIO_COPY: StudioCopy = {
     sequencePlural: 'sequences',
   },
   canvas: {
-    ariaLabel: 'VideoAI editor canvas',
+    ariaLabel: 'Keyvo editor canvas',
     guide: {
       controls: {
         menu: 'Guide options',
@@ -1009,7 +1009,7 @@ export const DEFAULT_STUDIO_COPY: StudioCopy = {
       copyLastAnswer: 'Copy last answer',
       reuseLastMessage: 'Reuse last message',
       clearConversation: 'Clear conversation',
-      defaultChatSystemPrompt: 'You are helping plan a VideoAI Studio generation graph. Answer with concise, reusable production instructions.',
+      defaultChatSystemPrompt: 'You are helping plan a Keyvo Studio generation graph. Answer with concise, reusable production instructions.',
       addImage: 'Add image',
       addVideo: 'Add video',
       addAudio: 'Add audio',
@@ -1520,7 +1520,7 @@ export const DEFAULT_STUDIO_COPY: StudioCopy = {
     serverMp4: 'Server MP4',
     freeExportsRemaining: '{count} free server export remaining',
     freeExportsRemainingPlural: '{count} free server exports remaining',
-    finalRenderJob: 'Final render job runs on VideoAI servers.',
+    finalRenderJob: 'Final render job runs on Keyvo servers.',
     serverProgress: 'Server export progress',
     downloadMp4: 'Download MP4',
     advanced: 'Advanced',

@@ -12,7 +12,7 @@ const forbidden = /fal(?:\.ai)?|fail\.ai|byteplus|modelark|google\s+vertex|kling
 
 test('historical messages use the current display brand and retain generic classification', () => {
   const stored = 'MaxVideoAI needs a different reference. Change the image and try again.';
-  const displayed = 'VideoAI needs a different reference. Change the image and try again.';
+  const displayed = 'Keyvo needs a different reference. Change the image and try again.';
   assert.equal(toUserFacingFailureMessage(stored), displayed);
   assert.equal(toUserFacingRefundReason(stored), displayed);
   assert.equal(isGenericFailureDescription('MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'), true);
@@ -59,7 +59,7 @@ test('raw HTTP status failures never leak into job or refund copy', () => {
 
   assert.equal(
     toUserFacingFailureMessage(rawMessage),
-    'VideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+    'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
   );
   assert.equal(toUserFacingRefundReason(rawMessage), 'Render could not be completed.');
 });

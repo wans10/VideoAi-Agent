@@ -1,7 +1,7 @@
 import type { Dictionary } from '../dictionary-types';
 
 export const nav: Dictionary['nav'] = {
-    brand: 'VideoAI',
+    brand: 'Keyvo',
     links: [
       { key: 'models', href: '/models' },
       { key: 'examples', href: '/examples' },

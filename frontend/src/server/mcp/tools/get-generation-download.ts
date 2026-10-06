@@ -27,9 +27,9 @@ export function registerGetGenerationDownloadTool(
   server.registerTool(
     'get_generation_download',
     {
-      title: 'Refresh a VideoAI generation download',
+      title: 'Refresh a Keyvo generation download',
       description:
-        'Use this from the VideoAI result app to create a fresh short-lived attachment URL for one completed owned generation.',
+        'Use this from the Keyvo result app to create a fresh short-lived attachment URL for one completed owned generation.',
       inputSchema: getGenerationStatusInputSchema,
       outputSchema: generationDownloadOutputSchema,
       annotations: {

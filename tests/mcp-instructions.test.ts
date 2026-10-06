@@ -36,7 +36,7 @@ test('every capability combination fits the host instruction window without trun
 test('the first kilobyte routes video requests and preserves the paid approval boundary', async () => {
   const instructions = await getInstructions({ paidGeneration: true, referenceUploads: true });
   const visible = Buffer.from(instructions, 'utf8').subarray(0, 1000).toString('utf8');
-  assert.match(visible, /VideoAI.*video/i);
+  assert.match(visible, /(?:VideoAI|Keyvo).*video/i);
   assert.match(visible, /prepare_generation/);
   assert.match(visible, /exact.*(?:quote|price)/i);
   assert.match(visible, /explicit.*approval/i);
@@ -174,7 +174,7 @@ test('model details carry mode and reference guidance at the point of discovery'
   assert.match(d, /mask image with the mask role/i);
   assert.match(d, /promptingSources.*empty.*do not invent.*web search/s);
   assert.match(d, /if empty, say no reviewed official source was returned/i);
-  assert.match(d, /guides.*not VideoAI availability or pricing/s);
+  assert.match(d, /guides.*not (?:VideoAI|Keyvo) availability or pricing/s);
 });
 
 test('recommendation and budget tools retain choice, quality and estimate boundaries', async () => {

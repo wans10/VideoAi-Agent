@@ -3,11 +3,11 @@ import type { ReactNode } from 'react';
 import { SITE_ORIGIN } from '@/lib/siteOrigin';
 
 const DESCRIPTION =
-  '登录 VideoAI 影像工作室，创作视频、图片与声音，管理账户余额和生成作品。';
+  '登录 Keyvo 影像工作室，创作视频、图片与声音，管理账户余额和生成作品。';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'VideoAI — 登录',
+    absolute: 'Keyvo — 登录',
   },
   description: DESCRIPTION,
   alternates: {
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
     follow: false,
   },
   openGraph: {
-    title: 'VideoAI — 登录',
+    title: 'Keyvo — 登录',
     description: DESCRIPTION,
     url: `${SITE_ORIGIN}/login`,
   },
   twitter: {
-    title: 'VideoAI — 登录',
+    title: 'Keyvo — 登录',
     description: DESCRIPTION,
   },
 };

@@ -173,6 +173,9 @@ function serializeHostLocaleCookie(name: string, locale: string, maxAge: number)
 
 export function resolveSharedLocaleCookieDomain(hostname: string): string | undefined {
   const normalized = hostname.trim().toLowerCase();
+  if (normalized === 'keyvo.cn' || normalized.endsWith('.keyvo.cn')) {
+    return '.keyvo.cn';
+  }
   return normalized === 'maxvideoai.com' || normalized.endsWith('.maxvideoai.com')
     ? '.maxvideoai.com'
     : undefined;

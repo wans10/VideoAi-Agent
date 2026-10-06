@@ -11,7 +11,7 @@ export function buildVideoShareIntent(target: LinkShareTarget, url: string, sign
   const note = signature.trim();
   const message = note ? `${url}\n\n${note}` : url;
   if (target === 'email') {
-    const subject = locale.startsWith('fr') ? 'Vidéo partagée avec VideoAI' : locale.startsWith('es') ? 'Vídeo compartido con VideoAI' : locale.startsWith('zh') ? '通过 VideoAI 分享的视频' : 'Video shared with VideoAI';
+    const subject = locale.startsWith('fr') ? 'Vidéo partagée avec Keyvo' : locale.startsWith('es') ? 'Vídeo compartido con Keyvo' : locale.startsWith('zh') ? '通过 Keyvo 分享的视频' : 'Video shared with Keyvo';
     return `mailto:?${new URLSearchParams({ subject, body: message })}`;
   }
   if (target === 'x') {

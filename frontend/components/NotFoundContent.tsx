@@ -19,7 +19,7 @@ export function NotFoundContent({
   homeHref = '/',
   modelsHref = '/models',
   title = 'Page not found',
-  body = "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring VideoAI.",
+  body = "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring Keyvo.",
   homeLabel = 'Back to homepage',
   modelsLabel = 'Browse video models',
 }: NotFoundContentProps) {

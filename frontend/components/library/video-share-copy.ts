@@ -8,7 +8,7 @@ export function videoShareCopy(locale: string) {
     "more": "更多",
     "heading": "分享视频",
     "signature": "建议署名",
-    "defaultSignature": "使用 VideoAI 创作的视频",
+    "defaultSignature": "使用 Keyvo 创作的视频",
     "hashtag": "建议话题标签",
     "shareApps": "通过应用分享",
     "saveMp4": "保存 MP4",
@@ -38,7 +38,7 @@ export function videoShareCopy(locale: string) {
 };
   if (locale.startsWith('fr')) return {
     share: 'Partager', link: 'Lien', email: 'E-mail', reels: 'Reels', shorts: 'Shorts', more: 'Autres',
-    heading: 'Partager', signature: 'Signature proposée', defaultSignature: 'Vidéo créée avec VideoAI', hashtag: 'Hashtag proposé',
+    heading: 'Partager', signature: 'Signature proposée', defaultSignature: 'Vidéo créée avec Keyvo', hashtag: 'Hashtag proposé',
     shareApps: 'Via les apps', saveMp4: 'Enregistrer MP4', preparing: 'Préparation…',
     xShareApps: 'Partager le MP4 via les apps', xNativeHint: 'Choisissez X si l’app apparaît, puis vérifiez le texte avant de publier.',
     nativeVideoHint: 'Choisissez l’app souhaitée si elle apparaît. Le texte proposé peut ne pas être repris.',
@@ -56,7 +56,7 @@ export function videoShareCopy(locale: string) {
   };
   if (locale.startsWith('es')) return {
     share: 'Compartir', link: 'Enlace', email: 'E-mail', reels: 'Reels', shorts: 'Shorts', more: 'Otros',
-    heading: 'Compartir', signature: 'Firma sugerida', defaultSignature: 'Vídeo creado con VideoAI', hashtag: 'Hashtag sugerido',
+    heading: 'Compartir', signature: 'Firma sugerida', defaultSignature: 'Vídeo creado con Keyvo', hashtag: 'Hashtag sugerido',
     shareApps: 'Con apps', saveMp4: 'Guardar MP4', preparing: 'Preparando…',
     xShareApps: 'Compartir MP4 con apps', xNativeHint: 'Elige X si aparece y revisa el texto antes de publicar.',
     nativeVideoHint: 'Elige la app si aparece. Puede que no se incluya el texto sugerido.',
@@ -74,7 +74,7 @@ export function videoShareCopy(locale: string) {
   };
   return {
     share: 'Share', link: 'Link', email: 'E-mail', reels: 'Reels', shorts: 'Shorts', more: 'More',
-    heading: 'Share', signature: 'Suggested signature', defaultSignature: 'Video created with VideoAI', hashtag: 'Suggested hashtag',
+    heading: 'Share', signature: 'Suggested signature', defaultSignature: 'Video created with Keyvo', hashtag: 'Suggested hashtag',
     shareApps: 'Via apps', saveMp4: 'Save MP4', preparing: 'Preparing…',
     xShareApps: 'Share MP4 via apps', xNativeHint: 'Choose X if it appears, then review the text before posting.',
     nativeVideoHint: 'Choose the app if it appears. The suggested text may not be included.',

@@ -10,8 +10,8 @@ import type { ImageEngineOption } from './ImageWorkspace';
 import { sortImageWorkspaceEngineOptions } from './_lib/image-workspace-engine-options';
 
 export const metadata: Metadata = {
-  title: 'Generate Images – VideoAI Workspace',
-  description: 'Create and edit high-fidelity images with Nano Banana and upcoming Fal image engines directly inside the VideoAI workspace.',
+  title: 'Generate Images – Keyvo Workspace',
+  description: 'Create and edit high-fidelity images with Nano Banana and upcoming Fal image engines directly inside the Keyvo workspace.',
   robots: {
     index: false,
     follow: true,

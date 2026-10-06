@@ -7,7 +7,7 @@ import WorkspacePage from '../WorkspacePage.client';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'VideoAI Editor',
+  title: 'Keyvo Editor',
   robots: {
     index: false,
     follow: false,

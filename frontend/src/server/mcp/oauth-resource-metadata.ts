@@ -53,7 +53,7 @@ export function buildProtectedResourceMetadata(
 
   return {
     resource: resource.toString(),
-    resource_name: 'VideoAI MCP',
+    resource_name: 'Keyvo MCP',
     authorization_servers: [authorizationServer],
     bearer_methods_supported: ['header'],
     scopes_supported: ['openid', 'email', 'profile'],

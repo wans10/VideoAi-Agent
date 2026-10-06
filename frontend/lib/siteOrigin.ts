@@ -1,4 +1,4 @@
-const PRODUCTION_SITE_ORIGIN = 'https://videoai.omninodetech.com';
+const PRODUCTION_SITE_ORIGIN = 'https://app.keyvo.cn';
 
 function toOrigin(value: string | null | undefined): string | null {
   if (!value) return null;

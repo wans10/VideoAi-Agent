@@ -67,7 +67,8 @@ export async function updateRecoveredPassword(
 export function recoveryEmailDestination(value: string | undefined): { locale?: string; next: string } {
   try {
     const target = new URL(value ?? '');
-    if (target.origin !== 'https://maxvideoai.com' || target.pathname !== '/auth/callback') return { next: '/app' };
+    const isAllowedOrigin = target.origin === 'https://app.keyvo.cn' || target.origin === 'https://maxvideoai.com';
+    if (!isAllowedOrigin || target.pathname !== '/auth/callback') return { next: '/app' };
     const locale = target.searchParams.get('lang') ?? '';
     return { locale: ['en', 'fr', 'es', 'zh'].includes(locale) ? locale : undefined, next: safeRecoveryNext(target.searchParams.get('next')) };
   } catch {
@@ -76,7 +77,7 @@ export function recoveryEmailDestination(value: string | undefined): { locale?: 
 }
 
 export function recoveryContinuationHref(next: string, locale: string): string {
-  const target = new URL(safeRecoveryNext(next), 'https://maxvideoai.com');
+  const target = new URL(safeRecoveryNext(next), 'https://app.keyvo.cn');
   target.searchParams.set('lang', ['en', 'fr', 'es', 'zh'].includes(locale) ? locale : 'en');
   return target.pathname + target.search + target.hash;
 }

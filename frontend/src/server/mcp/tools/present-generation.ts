@@ -110,11 +110,11 @@ export function registerPresentGenerationTool(
   server.registerTool(
     'present_generation',
     {
-      title: 'Present a VideoAI generation',
+      title: 'Present a Keyvo generation',
       description: [
-        'Use this once to deliver a completed owned VideoAI generation as inline video, image or original Audio in a compatible UI host.',
+        'Use this once to deliver a completed owned Keyvo generation as inline video, image or original Audio in a compatible UI host.',
         'First verify completion with get_generation_status or list_recent_generations.',
-        'Explain that the result is saved in the same connected VideoAI library.',
+        'Explain that the result is saved in the same connected Keyvo library.',
         'If the host does not render the UI, use the returned resource link and library destination as fallback; never invent URLs.',
         'Do not poll, generate, retry, confirm, or charge with this tool.',
       ].join(' '),

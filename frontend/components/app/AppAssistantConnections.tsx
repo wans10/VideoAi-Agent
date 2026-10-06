@@ -24,10 +24,10 @@ function AssistantMark({ assistant }: { assistant: (typeof assistants)[number] }
 export function AppAssistantConnections({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
   if (!mcpPublication.publicMarketing) return null;
   const copy = locale === 'fr'
-    ? { title: 'Créez avec votre assistant', detail: 'Les modèles VideoAI, depuis votre conversation.', connect: 'Connecter', all: 'Tous les assistants', newTab: 'nouvel onglet' }
+    ? { title: 'Créez avec votre assistant', detail: 'Les modèles Keyvo, depuis votre conversation.', connect: 'Connecter', all: 'Tous les assistants', newTab: 'nouvel onglet' }
     : locale === 'es'
-      ? { title: 'Crea con tu asistente', detail: 'Los modelos de VideoAI, desde tu conversación.', connect: 'Conectar', all: 'Todos los asistentes', newTab: 'pestaña nueva' }
-      : locale === 'zh' ? { title: '与您的助手一起创作', detail: '在对话中使用 VideoAI 模型。', connect: '连接', all: '所有助手', newTab: '新标签页' } : { title: 'Create with your assistant', detail: 'VideoAI models, from your conversation.', connect: 'Connect', all: 'All assistants', newTab: 'new tab' };
+      ? { title: 'Crea con tu asistente', detail: 'Los modelos de Keyvo, desde tu conversación.', connect: 'Conectar', all: 'Todos los asistentes', newTab: 'pestaña nueva' }
+      : locale === 'zh' ? { title: '与您的助手一起创作', detail: '在对话中使用 Keyvo 模型。', connect: '连接', all: '所有助手', newTab: '新标签页' } : { title: 'Create with your assistant', detail: 'Keyvo models, from your conversation.', connect: 'Connect', all: 'All assistants', newTab: 'new tab' };
   return <section className="app-assistant-connections" aria-label={copy.title}>
     <h3>{copy.title}</h3><p>{copy.detail}</p>
     <div className="app-assistant-options">{assistants.map((assistant) => <Link key={assistant.id} href={getPathname({ locale, href: assistant.href })} target="_blank" rel="noopener noreferrer" prefetch={false} onClick={onNavigate}>

@@ -508,7 +508,7 @@ test('create_topup_link has exact UUID input, annotations, and explicit non-paym
   });
   assert.deepEqual(tool.inputSchema.required, ['quoteId']);
   assert.deepEqual(Object.keys(tool.inputSchema.properties ?? {}), ['quoteId']);
-  assert.match(tool.description ?? '', /short-lived VideoAI web handoff/i);
+  assert.match(tool.description ?? '', /short-lived (?:VideoAI|Keyvo) web handoff/i);
   assert.match(tool.description ?? '', /does not take payment/i);
   assert.match(tool.description ?? '', /invalidates the old short-lived quote/i);
   assert.match(tool.description ?? '', /fresh prepare_generation/i);

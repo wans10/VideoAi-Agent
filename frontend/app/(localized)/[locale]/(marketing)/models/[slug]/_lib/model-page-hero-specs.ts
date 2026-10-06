@@ -97,8 +97,8 @@ export function normalizeHeroSubtitle(text: string, locale: AppLocale): string {
   if (!text) return text;
   if (locale !== 'en') return text;
   let output = text;
-  output = output.replace(/\b(in|inside|via|on)\s+(?:MaxVideoAI|VideoAI)\b/gi, '');
-  output = output.replace(/\b(?:MaxVideoAI|VideoAI)\b/gi, '');
+  output = output.replace(/\b(in|inside|via|on)\s+(?:MaxVideoAI|VideoAI|Keyvo)\b/gi, '');
+  output = output.replace(/\b(?:MaxVideoAI|VideoAI|Keyvo)\b/gi, '');
   let aiCount = 0;
   output = output.replace(/\bAI\b/gi, (match) => {
     aiCount += 1;

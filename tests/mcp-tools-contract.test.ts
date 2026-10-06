@@ -285,7 +285,7 @@ test('server advertises only the five read-only discovery tools with narrow guid
   assert.ok(accountTool);
   assert.equal(
     accountTool.description,
-    'Use this when the user asks which VideoAI account is connected, its current credit balance, trial state, spending limits, or safe account destinations. Do not use it to reveal a private email, collect payment details, charge credits, change the wallet, or generate media.',
+    'Use this when the user asks which Keyvo account is connected, its current credit balance, trial state, spending limits, or safe account destinations. Do not use it to reveal a private email, collect payment details, charge credits, change the wallet, or generate media.',
   );
   for (const tool of result.tools.filter((candidate) => candidate.name !== 'get_account_status')) {
     assert.match(tool.description ?? '', /Use this when/i);

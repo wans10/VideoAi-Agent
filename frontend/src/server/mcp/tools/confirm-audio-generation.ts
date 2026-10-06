@@ -21,7 +21,7 @@ export function registerConfirmAudioGenerationTool(
   server.registerTool(
     'confirm_audio_generation',
     {
-      title: 'Confirm a VideoAI Audio generation',
+      title: 'Confirm a Keyvo Audio generation',
       description: [
         'Use only after explicit user approval of the exact fresh quote returned by prepare_audio_generation.',
         'Display the exact price and wait for approval first; ambiguous assent is not confirmation.',

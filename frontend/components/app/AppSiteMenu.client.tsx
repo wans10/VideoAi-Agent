@@ -46,12 +46,12 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
   const openerRef = useRef<HTMLElement | null>(null);
   const titleId = useId();
   const copy = locale === 'zh'
-    ? { menu: '创作工作室', openMenu: '打开 VideoAI 导航', close: '关闭', site: '探索 VideoAI', app: '我的工作室', preferences: '偏好设置', language: '语言', theme: '外观', signIn: '登录', signUp: '注册', signOut: '退出登录', assistants: '智能助手', account: '账户', newTab: '新窗口' }
+    ? { menu: '创作工作室', openMenu: '打开 Keyvo 导航', close: '关闭', site: '探索 Keyvo', app: '我的工作室', preferences: '偏好设置', language: '语言', theme: '外观', signIn: '登录', signUp: '注册', signOut: '退出登录', assistants: '智能助手', account: '账户', newTab: '新窗口' }
     : locale === 'fr'
-    ? { menu: 'Menu', openMenu: 'Ouvrir le menu VideoAI', close: 'Fermer', site: 'Explorer VideoAI', app: 'Application', preferences: 'Préférences', language: 'Langue', theme: 'Apparence', signIn: 'Connexion', signUp: 'Créer un compte', signOut: 'Déconnexion', assistants: 'Assistants', account: 'Compte', newTab: 'nouvel onglet' }
+    ? { menu: 'Menu', openMenu: 'Ouvrir le menu Keyvo', close: 'Fermer', site: 'Explorer Keyvo', app: 'Application', preferences: 'Préférences', language: 'Langue', theme: 'Apparence', signIn: 'Connexion', signUp: 'Créer un compte', signOut: 'Déconnexion', assistants: 'Assistants', account: 'Compte', newTab: 'nouvel onglet' }
     : locale === 'es'
-      ? { menu: 'Menú', openMenu: 'Abrir el menú de VideoAI', close: 'Cerrar', site: 'Explorar VideoAI', app: 'Aplicación', preferences: 'Preferencias', language: 'Idioma', theme: 'Apariencia', signIn: 'Entrar', signUp: 'Crear cuenta', signOut: 'Cerrar sesión', assistants: 'Asistentes', account: 'Cuenta', newTab: 'pestaña nueva' }
-      : { menu: 'Menu', openMenu: 'Open VideoAI menu', close: 'Close', site: 'Explore VideoAI', app: 'Application', preferences: 'Preferences', language: 'Language', theme: 'Appearance', signIn: 'Sign in', signUp: 'Create account', signOut: 'Sign out', assistants: 'Assistants', account: 'Account', newTab: 'new tab' };
+      ? { menu: 'Menú', openMenu: 'Abrir el menú de Keyvo', close: 'Cerrar', site: 'Explorar Keyvo', app: 'Aplicación', preferences: 'Preferencias', language: 'Idioma', theme: 'Apariencia', signIn: 'Entrar', signUp: 'Crear cuenta', signOut: 'Cerrar sesión', assistants: 'Asistentes', account: 'Cuenta', newTab: 'pestaña nueva' }
+      : { menu: 'Menu', openMenu: 'Open Keyvo menu', close: 'Close', site: 'Explore Keyvo', app: 'Application', preferences: 'Preferences', language: 'Language', theme: 'Appearance', signIn: 'Sign in', signUp: 'Create account', signOut: 'Sign out', assistants: 'Assistants', account: 'Account', newTab: 'new tab' };
   const open = (trigger: HTMLElement) => {
     openerRef.current = trigger;
     dialogRef.current?.showModal();
@@ -86,7 +86,7 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
         <BrandLockup caption={copy.menu} /><AppGlyph name="menu" />
       </button>
       <dialog ref={dialogRef} className="app-site-dialog" aria-labelledby={titleId} onClick={(event) => { if (event.target === event.currentTarget) close(); }}>
-        <div className="app-site-dialog-heading"><h2 id={titleId}>VideoAI</h2><button type="button" onClick={close} autoFocus>{copy.close} ×</button></div>
+        <div className="app-site-dialog-heading"><h2 id={titleId}>Keyvo</h2><button type="button" onClick={close} autoFocus>{copy.close} ×</button></div>
         <div ref={bodyRef} className="app-site-dialog-body">
           <AppAssistantConnections locale={locale} onNavigate={close} />
           <section aria-labelledby={`${titleId}-app`}><h3 id={`${titleId}-app`}>{copy.app}</h3>

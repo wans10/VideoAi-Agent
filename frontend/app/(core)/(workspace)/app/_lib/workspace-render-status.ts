@@ -76,7 +76,7 @@ export function convertJobToLocalRender(job: Job, options: LocalRenderFromJobOpt
     (normalizedStatus === 'completed'
       ? 'Render completed.'
       : normalizedStatus === 'failed'
-        ? 'VideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+        ? 'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
         : pendingMessage);
   const jobThumb = job.thumbUrl && !isPlaceholderMediaUrl(job.thumbUrl) ? job.thumbUrl : null;
   const thumbUrl =
