@@ -11,20 +11,23 @@ import {
   audioRequestToGenerationBody,
   type CanonicalAudioRequest,
 } from './audio-normalization';
-import { audioQuoteRepository } from './audio-quote-repository';
+import { audioQuoteRepository, audioQuoteRepositoryForActor } from './audio-quote-repository';
 import {
   buildAudioQuotePricingSnapshot,
   type ResolvedAudioReference,
 } from './audio-quote-snapshot';
-import { resolveOwnedAudioReference } from './audio-reference-assets';
+import { resolveOwnedAudioReferenceForActor } from './audio-reference-assets';
 import { AgentApiError } from './errors';
 import type { AgentPrincipal } from './principal';
+import {requireAudioGenerationActor, quoteMatchesActor, type GenerationActor} from './generation-actor';
 import {
   checkMcpSpendingLimits,
   MCP_SPENDING_APPROVAL_PATH,
   type McpSpendingDecision,
 } from './spending-limits';
 import type { InsertPreparedQuoteInput, McpGenerationQuote } from './quote-repository';
+
+import {customerDisplayPrice,type CustomerDisplayPrice} from '@/lib/customer-price-presentation';
 
 export type PrepareAudioGenerationInput = Omit<CanonicalAudioRequest, 'schemaVersion' | 'settings' | 'references' | 'outputCount'> & {
   schemaVersion?: 1;
@@ -38,7 +41,7 @@ export type PreparedAudioGeneration = {
   expiresAt: string;
   requestHash: string;
   summary: CanonicalAudioRequest;
-  price: { amountCents: number; currency: string };
+  price: CustomerDisplayPrice;
   balance: { beforeCents: number; afterCents: number };
   fundingMode: 'wallet';
   confirmationRequired: true;
@@ -53,7 +56,7 @@ export type PrepareAudioGenerationDependencies = {
   getAccountRestriction(userId: string): Promise<AccountRestriction>;
   listCapabilities(): AudioCapabilities;
   resolveReference(
-    principal: AgentPrincipal,
+    principal: GenerationActor,
     reference: CanonicalAudioRequest['references'][number],
   ): Promise<ResolvedAudioReference>;
   prepareRun(body: ReturnType<typeof audioRequestToGenerationBody>, userId: string): Promise<PreparedAudioRun>;
@@ -116,7 +119,7 @@ const defaultDependencies: PrepareAudioGenerationDependencies = {
   paidGenerationEnabled: () => false,
   getAccountRestriction: getActiveAccountRestriction,
   listCapabilities: () => listAudioCapabilities(),
-  resolveReference: (principal, reference) => resolveOwnedAudioReference(principal, reference),
+  resolveReference: (principal, reference) => resolveOwnedAudioReferenceForActor(principal, reference),
   prepareRun: (body, userId) => prepareAudioRun(body, userId),
   getWalletSummary,
   withTransaction: callback => withDbTransaction(executor => callback(executor)),
@@ -132,6 +135,15 @@ export async function prepareAudioGeneration(
   dependencies: PrepareAudioGenerationDependencies = defaultDependencies,
 ): Promise<PreparedAudioGeneration> {
   requirePrincipal(principal);
+  return prepareAudioGenerationForActor(input, principal, dependencies);
+}
+
+export async function prepareAudioGenerationForActor(
+  input: PrepareAudioGenerationInput,
+  principal: GenerationActor,
+  dependencies: PrepareAudioGenerationDependencies = defaultDependencies,
+): Promise<PreparedAudioGeneration> {
+  requireAudioGenerationActor(principal);
   if (!dependencies.paidGenerationEnabled()) {
     throw new AgentApiError('ENGINE_UNAVAILABLE', 'Paid Audio generation is not available.');
   }
@@ -197,7 +209,7 @@ export async function prepareAudioGeneration(
       { executor },
     );
     if (!spending.allowed) throw spendingError(dependencies);
-    return dependencies.insertPreparedQuote({
+    const inserted = await dependencies.insertPreparedQuote({
       userId: principal.userId,
       oauthClientId: principal.clientId,
       request,
@@ -208,6 +220,8 @@ export async function prepareAudioGeneration(
       currency,
       fundingMode: 'wallet',
     }, { executor, now: dependencies.now });
+    if (!quoteMatchesActor(inserted, principal)) throw new AgentApiError('INTERNAL_ERROR', 'The Audio quote scope is inconsistent.');
+    return inserted;
   });
 
   return {
@@ -215,7 +229,7 @@ export async function prepareAudioGeneration(
     expiresAt: quote.expiresAt.toISOString(),
     requestHash,
     summary: request,
-    price: { amountCents: priceCents, currency },
+    price: customerDisplayPrice(priceCents,currency),
     balance: {
       beforeCents: wallet.balanceCents,
       afterCents: Math.max(0, wallet.balanceCents - priceCents),
@@ -237,4 +251,12 @@ export function createPrepareAudioGenerationService(
   };
   return (input: PrepareAudioGenerationInput, principal: AgentPrincipal) =>
     prepareAudioGeneration(input, principal, resolved);
+}
+
+export function createPrepareAudioGenerationForActorService(accountUrl: string, dependencies: Partial<PrepareAudioGenerationDependencies> = {}) {
+  return (input: PrepareAudioGenerationInput, actor: GenerationActor) => {
+    requireAudioGenerationActor(actor);
+    const quotes = audioQuoteRepositoryForActor(actor);
+    return prepareAudioGenerationForActor(input, actor, {...defaultDependencies, insertPreparedQuote: quotes.insertPreparedQuote, ...dependencies, accountUrl});
+  };
 }

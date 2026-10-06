@@ -68,6 +68,7 @@
     ],
     "login": "Iniciar sesión",
     "cta": "Generar",
+    "startCreating": "Empezar a crear",
     "linkLabels": {
       "models": "Modelos",
       "examples": "Ejemplos",
@@ -77,7 +78,8 @@
       "pricing": "Precios",
       "docs": "Documentación",
       "blog": "Blog",
-      "connect": "Asistentes"
+      "connect": "Asistentes",
+      "studio": "Studio"
     },
     "badges": {
       "new": "Nuevo"
@@ -306,7 +308,7 @@
     "sections": [
       {
         "title": "Archivo de Sora y alternativas",
-        "body": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
+        "body": "La generación con Sora está cerrada. La fecha anunciada de cierre de la API era el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
       },
       {
         "title": "Veo 3: texto a video cinemático",
@@ -362,7 +364,7 @@
       },
       {
         "question": "¿Se puede seguir generando con Sora?",
-        "answer": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
+        "answer": "La generación con Sora está cerrada. La fecha anunciada de cierre de la API era el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
       },
       {
         "question": "¿Puedo seguir los cambios de los modelos sin revisar toda la documentación?",
@@ -793,14 +795,14 @@
       },
       "examples": {
         "title": "Un mundo de historias por crear.",
-        "subtitle": "Abre un ejemplo para ver el prompt, los ajustes y el costo registrado al generarlo. Úsalo como punto de partida para tu propio proyecto.",
+        "subtitle": "Abre un ejemplo para ver el prompt, los ajustes y el precio actual del modelo. Úsalo como punto de partida para tu propio proyecto.",
         "eyebrow": "Ejemplos reales",
         "cta": "Ver todos los ejemplos",
         "modelsCta": "Ver todas las especificaciones",
         "compareLink": "Comparar modelos",
         "featuredModelCta": "Descubrir Seedance 2.5",
         "modelCta": "Descubrir {model}",
-        "costUnavailable": "Coste no registrado",
+        "costUnavailable": "Precio actual no disponible",
         "providerLabel": "Modelos compatibles:",
         "viewPrompt": "Clonar ajustes",
         "fallbackCards": [
@@ -1239,11 +1241,6 @@
             "providerKey": "Luma AI",
             "provider": "Luma",
             "model": "Luma"
-          },
-          {
-            "providerKey": "OpenAI",
-            "provider": "OpenAI",
-            "model": "Sora"
           }
         ]
       },
@@ -1601,7 +1598,7 @@
       "items": [
         {
           "q": "¿Se puede seguir generando con Sora?",
-          "a": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
+          "a": "La generación con Sora está cerrada. La fecha anunciada de cierre de la API era el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
         },
         {
           "q": "¿Puedo activar audio?",
@@ -2137,7 +2134,7 @@
         {
           "emoji": "🎬",
           "title": "Archivo de Sora y alternativas",
-          "body": "La generación con Sora está cerrada. OpenAI y fal.ai cierran la API el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
+          "body": "La generación con Sora está cerrada. La fecha anunciada de cierre de la API era el 24 de septiembre de 2026. Elige Seedance 2.5, MiniMax H3 o Wan 3 para un nuevo vídeo. Tus vídeos existentes permanecen en tu biblioteca."
         },
         {
           "emoji": "🎯",
@@ -2984,7 +2981,7 @@
       "aspectLabel": "Relación",
       "aspectAuto": "Auto",
       "createdLabel": "Creado el",
-      "priceTotalLabel": "Coste registrado del render",
+      "priceTotalLabel": "Precio actual del modelo",
       "priceTotalValue": "{value}",
       "priceTotalUnknown": "No disponible",
       "audioLabel": "Audio",
@@ -3240,10 +3237,10 @@
   },
   "gallery": {
     "meta": {
-      "title": "Ejemplos de video IA: prompts, modelos y costes registrados",
-      "description": "Explora ejemplos de video IA y abre un video para consultar su prompt, ajustes, duración y coste registrado antes de recrearlo.",
+      "title": "Ejemplos de video IA: prompts, modelos y precios actuales",
+      "description": "Explora ejemplos de video IA y abre un video para consultar su prompt, ajustes, duración y precio actual del modelo antes de recrearlo.",
       "title_engine": "Ejemplos de video IA — {engineName} | MaxVideoAI",
-      "description_engine": "Explora ejemplos de {engineName} y abre un video para consultar su prompt, duración, ajustes de audio y coste registrado."
+      "description_engine": "Explora ejemplos de {engineName} y abre un video para consultar su prompt, duración, ajustes de audio y precio actual del modelo."
     }
   },
   "workspace": {
@@ -3373,6 +3370,11 @@
         "presetsLabel": "Añadir créditos",
         "otherAmountLabel": "Otro importe",
         "minLabel": "Mín. {amount}",
+        "creditsReceived": "Créditos recibidos",
+        "paymentAmount": "Importe sin impuestos",
+        "quoteLoading": "Calculando…",
+        "quoteUnavailable": "Stripe lo muestra antes del pago",
+        "taxNote": "Pueden añadirse impuestos. Stripe muestra el total final antes del pago.",
         "captchaPrompt": "Verificación de seguridad requerida antes del Checkout.",
         "captchaComplete": "Verificación completada. Continúa al pago.",
         "captchaError": "Verificación de seguridad no disponible. Inténtalo de nuevo.",
@@ -3380,7 +3382,7 @@
         "startError": "No se pudo iniciar el pago. Inténtalo de nuevo.",
         "close": "Cerrar",
         "maybeLater": "Más tarde",
-        "submit": "Añadir fondos",
+        "submit": "Revisar el pago",
         "submitting": "Iniciando recarga…"
       },
       "authGate": {
@@ -6755,6 +6757,11 @@
       "signin": "Iniciar sesión",
       "signup": "Crear cuenta"
     },
+    "mcpStaging": {
+      "title": "MaxVideoAI Staging — entorno de prueba",
+      "body": "Las cuentas y créditos de la web están separados de este entorno de prueba. Para acceder a tu cuenta MaxVideoAI existente, añade la conexión de producción en tu asistente.",
+      "action": "Configurar MaxVideoAI en producción"
+    },
     "modes": {
       "signup": {
         "title": "Crea tu cuenta de workspace",
@@ -6770,6 +6777,14 @@
       }
     },
     "continuation": {
+      "studio": {
+        "title": "Continuar a Studio",
+        "body": "Crea una cuenta o inicia sesión para volver a Studio y preparar tu imagen o clip. Abrir el espacio no inicia una generación de pago."
+      },
+      "mcp": {
+        "title": "Conecta tu cuenta MaxVideoAI",
+        "body": "Inicia sesión con la misma cuenta MaxVideoAI que usas en la web. Podrás revisar los permisos solicitados y volver a tu asistente."
+      },
       "billing": {
         "title": "Tu recarga de {amount} está guardada",
         "body": "Crea una cuenta o inicia sesión y volverás a Facturación con ese importe todavía seleccionado."
@@ -6858,12 +6873,13 @@
       "signingIn": "Iniciando sesión…",
       "signinRedirecting": "Sesión iniciada. Redirigiendo…",
       "signinSuggestion": "No pudimos iniciar sesión con esos datos. Si eres nuevo, crea tu cuenta sin volver a escribirlos.",
+      "mcpSigninFailed": "No pudimos iniciar sesión. Comprueba tu correo y contraseña, usa « ¿Olvidaste tu contraseña? », o continúa con Google si creaste tu cuenta MaxVideoAI así.",
       "signupSuggestionReady": "Perfecto, vamos a crear tu cuenta.",
       "creatingAccount": "Creando cuenta…",
       "accountRedirecting": "Cuenta creada. Redirigiendo…",
       "confirmEmail": "Si tu cuenta necesita confirmación, revisa tu correo. ¿Ya tienes una cuenta? Inicia sesión o elige «¿Olvidaste tu contraseña?» en el formulario de acceso para recuperarla.",
       "sendingReset": "Enviando enlace…",
-      "resetSent": "Si existe una cuenta con este correo electrónico, recibirás un enlace de restablecimiento. Revisa tu bandeja de entrada y la carpeta de spam.",
+      "resetSent": "Si existe una cuenta con este correo, recibirás un enlace para restablecer la contraseña. Revisa también la carpeta de spam.",
       "resetUnavailable": "No pudimos enviar el enlace de restablecimiento. Inténtalo más tarde. Si el problema persiste, contacta con soporte.",
       "resetRateLimited": "Demasiadas solicitudes. Espera unos minutos antes de solicitar otro enlace.",
       "googleUnavailable": "El acceso con Google no está disponible porque no se pudo resolver la URL de redirección.",

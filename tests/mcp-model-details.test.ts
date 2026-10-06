@@ -169,13 +169,25 @@ function realRegistryDetailsDeps(): AgentModelDetailsDeps {
   };
 }
 
+test('Pika details agree with its on-request editorial guidance', async () => {
+  const details = await getAgentModelDetails('pika-text-to-video', realRegistryDetailsDeps());
+
+  assert.equal(details.lifecycle, 'current');
+  assert.ok(details.modes.some((mode) => mode.mode === 't2v'));
+  assert.equal(details.editorialGuidance?.level, 'on_request');
+  assert.equal(details.recommendedByDefault, false);
+});
+
 test('model details project one executable public model into the exact safe shape', async () => {
   const details = await getAgentModelDetails(
     'minimax-h3',
     detailsDeps([engine('minimax-h3', ['t2v', 'i2v', 'ref2v'])]),
   );
 
-  assert.deepEqual(details, {
+  const {editorialGuidance,...capabilityDetails}=details;
+  assert.equal(editorialGuidance?.level,'alternative');
+  assert.equal(editorialGuidance?.basis,'product_editorial_preference');
+  assert.deepEqual(capabilityDetails, {
     id: 'minimax-h3',
     label: 'MiniMax H3',
     slug: 'minimax-h3',
@@ -196,7 +208,12 @@ test('model details project one executable public model into the exact safe shap
         fps: [24],
         audio: 'always_generated',
         outputCount: { min: 1, max: 1, default: 1 },
-        settings: [],
+        settings: [
+          { key: 'durationSec', type: 'number', required: false, values: [5, 10], min: null, max: null, step: 1, default: null },
+          { key: 'resolution', type: 'enum', required: false, values: ['768P', '2K'], min: null, max: null, default: null },
+          { key: 'aspectRatio', type: 'enum', required: false, values: ['16:9', '9:16'], min: null, max: null, default: null },
+          { key: 'fps', type: 'number', required: false, values: [24], min: null, max: null, default: null },
+        ],
         references: [],
       },
       {
@@ -208,7 +225,12 @@ test('model details project one executable public model into the exact safe shap
         fps: [24],
         audio: 'optional',
         outputCount: { min: 1, max: 1, default: 1 },
-        settings: [],
+        settings: [
+          { key: 'durationSec', type: 'number', required: false, values: null, min: 5, max: 15, step: 1, default: null },
+          { key: 'resolution', type: 'enum', required: false, values: ['768P'], min: null, max: null, default: null },
+          { key: 'fps', type: 'number', required: false, values: [24], min: null, max: null, default: null },
+          { key: 'audio', type: 'boolean', required: false, values: null, min: null, max: null, default: null },
+        ],
         references: [{
           type: 'image', roles: ['source', 'first_frame'], assetRequired: false,
           maxSizeMB: 30,
@@ -224,7 +246,12 @@ test('model details project one executable public model into the exact safe shap
         fps: [24],
         audio: 'always_generated',
         outputCount: { min: 1, max: 1, default: 1 },
-        settings: [],
+        settings: [
+          { key: 'durationSec', type: 'number', required: false, values: [5, 10], min: null, max: null, step: 1, default: null },
+          { key: 'resolution', type: 'enum', required: false, values: ['2K'], min: null, max: null, default: null },
+          { key: 'aspectRatio', type: 'enum', required: false, values: ['16:9'], min: null, max: null, default: null },
+          { key: 'fps', type: 'number', required: false, values: [24], min: null, max: null, default: null },
+        ],
         references: [
           { type: 'image', roles: ['reference'], assetRequired: false, maxSizeMB: 30, required: false, min: 0, max: 9 },
           { type: 'audio', roles: ['reference'], assetRequired: false, required: false, min: 0, max: 3 },
@@ -330,6 +357,8 @@ test('real image model details publish canonical controls Claude and ChatGPT can
   assert.deepEqual(mode.outputCount, { min: 1, max: 4, default: 1 });
   assert.deepEqual(mode.resolutions, ['0.5k', '1k', '2k', '4k']);
   assert.deepEqual(mode.settings, [
+    { key: 'resolution', type: 'enum', required: false, values: ['0.5k', '1k', '2k', '4k'], min: null, max: null, default: null },
+    { key: 'aspectRatio', type: 'enum', required: false, values: ['auto', '21:9', '16:9', '3:2', '4:3', '5:4', '1:1', '4:5', '3:4', '2:3', '9:16', '4:1', '1:4', '8:1', '1:8'], min: null, max: null, default: null },
     { key: 'seed', type: 'number', required: false, values: null, min: null, max: null, default: null },
     { key: 'outputFormat', type: 'enum', required: false, values: ['jpeg', 'png', 'webp'], min: null, max: null, default: 'jpeg' },
     { key: 'enableWebSearch', type: 'boolean', required: false, values: null, min: null, max: null, default: false },
@@ -497,4 +526,19 @@ test('prompting sources are filtered to public modes and projected as detached i
   assert.equal(Object.isFrozen(details.promptingSources), true);
   assert.equal(Object.isFrozen(projected), true);
   assert.equal(Object.isFrozen(projected.modes), true);
+});
+
+
+test('legacy Wan safety control projects canonical boolean values accepted by shared generation validation', async () => {
+  const entry = listFalEngines().find(entry => entry.id === 'wan-2-6')!;
+  const details = await getAgentModelDetails('wan-2-6', {
+    listEngines: async () => [entry.engine], surfaceByEngineId: () => 'video',
+    isEngineExecutable: () => true, isModeExecutable: () => true,
+  });
+  for (const mode of details.modes) {
+    const setting = mode.settings.find(setting => setting.key === 'safetyChecker');
+    assert.equal(setting?.type, 'boolean');
+    assert.equal(setting?.default, true);
+    assert.deepEqual(setting?.values, [true, false]);
+  }
 });

@@ -10,6 +10,7 @@ import { getMcpCompatibilityEvidence } from '../frontend/app/(localized)/[locale
 import { McpPageView } from '../frontend/app/(localized)/[locale]/(marketing)/mcp/_components/McpPageView';
 import { IntegrationPageView } from '../frontend/app/(localized)/[locale]/(marketing)/integrations/_components/IntegrationPageView';
 import { getMcpHostProof } from '../frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-host-proof';
+import { getIntegrationInstallInstruction } from '../frontend/app/(localized)/[locale]/(marketing)/integrations/_content/shared';
 (globalThis as typeof globalThis & {React:typeof React}).React=React;
 const locales=['en','fr','es'] as const;
 const live={renderPublicPage:true,connectionAvailable:true,indexable:true,showTrialClaim:false,showPaidGenerationClaim:true,showReferenceClaim:true};
@@ -50,8 +51,11 @@ test('host eligibility is visible and automation never becomes a generic one-cli
   assert.match(html,/data-copy-endpoint/);
   assert.match(html,/19591-turn-creative-briefs-into-approved-maxvideoai-generations-with-human-review/);
   assert.doesNotMatch(html,/Pending \/ Under review|no public n8n library listing/i);
+  assert.match(n8n.troubleshooting.items[0].answer,/awaiting n8n review|en cours de revue|en revisión/);
+  assert.doesNotMatch(html,/Workflow 19591 is publicly listed|Le workflow 19591 est publié|El flujo 19591 está publicado/);
   const faq=getMcpEditorialCopy(locale).faq.map(item=>item.answer).join(' ');
   assert.match(faq,/Business.*Enterprise.*Edu/);assert.match(faq,/Pro/);assert.match(faq,/2\.38\.7/);assert.match(faq,/Cloud/);assert.match(faq,/19591/);assert.match(faq,/manual|manuelle/i);
+  assert.match(faq,/awaiting n8n review|en cours de revue|en revisión/);
  }
 });
 test('gated views do not show paid workflow, historical proof or price examples',()=>{
@@ -83,5 +87,44 @@ test('localized host setup titles and introductions do not inherit the English g
         }
       }
     }
+  }
+});
+
+test('installation requests name the production server and the correct setup mechanism for each host', () => {
+  for (const locale of locales) {
+    const chatgpt = getIntegrationInstallInstruction(locale, 'chatgptWeb');
+    const claude = getIntegrationInstallInstruction(locale, 'claudeDesktop');
+    const code = getIntegrationInstallInstruction(locale, 'claudeCode');
+    const openclaw = getIntegrationInstallInstruction(locale, 'openclawGateway');
+    for (const instruction of [chatgpt, claude, code, openclaw]) {
+      assert.match(instruction, /https:\/\/api\.maxvideoai\.com\/mcp/);
+      assert.match(instruction, /https:\/\/maxvideoai\.com\//);
+      assert.match(instruction, /get_account_status.*list_models/s);
+      assert.match(instruction, /Staging/);
+    }
+    assert.match(chatgpt, /OAuth/);
+    assert.doesNotMatch(chatgpt, /claude mcp|openclaw mcp|codex plugin/);
+    assert.match(claude, /Customize.*Connectors/);
+    assert.match(code, /claude mcp add --transport http maxvideoai/);
+    assert.match(code, /\/mcp/);
+    assert.match(openclaw, /openclaw mcp login maxvideoai/);
+    assert.match(getIntegrationInstallInstruction(locale, 'codexCli'), /codex plugin marketplace add/);
+    assert.match(getIntegrationInstallInstruction(locale, 'n8nMcpClient'), /OAuth2/);
+  }
+});
+
+test('Claude setup guidance covers plan requirements and authentication review without claiming a fresh host test', () => {
+  for (const locale of locales) {
+    const copy = getIntegrationCopy(locale, 'claude');
+    const guide = copy.setup.hostGuides.find(item => item.hostId === 'claudeDesktop')!;
+    const steps = guide.steps.map(item => item.body).join(' ');
+    assert.match(steps, /Pro.*Max/);
+    assert.match(steps, /Team.*Enterprise/);
+    assert.match(steps, /Continue.*OAuth.*Continue/);
+    assert.match(steps, /Custom.*Web/);
+    assert.match(guide.installInstruction, /Pro.*Max/);
+    assert.match(guide.installInstruction, /Continue.*OAuth/);
+    assert.doesNotMatch(steps + guide.installInstruction, /Use Claude’s published identity|Use Claude's published identity/);
+    assert.match(copy.compatibility.statuses.claudeDesktop ?? '', /1\.37937\.1/);
   }
 });

@@ -30,6 +30,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { id: 'hub-health', label: 'Today', href: '/admin', icon: 'dashboard' },
       { id: 'insights', label: 'Insights', href: '/admin/insights', icon: 'insights' },
       { id: 'mcp', label: 'MCP activity', href: '/admin/mcp', icon: 'insights' },
+      { id: 'studio-review', label: 'Studio interactions', href: '/admin/studio', icon: 'audit' },
     ],
   },
   { id: 'users', label: 'Users', items: [{ id: 'users', label: 'Users', href: '/admin/users', icon: 'users' }] },
@@ -66,6 +67,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     secondary: true,
     items: [
       { id: 'settings', label: 'Settings', href: '/admin/settings', icon: 'settings' },
+      { id: 'pricing', label: 'Pricing', href: '/admin/pricing', icon: 'billing-products' },
       { id: 'service-notice', label: 'Service notice', href: '/admin/system', icon: 'bell' },
       { id: 'infra-costs', label: 'Infrastructure costs', href: '/admin/infra-costs', icon: 'costs' },
       { id: 'audit-log', label: 'Audit log', href: '/admin/audit', icon: 'audit' },

@@ -9,6 +9,7 @@ import { mediaActionCopy, meaningfulMediaLabel } from './media-action-copy';
 import { buildAppDownloadUrl, suggestDownloadFilename } from '@/lib/download';
 import { copyTextToClipboard } from '@/lib/clipboard';
 import type { AssetBrowserAsset } from './AssetLibraryBrowser';
+import { SeedanceDraftFinalAction } from './SeedanceDraftFinalAction.client';
 import { VideoSharePanel } from './VideoSharePanel.client';
 
 /** One original, one reader, and the same selected output for every action. */
@@ -64,7 +65,8 @@ function MediaContent({ asset, locale, children, details }: { asset: AssetBrowse
     </div>
     {children || details ? <aside className="app-media-panel-actions">
       {children}
+      {asset.kind === 'video' && asset.jobId ? <SeedanceDraftFinalAction jobId={asset.jobId} locale={locale} /> : null}
       {details ? <details className="app-media-details"><summary>{labels[4]}</summary><div>{details}</div></details> : null}
-    </aside> : null}
+    </aside> : asset.kind === 'video' && asset.jobId ? <SeedanceDraftFinalAction jobId={asset.jobId} locale={locale} asAside /> : null}
   </div>;
 }

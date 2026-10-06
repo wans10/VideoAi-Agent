@@ -10847,7 +10847,7 @@
     "versionLabel": "v1.5 Pro",
     "availability": "available",
     "logoPolicy": "logoAllowed",
-    "lifecycle": "current",
+    "lifecycle": "deep_legacy",
     "successorId": null,
     "successorSlug": null,
     "surfaces": {
@@ -10857,7 +10857,7 @@
       },
       "examples": {
         "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyCopy": false
       },
       "compare": {
         "suggestOpponents": [
@@ -10891,10 +10891,10 @@
         "includeInHub": true
       },
       "app": {
-        "enabled": true
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -21002,8 +21002,7 @@
       ],
       "maxDurationSec": 1,
       "resolutions": [
-        "2K",
-        "4K"
+        "2K"
       ],
       "aspectRatios": [
         "auto",
@@ -21020,7 +21019,7 @@
         1
       ],
       "audio": false,
-      "upscale4k": true,
+      "upscale4k": false,
       "extend": false,
       "motionControls": false,
       "keyframes": false,
@@ -21131,15 +21130,13 @@
         "perSecondCents": {
           "default": 12,
           "byResolution": {
-            "2K": 12,
-            "4K": 24
+            "2K": 12
           }
         },
         "flatCents": {
           "default": 12,
           "byResolution": {
-            "2K": 12,
-            "4K": 24
+            "2K": 12
           }
         }
       },
@@ -21147,8 +21144,7 @@
         "unit": "image",
         "base": 0.12,
         "byResolution": {
-          "2K": 0.12,
-          "4K": 0.24
+          "2K": 0.12
         },
         "currency": "USD",
         "notes": "Seedream 5.0 Pro is billed per successfully generated professional image."
@@ -21388,6 +21384,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "One source MP4 or MOV. Source plus generated duration must not exceed 30 seconds."
           }
         ],
@@ -21428,7 +21432,21 @@
             "minCount": 0,
             "maxCount": 10,
             "maxSizeMB": 20,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/x-ms-bmp"
+            ]
           },
           {
             "id": "reference_video_urls",
@@ -21442,6 +21460,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "Combined video duration <=15 seconds; each video must be >=16 fps."
           },
           {
@@ -21470,7 +21496,7 @@
               "mp3",
               "wav"
             ],
-            "description": "MP3 or WAV only; combined audio duration <=15 seconds."
+            "description": "Combined audio duration <=15 seconds."
           },
           {
             "id": "file_url",
@@ -22079,6 +22105,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "One source MP4 or MOV. Source plus generated duration must not exceed 30 seconds."
           }
         ],
@@ -22119,7 +22153,21 @@
             "minCount": 0,
             "maxCount": 10,
             "maxSizeMB": 20,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/x-ms-bmp"
+            ]
           },
           {
             "id": "reference_video_urls",
@@ -22133,6 +22181,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "Combined video duration <=15 seconds; each video must be >=16 fps."
           },
           {
@@ -22161,7 +22217,7 @@
               "mp3",
               "wav"
             ],
-            "description": "MP3 or WAV only; combined audio duration <=15 seconds."
+            "description": "Combined audio duration <=15 seconds."
           },
           {
             "id": "file_url",

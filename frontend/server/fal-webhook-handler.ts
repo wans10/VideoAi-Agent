@@ -1,3 +1,4 @@
+import { readGeneratedVideoFacts, type GeneratedVideoFacts } from '@/lib/generated-video-media-facts';
 import { query } from '@/lib/db';
 import { syncProviderAttemptTerminalStatus } from '@/server/video-providers/provider-attempts';
 import { maybeAutoRefundWalletCharge } from './fal-webhook-refunds';
@@ -23,6 +24,7 @@ import {
 import { getFalEngineById } from '@/config/falEngines';
 import { fetchFalJobMedia } from '@/server/fal-job-sync';
 import { toUserFacingFailureMessage } from '@/server/user-facing-failure-messages';
+import { sanitizeProviderMediaDiagnostics } from '@/server/provider-media-diagnostics';
 import { detectHasAudioStream, detectVideoDimensions } from '@/server/media/detect-has-audio';
 import { upsertLegacyJobOutputs } from '@/server/media-library';
 import { checkUpscaleDuration, rejectTruncatedUpscale } from './upscale-duration-integrity';
@@ -38,11 +40,12 @@ import {
   inferEngineFromPayload,
   isCompletedFalStatus,
   isFailedFalStatus,
+  normalizeFalQueueLogStatus,
   normalizeRenderIdList,
   normalizeStatus,
   type FalWebhookPayload,
 } from './fal-webhook-mapping';
-export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void> {
+export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFacts?: GeneratedVideoFacts): Promise<void> {
   const payload = (rawPayload ?? {}) as FalWebhookPayload;
   const requestId = payload.request_id ?? payload.requestId;
   if (!requestId) {
@@ -176,7 +179,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
       // contain only "Unprocessable Entity". Keep it available to diagnostics.
       resultFailureContext = error;
       if (nextStatus === 'completed') {
-        console.warn('[fal-webhook] Failed to fetch final result', error);
+        console.warn('[fal-webhook] Failed to fetch final result', sanitizeProviderMediaDiagnostics(error));
       }
     }
   }
@@ -218,7 +221,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
     nextThumbUrl = heroImageUrl;
   }
   const hasImageMedia = isImageEngine && imageUrls.length > 0;
-  let providerVideoCopyFailed = false;
+  let videoMediaFacts = copiedVideoFacts, providerVideoCopyFailed = false;
   let providerVideoCopyDeferred = false;
   let providerVideoCopyStateJson: string | null = null;
 
@@ -245,6 +248,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
       }
       if (!nextVideoUrl && fallback.videoUrl) {
         nextVideoUrl = normalizeMediaUrl(fallback.videoUrl) ?? fallback.videoUrl;
+        videoMediaFacts = fallback.videoMediaFacts;
       }
       if (!nextThumbUrl && fallback.thumbUrl) {
         nextThumbUrl = normalizeMediaUrl(fallback.thumbUrl) ?? fallback.thumbUrl;
@@ -260,12 +264,13 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
       console.warn('[fal-webhook] Fal media recovery failed', {
         jobId: job.job_id,
         providerJobId: requestId,
-        error,
+        error: sanitizeProviderMediaDiagnostics(error),
       });
     }
   }
 
-  const extractedErrorMessage = extractFalErrorMessage(payload, nextStatus === 'failed' ? resultFailureContext ?? finalPayload : null);
+  const rawErrorMessage = extractFalErrorMessage(payload, nextStatus === 'failed' ? resultFailureContext ?? finalPayload : null);
+  const extractedErrorMessage = rawErrorMessage ? sanitizeProviderMediaDiagnostics(rawErrorMessage) as string : null;
   let nextMessage =
     extractedErrorMessage ??
     (nextStatus === 'failed'
@@ -330,7 +335,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
       const fastStartVideo = await ensureFastStartVideo({
         jobId: job.job_id,
         userId: job.user_id ?? undefined,
-        videoUrl: finalVideoUrl,
+        videoUrl: finalVideoUrl, onVideoMediaFacts: (facts) => { videoMediaFacts = facts; },
       });
       if (fastStartVideo) {
         finalVideoUrl = fastStartVideo;
@@ -445,7 +450,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
         jobId: job.job_id,
         requestId,
         providerStatus,
-        previousMessage: nextMessage,
+        previousMessage: sanitizeProviderMediaDiagnostics(nextMessage),
       });
       nextStatus = 'completed';
       nextProgress = 100;
@@ -560,6 +565,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
     user_id: job.user_id,
     surface: isImageEngine ? 'image' : 'video',
     video_url: shouldClearVideo ? null : finalVideoUrl ?? job.video_url,
+    video_media_facts: readGeneratedVideoFacts(videoMediaFacts, finalVideoUrl ?? ''),
     audio_url: null,
     thumb_url: shouldClearThumb ? null : finalThumbUrl ?? job.thumb_url,
     preview_frame: shouldClearThumb ? null : finalPreviewFrame ?? job.preview_frame,
@@ -621,18 +627,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown): Promise<void
     hasData: Boolean(payload.data),
   });
 
-  const normalizedLogStatus = (() => {
-    const baseStatus = nextStatus ?? statusInfo.status ?? payload.status ?? 'running';
-    const lower = baseStatus.toString().toLowerCase();
-    if (lower === 'completed') return 'completed';
-    if (['failed', 'error', 'errored', 'canceled', 'cancelled', 'aborted'].includes(lower)) {
-      return 'failed';
-    }
-    if (['queued', 'running', 'in_progress', 'processing', 'pending'].includes(lower)) {
-      return 'running';
-    }
-    return lower;
-  })();
+  const normalizedLogStatus = normalizeFalQueueLogStatus(nextStatus ?? statusInfo.status ?? payload.status);
 
   try {
     await query(

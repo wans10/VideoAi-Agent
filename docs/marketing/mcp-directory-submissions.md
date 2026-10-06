@@ -1,11 +1,85 @@
 # MaxVideoAI MCP distribution packages
 
+Latest submission checkpoint: [5 October 2026 n8n update](#n8n-update-submission--2026-10-05).
+Latest package publication: [5 October 2026 plugin and Registry checkpoint](../operations/mcp-distribution-publication-2026-10-05.md).
+Earlier read-only checkpoint: [4 October 2026 distribution rollout](../operations/studio-mcp-distribution-rollout-2026-10-04.md).
+GitHub and the official Registry now expose 0.3.7. The October 5 update to
+n8n workflow 19591 has been submitted and is under review; the public endpoint
+still returns the earlier payload. These observations supersede the dated
+version/public-visibility claims below; historical evidence is preserved.
+
 Checked: 2026-09-17; n8n public listing rechecked 2026-09-25
 Overall state: **OWNED-SITE DIRECT RELEASE + OFFICIAL MCP REGISTRY 0.3.5 ACTIVE/LATEST — MCPBEAT OWNERSHIP CONFIRMED; GLAMA OWNERSHIP AND AUTHENTICATED HEALTH CONFIRMED; N8N WORKFLOW 19591 PUBLICLY LISTED**
 
 This file records evidence and owner decisions. It does not authorize another submission, account creation, listing,
 deployment, feature-flag change, or use of a third party's marks. Directory rules are current and unstable; recheck all
 linked primary sources on the day an owner authorizes a new submission.
+
+## n8n update submission — 2026-10-05
+
+The existing owner session was recovered in Codex's in-app browser, the surface
+used by the earlier submission. Chrome's separate session required sign-in.
+No new account, password reset, credential disclosure or duplicate workflow was
+needed. The owner-authorized update used `Upload new version` on existing
+Creator Portal workflow `19591`.
+
+The exact submitted file was `distribution/n8n/brief-to-approved-generation.json`,
+SHA-256 `56bd2f781c5935a47b5a936c04f5759256e7d62e5fcc6b38d673c0ba036cb0dc`:
+21 nodes, disabled, zero credential references and no pinned data. Its ten
+focused contract checks passed without spending credits or generating media.
+The portal accepted the upload and returned to the dashboard showing
+`Pending` / `Under review`, dated `2026-10-05`. `Share new template` is disabled,
+so the campaign and completion workflows remain queued and unsubmitted.
+
+The portal warns that uploading a new version unpublishes the template from
+the library until review. A subsequent anonymous check still returned HTTP 200
+for both its direct public page and API; the API still served the historical
+20-node object, canonical digest
+`c319a482382a11f8b38a78ed7aeca631b3a09fc0d63bd36cb20579b5d7f8141a`.
+This is submission evidence, not approval or public parity for the new version.
+The private `Copy JSON` control reported success, but the supported clipboard
+reader returned empty text; no private-payload parity is claimed.
+
+The authored store projection moves from `listed` to `submitted` for the pending
+update. Direct MCP availability, route publication, indexing, acquisition and
+dated host evidence retain their owners and states. After approval, compare the
+public authored fields against this exact candidate before restoring `listed`.
+
+## n8n qualified source revision — 2026-10-04
+
+This section preserves the qualification checkpoint before the October 5
+submission above; its source-not-submitted and sign-in observations are historical.
+
+The public [workflow 19591 payload](https://api.n8n.io/api/templates/workflows/19591)
+was compared with the historical submitted file whose SHA-256 is
+`8ff097dd42bed75d5fa95c812c71f76acbce81b522af1531460da6de4e41ce3d`.
+All authored fields were deeply equal: 20 nodes, disabled state, no credential
+references, and the original fixed 15-second recovery wait. The canonical JSON
+digest for both objects was
+`c319a482382a11f8b38a78ed7aeca631b3a09fc0d63bd36cb20579b5d7f8141a`.
+This establishes object parity; API serialization does not preserve upload bytes.
+
+The current source adds a native Rename Keys adapter for n8n's reserved
+`arguments` field and obeys returned retry delays, stop signals and the
+20-status-call bound. It has 21 nodes and passed 19 deterministic actual-engine
+cases on n8n 2.38.7 / Node.js 24.19.0, with real 5/15/30/45-second waits and
+authored-field import/export parity. See the
+[qualification scope and reproducible harness](../../distribution/n8n/README.md#october-4-recovery-revision-and-engine-qualification).
+Live OAuth, paid generation, n8n Cloud and AI Agent invocation were not repeated.
+
+| Current source candidate | SHA-256 | Distribution state |
+| --- | --- | --- |
+| `distribution/n8n/brief-to-approved-generation.json` | `56bd2f781c5935a47b5a936c04f5759256e7d62e5fcc6b38d673c0ba036cb0dc` | `qualified_source_not_submitted` |
+| `distribution/n8n/campaign-queue.json` | `7e536cdf3f6599ee01c85424d153db86e8b9874a2978542f49b72df83f7bf650` | `queued_unsubmitted` |
+| `distribution/n8n/completion-notification.json` | `845f2210ec5eda6d6d691ec4a76ec556cf4eeafcacff1282198f57b637e35bf8` | `queued_unsubmitted` |
+
+The new brief revision is not published. The existing listing retains its
+observed historical payload until the merged candidate is submitted through
+the normal owner Creator Portal flow and its public readback matches. The
+portal currently requires owner sign-in. Update existing workflow `19591`;
+do not create a duplicate or relabel the September submission hashes. The
+other two candidates remain unsubmitted, and store state stays `listed` only
+for the existing brief listing, without promoting host-compatibility claims.
 
 ## n8n public listing — 2026-09-25
 
@@ -166,7 +240,9 @@ showed `Pending` / `Under review`, dated 2026-09-17, and disabled `Share new
 template`. This proves a private review resubmission, not human approval,
 acceptance into the public workflow library, or a live public listing.
 
-| Candidate | Local SHA-256 | Current external state |
+These hashes pin the files at this September 17 checkpoint, not later source revisions.
+
+| Candidate | Historical local SHA-256 | External state on 2026-09-17 |
 | --- | --- | --- |
 | `distribution/n8n/brief-to-approved-generation.json` | `8ff097dd42bed75d5fa95c812c71f76acbce81b522af1531460da6de4e41ce3d` | `resubmitted_under_review`; existing private workflow `19591` is pending human review after the portal confirmed the correction submission. No public listing or approval yet. |
 | `distribution/n8n/campaign-queue.json` | `7e536cdf3f6599ee01c85424d153db86e8b9874a2978542f49b72df83f7bf650` | `queued_unsubmitted`; the portal currently disables the next-template action during review. |
@@ -440,6 +516,41 @@ The current blockers are all release-critical:
   no real decision evidence;
 - production monitoring, status ownership, refresh evidence, and migration prerequisites are incomplete.
 - written OpenAI clarification or a policy change has not resolved the commerce eligibility inference.
+
+### 2026-10-01 policy and production-onboarding review
+
+The [current OpenAI plugin guidelines](https://developers.openai.com/plugins/plugin-guidelines#commerce-and-monetization)
+still prohibit selling digital services or credits and linking to transactional
+checkout. They now explicitly allow users to sign in to existing paid accounts
+and access already-included subscription features. This exception must be
+considered in the eligibility review; it is not an OpenAI approval of
+MaxVideoAI's metered, credit-funded generation workflow. The production MCP
+still exposes `create_topup_link`, so the full intended submission cannot be
+represented as already compliant. Store state remains `policy_blocked`; no
+submission or listing occurred.
+
+A concrete production custom-MCP installation was completed in ChatGPT web on
+2026-10-01, including browser sign-in/consent, return to ChatGPT and read-only
+account/model discovery. That resolves the earlier lack of graphical onboarding
+evidence for that limited path. It does not resolve paid-generation, private
+reference, refresh or revocation review requirements. The public directory
+returned no MaxVideoAI result in the tested anonymous and signed-in searches.
+See [the onboarding investigation](../operations/mcp-onboarding-2026-10-01.md).
+
+Review target: product name **MaxVideoAI**, production server
+`https://api.maxvideoai.com/mcp`, OAuth account login on `maxvideoai.com`, and
+first-run read-only account/model verification. Any proposed published package
+must describe its exact tools and intended generation/payment behavior. Do not
+hide a checkout tool or paid workflow from review. Resolve the existing-account
+exception against prepaid credits and confirmation before creating a portal
+submission. This review requires a platform determination or a Legal-approved
+policy interpretation; the direct MCP setup improvements can ship independently.
+
+The [current Anthropic Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy)
+was also rechecked on 2026-10-01. Section 4.B still excludes AI image/video/audio
+generation except limited design workflows. Claude custom remote connectors
+and Claude Code configuration therefore remain the documented direct paths;
+there is no new Anthropic directory eligibility or submission claim.
 
 ChatGPT plugin approval is not a Codex host decision test. A future approval must not be described as “listed in
 Codex” unless the exact Codex distribution surface and behavior are separately verified.

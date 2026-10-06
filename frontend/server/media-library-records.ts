@@ -1,3 +1,4 @@
+import { readGeneratedVideoFacts, videoDuration } from '@/lib/generated-video-media-facts';
 import { parseStoredImageRenders } from '@/lib/image-renders';
 import { normalizeMediaUrl } from '@/lib/media';
 
@@ -17,6 +18,7 @@ export type LegacyJobMediaRow = {
   user_id?: string | null;
   surface?: string | null;
   video_url?: string | null;
+  video_media_facts?: unknown;
   video_width?: number | null;
   video_height?: number | null;
   audio_url?: string | null;
@@ -232,12 +234,14 @@ export function mapLegacyJobRowToOutputs(row: LegacyJobMediaRow): JobOutputRecor
       durationSec: normalizeInteger(row.duration_sec),
       position: 0,
       status,
-      metadata: { legacy: true, surface: row.surface ?? null },
+      metadata: { legacy: true, surface: row.surface ?? null,
+        ...(readGeneratedVideoFacts(row.video_media_facts, videoUrl) ? { mediaFacts: row.video_media_facts } : {}) },
     });
   }
 
   const audioUrl = normalizeString(row.audio_url);
   if (audioUrl) {
+    const measuredDurationSec = normalizePositiveNumber(row.measured_duration_sec);
     outputs.push({
       id: outputId(jobId, 'audio', 0),
       jobId,
@@ -256,9 +260,9 @@ export function mapLegacyJobRowToOutputs(row: LegacyJobMediaRow): JobOutputRecor
       metadata: {
         legacy: true,
         surface: row.surface ?? null,
-        ...(normalizePositiveNumber(row.measured_duration_sec) === null
+        ...(measuredDurationSec === null
           ? {}
-          : { measuredDurationSec: normalizePositiveNumber(row.measured_duration_sec) }),
+          : { measuredDurationSec, mediaFacts: { source: 'probe', durationSec: measuredDurationSec } }),
       },
     });
   }
@@ -382,7 +386,8 @@ export function mapOutputRow(row: DbJobOutputRow): JobOutputRecord {
     mimeType: row.mime_type,
     width: row.width,
     height: row.height,
-    durationSec: row.duration_sec,
+    durationSec: row.kind === 'video'
+      ? videoDuration(normalizeMetadata(row.metadata), row.storage_url ?? row.url, row.duration_sec) : row.duration_sec,
     position: row.position,
     status: row.status,
     metadata: normalizeMetadata(row.metadata),
@@ -409,7 +414,8 @@ export function mapAssetRow(row: DbMediaAssetRow): MediaAssetRecord {
     width: row.width,
     height: row.height,
     sizeBytes: typeof row.size_bytes === 'string' ? Number(row.size_bytes) : row.size_bytes,
-    durationSec: normalizePositiveNumber(metadata.durationSec),
+    durationSec: row.kind === 'video' ? videoDuration(metadata, row.url, normalizePositiveNumber(metadata.durationSec))
+      : normalizePositiveNumber(metadata.durationSec),
     source: normalizeMediaAssetSource(row.source),
     sourceJobId: row.source_job_id,
     sourceOutputId: row.source_output_id,

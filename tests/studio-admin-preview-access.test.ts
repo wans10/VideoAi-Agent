@@ -13,8 +13,7 @@ function routeFiles(directory: string): string[] {
   });
 }
 
-test('Studio beta is discoverable while projects, workspaces, and APIs remain admin-only', () => {
-  const flags = read('frontend/content/feature-flags.ts');
+test('Studio is discoverable while conversations and APIs retain shared account access', () => {
   const navigation = read('frontend/components/app/app-navigation.ts');
   const sidebar = read('frontend/components/AppSidebar.tsx');
   const header = read('frontend/components/HeaderBar.tsx');
@@ -22,31 +21,47 @@ test('Studio beta is discoverable while projects, workspaces, and APIs remain ad
   const visitorAccess = read('frontend/lib/visitor-access.ts');
   const middleware = read('frontend/middleware.ts');
 
-  assert.match(flags, /studio:\s*\{[\s\S]*maxVideoAiEditor:\s*true,[\s\S]*adminOnly:\s*true/);
   assert.match(navigation, /canShowStudioNavigation\(\)/);
   assert.match(navigation, /return FEATURES\.studio\.maxVideoAiEditor/);
-  assert.doesNotMatch(sidebar, /useAdminNavigationAccess/, 'public beta discovery should not require an admin lookup');
+  assert.doesNotMatch(sidebar, /useAdminNavigationAccess/, 'Studio discovery should not require an admin lookup');
   assert.match(sidebar, /studioVisible=\{canShowStudioNavigation\(\)\}/);
   assert.match(header, /WorkspaceMobileNav studioVisible=\{canShowStudioNavigation\(\)\}/);
   assert.match(siteMenu, /getAppMenuItems\(undefined, studioVisible \?\? canShowStudioNavigation\(\)\)/);
   assert.doesNotMatch(visitorAccess, /normalized\.startsWith\('\/app\/studio/);
   assert.match(middleware, /canUseLocalAdminBypassForProtectedPath\(req, pathname, FEATURES\.studio\.adminOnly\)/);
 
-  const projectsPage = read('frontend/app/(core)/(workspace)/app/studio/projects/page.tsx');
-  assert.match(projectsPage, /resolveStudioPageAccess\(\)/);
-  assert.match(projectsPage, /StudioPreviewAccess/);
-  assert.match(projectsPage, /access\.ok/);
-  assert.match(projectsPage, /query\.preview === 'studio-beta'/, 'admins should be able to review the gated surface without changing access');
-
   for (const path of [
-    'frontend/app/(core)/(workspace)/app/studio/workspace/page.tsx',
-    'frontend/app/(core)/(workspace)/app/studio/workspace/[projectId]/page.tsx',
+    'frontend/app/(core)/(workspace)/app/studio/page.tsx',
+    'frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/page.tsx',
   ]) {
     const source = read(path);
-    assert.match(source, /resolveStudioPageAccess/);
-    assert.match(source, /if \(!access.ok\) notFound\(\)/);
-    assert.match(source, /notFound\(\)/);
+    assert.match(source, /await resolveStudioPageAccess\(\)/);
+    assert.match(source, /if\s*\(!access.ok\s*&&\s*access.status\s*===\s*404\)\s*notFound\(\)/);
+    assert.match(source, /StudioPreviewAccess/);
+    assert.match(source, /access\.ok/);
   }
+  const entry = read('frontend/app/(core)/(workspace)/app/studio/page.tsx');
+  assert.match(entry, /access.status===401\?<StudioGuestDemo/);
+  assert.match(entry, /access.ok\s*&&\s*conversationEnabled/);
+  assert.match(entry, /listStudioConversationProjects\(access.userId\)/);
+  const conversation = read('frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/page.tsx');
+  assert.match(conversation, /const project = access.ok\s*\? await readImageConversationProject\(access.userId, projectId\)/);
+  assert.match(conversation, /if \(access.ok && !project\) notFound\(\)/);
+  assert.match(conversation, /visitor=\{!access.ok && access.status === 401\}/);
+
+  const projectsRedirect = read('frontend/app/(core)/(workspace)/app/studio/projects/page.tsx');
+  assert.match(projectsRedirect, /resolveStudioMarketingStarter/);
+  assert.match(projectsRedirect, /redirect\(starter\s*\?/);
+  assert.match(projectsRedirect, /encodeURIComponent\(starter\)/);
+  assert.match(projectsRedirect, /'\/app\/studio'/);
+  assert.doesNotMatch(projectsRedirect, /readStudioProject|StudioProjectsPageClient/);
+  assert.match(read('frontend/app/(core)/(workspace)/app/studio/workspace/page.tsx'), /redirect\('\/app\/studio'\)/);
+  const projectRedirect = read('frontend/app/(core)/(workspace)/app/studio/workspace/[projectId]/page.tsx');
+  assert.match(projectRedirect, /await resolveStudioPageAccess\(\)/);
+  assert.match(projectRedirect, /if\s*\(!access.ok\)\s*redirect\('\/app\/studio'\)/);
+  assert.match(projectRedirect, /readStudioConversationProjectId\(access.userId,\s*projectId\)/);
+  assert.match(projectRedirect, /redirect\(connectedProjectId/);
+  assert.match(projectRedirect, /\/app\/studio\/conversation\/\$\{encodeURIComponent\(connectedProjectId\)\}/);
 
   const access = read('frontend/src/server/studio/access.ts');
   assert.match(access, /getRouteAuthContext\(request\)/);
@@ -59,14 +74,61 @@ test('Studio beta is discoverable while projects, workspaces, and APIs remain ad
 
   const specialRoutes = new Set([
     'frontend/app/api/studio/chat/route.ts',
+    'frontend/app/api/studio/assistance/route.ts',
     'frontend/app/api/studio/marketing-entry/route.ts',
+    'frontend/app/api/studio/projects/[projectId]/image-conversation/route.ts',
+    'frontend/app/api/studio/projects/[projectId]/image-conversation/confirm/route.ts',
+    'frontend/app/api/studio/conversation-projects/route.ts',
+    'frontend/app/api/studio/projects/[projectId]/conversation-timeline/route.ts',
+    'frontend/app/api/studio/projects/[projectId]/reference-previews/route.ts',
   ]);
   const routes = routeFiles('frontend/app/api/studio');
   assert.ok(routes.length >= 13, 'every current and future Studio route should be included by discovery');
   for (const path of routes.filter((candidate) => !specialRoutes.has(candidate))) {
     assert.match(read(path), /resolveStudioRouteContext\(req\)/);
   }
+  const assistanceHandler = read('frontend/app/api/studio/_lib/studio-assistance-handler.ts');
+  assert.match(assistanceHandler,/resolveStudioApiAccess/);
+  assert.match(assistanceHandler,/if\(!access.ok\)/);
+  assert.match(read('frontend/app/api/studio/assistance/route.ts'),/handleStudioAssistance/);
+  const projectListHandler=read('frontend/app/api/studio/_lib/studio-conversation-projects-handler.ts');
+  assert.match(projectListHandler,/resolveStudioApiAccess/);
+  assert.match(projectListHandler,/if\(!access.ok\)/);
+  assert.match(read('frontend/app/api/studio/conversation-projects/route.ts'),/handleStudioConversationProjects/);
+  const imageHandler = read('frontend/app/api/studio/_lib/studio-image-conversation-handler.ts');
+  assert.match(imageHandler, /resolveStudioApiAccess/);
+  assert.match(imageHandler, /if \(!access.ok\)/);
+  assert.match(read('frontend/app/api/studio/projects/[projectId]/image-conversation/route.ts'), /handleStudioImageConversation/);
+  assert.match(read('frontend/app/api/studio/projects/[projectId]/image-conversation/confirm/route.ts'), /handleStudioImageConversation/);
+  const editingHandler = read('frontend/app/api/studio/_lib/studio-conversation-editing-handler.ts');
+  assert.match(editingHandler,/resolveStudioApiAccess/);
+  assert.match(editingHandler,/if \(!access.ok\)/);
+  assert.match(editingHandler,/studioConversationEditingEnabled/);
+  for (const path of ['frontend/app/api/studio/conversation-projects/route.ts','frontend/app/api/studio/projects/[projectId]/conversation-timeline/route.ts']) assert.match(read(path),/handleStudioConversationEditing/);
+  const referencePreviewsHandler = read('frontend/app/api/studio/_lib/studio-reference-previews-handler.ts');
+  assert.match(referencePreviewsHandler,/resolveStudioApiAccess/);
+  assert.match(referencePreviewsHandler,/if \(!access.ok\)/);
+  assert.match(referencePreviewsHandler,/STUDIO_IMAGE_CONVERSATION_ENABLED/);
+  assert.match(read('frontend/app/api/studio/projects/[projectId]/reference-previews/route.ts'),/handleStudioReferencePreviews/);
   assert.match(read('frontend/app/api/studio/_lib/studio-chat-handler.ts'), /resolveStudioApiAccess/);
   assert.match(read('frontend/app/api/studio/marketing-entry/route.ts'), /handleStudioMarketingEntry/);
   assert.match(read('frontend/app/api/studio/marketing-entry/_lib/handle-studio-marketing-entry.ts'), /resolveStudioApiAccess/);
+});
+
+test('Studio access copy presents creation and individual downloads while keeping contextual account-unavailable help', () => {
+  const source = read('frontend/app/(core)/(workspace)/app/studio/_components/StudioPreviewAccess.client.tsx');
+  assert.doesNotMatch(source, /public beta|bêta publique|beta pública|MP4|exportation|exportación|export is/i);
+  for (const description of [
+    /images, videos and audio.*references/,
+    /images, vidéos et audio.*références/,
+    /imágenes, vídeos y audio.*referencias/,
+    /download individual creations/,
+    /téléchargez vos créations individuelles/,
+    /descarga tus creaciones individuales/,
+  ]) assert.match(source, description);
+  for (const contextualHelp of [
+    'We could not open Studio for your account.',
+    'Nous n’avons pas pu ouvrir Studio pour votre compte.',
+    'No hemos podido abrir Studio para tu cuenta.',
+  ]) assert.ok(source.includes(contextualHelp));
 });

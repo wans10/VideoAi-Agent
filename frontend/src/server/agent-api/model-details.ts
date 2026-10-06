@@ -10,7 +10,8 @@ import {
 } from '@/lib/image/inputSchema';
 
 import { AgentApiError } from './errors';
-import { getAgentModelGuidance, type AgentModelGuidance } from './model-guidance';
+import { getAgentModelGuidance, getAgentModelEditorialGuidance, type AgentModelGuidance } from './model-guidance';
+import { isAgentModelRecommendationEligible } from './model-editorial-policy';
 import {
   getAgentModelPromptingSources,
   type AgentModelPromptingSource,
@@ -187,6 +188,7 @@ function projectGuidance(
     considerations: Object.freeze([...guidance.considerations]),
     evidenceUrls: Object.freeze(includeEvidence ? [...guidance.evidenceUrls] : []),
     reviewedAt: guidance.reviewedAt,
+    ...(guidance.sourceAssessments === undefined ? {} : {sourceAssessments: Object.freeze(guidance.sourceAssessments.map(assessment=>Object.freeze({...assessment})))}),
   });
 }
 
@@ -294,28 +296,66 @@ function projectSettings(
       : CANONICAL_SETTING_BY_FIELD_ID[field.id];
     if (!key || isReferenceField(field) || !applicableToMode(field, mode, engine.id)) return [];
     if (!['boolean', 'number', 'text', 'enum'].includes(field.type)) return [];
+    // Canonical safety controls are booleans, including historical schemas
+    // whose provider enum encoded true/false as strings.
+    const booleanSafetyEnum = key === 'safetyChecker' && field.type === 'enum'
+      && Boolean(field.values?.length) && field.values!.every(value => value === 'true' || value === 'false');
+    const defaultValue = booleanSafetyEnum && (field.default === 'true' || field.default === 'false')
+      ? field.default === 'true' : field.default;
     return [Object.freeze({
       key,
       type: field.id === 'multi_prompt'
         ? 'multi_prompt'
-        : field.type as AgentModelSettingDetails['type'],
+        : booleanSafetyEnum ? 'boolean' : field.type as AgentModelSettingDetails['type'],
       required: field.requiredInModes
         ? field.requiredInModes.includes(toEngineGenerationMode(engine.id, mode))
         : required,
-      values: field.values?.length ? Object.freeze([...field.values]) : null,
+      values: field.values?.length ? Object.freeze(field.values.map(value => booleanSafetyEnum ? value === 'true' : value)) : null,
       min: typeof field.min === 'number' ? field.min : null,
       max: typeof field.max === 'number' ? field.max : null,
-      default: typeof field.default === 'string'
-        || typeof field.default === 'number'
-        || typeof field.default === 'boolean'
-        ? field.default
+      ...(field.type === 'number' && typeof field.step === 'number' && Number.isFinite(field.step)
+        ? { step: field.step } : {}),
+      default: typeof defaultValue === 'string'
+        || typeof defaultValue === 'number'
+        || typeof defaultValue === 'boolean'
+        ? defaultValue
         : null,
     })];
   }));
 }
 
-function projectMode(
-  candidate: AgentPublicCatalogEngine,
+function projectImageSize(engine: EngineCaps): AgentModelModeDetails['imageSize'] {
+  const source = engine.inputSchema?.constraints?.imageSize;
+  if (!source || typeof source !== 'object' || Array.isArray(source)) return undefined;
+  const keys = ['multipleOf', 'minPixels', 'maxPixels', 'maxEdge', 'maxAspectRatio'] as const;
+  const projected: Partial<Record<(typeof keys)[number], number>> = {};
+  for (const key of keys) {
+    const value = (source as Record<string, unknown>)[key];
+    if (typeof value === 'number' && Number.isFinite(value)) projected[key] = value;
+  }
+  return Object.keys(projected).length ? Object.freeze(projected) : undefined;
+}
+
+function projectBaseSettings(details: Pick<AgentModelModeDetails, 'durationPolicy' | 'duration' | 'resolutions' | 'aspectRatios' | 'fps' | 'audio'>): readonly AgentModelSettingDetails[] {
+  const controls: AgentModelSettingDetails[] = [];
+  const setting = (key: string, type: AgentModelSettingDetails['type'], values: AgentModelSettingDetails['values'] = null): AgentModelSettingDetails =>
+    ({key, type, required: false, values, min: null, max: null, default: null});
+  if (details.durationPolicy === 'requested' && details.duration) controls.push({
+    ...setting('durationSec', 'number', details.duration.options),
+    min: details.duration.range?.min ?? null, max: details.duration.range?.max ?? null, step: 1,
+  });
+  if (details.resolutions.length) controls.push(setting('resolution', 'enum', details.resolutions));
+  if (details.aspectRatios.length) controls.push(setting('aspectRatio', 'enum', details.aspectRatios));
+  if (details.fps.length) controls.push(setting('fps', 'number', details.fps));
+  if (details.audio === 'optional') controls.push(setting('audio', 'boolean'));
+  // Null defaults preserve callers' existing default ownership. These entries
+  // identify canonical request keys; they never expose provider field aliases.
+  return Object.freeze(controls.map(control => Object.freeze(control)));
+}
+
+// Callers own authorization and model/mode eligibility; this projects canonical facts only.
+export function projectAgentModelModeDetails(
+  candidate: Pick<AgentPublicCatalogEngine, 'engine' | 'surface' | 'modeCaps'>,
   mode: AgentGenerationMode,
 ): AgentModelModeDetails {
   const caps = candidate.modeCaps[mode];
@@ -326,6 +366,7 @@ function projectMode(
   const isImage = candidate.surface === 'image';
   const imageMode = mode as ImageGenerationMode;
   const imageResolutions = isImage ? getResolutionOptions(candidate.engine, imageMode) : [];
+  const imageSize = isImage && imageResolutions.includes('custom') ? projectImageSize(candidate.engine) : undefined;
   const outputCount = isImage
     ? getImageCountConstraints(candidate.engine, imageMode)
     : { min: 1, max: 1, defaultValue: 1 };
@@ -340,8 +381,7 @@ function projectMode(
       ? candidate.engine.resolutions.filter((value) => value !== 'auto').slice(0, 1)
       : [];
   const referenceRequirement = projectReferenceRequirement(candidate.engine, mode);
-  return Object.freeze({
-    mode,
+  const baseControls = {
     durationPolicy: mode === 'a2v'
       ? 'source_audio'
       : mode === 'reframe' || (isLumaRay2EngineId(candidate.engine.id) && mode === 'v2v')
@@ -356,12 +396,17 @@ function projectMode(
       : [...(caps.aspectRatio ?? [])]),
     fps: Object.freeze([...fps]),
     audio: projectAudio(caps, candidate.engine),
+  } as const;
+  return Object.freeze({
+    mode,
+    ...baseControls,
     outputCount: Object.freeze({
       min: outputCount.min,
       max: outputCount.max,
       default: outputCount.defaultValue,
     }),
-    settings: projectSettings(candidate.engine, mode),
+    settings: Object.freeze([...projectBaseSettings(baseControls), ...projectSettings(candidate.engine, mode)]),
+    ...(imageSize ? { imageSize } : {}),
     references: projectReferences(candidate.engine, mode),
     ...(referenceRequirement ? { referenceRequirement } : {}),
   });
@@ -465,10 +510,11 @@ export async function getAgentModelDetails(
     generationEnabled: candidate.generationEnabled,
     lifecycle: runtime?.lifecycle ?? 'current',
     successor: successor ? Object.freeze({ id: successor.id, slug: successor.slug }) : null,
-    recommendedByDefault: runtime?.lifecycle === undefined || runtime.lifecycle === 'current',
+    recommendedByDefault: isAgentModelRecommendationEligible(candidate.engine.id, runtime?.lifecycle),
     prelaunch,
-    modes: Object.freeze(candidate.publicModes.map((mode) => projectMode(candidate, mode))),
+    modes: Object.freeze(candidate.publicModes.map((mode) => projectAgentModelModeDetails(candidate, mode))),
     guidance,
+    editorialGuidance: getAgentModelEditorialGuidance(candidate.engine.id),
     promptingSources,
     links: Object.freeze({
       model: prelaunch

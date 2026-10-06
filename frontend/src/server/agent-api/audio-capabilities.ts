@@ -4,7 +4,8 @@ import {
   AUDIO_CINEMATIC_MAX_DURATION_SEC, AUDIO_LYRIA3_CLIP_MAX_DURATION_SEC, AUDIO_MUSIC_DURATION_OPTIONS_SEC,
   AUDIO_SCRIPT_MAX_LENGTH, AUDIO_LYRICS_MAX_LENGTH, AUDIO_PROMPT_MAX_LENGTH,
   AUDIO_SEED_AUDIO_VOICE_VALUES, AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES, AUDIO_SEED_AUDIO_SAMPLE_RATE_VALUES,
-  AUDIO_MOOD_VALUES, AUDIO_LYRIA3_BPM_VALUES, AUDIO_LANGUAGE_VALUES,
+  AUDIO_MOOD_VALUES, AUDIO_LYRIA3_BPM_VALUES, AUDIO_LYRIA3_MODEL_VALUES, AUDIO_LANGUAGE_VALUES,
+  AUDIO_SEED_AUDIO_RANGE_CONSTRAINTS, AUDIO_SEED_AUDIO_DECIMAL_PRECISION, AUDIO_VOICE_GENDER_VALUES, AUDIO_VOICE_PROFILE_VALUES, AUDIO_VOICE_DELIVERY_VALUES, AUDIO_INTENSITY_VALUES,
   buildAudioVendorCostFacts, getAudioPackConfig, type AudioPackId, type AudioGenerateRequestBody,
 } from '@/lib/audio-generation';
 import { assertAudioProviderConfigured } from '@/server/audio/prepare-audio';
@@ -12,6 +13,61 @@ import { validateAudioGenerateRequest } from '@/server/audio/audio-generate-vali
 import { assertFalModelAllowed } from '@/lib/fal-model-policy';
 import { AUDIO_PRICING_POLICY_REVISION } from '@/lib/audio-pricing-policy';
 import type { ValidatedAudioGenerateRequest } from '@/server/audio/audio-generate-validation';
+import type {CanonicalAudioRequest} from './audio-normalization';
+
+export type AudioSettingDetails = {
+  key: keyof CanonicalAudioRequest['settings']; type: 'text' | 'enum' | 'number'; required: boolean;
+  values: readonly (string | number | boolean)[] | null; min: number | null; max: number | null;
+  default: string | number | boolean | null; integer?: boolean; step?: number; maxChars?: number;
+};
+type AudioVariant=ReturnType<typeof listAudioCapabilities>['modes'][number]['variants'][number];
+function normalizeCapabilityVariant(mode: AudioPackId,variant: AudioVariant) {
+  const body=variantRequests(mode).find(body=>Object.entries(variant.settings).every(([key,value])=>body[key as keyof AudioGenerateRequestBody]===value));
+  return body ? validateAudioGenerateRequest(body) : null;
+}
+export function projectAudioVariantFixedOutput(mode: AudioPackId,variant: AudioVariant) {
+  const normalized=normalizeCapabilityVariant(mode,variant);
+  return mode==='voice_only' && normalized?.voiceModel==='minimax'
+    ? {format: normalized.seedAudioOutputFormat,sampleRate: normalized.seedAudioSampleRate} : null;
+}
+
+/** Discovery facts from the same variant inputs and validator, without changing quote catalog revisions. */
+export function projectAudioVariantSettings(mode: AudioPackId,variant: AudioVariant): AudioSettingDetails[] {
+  const normalized=normalizeCapabilityVariant(mode,variant);
+  if (!normalized) return [];
+  const config=getAudioPackConfig(mode);
+  const choice=(key: AudioSettingDetails['key'],values: readonly (string | number | boolean)[],required=false): AudioSettingDetails=>({key,type: 'enum',required,values: Object.freeze([...values]),min: null,max: null,
+    default: normalized[key as keyof ValidatedAudioGenerateRequest] as string | number | boolean | null});
+  if (mode==='music_only') return [
+    choice('musicModel',[normalized.musicModel!]),choice('mood',AUDIO_MOOD_VALUES,true),choice('musicBpm',AUDIO_LYRIA3_BPM_VALUES),choice('intensity',AUDIO_INTENSITY_VALUES),
+    {key: 'durationSec',type: 'number',required: true,default: normalized.durationSec,integer: true,
+      values: normalized.musicModel==='clip' ? [AUDIO_LYRIA3_CLIP_MAX_DURATION_SEC] : null,
+      min: normalized.musicModel==='clip' ? AUDIO_LYRIA3_CLIP_MAX_DURATION_SEC : AUDIO_MIN_DURATION_SEC,
+      max: normalized.musicModel==='clip' ? AUDIO_LYRIA3_CLIP_MAX_DURATION_SEC : AUDIO_MAX_DURATION_SEC},
+  ];
+  const fields:AudioSettingDetails[]=[];
+  if(config.requiresMood)fields.push(choice('mood',AUDIO_MOOD_VALUES,true));
+  if(config.supportsMusicToggle)fields.push(choice('musicEnabled',[normalized.musicEnabled]));
+  if(config.supportsAudioExport)fields.push(choice('exportAudioFile',[false,true]));
+  if(config.requiresVideo){
+    fields.push(choice('intensity',AUDIO_INTENSITY_VALUES));
+    if(normalized.musicEnabled)fields.push(choice('musicModel',AUDIO_LYRIA3_MODEL_VALUES),choice('musicBpm',AUDIO_LYRIA3_BPM_VALUES));
+  }
+  if(mode==='song')fields.push({key:'lyrics',type:'text',required:true,values:null,min:null,max:null,default:null,maxChars:AUDIO_LYRICS_MAX_LENGTH});
+  if(mode==='sfx_only'||mode==='ambience_only')fields.push({key:'durationSec',type:'number',required:true,values:null,
+    min:AUDIO_MIN_DURATION_SEC,max:mode==='sfx_only'?AUDIO_SFX_MAX_DURATION_SEC:AUDIO_MAX_DURATION_SEC,default:normalized.durationSec,integer:true});
+  if(!config.includesVoice)return fields;
+  const voice: AudioSettingDetails[]=[...fields,
+    choice('voiceModel',[normalized.voiceModel!]),choice('language',AUDIO_LANGUAGE_VALUES),
+    choice('voiceGender',AUDIO_VOICE_GENDER_VALUES),choice('voiceProfile',AUDIO_VOICE_PROFILE_VALUES),choice('voiceDelivery',AUDIO_VOICE_DELIVERY_VALUES),
+    {key: 'script',type: 'text',required: true,values: null,min: null,max: null,default: null,maxChars: AUDIO_SCRIPT_MAX_LENGTH},
+  ];
+  if (normalized.voiceModel==='minimax') voice.push(choice('minimaxVoiceId',AUDIO_MINIMAX_VOICE_VALUES));
+  else voice.push(choice('seedAudioVoice',AUDIO_SEED_AUDIO_VOICE_VALUES),choice('seedAudioOutputFormat',AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES),choice('seedAudioSampleRate',AUDIO_SEED_AUDIO_SAMPLE_RATE_VALUES));
+  for (const key of ['seedAudioSpeed','seedAudioVolume','seedAudioPitch'] as const) voice.push({key,type: 'number',required: false,values: null,
+    default: normalized[key],step: key==='seedAudioPitch' ? 1 : 10**-AUDIO_SEED_AUDIO_DECIMAL_PRECISION,...AUDIO_SEED_AUDIO_RANGE_CONSTRAINTS[key]});
+  return voice;
+}
 
 function variantRequests(pack: AudioPackId): AudioGenerateRequestBody[] {
   const config = getAudioPackConfig(pack);

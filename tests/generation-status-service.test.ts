@@ -299,7 +299,7 @@ test('agent status exposes only the safe Seedance task-type code and actionable 
   assert.equal(result?.failureCode, 'seedance_task_type_constraint');
   assert.equal(
     result?.message,
-    `Seedance could not identify the intended video edit or extension. Refer to the source directly as Video 1 before preparing a new request. ${FAILED_ATTEMPT_BOUNDARY}`
+    `Seedance could not identify the intended video edit or extension. Refer to the source directly as Video 1 before preparing a new request. Your credits were returned to your wallet. ${FAILED_ATTEMPT_BOUNDARY}`
   );
   assert.doesNotMatch(
     JSON.stringify(result),
@@ -329,7 +329,7 @@ test('agent failure messages map recognized categories to fixed public copy', ()
   const cases = [
     {
       raw: 'content policy safety moderation rejected',
-      expected: `This request was blocked by safety checks. Rephrase it with safer, more neutral wording before preparing a new request. ${FAILED_ATTEMPT_BOUNDARY}`,
+      expected: `This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before preparing a new request. ${FAILED_ATTEMPT_BOUNDARY}`,
     },
     {
       raw: 'processing timeout exceeded expected window',
@@ -339,6 +339,14 @@ test('agent failure messages map recognized categories to fixed public copy', ()
       raw: 'provider returned no video output',
       expected: `The render finished without a usable output. ${FAILED_ATTEMPT_BOUNDARY}`,
     },
+    {
+      raw: 'Failed to download the generated output video.',
+      expected: `The render finished, but MaxVideoAI could not prepare the output for download. ${FAILED_ATTEMPT_BOUNDARY}`,
+    },
+    {
+      raw: 'The provider finished this render, but the video could not be copied to MaxVideoAI storage.',
+      expected: `The render finished, but MaxVideoAI could not prepare the output for download. ${FAILED_ATTEMPT_BOUNDARY}`,
+    },
   ];
   for (const fixture of cases) {
     const result = mapGenerationStatusRecordToAgent(
@@ -346,6 +354,30 @@ test('agent failure messages map recognized categories to fixed public copy', ()
     );
     assert.equal(result?.message, fixture.expected);
     assert.notEqual(result?.message, fixture.raw);
+  }
+});
+
+test('agent reference-read failures preserve refund evidence and require a newly approved quote', () => {
+  for (const rawMessage of [
+    'Failed to download the file. Please check if the URL is accessible and try again.',
+    'MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before trying again.',
+    'Reference media could not be read.',
+    'Failed to download the file. Please check if the URL is accessible and try again. input.start_image_url=https://private.test/reference.png?token=secret provider request_id=private-request',
+  ]) {
+    const result = mapGenerationStatusRecordToAgent(generationRecord({
+      status: 'failed',
+      payment_status: 'refunded_wallet',
+      message: rawMessage,
+    }));
+
+    assert.equal(result?.message,
+      `MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request. ${FAILED_ATTEMPT_BOUNDARY}`);
+    assert.equal(result?.status, 'failed');
+    assert.equal(result?.paymentStatus, 'refunded_wallet');
+    assert.equal(result?.result, null);
+    assert.equal(result?.retryAfterSeconds, null);
+    assert.doesNotMatch(JSON.stringify(result),
+      /render finished|render completed|output|input\.start_image_url|https?:|token=|secret|provider|request_id|private-request/i);
   }
 });
 
@@ -600,4 +632,34 @@ test('web status mapper preserves the authenticated video response fixture', () 
     etaSeconds: 20,
     etaLabel: 'Soon',
   });
+});
+
+test('agent reference failure codes take priority over generic safety copy', () => {
+  for (const [failureCode, expected] of [
+    ['seedance_reference_image_blocked', /reference image.*non-identifiable/i],
+    ['seedance_reference_video_blocked', /reference video.*replace/i],
+    ['seedance_reference_media_blocked', /reference media.*prompt/i],
+    ['seedance_reference_video_duration_exceeded', /reference videos.*30 seconds/i],
+  ] as const) {
+    const result = mapGenerationStatusRecordToAgent(generationRecord({ status: 'failed', message: 'opaque safety provider request_id=secret', settings_snapshot: { providerFailure: { failureCode } } }));
+    assert.equal(result?.failureCode, failureCode);
+    assert.match(result?.message ?? '', expected);
+    assert.match(result?.message ?? '', /fresh exact quote.*explicit user approval/i);
+    assert.doesNotMatch(result?.message ?? '', /opaque|request_id|secret|provider|Rephrase it/i);
+  }
+});
+
+test('agent MiniMax and Veo failures retain actionable inputs and confirmed wallet state', () => {
+  for (const [message, expected] of [
+    ['Video duration exceeds the maximum allowed. Maximum is 15.0 seconds.', /reference video.*15 seconds/i],
+    ['This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before trying again.', /prompt.*reference images.*video.*audio/i],
+  ] as const) {
+    for (const paymentStatus of ['paid_wallet', 'refunded_wallet', 'refunded', 'included_mcp_trial']) {
+      const result = mapGenerationStatusRecordToAgent(generationRecord({ status: 'failed', message, payment_status: paymentStatus }));
+      assert.match(result?.message ?? '', expected);
+      assert.equal(/returned to your wallet/.test(result?.message ?? ''), paymentStatus === 'refunded_wallet');
+      assert.match(result?.message ?? '', /fresh exact quote.*explicit user approval/);
+      assert.equal(result?.retryAfterSeconds, null);
+    }
+  }
 });

@@ -16,6 +16,7 @@ const authHashSessionHookPath = join(root, 'frontend/app/(core)/login/_hooks/use
 const oauthCodeExchangeHookPath = join(root, 'frontend/app/(core)/login/_hooks/useLoginOAuthCodeExchange.ts');
 const copyPath = join(root, 'frontend/app/(core)/login/_lib/login-copy.ts');
 const helpersPath = join(root, 'frontend/app/(core)/login/_lib/login-helpers.ts');
+const authAnalyticsPath = join(root, 'frontend/app/(core)/login/_lib/login-auth-analytics.ts');
 const authSurfacePath = join(root, 'frontend/app/(core)/login/_components/LoginAuthSurface.tsx');
 const passwordFieldPath = join(root, 'frontend/app/(core)/login/_components/LoginPasswordField.tsx');
 
@@ -51,12 +52,12 @@ test('login page delegates localized copy and browser helpers to route-local mod
   assert.doesNotMatch(pageSource, /'use client'/);
   assert.match(pageSource, /from 'next\/headers'/);
   assert.match(pageSource, /<LoginPageClient/);
-  assert.match(pageSource, /resolveInitialAuthMode\(params\.mode\)/);
+  assert.match(pageSource, /resolveInitialAuthMode\(params\.mode, params\.next\)/);
   assert.match(pageSource, /resolveInitialAuthLocale\(/);
   assert.match(pageClientSource, /'use client'/);
   assert.match(pageClientSource, /from '\.\.\/_hooks\/useLoginPageController'/);
   assert.match(pageClientSource, /from '\.\/LoginAuthSurface'/);
-  assert.match(pageClientSource, /useLoginPageController\(\{ initialMode, initialLocale \}\)/);
+  assert.match(pageClientSource, /useLoginPageController\(\{ initialMode, initialLocale, initialMcpConnection \}\)/);
   const routeStateSource = readFileSync(routeStatePath, 'utf8');
   assert.match(routeStateSource, /export function resolveInitialAuthMode/);
   assert.match(routeStateSource, /export function resolveInitialAuthLocale/);
@@ -120,7 +121,7 @@ test('login helper modules expose the expected route contract', () => {
   assert.match(copySource, /export type AuthCopy =/, 'copy module should export the auth copy shape for UI props');
   assert.match(helpersSource, /export function resolveGoogleAuthCompletionEvent\(/);
   assert.match(controllerSource, /markPendingGoogleLogin\(mode === 'signup' \? 'signup' : 'signin'\)/);
-  assert.match(oauthCodeExchangeHookSource, /resolveGoogleAuthCompletionEvent\(pendingMode\)/);
+  assert.match(oauthCodeExchangeHookSource, /from '\.\.\/_lib\/login-auth-analytics'/);
   assert.match(authSurfaceSource, /export function LoginAuthSurface/, 'auth surface component should export the login form shell');
   assert.match(authSurfaceSource, /from '\.\/LoginPasswordField'/, 'auth surface should delegate password visibility');
   assert.match(authSurfaceSource, /function GoogleIcon\(/, 'auth surface component should own the inline Google icon');
@@ -140,12 +141,13 @@ test('login helper modules expose the expected route contract', () => {
   }
 });
 
-test('authenticated redirect resolves the consumed Google auth mode', () => {
-  assert.match(authenticatedRedirectHookSource, /resolveGoogleAuthCompletionEvent\(pendingMode\)/);
+test('authenticated redirect delegates account creation measurement to the shared auth analytics owner', () => {
+  assert.match(authenticatedRedirectHookSource, /from '\.\.\/_lib\/login-auth-analytics'/);
   assert.doesNotMatch(authenticatedRedirectHookSource, /persistPendingAnalyticsEvent\('login_completed'/);
+  assert.match(readFileSync(authAnalyticsPath, 'utf8'), /consumePendingGoogleAuthCompletionEvent\(userCreatedAt\)/);
 });
 
-test('hash session resolves the consumed Google auth mode', () => {
-  assert.match(authHashSessionHookSource, /resolveGoogleAuthCompletionEvent\(pendingMode\)/);
+test('hash session delegates account creation measurement to the shared auth analytics owner', () => {
+  assert.match(authHashSessionHookSource, /from '\.\.\/_lib\/login-auth-analytics'/);
   assert.doesNotMatch(authHashSessionHookSource, /persistPendingAnalyticsEvent\('login_completed'/);
 });

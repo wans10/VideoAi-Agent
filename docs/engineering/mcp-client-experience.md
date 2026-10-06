@@ -1,10 +1,75 @@
 # MaxVideoAI : découverte, fluidité et continuité MCP
 
 Créé le **21 septembre 2026**, revu le **22 septembre 2026**. Responsable : ingénierie MaxVideoAI.
-Statut : plugin **0.3.6 publié**, serveur déployé et paquet installé dans Codex
-au [point de contrôle du 22 septembre](../operations/mcp-main-repository-release-v0.3.6.md).
-Les deux essais réels Codex et leurs limites y sont consignés. La validation de
+Statut de distribution au **5 octobre 2026** : plugin **0.3.7 publié**, registre
+officiel actif et installation locale Codex mise à jour, selon le
+[point de contrôle de publication](../operations/mcp-distribution-publication-2026-10-05.md).
+Les deux essais réels Codex du paquet 0.3.6 et leurs limites restent consignés au
+[point de contrôle du 22 septembre](../operations/mcp-main-repository-release-v0.3.6.md). La validation de
 chaque hôte reste distincte ; consulter le [parcours de mise à jour](../operations/mcp-client-updates.md).
+
+## Customer price presentation — 5 October 2026
+
+Image/video and Audio preparation results add an optional `price.formattedAmount`
+from the same pure customer-price formatter used by Studio. Exact integer cents
+and currency remain the authority; the display string performs no estimation,
+conversion, repricing or authorization. Stored request hashes, pricing snapshots
+and balances are unchanged. The addition is backward compatible and retained by
+the complete structured result and compact JSON fallback.
+
+Tool names, descriptors and capability gates are unchanged by this presentation
+addition. Public Audio still requires its independent publication gate. A deployed
+server result is distinct from a plugin package release or a verified host session;
+do not claim new host qualification from deterministic client checks alone.
+
+Canonical image/video pricing validation errors may identify a strictly
+whitelisted public field such as `aspectRatio`. The existing `PARAMETER_INVALID`
+code and error shape are retained; raw values, provider messages, private URLs
+and unknown/internal field names remain undisclosed. This helps a host correct
+its next proposal using live model details without defaulting controls or
+weakening validation. Studio Audio preparation metadata distinguishes required,
+optional and unsupported references; cinematic packs require an existing clip,
+while image/prompt-to-video uses the video preparation tool.
+
+## Studio integration review — 4 October 2026
+
+The Studio branch adds independent timeline-editing and export gates. All **128
+combinations of seven capability gates** must keep global instructions within
+2,000 UTF-8 bytes and exact-quote, explicit-approval and one-attempt rules in the
+first 1,000 bytes when generation is active. Each descriptor keeps its own
+2,000-byte budget. Audio confirmation still requires paid generation. Preserve
+Studio revision conflicts, account-owned media, export quote approval and
+status recovery without another render. The older measurements below describe
+their dated revisions, not the current seven-gate surface.
+
+Recommendations and Studio share the same exact-ID editorial policy. Its dated
+reference/alternative/on_request levels are editorial preferences, not measured
+quality, execution certification or family-wide endorsement. A version without
+its own current review inherits no ranking. Respect a compatible explicit choice;
+compare live budgets before claiming a cheaper option. Mode support and reference
+limits come from live details, including the expanded H3 Max and Wan contracts.
+
+The host owns creative discussion, scripts, shot plans, prompts and reference
+media. An idea or a single asset can complete a request. MaxVideoAI observes only
+requests addressed to its tools and their responses, not every host message,
+hidden reasoning or complete conversations. The
+[learning strategy](../superpowers/specs/2026-10-03-studio-mcp-learning-strategy.md)
+is proposed instrumentation, not enabled collection or measured quality evidence.
+
+Run `pnpm mcp:client:check` and `pnpm model:registry:check`. The client gate must
+include Studio timeline schema parity and export delivery as well as current
+OAuth, transport, reference retry and generation-recovery checks. After reviewing
+metadata or skill changes, recompute only `policyFingerprintSha256` with
+`collectPolicyFingerprintInput` and `computePolicyFingerprintSha256` in
+`frontend/scripts/qa/mcp-tool-selection-eval.ts`; preserve curated decisions unless
+the policy intentionally changes. Never edit expected decisions merely to pass.
+
+The [Studio audit](../operations/studio-mcp-release-audit-2026-10-03.md) and
+[distribution checkpoint](../operations/studio-mcp-distribution-rollout-2026-10-04.md)
+separate local verification from deployment, immutable plugin publication,
+installation and real-host evidence. Preserve the brief and known job IDs through
+reconnection; recover submitted jobs before another request. Neither reconnection
+nor a refund authorizes a new paid attempt.
 
 ## Objectif et limite
 
@@ -55,6 +120,18 @@ elle. Garder le nom et le schéma d'un outil stables sauf changement contractuel
 délibéré. Une suggestion de modèle vient des faits actuels et du besoin exprimé.
 
 ## Parcours attendu
+
+Le 5 octobre 2026, les détails de modes partagés par MCP et Studio ajoutent les
+noms canoniques des contrôles de base dans `settings` : `durationSec`, `resolution`,
+`aspectRatio`, `fps` et `audio` lorsque ce mode propose un interrupteur. `audio`
+est un booléen ; les alias fournisseur comme `generate_audio` ou `generateAudio`
+restent refusés. Les durées issues d'une source et le son toujours généré ne
+deviennent pas des contrôles facultatifs. Les valeurs et limites viennent des
+capacités actuelles ; les valeurs par défaut de cette projection restent nulles
+pour conserver leur propriétaire dans les adaptateurs. Ce changement de résultat
+ne modifie pas les instructions MCP ni leurs budgets d'octets. Les tests de
+découverte et de préparation sont hors ligne ; aucune nouvelle sélection dans un
+hôte réel ni génération payante n'est revendiquée.
 
 1. **Comprendre.** Garder le brief, le modèle choisi, les contraintes et les médias
    déjà fournis. Poser uniquement les questions qui changent le résultat ou le coût.

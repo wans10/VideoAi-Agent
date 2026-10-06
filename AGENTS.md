@@ -34,10 +34,12 @@ Use these guides as context before changing the related areas:
 - `docs/engineering/page-architecture.md`: how route files, metadata, data builders, and page sections should be split.
 - `docs/engineering/activity-feed.md`: Activity pagination, account isolation, read-path latency, and output enrichment contracts.
 - `docs/engineering/read-route-schema-bootstrap.md`: request-time read paths versus explicit schema/bootstrap ownership.
+- `docs/engineering/ci-validation.md`: fast feedback, conditional integration and exhaustive financial checks, and required CI ownership.
 - `docs/engineering/media-delivery.md`: media ownership, original/preview contracts, image optimizer settings, safe repairs, and Core Web Vitals validation.
 - `docs/engineering/admin-routes.md`: admin route and admin UI conventions.
 - `docs/engineering/refactor-roadmap.md`: cleanup strategy and historical context; confirm current line counts with the audit.
 - `docs/engineering/model-registry.md`: required workflow for adding, renaming, retiring, or publishing models.
+- `docs/engineering/mcp-client-experience.md`: MCP instruction ownership, metadata budgets, reconnect guidance and offline/host release checks.
 - `docs/engineering/mcp-integration-registry.md`: MCP integration identity, host evidence, publication, acquisition, installation, and store-state ownership.
 - `docs/engineering/mcp-client-experience.md`: dated MCP discovery, instruction-size, tool guidance, reconnection, and client verification rules; also read the nested server/plugin `AGENTS.md` files.
 - `docs/engineering/alibaba-model-studio-provider.md`: direct Alibaba video routing, polling, observability, canary, and rollback contracts.
@@ -237,6 +239,14 @@ npm --prefix frontend run lint
 npm run lint:exposure
 git diff --check
 ```
+
+Choose additional tests according to the changed responsibilities. Intermediate
+commits and pushes do not require rerunning or waiting for the complete suite;
+continue working while CI validates the candidate. Before merging, the latest
+candidate must include current `main` and have a successful required `Quality CI`.
+Its selected integration, browser and exhaustive financial lanes remain mandatory.
+Do not use `[skip ci]` or bypass branch protection to accelerate delivery.
+See `docs/engineering/ci-validation.md` for selection rules and local suite commands.
 
 For architecture refactors, also run the related architecture or contract tests directly before broader validation.
 

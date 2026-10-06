@@ -78,6 +78,54 @@ recovers available historical completion evidence. Apply before deploying the ad
 before promotion; see `docs/engineering/generation-observations.md` for semantics and
 rollback. The migration does not repair or update source jobs.
 
+## Studio image conversation pilot
+
+`49_studio_generation_scope.sql` separates session image quotes from historical OAuth
+quotes with immutable origin/project scope. `50_studio_image_conversation.sql` stores
+owned immutable message input, draft and reference fingerprint, lease and quote binding.
+Apply them explicitly after initialized Studio schema and migration 39. They were
+qualified only on disposable PostgreSQL 17. Keep `STUDIO_IMAGE_CONVERSATION_ENABLED`
+closed until migration completion and **all** quote reader instances use origin predicates;
+legacy null-OAuth-client readers must not read Studio session approvals.
+See `docs/engineering/studio-conversation-integration.md` for access, rollout and rollback.
+
+`51_studio_image_model_usage.sql` suit 50 et installe les preuves de consommation du modèle texte par compte/projet/tour/tentative. Appliquer avant le runtime image conversation instrumenté. Cette table ne réserve et ne débite aucun crédit média. Les réponses incomplètes restent mesurées ; les tentatives sans compteurs restent explicitement inconnues. Qualification sur PostgreSQL 17 jetable et preview QA local uniquement.
+
+`62_studio_assistance_resolutions.sql` follows `54_studio_assistance_ledger.sql`.
+Apply it explicitly before the support-aware assistance readers. It adds immutable
+operator decisions for recorded-response settlement and customer reservation
+waivers, retaining supplier usage independently; it does not change existing
+wallets, calls or allowances. Keep this additive financial evidence on rollback.
+See `docs/operations/studio-assistance-support.md` for the target-bound preview/apply
+command and expired-lease revocation rules. Qualification uses disposable local
+PostgreSQL; this file does not record production application.
+
 ## Gallery opening slots
 
 `53_playlist_opening.sql` follows migration52 and adds optional four-video opening IDs. It is additive and replayable; it does not change any destination or media. Before applying it, test on a database branch. Runtime readers and ordinary curation retain compatibility without the column; the new admin selector appears only after migration. Do not apply migrations from a public request.
+
+## MCP Mini supplier raster correction (migration 60)
+
+Apply `60_mcp_trial_provider_rasters.sql` after migration 31 and before deploying
+the corrected Mini trial estimator. New 5s 480p estimates are 18 cents for 16:9
+and 9:16, and 17 cents for 1:1. New quote insertion and confirmation use the
+current estimator; an older prepared quote must be prepared again. Accepted
+historical trial quotes retain their original 17/10-cent funding snapshots.
+
+Migration 31's replay now preserves the two known definitions of the cost CHECK
+helper. Migration 60 upgrades an existing installation as well as a fresh one,
+and preserves all canonical request, zero-customer-charge, private funding and
+audit constraints. Replaying 31/60 does not rewrite quote or audit rows. Both
+refuse an unfamiliar helper definition. This change has only been applied to
+disposable local PostgreSQL fixtures, not a hosted database.
+
+## Studio assistance credits (migration 63)
+
+`63_studio_assistance_credits.sql` follows 54 and 62. Apply explicitly before a
+credits-enabled runtime; it adds monthly/purchased lots, call funding and credit
+allocations, plus immutable support refund-credit evidence. It does not debit a
+wallet, create grants, convert old budgets, alter old calls or activate pricing.
+The new production policy requires its own `studio-credits-2026-10-05-v2` approval.
+Retain this additive financial evidence on rollback. Qualification is local
+disposable PostgreSQL only; no hosted migration was run for this implementation.
+See `docs/engineering/studio-assistance-economics.md`.

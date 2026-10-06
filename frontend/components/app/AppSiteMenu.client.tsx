@@ -7,8 +7,10 @@ import { AppLanguageToggle } from '@/components/AppLanguageToggle';
 import { MARKETING_TOP_NAV_LINKS } from '@/config/navigation';
 import { getPathname } from '@/i18n/navigation';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { AppAppearanceControl } from './AppAppearanceControl.client';
 import { AppGlyph } from './AppGlyph';
-import { AppAssistantConnections, AppAssistantMarks } from './AppAssistantConnections';
+import { AppAssistantConnections } from './AppAssistantConnections';
+import { AppMcpShortcuts } from './AppMcpShortcuts.client';
 import { appNavLabel, canShowStudioNavigation, getAppMenuItems } from './app-navigation';
 
 type AppSiteMenuCommonProps = {
@@ -17,8 +19,6 @@ type AppSiteMenuCommonProps = {
   isAdmin: boolean;
   signinHref: string;
   signupHref: string;
-  themeToggleLabel: string | undefined;
-  onToggleTheme: () => void;
   onSignOut: () => void;
 };
 
@@ -36,7 +36,7 @@ type AppSiteMenuController = {
   open: (trigger: HTMLElement) => void;
 };
 
-export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, signupHref, themeToggleLabel, onToggleTheme, onSignOut, controllerRef, onAppNavigate, studioVisible }: AppSiteMenuButtonProps) {
+export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, signupHref, onSignOut, controllerRef, onAppNavigate, studioVisible }: AppSiteMenuButtonProps) {
   const { locale, t } = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -83,6 +83,10 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
       </button>
       <dialog ref={dialogRef} className="app-site-dialog" aria-labelledby={titleId} onClick={(event) => { if (event.target === event.currentTarget) close(); }}>
         <div className="app-site-dialog-heading"><h2 id={titleId}>MaxVideoAI</h2><button type="button" onClick={close} autoFocus>{copy.close} ×</button></div>
+        <section className="app-site-preferences" aria-labelledby={`${titleId}-preferences`}><h3 id={`${titleId}-preferences`}>{copy.preferences}</h3>
+          <div><span>{copy.language}</span><AppLanguageToggle /></div>
+          <div><span>{copy.theme}</span><AppAppearanceControl locale={locale} /></div>
+        </section>
         <div ref={bodyRef} className="app-site-dialog-body">
           <AppAssistantConnections locale={locale} onNavigate={close} />
           <section aria-labelledby={`${titleId}-app`}><h3 id={`${titleId}-app`}>{copy.app}</h3>
@@ -95,10 +99,6 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
             <nav className="app-public-menu" aria-label={copy.site}>
               {publicLinks.map((item) => <Link key={item.key} href={getPathname({ locale, href: item.href })} prefetch={false} target="_blank" rel="noopener noreferrer" onClick={close}><span>{item.label}</span><AppGlyph name="external" /><span className="sr-only"> ({copy.newTab})</span></Link>)}
             </nav>
-          </section>
-          <section className="app-site-preferences" aria-labelledby={`${titleId}-preferences`}><h3 id={`${titleId}-preferences`}>{copy.preferences}</h3>
-            <div><span>{copy.language}</span><AppLanguageToggle /></div>
-            <div><span>{copy.theme}</span><button type="button" onClick={onToggleTheme}>{themeToggleLabel}</button></div>
           </section>
           <div className="app-site-auth">
             {email ? <><span>{email}</span><button type="button" onClick={() => { close(); onSignOut(); }}>{copy.signOut}</button></>
@@ -114,17 +114,15 @@ export function AppSiteMenu({ children, ...props }: Props) {
   const { locale, t } = useI18n();
   const controllerRef = useRef<AppSiteMenuController | null>(null);
   const copy = locale === 'fr'
-    ? { connect: 'Connexions', account: 'Compte', signIn: 'Connexion' }
+    ? { account: 'Compte', signIn: 'Connexion' }
     : locale === 'es'
-      ? { connect: 'Conectar', account: 'Cuenta', signIn: 'Entrar' }
-      : { connect: 'Connect', account: 'Account', signIn: 'Sign in' };
+      ? { account: 'Cuenta', signIn: 'Entrar' }
+      : { account: 'Account', signIn: 'Sign in' };
   return (
     <>
       <AppSiteMenuButton {...props} controllerRef={controllerRef} />
       <div className="app-header-actions">
-        <button className="app-assistant-shortcut" type="button" aria-haspopup="dialog" onClick={(event) => controllerRef.current?.open(event.currentTarget)}>
-          <AppAssistantMarks /><span>{copy.connect}</span>
-        </button>
+        <AppMcpShortcuts locale={locale} />
         {children}
         <div className="app-header-account">
           {props.email ? <button type="button" onClick={(event) => controllerRef.current?.open(event.currentTarget)} aria-haspopup="dialog"><AppGlyph name="settings" /><span>{copy.account}</span></button>

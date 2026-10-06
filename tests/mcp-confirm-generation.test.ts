@@ -176,6 +176,7 @@ test('confirmation pricing distinguishes ref2v video, image, and DB-verified vid
         width: 1920,
         height: 1080,
         mimeType: 'video/mp4',
+        durationSec: 4,
       }],
       expected: 'video_input',
     },
@@ -1301,6 +1302,29 @@ test('default registry remains five discovery tools and the explicit paid gate e
   assert.match(confirm?.description ?? '', /never.*retry.*failed generation/i);
   assert.match(confirm?.description ?? '', /new paid attempt.*fresh exact quote.*new explicit user approval/i);
   assert.deepEqual(Object.keys(confirm?.inputSchema.properties ?? {}).sort(), ['confirmed', 'quoteId']);
+});
+
+test('paid image continuation rejects success-shaped refunded responses and stays ambiguous when refund settlement is unconfirmed', async () => {
+  const quote = quoteFor(imageRequest);
+  const execution: PaidGenerationExecution = {
+    surface: 'image', quoteId: quote.quoteId, userId: quote.userId, request: imageRequest,
+    engine: capability(imageRequest).engine,
+    canonicalPricing: quote.pricingSnapshot.canonicalPricing as Record<string, unknown>,
+    trustedInitialState: { kind: 'created', jobId: quote.quoteId, recoveredCharge: true },
+  };
+
+  const rejected = await submitReservedPaidGeneration(execution, {
+    executeVideo: async () => assert.fail('unexpected video'),
+    executeImage: async () => ({ ok: true, paymentStatus: 'refunded_wallet' }),
+  });
+  assert.deepEqual(rejected, { kind: 'rejected', refunded: true });
+
+  const ambiguous = await submitReservedPaidGeneration(execution, {
+    executeVideo: async () => assert.fail('unexpected video'),
+    executeImage: async () => ({ ok: true, paymentStatus: 'refunded_wallet' }),
+    ensureKnownRejectionRefund: async () => false,
+  });
+  assert.deepEqual(ambiguous, { kind: 'ambiguous', retryable: true });
 });
 
 test('known MCP rejection forwards its diagnostic to refund persistence', async () => {

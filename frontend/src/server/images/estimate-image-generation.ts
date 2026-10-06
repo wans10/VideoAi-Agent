@@ -2,6 +2,7 @@ import { listFalEngines } from '@/config/falEngines';
 import type { PricingSnapshot } from '@/types/engines';
 import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-generation';
 import { isLumaAgentsImageEngineId } from '@/lib/luma-agents';
+import { isSeedreamEngineId } from '@/lib/image/seedream';
 import {
   applyStoryboardKlingBundlePricing,
   getStoryboardKlingFirstFramePricingConfig,
@@ -169,11 +170,13 @@ async function estimateImageGenerationInternal(
   const pricing = await computeCanonicalPublicSnapshot({
     engine,
     durationSec: numImages,
+    aspectRatio: typeof input.aspectRatio === 'string' ? input.aspectRatio : undefined,
     resolution: resolutionResult.resolution,
     mode,
     customImageSize,
     quality: typeof input.quality === 'string' ? input.quality : undefined,
     referenceImageCount: pricedReferenceImageCount,
+    ...(isSeedreamEngineId(engine.id) ? { inputImageCount: mode === 'i2i' ? referenceImageCount : 0 } : {}),
     membershipTier: input.membershipTier,
     currency: engine.pricing?.currency ?? 'USD',
     addons:
@@ -250,6 +253,7 @@ export async function estimateImageGeneration(
       mode: input.mode,
       numImages: input.numImages,
       resolution: input.resolution,
+      customImageSize: input.customImageSize,
       quality: input.quality,
       aspectRatio: input.aspectRatio,
       referenceImageCount: input.referenceImageCount,

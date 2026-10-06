@@ -49,6 +49,8 @@ Publication and acquisition are separate decisions. Making an entry visible or i
 
 Adding a registry entry alone never authors a Next.js route or localized content. Keep explicit route owners and do not create a generic catch-all integration page.
 
+The application header projects the live, indexable integrations in registry order through `frontend/components/app/AppAssistantConnections.tsx`, using the shared `McpIntegrationMark` logos and localized page paths. Both global `renderPublicPage` and `indexable` gates must be open. `AppMcpShortcuts.client.tsx` owns the direct desktop links and the narrow-screen MCP-only dialog; `AppSiteMenu.client.tsx` retains the separate general application/account menu. These links describe installation pages, not the user's connection status. `tests/app-mcp-navigation.test.ts` covers publication withdrawal, localized destinations and dialog focus restoration.
+
 ## Evidence update procedure
 
 `docs/operations/mcp-host-compatibility-matrix.md` owns detailed tested-host evidence: exact host version, environment, actions exercised, limits, failures, and evidence references. After completing a newer checkpoint:
@@ -69,9 +71,11 @@ have not been verified.
 n8n is `live`, indexable, and acquisition-enabled only for the tested
 self-hosted deterministic MCP Client workflow. The MCP Client host remains
 `tested_with_limits`; MCP Client Tool remains `not-run`, n8n Cloud is not
-claimed. The template-library store state is `listed` for
-[public workflow 19591](https://n8n.io/workflows/19591-turn-creative-briefs-into-approved-maxvideoai-generations-with-human-review/),
-observed on 2026-09-25. This changes distribution state only; users still
+claimed. The template-library store state is `submitted` for the October 5 update to
+[workflow 19591](https://n8n.io/workflows/19591-turn-creative-briefs-into-approved-maxvideoai-generations-with-human-review/).
+The Creator Portal shows `Pending` / `Under review`; the public API still
+returns the historical 20-node version and its direct page remains readable.
+The earlier public listing was observed on 2026-09-25. This changes distribution state only; users still
 configure OAuth manually, and the self-hosted 2.38.7 MCP Client checkpoint
 remains `tested_with_limits`. The other two reviewed JSON workflows have no
 verified public listing. The earlier private review and submission history is

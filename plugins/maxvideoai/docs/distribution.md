@@ -1,6 +1,6 @@
 # Distribution and installation status
 
-Checked: **2026-09-14**.
+Checked: **2026-10-05**. Directory policy observations retain their separate dates below.
 
 Packaging boundary reviewed **2026-09-22**: this is a source-maintainer document,
 excluded from the customer archive along with `evals/` and `AGENTS.md`. The public
@@ -11,6 +11,37 @@ MaxVideoAI's distributable MCP metadata names the protocol-generic endpoint
 `https://api.maxvideoai.com/mcp`. This document distinguishes direct setup from
 directory distribution so that an installation path is never mistaken for a
 platform approval or a directory record.
+
+## Published release — 2026-10-05
+
+The protected publisher completed source `a833d985a81f9d523e08917674a01f1e220337b1`
+to public commit `67dfbedad6e32377287b55ba005296e73206b23a`.
+[Canonical release v0.3.7](https://github.com/camgraphe/maxvideoai-plugin/releases/tag/v0.3.7)
+contains the ZIP and checksum. Downloaded bytes match the qualified deterministic
+archive, SHA-256 `f43ae14a709c97ef2cb07f4955ae52dc6792ec10e4ab86eeddad1fc67f4a6ff4`.
+The application-repository release is a pointer, with no duplicate assets.
+The official Registry record is active/latest at 0.3.7. Website installation
+copy now pins the published `v0.3.7` in the source follow-up; its production
+delivery remains a separate PR and CI gate. See the
+[publication checkpoint](../../../docs/operations/mcp-distribution-publication-2026-10-05.md).
+
+## Historical prepared release candidate — 2026-10-04
+
+The observations in this section preceded the October 5 publication above.
+
+Source package **0.3.7** is prepared locally and has not been published. A fresh
+read-only check found public tags/releases through `v0.3.6`, source tags through
+`maxvideoai-plugin-v0.3.6`, and official Registry versions 0.3.3, 0.3.5 and 0.3.6;
+0.3.6 remains active/latest. No 0.3.7 tag, release or Registry record was found.
+
+The package manifests, `server.json`, `VERSION` and its installation examples
+move together to 0.3.7. The public website installation constant separately pins
+the already published `v0.3.6` in `camgraphe/maxvideoai-plugin`. Keep that pin until
+the immutable 0.3.7 focused repository tag, release and package checksums have
+been published and read back successfully. The application repository's
+`maxvideoai-plugin-v0.3.7` tag identifies reviewed source; it is not the customer
+marketplace repository. Registry publication and server deployment remain
+separate actions. Recheck version availability immediately before publication.
 
 ## Direct installation
 
@@ -51,12 +82,12 @@ verified-client evidence above.
 
 ## Directory status
 
-- **Official MCP Registry — active at `0.3.5`.** The official API record for
+- **Official MCP Registry — active at `0.3.7`.** The official API record for
   [`com.maxvideoai/maxvideoai`](https://registry.modelcontextprotocol.io/v0.1/servers?search=com.maxvideoai%2Fmaxvideoai)
   is active. This protocol registry publication is not an OpenAI, Anthropic, or
   other host-directory listing and does not prove host compatibility.
-  The version and production endpoint were rechecked on **2026-09-21**; the
-  registry reports publication on **2026-09-16**. Policy review dates below are
+  The version and production endpoint were rechecked on **2026-10-05**; this is a dated observation. Check the exact
+  public record again before release. Policy review dates below are
   separate from this registry check.
 - **ChatGPT/OpenAI directory — do not submit.** OpenAI's current plugin
   guidelines prohibit commerce for digital products or services, including
