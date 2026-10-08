@@ -471,5 +471,16 @@ export function resolvePartnerBrand(identity: PartnerBrandIdentity): PartnerBran
 }
 
 export function getPartnerBrandMark(identity: PartnerBrandIdentity): PartnerBrandAssetSet | undefined {
+  // Qwen Image 3 shares Wan's compact mark while retaining its Alibaba identity.
+  const engineId = identity.id?.toLowerCase();
+  if (
+    engineId === 'qwen-image' ||
+    engineId === 'qwen-image-3-0' ||
+    engineId === 'qwen-image-3-0-pro' ||
+    engineId === 'qwen-image-3.0' ||
+    engineId === 'qwen-image-3.0-pro'
+  ) {
+    return getPartnerByBrandId('wan')?.compactMark;
+  }
   return resolvePartnerBrand(identity)?.compactMark;
 }
