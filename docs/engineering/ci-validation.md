@@ -12,7 +12,7 @@ failed, canceled, missing or unexpectedly skipped required jobs.
 | --- | --- | --- |
 | Fast checks | Exposure guard, catalogue/roster audits, TypeScript, ESLint, image alt checks and fast validation files | Every run |
 | Database and media integration | Disposable PostgreSQL, real FFmpeg tests and three isolated Studio route integrations | Runtime/UI changes; financial changes; full runs |
-| Exhaustive financial cutovers | Both complete cutover/rollback tests, including all 26,818 canonical quote checkpoints | Financial/shared runtime inputs; CI changes; full runs |
+| Exhaustive financial cutovers | Both complete cutover/rollback tests, including all 26,826 canonical quote checkpoints | Financial/shared runtime inputs; CI changes; full runs |
 | Browser | Connected Studio, editorial media, prompting tabs and admin smoke | UI/layout/translation changes; runtime/financial changes; full runs |
 
 These lanes run in parallel. The initial financial migration's complete matrix is

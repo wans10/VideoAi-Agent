@@ -313,7 +313,10 @@ test('homepage curation reads share only the invocation and preserve PostgreSQL 
     } finally { process.env.DATABASE_URL = configured; }
     process.env.NEXT_PHASE = 'phase-production-build';
     try { await load(); } finally { delete process.env.NEXT_PHASE; }
-    assert.equal(statements.length, 0);
+    assert.equal(configs().length, 0, 'bundled build examples must not read playlist configuration');
+    assert.equal(statements.filter(({ text }) => isCandidates(text)).length, 0, 'build fallback must not list database media');
+    assert.ok(statements.every(({ text }) => /^SELECT\b/.test(text.trim()) && /FROM app_pricing_rules\b/.test(text)),
+      'bundled examples may only read current pricing policy, never hydrate stored media');
   });
 
   await t.test('aliases, limits, sorting and public eligibility stay local to each consumer', async () => {

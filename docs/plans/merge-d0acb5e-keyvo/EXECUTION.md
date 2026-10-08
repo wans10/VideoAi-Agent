@@ -26,10 +26,28 @@
 
 ## 验证与未完成事项（2026-10-09 更新）
 
-最新完整 fast：7048 测试，7039 通过、8 失败、1 跳过，详见 `latest-fast-failures.json`。其中 Alibaba 架构扫描误包含 `.next/standalone` 副本，已修正为只检查 authored source，3/3 复验通过。6 个媒体用例受本地 ffprobe 环境阻塞：arm64 目录里的文件实际 x86_64，执行 `bad CPU type`；原生 FFmpeg 可执行。未更改或放宽媒体事实测量契约。另 1 个 GitHub 素材验证失败：来源 manifest 指定的上游提交在 fork Git 对象中不存在，不能证明为本仓库祖先。保留来源哈希，不伪造本仓库来源提交。
+隔离候选已创建真实双父 merge commit `6bd4c69665d8b419cecf33d2820385dd2107a5d3`。它完整包含目标 `d0acb5e` 和定制 `9ed63ad` 的 Git 历史，114 个冲突已解决；目标 MaxVideoAI 仍为 `d0acb5e`。候选提交不代表目标已合并或已发布。
 
-生产 CNY 完整构建此前通过全部 prebuild、编译、类型、页面生成和 sitemap；之后新增了支付收据元数据隔离、MCP 历史模板恢复和中文报价标签，需再次构建。最新 TypeScript、exposure 检查通过；ESLint 0 错误、12 警告。支付 HTTP 实际 handler 新回归通过（超时、reload、并发重复、late paid 查询、账号隔离）；协议签名/结算独立验证通过。新增 Qwen 8 场景独立冻结，与当前输出逐字段比对；不改历史 577 行。中文文章重复 slug 映射已修复。MCP v1–v5 保留原始文档，v5 既有 SHA-256 验证通过，新品牌只由 v6 提供。
+| 检查 | 实际结果 |
+|---|---|
+| CNY 生产完整构建 | 通过 prebuild、编译、类型、1012 页面生成及 Keyvo sitemap；`/private/tmp/keyvo-build-candidate.log` |
+| TypeScript / exposure / ESLint | 通过；ESLint 0 错误、12 警告；最新 followup 类型检查也通过 |
+| 完整 fast（最终工具环境） | 7049 项，7046 通过、2 失败、1 跳过；见 `final-fast-failures.json` |
+| 完整数据库/媒体 integration 首轮 | 最终重跑 720 项，697 通过、19 失败、4 跳过；13 个 PG17 前置阻塞，6 个 CLI ffprobe 缺失。临时 PATH 复验 mux 已通过，其余 5 个 fixture 需要 PNG/WAV 完整 ffprobe 支持，裁剪版拒绝 PNG |
+| 首页与 MCP trial focused | 37/37；首页进一步收紧为仅允许读取现行价格策略后 19/19 |
+| 支付、账务、分享 focused | 32/32；CNY 数据库积分包、迁移及 HTTP 支付恢复候选验证 9/9 |
+| 浏览器实际运行 | 安装的原生 Chrome：示例布局、Sora tabs 2/2；editorial reader 4/4 |
+| Studio lane / 全浏览器 lane | 未通过 PostgreSQL 17 前置要求（本地只有可执行 PG16）；默认 Playwright Chromium1217 未安装。未放宽版本断言 |
+| 完整财务 cutover | 两项 exhaustive 已启动；报价矩阵与回滚仍执行中，不能宣称通过 |
 
-重点支付/账务/分享 32/32；新增 CNY 实际数据库包购买、31 精确历史升级、普通迁移原子回滚及 concurrent 索引验证此前通过。完整 Studio、浏览器、数据库 integration、财务 exhaustive 仍需运行，未验证部分不能宣称通过。当前依赖为隔离工作树映射的既有安装，未完成全新 frozen 安装或 Docker 实际构建。
+最终 fast 两项失败：① 历史 GitHub 素材的来源提交对象在 fork 中不存在，不能证明是 HEAD 祖先；保留真实来源哈希，没有伪造证据。② 当前可用原生 ffprobe 6.1.1 为裁剪版，支持 MP4 视频但没有 WAV demuxer，音频时长实测失败。原依赖 `ffprobe-static` 的 darwin/arm64 文件实际是 x86_64；不能据此认定生产 Linux 媒体工具已验收。原生 ffprobe 替换仅用于本次测试进程，不修改业务、依赖文件或断言；它让此前 5 个视频事实失败通过。原生 FFmpeg 编码可运行。
 
-目标 MaxVideoAI 尚未前移。可以将当前候选保存为独立集成 merge commit，以供必须从已提交 Git 快照运行的 Studio 测试；该提交不代表目标分支合并、推送、上线或验证完成。原定制工作树保持不变。
+Qwen 两个模型新增 t2i/i2i × 1k/2k 共 8 个独立 selector。实际枚举 20130 普通场景、14675 普通单元、324 workflow 单元，合计 **14999 单元、26826 检查点**，见 `final-tariff-inventory.json`。历史577行价格fixture不改，新Qwen8行独立冻结；人民币转换仅发生一次。完整 cutover 测试同步更新旧计数并锁定 Qwen selector 身份，继续验证所有报价、原子拒绝和历史回滚。
+
+支付 HTTP 实际 handler 回归覆盖超时、reload、并发重复、late paid 查询和账号隔离；协议签名/结算独立通过。中文文章重复 slug 已修复。MCP v1–v5 保留原始文档和既有 v5 SHA-256；新品牌只由 v6 提供。没有恢复已退役 Canvas 或未经实现的公共 export worker。
+
+当前依赖为隔离工作树映射的既有安装，未完成全新 frozen 安装、Docker 实际构建、PG17 Studio 端到端及跨浏览器验收。GitHub 官方 PG17 包下载再次 DNS timeout。上述限制不是测试成功，必须在具备工具的干净 CI 环境补齐。
+
+Docker 基础 bootstrap 已使用与普通 runner 相同的 session advisory lock。真实 PostgreSQL 验证它等待已有迁移锁期间没有创建基础表，释放后才完成 bootstrap；与普通迁移原子回滚、31精确历史升级、concurrent索引重放一起 3/3 通过。两阶段之间会释放锁，但每个阶段不会并发写入。
+
+本次没有生产迁移、数据删除、push 或部署。只有必要质量检查全部通过，才将候选纳入 MaxVideoAI；原定制工作树保持原分支和提交。

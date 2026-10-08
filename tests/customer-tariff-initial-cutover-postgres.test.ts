@@ -55,6 +55,10 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     assert.equal(policy.status, 'loaded');
     if (policy.status !== 'loaded') throw new Error('Fixture policy unavailable');
     const coverage = collectSellableManualTariffCoverage();
+    assert.deepEqual(coverage.scenarios.filter(row => row.modelId.startsWith('qwen-image-3-0')).map(row => row.id).sort(),
+      ['qwen-image-3-0', 'qwen-image-3-0-pro'].flatMap(engineId => ['t2i', 'i2i'].flatMap(mode =>
+        ['1k', '2k'].map(resolution => `engineId=${engineId}|mode=${mode}|resolution=${resolution}|durationSec=1`))).sort(),
+      'the Keyvo extension must add exactly both Qwen models, modes and resolutions');
     const inactive = { status: 'loaded' as const, active: false, revision: 0, databaseCells: [], versionedCells: [] };
     const quoteLegacy = (scenario: typeof coverage.scenarios[number]) => computeCanonicalBillingSnapshot(scenario.context,
       { pricingPolicy: { loadOverrides: async () => policy }, loadCustomerTariffState: async () => inactive });
@@ -91,7 +95,7 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       capturedAt: new Date().toISOString(), bindings, deployedSource: { codeRevision: bindings.codeRevision,deploymentId: 'fixture' },
       cells: cells.map(({ id,selector,price,currency }) => ({ id,selector,price,currency })),checkpoints,approvedChanges };
     const release = { ...body,fingerprint: cutoverDigest(body) };
-    t.diagnostic('All 26,818 fixture checkpoint amounts prepared.');
+    t.diagnostic('All 26,826 fixture checkpoint amounts prepared.');
     const cutover = <T>(work: Parameters<typeof withDbTransaction<T>>[0]) => withPricingCutoverTransaction({ DATABASE_URL: db.databaseUrl },'rehearsal',e => work(e,undefined as never));
     const run = (candidate = release, fingerprint = candidate.fingerprint) => cutover(e => activateInitialCustomerTariffGrid(e,
       { release: candidate,fingerprint,target,actorId: actor,mode: 'rehearsal' }));
@@ -133,10 +137,10 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       return activateInitialCustomerTariffGrid(executor, { release, fingerprint: release.fingerprint, target, actorId: actor, mode: 'rehearsal' });
     });
     assert.ok(tariffReads <= 8, `Full canonical acceptance made ${tariffReads} tariff SQL reads`);
-    t.diagnostic(`26,818-checkpoint acceptance: ${tariffReads} tariff SQL reads; ${Math.round(performance.now() - started)} ms.`);
+    t.diagnostic(`26,826-checkpoint acceptance: ${tariffReads} tariff SQL reads; ${Math.round(performance.now() - started)} ms.`);
     assert.equal(applied.revision,1);
-    assert.equal(applied.checkedQuotes,26818);
-    assert.equal(applied.candidateCells,14991);
+    assert.equal(applied.checkedQuotes,26826);
+    assert.equal(applied.candidateCells,14999);
     t.diagnostic('Actual reader activation accepted before commit.');
     await assert.rejects(run(), /initial.*empty|revision/i);
     await assert.rejects(db.pool.query('DELETE FROM app_customer_tariff_cutover_events'), /immutable/i);
@@ -147,7 +151,7 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     await db.pool.query('UPDATE app_customer_tariff_state SET revision=1');
     assert.equal((await rollback()).revision,2);
     assert.deepEqual((await db.pool.query('SELECT revision,active FROM app_customer_tariff_state')).rows,[{ revision: '2',active: false }]);
-    assert.equal((await db.pool.query('SELECT count(*)::int AS n FROM app_customer_tariff_cells')).rows[0].n,14991);
+    assert.equal((await db.pool.query('SELECT count(*)::int AS n FROM app_customer_tariff_cells')).rows[0].n,14999);
     assert.equal((await db.pool.query('SELECT count(*)::int AS n FROM app_customer_tariff_cutover_events')).rows[0].n,2);
     assert.deepEqual((await db.pool.query('SELECT snapshot FROM historical_paid_snapshots')).rows,[{ snapshot: { totalCents: 13,rule: 'old' } }]);
     assert.equal((await db.pool.query('SELECT unit_price_cents FROM app_billing_products')).rows[0].unit_price_cents,8);

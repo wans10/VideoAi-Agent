@@ -3,8 +3,35 @@ import test from 'node:test';
 import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {spawnSync} from 'node:child_process';
+import {spawn,spawnSync} from 'node:child_process';
 import {startDisposablePostgres} from './helpers/disposable-postgres';
+
+test('Docker bootstrap waits for the migration lock before any base-schema write',async t=>{
+  const pg=await startDisposablePostgres('keyvo-bootstrap-lock');
+  t.after(()=>pg.cleanup());
+  const owner=await pg.pool.connect();
+  await owner.query('SELECT pg_advisory_lock(19283746)');
+  const child=spawn('frontend/node_modules/.bin/tsx',['--tsconfig','frontend/tsconfig.json','docker/scripts/bootstrap-schema.ts'],
+    {env:{...process.env,DATABASE_URL:pg.databaseUrl,DATABASE_URL_UNPOOLED:pg.databaseUrl},stdio:['ignore','pipe','pipe']});
+  let logs='';child.stdout.on('data',chunk=>{logs+=chunk;});child.stderr.on('data',chunk=>{logs+=chunk;});
+  const completed=new Promise<number|null>((resolve,reject)=>{child.once('error',reject);child.once('exit',resolve);});
+  try {
+    let waiting=false;
+    for(let attempt=0;attempt<100;attempt++){
+      const locks=await pg.pool.query("SELECT count(*)::int n FROM pg_locks WHERE locktype='advisory' AND objid=19283746 AND NOT granted");
+      if(locks.rows[0].n>0){waiting=true;break;}
+      await new Promise(resolve=>setTimeout(resolve,50));
+    }
+    assert.ok(waiting,'bootstrap must acquire the same lock as versioned migrations');
+    assert.equal((await pg.pool.query("SELECT to_regclass('app_pricing_rules') name")).rows[0].name,null);
+    await owner.query('SELECT pg_advisory_unlock(19283746)');
+    assert.equal(await completed,0,logs);
+    assert.ok((await pg.pool.query("SELECT to_regclass('app_pricing_rules') name")).rows[0].name);
+  }finally{
+    await owner.query('SELECT pg_advisory_unlock(19283746)');owner.release();
+    if(child.exitCode===null){child.kill('SIGTERM');await completed;}
+  }
+});
 
 test('migration runner atomically records SQL, rolls back failed work and refuses changed history',async t=>{
   const pg=await startDisposablePostgres('keyvo-runner'),dir=mkdtempSync(join(tmpdir(),'keyvo-migrations-'));

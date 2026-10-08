@@ -1,0 +1,147 @@
+TAP version 13
+# frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+# frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+# frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+# frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+# Subtest: persisted Studio quotes and MCP preparations agree on optional image guidance and start/end video frames
+not ok 1 - persisted Studio quotes and MCP preparations agree on optional image guidance and start/end video frames
+  ---
+  duration_ms: 12.105083
+  type: 'test'
+  location: '/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:2:2217'
+  failureType: 'testCodeFailure'
+  error: |-
+    Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
+    frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericNodeError (node:internal/errors:983:15)
+    wrappedFn (node:internal/errors:537:14)
+    checkExecSyncError (node:child_process:916:11)
+    execFileSync (node:child_process:952:15)
+    readFixture (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:36:39)
+    <anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:18)
+    Array.map (<anonymous>)
+    createStudioCallRuntime (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:5)
+    TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:29:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: live qualification refuses any configured database before allocating its disposable runtime
+ok 2 - live qualification refuses any configured database before allocating its disposable runtime
+  ---
+  duration_ms: 0.252667
+  type: 'test'
+  ...
+# Subtest: owned video and audio fixtures expose measured metadata without image bytes or cross-case access
+not ok 3 - owned video and audio fixtures expose measured metadata without image bytes or cross-case access
+  ---
+  duration_ms: 10.859875
+  type: 'test'
+  location: '/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:2:7813'
+  failureType: 'testCodeFailure'
+  error: |-
+    Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
+    frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericNodeError (node:internal/errors:983:15)
+    wrappedFn (node:internal/errors:537:14)
+    checkExecSyncError (node:child_process:916:11)
+    execFileSync (node:child_process:952:15)
+    readFixture (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:36:39)
+    <anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:18)
+    Array.map (<anonymous>)
+    createStudioCallRuntime (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:5)
+    TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:74:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: real conversation qualification prepares durable quotes, rejects malformed settings and replays without another Response or charge
+not ok 4 - real conversation qualification prepares durable quotes, rejects malformed settings and replays without another Response or charge
+  ---
+  duration_ms: 11.479958
+  type: 'test'
+  location: '/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:2:16398'
+  failureType: 'testCodeFailure'
+  error: |-
+    Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
+    frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericNodeError (node:internal/errors:983:15)
+    wrappedFn (node:internal/errors:537:14)
+    checkExecSyncError (node:child_process:916:11)
+    execFileSync (node:child_process:952:15)
+    readFixture (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:36:39)
+    <anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:18)
+    Array.map (<anonymous>)
+    createStudioCallRuntime (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:5)
+    TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:154:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: real conversation Audio preparation covers seven packs, exact clone/source references and replay without media dispatch
+not ok 5 - real conversation Audio preparation covers seven packs, exact clone/source references and replay without media dispatch
+  ---
+  duration_ms: 10.525083
+  type: 'test'
+  location: '/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:2:19874'
+  failureType: 'testCodeFailure'
+  error: |-
+    Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
+    frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericNodeError (node:internal/errors:983:15)
+    wrappedFn (node:internal/errors:537:14)
+    checkExecSyncError (node:child_process:916:11)
+    execFileSync (node:child_process:952:15)
+    readFixture (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:36:39)
+    <anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:18)
+    Array.map (<anonymous>)
+    createStudioCallRuntime (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:5)
+    TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-call-runtime-postgres.test.ts:187:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+# Subtest: safe selection correction preserves durable receipts, ownership and monetary checkpoints
+not ok 6 - safe selection correction preserves durable receipts, ownership and monetary checkpoints
+  ---
+  duration_ms: 11.442
+  type: 'test'
+  location: '/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-preparation-correction-postgres.test.ts:2:2843'
+  failureType: 'testCodeFailure'
+  error: |-
+    Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
+    frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericNodeError (node:internal/errors:983:15)
+    wrappedFn (node:internal/errors:537:14)
+    checkExecSyncError (node:child_process:916:11)
+    execFileSync (node:child_process:952:15)
+    readFixture (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:36:39)
+    <anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:18)
+    Array.map (<anonymous>)
+    createStudioCallRuntime (/private/tmp/VideoAi-Agent-keyvo-integrate/scripts/qa/studio-call-runtime.ts:62:5)
+    TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/studio-preparation-correction-postgres.test.ts:40:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: real mux preserves every video frame with 0.5s and 30s missing audio tails and longer audio
+ok 7 - real mux preserves every video frame with 0.5s and 30s missing audio tails and longer audio
+  ---
+  duration_ms: 365.120584
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 2
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 803.936334

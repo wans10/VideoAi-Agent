@@ -157,7 +157,7 @@ of the **eight** earlier files remains dated evidence of those eight files.
 The sandbox's retained grid contains 18,177 rows, including 3,186 obsolete
 Seedance fixed selectors without an input-duration dimension. Current generation
 always resolves a duration-specific or continuous selector for those video inputs.
-`projectInitialCustomerTariffCutoverCells` prepares the 14,991 effective rows for
+`projectInitialCustomerTariffCutoverCells` prepares 14,999 effective rows (the upstream 14,991 plus eight Keyvo Qwen selectors) for
 a fresh installation, returning all 3,186 excluded rows for a separate immutable
 source archive. Unknown unused rows are refused. This projection never edits the
 sandbox or removes its history. Every installed row must be selected by the real
@@ -206,7 +206,7 @@ its actual state/current/history SQL reads into one locked transaction-scoped
 batch. It indexes the stored SQL selector keys, retains every historical row,
 checks the executor remains active, isolates returned JSON and discards the batch
 in `finally`. Unknown selectors still use ordinary SQL. The full PostgreSQL
-rehearsal bounds tariff SQL reads across all 26,818 canonical checkpoints; normal
+rehearsal bounds tariff SQL reads across all 26,826 canonical checkpoints; normal
 application quotes do not use this batch. Missing prices, legacy fallback, below-cost quotes, any cent
 mismatch or an unused extra cell abort the entire installation. Code/environment
 are checked again before commit. The immutable evidence and the regular pricing

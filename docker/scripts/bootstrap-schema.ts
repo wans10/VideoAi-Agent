@@ -15,8 +15,11 @@ async function main() {
     ensureMediaLibrarySchema,
   } = await import('../../frontend/src/lib/schema.ts');
   const { getDb } = await import('../../frontend/src/lib/db.ts');
-
+  const lockClient = await getDb().connect();
   try {
+    // Share the versioned runner's session lock. Schema helpers use the pool,
+    // while this dedicated connection owns serialization until they finish.
+    await lockClient.query('SELECT pg_advisory_lock(19283746)');
     await ensureBillingSchema();
     await ensureAssetSchema();
     await ensureMediaLibrarySchema();
@@ -24,6 +27,11 @@ async function main() {
     await ensureMcpSchema();
     console.info('Application base schema is current.');
   } finally {
+    try {
+      await lockClient.query('SELECT pg_advisory_unlock(19283746)');
+    } finally {
+      lockClient.release();
+    }
     await getDb().end();
   }
 }
