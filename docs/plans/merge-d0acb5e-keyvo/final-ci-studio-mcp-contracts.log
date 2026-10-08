@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: documentation and public content do not replay financial cutovers
+ok 1 - documentation and public content do not replay financial cutovers
+  ---
+  duration_ms: 303.104041
+  type: 'test'
+  ...
+# Subtest: marketing components, layout CSS and translated UI preserve browser behavior coverage
+ok 2 - marketing components, layout CSS and translated UI preserve browser behavior coverage
+  ---
+  duration_ms: 665.366083
+  type: 'test'
+  ...
+# Subtest: application UI changes keep integration and browser coverage without unrelated exhaustive cutovers
+ok 3 - application UI changes keep integration and browser coverage without unrelated exhaustive cutovers
+  ---
+  duration_ms: 137.4845
+  type: 'test'
+  ...
+# Subtest: financial inputs, shared backend code and CI selection changes require exhaustive cutovers
+ok 4 - financial inputs, shared backend code and CI selection changes require exhaustive cutovers
+  ---
+  duration_ms: 3609.669833
+  type: 'test'
+  ...
+# Subtest: nightly, manual, empty and unavailable comparisons fail closed to exhaustive validation
+ok 5 - nightly, manual, empty and unavailable comparisons fail closed to exhaustive validation
+  ---
+  duration_ms: 500.5535
+  type: 'test'
+  ...
+# Subtest: push selection accounts for the whole pushed batch
+ok 6 - push selection accounts for the whole pushed batch
+  ---
+  duration_ms: 150.653417
+  type: 'test'
+  ...
+# Subtest: moving a financial owner into a presentation path retains the removed owner in the comparison
+ok 7 - moving a financial owner into a presentation path retains the removed owner in the comparison
+  ---
+  duration_ms: 129.959583
+  type: 'test'
+  ...
+# Subtest: unavailable Git history and a first push cannot establish a safe lightweight selection
+ok 8 - unavailable Git history and a first push cannot establish a safe lightweight selection
+  ---
+  duration_ms: 245.97725
+  type: 'test'
+  ...
+# Subtest: the required gate accepts intentionally skipped lanes and rejects missing, failed or canceled required jobs
+ok 9 - the required gate accepts intentionally skipped lanes and rejects missing, failed or canceled required jobs
+  ---
+  duration_ms: 546.036416
+  type: 'test'
+  ...
+# Subtest: Studio localization dictionaries expose required copy in every locale
+ok 10 - Studio localization dictionaries expose required copy in every locale
+  ---
+  duration_ms: 7.806166
+  type: 'test'
+  ...
+# Subtest: Studio asset library source filters use localized copy
+ok 11 - Studio asset library source filters use localized copy
+  ---
+  duration_ms: 3.801833
+  type: 'test'
+  ...
+# Subtest: resolveStudioCopy falls back when the Studio namespace is missing
+ok 12 - resolveStudioCopy falls back when the Studio namespace is missing
+  ---
+  duration_ms: 0.162875
+  type: 'test'
+  ...
+# Subtest: resolveStudioCopy applies partial leaf overrides without dropping sibling defaults
+ok 13 - resolveStudioCopy applies partial leaf overrides without dropping sibling defaults
+  ---
+  duration_ms: 0.162625
+  type: 'test'
+  ...
+# Subtest: resolveStudioCopy ignores wrong-typed values and keeps defaults
+ok 14 - resolveStudioCopy ignores wrong-typed values and keeps defaults
+  ---
+  duration_ms: 0.13575
+  type: 'test'
+  ...
+# Subtest: formatStudioProjectDate handles invalid and valid Studio dates
+ok 15 - formatStudioProjectDate handles invalid and valid Studio dates
+  ---
+  duration_ms: 8.984125
+  type: 'test'
+  ...
+# Subtest: Studio generated canvas text preserves custom shot labels while localizing known tails
+ok 16 - Studio generated canvas text preserves custom shot labels while localizing known tails
+  ---
+  duration_ms: 4.544375
+  type: 'test'
+  ...
+# Subtest: Studio generated copy localization preserves custom exact-match node text without provenance
+ok 17 - Studio generated copy localization preserves custom exact-match node text without provenance
+  ---
+  duration_ms: 6.567666
+  type: 'test'
+  ...
+# Subtest: Studio timeline clip title localization requires generated provenance
+ok 18 - Studio timeline clip title localization requires generated provenance
+  ---
+  duration_ms: 2.260709
+  type: 'test'
+  ...
+# Subtest: Studio timeline split clears generated title provenance on suffixed right clips
+ok 19 - Studio timeline split clears generated title provenance on suffixed right clips
+  ---
+  duration_ms: 11.866709
+  type: 'test'
+  ...
+# Subtest: Studio timeline track labels and context menu kinds use active localized copy
+ok 20 - Studio timeline track labels and context menu kinds use active localized copy
+  ---
+  duration_ms: 3.122458
+  type: 'test'
+  ...
+# Subtest: Studio export preflight issues localize generated timeline clip titles
+ok 21 - Studio export preflight issues localize generated timeline clip titles
+  ---
+  duration_ms: 3.969875
+  type: 'test'
+  ...
+# Subtest: Studio export manifests and EDL use localized generated timeline clip titles
+ok 22 - Studio export manifests and EDL use localized generated timeline clip titles
+  ---
+  duration_ms: 3.737042
+  type: 'test'
+  ...
+# Subtest: Studio export manifests and payloads localize generated sequence names
+ok 23 - Studio export manifests and payloads localize generated sequence names
+  ---
+  duration_ms: 2.709583
+  type: 'test'
+  ...
+# Subtest: Studio export overlap issues localize sentence and track labels
+ok 24 - Studio export overlap issues localize sentence and track labels
+  ---
+  duration_ms: 2.21725
+  type: 'test'
+  ...
+# Subtest: Studio timeline inserted tail clip labels relocalize generated tails and preserve custom tails
+ok 25 - Studio timeline inserted tail clip labels relocalize generated tails and preserve custom tails
+  ---
+  duration_ms: 2.513667
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6414.656125
