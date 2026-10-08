@@ -151,7 +151,7 @@ async function estimateImageGenerationInternal(
     customImageSize = result.size;
   }
   if (isGptImageFamilyEngineId(engine.id) && mode === 'i2i' && resolutionResult.resolution === 'auto') {
-    customImageSize = resolveGptImage2AutoInputImageSize(rawReferenceSizes);
+    customImageSize = resolveGptImage2AutoInputImageSize(rawReferenceSizes, engine.id);
   }
 
   const submittedReferenceSizeCount = rawReferenceSizes.filter(

@@ -169,7 +169,8 @@ test('image generation executor does not regain extracted server ownership', () 
 
   const lineCount = executorSource.split('\n').length;
   // One additional argument forwards private pricing evidence to the existing persistence owner.
-  assert.ok(lineCount <= 641, `image generation executor should stay below 641 lines after context extraction, got ${lineCount}`);
+  // One assignment forwards the shared resolved GPT 2.5 auto size to provider execution.
+  assert.ok(lineCount <= 642, `image generation executor should stay below 642 lines after context extraction, got ${lineCount}`);
 });
 
 test('storyboard image billing uses storyboard identity instead of provider display name', () => {

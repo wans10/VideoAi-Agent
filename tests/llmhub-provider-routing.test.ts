@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFileSync } from 'node:fs';
 
 import { resolveLlmhubImageModel, assertLlmhubImageAvailable } from '../frontend/src/server/images/llmhub-image-models.ts';
 import { resolveImageProviderSelection } from '../frontend/src/server/images/image-provider-routing.ts';
@@ -86,10 +87,13 @@ test('Seedream and Sunburst use their own LLM Hub model IDs', async () => {
     await runLlmhubFlareGeneration({
       engineId, effectivePrompt: 'tree', numImages: 1, mode: 't2i', combinedImageUrls: [],
       providerImageSize: 'square', outputFormat: 'png', quality: 'high', background: null,
-      maskUrl: null, jobId: `img_${engineId}`,
-    }, { apiKey: 'test-key', fetch: async (_url, init) => {
+      maskUrl: null, jobId: `img_${engineId}`, userId: 'test-account',
+    }, { apiKey: 'test-key',
+      upload: async () => ({ url: 'https://example.com/image.png', key: 'owned/test', width: 1024, height: 1024, size: 100, mime: 'image/png' }),
+      fetch: async (_url, init) => {
       requested.push(JSON.parse(String(init?.body)).model);
-      return Response.json({ data: [{ url: 'https://example.com/image.png' }] });
+      return Response.json({ data: [engineId === 'seedream' ? { url: 'https://example.com/image.png' }
+        : { b64_json: readFileSync('tests/fixtures/llmhub-square.png').toString('base64') }] });
     } });
   }
   assert.deepEqual(requested, ['doubao-seedream-5.0-lite', 'gpt-image-2.5-sunburst']);

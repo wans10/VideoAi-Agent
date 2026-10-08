@@ -17,6 +17,16 @@
 
 The image executor selects Google Vertex for Nano Banana and BytePlus for Seedream 5.0 Lite when those direct providers are configured, then LLM Hub when direct is unavailable. GPT Image has no direct provider in this repository and uses LLM Hub. The executor checks the selected provider's credentials before reserving the wallet charge. Explicit direct provider rejections before a response ID may switch to LLM Hub with the existing job and charge; uncertain outcomes and accepted responses retain their own failure or recovery path. Gemini references use inline data with a 7 MB per-file and 30 MB per-request transport cap; Gemini inline outputs are uploaded to owned storage before completion.
 
+## GPT Image 2.5 verified protocol (2026-10-08)
+
+Flare and Sunburst use JSON `/v1/images/generations` and multipart `/v1/images/edits`. They reject `response_format`; successful outputs are `data[].b64_json`. The adapter persists decoded PNG/JPEG originals under the account-owned `renders/images` prefix before the normal thumbnail/job completion path. It preserves the provider request ID before parsing/persisting outputs and never repeats the paid POST on storage errors or uncertain failures. Returned image count, encoding, format and dimensions must match the request before completion. Every PNG/JPEG is fully decoded with Sharp before any batch upload. Upload failures roll back only newly allocated keys from this attempt, tracked before PUT; incomplete deletes expose exact remaining keys in persisted failure detail. Cleanup cannot be guaranteed during a storage outage or abrupt process termination. Legacy GPT Image 2 and Seedream URL handling is unchanged.
+
+Output controls expose PNG/JPEG only (WebP remains an accepted reference input). The valid landscape choice is 1920×1088; the historical 1920×1080 vendor price tier remains the existing estimated billing basis, not a verified LLM Hub invoice. Edit Auto selects a provider-valid size from the source dimensions (or 1024×1024 fallback), uses it for the quote and sends that explicit size, avoiding provider-selected output dimensions. Historical jobs/pricing facts are not migrated.
+
+The live adapter canaries passed both models in t2i at 1920×1088 and i2i at explicit 1024×768 with local persistence substitution. The prior bounded protocol audit accepted 4 outputs, 16 references plus mask, custom JPEG and quality tiers. Sunburst xhigh transparency and max 4K requests hit upstream 504 at about 120 seconds; these high-load combinations remain operationally unverified. Raising the application timeout alone cannot fix a shorter upstream gateway limit. No asynchronous or server-recovery endpoint has been certified for these models, and the implementation does not silently downgrade quality or repeat a timed-out request. Supplier invoice rates and reference surcharges still require actual account billing verification.
+
+See `llmhub-gpt-image-audit-2026-10-08.md` for the pre-fix evidence and `llmhub-gpt-image-implementation-2026-10-08.json` for sanitized live adapter validation. Configure the existing server-only `LLMHUB_API_KEY`; no new production credential or build-time secret is required.
+
 ## Existing video engines
 
 If the LLM Hub inference key is absent, Fal-compatible video modes retain their Fal route.

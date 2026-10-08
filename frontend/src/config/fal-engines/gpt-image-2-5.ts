@@ -3,12 +3,12 @@ import type { RawFalEngineEntry } from './types';
 
 const RESOLUTIONS: EngineCaps['resolutions'] = [
   'landscape_4_3', 'square_hd', 'square', 'portrait_4_3', 'portrait_16_9',
-  'landscape_16_9', 'custom', 'auto',
+  '1920x1088', 'custom', 'auto',
 ];
 
 const TEXT_RESOLUTION_VALUES = [
   'landscape_4_3', 'square_hd', 'square', 'portrait_4_3', 'portrait_16_9',
-  'landscape_16_9', '1024x768', '1024x1024', '1024x1536', '1920x1080',
+  '1920x1088', '1024x768', '1024x1024', '1024x1536',
   '2560x1440', '3840x2160', 'custom',
 ];
 
@@ -90,7 +90,7 @@ function buildEngine(variant: Variant): EngineCaps {
           id: 'background', type: 'enum', label: 'Background', values: ['auto', 'transparent', 'opaque'], default: 'auto',
         },
         {
-          id: 'output_format', type: 'enum', label: 'Output format', values: ['png', 'jpeg', 'webp'], default: 'png',
+          id: 'output_format', type: 'enum', label: 'Output format', values: ['png', 'jpeg'], default: 'png',
         },
         {
           id: 'mask_url', type: 'image', label: 'Mask image URL', modes: ['i2i'], minCount: 0, maxCount: 1,
@@ -108,7 +108,7 @@ function buildEngine(variant: Variant): EngineCaps {
       perSecondCents: {
         default: 4,
         byResolution: {
-          '1024x768': 4, '1024x1024': 6, '1024x1536': 5, '1920x1080': 4,
+          '1024x768': 4, '1024x1024': 6, '1024x1536': 5, '1920x1088': 4,
           '2560x1440': 6, '3840x2160': 11, landscape_4_3: 4, portrait_4_3: 4,
           square: 6, square_hd: 6, portrait_16_9: 5, landscape_16_9: 4, custom: 4, auto: 6,
         },
@@ -118,7 +118,7 @@ function buildEngine(variant: Variant): EngineCaps {
       unit: 'image', base: 0.03612,
       byResolution: {
         '1024x768': 0.03612, '1024x1024': 0.05268, '1024x1536': 0.04116,
-        '1920x1080': 0.0396, '2560x1440': 0.05529, '3840x2160': 0.10008,
+        '1920x1088': 0.0396, '2560x1440': 0.05529, '3840x2160': 0.10008,
         landscape_4_3: 0.03612, portrait_4_3: 0.03612, square: 0.05268,
         square_hd: 0.05268, portrait_16_9: 0.04116, landscape_16_9: 0.0396,
         custom: 0.03612, auto: 0.05268,

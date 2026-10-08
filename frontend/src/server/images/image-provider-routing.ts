@@ -80,6 +80,7 @@ export async function executeConfiguredImageProvider(
       watermark: params.watermark,
       maskUrl: params.maskUrl,
       jobId: params.jobId,
+      userId: params.userId,
       onProviderJobId: params.onProviderJobId,
     });
   }

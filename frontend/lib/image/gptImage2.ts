@@ -123,7 +123,8 @@ export function formatGptImage2SizeKey(size: GptImage2ImageSize): string {
 }
 
 export function resolveGptImage2AutoInputImageSize(
-  referenceSizes: Array<{ width?: number | null; height?: number | null } | null | undefined>
+  referenceSizes: Array<{ width?: number | null; height?: number | null } | null | undefined>,
+  engineId?: string,
 ): GptImage2ImageSize | null {
   const candidates = referenceSizes
     .map((size) => {
@@ -135,10 +136,12 @@ export function resolveGptImage2AutoInputImageSize(
     })
     .filter((size): size is GptImage2ImageSize => Boolean(size));
 
-  if (!candidates.length) return null;
-  return candidates.reduce((largest, current) =>
+  const source = !candidates.length ? null : candidates.reduce((largest, current) =>
     current.width * current.height > largest.width * largest.height ? current : largest
   );
+  if (!isGptImage25EngineId(engineId)) return source;
+  const tier = resolveGptImage25PricingTier('auto', source);
+  return { width: tier.width, height: tier.height };
 }
 
 export function getGptImage2PresetSize(value: string | null | undefined): GptImage2ImageSize | null {
@@ -277,8 +280,17 @@ export function resolveGptImage25PricingTier(
   customImageSize?: GptImage2ImageSize | null
 ): GptImage25PricingTier {
   const legacyTier = resolveGptImage2PricingTier(imageSize, customImageSize);
+  // Keep the existing price tier while using a provider-valid output size.
+  const requested = {
+    width: Math.round(legacyTier.width / 16) * 16,
+    height: Math.round(legacyTier.height / 16) * 16,
+  };
+  const valid = validateGptImage2CustomImageSize(requested);
+  const fallback = parseGptImage2SizeKey(legacyTier.billingKey)!;
   return {
     ...legacyTier,
+    width: valid.ok ? requested.width : fallback.width,
+    height: valid.ok ? requested.height : Math.round(fallback.height / 16) * 16,
     prices: GPT_IMAGE_2_5_PRICE_TABLE_EXACT_CENTS[legacyTier.billingKey]
       ?? GPT_IMAGE_2_5_PRICE_TABLE_EXACT_CENTS['1024x768'],
   };

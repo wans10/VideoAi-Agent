@@ -134,8 +134,9 @@ export async function executeImageGeneration({
       .filter((size) => typeof size?.width === 'number' && typeof size.height === 'number');
     const clientReferenceImageSizes = Array.isArray(body.referenceImageSizes) ? body.referenceImageSizes : [];
     customImageSize = resolveGptImage2AutoInputImageSize(
-      storedReferenceSizes.length ? storedReferenceSizes : clientReferenceImageSizes
+      storedReferenceSizes.length ? storedReferenceSizes : clientReferenceImageSizes, engine.id
     );
+    if (engine.id.startsWith('gpt-image-2-5-')) providerImageSize = customImageSize;
   }
 
   if (isGptImageFamilyEngineId(engine.id) && resolution === 'custom') {

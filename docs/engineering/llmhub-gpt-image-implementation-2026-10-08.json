@@ -1,0 +1,37 @@
+{
+  "method": "Live repository adapter; injected upload writes temporary local image files and probes actual dimensions with sips. No production S3/database/wallet writes. Reference download replaced with previous real canary PNG. No retry after unknown outcome.",
+  "cases": [
+    {
+      "variant": "flare",
+      "mode": "t2i",
+      "status": "passed",
+      "seconds": 14.834,
+      "requestId": "b8e6a2f9-0a65-44c5-aded-d4a803129540",
+      "localFile": "live-flare-t2i.png"
+    },
+    {
+      "variant": "flare",
+      "mode": "i2i",
+      "status": "passed",
+      "seconds": 16.398,
+      "requestId": "2291d064-417f-420a-8114-a98bff2bf9ee",
+      "localFile": "live-flare-i2i.png"
+    },
+    {
+      "variant": "sunburst",
+      "mode": "t2i",
+      "status": "passed",
+      "seconds": 22.214,
+      "requestId": "c054c658-25d6-4e31-82fe-a4d87eb8c8a1",
+      "localFile": "live-sunburst-t2i.png"
+    },
+    {
+      "variant": "sunburst",
+      "mode": "i2i",
+      "status": "passed",
+      "seconds": 33.596,
+      "requestId": "a545e331-2e0b-446b-95c6-9fad7776577f",
+      "localFile": "live-sunburst-i2i.png"
+    }
+  ]
+}

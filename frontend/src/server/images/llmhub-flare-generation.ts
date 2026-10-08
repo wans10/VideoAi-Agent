@@ -4,6 +4,9 @@ import type { ImageGenerationMode } from '@/types/image-generation';
 import { ImageGenerationExecutionError } from './image-generation-error';
 import { resolveSeedreamProviderSize } from '@/lib/image/seedream';
 import { resolveLlmhubImageModel, assertLlmhubImageAvailable } from './llmhub-image-models';
+import { isGptImage25EngineId, resolveGptImage25PricingTier } from '@/lib/image/gptImage2';
+import { storeLlmhubImageOutputs } from './llmhub-image-output';
+import type { uploadImageToStorage, deleteStorageObjectKey } from '@/server/storage';
 
 export const LLMHUB_FLARE_ENGINE_ID = 'gpt-image-2-5-flare';
 export const LLMHUB_FLARE_MODEL_ID = 'gpt-image-2.5-flare';
@@ -99,8 +102,9 @@ export async function runLlmhubFlareGeneration(params: {
   watermark?: boolean;
   maskUrl: string | null;
   jobId: string;
+  userId?: string;
   onProviderJobId?: (id: string) => void;
-}, deps: { fetch?: typeof fetch; apiKey?: string } = {}): Promise<{
+}, deps: { fetch?: typeof fetch; apiKey?: string; upload?: typeof uploadImageToStorage; remove?: typeof deleteStorageObjectKey } = {}): Promise<{
   result: { data: { images: Array<{ url: string }>; description?: string }; requestId: string | null };
   providerJobId: string | null;
   providerMode: string;
@@ -111,7 +115,15 @@ export async function runLlmhubFlareGeneration(params: {
   const route = resolveLlmhubImageModel(engineId);
   if (!route || route.protocol !== 'openai-image') throw new Error('Unsupported LLM Hub image engine.');
   const fetchFn = deps.fetch ?? fetch;
-  const size = imageSize(params.providerImageSize);
+  const isGpt25 = isGptImage25EngineId(engineId);
+  const tier = isGpt25 ? resolveGptImage25PricingTier(
+    typeof params.providerImageSize === 'object' && params.providerImageSize ? 'custom' : params.providerImageSize,
+    typeof params.providerImageSize === 'object' ? params.providerImageSize : null,
+  ) : null;
+  const size = tier ? `${tier.width}x${tier.height}` : imageSize(params.providerImageSize);
+  if (isGpt25 && params.outputFormat && !['png', 'jpeg'].includes(params.outputFormat)) {
+    throw new Error('GPT Image 2.5 supports PNG and JPEG output only.');
+  }
   const isGptImage = engineId.startsWith('gpt-image-');
   const seedreamSize = engineId === 'seedream' && size
     ? resolveSeedreamProviderSize(size, params.aspectRatio) : null;
@@ -124,7 +136,7 @@ export async function runLlmhubFlareGeneration(params: {
     ...(isGptImage && params.background ? { background: params.background } : {}),
     ...(params.outputFormat ? { output_format: params.outputFormat } : {}),
     ...(engineId === 'seedream' ? { watermark: params.watermark === true } : {}),
-    response_format: 'url',
+    ...(!isGpt25 ? { response_format: 'url' } : {}),
   };
   let body: BodyInit;
   const headers: Record<string, string> = {
@@ -148,20 +160,25 @@ export async function runLlmhubFlareGeneration(params: {
   const response = await fetchFn(`${API_BASE}/${params.mode === 'i2i' ? 'edits' : 'generations'}`, {
     method: 'POST', headers, body, signal: AbortSignal.timeout(GENERATION_TIMEOUT_MS),
   });
+  const requestId = response.headers.get('x-request-id') ?? null;
+  if (response.ok && requestId) params.onProviderJobId?.(requestId);
   const payload = await response.json().catch(() => null);
   if (!response.ok) {
-    const error = new Error(`LLM Hub image request failed (${response.status}).`) as Error & { status: number };
+    const error = new Error(`LLM Hub image request failed (${response.status}).`) as Error & { status: number; detail: unknown };
     error.status = response.status;
+    error.detail = payload;
     throw error;
   }
-  const images = Array.isArray(payload?.data)
+  const images = isGpt25 ? await storeLlmhubImageOutputs({
+    payload, userId: params.userId, jobId: params.jobId,
+    outputFormat: params.outputFormat ?? 'png', expectedCount: params.numImages,
+    expectedSize: tier!, upload: deps.upload, remove: deps.remove,
+  }) : Array.isArray(payload?.data)
     ? payload.data.filter((item: unknown): item is { url: string } =>
       Boolean(item && typeof item === 'object' && typeof (item as { url?: unknown }).url === 'string'
         && /^https?:\/\//i.test((item as { url: string }).url)))
     : [];
   if (!images.length) throw new Error('LLM Hub did not return image URLs.');
-  const requestId = response.headers.get('x-request-id') ?? null;
-  if (requestId) params.onProviderJobId?.(requestId);
   return {
     result: { data: { images }, requestId },
     providerJobId: requestId,
