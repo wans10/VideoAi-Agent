@@ -1,4 +1,4 @@
-import { USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
+import { USD_TO_CNY_CUSTOMER_RATE } from '../customer-currency';
 
 export const QWEN_IMAGE_IDS = ['qwen-image-3-0', 'qwen-image-3-0-pro'] as const;
 export const QWEN_IMAGE_RATIOS = ['1:1', '16:9', '9:16', '4:3', '3:4', '3:2', '2:3'] as const;

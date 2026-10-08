@@ -1,5 +1,5 @@
 import type { EngineCaps, Resolution } from '../../../types/engines';
-import { QWEN_IMAGE_IDS, QWEN_IMAGE_RATIOS, calculateQwenImageCost } from '@/lib/image/qwen-image';
+import { QWEN_IMAGE_IDS, QWEN_IMAGE_RATIOS, calculateQwenImageCost } from '../../lib/image/qwen-image';
 import type { RawFalEngineEntry } from './types';
 
 export const QWEN_IMAGE_ENGINE_REGISTRY: RawFalEngineEntry[] = QWEN_IMAGE_IDS.map(id => {
