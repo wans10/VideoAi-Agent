@@ -53,6 +53,7 @@ export function resolveImageProviderSelection(
     } };
   }
   if (engine.providerMeta?.provider === 'google_vertex_image'
+    || engine.providerMeta?.provider === 'alibaba_qwen_image'
     || engine.providerMeta?.provider === 'byteplus_modelark') {
     return { kind: 'direct', engine };
   }

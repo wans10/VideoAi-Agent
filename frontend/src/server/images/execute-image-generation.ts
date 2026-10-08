@@ -36,8 +36,7 @@ import { buildDefaultSettingsSnapshot } from './image-generation-settings-snapsh
 import { resolveImageGenerationRequestContext } from './image-generation-request-context';
 import { prepareImageGenerationReferences } from './image-generation-references';
 import { copyGeneratedImagesToStorage } from './image-output-storage';
-import { executeDirectImageProviderIfAvailable } from './image-direct-provider-execution';
-import { assertGoogleVertexImageAvailable } from './google-vertex-image-execution';
+import { executeDirectImageProviderIfAvailable, assertDirectImageProviderAvailable, assertQwenImageRequest } from './image-direct-provider-execution';
 import { assertLlmhubImageAvailable, resolveLlmhubImageModel } from './llmhub-image-models';
 import { executeConfiguredImageProvider, resolveImageProviderSelection, type ImageProviderSelection } from './image-provider-routing';
 import { normalizeImageGenerationMetadata, normalizeOptionalBoolean, resolveImageEnumSetting } from './image-generation-normalization';
@@ -91,7 +90,7 @@ export async function executeImageGeneration({
     resolveImageGenerationRequestContext(body);
 
   const imageProviderSelection = resolveImageProviderSelection(engine);
-  if (imageProviderSelection.kind === 'direct') assertGoogleVertexImageAvailable(imageProviderSelection.engine);
+  if (imageProviderSelection.kind === 'direct') assertDirectImageProviderAvailable(imageProviderSelection.engine);
   if (imageProviderSelection.kind === 'llmhub') assertLlmhubImageAvailable(engine.id);
 
   const { characterReferences, normalizedImageUrls, combinedImageUrls, effectivePrompt, storedAssetInfoByUrl } =
@@ -245,6 +244,8 @@ export async function executeImageGeneration({
   const watermark =
     Boolean(watermarkField) &&
     (normalizeOptionalBoolean(body.watermark) ?? getImageFieldDefaultBoolean(engine, 'watermark', mode) ?? false);
+  if (engine.providerMeta?.provider === 'alibaba_qwen_image') assertQwenImageRequest({ modelId: engine.providerMeta.modelSlug ?? engine.id, prompt: effectivePrompt, mode, imageUrls: combinedImageUrls,
+    resolution, aspectRatio: resolvedAspectRatio, numImages, seed: normalizedSeed, watermark });
   const includedKlingFirstFrameParentJobId = await resolveIncludedKlingFirstFrameParentJobId({
     userId,
     jobId,

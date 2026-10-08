@@ -10,6 +10,7 @@ import type { GptImage2ImageSize } from '@/lib/image/gptImage2';
 import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-generation';
 import { applyStoryboardImagePricing } from './storyboard-image-billing';
 import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+import { isQwenImageEngineId } from '@/lib/image/qwen-image';
 
 const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
 
@@ -38,7 +39,7 @@ export async function resolveImageGenerationPricingSnapshot(params: {
     ? params.mode === 'i2i'
       ? Math.max(0, params.combinedImageCount - 1)
       : params.combinedImageCount
-    : isGptImage25EngineId(params.engine.id) && params.mode === 'i2i'
+    : (isGptImage25EngineId(params.engine.id) || isQwenImageEngineId(params.engine.id)) && params.mode === 'i2i'
       ? params.combinedImageCount
       : undefined;
   let pricing = params.trustedQuotedBilling
@@ -58,6 +59,7 @@ export async function resolveImageGenerationPricingSnapshot(params: {
         customImageSize: params.customImageSize,
         quality: params.quality,
         referenceImageCount,
+        aspectRatio: params.resolvedAspectRatio,
         membershipTier,
         currency: 'USD',
         addons: params.enableWebSearch ? { enable_web_search: true } : undefined,

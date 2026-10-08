@@ -131,3 +131,9 @@ Before any later deployment or routing change, require:
 - frontend TypeScript and lint checks plus `git diff --check`;
 - a secret scan confirming that no key, workspace identifier, signed URL, or raw provider payload entered the branch;
 - explicit approval for new provider spend and any materially broader routing or fallback change.
+
+## Qwen image integration
+
+The separate direct image adapter and Docker configuration are documented in
+[Qwen Image deployment](../deployment/qwen-image.md). It uses synchronous image
+generation; the video polling endpoint does not poll image requests.
