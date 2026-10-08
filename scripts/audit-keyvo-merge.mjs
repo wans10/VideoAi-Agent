@@ -1,6 +1,6 @@
 import {execFileSync,spawnSync} from 'node:child_process';
 import {createRequire} from 'node:module';
-import {mkdirSync,writeFileSync,readFileSync,existsSync} from 'node:fs';
+import {mkdirSync,writeFileSync,readFileSync,existsSync,lstatSync,readlinkSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const require=createRequire(new URL('../frontend/package.json',import.meta.url));
 const ts=require('typescript');
@@ -10,7 +10,7 @@ function tree(ref){return new Map(git('ls-tree','-r','-z',ref).toString().split(
 const trees=Object.fromEntries(Object.entries(refs).map(([key,ref])=>[key,tree(ref)]));
 const addedAuditPaths=git('ls-files','--others','--exclude-standard','-z').toString().split('\0').filter(path=>/^(?:tests\/.*\.test\.ts|scripts\/audit-keyvo-merge\.mjs)$/.test(path));
 for(const path of addedAuditPaths)trees.candidate.set(path,null);
-const workingBlobs=new Map();for(const [path]of trees.candidate){if(existsSync(path)){const bytes=readFileSync(path);const hash=createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');workingBlobs.set(hash,bytes.toString());trees.candidate.set(path,hash);}else trees.candidate.delete(path);}
+const workingBlobs=new Map();for(const [path]of trees.candidate){if(existsSync(path)){const bytes=lstatSync(path).isSymbolicLink()?Buffer.from(readlinkSync(path)):readFileSync(path);const hash=createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');workingBlobs.set(hash,bytes.toString());trees.candidate.set(path,hash);}else trees.candidate.delete(path);}
 const blobCache=new Map();function source(hash){if(!hash)return null;if(workingBlobs.has(hash))return workingBlobs.get(hash);if(!blobCache.has(hash))blobCache.set(hash,git('cat-file','blob',hash).toString());return blobCache.get(hash);}
 const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 function exports(text,path){if(text===null)return new Set();const ast=ts.createSourceFile(path,text,ts.ScriptTarget.Latest,true);const names=new Set();for(const node of ast.statements){if(ts.isExportDeclaration(node)&&node.exportClause&&ts.isNamedExports(node.exportClause)){for(const item of node.exportClause.elements)names.add(item.name.text);}if(ts.isExportAssignment(node))names.add('default');if(node.modifiers?.some(m=>m.kind===ts.SyntaxKind.ExportKeyword)){if(node.modifiers.some(m=>m.kind===ts.SyntaxKind.DefaultKeyword))names.add('default');else if(node.name)names.add(node.name.text);else if(ts.isVariableStatement(node)){for(const item of node.declarationList.declarations)if(ts.isIdentifier(item.name))names.add(item.name.text);}}}return names;}

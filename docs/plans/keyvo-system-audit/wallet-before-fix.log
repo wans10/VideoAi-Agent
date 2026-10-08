@@ -23,7 +23,7 @@ not ok 1 - CNY customer checkout quotes CNY identity and freezes CNY wallet meta
   error: |-
     Expected values to be strictly deep-equal:
     + actual - expected
-    
+
       [
         [
           8000,
@@ -32,7 +32,7 @@ not ok 1 - CNY customer checkout quotes CNY identity and freezes CNY wallet meta
     -     'cny'
         ]
       ]
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:

@@ -28,10 +28,10 @@ not ok 2 - Chinese compare quote failure never falls back to an English customer
   error: |-
     Expected values to be strictly equal:
     + actual - expected
-    
+
     + 'Current price unavailable'
     - '当前价格暂不可用'
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: '当前价格暂不可用'

@@ -30,4 +30,3 @@
   11:10  warning  'publishedLocales' is defined but never used  @typescript-eslint/no-unused-vars
 
 ✖ 10 problems (0 errors, 10 warnings)
-

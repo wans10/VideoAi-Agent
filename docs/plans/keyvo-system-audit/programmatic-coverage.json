@@ -4,16 +4,11 @@
       "base": "a58d5cb1b83b5f8dc7120c5e7a6eab9135b76535",
       "upstream": "d0acb5ee1aafea1440f164d9ae351f957681320d",
       "custom": "9ed63ada5cc95b7f53aae0de0f52859fb8b0387a",
-      "candidate": "c643e4f31ee65211b0381b8a9fe695e38029198b"
+      "candidate": "2e35fa315124f09d13c0970ebe0c2cf0a43636ca"
     },
     "candidateSource": "working tree (tracked candidate paths and new audit code/tests)",
-    "sourceSnapshotSha256": "5c460b6599ddce65a34d3b40da81dea8cf8f9e37070656fd64ef6eefb1d8c119",
-    "newAuditPaths": [
-      "scripts/audit-keyvo-merge.mjs",
-      "tests/keyvo-merged-localization-render.test.ts",
-      "tests/keyvo-system-audit-regressions.test.ts",
-      "tests/keyvo-wallet-route-currency.test.ts"
-    ],
+    "sourceSnapshotSha256": "f5f40aeb615b0fbd5f09bbada794a43e3604377d12bdd6ae76675f669e6a811e",
+    "newAuditPaths": [],
     "ancestry": {
       "upstream": true,
       "custom": true
@@ -7351,7 +7346,7 @@
     ],
     [
       "frontend/fixtures/engines.json",
-      "f53d9c96ea54c14236f58d347b39f3ec204989bc"
+      "db05975c5a916c28770020f8eb80f5dc670e6fc5"
     ],
     [
       "frontend/fixtures/fal-models.json",
@@ -15315,7 +15310,7 @@
     ],
     [
       "scripts/audit-keyvo-merge.mjs",
-      "12b0c9085ad8f5ba4abf2ca915a10df673d631f1"
+      "0ccb20431b9beb0f13a969326016e15aa85adda9"
     ],
     [
       "scripts/audit-large-files.mjs",

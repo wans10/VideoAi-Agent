@@ -42,7 +42,7 @@ not ok 2 - CNY direct-payment route converts the canonical CNY quote once and fr
   error: |-
     Expected values to be strictly deep-equal:
     + actual - expected
-    
+
       [
         [
           800,
@@ -51,7 +51,7 @@ not ok 2 - CNY direct-payment route converts the canonical CNY quote once and fr
     -     'cny'
         ]
       ]
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:

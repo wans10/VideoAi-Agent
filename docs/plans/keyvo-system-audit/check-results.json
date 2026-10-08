@@ -221,8 +221,8 @@
   },
   "snapshot": {
     "coverage": "programmatic-coverage.json",
-    "sourceSnapshotSha256": "5c460b6599ddce65a34d3b40da81dea8cf8f9e37070656fd64ef6eefb1d8c119",
-    "note": "5,390 source/test/script/migration blobs bound before commit; final postcommit Git check must match"
+    "sourceSnapshotSha256": "f5f40aeb615b0fbd5f09bbada794a43e3604377d12bdd6ae76675f669e6a811e",
+    "note": "Corrected symlink identity; all 5,390 source paths verified against final commit. Logs whitespace-normalized."
   },
   "build": {
     "log": "build-final-snapshot.log",

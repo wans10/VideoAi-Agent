@@ -32,9 +32,9 @@ not ok 5 - current Studio access renders Chinese sign-in, available and unavaila
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(visitor.includes('登录 Studio'))
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true

@@ -10,9 +10,9 @@ not ok 1 - analysis review works on desktop/mobile and only explicit confirmatio
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(settings.rows[0].version >= 170000 && settings.rows[0].version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -34,9 +34,9 @@ not ok 2 - native chat timeline, persistent app themes and mobile chat access (c
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(settings.rows[0].version >= 170000 && settings.rows[0].version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -78,9 +78,9 @@ not ok 4 - native export quote stays accessible on mobile and recovers one ident
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(settings.rows[0].version >= 170000 && settings.rows[0].version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -102,9 +102,9 @@ not ok 5 - MCP montage opens the current conversation with private playback, dur
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(settings.rows[0].version >= 170000 && settings.rows[0].version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -126,9 +126,9 @@ not ok 6 - task ceilings, explicit continuation and saved progress work on deskt
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(settings.rows[0].version >= 170000 && settings.rows[0].version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true

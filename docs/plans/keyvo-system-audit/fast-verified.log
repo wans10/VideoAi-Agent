@@ -11700,7 +11700,7 @@ not ok 1855 - ships archival MCP captures with real hashes and dimensions while 
   error: |-
     Expected values to be strictly deep-equal:
     + actual - expected
-    
+
     + [
     +   'maxvideoai-logo-mark: publishable_proof maxvideoaiRevision must be a real ancestor commit',
     +   'maxvideoai-logo-mark: publishable_proof lastReviewedRevision must be a real ancestor commit',
@@ -11739,7 +11739,7 @@ not ok 1855 - ships archival MCP captures with real hashes and dimensions while 
     +   'directory-thumbnail: publishable_proof lastReviewedRevision must be a real ancestor commit'
     + ]
     - []
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:
@@ -24994,9 +24994,9 @@ not ok 3953 - trusted audio duration probing reads an uploaded WAV buffer
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
-    
+
     null !== 2
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: 2

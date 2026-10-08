@@ -47,9 +47,9 @@ not ok 3 - CNY admin manual-credit endpoint defaults to CNY and refuses USD befo
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
-    
+
     'USD' !== 'CNY'
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: 'CNY'

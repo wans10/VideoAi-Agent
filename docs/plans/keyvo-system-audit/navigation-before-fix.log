@@ -45,9 +45,9 @@ not ok 4 - mobile actions skip unchanged desktop menus while desktop state and l
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok([...document.querySelectorAll('.sm\\:hidden')].some(node => node.textContent === '登录'))
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true

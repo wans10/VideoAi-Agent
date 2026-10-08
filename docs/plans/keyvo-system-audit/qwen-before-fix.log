@@ -40,9 +40,9 @@ not ok 2 - Qwen HTTP rejection with diagnostic request id refunds exactly once i
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Rejected/. Input:
-    
+
     'ImageGenerationExecutionError: The provider outcome requires reconciliation. Check your generation history before trying again.'
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:

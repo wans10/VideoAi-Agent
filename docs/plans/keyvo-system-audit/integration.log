@@ -2927,7 +2927,7 @@ not ok 212 - persisted Studio quotes and MCP preparations agree on optional imag
   error: |-
     Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
     frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
-    
+
   code: 'ERR_TEST_FAILURE'
   stack: |-
     genericNodeError (node:internal/errors:983:15)
@@ -2957,7 +2957,7 @@ not ok 214 - owned video and audio fixtures expose measured metadata without ima
   error: |-
     Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
     frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
-    
+
   code: 'ERR_TEST_FAILURE'
   stack: |-
     genericNodeError (node:internal/errors:983:15)
@@ -2981,7 +2981,7 @@ not ok 215 - real conversation qualification prepares durable quotes, rejects ma
   error: |-
     Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
     frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
-    
+
   code: 'ERR_TEST_FAILURE'
   stack: |-
     genericNodeError (node:internal/errors:983:15)
@@ -3005,7 +3005,7 @@ not ok 216 - real conversation Audio preparation covers seven packs, exact clone
   error: |-
     Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
     frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
-    
+
   code: 'ERR_TEST_FAILURE'
   stack: |-
     genericNodeError (node:internal/errors:983:15)
@@ -3541,9 +3541,9 @@ not ok 254 - Studio resolver uses exact owned rows and owned original objects in
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -3564,9 +3564,9 @@ not ok 255 - one transaction persists the ordered montage and exact idempotency 
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -3588,9 +3588,9 @@ not ok 256 - same-owner retries are concurrent-safe, preserve later edits, rejec
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -3612,9 +3612,9 @@ not ok 257 - idempotency is owner-scoped and invalid, unmeasured, foreign, pendi
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -3636,9 +3636,9 @@ not ok 258 - linked job and output state is revalidated under locks before any m
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -3660,9 +3660,9 @@ not ok 259 - an injected failure after every write stage rolls back project, seq
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -3700,7 +3700,7 @@ not ok 262 - safe selection correction preserves durable receipts, ownership and
   error: |-
     Command failed: ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,duration:stream_disposition=attached_pic -of json frontend/public/media/mcp/project-demo/watch-static.png
     frontend/public/media/mcp/project-demo/watch-static.png: Invalid data found when processing input
-    
+
   code: 'ERR_TEST_FAILURE'
   stack: |-
     genericNodeError (node:internal/errors:983:15)
@@ -4752,9 +4752,9 @@ not ok 288 - two concurrent CAS saves have one winner and the stale draft cannot
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -4776,9 +4776,9 @@ not ok 289 - the atomic save replaces the connected aggregate only after validat
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -4800,9 +4800,9 @@ not ok 290 - CAS saves preserve immutable montage frame provenance and discard i
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -4824,9 +4824,9 @@ not ok 291 - the connected workspace reader locks the aggregate so project revis
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -4848,9 +4848,9 @@ not ok 292 - retained legacy deletion commands lock the parent and recheck a con
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true
@@ -4872,9 +4872,9 @@ not ok 293 - retained legacy deletion commands refuse connected projects and pre
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
-    
+
       assert.ok(facts.version >= 170000 && facts.version < 180000)
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: true

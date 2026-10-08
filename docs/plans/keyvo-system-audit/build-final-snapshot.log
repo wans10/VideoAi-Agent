@@ -455,9 +455,9 @@ Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
    Collecting page data ...
    Generating static pages (0/1012) ...
-   Generating static pages (253/1012) 
-   Generating static pages (506/1012) 
-   Generating static pages (759/1012) 
+   Generating static pages (253/1012)
+   Generating static pages (506/1012)
+   Generating static pages (759/1012)
  ✓ Generating static pages (1012/1012)
    Finalizing page optimization ...
    Collecting build traces ...
@@ -968,16 +968,14 @@ Route (app)                                                                   Si
 │ sitemaps      │ 1      │
 └───────────────┴────────┘
 -----------------------------------------------------
- SITEMAP INDICES 
+ SITEMAP INDICES
 -----------------------------------------------------
 
    ○ https://app.keyvo.cn/sitemap.xml
 
 
 -----------------------------------------------------
- SITEMAPS 
+ SITEMAPS
 -----------------------------------------------------
 
    ○ https://app.keyvo.cn/sitemap-0.xml
-
-
