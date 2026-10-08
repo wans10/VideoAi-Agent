@@ -125,6 +125,7 @@ const nextConfig = {
       { pathname: '/assets/tools/character-builder-workspace.png', search: '?hero=1' },
     ],
     remotePatterns: [
+      { protocol: 'https', hostname: 'dckxoj4hsyfz.cloudfront.net' },
       { protocol: 'https', hostname: 'videohub-uploads-us.s3.amazonaws.com' },
       { protocol: 'https', hostname: 'media.maxvideoai.com' },
       { protocol: 'https', hostname: '*.s3.amazonaws.com' },
