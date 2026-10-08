@@ -9,6 +9,7 @@ import {
 import { resolveGoogleVertexOmniLocation } from '@/server/video-providers/google-vertex-omni/location';
 import { resolveGoogleVertexOmniModelRoute } from '@/server/video-providers/google-vertex-omni/model-map';
 import { resolveGoogleVertexVeoModelRoute } from '@/server/video-providers/google-vertex-veo/model-map';
+import { resolveGoogleVertexVeoEndpoint } from '@/server/video-providers/google-vertex-veo/client';
 
 type ReadinessModelKind = 'image' | 'veo' | 'omni';
 
@@ -251,6 +252,7 @@ export async function runGoogleVertexReadinessProbe(
   const location = (env.GOOGLE_VERTEX_LOCATION ?? 'global').trim() || 'global';
   const omniLocation = resolveGoogleVertexOmniLocation(env.GOOGLE_VERTEX_OMNI_LOCATION);
   const apiBaseUrl = (env.GOOGLE_VERTEX_API_BASE_URL ?? 'https://aiplatform.googleapis.com').trim();
+  const veoEndpoint = resolveGoogleVertexVeoEndpoint(env);
   const emptyResult: GoogleVertexReadinessResult = {
     ok: false,
     projectId,
@@ -284,7 +286,15 @@ export async function runGoogleVertexReadinessProbe(
   }).catch(() => ({ upload: false, read: false, delete: false }));
   const models = await Promise.all(
     readinessModels().map((model) =>
-      probeModel({ accessToken, apiBaseUrl, projectId, location, omniLocation, model, fetchFn }),
+      probeModel({
+        accessToken,
+        apiBaseUrl: model.kind === 'veo' ? veoEndpoint.apiBaseUrl : apiBaseUrl,
+        projectId,
+        location: model.kind === 'veo' ? veoEndpoint.location : location,
+        omniLocation,
+        model,
+        fetchFn,
+      }),
     ),
   );
   const oauth = { ok: true };
