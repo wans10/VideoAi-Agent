@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 type ManualCreditFormProps = {
   userId: string;
@@ -23,12 +24,12 @@ export function ManualCreditForm({ userId, embedded = false, className }: Manual
     if (pending) return;
     const parsedAmount = Number.parseFloat(amount);
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
-      setStatus({ variant: 'error', message: 'Enter a valid USD amount greater than zero.' });
+      setStatus({ variant: 'error', message: `Enter a valid ${CUSTOMER_CURRENCY} amount greater than zero.` });
       return;
     }
     const amountCents = Math.round(parsedAmount * 100);
     if (!Number.isFinite(amountCents) || amountCents <= 0) {
-      setStatus({ variant: 'error', message: 'Amount must be at least $0.01.' });
+      setStatus({ variant: 'error', message: `Amount must be at least 0.01 ${CUSTOMER_CURRENCY}.` });
       return;
     }
     const normalizedNote = note.trim();
@@ -38,7 +39,7 @@ export function ManualCreditForm({ userId, embedded = false, className }: Manual
       const response = await fetch(`/api/admin/users/${userId}/wallet`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amountCents, note: normalizedNote.length ? normalizedNote : undefined }),
+        body: JSON.stringify({ amountCents, currency: CUSTOMER_CURRENCY, note: normalizedNote.length ? normalizedNote : undefined }),
       });
       const payload = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
       if (!response.ok || !payload?.ok) {
@@ -70,7 +71,7 @@ export function ManualCreditForm({ userId, embedded = false, className }: Manual
       </div>
       <div className="grid grid-gap-sm md:grid-cols-2">
         <label className="text-xs font-semibold uppercase tracking-[0.2em] text-text-muted">
-          Amount (USD)
+          Amount ({CUSTOMER_CURRENCY})
           <input
             type="number"
             min="0.01"

@@ -1,6 +1,7 @@
 import { CREDIT_REVERSAL_SQL } from '@/server/wallet-receipt-classification';
 import { query } from '@/lib/db';
-import { getWalletBalanceCents } from '@/lib/wallet';
+import { getWalletSummary } from '@/server/wallet-summary';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { getSupabaseAdmin } from '@/server/supabase-admin';
 import { isUserAdmin } from '@/server/admin';
 
@@ -143,17 +144,17 @@ async function fetchProfile(userId: string): Promise<AdminUserProfile | null> {
 async function fetchWallet(userId: string): Promise<AdminUserWallet | null> {
   if (!hasDatabase) return null;
   try {
-    const { balanceCents } = await getWalletBalanceCents(userId);
+    const { balanceCents } = await getWalletSummary(userId);
     const aggregates = await query<WalletAggregateRow>(
       `
         SELECT CASE WHEN type = 'charge' AND ${CREDIT_REVERSAL_SQL}
           THEN 'credit_reversal' ELSE type END AS type,
           COALESCE(SUM(amount_cents), 0)::bigint AS total
         FROM app_receipts
-        WHERE user_id = $1
+        WHERE user_id = $1 AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD'))
         GROUP BY 1
       `,
-      [userId]
+      [userId, CUSTOMER_CURRENCY]
     );
     const stats = aggregates.reduce<Record<string, number>>((acc, row) => {
       acc[row.type] = coerceNumber(row.total);

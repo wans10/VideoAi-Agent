@@ -127,3 +127,9 @@ test('signed payment settlement checks merchant, order, type and exact CNY amoun
   assert.equal((await settleLlmhubPayOrderInTransaction(executor, fields, '1001')).kind, 'duplicate');
   assert.equal(calls.filter((sql) => sql.includes('INSERT INTO app_receipts')).length, 1);
 });
+
+test('signed gateway payment URL must not include embedded credentials',async()=>{
+ const payload={code:0,trade_no:'credential-order',pay_type:'jump',pay_info:'https://merchant:secret@pay.example.com/checkout',sign_type:'RSA'};
+ await assert.rejects(createLlmhubPayOrder({outTradeNo:'kv-credential',type:'alipay',money:'12.30',clientIp:'192.0.2.1',notifyUrl:'https://example.com/notify',returnUrl:'https://example.com/return'},
+ {pid:'1001',merchantPrivateKey,platformPublicKey},async()=>Response.json({...payload,sign:signLlmhubPayFields(payload,platformPrivateKey)})),/insecure_redirect/);
+});

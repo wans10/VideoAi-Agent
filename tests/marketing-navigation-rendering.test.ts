@@ -59,8 +59,8 @@ test('mobile actions skip unchanged desktop menus while desktop state and locale
       enumerable: true, get() { productionLabelReads += 1; return productionLabels; },
     });
     root = createRoot(document.getElementById('root')!);
-    const render = (locale: string, messages: unknown) => act(async () => root!.render(
-      React.createElement(I18nProvider, { locale, dictionary: messages, fallback: messages }, React.createElement(MarketingNav))
+    const render = (locale: string, messages: unknown, initialEmail?: string) => act(async () => root!.render(
+      React.createElement(I18nProvider, { locale, dictionary: messages, fallback: messages }, React.createElement(MarketingNav, { initialEmail }))
     ));
     await render('en', dictionary);
     const before = productionLabelReads;
@@ -92,6 +92,11 @@ test('mobile actions skip unchanged desktop menus while desktop state and locale
     const frenchDictionary = JSON.parse(await readFile('frontend/messages/fr.json', 'utf8'));
     await render('fr', frenchDictionary);
     assert.match(document.querySelector('button[aria-controls="marketing-production-dropdown"]')!.textContent!, /Production/);
+    const chineseDictionary = JSON.parse(await readFile('frontend/messages/zh.json', 'utf8'));
+    await render('zh', chineseDictionary);
+    assert.ok([...document.querySelectorAll('.sm\\:hidden')].some(node => node.textContent === '登录'));
+    await render('zh', chineseDictionary, 'fixture@example.invalid');
+    assert.ok([...document.querySelectorAll('.sm\\:hidden')].some(node => node.textContent === '生成'));
     dom.window.history.replaceState(null, '', '/app');
     await render('fr', frenchDictionary);
     assert.ok(document.querySelector('button[aria-controls="marketing-production-dropdown"]')?.classList.contains('is-active'));

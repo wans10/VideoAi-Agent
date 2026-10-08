@@ -47,7 +47,10 @@ export async function POST(request: NextRequest) {
         }
       } catch { /* An uncertain query never creates a second payment. */ }
       const paymentUrl = existing.quote_metadata?.paymentUrl;
-      if (typeof paymentUrl === 'string' && new URL(paymentUrl).protocol === 'https:') return NextResponse.json({ ok: true, url: paymentUrl, outTradeNo: requestOrderNo, currency: 'CNY' }, { headers: { 'Cache-Control': 'private, no-store' } });
+      if (typeof paymentUrl === 'string') {
+        const parsed = new URL(paymentUrl);
+        if (parsed.protocol === 'https:' && !parsed.username && !parsed.password) return NextResponse.json({ ok: true, url: paymentUrl, outTradeNo: requestOrderNo, currency: 'CNY' }, { headers: { 'Cache-Control': 'private, no-store' } });
+      }
       return NextResponse.json({ pending: true, outTradeNo: requestOrderNo }, { status: 202, headers: { 'Cache-Control': 'private, no-store' } });
     }
     const wallet = await getWalletSummary(userId);

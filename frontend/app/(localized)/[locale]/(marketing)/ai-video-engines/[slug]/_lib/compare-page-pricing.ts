@@ -145,7 +145,7 @@ export function isEngineGeneratable(entry: EngineCatalogEntry) {
 }
 
 export function getCurrentPriceUnavailableLabel(locale: AppLocale) {
-  return locale === 'fr' ? 'Prix actuel indisponible' : locale === 'es' ? 'Precio actual no disponible' : 'Current price unavailable';
+  return locale === 'fr' ? 'Prix actuel indisponible' : locale === 'es' ? 'Precio actual no disponible' : locale === 'zh' ? '当前价格暂不可用' : 'Current price unavailable';
 }
 
 export async function resolvePricingDisplay(

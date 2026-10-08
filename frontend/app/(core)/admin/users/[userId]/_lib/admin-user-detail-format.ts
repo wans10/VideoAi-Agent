@@ -1,3 +1,4 @@
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 const numberFormatter = new Intl.NumberFormat('en-US');
 const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
 const dateTimeFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' });
@@ -7,8 +8,12 @@ export function formatNumber(value: number) {
   return numberFormatter.format(value);
 }
 
-export function formatCurrency(amount: number) {
-  return currencyFormatter.format(amount);
+export function formatCurrency(amount: number, currency = 'USD') {
+  return currency === 'USD' ? currencyFormatter.format(amount) : new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
+}
+
+export function formatWalletCurrency(amount: number) {
+  return formatCurrency(amount, CUSTOMER_CURRENCY);
 }
 
 export function formatDateTime(value: string | null | undefined) {

@@ -4,6 +4,8 @@ import { getWalletBalanceCents } from '@/lib/wallet';
 import { query } from '@/lib/db';
 import { issueManualWalletTopUp } from '@/server/admin-transactions';
 import { getUserIdentity } from '@/server/supabase-admin';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+import { getWalletSummary } from '@/server/wallet-summary';
 
 export const runtime = 'nodejs';
 
@@ -20,16 +22,18 @@ export async function GET(req: NextRequest, props: { params: Promise<{ userId: s
     return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
   }
 
-  const { balanceCents, mock } = await getWalletBalanceCents(userId);
+  const configured = Boolean(process.env.DATABASE_URL);
+  const { balanceCents } = configured ? await getWalletSummary(userId) : await getWalletBalanceCents(userId);
+  const mock = !configured;
 
   let stats = null;
   if (process.env.DATABASE_URL) {
     const aggregates = await query<{ type: string; total: number }>(
       `SELECT type, COALESCE(SUM(amount_cents), 0) AS total
        FROM app_receipts
-       WHERE user_id = $1
+       WHERE user_id = $1 AND (UPPER(currency) = $2 OR (currency IS NULL AND $2 = 'USD'))
        GROUP BY type`,
-      [userId]
+      [userId, CUSTOMER_CURRENCY]
     );
     stats = aggregates.reduce<Record<string, number>>((acc, row) => {
       acc[row.type] = Number(row.total ?? 0);
@@ -41,7 +45,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ userId: s
     ok: true,
     balanceCents,
     balance: balanceCents / 100,
-    currency: 'USD',
+    currency: CUSTOMER_CURRENCY,
     mock,
     stats,
   });
@@ -77,7 +81,12 @@ export async function POST(req: NextRequest, props: { params: Promise<{ userId: 
   }
 
   const currency =
-    typeof payload.currency === 'string' && payload.currency.trim().length ? payload.currency.trim() : 'USD';
+    typeof payload.currency === 'string' && payload.currency.trim().length
+      ? payload.currency.trim().toUpperCase()
+      : CUSTOMER_CURRENCY;
+  if (CUSTOMER_CURRENCY === 'CNY' && currency !== CUSTOMER_CURRENCY) {
+    return NextResponse.json({ ok: false, error: 'Wallet currency must be CNY' }, { status: 400 });
+  }
   const note = typeof payload.note === 'string' && payload.note.trim().length ? payload.note.trim() : null;
   const description = note ? `Manual credit — ${note}` : null;
 

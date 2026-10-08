@@ -3,7 +3,7 @@ import { AdminSection } from '@/components/admin-system/shell/AdminSection';
 import { AdminSectionMeta } from '@/components/admin-system/shell/AdminSectionMeta';
 import { AdminDataTable } from '@/components/admin-system/surfaces/AdminDataTable';
 import type { AdminUserTopup, AdminUserWallet } from '../_lib/admin-user-detail-types';
-import { formatCurrency, formatDateTime } from '../_lib/admin-user-detail-format';
+import { formatCurrency, formatWalletCurrency, formatDateTime } from '../_lib/admin-user-detail-format';
 
 export function AdminUserWalletLedgerSection({
   wallet,
@@ -29,14 +29,14 @@ export function AdminUserWalletLedgerSection({
       action={
         wallet ? (
           <AdminSectionMeta
-            title={formatCurrency(lifetimeTopupsUsd)}
+            title={formatWalletCurrency(lifetimeTopupsUsd)}
             lines={[
-              `Gross charges ${formatCurrency(lifetimeChargesUsd)}`,
+              `Gross charges ${formatWalletCurrency(lifetimeChargesUsd)}`,
               ...(lifetimeCreditReversalsUsd > 0
-                ? [`Payment credit reversals ${formatCurrency(lifetimeCreditReversalsUsd)}`]
+                ? [`Payment credit reversals ${formatWalletCurrency(lifetimeCreditReversalsUsd)}`]
                 : []),
-              `Refunds ${formatCurrency(lifetimeRefundsUsd)}`,
-              `Net render spend ${formatCurrency(lifetimeNetSpendUsd)}`,
+              `Refunds ${formatWalletCurrency(lifetimeRefundsUsd)}`,
+              `Net render spend ${formatWalletCurrency(lifetimeNetSpendUsd)}`,
               `${topups.length} recent top-ups`,
             ]}
           />
@@ -58,7 +58,7 @@ export function AdminUserWalletLedgerSection({
               <tr key={topup.id} className="text-text-secondary">
                 <td className="px-4 py-3 text-xs">{formatDateTime(topup.createdAt)}</td>
                 <td className="px-4 py-3 font-medium text-text-primary">
-                  {formatCurrency(topup.amountUsd)} {topup.currency}
+                  {formatCurrency(topup.amountUsd, topup.currency ?? 'USD')} {topup.currency}
                 </td>
                 <td className="px-4 py-3">{topup.description ?? '—'}</td>
                 <td className="px-4 py-3 font-mono text-xs">{topup.stripePaymentIntentId ?? topup.stripeChargeId ?? '—'}</td>

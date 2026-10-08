@@ -145,7 +145,7 @@ export async function createLlmhubPayOrder(input: {
   const url = typeof result.pay_info === 'string' ? result.pay_info : '';
   if (!tradeNo || result.pay_type !== 'jump' || !url) throw new Error('llmhub_invalid_create_response');
   const parsed = new URL(url);
-  if (parsed.protocol !== 'https:') throw new Error('llmhub_insecure_redirect');
+  if (parsed.protocol !== 'https:' || parsed.username || parsed.password) throw new Error('llmhub_insecure_redirect');
   return { tradeNo, url };
 }
 

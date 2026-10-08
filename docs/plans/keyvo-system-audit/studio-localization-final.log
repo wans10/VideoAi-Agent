@@ -1,0 +1,172 @@
+TAP version 13
+# Subtest: merged starter shelf renders Chinese labels and titles while preserving prompt selection
+ok 1 - merged starter shelf renders Chinese labels and titles while preserving prompt selection
+  ---
+  duration_ms: 46.603792
+  type: 'test'
+  ...
+# Subtest: Chinese compare quote failure never falls back to an English customer price message
+ok 2 - Chinese compare quote failure never falls back to an English customer price message
+  ---
+  duration_ms: 0.090125
+  type: 'test'
+  ...
+# Subtest: actual model catalogue image cards display the quoted CNY currency without USD symbol or double conversion
+ok 3 - actual model catalogue image cards display the quoted CNY currency without USD symbol or double conversion
+  ---
+  duration_ms: 85.006541
+  type: 'test'
+  ...
+# Subtest: admin wallet metrics and individual historical receipts retain their actual currency
+ok 4 - admin wallet metrics and individual historical receipts retain their actual currency
+  ---
+  duration_ms: 19.387125
+  type: 'test'
+  ...
+# Subtest: current Studio access renders Chinese sign-in, available and unavailable states and preserves return target
+ok 5 - current Studio access renders Chinese sign-in, available and unavailable states and preserves return target
+  ---
+  duration_ms: 9.272334
+  type: 'test'
+  ...
+# Subtest: retired private projects never link to the Canvas editor
+ok 6 - retired private projects never link to the Canvas editor
+  ---
+  duration_ms: 0.343959
+  type: 'test'
+  ...
+# Subtest: retired editor route entries redirect without importing an editor
+ok 7 - retired editor route entries redirect without importing an editor
+  ---
+  duration_ms: 0.248792
+  type: 'test'
+  ...
+# Subtest: new project picker has no old Canvas creation or navigation surface
+ok 8 - new project picker has no old Canvas creation or navigation surface
+  ---
+  duration_ms: 0.129334
+  type: 'test'
+  ...
+# Subtest: React Flow and the private editor are absent while shared timeline remains owned
+ok 9 - React Flow and the private editor are absent while shared timeline remains owned
+  ---
+  duration_ms: 0.130875
+  type: 'test'
+  ...
+# Subtest: MCP montage results open the supported conversational Studio
+ok 10 - MCP montage results open the supported conversational Studio
+  ---
+  duration_ms: 0.073
+  type: 'test'
+  ...
+# Subtest: stale Canvas mutation clients cannot recreate old projects or sequences
+ok 11 - stale Canvas mutation clients cannot recreate old projects or sequences
+  ---
+  duration_ms: 0.157375
+  type: 'test'
+  ...
+# Subtest: Studio localization dictionaries expose required copy in every locale
+ok 12 - Studio localization dictionaries expose required copy in every locale
+  ---
+  duration_ms: 7.267958
+  type: 'test'
+  ...
+# Subtest: Studio asset library source filters use localized copy
+ok 13 - Studio asset library source filters use localized copy
+  ---
+  duration_ms: 4.988708
+  type: 'test'
+  ...
+# Subtest: resolveStudioCopy falls back when the Studio namespace is missing
+ok 14 - resolveStudioCopy falls back when the Studio namespace is missing
+  ---
+  duration_ms: 0.287
+  type: 'test'
+  ...
+# Subtest: resolveStudioCopy applies partial leaf overrides without dropping sibling defaults
+ok 15 - resolveStudioCopy applies partial leaf overrides without dropping sibling defaults
+  ---
+  duration_ms: 0.37875
+  type: 'test'
+  ...
+# Subtest: resolveStudioCopy ignores wrong-typed values and keeps defaults
+ok 16 - resolveStudioCopy ignores wrong-typed values and keeps defaults
+  ---
+  duration_ms: 0.325125
+  type: 'test'
+  ...
+# Subtest: formatStudioProjectDate handles invalid and valid Studio dates
+ok 17 - formatStudioProjectDate handles invalid and valid Studio dates
+  ---
+  duration_ms: 10.665125
+  type: 'test'
+  ...
+# Subtest: Studio generated canvas text preserves custom shot labels while localizing known tails
+ok 18 - Studio generated canvas text preserves custom shot labels while localizing known tails
+  ---
+  duration_ms: 6.8005
+  type: 'test'
+  ...
+# Subtest: Studio generated copy localization preserves custom exact-match node text without provenance
+ok 19 - Studio generated copy localization preserves custom exact-match node text without provenance
+  ---
+  duration_ms: 8.002792
+  type: 'test'
+  ...
+# Subtest: Studio timeline clip title localization requires generated provenance
+ok 20 - Studio timeline clip title localization requires generated provenance
+  ---
+  duration_ms: 4.132375
+  type: 'test'
+  ...
+# Subtest: Studio timeline split clears generated title provenance on suffixed right clips
+ok 21 - Studio timeline split clears generated title provenance on suffixed right clips
+  ---
+  duration_ms: 23.079417
+  type: 'test'
+  ...
+# Subtest: Studio timeline track labels and context menu kinds use active localized copy
+ok 22 - Studio timeline track labels and context menu kinds use active localized copy
+  ---
+  duration_ms: 4.106
+  type: 'test'
+  ...
+# Subtest: Studio export preflight issues localize generated timeline clip titles
+ok 23 - Studio export preflight issues localize generated timeline clip titles
+  ---
+  duration_ms: 5.017625
+  type: 'test'
+  ...
+# Subtest: Studio export manifests and EDL use localized generated timeline clip titles
+ok 24 - Studio export manifests and EDL use localized generated timeline clip titles
+  ---
+  duration_ms: 4.974
+  type: 'test'
+  ...
+# Subtest: Studio export manifests and payloads localize generated sequence names
+ok 25 - Studio export manifests and payloads localize generated sequence names
+  ---
+  duration_ms: 4.335167
+  type: 'test'
+  ...
+# Subtest: Studio export overlap issues localize sentence and track labels
+ok 26 - Studio export overlap issues localize sentence and track labels
+  ---
+  duration_ms: 2.433292
+  type: 'test'
+  ...
+# Subtest: Studio timeline inserted tail clip labels relocalize generated tails and preserve custom tails
+ok 27 - Studio timeline inserted tail clip labels relocalize generated tails and preserve custom tails
+  ---
+  duration_ms: 3.252833
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 413.562875

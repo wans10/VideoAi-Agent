@@ -2,6 +2,7 @@ import { query, type QueryExecutor } from '@/lib/db';
 import { ensureBillingSchema } from '@/lib/schema';
 import { coerceNumber, normalizeCurrency } from './normalizers';
 import type { ManualWalletTopUpParams, ManualWalletTopUpResult } from './types';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 export type AdminTopUpDependencies = {
   databaseConfigured(): boolean;
@@ -32,7 +33,7 @@ export async function issueManualWalletTopUp(
   }
 
   await dependencies.ensureSchema();
-  const currency = normalizeCurrency(params.currency ?? 'USD');
+  const currency = normalizeCurrency(params.currency ?? CUSTOMER_CURRENCY);
   const metadata: Record<string, unknown> = {
     reason: 'manual_admin_topup',
     admin_user_id: params.adminUserId,

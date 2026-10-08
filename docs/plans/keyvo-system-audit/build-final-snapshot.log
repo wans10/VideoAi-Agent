@@ -1,0 +1,983 @@
+
+> maxvideoai-generate-web@0.1.0 prebuild /private/tmp/VideoAi-Agent-keyvo-integrate/frontend
+> pnpm --dir .. model:registry:check && node ../scripts/check-production-git.mjs && pnpm --dir .. seo:machine:check && pnpm media:public-renditions:check && pnpm media:home-posters:check
+
+
+> maxvideoai-mock-api@0.1.0 model:registry:check /private/tmp/VideoAi-Agent-keyvo-integrate
+> tsx --tsconfig frontend/tsconfig.json scripts/validate-model-registry.ts && node scripts/generate-model-runtime.mjs && pnpm engine:catalog -- --check && pnpm model:generate
+
+[model-registry] valid (57 models, 2 tombstones)
+[model-runtime] projection current (57 models)
+
+> maxvideoai-mock-api@0.1.0 engine:catalog /private/tmp/VideoAi-Agent-keyvo-integrate
+> ./frontend/node_modules/.bin/tsx scripts/build-engine-catalog.ts -- --check
+
+[engine-catalog] projection current (57 entries).
+
+> maxvideoai-mock-api@0.1.0 model:generate /private/tmp/VideoAi-Agent-keyvo-integrate
+> node scripts/generate-model-roster.mjs
+
+
+> maxvideoai-mock-api@0.1.0 engine:catalog /private/tmp/VideoAi-Agent-keyvo-integrate
+> ./frontend/node_modules/.bin/tsx scripts/build-engine-catalog.ts -- --check
+
+[engine-catalog] projection current (57 entries).
+[model-roster] No changes. Entries: 54.
+Local/preview build: production Git gate not applicable.
+
+> maxvideoai-mock-api@0.1.0 seo:machine:check /private/tmp/VideoAi-Agent-keyvo-integrate
+> tsx --tsconfig frontend/tsconfig.json scripts/llms-guard.ts && tsx --tsconfig frontend/tsconfig.json --test tests/p1-llms-discovery.test.ts tests/marketing-jsonld-schema-audit.test.ts tests/mcp-seo-review-remediation.test.ts tests/jsonld-serialization.test.ts tests/mcp-model-recommendations.test.ts tests/product-schema-customer-price.test.ts tests/product-schema-visible-offer.test.ts tests/h3-max-public-capability-truth.test.ts tests/docs-product-truth.test.ts tests/markdown-content-cache.test.ts tests/editorial-jsonld-ssr.test.ts
+
+llms-guard: OK
+TAP version 13
+# Subtest: Docs does not promise an unimplemented workspace content-review service
+ok 1 - Docs does not promise an unimplemented workspace content-review service
+  ---
+  duration_ms: 0.762667
+  type: 'test'
+  ...
+# Subtest: Docs onboarding and MCP guidance reflect available product paths
+ok 2 - Docs onboarding and MCP guidance reflect available product paths
+  ---
+  duration_ms: 0.391458
+  type: 'test'
+  ...
+# Subtest: Docs articles and fallback cannot resurrect the removed workspace and membership promises
+ok 3 - Docs articles and fallback cannot resurrect the removed workspace and membership promises
+  ---
+  duration_ms: 0.476667
+  type: 'test'
+  ...
+# Subtest: Docs TechArticle, breadcrumb and supplied authored schemas are present in server HTML in every locale
+ok 4 - Docs TechArticle, breadcrumb and supplied authored schemas are present in server HTML in every locale
+  ---
+  duration_ms: 5.773667
+  type: 'test'
+  ...
+# Subtest: Docs publication gating still withholds article and authored schemas when suppressed
+ok 5 - Docs publication gating still withholds article and authored schemas when suppressed
+  ---
+  duration_ms: 0.308917
+  type: 'test'
+  ...
+# Subtest: blog Article and breadcrumb are present before hydration even without any authored MDX schema
+ok 6 - blog Article and breadcrumb are present before hydration even without any authored MDX schema
+  ---
+  duration_ms: 1.017708
+  type: 'test'
+  ...
+# Subtest: editorial routes wire server script owners and preserve the MCP publication gate
+ok 7 - editorial routes wire server script owners and preserve the MCP publication gate
+  ---
+  duration_ms: 0.306667
+  type: 'test'
+  ...
+# Subtest: no public JSON-LD author depends on next/script hydration
+ok 8 - no public JSON-LD author depends on next/script hydration
+  ---
+  duration_ms: 96.454709
+  type: 'test'
+  ...
+# Subtest: H3 Max public specs and comparisons expose its executable image and reference workflows
+ok 9 - H3 Max public specs and comparisons expose its executable image and reference workflows
+  ---
+  duration_ms: 11.113375
+  type: 'test'
+  ...
+# Subtest: localized H3 Max metadata and Product descriptions agree on multimodal availability
+ok 10 - localized H3 Max metadata and Product descriptions agree on multimodal availability
+  ---
+  duration_ms: 2.788292
+  type: 'test'
+  ...
+# Subtest: JSON-LD cannot terminate its script element and preserves authored text
+ok 11 - JSON-LD cannot terminate its script element and preserves authored text
+  ---
+  duration_ms: 0.700875
+  type: 'test'
+  ...
+# Subtest: blog and docs generated and inline JSON-LD use the shared script-safe serializer
+ok 12 - blog and docs generated and inline JSON-LD use the shared script-safe serializer
+  ---
+  duration_ms: 0.300458
+  type: 'test'
+  ...
+# Subtest: root metadata does not reintroduce an obsolete model list or blanket watermark claim
+ok 13 - root metadata does not reintroduce an obsolete model list or blanket watermark claim
+  ---
+  duration_ms: 0.153875
+  type: 'test'
+  ...
+# Subtest: site schemas never advertise the nonexistent site search action
+ok 14 - site schemas never advertise the nonexistent site search action
+  ---
+  duration_ms: 0.103333
+  type: 'test'
+  ...
+# Subtest: production Markdown serves changed source after a warm persistent Next cache without waiting or clearing it
+ok 15 - production Markdown serves changed source after a warm persistent Next cache without waiting or clearing it
+  ---
+  duration_ms: 18.95675
+  type: 'test'
+  ...
+# Subtest: production Markdown cache follows added, renamed and removed files and separates localized roots
+ok 16 - production Markdown cache follows added, renamed and removed files and separates localized roots
+  ---
+  duration_ms: 22.865
+  type: 'test'
+  ...
+# Subtest: marketing JSON-LD builders emit baseline-valid schema payloads
+ok 17 - marketing JSON-LD builders emit baseline-valid schema payloads
+  ---
+  duration_ms: 9.016208
+  type: 'test'
+  ...
+# Subtest: site Organization schema keeps one canonical complete entity
+ok 18 - site Organization schema keeps one canonical complete entity
+  ---
+  duration_ms: 0.134833
+  type: 'test'
+  ...
+# Subtest: homepage application features use the declared language and canonical provider entity
+ok 19 - homepage application features use the declared language and canonical provider entity
+  ---
+  duration_ms: 0.09425
+  type: 'test'
+  ...
+# Subtest: generic services do not advertise wallet deposits as model or comparison prices
+ok 20 - generic services do not advertise wallet deposits as model or comparison prices
+  ---
+  duration_ms: 0.087333
+  type: 'test'
+  ...
+# Subtest: model Product schemas distinguish the actual manufacturer from VideoAI
+ok 21 - model Product schemas distinguish the actual manufacturer from VideoAI
+  ---
+  duration_ms: 0.322666
+  type: 'test'
+  ...
+# Subtest: historical models with app publication disabled keep editorial schemas without a purchasable Product
+ok 22 - historical models with app publication disabled keep editorial schemas without a purchasable Product
+  ---
+  duration_ms: 0.361167
+  type: 'test'
+  ...
+# Subtest: blog Article schema identifies the visible person while retaining Keyvo as publisher
+ok 23 - blog Article schema identifies the visible person while retaining Keyvo as publisher
+  ---
+  duration_ms: 0.135208
+  type: 'test'
+  ...
+# Subtest: restricted FAQPage usage is inventoried without allowing deprecated schema types
+ok 24 - restricted FAQPage usage is inventoried without allowing deprecated schema types
+  ---
+  duration_ms: 2.136292
+  type: 'test'
+  ...
+# (node:96386) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Sora remains historical by exact choice and cannot generate or be recommended
+ok 25 - Sora remains historical by exact choice and cannot generate or be recommended
+  ---
+  duration_ms: 5.182167
+  type: 'test'
+  ...
+# Subtest: explicit Pika preference and exact ID remain eligible without default recommendation
+ok 26 - explicit Pika preference and exact ID remain eligible without default recommendation
+  ---
+  duration_ms: 12.908958
+  type: 'test'
+  ...
+# Subtest: explicit preference never restores legacy or archived models to recommendations
+ok 27 - explicit preference never restores legacy or archived models to recommendations
+  ---
+  duration_ms: 3.40975
+  type: 'test'
+  ...
+# Subtest: current editorial references lead broad matches while Pika stays discoverable on request
+ok 28 - current editorial references lead broad matches while Pika stays discoverable on request
+  ---
+  duration_ms: 1.64075
+  type: 'test'
+  ...
+# Subtest: explicit executable choice outranks editorial and soft priorities while exclusions and hard caps win
+ok 29 - explicit executable choice outranks editorial and soft priorities while exclusions and hard caps win
+  ---
+  duration_ms: 1.088917
+  type: 'test'
+  ...
+# Subtest: editorial reference preference never outweighs requested capabilities or automatically reviews new versions
+ok 30 - editorial reference preference never outweighs requested capabilities or automatically reviews new versions
+  ---
+  duration_ms: 0.489334
+  type: 'test'
+  ...
+# Subtest: an overdue editorial review stops boosting a reference while on-request models remain explicit
+ok 31 - an overdue editorial review stops boosting a reference while on-request models remain explicit
+  ---
+  duration_ms: 0.413959
+  type: 'test'
+  ...
+# Subtest: H3 Max recommendations derive executable image and reference modes from the shared runtime
+ok 32 - H3 Max recommendations derive executable image and reference modes from the shared runtime
+  ---
+  duration_ms: 7.056625
+  type: 'test'
+  ...
+# Subtest: recommendations keep explicit capabilities as hard constraints and cap stable ties at three
+ok 33 - recommendations keep explicit capabilities as hard constraints and cap stable ties at three
+  ---
+  duration_ms: 1.059417
+  type: 'test'
+  ...
+# Subtest: real MiniMax H3 recommendations agree with current per-mode model details
+ok 34 - real MiniMax H3 recommendations agree with current per-mode model details
+  ---
+  duration_ms: 2.786959
+  type: 'test'
+  ...
+# Subtest: compatible preferences lead while exclusions and incompatible preferences stay out
+ok 35 - compatible preferences lead while exclusions and incompatible preferences stay out
+  ---
+  duration_ms: 0.681417
+  type: 'test'
+  ...
+# Subtest: factual priorities and reviewed use cases provide deterministic ranking reasons
+ok 36 - factual priorities and reviewed use cases provide deterministic ranking reasons
+  ---
+  duration_ms: 1.635208
+  type: 'test'
+  ...
+# Subtest: recommendation reasons stay unique when requested capabilities are also priorities
+ok 37 - recommendation reasons stay unique when requested capabilities are also priorities
+  ---
+  duration_ms: 0.305292
+  type: 'test'
+  ...
+# Subtest: reviewed use-case matches favor editorial references before the discovery tie-breaker
+ok 38 - reviewed use-case matches favor editorial references before the discovery tie-breaker
+  ---
+  duration_ms: 0.274875
+  type: 'test'
+  ...
+# Subtest: an open shortlist keeps one representative per authored model family
+ok 39 - an open shortlist keeps one representative per authored model family
+  ---
+  duration_ms: 0.284208
+  type: 'test'
+  ...
+# Subtest: declared priority order can invert ranking between verified dimensions
+ok 40 - declared priority order can invert ranking between verified dimensions
+  ---
+  duration_ms: 0.28875
+  type: 'test'
+  ...
+# Subtest: cost intent always routes to current project budgeting without static price ranking or tier labels
+ok 41 - cost intent always routes to current project budgeting without static price ranking or tier labels
+  ---
+  duration_ms: 0.651375
+  type: 'test'
+  ...
+# Subtest: advice leaves the final model choice with the user before any quote preparation
+ok 42 - advice leaves the final model choice with the user before any quote preparation
+  ---
+  duration_ms: 0.396709
+  type: 'test'
+  ...
+# Subtest: an incompatible request returns an explicit clarification next action
+ok 43 - an incompatible request returns an explicit clarification next action
+  ---
+  duration_ms: 0.214209
+  type: 'test'
+  ...
+# Subtest: recommendations cannot revive a declared mode that has no executable mode caps
+ok 44 - recommendations cannot revive a declared mode that has no executable mode caps
+  ---
+  duration_ms: 0.296333
+  type: 'test'
+  ...
+# Subtest: recommendations exclude public models disabled in the connected environment
+ok 45 - recommendations exclude public models disabled in the connected environment
+  ---
+  duration_ms: 0.365833
+  type: 'test'
+  ...
+# Subtest: enabled postbuild XML contains all 15 localized MCP owners with reciprocal absolute alternates
+ok 46 - enabled postbuild XML contains all 15 localized MCP owners with reciprocal absolute alternates
+  ---
+  duration_ms: 135.95575
+  type: 'test'
+  ...
+# Subtest: llms response is built deterministically from publication state without a public-file conflict
+ok 47 - llms response is built deterministically from publication state without a public-file conflict
+  ---
+  duration_ms: 77.315417
+  type: 'test'
+  ...
+# Subtest: llms URL validation allows only the canonical external spec and plugin repository
+ok 48 - llms URL validation allows only the canonical external spec and plugin repository
+  ---
+  duration_ms: 191.413625
+  type: 'test'
+  ...
+# Subtest: host-aware robots blocks the API protocol host and preserves explicit public crawler roles
+ok 49 - host-aware robots blocks the API protocol host and preserves explicit public crawler roles
+  ---
+  duration_ms: 7.305875
+  type: 'test'
+  ...
+# Subtest: P1 LLM discovery exposes current names, canonical URLs, families, and scoreboards
+ok 50 - P1 LLM discovery exposes current names, canonical URLs, families, and scoreboards
+  ---
+  duration_ms: 6.359292
+  type: 'test'
+  ...
+# Subtest: published P1 identities remain present in default LLM discovery
+ok 51 - published P1 identities remain present in default LLM discovery
+  ---
+  duration_ms: 7.194666
+  type: 'test'
+  ...
+# Subtest: default llms output includes priority models once and drops the stale Sora selection
+ok 52 - default llms output includes priority models once and drops the stale Sora selection
+  ---
+  duration_ms: 10.326792
+  type: 'test'
+  ...
+# Subtest: reopening MCP publication restores its documented discovery sources
+ok 53 - reopening MCP publication restores its documented discovery sources
+  ---
+  duration_ms: 0.591208
+  type: 'test'
+  ...
+# Subtest: curated llms model links follow lifecycle, publication, canonical slug and label changes
+ok 54 - curated llms model links follow lifecycle, publication, canonical slug and label changes
+  ---
+  duration_ms: 14.033417
+  type: 'test'
+  ...
+# Subtest: repaired model Product offers match exact public customer quotes in all locales
+ok 55 - repaired model Product offers match exact public customer quotes in all locales
+  ---
+  duration_ms: 35.667875
+  type: 'test'
+  ...
+# Subtest: Seedance 2.5 keeps its already-correct customer offer
+ok 56 - Seedance 2.5 keeps its already-correct customer offer
+  ---
+  duration_ms: 0.29375
+  type: 'test'
+  ...
+# Subtest: visible offer and Product consume the same price and selected scenario for every repaired model
+ok 57 - visible offer and Product consume the same price and selected scenario for every repaired model
+  ---
+  duration_ms: 27.422584
+  type: 'test'
+  ...
+# Subtest: examples name their real options without pretending to be the lowest price
+ok 58 - examples name their real options without pretending to be the lowest price
+  ---
+  duration_ms: 0.910208
+  type: 'test'
+  ...
+# Subtest: disabled app models have neither a purchasable Product nor a visible offer line
+ok 59 - disabled app models have neither a purchasable Product nor a visible offer line
+  ---
+  duration_ms: 0.234125
+  type: 'test'
+  ...
+# Subtest: route passes one offer to both structured data and visible pricing, including legacy layouts
+ok 60 - route passes one offer to both structured data and visible pricing, including legacy layouts
+  ---
+  duration_ms: 0.228125
+  type: 'test'
+  ...
+1..60
+# tests 60
+# suites 0
+# pass 60
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 693.107292
+
+> maxvideoai-generate-web@0.1.0 media:public-renditions:check /private/tmp/VideoAi-Agent-keyvo-integrate/frontend
+> tsx --tsconfig tsconfig.scripts.json scripts/check-public-video-coverage.ts
+
+[public-video-coverage] check passed heroes=5
+
+> maxvideoai-generate-web@0.1.0 media:home-posters:check /private/tmp/VideoAi-Agent-keyvo-integrate/frontend
+> tsx --tsconfig tsconfig.scripts.json scripts/prepare-home-posters.ts
+
+[home-posters] verified two immutable, byte-identical display posters
+
+> maxvideoai-generate-web@0.1.0 build /private/tmp/VideoAi-Agent-keyvo-integrate/frontend
+> next build
+
+   ▲ Next.js 15.5.25
+   - Experiments (use with caution):
+     ✓ webpackMemoryOptimizations
+
+   Creating an optimized production build ...
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled successfully in 26.6s
+   Linting and checking validity of types ...
+
+./app/(core)/(workspace)/app/_hooks/useWorkspacePricingGate.ts
+5:10  Warning: 'CUSTOMER_CURRENCY' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/(core)/(workspace)/app/image/_hooks/useImageWorkspaceDisplayState.ts
+39:9  Warning: The 'starterItems' conditional could make the dependencies of useLayoutEffect Hook (at line 53) change on every render. To fix this, wrap the initialization of 'starterItems' in its own useMemo() Hook.  react-hooks/exhaustive-deps
+
+./app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationMedia.client.tsx
+12:7  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationReferenceCard.client.tsx
+61:34  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationReferenceLightbox.client.tsx
+16:5  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationTimeline.client.tsx
+128:462  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-pricing.ts
+23:38  Warning: '_entry' is defined but never used.  @typescript-eslint/no-unused-vars
+23:66  Warning: '_locale' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/app/AppSiteMenu.client.tsx
+3:8  Warning: 'mcpPublication' is defined but never used.  @typescript-eslint/no-unused-vars
+11:10  Warning: 'publishedLocales' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/1012) ...
+   Generating static pages (253/1012) 
+   Generating static pages (506/1012) 
+   Generating static pages (759/1012) 
+ ✓ Generating static pages (1012/1012)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                                   Size  First Load JS  Revalidate  Expire
+┌ ƒ /                                                                      1.34 kB         298 kB
+├ ƒ /_not-found                                                              821 B         105 kB
+├ ○ /.well-known/glama.json                                                  821 B         105 kB
+├ ƒ /.well-known/oauth-authorization-server                                  821 B         105 kB
+├ ƒ /.well-known/oauth-protected-resource/mcp                                821 B         105 kB
+├ ● /[locale]                                                               3.6 kB         151 kB
+├   └ /zh
+├ ● /[locale]/404                                                            184 B         108 kB
+├   └ /zh/404
+├ ● /[locale]/about                                                        3.03 kB         110 kB
+├   └ /zh/about
+├ ● /[locale]/ai-video-engines                                               167 B         185 kB
+├   └ /zh/ai-video-engines
+├ ● /[locale]/ai-video-engines/[slug]                                        166 B         197 kB
+├   ├ /en/ai-video-engines/seedance-2-5-vs-wan-3
+├   ├ /en/ai-video-engines/minimax-h3-max-vs-seedance-2-5
+├   ├ /en/ai-video-engines/minimax-h3-vs-seedance-2-5
+├   └ [+65 more paths]
+├ ● /[locale]/ai-video-engines/best-for                                    3.02 kB         116 kB
+├   └ /zh/ai-video-engines/best-for
+├ ● /[locale]/ai-video-engines/best-for/[usecase]                          3.02 kB         116 kB
+├   ├ /en/ai-video-engines/best-for/image-to-video
+├   ├ /en/ai-video-engines/best-for/cinematic-realism
+├   ├ /en/ai-video-engines/best-for/character-reference
+├   └ [+45 more paths]
+├ ● /[locale]/benchmarks                                                   3.03 kB         110 kB
+├   └ /zh/benchmarks
+├ ● /[locale]/blog                                                         3.45 kB         116 kB
+├   └ /zh/blog
+├ ● /[locale]/blog/[slug]                                                  3.03 kB         116 kB
+├   ├ /en/blog/voiceover-to-visual-capsule-ltx-2-5-pro
+├   ├ /en/blog/gpt-6-podcast-maxvideoai-premiere-pro
+├   ├ /en/blog/website-images-30-second-social-ad-chatgpt-work-maxvideoai
+├   └ [+61 more paths]
+├ ● /[locale]/changelog                                                    3.03 kB         110 kB
+├   └ /zh/changelog
+├ ● /[locale]/company                                                      3.03 kB         110 kB
+├   └ /zh/company
+├ ● /[locale]/contact                                                      3.44 kB         111 kB
+├   └ /zh/contact
+├ ● /[locale]/docs                                                         3.39 kB         111 kB
+├   └ /zh/docs
+├ ● /[locale]/docs/[slug]                                                  3.03 kB         110 kB
+├   ├ /en/docs/brand-safety
+├   ├ /en/docs/get-started
+├   ├ /fr/docs/brand-safety
+├   └ [+5 more paths]
+├ ● /[locale]/editorial-standards                                          3.03 kB         110 kB
+├   └ /zh/editorial-standards
+├ ● /[locale]/examples                                                       236 B         143 kB
+├   └ /zh/examples
+├ ● /[locale]/examples/[model]                                               236 B         143 kB
+├   ├ /en/examples/sora
+├   ├ /en/examples/sora-2
+├   ├ /en/examples/sora-2-pro
+├   └ [+229 more paths]
+├ ● /[locale]/integrations/chatgpt                                         2.76 kB         129 kB
+├   └ /zh/integrations/chatgpt
+├ ● /[locale]/integrations/claude                                          2.76 kB         129 kB
+├   └ /zh/integrations/claude
+├ ● /[locale]/integrations/codex                                           2.76 kB         129 kB
+├   └ /zh/integrations/codex
+├ ● /[locale]/integrations/n8n                                             2.76 kB         129 kB
+├   └ /zh/integrations/n8n
+├ ● /[locale]/integrations/openclaw                                        2.76 kB         129 kB
+├   └ /zh/integrations/openclaw
+├ ● /[locale]/legal                                                          773 B         108 kB
+├   └ /zh/legal
+├ ● /[locale]/legal/acceptable-use                                           773 B         108 kB
+├   └ /zh/legal/acceptable-use
+├ ● /[locale]/legal/cookies                                                  821 B         105 kB
+├   └ /zh/legal/cookies
+├ ● /[locale]/legal/cookies-list                                             741 B         105 kB
+├   └ /zh/legal/cookies-list
+├ ● /[locale]/legal/mentions                                                 773 B         108 kB
+├   └ /zh/legal/mentions
+├ ● /[locale]/legal/privacy                                                  753 B         108 kB
+├   └ /zh/legal/privacy
+├ ● /[locale]/legal/subprocessors                                            741 B         105 kB
+├   └ /zh/legal/subprocessors
+├ ● /[locale]/legal/takedown                                                2.5 kB         110 kB
+├   └ /zh/legal/takedown
+├ ● /[locale]/legal/terms                                                    753 B         108 kB
+├   └ /zh/legal/terms
+├ ● /[locale]/mcp                                                          2.36 kB         128 kB
+├   └ /zh/mcp
+├ ● /[locale]/models                                                         153 B         136 kB
+├   └ /zh/models
+├ ● /[locale]/models/[slug]                                                3.24 kB         149 kB
+├   ├ /en/models/gemini-omni-flash
+├   ├ /en/models/gpt-image-2-5-flare
+├   ├ /en/models/gpt-image-2-5-sunburst
+├   └ [+213 more paths]
+├ ● /[locale]/models/image                                                   152 B         136 kB
+├   └ /zh/models/image
+├ ● /[locale]/models/video                                                   152 B         136 kB
+├   └ /zh/models/video
+├ ● /[locale]/pay-as-you-go-ai-video-generator                             3.39 kB         135 kB
+├   └ /zh/pay-as-you-go-ai-video-generator
+├ ● /[locale]/pricing                                                      3.27 kB         116 kB
+├   └ /zh/pricing
+├ ● /[locale]/return-policy                                                  773 B         108 kB
+├   └ /zh/return-policy
+├ ● /[locale]/status                                                       3.44 kB         111 kB
+├   └ /zh/status
+├ ● /[locale]/studio                                                       3.44 kB         116 kB
+├   └ /zh/studio
+├ ● /[locale]/tools                                                        3.38 kB         116 kB
+├   └ /zh/tools
+├ ● /[locale]/tools/angle                                                    140 B         119 kB
+├   └ /zh/tools/angle
+├ ● /[locale]/tools/background-removal                                     3.39 kB         116 kB
+├   └ /zh/tools/background-removal
+├ ● /[locale]/tools/character-builder                                        137 B         117 kB
+├   └ /zh/tools/character-builder
+├ ● /[locale]/tools/upscale                                                3.39 kB         116 kB
+├   └ /zh/tools/upscale
+├ ƒ /[locale]/v/[videoId]                                                    821 B         105 kB
+├ ƒ /[locale]/video/[videoId]                                                821 B         105 kB
+├ ● /[locale]/workflows                                                       3 kB         110 kB
+├   └ /zh/workflows
+├ ƒ /404                                                                     184 B         108 kB
+├ ƒ /about                                                                 1.31 kB         283 kB
+├ ƒ /account/connections                                                   71.8 kB         327 kB
+├ ƒ /admin                                                                   210 B         108 kB
+├ ƒ /admin/audit                                                             184 B         108 kB
+├ ƒ /admin/billing-products                                                2.99 kB         123 kB
+├ ƒ /admin/checkout-report                                                 1.82 kB         109 kB
+├ ƒ /admin/consents.csv                                                      821 B         105 kB
+├ ƒ /admin/editorial                                                         210 B         108 kB
+├ ƒ /admin/editorial/[articleId]                                           2.27 kB         110 kB
+├ ƒ /admin/engines                                                           210 B         108 kB
+├ ƒ /admin/home                                                            4.33 kB         117 kB
+├ ƒ /admin/infra-costs                                                       210 B         108 kB
+├ ƒ /admin/insights                                                        5.44 kB         113 kB
+├ ƒ /admin/jobs                                                            5.75 kB         113 kB
+├ ƒ /admin/legal                                                           5.73 kB         118 kB
+├ ƒ /admin/marketing                                                         184 B         108 kB
+├ ƒ /admin/mcp                                                               508 B         108 kB
+├ ƒ /admin/membership                                                      4.74 kB         117 kB
+├ ƒ /admin/moderation                                                      7.97 kB         125 kB
+├ ƒ /admin/playlists                                                       28.4 kB         210 kB
+├ ƒ /admin/pricing                                                           28 kB         211 kB
+├ ƒ /admin/seo                                                               210 B         108 kB
+├ ƒ /admin/seo/actions                                                       821 B         105 kB
+├ ƒ /admin/seo/cockpit                                                       821 B         105 kB
+├ ƒ /admin/seo/ctr-doctor                                                    821 B         105 kB
+├ ƒ /admin/seo/gsc                                                           821 B         105 kB
+├ ƒ /admin/seo/internal-links                                                821 B         105 kB
+├ ƒ /admin/seo/missing-content                                               821 B         105 kB
+├ ƒ /admin/seo/momentum                                                      821 B         105 kB
+├ ƒ /admin/seo/page-actions                                                  821 B         105 kB
+├ ƒ /admin/seo/url-inspection                                                821 B         105 kB
+├ ƒ /admin/settings                                                          210 B         108 kB
+├ ƒ /admin/studio                                                            210 B         108 kB
+├ ƒ /admin/studio/[requestId]                                              2.94 kB         110 kB
+├ ƒ /admin/system                                                          2.41 kB         110 kB
+├ ƒ /admin/theme                                                             821 B         105 kB
+├ ƒ /admin/transactions                                                    5.96 kB         113 kB
+├ ƒ /admin/users                                                           6.18 kB         119 kB
+├ ƒ /admin/users/[userId]                                                  2.52 kB         110 kB
+├ ƒ /admin/video-seo                                                       12.4 kB         129 kB
+├ ƒ /ai-video-engines                                                        166 B         185 kB
+├ ● /ai-video-engines/[slug]                                                 167 B         197 kB
+├   ├ /ai-video-engines/seedance-2-5-vs-wan-3
+├   ├ /ai-video-engines/minimax-h3-max-vs-seedance-2-5
+├   ├ /ai-video-engines/minimax-h3-vs-seedance-2-5
+├   └ [+14 more paths]
+├ ƒ /ai-video-engines/best-for                                             3.02 kB         116 kB
+├ ● /ai-video-engines/best-for/[usecase]                                   3.02 kB         116 kB
+├   ├ /ai-video-engines/best-for/image-to-video
+├   ├ /ai-video-engines/best-for/cinematic-realism
+├   ├ /ai-video-engines/best-for/character-reference
+├   └ [+9 more paths]
+├ ƒ /api/account/consents                                                    821 B         105 kB
+├ ƒ /api/account/delete                                                      821 B         105 kB
+├ ƒ /api/account/export                                                      821 B         105 kB
+├ ƒ /api/account/marketing                                                   821 B         105 kB
+├ ƒ /api/account/mcp-settings                                                821 B         105 kB
+├ ƒ /api/admin/access                                                        821 B         105 kB
+├ ƒ /api/admin/billing-products                                              821 B         105 kB
+├ ƒ /api/admin/billing-products/confirm                                      821 B         105 kB
+├ ƒ /api/admin/billing-products/history                                      821 B         105 kB
+├ ƒ /api/admin/billing-products/preview                                      821 B         105 kB
+├ ƒ /api/admin/checkout-sessions/expire                                      821 B         105 kB
+├ ƒ /api/admin/editorial/[articleId]/approve                                 821 B         105 kB
+├ ƒ /api/admin/editorial/[articleId]/corrections                             821 B         105 kB
+├ ƒ /api/admin/editorial/media/[articleId]/[assetId]                         821 B         105 kB
+├ ƒ /api/admin/engines                                                       821 B         105 kB
+├ ƒ /api/admin/engines/[engineId]                                            821 B         105 kB
+├ ƒ /api/admin/fraud/stripe-wallet-cleanup                                   821 B         105 kB
+├ ƒ /api/admin/health                                                        821 B         105 kB
+├ ƒ /api/admin/homepage                                                      821 B         105 kB
+├ ƒ /api/admin/homepage/[sectionId]                                          821 B         105 kB
+├ ƒ /api/admin/homepage/reorder                                              821 B         105 kB
+├ ƒ /api/admin/impersonate                                                   821 B         105 kB
+├ ƒ /api/admin/impersonate/exit                                              821 B         105 kB
+├ ƒ /api/admin/jobs/[jobId]/resync                                           821 B         105 kB
+├ ƒ /api/admin/jobs/audit                                                    821 B         105 kB
+├ ƒ /api/admin/jobs/link                                                     821 B         105 kB
+├ ƒ /api/admin/jobs/restore                                                  821 B         105 kB
+├ ƒ /api/admin/legal/documents                                               821 B         105 kB
+├ ƒ /api/admin/legal/documents/[key]                                         821 B         105 kB
+├ ƒ /api/admin/marketing/opt-ins                                             821 B         105 kB
+├ ƒ /api/admin/membership                                                    821 B         105 kB
+├ ƒ /api/admin/membership/confirm                                            821 B         105 kB
+├ ƒ /api/admin/membership/history                                            821 B         105 kB
+├ ƒ /api/admin/membership/preview                                            821 B         105 kB
+├ ƒ /api/admin/metrics                                                       821 B         105 kB
+├ ƒ /api/admin/playlists                                                     821 B         105 kB
+├ ƒ /api/admin/playlists/[playlistId]                                        821 B         105 kB
+├ ƒ /api/admin/playlists/[playlistId]/curation                               821 B         105 kB
+├ ƒ /api/admin/playlists/[playlistId]/curation/candidates                    821 B         105 kB
+├ ƒ /api/admin/playlists/[playlistId]/items                                  821 B         105 kB
+├ ƒ /api/admin/playlists/candidates                                          821 B         105 kB
+├ ƒ /api/admin/playlists/helpers                                             821 B         105 kB
+├ ƒ /api/admin/pricing/confirm                                               821 B         105 kB
+├ ƒ /api/admin/pricing/history                                               821 B         105 kB
+├ ƒ /api/admin/pricing/inventory                                             821 B         105 kB
+├ ƒ /api/admin/pricing/preview                                               821 B         105 kB
+├ ƒ /api/admin/pricing/products                                              821 B         105 kB
+├ ƒ /api/admin/pricing/tariffs/confirm                                       821 B         105 kB
+├ ƒ /api/admin/pricing/tariffs/history                                       821 B         105 kB
+├ ƒ /api/admin/pricing/tariffs/inventory                                     821 B         105 kB
+├ ƒ /api/admin/pricing/tariffs/preview                                       821 B         105 kB
+├ ƒ /api/admin/pricing/tariffs/scenarios                                     821 B         105 kB
+├ ƒ /api/admin/seo/actions/export                                            821 B         105 kB
+├ ƒ /api/admin/seo/gsc/refresh                                               821 B         105 kB
+├ ƒ /api/admin/seo/url-inspection/inspect                                    821 B         105 kB
+├ ƒ /api/admin/service-notice                                                821 B         105 kB
+├ ƒ /api/admin/stats/users                                                   821 B         105 kB
+├ ƒ /api/admin/studio/review                                                 821 B         105 kB
+├ ƒ /api/admin/theme-tokens                                                  821 B         105 kB
+├ ƒ /api/admin/transactions                                                  821 B         105 kB
+├ ƒ /api/admin/transactions/refund                                           821 B         105 kB
+├ ƒ /api/admin/users                                                         821 B         105 kB
+├ ƒ /api/admin/users/[userId]                                                821 B         105 kB
+├ ƒ /api/admin/users/[userId]/jobs                                           821 B         105 kB
+├ ƒ /api/admin/users/[userId]/receipts                                       821 B         105 kB
+├ ƒ /api/admin/users/[userId]/wallet                                         821 B         105 kB
+├ ƒ /api/admin/video-seo                                                     821 B         105 kB
+├ ƒ /api/admin/video-seo/[videoId]                                           821 B         105 kB
+├ ƒ /api/admin/video-seo/[videoId]/status                                    821 B         105 kB
+├ ƒ /api/admin/videos/[videoId]                                              821 B         105 kB
+├ ƒ /api/admin/videos/[videoId]/thumbnail                                    821 B         105 kB
+├ ƒ /api/admin/videos/[videoId]/visibility                                   821 B         105 kB
+├ ƒ /api/admin/videos/pending                                                821 B         105 kB
+├ ƒ /api/audio                                                               821 B         105 kB
+├ ƒ /api/audio/generate                                                      821 B         105 kB
+├ ƒ /api/audio/quote                                                         821 B         105 kB
+├ ƒ /api/auth/signout                                                        821 B         105 kB
+├ ƒ /api/billing-products                                                    821 B         105 kB
+├ ƒ /api/character-references                                                821 B         105 kB
+├ ƒ /api/checkout-events                                                     821 B         105 kB
+├ ƒ /api/contact                                                             821 B         105 kB
+├ ƒ /api/cron/alibaba-model-studio-poll                                      821 B         105 kB
+├ ƒ /api/cron/background-removal-retention                                   821 B         105 kB
+├ ƒ /api/cron/byteplus-poll                                                  821 B         105 kB
+├ ƒ /api/cron/fal-poll                                                       821 B         105 kB
+├ ƒ /api/cron/google-vertex-omni-poll                                        821 B         105 kB
+├ ƒ /api/cron/google-vertex-readiness                                        821 B         105 kB
+├ ƒ /api/cron/google-vertex-veo-poll                                         821 B         105 kB
+├ ƒ /api/cron/infra-costs-alert                                              821 B         105 kB
+├ ƒ /api/cron/kling-direct-poll                                              821 B         105 kB
+├ ƒ /api/cron/llmhub-video-poll                                              821 B         105 kB
+├ ƒ /api/cron/luma-agents-poll                                               821 B         105 kB
+├ ƒ /api/cron/mcp-reference-upload-cleanup                                   821 B         105 kB
+├ ƒ /api/cron/mcp-trial-reconcile                                            821 B         105 kB
+├ ƒ /api/cron/reconcile-missing-jobs                                         821 B         105 kB
+├ ƒ /api/cron/studio-analyses                                                821 B         105 kB
+├ ƒ /api/cron/studio-tasks                                                   821 B         105 kB
+├ ƒ /api/dev/admin-session                                                   821 B         105 kB
+├ ƒ /api/download                                                            821 B         105 kB
+├ ƒ /api/editorial/drafts                                                    821 B         105 kB
+├ ƒ /api/email-test                                                          821 B         105 kB
+├ ƒ /api/engines                                                             821 B         105 kB
+├ ƒ /api/engines/averages                                                    821 B         105 kB
+├ ƒ /api/examples                                                            821 B         105 kB
+├ ƒ /api/examples/[id]                                                       821 B         105 kB
+├ ƒ /api/extend                                                              821 B         105 kB
+├ ƒ /api/fal/poll                                                            821 B         105 kB
+├ ƒ /api/fal/proxy                                                           821 B         105 kB
+├ ƒ /api/fal/proxy/[...path]                                                 821 B         105 kB
+├ ƒ /api/fal/webhook                                                         821 B         105 kB
+├ ƒ /api/gallery                                                             821 B         105 kB
+├ ƒ /api/generate                                                            821 B         105 kB
+├ ƒ /api/health/db                                                           821 B         105 kB
+├ ƒ /api/health/env                                                          821 B         105 kB
+├ ƒ /api/health/fal                                                          821 B         105 kB
+├ ƒ /api/health/legal                                                        821 B         105 kB
+├ ƒ /api/health/stripe                                                       821 B         105 kB
+├ ƒ /api/images/estimate                                                     821 B         105 kB
+├ ƒ /api/images/generate                                                     821 B         105 kB
+├ ƒ /api/indexnow                                                            821 B         105 kB
+├ ƒ /api/jobs                                                                821 B         105 kB
+├ ƒ /api/jobs/[jobId]                                                        821 B         105 kB
+├ ƒ /api/jobs/[jobId]/seedance-workflow                                      821 B         105 kB
+├ ƒ /api/legal/consents                                                      821 B         105 kB
+├ ƒ /api/legal/cookies                                                       821 B         105 kB
+├ ƒ /api/legal/cookies/version                                               821 B         105 kB
+├ ƒ /api/legal/reconsent                                                     821 B         105 kB
+├ ƒ /api/legal/report                                                        821 B         105 kB
+├ ƒ /api/llmhub-pay/checkout                                                 821 B         105 kB
+├ ƒ /api/llmhub-pay/notify                                                   821 B         105 kB
+├ ƒ /api/llmhub-pay/quote                                                    821 B         105 kB
+├ ƒ /api/llmhub-pay/return                                                   821 B         105 kB
+├ ƒ /api/mcp                                                                 821 B         105 kB
+├ ƒ /api/mcp/acquisition                                                     821 B         105 kB
+├ ƒ /api/mcp/reference-upload/[token]                                        821 B         105 kB
+├ ƒ /api/mcp/reference-upload/[token]/abort                                  821 B         105 kB
+├ ƒ /api/mcp/reference-upload/[token]/complete                               821 B         105 kB
+├ ƒ /api/mcp/reference-upload/[token]/part                                   821 B         105 kB
+├ ƒ /api/mcp/reference-upload/[token]/start                                  821 B         105 kB
+├ ƒ /api/me/currency                                                         821 B         105 kB
+├ ƒ /api/media-library/assets                                                821 B         105 kB
+├ ƒ /api/media-library/assets/[assetId]                                      821 B         105 kB
+├ ƒ /api/media-library/ensure                                                821 B         105 kB
+├ ƒ /api/media-library/recent-outputs                                        821 B         105 kB
+├ ƒ /api/media-library/recent-outputs/metadata                               821 B         105 kB
+├ ƒ /api/media-library/save-output                                           821 B         105 kB
+├ ƒ /api/media-proxy                                                         821 B         105 kB
+├ ƒ /api/member-status                                                       821 B         105 kB
+├ ƒ /api/oauth/decision                                                      821 B         105 kB
+├ ƒ /api/preflight                                                           821 B         105 kB
+├ ƒ /api/pricing/quote                                                       821 B         105 kB
+├ ƒ /api/receipts                                                            821 B         105 kB
+├ ƒ /api/service-notice                                                      821 B         105 kB
+├ ƒ /api/sitemap-video                                                       821 B         105 kB
+├ ƒ /api/sitemap-video-pages                                                 821 B         105 kB
+├ ƒ /api/starter-media                                                       821 B         105 kB
+├ ƒ /api/stripe-mode                                                         821 B         105 kB
+├ ƒ /api/stripe/webhook                                                      821 B         105 kB
+├ ƒ /api/studio/assistance                                                   821 B         105 kB
+├ ƒ /api/studio/chat                                                         821 B         105 kB
+├ ƒ /api/studio/conversation-projects                                        821 B         105 kB
+├ ƒ /api/studio/marketing-entry                                              821 B         105 kB
+├ ƒ /api/studio/media/resolve                                                821 B         105 kB
+├ ƒ /api/studio/montages                                                     821 B         105 kB
+├ ƒ /api/studio/projects                                                     821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]                                         821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/analyses                                821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/analyses/[analysisId]                   821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/conversation-exports                    821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/conversation-tasks/[requestId]          821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/conversation-timeline                   821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/image-conversation                      821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/image-conversation/confirm              821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/media-access                            821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/reference-previews                      821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/sequences                               821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/sequences/[sequenceId]                  821 B         105 kB
+├ ƒ /api/studio/projects/[projectId]/workspace                               821 B         105 kB
+├ ƒ /api/studio/timeline-exports                                             821 B         105 kB
+├ ƒ /api/studio/timeline-exports/[exportId]                                  821 B         105 kB
+├ ƒ /api/studio/timeline-exports/[exportId]/media                            821 B         105 kB
+├ ƒ /api/studio/timeline-exports/estimate                                    821 B         105 kB
+├ ƒ /api/tools/angle                                                         821 B         105 kB
+├ ƒ /api/tools/background-removal                                            821 B         105 kB
+├ ƒ /api/tools/character-builder                                             821 B         105 kB
+├ ƒ /api/tools/quote                                                         821 B         105 kB
+├ ƒ /api/tools/run                                                           821 B         105 kB
+├ ƒ /api/tools/source                                                        821 B         105 kB
+├ ƒ /api/tools/upscale                                                       821 B         105 kB
+├ ƒ /api/tools/upscale/image                                                 821 B         105 kB
+├ ƒ /api/tools/upscale/video                                                 821 B         105 kB
+├ ƒ /api/topup/quote                                                         821 B         105 kB
+├ ƒ /api/uploads/audio                                                       821 B         105 kB
+├ ƒ /api/uploads/image                                                       821 B         105 kB
+├ ƒ /api/uploads/video                                                       821 B         105 kB
+├ ƒ /api/uploads/video/complete                                              821 B         105 kB
+├ ƒ /api/uploads/video/direct                                                821 B         105 kB
+├ ƒ /api/uploads/video/multipart/abort                                       821 B         105 kB
+├ ƒ /api/uploads/video/multipart/complete                                    821 B         105 kB
+├ ƒ /api/uploads/video/multipart/part                                        821 B         105 kB
+├ ƒ /api/uploads/video/multipart/start                                       821 B         105 kB
+├ ƒ /api/upscale                                                             821 B         105 kB
+├ ƒ /api/user-assets                                                         821 B         105 kB
+├ ƒ /api/user/exports/summary                                                821 B         105 kB
+├ ƒ /api/user/preferences                                                    821 B         105 kB
+├ ƒ /api/user/preferences/apply-index                                        821 B         105 kB
+├ ƒ /api/video-shares                                                        821 B         105 kB
+├ ƒ /api/video-shares/public-download                                        821 B         105 kB
+├ ƒ /api/videos/[videoId]                                                    821 B         105 kB
+├ ƒ /api/wallet                                                              821 B         105 kB
+├ ƒ /app                                                                    123 kB         512 kB
+├ ƒ /app/audio                                                             24.1 kB         320 kB
+├ ƒ /app/image                                                             35.8 kB         400 kB
+├ ƒ /app/library                                                             15 kB         325 kB
+├ ƒ /app/studio                                                            10.2 kB         284 kB
+├ ƒ /app/studio/conversation/[projectId]                                   92.7 kB         397 kB
+├ ƒ /app/studio/projects                                                     821 B         105 kB
+├ ƒ /app/studio/workspace                                                    821 B         105 kB
+├ ƒ /app/studio/workspace/[projectId]                                        821 B         105 kB
+├ ƒ /app/tools                                                             6.14 kB         284 kB
+├ ƒ /app/tools/[toolId]                                                    8.14 kB         352 kB
+├ ƒ /app/tools/angle                                                       18.4 kB         327 kB
+├ ƒ /app/tools/background-removal                                          18.8 kB         328 kB
+├ ƒ /app/tools/character-builder                                             43 kB         355 kB
+├ ƒ /app/tools/storyboard                                                  39.2 kB         347 kB
+├ ƒ /app/tools/upscale                                                     16.8 kB         365 kB
+├ ○ /apple-app-site-association                                              821 B         105 kB
+├ ƒ /auth/callback                                                           821 B         105 kB
+├ ƒ /auth/reset-password                                                   2.17 kB         119 kB
+├ ƒ /benchmarks                                                            1.31 kB         283 kB
+├ ƒ /billing                                                               22.5 kB         310 kB
+├ ƒ /blog                                                                   1.6 kB         283 kB
+├ ● /blog/[slug]                                                           1.31 kB         283 kB
+├   ├ /blog/voiceover-to-visual-capsule-ltx-2-5-pro
+├   ├ /blog/gpt-6-podcast-maxvideoai-premiere-pro
+├   ├ /blog/website-images-30-second-social-ad-chatgpt-work-maxvideoai
+├   └ [+13 more paths]
+├ ○ /cdn-cgi/l/email-protection                                              821 B         105 kB
+├ ƒ /changelog                                                             1.31 kB         283 kB
+├ ƒ /company                                                               4.35 kB         145 kB
+├ ƒ /contact                                                               1.59 kB         283 kB
+├ ƒ /dashboard                                                               821 B         105 kB
+├ ƒ /docs                                                                  1.64 kB         283 kB
+├ ● /docs/[slug]                                                           1.31 kB         283 kB
+├   ├ /docs/brand-safety
+├   └ /docs/get-started
+├ ƒ /editorial-standards                                                   1.31 kB         283 kB
+├ ƒ /examples                                                              1.67 kB         293 kB
+├ ● /examples/[model]                                                      1.67 kB         293 kB
+├   ├ /examples/sora
+├   ├ /examples/sora-2
+├   ├ /examples/sora-2-pro
+├   └ [+55 more paths]
+├ ƒ /generate                                                                821 B         105 kB
+├ ƒ /integrations/chatgpt                                                  1.74 kB         297 kB
+├ ƒ /integrations/claude                                                   1.74 kB         297 kB
+├ ƒ /integrations/codex                                                    1.74 kB         297 kB
+├ ƒ /integrations/n8n                                                      1.74 kB         297 kB
+├ ƒ /integrations/openclaw                                                 1.74 kB         297 kB
+├ ƒ /jobs                                                                  14.3 kB         342 kB
+├ ƒ /legal                                                                   773 B         108 kB
+├ ƒ /legal/acceptable-use                                                    773 B         108 kB
+├ ƒ /legal/cookies                                                           821 B         105 kB
+├ ƒ /legal/cookies-list                                                      741 B         105 kB
+├ ƒ /legal/mentions                                                          773 B         108 kB
+├ ƒ /legal/privacy                                                           753 B         108 kB
+├ ƒ /legal/reconsent                                                       1.95 kB         113 kB
+├ ƒ /legal/subprocessors                                                     741 B         105 kB
+├ ƒ /legal/takedown                                                         2.5 kB         110 kB
+├ ƒ /legal/terms                                                             753 B         108 kB
+├ ○ /llms.txt                                                                821 B         105 kB
+├ ƒ /login                                                                 15.2 kB         148 kB
+├ ƒ /mcp                                                                    1.3 kB         296 kB
+├ ƒ /mcp/reference-upload/[token]                                          5.26 kB         260 kB
+├ ƒ /models                                                                1.32 kB         294 kB
+├ ● /models/[slug]                                                         1.35 kB         296 kB
+├   ├ /models/gemini-omni-flash
+├   ├ /models/gpt-image-2-5-flare
+├   ├ /models/gpt-image-2-5-sunburst
+├   └ [+51 more paths]
+├ ƒ /models/image                                                          1.32 kB         294 kB
+├ ƒ /models/video                                                          1.32 kB         294 kB
+├ ƒ /oauth/consent                                                           210 B         108 kB
+├ ƒ /pay-as-you-go-ai-video-generator                                      1.31 kB         286 kB
+├ ƒ /pricing                                                               1.55 kB         283 kB
+├ ƒ /return-policy                                                           773 B         108 kB
+├ ƒ /robots.txt                                                              821 B         105 kB
+├ ƒ /s/[token]                                                               189 B         108 kB
+├ ƒ /settings                                                              7.28 kB         290 kB
+├ ○ /sitemap-en.xml                                                          821 B         105 kB
+├ ○ /sitemap-es.xml                                                          821 B         105 kB
+├ ○ /sitemap-fr.xml                                                          821 B         105 kB
+├ ○ /sitemap-models.xml                                                      821 B         105 kB
+├ ƒ /sitemap-video-pages.xml                                                 821 B         105 kB
+├ ƒ /sitemap-video.xml                                                       821 B         105 kB
+├ ○ /sitemap-zh.xml                                                          821 B         105 kB          1h      1y
+├ ƒ /sitemap.xml                                                             821 B         105 kB
+├ ƒ /status                                                                1.59 kB         283 kB
+├ ƒ /studio                                                                1.72 kB         283 kB
+├ ƒ /tools                                                                 3.38 kB         116 kB
+├ ƒ /tools/angle                                                             140 B         119 kB
+├ ƒ /tools/background-removal                                              3.39 kB         116 kB
+├ ƒ /tools/character-builder                                                 139 B         117 kB
+├ ƒ /tools/upscale                                                         3.39 kB         116 kB
+├ ƒ /video/[id]                                                            16.8 kB         149 kB
+└ ƒ /workflows                                                              1.3 kB         283 kB
++ First Load JS shared by all                                               104 kB
+  ├ chunks/80630-cdd420dbf4df4995.js                                       46.6 kB
+  ├ chunks/990713c0-d7a3c9be4a173086.js                                    54.2 kB
+  └ other shared chunks (total)                                            3.09 kB
+
+
+ƒ Middleware                                                                122 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+> maxvideoai-generate-web@0.1.0 postbuild /private/tmp/VideoAi-Agent-keyvo-integrate/frontend
+> next-sitemap
+
+✨ [next-sitemap] Loading next-sitemap config: file:///private/tmp/VideoAi-Agent-keyvo-integrate/frontend/next-sitemap.config.js
+✅ [next-sitemap] Generation completed
+┌───────────────┬────────┐
+│ (index)       │ Values │
+├───────────────┼────────┤
+│ indexSitemaps │ 1      │
+│ sitemaps      │ 1      │
+└───────────────┴────────┘
+-----------------------------------------------------
+ SITEMAP INDICES 
+-----------------------------------------------------
+
+   ○ https://app.keyvo.cn/sitemap.xml
+
+
+-----------------------------------------------------
+ SITEMAPS 
+-----------------------------------------------------
+
+   ○ https://app.keyvo.cn/sitemap-0.xml
+
+

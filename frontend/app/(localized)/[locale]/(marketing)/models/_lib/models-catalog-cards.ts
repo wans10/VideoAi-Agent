@@ -1,4 +1,4 @@
-import { formatWalletBalance, formatCustomerUsdAmount, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
+import { USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 import { listFalEngines, type FalEngineEntry } from '@/config/falEngines';
 import { listRuntimeModels } from '@/config/model-runtime';
 import type { AppLocale } from '@/i18n/locales';
@@ -233,7 +233,7 @@ export async function buildModelsCatalogCards({
     const showPrelaunchPricePlaceholder = isPrelaunchWaitlist;
     const priceFrom = hasConfirmedPricing
       ? isImageOnly
-        ? `$${(priceFromCents / 100).toFixed(2)}`
+        ? formatPricePerUnit(activeLocale, pricingRange!.currency, priceFromCents / 100)
         : `${formatPricePerUnit(activeLocale, pricingRange!.currency, priceFromCents / 100)}/s`
       : showPrelaunchPricePlaceholder
         ? getPrelaunchPricingLabel(activeLocale)

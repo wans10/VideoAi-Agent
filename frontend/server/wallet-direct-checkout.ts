@@ -15,9 +15,10 @@ import { resolveWalletDirectPricingGate } from '@/lib/wallet-direct-pricing';
 import { saveDirectPaymentQuote, DirectPaymentQuoteError } from '@/server/pricing/direct-payment-quotes';
 import { CustomerTariffRevisionError } from '@/server/pricing/customer-tariff-revision';
 import type { Currency, resolveCurrency } from '@/lib/currency';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
-const WALLET_DISPLAY_CURRENCY = 'USD';
-const WALLET_DISPLAY_CURRENCY_LOWER = 'usd';
+const WALLET_DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
+const WALLET_DISPLAY_CURRENCY_LOWER = CUSTOMER_CURRENCY.toLowerCase();
 
 export async function createWalletDirectPaymentIntent(input: {
   req: NextRequest; body: Record<string, unknown>; stripe: Stripe; userId: string;

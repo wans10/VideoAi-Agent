@@ -77,6 +77,29 @@ const SPANISH_COPY = {
   editBody: 'Combina imagen, vídeo y sonido.',
 };
 
+const CHINESE_COPY: typeof ENGLISH_COPY = {
+  eyebrow: 'Keyvo Studio',
+  title: '从一次对话，开启您的故事。',
+  body: '结合参考素材创作图片、视频和音频，确认生成报价，并在时间线上编辑您的媒体。',
+  note: '登录或创建 Keyvo 账号即可打开 Studio，并下载单项创作成果。',
+  previewNote: '打开 Studio，使用您的账号继续创作并下载单项成果。',
+  unavailableTitle: 'Studio 暂时不可用。',
+  unavailableNote: '暂时无法为您的账号打开 Studio，请稍后重试。',
+  signIn: '登录 Studio',
+  open: '打开 Studio',
+  retry: '重试',
+  tools: '探索创作工具',
+  canvas: '创作',
+  preview: '预览',
+  timeline: '时间线',
+  plan: '规划',
+  planBody: '安排镜头及其依赖关系。',
+  create: '生成',
+  createBody: '使用 Keyvo 模型创作。',
+  edit: '编辑',
+  editBody: '编排图片、视频和声音。',
+};
+
 export default function StudioPreviewAccess({ visitor = false, available = false }: { visitor?: boolean; available?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -86,7 +109,7 @@ export default function StudioPreviewAccess({ visitor = false, available = false
   const nextPath = buildAuthReturnTarget(pathname ?? '/app/studio', continuationParams);
   const unavailable = !visitor && !available;
   const { locale } = useI18n();
-  const copy = locale === 'fr' ? FRENCH_COPY : locale === 'es' ? SPANISH_COPY : ENGLISH_COPY;
+  const copy = locale.startsWith('zh') ? CHINESE_COPY : locale === 'fr' ? FRENCH_COPY : locale === 'es' ? SPANISH_COPY : ENGLISH_COPY;
 
   return (
     <div className={styles.previewShell}>

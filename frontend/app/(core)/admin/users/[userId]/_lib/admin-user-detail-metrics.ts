@@ -1,7 +1,7 @@
 import { BadgeDollarSign, Clock3, History, Layers3, ShieldCheck, UserRound, Wallet } from 'lucide-react';
 import type { AdminMetricItem } from '@/components/admin-system/surfaces/AdminMetricGrid';
 import type { AdminUserProfile, AdminUserUsage, AdminUserWallet } from './admin-user-detail-types';
-import { formatCurrency, formatNumber, formatShortDate, truncateId } from './admin-user-detail-format';
+import { formatWalletCurrency, formatNumber, formatShortDate, truncateId } from './admin-user-detail-format';
 
 export function buildMemberPulseItems({
   userId,
@@ -38,31 +38,31 @@ export function buildMemberPulseItems({
     },
     {
       label: 'Wallet balance',
-      value: wallet ? formatCurrency(wallet.balanceCents / 100) : '—',
+      value: wallet ? formatWalletCurrency(wallet.balanceCents / 100) : '—',
       helper: wallet ? 'Stored credits available' : 'Wallet aggregate unavailable',
       icon: Wallet,
     },
     {
       label: 'Lifetime top-ups',
-      value: wallet ? formatCurrency(lifetimeTopupsUsd) : '—',
+      value: wallet ? formatWalletCurrency(lifetimeTopupsUsd) : '—',
       helper: wallet ? 'Credits loaded into the wallet' : 'No receipt aggregate',
       icon: BadgeDollarSign,
     },
     {
       label: 'Gross charges',
-      value: wallet ? formatCurrency(lifetimeChargesUsd) : '—',
+      value: wallet ? formatWalletCurrency(lifetimeChargesUsd) : '—',
       helper: wallet ? 'All render debits before refunds' : 'No receipt aggregate',
       icon: BadgeDollarSign,
     },
     {
       label: 'Refunds',
-      value: wallet ? formatCurrency(lifetimeRefundsUsd) : '—',
+      value: wallet ? formatWalletCurrency(lifetimeRefundsUsd) : '—',
       helper: wallet ? 'Credits returned to the wallet' : 'No receipt aggregate',
       icon: History,
     },
     {
       label: 'Net render spend',
-      value: wallet ? formatCurrency(lifetimeNetSpendUsd) : '—',
+      value: wallet ? formatWalletCurrency(lifetimeNetSpendUsd) : '—',
       helper: wallet ? 'Gross charges minus refunds' : 'No receipt aggregate',
       icon: Wallet,
     },

@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-import { type StarterMedia, type StarterMediaSurface } from '@/lib/starter-media';
+import { getStarterMediaTitle, type StarterMedia, type StarterMediaSurface } from '@/lib/starter-media';
 import { useStarterMedia } from './useStarterMedia';
 
 export function StarterMediaShelf({ surface, onUsePrompt, onSelectItem }: { surface: StarterMediaSurface; onUsePrompt?: (prompt: string) => void; onSelectItem?: (item: StarterMedia) => void }) {
@@ -11,16 +11,16 @@ export function StarterMediaShelf({ surface, onUsePrompt, onSelectItem }: { surf
       : locale === 'zh' ? { voice: '配音 · 英文', music: '纯音乐', song: '歌曲 · 英文' } : { voice: 'Voice · EN', music: 'Instrumental', song: 'Song · EN' };
   const copy = locale === 'fr' ? { title: 'À vous de jouer', samples: 'Exemples créatifs', voices: 'Samples audio', use: 'Reprendre le prompt', hint: 'Une idée de départ, à réinterpréter avec votre modèle.' }
     : locale === 'es' ? { title: 'Ahora te toca', samples: 'Ejemplos creativos', voices: 'Muestras de audio', use: 'Usar el prompt', hint: 'Una idea para reinterpretar con tu modelo.' }
-      : { title: 'Make it your own', samples: 'Creative samples', voices: 'Audio samples', use: 'Use this prompt', hint: 'A starting idea to reinterpret with your model.' };
+      : locale === 'zh' ? { title: '创作您的版本', samples: '创意示例', voices: '音频示例', use: '使用此提示词', hint: '一个起点，用您的模型重新演绎。' } : { title: 'Make it your own', samples: 'Creative samples', voices: 'Audio samples', use: 'Use this prompt', hint: 'A starting idea to reinterpret with your model.' };
   const items = useStarterMedia(surface);
   return <section aria-label={surface === 'image' ? copy.samples : copy.voices} className="w-full min-w-0 space-y-3" data-starter-media={surface}>
     <header><p className="text-xs font-semibold uppercase tracking-wide text-text-muted">{surface === 'image' ? copy.samples : copy.voices}</p><h2 className="text-lg font-semibold">{copy.title}</h2>{surface === 'image' ? <p className="text-xs text-text-muted">{copy.hint}</p> : null}</header>
     <div className="grid min-w-0 gap-3">
       {items.map(item => <article key={item.id} className="min-w-0 overflow-hidden rounded-xl border border-hairline bg-surface">
-        {surface === 'image' ? <div className="relative aspect-square"><Image src={item.src} alt={item.title} fill sizes="(max-width: 640px) 90vw, 300px" className="object-cover" loading="lazy" /></div> : null}
-        <div className="space-y-2 p-3"><p className="text-sm font-medium">{item.title}<span className="ml-2 text-xs text-text-muted">Sample</span></p>
+        {surface === 'image' ? <div className="relative aspect-square"><Image src={item.src} alt={getStarterMediaTitle(item, locale)} fill sizes="(max-width: 640px) 90vw, 300px" className="object-cover" loading="lazy" /></div> : null}
+        <div className="space-y-2 p-3"><p className="text-sm font-medium">{getStarterMediaTitle(item, locale)}<span className="ml-2 text-xs text-text-muted">{locale === 'zh' ? '示例' : 'Sample'}</span></p>
           {item.audioKind ? <p className="text-xs text-text-muted">{audioKinds[item.audioKind]}</p> : null}
-          {surface === 'audio' ? <audio controls preload="none" src={item.src} aria-label={item.title} className="h-9 w-full min-w-0" onPlay={event => { const current = event.currentTarget; current.closest('[data-starter-media]')?.querySelectorAll('audio').forEach(audio => { if (audio !== current) audio.pause(); }); }} />
+          {surface === 'audio' ? <audio controls preload="none" src={item.src} aria-label={getStarterMediaTitle(item, locale)} className="h-9 w-full min-w-0" onPlay={event => { const current = event.currentTarget; current.closest('[data-starter-media]')?.querySelectorAll('audio').forEach(audio => { if (audio !== current) audio.pause(); }); }} />
             : <button type="button" className="text-sm font-semibold text-brand" onClick={() => { onUsePrompt?.(item.prompt); onSelectItem?.(item); }}>{copy.use} ↗</button>}
         </div>
       </article>)}

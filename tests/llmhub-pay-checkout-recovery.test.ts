@@ -79,6 +79,11 @@ test('payment timeout, reload, concurrent retry and late notification recover th
   const restored = await submit({ requestId: nextId });
   assert.equal((await restored.json()).url, 'https://pay.example/saved');
   assert.equal(state.creates, 2, 'saved payment URL recovers without creating another order');
+  const savedOrder = [...state.orders.values()].find(order => order.quote_metadata.paymentUrl);
+  savedOrder.quote_metadata.paymentUrl = 'https://merchant:secret@pay.example/saved';
+  const unsafeRecovery = await submit({ requestId: nextId });
+  assert.equal(unsafeRecovery.status, 202, 'unsafe historical URL keeps its original pending order without redirect');
+  assert.equal(state.creates, 2, 'unsafe URL must not trigger another paid order');
   state.userId = 'another-account';
   await submit();
   assert.equal(state.orders.size, 3, 'same request UUID in another account has a separate order identity');

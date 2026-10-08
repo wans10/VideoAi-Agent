@@ -31,8 +31,9 @@ import { findReusableExpressCheckoutSession } from '@/server/checkout-session-re
 import { withCheckoutSessionPreparationLock } from '@/server/checkout-session-coordination';
 import { getWalletSummary } from '@/server/wallet-summary';
 import { buildCheckoutAttemptAttributionMetadata, buildWalletAttributionMetadata, normalizeWalletAttribution } from '@/server/wallet-attribution';
-const WALLET_DISPLAY_CURRENCY = 'USD';
-const WALLET_DISPLAY_CURRENCY_LOWER = 'usd';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+const WALLET_DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
+const WALLET_DISPLAY_CURRENCY_LOWER = CUSTOMER_CURRENCY.toLowerCase();
 const STRIPE_TAX_CODE_ELECTRONIC_SERVICES = ENV.STRIPE_TAX_CODE_ELECTRONIC_SERVICES ?? 'txcd_10103001';
 const STRIPE_API_VERSION = '2023-10-16';
 const STRIPE_HOSTED_CHECKOUT_API_VERSION = '2025-02-24.acacia' as Stripe.LatestApiVersion;

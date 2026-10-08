@@ -1,0 +1,72 @@
+TAP version 13
+# [images] Alibaba Qwen image generation failed QwenImageError: Rejected
+#     at callQwenImage (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-client.ts:112:29)
+#     at async executeAlibabaQwenImageGeneration (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-execution.ts:80:20)
+#     at async waitForActual (node:assert:644:5)
+#     at async Function.rejects (node:assert:767:25)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:21:2)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+#   status: 400,
+#   detail: {
+#     code: 'InvalidParameter',
+#     message: 'Rejected',
+#     request_id: 'diagnostic-id'
+#   }
+# }
+# Subtest: Qwen rejects malformed request identities before using them as durable reconciliation keys
+not ok 1 - Qwen rejects malformed request identities before using them as durable reconciliation keys
+  ---
+  duration_ms: 0.859041
+  type: 'test'
+  location: '/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:2:2282'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception (QwenImageError).'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:16:70)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: Qwen HTTP rejection with diagnostic request id refunds exactly once instead of permanent paid quarantine
+not ok 2 - Qwen HTTP rejection with diagnostic request id refunds exactly once instead of permanent paid quarantine
+  ---
+  duration_ms: 8.068
+  type: 'test'
+  location: '/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:2:2638'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Rejected/. Input:
+    
+    'ImageGenerationExecutionError: The provider outcome requires reconciliation. Check your generation history before trying again.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'The provider outcome requires reconciliation. Check your generation history before trying again.'
+  stack: |-
+    executeAlibabaQwenImageGeneration (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-execution.ts:162:13)
+    async waitForActual (node:assert:644:5)
+    async Function.rejects (node:assert:767:25)
+    async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:21:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:21:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 453.209625

@@ -153,10 +153,12 @@ export async function executeAlibabaQwenImageGeneration(params: {
     console.error('[images] Alibaba Qwen image generation failed', error);
     if (!providerJobId && error instanceof QwenImageError && error.detail && typeof error.detail==='object') {
       const requestId=(error.detail as {request_id?:unknown}).request_id;
-      if(typeof requestId==='string')providerJobId=requestId;
+      if(typeof requestId==='string' && requestId.length <= 256 && requestId.trim() && !/[\s\x00-\x1f\x7f]/.test(requestId))providerJobId=requestId;
     }
-    const definitiveRejection=error instanceof QwenImageError && [400,401,403,404,422,429].includes(error.status);
-    if(providerAttempted && (providerJobId || !definitiveRejection)) {
+    // A diagnostic request_id also accompanies rejected HTTP requests; it is
+    // not acceptance evidence. Only the HTTP client can classify rejection.
+    const definitiveRejection=error instanceof QwenImageError && error.definitiveRejection;
+    if(providerAttempted && !definitiveRejection) {
       await (deps.queryFn ?? query)(`UPDATE app_jobs SET status='pending',message=$3,provider_job_id=COALESCE($4,provider_job_id),updated_at=NOW() WHERE job_id=$1 AND user_id=$2 AND status<>'completed'`,
         [params.jobId,params.userId,'Qwen outcome requires reconciliation. Do not submit another paid request.',providerJobId]);
       throw new ImageGenerationExecutionError('The provider outcome requires reconciliation. Check your generation history before trying again.', {

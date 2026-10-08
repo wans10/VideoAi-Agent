@@ -4,7 +4,8 @@ import { ImageGenerationExecutionError } from './image-generation-error';
 import type { GeneratedImage } from '@/types/image-generation';
 
 export class QwenImageError extends Error {
-  constructor(message: string, public readonly status: number, public readonly detail: unknown = null) {
+  constructor(message: string, public readonly status: number, public readonly detail: unknown = null,
+    public readonly definitiveRejection = false) {
     super(message); this.name = 'QwenImageError';
   }
 }
@@ -73,6 +74,10 @@ export function assertQwenImageRequest(input: Parameters<typeof buildQwenImagePa
 
 export function extractQwenImageResult(body: QwenResponse): { requestId: string | null; images: GeneratedImage[] } {
   if (!body || typeof body !== 'object' || Array.isArray(body)) throw new QwenImageError('Invalid Qwen image response.', 502, body);
+  if (body.request_id !== undefined && (typeof body.request_id !== 'string' || !body.request_id.trim()
+    || body.request_id.length > 256 || /[\s\x00-\x1f\x7f]/.test(body.request_id))) {
+    throw new QwenImageError('Invalid Qwen request identity.', 502, body);
+  }
   if (body.code) throw new QwenImageError(body.message || 'Qwen image request failed.', 502, body);
   if (!Array.isArray(body.output?.choices)) throw new QwenImageError('Qwen did not return the requested image.', 502, body);
   for (const dimension of [body.usage?.output_width, body.usage?.output_height]) {
@@ -109,7 +114,8 @@ export async function callQwenImage(config: ReturnType<typeof getQwenImageConfig
     let body: QwenResponse;
     try { body = await response.json(); } catch { throw new QwenImageError('Invalid Qwen image response.', 502); }
     if (!body || typeof body !== 'object') throw new QwenImageError('Invalid Qwen image response.', 502);
-    if (!response.ok) throw new QwenImageError(body.message || `Qwen image request failed (${response.status}).`, response.status, body);
+    if (!response.ok) throw new QwenImageError(body.message || `Qwen image request failed (${response.status}).`, response.status, body,
+      [400,401,403,404,422,429].includes(response.status) && typeof body.code === 'string' && Boolean(body.code.trim()));
     return extractQwenImageResult(body);
   } finally { clearTimeout(timer); }
 }

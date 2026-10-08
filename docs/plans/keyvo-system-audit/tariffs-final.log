@@ -1,0 +1,30 @@
+
+[validate] tariffs suite (2 files)
+TAP version 13
+# (node:45954) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: initial cutover is atomic, validates the actual reader, and rollback preserves all financial history
+ok 1 - initial cutover is atomic, validates the actual reader, and rollback preserves all financial history
+  ---
+  duration_ms: 1077913.996
+  type: 'test'
+  ...
+# Complete reviewed fixture seed prepared.
+# All 26,826 fixture checkpoint amounts prepared.
+# 26,826-checkpoint acceptance: 7 tariff SQL reads; 145317 ms.
+# Actual reader activation accepted before commit.
+# Subtest: atomic local cutover rejects stale certificates, preserves staged evidence and removes every model margin fallback
+ok 2 - atomic local cutover rejects stale certificates, preserves staged evidence and removes every model margin fallback
+  ---
+  duration_ms: 698538.35225
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1078479.952208

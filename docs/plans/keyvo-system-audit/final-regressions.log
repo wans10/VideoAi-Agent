@@ -1,0 +1,392 @@
+TAP version 13
+# Subtest: admin transaction value helpers preserve legacy database fallbacks
+ok 1 - admin transaction value helpers preserve legacy database fallbacks
+  ---
+  duration_ms: 0.433667
+  type: 'test'
+  ...
+# Subtest: ledger mapper preserves latest paid-wallet refund eligibility and DTO shape
+ok 2 - ledger mapper preserves latest paid-wallet refund eligibility and DTO shape
+  ---
+  duration_ms: 0.208875
+  type: 'test'
+  ...
+# Subtest: refund history includes recorded internal context without inventing missing reasons
+ok 3 - refund history includes recorded internal context without inventing missing reasons
+  ---
+  duration_ms: 0.088709
+  type: 'test'
+  ...
+# Subtest: ledger mapper preserves rejection and historical missing-job behavior
+ok 4 - ledger mapper preserves rejection and historical missing-job behavior
+  ---
+  duration_ms: 0.153292
+  type: 'test'
+  ...
+# Subtest: ledger limit remains clamped to the public 1 through 500 range
+ok 5 - ledger limit remains clamped to the public 1 through 500 range
+  ---
+  duration_ms: 0.045458
+  type: 'test'
+  ...
+# Subtest: manual top-up preserves validation, metadata, normalization, and response shape
+ok 6 - manual top-up preserves validation, metadata, normalization, and response shape
+  ---
+  duration_ms: 0.40275
+  type: 'test'
+  ...
+# Subtest: manual top-up rejects unavailable database and invalid values before SQL
+ok 7 - manual top-up rejects unavailable database and invalid values before SQL
+  ---
+  duration_ms: 0.252167
+  type: 'test'
+  ...
+# Subtest: job refund locks the latest charge and performs every write in one transaction
+ok 8 - job refund locks the latest charge and performs every write in one transaction
+  ---
+  duration_ms: 0.268583
+  type: 'test'
+  ...
+# Subtest: receipt refund preserves orphan-charge fallback and skips job update
+ok 9 - receipt refund preserves orphan-charge fallback and skips job update
+  ---
+  duration_ms: 0.28575
+  type: 'test'
+  ...
+# Subtest: generic receipt refunds leave Studio assistance reservations to their reconciliation owner
+    # Subtest: {"billing_product_key":"studio_assistance","job_id":null}
+    ok 1 - {"billing_product_key":"studio_assistance","job_id":null}
+      ---
+      duration_ms: 0.272166
+      type: 'test'
+      ...
+    # Subtest: {"billing_product_key":null,"job_id":"studio-assistance:call-1"}
+    ok 2 - {"billing_product_key":null,"job_id":"studio-assistance:call-1"}
+      ---
+      duration_ms: 0.052417
+      type: 'test'
+      ...
+    1..2
+ok 10 - generic receipt refunds leave Studio assistance reservations to their reconciliation owner
+  ---
+  duration_ms: 0.445
+  type: 'test'
+  ...
+# Subtest: job refund selection cannot bypass the Studio assistance reconciliation boundary
+ok 11 - job refund selection cannot bypass the Studio assistance reconciliation boundary
+  ---
+  duration_ms: 0.063083
+  type: 'test'
+  ...
+# Subtest: duplicate refund is rejected after the charge lock and before insert
+ok 12 - duplicate refund is rejected after the charge lock and before insert
+  ---
+  duration_ms: 0.069958
+  type: 'test'
+  ...
+# Subtest: receipt selector preserves null-status acceptance and non-wallet rejection
+ok 13 - receipt selector preserves null-status acceptance and non-wallet rejection
+  ---
+  duration_ms: 0.095375
+  type: 'test'
+  ...
+# Subtest: refund write failure propagates through the transaction without updating the job
+ok 14 - refund write failure propagates through the transaction without updating the job
+  ---
+  duration_ms: 0.123792
+  type: 'test'
+  ...
+# Subtest: job and receipt selectors serialize the same job before duplicate validation
+ok 15 - job and receipt selectors serialize the same job before duplicate validation
+  ---
+  duration_ms: 0.155125
+  type: 'test'
+  ...
+# Subtest: admin user detail page stays a thin server route wrapper
+ok 16 - admin user detail page stays a thin server route wrapper
+  ---
+  duration_ms: 0.892084
+  type: 'test'
+  ...
+# Subtest: admin user detail view composes route sections
+ok 17 - admin user detail view composes route sections
+  ---
+  duration_ms: 0.15375
+  type: 'test'
+  ...
+# Subtest: admin user detail sections own focused UI responsibilities
+ok 18 - admin user detail sections own focused UI responsibilities
+  ---
+  duration_ms: 0.127084
+  type: 'test'
+  ...
+# Subtest: admin user detail helpers expose formatting, metrics, and server DTO types
+ok 19 - admin user detail helpers expose formatting, metrics, and server DTO types
+  ---
+  duration_ms: 0.1405
+  type: 'test'
+  ...
+# [images] Alibaba Qwen image generation failed Error: Could not persist generated image
+#     at copyOutputs (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/alibaba-qwen-image-execution.test.ts:61:38)
+#     at executeAlibabaQwenImageGeneration (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-execution.ts:89:53)
+#     at async waitForActual (node:assert:644:5)
+#     at async Function.rejects (node:assert:767:25)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/alibaba-qwen-image-execution.test.ts:56:3)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+# [images] Alibaba Qwen image generation failed DOMException [TimeoutError]: Timed out
+#     at new DOMException (node:internal/per_context/domexception:76:18)
+#     at callProvider (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/alibaba-qwen-image-execution.test.ts:77:42)
+#     at executeAlibabaQwenImageGeneration (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-execution.ts:80:48)
+#     at async waitForActual (node:assert:644:5)
+#     at async Function.rejects (node:assert:767:25)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/alibaba-qwen-image-execution.test.ts:75:3)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+# Subtest: Qwen completes only after owned output copy and thumbnail preparation
+ok 20 - Qwen completes only after owned output copy and thumbnail preparation
+  ---
+  duration_ms: 0.944709
+  type: 'test'
+  ...
+# Subtest: Qwen accepted output-copy failure retains its charge and identity for reconciliation
+ok 21 - Qwen accepted output-copy failure retains its charge and identity for reconciliation
+  ---
+  duration_ms: 1.58675
+  type: 'test'
+  ...
+# Subtest: Qwen timeout leaves a durable pending job without another provider call or refund
+ok 22 - Qwen timeout leaves a durable pending job without another provider call or refund
+  ---
+  duration_ms: 0.25325
+  type: 'test'
+  ...
+# Subtest: failed refund persistence cannot report refunded or terminally fail the job
+ok 23 - failed refund persistence cannot report refunded or terminally fail the job
+  ---
+  duration_ms: 0.194292
+  type: 'test'
+  ...
+# Subtest: Qwen registrations expose verified application capabilities and direct routing
+ok 24 - Qwen registrations expose verified application capabilities and direct routing
+  ---
+  duration_ms: 0.889042
+  type: 'test'
+  ...
+# Subtest: all 28 model/resolution/ratio combinations preserve billing tier and pixel constraints
+ok 25 - all 28 model/resolution/ratio combinations preserve billing tier and pixel constraints
+  ---
+  duration_ms: 1.661292
+  type: 'test'
+  ...
+# Subtest: Qwen payload uses DashScope size and ordered image/text content
+ok 26 - Qwen payload uses DashScope size and ordered image/text content
+  ---
+  duration_ms: 0.628334
+  type: 'test'
+  ...
+# Subtest: Qwen client uses the workspace endpoint once and preserves request id and dimensions
+ok 27 - Qwen client uses the workspace endpoint once and preserves request id and dimensions
+  ---
+  duration_ms: 6.181167
+  type: 'test'
+  ...
+# Subtest: Qwen rejects provider failures, empty results and non-HTTPS output; never resubmits
+ok 28 - Qwen rejects provider failures, empty results and non-HTTPS output; never resubmits
+  ---
+  duration_ms: 0.885458
+  type: 'test'
+  ...
+# Subtest: merged starter shelf renders Chinese labels and titles while preserving prompt selection
+ok 29 - merged starter shelf renders Chinese labels and titles while preserving prompt selection
+  ---
+  duration_ms: 59.792917
+  type: 'test'
+  ...
+# Subtest: Chinese compare quote failure never falls back to an English customer price message
+ok 30 - Chinese compare quote failure never falls back to an English customer price message
+  ---
+  duration_ms: 0.264167
+  type: 'test'
+  ...
+# Subtest: actual model catalogue image cards display the quoted CNY currency without USD symbol or double conversion
+ok 31 - actual model catalogue image cards display the quoted CNY currency without USD symbol or double conversion
+  ---
+  duration_ms: 111.607875
+  type: 'test'
+  ...
+# Subtest: admin wallet metrics and individual historical receipts retain their actual currency
+ok 32 - admin wallet metrics and individual historical receipts retain their actual currency
+  ---
+  duration_ms: 22.275583
+  type: 'test'
+  ...
+# Subtest: current Studio access renders Chinese sign-in, available and unavailable states and preserves return target
+ok 33 - current Studio access renders Chinese sign-in, available and unavailable states and preserves return target
+  ---
+  duration_ms: 10.09225
+  type: 'test'
+  ...
+# [images] Alibaba Qwen image generation failed QwenImageError: Rejected
+#     at callQwenImage (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-client.ts:117:29)
+#     at async executeAlibabaQwenImageGeneration (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-execution.ts:80:20)
+#     at async waitForActual (node:assert:644:5)
+#     at async Function.rejects (node:assert:767:25)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:21:2)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+#   status: 400,
+#   detail: {
+#     code: 'InvalidParameter',
+#     message: 'Rejected',
+#     request_id: 'diagnostic-id'
+#   },
+#   definitiveRejection: true
+# }
+# [images] Alibaba Qwen image generation failed QwenImageError: Proxy rejected
+#     at callProvider (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:34:31)
+#     at executeAlibabaQwenImageGeneration (/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/src/server/images/alibaba-qwen-image-execution.ts:80:48)
+#     at TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/keyvo-system-audit-regressions.test.ts:32:23)
+#     at Test.runInAsyncScope (node:async_hooks:214:14)
+#     at Test.run (node:internal/test_runner/test:1047:25)
+#     at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+#     at Test.postRun (node:internal/test_runner/test:1173:19)
+#     at Test.run (node:internal/test_runner/test:1101:12)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+#   status: 400,
+#   detail: { request_id: 'diagnostic' },
+#   definitiveRejection: false
+# }
+# Subtest: Qwen rejects malformed request identities before using them as durable reconciliation keys
+ok 34 - Qwen rejects malformed request identities before using them as durable reconciliation keys
+  ---
+  duration_ms: 1.188166
+  type: 'test'
+  ...
+# Subtest: Qwen HTTP rejection with diagnostic request id refunds exactly once instead of permanent paid quarantine
+ok 35 - Qwen HTTP rejection with diagnostic request id refunds exactly once instead of permanent paid quarantine
+  ---
+  duration_ms: 13.811875
+  type: 'test'
+  ...
+# Subtest: Qwen arbitrary 4xx after an attempted call remains uncertain without authoritative rejection evidence
+ok 36 - Qwen arbitrary 4xx after an attempted call remains uncertain without authoritative rejection evidence
+  ---
+  duration_ms: 0.527791
+  type: 'test'
+  ...
+# [payments] checkout session created {
+#   sessionId: 'cs_fixture',
+#   checkoutUiMode: 'hosted',
+#   amountCents: 8000,
+#   settlementAmountCents: 8000,
+#   settlementCurrency: 'CNY',
+#   currency: 'CNY',
+#   fxRate: 1,
+#   fxSource: 'identity',
+#   currencySource: 'manual',
+#   currencyCountry: null,
+#   userId: 'owner',
+#   mode: 'platform'
+# }
+# Subtest: CNY customer checkout quotes CNY identity and freezes CNY wallet metadata in actual Stripe route
+ok 37 - CNY customer checkout quotes CNY identity and freezes CNY wallet metadata in actual Stripe route
+  ---
+  duration_ms: 99.851958
+  type: 'test'
+  ...
+# [payments] payment_intent created {
+#   paymentIntentId: 'pi_fixture',
+#   jobId: 'fixture-job',
+#   amountCents: 800,
+#   settlementAmountCents: 800,
+#   settlementCurrency: 'CNY',
+#   currency: 'CNY',
+#   fxRate: 1,
+#   fxSource: 'identity',
+#   currencySource: 'default',
+#   currencyCountry: null,
+#   mode: 'platform'
+# }
+# Subtest: CNY direct-payment route converts the canonical CNY quote once and freezes its currency
+ok 38 - CNY direct-payment route converts the canonical CNY quote once and freezes its currency
+  ---
+  duration_ms: 9.481959
+  type: 'test'
+  ...
+# Subtest: CNY admin manual-credit endpoint defaults to CNY and refuses USD before creating a receipt
+ok 39 - CNY admin manual-credit endpoint defaults to CNY and refuses USD before creating a receipt
+  ---
+  duration_ms: 9.42075
+  type: 'test'
+  ...
+# [llmhub-pay] checkout creation failed Error: network timeout
+#     at createLlmhubPayOrder (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-CaT9UM/route.cjs:71:39)
+#     at async POST (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-CaT9UM/route.cjs:172:21)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/llmhub-pay-checkout-recovery.test.ts:56:17)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+# [llmhub-pay] checkout creation failed Error: unique order
+#     at createPendingLlmhubPayOrder (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-CaT9UM/route.cjs:82:42)
+#     at POST (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-CaT9UM/route.cjs:163:11)
+#     at async Promise.all (index 1)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/llmhub-pay-checkout-recovery.test.ts:76:22)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+# Subtest: payment timeout, reload, concurrent retry and late notification recover the same user-bound order
+ok 40 - payment timeout, reload, concurrent retry and late notification recover the same user-bound order
+  ---
+  duration_ms: 108.986792
+  type: 'test'
+  ...
+# Subtest: RSA signatures sort every scalar field and include future callback fields
+ok 41 - RSA signatures sort every scalar field and include future callback fields
+  ---
+  duration_ms: 4.9255
+  type: 'test'
+  ...
+# Subtest: CNY amounts are parsed exactly in fen
+ok 42 - CNY amounts are parsed exactly in fen
+  ---
+  duration_ms: 0.296541
+  type: 'test'
+  ...
+# Subtest: Billing availability and checkout share the same validated site origin
+ok 43 - Billing availability and checkout share the same validated site origin
+  ---
+  duration_ms: 0.271792
+  type: 'test'
+  ...
+# Subtest: order creation submits signed form fields and accepts only signed HTTPS jump responses
+ok 44 - order creation submits signed form fields and accepts only signed HTTPS jump responses
+  ---
+  duration_ms: 40.782333
+  type: 'test'
+  ...
+# Subtest: signed payment settlement checks merchant, order, type and exact CNY amount before one wallet receipt
+ok 45 - signed payment settlement checks merchant, order, type and exact CNY amount before one wallet receipt
+  ---
+  duration_ms: 0.769125
+  type: 'test'
+  ...
+# Subtest: signed gateway payment URL must not include embedded credentials
+ok 46 - signed gateway payment URL must not include embedded credentials
+  ---
+  duration_ms: 3.596292
+  type: 'test'
+  ...
+# Subtest: mobile actions skip unchanged desktop menus while desktop state and locale still update
+ok 47 - mobile actions skip unchanged desktop menus while desktop state and locale still update
+  ---
+  duration_ms: 247.018709
+  type: 'test'
+  ...
+1..47
+# tests 49
+# suites 0
+# pass 49
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 945.696667

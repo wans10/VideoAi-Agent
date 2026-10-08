@@ -97,7 +97,7 @@ export function LlmhubPayCheckout({
       }
       if (!response.ok || typeof data?.url !== 'string' || data?.currency !== 'CNY') throw new Error('checkout_failed');
       const url = new URL(data.url);
-      if (url.protocol !== 'https:') throw new Error('invalid_redirect');
+      if (url.protocol !== 'https:' || url.username || url.password) throw new Error('invalid_redirect');
       window.location.assign(url.toString());
     } catch {
       setPending(true);

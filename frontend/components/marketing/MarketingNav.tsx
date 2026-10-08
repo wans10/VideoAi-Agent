@@ -40,8 +40,8 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
   const login = t('nav.login', 'Log in');
   const cta = t('nav.startCreating', 'Start creating');
   const generateLabel = t('nav.cta', 'Generate');
-  const loginLabelMobile = locale === 'fr' ? 'Connexion' : locale === 'es' ? 'Entrar' : 'Log in';
-  const generateLabelMobile = locale === 'fr' ? 'Générer' : locale === 'es' ? 'Generar' : 'Generate';
+  const loginLabelMobile = locale === 'fr' ? 'Connexion' : locale === 'es' ? 'Entrar' : locale === 'zh' ? '登录' : 'Log in';
+  const generateLabelMobile = locale === 'fr' ? 'Générer' : locale === 'es' ? 'Generar' : locale === 'zh' ? '生成' : 'Generate';
   const loginHref = buildLoginHref({ mode: 'signin', nextPath: '/app', locale });
   const isAuthenticated = Boolean(email);
 
