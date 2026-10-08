@@ -59,5 +59,9 @@ client timeout is 600 seconds; configure the production reverse proxy's upstream
 read timeout to at least 660 seconds for `/api/images/generate`. Browser/proxy
 timeouts and container restarts are not durable asynchronous recovery. Do not
 resubmit a timed-out request automatically: it can incur a second provider charge.
+When the browser receives non-JSON output or loses the connection, the image client
+reads the original account-owned job for up to two minutes. A completed stored job
+restores the image result; a failed job shows its recorded error. If status remains
+unknown, it asks the user to check history and never repeats the generation POST.
 Deploy/restart after outstanding image requests finish. Async polling is a separate
 future implementation and is not provided by the Alibaba video cron job.

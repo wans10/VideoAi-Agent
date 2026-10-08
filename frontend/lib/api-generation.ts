@@ -14,6 +14,7 @@ import type { AngleToolRequest, AngleToolResponse } from '@/types/tools-angle';
 import type { BackgroundRemovalToolRequest, BackgroundRemovalToolResponse } from '@/types/tools-background-removal';
 import type { UpscaleToolRequest, UpscaleToolResponse } from '@/types/tools-upscale';
 import { upscaleClientAttempt, waitForAcceptedUpscale } from '@/lib/upscale-client-lifecycle';
+import { submitImageGeneration } from '@/lib/image-generation-client';
 
 type PrimitiveValue = string | number | boolean | null | undefined;
 
@@ -196,25 +197,7 @@ export async function runGenerate(
 }
 
 export async function runImageGeneration(payload: ImageGenerationRequest): Promise<ImageGenerationResponse> {
-  const response = await authFetch('/api/images/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION },
-    body: JSON.stringify(payload),
-  });
-  const data = (await response.json().catch(() => null)) as ImageGenerationResponse | null;
-  if (!data) {
-    throw new Error('Image generation response malformed');
-  }
-  if (!response.ok || !data.ok) {
-    const error = new Error(data.error?.message ?? `Image generation failed (${response.status})`);
-    Object.assign(error, {
-      code: data.error?.code ?? 'image_generation_failed',
-      detail: data.error?.detail,
-      status: response.status,
-    });
-    throw error;
-  }
-  return data;
+  return submitImageGeneration(payload);
 }
 
 export async function runAudioGenerate(payload: AudioGenerateRequestBody): Promise<AudioGenerateResponse> {
