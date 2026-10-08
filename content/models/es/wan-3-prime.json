@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "Precios por escenario de Wan 3 Prime",
       "subtitle": "Compara la misma escena de seis segundos en 720p y 1080p.",
-      "footnote": "Añadir video aumenta tu cotización de Wan 3 Prime: su duración se incluye en el precio junto con la del video generado, tanto para referencias como para edición o extensión. MaxVideoAI confirma la cotización antes de generar.",
+      "footnote": "Añadir video aumenta tu cotización de Wan 3 Prime: su duración se incluye en el precio junto con la del video generado, tanto para referencias como para edición o extensión. VideoAI confirma la cotización antes de generar.",
       "ctaLabel": "Generar con Wan 3 Prime",
       "ctaHref": "/app?engine=wan-3-prime"
     },

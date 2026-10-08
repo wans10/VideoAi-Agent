@@ -343,6 +343,8 @@ test('trusted paid routing honors a principal-scoped Veo environment while publi
       jobId: 'job_private_veo_canary',
       mode: 't2v',
       providerEnv: {
+        GOOGLE_VERTEX_PROJECT_ID: 'synthetic-project',
+        GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON: JSON.stringify({ client_email: 'fixture@example.test', private_key: 'synthetic-key' }),
         GOOGLE_VERTEX_VEO_ENABLED: 'true',
         GOOGLE_VERTEX_VEO_PUBLIC_ROUTING_ENABLED: 'true',
         GOOGLE_VERTEX_VEO_ADMIN_ONLY: 'false',

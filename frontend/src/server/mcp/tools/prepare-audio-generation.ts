@@ -87,7 +87,7 @@ export function registerPrepareAudioGenerationTool(
   server.registerTool(
     'prepare_audio_generation',
     {
-      title: 'Prepare a MaxVideoAI Audio generation',
+      title: 'Prepare a Keyvo Audio generation',
       description: [
         'Use this to validate one complete Audio request and save an exact short-lived quote without debiting the wallet or contacting a provider.',
         'Read list_audio_capabilities first for a currently available mode, exact settings and owned reference roles.',

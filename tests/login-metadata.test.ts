@@ -4,8 +4,8 @@ import test from 'node:test';
 import { metadata } from '../frontend/app/(core)/login/layout.tsx';
 
 test('login metadata stays explicit and noindexed', () => {
-  assert.equal(metadata.title && typeof metadata.title === 'object' ? metadata.title.absolute : undefined, 'MaxVideoAI — Log in');
-  assert.equal(metadata.description, 'Create your MaxVideoAI workspace account to generate videos with Sora, Veo, Pika, Kling and more. Sign in, manage credits, and keep every render in one hub.');
-  assert.deepEqual(metadata.alternates, { canonical: 'https://maxvideoai.com/login' });
+  assert.equal(metadata.title && typeof metadata.title === 'object' ? metadata.title.absolute : undefined, 'Keyvo — 登录');
+  assert.equal(metadata.description, '登录 Keyvo 影像工作室，创作视频、图片与声音，管理账户余额和生成作品。');
+  assert.deepEqual(metadata.alternates, { canonical: 'https://app.keyvo.cn/login' });
   assert.deepEqual(metadata.robots, { index: false, follow: false });
 });

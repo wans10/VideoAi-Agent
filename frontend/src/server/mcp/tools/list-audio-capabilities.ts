@@ -18,7 +18,7 @@ export function registerListAudioCapabilitiesTool(
   server.registerTool(
     'list_audio_capabilities',
     {
-      title: 'List MaxVideoAI Audio capabilities',
+      title: 'List Keyvo Audio capabilities',
       description:
         'Lists the current public Audio modes, exact settings, owned reference roles, provider availability, pricing policy revision, and confirmation contract. It does not quote, spend, or generate.',
       inputSchema: listAudioCapabilitiesInputSchema,

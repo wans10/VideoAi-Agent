@@ -7,6 +7,7 @@ import { TurnstileChallenge } from './TurnstileChallenge';
 import { WalletAmountPicker } from './WalletAmountPicker';
 import { WalletCheckoutSummary } from './WalletCheckoutSummary';
 import { WalletExpressCheckout } from './WalletExpressCheckout';
+import { LlmhubPayCheckout } from './LlmhubPayCheckout.client';
 import type { BillingCopy } from '../_lib/billing-copy';
 import type { BillingSession } from '../_lib/billing-types';
 import styles from './billing-topup.module.css';
@@ -39,6 +40,9 @@ type WalletTopupPanelProps = {
   isTopupStarting: boolean;
   hostedCheckoutStarting: boolean;
   locale: string;
+  llmhubPayEnabled: boolean;
+  onAuthRequired: () => void;
+  onLlmhubRateLimited: (seconds: number | null) => void;
   normalizedChargeCurrency: string;
   onCustomAmountInputChange: (value: string) => void;
   onOpenCustomAmountEditor: () => void;
@@ -83,6 +87,9 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
     isTopupStarting,
     hostedCheckoutStarting,
     locale,
+    llmhubPayEnabled,
+    onAuthRequired,
+    onLlmhubRateLimited,
     normalizedChargeCurrency,
     onCustomAmountInputChange,
     onOpenCustomAmountEditor,
@@ -97,6 +104,25 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
     turnstileSiteKey,
     wallet,
   } = props;
+
+  const checkoutSecurityCheck = checkoutCaptchaRequired ? (
+    <section className={styles.securityCheck} aria-live="polite">
+      <strong>{copy.wallet.captchaPrompt}</strong>
+      {turnstileSiteKey ? (
+        <div className="mt-3">
+          <TurnstileChallenge
+            siteKey={turnstileSiteKey}
+            onToken={handleCheckoutCaptchaToken}
+            onError={handleCheckoutCaptchaError}
+            resetGeneration={checkoutCaptchaResetGeneration}
+          />
+        </div>
+      ) : null}
+      <p data-error={Boolean(checkoutCaptchaError)}>
+        {checkoutCaptchaError ?? (checkoutCaptchaToken ? copy.wallet.captchaComplete : copy.wallet.captchaPrompt)}
+      </p>
+    </section>
+  ) : null;
 
   return (
     <section className={styles.fundingSurface} aria-labelledby="billing-funding-title">
@@ -146,59 +172,60 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
             />
           </div>
 
-          <WalletCheckoutSummary
-            copy={copy}
-            creditsLabel={selectedTopupAmountLabel}
-            paymentAmountLabel={selectedTopupPaymentLabel}
-            quoteLoading={quoteLoading}
-            quoteError={quoteError}
-            isTopupStarting={isTopupStarting}
-            onCheckout={handleTopUp}
-          >
-            {checkoutCaptchaRequired ? (
-              <section className={styles.securityCheck} aria-live="polite">
-                <strong>{copy.wallet.captchaPrompt}</strong>
-                {turnstileSiteKey ? (
-                  <div className="mt-3">
-                    <TurnstileChallenge
-                      siteKey={turnstileSiteKey}
-                      onToken={handleCheckoutCaptchaToken}
-                      onError={handleCheckoutCaptchaError}
-                      resetGeneration={checkoutCaptchaResetGeneration}
-                    />
-                  </div>
-                ) : null}
-                <p data-error={Boolean(checkoutCaptchaError)}>
-                  {checkoutCaptchaError ?? (checkoutCaptchaToken ? copy.wallet.captchaComplete : copy.wallet.captchaPrompt)}
-                </p>
-              </section>
-            ) : null}
-
-            {session?.user?.id ? (
-              <WalletExpressCheckout
-                key={session.user.id}
-                enabled={!currencyLoading && !quoteLoading && !hostedCheckoutStarting}
+          {normalizedChargeCurrency === 'CNY' && llmhubPayEnabled ? (
+            <>
+              <LlmhubPayCheckout
+                accountId={session?.user?.id ?? null}
+                accessToken={session?.access_token ?? null}
                 amountCents={selectedTopupCents}
-                chargeCurrency={normalizedChargeCurrency}
-                locale={locale}
                 captchaToken={checkoutCaptchaToken}
-                session={session}
-                stripePromise={stripePromise}
-                labels={{
-                  expressTitle: copy.wallet.expressTitle,
-                  expressLoading: copy.wallet.expressLoading,
-                  expressUnavailable: copy.wallet.expressUnavailable,
-                  expressError: copy.wallet.expressError,
-                  expressClosed: copy.wallet.expressClosed,
-                  expressAriaLabel: copy.wallet.expressAriaLabel,
-                  rateLimited: copy.wallet.rateLimited,
-                }}
+                copy={copy}
+                creditsLabel={selectedTopupAmountLabel}
+                enabled={!currencyLoading && !hostedCheckoutStarting}
+                onAuthRequired={onAuthRequired}
                 onCaptchaRequired={handleCheckoutCaptchaRequired}
-                onPaymentStarted={handleExpressTopupStarted}
-                onPaymentFailed={handleExpressTopupFailed}
+                onRateLimited={onLlmhubRateLimited}
               />
-            ) : null}
-          </WalletCheckoutSummary>
+              {checkoutSecurityCheck}
+            </>
+          ) : (
+            <WalletCheckoutSummary
+              copy={copy}
+              creditsLabel={selectedTopupAmountLabel}
+              paymentAmountLabel={selectedTopupPaymentLabel}
+              quoteLoading={quoteLoading}
+              quoteError={quoteError}
+              isTopupStarting={isTopupStarting}
+              onCheckout={handleTopUp}
+            >
+              {checkoutSecurityCheck}
+
+              {session?.user?.id ? (
+                <WalletExpressCheckout
+                  key={session.user.id}
+                  enabled={!currencyLoading && !quoteLoading && !hostedCheckoutStarting}
+                  amountCents={selectedTopupCents}
+                  chargeCurrency={normalizedChargeCurrency}
+                  locale={locale}
+                  captchaToken={checkoutCaptchaToken}
+                  session={session}
+                  stripePromise={stripePromise}
+                  labels={{
+                    expressTitle: copy.wallet.expressTitle,
+                    expressLoading: copy.wallet.expressLoading,
+                    expressUnavailable: copy.wallet.expressUnavailable,
+                    expressError: copy.wallet.expressError,
+                    expressClosed: copy.wallet.expressClosed,
+                    expressAriaLabel: copy.wallet.expressAriaLabel,
+                    rateLimited: copy.wallet.rateLimited,
+                  }}
+                  onCaptchaRequired={handleCheckoutCaptchaRequired}
+                  onPaymentStarted={handleExpressTopupStarted}
+                  onPaymentFailed={handleExpressTopupFailed}
+                />
+              ) : null}
+            </WalletCheckoutSummary>
+          )}
         </section>
 
         {wallet && wallet.balance < 2 ? <p className="mt-3 text-sm text-state-warning">{copy.wallet.lowBalance}</p> : null}

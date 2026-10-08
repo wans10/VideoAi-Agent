@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 2.6 Pro 对比 Hailuo 02：画质、音频与价格",
+      "description": "在 VideoAI 上对比 Kling 2.6 Pro 与 MiniMax Hailuo 02 Standard 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "选择 1080p 电影对白或低成本风格化探索时，可对比 Kling 2.6 Pro 和 MiniMax Hailuo 02 Standard。Kling 提供原生音频与更高分辨率；Hailuo 以较低成本提供 512P / 768P 无音频文本或图像动画。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "1080p 电影镜头、对白和可选原生音频选择 Kling 2.6 Pro；低成本风格化测试、竖屏或方形社交概念及无音频动态中，如果 512P / 768P 足够且成本比成片分辨率更重要，选择 MiniMax Hailuo 02 Standard。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Kling 2.6 Pro",
+        "body": "需要 1080p 电影对白、可选音频，且成片质量比生成价格更重要时，使用 Kling。"
+      },
+      {
+        "title": "选择 Hailuo 02",
+        "body": "每秒 0.045 美元的风格化概念、无音频社交动态和低分辨率提示词探索可使用 Hailuo。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "Kling 提供 1080p，含音频每秒 0.14 美元；Hailuo 更便宜，但最高 768P 且无音频。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "Kling 适合对白与精细电影镜头；Hailuo 适合风格化开场、视觉实验和预算优先的批量制作。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-2-6-pro",
+        "label": "查看 Kling 2.6 Pro 详情"
+      },
+      {
+        "href": "/models/minimax-hailuo-02-text",
+        "label": "查看 MiniMax Hailuo 02 详情"
+      },
+      {
+        "href": "/ai-video-engines/kling-2-6-pro-vs-wan-2-6",
+        "label": "对比 Kling 2.6 Pro 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择电影级 Kling 输出或低成本 Hailuo 动态。",
+      "items": [
+        {
+          "question": "Kling 2.6 Pro 和 Hailuo 02 哪款更适合对白？",
+          "answer": "Kling 2.6 Pro 更合适，因为它支持原生音频和 1080p 输出。Hailuo 02 生成无音频视频，更适合视觉或风格化动态测试。"
+        },
+        {
+          "question": "两款模型分别支持多高分辨率？",
+          "answer": "Kling 2.6 Pro 输出 1080p。MiniMax Hailuo 02 Standard 提供 512P 与 768P，更适合低成本概念，而非高分辨率成片。"
+        },
+        {
+          "question": "何时 Hailuo 02 的低价更有价值？",
+          "answer": "需要大量无音频风格化探索，且可接受较低分辨率时，使用每秒 0.045 美元的 Hailuo；音频和 1080p 交付是必要条件时，选择 Kling。"
+        }
+      ]
+    }
   }
 }

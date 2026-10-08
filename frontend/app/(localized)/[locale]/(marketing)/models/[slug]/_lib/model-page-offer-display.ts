@@ -2,6 +2,7 @@ import { localeRegions, type AppLocale } from '@/i18n/locales';
 import type { ModelPublicOffer } from './model-page-schema';
 
 const COPY = {
+  zh: { example: '生成示例', textVideo: '文生视频', textImage: '文生图', image: '1 张图片', high: '高画质', audio: '包含音频', silent: '无音频', squareHd: '正方形高清' },
   en: { example: 'Generation example', textVideo: 'Text to video', textImage: 'Text to image', image: '1 image', high: 'High quality', audio: 'Audio included', silent: 'Silent', squareHd: 'Square HD' },
   fr: { example: 'Exemple de génération', textVideo: 'Texte vers vidéo', textImage: 'Texte vers image', image: '1 image', high: 'Qualité élevée', audio: 'Audio inclus', silent: 'Sans audio', squareHd: 'Carré HD' },
   es: { example: 'Ejemplo de generación', textVideo: 'Texto a vídeo', textImage: 'Texto a imagen', image: '1 imagen', high: 'Calidad alta', audio: 'Audio incluido', silent: 'Sin audio', squareHd: 'Cuadrado HD' },

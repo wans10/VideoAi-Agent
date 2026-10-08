@@ -87,7 +87,13 @@ export const FLUX_3_DRAFT_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     { mode: 'extend', falModelId: FLUX_3_DRAFT_ENDPOINTS.extend, ui: DRAFT_CAPS.extend! },
   ],
   defaultFalModelId: FLUX_3_DRAFT_ENDPOINTS.t2v,
-  seo: { title: 'FLUX 3 Draft AI Video | MaxVideoAI', description: 'Generate fast 720p FLUX 3 drafts from text, images, first/last frames, or source video.', canonicalPath: '/models/flux-3-draft' },
+  seo: { title: 'FLUX 3 Draft AI Video | Keyvo', description: 'Generate fast 720p FLUX 3 drafts from text, images, first/last frames, or source video.', canonicalPath: '/models/flux-3-draft' },
+  demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e0c9044a-9eb3-4f51-b847-a9a5f7e6f809.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e0c9044a-9eb3-4f51-b847-a9a5f7e6f809.mp4',
+    imagePath: 'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/0d990bc1-4c6e-4f56-8ae8-ebfa3cebb1b1.jpg',
+    altText: 'FLUX 3 Draft fast video preview',
+  },
   prompts: [
     { title: 'Draft a concept', prompt: 'A fast cinematic concept pass with clear motion, composition, and synchronized sound.', mode: 't2v' },
     { title: 'Draft image motion', prompt: 'Test a natural camera move and subject animation from the opening image.', mode: 'i2v' },

@@ -24,12 +24,20 @@ export const DEFAULT_VIDEO_TROUBLESHOOTING_BY_LOCALE: Record<AppLocale, string[]
     'El texto sale mal → evita señalética legible, UI pequeño, micro‑labels. Mantén el texto fuera de plano.',
     'El diálogo deriva → mantén líneas cortas y directas; evita monólogos largos.',
   ],
+  zh: [
+    '画面感觉随机 / 不一致 → 简化为：主体 + 动作 + 运镜 + 光影。重新生成 2–3 次。',
+    '动作看起来怪异 → 减少运动：单一运镜动作、更平缓的动作、减少道具。',
+    '主体偏离品牌设定 → 从参考图像开始并锁定色调与光影。',
+    '文字显示错误 → 避免可辨识的标识、微小 UI、微标签。尽量将文字留在画面外。',
+    '对白飘移 → 保持台词简短有力；避免冗长的独白。',
+  ],
 };
 
 export const DEFAULT_VIDEO_TROUBLESHOOTING_NO_AUDIO_BY_LOCALE: Record<AppLocale, string[]> = {
   en: DEFAULT_VIDEO_TROUBLESHOOTING.filter((item) => !item.toLowerCase().includes('dialogue')),
   fr: DEFAULT_VIDEO_TROUBLESHOOTING_BY_LOCALE.fr.filter((item) => !item.toLowerCase().includes('dialogue')),
   es: DEFAULT_VIDEO_TROUBLESHOOTING_BY_LOCALE.es.filter((item) => !item.toLowerCase().includes('diálogo')),
+  zh: DEFAULT_VIDEO_TROUBLESHOOTING_BY_LOCALE.zh.filter((item) => !item.includes('对白')),
 };
 
 export function getDefaultVideoTroubleshooting(locale: AppLocale, supportsAudio: boolean): string[] {
@@ -61,6 +69,12 @@ const DEFAULT_VIDEO_SAFETY_BY_LOCALE: Record<AppLocale, string[]> = {
     'Sin menores, contenido sexual, contenido de odio ni violencia gráfica.',
     'No uses la imagen o el parecido de una persona sin su consentimiento.',
     'Algunos prompts e imágenes de referencia pueden bloquearse; los personajes y escenas genéricos son aceptables.',
+  ],
+  zh: [
+    '不要生成真实人物或公众人物（名人、政界人士等）。',
+    '严禁未成年人、色情内容、仇恨内容或露骨暴力。',
+    '未经许可不得使用他人的肖像。',
+    '部分提示词和参考图片可能会被拦截 —— 通用角色和通用场景是允许的。',
   ],
 };
 
@@ -138,4 +152,18 @@ export const MODEL_OG_IMAGE_MAP: Record<string, string> = {
   'veo-3-1-lite': '/hero/veo-3-1-hero.jpg',
   'pika-text-to-video': '/hero/pika-22.jpg',
   'minimax-hailuo-02-text': '/hero/minimax-video01.jpg',
+  'minimax-h3': '/models/minimax-h3-launch.jpg',
+  'seedance-2-5': '/models/seedance-2-5-launch.jpg',
+  'kling-3-turbo-pro':
+    'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/0241e03e-f986-4026-9064-6a2f4af0c0dc.jpg',
+  'ltx-2-5-pro':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/197fad84-252f-43e1-8c44-9be2b8ce415a.jpg',
+  'wan-3':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/d3c5c35e-42d8-4abd-95bd-8608c50f92c7.jpg',
+  'minimax-h3-max':
+    'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/89562475-e134-4d26-9735-478a6fed48ec.jpg',
+  'ltx-2-5-fast':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/ea6fc35e-a50c-4ad9-9cf0-1e4cd4ae89a8.jpg',
+  'wan-3-prime':
+    'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/e1737553-786b-4362-a873-7ffec396247d.jpg',
 };

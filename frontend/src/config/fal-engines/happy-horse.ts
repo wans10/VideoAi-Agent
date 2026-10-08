@@ -305,9 +305,9 @@ export const HAPPY_HORSE_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: HAPPY_HORSE_ENDPOINTS.t2v,
     seo: {
-      title: 'Happy Horse 1.0 - Legacy Video Edit Route | MaxVideoAI',
+      title: 'Happy Horse 1.0 - Legacy Video Edit Route | Keyvo',
       description:
-        'Use Happy Horse 1.0 on MaxVideoAI as the legacy Alibaba video-edit route while new text, image, and reference workflows move to Happy Horse 1.1.',
+        'Use Happy Horse 1.0 on Keyvo as the legacy Alibaba video-edit route while new text, image, and reference workflows move to Happy Horse 1.1.',
       canonicalPath: '/models/happy-horse-1-0',
     },
     type: 'textImageReferenceVideoEdit',
@@ -347,14 +347,14 @@ export const HAPPY_HORSE_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     faqs: [
       {
-        question: 'What Happy Horse workflows are available in MaxVideoAI?',
+        question: 'What Happy Horse workflows are available in Keyvo?',
         answer:
           'Happy Horse 1.0 remains available for legacy video edit. New text, image, and reference generations should use Happy Horse 1.1.',
       },
       {
         question: 'Does Happy Horse include lip-sync?',
         answer:
-          'Yes. MaxVideoAI treats Happy Horse as an audio-native model with synchronized native audio and lip-sync, without a separate lip-sync toggle.',
+          'Yes. Keyvo treats Happy Horse as an audio-native model with synchronized native audio and lip-sync, without a separate lip-sync toggle.',
       },
       {
         question: 'How is Happy Horse video edit priced?',

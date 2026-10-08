@@ -8,6 +8,7 @@ import { HeaderBar } from '@/components/HeaderBar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { useHostedWalletCheckout } from '@/hooks/useHostedWalletCheckout';
 import { CURRENCY_LOCALE } from '@/lib/intl';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import type { WalletCheckoutReturnTarget } from '@/lib/wallet/checkout-return';
@@ -41,11 +42,13 @@ const EMPTY_SEARCH_PARAMS = new URLSearchParams();
 type BillingClientProps = {
   initialBillingIntent: BillingIntent | null;
   signedLoginRedirectTarget: string | null;
+  llmhubPayEnabled: boolean;
 };
 
 export function BillingClient({
   initialBillingIntent,
   signedLoginRedirectTarget,
+  llmhubPayEnabled,
 }: BillingClientProps) {
   const { locale, t } = useI18n();
   const rawCopy = t('workspace.billing', DEFAULT_BILLING_COPY);
@@ -70,9 +73,9 @@ export function BillingClient({
   const [expressPaying, setExpressPaying] = useState(false);
   useEffect(() => { setExpressPaying(false); }, [session?.user?.id]);
   const [checkoutReturnTarget, setCheckoutReturnTarget] = useState<WalletCheckoutReturnTarget | null>(null);
-  const [checkoutReturnStatus, setCheckoutReturnStatus] = useState<'success' | 'cancelled' | null>(null);
+  const [checkoutReturnStatus, setCheckoutReturnStatus] = useState<'success' | 'cancelled' | 'pending' | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const billingIntlLocale = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : CURRENCY_LOCALE;
+  const billingIntlLocale = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : locale === 'zh' ? 'zh-CN' : CURRENCY_LOCALE;
 
   const formatMoney = (amountCents: number, currency: string) => {
     const amount = amountCents / 100;
@@ -84,7 +87,7 @@ export function BillingClient({
   };
 
   const formatLocalAmount = useCallback((amountMinor: number, currency: string) => {
-    const upper = (currency ?? 'USD').toUpperCase();
+    const upper = (currency ?? CUSTOMER_CURRENCY).toUpperCase();
     const zeroDecimal = upper === 'JPY';
     const divisor = zeroDecimal ? 1 : 100;
     const value = amountMinor / divisor;
@@ -100,12 +103,12 @@ export function BillingClient({
     try {
       return new Intl.NumberFormat(billingIntlLocale, {
         style: 'currency',
-        currency: 'USD',
+        currency: CUSTOMER_CURRENCY,
         currencyDisplay: 'narrowSymbol',
         maximumFractionDigits: amountCents % 100 === 0 ? 0 : 2,
       }).format(amount);
     } catch {
-      return `$${amount.toFixed(amountCents % 100 === 0 ? 0 : 2)}`;
+      return `${CUSTOMER_CURRENCY === 'CNY' ? '¥' : '$'}${amount.toFixed(amountCents % 100 === 0 ? 0 : 2)}`;
     }
   };
   const {
@@ -119,6 +122,7 @@ export function BillingClient({
   } = useBillingCurrencyState({
     authLoading,
     copy,
+    llmhubPayEnabled,
     session,
   });
   const { wallet, walletStatus, refreshWallet, stripeMode } = useBillingSessionState({
@@ -150,12 +154,13 @@ export function BillingClient({
       ? signedLoginRedirectTarget
       : buildBillingIntentTarget({
         amountCents: selectedTopupCents,
-        currency: 'USD',
+        currency: CUSTOMER_CURRENCY,
       }),
     [initialBillingIntent?.amountCents, selectedTopupCents, signedLoginRedirectTarget]
   );
   const { topupQuotes, quoteLoading, quoteError } = useBillingTopupQuotes({
     authLoading,
+    llmhubPayEnabled,
     session,
     normalizedChargeCurrency,
     selectedTopupCents,
@@ -209,6 +214,7 @@ export function BillingClient({
     onSuccess: reconcileCheckoutReturn,
     onToast: setToast,
     successMessage: copy.toasts.success,
+    pendingMessage: copy.checkoutReturn.pendingTitle,
   });
 
   const handleHostedTopupStarted = useCallback(({ amountCents, currency }: { amountCents: number; currency: string }) => {
@@ -351,6 +357,9 @@ export function BillingClient({
                 isTopupStarting={hostedCheckout.isSubmitting || expressPaying}
                 hostedCheckoutStarting={hostedCheckout.isSubmitting}
                 locale={locale}
+                llmhubPayEnabled={llmhubPayEnabled}
+                onAuthRequired={() => setAuthModalOpen(true)}
+                onLlmhubRateLimited={handleHostedRateLimited}
                 normalizedChargeCurrency={normalizedChargeCurrency}
                 onCustomAmountInputChange={onCustomAmountInputChange}
                 onOpenCustomAmountEditor={openCustomAmountEditor}

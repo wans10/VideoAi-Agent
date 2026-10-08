@@ -90,6 +90,7 @@ export const HERO_LIMITS_LINES: Record<AppLocale, string> = {
   en: 'Model limits: duration, resolution, aspect ratio, audio, and input modes vary by engine.',
   fr: 'Limites du modèle : durée, résolution, ratio, audio et modes d’entrée varient selon le modèle.',
   es: 'Límites del modelo: duración, resolución, relación de aspecto, audio y modos de entrada varían según el motor.',
+  zh: '模型限制：时长、分辨率、宽高比、音频和输入模式因引擎而异。',
 };
 export const BEST_USE_CASE_ICON_KEYS: BestUseCaseIconKey[] = [
   'ads',
@@ -218,24 +219,36 @@ export const SECTION_LABELS: Record<
     safety: 'Seguridad',
     faq: 'FAQ',
   },
+  zh: {
+    specs: '规格参数',
+    examples: '示例展示',
+    prompting: '提示词',
+    tips: '使用技巧',
+    compare: '模型对比',
+    safety: '安全规范',
+    faq: '常见问题',
+  },
 };
 
 export const SPEC_TITLE_BASE: Record<AppLocale, string> = {
   en: 'Specs',
   fr: 'Spécifications',
   es: 'Especificaciones',
+  zh: '规格参数',
 };
 
 export const SPECS_DECISION_NOTES: Record<AppLocale, string> = {
   en: 'Formats, settings and limits to check before creating.',
   fr: 'Les formats, réglages et limites à connaître avant de créer.',
   es: 'Los formatos, ajustes y límites que conviene conocer antes de crear.',
+  zh: '创作前需要核对的格式、设置和限制。',
 };
 
 export const SPEC_STATUS_LABELS: Record<AppLocale, { supported: string; notSupported: string; pending: string }> = {
   en: { supported: 'Supported', notSupported: 'Not supported', pending: 'Data pending' },
   fr: { supported: 'Pris en charge', notSupported: 'Non pris en charge', pending: 'Données en attente' },
   es: { supported: 'Soportado', notSupported: 'No soportado', pending: 'Datos pendientes' },
+  zh: { supported: '支持', notSupported: '不支持', pending: '数据待更新' },
 };
 
 export const AUTO_SPEC_LABELS: Record<
@@ -288,6 +301,18 @@ export const AUTO_SPEC_LABELS: Record<
     audioOutput: 'Salida de audio',
     nativeAudio: 'Audio nativo',
     lipSync: 'Sincronización labial',
+  },
+  zh: {
+    inputsTitle: '输入与文件格式',
+    audioTitle: '音频',
+    textToVideo: '文生视频',
+    imageToVideo: '图生视频',
+    videoToVideo: '视频生视频',
+    referenceImageStyle: '起始 / 参考图像',
+    referenceVideo: '参考视频',
+    audioOutput: '音频输出',
+    nativeAudio: '原生音频',
+    lipSync: '口型同步',
   },
 };
 
@@ -354,6 +379,23 @@ export const COMPARE_COPY_BY_LOCALE: Record<
       supportsAudio
         ? `Compara ${model} vs ${other} en precio, resolución, audio, velocidad y estilo de movimiento.`
         : `Compara ${model} vs ${other} en precio, resolución, velocidad y estilo de movimiento.`,
+  },
+  zh: {
+    title: (model) => `对比 ${model} 与其他 AI 视频模型`,
+    introPrefix: (model) =>
+      `不确定 ${model} 是否最适合你的镜头？这些并排对比详细分析了权衡取舍 —— `,
+    introStrong: (supportsAudio) =>
+      supportsAudio
+        ? '每秒价格、分辨率、音频、生成速度与动作风格'
+        : '每秒价格、分辨率、生成速度与动作风格',
+    introSuffix: ' —— 助你快速选对引擎。',
+    subline: '每个页面均包含真实生成效果与实用最佳用例。',
+    ctaCompare: (model, other) => `对比 ${model} vs ${other} →`,
+    ctaExplore: (other) => `查看 ${other} →`,
+    cardDescription: (model, other, supportsAudio) =>
+      supportsAudio
+        ? `在价格、分辨率、音频、速度和动作风格上对比 ${model} 与 ${other}。`
+        : `在价格、分辨率、速度和动作风格上对比 ${model} 与 ${other}。`,
   },
 };
 
@@ -424,12 +466,44 @@ export const SPEC_ROW_LABEL_OVERRIDES: Record<
       releaseDate: 'Fecha de lanzamiento',
     },
   },
+  zh: {
+    video: {
+      pricePerSecond: '价格 / 秒',
+      textToVideo: '文生视频',
+      imageToVideo: '图生视频',
+      videoToVideo: '视频生视频',
+      firstLastFrame: '首尾帧控制',
+      referenceImageStyle: '起始 / 参考图像',
+      referenceVideo: '参考视频',
+      maxResolution: '最高分辨率',
+      maxDuration: '最长时长',
+      aspectRatios: '宽高比',
+      fpsOptions: '帧率选项',
+      outputFormats: '输出格式',
+      audioOutput: '音频输出',
+      nativeAudioGeneration: '原生音频生成',
+      lipSync: '口型同步',
+      cameraMotionControls: '运镜 / 动态控制',
+      watermark: '水印',
+      releaseDate: '发布日期',
+    },
+    image: {
+      pricePerImage: '价格 / 张',
+      textToImage: '文生图',
+      imageToImage: '图生图',
+      maxResolution: '分辨率选项',
+      aspectRatios: '宽高比',
+      outputFormats: '输出格式',
+      releaseDate: '发布日期',
+    },
+  },
 };
 
 export const PRICE_AUDIO_LABELS: Record<AppLocale, { on: string; off: string }> = {
   en: { on: 'Audio on', off: 'Audio off' },
   fr: { on: 'Audio activé', off: 'Audio coupé' },
   es: { on: 'Audio activado', off: 'Audio desactivado' },
+  zh: { on: '音频开启', off: '音频关闭' },
 };
 
 export const TIPS_CARD_LABELS: Record<
@@ -439,6 +513,7 @@ export const TIPS_CARD_LABELS: Record<
   en: { strengths: 'What works best', boundaries: 'Hard limits to keep in mind' },
   fr: { strengths: 'Ce qui marche le mieux', boundaries: 'Limites à garder en tête' },
   es: { strengths: 'Lo que funciona mejor', boundaries: 'Límites a tener en cuenta' },
+  zh: { strengths: '最佳实践', boundaries: '核心限制与注意事项' },
 };
 
 export const VIDEO_SPEC_ROW_DEFS: Array<{ key: KeySpecKey; label: string }> = [

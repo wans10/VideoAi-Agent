@@ -31,15 +31,15 @@ export default function ExamplesGalleryGridClient({initialExamples,detailsCtaLab
     detailsCtaLabel={detailsCtaLabel} audioAvailableLabel={audioAvailableLabel} noPreviewLabel={noPreviewLabel}
     prioritizePoster={prioritizeFirstPoster && video.id === firstVisibleId} requested={preview.active.has(video.id)} frame={frame}
     onVisibility={preview.onVisibility} onIntent={preview.setIntent} onOpen={reader.open} />;
-  const pauseLabel=locale==='fr'?'Pause des aperçus':locale==='es'?'Pausar vistas previas':'Pause previews';
-  const resumeLabel=locale==='fr'?'Animer les aperçus':locale==='es'?'Animar vistas previas':'Animate previews';
+  const pauseLabel=locale==='fr'?'Pause des aperçus':locale==='es'?'Pausar vistas previas':locale==='zh'?'暂停样片预览':'Pause previews';
+  const resumeLabel=locale==='fr'?'Animer les aperçus':locale==='es'?'Animar vistas previas':locale==='zh'?'播放样片预览':'Animate previews';
   const continuationLabel=familyLabel
-    ? locale==='fr'?`Plus de vidéos ${familyLabel}`:locale==='es'?`Más videos de ${familyLabel}`:`More ${familyLabel} videos`
-    : locale==='fr'?'Encore des vidéos':locale==='es'?'Más vídeos':'More videos';
-  const pageCountLabel=locale==='fr'?'sur cette page':locale==='es'?'en esta página':'on this page';
-  const guideLabel=locale==='fr'?'Ouvrez une vidéo pour voir comment elle a été créée.':locale==='es'?'Abre un vídeo para ver cómo se creó.':'Open any video to see how it was made.';
-  const guidePills=locale==='fr'?['Prompt','Réglages','Prix actuel']:locale==='es'?['Prompt','Ajustes','Precio actual']:['Prompt','Settings','Current price'];
-  const createLabel=locale==='fr'?'Créer dans l’app':locale==='es'?'Crear en la app':'Create in the app';
+    ? locale==='fr'?`Plus de vidéos ${familyLabel}`:locale==='es'?`Más videos de ${familyLabel}`:locale==='zh'?`更多 ${familyLabel} 视频`:`More ${familyLabel} videos`
+    : locale==='fr'?'Encore des vidéos':locale==='es'?'Más vídeos':locale==='zh'?'更多视频':'More videos';
+  const pageCountLabel=locale==='fr'?'sur cette page':locale==='es'?'en esta página':locale==='zh'?'本页':'on this page';
+  const guideLabel=locale==='fr'?'Ouvrez une vidéo pour voir comment elle a été créée.':locale==='es'?'Abre un vídeo para ver cómo se creó.':locale==='zh'?'打开任意视频，查看它的制作方式。':'Open any video to see how it was made.';
+  const guidePills=locale==='fr'?['Prompt','Réglages','Prix actuel']:locale==='es'?['Prompt','Ajustes','Precio actual']:locale==='zh'?['提示词','生成设置','当前价格']:['Prompt','Settings','Current price'];
+  const createLabel=locale==='fr'?'Créer dans l’app':locale==='es'?'Crear en la app':locale==='zh'?'在创作台生成':'Create in the app';
   return <div>
     {reader.selected && <ExampleReader id={reader.selected} locale={locale} onClose={reader.close} navigationError={reader.navigationError} navigation={{previous:()=>void reader.step(-1),next:()=>void reader.step(1),canPrevious:reader.canPrevious,canNext:reader.canNext,busy:reader.busy}}/>}
     <div className="mb-3 flex justify-end">

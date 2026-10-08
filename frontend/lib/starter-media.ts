@@ -31,3 +31,12 @@ export function isPublicStarterMediaUrl(src: unknown): src is string {
       && !url.username && !url.password && !url.search && !url.hash;
   } catch { return false; }
 }
+
+/** Localized display names never replace the reproducible prompt or media identity. */
+export function getStarterMediaTitle(item: StarterMedia, locale: string): string {
+  const zh: Record<string, string> = {
+    'night-shift': '深夜洗衣房', 'acid-portrait': '迷幻肖像', 'disco-motel': '迪斯科汽车旅馆',
+    'every-story': '每个故事', 'electro-funk': '电子放克', 'outside-the-lines': '界线之外',
+  };
+  return locale === 'zh' ? zh[item.id] ?? item.title : item.title;
+}

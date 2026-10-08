@@ -4,11 +4,27 @@ import test from 'node:test';
 import { extractFalErrorMessage } from '../frontend/server/fal-webhook-errors';
 import {
   buildUserFacingRefundDescription,
+  isGenericFailureDescription,
   toUserFacingFailureMessage,
   toUserFacingRefundReason,
 } from '../frontend/server/user-facing-failure-messages';
 
 const forbidden = /fal(?:\.ai)?|fail\.ai|byteplus|modelark|google\s+vertex|kling\s+direct|provider/i;
+
+test('classified start and storage failures use the current product brand', () => {
+  assert.equal(toUserFacingFailureMessage('Could not start request'),
+    'Keyvo could not start this render. Please retry in a few moments.');
+  assert.equal(toUserFacingFailureMessage('Output could not be copied to storage'),
+    'The render finished, but Keyvo could not prepare the output for download. Please retry.');
+});
+
+test('historical messages use the current display brand and retain generic classification', () => {
+  const stored = 'MaxVideoAI needs a different reference. Change the image and try again.';
+  const displayed = 'Keyvo needs a different reference. Change the image and try again.';
+  assert.equal(toUserFacingFailureMessage(stored), displayed);
+  assert.equal(toUserFacingRefundReason(stored), displayed);
+  assert.equal(isGenericFailureDescription('Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'), true);
+});
 
 test('content refusals explain that reference media may also need changing', () => {
   const message = toUserFacingFailureMessage('The request content was blocked by safety checks.');
@@ -51,14 +67,14 @@ test('raw HTTP status failures never leak into job or refund copy', () => {
 
   assert.equal(
     toUserFacingFailureMessage(rawMessage),
-    'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+    'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
   );
   assert.equal(toUserFacingRefundReason(rawMessage), 'Render could not be completed.');
 });
 
 test('refund reasons classify storage preparation failures', () => {
   const reason = toUserFacingRefundReason(
-    'The provider finished this render, but the video could not be copied to MaxVideoAI storage.'
+    'The provider finished this render, but the video could not be copied to Keyvo storage.'
   );
 
   assert.equal(reason, 'Output could not be prepared for download.');
@@ -98,10 +114,10 @@ test('output download and storage failures retain their existing preparation pol
   for (const rawMessage of [
     'The provider finished this render, but the video could not be copied to MaxVideoAI storage.',
     'Failed to download the generated output video.',
-    'The render finished, but MaxVideoAI could not prepare the video for download. Please retry.',
+    'The render finished, but Keyvo could not prepare the video for download. Please retry.',
   ]) {
     assert.equal(toUserFacingFailureMessage(rawMessage),
-      'The render finished, but MaxVideoAI could not prepare the output for download. Please retry.');
+      'The render finished, but Keyvo could not prepare the output for download. Please retry.');
     assert.equal(toUserFacingRefundReason(rawMessage), 'Output could not be prepared for download.');
   }
 });

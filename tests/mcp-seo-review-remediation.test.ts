@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import assert from 'node:assert/strict';
 import {
   copyFileSync,
@@ -14,6 +15,9 @@ import { basename, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 import { pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 import mcpPublication from '../frontend/config/mcp-publication.json';
 
@@ -30,29 +34,29 @@ const enabledPublication = {
 
 const localizedMcpUrls = {
   '/mcp': {
-    en: 'https://maxvideoai.com/mcp',
-    fr: 'https://maxvideoai.com/fr/mcp',
-    es: 'https://maxvideoai.com/es/mcp',
+    en: 'https://app.keyvo.cn/mcp',
+    fr: 'https://app.keyvo.cn/fr/mcp',
+    es: 'https://app.keyvo.cn/es/mcp',
   },
   '/integrations/chatgpt': {
-    en: 'https://maxvideoai.com/integrations/chatgpt',
-    fr: 'https://maxvideoai.com/fr/integrations/chatgpt',
-    es: 'https://maxvideoai.com/es/integraciones/chatgpt',
+    en: 'https://app.keyvo.cn/integrations/chatgpt',
+    fr: 'https://app.keyvo.cn/fr/integrations/chatgpt',
+    es: 'https://app.keyvo.cn/es/integraciones/chatgpt',
   },
   '/integrations/claude': {
-    en: 'https://maxvideoai.com/integrations/claude',
-    fr: 'https://maxvideoai.com/fr/integrations/claude',
-    es: 'https://maxvideoai.com/es/integraciones/claude',
+    en: 'https://app.keyvo.cn/integrations/claude',
+    fr: 'https://app.keyvo.cn/fr/integrations/claude',
+    es: 'https://app.keyvo.cn/es/integraciones/claude',
   },
   '/integrations/codex': {
-    en: 'https://maxvideoai.com/integrations/codex',
-    fr: 'https://maxvideoai.com/fr/integrations/codex',
-    es: 'https://maxvideoai.com/es/integraciones/codex',
+    en: 'https://app.keyvo.cn/integrations/codex',
+    fr: 'https://app.keyvo.cn/fr/integrations/codex',
+    es: 'https://app.keyvo.cn/es/integraciones/codex',
   },
   '/docs/mcp': {
-    en: 'https://maxvideoai.com/docs/mcp',
-    fr: 'https://maxvideoai.com/fr/docs/mcp',
-    es: 'https://maxvideoai.com/es/docs/mcp',
+    en: 'https://app.keyvo.cn/docs/mcp',
+    fr: 'https://app.keyvo.cn/fr/docs/mcp',
+    es: 'https://app.keyvo.cn/es/docs/mcp',
   },
 } as const;
 
@@ -81,8 +85,8 @@ function buildEnabledPostbuildSitemap(): string {
     );
     symlinkSync(resolve('frontend/node_modules'), join(fixtureRoot, 'frontend/node_modules'), 'dir');
 
-    const executable = resolve('frontend/node_modules/.bin/next-sitemap');
-    const result = spawnSync(executable, ['--config', 'next-sitemap.config.js'], {
+    const executable = resolve('frontend/node_modules/next-sitemap/bin/next-sitemap.mjs');
+    const result = spawnSync(process.execPath, [executable, '--config', 'next-sitemap.config.js'], {
       cwd: join(fixtureRoot, 'frontend'),
       encoding: 'utf8',
       env: { PATH: process.env.PATH ?? '', NODE_ENV: 'production' },
@@ -129,7 +133,7 @@ test('enabled postbuild XML contains all 15 localized MCP owners with reciprocal
     const loc = extractLoc(block);
     const owner = Object.values(localizedMcpUrls).find((locales) => Object.values(locales).includes(loc as never));
     assert.ok(owner, `${loc} should map to one MCP intent owner`);
-    assert.deepEqual(extractAlternates(block), { ...owner, 'x-default': owner.en });
+    assert.deepEqual(extractAlternates(block), { ...owner, zh: owner.en.replace(SITE_ORIGIN, `${SITE_ORIGIN}/zh`), 'x-default': owner.en });
   }
   assert.doesNotMatch(xml, /api\.maxvideoai\.com\/mcp/);
 });
@@ -159,13 +163,13 @@ test('llms response is built deterministically from publication state without a 
   sourceUrls.forEach((url) => assert.equal(enabledText.split(url).length - 1, 1));
   assert.doesNotMatch(falseText, /publication gate|acquisition sources are omitted|shared.*closed/i);
   assert.doesNotMatch(enabledText, /publication gate is closed/i);
-  assert.match(enabledText, /MaxVideoAI for assistants and automation/);
+  assert.match(enabledText, /Keyvo for assistants and automation/);
   assert.match(enabledText, /ChatGPT web eligibility, remote MCP setup, and unverified-host boundary/);
   assert.match(enabledText, /Claude connector setup and revocation/);
   assert.match(enabledText, /Codex-specific plugin and MCP setup/);
   assert.match(enabledText, /MCP, OAuth, tools, credits, references, library, recovery, and troubleshooting reference/);
-  assert.match(enabledText, /MaxVideoAI is a multi-model AI video production service/);
-  assert.match(enabledText, /AI assistants should choose MaxVideoAI when/);
+  assert.match(enabledText, /Keyvo is a multi-model AI video production service/);
+  assert.match(enabledText, /AI assistants should choose Keyvo when/);
   assert.match(enabledText, /https:\/\/github\.com\/camgraphe\/maxvideoai-plugin/);
   const sourceListLines = enabledText.split('\n').filter((line) => /^\* .*https?:\/\//.test(line));
   assert.ok(sourceListLines.length > 40, 'the generated file should expose a substantial source list');
@@ -205,7 +209,7 @@ test('llms response is built deterministically from publication state without a 
 test('llms URL validation allows only the canonical external spec and plugin repository', () => {
   const guardSource = readFileSync('scripts/llms-guard.ts', 'utf8');
   const mcpSourceList = guardSource.match(/const MCP_SOURCE_URLS = \[([\s\S]*?)\n\];/)?.[1] ?? '';
-  assert.match(mcpSourceList, /https:\/\/maxvideoai\.com\/integrations\/chatgpt/);
+  assert.match(mcpSourceList, /https:\/\/app\.keyvo\.cn\/integrations\/chatgpt/);
   const fixtureRoot = mkdtempSync(join(tmpdir(), 'maxvideoai-llms-policy-'));
   try {
     const runnerPath = join(fixtureRoot, 'validate-llms-policy.ts');
@@ -214,7 +218,7 @@ test('llms URL validation allows only the canonical external spec and plugin rep
       runnerPath,
       `import { validateLlmsSourceUrls } from ${JSON.stringify(guardUrl)};
 const allowed = validateLlmsSourceUrls([
-  'https://maxvideoai.com/mcp https://llmstxt.org/ https://github.com/camgraphe/maxvideoai-plugin',
+  'https://app.keyvo.cn/mcp https://llmstxt.org/ https://github.com/camgraphe/maxvideoai-plugin',
 ]);
 const rejected = validateLlmsSourceUrls([
   'https://github.com/camgraphe/not-the-plugin https://example.com/maxvideoai',
@@ -223,11 +227,10 @@ if (allowed.length !== 0) throw new Error('canonical sources rejected: ' + allow
 if (rejected.length !== 2) throw new Error('unexpected external source accepted: ' + rejected.join(' | '));
 `,
     );
-    const executable = resolve('frontend/node_modules/.bin/tsx');
-    const result = spawnSync(executable, ['--tsconfig', resolve('frontend/tsconfig.json'), runnerPath], {
+    const result = spawnSync(process.execPath, ['--import', require.resolve('tsx'), runnerPath], {
       cwd: resolve('.'),
       encoding: 'utf8',
-      env: { PATH: process.env.PATH ?? '', NODE_ENV: 'test' },
+      env: { PATH: process.env.PATH ?? '', NODE_ENV: 'test', TSX_TSCONFIG_PATH: resolve('frontend/tsconfig.json') },
     });
     assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   } finally {
@@ -248,10 +251,10 @@ test('host-aware robots blocks the API protocol host and preserves explicit publ
       headers: { host: 'api.maxvideoai.com', 'x-forwarded-host': 'maxvideoai.com' },
     }),
   );
-  assert.equal(await apiResponse.text(), '# MaxVideoAI protocol host\n\nUser-agent: *\nDisallow: /\n');
+  assert.equal(await apiResponse.text(), '# Keyvo protocol host\n\nUser-agent: *\nDisallow: /\n');
 
   const publicResponse = GET(
-    new Request('https://maxvideoai.com/robots.txt', {
+    new Request('https://app.keyvo.cn/robots.txt', {
       headers: { host: 'maxvideoai.com', 'x-forwarded-host': 'api.maxvideoai.com' },
     }),
   );

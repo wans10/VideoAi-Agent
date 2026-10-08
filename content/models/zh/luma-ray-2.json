@@ -1,0 +1,489 @@
+{
+  "marketingName": "Luma Ray 2",
+  "versionLabel": "Ray 2",
+  "seo": {
+    "title": "Luma Ray 2 规格、价格与旧版工作流 | VideoAI",
+    "description": "在 VideoAI 中使用 Luma Ray 2 上一代 Luma 路线制作电影级镜头、图生视频、源视频修改 (Modify) 以及成片画幅重构 (Reframe)。对于需要 Modify 关键帧控制或重构的新项目，建议使用 Ray 3.2。",
+    "image": "/hero/luma-dream.jpg"
+  },
+  "overview": "Luma Ray 2 是 VideoAI 中的上一代 Luma 路线。可用于复用旧版提示词、过往对比测试以及保持 Ray 2 兼容生成；对于涉及 Modify 关键帧和 Reframe 画幅重构的新 Luma 视频项目，建议直接使用 Ray 3.2。",
+  "hero": {
+    "title": "Luma Ray 2 — 单页面集成电影感生成、Modify 修改与 Reframe 画幅重构",
+    "intro": "当您需要复用旧版 Luma 提示词或保持兼容 Ray 2 的文生视频、图生视频、源视频 Modify 修改和 Reframe 任务时，请使用 Ray 2。对于新的 Luma 生产制作，Ray 3.2 是当前主流推荐路线。",
+    "badge": "旧版 Luma 路线 · 文生视频 + 图生视频 + Modify + Reframe",
+    "ctaPrimary": {
+      "label": "使用 Luma Ray 2 开始生成",
+      "href": "/app?engine=lumaRay2"
+    },
+    "secondaryLinks": [
+      {
+        "label": "对比 Ray 2 与 Ray 2 Flash →",
+        "href": "/zh/ai-video-engines/luma-ray-2-vs-luma-ray-2-flash"
+      },
+      {
+        "label": "浏览全部 Luma 案例 →",
+        "href": "/zh/examples/luma"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳应用场景",
+    "items": [
+      {
+        "title": "高品质电影感概念短片",
+        "icon": "camera"
+      },
+      {
+        "title": "时尚与产品主视觉动态",
+        "icon": "product"
+      },
+      {
+        "title": "带结尾定格指引的静图转视频",
+        "icon": "storyboard"
+      },
+      {
+        "title": "无需重新排布走位的源视频风格调整",
+        "icon": "wand2"
+      },
+      {
+        "title": "横屏转竖屏社媒重新分发",
+        "icon": "smartphone"
+      },
+      {
+        "title": "适合无缝循环的奢品与环境镜头",
+        "icon": "repeat2"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术概览",
+  "technicalOverview": [
+    {
+      "label": "生成工作流",
+      "body": "文生视频与图生视频，支持 5 秒或 9 秒片段"
+    },
+    {
+      "label": "编辑工作流",
+      "body": "Modify 与 Reframe 基于上传的源视频运行，而非固定的 5 秒或 9 秒预设"
+    },
+    {
+      "label": "分辨率",
+      "body": "生成模式支持 540p、720p 或 1080p"
+    },
+    {
+      "label": "画幅比例",
+      "body": "生成支持 16:9、9:16、4:3、3:4、21:9 及 9:21；Reframe 额外支持 1:1"
+    },
+    {
+      "label": "图像控制",
+      "body": "图生视频支持一张起始图片加可选结束图片；Modify 和 Reframe 亦支持可选参考静图"
+    },
+    {
+      "label": "Modify 选项",
+      "body": "VideoAI 开放的 Modify 预设：adhere_1 至 adhere_3、flex_1 至 flex_3 以及 reimagine_1 至 reimagine_3"
+    },
+    {
+      "label": "Reframe 选项",
+      "body": "目标画幅比例，配合可选网格锚点与裁剪窗口坐标"
+    },
+    {
+      "label": "计费参考",
+      "body": "生成起步价约 $0.50（5秒/540p），Modify 约 $0.12/秒，Reframe 约 $0.20/秒"
+    }
+  ],
+  "promptStructure": {
+    "title": "如何按工作流编写 Luma Ray 2 提示词",
+    "quote": "模式：Modify。目标：保留源视频的摄影机轨迹与节奏。更改：金属质感丝绸服饰，更冷的高光，更整洁的展厅背景。强度：flex_2。",
+    "description": "将 Ray 2 视为四个协同的工作流，而非单一通用的提示词输入框。恰当的提示词结构取决于您是在生成新镜头、动画化静图、修改现有片段，还是为新规格重构画幅。",
+    "steps": [
+      "在文生视频中，明确描述一个清晰主体、一组运镜轨迹、一种光影方向，然后选择时长、分辨率与画幅。",
+      "在图生视频中，让上传的静图锚定首帧，并在提示词中重点定义动态运动与场景演变。",
+      "仅在最终定格构图比自由动态更关键时才添加结束帧图片。",
+      "在 Modify 中，明确指出源片段必须保留的元素和需要改变的元素，然后选择合适的 adhere 或 reimagine 预设。",
+      "在 Reframe 中，重点描述优先主体与预期裁剪效果，无需重写整个场景。",
+      "使用简炼、镜头级的描述语言。当指令兼具电影感且克制明确时，Ray 2 的表现最佳。"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "当成片质量的重要性高于快速草稿迭代时，选用 Ray 2。",
+      "先通过文生视频或图生视频定稿，只有在主体走位与镜头节奏满意后再进入 Modify 环节。",
+      "当连贯性至关重要时使用 adhere 预设；仅在需要更大幅度视觉变革时才选择 flex 或 reimagine。",
+      "使用 Reframe 产出交付分发版本，尤其是从已确认的横屏母带裁切出的 9:16 和 1:1 版本。",
+      "生成模式用于全新镜头创作，编辑模式用于在保留优质原片节奏的同时变换风格或比例。"
+    ]
+  },
+  "compareLink": {
+    "label": "对比 Ray 2 与 Ray 2 Flash →",
+    "href": "/ai-video-engines/luma-ray-2-vs-luma-ray-2-flash"
+  },
+  "prompts": [
+    {
+      "title": "文生视频奢华大堂镜头",
+      "prompt": "黄昏时分的精品酒店大堂，温暖的实用光源映照在抛光大理石上，镜头缓慢向前推进，克制的电影级节奏，9s，16:9，1080p。"
+    },
+    {
+      "title": "图生视频时尚大片静图",
+      "prompt": "将上传的时尚大片静图动画化为带有轻微前推运动的效果，配以柔和的面料飘动与稳定的面部识别，保持高级棚拍光效，5s。"
+    },
+    {
+      "title": "Modify 风格转换",
+      "prompt": "保留源片段的剪辑节奏与摄影机轨迹，将服装更新为金属质感丝绸，降低高光色温，简化场景布置，flex_2。",
+      "notes": "请先上传源视频，然后选择与修改幅度相匹配的 modify 预设。"
+    },
+    {
+      "title": "面向社交平台的竖屏重构",
+      "prompt": "将上传的横屏时尚片段重构为干净的 9:16 竖屏裁切，优先保留人脸与肩部构图，在完整镜头中保持运动连贯性。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Luma Ray 2 在 VideoAI 中支持哪些工作流？",
+      "a": "Ray 2 在单一模型页面内整合了核心 Luma 工作流：文生视频、图生视频、源视频 Modify 修改和 Reframe 画幅重构。"
+    },
+    {
+      "q": "Modify（源视频修改）提供了哪些选项？",
+      "a": "Modify 基于上传的源视频运行，支持可选提示词和可选参考静图。VideoAI 开放了从 adhere_1 到 reimagine_3 的多种控制强度预设。"
+    },
+    {
+      "q": "Reframe（画幅重构）提供了哪些选项？",
+      "a": "Reframe 需要上传源视频并指定目标画幅比例，支持可选提示词、可选参考静图，以及可选的九宫格网格锚点与裁剪窗口坐标控制。"
+    },
+    {
+      "q": "什么时候应该选择 Ray 2 而不是 Ray 2 Flash？",
+      "a": "当您需要更高确定性的旗舰级电影质感终稿时选择 Ray 2；而 Ray 2 Flash 更适合快速草稿探索与低成本批量迭代。"
+    }
+  ],
+  "custom": {
+    "heroDesc1": "Luma Ray 2 在 VideoAI 中不再只是单一的文生视频页面，而是采用与更成熟的 LTX 和 Veo 页面相同的工作流优先模式：统一模型入口，集成多个实用的 Luma 工作流。",
+    "heroDesc2": "这在实际制作中至关重要。您可以直接从文本生成镜头、使静图动起来、修改满意的源视频片段，并为社交平台重新构图已确认的母带，无需切换模型系列或重新适应操作界面。",
+    "heroSupportLine": "适用于追求高品质电影质感，且需要在同一个 Luma 界面中同时完成生成与源视频编辑的专业制作。",
+    "heroSpecChips": [
+      {
+        "label": "文生视频",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图生视频",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "基于源视频 Modify 修改",
+        "icon": "videoToVideo"
+      },
+      {
+        "label": "Reframe 重构至 1:1 或 9:16",
+        "icon": "aspectRatio"
+      },
+      {
+        "label": "生成时长：5秒或9秒",
+        "icon": "duration"
+      },
+      {
+        "label": "生成支持 540p 至 1080p",
+        "icon": "resolution"
+      }
+    ],
+    "whyTitle": "为什么 Luma Ray 2 具有实用价值",
+    "heroHighlights": [
+      "单一模型，完整工作流覆盖||在同一个 Luma 页面中生成新片段、动画化静图、修改现有视频并重构已确认成片的画幅。",
+      "Modify 修改功能直观开放||直接提供 adherence、flex 和 reimagine 等控制预设，便于团队精准把控编辑相比源视频的偏离程度。",
+      "Reframe 画幅重构兼顾实用与交付||当已确认的横屏母带需要分发至付费信息流、移动端或电商展示位时，支持直接导出方形与竖屏版本。",
+      "清晰明确的产品梯度定位||Ray 2 作为旗舰高品质路线，Ray 2 Flash 专注高效草稿，两者均开放完整真实的公共工作流能力。"
+    ],
+    "specTitle": "真实规格 — VideoAI 中的 Luma Ray 2",
+    "specNote": "这些规格描述了 VideoAI 当前开放的真实 Luma 路由能力，而非精简的功能占位符。",
+    "specSections": [
+      {
+        "title": "生成工作流",
+        "intro": "文生视频与图生视频为核心创作模式：支持 5 秒或 9 秒、540p 至 1080p 分辨率、多种电影级画幅比例、可选无缝循环，以及图生视频下的可选结束帧指引。",
+        "items": [
+          "使用文生视频创作全新的电影级镜头。",
+          "当首帧构图与品牌视觉需严格一致时，选用图生视频。",
+          "仅在成片收尾构图非常关键时才添加结束帧图片。",
+          "利用无缝循环功能测试环境氛围或产品展示动态。"
+        ]
+      },
+      {
+        "title": "Modify 修改与 Reframe 画幅重构",
+        "intro": "工作流的扩充不仅是宣传文案。Ray 2 直接开放了源视频编辑能力，极大提升了模型在实际生产中的实用价值。",
+        "items": [
+          "Modify 能够在保留原始节奏与摄影机轨迹的同时，改变画面质感、服化造型或场景意境。",
+          "Adhere 预设更贴近源视频内容，而 flex 和 reimagine 允许更大程度的创意发挥。",
+          "Reframe 在保留动作连贯性的同时重塑分发画幅，全面支持方形与竖屏输出。",
+          "可选的裁剪与九宫格控制有助于确保核心主体始终位于新画幅的视觉重心。"
+        ]
+      }
+    ],
+    "whatTitle": "Luma Ray 2 在 VideoAI 中的运行机制",
+    "whatIntro1": "选择 Luma Ray 2 后，可使用“生成视频”进行文本或静图创作，或在上传源视频后切换至“Modify / Reframe”进行片段级编辑。",
+    "whatIntro2": "这既保持了模型层级的清晰简明，又把实用的 Luma 工作流整合在最合理的位置：模型页面与统一工作区之内。",
+    "whatFlowTitle": "操作流程",
+    "whatFlowSteps": [
+      "选择 Luma Ray 2 作为生成引擎。",
+      "文生与图生工作流选择“生成视频”，源视频编辑则切换至“Modify / Reframe”。",
+      "在生成模式下选择 5 秒或 9 秒时长，然后设置分辨率与画幅比例。",
+      "根据当前工作流上传对应素材：起始图片、可选结束图片或源视频。",
+      "对于 Modify 修改，选择恰当的 adherence 或 reimagine 预设。",
+      "在提交生成前确认实时价格，然后专注于当前核心工作流进行针对性迭代。"
+    ],
+    "tipsTitle": "核心优势与使用边界",
+    "strengths": [
+      "高价值的 Luma 工作流组合：生成、修改与画幅重构集中于同一界面。",
+      "在追求电影级顶级品质、同时后期制作涉及源视频调整时尤为实用。",
+      "相比拆分成多个独立的 modify 或 reframe 虚构模型，体系结构更加清晰。"
+    ],
+    "boundaries": [
+      "5 秒/9 秒时长及 540p 至 1080p 分辨率仅适用于生成模式，不代表源视频编辑的时长限制。",
+      "Modify 与 Reframe 的最终成片效果高度依赖所上传源视频素材的质量与清晰度。",
+      "Ray 2 属于高品质旗舰档位，前期快速创意探索仍推荐选用 Ray 2 Flash。"
+    ],
+    "finalPara1": "Luma Ray 2 是双模型 Luma 系列中的旗舰主力，如今已成为一个功能完备的工作流中枢，而非仅具基础特性的占位符。这实现了理想的平衡：极简的模型阵容，覆盖全面的 Luma 生产工作流。",
+    "finalButton": "使用 Luma Ray 2 生成"
+  },
+  "decision": {
+    "modelSlug": "luma-ray-2",
+    "hero": {
+      "eyebrow": "上一代 LUMA 路线",
+      "title": "Luma Ray 2",
+      "subtitle": "受支持的上一代 Luma 路线，涵盖生成、Modify 与 Reframe 工作流。",
+      "subtitleHighlights": [
+        "上一代 Luma 路线",
+        "Modify",
+        "Reframe"
+      ],
+      "paragraph": "当您需要兼容旧版 Luma 渲染或运行历史 Ray 2 工作流时，可以使用 Luma Ray 2。对于需要参考帧/关键帧指引的新版 Modify 和 Reframe 项目，建议从 Ray 3.2 开始；Ray 2 则主要用于复用历史提示词、兜底校验及参考过往案例。",
+      "primaryCta": {
+        "label": "打开旧版 Ray 2",
+        "href": "/app?engine=lumaRay2"
+      },
+      "secondaryCta": {
+        "label": "查看 Ray 3.2",
+        "href": "/zh/models/luma-ray-3-2"
+      },
+      "quickLinks": [
+        {
+          "label": "当前主流 Luma：Ray 3.2",
+          "href": "/zh/models/luma-ray-3-2"
+        },
+        {
+          "label": "对比 Flash",
+          "href": "/zh/ai-video-engines/luma-ray-2-vs-luma-ray-2-flash"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#luma-ray-2-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Luma Ray 2 案例",
+      "description": "上一代 Luma 制作工作流",
+      "renderLabel": "查看完整渲染",
+      "badges": [
+        "旧版路线",
+        "修改 + 重构画幅",
+        "1080p"
+      ],
+      "altContext": "Luma Ray 2 电影感视频案例"
+    },
+    "features": [
+      {
+        "title": "旧版 Luma 路线",
+        "body": "使用 Ray 2 复用历史提示词、查看过往案例并进行兼容性验证。",
+        "tone": "quality"
+      },
+      {
+        "title": "文本或图像起步",
+        "body": "从文本提示词生成，或动画化单张静图并支持可选结束帧指引。",
+        "tone": "reference"
+      },
+      {
+        "title": "修改源视频片段",
+        "body": "在保留已生效的主体走位与镜头节奏的同时，调整质感或细节。",
+        "tone": "continuity"
+      },
+      {
+        "title": "重构成片画幅",
+        "body": "将已确认的源视频转换为竖屏、方形或宽屏等多种交付版本。",
+        "tone": "reference"
+      },
+      {
+        "title": "5秒或9秒生成",
+        "body": "选择最高 1080p 分辨率的短小时长可控生成任务。",
+        "tone": "duration"
+      },
+      {
+        "title": "新编辑推荐 Ray 3.2",
+        "body": "若需要参考帧、关键帧控制或最新的 Reframe 表现，首选 Ray 3.2。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 Ray 2 还是 Ray 3.2？",
+        "body": "当前 Luma Modify 修改、关键帧控制和 Reframe 工作建议使用 Ray 3.2；Ray 2 适合复用旧版提示词、过往案例及兼容性测试。",
+        "cta": {
+          "label": "查看 Ray 3.2",
+          "href": "/zh/models/luma-ray-3-2"
+        }
+      },
+      {
+        "title": "需要修改现有视频素材？",
+        "body": "仅在必须使用旧版路线时才选用 Ray 2 Modify；对于新的源视频编辑任务，Ray 3.2 是首选的 Luma 方案。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "需要更强的全新生成能力？",
+        "body": "如果核心目标是顶级旗舰生成、带音频视频或更丰富的参考控制而非 Luma 旧版工作流，建议选用 Seedance、Kling 或 Veo。",
+        "cta": {
+          "label": "对比 Ray 2 与 Veo Fast",
+          "href": "/zh/ai-video-engines/luma-ray-2-vs-veo-3-1-fast"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文生视频",
+        "body": "针对全新的电影感镜头，撰写精炼的主体、运镜、光影与动态描述。"
+      },
+      {
+        "title": "图生视频",
+        "body": "使用单张起始图片锚定构图、产品形态或角色身份，再添加动态指令。"
+      },
+      {
+        "title": "结束帧",
+        "body": "仅在成片收尾姿态或最终构图极其关键时添加结束图片。"
+      },
+      {
+        "title": "Modify 修改",
+        "body": "上传源视频，指明必须保留与需要修改的内容，然后选择贴合度强度。"
+      },
+      {
+        "title": "Reframe 重构",
+        "body": "重点明确核心主体与交付画幅格式，无需重写整个场景。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "旧版 Luma Ray 2 价格一览",
+      "subtitle": "按时长与分辨率预设的 Ray 2 生成费用 — 当前 Luma 编辑与画幅重构推荐使用 Ray 3.2。",
+      "footnote": "生成模式采用预设时长与分辨率档位计费；Modify 与 Reframe 则根据源视频参数实时计费。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高 1080p",
+      "ctaHref": "/zh/pricing#luma-ray-2-pricing"
+    },
+    "meta": {
+      "title": "Luma Ray 2 旧版：价格、Modify 与 Reframe | VideoAI",
+      "description": "了解上一代 Luma 路线 Luma Ray 2 的旧版价格、案例展示、Modify、Reframe、Ray 2 Flash 差异对比及 Ray 3.2 迁移指引。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "luma-ray-2",
+    "section": {
+      "title": "提示词实验室 — Luma Ray 2",
+      "intro": null,
+      "tip": null,
+      "guide": null,
+      "referencesTitle": "Luma Ray 2 如何运用生成、Modify 与 Reframe"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [],
+    "engineWhy": [],
+    "demo": {
+      "title": "演示提示词 — Luma Ray 2",
+      "promptLabel": "Ray 2 工作流",
+      "prompt": "Luma Ray 2 渲染，9s，16:9，无声输出。\n一款优质产品置于黄金时段的咖啡桌上，清晰的反光与柔和的背景虚化。\n缓慢向前推镜，机位稳定，单一可读运动节拍，电影级景深。\n保持产品构图，避免文字模糊、附加品牌标识或过快运动。\n针对 Modify/Reframe，保留已确认的源视频运动，仅指定需要修改的内容。",
+      "notes": [],
+      "summary": {
+        "subject": "黄金时段咖啡馆中的产品特写",
+        "action": "镜头滑向产品并显现清晰反射",
+        "camera": "慢速推进，机位稳定，浅景深",
+        "style": "高级电影感质感，高光克制，无多余品牌标识",
+        "output": "Ray 2 无声渲染，可直接用于交付审阅"
+      },
+      "presentationOverrides": {
+        "modeLabel": "Ray 2 工作流",
+        "outputLabel": "输出",
+        "duration": "9s",
+        "aspectRatio": "16:9",
+        "audioChipMode": "silent",
+        "audioChipLabel": null,
+        "altContext": "Luma Ray 2 产品渲染案例"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "luma-ray-2",
+    "section": {
+      "title": "Luma Ray 2 案例",
+      "intro": "通过案例展示栏对比同一 Ray 2 系列下的全新生成、静图动态化、Modify 修改与交付画幅重构效果。",
+      "defaultCtaLabel": "查看全部 Luma 案例 →",
+      "recreateLabel": "复现此镜头 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "高品质 Luma 渲染",
+        "body": "在 Ray 2 中对比全新生成、首帧动态化、Modify 修改与 Reframe 画幅重构。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "一键复现渲染参数",
+        "body": "在应用中打开 Ray 2 并直接复用提示词、画幅比例与生成时长。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "无声输出",
+        "body": "Ray 2 在此 VideoAI 路线下不生成原生音频。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "支持起始图片与后期编辑",
+        "body": "动画化起始帧、修改源视频片段或重构已确认的母带画幅。",
+        "icon": "users"
+      },
+      {
+        "id": "proof-5",
+        "title": "Ray 2 终稿交付路线",
+        "body": "将 Ray 2 用于精选镜头制作与最终多规格交付版本。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  }
+}

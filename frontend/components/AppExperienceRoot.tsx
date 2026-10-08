@@ -21,5 +21,5 @@ export function AppExperienceRoot({ children, fontClass }: { children: ReactNode
       applyResolvedTheme('light');
     };
   }, [isApp]);
-  return <div className={`${fontClass}${isApp ? ' app-experience' : ''}`}>{children}</div>;
+  return <div className={`${fontClass}${isApp ? ' app-experience videoai-workspace' : ''}`}>{children}</div>;
 }

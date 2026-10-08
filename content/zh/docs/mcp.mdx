@@ -1,0 +1,160 @@
+---
+title: "Keyvo MCP：连接器、插件与工作流"
+description: "将 Keyvo 连接到 Claude、ChatGPT、Codex、OpenClaw 或自托管 n8n，了解设置、OAuth、精确报价、审批、参考素材与任务恢复。"
+date: "2026-07-14"
+updatedAt: "2026-09-25"
+authorId: "adrien-millot"
+image: "/og/brand-2026-09-25.png"
+keywords: ["Keyvo 插件", "ChatGPT AI 视频插件", "Claude AI 视频连接器", "Keyvo MCP", "Codex MCP"]
+slug: "mcp"
+lang: "zh"
+---
+
+Keyvo 将兼容助手和自动化工具连接到你的账号模型、额度及私有素材库，用于对比当前视频模型、准备报价、批准生成和找回结果。
+
+## 选择集成方式
+
+| 环境 | 设置方式 | 注意事项 |
+| --- | --- | --- |
+| [Claude 连接器](/zh/integrations/claude) | 自定义远程 MCP 连接器 | Claude Desktop 已测试；Claude Code 是独立且尚未验证的宿主路径。 |
+| [ChatGPT MCP 应用](/zh/integrations/chatgpt) | 开发者模式 | 完整 MCP 写入操作要求符合条件的 Business、Enterprise 或 Edu 工作区。Pro 仅支持读取 / 获取。未声称已进入公开应用目录。 |
+| [Codex 插件](/zh/integrations/codex) | Keyvo 插件 0.3.3 或远程 MCP | Codex CLI 已测试。 |
+| [OpenClaw 技能](/zh/integrations/openclaw) | 直接 MCP 或已上架 ClawHub 技能 | 已在有限条件下测试；私有参考导入及频道内联展示尚未验证。 |
+| [n8n 视频工作流](/zh/integrations/n8n) | 手动配置的自托管 MCP Client | 已在 2.38.7 中测试精确报价与人工审批。[公开模板 19591](https://n8n.io/workflows/19591-turn-creative-briefs-into-approved-maxvideoai-generations-with-human-review/) 可用，OAuth 需手动配置。未声称支持 n8n Cloud 或 AI Agent。 |
+
+Cursor、GitHub Copilot、Gemini CLI 和 Microsoft Copilot 正在准备中，其 Keyvo 设置页尚未发布。
+
+## MCP 服务器地址
+
+```text
+https://api.maxvideoai.com/mcp
+```
+
+使用 Streamable HTTP 和 OAuth 2.1，请求权限为 `openid,email,profile`。不要在地址后添加令牌、密码、查询参数或 API 密钥。按客户端指南操作，它会在浏览器打开 Keyvo 登录和 OAuth 同意页面。
+
+## 授权账号
+
+1. 根据上方指南配置连接。
+2. 登录 Keyvo 或创建账号；如有要求，验证邮箱。
+3. 核对授权，返回客户端并确认连接的账号。
+4. 任何付费生成前，核对并批准精确报价。
+
+连接免费，规划不增加 Keyvo 订阅。付费生成使用与网站相同的额度余额；助手提供商可能有自己的套餐要求。断开时，请在客户端移除集成，并在 Keyvo 撤销授权。
+
+兼容性按宿主记录。Claude Desktop 和 Codex CLI 有已验证检查点；ChatGPT 网页与 Claude Code 尚无端到端检查点。OpenClaw 和自托管 n8n MCP Client 保持“有限条件下已测试”的状态。日期和限制见各集成指南。
+
+## 助手应如何工作
+
+助手仍负责创作对话：需求、脚本、镜头计划、提示词和参考构思。需要动态事实或账号操作时，再使用 Keyvo：
+
+- 调用 `list_models` 和 `get_model_details`，不要依赖记忆中的模型信息；
+- 只询问会实质影响画质、预算、时长、音频或参考的选择；
+- 尊重用户已选择的兼容模型；
+- 用户未决定时，先展示最符合需求的可执行方案，再提供可信的低成本备选；
+- 使用 `calculate_project_budget`，以相同重试假设为完整影片方案估价；
+- 最终请求准备好后再用 `prepare_generation`；
+- 得到返回精确报价的明确批准后，才能调用 `confirm_generation`。
+
+画质并非单一预设。多镜头项目可对比画质优先方案和混合模型备选，解释每个镜头的模型选择。创作尝试会计费，应在预算中单独列出。
+
+## 工具
+
+| 工具 | 用途 | 是否写入或消费？ |
+| --- | --- | --- |
+| `get_account_status` | 读取连接、额度、试用状态、限制及安全账号入口。 | 否。 |
+| `list_models` | 按模式与需求查找当前可执行图像和视频模型。 | 否。 |
+| `get_model_details` | 读取模型精确设置、参考用途、限制、证据与当前计价输入。 | 否。 |
+| `recommend_models` | 按需求提供少量基于事实的模型和取舍。 | 否。 |
+| `calculate_project_budget` | 按当前价格对比一至四套完整项目方案。 | 否，估算不等于报价。 |
+| `list_media` | 列出连接用户已就绪的私有图像、视频或音频。 | 否。 |
+| `create_reference_upload_link` | 创建短期私有 Keyvo 浏览器上传入口。 | 创建上传入口，不创建提供商任务。 |
+| `import_reference_files` | 将最多八个经用户授权的宿主附件或生成文件导入私有库。 | 存储私有素材，不开始生成。 |
+| `prepare_generation` | 验证模型、设置、参考、归属和余额，返回短期精确报价。 | 不扣费、不生成。 |
+| `confirm_generation` | 批准一份精确报价并幂等提交任务。 | 是，仅在明确批准后。 |
+| `get_generation_status` | 读取已知任务、完成结果、失败及退款状态。 | 否。 |
+| `list_recent_generations` | 找回近期任务，避免误提交重复任务。 | 否。 |
+| `present_generation` | 在兼容宿主内联展示已完成且属于账号的图像或可播放视频。 | 否；以结果链接和素材库作为回退。 |
+| `create_topup_link` | 为缺少金额创建安全 Keyvo 充值入口。 | 支付仅在 Keyvo 完成。 |
+
+生产发布开关决定哪些可写工具对外开放。客户端不可仅凭本参考推断可用性，以实时 `tools/list` 为准。
+
+## 图像、视频和音频参考
+
+助手可构思、创建或选择参考媒体。Keyvo 接收并存储媒体，并不要求助手放弃创作职责。
+
+连接的 Keyvo 素材库已有素材时，使用 `list_media`。ChatGPT 或其他兼容宿主提供经用户授权的附件或生成文件时，`import_reference_files` 可导入最多八个文件，返回可直接用于请求的私有 `assetId`，无需再列出素材库。
+
+宿主不提供文件句柄时，用 `image`、`video` 或 `audio` 调用 `create_reference_upload_link`。兼容 ChatGPT 或 Claude 界面可显示对话内多文件导入器；返回的 HTTPS 页面保留为手动回退。Codex 和 Claude Code 可用打包辅助工具为每个本地文件建立一个链接。任何路径都不会把原始本地文件名发给 MCP 服务器、发布公开 URL 或要求 Computer Use。
+
+始终为所选模式调用 `get_model_details`，读取媒体类型、用途、顺序、数量、格式、大小和时长限制。不要照搬另一模型的规则。私有源 URL 与稳定 `assetId` 保持在账号边界内。
+
+Seedance 2.5 经可用 ModelArk 路由支持文生视频、图生视频、参考生视频和延长。依赖 BytePlus LAS 的直接视频生视频在获得 LAS 权限前不开放；此限制不影响其他已支持模式。
+
+## 预算、精确价格和批准
+
+`calculate_project_budget` 免费，适合早期规划。它根据命名方案、镜头时长、模型选择和明确创作尝试假设估算影片，不预留容量、扣除额度或创建任务。
+
+用户选择具体请求后，`prepare_generation` 进行最终验证，返回带有效期的账号精确价格。展示价格，等待明确批准，然后用报价标识调用一次 `confirm_generation`。
+
+额度不足时：
+
+1. 为该报价调用 `create_topup_link`；
+2. 引导用户访问返回的 Keyvo 账单页；
+3. 用户表示支付完成后，再调用 `get_account_status`；
+4. 旧报价不再有效，重新调用 `prepare_generation`；
+5. 展示新的精确价格，并再次取得批准。
+
+插件、模型建议及项目预算不要求额外订阅。付费生成使用现有按量付费 Keyvo 额度。
+
+## 任务、素材库、失败与重试
+
+任务已接收不等于视频已完成。对已知任务轮询 `get_generation_status`，或用 `list_recent_generations` 找回任务。完成后，`present_generation` 可在兼容 MCP Apps 的宿主内联展示图像或可播放视频。其他客户端使用返回的结果链接和 Keyvo 素材库入口作为通用回退。不要因首次调用超时就重复提交付费生成。
+
+成功图像和视频存入与网站相同的私有账号素材库。仅返回 Keyvo 提供的官方结果、工作台或素材库入口。
+
+确定技术失败时，解释返回的失败与退款状态，不要自动重试。创作重试是新的付费尝试，需要新报价和新的明确批准。
+
+## 入门额度
+
+促销开启时，符合条件的已验证账号可能获得一次 Seedance 2 Mini 入门生成。这是一次性促销权益，不是可重复使用的钱包余额。可用性由 `get_account_status` 返回，核对账号前不要承诺。实时预设允许时，音频可保持开启且不改变促销价格。
+
+## 断开与撤销
+
+1. 在客户端移除 Keyvo。
+2. 打开 [Keyvo 账号连接](/account/connections)。
+3. 撤销对应授权。
+4. 确认下一次受保护调用需要新的浏览器批准。
+
+## 隐私与安全
+
+- 工具结果不包含账号邮箱。
+- 获取用户与流量的分析数据不包含提示词、令牌、秘密、完整参考 URL、私有媒体或支付详情。
+- 已认证响应使用 `Cache-Control: private, no-store`。
+- 报价会过期，付费提交幂等，服务器账号限制仍适用。
+- 助手不能声称生成内容已自动获得发布或商业使用许可。
+
+## 排查问题
+
+### 浏览器返回 127.0.0.1 后无法连接
+
+桌面客户端临时回调监听已停止或使用不同端口。保持客户端打开，从客户端重新连接并批准新请求，不要复用旧授权 URL。
+
+### 再次要求认证
+
+OAuth 授权可能已过期或撤销。重新连接并完成新的浏览器批准，不要把 bearer token 粘贴到 MCP 地址。
+
+### `HTTP 401 / JSON-RPC -32001`
+
+请求缺少有效 bearer 授权。让客户端跟随 `WWW-Authenticate` 验证要求及其 `resource_metadata` 发现 URL。
+
+### `INTERNAL_ERROR`
+
+保留返回的 `correlationId`，停止重复提交；持续失败时联系 Keyvo 支持。
+
+### 缺少模式
+
+重新调用 `get_model_details`。一个模型可能经不同提供商路由支持多模式，不应因某一路由不可用就认为整个模型禁用。
+
+## 当前边界
+
+这不是通用 REST API，也不发放客户 API 密钥。它不控制 Studio 时间轴、不编辑任意源视频、不管理客户回调端点、不在对话中收集支付详情、不暴露隐藏模型，也不自动批准媒体发布。

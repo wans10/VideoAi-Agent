@@ -65,7 +65,7 @@ function UpscaleLibraryDialog({
   sourceOptions,
 }: UpscaleLibraryModalProps) {
   const { locale } = useI18n();
-  const close = locale === 'fr' ? 'Fermer' : locale === 'es' ? 'Cerrar' : 'Close';
+  const close = locale === 'fr' ? 'Fermer' : locale === 'es' ? 'Cerrar' : locale === 'zh' ? '关闭' : 'Close';
   const { dialogRef, onDialogKeyDown } = useAccessibleModal({ onClose });
 
   return (

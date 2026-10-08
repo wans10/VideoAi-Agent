@@ -334,7 +334,7 @@ test('completed Audio recovery targets the Audio workspace and exposes the exact
   assert.equal(recovery.workspace.url, 'https://maxvideoai.com/app/audio?job=audio-job-1');
   assert.deepEqual(buildGenerationResourceLinks(recovery), [{
     uri: 'https://cdn.maxvideoai.com/generated/audio-job-1.wav',
-    name: 'MaxVideoAI output',
+    name: 'Keyvo output',
     description: 'output for generation audio-job-1',
     mimeType: 'audio/wav',
   }]);
@@ -526,11 +526,11 @@ test('recovery tools expose exact annotations and schemas and cap response resou
   const tools = (await session.client.listTools()).tools;
   assert.match(
     tools.find((tool) => tool.name === 'get_generation_status')?.description ?? '',
-    /MaxVideoAI library/i,
+    /(?:VideoAI|Keyvo) library/i,
   );
   assert.match(
     tools.find((tool) => tool.name === 'list_recent_generations')?.description ?? '',
-    /same connected user.*MaxVideoAI library/i,
+    /same connected user.*(?:VideoAI|Keyvo) library/i,
   );
   for (const name of ['get_generation_status', 'list_recent_generations', 'present_generation']) {
     const tool = tools.find((candidate) => candidate.name === name);

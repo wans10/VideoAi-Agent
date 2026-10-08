@@ -13,7 +13,7 @@ export function TermsArticleEs({
   return (
     <article className="stack-gap-lg text-base leading-relaxed text-text-secondary">
       <p>
-        Estos Términos regulan tu acceso y uso del espacio de trabajo MaxVideoAI (el «Servicio»), incluidas las funciones de vídeo asistido por IA, las recargas del
+        Estos Términos regulan tu acceso y uso del espacio de trabajo Keyvo (el «Servicio»), incluidas las funciones de vídeo asistido por IA, las recargas del
         wallet, la gestión de trabajos y los recibos. Al crear una cuenta o usar el Servicio aceptas estos Términos, la Política de privacidad y la Política de cookies.
       </p>
 
@@ -83,18 +83,18 @@ export function TermsArticleEs({
             las leyes aplicables y cualquier restricción específica del modelo o proveedor utilizado.
           </li>
           <li>
-            <strong>Licencia sobre los medios generados.</strong> Por cada salida creada con MaxVideoAI nos concedes una licencia mundial, no exclusiva, libre de regalías,
+            <strong>Licencia sobre los medios generados.</strong> Por cada salida creada con Keyvo nos concedes una licencia mundial, no exclusiva, libre de regalías,
             transferible y sublicenciable para alojar, reproducir, indexar, mostrar y usar esos medios con el fin de (a) operar el Servicio, (b) mejorar el enrutamiento, las
             protecciones y los modelos, (c) realizar investigaciones de seguridad o abuso y (d) mostrar galerías de Ejemplos, páginas de plantillas, casos de uso u otras
             acciones de marketing.
           </li>
           <li>
-            <strong>Controles de privacidad.</strong> Los nuevos renders son privados por defecto. La publicación pública, la indexación general del sitio y cualquier inclusión en el rollout de Video SEO son gestionadas por MaxVideoAI mediante un flujo interno de revisión. Si necesitas retirar, desindexar o eliminar un render público, puedes escribir a{' '}
+            <strong>Controles de privacidad.</strong> Los nuevos renders son privados por defecto. La publicación pública, la indexación general del sitio y cualquier inclusión en el rollout de Video SEO son gestionadas por Keyvo mediante un flujo interno de revisión. Si necesitas retirar, desindexar o eliminar un render público, puedes escribir a{' '}
             <ObfuscatedEmailLink
-              user="support"
-              domain="maxvideoai.com"
-              label="support@maxvideoai.com"
-              placeholder="support [at] maxvideoai.com"
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
               unstyled
               className="font-medium"
             />
@@ -105,7 +105,7 @@ export function TermsArticleEs({
             incidencias. Las salidas también son tuyas, sujetas a la licencia anterior, y eres responsable de los derechos de terceros incluidos en tus entradas o salidas.
           </li>
           <li>
-            <strong>Nuestra propiedad intelectual.</strong> MaxVideoAI mantiene la propiedad de la plataforma, las interfaces, los pipelines, las mejoras técnicas y los sistemas
+            <strong>Nuestra propiedad intelectual.</strong> Keyvo mantiene la propiedad de la plataforma, las interfaces, los pipelines, las mejoras técnicas y los sistemas
             de seguridad. Estos Términos no te transfieren esos derechos.
           </li>
         </ul>
@@ -203,10 +203,10 @@ export function TermsArticleEs({
         <p>
           ¿Dudas sobre estos Términos? Escribe a{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

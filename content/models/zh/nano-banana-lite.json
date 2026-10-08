@@ -1,0 +1,396 @@
+{
+  "marketingName": "Nano Banana Lite",
+  "versionLabel": "Lite",
+  "seo": {
+    "title": "Nano Banana Lite - 快速 1K Google 图像生成 | VideoAI",
+    "description": "通过 VideoAI 使用 Nano Banana Lite 快速生成 1K 静态图像和本地编辑，直接路由至 Google Gemini 图像 API。"
+  },
+  "overview": "Nano Banana Lite 是 Google Nano Banana 图像系列中快速、高效的 1K 成员。适用于大批量静态草稿、社交概念、本地图像编辑，以及在将精选想法推进至 Nano Banana 2 或 Nano Banana Pro 之前的快速视觉探索。",
+  "pricingNotes": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
+  "hero": {
+    "title": "Nano Banana Lite - 快速 1K 图像生成",
+    "intro": "通过直连 Google Lite 路由，快速生成静态图像草稿、进行快速本地编辑和大批量创意探索。",
+    "badge": "文本 -> 图像 · 图像 -> 图像 · 仅限 1K",
+    "ctaPrimary": {
+      "label": "启动 Nano Banana Lite",
+      "href": "/app/image?engine=nano-banana-lite"
+    },
+    "secondaryLinks": [
+      {
+        "label": "打开 Nano Banana 2",
+        "href": "/zh/models/nano-banana-2"
+      },
+      {
+        "label": "打开 Nano Banana Pro",
+        "href": "/zh/models/nano-banana-pro"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "快速 1K 社交概念图",
+        "icon": "sparkles"
+      },
+      {
+        "title": "基于参考图的本地编辑",
+        "icon": "layers"
+      },
+      {
+        "title": "大批量草稿生成",
+        "icon": "storyboard"
+      }
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "当速度比 2K 或 4K 精修更重要时，选用 Lite。",
+      "请勿在此启用搜索基础功能；如需接地工作流，请使用 Nano Banana 2 或 Pro。",
+      "使用参考图可保留主体身份、姿态、色调或产品细节。",
+      "提示词效果最佳时，编辑指令应简短明确。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "动感街头静态图",
+      "prompt": "1K 充满活力的夜间街头时尚静态图，反光雨地面，青色与琥珀色霓虹灯，动感低机位角度，时尚杂志编辑级打光。"
+    },
+    {
+      "title": "本地参考图编辑",
+      "prompt": "保留参考图中主体的姿态和构图，但将夹克替换为亮面红色技术感外壳，并将背景改为蓝调城市夜景。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Nano Banana Lite 支持哪种分辨率？",
+      "a": "Nano Banana Lite 仅支持 1K 图像输出。如需 2K 和 4K 输出，请使用 Nano Banana 2 或 Nano Banana Pro。"
+    },
+    {
+      "q": "Nano Banana Lite 是否支持搜索基础功能？",
+      "a": "不支持。Lite 专为快速生成和编辑设计。当提示词需要 Google 搜索基础功能时，请使用 Nano Banana 2 或 Nano Banana Pro。"
+    }
+  ],
+  "custom": {
+    "heroEyebrow": "Nano Banana Lite 图像模型",
+    "heroSupportLine": "最适合快速 1K 草稿、社交视觉图和快速图像编辑。",
+    "heroSpecChips": [
+      {
+        "label": "文本->图像",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图像->图像",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "仅限 1K",
+        "icon": "resolution"
+      },
+      {
+        "label": "无搜索基础功能"
+      }
+    ],
+    "whyTitle": "为什么选择 Lite",
+    "heroDesc1": "Nano Banana Lite 保持静态图像工作流的快速与专注：单一分辨率、直连 Google 路由，创作界面中无 Pro 专属控制项。",
+    "heroDesc2": "当您需要快速探索多个创意方向、再决定哪个值得进行高分辨率渲染时，它是最佳的第一步。",
+    "heroHighlights": [
+      "快速草稿||使用 1K 输出进行快速创意发想和社交概念测试。",
+      "参考图编辑||上传源图像以保留主体、产品、姿态或色调。",
+      "清晰的系列升级路径||当需要搜索功能、2K 或 4K 时，将已审定概念移至 Nano Banana 2 或 Pro。"
+    ],
+    "specSections": [
+      {
+        "title": "Lite 专属选项",
+        "items": [
+          "直连 Google 模型：gemini-3.1-flash-lite-image。",
+          "分辨率：仅限 1K。",
+          "模式：文本生图和图像生图。",
+          "Lite 不开放搜索基础功能。",
+          "参考图输入最多支持 14 张图像。"
+        ]
+      }
+    ],
+    "strengths": [
+      "用于快速图像草稿。",
+      "保持提示词简洁且视觉表达直接。",
+      "当主体或物体必须保持可辨认时，使用参考图。"
+    ],
+    "boundaries": [
+      "仅限静态图像。",
+      "仅限 1K 输出。",
+      "无搜索基础功能。",
+      "如需 2K/4K，请使用 Nano Banana 2 或 Pro。"
+    ],
+    "relatedTitle": "Nano Banana 系列",
+    "relatedSubtitle": "根据输出需求选择 Google 图像模型，而非视频风格评分。",
+    "relatedItems": [
+      {
+        "brand": "Google",
+        "title": "Nano Banana 2",
+        "modelSlug": "nano-banana-2",
+        "description": "适用于 0.5K 至 4K、更宽比例以及可选的搜索基础功能。",
+        "ctaLabel": "打开 Nano Banana 2"
+      },
+      {
+        "brand": "Google",
+        "title": "Nano Banana Pro",
+        "modelSlug": "nano-banana-pro",
+        "description": "适用于专业级 4K 最终输出、文字排版和复杂的接地资产。",
+        "ctaLabel": "打开 Nano Banana Pro"
+      }
+    ],
+    "safetyTitle": "安全与肖像权",
+    "safetyRules": [
+      "禁止生成色情内容或涉及未成年人的内容。",
+      "禁止仇恨、骚扰或血腥暴力相关请求。",
+      "未经同意，禁止模仿真实人物或公众人物。"
+    ]
+  },
+  "decision": {
+    "modelSlug": "nano-banana-lite",
+    "hero": {
+      "eyebrow": "AI 图像 · Google",
+      "title": "Nano Banana Lite - 快速 1K 图像生成",
+      "subtitle": "在视频之前先探索图像。",
+      "subtitleHighlights": [
+        "在视频之前先探索图像"
+      ],
+      "paragraph": "Nano Banana Lite 可生成和编辑 1K AI 图像。尝试视觉创意、创建变体或调整图像局部。当需要 2K 或 4K 输出时，升级至 Nano Banana 2 或 Pro。",
+      "primaryCta": {
+        "label": "启动 Nano Banana Lite",
+        "href": "/app/image?engine=nano-banana-lite"
+      },
+      "secondaryCta": {
+        "label": "打开 Nano Banana 2",
+        "href": "/zh/models/nano-banana-2"
+      },
+      "quickLinks": [
+        {
+          "label": "打开图像工作区",
+          "href": "/app/image?engine=nano-banana-lite"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#nano-banana-lite-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        },
+        {
+          "label": "打开 Nano Banana Pro",
+          "href": "/zh/models/nano-banana-pro"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Nano Banana Lite 示例",
+      "description": "通过直连 Google Lite 路由，快速生成静态图像草稿、进行快速本地编辑和大批量创意探索。",
+      "renderLabel": "查看图像",
+      "badges": [
+        "文本 -> 图像",
+        "图像 -> 图像",
+        "仅限 1K"
+      ],
+      "altContext": "Nano Banana Lite - 快速 1K 图像生成"
+    },
+    "features": [
+      {
+        "title": "功能特性",
+        "body": "Nano Banana Lite 是 Google Nano Banana 图像系列中快速、高效的 1K 成员。适用于大批量静态草稿、社交概念、本地图像编辑，以及在将精选想法推进至 Nano Banana 2 或 Nano Banana Pro 之前的快速视觉探索。",
+        "tone": "quality"
+      },
+      {
+        "title": "工作流程",
+        "body": "通过直连 Google Lite 路由，快速生成静态图像草稿、进行快速本地编辑和大批量创意探索。",
+        "tone": "reference"
+      },
+      {
+        "title": "输出规格",
+        "body": "文本 -> 图像 · 图像 -> 图像 · 仅限 1K",
+        "tone": "duration"
+      },
+      {
+        "title": "实时价格",
+        "body": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "打开 Nano Banana 2",
+        "body": "Nano Banana Lite 是 Google Nano Banana 图像系列中快速、高效的 1K 成员。适用于大批量静态草稿、社交概念、本地图像编辑，以及在将精选想法推进至 Nano Banana 2 或 Nano Banana Pro 之前的快速视觉探索。",
+        "cta": {
+          "label": "打开 Nano Banana 2",
+          "href": "/zh/models/nano-banana-2"
+        }
+      },
+      {
+        "title": "打开 Nano Banana Pro",
+        "body": "通过直连 Google Lite 路由，快速生成静态图像草稿、进行快速本地编辑和大批量创意探索。",
+        "cta": {
+          "label": "打开 Nano Banana Pro",
+          "href": "/zh/models/nano-banana-pro"
+        }
+      },
+      {
+        "title": "需要提示词示例？",
+        "body": "打开提示词实验室，获取结构化的起始点。",
+        "cta": {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本生图",
+        "body": "通过直连 Google Lite 路由，快速生成静态图像草稿、进行快速本地编辑和大批量创意探索。"
+      },
+      {
+        "title": "图像生图",
+        "body": "Nano Banana Lite 是 Google Nano Banana 图像系列中快速、高效的 1K 成员。适用于大批量静态草稿、社交概念、本地图像编辑，以及在将精选想法推进至 Nano Banana 2 或 Nano Banana Pro 之前的快速视觉探索。"
+      },
+      {
+        "title": "输出设置",
+        "body": "文本 -> 图像 · 图像 -> 图像 · 仅限 1K"
+      },
+      {
+        "title": "价格确认",
+        "body": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Nano Banana Lite 定价概览",
+      "subtitle": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
+      "footnote": "Nano Banana Lite 按每张 1K 图像计费。VideoAI 在生成前显示准确的实时报价。",
+      "ctaLabel": "查看完整价格",
+      "ctaHref": "/zh/pricing#nano-banana-lite-pricing"
+    },
+    "meta": {
+      "title": "Nano Banana Lite - 快速 1K Google 图像生成 | VideoAI",
+      "description": "通过 VideoAI 使用 Nano Banana Lite 快速生成 1K 静态图像和本地编辑，直接路由至 Google Gemini 图像 API。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "nano-banana-lite",
+    "section": {
+      "title": "如何为 Nano Banana Lite 撰写提示词",
+      "intro": "保持请求简洁：主体、构图、打光以及编辑目标。",
+      "tip": null,
+      "guide": null,
+      "referencesTitle": "Nano Banana Lite 如何使用参考图"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [],
+    "engineWhy": [],
+    "demo": null,
+    "imageExamples": {
+      "title": "Nano Banana Lite 图像提示词示例",
+      "intro": "适用于广告静态图、文字排版海报、参考图编辑以及 2K 至 4K 最终输出。",
+      "workspaceLabel": "打开图像工作区",
+      "items": [
+        {
+          "id": "quality-1",
+          "title": "广告静态图",
+          "badge": "2K 静态图",
+          "kind": "quality",
+          "prompt": "白色亚克力台面上琥珀色香水瓶的 2K 广告静态图，柔和的工作室主光，干净的阴影，左上角精确标题\"AURA NOIRE\"，底部边缘小型 logo 组合。"
+        },
+        {
+          "id": "typography-2",
+          "title": "文字排版海报",
+          "badge": "文字排版",
+          "kind": "typography",
+          "prompt": "竖版 4K 海报，高级编辑网格，石墨色背景，精确标题\"MIDNIGHT LAUNCH\"，副标题\"LIMITED DROP\"，清晰的层级结构，宽裕的页边距，可读性强的文字。"
+        },
+        {
+          "id": "edit-3",
+          "title": "参考图编辑",
+          "badge": "图像生图",
+          "kind": "edit",
+          "prompt": "参照此产品参考图，保留形状、logo 和比例。将场景改为午夜蓝调工作室，改善反光效果，去除灰尘和指纹。"
+        },
+        {
+          "id": "layout-4",
+          "title": "2K 转 4K 最终版",
+          "badge": "4K 最终版",
+          "kind": "layout",
+          "prompt": "将已审定的 2K 构图重新输出为 4K 最终版。锐化细节，保持文字排版一致，保留品牌色彩、产品位置和锁定的构图框架。"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "nano-banana-lite",
+    "section": {
+      "title": "Nano Banana Lite 示例",
+      "intro": "探索真实社区作品，了解 Nano Banana Lite 在 VideoAI 工作流中的表现。",
+      "defaultCtaLabel": null,
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "真实社区作品",
+        "body": "看看 Nano Banana Lite 能创作出什么。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "一键复刻任意画面",
+        "body": "一键跳转至应用，复用相同的设置。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "原生音频",
+        "body": "对话、环境音和音效同步生成。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "多镜头连贯性",
+        "body": "在序列中保持角色、风格和场景的一致性。",
+        "icon": "users"
+      },
+      {
+        "id": "proof-5",
+        "title": "生产级安全",
+        "body": "内置安全护栏和安全过滤器，支持负责任的内容审核。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": false
+  }
+}

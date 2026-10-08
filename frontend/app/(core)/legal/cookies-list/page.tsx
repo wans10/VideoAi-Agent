@@ -16,18 +16,23 @@ type CookieRow = {
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
     title: 'Cookie list',
-    description: 'Inventory of cookies and SDKs used by MaxVideoAI.',
+    description: 'Inventory of cookies and SDKs used by Keyvo.',
     imageAlt: 'Cookie inventory table.',
   },
   fr: {
     title: 'Liste des cookies',
-    description: 'Inventaire des cookies et SDK utilisés par MaxVideoAI.',
+    description: 'Inventaire des cookies et SDK utilisés par Keyvo.',
     imageAlt: 'Tableau d’inventaire des cookies.',
   },
   es: {
     title: 'Lista de cookies',
-    description: 'Inventario de cookies y SDK utilizados por MaxVideoAI.',
+    description: 'Inventario de cookies y SDK utilizados por Keyvo.',
     imageAlt: 'Tabla de inventario de cookies.',
+  },
+  zh: {
+    title: 'Cookie 清单',
+    description: 'Keyvo 使用的 Cookie 和 SDK 清单。',
+    imageAlt: 'Cookie 清单表格。',
   },
 };
 
@@ -47,7 +52,7 @@ const PAGE_COPY: Record<
 > = {
   en: {
     title: 'Cookie & SDK inventory',
-    intro: 'We track the cookies and SDKs used on maxvideoai.com. Non-essential technologies are only activated after consent.',
+    intro: 'We track the cookies and SDKs used on app.keyvo.cn. Non-essential technologies are only activated after consent.',
     lastUpdated: 'Last updated: 26 October 2025',
     categoryLabel: {
       essential: 'Essential',
@@ -67,7 +72,7 @@ const PAGE_COPY: Record<
   },
   fr: {
     title: 'Inventaire des cookies et SDK',
-    intro: 'Nous référençons les cookies et SDK utilisés sur maxvideoai.com. Les technologies non essentielles ne sont activées qu’après consentement.',
+    intro: 'Nous référençons les cookies et SDK utilisés sur app.keyvo.cn. Les technologies non essentielles ne sont activées qu’après consentement.',
     lastUpdated: 'Dernière mise à jour : 26 octobre 2025',
     categoryLabel: {
       essential: 'Essentiels',
@@ -87,7 +92,7 @@ const PAGE_COPY: Record<
   },
   es: {
     title: 'Inventario de cookies y SDK',
-    intro: 'Mantenemos un inventario de los cookies y SDK utilizados en maxvideoai.com. Las tecnologías no esenciales solo se activan tras el consentimiento.',
+    intro: 'Mantenemos un inventario de los cookies y SDK utilizados en app.keyvo.cn. Las tecnologías no esenciales solo se activan tras el consentimiento.',
     lastUpdated: 'Última actualización: 26 de octubre de 2025',
     categoryLabel: {
       essential: 'Esenciales',
@@ -104,6 +109,26 @@ const PAGE_COPY: Record<
       duration: 'Duración',
     },
     contactIntro: 'Si tienes preguntas o detectas una incoherencia, contacta con',
+  },
+  zh: {
+    title: 'Cookie 与 SDK 清单',
+    intro: '我们记录 app.keyvo.cn 上使用的 Cookie 和 SDK。非必要技术仅在获得同意后才会激活。',
+    lastUpdated: '最后更新：2025年10月26日',
+    categoryLabel: {
+      essential: '必要',
+      analytics: '分析统计',
+      advertising: '广告营销',
+    },
+    noneInUse: '目前未使用。在此类别的技术激活前，我们将更新此表格。',
+    required: '服务运行所必需。无法在偏好管理中心停用。',
+    consentOnly: '仅在您通过 Cookie 横幅或偏好中心授权同意后激活。',
+    columns: {
+      name: '名称',
+      provider: '提供商',
+      purpose: '用途',
+      duration: '有效期',
+    },
+    contactIntro: '有任何疑问或发现不一致之处？请联系',
   },
 };
 
@@ -125,7 +150,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
     {
       name: 'mv-consent',
-      provider: 'MaxVideoAI',
+      provider: 'Keyvo',
       purpose: 'Stores cookie banner preferences (timestamp, categories).',
       duration: '13 months',
       category: 'essential',
@@ -148,7 +173,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
     {
       name: 'mv-consent',
-      provider: 'MaxVideoAI',
+      provider: 'Keyvo',
       purpose: 'Enregistre les préférences du bandeau cookies (horodatage, catégories).',
       duration: '13 mois',
       category: 'essential',
@@ -171,9 +196,32 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
     {
       name: 'mv-consent',
-      provider: 'MaxVideoAI',
+      provider: 'Keyvo',
       purpose: 'Almacena las preferencias del banner de cookies (marca temporal, categorías).',
       duration: '13 meses',
+      category: 'essential',
+    },
+  ],
+  zh: [
+    {
+      name: 'sb-access-token',
+      provider: 'Supabase',
+      purpose: '已登录用户的身份验证会话令牌（必需）。',
+      duration: '1 周（有活动时刷新）',
+      category: 'essential',
+    },
+    {
+      name: 'sb-refresh-token',
+      provider: 'Supabase',
+      purpose: '用于无感会话更新的刷新令牌（必需）。',
+      duration: '滚动 4 周',
+      category: 'essential',
+    },
+    {
+      name: 'mv-consent',
+      provider: 'Keyvo',
+      purpose: '存储 Cookie 横幅偏好（时间戳、类别）。',
+      duration: '13 个月',
       category: 'essential',
     },
   ],
@@ -188,7 +236,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: metadata.description,
     hreflangGroup: 'legalCookiesList',
     englishPath: '/legal/cookies-list',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: metadata.imageAlt,
   });
@@ -261,10 +309,10 @@ export default async function CookiesListPage() {
         <p className="text-sm text-text-secondary">
           {copy.contactIntro}{' '}
           <ObfuscatedEmailLink
-            user="privacy"
-            domain="maxvideoai.com"
-            label="privacy@maxvideoai.com"
-            placeholder="privacy [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

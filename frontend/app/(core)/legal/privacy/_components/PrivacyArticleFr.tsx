@@ -14,14 +14,14 @@ export function PrivacyArticleFr({
   return (
     <article className="stack-gap-lg text-base leading-relaxed text-text-secondary">
       <p>
-        Cette Politique explique comment MaxVideoAI (« nous ») collecte, utilise, partage et protège vos données personnelles lorsque vous visitez maxvideoai.com, ouvrez un compte, achetez des crédits
+        Cette Politique explique comment Keyvo (« nous ») collecte, utilise, partage et protège vos données personnelles lorsque vous visitez app.keyvo.cn, ouvrez un compte, achetez des crédits
         ou générez des sorties IA.
       </p>
 
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">1. Périmètre</h3>
         <p>
-          La Politique couvre les traitements effectués dans l’espace de travail MaxVideoAI : gestion de compte, facturation, analytics, génération de contenu et support.
+          La Politique couvre les traitements effectués dans l’espace de travail Keyvo : gestion de compte, facturation, analytics, génération de contenu et support.
         </p>
       </section>
 
@@ -139,10 +139,10 @@ export function PrivacyArticleFr({
           Selon la loi applicable, vous pouvez demander l’accès, la rectification, l’effacement, la limitation, l’opposition ou la portabilité. Vous pouvez retirer votre consentement à tout moment en
           écrivant à{' '}
           <ObfuscatedEmailLink
-            user="privacy"
-            domain="maxvideoai.com"
-            label="privacy@maxvideoai.com"
-            placeholder="privacy [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           . Vous pouvez introduire une plainte auprès de votre autorité locale (en France : CNIL).
         </p>
@@ -166,10 +166,10 @@ export function PrivacyArticleFr({
         <p>
           Question sur la confidentialité ? Écrivez à{' '}
           <ObfuscatedEmailLink
-            user="privacy"
-            domain="maxvideoai.com"
-            label="privacy@maxvideoai.com"
-            placeholder="privacy [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

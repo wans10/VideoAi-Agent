@@ -3619,8 +3619,8 @@ test('GPT Image 2 registry exposes unified generation and edit mappings', () => 
   const gptImage2 = registry.find((entry) => entry.id === 'gpt-image-2');
 
   assert.ok(gptImage2);
-  assert.equal(gptImage2?.modes.find((mode) => mode.mode === 't2i')?.falModelId, 'openai/gpt-image-2');
-  assert.equal(gptImage2?.modes.find((mode) => mode.mode === 'i2i')?.falModelId, 'openai/gpt-image-2/edit');
+  assert.equal(gptImage2?.modes.find((mode) => mode.mode === 't2i')?.falModelId, 'gpt-image-2');
+  assert.equal(gptImage2?.modes.find((mode) => mode.mode === 'i2i')?.falModelId, 'gpt-image-2');
   assert.deepEqual(
     gptImage2?.engine.inputSchema?.optional?.find((field) => field.id === 'quality')?.values,
     ['low', 'medium', 'high']

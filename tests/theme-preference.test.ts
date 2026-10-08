@@ -19,10 +19,10 @@ function createThemeWindow(initialDark = false) {
   return { window: dom.window as unknown as Window, setDark(value: boolean) { dark = value; listeners.forEach((listener) => listener()); }, listenerCount: () => listeners.size };
 }
 
-test('absence follows the OS and defaults to light when the OS is light', () => {
-  const browser = createThemeWindow(false);
-  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'system', resolvedTheme: 'light' });
-  browser.setDark(true);
+test('absence defaults to light and explicit system follows the OS', () => {
+  const browser = createThemeWindow(true);
+  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'light', resolvedTheme: 'light' });
+  browser.window.localStorage.setItem('mv-app-theme', 'system');
   assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'system', resolvedTheme: 'dark' });
 });
 
@@ -49,6 +49,7 @@ test('theme preference publishes same-tab changes and applies the resolved root 
 
 test('system changes notify subscribers and cleanup removes every listener', () => {
   const browser = createThemeWindow(false);
+  browser.window.localStorage.setItem('mv-app-theme','system');
   const snapshots: string[] = [];
   const cleanup = subscribeToThemePreference(browser.window, (snapshot) => snapshots.push(snapshot.resolvedTheme));
   browser.setDark(true);
@@ -67,7 +68,7 @@ test('blocked localStorage falls back to tab memory without crashing consumers',
     get() { throw new DOMException('Storage blocked', 'SecurityError'); },
   });
 
-  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'system', resolvedTheme: 'light' });
+  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'light', resolvedTheme: 'light' });
   assert.doesNotThrow(() => persistThemePreference(browser.window, 'dark'));
   assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'dark', resolvedTheme: 'dark' });
 });
@@ -75,7 +76,7 @@ test('blocked localStorage falls back to tab memory without crashing consumers',
 test('the old marketing preference does not set the new app default', () => {
   const browser = createThemeWindow(false);
   browser.window.localStorage.setItem('mv-theme', 'dark');
-  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'system', resolvedTheme: 'light' });
+  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'light', resolvedTheme: 'light' });
   persistThemePreference(browser.window, 'light');
   assert.equal(readThemeSnapshot(browser.window).resolvedTheme, 'light');
 });
@@ -84,7 +85,7 @@ test('the old marketing preference does not set the new app default', () => {
 test('invalid app values fall back to the OS without persisting an implicit choice', () => {
   const browser = createThemeWindow(false);
   browser.window.localStorage.setItem('mv-app-theme', 'invalid');
-  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'system', resolvedTheme: 'light' });
+  assert.deepEqual(readThemeSnapshot(browser.window), { preference: 'light', resolvedTheme: 'light' });
   assert.equal(browser.window.localStorage.getItem('mv-app-theme'), 'invalid');
 });
 
@@ -125,7 +126,7 @@ test('other-tab changes and clearing storage resync subscribers, while explicit 
   browser.window.localStorage.clear();
   browser.setDark(true);
   browser.window.dispatchEvent(new browser.window.StorageEvent('storage', { key: null, storageArea: browser.window.localStorage }));
-  assert.deepEqual(snapshots.slice(-2), ['system:dark', 'system:dark']);
+  assert.deepEqual(snapshots.slice(-2), ['light:light', 'light:light']);
   assert.ok(snapshots.includes('light:light'));
   cleanup();
 });
@@ -134,7 +135,7 @@ test('other-tab changes and clearing storage resync subscribers, while explicit 
 test('missing system APIs still resolve to light and leave explicit dark usable', () => {
   const dom = new JSDOM('<!doctype html><html></html>', { url: 'https://maxvideoai.test' });
   const browserWindow = dom.window as unknown as Window;
-  assert.deepEqual(readThemeSnapshot(browserWindow), { preference: 'system', resolvedTheme: 'light' });
+  assert.deepEqual(readThemeSnapshot(browserWindow), { preference: 'light', resolvedTheme: 'light' });
   const received: string[] = [];
   const cleanup = subscribeToThemePreference(browserWindow, (snapshot) => received.push(snapshot.resolvedTheme));
   persistThemePreference(browserWindow, 'dark');

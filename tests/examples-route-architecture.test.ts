@@ -147,7 +147,7 @@ test('Kling examples landing owns motion-focused CTR metadata without a site-nam
 });
 
 test('Seedance examples landing leads with Seedance 2.5 while retaining the family context', () => {
-  const title = 'Seedance 2.5 Video Examples, Prompts & Settings | MaxVideoAI';
+  const title = 'Seedance 2.5 Video Examples, Prompts & Settings | Keyvo';
   const landing = getExampleModelLanding('en', 'seedance');
   const family = getModelFamilyDefinition('seedance');
 
@@ -180,9 +180,9 @@ test('Seedance examples landing leads with Seedance 2.5 while retaining the fami
     es: /^Explora ejemplos de Seedance 2\.5/,
   } as const;
   const localizedMetaTitles = {
-    en: 'Seedance 2.5 Video Examples, Prompts & Settings | MaxVideoAI',
-    fr: 'Exemples Seedance 2.5, prompts et réglages | MaxVideoAI',
-    es: 'Ejemplos de Seedance 2.5, prompts y ajustes | MaxVideoAI',
+    en: 'Seedance 2.5 Video Examples, Prompts & Settings | Keyvo',
+    fr: 'Exemples Seedance 2.5, prompts et réglages | Keyvo',
+    es: 'Ejemplos de Seedance 2.5, prompts y ajustes | Keyvo',
   } as const;
 
   for (const locale of ['en', 'fr', 'es'] as const) {
@@ -222,12 +222,10 @@ test('Seedance examples landing leads with Seedance 2.5 while retaining the fami
   });
 
   assert.equal(metadata.description, landing.metaDescription);
-  assert.equal(metadata.alternates?.canonical, 'https://maxvideoai.com/examples/seedance');
+  assert.equal(metadata.alternates?.canonical, 'https://app.keyvo.cn/examples/seedance');
   assert.deepEqual(metadata.alternates?.languages, {
-    en: 'https://maxvideoai.com/examples/seedance',
-    fr: 'https://maxvideoai.com/fr/galerie/seedance',
-    es: 'https://maxvideoai.com/es/galeria/seedance',
-    'x-default': 'https://maxvideoai.com/examples/seedance',
+    zh: 'https://app.keyvo.cn/zh/examples/seedance',
+    'x-default': 'https://app.keyvo.cn/zh/examples/seedance',
   });
 });
 
@@ -354,7 +352,7 @@ test('examples route components own nav and JSON-LD rendering', () => {
   assert.ok(nextStepsIndex > gallerySectionIndex);
   assert.match(
     pageViewSource,
-    /<ExamplesIntroHero[\s\S]*?heroTitle=\{heroTitle\}/,
+    /<ExamplesIntroHero[\s\S]*?heroTitle=\{isModelLanding \? heroTitle : room\.title\}/,
   );
   assert.match(pageViewSource, /detailsCtaLabel=\{galleryUiCopy\.detailsCta\}/);
   assert.match(pageViewSource, /ExamplesJsonLdScripts/, 'page view should compose JSON-LD scripts');

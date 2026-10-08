@@ -412,6 +412,6 @@ test('P0 discovery config and localized content own no finished price or rate', 
   }
   assert.doesNotMatch(paygDataSource, /(?:amount|total|rate)Cents\s*:/);
   assert.doesNotMatch(localeSource, /\$(?:0|[1-9]\d*\.\d)|\b\d+(?:\.\d+)?\s*cents?\b/i);
-  assert.equal((jsonLdSource.match(/price: '10\.00'/g) ?? []).length, 2);
+  assert.doesNotMatch(jsonLdSource, /price: '10\.00'/, 'workspace schema does not advertise an unrelated fixed purchase price');
   assert.doesNotMatch(jsonLdSource, /ltx-2-5|wan-3|grok-imagine-video-1-5|flux-3/);
 });

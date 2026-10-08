@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: A
     hreflangGroup: 'editorialStandards',
     title: copy.meta.title,
     description: copy.meta.description,
-    keywords: ['MaxVideoAI editorial standards', 'AI video benchmark methodology', 'AI video corrections policy'],
+    keywords: ['Keyvo editorial standards', 'AI video benchmark methodology', 'AI video corrections policy'],
     imageAlt: copy.hero.title,
   });
 }

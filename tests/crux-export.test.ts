@@ -64,4 +64,3 @@ test('history requests explicitly ask for 40 periods and never include the API k
   }});
   assert.equal(JSON.stringify(result).includes('private-test-key'),false);
 });
-

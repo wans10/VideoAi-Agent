@@ -1,18 +1,19 @@
+import { conversationCopy } from '@/lib/studio/conversation-copy';
 import type {ImageConversationTurn} from './image-conversation-contract';
-export type ConversationLocale = 'en' | 'fr';
+export type ConversationLocale = 'en' | 'fr' | 'zh';
 export function conversationFailurePresentation(
   generation: ImageConversationTurn['generation'],
   locale: ConversationLocale,
 ): string {
-  const failure = locale === 'fr' ? 'La création a échoué.' : 'Creation failed.';
+  const failure = locale === 'zh' ? '生成失败。' : locale === 'fr' ? 'La création a échoué.' : 'Creation failed.';
   const refund = generation?.paymentStatus === 'refunded_wallet'
-    ? locale === 'fr' ? ' Le paiement a été remboursé sur votre wallet.' : ' Your payment was refunded to your wallet.'
+    ? locale === 'zh' ? ' 款项已退回钱包。' : locale === 'fr' ? ' Le paiement a été remboursé sur votre wallet.' : ' Your payment was refunded to your wallet.'
     : '';
-  const next = locale === 'fr' ? ' Une nouvelle tentative nécessite un nouveau devis.' : ' A new attempt needs a new quote.';
+  const next = locale === 'zh' ? ' 再次生成需要新报价。' : locale === 'fr' ? ' Une nouvelle tentative nécessite un nouveau devis.' : ' A new attempt needs a new quote.';
   return failure + refund + next;
 }
 export function conversationQuotePresentation(request: NonNullable<ImageConversationTurn['quote']>['summary'], locale: ConversationLocale, outputDurationSec?:number) {
-  const t = (en: string, fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   const referenceLabels = (request.references ?? []).map(reference => {
     switch(reference.role) {
       case 'source_video': return t('source video','vidéo source');

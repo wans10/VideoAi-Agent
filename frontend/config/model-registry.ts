@@ -47,8 +47,9 @@ export function resolveModelRegistryPublicSlug(slug: string): ModelRegistryEntry
   return byPublicSlug.get(slug.trim().toLowerCase()) ?? null;
 }
 
-export function buildLocalizedModelPath(locale: 'en' | 'fr' | 'es', slug: string): string {
+export function buildLocalizedModelPath(locale: 'en' | 'fr' | 'es' | 'zh', slug: string): string {
   if (locale === 'fr') return `/fr/modeles/${slug}`;
   if (locale === 'es') return `/es/modelos/${slug}`;
+  if (locale === 'zh') return `/zh/models/${slug}`;
   return `/models/${slug}`;
 }

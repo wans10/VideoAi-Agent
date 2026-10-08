@@ -18,7 +18,7 @@ export const THEME_BOOTSTRAP = `(function(){
       }catch(e){}
     }
     if(saved==='light'||saved==='dark')theme=saved;
-    else{try{theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}catch(e){theme='light';}}
+    else if(saved==='system'){try{theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}catch(e){theme='light';}}
   }
   if(theme==='dark')document.documentElement.setAttribute('data-theme','dark');
   else document.documentElement.removeAttribute('data-theme');

@@ -2,8 +2,8 @@
   "marketingName": "Nano Banana Pro",
   "versionLabel": "Pro",
   "seo": {
-    "title": "Nano Banana Pro – 4K Texto→Imagen y edición | MaxVideoAI",
-    "description": "Genera stills 2K y 4K con Nano Banana Pro. Salida 2K/4K de alta fidelidad, referencias multi‑imagen y workflow comercial directamente en MaxVideoAI.",
+    "title": "Nano Banana Pro – 4K Texto→Imagen y edición | VideoAI",
+    "description": "Genera stills 2K y 4K con Nano Banana Pro. Salida 2K/4K de alta fidelidad, referencias multi‑imagen y workflow comercial directamente en VideoAI.",
     "image": "https://media.maxvideoai.com/marketing/marketing/5977bed2-7e9a-489c-a437-3232c99bc078.png"
   },
   "overview": "Nano Banana Pro es la mejora premium para marcas que necesitan texto legible, personajes consistentes y stills listos para exportar. Itera en 2K y luego cambia a 4K cuando el frame esté bloqueado — dentro del mismo Image Lab.",
@@ -114,7 +114,7 @@
     },
     {
       "q": "¿Cuántas imágenes de referencia puedo usar?",
-      "a": "En la UI de MaxVideoAI, mantén las referencias ligeras para conservar el control. Los límites avanzados dependen de la ruta activa."
+      "a": "En la UI de VideoAI, mantén las referencias ligeras para conservar el control. Los límites avanzados dependen de la ruta activa."
     },
     {
       "q": "¿Soporta edits sin máscara?",
@@ -122,7 +122,7 @@
     },
     {
       "q": "¿Está autorizado para uso comercial?",
-      "a": "Úsalo para trabajo comercial cuando tus inputs, referencias y outputs respeten tus licencias y las reglas de MaxVideoAI."
+      "a": "Úsalo para trabajo comercial cuando tus inputs, referencias y outputs respeten tus licencias y las reglas de VideoAI."
     }
   ],
   "pricingNotes": "$0.20 por imagen 2K, $0.39 en 4K. El precio se muestra en vivo dentro del workspace antes de renderizar.",
@@ -154,7 +154,7 @@
     ],
     "whyTitle": "Por qué Nano Banana Pro es potente",
     "heroDesc1": "Genera stills 2K o 4K con texto nítido y tono preciso, junto a tus motores de video.",
-    "heroDesc2": "Una sola wallet, un solo lab de prompts y logging completo dentro de MaxVideoAI.",
+    "heroDesc2": "Una sola wallet, un solo lab de prompts y logging completo dentro de VideoAI.",
     "heroHighlights": [
       "Texto y layouts legibles||Pensado para assets de marketing donde la tipografía debe aguantar.",
       "Edits semánticos sin máscara||Describe el cambio; mantén el resto consistente (composición, iluminación, identidad).",
@@ -185,7 +185,7 @@
       "Solo imágenes (sin motion).",
       "Las salidas 4K cuestan $0.39/imagen (2K cuesta $0.20/imagen).",
       "Los batches son de 1–8 imágenes por run.",
-      "Los límites de referencia/imagen dependen de la ruta activa de MaxVideoAI y de los topes de la UI."
+      "Los límites de referencia/imagen dependen de la ruta activa de VideoAI y de los topes de la UI."
     ],
     "safetyTitle": "Seguridad y personas / semejanza",
     "safetyRules": [
@@ -270,7 +270,7 @@
       },
       {
         "title": "Workspace de imagen",
-        "body": "Genera y edita assets dentro de MaxVideoAI.",
+        "body": "Genera y edita assets dentro de VideoAI.",
         "tone": "duration"
       }
     ],
@@ -325,13 +325,13 @@
     "pricingCopy": {
       "title": "Precios de Nano Banana Pro de un vistazo",
       "subtitle": "Totales por escenario de imagen. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 4K",
       "ctaHref": "/es/precios#nano-banana-pro-pricing"
     },
     "meta": {
-      "title": "Nano Banana Pro: precios, imágenes 4K y tipografía | MaxVideoAI",
+      "title": "Nano Banana Pro: precios, imágenes 4K y tipografía | VideoAI",
       "description": "Explora Nano Banana Pro: precios, stills 2K/4K de campaña, tipografía, ediciones con referencia y workflows de assets de marca."
     }
   },

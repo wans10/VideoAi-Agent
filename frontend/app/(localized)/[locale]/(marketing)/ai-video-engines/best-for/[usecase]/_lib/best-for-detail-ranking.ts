@@ -154,71 +154,87 @@ function buildPickReason(locale: AppLocale, usecaseSlug: string, criterion: stri
     en: ['Best balance of', 'Strong option for', 'Useful when you need'],
     fr: ['Meilleur équilibre pour', 'Option forte pour', 'Utile si vous cherchez'],
     es: ['Mejor equilibrio para', 'Opción fuerte para', 'Útil si necesitas'],
+    zh: ['最佳平衡点：', '强力推荐选项：', '实用首选：针对'],
   };
   const suffixes: Record<string, Record<AppLocale, string>> = {
     'cinematic-realism': {
       en: 'cinematic camera direction',
       fr: 'une direction caméra cinématique',
       es: 'dirección de cámara cinematográfica',
+      zh: '电影级镜头运镜',
     },
     'character-reference': {
       en: 'stable identity across shots',
       fr: 'une identité stable entre les plans',
       es: 'identidad estable entre planos',
+      zh: '跨镜头角色一致性',
     },
     'reference-to-video': {
       en: 'controlled reference workflows',
       fr: 'des workflows de référence contrôlés',
       es: 'workflows de referencia controlados',
+      zh: '受控的参考生成工作流',
     },
     'multi-shot-video': {
       en: 'planned sequences',
       fr: 'des séquences planifiées',
       es: 'secuencias planificadas',
+      zh: '规划好的连续分镜',
     },
     '4k-video': {
       en: 'final delivery detail',
       fr: 'le niveau de détail final',
       es: 'detalle para entrega final',
+      zh: '最终交付级细节',
     },
     ads: {
       en: 'campaign-ready output',
       fr: 'un rendu prêt pour campagne',
       es: 'salidas listas para campaña',
+      zh: '商业活动级交付质量',
     },
     'ugc-ads': {
       en: 'creator-style social clips',
       fr: 'des clips sociaux style créateur',
       es: 'clips sociales estilo creador',
+      zh: '创作者风格短视频',
     },
     'product-videos': {
       en: 'clean product storytelling',
       fr: 'un storytelling produit propre',
       es: 'storytelling de producto limpio',
+      zh: '清晰的商品叙事展示',
     },
     'lipsync-dialogue': {
       en: 'speaking character control',
       fr: 'le contrôle de personnages parlants',
       es: 'control de personajes con diálogo',
+      zh: '说话角色精准对口型',
     },
     'fast-drafts': {
       en: 'fast iteration loops',
       fr: 'des boucles d’itération rapides',
       es: 'ciclos rápidos de iteración',
+      zh: '快速创意迭代预览',
     },
     'stylized-anime': {
       en: 'stylized motion',
       fr: 'du mouvement stylisé',
       es: 'movimiento estilizado',
+      zh: '风格化艺术动态',
     },
     'image-to-video': {
       en: 'motion from approved images',
       fr: 'l’animation depuis images validées',
       es: 'movimiento desde imágenes aprobadas',
+      zh: '基于选定静态图的动态呈现',
     },
   };
   const prefix = prefixes[locale]?.[Math.min(rank - 1, 2)] ?? prefixes.en[Math.min(rank - 1, 2)];
-  const suffix = suffixes[usecaseSlug]?.[locale] ?? suffixes[usecaseSlug]?.en ?? (locale === 'fr' ? 'ce cas d’usage' : locale === 'es' ? 'este objetivo' : 'this use case');
+  const suffix = suffixes[usecaseSlug]?.[locale] ?? suffixes[usecaseSlug]?.en ?? (locale === 'fr' ? 'ce cas d’usage' : locale === 'es' ? 'este objetivo' : locale === 'zh' ? '此应用场景' : 'this use case');
+  if (locale === 'zh') {
+    return `${prefix}${criterion}，契合${suffix}。`;
+  }
   const connector = locale === 'en' ? 'for' : locale === 'es' ? 'en' : 'sur';
   return `${prefix} ${criterion.toLowerCase()} ${connector} ${suffix}.`;
 }
@@ -231,6 +247,7 @@ function buildPickBullets(locale: AppLocale, criteria: string[], rank: number) {
     en: ['Strong', 'Good', 'Practical'],
     fr: ['Fort sur', 'Bon sur', 'Pratique pour'],
     es: ['Fuerte en', 'Bueno en', 'Práctico para'],
+    zh: ['突出：', '良好：', '实用：'],
   };
   const [first, second, third] = labels[locale] ?? labels.en;
   return [`${first} ${primary.toLowerCase()}`, `${second} ${secondary.toLowerCase()}`, `${third} ${tertiary.toLowerCase()}`];

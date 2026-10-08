@@ -2,11 +2,11 @@
   "marketingName": "Google Veo 3.1",
   "versionLabel": "3.1",
   "seo": {
-    "title": "Veo 3.1 | Modelo de video IA de Google, specs y precios | MaxVideoAI",
-    "description": "Usa Veo 3.1 en MaxVideoAI para video IA cinematográfico, control guiado por referencias, audio nativo, specs en tiempo real y precios antes de generar.",
+    "title": "Veo 3.1 | Modelo de video IA de Google, specs y precios | VideoAI",
+    "description": "Usa Veo 3.1 en VideoAI para video IA cinematográfico, control guiado por referencias, audio nativo, specs en tiempo real y precios antes de generar.",
     "image": "/hero/veo-3-1-hero.jpg"
   },
-  "overview": "Veo 3.1 es el modelo de video IA de Google actual en MaxVideoAI para video cinematografico, workflows text-to-video e image-to-video, referencias, audio nativo y precios por segundo en tiempo real.",
+  "overview": "Veo 3.1 es el modelo de video IA de Google actual en VideoAI para video cinematografico, workflows text-to-video e image-to-video, referencias, audio nativo y precios por segundo en tiempo real.",
   "hero": {
     "title": "Veo 3.1 — modelo Veo actual para video cinematográfico y control guiado por referencias",
     "intro": "Google Veo 3.1 es el modelo de video IA Veo 3 actual para video cinematografico, workflows text-to-video e image-to-video, guiado por referencias y audio nativo cuando necesitas la via principal de Veo para anuncios, films de producto y secuencias de marca mas pulidas.",
@@ -87,7 +87,7 @@
     },
     {
       "label": "Resolución",
-      "body": "720p o 1080p expuestos en la ruta actual de MaxVideoAI a 24 fps"
+      "body": "720p o 1080p expuestos en la ruta actual de VideoAI a 24 fps"
     },
     {
       "label": "Formatos",
@@ -150,11 +150,11 @@
   "faqs": [
     {
       "q": "¿Qué es Veo 3.1?",
-      "a": "En MaxVideoAI, Veo 3.1 es el modelo de video IA de Google actual para clips cinematicos cortos, prompts text-to-video, runs image-to-video, workflows guiados por referencias, audio nativo y extension."
+      "a": "En VideoAI, Veo 3.1 es el modelo de video IA de Google actual para clips cinematicos cortos, prompts text-to-video, runs image-to-video, workflows guiados por referencias, audio nativo y extension."
     },
     {
       "q": "¿Veo 3.1 está disponible en Europa o Reino Unido?",
-      "a": "Sí. MaxVideoAI enruta los trabajos Veo mediante endpoints de proveedor compatibles, sin contratos Veo separados."
+      "a": "Sí. VideoAI enruta los trabajos Veo mediante endpoints de proveedor compatibles, sin contratos Veo separados."
     },
     {
       "q": "¿Veo 3.1 puede generar video vertical?",
@@ -178,7 +178,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "Genera videos cortos y cinematográficos con Google DeepMind Veo 3.1 directamente en tu workspace de MaxVideoAI. Texto→Video, animación desde imagen inicial, referencia→video, guiado opcional con último frame, presets de encuadre y audio nativo viven en un solo motor.",
+    "heroDesc1": "Genera videos cortos y cinematográficos con Google DeepMind Veo 3.1 directamente en tu workspace de VideoAI. Texto→Video, animación desde imagen inicial, referencia→video, guiado opcional con último frame, presets de encuadre y audio nativo viven en un solo motor.",
     "heroDesc2": "Describe la escena, elige 4, 6 u 8 segundos, selecciona 16:9, 9:16 o 1:1, decide si quieres audio nativo y luego genera desde texto, añade una imagen inicial, cambia a Referencia para controlar identidad/estilo o suma un último frame cuando el final deba quedar bloqueado.",
     "heroSupportLine": "Hecho para tomas hero de marca, transiciones guiadas de inicio a fin, revelaciones de producto pulidas y variantes de campaña repetibles.",
     "whyTitle": "Por qué Veo 3.1 es potente",
@@ -215,10 +215,10 @@
         "icon": "storyboard"
       }
     ],
-    "whatTitle": "Qué es realmente Veo 3.1 en MaxVideoAI",
+    "whatTitle": "Qué es realmente Veo 3.1 en VideoAI",
     "whatIntro1": "Sobre el papel, Veo 3.1 es el último modelo de video de formato corto de DeepMind con audio más rico y mejor adherencia al prompt.",
-    "whatIntro2": "En MaxVideoAI, Veo 3.1 se expone como un motor controlable y listo para producción:",
-    "whatFlowTitle": "MaxVideoAI lo encapsula en un flujo simple:",
+    "whatIntro2": "En VideoAI, Veo 3.1 se expone como un motor controlable y listo para producción:",
+    "whatFlowTitle": "VideoAI lo encapsula en un flujo simple:",
     "whatFlowSteps": [
       "1. Elige Veo 3.1 como motor.",
       "2. Genera desde texto o añade una imagen inicial.",
@@ -227,8 +227,8 @@
       "5. Configura duración (4/6/8 s), formato y resolución (720p o 1080p).",
       "6. Compara con otros motores en la misma interfaz."
     ],
-    "specTitle": "Specs reales - ruta Veo 3.1 en MaxVideoAI (720p/1080p, 4-8 s)",
-    "specNote": "Estas specs describen la ruta Veo 3.1 expuesta hoy en MaxVideoAI. 720p/1080p son opciones de la ruta MaxVideoAI, no una afirmación sobre todas las capacidades posibles de Veo 3.1 del proveedor.",
+    "specTitle": "Specs reales - ruta Veo 3.1 en VideoAI (720p/1080p, 4-8 s)",
+    "specNote": "Estas specs describen la ruta Veo 3.1 expuesta hoy en VideoAI. 720p/1080p son opciones de la ruta VideoAI, no una afirmación sobre todas las capacidades posibles de Veo 3.1 del proveedor.",
     "specSections": [
       {
         "title": "Encuadre directable",
@@ -251,7 +251,7 @@
         ]
       }
     ],
-    "specValueProp": "Veo 3.1 en MaxVideoAI te da presets de encuadre, control de audio nativo, seeds y Extend — se comporta como una cámara directable, no una caja negra.",
+    "specValueProp": "Veo 3.1 en VideoAI te da presets de encuadre, control de audio nativo, seeds y Extend — se comporta como una cámara directable, no una caja negra.",
     "imageTitle": "Flujo image-to-video con Google Veo 3.1 (+ Nano Banana)",
     "imageIntro": "Combina Google Veo 3.1 con Nano Banana para fijar el estilo e iterar el movimiento.",
     "imageFlow": [
@@ -284,7 +284,7 @@
     ],
     "boundaries": [
       "Hasta 8 segundos por render; alarga encadenando clips (o Extend).",
-      "720p y 1080p son las resoluciones expuestas por esta ruta de MaxVideoAI.",
+      "720p y 1080p son las resoluciones expuestas por esta ruta de VideoAI.",
       "Solo 24 fps.",
       "Texto UI pequeño y letras diminutas son poco fiables — añade en post."
     ],
@@ -332,7 +332,7 @@
     "faqs": [
       {
         "q": "¿Veo 3.1 está disponible en Europa o Reino Unido?",
-        "a": "Sí. MaxVideoAI enruta los trabajos Veo mediante endpoints de proveedor compatibles, sin contratos Veo separados."
+        "a": "Sí. VideoAI enruta los trabajos Veo mediante endpoints de proveedor compatibles, sin contratos Veo separados."
       },
       {
         "q": "¿Veo 3.1 puede generar video vertical?",
@@ -352,8 +352,8 @@
       }
     ],
     "relatedTitle": "Explorar otros modelos",
-    "relatedSubtitle": "Compara precios, latencia y opciones de salida en los otros motores disponibles en MaxVideoAI.",
-    "finalPara1": "Veo 3.1 en MaxVideoAI te da acceso directo pay‑as‑you‑go al motor de video corto más controlable de DeepMind.",
+    "relatedSubtitle": "Compara precios, latencia y opciones de salida en los otros motores disponibles en VideoAI.",
+    "finalPara1": "Veo 3.1 en VideoAI te da acceso directo pay‑as‑you‑go al motor de video corto más controlable de DeepMind.",
     "finalPara2": "Los controles de encuadre y audio hacen que se sienta como una cámara virtual, no solo otro generador en caja negra.",
     "finalButton": "Abrir Generate",
     "tipsIntro": "Veo 3.1 es más fácil de controlar cuando escribes como un brief de plano: encuadre, un solo movimiento de cámara y cues claros de iluminación.",
@@ -493,14 +493,14 @@
     "pricingCopy": {
       "title": "Precios de Veo 3.1 de un vistazo",
       "subtitle": "Precios totales con audio activado. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 8 s en 4K",
       "ctaHref": "/es/precios#veo-3-1-pricing"
     },
     "meta": {
-      "title": "Veo 3.1: precios 4K, audio nativo y referencias | MaxVideoAI",
-      "description": "Genera con Veo 3.1 hasta 4K: audio nativo, prompts de texto, imágenes de referencia, control first-last y extensión en MaxVideoAI."
+      "title": "Veo 3.1: precios 4K, audio nativo y referencias | VideoAI",
+      "description": "Genera con Veo 3.1 hasta 4K: audio nativo, prompts de texto, imágenes de referencia, control first-last y extensión en VideoAI."
     }
   },
   "prompting": {
@@ -607,7 +607,7 @@
     "modelSlug": "veo-3-1",
     "section": {
       "title": "Ejemplos reales de Veo 3.1",
-      "intro": "Mira renders de Veo 3.1 generados con los mismos ajustes que tienes en MaxVideoAI.",
+      "intro": "Mira renders de Veo 3.1 generados con los mismos ajustes que tienes en VideoAI.",
       "defaultCtaLabel": "Ver todos los ejemplos de Veo 3.1 →",
       "recreateLabel": "Recrear esta toma →"
     },

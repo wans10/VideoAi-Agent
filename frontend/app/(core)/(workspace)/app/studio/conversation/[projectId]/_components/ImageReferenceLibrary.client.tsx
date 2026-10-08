@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from '@/lib/studio/conversation-copy';
 
 import {useEffect, useId, useRef, useState} from 'react';
 import {AudioWaveform, Check, Film, ImageIcon, Search, Upload, X} from 'lucide-react';
@@ -55,7 +56,7 @@ export function ImageReferenceLibrary({onClose, onSelect, mediaEnabled = false, 
   // A new identity also rejects a request if the user returns to an earlier filter.
   if (scope.current.key !== scopeKey) scope.current = {key: scopeKey};
   const selected = selection?.scope === scope.current ? selection : null;
-  const t = (en: string, fr: string, es: string) => locale === 'fr' ? fr : locale === 'es' ? es : en;
+  const t = (en: string, fr: string, es: string) => conversationCopy(locale, en, fr, es);
   const kindLabel = kind === 'image' ? t('Image', 'Image', 'Imagen') : kind === 'video' ? t('Video', 'Vidéo', 'Vídeo') : 'Audio';
   const provenance = source === 'assets' ? t('Library', 'Bibliothèque', 'Biblioteca') : t('Recent creation', 'Création récente', 'Creación reciente');
   const addLabel = purpose === 'timeline' ? t('Add to timeline', 'Ajouter à la timeline', 'Añadir a la línea de tiempo') : t('Add to conversation', 'Ajouter à la conversation', 'Añadir a la conversación');
@@ -170,7 +171,7 @@ export function ImageReferenceLibrary({onClose, onSelect, mediaEnabled = false, 
   return (
     <dialog ref={dialog} className={styles.library} aria-labelledby={titleId} onCancel={onClose} onClose={onClose} onClick={event => {if (event.target === event.currentTarget) onClose();}}>
       <header className={styles.header}>
-        <div><h2 id={titleId}>{t('MaxVideoAI library', 'Bibliothèque MaxVideoAI', 'Biblioteca MaxVideoAI')}</h2><p>{purpose === 'timeline' ? t('Choose media for your film.', 'Choisissez un média pour votre film.', 'Elige un archivo para tu película.') : t('Choose a reference for your next idea.', 'Choisissez une référence pour votre prochaine idée.', 'Elige una referencia para tu próxima idea.')}</p></div>
+        <div><h2 id={titleId}>{t('Keyvo library', 'Bibliothèque Keyvo', 'Biblioteca Keyvo')}</h2><p>{purpose === 'timeline' ? t('Choose media for your film.', 'Choisissez un média pour votre film.', 'Elige un archivo para tu película.') : t('Choose a reference for your next idea.', 'Choisissez une référence pour votre prochaine idée.', 'Elige una referencia para tu próxima idea.')}</p></div>
         <button type="button" className={styles.close} onClick={onClose} aria-label={t('Close library', 'Fermer la bibliothèque', 'Cerrar biblioteca')}><X size={20} aria-hidden="true" /></button>
       </header>
       <div className={styles.controls}>

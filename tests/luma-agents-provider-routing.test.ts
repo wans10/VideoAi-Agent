@@ -7,6 +7,7 @@ import {
   resolveLumaAgentsVideoSupport,
 } from '../frontend/src/server/video-providers/luma-agents/model-map';
 import { resolveVideoProviderRoutingPlan } from '../frontend/src/server/video-providers/router';
+const lumaCredentials = { LUMA_AGENTS_API_KEY: 'test-key' };
 
 test('Luma Agents routes Ray 3.2 direct for admins when enabled', () => {
   assert.deepEqual(
@@ -15,6 +16,7 @@ test('Luma Agents routes Ray 3.2 direct for admins when enabled', () => {
       mode: 't2v',
       isAdmin: true,
       env: {
+        ...lumaCredentials,
         LUMA_AGENTS_ENABLED: 'true',
         LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
         LUMA_AGENTS_PUBLIC_ROUTING_ENABLED: 'false',
@@ -56,6 +58,7 @@ test('Luma Agents routes public requests when public routing is enabled', () => 
       mode: 'i2v',
       isAdmin: false,
       env: {
+        ...lumaCredentials,
         LUMA_AGENTS_ENABLED: 'true',
         LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
         LUMA_AGENTS_PUBLIC_ROUTING_ENABLED: 'true',
@@ -80,6 +83,7 @@ test('Luma Agents keeps fal fallback for public modes when advanced flag is enab
       mode: 't2v',
       isAdmin: true,
       env: {
+        ...lumaCredentials,
         LUMA_AGENTS_ENABLED: 'true',
         LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
         LUMA_AGENTS_ADVANCED_DIRECT_ONLY_ENABLED: 'true',
@@ -103,6 +107,7 @@ test('Luma Agents source-video modes route direct without Fal fallback when vide
       mode: 'reframe',
       isAdmin: true,
       env: {
+        ...lumaCredentials,
         LUMA_AGENTS_ENABLED: 'true',
         LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
         LUMA_AGENTS_ADVANCED_DIRECT_ONLY_ENABLED: 'false',
@@ -123,6 +128,7 @@ test('Luma Agents source-video modes route direct without Fal fallback when vide
       mode: 'reframe',
       isAdmin: true,
       env: {
+        ...lumaCredentials,
         LUMA_AGENTS_ENABLED: 'true',
         LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
         LUMA_AGENTS_ADVANCED_DIRECT_ONLY_ENABLED: 'true',

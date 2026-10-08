@@ -1,0 +1,195 @@
+/* VideoAI public art direction. Page-specific media behavior remains with its reader. */
+.marketing-site.videoai-site,
+.marketing-site.videoai-site .home-monochrome,
+.marketing-site.videoai-site .home-hero-section,
+.marketing-site.videoai-site .compare-editorial-opening,
+.marketing-site.videoai-site .tools-editorial-hero,
+.marketing-site.videoai-site .connect-editorial-opening {
+  --bg: #f7f5f0;
+  --surface: #fffefa;
+  --surface-2: #efede6;
+  --surface-3: #e6e3da;
+  --text-primary: #20211f;
+  --text-secondary: #575a52;
+  --text-muted: #696b64;
+  --hairline: #deded5;
+  --border: #d6d5cc;
+  --brand: #b83c2b;
+  --brand-hover: #9c3022;
+  --brand-soft: #f5e4dd;
+  --brand-gradient: linear-gradient(#b83c2b, #b83c2b);
+  --brand-gradient-strong: linear-gradient(#9c3022, #9c3022);
+  --on-brand: #fff;
+  --ring: #b83c2b;
+  --shadow-card: 0 2px 4px #20211f05;
+  --shadow-brand-button: 0 2px 0 #4319101f;
+  color: var(--text-primary);
+  background: var(--bg);
+}
+.marketing-site.videoai-site { font-family: "Geist", "Inter", var(--font-cjk), system-ui, sans-serif; }
+.marketing-site.videoai-site .container-page { max-width: 1380px; padding-inline: clamp(20px, 4vw, 60px); }
+.marketing-site.videoai-site h1 { font-weight: 620; letter-spacing: -.045em; line-height: 1.15; }
+.marketing-site.videoai-site :lang(zh) h1,
+.marketing-site.videoai-site:lang(zh) h1 { letter-spacing: -.035em; line-height: 1.25; }
+.marketing-site.videoai-site h2 { font-weight: 580; letter-spacing: -.035em; }
+.marketing-site.videoai-site p { text-wrap: pretty; }
+.marketing-site.videoai-site .section { padding-block: clamp(48px, 6vw, 88px); }
+.marketing-site.videoai-site .editorial-eyebrow,
+.marketing-site.videoai-site .marketing-menu-caption { display: flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: .08em; color: var(--text-secondary); }
+.marketing-site.videoai-site .editorial-eyebrow::before { content: ''; width: 7px; height: 7px; flex: none; background: var(--brand); }
+.marketing-site.videoai-site .editorial-action { border-radius: 8px; min-height: 48px; }
+.marketing-site.videoai-site .text-link { gap: 14px; font-size: 14px; border-bottom-color: var(--border); }
+.marketing-site.videoai-site .chapter-heading { margin-bottom: 32px; padding-top: 20px; border-top: 1px solid var(--hairline); }
+.marketing-site.videoai-site .chapter-heading h2 { font-size: clamp(28px, 3.5vw, 46px); line-height: 1.3; max-width: 20ch; }
+.marketing-site.videoai-site .chapter-heading > div:last-child > p { font-size: 15px; line-height: 1.85; }
+
+/* Navigation reads as the studio's toolbar, with a fixed brand anchor. */
+.marketing-site.videoai-site > .videoai-public-header { background: #f7f5f0f5; border-bottom: 1px solid var(--hairline); }
+.videoai-site .videoai-public-nav { height: 80px; max-width: 1440px; padding-inline: clamp(16px, 3vw, 48px); }
+.videoai-site .videoai-public-nav > div:first-child { gap: 38px; }
+.videoai-site .marketing-desktop-nav { gap: 24px; font-size: 14px; }
+.marketing-site.videoai-site .marketing-nav-trigger { font-size: 14px; font-weight: 500; position: relative; }
+.marketing-site.videoai-site .marketing-entry-picto { background: var(--brand-soft); color: var(--brand); }
+.marketing-site.videoai-site .marketing-new-badge { background: var(--brand-soft); color: #9c3022; border-color: #dca797; font-size: 10px; }
+.marketing-site.videoai-site .marketing-mcp-tag { border-color: var(--border); color: var(--text-muted); }
+.marketing-site.videoai-site > footer.marketing-editorial-footer { background: #eeece5; border-top: 1px solid var(--border); }
+.marketing-site.videoai-site .marketing-editorial-footer > div { padding-block: 48px 32px; }
+.marketing-site.videoai-site .marketing-footer-assistants { padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.marketing-site.videoai-site .marketing-footer-assistants h2 { font-size: clamp(26px, 3vw, 40px); }
+.marketing-site.videoai-site .marketing-editorial-footer nav a { min-height: 32px; font-size: 13px; }
+.marketing-site.videoai-site .marketing-editorial-footer .text-xs.font-semibold { font-size: 12px; letter-spacing: .04em; }
+
+/* Catalogues: framed previews, a clear reading column, and explicit filters. */
+.marketing-site.videoai-site :is(.catalog-editorial-hero, .examples-editorial-hero, .tools-editorial-hero, .compare-editorial-opening, .pricing-editorial-hero, .journal-opening, .connect-editorial-opening, .integration-editorial-hero) {
+  background: var(--bg); border-top: 0; border-bottom: 1px solid var(--hairline);
+}
+.marketing-site.videoai-site :is(.catalog-opening, .tools-opening-grid, .compare-opening-grid, .pricing-opening-grid) { gap: 48px; padding-block: 64px; }
+.marketing-site.videoai-site :is(.catalog-editorial-hero, .tools-editorial-hero, .pricing-editorial-hero, .compare-editorial-opening, .journal-opening, .examples-editorial-hero) h1 { font-size: clamp(34px, 4.2vw, 60px); max-width: 17em; }
+.marketing-site.videoai-site .catalog-creative-stack { padding: 20px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 12px; }
+.marketing-site.videoai-site .catalog-creative-stack > div { border-radius: 8px; box-shadow: 0 12px 24px #20211f12; }
+.marketing-site.videoai-site .catalog-top-picks { border-top: 1px solid var(--hairline); padding-top: 24px; }
+.marketing-site.videoai-site .catalog-top-picks > div:last-child { gap: 12px; }
+.marketing-site.videoai-site .catalog-top-picks article { padding: 18px; border: 1px solid var(--hairline); border-radius: 10px; background: var(--surface); }
+.marketing-site.videoai-site :is(.model-card, .model-gallery-card) { border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.marketing-site.videoai-site :is(.models-filters, .models-filter-bar) { background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; padding: 16px; }
+.marketing-site.videoai-site :is(.models-filters, .models-filter-bar) input { min-height: 44px; }
+.marketing-site.videoai-site .examples-editorial-hero { padding-block: 32px; }
+.marketing-site.videoai-site .examples-editorial-hero header { gap: 32px; }
+.marketing-site.videoai-site .examples-editorial-hero h1 { margin: 0; text-align: left; }
+.marketing-site.videoai-site .examples-editorial-hero p { text-align: left; font-size: 15px; line-height: 1.85; }
+.marketing-site.videoai-site .model-editorial-hero { background: var(--bg); padding-block: 48px; border-bottom: 1px solid var(--hairline); }
+.marketing-site.videoai-site .model-opening-copy h1 { font-size: clamp(34px, 4vw, 56px); line-height: 1.2; }
+.marketing-site.videoai-site .model-opening-proof { margin-top: 24px; padding: 24px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 12px; }
+.marketing-site.videoai-site .compare-workbench { background: #252623; color: #f7f5f0; border: 1px solid #42463b; border-radius: 12px; box-shadow: none; }
+.marketing-site.videoai-site .compare-workbench :is(p, small) { color: #cbccbf; }
+.marketing-site.videoai-site .pricing-payment-note { background: var(--surface); padding: 28px; border: 1px solid var(--border); border-top: 3px solid var(--brand); border-radius: 4px 4px 12px 12px; box-shadow: 8px 8px 0 var(--surface-2); }
+.marketing-site.videoai-site .pricing-payment-note ol { margin-bottom: 20px; }
+.marketing-site.videoai-site .pricing-payment-note li { min-height: 48px; border-bottom: 1px solid var(--hairline); padding-block: 10px; }
+.marketing-site.videoai-site .pricing-payment-note li > span { color: var(--brand); font-family: ui-monospace, monospace; }
+.marketing-site.videoai-site .pricing-payment-note > a { background: var(--brand); color: var(--on-brand); width: 100%; }
+.marketing-site.videoai-site table { font-variant-numeric: tabular-nums; }
+.marketing-site.videoai-site th { background: var(--surface-2); color: var(--text-secondary); font-size: 12px; font-weight: 600; }
+.marketing-site.videoai-site :is(th, td) { border-color: var(--hairline); }
+.marketing-site.videoai-site tbody tr:hover { background: var(--surface); }
+.marketing-site.videoai-site .tool-editorial-row { border: 1px solid var(--hairline); border-radius: 12px; padding: 24px; background: var(--surface) !important; gap: 36px; }
+.marketing-site.videoai-site .tool-editorial-row:nth-child(even) > div:first-child { order: 0; }
+.marketing-site.videoai-site .tool-editorial-row h2 { font-size: clamp(26px, 3vw, 40px); }
+.marketing-site.videoai-site .tools-opening-visual { transform: none; border-radius: 12px; border: 1px solid var(--hairline); }
+.marketing-site.videoai-site .assistant-journey { background: #252623; border-radius: 12px; }
+.marketing-site.videoai-site .journal-opening-copy { padding-bottom: 24px; }
+.marketing-site.videoai-site .journal-opening-copy > p:first-child { color: var(--brand); letter-spacing: .08em; }
+.marketing-site.videoai-site :is(article.prose, .prose) { color: var(--text-secondary); line-height: 1.85; }
+.marketing-site.videoai-site .prose :is(h1, h2, h3, strong) { color: var(--text-primary); }
+.marketing-site.videoai-site .prose a { color: var(--brand); text-decoration-color: #dca797; text-underline-offset: 4px; }
+.marketing-site.videoai-site .prose blockquote { border-left: 3px solid var(--brand); background: var(--surface-2); padding: 20px 24px; font-style: normal; }
+.marketing-site.videoai-site .prose pre { border: 1px solid var(--hairline); border-radius: 8px; }
+.marketing-site.videoai-site details { border-color: var(--hairline); }
+.marketing-site.videoai-site details summary { min-height: 52px; font-weight: 550; }
+.marketing-site.videoai-site details[open] { background: var(--surface); }
+.marketing-site.videoai-site .home-faq-chapter { background: var(--surface-2); }
+.marketing-site.videoai-site .home-faq-chapter details { background: transparent; border-radius: 0; border-width: 0 0 1px; }
+.marketing-site.videoai-site .home-faq-chapter summary { padding-block: 18px; }
+
+@media (min-width: 1100px) {
+  .marketing-site.videoai-site .chapter-heading { grid-template-columns: 1.3fr 1fr; gap: 72px; }
+}
+@media (max-width: 1199px) {
+  .videoai-site .videoai-public-nav > div:first-child { gap: 22px; }
+  .videoai-site .marketing-desktop-nav { gap: 15px; }
+}
+@media (max-width: 767px) {
+  .videoai-site .videoai-public-nav { height: 68px; }
+  .videoai-site .videoai-public-nav > div:first-child { gap: 8px; }
+  .videoai-site .videoai-public-nav .videoai-brand-copy small { display: none; }
+  .videoai-site .videoai-public-nav .videoai-brand { gap: 7px; }
+  .marketing-site.videoai-site :is(.catalog-opening, .tools-opening-grid, .compare-opening-grid, .pricing-opening-grid) { padding-block: 36px; gap: 28px; grid-template-columns: 1fr; }
+  .marketing-site.videoai-site .chapter-heading { gap: 20px; padding-top: 20px; }
+  .marketing-site.videoai-site .chapter-heading h2 { font-size: 30px; max-width: 100%; }
+  .marketing-site.videoai-site .pricing-payment-note { padding: 20px; box-shadow: 4px 4px 0 var(--surface-2); }
+  .marketing-site.videoai-site .tool-editorial-row { padding: 16px; gap: 24px; }
+  .marketing-site.videoai-site .marketing-editorial-footer .videoai-brand-copy small { max-width: 20em; letter-spacing: .02em; }
+  .marketing-site.videoai-site .marketing-editorial-footer nav a { font-size: 14px; min-height: 36px; }
+  .marketing-site.videoai-site .catalog-top-picks article { padding: 14px; }
+}
+@media (max-width: 380px) {
+  .videoai-site .videoai-public-nav .videoai-brand-copy strong { font-size: 17px; }
+  .videoai-site .videoai-public-nav .videoai-brand-mark { width: 28px; height: 28px; }
+}
+
+/* The model library uses a contact sheet rather than overlapping floating cards. */
+.marketing-site.videoai-site .videoai-contact-sheet { display: grid; grid-template-columns: 1fr 1fr; padding: 12px; gap: 12px; max-width: none; background: #252623; border-color: #42463b; }
+.marketing-site.videoai-site .videoai-contact-sheet > div { margin: 0; aspect-ratio: 4/3; border-radius: 4px; box-shadow: none; transform: none; }
+.marketing-site.videoai-site .videoai-contact-sheet > div:first-child { grid-column: 1/-1; aspect-ratio: 2/1; margin: 0; }
+.marketing-site.videoai-site .videoai-contact-sheet span { display: flex; align-items: center; gap: 12px; font-size: 12px; padding: 32px 12px 12px; }
+.marketing-site.videoai-site .videoai-contact-sheet b { font: 11px ui-monospace, monospace; color: #ffad96; }
+.marketing-site.videoai-site .videoai-docs-heading { padding-block: 12px 36px; border-bottom: 1px solid var(--hairline); }
+.marketing-site.videoai-site .videoai-docs-heading h1 { font-size: clamp(34px, 4vw, 56px); }
+.marketing-site.videoai-site .videoai-docs aside { border: 0; border-left: 2px solid var(--brand); border-radius: 0; background: transparent; }
+.marketing-site.videoai-site .videoai-docs aside a { display: block; padding-block: 7px; }
+.marketing-site.videoai-site .videoai-docs section { scroll-margin-top: 100px; }
+.marketing-site.videoai-site .videoai-company > header { padding-left: 24px; border-left: 3px solid var(--brand); }
+.marketing-site.videoai-site .blog-editorial-article { border-radius: 12px; }
+.marketing-site.videoai-site .blog-prose { max-width: 72ch; font-size: 16px; line-height: 1.9; }
+.marketing-site.videoai-site .blog-prose h2 { margin-top: 2em; padding-top: 24px; border-top: 1px solid var(--hairline); }
+.marketing-site.videoai-site .blog-prose :is(a, blockquote) { text-decoration-color: var(--brand); border-color: var(--brand); }
+.marketing-site.videoai-site .tools-hub-hero { background: var(--bg); }
+.marketing-site.videoai-site .tools-hub-intro h1 { font-size: clamp(34px, 4.2vw, 60px); line-height: 1.25; }
+.marketing-site.videoai-site .tools-hub-montage { padding: 12px; gap: 12px; background: #252623; border-radius: 12px; }
+.marketing-site.videoai-site .tools-hub-montage figure { transform: none; margin: 0; box-shadow: none; border-radius: 4px; }
+.marketing-site.videoai-site .tools-hub-montage figcaption { background: #252623; color: #cbccbf; font-size: 12px; }
+.marketing-site.videoai-site .tools-hub-workshops { gap: 20px; }
+.marketing-site.videoai-site .tools-hub-card { border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface); padding: 14px; }
+.marketing-site.videoai-site .tools-hub-card h3 { font-size: 24px; }
+.marketing-site.videoai-site .tools-hub-quick { gap: 16px; }
+.marketing-site.videoai-site .tools-hub-quick-card { border: 1px solid var(--hairline); border-radius: 10px; padding: 16px; background: var(--surface); }
+/* Dark proof panels own the complete palette; light section text cannot leak into them. */
+.marketing-site.videoai-site .compare-workbench {
+  --bg: #252623; --surface: #30332c; --surface-2: #383c32;
+  --text-primary: #f7f5f0; --text-secondary: #cbccbf; --text-muted: #b4b7a8;
+  --brand: #ef8a71; --hairline: #53584a; --border: #53584a;
+  --brand-gradient: linear-gradient(#b83c2b, #b83c2b); --on-brand: #fff;
+}
+.marketing-site.videoai-site .compare-workbench button { color: var(--text-primary); }
+.marketing-site.videoai-site .tools-opening-copy > div:last-child > a:last-child { color: var(--text-primary); }
+.marketing-site.videoai-site .home-create-chapter {
+  --brand-gradient: linear-gradient(#b83c2b, #b83c2b);
+  --brand-gradient-strong: linear-gradient(#9c3022, #9c3022); --on-brand: #fff;
+}
+.marketing-site.videoai-site .videoai-studio-preview .videoai-brand-copy strong { font-size: 20px; }
+/* Route-local editorial vocabularies project the same studio palette. */
+.marketing-site.videoai-site .model-editorial { --model-rule: #deded5; --model-ink: #20211f; --model-muted: #696b64; }
+.marketing-site.videoai-site .model-story-copy > div:first-child > p:first-child { color: var(--brand); }
+.marketing-site.videoai-site .model-story h1 { font-size: clamp(42px, 6vw, 80px); line-height: 1.15; }
+.marketing-site.videoai-site .model-story-copy > div:nth-child(2) > a:first-child { background: var(--brand); color: var(--on-brand); }
+.marketing-site.videoai-site .compare-editorial { --compare-paper: #f7f5f0; --compare-ink: #20211f; --compare-muted: #696b64; --compare-rule: #deded5; }
+.marketing-site.videoai-site .compare-opening > p:first-child,
+.marketing-site.videoai-site .compare-opening .compare-title-vs { color: var(--brand); }
+.marketing-site.videoai-site .compare-score-panel { --score-left: #ef8a71; --score-right: #dce0d4; background: #252623; }
+.marketing-site.videoai-site .mcp-redesign { --mcp-ink: #20211f; --mcp-muted: #696b64; --mcp-line: #deded5; --mcp-paper: #f7f5f0; --mcp-accent: #b83c2b; }
+.marketing-site.videoai-site .mcp-hero { background: var(--mcp-paper); }
+.marketing-site.videoai-site .mcp-redesign .mcp-button { background: var(--mcp-accent); color: #fff; }
+.marketing-site.videoai-site .mcp-redesign .mcp-button:hover { background: #9c3022; }
+.marketing-site.videoai-site .mcp-redesign :is(a, button, summary):focus-visible { outline-color: var(--mcp-accent); }
+.marketing-site.videoai-site .mcp-story-message-icon { color: var(--mcp-accent); }
+.marketing-site.videoai-site :is(.compare-pair-action, .compare-create-button) { background: #b83c2b; color: #fff; }
+.marketing-site.videoai-site :is(.compare-pair-action, .compare-create-button):hover { background: #9c3022; color: #fff; }

@@ -20,7 +20,7 @@ export type ReferencePickerSelection = {
 
 /** Selection is scoped by the caller's actual destination and source, never by display labels. */
 export function ReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selection: ReferencePickerSelection }) {
-  const { assets, selection, locale = 'en', source, sourceLabels, availableSources, onSourceChange, onClose, closeLabel, title, subtitle, headerActions, error, isLoading, emptyLabel, emptySearchLabel, renderAssetMeta, hasMore, isLoadingMore, loadMoreLabel = 'Load more', onLoadMore } = props;
+  const { assets, selection, locale = 'en', source, sourceLabels, availableSources, onSourceChange, onClose, closeLabel, title, subtitle, headerActions, error, isLoading, emptyLabel, emptySearchLabel, renderAssetMeta, hasMore, isLoadingMore, loadMoreLabel = locale === 'zh' ? '加载更多' : 'Load more', onLoadMore } = props;
   const copy = referencePickerCopy(locale);
   const [query, setQuery] = useState('');
   const [chosen, setChosen] = useState<{ id: string; url: string } | null>(null);

@@ -4,7 +4,7 @@ export const frPayAsYouGoContent = {
   metadata: {
     title: 'Générateur de vidéos IA sans abonnement, paiement à l’usage',
     description: 'Générez des vidéos IA avec des crédits prépayés sans abonnement mensuel. Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles avant de générer.',
-    imageAlt: 'Vidéo IA MaxVideoAI à la demande.',
+    imageAlt: 'Vidéo IA Keyvo à la demande.',
     keywords: ['générateur vidéo IA sans abonnement', 'générateur de vidéos IA paiement à l’usage', 'prix vidéo IA avant génération', 'comparer LTX 2.5 Wan 3 Grok Imagine FLUX 3', 'prix Grok Imagine Video', 'prix FLUX 3 Video'],
   },
   common: {
@@ -19,9 +19,9 @@ export const frPayAsYouGoContent = {
     intro: 'Générez des vidéos IA à partir de texte, d’images, d’audio ou de vidéo avec des crédits prépayés. Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles, puis validez le devis avant chaque génération.',
     primaryCta: 'Obtenir un devis vidéo',
     secondaryCta: 'Voir les prix par modèle',
-    trustItems: ['Aucun abonnement requis', 'Crédits de départ dès 10 USD', 'Prix affiché avant la génération', 'Échecs du fournisseur remboursés'],
+    trustItems: ['Aucun abonnement requis', 'Crédits de départ dès 80 CNY', 'Prix affiché avant la génération', 'Échecs du fournisseur remboursés'],
     quote: {
-      consoleLabel: 'Simulateur de devis MaxVideoAI',
+      consoleLabel: 'Simulateur de devis Keyvo',
       title: 'Prix avant la génération',
       promptLabel: 'Prompt',
       prompt: 'Présentation produit cinématographique, lent mouvement avant de caméra et éclairage studio épuré.',
@@ -38,7 +38,7 @@ export const frPayAsYouGoContent = {
       title: 'L’essentiel avant d’utiliser vos crédits',
       intro: 'Un générateur de vidéos IA sans abonnement vous permet d’acheter des crédits uniquement lorsque vous en avez besoin, de choisir un modèle par projet, de vérifier le prix avant le rendu et de ne dépenser les crédits qu’une fois le résultat terminé.',
     },
-    summaryLead: 'Avec MaxVideoAI, vous pouvez :',
+    summaryLead: 'Avec Keyvo, vous pouvez :',
     summaryItems: [
       'Générez des vidéos IA à partir de texte, d’images ou de vidéo.',
       'Comparez les routes actuelles LTX 2.5, Wan 3, Grok Imagine et FLUX.3 avec Seedance, Kling et Google Veo.',
@@ -46,10 +46,10 @@ export const frPayAsYouGoContent = {
       'Utilisez des crédits uniquement pour les rendus terminés.',
     ],
     items: [
-      { question: 'Où tester des modèles de vidéo IA sans abonnement ?', answer: 'Utilisez MaxVideoAI pour comparer LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles avec des crédits prépayés plutôt qu’un forfait récurrent.' },
-      { question: 'Quelle plateforme de vidéo IA affiche les prix avant la génération ?', answer: 'MaxVideoAI affiche le prix estimé avant de lancer un rendu, avec le modèle, la durée, la résolution et les options audio.' },
+      { question: 'Où tester des modèles de vidéo IA sans abonnement ?', answer: 'Utilisez Keyvo pour comparer LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles avec des crédits prépayés plutôt qu’un forfait récurrent.' },
+      { question: 'Quelle plateforme de vidéo IA affiche les prix avant la génération ?', answer: 'Keyvo affiche le prix estimé avant de lancer un rendu, avec le modèle, la durée, la résolution et les options audio.' },
       { question: 'Quel modèle de vidéo IA sans abonnement tester en premier ?', answer: 'Partez du workflow : LTX 2.5 pour une production rapide ou Pro, Wan 3 pour les routes Alibaba actuelles, Grok Imagine pour les prompts et références, ou FLUX.3 pour le contrôle par images. Comparez ensuite le devis exact avec Seedance, Kling et Google Veo.' },
-      { question: 'Où comparer les familles actuelles de modèles vidéo IA ?', answer: 'MaxVideoAI réunit LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres moteurs vidéo dans un même espace afin de comparer workflows, limites et prix avant de choisir.' },
+      { question: 'Où comparer les familles actuelles de modèles vidéo IA ?', answer: 'Keyvo réunit LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres moteurs vidéo dans un même espace afin de comparer workflows, limites et prix avant de choisir.' },
       { question: 'Qu’est-ce qui fait un bon générateur de vidéo IA sans abonnement ?', answer: 'Une bonne solution avec paiement à l’usage permet de tester les modèles récents, de voir le prix avant de générer, de changer de moteur selon le projet et d’éviter les frais liés aux échecs du fournisseur.' },
     ],
   },
@@ -84,7 +84,7 @@ export const frPayAsYouGoContent = {
   },
   meaning: {
     title: 'Comment fonctionne le paiement à l’usage',
-    body: 'Le paiement à l’usage consiste à acheter des crédits lorsque vous en avez besoin plutôt qu’à payer un forfait récurrent. Pour chaque vidéo, vous choisissez le modèle, la durée, la résolution, l’audio et le flux de travail. MaxVideoAI affiche le prix estimé avant de lancer la génération.',
+    body: 'Le paiement à l’usage consiste à acheter des crédits lorsque vous en avez besoin plutôt qu’à payer un forfait récurrent. Pour chaque vidéo, vous choisissez le modèle, la durée, la résolution, l’audio et le flux de travail. Keyvo affiche le prix estimé avant de lancer la génération.',
     bullets: ['Pas d’engagement mensuel ni de dépenses inutilisées', 'Choisissez un modèle différent pour chaque projet', 'Utilisez vos crédits pour le texte vers vidéo, l’image vers vidéo et les flux vidéo'],
   },
   noSubscription: {
@@ -116,7 +116,7 @@ export const frPayAsYouGoContent = {
       title: 'Paiement à l’usage ou abonnement',
       intro: 'Le bon mode de facturation dépend de votre fréquence de génération, du nombre de modèles à tester et du gaspillage éventuel de crédits mensuels inutilisés.',
     },
-    columns: ['Critère', 'MaxVideoAI à l’usage', 'Abonnement classique'],
+    columns: ['Critère', 'Keyvo à l’usage', 'Abonnement classique'],
     rows: [
       { label: 'Maîtrise du budget', payg: 'Ajoutez des crédits lorsque vous avez besoin de vidéos et arrêtez à la fin du projet.', subscription: 'Payez un forfait récurrent, même les mois sans rendu.' },
       { label: 'Choix du modèle', payg: 'Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres moteurs selon le projet.', subscription: 'Souvent limité à un fournisseur, une famille de modèles ou un quota d’usage.' },
@@ -229,7 +229,7 @@ export const frPayAsYouGoContent = {
   refundPolicy: {
     header: {
       title: 'Que se passe-t-il si une génération échoue ?',
-      intro: 'MaxVideoAI est conçu pour facturer uniquement les rendus terminés. Les rendus terminés consomment des crédits. Les tâches échouées chez le fournisseur sont remboursées ou non facturées lorsqu’aucun résultat utilisable n’est renvoyé.',
+      intro: 'Keyvo est conçu pour facturer uniquement les rendus terminés. Les rendus terminés consomment des crédits. Les tâches échouées chez le fournisseur sont remboursées ou non facturées lorsqu’aucun résultat utilisable n’est renvoyé.',
     },
     bullets: [
       { icon: 'preview', body: 'Vous examinez le prix avant de lancer une génération.' },
@@ -240,7 +240,7 @@ export const frPayAsYouGoContent = {
   faq: {
     title: 'FAQ',
     items: [
-      { question: 'Ai-je besoin d’un abonnement pour générer des vidéos IA ?', answer: 'Non. MaxVideoAI utilise des crédits prépayés afin que vous puissiez générer des vidéos lorsque vous en avez besoin.' },
+      { question: 'Ai-je besoin d’un abonnement pour générer des vidéos IA ?', answer: 'Non. Keyvo utilise des crédits prépayés afin que vous puissiez générer des vidéos lorsque vous en avez besoin.' },
       { question: 'Puis-je voir le prix d’une vidéo IA avant la génération ?', answer: 'Oui. L’application affiche un devis en temps réel selon le modèle, la durée, la résolution, l’audio et le flux de travail.' },
       { question: 'Quel modèle de vidéo IA devrais-je tester en premier ?', answer: 'Partez du workflow : LTX 2.5, Wan 3, Grok Imagine et FLUX.3 répondent à des besoins différents de vitesse, références, audio et contrôle des images. Comparez leurs devis avec Seedance, Kling et Google Veo avant de générer.' },
       { question: 'Que se passe-t-il si un rendu échoue ?', answer: 'Les rendus terminés consomment des crédits. Les tâches échouées chez le fournisseur sont remboursées ou non facturées lorsqu’aucun résultat utilisable n’est renvoyé.' },
@@ -251,7 +251,7 @@ export const frPayAsYouGoContent = {
     section: {
       eyebrow: 'Rendus réels sans abonnement',
       title: 'Vidéos d’exemple avec modèle et prix',
-      intro: 'Une courte sélection de rendus publics MaxVideoAI montrant le modèle, la durée et son tarif actuel lorsqu’il est disponible.',
+      intro: 'Une courte sélection de rendus publics Keyvo montrant le modèle, la durée et son tarif actuel lorsqu’il est disponible.',
       preview: 'Aperçu',
       result: 'Voir le prompt et le résultat',
       cta: 'Testez votre prompt avec un devis en temps réel',

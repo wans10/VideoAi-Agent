@@ -1,0 +1,116 @@
+{
+  "scope": "Uncommitted GPT Image 2.5 LLM Hub implementation on feat/white-label-keyvo, base commit 22dd4d9",
+  "offline": true,
+  "matrix": {
+    "checkedMatrixCases": 5520,
+    "matrixFailures": 0,
+    "findings": [
+      {
+        "type": "storage-side-effect",
+        "message": "Wrong dimensions rejected only after storage upload",
+        "writes": 1
+      },
+      {
+        "type": "validation",
+        "message": "Only 8-byte PNG signature accepted; decode validity delegated to storage dimensions, not verified"
+      }
+    ],
+    "autoCases": [
+      {
+        "ref": null,
+        "resolved": {
+          "width": 1024,
+          "height": 1024
+        }
+      },
+      {
+        "ref": {
+          "width": 1024,
+          "height": 768
+        },
+        "resolved": {
+          "width": 1024,
+          "height": 768
+        }
+      },
+      {
+        "ref": {
+          "width": 1448,
+          "height": 1086
+        },
+        "resolved": {
+          "width": 1456,
+          "height": 1088
+        }
+      },
+      {
+        "ref": {
+          "width": 3840,
+          "height": 2160
+        },
+        "resolved": {
+          "width": 3840,
+          "height": 2160
+        }
+      },
+      {
+        "ref": {
+          "width": 4000,
+          "height": 4000
+        },
+        "resolved": {
+          "width": 3840,
+          "height": 2160
+        }
+      },
+      {
+        "ref": {
+          "width": 1,
+          "height": 1
+        },
+        "resolved": {
+          "width": 1024,
+          "height": 1024
+        }
+      }
+    ]
+  },
+  "pricingAndFaultInjection": {
+    "priceChecks": 420,
+    "failures": [],
+    "faults": [
+      {
+        "name": "truncated PNG with valid IHDR accepted by production-equivalent dimension extraction",
+        "decodeRejected": true,
+        "accepted": true
+      },
+      {
+        "name": "partial batch storage failure leaves earlier output uploaded",
+        "uploads": 2,
+        "partialSuccess": true
+      },
+      {
+        "name": "auto normalized dimensions",
+        "id": "gpt-image-2-5-flare",
+        "size": {
+          "width": 1456,
+          "height": 1088
+        }
+      },
+      {
+        "name": "auto normalized dimensions",
+        "id": "gpt-image-2-5-sunburst",
+        "size": {
+          "width": 1456,
+          "height": 1088
+        }
+      }
+    ]
+  },
+  "regressions": {
+    "tests": 112,
+    "pass": 112,
+    "fail": 0
+  },
+  "externalGenerationsThisAudit": 0
+}

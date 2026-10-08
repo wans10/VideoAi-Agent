@@ -49,7 +49,7 @@
       "subtitle": "Answers for legacy Kling value, current Wan production, and the Kling 3 Pro path.",
       "items": [
         {
-          "question": "Can I still use Kling 2.5 Turbo on MaxVideoAI?",
+          "question": "Can I still use Kling 2.5 Turbo on VideoAI?",
           "answer": "Yes. Kling 2.5 Turbo remains available for legacy silent clips up to 10 seconds in 720p or 1080p."
         },
         {
@@ -112,7 +112,7 @@
       "subtitle": "Réponses sur la valeur du Kling historique, la production avec Wan 2.6 et le modèle Kling 3 Pro.",
       "items": [
         {
-          "question": "Peut-on encore utiliser Kling 2.5 Turbo sur MaxVideoAI ?",
+          "question": "Peut-on encore utiliser Kling 2.5 Turbo sur VideoAI ?",
           "answer": "Oui. Kling 2.5 Turbo reste disponible pour produire des clips silencieux avec ce modèle historique, jusqu’à 10 secondes en 720p ou 1080p."
         },
         {
@@ -132,7 +132,7 @@
       "description": "Compara Kling 2.5 Turbo y Wan 2.6 en costo de borrador silencioso, audio, duración, resolución y referencias, y descubre cuándo migrar a Kling 3 Pro.",
       "titleBranding": "none"
     },
-    "heroIntro": "Compara Kling 2.5 Turbo con Wan 2.6 Text & Image to Video para elegir entre una ruta anterior económica y silenciosa, todavía disponible en MaxVideoAI, y un modelo actual con modos separados para texto, imagen y referencias. Wan llega a 15 segundos con audio opcional en texto o imagen; su modo separado con video de referencia dura 5 o 10 segundos y no tiene audio.",
+    "heroIntro": "Compara Kling 2.5 Turbo con Wan 2.6 Text & Image to Video para elegir entre una ruta anterior económica y silenciosa, todavía disponible en VideoAI, y un modelo actual con modos separados para texto, imagen y referencias. Wan llega a 15 segundos con audio opcional en texto o imagen; su modo separado con video de referencia dura 5 o 10 segundos y no tiene audio.",
     "quickVerdict": {
       "title": "Veredicto rápido",
       "body": "Quédate en Kling 2.5 Turbo para borradores silenciosos económicos de hasta 10 segundos. Elige Wan 2.6 para texto o imagen de hasta 15 segundos con audio opcional, o su modo separado con referencias de 5 o 10 segundos sin audio; migra los nuevos trabajos Kling Pro a Kling 3 Pro actual."
@@ -175,7 +175,7 @@
       "subtitle": "Respuestas sobre borradores económicos con Kling 2.5 Turbo, los modos de Wan 2.6 y la migración a Kling 3 Pro.",
       "items": [
         {
-          "question": "¿Todavía puedo usar Kling 2.5 Turbo en MaxVideoAI?",
+          "question": "¿Todavía puedo usar Kling 2.5 Turbo en VideoAI?",
           "answer": "Sí. Kling 2.5 Turbo sigue disponible para clips silenciosos con este modelo anterior, de hasta 10 segundos en 720p o 1080p."
         },
         {
@@ -185,6 +185,69 @@
         {
           "question": "¿Cuándo conviene actualizar Kling 2.5 Turbo a Kling 3 Pro?",
           "answer": "Migra los proyectos Kling nuevos a Kling 3 Pro actual cuando el flujo necesite audio, clips de hasta 15 segundos o la ruta Pro más reciente."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 2.5 Turbo 对比 Wan 2.6：价格、音频与升级",
+      "description": "在 VideoAI 上对比 Kling 2.5 Turbo 与 Wan 2.6 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "在低成本无音频旧版方案与当前通用制作方案之间选择时，可对比 Kling 2.5 Turbo 和 Wan 2.6 文生视频 / 图生视频。Wan 文本与图像模式支持最长 15 秒及可选音频；独立的无音频参考视频模式支持 5 或 10 秒。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "低成本无音频草稿且最长 10 秒时，可继续用 Kling 2.5 Turbo。需要最长 15 秒的文本或图像生成及可选音频，或独立的 5 / 10 秒无音频参考视频制作时，选择 Wan 2.6；新 Kling Pro 项目可升级至 Kling 3 Pro。"
+    },
+    "topCards": [
+      {
+        "title": "预算草稿继续用 Kling",
+        "body": "任务只需要无音频 720p / 1080p 文本、图像或首尾图像概念时，可继续用 Kling 2.5 Turbo。"
+      },
+      {
+        "title": "当前制作选择 Wan",
+        "body": "Wan 2.6 文本或图像模式支持最长 15 秒、720p / 1080p 及可选音频；独立的无音频参考模式接受 1 至 3 段视频，生成 5 或 10 秒结果。"
+      },
+      {
+        "title": "升级至 Kling 后继版本",
+        "body": "音频、15 秒上限或新版 Kling 工作流值得额外成本时，新的 Kling Pro 项目可升级至当前 Kling 3 Pro。"
+      },
+      {
+        "title": "无音频低成本或更广泛的控制",
+        "body": "旧版 Kling 提供低成本无音频草稿；当前 Wan 提供最长 15 秒文本 / 图像生成及可选音频，并另有独立的 5 / 10 秒无音频参考视频模式。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-2-5-turbo",
+        "label": "查看 available Kling 2.5 Turbo 详情"
+      },
+      {
+        "href": "/models/wan-2-6",
+        "label": "查看 Wan 2.6 详情"
+      },
+      {
+        "href": "/ai-video-engines/kling-3-pro-vs-wan-2-6",
+        "label": "对比 Kling 3 Pro 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解旧版 Kling 性价比、当前 Wan 制作及 Kling 3 Pro 升级路径。",
+      "items": [
+        {
+          "question": "仍然可以在 VideoAI 使用 Kling 2.5 Turbo 吗？",
+          "answer": "可以。Kling 2.5 Turbo 仍支持最长 10 秒的旧版无音频 720p / 1080p 视频。"
+        },
+        {
+          "question": "哪些用户应继续用 Kling 2.5 Turbo 而非换用 Wan 2.6？",
+          "answer": "低成本无音频草稿已足够时可继续用 Kling；需要最长 15 秒文本 / 图像视频及可选音频，或独立的 5 / 10 秒无音频参考视频引导时，选择 Wan。"
+        },
+        {
+          "question": "Kling 2.5 Turbo 用户何时应升级至 Kling 3 Pro？",
+          "answer": "工作流需要音频、最长 15 秒视频或新版 Pro 制作方案时，新的 Kling 项目可升级至当前 Kling 3 Pro。"
         }
       ]
     }

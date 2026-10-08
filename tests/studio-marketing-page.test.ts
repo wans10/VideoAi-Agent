@@ -6,7 +6,7 @@ import { routing } from '../frontend/i18n/routing';
 import { buildSeoMetadata } from '../frontend/lib/seo/metadata';
 import { buildMetadataUrls } from '../frontend/lib/metadataUrls';
 import { handleMarketingSlug } from '../frontend/lib/middleware/routing-marketing';
-import { MARKETING_SITE_NAV_LINKS } from '../frontend/config/navigation';
+import { STUDIO_NAV_DROPDOWNS } from '../frontend/config/studio-navigation';
 import { getStudioMarketingCopy } from '../frontend/app/(localized)/[locale]/(marketing)/studio/_lib/studio-marketing-copy';
 import { buildStudioMarketingSchema } from '../frontend/app/(localized)/[locale]/(marketing)/studio/_lib/studio-marketing-schema';
 
@@ -18,10 +18,8 @@ for (const locale of ['en', 'fr', 'es'] as const) {
     const metadata = buildSeoMetadata({ locale, ...copy.meta, englishPath: '/studio' });
     assert.equal(new URL(urls.canonical).pathname, path);
     assert.equal(metadata.alternates?.canonical, urls.canonical);
-    for (const target of ['en', 'fr', 'es'] as const) {
-      assert.equal(new URL(urls.urls[target]!).pathname, target === 'en' ? '/studio' : `/${target}/studio`);
-    }
-    assert.equal(urls.languages['x-default'], urls.urls.en);
+    assert.deepEqual(urls.languages, { zh: 'https://app.keyvo.cn/zh/studio', 'x-default': 'https://app.keyvo.cn/zh/studio' });
+    for (const target of ['en', 'fr', 'es'] as const) assert.equal(target in urls.languages, false);
     const schema = buildStudioMarketingSchema(locale, copy);
     const faq = schema['@graph'].find(item => item['@type'] === 'FAQPage');
     assert.deepEqual(faq?.mainEntity?.map(item => [item.name, item.acceptedAnswer.text]), copy.faq.items.map(item => [item.question, item.answer]));
@@ -35,7 +33,7 @@ for (const locale of ['en', 'fr', 'es'] as const) {
 }
 
 test('Studio is discoverable as a public page while app access keeps its existing entry handler', () => {
-  assert.equal(MARKETING_SITE_NAV_LINKS.find(item => item.key === 'studio')?.href, '/studio');
+  assert.equal(STUDIO_NAV_DROPDOWNS.production.items.find(item => item.key === 'studio')?.href, '/studio');
   const view = readFileSync('frontend/app/(localized)/[locale]/(marketing)/studio/_components/StudioMarketingPage.tsx', 'utf8');
   assert.match(view, /\/api\/studio\/marketing-entry\?starter=product-ad&lang=\$\{locale\}/);
   assert.match(view, /href=\{entryHref\} prefetch=\{false\}/);
@@ -70,7 +68,7 @@ test('Studio copy describes available creation, editing and individual downloads
     assert.doesNotMatch(source, /unlimited|illimité|ilimitad|\$\d|€\d|best model|meilleur modèle|mejor modelo/i);
     assert.doesNotMatch(source, /export quote|devis d’export|presupuesto de exportación/);
     assert.doesNotMatch(source, /advanced canvas|canvas avancé|lienzo avanzado/i);
-    assert.ok(copy.faq.items.at(-1)?.answer.includes('MaxVideoAI'));
+    assert.ok(copy.faq.items.at(-1)?.answer.includes('Keyvo'));
   }
   const view = readFileSync('frontend/app/(localized)/[locale]/(marketing)/studio/_components/StudioMarketingPage.tsx', 'utf8');
   assert.doesNotMatch(view, /betaNote|capabilitiesNote/);
@@ -78,9 +76,9 @@ test('Studio copy describes available creation, editing and individual downloads
 
 test('public Studio assistance copy follows activated credits with bounded Luna availability and separate confirmed media pricing', () => {
   const expectations = {
-    en: { credits: /monthly included credits first.*purchased credits/, purchase: /confirm each pack purchase.*MaxVideoAI balance.*cumulative/, account: /account.*new projects do not reset/, refill: /no automatic refill/i, luna: /choose Luna.*no extra assistance fee.*without a monthly quota.*request limits.*service availability/, quote: /Media generation is charged separately.*current exact quote.*explicitly confirm/ },
-    fr: { credits: /crédits mensuels inclus.*avant.*crédits achetés/, purchase: /confirmez chaque achat de pack.*solde MaxVideoAI.*cumulables/, account: /compte.*nouveaux projets ne les réinitialisent/, refill: /aucune recharge automatique/i, luna: /choisir Luna.*sans frais d’assistance supplémentaires.*sans quota mensuel.*limites de requête.*disponibilité du service/, quote: /génération de médias est facturée séparément.*devis exact actuel.*confirmez explicitement/ },
-    es: { credits: /créditos mensuales incluidos.*antes.*créditos comprados/, purchase: /confirmas cada compra de pack.*saldo MaxVideoAI.*acumulables/i, account: /cuenta.*proyectos nuevos no los restablecen/, refill: /ninguna recarga automática/i, luna: /elegir Luna.*sin coste adicional de asistencia.*sin cuota mensual.*límites de solicitud.*disponibilidad del servicio/, quote: /generación de medios se cobra por separado.*presupuesto exacto actual.*confirma expresamente/ },
+    en: { credits: /monthly included credits first.*purchased credits/, purchase: /confirm each pack purchase.*Keyvo balance.*cumulative/, account: /account.*new projects do not reset/, refill: /no automatic refill/i, luna: /choose Luna.*no extra assistance fee.*without a monthly quota.*request limits.*service availability/, quote: /Media generation is charged separately.*current exact quote.*explicitly confirm/ },
+    fr: { credits: /crédits mensuels inclus.*avant.*crédits achetés/, purchase: /confirmez chaque achat de pack.*solde Keyvo.*cumulables/, account: /compte.*nouveaux projets ne les réinitialisent/, refill: /aucune recharge automatique/i, luna: /choisir Luna.*sans frais d’assistance supplémentaires.*sans quota mensuel.*limites de requête.*disponibilité du service/, quote: /génération de médias est facturée séparément.*devis exact actuel.*confirmez explicitement/ },
+    es: { credits: /créditos mensuales incluidos.*antes.*créditos comprados/, purchase: /confirmas cada compra de pack.*saldo Keyvo.*acumulables/i, account: /cuenta.*proyectos nuevos no los restablecen/, refill: /ninguna recarga automática/i, luna: /elegir Luna.*sin coste adicional de asistencia.*sin cuota mensual.*límites de solicitud.*disponibilidad del servicio/, quote: /generación de medios se cobra por separado.*presupuesto exacto actual.*confirma expresamente/ },
   };
   for (const locale of ['en', 'fr', 'es'] as const) {
     const copy = getStudioMarketingCopy(locale);

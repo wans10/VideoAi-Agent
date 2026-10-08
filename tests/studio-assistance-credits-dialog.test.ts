@@ -26,7 +26,7 @@ test('the product dialog reviews cumulative packs before purchase and preserves 
     await act(async()=>button('Buy $10 Sol pack').click());
     assert.deepEqual(choices,[],'Opening review must not charge or change models');
     assert.match(dom.window.document.body.textContent??'',/11,280/);
-    assert.match(dom.window.document.body.textContent??'',/MaxVideoAI balance/);
+    assert.match(dom.window.document.body.textContent??'',/Keyvo balance/);
     await act(async()=>button('Confirm purchase · $10').click());
     assert.equal(choices.length,1);
     assert.deepEqual({...choices[0] as object,purchaseKey:undefined},{action:'purchase_pack',amountCents:1000,expectedRevision:3,tariffVersion:status.tariff.version,purchaseKey:undefined});

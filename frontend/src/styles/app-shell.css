@@ -139,3 +139,40 @@
   .app-experience .app-navigation-rail a { flex: none; min-height: 44px; padding: 3px 1px; gap: 3px; }
   .app-experience .app-navigation-rail .app-glyph { width: 18px; height: 18px; }
 }
+
+/* The creator rail expands into a studio directory on wide workspaces. */
+.app-experience .app-navigation-caption { display: none; }
+.app-experience .app-connected-header { background: var(--app-panel); padding-inline: 24px; border-bottom-color: var(--app-line); }
+.app-experience .app-site-trigger .videoai-brand-copy strong { font-size: 21px; font-weight: 750; }
+.app-experience .app-site-trigger .videoai-brand-copy small { font-size: 10px; letter-spacing: .1em; }
+.app-experience .app-site-trigger .videoai-brand-mark { width: 34px; height: 34px; }
+.app-experience .app-navigation-activities { background: var(--app-canvas); padding-block: 10px; }
+.app-experience .app-navigation-activities a { border: 1px solid transparent; border-radius: 7px; min-height: 40px; }
+.app-experience .app-navigation-activities a[aria-current="page"] { background: var(--app-panel); border-color: var(--app-line); color: var(--app-ink); box-shadow: 0 2px 3px #00000005; }
+.app-experience .app-navigation-badge { background: var(--app-accent-soft); color: var(--app-accent); border: 1px solid var(--app-line); box-shadow: none; transform: none; font-size: 8px; }
+.app-experience .app-wallet-trigger { background: var(--surface-2); border: 1px solid var(--app-line); border-radius: 8px; width: 146px; padding: 8px 12px; }
+.app-experience .app-wallet-label { font-size: 11px; }
+.app-experience .app-wallet-copy > span:last-child { font-size: 15px; }
+@media (min-width: 1200px) {
+  .app-experience .app-sidebar { width: 184px; }
+  .app-experience .app-navigation-rail { padding: 28px 14px 18px; gap: 6px; }
+  .app-experience .app-navigation-caption { display: block; padding: 0 12px 14px; font-size: 10px; letter-spacing: .13em; color: var(--app-muted); }
+  .app-experience .app-navigation-rail a { flex-direction: row; justify-content: flex-start; text-align: left; min-height: 48px; gap: 12px; padding: 12px; font-size: 13px; border-radius: 8px; }
+  .app-experience .app-navigation-rail a[aria-current="page"]::before { left: -14px; height: 20px; width: 3px; }
+  .app-experience .app-navigation-rail .app-navigation-label { justify-content: flex-start; }
+  .app-experience .app-navigation-rail a:last-child { border-top: 1px solid var(--app-line); border-radius: 0; margin-top: auto; padding-top: 18px; }
+}
+@media (max-width: 767px) {
+  .app-experience .app-connected-header { padding-inline: 12px; }
+  .app-experience .app-site-trigger .videoai-brand-copy strong { font-size: 17px; }
+  .app-experience .app-site-trigger .videoai-brand-copy small { display: none; }
+  .app-experience .app-site-trigger .videoai-brand-mark { width: 28px; height: 28px; }
+  .app-experience .app-wallet-trigger { width: 114px; padding: 6px 8px; }
+  .app-experience .app-wallet-copy > span:last-child { font-size: 13px; }
+  .app-experience .app-navigation-mobile { box-shadow: 0 -4px 18px #00000008; }
+  .app-experience .app-navigation-mobile a { border-radius: 8px; }
+  .app-experience .app-navigation-activities { padding-inline: 12px; }
+}
+@media (max-width: 767px) {
+  .app-experience .app-navigation-mobile .app-navigation-label { flex-direction: column; gap: 1px; white-space: nowrap; }
+}

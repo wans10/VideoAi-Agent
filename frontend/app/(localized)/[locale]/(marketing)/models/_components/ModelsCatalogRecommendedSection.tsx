@@ -42,51 +42,23 @@ export function ModelsCatalogRecommendedSection({
             </a>
           </div>
         </div>
-        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {cards.map((card) => (
-            <Link
-              key={card.id}
-              href={card.href}
-              prefetch={false}
-              className="flex min-h-[176px] flex-col rounded-[8px] border border-hairline bg-surface p-4 shadow-card transition hover:-translate-y-0.5 hover:border-text-muted"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <span className="inline-flex min-w-0 items-center gap-1.5 rounded-full border border-hairline bg-bg px-2 py-1 text-[10px] font-semibold text-text-secondary">
-                  <EngineIcon
-                    engine={{ id: card.engineId ?? card.id, label: card.label, brandId: card.brandId ?? undefined }}
-                    size={14}
-                    framed={false}
-                    rounded="full"
-                    className="shrink-0"
-                  />
-                  <span className="truncate">{card.provider}</span>
-                </span>
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-hairline bg-bg text-sm font-semibold text-text-primary">
-                  <span>
-                    {card.overallScore != null ? card.overallScore.toFixed(1) : '-'}
-                    <span className="text-[8px] font-medium text-text-muted">/10</span>
-                  </span>
-                </span>
+        <ol className="studio-recommendation-list">
+          {cards.map((card, index) => <li key={card.id}>
+            <Link href={card.href} prefetch={false}>
+              <span className="studio-recommendation-number" aria-hidden>{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <div className="studio-model-provider"><EngineIcon engine={{ id: card.engineId ?? card.id, label: card.label, brandId: card.brandId ?? undefined }} size={16} framed={false} /><span>{card.provider}</span></div>
+                <h3>{card.label}</h3>
+                <p className="studio-recommendation-description">{card.description}</p>
+                <dl>
+                  <div><dt>{statsLabels.duration}</dt><dd>{card.stats?.maxDuration ?? '—'}</dd></div>
+                  <div><dt>{statsLabels.resolution}</dt><dd>{card.stats?.maxResolution ?? '—'}</dd></div>
+                </dl>
               </div>
-              <h3 className="mt-3 text-lg font-semibold leading-tight text-text-primary">{card.label}</h3>
-              <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-text-secondary">{card.description}</p>
-              <dl className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-hairline pt-3 text-[11px] text-text-secondary">
-                <div className="inline-flex items-center gap-1.5">
-                  <dt>{statsLabels.from}</dt>
-                  <dd className="font-semibold text-text-primary">{card.stats?.priceFrom ?? '-'}</dd>
-                </div>
-                <div className="inline-flex items-center gap-1.5">
-                  <dt>{statsLabels.duration}</dt>
-                  <dd className="font-semibold text-text-primary">{card.stats?.maxDuration ?? '-'}</dd>
-                </div>
-                <div className="inline-flex items-center gap-1.5">
-                  <dt>{statsLabels.resolution}</dt>
-                  <dd className="font-semibold text-text-primary">{card.stats?.maxResolution ?? '-'}</dd>
-                </div>
-              </dl>
+              <div className="studio-recommendation-price"><span>{statsLabels.from}</span><strong>{card.stats?.priceFrom ?? '—'}</strong><ArrowRight size={18} aria-hidden /></div>
             </Link>
-          ))}
-        </div>
+          </li>)}
+        </ol>
       </div>
     </section>
   );

@@ -1,0 +1,528 @@
+{
+  "marketingName": "Dreamina Seedance 2.0 Mini",
+  "versionLabel": "2.0 Mini",
+  "seo": {
+    "title": "Dreamina Seedance 2.0 Mini | 低成本 AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Dreamina Seedance 2.0 Mini 进行更低成本的 480p/720p 批量视频生成、电商变体制作、UGC 吸睛片段、视频编辑、画面延展及多模态参考测试。"
+  },
+  "overview": "Dreamina Seedance 2.0 Mini 是 VideoAI 上兼具高性价比的 Seedance AI 视频路线，适用于低成本批量生产场景：电商多变体、日常营销测试、UGC 吸睛开头（Hook）、多模态参考生视频、视频编辑及画面延展，支持 4–15 秒的 480p 或 720p 视频片段。",
+  "pricingNotes": "Dreamina Seedance 2.0 Mini 采用基于 Token 的生成计费。VideoAI 按规则展示会员价格，并在提交生成前显示最终确切报价。",
+  "hero": {
+    "title": "Dreamina Seedance 2.0 Mini — 适用于批量视频变体的低成本高性价比路线",
+    "intro": "当您在将最终精修镜头导入 Seedance 2.0 之前，需要一条高性价比路线来批量生成 480p/720p 视频变体时，Dreamina Seedance 2.0 Mini 是理想之选。本页面持续追踪聚焦批量生成的参数规格、提示词模式、实时价格与模型对比评分。",
+    "badge": "Dreamina Seedance · 480p/720p · 4–15秒 · 24fps · 原生音频与对口型",
+    "ctaPrimary": {
+      "label": "使用 Seedance 2.0 Mini 生成",
+      "href": "/app?engine=seedance-2-0-mini"
+    },
+    "secondaryLinks": [
+      {
+        "label": "查看标准版 Seedance 2.0",
+        "href": "/zh/models/seedance-2-0"
+      },
+      {
+        "label": "查看 Seedance 2.0 Fast",
+        "href": "/zh/models/seedance-2-0-fast"
+      },
+      {
+        "label": "查看 Seedance AI 视频案例",
+        "href": "/zh/examples/seedance"
+      },
+      {
+        "label": "对比 Seedance 2.0 Mini 与 Seedance 2.0",
+        "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0?order=dreamina-seedance-2-0-mini"
+      },
+      {
+        "label": "对比 Seedance 2.0 Mini 与 Seedance 2.0 Fast",
+        "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast?order=dreamina-seedance-2-0-mini"
+      }
+    ]
+  },
+  "compareLink": {
+    "label": "对比 Seedance 2.0 Mini 与 Seedance 2.0 ->",
+    "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0?order=dreamina-seedance-2-0-mini"
+  },
+  "bestUseCases": {
+    "title": "Seedance 2.0 Mini 最佳适用场景",
+    "items": [
+      {
+        "title": "低成本电商产品动态批量生成",
+        "icon": "product"
+      },
+      {
+        "title": "UGC 吸睛开头、营销多变体与社交广告测试",
+        "icon": "ads"
+      },
+      {
+        "title": "多模态参考引导的 480p/720p 动态验证",
+        "icon": "storyboard"
+      },
+      {
+        "title": "成片精修前的视频编辑与画面延展测试",
+        "icon": "repeat"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术规格概览",
+  "technicalOverview": [
+    {
+      "label": "模型定位",
+      "body": "Dreamina Seedance 2 家族中的高性价比生成路线。"
+    },
+    {
+      "label": "API 模型 ID",
+      "body": "dreamina-seedance-2-0-mini-260615"
+    },
+    {
+      "label": "输入方式",
+      "body": "支持文生视频、图生视频、多模态参考生视频、视频编辑微调与画面延展工作流，支持图片、视频及音频参考素材。"
+    },
+    {
+      "label": "生成时长与帧率",
+      "body": "单次生成 4–15 秒，帧率为 24fps"
+    },
+    {
+      "label": "分辨率",
+      "body": "支持 480p 或 720p 输出"
+    },
+    {
+      "label": "音频能力",
+      "body": "支持原生同步音频与人物自然对口型；亦可使用音频参考素材引导镜头节奏与情绪氛围。"
+    }
+  ],
+  "promptStructure": {
+    "title": "Seedance 2.0 Mini 提示词结构",
+    "quote": "[批量目标] + [主体或产品] + [一个动作节拍] + [参考素材职责] + [视频编辑或延展需求] + [480p/720p] + [4–15秒]。",
+    "description": "保持每条 Mini 提示词专注于测试单一变体变量，确保批量对比结果清晰易辨。",
+    "steps": [
+      "明确批量测试的目的",
+      "清晰描述产品、创作者或场景环境",
+      "设定 480p 或 720p 分辨率及 4–15 秒时长",
+      "为每个多模态参考素材分配单一职责",
+      "当需要最终高保真成品时，将胜出镜头导入 Seedance 2.0"
+    ]
+  },
+  "tips": {
+    "title": "制作实践与注意事项",
+    "items": [
+      "进行大批量方案筛选时使用 480p，需向上评审更丰富细节时切换至 720p。",
+      "每次批量测试围绕单一产品、吸睛开头或编辑目标展开，避免变量交叉混淆。",
+      "使用多模态参考素材锁定人物特征、产品结构、运镜节奏或音频氛围。",
+      "在投入最终高精渲染前，使用低成本的视频编辑与延展能力快速迭代源视频。",
+      "将 Mini 准确定位为 Seedance 2.0 高保真成品渲染前的批量高性价比探索工具。",
+      "在“生成”工作台中提交前，系统会显示当前激活路线与最终确切报价。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "电商产品批量测试",
+      "prompt": "为厨房台面上的哑光黑色音箱制作一个 8 秒 720p 16:9 产品动态变体，缓慢推镜头，干净的清晨光线，使用产品图像参考素材保证外观准确。"
+    },
+    {
+      "title": "UGC 吸睛开头组合",
+      "prompt": "生成一段 4 秒 480p 竖屏 UGC 吸睛开头：创作者将护肤品瓶子举向镜头，明亮卫生间单一动作节拍，自然手持运镜，变体 A 用于开场画面对比。"
+    },
+    {
+      "title": "视频编辑微调",
+      "prompt": "以源视频作为低成本视频编辑遍，保持主体与产品构图稳定，调整节奏剪辑适配营销剪辑版本，720p 时长 8 秒。"
+    },
+    {
+      "title": "画面延展测试",
+      "prompt": "将短片源素材延展为 15 秒 720p 产品结尾，配以平滑摄像机漂移与干净的最终定格姿态，便于评审。"
+    }
+  ],
+  "faqTitle": "常见问题 – VideoAI 中的 Seedance 2.0 Mini",
+  "faqs": [
+    {
+      "q": "Seedance 2.0 Mini 最适合哪些使用场景？",
+      "a": "Seedance 2.0 Mini 最适合低成本批量与高性价比创作场景，例如电商多变体、日常营销测试、UGC 吸睛开头、视频编辑微调、画面延展，以及基于多模态参考素材的 480p/720p 动态验证。"
+    },
+    {
+      "q": "Seedance 2.0 Mini 支持哪些分辨率与生成时长？",
+      "a": "VideoAI 上的 Mini 路线支持 480p 或 720p 输出分辨率，单次生成时长支持 4–15 秒，帧率为 24fps。"
+    },
+    {
+      "q": "Seedance 2.0 Mini 是否支持音频与对口型？",
+      "a": "支持。Mini 原生支持音视频同步生成与人物对口型，并可使用音频参考素材引导整体节奏或情绪基调。"
+    },
+    {
+      "q": "何时应该使用标准版 Seedance 2.0 而非 Mini？",
+      "a": "当您需要更高制作水准、高分辨率（最高 4K）交付以及更强成片上限的标准 Seedance 路线时，请使用 Seedance 2.0。在进入该阶段前，可先使用 Mini 进行低成本的批量创意探索与变体验证。"
+    }
+  ],
+  "custom": {
+    "whyTitle": "在最终 Seedance 高精渲染前进行低成本批量验证",
+    "heroTrustLine": "在 VideoAI 上按量付费 · 生成前即可查看实时报价",
+    "heroHighlights": [
+      "低成本批量与高性价比路线||Mini 专为性价比设计，非常适合对大量电商、营销或 UGC 变体进行评审。",
+      "480p/720p 与 4–15 秒时长||使用紧凑适中的格式进行批量验证，严格契合 Mini 的原生输出规格。",
+      "多模态参考素材引导||利用支持的参考输入精准控制产品外观、角色特征、运镜节奏与音频情绪。",
+      "视频编辑与画面延展||在决定最终 Seedance 路线前，快速运行源视频的局部编辑或画面延展测试。"
+    ],
+    "heroSupportLine": "使用 Mini 进行高性价比批量生成，使用 Seedance 2.0 Fast 进行速度优先的草稿制作，使用标准版 Seedance 2.0 交付精修成品。",
+    "specTitle": "技术规格",
+    "specNote": "Mini 的规格严格对应 VideoAI 提供的生成路线与 Dreamina Seedance 官方模型能力范围。",
+    "specSections": [
+      {
+        "title": "模型与规格限制",
+        "intro": "Dreamina Seedance 2.0 Mini 在 VideoAI 上运行，其 API 模型 ID 为 dreamina-seedance-2-0-mini-260615。",
+        "items": [
+          "开发团队：字节跳动（ByteDance）",
+          "模型 ID：dreamina-seedance-2-0-mini-260615",
+          "分辨率：480p 或 720p",
+          "生成时长：单次 4–15 秒",
+          "帧率：24fps"
+        ]
+      },
+      {
+        "title": "工作流支持",
+        "intro": "Mini 是支持 Seedance 2 核心工作流的高性价比批量生成路线。",
+        "items": [
+          "文生视频与图生视频",
+          "多模态参考生视频",
+          "视频编辑微调",
+          "画面延展",
+          "原生音频与自然对口型",
+          "用于节奏或氛围引导的音频参考"
+        ]
+      }
+    ],
+    "tipsTitle": "优势与适用边界",
+    "strengths": [
+      "低成本批量生产与高性价比快速迭代",
+      "高度契合电商、营销多方案与 UGC 吸睛镜头",
+      "完整支持多模态参考、视频编辑微调与画面延展",
+      "与 Seedance 2.0 完美衔接，便于后期高保真精修"
+    ],
+    "boundaries": [
+      "最高输出分辨率为 720p。",
+      "保持对白与对口型线索精炼，以契合 4–15 秒的可审阅短片段。",
+      "将 Mini 定位于在标准 Seedance 2.0 终版成片前的批量高性价比探索。",
+      "在扩大批量规模前，请在生成工作台中确认实时报价。"
+    ],
+    "relatedItems": [
+      {
+        "brand": "bytedance",
+        "title": "Seedance 2.0",
+        "description": "当需要最终成片质感、更高分辨率交付和最高水准的 Seedance 表现时，将 Mini 验证通过的镜头方案导入 Seedance 2.0。",
+        "modelSlug": "seedance-2-0",
+        "ctaLabel": "查看标准版 Seedance 2.0 ->"
+      },
+      {
+        "brand": "bytedance",
+        "title": "Seedance 2.0 Fast",
+        "description": "当首要目标是超快速的草稿迭代而非低成本批量生产时，选用 Fast 版本。",
+        "modelSlug": "seedance-2-0-fast",
+        "ctaLabel": "查看 Seedance 2.0 Fast ->"
+      }
+    ]
+  },
+  "decision": {
+    "modelSlug": "dreamina-seedance-2-0-mini",
+    "hero": {
+      "eyebrow": "字节跳动高性价比批量路线",
+      "title": "Seedance 2.0 Mini",
+      "subtitle": "低成本 Seedance 批量路线，专为 480p/720p 视频变体、电商与 UGC 测试、原生音频与对口型，以及参考素材引导的视频编辑或画面延展打造。",
+      "subtitleHighlights": [
+        "低成本 Seedance 批量路线",
+        "480p/720p 视频变体",
+        "原生音频与对口型"
+      ],
+      "paragraph": "当性价比相比极致分辨率更重要时，选用 Seedance 2.0 Mini：在 4–15 秒的 480p 或 720p 运行中批量制作电商与营销变体、UGC 吸睛开头、多模态参考引导、原生音频与对口型，以及视频编辑或画面延展。",
+      "primaryCta": {
+        "label": "使用 Seedance 2.0 Mini 生成",
+        "href": "/app?engine=seedance-2-0-mini"
+      },
+      "secondaryCta": {
+        "label": "查看案例",
+        "href": "/zh/examples/seedance"
+      },
+      "quickLinks": [
+        {
+          "label": "对比 2.0 版本",
+          "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0"
+        },
+        {
+          "label": "对比 Fast 版本",
+          "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#dreamina-seedance-2-0-mini-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Seedance 2.0 Mini 示例",
+      "description": "用于营销活动评审的高性价比批量变体",
+      "renderLabel": "查看变体",
+      "badges": [
+        "Mini 路线",
+        "480p/720p",
+        "支持原生音频"
+      ],
+      "altContext": "Seedance 2.0 Mini 电影级批量生成效果"
+    },
+    "features": [
+      {
+        "title": "低成本批量生成",
+        "body": "在确定最终方案前，制作更多电商、营销与 UGC 变体以供评估。",
+        "tone": "price"
+      },
+      {
+        "title": "480p/720p 输出",
+        "body": "使用 480p 进行大通量筛选，或使用 720p 满足更清晰的审阅细节要求。",
+        "tone": "quality"
+      },
+      {
+        "title": "4–15 秒时长",
+        "body": "在 Mini 灵活的时长区间内测试吸睛开头、产品循环与延展效果。",
+        "tone": "duration"
+      },
+      {
+        "title": "多模态参考引导",
+        "body": "通过支持的参考素材引导角色身份、产品取景、动态节奏与音频情绪。",
+        "tone": "reference"
+      },
+      {
+        "title": "视频编辑与延展",
+        "body": "在需要批量低成本迭代时，输入源视频进行局部微调或画面续写。",
+        "tone": "continuity"
+      },
+      {
+        "title": "原生音频与对口型",
+        "body": "当提示词需要声音时，同步生成环境音、简短对白与自然对口型效果。",
+        "tone": "audio"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 Mini 还是 Seedance 2.0？",
+        "body": "使用 Mini 进行低成本的批量探索。当成片需要更高分辨率、更精细质感和更高的 Seedance 上限时，将确认的主镜头导入 Seedance 2.0。",
+        "cta": {
+          "label": "对比 Mini 与 2.0",
+          "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0"
+        }
+      },
+      {
+        "title": "选择 Mini 还是 Fast？",
+        "body": "若草稿制作以速度为首要考量，选用 Fast；若需要在众多变体中实现稳定可控的高性价比，选用 Mini。",
+        "cta": {
+          "label": "对比 Mini 与 Fast",
+          "href": "/zh/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast"
+        }
+      },
+      {
+        "title": "需要提示词灵感？",
+        "body": "从批量吸睛开头、电商产品循环、参考素材引导的视频编辑与延展提示词快速开始。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "纯文本批量生成",
+        "body": "撰写精炼的产品或 UGC 吸睛文案，再针对运镜、场景、画幅比例与时长生成多样变体。"
+      },
+      {
+        "title": "图像参考素材",
+        "body": "使用图片参考锁定产品外观、服装造型、包装细节或品牌特征，保持多变体间的一致性。"
+      },
+      {
+        "title": "视频编辑微调",
+        "body": "在投入最终高精路线前，输入源视频进行低成本的画面调整与镜头修整。"
+      },
+      {
+        "title": "画面续写延展",
+        "body": "将短片源素材进一步延展，用于测试不同结局、开头吸睛片段或产品动态。"
+      },
+      {
+        "title": "音频与对口型",
+        "body": "当声音对效果至关重要时，生成同步音频、简短对白、自然对口型，并按需添加音频参考素材。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Seedance 2.0 Mini 高性价比计费",
+      "subtitle": "预设 480p/720p、4–15 秒 Mini 生成参考总价 — 在应用中生成前可查看精确的实时报价。",
+      "footnote": "所有价格均为 VideoAI 针对预设 Mini 场景以 USD 额度展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "ctaHref": "/zh/pricing#dreamina-seedance-2-0-mini-pricing"
+    },
+    "meta": {
+      "title": "Seedance 2.0 Mini：低成本 AI 视频、价格与最佳用途",
+      "description": "在将最终精修镜头导入 Seedance 2.0 之前，使用 Seedance 2.0 Mini 进行更低成本的 480p/720p 视频测试、批量电商素材、UGC 变体制作及参考引导动态生成。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "dreamina-seedance-2-0-mini",
+    "section": {
+      "title": "提示词实验室 — Seedance 2.0 Mini",
+      "intro": "当每次生成专注于验证一个明确的批量问题（如产品视角、开头吸睛点、参考素材表现、视频微调或画面延展）时，Seedance 2.0 Mini 的表现最为理想。",
+      "tip": null,
+      "guide": {
+        "label": "Seedance 2.0 Mini 工作流说明",
+        "href": "/zh/models/dreamina-seedance-2-0-mini"
+      },
+      "referencesTitle": "Dreamina Seedance 2.0 Mini 如何使用参考素材"
+    },
+    "tabs": [
+      {
+        "id": "quick",
+        "label": "纯文本",
+        "title": "文生视频批量提示词",
+        "description": "当你希望仅通过自然语言低成本评估构图、动态、吸睛点或音频方向时使用。",
+        "copy": "批量测试目标：\n[本次生成验证的重点：开头吸睛点 / 运镜 / 产品视角 / 动作节奏 / 音频]\n\n核心主体与动作：\n[一个清晰可辨的主体 + 一个明确动作]\n\n运镜：\n[仅指定单一运镜：推镜头 / 跟拍 / 固定机位 / 手持]\n\n视觉风格：\n[光影 / 天气 / 色调 / 真实感层次]\n\n音频设置：\n[开启音频以生成原生环境音或对白，或关闭音频进行纯画面审阅]\n\n规则：\n切勿在同一次 Mini 生成中同时测试多个主要变量。"
+      },
+      {
+        "id": "structured",
+        "label": "参考素材",
+        "title": "图像与音频参考素材提示词",
+        "description": "当需要在多个变体间保持产品外观、人物特征、服装或情绪基调稳定一致时使用。",
+        "copy": "提示词意图：\n[生成视频应达成的目标]\n\n图像参考素材：\n@Image1 = [产品 / 人物 / 构图]\n@Image2 = [视觉风格 / 服装 / 色系]\n\n音频参考素材（若上传）：\n@Audio1 = [节奏韵律 / 环境氛围 / 对白质感]\n\n动态表现：\n[一个明确的动作或单一运镜]\n\n连贯性锚点：\n[在多个变体中必须保持不变的要素]\n\n规则：\n每个参考素材分配明确职责。切勿为同一职责上传相互竞争的多个参考素材。"
+      },
+      {
+        "id": "pro",
+        "label": "编辑与延展",
+        "title": "视频编辑或延展提示词",
+        "description": "当已拥有源视频片段，希望使用 Mini 进行低成本微调或画面续写时使用。",
+        "copy": "源视频片段：\n[当前发生的内容以及必须保持连贯的部分]\n\n修改需求：\n[调整画面观感 / 优化节奏剪辑 / 延展片尾落幅]\n\n保持不变：\n[主体特征、产品外观、场景地点、运镜逻辑]\n\n新增节拍：\n[一个明确动作、画面揭示或最终定格姿态]\n\n音频设置：\n[纯视觉审阅时保持关闭，或开启原生音频测试环境音/音效/对白]\n\n规则：\n明确描述下一步的变化，而非凭空引入毫不相关的新场景。"
+      },
+      {
+        "id": "storyboard",
+        "label": "变体对比",
+        "title": "批量变体对比提示词",
+        "description": "当在导入最终 Seedance 2.0 渲染前，使用 Mini 生成多个可比方案进行择优时使用。",
+        "copy": "各变体间保持固定的设置：\n[主体、画幅比例、分辨率、时长、参考素材与核心动作]\n\n变体 A：\n[仅改变一个测试变量]\n\n变体 B：\n[改为另一个不同变量]\n\n评估胜出标准：\n[判定依据：画面清晰度 / 产品识别度 / 情绪吸睛力 / 动作流畅度 / 生成成本]\n\n成片交接说明：\n[确认胜出后，导入 Seedance 2.0 进行精修的部分]\n\n规则：\n保持时长与分辨率一致，确保成本与画质对比公平可靠。"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "quick",
+        "body": "纯文本 = 仅凭自然语言验证单一批量测试问题。"
+      },
+      {
+        "tabId": "structured",
+        "body": "参考素材 = 锁定产品、主体或视觉风格的稳定连贯。"
+      },
+      {
+        "tabId": "pro",
+        "body": "编辑与延展 = 输入源视频片段进行低成本微调修改。"
+      },
+      {
+        "tabId": "storyboard",
+        "body": "变体对比 = 固定基础参数，每次仅微调单一变量。"
+      }
+    ],
+    "globalPrinciples": [
+      "每次生成围绕单一产品、吸睛点或编辑目标展开。",
+      "大通量筛选使用 480p，细节评审切换至 720p。",
+      "为每个图片、视频或音频参考素材分配清晰的单一职责。",
+      "使用源视频输入进行视频编辑微调与画面延展测试。",
+      "当需要最终高品质成片时，将最出色的结果导入 Seedance 2.0。"
+    ],
+    "engineWhy": [
+      "纯文本提示词最适合批量创意探索与低成本营销吸睛测试。",
+      "图像参考素材能够保持产品外观、服装造型或包装细节的一致性。",
+      "视频参考素材与源视频输入有助于测试剪辑节奏、局部修改及画面延展。",
+      "音频参考素材可引导节奏节拍或情绪氛围，同时生成视频支持随片生成原生音频与对口型。"
+    ],
+    "demo": {
+      "title": "演示提示词 — Seedance 2.0 Mini",
+      "promptLabel": "提示词",
+      "prompt": "8 秒 720p 16:9 电影级黄金时段城市斑马线场景。父亲与幼女穿行于人群之中，一辆公交车从身后驶过，街道上突然泛起一阵向上涌动的动态浪潮。\n镜头一：街道平视中远景，周遭普通城市生活，纪实风格前推镜头，暖色轮廓光与长影。\n镜头二：背景自然反应时平滑慢动作推入；父亲与孩子作为情感焦点，手相牵，面部真实。\n镜头三：中近景聚焦孩子安静仰望的神情，随后父亲欣慰微笑。暖阳光芒在最后一帧中轻轻闪烁。\n此精选渲染的音频设置：关闭。若进行新的 Mini 渲染，需要交通环境音、脚步声、路人音效或短对白时，可开启原生音频。约束条件：不得出现可读文字、徽标、字幕或界面元素。",
+      "notes": [],
+      "summary": {
+        "subject": "黄金时段城市斑马线上的父亲与幼女",
+        "action": "一辆公交车从身后驶过，街道上突然泛起一阵向上涌动的动态浪潮",
+        "camera": "纪实风格前推镜头，随后切入富有情感的中近景",
+        "style": "楼宇间透出的暖色光芒、流动的剪影，兼具电影级真实感",
+        "output": "精选渲染示例关闭了音频；进行新的声音测试时可开启原生音频"
+      },
+      "presentationOverrides": {
+        "modeLabel": "提示词",
+        "outputLabel": "音频",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "supported",
+        "audioChipLabel": null,
+        "altContext": "Seedance 2.0 Mini 城市斑马线渲染效果"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "dreamina-seedance-2-0-mini",
+    "section": {
+      "title": "Seedance 2.0 Mini 案例",
+      "intro": "查看 Mini 在低成本电商、营销变体、UGC 吸睛开头、多模态参考引导、视频编辑微调与画面延展方面的生成范式。",
+      "defaultCtaLabel": "查看全部 Seedance 案例 ->",
+      "recreateLabel": "复现此 Mini 变体 ->"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "真实社区生成效果",
+        "body": "探索 Dreamina Seedance 2.0 Mini 的无限可能 — 适用于批量视频变体的低成本路线。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "一键复现任意镜头",
+        "body": "一键直达应用工作台，快速复用该镜头的参数设置。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "原生音频",
+        "body": "同步生成对白、环境音与音效。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "多镜头连续性",
+        "body": "在连续序列中保持人物、风格与场景的一致性。",
+        "icon": "users"
+      },
+      {
+        "id": "proof-5",
+        "title": "贴合生产规范",
+        "body": "内置安全护栏与审核过滤机制，保障负责任的创意审阅。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  }
+}

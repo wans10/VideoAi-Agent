@@ -10,7 +10,7 @@ export function ApproveDraftButton({ articleId, version, digest, disabledReason,
 
   async function approve() {
     if (disabledReason || pending) return;
-    if (!window.confirm(retryPublication ? 'Resume publication of this version? Completed steps will be verified before continuing.' : retryChecks ? 'Rerun technical checks for this version? Content will not be regenerated.' : publish ? `Approve and publish version ${version} in EN, FR and ES on MaxVideoAI? Publication will start automatically.` : `Approve the content of version ${version}? Editorial approval does not publish the article.`)) return;
+    if (!window.confirm(retryPublication ? 'Resume publication of this version? Completed steps will be verified before continuing.' : retryChecks ? 'Rerun technical checks for this version? Content will not be regenerated.' : publish ? `Approve and publish version ${version} in EN, FR and ES on Keyvo? Publication will start automatically.` : `Approve the content of version ${version}? Editorial approval does not publish the article.`)) return;
     setPending(true);
     setError(null);
     try {

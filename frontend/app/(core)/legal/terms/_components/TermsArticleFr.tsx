@@ -13,7 +13,7 @@ export function TermsArticleFr({
   return (
     <article className="stack-gap-lg text-base leading-relaxed text-text-secondary">
       <p>
-        Les présentes Conditions régissent votre accès et votre utilisation de l’espace de travail MaxVideoAI (le « Service »), notamment la création de
+        Les présentes Conditions régissent votre accès et votre utilisation de l’espace de travail Keyvo (le « Service »), notamment la création de
         vidéos assistées par IA, les recharges de wallet, la gestion des jobs et les reçus. En créant un compte ou en utilisant le Service, vous acceptez
         ces Conditions ainsi que la Politique de confidentialité et la Politique cookies.
       </p>
@@ -82,15 +82,15 @@ export function TermsArticleFr({
             tiers, des lois applicables et des éventuelles restrictions propres au modèle ou fournisseur utilisé.
           </li>
           <li>
-            <strong>Licence sur les médias générés.</strong> Pour chaque sortie produite via MaxVideoAI, vous nous accordez une licence mondiale, non exclusive, gratuite, transférable et sous-licenciable pour héberger, reproduire, indexer, afficher et utiliser ces vidéos afin (a) d’exploiter le Service, (b) d’améliorer le routage, les protections et les modèles, (c) de mener des enquêtes sécurité/abus et (d) de présenter la galerie Examples, les pages modèles, études de cas ou supports marketing.
+            <strong>Licence sur les médias générés.</strong> Pour chaque sortie produite via Keyvo, vous nous accordez une licence mondiale, non exclusive, gratuite, transférable et sous-licenciable pour héberger, reproduire, indexer, afficher et utiliser ces vidéos afin (a) d’exploiter le Service, (b) d’améliorer le routage, les protections et les modèles, (c) de mener des enquêtes sécurité/abus et (d) de présenter la galerie Examples, les pages modèles, études de cas ou supports marketing.
           </li>
           <li>
-            <strong>Contrôles de confidentialité.</strong> Les nouveaux rendus sont privés par défaut. La publication publique, l’indexation site-wide et l’éventuelle inclusion dans le rollout Video SEO sont gérées par MaxVideoAI via un workflow interne de revue. Si vous souhaitez désindexer, retirer d’un moteur ou supprimer un rendu public, vous pouvez écrire à{' '}
+            <strong>Contrôles de confidentialité.</strong> Les nouveaux rendus sont privés par défaut. La publication publique, l’indexation site-wide et l’éventuelle inclusion dans le rollout Video SEO sont gérées par Keyvo via un workflow interne de revue. Si vous souhaitez désindexer, retirer d’un moteur ou supprimer un rendu public, vous pouvez écrire à{' '}
             <ObfuscatedEmailLink
-              user="support"
-              domain="maxvideoai.com"
-              label="support@maxvideoai.com"
-              placeholder="support [at] maxvideoai.com"
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
               unstyled
               className="font-medium"
             />{' '}
@@ -100,7 +100,7 @@ export function TermsArticleFr({
             <strong>Uploads vs. médias générés.</strong> Les logos, images ou vidéos importés restent votre propriété ; nous ne les utilisons que pour produire le rendu demandé ou diagnostiquer la qualité. Les rendus vous appartiennent sous réserve de la licence ci-dessus et vous êtes responsable des droits de tiers incorporés.
           </li>
           <li>
-            <strong>Notre propriété intellectuelle.</strong> MaxVideoAI conserve la propriété de la plateforme, des interfaces, des pipelines, des améliorations techniques et des systèmes de sécurité. Aucune cession d’IP n’est accordée au-delà des droits limités prévus ici.
+            <strong>Notre propriété intellectuelle.</strong> Keyvo conserve la propriété de la plateforme, des interfaces, des pipelines, des améliorations techniques et des systèmes de sécurité. Aucune cession d’IP n’est accordée au-delà des droits limités prévus ici.
           </li>
         </ul>
       </section>
@@ -193,10 +193,10 @@ export function TermsArticleFr({
         <p>
           Questions sur ces Conditions ? Écrivez à{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

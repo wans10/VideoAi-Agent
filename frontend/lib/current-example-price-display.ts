@@ -2,6 +2,7 @@ import { localeRegions, type AppLocale } from '@/i18n/locales';
 import type { CurrentExamplePrice } from '@/server/current-example-price';
 
 const LABELS = {
+  zh: { current: '当前价格', from: '起价', mode: '文生视频' },
   en: { current: 'Current price', from: 'From', mode: 'Text to video' },
   fr: { current: 'Prix actuel', from: 'Dès', mode: 'Texte vers vidéo' },
   es: { current: 'Precio actual', from: 'Desde', mode: 'Texto a vídeo' },

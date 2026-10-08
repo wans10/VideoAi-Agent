@@ -18,18 +18,20 @@ export function getIntegrationLabel(client: McpClientId): IntegrationPageCopy['c
 
 export function getIntegrationInstallInstruction(locale: AppLocale, hostId: McpCompatibilityHostId): string {
   if (hostId === 'codexCli') {
+    if (locale === 'zh') return `请用以下命令为我安装 VideoAI 插件，再指引我连接账户：\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
     if (locale === 'fr') {
-      return `Installe le plugin MaxVideoAI pour moi avec ces commandes, puis guide-moi pour connecter mon compte :\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
+      return `Installe le plugin VideoAI pour moi avec ces commandes, puis guide-moi pour connecter mon compte :\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
     }
     if (locale === 'es') {
-      return `Instala el plugin MaxVideoAI por mí con estos comandos y guíame para conectar mi cuenta:\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
+      return `Instala el plugin VideoAI por mí con estos comandos y guíame para conectar mi cuenta:\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
     }
-    return `Install the MaxVideoAI plugin for me with these commands, then guide me through connecting my account:\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
+    return `Install the VideoAI plugin for me with these commands, then guide me through connecting my account:\n${MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND}\n${MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND}`;
   }
   if (hostId === 'n8nMcpClient' || hostId === 'n8nMcpClientTool') {
-    if (locale === 'fr') return `Construisez manuellement le workflow déterministe dans n8n auto-hébergé à partir du guide MaxVideoAI. Créez ensuite l’identifiant OAuth2 pour ${MCP_PRODUCTION_RESOURCE_URL} et associez-le à chaque nœud MCP Client.`;
-    if (locale === 'es') return `Construye manualmente el flujo determinista en n8n self-hosted siguiendo la guía de MaxVideoAI. Después crea la credencial OAuth2 para ${MCP_PRODUCTION_RESOURCE_URL} y asígnala a cada nodo MCP Client.`;
-    return `Build the deterministic workflow manually in self-hosted n8n from the MaxVideoAI setup guide. Then create the OAuth2 credential for ${MCP_PRODUCTION_RESOURCE_URL} and assign it to every MCP Client node.`;
+    if (locale === 'zh') return `请根据 VideoAI 配置指南，在自托管 n8n 中手动构建确定性工作流，为 ${MCP_PRODUCTION_RESOURCE_URL} 创建 OAuth2 凭据，并将其分配给各个 MCP Client 节点。`;
+    if (locale === 'fr') return `Construisez manuellement le workflow déterministe dans n8n auto-hébergé à partir du guide VideoAI. Créez ensuite l’identifiant OAuth2 pour ${MCP_PRODUCTION_RESOURCE_URL} et associez-le à chaque nœud MCP Client.`;
+    if (locale === 'es') return `Construye manualmente el flujo determinista en n8n self-hosted siguiendo la guía de VideoAI. Después crea la credencial OAuth2 para ${MCP_PRODUCTION_RESOURCE_URL} y asígnala a cada nodo MCP Client.`;
+    return `Build the deterministic workflow manually in self-hosted n8n from the VideoAI setup guide. Then create the OAuth2 credential for ${MCP_PRODUCTION_RESOURCE_URL} and assign it to every MCP Client node.`;
   }
 
   const hostLabels: Partial<Record<McpCompatibilityHostId, string>> = {
@@ -44,6 +46,12 @@ export function getIntegrationInstallInstruction(locale: AppLocale, hostId: McpC
   const integration = getMcpHost(hostId).integration;
   const guidePath = locale === 'es' ? `/es/integraciones/${integration}` : localizedIntegrationPath(locale, `integrations/${integration}`);
   const setup = {
+    zh: {
+      chatgptWeb:'指引我在 ChatGPT 中创建名为 MaxVideoAI、使用 OAuth 的自定义 MCP App。若无法访问设置，请解释操作步骤，不要声称已经安装。',
+      claudeDesktop:'使用 Claude Pro 或 Max 时，指引我依次进入 Customize → Connectors → + Add → Add custom connector，填写生产 URL，Continue，审核检测到的 OAuth，Continue，再 Add。保留检测到的 OAuth。Team 或 Enterprise 应由所有者先在 Organization settings → Connectors → Add → Custom → Web 中添加，成员再 Connect。通过对话中的 + → Connectors 启用。',
+      claudeCode:`使用以下命令配置 Claude Code：claude mcp add --transport http maxvideoai ${MCP_PRODUCTION_RESOURCE_URL}。再指引我通过 /mcp 授权账户。`,
+      openclawGateway:'在 OpenClaw 中使用 Streamable HTTP 和 OAuth 配置远程服务器 maxvideoai，再运行 openclaw mcp login maxvideoai。先检查共享身份与逐请求用户身份的选择。',
+    },
     en: {
       chatgptWeb: 'Guide me through creating a custom MCP app named MaxVideoAI with OAuth in ChatGPT. If you cannot access these settings, explain the steps; do not claim it is installed.',
       claudeDesktop: 'With Claude Pro or Max, guide me through Customize → Connectors → + Add → Add custom connector, the production URL, Continue, detected OAuth review, Continue and Add. Keep detected OAuth. On Team or Enterprise, an owner first adds it through Organization settings → Connectors → Add → Custom → Web; members then Connect. Enable it per conversation via + → Connectors.',
@@ -64,6 +72,7 @@ export function getIntegrationInstallInstruction(locale: AppLocale, hostId: McpC
     },
   };
   const instruction = setup[locale][hostId as keyof typeof setup.en];
+  if (locale === 'zh') return `${instruction ?? `指引我在 ${host} 中连接 MaxVideoAI。`}\n仅使用生产环境：${MCP_PRODUCTION_RESOURCE_URL}。指南：https://maxvideoai.com${guidePath}\n若出现 MaxVideoAI Staging，请不要使用，该环境账户独立。我会自己在浏览器中登录现有账户并确认权限。不要在对话中索要密码。返回后只检查 get_account_status 和 list_models，不报价、不生成、不支付。`;
   if (locale === 'fr') {
     return `${instruction ?? `Guide-moi pour connecter MaxVideoAI dans ${host}.`}\nUtilise uniquement la production : ${MCP_PRODUCTION_RESOURCE_URL}. Guide : https://maxvideoai.com${guidePath}\nSi une entrée MaxVideoAI Staging apparaît, n’utilise pas cette entrée : ses comptes sont distincts. Je me connecterai moi-même avec mon compte MaxVideoAI existant et validerai les accès dans le navigateur. Ne demande jamais mon mot de passe dans le chat. Après le retour, vérifie get_account_status et list_models uniquement, sans devis, génération ni paiement.`;
   }
@@ -145,6 +154,29 @@ export function buildIntegrationCopy({
 }
 
 export function getIntegrationInstallAction(locale: AppLocale, clientLabel: IntegrationPageCopy['clientLabel']): IntegrationPageCopy['setup']['installAction'] {
+  if (locale === 'zh') {
+    const isCodex = clientLabel === 'Codex';
+    const isN8n = clientLabel === 'n8n';
+    return {
+      eyebrow: '快速配置',
+      title: isN8n ? '在 n8n 中构建工作流' : isCodex ? '复制指令，让 Codex 安装插件' : `复制指令，让 ${clientLabel} 指引您连接`,
+      body: isN8n
+        ? '按照指南在自托管 n8n 中构建确定性工作流，再手动配置 OAuth2 凭据。'
+        : isCodex
+          ? '将请求粘贴到 Codex。获得您的批准后，它可以执行安装命令。'
+          : `将请求粘贴到 ${clientLabel}，它会说明在哪里添加 VideoAI，并指引您完成连接。`,
+      copyInstructionEnabled: !isN8n,
+      showInstruction: isN8n ? '查看手动配置说明' : '查看将复制的内容',
+      copyInstruction: isN8n ? '手动配置 n8n' : isCodex ? '复制并在 Codex 中安装' : `复制指令，在 ${clientLabel} 中获取帮助`,
+      copiedInstruction: isN8n ? '已显示手动配置说明。' : `已复制，请粘贴到 ${clientLabel}。`,
+      copyEndpoint: '复制 MCP 地址',
+      copiedEndpoint: '已复制 MCP 地址。',
+      copyError: '无法复制，请选中文字并手动复制。',
+      detailEyebrow: '详细配置',
+      detailTitle: `${clientLabel} 中的三个配置步骤`,
+    };
+  }
+
   if (locale === 'fr') {
     const isCodex = clientLabel === 'Codex';
     const isN8n = clientLabel === 'n8n';
@@ -155,7 +187,7 @@ export function getIntegrationInstallAction(locale: AppLocale, clientLabel: Inte
         ? 'Suivez le guide pour construire le workflow déterministe dans n8n auto-hébergé, puis configurez manuellement son identifiant OAuth2.'
         : isCodex
         ? 'Collez la demande dans Codex : il peut exécuter les commandes après votre autorisation.'
-        : `Collez la demande dans ${clientLabel} : il vous indique exactement où ajouter MaxVideoAI et terminer la connexion.`,
+        : `Collez la demande dans ${clientLabel} : il vous indique exactement où ajouter VideoAI et terminer la connexion.`,
       copyInstructionEnabled: !isN8n,
       showInstruction: isN8n ? 'Voir la configuration manuelle' : 'Voir ce qui sera copié',
       copyInstruction: isN8n ? 'Configurer n8n manuellement' : isCodex ? 'Copier et installer dans Codex' : `Copier pour être guidé dans ${clientLabel}`,
@@ -177,7 +209,7 @@ export function getIntegrationInstallAction(locale: AppLocale, clientLabel: Inte
         ? 'Sigue la guía para construir el flujo determinista en n8n self-hosted y configura manualmente su credencial OAuth2.'
         : isCodex
         ? 'Pega la petición en Codex: podrá ejecutar los comandos después de tu autorización.'
-        : `Pega la petición en ${clientLabel}: te indicará exactamente dónde añadir MaxVideoAI y completar la conexión.`,
+        : `Pega la petición en ${clientLabel}: te indicará exactamente dónde añadir VideoAI y completar la conexión.`,
       copyInstructionEnabled: !isN8n,
       showInstruction: isN8n ? 'Ver la configuración manual' : 'Ver qué se copiará',
       copyInstruction: isN8n ? 'Configurar n8n manualmente' : isCodex ? 'Copiar e instalar en Codex' : `Copiar para recibir ayuda en ${clientLabel}`,
@@ -198,7 +230,7 @@ export function getIntegrationInstallAction(locale: AppLocale, clientLabel: Inte
       ? 'Follow the guide to build the deterministic workflow in self-hosted n8n, then configure its OAuth2 credential manually.'
       : isCodex
       ? 'Paste the request into Codex. It can run the commands after you approve them.'
-      : `Paste the request into ${clientLabel}. It will show you exactly where to add MaxVideoAI and finish connecting.`,
+      : `Paste the request into ${clientLabel}. It will show you exactly where to add VideoAI and finish connecting.`,
     copyInstructionEnabled: !isN8n,
     showInstruction: isN8n ? 'See the manual configuration' : 'See what will be copied',
     copyInstruction: isN8n ? 'Configure n8n manually' : isCodex ? 'Copy and install in Codex' : `Copy for guidance in ${clientLabel}`,

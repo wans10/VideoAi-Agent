@@ -69,13 +69,14 @@ test('trend-led comparisons launch as complete scoreboards without face-to-face 
     const file = `content/comparisons/${pair.slug}.json`;
     assert.equal(existsSync(file), true, file);
     const document = parseComparePageContentDocument(readFileSync(file, 'utf8'), pair.slug, file);
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       assert.ok(document[locale].meta?.title, `${pair.slug}.${locale}.title`);
       assert.ok(document[locale].meta?.description, `${pair.slug}.${locale}.description`);
       assert.ok(document[locale].quickVerdict?.body, `${pair.slug}.${locale}.verdict`);
       assert.equal(document[locale].primaryLinks?.length, 2, `${pair.slug}.${locale}.links`);
       assert.doesNotMatch(JSON.stringify(document[locale]), /side[- ]by[- ]side|showdown|placeholder/i);
     }
+    assert.match(document.zh?.quickVerdict?.body ?? '', /人民币报价/, `${pair.slug}.zh price guidance`);
   }
 
   for (const modelSlug of ['seedance-2-5', 'wan-3', 'minimax-h3-max']) {
@@ -88,9 +89,9 @@ test('trend-led comparisons launch as complete scoreboards without face-to-face 
   }
 });
 
-test('trend-led comparisons are English-first and excluded from FR/ES sitemaps at launch', () => {
+test('trend-led comparisons publish Chinese editorial pages while FR/ES remain excluded', () => {
   for (const { slug } of TRENDING_PAIRS) {
-    assert.deepEqual(getIndexableComparisonLocales(slug), ['en'], slug);
+    assert.deepEqual(getIndexableComparisonLocales(slug), ['en', 'zh'], slug);
   }
 });
 

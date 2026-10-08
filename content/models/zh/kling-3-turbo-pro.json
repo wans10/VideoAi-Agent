@@ -1,0 +1,243 @@
+{
+  "marketingName": "Kling 3.0 Turbo Pro",
+  "versionLabel": "3.0 Turbo Pro",
+  "seo": {
+    "title": "Kling 3 Turbo Pro | 1080p AI 视频生成、原生音频与价格 | VideoAI",
+    "description": "通过文本或首帧图像生成 3–15 秒 1080p 的 Kling 3 Turbo Pro 视频，支持原生音频与多镜头分镜提示词。"
+  },
+  "overview": "Kling 3 Turbo Pro 是专注于 1080p 交付品质的高效模型，适用于快速营销镜头、电影级场景以及包含原生音频的精细多镜头序列。",
+  "decision": {
+    "modelSlug": "kling-3-turbo-pro",
+    "hero": {
+      "eyebrow": "KLING TURBO 1080P 路线",
+      "title": "Kling 3.0 Turbo Pro",
+      "subtitle": "快速 1080p 文生视频与图生视频，适用于精致的 3–15 秒场景与多镜头序列。",
+      "subtitleHighlights": [
+        "1080p",
+        "3–15 秒",
+        "多镜头"
+      ],
+      "paragraph": "当画面细节、材质渲染和 1080p 最终交付品质相比 Standard 更物有所值时，请选择 Pro。支持使用单个提示词或包含多达 6 个定时镜头的分镜序列。",
+      "primaryCta": {
+        "label": "使用 Kling 3.0 Turbo Pro 生成",
+        "href": "/app?engine=kling-3-turbo-pro"
+      },
+      "secondaryCta": {
+        "label": "查看案例",
+        "href": "/zh/examples/kling"
+      },
+      "quickLinks": [
+        {
+          "label": "查看 720p 的 Turbo Standard",
+          "href": "/zh/models/kling-3-turbo-standard"
+        },
+        {
+          "label": "对比两款模型",
+          "href": "/zh/ai-video-engines/kling-3-turbo-pro-vs-kling-3-turbo-standard"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#kling-3-turbo-pro-pricing"
+        },
+        {
+          "label": "提示词实验室",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "官方首发审核案例",
+      "description": "风雪天文台信号",
+      "renderLabel": "查看渲染",
+      "badges": [
+        "1080p",
+        "3–15 秒",
+        "多镜头",
+        "原生音频"
+      ],
+      "altContext": "Kling 3.0 Turbo Pro：风雪天文台信号"
+    },
+    "features": [
+      {
+        "title": "1080p 交付品质",
+        "body": "选用 Pro 呈现符合商业发布标准的画面细节、材质质感、光影表现与更大画幅。",
+        "tone": "quality"
+      },
+      {
+        "title": "3–15 秒视频片段",
+        "body": "可任选整数秒时长，用于生成单镜头或结构清晰的短镜头序列。",
+        "tone": "duration"
+      },
+      {
+        "title": "结构化多镜头提示词",
+        "body": "最多可调度 6 个定时镜头，并通过跨镜头复用核心锚点保持画面一致性。",
+        "tone": "continuity"
+      },
+      {
+        "title": "原生音频",
+        "body": "在同一次渲染中同步生成对白、环境音与特效声。",
+        "tone": "audio"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 Pro 进行最终交付",
+        "body": "当已确定的创意概念需要 1080p 输出与更精致的视觉质感时，请选用 Pro。",
+        "cta": {
+          "label": "使用 Kling 3.0 Turbo Pro 生成",
+          "href": "/app?engine=kling-3-turbo-pro"
+        }
+      },
+      {
+        "title": "查看 720p 的 Turbo Standard",
+        "body": "当画面细节、材质渲染和 1080p 最终交付品质相比 Standard 更物有所值时，选用 Pro；支持使用单个提示词或最多 6 个定时镜头的分镜序列。",
+        "cta": {
+          "label": "查看 720p 的 Turbo Standard",
+          "href": "/zh/models/kling-3-turbo-standard"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文生视频",
+        "body": "分别明确主体、动作、运镜、连贯性锚点与声音线索。"
+      },
+      {
+        "title": "图生视频",
+        "body": "通过细致描述动态与运镜，让单张首帧静态图片生动流畅地运转起来。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Kling 3.0 Turbo Pro 价格一览",
+      "subtitle": "根据视频时长、模式和分辨率，在提交渲染前精确计算费用。",
+      "footnote": "生成时界面显示的费用总额具有最终效力。",
+      "ctaLabel": "使用 Kling 3.0 Turbo Pro 生成",
+      "ctaHref": "/app?engine=kling-3-turbo-pro"
+    },
+    "meta": {
+      "title": "Kling 3 Turbo Pro：1080p 画质、原生音频与价格 | VideoAI",
+      "description": "通过文本或首帧图像生成 3–15 秒 1080p 的 Kling 3 Turbo Pro 视频，支持原生音频与多镜头分镜提示词。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "kling-3-turbo-pro",
+    "section": {
+      "title": "提示词实验室 — Kling 3 Turbo Pro",
+      "intro": "使用精确的材质、光影与镜头语言，避免在单个镜头中堆砌过多指令。",
+      "tip": "仅重复跨越每次镜头切换必须保留的角色身份、关键道具与色彩锚点。",
+      "guide": {
+        "label": "Kling 3 官方指南",
+        "href": "https://app.klingai.com/cn/quickstart/klingai-video-3-model-user-guide"
+      },
+      "referencesTitle": "导演精美镜头序列"
+    },
+    "tabs": [
+      {
+        "id": "direction",
+        "label": "导演执导",
+        "title": "导演精美镜头序列",
+        "description": "分别明确主体、动作、运镜、连贯性锚点与声音线索。",
+        "copy": "暴风雪中的偏远天文台。圆顶缓缓旋转，望远镜对准云层间的空隙，远处一道闪电勾勒出山脊的轮廓。镜头平稳受控地缓移，建筑结构稳定，冷蓝色调，伴随风声与机械运转音效。"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "direction",
+        "body": "仅重复跨越每次镜头切换必须保留的角色身份、关键道具与色彩锚点。"
+      }
+    ],
+    "globalPrinciples": [
+      "每个镜头保持一个清晰可辨的动作。",
+      "仅重复不可或缺的连贯性核心锚点。"
+    ],
+    "engineWhy": [
+      "Kling 3 Turbo Pro 是专注于 1080p 交付品质的高效模型，适用于快速营销镜头、电影级场景以及包含原生音频的精细多镜头序列。"
+    ],
+    "demo": {
+      "title": "风雪天文台信号",
+      "promptLabel": "生产级提示词",
+      "prompt": "暴风雪中的偏远天文台。圆顶缓缓旋转，望远镜对准云层间的空隙，远处一道闪电勾勒出山脊的轮廓。镜头平稳受控地缓移，建筑结构稳定，冷蓝色调，伴随风声与机械运转音效。",
+      "notes": [
+        "仅重复跨越每次镜头切换必须保留的角色身份、关键道具与色彩锚点。"
+      ],
+      "summary": {
+        "subject": "风雪天文台信号",
+        "action": "暴风雪中天文台圆顶旋转调校",
+        "camera": "平稳受控的单次运镜移动",
+        "style": "精致冷色调电影级夜景",
+        "output": "1080p · 24 FPS · 原生音频"
+      },
+      "presentationOverrides": {
+        "modeLabel": "文生视频",
+        "outputLabel": "1080p · 24 FPS · 原生音频",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "media",
+        "audioChipLabel": null,
+        "altContext": "Kling 3.0 Turbo Pro：风雪天文台信号"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "kling-3-turbo-pro",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "精选案例",
+      "intro": "精选两组具有代表性的首发渲染作品，呈现该模型在人物、场景与产品上的卓越表现。",
+      "defaultCtaLabel": "查看 Kling 系列案例库",
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "reference",
+        "label": "多模态参考"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "prompt",
+        "icon": "sparkles",
+        "title": "提示词遵循度",
+        "body": "检验所指定的主体、动作、景别构图与最终故事节拍。"
+      },
+      {
+        "id": "motion",
+        "icon": "zap",
+        "title": "动作表现",
+        "body": "检验复杂肢体动作与物理动态的平滑度。"
+      },
+      {
+        "id": "people",
+        "icon": "users",
+        "title": "人物保真度",
+        "body": "考察人体解剖结构、身份特征、服装细节与自然肢体动态。"
+      },
+      {
+        "id": "finish",
+        "icon": "maximize",
+        "title": "画面质感",
+        "body": "审视画面细节、光影渲染、材质质感与输出分辨率。"
+      },
+      {
+        "id": "review",
+        "icon": "shield",
+        "title": "内容审阅",
+        "body": "剔除不需要的文字、水印瑕疵、不安全内容或未经授权的肖像特征。"
+      }
+    ],
+    "fallbackItems": null
+  }
+}

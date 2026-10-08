@@ -308,7 +308,7 @@ test('handoff locks quote and wallet in one transaction, recommends exact shortf
     {
       type: 'open_url',
       purpose: 'billing',
-      label: 'Add credits securely on MaxVideoAI',
+      label: 'Add credits securely on Keyvo',
     },
   );
   const url = new URL(result.destination.url);
@@ -478,7 +478,7 @@ test('create_topup_link has exact UUID input, annotations, and explicit non-paym
         destination: {
           type: 'open_url',
           purpose: 'billing',
-          label: 'Add credits securely on MaxVideoAI',
+          label: 'Add credits securely on Keyvo',
           url: 'https://maxvideoai.com/billing?mcp_topup=opaque',
         },
         freshQuoteRequired: true,
@@ -508,7 +508,7 @@ test('create_topup_link has exact UUID input, annotations, and explicit non-paym
   });
   assert.deepEqual(tool.inputSchema.required, ['quoteId']);
   assert.deepEqual(Object.keys(tool.inputSchema.properties ?? {}), ['quoteId']);
-  assert.match(tool.description ?? '', /short-lived MaxVideoAI web handoff/i);
+  assert.match(tool.description ?? '', /short-lived (?:VideoAI|Keyvo) web handoff/i);
   assert.match(tool.description ?? '', /does not take payment/i);
   assert.match(tool.description ?? '', /invalidates the old short-lived quote/i);
   assert.match(tool.description ?? '', /fresh prepare_generation/i);

@@ -47,16 +47,16 @@ export function MediaDestinationActions({ asset, userId, locale, onNavigate, sou
     } catch { if (active.current && scopeRef.current === scope) setError(true); }
     finally { if (active.current && scopeRef.current === scope) setPending(false); }
   };
-  const fr = locale.startsWith('fr'), es = locale.startsWith('es');
-  const toolLabels = fr ? ['Agrandir', 'Changer l’angle', 'Retirer le fond', 'Restaurer', 'Réduire le bruit', 'Corriger le flou', 'Fluidifier'] : es ? ['Ampliar', 'Cambiar ángulo', 'Quitar fondo', 'Restaurar', 'Reducir ruido', 'Corregir desenfoque', 'Suavizar movimiento'] : ['Upscale', 'Change angle', 'Remove background', 'Restore video', 'Denoise', 'Fix motion blur', 'Smooth motion'];
+  const zh = locale.startsWith('zh'), fr = locale.startsWith('fr'), es = locale.startsWith('es');
+  const toolLabels = zh ? ['提升分辨率', '改变视角', '移除背景', '修复视频', '降噪', '修复运动模糊', '平滑运动'] : fr ? ['Agrandir', 'Changer l’angle', 'Retirer le fond', 'Restaurer', 'Réduire le bruit', 'Corriger le flou', 'Fluidifier'] : es ? ['Ampliar', 'Cambiar ángulo', 'Quitar fondo', 'Restaurar', 'Reducir ruido', 'Corregir desenfoque', 'Suavizar movimiento'] : ['Upscale', 'Change angle', 'Remove background', 'Restore video', 'Denoise', 'Fix motion blur', 'Smooth motion'];
   const toolButton = (destination: typeof MEDIA_TOOL_DESTINATIONS[number]) => <button key={destination} type="button" disabled={pending} onClick={() => void open(destination)}><AppGlyph name="tools" /><span>{toolLabels[MEDIA_TOOL_DESTINATIONS.indexOf(destination)]}</span></button>;
   return <div className="app-media-destinations">
-    <button type="button" disabled={pending} onClick={() => void open('video')}><AppGlyph name="video" /><span>{asset.kind === 'image' ? copy.animate : (fr ? 'Utiliser comme référence' : es ? 'Usar como referencia' : 'Use as reference')}</span></button>
-    {asset.kind === 'video' ? <button type="button" disabled={pending} onClick={() => void open('video', true)}><AppGlyph name="video" /><span>{fr ? 'Prolonger la vidéo' : es ? 'Extender vídeo' : 'Extend video'}</span></button> : null}
-    {supportsMediaDestination(asset, 'image') ? <button type="button" disabled={pending} onClick={() => void open('image')}><AppGlyph name="image" /><span>{fr ? 'Créer à partir de cette image' : es ? 'Crear con esta imagen' : 'Create with this image'}</span></button> : null}
+    <button type="button" disabled={pending} onClick={() => void open('video')}><AppGlyph name="video" /><span>{asset.kind === 'image' ? copy.animate : (zh ? '用作参考素材' : fr ? 'Utiliser comme référence' : es ? 'Usar como referencia' : 'Use as reference')}</span></button>
+    {asset.kind === 'video' ? <button type="button" disabled={pending} onClick={() => void open('video', true)}><AppGlyph name="video" /><span>{zh ? '延长视频' : fr ? 'Prolonger la vidéo' : es ? 'Extender vídeo' : 'Extend video'}</span></button> : null}
+    {supportsMediaDestination(asset, 'image') ? <button type="button" disabled={pending} onClick={() => void open('image')}><AppGlyph name="image" /><span>{zh ? '使用此图片创作' : fr ? 'Créer à partir de cette image' : es ? 'Crear con esta imagen' : 'Create with this image'}</span></button> : null}
     {supportsMediaDestination(asset, 'upscale') ? toolButton('upscale') : null}
-    {asset.kind !== 'audio' ? <details><summary>{fr ? 'Plus d’outils' : es ? 'Más herramientas' : 'More tools'}</summary><div>{MEDIA_TOOL_DESTINATIONS.filter(destination => destination !== 'upscale' && supportsMediaDestination(asset, destination)).map(toolButton)}</div></details> : null}
-    {pending ? <span role="status">{fr ? 'Préparation…' : es ? 'Preparando…' : 'Preparing…'}</span> : null}
+    {asset.kind !== 'audio' ? <details><summary>{zh ? '更多工具' : fr ? 'Plus d’outils' : es ? 'Más herramientas' : 'More tools'}</summary><div>{MEDIA_TOOL_DESTINATIONS.filter(destination => destination !== 'upscale' && supportsMediaDestination(asset, destination)).map(toolButton)}</div></details> : null}
+    {pending ? <span role="status">{zh ? '准备中…' : fr ? 'Préparation…' : es ? 'Preparando…' : 'Preparing…'}</span> : null}
     {error ? <p role="alert">{copy.error}</p> : null}
   </div>;
 }

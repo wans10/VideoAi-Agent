@@ -9,10 +9,17 @@ const localizedSlugConfig = require('./config/localized-slugs.json');
 
 const { Client } = require('pg');
 
-const SITE_URL = 'https://maxvideoai.com';
-const LOCALES = ['en', 'fr', 'es'];
-const LOCALE_PREFIXES = { en: '', fr: 'fr', es: 'es' };
-const ENGLISH_ONLY_PATHS = new Set(['/return-policy']);
+const SITE_URL = (() => {
+  for (const value of [process.env.NEXT_PUBLIC_SITE_URL, process.env.SITE_URL]) {
+    if (!value?.trim()) continue;
+    try { return new URL(/^https?:\/\//i.test(value.trim()) ? value.trim() : `https://${value.trim()}`).origin; }
+    catch { /* Fall back to the next configured origin. */ }
+  }
+  return 'https://app.keyvo.cn';
+})();
+const LOCALES = ['en', 'fr', 'es', 'zh'];
+const LOCALE_PREFIXES = { en: '', fr: 'fr', es: 'es', zh: 'zh' };
+const POLICY_LOCALES = ['en', 'zh'];
 const mcpIndexable =
   mcpPublication.publicIndexing &&
   mcpPublication.transport &&
@@ -294,7 +301,7 @@ module.exports = {
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
     const englishPath = toEnglishPath(normalizedPath);
     const loc = `${SITE_URL}${normalizedPath === '/' ? '/' : normalizedPath}`;
-    const publishableLocales = ENGLISH_ONLY_PATHS.has(englishPath) ? ['en'] : LOCALES;
+    const publishableLocales = englishPath === '/return-policy' ? POLICY_LOCALES : LOCALES;
     const alternateRefs = [
       ...publishableLocales.map((locale) => ({
         href: buildLocaleHref(locale, englishPath),

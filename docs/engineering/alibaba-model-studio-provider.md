@@ -40,9 +40,9 @@ All routing switches are server-only. Never create `NEXT_PUBLIC_` aliases for th
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `ALIBABA_MODEL_STUDIO_API_KEY` | unset | Singapore-scoped credential; secret |
-| `ALIBABA_MODEL_STUDIO_BASE_URL` | Singapore international endpoint | Optional public endpoint or private workspace host; treat a workspace hostname as private configuration |
-| `ALIBABA_MODEL_STUDIO_REGION` | `ap-southeast-1` | Required region coupling |
+| `ALIBABA_MODEL_STUDIO_API_KEY` | unset | DashScope API credential; secret |
+| `ALIBABA_MODEL_STUDIO_BASE_URL` | Singapore international endpoint | Optional DashScope public endpoint (`dashscope.aliyuncs.com`, `dashscope-intl.ap-southeast-1.aliyuncs.com`) or workspace host (`*.maas.aliyuncs.com`); treat a workspace hostname as private configuration |
+| `ALIBABA_MODEL_STUDIO_REGION` | `ap-southeast-1` | Configured region coupling (`cn-beijing`, `ap-southeast-1`, `us-east-1`, `eu-central-1`, `cn-hongkong`, `ap-northeast-1`) |
 | `ALIBABA_MODEL_STUDIO_ENABLED` | `false` | Master direct-provider switch |
 | `ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED` | `false` | Allows non-admin routing only after a separate launch decision |
 | `ALIBABA_MODEL_STUDIO_ADMIN_ONLY` | `true` | Keeps the enabled route restricted to administrators |
@@ -53,7 +53,7 @@ All routing switches are server-only. Never create `NEXT_PUBLIC_` aliases for th
 | `ALIBABA_MODEL_STUDIO_POLL_TOKEN` | unset | Optional local cron token; secret |
 | `CRON_SECRET` | unset | Shared production cron authorization; secret |
 
-The API key, region, and base URL must belong to the same Singapore deployment. The client rejects non-HTTPS, non-Singapore, credential-bearing, path-bearing, query-bearing, or fragment-bearing base URLs. Do not copy a private workspace hostname into logs, tickets, tests, or documentation.
+The API key, region, and base URL must belong to the same deployment. The client rejects non-HTTPS, unsupported domain, credential-bearing, path-bearing, query-bearing, or fragment-bearing base URLs. Do not copy a private workspace hostname into logs, tickets, tests, or documentation.
 
 ## Routing and fallback invariants
 
@@ -151,3 +151,9 @@ Before any later deployment or routing change, require:
 - frontend TypeScript and lint checks plus `git diff --check`;
 - a secret scan confirming that no key, workspace identifier, signed URL, or raw provider payload entered the branch;
 - explicit approval for new provider spend and any materially broader routing or fallback change.
+
+## Qwen image integration
+
+The separate direct image adapter and Docker configuration are documented in
+[Qwen Image deployment](../deployment/qwen-image.md). It uses synchronous image
+generation; the video polling endpoint does not poll image requests.

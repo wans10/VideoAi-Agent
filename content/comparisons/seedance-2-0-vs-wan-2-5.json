@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 对比 Wan 2.5：4K、音频与升级",
+      "description": "在 VideoAI 上对比 Seedance 2.0 与 Wan 2.5 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Seedance 2.0 和仍可用的 Wan 2.5 文生视频 / 图生视频。Wan 为 10 秒文本 / 图像提供简单固定分辨率计价；Seedance 最长 15 秒，并增加 4K、参考、编辑、延长、动态控制和动态计价。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "简单固定价格文本 / 图像视频可继续用 Wan 2.5；4K、参考、编辑、延长、动态控制或 15 秒选择 Seedance 2.0。Seedance 动态计价，并非所有任务都更便宜。"
+    },
+    "topCards": [
+      {
+        "title": "简单视频继续用 Wan",
+        "body": "480p、720p、1080p 文生视频 / 图生视频、音频、三种常见画幅和固定分辨率计价可继续用 Wan 2.5。"
+      },
+      {
+        "title": "更广泛工作流选择 Seedance",
+        "body": "Seedance 2.0 增加 4K、更多画幅、参考生成、编辑、延长、动态控制、音频及 15 秒上限。"
+      },
+      {
+        "title": "了解计价差异",
+        "body": "Wan 按分辨率与时长列出固定价格；Seedance 根据所请求输出按 token 动态报价。"
+      },
+      {
+        "title": "按复杂度选择工作流",
+        "body": "直接 10 秒文本 / 图像任务适合 Wan；需要源素材和生成后控制的更长或迭代制作适合 Seedance。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 current Seedance 2.0 详情"
+      },
+      {
+        "href": "/models/wan-2-5",
+        "label": "查看 available Wan 2.5 详情"
+      },
+      {
+        "href": "/ai-video-engines/seedance-2-0-vs-wan-2-6",
+        "label": "对比 Seedance 2.0 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你决定继续 Wan 2.5 或使用更广泛 Seedance 工作流。",
+      "items": [
+        {
+          "question": "Wan 2.5 仍支持文本和图像生成吗？",
+          "answer": "支持。仍提供带音频、最长 10 秒的 480p、720p、1080p，支持 16:9、9:16、1:1。"
+        },
+        {
+          "question": "Seedance 2.0 增加哪些制作工具？",
+          "answer": "参考输入、源视频编辑、延长、动态控制、更多画幅、4K 和最长 15 秒。"
+        },
+        {
+          "question": "Seedance 2.0 总比 Wan 2.5 便宜吗？",
+          "answer": "不是。Seedance 按 token 动态计价，Wan 固定分辨率计价；请比较实时 Seedance 报价和选定 Wan 档位。"
+        }
+      ]
+    }
   }
 }

@@ -32,6 +32,6 @@ test('customer-facing support references use the maxvideoai.com mailbox', () => 
 
 test('legal mentions use the Stripe public business address exactly', () => {
   const source = readFileSync('frontend/app/(core)/legal/mentions/page.tsx', 'utf8');
-  assert.equal((source.match(new RegExp(stripeLegalAddress.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) ?? []).length, 3);
+  assert.equal((source.match(new RegExp(stripeLegalAddress.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) ?? []).length, 4);
   assert.doesNotMatch(source, /324 rue de la mare, 60730 Novillers/i);
 });

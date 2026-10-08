@@ -1,10 +1,10 @@
 {
-  "Pay-As-You-Go": { "fr": "Paiement à l’usage", "es": "Pago por uso" },
-  "No subscription": { "fr": "Sans abonnement", "es": "Sin suscripción" },
-  "Wallet top-ups": { "fr": "Crédits rechargeables", "es": "Créditos recargables" },
-  "Multi-engine": { "fr": "Multi-moteurs", "es": "Multi-motor" },
-  "Text→Video": { "fr": "Texte→Vidéo", "es": "Texto→Vídeo" },
-  "Image→Video": { "fr": "Image→Vidéo", "es": "Imagen→Vídeo" },
-  "Upscaling": { "fr": "Upscaling 4K", "es": "Reescalado 4K" },
-  "Iterative renders": { "fr": "Rendus itératifs x1-x4", "es": "Renders iterativos x1-x4" }
+  "Pay-As-You-Go": { "fr": "Paiement à l’usage", "es": "Pago por uso", "zh": "按需付费" },
+  "No subscription": { "fr": "Sans abonnement", "es": "Sin suscripción", "zh": "无需订阅" },
+  "Wallet top-ups": { "fr": "Crédits rechargeables", "es": "Créditos recargables", "zh": "充值额度" },
+  "Multi-engine": { "fr": "Multi-moteurs", "es": "Multi-motor", "zh": "多模型支持" },
+  "Text→Video": { "fr": "Texte→Vidéo", "es": "Texto→Vídeo", "zh": "文生视频" },
+  "Image→Video": { "fr": "Image→Vidéo", "es": "Imagen→Vídeo", "zh": "图生视频" },
+  "Upscaling": { "fr": "Upscaling 4K", "es": "Reescalado 4K", "zh": "4K 超分辨率" },
+  "Iterative renders": { "fr": "Rendus itératifs x1-x4", "es": "Renders iterativos x1-x4", "zh": "x1-x4 迭代渲染" }
 }

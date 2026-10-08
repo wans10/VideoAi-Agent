@@ -1,4 +1,7 @@
-const MIN_TOPUP_CENTS = 1000;
+import { TOPUP_TIERS } from '@/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+
+const MIN_TOPUP_CENTS = TOPUP_TIERS[0].amountCents;
 
 export function getSufficientTopUpAmountCents(shortfallCents: number | undefined): number {
   if (typeof shortfallCents !== 'number' || !Number.isFinite(shortfallCents)) {
@@ -11,12 +14,12 @@ export function getSufficientTopUpAmountCents(shortfallCents: number | undefined
 export function formatWorkspaceTopupPaymentAmount(
   amountMinor: number,
   currency: string,
-  locale: 'en' | 'fr' | 'es',
+  locale: 'en' | 'fr' | 'es' | 'zh',
 ): string {
   const normalizedCurrency = currency.toUpperCase();
   const zeroDecimal = normalizedCurrency === 'JPY';
   const amount = amountMinor / (zeroDecimal ? 1 : 100);
-  const intlLocale = locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : 'en-US';
+  const intlLocale = locale === 'zh' ? 'zh-CN' : locale === 'fr' ? 'fr-FR' : locale === 'es' ? 'es-ES' : 'en-US';
   try {
     return new Intl.NumberFormat(intlLocale, {
       style: 'currency',
@@ -37,10 +40,10 @@ export function buildWorkspaceTopupAnalyticsPayload(amountCents: number, chargeC
     payment_provider: 'stripe',
     payment_flow: 'checkout',
     charge_currency: chargeCurrency.toUpperCase(),
-    wallet_amount_usd: normalizedAmount / 100,
+    ...(CUSTOMER_CURRENCY === 'USD' ? { wallet_amount_usd: normalizedAmount / 100 } : {}),
     wallet_amount_cents: normalizedAmount,
     credits_amount: normalizedAmount / 100,
-    topup_amount_usd: normalizedAmount / 100,
+    ...(CUSTOMER_CURRENCY === 'USD' ? { topup_amount_usd: normalizedAmount / 100 } : {}),
     topup_amount_cents: normalizedAmount,
   };
 }

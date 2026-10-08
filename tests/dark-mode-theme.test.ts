@@ -26,22 +26,31 @@ const marketingHeroImageSource = readFileSync('frontend/components/marketing/Mar
 const lightTokenBlock = tokensSource.slice(tokensSource.indexOf(':root {'), tokensSource.indexOf('\n}\n\n@media'));
 const darkTokenBlock = tokensSource.slice(tokensSource.indexOf('[data-theme="dark"] {'), tokensSource.indexOf('\n}\n\n.card'));
 
-test('dark mode uses the reference deep navy palette without changing light tokens', () => {
-  assert.match(lightTokenBlock, /--bg: #F6F8FC;/);
-  assert.match(lightTokenBlock, /--surface: #FFFFFF;/);
-  assert.match(lightTokenBlock, /--text-primary: #111827;/);
-
-  assert.match(darkTokenBlock, /--bg: #050B14;/);
-  assert.match(darkTokenBlock, /--surface: #0B1424;/);
-  assert.match(darkTokenBlock, /--surface-2: #101B2E;/);
-  assert.match(darkTokenBlock, /--surface-3: #15233A;/);
-  assert.match(darkTokenBlock, /--surface-glass-80: rgba\(11, 20, 36, 0\.80\);/);
-  assert.match(darkTokenBlock, /--hairline: rgba\(148, 163, 184, 0\.14\);/);
-  assert.match(darkTokenBlock, /--accent: #8FB7FF;/);
-  assert.match(darkTokenBlock, /--shadow-card: 0 1px 0 rgba\(255,255,255,\.04\), 0 24px 70px rgba\(0,0,0,\.34\);/);
-
-  assert.doesNotMatch(darkTokenBlock, /--bg: #0A111E;/);
-  assert.doesNotMatch(darkTokenBlock, /--surface-glass-80: #111A2C;/);
+function token(block: string, name: string) {
+  const value = block.match(new RegExp(`--${name}: (#[0-9a-f]{6});`, 'i'))?.[1];
+  assert.ok(value, `${name} is a solid semantic color`);
+  return value;
+}
+function luminance(hex: string) {
+  const rgb = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map(c => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+}
+function contrast(a: string, b: string) {
+  const values = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+test('studio semantic text and primary actions meet WCAG AA contrast in both themes', () => {
+  for (const block of [lightTokenBlock, darkTokenBlock]) {
+    for (const surface of ['bg', 'surface', 'surface-2']) {
+      for (const text of ['text-primary', 'text-secondary', 'text-muted', 'brand']) {
+        assert.ok(contrast(token(block, surface), token(block, text)) >= 4.5, `${surface}/${text}`);
+      }
+    }
+    const buttonFill = block.match(/--brand-gradient: linear-gradient\((#[0-9a-f]{6})/i)?.[1];
+    assert.ok(buttonFill);
+    assert.ok(contrast(buttonFill, token(block, 'on-brand')) >= 4.5, 'primary action text');
+  }
 });
 
 test('engine brand ids used by catalog have theme tokens in light and dark modes', () => {
@@ -72,29 +81,12 @@ test('xAI and Black Forest Labs cards consume their semantic theme tokens', () =
   });
 });
 
-test('global dark background adds reference-style depth while light remains plain token background', () => {
-  assert.match(globalsSource, /body \{\n  @apply bg-bg text-text-primary antialiased font-sans;\n  background: var\(--bg\);\n\}/);
-  assert.match(globalsSource, /\[data-theme="dark"\] body \{\n  background:\n    radial-gradient\(1200px 720px at 78% -10%, rgba\(255, 255, 255, 0\.035\), transparent 64%\),/);
-  assert.match(globalsSource, /radial-gradient\(920px 620px at 100% 12%, rgba\(125, 211, 252, 0\.025\), transparent 58%\),/);
-  assert.match(globalsSource, /linear-gradient\(180deg, #030712 0%, #040816 46%, #030712 100%\);/);
-  assert.match(globalsSource, /background-attachment: fixed;/);
-  assert.match(globalsSource, /\[data-theme="dark"\] \.home-monochrome \{[\s\S]*--surface-glass-80: rgba\(11, 20, 36, 0\.80\);/);
+test('global backgrounds consume the theme token and primary buttons use semantic fills', () => {
+  assert.match(globalsSource, /body \{[\s\S]*?background: var\(--bg\);/);
+  assert.match(globalsSource, /\[data-theme="dark"\] body \{\s*background: var\(--bg\);/);
+  assert.match(buttonSource, /var\(--brand-gradient\)/);
+  assert.match(buttonSource, /text-on-brand/);
 });
-
-test('dark gradients are strongly attenuated while CTAs stay bright like the reference', () => {
-  assert.match(globalsSource, /radial-gradient\(1200px 720px at 78% -10%, rgba\(255, 255, 255, 0\.035\), transparent 64%\),/);
-  assert.match(globalsSource, /radial-gradient\(920px 620px at 100% 12%, rgba\(125, 211, 252, 0\.025\), transparent 58%\),/);
-  assert.match(globalsSource, /background-image: radial-gradient\(760px 320px at 50% 0%, rgba\(255, 255, 255, 0\.030\), transparent 66%\);/);
-  assert.match(darkTokenBlock, /--brand-gradient: linear-gradient\(135deg, #FFFFFF 0%, #F8FAFC 62%, #E5E7EB 100%\);/);
-  assert.match(darkTokenBlock, /--brand-gradient-strong: linear-gradient\(135deg, #FFFFFF 0%, #FFFFFF 54%, #F1F5F9 100%\);/);
-  assert.match(buttonSource, /dark:border-white\/\[0\.24\] dark:bg-white\/\[0\.045\] dark:text-white/);
-  assert.doesNotMatch(globalsSource, /rgba\(59, 130, 246, 0\.10\)/);
-  assert.doesNotMatch(globalsSource, /rgba\(168, 85, 247, 0\.06\)/);
-});
-
-
-
-
 
 test('homepage workflow cards avoid light image wash in dark mode', () => {
   const referenceWorkflowSource = homeSource.slice(homeSource.indexOf('export function ReferenceWorkflow'), homeSource.indexOf('export function AiVideoToolbox'));
@@ -113,11 +105,11 @@ test('decorative marketing hero images stay hidden from assistive tech', () => {
   assert.match(marketingHeroImageSource, /alt=\{alt\}[\s\S]*aria-hidden=\{alt \? undefined : 'true'\}/);
 });
 
-test('marketing navigation dark mode is translucent like the reference header', () => {
-  assert.match(
-    navSource,
-    /'sticky top-0 z-40 border-b border-hairline bg-surface dark:bg-surface-glass-90 dark:backdrop-blur-xl'/
-  );
+test('public navigation uses the studio shell independently of saved app theme', () => {
+  assert.match(navSource, /videoai-public-header sticky top-0/);
+  assert.match(navSource, /<BrandLockup/);
+  const css = readFileSync('frontend/src/styles/videoai-marketing.css', 'utf8');
+  assert.match(css, /\.marketing-site\.videoai-site > \.videoai-public-header/);
 });
 
 test('marketing navigation authenticated generate CTA turns white in dark mode', () => {
@@ -138,10 +130,10 @@ test('cinema hero uses the fixed ivory surface and subdued player without ambien
 });
 
 test('tools hero uses the actual catalogue artwork in a fixed composition', () => {
-  assert.match(toolsHubSource, /tools-hub-montage/);
+  assert.match(toolsHubSource, /ProductionDepartments.module.css/);
   assert.match(toolsHubSource, /WORKSHOP_ART\['character-builder'\]/);
   assert.match(toolsHubSource, /WORKSHOP_ART.angle/);
-  assert.match(toolsHubSource, /QUICK_TOOL_ART\['upscale-image'\]/);
+  assert.match(toolsHubSource, /Object.entries\(QUICK_TOOL_ART\)/);
   assert.match(toolsHubSource, /aria-hidden="true"/);
   assert.doesNotMatch(toolsHubSource, /tools-hero-reference-dark|dark:invert/);
 });

@@ -1,0 +1,283 @@
+{
+  "marketingName": "LTX 2.5 Pro",
+  "versionLabel": "2.5 Pro",
+  "seo": {
+    "title": "LTX 2.5 Pro 专业级 AI 视频生成器 | 生产制作工作流与价格 | VideoAI",
+    "description": "选择 LTX 2.5 Pro 进行面向生产制作的文生视频、图生视频与源音频驱动视频创作，提供精确的工作流限制、提示词指南与标准价格。"
+  },
+  "overview": "LTX 2.5 Pro 是 LTX 系列当前默认的生产级路线。它支持 720p 或 1080p 下的文生视频、图生视频以及独立的源音频驱动工作流。Lightricks 拥有 LTX 模型；在本次首发上线中，VideoAI 通过 Fal 分发这些端点接口。",
+  "decision": {
+    "modelSlug": "ltx-2-5-pro",
+    "hero": {
+      "eyebrow": "AI 视频 · Lightricks",
+      "title": "LTX 2.5 Pro",
+      "subtitle": "一段文本、一张图像、一段声音，让场景跃然眼前。",
+      "subtitleHighlights": [
+        "一段文本、一张图像、一段声音"
+      ],
+      "paragraph": "通过文本生成视频、赋予静态图片动态，或从音频素材开始创作。在 720p 或 1080p 下选择所需配置，生成前即可查看确切价格。",
+      "primaryCta": {
+        "label": "使用 LTX 2.5 Pro 生成",
+        "href": "/app?engine=ltx-2-5-pro"
+      },
+      "secondaryCta": {
+        "label": "探索 LTX 系列案例库",
+        "href": "/zh/examples/ltx"
+      },
+      "quickLinks": [
+        {
+          "label": "查看 LTX 2.5 Fast",
+          "href": "/zh/models/ltx-2-5-fast"
+        },
+        {
+          "label": "对比 Pro 与 LTX 2.3 Pro",
+          "href": "/zh/ai-video-engines/ltx-2-3-pro-vs-ltx-2-5-pro?order=ltx-2-5-pro"
+        },
+        {
+          "label": "对比 Fast 与 Pro",
+          "href": "/zh/ai-video-engines/ltx-2-5-fast-vs-ltx-2-5-pro?order=ltx-2-5-pro"
+        },
+        {
+          "label": "查看 Pro 价格",
+          "href": "/zh/pricing#ltx-2-5-pro-pricing"
+        },
+        {
+          "label": "打开 Pro 提示词实验室",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "LTX 2.5 Pro 官方验证案例库",
+      "description": "通过审核的生产级示例将在评审后展示",
+      "renderLabel": "查看已验收作品",
+      "badges": [
+        "Pro",
+        "三大工作流",
+        "1080p"
+      ],
+      "altContext": "已验收的 LTX 2.5 Pro 生产级作品示例"
+    },
+    "features": [
+      {
+        "title": "LTX 系列当前的主力生产定位",
+        "body": "Pro 是该系列面向正式生产需求的首选路线，而 Fast 则适用于前期探索与快速迭代。这是工作流层面的明确分工，而非毫无依据地宣称某个版本在所有视觉类别上都绝对领先。",
+        "tone": "quality"
+      },
+      {
+        "title": "精准受控的短片段生成",
+        "body": "文生视频与图生视频模式支持在 720p 或 1080p 分辨率下输出 6 秒、8 秒或 10 秒视频。利用该固定时长窗口集中展现单次表演、转场过渡或带有精心构图结尾的产品展示节拍。",
+        "tone": "duration"
+      },
+      {
+        "title": "首帧与可选尾帧控制",
+        "body": "使用首帧图片锁定主体身份与景别构图；当成片最终构图至关重要时，可添加可选尾帧图片。请确保运镜方向与首尾两个视觉锚点保持自然契合。",
+        "tone": "reference"
+      },
+      {
+        "title": "专属音频驱动视频",
+        "body": "A2V 音频驱动视频需要上传私有音频素材，并支持搭配可选图片。计费基于真实可信的输入音频时长，确保模型页面、预检与最终生成均基于一致的计费事实。",
+        "tone": "audio"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "最佳适用：已定稿的生产级创意",
+        "body": "适用于经评审确定的营销分镜、产品动态序列与人物表演，明确锁定主体身份、动作、运镜与最终交付要求。",
+        "cta": {
+          "label": "开始使用 Pro 渲染",
+          "href": "/app?engine=ltx-2-5-pro"
+        }
+      },
+      {
+        "title": "不适场景：发散型提示词前期探索",
+        "body": "如果团队仍在对比构图方案或动态构思，建议先使用 Fast 快速试错，仅将最成熟、最受控的方案交由 Pro 进行正式生产。",
+        "cta": {
+          "label": "探索 LTX 2.5 Fast",
+          "href": "/zh/models/ltx-2-5-fast"
+        }
+      },
+      {
+        "title": "严格锁定核心生产锚点",
+        "body": "明确指出绝不能产生偏差的主体特征、材质质感、画面运动方向与最终帧构图。剔除与核心动作产生竞争的次要干扰事件。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本生产工作流",
+        "body": "编写简明扼要的分镜指令，围绕单一核心动作展开，并明确指定结尾画面的定格构图。"
+      },
+      {
+        "title": "图像生产工作流",
+        "body": "以源图片为视觉锚点，围绕其精确调度镜头运镜、运动节奏与环境光影变化。"
+      },
+      {
+        "title": "音频表演工作流",
+        "body": "将画面视觉节拍与所拥有的音频片段对齐，并通过经系统验证的实际音频时长决定计费数量。"
+      },
+      {
+        "title": "生产安全与合规",
+        "body": "在最终验收前，严格核实媒体版权、肖像授权、人体解剖结构、文字、商标及内容合规性。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "LTX 2.5 Pro 场景化价格参考",
+      "subtitle": "对比 720p 或 1080p 规格下的 6 秒文生视频与基于 6 秒音频创作的视频价格。",
+      "footnote": "实际费用取决于所选具体配置。VideoAI 会在生成前确认报价。对于音频驱动视频，价格严格按上传音频的时长计算。",
+      "ctaLabel": "使用 LTX 2.5 Pro 生成",
+      "ctaHref": "/app?engine=ltx-2-5-pro"
+    },
+    "meta": {
+      "title": "LTX 2.5 Pro：AI 视频模型、音频驱动视频与实时价格 | VideoAI",
+      "description": "了解 LTX 2.5 Pro 的文生视频、图生视频与音频驱动视频工作流，涵盖时长与分辨率限制、专业提示词编写、安全规范以及标准报价场景。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "ltx-2-5-pro",
+    "section": {
+      "title": "提示词实验室 — LTX 2.5 Pro",
+      "intro": "将已定稿的构思转化为单一受控镜头，明确受保护的细节并设定稳定的结尾定格。",
+      "tip": "将最终画面视作分镜需求的一部分，而不是视频生成结束时随机构成的定格。",
+      "guide": {
+        "label": "阅读 LTX 官方提示词指南",
+        "href": "https://docs.ltx.io/api-documentation/implementation-guides/prompting-guide"
+      },
+      "referencesTitle": "撰写符合生产交付标准的 LTX 分镜需求"
+    },
+    "tabs": [
+      {
+        "id": "production",
+        "label": "生产制作",
+        "title": "锁定交付目标",
+        "description": "明确阐述审核通过的镜头必须传达的信息与必须保留的元素。",
+        "copy": "交付目标：\n[营销节点、产品动态或角色表演]\n\n主体锚点：\n[身份特征、服装、形体、材质与道具]\n\n核心动作：\n[单一符合物理逻辑的清晰动作变化]\n\n最终构图：\n[景别取景、姿态与视觉焦点]"
+      },
+      {
+        "id": "cinematography",
+        "label": "电影摄影",
+        "title": "指定受控的电影运镜",
+        "description": "将摄像机运动、光影与动作融合成连贯的单镜头。",
+        "copy": "开篇画幅：\n[景别大小、镜头质感与光影]\n\n运镜轨迹：\n[单次精确运镜方式与移动速度]\n\n物理响应：\n[重量感、接触交互、布料、毛发、倒影或微粒]\n\n连贯性：\n[运动方向与保持不变的细节细节]"
+      },
+      {
+        "id": "sound",
+        "label": "声音设计",
+        "title": "将源音频映射至画面表演",
+        "description": "根据所拥有的音频片段设计对应的视觉节拍。",
+        "copy": "音频素材：\n[拥有的私有音频资产及经过验证的时长]\n\n提示点对齐：\n[开篇、重点重音与收尾时刻]\n\n画面表演：\n[各提示点对应的姿态动作、表情或场景转换]\n\n避免出现：\n[额外剪辑跳切、身份特征漂移、畸变肢体、字幕及水印]"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "production",
+        "body": "生产级提示词应让验收标准具象清晰，而非依赖泛化的主观形容词。"
+      },
+      {
+        "tabId": "cinematography",
+        "body": "单次带有明确动机的运镜通常比多次互相干扰的运镜更能维持画面连贯性。"
+      },
+      {
+        "tabId": "sound",
+        "body": "源音频时长属于系统可信的媒体事实，绝非客户端可随意填写的计费参数。"
+      }
+    ],
+    "globalPrinciples": [
+      "剔除一切无助于交付目标的冗余动作。",
+      "仅重复强调绝不可发生改变的身份特征与连贯性锚点。",
+      "设定明确的收尾定格节拍，以确保成片剪辑的可用性。",
+      "在使用任何来源素材前，确认版权、授权许可与合规安全。"
+    ],
+    "engineWhy": [
+      "Pro 是 LTX 系列当前默认的生产级主流版本。",
+      "专属的文本、图像与音频模式使输入要素清晰明确。",
+      "有限且精确的输出规格选项有助于聚焦单一镜头，方便评审人员进行一致性评估。"
+    ],
+    "demo": {
+      "title": "LTX 2.5 Pro 生产级镜头",
+      "promptLabel": "受控产品序列",
+      "prompt": "一台拉丝钢材质的意式浓缩咖啡机静置于幽静咖啡馆开门前的深色胡桃木台面上。咖啡师将手柄锁入机头，蒸汽在侧光中短暂升腾，镜头缓缓推向抛光控制旋钮。保留机器几何形态、手部解剖结构与映照的窗框线条。以无文字标识、无品牌标志的稳定近景四分之三构图作为收尾定格。",
+      "notes": [
+        "接触交互与材质反光构成具象的保真度检查点。",
+        "明确指定结尾特写构图，确保成片剪辑的可用性。"
+      ],
+      "summary": {
+        "subject": "拉丝不锈钢意式浓缩咖啡机与咖啡师",
+        "action": "手柄扣入锁紧，同时蒸汽升腾",
+        "camera": "缓慢推向抛光控制旋钮",
+        "style": "克制清晨商业广告片质感",
+        "output": "基于媒体源音频状态的 Pro 生产级渲染"
+      },
+      "presentationOverrides": {
+        "modeLabel": "文生视频",
+        "outputLabel": "标准输出设置",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "media",
+        "audioChipLabel": null,
+        "altContext": "LTX 2.5 Pro 咖啡机生产级提示词演示"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "ltx-2-5-pro",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "已审核的 LTX 2.5 Pro 案例",
+      "intro": "案例库将保持隐藏，直至至少有两个合格的 Pro 产出成果通过上线验收标准。",
+      "defaultCtaLabel": "查看 LTX 系列案例库",
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "fidelity",
+        "icon": "sparkles",
+        "title": "生产保真度",
+        "body": "检查受保护的材质质感、几何形状与主体身份特征。"
+      },
+      {
+        "id": "motion",
+        "icon": "zap",
+        "title": "动作表现",
+        "body": "检验复杂肢体动作与物理动态的平滑度。"
+      },
+      {
+        "id": "audio",
+        "icon": "audio",
+        "title": "原生立体声音效",
+        "body": "评估对白时序、环境音与音效的同步契合度。"
+      },
+      {
+        "id": "ending",
+        "icon": "maximize",
+        "title": "稳定收尾定格",
+        "body": "确认最终镜头定格构图严谨，具备实际成片剪辑可用性。"
+      },
+      {
+        "id": "safety",
+        "icon": "shield",
+        "title": "验收安全合规",
+        "body": "剔除版权风险、不安全画面、意外瑕疵印记与误导性肖像。"
+      }
+    ],
+    "fallbackItems": null
+  }
+}

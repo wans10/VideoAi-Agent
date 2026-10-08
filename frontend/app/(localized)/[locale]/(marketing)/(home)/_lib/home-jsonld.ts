@@ -4,6 +4,7 @@ import type { RedesignContent } from './home-route-data';
 import { buildSiteOrganizationReference } from '@/lib/seo/site-organization-schema';
 
 const SOFTWARE_FEATURES: Record<AppLocale, string[]> = {
+  zh: ['按量付费的多模型 AI 视频创作工作台', '生成前比较 AI 视频模型', '生成前显示准确价格', '支持文本、图像、视频与参考素材工作流', '技术性生成失败自动退还额度'],
   en: [
     'Pay-as-you-go multi-engine AI video generation workspace',
     'Compare AI video models before generating',
@@ -31,10 +32,10 @@ export function buildSoftwareSchema(content: RedesignContent, locale: AppLocale 
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'MaxVideoAI',
+    name: 'Keyvo',
     applicationCategory: 'VideoEditorApplication',
     operatingSystem: 'Web',
-    url: `https://maxvideoai.com${locale === 'en' ? '' : `/${locale}`}`,
+    url: `https://app.keyvo.cn${locale === 'en' ? '' : `/${locale}`}`,
     inLanguage: locale,
     description: content.hero.subtitle,
     provider: buildSiteOrganizationReference(),

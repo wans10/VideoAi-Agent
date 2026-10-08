@@ -266,11 +266,17 @@ export const SEEDANCE_2_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: SEEDANCE_2_5_MODES.map(seedance25Mode),
     defaultFalModelId: BYTEPLUS_SEEDANCE_2_5_ENDPOINTS.t2v,
     seo: {
-      title: 'Seedance 2.5 — MaxVideoAI',
-      description: 'Seedance 2.5 video generation workflows on MaxVideoAI.',
+      title: 'Seedance 2.5 — Keyvo',
+      description: 'Seedance 2.5 video generation workflows on Keyvo.',
       canonicalPath: '/models/seedance-2-5',
     },
     type: 'textImage',
+    demoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/6ab56b7c-bece-4c72-9372-c910bafdc622.mp4',
+    media: {
+      videoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/6ab56b7c-bece-4c72-9372-c910bafdc622.mp4',
+      imagePath: '/models/seedance-2-5-launch.jpg',
+      altText: 'Seedance 2.5 video generation demo: the city in the suitcase',
+    },
     prompts: [],
     pricingHint: {
       currency: 'USD',

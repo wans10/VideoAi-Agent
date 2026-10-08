@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 
 import {Layers3, Minus, Plus} from 'lucide-react';
 import type {ConversationLocale} from '@/lib/studio/conversation-quote-presentation';
@@ -12,7 +13,7 @@ export function ConversationMediaShelf({projectId, items, selectedId, expanded, 
   onSelect: (id: string) => void; onToggle: () => void; onMention: (item: ShelfMedia) => void; onAttach: (item: ShelfMedia) => void; onDetach: (item: ShelfMedia) => void;
   onInsert?: (item:ImageLibraryAsset)=>void;
 }) {
-  const t = (en: string, fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   if (!items.length) return null;
   // Selection never rearranges visible references. Older media remain reachable.
   const selected = items.find(item => item.assetId === selectedId) ?? items.at(-1)!;

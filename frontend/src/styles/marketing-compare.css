@@ -2,9 +2,9 @@
 .marketing-site .compare-editorial{--compare-paper:#f5f2ed;--compare-ink:#242320;--compare-muted:#666159;--compare-rule:#d5d0c7;background:var(--compare-paper);color:var(--compare-ink)}
 .marketing-site .compare-editorial>.container-page{padding-block:20px 56px;max-width:1280px}
 .marketing-site .compare-editorial .compare-opening{padding:8px 0 0;max-width:none;text-align:left}
-.marketing-site .compare-opening>p:first-child{font-size:10px;letter-spacing:.16em;color:#8b5426}
+.marketing-site .compare-opening>p:first-child{font-size:10px;letter-spacing:.16em;color:#b83c2b}
 .marketing-site .compare-opening h1{display:flex;align-items:center;gap:24px;font-size:clamp(28px,4.4vw,64px);line-height:1.1;letter-spacing:-.045em;font-weight:500;margin:18px 0}
-.marketing-site .compare-opening .compare-title-vs{flex:none;font-size:16px;font-weight:500;letter-spacing:.08em;color:#987047;text-transform:uppercase}
+.marketing-site .compare-opening .compare-title-vs{flex:none;font-size:16px;font-weight:500;letter-spacing:.08em;color:#b83c2b;text-transform:uppercase}
 .marketing-site .compare-opening-intro{font-size:17px;line-height:1.65;color:var(--compare-muted)}
 .marketing-site .compare-context{max-width:850px;margin-top:8px;background:transparent!important}
 .marketing-site .compare-context summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:20px;min-height:44px;font-size:13px;font-weight:500}
@@ -26,21 +26,21 @@
 .marketing-site .compare-gallery-pair h3{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;margin-bottom:12px}
 .marketing-site .compare-gallery-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
 .marketing-site .compare-gallery-video{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:5px;background:#242320;color:white}
-.marketing-site .compare-gallery-video:focus-visible{outline:2px solid #a56c37;outline-offset:4px}
+.marketing-site .compare-gallery-video:focus-visible{outline:2px solid #b83c2b;outline-offset:4px}
 .marketing-site .compare-gallery-play{position:absolute;inset:0;display:grid;place-content:center;background:linear-gradient(transparent 60%,#0005)}
 .marketing-site .compare-gallery-play svg{filter:drop-shadow(0 1px 5px #000);width:24px;height:24px}
 .marketing-site .compare-gallery-duration{position:absolute;bottom:7px;right:8px;font-size:11px;text-shadow:0 1px 4px black}
 .marketing-site .compare-gallery-link{display:inline-flex;gap:20px;align-items:center;min-height:44px;font-size:13px;font-weight:500}
 .marketing-site .compare-gallery-empty{min-height:110px;display:flex;align-items:center;font-size:14px;line-height:1.65;color:var(--compare-muted);border-block:1px solid var(--compare-rule)}
 .marketing-site .compare-editorial>.container-page>div>section{max-width:none}
-.marketing-site .compare-score-panel{padding:36px;border-radius:8px;background:#1b1a18;color:#f5f2ed;--text-primary:#f5f2ed;--text-secondary:#c7c0b6;--text-muted:#b4aca0;--hairline:#49443b;--surface:#252320;--surface-2:#2b2823;--score-left:#e5c394;--score-right:#e4dfd7}
+.marketing-site .compare-score-panel{padding:36px;border-radius:8px;background:#1b1a18;color:#f5f2ed;--text-primary:#f5f2ed;--text-secondary:#c7c0b6;--text-muted:#b4aca0;--hairline:#49443b;--surface:#252320;--surface-2:#2b2823;--score-left:#ef8a71;--score-right:#e4dfd7}
 .marketing-site .compare-score-panel>div:first-child{text-align:left}
 .marketing-site .compare-score-panel h2{font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-.035em;color:#f5f2ed}
 .marketing-site .compare-score-panel :is(h3,summary){color:#f5f2ed}
 .marketing-site .compare-score-panel p,.marketing-site .compare-score-panel dd{color:#c7c0b6}
 .marketing-site .compare-score-panel .text-text-muted{color:#b4aca0}
 .marketing-site .compare-score-panel details[open]{background:#252320}
-.marketing-site .compare-score-panel a{color:#e5c394}
+.marketing-site .compare-score-panel a{color:#ef8a71}
 .marketing-site .compare-more-scores{border-top:1px solid #49443b;margin-top:20px}
 .marketing-site .compare-more-scores>summary,.marketing-site .compare-spec-details>summary{display:flex;justify-content:space-between;gap:24px;align-items:center;min-height:60px;font-size:14px;font-weight:500;list-style:none;cursor:pointer}
 .marketing-site .compare-score-panel aside{margin-top:24px;padding-top:22px;border-color:#49443b}
@@ -77,11 +77,11 @@
 @media(prefers-reduced-motion:no-preference){.marketing-site .compare-gallery-video img{transition:transform .35s ease}.marketing-site .compare-gallery-video:hover img{transform:scale(1.04)}}
 
 .marketing-site .compare-model-identity h2.sr-only{font-size:1px}
-.marketing-site .compare-score-panel .paired-dot.right{background:#e5c394;border-color:#e5c394}
+.marketing-site .compare-score-panel .paired-dot.right{background:#ef8a71;border-color:#ef8a71}
 
 .marketing-site .compare-context section,.marketing-site .compare-context article{background:transparent;border:0;box-shadow:none;border-radius:0;padding:10px 0}
 .marketing-site .compare-context article>p:first-child{font-weight:600;color:var(--compare-ink)}
-.marketing-site .compare-score-panel .score-right{color:#e5c394}
+.marketing-site .compare-score-panel .score-right{color:#ef8a71}
 .marketing-site .compare-score-panel .score-left{color:#f5f2ed}
 .marketing-site .compare-score-panel .paired-row{padding:10px 0}
 .marketing-site .compare-score-panel .paired-row summary{min-height:36px;font-size:14px;align-items:center}
@@ -96,13 +96,13 @@
 .compare-video-dialog h2{font-size:18px;font-weight:500}
 .compare-video-dialog h2 span{display:block;color:#bfb8ad;font-size:12px;margin-top:4px}
 .compare-video-dialog button{min-width:44px;min-height:44px;display:grid;place-items:center}
-.compare-video-dialog :is(button,a):focus-visible{outline:2px solid #e5c394;outline-offset:3px}
+.compare-video-dialog :is(button,a):focus-visible{outline:2px solid #ef8a71;outline-offset:3px}
 .compare-video-reader{position:relative;background:#080808;border-radius:5px;overflow:hidden}
 .compare-video-full{display:block;width:100%;max-height:68dvh;aspect-ratio:16/9;object-fit:contain}
-.compare-video-dialog>a{display:flex;align-items:center;gap:12px;min-height:44px;color:#e5c394;font-size:13px;margin-top:8px}
+.compare-video-dialog>a{display:flex;align-items:center;gap:12px;min-height:44px;color:#ef8a71;font-size:13px;margin-top:8px}
 @media(max-width:700px){.compare-video-backdrop{padding:12px}.compare-video-dialog{padding:12px;max-height:calc(100dvh - 24px)}}
 /* Explain what opens, and make the route into creation explicit. */
-.marketing-site .compare-more-scores{border:1px solid #65543d;border-radius:8px;background:#2c2720;margin-top:22px;overflow:hidden}
+.marketing-site .compare-more-scores{border:1px solid #53584a;border-radius:8px;background:#2c2720;margin-top:22px;overflow:hidden}
 .marketing-site .compare-more-scores[open]{background:#252320}
 .marketing-site .compare-more-scores>.paired-scores{padding:0 20px 16px}
 .marketing-site .compare-disclosure-trigger{padding:20px;gap:20px;cursor:pointer}
@@ -110,25 +110,25 @@
 .marketing-site .compare-disclosure-copy{display:flex;flex-direction:column;gap:8px;min-width:0}
 .marketing-site .compare-disclosure-copy strong{font-size:19px;font-weight:500;line-height:1.4;letter-spacing:-.015em}
 .marketing-site .compare-disclosure-copy small{font-size:12px;line-height:1.65;color:var(--compare-muted);font-weight:400}
-.marketing-site .compare-score-panel .compare-disclosure-copy small{color:#c7b9a6}
+.marketing-site .compare-score-panel .compare-disclosure-copy small{color:#cbccbf}
 .marketing-site .compare-disclosure-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
-.marketing-site .compare-disclosure-tags>span{font-size:11px;line-height:1.5;color:#ddd1c0;border:1px solid #675a48;border-radius:4px;padding:4px 8px;font-weight:400}
-.marketing-site .compare-disclosure-arrow{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:none;background:#ded5c7;color:#473522}
-.marketing-site .compare-score-panel .compare-disclosure-arrow{background:#dfbd8d;color:#231c13}
+.marketing-site .compare-disclosure-tags>span{font-size:11px;line-height:1.5;color:#ddd1c0;border:1px solid #53584a;border-radius:4px;padding:4px 8px;font-weight:400}
+.marketing-site .compare-disclosure-arrow{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:none;background:#ded5c7;color:#20211f}
+.marketing-site .compare-score-panel .compare-disclosure-arrow{background:#ef8a71;color:#231c13}
 .marketing-site .compare-when-open{display:none}
 .marketing-site details[open]>.compare-disclosure-trigger .compare-when-closed{display:none}
 .marketing-site details[open]>.compare-disclosure-trigger .compare-when-open{display:block}
 .marketing-site details[open]>.compare-disclosure-trigger .compare-disclosure-arrow svg{transform:rotate(180deg)}
-.marketing-site .compare-disclosure-trigger:focus-visible{outline:2px solid #b48046;outline-offset:-3px}
+.marketing-site .compare-disclosure-trigger:focus-visible{outline:2px solid #b83c2b;outline-offset:-3px}
 .marketing-site .compare-create-card{padding:24px;border:1px solid var(--compare-rule);background:#eae4db;border-radius:8px;display:flex;flex-direction:column;gap:16px}
 .marketing-site .compare-create-identity{display:flex;align-items:center;gap:14px}
 .marketing-site .compare-create-identity p{font-size:11px;color:var(--compare-muted);margin-bottom:3px}
 .marketing-site .compare-create-identity h3{font-size:23px;font-weight:500;line-height:1.2;letter-spacing:-.025em}
-.marketing-site .compare-create-button{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 18px;background:#805322;color:#fff;border-radius:5px;font-size:15px;font-weight:600;line-height:1.4}
-.marketing-site .compare-create-button:hover{background:#68421c;color:white}
+.marketing-site .compare-create-button{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 18px;background:#b83c2b;color:#fff;border-radius:5px;font-size:15px;font-weight:600;line-height:1.4}
+.marketing-site .compare-create-button:hover{background:#9c3022;color:white}
 .marketing-site .compare-create-button svg{flex:none}
 .marketing-site .compare-create-profile{display:inline-flex;align-items:center;gap:10px;font-size:12px;min-height:30px;color:var(--compare-ink)}
-.marketing-site .compare-create-card a:focus-visible{outline:2px solid #b48046;outline-offset:4px}
+.marketing-site .compare-create-card a:focus-visible{outline:2px solid #b83c2b;outline-offset:4px}
 .marketing-site .compare-price-tickets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:24px}
 .marketing-site .compare-price-ticket{border:1px solid var(--compare-rule);border-radius:8px;padding:22px;background:#faf8f4}
 .marketing-site .compare-price-ticket h3{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:500;padding-bottom:16px;border-bottom:1px dashed var(--compare-rule)}
@@ -141,7 +141,7 @@
 .marketing-site .compare-spec-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
 .marketing-site .compare-spec-preview article{border:1px solid var(--compare-rule);padding:20px;border-radius:6px;background:#faf8f4}
 .marketing-site .compare-spec-preview h3{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--compare-muted);font-weight:500;margin-bottom:18px}
-.marketing-site .compare-spec-preview h3 svg{color:#94632e;flex:none}
+.marketing-site .compare-spec-preview h3 svg{color:#b83c2b;flex:none}
 .marketing-site .compare-spec-preview dl>div+div{margin-top:16px;padding-top:16px;border-top:1px solid var(--compare-rule)}
 .marketing-site .compare-spec-preview dt{font-size:11px;color:var(--compare-muted);margin-bottom:6px}
 .marketing-site .compare-spec-preview dd{font-size:18px;font-weight:500;line-height:1.5;overflow-wrap:anywhere}
@@ -158,7 +158,7 @@
 .marketing-site .compare-faq-item:last-child{border-bottom:1px solid var(--compare-rule)}
 .marketing-site .compare-faq-item summary{display:grid;grid-template-columns:23px minmax(0,1fr) 18px;gap:14px;align-items:center;min-height:72px;font-size:15px;font-weight:500;padding:18px 12px;list-style:none}
 .marketing-site .compare-faq-item summary::-webkit-details-marker{display:none}
-.marketing-site .compare-faq-item summary:focus-visible{outline:2px solid #b48046;outline-offset:-2px}
+.marketing-site .compare-faq-item summary:focus-visible{outline:2px solid #b83c2b;outline-offset:-2px}
 .marketing-site .compare-faq-number{font-size:11px;font-weight:400;color:var(--compare-muted)}
 .marketing-site .compare-faq-item :is(p,ul){margin:0;padding:0 24px 22px 49px;font-size:14px;line-height:1.85;color:var(--compare-muted)}
 .marketing-site .compare-faq-item ul{padding-left:65px}

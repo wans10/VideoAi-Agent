@@ -2,7 +2,7 @@
   "marketingName": "LTX 2.3 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2.3 Fast | AI Video Model, Specs, Pricing & Max Length | MaxVideoAI",
+    "title": "LTX 2.3 Fast | AI Video Model, Specs, Pricing & Max Length | VideoAI",
     "description": "LTX 2.3 Fast remains an executable previous-generation route for established drafts; review pricing and the upgrade path to LTX 2.5 Fast.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
@@ -196,7 +196,7 @@
       "Start with examples||Open the LTX examples page first if you want reusable prompt patterns, settings and image-to-video baselines before generating.",
       "Best use cases||Fast is a strong fit for prompt testing, vertical variants, longer drafts and lower-cost motion exploration."
     ],
-    "specTitle": "Real Specs - LTX 2.3 Fast in MaxVideoAI",
+    "specTitle": "Real Specs - LTX 2.3 Fast in VideoAI",
     "specNote": "Specs reflect the live public Fast routing exposed today.",
     "specSections": [
       {
@@ -220,7 +220,7 @@
         ]
       }
     ],
-    "whatTitle": "How LTX 2.3 Fast works in MaxVideoAI",
+    "whatTitle": "How LTX 2.3 Fast works in VideoAI",
     "whatIntro1": "Pick LTX 2.3 Fast, stay in the standard generate flow, then switch between text-driven and image-driven input by adding or removing the start image.",
     "whatIntro2": "The page intentionally avoids Pro editing modes so the options stay coherent with the public Fast routing.",
     "whatFlowTitle": "Workflow",
@@ -424,7 +424,7 @@
     "pricingCopy": {
       "title": "LTX 2.3 Fast draft pricing",
       "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Longer drafts at 1080p",
       "ctaHref": "/pricing#ltx-2-3-fast-pricing"

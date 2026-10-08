@@ -2,12 +2,12 @@
   "marketingName": "Luma Uni-1 Max",
   "versionLabel": "Uni-1 Max",
   "seo": {
-    "title": "Luma Uni-1 Max: Pricing, 2K Images and Editing | MaxVideoAI",
-    "description": "Use Luma Uni-1 Max in MaxVideoAI for premium 2K stills, product visuals, typography-sensitive layouts, source-image edits and reference-led image workflows.",
+    "title": "Luma Uni-1 Max: Pricing, 2K Images and Editing | VideoAI",
+    "description": "Use Luma Uni-1 Max in VideoAI for premium 2K stills, product visuals, typography-sensitive layouts, source-image edits and reference-led image workflows.",
     "image": "/assets/model-examples/luma-uni-1-max/hero-product.webp"
   },
-  "overview": "Luma Uni-1 Max is the higher-fidelity Uni image route in MaxVideoAI for selected stills that need stronger product detail, careful revisions, typography-sensitive layouts and reference-led creative direction.",
-  "pricingNotes": "Display prices use MaxVideoAI pricing. Uni-1 Max is not presented as cheaper or faster than Uni-1; choose it when the still needs the higher-fidelity route.",
+  "overview": "Luma Uni-1 Max is the higher-fidelity Uni image route in VideoAI for selected stills that need stronger product detail, careful revisions, typography-sensitive layouts and reference-led creative direction.",
+  "pricingNotes": "Display prices use VideoAI pricing. Uni-1 Max is not presented as cheaper or faster than Uni-1; choose it when the still needs the higher-fidelity route.",
   "hero": {
     "title": "Luma Uni-1 Max - premium 2K image generation and edits",
     "intro": "Create hero stills, product images, poster concepts and careful source-image revisions with a higher-fidelity Uni route.",
@@ -76,7 +76,7 @@
     },
     {
       "label": "Pricing",
-      "body": "Public examples use MaxVideoAI display pricing"
+      "body": "Public examples use VideoAI display pricing"
     }
   ],
   "promptStructure": {
@@ -135,7 +135,7 @@
     },
     {
       "q": "How is Uni-1 Max pricing shown?",
-      "a": "Displayed examples use MaxVideoAI pricing with margin. The exact app quote appears before generation."
+      "a": "Displayed examples use VideoAI pricing with margin. The exact app quote appears before generation."
     }
   ],
   "custom": {
@@ -168,10 +168,10 @@
       "Higher-fidelity still route||Use Max when the selected image needs more detail and finish.",
       "Product and typography focus||Describe labels, hierarchy and surfaces explicitly, then inspect the result.",
       "Reference-led edits||Use a source image plus purposeful references for controlled revisions.",
-      "Pricing context||Display prices use MaxVideoAI pricing and the app confirms the exact quote."
+      "Pricing context||Display prices use VideoAI pricing and the app confirms the exact quote."
     ],
     "specTitle": "Uni-1 Max image specs",
-    "specNote": "Specs describe the public MaxVideoAI image workspace route.",
+    "specNote": "Specs describe the public VideoAI image workspace route.",
     "specSections": [
       {
         "title": "Image workflows",
@@ -185,8 +185,8 @@
       {
         "title": "Pricing behavior",
         "items": [
-          "Base image and reference costs follow MaxVideoAI display pricing.",
-          "MaxVideoAI display margin is included in public examples.",
+          "Base image and reference costs follow VideoAI display pricing.",
+          "VideoAI display margin is included in public examples.",
           "The exact app quote is authoritative before generation.",
           "Max is a higher-fidelity route, not a lower-price promise."
         ]
@@ -214,7 +214,7 @@
       "Still images only.",
       "Not positioned as always cheaper or faster than Uni-1.",
       "Exact typography and labels need review.",
-      "Public pricing follows MaxVideoAI display pricing."
+      "Public pricing follows VideoAI display pricing."
     ],
     "safetyTitle": "Safety and likeness",
     "safetyRules": [
@@ -239,7 +239,7 @@
         "ctaLabel": "View Ray 3.2"
       }
     ],
-    "finalPara1": "Luma Uni-1 Max is the premium Uni still-image route for hero images, product visuals and careful source-image edits in MaxVideoAI.",
+    "finalPara1": "Luma Uni-1 Max is the premium Uni still-image route for hero images, product visuals and careful source-image edits in VideoAI.",
     "finalButton": "Generate with Luma Uni-1 Max"
   },
   "decision": {
@@ -316,7 +316,7 @@
       },
       {
         "title": "Display pricing",
-        "body": "Display prices use MaxVideoAI pricing before generation.",
+        "body": "Display prices use VideoAI pricing before generation.",
         "tone": "price"
       }
     ],
@@ -370,14 +370,14 @@
     ],
     "pricingCopy": {
       "title": "Luma Uni-1 Max pricing at a glance",
-      "subtitle": "Display prices use MaxVideoAI pricing; exact price appears before generation.",
+      "subtitle": "Display prices use VideoAI pricing; exact price appears before generation.",
       "footnote": "Max is not positioned as cheaper or faster than Uni-1; choose it when the still needs the higher-fidelity route.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "One image",
       "ctaHref": "/pricing#luma-uni-1-max-pricing"
     },
     "meta": {
-      "title": "Luma Uni-1 Max: Pricing, 2K Images & Editing | MaxVideoAI",
+      "title": "Luma Uni-1 Max: Pricing, 2K Images & Editing | VideoAI",
       "description": "Explore Luma Uni-1 Max pricing, premium 2K still generation, source-image edits, typography-sensitive layouts and reference-led image workflows."
     }
   },

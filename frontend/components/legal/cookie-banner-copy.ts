@@ -1,4 +1,6 @@
-export type CookieBannerLocale = 'en' | 'fr' | 'es';
+import { defaultExperienceLocale } from '@/i18n/locales';
+import { isAppExperiencePath } from '@/lib/app-experience-path';
+export type CookieBannerLocale = 'en' | 'fr' | 'es' | 'zh';
 
 export type CookieBannerCopy = {
   title: string;
@@ -107,6 +109,34 @@ export const COOKIE_BANNER_COPY: Record<CookieBannerLocale, CookieBannerCopy> = 
       save: 'No se pudieron guardar tus preferencias.',
     },
   },
+  zh: {
+    title: 'Cookie 与隐私',
+    body:
+      '我们使用必要的 Cookie 来保证网站运行。在获得您的同意后，我们将启用分析以改进产品，并使用广告标签进行营销效果衡量。您可以随时更改您的选择。',
+    actions: {
+      acceptAll: '全部接受',
+      rejectAll: '全部拒绝',
+      manageChoices: '管理偏好',
+      hideChoices: '收起选项',
+      savePreferences: '保存偏好',
+      saving: '保存中…',
+    },
+    preferences: {
+      title: '偏好设置',
+      analytics: {
+        title: '分析 Cookie',
+        body: '帮助我们统计使用情况并优化产品功能。',
+      },
+      ads: {
+        title: '广告 Cookie',
+        body: '衡量营销活动效果并提升相关性。',
+      },
+    },
+    errors: {
+      loadVersion: '加载 Cookie 政策版本失败',
+      save: '无法保存您的偏好设置。',
+    },
+  },
 };
 
 export function resolveCookieBannerLocale(pathname: string | null): CookieBannerLocale {
@@ -117,12 +147,13 @@ export function resolveCookieBannerLocale(pathname: string | null): CookieBanner
       const key = rawKey.trim();
       if (key !== 'NEXT_LOCALE' && key !== 'mv-locale') continue;
       const value = decodeURIComponent(rest.join('=')).trim();
-      if (value === 'fr' || value === 'es' || value === 'en') {
+      if (value === 'fr' || value === 'es' || value === 'en' || value === 'zh') {
         return value;
       }
     }
   }
   if (pathname?.startsWith('/fr')) return 'fr';
   if (pathname?.startsWith('/es')) return 'es';
-  return 'en';
+  if (pathname?.startsWith('/zh')) return 'zh';
+  return isAppExperiencePath(pathname) || pathname === '/login' ? defaultExperienceLocale : 'en';
 }

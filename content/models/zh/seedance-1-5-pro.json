@@ -1,0 +1,514 @@
+{
+  "marketingName": "Seedance 1.5 Pro",
+  "versionLabel": "v1.5 Pro",
+  "seo": {
+    "title": "Seedance 1.5 Pro | AI 视频模型、规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用受支持的 Seedance 1.5 Pro 模型生成电影级短片段，并可转向 Seedance 2.0 体验当前的 Seedance 工作流。",
+    "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a0297366-57f7-4ca8-b3b6-f02c7da4d7f2-job_3f82e69d-ef44-4c46-aded-16d06dd4a1ab.jpg"
+  },
+  "overview": "Seedance 1.5 Pro 仍作为受支持的旧版 Seedance Pro 工作流提供，适用于电影级短片段、可复现变体以及固定机位设置。",
+  "pricingNotes": "价格因分辨率而异；关闭音频的费用比开启音频低约 50%。",
+  "hero": {
+    "title": "Seedance 1.5 Pro — 适用于电影级短片段的受支持旧版 Seedance 模型",
+    "intro": "Seedance 1.5 Pro 仍作为受支持的旧版 Seedance Pro 工作流提供，适用于生成短小、可复现的电影级短片；而 Seedance 2.0 现已成为主流的 Seedance 模型，提供更强的多镜头连贯性、更丰富的音频以及更广泛的参考工作流。",
+    "badge": "480p–1080p · 4–12秒 · 音频开启/关闭",
+    "ctaPrimary": {
+      "label": "使用 Seedance 1.5 Pro 开始生成",
+      "href": "/app?engine=seedance-1-5-pro"
+    },
+    "secondaryLinks": [
+      {
+        "label": "查看 Seedance 2.0",
+        "href": "/zh/models/seedance-2-0"
+      },
+      {
+        "label": "查看 Seedance AI 视频案例",
+        "href": "/zh/examples/seedance"
+      },
+      {
+        "label": "对比 Seedance 1.5 Pro 与 Seedance 2.0",
+        "href": "/zh/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳应用场景",
+    "items": [
+      {
+        "title": "固定机位城市街景（camera_fixed）",
+        "icon": "camera"
+      },
+      {
+        "title": "动态受控的产品特写（干净利落、可复现的镜头）",
+        "icon": "product"
+      },
+      {
+        "title": "利用尾帧实现平滑过渡（图生视频转场 / 精准落幅）",
+        "icon": "storyboard"
+      },
+      {
+        "title": "利用随机种子控制实现可复现视觉风格（变体测试）",
+        "icon": "repeat2"
+      },
+      {
+        "title": "支持音频开启/关闭的简短广告与社媒短片",
+        "icon": "smartphone"
+      },
+      {
+        "title": "长篇剪辑前的情绪板 / 核心视觉节拍",
+        "icon": "layers"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术概览",
+  "technicalOverview": [
+    {
+      "label": "详情",
+      "body": "Seedance 1.5 Pro 是一款短视频视音频模型，具备强大的控制选项：用于锁定镜头的 camera_fixed、用于可复现迭代的随机种子 (seed)，以及用于更平滑图生视频落幅的可选尾帧。当您需要在 4–12 秒片段中获得更稳定的动态、一致的变体以及自带音频的草稿时使用。"
+    },
+    {
+      "label": "时长",
+      "body": "单次渲染 4–12 秒"
+    },
+    {
+      "label": "分辨率",
+      "body": "480p/720p（文生视频），480p/720p/1080p（图生视频）"
+    },
+    {
+      "label": "画幅比例",
+      "body": "21:9、16:9、4:3、1:1、3:4、9:16"
+    },
+    {
+      "label": "帧率",
+      "body": "24 fps"
+    },
+    {
+      "label": "输入方式",
+      "body": "文生视频；图生视频（支持可选尾帧，PNG/JPG/WebP）"
+    },
+    {
+      "label": "控制项",
+      "body": "随机种子（-1 表示随机）、固定机位 (camera_fixed)、安全检测器"
+    },
+    {
+      "label": "音频",
+      "body": "默认开启；可切换关闭以降低费用"
+    }
+  ],
+  "promptStructure": {
+    "title": "Seedance 1.5 Pro 提示词编写",
+    "quote": "[主体] 在 [场景设定] 中 [一个明确动作]，camera_fixed，[光影/风格]，[时长]，可选音频。",
+    "description": "保持提示词聚焦于单一镜头级别，优先使用 camera_fixed 以获得更稳定的动态，若开启音频可添加简明的声音说明。",
+    "steps": [
+      "主体与动作",
+      "机位锁定或运镜说明",
+      "光影与氛围",
+      "时长与画幅比例",
+      "音频提示或禁用音频"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "使用 camera_fixed 获得固定镜头和更平稳的动态。",
+      "添加尾帧以实现更平滑的图生视频过渡与落幅。",
+      "复用随机种子以生成可复现的变体。",
+      "保持片段简短（4–12秒）以获得最佳连贯性。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "固定机位霓虹雨巷",
+      "prompt": "16:9 氛围浓郁的霓虹小巷，细雨纷飞，固定机位，地面积水倒影，低调环境音，轻柔音乐底噪。"
+    },
+    {
+      "title": "带尾帧的图生视频",
+      "prompt": "对起始图片进行慢速推进动画，然后过渡至提供的尾帧，温柔的环境音氛围。"
+    }
+  ],
+  "faqTitle": "常见问题 – VideoAI 中的 Seedance 1.5 Pro",
+  "faqs": [
+    {
+      "q": "固定机位（camera fixed）有什么作用？",
+      "a": "它能锁定摄影机机位，带来更平稳的动态表现，并增强帧与帧之间的连贯性。"
+    },
+    {
+      "q": "我可以关闭音频吗？",
+      "a": "可以。音频默认开启，但您可以将其切换关闭以降低生成成本。"
+    },
+    {
+      "q": "我应该如何使用随机种子（seed）控制？",
+      "a": "使用 -1 进行随机灵感探索；当您想在不改变整体画风的前提下对比提示词微调、camera_fixed、时间节奏或音频变动时，复用固定的随机种子即可。"
+    },
+    {
+      "q": "Seedance 1.5 Pro 是否支持首尾帧控制？",
+      "a": "在图生视频中支持：使用一张起始图片，当最终姿态、产品位置或转场落幅关键时，可添加一个可选的尾帧。"
+    },
+    {
+      "q": "支持哪些分辨率？",
+      "a": "文生视频支持 480p 和 720p。图生视频支持 480p、720p 和 1080p。"
+    },
+    {
+      "q": "Seedance 1.5 Pro 仍然是 VideoAI 上的主力 Seedance Pro 工作流吗？",
+      "a": "Seedance 1.5 Pro 是 VideoAI 上受支持的旧版 Seedance Pro 工作流，但 Seedance 2.0 现已成为适用于更广泛生产级工作的主流主力 Seedance 模型。"
+    }
+  ],
+  "custom": {
+    "whyTitle": "为什么 Seedance 1.5 Pro 表现出色",
+    "heroHighlights": [
+      "固定机位稳定性||锁定摄影机机位，在城市与产品场景中获得更平稳的动态与更干净的画面",
+      "随机种子控制保障可复现性||复用随机种子进行迭代，画风绝不漂移 — 极适合营销活动变体与 A/B 吸睛点测试",
+      "首尾帧控制（图生视频）||提供可选尾帧以引导镜头落幅（转场过渡、匹配剪辑、利落收尾）",
+      "单次渲染原生音频||一次生成对白、环境音与音效 — 或关闭音频以生成无声草稿并用于后期混音"
+    ],
+    "specTitle": "真实规格 – VideoAI 中的 Seedance 1.5 Pro",
+    "specNote": "规格反映当前实时的 Fal 路由情况。",
+    "specSections": [
+      {
+        "title": "固定机位稳定性",
+        "intro": "camera_fixed 能够锁定镜头，在短视频片段中实现更平稳的动态。",
+        "items": [
+          "开启 camera_fixed 用于固定机位场景。",
+          "在 4–12 秒内保持节拍简单利落。",
+          "每个节拍对应一个明确动作。",
+          "24 fps 帧率输出。"
+        ]
+      },
+      {
+        "title": "可复现性与控制力",
+        "intro": "随机种子控制与尾帧有助于顺畅迭代并干净利落地完成转场落幅。",
+        "items": [
+          "复用随机种子以对比不同变体。",
+          "可选尾帧用于图生视频落幅控制。",
+          "在同一次渲染中支持音频开启/关闭。",
+          "多种画幅比例，最高支持 1080p。"
+        ]
+      }
+    ],
+    "tipsTitle": "使用技巧与局限",
+    "strengths": [
+      "使用 camera_fixed 获得固定镜头与更平稳的动态。",
+      "复用随机种子以获得可复现的变体。",
+      "添加尾帧以实现更平滑的图生视频过渡与更利落的落幅。",
+      "片段保持简短（4–12秒）且动作简单，以获得最佳连贯性。",
+      "克制地使用音频：一句简短台词 + 环境音 + 1 个关键音效。"
+    ],
+    "troubleshootingItems": [
+      "动态感觉杂乱 → 开启 camera_fixed；降低动作速度；简化背景。",
+      "多镜头间产生漂移 → 锁定随机种子；保持相同的提示词结构；一次只调整一个变量。",
+      "音频 / 唇形同步漂移 → 缩短台词；避免快速转头；让镜头更加平缓稳定。",
+      "出现随机文字 / logo → 强化负向提示词（“无文字、无 logo、无 UI”），并避免取景框内出现指示标识。"
+    ],
+    "boundaries": [
+      "仅支持短视频（4–12秒）。",
+      "24 fps 帧率。",
+      "分辨率与价格因档位而异；生成前请在应用中查看实时规格标签。",
+      "微小的屏幕文字渲染仍不稳定 — 建议在后期制作中叠加关键文案。"
+    ]
+  },
+  "decision": {
+    "modelSlug": "seedance-1-5-pro",
+    "hero": {
+      "eyebrow": "受支持的旧版 SEEDANCE PRO 路线",
+      "title": "Seedance 1.5 Pro",
+      "subtitle": "适用于受支持的旧版 Seedance 工作流，具备固定机位拍摄、种子变体以及首尾帧控制能力。",
+      "subtitleHighlights": [
+        "固定机位拍摄",
+        "种子变体",
+        "首尾帧控制"
+      ],
+      "paragraph": "当您需要受支持的旧版 Seedance 路线时使用 Seedance 1.5 Pro：可复现的短片段、可选音频、随机种子控制、固定机位设置以及图生视频落幅。若进行当前的 2.0 生产级创作，请使用 Seedance 2.0。",
+      "primaryCta": {
+        "label": "使用 Seedance 1.5 Pro 生成",
+        "href": "/app?engine=seedance-1-5-pro"
+      },
+      "secondaryCta": {
+        "label": "查看 Seedance 2.0",
+        "href": "/zh/models/seedance-2-0"
+      },
+      "quickLinks": [
+        {
+          "label": "对比 Seedance 2.0",
+          "href": "/zh/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#seedance-1-5-pro-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Seedance 1.5 Pro 案例",
+      "description": "固定机位电影级渲染",
+      "renderLabel": "查看渲染",
+      "badges": [
+        "开启音频",
+        "12秒",
+        "1080p"
+      ],
+      "altContext": "固定机位 Seedance 1.5 Pro 电影级渲染"
+    },
+    "features": [
+      {
+        "title": "固定机位",
+        "body": "当平稳的动态比大幅度运镜更重要时锁定拍摄机位。",
+        "tone": "continuity"
+      },
+      {
+        "title": "随机种子控制",
+        "body": "复用随机种子以获得可复现变体及进行 A/B 创意测试。",
+        "tone": "quality"
+      },
+      {
+        "title": "首尾帧控制",
+        "body": "通过可选尾帧精准引导图生视频的过渡与落幅姿态。",
+        "tone": "reference"
+      },
+      {
+        "title": "音频开启/关闭",
+        "body": "同步生成原生声音，或关闭音频以降低成本生成无声草稿。",
+        "tone": "audio"
+      },
+      {
+        "title": "图生视频支持 1080p",
+        "body": "在图生视频中体验 1080p 高画质；文生视频保持 480p 或 720p 预设。",
+        "tone": "quality"
+      },
+      {
+        "title": "按需付费",
+        "body": "生成前可在应用内查看精确的实时价格。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 1.5 Pro 还是 Seedance 2.0？",
+        "body": "对于兼容旧版的固定机位和随机种子测试，使用 1.5 Pro；若需要当前原生音频的主流生产工作流，请使用 Seedance 2.0。",
+        "cta": {
+          "label": "对比 1.5 Pro 与 2.0",
+          "href": "/zh/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0"
+        }
+      },
+      {
+        "title": "需要可复现的变体？",
+        "body": "保持统一的提示词结构，复用随机种子控制，仅调整您正在测试的动作、时间节奏或声音线索。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "计划制作最终成片？",
+        "body": "当多镜头连贯性与更广泛的参考工作流更为关键时，建议将项目最终成片迁移至 Seedance 2.0。",
+        "cta": {
+          "label": "查看 Seedance 2.0",
+          "href": "/zh/models/seedance-2-0"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本提示词",
+        "body": "编写一个主体、一个动作、光影、风格以及可选的声音线索。"
+      },
+      {
+        "title": "固定机位设置",
+        "body": "使用 camera_fixed 拍摄机位锁定的产品、城市或分镜镜头。"
+      },
+      {
+        "title": "图生视频",
+        "body": "从一张图片起步，当收尾姿态至关重要时添加尾帧。"
+      },
+      {
+        "title": "固定种子变体",
+        "body": "复用相同的随机种子，在不改变整体外观的前提下对比提示词的微调。"
+      },
+      {
+        "title": "升级路径",
+        "body": "当项目需要当前最新的 2.0 工作流时，直接使用 Seedance 2.0。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Seedance 1.5 Pro 价格一览",
+      "subtitle": "预设开启音频总价 — 在生成前可在应用内查看精确的实时价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。关闭音频路线在应用内的报价可能更低。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "1080p 仅限图生视频",
+      "ctaHref": "/zh/pricing#seedance-1-5-pro-pricing"
+    },
+    "meta": {
+      "title": "Seedance 1.5 Pro：价格与固定机位 | VideoAI",
+      "description": "探索 Seedance 1.5 Pro 价格、案例、固定机位拍摄、随机种子控制、音频开启/关闭以及首尾帧工作流。对比 Seedance 1.5 Pro 与 Seedance 2.0。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "seedance-1-5-pro",
+    "section": {
+      "title": "如何编写优质的 Seedance 1.5 Pro 提示词",
+      "intro": "Seedance 1.5 Pro 在主体/动作明确、运镜受控（通常使用 camera_fixed）并在开启音频时附带简短声音说明的提示词下表现最佳。",
+      "tip": null,
+      "guide": {
+        "label": "Seedance 1.5 Pro API 文档",
+        "href": "https://fal.ai/models/fal-ai/bytedance/seedance/v1.5/pro/text-to-video/api"
+      },
+      "referencesTitle": "Seedance 1.5 Pro 提示词编写指南"
+    },
+    "tabs": [
+      {
+        "id": "quick",
+        "label": "快速",
+        "title": "快速提示词（高效迭代）",
+        "description": "需要快速尝试多样化效果时，使用 1–2 句精炼描述。",
+        "copy": "[主体] 在 [场景设定] 中 [一个明确动作]，[取景构图]，[光影/风格]。\n音频（可选）：[环境音 + 1 个关键音效 或 一句简短台词]。\n负向提示词：无文字、无 logo、无字幕/叠加层。"
+      },
+      {
+        "id": "structured",
+        "label": "结构化",
+        "title": "结构化提示词（输出稳定可控的首选）",
+        "description": "分层拆分关键信息，使模型能够稳定连贯地遵循指令。",
+        "copy": "主体：\n[人物/物体 + 2–3 个明确特征。]\n\n场景设定：\n[地点 + 时间 + 2 个锚点。]\n\n运镜：\n[取景构图 +（推荐 camera_fixed）或 单一运镜动作。]\n\n视觉质感：\n[光影 + 调色锚点。]\n\n音频（可选）：\n对白：“简短台词。”\n环境音 + 1–2 个音效提示。\n\n负向提示词：\n[文字、logo、多余人物、模糊。]"
+      },
+      {
+        "id": "pro",
+        "label": "专业简报",
+        "title": "专业级提示词（极度明确的“片场拍摄简报”）",
+        "description": "当需要非常具体的电影级质感或跨镜头连贯性时使用。",
+        "copy": "导演拍摄简报：\n[目标 + 氛围基调。]\n\n连贯性锚点：\n- 主体特征 + 服装/道具\n- 地点 + 时间 + 3 个视觉锚点\n- 光影 + 调色锚点\n\n运镜：\n- 取景构图 + 机位角度\n- 推荐 camera_fixed 以保持平稳（或单一运镜动作）\n\n音频（若开启）：\n- 对白：“一句简短台词。”\n- 环境音 + 1–2 个音效提示（保持克制）\n\n随机种子（迭代推荐）：\n生成变体时复用相同的随机种子。"
+      },
+      {
+        "id": "storyboard",
+        "label": "分镜脚本",
+        "title": "分镜脚本提示词（多节拍分镜）",
+        "description": "当希望在单个片段中展现微型故事时使用。分镜脚本提示词（亦称多节拍分镜）可提供清晰的时间控制、运镜方向和连贯性。",
+        "copy": "时长: [4–12秒] • 画幅: [21:9 / 16:9 / 4:3 / 1:1 / 3:4 / 9:16] • 音频: [开启/关闭]\n\n节拍 1 (0–4秒)：\n[取景构图 + 动作 + 运镜方向]\n\n节拍 2 (4–8秒)：\n[取景构图 + 动作 + 运镜方向]\n\n节拍 3 (8–12秒)：\n[最终动作/揭示 + 定格收尾]\n尾帧（可选，图生视频）：[描述您希望落幅的最终画面]\n\n音频（若开启）：\n对白：“简短台词。”\n环境音 + 1–2 个音效提示。\n\n约束限制：\n无 logo。无易读文字。无字幕/叠加层。"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "quick",
+        "body": "快速 = 探索变体。适合敏捷高效的快速迭代。"
+      },
+      {
+        "tabId": "structured",
+        "body": "结构化 = 稳定连贯。适合追求可控确定性结果的场景。"
+      },
+      {
+        "tabId": "pro",
+        "body": "专业级 = 风格把控。适合打造精确、可复现的电影级质感。"
+      },
+      {
+        "tabId": "storyboard",
+        "body": "分镜脚本 = 节拍掌控。适合节奏紧凑的多节拍短视频。"
+      }
+    ],
+    "globalPrinciples": [
+      "当需要更平稳的动态与更少瑕疵时，优先使用固定机位（camera_fixed）。",
+      "每个片段（或每个节拍）保持一个清晰可读的动作。",
+      "迭代时复用随机种子 — 每次只调整一个变量。",
+      "若开启音频：台词保持简短，且仅添加 1–2 个声音线索。"
+    ],
+    "engineWhy": [
+      "camera_fixed 是核心优势：使用它打造逼真的固定机位真实感与产品特写镜头。",
+      "Seedance 专注于短视频：保持节拍简练，避免塞入过多复杂动作。",
+      "尾帧（图生视频）有助于顺畅完成转场过渡；切勿在最后一秒引入全新动作。",
+      "音频线索越精简效果越好；长篇独白可能会出现漂移。",
+      "若文字信息关键，建议在后期制作中叠加（微小文字生成仍不稳定）。"
+    ],
+    "demo": {
+      "title": "演示提示词 — Seedance 1.5 Pro",
+      "promptLabel": "固定机位提示词",
+      "prompt": "10s Seedance 1.5 Pro 片段，16:9，音频开启。\n一名摩托车骑手穿越湿滑的夜间街道，在画面内缓缓减速。\n开启 camera_fixed：低角度固定镜头，轻微推进，一个清晰可读的运动节拍。\n夜间电影级质感，湿润街道倒影，简洁背景，无文字叠加。\n音频：短促引擎声，轻柔雨声，街道环境音，无对白。\n随机种子：仅对比光影、节奏或音频强度时，复用相同的随机种子。",
+      "notes": [],
+      "summary": {
+        "subject": "湿滑雨夜街道上的摩托车骑手",
+        "action": "摩托车驶来并在画面内减速慢行",
+        "camera": "低角度 camera_fixed 固定镜头，轻微推进",
+        "style": "夜间电影级质感，湿润街道倒影",
+        "output": "简短引擎声，轻柔雨声，无对白"
+      },
+      "presentationOverrides": {
+        "modeLabel": "固定机位提示词",
+        "outputLabel": "音频",
+        "duration": "10秒",
+        "aspectRatio": null,
+        "audioChipMode": "on",
+        "audioChipLabel": null,
+        "altContext": "Seedance 1.5 Pro 固定机位摩托车渲染"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "seedance-1-5-pro",
+    "section": {
+      "title": "Seedance 1.5 Pro 案例",
+      "intro": "近期生成的 Seedance 1.5 Pro 渲染案例，运用了固定机位（camera_fixed）、随机种子控制与尾帧功能。",
+      "defaultCtaLabel": "查看全部 Seedance 1.5 Pro 案例 →",
+      "recreateLabel": "复现此镜头 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "固定机位渲染案例",
+        "body": "探索 Seedance 1.5 Pro 实现的锁定镜头表现 — 适用于电影级短片段的受支持旧版 Seedance 模型。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "一键复现变体",
+        "body": "在应用中一键复用相同的随机种子、画幅比例与机位设置。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "音频开启/关闭",
+        "body": "保留原生音频，或将其关闭以获得更低的计费报价。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "首尾帧控制",
+        "body": "在图生视频中使用起始图片与可选尾帧引导落幅。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-5",
+        "title": "受控的旧版工作流",
+        "body": "适用于在迁移至 2.0 前进行可复现的 Seedance 1.5 测试。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  }
+}

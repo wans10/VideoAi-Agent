@@ -7,30 +7,30 @@ import { getMcpPublicationState } from '../frontend/lib/mcp-publication';
 import { buildLlmsText } from '../frontend/lib/seo/llms-text';
 
 const REQUIRED_URLS = [
-  'https://maxvideoai.com/',
-  'https://maxvideoai.com/pay-as-you-go-ai-video-generator',
-  'https://maxvideoai.com/pricing',
-  'https://maxvideoai.com/models',
-  'https://maxvideoai.com/examples',
-  'https://maxvideoai.com/ai-video-engines',
-  'https://maxvideoai.com/ai-video-engines/best-for',
-  'https://maxvideoai.com/blog',
-  'https://maxvideoai.com/docs',
-  'https://maxvideoai.com/models/veo-3-1',
-  'https://maxvideoai.com/models/kling-3-pro',
-  'https://maxvideoai.com/models/minimax-h3',
-  'https://maxvideoai.com/models/minimax-h3-max',
-  'https://maxvideoai.com/models/seedance-2-5',
-  'https://maxvideoai.com/legal/privacy',
-  'https://maxvideoai.com/legal/terms',
+  'https://app.keyvo.cn/',
+  'https://app.keyvo.cn/pay-as-you-go-ai-video-generator',
+  'https://app.keyvo.cn/pricing',
+  'https://app.keyvo.cn/models',
+  'https://app.keyvo.cn/examples',
+  'https://app.keyvo.cn/ai-video-engines',
+  'https://app.keyvo.cn/ai-video-engines/best-for',
+  'https://app.keyvo.cn/blog',
+  'https://app.keyvo.cn/docs',
+  'https://app.keyvo.cn/models/veo-3-1',
+  'https://app.keyvo.cn/models/kling-3-pro',
+  'https://app.keyvo.cn/models/minimax-h3',
+  'https://app.keyvo.cn/models/minimax-h3-max',
+  'https://app.keyvo.cn/models/seedance-2-5',
+  'https://app.keyvo.cn/legal/privacy',
+  'https://app.keyvo.cn/legal/terms',
 ];
 
 const MCP_SOURCE_URLS = [
-  'https://maxvideoai.com/mcp',
-  'https://maxvideoai.com/integrations/chatgpt',
-  'https://maxvideoai.com/integrations/claude',
-  'https://maxvideoai.com/integrations/codex',
-  'https://maxvideoai.com/docs/mcp',
+  'https://app.keyvo.cn/mcp',
+  'https://app.keyvo.cn/integrations/chatgpt',
+  'https://app.keyvo.cn/integrations/claude',
+  'https://app.keyvo.cn/integrations/codex',
+  'https://app.keyvo.cn/docs/mcp',
 ];
 
 const ENABLED_PUBLICATION = {
@@ -46,29 +46,29 @@ const ENABLED_PUBLICATION = {
 };
 
 const FORBIDDEN_EXACT_URLS = [
-  'https://maxvideoai.com/models/veo-3-fast',
-  'https://maxvideoai.com/models/kling',
-  'https://maxvideoai.com/privacy',
-  'https://maxvideoai.com/terms',
-  'https://maxvideoai.com/models/sora-2',
-  'https://maxvideoai.com/models/sora-2-pro',
-  'https://maxvideoai.com/ai-video-engines/grok-imagine-video-1-5-vs-sora-2',
+  'https://app.keyvo.cn/models/veo-3-fast',
+  'https://app.keyvo.cn/models/kling',
+  'https://app.keyvo.cn/privacy',
+  'https://app.keyvo.cn/terms',
+  'https://app.keyvo.cn/models/sora-2',
+  'https://app.keyvo.cn/models/sora-2-pro',
+  'https://app.keyvo.cn/ai-video-engines/grok-imagine-video-1-5-vs-sora-2',
 ];
 
 const FORBIDDEN_URL_PATTERNS = [
-  /http:\/\/maxvideoai\.com(?:\/|\b)/,
-  /https:\/\/www\.maxvideoai\.com(?:\/|\b)/,
-  /https:\/\/api\.maxvideoai\.com(?:\/|\b)/,
+  /http:\/\/app\.keyvo\.cn(?:\/|\b)/,
+  /https:\/\/www\.app\.keyvo\.cn(?:\/|\b)/,
+  /https:\/\/api\.app\.keyvo\.cn(?:\/|\b)/,
 ];
 
 const PRIVATE_PATH_PATTERNS = [
-  /https:\/\/maxvideoai\.com\/api(?:\/|\b)/,
-  /https:\/\/maxvideoai\.com\/admin(?:\/|\b)/,
-  /https:\/\/maxvideoai\.com\/app(?:\/|\b)/,
-  /https:\/\/maxvideoai\.com\/billing(?:\/|\b)/,
-  /https:\/\/maxvideoai\.com\/settings(?:\/|\b)/,
-  /https:\/\/maxvideoai\.com\/dashboard(?:\/|\b)/,
-  /https:\/\/maxvideoai\.com\/jobs(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/api(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/admin(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/app(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/billing(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/settings(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/dashboard(?:\/|\b)/,
+  /https:\/\/app\.keyvo\.cn\/jobs(?:\/|\b)/,
 ];
 
 const ALLOWED_EXTERNAL_URLS = new Set([
@@ -96,7 +96,7 @@ export function validateLlmsSourceUrls(candidates: string[]): string[] {
     }
     for (const url of listedUrls) {
       assert(
-        url.startsWith('https://maxvideoai.com/') || ALLOWED_EXTERNAL_URLS.has(url),
+        url.startsWith('https://app.keyvo.cn/') || ALLOWED_EXTERNAL_URLS.has(url),
         `External or noncanonical URL in llms.txt: ${url}`,
       );
     }

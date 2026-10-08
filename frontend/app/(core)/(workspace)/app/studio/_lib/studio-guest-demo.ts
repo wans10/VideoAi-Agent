@@ -8,6 +8,25 @@ export const STUDIO_GUEST_MEDIA={
 } as const;
 
 const COPY={
+  zh:{
+    project:'产品广告 · 演示',create:'创建我的项目',references:'此案例的参考素材',
+    product:'保温水瓶',character:'角色',music:'音乐 · Electro-funk',
+    initial:'我想为我的保温水瓶制作一支 14 秒的视频广告。',
+    request:'好的。请提供产品图片、角色和音乐参考，这些素材有助于确定镜头和氛围。',
+    brief:'Image 1 是我的产品，Image 2 是角色。请使用 Audio 1 作为音乐。我想要两个镜头，剪辑跟随音乐节奏。',
+    proposal:'建议用两个镜头制作这支 14 秒广告：',
+    shots:[{title:'产品登场',body:'以柔和光线和轻微镜头运动特写 Image 1 中的水瓶，让产品始终处于画面焦点。'},
+      {title:'日常生活中的产品',body:'Image 2 中的角色带着同一水瓶走入公园。沿 Audio 1 的重拍切换镜头，最后以产品画面收尾。'}],
+    sound:'音乐贯穿全部 14 秒，剪辑时再细化节奏切点。',
+    confirmation:'生成片段前，我会展示模型、参数和准确报价，请您确认。',
+    plan:'剪辑方案 · 14 秒',makeAd:'制作我的广告',addMedia:'添加素材',enlarge:'放大',close:'关闭',
+    note:'探索此案例。登录后可使用自己的素材创作。',unavailable:'Studio 暂不可用，您仍可浏览此案例。',
+    loginTitle:'您的创意，您的项目。',
+    actions:{create:'创建账户以制作自己的广告。',send:'登录后发送此消息并继续与 Studio 创作。',import:'登录后添加自己的素材。',edit:'登录后修改自己项目的剪辑。'},
+    loginNote:'您的消息将保留在新项目中。',signup:'创建账户',signin:'我已有账户',
+    personalBrief:'我想为产品制作一支 14 秒广告，包含角色和音乐。请帮我设计两个镜头，并询问所需参考素材。',
+    audioError:'音乐暂不可用。',
+  },
   fr:{
     project:'Publicité produit · Démonstration',
     create:'Créer mon projet',

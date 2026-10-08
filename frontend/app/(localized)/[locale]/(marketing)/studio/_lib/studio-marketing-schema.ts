@@ -10,7 +10,7 @@ export function buildStudioMarketingSchema(locale: AppLocale, copy: StudioMarket
     '@graph': [
       { '@type': 'WebPage', '@id': `${url}#webpage`, url, name: copy.meta.title, description: copy.meta.description, inLanguage: localeRegions[locale] },
       { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'MaxVideoAI', item: getLocalizedUrl(locale, '/') },
+        { '@type': 'ListItem', position: 1, name: 'Keyvo', item: getLocalizedUrl(locale, '/') },
         { '@type': 'ListItem', position: 2, name: 'Studio', item: url },
       ] },
       { '@type': 'FAQPage', '@id': `${url}#faq`, inLanguage: localeRegions[locale], mainEntity: copy.faq.items.map(item => ({

@@ -1,3 +1,33 @@
+# Source control and local tooling
+.git
+.github
+.agents
+.codex
+.idea
+.superpowers
+
+# Dependencies and build output are always created in the image.
 node_modules
-npm-debug.log
+**/node_modules
+frontend/.next
+frontend/.cache
+**/*.tsbuildinfo
+
+# Local configuration, logs, and test artifacts must never enter an image.
+.env
+.env.*
+!.env.production.example
+*.log
+npm-debug.log*
+pnpm-debug.log*
 .DS_Store
+playwright*
+# Prebuild SEO/contract gates execute checked-in tests inside the builder.
+# The runner copies only standalone output and public/runtime data.
+coverage
+.lighthouseci
+lighthouse-reports
+
+# Local-only generated and editor files
+output
+*.swp

@@ -2,11 +2,11 @@
   "marketingName": "GPT Image 2",
   "versionLabel": "2",
   "seo": {
-    "title": "GPT Image 2 - text-to-image et édition | MaxVideoAI",
-    "description": "Générez et éditez des images avec GPT Image 2 dans MaxVideoAI. Text-to-image, image-to-image, presets de taille, taille custom, niveaux de qualité, formats de sortie et mask URL optionnel.",
+    "title": "GPT Image 2 - text-to-image et édition | VideoAI",
+    "description": "Générez et éditez des images avec GPT Image 2 dans VideoAI. Text-to-image, image-to-image, presets de taille, taille custom, niveaux de qualité, formats de sortie et mask URL optionnel.",
     "image": "https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4ea3493c-6831-4f08-bedc-803506e0792f.png"
   },
-  "overview": "GPT Image 2 est un modèle image quality-first dans MaxVideoAI. Une seule entrée Image Lab couvre text-to-image et image-to-image, avec presets de taille, width/height custom, qualité, nombre de sorties, format et mask URL si l’edit doit rester dans une zone précise.",
+  "overview": "GPT Image 2 est un modèle image quality-first dans VideoAI. Une seule entrée Image Lab couvre text-to-image et image-to-image, avec presets de taille, width/height custom, qualité, nombre de sorties, format et mask URL si l’edit doit rester dans une zone précise.",
   "hero": {
     "title": "GPT Image 2 - generation d'images et edits haute qualite",
     "intro": "Génération d’images pour typographie nette, packshots réalistes, mockups UI, infographies et edits guidés par référence.",
@@ -95,10 +95,10 @@
     },
     {
       "q": "Combien coûte GPT Image 2 ?",
-      "a": "Le prix dépend de la taille, de la qualité et du nombre d’images choisis. MaxVideoAI affiche le devis avant de générer : vous pouvez ajuster les réglages selon votre budget."
+      "a": "Le prix dépend de la taille, de la qualité et du nombre d’images choisis. VideoAI affiche le devis avant de générer : vous pouvez ajuster les réglages selon votre budget."
     }
   ],
-  "pricingNotes": "Les coûts varient selon la qualité et la taille d’image. MaxVideoAI affiche le prix final avant génération ; utilisez le devis app pour une estimation client.",
+  "pricingNotes": "Les coûts varient selon la qualité et la taille d’image. VideoAI affiche le prix final avant génération ; utilisez le devis app pour une estimation client.",
   "custom": {
     "heroEyebrow": "Modèle image GPT Image 2",
     "heroSupportLine": "Ideal pour images avec texte, packshots, mockups UI et edits controles.",
@@ -123,7 +123,7 @@
     ],
     "whyTitle": "Pourquoi GPT Image 2 se distingue",
     "heroDesc1": "GPT Image 2 vise les stills haute fidelite ou rendu du texte, detail produit et adherence au prompt comptent plus que la vitesse brute.",
-    "heroDesc2": "Dans MaxVideoAI, il fonctionne dans l'Image Lab comme une seule entree pour Create et Edit, avec wallet partage, references reutilisables, controles qualite et prix live avant lancement.",
+    "heroDesc2": "Dans VideoAI, il fonctionne dans l'Image Lab comme une seule entree pour Create et Edit, avec wallet partage, references reutilisables, controles qualite et prix live avant lancement.",
     "heroHighlights": [
       "Texte lisible||Utile pour posters, labels, infographies et ecrans UI avec typographie propre.",
       "Fidelite produit||Bon choix pour packaging, catalogue et e-commerce avec labels visibles.",
@@ -151,7 +151,7 @@
     ],
     "boundaries": [
       "Images fixes uniquement.",
-      "Le composer MaxVideoAI permet actuellement jusqu'a 4 sorties par requete.",
+      "Le composer VideoAI permet actuellement jusqu'a 4 sorties par requete.",
       "Le mode Edit exige au moins une image de reference.",
       "Le mask est saisi sous forme d'URL."
     ],
@@ -290,14 +290,14 @@
     "pricingCopy": {
       "title": "Prix GPT Image 2 en un coup d’œil",
       "subtitle": "Prix totaux par scénario image — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 4 images",
       "ctaHref": "/fr/tarifs#gpt-image-2-pricing"
     },
     "meta": {
-      "title": "GPT Image 2 : tarifs, texte lisible et retouche | MaxVideoAI",
-      "description": "Explorez GPT Image 2 : prix, texte lisible, packshots produit, tailles personnalisées, retouches par références et masques dans MaxVideoAI."
+      "title": "GPT Image 2 : tarifs, texte lisible et retouche | VideoAI",
+      "description": "Explorez GPT Image 2 : prix, texte lisible, packshots produit, tailles personnalisées, retouches par références et masques dans VideoAI."
     }
   },
   "prompting": {
@@ -376,7 +376,7 @@
     "modelSlug": "gpt-image-2",
     "section": {
       "title": "Exemples GPT Image 2",
-      "intro": "Explorez des rendus de la communauté et voyez comment GPT Image 2 se comporte dans des workflows MaxVideoAI.",
+      "intro": "Explorez des rendus de la communauté et voyez comment GPT Image 2 se comporte dans des workflows VideoAI.",
       "defaultCtaLabel": null,
       "recreateLabel": "Recréer ce rendu →"
     },

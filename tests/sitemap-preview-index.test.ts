@@ -23,9 +23,10 @@ test('development discovers all routes despite a nonempty incremental manifest; 
     process.env.NODE_ENV = 'development';
     const { getCanonicalPathEntries } = await import('../frontend/lib/sitemap/route-discovery.ts');
     const development = (await getCanonicalPathEntries()).map((entry) => entry.englishPath);
-    for (const route of ['/integrations/claude', '/integrations/chatgpt', '/integrations/codex', '/integrations/openclaw', '/integrations/n8n', '/tools', '/tools/background-removal', '/examples', '/blog']) {
+    for (const route of ['/tools', '/tools/background-removal', '/examples', '/blog']) {
       assert.ok(development.includes(route), route);
     }
+    for (const id of ['claude', 'chatgpt', 'codex', 'openclaw', 'n8n']) assert.equal(development.includes(`/integrations/${id}`), false);
     assert.ok(development.length > 100, 'a development sitemap cannot collapse to the visited home route');
     process.env.NODE_ENV = 'production';
     const production = (await getCanonicalPathEntries()).map((entry) => entry.englishPath);

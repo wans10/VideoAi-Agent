@@ -120,16 +120,16 @@ file_size_limit = "50MiB"
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "https://maxvideoai.com"
+site_url = "https://app.keyvo.cn"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
-  "https://maxvideoai.com/*",
-  "https://maxvideoai.com/app",
-  "https://maxvideoai.com/app/*",
-  "https://maxvideoai.com/login",
-  "https://maxvideoai.com/app/login",
-  "https://maxvideoai.com/auth/reset-password",
-  "https://maxvideoai.com/auth/callback",
+  "https://app.keyvo.cn/*",
+  "https://app.keyvo.cn/app",
+  "https://app.keyvo.cn/app/*",
+  "https://app.keyvo.cn/login",
+  "https://app.keyvo.cn/app/login",
+  "https://app.keyvo.cn/auth/reset-password",
+  "https://app.keyvo.cn/auth/callback",
   "http://localhost:3000/*",
   # Gallery/admin review: preserve the loopback origin and callback query parameters.
   "http://127.0.0.1:3210/auth/callback**"
@@ -197,15 +197,15 @@ otp_expiry = 3600
 # Hosted SMTP is configured in the dashboard (Brevo); credentials are never stored here.
 # Regenerate with: node scripts/email/auth-templates.mjs
 [auth.email.template.confirmation]
-subject = "MaxVideoAI — Confirm your email"
+subject = "Keyvo — Confirm your email"
 content_path = "./supabase/templates/confirm-signup.html"
 
 [auth.email.template.recovery]
-subject = "MaxVideoAI — Reset your password"
+subject = "Keyvo — Reset your password"
 content_path = "./supabase/templates/reset-password.html"
 
 [auth.email.template.magic_link]
-subject = "MaxVideoAI — Your sign-in link"
+subject = "Keyvo — Your sign-in link"
 content_path = "./supabase/templates/magic-link.html"
 
 [auth.sms]

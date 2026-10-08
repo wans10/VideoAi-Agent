@@ -5,7 +5,7 @@
     "title": "Generador de video con IA FLUX 3 Draft para pruebas rápidas",
     "description": "Prueba texto, imagen, transición o extensión en 720p con FLUX 3 Draft antes de producción, con prompts y cotizaciones canónicas."
   },
-  "overview": "FLUX 3 Draft es la ruta de exploración rápida de la nueva generación de video FLUX. Repite los cuatro flujos de FLUX 3 en 720p para responder una pregunta creativa antes de una pasada estándar. Black Forest Labs es propietario del modelo y Fal distribuye los endpoints usados por MaxVideoAI en este lanzamiento.",
+  "overview": "FLUX 3 Draft es la ruta de exploración rápida de la nueva generación de video FLUX. Repite los cuatro flujos de FLUX 3 en 720p para responder una pregunta creativa antes de una pasada estándar. Black Forest Labs es propietario del modelo y Fal distribuye los endpoints usados por VideoAI en este lanzamiento.",
   "decision": {
     "modelSlug": "flux-3-draft",
     "hero": {
@@ -13,7 +13,7 @@
       "title": "FLUX 3 Draft",
       "subtitle": "Prueba con rapidez un prompt, una animación de imagen, un puente entre dos cuadros o la extensión de un clip en 720p.",
       "subtitleHighlights": ["con rapidez", "cuatro flujos", "720p"],
-      "paragraph": "Elige Draft para responder una pregunta concreta sobre la acción, la cámara, la compatibilidad de imágenes o la continuidad de una extensión antes de invertir en la ruta estándar. Las entradas siguen siendo las de los cuatro modos de FLUX 3. Black Forest Labs posee FLUX; Fal distribuye la ejecución de este modelo en MaxVideoAI durante el lanzamiento.",
+      "paragraph": "Elige Draft para responder una pregunta concreta sobre la acción, la cámara, la compatibilidad de imágenes o la continuidad de una extensión antes de invertir en la ruta estándar. Las entradas siguen siendo las de los cuatro modos de FLUX 3. Black Forest Labs posee FLUX; Fal distribuye la ejecución de este modelo en VideoAI durante el lanzamiento.",
       "primaryCta": { "label": "Generar con FLUX 3 Draft", "href": "/app?engine=flux-3-draft" },
       "secondaryCta": { "label": "Ver la galería FLUX", "href": "/es/galeria/flux" },
       "quickLinks": [

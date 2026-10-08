@@ -32,6 +32,16 @@ const copy = {
     recover: 'Ajustes anteriores',
     replace: 'Usar este borrador',
   },
+  zh: {
+    incomplete: '参考素材仍在准备中。已为您保留上一个完整草稿。',
+    invalid: '无法保存此草稿。已为您保留上一个草稿。',
+    oversized: '草稿过大无法保存。已为您保留上一个草稿。',
+    retired: '保存的模型当前不可用。其草稿已保存在“历史配置”中。',
+    memory: '草稿仅在当前打开的标签页中有效。刷新页面可能会丢失未保存的更改。',
+    recovery: '有可恢复的历史草稿。',
+    recover: '历史配置',
+    replace: '使用当前草稿',
+  },
 };
 export function WorkspaceActiveDraftStatus({
   draft,
@@ -42,7 +52,7 @@ export function WorkspaceActiveDraftStatus({
   locale: string;
   openRecovery: () => void;
 }) {
-  const c = copy[locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en'];
+  const c = copy[locale.startsWith('zh') ? 'zh' : locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en'];
   if (!draft.error && !draft.memoryOnly && !draft.recoverySetup) return null;
   return (
     <span

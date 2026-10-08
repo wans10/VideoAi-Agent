@@ -2,11 +2,11 @@
   "marketingName": "Seedream 5.0 Lite",
   "versionLabel": "5.0 Lite",
   "seo": {
-    "title": "Seedream 5.0 Lite | Image Generation & Editing | MaxVideoAI",
-    "description": "Create and edit still images with Seedream 5.0 Lite in MaxVideoAI. Prepare clean concepts, product frames, and reference images before Seedance animation."
+    "title": "Seedream 5.0 Lite | Image Generation & Editing | VideoAI",
+    "description": "Create and edit still images with Seedream 5.0 Lite in VideoAI. Prepare clean concepts, product frames, and reference images before Seedance animation."
   },
-  "overview": "Seedream 5.0 Lite is an image generation and editing model inside MaxVideoAI for creating clean stills, product concepts, character frames, thematic image sets, and source images that can become stronger references before Seedance 2.0 or Seedance 2.0 Fast image-to-video work.",
-  "pricingNotes": "Seedream 5.0 Lite is priced per successfully generated image, including batch image sets. MaxVideoAI shows the active account price before generation. The $0.24 batch preset is an example of 4 generated images at $0.06 per generated image, not a 15-image price.",
+  "overview": "Seedream 5.0 Lite is an image generation and editing model inside VideoAI for creating clean stills, product concepts, character frames, thematic image sets, and source images that can become stronger references before Seedance 2.0 or Seedance 2.0 Fast image-to-video work.",
+  "pricingNotes": "Seedream 5.0 Lite is priced per successfully generated image, including batch image sets. VideoAI shows the active account price before generation. The $0.24 batch preset is an example of 4 generated images at $0.06 per generated image, not a 15-image price.",
   "hero": {
     "title": "Seedream 5.0 Lite - image generation and editing",
     "intro": "Use Seedream 5.0 Lite as a standalone image model for text-to-image creation, image-to-image cleanup, batch image sets, and controlled reference stills before animating selected frames in Seedance.",
@@ -98,7 +98,7 @@
   "faqs": [
     {
       "q": "What is Seedream 5.0 Lite?",
-      "a": "Seedream 5.0 Lite is an image generation and editing model available in MaxVideoAI for still-image creation and reference preparation."
+      "a": "Seedream 5.0 Lite is an image generation and editing model available in VideoAI for still-image creation and reference preparation."
     },
     {
       "q": "How does Seedream connect to Seedance?",
@@ -106,7 +106,7 @@
     },
     {
       "q": "Can Seedream generate batch image sets?",
-      "a": "Yes. When you request more than one image, MaxVideoAI can create related image sets from one brief. This is useful for storyboards, comics, product series, and brand visuals."
+      "a": "Yes. When you request more than one image, VideoAI can create related image sets from one brief. This is useful for storyboards, comics, product series, and brand visuals."
     },
     {
       "q": "Does Seedream promise Seedance results?",
@@ -152,7 +152,7 @@
     "specSections": [
       {
         "title": "Seedream image workflows",
-        "intro": "Use Seedream 5.0 Lite for text, single-image, and multi-image workflows inside the MaxVideoAI Image Lab.",
+        "intro": "Use Seedream 5.0 Lite for text, single-image, and multi-image workflows inside the VideoAI Image Lab.",
         "items": [
           "Text-to-image: create a still image from a prompt with 2K, 3K, or 4K output controls.",
           "Image-to-image: clean or edit an existing source image while preserving important visual details.",
@@ -164,7 +164,7 @@
         "title": "Limits and billing behavior",
         "items": [
           "Reference images plus requested outputs must stay within 15 total images.",
-          "MaxVideoAI prices Seedream by successfully generated image; failed or missing outputs should not be charged as completed images.",
+          "VideoAI prices Seedream by successfully generated image; failed or missing outputs should not be charged as completed images.",
           "Output controls expose base resolution, aspect ratio, file format, and watermark options where supported.",
           "The $0.24 batch preset is an example of 4 generated images at $0.06 per generated image, not a 15-image price.",
           "Output format: choose jpeg or png in the active Image Lab route."
@@ -198,7 +198,7 @@
       "Batch requests must keep references plus generated outputs within 15 total images.",
       "Seedance still evaluates each source image and prompt.",
       "A cleaner reference image may improve consistency, but final animation handling and output quality still depend on the Seedance run.",
-      "Do not use Seedream to prepare content that violates MaxVideoAI safety rules."
+      "Do not use Seedream to prepare content that violates VideoAI safety rules."
     ],
     "safetyTitle": "Safety and likeness",
     "safetyRules": [
@@ -360,13 +360,13 @@
     "pricingCopy": {
       "title": "Seedream image pricing at a glance",
       "subtitle": "Per-image preset totals - see the exact live price in the image workspace before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset image scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset image scenarios.",
       "ctaLabel": "View full pricing",
       "ctaHref": "/pricing#seedream-pricing"
     },
     "meta": {
-      "title": "Seedream: Image Pricing & Reference Prep | MaxVideoAI",
-      "description": "Prepare Seedream reference images, product frames, character stills and controlled visual sets in MaxVideoAI before choosing a video model."
+      "title": "Seedream: Image Pricing & Reference Prep | VideoAI",
+      "description": "Prepare Seedream reference images, product frames, character stills and controlled visual sets in VideoAI before choosing a video model."
     }
   },
   "prompting": {
@@ -432,7 +432,7 @@
     "modelSlug": "seedream",
     "section": {
       "title": "Seedream 5.0 Lite examples",
-      "intro": "Explore real community outputs and see how Seedream 5.0 Lite performs inside MaxVideoAI workflows.",
+      "intro": "Explore real community outputs and see how Seedream 5.0 Lite performs inside VideoAI workflows.",
       "defaultCtaLabel": null,
       "recreateLabel": "Recreate this still →"
     },

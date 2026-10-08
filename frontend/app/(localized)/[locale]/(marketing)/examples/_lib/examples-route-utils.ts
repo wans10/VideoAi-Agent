@@ -245,6 +245,7 @@ export function buildMainVideoHeroLine(locale: AppLocale, modelLabel: string, sp
   if (locale === 'es') {
     return `${modelLabel} en acción`;
   }
+  if (locale === 'zh') return `查看 ${modelLabel} 的实际效果`;
   return `See ${modelLabel} in action`;
 }
 
@@ -254,7 +255,7 @@ export function buildLocalizedExampleLabel(
   aspectRatio?: string | null,
   durationSec?: number | null
 ): string {
-  const ratio = aspectRatio ?? 'Auto';
+  const ratio = aspectRatio ?? (locale === 'zh' ? '自动' : 'Auto');
   const duration = typeof durationSec === 'number' ? (locale === 'es' ? `${durationSec} s` : `${durationSec}s`) : null;
   if (locale === 'fr') {
     return duration ? `Exemple ${modelLabel} · ${ratio} · ${duration}` : `Exemple ${modelLabel} · ${ratio}`;
@@ -262,6 +263,7 @@ export function buildLocalizedExampleLabel(
   if (locale === 'es') {
     return duration ? `Ejemplo de ${modelLabel} · ${ratio} · ${duration}` : `Ejemplo de ${modelLabel} · ${ratio}`;
   }
+  if (locale === 'zh') return `${modelLabel} 视频案例 · ${ratio}${typeof durationSec === 'number' ? ` · ${durationSec} 秒` : ''}`;
   return duration ? `${modelLabel} video example · ${ratio} · ${duration}` : `${modelLabel} video example · ${ratio}`;
 }
 

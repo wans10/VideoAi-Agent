@@ -26,7 +26,7 @@
       },
       {
         "title": "Compare the current price",
-        "body": "The pricing cards on this page are calculated from the live MaxVideoAI pricing projection. Compare the exact mode and output settings you plan to render instead of relying on a fixed estimate."
+        "body": "The pricing cards on this page are calculated from the live VideoAI pricing projection. Compare the exact mode and output settings you plan to render instead of relying on a fixed estimate."
       }
     ],
     "primaryLinksTitle": "Choose your Seedance workflow",
@@ -101,7 +101,7 @@
       },
       {
         "title": "Comparer le prix actuel",
-        "body": "Les cartes de prix de cette page sont calculées depuis la projection tarifaire MaxVideoAI en direct. Comparez le mode et les réglages que vous comptez réellement utiliser, plutôt qu’une estimation figée."
+        "body": "Les cartes de prix de cette page sont calculées depuis la projection tarifaire VideoAI en direct. Comparez le mode et les réglages que vous comptez réellement utiliser, plutôt qu’une estimation figée."
       }
     ],
     "primaryLinksTitle": "Choisissez votre workflow Seedance",
@@ -176,7 +176,7 @@
       },
       {
         "title": "Comparar el precio actual",
-        "body": "Las tarjetas de precio de esta página se calculan con la proyección tarifaria en vivo de MaxVideoAI. Compara el modo y los ajustes que vas a renderizar, en lugar de depender de una estimación fija."
+        "body": "Las tarjetas de precio de esta página se calculan con la proyección tarifaria en vivo de VideoAI. Compara el modo y los ajustes que vas a renderizar, en lugar de depender de una estimación fija."
       }
     ],
     "primaryLinksTitle": "Elige tu flujo Seedance",
@@ -221,6 +221,81 @@
         {
           "question": "¿Cómo comparo el precio de Seedance 2.0 y 2.5?",
           "answer": "Usa el precio en vivo de esta página y compara la misma duración, modo, resolución y opción de audio. Las cifras mostradas proceden de la proyección actual, no del texto editorial."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 对比 2.5：是否值得升级",
+      "description": "在 VideoAI 上对比 Seedance 2.0 与 Seedance 2.5 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "Seedance 2.0 与 2.5 面向不同制作决策。成熟的 15 秒工作流或 4K 交付决定需求时保留 2.0；最新旗舰、最长 30 秒、最高 1080p、更高多模态参考上限、编辑和延长选择 2.5。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "最新 Seedance 工作流、最长 30 秒的 480p / 720p / 1080p、更多图像 / 视频 / 音频参考、源视频编辑或延长选择 2.5。已验证的 15 秒设置和成熟 4K 路径更重要时选择 2.0；2.0 仍是有效方案，不会重定向至 2.5。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Seedance 2.0",
+        "body": "熟悉的 15 秒提示词模式及明确要求 4K 的最终交付，使用成熟方案。"
+      },
+      {
+        "title": "选择 Seedance 2.5",
+        "body": "最长 30 秒、合计最多 50 份参考、可选生成音频、编辑和延长，使用旗舰方案。"
+      },
+      {
+        "title": "分辨率取舍",
+        "body": "Seedance 2.5 最高 1080p，Seedance 2.0 保留成熟 4K 路径。判断新版本时长 / 控制还是 4K 是必要条件。"
+      },
+      {
+        "title": "比较当前价格",
+        "body": "本页价格卡根据当前 VideoAI 价格计算结果生成。比较计划使用的模式与输出设置，而非固定估价。"
+      }
+    ],
+    "primaryLinksTitle": "选择 Seedance 工作流",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/app?engine=seedance-2-0",
+        "label": "使用 Seedance 2.0 生成"
+      },
+      {
+        "href": "/models/seedance-2-5",
+        "label": "查看 Seedance 2.5 详情"
+      },
+      {
+        "href": "/app?engine=seedance-2-5",
+        "label": "使用 Seedance 2.5 生成"
+      }
+    ],
+    "faq": {
+      "title": "Seedance 2.0 对比 2.5 常见问题",
+      "subtitle": "帮助你在成熟高分辨率方案和最新长视频工作流之间选择。",
+      "items": [
+        {
+          "question": "应该从 Seedance 2.0 升级至 Seedance 2.5 吗？",
+          "answer": "30 秒、1080p、更多多模态参考、编辑或延长是核心需求时升级；已验证 15 秒工作流或 4K 是决定条件时保留 2.0。"
+        },
+        {
+          "question": "Seedance 2.5 会取代 Seedance 2.0 吗？",
+          "answer": "不会。两款详情与生成方案仍可用。2.5 是最高 1080p 的最新旗舰；2.0 保留成熟的 4K 制作路径。"
+        },
+        {
+          "question": "哪款支持更长视频？",
+          "answer": "Seedance 2.5 支持 4 至 30 秒；2.0 最长 15 秒，仍适合成熟短视频工作流。"
+        },
+        {
+          "question": "哪款更适合参考素材密集的任务？",
+          "answer": "需求组合大量图像、视频和音频参考时，2.5 更合适；2.0 也支持参考驱动，但上限更低。"
+        },
+        {
+          "question": "如何比较 Seedance 2.0 和 2.5 的价格？",
+          "answer": "使用本页实时价格，比较相同时长、模式、分辨率和音频。显示数字来自当前价格计算，而非手写文案。"
         }
       ]
     }

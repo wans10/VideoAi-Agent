@@ -1,4 +1,5 @@
 "use client";
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import { useEffect, useState } from "react";
 import type { ImageConversationTurn } from "@/lib/studio/image-conversation-contract";
 import {
@@ -32,7 +33,7 @@ export function ImageQuoteCard({
   }, []);
   const quote = turn.quote;
   if (!quote) return null;
-  const t = (en: string, fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   const presentation = conversationQuotePresentation(quote.summary, locale, quote.outputDurationSec);
   const referenceCount = quote.summary.references.length;
   const ready = canConfirmImageQuote(quote, now, busy);

@@ -7,9 +7,9 @@ import { TOOL_WORKSPACE_CAPTURES } from '../frontend/src/components/tools/landin
 
 test('tool breadcrumbs and workflow steps stay on the localized page', () => {
   for (const [locale,home,tools] of [['en','/','/tools'],['fr','/fr','/fr/outils'],['es','/es','/es/herramientas']] as const) {
-    const canonicalUrl=`https://maxvideoai.com${tools}/character-builder`;
+    const canonicalUrl=`https://app.keyvo.cn${tools}/character-builder`;
     const schema=buildToolBreadcrumbJsonLd({locale,canonicalUrl,breadcrumb:{home:'Home',tools:'Tools',current:'Character Builder'}});
-    assert.deepEqual(schema.itemListElement.map(item=>item.item),[`https://maxvideoai.com${home}`,`https://maxvideoai.com${tools}`,canonicalUrl]);
+    assert.deepEqual(schema.itemListElement.map(item=>item.item),[`https://app.keyvo.cn${home}`,`https://app.keyvo.cn${tools}`,canonicalUrl]);
     const workflow=buildToolHowToJsonLd({canonicalUrl,name:'Create',description:'Create a reference',steps:[{title:'Choose',body:'Pick a source'}]});
     assert.equal(workflow.step[0].url,`${canonicalUrl}#step-1`);
   }

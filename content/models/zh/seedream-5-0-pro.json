@@ -1,0 +1,400 @@
+{
+  "marketingName": "Seedream 5.0 Pro",
+  "versionLabel": "5.0 Pro",
+  "seo": {
+    "title": "Seedream 5.0 Pro - 专业字节跳动图像生成 | VideoAI",
+    "description": "使用 VideoAI 中的 Seedream 5.0 Pro 创建专业静态图像、密集信息图表、视觉编辑和 4K 广告素材。"
+  },
+  "overview": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
+  "pricingNotes": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
+  "hero": {
+    "title": "Seedream 5.0 Pro - 专业图像制作",
+    "intro": "使用 Seedream Pro 制作高细节静态图像、结构化信息图表、受控编辑和 4K 广告就绪图像。",
+    "badge": "文字 -> 图像 · 图像 -> 图像 · 2K / 4K",
+    "ctaPrimary": {
+      "label": "启动 Seedream Pro",
+      "href": "/app/image?engine=seedream-5-0-pro"
+    },
+    "secondaryLinks": [
+      {
+        "label": "打开 Seedream Lite",
+        "href": "/zh/models/seedream"
+      },
+      {
+        "label": "使用 Seedance 2.0 制作动画",
+        "href": "/zh/models/seedance-2-0"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "高密度信息图表和视觉说明",
+        "icon": "layout"
+      },
+      {
+        "title": "专业广告静态图像",
+        "icon": "product"
+      },
+      {
+        "title": "带多个参考图的复杂图像编辑",
+        "icon": "layers"
+      },
+      {
+        "title": "动画前的 4K 参考帧",
+        "icon": "imageToVideo"
+      }
+    ]
+  },
+  "tips": {
+    "title": "制作说明",
+    "items": [
+      "当页面需要层次结构、标签、文字或密集构图时，使用 Pro。",
+      "保持简报结构化：主体、版式、视觉层次、文字元素和照明。",
+      "批量快速处理使用 Seedream Lite；Pro 每次请求输出一张专业图像。",
+      "在将其发送到 Seedance 进行动态处理前，准备好已批准的静态图像。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "清洁能源城市信息图表",
+      "prompt": "为清洁能源城市区域创作电影级高密度信息图表，分层地图视角，清晰标签，数据标注，玻璃质感 UI 叠加层，高端编辑照明。"
+    },
+    {
+      "title": "广告制作编辑",
+      "prompt": "将这些参考图整合为一张统一的活动视觉图：保留产品形状，融入建筑背景，添加戏剧性轮廓光，并保持所有排版简洁。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Seedream 5.0 Pro 与 Seedream 5.0 Lite 有何区别？",
+      "a": "Pro 适用于专业最终成品、密集信息图表、复杂编辑和 4K 广告静态图像。Lite 适用于更快速的图像集和参考准备。"
+    },
+    {
+      "q": "Seedream 5.0 Pro 支持批量输出吗？",
+      "a": "不支持。VideoAI 将 Seedream 5.0 Pro 设定为每次请求生成一张图像，以匹配直接提供商路线。"
+    }
+  ],
+  "custom": {
+    "heroEyebrow": "Seedream 5.0 Pro 图像模型",
+    "heroSupportLine": "最适合专业静态图像、密集版式和 4K 视觉制作。",
+    "heroSpecChips": [
+      {
+        "label": "文字->图像",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图像->图像",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "2K/4K",
+        "icon": "resolution"
+      },
+      {
+        "label": "单图 Pro 输出"
+      }
+    ],
+    "whyTitle": "为何使用 Seedream Pro",
+    "heroDesc1": "Seedream 5.0 Pro 是字节跳动专为需要层次结构、标签、精美构图和专业质感的视觉工作设计的路线。",
+    "heroDesc2": "它与 Seedream Lite 互补：Lite 适合快速批量和参考准备；Pro 适合您想要展示或制作动画的图像。",
+    "heroHighlights": [
+      "专业构图||使用 Pro 制作密集信息图表、广告图像和视觉说明。",
+      "受控编辑||通过精确的保留/更改指令，将多个参考图整合为一张精美图像。",
+      "4K 就绪静态图像||在 Seedance 动画之前生成最终源帧。"
+    ],
+    "specSections": [
+      {
+        "title": "Seedream Pro 选项",
+        "items": [
+          "直接 BytePlus ModelArk 模型：seedream-5-0-pro-260628。",
+          "分辨率选项：2K 和 4K。",
+          "模式：文字到图像和图像到图像。",
+          "参考输入支持最多 10 张图像。",
+          "Pro 版不开放批量/顺序图像生成。"
+        ]
+      }
+    ],
+    "strengths": [
+      "适用于信息图表、文字密集型视觉内容和复杂版式。",
+      "明确描述层次结构和标签位置。",
+      "使用具有明确角色的参考图：主体、风格、背景或排版。"
+    ],
+    "boundaries": [
+      "仅限静态图像。",
+      "每次请求生成一张图像。",
+      "批量图像集请使用 Seedream Lite。",
+      "Seedance 在视频生成前仍会评估任何图像。"
+    ],
+    "relatedTitle": "Seedream 系列",
+    "relatedSubtitle": "速度和图像集使用 Lite；精美图像使用 Pro。",
+    "relatedItems": [
+      {
+        "brand": "ByteDance",
+        "title": "Seedream 5.0 Lite",
+        "modelSlug": "seedream",
+        "description": "适用于更快的参考帧、批量图像集以及 Seedance 前的源准备。",
+        "ctaLabel": "打开 Seedream Lite"
+      },
+      {
+        "brand": "ByteDance",
+        "title": "Seedance 2.0",
+        "modelSlug": "seedance-2-0",
+        "description": "源帧准备好后，将已批准的 Seedream 静态图像制作成视频动画。",
+        "ctaLabel": "打开 Seedance 2.0"
+      }
+    ],
+    "safetyTitle": "安全与肖像权",
+    "safetyRules": [
+      "禁止性内容或涉及未成年人的内容。",
+      "禁止仇恨、骚扰或暴力图像请求。",
+      "未经同意不得模拟真实人物或公众人物。"
+    ]
+  },
+  "decision": {
+    "modelSlug": "seedream-5-0-pro",
+    "hero": {
+      "eyebrow": "AI 图像 · 字节跳动",
+      "title": "Seedream 5.0 Pro - 专业图像制作",
+      "subtitle": "创建详细图像，打造专属作品。",
+      "subtitleHighlights": [
+        "创建详细图像，打造专属作品"
+      ],
+      "paragraph": "Seedream 5.0 Pro 可生成和编辑 AI 图像，适用于信息图表、多语言版式和详细广告视觉内容。创建 4K 静态图像或准备参考图像以在视频模型中制作动画。",
+      "primaryCta": {
+        "label": "启动 Seedream Pro",
+        "href": "/app/image?engine=seedream-5-0-pro"
+      },
+      "secondaryCta": {
+        "label": "打开 Seedream Lite",
+        "href": "/zh/models/seedream"
+      },
+      "quickLinks": [
+        {
+          "label": "打开图像工作区",
+          "href": "/app/image?engine=seedream-5-0-pro"
+        },
+        {
+          "label": "查看定价",
+          "href": "/zh/pricing#seedream-5-0-pro-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        },
+        {
+          "label": "使用 Seedance 2.0 制作动画",
+          "href": "/zh/models/seedance-2-0"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Seedream 5.0 Pro 示例",
+      "description": "使用 Seedream Pro 制作高细节静态图像、结构化信息图表、受控编辑和 4K 广告就绪图像。",
+      "renderLabel": "查看图像",
+      "badges": [
+        "文字 -> 图像",
+        "图像 -> 图像",
+        "2K / 4K"
+      ],
+      "altContext": "Seedream 5.0 Pro - 专业图像制作"
+    },
+    "features": [
+      {
+        "title": "功能特性",
+        "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
+        "tone": "quality"
+      },
+      {
+        "title": "工作流程",
+        "body": "使用 Seedream Pro 制作高细节静态图像、结构化信息图表、受控编辑和 4K 广告就绪图像。",
+        "tone": "reference"
+      },
+      {
+        "title": "输出格式",
+        "body": "文字 -> 图像 · 图像 -> 图像 · 2K / 4K",
+        "tone": "duration"
+      },
+      {
+        "title": "实时价格",
+        "body": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "打开 Seedream Lite",
+        "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
+        "cta": {
+          "label": "打开 Seedream Lite",
+          "href": "/zh/models/seedream"
+        }
+      },
+      {
+        "title": "使用 Seedance 2.0 制作动画",
+        "body": "使用 Seedream Pro 制作高细节静态图像、结构化信息图表、受控编辑和 4K 广告就绪图像。",
+        "cta": {
+          "label": "使用 Seedance 2.0 制作动画",
+          "href": "/zh/models/seedance-2-0"
+        }
+      },
+      {
+        "title": "需要提示词示例吗？",
+        "body": "打开提示词实验室，获取结构化的起始点。",
+        "cta": {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文字到图像",
+        "body": "使用 Seedream Pro 制作高细节静态图像、结构化信息图表、受控编辑和 4K 广告就绪图像。"
+      },
+      {
+        "title": "图像到图像",
+        "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。"
+      },
+      {
+        "title": "输出设置",
+        "body": "文字 -> 图像 · 图像 -> 图像 · 2K / 4K"
+      },
+      {
+        "title": "价格查询",
+        "body": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Seedream 5.0 Pro 定价一览",
+      "subtitle": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
+      "footnote": "Seedream 5.0 Pro 以单图专业输出路线方式提供。VideoAI 在生成前显示确切的实时报价。",
+      "ctaLabel": "查看完整定价",
+      "ctaHref": "/zh/pricing#seedream-5-0-pro-pricing"
+    },
+    "meta": {
+      "title": "Seedream 5.0 Pro - 专业字节跳动图像生成 | VideoAI",
+      "description": "使用 VideoAI 中的 Seedream 5.0 Pro 创建专业静态图像、密集信息图表、视觉编辑和 4K 广告素材。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "seedream-5-0-pro",
+    "section": {
+      "title": "如何为 Seedream Pro 撰写提示词",
+      "intro": "像艺术总监简报一样书写：视觉目标、构图、层次结构、文案/文字约束、材质和照明。",
+      "tip": null,
+      "guide": null,
+      "referencesTitle": "Seedream 5.0 Pro 如何使用参考图"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [],
+    "engineWhy": [],
+    "demo": null,
+    "imageExamples": {
+      "title": "Seedream 5.0 Pro 图像提示词示例",
+      "intro": "适用于广告静态图像、排版海报、参考编辑和 2K 至 4K 最终成品。",
+      "workspaceLabel": "打开图像工作区",
+      "items": [
+        {
+          "id": "quality-1",
+          "title": "广告静态图像",
+          "badge": "2K 静态图像",
+          "kind": "quality",
+          "prompt": "2K 广告静态图像：白色亚克力台面上的琥珀色香水瓶，柔和的棚内主光，干净的阴影，左上角精确标题\"AURA NOIRE\"，底部边缘小型 logo 锁定版。"
+        },
+        {
+          "id": "typography-2",
+          "title": "排版海报",
+          "badge": "排版",
+          "kind": "typography",
+          "prompt": "竖版 4K 海报，高端编辑网格，石墨色背景，精确标题\"MIDNIGHT LAUNCH\"，副标题\"LIMITED DROP\"，清晰层次结构，充裕留白，文字清晰可读。"
+        },
+        {
+          "id": "edit-3",
+          "title": "参考编辑",
+          "badge": "图像到图像",
+          "kind": "edit",
+          "prompt": "使用此产品参考图，保留形状、logo 和比例。将场景更改为午夜蓝棚室，改善反光效果，去除灰尘和指纹。"
+        },
+        {
+          "id": "layout-4",
+          "title": "2K 升至 4K 最终成品",
+          "badge": "4K 最终成品",
+          "kind": "layout",
+          "prompt": "将已批准的 2K 构图重新输出为 4K 最终版。锐化精细细节，保持排版完全一致，保留品牌色彩、产品位置和锁定构图。"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "seedream-5-0-pro",
+    "section": {
+      "title": "Seedream 5.0 Pro 示例",
+      "intro": "探索真实的社区作品，了解 Seedream 5.0 Pro 在 VideoAI 工作流程中的表现。",
+      "defaultCtaLabel": null,
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "真实社区作品",
+        "body": "探索 Seedream 5.0 Pro 的可能性。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "重现任意画面",
+        "body": "一键进入应用，复用同样的设置。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "原生音频",
+        "body": "对白、环境音和音效同步生成。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "多镜头连贯性",
+        "body": "在整个序列中保持角色、风格和场景的一致性。",
+        "icon": "users"
+      },
+      {
+        "id": "proof-5",
+        "title": "面向生产",
+        "body": "内置安全防护和内容过滤，支持负责任的审查。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": false
+  }
+}

@@ -38,6 +38,7 @@ const HOME_CRUMB: Record<AppLocale, { label: string; href: string }> = {
   en: { label: 'Home', href: '/' },
   fr: { label: 'Accueil', href: '/fr' },
   es: { label: 'Inicio', href: '/es' },
+  zh: { label: '首页', href: '/zh' },
 };
 
 const HERO_HIGHLIGHT_CLASSES = [

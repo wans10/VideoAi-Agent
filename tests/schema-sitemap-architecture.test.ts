@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
+import { publishedLocales, siteDefaultLocale } from '../frontend/i18n/locales';
 
 const frontendRequire = createRequire(new URL('../frontend/package.json', import.meta.url));
 
@@ -116,18 +117,20 @@ test('models sitemap retains every localized H3, Seedance 2.5 and Seedance 2.0 c
 
   for (const slug of ['minimax-h3', 'seedance-2-5', 'seedance-2-0']) {
     const urls = {
-      en: `https://maxvideoai.com/models/${slug}`,
-      fr: `https://maxvideoai.com/fr/modeles/${slug}`,
-      es: `https://maxvideoai.com/es/modelos/${slug}`,
+      en: `https://app.keyvo.cn/models/${slug}`,
+      fr: `https://app.keyvo.cn/fr/modeles/${slug}`,
+      es: `https://app.keyvo.cn/es/modelos/${slug}`,
+      zh: `https://app.keyvo.cn/zh/models/${slug}`,
     } as const;
 
-    for (const [hreflang, url] of Object.entries(urls)) {
+    for (const hreflang of publishedLocales) {
+      const url = urls[hreflang];
       assert.match(xml, new RegExp(`<loc>${url}</loc>`), `${url} sitemap membership`);
       assert.match(xml, new RegExp(`hreflang="${hreflang}" href="${url}"`), `${url} alternate membership`);
     }
     assert.match(
       xml,
-      new RegExp(`hreflang="x-default" href="${urls.en}"`),
+      new RegExp(`hreflang="x-default" href="${urls[siteDefaultLocale]}"`),
       `${slug} x-default membership`,
     );
   }

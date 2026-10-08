@@ -1,6 +1,6 @@
 ---
 title: "Archives : Guide de prompts Sora 2 – Séquences avec son et image de marque"
-description: "La génération Sora 2 est fermée sur MaxVideoAI. Arrêt de l’API prévu le 24 septembre 2026. Comparez Seedance 2.5, MiniMax H3 et Wan 3."
+description: "La génération Sora 2 est fermée sur VideoAI. Arrêt de l’API prévu le 24 septembre 2026. Comparez Seedance 2.5, MiniMax H3 et Wan 3."
 date: '2025-11-03'
 image: /images/blog/sora-2-sequenced-prompts.png
 keywords:
@@ -8,14 +8,14 @@ keywords:
   - Sora 2 Pro
   - AI video
   - sequenced prompts
-  - MaxVideoAI
+  - VideoAI
 slug: invites-sequencees-sora-2-avec-son-et-image-de-marque
 lang: fr
-canonical: 'https://maxvideoai.com/fr/blog/invites-sequencees-sora-2-avec-son-et-image-de-marque'
+canonical: 'https://videoai.omninodetech.com/fr/blog/invites-sequencees-sora-2-avec-son-et-image-de-marque'
 canonicalSlug: sora-2-sequenced-prompts
 ---
 
-> **2026-09-21.** La génération Sora 2 est fermée sur MaxVideoAI. Arrêt de l’API prévu le 24 septembre 2026. Comparez Seedance 2.5, MiniMax H3 et Wan 3.
+> **2026-09-21.** La génération Sora 2 est fermée sur VideoAI. Arrêt de l’API prévu le 24 septembre 2026. Comparez Seedance 2.5, MiniMax H3 et Wan 3.
 
 # Guide de prompts Sora 2 – Séquences avec son et image de marque
 
@@ -29,7 +29,7 @@ Pour les créateurs et les marketeurs, cela signifie que vous pouvez enfin crée
 
 Le secret ? Apprendre à “parler au modèle en timelines” : élaborer vos prompts comme **mini-scénarios** avec structure, rythme et éléments de marque tels qu'un logo ou un jingle.
 
-Et la façon la plus simple d'expérimenter sur des modèles comme Sora 2, Veo 3 et Pika 2.2 est d'utiliser le **[MaxVideoAI espace de travail](/fr)**—un environnement unifié où vous pouvez composer, prévisualiser les prix avant de générer, et envoyer le même brief à différents modèles sans toucher au code.
+Et la façon la plus simple d'expérimenter sur des modèles comme Sora 2, Veo 3 et Pika 2.2 est d'utiliser le **[VideoAI espace de travail](/fr)**—un environnement unifié où vous pouvez composer, prévisualiser les prix avant de générer, et envoyer le même brief à différents modèles sans toucher au code.
 
 ***
 
@@ -42,10 +42,10 @@ Un *prompt séquencé* est une description structurée divisée en **segments ho
 Au lieu d'un long paragraphe (“un homme marchant sur la plage”), vous créez une **chronologie**:
 
 ```text
-Scene 1 (0-3 s): Wide aerial of the beach at sunrise. Calm ambient sound.  
-Scene 2 (3-6 s): Close-up of footprints in the sand. Add soft acoustic guitar.  
-Scene 3 (6-8 s): Show brand logo forming in the water reflection.  
-Soundtrack: gentle whoosh + fade-out.  
+Scene 1 (0-3 s): Wide aerial of the beach at sunrise. Calm ambient sound.\
+Scene 2 (3-6 s): Close-up of footprints in the sand. Add soft acoustic guitar.\
+Scene 3 (6-8 s): Show brand logo forming in the water reflection.\
+Soundtrack: gentle whoosh + fade-out.\
 ```
 
 Cette structure guide le processus de diffusion de Sora image par image, créant **cohérence** entre les coupes et les transitions.
@@ -80,14 +80,14 @@ Utilisez des indices en langage naturel qui expriment le rythme et la texture :
 Si votre séquence dure 8 secondes, alignez les changements sonores sur les coupures visuelles :
 
 ```text
-Scene 1 (0–3 s): Intro shot with warm light. Sound: soft piano.  
-Scene 2 (3–6 s): Product close-up. Add subtle hi-hat rhythm.  
-Scene 3 (6–8 s): Logo reveal. Add whoosh + fade out.  
+Scene 1 (0–3 s): Intro shot with warm light. Sound: soft piano.\
+Scene 2 (3–6 s): Product close-up. Add subtle hi-hat rhythm.\
+Scene 3 (6–8 s): Logo reveal. Add whoosh + fade out.\
 ```
 
 ### Téléversement ou référence du son
 
-Sur MaxVideoAI, vous pouvez soit :
+Sur VideoAI, vous pouvez soit :
 
 - **Téléverser** une courte piste .mp3 (≤ 15 Mo) qui sert de *consigne audio*;
 - ou décrivez-le simplement par écrit. La plateforme synchronise cette description avec l'API de tarification en temps réel de Sora afin que vous voyiez comment l'activation de l'audio modifie le coût avant le rendu.
@@ -111,11 +111,11 @@ Sora 2 et Pro interprètent les images fournies comme **ancres visuelles**—ils
 Exemple de prompt :
 
 ```text
-Scene 2: Close-up of coffee cup on a table; embed brand logo on the mug surface.  
-Scene 3: Final frame shows the same logo glowing subtly in the corner.  
+Scene 2: Close-up of coffee cup on a table; embed brand logo on the mug surface.\
+Scene 3: Final frame shows the same logo glowing subtly in the corner.\
 ```
 
-Lors de la génération via **MaxVideoAI**, vous pouvez glisser-déposer votre logo PNG (fond transparent recommandé) dans le *panneau Composer* panneau.
+Lors de la génération via **VideoAI**, vous pouvez glisser-déposer votre logo PNG (fond transparent recommandé) dans le *panneau Composer* panneau.
 Le système ajoute automatiquement des métadonnées (`image_reference_url`) à votre requête Sora afin que le modèle respecte l'échelle et la position.
 
 ### Considérations de conception
@@ -130,9 +130,9 @@ Un signal sonore subtil — comme un court jingle ou carillon — lié à la ré
 
 ***
 
-## Construire le flux de travail sur MaxVideoAI
+## Construire le flux de travail sur VideoAI
 
-MaxVideoAI sert de **centre de commande** pour votre production vidéo IA : tous les modèles principaux, une interface cohérente. Le [hub des modèles vidéo IA](/fr/comparatif) conserve les dernières notes de disponibilité pour Sora, Veo, Pika et MiniMax.
+VideoAI sert de **centre de commande** pour votre production vidéo IA : tous les modèles principaux, une interface cohérente. Le [hub des modèles vidéo IA](/fr/comparatif) conserve les dernières notes de disponibilité pour Sora, Veo, Pika et MiniMax.
 
 ### Étape par étape
 
@@ -173,7 +173,7 @@ Téléchargez l'image du produit + le logo de la marque → demandez à Sora 2 P
 
 ### 5. Localisation de campagne
 
-Générez la même chronologie dans plusieurs langues ou palettes sonores via le sélecteur de modèle de MaxVideoAI (par ex. Sora 2 Pro EN + Veo 3 ES pour les marchés bilingues).
+Générez la même chronologie dans plusieurs langues ou palettes sonores via le sélecteur de modèle de VideoAI (par ex. Sora 2 Pro EN + Veo 3 ES pour les marchés bilingues).
 
 ***
 
@@ -192,7 +192,7 @@ Générez la même chronologie dans plusieurs langues ou palettes sonores via le
 
 La prochaine génération d'outils vidéo IA (Sora 3 annoncé pour 2026 selon les rumeurs) ajoutera probablement **contrôle des images-clés**, **audio multipiste**, et **storyboards éditables**.
 
-Des plateformes comme **MaxVideoAI** sont déjà prêtes — son architecture se synchronise directement avec les mises à jour de l'API de Fal.ai, donc dès qu'OpenAI étend les fonctionnalités, les utilisateurs y ont accès sans configuration manuelle.
+Des plateformes comme **VideoAI** sont déjà prêtes — son architecture se synchronise directement avec les mises à jour de l'API de Fal.ai, donc dès qu'OpenAI étend les fonctionnalités, les utilisateurs y ont accès sans configuration manuelle.
 
 Cela signifie que votre flux de travail créatif gagne en puissance, sans augmenter en complexité.
 
@@ -202,28 +202,28 @@ Cela signifie que votre flux de travail créatif gagne en puissance, sans augmen
 
 Le prompting séquencé avec intégration audio et image transforme des clips statiques en *histoires*.
 Avec Sora 2 et Pro, vous pouvez diriger le ton, le rythme et l'identité de la marque en moins de dix secondes de séquence.
-Et en le gérant depuis **MaxVideoAI**, vous bénéficiez d'une transparence sur les tarifs, d'aperçus en temps réel et de la liberté de tester plusieurs modèles d'IA — le tout au même endroit.
+Et en le gérant depuis **VideoAI**, vous bénéficiez d'une transparence sur les tarifs, d'aperçus en temps réel et de la liberté de tester plusieurs modèles d'IA — le tout au même endroit.
 
-> 🎬 *Racontez votre histoire en plans, en sons et en symboles — MaxVideoAI la rend cinématographique.*
+> 🎬 *Racontez votre histoire en plans, en sons et en symboles — VideoAI la rend cinématographique.*
 
 ***
 
 ## FAQ
 
-**Q1. Puis-je télécharger ma propre bande-son sur Sora 2 via MaxVideoAI ?**
+**Q1. Puis-je télécharger ma propre bande-son sur Sora 2 via VideoAI ?**
 Oui. Téléversez un fichier .mp3 court ou décrivez le son dans votre prompt ; les deux options sont prises en charge dans la version Pro de Sora 2 et synchronisées via l'API de Fal.ai.
 
 **Q2. L'ajout d'un logo coûte-t-il un supplément ?**
 Non — le prix dépend de la durée et de la résolution, pas des images fournies. Vous pouvez prévisualiser le coût avant la génération.
 
 **Q3. Sora 2 Pro est-il disponible en Europe ?**
-Oui, via le système de routage de MaxVideoAI (intégration Fal.ai). Si Sora est restreint par région, la plateforme redirige automatiquement vers un point de terminaison pris en charge.
+Oui, via le système de routage de VideoAI (intégration Fal.ai). Si Sora est restreint par région, la plateforme redirige automatiquement vers un point de terminaison pris en charge.
 
 **Q4. Quelle est la durée idéale pour les publicités sur les réseaux sociaux ?**
 Entre 6 et 8 secondes — suffisant pour trois temps distincts (intro, produit, appel à l'action).
 
 **Q5. Comment comparer les résultats de Sora 2 et de Veo 3 ?**
-Exécutez le même prompt sur les deux modèles depuis votre espace de travail MaxVideoAI ; vous verrez la vitesse de rendu, le coût et la qualité face à face.
+Exécutez le même prompt sur les deux modèles depuis votre espace de travail VideoAI ; vous verrez la vitesse de rendu, le coût et la qualité face à face.
 
 ***
 
@@ -234,7 +234,7 @@ Exécutez le même prompt sur les deux modèles depuis votre espace de travail M
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Can I upload my own soundtrack to Sora 2 through MaxVideoAI?",
+      "name": "Can I upload my own soundtrack to Sora 2 through VideoAI?",
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Yes. Upload a short .mp3 file or describe the sound in your prompt; both options are supported in Sora 2 Pro and synchronized via Fal.ai’s API."
@@ -253,7 +253,7 @@ Exécutez le même prompt sur les deux modèles depuis votre espace de travail M
       "name": "Is Sora 2 Pro available in Europe?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes via MaxVideoAI’s routing system (Fal.ai integration). If Sora is region-restricted, the platform automatically redirects to a supported endpoint."
+        "text": "Yes via VideoAI’s routing system (Fal.ai integration). If Sora is region-restricted, the platform automatically redirects to a supported endpoint."
       }
     },
     {
@@ -269,7 +269,7 @@ Exécutez le même prompt sur les deux modèles depuis votre espace de travail M
       "name": "How can I compare Sora 2 and Veo 3 outputs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Run the same prompt on both models from your studio MaxVideoAI; you’ll see render speed, cost, and quality side-by-side."
+        "text": "Run the same prompt on both models from your studio VideoAI; you’ll see render speed, cost, and quality side-by-side."
       }
     }
   ]

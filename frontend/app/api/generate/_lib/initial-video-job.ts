@@ -7,8 +7,9 @@ import { reserveInitialSeedanceFinal, type SeedanceFinalReservation } from './in
 import { lockQuotedCustomerTariffRevision, CustomerTariffRevisionError } from '@/server/pricing/customer-tariff-revision';
 
 import { validateCapturedDirectJobQuote, DirectPaymentQuoteError } from '@/server/pricing/direct-payment-quotes';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
-const DISPLAY_CURRENCY = 'USD';
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
 
 export type PaymentMode = 'wallet' | 'direct' | 'platform' | 'mcp_trial';
 

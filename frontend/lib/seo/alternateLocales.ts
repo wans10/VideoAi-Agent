@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { locales, type AppLocale } from '@/i18n/locales';
+import { locales, publishedLocales, type AppLocale } from '@/i18n/locales';
 import {
   BLOG_SLUG_MAP,
   CONTENT_ROOT,
@@ -19,7 +19,8 @@ export const HREFLANG_VARIANTS: Array<{ hreflang: string; locale: AppLocale }> =
   { hreflang: 'en', locale: 'en' },
   { hreflang: 'fr', locale: 'fr' },
   { hreflang: 'es', locale: 'es' },
-];
+  { hreflang: 'zh', locale: 'zh' },
+].filter(variant => publishedLocales.includes(variant.locale as AppLocale)) as Array<{ hreflang: string; locale: AppLocale }>;
 
 const modelLocaleCache = new Map<string, Set<AppLocale>>();
 

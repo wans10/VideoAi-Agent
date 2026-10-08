@@ -1,5 +1,12 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test, { before, after } from 'node:test';
+import { publishedLocales, locales } from '../frontend/i18n/locales';
+
+// Keep the reversible multilingual auth contract tested separately from the
+// Chinese-only deployment cases in site-experience-policy.test.ts.
+const deploymentLocales = [...publishedLocales];
+before(() => { publishedLocales.splice(0, publishedLocales.length, ...locales); });
+after(() => { publishedLocales.splice(0, publishedLocales.length, ...deploymentLocales); });
 import { NextRequest } from 'next/server';
 import { middleware } from '../frontend/middleware';
 import { buildLoginHref } from '../frontend/lib/auth-entry-href';

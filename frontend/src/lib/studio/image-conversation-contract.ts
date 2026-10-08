@@ -25,7 +25,7 @@ export const imageTurnInputSchema = z
     referenceMentions: z.array(studioReferenceMentionSchema).max(STUDIO_CONVERSATION_MAX_REFERENCES).optional(),
     renewedFromRequestId: z.string().uuid().optional(),
     taskBudget:studioTaskSelectionSchema.optional(),
-    locale:z.enum(['en','fr','es']).optional(),
+    locale:z.enum(['en','fr','es','zh']).optional(),
   })
   .strict().superRefine((input, context) => {
     const ids = [...input.references, ...(input.attachments ?? []).map(ref => ref.type === 'asset' ? ref.assetId : ref.outputId)];

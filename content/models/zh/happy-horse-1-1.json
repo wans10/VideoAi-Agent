@@ -1,0 +1,414 @@
+{
+  "marketingName": "Happy Horse 1.1",
+  "versionLabel": "1.1",
+  "seo": {
+    "title": "Happy Horse 1.1 | 原生音频 AI 视频模型 | VideoAI",
+    "description": "在 VideoAI 上使用 Happy Horse 1.1 进行文本转视频、图像转视频、参考转视频、原生音频与唇形同步。",
+    "image": "/assets/models/models-hero-horses-reference.webp"
+  },
+  "overview": "Happy Horse 1.1 是 VideoAI 上阿里巴巴的当前 AI 视频模型，支持文本提示词、首帧图像以及最多九张参考图像，并具备原生同步音频与唇形同步能力。",
+  "pricingNotes": "Happy Horse 1.1 对文本、图像和参考转视频运行采用当前的 Fal 费率。视频编辑仍保留在旧版 Happy Horse 1.0 上。",
+  "hero": {
+    "title": "Happy Horse 1.1 - 支持原生音频的阿里巴巴视频生成",
+    "intro": "使用当前 Happy Horse 1.1 模型规格，通过文本生成、使图像动态化，或借助最多九张参考图像来执导场景。",
+    "badge": "文本 · 图像 · 参考 · 720p/1080p · 原生音频 · 唇形同步",
+    "ctaPrimary": {
+      "label": "使用 Happy Horse 1.1 生成",
+      "href": "/app?engine=happy-horse-1-1"
+    },
+    "secondaryLinks": [
+      {
+        "label": "对比 Happy Horse 1.1 与 Seedance 2.0",
+        "href": "/zh/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
+      },
+      {
+        "label": "对比 Happy Horse 1.1 与 Veo 3.1",
+        "href": "/zh/ai-video-engines/happy-horse-1-1-vs-veo-3-1"
+      },
+      {
+        "label": "打开旧版 Happy Horse 1.0",
+        "href": "/zh/models/happy-horse-1-0"
+      }
+    ]
+  },
+  "compareLink": {
+    "label": "对比 Happy Horse 1.1 与 Seedance 2.0 ->",
+    "href": "/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "原生音频代言人和对话视频片段",
+        "icon": "ugc",
+        "href": "/ai-video-engines/best-for/lipsync-dialogue"
+      },
+      {
+        "title": "文本、图像和参考转视频制作工作流",
+        "icon": "layers",
+        "href": "/ai-video-engines/best-for/reference-to-video"
+      },
+      {
+        "title": "参考引导的角色和产品一致性",
+        "icon": "product",
+        "href": "/ai-video-engines/best-for/character-reference"
+      },
+      {
+        "title": "带有同步原生音频的创作者风格广告",
+        "icon": "megaphone",
+        "href": "/ai-video-engines/best-for/ugc-ads"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术概述",
+  "technicalOverview": [
+    {
+      "label": "工作流",
+      "body": "在 VideoAI 中，文本转视频、图像转视频和参考转视频统一作为当前的 Happy Horse 1.1 模型提供。"
+    },
+    {
+      "label": "时长",
+      "body": "生成输出为 3-15 秒。"
+    },
+    {
+      "label": "分辨率",
+      "body": "720p 或 1080p"
+    },
+    {
+      "label": "参考图像",
+      "body": "1-9 张图像，在提示词中以 character1 到 character9 的方式命名。"
+    },
+    {
+      "label": "视频编辑",
+      "body": "Happy Horse 1.1 未开放视频编辑。当需要编辑源片段时，请使用旧版 Happy Horse 1.0 视频编辑路由。"
+    },
+    {
+      "label": "音频",
+      "body": "原生同步音频和唇形同步作为生成的一部分处理。"
+    }
+  ],
+  "promptStructure": {
+    "title": "Happy Horse 1.1 提示词指南",
+    "quote": "主体 + 动作 + 镜头 + 音频提示 + 工作流专属参考。",
+    "description": "保持提示词直接明确，并为每个参考分配清晰的角色。在参考转视频中，将每张图像命名为 character1、character2 等。",
+    "steps": [
+      "选择工作流：文本、图像或参考转视频",
+      "描述主体和可见动作",
+      "添加镜头运动和光线",
+      "指定原生音频或对话提示",
+      "使用参考转视频时明确命名参考"
+    ]
+  },
+  "tips": {
+    "title": "技巧与限制",
+    "items": [
+      "使用文生视频（T2V）获取新创意和代言人风格的原生音频镜头。",
+      "当关键视觉效果或第一帧已获批准时，使用图生视频（I2V）。",
+      "当身份、服装、产品形状或角色连贯性很重要时，使用参考转视频。",
+      "仅在任务明确需要旧版视频编辑时，才使用 Happy Horse 1.0。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "原生音频发布视频片段",
+      "prompt": "16:9 工作室产品发布视频片段，一位自信的创作者直视镜头自然唇形同步，温暖的主光，细腻的镜头推进，干净的室内音效和柔和的发布音乐。"
+    },
+    {
+      "title": "参考双角色演示",
+      "prompt": "使用参考图像中的 character1 和 character2 制作电影级双人产品演示，统一服装，面部稳定，自然同步对话。"
+    },
+    {
+      "title": "图生视频主视觉",
+      "prompt": "通过平滑的推拉运镜、细腻的布料与发丝动态、精致的广告光影以及同步环境音，让上传的营销静止图生动起来。"
+    }
+  ],
+  "faqTitle": "常见问题 - VideoAI 上的 Happy Horse 1.1",
+  "faqs": [
+    {
+      "q": "Happy Horse 1.1 支持哪些输入？",
+      "a": "VideoAI 将 Happy Horse 1.1 作为当前模型提供，支持文本转视频、图像转视频和参考转视频工作流。"
+    },
+    {
+      "q": "Happy Horse 1.1 是否支持唇形同步？",
+      "a": "是的。Happy Horse 1.1 被视为原生音频模型，同步语音和唇形同步已集成到生成流程中。"
+    },
+    {
+      "q": "Happy Horse 1.1 是否支持视频编辑？",
+      "a": "不支持。视频编辑仍可通过旧版 Happy Horse 1.0 路由使用。"
+    }
+  ],
+  "custom": {
+    "quickPricingTitle": "定价路由",
+    "quickPricingItems": [
+      "使用 720p 在文本、图像和参考转视频之间进行更经济的迭代。",
+      "当镜头准备好审核或发布时，使用 1080p。",
+      "仅当已批准的源片段需要旧版视频编辑时，才使用 Happy Horse 1.0。"
+    ],
+    "relatedTitle": "Happy Horse 1.1 的适用场景",
+    "relatedSubtitle": "当原生音频、唇形同步以及文本/图像/参考工作流至关重要时使用 Happy Horse 1.1，而在追求旗舰级画质表现时，Seedance、Kling 或 Veo 仍处于优先地位。",
+    "relatedItems": [
+      {
+        "brand": "bytedance",
+        "title": "Seedance 2.0",
+        "description": "当决策涉及多模态参考控制、原生音频表现和更强的制作连贯性时，与 Seedance 进行比较。",
+        "modelSlug": "seedance-2-0",
+        "ctaLabel": "对比 Happy Horse 1.1 与 Seedance 2.0 ->"
+      },
+      {
+        "brand": "google-veo",
+        "title": "Google Veo 3.1",
+        "description": "当首要标准是高端电影级真实感和原生音频输出时，与 Veo 进行比较。",
+        "modelSlug": "veo-3-1",
+        "ctaLabel": "对比 Happy Horse 1.1 与 Veo 3.1 ->"
+      }
+    ],
+    "finalPara1": "当需求需要一款集提示词生成、图像动态化、参考引导一致性、原生音频和唇形同步于一体的阿里巴巴当前模型时，Happy Horse 1.1 最为合适；而当纯粹真实感、图像质量和运动控制是首要考量时，优先选择 Seedance、Kling 或 Veo。",
+    "finalPara2": "对于发布工作，先通过文本或参考转视频来确立镜头，仅在已批准的源片段需要定向旧版编辑时才使用 Happy Horse 1.0。",
+    "finalButton": "使用 Happy Horse 1.1 生成"
+  },
+  "decision": {
+    "modelSlug": "happy-horse-1-1",
+    "hero": {
+      "eyebrow": "阿里巴巴当前视频模型",
+      "title": "Happy Horse 1.1",
+      "subtitle": "集原生音频、唇形同步、图生视频与参考转视频于一体的阿里巴巴当前路由。",
+      "subtitleHighlights": [
+        "原生音频",
+        "图生视频",
+        "参考转视频"
+      ],
+      "paragraph": "当镜头需要从文本、起始图像或最多九张参考图像中生成同步语音或声音时，使用 Happy Horse 1.1。旧版视频编辑任务请保留使用 Happy Horse 1.0。",
+      "primaryCta": {
+        "label": "使用 Happy Horse 1.1 生成",
+        "href": "/app?engine=happy-horse-1-1"
+      },
+      "secondaryCta": {
+        "label": "查看示例",
+        "href": "/zh/examples/happy-horse"
+      },
+      "quickLinks": [
+        {
+          "label": "与 Seedance 对比",
+          "href": "/zh/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#happy-horse-1-1-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Happy Horse 1.1 示例",
+      "description": "原生音频文本、图像和参考视频路由",
+      "renderLabel": "查看渲染",
+      "badges": [
+        "原生音频",
+        "参考视频",
+        "1080p"
+      ],
+      "altContext": "Happy Horse 1.1 原生音频参考引导视频示例"
+    },
+    "features": [
+      {
+        "title": "原生音频",
+        "body": "在路由支持时，随渲染生成对话、环境音和音效。",
+        "tone": "audio"
+      },
+      {
+        "title": "文本或图像",
+        "body": "从场景简述或静态图像开始，锁定主体和构图。",
+        "tone": "reference"
+      },
+      {
+        "title": "参考图像",
+        "body": "使用最多九张参考图像，并在提示词中使用 character1 至 character9 进行锚定。",
+        "tone": "continuity"
+      },
+      {
+        "title": "扩展画幅比例",
+        "body": "支持横屏、竖屏、方形、经典、宽幅、高画幅、5:4 或 4:5 构图。",
+        "tone": "quality"
+      },
+      {
+        "title": "720p 或 1080p",
+        "body": "在生成前选择 VideoAI 提供的分辨率。",
+        "tone": "quality"
+      },
+      {
+        "title": "更低的 1080p 供应商费率",
+        "body": "Happy Horse 1.1 采用 VideoAI 加成前的当前 1080p 供应商费率。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "Happy Horse 1.1 还是 Seedance？",
+        "body": "使用 Happy Horse 1.1 进行阿里巴巴原生音频文本、图像和参考生成。当多模态参考、更长的制作连贯性和当前 Seedance 表现为首要需求时，使用 Seedance 2.0。",
+        "cta": {
+          "label": "对比 Happy Horse 与 Seedance",
+          "href": "/zh/ai-video-engines/happy-horse-1-1-vs-seedance-2-0"
+        }
+      },
+      {
+        "title": "需要视频编辑？",
+        "body": "仅在明确需要旧版视频编辑端点时使用 Happy Horse 1.0。新的文本、图像和参考任务应在 1.1 上开始。",
+        "cta": {
+          "label": "打开旧版 Happy Horse 1.0",
+          "href": "/zh/models/happy-horse-1-0"
+        }
+      },
+      {
+        "title": "基于参考进行创作？",
+        "body": "为每个文件分配一个任务：身份、服装、动作、环境或音频情绪。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本转视频",
+        "body": "在简洁的简述中写明主体、动作、镜头、风格和音频节拍。"
+      },
+      {
+        "title": "图像转视频",
+        "body": "使用静态图像锚定主体、产品、服装或构图。"
+      },
+      {
+        "title": "参考转视频",
+        "body": "将每个参考依次命名为 character1、character2 等，以保持角色清晰。"
+      },
+      {
+        "title": "旧版视频编辑",
+        "body": "仅当源视频必须编辑而非重新生成时，才切换到 Happy Horse 1.0。"
+      },
+      {
+        "title": "音频处理",
+        "body": "保持对话简短，将音效与可见动作绑定，以获得更清晰的同步输出。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Happy Horse 1.1 定价一览",
+      "subtitle": "预设的原生音频总价 - 生成前在应用中查看精确的实时价格。",
+      "footnote": "所有价格均为预设场景下以美元积分显示的 VideoAI 价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最高 1080p",
+      "ctaHref": "/zh/pricing#happy-horse-1-1-pricing"
+    },
+    "meta": {
+      "title": "Happy Horse 1.1：定价、原生音频与参考视频 | VideoAI",
+      "description": "在 VideoAI 上探索 Happy Horse 1.1 定价、原生音频、唇形同步、文本转视频、图像转视频及参考转视频工作流。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "happy-horse-1-1",
+    "section": {
+      "title": "提示词实验室 — Happy Horse 1.1",
+      "intro": null,
+      "tip": null,
+      "guide": null,
+      "referencesTitle": "Happy Horse 1.1 如何使用参考"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [],
+    "engineWhy": [],
+    "demo": {
+      "title": "演示提示词 - Happy Horse 1.1",
+      "promptLabel": "文生视频",
+      "prompt": "雨后夜市小面摊四镜头高能美食大片。镜头一：湿漉地面霓虹倒影，厨师剪影将黑色炒锅架上蓝色火焰，蒸汽已然升腾。镜头二：面条在锅中翻飞、橙色火花四溅的极致微距，机位锁定，滚油滋滋声与短促呼啸声。镜头三：厨师将面条滑入陶碗的中景侧拍，蒸汽沿镜头蜷起，背景灯笼柔和虚化，无文字与可读标识。镜头四：不锈钢台面上成品碗的缓慢推进，雨水轻敲雨棚，蒸汽渐散于霓虹光晕之中，无对话，无标志。",
+      "notes": [],
+      "summary": {
+        "subject": "雨后夜市面摊厨师",
+        "action": "在炒锅中翻炒面条并在雨后装入碗中",
+        "camera": "霓虹广角镜头、炒锅微距、侧面装盘、缓慢推进",
+        "style": "电影级美食大片质感，湿漉地面的倒影，蒸汽与灯笼散景",
+        "output": "炒锅滋滋声、热油呼啸声、雨打雨棚声，无对话"
+      },
+      "presentationOverrides": {
+        "modeLabel": "文生视频",
+        "outputLabel": "音频",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "on",
+        "audioChipLabel": null,
+        "altContext": "Happy Horse 1.1 AI 视频示例：演示提示词 - Happy Horse 1.1"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "happy-horse-1-1",
+    "section": {
+      "title": "Happy Horse 1.1 模型演示",
+      "intro": "查看模型页面视频片段以了解原生音频、唇形同步和参考转视频表现。本次发布中对比页面有意保持以文字/规格为主。",
+      "defaultCtaLabel": "开始 Happy Horse 1.1 生成 ->",
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "真实社区渲染",
+        "body": "了解 Happy Horse 1.1 的无限可能。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "重现任意镜头",
+        "body": "一键跳转到应用并复用设置。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "原生音频",
+        "body": "同步生成对话、环境音和音效。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "多镜头连贯性",
+        "body": "在序列中保持角色、风格和场景的一致性。",
+        "icon": "users"
+      },
+      {
+        "id": "proof-5",
+        "title": "生产就绪",
+        "body": "内置护栏和安全过滤器，用于负责任的审核。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  }
+}

@@ -610,7 +610,7 @@ test('the plugin source includes maintainer evaluation scenarios for routing and
 });
 
 test('the plugin is a local thin package without stale facts or an embedded UI', () => {
-  assert.equal(read('LICENSE'), readFileSync(path.join(root, 'LICENSE'), 'utf8'));
+  assert.match(read('LICENSE'), /Licensor: Adrien Millot/, 'the imported upstream plugin retains its license attribution');
   assert.ok(existsSync(path.join(pluginRoot, 'README.md')));
   assert.equal(existsSync(path.join(pluginRoot, '.app.json')), false);
   assert.equal(existsSync(path.join(pluginRoot, 'hooks')), false);

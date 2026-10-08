@@ -42,22 +42,29 @@ const COPY: Record<
     label: 'Workflow preview',
     user: 'Create the strongest version, then show me a credible lower-cost option.',
     assistant: 'Seedance leads the quality route. I can price H3 and LTX alternatives before you approve anything.',
-    result: 'Rendered with MaxVideoAI · Saved to MaxVideoAI Library',
+    result: 'Rendered with VideoAI · Saved to VideoAI Library',
     facts: ['Current models', 'Exact quote', 'Private media'],
   },
   fr: {
     label: 'Aperçu du parcours',
     user: 'Prépare la meilleure version, puis une alternative crédible moins chère.',
     assistant: 'Seedance mène la route qualité. Je peux chiffrer H3 et LTX avant toute validation.',
-    result: 'Généré avec MaxVideoAI · Enregistré dans la bibliothèque MaxVideoAI',
+    result: 'Généré avec VideoAI · Enregistré dans la bibliothèque VideoAI',
     facts: ['Modèles actuels', 'Devis exact', 'Médias privés'],
   },
   es: {
     label: 'Vista previa del flujo',
     user: 'Prepara la mejor versión y después una alternativa más económica creíble.',
     assistant: 'Seedance lidera la opción de calidad. Puedo calcular H3 y LTX antes de que apruebes nada.',
-    result: 'Generado con MaxVideoAI · Guardado en la biblioteca MaxVideoAI',
+    result: 'Generado con VideoAI · Guardado en la biblioteca VideoAI',
     facts: ['Modelos actuales', 'Precio exacto', 'Medios privados'],
+  },
+  zh: {
+    label: '工作流预览',
+    user: '生成最高品质的版本，然后给我看一个可靠的低成本替代方案。',
+    assistant: 'Seedance 是高品质首选。在您确认前，我可以为您计算 H3 和 LTX 的对比报价。',
+    result: '由 VideoAI 渲染 · 已保存至 VideoAI 媒体库',
+    facts: ['前沿模型', '确切报价', '隐私安全'],
   },
 };
 
@@ -68,7 +75,7 @@ export function IntegrationConversationPreview({
   client: McpClientId;
   locale: AppLocale;
 }) {
-  const copy = COPY[locale];
+  const copy = COPY[locale] ?? COPY.en;
   const mark = MARKS[client];
   const clientLabel = getMcpIntegrationLabel(client);
   const icons = [BadgeCheck, CircleDollarSign, Images] as const;

@@ -306,7 +306,7 @@ export const GEMINI_OMNI_FLASH_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Gemini Omni Flash 1.1 Video Generator - Vertex AI Preview',
       description:
-        'Use Gemini Omni Flash 1.1 on MaxVideoAI for text, image, reference, first/last-frame, editing, extension, and conversational video workflows.',
+        'Use Gemini Omni Flash 1.1 on Keyvo for text, image, reference, first/last-frame, editing, extension, and conversational video workflows.',
       canonicalPath: '/models/gemini-omni-flash',
     },
     type: 'Text, image, references, first/last frame, video edit, extension, conversational refine',
@@ -342,7 +342,7 @@ export const GEMINI_OMNI_FLASH_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Is Gemini Omni Flash available through Vertex AI?',
         answer:
-          'Google documents Gemini Omni Flash 1.1 for Vertex Agent Platform Interactions under the gemini-omni-1.1-flash-preview model id. MaxVideoAI’s Google-direct runtime remains publication-gated, and no Fal fallback is used.',
+          'Google documents Gemini Omni Flash 1.1 for Vertex Agent Platform Interactions under the gemini-omni-1.1-flash-preview model id. Keyvo’s Google-direct runtime remains publication-gated, and no Fal fallback is used.',
       },
       {
         question: 'What resolution and duration does Gemini Omni Flash support?',

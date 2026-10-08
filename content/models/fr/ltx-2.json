@@ -2,7 +2,7 @@
   "marketingName": "LTX 2",
   "versionLabel": "2",
   "seo": {
-    "title": "LTX 2 | Modèle vidéo IA, specs et prix | MaxVideoAI",
+    "title": "LTX 2 | Modèle vidéo IA, specs et prix | VideoAI",
     "description": "LTX 2 est un profil historique d'ancienne génération conservé pour son intention de recherche ; démarrez les productions actuelles avec LTX 2.5 Pro.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/f397ab6d-d0ef-44eb-977a-3419f494d17e-job_cda079d3-9895-45a0-866c-2dbf57593463.jpg"
   },
@@ -150,7 +150,7 @@
       "Direction fiable avec prompts clairs||Beats simples + langage caméra se traduisent bien.",
       "Pensé pour la prod||Gardez le son pour les tests, ou coupez et finissez en post."
     ],
-    "specTitle": "Specs réelles — LTX 2 dans MaxVideoAI",
+    "specTitle": "Specs réelles — LTX 2 dans VideoAI",
     "specNote": "Les specs reflètent le routage Fal en production.",
     "specSections": [
       {
@@ -174,7 +174,7 @@
         ]
       }
     ],
-    "whatTitle": "Comment LTX 2 fonctionne dans MaxVideoAI",
+    "whatTitle": "Comment LTX 2 fonctionne dans VideoAI",
     "whatIntro1": "Choisissez le mode texte ou image, réglez 6–10 s, sélectionnez résolution et fps, puis prompt. L’audio est activé par défaut et peut être coupé.",
     "whatIntro2": "Utilisez Pro quand vous avez besoin du détail le plus propre et d’un son synchronisé pour du premium.",
     "whatFlowTitle": "Workflow",
@@ -329,7 +329,7 @@
       },
       {
         "title": "25 ou 50 fps",
-        "body": "Choisissez l’option de frame rate exposée dans MaxVideoAI.",
+        "body": "Choisissez l’option de frame rate exposée dans VideoAI.",
         "tone": "duration"
       },
       {
@@ -402,13 +402,13 @@
     "pricingCopy": {
       "title": "Prix LTX 2 en un coup d’œil",
       "subtitle": "Totaux pour cette route prise en charge — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Générer avec LTX 2.5 Pro",
       "maxDurationNote": "Route 6-10 s ; jusqu’à 4K",
       "ctaHref": "/app?engine=ltx-2-5-pro"
     },
     "meta": {
-      "title": "LTX 2 : tarifs, clips 4K et exemples | MaxVideoAI",
+      "title": "LTX 2 : tarifs, clips 4K et exemples | VideoAI",
       "description": "Référence historique LTX 2 pour clips 16:9 haute fidélité, text-to-video, image-to-video, checks 1080p à 4K, tarifs et exemples."
     }
   },

@@ -93,20 +93,20 @@ test('only the owner can revoke a link', async () => {
 
 test('destinations receive only the message fields they can prefill', () => {
   const url = 'https://maxvideoai.com/s/' + 'a'.repeat(32);
-  const signature = 'Vidéo créée avec MaxVideoAI';
+  const signature = 'Vidéo créée avec VideoAI';
   const email = new URL(buildVideoShareIntent('email', url, signature, 'fr'));
   assert.equal(email.protocol, 'mailto:');
-  assert.match(email.searchParams.get('body') ?? '', /Vidéo créée avec MaxVideoAI/);
+  assert.match(email.searchParams.get('body') ?? '', /Vidéo créée avec VideoAI/);
   const x = new URL(buildVideoShareIntent('x', url, signature, 'fr'));
   assert.equal(x.searchParams.get('url'), url);
   assert.equal(x.searchParams.get('text'), signature);
-  const hashtagPost = new URL(buildVideoShareIntent('x', url, '#MaxVideoAI', 'fr'));
-  assert.equal(hashtagPost.searchParams.get('text'), '#MaxVideoAI');
-  const nativeXPost = new URL(buildXVideoPostIntent('#MaxVideoAI', url));
-  assert.equal(nativeXPost.searchParams.get('text'), `#MaxVideoAI\n\n${url}`);
+  const hashtagPost = new URL(buildVideoShareIntent('x', url, '#VideoAI', 'fr'));
+  assert.equal(hashtagPost.searchParams.get('text'), '#VideoAI');
+  const nativeXPost = new URL(buildXVideoPostIntent('#VideoAI', url));
+  assert.equal(nativeXPost.searchParams.get('text'), `#VideoAI\n\n${url}`);
   assert.equal(new URL(buildXVideoPostIntent('', null)).searchParams.get('text'), '');
   const whatsapp = new URL(buildVideoShareIntent('whatsapp', url, signature, 'fr'));
-  assert.match(whatsapp.searchParams.get('text') ?? '', /Vidéo créée avec MaxVideoAI/);
+  assert.match(whatsapp.searchParams.get('text') ?? '', /Vidéo créée avec VideoAI/);
   const linkedin = new URL(buildVideoShareIntent('linkedin', url, signature, 'fr'));
   assert.equal(linkedin.searchParams.get('url'), url);
   assert.equal(linkedin.searchParams.has('text'), false);

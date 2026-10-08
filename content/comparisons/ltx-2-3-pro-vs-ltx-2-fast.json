@@ -49,7 +49,7 @@
       "subtitle": "Answers for economical LTX Fast generation and advanced LTX 2.3 Pro control.",
       "items": [
         {
-          "question": "Can I keep using LTX Video 2.0 Fast on MaxVideoAI?",
+          "question": "Can I keep using LTX Video 2.0 Fast on VideoAI?",
           "answer": "Yes. It remains available for lower-cost 16:9 text/image generation with audio and output at 1080p, 1440p, or 4K."
         },
         {
@@ -112,7 +112,7 @@
       "subtitle": "Réponses sur la génération Fast économique et les contrôles avancés de LTX 2.3 Pro.",
       "items": [
         {
-          "question": "Peut-on continuer à utiliser LTX Video 2.0 Fast sur MaxVideoAI ?",
+          "question": "Peut-on continuer à utiliser LTX Video 2.0 Fast sur VideoAI ?",
           "answer": "Oui. Il reste disponible pour la génération 16:9 à partir d’un texte ou d’une image, avec audio, à moindre coût, en 1080p, 1440p ou 4K."
         },
         {
@@ -175,7 +175,7 @@
       "subtitle": "Respuestas para generación Fast económica y controles avanzados de LTX 2.3 Pro.",
       "items": [
         {
-          "question": "¿Puedo seguir usando LTX Video 2.0 Fast en MaxVideoAI?",
+          "question": "¿Puedo seguir usando LTX Video 2.0 Fast en VideoAI?",
           "answer": "Sí. Sigue disponible para generación 16:9 desde texto o imagen con audio, a menor costo y con salida en 1080p, 1440p o 4K."
         },
         {
@@ -185,6 +185,69 @@
         {
           "question": "¿LTX 2.3 Pro reemplaza el flujo Fast simple?",
           "answer": "No en todos los trabajos. La ruta 2.0 Fast disponible sigue siendo económica para generación horizontal directa; 2.3 Pro se justifica por sus controles más amplios."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Pro 对比 LTX 2.0 Fast：成本还是控制？",
+      "description": "在 VideoAI 上对比 LTX 2.3 Pro 与 LTX Video 2.0 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 LTX 2.3 Pro 和仍可用的 LTX Video 2.0 Fast。旧版 Fast 对简单 16:9 生成提供较低列价档位；2.3 Pro 增加 9:16、音频生视频、延长、局部重做及更新的首尾帧控制。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "经济的 16:9 文本 / 图像任务可继续用 LTX Video 2.0 Fast；9:16 和高级源素材驱动模式可选择 LTX 2.3 Pro，其标准文本 / 图像生成最长 10 秒。"
+    },
+    "topCards": [
+      {
+        "title": "经济生成继续用 Fast",
+        "body": "成熟的 16:9 文本 / 图像生成、含音频及较低列价的 1080p、1440p、4K 档位，可继续用 LTX Video 2.0 Fast。"
+      },
+      {
+        "title": "按模式区分 Pro 时长",
+        "body": "LTX 2.3 Pro 文生视频和图生视频支持 6、8、10 秒；20 秒上限仅适用于音频生视频、延长或局部重做。"
+      },
+      {
+        "title": "控制能力满足需求再升级",
+        "body": "Pro 方案列出的分辨率档位价格更高，新增模式能解决实际制作需求时再迁移。"
+      },
+      {
+        "title": "简单或高级任务的选择",
+        "body": "经济横屏生成使用 LTX Video 2.0 Fast；竖屏、音频驱动、延长、局部重做或首尾帧制作使用 LTX 2.3 Pro。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-pro",
+        "label": "查看 current LTX 2.3 Pro 详情"
+      },
+      {
+        "href": "/models/ltx-2-fast",
+        "label": "查看 available LTX Video 2.0 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-ltx-2-3-pro",
+        "label": "对比 LTX 2.3 Fast 对比 LTX 2.3 Pro"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解经济 LTX Fast 生成与高级 LTX 2.3 Pro 控制。",
+      "items": [
+        {
+          "question": "还能在 VideoAI 用 LTX Video 2.0 Fast 吗？",
+          "answer": "可以。仍支持低成本 16:9 文本 / 图像生成及音频，提供 1080p、1440p、4K。"
+        },
+        {
+          "question": "何时应该迁移至 LTX 2.3 Pro？",
+          "answer": "需要 9:16 交付、音频驱动生成、延长、局部重做或首尾帧控制时，可从 LTX Video 2.0 Fast 迁移。"
+        },
+        {
+          "question": "LTX 2.3 Pro 会取代简单的 Fast 工作流吗？",
+          "answer": "并非所有任务都需要替换。2.0 Fast 对简单横屏生成仍经济；2.3 Pro 的价值在于更广泛的控制。"
         }
       ]
     }

@@ -14,16 +14,20 @@ export const revalidate = 30;
 const STATUS_SLUG_MAP = buildSlugMap('status');
 const STATUS_META: Record<AppLocale, { title: string; description: string }> = {
   en: {
-    title: 'Service status — MaxVideoAI',
-    description: 'Read current MaxVideoAI service notices and get help with an affected AI video generation.',
+    title: 'Service status — Keyvo',
+    description: 'Read current Keyvo service notices and get help with an affected AI video generation.',
   },
   fr: {
-    title: 'État du service — MaxVideoAI',
-    description: 'Consultez les avis de service MaxVideoAI et obtenez de l’aide pour une génération vidéo IA affectée.',
+    title: 'État du service — Keyvo',
+    description: 'Consultez les avis de service Keyvo et obtenez de l’aide pour une génération vidéo IA affectée.',
   },
   es: {
-    title: 'Estado del servicio — MaxVideoAI',
-    description: 'Consulta los avisos de servicio de MaxVideoAI y obtén ayuda con una generación de video IA afectada.',
+    title: 'Estado del servicio — Keyvo',
+    description: 'Consulta los avisos de servicio de Keyvo y obtén ayuda con una generación de video IA afectada.',
+  },
+  zh: {
+    title: '服务状态 — Keyvo',
+    description: '查看当前 Keyvo 服务公告，获取受影响 AI 视频生成任务的帮助。',
   },
 };
 
@@ -37,8 +41,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     description: metaCopy.description,
     hreflangGroup: 'status',
     slugMap: STATUS_SLUG_MAP,
-    keywords: ['AI video service status', 'MaxVideoAI service notice', 'generation support'],
-    imageAlt: 'MaxVideoAI service status.',
+    keywords: ['AI video service status', 'Keyvo service notice', 'generation support'],
+    imageAlt: 'Keyvo service status.',
   });
 }
 
@@ -71,6 +75,14 @@ const STATUS_LINKS: Record<
       { href: '/docs', label: 'Docs' },
       { href: '/changelog', label: 'Changelog' },
       { href: '/legal', label: 'Centro legal' },
+    ],
+  },
+  zh: {
+    prefix: '另请参阅：',
+    links: [
+      { href: '/docs', label: '文档' },
+      { href: '/changelog', label: '更新日志' },
+      { href: '/legal', label: '法律中心' },
     ],
   },
 };
@@ -125,7 +137,7 @@ export default async function StatusPage(props: { params: Promise<{ locale: AppL
             <h2 className="text-lg font-semibold text-text-primary">{content.support.title}</h2>
             <p className="mt-2 text-sm leading-relaxed text-text-secondary">
               {content.support.prefix}{' '}
-              <ObfuscatedEmailLink user="support" domain="maxvideoai.com" label="support@maxvideoai.com" />{' '}
+              <ObfuscatedEmailLink user="contact" domain="llmhub.com.cn" label="contact@llmhub.com.cn" />{' '}
               {content.support.suffix}
             </p>
           </section>

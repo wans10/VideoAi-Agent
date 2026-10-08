@@ -55,9 +55,17 @@ function parseServiceAccount(raw: string | undefined): GoogleServiceAccount {
   };
 }
 
-function getConfig(): GoogleVertexVeoClientConfig {
+export function resolveGoogleVertexVeoEndpoint(env: NodeJS.ProcessEnv = process.env) {
+  const veoLocation = (env.GOOGLE_VERTEX_VEO_LOCATION ?? '').trim();
+  const location = veoLocation || (env.GOOGLE_VERTEX_LOCATION ?? '').trim() || 'us-central1';
+  const apiBaseUrl = (env.GOOGLE_VERTEX_VEO_API_BASE_URL ?? '').trim() ||
+    (veoLocation ? '' : (env.GOOGLE_VERTEX_API_BASE_URL ?? '').trim()) ||
+    `https://${location}-aiplatform.googleapis.com`;
+  return { location, apiBaseUrl };
+}
+
+export function getGoogleVertexVeoConfig(): GoogleVertexVeoClientConfig {
   const projectId = (process.env.GOOGLE_VERTEX_PROJECT_ID ?? '').trim();
-  const location = (process.env.GOOGLE_VERTEX_LOCATION ?? 'us-central1').trim();
   if (!projectId) {
     throw new GoogleVertexVeoError('GOOGLE_VERTEX_PROJECT_ID is missing.', {
       code: 'GOOGLE_VERTEX_PROJECT_ID_MISSING',
@@ -66,11 +74,8 @@ function getConfig(): GoogleVertexVeoClientConfig {
   }
   return {
     projectId,
-    location,
+    ...resolveGoogleVertexVeoEndpoint(),
     serviceAccount: parseServiceAccount(process.env.GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON),
-    apiBaseUrl:
-      (process.env.GOOGLE_VERTEX_API_BASE_URL ?? '').trim() ||
-      `https://${location}-aiplatform.googleapis.com`,
   };
 }
 
@@ -174,7 +179,7 @@ async function requestJson(params: {
 export class GoogleVertexVeoClient {
   private config: GoogleVertexVeoClientConfig;
 
-  constructor(config: GoogleVertexVeoClientConfig = getConfig()) {
+  constructor(config: GoogleVertexVeoClientConfig = getGoogleVertexVeoConfig()) {
     this.config = config;
   }
 

@@ -21,8 +21,8 @@ function buildFrenchGuides(client: McpClientId): IntegrationHostGuide[] {
     return [
       {
         hostId: 'claudeDesktop',
-        title: 'Connecter MaxVideoAI à Claude',
-        intro: 'Ajoutez MaxVideoAI comme connecteur distant personnalisé, puis autorisez votre compte dans le navigateur.',
+        title: 'Connecter VideoAI à Claude',
+        intro: 'Ajoutez VideoAI comme connecteur distant personnalisé, puis autorisez votre compte dans le navigateur.',
         installInstruction: getIntegrationInstallInstruction('fr', 'claudeDesktop'),
         steps: [
           { title: 'Ouvrir les réglages', body: 'Avec Claude Pro ou Max, ouvrez Customize → Connectors → + Add → Add custom connector. En Team ou Enterprise, un propriétaire utilise d’abord Organization settings → Connectors → Add → Custom → Web.' },
@@ -30,8 +30,8 @@ function buildFrenchGuides(client: McpClientId): IntegrationHostGuide[] {
           { title: 'Approuver la connexion', body: 'Connectez-vous ou créez votre compte MaxVideoAI et vérifiez les accès. Les membres Team ou Enterprise choisissent Connect sur le connecteur ajouté par leur propriétaire. Revenez dans Claude et activez MaxVideoAI via + → Connectors dans la discussion.' },
         ],
         commands: [],
-        setupValues: [{ label: 'Serveur MaxVideoAI', value: MCP_PRODUCTION_RESOURCE_URL }],
-        limitation: 'Crédits, références privées et vidéos terminées restent liés au même compte MaxVideoAI que sur le site.',
+        setupValues: [{ label: 'Serveur VideoAI', value: MCP_PRODUCTION_RESOURCE_URL }],
+        limitation: 'Crédits, références privées et vidéos terminées restent liés au même compte VideoAI que sur le site.',
       },
       {
         hostId: 'claudeCode',
@@ -40,7 +40,7 @@ function buildFrenchGuides(client: McpClientId): IntegrationHostGuide[] {
         installInstruction: getIntegrationInstallInstruction('fr', 'claudeCode'),
         steps: [
           { title: 'Ajouter le serveur', body: 'Exécutez une fois la commande ci-dessous avec la portée projet ou utilisateur.' },
-          { title: 'Ouvrir le panneau MCP', body: 'Ouvrez /mcp et sélectionnez MaxVideoAI pour lancer l’autorisation dans le navigateur.' },
+          { title: 'Ouvrir le panneau MCP', body: 'Ouvrez /mcp et sélectionnez VideoAI pour lancer l’autorisation dans le navigateur.' },
           { title: 'Commencer par le catalogue', body: 'Demandez l’état du compte ou les modèles vidéo actuels avant de préparer une génération.' },
         ],
         commandLabel: 'Commandes Claude Code',
@@ -89,12 +89,12 @@ function buildFrenchGuides(client: McpClientId): IntegrationHostGuide[] {
   return [
     {
       hostId: 'codexCli',
-      title: 'Installer le plugin MaxVideoAI dans Codex',
-      intro: 'Ajoutez la marketplace MaxVideoAI taguée, installez le plugin puis autorisez votre compte depuis une nouvelle conversation Codex.',
+      title: 'Installer le plugin VideoAI dans Codex',
+      intro: 'Ajoutez la marketplace VideoAI taguée, installez le plugin puis autorisez votre compte depuis une nouvelle conversation Codex.',
       installInstruction: getIntegrationInstallInstruction('fr', 'codexCli'),
       steps: [
-        { title: 'Ajouter la marketplace', body: `Enregistrez le dépôt public MaxVideoAI sur le tag de version ${MAXVIDEOAI_PUBLIC_PLUGIN_VERSION} contrôlé.` },
-        { title: 'Installer le plugin', body: 'Installez MaxVideoAI une fois pour recevoir les skills plan et generate ainsi que la connexion MCP de production.' },
+        { title: 'Ajouter la marketplace', body: `Enregistrez le dépôt public VideoAI sur le tag de version ${MAXVIDEOAI_PUBLIC_PLUGIN_VERSION} contrôlé.` },
+        { title: 'Installer le plugin', body: 'Installez VideoAI une fois pour recevoir les skills plan et generate ainsi que la connexion MCP de production.' },
         { title: 'Démarrer une nouvelle tâche', body: 'Ouvrez une nouvelle conversation Codex, utilisez $maxvideoai:plan ou $maxvideoai:generate, puis terminez OAuth à la demande.' },
       ],
       commandLabel: 'Commandes du plugin Codex',
@@ -103,7 +103,7 @@ function buildFrenchGuides(client: McpClientId): IntegrationHostGuide[] {
         MAXVIDEOAI_CODEX_PLUGIN_ADD_COMMAND,
       ],
       setupValues: [],
-      authTrigger: 'OAuth démarre lorsque la nouvelle conversation utilise MaxVideoAI pour la première fois. Connectez-vous ou créez le compte à relier.',
+      authTrigger: 'OAuth démarre lorsque la nouvelle conversation utilise VideoAI pour la première fois. Connectez-vous ou créez le compte à relier.',
       limitation: 'Le package GitHub tagué inclut les skills plan et generate et la connexion MCP de production. Toute génération attend toujours un devis exact et votre accord explicite.',
     },
   ];
@@ -114,10 +114,10 @@ export function buildFrenchIntegrationCopy(client: McpClientId): IntegrationPage
   const base = buildEnglishIntegrationCopy(client);
   const clientLabel = getIntegrationLabel(client);
   const term = client === 'chatgpt'
-    ? 'App MaxVideoAI'
+    ? 'App VideoAI'
     : client === 'claude'
-      ? 'Connecteur MaxVideoAI'
-      : 'Plugin MaxVideoAI';
+      ? 'Connecteur VideoAI'
+      : 'Plugin VideoAI';
   const setupDescription = client === 'chatgpt'
     ? "Connectez MaxVideoAI à ChatGPT par une application MCP de production et OAuth ; comparez les modèles, vérifiez le prix et récupérez vos résultats."
     : client === 'claude'
@@ -126,20 +126,20 @@ export function buildFrenchIntegrationCopy(client: McpClientId): IntegrationPage
   const setupIntro = client === 'chatgpt'
     ? "Ajoutez le MCP MaxVideoAI de production dans ChatGPT et autorisez le compte que vous utilisez déjà sur maxvideoai.com. Ouvrez ensuite une nouvelle discussion avec MaxVideoAI sélectionné. Cette connexion directe est distincte de la publication au répertoire public."
     : client === 'claude'
-      ? 'Cette page Claude réunit la configuration du connecteur distant et le passage à la production : développez le brief, comparez modèles et budgets actuels, validez les références puis approuvez un devis MaxVideoAI exact lorsque la demande est prête.'
-      : 'Cette page Codex réunit l’installation du plugin et le passage à la production : développez le brief, comparez modèles et budgets actuels, validez les références puis approuvez un devis MaxVideoAI exact lorsque la demande est prête.';
+      ? 'Cette page Claude réunit la configuration du connecteur distant et le passage à la production : développez le brief, comparez modèles et budgets actuels, validez les références puis approuvez un devis VideoAI exact lorsque la demande est prête.'
+      : 'Cette page Codex réunit l’installation du plugin et le passage à la production : développez le brief, comparez modèles et budgets actuels, validez les références puis approuvez un devis VideoAI exact lorsque la demande est prête.';
   return {
     ...base,
     meta: {
-      title: `${term} pour ${clientLabel} | MaxVideoAI`,
+      title: `${term} pour ${clientLabel} | VideoAI`,
       description: setupDescription,
     },
     hero: {
       ...base.hero,
       eyebrow: client === 'chatgpt' ? 'APP MAXVIDEOAI' : client === 'claude' ? 'CONNECTEUR MAXVIDEOAI' : 'PLUGIN MAXVIDEOAI',
-      title: `Créez vos vidéos IA avec MaxVideoAI dans ${clientLabel}`,
+      title: `Créez vos vidéos IA avec VideoAI dans ${clientLabel}`,
       intro: setupIntro,
-      unavailable: 'Préparez prompts et références, comparez les modèles, budgétez le projet et découvrez le parcours de production MaxVideoAI.',
+      unavailable: 'Préparez prompts et références, comparez les modèles, budgétez le projet et découvrez le parcours de production VideoAI.',
       liveStatus: client === 'chatgpt'
         ? "La connexion MCP personnalisée MaxVideoAI est gratuite. Utilisez votre compte existant sur maxvideoai.com ; les générations approuvées utilisent vos crédits MaxVideoAI. Aucune entrée n’est publiée au répertoire OpenAI."
         : 'La connexion MaxVideoAI est gratuite, sans abonnement supplémentaire. Connectez-vous ou créez un compte ; seuls les rendus approuvés utilisent vos crédits MaxVideoAI à la consommation.',
@@ -161,8 +161,8 @@ export function buildFrenchIntegrationCopy(client: McpClientId): IntegrationPage
     setup: {
       ...base.setup,
       eyebrow: 'CONNECTEZ VOTRE COMPTE',
-      title: `Configurer MaxVideoAI dans ${clientLabel}`,
-      intro: 'Connectez-vous ou créez votre compte MaxVideoAI pendant la configuration. OAuth relie ensuite l’assistant à vos crédits, vos médias privés et vos générations dans la bibliothèque MaxVideoAI.',
+      title: `Configurer VideoAI dans ${clientLabel}`,
+      intro: 'Connectez-vous ou créez votre compte VideoAI pendant la configuration. OAuth relie ensuite l’assistant à vos crédits, vos médias privés et vos générations dans la bibliothèque VideoAI.',
       installAction: getIntegrationInstallAction('fr', clientLabel),
       hostGuides: buildFrenchGuides(client),
       oauthTitle: 'Ce qui se passe lors de la connexion',
@@ -172,26 +172,26 @@ export function buildFrenchIntegrationCopy(client: McpClientId): IntegrationPage
     workflow: {
       ...base.workflow,
       eyebrow: 'DE L’IDÉE AU RÉSULTAT',
-      title: `Créez avec ${clientLabel}, générez avec MaxVideoAI`,
-      intro: 'Gardez la discussion créative dans l’assistant. MaxVideoAI apporte les informations à jour et contrôle l’exécution payante.',
+      title: `Créez avec ${clientLabel}, générez avec VideoAI`,
+      intro: 'Gardez la discussion créative dans l’assistant. VideoAI apporte les informations à jour et contrôle l’exécution payante.',
       previewSteps: [
         { title: 'Développer le brief', body: `${clientLabel} précise les décisions manquantes, le plan et les prompts.` },
-        { title: 'Comparer de vraies options', body: 'MaxVideoAI fournit capacités et budgets actuels : qualité, économie ou mix raisonné.' },
+        { title: 'Comparer de vraies options', body: 'VideoAI fournit capacités et budgets actuels : qualité, économie ou mix raisonné.' },
         { title: 'Vérifier le devis exact', body: 'Modèle, réglages, références et prix sont validés ensemble avant toute dépense.' },
-        { title: 'Approuver et suivre', body: 'La génération attend votre accord clair ; le résultat reste dans la bibliothèque MaxVideoAI du compte.' },
+        { title: 'Approuver et suivre', body: 'La génération attend votre accord clair ; le résultat reste dans la bibliothèque VideoAI du compte.' },
       ],
       liveSteps: [
         { title: 'Développer le brief', body: `${clientLabel} précise les choix créatifs, le format, la qualité et le budget.` },
-        { title: 'Comparer les modèles actuels', body: 'MaxVideoAI propose le meilleur choix et des alternatives crédibles avec leurs compromis.' },
+        { title: 'Comparer les modèles actuels', body: 'VideoAI propose le meilleur choix et des alternatives crédibles avec leurs compromis.' },
         { title: 'Vérifier le devis exact', body: 'Contrôlez prompt, réglages, références, prix et effet sur le solde.' },
-        { title: 'Générer et suivre', body: 'Approuvez une fois, récupérez le statut et retrouvez le résultat dans la bibliothèque MaxVideoAI.' },
+        { title: 'Générer et suivre', body: 'Approuvez une fois, récupérez le statut et retrouvez le résultat dans la bibliothèque VideoAI.' },
       ],
     },
     references: {
       title: 'Utiliser des références image, vidéo ou audio selon le modèle',
       planningBody: `${clientLabel} peut créer ou améliorer les idées de références et choisir le bon média pour chaque plan.`,
-      liveBody: 'Sélectionnez un média privé existant dans la bibliothèque MaxVideoAI ou ouvrez un envoi sécurisé. Les types et limites viennent des informations actuelles du modèle choisi.',
-      gatedBody: 'Préparez les références dans la conversation puis centralisez envois privés, génération et résultats dans votre compte MaxVideoAI.',
+      liveBody: 'Sélectionnez un média privé existant dans la bibliothèque VideoAI ou ouvrez un envoi sécurisé. Les types et limites viennent des informations actuelles du modèle choisi.',
+      gatedBody: 'Préparez les références dans la conversation puis centralisez envois privés, génération et résultats dans votre compte VideoAI.',
     },
     troubleshooting: {
       eyebrow: 'AIDE',
@@ -201,15 +201,15 @@ export function buildFrenchIntegrationCopy(client: McpClientId): IntegrationPage
         { question: "Je vois MaxVideoAI Staging ou mon mot de passe du site est refusé", answer: "Staging est un environnement de test avec des comptes distincts. Vérifiez le serveur de la connexion : utilisez https://api.maxvideoai.com/mcp et la connexion de production sur maxvideoai.com. Ne créez pas de compte de test pour retrouver celui du site. Si la connexion de production échoue, utilisez votre connexion Google habituelle ou la réinitialisation du mot de passe." },
         { question: "L’assistant peut-il installer MaxVideoAI pour moi ?", answer: client === 'chatgpt' ? "ChatGPT peut vous guider pour ajouter le MCP personnalisé ; une demande dans le chat n’ajoute pas elle-même la connexion. Vous utilisez les réglages d’installation puis vous connectez votre compte MaxVideoAI dans le navigateur. Sélectionnez ensuite MaxVideoAI dans une nouvelle discussion." : client === 'claude' ? "Claude dans le chat vous guide dans Connectors. Claude Code peut exécuter la commande de configuration si vous lui donnez accès au terminal. Dans les deux cas, vous autorisez la connexion de votre compte dans le navigateur." : "Codex peut exécuter les commandes du plugin avec un accès au terminal et votre autorisation. Vous vous connectez et approuvez les accès dans le navigateur ; une nouvelle tâche charge ensuite le plugin." },
         { question: 'L’assistant me demande de me reconnecter', answer: 'Terminez OAuth dans le navigateur puis revenez dans la discussion. Ne collez jamais votre mot de passe ou une clé API dans le chat.' },
-        { question: 'Mon solde est insuffisant', answer: 'Demandez un lien de recharge sécurisé. Le paiement reste sur MaxVideoAI ; rechargez, vérifiez le solde puis préparez un nouveau devis.' },
-        { question: 'Je ne trouve pas un résultat terminé', answer: 'Demandez les générations récentes ou ouvrez la bibliothèque MaxVideoAI. Ne relancez pas un job payant en double.' },
+        { question: 'Mon solde est insuffisant', answer: 'Demandez un lien de recharge sécurisé. Le paiement reste sur VideoAI ; rechargez, vérifiez le solde puis préparez un nouveau devis.' },
+        { question: 'Je ne trouve pas un résultat terminé', answer: 'Demandez les générations récentes ou ouvrez la bibliothèque VideoAI. Ne relancez pas un job payant en double.' },
       ],
     },
     disconnect: {
       title: `Déconnecter ${clientLabel}`,
-      body: 'Supprimez la connexion dans l’assistant et révoquez l’autorisation dans les réglages MaxVideoAI.',
-      steps: [`Supprimer MaxVideoAI de ${clientLabel}`, 'Ouvrir les connexions du compte MaxVideoAI et révoquer l’accès', 'Se reconnecter plus tard avec une nouvelle approbation si nécessaire'],
+      body: 'Supprimez la connexion dans l’assistant et révoquez l’autorisation dans les réglages VideoAI.',
+      steps: [`Supprimer VideoAI de ${clientLabel}`, 'Ouvrir les connexions du compte VideoAI et révoquer l’accès', 'Se reconnecter plus tard avec une nouvelle approbation si nécessaire'],
     },
-    support: { label: 'Contacter le support MaxVideoAI', href: '/fr/contact' },
+    support: { label: 'Contacter le support VideoAI', href: '/fr/contact' },
   };
 }

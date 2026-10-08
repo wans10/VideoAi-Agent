@@ -1,3 +1,4 @@
+import publication from '../frontend/config/mcp-publication.json';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -28,6 +29,7 @@ test('the workspace promotion gives every supported assistant a direct branded s
     }),
   );
 
+  if (!publication.publicMarketing) { assert.equal(markup, ''); return; }
   for (const [client, href, mark] of [
     ['Claude', '/integrations/claude', '/brand/partners/anthropic/claude-mark-light.svg'],
     ['ChatGPT', '/integrations/chatgpt', '/brand/partners/openai/openai-mark-light.svg'],
@@ -56,9 +58,10 @@ test('the workspace promotion explains the assistant workflow without a redundan
     }),
   );
 
+  if (!publication.publicMarketing) { assert.equal(markup, ''); return; }
   assert.match(markup, />Connect<\/p>/);
   assert.doesNotMatch(markup, /AI assistants/);
   assert.doesNotMatch(markup, /Connect to (Claude|ChatGPT|Codex)/);
   assert.match(markup, /role="tooltip"/);
-  assert.match(markup, /Connect your account to use MaxVideoAI directly from your AI assistant/);
+  assert.match(markup, /Connect your account to use Keyvo directly from your AI assistant/);
 });

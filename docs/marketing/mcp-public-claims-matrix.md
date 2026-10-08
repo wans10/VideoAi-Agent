@@ -1,5 +1,15 @@
 # MCP public claims matrix
 
+## Keyvo deployment policy — 2026-10-09
+
+Keyvo hides public MCP marketing and indexing (`publicMarketing=false`, `publicIndexing=false`), while authenticated transport, OAuth, discovery, paid generation and reference uploads stay enabled. Upstream MaxVideoAI rollout, host and directory evidence below is historical source evidence; it does not certify a Keyvo listing or host approval.
+
+| Current Keyvo flag | Value |
+| --- | --- |
+| `publicMarketing` | false |
+| `publicIndexing` | false |
+
+
 This matrix is the publication contract for MCP acquisition copy. A claim may use the allowed wording only when its
 live flag is true and the cited evidence is current. Staging, local, design, or protocol evidence does not make a
 production claim live. When evidence and a flag disagree, public copy must fail closed.

@@ -12,8 +12,10 @@ import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-
 import { applyStoryboardImagePricing } from './storyboard-image-billing';
 import { assertDisplayedCustomerTariffRevision, CustomerTariffRevisionError } from '@/server/pricing/customer-tariff-revision';
 import { ImageGenerationExecutionError } from './image-generation-error';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+import { isQwenImageEngineId } from '@/lib/image/qwen-image';
 
-const DISPLAY_CURRENCY = 'USD';
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
 
 export async function resolveImageGenerationPricingSnapshot(params: {
   engine: EngineCaps;
@@ -40,7 +42,7 @@ export async function resolveImageGenerationPricingSnapshot(params: {
     ? params.mode === 'i2i'
       ? Math.max(0, params.combinedImageCount - 1)
       : params.combinedImageCount
-    : isGptImage25EngineId(params.engine.id) && params.mode === 'i2i'
+    : (isGptImage25EngineId(params.engine.id) || isQwenImageEngineId(params.engine.id)) && params.mode === 'i2i'
       ? params.combinedImageCount
       : undefined;
   let pricing = params.trustedQuotedBilling
@@ -63,7 +65,7 @@ export async function resolveImageGenerationPricingSnapshot(params: {
         referenceImageCount,
         ...(isSeedreamEngineId(params.engine.id) ? { inputImageCount: params.mode === 'i2i' ? params.combinedImageCount : 0 } : {}),
         membershipTier,
-        currency: DISPLAY_CURRENCY,
+        currency: 'USD',
         addons: params.enableWebSearch ? { enable_web_search: true } : undefined,
         });
 
@@ -91,7 +93,7 @@ export async function resolveImageGenerationPricingSnapshot(params: {
     quality: params.quality,
     resolvedAspectRatio: params.resolvedAspectRatio,
     membershipTier,
-    currency: DISPLAY_CURRENCY,
+    currency: 'USD',
   });
   // The included frame is already paid by its validated parent storyboard bundle.
   try { if (!params.includedKlingFirstFrameParentJobId) assertDisplayedCustomerTariffRevision(params.customerTariffRevision, pricing); }

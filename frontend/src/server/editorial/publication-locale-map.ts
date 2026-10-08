@@ -26,7 +26,7 @@ export function buildPublicationLocaleMap(source:string,files:PublicationFile[])
   const key=literal(property.name);if(seen.has(key))throw Error('Duplicate canonical blog slug');seen.add(key);
   const row:Record<string,string>={};
   for(const field of property.initializer.properties){
-   if(!ts.isPropertyAssignment(field)||!ts.isIdentifier(field.name)||!locales.includes(field.name.text as typeof locales[number])||row[field.name.text])throw Error('Unsupported localized slug entry');
+   if(!ts.isPropertyAssignment(field)||!ts.isIdentifier(field.name)||!['en','fr','es','zh'].includes(field.name.text)||row[field.name.text])throw Error('Unsupported localized slug entry');
    row[field.name.text]=literal(field.initializer);
   }
   if(locales.some(l=>!row[l]))throw Error('Incomplete existing locale map');

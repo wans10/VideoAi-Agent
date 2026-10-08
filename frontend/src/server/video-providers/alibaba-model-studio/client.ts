@@ -21,6 +21,15 @@ function positiveInt(value: string | undefined, fallback: number): number {
   return Number.isFinite(parsed) && parsed > 0 ? Math.trunc(parsed) : fallback;
 }
 
+const SUPPORTED_REGIONS = new Set([
+  'cn-beijing',
+  'ap-southeast-1',
+  'us-east-1',
+  'eu-central-1',
+  'cn-hongkong',
+  'ap-northeast-1',
+]);
+
 export function normalizeAlibabaBaseUrl(value: string | null | undefined): string {
   const configured = value?.trim() || DEFAULT_BASE_URL;
   let parsed: URL;
@@ -38,12 +47,15 @@ export function normalizeAlibabaBaseUrl(value: string | null | undefined): strin
       errorClass: 'invalid_request',
     });
   }
-  const isSingaporeDashScope = parsed.hostname === 'dashscope-intl.ap-southeast-1.aliyuncs.com';
-  const isSingaporeWorkspace = parsed.hostname.endsWith('.ap-southeast-1.maas.aliyuncs.com');
-  if (!isSingaporeDashScope && !isSingaporeWorkspace) {
-    throw new AlibabaModelStudioError('Alibaba Model Studio base URL must use the Singapore endpoint.', {
-      code: 'ALIBABA_MODEL_STUDIO_REGION_MISMATCH',
-      errorClass: 'region_mismatch',
+  const isDashScopePublic =
+    parsed.hostname === 'dashscope.aliyuncs.com' ||
+    parsed.hostname === 'dashscope-intl.aliyuncs.com' ||
+    /^dashscope-intl\.[a-z0-9-]+\.aliyuncs\.com$/i.test(parsed.hostname);
+  const isMaaSWorkspace = parsed.hostname.endsWith('.maas.aliyuncs.com');
+  if (!isDashScopePublic && !isMaaSWorkspace) {
+    throw new AlibabaModelStudioError('Alibaba Model Studio base URL must use a DashScope or MaaS endpoint.', {
+      code: 'ALIBABA_MODEL_STUDIO_BASE_URL_INVALID',
+      errorClass: 'invalid_request',
     });
   }
   if (parsed.pathname !== '/' || parsed.search || parsed.hash || parsed.username || parsed.password) {
@@ -62,8 +74,9 @@ export function getAlibabaModelStudioConfig(): AlibabaModelStudioClientConfig {
       errorClass: 'auth_error',
     });
   }
-  if (ENV.ALIBABA_MODEL_STUDIO_REGION !== 'ap-southeast-1') {
-    throw new AlibabaModelStudioError('Alibaba Model Studio must use the Singapore region.', {
+  const configuredRegion = ENV.ALIBABA_MODEL_STUDIO_REGION?.trim();
+  if (configuredRegion && !SUPPORTED_REGIONS.has(configuredRegion)) {
+    throw new AlibabaModelStudioError(`Alibaba Model Studio region "${configuredRegion}" is not supported.`, {
       code: 'ALIBABA_MODEL_STUDIO_REGION_MISMATCH',
       errorClass: 'region_mismatch',
     });

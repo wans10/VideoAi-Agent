@@ -3,6 +3,7 @@ import { getHreflangAlternates } from '@/lib/metadataUrls';
 
 const HREFLANG_GROUP_PATHS = {
   home: '/',
+  studio: '/studio',
   models: '/models',
   pricing: '/pricing',
   examples: '/examples',

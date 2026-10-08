@@ -9,6 +9,7 @@ coverage/
 .env
 .env.*
 !.env.example
+!.env.production.example
 !frontend/.env.local.example
 frontend/.neon
 
@@ -66,6 +67,7 @@ frontend/.local-review/
 
 # Local redesign review evidence (screenshots, logs and analytics exports)
 docs/redesign/qa/
+zh-i18n-review.html
 
 # Private editorial worker evidence and operational state
 .local/

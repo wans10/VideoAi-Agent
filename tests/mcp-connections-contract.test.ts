@@ -71,12 +71,12 @@ test('MCP spending controls expose accessible exact-money controls, safe activit
   assert.match(source, /Paid generations/);
   assert.match(source, /Maximum per generation/);
   assert.match(source, /Daily maximum/);
-  assert.match(source, /Require a MaxVideoAI web review above/);
+  assert.match(source, /Require a Keyvo web review above/);
   assert.match(source, /No limit/);
   assert.match(source, /Codex/);
   assert.match(source, /Claude/);
   assert.match(source, /automatic tool approval/i);
-  assert.match(source, /always enforced by MaxVideoAI/i);
+  assert.match(source, /always enforced by Keyvo/i);
   assert.match(source, /\/api\/account\/mcp-settings/);
   assert.match(source, /method:\s*['"]PATCH['"]/);
   assert.match(source, /paidGenerationEnabled/);

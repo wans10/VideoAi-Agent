@@ -50,7 +50,7 @@
       "items": [
         {
           "question": "Are Luma Ray 2 and Ray 2 Flash still available?",
-          "answer": "Yes. Both legacy Luma routes remain available on MaxVideoAI for text, image, video modification, and reframe workflows."
+          "answer": "Yes. Both legacy Luma routes remain available on VideoAI for text, image, video modification, and reframe workflows."
         },
         {
           "question": "Who should stay on Luma Ray 2 instead of Flash?",
@@ -113,7 +113,7 @@
       "items": [
         {
           "question": "Luma Ray 2 et Ray 2 Flash sont-ils toujours disponibles ?",
-          "answer": "Oui. Les deux workflows Luma historiques restent disponibles sur MaxVideoAI pour la génération depuis texte ou image, la modification vidéo et le recadrage."
+          "answer": "Oui. Les deux workflows Luma historiques restent disponibles sur VideoAI pour la génération depuis texte ou image, la modification vidéo et le recadrage."
         },
         {
           "question": "Qui devrait rester sur Luma Ray 2 plutôt que passer à Flash ?",
@@ -132,7 +132,7 @@
       "description": "Compara Luma Ray 2 y Ray 2 Flash en velocidad de borrador, modificación, reencuadre, duración y la migración desde estos modelos anteriores a Ray 3.2.",
       "titleBranding": "none"
     },
-    "heroIntro": "Compara Luma Ray 2 con Luma Ray 2 Flash como dos modelos anteriores de Luma que siguen disponibles en MaxVideoAI. Ambos son silenciosos, llegan a nueve segundos y 1080p, y admiten texto, imagen, modificación de video y reencuadre; Flash está orientado a borradores más rápidos.",
+    "heroIntro": "Compara Luma Ray 2 con Luma Ray 2 Flash como dos modelos anteriores de Luma que siguen disponibles en VideoAI. Ambos son silenciosos, llegan a nueve segundos y 1080p, y admiten texto, imagen, modificación de video y reencuadre; Flash está orientado a borradores más rápidos.",
     "quickVerdict": {
       "title": "Veredicto rápido",
       "body": "Quédate en Luma Ray 2 para el flujo estándar anterior disponible o elige Luma Ray 2 Flash para iterar borradores más rápido con los mismos modos catalogados. Migra la producción nueva de Luma a Luma Ray 3.2 actual cuando su generación más reciente encaje con el proyecto."
@@ -176,7 +176,7 @@
       "items": [
         {
           "question": "¿Luma Ray 2 y Ray 2 Flash siguen disponibles?",
-          "answer": "Sí. Ambos modelos anteriores de Luma siguen disponibles en MaxVideoAI para flujos de texto, imagen, modificación de video y reencuadre."
+          "answer": "Sí. Ambos modelos anteriores de Luma siguen disponibles en VideoAI para flujos de texto, imagen, modificación de video y reencuadre."
         },
         {
           "question": "¿Quién debería quedarse en Luma Ray 2 en vez de usar Flash?",
@@ -185,6 +185,69 @@
         {
           "question": "¿Cuándo debería migrar un usuario de Ray 2 a Luma Ray 3.2?",
           "answer": "Pasa a Luma Ray 3.2 actual para proyectos nuevos que aprovechen la generación más reciente de Ray, y conserva Ray 2 para trabajos establecidos de modificación o reencuadre."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Luma Ray 2 对比 Flash：速度、画质与适用场景",
+      "description": "在 VideoAI 上对比 Luma Ray 2 与 Luma Ray 2 Flash 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比两个仍可用的旧版 Luma 工作流：Luma Ray 2 和 Luma Ray 2 Flash。两者都无音频、最长 9 秒、最高 1080p，支持文本、图像、视频修改和重新构图；Flash 侧重快速草稿。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "标准旧版工作流可继续用 Luma Ray 2；相同列出模式下更快草稿迭代可选择 Luma Ray 2 Flash。新版生成路径适合需求时，新 Luma 制作可迁移至 Luma Ray 3.2。"
+    },
+    "topCards": [
+      {
+        "title": "标准 Ray 2 工作流",
+        "body": "已有提示词、修改或重新构图任务依赖标准旧版 Luma 方案时，可继续用 Ray 2。"
+      },
+      {
+        "title": "更快 Flash 草稿",
+        "body": "草稿速度优先，且共有的无音频、最长 9 秒、最高 1080p 模式已足够时，选择 Ray 2 Flash。"
+      },
+      {
+        "title": "相同的创作模式",
+        "body": "两款都支持文本、图像、源视频修改和重新构图，覆盖横屏、方形、竖屏和超宽画幅。"
+      },
+      {
+        "title": "当前 Luma 后继版本",
+        "body": "当前 Ray 版本可选择 Luma Ray 3.2；Ray 2 和 Flash 的成熟工作流仍满足任务时可继续使用。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/luma-ray-2",
+        "label": "查看 available Luma Ray 2 详情"
+      },
+      {
+        "href": "/models/luma-ray-2-flash",
+        "label": "查看 available Luma Ray 2 Flash 详情"
+      },
+      {
+        "href": "/ai-video-engines/luma-ray-2-vs-luma-ray-3-2",
+        "label": "对比 legacy Luma Ray 2 对比 Luma Ray 3.2"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解标准 Ray 2、快速 Flash 草稿及当前 Ray 3.2 方案。",
+      "items": [
+        {
+          "question": "Luma Ray 2 和 Ray 2 Flash 仍可用吗？",
+          "answer": "可以。VideoAI 保留两款旧版方案用于文本、图像、视频修改和重新构图。"
+        },
+        {
+          "question": "哪些用户应该继续用 Luma Ray 2 而非 Flash？",
+          "answer": "标准旧版工作流已验证时继续用 Ray 2；更看重快速草稿迭代时选择 Flash。"
+        },
+        {
+          "question": "Ray 2 用户何时应迁移至 Luma Ray 3.2？",
+          "answer": "新制作可受益于更新 Ray 版本时选择 Luma Ray 3.2；成熟修改或重新构图任务可继续用 Ray 2。"
         }
       ]
     }

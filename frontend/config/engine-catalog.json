@@ -6133,7 +6133,7 @@
         "unit": "USD/s",
         "base": 0.168,
         "currency": "USD",
-        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on. Keyvo display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -6528,7 +6528,7 @@
         "unit": "USD/s",
         "base": 0.126,
         "currency": "USD",
-        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on. Keyvo display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -6886,7 +6886,7 @@
           "4k": 0.42
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.420/s native 4K output. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.420/s native 4K output. Keyvo display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -7300,7 +7300,7 @@
           "1080p": 0.126
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on for Kling 3.0 Omni Standard. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on for Kling 3.0 Omni Standard. Keyvo display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -7944,7 +7944,7 @@
           "1080p": 0.168
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on for Kling 3.0 Omni Pro. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on for Kling 3.0 Omni Pro. Keyvo display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -8545,7 +8545,7 @@
           "4k": 0.42
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.420/s for Kling 3.0 Omni 4K. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.420/s for Kling 3.0 Omni 4K. Keyvo display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -9873,7 +9873,7 @@
           "1080p": 0.18
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. MaxVideoAI display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. Keyvo display prices add platform margin before showing quotes."
       },
       "updatedAt": "2026-06-22T00:00:00Z",
       "ttlSec": 600,
@@ -11656,7 +11656,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 is billed from output tokens. MaxVideoAI adds its margin and rounds up to the next cent before showing the live quote."
+        "notes": "Seedance 2 is billed from output tokens. Keyvo adds its margin and rounds up to the next cent before showing the live quote."
       },
       "updatedAt": "2026-04-05T00:00:00Z",
       "ttlSec": 600,
@@ -12370,7 +12370,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 Fast is billed from output tokens. MaxVideoAI adds its margin and rounds up to the next cent before showing the live quote."
+        "notes": "Seedance 2 Fast is billed from output tokens. Keyvo adds its margin and rounds up to the next cent before showing the live quote."
       },
       "updatedAt": "2026-04-05T00:00:00Z",
       "ttlSec": 600,
@@ -12995,7 +12995,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 Mini is billed from output tokens with one flat public MaxVideoAI rate across text, image, reference, source-video, and extend workflows."
+        "notes": "Seedance 2 Mini is billed from output tokens with one flat public Keyvo rate across text, image, reference, source-video, and extend workflows."
       },
       "updatedAt": "2026-06-15T00:00:00Z",
       "ttlSec": 600,
@@ -17694,7 +17694,7 @@
           "1080P": 0.16
         },
         "currency": "USD",
-        "notes": "Output catalog rates are $0.05/s at 480P, $0.08/s at 768P, and $0.16/s at 1080P. Reference generation also bills normalized media tokens above 4,096; MaxVideoAI quotes a fixed price from a conservative budget based on verified reference metadata."
+        "notes": "Output catalog rates are $0.05/s at 480P, $0.08/s at 768P, and $0.16/s at 1080P. Reference generation also bills normalized media tokens above 4,096; Keyvo quotes a fixed price from a conservative budget based on verified reference metadata."
       },
       "updatedAt": "2026-09-03T00:00:00Z",
       "ttlSec": 600,
@@ -18423,7 +18423,7 @@
       "updatedAt": "2025-03-01T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-2.5-flash-image"
       },
       "availability": "available",
@@ -18432,7 +18432,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "fal-ai/nano-banana",
+        "falModelId": "gemini-2.5-flash-image",
         "ui": {
           "modes": [
             "t2i"
@@ -18454,7 +18454,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "fal-ai/nano-banana/edit",
+        "falModelId": "gemini-2.5-flash-image",
         "ui": {
           "modes": [
             "i2i"
@@ -18703,7 +18703,7 @@
       "updatedAt": "2026-06-30T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-3.1-flash-lite-image"
       },
       "availability": "available",
@@ -19029,7 +19029,7 @@
       "updatedAt": "2025-03-05T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-3-pro-image"
       },
       "availability": "available",
@@ -19363,12 +19363,12 @@
           }
         },
         "currency": "USD",
-        "notes": "Raw provider pricing is converted to MaxVideoAI display pricing before the live quote is shown."
+        "notes": "Raw provider pricing is converted to Keyvo display pricing before the live quote is shown."
       },
       "updatedAt": "2026-03-17T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "google_vertex_image",
+        "provider": "llmhub",
         "modelSlug": "gemini-3.1-flash-image"
       },
       "availability": "available",
@@ -19767,8 +19767,8 @@
       "updatedAt": "2026-04-23T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "fal.ai",
-        "modelSlug": "openai/gpt-image-2"
+        "provider": "llmhub",
+        "modelSlug": "gpt-image-2"
       },
       "availability": "available",
       "brandId": "openai"
@@ -19776,7 +19776,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "openai/gpt-image-2",
+        "falModelId": "gpt-image-2",
         "ui": {
           "modes": [
             "t2i"
@@ -19801,7 +19801,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "openai/gpt-image-2/edit",
+        "falModelId": "gpt-image-2",
         "ui": {
           "modes": [
             "i2i"
@@ -20080,8 +20080,7 @@
             "label": "Output format",
             "values": [
               "png",
-              "jpeg",
-              "webp"
+              "jpeg"
             ],
             "default": "png"
           },
@@ -20157,13 +20156,13 @@
           "auto": 0.05268
         },
         "currency": "USD",
-        "notes": "fal.ai provider pricing varies by deterministic quality and image_size."
+        "notes": "Provider pricing varies by deterministic quality and image size."
       },
       "updatedAt": "2026-09-15T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "fal.ai",
-        "modelSlug": "openai/gpt-image-2.5/flare"
+        "provider": "llmhub",
+        "modelSlug": "gpt-image-2.5-flare"
       },
       "availability": "available",
       "brandId": "openai"
@@ -20171,7 +20170,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "openai/gpt-image-2.5/flare/text-to-image",
+        "falModelId": "gpt-image-2.5-flare",
         "ui": {
           "modes": [
             "t2i"
@@ -20196,7 +20195,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "openai/gpt-image-2.5/flare/edit",
+        "falModelId": "gpt-image-2.5-flare",
         "ui": {
           "modes": [
             "i2i"
@@ -20475,8 +20474,7 @@
             "label": "Output format",
             "values": [
               "png",
-              "jpeg",
-              "webp"
+              "jpeg"
             ],
             "default": "png"
           },
@@ -20552,13 +20550,13 @@
           "auto": 0.05268
         },
         "currency": "USD",
-        "notes": "fal.ai provider pricing varies by deterministic quality and image_size."
+        "notes": "Provider pricing varies by deterministic quality and image size."
       },
       "updatedAt": "2026-09-15T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "fal.ai",
-        "modelSlug": "openai/gpt-image-2.5/sunburst"
+        "provider": "llmhub",
+        "modelSlug": "gpt-image-2.5-sunburst"
       },
       "availability": "available",
       "brandId": "openai"
@@ -20566,7 +20564,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "openai/gpt-image-2.5/sunburst/text-to-image",
+        "falModelId": "gpt-image-2.5-sunburst",
         "ui": {
           "modes": [
             "t2i"
@@ -20591,7 +20589,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "openai/gpt-image-2.5/sunburst/edit",
+        "falModelId": "gpt-image-2.5-sunburst",
         "ui": {
           "modes": [
             "i2i"
@@ -20857,13 +20855,13 @@
         "unit": "image",
         "base": 0.035,
         "currency": "USD",
-        "notes": "Seedream 5.0 Lite is billed per successfully generated image; MaxVideoAI customer pricing may include platform margin."
+        "notes": "Seedream 5.0 Lite is billed per successfully generated image; Keyvo customer pricing may include platform margin."
       },
       "updatedAt": "2026-05-11T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
-        "provider": "byteplus_modelark",
-        "modelSlug": "seedream-5-0-260128"
+        "provider": "llmhub",
+        "modelSlug": "doubao-seedream-5.0-lite"
       },
       "availability": "available",
       "brandId": "bytedance"
@@ -20871,7 +20869,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "byteplus/seedream-5-0-lite",
+        "falModelId": "doubao-seedream-5.0-lite",
         "ui": {
           "modes": [
             "t2i"
@@ -20897,7 +20895,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "byteplus/seedream-5-0-lite",
+        "falModelId": "doubao-seedream-5.0-lite",
         "ui": {
           "modes": [
             "i2i"
@@ -21215,6 +21213,542 @@
           ],
           "maxUploadMB": 10,
           "notes": "Edit with up to 10 references for controlled professional visual production."
+        }
+      }
+    ],
+    "features": {
+      "audio": {
+        "value": false
+      },
+      "motionControls": {
+        "value": false
+      },
+      "keyframes": {
+        "value": false
+      },
+      "extend": {
+        "value": false
+      }
+    }
+  },
+  {
+    "engineId": "qwen-image-3-0",
+    "modelSlug": "qwen-image-3-0",
+    "marketingName": "Qwen Image 3.0",
+    "provider": "Alibaba",
+    "brandId": "alibaba",
+    "family": "qwen-image",
+    "familyExamplesPage": null,
+    "versionLabel": "3.0",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "surfaces": {
+      "modelPage": {
+        "indexable": false,
+        "includeInSitemap": false
+      },
+      "examples": {
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
+      },
+      "compare": {
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
+      },
+      "app": {
+        "enabled": true,
+        "discoveryRank": 51,
+        "variantGroup": "qwen-image",
+        "variantLabel": "3.0"
+      },
+      "pricing": {
+        "includeInEstimator": false
+      }
+    },
+    "surfacesSource": "registry",
+    "engine": {
+      "id": "qwen-image-3-0",
+      "label": "Qwen Image 3.0",
+      "provider": "Alibaba",
+      "version": "3.0",
+      "status": "live",
+      "latencyTier": "standard",
+      "queueDepth": 0,
+      "region": "cn-beijing",
+      "modes": [
+        "t2i",
+        "i2i"
+      ],
+      "maxDurationSec": 1,
+      "resolutions": [
+        "1k",
+        "2k"
+      ],
+      "aspectRatios": [
+        "1:1",
+        "16:9",
+        "9:16",
+        "4:3",
+        "3:4",
+        "3:2",
+        "2:3"
+      ],
+      "fps": [
+        1
+      ],
+      "audio": false,
+      "upscale4k": false,
+      "extend": false,
+      "motionControls": false,
+      "keyframes": false,
+      "params": {},
+      "inputLimits": {
+        "imageMaxMB": 10
+      },
+      "inputSchema": {
+        "required": [
+          {
+            "id": "prompt",
+            "type": "text",
+            "label": "Prompt"
+          }
+        ],
+        "optional": [
+          {
+            "id": "num_images",
+            "type": "number",
+            "label": "Images",
+            "min": 1,
+            "max": 1,
+            "default": 1,
+            "description": "One image per request in this integration."
+          },
+          {
+            "id": "resolution",
+            "type": "enum",
+            "label": "Resolution",
+            "values": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k"
+          },
+          {
+            "id": "aspect_ratio",
+            "type": "enum",
+            "label": "Ratio",
+            "values": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "4:3",
+              "3:4",
+              "3:2",
+              "2:3"
+            ],
+            "default": "1:1"
+          },
+          {
+            "id": "image_urls",
+            "type": "image",
+            "label": "Reference images",
+            "modes": [
+              "i2i"
+            ],
+            "requiredInModes": [
+              "i2i"
+            ],
+            "minCount": 1,
+            "maxCount": 3,
+            "source": "either"
+          },
+          {
+            "id": "output_format",
+            "type": "enum",
+            "label": "Output format",
+            "values": [
+              "png"
+            ],
+            "default": "png"
+          },
+          {
+            "id": "seed",
+            "type": "number",
+            "label": "Seed",
+            "min": 0,
+            "max": 2147483647,
+            "step": 1
+          },
+          {
+            "id": "watermark",
+            "type": "boolean",
+            "label": "Watermark",
+            "default": false
+          }
+        ],
+        "constraints": {
+          "maxImageSizeMB": 10,
+          "supportedFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "bmp",
+            "tiff",
+            "webp",
+            "gif"
+          ]
+        }
+      },
+      "pricingDetails": {
+        "currency": "USD",
+        "flatCents": {
+          "default": 2.25,
+          "byResolution": {
+            "1k": 2.25,
+            "2k": 2.25
+          }
+        }
+      },
+      "pricing": {
+        "unit": "image",
+        "base": 0.0225,
+        "currency": "USD",
+        "notes": "Beijing provider output rate converted at the application accounting rate; reference inputs are billed separately."
+      },
+      "providerMeta": {
+        "provider": "alibaba_qwen_image",
+        "modelSlug": "qwen-image-3.0"
+      },
+      "availability": "available",
+      "brandId": "alibaba",
+      "updatedAt": "2026-10-08T00:00:00Z",
+      "ttlSec": 600
+    },
+    "modes": [
+      {
+        "mode": "t2i",
+        "falModelId": "qwen-image-3.0",
+        "ui": {
+          "modes": [
+            "t2i"
+          ],
+          "resolution": [
+            "1k",
+            "2k"
+          ],
+          "aspectRatio": [
+            "1:1",
+            "16:9",
+            "9:16",
+            "4:3",
+            "3:4",
+            "3:2",
+            "2:3"
+          ]
+        }
+      },
+      {
+        "mode": "i2i",
+        "falModelId": "qwen-image-3.0",
+        "ui": {
+          "modes": [
+            "i2i"
+          ],
+          "resolution": [
+            "1k",
+            "2k"
+          ],
+          "aspectRatio": [
+            "1:1",
+            "16:9",
+            "9:16",
+            "4:3",
+            "3:4",
+            "3:2",
+            "2:3"
+          ],
+          "acceptsImageFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "bmp",
+            "tiff",
+            "webp",
+            "gif"
+          ],
+          "maxUploadMB": 10
+        }
+      }
+    ],
+    "features": {
+      "audio": {
+        "value": false
+      },
+      "motionControls": {
+        "value": false
+      },
+      "keyframes": {
+        "value": false
+      },
+      "extend": {
+        "value": false
+      }
+    }
+  },
+  {
+    "engineId": "qwen-image-3-0-pro",
+    "modelSlug": "qwen-image-3-0-pro",
+    "marketingName": "Qwen Image 3.0 Pro",
+    "provider": "Alibaba",
+    "brandId": "alibaba",
+    "family": "qwen-image",
+    "familyExamplesPage": null,
+    "versionLabel": "3.0 Pro",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "surfaces": {
+      "modelPage": {
+        "indexable": false,
+        "includeInSitemap": false
+      },
+      "examples": {
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
+      },
+      "compare": {
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
+      },
+      "app": {
+        "enabled": true,
+        "discoveryRank": 52,
+        "variantGroup": "qwen-image",
+        "variantLabel": "3.0 Pro"
+      },
+      "pricing": {
+        "includeInEstimator": false
+      }
+    },
+    "surfacesSource": "registry",
+    "engine": {
+      "id": "qwen-image-3-0-pro",
+      "label": "Qwen Image 3.0 Pro",
+      "provider": "Alibaba",
+      "version": "3.0",
+      "status": "live",
+      "latencyTier": "standard",
+      "queueDepth": 0,
+      "region": "cn-beijing",
+      "modes": [
+        "t2i",
+        "i2i"
+      ],
+      "maxDurationSec": 1,
+      "resolutions": [
+        "1k",
+        "2k"
+      ],
+      "aspectRatios": [
+        "1:1",
+        "16:9",
+        "9:16",
+        "4:3",
+        "3:4",
+        "3:2",
+        "2:3"
+      ],
+      "fps": [
+        1
+      ],
+      "audio": false,
+      "upscale4k": false,
+      "extend": false,
+      "motionControls": false,
+      "keyframes": false,
+      "params": {},
+      "inputLimits": {
+        "imageMaxMB": 10
+      },
+      "inputSchema": {
+        "required": [
+          {
+            "id": "prompt",
+            "type": "text",
+            "label": "Prompt"
+          }
+        ],
+        "optional": [
+          {
+            "id": "num_images",
+            "type": "number",
+            "label": "Images",
+            "min": 1,
+            "max": 1,
+            "default": 1,
+            "description": "One image per request in this integration."
+          },
+          {
+            "id": "resolution",
+            "type": "enum",
+            "label": "Resolution",
+            "values": [
+              "1k",
+              "2k"
+            ],
+            "default": "1k"
+          },
+          {
+            "id": "aspect_ratio",
+            "type": "enum",
+            "label": "Ratio",
+            "values": [
+              "1:1",
+              "16:9",
+              "9:16",
+              "4:3",
+              "3:4",
+              "3:2",
+              "2:3"
+            ],
+            "default": "1:1"
+          },
+          {
+            "id": "image_urls",
+            "type": "image",
+            "label": "Reference images",
+            "modes": [
+              "i2i"
+            ],
+            "requiredInModes": [
+              "i2i"
+            ],
+            "minCount": 1,
+            "maxCount": 3,
+            "source": "either"
+          },
+          {
+            "id": "output_format",
+            "type": "enum",
+            "label": "Output format",
+            "values": [
+              "png"
+            ],
+            "default": "png"
+          },
+          {
+            "id": "seed",
+            "type": "number",
+            "label": "Seed",
+            "min": 0,
+            "max": 2147483647,
+            "step": 1
+          },
+          {
+            "id": "watermark",
+            "type": "boolean",
+            "label": "Watermark",
+            "default": false
+          }
+        ],
+        "constraints": {
+          "maxImageSizeMB": 10,
+          "supportedFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "bmp",
+            "tiff",
+            "webp",
+            "gif"
+          ]
+        }
+      },
+      "pricingDetails": {
+        "currency": "USD",
+        "flatCents": {
+          "default": 3.125,
+          "byResolution": {
+            "1k": 3.125,
+            "2k": 6.25
+          }
+        }
+      },
+      "pricing": {
+        "unit": "image",
+        "base": 0.03125,
+        "currency": "USD",
+        "notes": "Beijing provider output rate converted at the application accounting rate; reference inputs are billed separately."
+      },
+      "providerMeta": {
+        "provider": "alibaba_qwen_image",
+        "modelSlug": "qwen-image-3.0-pro"
+      },
+      "availability": "available",
+      "brandId": "alibaba",
+      "updatedAt": "2026-10-08T00:00:00Z",
+      "ttlSec": 600
+    },
+    "modes": [
+      {
+        "mode": "t2i",
+        "falModelId": "qwen-image-3.0-pro",
+        "ui": {
+          "modes": [
+            "t2i"
+          ],
+          "resolution": [
+            "1k",
+            "2k"
+          ],
+          "aspectRatio": [
+            "1:1",
+            "16:9",
+            "9:16",
+            "4:3",
+            "3:4",
+            "3:2",
+            "2:3"
+          ]
+        }
+      },
+      {
+        "mode": "i2i",
+        "falModelId": "qwen-image-3.0-pro",
+        "ui": {
+          "modes": [
+            "i2i"
+          ],
+          "resolution": [
+            "1k",
+            "2k"
+          ],
+          "aspectRatio": [
+            "1:1",
+            "16:9",
+            "9:16",
+            "4:3",
+            "3:4",
+            "3:2",
+            "2:3"
+          ],
+          "acceptsImageFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "bmp",
+            "tiff",
+            "webp",
+            "gif"
+          ],
+          "maxUploadMB": 10
         }
       }
     ],

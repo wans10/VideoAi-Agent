@@ -1,7 +1,8 @@
 import type { NextRequest } from 'next/server';
+import { resolveSiteLanguageRedirect } from '@/lib/middleware/site-language';
 import { NextResponse } from 'next/server';
 import { createIsbotFromList, list as botPatterns } from 'isbot';
-import { defaultLocale, localePathnames } from '@/i18n/locales';
+import { defaultExperienceLocale, defaultLocale, localePathnames } from '@/i18n/locales';
 import mcpPublication from '@/config/mcp-publication.json';
 import { FEATURES } from '@/content/feature-flags';
 import { LOGOUT_INTENT_COOKIE } from '@/lib/logout-intent-cookie';
@@ -20,6 +21,7 @@ import {
   handleI18nRouting,
   handleMarketingSlug,
   hasLocalePrefix,
+  getPreferredLocale,
   isDottedLocalizedEnglishModelCompatibilityPath,
   isLoopbackHost,
   mergeResponseCookies,
@@ -37,7 +39,7 @@ import {
   splitLocaleFromPath,
 } from '@/lib/middleware/routing-helpers';
 
-const DOTTED_LOCALIZED_ENGLISH_MODEL_CANDIDATE = /^\/(?:fr|es)\/models\/[^/]*\.[^/]*$/;
+const DOTTED_LOCALIZED_ENGLISH_MODEL_CANDIDATE = /^\/(?:fr|es|zh)\/models\/[^/]*\.[^/]*$/;
 const MCP_GATED_NOT_FOUND_SEGMENT = '__mcp-publication-gated__';
 // Browser performance tools must take the visitor routing path. The upstream
 // bot list also classifies these browsers as bots, independently of our code.
@@ -109,6 +111,8 @@ export async function middleware(req: NextRequest) {
   }
 
   const originalPathname = req.nextUrl.pathname;
+  const siteLanguageRedirect = resolveSiteLanguageRedirect(req);
+  if (siteLanguageRedirect) return finalizeResponse(siteLanguageRedirect, hasLogoutIntentCookie);
   const isDottedModelMatcherCandidate = DOTTED_LOCALIZED_ENGLISH_MODEL_CANDIDATE.test(originalPathname);
   const isDottedModelCompatibilityPath =
     isDottedModelMatcherCandidate && isDottedLocalizedEnglishModelCompatibilityPath(originalPathname);
@@ -178,6 +182,19 @@ export async function middleware(req: NextRequest) {
     isMarketingPath || isDottedModelCompatibilityPath ? handleMarketingSlug(req, pathname) : null;
   if (marketingResponse) {
     return finalizeResponse(marketingResponse, hasLogoutIntentCookie, trackingNoindex, appNoindex);
+  }
+
+  // The English homepage remains a canonical public URL. Human visitors use
+  // their chosen language, or Chinese when they have not chosen one yet.
+  const homepageLocale = getPreferredLocale(req) ?? defaultExperienceLocale;
+  if (pathname === '/' && !isBotRequest && homepageLocale !== defaultLocale &&
+      (req.method === 'GET' || req.method === 'HEAD') &&
+      req.nextUrl.searchParams.get('nolocale') !== '1') {
+    const url = req.nextUrl.clone();
+    url.pathname = `/${localePathnames[homepageLocale]}`;
+    const redirect = NextResponse.redirect(url, 307);
+    redirect.headers.set('Cache-Control', 'private, no-store');
+    return finalizeResponse(redirect, hasLogoutIntentCookie, trackingNoindex, appNoindex);
   }
 
   let response: NextResponse;
@@ -286,7 +303,7 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/admin/:path*',
-    '/:locale(fr|es)/models/:slug([^/]*\\.[^/]*)',
+    '/:locale(fr|es|zh)/models/:slug([^/]*\\.[^/]*)',
     '/((?!_next|.*\\..*|api).*)',
   ],
 };

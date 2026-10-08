@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 Fast 对比 Mini：草稿速度、批量成本与适用场景",
+      "description": "在 VideoAI 上对比 Dreamina Seedance 2.0 Mini 与 Seedance 2.0 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "从画质、控制能力与成本对比 Seedance 2.0 Fast 和 Seedance 2.0 Mini。Mini 适合低成本批量制作及 480p / 720p 变体。结合评分、规格和独立示例，为项目选择模型。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0-fast",
+        "label": "查看 Seedance 2.0 Fast 详情"
+      },
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "查看 Seedance 2.0 Mini 详情"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0",
+        "label": "对比 Seedance 2.0 对比 Mini"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在侧重草稿速度的 Fast 与侧重批量成本的 Mini 之间做出选择。",
+      "items": [
+        {
+          "question": "Mini 会取代 Seedance 2.0 Fast 吗？",
+          "answer": "不会。Fast 仍是 Seedance 快速草稿的选择；Mini 侧重低成本、高频变体与批量制作，尤其适合可接受 480p / 720p 输出的场景。"
+        },
+        {
+          "question": "哪款更适合营销视频变体？",
+          "answer": "Mini 面向大量低成本电商、UGC 和付费社交广告变体。如果更看重 Seedance 草稿速度以及后续切换回 Seedance 2.0 的工作流，Fast 更合适。"
+        },
+        {
+          "question": "这些视频是受控对比实验吗？",
+          "answer": "不是。图库展示的是采用不同提示词和设置生成的独立示例。请结合评分、规格与价格，了解各模型的视觉表现潜力。"
+        }
+      ]
+    }
   }
 }

@@ -8,7 +8,7 @@ export const THEME_CHANGE_EVENT = 'mv-app-theme-change';
 export type ThemePreference = 'light' | 'dark' | 'system';
 export type ResolvedTheme = 'light' | 'dark';
 
-const DEFAULT_THEME_PREFERENCE: ThemePreference = 'system';
+const DEFAULT_THEME_PREFERENCE: ThemePreference = 'light';
 const LEGACY_STUDIO_THEME_KEY = 'maxvideoai.studio.theme.v1';
 const LEGACY_STUDIO_OVERRIDE_KEY = 'maxvideoai.studio.theme.userOverride.v1';
 

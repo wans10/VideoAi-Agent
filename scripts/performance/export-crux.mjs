@@ -48,4 +48,3 @@ if (values.plan) {
     if (results.some(result => !['ok','no-data'].includes(result.status))) process.exitCode = 1;
   }
 }
-

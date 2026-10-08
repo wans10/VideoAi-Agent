@@ -61,7 +61,7 @@ test('copyGeneratedImagesToStorage rejects when required ownership cannot be est
         },
       },
     }),
-    /Could not persist generated image to MaxVideoAI storage/
+    /Could not persist generated image to Keyvo storage/
   );
 });
 
@@ -77,6 +77,6 @@ test('copyGeneratedImagesToStorage rejects required external outputs when storag
         extractStorageKeyFromUrl: () => null,
       },
     }),
-    /MaxVideoAI storage is required for generated image outputs/
+    /Keyvo storage is required for generated image outputs/
   );
 });

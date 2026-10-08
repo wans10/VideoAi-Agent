@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {Download,X} from 'lucide-react';
 import {useI18n} from '@/lib/i18n/I18nProvider';
@@ -13,7 +14,7 @@ import type {TimelineExportClientJob} from '../../../_shared/_state/workspace-st
 
 export function ConversationExport({projectId,projectName,view,pending,jobs,onChange}: {projectId: string;projectName: string;view: ConversationTimelineView;pending: boolean;jobs: StudioProjectTimelineExport[];onChange: () => void}) {
   const {dictionary,locale} = useI18n();
-  const t = (en: string,fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   const copy = useMemo(() => resolveStudioCopy(dictionary),[dictionary]);
   const [quality,setQuality] = useState<WorkspaceTimelineExportQualityPreset>('draft');
   const [notice,setNotice] = useState<string | null>(null);

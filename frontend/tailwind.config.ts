@@ -12,8 +12,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Geist"', '"Inter"', 'system-ui', 'sans-serif'],
-        display: ['"Geist"', '"Inter"', 'system-ui', 'sans-serif']
+        sans: ['"Geist"', '"Inter"', '"PingFang SC"', '"Microsoft YaHei"', 'system-ui', 'sans-serif'],
+        display: ['"Geist"', '"Inter"', '"PingFang SC"', '"Microsoft YaHei"', 'system-ui', 'sans-serif']
       },
       colors: {
         bg: 'var(--bg)',

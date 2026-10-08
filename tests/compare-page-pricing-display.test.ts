@@ -8,6 +8,7 @@ import {
   computePricingScore,
   resolvePricingDisplay,
 } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-pricing.ts';
+import { CNY_BUILD } from './helpers/customer-currency-expectations.ts';
 
 test('Seedance 2.0 comparison pricing exposes exact unit rates and scores the comparable 720p tier', async () => {
   const standard = CATALOG_BY_SLUG.get('seedance-2-0');

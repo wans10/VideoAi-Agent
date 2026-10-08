@@ -28,7 +28,7 @@ const workflowPath = path.join(process.cwd(), '.github', 'workflows', 'quality.y
 
 test('quality CI checks out complete history for revision provenance tests', () => {
   const workflow = YAML.parse(readFileSync(workflowPath, 'utf8')) as QualityWorkflow;
-  for (const name of ['plan', 'fast', 'integration', 'tariffs', 'browser']) {
+  for (const name of ['plan', 'fast', 'integration', 'tariffs', 'browser', 'customer-cny']) {
     const checkout = workflow.jobs[name]?.steps.find(step => step.name === 'Checkout');
     assert.equal(checkout?.with?.['fetch-depth'], 0, name);
   }
@@ -38,7 +38,7 @@ test('the permanent Quality CI gate waits for all lanes and runs after failures 
   const workflow = YAML.parse(readFileSync(workflowPath, 'utf8')) as QualityWorkflow;
   assert.equal(workflow.jobs.quality.name, 'Quality CI');
   assert.equal(workflow.jobs.quality.if, '${{ always() }}');
-  assert.deepEqual(workflow.jobs.quality.needs, ['plan', 'fast', 'integration', 'tariffs', 'browser']);
+  assert.deepEqual(workflow.jobs.quality.needs, ['plan', 'fast', 'integration', 'tariffs', 'browser', 'customer-cny']);
   for (const name of ['integration', 'tariffs', 'browser']) {
     assert.match(workflow.jobs[name].if ?? '', new RegExp(`needs.plan.outputs.${name} == 'true'`));
   }

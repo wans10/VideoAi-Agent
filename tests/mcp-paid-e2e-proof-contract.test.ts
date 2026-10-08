@@ -35,8 +35,8 @@ test('operational staging proof remains isolated from the active production publ
   ) as Record<string, boolean>;
 
   assert.deepEqual(publication, {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,

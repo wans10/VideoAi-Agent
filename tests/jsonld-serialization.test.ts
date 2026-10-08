@@ -36,7 +36,9 @@ test('root metadata does not reintroduce an obsolete model list or blanket water
   for (const path of ['frontend/app/(core)/layout.tsx', 'frontend/app/(localized)/[locale]/layout.tsx']) {
     const source = readFileSync(path, 'utf8');
     assert.doesNotMatch(source, /Sora 2|Pika &|no watermarks/);
-    assert.match(source, /web workspace or through MCP integrations/);
+    assert.match(source, /Keyvo — 影像制作工作室/);
+    assert.match(source, /创作视频、图片和声音/);
+    assert.doesNotMatch(source, /MCP integrations/);
   }
 });
 

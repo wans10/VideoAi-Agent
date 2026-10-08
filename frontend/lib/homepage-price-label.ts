@@ -1,22 +1,26 @@
 import { CURRENCY_LOCALE } from '@/lib/intl';
 import type { AppLocale } from '@/i18n/locales';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 
 export const HOMEPAGE_PRICE_PREFIX_BY_LOCALE: Record<AppLocale, string> = {
   en: 'from',
   fr: 'à partir de',
   es: 'desde',
+  zh: '起',
 };
 
 const PRICE_FORMAT_LOCALE_BY_LOCALE: Record<AppLocale, string> = {
   en: CURRENCY_LOCALE,
   fr: 'fr-FR',
   es: 'es-ES',
+  zh: 'zh-CN',
 };
 
 const CURRENCY_CODE_BY_SYMBOL: Record<string, string> = {
   $: 'USD',
   '€': 'EUR',
   '£': 'GBP',
+  '¥': 'CNY',
 };
 
 const PRICE_SUFFIX_PATTERN = /^(\/[a-z]+(?:-[a-z]+)?|per\s+[a-z]+(?:\s+[a-z]+)?)$/i;
@@ -35,23 +39,28 @@ export function normalizeHomepageAdminPriceLabel(label: string, locale: AppLocal
     return null;
   }
 
-  const withoutPrefix = compactLabel.replace(/^(from|à partir de|desde)\s+/i, '').trim();
+  const withoutPrefix = compactLabel.replace(/^(from|à partir de|desde|起)\s*/i, '').trim();
   const symbolMatch = withoutPrefix.match(
-    /^([$€£])\s*([0-9]+(?:[.,][0-9]{1,2})?)(?:\s*(\/[a-z]+(?:-[a-z]+)?|per\s+[a-z]+(?:\s+[a-z]+)?))?$/i
+    /^([$€£¥])\s*([0-9]+(?:[.,][0-9]{1,2})?)(?:\s*(\/[a-z]+(?:-[a-z]+)?|per\s+[a-z]+(?:\s+[a-z]+)?))?$/i
   );
   const codeMatch = withoutPrefix.match(
-    /^([0-9]+(?:[.,][0-9]{1,2})?)\s*(USD|EUR|GBP)(?:\s*(\/[a-z]+(?:-[a-z]+)?|per\s+[a-z]+(?:\s+[a-z]+)?))?$/i
+    /^([0-9]+(?:[.,][0-9]{1,2})?)\s*(USD|EUR|GBP|CNY)(?:\s*(\/[a-z]+(?:-[a-z]+)?|per\s+[a-z]+(?:\s+[a-z]+)?))?$/i
   );
-  const currency = symbolMatch
+  const sourceCurrency = symbolMatch
     ? CURRENCY_CODE_BY_SYMBOL[symbolMatch[1] ?? '']
     : codeMatch?.[2]?.toUpperCase() ?? null;
   const amountRaw = symbolMatch?.[2] ?? codeMatch?.[1] ?? null;
   const suffix = normalizePriceSuffix(symbolMatch?.[3] ?? codeMatch?.[3]);
   const amount = amountRaw ? Number(amountRaw.replace(',', '.')) : Number.NaN;
 
-  if (!currency || !Number.isFinite(amount)) {
+  if (!sourceCurrency || !Number.isFinite(amount)) {
     return null;
   }
+  if (CUSTOMER_CURRENCY === 'CNY' && sourceCurrency !== 'USD' && sourceCurrency !== 'CNY') return null;
+  const currency = CUSTOMER_CURRENCY === 'CNY' ? 'CNY' : sourceCurrency;
+  const displayAmount = CUSTOMER_CURRENCY === 'CNY' && sourceCurrency === 'USD'
+    ? amount * USD_TO_CNY_CUSTOMER_RATE
+    : amount;
 
   const targetPrefix = HOMEPAGE_PRICE_PREFIX_BY_LOCALE[locale] ?? HOMEPAGE_PRICE_PREFIX_BY_LOCALE.en;
   const numberLocale = PRICE_FORMAT_LOCALE_BY_LOCALE[locale] ?? CURRENCY_LOCALE;
@@ -60,6 +69,6 @@ export function normalizeHomepageAdminPriceLabel(label: string, locale: AppLocal
     currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount);
+  }).format(displayAmount);
   return `${targetPrefix} ${formattedAmount}${suffix}`;
 }

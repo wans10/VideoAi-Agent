@@ -2,8 +2,8 @@
   "marketingName": "Google Veo 3.1 Lite",
   "versionLabel": "3.1 Lite",
   "seo": {
-    "title": "Veo 3.1 Lite | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Veo 3.1 Lite on MaxVideoAI for lower-cost audio-ready drafts, live specs, and pricing before moving selected outputs into Veo 3.1.",
+    "title": "Veo 3.1 Lite | AI Video Model, Specs & Pricing | VideoAI",
+    "description": "Use Veo 3.1 Lite on VideoAI for lower-cost audio-ready drafts, live specs, and pricing before moving selected outputs into Veo 3.1.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/0a6e2df3-0107-4ea7-8f70-6e03e406f39b.jpg"
   },
   "overview": "Veo 3.1 Lite is the current lower-cost Google Veo 3.1 variant for short text-to-video and image-to-video drafts, timing checks, and prompt testing with native audio included and live pay-per-second pricing.",
@@ -91,7 +91,7 @@
     },
     {
       "label": "Pricing",
-      "body": "MaxVideoAI display pricing: $0.07/s at 720p or $0.11/s at 1080p; pay-as-you-go wallet"
+      "body": "VideoAI display pricing: $0.07/s at 720p or $0.11/s at 1080p; pay-as-you-go wallet"
     },
     {
       "label": "Render timing",
@@ -155,11 +155,11 @@
     },
     {
       "q": "How does pricing compare to Veo 3.1?",
-      "a": "Veo 3.1 Lite is cheaper per second than the other Veo tiers on MaxVideoAI: $0.07/s at 720p or $0.11/s at 1080p, with audio included. Google direct API pricing may differ."
+      "a": "Veo 3.1 Lite is cheaper per second than the other Veo tiers on VideoAI: $0.07/s at 720p or $0.11/s at 1080p, with audio included. Google direct API pricing may differ."
     },
     {
       "q": "Can I run Veo 3.1 Lite from Europe or LATAM?",
-      "a": "Yes. It uses the same MaxVideoAI wallet/workspace and managed provider routing — no separate billing needed."
+      "a": "Yes. It uses the same VideoAI wallet/workspace and managed provider routing — no separate billing needed."
     }
   ],
   "custom": {
@@ -200,10 +200,10 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "What Veo 3.1 Lite Actually Is in MaxVideoAI",
+    "whatTitle": "What Veo 3.1 Lite Actually Is in VideoAI",
     "whatIntro1": "Veo 3.1 Lite is tuned for speed and efficiency within the Veo family.",
     "whatIntro2": "You keep framing and tone presets, but runs are optimized for cost and turnaround.",
-    "whatFlowTitle": "MaxVideoAI flow:",
+    "whatFlowTitle": "VideoAI flow:",
     "whatFlowSteps": [
       "1. Pick Veo 3.1 Lite as the engine.",
       "2. Start from text, add one Start image, or use First/Last frame with one opening and one ending image.",
@@ -212,8 +212,8 @@
       "5. Paste a tight, sensory prompt with any simple ambience or dialogue cues.",
       "6. Check the live price and render."
     ],
-    "specTitle": "Real Specs – Veo 3.1 Lite in MaxVideoAI (720p/1080p, 4–8s)",
-    "specNote": "These specs describe Veo 3.1 Lite exactly as you can use it today via MaxVideoAI.",
+    "specTitle": "Real Specs – Veo 3.1 Lite in VideoAI (720p/1080p, 4–8s)",
+    "specNote": "These specs describe Veo 3.1 Lite exactly as you can use it today via VideoAI.",
     "specSections": [
       {
         "title": "Draft-speed exploration",
@@ -288,7 +288,7 @@
       "Workflow: Prototype in Lite, then regenerate winners in Veo 3.1 Fast or Veo 3.1."
     ],
     "comparisonCta": "Compare Veo 3.1 Fast vs Veo 3.1 Lite ->",
-    "faqTitle": "FAQ – Veo 3.1 Lite in MaxVideoAI",
+    "faqTitle": "FAQ – Veo 3.1 Lite in VideoAI",
     "faqs": [
       {
         "q": "When should I use Veo 3.1 Lite instead of Veo 3.1?",
@@ -304,16 +304,16 @@
       },
       {
         "q": "How does pricing compare to Veo 3.1?",
-        "a": "Lite is cheaper per second on MaxVideoAI: $0.07/s at 720p or $0.11/s at 1080p, with audio always included. Google direct API pricing may differ."
+        "a": "Lite is cheaper per second on VideoAI: $0.07/s at 720p or $0.11/s at 1080p, with audio always included. Google direct API pricing may differ."
       },
       {
         "q": "Can I run Veo 3.1 Lite from Europe / LATAM?",
-        "a": "Yes. Same MaxVideoAI wallet/workspace and managed provider routing — no separate billing."
+        "a": "Yes. Same VideoAI wallet/workspace and managed provider routing — no separate billing."
       }
     ],
     "relatedTitle": "Explore other models",
     "relatedSubtitle": "Compare price tiers, latency, and prompt presets across the rest of the catalog.",
-    "finalPara1": "Veo 3.1 Lite in MaxVideoAI is your rapid-fire test bench for Veo prompts.",
+    "finalPara1": "Veo 3.1 Lite in VideoAI is your rapid-fire test bench for Veo prompts.",
     "finalPara2": "Same cinematic language, lower stakes, and quality that’s ready for social delivery.",
     "finalButton": "Open Generate",
     "tipsIntro": "Veo 3.1 Lite is most reliable when you write a short shot brief: one subject, one action, clear framing, and one camera move.",
@@ -455,13 +455,13 @@
     "pricingCopy": {
       "title": "Veo 3.1 Lite pricing at a glance",
       "subtitle": "Preset lower-cost totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 1080p",
       "ctaHref": "/pricing#veo-3-1-lite-pricing"
     },
     "meta": {
-      "title": "Veo 3.1 Lite: Pricing, Optional Audio & Examples | MaxVideoAI",
+      "title": "Veo 3.1 Lite: Pricing, Optional Audio & Examples | VideoAI",
       "description": "Use Veo 3.1 Lite for lower-cost Veo drafts with optional native audio, short prompt tests and image-to-video checks before upgrading winners."
     }
   },

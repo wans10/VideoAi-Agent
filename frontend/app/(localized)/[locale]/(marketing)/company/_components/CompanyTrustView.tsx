@@ -1,13 +1,18 @@
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import type { CompanyCopy } from '../_lib/company-copy';
 
 export function CompanyTrustView({ copy, locale }: { copy: CompanyCopy; locale: AppLocale }) {
-  const href = (path: string) => (path === '/return-policy' ? path : localizePathFromEnglish(locale, path));
+  const href = (path: string) => (path === '/return-policy' && locale !== 'zh' ? path : localizePathFromEnglish(locale, path));
 
   return (
-    <div className="container-page max-w-6xl space-y-12 py-14 sm:space-y-16 sm:py-20">
+    <div className="videoai-company container-page max-w-6xl space-y-12 py-8 sm:space-y-16 sm:py-10">
+      <nav className="flex items-center justify-between border-b border-hairline pb-6">
+        <Link href="/" aria-label="Keyvo"><BrandLockup /></Link>
+        <Link href="/app" className="editorial-action">{locale === 'zh' ? '进入工作室' : locale === 'fr' ? 'Créer' : locale === 'es' ? 'Crear' : 'Open studio'} <span aria-hidden>↗</span></Link>
+      </nav>
       <header className="max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">{copy.hero.eyebrow}</p>
         <h1 className="mt-5 font-display text-4xl font-semibold tracking-[-0.04em] text-text-primary sm:text-6xl">
@@ -18,7 +23,7 @@ export function CompanyTrustView({ copy, locale }: { copy: CompanyCopy; locale: 
 
       <section className="grid gap-4 lg:grid-cols-3">
         {copy.resources.map((group) => (
-          <article key={group.title} className="rounded-[24px] border border-hairline bg-surface/75 p-6">
+          <article key={group.title} className="rounded-xl border border-hairline bg-surface/75 p-6">
             <h2 className="text-lg font-semibold text-text-primary">{group.title}</h2>
             <ul className="mt-5 space-y-4">
               {group.links.map((item) => (
@@ -34,12 +39,12 @@ export function CompanyTrustView({ copy, locale }: { copy: CompanyCopy; locale: 
         ))}
       </section>
 
-      <section className="rounded-[28px] border border-brand/20 bg-accent-subtle/35 p-6 shadow-card sm:p-8">
+      <section className="rounded-xl border border-brand/20 bg-accent-subtle/35 p-6 shadow-card sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">{copy.rights.eyebrow}</p>
         <h2 className="mt-3 text-2xl font-semibold text-text-primary">{copy.rights.title}</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {[copy.rights.uploads, copy.rights.outputs, copy.rights.commercialUse, copy.rights.privacy].map((body) => (
-            <p key={body} className="rounded-[18px] border border-hairline bg-surface/70 p-4 text-sm leading-7 text-text-secondary">
+            <p key={body} className="rounded-lg border border-hairline bg-surface/70 p-4 text-sm leading-7 text-text-secondary">
               {body}
             </p>
           ))}
@@ -47,13 +52,13 @@ export function CompanyTrustView({ copy, locale }: { copy: CompanyCopy; locale: 
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href={`${href('/legal/terms')}#generated-media-rights`}
-            className="rounded-full border border-hairline px-4 py-2 text-sm font-semibold"
+            className="rounded-lg border border-hairline px-4 py-2 text-sm font-semibold"
           >
             {copy.rights.legalCta}
           </Link>
           <Link
             href={href('/legal/privacy')}
-            className="rounded-full border border-hairline px-4 py-2 text-sm font-semibold"
+            className="rounded-lg border border-hairline px-4 py-2 text-sm font-semibold"
           >
             {copy.rights.privacyCta}
           </Link>

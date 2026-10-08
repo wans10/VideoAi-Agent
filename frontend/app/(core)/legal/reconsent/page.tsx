@@ -10,10 +10,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSeoMetadata({
     locale,
     title: 'Legal re-consent',
-    description: 'Review and accept the updated MaxVideoAI legal documents.',
+    description: 'Review and accept the updated Keyvo legal documents.',
     hreflangGroup: 'legalReconsent',
     englishPath: '/legal/reconsent',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
     imageAlt: 'Legal re-consent',
   });
@@ -33,10 +33,10 @@ export default function LegalReconsentPage() {
         <p className="text-sm text-text-muted">
           Need help? Contact{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

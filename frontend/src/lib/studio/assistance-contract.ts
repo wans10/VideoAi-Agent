@@ -26,7 +26,7 @@ export type StudioCreditQuantity = {total:number;remaining:number;reserved:numbe
 export type StudioCreditBalance = {
   creditsPerDollar:number;
   included:StudioCreditQuantity&{period:string;renewsAt:string;priorReserved?:number};
-  purchased:StudioCreditQuantity&{packs:Array<StudioCreditQuantity&{id:string;amountCents:number;purchasedAt:string}>};
+  purchased:StudioCreditQuantity&{packs:Array<StudioCreditQuantity&{id:string;amountCents:number;paidAmountCents?:number;paidCurrency?:string;purchasedAt:string}>};
 };
 export type StudioAssistantModel = 'gpt-6.1-sol' | 'gpt-6-luna';
 export type StudioAssistanceMode = 'included_sol' | 'paid_sol' | 'sponsored_luna';

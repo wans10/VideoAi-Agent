@@ -15,7 +15,7 @@ export async function ensureTimelineExportSchema(): Promise<void> {
       fps INTEGER,
       quality_preset TEXT NOT NULL DEFAULT 'standard',
       amount_cents INTEGER NOT NULL DEFAULT 0,
-      currency TEXT NOT NULL DEFAULT 'USD',
+      currency TEXT NOT NULL DEFAULT 'CNY',
       billing_kind TEXT NOT NULL,
       billing_status TEXT NOT NULL,
       render_manifest JSONB NOT NULL,

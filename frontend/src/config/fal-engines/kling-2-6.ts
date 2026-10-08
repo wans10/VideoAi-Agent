@@ -189,7 +189,7 @@ export const KLING_2_6_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/kling-video/v2.6/pro/text-to-video',
     seo: {
-      title: 'Kling 2.6 Pro AI Video – Text & Image to Video with Native Audio | MaxVideoAI',
+      title: 'Kling 2.6 Pro AI Video – Text & Image to Video with Native Audio | Keyvo',
       description:
         'Generate cinematic AI videos with Kling 2.6 Pro. Text and image to video with fluid motion, rich details, and native audio, ideal for social content, ads, and storytelling.',
       canonicalPath: '/models/kling-2-6-pro',

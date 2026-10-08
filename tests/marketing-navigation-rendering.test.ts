@@ -53,18 +53,18 @@ test('mobile actions skip unchanged desktop menus while desktop state and locale
       Object.defineProperty(globalThis, key, { configurable: true, writable: true, value });
     }
     const dictionary = JSON.parse(await readFile('frontend/messages/en.json', 'utf8'));
-    const modelLabels = dictionary.nav.dropdown.models.items;
-    let modelLabelReads = 0;
-    Object.defineProperty(dictionary.nav.dropdown.models, 'items', {
-      enumerable: true, get() { modelLabelReads += 1; return modelLabels; },
+    const productionLabels = dictionary.nav.dropdown.production.items;
+    let productionLabelReads = 0;
+    Object.defineProperty(dictionary.nav.dropdown.production, 'items', {
+      enumerable: true, get() { productionLabelReads += 1; return productionLabels; },
     });
     root = createRoot(document.getElementById('root')!);
     const render = (locale: string, messages: unknown) => act(async () => root!.render(
       React.createElement(I18nProvider, { locale, dictionary: messages, fallback: messages }, React.createElement(MarketingNav))
     ));
     await render('en', dictionary);
-    const before = modelLabelReads;
-    assert.ok(before > 0, 'desktop model links must be rendered initially, even when their panel is closed');
+    const before = productionLabelReads;
+    assert.ok(before > 0, 'desktop production links must be rendered initially, even when their panel is closed');
     const click = async (selector: string) => {
       const button = document.querySelector<HTMLButtonElement>(selector);
       assert.ok(button, selector);
@@ -72,29 +72,29 @@ test('mobile actions skip unchanged desktop menus while desktop state and locale
     };
     await click('button[aria-label="Open menu"]');
     assert.ok(document.querySelector('[role="dialog"]'));
-    assert.equal(modelLabelReads, before, 'opening mobile navigation must not rebuild the hidden desktop model links');
-    await click('button[aria-controls="mobile-examples-panel"]');
-    assert.ok(document.querySelector('#mobile-examples-panel a[href="/examples"]'));
-    assert.match(document.querySelector('#mobile-examples-panel')!.textContent!, /Veo/);
-    assert.equal(modelLabelReads, before, 'expanding another mobile section must leave desktop model links untouched');
+    assert.equal(productionLabelReads, before, 'opening mobile navigation must not rebuild the hidden desktop production links');
+    await click('button[aria-controls="mobile-craft-panel"]');
+    assert.ok(document.querySelector('#mobile-craft-panel a[href="/tools"]'));
+    assert.match(document.querySelector('#mobile-craft-panel')!.textContent!, /Camera studies/);
+    assert.equal(productionLabelReads, before, 'expanding another mobile section must leave desktop production links untouched');
     await click('button[aria-label="Close menu"]');
     assert.equal(document.querySelector('[role="dialog"]'), null);
-    assert.equal(modelLabelReads, before);
+    assert.equal(productionLabelReads, before);
 
-    await click('button[aria-controls="marketing-models-dropdown"]');
-    assert.equal(document.querySelector('#marketing-models-dropdown')?.hasAttribute('hidden'), false);
-    assert.ok(modelLabelReads > before, 'desktop state still invalidates its own menu');
-    const allModels = document.querySelector<HTMLAnchorElement>('#marketing-models-dropdown a')!;
+    await click('button[aria-controls="marketing-production-dropdown"]');
+    assert.equal(document.querySelector('#marketing-production-dropdown')?.hasAttribute('hidden'), false);
+    assert.ok(productionLabelReads > before, 'desktop state still invalidates its own menu');
+    const allModels = document.querySelector<HTMLAnchorElement>('#marketing-production-dropdown a')!;
     allModels.addEventListener('click', event => event.preventDefault(), { once: true });
     await act(async () => { allModels.click(); });
-    assert.equal(document.querySelector('#marketing-models-dropdown')?.hasAttribute('hidden'), true);
+    assert.equal(document.querySelector('#marketing-production-dropdown')?.hasAttribute('hidden'), true);
 
     const frenchDictionary = JSON.parse(await readFile('frontend/messages/fr.json', 'utf8'));
     await render('fr', frenchDictionary);
-    assert.match(document.querySelector('button[aria-controls="marketing-models-dropdown"]')!.textContent!, /Modèles/);
-    dom.window.history.replaceState(null, '', '/models');
+    assert.match(document.querySelector('button[aria-controls="marketing-production-dropdown"]')!.textContent!, /Production/);
+    dom.window.history.replaceState(null, '', '/app');
     await render('fr', frenchDictionary);
-    assert.ok(document.querySelector('button[aria-controls="marketing-models-dropdown"]')?.classList.contains('is-active'));
+    assert.ok(document.querySelector('button[aria-controls="marketing-production-dropdown"]')?.classList.contains('is-active'));
   } finally {
     if (root) await act(async () => root!.unmount());
     dom?.window.close();

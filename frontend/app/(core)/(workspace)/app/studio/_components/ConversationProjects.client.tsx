@@ -13,7 +13,7 @@ type Props={accountKey:string;currentProjectId?:string;locale:string;disabled?:b
 export function ConversationProjects(props:Props) {
   const [open,setOpen]=useState(false);
   const trigger=useRef<HTMLButtonElement>(null);
-  const label=props.locale==='fr'?'Projets':'Projects';
+  const label=props.locale==='zh'?'项目':props.locale==='fr'?'Projets':'Projects';
   return <>
     <button ref={trigger} className={styles.trigger} aria-label={label} aria-haspopup="dialog" aria-expanded={open} disabled={props.disabled} onClick={()=>setOpen(true)}><FolderOpen size={15} strokeWidth={1.6}/><span>{label}</span></button>
     {open&&<ProjectDialog key={props.accountKey} {...props} trigger={trigger} onClose={()=>setOpen(false)}/>}
@@ -21,7 +21,7 @@ export function ConversationProjects(props:Props) {
 }
 
 function ProjectDialog({accountKey,currentProjectId,locale,trigger,onClose,onRename}:Props&{trigger:RefObject<HTMLButtonElement>;onClose:()=>void}) {
-  const t=(en:string,fr:string)=>locale==='fr'?fr:en;
+  const t=(en:string,fr:string)=>locale==='zh'?({'Opening your projects…':'正在打开项目…','Your projects could not be loaded.':'无法加载项目。','No matching project.':'没有匹配项目。','Your conversations will live here.':'你的对话会保存在这里。'}[en]??en):locale==='fr'?fr:en;
   const router=useRouter(),id=useId(),dialog=useRef<HTMLDialogElement>(null);
   const [projects,setProjects]=useState<StudioProjectSummary[]>([]),[query,setQuery]=useState(''),[loading,setLoading]=useState(true),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0);
   const creation=useStudioProjectCreation(accountKey,projectId=>router.push('/app/studio/conversation/'+encodeURIComponent(projectId)));

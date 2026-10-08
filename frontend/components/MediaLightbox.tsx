@@ -193,7 +193,7 @@ export function MediaLightbox({
       next.push({ label: 'Group', value: title });
     }
     if (subtitle) {
-      next.push({ label: 'Created', value: subtitle });
+      next.push({ label: locale.startsWith('zh') ? '创建时间' : 'Created', value: subtitle });
     }
     const existing = new Set(next.map((item) => item.label.toLowerCase()));
     metadata.forEach((item) => {
@@ -204,11 +204,11 @@ export function MediaLightbox({
       }
     });
     return next;
-  }, [metadata, subtitle, title]);
+  }, [locale, metadata, subtitle, title]);
 
   const entry = entries.find(item => item.id === selectedId) ?? entries[0];
-  const fr = locale.startsWith('fr'), es = locale.startsWith('es');
-  const outputLabel = fr ? 'Sortie' : es ? 'Resultado' : 'Output';
+  const zh = locale.startsWith('zh'), fr = locale.startsWith('fr'), es = locale.startsWith('es');
+  const outputLabel = zh ? '输出' : fr ? 'Sortie' : es ? 'Resultado' : 'Output';
   const navigation = entries.length > 1 ? <div role="group" aria-label={outputLabel}>{entries.map((item, index) => <button type="button" key={item.id} aria-pressed={item.id === entry?.id} onClick={() => setSelectedId(item.id)}>{outputLabel} {index + 1}</button>)}</div> : null;
   const heading = entry?.engineLabel || t('workspace.result.title', 'Result') || 'Result';
   const closeLabel = t('workspace.result.close', 'Close') || 'Close';
@@ -222,9 +222,9 @@ export function MediaLightbox({
       <dl>{specs.filter(item => !['group', 'batch', 'render id'].includes(item.label.toLowerCase())).map(item => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
     </>}>
       <LightboxDestinations key={entry.id} sourceEngineId={entry.engineId} asset={asset} locale={locale} onNavigate={onClose} />
-      {onRemixEntry ? <button type="button" onClick={() => onRemixEntry(entry)}>{remixLabel || (fr ? 'Reprendre les paramètres' : es ? 'Reutilizar ajustes' : 'Reuse settings')}</button> : null}
-      {onUseTemplate ? <button type="button" onClick={() => onUseTemplate(entry)}>{templateLabel || (fr ? 'Utiliser ce modèle' : es ? 'Usar plantilla' : 'Use template')}</button> : null}
-      {onSaveToLibrary ? <button type="button" disabled={libraryState?.loading || libraryState?.success} onClick={() => void handleSaveEntryToLibrary(entry, url)}>{libraryState?.success ? (fr ? 'Enregistré' : es ? 'Guardado' : 'Saved') : libraryState?.loading ? '…' : (fr ? 'Enregistrer dans Médias' : es ? 'Guardar en Medios' : 'Save to Media')}</button> : null}
+      {onRemixEntry ? <button type="button" onClick={() => onRemixEntry(entry)}>{remixLabel || (zh ? '复用设置' : fr ? 'Reprendre les paramètres' : es ? 'Reutilizar ajustes' : 'Reuse settings')}</button> : null}
+      {onUseTemplate ? <button type="button" onClick={() => onUseTemplate(entry)}>{templateLabel || (zh ? '使用模板' : fr ? 'Utiliser ce modèle' : es ? 'Usar plantilla' : 'Use template')}</button> : null}
+      {onSaveToLibrary ? <button type="button" disabled={libraryState?.loading || libraryState?.success} onClick={() => void handleSaveEntryToLibrary(entry, url)}>{libraryState?.success ? (zh ? '已保存' : fr ? 'Enregistré' : es ? 'Guardado' : 'Saved') : libraryState?.loading ? '…' : (zh ? '保存到素材库' : fr ? 'Enregistrer dans Médias' : es ? 'Guardar en Medios' : 'Save to Media')}</button> : null}
       {libraryState?.error ? <p role="alert">{libraryState.error}</p> : null}
     </MediaActionPanel>;
   }
@@ -234,7 +234,7 @@ export function MediaLightbox({
       onCopyLink={(id, mediaUrl) => { void handleCopyLink(id, mediaUrl); }}
       onDownloadEntry={(target, mediaUrl) => { void handleDownloadEntry(target, mediaUrl); }}
       onRefreshEntry={onRefreshEntry ? target => { void handleRefreshEntry(target); } : undefined}
-    /> : <p>{fr ? 'Aucun média disponible.' : es ? 'No hay medios disponibles.' : 'No media available.'}</p>}
+    /> : <p>{zh ? '暂无素材。' : fr ? 'Aucun média disponible.' : es ? 'No hay medios disponibles.' : 'No media available.'}</p>}
   </MediaDialog>;
 }
 

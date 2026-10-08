@@ -84,7 +84,7 @@ test('canary access fails closed outside the exact staging host, account, client
     const environment = resolveMcpStagingCanaryGenerationEnvironment(item.principal, item.accountUrl, item.env);
     assert.deepEqual(
       resolveAgentGenerationEngineExecutability(engine('veo-3-1-lite'), environment),
-      { executable: false, reason: 'provider_disabled' },
+      { executable: false, reason: 'provider_credentials_missing' },
     );
   }
 });
@@ -118,7 +118,7 @@ test('the image canary remains bounded by the authored engine allowlist', () => 
 
   assert.deepEqual(
     resolveAgentGenerationEngineExecutability(engine('nano-banana-2'), environment),
-    { executable: false, reason: 'provider_disabled' },
+    { executable: false, reason: 'provider_credentials_missing' },
   );
 });
 

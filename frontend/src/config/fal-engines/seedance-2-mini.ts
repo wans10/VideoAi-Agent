@@ -162,7 +162,7 @@ const SEEDANCE_2_0_MINI_ENGINE: EngineCaps = {
   pricing: {
     unit: 'USD/s',
     currency: 'USD',
-    notes: 'Seedance 2 Mini is billed from output tokens with one flat public MaxVideoAI rate across text, image, reference, source-video, and extend workflows.',
+    notes: 'Seedance 2 Mini is billed from output tokens with one flat public Keyvo rate across text, image, reference, source-video, and extend workflows.',
   },
   updatedAt: '2026-06-15T00:00:00Z',
   ttlSec: 600,

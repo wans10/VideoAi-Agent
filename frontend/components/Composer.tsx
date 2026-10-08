@@ -129,7 +129,7 @@ export function Composer({
       return `${currency} ${price.toFixed(2)}`;
     }
   }, [price, currency, isPricing, preflight?.ok]);
-  const promptLabel = promptField?.label ?? 'Prompt';
+  const promptLabel = locale === 'zh' && (!promptField?.label || /^prompt$/i.test(promptField.label)) ? '画面描述' : promptField?.label ?? 'Prompt';
   const promptDescription = promptField?.description;
   const negativePromptLabel = negativePromptField?.label ?? 'Negative prompt';
   const negativePromptDescription = negativePromptField?.description;

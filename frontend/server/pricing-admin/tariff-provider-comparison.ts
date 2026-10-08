@@ -6,6 +6,7 @@ import { getBytePlusSeedanceAllowedModes, isBytePlusSeedanceSubmissionEnabled,
 import { assertBytePlusTransportConfigured, getBytePlusArkConfig, isBytePlusModelArkEnabled } from '@/server/video-providers/byteplus-modelark';
 import { lumaAgentsImageDirectEnabled } from '@/server/images/luma-agents-execution';
 import { providerComparisonInputFromScenario, type ProviderCostComparisonInput } from './provider-cost-comparison';
+import { resolveImageProviderSelection } from '@/server/images/image-provider-routing';
 import { ENV } from '@/lib/env';
 
 /** Uses the same route policy as generation. A disabled direct route never silently becomes Fal. */
@@ -17,7 +18,9 @@ export function providerComparisonForTariffScenario(scenario: ManualTariffCovera
   let executionProvider = 'fal';
   let routeConfigured: boolean | null = null;
   if (entry.category === 'image') {
-    if (declared === 'google_vertex_image' || declared === 'byteplus_modelark') executionProvider = declared;
+    const selection = resolveImageProviderSelection(entry.engine);
+    if (selection.kind === 'llmhub') executionProvider = 'llmhub';
+    else if (selection.kind === 'direct') executionProvider = selection.engine.providerMeta?.provider ?? 'fal';
     else if (declared === 'luma_agents_direct' && lumaAgentsImageDirectEnabled({ isAdmin: true })) {
       executionProvider = 'luma_agents_direct';
     }

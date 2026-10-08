@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni Pro",
   "versionLabel": "3.0 Omni Pro",
   "seo": {
-    "title": "Kling 3.0 Omni Pro Reference, Storyboard & Video-to-Video Generator | MaxVideoAI",
+    "title": "Kling 3.0 Omni Pro Reference, Storyboard & Video-to-Video Generator | VideoAI",
     "description": "Use Kling 3.0 Omni Pro for reference-guided Kling video with storyboard images, source-video V2V, @Image and @Video1 anchors, optional start/end frames, native audio, and live pricing."
   },
   "overview": "Kling 3.0 Omni Pro is the Kling Omni route to use when uploaded images or a source video should guide a render without automatically becoming the first frame.",
-  "pricingNotes": "Provider cost is about $0.168/s with audio on and $0.112/s audio off before the MaxVideoAI margin.",
+  "pricingNotes": "Provider cost is about $0.168/s with audio on and $0.112/s audio off before the VideoAI margin.",
   "custom": {
     "relatedTitle": "Where Kling 3.0 Omni Pro fits",
     "relatedSubtitle": "Pro is the main O3 route when reference images and source video should guide a shot without forcing a fixed opening frame.",
@@ -267,12 +267,12 @@
     "pricingCopy": {
       "title": "Kling 3.0 Omni Pro pricing at a glance",
       "subtitle": "Preset totals for reference-guided and video-to-video scenarios. Check the live quote before generating.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "ctaHref": "/pricing#kling-o3-pro-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Pro: Reference, Storyboard & V2V | MaxVideoAI",
+      "title": "Kling 3.0 Omni Pro: Reference, Storyboard & V2V | VideoAI",
       "description": "Use Kling 3.0 Omni Pro for reference-to-video, storyboard inputs, source-video V2V, @Image and @Video1 prompts, native audio and live pricing."
     }
   },

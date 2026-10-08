@@ -15,6 +15,7 @@ import type { BackgroundRemovalToolRequest, BackgroundRemovalToolResponse } from
 import type { UpscaleToolRequest, UpscaleToolResponse } from '@/types/tools-upscale';
 import { upscaleClientAttempt, waitForAcceptedUpscale } from '@/lib/upscale-client-lifecycle';
 import { customerTariffRequestHeaders, notifyCustomerPricingRefresh } from '@/lib/customer-tariff-revision';
+import { submitImageGeneration } from '@/lib/image-generation-client';
 
 type PrimitiveValue = string | number | boolean | null | undefined;
 
@@ -202,27 +203,7 @@ export async function runGenerate(
 }
 
 export async function runImageGeneration(payload: ImageGenerationRequest, pricingSnapshot?: PricingSnapshot | null): Promise<ImageGenerationResponse> {
-  const response = await authFetch('/api/images/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION,
-      ...customerTariffRequestHeaders(pricingSnapshot) },
-    body: JSON.stringify(payload),
-  });
-  const data = (await response.json().catch(() => null)) as ImageGenerationResponse | null;
-  if (!data) {
-    throw new Error('Image generation response malformed');
-  }
-  if (!response.ok || !data.ok) {
-    notifyCustomerPricingRefresh(data.error?.code);
-    const error = new Error(data.error?.message ?? `Image generation failed (${response.status})`);
-    Object.assign(error, {
-      code: data.error?.code ?? 'image_generation_failed',
-      detail: data.error?.detail,
-      status: response.status,
-    });
-    throw error;
-  }
-  return data;
+  return submitImageGeneration(payload, {}, pricingSnapshot);
 }
 
 export async function runAudioGenerate(payload: AudioGenerateRequestBody): Promise<AudioGenerateResponse> {

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { locales, type AppLocale } from '@/i18n/locales';
+import { locales, publishedLocales, type AppLocale } from '@/i18n/locales';
 import { LocaleRuntime } from '@/app/_components/LocaleRuntime';
 import { MARKETING_CLIENT_MESSAGE_NAMESPACES } from '@/lib/i18n/client-message-namespaces';
 import { SITE_ORIGIN } from '@/lib/siteOrigin';
@@ -11,7 +11,7 @@ type LocaleLayoutProps = {
 };
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return publishedLocales.map((locale) => ({ locale }));
 }
 
 const NORMALIZED_SITE_URL = SITE_ORIGIN;
@@ -19,10 +19,10 @@ const NORMALIZED_SITE_URL = SITE_ORIGIN;
 export const metadata: Metadata = {
   metadataBase: new URL(`${NORMALIZED_SITE_URL}/`),
   title: {
-    default: 'MaxVideoAI — AI Video Generator Hub',
-    template: '%s — MaxVideoAI',
+    default: 'Keyvo — 影像制作工作室',
+    template: '%s — Keyvo',
   },
-  description: 'Create AI videos, images and audio in MaxVideoAI’s web workspace or through MCP integrations. Compare models, see the price before generating and pay as you go.',
+  description: '在 Keyvo 影像工作室创作视频、图片和声音。比较模型，生成前确认价格，按需付费。',
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -32,12 +32,12 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
     shortcut: ['/favicon.ico'],
-    other: [{ rel: 'mask-icon', url: '/favicon.svg', color: '#4F5D75' }],
+    other: [{ rel: 'mask-icon', url: '/favicon.svg', color: '#b83c2b' }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#4F5D75',
+  themeColor: '#b83c2b',
 };
 
 export default async function LocaleLayout(props: LocaleLayoutProps) {

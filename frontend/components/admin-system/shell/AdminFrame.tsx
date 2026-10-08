@@ -9,7 +9,7 @@ type AdminFrameProps = {
 
 export function AdminFrame({ sidebar, topbar, children }: AdminFrameProps) {
   return (
-    <div className="admin-workspace min-h-screen overflow-x-hidden bg-bg">
+    <div className="videoai-admin admin-workspace min-h-screen overflow-x-hidden bg-bg">
       <div className="flex min-h-screen">
         {sidebar}
         <div className="flex min-h-screen min-w-0 flex-1 flex-col bg-transparent">

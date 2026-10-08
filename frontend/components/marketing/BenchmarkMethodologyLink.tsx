@@ -8,6 +8,7 @@ const LABELS: Record<AppLocale, string> = {
   en: 'How we benchmark',
   fr: 'Notre méthodologie',
   es: 'Cómo evaluamos',
+  zh: '评测基准方法',
 };
 
 export function BenchmarkMethodologyLink({

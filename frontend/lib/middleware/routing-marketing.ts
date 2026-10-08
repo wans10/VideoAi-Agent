@@ -17,6 +17,7 @@ const KNOWN_MARKETING_SEGMENTS = new Set(
     'docs',
     'examples',
     'legal',
+    'return-policy',
     'models',
     'pay-as-you-go-ai-video-generator',
     'pricing',
@@ -76,6 +77,7 @@ const NON_PREFIXED_LOCALIZED_BLOG_SLUGS = {
     'la-ia-puede-cambiar-el-angulo-de-camara-de-una-foto',
     'las-actualizaciones-de-veo-3-traen-controles-cinematograficos',
   ]),
+  zh: new Set<string>(),
 } as const;
 
 const EXACT_LOCALE_REDIRECTS: Record<string, string> = {
@@ -132,15 +134,17 @@ function resolveLocalizedEnglishModelSegment(
   localePrefix: string,
   resolvePublicSlug: PublicModelResolver
 ): NextResponse | null {
-  if (localePrefix !== '/fr' && localePrefix !== '/es') return null;
+  if (localePrefix !== '/fr' && localePrefix !== '/es' && localePrefix !== '/zh') return null;
   if (!normalizedPath.startsWith('/models/')) return null;
   const slug = normalizedPath.slice('/models/'.length);
   if (!slug || slug.includes('/')) return null;
   const model = resolvePublicSlug(slug);
   if (!model) return null;
-  const localizedBase = localePrefix === '/fr' ? 'modeles' : 'modelos';
+  const localizedBase = localePrefix === '/fr' ? 'modeles' : localePrefix === '/es' ? 'modelos' : 'models';
+  const targetPath = `${localePrefix}/${localizedBase}/${model.slug}`;
+  if (targetPath === req.nextUrl.pathname) return null;
   const redirectUrl = req.nextUrl.clone();
-  redirectUrl.pathname = `${localePrefix}/${localizedBase}/${model.slug}`;
+  redirectUrl.pathname = targetPath;
   return NextResponse.redirect(redirectUrl, 301);
 }
 
@@ -149,7 +153,7 @@ export function isDottedLocalizedEnglishModelCompatibilityPath(
   resolvePublicSlug: PublicModelResolver = resolveRuntimePublicSlug
 ): boolean {
   const { localePrefix, pathWithoutLocale } = splitLocaleFromPath(pathname);
-  if (localePrefix !== '/fr' && localePrefix !== '/es') return false;
+  if (localePrefix !== '/fr' && localePrefix !== '/es' && localePrefix !== '/zh') return false;
   const normalizedPath = normalizePath(pathWithoutLocale);
   if (!normalizedPath.startsWith('/models/')) return false;
   const slug = normalizedPath.slice('/models/'.length);

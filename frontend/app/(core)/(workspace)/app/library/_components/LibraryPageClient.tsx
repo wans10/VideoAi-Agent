@@ -190,7 +190,7 @@ function OwnedLibraryPageClient({ user, authLoading }: { user: { id: string } | 
                 layout="page"
                 locale={locale}
                 renderContinuation={(asset) => <MediaDestinationActions asset={asset} userId={user?.id} locale={locale} />}
-                title={locale === 'fr' ? 'Médias' : locale === 'es' ? 'Medios' : 'Media'}
+                title={locale === 'fr' ? 'Médias' : locale === 'es' ? 'Medios' : locale.startsWith('zh') ? '媒体库' : 'Media'}
                 hideTitle
                 assetType={activeKind}
                 assets={currentAssets}

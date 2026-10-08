@@ -440,22 +440,14 @@ test('site Organization schema keeps one canonical complete entity', () => {
 
   // Prebuild also runs on preview deployments; origin policy is covered separately.
   assert.equal(organization['@id'], `${SITE_ORIGIN}/#organization`);
-  assert.equal(organization.name, 'MaxVideoAI');
-  assert.equal(organization.alternateName, 'MaxVideo AI');
+  assert.equal(organization.name, 'Keyvo');
   assert.match(organization.description, /pay-as-you-go/);
-  assert.match(organization.description, /web workspace and MCP integrations/);
+  assert.match(organization.description, /web workspace for creative production/);
+  assert.doesNotMatch(organization.description, /MCP integrations/);
   assert.doesNotMatch(organization.description, /Sora|Pika|Seedance|Kling|Veo/);
-  assert.deepEqual(organization.sameAs, [
-    'https://x.com/MaxVideoAI',
-    'https://www.linkedin.com/company/maxvideoai/',
-    'https://github.com/camgraphe/maxvideoai',
-    'https://github.com/camgraphe/maxvideoai-plugin',
-    'https://www.producthunt.com/products/maxvideoai',
-    'https://www.youtube.com/channel/UCi5XkvmzIaG8gvJPLEs94Mw',
-  ]);
-  const reference = buildSiteOrganizationReference();
+  assert.ok(!('sameAs' in organization), 'custom brand does not claim upstream social accounts');  const reference = buildSiteOrganizationReference();
   assert.equal(reference['@id'], organization['@id']);
-  assert.ok(reference.sameAs.every((profile) => organization.sameAs.includes(profile)));
+  assert.ok(!('sameAs' in reference));
   const coreLayout = readFileSync('frontend/app/(core)/layout.tsx', 'utf8');
   assert.match(coreLayout, /const orgSchema = buildSiteOrganizationSchema\(\)/);
   assert.doesNotMatch(coreLayout, /sameAs:/);
@@ -466,7 +458,7 @@ test('homepage application features use the declared language and canonical prov
   for (const locale of ['en', 'fr', 'es'] as const) {
     const schema = buildSoftwareSchema({ hero: { subtitle: 'Visible localized subtitle' } } as never, locale);
     assert.equal(schema.inLanguage, locale);
-    assert.equal(schema.url, `https://maxvideoai.com${locale === 'en' ? '' : `/${locale}`}`);
+    assert.equal(schema.url, `https://app.keyvo.cn${locale === 'en' ? '' : `/${locale}`}`);
     assert.equal(schema.provider['@id'], `${SITE_ORIGIN}/#organization`);
     assert.match(schema.featureList[0], expected[locale]);
     if (locale !== 'en') assert.doesNotMatch(schema.featureList.join(' '), /Pay-as-you-go|Auto-refunds/);
@@ -475,7 +467,7 @@ test('homepage application features use the declared language and canonical prov
 
 test('generic services do not advertise wallet deposits as model or comparison prices', () => {
   for (const locale of ['en', 'fr', 'es'] as const) {
-    const schema = emittedSchema(buildPricingServiceJsonLd({ canonical: 'https://maxvideoai.com/pricing', locale })) as JsonRecord;
+    const schema = emittedSchema(buildPricingServiceJsonLd({ canonical: 'https://app.keyvo.cn/pricing', locale })) as JsonRecord;
     assert.equal(hasOwn(schema, 'offers'), false);
   }
   for (const slug of ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'sora-2']) {
@@ -485,13 +477,13 @@ test('generic services do not advertise wallet deposits as model or comparison p
   }
 });
 
-test('model Product schemas distinguish the actual manufacturer from MaxVideoAI', () => {
+test('model Product schemas distinguish the actual manufacturer from VideoAI', () => {
   for (const slug of ['seedance-2-0', 'seedance-2-5', 'seedream', 'seedream-5-0-pro']) {
     const engine = getRequiredEngine(slug);
     assert.equal(resolveProviderInfo(engine).url, 'https://www.bytedance.com/en/');
   }
   const unknownManufacturer = { ...getRequiredEngine('seedance-2-5'), brandId: 'unverified-provider' } as never;
-  assert.equal(resolveProviderInfo(unknownManufacturer).url, undefined, 'an unknown manufacturer must not inherit MaxVideoAI’s URL');
+  assert.equal(resolveProviderInfo(unknownManufacturer).url, undefined, 'an unknown manufacturer must not inherit VideoAI’s URL');
   const expectedProviders = [
     ['gemini-omni-flash', 'Google DeepMind', 'https://deepmind.google/models/'],
     ['nano-banana-pro', 'Google DeepMind', 'https://deepmind.google/models/'],
@@ -508,12 +500,12 @@ test('historical models with app publication disabled keep editorial schemas wit
     const engine = getRequiredEngine(slug);
     assert.equal(engine.surfaces.app.enabled, false);
     for (const [locale, prefix] of [['en', '/models'], ['fr', '/fr/modeles'], ['es', '/es/modelos']]) {
-      const canonical = `https://maxvideoai.com${prefix}/${slug}`;
+      const canonical = `https://app.keyvo.cn${prefix}/${slug}`;
       const schemas = buildModelSchemaPayloads({
         engine, canonical, localizedCanonical: canonical,
         description: 'Historical model reference', heroTitle: engine.marketingName,
-        heroPosterAbsolute: 'https://maxvideoai.com/favicon-512.png', inLanguage: locale,
-        localizedHomeUrl: 'https://maxvideoai.com', localizedModelsUrl: `https://maxvideoai.com${prefix}`,
+        heroPosterAbsolute: 'https://app.keyvo.cn/favicon-512.png', inLanguage: locale,
+        localizedHomeUrl: 'https://app.keyvo.cn', localizedModelsUrl: `https://app.keyvo.cn${prefix}`,
         pricingEngine: engine.engine, resolvedBreadcrumb: { home: 'Home', models: 'Models' },
       }) as JsonRecord[];
       assert.deepEqual(schemas.map((schema) => schema['@type']), ['WebPage', 'BreadcrumbList']);
@@ -522,7 +514,7 @@ test('historical models with app publication disabled keep editorial schemas wit
   }
 });
 
-test('blog Article schema identifies the visible person while retaining MaxVideoAI as publisher', () => {
+test('blog Article schema identifies the visible person while retaining Keyvo as publisher', () => {
   const localization = buildBlogPostLocalization({
     canonicalSlug: 'author-schema-sample',
     locale: 'en',
@@ -551,7 +543,7 @@ test('blog Article schema identifies the visible person while retaining MaxVideo
     url: `${SITE_ORIGIN}/about#adrien-millot`,
   });
   assert.equal(articleSchema.publisher['@type'], 'Organization');
-  assert.equal(articleSchema.publisher.name, 'MaxVideo AI');
+  assert.equal(articleSchema.publisher.name, 'Keyvo');
 });
 
 test('restricted FAQPage usage is inventoried without allowing deprecated schema types', () => {

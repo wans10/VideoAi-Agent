@@ -1,0 +1,806 @@
+{
+  "date": "2026-10-08",
+  "baseUrl": "https://api.llmhub.com.cn",
+  "repositoryCommit": "22dd4d96a3f513e1e669c719659a8296a79f76d2",
+  "method": "Authenticated real HTTP requests; decoded image files checked using sips. No generation POST was retried after a 504. Credentials and image Base64 omitted.",
+  "originalAdapterRequests": [
+    {
+      "variant": "flare",
+      "status": 400,
+      "error": "Unknown parameter: 'response_format'."
+    },
+    {
+      "variant": "sunburst",
+      "status": 400,
+      "error": "Unknown parameter: 'response_format'."
+    }
+  ],
+  "cases": [
+    {
+      "variant": "flare",
+      "case": "edit-one-auto",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "Keep the mug shape, change its color to bright red.",
+        "n": 1,
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "references": 1,
+      "mask": false,
+      "status": 200,
+      "request_id": "75a3a33c-7c59-48f6-ab08-31905025664b",
+      "response_settings": {
+        "size": "1448x1086",
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 796,
+        "input_tokens_details": {
+          "image_tokens": 768,
+          "text_tokens": 28
+        },
+        "output_tokens": 1544,
+        "output_tokens_details": {
+          "image_tokens": 1544,
+          "text_tokens": 0
+        },
+        "total_tokens": 2340
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 852993,
+          "probe": "/private/tmp/llmhub-image-audit/flare-edit-one-auto-0.png\n  pixelWidth: 1448\n  pixelHeight: 1086\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 25.0
+    },
+    {
+      "variant": "flare",
+      "case": "edit-sixteen-mask",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "Keep the mug shape, change its color to bright red.",
+        "n": 1,
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1024x768"
+      },
+      "references": 16,
+      "mask": true,
+      "status": 200,
+      "request_id": "7163df86-3291-492e-98dc-70ba8125a2f0",
+      "response_settings": {
+        "size": "1024x768",
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 12466,
+        "input_tokens_details": {
+          "image_tokens": 12288,
+          "text_tokens": 178
+        },
+        "output_tokens": 1204,
+        "output_tokens_details": {
+          "image_tokens": 1204,
+          "text_tokens": 0
+        },
+        "total_tokens": 13670
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 570910,
+          "probe": "/private/tmp/llmhub-image-audit/flare-edit-sixteen-mask-0.png\n  pixelWidth: 1024\n  pixelHeight: 768\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 34.5
+    },
+    {
+      "variant": "flare",
+      "case": "four-images-square",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 4,
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "02e99489-b4d3-4acb-a8c5-88a476998bea",
+      "response_settings": {
+        "size": "1024x1024",
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 52,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 52
+        },
+        "output_tokens": 781,
+        "output_tokens_details": {
+          "image_tokens": 781,
+          "text_tokens": 0
+        },
+        "total_tokens": 833
+      },
+      "count": 4,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 948440,
+          "probe": "/private/tmp/llmhub-image-audit/flare-four-images-square-0.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        },
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 870168,
+          "probe": "/private/tmp/llmhub-image-audit/flare-four-images-square-1.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        },
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 995622,
+          "probe": "/private/tmp/llmhub-image-audit/flare-four-images-square-2.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        },
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 841484,
+          "probe": "/private/tmp/llmhub-image-audit/flare-four-images-square-3.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 16.7
+    },
+    {
+      "variant": "flare",
+      "case": "four-images",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 4,
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1920x1080"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 400,
+      "error": "{\"error\":{\"message\":\"Invalid size '1920x1080'. Width and height must both be divisible by 16.\",\"type\":\"image_generation_user_error\",\"param\":\"size\",\"code\":\"invalid_value\"}}",
+      "seconds": 1.3
+    },
+    {
+      "variant": "flare",
+      "case": "low-custom",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "jpeg",
+        "size": "1280x768"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "4235327f-9d18-49d3-8104-4a037073a358",
+      "response_settings": {
+        "size": "1280x768",
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "jpeg"
+      },
+      "usage": {
+        "input_tokens": 13,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 13
+        },
+        "output_tokens": 120,
+        "output_tokens_details": {
+          "image_tokens": 120,
+          "text_tokens": 0
+        },
+        "total_tokens": 133
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 128344,
+          "probe": "/private/tmp/llmhub-image-audit/flare-low-custom-0.jpeg\n  pixelWidth: 1280\n  pixelHeight: 768\n  format: jpeg\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 11.2
+    },
+    {
+      "variant": "flare",
+      "case": "max-4k",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "max",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "3840x2160"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "96b65ab0-a421-4d24-a67a-4e66e693747b",
+      "response_settings": {
+        "size": "3840x2160",
+        "quality": "max",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 13,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 13
+        },
+        "output_tokens": 13342,
+        "output_tokens_details": {
+          "image_tokens": 13342,
+          "text_tokens": 0
+        },
+        "total_tokens": 13355
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 4566086,
+          "probe": "/private/tmp/llmhub-image-audit/flare-max-4k-0.png\n  pixelWidth: 3840\n  pixelHeight: 2160\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 65.4
+    },
+    {
+      "variant": "flare",
+      "case": "medium-png",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "medium",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "9f33e3e3-7b8a-482d-8274-15fe40f5da3c",
+      "response_settings": {
+        "size": "1024x1024",
+        "quality": "medium",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 13,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 13
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 452
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 805789,
+          "probe": "/private/tmp/llmhub-image-audit/flare-medium-png-0.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 15.2
+    },
+    {
+      "variant": "flare",
+      "case": "medium-webp",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "medium",
+        "background": "opaque",
+        "output_format": "webp",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 400,
+      "error": "{\"error\":{\"message\":\"Invalid value: 'webp'. Supported values are: 'png' and 'jpeg'.\",\"type\":\"invalid_request_error\",\"param\":\"output_format\",\"code\":\"invalid_value\"}}",
+      "seconds": 0.6
+    },
+    {
+      "variant": "flare",
+      "case": "xhigh-alpha",
+      "request": {
+        "model": "gpt-image-2.5-flare",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "xhigh",
+        "background": "transparent",
+        "output_format": "png",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "ca3d7efb-629f-479c-8c02-6641b5ef2e28",
+      "response_settings": {
+        "size": "1024x1024",
+        "quality": "xhigh",
+        "background": "transparent",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 13,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 13
+        },
+        "output_tokens": 3122,
+        "output_tokens_details": {
+          "image_tokens": 3122,
+          "text_tokens": 0
+        },
+        "total_tokens": 3135
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 1437970,
+          "probe": "/private/tmp/llmhub-image-audit/flare-xhigh-alpha-0.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: yes\n"
+        }
+      ],
+      "seconds": 32.3
+    },
+    {
+      "model": "gpt-image-2.5-flare",
+      "status": 200,
+      "seconds": 20.7,
+      "keys": [
+        "created",
+        "background",
+        "data",
+        "output_format",
+        "quality",
+        "size",
+        "usage"
+      ],
+      "data": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "url": null,
+          "b64_length": 760952
+        }
+      ],
+      "usage": {
+        "input_tokens": 18,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 18
+        },
+        "output_tokens": 1204,
+        "output_tokens_details": {
+          "image_tokens": 1204,
+          "text_tokens": 0
+        },
+        "total_tokens": 1222
+      },
+      "request_id": "2242a533-1b41-45d7-aa95-3bd7b5e1338b"
+    },
+    {
+      "variant": "sunburst",
+      "case": "edit-one-auto",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "Keep the mug shape, change its color to bright red.",
+        "n": 1,
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "references": 1,
+      "mask": false,
+      "status": 200,
+      "request_id": "e1fd04f8-560e-41a1-afec-4d2356ab52cb",
+      "response_settings": {
+        "size": "1448x1086",
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 796,
+        "input_tokens_details": {
+          "image_tokens": 768,
+          "text_tokens": 28
+        },
+        "output_tokens": 1544,
+        "output_tokens_details": {
+          "image_tokens": 1544,
+          "text_tokens": 0
+        },
+        "total_tokens": 2340
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 896169,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-edit-one-auto-0.png\n  pixelWidth: 1448\n  pixelHeight: 1086\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 72.7
+    },
+    {
+      "variant": "sunburst",
+      "case": "edit-sixteen-mask",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "Keep the mug shape, change its color to bright red.",
+        "n": 1,
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1024x768"
+      },
+      "references": 16,
+      "mask": true,
+      "status": 200,
+      "request_id": "09bbf82e-06dd-49da-9748-73f9165c71f3",
+      "response_settings": {
+        "size": "1024x768",
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 12466,
+        "input_tokens_details": {
+          "image_tokens": 12288,
+          "text_tokens": 178
+        },
+        "output_tokens": 1204,
+        "output_tokens_details": {
+          "image_tokens": 1204,
+          "text_tokens": 0
+        },
+        "total_tokens": 13670
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 479372,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-edit-sixteen-mask-0.png\n  pixelWidth: 1024\n  pixelHeight: 768\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 86.1
+    },
+    {
+      "variant": "sunburst",
+      "case": "four-images-square",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 4,
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "b20d8c57-f4b1-44a9-8eb6-86cb5e3fbfa5",
+      "response_settings": {
+        "size": "1024x1024",
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 52,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 52
+        },
+        "output_tokens": 781,
+        "output_tokens_details": {
+          "image_tokens": 781,
+          "text_tokens": 0
+        },
+        "total_tokens": 833
+      },
+      "count": 4,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 980277,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-four-images-square-0.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        },
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 951211,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-four-images-square-1.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        },
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 893123,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-four-images-square-2.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        },
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 865525,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-four-images-square-3.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 30.0
+    },
+    {
+      "variant": "sunburst",
+      "case": "four-images",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 4,
+        "quality": "high",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1920x1080"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 400,
+      "error": "{\"error\":{\"message\":\"Invalid size '1920x1080'. Width and height must both be divisible by 16.\",\"type\":\"image_generation_user_error\",\"param\":\"size\",\"code\":\"invalid_value\"}}",
+      "seconds": 0.7
+    },
+    {
+      "variant": "sunburst",
+      "case": "low-custom",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "jpeg",
+        "size": "1280x768"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "4db1fbbc-9f87-48b9-a288-121659881520",
+      "response_settings": {
+        "size": "1280x768",
+        "quality": "low",
+        "background": "opaque",
+        "output_format": "jpeg"
+      },
+      "usage": {
+        "input_tokens": 13,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 13
+        },
+        "output_tokens": 120,
+        "output_tokens_details": {
+          "image_tokens": 120,
+          "text_tokens": 0
+        },
+        "total_tokens": 133
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 134009,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-low-custom-0.jpeg\n  pixelWidth: 1280\n  pixelHeight: 768\n  format: jpeg\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 22.3
+    },
+    {
+      "variant": "sunburst",
+      "case": "max-4k",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "max",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "3840x2160"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 504,
+      "error": "<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n",
+      "seconds": 120.4
+    },
+    {
+      "variant": "sunburst",
+      "case": "medium-png",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "medium",
+        "background": "opaque",
+        "output_format": "png",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 200,
+      "request_id": "30f2493c-1124-4734-9529-ed8078de8b80",
+      "response_settings": {
+        "size": "1024x1024",
+        "quality": "medium",
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "usage": {
+        "input_tokens": 13,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 13
+        },
+        "output_tokens": 439,
+        "output_tokens_details": {
+          "image_tokens": 439,
+          "text_tokens": 0
+        },
+        "total_tokens": 452
+      },
+      "count": 1,
+      "images": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "bytes": 860189,
+          "probe": "/private/tmp/llmhub-image-audit/sunburst-medium-png-0.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  format: png\n  hasAlpha: no\n"
+        }
+      ],
+      "seconds": 32.5
+    },
+    {
+      "variant": "sunburst",
+      "case": "medium-webp",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "medium",
+        "background": "opaque",
+        "output_format": "webp",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 400,
+      "error": "{\"error\":{\"message\":\"Invalid value: 'webp'. Supported values are: 'png' and 'jpeg'.\",\"type\":\"invalid_request_error\",\"param\":\"output_format\",\"code\":\"invalid_value\"}}",
+      "seconds": 1.3
+    },
+    {
+      "variant": "sunburst",
+      "case": "xhigh-alpha",
+      "request": {
+        "model": "gpt-image-2.5-sunburst",
+        "prompt": "A blue ceramic mug on white.",
+        "n": 1,
+        "quality": "xhigh",
+        "background": "transparent",
+        "output_format": "png",
+        "size": "1024x1024"
+      },
+      "references": 0,
+      "mask": false,
+      "status": 504,
+      "error": "<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n",
+      "seconds": 120.6
+    },
+    {
+      "model": "gpt-image-2.5-sunburst",
+      "status": 200,
+      "seconds": 71.6,
+      "keys": [
+        "created",
+        "background",
+        "data",
+        "output_format",
+        "quality",
+        "size",
+        "usage"
+      ],
+      "data": [
+        {
+          "keys": [
+            "b64_json"
+          ],
+          "url": null,
+          "b64_length": 852248
+        }
+      ],
+      "usage": {
+        "input_tokens": 18,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 18
+        },
+        "output_tokens": 1204,
+        "output_tokens_details": {
+          "image_tokens": 1204,
+          "text_tokens": 0
+        },
+        "total_tokens": 1222
+      },
+      "request_id": "7cd30f1c-ce80-4c02-9ec3-56f4bdbb6407"
+    }
+  ]
+}

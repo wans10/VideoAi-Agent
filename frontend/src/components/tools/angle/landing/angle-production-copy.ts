@@ -1,0 +1,45 @@
+import type { AppLocale } from '@/i18n/locales';
+
+export const ANGLE_PRODUCTION_COPY = {
+  zh: {
+    department: '摄影与美术 / 机位勘景', title: '同一场戏，\n换一个讲法。',
+    intro: '先确定观众站在哪里，再决定镜头如何运动。从一张场景图出发，试探正打、反打与近景，为下一次镜头生成准备画面。',
+    open: '开始机位试拍', explore: '阅读这场戏的机位方案',
+    note: '交互区域展示预先生成的机位样片。上传自己的图片后，可在制作台生成新视角。',
+    scene: '机位研究 01 / 双人对话', sceneTitle: '把一张场景图，拆成镜头关系。',
+    sceneBody: '先交代人物与空间，再把注意力交给说话的人。以下视角由同一张参考图生成，用于观察构图关系。',
+    frames: [['交代空间', '双人全景', '先让观众读懂两人的距离和视线方向。'], ['靠近说话者', '正打过肩', '以肩部作为前景，将注意力落在另一位人物身上。'], ['留给反应', '反打过肩', '切回对面的表情，让停顿也成为叙事。']],
+    prep: '试拍准备', prepTitle: '进入制作台前，先做三个决定。',
+    steps: [['选定母版画面', '使用人物、服饰与场景已经明确的图片。清晰的参考比复杂的指令更容易检查。'], ['写下这一镜的目的', '交代空间、突出情绪，或给产品一个特写。让旋转、俯仰与缩放服务于这个目的。'], ['检查后再接下一镜', '核对脸部、服装、视线与背景。保留可用结果，再将选定图片用于图生视频。']],
+    limits: '制作边界', limitTitle: '把它当作机位试验，而非现场复原。',
+    limitBody: 'AI 会推测原图中看不见的部分。视角参数用于引导生成，不保证精确的三维空间、镜头焦距或人物一致性。这里输出静态图片，不会改变已有视频的运镜。',
+    next: '继续制作', nextTitle: '机位定下来，让画面进入下一道工序。',
+    nextLinks: [['完善角色参考', '/tools/character-builder'], ['规划分镜顺序', '/app/tools/storyboard'], ['生成动态镜头', '/app']],
+  },
+  en: {
+    department: 'Camera & art / Camera studies', title: 'One scene.\nAnother point of view.',
+    intro: 'Decide where the audience stands before deciding how the camera moves. Study coverage, reverse angles and close-ups from one scene image, then prepare a frame for generation.',
+    open: 'Start a camera study', explore: 'Read the coverage plan', note: 'The interactive viewer shows prepared AI studies. Upload your own image in the studio to generate new viewpoints.',
+    scene: 'Camera study 01 / Two-person dialogue', sceneTitle: 'Turn one scene image into a shot relationship.', sceneBody: 'Establish the space, then bring attention to the speaker. These views were generated from one reference to study composition.',
+    frames: [['Establish the space', 'Two-shot', 'Let the audience read the distance and eyelines.'], ['Move toward the speaker', 'Over the shoulder', 'Use a shoulder in the foreground to focus on the other character.'], ['Make room for a reaction', 'Reverse angle', 'Return to the other face and let a pause carry the scene.']],
+    prep: 'Before the take', prepTitle: 'Make three decisions before opening the studio.',
+    steps: [['Choose the reference', 'Start with a clear character, wardrobe and setting. A readable reference makes the results easier to judge.'], ['Define the shot’s purpose', 'Establish space, reveal emotion or isolate a product. Let rotation, tilt and zoom serve that intention.'], ['Review before moving on', 'Check faces, clothing, eyelines and background. Keep a usable frame, then take it into image-to-video.']],
+    limits: 'Production limits', limitTitle: 'A camera study, not a reconstruction of a set.', limitBody: 'AI infers what the source cannot show. Angle controls guide generation; they do not guarantee exact 3D space, focal length or character continuity. The output is a still image, not a camera move applied to existing video.',
+    next: 'Continue production', nextTitle: 'With the frame decided, move to the next stage.', nextLinks: [['Develop the character', '/tools/character-builder'], ['Plan the sequence', '/app/tools/storyboard'], ['Generate the moving shot', '/app']],
+  },
+  fr: {
+    department: 'Image & décors / Études de cadrage', title: 'Une scène.\nUn autre point de vue.',
+    intro: 'Décidez où se place le spectateur avant de choisir le mouvement. Explorez champs, contrechamps et plans rapprochés depuis une image, puis préparez une référence pour la génération.', open: 'Commencer une étude', explore: 'Lire le découpage', note: 'Le lecteur montre des études IA préparées. Importez votre image dans le studio pour générer de nouveaux points de vue.',
+    scene: 'Étude 01 / Dialogue à deux', sceneTitle: 'D’une image de scène à une relation entre les plans.', sceneBody: 'Présentez l’espace, puis dirigez l’attention vers la personne qui parle. Ces vues sont générées depuis une seule référence pour étudier le cadre.',
+    frames: [['Présenter l’espace', 'Plan à deux', 'Rendez lisibles les distances et les regards.'], ['Approcher la parole', 'Plan par-dessus l’épaule', 'Une épaule au premier plan dirige le regard vers l’autre personnage.'], ['Accueillir la réaction', 'Contrechamp', 'Revenez sur l’autre visage pour laisser parler le silence.']],
+    prep: 'Préparation', prepTitle: 'Trois décisions avant d’ouvrir le studio.', steps: [['Choisir la référence', 'Partez d’un personnage, d’un costume et d’un décor bien définis.'], ['Définir l’intention du plan', 'Situer l’action, révéler une émotion ou isoler un produit : rotation, inclinaison et zoom servent cette intention.'], ['Vérifier avant de poursuivre', 'Contrôlez visages, costumes, regards et arrière-plan, puis utilisez l’image retenue pour générer la vidéo.']],
+    limits: 'Limites de production', limitTitle: 'Une étude de cadrage, pas une reconstruction du plateau.', limitBody: 'L’IA imagine les zones invisibles. Les réglages guident la génération sans garantir un espace 3D, une focale ou une continuité exacte. Le résultat est une image fixe ; il ne modifie pas les mouvements d’une vidéo existante.', next: 'Poursuivre la production', nextTitle: 'Le cadre est choisi. Passez à l’étape suivante.', nextLinks: [['Développer le personnage', '/tools/character-builder'], ['Préparer la séquence', '/app/tools/storyboard'], ['Générer le plan animé', '/app']],
+  },
+  es: {
+    department: 'Cámara y arte / Estudios de cámara', title: 'Una escena.\nOtro punto de vista.',
+    intro: 'Decide dónde se sitúa el público antes de mover la cámara. Explora planos, contraplanos y primeros planos desde una imagen y prepara una referencia para la generación.', open: 'Iniciar un estudio', explore: 'Leer el plan de cobertura', note: 'El visor muestra estudios de IA preparados. Sube tu imagen al estudio para generar nuevos puntos de vista.',
+    scene: 'Estudio 01 / Diálogo entre dos', sceneTitle: 'De una imagen a la relación entre planos.', sceneBody: 'Presenta el espacio y dirige la atención hacia quien habla. Estas vistas se generaron desde una referencia para estudiar la composición.', frames: [['Presentar el espacio', 'Plano de dos', 'Permite leer la distancia y las miradas.'], ['Acercarse a quien habla', 'Sobre el hombro', 'Usa un hombro en primer término para dirigir la atención.'], ['Dar espacio a la reacción', 'Contraplano', 'Vuelve al otro rostro y deja que la pausa cuente.']],
+    prep: 'Antes de la toma', prepTitle: 'Tres decisiones antes de abrir el estudio.', steps: [['Elegir la referencia', 'Parte de un personaje, vestuario y escenario bien definidos.'], ['Definir la intención', 'Situar la acción, revelar una emoción o aislar un producto: rotación, inclinación y zoom sirven a esa intención.'], ['Revisar antes de continuar', 'Comprueba rostros, vestuario, miradas y fondo; usa el fotograma elegido para generar vídeo.']],
+    limits: 'Límites de producción', limitTitle: 'Un estudio de cámara, no una reconstrucción del plató.', limitBody: 'La IA imagina las zonas no visibles. Los controles guían la generación sin garantizar espacio 3D, distancia focal o continuidad exactos. El resultado es una imagen fija; no cambia el movimiento de un vídeo existente.', next: 'Continuar la producción', nextTitle: 'Con el encuadre decidido, pasa a la siguiente etapa.', nextLinks: [['Desarrollar el personaje', '/tools/character-builder'], ['Planificar la secuencia', '/app/tools/storyboard'], ['Generar el plano en movimiento', '/app']],
+  },
+} satisfies Record<AppLocale, unknown>;

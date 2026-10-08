@@ -9,7 +9,9 @@ export function getCharacterReferenceLabel(reference: CharacterReferenceSelectio
     ? { lighting: 'Variante d’éclairage', body: 'Corps entier', sheet: 'Fiche personnage', portrait: 'Portrait de référence' }
     : locale === 'es'
       ? { lighting: 'Variante de iluminación', body: 'Cuerpo completo', sheet: 'Ficha de personaje', portrait: 'Retrato de referencia' }
-      : { lighting: 'Lighting variant', body: 'Full-body fix', sheet: 'Character sheet', portrait: 'Portrait reference' };
+      : locale.startsWith('zh')
+        ? { lighting: '光影变体', body: '全身校正', sheet: '角色设定图', portrait: '肖像参考' }
+        : { lighting: 'Lighting variant', body: 'Full-body fix', sheet: 'Character sheet', portrait: 'Portrait reference' };
   if (reference.action === 'lighting-variant') return labels.lighting;
   if (reference.action === 'full-body-fix') return labels.body;
   if (reference.outputMode === 'character-sheet') return labels.sheet;

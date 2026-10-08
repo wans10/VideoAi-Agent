@@ -40,8 +40,8 @@ export function ExamplesEngineFilterNav({
 
           <ExamplesModelRail
             activeModel={selectedEngine}
-            previousLabel={locale === 'fr' ? 'Modèles précédents' : locale === 'es' ? 'Modelos anteriores' : 'Previous models'}
-            nextLabel={locale === 'fr' ? 'Plus de modèles' : locale === 'es' ? 'Más modelos' : 'More models'}
+            previousLabel={locale === 'fr' ? 'Modèles précédents' : locale === 'es' ? 'Modelos anteriores' : locale === 'zh' ? '前面的模型' : 'Previous models'}
+            nextLabel={locale === 'fr' ? 'Plus de modèles' : locale === 'es' ? 'Más modelos' : locale === 'zh' ? '更多模型' : 'More models'}
           >
             <div className="flex w-max min-w-full items-center gap-1 rounded-xl bg-surface-2/70 p-1">
               <Link

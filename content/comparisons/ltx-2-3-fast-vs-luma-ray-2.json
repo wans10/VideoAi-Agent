@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Fast 对比 Luma Ray 2：速度、4K与编辑",
+      "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 Luma Ray 2 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 LTX 2.3 Fast 和 Luma Ray 2，选择快速含音频生成或旧版 Luma 编辑工具。LTX 2.3 Fast 最长 20 秒，提供 1080p、1440p、4K；Luma Ray 2 最长 9 秒，但增加视频生视频和重新构图。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "快速文本 / 图像生成、原生音频、更长横屏 / 竖屏和最高 4K 选择 LTX 2.3 Fast；现有视频需要转换或更多宽高比的重新构图，且 1080p 足够时，选择 Luma Ray 2。"
+    },
+    "topCards": [
+      {
+        "title": "选择 LTX 2.3 Fast",
+        "body": "快速概念、含音频输出、最长 20 秒以及 1080p 至 4K 交付可使用 LTX。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+      },
+      {
+        "title": "选择 Luma Ray 2",
+        "body": "修改现有视频，或将素材重新构图为横屏、方形、竖屏及超宽画幅，可使用旧版 Luma 方案。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "LTX 提供更长时长、更高分辨率和音频；Luma 提供源视频转换和更多宽高比。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "LTX 适合快速宣传草稿和高分辨率生成；Luma 适合素材复用、画幅适配和旧版编辑工作流。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "查看 LTX 2.3 Fast 详情"
+      },
+      {
+        "href": "/models/luma-ray-2",
+        "label": "查看 Luma Ray 2 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-veo-3-1-fast",
+        "label": "对比 LTX 2.3 Fast 对比 Veo 3.1 Fast"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 LTX 2.3 Fast 生成与 Luma Ray 2 编辑之间选择。",
+      "items": [
+        {
+          "question": "哪款更适合快速 4K AI 视频？",
+          "answer": "LTX 2.3 Fast 更合适，因为它支持 4K、原生音频及最长 20 秒视频。Luma Ray 2 最高 1080p，且不生成音频。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+        },
+        {
+          "question": "Luma Ray 2 提供哪些 LTX 2.3 Fast 没有的功能？",
+          "answer": "Luma Ray 2 提供视频生视频和重新构图，用于转换现有素材或调整画幅；LTX 2.3 Fast 侧重文生视频和图生视频。"
+        },
+        {
+          "question": "仍然应该选择旧版 Luma Ray 2 吗？",
+          "answer": "源视频修改或更多宽高比的重新构图是主要任务时，可选择它；新的含音频生成、更长视频或高分辨率输出使用 LTX 2.3 Fast。"
+        }
+      ]
+    }
   }
 }

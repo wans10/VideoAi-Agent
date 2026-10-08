@@ -1,0 +1,58 @@
+name: videoai
+
+services:
+  db-migrate:
+    image: ${DOCKER_IMAGE_NAMESPACE:-wans10}/videoai-db-migrate:${IMAGE_TAG:-latest}
+    build:
+      context: .
+      target: migrations
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://videoai_user:xDP6QpdkXSEXTkTz@1Panel-postgresql-AEf7:5432/videoai}
+    restart: "no"
+    networks:
+      - 1panel-network
+
+  web:
+    image: ${DOCKER_IMAGE_NAMESPACE:-wans10}/videoai-web:${IMAGE_TAG:-latest}
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_API_BASE: /api
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://app.keyvo.cn}
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-https://sbayxqlhqhjsripkktdx.supabase.co}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+        NEXT_PUBLIC_CUSTOMER_CURRENCY: CNY
+        NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:-}
+    env_file:
+      - path: .env.production
+        required: false
+    environment:
+      NODE_ENV: production
+      DEFAULT_CURRENCY: CNY
+      NEXT_PUBLIC_CUSTOMER_CURRENCY: CNY
+      ENABLED_CURRENCIES: cny
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      DATABASE_URL: ${DATABASE_URL:-postgresql://videoai_user:xDP6QpdkXSEXTkTz@1Panel-postgresql-AEf7:5432/videoai}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://app.keyvo.cn}
+      SUPABASE_SITE_URL: ${SUPABASE_SITE_URL:-https://app.keyvo.cn}
+    depends_on:
+      db-migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3000/api/health/db',{headers:{'x-healthcheck-token':process.env.HEALTHCHECK_TOKEN}}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - 1panel-network
+
+networks:
+  1panel-network:
+    external: true

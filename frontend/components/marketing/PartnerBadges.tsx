@@ -16,7 +16,7 @@ const PARTNER_BADGES: PartnerBadgeEntry[] = [
   {
     id: 'startup-fame-featured',
     className: 'max-w-[224px] aspect-[224/36]',
-    html: '<a href="https://startupfa.me/s/maxvideoai?utm_source=maxvideoai.com" target="_blank"><img src="https://startupfa.me/badges/featured-badge-small.webp" alt="MaxVideoAI - Featured on Startup Fame" width="224" height="36" loading="lazy" decoding="async" /></a>',
+    html: '<a href="https://startupfa.me/s/maxvideoai?utm_source=maxvideoai.com" target="_blank"><img src="https://startupfa.me/badges/featured-badge-small.webp" alt="Keyvo - Featured on Startup Fame" width="224" height="36" loading="lazy" decoding="async" /></a>',
   },
 ];
 

@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { EngineIcon } from '@/components/ui/EngineIcon';
@@ -37,6 +38,7 @@ export function QuadSingleTilesGrid({
   onSelectHero,
   onTileAction,
 }: QuadSingleTilesGridProps) {
+  const { locale } = useI18n();
   return (
     <div
       className={clsx(
@@ -57,10 +59,10 @@ export function QuadSingleTilesGrid({
 
         const engineCaps = engineMap.get(tile.engineId);
         const statusLabel =
-          tile.status === 'completed' ? 'Final' : tile.status === 'failed' ? 'Failed' : 'Processing';
+          locale === 'zh' ? (tile.status === 'completed' ? '已完成' : tile.status === 'failed' ? '失败' : '处理中') : (tile.status === 'completed' ? 'Final' : tile.status === 'failed' ? 'Failed' : 'Processing');
         const formattedPrice = formatCurrency(tile.priceCents, tile.currency ?? currency);
         const versionLabel = `V${tile.iterationIndex + 1}`;
-        const branchLabel = `Branch ${String.fromCharCode(65 + tile.iterationIndex)}`;
+        const branchLabel = `${locale === 'zh' ? '分支' : 'Branch'} ${String.fromCharCode(65 + tile.iterationIndex)}`;
         const isHero = heroKey === tile.localKey;
         const tileAspectClass = getAspectClass(tile.aspectRatio);
         const isFailed = tile.status === 'failed';
@@ -139,21 +141,21 @@ export function QuadSingleTilesGrid({
                   <div className="absolute inset-0 bg-gradient-to-br from-surface-2 via-surface to-surface-2" />
                 )}
                 {tile.status !== 'failed' && tile.videoUrl && tile.hasAudio ? (
-                  <span className="sr-only">Audio available</span>
+                  <span className="sr-only">{locale === 'zh' ? '包含音频' : 'Audio available'}</span>
                 ) : null}
               </div>
               <div className="absolute inset-0 z-10" data-quad-tile-root={tile.localKey} />
               {tile.status === 'failed' ? (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-error-bg px-4 text-center text-[12px] text-error backdrop-blur-sm">
-                  <span className="font-semibold uppercase tracking-micro text-error">Generation failed</span>
+                  <span className="font-semibold uppercase tracking-micro text-error">{locale === 'zh' ? '生成失败' : 'Generation failed'}</span>
                   <span className="text-[11px] leading-snug text-error">
                     {failureMessage ??
-                      'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
+                      'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
                   </span>
                 </div>
               ) : tile.status !== 'completed' ? (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-surface-on-media-dark-40 px-4 text-center text-[12px] text-on-inverse backdrop-blur-sm">
-                  <span className="uppercase tracking-micro">Processing</span>
+                  <span className="uppercase tracking-micro">{locale === 'zh' ? '处理中' : 'Processing'}</span>
                   {tile.message ? <span className="mt-1 text-[11px] text-on-media-80">{tile.message}</span> : null}
                   <span className="mt-2 text-[11px] font-semibold text-on-media-90">{tile.progress}%</span>
                 </div>
@@ -163,10 +165,10 @@ export function QuadSingleTilesGrid({
             <div className="flex flex-col gap-2 border-t border-hairline bg-surface px-3 py-2 text-[12px] text-text-secondary">
               {isFailed ? (
                 <div className="rounded-md border border-error-border bg-error-bg px-3 py-2 text-left">
-                  <p className="text-[10px] font-semibold uppercase tracking-micro text-error">Refund note</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-micro text-error">{locale === 'zh' ? '退款说明' : 'Refund note'}</p>
                   <p className="mt-1 text-[11px] leading-snug text-error">
                     {failureMessage ??
-                      'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
+                      'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'}
                   </p>
                 </div>
               ) : null}
@@ -181,7 +183,7 @@ export function QuadSingleTilesGrid({
                 <span>{tile.durationSec}s</span>
                 <span>
                   {tile.etaLabel ??
-                    (tile.status === 'completed' ? 'Ready' : tile.status === 'failed' ? 'Failed' : 'Estimating…')}
+                    (locale === 'zh' ? (tile.status === 'completed' ? '已就绪' : tile.status === 'failed' ? '失败' : '估算中…') : (tile.status === 'completed' ? 'Ready' : tile.status === 'failed' ? 'Failed' : 'Estimating…'))}
                 </span>
               </div>
             </div>
@@ -196,7 +198,7 @@ export function QuadSingleTilesGrid({
                     variant="outline"
                     onClick={() => onTileAction(action.id, tile)}
                     className="h-8 w-8 min-h-0 rounded-full border-hairline bg-surface p-0 text-text-secondary hover:border-text-muted hover:bg-surface-2"
-                    aria-label={action.label}
+                    aria-label={locale === 'zh' ? ({ continue: '延续', refine: '优化', branch: '创建分支', copy: '复制提示词', open: '在播放器中打开' }[action.id]) : action.label}
                   >
                     <Image src={action.icon} alt="" width={14} height={14} className="h-3.5 w-3.5" aria-hidden />
                   </Button>
@@ -209,7 +211,7 @@ export function QuadSingleTilesGrid({
                 onClick={() => onGroupAction('open', tile)}
                 className="min-h-0 h-auto rounded-full border-hairline bg-surface px-2.5 py-1 text-[11px] font-semibold uppercase tracking-micro text-text-secondary hover:border-text-muted hover:bg-surface-2"
               >
-                View
+                {locale === 'zh' ? '查看' : 'View'}
               </Button>
             </div>
           </div>

@@ -4,7 +4,7 @@ export const enPayAsYouGoContent = {
   metadata: {
     title: 'Pay-as-you-go AI Video Generator with Upfront Pricing',
     description: 'Generate AI videos with pay-as-you-go credits instead of a monthly subscription. Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models before generation.',
-    imageAlt: 'MaxVideoAI pay-as-you-go AI video.',
+    imageAlt: 'Keyvo pay-as-you-go AI video.',
     keywords: ['pay-as-you-go AI video generator', 'AI video generator without subscription', 'AI video pricing before generation', 'compare LTX 2.5 Wan 3 Grok Imagine FLUX 3', 'Grok Imagine Video price', 'FLUX 3 Video price'],
   },
   common: {
@@ -19,9 +19,9 @@ export const enPayAsYouGoContent = {
     intro: 'Generate AI videos from text, images, audio, or video with pay-as-you-go credits. Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models, review the price before each generation, and only spend credits on completed renders.',
     primaryCta: 'Get a video quote',
     secondaryCta: 'View model pricing',
-    trustItems: ['No subscription required', 'Starter credits from $10', 'Price shown before generation', 'Provider failures refunded'],
+    trustItems: ['No subscription required', 'Starter credits from ¥80', 'Price shown before generation', 'Provider failures refunded'],
     quote: {
-      consoleLabel: 'MaxVideoAI quote console',
+      consoleLabel: 'Keyvo quote console',
       title: 'Price before generation',
       promptLabel: 'Prompt',
       prompt: 'Cinematic product reveal, slow camera push, clean studio lighting.',
@@ -38,7 +38,7 @@ export const enPayAsYouGoContent = {
       title: 'Quick answers before you spend credits',
       intro: 'A pay-as-you-go AI video generator lets you buy credits only when you need them, choose a model per project, review the price before rendering, and spend credits only when the render completes successfully.',
     },
-    summaryLead: 'With MaxVideoAI, you can:',
+    summaryLead: 'With Keyvo, you can:',
     summaryItems: [
       'Generate AI videos from text, images, or video.',
       'Compare current LTX 2.5, Wan 3, Grok Imagine and FLUX.3 routes alongside Seedance, Kling and Google Veo.',
@@ -46,10 +46,10 @@ export const enPayAsYouGoContent = {
       'Use credits only for completed renders.',
     ],
     items: [
-      { question: 'Where can I test AI video models without subscription?', answer: 'Use MaxVideoAI to compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models with pay-as-you-go credits instead of a recurring plan.' },
-      { question: 'Which AI video platform shows prices before generation?', answer: 'MaxVideoAI shows the estimated generation price before you launch a render, including model, duration, resolution, and audio choices.' },
+      { question: 'Where can I test AI video models without subscription?', answer: 'Use Keyvo to compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models with pay-as-you-go credits instead of a recurring plan.' },
+      { question: 'Which AI video platform shows prices before generation?', answer: 'Keyvo shows the estimated generation price before you launch a render, including model, duration, resolution, and audio choices.' },
       { question: 'Which pay-as-you-go AI video model should I test first?', answer: 'Start from the workflow: LTX 2.5 for fast or Pro production, Wan 3 for current Alibaba routes, Grok Imagine for prompt and reference workflows, or FLUX.3 for controllable frame-based work. Then compare the exact quote with Seedance, Kling and Google Veo.' },
-      { question: 'Where can I compare current AI video model families in one place?', answer: 'MaxVideoAI groups LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other engines in one workspace so you can compare workflows, limits, and price before choosing.' },
+      { question: 'Where can I compare current AI video model families in one place?', answer: 'Keyvo groups LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other engines in one workspace so you can compare workflows, limits, and price before choosing.' },
       { question: 'What makes a good pay-as-you-go AI video generator?', answer: 'A good pay-as-you-go setup lets you test current models, see prices before generation, switch engines per project, and avoid charges for failed provider renders.' },
     ],
   },
@@ -84,7 +84,7 @@ export const enPayAsYouGoContent = {
   },
   meaning: {
     title: 'What pay-as-you-go means',
-    body: 'Pay-as-you-go means you buy credits when you need them instead of paying for a recurring plan. For each video, you choose a model, duration, resolution, audio option, and workflow. MaxVideoAI shows the estimated price before you launch the generation.',
+    body: 'Pay-as-you-go means you buy credits when you need them instead of paying for a recurring plan. For each video, you choose a model, duration, resolution, audio option, and workflow. Keyvo shows the estimated price before you launch the generation.',
     bullets: ['No monthly lock-in or idle plan spend', 'Choose a different model per project', 'Use credits across text-to-video, image-to-video, and video workflows'],
   },
   noSubscription: {
@@ -116,7 +116,7 @@ export const enPayAsYouGoContent = {
       title: 'Pay-as-you-go vs subscription',
       intro: 'The right billing model depends on how often you generate, how many models you need to test, and whether unused monthly credits create waste.',
     },
-    columns: ['Decision point', 'MaxVideoAI pay-as-you-go', 'Typical subscription'],
+    columns: ['Decision point', 'Keyvo pay-as-you-go', 'Typical subscription'],
     rows: [
       { label: 'Budget control', payg: 'Add credits when you need videos and stop when the project is done.', subscription: 'Pay a recurring plan even in months where you do not render.' },
       { label: 'Model choice', payg: 'Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other engines per job.', subscription: 'Often tied to one vendor, one model family, or one usage pool.' },
@@ -229,7 +229,7 @@ export const enPayAsYouGoContent = {
   refundPolicy: {
     header: {
       title: 'What happens if a generation fails?',
-      intro: 'MaxVideoAI is designed around completed-render billing. Completed renders consume credits. Failed provider jobs are refunded or not charged when the provider does not return a usable result.',
+      intro: 'Keyvo is designed around completed-render billing. Completed renders consume credits. Failed provider jobs are refunded or not charged when the provider does not return a usable result.',
     },
     bullets: [
       { icon: 'preview', body: 'You review the price before launching a generation.' },
@@ -240,7 +240,7 @@ export const enPayAsYouGoContent = {
   faq: {
     title: 'FAQ',
     items: [
-      { question: 'Do I need a subscription to generate AI videos?', answer: 'No. MaxVideoAI supports pay-as-you-go credits so you can generate when you need video output.' },
+      { question: 'Do I need a subscription to generate AI videos?', answer: 'No. Keyvo supports pay-as-you-go credits so you can generate when you need video output.' },
       { question: 'Can I see the AI video price before generation?', answer: 'Yes. The app shows a live quote before generation based on model, duration, resolution, audio, and workflow settings.' },
       { question: 'Which AI video model should I test first?', answer: 'Match the workflow first: LTX 2.5, Wan 3, Grok Imagine, and FLUX.3 cover different speed, reference, audio, and frame-control needs. Compare their live quotes with Seedance, Kling, and Google Veo before generating.' },
       { question: 'What happens if a render fails?', answer: 'Completed renders consume credits. Failed provider jobs are refunded or not charged when the provider does not return a usable result.' },
@@ -251,7 +251,7 @@ export const enPayAsYouGoContent = {
     section: {
       eyebrow: 'Real pay-as-you-go outputs',
       title: 'Example videos with model and price context',
-      intro: 'A short strip from public MaxVideoAI renders, showing the model, duration, and recorded render price when available.',
+      intro: 'A short strip from public Keyvo renders, showing the model, duration, and recorded render price when available.',
       preview: 'Preview',
       result: 'View prompt and result',
       cta: 'Test your prompt with a live quote',

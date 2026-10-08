@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Luma Ray 3.2 对比 Veo 3.1 Fast：电影感草稿、音频与适用场景",
+      "description": "在 VideoAI 上对比 Luma Ray 3.2 与 Google Veo 3.1 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "创作问题是源视频控制，例如 Modify Video 视频修改、Reframe 重新构图、引导帧、电影级运动保留及无原生音频的 1080p 视觉迭代时，选择 Luma Ray 3.2。需要更快 Veo 风格草稿、原生音频选项、更高交付分辨率空间和正式制作前的高品质短片时，选择 Veo 3.1 Fast。本页帮助团队判断下一步应编辑或重新构图现有动态，还是生成更精细的含音频 Veo 草稿。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/luma-ray-3-2",
+        "label": "查看 Luma Ray 3.2 详情"
+      },
+      {
+        "href": "/models/veo-3-1-fast",
+        "label": "查看 Veo 3.1 Fast 详情"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-luma-ray-3-2",
+        "label": "对比 Seedance Mini 对比 Luma Ray 3.2"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 Luma 视频控制与快速 Veo 草稿之间选择。",
+      "items": [
+        {
+          "question": "何时应该选择 Luma Ray 3.2 而非 Veo 3.1 Fast？",
+          "answer": "源视频编辑、重新构图、引导帧，以及保留或重新引导现有运动比原生音频更重要时，选择 Luma Ray 3.2。"
+        },
+        {
+          "question": "何时 Veo 3.1 Fast 更合适？",
+          "answer": "需要更快的高品质视觉草稿、原生音频选项、更精细成片或比 Luma Ray 3.2 更多交付空间时，选择 Veo 3.1 Fast。"
+        },
+        {
+          "question": "哪款更适合产品或广告测试？",
+          "answer": "已有源素材需修改 / 重新构图时，Luma Ray 3.2 更有优势；全新电影草稿、含音频广告概念和精细短测试更适合 Veo 3.1 Fast。"
+        }
+      ]
+    }
   }
 }

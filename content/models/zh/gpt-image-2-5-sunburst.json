@@ -1,0 +1,470 @@
+{
+  "marketingName": "GPT Image 2.5 Sunburst",
+  "versionLabel": "2.5 Sunburst",
+  "seo": {
+    "title": "GPT Image 2.5 Sunburst - 文本生图与图像编辑 | VideoAI",
+    "description": "在 VideoAI 中使用 GPT Image 2.5 Sunburst 生成与编辑图像。支持文本生图、图生图、预设画幅尺寸、自定义宽高、多档画质选择、多种输出格式以及可选的遮罩 URL 区域控制。",
+    "image": "https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4e0c6297-2c04-4d32-a75a-f82ba3337548.png"
+  },
+  "overview": "GPT Image 2.5 Sunburst 是 VideoAI 内主打高画质的旗舰图像模型。一个图像实验室入口即可同时覆盖文本生图与图生图工作流，支持预设画幅尺寸、自定义宽高、画质档位、生成张数、输出格式，以及在需要局部精准修改时指定遮罩 URL 控制区域。",
+  "hero": {
+    "title": "GPT Image 2.5 Sunburst — 品质优先的图像生成与精准编辑",
+    "intro": "专为清晰文字排版、写实产品大片、UI 界面原型、信息图表以及可控参考图编辑打造的图像生成方案。",
+    "badge": "文本 -> 图像 · 图像 -> 图像 · 低 / 中 / 高 / 极高 / 顶级画质",
+    "ctaPrimary": {
+      "label": "启动 GPT Image 2.5 Sunburst",
+      "href": "/app/image?engine=gpt-image-2-5-sunburst"
+    },
+    "secondaryLinks": [
+      {
+        "label": "打开图像实验室",
+        "href": "/app/image"
+      },
+      {
+        "label": "查看实时价格",
+        "href": "/zh/pricing"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "广告、海报与信息图表中的清晰文字",
+        "icon": "layout"
+      },
+      {
+        "title": "标签清晰的高清产品摄影",
+        "icon": "sparkles"
+      },
+      {
+        "title": "UI 与应用界面原型设计",
+        "icon": "storyboard"
+      },
+      {
+        "title": "支持可选遮罩的参考图精准编辑",
+        "icon": "layers"
+      }
+    ]
+  },
+  "promptStructure": {
+    "title": "提示词快速指南",
+    "quote": "场景、主体、重要细节、使用场景与约束条件；针对编辑：修改此处同时保留彼处。",
+    "description": "结构清晰的提示词能够让 GPT Image 2.5 Sunburst 展现最佳效果。请将场景、主体、构图、必须呈现的文字和编辑约束分层描述。对于文字密集的图像，写明精确字样并指出其在画面中的具体位置。",
+    "steps": [
+      "场景与环境氛围",
+      "主体与画面取景",
+      "需渲染的精确文字或标签",
+      "材质、光影、镜头感与视觉风格",
+      "使用场景（如产品摄影、UI 界面、海报或信息图表）",
+      "图像编辑、局部遮罩与锁定保留元素的约束条件"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "在文字排版定稿、包装展示和写实产品大片时使用 High（高）画质。",
+      "在终稿渲染前，使用 Low（低）或 Medium（中）画质低成本探索画面布局。",
+      "在编辑模式下，若希望以原图尺寸作为输出画幅，可使用 auto（自动）尺寸。",
+      "自定义尺寸时，宽高像素值需为 16 的倍数，长边最大不超过 3840px，总像素在 655,360 至 8,294,400 之间。",
+      "仅在修改需要严格局限在特定区域内时才添加遮罩 URL。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "包装营销静态大片",
+      "prompt": "一张高端画册产品照，展示标有\"Summit Roast\"字样的咖啡袋，配有山峦图案、清晰可读的风味描述，置于质朴的木桌上，柔和的晨光打亮，浅景深效果。"
+    },
+    {
+      "title": "带精准标签的信息图表",
+      "prompt": "一张简洁的编辑风信息图，标题为\"创作者上线检查清单\"，包含 12 个带标签的模块，字体清晰，白色背景，精确的间距排布，搭配低调的蓝色与石墨色点缀。"
+    },
+    {
+      "title": "参考图产品精修编辑",
+      "prompt": "保留参考图中产品的精确外形与标签层次结构，将背景替换为明亮的电商桌面场景，去除影响视觉的反光，保持文字清晰可读。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "我可以使用 GPT Image 2.5 Sunburst 生成和编辑图像吗？",
+      "a": "可以。您可以通过文本提示词直接生成图像，或者添加参考图进行图像编辑。您还可以使用遮罩精确选定需要修改的局部区域。"
+    },
+    {
+      "q": "支持哪些图像控制选项？",
+      "a": "您可以选择预设画幅尺寸或输入自定义宽高尺寸，并设定画质档位、生成张数和输出格式。在编辑模式下，可添加参考图像，并可选择性地使用遮罩指定需要更改的区域。"
+    },
+    {
+      "q": "GPT Image 2.5 Sunburst 的费用是多少？",
+      "a": "费用取决于您选择的尺寸规格、画质档位和生成张数。VideoAI 会在生成前显示实时报价，方便您根据预算调整设置。"
+    }
+  ],
+  "pricingNotes": "图像生成费用根据画质档位与尺寸规格而异。VideoAI 会在生成前展示最终价格；请以应用内的实时报价为准。",
+  "custom": {
+    "heroEyebrow": "GPT Image 2.5 Sunburst 图像模型",
+    "heroSupportLine": "最适合文字密集型图像、产品静物摄影、UI 界面原型与受控局部编辑。",
+    "heroSpecChips": [
+      {
+        "label": "文本->图像",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图像->图像",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "画质控制"
+      },
+      {
+        "label": "PNG / JPEG / WEBP"
+      },
+      {
+        "label": "遮罩 URL"
+      }
+    ],
+    "whyTitle": "为什么 GPT Image 2.5 Sunburst 脱颖而出",
+    "heroDesc1": "GPT Image 2.5 Sunburst 专为高保真静态画面打造，相比极致速度，更注重清晰文字排版渲染、产品细节还原与严谨的提示词遵循度。",
+    "heroDesc2": "在 VideoAI 中，它作为图像实验室的统一模型入口，同时支持生成与编辑，共享钱包余额、复用参考图、多档画质控制，并在运行前显示实时价格。",
+    "heroHighlights": [
+      "清晰文字排版||适用于海报、标签、信息图表以及需要精致字体的 UI 界面。",
+      "高保真产品还原||深度适配包装设计、画册大片及带有醒目标签的电商图像。",
+      "全面的图像控制||图像实验室提供预设尺寸或自定义宽高、画质档位、输出格式及遮罩 URL 支持。",
+      "一体化图像工作流||在同一个图像实验室内自由切换“创建”与“编辑”模式。"
+    ],
+    "whatTitle": "GPT Image 2.5 Sunburst 在此的工作方式",
+    "whatIntro1": "选择 GPT Image 2.5 Sunburst，选择“创建”或“编辑”，设置生成数量、画幅尺寸、画质档位和输出格式，即可直接使用与其他图像模型共享的钱包余额生成。",
+    "whatIntro2": "进行编辑时添加参考图像。仅在需要将修改限制在特定区域时才添加遮罩 URL。",
+    "whatFlowTitle": "制作流程",
+    "whatFlowSteps": [
+      "在图像实验室中选择 GPT Image 2.5 Sunburst",
+      "选择文本生图或图像编辑模式",
+      "选择画幅尺寸、画质档位、生成张数和输出格式",
+      "若进行编辑，添加参考图并可选择性添加遮罩 URL",
+      "确认实时价格标签并启动生成"
+    ],
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "当提示词将主体、构图、精确文字和约束条件分层描述时，GPT Image 2.5 Sunburst 的表现最为出色。",
+    "strengths": [
+      "在文字排版与产品终稿渲染时使用 High（高）画质。",
+      "在版式构图探索阶段使用 Low（低）或 Medium（中）画质以降低成本。",
+      "对于编辑提示词，明确写出哪些部分需要修改、哪些部分必须保持不变。",
+      "使用遮罩 URL 时，请确保遮罩图像可公开访问并与源图比例对齐。"
+    ],
+    "boundaries": [
+      "仅限静态图像。",
+      "VideoAI 生成器目前单次请求最多支持输出 4 张图像。",
+      "编辑模式需要至少一张参考图像。",
+      "遮罩输入采用 URL 方式。"
+    ],
+    "safetyTitle": "安全与肖像权",
+    "safetyRules": [
+      "禁止生成色情内容或涉及未成年人的内容。",
+      "禁止仇恨、骚扰或血腥暴力相关请求。",
+      "未经同意，禁止模仿真实人物或公众人物。",
+      "禁止包含个人隐私数据或敏感文档。"
+    ]
+  },
+  "decision": {
+    "modelSlug": "gpt-image-2-5-sunburst",
+    "hero": {
+      "eyebrow": "AI 图像 · OpenAI",
+      "title": "GPT Image 2.5 Sunburst",
+      "subtitle": "精准呈现画面——细节毫发毕现。",
+      "subtitleHighlights": [
+        "精准呈现画面——细节毫发毕现"
+      ],
+      "paragraph": "GPT Image 2.5 Sunburst 是一款基于 AI 的图像生成与编辑模型。能够生成带有清晰易读文字的视觉素材、精修产品图像，或通过遮罩对选定区域进行局部修改。在生成前可自由选择尺寸规格、画质档位及文件格式。",
+      "primaryCta": {
+        "label": "使用 GPT Image 2.5 Sunburst 生成",
+        "href": "/app/image?engine=gpt-image-2-5-sunburst"
+      },
+      "secondaryCta": {
+        "label": "查看价格",
+        "href": "/zh/pricing#gpt-image-2-5-sunburst-pricing"
+      },
+      "quickLinks": [
+        {
+          "label": "打开图像工作区",
+          "href": "/app/image?engine=gpt-image-2-5-sunburst"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#gpt-image-2-5-sunburst-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "GPT Image 2.5 Sunburst 演示",
+      "description": "图像风格与核心能力概览",
+      "renderLabel": "查看图像",
+      "badges": [
+        "文字排版",
+        "局部编辑",
+        "4K 尺寸"
+      ],
+      "altContext": "展示多种视觉风格示例的 GPT Image 2.5 Sunburst 演示"
+    },
+    "features": [
+      {
+        "title": "清晰文字排版",
+        "body": "非常适合包装、标签、UI 风格布局与排版图表。",
+        "tone": "quality"
+      },
+      {
+        "title": "高清产品静态图",
+        "body": "构建光影与构图高度受控的画册级大片。",
+        "tone": "reference"
+      },
+      {
+        "title": "图像编辑",
+        "body": "上传参考图进行提示词引导的编辑，支持可选遮罩控制。",
+        "tone": "continuity"
+      },
+      {
+        "title": "自定义画幅尺寸",
+        "body": "使用预设尺寸或自定义宽高，最高支持路由暴露的上限。",
+        "tone": "quality"
+      },
+      {
+        "title": "多档画质选择",
+        "body": "根据预算与精度需求选择低、中、高、极高或顶级画质。",
+        "tone": "price"
+      },
+      {
+        "title": "批量输出",
+        "body": "单次可生成最多 4 张图像，便于探索不同变体。",
+        "tone": "duration"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 GPT Image 2.5 Sunburst 还是 Nano Banana 2？",
+        "body": "需要文字密集型静态图和精细受控编辑时选用 GPT Image 2.5 Sunburst；需要更宽画幅比例与 Google 搜索接地图像工作流时选用 Nano Banana 2。",
+        "cta": {
+          "label": "查看 Nano Banana 2",
+          "href": "/zh/models/nano-banana-2"
+        }
+      },
+      {
+        "title": "正在处理产品文字标签？",
+        "body": "在生成前写明精确的文字层级、光影氛围、拍摄角度以及编辑约束条件。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "需要更纯净的素材源控制？",
+        "body": "先准备好产品素材、局部遮罩或精确文字层级，随后在 GPT Image 2.5 Sunburst 中渲染或编辑最终静态大片。",
+        "cta": {
+          "label": "启动 GPT Image 2.5 Sunburst",
+          "href": "/app/image?engine=gpt-image-2-5-sunburst"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本生图",
+        "body": "明确主体、精确文字、构图布局、光影镜头以及输出尺寸。"
+      },
+      {
+        "title": "图像编辑",
+        "body": "上传源图像，并清楚说明哪些部分需要修改、哪些部分必须保持锁定。"
+      },
+      {
+        "title": "遮罩引导编辑",
+        "body": "仅在修改需要局限于特定区域时使用遮罩。"
+      },
+      {
+        "title": "画质档位选择",
+        "body": "前期使用较低画质起草探索，文字排版或产品细节定稿时再切换至高画质。"
+      },
+      {
+        "title": "多张批量探索",
+        "body": "生成多张图像进行构图探索，最后挑选最满意的成片。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "GPT Image 2.5 Sunburst 定价一览",
+      "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数显示的参考价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最多 4 张图像",
+      "ctaHref": "/zh/pricing#gpt-image-2-5-sunburst-pricing"
+    },
+    "meta": {
+      "title": "GPT Image 2.5 Sunburst：定价、文字渲染与图像编辑 | VideoAI",
+      "description": "在 VideoAI 上了解 GPT Image 2.5 Sunburst 定价方案、清晰文字渲染、产品静态大片、自定义画幅尺寸、参考图编辑以及遮罩引导的图像工作流。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "gpt-image-2-5-sunburst",
+    "section": {
+      "title": "如何撰写优秀的 GPT Image 2.5 Sunburst 提示词",
+      "intro": "使用结构化提示词，依次描述场景、主体、精确文字、视觉细节、使用场景与约束条件。",
+      "tip": "提示：请将需精确呈现的字样放入英文双引号中，并说明每个文字区块的具体展示位置。",
+      "guide": null,
+      "referencesTitle": "GPT Image 2.5 Sunburst 如何使用参考图与遮罩"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [
+      "指明目标产物类型：海报、产品摄影、UI 界面、信息图表或概念图。",
+      "当涉及文字排版时，务必提供精确的文本内容。",
+      "进行图像编辑时，将保留指令与修改指令明确区分开。"
+    ],
+    "engineWhy": [
+      "当设计需求中包含文字与版式精准度要求时，该模型表现尤为优异。",
+      "画质档位会影响生成费用，建议先以低成本起草，定稿后再以 High（高）画质重新渲染。",
+      "为每张参考图设定清晰的分工角色，能显著提升参考编辑的效果。"
+    ],
+    "demo": null,
+    "imageExamples": {
+      "title": "GPT Image 2.5 Sunburst 图像提示词示例",
+      "intro": "适用于清晰文字、产品静物、UI 界面原型、受控编辑、局部遮罩与 4K 终稿的 GPT Image 2.5 Sunburst 提示词。",
+      "workspaceLabel": "打开图像工作区",
+      "items": [
+        {
+          "id": "image-1",
+          "title": "带清晰标签的产品静态图",
+          "badge": "High · 1024x768",
+          "kind": "image",
+          "prompt": "一张高端咖啡袋的画册产品照，标题为\"SUMMIT ROAST\"，风味描述清晰可读，浅色木桌背景，柔和日光，构图整洁，电商风格背景。"
+        },
+        {
+          "id": "typography-2",
+          "title": "精确文字海报",
+          "badge": "4K 文字",
+          "kind": "typography",
+          "prompt": "竖版 4K 海报，精确标题为\"CREATOR LAUNCH CHECKLIST\"，包含 8 个编号模块，字体清晰，白色背景，海军蓝与青色点缀，页边距均匀。"
+        },
+        {
+          "id": "layout-3",
+          "title": "UI 界面原型",
+          "badge": "1920x1080",
+          "kind": "layout",
+          "prompt": "1920x1080 SaaS 数据分析仪表盘界面原型，白色卡片，左侧导航，标题清晰易读，数据指标真实，高端产品 UI 风格。"
+        },
+        {
+          "id": "edit-4",
+          "title": "受控图像编辑",
+          "badge": "图像编辑",
+          "kind": "edit",
+          "prompt": "基于此产品图，保留外形、标签、比例与主要反光，将背景替换为明亮的摄影棚风格，去除灰尘与影响视觉的反光。"
+        },
+        {
+          "id": "quality-5",
+          "title": "遮罩引导编辑",
+          "badge": "遮罩 URL",
+          "kind": "quality",
+          "prompt": "仅修改遮罩区域：将副标题文案替换为\"LIMITED RESERVE\"，保持 Logo、包装配色、阴影与透视角度不变。"
+        },
+        {
+          "id": "layout-6",
+          "title": "4K 商业主视觉大片",
+          "badge": "3840x2160",
+          "kind": "layout",
+          "prompt": "4K 产品页主视觉静态大片，黑色智能手机置于石墨色台面上，屏幕文字清晰可读，反光受控，高端摄影棚打光，右侧留有负空间。"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "gpt-image-2-5-sunburst",
+    "section": {
+      "title": "GPT Image 2.5 Sunburst 案例精选",
+      "intro": "探索真实的社区输出，了解 GPT Image 2.5 Sunburst 在 VideoAI 工作流中的实际表现。",
+      "defaultCtaLabel": null,
+      "recreateLabel": "重现该静态图 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "typography",
+        "label": "文字与版式"
+      },
+      {
+        "id": "ui",
+        "label": "界面"
+      },
+      {
+        "id": "edit",
+        "label": "剪辑变化"
+      },
+      {
+        "id": "mask",
+        "label": "遮罩"
+      },
+      {
+        "id": "final",
+        "label": "成片"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "静态图像案例",
+        "body": "专为 GPT Image 2.5 Sunburst 定制的提示词范式。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-2",
+        "title": "文字排版控制",
+        "body": "精准文案、字阶层次与位置布局始终清晰明确。",
+        "icon": "type"
+      },
+      {
+        "id": "proof-3",
+        "title": "参考图精修",
+        "body": "稳定保持产品造型、配色方案、构图版式或视觉风格。",
+        "icon": "pen"
+      },
+      {
+        "id": "proof-4",
+        "title": "4K 终极成片",
+        "body": "在 2K 验证构图，最后以 4K 完成交付渲染。",
+        "icon": "maximize"
+      },
+      {
+        "id": "proof-5",
+        "title": "生产级保障",
+        "body": "自有素材资产沉淀与原生内容安全规范。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": [
+      {
+        "id": "cover",
+        "title": "PARALLAX — 未来杂志",
+        "category": "人像与信息设计",
+        "aspectRatio": "1024x1536",
+        "alt": "带有未来感肖像与多层清晰信息的 GPT Image 2.5 Sunburst PARALLAX 杂志封面",
+        "tags": [
+          "typography"
+        ]
+      },
+      {
+        "id": "architecture",
+        "title": "COMMON GROUND — 城市图册",
+        "category": "建筑与信息设计",
+        "aspectRatio": "4K · 16:9",
+        "alt": "名为 COMMON GROUND 的 GPT Image 2.5 Sunburst 城市图册跨页，包含标签、地图与编辑模块",
+        "tags": [
+          "typography",
+          "final"
+        ]
+      }
+    ],
+    "showWhenEmpty": false
+  }
+}

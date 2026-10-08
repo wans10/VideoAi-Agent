@@ -53,9 +53,9 @@ test('model metadata keeps localized seo.image as the social owner without comin
 
 test('Seedance 2.0 metadata remains index-follow and self-canonical in every locale', () => {
   const expectedUrls = {
-    en: 'https://maxvideoai.com/models/seedance-2-0',
-    fr: 'https://maxvideoai.com/fr/modeles/seedance-2-0',
-    es: 'https://maxvideoai.com/es/modelos/seedance-2-0',
+    en: 'https://app.keyvo.cn/models/seedance-2-0',
+    fr: 'https://app.keyvo.cn/fr/modeles/seedance-2-0',
+    es: 'https://app.keyvo.cn/es/modelos/seedance-2-0',
   } as const;
   const engine = getFalEngineById('seedance-2-0');
   assert.ok(engine);

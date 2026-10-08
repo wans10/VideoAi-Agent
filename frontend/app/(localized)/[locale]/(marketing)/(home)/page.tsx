@@ -9,6 +9,7 @@ import { loadHomePageData } from './_lib/home-page-data';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { resolveDictionary } from '@/lib/i18n/server';
+import { buildProofStats, computeEngineStats } from './_lib/home-route-data/engine-stats';
 import { normalizeAppLocale } from '@/i18n/locales';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { DeferredMarketingContent } from '@/components/marketing/DeferredMarketingContent';
@@ -58,6 +59,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const { examples, programmedHeroSlots, engineScores, currentHeroPrices, currentPriceModels } = await loadHomePageData(locale, content);
   const programmedHeroItems = buildProgrammedHeroItems(locale, content, programmedHeroSlots);
   const primaryBestForCards = buildBestForGuideCards(content, BEST_FOR_MAIN_SLUGS);
+  const proofStats = buildProofStats(content, computeEngineStats(), locale, null);
   const comparisonScores = buildHomeComparisonData(engineScores);
   const providers = filterProviderItems(content);
   const mcpLink = getMcpInternalLink(locale, 'home');
@@ -66,21 +68,20 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const itemListSchema = buildItemListSchema(content, providers);
 
   return (
-    <div className="home-monochrome home-cinema">
+    <div className="home-monochrome home-cinema home-showcase">
       <HomeHero
         copy={hero}
+        proofStats={proofStats}
         previews={selectHomepageHeroPreviews(examples)}
         programmedHeroItems={programmedHeroItems}
         currentHeroPrices={currentHeroPrices}
         locale={locale}
       />
       <DeferredMarketingContent><HomeCreationSection locale={locale} assistantHref={mcpLink?.href} /></DeferredMarketingContent>
+      <DeferredMarketingContent><HomeToolsGallery locale={locale} /></DeferredMarketingContent>
       <DeferredMarketingContent><HomeCreativeWorlds locale={locale} cards={primaryBestForCards} examples={examples} providers={providers} examplesCopy={content.examples} /></DeferredMarketingContent>
       <DeferredMarketingContent>
         <HomeModelChoice locale={locale} scores={comparisonScores} startupFameLabel={startupFameLabel} comparisons={buildHomeComparisonLinks()}/>
-      </DeferredMarketingContent>
-      <DeferredMarketingContent>
-        <HomeToolsGallery locale={locale} />
       </DeferredMarketingContent>
       <DeferredMarketingContent>
         <HomePricingSection locale={locale} models={currentPriceModels} copy={content.pricingTrust} />

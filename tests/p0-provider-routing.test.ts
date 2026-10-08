@@ -23,27 +23,35 @@ const P0_MODES = {
 
 const allDirectFlags: VideoProviderRoutingEnv = {
   ALIBABA_MODEL_STUDIO_ENABLED: 'false',
+  ALIBABA_MODEL_STUDIO_API_KEY: 'test-key',
   ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED: 'false',
   ALIBABA_MODEL_STUDIO_ADMIN_ONLY: 'true',
   ALIBABA_MODEL_STUDIO_FALLBACK_TO_FAL_ENABLED: 'false',
   KLING_DIRECT_ENABLED: 'true',
+  KLING_ACCESS_KEY: 'test-access',
+  KLING_SECRET_KEY: 'test-secret',
   KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'true',
   KLING_DIRECT_FALLBACK_TO_FAL_ENABLED: 'true',
   KLING_DIRECT_FALLBACK_ON_CREDITS_DEPLETED_ENABLED: 'true',
   KLING_DIRECT_ELEMENT_REGISTRATION_ENABLED: 'true',
   KLING_DIRECT_ADMIN_ONLY: 'false',
   LUMA_AGENTS_ENABLED: 'true',
+  LUMA_AGENTS_API_KEY: 'test-key',
   LUMA_AGENTS_PUBLIC_ROUTING_ENABLED: 'true',
   LUMA_AGENTS_ADMIN_ONLY: 'false',
   LUMA_AGENTS_FALLBACK_TO_FAL_ENABLED: 'true',
   LUMA_AGENTS_ADVANCED_DIRECT_ONLY_ENABLED: 'true',
   LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
   GOOGLE_VERTEX_VEO_ENABLED: 'true',
+  GOOGLE_VERTEX_PROJECT_ID: 'test-project',
+  GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON: '{"client_email":"test@example.com","private_key":"test-key"}',
   GOOGLE_VERTEX_VEO_PUBLIC_ROUTING_ENABLED: 'true',
   GOOGLE_VERTEX_VEO_PUBLIC_EXTEND_ROUTING_ENABLED: 'true',
   GOOGLE_VERTEX_VEO_INPUT_GCS_URI: 'gs://maxvideoai-test/inputs',
   GOOGLE_VERTEX_VEO_ADMIN_ONLY: 'false',
   GOOGLE_VERTEX_OMNI_ENABLED: 'true',
+  GOOGLE_VERTEX_OMNI_PROJECT_ID: 'test-project',
+  GOOGLE_VERTEX_OMNI_SERVICE_ACCOUNT_JSON: '{"client_email":"test@example.com","private_key":"test-key"}',
   GOOGLE_VERTEX_OMNI_PUBLIC_ROUTING_ENABLED: 'true',
   GOOGLE_VERTEX_OMNI_ADMIN_ONLY: 'false',
 };
@@ -96,6 +104,7 @@ test('Alibaba routing is disabled by default and stays admin-only until public r
 
   const enabledEnv: VideoProviderRoutingEnv = {
     ALIBABA_MODEL_STUDIO_ENABLED: 'true',
+    ALIBABA_MODEL_STUDIO_API_KEY: 'test-key',
     ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED: 'false',
     ALIBABA_MODEL_STUDIO_ADMIN_ONLY: 'true',
     ALIBABA_MODEL_STUDIO_FALLBACK_TO_FAL_ENABLED: 'true',
@@ -123,6 +132,7 @@ test('Alibaba advanced Wan modes are direct-only and legacy models remain untouc
   });
   const env: VideoProviderRoutingEnv = {
     ALIBABA_MODEL_STUDIO_ENABLED: 'true',
+    ALIBABA_MODEL_STUDIO_API_KEY: 'test-key',
     ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED: 'true',
     ALIBABA_MODEL_STUDIO_ADMIN_ONLY: 'false',
     ALIBABA_MODEL_STUDIO_FALLBACK_TO_FAL_ENABLED: 'true',

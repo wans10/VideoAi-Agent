@@ -39,4 +39,5 @@ export type ComparePageContentDocument = {
   en: ComparePageOverride;
   fr: ComparePageOverride;
   es: ComparePageOverride;
+  zh?: ComparePageOverride;
 };

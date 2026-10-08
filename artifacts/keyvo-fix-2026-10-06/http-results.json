@@ -1,0 +1,163 @@
+[
+  {
+    "route": "/robots.txt",
+    "url": "http://127.0.0.1:3218/robots.txt",
+    "status": 200,
+    "title": "",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": []
+  },
+  {
+    "route": "/llms.txt",
+    "url": "http://127.0.0.1:3218/llms.txt",
+    "status": 200,
+    "title": "",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": []
+  },
+  {
+    "route": "/zh",
+    "url": "http://127.0.0.1:3218/zh",
+    "status": 200,
+    "title": "按需付费 AI 视频生成平台 | Keyvo",
+    "canonical": "https://app.keyvo.cn/zh",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": [
+      {
+        "lang": "zh",
+        "href": "https://app.keyvo.cn/zh"
+      },
+      {
+        "lang": "x-default",
+        "href": "https://app.keyvo.cn/zh"
+      }
+    ]
+  },
+  {
+    "route": "/zh/pricing",
+    "url": "http://127.0.0.1:3218/zh/pricing",
+    "status": 200,
+    "title": "AI 视频生成计费与模型价格对比 | Keyvo",
+    "canonical": "https://app.keyvo.cn/zh/pricing",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": [
+      {
+        "lang": "zh",
+        "href": "https://app.keyvo.cn/zh/pricing"
+      },
+      {
+        "lang": "x-default",
+        "href": "https://app.keyvo.cn/zh/pricing"
+      }
+    ]
+  },
+  {
+    "route": "/zh/docs/get-started",
+    "url": "http://127.0.0.1:3218/zh/docs/get-started",
+    "status": 200,
+    "title": "Keyvo 入门指南 — Keyvo 文档",
+    "canonical": "https://app.keyvo.cn/zh/docs/get-started",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": [
+      {
+        "lang": "zh",
+        "href": "https://app.keyvo.cn/zh/docs/get-started"
+      },
+      {
+        "lang": "x-default",
+        "href": "https://app.keyvo.cn/zh/docs/get-started"
+      }
+    ]
+  },
+  {
+    "route": "/legal/cookies-list",
+    "url": "http://localhost:3218/zh/legal/cookies-list",
+    "status": 200,
+    "title": "Cookie 清单 — Keyvo",
+    "canonical": "https://app.keyvo.cn/zh/legal/cookies-list",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": [
+      {
+        "lang": "zh",
+        "href": "https://app.keyvo.cn/zh/legal/cookies-list"
+      },
+      {
+        "lang": "x-default",
+        "href": "https://app.keyvo.cn/zh/legal/cookies-list"
+      }
+    ]
+  },
+  {
+    "route": "/legal/acceptable-use",
+    "url": "http://localhost:3218/zh/legal/acceptable-use",
+    "status": 200,
+    "title": "可接受使用政策 — Keyvo",
+    "canonical": "https://app.keyvo.cn/zh/legal/acceptable-use",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": [
+      {
+        "lang": "zh",
+        "href": "https://app.keyvo.cn/zh/legal/acceptable-use"
+      },
+      {
+        "lang": "x-default",
+        "href": "https://app.keyvo.cn/zh/legal/acceptable-use"
+      }
+    ]
+  },
+  {
+    "route": "/legal/takedown",
+    "url": "http://localhost:3218/zh/legal/takedown",
+    "status": 200,
+    "title": "通知与下架 — Keyvo",
+    "canonical": "https://app.keyvo.cn/zh/legal/takedown",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": [
+      {
+        "lang": "zh",
+        "href": "https://app.keyvo.cn/zh/legal/takedown"
+      },
+      {
+        "lang": "x-default",
+        "href": "https://app.keyvo.cn/zh/legal/takedown"
+      }
+    ]
+  },
+  {
+    "route": "/login",
+    "url": "http://127.0.0.1:3218/login",
+    "status": 200,
+    "title": "Keyvo — 登录",
+    "canonical": "https://app.keyvo.cn/login",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": []
+  },
+  {
+    "route": "/auth/reset-password",
+    "url": "http://127.0.0.1:3218/auth/reset-password",
+    "status": 200,
+    "title": "Keyvo — 重置密码",
+    "legacyText": [],
+    "legacySchemas": [],
+    "links": [],
+    "hreflang": []
+  }
+]

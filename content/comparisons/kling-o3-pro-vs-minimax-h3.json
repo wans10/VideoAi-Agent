@@ -30,10 +30,22 @@
     ],
     "primaryLinksTitle": "Explore both models",
     "primaryLinks": [
-      { "href": "/models/kling-o3-pro", "label": "Kling O3 Pro model guide" },
-      { "href": "/app?engine=kling-o3-pro", "label": "Create with Kling O3 Pro" },
-      { "href": "/models/minimax-h3", "label": "MiniMax H3 model guide" },
-      { "href": "/app?engine=minimax-h3", "label": "Create with MiniMax H3" }
+      {
+        "href": "/models/kling-o3-pro",
+        "label": "Kling O3 Pro model guide"
+      },
+      {
+        "href": "/app?engine=kling-o3-pro",
+        "label": "Create with Kling O3 Pro"
+      },
+      {
+        "href": "/models/minimax-h3",
+        "label": "MiniMax H3 model guide"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Create with MiniMax H3"
+      }
     ],
     "faq": {
       "title": "Kling O3 Pro vs MiniMax H3 FAQ",
@@ -92,10 +104,22 @@
     ],
     "primaryLinksTitle": "Explorer les deux modèles",
     "primaryLinks": [
-      { "href": "/fr/modeles/kling-o3-pro", "label": "Guide du modèle Kling O3 Pro" },
-      { "href": "/app?engine=kling-o3-pro", "label": "Créer avec Kling O3 Pro" },
-      { "href": "/fr/modeles/minimax-h3", "label": "Guide du modèle MiniMax H3" },
-      { "href": "/app?engine=minimax-h3", "label": "Créer avec MiniMax H3" }
+      {
+        "href": "/fr/modeles/kling-o3-pro",
+        "label": "Guide du modèle Kling O3 Pro"
+      },
+      {
+        "href": "/app?engine=kling-o3-pro",
+        "label": "Créer avec Kling O3 Pro"
+      },
+      {
+        "href": "/fr/modeles/minimax-h3",
+        "label": "Guide du modèle MiniMax H3"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Créer avec MiniMax H3"
+      }
     ],
     "faq": {
       "title": "FAQ Kling O3 Pro vs MiniMax H3",
@@ -154,10 +178,22 @@
     ],
     "primaryLinksTitle": "Explorar ambos modelos",
     "primaryLinks": [
-      { "href": "/es/modelos/kling-o3-pro", "label": "Guía del modelo Kling O3 Pro" },
-      { "href": "/app?engine=kling-o3-pro", "label": "Crear con Kling O3 Pro" },
-      { "href": "/es/modelos/minimax-h3", "label": "Guía del modelo MiniMax H3" },
-      { "href": "/app?engine=minimax-h3", "label": "Crear con MiniMax H3" }
+      {
+        "href": "/es/modelos/kling-o3-pro",
+        "label": "Guía del modelo Kling O3 Pro"
+      },
+      {
+        "href": "/app?engine=kling-o3-pro",
+        "label": "Crear con Kling O3 Pro"
+      },
+      {
+        "href": "/es/modelos/minimax-h3",
+        "label": "Guía del modelo MiniMax H3"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "Crear con MiniMax H3"
+      }
     ],
     "faq": {
       "title": "Preguntas sobre Kling O3 Pro vs MiniMax H3",
@@ -182,6 +218,80 @@
         {
           "question": "¿Cómo debería un equipo repartir el trabajo entre ambos?",
           "answer": "Usa Kling O3 Pro para renders principales muy sensibles al control y H3 para variaciones con audio, alta resolución y muchas referencias."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling O3 Pro 对比 MiniMax H3：参考控制与音频",
+      "description": "在 VideoAI 上对比 Kling 3.0 Omni Pro 与 MiniMax H3 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。"
+    },
+    "heroIntro": "Kling 3.0 Omni Pro 以更强的通用参考控制和视觉一致性取得微弱综合领先。MiniMax H3 紧随其后，同时提供高性价比原生音频、直接 2K / 4K 输出和灵活的图像、视频、音频参考组合。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "精准、高品质参考控制是主要目标时，选择 Kling O3 Pro；原生立体声音频、高分辨率交付和制作性价比比综合评分的最后 0.1 分更重要时，选择 MiniMax H3。"
+    },
+    "topCards": [
+      {
+        "title": "微弱领先：Kling O3 Pro",
+        "body": "Kling O3 Pro 综合 8.6 分，H3 为 8.5 分，两者在制作排名中的差距很小。"
+      },
+      {
+        "title": "原生音频性价比：MiniMax H3",
+        "body": "H3 在同一视频工作流内生成立体声，使需要音频的角色场景制作更高效。"
+      },
+      {
+        "title": "参考素材策略",
+        "body": "通用参考控制方面，Kling 是更稳妥的高品质选择；大量图像、视频和音频线索需同时使用时，H3 很有吸引力。"
+      },
+      {
+        "title": "分辨率选择",
+        "body": "H3 提供直接 768P、2K 和 4K 方案，便于生成前明确最终分辨率。"
+      }
+    ],
+    "primaryLinksTitle": "了解两款模型",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-o3-pro",
+        "label": "Kling O3 Pro 模型指南"
+      },
+      {
+        "href": "/app?engine=kling-o3-pro",
+        "label": "使用 Kling O3 Pro 创作"
+      },
+      {
+        "href": "/models/minimax-h3",
+        "label": "MiniMax H3 模型指南"
+      },
+      {
+        "href": "/app?engine=minimax-h3",
+        "label": "使用 MiniMax H3 创作"
+      }
+    ],
+    "faq": {
+      "title": "Kling O3 Pro 对比 MiniMax H3 常见问题",
+      "subtitle": "了解两款排名接近的模型在实际制作中的差异。",
+      "items": [
+        {
+          "question": "哪款综合排名更高？",
+          "answer": "Kling O3 Pro 综合 8.6 分，略高于 MiniMax H3 的 8.5 分。"
+        },
+        {
+          "question": "哪款更适合高品质参考控制？",
+          "answer": "精准参考控制是主要需求时，Kling O3 Pro 是更强的通用选择。"
+        },
+        {
+          "question": "哪款原生音频性价比更高？",
+          "answer": "角色场景需要在同一次生成中提供原生立体声音频时，MiniMax H3 更具性价比。"
+        },
+        {
+          "question": "MiniMax H3 可以同时使用多种参考素材吗？",
+          "answer": "可以。在支持的输入限制内，其参考模式可组合图像、视频片段和音频参考。"
+        },
+        {
+          "question": "团队应该如何分配两款模型的工作？",
+          "answer": "对控制最敏感的主镜头使用 Kling O3 Pro；需要音频、高分辨率和密集参考素材的变体场景使用 H3。"
         }
       ]
     }

@@ -124,8 +124,8 @@ test('MCP activity is under Overview and publication matches the production rele
 
   const publication = JSON.parse(readFileSync(publicationPath, 'utf8')) as Record<string, boolean>;
   assert.deepEqual(publication, {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,

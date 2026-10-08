@@ -1,3 +1,4 @@
+import { calculateQwenImageCost, isQwenImageEngineId } from '@/lib/image/qwen-image';
 import {
   computePricingDefinitionFacts,
   type PricingFacts,
@@ -155,6 +156,22 @@ export function buildPublicPricingFacts(context: PublicPricingFactsContext): Pub
   const currency = (engine.pricingDetails?.currency ?? engine.pricing?.currency ?? 'USD').toUpperCase();
   if (context.useStandardDefinitionFacts) {
     return buildStandardDefinitionFacts(context, currency);
+  }
+
+  if (isQwenImageEngineId(engine.id)) {
+    const cost = calculateQwenImageCost({ engineId: engine.id, resolution,
+      aspectRatio: context.aspectRatio, mode, referenceImageCount: context.referenceImageCount,
+      outputCount: durationSec });
+    return resultFromExactFacts({
+      engineId: engine.id, currency, exactCents: cost.subtotalUsdCents,
+      quantity: durationSec, unit: 'image', rate: cost.outputUsdCents / 100,
+      presentedBaseCents: cost.outputUsdCents,
+      addons: cost.referenceUsdCents > 0 ? [{ type: 'reference_images', amountCents: cost.referenceUsdCents }] : [],
+      meta: { pricing_model: 'qwen_image_input_output', provider_cost_source: cost.source,
+        provider_currency: 'CNY', output_cny: cost.outputCny, input_cny: cost.inputCny,
+        accounting_cny_per_usd: cost.accountingCnyPerUsd, billing_tier: cost.tier,
+        reference_image_count: cost.referenceCount },
+    });
   }
 
   if (engine.id === 'gemini-omni-flash') {

@@ -39,17 +39,31 @@ function environment(
   };
 }
 
-test('Seedream readiness is not evaluated as a Seedance video profile', () => {
+test('Seedream readiness uses the LLM Hub inference credential', () => {
   const seedreamEngine = getSeedreamEngine();
-  const decision = resolveAgentGenerationEngineExecutability(seedreamEngine, {
-    bytePlusEnabled: true,
-    bytePlusApiKey: 'test-key',
-  });
+  const decision = resolveAgentGenerationEngineExecutability(seedreamEngine,
+    environment({ providerEnv: { LLMHUB_API_KEY: 'test-key' } }));
   assert.deepEqual(decision, { executable: true, reason: 'available' });
 });
 
+test('configured direct image providers are executable without an LLM Hub key', () => {
+  assert.deepEqual(resolveAgentGenerationEngineExecutability(getSeedreamEngine(), environment({
+    bytePlusEnabled: true, bytePlusApiKey: 'test-direct-key',
+  })), { executable: true, reason: 'available' });
+  assert.deepEqual(resolveAgentGenerationEngineExecutability(getEngine('nano-banana-2'), environment({
+    providerEnv: {
+      GOOGLE_VERTEX_IMAGE_MCP_ENABLED: 'true',
+      GOOGLE_VERTEX_IMAGE_MCP_PUBLIC_ROUTING_ENABLED: 'true',
+      GOOGLE_VERTEX_IMAGE_MCP_ENGINE_ALLOWLIST: 'nano-banana-2',
+      GOOGLE_VERTEX_PROJECT_ID: 'test-project',
+      GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON: '{"client_email":"test@example.com","private_key":"test-key"}',
+      GOOGLE_VERTEX_INPUT_GCS_URI: 'gs://test/input',
+    },
+  })), { executable: true, reason: 'available' });
+});
+
 test('direct BytePlus models fail closed without the required credential', () => {
-  const seedreamEngine = getSeedreamEngine();
+  const seedreamEngine = getEngine('seedream-5-0-pro');
   assert.equal(
     resolveAgentGenerationEngineExecutability(seedreamEngine, {
       bytePlusEnabled: true,
@@ -61,7 +75,7 @@ test('direct BytePlus models fail closed without the required credential', () =>
 
 test('malformed direct BytePlus configuration fails closed', () => {
   const malformedEngine = {
-    ...getSeedreamEngine(),
+    ...getEngine('seedream-5-0-pro'),
     id: 'unrecognized-direct-model',
   };
 
@@ -224,44 +238,40 @@ test('Luma requests routed directly to Fal require Fal before a quote can be pre
   );
 });
 
-test('Google image models follow their forced direct provider instead of Fal readiness', () => {
+test('Nano Banana image models use LLM Hub readiness instead of Fal or Vertex', () => {
   const engine = getEngine('nano-banana-2');
-  const googleFlags = {
-    GOOGLE_VERTEX_IMAGE_MCP_ENABLED: 'true',
-    GOOGLE_VERTEX_IMAGE_MCP_PUBLIC_ROUTING_ENABLED: 'true',
-    GOOGLE_VERTEX_IMAGE_MCP_ENGINE_ALLOWLIST: 'nano-banana-2',
-  };
-  const googleCredentials = {
-    ...googleFlags,
-    GOOGLE_VERTEX_PROJECT_ID: 'project',
-    GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON: '{"client_email":"test@example.com","private_key":"key"}',
-    GOOGLE_VERTEX_INPUT_GCS_URI: 'gs://maxvideoai-inputs/images',
-  };
-
   assert.deepEqual(
     resolveAgentGenerationEngineExecutability(engine, environment({
       falApiKey: '',
-      providerEnv: googleCredentials,
+      providerEnv: { LLMHUB_API_KEY: 'test-key' },
     })),
     { executable: true, reason: 'available' },
   );
   assert.deepEqual(
     resolveAgentGenerationEngineExecutability(engine, environment({
       falApiKey: 'fal-key',
-      providerEnv: googleFlags,
+      providerEnv: {},
     })),
     { executable: false, reason: 'provider_credentials_missing' },
   );
   assert.deepEqual(
     resolveAgentGenerationEngineExecutability(engine, environment({
       falApiKey: '',
-      providerEnv: {
-        ...googleCredentials,
-        GOOGLE_VERTEX_IMAGE_MCP_ENGINE_ALLOWLIST: 'nano-banana-pro',
-      },
+      providerEnv: { GOOGLE_VERTEX_PROJECT_ID: 'project' },
     })),
-    { executable: false, reason: 'provider_disabled' },
+    { executable: false, reason: 'provider_credentials_missing' },
   );
+});
+
+test('LLM Hub Seedance basic modes remain available when BytePlus is not ready', () => {
+  const engine = getEngine('seedance-2-5');
+  assert.deepEqual(resolveAgentGenerationEngineExecutability(engine,
+    environment({
+      bytePlusEnabled: false,
+      bytePlusApiKey: '',
+      providerEnv: { LLMHUB_INFERENCE_ROUTING_ENABLED: 'true', LLMHUB_API_KEY: 'test-key' },
+    }),
+  ), { executable: true, reason: 'available' });
 });
 
 test('Luma image models use direct readiness when enabled and Fal otherwise', () => {
@@ -285,7 +295,7 @@ test('Luma image models use direct readiness when enabled and Fal otherwise', ()
       falApiKey: 'fal-key',
       providerEnv: directFlags,
     })),
-    { executable: false, reason: 'provider_credentials_missing' },
+    { executable: true, reason: 'available' },
   );
   assert.deepEqual(
     resolveAgentGenerationEngineExecutability(engine, environment({

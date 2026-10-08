@@ -26,7 +26,7 @@ test('public integration paths come from the indexable registry projection', () 
   assert.match(discoverySource, /getMcpPublicIntegrationPaths/);
 });
 
-test('runtime sitemap discovery includes all five live integration routes', async () => {
+test('runtime sitemap discovery hides MCP pages while marketing is disabled', async () => {
   const react = frontendRequire('react') as {
     cache?: <TFunction extends (...args: never[]) => unknown>(fn: TFunction) => TFunction;
   };
@@ -41,11 +41,11 @@ test('runtime sitemap discovery includes all five live integration routes', asyn
     paths = (await getCanonicalPathEntries()).map(({ englishPath }) => englishPath);
   } finally { manifest.mock.restore(); }
 
-  assert.ok(paths.includes('/integrations/claude'));
-  assert.ok(paths.includes('/integrations/chatgpt'));
-  assert.ok(paths.includes('/integrations/codex'));
-  assert.ok(paths.includes('/integrations/openclaw'));
-  assert.ok(paths.includes('/integrations/n8n'));
+  assert.ok(!paths.includes('/integrations/claude'));
+  assert.ok(!paths.includes('/integrations/chatgpt'));
+  assert.ok(!paths.includes('/integrations/codex'));
+  assert.ok(!paths.includes('/integrations/openclaw'));
+  assert.ok(!paths.includes('/integrations/n8n'));
 });
 
 test('public MCP previews do not become indexable before every public capability is live', () => {

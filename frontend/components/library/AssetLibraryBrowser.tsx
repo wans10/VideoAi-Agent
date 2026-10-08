@@ -268,7 +268,7 @@ function AssetLibraryCollection({
               type="search"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.currentTarget.value)}
-              placeholder={isPageLayout ? locale.startsWith('fr') ? 'Rechercher' : locale.startsWith('es') ? 'Buscar' : 'Search' : searchPlaceholder}
+              placeholder={isPageLayout ? locale.startsWith('zh') ? '搜索' : locale.startsWith('fr') ? 'Rechercher' : locale.startsWith('es') ? 'Buscar' : 'Search' : searchPlaceholder}
               className="h-11 w-full rounded-[16px] border border-border/70 bg-surface pl-10 pr-3 text-sm text-text-primary shadow-inner placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
           </div>

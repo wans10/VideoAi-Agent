@@ -31,10 +31,10 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
     meta: {
       title: 'Editorial Standards',
       description:
-        'Learn how MaxVideoAI handles authorship, sources, corrections, benchmark updates, and commercial-interest disclosure.',
+        'Learn how Keyvo handles authorship, sources, corrections, benchmark updates, and commercial-interest disclosure.',
     },
     hero: {
-      eyebrow: 'MaxVideoAI editorial practice',
+      eyebrow: 'Keyvo editorial practice',
       title: 'Editorial standards for practical AI video research.',
       intro:
         'These standards explain who is accountable for our content, how claims are sourced, and how material corrections or methodology changes are published.',
@@ -46,17 +46,17 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'authorship',
         title: 'Authorship and accountability',
         body:
-          'Adrien Millot, Founder & Product Lead, is the primary author and editorial lead for MaxVideoAI. If another contributor authors or materially reviews a page, that person will be identified on the page.',
+          'Adrien Millot, Founder & Product Lead, is the primary author and editorial lead for Keyvo. If another contributor authors or materially reviews a page, that person will be identified on the page.',
       },
       {
         id: 'sources',
         title: 'How we label sources',
         body:
-          'We keep provider documentation, MaxVideoAI product configuration, anonymized observed production metrics, and MaxVideoAI editorial judgment distinct.',
+          'We keep provider documentation, Keyvo product configuration, anonymized observed production metrics, and Keyvo editorial judgment distinct.',
         bullets: [
           'Provider specifications link to the provider or product source.',
           'Observed timing describes rolling production behavior, not a controlled experiment.',
-          'Editorial scores are MaxVideoAI judgments under the published methodology.',
+          'Editorial scores are Keyvo judgments under the published methodology.',
         ],
       },
       {
@@ -69,7 +69,7 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'corrections',
         title: 'Corrections',
         body:
-          'Send factual corrections to support@maxvideoai.com with the page URL and supporting source. Material corrections update the page and its modified date; they do not rewrite the original publication date.',
+          'Send factual corrections to contact@llmhub.com.cn with the page URL and supporting source. Material corrections update the page and its modified date; they do not rewrite the original publication date.',
       },
       {
         id: 'benchmarks',
@@ -81,19 +81,19 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'disclosure',
         title: 'Commercial-interest disclosure',
         body:
-          'MaxVideoAI sells access to the models it compares. We disclose that commercial relationship and separate sourced facts, observed production metrics, and editorial judgment.',
+          'Keyvo sells access to the models it compares. We disclose that commercial relationship and separate sourced facts, observed production metrics, and editorial judgment.',
       },
     ],
-    links: { about: 'About the editor', benchmarks: 'Open Benchmark Lab', contact: 'Contact MaxVideoAI' },
+    links: { about: 'About the editor', benchmarks: 'Open Benchmark Lab', contact: 'Contact Keyvo' },
   },
   fr: {
     meta: {
       title: 'Normes éditoriales',
       description:
-        'Découvrez comment MaxVideoAI gère les auteurs, les sources, les corrections, les mises à jour des benchmarks et la transparence commerciale.',
+        'Découvrez comment Keyvo gère les auteurs, les sources, les corrections, les mises à jour des benchmarks et la transparence commerciale.',
     },
     hero: {
-      eyebrow: 'Pratique éditoriale MaxVideoAI',
+      eyebrow: 'Pratique éditoriale Keyvo',
       title: 'Des normes éditoriales pour une recherche vidéo IA concrète.',
       intro:
         'Ces normes expliquent qui répond de nos contenus, comment les affirmations sont sourcées et comment les corrections importantes ou les changements de méthode sont publiés.',
@@ -105,17 +105,17 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'authorship',
         title: 'Auteur et responsabilité',
         body:
-          'Adrien Millot, Founder & Product Lead, est l’auteur principal et le responsable éditorial de MaxVideoAI. Si une autre personne écrit ou relit substantiellement une page, elle sera identifiée sur cette page.',
+          'Adrien Millot, Founder & Product Lead, est l’auteur principal et le responsable éditorial de Keyvo. Si une autre personne écrit ou relit substantiellement une page, elle sera identifiée sur cette page.',
       },
       {
         id: 'sources',
         title: 'Comment nous identifions les sources',
         body:
-          'Nous distinguons la documentation des fournisseurs, la configuration produit MaxVideoAI, les mesures de production observées et anonymisées, et le jugement éditorial MaxVideoAI.',
+          'Nous distinguons la documentation des fournisseurs, la configuration produit Keyvo, les mesures de production observées et anonymisées, et le jugement éditorial Keyvo.',
         bullets: [
           'Les spécifications fournisseurs renvoient vers la source fournisseur ou produit.',
           'Les temps observés décrivent un comportement de production glissant, pas une expérience contrôlée.',
-          'Les scores éditoriaux sont des jugements MaxVideoAI appliquant la méthodologie publiée.',
+          'Les scores éditoriaux sont des jugements Keyvo appliquant la méthodologie publiée.',
         ],
       },
       {
@@ -128,7 +128,7 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'corrections',
         title: 'Corrections',
         body:
-          'Envoyez les corrections factuelles à support@maxvideoai.com avec l’URL de la page et une source justificative. Une correction importante met à jour la page et sa date de modification sans réécrire la date de publication initiale.',
+          'Envoyez les corrections factuelles à contact@llmhub.com.cn avec l’URL de la page et une source justificative. Une correction importante met à jour la page et sa date de modification sans réécrire la date de publication initiale.',
       },
       {
         id: 'benchmarks',
@@ -140,19 +140,19 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'disclosure',
         title: 'Transparence sur l’intérêt commercial',
         body:
-          'MaxVideoAI commercialise l’accès aux modèles comparés. Nous déclarons cette relation commerciale et séparons les faits sourcés, les mesures de production observées et le jugement éditorial.',
+          'Keyvo commercialise l’accès aux modèles comparés. Nous déclarons cette relation commerciale et séparons les faits sourcés, les mesures de production observées et le jugement éditorial.',
       },
     ],
-    links: { about: 'À propos du responsable', benchmarks: 'Ouvrir Benchmark Lab', contact: 'Contacter MaxVideoAI' },
+    links: { about: 'À propos du responsable', benchmarks: 'Ouvrir Benchmark Lab', contact: 'Contacter Keyvo' },
   },
   es: {
     meta: {
       title: 'Estándares editoriales',
       description:
-        'Conoce cómo MaxVideoAI gestiona la autoría, las fuentes, las correcciones, las actualizaciones de benchmarks y la transparencia comercial.',
+        'Conoce cómo Keyvo gestiona la autoría, las fuentes, las correcciones, las actualizaciones de benchmarks y la transparencia comercial.',
     },
     hero: {
-      eyebrow: 'Práctica editorial de MaxVideoAI',
+      eyebrow: 'Práctica editorial de Keyvo',
       title: 'Estándares editoriales para investigar video con IA de forma práctica.',
       intro:
         'Estos estándares explican quién responde por nuestro contenido, cómo se sustentan las afirmaciones y cómo publicamos correcciones importantes o cambios de metodología.',
@@ -164,17 +164,17 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'authorship',
         title: 'Autoría y responsabilidad',
         body:
-          'Adrien Millot, Founder & Product Lead, es el autor principal y responsable editorial de MaxVideoAI. Si otra persona escribe o revisa de manera sustancial una página, se la identificará en esa página.',
+          'Adrien Millot, Founder & Product Lead, es el autor principal y responsable editorial de Keyvo. Si otra persona escribe o revisa de manera sustancial una página, se la identificará en esa página.',
       },
       {
         id: 'sources',
         title: 'Cómo identificamos las fuentes',
         body:
-          'Separamos la documentación de proveedores, la configuración del producto MaxVideoAI, las métricas de producción observadas y anonimizadas, y el criterio editorial de MaxVideoAI.',
+          'Separamos la documentación de proveedores, la configuración del producto Keyvo, las métricas de producción observadas y anonimizadas, y el criterio editorial de Keyvo.',
         bullets: [
           'Las especificaciones de proveedores enlazan a la fuente del proveedor o del producto.',
           'Los tiempos observados describen el comportamiento móvil de producción, no un experimento controlado.',
-          'Las puntuaciones editoriales son criterios de MaxVideoAI bajo la metodología publicada.',
+          'Las puntuaciones editoriales son criterios de Keyvo bajo la metodología publicada.',
         ],
       },
       {
@@ -187,7 +187,7 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'corrections',
         title: 'Correcciones',
         body:
-          'Envía correcciones factuales a support@maxvideoai.com con la URL de la página y una fuente de respaldo. Una corrección importante actualiza la página y su fecha de modificación sin cambiar la fecha de publicación original.',
+          'Envía correcciones factuales a contact@llmhub.com.cn con la URL de la página y una fuente de respaldo. Una corrección importante actualiza la página y su fecha de modificación sin cambiar la fecha de publicación original.',
       },
       {
         id: 'benchmarks',
@@ -199,10 +199,61 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
         id: 'disclosure',
         title: 'Transparencia sobre el interés comercial',
         body:
-          'MaxVideoAI comercializa el acceso a los modelos que compara. Declaramos esa relación comercial y separamos los datos con fuente, las métricas de producción observadas y el criterio editorial.',
+          'Keyvo comercializa el acceso a los modelos que compara. Declaramos esa relación comercial y separamos los datos con fuente, las métricas de producción observadas y el criterio editorial.',
       },
     ],
-    links: { about: 'Acerca del responsable', benchmarks: 'Abrir Benchmark Lab', contact: 'Contactar a MaxVideoAI' },
+    links: { about: 'Acerca del responsable', benchmarks: 'Abrir Benchmark Lab', contact: 'Contactar a Keyvo' },
+  },
+  zh: {
+    meta: {
+      title: '编辑准则与标准',
+      description: '了解 Keyvo 如何处理内容署名、事实来源、勘误更新、评测基准调整及商业利益披露。',
+    },
+    hero: {
+      eyebrow: 'Keyvo 编辑规范',
+      title: '面向实用 AI 视频研究的编辑标准。',
+      intro: '这些标准阐述了内容的责任人、各项主张的事实依据，以及重大勘误或评测方法论变更的发布流程。',
+      reviewedLabel: '最近审核',
+      reviewedDate: '2026-07-12',
+    },
+    sections: [
+      {
+        id: 'authorship',
+        title: '作者与责任归属',
+        body: 'Adrien Millot（创始人兼产品主管）是 Keyvo 的主要作者和编辑负责人。若有其他撰稿人编写或实质性审阅页面，其身份将在页面上明确标示。',
+      },
+      {
+        id: 'sources',
+        title: '数据来源标识',
+        body: '我们严格区分模型提供商官方文档、Keyvo 产品配置、匿名化的生产环境实测指标以及 Keyvo 专业编辑评判。',
+        bullets: [
+          '提供商技术规格直接链接至官方或产品原始出处。',
+          '实测耗时反映持续滚动的实际运行表现，而非人工受控环境下的理论极限。',
+          '编辑评分为 Keyvo 在公开方法论框架下的专业评测结论。',
+        ],
+      },
+      {
+        id: 'process',
+        title: '发布前审核',
+        body: '在发布或进行重大更新之前，所有关于产品的核心陈述均会结合现行路由、数据源、实际展示的价格以及可用控制项进行严格核验。',
+      },
+      {
+        id: 'corrections',
+        title: '事实勘误',
+        body: '如发现事实性错误，请发送邮件至 contact@llmhub.com.cn，并附上页面链接及支撑材料。重大勘误将在更新页面的同时调整修改日期，并保留原始发布日期。',
+      },
+      {
+        id: 'benchmarks',
+        title: '评测基准更新',
+        body: '所有评测定义、计算公式、提示词测试方案、实测延迟计算规则以及方法论演进均在 Benchmark Lab 中实行版本化管理。历史编辑评分绝不混同于提示词套件的实测记录。',
+      },
+      {
+        id: 'disclosure',
+        title: '商业利益透明声明',
+        body: 'Keyvo 提供其所对比模型的接入与生成服务。我们完全透明地公开这一商业关系，并坚决将客观来源事实、生产实测指标与主观编辑评价清晰隔离。',
+      },
+    ],
+    links: { about: '了解负责人背景', benchmarks: '前往评测实验室', contact: '联系 Keyvo' },
   },
 };
 

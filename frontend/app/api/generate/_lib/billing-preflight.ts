@@ -18,14 +18,15 @@ import type { EngineCaps, Mode, PricingSnapshot } from '@/types/engines';
 import type { TrustedPreflightMediaPricingFacts } from '@/server/engines';
 import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
 import { buildReceiptSnapshot } from './receipt-snapshot';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 import { CUSTOMER_TARIFF_REVISION_HEADER } from '@/lib/customer-tariff-revision';
 import { assertDisplayedCustomerTariffRevision, CustomerTariffRevisionError } from '@/server/pricing/customer-tariff-revision';
 
 import { loadDirectPaymentQuote, resolveCapturedDirectPaymentQuote, DirectPaymentQuoteError, type DirectPaymentQuote, type DirectPaymentIntent } from '@/server/pricing/direct-payment-quotes';
 
-const DISPLAY_CURRENCY = 'USD';
-const DISPLAY_CURRENCY_LOWER = 'usd';
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
+const DISPLAY_CURRENCY_LOWER = CUSTOMER_CURRENCY.toLowerCase();
 
 type PaymentIntentLike = DirectPaymentIntent;
 
@@ -205,7 +206,7 @@ export async function resolveGenerateBillingPreflight(params: {
     referenceTokenBudget,
     verifiedReferenceTokenCount,
     durationOption: params.lumaDurationLabel ?? params.rawDurationOption ?? null,
-    currency: DISPLAY_CURRENCY,
+    currency: 'USD',
     addons: { ...pricingAddons, ...pricedExtras },
   });
   try { if (!capturedQuote) assertDisplayedCustomerTariffRevision(params.req.headers.get(CUSTOMER_TARIFF_REVISION_HEADER), pricing); }

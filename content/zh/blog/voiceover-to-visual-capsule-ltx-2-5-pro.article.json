@@ -1,0 +1,584 @@
+{
+  "schemaVersion": 1,
+  "canonicalSlug": "voiceover-to-visual-capsule-ltx-2-5-pro",
+  "publication": {
+    "articleId": "6bde4b19-e99e-4fe2-8e67-7ac176782adb",
+    "version": 1,
+    "digest": "e44b0cf4b841630f363f230554d0e1decae6ee6c22c0385cfcb3bc834484de70",
+    "publishedAt": "2026-09-28T13:07:12.542Z"
+  },
+  "article": {
+    "locale": "zh",
+    "audience": "zh-CN",
+    "slug": "voiceover-to-visual-capsule-ltx-2-5-pro",
+    "title": "用 LTX 2.5 Pro 将旁白制作成主题明确的视觉短片",
+    "description": "学习如何将一句旁白转为清晰视觉创意，准备必填音频和可选首帧，审阅候选视频，再在外部剪辑软件中添加标题和字幕。",
+    "keywords": [
+      "voiceover to video",
+      "LTX 2.5 Pro",
+      "audio-to-video",
+      "visual capsule",
+      "video prompt",
+      "narrated video",
+      "captioned video",
+      "MaxVideoAI"
+    ],
+    "blocks": [
+      {
+        "id": "editorial-hero",
+        "type": "media",
+        "assetId": "editorial-hero",
+        "heading": "",
+        "presentation": "single",
+        "alt": "示意图中，一位审核人员检查一页文件，旁边单独呈现音频波形。",
+        "caption": "示意图。一句旁白，一个明确的视觉创意。"
+      },
+      {
+        "id": "one-cue-one-action",
+        "type": "text",
+        "heading": "让一句旁白对应一个视觉任务",
+        "paragraphs": [
+          {
+            "text": "旁白已确认，但短片仍需要有意义的画面。无需逐一描绘每个名词，而应为一句有用的旁白指定一个可见动作。这样得到的聚焦镜头，可以之后在外部剪辑软件中与已确认旁白、标题和字幕组合。",
+            "sourceIds": []
+          },
+          {
+            "text": "设想培训台词：“分享文件之前，停下来确认它是你打算发送的版本。”一个审核人员检查单页文件的克制镜头，可以支持这一说明，无需声称逐字复现内容。旁白仍是剪辑师的节奏参考，不能保证自动逐词同步。",
+            "sourceIds": []
+          },
+          {
+            "text": "编写提示词前，先用简明工作表规划镜头，分开核心信息和装饰创意，建立明确意图，便于评估候选视频。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "音频提示：",
+                "bold": true
+              },
+              {
+                "text": "已确认的、关于分享前检查文件的句子。"
+              },
+              {
+                "text": "目标信息：",
+                "bold": true
+              },
+              {
+                "text": "停下来核实正确版本。"
+              },
+              {
+                "text": "单一可见动作：",
+                "bold": true
+              },
+              {
+                "text": "审核人员缓慢检查一页文件。"
+              },
+              {
+                "text": "场景：",
+                "bold": true
+              },
+              {
+                "text": "安静的桌面，没有分散注意力的活动。"
+              },
+              {
+                "text": "相机：",
+                "bold": true
+              },
+              {
+                "text": "克制的斜侧中景。"
+              },
+              {
+                "text": "应保留的细节：",
+                "bold": true
+              },
+              {
+                "text": "一位审核人员、一页文件、清晰焦点和稳定结尾。"
+              }
+            ],
+            "sourceIds": []
+          },
+          {
+            "text": "接下来根据同一任务比较三个场景：让检查动作一目了然。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "three-visual-intentions",
+        "type": "media",
+        "assetId": "three-visual-intentions",
+        "heading": "表达同一信息的三种画面",
+        "presentation": "single",
+        "alt": "三个示意方案：审核人员检查一页文件、安静办公室，以及令人分心的文件旋涡。",
+        "caption": "示意图。检查动作、办公室氛围和文件蒙太奇，为同一旁白提供不同支持。"
+      },
+      {
+        "id": "choose-the-supporting-scene",
+        "type": "comparison",
+        "heading": "选择最能明确表达信息的场景",
+        "columns": [
+          "视觉选择",
+          "表达内容",
+          "对此旁白的决策"
+        ],
+        "rows": [
+          [
+            "审核人员检查单页文件",
+            "观众可以看到旁白描述的停顿和核实。",
+            "选择此方案。用清晰动作表达说明，不与旁白争夺注意力。"
+          ],
+          [
+            "安静办公室氛围",
+            "环境表达平静与专业，但未明确展示文件检查。",
+            "仅作为氛围或独立插入镜头，作为主镜头过于间接。"
+          ],
+          [
+            "快速文件蒙太奇",
+            "运动暗示文书活动，但多页文件分散注意力。",
+            "对此旁白舍弃。夸张表现与检查单一版本的简单说明冲突。"
+          ]
+        ]
+      },
+      {
+        "id": "prepare-the-inputs",
+        "type": "comparison",
+        "heading": "决定开场是否需要图片",
+        "columns": [
+          "决策要点",
+          "不使用构图参考图",
+          "使用构图参考图"
+        ],
+        "rows": [
+          [
+            "必填与可选输入",
+            "提供一项私有源音频。提示词可选，但建议的场景描述有助于定义单一检查动作。",
+            "提供一项私有源音频和最多一张可选首帧。提示词仍可选，但建议的场景描述有助于将图片与目标动作连接。"
+          ],
+          [
+            "各输入的作用",
+            "已确认旁白提供节奏参考。视觉描述要求一位审核人员在克制构图中缓慢检查一页文件。",
+            "旁白和视觉描述作用不变。图片额外指示开场构图或主体外观。"
+          ],
+          [
+            "适用情况",
+            "开场安排可灵活处理，且视觉描述足以引导时选择。",
+            "审核人员位置、文件位置、身份参考或开场构图值得用图像指定时选择。"
+          ],
+          [
+            "实际限制",
+            "开场构图指引较少，应依据旁白评估候选，不能假定自动同步。",
+            "图片提供指引，不能保证构图、身份细节或文件位置被保留。"
+          ],
+          [
+            "虚构案例的选择",
+            "克制的人物与文件场景已足够时，从此分支开始。",
+            "仅在需要明确人物靠左、文件近中央或下方字幕留白等细节时使用。"
+          ],
+          [
+            "准备边界",
+            "在 MaxVideoAI 之外录制和清理旁白，再提供确认片段和建议视觉描述。",
+            "在 MaxVideoAI 之外准备旁白及参考图，再提供给同一 LTX 2.5 Pro 音频生视频流程。"
+          ],
+          [
+            "输入被接受说明什么",
+            "已接受的源音频时长提供计价依据，不能证明画面会支持每句台词。",
+            "已接受的音频和图像为候选生成提供素材，不能保证保留、语义相关或同步。"
+          ]
+        ]
+      },
+      {
+        "id": "audio-to-candidate-flow",
+        "type": "diagram",
+        "heading": "从源音频到候选视频",
+        "nodes": [
+          {
+            "kind": "file",
+            "label": "私有源音频"
+          },
+          {
+            "kind": "model",
+            "label": "LTX 2.5 Pro 音频生视频"
+          },
+          {
+            "kind": "video",
+            "label": "候选视频"
+          }
+        ],
+        "connections": [
+          "提供音频，可选提示词和首帧",
+          "生成后依据旁白审阅"
+        ],
+        "alt": "将私有源音频提供给 LTX 2.5 Pro 音频生视频，生成待审阅的候选视频。",
+        "caption": "源音频为必填输入。提示词和一张首帧图片为可选输入。"
+      },
+      {
+        "id": "orientation-image-decision",
+        "type": "comparison",
+        "heading": "决定开场构图是否需要图片",
+        "columns": [
+          "决策",
+          "不使用构图参考图",
+          "使用构图参考图"
+        ],
+        "rows": [
+          [
+            "指定内容",
+            "音频和建议场景描述，不用图片定义首帧。",
+            "音频、场景描述和一张用于构图或主体外观的首帧参考。"
+          ],
+          [
+            "适用情况",
+            "开场安排可灵活处理，提示词已提供足够视觉方向时使用。",
+            "审核人员位置、文件位置或开场构图值得用图片展示时使用。"
+          ],
+          [
+            "实际限制",
+            "开场构图的具体指引较少。",
+            "图片提供指引，不能保证构图或细节被保留。"
+          ],
+          [
+            "本例选择",
+            "克制的人物与文件场景已足够时，从此分支开始。",
+            "仅在需要明确人物靠左、文件近中央和下方字幕留白时选择。"
+          ]
+        ]
+      },
+      {
+        "id": "opening-composition-detail",
+        "type": "media",
+        "assetId": "opening-composition-detail",
+        "heading": "让文件在画面中位置清晰",
+        "presentation": "single",
+        "alt": "审核人员和一页文件组成克制的构图，下沿留有整洁空间。",
+        "caption": "示意图。LTX 2.5 Pro 的拟定首帧参考：一位审核人员、一页文件，以及后期添加字幕的空间。"
+      },
+      {
+        "id": "describe-the-shot",
+        "type": "text",
+        "heading": "描述一个剪辑师可评估的动作",
+        "paragraphs": [
+          {
+            "text": "无论选择哪条分支，都让开场构图对应一个可见动作：成年审核人员缓慢检查单页文件。保持一个人物、一页文件和一个动作，便于判断画面是否支持旁白，而非只增加运动。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "保持运镜克制。",
+                "bold": true
+              },
+              {
+                "text": "斜侧中景可以同时保留审核人员面部和文件两个关注点，让检查动作清晰可见。结尾让审核人员稳定下来，文件仍在画面中，为剪辑师提供可剪切或停留的稳定画面。"
+              }
+            ],
+            "sourceIds": [
+              "source-1"
+            ]
+          },
+          {
+            "text": "视觉请求不包含文件文字、标题、字幕和旁白时序。要求抽象、不可读的页面标记，不要求可读文字、逐词同步或说话表演。已确认旁白单独保留，可编辑文字和最终节奏留给外部剪辑。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "visual-prompt",
+        "type": "prompt",
+        "heading": "复制并调整单一动作提示词",
+        "template": "An adult reviewer with short dark hair and a muted teal shirt sits at a pale wood desk, slowly examining one cream-colored page. The reviewer’s face and the page remain the clear focal subjects. Show the scene in a restrained oblique medium view with steady, subtle camera movement. The reviewer makes one small hand adjustment while checking the page, then settles into a composed ending with the page still clearly visible. Use quiet warm lighting and an uncluttered setting. Keep all page markings abstract and unreadable. No speaking, no additional documents, no added titles or on-screen text.",
+        "note": "此提示词定义聚焦的视觉意图，不能保证输出细节。若使用构图参考图，应使审核人员位置、文件位置和相机角度与描述兼容。"
+      },
+      {
+        "id": "before-you-generate",
+        "type": "text",
+        "heading": "生成前确认输入和报价",
+        "paragraphs": [
+          {
+            "spans": [
+              {
+                "text": "确定视觉意图后，打开文档中的"
+              },
+              {
+                "text": "LTX 2.5 Pro 音频生视频工作流程",
+                "href": "https://maxvideoai.com/zh/models/ltx-2-5-pro"
+              },
+              {
+                "text": "，把已确认旁白片段准备为私有源音频。添加视觉提示词；仅在已决定开场构图需要视觉参考时，附上一张首帧图片。"
+              }
+            ],
+            "sourceIds": [
+              "source-1"
+            ]
+          },
+          {
+            "spans": [
+              {
+                "text": "提交前确认 MaxVideoAI 接受当前输入，并检查显示的报价。"
+              },
+              {
+                "text": "价格依据可信的源音频时长计算",
+                "bold": true
+              },
+              {
+                "text": "，MaxVideoAI 在生成前确认报价。输入被接受或音频时长本身，不能保证画面跟随每一句口述内容或支持目标信息。"
+              }
+            ],
+            "sourceIds": [
+              "source-1"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "generate-in-maxvideoai",
+        "type": "steps",
+        "heading": "在 MaxVideoAI 中生成一个候选视频",
+        "steps": [
+          {
+            "title": "打开音频生视频流程",
+            "body": "选择文档中的 LTX 2.5 Pro 音频生视频流程，不要直接沿用文生图或文生视频项目的设置。"
+          },
+          {
+            "title": "提供已确认旁白片段",
+            "body": "添加包含目标旁白内容的私有源音频，限定为希望此镜头支持的片段。"
+          },
+          {
+            "title": "添加视觉方向",
+            "body": "使用描述审核人员、单页文件、克制构图和稳定结尾的单一动作提示词。"
+          },
+          {
+            "title": "仅在已选择时附加首帧图片",
+            "body": "最多提供一张 Optional first frame（可选首帧）。当审核人员和文件的开场位置值得用图像明确指定时使用，但不要假定每个细节都会保留。"
+          },
+          {
+            "title": "检查提交前的信息",
+            "body": "确认当前输入被接受，生成前审阅报价。若任一项与预期不符，应暂停并修改输入，不要猜测未经支持的限制或控件。"
+          },
+          {
+            "title": "生成待审阅的候选",
+            "body": "将生成视频视为候选，而非完成的短片。是否有用，取决于可见动作是否支持已确认旁白。"
+          }
+        ]
+      },
+      {
+        "id": "review-and-finish",
+        "type": "steps",
+        "heading": "保留有用画面，再完成短片",
+        "steps": [
+          {
+            "title": "依据旁白评估候选",
+            "body": "回到“分享文件前停下来检查”的说明。结合已确认旁白观看候选，判断一个人检查一页文件是否立即可理解。这是无台词场景，应评估语义支持，而非口型同步。"
+          },
+          {
+            "title": "检查开场、动作和结尾",
+            "body": "确认开场容易找到审核人员和文件，检查动作持续作为焦点，结尾人物稳定且文件可见。配套分镜示意图用于说明目标过程，并非生成结果。"
+          },
+          {
+            "title": "明确决定保留或舍弃",
+            "body": "当构图能明确表达文件检查，并提供干净剪切点时保留视频。若夸张效果遮蔽动作、意外文字吸引注意、多余文件分散焦点、细节漂移造成干扰，或漂亮画面传达不同含义，则舍弃或修改。这些是审阅问题，并非假定已存在的缺陷。"
+          },
+          {
+            "title": "检查候选已有音频",
+            "body": "安排已确认旁白前先试听。明确决定将视频已有音频静音、替换还是保留，避免重叠人声或意外声音干扰信息。"
+          },
+          {
+            "title": "画面轨道：保留有用动作",
+            "body": "将保留候选导入外部剪辑软件，围绕旁白修剪或调整位置。让审核人员和文件清晰，保留字幕空间，将稳定结尾作为明确的剪切或停留位置。"
+          },
+          {
+            "title": "旁白轨道：保留已确认信息",
+            "body": "添加经过清理和确认的旁白作为节奏参考。录音和清理在 MaxVideoAI 之外完成，最终时序和混音也在外部处理。"
+          },
+          {
+            "title": "标题与字幕轨道：保持文字可编辑",
+            "body": "单独添加标题，根据旁白逐字稿创建字幕。在 Premiere 中，可以调整字幕长度、时长、间隔、行数和样式。根据已确认录音检查每个词和时间，不要假定逐字稿已经无误。"
+          },
+          {
+            "title": "审阅组装后的短片",
+            "body": "开启声音播放剪辑，确认检查动作与相关台词对应、旁白可理解、字幕不遮挡文件，且结尾仍适合结束或转场。"
+          }
+        ]
+      },
+      {
+        "id": "checking-action-storyboard",
+        "type": "media",
+        "assetId": "checking-action-storyboard",
+        "heading": "停顿、检查、稳定结尾",
+        "presentation": "single",
+        "alt": "三个分镜画面展示审核人员拿着文件、检查文件和稳定停留的结尾。",
+        "caption": "示意图。目标动作和结尾为评估候选视频提供参考。"
+      },
+      {
+        "id": "retain-or-reject-choice",
+        "type": "comparison",
+        "heading": "只有能说明检查动作的镜头才保留",
+        "columns": [
+          "审阅问题",
+          "保留情况",
+          "舍弃或修改情况"
+        ],
+        "rows": [
+          [
+            "动作是否立即可理解？",
+            "审核人员明显在检查一页文件。",
+            "运动或夸张表现遮蔽文件检查。"
+          ],
+          [
+            "构图是否支持信息？",
+            "审核人员和文件始终是明显焦点。",
+            "多余文件、其他主体或运镜转移注意力。"
+          ],
+          [
+            "细节是否仍有用？",
+            "文件、人物和桌面足够一致，能维持场景。",
+            "文件位置变化、人物细节漂移或明显的意外文字造成干扰。"
+          ],
+          [
+            "视频是否相关，而非仅仅好看？",
+            "画面强化停下来核实文件的说明。",
+            "画面精美却表达了另一种含义。"
+          ],
+          [
+            "结尾是否提供剪切点？",
+            "人物稳定下来，文件仍可见。",
+            "开始新动作、构图崩坏或没有干净剪切位置就结束。"
+          ]
+        ]
+      },
+      {
+        "id": "finish-in-your-editor",
+        "type": "text",
+        "heading": "组合保留画面与已确认旁白",
+        "paragraphs": [
+          {
+            "text": "放置已确认旁白前，检查并试听候选已有音频。明确决定静音、替换或保留，避免重叠人声和意外声音干扰信息。",
+            "sourceIds": []
+          },
+          {
+            "text": "将保留画面放入外部剪辑软件，再以已确认旁白作为节奏参考。围绕台词修剪或调整镜头位置，保留审核人员和文件最清晰的视图。标题、最终时序和混音留在这一阶段，不把生成当成完成短片。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "例如，"
+              },
+              {
+                "text": "Premiere 可根据逐字稿创建字幕",
+                "href": "https://helpx.adobe.com/premiere/desktop/add-text-images/insert-captions/create-captions.html"
+              },
+              {
+                "text": "，并允许调整长度、时长、间隔、行数和样式。根据已确认旁白检查生成的文字和时序，不要假定逐字稿已经无误。"
+              }
+            ],
+            "sourceIds": [
+              "source-6"
+            ]
+          },
+          {
+            "text": "利用构图中安静的区域放置可读字幕，但应逐帧检查，不能只依赖一个安全位置。最终短片应保留检查动作，让旁白清楚，同时便于观众阅读，不遮住承载主题的文件。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "external-edit-map",
+        "type": "steps",
+        "heading": "将各元素放入独立剪辑轨道",
+        "steps": [
+          {
+            "title": "画面轨道：保留有用动作",
+            "body": "导入选定候选并修剪，让文件检查保持清晰。围绕旁白安排开场，保留字幕空间，并把稳定结尾作为干净剪切点。"
+          },
+          {
+            "title": "旁白轨道：保留已确认信息",
+            "body": "添加清理并确认的旁白作为节奏参考。检查候选已有音频后，明确将其静音、替换或保留，避免声音重叠，也避免环境声音干扰说明。"
+          },
+          {
+            "title": "标题与字幕轨道：保持文字可编辑",
+            "body": "根据旁白逐字稿创建字幕，再与已确认录音核对。调整时间、字幕长度、间隔、换行和样式，便于阅读；单独添加标题，不把重要文字嵌入生成画面。"
+          },
+          {
+            "title": "最终交接：一起检查画面和声音",
+            "body": "开启声音播放组装短片。确认检查动作对应相关台词、字幕不遮住文件、混音保持旁白清晰，且结尾仍有明确的结束或转场位置。"
+          }
+        ]
+      },
+      {
+        "id": "external-finishing-handoff",
+        "type": "diagram",
+        "heading": "在生成之外完成短片",
+        "nodes": [
+          {
+            "kind": "video",
+            "label": "保留的候选视频"
+          },
+          {
+            "kind": "file",
+            "label": "外部剪辑项目"
+          },
+          {
+            "kind": "video",
+            "label": "带字幕的成品短片"
+          }
+        ],
+        "connections": [
+          "导入视频和已确认旁白，检查视频音频",
+          "安排画面、标题和字幕，混音并导出"
+        ],
+        "alt": "保留的视频与已确认旁白进入外部剪辑项目，最终成为带字幕的成品短片。",
+        "caption": "先检查视频已有音频，再在外部剪辑中安排旁白、标题和字幕。"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "source-1",
+      "title": "LTX 2.5 Pro",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/ltx-2-5-pro",
+      "retrievedAt": "2026-09-28"
+    },
+    {
+      "id": "source-6",
+      "title": "Create Captions in Premiere",
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/premiere/desktop/add-text-images/insert-captions/create-captions.html",
+      "retrievedAt": "2026-09-28"
+    }
+  ],
+  "assets": [
+    {
+      "id": "editorial-hero",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "a40fb8ffc810466e11339b091fdff5d5b1cc83835544c7fb9725f2e5dab763dc",
+      "url": "https://media.maxvideoai.com/editorial/published/a40fb8ffc810466e11339b091fdff5d5b1cc83835544c7fb9725f2e5dab763dc.webp"
+    },
+    {
+      "id": "three-visual-intentions",
+      "kind": "generated-illustration",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "5aba2c7579ad54696a983007d6b2b161c9a455c0e08d416f82dc829f68bcf1a2",
+      "url": "https://media.maxvideoai.com/editorial/published/5aba2c7579ad54696a983007d6b2b161c9a455c0e08d416f82dc829f68bcf1a2.webp"
+    },
+    {
+      "id": "opening-composition-detail",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "b27bb40b69773f497f50f7c148a149cc0fda03d60dd312864eb7eb3dbc7f8f1b",
+      "url": "https://media.maxvideoai.com/editorial/published/b27bb40b69773f497f50f7c148a149cc0fda03d60dd312864eb7eb3dbc7f8f1b.webp"
+    },
+    {
+      "id": "checking-action-storyboard",
+      "kind": "generated-illustration",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "1413af086007e55c46a2b08a02c19f0b256ff632de45abfe9936fe69405faceb",
+      "url": "https://media.maxvideoai.com/editorial/published/1413af086007e55c46a2b08a02c19f0b256ff632de45abfe9936fe69405faceb.webp"
+    }
+  ]
+}

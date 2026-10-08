@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { routing } from '@/i18n/routing';
-import { localePathnames, locales, type AppLocale } from '@/i18n/locales';
+import { localePathnames, locales, publishedLocales, siteDefaultLocale, resolveSiteLocale, type AppLocale } from '@/i18n/locales';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { getAuthRequestUrl } from '@/lib/auth-request-url';
 import localizedSlugConfig from '@/config/localized-slugs.json';
@@ -35,7 +35,7 @@ const NON_LOCALIZED_PREFIXES = [
   '/_vercel',
   '/apple-app-site-association',
 ];
-export const LOCALE_STRIPPABLE_PREFIXES = NON_LOCALIZED_PREFIXES.filter((prefix) => prefix !== '/legal');
+export const LOCALE_STRIPPABLE_PREFIXES = NON_LOCALIZED_PREFIXES.filter((prefix) => !['/legal', '/return-policy'].includes(prefix));
 const PLACEHOLDER_SEGMENTS = new Set(['[locale]', '[lang]', '[language]']);
 export const LOCALIZED_SEGMENT_VALUES = Array.from(
   new Set(
@@ -85,6 +85,7 @@ Object.values(localizedSlugConfig as Record<string, Record<string, string>>).for
     en: entry.en,
     fr: entry.fr ?? entry.en,
     es: entry.es ?? entry.en,
+    zh: entry.zh ?? entry.en,
   };
   ENGLISH_SEGMENT_TO_LOCALIZED.set(english, localized);
   Object.values(entry).forEach((value) => {
@@ -172,12 +173,16 @@ function serializeHostLocaleCookie(name: string, locale: string, maxAge: number)
 
 export function resolveSharedLocaleCookieDomain(hostname: string): string | undefined {
   const normalized = hostname.trim().toLowerCase();
+  if (normalized === 'keyvo.cn' || normalized.endsWith('.keyvo.cn')) {
+    return '.keyvo.cn';
+  }
   return normalized === 'maxvideoai.com' || normalized.endsWith('.maxvideoai.com')
     ? '.maxvideoai.com'
     : undefined;
 }
 
 export function getPreferredLocale(req: NextRequest): (typeof locales)[number] | null {
+  if (publishedLocales.length === 1) return siteDefaultLocale;
   const cookieLocale = req.cookies.get(LOCALE_COOKIE)?.value;
   if (cookieLocale && LOCALE_SET.has(cookieLocale as (typeof locales)[number])) {
     return cookieLocale as (typeof locales)[number];
@@ -280,7 +285,7 @@ export function resolveLangParamRedirect(req: NextRequest, pathname: string): Ne
   if (!LOCALE_SET.has(lang as AppLocale)) {
     return null;
   }
-  const targetLocale = lang as AppLocale;
+  const targetLocale = resolveSiteLocale(lang);
   const { pathWithoutLocale } = splitLocaleFromPath(pathname);
   const localizedPath = shouldHandleLocale(pathWithoutLocale)
     ? localizePathForLocale(targetLocale, pathWithoutLocale)
@@ -319,7 +324,7 @@ export function createCoreLocaleResponse(req: NextRequest, pathname: string): Ne
   if (source.origin !== req.nextUrl.origin) return null;
   const { pathWithoutLocale } = splitLocaleFromPath(source.pathname);
   if (!shouldHandleLocale(pathWithoutLocale)) return null;
-  const locale = extractLocaleFromPathname(source.pathname) ?? 'en';
+  const locale = resolveSiteLocale(extractLocaleFromPathname(source.pathname) ?? 'en');
   if (req.cookies.get(LOCALE_COOKIE)?.value === locale && req.cookies.get(NEXT_LOCALE_COOKIE)?.value === locale) return null;
   req.cookies.set(LOCALE_COOKIE, locale);
   req.cookies.set(NEXT_LOCALE_COOKIE, locale);

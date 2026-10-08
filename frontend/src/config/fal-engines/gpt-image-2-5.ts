@@ -90,7 +90,7 @@ function buildEngine(variant: Variant): EngineCaps {
           id: 'background', type: 'enum', label: 'Background', values: ['auto', 'transparent', 'opaque'], default: 'auto',
         },
         {
-          id: 'output_format', type: 'enum', label: 'Output format', values: ['png', 'jpeg', 'webp'], default: 'png',
+          id: 'output_format', type: 'enum', label: 'Output format', values: ['png', 'jpeg'], default: 'png',
         },
         {
           id: 'mask_url', type: 'image', label: 'Mask image URL', modes: ['i2i'], minCount: 0, maxCount: 1,
@@ -124,11 +124,11 @@ function buildEngine(variant: Variant): EngineCaps {
         custom: 0.03612, auto: 0.05268,
       },
       currency: 'USD',
-      notes: 'fal.ai provider pricing varies by deterministic quality and image_size.',
+      notes: 'Provider pricing varies by deterministic quality and image size.',
     },
     updatedAt: '2026-09-15T00:00:00Z',
     ttlSec: 600,
-    providerMeta: { provider: 'fal.ai', modelSlug: `openai/gpt-image-2.5/${variant}` },
+    providerMeta: { provider: 'llmhub', modelSlug: `gpt-image-2.5-${variant}` },
     availability: 'available',
     brandId: 'openai',
   };
@@ -138,7 +138,8 @@ function buildEntry(variant: Variant): RawFalEngineEntry {
   const variantLabel = variant === 'flare' ? 'Flare' : 'Sunburst';
   const id = `gpt-image-2-5-${variant}`;
   const engine = buildEngine(variant);
-  const root = `openai/gpt-image-2.5/${variant}`;
+  const generationModelId = `gpt-image-2.5-${variant}`;
+  const editModelId = generationModelId;
   const positioning = variant === 'flare'
     ? 'fast, high-quality everyday image generation and editing'
     : 'precision image generation and detail-focused editing';
@@ -155,11 +156,11 @@ function buildEntry(variant: Variant): RawFalEngineEntry {
     engine,
     modes: [
       {
-        mode: 't2i', falModelId: `${root}/text-to-image`,
+        mode: 't2i', falModelId: generationModelId,
         ui: { modes: ['t2i'], resolution: TEXT_RESOLUTION_VALUES, notes: positioning },
       },
       {
-        mode: 'i2i', falModelId: `${root}/edit`,
+        mode: 'i2i', falModelId: editModelId,
         ui: {
           modes: ['i2i'], resolution: EDIT_RESOLUTION_VALUES,
           acceptsImageFormats: ['jpg', 'jpeg', 'png', 'webp'], maxUploadMB: 25,
@@ -167,14 +168,14 @@ function buildEntry(variant: Variant): RawFalEngineEntry {
         },
       },
     ],
-    defaultFalModelId: `${root}/text-to-image`,
+    defaultFalModelId: generationModelId,
     seo: {
-      title: `GPT Image 2.5 ${variantLabel} – AI Image Generation & Editing | MaxVideoAI`,
-      description: `Generate and edit images with GPT Image 2.5 ${variantLabel} through fal.ai in MaxVideoAI.`,
+      title: `GPT Image 2.5 ${variantLabel} – AI Image Generation & Editing | Keyvo`,
+      description: `Generate and edit images with GPT Image 2.5 ${variantLabel} through LLM Hub in Keyvo.`,
       canonicalPath: `/models/gpt-image-2-5-${variant}`,
     },
     type: 'image',
-    seoText: `GPT Image 2.5 ${variantLabel} provides ${positioning} in the MaxVideoAI Image workspace.`,
+    seoText: `GPT Image 2.5 ${variantLabel} provides ${positioning} in the Keyvo Image workspace.`,
     media: {
       videoUrl: MARKETING_IMAGE_BY_VARIANT[variant],
       imagePath: MARKETING_IMAGE_BY_VARIANT[variant],

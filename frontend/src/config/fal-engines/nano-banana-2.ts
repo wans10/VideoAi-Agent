@@ -150,12 +150,12 @@ const NANO_BANANA_2_ENGINE: EngineCaps = {
       },
     },
     currency: 'USD',
-    notes: 'Raw provider pricing is converted to MaxVideoAI display pricing before the live quote is shown.',
+    notes: 'Raw provider pricing is converted to Keyvo display pricing before the live quote is shown.',
   },
   updatedAt: '2026-03-17T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'google_vertex_image',
+    provider: 'llmhub',
     modelSlug: 'gemini-3.1-flash-image',
   },
   availability: 'available',
@@ -173,7 +173,7 @@ export const NANO_BANANA_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     versionLabel: '2',
     availability: 'available',
     logoPolicy: 'textOnly',
-    billingNote: 'MaxVideoAI display pricing starts at $0.06 for 0.5K, $0.11 for 1K, $0.16 for 2K, and $0.21 for 4K before optional settings.',
+    billingNote: 'Keyvo display pricing starts at $0.06 for 0.5K, $0.11 for 1K, $0.16 for 2K, and $0.21 for 4K before optional settings.',
     engine: NANO_BANANA_2_ENGINE,
     modes: [
       {
@@ -201,14 +201,14 @@ export const NANO_BANANA_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'gemini-3.1-flash-image',
     seo: {
-      title: 'Nano Banana 2 – Google Image Generation & Editing | MaxVideoAI',
+      title: 'Nano Banana 2 – Google Image Generation & Editing | Keyvo',
       description:
-        'Use Nano Banana 2 in MaxVideoAI for fast 0.5K to 4K still generation, wide and extreme aspect ratios, semantic editing, and optional web-grounded image prompts.',
+        'Use Nano Banana 2 in Keyvo for fast 0.5K to 4K still generation, wide and extreme aspect ratios, semantic editing, and optional web-grounded image prompts.',
       canonicalPath: '/models/nano-banana-2',
     },
     type: 'image',
     seoText:
-      'Nano Banana 2 expands the MaxVideoAI image workspace with lower-cost drafts, broader aspect ratios, advanced output controls, optional web-grounded prompting, and support for larger multi-image edit sets.',
+      'Nano Banana 2 expands the Keyvo image workspace with lower-cost drafts, broader aspect ratios, advanced output controls, optional web-grounded prompting, and support for larger multi-image edit sets.',
     media: {
       videoUrl: 'https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png',
       imagePath: 'https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png',
@@ -241,12 +241,12 @@ export const NANO_BANANA_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'What resolutions does Nano Banana 2 support?',
         answer:
-          'You can render still images at 0.5K, 1K, 2K, and 4K. MaxVideoAI display pricing starts at $0.06 for 0.5K, $0.11 for 1K, $0.16 for 2K, and $0.21 for 4K.',
+          'You can render still images at 0.5K, 1K, 2K, and 4K. Keyvo display pricing starts at $0.06 for 0.5K, $0.11 for 1K, $0.16 for 2K, and $0.21 for 4K.',
       },
       {
         question: 'Is Nano Banana 2 for still images or video?',
         answer:
-          'Nano Banana 2 is for still images only on MaxVideoAI. It supports text-to-image generation and image-to-image edits, not video or audio renders.',
+          'Nano Banana 2 is for still images only on Keyvo. It supports text-to-image generation and image-to-image edits, not video or audio renders.',
       },
       {
         question: 'When should I use Nano Banana 2 instead of Nano Banana Pro?',

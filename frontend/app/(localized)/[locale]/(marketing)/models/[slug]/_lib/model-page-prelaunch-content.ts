@@ -76,6 +76,7 @@ const LOCALIZED_LINK_PATTERNS: Record<AppLocale, readonly RegExp[]> = {
   en: [/^\/models\/[a-z0-9-]+$/, /^\/examples\/[a-z0-9-]+$/],
   fr: [/^\/fr\/modeles\/[a-z0-9-]+$/, /^\/fr\/galerie\/[a-z0-9-]+$/],
   es: [/^\/es\/modelos\/[a-z0-9-]+$/, /^\/es\/galeria\/[a-z0-9-]+$/],
+  zh: [/^\/zh\/models\/[a-z0-9-]+$/, /^\/zh\/examples\/[a-z0-9-]+$/],
 };
 
 export function parseModelPrelaunchContent(

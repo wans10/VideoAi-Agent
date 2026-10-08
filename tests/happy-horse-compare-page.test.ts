@@ -94,12 +94,12 @@ test('llms.txt features current Happy Horse and Seedance Mini models with compar
   const llmsSource = buildLlmsText(mcpPublication);
 
   [
-    'https://maxvideoai.com/models/happy-horse-1-1',
-    'https://maxvideoai.com/models/dreamina-seedance-2-0-mini',
-    'https://maxvideoai.com/models/luma-ray-3-2',
-    'https://maxvideoai.com/ai-video-engines)',
-    'https://maxvideoai.com/ai-video-engines/best-for)',
-    'https://maxvideoai.com/ai-video-engines/best-for/lipsync-dialogue',
-    'https://maxvideoai.com/ai-video-engines/best-for/fast-drafts',
+    'https://app.keyvo.cn/models/happy-horse-1-1',
+    'https://app.keyvo.cn/models/dreamina-seedance-2-0-mini',
+    'https://app.keyvo.cn/models/luma-ray-3-2',
+    'https://app.keyvo.cn/ai-video-engines)',
+    'https://app.keyvo.cn/ai-video-engines/best-for)',
+    'https://app.keyvo.cn/ai-video-engines/best-for/lipsync-dialogue',
+    'https://app.keyvo.cn/ai-video-engines/best-for/fast-drafts',
   ].forEach((url) => assert.ok(llmsSource.includes(url), `Missing llms.txt URL ${url}`));
 });

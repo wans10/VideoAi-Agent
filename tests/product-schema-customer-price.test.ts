@@ -1,3 +1,4 @@
+import { CNY_BUILD } from './helpers/customer-currency-expectations';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -20,8 +21,8 @@ test('repaired model Product offers match exact public customer quotes in all lo
         description: 'Archived model', heroTitle: engine.marketingName, heroPosterAbsolute: null }), null);
       continue;
     }
-    assert.equal(resolveModelOfferAmountCents(engine, engine.engine), row.totalCents, row.engineId);
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    assert.equal(resolveModelOfferAmountCents(engine, engine.engine), row.totalCents * (CNY_BUILD ? 8 : 1), row.engineId);
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       const quote = row.mode === 't2i'
         ? getImagePresetQuote(engine, {
             id: 'controlled-schema-image', quantity: 1, resolution: row.resolution,
@@ -33,7 +34,7 @@ test('repaired model Product offers match exact public customer quotes in all lo
             referenceImageCount: 0,
           }, locale);
       assert.equal(quote.status, 'exact', row.id);
-      assert.equal(quote.amountCents, row.totalCents, row.id);
+      assert.equal(quote.amountCents, row.totalCents * (CNY_BUILD ? 8 : 1), row.id);
       const prefix = locale === 'en' ? '/models' : locale === 'fr' ? '/fr/modeles' : '/es/modelos';
       const product = buildProductSchema({ engine, pricingEngine: engine.engine,
         canonical: `https://maxvideoai.com${prefix}/${engine.modelSlug}`,
@@ -49,5 +50,5 @@ test('Seedance 2.5 keeps its already-correct customer offer', () => {
   const quote = getPresetQuote(engine, { id: 'control', label: '', subLabel: '', durationSec: 4, resolution: '480p', mode: 't2v', audio: true }, 'en');
   assert.equal(quote.status, 'exact');
   assert.equal(resolveModelOfferAmountCents(engine, engine.engine), quote.amountCents);
-  assert.equal(quote.amountCents, 103);
+  assert.equal(quote.amountCents, CNY_BUILD ? 824 : 103);
 });

@@ -1,4 +1,5 @@
 "use client";
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import { useEffect, useRef, useState } from "react";
 import { HelpCircle, ArrowDown, X, ImagePlus } from "lucide-react";
 import {canResumeAssistanceRequest,canStartAssistanceFollowupWithoutChoice} from './_lib/conversation-assistance';
@@ -56,8 +57,8 @@ function StudioImageConversationWorkspace({
   exportAvailable?: boolean;
 }) {
   const {locale: appLocale} = useI18n();
-  const locale = appLocale === 'fr' ? 'fr' : 'en';
-  const t = (en: string, fr: string) => locale === 'fr' ? fr : en;
+  const locale = appLocale === 'zh' ? 'zh' : appLocale === 'fr' ? 'fr' : 'en';
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   const studio = useImageConversation(projectId, accountKey, projectName, locale);
   const assistance=useStudioAssistance(accountKey,studio.busy);
   const tasksEnabled=studio.conversation.taskPolicyVersion===STUDIO_TASK_POLICY_VERSION;

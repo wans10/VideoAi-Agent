@@ -1,3 +1,4 @@
+import { ProductionBudgetSheet } from './_components/ProductionBudgetSheet';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { FAQSchema } from '@/components/seo/FAQSchema';
@@ -30,7 +31,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     hreflangGroup: 'pricing',
     slugMap: PRICING_SLUG_MAP,
     image: '/og/pricing-2026-09-25.png',
-    imageAlt: 'MaxVideoAI pricing: see the price before creating.',
+    imageAlt: 'Keyvo pricing: see the price before creating.',
   });
 }
 
@@ -59,6 +60,7 @@ export default async function PricingPage(props: { params: Promise<{ locale: App
         supportingLine={content.hero.supportingLine}
         title={content.hero.title}
       >
+        <ProductionBudgetSheet locale={locale} />
         <PricingQuickStart
           highlights={pricingHub.video.highlights}
           title={content.hero.quickStartTitle}

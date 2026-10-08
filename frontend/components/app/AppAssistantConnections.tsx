@@ -20,10 +20,10 @@ export const appMcpIntegrations = getAppMcpIntegrations();
 
 export function getAppMcpCopy(locale: Locale) {
   return locale === 'fr'
-    ? { title: 'Connexions MCP', detail: 'Utilisez MaxVideoAI depuis votre assistant ou vos automatisations.', connect: 'Voir la connexion MCP', all: 'Toutes les intégrations MCP', close: 'Fermer', newTab: 'nouvel onglet', compactTitle: 'Connectez votre assistant', compactDetail: 'Utilisez MaxVideoAI depuis vos outils.', compactAll: 'Toutes les intégrations' }
+    ? { title: 'Connexions MCP', detail: 'Utilisez Keyvo depuis votre assistant ou vos automatisations.', connect: 'Voir la connexion MCP', all: 'Toutes les intégrations MCP', close: 'Fermer', newTab: 'nouvel onglet', compactTitle: 'Connectez votre assistant', compactDetail: 'Utilisez Keyvo depuis vos outils.', compactAll: 'Toutes les intégrations' }
     : locale === 'es'
-      ? { title: 'Conexiones MCP', detail: 'Usa MaxVideoAI desde tu asistente o tus automatizaciones.', connect: 'Ver la conexión MCP', all: 'Todas las integraciones MCP', close: 'Cerrar', newTab: 'pestaña nueva', compactTitle: 'Conecta tu asistente', compactDetail: 'Usa MaxVideoAI desde tus herramientas.', compactAll: 'Todas las integraciones' }
-      : { title: 'MCP connections', detail: 'Use MaxVideoAI from your assistant or automations.', connect: 'View MCP connection', all: 'All MCP integrations', close: 'Close', newTab: 'new tab', compactTitle: 'Connect your assistant', compactDetail: 'Use MaxVideoAI from your tools.', compactAll: 'All integrations' };
+      ? { title: 'Conexiones MCP', detail: 'Usa Keyvo desde tu asistente o tus automatizaciones.', connect: 'Ver la conexión MCP', all: 'Todas las integraciones MCP', close: 'Cerrar', newTab: 'pestaña nueva', compactTitle: 'Conecta tu asistente', compactDetail: 'Usa Keyvo desde tus herramientas.', compactAll: 'Todas las integraciones' }
+      : { title: 'MCP connections', detail: 'Use Keyvo from your assistant or automations.', connect: 'View MCP connection', all: 'All MCP integrations', close: 'Close', newTab: 'new tab', compactTitle: 'Connect your assistant', compactDetail: 'Use Keyvo from your tools.', compactAll: 'All integrations' };
 }
 
 export function AppAssistantConnections({ locale, onNavigate, showTitle = true, compact = false, titleId }: { locale: Locale; onNavigate: () => void; showTitle?: boolean; compact?: boolean; titleId?: string }) {

@@ -9,5 +9,6 @@ export function getLocalizedModelData(
 ): Partial<Record<CanonicalExampleModelSlug, LocalizedModelDescriptor>> {
   if (locale === 'fr') return FR_MODEL_DATA;
   if (locale === 'es') return ES_MODEL_DATA;
+  if (locale === 'zh') return {};
   return EN_MODEL_DATA;
 }

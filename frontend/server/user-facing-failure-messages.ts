@@ -1,9 +1,10 @@
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import { getSeedanceFailureMessage, seedanceFailureCodeFromMessage } from '@/lib/seedance-failure-messages';
 import { getGeneratedImageFailureMessage, getKnownGenerationFailureMessage } from '@/lib/generation-failure-messages';
 import { SEEDANCE_OUTPUT_AUDIO_BLOCKED, SEEDANCE_REFERENCE_MEDIA_BLOCKED, SEEDANCE_REFERENCE_VIDEO_BLOCKED, SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED } from '@/lib/video-failure-codes';
 
 const DEFAULT_FAILURE_MESSAGE =
-  'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.';
+  `${PRODUCT_BRAND_NAME} could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.`;
 const DEFAULT_REFUND_REASON = 'Render could not be completed.';
 const SEEDANCE_REFERENCE_FAILURE_MESSAGE =
   'Seedance blocked a reference image because it may contain a recognizable person or private content. Use a non-identifiable, stylized, or generated reference image and try again.';
@@ -196,9 +197,9 @@ function messageForCategory(category: FailureCategory): string {
     case 'safety':
       return 'This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before trying again.';
     case 'start':
-      return 'MaxVideoAI could not start this render. Please retry in a few moments.';
+      return `${PRODUCT_BRAND_NAME} could not start this render. Please retry in a few moments.`;
     case 'storage':
-      return 'The render finished, but MaxVideoAI could not prepare the output for download. Please retry.';
+      return `The render finished, but ${PRODUCT_BRAND_NAME} could not prepare the output for download. Please retry.`;
     case 'timeout':
       return 'This render exceeded the expected processing window. Please retry in a few moments.';
     case 'unsupported':
@@ -239,7 +240,7 @@ function canReuseMessage(message: string): boolean {
 }
 
 export function isGenericFailureDescription(message: string | null | undefined): boolean {
-  const normalized = normalizeMessage(message);
+  const normalized = normalizeMessage(message)?.replace(/\b(?:MaxVideoAI|VideoAI)\b/g, PRODUCT_BRAND_NAME);
   if (!normalized) return true;
   return (
     OPAQUE_TRANSPORT_FAILURE_PATTERN.test(normalized) ||
@@ -276,7 +277,7 @@ export function toUserFacingFailureMessage(message: string | null | undefined): 
   const sharedMessage = getKnownGenerationFailureMessage({ message: normalized });
   if (sharedMessage) return sharedMessage;
   if (category) return messageForCategory(category);
-  if (normalized && canReuseMessage(normalized)) return normalized;
+  if (normalized && canReuseMessage(normalized)) return normalized.replace(/\b(?:MaxVideoAI|VideoAI)\b/g, PRODUCT_BRAND_NAME);
   return DEFAULT_FAILURE_MESSAGE;
 }
 
@@ -295,7 +296,7 @@ export function toUserFacingRefundReason(message: string | null | undefined): st
   if (seedanceFailure === 'task_output') return SEEDANCE_TASK_REFUND_REASON;
   const category = classifyFailure(normalized);
   if (category) return refundReasonForCategory(category);
-  if (normalized && canReuseMessage(normalized)) return normalized;
+  if (normalized && canReuseMessage(normalized)) return normalized.replace(/\b(?:MaxVideoAI|VideoAI)\b/g, PRODUCT_BRAND_NAME);
   return DEFAULT_REFUND_REASON;
 }
 

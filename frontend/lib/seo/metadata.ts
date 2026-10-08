@@ -7,9 +7,9 @@ import { buildMetaDescription, buildMetaTitle } from '@/lib/seo/meta';
 const DEFAULT_OG_IMAGE = '/og/brand-2026-09-25.png';
 const DEFAULT_OG_WIDTH = 1200;
 const DEFAULT_OG_HEIGHT = 630;
-const SITE_NAME = 'MaxVideoAI';
-const TWITTER_HANDLE = '@MaxVideoAI';
-const BRAND_REGEX = /maxvideo\s*ai/i;
+const SITE_NAME = 'Keyvo';
+const TWITTER_HANDLE = '@Keyvo';
+const BRAND_REGEX = /\b(?:(?:max)?video\s*ai|keyvo)\b/i;
 
 function normalizeTitleInput(value: string): string {
   return value.replace(/\s+/g, ' ').trim();

@@ -126,7 +126,7 @@ function toExampleCard(video: GalleryVideo, locale: AppLocale, currentPrice?: Cu
   const engineMeta = engineKey ? ENGINE_META.get(engineKey) ?? null : null;
   const descriptor = canonicalEngineId ? resolveFilterDescriptor(canonicalEngineId, engineMeta) : null;
   const priceLabel = formatCurrentExamplePrice(currentPrice, locale);
-  const promptDisplay = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'MaxVideoAI render');
+  const promptDisplay = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'Keyvo render');
   const modelSlug = engineMeta?.modelSlug ?? (descriptor ? getExampleFamilyPrimaryModelSlug(descriptor.id) : null);
   const modelHref = modelSlug ? buildModelHref(locale, modelSlug) : null;
   return {

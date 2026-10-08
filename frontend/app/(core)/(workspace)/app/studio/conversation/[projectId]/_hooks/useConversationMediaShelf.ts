@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import {useEffect,useRef,useState} from 'react';
 import type {ImageLibraryAsset} from '@/lib/studio/image-library';
 import type {ImageConversationTurn,ImageTurnInput} from '@/lib/studio/image-conversation-contract';
@@ -12,7 +13,7 @@ export function useConversationMediaShelf(turns:ImageConversationTurn[],locale:C
   const all=useRef(items),attached=useRef(references),busy=useRef(false),alive=useRef(true);
   const history=turns.flatMap(turn=>turn.referenceMentions??[]);
   const latestHistory=useRef(history);latestHistory.current=history;
-  const t=(en:string,fr:string)=>locale==='fr'?fr:en;
+  const t=(en: string, fr: string) => conversationCopy(locale, en, fr);
   useEffect(()=>{alive.current=true;return()=>{alive.current=false;};},[]);
   useEffect(()=>{
     const desktop=window.matchMedia('(min-width: 801px)');

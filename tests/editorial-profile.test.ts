@@ -37,7 +37,7 @@ test('verified editorial profile resolves localized identity URLs', async () => 
     assert.ok(profile.bio.length >= 80);
     assert.equal(
       module.getEditorialProfileAbsoluteUrl(profile),
-      `https://maxvideoai.com${expected[locale]}`,
+      `https://app.keyvo.cn${expected[locale]}`,
     );
   }
 });

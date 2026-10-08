@@ -1,6 +1,7 @@
 import type { VideoProviderKey } from '@/server/video-providers/types';
 
 const refreshers = {
+  llmhub: async (jobId: string) => (await import('./llmhub-video-poll')).runLlmhubVideoPoll({ jobId }),
   alibaba_model_studio: async (jobId: string) => (await import('./alibaba-model-studio-poll')).runAlibabaModelStudioPoll({ jobId }),
   byteplus_modelark: async (jobId: string) => (await import('./byteplus-poll')).runBytePlusPoll({ jobId }),
   kling_direct: async (jobId: string) => (await import('./kling-direct-poll')).runKlingDirectPoll({ jobId }),

@@ -1,27 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Copy, Linkedin, Mail } from 'lucide-react';
+import { Check, Copy, ExternalLink } from 'lucide-react';
 import { copyTextToClipboard } from '@/lib/clipboard';
-import { buildVideoShareIntent, type LinkShareTarget } from '@/components/library/video-share-intents';
+import { DOMESTIC_SHARE_PLATFORMS } from '@/components/library/domestic-share-platforms';
 import styles from '@/components/examples/example-reader-styles';
 
-const destinations = [
-  { target: 'x', label: 'X' }, { target: 'whatsapp', label: 'WhatsApp' },
-  { target: 'telegram', label: 'Telegram' }, { target: 'linkedin', label: 'LinkedIn' },
-  { target: 'facebook', label: 'Facebook' }, { target: 'email', label: 'E-mail' },
-] as const;
-
-function ShareIcon({ target }: { target: LinkShareTarget }) {
-  if (target === 'email') return <Mail size={18} aria-hidden />;
-  if (target === 'linkedin') return <Linkedin size={18} aria-hidden />;
-  // Existing local brand assets, loaded only with the visible reader's share row.
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img src={`/brand/share/${target}.svg`} width={18} height={18} alt="" aria-hidden="true" loading="lazy" decoding="async" />;
-}
-
 export function VideoWatchShare({ watchUrl, locale = 'en' }: { watchUrl: string; locale?: string }) {
-  const copy = locale.startsWith('fr') ? {
+  const copy = locale.startsWith('zh') ? {
+    share: '分享', link: '复制链接', copied: '链接已复制', url: '视频链接', on: '打开创作者中心：', email: '通过邮件分享',
+    error: '无法自动复制，请选择并复制下方链接。',
+  } : locale.startsWith('fr') ? {
     share: 'Partager', link: 'Copier le lien', copied: 'Lien copié', url: 'Lien de la vidéo', on: 'Partager sur', email: 'Partager par e-mail',
     error: 'Impossible de copier automatiquement. Sélectionnez et copiez le lien ci-dessous.',
   } : locale.startsWith('es') ? {
@@ -50,15 +39,12 @@ export function VideoWatchShare({ watchUrl, locale = 'en' }: { watchUrl: string;
         {status === 'copied' ? copy.copied : copy.link}
       </button>
     </div>
-    <div className={styles.shareActions}>{destinations.map(({ target, label }) => {
-      const accessibleLabel = target === 'email' ? copy.email : `${copy.on} ${label}`;
-      return <a key={target} href={buildVideoShareIntent(target, watchUrl, '', locale)}
-        target={target === 'email' ? undefined : '_blank'} rel={target === 'email' ? undefined : 'noopener noreferrer'}
-        aria-label={accessibleLabel} title={accessibleLabel}
-        data-analytics-event="cta_click" data-analytics-cta-name={`video_share_${target}`} data-analytics-cta-location="watch_page">
-        <ShareIcon target={target} />
-      </a>;
-    })}</div>
+    <div className={styles.shareActions}>{DOMESTIC_SHARE_PLATFORMS.map(platform => <a key={platform.id}
+      href={platform.url} target="_blank" rel="noopener noreferrer" aria-label={`打开${platform.label}创作者中心`}
+      data-analytics-event="cta_click" data-analytics-cta-name={`video_share_${platform.id}`} data-analytics-cta-location="watch_page">
+      <ExternalLink size={15} aria-hidden />{platform.label}
+    </a>)}</div>
+    <p className={styles.shareFeedback}>可复制链接发送到微信或 QQ。发布到短视频平台需准备素材，并在创作者中心手动上传。</p>
     <p role="status" aria-live="polite" className={status === 'error' ? styles.shareFeedback : 'sr-only'}>
       {status === 'copied' ? copy.copied : status === 'error' ? copy.error : ''}
     </p>

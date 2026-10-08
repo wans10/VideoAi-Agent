@@ -2,11 +2,11 @@
   "marketingName": "Seedream 5.0 Pro",
   "versionLabel": "5.0 Pro",
   "seo": {
-    "title": "Seedream 5.0 Pro - génération image professionnelle ByteDance | MaxVideoAI",
+    "title": "Seedream 5.0 Pro - génération image professionnelle ByteDance | VideoAI",
     "description": "Créez des images professionnelles, infographies denses, edits visuels et assets 2K avec Seedream 5.0 Pro dans MaxVideoAI."
   },
-  "overview": "Seedream 5.0 Pro est la route image professionnelle ByteDance dans MaxVideoAI. Utilisez-le pour les infographies denses, edits avancés, layouts multilingues, images cinématiques et frames propres avant animation.",
-  "pricingNotes": "Seedream 5.0 Pro est exposé comme une sortie professionnelle à image unique. MaxVideoAI affiche le devis exact avant génération.",
+  "overview": "Seedream 5.0 Pro est la route image professionnelle ByteDance dans VideoAI. Utilisez-le pour les infographies denses, edits avancés, layouts multilingues, images cinématiques et frames propres avant animation.",
+  "pricingNotes": "Seedream 5.0 Pro est exposé comme une sortie professionnelle à image unique. VideoAI affiche le devis exact avant génération.",
   "hero": {
     "title": "Seedream 5.0 Pro - production image professionnelle",
     "intro": "Utilisez Seedream Pro pour les stills détaillés, infographies structurées, edits contrôlés et images 2K prêtes campagne.",
@@ -170,13 +170,13 @@
     ],
     "pricingCopy": {
       "title": "Seedream 5.0 Pro tarifs en bref",
-      "subtitle": "Seedream 5.0 Pro est exposé comme une sortie professionnelle à image unique. MaxVideoAI affiche le devis exact avant génération.",
-      "footnote": "Seedream 5.0 Pro est exposé comme une sortie professionnelle à image unique. MaxVideoAI affiche le devis exact avant génération.",
+      "subtitle": "Seedream 5.0 Pro est exposé comme une sortie professionnelle à image unique. VideoAI affiche le devis exact avant génération.",
+      "footnote": "Seedream 5.0 Pro est exposé comme une sortie professionnelle à image unique. VideoAI affiche le devis exact avant génération.",
       "ctaLabel": "Voir tous les tarifs",
       "ctaHref": "/fr/tarifs#seedream-5-0-pro-pricing"
     },
     "meta": {
-      "title": "Seedream 5.0 Pro - génération image professionnelle ByteDance | MaxVideoAI",
+      "title": "Seedream 5.0 Pro - génération image professionnelle ByteDance | VideoAI",
       "description": "Créez des images professionnelles, infographies denses, edits visuels et assets 2K avec Seedream 5.0 Pro dans MaxVideoAI."
     }
   },
@@ -234,7 +234,7 @@
     "modelSlug": "seedream-5-0-pro",
     "section": {
       "title": "Exemples Seedream 5.0 Pro",
-      "intro": "Explorez des rendus de la communauté et voyez comment Seedream 5.0 Pro se comporte dans des workflows MaxVideoAI.",
+      "intro": "Explorez des rendus de la communauté et voyez comment Seedream 5.0 Pro se comporte dans des workflows VideoAI.",
       "defaultCtaLabel": null,
       "recreateLabel": "Recréer ce rendu →"
     },

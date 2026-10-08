@@ -15,6 +15,7 @@ import {
   getBytePlusSeedanceAllowedModes,
   isBytePlusModelArkEnabled,
   isBytePlusSeedanceAdminOnly,
+  isBytePlusSeedanceSubmissionEnabled,
   isBytePlusSeedanceHiddenEngine,
   resolveBytePlusSeedanceModelId,
   resolveBytePlusSeedanceRouteProfile,
@@ -24,6 +25,7 @@ import {
 import { requiresBytePlusSeedanceEarlyGate } from '@/server/video-providers/byteplus-modelark-profile-policy';
 import {
   resolveVideoProviderRoutingPlan,
+  isLlmhubVideoRoutingSelected,
   shouldRouteKlingDirectSourceElementsToFal,
   type VideoProviderRoutingEnv,
   type VideoProviderRoutingPlan,
@@ -81,6 +83,28 @@ const defaultGenerateRouteContextBoundaries: GenerateRouteContextBoundaries = {
   resolveLaunchCanaryRequestContext,
 };
 
+function shouldUseLlmhubBeforeBytePlus(
+  engineId: string,
+  mode: string,
+  provider: string | null | undefined,
+  body: Record<string, unknown>,
+  providerEnv?: VideoProviderRoutingEnv,
+  isAdmin = false,
+): boolean {
+  if (!isLlmhubVideoRoutingSelected(engineId, mode, providerEnv, body)) return false;
+  const profile = resolveBytePlusSeedanceRouteProfile(engineId, provider);
+  if (profile && isBytePlusSeedanceAdminOnly(engineId) && !isAdmin) return true;
+  if (!profile || !isBytePlusModelArkEnabled() || !isBytePlusSeedanceSubmissionEnabled(engineId)
+    || !getBytePlusSeedanceAllowedModes(engineId).includes(mode as Mode)) return true;
+  try {
+    assertBytePlusTransportConfigured(engineId, mode);
+    return false;
+  } catch (error) {
+    if (error instanceof BytePlusModelArkError) return true;
+    throw error;
+  }
+}
+
 export function resolveTrustedPaidGenerateRouteContext(params: {
   body: Record<string, unknown>;
   engine: EngineCaps;
@@ -98,10 +122,9 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
   let bytePlusProfile: BytePlusSeedanceProfile | null;
 
   try {
-    bytePlusProfile = resolveBytePlusSeedanceRouteProfile(
-      engine.id,
-      engine.providerMeta?.provider
-    );
+    bytePlusProfile = shouldUseLlmhubBeforeBytePlus(engine.id, mode, engine.providerMeta?.provider, body, providerEnv)
+      ? null
+      : resolveBytePlusSeedanceRouteProfile(engine.id, engine.providerMeta?.provider);
     if (bytePlusProfile) {
       if (isBytePlusSeedanceAdminOnly(engine.id)) {
         return { ok: false, status: 400, body: { ok: false, error: 'Engine unavailable' } };
@@ -135,7 +158,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
 
   let providerRoutingPlan: VideoProviderRoutingPlan = isBytePlusV1a
     ? { kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false }
-    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, isAdmin: false, env: providerEnv });
+    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, isAdmin: false, env: providerEnv, request: body });
   if (shouldRouteKlingDirectSourceElementsToFal({
     providerRoutingPlan,
     elementCount: Array.isArray(body.elements) ? body.elements.length : 0,
@@ -177,6 +200,13 @@ export async function resolveGenerateRouteContext(params: {
   if (isArchivedGenerationModel(requestedEngineId)) {
     return { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } };
   }
+  const requestedLlmhubMode = typeof body.mode === 'string' ? body.mode.trim().toLowerCase() : 't2v';
+  const registeredForRouting = getBaseEngineIncludingHidden(requestedEngineId)
+    ?? getPrivateRuntimeEngineById(requestedEngineId);
+  let llmhubBasicRoute = shouldUseLlmhubBeforeBytePlus(
+    requestedEngineId, requestedLlmhubMode, registeredForRouting?.providerMeta?.provider, body, undefined, true,
+  );
+  let bytePlusAdminAuthorized = false;
   let launchCanaryContext: LaunchCanaryRequestContext | null = null;
   if (isPrivateRuntimeEngineId(requestedEngineId)) {
     launchCanaryContext = await boundaries.resolveLaunchCanaryRequestContext(req);
@@ -184,7 +214,7 @@ export async function resolveGenerateRouteContext(params: {
       return { ok: false, status: 404, body: { ok: false, error: 'Engine unavailable' } };
     }
   }
-  if (requiresBytePlusSeedanceEarlyGate(requestedEngineId)) {
+  if (!llmhubBasicRoute && requiresBytePlusSeedanceEarlyGate(requestedEngineId)) {
     try {
       assertBytePlusSeedanceSubmissionEnabled(requestedEngineId);
     } catch (error) {
@@ -208,17 +238,23 @@ export async function resolveGenerateRouteContext(params: {
     return { ok: false, status: 400, body: { ok: false, error: 'Unknown engine' } };
   }
   const bytePlusRequiresEarlyAdmin =
-    shouldRouteSeedanceEngineToBytePlus(requestedEngineId) &&
+    !llmhubBasicRoute && shouldRouteSeedanceEngineToBytePlus(requestedEngineId) &&
     isBytePlusSeedanceAdminOnly(requestedEngineId);
   if (bytePlusRequiresEarlyAdmin) {
     try {
       await boundaries.requireAdmin(req);
+      bytePlusAdminAuthorized = true;
     } catch (error) {
       if (error instanceof AdminAuthError) {
-        return { ok: false, status: error.status, body: { ok: false, error: error.message } };
+        if (isLlmhubVideoRoutingSelected(requestedEngineId, requestedLlmhubMode, undefined, body)) {
+          llmhubBasicRoute = true;
+        } else {
+          return { ok: false, status: error.status, body: { ok: false, error: error.message } };
+        }
+      } else {
+        console.error('[api/generate] failed to check BytePlus admin access', error);
+        return { ok: false, status: 500, body: { ok: false, error: 'Server error' } };
       }
-      console.error('[api/generate] failed to check BytePlus admin access', error);
-      return { ok: false, status: 500, body: { ok: false, error: 'Server error' } };
     }
   }
 
@@ -239,10 +275,11 @@ export async function resolveGenerateRouteContext(params: {
 
   let bytePlusProfile: BytePlusSeedanceProfile | null;
   try {
-    bytePlusProfile = resolveBytePlusSeedanceRouteProfile(
-      engine.id,
-      engine.providerMeta?.provider
-    );
+    bytePlusProfile = shouldUseLlmhubBeforeBytePlus(
+      engine.id, requestedLlmhubMode, engine.providerMeta?.provider, body, undefined, bytePlusAdminAuthorized,
+    )
+      ? null
+      : resolveBytePlusSeedanceRouteProfile(engine.id, engine.providerMeta?.provider);
     if (bytePlusProfile) {
       assertBytePlusSeedanceSubmissionEnabled(engine.id);
       resolveBytePlusSeedanceModelId(engine.id, getBytePlusArkConfig());
@@ -373,7 +410,7 @@ export async function resolveGenerateRouteContext(params: {
   }
   let providerRoutingPlan: VideoProviderRoutingPlan = isBytePlusV1a
     ? ({ kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false } as const)
-    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, isAdmin: isAdminForDirectProvider });
+    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, isAdmin: isAdminForDirectProvider, request: body });
   if (
     shouldRouteKlingDirectSourceElementsToFal({
       providerRoutingPlan,

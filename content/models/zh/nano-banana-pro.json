@@ -1,0 +1,555 @@
+{
+  "marketingName": "Nano Banana Pro",
+  "versionLabel": "Pro",
+  "seo": {
+    "title": "Nano Banana Pro - 1K/2K/4K 文本生图与图像编辑 | VideoAI",
+    "description": "使用 Nano Banana Pro 生成 1K、2K 与 4K 高清静态图像。VideoAI 支持高保真画质输出、多图参考及商业化工作流控制。",
+    "image": "https://media.maxvideoai.com/marketing/marketing/5977bed2-7e9a-489c-a437-3232c99bc078.png"
+  },
+  "overview": "Nano Banana Pro 是面向品牌的专业级升级方案，适用于清晰文字排版、连贯人物角色与可直接交付的高清静态图像。在 VideoAI 图像实验室中，您可以先以 1K 或 2K 快速起草构图，待画面定稿后一键切换至 4K 渲染。",
+  "hero": {
+    "title": "Nano Banana Pro - 1K/2K/4K 文本生图与图像编辑",
+    "intro": "工作室级静态图像生成与语义编辑——专为广告大片素材和精致排版设计。",
+    "badge": "文本 -> 图像 · 图像 -> 图像 · 2K / 4K",
+    "ctaPrimary": {
+      "label": "启动 Nano Banana Pro",
+      "href": "/app/image?engine=nano-banana-pro"
+    },
+    "secondaryLinks": [
+      {
+        "label": "打开图像实验室",
+        "href": "/app/image"
+      },
+      {
+        "label": "查看实时价格",
+        "href": "/app"
+      },
+      {
+        "label": "查看图像案例",
+        "href": "/zh/examples?engine=nano-banana-pro"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "含清晰文字的商业海报与广告",
+        "icon": "type"
+      },
+      {
+        "title": "产品特写与包装样机效果图",
+        "icon": "product"
+      },
+      {
+        "title": "系列化产品视觉一致性（多款式与 SKU）",
+        "icon": "layers"
+      },
+      {
+        "title": "无需遮罩的图像编辑（重打光 / 风格转换 / 局部替换）",
+        "icon": "wand2"
+      },
+      {
+        "title": "演示文稿幻灯片、UI 界面样机与图表视觉",
+        "icon": "layout"
+      },
+      {
+        "title": "视频动画生成前的关键帧与情绪板",
+        "icon": "storyboard"
+      }
+    ]
+  },
+  "promptStructure": {
+    "title": "提示词快速指南",
+    "quote": "4K [主体] 置于 [环境] 中，[光影/镜头]，包含文字 \"[文案]\"，采用 [字体风格]，品牌配色 [颜色]。",
+    "description": "清晰阐明主体、场景、光影、镜头、排版文字以及画面的具体用途。若进行图像编辑，请明确说明哪些元素保持锁定、哪些可以改变。",
+    "steps": [
+      "主体与视觉焦点（产品、主角、场景）",
+      "环境与光影氛围（摄影棚、黄昏、体积光）",
+      "镜头与视觉质感（35mm、微距、移轴、胶片颗粒）",
+      "排版文字或标志（精准文案、排版位置、字体风格）",
+      "输出用途与分辨率（2K 草稿、4K 成片）",
+      "基于已有静态图编辑时的修改指令"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "优先以 2K 分辨率快速起草构图，定稿后再以 4K 重新渲染。",
+      "使用种子（Seed）锁定构图，尤其适用于多图系列广告。",
+      "当需要统一品牌服饰、道具或面部特征时，上传 1–4 张参考图。",
+      "针对招牌或文字标语，请提供精准文案并注明大小写与对齐方式。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "4K 产品主视觉（文本生图）",
+      "prompt": "4K 广告大片：哑光黑色电动摩托车停在雨夜屋顶，霓虹天际线倒影，身后广告牌上以发光无衬线字体呈现文案\"FULL TORQUE\"，电影感 35mm 景深。"
+    },
+    {
+      "title": "发布会海报（文本生图）",
+      "prompt": "竖版金融科技峰会活动海报，简洁瑞士网格排版，蓝绿与炭灰配色，精准标题文字：\"NEO CAPITAL LIVE\"，副标题\"PARIS 2025\"，柔和体积光背景。"
+    },
+    {
+      "title": "参考图精修（图像生图）",
+      "prompt": "以此工作室产品实拍图为基础，优化光影使其更为柔和渐变，去除灰尘与指纹，添加微弱倒影，置于中性 4K 背景上用于包装呈现。"
+    },
+    {
+      "title": "多图连贯性（图像生图）",
+      "prompt": "将这组品牌人物形象融合成一套统一的秋日系列视觉：暖色钨丝灯轮廓光、统一服饰配色方案、细腻的飘落树叶粒子效果，保持每位人物的独特形象不变。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Nano Banana Pro 是否支持渲染 4K 图像？",
+      "a": "支持。最高可生成 4K 分辨率（长边达 4096px）。4K 价格为每张 $0.39（2K 为每张 $0.20）。"
+    },
+    {
+      "q": "价格是如何计算的？",
+      "a": "按单张图像计费：2K 为每张 $0.20，4K 为每张 $0.39。"
+    },
+    {
+      "q": "单次运行最多可以生成多少张图像？",
+      "a": "单次批量运行最多可生成 1–8 张图像。"
+    },
+    {
+      "q": "可以使用多少张参考图像？",
+      "a": "在 VideoAI 界面中，建议保持参考图组合精简以获得更好的控制效果。具体上限取决于当前使用的生效路由。"
+    },
+    {
+      "q": "它是否支持无遮罩编辑？",
+      "a": "支持。Nano Banana Pro 支持通过自然语言进行图像编辑，无需手动绘制遮罩，编辑按次计费。"
+    },
+    {
+      "q": "生成的内容可以用于商业用途吗？",
+      "a": "只要您的输入提示词、参考图像和生成输出符合您的许可协议及 VideoAI 使用条款，即可用于商业项目。"
+    }
+  ],
+  "pricingNotes": "2K 图像每张 $0.20，4K 图像每张 $0.39。生成前可在工作区内查看实时精准报价。",
+  "custom": {
+    "heroEyebrow": "Nano Banana Pro 图像模型",
+    "heroSupportLine": "最适合商业级静态大片、系列化产品一致性以及视频动画生成前的参考情绪板。",
+    "heroSpecChips": [
+      {
+        "label": "文本->图像",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图像->图像",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "无遮罩编辑"
+      },
+      {
+        "label": "多图参考"
+      },
+      {
+        "label": "文字排版"
+      },
+      {
+        "label": "最高支持 4K",
+        "icon": "resolution"
+      }
+    ],
+    "whyTitle": "Nano Banana Pro 的核心优势",
+    "heroDesc1": "生成质感细腻、文字清晰锐利的 1K、2K 或 4K 静态画面，与您的视频生成引擎无缝衔接。",
+    "heroDesc2": "在 VideoAI 内享受统一钱包、一体化提示词实验室以及完整的生成日志。",
+    "heroHighlights": [
+      "清晰文字与排版||专为商业营销素材打造，文字排版清晰锐利、毫不糊化。",
+      "无需遮罩的语义编辑||直接用语言描述改动需求；构图、光影与主体特征自然保持一致。",
+      "多图参考驱动一致性||轻松维持整套视觉资产中产品或角色的造型与风格稳定。",
+      "深度遵循复杂创作简报||精准理解多段式艺术指导指令，大幅减少随机异常。"
+    ],
+    "whatTitle": "Nano Banana Pro 的工作方式",
+    "whatIntro1": "选择“生成”或“编辑”，设置生成数量（1–8 张），选择画幅比例，并根据需要设定 1K、2K 或 4K 输出分辨率。",
+    "whatIntro2": "锁定您的提示词结构，按需上传参考图，确认实时价格标签，即可点击生成。",
+    "whatFlowTitle": "制作流程",
+    "whatFlowSteps": [
+      "在图像实验室中选择 Nano Banana Pro",
+      "选择“文本生图”或“图像生图”",
+      "设置单次生成数量与（可选）随机种子以保证一致性",
+      "若进行编辑，上传品牌参考图或静态素材",
+      "核对价格标签（1K/2K 图像每张 $0.15，4K 为 $0.30）并启动生成"
+    ],
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "将图像视为版面构图时，Nano Banana Pro 的表现最为稳定：先构图，次光影风格，最后加入文字排版（若有）。",
+    "strengths": [
+      "从构图与视觉层次入手（确定主体位置、视觉焦点与留白区域）。",
+      "对于文字排版：提供精准文案与位置描述（如“左上角主标题，分两行，高对比度”），文案尽量精炼。",
+      "对于一致性：为参考图指定明确角色（如“参考图 A = 产品外观，参考图 B = 摄影打光，参考图 C = 色彩基调”）。",
+      "对于编辑：采用“修改 X，保持 Y”的格式（保留构图、光影与主体特征，仅修改目标元素）。",
+      "先在 2K 下快速迭代，定稿后再切换至 4K 生成最终成品。"
+    ],
+    "boundaries": [
+      "仅支持静态图像（不支持动态视频）。",
+      "4K 输出为每张 $0.30（1K/2K 为每张 $0.15）。",
+      "单次批量生成支持 1–8 张图像。",
+      "参考图及图像数量上限取决于当前生效的 VideoAI 路由与界面规格。"
+    ],
+    "safetyTitle": "安全与肖像权规范",
+    "safetyRules": [
+      "严禁色情内容及任何涉及未成年人的违规内容。",
+      "严禁仇恨言论、骚扰辱骂或血腥暴力内容。",
+      "未经授权不得仿冒真实人物或公众人物；使用任何肖像均需获得许可。",
+      "不得包含私人隐私数据（未经同意的人物面部、住址、电话号码、证件等）。",
+      "部分提示词或参考图可能会被 VideoAI 安全过滤器拦截。"
+    ],
+    "relatedTitle": "Nano Banana 系列",
+    "relatedSubtitle": "根据交付需求选用合适的 Google 图像模型，而非单纯依赖视频基准跑分。",
+    "relatedItems": [
+      {
+        "brand": "Google",
+        "title": "Nano Banana Lite",
+        "modelSlug": "nano-banana-lite",
+        "description": "使用 Lite 进行快速、高性价比的 1K 创意发想，再将确定的方向推进至 Pro。",
+        "ctaLabel": "打开 Nano Banana Lite"
+      },
+      {
+        "brand": "Google",
+        "title": "Nano Banana 2",
+        "modelSlug": "nano-banana-2",
+        "description": "使用 Nano Banana 2 获取搜索接地的图像生成、更宽画幅比例以及 0.5K 至 4K 灵活静态图。",
+        "ctaLabel": "打开 Nano Banana 2"
+      }
+    ]
+  },
+  "decision": {
+    "modelSlug": "nano-banana-pro",
+    "hero": {
+      "eyebrow": "GOOGLE 专业图像模型",
+      "title": "Nano Banana Pro",
+      "subtitle": "4K 商业广告大片、文字排版编辑以及多图参考的高品质视觉资产。",
+      "subtitleHighlights": [
+        "4K 商业广告大片",
+        "文字排版编辑",
+        "多图参考"
+      ],
+      "paragraph": "当静态图像需要更出色的文字排版、商业级质感、2K/4K 高清交付以及基于参考图的精修时，使用 Nano Banana Pro 打造品牌、产品或发布会的高水准视觉。",
+      "primaryCta": {
+        "label": "使用 Nano Banana Pro 生成",
+        "href": "/app/image?engine=nano-banana-pro"
+      },
+      "secondaryCta": {
+        "label": "查看价格",
+        "href": "/zh/pricing#nano-banana-pro-pricing"
+      },
+      "quickLinks": [
+        {
+          "label": "打开图像工作区",
+          "href": "/app/image?engine=nano-banana-pro"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#nano-banana-pro-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Nano Banana Pro 示例",
+      "description": "4K 商业广告大片与文字排版工作流",
+      "renderLabel": "查看图像",
+      "badges": [
+        "2K/4K",
+        "文字排版",
+        "参考图"
+      ],
+      "altContext": "Nano Banana Pro 带文字排版的广告图像"
+    },
+    "features": [
+      {
+        "title": "4K 商业大片级静态图",
+        "body": "渲染更高分辨率的静态大片，适用于新品发布与面向客户的高水准素材。",
+        "tone": "quality"
+      },
+      {
+        "title": "聚焦文字排版",
+        "body": "利用明确的文字层次结构与版式提示，生成清晰易读的商业广告图。",
+        "tone": "reference"
+      },
+      {
+        "title": "参考图精修",
+        "body": "上传参考图，保持服饰、产品、版式构图或视觉风格的连续性。",
+        "tone": "continuity"
+      },
+      {
+        "title": "种子锁定",
+        "body": "在同一构图上反复迭代微调时，锁定随机种子以保持画面一致。",
+        "tone": "reference"
+      },
+      {
+        "title": "2K 先行草稿",
+        "body": "在支付 4K 最终成片费用前，先以 2K 分辨率快速验证创意。",
+        "tone": "price"
+      },
+      {
+        "title": "一体化图像工作区",
+        "body": "无需离开 VideoAI，即可直接生成和编辑静态视觉素材。",
+        "tone": "duration"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 Pro 还是 Nano Banana 2？",
+        "body": "需要 4K 商业成品质感和文字排版时选用 Pro；需要搜索接地、超宽画幅与低成本草稿时选用 Nano Banana 2。",
+        "cta": {
+          "label": "查看 Nano Banana 2",
+          "href": "/zh/models/nano-banana-2"
+        }
+      },
+      {
+        "title": "需要处理文字排版？",
+        "body": "指明准确文案、字阶层次、文字间距以及文字应呈现的载体表面。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "需要低成本快速生成变体？",
+        "body": "在将选定方向推进至 Pro 之前，可先使用 Nano Banana 进行轻量级批量尝试。",
+        "cta": {
+          "label": "查看 Nano Banana",
+          "href": "/zh/models/nano-banana"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "商业大片静态图",
+        "body": "在一条提示词中完整定义产品、排版布局、文案、打光与交付分辨率。"
+      },
+      {
+        "title": "参考图精修",
+        "body": "上传参考图，用于指导产品特征、服装、背景、配色方案或字体排版方向。"
+      },
+      {
+        "title": "2K 转 4K 工作流",
+        "body": "在 2K 分辨率下快速验证画面构图，满意后重新以 4K 渲染成片素材。"
+      },
+      {
+        "title": "种子迭代",
+        "body": "复用种子数值，每次迭代仅调整一个提示词变量以保持稳定。"
+      },
+      {
+        "title": "品牌安全合规",
+        "body": "使用自有品牌标识与原创人物角色；避免使用受版权保护的 IP 与名人肖像。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Nano Banana Pro 定价一览",
+      "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数显示的参考价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最高支持 4K",
+      "ctaHref": "/zh/pricing#nano-banana-pro-pricing"
+    },
+    "meta": {
+      "title": "Nano Banana Pro：定价、4K 图像与文字排版 | VideoAI",
+      "description": "了解 Nano Banana Pro 价格方案、2K 与 4K 商业静态大片、聚焦文字排版的图像生成、参考图精修及品牌素材工作流。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "nano-banana-pro",
+    "section": {
+      "title": "如何撰写优秀的 Nano Banana Pro 提示词",
+      "intro": "Nano Banana Pro 擅长处理结构化简报，对清晰的构图、文字排版和编辑意图有极佳的响应。",
+      "tip": "提示：分辨率与画幅比例可在界面中直接设置——您的提示词重点控制主体、构图、光影、风格及编辑指令。",
+      "guide": null,
+      "referencesTitle": "Nano Banana Pro 如何使用参考图"
+    },
+    "tabs": [
+      {
+        "id": "quick",
+        "label": "快速",
+        "title": "快速提示词（快速迭代）",
+        "description": "用 1–2 句话快速生成多种创意变化。",
+        "copy": "[主体] 置于 [场景] 中，[构图]，[光影]，[风格]，[文字（如有需要）]。"
+      },
+      {
+        "id": "structured",
+        "label": "结构化",
+        "title": "结构化提示词（最适合获得稳定结果）",
+        "description": "分模块呈现信息，让模型能够稳定遵循指令。",
+        "copy": "主体：\n[谁/什么主体 + 关键特征]\n\n构图：\n[取景框 + 视角 + 背景]\n\n光影：\n[主光 + 氛围]\n\n风格：\n[写实摄影 / 插画 / 配色]\n\n文字排版（如有需要）：\n[精准文案 + 出现位置]\n\n编辑指令（若进行图像编辑）：\n[修改 X，保留 Y]"
+      },
+      {
+        "id": "pro",
+        "label": "专业",
+        "title": "专业提示词（超精细的“工作室简报”）",
+        "description": "适用于需要特定视觉质感或多组镜头之间保持视觉连续性时。",
+        "copy": "品牌简报：\n[创作目标 + 目标受众 + 输出规格]\n\n主体与材质：\n[细节特征 + 材质纹理]\n\n版式与层次：\n[栅格网格、间距、视觉焦点]\n\n文字排版：\n[字体气质 + 字阶层次 + 精准文案]\n\n参考图（可选）：\n[参考图 A 控制风格；参考图 B 控制产品]\n\n编辑指令（如有需要）：\n[修改项列表 + 保留项列表]"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "quick",
+        "body": "快速 = 多样性。适用于初期快速探索创意变体。"
+      },
+      {
+        "tabId": "structured",
+        "body": "结构化 = 一致性。适用于需要稳定可预期的高质量结果。"
+      },
+      {
+        "tabId": "pro",
+        "body": "专业 = 风格深度控制。适用于精准、可复现的专业级视觉质感。"
+      }
+    ],
+    "globalPrinciples": [
+      "优先明确主体与构图取景。",
+      "指定光影氛围、镜头焦段与风格基准。",
+      "对于图像编辑，明确指出修改什么、保留什么。"
+    ],
+    "engineWhy": [
+      "结构化简报能够呈现出更干净利落的文字排版与画面布局。",
+      "无遮罩编辑在明确说明“改什么、留什么”时效果最佳。",
+      "多图参考有助于始终保持产品或角色造型稳定不走样。"
+    ],
+    "demo": null,
+    "imageExamples": {
+      "title": "Nano Banana Pro 图像提示词示例",
+      "intro": "适用于商业静态大片、排版海报、参考图编辑以及 2K 到 4K 成片渲染。",
+      "workspaceLabel": "打开图像工作区",
+      "items": [
+        {
+          "id": "quality-1",
+          "title": "商业大片静态图",
+          "badge": "2K 静态图",
+          "kind": "quality",
+          "prompt": "2K 香氛广告静态图：琥珀色香水瓶置于白色亚克力台面上，柔和工作室主光，干净投影，左上角精准标题\"AURA NOIRE\"，底部边缘配小型品牌标志组合。"
+        },
+        {
+          "id": "typography-2",
+          "title": "文字排版海报",
+          "badge": "文字排版",
+          "kind": "typography",
+          "prompt": "竖版 4K 海报，高端编辑排版网格，石墨黑背景，精准标题\"MIDNIGHT LAUNCH\"，副标题\"LIMITED DROP\"，清晰字阶层次，充足边距，文字清晰易读。"
+        },
+        {
+          "id": "edit-3",
+          "title": "参考图精修",
+          "badge": "图像生图",
+          "kind": "edit",
+          "prompt": "以此产品参考图为基础，保留形状、Logo 与比例，将场景更换为午夜蓝工作室背景，强化倒影效果，去除灰尘与指纹。"
+        },
+        {
+          "id": "layout-4",
+          "title": "2K 转 4K 成片",
+          "badge": "4K 成片",
+          "kind": "layout",
+          "prompt": "以已审定的 2K 构图重新渲染为 4K 终稿：锐化细节纹理，保持排版文字完全一致，保留品牌配色、产品位置与锁定取景框。"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "nano-banana-pro",
+    "section": {
+      "title": "Nano Banana Pro 案例精选",
+      "intro": "近期为商业大片情绪板与产品发布精选制作的 2K/4K 静态图与图像编辑案例。",
+      "defaultCtaLabel": "查看图像案例 →",
+      "recreateLabel": "重现该静态图 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "campaign",
+        "label": "广告大片"
+      },
+      {
+        "id": "typography",
+        "label": "文字与版式"
+      },
+      {
+        "id": "reference",
+        "label": "多模态参考"
+      },
+      {
+        "id": "final",
+        "label": "成片"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "静态图像案例",
+        "body": "专为 Nano Banana Pro 定制的提示词范式。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-2",
+        "title": "文字排版控制",
+        "body": "精准文案、字阶层次与位置布局始终清晰明确。",
+        "icon": "type"
+      },
+      {
+        "id": "proof-3",
+        "title": "参考图精修",
+        "body": "稳定保持产品造型、配色方案、构图版式或视觉风格。",
+        "icon": "pen"
+      },
+      {
+        "id": "proof-4",
+        "title": "4K 终极成片",
+        "body": "先在 2K 下充分验证构图，再以 4K 完成高质量出图。",
+        "icon": "maximize"
+      },
+      {
+        "id": "proof-5",
+        "title": "生产级可靠",
+        "body": "支持自有参考资产输入并内置严格的合规护栏。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": [
+      {
+        "id": "campaign",
+        "title": "2K 商业大片静态图",
+        "category": "广告大片",
+        "aspectRatio": "2K",
+        "alt": "采用广告布局的 Nano Banana Pro 商业大片图像",
+        "tags": [
+          "campaign"
+        ]
+      },
+      {
+        "id": "typography",
+        "title": "文字排版海报",
+        "category": "文字与版式",
+        "aspectRatio": "4K",
+        "alt": "带有清晰可读文字排版的 Nano Banana Pro 海报",
+        "tags": [
+          "typography"
+        ]
+      },
+      {
+        "id": "reference",
+        "title": "参考图精修",
+        "category": "多模态参考",
+        "aspectRatio": "Edit",
+        "alt": "通过参考图引导的 Nano Banana Pro 产品编辑图像",
+        "tags": [
+          "reference"
+        ]
+      },
+      {
+        "id": "final",
+        "title": "2K 转 4K 成片",
+        "category": "成片",
+        "aspectRatio": "4K",
+        "alt": "以 4K 分辨率定稿的 Nano Banana Pro 商业宣传资产",
+        "tags": [
+          "final"
+        ]
+      }
+    ],
+    "showWhenEmpty": true
+  }
+}

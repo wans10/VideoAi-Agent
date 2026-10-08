@@ -9,7 +9,8 @@ const dispatcherSource = readFileSync(join(root, 'frontend/src/server/images/ima
 const googleExecutorSource = readFileSync(join(root, 'frontend/src/server/images/google-vertex-image-execution.ts'), 'utf8');
 
 test('Vertex image availability is checked before the atomic wallet charge', () => {
-  const preflight = executeSource.indexOf('assertGoogleVertexImageAvailable');
+  const preflight = executeSource.indexOf('assertDirectImageProviderAvailable');
+  assert.match(dispatcherSource, /assertGoogleVertexImageAvailable\(engine\)/);
   const walletCharge = executeSource.indexOf('await createAtomicInitialImageJob');
   assert.ok(preflight >= 0, 'Vertex image preflight should be called');
   assert.ok(walletCharge >= 0, 'atomic image job helper should remain present');

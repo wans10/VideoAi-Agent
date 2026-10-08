@@ -66,7 +66,7 @@ export function useJobsPageController() {
     try {
       const status = await getJobStatus(jobId);
       if (status.status === 'failed') {
-        throw new Error(status.message ?? 'MaxVideoAI could not complete this render.');
+        throw new Error(status.message ?? 'Keyvo could not complete this render.');
       }
       if (status.status !== 'completed' && !status.videoUrl && !status.audioUrl) {
         throw new Error('This render is still processing.');

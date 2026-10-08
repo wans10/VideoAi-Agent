@@ -131,7 +131,7 @@ const NANO_BANANA_LITE_ENGINE: EngineCaps = {
   updatedAt: '2026-06-30T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'google_vertex_image',
+    provider: 'llmhub',
     modelSlug: 'gemini-3.1-flash-lite-image',
   },
   availability: 'available',
@@ -176,9 +176,9 @@ export const NANO_BANANA_LITE_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'gemini-3.1-flash-lite-image',
     seo: {
-      title: 'Nano Banana Lite - Fast Google Image Generation | MaxVideoAI',
+      title: 'Nano Banana Lite - Fast Google Image Generation | Keyvo',
       description:
-        'Use Nano Banana Lite in MaxVideoAI for fast 1K Google image generation and local edits with direct provider routing.',
+        'Use Nano Banana Lite in Keyvo for fast 1K Google image generation and local edits with direct provider routing.',
       canonicalPath: '/models/nano-banana-lite',
     },
     type: 'image',

@@ -211,7 +211,7 @@ export function CompareEngineFamilySelect({
   onChange,
 }: CompareEngineFamilySelectProps) {
   const locale = useLocale();
-  const modelNoun = locale === 'fr' ? 'modèle' : locale === 'es' ? 'modelo' : 'model';
+  const modelNoun = locale === 'fr' ? 'modèle' : locale === 'es' ? 'modelo' : locale === 'zh' ? '模型' : 'model';
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [dropdownPosition, setDropdownPosition] = useState<DropdownPosition | null>(null);

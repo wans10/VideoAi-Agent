@@ -1,8 +1,8 @@
-{{ if eq .Data.locale "fr" }}MaxVideoAI
+{{ if eq .Data.locale "fr" }}Keyvo
 
 Votre lien de connexion
 
-Utilisez le bouton ci-dessous pour vous connecter à votre compte MaxVideoAI.
+Utilisez le bouton ci-dessous pour vous connecter à votre compte Keyvo.
 
 {{ .ConfirmationURL }}
 
@@ -10,12 +10,12 @@ Ce lien personnel est à usage unique. Ne le partagez jamais.
 
 Si vous n’êtes pas à l’origine de cette demande, vous pouvez ignorer cet e-mail.
 
-Besoin d’aide ? Contactez support@maxvideoai.com
-{{ else if eq .Data.locale "es" }}MaxVideoAI
+Besoin d’aide ? Contactez support@keyvo.cn
+{{ else if eq .Data.locale "es" }}Keyvo
 
 Tu enlace de acceso
 
-Usa el botón para iniciar sesión en tu cuenta de MaxVideoAI.
+Usa el botón para iniciar sesión en tu cuenta de Keyvo.
 
 {{ .ConfirmationURL }}
 
@@ -23,12 +23,12 @@ Este enlace personal solo se puede usar una vez. No lo compartas.
 
 Si no has solicitado este correo, puedes ignorarlo.
 
-¿Necesitas ayuda? Contacta con support@maxvideoai.com
-{{ else }}MaxVideoAI
+¿Necesitas ayuda? Contacta con support@keyvo.cn
+{{ else }}Keyvo
 
 Your sign-in link
 
-Use the button below to sign in to your MaxVideoAI account.
+Use the button below to sign in to your Keyvo account.
 
 {{ .ConfirmationURL }}
 
@@ -36,5 +36,5 @@ This personal link can only be used once. Never share it.
 
 If you did not request this email, you can safely ignore it.
 
-Need help? Contact support@maxvideoai.com
+Need help? Contact support@keyvo.cn
 {{ end }}

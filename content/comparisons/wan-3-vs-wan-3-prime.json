@@ -1,21 +1,91 @@
 {
   "slug": "wan-3-vs-wan-3-prime",
   "en": {
-    "meta": { "title": "WAN 3 vs WAN 3 Prime: Scores, Speed & Price", "description": "Compare WAN 3 and WAN 3 Prime for quality, speed, pricing and production use.", "titleBranding": "none" },
-    "quickVerdict": { "title": "Quick verdict", "body": "Choose WAN 3 for the best value. Choose Prime when faster end-to-end generation and higher final polish justify the premium." },
+    "meta": {
+      "title": "WAN 3 vs WAN 3 Prime: Scores, Speed & Price",
+      "description": "Compare WAN 3 and WAN 3 Prime for quality, speed, pricing and production use.",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "Quick verdict",
+      "body": "Choose WAN 3 for the best value. Choose Prime when faster end-to-end generation and higher final polish justify the premium."
+    },
     "primaryLinksTitle": "Explore the models",
-    "primaryLinks": [{ "href": "/models/wan-3", "label": "WAN 3" }, { "href": "/models/wan-3-prime", "label": "WAN 3 Prime" }]
+    "primaryLinks": [
+      {
+        "href": "/models/wan-3",
+        "label": "WAN 3"
+      },
+      {
+        "href": "/models/wan-3-prime",
+        "label": "WAN 3 Prime"
+      }
+    ]
   },
   "fr": {
-    "meta": { "title": "WAN 3 vs WAN 3 Prime : notes, vitesse et prix", "description": "Comparez WAN 3 et WAN 3 Prime sur la qualité, vitesse, prix et usages.", "titleBranding": "none" },
-    "quickVerdict": { "title": "Verdict rapide", "body": "Choisissez WAN 3 pour le meilleur rapport qualité-prix. Choisissez Prime si sa génération plus rapide et sa finition supérieure justifient le surcoût." },
+    "meta": {
+      "title": "WAN 3 vs WAN 3 Prime : notes, vitesse et prix",
+      "description": "Comparez WAN 3 et WAN 3 Prime sur la qualité, vitesse, prix et usages.",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "Verdict rapide",
+      "body": "Choisissez WAN 3 pour le meilleur rapport qualité-prix. Choisissez Prime si sa génération plus rapide et sa finition supérieure justifient le surcoût."
+    },
     "primaryLinksTitle": "Explorer les modèles",
-    "primaryLinks": [{ "href": "/models/wan-3", "label": "WAN 3" }, { "href": "/models/wan-3-prime", "label": "WAN 3 Prime" }]
+    "primaryLinks": [
+      {
+        "href": "/models/wan-3",
+        "label": "WAN 3"
+      },
+      {
+        "href": "/models/wan-3-prime",
+        "label": "WAN 3 Prime"
+      }
+    ]
   },
   "es": {
-    "meta": { "title": "WAN 3 vs WAN 3 Prime: notas, velocidad y precio", "description": "Compara WAN 3 y WAN 3 Prime en calidad, velocidad, precio y usos.", "titleBranding": "none" },
-    "quickVerdict": { "title": "Veredicto rápido", "body": "Elige WAN 3 para obtener el mejor valor. Elige Prime si su generación más rápida y acabado superior justifican el coste extra." },
+    "meta": {
+      "title": "WAN 3 vs WAN 3 Prime: notas, velocidad y precio",
+      "description": "Compara WAN 3 y WAN 3 Prime en calidad, velocidad, precio y usos.",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "Veredicto rápido",
+      "body": "Elige WAN 3 para obtener el mejor valor. Elige Prime si su generación más rápida y acabado superior justifican el coste extra."
+    },
     "primaryLinksTitle": "Explorar los modelos",
-    "primaryLinks": [{ "href": "/models/wan-3", "label": "WAN 3" }, { "href": "/models/wan-3-prime", "label": "WAN 3 Prime" }]
+    "primaryLinks": [
+      {
+        "href": "/models/wan-3",
+        "label": "WAN 3"
+      },
+      {
+        "href": "/models/wan-3-prime",
+        "label": "WAN 3 Prime"
+      }
+    ]
+  },
+  "zh": {
+    "meta": {
+      "title": "WAN 3 对比 WAN 3 Prime：评分、速度与价格",
+      "description": "在 VideoAI 上对比 Wan 3 与 Wan 3 Prime 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "最佳性价比选择 WAN 3；更快端到端生成和更精细成片值得溢价时选择 Prime。"
+    },
+    "primaryLinksTitle": "了解模型",
+    "primaryLinks": [
+      {
+        "href": "/models/wan-3",
+        "label": "WAN 3"
+      },
+      {
+        "href": "/models/wan-3-prime",
+        "label": "WAN 3 Prime"
+      }
+    ]
   }
 }

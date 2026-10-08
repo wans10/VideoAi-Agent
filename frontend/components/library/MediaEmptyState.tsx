@@ -13,6 +13,10 @@ export function MediaEmptyState({ kind, locale, saved, onShowRenders }: Props) {
     title: 'Espacio para tu próxima creación',
     body: saved ? 'No hay medios guardados en esta categoría. Importa un archivo o consulta tus resultados.' : 'Los resultados completados de esta categoría aparecerán aquí.',
     create: { video: 'Crear un vídeo', image: 'Crear una imagen', audio: 'Crear audio' }, renders: 'Ver resultados',
+  } : locale === 'zh' ? {
+    title: '等待您的下一次创作',
+    body: saved ? '此分类暂无已保存素材。您可以导入文件或查看已完成的生成结果。' : '此分类已完成的生成结果将显示在这里。',
+    create: { video: '生成视频', image: '生成图片', audio: '生成音频' }, renders: '查看生成结果',
   } : {
     title: 'Room for your next creation',
     body: saved ? 'No saved media in this category. Import a file or find your completed renders.' : 'Your completed renders in this category will appear here.',

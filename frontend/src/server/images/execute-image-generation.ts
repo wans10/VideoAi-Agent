@@ -33,28 +33,24 @@ import { buildDefaultSettingsSnapshot } from './image-generation-settings-snapsh
 import { resolveImageGenerationRequestContext } from './image-generation-request-context';
 import { prepareImageGenerationReferences } from './image-generation-references';
 import { copyGeneratedImagesToStorage } from './image-output-storage';
-import { executeDirectImageProviderIfAvailable } from './image-direct-provider-execution';
-import { assertGoogleVertexImageAvailable } from './google-vertex-image-execution';
+import { executeDirectImageProviderIfAvailable, assertDirectImageProviderAvailable, assertQwenImageRequest } from './image-direct-provider-execution';
+import { assertLlmhubImageAvailable, resolveLlmhubImageModel } from './llmhub-image-models';
+import { executeConfiguredImageProvider, resolveImageProviderSelection, type ImageProviderSelection } from './image-provider-routing';
 import { normalizeImageGenerationMetadata, normalizeOptionalBoolean, resolveImageEnumSetting } from './image-generation-normalization';
-import {
-  executeImageProviderWithLumaAgentsDirectFallback,
-  lumaAgentsImageDirectEnabled,
-} from './luma-agents-execution';
-import {
-  resolveIncludedKlingFirstFrameParentJobId,
-} from './storyboard-image-billing';
+import { lumaAgentsImageDirectEnabled } from './luma-agents-execution';
+import { resolveIncludedKlingFirstFrameParentJobId } from './storyboard-image-billing';
 import { executeAfterInitialJobReservation } from '@/server/generations/initial-job-reservation';
 import type { ExecuteImageGenerationOptions } from './image-generation-execution-contract';
 import { markImageProviderOutcomeAmbiguous, shouldKeepImageProviderOutcomePending } from './image-provider-failure-policy';
 import { resolveImageGenerationPricingSnapshot } from './image-generation-pricing';
 import { prepareImageGenerationAccounting } from './image-generation-accounting';
 
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 export { buildResponseFromExistingJob } from './existing-image-job-response';
 export { ImageGenerationExecutionError } from './image-generation-error';
 export type { ExecuteImageGenerationOptions } from './image-generation-execution-contract';
-const DISPLAY_CURRENCY = 'USD';
-const DISPLAY_CURRENCY_LOWER: Currency = 'usd';
-
+const DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
+const DISPLAY_CURRENCY_LOWER: Currency = CUSTOMER_CURRENCY.toLowerCase() as Currency;
 export async function executeImageGeneration({
   userId,
   body,
@@ -75,7 +71,9 @@ export async function executeImageGeneration({
   const { engineEntry, engine, mode, modeConfig, resolvedAspectRatio, prompt, numImages, durationSec } =
     resolveImageGenerationRequestContext(body);
 
-  assertGoogleVertexImageAvailable(engine);
+  const imageProviderSelection = resolveImageProviderSelection(engine);
+  if (imageProviderSelection.kind === 'direct') assertDirectImageProviderAvailable(imageProviderSelection.engine);
+  if (imageProviderSelection.kind === 'llmhub') assertLlmhubImageAvailable(engine.id);
 
   const { characterReferences, normalizedImageUrls, combinedImageUrls, effectivePrompt, storedAssetInfoByUrl } =
     await prepareImageGenerationReferences({ userId, body, engineEntry, mode, prompt });
@@ -118,8 +116,9 @@ export async function executeImageGeneration({
       .filter((size) => typeof size?.width === 'number' && typeof size.height === 'number');
     const clientReferenceImageSizes = Array.isArray(body.referenceImageSizes) ? body.referenceImageSizes : [];
     customImageSize = resolveGptImage2AutoInputImageSize(
-      storedReferenceSizes.length ? storedReferenceSizes : clientReferenceImageSizes
+      storedReferenceSizes.length ? storedReferenceSizes : clientReferenceImageSizes, engine.id
     );
+    if (engine.id.startsWith('gpt-image-2-5-')) providerImageSize = customImageSize;
   }
 
   if (isGptImageFamilyEngineId(engine.id) && resolution === 'custom') {
@@ -228,6 +227,8 @@ export async function executeImageGeneration({
   const watermark =
     Boolean(watermarkField) &&
     (normalizeOptionalBoolean(body.watermark) ?? getImageFieldDefaultBoolean(engine, 'watermark', mode) ?? false);
+  if (engine.providerMeta?.provider === 'alibaba_qwen_image') assertQwenImageRequest({ modelId: engine.providerMeta.modelSlug ?? engine.id, prompt: effectivePrompt, mode, imageUrls: combinedImageUrls,
+    resolution, aspectRatio: resolvedAspectRatio, numImages, seed: normalizedSeed, watermark });
   const includedKlingFirstFrameParentJobId = await resolveIncludedKlingFirstFrameParentJobId({
     userId,
     jobId,
@@ -430,14 +431,164 @@ export async function executeImageGeneration({
       let providerMode: string = getResultProviderMode();
       let providerJobId: string | undefined;
 
-      const directProviderResponse = await executeDirectImageProviderIfAvailable({
+      const submitConfiguredProvider = async (selection: ImageProviderSelection): Promise<ImageGenerationResponse> => {
+        try {
+          const { result, providerJobId: completedProviderJobId, providerMode: completedProviderMode } =
+            await executeConfiguredImageProvider({
+            falModelId: modeConfig.falModelId, effectivePrompt, numImages, mode, combinedImageUrls, falAspectRatio,
+            providerImageSize, resolutionEngineParam, requestedResolution: resolution, normalizedSeed, outputFormat, quality, background, maskUrl, enableWebSearch,
+            thinkingLevel, limitGenerations, style, engine, engineEntry, watermark, jobId, userId, requestId: jobId,
+            useLumaDirect:
+              isLumaAgentsImageEngineId(engine.id) && lumaAgentsImageDirectEnabled({ isAdmin: isAdminForDirectProvider }),
+            onProviderJobId(requestId) { providerJobId = requestId; },
+            onProviderMode(nextProviderMode) { providerMode = nextProviderMode; },
+          }, selection);
+          providerMode = completedProviderMode;
+          providerJobId = completedProviderJobId ?? providerJobId;
+
+          const images = extractImages(result.data);
+          if (!images.length) {
+            throw new Error('Fal did not return images');
+          }
+
+          const normalizedImages = images.map((image) => ({
+            ...image,
+            url: normalizeMediaUrl(image.url) ?? image.url,
+          }));
+          const stableImages = await copyGeneratedImagesToStorage({
+            images: normalizedImages, jobId, userId, requireOwnedOutput: true,
+          });
+
+          const thumbUrls = await createImageThumbnailBatch({
+            jobId,
+            userId,
+            imageUrls: stableImages.map((image) => image.url),
+          });
+          const normalizedImagesWithThumbs = stableImages.map((image, index) => ({
+            ...image,
+            thumbUrl: thumbUrls[index] ?? null,
+          }));
+          const resultDescription = result.data && typeof result.data === 'object'
+            ? (result.data as { description?: unknown }).description : null;
+          const description = typeof resultDescription === 'string' ? resultDescription : null;
+          const providerRequestId = providerJobId ?? parseRequestId(result.data) ?? result.requestId ?? null;
+          providerJobId = providerRequestId ?? undefined;
+
+          const { heroThumb } = await persistCompletedImageGeneration({
+            billingProductKey,
+            characterReferenceCount: characterReferences.length,
+            costBreakdownJson,
+            description,
+            enableWebSearch,
+            engineId: engine.id,
+            engineLabel: engine.label,
+            images: normalizedImagesWithThumbs,
+            indexable,
+            jobId,
+            jobSurface,
+            limitGenerations,
+            maskUrl,
+            mode,
+            normalizedSeed,
+            numImages,
+            outputFormat,
+            pricing,
+            pricingSnapshotJson,
+            paymentStatus: imagePaymentStatus,
+            providerJobId: providerJobId ?? null,
+            providerMode,
+            quality,
+            resolvedAspectRatio,
+            resolution,
+            style,
+            thinkingLevel,
+            userId,
+            vendorAccountId,
+            visibility,
+          });
+
+          return {
+            ok: true,
+            jobId,
+            mode,
+            images: normalizedImagesWithThumbs,
+            description,
+            requestId: providerJobId ?? result.requestId ?? undefined,
+            providerJobId: providerJobId ?? undefined,
+            engineId: billingEngineId,
+            engineLabel: billingEngineLabel,
+            durationMs: undefined,
+            pricing,
+            paymentStatus: imagePaymentStatus,
+            thumbUrl: heroThumb,
+            aspectRatio: resolvedAspectRatio,
+            resolution,
+          } satisfies ImageGenerationResponse;
+        } catch (error) {
+          console.error('[images] Fal generation failed', error);
+          if (shouldKeepImageProviderOutcomePending({
+            walletReservation, hasTrustedQuotedBilling: Boolean(trustedQuotedBilling),
+            error, providerJobId,
+          })) {
+            await markImageProviderOutcomeAmbiguous(jobId, providerJobId);
+            fail(
+              mode,
+              'provider_outcome_ambiguous',
+              'Provider acceptance is still being verified.',
+              503,
+              null,
+              {
+                engineId: billingEngineId,
+                engineLabel: billingEngineLabel,
+                jobId,
+                providerJobId,
+                paymentStatus: imagePaymentStatus,
+              },
+            );
+          }
+          const { message, providerBody, providerStatus } = await persistFailedImageGeneration({
+            characterReferenceCount: characterReferences.length,
+            enableWebSearch,
+            engineId: engine.id,
+            error,
+            falModelId: modeConfig.falModelId,
+            jobId,
+            limitGenerations,
+            maskUrl,
+            mode,
+            normalizedSeed,
+            numImages,
+            outputFormat,
+            pendingReceipt,
+            priceOnlyReceipts,
+            pricing,
+            refundOnFailure: walletChargeMode === 'charge',
+            failedPaymentStatus,
+            providerJobId: providerJobId ?? null,
+            providerMode,
+            quality,
+            referenceImageUrls: combinedImageUrls,
+            refundDescription,
+            resolvedAspectRatio,
+            resolution,
+            style,
+            thinkingLevel,
+          });
+
+          fail(mode, 'fal_error', message, 502, { providerStatus, providerBody }, {
+            engineId: billingEngineId, engineLabel: billingEngineLabel, jobId,
+            paymentStatus: failedPaymentStatus,
+          });
+        }
+      };
+      const directProviderResponse = imageProviderSelection.kind !== 'direct' ? null : await executeDirectImageProviderIfAvailable({
         billingProductKey,
         characterReferenceCount: characterReferences.length,
         combinedImageUrls,
         costBreakdownJson,
         effectivePrompt,
         enableWebSearch,
-        engine,
+        engine: imageProviderSelection.engine,
         engineEntry,
         indexable,
         jobId,
@@ -461,159 +612,11 @@ export async function executeImageGeneration({
         vendorAccountId,
         visibility,
         watermark,
+        onPreAcceptanceFailure: resolveLlmhubImageModel(engine.id) && process.env.LLMHUB_API_KEY?.trim()
+          ? () => submitConfiguredProvider({ kind: 'llmhub' }) : undefined,
       });
-      if (directProviderResponse) {
-        return directProviderResponse;
-      }
-
-      try {
-        const { result, providerJobId: completedProviderJobId, providerMode: completedProviderMode } =
-          await executeImageProviderWithLumaAgentsDirectFallback({
-          falModelId: modeConfig.falModelId, effectivePrompt, numImages, mode, combinedImageUrls, falAspectRatio,
-          providerImageSize, resolutionEngineParam, normalizedSeed, outputFormat, quality, background, maskUrl, enableWebSearch,
-          thinkingLevel, limitGenerations, style, engine, engineEntry, jobId, userId, requestId: jobId,
-          useLumaDirect:
-            isLumaAgentsImageEngineId(engine.id) && lumaAgentsImageDirectEnabled({ isAdmin: isAdminForDirectProvider }),
-          onProviderJobId(requestId) { providerJobId = requestId; },
-          onProviderMode(nextProviderMode) { providerMode = nextProviderMode; },
-        });
-        providerMode = completedProviderMode;
-        providerJobId = completedProviderJobId ?? providerJobId;
-
-        const images = extractImages(result.data);
-        if (!images.length) {
-          throw new Error('Fal did not return images');
-        }
-
-        const normalizedImages = images.map((image) => ({
-          ...image,
-          url: normalizeMediaUrl(image.url) ?? image.url,
-        }));
-        const stableImages = await copyGeneratedImagesToStorage({
-          images: normalizedImages, jobId, userId, requireOwnedOutput: true,
-        });
-
-        const thumbUrls = await createImageThumbnailBatch({
-          jobId,
-          userId,
-          imageUrls: stableImages.map((image) => image.url),
-        });
-        const normalizedImagesWithThumbs = stableImages.map((image, index) => ({
-          ...image,
-          thumbUrl: thumbUrls[index] ?? null,
-        }));
-        const resultDescription = result.data && typeof result.data === 'object'
-          ? (result.data as { description?: unknown }).description : null;
-        const description = typeof resultDescription === 'string' ? resultDescription : null;
-        const providerRequestId = providerJobId ?? parseRequestId(result.data) ?? result.requestId ?? null;
-        providerJobId = providerRequestId ?? undefined;
-
-        const { heroThumb } = await persistCompletedImageGeneration({
-          billingProductKey,
-          characterReferenceCount: characterReferences.length,
-          costBreakdownJson,
-          description,
-          enableWebSearch,
-          engineId: engine.id,
-          engineLabel: engine.label,
-          images: normalizedImagesWithThumbs,
-          indexable,
-          jobId,
-          jobSurface,
-          limitGenerations,
-          maskUrl,
-          mode,
-          normalizedSeed,
-          numImages,
-          outputFormat,
-          pricing,
-          pricingSnapshotJson,
-          paymentStatus: imagePaymentStatus,
-          providerJobId: providerJobId ?? null,
-          providerMode,
-          quality,
-          resolvedAspectRatio,
-          resolution,
-          style,
-          thinkingLevel,
-          userId,
-          vendorAccountId,
-          visibility,
-        });
-
-        return {
-          ok: true,
-          jobId,
-          mode,
-          images: normalizedImagesWithThumbs,
-          description,
-          requestId: providerJobId ?? result.requestId ?? undefined,
-          providerJobId: providerJobId ?? undefined,
-          engineId: billingEngineId,
-          engineLabel: billingEngineLabel,
-          durationMs: undefined,
-          pricing,
-          paymentStatus: imagePaymentStatus,
-          thumbUrl: heroThumb,
-          aspectRatio: resolvedAspectRatio,
-          resolution,
-        } satisfies ImageGenerationResponse;
-      } catch (error) {
-        console.error('[images] Fal generation failed', error);
-        if (shouldKeepImageProviderOutcomePending({
-          walletReservation, hasTrustedQuotedBilling: Boolean(trustedQuotedBilling),
-          error, providerJobId,
-        })) {
-          await markImageProviderOutcomeAmbiguous(jobId, providerJobId);
-          fail(
-            mode,
-            'provider_outcome_ambiguous',
-            'Provider acceptance is still being verified.',
-            503,
-            null,
-            {
-              engineId: billingEngineId,
-              engineLabel: billingEngineLabel,
-              jobId,
-              providerJobId,
-              paymentStatus: imagePaymentStatus,
-            },
-          );
-        }
-        const { message, providerBody, providerStatus } = await persistFailedImageGeneration({
-          characterReferenceCount: characterReferences.length,
-          enableWebSearch,
-          engineId: engine.id,
-          error,
-          falModelId: modeConfig.falModelId,
-          jobId,
-          limitGenerations,
-          maskUrl,
-          mode,
-          normalizedSeed,
-          numImages,
-          outputFormat,
-          pendingReceipt,
-          priceOnlyReceipts,
-          pricing,
-          refundOnFailure: walletChargeMode === 'charge',
-          failedPaymentStatus,
-          providerJobId: providerJobId ?? null,
-          providerMode,
-          quality,
-          referenceImageUrls: combinedImageUrls,
-          refundDescription,
-          resolvedAspectRatio,
-          resolution,
-          style,
-          thinkingLevel,
-        });
-
-        fail(mode, 'fal_error', message, 502, { providerStatus, providerBody }, {
-          engineId: billingEngineId, engineLabel: billingEngineLabel, jobId,
-          paymentStatus: failedPaymentStatus,
-        });
-      }
+      if (directProviderResponse) return directProviderResponse;
+      return submitConfiguredProvider(imageProviderSelection);
     },
   });
 }

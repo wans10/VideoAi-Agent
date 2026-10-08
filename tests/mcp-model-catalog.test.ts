@@ -70,6 +70,7 @@ function realRegistryDeps(falApiKey = ENV.FAL_API_KEY): AgentModelCatalogDeps {
     bytePlusLasApiKey: ENV.BYTEPLUS_LAS_API_KEY,
     bytePlusLasEnabled: (ENV as typeof ENV & { SEEDANCE_2_5_LAS_ENABLED?: string }).SEEDANCE_2_5_LAS_ENABLED === 'true',
     falApiKey,
+    providerEnv: { LLMHUB_API_KEY: '' },
   });
   return {
     async listEngines() {

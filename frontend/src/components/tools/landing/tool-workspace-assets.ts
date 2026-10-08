@@ -1,4 +1,4 @@
-/** Actual production captures, refreshed 2026-09-25. English UI, no synthetic results. */
+/** Actual local-app captures, refreshed 2026-09-30. Chinese visitor UI, never synthetic results. */
 export const TOOL_WORKSPACE_CAPTURES = {
   'character-builder': '/assets/tools/redesign/character-builder-workspace-v2.webp',
   angle: '/assets/tools/redesign/angle-workspace-v2.webp',

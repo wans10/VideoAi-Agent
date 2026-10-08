@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers';
+import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { cache } from 'react';
@@ -7,25 +9,31 @@ import { getSharedVideo } from '@/server/video-shares';
 import './share-video.css';
 
 type PageProps = { params: Promise<{ token: string }> };
+const readCopy = cache(async () => {
+  const store = await cookies();
+  const locale = store.get(LOCALE_COOKIE)?.value ?? store.get('NEXT_LOCALE')?.value ?? 'zh';
+  return locale.startsWith('zh') ? { unavailable: '视频不可用', title: '分享给您的视频 | Keyvo', description: 'Keyvo 创作者分享的视频。', breadcrumb: '面包屑导航', home: '首页', shared: '分享的视频', video: '分享的 Keyvo 视频', created: '使用 Keyvo 创作', heading: '分享给您的视频', watch: '观看 Keyvo 创作者分享的视频。', create: '创作您的视频', explore: '探索 AI 视频模型，在 Keyvo 开始自己的创作。', start: '开始创作', examples: '浏览视频案例' } : { unavailable: 'Video unavailable', title: 'Video shared with you | Keyvo', description: 'A video shared by a Keyvo creator.', breadcrumb: 'Breadcrumb', home: 'Home', shared: 'Shared video', video: 'Shared Keyvo video', created: 'Created with Keyvo', heading: 'Video shared with you', watch: 'Watch this video shared by a Keyvo creator.', create: 'Create your own video', explore: 'Explore AI video models and make something of your own on Keyvo.', start: 'Start creating', examples: 'Explore video examples' };
+});
 const readVideo = cache(async (token: string) => getSharedVideo(token));
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const copy = await readCopy();
   const { token } = await params;
   const video = await readVideo(token);
-  if (!video) return { title: 'Video unavailable', robots: { index: false, follow: false } };
+  if (!video) return { title: copy.unavailable, robots: { index: false, follow: false } };
   const pageUrl = new URL(`/s/${token}`, SITE_ORIGIN).toString();
   const image = video.thumbUrl ? new URL(video.thumbUrl, SITE_ORIGIN).toString() : undefined;
   return {
-    title: { absolute: 'Video shared with you | MaxVideoAI' },
-    description: 'A video shared by a MaxVideoAI creator.',
+    title: { absolute: copy.title },
+    description: copy.description,
     referrer: 'no-referrer',
     robots: { index: false, follow: false },
     openGraph: {
       type: 'video.other',
-      title: 'Video shared with you | MaxVideoAI',
-      description: 'A video shared by a MaxVideoAI creator.',
+      title: copy.title,
+      description: copy.description,
       url: pageUrl,
       images: image ? [image] : undefined,
       videos: [{ url: new URL(video.url, SITE_ORIGIN).toString(), type: 'video/mp4' }],
@@ -35,27 +43,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function SharedVideoPage({ params }: PageProps) {
+  const copy = await readCopy();
   const { token } = await params;
   const video = await readVideo(token);
   if (!video) notFound();
   return <div className="shared-video-page">
-    <nav className="shared-video-breadcrumb" aria-label="Breadcrumb">
-      <Link href="/">Home</Link><span aria-hidden>›</span><span>Shared video</span>
+    <nav className="shared-video-breadcrumb" aria-label={copy.breadcrumb}>
+      <Link href="/">{copy.home}</Link><span aria-hidden>›</span><span>{copy.shared}</span>
     </nav>
     <div className="shared-video-grid">
       <article className="shared-video-card">
-        <video controls playsInline preload="none" poster={video.thumbUrl ?? undefined} src={video.url} aria-label="Shared MaxVideoAI video" />
+        <video controls playsInline preload="none" poster={video.thumbUrl ?? undefined} src={video.url} aria-label={copy.video} />
         <div className="shared-video-details">
-          <p className="shared-video-eyebrow">Created with MaxVideoAI</p>
-          <h1>Video shared with you</h1>
-          <p>Watch this video shared by a MaxVideoAI creator.</p>
+          <p className="shared-video-eyebrow">{copy.created}</p>
+          <h1>{copy.heading}</h1>
+          <p>{copy.watch}</p>
         </div>
       </article>
       <aside className="shared-video-aside">
-        <h2>Create your own video</h2>
-        <p>Explore AI video models and make something of your own on MaxVideoAI.</p>
-        <Link className="shared-video-primary-link" href="/app">Start creating</Link>
-        <Link className="shared-video-secondary-link" href="/examples">Explore video examples</Link>
+        <h2>{copy.create}</h2>
+        <p>{copy.explore}</p>
+        <Link className="shared-video-primary-link" href="/app">{copy.start}</Link>
+        <Link className="shared-video-secondary-link" href="/zh/examples">{copy.examples}</Link>
       </aside>
     </div>
   </div>;

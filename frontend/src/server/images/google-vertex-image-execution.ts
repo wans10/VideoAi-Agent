@@ -21,6 +21,7 @@ import { persistCompletedImageGeneration } from './image-generation-completion';
 import { persistFailedImageGeneration } from './image-generation-failure';
 import type { PendingReceipt } from './image-generation-receipts';
 import { ImageGenerationExecutionError } from './image-generation-error';
+import { shouldFallbackImageDirectSubmit } from './image-direct-fallback-policy';
 
 const SIGNED_REFERENCE_URL_TTL_SECONDS = 60 * 60;
 const REFERENCE_FETCH_TIMEOUT_MS = 30_000;
@@ -123,6 +124,7 @@ async function uploadInlineImages(params: {
 }
 
 export async function executeGoogleVertexImageGeneration(params: {
+  onPreAcceptanceFailure?: () => Promise<ImageGenerationResponse>;
   billingProductKey: BillingProductKey | null;
   characterReferenceCount: number;
   combinedImageUrls: string[];
@@ -266,6 +268,12 @@ export async function executeGoogleVertexImageGeneration(params: {
       resolution: params.resolution,
     } satisfies ImageGenerationResponse;
   } catch (error) {
+    if (params.onPreAcceptanceFailure && error instanceof GoogleVertexImageError
+      && shouldFallbackImageDirectSubmit({
+        provider: 'google_vertex_image', providerJobId, status: error.status, fallbackAvailable: true,
+      })) {
+      return params.onPreAcceptanceFailure();
+    }
     console.error('[images] Google Vertex image generation failed', error);
     const { message, providerBody, providerStatus } = await persistFailedImageGeneration({
       characterReferenceCount: params.characterReferenceCount,

@@ -112,9 +112,16 @@ async function main(): Promise<void> {
   ) {
     throw new Error('Invalid reviewed GPT Image 2.5 public pricing launch matrix.');
   }
+  const keyvoQwenLaunch = JSON.parse(await readFile(new URL('../../tests/fixtures/keyvo-qwen-pricing-launch-2026-10-09.json', import.meta.url), 'utf8')) as { rows: typeof rows };
+  const qwenIds = new Set(keyvoQwenLaunch.rows.map(row => row.id));
+  if (qwenIds.size !== 8 || keyvoQwenLaunch.rows.length !== 8 || keyvoQwenLaunch.rows.some(row =>
+    !['qwen-image-3-0', 'qwen-image-3-0-pro'].includes(row.engineId) ||
+    !['image-estimate', 'pricing-hub-image'].includes(row.surface) || historicalIds.has(row.id) || launchIds.has(row.id))) {
+    throw new Error('Invalid reviewed Keyvo Qwen pricing launch matrix.');
+  }
   // Approved archive sunsets: remove purchasable surfaces and invalidate Product offers.
   // Keep the pre-archive fixtures intact as historical pricing evidence.
-  const expectedWithLaunch = [...expected, ...launchAdditions.rows].map((row) => {
+  const expectedWithLaunch = [...expected, ...launchAdditions.rows, ...keyvoQwenLaunch.rows].map((row) => {
     const repair = customerOfferRepairs.get(row.id);
     if (!repair) return row;
     if (row.surface !== 'json-ld' || row.status !== 'exact' || row.customerTotalCents !== repair.previousCents) {

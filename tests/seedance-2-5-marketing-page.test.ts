@@ -122,7 +122,7 @@ test('Seedance 2.5 uses the public conversion template with pricing and comparis
 test('Seedance 2.5 launches with three localized, indexable comparison decisions', () => {
   for (const comparisonSlug of priorityComparisonSlugs) {
     assert.equal(isPublishedComparisonSlug(comparisonSlug), true, `${comparisonSlug} publication`);
-    assert.deepEqual(getIndexableComparisonLocales(comparisonSlug), locales, `${comparisonSlug} indexation`);
+    assert.deepEqual(getIndexableComparisonLocales(comparisonSlug), [...locales, 'zh'], `${comparisonSlug} indexation`);
 
     for (const locale of locales) {
       const override = getComparePageOverride(locale, comparisonSlug);
@@ -260,10 +260,10 @@ test('Seedance 2.5 localized marketing content converts in EN, FR, and ES withou
     assert.match(
       document.faqs.at(-1)?.a ?? '',
       locale === 'en'
-        ? /available to MaxVideoAI users.*price.*shown before each render/i
+        ? /available to VideoAI users.*price.*shown before each render/i
         : locale === 'fr'
-          ? /accessible aux utilisateurs de MaxVideoAI.*prix.*affiché avant chaque rendu/i
-          : /disponible para los usuarios de MaxVideoAI.*precio.*muestra antes de cada render/i,
+          ? /accessible aux utilisateurs de VideoAI.*prix.*affiché avant chaque rendu/i
+          : /disponible para los usuarios de VideoAI.*precio.*muestra antes de cada render/i,
     );
     assert.equal(prompting.modelSlug, slug);
     assert.equal(examples.modelSlug, slug);
@@ -298,21 +298,19 @@ test('Seedance 2.5 emits canonical localized metadata URLs and complete public s
   assert.equal(engine.surfaces.pricing.includeInEstimator, true);
 
   const expectedMetadataUrls = {
-    en: 'https://maxvideoai.com/models/seedance-2-5',
-    fr: 'https://maxvideoai.com/fr/modeles/seedance-2-5',
-    es: 'https://maxvideoai.com/es/modelos/seedance-2-5',
+    en: 'https://app.keyvo.cn/models/seedance-2-5',
+    fr: 'https://app.keyvo.cn/fr/modeles/seedance-2-5',
+    es: 'https://app.keyvo.cn/es/modelos/seedance-2-5',
   } as const;
   for (const locale of locales) {
     const metadataUrls = buildMetadataUrls(locale, buildDetailSlugMap(slug), {
       englishPath: `/models/${slug}`,
-      availableLocales: [...locales],
+      availableLocales: [...locales, 'zh'],
     });
     assert.equal(metadataUrls.canonical, expectedMetadataUrls[locale]);
     assert.deepEqual(metadataUrls.languages, {
-      en: expectedMetadataUrls.en,
-      fr: expectedMetadataUrls.fr,
-      es: expectedMetadataUrls.es,
-      'x-default': expectedMetadataUrls.en,
+      zh: 'https://app.keyvo.cn/zh/models/seedance-2-5',
+      'x-default': 'https://app.keyvo.cn/zh/models/seedance-2-5',
     });
   }
 
@@ -325,8 +323,8 @@ test('Seedance 2.5 emits canonical localized metadata URLs and complete public s
     heroTitle: 'Seedance 2.5',
     inLanguage: 'en-US',
     localizedCanonical: canonical,
-    localizedHomeUrl: 'https://maxvideoai.com/',
-    localizedModelsUrl: 'https://maxvideoai.com/models',
+    localizedHomeUrl: 'https://app.keyvo.cn/',
+    localizedModelsUrl: 'https://app.keyvo.cn/models',
     pricingEngine: engine.engine,
     resolvedBreadcrumb: { home: 'Home', models: 'Models' },
   }) as Array<Record<string, unknown>>;
@@ -377,11 +375,11 @@ test('Seedance 2.5 emits canonical localized metadata URLs and complete public s
       heroTitle: 'Seedance 2.5',
       inLanguage: locale === 'en' ? 'en-US' : locale === 'fr' ? 'fr-FR' : 'es-ES',
       localizedCanonical,
-      localizedHomeUrl: locale === 'en' ? 'https://maxvideoai.com/' : `https://maxvideoai.com/${locale}`,
+      localizedHomeUrl: locale === 'en' ? 'https://app.keyvo.cn/' : `https://app.keyvo.cn/${locale}`,
       localizedModelsUrl:
         locale === 'en'
-          ? 'https://maxvideoai.com/models'
-          : `https://maxvideoai.com/${locale}/${locale === 'fr' ? 'modeles' : 'modelos'}`,
+          ? 'https://app.keyvo.cn/models'
+          : `https://app.keyvo.cn/${locale}/${locale === 'fr' ? 'modeles' : 'modelos'}`,
       pricingEngine: engine.engine,
       resolvedBreadcrumb: { home: 'Home', models: 'Models' },
     }) as Array<Record<string, unknown>>;

@@ -45,7 +45,7 @@ test('About stays a thin route with focused view and schema modules', () => {
   assert.ok(page.split('\n').length <= 120);
 });
 
-test('About schema is a WebPage with MaxVideoAI publisher', async () => {
+test('About schema is a WebPage with Keyvo publisher', async () => {
   const copyModule = await import('../frontend/app/(localized)/[locale]/(marketing)/about/_lib/about-copy') as unknown as {
     getAboutCopy(locale: 'en'): unknown;
   };
@@ -56,10 +56,10 @@ test('About schema is a WebPage with MaxVideoAI publisher', async () => {
     };
   };
   const schema = schemaModule.buildAboutWebPageJsonLd({
-    canonicalUrl: 'https://maxvideoai.com/about',
+    canonicalUrl: 'https://app.keyvo.cn/about',
     copy: copyModule.getAboutCopy('en'),
     inLanguage: 'en-US',
   });
   assert.equal(schema['@type'], 'WebPage');
-  assert.equal(schema.publisher.name, 'MaxVideoAI');
+  assert.equal(schema.publisher.name, 'Keyvo');
 });

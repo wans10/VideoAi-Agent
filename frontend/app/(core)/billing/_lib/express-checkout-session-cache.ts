@@ -1,3 +1,5 @@
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+
 type WalletExpressCheckoutRequestKeyParams = {
   userId: string;
   amountCents: number;
@@ -43,7 +45,7 @@ export function buildWalletExpressCheckoutRequestKey({
 }: WalletExpressCheckoutRequestKeyParams): string {
   const normalizedUserId = userId.trim();
   const normalizedAmount = Math.max(0, Math.round(amountCents));
-  const normalizedCurrency = String(currency || 'USD').trim().toUpperCase();
+  const normalizedCurrency = String(currency || CUSTOMER_CURRENCY).trim().toUpperCase();
   const normalizedLocale = String(locale || 'en').trim().toLowerCase();
   return [normalizedUserId, normalizedAmount, normalizedCurrency, normalizedLocale, attributionKey].join(':');
 }

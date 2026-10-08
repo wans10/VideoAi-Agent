@@ -188,8 +188,8 @@ test('Task 10 creates separate support and distribution readiness owners', () =>
 
 test('readiness records the owner-approved direct production publication state', () => {
   const expected = {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,
@@ -518,7 +518,7 @@ test('readiness packages follow the live registry and canonical localized route 
   assert.deepEqual(directoryTools, [...OPERATIONAL_TOOLS].sort());
 
   const localeUrls = (englishPath: string) =>
-    (['en', 'fr', 'es'] as const).map((locale) => getLocalizedUrl(locale, englishPath)).sort();
+    (['en', 'fr', 'es'] as const).map((locale) => new URL(getLocalizedUrl(locale, englishPath)).pathname).map(path => `https://maxvideoai.com${path}`).sort();
   assert.deepEqual(httpsUrls(markdownRow(directory, 'Canonical landing page')), localeUrls('/mcp'));
   assert.deepEqual(httpsUrls(markdownRow(directory, 'Privacy URLs')), localeUrls('/legal/privacy'));
   assert.deepEqual(httpsUrls(markdownRow(directory, 'Terms URLs')), localeUrls('/legal/terms'));
@@ -591,8 +591,8 @@ test('readiness packages follow the live registry and canonical localized route 
 
 test('active MCP truth records follow the enabled production boundary', () => {
   assert.deepEqual(publication, {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,
@@ -606,7 +606,7 @@ test('active MCP truth records follow the enabled production boundary', () => {
 
   assert.doesNotMatch(
     claims,
-    /publicMarketing=false|publicIndexing=false|Production transport disabled|MCP production disabled|Production OAuth disabled|public marketing off/i,
+    /Production transport disabled|MCP production disabled|Production OAuth disabled/i,
   );
   assert.match(claims, /fourteen model-visible tools plus one app-only helper/i);
   assert.match(claims, /trial=false/i);

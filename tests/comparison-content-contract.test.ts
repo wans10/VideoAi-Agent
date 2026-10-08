@@ -15,6 +15,10 @@ import type { ComparePageContentDocument } from '../frontend/app/(localized)/[lo
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'comparisons');
 const MESSAGES_DIR = path.join(process.cwd(), 'frontend', 'messages');
 const LOCALES = ['en', 'fr', 'es'] as const;
+const CHINESE_TREND_SLUGS = new Set([
+  'seedance-2-5-vs-wan-3',
+  'minimax-h3-max-vs-seedance-2-5',
+]);
 const PRIORITY_SEEDANCE_2_5_COMPARISON_SLUGS = [
   'seedance-2-0-vs-seedance-2-5',
   'kling-3-pro-vs-seedance-2-5',
@@ -119,7 +123,7 @@ function loadGenericMetadataFallbacks(locale: (typeof LOCALES)[number]): Record<
   return messages.comparePage?.meta?.slugOverrides ?? {};
 }
 
-test('comparison documents are dynamically discovered with unique matching identities and three locales', () => {
+test('comparison documents are dynamically discovered with unique identities and required locales', () => {
   const files = contentFiles();
   assert.equal(files.length, 67);
   const identities = new Set<string>();
@@ -127,19 +131,47 @@ test('comparison documents are dynamically discovered with unique matching ident
   for (const fileName of files) {
     const document = loadDocument(fileName);
     assert.equal(document.slug, fileName.slice(0, -'.json'.length));
-    assert.deepEqual(Object.keys(document).sort(), ['en', 'es', 'fr', 'slug']);
+    assert.deepEqual(
+      Object.keys(document).sort(),
+      ['en', 'es', 'fr', 'slug', 'zh'],
+    );
     assert.equal(identities.has(document.slug), false, `duplicate comparison identity ${document.slug}`);
     identities.add(document.slug);
   }
 });
 
-test('the three priority Seedance 2.5 comparisons are published, enriched, and indexable in every locale', () => {
+test('Chinese trend comparisons own editorial metadata, verdicts, links and reciprocal SEO alternates', () => {
+  for (const slug of CHINESE_TREND_SLUGS) {
+    const override = getComparePageOverride('zh', slug);
+    assert.ok(override?.meta?.title);
+    assert.ok(override.meta.description);
+    assert.ok(override.quickVerdict?.body);
+    assert.equal(override.primaryLinks?.length, 2);
+    assert.deepEqual(getIndexableComparisonLocales(slug), ['en', 'zh']);
+
+    const metadata = buildSeoMetadata({
+      locale: 'zh',
+      title: override.meta.title,
+      description: override.meta.description,
+      englishPath: `/ai-video-engines/${slug}`,
+      availableLocales: getIndexableComparisonLocales(slug),
+      titleBranding: override.meta.titleBranding,
+    });
+    assert.equal(metadata.alternates?.canonical, `https://app.keyvo.cn/zh/ai-video-engines/${slug}`);
+    assert.deepEqual(metadata.alternates?.languages, {
+      zh: `https://app.keyvo.cn/zh/ai-video-engines/${slug}`,
+      'x-default': `https://app.keyvo.cn/zh/ai-video-engines/${slug}`,
+    });
+  }
+});
+
+test('the three priority Seedance 2.5 comparisons keep their curated EN/FR/ES copy and remain indexable in all locales', () => {
   const documentSlugs = new Set(contentFiles().map((fileName) => fileName.slice(0, -'.json'.length)));
 
   for (const slug of PRIORITY_SEEDANCE_2_5_COMPARISON_SLUGS) {
     assert.ok(isPublishedComparisonSlug(slug), `${slug} must be published by the reciprocal pair graph`);
     assert.ok(documentSlugs.has(slug), `${slug} must have an enriched comparison document`);
-    assert.deepEqual(getIndexableComparisonLocales(slug), LOCALES, `${slug} must be indexable in all locales`);
+    assert.deepEqual(getIndexableComparisonLocales(slug), ['en', 'fr', 'es', 'zh'], `${slug} must be indexable in all locales`);
 
     for (const locale of LOCALES) {
       const override = getComparePageOverride(locale, slug);
@@ -154,14 +186,12 @@ test('the three priority Seedance 2.5 comparisons are published, enriched, and i
       });
       assert.equal(
         metadata.alternates?.canonical,
-        `https://maxvideoai.com${CANONICAL_COMPARISON_PREFIX_BY_LOCALE[locale]}/${slug}`,
+        `https://app.keyvo.cn${CANONICAL_COMPARISON_PREFIX_BY_LOCALE[locale]}/${slug}`,
         `${locale} ${slug} self-canonical`,
       );
       assert.deepEqual(metadata.alternates?.languages, {
-        en: `https://maxvideoai.com/ai-video-engines/${slug}`,
-        fr: `https://maxvideoai.com/fr/comparatif/${slug}`,
-        es: `https://maxvideoai.com/es/comparativa/${slug}`,
-        'x-default': `https://maxvideoai.com/ai-video-engines/${slug}`,
+        zh: `https://app.keyvo.cn/zh/ai-video-engines/${slug}`,
+        'x-default': `https://app.keyvo.cn/zh/ai-video-engines/${slug}`,
       });
     }
   }
@@ -233,17 +263,15 @@ test('the real metadata builder projects a localized generic fallback with canon
   });
 
   assert.deepEqual(metadata.title, {
-    absolute: 'Kling 3 Pro vs Veo 3.1 | Comparatif de modèles vidéo IA | MaxVideoAI',
+    absolute: 'Kling 3 Pro vs Veo 3.1 | Comparatif de modèles vidéo IA | Keyvo',
   });
   assert.match(metadata.description ?? '', /Kling 3 Pro.*Veo 3.1/);
   assert.match(metadata.description ?? '', /caractéristiques, prix/);
   assert.doesNotMatch(metadata.description ?? '', /prompts identiques/);
-  assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com/fr/comparatif/${slug}`);
+  assert.equal(metadata.alternates?.canonical, `https://app.keyvo.cn/fr/comparatif/${slug}`);
   assert.deepEqual(metadata.alternates?.languages, {
-    en: `https://maxvideoai.com/ai-video-engines/${slug}`,
-    fr: `https://maxvideoai.com/fr/comparatif/${slug}`,
-    es: `https://maxvideoai.com/es/comparativa/${slug}`,
-    'x-default': `https://maxvideoai.com/ai-video-engines/${slug}`,
+    zh: `https://app.keyvo.cn/zh/ai-video-engines/${slug}`,
+    'x-default': `https://app.keyvo.cn/zh/ai-video-engines/${slug}`,
   });
 });
 

@@ -86,7 +86,7 @@ export async function generateMetadata(
       description,
       englishPath: `/examples/${canonicalExampleSlug}`,
       image: ogImage,
-      imageAlt: 'MaxVideo AI — Examples gallery preview',
+      imageAlt: 'Keyvo — Examples gallery preview',
       robots: {
         index: !shouldNoindex,
         follow: true,
@@ -102,7 +102,7 @@ export async function generateMetadata(
     hreflangGroup: 'examples',
     slugMap: GALLERY_SLUG_MAP,
     image: ogImage,
-    imageAlt: 'MaxVideo AI — Examples gallery preview',
+    imageAlt: 'Keyvo — Examples gallery preview',
     canonicalOverride: metadataUrls.canonical,
     titleBranding: locale === 'en' ? 'none' : 'auto',
     robots: {

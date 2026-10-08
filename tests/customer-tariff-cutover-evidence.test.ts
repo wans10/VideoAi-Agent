@@ -5,7 +5,7 @@ import { collectCustomerTariffCutoverCheckpoints, cutoverDigest, assertCustomerT
 
 test('cutover derives all ordinary, workflow and real input duration checkpoints with unique identities', () => {
   const cases = collectCustomerTariffCutoverCheckpoints();
-  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20122);
+  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20130);
   assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324);
   assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372);
   assert.equal(new Set(cases.map(row => row.key)).size, cases.length);

@@ -2,8 +2,8 @@
   "marketingName": "Google Veo 3.1 Fast",
   "versionLabel": "3.1 Fast",
   "seo": {
-    "title": "Veo 3.1 Fast | AI Video Model, Specs & Pricing | MaxVideoAI",
-    "description": "Use Veo 3.1 Fast on MaxVideoAI for faster draft passes, reference-image tests, lower-cost iteration, live specs, and pricing before moving selected outputs into Veo 3.1.",
+    "title": "Veo 3.1 Fast | AI Video Model, Specs & Pricing | VideoAI",
+    "description": "Use Veo 3.1 Fast on VideoAI for faster draft passes, reference-image tests, lower-cost iteration, live specs, and pricing before moving selected outputs into Veo 3.1.",
     "image": "/hero/veo-3-1-hero.jpg"
   },
   "overview": "Veo 3.1 Fast is the current faster Google Veo 3.1 variant for text-to-video drafts, image-to-video tests, 8s reference-to-video runs with 1-4 stills, short concept loops, and lower-cost iteration with optional native audio and live pay-per-second pricing.",
@@ -91,7 +91,7 @@
     },
     {
       "label": "Pricing",
-      "body": "The pricing card uses MaxVideoAI scenario totals for duration, resolution and audio on/off. Specs use the same display pricing helper for audio-on and audio-off per-second rates; the exact quote appears before generation."
+      "body": "The pricing card uses VideoAI scenario totals for duration, resolution and audio on/off. Specs use the same display pricing helper for audio-on and audio-off per-second rates; the exact quote appears before generation."
     },
     {
       "label": "Render timing",
@@ -161,11 +161,11 @@
     },
     {
       "q": "How does pricing compare to Veo 3.1?",
-      "a": "Use the pricing card for preset MaxVideoAI display totals: each scenario states duration, resolution and audio on/off. Specs use the same helper for per-second display rates, and Generate shows the exact live quote before you run variants."
+      "a": "Use the pricing card for preset VideoAI display totals: each scenario states duration, resolution and audio on/off. Specs use the same helper for per-second display rates, and Generate shows the exact live quote before you run variants."
     },
     {
       "q": "Can I run Veo 3.1 Fast from Europe or LATAM?",
-      "a": "Yes. It uses the same MaxVideoAI wallet/workspace and licensed DeepMind routing—no separate billing needed."
+      "a": "Yes. It uses the same VideoAI wallet/workspace and licensed DeepMind routing—no separate billing needed."
     }
   ],
   "custom": {
@@ -206,10 +206,10 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "What Veo 3.1 Fast Actually Is in MaxVideoAI",
+    "whatTitle": "What Veo 3.1 Fast Actually Is in VideoAI",
     "whatIntro1": "Veo 3.1 Fast is tuned for speed and efficiency within the Veo family.",
     "whatIntro2": "You keep framing and tone presets, but runs are optimized for cost and turnaround.",
-    "whatFlowTitle": "MaxVideoAI flow:",
+    "whatFlowTitle": "VideoAI flow:",
     "whatFlowSteps": [
       "1. Pick Veo 3.1 Fast as the engine.",
       "2. Start from text, add one Start image for Image-to-Video, or attach 1-4 reference stills in Reference mode.",
@@ -218,8 +218,8 @@
       "5. Toggle audio on/off, then paste a tight, sensory prompt.",
       "6. Check the live price and render."
     ],
-    "specTitle": "Real Specs – Veo 3.1 Fast in MaxVideoAI (720p/1080p, 4–8s, 8s references)",
-    "specNote": "These specs describe Veo 3.1 Fast exactly as you can use it today via MaxVideoAI.",
+    "specTitle": "Real Specs – Veo 3.1 Fast in VideoAI (720p/1080p, 4–8s, 8s references)",
+    "specNote": "These specs describe Veo 3.1 Fast exactly as you can use it today via VideoAI.",
     "specSections": [
       {
         "title": "Draft-speed exploration",
@@ -295,7 +295,7 @@
       "Workflow: Prototype in Fast, then regenerate winners in Veo 3.1."
     ],
     "comparisonCta": "Compare Veo 3.1 vs Veo 3.1 Fast ->",
-    "faqTitle": "FAQ – Veo 3.1 Fast in MaxVideoAI",
+    "faqTitle": "FAQ – Veo 3.1 Fast in VideoAI",
     "faqs": [
       {
         "q": "Can I use reference images with Veo 3.1 Fast?",
@@ -315,16 +315,16 @@
       },
       {
         "q": "How does pricing compare to Veo 3.1?",
-        "a": "Use the pricing card for preset MaxVideoAI display totals: each scenario states duration, resolution and audio on/off. Specs use the same helper for per-second display rates, and Generate shows the exact live quote before you run variants."
+        "a": "Use the pricing card for preset VideoAI display totals: each scenario states duration, resolution and audio on/off. Specs use the same helper for per-second display rates, and Generate shows the exact live quote before you run variants."
       },
       {
         "q": "Can I run Veo 3.1 Fast from Europe / LATAM?",
-        "a": "Yes. Same MaxVideoAI wallet/workspace and licensed DeepMind routing—no separate billing."
+        "a": "Yes. Same VideoAI wallet/workspace and licensed DeepMind routing—no separate billing."
       }
     ],
     "relatedTitle": "Explore other models",
     "relatedSubtitle": "Compare price tiers, latency, and prompt presets across the rest of the catalog.",
-    "finalPara1": "Veo 3.1 Fast in MaxVideoAI is your rapid-fire test bench for Veo prompts.",
+    "finalPara1": "Veo 3.1 Fast in VideoAI is your rapid-fire test bench for Veo prompts.",
     "finalPara2": "Same cinematic language, lower stakes, and quality that’s ready for social delivery.",
     "finalButton": "Open Generate",
     "tipsIntro": "Veo 3.1 Fast is most reliable when you write a short shot brief: one subject, one action, clear framing, and one camera move.",
@@ -470,13 +470,13 @@
     "pricingCopy": {
       "title": "Veo 3.1 Fast pricing at a glance",
       "subtitle": "Preset draft totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 4K",
       "ctaHref": "/pricing#veo-3-1-fast-pricing"
     },
     "meta": {
-      "title": "Veo 3.1 Fast: 4K Pricing, Drafts & Examples | MaxVideoAI",
+      "title": "Veo 3.1 Fast: 4K Pricing, Drafts & Examples | VideoAI",
       "description": "Use Veo 3.1 Fast for faster Veo drafts up to 4K, optional native audio, first-last frame tests and lower-cost short concept loops before Veo 3.1 finals."
     }
   },

@@ -5,6 +5,7 @@ import test from 'node:test';
 
 import { deriveGenerationAttachmentReferences } from '../frontend/app/api/generate/_lib/attachment-references';
 import { submitBytePlusGenerateTask } from '../frontend/app/api/generate/_lib/byteplus-submission';
+import { BytePlusModelArkError } from '../frontend/src/server/video-providers/byteplus-modelark-error';
 import { getFalEngineById } from '../frontend/src/config/falEngines';
 import { ENV } from '../frontend/src/lib/env';
 import type { PendingReceipt } from '../frontend/app/api/generate/_lib/initial-video-job';
@@ -452,6 +453,34 @@ test('BytePlus submission helper marks failed tasks, rolls back payments, and re
   } finally {
     console.warn = originalWarn;
   }
+});
+
+test('BytePlus explicit pre-acceptance rejection selects LLM Hub without refunding first', async () => {
+  let fallbackCalls = 0;
+  let refundCalls = 0;
+  const result = await submitBytePlusGenerateTask({
+    ...baseParams,
+    mode: 't2v', normalizedReferenceImages: [], videoUrls: [],
+    resolvedAudioUrl: null, audioUrls: [], pendingReceipt,
+    submitLlmhubFallback: async () => {
+      fallbackCalls += 1;
+      return { ok: true, body: { ok: true, provider: 'llmhub' } };
+    },
+    deps: {
+      getBytePlusArkConfigFn: () => ({ seedanceModelId: 'model-public' }) as never,
+      buildBytePlusSeedancePayloadFn: (payload) => payload,
+      getBytePlusModelArkClientFn: () => ({
+        createSeedanceFastTask: async () => { throw new BytePlusModelArkError('rate limited', { status: 429 }); },
+      }),
+      getBytePlusSeedanceAllowedResolutionsFn: () => ['720p'] as never,
+      queryFn: async () => undefined,
+      rollbackPendingPaymentFn: async () => { refundCalls += 1; },
+    },
+  });
+  assert.equal(result.ok, true);
+  if (result.ok) assert.equal(result.body.provider, 'llmhub');
+  assert.equal(fallbackCalls, 1);
+  assert.equal(refundCalls, 0);
 });
 
 test('BytePlus submission persists a normalized failure code for provider pixel-floor errors', async () => {

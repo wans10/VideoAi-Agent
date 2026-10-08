@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: copy.description,
     hreflangGroup: 'legal',
     englishPath: '/legal',
-    availableLocales: ['en', 'fr', 'es'] as AppLocale[],
+    availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     imageAlt: 'Legal resources overview.',
   });
 }
@@ -34,7 +34,7 @@ type LinkKey =
 const LINKS: Array<{ href: string; key: LinkKey; docKey?: 'terms' | 'privacy' | 'cookies'; localize?: boolean }> = [
   { href: '/legal/terms', key: 'terms', docKey: 'terms' },
   { href: '/legal/privacy', key: 'privacy', docKey: 'privacy' },
-  { href: '/return-policy', key: 'returnPolicy', localize: false },
+  { href: '/return-policy', key: 'returnPolicy', localize: true },
   { href: '/legal/cookies-list', key: 'cookies', docKey: 'cookies' },
   { href: '/legal/acceptable-use', key: 'acceptableUse' },
   { href: '/legal/takedown', key: 'takedown' },
@@ -58,7 +58,7 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
     title: 'Legal center',
     description: 'The definitive source for our legal agreements, privacy commitments, and compliance resources.',
     intro:
-      'Every document here reflects the current production terms for MaxVideoAI. We update policies whenever routing infrastructure, data retention, or partner requirements change, and the most recent version id is referenced directly in the workspace. Use this hub to confirm contractual language, review subprocessors, or download artefacts for your compliance team.',
+      'Every document here reflects the current production terms for Keyvo. We update policies whenever routing infrastructure, data retention, or partner requirements change, and the most recent version id is referenced directly in the workspace. Use this hub to confirm contractual language, review subprocessors, or download artefacts for your compliance team.',
     columns: [
       {
         title: 'Staying informed',
@@ -116,7 +116,7 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
     title: 'Centro legal',
     description: 'El repositorio oficial de nuestros acuerdos, compromisos de privacidad y recursos de cumplimiento.',
     intro:
-      'Cada documento refleja los términos vigentes en MaxVideoAI. Actualizamos las políticas cuando cambian el enrutamiento, la retención de datos o los requisitos de nuestros socios, y la versión activa aparece directamente en el espacio de trabajo. Usa este hub para revisar el lenguaje contractual, consultar subprocesadores o compartir artefactos con tu equipo de compliance.',
+      'Cada documento refleja los términos vigentes en Keyvo. Actualizamos las políticas cuando cambian el enrutamiento, la retención de datos o los requisitos de nuestros socios, y la versión activa aparece directamente en el espacio de trabajo. Usa este hub para revisar el lenguaje contractual, consultar subprocesadores o compartir artefactos con tu equipo de compliance.',
     columns: [
       {
         title: 'Mantente informado',
@@ -141,6 +141,35 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
       subprocessors: 'Subencargados',
     },
   },
+  zh: {
+    title: '法律中心',
+    description: '我们法律协议、隐私承诺与合规资源的权威来源。',
+    intro:
+      '此处的每份文件均反映 Keyvo 的当前生产条款。当路由基础设施、数据保留或合作伙伴要求发生变化时，我们会更新政策，并在工作区中直接引用最新版本 ID。使用此中心确认合同条款、审查数据子处理者或为您的合规团队下载相关文档。',
+    columns: [
+      {
+        title: '保持知情',
+        body:
+          '订阅更新日志以获取版本级更新，在需要实时事件背景时查看状态页面。法律更新均在每篇文章顶部标明时间戳并提供摘要。',
+      },
+      {
+        title: '需要协议？',
+        body:
+          '企业客户可通过向 {{email}} 发送包含公司详细信息和所需表格的邮件，申请签署的 DPA、安全调查问卷或 SOC 文档。',
+      },
+    ],
+    versionLabel: '版本',
+    links: {
+      terms: '服务条款',
+      privacy: '隐私政策',
+      returnPolicy: '退款与退货政策',
+      cookies: 'Cookie 政策',
+      acceptableUse: '可接受使用政策',
+      takedown: '通知与下架',
+      mentions: '法律声明',
+      subprocessors: '子处理者',
+    },
+  },
 };
 
 export default async function LegalIndexPage() {
@@ -149,7 +178,7 @@ export default async function LegalIndexPage() {
   const documents = await getLegalDocuments(['terms', 'privacy', 'cookies']);
   const localizedLinks = LINKS.map((entry) => ({
     ...entry,
-    href: entry.localize === false ? entry.href : localizePathFromEnglish(locale, entry.href),
+    href: (entry.localize === false || (entry.href === '/return-policy' && locale !== 'zh')) ? entry.href : localizePathFromEnglish(locale, entry.href),
   }));
   const renderEmailText = (text: string) => {
     if (!text.includes(EMAIL_TOKEN)) {
@@ -161,10 +190,10 @@ export default async function LegalIndexPage() {
         {part}
         {index < parts.length - 1 ? (
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
             className="font-semibold text-brand hover:text-brandHover"
           />
         ) : null}

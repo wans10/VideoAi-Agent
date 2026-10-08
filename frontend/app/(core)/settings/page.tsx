@@ -54,17 +54,17 @@ const DEFAULT_SETTINGS_COPY = {
     invite: 'Invite member',
     createProject: 'Create project',
     upcomingPrefix: 'Coming soon — shared wallets, approvals, and budgets. Join the beta at ',
-    upcomingEmail: 'support@maxvideoai.com',
+    upcomingEmail: 'contact@llmhub.com.cn',
     upcomingSuffix: '.',
   },
   privacy: {
     title: 'Privacy & Safety',
     summary:
-      'New renders are private by default. Public publishing and search exposure are handled through the MaxVideoAI review workflow.',
+      'New renders are private by default. Public publishing and search exposure are handled through the Keyvo review workflow.',
     reviewNote:
       'If the team promotes a render publicly, it can still stay out of the video SEO rollout unless it is explicitly curated as a watch page.',
     supportPrefix: 'If you need a public render delisted or removed, contact ',
-    supportEmail: 'support@maxvideoai.com',
+    supportEmail: 'contact@llmhub.com.cn',
     supportSuffix: ' and the team will review the request.',
   },
   notifications: {
@@ -165,10 +165,10 @@ function PrivacyTab({
         <p className="text-xs text-text-muted">
           {copy.supportPrefix}
           <ObfuscatedEmailLink
-            user="support"
-            domain="maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
             label={copy.supportEmail}
-            placeholder="support [at] maxvideoai.com"
+            placeholder="contact [at] llmhub.com.cn"
             className="underline underline-offset-2"
           />
           {copy.supportSuffix}

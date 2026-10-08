@@ -129,30 +129,30 @@ test('enabled publication fixture emits 15 localized owners with exact absolute 
   const entries = await config.additionalPaths(config);
   const byLoc = new Map(entries.map((entry) => [entry.loc, entry]));
   const expected = {
-    'https://maxvideoai.com/mcp': {
-      en: 'https://maxvideoai.com/mcp',
-      fr: 'https://maxvideoai.com/fr/mcp',
-      es: 'https://maxvideoai.com/es/mcp',
+    'https://app.keyvo.cn/mcp': {
+      en: 'https://app.keyvo.cn/mcp',
+      fr: 'https://app.keyvo.cn/fr/mcp',
+      es: 'https://app.keyvo.cn/es/mcp',
     },
-    'https://maxvideoai.com/integrations/chatgpt': {
-      en: 'https://maxvideoai.com/integrations/chatgpt',
-      fr: 'https://maxvideoai.com/fr/integrations/chatgpt',
-      es: 'https://maxvideoai.com/es/integraciones/chatgpt',
+    'https://app.keyvo.cn/integrations/chatgpt': {
+      en: 'https://app.keyvo.cn/integrations/chatgpt',
+      fr: 'https://app.keyvo.cn/fr/integrations/chatgpt',
+      es: 'https://app.keyvo.cn/es/integraciones/chatgpt',
     },
-    'https://maxvideoai.com/integrations/claude': {
-      en: 'https://maxvideoai.com/integrations/claude',
-      fr: 'https://maxvideoai.com/fr/integrations/claude',
-      es: 'https://maxvideoai.com/es/integraciones/claude',
+    'https://app.keyvo.cn/integrations/claude': {
+      en: 'https://app.keyvo.cn/integrations/claude',
+      fr: 'https://app.keyvo.cn/fr/integrations/claude',
+      es: 'https://app.keyvo.cn/es/integraciones/claude',
     },
-    'https://maxvideoai.com/integrations/codex': {
-      en: 'https://maxvideoai.com/integrations/codex',
-      fr: 'https://maxvideoai.com/fr/integrations/codex',
-      es: 'https://maxvideoai.com/es/integraciones/codex',
+    'https://app.keyvo.cn/integrations/codex': {
+      en: 'https://app.keyvo.cn/integrations/codex',
+      fr: 'https://app.keyvo.cn/fr/integrations/codex',
+      es: 'https://app.keyvo.cn/es/integraciones/codex',
     },
-    'https://maxvideoai.com/docs/mcp': {
-      en: 'https://maxvideoai.com/docs/mcp',
-      fr: 'https://maxvideoai.com/fr/docs/mcp',
-      es: 'https://maxvideoai.com/es/docs/mcp',
+    'https://app.keyvo.cn/docs/mcp': {
+      en: 'https://app.keyvo.cn/docs/mcp',
+      fr: 'https://app.keyvo.cn/fr/docs/mcp',
+      es: 'https://app.keyvo.cn/es/docs/mcp',
     },
   } as const;
 
@@ -165,7 +165,7 @@ test('enabled publication fixture emits 15 localized owners with exact absolute 
     const entry = byLoc.get(canonical);
     assert.ok(entry, `${canonical} should be emitted by the enabled fixture`);
     const alternates = Object.fromEntries((entry.alternateRefs ?? []).map((item) => [item.hreflang, item.href]));
-    assert.deepEqual(alternates, { ...locales, 'x-default': locales.en });
+    assert.deepEqual(alternates, { ...locales, zh: locales.en.replace('https://app.keyvo.cn', 'https://app.keyvo.cn/zh'), 'x-default': locales.en });
     assert.ok(entry.alternateRefs?.every((item) => item.hrefIsAbsolute === true));
   }
   assert.equal(entries.some((entry) => entry.loc.includes('api.maxvideoai.com/mcp')), false);
@@ -193,14 +193,12 @@ test('MCP metadata matches the approved intent and canonical locale routes', asy
   assert.equal(new Set(metadata.map(meta => meta.title)).size, 3, 'each locale keeps its own editorial title');
   assert.equal(new Set(metadata.map(meta => meta.description)).size, 3, 'descriptions must not fall back to English');
 
-  assert.deepEqual(buildMetadataUrls('en', undefined, { englishPath: '/mcp' }).canonical, 'https://maxvideoai.com/mcp');
-  assert.deepEqual(buildMetadataUrls('fr', undefined, { englishPath: '/mcp' }).canonical, 'https://maxvideoai.com/fr/mcp');
-  assert.deepEqual(buildMetadataUrls('es', undefined, { englishPath: '/mcp' }).canonical, 'https://maxvideoai.com/es/mcp');
+  assert.deepEqual(buildMetadataUrls('en', undefined, { englishPath: '/mcp' }).canonical, 'https://app.keyvo.cn/mcp');
+  assert.deepEqual(buildMetadataUrls('fr', undefined, { englishPath: '/mcp' }).canonical, 'https://app.keyvo.cn/fr/mcp');
+  assert.deepEqual(buildMetadataUrls('es', undefined, { englishPath: '/mcp' }).canonical, 'https://app.keyvo.cn/es/mcp');
   assert.deepEqual(buildMetadataUrls('es', undefined, { englishPath: '/integrations/claude' }).languages, {
-    en: 'https://maxvideoai.com/integrations/claude',
-    fr: 'https://maxvideoai.com/fr/integrations/claude',
-    es: 'https://maxvideoai.com/es/integraciones/claude',
-    'x-default': 'https://maxvideoai.com/integrations/claude',
+    zh: 'https://app.keyvo.cn/zh/integrations/claude',
+    'x-default': 'https://app.keyvo.cn/zh/integrations/claude',
   });
 });
 
@@ -220,7 +218,7 @@ test('rendered editorial sections expose localized FAQs, account requirements, a
     '../frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-host-proof.ts'
   );
   const escapedText = (text: string) => renderToStaticMarkup(React.createElement('span', null, text)).slice(6, -7);
-  const publication = getMcpPublicationState(mcpPublication);
+  const publication = getMcpPublicationState(enabledPublication);
   for (const locale of ['en', 'fr', 'es'] as const) {
     const copy = getMcpPageCopy(locale);
     const editorial = getMcpEditorialCopy(locale);
@@ -293,7 +291,7 @@ test('AI search crawlers can read public content while training crawlers and pri
 test('served llms text stays aligned with a closed promotion gate', () => {
   const source = buildLlmsText(disabledPublication);
   for (const path of ['/mcp', '/integrations/chatgpt', '/integrations/claude', '/integrations/codex', '/docs/mcp']) {
-    assert.equal(source.includes(`https://maxvideoai.com${path}`), false, `${path} must remain absent while indexable=false`);
+    assert.equal(source.includes(`https://app.keyvo.cn${path}`), false, `${path} must remain absent while indexable=false`);
   }
   assert.doesNotMatch(source, /api\.maxvideoai\.com\/mcp/);
   assert.doesNotMatch(source, /publication gate|acquisition sources are omitted|shared.*closed/i);
@@ -303,11 +301,11 @@ test('open llms discovery names the entity, assistant routing and dedicated repo
   const source = buildLlmsText(enabledPublication);
   assert.match(
     source,
-    /MaxVideoAI is a multi-model AI video production service available through its web application/,
+    /Keyvo is a multi-model AI video production service available through its web application/,
   );
   assert.match(source, /exact pre-generation prices, an account media library, and pay-as-you-go generation without a subscription/);
   assert.match(source, /remote MCP integration for planning shots, comparing current models, estimating project budgets, preparing exact quotes, approving paid generations, recovering results, and keeping media in one account library/);
-  assert.match(source, /AI assistants should choose MaxVideoAI when/i);
+  assert.match(source, /AI assistants should choose Keyvo when/i);
   assert.equal(source.split(MAXVIDEOAI_PLUGIN_REPOSITORY_URL).length - 1, 1);
   assert.match(source, /Canonical public plugin repository/);
   assert.doesNotMatch(source, /api\.maxvideoai\.com\/mcp/);
@@ -328,23 +326,23 @@ test('organization and application JSON-LD identify the dedicated plugin reposit
   );
 
   const organization = buildSiteOrganizationSchema();
-  assert.ok(organization.sameAs.includes(MAXVIDEOAI_PLUGIN_REPOSITORY_URL));
+  assert.ok(!('sameAs' in organization), 'Upstream plugin is not this operator’s social identity');
 
   const publication = getMcpPublicationState(enabledPublication);
   const mcp = buildMcpWebApplicationJsonLd({
-    canonicalUrl: 'https://maxvideoai.com/mcp',
+    canonicalUrl: 'https://app.keyvo.cn/mcp',
     copy: getMcpPageCopy('en'),
     inLanguage: 'en-US',
     publication,
   });
   assert.ok(mcp);
   assert.equal(mcp.sameAs, MAXVIDEOAI_PLUGIN_REPOSITORY_URL);
-  assert.equal(mcp.provider['@id'], 'https://maxvideoai.com/#organization');
-  assert.ok(mcp.provider.sameAs.includes(MAXVIDEOAI_PLUGIN_REPOSITORY_URL));
+  assert.equal(mcp.provider['@id'], 'https://app.keyvo.cn/#organization');
+  assert.ok(!('sameAs' in mcp.provider));
 
   assert.equal(
     buildIntegrationWebApplicationJsonLd({
-      canonicalUrl: 'https://maxvideoai.com/integrations/chatgpt',
+      canonicalUrl: 'https://app.keyvo.cn/integrations/chatgpt',
       copy: getIntegrationCopy('en', 'chatgpt'),
       inLanguage: 'en-US',
       publication,
@@ -355,14 +353,14 @@ test('organization and application JSON-LD identify the dedicated plugin reposit
 
   for (const client of ['claude', 'codex'] as const) {
     const application = buildIntegrationWebApplicationJsonLd({
-      canonicalUrl: `https://maxvideoai.com/integrations/${client}`,
+      canonicalUrl: `https://app.keyvo.cn/integrations/${client}`,
       copy: getIntegrationCopy('en', client),
       inLanguage: 'en-US',
       publication,
     });
     assert.ok(application);
     assert.equal(application.sameAs, MAXVIDEOAI_PLUGIN_REPOSITORY_URL);
-    assert.equal(application.provider['@id'], 'https://maxvideoai.com/#organization');
+    assert.equal(application.provider['@id'], 'https://app.keyvo.cn/#organization');
     assert.match(application.name, new RegExp(client === 'claude' ? 'Claude' : 'Codex'));
     assert.doesNotMatch(
       JSON.stringify(application),
@@ -372,7 +370,7 @@ test('organization and application JSON-LD identify the dedicated plugin reposit
 
   assert.equal(
     buildIntegrationWebApplicationJsonLd({
-      canonicalUrl: 'https://maxvideoai.com/integrations/claude',
+      canonicalUrl: 'https://app.keyvo.cn/integrations/claude',
       copy: getIntegrationCopy('en', 'claude'),
       inLanguage: 'en-US',
       publication: getMcpPublicationState(disabledPublication),

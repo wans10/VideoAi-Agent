@@ -1,6 +1,6 @@
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import type { AppLocale } from '@/i18n/locales';
-import { defaultLocale, localePathnames, localeRegions, locales } from '@/i18n/locales';
+import { defaultLocale, localePathnames, localeRegions, publishedLocales, siteDefaultLocale } from '@/i18n/locales';
 import { HREFLANG_VARIANTS } from '@/lib/seo/alternateLocales';
 import { SITE_ORIGIN } from '@/lib/siteOrigin';
 
@@ -54,7 +54,7 @@ export function getLocalizedUrl(locale: AppLocale, englishPath: string): string 
 
 export function getHreflangAlternates(englishPath: string, options?: MetadataUrlOptions) {
   const normalizedEnglish = normalizeEnglishPath(englishPath) ?? '/';
-  const publishable = new Set<AppLocale>((options?.availableLocales ?? locales) as AppLocale[]);
+  const publishable = new Set<AppLocale>((options?.availableLocales ?? publishedLocales).filter(locale => publishedLocales.includes(locale)));
   const localizedHrefByLocale = new Map<AppLocale, string>();
   const languages: Record<string, string> = {};
 
@@ -72,7 +72,7 @@ export function getHreflangAlternates(englishPath: string, options?: MetadataUrl
     }
   });
 
-  const xDefaultHref = localizedHrefByLocale.get(defaultLocale) ?? getLocalizedUrl(defaultLocale, normalizedEnglish);
+  const xDefaultHref = localizedHrefByLocale.get(siteDefaultLocale) ?? getLocalizedUrl(siteDefaultLocale, normalizedEnglish);
   languages['x-default'] = xDefaultHref;
 
   const alternates = Object.entries(languages).map(([hreflang, href]) => ({ hreflang, href }));
@@ -82,7 +82,7 @@ export function getHreflangAlternates(englishPath: string, options?: MetadataUrl
 
 export function buildMetadataUrls(locale: AppLocale, slugMap?: LocaleSlugMap, options?: MetadataUrlOptions) {
   const resolveRegion = (target: AppLocale) => localeRegions[target] ?? localeRegions[defaultLocale];
-  const publishable = new Set<AppLocale>((options?.availableLocales ?? locales) as AppLocale[]);
+  const publishable = new Set<AppLocale>((options?.availableLocales ?? publishedLocales).filter(locale => publishedLocales.includes(locale)));
   const allowed = new Set<AppLocale>(publishable);
   allowed.add(locale);
   const englishPath = normalizeEnglishPath(options?.englishPath);
@@ -107,7 +107,7 @@ export function buildMetadataUrls(locale: AppLocale, slugMap?: LocaleSlugMap, op
       languages[variant.hreflang] = href;
     }
   });
-  languages['x-default'] = urls[defaultLocale] ?? buildAbsoluteUrl('/');
+  languages['x-default'] = urls[siteDefaultLocale] ?? getLocalizedUrl(siteDefaultLocale, englishPath ?? '/');
 
   const ogLocale = resolveRegion(locale).replace('-', '_');
   const alternateOg = Array.from(allowed)

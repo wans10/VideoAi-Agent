@@ -147,7 +147,7 @@ test('official staging config reaches the real default top-up service while cust
         withTransaction: async () => { throw new Error('must not start a transaction'); },
       },
     ),
-    /trusted MaxVideoAI account URL|unexpected origin/i,
+    /trusted Keyvo account URL|unexpected origin/i,
   );
 });
 

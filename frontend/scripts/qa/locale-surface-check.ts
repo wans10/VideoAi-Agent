@@ -4,7 +4,7 @@ import type { AppLocale } from '@/i18n/locales';
 
 const RAW_BASE_URL = process.env.QA_BASE_URL ?? 'http://localhost:3000';
 const BASE_URL = RAW_BASE_URL.replace(/\/+$/, '') || 'http://localhost:3000';
-const LOCALES: AppLocale[] = ['fr', 'es'];
+const LOCALES: AppLocale[] = ['fr', 'es', 'zh'];
 const LOCALIZABLE_INTERNAL_PATHS = [
   '/',
   '/models',
@@ -33,6 +33,7 @@ type LegacyRedirectFixture = {
 };
 
 const FIXTURES: Fixture[] = [
+  { englishPath: '/return-policy', requiredTextByLocale: { zh: ['退款与退换政策', '生成失败或技术缺陷', '返回首页'] } },
   {
     englishPath: '/status',
     forbiddenTextByLocale: {

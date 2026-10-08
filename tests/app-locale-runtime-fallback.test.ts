@@ -12,6 +12,7 @@ test('runtime locale normalization preserves supported locales and falls back fo
   assert.equal(normalizeAppLocale?.('en'), 'en');
   assert.equal(normalizeAppLocale?.('fr'), 'fr');
   assert.equal(normalizeAppLocale?.('es'), 'es');
+  assert.equal(normalizeAppLocale?.('zh'), 'zh');
   assert.equal(normalizeAppLocale?.('apple-touch-icon-precomposed.png'), 'en');
   assert.equal(normalizeAppLocale?.('.well-known'), 'en');
   assert.equal(normalizeAppLocale?.(undefined), 'en');

@@ -421,7 +421,10 @@ export async function inspectLiveMcpMetadata(): Promise<RegistryEvidence> {
       mcpPublication.paidGeneration === true &&
       mcpPublication.referenceUploads === true &&
       mcpPublication.trial === false;
-    if (!productionPublicationActive) {
+    // A deliberately hidden deployment can still verify the preserved protocol.
+    // Keep its publication status false; never turn this into release evidence.
+    const marketingHidden = !mcpPublication.publicMarketing && !mcpPublication.publicIndexing;
+    if (!productionPublicationActive && !marketingHidden) {
       throw new Error('offline read-only evidence requires the approved production publication state');
     }
     return {

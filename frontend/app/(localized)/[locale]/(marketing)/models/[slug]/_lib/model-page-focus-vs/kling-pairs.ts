@@ -1,7 +1,8 @@
 import type { FocusVsPair } from './types';
+import { KLING_3_FOCUS_VS_PAIRS } from './kling-3-pairs';
 
 export const KLING_FOCUS_VS_PAIRS: FocusVsPair[] = [
-{
+  {
     slugA: 'kling-2-5-turbo',
     slugB: 'kling-2-6-pro',
     nameA: 'Kling 2.5 Turbo',
@@ -31,6 +32,14 @@ export const KLING_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Look-dev rápido y borradores',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Kling 2.5 Turbo：',
+        items: [
+          '具备强动态效果的高速无声视频',
+          '性价比极高的剪辑用 B-roll 循环素材',
+          '快速外观探索与前期草稿制作',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -57,9 +66,17 @@ export const KLING_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Continuidad más fuerte en la dirección de cámara',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Kling 2.6 Pro：',
+        items: [
+          '包含对白和音效的原生音频生成',
+          '更精致成熟的广告与故事叙事片段',
+          '更具连贯性的运镜调度与机位控制',
+        ],
+      },
     },
   },
-{
+  {
     slugA: 'kling-2-6-pro',
     slugB: 'kling-3-pro',
     nameA: 'Kling 2.6 Pro',
@@ -89,6 +106,14 @@ export const KLING_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Resultados sólidos en clips de 5–10s',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Kling 2.6 Pro：',
+        items: [
+          '包含对白和音效的原生音频生成',
+          '无需复杂设置的快速电影感镜头',
+          '5–10 秒高质量短片段的稳定输出',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -115,65 +140,15 @@ export const KLING_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Voice IDs y control de shot type hasta 15s',
         ],
       },
-    },
-  },
-{
-    slugA: 'kling-3-standard',
-    slugB: 'kling-3-pro',
-    nameA: 'Kling 3 Standard',
-    nameB: 'Kling 3 Pro',
-    onlyFor: ['kling-3-standard'],
-    copyA: {
-      en: {
-        title: 'Use Kling 3 Standard when you want:',
+      zh: {
+        title: '在以下场景推荐使用 Kling 3 Pro：',
         items: [
-          'Multi-shot control at a lower cost',
-          'Quick ad variants and social promos',
-          'Elements + end frame for consistency',
-        ],
-      },
-      fr: {
-        title: 'Utilisez Kling 3 Standard quand vous voulez :',
-        items: [
-          'Contrôle multi‑shot à moindre coût',
-          'Variantes rapides d’ads et promos social',
-          'Elements + image de fin pour la cohérence',
-        ],
-      },
-      es: {
-        title: 'Usa Kling 3 Standard cuando quieras:',
-        items: [
-          'Control multi‑shot a menor costo',
-          'Variantes rápidas de anuncios y promos sociales',
-          'Elements + end frame para consistencia',
-        ],
-      },
-    },
-    copyB: {
-      en: {
-        title: 'Use Kling 3 Pro when you need:',
-        items: [
-          'Shot type control + voice IDs',
-          'More precise coverage for storyboards',
-          'Premium takes and iteration depth',
-        ],
-      },
-      fr: {
-        title: 'Utilisez Kling 3 Pro quand vous avez besoin :',
-        items: [
-          'Shot type + voice IDs',
-          'Couverture plus précise pour storyboard',
-          'Takes premium et itérations plus poussées',
-        ],
-      },
-      es: {
-        title: 'Usa Kling 3 Pro cuando necesites:',
-        items: [
-          'Shot type + voice IDs',
-          'Cobertura más precisa para storyboards',
-          'Tomas premium y más iteración',
+          '跨场景的多提示词分镜连续生成',
+          '元素参考功能，确保角色与道具高度一致',
+          '最长 15 秒的声音角色与镜头类型精细控制',
         ],
       },
     },
   },
+  ...KLING_3_FOCUS_VS_PAIRS,
 ];

@@ -8,8 +8,8 @@ import { resolveMcpConfig } from '../frontend/src/server/mcp/config';
 
 test('the common MCP publication source owns the approved production launch state', () => {
   const expected = {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,

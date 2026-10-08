@@ -12,12 +12,14 @@ const focusVsDir = join(root, 'frontend/app/(localized)/[locale]/(marketing)/mod
 const focusVsModules = [
   'creative-pairs.ts',
   'foundation-pairs.ts',
+  'kling-3-pairs.ts',
   'kling-pairs.ts',
   'pairs.ts',
   'resolve.ts',
   'seedance-pairs.ts',
   'specialized-pairs.ts',
   'types.ts',
+  'wan-pairs.ts',
 ];
 
 const facadeSource = readFileSync(facadePath, 'utf8');

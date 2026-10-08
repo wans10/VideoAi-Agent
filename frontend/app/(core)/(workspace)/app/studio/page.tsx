@@ -12,7 +12,7 @@ import StudioPreviewAccess from './_components/StudioPreviewAccess.client';
 
 export const dynamic='force-dynamic';
 export const runtime='nodejs';
-export const metadata:Metadata={title:'Studio | MaxVideoAI',robots:{index:false,follow:false}};
+export const metadata:Metadata={title:'Studio | Keyvo',robots:{index:false,follow:false}};
 
 export default async function StudioPage({searchParams}: {searchParams: Promise<{starter?: string | string[];continueDraft?: string | string[]}>}) {
   const query=await searchParams;

@@ -1,11 +1,14 @@
 'use client';
 
-import Image from 'next/image';
+import mcpPublication from '@/config/mcp-publication.json';
+
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import Link from 'next/link';
 import { useEffect, useId, useImperativeHandle, useRef, type MouseEvent, type MutableRefObject, type ReactNode } from 'react';
 import { AppLanguageToggle } from '@/components/AppLanguageToggle';
 import { MARKETING_TOP_NAV_LINKS } from '@/config/navigation';
 import { getPathname } from '@/i18n/navigation';
+import { publishedLocales } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { AppAppearanceControl } from './AppAppearanceControl.client';
 import { AppGlyph } from './AppGlyph';
@@ -42,11 +45,13 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
   const bodyRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const titleId = useId();
-  const copy = locale === 'fr'
-    ? { menu: 'Menu', openMenu: 'Ouvrir le menu MaxVideoAI', close: 'Fermer', site: 'Explorer MaxVideoAI', app: 'Application', preferences: 'Préférences', language: 'Langue', theme: 'Apparence', signIn: 'Connexion', signUp: 'Créer un compte', signOut: 'Déconnexion', assistants: 'Assistants', account: 'Compte', newTab: 'nouvel onglet' }
+  const copy = locale === 'zh'
+    ? { menu: '创作工作室', openMenu: '打开 Keyvo 导航', close: '关闭', site: '探索 Keyvo', app: '我的工作室', preferences: '偏好设置', language: '语言', theme: '外观', signIn: '登录', signUp: '注册', signOut: '退出登录', assistants: '智能助手', account: '账户', newTab: '新窗口' }
+    : locale === 'fr'
+    ? { menu: 'Menu', openMenu: 'Ouvrir le menu Keyvo', close: 'Fermer', site: 'Explorer Keyvo', app: 'Application', preferences: 'Préférences', language: 'Langue', theme: 'Apparence', signIn: 'Connexion', signUp: 'Créer un compte', signOut: 'Déconnexion', assistants: 'Assistants', account: 'Compte', newTab: 'nouvel onglet' }
     : locale === 'es'
-      ? { menu: 'Menú', openMenu: 'Abrir el menú de MaxVideoAI', close: 'Cerrar', site: 'Explorar MaxVideoAI', app: 'Aplicación', preferences: 'Preferencias', language: 'Idioma', theme: 'Apariencia', signIn: 'Entrar', signUp: 'Crear cuenta', signOut: 'Cerrar sesión', assistants: 'Asistentes', account: 'Cuenta', newTab: 'pestaña nueva' }
-      : { menu: 'Menu', openMenu: 'Open MaxVideoAI menu', close: 'Close', site: 'Explore MaxVideoAI', app: 'Application', preferences: 'Preferences', language: 'Language', theme: 'Appearance', signIn: 'Sign in', signUp: 'Create account', signOut: 'Sign out', assistants: 'Assistants', account: 'Account', newTab: 'new tab' };
+      ? { menu: 'Menú', openMenu: 'Abrir el menú de Keyvo', close: 'Cerrar', site: 'Explorar Keyvo', app: 'Aplicación', preferences: 'Preferencias', language: 'Idioma', theme: 'Apariencia', signIn: 'Entrar', signUp: 'Crear cuenta', signOut: 'Cerrar sesión', assistants: 'Asistentes', account: 'Cuenta', newTab: 'pestaña nueva' }
+      : { menu: 'Menu', openMenu: 'Open Keyvo menu', close: 'Close', site: 'Explore Keyvo', app: 'Application', preferences: 'Preferences', language: 'Language', theme: 'Appearance', signIn: 'Sign in', signUp: 'Create account', signOut: 'Sign out', assistants: 'Assistants', account: 'Account', newTab: 'new tab' };
   const open = (trigger: HTMLElement) => {
     openerRef.current = trigger;
     dialogRef.current?.showModal();
@@ -72,17 +77,16 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
   };
   const topPaths = { models: '/models', examples: '/examples', compare: '/ai-video-engines', tools: '/tools', pricing: '/pricing', blog: '/blog' } as const;
   const publicLinks: { key: string; label: string; href: (typeof topPaths)[keyof typeof topPaths] | '/' | '/integrations/claude' | '/integrations/chatgpt' | '/integrations/codex' }[] = [
-    { key: 'home', label: locale === 'fr' ? 'Accueil' : locale === 'es' ? 'Inicio' : 'Home', href: '/' },
+    { key: 'home', label: locale === 'fr' ? 'Accueil' : locale === 'es' ? 'Inicio' : locale === 'zh' ? '首页' : 'Home', href: '/' },
     ...MARKETING_TOP_NAV_LINKS.map((item) => ({ ...item, href: topPaths[item.key], label: t(`nav.linkLabels.${item.key}`, item.key) ?? item.key })),
   ];
   return (
     <>
       <button className="app-site-trigger" type="button" aria-label={copy.openMenu} aria-haspopup="dialog" onClick={(event) => open(event.currentTarget)}>
-        <Image src="/assets/branding/logo-mark.svg" width={28} height={28} alt="" aria-hidden="true" />
-        <span><strong>MaxVideoAI</strong><small>{copy.menu}</small></span><AppGlyph name="menu" />
+        <BrandLockup caption={copy.menu} /><AppGlyph name="menu" />
       </button>
       <dialog ref={dialogRef} className="app-site-dialog" aria-labelledby={titleId} onClick={(event) => { if (event.target === event.currentTarget) close(); }}>
-        <div className="app-site-dialog-heading"><h2 id={titleId}>MaxVideoAI</h2><button type="button" onClick={close} autoFocus>{copy.close} ×</button></div>
+        <div className="app-site-dialog-heading"><h2 id={titleId}>Keyvo</h2><button type="button" onClick={close} autoFocus>{copy.close} ×</button></div>
         <section className="app-site-preferences" aria-labelledby={`${titleId}-preferences`}><h3 id={`${titleId}-preferences`}>{copy.preferences}</h3>
           <div><span>{copy.language}</span><AppLanguageToggle /></div>
           <div><span>{copy.theme}</span><AppAppearanceControl locale={locale} /></div>
@@ -92,7 +96,7 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
           <section aria-labelledby={`${titleId}-app`}><h3 id={`${titleId}-app`}>{copy.app}</h3>
             <nav className="app-complete-menu" aria-label={copy.app}>
               {getAppMenuItems(undefined, studioVisible ?? canShowStudioNavigation()).map((item) => <Link key={item.id} href={item.href} prefetch={false} onClick={(event) => handleAppNavigate(event, item.href)}><AppGlyph name={item.glyph} /><span>{appNavLabel(item, locale)}</span></Link>)}
-              {isAdmin ? <Link href="/admin" prefetch={false} onClick={(event) => { if (onAppNavigate) handleAppNavigate(event, '/admin'); else { event.preventDefault(); close(); window.location.assign('/admin'); } }}><AppGlyph name="settings" /><span>Admin</span></Link> : null}
+              {isAdmin ? <Link href="/admin" prefetch={false} onClick={(event) => { if (onAppNavigate) handleAppNavigate(event, '/admin'); else { event.preventDefault(); close(); window.location.assign('/admin'); } }}><AppGlyph name="settings" /><span>{locale === 'zh' ? '运营后台' : 'Admin'}</span></Link> : null}
             </nav>
           </section>
           <section aria-labelledby={`${titleId}-site`}><h3 id={`${titleId}-site`}>{copy.site}</h3>

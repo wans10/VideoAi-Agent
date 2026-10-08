@@ -1,0 +1,281 @@
+{
+  "marketingName": "Wan 3",
+  "versionLabel": "3",
+  "seo": {
+    "title": "Wan 3 AI 视频生成器：文生视频、图生视频与多模态参考",
+    "description": "了解何时在文生视频、图像动态化或混合参考素材创作中使用 Wan 3，涵盖当前技术约束、提示词编写指南与官方标准定价。"
+  },
+  "overview": "Wan 3 是当前 Wan 系列中的标准路线，专为希望在文生、图生及多模态参考制作中统一使用单个模型的团队打造。该模型由阿里/通义研发；VideoAI 通过 Fal 分发这些上线端点，而非宣称直接接入阿里官方接口。",
+  "decision": {
+    "modelSlug": "wan-3",
+    "hero": {
+      "eyebrow": "AI 视频 · Wan",
+      "title": "Wan 3",
+      "subtitle": "你的创意。你的参考素材。你的参数设置。",
+      "subtitleHighlights": [
+        "你的创意",
+        "你的参考素材",
+        "你的参数设置"
+      ],
+      "paragraph": "Wan 3 是阿里/通义推出的 AI 视频模型。你可以从文本起步、让静态图像动起来，或结合多模态参考素材来把控画面。支持选择 480p、720p 或 1080p 分辨率，并在生成前直观查看各项设置对价格的影响。",
+      "primaryCta": {
+        "label": "使用 Wan 3 生成",
+        "href": "/app?engine=wan-3"
+      },
+      "secondaryCta": {
+        "label": "浏览 Wan 系列案例库",
+        "href": "/zh/examples/wan"
+      },
+      "quickLinks": [
+        {
+          "label": "查看 Wan 3 Prime",
+          "href": "/zh/models/wan-3-prime"
+        },
+        {
+          "label": "对比 Wan 3 与 Wan 2.6",
+          "href": "/zh/ai-video-engines/wan-2-6-vs-wan-3?order=wan-3"
+        },
+        {
+          "label": "查看 Wan 3 价格",
+          "href": "/zh/pricing#wan-3-pricing"
+        },
+        {
+          "label": "打开 Wan 3 提示词实验室",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Wan 3 案例展厅",
+      "description": "通过审核的 Wan 3 案例将在上线评估后展示",
+      "renderLabel": "查看已通过的成片",
+      "badges": [
+        "文本",
+        "图像",
+        "参考素材"
+      ],
+      "altContext": "使用所选生成模式渲染的经审核 Wan 3 视频示例"
+    },
+    "features": [
+      {
+        "title": "规划清晰的文生视频指导",
+        "body": "按清晰的顺序描述主体、场景、核心动作、镜头轨迹与收尾定格。Wan 3 支持渲染 2 到 30 秒的视频，因此提示词应当与所选时长相匹配，避免在短片段中堆砌过多内容。",
+        "tone": "duration"
+      },
+      {
+        "title": "首尾关键帧精准控制",
+        "body": "从起始图像激发动态，并在成片构图要求明确时加入尾帧。运动描述应专注于这两个视觉锚点之间的平滑过渡。",
+        "tone": "reference"
+      },
+      {
+        "title": "多模态混合参考工作流",
+        "body": "参考模式可组合支持的图像、视频与音频素材；在开启思考模式时，还可引用单个有效文件或公开网页。确保每个素材目的明确，并在文档规定的数量与时长限制之内。",
+        "tone": "continuity"
+      },
+      {
+        "title": "按成片需求自由选择分辨率",
+        "body": "可选择 480p 进行低成本探索，使用 720p 进行审阅，或在构图确定后选用 1080p 输出更高清的成片。界面显示的预估价格与实际生成时的官方标准计费完全一致。",
+        "tone": "quality"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "最佳适用：灵活全面的 Wan 系列主力路线",
+        "body": "适用于故事板、产品动态及角色场景创作。在迭代过程中，你可以根据需要在纯文本提示、图像引导以及多模态参考之间自由切换。",
+        "cta": {
+          "label": "创建 Wan 3 项目",
+          "href": "/app?engine=wan-3"
+        }
+      },
+      {
+        "title": "不推荐：盲目直接选用旗舰高端版本",
+        "body": "并非所有项目都需要 Prime。当预算采购、审阅标准或特定高端制作路线确有需求时，再对比并选用系列中的 Prime 版本。",
+        "cta": {
+          "label": "查看 Wan 3 Prime",
+          "href": "/zh/models/wan-3-prime"
+        }
+      },
+      {
+        "title": "构思提示词前明确参考素材分工",
+        "body": "为每个素材指定明确职责，如主体特征、运动轨迹、节奏或环境上下文。精简且目的明确的素材组合，远比没有层级的杂乱媒体更容易调试与把控。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文生视频",
+        "body": "围绕一个主体、一个核心动作和一个运镜轨迹构建清晰的场景，最后交代收尾定格。"
+      },
+      {
+        "title": "图生视频",
+        "body": "在保持上传构图稳定的同时，仅描述所需生成的运动、运镜行为以及环境互动反馈。"
+      },
+      {
+        "title": "参考生视频",
+        "body": "使用至少一个有效参考素材，并严格遵守图像、视频片段、音频、文件及公开网页各自的限制要求。"
+      },
+      {
+        "title": "安全与版权合规",
+        "body": "确保使用获得合法授权的素材，避免欺骗性肖像滥用，并审查每份输出以排除非预期文字、面部走形或违规内容。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Wan 3 场景化定价",
+      "subtitle": "对比同一场景在 720p 与 1080p 分辨率下的价格差异。",
+      "footnote": "具体价格取决于所选参数设置。VideoAI 会在生成前与你确认最终报价。",
+      "ctaLabel": "使用 Wan 3 生成",
+      "ctaHref": "/app?engine=wan-3"
+    },
+    "meta": {
+      "title": "Wan 3 AI 视频模型、创作工作流与定价方案",
+      "description": "全面了解 Wan 3 在文生、图生及多模态参考视频中的应用，涵盖各模式限制、提示词结构、安全合规、版本选型与实时标准报价。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "wan-3",
+    "section": {
+      "title": "提示词实验室 — Wan 3",
+      "intro": "编写符合所选时长且叙事清晰的制作简报，并为每个参考素材明确单一职责。",
+      "tip": "在添加风格修饰词或氛围描述之前，先明确必不可少的主体与核心动作。",
+      "guide": {
+        "label": "阅读阿里云 Model Studio 的 Wan 3 指南",
+        "href": "https://docs.modelstudio.console.alibabacloud.com/en/model-studio/wan3-video-generation-guide"
+      },
+      "referencesTitle": "结构化组织文本、首尾帧与多模态参考指导"
+    },
+    "tabs": [
+      {
+        "id": "scene",
+        "label": "场景",
+        "title": "定义清晰可辨的场景",
+        "description": "在添加运镜术语前，先确立主体、地点与清晰可见的变化。",
+        "copy": "主体与环境：\n[画面中出现的人物或物体，场景发生地点以及关键细节]\n\n核心动作：\n[具备明确起因和结果的单一可见动作]\n\n收尾定格：\n[结束片段的镜头构图或停顿动作]"
+      },
+      {
+        "id": "camera",
+        "label": "镜头运镜",
+        "title": "调度运动与节奏",
+        "description": "让运镜复杂度与所选视频时长相匹配。",
+        "copy": "起始机位：\n[景别取景、镜头感与起始位置]\n\n运镜轨迹：\n[单一受控的平移、跟推、推进或环绕]\n\n运动节奏：\n[速度、停顿与环境动态反馈]\n\n连贯性：\n[主体特征、服饰、道具、光影与画面方向]"
+      },
+      {
+        "id": "references",
+        "label": "参考素材",
+        "title": "为每个参考素材分配明确职责",
+        "description": "明确告知模型应当从每个素材中提取何种特征。",
+        "copy": "身份特征参考：\n[素材来源与需保留的确切特征]\n\n动作动态参考：\n[素材来源与需借用的运动模式]\n\n音频或节奏参考：\n[素材来源与节奏把控职责]\n\n规避项：\n[冲突的身份特征、不支持的素材组合、非预期文字与水印]"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "scene",
+        "body": "相比罗列一堆无关事件，包含清晰可见变化的简明提示词更容易进行评估和调试。"
+      },
+      {
+        "tabId": "camera",
+        "body": "短片段建议采用单一精准的运镜轨迹，仅在时长充裕时再安排多段运镜节拍。"
+      },
+      {
+        "tabId": "references",
+        "body": "参考模式同样需要明确层级结构：指明具体哪个素材把控主体特征、哪个把控动作或节奏。"
+      }
+    ],
+    "globalPrinciples": [
+      "优先描述具体可见的动作，而非仅描写抽象的情绪氛围。",
+      "当画面连贯性至关重要时，尽量保持主体数量精简。",
+      "明确收尾定格节拍，使画面动作自然落定而非戛然而止。",
+      "将授权许可、肖像权与素材归属视为制作简报不可分割的一部分。"
+    ],
+    "engineWhy": [
+      "Wan 3 将纯提示词、帧控制与多模态混合参考统一在当前的家族核心路线下。",
+      "更长的时长选项支持规划循序渐进的简单叙事展开，无需将所有节拍过度压缩。",
+      "清晰划分的参考素材类别，便于团队精准定位哪个来源把控主体、动作或声音。"
+    ],
+    "demo": {
+      "title": "Wan 3 质感产品动态演示",
+      "promptLabel": "文生视频制作简报",
+      "prompt": "清晨微光下，一盏陶瓷台灯静立于宁静的设计工作室中。一只手轻轻旋转调光旋钮，温暖的光晕在肌理墙面上渐次漾开，镜头缓慢平移跟拍，最后定格在被光芒点亮的灯罩上。保持台灯比例、自然的手部解剖结构以及清晨柔和的冷调蓝色氛围。画面无任何 logo、文字字幕或水印。",
+      "notes": [
+        "动作起因明确，且伴随清晰可见的环境光影反馈。",
+        "收尾构图为片段提供了稳定沉静的落幅节拍。"
+      ],
+      "summary": {
+        "subject": "陶瓷台灯与一只手",
+        "action": "旋转调光旋钮改变室内光线",
+        "camera": "缓慢平移跟拍并定格于灯罩",
+        "style": "晨曦中宁静雅致的当代质感产品短片",
+        "output": "带有渲染派生音频状态的标准横屏场景"
+      },
+      "presentationOverrides": {
+        "modeLabel": "文生视频",
+        "outputLabel": "标准输出设置",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "media",
+        "audioChipLabel": null,
+        "altContext": "Wan 3 陶瓷台灯产品动态提示词演示"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "wan-3",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "经审阅的 Wan 3 精选案例",
+      "intro": "在此展厅展示两个已通过审核并持久化收录至模型播放列表的 Wan 3 作品前，展厅保持隐藏。",
+      "defaultCtaLabel": "浏览 Wan 系列案例库",
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "reference",
+        "label": "多模态参考"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "identity",
+        "icon": "users",
+        "title": "主体一致性",
+        "body": "检验核心主体在动态运动与运镜变化中是否始终保持高度辨识度与连贯性。"
+      },
+      {
+        "id": "motion",
+        "icon": "zap",
+        "title": "动作表现",
+        "body": "检验复杂肢体动作与物理动态的平滑度。"
+      },
+      {
+        "id": "references",
+        "icon": "image",
+        "title": "参考素材控制",
+        "body": "对比目标身份、动态与声音在成片中的还原度。"
+      },
+      {
+        "id": "quality",
+        "icon": "maximize",
+        "title": "成片交付质量",
+        "body": "在所选分辨率下仔细检查构图、材质细节与画面时序稳定性。"
+      },
+      {
+        "id": "safety",
+        "icon": "shield",
+        "title": "内容审核把关",
+        "body": "严格拦截非预期文字、水印标识、违规不良图像或未经授权的肖像使用。"
+      }
+    ],
+    "fallbackItems": null
+  }
+}

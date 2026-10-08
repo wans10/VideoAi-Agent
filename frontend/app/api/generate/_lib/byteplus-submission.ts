@@ -22,6 +22,10 @@ import {
   scrubBytePlusError,
 } from '@/server/video-providers/byteplus-modelark';
 import { rollbackPendingPayment } from './payment-rollback';
+import { submitLlmhubGenerateTask } from './llmhub-submission';
+import { isLlmhubVideoRoutingSelected } from '@/server/video-providers/router';
+import { resolveLlmhubVideoModel } from '@/server/video-providers/llmhub/model-map';
+import { llmhubVideoSize } from '@/server/video-providers/llmhub/video-size';
 import {
   buildUserFacingRefundDescription,
   toUserFacingFailureMessage,
@@ -99,6 +103,8 @@ export async function submitBytePlusGenerateTask(params: {
   localKey: string | null;
   inputSchema?: EngineInputSchema | null;
   referenceValuesByField?: ReferenceBudgetValuesByField<string>;
+  request?: Record<string, unknown>;
+  submitLlmhubFallback?: () => Promise<BytePlusSubmissionResult>;
   deps?: BytePlusSubmissionDeps;
 }): Promise<BytePlusSubmissionResult> {
   const deps = params.deps ?? {};
@@ -120,6 +126,27 @@ export async function submitBytePlusGenerateTask(params: {
   const logMetricFn = deps.logMetricFn;
   let providerAttempted = false;
   let acceptedProviderJobId: string | null = null;
+  const llmhubFallbackModel = params.request
+    && isLlmhubVideoRoutingSelected(params.engineId, params.mode, undefined, params.request)
+    && process.env.LLMHUB_API_KEY?.trim()
+      ? resolveLlmhubVideoModel(params.engineId, params.mode) : null;
+  const submitLlmhubFallback = params.submitLlmhubFallback ?? (llmhubFallbackModel ? async () => {
+    const result = await submitLlmhubGenerateTask({
+      jobId: params.jobId, userId: params.userId, engineId: params.engineId, engineLabel: params.engineLabel,
+      modelId: llmhubFallbackModel, mode: params.mode, prompt: params.prompt, durationSec: params.durationSec,
+      size: llmhubVideoSize(params.effectiveResolution, params.aspectRatio, params.engineId),
+      resolution: params.effectiveResolution, aspectRatio: params.aspectRatio, audioEnabled: params.audioEnabled,
+      imageUrl: params.initialImageUrl, placeholderThumb: params.placeholderThumb,
+      pricing: params.pricing, paymentStatus: params.paymentStatus, pendingReceipt: params.pendingReceipt,
+      walletChargeReserved: params.walletChargeReserved, batchId: params.batchId, groupId: params.groupId,
+      iterationIndex: params.iterationIndex, iterationCount: params.iterationCount, renderIds: params.renderIds,
+      heroRenderId: params.heroRenderId, localKey: params.localKey,
+    });
+    return result.kind === 'accepted_response'
+      ? { ok: true, body: result.body }
+      : { ok: false, status: result.kind === 'error_response' ? result.status : 502,
+          body: result.kind === 'error_response' ? result.body : { ok: false, error: 'Unexpected provider result' } };
+  } : null);
 
   try {
     assertBytePlusSeedanceSubmissionEnabled(params.engineId);
@@ -265,6 +292,10 @@ export async function submitBytePlusGenerateTask(params: {
         .catch(() => undefined);
       return { ok: false, status: 503, body: { ok: false, error: 'SEEDANCE_WORKFLOW_SUBMISSION_UNCERTAIN',
         jobId: params.jobId, paymentStatus: params.paymentStatus, message: 'Submission is being checked. Do not submit again.' } };
+    }
+    // Only an explicit pre-acceptance rejection can be retried with another paid provider.
+    if (!acceptedProviderJobId && submitLlmhubFallback && [401, 403, 404, 429].includes(providerStatus ?? 0)) {
+      return submitLlmhubFallback();
     }
     const providerErrorCode =
       error instanceof BytePlusModelArkError && error.code

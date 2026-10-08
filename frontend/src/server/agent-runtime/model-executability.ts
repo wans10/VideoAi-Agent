@@ -18,8 +18,9 @@ import {
   isLumaAgentsVideoEngine,
   resolveLumaAgentsVideoSupport,
 } from '@/server/video-providers/luma-agents/model-map';
-import { resolveVideoProviderRoutingPlan } from '@/server/video-providers/router';
+import { resolveVideoProviderRoutingPlan, isLlmhubVideoRoutingSelected } from '@/server/video-providers/router';
 import { ENV } from '@/lib/env';
+import { resolveLlmhubImageModel } from '@/server/images/llmhub-image-models';
 import type { CanonicalGenerationRequest } from '@/server/agent-api/generation-types';
 import type { ResolvedReference } from '@/server/agent-api/reference-types';
 import { parseGoogleVertexServiceAccount } from '@/server/video-providers/google-vertex-auth';
@@ -131,13 +132,17 @@ function lumaImageDirectEnabled(
   return flagEnabled(providerEnv.LUMA_AGENTS_ENABLED)
     && flagEnabled(providerEnv.LUMA_AGENTS_IMAGE_DIRECT_ENABLED)
     && flagEnabled(providerEnv.LUMA_AGENTS_PUBLIC_ROUTING_ENABLED)
-    && !flagEnabled(providerEnv.LUMA_AGENTS_ADMIN_ONLY ?? 'true');
+    && !flagEnabled(providerEnv.LUMA_AGENTS_ADMIN_ONLY ?? 'true')
+    && configured(providerEnv.LUMA_AGENTS_API_KEY);
 }
 
 export function resolveAgentGenerationEngineExecutability(
   engine: EngineCaps,
   environment: AgentGenerationExecutabilityEnvironment = defaultEnvironment(),
 ): AgentGenerationExecutabilityDecision {
+  if (resolveLlmhubImageModel(engine.id)) {
+    return resolveAgentGenerationModeExecutability(engine, engine.modes[0] ?? 't2i', environment);
+  }
   if (isBytePlusSeedreamEngine(engine)) {
     const readiness = resolveBytePlusSeedreamReadiness(engine, environment);
     if (readiness.reason === 'model_unsupported') {
@@ -159,6 +164,15 @@ export function resolveAgentGenerationModeExecutability(
   mode: Mode,
   environment: AgentGenerationExecutabilityEnvironment = defaultEnvironment(),
 ): AgentGenerationExecutabilityDecision {
+  if (resolveLlmhubImageModel(engine.id)) {
+    const providerEnv = environment.providerEnv ?? process.env;
+    if (engine.id.startsWith('nano-banana') && googleVertexImageMcpEnabled(engine.id, providerEnv)
+      && googleVertexImageConfigured(providerEnv)) return { executable: true, reason: 'available' };
+    if (engine.id === 'seedream' && resolveBytePlusSeedreamReadiness(engine, environment).executable) {
+      return { executable: true, reason: 'available' };
+    }
+    return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
+  }
   if (isBytePlusSeedreamEngine(engine)) {
     return resolveAgentGenerationEngineExecutability(engine, environment);
   }
@@ -199,7 +213,11 @@ export function resolveAgentGenerationModeExecutability(
         env: providerEnv,
       });
       if (routingPlan.kind === 'google_vertex_unavailable') {
-        return { executable: false, reason: 'provider_disabled' };
+        return { executable: false, reason: routingPlan.reason === 'vertex_not_configured'
+          ? 'provider_credentials_missing' : 'provider_disabled' };
+      }
+      if (routingPlan.kind === 'llmhub_primary') {
+        return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
       }
       if (routingPlan.kind === 'fal_only') {
         return credentialDecision(configured(environment.falApiKey));
@@ -225,6 +243,9 @@ export function resolveAgentGenerationModeExecutability(
       return { executable: false, reason: 'profile_invalid' };
     }
     if (!environment.bytePlusEnabled || !isBytePlusSeedanceSubmissionEnabled(engine.id)) {
+      if (isLlmhubVideoRoutingSelected(engine.id, mode, providerEnv)) {
+        return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
+      }
       return { executable: false, reason: 'provider_disabled' };
     }
     if (
@@ -235,15 +256,24 @@ export function resolveAgentGenerationModeExecutability(
     }
     const transport = resolveBytePlusTransport(engine.id, mode);
     if (transport === 'las' && !environment.bytePlusLasEnabled) {
+      if (isLlmhubVideoRoutingSelected(engine.id, mode, providerEnv)) {
+        return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
+      }
       return { executable: false, reason: 'provider_disabled' };
     }
     const apiKey = transport === 'las'
       ? environment.bytePlusLasApiKey
       : environment.bytePlusApiKey;
     if (!apiKey?.trim()) {
+      if (isLlmhubVideoRoutingSelected(engine.id, mode, providerEnv)) {
+        return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
+      }
       return { executable: false, reason: 'provider_credentials_missing' };
     }
     if (isBytePlusSeedanceAdminOnly(engine.id)) {
+      if (isLlmhubVideoRoutingSelected(engine.id, mode, providerEnv)) {
+        return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
+      }
       return { executable: false, reason: 'provider_admin_only' };
     }
     return { executable: true, reason: 'available' };

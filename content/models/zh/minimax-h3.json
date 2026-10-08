@@ -1,0 +1,379 @@
+{
+  "marketingName": "MiniMax H3",
+  "versionLabel": "H3",
+  "seo": {
+    "title": "MiniMax H3 AI 视频生成器：4K、参考控制与原生音频",
+    "description": "通过文本、首尾帧或图像、视频及音频参考生成 5–15 秒 480P、768P、2K 或 4K 的 MiniMax H3 视频，支持原生立体声音效。",
+    "image": "/models/minimax-h3-launch.jpg"
+  },
+  "overview": "生成 5–15 秒、24 FPS 的 480P、768P、2K 或 4K 视频。支持文生视频、首帧、尾帧或首尾帧图片动画，或通过图/视/音频参考指导场景。H3 原生同步生成立体声音频。",
+  "hero": {
+    "title": "MiniMax H3 — 多模态参考指导 4K AI 视频生成",
+    "intro": "将文本、帧或多模态参考转化为 5–15 秒、最高 4K 的视频，支持原生立体声与多镜头调度。",
+    "badge": "新上线 · 5–15 秒 · 最高 4K · 原生立体声",
+    "ctaPrimary": {
+      "label": "使用 MiniMax H3 生成",
+      "href": "/app?engine=minimax-h3"
+    },
+    "secondaryLinks": [
+      {
+        "label": "查看 MiniMax H3 案例",
+        "href": "/zh/examples/hailuo"
+      },
+      {
+        "label": "打开 MiniMax H3 提示词示例",
+        "href": "#prompting"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "MiniMax H3 最佳应用场景",
+    "items": [
+      {
+        "title": "具有生动动作与对白的以角色为核心的电影感场景",
+        "icon": "users"
+      },
+      {
+        "title": "保持身份、服装和场景高度连贯的多镜头序列",
+        "icon": "storyboard"
+      },
+      {
+        "title": "由视频参考和精确动作提示引导的动作迁移",
+        "icon": "camera"
+      },
+      {
+        "title": "带同步音频的高分辨率社交媒体和营销宣传短片",
+        "icon": "audio"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "MiniMax H3 概览",
+  "technicalOverview": [
+    {
+      "label": "时长",
+      "body": "从 5 到 15 秒的任意整数秒"
+    },
+    {
+      "label": "输出",
+      "body": "480P、768P、2K 或 4K · 自动、21:9、16:9、4:3、1:1、3:4 或 9:16 · 24 FPS"
+    },
+    {
+      "label": "文本与帧",
+      "body": "文生视频，或首帧、尾帧或两者同时使用"
+    },
+    {
+      "label": "参考工作流",
+      "body": "最多支持 9 张图片、3 个视频和 3 段音频，单次总计最多 12 个唯一参考素材"
+    },
+    {
+      "label": "音频",
+      "body": "每条视频均原生同步生成立体声音频"
+    }
+  ],
+  "tips": {
+    "title": "如何执导 MiniMax H3",
+    "items": [
+      "依次说明角色、动作、场景、镜头和声音。",
+      "为每个镜头节拍分配一个明确动作和一个镜头运镜。",
+      "为参考素材明确指定角色，例如身份、动作、服装或声音。",
+      "仅重复在每个镜头中必须保持连贯的核心特征锚点。"
+    ]
+  },
+  "faqs": [
+    {
+      "q": "MiniMax H3 支持哪些输入？",
+      "a": "支持文本提示词、首帧图片（可选尾帧），或包含图像、视频和音频的参考集。参考模式也支持仅音频参考，视频与音频各自的总时长不超过 15 秒。"
+    },
+    {
+      "q": "我可以选择什么时长和分辨率？",
+      "a": "可选择从 5 到 15 秒的任意整数秒时长，以 24 FPS 渲染 480P、768P、2K 或 4K 规格。"
+    },
+    {
+      "q": "H3 可以使用多少个参考素材？",
+      "a": "参考模式最多接受 9 张图片、3 个视频和 3 个音频片段，单次请求总计不超过 12 个唯一参考素材。"
+    },
+    {
+      "q": "MiniMax H3 会生成音频吗？",
+      "a": "是的。H3 会随视频一同生成原生立体声音效；无需单独的音频开关。"
+    },
+    {
+      "q": "我可以直接在此页面使用 MiniMax H3 生成吗？",
+      "a": "可以。MiniMax H3 已在 VideoAI 上线，每次渲染前均会展示精确价格。"
+    }
+  ],
+  "decision": {
+    "modelSlug": "minimax-h3",
+    "hero": {
+      "eyebrow": "AI 视频 · MiniMax",
+      "title": "MiniMax H3",
+      "subtitle": "掌控场景，塑造声效。",
+      "subtitleHighlights": [
+        "掌控场景，塑造声效"
+      ],
+      "paragraph": "MiniMax H3 支持从文本、图像或混合参考生成 AI 视频。可选 5–15 秒与最高 4K 分辨率，原生支持立体声音频。在同一生成过程中协同指导角色、运镜与动作。",
+      "primaryCta": {
+        "label": "使用 MiniMax H3 生成",
+        "href": "/app?engine=minimax-h3"
+      },
+      "secondaryCta": {
+        "label": "查看 MiniMax H3 案例",
+        "href": "/zh/examples/hailuo"
+      },
+      "quickLinks": [
+        {
+          "label": "查看 MiniMax H3 Max（768P 快速生成）",
+          "href": "/zh/models/minimax-h3-max"
+        },
+        {
+          "label": "与 Kling O3 Pro 对比",
+          "href": "/zh/ai-video-engines/kling-o3-pro-vs-minimax-h3?order=minimax-h3"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#minimax-h3-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "MiniMax H3 真实渲染",
+      "description": "Lio 离开野火瞭望塔，沿着红色信号弹搜救路线指引受困徒步者",
+      "renderLabel": "查看完整渲染",
+      "badges": [
+        "15秒",
+        "2K",
+        "16:9",
+        "立体声"
+      ],
+      "altContext": "MiniMax H3 野火瞭望塔搜救序列，展示 Lio、红色信号弹及原生立体声对话"
+    },
+    "features": [
+      {
+        "title": "三大创作工作流",
+        "body": "在单个 H3 引擎内自由切换文生视频、图生视频和参考生视频。",
+        "tone": "reference"
+      },
+      {
+        "title": "5–15 秒，最高 4K",
+        "body": "支持任意整数秒时长选择，以 24 FPS 渲染 480P、768P、2K 或 4K。",
+        "tone": "quality"
+      },
+      {
+        "title": "多模态参考执导",
+        "body": "结合图像、视频和音频参考，协同引导角色身份、表现、动作与声音。",
+        "tone": "continuity"
+      },
+      {
+        "title": "原生立体声音效",
+        "body": "在同一次渲染中，随画面同步生成环境音、音效、音乐或对白。",
+        "tone": "audio"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "从文字剧本开始？",
+        "body": "使用文生视频并选择自动或固定宽高比，通过单个提示词获得完整镜头。",
+        "cta": {
+          "label": "通过文本生成",
+          "href": "/app?engine=minimax-h3"
+        }
+      },
+      {
+        "title": "需要精准控制起止镜头？",
+        "body": "让起始图片动起来并可选择添加结束图片；H3 会自动遵循源构图。",
+        "cta": {
+          "label": "通过首尾帧生成",
+          "href": "/app?engine=minimax-h3"
+        }
+      },
+      {
+        "title": "执导特定连贯角色？",
+        "body": "使用参考模式在整个场景中指定身份、服装、动作和声音线索。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文生视频",
+        "body": "描述角色、动作、场景、镜头和声音，然后选择固定比例或自动比例。"
+      },
+      {
+        "title": "图生视频",
+        "body": "上传起始图片和可选的结束图片；输出视频会自动遵循源素材宽高比。"
+      },
+      {
+        "title": "参考生视频",
+        "body": "组合最多 9 张图片、3 个视频和 3 个音频片段，单次请求总参考素材不超过 12 个。"
+      },
+      {
+        "title": "原生音频指导",
+        "body": "将对白、环境音和同步声音提示直接写入场景提示词中。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "MiniMax H3 渲染计费",
+      "subtitle": "选择工作流、时长、分辨率与参考素材，在渲染前查看准确价格。",
+      "footnote": "包含前 5 张参考图片；超出部分按展示的附加费计费。",
+      "ctaLabel": "使用 MiniMax H3 生成",
+      "ctaHref": "/app?engine=minimax-h3"
+    },
+    "meta": {
+      "title": "MiniMax H3 AI 视频生成器：4K、参考控制与原生音频",
+      "description": "通过文本、首尾帧或图像、视频及音频参考生成 5–15 秒 480P、768P、2K 或 4K 的 MiniMax H3 视频，支持原生立体声音效。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "minimax-h3",
+    "section": {
+      "title": "提示词实验室 — MiniMax H3",
+      "intro": "分三步构建提示词：定义表演，指导镜头序列，锁定连贯性与声音。",
+      "tip": "为每个镜头分配一个明确动作、一个运镜指令和一个声音事件。",
+      "guide": {
+        "label": "MiniMax H3 指南",
+        "href": "https://minimaxi.com/blog/minimax-h3"
+      },
+      "referencesTitle": "以角色为先的 H3 场景工作流"
+    },
+    "tabs": [
+      {
+        "id": "performance",
+        "label": "角色表演",
+        "title": "定义角色与动作",
+        "description": "建立身份、表情、肢体语言以及场景中的可见变化。",
+        "copy": "角色：\n[外貌、服装、表情与声音]\n\n场景：\n[地点、时间、天气与视觉锚点]\n\n动作：\n[一个清晰的肢体动作与反应]\n\n声音：\n[对白、环境音与同步音效]"
+      },
+      {
+        "id": "shots",
+        "label": "镜头调度",
+        "title": "指导镜头序列",
+        "description": "编写具有明确构图和转场的简短镜头进程。",
+        "copy": "开场镜头：\n[构图 + 第一个动作 + 运镜]\n\n发展镜头：\n[表演节拍 + 转场]\n\n结尾镜头：\n[收尾 + 最终画面]\n\n音频时序：\n[与每个可见事件关联的声音提示]"
+      },
+      {
+        "id": "references",
+        "label": "参考素材",
+        "title": "为每个参考素材分配角色",
+        "description": "告诉 H3 从每个图片、视频或音频参考中提取什么要素。",
+        "copy": "图像参考：\n[身份、服装、地点或视觉风格]\n\n视频参考：\n[动作、手势、运镜或节奏]\n\n音频参考：\n[声音、节奏或音质纹理]\n\n连贯性规则：\n[跨镜头中不可偏移的细节]"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "performance",
+        "body": "角色表演定义了一个清晰的角色动作和情绪转变。"
+      },
+      {
+        "tabId": "shots",
+        "body": "镜头调度将动作转化为清晰的开始、发展和结局。"
+      },
+      {
+        "tabId": "references",
+        "body": "当每个参考文件都具有单一明确的目的时，效果最佳。"
+      }
+    ],
+    "globalPrinciples": [
+      "将角色与动作置于风格形容词之前。",
+      "将每次运镜与可见的故事节奏联系起来。",
+      "在声音的可见起因出现时立即进行描述。",
+      "在跨镜头中明确保持身份、服装、光影与画面方向一致。"
+    ],
+    "engineWhy": [
+      "H3 在单个生产级模型中集成了文本、帧以及多模态参考。",
+      "多镜头调度支持简短序列创作，而非单一孤立动作。",
+      "原生立体声让对白、环境音与特效随画面同步自然展开。"
+    ],
+    "demo": {
+      "title": "灯塔看守人救援场景序列",
+      "promptLabel": "用于此次渲染的生产级提示词",
+      "prompt": "制作一段 15 秒的电影级 16:9 短片，具备原生多镜头连贯性与原生立体声音效。原创虚构角色：ELARA，34 岁的灯塔看守人，皮肤因海风侵蚀呈橄榄色，深色波浪发向后束起，身穿一件饱经风霜的芥末黄雨衣、炭灰色毛衣和实用型海靴。在每个镜头中保持她的面部、服装和身材比例一致。0.0–3.5 秒：蓝调时刻的室外宽景，石砌灯塔矗立于大西洋狂暴崖壁上，横扫的侧雨，Elara 手持一只古旧信号箱奔向塔楼；手持跟踪运镜，真实还原湿衣摩擦与脚步着地感。3.5–7.5 秒：室内螺旋楼梯，中近景跟拍她快速攀爬，呼吸可见，一只手紧抓扶手，暖琥珀色实用灯光，不得出现破坏身份连贯性的剪切。7.5–11.5 秒：灯室，她抵达控制台并扳动紧急手柄；镜头从她坚毅的面孔环绕运镜至巨型菲涅耳透镜启动发光。10.5 秒时，Elara 清晰地说出台词，口型自然同步：\"Harbor light is alive. Bring them home.\"（港湾灯光已亮起，引导他们回家。）11.5–15.0 秒：室外空中拉远，救援光束扫过黑暗海浪，一艘远处的救生艇转向驶往安全地带。音频：仅限原生立体声——室外暴风声、雨水打在玻璃上、靴子踩在铁制楼梯上、急促呼吸声、手柄扣合声、电力启动声、灯塔深沉机械声、远处浪涛声，以及 Elara 的原声台词。无背景音乐。无字幕、说明文字、屏幕文字、标志、水印、美容广告式构图或产品展示镜头。写实皮肤与动态，连贯手部表现，克制的电影级对比度。",
+      "notes": [
+        "Elara 的面部、芥末黄雨衣与身材比例在四个故事节拍中锚定了连贯性。",
+        "每个定时的镜头都将可见动作与运镜指令及同步声音线索相匹配。"
+      ],
+      "summary": {
+        "subject": "Elara，身穿芥末黄雨衣的灯塔看守人",
+        "action": "冲上塔楼，开启透镜并引导救生艇返航",
+        "camera": "室外手持跟踪、楼梯近景跟拍、灯室环绕运镜与空中拉远",
+        "style": "蓝调时刻暴风雨下的电影级自然主义",
+        "output": "15 秒 2K 多镜头场景，带原生立体声对白"
+      },
+      "presentationOverrides": {
+        "modeLabel": "文生视频",
+        "outputLabel": "2K 渲染",
+        "duration": "15s",
+        "aspectRatio": "16:9",
+        "audioChipMode": "supported",
+        "audioChipLabel": "原生立体声音效",
+        "altContext": "MiniMax H3 灯塔看守人救援场景序列"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "minimax-h3",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "MiniMax H3 真实输出案例",
+      "intro": "查看经过验证的 VideoAI 渲染案例，测试角色连贯性、运镜调度、参考控制与同步音效。",
+      "defaultCtaLabel": "查看全部 MiniMax H3 案例",
+      "recreateLabel": "复现此场景"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "character",
+        "icon": "users",
+        "title": "角色连贯性",
+        "body": "在整个序列中检验面部、服装与表演连贯度。"
+      },
+      {
+        "id": "camera",
+        "icon": "maximize",
+        "title": "运镜调度",
+        "body": "逐节拍跟踪构图、镜头运镜与转场表现。"
+      },
+      {
+        "id": "references",
+        "icon": "sparkles",
+        "title": "参考素材控制",
+        "body": "对比目标身份、动态与声音在成片中的还原度。"
+      },
+      {
+        "id": "audio",
+        "icon": "audio",
+        "title": "原生立体声音效",
+        "body": "评估对白时序、环境音与音效的同步契合度。"
+      },
+      {
+        "id": "production",
+        "icon": "shield",
+        "title": "真实生产级渲染",
+        "body": "以下为该模型的生成样片，供你查看画面表现与相关设置。"
+      }
+    ],
+    "fallbackItems": null
+  }
+}

@@ -22,9 +22,9 @@ export function registerListMediaTool(
   server.registerTool(
     'list_media',
     {
-      title: 'List private MaxVideoAI reference media',
+      title: 'List private Keyvo reference media',
       description:
-        'Use this when the user needs reusable private MaxVideoAI image, video, or audio asset IDs; filter by the required media kind and use only the returned safe metadata and controlled previews. Do not use it to upload files, expose storage or provider URLs, or start generation.',
+        'Use this when the user needs reusable private Keyvo image, video, or audio asset IDs; filter by the required media kind and use only the returned safe metadata and controlled previews. Do not use it to upload files, expose storage or provider URLs, or start generation.',
       inputSchema: listMediaInputSchema,
       annotations: {
         readOnlyHint: true,

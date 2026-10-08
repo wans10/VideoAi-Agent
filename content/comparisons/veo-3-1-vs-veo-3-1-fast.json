@@ -2,8 +2,8 @@
   "slug": "veo-3-1-vs-veo-3-1-fast",
   "en": {
     "meta": {
-      "title": "Veo 3.1 vs Veo 3.1 Fast | AI Video Model Comparison | MaxVideoAI",
-      "description": "Compare Veo 3.1 vs Veo 3.1 Fast on MaxVideoAI by specs, pricing, speed tradeoffs, and output quality."
+      "title": "Veo 3.1 vs Veo 3.1 Fast | AI Video Model Comparison | VideoAI",
+      "description": "Compare Veo 3.1 vs Veo 3.1 Fast on VideoAI by specs, pricing, speed tradeoffs, and output quality."
     },
     "heroIntro": "Compare Veo 3.1 and Veo 3.1 Fast to choose the right current Veo 3 AI workflow for polished text-to-video, image-to-video, faster draft passes, and native-audio control.",
     "faq": {
@@ -27,8 +27,8 @@
   },
   "fr": {
     "meta": {
-      "title": "Veo 3.1 vs Veo 3.1 Fast | Comparatif de modèles vidéo IA | MaxVideoAI",
-      "description": "Comparez Veo 3.1 vs Veo 3.1 Fast sur MaxVideoAI selon caractéristiques, tarifs, arbitrages de vitesse et qualité de sortie."
+      "title": "Veo 3.1 vs Veo 3.1 Fast | Comparatif de modèles vidéo IA | VideoAI",
+      "description": "Comparez Veo 3.1 vs Veo 3.1 Fast sur VideoAI selon caractéristiques, tarifs, arbitrages de vitesse et qualité de sortie."
     },
     "heroIntro": "Comparez Veo 3.1 et Veo 3.1 Fast pour choisir le bon workflow video IA Veo 3 actuel selon votre besoin de texte-to-video soigne, d image-to-video, de tests plus rapides et de controle sur l audio natif.",
     "faq": {
@@ -52,8 +52,8 @@
   },
   "es": {
     "meta": {
-      "title": "Veo 3.1 vs Veo 3.1 Fast | Comparación de modelos de video IA | MaxVideoAI",
-      "description": "Compara Veo 3.1 vs Veo 3.1 Fast en MaxVideoAI por specs, precios, tradeoffs de velocidad y calidad de salida."
+      "title": "Veo 3.1 vs Veo 3.1 Fast | Comparación de modelos de video IA | VideoAI",
+      "description": "Compara Veo 3.1 vs Veo 3.1 Fast en VideoAI por specs, precios, tradeoffs de velocidad y calidad de salida."
     },
     "heroIntro": "Compara Veo 3.1 y Veo 3.1 Fast para elegir el workflow de video IA Veo 3 actual mas adecuado segun tu necesidad de text-to-video mas pulido, image-to-video, borradores mas rapidos y control sobre el audio nativo.",
     "faq": {
@@ -71,6 +71,31 @@
         {
           "question": "Cuando deberia elegir Veo 3.1 en lugar de Veo 3.1 Fast?",
           "answer": "Elige Veo 3.1 cuando la calidad final, el pulido del audio nativo y un mejor control guiado por referencias importan mas que la velocidad del borrador. Elige Fast cuando el objetivo es una iteracion mas barata y una validacion de workflow mas rapida."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Veo 3.1 对比 Fast：画质、控制与价格",
+      "description": "在 VideoAI 上对比 Google Veo 3.1 与 Google Veo 3.1 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。"
+    },
+    "heroIntro": "对比 Veo 3.1 和 Veo 3.1 Fast，为精细文生视频、图生视频、更快草稿和原生音频控制选择 Veo 3 工作流。",
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择合适的 Veo 工作流。",
+      "items": [
+        {
+          "question": "如何用 Veo 3 做文生视频和草稿测试？",
+          "answer": "低成本草稿、提示词对比和更快迭代使用 Fast；更强最终画质、更丰富参考控制和精细图生视频使用 Veo 3.1。"
+        },
+        {
+          "question": "Veo 3.1 和 Fast 都能图生视频吗？",
+          "answer": "可以。两者均支持图生视频；精细结果更适合 Veo 3.1，低成本提示词与构图测试更适合 Fast。"
+        },
+        {
+          "question": "何时应该选 Veo 3.1 而非 Fast？",
+          "answer": "最终画质、原生音频精细度和参考控制比草稿速度更重要时选择 Veo 3.1；低成本迭代和快速工作流验证选择 Fast。"
         }
       ]
     }

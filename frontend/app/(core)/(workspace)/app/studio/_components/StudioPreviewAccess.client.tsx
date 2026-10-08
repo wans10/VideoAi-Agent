@@ -9,10 +9,10 @@ import { useI18n } from '@/lib/i18n/I18nProvider';
 import styles from './studio-preview-access.module.css';
 
 const ENGLISH_COPY = {
-  eyebrow: 'MaxVideoAI Studio',
+  eyebrow: 'Keyvo Studio',
   title: 'Your story starts with a conversation.',
   body: 'Create images, videos and audio with your references, review generation quotes and edit your media on the timeline.',
-  note: 'Sign in or create a MaxVideoAI account to open Studio and download individual creations.',
+  note: 'Sign in or create a Keyvo account to open Studio and download individual creations.',
   previewNote: 'Open Studio to continue with your account and download individual creations.',
   unavailableTitle: 'Studio is unavailable right now.',
   unavailableNote: 'We could not open Studio for your account. Try again in a moment.',
@@ -26,16 +26,16 @@ const ENGLISH_COPY = {
   plan: 'Plan',
   planBody: 'Arrange shots and their dependencies.',
   create: 'Generate',
-  createBody: 'Create with MaxVideoAI models.',
+  createBody: 'Create with Keyvo models.',
   edit: 'Edit',
   editBody: 'Assemble image, video and sound.',
 };
 
 const FRENCH_COPY = {
-  eyebrow: 'MaxVideoAI Studio',
+  eyebrow: 'Keyvo Studio',
   title: 'Votre histoire commence par une conversation.',
   body: 'Créez des images, vidéos et audio avec vos références, vérifiez les devis de génération et montez vos médias sur la timeline.',
-  note: 'Connectez-vous ou créez un compte MaxVideoAI pour ouvrir Studio. Téléchargez vos créations individuelles.',
+  note: 'Connectez-vous ou créez un compte Keyvo pour ouvrir Studio. Téléchargez vos créations individuelles.',
   previewNote: 'Ouvrez Studio pour continuer avec votre compte et téléchargez vos créations individuelles.',
   unavailableTitle: 'Studio est indisponible pour le moment.',
   unavailableNote: 'Nous n’avons pas pu ouvrir Studio pour votre compte. Réessayez dans un instant.',
@@ -49,16 +49,16 @@ const FRENCH_COPY = {
   plan: 'Structurer',
   planBody: 'Organisez les plans et leurs dépendances.',
   create: 'Générer',
-  createBody: 'Créez avec les modèles MaxVideoAI.',
+  createBody: 'Créez avec les modèles Keyvo.',
   edit: 'Monter',
   editBody: 'Assemblez image, vidéo et son.',
 };
 
 const SPANISH_COPY = {
-  eyebrow: 'MaxVideoAI Studio',
+  eyebrow: 'Keyvo Studio',
   title: 'Tu historia empieza con una conversación.',
   body: 'Crea imágenes, vídeos y audio con tus referencias, revisa los presupuestos de generación y edita tus medios en la línea de tiempo.',
-  note: 'Inicia sesión o crea una cuenta de MaxVideoAI para abrir Studio. Descarga tus creaciones individuales.',
+  note: 'Inicia sesión o crea una cuenta de Keyvo para abrir Studio. Descarga tus creaciones individuales.',
   previewNote: 'Abre Studio para continuar con tu cuenta y descarga tus creaciones individuales.',
   unavailableTitle: 'Studio no está disponible ahora mismo.',
   unavailableNote: 'No hemos podido abrir Studio para tu cuenta. Vuelve a intentarlo en un momento.',
@@ -72,7 +72,7 @@ const SPANISH_COPY = {
   plan: 'Planificar',
   planBody: 'Organiza los planos y sus dependencias.',
   create: 'Generar',
-  createBody: 'Crea con los modelos de MaxVideoAI.',
+  createBody: 'Crea con los modelos de Keyvo.',
   edit: 'Editar',
   editBody: 'Combina imagen, vídeo y sonido.',
 };

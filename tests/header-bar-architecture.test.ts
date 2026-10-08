@@ -99,9 +99,8 @@ test('header bar keeps narrow mobile chrome compact', () => {
   );
   assert.match(headerSource, /className="h-11 w-full rounded-input/, 'auth loading placeholder should fill the stable guest slot');
   assert.doesNotMatch(headerSource, /w-24[^"]*sm:w-\[180px\]/, 'auth loading should not resize the guest slot');
-  assert.match(logoSource, /alt=""/, 'decorative logo mark should not duplicate the brand in the accessible name');
-  assert.match(logoSource, /aria-hidden/, 'decorative logo mark should be hidden from assistive tech');
-  assert.match(logoSource, /sr-only[^"]*sm:not-sr-only/, 'brand text should stay accessible while visually collapsing below narrow mobile widths');
+  assert.match(logoSource, /BrandLockup/);
+  assert.match(readFileSync('frontend/components/brand/BrandLockup.tsx', 'utf8'), /aria-hidden="true"/, 'the shared decorative mark is hidden from assistive tech');
   assert.match(walletStatusSource, /aria-label=\{walletLabel\}/, 'compact wallet status needs a stable accessible name');
   assert.match(walletStatusSource, /max-w-\[5rem\]/, 'wallet amount should not stretch the mobile action cluster');
 });

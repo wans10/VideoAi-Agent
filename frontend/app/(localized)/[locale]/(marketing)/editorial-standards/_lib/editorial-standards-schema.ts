@@ -19,8 +19,8 @@ export function buildEditorialStandardsWebPageJsonLd({
     dateModified: copy.hero.reviewedDate,
     publisher: {
       '@type': 'Organization',
-      name: 'MaxVideoAI',
-      url: 'https://maxvideoai.com',
+      name: 'Keyvo',
+      url: 'https://app.keyvo.cn',
     },
   };
 }

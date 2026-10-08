@@ -39,6 +39,11 @@ const DECISION_TOC_COPY: Record<
     pricing: 'Precios',
     useCases: 'Consejos',
   },
+  zh: {
+    overview: '本页导览',
+    pricing: '定价',
+    useCases: '技巧',
+  },
 };
 
 export function resolveDecisionTocOverviewLabel(locale: AppLocale) {

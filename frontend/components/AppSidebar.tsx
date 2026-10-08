@@ -1,5 +1,7 @@
 'use client';
 
+import mcpPublication from '@/config/mcp-publication.json';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -60,9 +62,10 @@ const ASSISTANT_CONNECTIONS = [
 type SidebarTranslate = (path: string, fallback: string) => string | undefined;
 
 export function AssistantConnectionsCard({ t }: { t: SidebarTranslate }) {
+  if (!mcpPublication.publicMarketing) return null;
   const tooltip = t(
     'workspace.sidebar.assistantConnections.tooltip',
-    'Connect your account to use MaxVideoAI directly from your AI assistant.',
+    'Connect your account to use Keyvo directly from your AI assistant.',
   );
 
   return (

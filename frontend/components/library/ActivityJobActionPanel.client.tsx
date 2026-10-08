@@ -14,7 +14,7 @@ export function ActivityJobActionPanel({ menuRef, onClose, onOpen, openLabel, re
   const { locale } = useI18n();
   const title = useId();
   const { dialogRef, onDialogKeyDown } = useAccessibleModal({ onClose });
-  const labels = locale.startsWith('fr') ? ['Actions', 'Fermer', 'Retirer de l’historique'] : locale.startsWith('es') ? ['Acciones', 'Cerrar', 'Quitar del historial'] : ['Actions', 'Close', 'Remove from history'];
+  const labels = locale.startsWith('fr') ? ['Actions', 'Fermer', 'Retirer de l’historique'] : locale.startsWith('es') ? ['Acciones', 'Cerrar', 'Quitar del historial'] : locale.startsWith('zh') ? ['操作', '关闭', '从历史记录移除'] : ['Actions', 'Close', 'Remove from history'];
   if (typeof document === 'undefined') return null;
   return createPortal(<div className="app-experience"><div ref={menuRef} className="app-media-panel-backdrop" onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}>
     <section ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby={title} tabIndex={-1} onKeyDown={onDialogKeyDown} className="app-media-panel app-scroll-surface">

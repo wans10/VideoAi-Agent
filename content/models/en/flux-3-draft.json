@@ -5,7 +5,7 @@
     "title": "FLUX 3 Video Draft Generator for 720p Iteration",
     "description": "Use FLUX 3 Video Draft for 720p text, image, first-last-frame and extension trials, with exact source rules, prompt guidance and mode-aware quotes."
   },
-  "overview": "FLUX 3 Video Draft is the current 720p iteration sibling in the FLUX video family. It mirrors the four launch workflows while returning a draft-oriented result and cache context. Black Forest Labs owns the model; MaxVideoAI distributes these endpoints through Fal. Draft is positioned for testing, not as an automatic substitute for standard FLUX 3 production review.",
+  "overview": "FLUX 3 Video Draft is the current 720p iteration sibling in the FLUX video family. It mirrors the four launch workflows while returning a draft-oriented result and cache context. Black Forest Labs owns the model; VideoAI distributes these endpoints through Fal. Draft is positioned for testing, not as an automatic substitute for standard FLUX 3 production review.",
   "decision": {
     "modelSlug": "flux-3-draft",
     "hero": {
@@ -13,7 +13,7 @@
       "title": "FLUX 3 Video Draft",
       "subtitle": "Test text, opening-image, first-and-last-frame and source-video extension ideas at the fixed 720p draft tier.",
       "subtitleHighlights": ["text", "first-and-last-frame", "720p draft tier"],
-      "paragraph": "Choose Draft while comparing scene direction, source compatibility and transition logic before a standard FLUX 3 pass. First-and-last-frame still requires both anchors, and extension still requires a source video with its own mode-specific quote. Black Forest Labs owns FLUX and Fal distributes execution for this MaxVideoAI launch.",
+      "paragraph": "Choose Draft while comparing scene direction, source compatibility and transition logic before a standard FLUX 3 pass. First-and-last-frame still requires both anchors, and extension still requires a source video with its own mode-specific quote. Black Forest Labs owns FLUX and Fal distributes execution for this VideoAI launch.",
       "primaryCta": { "label": "Generate with FLUX 3 Draft", "href": "/app?engine=flux-3-draft" },
       "secondaryCta": { "label": "Explore the FLUX gallery", "href": "/examples/flux" },
       "quickLinks": [

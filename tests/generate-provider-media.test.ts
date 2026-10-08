@@ -215,7 +215,7 @@ test('provider media helper fails provider copy miss when retry is not allowed',
     assert.equal(resolved.progress, 0);
     assert.equal(
       resolved.message,
-      'The render finished, but MaxVideoAI could not prepare the video for download. Please retry.'
+      'The render finished, but Keyvo could not prepare the video for download. Please retry.'
     );
   } finally {
     console.warn = originalWarn;

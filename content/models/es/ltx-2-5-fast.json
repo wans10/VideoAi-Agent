@@ -5,7 +5,7 @@
     "title": "Generador de video con IA LTX 2.5 Fast para iteración rápida",
     "description": "Usa LTX 2.5 Fast para iterar desde texto, imagen o audio fuente, con límites prácticos, consejos de prompt y cotizaciones canónicas."
   },
-  "overview": "LTX 2.5 Fast es la ruta actual orientada a velocidad para exploración visual, pruebas de movimiento y borradores de la familia LTX. Lightricks es propietario de LTX; MaxVideoAI distribuye esta integración de lanzamiento mediante Fal. El modelo separa los flujos de texto a video, imagen a video y audio a video.",
+  "overview": "LTX 2.5 Fast es la ruta actual orientada a velocidad para exploración visual, pruebas de movimiento y borradores de la familia LTX. Lightricks es propietario de LTX; VideoAI distribuye esta integración de lanzamiento mediante Fal. El modelo separa los flujos de texto a video, imagen a video y audio a video.",
   "decision": {
     "modelSlug": "ltx-2-5-fast",
     "hero": {
@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "Precios por escenario de LTX 2.5 Fast",
       "subtitle": "Compara un video creado desde texto, en 720p o 4K, con un video creado desde seis segundos de audio.",
-      "footnote": "El precio depende de tus ajustes. MaxVideoAI confirma la cotización antes de generar. En audio a video, el precio depende de la duración del audio de origen.",
+      "footnote": "El precio depende de tus ajustes. VideoAI confirma la cotización antes de generar. En audio a video, el precio depende de la duración del audio de origen.",
       "ctaLabel": "Generar con LTX 2.5 Fast",
       "ctaHref": "/app?engine=ltx-2-5-fast"
     },

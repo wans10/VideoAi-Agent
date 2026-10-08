@@ -39,7 +39,7 @@
         "studio": "Beta"
       }
     },
-    "brand": "MaxVideo AI",
+    "brand": "Keyvo",
     "links": [
       {
         "key": "models",
@@ -67,7 +67,7 @@
       }
     ],
     "login": "Log in",
-    "cta": "Generate",
+    "cta": "Open studio",
     "startCreating": "Start creating",
     "linkLabels": {
       "models": "Models",
@@ -75,11 +75,15 @@
       "tools": "Tools",
       "image": "Generate image",
       "compare": "Compare",
-      "pricing": "Pricing",
+      "pricing": "Budget",
       "docs": "Docs",
       "blog": "Blog",
       "connect": "Assistants",
-      "studio": "Studio"
+      "studio": "Studio",
+      "production": "Production",
+      "craft": "Camera & art",
+      "screening": "Screening room",
+      "pipeline": "Pipeline"
     },
     "badges": {
       "new": "New"
@@ -244,10 +248,10 @@
           "n8n": "n8n"
         },
         "descriptions": {
-          "claude": "Add the MaxVideoAI MCP connector.",
+          "claude": "Add the Keyvo MCP connector.",
           "chatgpt": "Custom MCP app · eligible workspaces.",
-          "codex": "Add the MaxVideoAI plugin.",
-          "openclaw": "Install the MaxVideoAI skill.",
+          "codex": "Add the Keyvo plugin.",
+          "openclaw": "Install the Keyvo skill.",
           "n8n": "Self-hosted AI video workflows."
         },
         "sections": {
@@ -260,7 +264,83 @@
         }
       },
       "moreModels": "More creative possibilities",
-      "resourcesTitle": "Guides & resources"
+      "resourcesTitle": "Guides & resources",
+      "production": {
+        "heading": "Set your next scene in motion.",
+        "intro": "Choose the stage you need: a shot, a visual reference or a sound.",
+        "all": "Open production desk",
+        "items": {
+          "shot": "Generate a shot",
+          "storyboard": "Plan a sequence",
+          "look": "Develop the look",
+          "sound": "Design the sound",
+          "studio": "Conversational Studio"
+        },
+        "descriptions": {
+          "shot": "Build the next shot from a brief, reference or clip.",
+          "storyboard": "Work out the visual sequence before generation.",
+          "look": "Explore the setting, lighting and visual direction.",
+          "sound": "Prepare voice, music and effects for your shots.",
+          "studio": "Plan, create and edit in one conversation."
+        }
+      },
+      "craft": {
+        "heading": "Find the frame before the take.",
+        "intro": "Character, camera position and finishing, working toward one visual intention.",
+        "all": "Explore the workshop",
+        "items": {
+          "character": "Character development",
+          "angle": "Camera studies",
+          "upscale": "Image finishing",
+          "isolate": "Subject isolation"
+        },
+        "descriptions": {
+          "character": "Build character references you can return to.",
+          "angle": "Study coverage and viewpoints from one image.",
+          "upscale": "Upscale images and refine their clarity.",
+          "isolate": "Remove video backgrounds for compositing."
+        }
+      },
+      "screening": {
+        "heading": "Watch the shot. Study the process.",
+        "intro": "Use real outputs to develop the approach for your next scene.",
+        "all": "Enter the shot library",
+        "items": {
+          "reels": "Shot library",
+          "cinematic": "Cinematic studies",
+          "commercial": "Commercial work",
+          "journal": "Production journal"
+        },
+        "descriptions": {
+          "reels": "Inspect generated shots, prompts and settings.",
+          "cinematic": "Explore light, camera movement and realism.",
+          "commercial": "Find an approach for product-led short films.",
+          "journal": "Prompt methods, workflow breakdowns and practice."
+        },
+        "reference": "Production reference",
+        "sections": {
+          "reference": {
+            "items": {
+              "models": "Model directory",
+              "compare": "Capabilities & costs",
+              "docs": "Production guides"
+            }
+          }
+        }
+      },
+      "pipeline": {
+        "heading": "Connect production to your practice.",
+        "intro": "Use Keyvo from supported assistants and automation hosts. Review the quote before generation.",
+        "all": "Explore connections",
+        "items": {
+          "claude": "Claude",
+          "chatgpt": "ChatGPT",
+          "codex": "Codex",
+          "openclaw": "OpenClaw",
+          "n8n": "n8n"
+        },
+        "descriptions": {}
+      }
     },
     "primaryNavigation": "Main navigation",
     "lightTheme": "Use light theme",
@@ -268,7 +348,7 @@
     "mobileToggle": "Open menu",
     "mobileClose": "Close menu",
     "menuCreate": "Create",
-    "menuExplore": "Explore",
+    "menuExplore": "Production departments",
     "menuMedia": {
       "video": "Video",
       "image": "Image",
@@ -300,6 +380,10 @@
       {
         "locale": "es",
         "label": "Español"
+      },
+      {
+        "locale": "zh",
+        "label": "简体中文"
       }
     ],
     "sections": {
@@ -398,18 +482,18 @@
         "manageCookies": "Cookie settings"
       }
     },
-    "crawlerNote": "MaxVideoAI allows AI crawlers (GPTBot, OAI-SearchBot, Google-Extended, and CCBot) to index public model pages and documentation for educational and research visibility.",
+    "crawlerNote": "Keyvo allows AI crawlers (GPTBot, OAI-SearchBot, Google-Extended, and CCBot) to index public model pages and documentation for educational and research visibility.",
     "mcpFeature": {
       "title": "Create with your AI assistant.",
       "body": "Create with Claude, ChatGPT, Codex or OpenClaw. Build video workflows in n8n. Your models and credits, connected through MCP.",
-      "cta": "Discover MaxVideoAI MCP",
+      "cta": "Discover Keyvo MCP",
       "section": "Assistants & MCP",
       "docs": "MCP documentation",
       "anchors": {
         "claude": "Connect Claude",
-        "chatgpt": "MaxVideoAI for ChatGPT",
-        "codex": "MaxVideoAI plugin for Codex",
-        "openclaw": "MaxVideoAI skill for OpenClaw",
+        "chatgpt": "Keyvo for ChatGPT",
+        "codex": "Keyvo plugin for Codex",
+        "openclaw": "Keyvo skill for OpenClaw",
         "n8n": "Video automation with n8n"
       }
     }
@@ -417,17 +501,17 @@
   "home": {
     "redesign": {
       "hero": {
-        "eyebrow": "Pay-as-you-go AI video generator",
+        "eyebrow": "Keyvo / Independent image-making",
         "badgeChips": [
           "Multi-engine AI video generator",
           "Price before you generate",
           "Pay-as-you-go · no subscription"
         ],
-        "title": "AI video.\nPay as you go.",
-        "subtitle": "Choose your model. Bring your ideas to life. Pay only for what you create.",
-        "primaryCta": "Create a video",
-        "secondaryCta": "Explore examples",
-        "examplesCta": "Compare engines",
+        "title": "The scene in your mind.\nThe shot on your screen.",
+        "subtitle": "An AI production desk for image-makers. Develop characters and settings, plan coverage and test moving shots—one creative decision at a time.",
+        "primaryCta": "Open the studio",
+        "secondaryCta": "Enter the screening room",
+        "examplesCta": "Explore model capabilities",
         "trustBadges": [
           "Live price before you generate",
           "Pay only successful generations",
@@ -766,7 +850,7 @@
             "useCase": "Audio-native workflows",
             "cta": "Examples & prompts",
             "modelCta": "Specs & pricing",
-            "imageSrc": "https://media.maxvideoai.com/rendersthumbs/301cc489-d689-477f-94c4-0b051deda0bc/1212fdd0-0299-4e07-8546-c8fc0925432d.webp",
+            "imageSrc": "https://media.app.keyvo.cn/rendersthumbs/301cc489-d689-477f-94c4-0b051deda0bc/1212fdd0-0299-4e07-8546-c8fc0925432d.webp",
             "imageAlt": "Happy Horse 1.1 AI video example for audio-native reference workflows.",
             "examplesSlug": "happy-horse"
           },
@@ -1061,9 +1145,9 @@
       },
       "pricingTrust": {
         "title": "Know the cost before you generate.",
-        "subtitle": "MaxVideoAI shows the price before every video generation, so you stay in control of your credits.",
+        "subtitle": "Keyvo shows the price before every video generation, so you stay in control of your credits.",
         "cta": "View pricing",
-        "supportingText": "MaxVideoAI is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika and more.",
+        "supportingText": "Keyvo is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika and more.",
         "modelsLink": "Models",
         "examplesLink": "Examples",
         "compareLink": "Compare engines",
@@ -1150,7 +1234,7 @@
         "items": [
           {
             "question": "What is the best AI video generator right now?",
-            "answer": "There is no single best AI video generator for every project. Compare real outputs for the scene you want, then check reference support, duration, resolution, audio and price. MaxVideoAI brings several AI video models into one workspace, so you can choose without subscribing to each one.",
+            "answer": "There is no single best AI video generator for every project. Compare real outputs for the scene you want, then check reference support, duration, resolution, audio and price. Keyvo brings several AI video models into one workspace, so you can choose without subscribing to each one.",
             "links": [
               {
                 "label": "Compare AI video models",
@@ -1160,7 +1244,7 @@
           },
           {
             "question": "How do I make AI-generated videos?",
-            "answer": "To make AI-generated videos, describe your scene or import a starting image, choose a model and check its settings. Review the price, generate a short test, then refine the prompt or references. You can also create your starting image in MaxVideoAI. Existing clips can be used with models and modes that support video inputs.",
+            "answer": "To make AI-generated videos, describe your scene or import a starting image, choose a model and check its settings. Review the price, generate a short test, then refine the prompt or references. You can also create your starting image in Keyvo. Existing clips can be used with models and modes that support video inputs.",
             "links": [
               {
                 "label": "Start creating",
@@ -1170,7 +1254,7 @@
           },
           {
             "question": "Can I generate AI videos from an image?",
-            "answer": "Yes. Image-to-video AI animates a still image: a character, a landscape, a drawing or a product photo. Import an image you have the rights to use, or create one in MaxVideoAI, then describe the motion. Supported reference types and how closely the result follows them depend on the model.",
+            "answer": "Yes. Image-to-video AI animates a still image: a character, a landscape, a drawing or a product photo. Import an image you have the rights to use, or create one in Keyvo, then describe the motion. Supported reference types and how closely the result follows them depend on the model.",
             "links": [
               {
                 "label": "Explore image-to-video models",
@@ -1215,7 +1299,7 @@
           },
           {
             "question": "Is there a pay-as-you-go AI video generator?",
-            "answer": "Yes. MaxVideoAI is a pay-as-you-go AI video generator: add credits when you need them and use them for your generations, without a subscription. A failed generation is automatically recredited. A completed result that does not match your creative expectations is not the same as a technical failure.",
+            "answer": "Yes. Keyvo is a pay-as-you-go AI video generator: add credits when you need them and use them for your generations, without a subscription. A failed generation is automatically recredited. A completed result that does not match your creative expectations is not the same as a technical failure.",
             "links": [
               {
                 "label": "How pay-as-you-go works",
@@ -1281,7 +1365,7 @@
     "heroScreenshot": {
       "title": "Every control in one view.",
       "body": "Composer, live pricing, gallery rail, and job feed stay together so you can tweak prompts, review outputs, and monitor the queue without leaving the screen.",
-      "alt": "MaxVideo AI workspace showing the composer, live price chip, and gallery preview in a single dashboard."
+      "alt": "Keyvo workspace showing the composer, live price chip, and gallery preview in a single dashboard."
     },
     "proofTabs": [
       {
@@ -1408,7 +1492,7 @@
             }
           },
           "media": {
-            "videoSrc": "https://media.maxvideoai.com/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
+            "videoSrc": "https://media.app.keyvo.cn/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
             "posterSrc": "/hero/veo-3-1-hero.jpg",
             "hasAudio": true
           }
@@ -1428,7 +1512,7 @@
             }
           },
           "media": {
-            "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
+            "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
             "posterSrc": "/hero/veo-3-1-hero.jpg",
             "hasAudio": true
           }
@@ -1448,7 +1532,7 @@
             }
           },
           "media": {
-            "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
+            "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
             "posterSrc": "/hero/minimax-video01.jpg",
             "hasAudio": true
           }
@@ -1458,7 +1542,7 @@
     "pricing": {
       "badge": "Before you render",
       "title": "Know the cost before you commit.",
-      "body": "MaxVideoAI stays wallet-first across engines: the quote is visible before launch, failed jobs auto-refund, and you keep spend under control from one workspace.",
+      "body": "Keyvo stays wallet-first across engines: the quote is visible before launch, failed jobs auto-refund, and you keep spend under control from one workspace.",
       "link": "See pricing"
     },
     "trust": {
@@ -1516,7 +1600,7 @@
     },
     "priceChipSuffix": "Shown before you launch.",
     "meta": {
-      "title": "Pay-as-you-go AI Video Generator | MaxVideoAI",
+      "title": "Pay-as-you-go AI Video Generator | Keyvo",
       "description": "Compare Seedance, Kling, Veo, LTX, Wan, Pika and more before you generate. Preview real outputs, see pricing upfront, and generate with pay-as-you-go credits."
     },
     "compare": {
@@ -1555,7 +1639,7 @@
       "startupFameLabel": "Featured on Startup Fame"
     },
     "seoContent": {
-      "heroParagraph": "MaxVideoAI is a multi-engine AI video generator where you compare AI video models first, then generate videos from text prompts, images, or existing footage. Live pricing is visible before every generation so you can pick the right engine with confidence.",
+      "heroParagraph": "Keyvo is a multi-engine AI video generator where you compare AI video models first, then generate videos from text prompts, images, or existing footage. Live pricing is visible before every generation so you can pick the right engine with confidence.",
       "heroPoints": [
         "Text-to-video, image-to-video, and video-to-video workflows",
         "Compare results across multiple AI video models",
@@ -1584,7 +1668,7 @@
       },
       "compare": {
         "title": "Compare AI video models before you generate",
-        "body": "MaxVideoAI lets you test multiple AI video models in one workspace. Engines differ on speed, prompt fidelity, motion, realism, and style, so you can review outputs side by side, choose the best model for each shot, and keep pricing visible before every generation.",
+        "body": "Keyvo lets you test multiple AI video models in one workspace. Engines differ on speed, prompt fidelity, motion, realism, and style, so you can review outputs side by side, choose the best model for each shot, and keep pricing visible before every generation.",
         "worksWith": "Works with MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Wan 2.6, Pika 2.2, Nano Banana, and more.",
         "popularLinks": [
           {
@@ -1605,7 +1689,7 @@
           }
         ],
         "seeAllLabel": "See all AI video engine comparisons",
-        "imageAlt": "MaxVideoAI comparison page screenshot showing two AI engines side by side.",
+        "imageAlt": "Keyvo comparison page screenshot showing two AI engines side by side.",
         "carouselIntro": "Compare AI video models by capabilities, limits, and best-fit use cases, or",
         "carouselLinkLabel": "browse all AI video engine comparisons"
       },
@@ -1630,8 +1714,8 @@
             "a": "No. You can generate clips with prompts and simple settings. For advanced workflows, you can still remix and iterate with variations."
           },
           {
-            "q": "Is MaxVideoAI free?",
-            "a": "MaxVideoAI uses pay-as-you-go credits with pricing shown before you generate."
+            "q": "Is Keyvo free?",
+            "a": "Keyvo uses pay-as-you-go credits with pricing shown before you generate."
           }
         ]
       }
@@ -1639,14 +1723,14 @@
   },
   "pricing": {
     "hero": {
-      "eyebrow": "MaxVideoAI Pricing",
-      "title": "See the price. Then make the shot.",
-      "subtitle": "Compare video, image, audio and tool costs before you create.",
+      "eyebrow": "Production budget",
+      "title": "Spend on the shots worth pursuing.",
+      "subtitle": "Plan tests before committing to more takes. Compare single-generation scenarios and leave room for retries, references and finishing.",
       "supportingLine": "Pay as you go. Confirm the exact price in the app before generating. Failed generations are refunded.",
-      "quickStartTitle": "Three starting points for your next video",
-      "quickStartNote": "Indicative total per video, in USD. Select a scenario to see the full comparison. Confirm the live quote in the app before generating.",
-      "primaryCta": "Check a price in the app",
-      "secondaryCta": "Compare prices below",
+      "quickStartTitle": "Single-shot price references",
+      "quickStartNote": "Current quotes for the stated scenarios. Project spend depends on actual generation count and settings.",
+      "primaryCta": "Review a quote in the production desk",
+      "secondaryCta": "Check single-generation prices",
       "badges": [
         "No subscription",
         "Explore the app before signing up",
@@ -1786,7 +1870,7 @@
     "teams": {
       "title": "Teams",
       "description": "Role-based approvals, shared wallets, and delivery hand-offs roll out next. Join the beta to test team controls early.",
-      "comingSoonNote": "Teams features are in private beta. Contact support@maxvideoai.com to join the rollout.",
+      "comingSoonNote": "Teams features are in private beta. Contact contact@llmhub.com.cn to join the rollout.",
       "points": [
         "Planned: role-based shared wallets with approvals across finance, producers, and stakeholders.",
         "Planned: automated daily summaries covering spend, refunds, and queue health.",
@@ -1837,11 +1921,11 @@
         },
         {
           "question": "Do I need a subscription?",
-          "answer": "No. MaxVideoAI uses pay-as-you-go credits. You can compare prices, choose the right engine per job and generate without a required subscription."
+          "answer": "No. Keyvo uses pay-as-you-go credits. You can compare prices, choose the right engine per job and generate without a required subscription."
         },
         {
           "question": "Why are some cheaper engines not highlighted first?",
-          "answer": "Some previous-generation routes may be cheaper for simple tests, but MaxVideoAI highlights current-generation engines first because they are usually better choices for new projects. Older budget routes are still listed separately when available."
+          "answer": "Some previous-generation routes may be cheaper for simple tests, but Keyvo highlights current-generation engines first because they are usually better choices for new projects. Older budget routes are still listed separately when available."
         },
         {
           "question": "Are image, audio and tools priced the same as video?",
@@ -1849,22 +1933,22 @@
         },
         {
           "question": "Why does the table show total prices instead of cost per second?",
-          "answer": "Most users compare the full cost of a render, not raw per-second rates. MaxVideoAI shows preset total prices for common scenarios such as 8s 1080p, 10s 1080p and 4K output. Per-second or provider-level rates can vary by engine, duration, resolution and rounding, and the app shows the exact live quote before generation."
+          "answer": "Most users compare the full cost of a render, not raw per-second rates. Keyvo shows preset total prices for common scenarios such as 8s 1080p, 10s 1080p and 4K output. Per-second or provider-level rates can vary by engine, duration, resolution and rounding, and the app shows the exact live quote before generation."
         },
         {
           "question": "How often do prices change?",
-          "answer": "Prices may change when providers update rates or when MaxVideoAI adds new engines. The pricing page shows current preset comparisons, while the app always shows the live quote before generation."
+          "answer": "Prices may change when providers update rates or when Keyvo adds new engines. The pricing page shows current preset comparisons, while the app always shows the live quote before generation."
         }
       ]
     },
     "supplementalFaq": [
       {
         "question": "What if I am looking for Sora pricing?",
-        "answer": "Use the Sora alternatives section to compare currently available MaxVideoAI models by cost, duration and quality before you generate."
+        "answer": "Use the Sora alternatives section to compare currently available Keyvo models by cost, duration and quality before you generate."
       },
       {
         "question": "Do videos have watermarks?",
-        "answer": "No. Renders produced through MaxVideoAI are delivered without watermarks."
+        "answer": "No. Renders produced through Keyvo are delivered without watermarks."
       },
       {
         "question": "Do text-to-video AI, image-to-video AI, and video-to-video AI workflows cost the same?",
@@ -1874,13 +1958,13 @@
     "priceChipSuffix": "Price before you generate.",
     "priceChipPrefix": "This render",
     "meta": {
-      "title": "AI Video Pricing: Compare Models | MaxVideoAI",
+      "title": "AI Video Pricing: Compare Models | Keyvo",
       "description": "Compare AI video prices by engine, duration, resolution and audio. See preset prices for 720p, 1080p and 4K, then open the app for live pricing."
     }
   },
   "workflows": {
     "meta": {
-      "title": "AI Video Workflow: Generate Variants With Live Pricing | MaxVideoAI",
+      "title": "AI Video Workflow: Generate Variants With Live Pricing | Keyvo",
       "description": "Generate AI videos in one workspace: choose an engine, set duration/resolution/aspect, preview price, generate up to 4 variants, copy prompts, and download."
     },
     "hero": {
@@ -2027,7 +2111,7 @@
     },
     "intro": {
       "paragraphs": [
-        "Each engine in this catalog is wired into the MaxVideoAI workspace with monitored latency, price tracking, and fallbacks. We add models as soon as providers open real capacity—not waitlist demos—so you know what can ship to production today.",
+        "Each engine in this catalog is wired into the Keyvo workspace with monitored latency, price tracking, and fallbacks. We add models as soon as providers open real capacity—not waitlist demos—so you know what can ship to production today.",
         "Pick an engine to see the prompt presets, duration limits, and current route we use to keep renders flowing, then duplicate it into your own workspace."
       ],
       "cards": [
@@ -2137,8 +2221,8 @@
         "priceBefore": "Live pricing updates inside the Generate workspace.",
         "versionLabel": "v2.6 Pro"
       },
-      "title": "AI Video & Image Models: Specs, Limits & Pricing | MaxVideoAI",
-      "description": "Compare AI video and image models by price, max duration, resolution, audio support, input modes, examples, and workflow before generating on MaxVideoAI."
+      "title": "AI Video & Image Models: Specs, Limits & Pricing | Keyvo",
+      "description": "Compare AI video and image models by price, max duration, resolution, audio support, input modes, examples, and workflow before generating on Keyvo."
     },
     "note": "",
     "detail": {
@@ -2208,7 +2292,7 @@
       },
       "legacyToggleLabel": "Show legacy models",
       "grid": {
-        "srTitle": "AI video and image models with specs, limits, and pricing on MaxVideoAI",
+        "srTitle": "AI video and image models with specs, limits, and pricing on Keyvo",
         "bridgeText": "Use model cards to review capabilities first, then jump into the video or image hub for a tighter shortlist."
       },
       "quickCompare": {
@@ -2460,7 +2544,7 @@
     },
     "hero": {
       "title": "Run AI Video Generators in Europe — Sora 2, Veo 3, Pika & More",
-      "intro": "MaxVideoAI keeps cinematic text-to-video engines compliant, monitored, and production-ready for European teams. Use this hub to understand availability, compare creative trade-offs, and launch projects with the right guardrails from day one.",
+      "intro": "Keyvo keeps cinematic text-to-video engines compliant, monitored, and production-ready for European teams. Use this hub to understand availability, compare creative trade-offs, and launch projects with the right guardrails from day one.",
       "secondary": "Not sure which model to pick? Read our {{article:comparison article}}."
     },
     "sections": [
@@ -2474,16 +2558,16 @@
       },
       {
         "title": "Pika 2.2 for fast social content",
-        "body": "When teams need playful loops or short-form edits, Pika 2.2 delivers multi-aspect outputs at a fraction of the budget. MaxVideoAI exposes curated presets so editors can jump from vertical reels to square product shots without leaving the workspace. Compare text-to-video and image-to-video modes side-by-side on our {{pika:Pika quickstart guide}} and reuse prompt banks that have already been cleared for brand-safe campaigns. Daily QA passes flag style drift or artefacts so you know when to regenerate, upscale, or hand off to animators for refinement."
+        "body": "When teams need playful loops or short-form edits, Pika 2.2 delivers multi-aspect outputs at a fraction of the budget. Keyvo exposes curated presets so editors can jump from vertical reels to square product shots without leaving the workspace. Compare text-to-video and image-to-video modes side-by-side on our {{pika:Pika quickstart guide}} and reuse prompt banks that have already been cleared for brand-safe campaigns. Daily QA passes flag style drift or artefacts so you know when to regenerate, upscale, or hand off to animators for refinement."
       },
       {
-        "title": "How MaxVideoAI routes multi-engine production",
-        "body": "MaxVideoAI coordinates multi-engine capacity behind one consistent interface for creative leads. Our orchestration layer keeps prompts portable, logs every render, and exposes diagnostics so you know when to retry or hand off to another engine like {{veoFast:Veo 3.1 Fast}} or {{hailuo:MiniMax Hailuo}} for stylised outputs. Teams also gain access to rate cards, audit trails, and regional compliance notes in one workspace, and automated playbooks explain how to escalate priority or swap render regions when demand peaks."
+        "title": "How Keyvo routes multi-engine production",
+        "body": "Keyvo coordinates multi-engine capacity behind one consistent interface for creative leads. Our orchestration layer keeps prompts portable, logs every render, and exposes diagnostics so you know when to retry or hand off to another engine like {{veoFast:Veo 3.1 Fast}} or {{hailuo:MiniMax Hailuo}} for stylised outputs. Teams also gain access to rate cards, audit trails, and regional compliance notes in one workspace, and automated playbooks explain how to escalate priority or swap render regions when demand peaks."
       }
     ],
     "comparison": {
       "title": "Compare the top video generators",
-      "intro": "Whether you need frontier fidelity or budget-friendly loops, MaxVideoAI keeps each engine ready for production workloads.",
+      "intro": "Whether you need frontier fidelity or budget-friendly loops, Keyvo keeps each engine ready for production workloads.",
       "cards": [
         {
           "label": "Sora 2",
@@ -2526,11 +2610,11 @@
       },
       {
         "question": "Can I monitor model changes without refreshing documentation?",
-        "answer": "The MaxVideoAI workspace highlights latency, output limits, and policy updates in real time, so producers know when to retry or pivot to alternative engines."
+        "answer": "The Keyvo workspace highlights latency, output limits, and policy updates in real time, so producers know when to retry or pivot to alternative engines."
       }
     ],
     "cta": {
-      "body": "Looking for sequenced prompt recipes? Read the latest guides on the {{blog:MaxVideoAI blog}} for branded storytelling walkthroughs and engine updates."
+      "body": "Looking for sequenced prompt recipes? Read the latest guides on the {{blog:Keyvo blog}} for branded storytelling walkthroughs and engine updates."
     }
   },
   "examples": {
@@ -2539,8 +2623,8 @@
     "engineFilterLabel": "Engines",
     "engineFilterAllLabel": "All",
     "hero": {
-      "title": "A world of stories to create.",
-      "subtitle": "Explore real AI videos: characters, cinematic scenes, animation and visual experiments.",
+      "title": "Screening room",
+      "subtitle": "Watch first. Decide how to shoot next.",
       "body": "Open an example to see its prompt, settings and current model price. Then use it as a starting point for your own creation."
     },
     "items": [
@@ -2559,7 +2643,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/marketing/15d61929-c1ef-4173-bb8c-75cb74b3ee19.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/marketing/15d61929-c1ef-4173-bb8c-75cb74b3ee19.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2578,7 +2662,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2597,7 +2681,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2616,7 +2700,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/marketing/5e0ea541-cd07-48e9-841d-42b5679e1f3f.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/marketing/5e0ea541-cd07-48e9-841d-42b5679e1f3f.mp4",
           "aspectRatio": "16:9"
         }
       },
@@ -2635,7 +2719,7 @@
           }
         },
         "media": {
-          "videoSrc": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
+          "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/b318922e-0042-4812-8c83-604fc8eeeed3.mp4",
           "aspectRatio": "16:9"
         }
       }
@@ -2646,7 +2730,7 @@
     "meta": {
       "title": "Docs — Getting Started, Pricing, Jobs & Refunds",
       "description": "Start here for individual-account onboarding, price-before-generation, jobs, saved media, brand safety, and refunds.",
-      "imageAlt": "Docs — MaxVideoAI",
+      "imageAlt": "Docs — Keyvo",
       "notFoundTitle": "Doc not found"
     },
     "hero": {
@@ -2655,7 +2739,7 @@
     },
     "mcpGuide": {
       "href": "/docs/mcp",
-      "title": "MaxVideoAI MCP technical guide",
+      "title": "Keyvo MCP technical guide",
       "description": "Supported clients, OAuth, available tools, generation approvals, privacy, limitations, and recovery guidance."
     },
     "toc": {
@@ -2709,7 +2793,7 @@
         "title": "Product access",
         "items": [
           "Use the web workspace for the product capabilities described in these docs.",
-          "The public MCP guide explains how to connect a supported client and authorize access to your MaxVideoAI account.",
+          "The public MCP guide explains how to connect a supported client and authorize access to your Keyvo account.",
           "Available actions depend on the connected client. Review the supported tools and generation approval steps in the guide."
         ]
       }
@@ -2867,7 +2951,7 @@
     "hero": {
       "title": "Ideas, experiments and ways to create.",
       "subtitle": "Practical guides to AI video, images, references and choosing the right model.",
-      "eyebrow": "The MaxVideoAI journal",
+      "eyebrow": "The Keyvo journal",
       "ctaLabel": "Explore the latest guide →"
     },
     "featured": {
@@ -2887,7 +2971,7 @@
     "empty": "Blog posts coming soon.",
     "cta": "Read more",
     "intro": {
-      "lead": "The journal tracks how teams build reusable references, choose the right tool, and move from approved stills into stronger image and video outputs. We write from real usage inside MaxVideoAI: character references, camera-angle tests, model decisions, and production patterns that hold up under deadlines.",
+      "lead": "The journal tracks how teams build reusable references, choose the right tool, and move from approved stills into stronger image and video outputs. We write from real usage inside Keyvo: character references, camera-angle tests, model decisions, and production patterns that hold up under deadlines.",
       "cards": [
         {
           "title": "Reference-first workflows",
@@ -2912,21 +2996,21 @@
         },
         {
           "question": "Can I suggest a topic or request coverage?",
-          "answer": "Yes—send topics to press@maxvideo.ai and include reference renders if you can. We prioritize stories that help production teams stay current."
+          "answer": "Yes—send topics to contact@llmhub.com.cn and include reference renders if you can. We prioritize stories that help production teams stay current."
         },
         {
           "question": "Where can I find release notes?",
           "answer": "Feature-level updates live in the product changelog, and API updates post inside the developer docs. The blog covers higher-level workflows."
         }
       ],
-      "footnote": "Need more detail? Email press@maxvideo.ai with your request and we’ll route it to the right producer."
+      "footnote": "Need more detail? Email contact@llmhub.com.cn with your request and we’ll route it to the right producer."
     }
   },
   "videoPage": {
     "backLink": "← Back",
     "hero": {
-      "titleFallback": "MaxVideoAI render",
-      "intro": "This video was generated with {engine} on MaxVideoAI — discover how to create similar renders below.",
+      "titleFallback": "Keyvo render",
+      "intro": "This video was generated with {engine} on Keyvo — discover how to create similar renders below.",
       "promptLabel": "Prompt",
       "promptFallback": "Prompt unavailable.",
       "copy": "Copy prompt",
@@ -2943,7 +3027,7 @@
       "aspectFallback": "an adaptive aspect ratio",
       "sentences": [
         "This AI-generated video showcases {promptStyle} and ships straight from our public Examples playlist.",
-        "{engineName} handled this render inside MaxVideoAI, delivering {durationLabel} at {aspectRatioLabel} with {audioState}.",
+        "{engineName} handled this render inside Keyvo, delivering {durationLabel} at {aspectRatioLabel} with {audioState}.",
         "The footage highlights consistent motion, crisp lighting, and natural reflections so creative and product teams can judge how the model behaves.",
         "Prompt styling keeps {promptTone} cues that you can remix or extend with image references, narration, or upscaling.",
         "Use the engine card, pricing link, and blog resources below to compare models or start a similar run in your workspace."
@@ -2999,7 +3083,7 @@
   "about": {
     "hero": {
       "title": "Quiet confidence for AI video teams.",
-      "subtitle": "MaxVideo AI is the independent hub for AI video production. We route to the right engine for every shot, price before you generate, and keep your team in control without vendor lock-in."
+      "subtitle": "Keyvo is the independent hub for AI video production. We route to the right engine for every shot, price before you generate, and keep your team in control without vendor lock-in."
     },
     "paragraphs": [
       "We believe professional teams deserve clarity before they hit render. That means price transparency, reliable routing, and shared context between creatives, producers, and stakeholders.",
@@ -3007,7 +3091,7 @@
       "The product is engineered for teams that need precision without noise. Quiet UI, premium defaults, precise controls, and price-before chips that keep finance in the loop.",
       "We keep the workflow practical: compare models, prepare assets, generate only when the cost and settings are clear, then review outputs from one workspace instead of scattering production context across provider dashboards."
     ],
-    "note": "Trademarks and service marks are property of their respective owners. MaxVideo AI stays independent so you can stay current without switching platforms."
+    "note": "Trademarks and service marks are property of their respective owners. Keyvo stays independent so you can stay current without switching platforms."
   },
   "contact": {
     "hero": {
@@ -3069,7 +3153,7 @@
         },
         {
           "question": "Do you offer live demos?",
-          "answer": "Yes. Include your preferred time zone and the models you want to see. We run demos inside the MaxVideoAI workspace so you can watch routing and pricing in real time."
+          "answer": "Yes. Include your preferred time zone and the models you want to see. We run demos inside the Keyvo workspace so you can watch routing and pricing in real time."
         },
         {
           "question": "Where can I check service status?",
@@ -3090,7 +3174,7 @@
       "sections": [
         {
           "heading": "1. Overview",
-          "body": "These Terms govern your use of MaxVideo AI. By accessing the service you agree to the obligations below."
+          "body": "These Terms govern your use of Keyvo. By accessing the service you agree to the obligations below."
         },
         {
           "heading": "2. Accounts",
@@ -3098,11 +3182,11 @@
         },
         {
           "heading": "3. Usage & Compliance",
-          "body": "Use MaxVideo AI only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies."
+          "body": "Use Keyvo only in compliance with applicable laws, respect licensing limits, never upload illegal or infringing assets, and do not attempt to generate prohibited or unsafe content. We may review, block, or remove renders and suspend access when videos violate these Terms or our policies."
         },
         {
           "heading": "4. User Content & Generated Media",
-          "body": "User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant MaxVideoAI a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting/desindexation by contacting support if a privacy toggle is unavailable, and we will honor the request. You retain ownership of your prompts, uploads, descriptions, and brand assets, while MaxVideoAI retains ownership of the platform, interfaces, transformations, and technical improvements built atop the service."
+          "body": "User uploads (photos, logos, reference footage, prompts) remain your property. We may store, process, and display uploaded assets solely to produce the requested text-to-video or image-to-video render and to deliver the workspace features you enable. For every piece of generated media, you grant Keyvo a worldwide, non-exclusive, royalty-free, transferable, and sublicensable license to host, reproduce, index, display, and otherwise use the videos to operate the service, improve routing and models, run safety reviews, and showcase Examples galleries, template pages, or other marketing placements. You may mark renders as private inside your workspace or request delisting/desindexation by contacting support if a privacy toggle is unavailable, and we will honor the request. You retain ownership of your prompts, uploads, descriptions, and brand assets, while Keyvo retains ownership of the platform, interfaces, transformations, and technical improvements built atop the service."
         },
         {
           "heading": "5. Billing",
@@ -3110,7 +3194,7 @@
         },
         {
           "heading": "6. Liability",
-          "body": "MaxVideo AI is provided as-is. We limit liability to the maximum extent permitted by law."
+          "body": "Keyvo is provided as-is. We limit liability to the maximum extent permitted by law."
         }
       ]
     },
@@ -3136,14 +3220,14 @@
         },
         {
           "heading": "5. Your choices",
-          "body": "Request export or deletion any time via support@maxvideoai.com. Admins control retention windows."
+          "body": "Request export or deletion any time via contact@llmhub.com.cn. Admins control retention windows."
         }
       ]
     }
   },
   "changelog": {
     "meta": {
-      "title": "Changelog — MaxVideo AI",
+      "title": "Changelog — Keyvo",
       "description": "Transparent updates on engines, workflows, and queue performance."
     },
     "hero": {
@@ -3152,7 +3236,7 @@
     },
     "intro": {
       "paragraphs": [
-        "We ship updates to MaxVideoAI in tight release trains. Engine upgrades land as soon as providers open access, and workflow improvements follow the same week so production teams can adopt them without relearning the platform.",
+        "We ship updates to Keyvo in tight release trains. Engine upgrades land as soon as providers open access, and workflow improvements follow the same week so production teams can adopt them without relearning the platform.",
         "Use this log to trace when a capability became available, confirm latency fixes, or share proof of delivery with stakeholders. Entries that affect billing or routing policy link back to the relevant documentation."
       ],
       "releaseTagsTitle": "How we tag releases",
@@ -3192,7 +3276,7 @@
   "status": {
     "hero": {
       "title": "Service status",
-      "subtitle": "Current service notices published by the MaxVideoAI team."
+      "subtitle": "Current service notices published by the Keyvo team."
     },
     "currentNotice": {
       "title": "Current notice",
@@ -3219,7 +3303,7 @@
     "meta": {
       "title": "AI Video Examples: Prompts, Models & Current Prices",
       "description": "Browse real AI video examples, then open a video to inspect its prompt, settings, duration and current model price before recreating it.",
-      "title_engine": "AI Video Examples — {engineName} | MaxVideoAI",
+      "title_engine": "AI Video Examples — {engineName} | Keyvo",
       "description_engine": "Browse {engineName} examples, then open a video to inspect its prompt, duration, audio settings and current model price."
     }
   },
@@ -3301,7 +3385,7 @@
       },
       "assistantConnections": {
         "label": "Connect",
-        "tooltip": "Connect your account to use MaxVideoAI directly from your AI assistant.",
+        "tooltip": "Connect your account to use Keyvo directly from your AI assistant.",
         "claude": "Claude",
         "chatgpt": "ChatGPT",
         "codex": "Codex"
@@ -3898,7 +3982,7 @@
         "srSoon": "Coming soon",
         "live": "Shared wallets, approvals, and budgets are enabled in your workspace.",
         "beta": "Coming soon — shared wallets, approvals, and budgets. Join the beta at {email}.",
-        "email": "support@maxvideoai.com"
+        "email": "contact@llmhub.com.cn"
       },
       "curated": "Starter renders curated by the MaxVideo team appear here until you generate your own clips.",
       "error": "Failed to load history.",
@@ -4038,7 +4122,7 @@
       "title": "Billing",
       "hero": {
         "title": "Add credits",
-        "subtitle": "Choose an amount, then complete payment in secure Stripe Checkout.",
+        "subtitle": "Choose an amount, then complete payment with your preferred method.",
         "liveMode": "Live Mode",
         "testMode": "Test Mode"
       },
@@ -4054,9 +4138,9 @@
         "guestBalance": "Sign in to view your balance",
         "refreshBalance": "Refresh balance",
         "stepChoose": "Choose wallet credits",
-        "stepChooseHint": "Credits are stored in USD and do not expire while your account remains active.",
+        "stepChooseHint": "Credits are stored in CNY and do not expire while your account remains active.",
         "stepReview": "Review payment",
-        "stepReviewHint": "Pay in EUR or USD. Your bank may charge currency conversion fees.",
+        "stepReviewHint": "Choose a payment currency. Your bank may charge conversion fees.",
         "paymentAmount": "Amount before tax",
         "creditsReceived": "Credits received",
         "quoteCurrent": "Tax may be added. You will see the final total before confirming payment.",
@@ -4067,15 +4151,24 @@
         "checkoutCta": "Card or other methods",
         "checkoutSecure": "Secure payment by",
         "checkoutNote": "Credits are added after confirmation; your receipt is saved here.",
+        "llmhubTitle": "Alipay or WeChat Pay",
+        "llmhubDescription": "Pay in CNY. The selected CNY amount is credited after payment confirmation.",
+        "llmhubPaymentAmount": "CNY payment",
+        "llmhubQuoteLoading": "Calculating…",
+        "llmhubQuoteUnavailable": "CNY quote unavailable",
+        "llmhubQuoteChanged": "The CNY amount changed. Review it and select a payment method again.",
+        "llmhubCheckoutError": "Unable to start payment. Try again.",
+        "llmhubAlipay": "Alipay",
+        "llmhubWxpay": "WeChat Pay",
         "customLabel": "Custom amount",
         "customPresetLabel": "Custom",
         "customPresetHint": "Enter amount",
-        "customPlaceholder": "Minimum $10",
-        "customHint": "Enter any amount from $10.",
+        "customPlaceholder": "Minimum ¥80",
+        "customHint": "Enter any amount from ¥80.",
         "customCta": "Set amount",
         "customSelectCta": "Set amount",
         "customInvalid": "Enter a valid amount.",
-        "customMin": "Minimum is $10.",
+        "customMin": "Minimum is ¥80.",
         "chooseAmount": "Select",
         "expressTitle": "Pay instantly",
         "expressLoading": "Loading secure payment options…",
@@ -4091,7 +4184,7 @@
         "lowBalance": "Your balance is low. Top up to keep creating.",
         "currencyLabel": "Pay in",
         "currencyLoading": "Detecting currencies…",
-        "currencyLoadError": "Unable to load currencies. Defaulting to USD.",
+        "currencyLoadError": "Unable to load currencies. Using the default payment currency.",
         "currencyDetected": "Auto-detected {currency}",
         "currencyOverride": "Charging in {selected} (auto: {detected})",
         "quoteLoading": "Calculating amount…",
@@ -4106,7 +4199,7 @@
         },
         "note": "Team note: On shared wallets, status applies to all members.",
         "comingSoon": "Coming soon — unified wallets, role-based approvals, and budgeting controls. Join the beta at {email}.",
-        "contactEmail": "support@maxvideoai.com",
+        "contactEmail": "contact@llmhub.com.cn",
         "statusLive": "Live",
         "statusSoon": "Coming soon"
       },
@@ -4126,7 +4219,7 @@
       "receipts": {
         "ledgerLabel": "Billing documents",
         "title": "Receipts & invoices",
-        "subtitle": "Download Stripe documents for wallet top-ups and review charges or refunds.",
+        "subtitle": "Review wallet activity and download available documents for Stripe top-ups.",
         "openDocuments": "Receipts & invoices",
         "empty": "No payment documents or wallet activity yet.",
         "documentsEmpty": "No wallet top-up documents yet.",
@@ -4159,6 +4252,8 @@
       },
       "checkoutReturn": {
         "successTitle": "Payment returned",
+        "pendingTitle": "Payment confirmation pending",
+        "pendingDetail": "Your payment is being checked. Refresh your balance shortly; credits are added only after confirmation.",
         "cancelledTitle": "Checkout cancelled",
         "refreshingDetail": "Refreshing your balance and payment history…",
         "refreshedDetail": "Latest wallet and payment history loaded.",
@@ -4182,7 +4277,7 @@
           },
           {
             "question": "Can I buy just one small render?",
-            "answer": "Yes — funds are debited per run from your $10 Starter balance."
+            "answer": "Yes — funds are debited per run from your Starter balance."
           },
           {
             "question": "Will my credits expire?",
@@ -4366,7 +4461,7 @@
         "invite": "Invite member",
         "createProject": "Create project",
         "upcomingPrefix": "Coming soon — shared wallets, approvals, and budgets. Join the beta at ",
-        "upcomingEmail": "support@maxvideoai.com",
+        "upcomingEmail": "contact@llmhub.com.cn",
         "upcomingSuffix": "."
       },
       "privacy": {
@@ -4514,7 +4609,7 @@
       "uploadTooLarge": "The selected image is too large. Use an image under {maxMB} MB.",
       "generationFailed": "Storyboard generation failed.",
       "authTitle": "Sign in to generate",
-      "authBody": "Storyboard generation and library saves use your MaxVideoAI wallet.",
+      "authBody": "Storyboard generation and library saves use your Keyvo wallet.",
       "authPrimary": "Create account",
       "authSecondary": "Sign in",
       "close": "Close",
@@ -4534,7 +4629,7 @@
       "auth": {
         "eyebrow": "Generate Audio",
         "title": "Create an account to generate audio",
-        "body": "Build music tracks, cinematic sound design, and Seed Audio voice overs inside the MaxVideoAI workspace.",
+        "body": "Build music tracks, cinematic sound design, and Seed Audio voice overs inside the Keyvo workspace.",
         "createAccount": "Create account",
         "signIn": "Sign in"
       },
@@ -4724,7 +4819,7 @@
         "selectedVoice": "Seed Audio preset voice",
         "chooseVoice": "Preset voice",
         "providerStack": "Model stack",
-        "providerStackDescription": "{provider} prepares the base track, then MaxVideoAI masters the final render for your selected output.",
+        "providerStackDescription": "{provider} prepares the base track, then Keyvo masters the final render for your selected output.",
         "providers": {
           "voice": "Seed Audio 1.0",
           "music": "Google Lyria 3",
@@ -5342,8 +5437,8 @@
     },
     "studio": {
       "projects": {
-        "metaTitle": "Studio Projects | MaxVideoAI",
-        "heroBadge": "MaxVideoAI Studio",
+        "metaTitle": "Studio Projects | Keyvo",
+        "heroBadge": "Keyvo Studio",
         "title": "My projects",
         "subtitle": "Create a new project or resume an existing one.",
         "createTitle": "New project",
@@ -5425,7 +5520,7 @@
         }
       },
       "topbar": {
-        "productName": "MaxVideoAI Editor",
+        "productName": "Keyvo Editor",
         "breadcrumbProjects": "Projects",
         "breadcrumbWorkspace": "Workspace",
         "workspaceViewLabel": "Workspace view",
@@ -5646,7 +5741,7 @@
         "invalidProjectMediaUpload": "Upload image, video, or audio media for the project."
       },
       "canvas": {
-        "ariaLabel": "MaxVideoAI editor canvas",
+        "ariaLabel": "Keyvo editor canvas",
         "guide": {
           "controls": {
             "menu": "Guide options",
@@ -6341,7 +6436,7 @@
           "copyLastAnswer": "Copy last answer",
           "reuseLastMessage": "Reuse last message",
           "clearConversation": "Clear conversation",
-          "defaultChatSystemPrompt": "You are helping plan a MaxVideoAI Studio generation graph. Answer with concise, reusable production instructions."
+          "defaultChatSystemPrompt": "You are helping plan a Keyvo Studio generation graph. Answer with concise, reusable production instructions."
         },
         "map": {
           "navigationLabel": "Canvas navigation",
@@ -6607,7 +6702,7 @@
         "serverMp4": "Server MP4",
         "freeExportsRemaining": "{count} free server export remaining",
         "freeExportsRemainingPlural": "{count} free server exports remaining",
-        "finalRenderJob": "Final render job runs on MaxVideoAI servers.",
+        "finalRenderJob": "Final render job runs on Keyvo servers.",
         "serverProgress": "Server export progress",
         "downloadMp4": "Download MP4",
         "advanced": "Advanced",
@@ -6738,9 +6833,9 @@
       "signup": "Create account"
     },
     "mcpStaging": {
-      "title": "MaxVideoAI Staging — test environment",
-      "body": "Website accounts and credits are separate from this test environment. For your existing MaxVideoAI account, add the production connection in your assistant.",
-      "action": "Set up MaxVideoAI production"
+      "title": "Keyvo Staging — test environment",
+      "body": "Website accounts and credits are separate from this test environment. For your existing Keyvo account, add the production connection in your assistant.",
+      "action": "Set up Keyvo production"
     },
     "modes": {
       "signup": {
@@ -6762,8 +6857,8 @@
         "body": "Create an account or sign in to return to Studio and develop your image or clip. Opening the workspace does not start a paid generation."
       },
       "mcp": {
-        "title": "Connect your MaxVideoAI account",
-        "body": "Sign in with the same MaxVideoAI account you use on the website. You will review the requested access, then return to your assistant."
+        "title": "Connect your Keyvo account",
+        "body": "Sign in with the same Keyvo account you use on the website. You will review the requested access, then return to your assistant."
       },
       "billing": {
         "title": "Your {amount} top-up is saved",
@@ -6853,7 +6948,7 @@
       "signingIn": "Signing in…",
       "signinRedirecting": "Signed in. Redirecting…",
       "signinSuggestion": "We couldn't sign you in with those details. If you're new, create your account without retyping anything.",
-      "mcpSigninFailed": "We couldn’t sign you in. Check your email and password, use “Forgot password?”, or continue with Google if that is how you created your MaxVideoAI account.",
+      "mcpSigninFailed": "We couldn’t sign you in. Check your email and password, use “Forgot password?”, or continue with Google if that is how you created your Keyvo account.",
       "signupSuggestionReady": "Great, let's create your account.",
       "creatingAccount": "Creating account…",
       "accountRedirecting": "Account created. Redirecting…",
@@ -6872,112 +6967,112 @@
   },
   "comparePage": {
     "meta": {
-      "title": "{left} vs {right} — Specs & Pricing | MaxVideoAI",
-      "titleFallback": "AI video engines — Specs & Pricing | MaxVideoAI",
-      "description": "Compare {left} vs {right} on MaxVideoAI with key specs, and a scorecard across 11 criteria.",
+      "title": "{left} vs {right} — Specs & Pricing | Keyvo",
+      "titleFallback": "AI video engines — Specs & Pricing | Keyvo",
+      "description": "Compare {left} vs {right} on Keyvo with key specs, and a scorecard across 11 criteria.",
       "slugOverrides": {
         "kling-2-6-pro-vs-ltx-2": {
-          "title": "Kling 2.6 Pro vs LTX 2 — Speed vs Quality | MaxVideoAI",
+          "title": "Kling 2.6 Pro vs LTX 2 — Speed vs Quality | Keyvo",
           "description": "Compare models by quality, speed, pricing, modes, and an 11-point scorecard. Pick the winner by use case."
         },
         "ltx-2-fast-vs-wan-2-6": {
-          "title": "LTX 2 Fast vs WAN 2.6 — Quality, Speed & Cost | MaxVideoAI",
+          "title": "LTX 2 Fast vs WAN 2.6 — Quality, Speed & Cost | Keyvo",
           "description": "Compare LTX 2 Fast vs WAN 2.6 with key specs, pricing, and an 11-point scorecard. See speed/stability vs video-to-video support."
         },
         "wan-2-5-vs-wan-2-6": {
-          "title": "WAN 2.5 vs WAN 2.6 — What's New + Specs | MaxVideoAI",
+          "title": "WAN 2.5 vs WAN 2.6 — What's New + Specs | Keyvo",
           "description": "See what changed in WAN 2.6 vs 2.5: longer clips, multi-shot output, video-to-video support, pricing, and an 11-point scorecard."
         },
         "ltx-2-fast-vs-wan-2-5": {
-          "title": "LTX 2 Fast vs WAN 2.5 — Quality, Speed & Cost | MaxVideoAI",
+          "title": "LTX 2 Fast vs WAN 2.5 — Quality, Speed & Cost | Keyvo",
           "description": "Compare LTX 2 Fast vs WAN 2.5 with key specs, pricing, and an 11-point scorecard. Pick the best engine for your workflow."
         },
         "kling-3-pro-vs-wan-2-6": {
-          "title": "Kling 3 Pro vs WAN 2.6 — Quality, Audio & Cost | MaxVideoAI",
+          "title": "Kling 3 Pro vs WAN 2.6 — Quality, Audio & Cost | Keyvo",
           "description": "Compare Kling 3 Pro vs WAN 2.6 by quality, audio, speed, modes, pricing, and an 11-point scorecard."
         },
         "kling-3-pro-vs-veo-3-1": {
-          "title": "Kling 3 Pro vs Veo 3.1 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Kling 3 Pro vs Veo 3.1 on MaxVideoAI by specs, pricing, scene control, native audio behavior, and output quality."
+          "title": "Kling 3 Pro vs Veo 3.1 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Kling 3 Pro vs Veo 3.1 on Keyvo by specs, pricing, scene control, native audio behavior, and output quality."
         },
         "ltx-2-3-pro-vs-veo-3-1": {
-          "title": "LTX 2.3 Pro vs Veo 3.1 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Pro vs Veo 3.1 on MaxVideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro vs Veo 3.1 | AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Pro vs Veo 3.1 on Keyvo by specs, pricing, audio behavior, and output quality."
         },
         "ltx-2-vs-veo-3-1-fast": {
-          "title": "LTX 2 vs Veo 3.1 Fast — Speed vs Quality | MaxVideoAI",
+          "title": "LTX 2 vs Veo 3.1 Fast — Speed vs Quality | Keyvo",
           "description": "Compare LTX 2 vs Veo 3.1 Fast: speed/queue time, cost, max duration, and output quality, with a detailed scorecard."
         },
         "ltx-2-vs-veo-3-1": {
-          "title": "LTX 2 vs Veo 3.1 — Quality, Cost & Modes | MaxVideoAI",
+          "title": "LTX 2 vs Veo 3.1 — Quality, Cost & Modes | Keyvo",
           "description": "Compare LTX 2 vs Google Veo 3.1 by quality, motion realism, text legibility, modes, pricing, and an 11-point scorecard."
         },
         "seedance-2-0-vs-veo-3-1": {
-          "title": "Seedance 2.0 vs Veo 3.1 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Seedance 2.0 vs Veo 3.1 on MaxVideoAI by specs, pricing, audio workflows, and model capabilities."
+          "title": "Seedance 2.0 vs Veo 3.1 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Seedance 2.0 vs Veo 3.1 on Keyvo by specs, pricing, audio workflows, and model capabilities."
         },
         "kling-3-pro-vs-seedance-2-0": {
-          "title": "Kling 3 Pro vs Seedance 2.0 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Kling 3 Pro vs Seedance 2.0 on MaxVideoAI by specs, pricing, scene control, and multi-shot output quality."
+          "title": "Kling 3 Pro vs Seedance 2.0 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Kling 3 Pro vs Seedance 2.0 on Keyvo by specs, pricing, scene control, and multi-shot output quality."
         },
         "seedance-2-0-fast-vs-veo-3-1-fast": {
-          "title": "Seedance 2.0 Fast vs Veo 3.1 Fast | Fast AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Seedance 2.0 Fast vs Veo 3.1 Fast on MaxVideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "Seedance 2.0 Fast vs Veo 3.1 Fast | Fast AI Video Model Comparison | Keyvo",
+          "description": "Compare Seedance 2.0 Fast vs Veo 3.1 Fast on Keyvo by fast draft speed, specs, pricing, and output quality."
         },
         "ltx-2-3-pro-vs-seedance-2-0": {
-          "title": "LTX 2.3 Pro vs Seedance 2.0 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Pro vs Seedance 2.0 on MaxVideoAI by specs, pricing, audio behavior, and output quality."
+          "title": "LTX 2.3 Pro vs Seedance 2.0 | AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Pro vs Seedance 2.0 on Keyvo by specs, pricing, audio behavior, and output quality."
         },
         "seedance-2-0-vs-sora-2": {
-          "title": "Seedance 2.0 vs Sora 2 | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Seedance 2.0 vs Sora 2 on MaxVideoAI by specs, pricing, audio behavior, and cinematic output quality."
+          "title": "Seedance 2.0 vs Sora 2 | AI Video Model Comparison | Keyvo",
+          "description": "Compare Seedance 2.0 vs Sora 2 on Keyvo by specs, pricing, audio behavior, and cinematic output quality."
         },
         "seedance-1-5-pro-vs-veo-3-1": {
-          "title": "Seedance 1.5 Pro vs Veo 3.1 — Speed vs Quality | MaxVideoAI",
+          "title": "Seedance 1.5 Pro vs Veo 3.1 — Speed vs Quality | Keyvo",
           "description": "Compare Seedance 1.5 Pro vs Google Veo 3.1 by cinematic quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "ltx-2-vs-seedance-2-0": {
-          "title": "LTX 2 vs Seedance 2 — Scores & Pricing | MaxVideoAI",
+          "title": "LTX 2 vs Seedance 2 — Scores & Pricing | Keyvo",
           "description": "Compare LTX 2 vs Seedance 2.0 by quality, speed, modes, pricing, and an 11-point scorecard to pick by use case."
         },
         "kling-3-standard-vs-veo-3-1": {
-          "title": "Kling 3 Std vs Veo 3.1 — Scores & Pricing | MaxVideoAI",
+          "title": "Kling 3 Std vs Veo 3.1 — Scores & Pricing | Keyvo",
           "description": "Compare Kling 3 Standard vs Google Veo 3.1 by quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "kling-3-pro-vs-sora-2": {
-          "title": "Kling 3 Pro vs Sora 2 — Scores & Pricing | MaxVideoAI",
+          "title": "Kling 3 Pro vs Sora 2 — Scores & Pricing | Keyvo",
           "description": "Compare Kling 3 Pro vs OpenAI Sora 2 by quality, speed, max duration, pricing, and an 11-point scorecard."
         },
         "kling-3-pro-vs-sora-2-pro": {
-          "title": "Kling 3 Pro vs Sora 2 Pro | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare Kling 3 Pro vs Sora 2 Pro on MaxVideoAI by specs, pricing, scene control, audio behavior, and output quality."
+          "title": "Kling 3 Pro vs Sora 2 Pro | AI Video Model Comparison | Keyvo",
+          "description": "Compare Kling 3 Pro vs Sora 2 Pro on Keyvo by specs, pricing, scene control, audio behavior, and output quality."
         },
         "sora-2-vs-sora-2-pro": {
-          "title": "Sora 2 vs Sora 2 Pro — Differences & Cost | MaxVideoAI",
+          "title": "Sora 2 vs Sora 2 Pro — Differences & Cost | Keyvo",
           "description": "Compare Sora 2 vs Sora 2 Pro: output quality, native audio, max resolution/duration, and pricing—with a detailed scorecard."
         },
         "kling-3-4k-vs-kling-3-pro": {
-          "title": "Kling 3 4K vs Kling 3 Pro | Native 4K vs 1080p | MaxVideoAI",
-          "description": "Compare Kling 3 4K vs Kling 3 Pro on MaxVideoAI: native 4K delivery, 1080p iteration, pricing, modes, and when to use each route."
+          "title": "Kling 3 4K vs Kling 3 Pro | Native 4K vs 1080p | Keyvo",
+          "description": "Compare Kling 3 4K vs Kling 3 Pro on Keyvo: native 4K delivery, 1080p iteration, pricing, modes, and when to use each route."
         },
         "kling-2-6-pro-vs-seedance-2-0": {
-          "title": "Kling 2.6 Pro vs Seedance 2 — Scores & Pricing | MaxVideoAI",
+          "title": "Kling 2.6 Pro vs Seedance 2 — Scores & Pricing | Keyvo",
           "description": "Compare Kling 2.6 Pro vs Seedance 2.0 by quality, audio, speed, pricing, and an 11-point scorecard."
         },
         "kling-3-standard-vs-ltx-2": {
-          "title": "Kling 3 Std vs LTX 2 — Speed vs Quality | MaxVideoAI",
+          "title": "Kling 3 Std vs LTX 2 — Speed vs Quality | Keyvo",
           "description": "Compare Kling 3 Standard vs LTX 2 by quality, speed, pricing, modes, and an 11-point scorecard."
         },
         "ltx-2-3-fast-vs-ltx-2-3-pro": {
-          "title": "LTX 2.3 Fast vs LTX 2.3 Pro | AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Fast vs LTX 2.3 Pro on MaxVideoAI by current fast vs current pro tradeoffs, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast vs LTX 2.3 Pro | AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Fast vs LTX 2.3 Pro on Keyvo by current fast vs current pro tradeoffs, specs, pricing, and output quality."
         },
         "ltx-2-3-fast-vs-seedance-2-0-fast": {
-          "title": "LTX 2.3 Fast vs Seedance 2.0 Fast | Fast AI Video Model Comparison | MaxVideoAI",
-          "description": "Compare LTX 2.3 Fast vs Seedance 2.0 Fast on MaxVideoAI by fast draft speed, specs, pricing, and output quality."
+          "title": "LTX 2.3 Fast vs Seedance 2.0 Fast | Fast AI Video Model Comparison | Keyvo",
+          "description": "Compare LTX 2.3 Fast vs Seedance 2.0 Fast on Keyvo by fast draft speed, specs, pricing, and output quality."
         }
       },
-      "descriptionFallback": "Side-by-side comparison of AI video engines with MaxVideoAI metrics and guidance."
+      "descriptionFallback": "Side-by-side comparison of AI video engines with Keyvo metrics and guidance."
     },
     "hero": {
       "back": "Back to comparisons",
@@ -6989,7 +7084,7 @@
     },
     "scorecard": {
       "title": "Compare the strengths.",
-      "subtitle": "Scores reflect quality and control on MaxVideoAI across 11 criteria.",
+      "subtitle": "Scores reflect quality and control on Keyvo across 11 criteria.",
       "provisionalNote": "Pre-launch scores are provisional and will update once runtime renders and final pricing are available.",
       "strengthsLabel": "Strengths",
       "winnerSummary": "At a glance",
@@ -7023,7 +7118,7 @@
       "latencySource": "Measurement method and limitations"
     },
     "specLabels": {
-      "pricing": "Pricing (MaxVideoAI)",
+      "pricing": "Pricing (Keyvo)",
       "textToVideo": "Text-to-Video",
       "imageToVideo": "Image-to-Video",
       "videoToVideo": "Video-to-Video",
@@ -7045,8 +7140,8 @@
     },
     "showdown": {
       "title": "Showdown (same prompt)",
-      "subtitle": "Side-by-side renders from the same prompt on MaxVideoAI. Prompts are identical; outputs may vary by model.",
-      "subtitlePrelaunch": "Side-by-side prompts and renders (when available) on MaxVideoAI. Prompts are identical; outputs may vary by model.",
+      "subtitle": "Side-by-side renders from the same prompt on Keyvo. Prompts are identical; outputs may vary by model.",
+      "subtitlePrelaunch": "Side-by-side prompts and renders (when available) on Keyvo. Prompts are identical; outputs may vary by model.",
       "note": "Showing up to 3 prompt pairs for clarity.",
       "footer": "Explore each model’s examples to understand its visual possibilities. The galleries use different prompts and settings; they are not a controlled video test."
     },
@@ -7056,7 +7151,7 @@
     },
     "faq": {
       "title": "FAQ",
-      "subtitle": "Quick answers about {left} vs {right} on MaxVideoAI (pricing, modes, specs, and why results differ).",
+      "subtitle": "Quick answers about {left} vs {right} on Keyvo (pricing, modes, specs, and why results differ).",
       "validating": "still being validated",
       "pricingDiff": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} vs {right} starts at {rightValue}.",
       "capabilityDiff": "{label}: {left} is {leftValue} vs {right} is {rightValue}.",
@@ -7066,22 +7161,22 @@
       "capabilityLabel": "Capability",
       "outputLabel": "Max resolution",
       "q1": "What are {left} and {right}?",
-      "a1": "{left} and {right} are AI video generation engines documented on MaxVideoAI. This page compares them side-by-side using the same prompts, key specs, and performance data shown above.",
+      "a1": "{left} and {right} are AI video generation engines documented on Keyvo. This page compares them side-by-side using the same prompts, key specs, and performance data shown above.",
       "q2": "Which is better: {left} or {right}?",
       "a2": "It depends on your workflow. Use the scorecard and the “same prompt” showdowns to compare prompt adherence, motion realism, human fidelity, and text legibility — then open each engine profile for full details.",
-      "q3": "Which is cheaper on MaxVideoAI?",
-      "a3": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (MaxVideoAI)” for details).",
+      "q3": "Which is cheaper on Keyvo?",
+      "a3": "Pricing varies by engine and settings (duration, resolution, audio). Currently, {left} starts at {leftValue} and {right} starts at {rightValue} (see “Pricing (Keyvo)” for details).",
       "q4": "What are the biggest differences between {left} and {right}?",
       "q5": "Can I start from text, an image or a video?",
-      "a5": "On MaxVideoAI: Text-to-Video is {t2vLeft} vs {t2vRight}; Image-to-Video is {i2vLeft} vs {i2vRight}; Video-to-Video is {v2vLeft} vs {v2vRight}. Some fields may still be under validation.",
+      "a5": "On Keyvo: Text-to-Video is {t2vLeft} vs {t2vRight}; Image-to-Video is {i2vLeft} vs {i2vRight}; Video-to-Video is {v2vLeft} vs {v2vRight}. Some fields may still be under validation.",
       "q6": "Can I use start and end frames or references?",
       "a6": "First/Last frame is {firstLeft} vs {firstRight}. Reference image/style is {refImgLeft} vs {refImgRight}; Reference video is {refVidLeft} vs {refVidRight}.",
       "q7": "What resolutions, durations and aspect ratios are available?",
       "a7": "Max output is {resLeft} / {durLeft} for {left} and {resRight} / {durRight} for {right}. Supported aspect ratios include {arLeft} vs {arRight} (see Key Specs for the full list).",
       "q8": "Can the models generate audio and lip sync?",
       "a8": "Audio output is {audioOutLeft} vs {audioOutRight}. Native audio generation is {audioGenLeft} vs {audioGenRight}, and lip sync is {lipLeft} vs {lipRight} (some fields may still be under validation).",
-      "q9": "Does MaxVideoAI add a watermark?",
-      "a9": "No. MaxVideoAI exports are watermark-free (“Watermark: No (MaxVideoAI)”).",
+      "q9": "Does Keyvo add a watermark?",
+      "a9": "No. Keyvo exports are watermark-free (“Watermark: No (Keyvo)”).",
       "q10": "Why do results look different with the same prompt?",
       "a10": "Even with identical prompts, models interpret instructions differently and use different training data and generation strategies. That’s why the Showdown section exists: same prompt, side-by-side outputs.",
       "q11": "Where can I find full specs, controls, and more prompt examples?",
@@ -7090,7 +7185,7 @@
     "summary": {
       "scorecardLabel": "Leads on scorecard",
       "scorecardLabelPrelaunch": "Currently leads on scorecard (provisional)",
-      "pricingLabel": "Cheaper on MaxVideoAI",
+      "pricingLabel": "Cheaper on Keyvo",
       "durationLabel": "Max duration",
       "scorecardTemplate": "Leads on scorecard: {engine} leads on {wins}/{total}{best}.",
       "scorecardTemplatePrelaunch": "Currently leads on scorecard (provisional): {engine} leads on {wins}/{total}{best}.",
@@ -7158,7 +7253,7 @@
     "hub": {
       "meta": {
         "title": "AI Pre-Production Tools for Image & Video Workflows",
-        "description": "Build reusable character references and stronger first frames before you generate. Explore MaxVideoAI tools for consistent character creation and AI camera angle control.",
+        "description": "Build reusable character references and stronger first frames before you generate. Explore Keyvo tools for consistent character creation and AI camera angle control.",
         "keywords": [
           "ai pre production tools",
           "image to video workflow tools",
@@ -7168,9 +7263,9 @@
         ]
       },
       "hero": {
-        "badge": "MaxVideoAI Tools",
-        "title": "Shape the next part of your story.",
-        "body": "Build a character, change the camera angle, refine an image or finish a video. Choose what your scene needs.",
+        "badge": "Camera & art workshop",
+        "title": "Build the frame\nbefore the take.",
+        "body": "Character references, camera studies and finishing. Enter the stage that resolves the next visual decision.",
         "primaryCta": "Consistent Character AI",
         "secondaryCta": "Change Camera Angle with AI"
       },
@@ -7180,21 +7275,21 @@
           "title": "Create the still first",
           "body": "Start the frame in Image before you branch into edits, references, or motion.",
           "cta": "Open Image",
-          "imageAlt": "Still image generated in the MaxVideoAI Image workspace before video."
+          "imageAlt": "Still image generated in the Keyvo Image workspace before video."
         },
         "character": {
           "eyebrow": "Character consistency",
           "title": "Create reusable character references",
           "body": "Turn one image into an 8-panel character sheet with 4 full-body angles and 4 close-ups, or create a portrait anchor before you branch into scenes, prompts, and motion.",
           "cta": "Explore Tool",
-          "imageAlt": "Character Builder workspace screenshot from MaxVideoAI."
+          "imageAlt": "Character Builder workspace screenshot from Keyvo."
         },
         "angle": {
           "eyebrow": "Perspective control",
           "title": "Generate stronger first frames from one image",
           "body": "Choose a new camera angle from one image for product shots, storyboards, ad creative, or a stronger image-to-video first frame.",
           "cta": "Explore Tool",
-          "imageAlt": "Angle workspace screenshot from MaxVideoAI."
+          "imageAlt": "Angle workspace screenshot from Keyvo."
         },
         "upscale": {
           "eyebrow": "AI upscale",
@@ -7253,7 +7348,7 @@
     "upscale": {
       "meta": {
         "title": "AI Image & Video Upscale | SeedVR2, Topaz, FlashVSR, Recraft",
-        "description": "Upscale images and short videos with current AI enhancement models including SeedVR2, Topaz, FlashVSR, and Recraft before reusing them in MaxVideoAI workflows.",
+        "description": "Upscale images and short videos with current AI enhancement models including SeedVR2, Topaz, FlashVSR, and Recraft before reusing them in Keyvo workflows.",
         "keywords": [
           "ai upscale",
           "ai image upscaler",
@@ -7263,13 +7358,13 @@
           "flashvsr upscale",
           "recraft crisp upscale"
         ],
-        "imageAlt": "Current MaxVideoAI Upscale interface in English, visitor view."
+        "imageAlt": "Current Keyvo Upscale interface in English, visitor view."
       },
       "hero": {
-        "badge": "Image + video upscale",
-        "title": "AI upscale for images and videos.",
-        "body": "Increase resolution and refine the details. Choose the model and output size, check the price, then save the result to your media library.",
-        "primaryCta": "Open Upscale",
+        "badge": "Image finishing / Post-production",
+        "title": "Make the selected shot hold up.",
+        "body": "Try upscaling an image or clip you intend to keep. Inspect texture and motion before choosing the output size and processing route.",
+        "primaryCta": "Test a source clip",
         "secondaryCta": "View all tools",
         "beforeLabel": "Source",
         "afterLabel": "Upscaled",
@@ -7307,9 +7402,9 @@
         ]
       },
       "models": {
-        "eyebrow": "Choose your model",
-        "title": "The right upscale for your source.",
-        "body": "Compare image and video models by the result you need: a larger frame, sharper references or a more polished final video.",
+        "eyebrow": "Processing routes",
+        "title": "Choose for the source you have.",
+        "body": "Decide whether size, texture or motion needs attention, then check the fit of each processing model.",
         "cards": [
           {
             "title": "SeedVR2 Image + Video",
@@ -7336,12 +7431,12 @@
       "modelGuide": {
         "eyebrow": "Quality and price guide",
         "title": "Compare quality, controls and price.",
-        "body": "In MaxVideoAI, choose your model and output size, then check the quote. Video pricing also depends on your source duration and resolution.",
+        "body": "In Keyvo, choose your model and output size, then check the quote. Video pricing also depends on your source duration and resolution.",
         "columns": {
           "model": "Model",
           "bestFor": "Best for",
           "quality": "Quality profile",
-          "price": "MaxVideoAI price",
+          "price": "Keyvo price",
           "useWhen": "Use when"
         },
         "rows": [
@@ -7363,7 +7458,7 @@
             "model": "FlashVSR Video",
             "bestFor": "Fast video upscales for cheaper review or social post-processing passes.",
             "quality": "Speed-first video enhancement with practical temporal consistency.",
-            "price": "Lower-cost video route; MaxVideoAI estimates from duration, frames, and output pixels.",
+            "price": "Lower-cost video route; Keyvo estimates from duration, frames, and output pixels.",
             "useWhen": "Use when turnaround and cost matter more than premium restoration."
           },
           {
@@ -7376,8 +7471,8 @@
         ]
       },
       "workflow": {
-        "eyebrow": "Workflow",
-        "title": "Import. Adjust. Keep the result.",
+        "eyebrow": "Test and review",
+        "title": "Try an excerpt before processing more.",
         "overlay": {
           "title": "Your finished file, ready to use.",
           "body": "Choose an image or video, set the output size and review the price before you start."
@@ -7466,7 +7561,7 @@
         "secondaryCta": "View Angle Examples",
         "supportText": "Best when the subject is already right and only the viewpoint needs to change.",
         "orbit": {
-          "dragLabel": "Drag to explore real camera angles",
+          "dragLabel": "Drag to browse AI camera studies",
           "previousLabel": "Show previous camera angle",
           "nextLabel": "Show next camera angle",
           "livePrefix": "Selected camera view",
@@ -7818,12 +7913,12 @@
             "answer": "Yes. You can generate alternate viewpoints from one source image instead of rebuilding the whole scene."
           },
           {
-            "question": "What goes in and what comes out?",
-            "answer": "You start with one image and generate one or more alternate views from it, ready for comparison or reuse."
+            "question": "Do angle values match a physical camera exactly?",
+            "answer": "Rotation, tilt and zoom guide AI generation; they do not guarantee a precise camera position, focal length or 3D coordinate. Judge the generated composition before using it in production."
           },
           {
-            "question": "Does this help before image-to-video generation?",
-            "answer": "Yes. It helps you choose a better starting frame before you move into motion."
+            "question": "How should I check continuity between angles?",
+            "answer": "Review faces, clothing, hands, eyelines and background in each frame. AI infers areas the source cannot show, especially across large angle changes, so exact continuity is not guaranteed."
           },
           {
             "question": "Can I use this for product photos?",
@@ -7905,7 +8000,7 @@
           "same face same outfit ai",
           "image to video character consistency"
         ],
-        "imageAlt": "Reusable AI character sheet preview generated with MaxVideoAI Character Builder.",
+        "imageAlt": "Reusable AI character sheet preview generated with Keyvo Character Builder.",
         "schemaName": "Consistent Character AI",
         "schemaDescription": "Create reusable portrait anchors and 8-panel AI character sheets from one image, optional outfit reference, or scratch, then reuse them across images, edits, and still-reference video workflows.",
         "schemaFeatures": [
@@ -7924,11 +8019,11 @@
         "current": "Character Builder"
       },
       "hero": {
-        "badge": "Consistent Character AI Tool",
+        "badge": "Character development / Preparation",
         "secondaryBadge": "Portrait anchor + 8-panel character sheet",
-        "title": "AI characters. A consistent reference.",
-        "body": "Start with a portrait or an idea. Create a portrait reference or an eight-panel character sheet, then reuse it in your images and videos.",
-        "primaryCta": "Open Character Builder",
+        "title": "Meet the character before planning the shot.",
+        "body": "Start with a portrait and reference sheet. Establish appearance, costume and recognisable features, then review each view before reusing it in image or video work.",
+        "primaryCta": "Prepare character references",
         "proofs": [
           "Start with one identity photo, optional outfit inspiration, or a scratch-built concept",
           "Generate a reusable portrait anchor or an 8-panel character sheet",
@@ -7937,7 +8032,7 @@
         "showcase": {
           "topLabel": "Character Builder workspace",
           "windowLabel": "choose input, generate asset, reuse",
-          "imageAlt": "Full screenshot of the MaxVideoAI Character Builder workspace.",
+          "imageAlt": "Full screenshot of the Keyvo Character Builder workspace.",
           "callouts": [
             {
               "label": "01",
@@ -7975,9 +8070,9 @@
         "sheetAlt": "Reusable 8-panel character sheet output generated from Character Builder."
       },
       "howItWorks": {
-        "eyebrow": "How it works",
-        "title": "Create the reference, then carry it forward",
-        "body": "Start with a face, an outfit cue, or a scratch-built concept. Generate the output, then bring it back into stills, edits, and video prep.",
+        "eyebrow": "Reference preparation",
+        "title": "Start with a recognisable reference.",
+        "body": "Generate from a clear portrait, costume cues or a description. Inspect the results and select references for the next production step.",
         "steps": [
           {
             "stepLabel": "Start with",
@@ -8029,9 +8124,9 @@
         ]
       },
       "outputsWorkflow": {
-        "eyebrow": "Outputs and workflow",
-        "title": "Choose the output, then move into stills and video",
-        "body": "Pick the output that fits the job, then carry it into Nano Banana or still-reference video workflows.",
+        "eyebrow": "From reference to shot",
+        "title": "One character. Three production materials.",
+        "body": "Use a portrait for identity, a sheet to compare views and a scene image to prepare image-to-video. Choose for the next task.",
         "cards": [
           {
             "eyebrow": "Portrait anchor",
@@ -8193,9 +8288,9 @@
         ]
       },
       "related": {
-        "eyebrow": "Related workflow",
-        "title": "Use the reference across the rest of the workflow",
-        "body": "Once the character is locked, move into Image, Nano Banana, or video models without rebuilding identity again.",
+        "eyebrow": "Next production step",
+        "title": "Carry the selected reference into the next shot.",
+        "body": "Study camera positions, edit a scene or test a moving shot. Reusing references helps guide the work; review each result.",
         "workflowTitle": "Continue with",
         "workflowLinks": [
           {
@@ -8232,19 +8327,19 @@
         ]
       },
       "finalCta": {
-        "eyebrow": "Create the reference first",
-        "title": "Keep the Same Character Across Scenes, Stills, and Video",
-        "body": "Generate a portrait anchor or 8-panel sheet, then reuse that same reference in prompts, edits, and still-reference video workflows.",
+        "eyebrow": "Begin preparation",
+        "title": "Prepare a character for the next scene.",
+        "body": "Generate portraits or reference sheets and select a version for further production.",
         "primaryCta": "Open Character Builder",
         "panelLeft": "Locked character",
         "panelRight": "Ready to reuse",
-        "panelAlt": "Reusable AI character sheet preview generated with MaxVideoAI Character Builder."
+        "panelAlt": "Reusable AI character sheet preview generated with Keyvo Character Builder."
       }
     },
     "backgroundRemoval": {
       "meta": {
         "title": "Video Background Remover | Green Screen & AI Rotoscoping",
-        "description": "Remove video backgrounds in MaxVideoAI. Create green-screen-style cutouts, AI rotoscoping assets, alpha mattes, transparent WebM, or solid-color clips.",
+        "description": "Remove video backgrounds in Keyvo. Create green-screen-style cutouts, AI rotoscoping assets, alpha mattes, transparent WebM, or solid-color clips.",
         "keywords": [
           "video background remover",
           "remove video background",
@@ -8258,7 +8353,7 @@
         ],
         "imageAlt": "Before and after video background removal preview with a presenter isolated on a transparent-style background.",
         "schemaName": "Video Background Remover",
-        "schemaDescription": "A MaxVideoAI tool for removing backgrounds from short videos, creating AI rotoscoping-style subject cutouts, and exporting transparent video assets.",
+        "schemaDescription": "A Keyvo tool for removing backgrounds from short videos, creating AI rotoscoping-style subject cutouts, and exporting transparent video assets.",
         "howToTitle": "How to remove a video background or create an AI rotoscope cutout",
         "howToDescription": "Upload or select a video, choose transparent, green-screen-style, or solid-color output, run the AI video matting workflow, then save or download the result."
       },
@@ -8268,10 +8363,10 @@
         "current": "Video Background Remover"
       },
       "hero": {
-        "badge": "Green screen, alpha, and AI rotoscoping",
-        "title": "Remove the background from your video.",
-        "body": "Keep your subject and choose a transparent, green or solid background. Preview the price, process your clip and take the result into your edit.",
-        "primaryCta": "Open Video Background Remover",
+        "badge": "Subject separation / Compositing",
+        "title": "Carry the subject into the next scene.",
+        "body": "Separate a subject from existing footage for editing and compositing. Check the edges and export format before processing a complete clip.",
+        "primaryCta": "Prepare a composite source",
         "secondaryCta": "View all tools",
         "assurances": [
           {
@@ -8349,10 +8444,10 @@
         ]
       },
       "workflow": {
-        "eyebrow": "Workflow",
-        "title": "From source clip to green-screen, alpha, or compositing asset",
-        "body": "The tool keeps the production loop compact: choose a source, configure the alpha or background output, run, inspect, then save or download.",
-        "priceNote": "Before you generate, MaxVideoAI displays the estimated price for the selected clip and output settings.",
+        "eyebrow": "Working steps",
+        "title": "Import. Separate. Inspect. Retrieve.",
+        "body": "Choose the source video and background treatment. Inspect the edges after processing, then save to your library or download.",
+        "priceNote": "Before you generate, Keyvo displays the estimated price for the selected clip and output settings.",
         "steps": [
           {
             "title": "Upload or select a video",
@@ -8364,14 +8459,14 @@
           },
           {
             "title": "Preview, save, and reuse",
-            "body": "Compare source and result, download the file, or save it back to the MaxVideoAI library."
+            "body": "Compare source and result, download the file, or save it back to the Keyvo library."
           }
         ]
       },
       "production": {
-        "eyebrow": "Export quality",
-        "title": "Download files your production tools can actually open",
-        "body": "Transparent video and AI rotoscoping outputs are format-sensitive, so WebM VP9 is the transparent export while MP4/MOV outputs should use green-screen or solid-color backgrounds.",
+        "eyebrow": "Media handoff",
+        "title": "Choose a format the next step can read.",
+        "body": "Alpha support depends on the container and editing software. Test a short transparent WebM or green-screen MP4 export first.",
         "panelCaption": "Use WebM VP9 for browsers and compatible editors, and green-screen or solid-color MP4/MOV when the destination cannot preserve alpha.",
         "items": [
           {
@@ -8408,7 +8503,7 @@
         },
         {
           "q": "How is pricing estimated?",
-          "a": "MaxVideoAI reads the clip duration and shows a wallet estimate before the run starts. Failed runs are refunded automatically."
+          "a": "Keyvo reads the clip duration and shows a wallet estimate before the run starts. Failed runs are refunded automatically."
         },
         {
           "q": "What is the studio duration limit?",
@@ -8424,9 +8519,9 @@
         }
       ],
       "finalCta": {
-        "eyebrow": "Ready to clean the clip?",
-        "title": "Remove a background and keep the result in your MaxVideoAI library",
-        "body": "Open the workspace, estimate the run, and turn short source videos into reusable subject cutouts, alpha mattes, green-screen plates, or solid-background assets.",
+        "eyebrow": "Begin preparation",
+        "title": "Start with one short clip.",
+        "body": "Check the current quote in the workspace and use representative footage to test separation and export compatibility.",
         "primaryCta": "Open Video Background Remover",
         "secondaryCta": "View all tools"
       },
@@ -8461,7 +8556,7 @@
       "workshops": "Build your next scene.",
       "finishing": "Give your video the finishing touch.",
       "start": "Create your starting point.",
-      "startBody": "No source image yet? Generate one in MaxVideoAI. You can also create voices, music and sound in the Audio workspace.",
+      "startBody": "No source image yet? Generate one in Keyvo. You can also create voices, music and sound in the Audio workspace.",
       "image": "Create an image",
       "audio": "Create audio",
       "browse": "Choose your tool",
@@ -8475,28 +8570,8 @@
   "notFound": {
     "metaTitle": "Page not found",
     "title": "Page not found",
-    "body": "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring MaxVideoAI.",
+    "body": "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring Keyvo.",
     "homeLabel": "Back to homepage",
     "modelsLabel": "Browse video models"
-  },
-  "passwordRecovery": {
-    "title": "Choose a new password",
-    "intro": "Continue to verify your reset link securely.",
-    "verify": "Continue",
-    "verifying": "Verifying your link…",
-    "password": "New password",
-    "confirm": "Confirm new password",
-    "save": "Save new password",
-    "saving": "Saving…",
-    "saved": "Your password has been updated.",
-    "continueToApp": "Continue to the app",
-    "requestNew": "Request a new link",
-    "invalid": "This link is invalid or has expired. Request a new one. If you used another browser, try opening the original link in the browser where you requested it.",
-    "tooShort": "Use at least 6 characters.",
-    "mismatch": "The passwords do not match.",
-    "weak": "Choose a stronger password.",
-    "same": "Choose a password different from your current one.",
-    "unavailable": "We could not update your password. Please try again.",
-    "ready": "Enter and confirm your new password."
   }
 }

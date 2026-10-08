@@ -29,7 +29,7 @@ function ImpersonationBanner({ userId, email }: { userId: string; email: string 
     <div className="bg-warning-bg px-4 py-3 text-sm text-warning">
       <div className="mx-auto flex max-w-6xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p>
-          You&apos;re currently viewing MaxVideoAI as <span className="font-semibold">{label}</span>. All actions run under their account
+          You&apos;re currently viewing Keyvo as <span className="font-semibold">{label}</span>. All actions run under their account
           until you exit impersonation.
         </p>
         <form action="/api/admin/impersonate/exit" method="post">

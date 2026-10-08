@@ -5,7 +5,7 @@
     "title": "LTX 2.5 Pro AI Video Generator for Production Work",
     "description": "Choose LTX 2.5 Pro for current production-focused text, image and source-audio video, with exact workflow limits, prompt guidance and canonical pricing."
   },
-  "overview": "LTX 2.5 Pro is the current default production route for the LTX family. It supports text-to-video, image-to-video and a separate source-audio-driven workflow at 720p or 1080p. Lightricks owns LTX, while MaxVideoAI distributes these endpoints through Fal for the launch.",
+  "overview": "LTX 2.5 Pro is the current default production route for the LTX family. It supports text-to-video, image-to-video and a separate source-audio-driven workflow at 720p or 1080p. Lightricks owns LTX, while VideoAI distributes these endpoints through Fal for the launch.",
   "decision": {
     "modelSlug": "ltx-2-5-pro",
     "hero": {
@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "LTX 2.5 Pro scenario pricing",
       "subtitle": "Compare a six-second text-to-video in 720p or 1080p with a video created from six seconds of audio.",
-      "footnote": "Prices depend on your selected settings. MaxVideoAI confirms the quote before you generate. For audio-to-video, pricing is based on the duration of your source audio.",
+      "footnote": "Prices depend on your selected settings. VideoAI confirms the quote before you generate. For audio-to-video, pricing is based on the duration of your source audio.",
       "ctaLabel": "Generate with LTX 2.5 Pro",
       "ctaHref": "/app?engine=ltx-2-5-pro"
     },

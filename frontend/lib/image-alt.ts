@@ -25,12 +25,14 @@ const LOCALE_FALLBACK_LABEL: Record<SupportedLocale, string> = {
   en: 'render preview',
   fr: 'apercu du rendu',
   es: 'vista previa del render',
+  zh: '渲染预览',
 };
 
 const LOCALE_EXAMPLE_WORD: Record<SupportedLocale, string> = {
   en: 'Example',
   fr: 'Exemple',
   es: 'Ejemplo',
+  zh: '示例',
 };
 
 const TAG_LABELS: Record<SupportedLocale, Record<'cinematic' | 'product' | 'drone' | 'portrait', string>> = {
@@ -52,10 +54,16 @@ const TAG_LABELS: Record<SupportedLocale, Record<'cinematic' | 'product' | 'dron
     drone: 'drone',
     portrait: 'retrato',
   },
+  zh: {
+    cinematic: '电影级',
+    product: '产品',
+    drone: '无人机',
+    portrait: '人像',
+  },
 };
 
 function toLocale(locale?: string | null): SupportedLocale {
-  return locale === 'fr' || locale === 'es' ? locale : 'en';
+  return locale === 'fr' || locale === 'es' || locale === 'zh' ? locale : 'en';
 }
 
 function cleanToken(value: string | null | undefined): string {
@@ -134,29 +142,34 @@ export function getImageAlt({
           en: `${engineLabel} AI video example: ${shortLabel}`,
           fr: `Exemple video IA ${engineLabel}: ${shortLabel}`,
           es: `Ejemplo de video IA de ${engineLabel}: ${shortLabel}`,
+          zh: `${engineLabel} AI 视频示例：${shortLabel}`,
         }
       : kind === 'compareThumb'
         ? {
             en: `Comparison: ${engineLabel} vs ${compareLabel} - ${shortLabel}`,
             fr: `Comparaison: ${engineLabel} vs ${compareLabel} - ${shortLabel}`,
             es: `Comparacion: ${engineLabel} vs ${compareLabel} - ${shortLabel}`,
+            zh: `对比：${engineLabel} vs ${compareLabel} - ${shortLabel}`,
           }
         : kind === 'engineLogo'
           ? {
               en: `${engineLabel} logo`,
               fr: `Logo ${engineLabel}`,
               es: `Logo de ${engineLabel}`,
+              zh: `${engineLabel} 标志`,
             }
           : {
-              en: `MaxVideoAI interface: ${shortLabel}`,
-              fr: `Interface MaxVideoAI: ${shortLabel}`,
-              es: `Interfaz de MaxVideoAI: ${shortLabel}`,
+              en: `Keyvo interface: ${shortLabel}`,
+              fr: `Interface Keyvo: ${shortLabel}`,
+              es: `Interfaz de Keyvo: ${shortLabel}`,
+              zh: `Keyvo 界面：${shortLabel}`,
             };
 
   const fallbackByLocale: Record<SupportedLocale, string> = {
     en: 'AI video preview',
     fr: 'Apercu video IA',
     es: 'Vista previa de video IA',
+    zh: 'AI 视频预览',
   };
 
   const raw = templateByLocale[resolvedLocale] || fallbackByLocale[resolvedLocale];

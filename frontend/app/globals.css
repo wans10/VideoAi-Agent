@@ -61,11 +61,7 @@ body {
 }
 
 [data-theme="dark"] body {
-  background:
-    radial-gradient(1200px 720px at 78% -10%, rgba(255, 255, 255, 0.035), transparent 64%),
-    radial-gradient(920px 620px at 100% 12%, rgba(125, 211, 252, 0.025), transparent 58%),
-    linear-gradient(180deg, #030712 0%, #040816 46%, #030712 100%);
-  background-attachment: fixed;
+  background: var(--bg);
 }
 
 [data-theme="dark"] .dark-section-neon {

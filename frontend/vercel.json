@@ -10,6 +10,7 @@
     { "path": "/api/cron/byteplus-poll", "schedule": "* * * * *" },
     { "path": "/api/cron/kling-direct-poll", "schedule": "* * * * *" },
     { "path": "/api/cron/google-vertex-veo-poll", "schedule": "* * * * *" },
+    { "path": "/api/cron/llmhub-video-poll", "schedule": "* * * * *" },
     { "path": "/api/cron/google-vertex-omni-poll", "schedule": "* * * * *" },
     { "path": "/api/cron/luma-agents-poll", "schedule": "* * * * *" },
     { "path": "/api/cron/alibaba-model-studio-poll", "schedule": "* * * * *" },

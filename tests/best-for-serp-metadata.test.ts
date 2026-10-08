@@ -120,11 +120,11 @@ test('best-for hub and detail pages expose SERP-focused English snippets without
 
     assert.equal(title, expected.title, `${expected.path} title`);
     assert.equal(metadata.description, expected.description, `${expected.path} meta description`);
-    assert.doesNotMatch(title ?? '', /MaxVideoAI|—/);
+    assert.doesNotMatch(title ?? '', /VideoAI|Keyvo|—/);
     assert.ok((title ?? '').length <= 60, `${expected.path} title should stay within 60 chars`);
     assert.ok((metadata.description ?? '').length <= 160, `${expected.path} meta description should stay within 160 chars`);
     assert.doesNotMatch(metadata.description ?? '', /\.\./);
-    assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com${expected.path}`);
+    assert.equal(metadata.alternates?.canonical, `https://app.keyvo.cn${expected.path}`);
     assert.notEqual(typeof metadata.robots === 'object' ? metadata.robots?.index : metadata.robots, false);
   }
 });

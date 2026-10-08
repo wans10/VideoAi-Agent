@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 
 import {useEffect, useRef, useState} from 'react';
 import {ArrowUpLeft, Check, Expand, Film, Image as ImageIcon, Music2, RefreshCw, ListVideo} from 'lucide-react';
@@ -14,7 +15,7 @@ export function ConversationReferenceCard({projectId, item, active, compact, att
   onSelect: () => void; onMention: () => void; onAttach: () => void; onDetach: () => void;
   onInsert?: (asset:ImageLibraryAsset)=>void;
 }) {
-  const t = (en: string, fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   const [preview, setPreview] = useState<ConversationReferencePreview | null>(null);
   const [failed, setFailed] = useState(false), [retry, setRetry] = useState(0), [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState(false), [ratio, setRatio] = useState(1.25);

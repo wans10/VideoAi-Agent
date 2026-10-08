@@ -28,6 +28,7 @@ const HOME_CRUMB: Record<AppLocale, { label: string; href: LocalizedLinkHref }> 
   en: { label: 'Home', href: '/' },
   fr: { label: 'Accueil', href: '/fr' },
   es: { label: 'Inicio', href: '/es' },
+  zh: { label: '首页', href: '/zh' as LocalizedLinkHref },
 };
 
 const STATUS_ICON = {
@@ -200,7 +201,7 @@ export function MarketingModelPrelaunchPageLayout({
                           {content.custom.prelaunch.statusItems[1].value}
                         </span>
                         <span className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">
-                          MaxVideoAI
+                          Keyvo
                         </span>
                       </div>
                       <div className="space-y-2">

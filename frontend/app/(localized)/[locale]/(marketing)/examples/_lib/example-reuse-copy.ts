@@ -1,5 +1,6 @@
 /** The public example is a starting point; its historic cost is not a new quote. */
 export function getExampleReuseCopy(locale: string) {
+  if (locale === 'zh') return { cta: '从此案例开始创作', hint: '复用提示词和可用设置，根据需要添加自己的参考素材，并在生成前检查价格。' };
   if (locale === 'fr') return {
     cta: 'Partir de cet exemple',
     hint: 'Reprenez le prompt et les réglages disponibles. Ajoutez vos propres références si nécessaire, puis vérifiez le prix avant de générer.',

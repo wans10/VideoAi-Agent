@@ -29,10 +29,12 @@ test('server locale redirects persist the selected locale without a permanent re
   assert.match(source, /response\.headers\.append\('set-cookie', serializeHostLocaleCookie/);
 });
 
-test('middleware lets the public URL determine locale instead of browser state', () => {
+test('canonical public URLs take precedence over homepage language preference', () => {
   const middlewareSource = readFileSync('frontend/middleware.ts', 'utf8');
   const localeSource = readFileSync('frontend/lib/middleware/routing-locale.ts', 'utf8');
 
   assert.match(localeSource, /localeDetection:\s*false/);
-  assert.doesNotMatch(middlewareSource, /getPreferredLocale\(req\)/);
+  assert.match(middlewareSource, /const homepageLocale = getPreferredLocale\(req\) \?\? defaultExperienceLocale;/);
+  assert.match(middlewareSource, /if \(pathname === '\/' && !isBotRequest && homepageLocale !== defaultLocale/);
+  assert.ok(middlewareSource.indexOf('handleMarketingSlug(req, pathname)') < middlewareSource.indexOf('getPreferredLocale(req)'));
 });

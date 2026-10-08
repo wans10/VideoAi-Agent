@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 
 import {useEffect,useRef,type RefObject} from 'react';
 import {X,Plus,MessageCircle,SlidersHorizontal,Wallet} from 'lucide-react';
@@ -7,7 +8,7 @@ import styles from '../image-conversation.module.css';
 
 export function ConversationHelp({locale,editingEnabled,onClose,trigger}: {locale: ConversationLocale;editingEnabled: boolean;onClose: () => void;trigger: RefObject<HTMLButtonElement>}) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const t = (en: string,fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   useEffect(() => {
     const element = dialog.current;
     const returnTarget = trigger.current;

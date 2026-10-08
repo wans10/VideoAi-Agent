@@ -297,6 +297,7 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
   paymentMode: PaymentMode;
   walletChargeReserved: boolean;
   fallbackToFalEnabled: boolean;
+  submitLlmhubFallback?: (directAttemptId: number) => Promise<AlibabaModelStudioGenerateSubmissionResult>;
   falPayload: GeneratePayload;
   falInputSummary: FalInputSummary;
   isLumaRay2: boolean;
@@ -423,7 +424,9 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
     };
   } catch (error) {
     const normalized = classifyAlibabaModelStudioError(error);
-    const fallbackEligible = route.fallbackCompatible && shouldFallbackFromAlibabaSubmit({
+    const llmhubFallbackEligible = Boolean(params.submitLlmhubFallback) && route.fallbackCompatible
+      && !acceptedProviderJobId && [429, 503].includes(normalized.status ?? 0);
+    const fallbackEligible = llmhubFallbackEligible || route.fallbackCompatible && shouldFallbackFromAlibabaSubmit({
       acceptedProviderJobId,
       error,
       fallbackToFalEnabled: params.fallbackToFalEnabled,
@@ -441,6 +444,9 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
       // The accepted task identity remains authoritative even if local persistence is degraded.
     }
 
+    if (llmhubFallbackEligible && params.submitLlmhubFallback) {
+      return params.submitLlmhubFallback(attempt.id);
+    }
     if (fallbackEligible) {
       return submitFalFallback({
         userId: params.userId,

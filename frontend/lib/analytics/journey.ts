@@ -79,7 +79,7 @@ const APPROVED_UTM_TOUCHES: readonly ApprovedUtmTouch[] = [
 const ANALYTICS_ROUTE_FAMILIES = new Set([
   'admin', 'auth', 'marketing', 'public_tools', 'app_tools', 'workspace', 'billing',
 ]);
-const ANALYTICS_LOCALES = new Set(['en', 'fr', 'es']);
+const ANALYTICS_LOCALES = new Set(['en', 'fr', 'es', 'zh']);
 const ANALYTICS_TOOL_NAMES = new Set([
   'tools_hub', 'angle', 'background_removal', 'character_builder', 'storyboard', 'upscale', 'audio',
   'studio',
@@ -656,8 +656,8 @@ const EXACT_STRING_VALUES: Readonly<Record<string, ReadonlySet<string>>> = {
   payment_status: new Set(['pending_payment', 'paid_wallet', 'paid_direct', 'refunded_wallet', 'included_mcp_trial', 'platform', 'quoted', 'curated', 'completed']),
   payment_provider: new Set(['stripe']),
   payment_flow: new Set(['checkout']),
-  topup_tier_id: new Set(['usd_10', 'usd_25', 'usd_50', 'usd_100', 'custom']),
-  topup_tier_label: new Set(['$10', '$25', '$50', '$100', 'Custom']),
+  topup_tier_id: new Set(['usd_10', 'usd_25', 'usd_50', 'usd_100', 'cny_80', 'cny_200', 'cny_400', 'cny_800', 'custom']),
+  topup_tier_label: new Set(['$10', '$25', '$50', '$100', '¥80', '¥200', '¥400', '¥800', 'Custom']),
   failure_category: new Set(['authentication', 'validation', 'network', 'stripe', 'unknown', 'generation_request_failed', 'job_failed']),
   error_code: new Set(['generation_request_failed', 'INSUFFICIENT_WALLET_FUNDS', 'INSUFFICIENT_FUNDS', 'auth_required', 'UNAUTHORIZED']),
   asset_id: new Set(getPublicVideoRenditionAssetIds()),
@@ -711,7 +711,7 @@ const DECIMAL_FIELDS: Readonly<Record<string, readonly [number, number]>> = {
   zoom: [0, 100],
 };
 const CURRENCY_FIELDS = new Set(['currency', 'charge_currency', 'settlement_currency']);
-const CURRENCY_CODES = new Set(['USD', 'EUR', 'GBP', 'CHF']);
+const CURRENCY_CODES = new Set(['CNY', 'USD', 'EUR', 'GBP', 'CHF']);
 const UUID = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
 const JOB_ID_PATTERN = new RegExp(`^(?:job|aud|img|tool_(?:angle|background_removal|upscale))_${UUID}$`, 'i');
 const BATCH_ID_PATTERN = /^batch_[a-z0-9]{4,20}_[a-z0-9]{4,16}$/;

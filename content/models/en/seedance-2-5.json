@@ -94,7 +94,7 @@
     },
     {
       "q": "Can I generate with Seedance 2.5 from this page?",
-      "a": "Seedance 2.5 generation is available to MaxVideoAI users, with the price calculated and shown before each render."
+      "a": "Seedance 2.5 generation is available to VideoAI users, with the price calculated and shown before each render."
     }
   ],
   "decision": {
@@ -132,7 +132,7 @@
     },
     "media": {
       "caption": "Real Seedance 2.5 render",
-      "description": "A longer cinematic sequence created with MaxVideoAI",
+      "description": "A longer cinematic sequence created with VideoAI",
       "renderLabel": "View full render",
       "badges": [
         "24s",
@@ -308,7 +308,7 @@
     "showWhenEmpty": false,
     "section": {
       "title": "Real Seedance 2.5 outputs",
-      "intro": "Review accepted MaxVideoAI renders that test longer storytelling, controlled camera movement, physical coherence and natural human performance.",
+      "intro": "Review accepted VideoAI renders that test longer storytelling, controlled camera movement, physical coherence and natural human performance.",
       "defaultCtaLabel": "View all Seedance examples",
       "recreateLabel": null
     },
@@ -355,7 +355,7 @@
         "id": "production",
         "icon": "shield",
         "title": "Curated evaluation",
-        "body": "Every example shown here is a real MaxVideoAI render."
+        "body": "Every example shown here is a real VideoAI render."
       }
     ],
     "fallbackItems": null

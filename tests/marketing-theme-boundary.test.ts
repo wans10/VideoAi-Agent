@@ -34,10 +34,10 @@ test('workspace first paint agrees with the hook for default, saved and system t
   }
 });
 
-test('blocked storage uses the OS for app first paint', () => {
+test('blocked storage preserves the Keyvo light default', () => {
   for (const systemDark of [false, true]) {
     const dom = runBootstrap('/app', undefined, systemDark, true);
-    assert.equal(dom.window.document.documentElement.getAttribute('data-theme'), systemDark ? 'dark' : null);
+    assert.equal(dom.window.document.documentElement.getAttribute('data-theme'), null);
     dom.window.close();
   }
 });

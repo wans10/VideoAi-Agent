@@ -29,8 +29,8 @@ test('video SEO audit report exposes canonical, sitemap, media, links, and class
   assert.equal(report.summary.total, 1);
   assert.equal(report.rows[0].classification, 'keep_indexable');
   assert.equal(report.rows[0].robots, 'index, follow');
-  assert.equal(report.rows[0].canonicalUrl, 'https://maxvideoai.com/video/job_test');
-  assert.equal(report.rows[0].expectedCanonicalUrl, 'https://maxvideoai.com/video/job_test');
+  assert.equal(report.rows[0].canonicalUrl, 'https://app.keyvo.cn/video/job_test');
+  assert.equal(report.rows[0].expectedCanonicalUrl, 'https://app.keyvo.cn/video/job_test');
   assert.equal(report.rows[0].sitemapIncluded, true);
   assert.equal(report.rows[0].videoSitemapIncluded, true);
   assert.equal(report.rows[0].videoObjectPresent, true);

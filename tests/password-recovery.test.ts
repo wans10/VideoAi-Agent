@@ -62,7 +62,7 @@ test('successful update and provider failures produce explicit results', async (
 
 test('recovery callback preserves proof and locale without consuming the link', async () => {
   const { GET } = await import('../frontend/app/auth/callback/route');
-  for (const locale of ['en', 'fr', 'es']) {
+  for (const locale of ['en', 'fr', 'es', 'zh']) {
     const response = await GET(new NextRequest(`https://maxvideoai.com/auth/callback?flow=recovery&code=fixture&lang=${locale}&next=%2Fapp%3Ftab%3Dlibrary`));
     const location = new URL(response.headers.get('location')!);
     assert.equal(location.pathname, '/auth/reset-password');

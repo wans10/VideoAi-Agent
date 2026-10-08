@@ -1,7 +1,9 @@
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
-export const GENERATION_RESULT_APP_URI = 'ui://maxvideoai/generation-result-v5.html';
+export const GENERATION_RESULT_APP_URI = 'ui://maxvideoai/generation-result-v6.html';
 export const LEGACY_GENERATION_RESULT_APP_URIS = [
+  'ui://maxvideoai/generation-result-v5.html',
   'ui://maxvideoai/generation-result-v1.html',
   'ui://maxvideoai/generation-result-v2.html',
   'ui://maxvideoai/generation-result-v3.html',
@@ -525,7 +527,7 @@ function buildGenerationResultAppV4Html(): string {
 }
 
 /** v5 adds Audio without changing the document served for established v1-v4 conversations. */
-export function buildGenerationResultAppHtml(): string {
+function buildGenerationResultAppV5Html(): string {
   return buildGenerationResultAppV4Html()
     .replace('video, .image {', 'video, audio, .image {')
     .replace(
@@ -683,6 +685,10 @@ export function buildGenerationResultAppHtml(): string {
     );
 }
 
+export function buildGenerationResultAppHtml(): string {
+  return buildGenerationResultAppV5Html().replace(/\bMaxVideoAI\b/g, PRODUCT_BRAND_NAME);
+}
+
 export function registerGenerationResultApp(server: McpServer): void {
   const resourceDomains = generationResultAppResourceDomains();
   const redirectDomains = generationResultAppRedirectDomains();
@@ -692,8 +698,8 @@ export function registerGenerationResultApp(server: McpServer): void {
       `maxvideoai-generation-result-${index + 1}`,
       resourceUri,
       {
-        title: 'MaxVideoAI generation result',
-        description: 'Inline player for one completed MaxVideoAI generation.',
+        title: 'Keyvo generation result',
+        description: 'Inline player for one completed Keyvo generation.',
         mimeType: 'text/html;profile=mcp-app',
         _meta: {
           ui: {
@@ -708,13 +714,15 @@ export function registerGenerationResultApp(server: McpServer): void {
           mimeType: 'text/html;profile=mcp-app',
           text: resourceUri === GENERATION_RESULT_APP_URI
             ? buildGenerationResultAppHtml()
-            : buildGenerationResultAppV4Html(),
+            : resourceUri === 'ui://maxvideoai/generation-result-v5.html'
+              ? buildGenerationResultAppV5Html()
+              : buildGenerationResultAppV4Html(),
           _meta: {
             ui: {
               prefersBorder: true,
               csp: { connectDomains: [], resourceDomains },
             },
-            'openai/widgetDescription': 'A playable MaxVideoAI generation saved in the connected account.',
+            'openai/widgetDescription': 'A playable Keyvo generation saved in the connected account.',
             'openai/widgetPrefersBorder': true,
             'openai/widgetCSP': {
               connect_domains: [],

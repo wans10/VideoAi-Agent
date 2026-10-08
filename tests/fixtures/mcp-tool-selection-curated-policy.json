@@ -1,7 +1,7 @@
 {
   "version": 3,
   "evidenceKind": "curated-offline-policy-expectations",
-  "policyFingerprintSha256": "6e8bd4ee9ccffdcc4ed2856ff08772b7e17cda76bdd836977f14dd3a686a90ba",
+  "policyFingerprintSha256": "8f522af0741e781d017acca8341eb65d8078bd178ba22242bbfa8a4243b13db8",
   "fixtureContractSha256": "05f0fd68e1f8b0a403760bd68368a1cfeb73d85308750ffbc6808dc7e08cdb04",
   "policyCoverage": {
     "fixtureCount": 70,
@@ -34,75 +34,2055 @@
     "noRealHost": true
   },
   "decisions": [
-    {"fixtureId":"direct-account-connection-check","fixturePromptSha256":"27a5ae36083357a032ea51da30c42ee9cc271d118a798c9701adf255c581b787","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_account_status","arguments":{}}],"assistantText":"I checked the connected account status without changing the account or spending funds.","capabilityClaims":["account_status_read_only"]},
-    {"fixtureId":"complete-generation-exact-price","fixturePromptSha256":"ab2c12d6f6f7b384f5feeee29074a67f24c43421cc895fe220321f4b0cd75008","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"An eight-second cinematic scene.","settings":{"durationSec":8,"resolution":"720p","aspectRatio":"16:9"}}}],"assistantText":"Quote ID 10000000-0000-4000-8000-000000000001 has the exact price USD 12.34. I have not submitted the generation and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"10000000-0000-4000-8000-000000000001","amountMinor":1234,"currency":"USD","expiresAt":"2026-08-25T12:00:00.000Z"},{"type":"assistant","text":"Quote ID 10000000-0000-4000-8000-000000000001 has the exact price USD 12.34. I have not submitted the generation and will wait for explicit approval."}],"capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"indirect-video-creative-choice","fixturePromptSha256":"465602ef843c7073966d995c8da79edbaaac06f3a92c6a298d7a72ff78a85262","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"recommend_models","arguments":{"surface":"video","useCase":"product_video","priorities":["speed"]}}],"assistantText":"These are current capability matches from MaxVideoAI; generation is not available through the live registry.","capabilityClaims":["model_recommendations_read_only","generation_not_live"]},
-    {"fixtureId":"indirect-image-creative-choice","fixturePromptSha256":"b61a766b8f16384a4c42b908dd7b40293d257d9f175cb96834d240de396f5914","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"recommend_models","arguments":{"surface":"image"}}],"assistantText":"I used the current catalog to identify image-model fits; this read-only result does not start generation.","capabilityClaims":["model_recommendations_read_only","generation_not_live"]},
-    {"fixtureId":"prompt-writing-without-model-lookup","fixturePromptSha256":"c7b397f43a1f56e2c6f29df03823d8840444f8f3e7f697018f50290583df0387","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"Here is a concise cinematic rewrite created conversationally, with no MaxVideoAI model lookup.","capabilityClaims":["host_prompt_drafting_only"]},
-    {"fixtureId":"unsupported-source-video-edit","fixturePromptSha256":"731eabb38a35276830e37b4ce322d3a8c562395935f50fe7cd0cf1a97cbdb2e9","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"The live MaxVideoAI registry cannot perform this local source-video edit, so I did not call it.","capabilityClaims":["unsupported_by_live_registry"]},
-    {"fixtureId":"unsupported-audio-edit","fixturePromptSha256":"07ffbf635770771dc26c1d063d06ec8da2bc2613b13d8541259296192a64761e","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"Audio mastering is outside the live MaxVideoAI registry, so no MaxVideoAI action was taken.","capabilityClaims":["unsupported_by_live_registry"]},
-    {"fixtureId":"unsupported-document-transformation","fixturePromptSha256":"e9e288d05858613a94350490b35f731c0bfd63d91293df7750270e6182b5b580","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"Document redlining is not supported by the live MaxVideoAI registry, so I used no video tool.","capabilityClaims":["unsupported_by_live_registry"]},
-    {"fixtureId":"reference-led-product-plan","fixturePromptSha256":"6d443b0aea15f18d0cc1fce4f2a3e02aba1cf922c100bbfbeddd23f3c2845fff","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Reference plan","lines":[{"purpose":"Reference-led product shots","engineId":"seedance-2-5","mode":"ref2v","settings":{"durationSec":8,"resolution":"720p"},"referenceRoles":["reference"],"clipCount":4,"attemptsPerClip":1}]}]}}],"assistantText":"The plan uses current reference support and a project estimate only; it uploads nothing and reserves no price.","capabilityClaims":["model_details_read_only","project_budget_read_only","project_estimate_not_reservation","model_specific_reference_support"]},
-    {"fixtureId":"under-forty-no-spend","fixturePromptSha256":"cdb7f914085d20db8c4eb8194d9a733f0b5a1ca4ea38ae9702219df044712d8b","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"recommend_models","arguments":{"surface":"video","priorities":null,"budgetCeilingCents":4000}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Under forty","lines":[{"purpose":"Three short clips","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":5,"resolution":"720p"},"clipCount":3,"attemptsPerClip":1}]}]}}],"assistantText":"These are read-only model matches and project estimates under the ceiling; no price was reserved and nothing was spent.","capabilityClaims":["model_recommendations_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"chosen-model-budget-no-advice","fixturePromptSha256":"ef30f0d604cfab5c73764bbb9d89c9eb44bc5f25973ed9720d72025a693aaf6e","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Chosen model plan","lines":[{"purpose":"Five project clips","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":5,"attemptsPerClip":1}]}]}}],"assistantText":"I kept your chosen model and calculated a read-only project estimate without recommending or generating.","capabilityClaims":["model_details_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"quality-first-open-choice","fixturePromptSha256":"d8fa0a4554b31a35d5907653228c507fbb469f835f61c7edf88c21b295405b8d","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"recommend_models","arguments":{"surface":"video","useCase":"cinematic_story","priorities":["reference_control"]}},{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Continuity-first plan","lines":[{"purpose":"Six coherent story shots","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":6,"attemptsPerClip":1}]}]}}],"assistantText":"I prioritized the requested continuity criteria, verified the selected model, and returned estimates without spending.","capabilityClaims":["model_recommendations_read_only","model_details_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"budget-led-mixed-shot-plan","fixturePromptSha256":"6e9cfc644ef0509725bab96ddbcf7290c05f900026f7ae74130cfcdefa83468d","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"list_models","arguments":{"surface":"video"}},{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Mixed shot plan","lines":[{"purpose":"Two hero shots","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":2,"attemptsPerClip":1},{"purpose":"Four supporting shots","engineId":"kling-2-6-pro","mode":"t2v","settings":{"durationSec":5,"resolution":"720p"},"clipCount":4,"attemptsPerClip":1}]}]}}],"assistantText":"The mixed plan uses current catalog details and a project total only; it does not reserve or spend funds.","capabilityClaims":["public_model_catalog_read_only","model_details_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"named-model-unavailable-no-substitution","fixturePromptSha256":"d7f86295acc0d441ed19f58fab03f8b324cbfd85789a1766d3ffb80fd4c3773a","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_model_details","arguments":{"id":"requested-model"}}],"assistantText":"I checked the named model directly. If it is unavailable, I will ask before considering a substitute.","capabilityClaims":["model_details_read_only"]},
-    {"fixtureId":"host-designed-generator-only","fixturePromptSha256":"e169b19a6975cb823beb8ee317fa872d33705d2689eb893562a0bd63052e78be","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"Finalized cinematic prompt","settings":{"durationSec":8,"resolution":"720p"}}}],"assistantText":"Quote ID 10000000-0000-4000-8000-000000000002 has the exact price USD 12.34. I have not submitted it and will wait for your explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"10000000-0000-4000-8000-000000000002","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 10000000-0000-4000-8000-000000000002 has the exact price USD 12.34. I have not submitted it and will wait for your explicit approval."}],"capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"synthetic-explicit-confirmation-sequence","fixturePromptSha256":"8eed90d8af7f9d31f0e957a2571c85914a641fb0bd7494fedcb8ae3222d2a69b","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"Approved cinematic request","settings":{"durationSec":8,"resolution":"720p"}}},{"name":"confirm_generation","arguments":{"quoteId":"11111111-1111-4111-8111-111111111111","confirmed":true}}],"assistantText":"Quote ID 11111111-1111-4111-8111-111111111111 had the exact price USD 12.34. You explicitly approved it, so I submitted that same quote exactly once.","quoteTranscript":[{"type":"prepare_result","quoteId":"11111111-1111-4111-8111-111111111111","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 11111111-1111-4111-8111-111111111111 has the exact price USD 12.34. I have not submitted it and will wait for explicit approval."},{"type":"user","text":"I explicitly approve quote ID 11111111-1111-4111-8111-111111111111 for exactly USD 12.34."},{"type":"confirm_call","quoteId":"11111111-1111-4111-8111-111111111111","confirmed":true}],"capabilityClaims":["future_exact_quote_gated","future_confirmation_gated"]},
-    {"fixtureId":"reference-image-support-lookup","fixturePromptSha256":"dea34ad11c13ae38b3f64e582bab60aa60c197656f41955b92e20e0a44756d47","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"list_models","arguments":{"surface":"video","referenceImages":true}}],"assistantText":"I listed only public catalog entries whose current facts report reference-image support.","capabilityClaims":["public_model_catalog_read_only","model_specific_reference_support"]},
-    {"fixtureId":"audio-capability-lookup","fixturePromptSha256":"9b55c5e796367cd45d589f1400ad0e078de69252f069c36393eeabc7bc257ac3","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"list_models","arguments":{"surface":"video","audio":true}}],"assistantText":"I returned current public video catalog entries that report audio support for the requested mode.","capabilityClaims":["public_model_catalog_read_only","model_specific_audio_support"]},
-    {"fixtureId":"model-capability-comparison","fixturePromptSha256":"16101489e53f1bf5b4d9ff5f1cabfd93032ed9108011ebf1f2953db71fe4e6e1","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"list_models","arguments":{"surface":"video"}},{"name":"recommend_models","arguments":{"surface":"video","priorities":["native_audio","reference_control","speed"]}}],"assistantText":"The comparison uses current public catalog facts with disclosed editorial preference in recommendation ordering; these capability matches are not quotes or provider guarantees.","capabilityClaims":["public_model_catalog_read_only","model_recommendations_read_only"]},
-    {"fixtureId":"sixty-second-two-current-plans","fixturePromptSha256":"a9576f39101d34a721eada58d8a470ed74fd280cf671a192c243d9f471d46fb3","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"list_models","arguments":{"surface":"video"}},{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Seedance plan","lines":[{"purpose":"Eight story clips","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":8,"attemptsPerClip":1}]},{"name":"Alternative plan","lines":[{"purpose":"Twelve short clips","engineId":"kling-2-6-pro","mode":"t2v","settings":{"durationSec":5,"resolution":"720p"},"clipCount":12,"attemptsPerClip":1}]}]}}],"assistantText":"I built two named plans from current details and calculated estimates; neither plan reserves a price.","capabilityClaims":["public_model_catalog_read_only","model_details_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"seedance-versus-h3-fit","fixturePromptSha256":"194d96cd08f92dc59fc1fd3abb909da4b83c335bbf9f9e47f54eabe88f7d2104","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"recommend_models","arguments":{"surface":"video","useCase":"character_scene","preferredModelIds":["seedance-2-5","minimax-h3"]}}],"assistantText":"I checked the preferred model first and then compared current capability fit without silently substituting it.","capabilityClaims":["model_details_read_only","model_recommendations_read_only"]},
-    {"fixtureId":"synthetic-generation-status-recovery","fixturePromptSha256":"217124a13f234902fe19c1c8ee3a0bdfbc58c1dbf7fb8c1055128dec3e0d6d21","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_generation_status","arguments":{"jobId":"22222222-2222-4222-8222-222222222222"}}],"assistantText":"I recovered the existing job status and refund state without resubmitting or starting another paid generation.","capabilityClaims":["future_generation_status_gated"]},
-    {"fixtureId":"operational-seedance-quality-first","fixturePromptSha256":"e2afb40cadb497d502cb1f9dcdc29b8341cb55b1d352754597b16ac81dfaba1a","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"recommend_models","arguments":{"surface":"video","useCase":"cinematic_story","priorities":["reference_control"]}},{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Quality-first","lines":[{"purpose":"Six coherent story shots","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":6,"attemptsPerClip":1}]},{"name":"Comparable alternative","lines":[{"purpose":"The same six story shots","engineId":"kling-2-6-pro","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":6,"attemptsPerClip":1}]}]}}],"assistantText":"Seedance 2.5 is a reviewed editorial starting point that fits these executable constraints, not a measured quality winner or provider guarantee; the comparable project estimates reserve no price and nothing was spent.","capabilityClaims":["model_recommendations_read_only","model_details_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"operational-comparable-budget-alternatives","fixturePromptSha256":"75a40560c9fce799643067435998c9e02615c96b84f9ee114ac0c4c6c940d206","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"list_models","arguments":{"surface":"video"}},{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Best fit","lines":[{"purpose":"Five matched shots","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":5,"attemptsPerClip":1}]},{"name":"Lower-cost comparison","lines":[{"purpose":"The same five matched shots","engineId":"kling-2-6-pro","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":5,"attemptsPerClip":1}]}]}}],"assistantText":"I compared current executable models on the same shot and attempt assumptions; these are estimates and spend nothing.","capabilityClaims":["public_model_catalog_read_only","model_details_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"operational-seedance-start-end-images","fixturePromptSha256":"41707a5ae595f1321c9f5f5bb998c4f4d953df15c66dae495ddb0e2eab794dce","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"list_media","arguments":{"kind":"image"}},{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"i2v","prompt":"A continuous cinematic move from the first frame to the last.","references":[{"kind":"asset","assetId":"asset-start","role":"first_frame"},{"kind":"asset","assetId":"asset-end","role":"last_frame"}]}}],"assistantText":"Quote ID 10000000-0000-4000-8000-000000000003 has the exact price USD 12.34 for the selected private images. I have not started it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"10000000-0000-4000-8000-000000000003","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 10000000-0000-4000-8000-000000000003 has the exact price USD 12.34 for the selected private images. I have not started it and will wait for explicit approval."}],"capabilityClaims":["model_details_read_only","model_specific_reference_support","future_exact_quote_gated"]},
-    {"fixtureId":"operational-seedance-multimodal-references","fixturePromptSha256":"631a683ce28d3bb7744acba40d45d2667a2be6f5888af3332823321b74a06495","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"list_media","arguments":{"kind":"image"}},{"name":"list_media","arguments":{"kind":"video"}},{"name":"list_media","arguments":{"kind":"audio"}},{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"ref2v","prompt":"A cinematic scene guided by the selected references.","references":[{"kind":"asset","assetId":"asset-image","role":"reference"},{"kind":"asset","assetId":"asset-video","role":"reference"},{"kind":"asset","assetId":"asset-audio","role":"reference"}]}}],"assistantText":"Quote ID 10000000-0000-4000-8000-000000000004 has the exact price USD 12.34 for the selected private media. I have not started it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"10000000-0000-4000-8000-000000000004","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 10000000-0000-4000-8000-000000000004 has the exact price USD 12.34 for the selected private media. I have not started it and will wait for explicit approval."}],"capabilityClaims":["model_details_read_only","model_specific_reference_support","model_specific_audio_support","future_exact_quote_gated"]},
-    {"fixtureId":"operational-seedance-video-edit","fixturePromptSha256":"92bb02530abf23908c021dcee6359040bddd089673b983b729a232e91383faa2","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"list_media","arguments":{"kind":"video"}},{"name":"list_media","arguments":{"kind":"image"}},{"name":"list_media","arguments":{"kind":"audio"}},{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"v2v","prompt":"Transform the source while following the image and audio guidance.","references":[{"kind":"asset","assetId":"asset-source","role":"source"},{"kind":"asset","assetId":"asset-image","role":"reference"},{"kind":"asset","assetId":"asset-audio","role":"reference"}]}}],"assistantText":"Quote ID 10000000-0000-4000-8000-000000000005 has the exact price USD 12.34 for the source and guidance media. I have not submitted it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"10000000-0000-4000-8000-000000000005","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 10000000-0000-4000-8000-000000000005 has the exact price USD 12.34 for the source and guidance media. I have not submitted it and will wait for explicit approval."}],"capabilityClaims":["model_details_read_only","model_specific_reference_support","model_specific_audio_support","future_exact_quote_gated"]},
-    {"fixtureId":"operational-seedance-extend-clips","fixturePromptSha256":"cfe4331f404d4b5667d8266e8a2cb21a7d169f97acafc5c214c926b02d0b24aa","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"list_media","arguments":{"kind":"video"}},{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"extend","prompt":"Continue the authored scene smoothly.","references":[{"kind":"asset","assetId":"clip-one","role":"source"},{"kind":"asset","assetId":"clip-two","role":"source"},{"kind":"asset","assetId":"clip-three","role":"source"}]}}],"assistantText":"Quote ID 10000000-0000-4000-8000-000000000006 has the exact price USD 12.34 for the ordered clips. I have not started it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"10000000-0000-4000-8000-000000000006","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 10000000-0000-4000-8000-000000000006 has the exact price USD 12.34 for the ordered clips. I have not started it and will wait for explicit approval."}],"capabilityClaims":["model_details_read_only","model_specific_reference_support","future_exact_quote_gated"]},
-    {"fixtureId":"operational-budget-only-no-spend","fixturePromptSha256":"fff7ff4cbd468c5a9fc0bae0b1638e27ef55d1ae13b55ed5eccc4be6e4f558c2","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"recommend_models","arguments":{"surface":"video","priorities":null,"budgetCeilingCents":null}},{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Budget-only plan","lines":[{"purpose":"Three planned shots","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":3,"attemptsPerClip":1}]}]}}],"assistantText":"These are read-only project estimates; the numeric budget ceiling still needs clarification and I did not prepare a quote, confirm a job, or spend funds.","capabilityClaims":["model_recommendations_read_only","model_details_read_only","project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"operational-exact-quote-only","fixturePromptSha256":"30b0b57cdd031938413b48d261a36e78af65e8714a0bd3b98b8f44fb5eb8b1e9","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"Final approved creative prompt","settings":{"durationSec":8,"resolution":"720p"}}}],"assistantText":"Quote ID 10000000-0000-4000-8000-000000000007 has the exact price USD 12.34. I have not started the generation and will wait for your explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"10000000-0000-4000-8000-000000000007","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 10000000-0000-4000-8000-000000000007 has the exact price USD 12.34. I have not started the generation and will wait for your explicit approval."}],"capabilityClaims":["model_details_read_only","future_exact_quote_gated"]},
-    {"fixtureId":"operational-explicit-confirmed-submission","fixturePromptSha256":"b1967b485226c367c22a4fb23aef8c5964e662cabb4615fd54d101cb47ed3ae2","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"Final cinematic clip","settings":{"durationSec":8,"resolution":"720p"}}},{"name":"confirm_generation","arguments":{"quoteId":"33333333-3333-4333-8333-333333333333","confirmed":true}}],"assistantText":"Quote ID 33333333-3333-4333-8333-333333333333 had the exact price USD 12.34. You explicitly approved it, so I submitted that same quote once.","quoteTranscript":[{"type":"prepare_result","quoteId":"33333333-3333-4333-8333-333333333333","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 33333333-3333-4333-8333-333333333333 has the exact price USD 12.34. I have not submitted it and will wait for explicit approval."},{"type":"user","text":"I explicitly approve quote ID 33333333-3333-4333-8333-333333333333 for exactly USD 12.34."},{"type":"confirm_call","quoteId":"33333333-3333-4333-8333-333333333333","confirmed":true}],"capabilityClaims":["future_exact_quote_gated","future_confirmation_gated"]},
-    {"fixtureId":"operational-ambiguous-approval-no-confirm","fixturePromptSha256":"ed877f9a8c8e436be4f59e09546c0cfb143585a45d44d3c0137be69dab7898ab","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[],"assistantText":"That sounds interested but is not explicit approval. Please clearly approve the exact price if you want me to submit it.","capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"unrelated-typescript-debugging","fixturePromptSha256":"a5c77cc91f549f17740348b2018eff6384465f02990b728ef61fed24665a118b","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"This code-debugging request needs no MaxVideoAI tool, so I would inspect the reducer directly.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"unrelated-policy-research","fixturePromptSha256":"0affa76a4890ed74f012e11cac94c9b2b7145f447806bc8edcca03d8616b1a8e","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"This legal research request needs primary sources rather than a MaxVideoAI model or account tool.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"local-image-pixel-edit","fixturePromptSha256":"5dd61adc28e652790ae53826e7617d7f8eab8f7b3ff7a76ea8b7d04050279be7","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"This deterministic local pixel edit does not need a MaxVideoAI catalog, pricing, or generation tool.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"credits-account-destination","fixturePromptSha256":"e2dd441e9b88ad1d11824161bdde8526a45736beca1f2c8be63e1c8051283c28","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_account_status","arguments":{}}],"assistantText":"I checked the connected account and will use its exact returned billing destination. I will not invent a URL or claim that the browser step is complete.","capabilityClaims":["account_status_read_only","account_destinations_read_only"]},
-    {"fixtureId":"quote-needs-topup","fixturePromptSha256":"c2c07d369eb094a514f3825c3a676b6b7e98a77d74f5c93312215190547041e9","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"create_topup_link","arguments":{"quoteId":"44444444-4444-4444-8444-444444444444"}}],"assistantText":"Payment happens on the MaxVideoAI website through the exact returned destination. The old quote is invalid after funding, so no generation was submitted.","capabilityClaims":["future_topup_handoff_gated"]},
-    {"fixtureId":"funding-complete-requote","fixturePromptSha256":"766acafb58b8700c534c3207c8aa87eff2a9ffe2f4d13fa2ed43d3e6908985d0","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_account_status","arguments":{}},{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"The unchanged ready-to-generate cinematic request.","settings":{"durationSec":8,"resolution":"720p"}}}],"assistantText":"Quote ID 55555555-5555-4555-8555-555555555555 is the fresh exact quote USD 12.34 after funding. I have not submitted it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"55555555-5555-4555-8555-555555555555","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"Quote ID 55555555-5555-4555-8555-555555555555 is the fresh exact quote USD 12.34 after funding. I have not submitted it and will wait for explicit approval."}],"capabilityClaims":["account_status_read_only","future_exact_quote_gated"]},
-    {"fixtureId":"recent-generation-library","fixturePromptSha256":"a44616d95df24b1f6448f1aa55172db832981bf9ba4eb876b73f4ddf0cfcac20","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"list_recent_generations","arguments":{"limit":10}}],"assistantText":"I recovered the recent job status without starting another generation. Its completed result stays in the same MaxVideoAI library; use the exact returned library destination.","capabilityClaims":["future_generation_status_gated","generation_library_recovery"]},
-    {"fixtureId":"known-job-result","fixturePromptSha256":"5210168beb29acd7a984dc14a26aaf5c8d9a08c4ac9b7b9eb8c21e7697cee935","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_generation_status","arguments":{"jobId":"known-job-id"}}],"assistantText":"I recovered the known job status without starting another paid generation. The completed result stays in the same MaxVideoAI library; use the exact returned workspace destination.","capabilityClaims":["future_generation_status_gated","generation_library_recovery"]},
-    {"fixtureId":"existing-audio-reference","fixturePromptSha256":"a435f67152acfde53a169ccc7536325bee51c48c76f872c0e1f46cd09c07b25e","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"list_media","arguments":{"kind":"audio"}}],"assistantText":"I checked the selected mode, then listed private audio references from the same MaxVideoAI library so you can choose one.","capabilityClaims":["model_details_read_only","model_specific_reference_support","model_specific_audio_support","private_media_library_read_only"]},
-    {"fixtureId":"upload-video-reference","fixturePromptSha256":"d015aebcc9bb961d8be86297ea968740d07312fa803f9d30dbaaa95a836b83d5","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_model_details","arguments":{"id":"seedance-2-5"}},{"name":"create_reference_upload_link","arguments":{"kind":"video"}},{"name":"list_media","arguments":{"kind":"video"}}],"assistantText":"I checked the selected mode, created the browser upload handoff, then listed videos after the upload was saved in the same MaxVideoAI library.","capabilityClaims":["model_details_read_only","model_specific_reference_support","future_reference_upload_handoff_gated","private_media_library_read_only"]},
-    {"fixtureId":"failed-generation-recovery","fixturePromptSha256":"f3eea5e71b8fa84ee218ee300bf11b330adb23b8f447c866415b4d698f1cbabb","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_generation_status","arguments":{"jobId":"failed-job-id"}}],"assistantText":"I recovered the existing job's technical failure and refund state without resubmitting; there is no automatic retry or new paid attempt.","capabilityClaims":["future_generation_status_gated"]},
-    {"fixtureId":"payment-data-refusal","fixturePromptSha256":"78e70022f50725ef7e77b5545178de599f1128d5551589233824ca54cc4bfc3f","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_account_status","arguments":{}}],"assistantText":"I do not accept or collect payment data here. I checked the account and will use only its exact returned billing destination.","capabilityClaims":["account_status_read_only","account_destinations_read_only"]},
-    {"fixtureId":"returned-destination-only","fixturePromptSha256":"b120c80a02dd764c610874d708137acd2ee14b84c358a1103fe6120ec11cab46","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"get_account_status","arguments":{}}],"assistantText":"I checked the account and will use only its exact returned billing destination. I do not accept or collect payment data, invent a URL, or claim the browser step completed.","capabilityClaims":["account_status_read_only","account_destinations_read_only"]},
-    {"fixtureId":"expired-quote-reprepare","fixturePromptSha256":"c29290b88c4c472c3626d8f66b7b3c627e27ec88294f8a034d3649cef25a9c80","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"The unchanged cinematic request from the expired quote.","settings":{"durationSec":8,"resolution":"720p"}}}],"assistantText":"The expired quote cannot authorize generation. Quote ID 66666666-6666-4666-8666-666666666666 is the fresh exact quote USD 12.34. I have not submitted it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"66666666-6666-4666-8666-666666666666","amountMinor":1234,"currency":"USD"},{"type":"assistant","text":"The expired quote cannot authorize generation. Quote ID 66666666-6666-4666-8666-666666666666 is the fresh exact quote USD 12.34. I have not submitted it and will wait for explicit approval."}],"capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"discovery-claude-plan-campaign","fixturePromptSha256":"8b1b8cb54b0034857b9de63c72a85878f71063da21c088bde5bf3420fcba56b5","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"recommend_models","arguments":{"surface":"video","useCase":"product_video","priorities":["reference_control"]}}],"assistantText":"MaxVideoAI is an AI video generation service. I used its current model data to recommend a planning route for the six-shot launch; this read-only step did not quote or generate.","capabilityClaims":["model_recommendations_read_only"]},
-    {"fixtureId":"discovery-claude-compare-models","fixturePromptSha256":"95b82b66d866a042b40f34a962f8186e31183af817fe3ae178865dd563368394","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"list_models","arguments":{"surface":"video","limit":10}}],"assistantText":"MaxVideoAI is an AI video generation service. I retrieved its current video catalog for comparison and have not selected, quoted, or generated a model yet.","capabilityClaims":["public_model_catalog_read_only"]},
-    {"fixtureId":"discovery-claude-price-project","fixturePromptSha256":"a9626aed95578f2cdc4a430c5b645fe7023815efcb280b4a2b98e209b43467bc","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Claude launch estimate","lines":[{"purpose":"Four launch clips","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":4,"attemptsPerClip":1}]}]}}],"assistantText":"MaxVideoAI is an AI video generation service. I calculated the requested project estimate; it is a read-only planning figure, not an exact quote, reservation, or paid generation.","capabilityClaims":["project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"discovery-claude-exact-quote","fixturePromptSha256":"2e4716606bca54337b1755bee0c91a860953ce6c8adb72cee8d4752b3ddc86c0","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"A polished eight-second cinematic product reveal.","settings":{"durationSec":8,"resolution":"720p"}}}],"assistantText":"MaxVideoAI is an AI video generation service. Quote ID 77777771-7777-4777-8777-777777777771 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"77777771-7777-4777-8777-777777777771","amountMinor":500,"currency":"USD"},{"type":"assistant","text":"MaxVideoAI is an AI video generation service. Quote ID 77777771-7777-4777-8777-777777777771 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."}],"capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"discovery-claude-generate-request","fixturePromptSha256":"40b9bf1b7405bba17250315a95c766dea1a28d469c6c0bdea76418715247f2f3","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"A premium vertical launch scene with a clean product reveal.","settings":{"durationSec":8,"resolution":"720p","aspectRatio":"9:16"}}}],"assistantText":"MaxVideoAI is an AI video generation service. Quote ID 77777772-7777-4777-8777-777777777772 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"77777772-7777-4777-8777-777777777772","amountMinor":500,"currency":"USD"},{"type":"assistant","text":"MaxVideoAI is an AI video generation service. Quote ID 77777772-7777-4777-8777-777777777772 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."}],"capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"discovery-claude-recover-request","fixturePromptSha256":"ce75dc13e559f9316837ed7c91659b90d9102a7fe3a5376bfaffa2cdfe74d120","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_generation_status","arguments":{"jobId":"job-claude-launch"}}],"assistantText":"MaxVideoAI is an AI video generation service. I checked the existing job for recovery without resubmitting or starting another generation; its returned result remains tied to the same account library.","capabilityClaims":["future_generation_status_gated","generation_library_recovery"]},
-    {"fixtureId":"discovery-codex-plan-campaign","fixturePromptSha256":"320dc47053b77395ab6a523c043bb19d2ee22b7a6ec983a0db7d4fd837c8e878","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"recommend_models","arguments":{"surface":"video","useCase":"product_video","priorities":["speed"]}}],"assistantText":"MaxVideoAI is an AI video generation service. I used current model data to recommend a planning route for the five-shot developer launch; no quote or generation was started.","capabilityClaims":["model_recommendations_read_only"]},
-    {"fixtureId":"discovery-codex-compare-models","fixturePromptSha256":"48846bb29de0f619905cb386d60fa265476dd241b05bb9c7eb05373cb2bc6917","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"list_models","arguments":{"surface":"video","limit":10}}],"assistantText":"MaxVideoAI is an AI video generation service. I retrieved the current video-model catalog so the options can be compared from live data before any selection or spend.","capabilityClaims":["public_model_catalog_read_only"]},
-    {"fixtureId":"discovery-codex-price-project","fixturePromptSha256":"43988803a6d65c6a2f261b66de6d88af0d0460bc057ff978de04691dbe63ce1e","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[{"name":"calculate_project_budget","arguments":{"proposals":[{"name":"Codex demo estimate","lines":[{"purpose":"Three app-demo clips","engineId":"seedance-2-5","mode":"t2v","settings":{"durationSec":8,"resolution":"720p"},"clipCount":3,"attemptsPerClip":1}]}]}}],"assistantText":"MaxVideoAI is an AI video generation service. I calculated the requested read-only project estimate; it does not reserve an exact quote or authorize generation.","capabilityClaims":["project_budget_read_only","project_estimate_not_reservation"]},
-    {"fixtureId":"discovery-codex-exact-quote","fixturePromptSha256":"13cc1c5fb5893f5b601f29187b51d61cf734307ea523dd29f35de0061099482c","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"An eight-second realistic developer-tool reveal.","settings":{"durationSec":8,"resolution":"720p"}}}],"assistantText":"MaxVideoAI is an AI video generation service. Quote ID 77777773-7777-4777-8777-777777777773 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"77777773-7777-4777-8777-777777777773","amountMinor":500,"currency":"USD"},{"type":"assistant","text":"MaxVideoAI is an AI video generation service. Quote ID 77777773-7777-4777-8777-777777777773 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."}],"capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"discovery-codex-generate-request","fixturePromptSha256":"8acc5d8aead32c9d9ec79caa25a868d3c554c75f4c644c8496429d45d69956f6","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"prepare_generation","arguments":{"surface":"video","engineId":"seedance-2-5","mode":"t2v","prompt":"A polished landscape app demo with a precise interface reveal.","settings":{"durationSec":8,"resolution":"720p","aspectRatio":"16:9"}}}],"assistantText":"MaxVideoAI is an AI video generation service. Quote ID 77777774-7777-4777-8777-777777777774 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.","quoteTranscript":[{"type":"prepare_result","quoteId":"77777774-7777-4777-8777-777777777774","amountMinor":500,"currency":"USD"},{"type":"assistant","text":"MaxVideoAI is an AI video generation service. Quote ID 77777774-7777-4777-8777-777777777774 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."}],"capabilityClaims":["future_exact_quote_gated"]},
-    {"fixtureId":"discovery-codex-recover-request","fixturePromptSha256":"49357ca3c557640cb372a3a14aeff885c363a531eafcb6965aa0eaa107af00af","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_generation_status","arguments":{"jobId":"job-codex-demo"}}],"assistantText":"MaxVideoAI is an AI video generation service. I checked the existing job and recovered its state without resubmitting or starting another generation; no duplicate paid action was taken.","capabilityClaims":["future_generation_status_gated","generation_library_recovery"]},
-    {"fixtureId":"discovery-claude-ambiguous-campaign","fixturePromptSha256":"9c48ceb2dd5396389be5e1d451f4878e283c32218429d91ccdc234a1b0109102","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"What is the campaign goal and audience, and what duration, aspect ratio, budget, or reference material should shape the video before I choose a tool?","capabilityClaims":["host_prompt_drafting_only"]},
-    {"fixtureId":"discovery-codex-ambiguous-campaign","fixturePromptSha256":"c8a542248af52a51e003d5c596c57b4e6b2c56df5dfba27bdb46c9ebf70d3f12","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"Who is the launch audience, what is the campaign goal, and which duration, format, budget, or reference should I plan around before selecting a MaxVideoAI tool?","capabilityClaims":["host_prompt_drafting_only"]},
-    {"fixtureId":"discovery-claude-ambiguous-short","fixturePromptSha256":"205f6e7557d62ecb419feebea1c0647e63ebf7cedc4d65f8041f869e86cbe557","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[],"assistantText":"What does premium mean for this goal: stronger story coherence, a specific delivery resolution, an aspect ratio, a deadline, or a firm budget?","capabilityClaims":["host_prompt_drafting_only"]},
-    {"fixtureId":"discovery-codex-ambiguous-short","fixturePromptSha256":"745e168425ee0a74dcc9eb879a32fc9ddc40362a8b400d58fe3120eb476c5ce5","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[],"assistantText":"What is the ad goal and audience, and do you already know the duration, format, budget, deadline, or reference style before I choose a MaxVideoAI action?","capabilityClaims":["host_prompt_drafting_only"]},
-    {"fixtureId":"discovery-claude-editing-theory","fixturePromptSha256":"114aae032f3f23a934926a33f934ee1cb5d301343fc057ea46133900282744e6","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"A J-cut lets the next scene's audio begin before its picture; an L-cut keeps the previous scene's audio under the next image. No MaxVideoAI tool is needed.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"discovery-codex-content-calendar","fixturePromptSha256":"d5372759d31ef5c08beb323eebb067df45012cbee06d7ea598cf61a5df67dd85","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"I can structure the four-week content calendar directly. Since no media generation, model comparison, or pricing is requested, no MaxVideoAI tool is needed.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"discovery-claude-unrelated-code","fixturePromptSha256":"258980b426414c4bed1422ffca40489fc6a30774c93ed4d62776d3fd85fc2160","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[],"assistantText":"I will inspect the TypeScript types and the failing call site directly. This unrelated coding task needs no MaxVideoAI action.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"discovery-codex-payment-credentials","fixturePromptSha256":"5206d8234f57eb5a08362836083029e93daa328eb2509ade73060dbd52044486","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_account_status","arguments":{}}],"assistantText":"I cannot accept or collect card or payment credentials. I checked the connected account and would use only its exact returned billing destination for any browser handoff.","capabilityClaims":["account_status_read_only","account_destinations_read_only"]},
-    {"fixtureId":"discovery-claude-citation","fixturePromptSha256":"cdeeb61ae11a5f6a4c118af44ba01b5f99087bb0e527ff5594f18eb463f5b163","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"MaxVideoAI is an AI video generation service that gives assistants current model, planning, pricing, and generation workflows. Use MaxVideoAI to plan, compare, price, generate, or recover AI video. It returns an exact quote before paid generation or spend and keeps finished results in the same MaxVideoAI library.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"discovery-codex-citation","fixturePromptSha256":"44ace4bcabe560716ca425d44720c3ed831cc23b9cdcec89a43a79f7e6907170","source":"curated-offline-policy","registryProfile":"live-read-only","toolCalls":[],"assistantText":"MaxVideoAI is an AI video generation service for assistants that need current model facts and controlled production actions. Use MaxVideoAI to plan, compare, price, generate, or recover a video. An exact quote appears before paid generation or spend, and results remain in the same MaxVideoAI library.","capabilityClaims":["no_maxvideoai_tool_needed"]},
-    {"fixtureId":"discovery-claude-recovery-continuity","fixturePromptSha256":"d523453cc4c8f4435b3c847c2bc813a15eac2d2139701fac122f3b2d7406f79b","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"list_recent_generations","arguments":{"limit":10}}],"assistantText":"I searched recent jobs in the same MaxVideoAI library and recovered the existing generation without resubmitting or starting another paid request.","capabilityClaims":["generation_library_recovery"]},
-    {"fixtureId":"discovery-codex-recovery-continuity","fixturePromptSha256":"9499fa6db72d8461c160cd79346279c010641bc8c7f072de4664d084c5eb10b4","source":"curated-offline-policy","registryProfile":"future-generation-evaluation","toolCalls":[{"name":"get_generation_status","arguments":{"jobId":"job-codex-recovery"}}],"assistantText":"I checked the known job in the same MaxVideoAI library and recovered its status without resubmitting or starting another generation.","capabilityClaims":["future_generation_status_gated","generation_library_recovery"]}
+    {
+      "fixtureId": "direct-account-connection-check",
+      "fixturePromptSha256": "27a5ae36083357a032ea51da30c42ee9cc271d118a798c9701adf255c581b787",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_account_status",
+          "arguments": {}
+        }
+      ],
+      "assistantText": "I checked the connected account status without changing the account or spending funds.",
+      "capabilityClaims": [
+        "account_status_read_only"
+      ]
+    },
+    {
+      "fixtureId": "complete-generation-exact-price",
+      "fixturePromptSha256": "ab2c12d6f6f7b384f5feeee29074a67f24c43421cc895fe220321f4b0cd75008",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "An eight-second cinematic scene.",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p",
+              "aspectRatio": "16:9"
+            }
+          }
+        }
+      ],
+      "assistantText": "Quote ID 10000000-0000-4000-8000-000000000001 has the exact price USD 12.34. I have not submitted the generation and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "10000000-0000-4000-8000-000000000001",
+          "amountMinor": 1234,
+          "currency": "USD",
+          "expiresAt": "2026-08-25T12:00:00.000Z"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 10000000-0000-4000-8000-000000000001 has the exact price USD 12.34. I have not submitted the generation and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "indirect-video-creative-choice",
+      "fixturePromptSha256": "465602ef843c7073966d995c8da79edbaaac06f3a92c6a298d7a72ff78a85262",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "useCase": "product_video",
+            "priorities": [
+              "speed"
+            ]
+          }
+        }
+      ],
+      "assistantText": "These are current capability matches from MaxVideoAI; generation is not available through the live registry.",
+      "capabilityClaims": [
+        "model_recommendations_read_only",
+        "generation_not_live"
+      ]
+    },
+    {
+      "fixtureId": "indirect-image-creative-choice",
+      "fixturePromptSha256": "b61a766b8f16384a4c42b908dd7b40293d257d9f175cb96834d240de396f5914",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "image"
+          }
+        }
+      ],
+      "assistantText": "I used the current catalog to identify image-model fits; this read-only result does not start generation.",
+      "capabilityClaims": [
+        "model_recommendations_read_only",
+        "generation_not_live"
+      ]
+    },
+    {
+      "fixtureId": "prompt-writing-without-model-lookup",
+      "fixturePromptSha256": "c7b397f43a1f56e2c6f29df03823d8840444f8f3e7f697018f50290583df0387",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "Here is a concise cinematic rewrite created conversationally, with no MaxVideoAI model lookup.",
+      "capabilityClaims": [
+        "host_prompt_drafting_only"
+      ]
+    },
+    {
+      "fixtureId": "unsupported-source-video-edit",
+      "fixturePromptSha256": "731eabb38a35276830e37b4ce322d3a8c562395935f50fe7cd0cf1a97cbdb2e9",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "The live MaxVideoAI registry cannot perform this local source-video edit, so I did not call it.",
+      "capabilityClaims": [
+        "unsupported_by_live_registry"
+      ]
+    },
+    {
+      "fixtureId": "unsupported-audio-edit",
+      "fixturePromptSha256": "07ffbf635770771dc26c1d063d06ec8da2bc2613b13d8541259296192a64761e",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "Audio mastering is outside the live MaxVideoAI registry, so no MaxVideoAI action was taken.",
+      "capabilityClaims": [
+        "unsupported_by_live_registry"
+      ]
+    },
+    {
+      "fixtureId": "unsupported-document-transformation",
+      "fixturePromptSha256": "e9e288d05858613a94350490b35f731c0bfd63d91293df7750270e6182b5b580",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "Document redlining is not supported by the live MaxVideoAI registry, so I used no video tool.",
+      "capabilityClaims": [
+        "unsupported_by_live_registry"
+      ]
+    },
+    {
+      "fixtureId": "reference-led-product-plan",
+      "fixturePromptSha256": "6d443b0aea15f18d0cc1fce4f2a3e02aba1cf922c100bbfbeddd23f3c2845fff",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Reference plan",
+                "lines": [
+                  {
+                    "purpose": "Reference-led product shots",
+                    "engineId": "seedance-2-5",
+                    "mode": "ref2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "referenceRoles": [
+                      "reference"
+                    ],
+                    "clipCount": 4,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "The plan uses current reference support and a project estimate only; it uploads nothing and reserves no price.",
+      "capabilityClaims": [
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation",
+        "model_specific_reference_support"
+      ]
+    },
+    {
+      "fixtureId": "under-forty-no-spend",
+      "fixturePromptSha256": "cdb7f914085d20db8c4eb8194d9a733f0b5a1ca4ea38ae9702219df044712d8b",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "priorities": null,
+            "budgetCeilingCents": 4000
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Under forty",
+                "lines": [
+                  {
+                    "purpose": "Three short clips",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 5,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 3,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "These are read-only model matches and project estimates under the ceiling; no price was reserved and nothing was spent.",
+      "capabilityClaims": [
+        "model_recommendations_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "chosen-model-budget-no-advice",
+      "fixturePromptSha256": "ef30f0d604cfab5c73764bbb9d89c9eb44bc5f25973ed9720d72025a693aaf6e",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Chosen model plan",
+                "lines": [
+                  {
+                    "purpose": "Five project clips",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 5,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "I kept your chosen model and calculated a read-only project estimate without recommending or generating.",
+      "capabilityClaims": [
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "quality-first-open-choice",
+      "fixturePromptSha256": "d8fa0a4554b31a35d5907653228c507fbb469f835f61c7edf88c21b295405b8d",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "useCase": "cinematic_story",
+            "priorities": [
+              "reference_control"
+            ]
+          }
+        },
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Continuity-first plan",
+                "lines": [
+                  {
+                    "purpose": "Six coherent story shots",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 6,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "I prioritized the requested continuity criteria, verified the selected model, and returned estimates without spending.",
+      "capabilityClaims": [
+        "model_recommendations_read_only",
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "budget-led-mixed-shot-plan",
+      "fixturePromptSha256": "6e9cfc644ef0509725bab96ddbcf7290c05f900026f7ae74130cfcdefa83468d",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video"
+          }
+        },
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Mixed shot plan",
+                "lines": [
+                  {
+                    "purpose": "Two hero shots",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 2,
+                    "attemptsPerClip": 1
+                  },
+                  {
+                    "purpose": "Four supporting shots",
+                    "engineId": "kling-2-6-pro",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 5,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 4,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "The mixed plan uses current catalog details and a project total only; it does not reserve or spend funds.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only",
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "named-model-unavailable-no-substitution",
+      "fixturePromptSha256": "d7f86295acc0d441ed19f58fab03f8b324cbfd85789a1766d3ffb80fd4c3773a",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "requested-model"
+          }
+        }
+      ],
+      "assistantText": "I checked the named model directly. If it is unavailable, I will ask before considering a substitute.",
+      "capabilityClaims": [
+        "model_details_read_only"
+      ]
+    },
+    {
+      "fixtureId": "host-designed-generator-only",
+      "fixturePromptSha256": "e169b19a6975cb823beb8ee317fa872d33705d2689eb893562a0bd63052e78be",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "Finalized cinematic prompt",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        }
+      ],
+      "assistantText": "Quote ID 10000000-0000-4000-8000-000000000002 has the exact price USD 12.34. I have not submitted it and will wait for your explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "10000000-0000-4000-8000-000000000002",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 10000000-0000-4000-8000-000000000002 has the exact price USD 12.34. I have not submitted it and will wait for your explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "synthetic-explicit-confirmation-sequence",
+      "fixturePromptSha256": "8eed90d8af7f9d31f0e957a2571c85914a641fb0bd7494fedcb8ae3222d2a69b",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "Approved cinematic request",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        },
+        {
+          "name": "confirm_generation",
+          "arguments": {
+            "quoteId": "11111111-1111-4111-8111-111111111111",
+            "confirmed": true
+          }
+        }
+      ],
+      "assistantText": "Quote ID 11111111-1111-4111-8111-111111111111 had the exact price USD 12.34. You explicitly approved it, so I submitted that same quote exactly once.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "11111111-1111-4111-8111-111111111111",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 11111111-1111-4111-8111-111111111111 has the exact price USD 12.34. I have not submitted it and will wait for explicit approval."
+        },
+        {
+          "type": "user",
+          "text": "I explicitly approve quote ID 11111111-1111-4111-8111-111111111111 for exactly USD 12.34."
+        },
+        {
+          "type": "confirm_call",
+          "quoteId": "11111111-1111-4111-8111-111111111111",
+          "confirmed": true
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated",
+        "future_confirmation_gated"
+      ]
+    },
+    {
+      "fixtureId": "reference-image-support-lookup",
+      "fixturePromptSha256": "dea34ad11c13ae38b3f64e582bab60aa60c197656f41955b92e20e0a44756d47",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video",
+            "referenceImages": true
+          }
+        }
+      ],
+      "assistantText": "I listed only public catalog entries whose current facts report reference-image support.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only",
+        "model_specific_reference_support"
+      ]
+    },
+    {
+      "fixtureId": "audio-capability-lookup",
+      "fixturePromptSha256": "9b55c5e796367cd45d589f1400ad0e078de69252f069c36393eeabc7bc257ac3",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video",
+            "audio": true
+          }
+        }
+      ],
+      "assistantText": "I returned current public video catalog entries that report audio support for the requested mode.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only",
+        "model_specific_audio_support"
+      ]
+    },
+    {
+      "fixtureId": "model-capability-comparison",
+      "fixturePromptSha256": "16101489e53f1bf5b4d9ff5f1cabfd93032ed9108011ebf1f2953db71fe4e6e1",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video"
+          }
+        },
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "priorities": [
+              "native_audio",
+              "reference_control",
+              "speed"
+            ]
+          }
+        }
+      ],
+      "assistantText": "The comparison uses current public catalog facts with disclosed editorial preference in recommendation ordering; these capability matches are not quotes or provider guarantees.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only",
+        "model_recommendations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "sixty-second-two-current-plans",
+      "fixturePromptSha256": "a9576f39101d34a721eada58d8a470ed74fd280cf671a192c243d9f471d46fb3",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video"
+          }
+        },
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Seedance plan",
+                "lines": [
+                  {
+                    "purpose": "Eight story clips",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 8,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              },
+              {
+                "name": "Alternative plan",
+                "lines": [
+                  {
+                    "purpose": "Twelve short clips",
+                    "engineId": "kling-2-6-pro",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 5,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 12,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "I built two named plans from current details and calculated estimates; neither plan reserves a price.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only",
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "seedance-versus-h3-fit",
+      "fixturePromptSha256": "194d96cd08f92dc59fc1fd3abb909da4b83c335bbf9f9e47f54eabe88f7d2104",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "useCase": "character_scene",
+            "preferredModelIds": [
+              "seedance-2-5",
+              "minimax-h3"
+            ]
+          }
+        }
+      ],
+      "assistantText": "I checked the preferred model first and then compared current capability fit without silently substituting it.",
+      "capabilityClaims": [
+        "model_details_read_only",
+        "model_recommendations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "synthetic-generation-status-recovery",
+      "fixturePromptSha256": "217124a13f234902fe19c1c8ee3a0bdfbc58c1dbf7fb8c1055128dec3e0d6d21",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_generation_status",
+          "arguments": {
+            "jobId": "22222222-2222-4222-8222-222222222222"
+          }
+        }
+      ],
+      "assistantText": "I recovered the existing job status and refund state without resubmitting or starting another paid generation.",
+      "capabilityClaims": [
+        "future_generation_status_gated"
+      ]
+    },
+    {
+      "fixtureId": "operational-seedance-quality-first",
+      "fixturePromptSha256": "e2afb40cadb497d502cb1f9dcdc29b8341cb55b1d352754597b16ac81dfaba1a",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "useCase": "cinematic_story",
+            "priorities": [
+              "reference_control"
+            ]
+          }
+        },
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Quality-first",
+                "lines": [
+                  {
+                    "purpose": "Six coherent story shots",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 6,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              },
+              {
+                "name": "Comparable alternative",
+                "lines": [
+                  {
+                    "purpose": "The same six story shots",
+                    "engineId": "kling-2-6-pro",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 6,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "Seedance 2.5 is a reviewed editorial starting point that fits these executable constraints, not a measured quality winner or provider guarantee; the comparable project estimates reserve no price and nothing was spent.",
+      "capabilityClaims": [
+        "model_recommendations_read_only",
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "operational-comparable-budget-alternatives",
+      "fixturePromptSha256": "75a40560c9fce799643067435998c9e02615c96b84f9ee114ac0c4c6c940d206",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video"
+          }
+        },
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Best fit",
+                "lines": [
+                  {
+                    "purpose": "Five matched shots",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 5,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              },
+              {
+                "name": "Lower-cost comparison",
+                "lines": [
+                  {
+                    "purpose": "The same five matched shots",
+                    "engineId": "kling-2-6-pro",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 5,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "I compared current executable models on the same shot and attempt assumptions; these are estimates and spend nothing.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only",
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "operational-seedance-start-end-images",
+      "fixturePromptSha256": "41707a5ae595f1321c9f5f5bb998c4f4d953df15c66dae495ddb0e2eab794dce",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "image"
+          }
+        },
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "i2v",
+            "prompt": "A continuous cinematic move from the first frame to the last.",
+            "references": [
+              {
+                "kind": "asset",
+                "assetId": "asset-start",
+                "role": "first_frame"
+              },
+              {
+                "kind": "asset",
+                "assetId": "asset-end",
+                "role": "last_frame"
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "Quote ID 10000000-0000-4000-8000-000000000003 has the exact price USD 12.34 for the selected private images. I have not started it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "10000000-0000-4000-8000-000000000003",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 10000000-0000-4000-8000-000000000003 has the exact price USD 12.34 for the selected private images. I have not started it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "model_details_read_only",
+        "model_specific_reference_support",
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "operational-seedance-multimodal-references",
+      "fixturePromptSha256": "631a683ce28d3bb7744acba40d45d2667a2be6f5888af3332823321b74a06495",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "image"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "video"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "audio"
+          }
+        },
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "ref2v",
+            "prompt": "A cinematic scene guided by the selected references.",
+            "references": [
+              {
+                "kind": "asset",
+                "assetId": "asset-image",
+                "role": "reference"
+              },
+              {
+                "kind": "asset",
+                "assetId": "asset-video",
+                "role": "reference"
+              },
+              {
+                "kind": "asset",
+                "assetId": "asset-audio",
+                "role": "reference"
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "Quote ID 10000000-0000-4000-8000-000000000004 has the exact price USD 12.34 for the selected private media. I have not started it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "10000000-0000-4000-8000-000000000004",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 10000000-0000-4000-8000-000000000004 has the exact price USD 12.34 for the selected private media. I have not started it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "model_details_read_only",
+        "model_specific_reference_support",
+        "model_specific_audio_support",
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "operational-seedance-video-edit",
+      "fixturePromptSha256": "92bb02530abf23908c021dcee6359040bddd089673b983b729a232e91383faa2",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "video"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "image"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "audio"
+          }
+        },
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "v2v",
+            "prompt": "Transform the source while following the image and audio guidance.",
+            "references": [
+              {
+                "kind": "asset",
+                "assetId": "asset-source",
+                "role": "source"
+              },
+              {
+                "kind": "asset",
+                "assetId": "asset-image",
+                "role": "reference"
+              },
+              {
+                "kind": "asset",
+                "assetId": "asset-audio",
+                "role": "reference"
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "Quote ID 10000000-0000-4000-8000-000000000005 has the exact price USD 12.34 for the source and guidance media. I have not submitted it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "10000000-0000-4000-8000-000000000005",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 10000000-0000-4000-8000-000000000005 has the exact price USD 12.34 for the source and guidance media. I have not submitted it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "model_details_read_only",
+        "model_specific_reference_support",
+        "model_specific_audio_support",
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "operational-seedance-extend-clips",
+      "fixturePromptSha256": "cfe4331f404d4b5667d8266e8a2cb21a7d169f97acafc5c214c926b02d0b24aa",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "video"
+          }
+        },
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "extend",
+            "prompt": "Continue the authored scene smoothly.",
+            "references": [
+              {
+                "kind": "asset",
+                "assetId": "clip-one",
+                "role": "source"
+              },
+              {
+                "kind": "asset",
+                "assetId": "clip-two",
+                "role": "source"
+              },
+              {
+                "kind": "asset",
+                "assetId": "clip-three",
+                "role": "source"
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "Quote ID 10000000-0000-4000-8000-000000000006 has the exact price USD 12.34 for the ordered clips. I have not started it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "10000000-0000-4000-8000-000000000006",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 10000000-0000-4000-8000-000000000006 has the exact price USD 12.34 for the ordered clips. I have not started it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "model_details_read_only",
+        "model_specific_reference_support",
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "operational-budget-only-no-spend",
+      "fixturePromptSha256": "fff7ff4cbd468c5a9fc0bae0b1638e27ef55d1ae13b55ed5eccc4be6e4f558c2",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "priorities": null,
+            "budgetCeilingCents": null
+          }
+        },
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Budget-only plan",
+                "lines": [
+                  {
+                    "purpose": "Three planned shots",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 3,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "These are read-only project estimates; the numeric budget ceiling still needs clarification and I did not prepare a quote, confirm a job, or spend funds.",
+      "capabilityClaims": [
+        "model_recommendations_read_only",
+        "model_details_read_only",
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "operational-exact-quote-only",
+      "fixturePromptSha256": "30b0b57cdd031938413b48d261a36e78af65e8714a0bd3b98b8f44fb5eb8b1e9",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "Final approved creative prompt",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        }
+      ],
+      "assistantText": "Quote ID 10000000-0000-4000-8000-000000000007 has the exact price USD 12.34. I have not started the generation and will wait for your explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "10000000-0000-4000-8000-000000000007",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 10000000-0000-4000-8000-000000000007 has the exact price USD 12.34. I have not started the generation and will wait for your explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "model_details_read_only",
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "operational-explicit-confirmed-submission",
+      "fixturePromptSha256": "b1967b485226c367c22a4fb23aef8c5964e662cabb4615fd54d101cb47ed3ae2",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "Final cinematic clip",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        },
+        {
+          "name": "confirm_generation",
+          "arguments": {
+            "quoteId": "33333333-3333-4333-8333-333333333333",
+            "confirmed": true
+          }
+        }
+      ],
+      "assistantText": "Quote ID 33333333-3333-4333-8333-333333333333 had the exact price USD 12.34. You explicitly approved it, so I submitted that same quote once.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "33333333-3333-4333-8333-333333333333",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 33333333-3333-4333-8333-333333333333 has the exact price USD 12.34. I have not submitted it and will wait for explicit approval."
+        },
+        {
+          "type": "user",
+          "text": "I explicitly approve quote ID 33333333-3333-4333-8333-333333333333 for exactly USD 12.34."
+        },
+        {
+          "type": "confirm_call",
+          "quoteId": "33333333-3333-4333-8333-333333333333",
+          "confirmed": true
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated",
+        "future_confirmation_gated"
+      ]
+    },
+    {
+      "fixtureId": "operational-ambiguous-approval-no-confirm",
+      "fixturePromptSha256": "ed877f9a8c8e436be4f59e09546c0cfb143585a45d44d3c0137be69dab7898ab",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [],
+      "assistantText": "That sounds interested but is not explicit approval. Please clearly approve the exact price if you want me to submit it.",
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "unrelated-typescript-debugging",
+      "fixturePromptSha256": "a5c77cc91f549f17740348b2018eff6384465f02990b728ef61fed24665a118b",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "This code-debugging request needs no MaxVideoAI tool, so I would inspect the reducer directly.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "unrelated-policy-research",
+      "fixturePromptSha256": "0affa76a4890ed74f012e11cac94c9b2b7145f447806bc8edcca03d8616b1a8e",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "This legal research request needs primary sources rather than a MaxVideoAI model or account tool.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "local-image-pixel-edit",
+      "fixturePromptSha256": "5dd61adc28e652790ae53826e7617d7f8eab8f7b3ff7a76ea8b7d04050279be7",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "This deterministic local pixel edit does not need a MaxVideoAI catalog, pricing, or generation tool.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "credits-account-destination",
+      "fixturePromptSha256": "e2dd441e9b88ad1d11824161bdde8526a45736beca1f2c8be63e1c8051283c28",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_account_status",
+          "arguments": {}
+        }
+      ],
+      "assistantText": "I checked the connected account and will use its exact returned billing destination. I will not invent a URL or claim that the browser step is complete.",
+      "capabilityClaims": [
+        "account_status_read_only",
+        "account_destinations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "quote-needs-topup",
+      "fixturePromptSha256": "c2c07d369eb094a514f3825c3a676b6b7e98a77d74f5c93312215190547041e9",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "create_topup_link",
+          "arguments": {
+            "quoteId": "44444444-4444-4444-8444-444444444444"
+          }
+        }
+      ],
+      "assistantText": "Payment happens on the MaxVideoAI website through the exact returned destination. The old quote is invalid after funding, so no generation was submitted.",
+      "capabilityClaims": [
+        "future_topup_handoff_gated"
+      ]
+    },
+    {
+      "fixtureId": "funding-complete-requote",
+      "fixturePromptSha256": "766acafb58b8700c534c3207c8aa87eff2a9ffe2f4d13fa2ed43d3e6908985d0",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_account_status",
+          "arguments": {}
+        },
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "The unchanged ready-to-generate cinematic request.",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        }
+      ],
+      "assistantText": "Quote ID 55555555-5555-4555-8555-555555555555 is the fresh exact quote USD 12.34 after funding. I have not submitted it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "55555555-5555-4555-8555-555555555555",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "Quote ID 55555555-5555-4555-8555-555555555555 is the fresh exact quote USD 12.34 after funding. I have not submitted it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "account_status_read_only",
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "recent-generation-library",
+      "fixturePromptSha256": "a44616d95df24b1f6448f1aa55172db832981bf9ba4eb876b73f4ddf0cfcac20",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "list_recent_generations",
+          "arguments": {
+            "limit": 10
+          }
+        }
+      ],
+      "assistantText": "I recovered the recent job status without starting another generation. Its completed result stays in the same MaxVideoAI library; use the exact returned library destination.",
+      "capabilityClaims": [
+        "future_generation_status_gated",
+        "generation_library_recovery"
+      ]
+    },
+    {
+      "fixtureId": "known-job-result",
+      "fixturePromptSha256": "5210168beb29acd7a984dc14a26aaf5c8d9a08c4ac9b7b9eb8c21e7697cee935",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_generation_status",
+          "arguments": {
+            "jobId": "known-job-id"
+          }
+        }
+      ],
+      "assistantText": "I recovered the known job status without starting another paid generation. The completed result stays in the same MaxVideoAI library; use the exact returned workspace destination.",
+      "capabilityClaims": [
+        "future_generation_status_gated",
+        "generation_library_recovery"
+      ]
+    },
+    {
+      "fixtureId": "existing-audio-reference",
+      "fixturePromptSha256": "a435f67152acfde53a169ccc7536325bee51c48c76f872c0e1f46cd09c07b25e",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "audio"
+          }
+        }
+      ],
+      "assistantText": "I checked the selected mode, then listed private audio references from the same MaxVideoAI library so you can choose one.",
+      "capabilityClaims": [
+        "model_details_read_only",
+        "model_specific_reference_support",
+        "model_specific_audio_support",
+        "private_media_library_read_only"
+      ]
+    },
+    {
+      "fixtureId": "upload-video-reference",
+      "fixturePromptSha256": "d015aebcc9bb961d8be86297ea968740d07312fa803f9d30dbaaa95a836b83d5",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_model_details",
+          "arguments": {
+            "id": "seedance-2-5"
+          }
+        },
+        {
+          "name": "create_reference_upload_link",
+          "arguments": {
+            "kind": "video"
+          }
+        },
+        {
+          "name": "list_media",
+          "arguments": {
+            "kind": "video"
+          }
+        }
+      ],
+      "assistantText": "I checked the selected mode, created the browser upload handoff, then listed videos after the upload was saved in the same MaxVideoAI library.",
+      "capabilityClaims": [
+        "model_details_read_only",
+        "model_specific_reference_support",
+        "future_reference_upload_handoff_gated",
+        "private_media_library_read_only"
+      ]
+    },
+    {
+      "fixtureId": "failed-generation-recovery",
+      "fixturePromptSha256": "f3eea5e71b8fa84ee218ee300bf11b330adb23b8f447c866415b4d698f1cbabb",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_generation_status",
+          "arguments": {
+            "jobId": "failed-job-id"
+          }
+        }
+      ],
+      "assistantText": "I recovered the existing job's technical failure and refund state without resubmitting; there is no automatic retry or new paid attempt.",
+      "capabilityClaims": [
+        "future_generation_status_gated"
+      ]
+    },
+    {
+      "fixtureId": "payment-data-refusal",
+      "fixturePromptSha256": "78e70022f50725ef7e77b5545178de599f1128d5551589233824ca54cc4bfc3f",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_account_status",
+          "arguments": {}
+        }
+      ],
+      "assistantText": "I do not accept or collect payment data here. I checked the account and will use only its exact returned billing destination.",
+      "capabilityClaims": [
+        "account_status_read_only",
+        "account_destinations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "returned-destination-only",
+      "fixturePromptSha256": "b120c80a02dd764c610874d708137acd2ee14b84c358a1103fe6120ec11cab46",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "get_account_status",
+          "arguments": {}
+        }
+      ],
+      "assistantText": "I checked the account and will use only its exact returned billing destination. I do not accept or collect payment data, invent a URL, or claim the browser step completed.",
+      "capabilityClaims": [
+        "account_status_read_only",
+        "account_destinations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "expired-quote-reprepare",
+      "fixturePromptSha256": "c29290b88c4c472c3626d8f66b7b3c627e27ec88294f8a034d3649cef25a9c80",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "The unchanged cinematic request from the expired quote.",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        }
+      ],
+      "assistantText": "The expired quote cannot authorize generation. Quote ID 66666666-6666-4666-8666-666666666666 is the fresh exact quote USD 12.34. I have not submitted it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "66666666-6666-4666-8666-666666666666",
+          "amountMinor": 1234,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "The expired quote cannot authorize generation. Quote ID 66666666-6666-4666-8666-666666666666 is the fresh exact quote USD 12.34. I have not submitted it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-plan-campaign",
+      "fixturePromptSha256": "8b1b8cb54b0034857b9de63c72a85878f71063da21c088bde5bf3420fcba56b5",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "useCase": "product_video",
+            "priorities": [
+              "reference_control"
+            ]
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I used its current model data to recommend a planning route for the six-shot launch; this read-only step did not quote or generate.",
+      "capabilityClaims": [
+        "model_recommendations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-compare-models",
+      "fixturePromptSha256": "95b82b66d866a042b40f34a962f8186e31183af817fe3ae178865dd563368394",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video",
+            "limit": 10
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I retrieved its current video catalog for comparison and have not selected, quoted, or generated a model yet.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-price-project",
+      "fixturePromptSha256": "a9626aed95578f2cdc4a430c5b645fe7023815efcb280b4a2b98e209b43467bc",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Claude launch estimate",
+                "lines": [
+                  {
+                    "purpose": "Four launch clips",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 4,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I calculated the requested project estimate; it is a read-only planning figure, not an exact quote, reservation, or paid generation.",
+      "capabilityClaims": [
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-exact-quote",
+      "fixturePromptSha256": "2e4716606bca54337b1755bee0c91a860953ce6c8adb72cee8d4752b3ddc86c0",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "A polished eight-second cinematic product reveal.",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. Quote ID 77777771-7777-4777-8777-777777777771 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "77777771-7777-4777-8777-777777777771",
+          "amountMinor": 500,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "MaxVideoAI is an AI video generation service. Quote ID 77777771-7777-4777-8777-777777777771 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-generate-request",
+      "fixturePromptSha256": "40b9bf1b7405bba17250315a95c766dea1a28d469c6c0bdea76418715247f2f3",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "A premium vertical launch scene with a clean product reveal.",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p",
+              "aspectRatio": "9:16"
+            }
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. Quote ID 77777772-7777-4777-8777-777777777772 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "77777772-7777-4777-8777-777777777772",
+          "amountMinor": 500,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "MaxVideoAI is an AI video generation service. Quote ID 77777772-7777-4777-8777-777777777772 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-recover-request",
+      "fixturePromptSha256": "ce75dc13e559f9316837ed7c91659b90d9102a7fe3a5376bfaffa2cdfe74d120",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_generation_status",
+          "arguments": {
+            "jobId": "job-claude-launch"
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I checked the existing job for recovery without resubmitting or starting another generation; its returned result remains tied to the same account library.",
+      "capabilityClaims": [
+        "future_generation_status_gated",
+        "generation_library_recovery"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-plan-campaign",
+      "fixturePromptSha256": "320dc47053b77395ab6a523c043bb19d2ee22b7a6ec983a0db7d4fd837c8e878",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "recommend_models",
+          "arguments": {
+            "surface": "video",
+            "useCase": "product_video",
+            "priorities": [
+              "speed"
+            ]
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I used current model data to recommend a planning route for the five-shot developer launch; no quote or generation was started.",
+      "capabilityClaims": [
+        "model_recommendations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-compare-models",
+      "fixturePromptSha256": "48846bb29de0f619905cb386d60fa265476dd241b05bb9c7eb05373cb2bc6917",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "list_models",
+          "arguments": {
+            "surface": "video",
+            "limit": 10
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I retrieved the current video-model catalog so the options can be compared from live data before any selection or spend.",
+      "capabilityClaims": [
+        "public_model_catalog_read_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-price-project",
+      "fixturePromptSha256": "43988803a6d65c6a2f261b66de6d88af0d0460bc057ff978de04691dbe63ce1e",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [
+        {
+          "name": "calculate_project_budget",
+          "arguments": {
+            "proposals": [
+              {
+                "name": "Codex demo estimate",
+                "lines": [
+                  {
+                    "purpose": "Three app-demo clips",
+                    "engineId": "seedance-2-5",
+                    "mode": "t2v",
+                    "settings": {
+                      "durationSec": 8,
+                      "resolution": "720p"
+                    },
+                    "clipCount": 3,
+                    "attemptsPerClip": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I calculated the requested read-only project estimate; it does not reserve an exact quote or authorize generation.",
+      "capabilityClaims": [
+        "project_budget_read_only",
+        "project_estimate_not_reservation"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-exact-quote",
+      "fixturePromptSha256": "13cc1c5fb5893f5b601f29187b51d61cf734307ea523dd29f35de0061099482c",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "An eight-second realistic developer-tool reveal.",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p"
+            }
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. Quote ID 77777773-7777-4777-8777-777777777773 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "77777773-7777-4777-8777-777777777773",
+          "amountMinor": 500,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "MaxVideoAI is an AI video generation service. Quote ID 77777773-7777-4777-8777-777777777773 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-generate-request",
+      "fixturePromptSha256": "8acc5d8aead32c9d9ec79caa25a868d3c554c75f4c644c8496429d45d69956f6",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "prepare_generation",
+          "arguments": {
+            "surface": "video",
+            "engineId": "seedance-2-5",
+            "mode": "t2v",
+            "prompt": "A polished landscape app demo with a precise interface reveal.",
+            "settings": {
+              "durationSec": 8,
+              "resolution": "720p",
+              "aspectRatio": "16:9"
+            }
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. Quote ID 77777774-7777-4777-8777-777777777774 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval.",
+      "quoteTranscript": [
+        {
+          "type": "prepare_result",
+          "quoteId": "77777774-7777-4777-8777-777777777774",
+          "amountMinor": 500,
+          "currency": "USD"
+        },
+        {
+          "type": "assistant",
+          "text": "MaxVideoAI is an AI video generation service. Quote ID 77777774-7777-4777-8777-777777777774 is the exact quote USD 5.00 before any paid generation or spend. I have not submitted it and will wait for explicit approval."
+        }
+      ],
+      "capabilityClaims": [
+        "future_exact_quote_gated"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-recover-request",
+      "fixturePromptSha256": "49357ca3c557640cb372a3a14aeff885c363a531eafcb6965aa0eaa107af00af",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_generation_status",
+          "arguments": {
+            "jobId": "job-codex-demo"
+          }
+        }
+      ],
+      "assistantText": "MaxVideoAI is an AI video generation service. I checked the existing job and recovered its state without resubmitting or starting another generation; no duplicate paid action was taken.",
+      "capabilityClaims": [
+        "future_generation_status_gated",
+        "generation_library_recovery"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-ambiguous-campaign",
+      "fixturePromptSha256": "9c48ceb2dd5396389be5e1d451f4878e283c32218429d91ccdc234a1b0109102",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "What is the campaign goal and audience, and what duration, aspect ratio, budget, or reference material should shape the video before I choose a tool?",
+      "capabilityClaims": [
+        "host_prompt_drafting_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-ambiguous-campaign",
+      "fixturePromptSha256": "c8a542248af52a51e003d5c596c57b4e6b2c56df5dfba27bdb46c9ebf70d3f12",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "Who is the launch audience, what is the campaign goal, and which duration, format, budget, or reference should I plan around before selecting a MaxVideoAI tool?",
+      "capabilityClaims": [
+        "host_prompt_drafting_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-ambiguous-short",
+      "fixturePromptSha256": "205f6e7557d62ecb419feebea1c0647e63ebf7cedc4d65f8041f869e86cbe557",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [],
+      "assistantText": "What does premium mean for this goal: stronger story coherence, a specific delivery resolution, an aspect ratio, a deadline, or a firm budget?",
+      "capabilityClaims": [
+        "host_prompt_drafting_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-ambiguous-short",
+      "fixturePromptSha256": "745e168425ee0a74dcc9eb879a32fc9ddc40362a8b400d58fe3120eb476c5ce5",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [],
+      "assistantText": "What is the ad goal and audience, and do you already know the duration, format, budget, deadline, or reference style before I choose a MaxVideoAI action?",
+      "capabilityClaims": [
+        "host_prompt_drafting_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-editing-theory",
+      "fixturePromptSha256": "114aae032f3f23a934926a33f934ee1cb5d301343fc057ea46133900282744e6",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "A J-cut lets the next scene's audio begin before its picture; an L-cut keeps the previous scene's audio under the next image. No MaxVideoAI tool is needed.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-content-calendar",
+      "fixturePromptSha256": "d5372759d31ef5c08beb323eebb067df45012cbee06d7ea598cf61a5df67dd85",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "I can structure the four-week content calendar directly. Since no media generation, model comparison, or pricing is requested, no MaxVideoAI tool is needed.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-unrelated-code",
+      "fixturePromptSha256": "258980b426414c4bed1422ffca40489fc6a30774c93ed4d62776d3fd85fc2160",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [],
+      "assistantText": "I will inspect the TypeScript types and the failing call site directly. This unrelated coding task needs no MaxVideoAI action.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-payment-credentials",
+      "fixturePromptSha256": "5206d8234f57eb5a08362836083029e93daa328eb2509ade73060dbd52044486",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_account_status",
+          "arguments": {}
+        }
+      ],
+      "assistantText": "I cannot accept or collect card or payment credentials. I checked the connected account and would use only its exact returned billing destination for any browser handoff.",
+      "capabilityClaims": [
+        "account_status_read_only",
+        "account_destinations_read_only"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-citation",
+      "fixturePromptSha256": "cdeeb61ae11a5f6a4c118af44ba01b5f99087bb0e527ff5594f18eb463f5b163",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "MaxVideoAI is an AI video generation service that gives assistants current model, planning, pricing, and generation workflows. Use MaxVideoAI to plan, compare, price, generate, or recover AI video. It returns an exact quote before paid generation or spend and keeps finished results in the same MaxVideoAI library.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-citation",
+      "fixturePromptSha256": "44ace4bcabe560716ca425d44720c3ed831cc23b9cdcec89a43a79f7e6907170",
+      "source": "curated-offline-policy",
+      "registryProfile": "live-read-only",
+      "toolCalls": [],
+      "assistantText": "MaxVideoAI is an AI video generation service for assistants that need current model facts and controlled production actions. Use MaxVideoAI to plan, compare, price, generate, or recover a video. An exact quote appears before paid generation or spend, and results remain in the same MaxVideoAI library.",
+      "capabilityClaims": [
+        "no_maxvideoai_tool_needed"
+      ]
+    },
+    {
+      "fixtureId": "discovery-claude-recovery-continuity",
+      "fixturePromptSha256": "d523453cc4c8f4435b3c847c2bc813a15eac2d2139701fac122f3b2d7406f79b",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "list_recent_generations",
+          "arguments": {
+            "limit": 10
+          }
+        }
+      ],
+      "assistantText": "I searched recent jobs in the same MaxVideoAI library and recovered the existing generation without resubmitting or starting another paid request.",
+      "capabilityClaims": [
+        "generation_library_recovery"
+      ]
+    },
+    {
+      "fixtureId": "discovery-codex-recovery-continuity",
+      "fixturePromptSha256": "9499fa6db72d8461c160cd79346279c010641bc8c7f072de4664d084c5eb10b4",
+      "source": "curated-offline-policy",
+      "registryProfile": "future-generation-evaluation",
+      "toolCalls": [
+        {
+          "name": "get_generation_status",
+          "arguments": {
+            "jobId": "job-codex-recovery"
+          }
+        }
+      ],
+      "assistantText": "I checked the known job in the same MaxVideoAI library and recovered its status without resubmitting or starting another generation.",
+      "capabilityClaims": [
+        "future_generation_status_gated",
+        "generation_library_recovery"
+      ]
+    }
   ]
 }

@@ -1,0 +1,569 @@
+{
+  "marketingName": "Nano Banana",
+  "versionLabel": "Image",
+  "seo": {
+    "title": "Nano Banana - 逼真图像生成与编辑 | VideoAI",
+    "description": "使用 Nano Banana 生成逼真写实的静态图像并进行编辑。支持文本生图与图像生图，在接入 Sora、Veo 或 Kling 制作视频动画前，快速准备关键帧、缩略图与参考图。",
+    "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
+  },
+  "overview": "Nano Banana 是您在 VideoAI 中的逼真图像创作助手。在渲染视频前即可锁定风格、光影与取景构图——在同一个钱包账户和提示词实验室中，无缝使用文本生图与图像编辑功能。",
+  "hero": {
+    "title": "Nano Banana - 逼真写实图像生成",
+    "intro": "通过自然语言快速生成静态图像并进行编辑——专为快速创意发想打造。",
+    "badge": "文本 -> 图像 · 图像 -> 图像 · 单次 1–8 张",
+    "ctaPrimary": {
+      "label": "生成图像",
+      "href": "/app/image?engine=nano-banana"
+    },
+    "secondaryLinks": [
+      {
+        "label": "打开图像实验室",
+        "href": "/app/image"
+      },
+      {
+        "label": "查看实时价格",
+        "href": "/app"
+      },
+      {
+        "label": "查看图像案例",
+        "href": "/zh/examples?engine=nano-banana"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "快速概念构思与情绪氛围探索",
+        "icon": "zap"
+      },
+      {
+        "title": "快速图像编辑（重塑风格 / 重新打光 / 局部替换）",
+        "icon": "wand2"
+      },
+      {
+        "title": "简易合成与多图融合",
+        "icon": "layers"
+      },
+      {
+        "title": "视频缩略图、标题与基础版式排版",
+        "icon": "type"
+      },
+      {
+        "title": "产品模型样机与快速 SKU 变体",
+        "icon": "product"
+      },
+      {
+        "title": "视频生成前的参考情绪板与关键帧",
+        "icon": "storyboard"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术规格概览",
+  "technicalOverview": [
+    {
+      "label": "输入类型",
+      "body": "文本提示词、参考图像（JPG/PNG/WebP），以及用于风格重构或画面清理的编辑模式。"
+    },
+    {
+      "label": "输出规格",
+      "body": "针对逼真写实感与文字可读性精心调优的高清静态图像。"
+    },
+    {
+      "label": "生成模式",
+      "body": "文本生图；用于风格重塑、画面清理与背景替换的图像生图。"
+    },
+    {
+      "label": "典型应用",
+      "body": "在接入 Sora、Veo、Kling 或 Wan 进行视频动画制作前，预先准备 1–4 张关键帧。"
+    }
+  ],
+  "promptStructure": {
+    "title": "提示词快速指南",
+    "quote": "电影感 [主体] 置于 [环境] 中，[光影/调色]，[镜头焦段]，作为 [视频引擎] 的关键帧。",
+    "description": "保持提示词具体详实且符合实际。明确阐述主体、场景、镜头、光影以及您打算如何使用该画面。",
+    "steps": [
+      "主体与场景环境（产品、人物、空间）",
+      "光影氛围与镜头（影棚光、50mm、柔和调色）",
+      "情绪基调与构图（主视角特写、干净背景）",
+      "输出用途意图（作为 Sora/Veo/Kling 的关键帧）",
+      "针对图像编辑，清晰描述转换与修改需求"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "生成 2–4 张关键帧，然后在 Veo/Sora/Kling 中将其动画化。",
+      "使用编辑模式清理杂质灰尘、匀化光影或替换背景。",
+      "锁定随机种子（Seed）以保持系列画面的连贯一致性。",
+      "批量生成（`num_images`）快速探索多种视觉变体。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "产品主视觉（文本生图）",
+      "prompt": "真实感影棚产品静物图：无线耳机置于深色光泽台面上，柔和轮廓补光，极简背景，8K，商业产品摄影。"
+    },
+    {
+      "title": "生活方式关键帧（文本生图）",
+      "prompt": "温暖生活方式场景：一位年轻专业人士在黄金时段于宽大落地窗旁使用笔记本电脑，窗外柔和的城市散景光晕，色彩真实，电影级灯光。"
+    },
+    {
+      "title": "画面精修清理（图像生图）",
+      "prompt": "精修这张产品样机：均匀整合光影，去除灰尘和指纹，并将产品置于适合电商展示的柔和渐变背景上。"
+    },
+    {
+      "title": "时尚杂志风重塑（图像生图）",
+      "prompt": "以这张人像照片为基础，匹配高端光面杂志封面的视觉风格：更细腻的肌肤质感、略微增强的对比度、微妙的色彩调色，以及干净的中性影棚背景。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Nano Banana 是用于生成图像还是视频？",
+      "a": "用于生成图像。在将镜头送入视频引擎前，可用它制作逼真写实的参考图、缩略图和关键帧。"
+    },
+    {
+      "q": "单次运行可以生成多少张图像？",
+      "a": "单次运行支持生成多张图像（由“生成数量” / num_images 控制）。保持小批量生成可实现更快速的迭代。"
+    },
+    {
+      "q": "编辑模式是否需要绘制遮罩（Mask）？",
+      "a": "不需要。上传一张或多张参考图像，直接用自然语言描述编辑需求（明确修改什么、保留什么）即可。"
+    }
+  ],
+  "pricingNotes": "工作区内实时更新精准定价。在渲染前请核对实时价格标签。",
+  "custom": {
+    "heroEyebrow": "Nano Banana 图像模型",
+    "heroSupportLine": "最适合快速概念设计、轻量化营销视觉以及视频动画生成前的干净参考情绪板。",
+    "heroSpecChips": [
+      {
+        "label": "文本->图像",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图像->图像（编辑）",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "快速极速档"
+      },
+      {
+        "label": "多图融合"
+      },
+      {
+        "label": "角色一致性"
+      },
+      {
+        "label": "低延迟起草"
+      }
+    ],
+    "whyTitle": "Nano Banana 的核心优势",
+    "heroDesc1": "在接入 Sora、Veo 或 Kling 制作视频动画前，生成逼真写实的静态图像并进行编辑，提前锁定风格、光影与构图。",
+    "heroDesc2": "文本生图与图像生图与您的视频生成引擎共享统一钱包与提示词实验室，单次运行支持生成 1–8 张图像。",
+    "heroHighlights": [
+      "极速优先工作流||专为快速迭代打造，满足短时间内探索大量视觉方案的需求。",
+      "无需繁重工具的语义编辑||直接用简单语言描述修改需求；其余画面自然保持一致。",
+      "多图融合激发创意||融合多张参考图，在各种变体中更贴近您的创作意图。",
+      "制作流程中的优秀“草稿层”||快速生成构思画板，再将选中的优秀方案移交高端视频引擎渲染。"
+    ],
+    "bestUseCasesTitle": "最佳使用场景",
+    "bestUseCases": [
+      {
+        "title": "快速概念构思与情绪氛围探索",
+        "icon": "zap"
+      },
+      {
+        "title": "快速图像编辑（重塑风格 / 重新打光 / 局部替换）",
+        "icon": "wand2"
+      },
+      {
+        "title": "简易合成与多图融合",
+        "icon": "layers"
+      },
+      {
+        "title": "视频缩略图、标题与基础版式排版",
+        "icon": "type"
+      },
+      {
+        "title": "产品模型样机与快速 SKU 变体",
+        "icon": "product"
+      },
+      {
+        "title": "视频生成前的参考情绪板与关键帧",
+        "icon": "storyboard"
+      }
+    ],
+    "whatTitle": "Nano Banana 在 VideoAI 中的工作方式",
+    "whatIntro1": "选择“文本生图”或“图像生图”，设置单次批量生成数量（1–8 张），编写提示词或编辑修改指令，即可启动生成。",
+    "whatIntro2": "在将镜头移交至视频引擎渲染前，用它提前锁定视觉风格、光影基调与构图取景。",
+    "whatFlowTitle": "制作流程",
+    "whatFlowSteps": [
+      "在图像实验室中选中 Nano Banana",
+      "选择“文本生图”或“图像生图”",
+      "设置生成数量（1–8 张），如需保持画面一致可设置随机种子（Seed）",
+      "输入提示词；若进行编辑，请上传清晰的参考图像",
+      "核对实时价格标签并启动生成"
+    ],
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "当保持构图简约明了、视觉主体清晰且符合物理规律时，图像生成的效果最稳定可控。",
+    "strengths": [
+      "快速生成逼真写实静态图，适用于情绪板、缩略图和视频关键帧",
+      "支持无遮罩编辑模式，轻松完成画面清理、重塑光影与背景替换",
+      "支持多图参考融合，可分别为参考图赋予明确角色",
+      "擅长短小精炼的清晰文字排版（大标题效果优于整段文本）"
+    ],
+    "boundaries": [
+      "仅支持静态图像（不支持动态视频）",
+      "图像编辑必须输入源图像（至少上传一张参考图）",
+      "画面中的极小文字成功率不稳定——建议在后期制作中叠加关键正文"
+    ],
+    "safetyTitle": "安全与人物肖像规范",
+    "safetyRules": [
+      "严禁色情内容以及任何涉及未成年人的违规内容。",
+      "严禁仇恨言论、骚扰辱骂或血腥暴力内容。",
+      "未经授权不得仿冒真实人物或公众人物；使用任何肖像均需获得许可。",
+      "不得包含私人个人隐私数据（未经同意的人物面部、住址、电话号码、证件等）。",
+      "部分提示词或参考图可能会被 VideoAI 安全过滤器拦截。"
+    ]
+  },
+  "decision": {
+    "modelSlug": "nano-banana",
+    "hero": {
+      "eyebrow": "GOOGLE 极速图像路线",
+      "title": "Nano Banana",
+      "subtitle": "快速静态草图、参考图编辑与批量图像变体，轻松实现轻量化视觉探索。",
+      "subtitleHighlights": [
+        "快速静态草图",
+        "参考图编辑",
+        "批量图像变体"
+      ],
+      "paragraph": "在将最终方案移交至 Pro 或 Nano Banana 2 之前，将 Nano Banana 作为低门槛的 Google 图像路线，用于快速构思静态概念、进行简单参考图编辑与多图批量生成。",
+      "primaryCta": {
+        "label": "使用 Nano Banana 生成",
+        "href": "/app/image?engine=nano-banana"
+      },
+      "secondaryCta": {
+        "label": "查看价格",
+        "href": "/zh/pricing#nano-banana-pricing"
+      },
+      "quickLinks": [
+        {
+          "label": "打开图像工作区",
+          "href": "/app/image?engine=nano-banana"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#nano-banana-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Nano Banana 示例",
+      "description": "极速静态概念与图像编辑路线",
+      "renderLabel": "查看图像",
+      "badges": [
+        "极速",
+        "批量",
+        "编辑"
+      ],
+      "altContext": "Nano Banana 极速静态图像示例"
+    },
+    "features": [
+      {
+        "title": "快速静态草图",
+        "body": "在投入最终精修路线之前，快速探索各种图像创意想法。",
+        "tone": "price"
+      },
+      {
+        "title": "参考图编辑",
+        "body": "上传 1–4 张图像，通过提示词引导完成图像编辑与重组混合。",
+        "tone": "reference"
+      },
+      {
+        "title": "批量多样变体",
+        "body": "单条提示词即可生成多张输出，便于展开充分的视觉探索。",
+        "tone": "duration"
+      },
+      {
+        "title": "丰富画幅比例",
+        "body": "支持常用的社交媒体规格、方形、竖屏以及宽幅等多种画幅比例。",
+        "tone": "quality"
+      },
+      {
+        "title": "极低单张成本",
+        "body": "非常适合早期情绪板探索与分镜脚本静态图的快速制作。",
+        "tone": "price"
+      },
+      {
+        "title": "一体化图像工作区",
+        "body": "与应用其他功能共享同一套 VideoAI 钱包、提示词库和生成历史记录。",
+        "tone": "continuity"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 Nano Banana 还是 Nano Banana 2？",
+        "body": "需要更低成本的快速批量生成时选用 Nano Banana；需要搜索接地、更宽画幅比例以及更强编辑控制时选用 Nano Banana 2。",
+        "cta": {
+          "label": "查看 Nano Banana 2",
+          "href": "/zh/models/nano-banana-2"
+        }
+      },
+      {
+        "title": "批量生成快速变体？",
+        "body": "保持提示词精简，每次仅调整一个视觉变量，并一次性批量生成多张结果。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "需要更高分辨率的广告大片？",
+        "body": "当需要精致的文字排版、商业广告级质感或更高分辨率输出时，将精选方向推进至 Nano Banana Pro。",
+        "cta": {
+          "label": "查看 Nano Banana Pro",
+          "href": "/zh/models/nano-banana-pro"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本生图工作流",
+        "body": "清晰描述画面主体、视觉风格、画幅比例以及明确的构图目标。"
+      },
+      {
+        "title": "图像编辑工作流",
+        "body": "上传参考图，明确阐述修改内容的同时保留整体画面结构。"
+      },
+      {
+        "title": "批量变体工作流",
+        "body": "在探索情绪板、缩略图或分镜静态图时，单次运行生成多张图像快速比对。"
+      },
+      {
+        "title": "画幅比例选择",
+        "body": "在撰写提示词前先选定交付比例，确保构图与最终裁剪完美契合。"
+      },
+      {
+        "title": "无缝升级路线",
+        "body": "当静态画面需要搜索接地或 4K 高精质感时，将优选方案导入 Nano Banana 2 或 Pro。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Nano Banana 定价一览",
+      "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数显示的参考价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最高支持 8 张图像",
+      "ctaHref": "/zh/pricing#nano-banana-pricing"
+    },
+    "meta": {
+      "title": "Nano Banana：定价、快速静态草图与图像编辑 | VideoAI",
+      "description": "在 VideoAI 上了解 Nano Banana 定价方案、快速静态草图、参考图编辑、批量变体生成以及轻量级 Google 图像创作工作流。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "nano-banana",
+    "section": {
+      "title": "如何撰写优秀的 Nano Banana 提示词",
+      "intro": "Nano Banana 对简短、具象直观的创作简报响应最佳。建议先明确构图，再描述光影与风格。进行图像编辑时，直接说明修改什么、保留什么。多图融合时，请为每张参考图分配明确的角色。",
+      "tip": "提示：分辨率与画幅比例可在界面中直接设置——您的提示词重点控制主体、构图、光影、风格及编辑修改指令。",
+      "guide": null,
+      "referencesTitle": "Nano Banana 如何使用参考图"
+    },
+    "tabs": [
+      {
+        "id": "quick",
+        "label": "快速",
+        "title": "快速提示词（快速迭代）",
+        "description": "用 1–2 句话快速生成多种创意变化。",
+        "copy": "[主体] 置于 [场景] 中。[构图]。[光影]。[风格基准]。\n\n若进行编辑：\n编辑：修改 [X]。保留 [Y]（取景构图、光影、主体特征）。\n\n若使用多张图像：\n参考图：图1 = [主要主体]。图2 = [风格/光影]。（可选）图3 = [背景/道具]。"
+      },
+      {
+        "id": "structured",
+        "label": "结构化",
+        "title": "结构化提示词（最适合获得稳定结果）",
+        "description": "分模块拆解信息，使模型能够稳定严格遵循。",
+        "copy": "主体：\n[谁/什么主体 + 2–3 个关键特征]\n\n构图：\n[取景 + 视角 + 背景 + 保持干净的区域]\n\n光影：\n[主光 + 氛围 + 2 种基调色彩]\n\n风格：\n[写实摄影 / 插画 + 质感/颗粒 + 一处风格参考]\n\n文字排版（可选）：\n[用引号标注精准文案 + 出现位置 + 对比度]\n例如：左上角单行高对比度显示 “SALE — 20% OFF”。\n\n编辑指令（若进行图像编辑）：\n修改项：\n- [列出需要修改的要点]\n保留项：\n- 取景构图、光影、主体特征、无 Logo 干扰、干净背景\n\n参考图设置（若使用多张图像）：\n图1 控制主体/身份\n图2 控制光影\n图3 控制配色/背景"
+      },
+      {
+        "id": "pro",
+        "label": "专业",
+        "title": "专业提示词（超精细的“工作室简报”）",
+        "description": "适用于需要极为特定的视觉风格或在整套素材中保持可复现性时。",
+        "copy": "创作简报：\n[创作目标 + 输出使用场景]\n\n主体与材质：\n[细节特征 + 材质纹理 + 约束条件]\n\n版式布局：\n[栅格网格 + 间距 + 视觉焦点 + 留白区域]\n\n光影与调色：\n[主光 + 对比度 + 基调色彩]\n\n文字排版（可选）：\n[字体气质 + 字阶层次 + 精准文案 + 位置]\n保持文案精炼，避免整段长句。\n\n编辑修改（如有需要）：\n修改清单：\n- [A]\n- [B]\n保留清单：\n- 取景构图、光影、主体特征、背景、调色方案"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "quick",
+        "body": "快速 = 多样性。适用于初期快速探索创意变体。"
+      },
+      {
+        "tabId": "structured",
+        "body": "结构化 = 一致性。适用于需要稳定可预期的高质量结果。"
+      },
+      {
+        "tabId": "pro",
+        "body": "专业 = 可复现性。适用于受控的批量生成与精细控制。"
+      }
+    ],
+    "globalPrinciples": [
+      "构图优先，风格次之。",
+      "保持提示词简明具体，避免罗列冗长的心愿清单。",
+      "针对图像编辑：“修改 X，保留 Y”的效果远胜于重新描述整个画面。",
+      "若包含文字排版：文案保持短小精悍、高对比度，并使用引号准确引用。"
+    ],
+    "engineWhy": [
+      "快速档模型更青睐简短提示词；过长的提示词可能导致注意力分散。",
+      "多图融合在每张参考图拥有明确分工时效果最好（主体 vs 光影 vs 背景）。",
+      "极小的画面文字和高密度 UI 排版不够稳定——建议文案尽量极简，关键文案放在后期叠加。",
+      "若编辑导致画面改动过大，请强化“保留”清单（取景构图、光影、主体特征）。"
+    ],
+    "demo": null,
+    "imageExamples": {
+      "title": "Nano Banana 图像提示词示例",
+      "intro": "适用于商业广告大片、排版海报、参考图编辑以及从 2K 到 4K 的成片输出。",
+      "workspaceLabel": "打开图像工作区",
+      "items": [
+        {
+          "id": "quality-1",
+          "title": "商业大片静态图",
+          "badge": "2K 静态图",
+          "kind": "quality",
+          "prompt": "琥珀色香水瓶置于白色亚克力台面上的 2K 广告大片，柔和影棚主光，干净阴影，左上角精确标题文字 \"AURA NOIRE\"，底部边缘小型品牌 Logo 组合。"
+        },
+        {
+          "id": "typography-2",
+          "title": "文字排版海报",
+          "badge": "文字排版",
+          "kind": "typography",
+          "prompt": "竖版 4K 海报，高端编辑网格，石墨色背景，精确标题文字 \"MIDNIGHT LAUNCH\"，副标题 \"LIMITED DROP\"，清晰的字阶层次，宽大留白，文字清晰可读。"
+        },
+        {
+          "id": "edit-3",
+          "title": "参考图精修",
+          "badge": "图像生图",
+          "kind": "edit",
+          "prompt": "以此产品参考图为基础，保持形态、Logo 和比例不变。将场景更换为午夜蓝影棚，优化反光质感，去除灰尘和指纹。"
+        },
+        {
+          "id": "layout-4",
+          "title": "2K 转 4K 成片",
+          "badge": "4K 成片",
+          "kind": "layout",
+          "prompt": "以 4K 高质量重新渲染已审定的 2K 构图。锐化细节，保持文字排版一致，保留品牌配色、产品位置和已锁定的取景构图。"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "nano-banana",
+    "section": {
+      "title": "Nano Banana 案例精选",
+      "intro": "近期作为视频工作流关键帧使用的逼真写实静态图与图像编辑精选案例。",
+      "defaultCtaLabel": "查看图像案例 →",
+      "recreateLabel": "重现该静态图 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "campaign",
+        "label": "广告大片"
+      },
+      {
+        "id": "typography",
+        "label": "文字与版式"
+      },
+      {
+        "id": "reference",
+        "label": "多模态参考"
+      },
+      {
+        "id": "final",
+        "label": "成片"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "静态图像案例",
+        "body": "专为 Nano Banana 逼真图像生成量身定制的提示词范式。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-2",
+        "title": "文字排版控制",
+        "body": "精准文案、字阶层次与版式位置始终清晰明确。",
+        "icon": "type"
+      },
+      {
+        "id": "proof-3",
+        "title": "参考图精修",
+        "body": "稳定保持产品特征、配色方案、构图版式或视觉风格。",
+        "icon": "pen"
+      },
+      {
+        "id": "proof-4",
+        "title": "4K 终极成片",
+        "body": "先在 2K 下充分验证构图，再以 4K 完成高质量出图。",
+        "icon": "maximize"
+      },
+      {
+        "id": "proof-5",
+        "title": "生产级可靠",
+        "body": "支持自有参考资产输入并内置严格的合规护栏。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": [
+      {
+        "id": "campaign",
+        "title": "快速缩略图概念",
+        "category": "草稿",
+        "aspectRatio": "16:9",
+        "alt": "用于社交媒体缩略图的 Nano Banana 视觉概念",
+        "tags": [
+          "campaign"
+        ]
+      },
+      {
+        "id": "typography",
+        "title": "简易宣传静态图",
+        "category": "文字与版式",
+        "aspectRatio": "1:1",
+        "alt": "带有简短可读宣传文案的 Nano Banana 静态图",
+        "tags": [
+          "typography"
+        ]
+      },
+      {
+        "id": "reference",
+        "title": "参考图重组混合",
+        "category": "多模态参考",
+        "aspectRatio": "4:3",
+        "alt": "通过视觉参考图引导的 Nano Banana 重组混合图像",
+        "tags": [
+          "reference"
+        ]
+      },
+      {
+        "id": "final",
+        "title": "批量概念矩阵",
+        "category": "批量生成",
+        "aspectRatio": "4 种变体",
+        "alt": "Nano Banana 四变体创意探索矩阵",
+        "tags": [
+          "final"
+        ]
+      }
+    ],
+    "showWhenEmpty": true
+  }
+}

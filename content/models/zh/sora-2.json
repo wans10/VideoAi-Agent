@@ -1,0 +1,579 @@
+{
+  "marketingName": "OpenAI Sora 2",
+  "versionLabel": "2",
+  "seo": {
+    "title": "Sora 2 文生视频与图生视频 — 原生音频与生成案例",
+    "description": "通过文本或图像生成具备原生旁白与环境音效的 Sora 2 视频。探索可一键复现的精选案例、实战提示词结构以及 VideoAI 灵活透明的按量付费价格。",
+    "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a5cbd8d3-33c7-47b5-8480-7f23aab89891-job_684c1b3d-2679-40d1-adb7-06151b3e8739.jpg"
+  },
+  "hero": {
+    "title": "Sora 2",
+    "intro": "从文本或单张静态帧生成电影级质感短片 — 自带原生对白与环境音效。",
+    "badge": "720p · 4/8/12 秒 · 文生视频 · 图生视频 · 16:9/9:16 · 包含音频",
+    "ctaPrimary": {
+      "label": "使用 Sora 2 生成",
+      "href": "/app?engine=sora-2"
+    },
+    "secondaryLinks": [
+      {
+        "label": "对比 Sora 2 与 Sora 2 Pro",
+        "href": "/zh/ai-video-engines/sora-2-vs-sora-2-pro"
+      }
+    ]
+  },
+  "faqTitle": "常见问题 — Sora 2",
+  "faqs": [
+    {
+      "q": "Sora 2 是否支持在欧洲/英国地区使用？",
+      "a": "支持。您可以在欧洲、英国以及我们服务可用的大多数地区直接使用 Sora 2 — 无需 OpenAI 官方直接邀请码。"
+    },
+    {
+      "q": "Sora 2 能否生成 1080p 视频？",
+      "a": "当前 VideoAI 上的 Sora 2 路线输出分辨率为 720p。如果选中的镜头需要 1080p 审阅成片，请使用 Sora 2 Pro。"
+    },
+    {
+      "q": "Sora 2 是否支持图生视频？",
+      "a": "支持。上传 PNG/JPG/WEBP/GIF/AVIF 格式的静态帧（最大支持约 50 MB），Sora 2 将根据您针对动态运镜撰写的提示词生成动态视频。"
+    },
+    {
+      "q": "能否使用 Sora 2 对已有视频进行重混（Remix）或延长（Extend）？",
+      "a": "当前配置仅支持文生视频与图生视频。如需制作更长的成片，建议将多个生成的片段在剪辑工具中进行拼接。"
+    },
+    {
+      "q": "如何让 Sora 2 生成的内容契合品牌调性？",
+      "a": "使用来自 Nano Banana 或您自己设计系统的参考图片，在提示词中明确指定品牌代表色，并在多轮提示词之间保持风格调性的一致。"
+    }
+  ],
+  "custom": {
+    "heroEyebrow": "OpenAI 模型",
+    "heroSupportLine": "快速生成精致短片，适用于广告、UGC 风格短片与分镜故事板",
+    "heroSpecChips": [
+      {
+        "label": "720p",
+        "icon": "resolution"
+      },
+      {
+        "label": "4/8/12 秒",
+        "icon": "duration"
+      },
+      {
+        "label": "文生视频",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图生视频",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "16:9/9:16",
+        "icon": "aspectRatio"
+      },
+      {
+        "label": "包含音频",
+        "icon": "audio"
+      }
+    ],
+    "heroTrustLine": "按量计费 · 生成前显示明确价格",
+    "heroDesc1": "直接在浏览器中使用 Sora 2 创作具有电影质感的短视频。VideoAI 为您提供即开即用的 Sora 2 文生视频与图生视频功能，具备透明的按秒计费模式，并为测试验证、原型构思与社媒短片制作打造了专属工作区。",
+    "heroDesc2": "只需描述您的场景，选择时长（4、8 或 12 秒），挑选 16:9 或 9:16 画幅比例，Sora 2 即可生成适用于广告投放、内容创作或客户提案的精致视频素材。",
+    "hideQuickPricing": true,
+    "showPricePerSecondInSpecs": true,
+    "hidePricingSection": false,
+    "secondaryCta": "对比 Sora 2 Pro",
+    "whyTitle": "为什么 Sora 2 表现出色",
+    "heroHighlights": [
+      "秒级实现电影感镜头运镜||最适合 4–12 秒简短叙事节拍",
+      "文生视频 + 图生视频||根据起点自由兼顾生成速度与画面一致性",
+      "支持多节拍镜头片段||Shot 1/2/3 结构化提示词表现出奇优异",
+      "高度契合结构化提示词||清晰的分镜清单远胜辞藻堆砌",
+      "专为快速迭代设计||迅速验证创意构思、叙事节奏与情绪氛围"
+    ],
+    "bestUseCasesTitle": "最佳适用场景",
+    "bestUseCases": [
+      {
+        "title": "电影感商业广告短片",
+        "icon": "ads",
+        "chips": [
+          "快速迭代",
+          "自带音频"
+        ]
+      },
+      {
+        "title": "UGC 生活方式风格短片",
+        "icon": "ugc",
+        "chips": [
+          "竖屏构图",
+          "自然动态"
+        ]
+      },
+      {
+        "title": "产品主视觉镜头",
+        "icon": "product",
+        "chips": [
+          "精致细节",
+          "光影质感"
+        ]
+      },
+      {
+        "title": "分镜故事板与概念验证",
+        "icon": "storyboard",
+        "chips": [
+          "分镜列表",
+          "4–12 秒"
+        ]
+      }
+    ],
+    "whatTitle": "Sora 2 在 VideoAI 中的实际定位",
+    "whatIntro1": "从官方定义来看，OpenAI Sora 2 是 OpenAI 旗下的短视频生成引擎。而在实际应用中，它的表现方式很大程度上取决于平台的集成与调度机制。",
+    "whatIntro2": "在 VideoAI 中，Sora 2 被打造为一个聚焦核心能力、贴合专业生产的视频生成引擎：",
+    "whatFlowTitle": "VideoAI 将这一切整合为清晰简洁的工作流：",
+    "whatFlowSteps": [
+      "1. 选择 Sora 2 作为生成引擎。",
+      "2. 选择文生视频或图生视频模式。",
+      "3. 设置视频时长与画面比例。",
+      "4. 输入结构化导演提示词。",
+      "5. 在生成前查看每条片段的明确结算价格。",
+      "6. 在同一界面内横向对比其他生成引擎效果。"
+    ],
+    "specTitle": "VideoAI 上的 Sora 2 规格参数",
+    "specNote": "当前 VideoAI 路线参数限制。模型官方家族可能包含超出当前平台所开放路线的更宽泛能力。",
+    "specSections": [
+      {
+        "title": "提示词与镜头语言",
+        "intro": "该模型对导演阐述风格、具备明确叙事节拍与运镜意图的提示词响应最佳。在描述风格修饰词之前，请先确定主体动作与景别构图。",
+        "items": [
+          "以“主体 + 动作 + 摄影机运镜”为核心切入。",
+          "明确光影氛围与镜头调性以保持画面一致性。",
+          "每个短片尽量聚焦于一个核心节拍。",
+          "需要稳定外观时，优先基于单张静态帧起步。"
+        ]
+      },
+      {
+        "title": "音频生成与快速迭代",
+        "intro": "音频与画面同步生成，因此可以在同一条提示词中协同塑造视听节奏。在批量出片前，通过快速试错锁定节奏节拍。",
+        "items": [
+          "添加 1–2 个核心音效提示。",
+          "对白保持短小精炼、富有感染力。",
+          "将效果出色的提示词保存为常用模板。",
+          "通过微调局部变量重新生成，快速测试吸睛点。"
+        ]
+      }
+    ],
+    "imageTitle": "Sora 2 图生视频工作流（搭配 Nano Banana）",
+    "imageIntro": "在 VideoAI 中使用 Sora 2 的一大优势在于能够与 Nano Banana 等图像生成引擎无缝协同。",
+    "imageFlow": [
+      "在 Nano Banana 中生成符合品牌调性或创意设想的参考静态图。",
+      "将该静态图直接导入 Sora 2 作为图生视频的起始帧。",
+      "向 Sora 2 输入聚焦动态与时序的提示词：摄影机如何运镜、主体如何动作，以及镜头在 4/8/12 秒时如何收尾落幅。",
+      "生成并审阅画面，必要时仅微调运动语言，然后重新生成。"
+    ],
+    "imageWhy": [
+      "必须严守品牌形象的产品特写镜头",
+      "着陆页（Landing Page）核心主视觉动画",
+      "用于广告投放或 UI 背景的简短循环场景"
+    ],
+    "multishotTitle": "多镜头与序列化片段 — Sora 2 的“微电影”技巧",
+    "multishotIntro1": "Sora 2 能够理解包含多个步骤的提示词，并将数个镜头紧凑呈现在单个 8 秒或 12 秒的片段中。",
+    "multishotIntro2": "通过使用“首先……随后……最后……”或清晰的 Shot 1/2/3 结构，Sora 2 会将整段视频组织为富有层次的连贯节拍序列。",
+    "multishotTips": [
+      "单个片段内最多规划 2–3 个镜头节拍。",
+      "为每个镜头分配一个主要动作和一次明确的摄影机运镜。",
+      "复用核心视觉元素（相同主体、相同场景环境、一致的光影）。",
+      "避免在 8 秒内跨越 5 个迥异的场景地点 — 保持专注集中。"
+    ],
+    "tipsTitle": "使用技巧与局限性",
+    "strengths": [
+      "擅长捕捉简短生动的关键瞬间",
+      "主体特征与动作表现清晰鲜明",
+      "在典型生活/工作场景中表现稳定（办公室、街头、咖啡馆、居家等）",
+      "具有电影级镜头调度感（推拉、摇移、手持跟随等）",
+      "非常适合打造极具真实感的 UGC 风格素材与电影感插镜"
+    ],
+    "boundaries": [
+      "当前 VideoAI 上的 Sora 2 路线输出为 720p。若需要 1080p 审阅成片请使用 Sora 2 Pro。",
+      "单次生成时长为 4–12 秒，不支持长视频直出。更长叙事需拼接多段生成片段。",
+      "不支持视频输入作为源素材；仅支持文本或图像起步。",
+      "不支持固定随机种子（Seed）；通过精炼提示词并重新运行来进行方案迭代。",
+      "对于画面中极其微小或细密的文字渲染能力有限。"
+    ],
+    "safetyTitle": "安全规范与肖像权益",
+    "safetyRules": [
+      "严禁生成真实人物或公众人物（禁止名人、政要等）。",
+      "严禁未成年人、色情成人内容、仇恨言论或血腥暴力画面。",
+      "未经当事人明确许可，不得使用他人肖像权益。",
+      "凡违反上述原则的提示词与输入图片均会被系统拦截。",
+      "通用虚构角色与常规生活/工作场景均可正常生成。",
+      "涉及公众人物或敏感话题的提示词可能会被安全过滤。",
+      "这是确保 VideoAI 与 Sora 2 为专业创作者提供安全、合规生产环境的基础。"
+    ],
+    "safetyNote": null,
+    "comparisonTitle": "Sora 2 与 Sora 2 Pro 快速对比",
+    "comparisonPoints": [
+      "Sora 2 是快速出样的 720p 创意灵感加速器。",
+      "Sora 2 Pro 是分辨率更高、画面细节可控性更强的进阶版本。",
+      "先使用 Sora 2 进行故事板分镜探索，当需要 1080p 审阅成片和更细腻的收尾控制时，再在 Sora 2 Pro 中重新渲染选定镜头。"
+    ],
+    "comparisonCta": "从 Sora 2 快速起步，需要更高分辨率时无缝升级至 Sora 2 Pro →",
+    "relatedTitle": "探索其他模型",
+    "relatedSubtitle": "横向对比 VideoAI 提供的其他生成引擎的价格、响应耗时与输出选项。",
+    "relatedItems": [
+      {
+        "brand": "openai",
+        "title": "Sora 2 Pro",
+        "description": "当镜头需要 1080p 审阅成片、更严谨的后期收尾控制以及更出色的成片质感时，将选中的 Sora 2 概念平移至 Sora 2 Pro。",
+        "modelSlug": "sora-2-pro",
+        "ctaLabel": "对比 Sora 2 与 Sora 2 Pro →"
+      },
+      {
+        "brand": "google-veo",
+        "title": "Google Veo 3.1",
+        "description": "在 VideoAI 上使用 Google DeepMind 打造的 Veo 3.1 生成自带原生音频的 8 秒电影感视频。支持多图参考生视频引导与高保真输出，按量付费每秒仅需 $0.52 起。",
+        "modelSlug": "veo-3-1",
+        "ctaLabel": "对比 OpenAI Sora 2 与 Google Veo 3.1 →"
+      },
+      {
+        "brand": "kling",
+        "title": "Kling 3 Pro",
+        "description": "当您需要更深度的场景控制、多提示词序列编排，以及在分镜密集型项目中寻找 Sora 之外的高品质路线时，选择 Kling 3 Pro。",
+        "modelSlug": "kling-3-pro",
+        "ctaLabel": "对比 OpenAI Sora 2 与 Kling 3 Pro →"
+      }
+    ],
+    "finalPara1": "VideoAI 中的 Sora 2 让您无需搭建繁琐的算力设施或凭空猜测成本，即可通过简单直接的按量付费方式，体验顶尖的短视频生成模型。",
+    "finalPara2": "利用它快速验证创意、构建微型镜头序列并探索艺术方向。当您需要更高分辨率或更精细的控制力时，随时可以平滑升级至 Sora 2 Pro。",
+    "finalButton": "立即使用 Sora 2 开始生成 →",
+    "tipsIntro": "当镜头保持简洁、意图直观且符合物理直觉时，Sora 的生成表现最稳定可控。"
+  },
+  "decision": {
+    "modelSlug": "sora-2",
+    "hero": {
+      "eyebrow": "720P 视频 · 原生音频路线",
+      "title": "Sora 2",
+      "subtitle": "原生同步音频、文生视频与图生视频，适用于快速构建电影感创意概念、商业广告与社媒短片场景。",
+      "subtitleHighlights": [
+        "原生同步音频",
+        "文生视频",
+        "图生视频"
+      ],
+      "paragraph": "当您需要一条快速的 OpenAI 视频生成路线来验证 720p 概念时，选择 Sora 2：适用于电影感短镜头、图像引导动态测试、原生音效合成，以及在将精选镜头升级至 Pro 前快速完成分镜故事板推敲。",
+      "primaryCta": {
+        "label": "使用 Sora 2 生成",
+        "href": "/app?engine=sora-2"
+      },
+      "secondaryCta": {
+        "label": "查看案例",
+        "href": "/zh/examples/sora"
+      },
+      "quickLinks": [
+        {
+          "label": "对比 Pro 版本",
+          "href": "/zh/ai-video-engines/sora-2-vs-sora-2-pro"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#sora-2-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Sora 2 示例",
+      "description": "自带同步音频的电影感概念镜头",
+      "renderLabel": "查看渲染成片",
+      "badges": [
+        "自带音频",
+        "12 秒",
+        "720p"
+      ],
+      "altContext": "自带同步音频的 Sora 2 电影感概念镜头"
+    },
+    "features": [
+      {
+        "title": "原生同步音频",
+        "body": "对白、环境氛围音与音效随视频画面同步生成。",
+        "tone": "audio"
+      },
+      {
+        "title": "文生视频",
+        "body": "以简洁的场景简报、运镜指示与声音提示词作为起点。",
+        "tone": "reference"
+      },
+      {
+        "title": "图生视频",
+        "body": "在视觉风格或开篇构图至关重要时，基于单张选定图片生成动态。",
+        "tone": "continuity"
+      },
+      {
+        "title": "720p 快速路线",
+        "body": "在进入 Pro 终版制作前，使用 Sora 2 进行敏捷高效的审阅闭环。",
+        "tone": "quality"
+      },
+      {
+        "title": "最长 12 秒",
+        "body": "单次渲染支持构建一个鲜明节拍或简短的双节拍连续镜头。",
+        "tone": "duration"
+      },
+      {
+        "title": "按量计费",
+        "body": "在点击生成前实时查看精确清晰的费用报价。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 Sora 2 还是 Sora 2 Pro？",
+        "body": "使用 Sora 2 进行更迅速的 720p 创意概念推演。当确认的镜头需要 1080p 细腻质感与更严格的成片收尾控制时，选择 Pro。",
+        "cta": {
+          "label": "对比 Sora 2 与 Pro",
+          "href": "/zh/ai-video-engines/sora-2-vs-sora-2-pro"
+        }
+      },
+      {
+        "title": "从单张图片开始生成？",
+        "body": "在撰写动态简报前，上传一张干净的静态图片以锁定构图比例、产品外观或人物形象方向。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "对比高品质旗舰路线？",
+        "body": "在 OpenAI 创意概念、Google 电影质感以及深度运镜控制等不同方向之间权衡时，将 Sora 2 与 Veo 3.1 或 Kling 3 Pro 进行对比。",
+        "cta": {
+          "label": "对比 Sora 2 与 Veo 3.1",
+          "href": "/zh/ai-video-engines/sora-2-vs-veo-3-1"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本提示词",
+        "body": "清晰描述主体、动作、摄影机运镜、视觉风格以及一至两个声音提示。"
+      },
+      {
+        "title": "图像输入",
+        "body": "使用单张图片锁定开篇构图，随后提示词仅需专注引导动态与音频。"
+      },
+      {
+        "title": "时长选择",
+        "body": "4 秒适合黄金开头吸睛测试，8 秒适合完整叙事节拍，12 秒适合简短分镜序列。"
+      },
+      {
+        "title": "音频提示",
+        "body": "对白保持精炼短小，并将音效与画面可见动作紧密绑定以提升视听效果。"
+      },
+      {
+        "title": "升级路径",
+        "body": "当创意概念经 Sora 2 验证满意后，将其无缝平移至 Sora 2 Pro 进行终版精细打磨。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Sora 2 价格一览",
+      "subtitle": "预设 720p 计费总额 — 在应用中点击生成前可查看精确的实时报价。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数展示的参考价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高支持 720p",
+      "ctaHref": "/zh/pricing#sora-2-pricing"
+    },
+    "meta": {
+      "title": "Sora 2：价格、原生音频与案例展示 | VideoAI",
+      "description": "探索 Sora 2 的实时价格、精选案例、原生同步音频、文生视频与图生视频工作流。横向对比 Sora 2 与 Pro 及其他主流 AI 视频生成模型。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "sora-2",
+    "section": {
+      "title": "如何编写高质量的 Sora 2 提示词",
+      "intro": "像电影摄影师一样撰写简报时，Sora 2 的表现最为惊艳：单一明确的镜头、清晰的时序节奏以及直观可见的动作。",
+      "tip": "提示：视频时长与画面比例在界面中直接设定 — 您的提示词负责精准控制主体、动作、运镜、光影、风格质感与声音。",
+      "guide": {
+        "label": "Sora 2 官方提示词指南",
+        "href": "https://developers.openai.com/cookbook/examples/sora/sora2_prompting_guide/"
+      },
+      "referencesTitle": "Sora 2 如何协同理解提示词、起始图片与音频"
+    },
+    "tabs": [
+      {
+        "id": "quick",
+        "label": "快速",
+        "title": "快速动作提示词",
+        "description": "适用于 4 秒吸睛点的敏捷快速测试。",
+        "copy": "[主体] 在 [场景] 中完成 [一个可见动作]。摄影机：[一次运镜]。光影：[时段 / 情绪]。音频：[环境音 + 一个音效]。"
+      },
+      {
+        "id": "structured",
+        "label": "结构化",
+        "title": "结构化视频提示词",
+        "description": "当片段需要高度可复现的动作与音效时使用。",
+        "copy": "主体：\n[人物/事物 + 一个可见动作]\n\n场景：\n[地点 + 时段 + 2 个视觉锚点]\n\n摄影机：\n[景别 + 角度 + 一次运镜]\n\n光影：\n[主光源 + 色调 + 对比度]\n\n音频：\n[环境音 + 1 个音效提示 + 可选对白不超过 8 个字]\n\n限制：\n无 Logo。无可读文字。无受保护肖像。"
+      },
+      {
+        "id": "pro",
+        "label": "专业级",
+        "title": "图生视频提示词",
+        "description": "适用于以单张获批的静态图片作为开篇画框的场景。",
+        "copy": "源图片定位：\n[必须保持固定的内容：主体、产品外形、服装或构图]\n\n运动：\n[从静态图开始的一个动作]\n\n摄影机：\n[缓慢移动 / 推进 / 手持漂移 / 固定机位]\n\n结尾：\n[最后一秒主体或产品的落幅位置]\n\n音频：\n[简短环境音 + 可见动作音效]\n\n避免：\n改变形象、添加 Logo 或引入额外主体。"
+      },
+      {
+        "id": "storyboard",
+        "label": "分镜故事板",
+        "title": "故事板提示词（镜头序列清单）",
+        "description": "适用于在单个视频片段中实现多节拍镜头连贯性的场景。",
+        "copy": "故事板 / 镜头序列清单（相同主体 + 相同场景）\n时长：[4/8/12s] • 比例：[16:9 或 9:16]\n\n节拍 1（0–2s）：\n[景别 + 主体动作 + 摄影机运镜]\n\n节拍 2（2–6s）：\n[动作延续，不切换地点]\n\n节拍 3（6–8/12s）：\n[最终揭示 + 摄影机稳定落幅]\n\n连贯性：\n[保持服装、道具、光影与背景一致]\n\n音频：\n[环境音 + 1 个音效提示 + 可选简短对白]\n\n限制：\n无 Logo。无可读文字。无受保护人物。"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "quick",
+        "body": "快速 = 吸睛点测试。使用单一主体动作、单次摄影机运镜与一个声音提示。"
+      },
+      {
+        "tabId": "structured",
+        "body": "结构化 = 画面一致性。分段独立描述动作、镜头、光影、音频与简短对白。"
+      },
+      {
+        "tabId": "pro",
+        "body": "专业级 = 精确交付控制。使用连贯性锚点与清晰的尾帧收尾目标。"
+      }
+    ],
+    "globalPrinciples": [
+      "1 个镜头 = 1 次运镜 + 1 个主体动作",
+      "使用具象的视觉锚点（具体名词优于模糊的形容词）",
+      "在不同镜头之间保持人物角色特征一致",
+      "从单张静态图起步以获得最高可控性",
+      "科学迭代：每次调整仅修改单一变量"
+    ],
+    "engineWhy": [
+      "节拍过多容易导致画面漂移 — 每个片段尽量保持在 2–3 个明确动作之内。",
+      "图生视频能够精准锁定首帧构图；提示词则专注于引导动态轨迹与时序节奏。",
+      "参考图片规范十分严格 — 画面需干净清晰，禁止出现商业 Logo 与可读文字。",
+      "音频提示有助于把控整体节奏；描述 1–2 个核心声音来强化视听律动。"
+    ],
+    "demo": {
+      "title": "演示案例：序列化多镜头提示词",
+      "promptLabel": "720p 生活方式广告提示词",
+      "prompt": "8 秒生活方式广告：一位 30 岁的跑步者戴着智能手表，在日出时分的城市公园中晨跑。\n镜头 1（2s）：手表特写，他收紧表带，阳光在表镜上折射出光晕。\n镜头 2（4s）：侧面跟踪镜头，他奔跑前行，温暖的晨光映射在建筑轮廓上。\n镜头 3（2s）：面部特写，他低头瞥向手表屏幕，嘴角微扬，冷空气中可见呼吸白雾。\n光影：黄金时刻，自然电影感色调。\n音频：有节奏的脚步声 + 柔和乐观的背景音乐。\n摄影机：动感手持，50mm 焦段感。\n负向提示：无 Logo，无慢动作，无屏幕文字。",
+      "notes": [
+        "展示了镜头转场、场景与主体连贯性、清晰的动作轨迹，以及在 10 秒内展开的完整微型故事。",
+        "可将这一结构复用到美妆护肤、SaaS 产品、健身运动或任何 3 节拍微电影叙事中。"
+      ],
+      "summary": {
+        "subject": "城市晨跑者",
+        "action": "系紧智能手表并在清晨朝阳中加速奔跑",
+        "camera": "手表特写、侧面跟拍追踪、最终面部微笑特写",
+        "style": "自然黄金时刻光影，高品质生活方式调性",
+        "output": "富有节奏感的跑步脚步声、轻微喘息声与柔和乐观的背景音乐"
+      },
+      "presentationOverrides": {
+        "modeLabel": "720p 生活方式广告提示词",
+        "outputLabel": "音频",
+        "duration": "8s",
+        "aspectRatio": null,
+        "audioChipMode": "on",
+        "audioChipLabel": null,
+        "altContext": "自带音频的 Sora 2 生活方式广告渲染成片"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "sora-2",
+    "section": {
+      "title": "精选案例展厅：真实 Sora 2 生成效果",
+      "intro": "查看使用与您在 VideoAI 中完全相同的参数生成的真实 Sora 2 渲染视频。",
+      "defaultCtaLabel": "查看全部 Sora 2 案例 →",
+      "recreateLabel": "复现此镜头 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "真实社区生成效果",
+        "body": "探索 Sora 2 的无限生成潜能。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "一键复现任意镜头",
+        "body": "一键跳转至应用中，直接复用其提示词与参数配置。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "原生同步音频",
+        "body": "对白、环境氛围音与音效随画面同步生成。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "多镜头连贯性",
+        "body": "在连续序列中保持人物角色、视觉风格与场景环境的一致性。",
+        "icon": "users"
+      },
+      {
+        "id": "proof-5",
+        "title": "贴合商业生产规范",
+        "body": "内置安全护栏与审核过滤机制，保障负责任的创意审阅。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  },
+  "archive": {
+    "title": "Sora 2：已关闭生成",
+    "intro": "Sora 2 已在 VideoAI 归档。新生成已在 2026 年 9 月 24 日 API 停用前关闭。您可以比较 Seedance 2.5、MiniMax H3 和 Wan 3。",
+    "alternativesTitle": "选择下一次创作的模型",
+    "chooseLabel": "了解此模型",
+    "historyTitle": "您已有的视频",
+    "historyBody": "您已有的 VideoAI 视频保留在媒体库中，仍可查看和下载可用结果。创建新视频时请选择其他模型，并在生成前确认设置与价格。",
+    "historyLabel": "打开我的媒体库",
+    "examplesLabel": "查看历史 Sora 案例",
+    "sourcesLabel": "阅读官方停用公告",
+    "alternatives": [
+      {
+        "modelId": "seedance-2-5",
+        "title": "Seedance 2.5",
+        "description": "探索长镜头和多模态参考，生成前请确认所选模式与报价。"
+      },
+      {
+        "modelId": "minimax-h3",
+        "title": "MiniMax H3",
+        "description": "使用文本、图像或参考素材创作带原生音频的视频，请确认镜头设置。"
+      },
+      {
+        "modelId": "wan-3",
+        "title": "Wan 3",
+        "description": "探索文本、图像和参考工作流，以及可用的编辑与延长功能。"
+      }
+    ]
+  }
+}

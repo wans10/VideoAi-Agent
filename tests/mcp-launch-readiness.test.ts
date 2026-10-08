@@ -12,8 +12,8 @@ const fixtureRunnerPath = 'scripts/run-mcp-launch-fixture.mjs';
 test('the owner-approved production launch publishes MCP while keeping the trial closed', () => {
   const publication = JSON.parse(readFileSync(publicationPath, 'utf8')) as Record<string, boolean>;
   assert.deepEqual(publication, {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,

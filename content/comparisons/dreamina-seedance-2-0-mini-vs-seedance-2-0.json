@@ -122,5 +122,46 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 对比 Mini：画质、批量成本与适用场景",
+      "description": "在 VideoAI 上对比 Dreamina Seedance 2.0 Mini 与 Seedance 2.0 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "从画质、控制能力与成本对比 Seedance 2.0 和 Seedance 2.0 Mini。Mini 适合低成本批量制作及 480p / 720p 变体。结合评分、规格和独立示例，为项目选择模型。",
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/models/dreamina-seedance-2-0-mini",
+        "label": "查看 Seedance 2.0 Mini 详情"
+      },
+      {
+        "href": "/ai-video-engines/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast",
+        "label": "对比 Fast 对比 Mini"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在旗舰 Seedance 2.0 与低成本 Mini 方案之间做出选择。",
+      "items": [
+        {
+          "question": "何时应该选择 Seedance 2.0 Mini？",
+          "answer": "低成本批量生成、电商变体、UGC 开场测试、营销 A/B 测试和高频提示词探索中，如果 480p 或 720p 足够，可选择 Mini。"
+        },
+        {
+          "question": "何时 Seedance 2.0 仍然更合适？",
+          "answer": "需要最终成片级主镜头、更精细的画面、更高分辨率交付，且最佳 Seedance 输出比单次变体成本更重要时，选择 Seedance 2.0。"
+        },
+        {
+          "question": "这些视频是受控对比实验吗？",
+          "answer": "不是。图库展示的是采用不同提示词和设置生成的独立示例。请结合评分、规格与价格，了解各模型的视觉表现潜力。"
+        }
+      ]
+    }
   }
 }

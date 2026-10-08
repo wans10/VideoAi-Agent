@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 3 4K 对比 Seedance 2.0：最终 4K 输出还是创作控制？",
+      "description": "在 VideoAI 上对比 Kling 3 4K 与 Seedance 2.0 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "Kling 3 4K 和 Seedance 2.0 都支持 4K，但制作路径不同。Kling 是面向最终生成的原生 4K 文本和起始图像专用方案；Seedance 覆盖 480p 至 4K，并提供参考生视频、视频编辑、延长、动态控制和音频。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "已确认的提示词或起始图需要直接生成原生 4K，且更倾向于专门的最终交付方案时，选择 Kling 3 4K。制作 4K 母版前还需要低分辨率迭代、多份参考素材、视频生视频编辑、延长、更多宽高比或制作控制时，选择 Seedance 2.0。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Kling 3 4K",
+        "body": "使用已确认的概念直接生成原生 4K 文生视频或图生视频，可选音频。"
+      },
+      {
+        "title": "选择 Seedance 2.0",
+        "body": "参考素材、视频编辑、延长、动态控制、多种分辨率和更多宽高比可使用 Seedance。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "Kling 每次固定生成原生 4K；Seedance 可从 480p 开始迭代，并提供更广泛的输入模式。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "Kling 适合已确认的最终主镜头；Seedance 适合反复迭代的宣传项目、参考素材较多的序列、编辑和延长视频。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-3-4k",
+        "label": "查看 Kling 3 4K 详情"
+      },
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/ai-video-engines/kling-3-4k-vs-veo-3-1",
+        "label": "对比 Kling 3 4K 对比 Veo 3.1"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在专用原生 4K 与更广泛的 Seedance 工作流之间选择。",
+      "items": [
+        {
+          "question": "Kling 3 4K 和 Seedance 2.0 都支持 4K 吗？",
+          "answer": "是。Kling 3 4K 固定输出原生 4K；Seedance 2.0 提供 480p、720p、1080p 和 4K，便于最终交付前迭代。"
+        },
+        {
+          "question": "哪款提供更多参考素材和编辑控制？",
+          "answer": "Seedance 2.0 提供参考生视频、视频生视频编辑、延长、动态控制及多份图像、视频或音频参考。Kling 3 4K 侧重文本和起始图像生成。"
+        },
+        {
+          "question": "哪款更适合最终 4K 主镜头？",
+          "answer": "已确认的提示词或图像直接生成原生 4K 时，Kling 3 4K 更专注；镜头仍需参考素材、编辑、延长或低分辨率迭代时，Seedance 更合适。"
+        }
+      ]
+    }
   }
 }

@@ -20,7 +20,7 @@ export function buildRelatedComparisonLinks(canonicalSlug: string, locale: AppLo
       if (!isComparisonIndexable(locale, canonicalPair)) return null;
       return {
         href: { pathname: '/ai-video-engines/[slug]', params: { slug: canonicalPair } },
-        label: `${formatEngineName(resolvedPair.left)} vs ${formatEngineName(resolvedPair.right)}`,
+        label: `${formatEngineName(resolvedPair.left)} ${locale === 'zh' ? '对比' : 'vs'} ${formatEngineName(resolvedPair.right)}`,
       };
     })
     .filter((item): item is RelatedComparisonLink => Boolean(item));

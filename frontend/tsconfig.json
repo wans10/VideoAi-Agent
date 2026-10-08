@@ -32,6 +32,7 @@
         "./*"
       ],
       "@maxvideoai/pricing": ["../packages/pricing/src/index.ts"],
+      "@maxvideoai/pricing/src/*": ["../packages/pricing/src/*"],
       "@maxvideoai/pricing/*": ["../packages/pricing/src/*"]
     }
   },

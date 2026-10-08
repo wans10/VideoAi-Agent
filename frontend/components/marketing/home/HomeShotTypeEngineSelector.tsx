@@ -4,7 +4,6 @@ import { Link } from '@/i18n/navigation';
 import { EngineIcon } from '@/components/ui/EngineIcon';
 import { UIIcon } from '@/components/ui/UIIcon';
 import { BEST_FOR_CARD_VISUALS } from '@/components/marketing/home/home-redesign-visuals';
-import { StartupFameLink } from '@/components/marketing/home/HomeStartupFameLink';
 import type { SectionCopy, ShotTypeCard } from '@/components/marketing/home/home-redesign-types';
 
 function renderBestForTitle(title: string) {
@@ -36,7 +35,6 @@ function formatBestForPickLabel(label: string) {
 export function ShotTypeEngineSelector({
   copy,
   cards,
-  startupFameLabel,
 }: {
   copy: SectionCopy;
   cards: ShotTypeCard[];
@@ -143,7 +141,6 @@ export function ShotTypeEngineSelector({
                 <span aria-hidden="true">→</span>
               </span>
             </Link>
-            {startupFameLabel ? <StartupFameLink label={startupFameLabel} /> : null}
           </div>
         ) : null}
       </div>

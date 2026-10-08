@@ -99,11 +99,11 @@ test('legacy Luma loop selectors are covered without inventing loop for edit mod
   }
 });
 
-test('coverage follows all 48 app-published models in 15 families, including pricing-hidden legacy variants', () => {
+test('coverage follows all 50 app-published models in 16 families, including pricing-hidden legacy variants', () => {
   const coverage = collectSellableManualTariffCoverage();
   const published = listRuntimeModels().filter((model) => model.publication.app.published);
-  assert.equal(published.length, 48);
-  assert.equal(new Set(published.map((model) => model.family)).size, 15);
+  assert.equal(published.length, 50);
+  assert.equal(new Set(published.map((model) => model.family)).size, 16);
   assert.deepEqual(new Set(coverage.scenarios.map((scenario) => scenario.modelId)), new Set(published.map((model) => model.id)));
   assert.ok(coverage.scenarios.some((scenario) => scenario.modelId === 'lumaRay2'));
   assert.ok(coverage.scenarios.some((scenario) => scenario.modelId === 'lumaRay2_flash'));

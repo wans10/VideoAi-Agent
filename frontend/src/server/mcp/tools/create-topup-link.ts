@@ -18,12 +18,12 @@ export function registerCreateTopupLinkTool(
   server.registerTool(
     'create_topup_link',
     {
-      title: 'Create a MaxVideoAI top-up handoff',
+      title: 'Create a Keyvo top-up handoff',
       description: [
         'Use this when an exact prepared quote needs more credits.',
-        'It creates a short-lived MaxVideoAI web handoff and invalidates the old short-lived quote.',
+        'It creates a short-lived Keyvo web handoff and invalidates the old short-lived quote.',
         'This tool does not take payment.',
-        'Payment happens only on the MaxVideoAI website at the exact returned destination; never collect payment data or claim the browser step completed.',
+        'Payment happens only on the Keyvo website at the exact returned destination; never collect payment data or claim the browser step completed.',
         'After the user reports funding, call get_account_status, then a fresh prepare_generation (prepare_audio_generation for Audio).',
         'Display the fresh exact quote and wait for new explicit approval before confirmation.',
         'Funding is not generation approval; never automatically retry or generate.',

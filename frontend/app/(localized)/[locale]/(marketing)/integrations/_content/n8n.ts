@@ -23,7 +23,7 @@ function guides(locale: AppLocale, text: {
         { title: text.approval, body: text.limitation },
       ],
       commands: [],
-      setupValues: [{ label: locale === 'fr' ? 'Adresse MCP' : locale === 'es' ? 'Dirección MCP' : 'MCP endpoint', value: MCP_PRODUCTION_RESOURCE_URL }],
+      setupValues: [{ label: locale === 'fr' ? 'Adresse MCP' : locale === 'es' ? 'Dirección MCP' : locale === 'zh' ? 'MCP 地址' : 'MCP endpoint', value: MCP_PRODUCTION_RESOURCE_URL }],
       limitation: text.limitation,
     },
   ];
@@ -31,8 +31,8 @@ function guides(locale: AppLocale, text: {
 
 function english(): IntegrationText {
   return {
-    metaTitle: 'Automate AI Video with n8n and MaxVideoAI',
-    metaDescription: 'Run approval-safe AI video workflows with MaxVideoAI and the deterministic MCP Client in tested self-hosted n8n deployments.',
+    metaTitle: 'Automate AI Video with n8n and VideoAI',
+    metaDescription: 'Run approval-safe AI video workflows with VideoAI and the deterministic MCP Client in tested self-hosted n8n deployments.',
     eyebrow: 'N8N AI VIDEO AUTOMATION',
     heroTitle: 'Design repeatable AI video workflows in n8n with MaxVideoAI',
     heroIntro: 'The supported path uses deterministic MCP Client nodes in tested self-hosted n8n 2.38.7. Connect your MaxVideoAI account with an OAuth credential configured in n8n.',
@@ -50,15 +50,15 @@ function english(): IntegrationText {
     setupIntro: 'The tested MCP Client path connects through an n8n-owned OAuth credential. The separate AI Agent MCP Client Tool configuration remains not run, and no credential is embedded in exported templates.',
     guides: guides('en', {
       deterministicTitle: 'MCP Client for deterministic workflow steps',
-      deterministicIntro: 'Choose one MaxVideoAI tool per node when the workflow order and inputs should remain explicit.',
-      select: 'Create an OAuth2 credential for the MaxVideoAI endpoint, then select the exact tool and JSON input in the node.',
+      deterministicIntro: 'Choose one VideoAI tool per node when the workflow order and inputs should remain explicit.',
+      select: 'Create an OAuth2 credential for the VideoAI endpoint, then select the exact tool and JSON input in the node.',
       credential: 'Connect the OAuth credential',
       approval: 'Keep approval outside preparation',
-      limitation: 'A prepared quote does not authorize spend. Match the approval event to its quoteId, confirm that quote once, and recover the accepted job instead of confirming again. Replays of the same quote are idempotent on MaxVideoAI.',
+      limitation: 'A prepared quote does not authorize spend. Match the approval event to its quoteId, confirm that quote once, and recover the accepted job instead of confirming again. Replays of the same quote are idempotent on VideoAI.',
     }),
     oauthTitle: 'Credential ownership follows the supported n8n deployment',
-    oauthBody: 'n8n stores the OAuth credential; exported workflows contain no MaxVideoAI token. The self-hosted checkpoint covered project scope, browser consent, revocation and observed access loss. Cloud, refresh and reconnect remain separate checks.',
-    oauthSteps: ['Create the OAuth2 credential for the remote MCP endpoint', 'Complete MaxVideoAI browser consent with the intended account', 'Test refresh, revocation and reconnect on the exact n8n deployment'],
+    oauthBody: 'n8n stores the OAuth credential; exported workflows contain no VideoAI token. The self-hosted checkpoint covered project scope, browser consent, revocation and observed access loss. Cloud, refresh and reconnect remain separate checks.',
+    oauthSteps: ['Create the OAuth2 credential for the remote MCP endpoint', 'Complete VideoAI browser consent with the intended account', 'Test refresh, revocation and reconnect on the exact n8n deployment'],
     workflowEyebrow: 'APPROVAL-SAFE AUTOMATION',
     workflowTitle: 'Separate planning, exact quotation, approval and recovery',
     workflowIntro: 'Deterministic nodes make the spending boundary inspectable. Agent tools can help choose and plan, but they do not receive an automatic paid-confirmation path.',
@@ -78,13 +78,13 @@ function english(): IntegrationText {
       { question: 'Where is the n8n template?', answer: 'An update to workflow 19591 is awaiting n8n review. Its page may still show the earlier version until approval. OAuth setup remains manual.', link: { href: MCP_N8N_PUBLIC_TEMPLATE_URL, label: 'Check the template on n8n.' } },
       { question: 'Which n8n node should I use?', answer: 'Use MCP Client for the supported deterministic steps. MCP Client Tool for an AI Agent remains not run and unsupported.' },
       { question: 'Does this work on n8n Cloud?', answer: 'No n8n Cloud support is claimed. The tested scope is self-hosted n8n 2.38.7.' },
-      { question: 'Can the workflow confirm automatically?', answer: 'No. The candidate templates require a POST approval that matches the fresh quoteId. MaxVideoAI keeps confirmation idempotent for that quote.' },
+      { question: 'Can the workflow confirm automatically?', answer: 'No. The candidate templates require a POST approval that matches the fresh quoteId. VideoAI keeps confirmation idempotent for that quote.' },
       { question: 'What happens when polling times out?', answer: 'Resume status for the accepted job. Do not route timeout recovery back into confirmation or create a replacement.' },
     ],
-    disconnectTitle: 'Disconnect n8n from MaxVideoAI',
-    disconnectBody: 'Delete or disable the n8n OAuth credential and revoke its grant in MaxVideoAI account connections. Templates remain credential-free and cannot reconnect themselves.',
-    disconnectSteps: ['Disable the workflows that use the credential', 'Delete the n8n credential and revoke the MaxVideoAI grant', 'Confirm protected nodes fail before creating a new credential'],
-    supportLabel: 'Contact MaxVideoAI support',
+    disconnectTitle: 'Disconnect n8n from VideoAI',
+    disconnectBody: 'Delete or disable the n8n OAuth credential and revoke its grant in VideoAI account connections. Templates remain credential-free and cannot reconnect themselves.',
+    disconnectSteps: ['Disable the workflows that use the credential', 'Delete the n8n credential and revoke the VideoAI grant', 'Confirm protected nodes fail before creating a new credential'],
+    supportLabel: 'Contact VideoAI support',
   };
 }
 
@@ -92,8 +92,8 @@ function french(): IntegrationText {
   const copy = english();
   return {
     ...copy,
-    metaTitle: 'Automatiser la vidéo IA avec n8n et MaxVideoAI',
-    metaDescription: 'Exécutez des workflows vidéo IA sûrs avec MaxVideoAI et MCP Client déterministe sur les déploiements n8n auto-hébergés testés.',
+    metaTitle: 'Automatiser la vidéo IA avec n8n et VideoAI',
+    metaDescription: 'Exécutez des workflows vidéo IA sûrs avec VideoAI et MCP Client déterministe sur les déploiements n8n auto-hébergés testés.',
     eyebrow: 'AUTOMATISATION VIDÉO IA N8N',
     heroTitle: 'Concevez des workflows vidéo IA répétables dans n8n avec MaxVideoAI',
     heroIntro: 'Le parcours compatible utilise les nœuds MCP Client déterministes sur n8n auto-hébergé 2.38.7. Connectez votre compte MaxVideoAI avec un identifiant OAuth configuré dans n8n.',
@@ -111,15 +111,15 @@ function french(): IntegrationText {
     setupIntro: 'Le parcours MCP Client testé utilise un identifiant OAuth détenu par n8n. La configuration MCP Client Tool pour agent IA reste non testée et aucun identifiant n’est intégré aux modèles exportés.',
     guides: guides('fr', {
       deterministicTitle: 'MCP Client pour des étapes déterministes',
-      deterministicIntro: 'Choisissez un outil MaxVideoAI par nœud lorsque l’ordre et les entrées doivent rester explicites.',
+      deterministicIntro: 'Choisissez un outil VideoAI par nœud lorsque l’ordre et les entrées doivent rester explicites.',
       select: 'Créez l’identifiant OAuth2 pour le point MCP, puis choisissez l’outil et son entrée JSON exacte.',
       credential: 'Connecter l’identifiant OAuth',
       approval: 'Séparer préparation et accord',
-      limitation: 'Préparer un devis n’autorise aucune dépense. Faites correspondre l’accord au quoteId, confirmez ce devis une fois puis reprenez le job accepté. Le même quoteId reste idempotent côté MaxVideoAI.',
+      limitation: 'Préparer un devis n’autorise aucune dépense. Faites correspondre l’accord au quoteId, confirmez ce devis une fois puis reprenez le job accepté. Le même quoteId reste idempotent côté VideoAI.',
     }),
     oauthTitle: 'La propriété de l’identifiant suit le déploiement n8n',
-    oauthBody: 'n8n stocke OAuth ; les exports ne contiennent aucun jeton MaxVideoAI. Le contrôle auto-hébergé couvre la portée projet, le consentement, la révocation et la perte d’accès. Cloud, renouvellement et reconnexion restent à tester.',
-    oauthSteps: ['Créer l’identifiant OAuth2 du point MCP distant', 'Valider le consentement MaxVideoAI avec le bon compte', 'Tester renouvellement, révocation et reconnexion sur le déploiement exact'],
+    oauthBody: 'n8n stocke OAuth ; les exports ne contiennent aucun jeton VideoAI. Le contrôle auto-hébergé couvre la portée projet, le consentement, la révocation et la perte d’accès. Cloud, renouvellement et reconnexion restent à tester.',
+    oauthSteps: ['Créer l’identifiant OAuth2 du point MCP distant', 'Valider le consentement VideoAI avec le bon compte', 'Tester renouvellement, révocation et reconnexion sur le déploiement exact'],
     workflowEyebrow: 'AUTOMATISATION AVEC APPROBATION',
     workflowTitle: 'Séparez planification, devis exact, accord et reprise',
     workflowIntro: 'Les nœuds déterministes rendent la dépense inspectable. Les outils agent aident à choisir sans recevoir de confirmation payante automatique.',
@@ -139,13 +139,13 @@ function french(): IntegrationText {
       { question: 'Où trouver le modèle n8n ?', answer: 'Une mise à jour du workflow 19591 est en cours de revue par n8n. Sa page peut encore présenter la version précédente avant validation. L’identifiant OAuth se configure manuellement.', link: { href: MCP_N8N_PUBLIC_TEMPLATE_URL, label: 'Consulter le modèle sur n8n.' } },
       { question: 'Quel nœud n8n utiliser ?', answer: 'MCP Client pour les étapes déterministes compatibles. MCP Client Tool pour agent IA reste non testé et non compatible.' },
       { question: 'Cela fonctionne-t-il sur n8n Cloud ?', answer: 'Aucune compatibilité n8n Cloud n’est revendiquée. Le périmètre testé est n8n auto-hébergé 2.38.7.' },
-      { question: 'Le workflow peut-il confirmer automatiquement ?', answer: 'Non. Il exige un POST d’accord correspondant au quoteId récent. MaxVideoAI rend la confirmation de ce devis idempotente.' },
+      { question: 'Le workflow peut-il confirmer automatiquement ?', answer: 'Non. Il exige un POST d’accord correspondant au quoteId récent. VideoAI rend la confirmation de ce devis idempotente.' },
       { question: 'Que faire après un délai de polling ?', answer: 'Reprenez le statut du job accepté ; ne revenez pas à la confirmation et ne créez pas de remplacement.' },
     ],
-    disconnectTitle: 'Déconnecter n8n de MaxVideoAI',
-    disconnectBody: 'Désactivez ou supprimez l’identifiant OAuth n8n puis révoquez-le dans MaxVideoAI. Les modèles sans identifiant ne peuvent pas se reconnecter seuls.',
-    disconnectSteps: ['Désactiver les workflows concernés', 'Supprimer l’identifiant n8n et révoquer MaxVideoAI', 'Vérifier l’échec des nœuds protégés avant une nouvelle connexion'],
-    supportLabel: 'Contacter le support MaxVideoAI',
+    disconnectTitle: 'Déconnecter n8n de VideoAI',
+    disconnectBody: 'Désactivez ou supprimez l’identifiant OAuth n8n puis révoquez-le dans VideoAI. Les modèles sans identifiant ne peuvent pas se reconnecter seuls.',
+    disconnectSteps: ['Désactiver les workflows concernés', 'Supprimer l’identifiant n8n et révoquer VideoAI', 'Vérifier l’échec des nœuds protégés avant une nouvelle connexion'],
+    supportLabel: 'Contacter le support VideoAI',
   };
 }
 
@@ -153,8 +153,8 @@ function spanish(): IntegrationText {
   const copy = english();
   return {
     ...copy,
-    metaTitle: 'Automatiza vídeo IA con n8n y MaxVideoAI',
-    metaDescription: 'Ejecuta flujos seguros de vídeo IA con MaxVideoAI y MCP Client determinista en despliegues n8n self-hosted probados.',
+    metaTitle: 'Automatiza vídeo IA con n8n y VideoAI',
+    metaDescription: 'Ejecuta flujos seguros de vídeo IA con VideoAI y MCP Client determinista en despliegues n8n self-hosted probados.',
     eyebrow: 'AUTOMATIZACIÓN DE VÍDEO IA N8N',
     heroTitle: 'Diseña flujos repetibles de vídeo IA en n8n con MaxVideoAI',
     heroIntro: 'La ruta compatible usa nodos MCP Client deterministas en n8n self-hosted 2.38.7. Conecta tu cuenta MaxVideoAI con una credencial OAuth configurada en n8n.',
@@ -172,11 +172,11 @@ function spanish(): IntegrationText {
     setupIntro: 'La ruta MCP Client probada utiliza una credencial OAuth propiedad de n8n. La configuración MCP Client Tool para agentes sigue sin probar y las plantillas exportadas no incluyen credenciales.',
     guides: guides('es', {
       deterministicTitle: 'MCP Client para pasos deterministas',
-      deterministicIntro: 'Elige una herramienta MaxVideoAI por nodo cuando el orden y las entradas deban ser explícitos.',
+      deterministicIntro: 'Elige una herramienta VideoAI por nodo cuando el orden y las entradas deban ser explícitos.',
       select: 'Crea la credencial OAuth2 para el endpoint MCP y selecciona la herramienta y su entrada JSON exacta.',
       credential: 'Conectar la credencial OAuth',
       approval: 'Separar preparación y aprobación',
-      limitation: 'Preparar una cotización no autoriza gasto. Vincula la aprobación a su quoteId, confirma esa cotización una vez y recupera el job aceptado. El mismo quoteId es idempotente en MaxVideoAI.',
+      limitation: 'Preparar una cotización no autoriza gasto. Vincula la aprobación a su quoteId, confirma esa cotización una vez y recupera el job aceptado. El mismo quoteId es idempotente en VideoAI.',
     }),
     oauthTitle: 'La credencial pertenece al despliegue n8n compatible',
     oauthBody: 'n8n guarda OAuth; los flujos exportados no incluyen tokens. La prueba self-hosted cubrió alcance de proyecto, consentimiento, revocación y pérdida de acceso. Cloud, renovación y reconexión siguen pendientes.',
@@ -200,13 +200,74 @@ function spanish(): IntegrationText {
       { question: '¿Dónde está la plantilla de n8n?', answer: 'Una actualización del flujo 19591 está en revisión por n8n. Su página puede mostrar todavía la versión anterior hasta su aprobación. La credencial OAuth se configura manualmente.', link: { href: MCP_N8N_PUBLIC_TEMPLATE_URL, label: 'Consultar la plantilla en n8n.' } },
       { question: '¿Qué nodo n8n debo usar?', answer: 'MCP Client para los pasos deterministas compatibles. MCP Client Tool para agentes sigue sin probar y sin soporte.' },
       { question: '¿Funciona en n8n Cloud?', answer: 'No se afirma soporte para n8n Cloud. El alcance probado es n8n self-hosted 2.38.7.' },
-      { question: '¿Puede confirmar automáticamente?', answer: 'No. Exige un POST de aprobación que coincida con el quoteId reciente. MaxVideoAI mantiene idempotente la confirmación de esa cotización.' },
+      { question: '¿Puede confirmar automáticamente?', answer: 'No. Exige un POST de aprobación que coincida con el quoteId reciente. VideoAI mantiene idempotente la confirmación de esa cotización.' },
       { question: '¿Qué ocurre tras un timeout?', answer: 'Recupera el estado del job aceptado; no vuelvas a confirmar ni crees un reemplazo.' },
     ],
-    disconnectTitle: 'Desconectar n8n de MaxVideoAI',
-    disconnectBody: 'Desactiva o elimina la credencial OAuth de n8n y revócala en MaxVideoAI. Las plantillas sin credenciales no pueden reconectarse solas.',
-    disconnectSteps: ['Desactivar los flujos que usan la credencial', 'Eliminar la credencial n8n y revocar MaxVideoAI', 'Confirmar el fallo de nodos protegidos antes de crear otra credencial'],
-    supportLabel: 'Contactar con soporte de MaxVideoAI',
+    disconnectTitle: 'Desconectar n8n de VideoAI',
+    disconnectBody: 'Desactiva o elimina la credencial OAuth de n8n y revócala en VideoAI. Las plantillas sin credenciales no pueden reconectarse solas.',
+    disconnectSteps: ['Desactivar los flujos que usan la credencial', 'Eliminar la credencial n8n y revocar VideoAI', 'Confirmar el fallo de nodos protegidos antes de crear otra credencial'],
+    supportLabel: 'Contactar con soporte de VideoAI',
+  };
+}
+
+function chinese(): IntegrationText {
+  const copy = english();
+  return {
+    ...copy,
+    metaTitle: '通过 n8n 与 VideoAI 自动化 AI 视频生成',
+    metaDescription: '在经过测试的自托管 n8n 部署中，通过 VideoAI 和确定性 MCP Client 节点运行安全的 AI 视频工作流。',
+    eyebrow: 'N8N AI 视频自动化',
+    heroTitle: '在 n8n 中借助 VideoAI 构建可重复的 AI 视频工作流',
+    heroIntro: '受支持的路径在自托管 n8n 2.38.7 中使用确定性 MCP Client 节点。工作流 19591 已在 n8n 模板库公开上架，OAuth 凭据仍需手动配置。',
+    unavailable: '自托管确定性 MCP Client 路径支持在最终确认前进行人工显式审批。n8n Cloud 以及通过 MCP Client Tool 进行的 AI Agent 调用不在当前受支持范围内。',
+    setupLabel: '连接自托管 n8n',
+    backLabel: '查看所有受支持的工作流',
+    checkpointLabel: '自托管检查点',
+    machineStatusLabel: '宿主环境验证状态',
+    statuses: {
+      n8nMcpClient: '在自托管 n8n 2.38.7 上完成受控测试：干净导入、项目级 OAuth、规划、确切报价、单次确认、恢复与撤销全部通过。',
+      n8nMcpClientTool: '未测试：导入包含 5 个规划工具的 MCP Client Tool 1.4，未配置聊天模型，AI Agent 调用尚未经过验证。',
+    },
+    setupEyebrow: '选择执行模式',
+    setupTitle: '在受支持的工作流中使用确定性 MCP Client',
+    setupIntro: '经过验证的 MCP Client 路径使用由 n8n 持有的 OAuth 凭据。AI Agent 节点的 MCP Client Tool 配置尚未经过完整测试，导出的模板中不包含任何凭据。',
+    guides: guides('zh', {
+      deterministicTitle: '使用 MCP Client 执行确定性步骤',
+      deterministicIntro: '在需要保持执行顺序与输入参数清晰明确时，为每个节点选择单个 VideoAI 工具。',
+      select: '为远程 MCP 端点创建 OAuth2 凭据，然后选择工具及其确切的 JSON 输入。',
+      credential: '连接 OAuth 凭据',
+      approval: '将准备阶段与确认审批解耦',
+      limitation: '准备报价不会产生扣费，也不代表获得消费授权。将审批操作与 quoteId 关联，确认该报价一次，随后恢复已接受的任务。VideoAI 端对同一 quoteId 保持幂等。',
+    }),
+    oauthTitle: '凭据所有权归属于 n8n 部署实例',
+    oauthBody: 'n8n 安全存储 OAuth 凭据；导出的工作流模板不包含任何 VideoAI 令牌。自托管核验涵盖项目作用域、授权、撤销及访问失效。Cloud、凭据刷新和重新连接仍需分别验证。',
+    oauthSteps: ['为远程 MCP 端点创建 OAuth2 凭据', '使用目标账户完成 VideoAI 授权确认', '在具体部署环境中验证刷新、撤销与重新连接流程'],
+    workflowEyebrow: '带人工审批的自动化',
+    workflowTitle: '规划、确切报价、人工审批与状态恢复清晰隔离',
+    workflowIntro: '确定性节点使费用开支完全可审计。Agent 辅助工具可帮助决策，但不会触发自动扣费。',
+    workflowSteps: [
+      { title: '发现模型并预估预算', body: '查询实时模型能力并计算预算范围，不产生任何扣费。' },
+      { title: '准备确切请求', body: '校验提示词与配置参数，并保存生成的最新报价信息。' },
+      { title: '等待人工审批', body: '向操作者展示确切报价，并等待显式的批准事件。' },
+      { title: '单次确认并恢复任务', body: '仅针对批准的 quoteId 确认一次，然后直接恢复已接受的任务状态，避免重复提交。' },
+    ],
+    referencesTitle: '私有参考素材自动化目前尚未列入支持范围',
+    referencesPlanning: '当前测试的 JSON 工作流未调用 list_media 或 create_reference_upload_link。在 n8n 中自动化处理私有素材仍未经过核验，不在发布范围内。',
+    referencesGated: '切勿将带签名的媒体、凭据或私有数据嵌入导出的工作流模板中。',
+    helpEyebrow: '工作流安全规范',
+    helpTitle: '防止重复计费与凭据泄露',
+    helpIntro: '公开工作流 19591 已在 n8n 模板库上架；OAuth 凭据仍需手动配置。已验证的范围仅限自托管确定性 MCP Client 工作流。',
+    helpItems: [
+      { question: '有公开的 n8n 模板吗？', answer: '有。工作流 19591 已公开上架。导入后，请为已测试的自托管路径手动配置 OAuth 凭据。', link: { href: MCP_N8N_PUBLIC_TEMPLATE_URL, label: '查看公开 n8n 模板' } },
+      { question: '应该使用哪个 n8n 节点？', answer: '使用 MCP Client 执行受支持的确定性步骤。用于 Agent 的 MCP Client Tool 尚未经过完整验证，暂不受支持。' },
+      { question: '可以在 n8n Cloud 上运行吗？', answer: '目前不承诺支持 n8n Cloud。经过验证的环境为自托管 n8n 2.38.7。' },
+      { question: '工作流可以自动确认扣费吗？', answer: '不能。工作流需要与最新 quoteId 匹配的明确 POST 审批操作。VideoAI 对同一报价的确认保持严格幂等。' },
+      { question: '请求超时该如何处理？', answer: '查询并恢复已接受任务的状态；切勿重复确认或创建替代任务。' },
+    ],
+    disconnectTitle: '从 VideoAI 断开 n8n 连接',
+    disconnectBody: '禁用或删除 n8n 中的 OAuth 凭据，并在 VideoAI 设置中撤销授权。不含凭据的模板无法自行重新连接。',
+    disconnectSteps: ['禁用依赖该凭据的工作流', '删除 n8n 凭据并从 VideoAI 撤销授权', '在重新连接前确认受保护节点均无法再发起调用'],
+    supportLabel: '联系 VideoAI 技术支持',
   };
 }
 
@@ -214,6 +275,6 @@ export function buildN8nIntegrationCopy(locale: AppLocale): IntegrationPageCopy 
   return buildIntegrationCopy({
     client: 'n8n',
     locale,
-    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : english(),
+    text: locale === 'fr' ? french() : locale === 'es' ? spanish() : locale === 'zh' ? chinese() : english(),
   });
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { USD_TOPUP_TIERS } from '@/config/topupTiers';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 import {
   createInitialTopupSelection,
   createReturnedTopupSelection,
@@ -40,11 +40,11 @@ export function useBillingTopupSelection({
     ? null
     : customAmountCents == null
       ? copy.wallet.customInvalid
-      : customAmountCents < 1000
+      : customAmountCents < TOPUP_TIERS[0].amountCents
         ? copy.wallet.customMin
         : null;
-  const customAmountValid = customAmountCents != null && customAmountCents >= 1000;
-  const selectedPresetTier = USD_TOPUP_TIERS.find((entry) => entry.amountCents === selectedTopupCents) ?? null;
+  const customAmountValid = customAmountCents != null && customAmountCents >= TOPUP_TIERS[0].amountCents;
+  const selectedPresetTier = TOPUP_TIERS.find((entry) => entry.amountCents === selectedTopupCents) ?? null;
   const customAmountSelected =
     customAmountValid && selectedPresetTier == null && selectedTopupCents === customAmountCents;
   const customCardActive = customEditorOpen || customAmountSelected;

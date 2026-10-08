@@ -1,11 +1,11 @@
-import { USD_TOPUP_TIERS } from '@/config/topupTiers';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 
 export type InitialTopupSelection = {
   selectedTopupCents: number;
   customAmountInput: string;
 };
 
-const DEFAULT_TOPUP_CENTS = USD_TOPUP_TIERS[0]?.amountCents ?? 1000;
+const DEFAULT_TOPUP_CENTS = TOPUP_TIERS[0]?.amountCents ?? 1000;
 
 function formatCustomAmountInput(amountCents: number): string {
   const dollarAmount = Math.floor(amountCents / 100);
@@ -22,7 +22,7 @@ export function createInitialTopupSelection(
     Number.isSafeInteger(amountCents) && Number(amountCents) >= DEFAULT_TOPUP_CENTS
       ? Number(amountCents)
       : DEFAULT_TOPUP_CENTS;
-  const isPreset = USD_TOPUP_TIERS.some(
+  const isPreset = TOPUP_TIERS.some(
     (entry) => entry.amountCents === selectedTopupCents
   );
   return {

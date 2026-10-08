@@ -234,7 +234,7 @@ export const SORA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Sora 2 – Generate AI Videos from Text or Image with Sound',
       description:
-        'Create rich AI-generated videos from text or image prompts using Sora 2. Native voice-over, ambient effects, and motion sync via MaxVideoAI.',
+        'Create rich AI-generated videos from text or image prompts using Sora 2. Native voice-over, ambient effects, and motion sync via Keyvo.',
       canonicalPath: '/models/sora-2',
     },
     type: 'Text + Image',
@@ -263,7 +263,7 @@ export const SORA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     faqs: [
       {
         question: 'Can I access Sora 2 from Europe?',
-        answer: 'Yes. MaxVideoAI brokers access so European teams can render without waiting on an OpenAI invite.',
+        answer: 'Yes. Keyvo brokers access so European teams can render without waiting on an OpenAI invite.',
       },
       {
         question: 'Do Sora 2 renders include a watermark?',
@@ -322,7 +322,7 @@ export const SORA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Sora 2 Pro – Longer AI Videos with Audio & Enhanced Prompt Control',
       description:
-        'Create longer, more immersive AI videos from text or images using Sora 2 Pro. Native voice, ambient sound, prompt chaining, and advanced control via MaxVideoAI.',
+        'Create longer, more immersive AI videos from text or images using Sora 2 Pro. Native voice, ambient sound, prompt chaining, and advanced control via Keyvo.',
       canonicalPath: '/models/sora-2-pro',
     },
     type: 'Text + Image',

@@ -8,6 +8,10 @@ import {
   resolveGoogleVertexOmniSupport,
 } from '../frontend/src/server/video-providers/google-vertex-omni/model-map';
 import { resolveVideoProviderRoutingPlan } from '../frontend/src/server/video-providers/router';
+const omniCredentials = {
+  GOOGLE_VERTEX_OMNI_PROJECT_ID: 'test-project',
+  GOOGLE_VERTEX_OMNI_SERVICE_ACCOUNT_JSON: '{"client_email":"test@example.com","private_key":"test-key"}',
+};
 
 test('Gemini Omni Flash model map uses the Vertex Agent Platform 1.1 preview model id', () => {
   assert.equal(GOOGLE_VERTEX_OMNI_PROVIDER, 'google_vertex_omni_direct');
@@ -50,6 +54,7 @@ test('Gemini Omni Flash routing stays publication-gated until explicitly enabled
       mode: 't2v',
       isAdmin: false,
       env: {
+        ...omniCredentials,
         GOOGLE_VERTEX_OMNI_ENABLED: 'true',
       },
     }),
@@ -62,6 +67,7 @@ test('Gemini Omni Flash routing stays publication-gated until explicitly enabled
       mode: 't2v',
       isAdmin: false,
       env: {
+        ...omniCredentials,
         GOOGLE_VERTEX_OMNI_ENABLED: 'true',
         GOOGLE_VERTEX_OMNI_PUBLIC_ROUTING_ENABLED: 'true',
       },
@@ -78,6 +84,7 @@ test('Gemini Omni Flash routing stays publication-gated until explicitly enabled
       mode: 't2v',
       isAdmin: true,
       env: {
+        ...omniCredentials,
         GOOGLE_VERTEX_OMNI_ENABLED: 'true',
         GOOGLE_VERTEX_OMNI_ADMIN_ONLY: 'true',
       },

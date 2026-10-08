@@ -12,6 +12,8 @@ const env = {
   GOOGLE_VERTEX_LOCATION: 'global',
   GOOGLE_VERTEX_OMNI_LOCATION: 'global',
   GOOGLE_VERTEX_API_BASE_URL: 'https://aiplatform.googleapis.com',
+  GOOGLE_VERTEX_VEO_LOCATION: 'us-central1',
+  GOOGLE_VERTEX_VEO_API_BASE_URL: 'https://us-central1-aiplatform.googleapis.com',
   GOOGLE_VERTEX_INPUT_GCS_URI: 'gs://maxvideoai-mcp-staging-inputs-260827/mcp-inputs',
   GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON: JSON.stringify({
     client_email: 'maxvideoai-mcp-staging@example.iam.gserviceaccount.com',
@@ -86,6 +88,10 @@ test('Google Vertex readiness verifies OAuth, private GCS round-trip, and all ei
   assert.equal(calls.filter((call) => call.url.endsWith(':generateContent')).length, 4);
   assert.equal(calls.filter((call) => call.url.endsWith(':predictLongRunning')).length, 3);
   assert.equal(calls.filter((call) => call.url.endsWith(':fetchPredictOperation')).length, 3);
+  assert.equal(calls.filter((call) => call.url.endsWith(':predictLongRunning') || call.url.endsWith(':fetchPredictOperation'))
+    .every((call) => call.url.startsWith('https://us-central1-aiplatform.googleapis.com/') && call.url.includes('/locations/us-central1/')), true);
+  assert.equal(calls.filter((call) => call.url.endsWith(':generateContent'))
+    .every((call) => call.url.startsWith('https://aiplatform.googleapis.com/') && call.url.includes('/locations/global/')), true);
   assert.equal(calls.filter((call) => call.url.endsWith('/interactions') && call.method === 'POST').length, 1);
   assert.equal(calls.filter((call) => call.url.includes('/interactions/maxvideoai-readiness-does-not-exist')).length, 1);
   assert.equal(calls.some((call) => call.url.endsWith(':getIamPolicy')), false);

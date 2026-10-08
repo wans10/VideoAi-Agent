@@ -5,7 +5,7 @@
     "title": "Generador de video con IA LTX 2.5 Pro para producción",
     "description": "Elige LTX 2.5 Pro para pasadas de texto, imagen y audio orientadas a producción, con restricciones, método de prompt y cotizaciones canónicas."
   },
-  "overview": "LTX 2.5 Pro es la ruta actual orientada a producción de la familia LTX. Sirve para briefs ya estructurados que necesitan una evaluación cuidadosa en texto a video, imagen a video o audio a video. Lightricks es propietario de LTX y Fal distribuye esta integración de MaxVideoAI durante el lanzamiento.",
+  "overview": "LTX 2.5 Pro es la ruta actual orientada a producción de la familia LTX. Sirve para briefs ya estructurados que necesitan una evaluación cuidadosa en texto a video, imagen a video o audio a video. Lightricks es propietario de LTX y Fal distribuye esta integración de VideoAI durante el lanzamiento.",
   "decision": {
     "modelSlug": "ltx-2-5-pro",
     "hero": {
@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "Precios por escenario de LTX 2.5 Pro",
       "subtitle": "Compara un video de seis segundos creado desde texto, en 720p o 1080p, con un video creado desde seis segundos de audio.",
-      "footnote": "El precio depende de tus ajustes. MaxVideoAI confirma la cotización antes de generar. En audio a video, el precio depende de la duración del audio de origen.",
+      "footnote": "El precio depende de tus ajustes. VideoAI confirma la cotización antes de generar. En audio a video, el precio depende de la duración del audio de origen.",
       "ctaLabel": "Generar con LTX 2.5 Pro",
       "ctaHref": "/app?engine=ltx-2-5-pro"
     },

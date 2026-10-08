@@ -4,6 +4,7 @@ import { receiptsPriceOnlyEnabled } from '@/lib/env';
 import { getUserPreferredCurrency, normalizeCurrencyCode } from '@/lib/currency';
 import type { Currency } from '@/lib/currency';
 import type { BillingProductKey, JobSurface } from '@/types/billing';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 export type WalletBalanceByCurrency = {
   currency: Currency | null;
@@ -164,8 +165,16 @@ async function reserveWalletChargeWithQueryExecutor(
   params: ReserveWalletChargeParams,
   options: ReserveWalletChargeOptions = {}
 ): Promise<ReserveWalletChargeResult> {
-  const normalizedCurrencyLower = normalizeCurrencyCode(params.currency) ?? 'usd';
+  const normalizedCurrencyLower = normalizeCurrencyCode(params.currency) ?? CUSTOMER_CURRENCY.toLowerCase();
   const normalizedCurrencyUpper = normalizedCurrencyLower.toUpperCase();
+  if (CUSTOMER_CURRENCY === 'CNY' && normalizedCurrencyUpper !== CUSTOMER_CURRENCY) {
+    return {
+      ok: false,
+      balanceCents: 0,
+      errorCode: 'currency_mismatch',
+      preferredCurrency: 'cny',
+    };
+  }
   const fallbackToMock = () => {
     const result = consumeMockWalletBalance(params.userId, params.amountCents);
     if (!result.ok) {
@@ -192,7 +201,7 @@ async function reserveWalletChargeWithQueryExecutor(
       options.preferredCurrency !== undefined
         ? options.preferredCurrency
         : await getUserPreferredCurrency(params.userId);
-    if (preferredCurrency && preferredCurrency !== normalizedCurrencyLower && normalizedCurrencyLower !== 'usd') {
+    if (preferredCurrency && preferredCurrency !== normalizedCurrencyLower && normalizedCurrencyLower !== CUSTOMER_CURRENCY.toLowerCase()) {
       return {
         ok: false,
         balanceCents: 0,
@@ -258,13 +267,13 @@ async function reserveWalletChargeWithQueryExecutor(
           SELECT
             COALESCE(SUM(
               CASE
-                WHEN currency IS NULL OR currency = $3 THEN net_cents
+                WHEN currency = $3 OR (currency IS NULL AND $3 = 'USD') THEN net_cents
                 ELSE 0
               END
             ), 0::bigint) AS balance_cents,
             COALESCE(MAX(
               CASE
-                WHEN currency IS NOT NULL AND currency <> $3 AND net_cents > 0 THEN 1
+                WHEN (currency IS DISTINCT FROM $3) AND NOT (currency IS NULL AND $3 = 'USD') AND net_cents > 0 THEN 1
                 ELSE 0
               END
             ), 0) AS has_mismatch

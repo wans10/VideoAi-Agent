@@ -1,4 +1,5 @@
 import type { AppLocale } from '@/i18n/locales';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 type PricingHubCopy = {
   liveQuote: string;
@@ -218,8 +219,8 @@ const en: PricingHubCopy = {
     ariaTabs: 'Pricing surfaces',
     title: 'AI video prices by engine',
     intro:
-      'Compare preset MaxVideoAI total prices for common video scenarios. Unsupported combinations are marked clearly. Open the app for the exact live quote before generation.',
-    currencyLabel: 'Prices shown in USD credits.',
+      'Compare preset Keyvo total prices for common video scenarios. Unsupported combinations are marked clearly. Open the app for the exact live quote before generation.',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Prices shown in CNY.' : 'Prices shown in USD credits.',
     cheapestCurrentGen: 'Cheapest current-gen',
     tableHeaders: { engine: 'Engine', caps: 'Caps', actions: 'Actions' },
     tabs: { video: 'Video', image: 'Image', audio: 'Audio', tools: 'Tools & Upscale' },
@@ -256,7 +257,7 @@ const en: PricingHubCopy = {
       currentGenValue: (count) => `${count} engines`,
     },
     globalNote:
-      'Prices are current MaxVideoAI display prices for preset scenarios. Open the app for the exact live price before each generation, including provider limits, duration rounding and job-level rounding.',
+      'Prices are current Keyvo display prices for preset scenarios. Open the app for the exact live price before each generation, including provider limits, duration rounding and job-level rounding.',
   },
   popularChecks: {
     title: 'Popular price checks',
@@ -278,7 +279,7 @@ const en: PricingHubCopy = {
   },
   otherSurfaces: {
     title: 'Image, audio and tool pricing',
-    intro: 'Compact MaxVideoAI price references for image generation, audio generation, character prep, angle tools and upscale.',
+    intro: 'Compact Keyvo price references for image generation, audio generation, character prep, angle tools and upscale.',
     imageTitle: 'Image generation pricing',
     audioTitle: 'Audio pricing',
     toolTitle: 'Prep tools and upscale pricing',
@@ -333,7 +334,7 @@ const en: PricingHubCopy = {
     cards: [
       {
         title: 'Pay-as-you-go credits',
-        body: 'Use credits without a required subscription. Starter credits begin at $10, and you can top up when you need more generations.',
+        body: `Use credits without a required subscription. Starter credits begin at ${CUSTOMER_CURRENCY === 'CNY' ? '¥80' : '$10'}, and you can top up when you need more generations.`,
         link: {
           href: '/pay-as-you-go-ai-video-generator',
           label: 'How pay-as-you-go credits work',
@@ -405,8 +406,8 @@ const fr: PricingHubCopy = {
     ariaTabs: 'Surfaces tarifaires',
     title: 'Prix vidéo IA par moteur',
     intro:
-      'Comparez les prix totaux MaxVideoAI pour des scénarios vidéo courants. Les combinaisons non disponibles sont indiquées clairement. Ouvrez l’app pour le devis exact avant génération.',
-    currencyLabel: 'Prix affichés en crédits USD.',
+      'Comparez les prix totaux Keyvo pour des scénarios vidéo courants. Les combinaisons non disponibles sont indiquées clairement. Ouvrez l’app pour le devis exact avant génération.',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Prix affichés en CNY.' : 'Prix affichés en crédits USD.',
     cheapestCurrentGen: 'Moins cher génération actuelle',
     tableHeaders: { engine: 'Moteur', caps: 'Caps', actions: 'Actions' },
     tabs: { video: 'Vidéo', image: 'Image', audio: 'Audio', tools: 'Outils & upscale' },
@@ -443,7 +444,7 @@ const fr: PricingHubCopy = {
       currentGenValue: (count) => `${count} moteurs`,
     },
     globalNote:
-      'Les prix sont les prix affichés MaxVideoAI pour ces scénarios prédéfinis. Ouvrez l’app pour le prix exact avant chaque génération, avec les limites provider, l’arrondi de durée et l’arrondi par job.',
+      'Les prix sont les prix affichés Keyvo pour ces scénarios prédéfinis. Ouvrez l’app pour le prix exact avant chaque génération, avec les limites provider, l’arrondi de durée et l’arrondi par job.',
   },
   popularChecks: {
     title: 'Vérifications de prix fréquentes',
@@ -465,7 +466,7 @@ const fr: PricingHubCopy = {
   },
   otherSurfaces: {
     title: 'Prix image, audio et outils',
-    intro: 'Références compactes MaxVideoAI pour la génération d’images, l’audio, la préparation de personnages, les angles caméra et l’upscale.',
+    intro: 'Références compactes Keyvo pour la génération d’images, l’audio, la préparation de personnages, les angles caméra et l’upscale.',
     imageTitle: 'Prix génération d’images',
     audioTitle: 'Prix audio',
     toolTitle: 'Prix outils de préparation et upscale',
@@ -520,7 +521,7 @@ const fr: PricingHubCopy = {
     cards: [
       {
         title: 'Crédits à l’usage',
-        body: 'Utilisez des crédits sans abonnement obligatoire. Les crédits de démarrage commencent à 10 $, et vous rechargez quand vous avez besoin de générer.',
+        body: `Utilisez des crédits sans abonnement obligatoire. Les crédits de démarrage commencent à ${CUSTOMER_CURRENCY === 'CNY' ? '80 CNY' : '10 $'}, et vous rechargez quand vous avez besoin de générer.`,
         link: {
           href: '/pay-as-you-go-ai-video-generator',
           label: 'Comprendre les crédits à l’usage',
@@ -592,8 +593,8 @@ const es: PricingHubCopy = {
     ariaTabs: 'Superficies de precios',
     title: 'Precios de video IA por motor',
     intro:
-      'Compara precios totales de MaxVideoAI para escenarios de video comunes. Las combinaciones no disponibles se marcan claramente. Abre la app para ver el precio exacto antes de generar.',
-    currencyLabel: 'Precios mostrados en créditos USD.',
+      'Compara precios totales de Keyvo para escenarios de video comunes. Las combinaciones no disponibles se marcan claramente. Abre la app para ver el precio exacto antes de generar.',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? 'Precios mostrados en CNY.' : 'Precios mostrados en créditos USD.',
     cheapestCurrentGen: 'Más barato generación actual',
     tableHeaders: { engine: 'Motor', caps: 'Caps', actions: 'Acciones' },
     tabs: { video: 'Video', image: 'Imagen', audio: 'Audio', tools: 'Herramientas & upscale' },
@@ -630,7 +631,7 @@ const es: PricingHubCopy = {
       currentGenValue: (count) => `${count} motores`,
     },
     globalNote:
-      'Los precios son los precios mostrados por MaxVideoAI para escenarios predefinidos. Abre la app para ver el precio exacto antes de cada generación, incluyendo límites del proveedor, redondeo de duración y redondeo por job.',
+      'Los precios son los precios mostrados por Keyvo para escenarios predefinidos. Abre la app para ver el precio exacto antes de cada generación, incluyendo límites del proveedor, redondeo de duración y redondeo por job.',
   },
   popularChecks: {
     title: 'Consultas de precio frecuentes',
@@ -652,7 +653,7 @@ const es: PricingHubCopy = {
   },
   otherSurfaces: {
     title: 'Precios de imagen, audio y herramientas',
-    intro: 'Referencias compactas de MaxVideoAI para generación de imágenes, audio, preparación de personajes, herramientas de ángulo y upscale.',
+    intro: 'Referencias compactas de Keyvo para generación de imágenes, audio, preparación de personajes, herramientas de ángulo y upscale.',
     imageTitle: 'Precios de generación de imágenes',
     audioTitle: 'Precios de audio',
     toolTitle: 'Precios de herramientas de prep y upscale',
@@ -707,7 +708,7 @@ const es: PricingHubCopy = {
     cards: [
       {
         title: 'Créditos de pago por uso',
-        body: 'Usa créditos sin suscripción obligatoria. Los créditos iniciales empiezan en $10 y puedes recargar cuando necesites más generaciones.',
+        body: `Usa créditos sin suscripción obligatoria. Los créditos iniciales empiezan en ${CUSTOMER_CURRENCY === 'CNY' ? '80 CNY' : '$10'} y puedes recargar cuando necesites más generaciones.`,
         link: {
           href: '/pay-as-you-go-ai-video-generator',
           label: 'Cómo funcionan los créditos por uso',
@@ -729,7 +730,191 @@ const es: PricingHubCopy = {
   },
 };
 
-const copyByLocale: Record<AppLocale, PricingHubCopy> = { en, fr, es };
+const zh: PricingHubCopy = {
+  ...en,
+  liveQuote: '实时报价',
+  noExactRoute: '无完全匹配方案',
+  priceCellCheapest: '最实惠',
+  quote: {
+    audioIncluded: '含音频',
+    audioOptional: '可选音频',
+    audioUnavailable: '无音频',
+    audio: '音频',
+    unsupported: '不支持',
+    silent: '无声',
+    dedicated: '专属模型',
+    fast: '快速',
+    supported: '支持',
+    optional: '可选',
+    sampleRequired: '需样本',
+    appPresets: '应用预设',
+    square: '正方形',
+    portrait: '竖屏',
+    landscape: '横屏',
+    maxDuration: (seconds) => `最长 ${seconds} 秒`,
+    minDuration: (seconds) => `最短 ${seconds} 秒`,
+    durationsOnly: (seconds) => `${seconds.join('/')} 秒`,
+    resolutionOnly: (resolution) => `仅 ${resolution}`,
+    resolutionUnavailable: (resolution) => `无 ${resolution}`,
+    fourKNote: (seconds) => `${seconds} 秒 4K`,
+    perSecond: (price) => `${price}/秒`,
+  },
+  links: {
+    model: '模型',
+    examples: '案例',
+    compare: '对比',
+    livePrice: '实时价格',
+    more: '更多',
+    imageApp: '生图应用',
+    audioApp: '音频应用',
+    tool: '工具',
+    viewRow: '查看行',
+    imagePricing: '生图定价',
+    audioPricing: '音频定价',
+    toolPricing: '工具定价',
+  },
+  video: {
+    ariaTabs: '定价分区',
+    title: '各引擎 AI 视频价格',
+    intro:
+      '对比常见视频场景下 Keyvo 的预设总价。不支持的组合已明确标出。可在生成前打开应用查看实时精准报价。',
+    currencyLabel: CUSTOMER_CURRENCY === 'CNY' ? '价格以人民币显示。' : '价格以美元点数显示。',
+    cheapestCurrentGen: '当代最实惠',
+    tableHeaders: { engine: '模型引擎', caps: '规格能力', actions: '操作' },
+    tabs: { video: '视频', image: '图片', audio: '音频', tools: '工具与超分辨率' },
+    presetSubLabels: {
+      'entry-route': '原生',
+      '5s-720p': '草稿',
+      '10s-720p': '预览',
+      '8s-1080p': '高画质',
+      '10s-1080p': '标准',
+      '10s-1080p-audio': '叙事',
+      '4k-route': '原生 / 专属路径',
+    },
+    mobile: {
+      title: '按场景对比',
+      viewFullTable: '查看完整表格',
+      noExactCurrentGen: '当代引擎无完全匹配方案。',
+      includeLegacy: '包含上一代方案',
+      previousGen: '上一代',
+    },
+    groups: {
+      recommendedTitle: '推荐视频引擎',
+      recommendedDescription: '适合新生成的当前主流及推荐模型方案。',
+      legacyTitle: '上一代及经济型方案',
+      legacyDescription: '适合低成本测试的较早版本或经济型方案。',
+    },
+    highlights: {
+      bestDraft: '当代最实惠 5 秒 720p',
+      cheapest8s: '当代最实惠 8 秒 1080p',
+      cheapest10s: '当代最实惠 10 秒 1080p',
+      cheapestAudio: '当代最实惠 10 秒 1080p + 音频',
+      cheapest4k: '最实惠 4K 输出',
+      dedicated4k: '专属 4K 引擎',
+      currentGenCount: '可用当代引擎数量',
+      currentGenValue: (count) => `${count} 个引擎`,
+    },
+    globalNote:
+      '所列价格为预设场景下的 Keyvo 当前展示价格。生成前请在应用内查看实时精确价格，包括供应商限制、时长取整及任务级取整。',
+  },
+  popularChecks: {
+    title: '热门价格速查',
+    columns: {
+      priceCheck: '速查场景',
+      cheapestEngine: '最实惠当代选项',
+      typicalPrice: '典型精确价格',
+      link: '链接',
+    },
+    rows: {
+      draft720: '5 秒 720p 视频',
+      premium8s: '8 秒 1080p 高画质视频',
+      video1080: '10 秒 1080p 视频',
+      audio1080: '10 秒 1080p + 音频',
+      image: '1 次图像生成',
+      voiceOver: '30 秒配音',
+      upscale4k: '4K 超分辨率',
+    },
+  },
+  otherSurfaces: {
+    title: '图像、音频与工具定价',
+    intro: '涵盖图像生成、音频生成、角色预设、机位工具及超分辨率的 Keyvo 价格参考。',
+    imageTitle: '图像生成定价',
+    audioTitle: '音频定价',
+    toolTitle: '预设工具与超分辨率定价',
+    imageColumns: {
+      engine: '图像引擎',
+      standard: '1 张标准图',
+      highQuality: '1 张高画质图',
+      reference: '图生图 / 参考图',
+      sizes: '尺寸 / 比例',
+      links: '链接',
+    },
+    audioColumns: {
+      mode: '音频模式 / 供应商',
+      thirtySeconds: '30 秒',
+      sixtySeconds: '60 秒',
+      oneTwentySeconds: '120 秒',
+      voiceClone: '音色克隆 / 样本',
+      links: '链接',
+    },
+    toolColumns: {
+      tool: '工具',
+      standard: '标准输出',
+      pro: '专业 / 高清输出',
+      bestUsedBefore: '建议配合使用于',
+      links: '链接',
+    },
+  },
+  audioModes: {
+    musicOnly: '纯音乐',
+    voiceOnly: '纯旁白配音',
+    cinematic: '电影级音效',
+    cinematicVoice: '电影级音效 + 旁白',
+    voiceClone: 'Seed Audio 参考音色',
+  },
+  tools: {
+    characterBuilderDraft: '角色构建器（草稿）',
+    characterBuilderFinal: '角色构建器（终稿）',
+    changeCameraAngle: '转换摄像机机位',
+    generateBestAngles: '生成 4 个最佳视角',
+    imageUpscale: '图像超分辨率',
+    videoUpscale: '视频超分辨率',
+    imageToVideoReferences: '图生视频参考',
+    finalCharacterReferences: '最终角色参考',
+    imageToVideoSetup: '图生视频准备',
+    storyboardCoverage: '故事板镜头覆盖',
+    imageToVideoSourceCleanup: '图生视频素材清理',
+    finalExport: '最终导出',
+  },
+  creditsRefunds: {
+    title: '点数额度、实时报价与退款保障',
+    intro: '各表格展示场景参考价格。生成任务前，应用内始终显示每项任务的最终实时报价。',
+    cards: [
+      {
+        title: '按需付费点数',
+        body: `使用点数额度，无需强制订阅。起充金额低至 ${CUSTOMER_CURRENCY === 'CNY' ? '¥80' : '$10'}，需要更多生成时可随时充值。`,
+        link: {
+          href: '/pay-as-you-go-ai-video-generator',
+          label: '了解按需付费运作方式',
+        },
+      },
+      {
+        title: '生成前获知精准价格',
+        body: '应用会在生成前根据所选引擎、时长、分辨率及功能实时展示精确价格，未登录用户亦可查看。',
+      },
+      {
+        title: '生成失败自动退款',
+        body: '仅在任务渲染成功后扣除额度。任何失败的生成任务均会自动全额退回点数。',
+      },
+      {
+        title: '安全支付保障',
+        body: '支付流程由 Stripe 保障。信用卡、Apple Pay 与 Google Pay 会在设备及浏览器支持时自动提供。',
+      },
+    ],
+  },
+};
+
+const copyByLocale: Record<AppLocale, PricingHubCopy> = { en, fr, es, zh };
 
 export function getPricingHubCopy(locale: AppLocale) {
   return copyByLocale[locale] ?? en;

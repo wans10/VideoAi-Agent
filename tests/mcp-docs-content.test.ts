@@ -45,7 +45,7 @@ test('localized guides expose current metadata, OAuth, and the copyable producti
     assert.match(markdown, /ChatGPT/i);
     assert.match(markdown, /Claude/i);
     assert.match(markdown, /Codex/i);
-    assert.match(markdown, /sign in to MaxVideoAI or create|connectez-vous à MaxVideoAI ou créez|inicia sesión en MaxVideoAI o crea/i);
+    assert.match(markdown, /sign in to Keyvo or create|connectez-vous à Keyvo ou créez|inicia sesión en Keyvo o crea/i);
     assert.match(markdown, /connecting is free|connexion.*gratuite|conectar.*gratis/i);
     assert.doesNotMatch(markdown, /localhost|staging[^\n]*\/mcp/i, `${locale} must not publish a non-production endpoint`);
   }
@@ -84,9 +84,9 @@ test('all fourteen model-visible tools and their safety boundaries are documente
 
 test('references cover image, video, audio, account ownership, and the precise LAS boundary', () => {
   const patterns = {
-    en: [/images?, video, and audio/i, /MaxVideoAI library/i, /assetId/i],
-    fr: [/références image, vidéo et audio/i, /bibliothèque MaxVideoAI/i, /assetId/i],
-    es: [/referencias de imagen, vídeo y audio/i, /biblioteca MaxVideoAI/i, /assetId/i],
+    en: [/images?, video, and audio/i, /Keyvo library/i, /assetId/i],
+    fr: [/références image, vidéo et audio/i, /bibliothèque Keyvo/i, /assetId/i],
+    es: [/referencias de imagen, vídeo y audio/i, /biblioteca Keyvo/i, /assetId/i],
   } as const;
   for (const locale of Object.keys(DOCS) as Array<keyof typeof DOCS>) {
     const markdown = source(DOCS[locale]);
@@ -103,9 +103,9 @@ test('references cover image, video, audio, account ownership, and the precise L
 
 test('credits, top-up, fresh quote, and gallery continuity are unambiguous', () => {
   const expectations = {
-    en: [/same MaxVideoAI credit balance as the website/i, /pay-as-you-go/i, /previous quote is no longer valid/i, /same private MaxVideoAI account library/i],
-    fr: [/même solde de crédits MaxVideoAI que le site/i, /pay-as-you-go/i, /ancien devis n’est plus valide/i, /même bibliothèque privée MaxVideoAI/i],
-    es: [/mismo saldo de créditos MaxVideoAI que el sitio/i, /pay-as-you-go/i, /cotización anterior ya no es válida/i, /misma biblioteca privada MaxVideoAI/i],
+    en: [/same Keyvo credit balance as the website/i, /pay-as-you-go/i, /previous quote is no longer valid/i, /same private Keyvo account library/i],
+    fr: [/même solde de crédits Keyvo que le site/i, /pay-as-you-go/i, /ancien devis n’est plus valide/i, /même bibliothèque privée Keyvo/i],
+    es: [/mismo saldo de créditos Keyvo que el sitio/i, /pay-as-you-go/i, /cotización anterior ya no es válida/i, /misma biblioteca privada Keyvo/i],
   } as const;
   for (const locale of Object.keys(DOCS) as Array<keyof typeof DOCS>) {
     const markdown = source(DOCS[locale]);

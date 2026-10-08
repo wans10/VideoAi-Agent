@@ -21,8 +21,8 @@ export function buildModelServiceJsonLd(slug: string) {
     engine.seo?.description ??
     engine.seoText ??
     (isImageModel
-      ? 'Generate AI still images with this model on MaxVideoAI.'
-      : 'Generate AI videos with this model on MaxVideoAI.');
+      ? 'Generate AI still images with this model on Keyvo.'
+      : 'Generate AI videos with this model on Keyvo.');
   const name = engine.cardTitle ?? engine.marketingName;
 
   return {
@@ -33,9 +33,9 @@ export function buildModelServiceJsonLd(slug: string) {
     description,
     provider: {
       '@type': 'Organization',
-      name: 'MaxVideoAI',
-      url: 'https://maxvideoai.com',
-      logo: 'https://maxvideoai.com/favicon-512.png',
+      name: 'Keyvo',
+      url: 'https://app.keyvo.cn',
+      logo: 'https://app.keyvo.cn/favicon-512.png',
     },
     areaServed: 'Worldwide',
     url,

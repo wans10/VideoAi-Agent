@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {Plus,Play,Pause,X,ChevronUp,ChevronDown,Trash2,PanelBottomClose,PanelBottomOpen} from 'lucide-react';
@@ -20,7 +21,7 @@ type Drag = {clip: WorkspaceTimelineItem;edge: 'start'|'end'|null;x: number;edit
 export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLibrary,insertion,exportAvailable = false,exportPending = false,exportJobs = [],onExportChange}: {projectId: string;projectName: string;refreshKey: unknown;onOpenLibrary: (trigger: HTMLButtonElement) => void;insertion?: {key: string;asset: ImageLibraryAsset} | null;exportAvailable?: boolean;exportPending?: boolean;exportJobs?: StudioProjectTimelineExport[];onExportChange: () => void}) {
   const router = useRouter();
   const {dictionary,locale} = useI18n();
-  const t = useCallback((en: string,fr: string) => locale === 'fr' ? fr : en,[locale]);
+  const t = useCallback((en: string, fr: string) => conversationCopy(locale, en, fr),[locale]);
   const copy = useMemo(() => resolveStudioCopy(dictionary),[dictionary]);
   const timeline = useConversationTimeline(projectId,refreshKey);
   const {view,edit} = timeline;

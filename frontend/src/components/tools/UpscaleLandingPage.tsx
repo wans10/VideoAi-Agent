@@ -1,9 +1,9 @@
 import { resolveDictionary } from '@/lib/i18n/server';
-import { ToolJourneyNav } from '@/components/tools/landing/ToolJourneyNav';
+import { ProductionReviewNotes } from './production/ProductionReviewNotes';
 import { ToolWorkspacePreview } from '@/components/tools/landing/ToolWorkspacePreview';
 import { QUICK_TOOL_ART } from './toolbox-art';
 import Image from 'next/image';
-import { ArrowRight, Gauge, Layers3, Maximize2, Sparkles } from 'lucide-react';
+import { ArrowRight, Maximize2 } from 'lucide-react';
 import type { Dictionary } from '@/lib/i18n/types';
 import { Link } from '@/i18n/navigation';
 import { FAQSchema } from '@/components/seo/FAQSchema';
@@ -53,7 +53,7 @@ function HeroVisual({ imageAlt, note }: { imageAlt: string; note: string }) {
 }
 
 export async function UpscaleLandingPage({ content }: { content: UpscaleLandingContent }) {
-  const {dictionary}=await resolveDictionary();
+  const {dictionary, locale}=await resolveDictionary();
   const c=dictionary.toolMarketing.journey;
   const faqEntries = content.faq.map((entry) => ({ question: entry.q, answer: entry.a }));
   const modelGuide = content.modelGuide;
@@ -65,14 +65,14 @@ export async function UpscaleLandingPage({ content }: { content: UpscaleLandingC
     serviceType: 'AI image and video upscale',
     provider: {
       '@type': 'Organization',
-      name: 'MaxVideoAI',
-      url: 'https://maxvideoai.com',
+      name: 'Keyvo',
+      url: 'https://app.keyvo.cn',
     },
     areaServed: 'Worldwide',
   };
 
   return (
-    <div className="bg-bg tool-detail-page tool-upscale-page"><ToolJourneyNav active="upscale" />
+    <div className="bg-bg tool-detail-page tool-upscale-page">
       <FAQSchema questions={faqEntries} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(serviceJsonLd) }} />
 
@@ -96,41 +96,18 @@ export async function UpscaleLandingPage({ content }: { content: UpscaleLandingC
                 {content.hero.secondaryCta}
               </ButtonLink>
             </div>
-            <div className="mt-8 grid max-w-xl grid-cols-3 gap-3">
-              {content.hero.stats.map((stat) => (
-                <div key={stat.label} className="border-l border-hairline pl-4">
-                  <p className="text-2xl font-semibold text-text-primary">{stat.value}</p>
-                  <p className="mt-1 text-xs text-text-muted">{stat.label}</p>
-                </div>
-              ))}
-            </div>
+
           </div>
 
           <HeroVisual imageAlt={`${content.hero.badge} — ${c.proof}`} note={c.proof} />
         </div>
       </section>
 
+      <ProductionReviewNotes locale={locale} kind="upscale" />
       <ToolWorkspacePreview tool="upscale" title={content.hero.studioLabel} body={content.workflow.overlay.body} />
       <section className="section">
         <div className="container-page max-w-6xl stack-gap-md">
           <SectionIntro eyebrow={content.models.eyebrow} title={content.models.title} body={content.models.body} />
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {content.models.cards.map((card, index) => {
-              const Icon = index === 0 ? Layers3 : index === 1 ? Sparkles : index === 2 ? Gauge : Maximize2;
-              return (
-                <article key={card.title} className="rounded-[22px] border border-hairline bg-surface p-5 shadow-card transition hover:-translate-y-0.5 hover:shadow-[0_22px_70px_rgba(15,23,42,0.10)] dark:hover:shadow-[0_22px_70px_rgba(0,0,0,0.30)]">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-input bg-brand/10 text-brand">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <span className="rounded-full bg-bg px-3 py-1 text-xs font-semibold text-text-secondary">{card.badge}</span>
-                  </div>
-                  <h3 className="mt-5 text-lg font-semibold text-text-primary">{card.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-text-secondary">{card.body}</p>
-                </article>
-              );
-            })}
-          </div>
 
           <div className="overflow-hidden rounded-[22px] border border-hairline bg-surface shadow-card">
             <div className="grid gap-4 border-b border-hairline bg-bg px-5 py-5 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)] lg:items-end">

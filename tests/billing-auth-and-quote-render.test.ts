@@ -7,6 +7,8 @@ import { useBillingCheckoutReturnToast } from '../frontend/app/(core)/billing/_h
 import { useBillingCheckoutReconciliation } from '../frontend/app/(core)/billing/_hooks/useBillingCheckoutReconciliation';
 import { persistPendingWalletCheckoutReturn } from '../frontend/lib/wallet/checkout-return';
 import { useBillingTopupQuotes } from '../frontend/app/(core)/billing/_hooks/useBillingTopupQuotes';
+import { useBillingCurrencyState } from '../frontend/app/(core)/billing/_hooks/useBillingCurrencyState';
+import { DEFAULT_BILLING_COPY } from '../frontend/app/(core)/billing/_lib/billing-copy';
 
 function installDom(url: string) {
   const dom = new JSDOM('<div id="root"></div>', { pretendToBeVisual: true, url });
@@ -125,6 +127,68 @@ test('the first render for a new quote identity never exposes the previous curre
     await act(async () => root.unmount());
     if (savedFetch) Object.defineProperty(globalThis, 'fetch', savedFetch);
     else delete (globalThis as Record<string, unknown>).fetch;
+    fixture.restore();
+  }
+});
+
+test('CNY selection never requests a Stripe top-up quote', async () => {
+  const fixture = installDom('https://maxvideoai.test/billing');
+  const savedFetch = globalThis.fetch;
+  const requests: string[] = [];
+  globalThis.fetch = (async (input) => {
+    requests.push(String(input));
+    return response({ ok: true, quotes: [{ usdAmountCents: 1000, localAmountMinor: 1000, currency: 'USD' }] });
+  }) as typeof fetch;
+  const root = createRoot(fixture.container);
+  let state!: ReturnType<typeof useBillingTopupQuotes>;
+  function Probe({ currency }: { currency: string }) {
+    state = useBillingTopupQuotes({
+      authLoading: false,
+      llmhubPayEnabled: true,
+      session: { user: { id: 'account-a' }, access_token: 'token-a' },
+      normalizedChargeCurrency: currency,
+      selectedTopupCents: 1000,
+      quoteErrorMessage: 'quote failed',
+    });
+    return null;
+  }
+  try {
+    await act(async () => root.render(React.createElement(Probe, { currency: 'USD' })));
+    assert.equal(requests.length, 1);
+    await act(async () => root.render(React.createElement(Probe, { currency: 'CNY' })));
+    assert.equal(requests.length, 1);
+    assert.deepEqual(state.topupQuotes, {});
+    assert.equal(state.quoteLoading, false);
+  } finally {
+    await act(async () => root.unmount());
+    globalThis.fetch = savedFetch;
+    fixture.restore();
+  }
+});
+
+test('CNY appears in billing payment choices only when LLM Hub Pay is available', async () => {
+  const fixture = installDom('https://maxvideoai.test/billing');
+  const savedFetch = globalThis.fetch;
+  globalThis.fetch = (async () => response({ ok: true, enabled: ['EUR', 'USD'], currency: 'EUR' })) as typeof fetch;
+  const root = createRoot(fixture.container);
+  const session = { user: { id: 'account-a' }, access_token: 'token-a' };
+  let state!: ReturnType<typeof useBillingCurrencyState>;
+  function Probe({ enabled }: { enabled: boolean }) {
+    state = useBillingCurrencyState({
+      authLoading: false, copy: DEFAULT_BILLING_COPY, llmhubPayEnabled: enabled, session,
+    });
+    return null;
+  }
+  try {
+    await act(async () => root.render(React.createElement(Probe, { enabled: true })));
+    assert.deepEqual(state.currencyOptions, ['EUR', 'USD', 'CNY']);
+    await act(async () => state.handleCurrencyChange({ target: { value: 'CNY' } } as React.ChangeEvent<HTMLSelectElement>));
+    assert.equal(state.normalizedChargeCurrency, 'CNY');
+    await act(async () => root.render(React.createElement(Probe, { enabled: false })));
+    assert.deepEqual(state.currencyOptions, ['EUR', 'USD']);
+  } finally {
+    await act(async () => root.unmount());
+    globalThis.fetch = savedFetch;
     fixture.restore();
   }
 });

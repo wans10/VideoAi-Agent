@@ -75,7 +75,7 @@ export function toGalleryCard(
   currentPrice?: CurrentExamplePrice,
   locale: AppLocale = 'en',
 ): ExampleGalleryVideo {
-  const promptExcerpt = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'MaxVideoAI render');
+  const promptExcerpt = formatPromptExcerpt(video.promptExcerpt || video.prompt || 'Keyvo render');
   const isImageWorkspace = appPath === '/app/image';
   const videoHrefBase = isImageWorkspace
     ? `${appPath}?job=${encodeURIComponent(video.id)}`

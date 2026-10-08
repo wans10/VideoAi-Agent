@@ -335,7 +335,7 @@ function applyGscActionMode<T extends { suggestedAction: string }>(
 function normalizeGscPagePath(page?: string | null): string {
   if (!page) return '';
   try {
-    return new URL(page, 'https://maxvideoai.com').pathname.toLowerCase();
+    return new URL(page, 'https://app.keyvo.cn').pathname.toLowerCase();
   } catch {
     return page.split(/[?#]/, 1)[0]?.toLowerCase() ?? '';
   }

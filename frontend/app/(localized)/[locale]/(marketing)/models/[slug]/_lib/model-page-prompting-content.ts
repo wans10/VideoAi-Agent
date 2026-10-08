@@ -68,10 +68,11 @@ const INTERNAL_GUIDE_HREF: Record<AppLocale, RegExp> = {
   en: /^\/models\/[a-z0-9]+(?:-[a-z0-9]+)*$/,
   fr: /^\/fr\/modeles\/[a-z0-9]+(?:-[a-z0-9]+)*$/,
   es: /^\/es\/modelos\/[a-z0-9]+(?:-[a-z0-9]+)*$/,
+  zh: /^\/zh\/models\/[a-z0-9]+(?:-[a-z0-9]+)*$/,
 };
 
 function isAllowedGuideHref(href: string, locale: AppLocale): boolean {
-  return /^https:\/\/[^\s]+$/.test(href) || INTERNAL_GUIDE_HREF[locale].test(href);
+  return /^https:\/\/[^\s]+$/.test(href) || (INTERNAL_GUIDE_HREF[locale] ?? INTERNAL_GUIDE_HREF.en).test(href);
 }
 
 export function parseModelPromptingContent(

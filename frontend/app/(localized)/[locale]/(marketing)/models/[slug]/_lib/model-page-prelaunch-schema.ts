@@ -28,8 +28,8 @@ export function buildModelPrelaunchSchemaPayloads({
       inLanguage,
       isPartOf: {
         '@type': 'WebSite',
-        name: 'MaxVideoAI',
-        url: 'https://maxvideoai.com/',
+        name: 'Keyvo',
+        url: 'https://app.keyvo.cn/',
       },
     },
     {

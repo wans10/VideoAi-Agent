@@ -199,7 +199,9 @@ export async function MarketingModelPageLayout({
         ? 'Silencieux'
         : locale === 'es'
           ? 'Sin audio'
-          : 'Silent'
+          : locale.startsWith('zh')
+            ? '静音'
+            : 'Silent'
       : resolveAudioPricingLabels(locale).on;
   const resolvedPrimaryCta = primaryCta;
   const normalizeCtaHref = (href?: string | null): LocalizedLinkHref | null => {
@@ -268,7 +270,7 @@ export async function MarketingModelPageLayout({
       ? 'Problèmes fréquents → solutions rapides'
       : locale === 'es'
         ? 'Problemas comunes → soluciones rápidas'
-        : 'Common problems → fast fixes'
+        : locale === 'zh' ? '常见问题与快速修正' : 'Common problems → fast fixes'
     : null;
   const troubleshootingItems =
     copy.troubleshootingItems.length
@@ -412,7 +414,6 @@ export async function MarketingModelPageLayout({
   });
   const legacyPricingCallout = !templateData && pricingCallout ? pricingCallout : null;
   const legacyMicroCta = !templateData && isImageEngine ? copy.microCta : null;
-
   return (
     <>
       {schemaPayloads.map((schema, index) => (

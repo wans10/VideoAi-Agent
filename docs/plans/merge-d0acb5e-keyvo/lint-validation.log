@@ -1,0 +1,36 @@
+
+> maxvideoai-generate-web@0.1.0 lint
+> eslint app pages components lib src middleware.ts --ext .js,.jsx,.ts,.tsx
+
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(core)/(workspace)/app/_hooks/useWorkspacePricingGate.ts
+  5:10  warning  'CUSTOMER_CURRENCY' is defined but never used  @typescript-eslint/no-unused-vars
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(core)/(workspace)/app/image/_hooks/useImageWorkspaceDisplayState.ts
+  39:9  warning  The 'starterItems' conditional could make the dependencies of useLayoutEffect Hook (at line 53) change on every render. To fix this, wrap the initialization of 'starterItems' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationMedia.client.tsx
+  12:7  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationReferenceCard.client.tsx
+  61:34  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationReferenceLightbox.client.tsx
+  16:5  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationTimeline.client.tsx
+  128:462  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-pricing.ts
+  23:38  warning  '_entry' is defined but never used   @typescript-eslint/no-unused-vars
+  23:66  warning  '_locale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/app/(localized)/[locale]/(marketing)/models/_lib/models-catalog-cards.ts
+  1:10  warning  'formatWalletBalance' is defined but never used      @typescript-eslint/no-unused-vars
+  1:31  warning  'formatCustomerUsdAmount' is defined but never used  @typescript-eslint/no-unused-vars
+
+/private/tmp/VideoAi-Agent-keyvo-integrate/frontend/components/app/AppSiteMenu.client.tsx
+   3:8   warning  'mcpPublication' is defined but never used    @typescript-eslint/no-unused-vars
+  11:10  warning  'publishedLocales' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 12 problems (0 errors, 12 warnings)

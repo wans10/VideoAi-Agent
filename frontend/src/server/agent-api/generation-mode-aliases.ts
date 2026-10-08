@@ -24,7 +24,7 @@ export function toCanonicalGenerationMode(
   surface: CanonicalGenerationSurface,
   mode: Mode,
 ): CanonicalGenerationMode | null {
-  // Omni retake requires resolving an owned MaxVideoAI source job to its private
+  // Omni retake requires resolving an owned VideoAI source job to its private
   // provider interaction ID. Keep it undiscoverable until that resolver exists;
   // accepting a caller-supplied provider ID would cross the account boundary.
   if (engineId === 'gemini-omni-flash' && surface === 'video' && mode === 'retake') {

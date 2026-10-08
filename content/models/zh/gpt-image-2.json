@@ -1,0 +1,471 @@
+{
+  "marketingName": "GPT Image 2",
+  "versionLabel": "2",
+  "seo": {
+    "title": "GPT Image 2 - 文本生图与图像编辑 | VideoAI",
+    "description": "在 VideoAI 中使用 GPT Image 2 生成与编辑图像。支持文本生图、图像生图、预设尺寸、自定义宽高、多档画质、多种输出格式以及可选的遮罩 URL 精准控制。",
+    "image": "https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4ea3493c-6831-4f08-bedc-803506e0792f.png"
+  },
+  "overview": "GPT Image 2 是 VideoAI 中以画质优先的图像模型。一个图像实验室入口即可同时覆盖文本生图与图像编辑，支持图像尺寸预设、自定义宽高、画质调节、生成张数、输出格式，以及在编辑需要限制特定区域时的遮罩 URL 控制。",
+  "hero": {
+    "title": "GPT Image 2 - 画质优先的图像生成与编辑",
+    "intro": "专为清晰文字排版、写实产品摄影、UI 原型图、信息图表以及精准可控的参考图编辑打造的图像生成方案。",
+    "badge": "文本 -> 图像 · 图像 -> 图像 · 低 / 中 / 高画质",
+    "ctaPrimary": {
+      "label": "启动 GPT Image 2",
+      "href": "/app/image?engine=gpt-image-2"
+    },
+    "secondaryLinks": [
+      {
+        "label": "打开图像实验室",
+        "href": "/app/image"
+      },
+      {
+        "label": "查看实时价格",
+        "href": "/zh/pricing"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "广告、海报和信息图表中的清晰文字",
+        "icon": "layout"
+      },
+      {
+        "title": "带有清晰标签的产品摄影",
+        "icon": "sparkles"
+      },
+      {
+        "title": "UI 与应用界面原型图",
+        "icon": "storyboard"
+      },
+      {
+        "title": "带可选遮罩的参考图编辑",
+        "icon": "layers"
+      }
+    ]
+  },
+  "promptStructure": {
+    "title": "提示词快速指南",
+    "quote": "场景、主体、重要细节、使用场景、约束条件；编辑时注明：修改此项同时保留彼项。",
+    "description": "GPT Image 2 在结构化提示词下表现更佳。将场景、主体、构图、必须呈现的文本以及编辑约束清晰分离。对于文字密集的图像，写入精准文案并说明其所在位置。",
+    "steps": [
+      "场景与环境",
+      "主体与取景构图",
+      "需渲染的精准文本或标签",
+      "材质、光影、镜头感与风格",
+      "产品摄影、UI 界面、海报或信息图表等使用场景",
+      "图像编辑、遮罩与保留元素的约束条件"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "在最终文字排版、包装设计和写实产品摄影中使用 High（高）画质。",
+      "在最终渲染前使用 Low（低）或 Medium（中）画质以更低成本探索版式布局。",
+      "在编辑模式下，若希望由源图像决定输出画面画幅，请使用自动图像尺寸。",
+      "对于自定义尺寸，需确保边长能被 16 整除，最长边不超过 3840px，总面积在 655,360 至 8,294,400 像素之间。",
+      "仅在编辑必须限制在特定区域内时添加遮罩 URL。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "包装宣传大片静态图",
+      "prompt": "一张高端目录产品照，咖啡袋标注\"Summit Roast\"，山脉插画，可读的风味描述，质朴木桌，柔和晨光，浅景深。"
+    },
+    {
+      "title": "带精准标签的信息图表",
+      "prompt": "一张简洁的编辑风信息图表，标题为\"创作者发布检查清单\"，12个带标注的模块，清晰字体排版，白色背景，精准间距，低调的蓝色与石墨色点缀。"
+    },
+    {
+      "title": "参考图产品编辑",
+      "prompt": "保留参考图中完整的产品造型与标签层级，将背景替换为明亮的电商桌面场景，去除干扰性反光，保留可读文字。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "我可以使用 GPT Image 2 创建和编辑图像吗？",
+      "a": "可以。您可以通过文本提示词创建图像，也可以添加参考图像进行编辑。您还可以使用遮罩来选择要修改的特定区域。"
+    },
+    {
+      "q": "支持哪些图像控制参数？",
+      "a": "您可以选择预设图像尺寸或输入自定义尺寸，然后设置画质、生成张数和输出格式。进行编辑时，可添加参考图像，并可选择使用遮罩指定需要更改的区域。"
+    },
+    {
+      "q": "GPT Image 2 的使用费用是多少？",
+      "a": "价格取决于您选择的尺寸、画质和生成张数。VideoAI 会在生成前展示实时报价，方便您根据预算调整各项设置。"
+    }
+  ],
+  "pricingNotes": "图像生成费用因画质和尺寸而异。VideoAI 会在生成前展示最终价格；面向客户估算时请以应用内的实时报价为准。",
+  "custom": {
+    "heroEyebrow": "GPT Image 2 图像模型",
+    "heroSupportLine": "最适合文字密集型图像、产品摄影、UI 原型图以及受控编辑。",
+    "heroSpecChips": [
+      {
+        "label": "文本->图像",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图像->图像",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "画质控制"
+      },
+      {
+        "label": "PNG / JPEG / WEBP"
+      },
+      {
+        "label": "遮罩 URL"
+      }
+    ],
+    "whyTitle": "为什么 GPT Image 2 脱颖而出",
+    "heroDesc1": "GPT Image 2 专为高保真静态图像打造，特别适用于文字渲染、产品细节和提示词遵循度相比纯生成速度更为关键的场景。",
+    "heroDesc2": "在 VideoAI 中，它作为图像实验室中统一支持“创建”与“编辑”的模型入口运行，具备共享钱包余额、可复用参考图、画质调节以及生成前实时报价等能力。",
+    "heroHighlights": [
+      "清晰文字||适用于海报、标签、信息图表以及需要纯净文字排版的 UI 界面。",
+      "高保真产品细节||非常适合包装设计、产品目录宣传照以及带清晰可见标签的电商图片。",
+      "丰富的图像控制||在图像实验室中支持预设尺寸或自定义宽高、画质等级、输出格式以及遮罩 URL。",
+      "统一图像工作流||在图像实验室中无缝切换“创建”与“编辑”，无需离开当前工作区。"
+    ],
+    "whatTitle": "GPT Image 2 在此的工作方式",
+    "whatIntro1": "选择 GPT Image 2，切换“创建”或“编辑”模式，设置生成张数、图像尺寸、画质及输出格式，即可直接使用与其它图像模型共享的钱包余额运行任务。",
+    "whatIntro2": "进行编辑时，添加参考图像。仅在需要将画面修改限制在特定区域时添加遮罩 URL。",
+    "whatFlowTitle": "工作流",
+    "whatFlowSteps": [
+      "在图像实验室中选择 GPT Image 2",
+      "选择文本生图或图像编辑模式",
+      "选择图像尺寸、画质、生成张数和输出格式",
+      "若进行编辑则添加参考图和可选的遮罩 URL",
+      "确认实时价格标识并启动生成"
+    ],
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "当提示词将主体、构图、精准文本和约束条件清晰区分时，GPT Image 2 能呈现出最佳效果。",
+    "strengths": [
+      "在文字排版和产品成片渲染中使用 High（高）画质。",
+      "使用 Low（低）或 Medium（中）画质以更低成本探索版式布局。",
+      "在编辑提示词中，明确写出哪些需要修改、哪些必须保持不变。",
+      "使用遮罩 URL 时，请确保遮罩文件公开可访问且与源图像对齐。"
+    ],
+    "boundaries": [
+      "仅限静态图像。",
+      "VideoAI 编辑器目前单次请求最多支持输出 4 张图像。",
+      "编辑模式需要至少一张参考图像。",
+      "遮罩输入基于 URL 方式。"
+    ],
+    "safetyTitle": "安全与肖像权",
+    "safetyRules": [
+      "禁止生成色情内容或涉及未成年人的内容。",
+      "禁止仇恨、骚扰或血腥暴力相关请求。",
+      "未经许可不得冒充真实人物或公众人物。",
+      "禁止包含个人隐私数据或敏感文档。"
+    ]
+  },
+  "decision": {
+    "modelSlug": "gpt-image-2",
+    "hero": {
+      "eyebrow": "AI 图像 · OpenAI",
+      "title": "GPT Image 2",
+      "subtitle": "精准呈现画面构图，细节把控分毫不差。",
+      "subtitleHighlights": [
+        "精准呈现画面构图",
+        "细节把控分毫不差"
+      ],
+      "paragraph": "GPT Image 2 使用 AI 进行高质量图像生成与编辑。无论是创建带清晰文字的视觉大片、精修产品图片，还是使用遮罩编辑局部选定区域，都能游刃有余。生成前可自由选择尺寸、画质和文件格式。",
+      "primaryCta": {
+        "label": "使用 GPT Image 2 生成",
+        "href": "/app/image?engine=gpt-image-2"
+      },
+      "secondaryCta": {
+        "label": "查看价格",
+        "href": "/zh/pricing#gpt-image-2-pricing"
+      },
+      "quickLinks": [
+        {
+          "label": "打开图像工作区",
+          "href": "/app/image?engine=gpt-image-2"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#gpt-image-2-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "GPT Image 2 效果展示",
+      "description": "图像风格与核心能力概览",
+      "renderLabel": "查看图像",
+      "badges": [
+        "文字排版",
+        "图像编辑",
+        "4K 尺寸"
+      ],
+      "altContext": "展示多样视觉风格示例的 GPT Image 2 效果演示"
+    },
+    "features": [
+      {
+        "title": "清晰文字",
+        "body": "适用于包装设计、标签、UI 风格布局与编辑排版图文。",
+        "tone": "quality"
+      },
+      {
+        "title": "产品静态大片",
+        "body": "在受控的光影与构图下打造目录级商业摄影成片。",
+        "tone": "reference"
+      },
+      {
+        "title": "图像编辑",
+        "body": "上传参考图进行提示词引导的编辑，支持可选的遮罩控制。",
+        "tone": "continuity"
+      },
+      {
+        "title": "自定义尺寸",
+        "body": "支持预设比例或输入自定义宽高尺寸，最高支持接口上限限制。",
+        "tone": "quality"
+      },
+      {
+        "title": "画质等级",
+        "body": "根据预算成本与保真度需求灵活选择低、中、高画质。",
+        "tone": "price"
+      },
+      {
+        "title": "批量输出",
+        "body": "单次探索多变体方案时最多可生成 4 张图像。",
+        "tone": "duration"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 GPT Image 2 还是 Nano Banana 2？",
+        "body": "需要文字密集型静态图与受控编辑时选用 GPT Image 2；需要更宽画幅比例与 Google 搜索接地图像工作流时选用 Nano Banana 2。",
+        "cta": {
+          "label": "查看 Nano Banana 2",
+          "href": "/zh/models/nano-banana-2"
+        }
+      },
+      {
+        "title": "正在制作带文字的产品图？",
+        "body": "在生成前写明精准的标签字阶、光影、镜头视角以及编辑约束条件。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "需要更精准的原图控制？",
+        "body": "先准备好产品素材、遮罩或精准文本层级，随后在 GPT Image 2 中渲染或编辑最终静态大片。",
+        "cta": {
+          "label": "启动 GPT Image 2",
+          "href": "/app/image?engine=gpt-image-2"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本生图",
+        "body": "指定主体、精准文本、版式布局、光影、镜头以及输出尺寸。"
+      },
+      {
+        "title": "图像编辑",
+        "body": "上传源图像，并明确说明哪些需要修改、哪些必须保持锁定。"
+      },
+      {
+        "title": "遮罩引导编辑",
+        "body": "仅在编辑需要限制在特定局部区域时使用遮罩。"
+      },
+      {
+        "title": "画质选择",
+        "body": "前期使用低画质起草，在对文字排版或产品细节有高要求时切换至高画质。"
+      },
+      {
+        "title": "批量生成变体",
+        "body": "在确定终稿前，单次生成多张图像以充分探索构图方案。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "GPT Image 2 定价一览",
+      "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数显示的参考价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最多 4 张图像",
+      "ctaHref": "/zh/pricing#gpt-image-2-pricing"
+    },
+    "meta": {
+      "title": "GPT Image 2：定价、文字渲染与图像编辑 | VideoAI",
+      "description": "在 VideoAI 上了解 GPT Image 2 定价、清晰文字渲染、产品静态图、自定义图像尺寸、参考图编辑以及遮罩引导的图像工作流。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "gpt-image-2",
+    "section": {
+      "title": "如何撰写优秀的 GPT Image 2 提示词",
+      "intro": "使用包含场景、主体、精准文本、视觉细节、使用场景及约束条件的结构化提示词。",
+      "tip": "提示：请将精准文案放入引号中，并说明各个文本块在画面中的具体位置。",
+      "guide": null,
+      "referencesTitle": "GPT Image 2 如何使用素材与遮罩"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [
+      "明确目标视觉产物：海报、产品摄影、UI 界面、信息图表或概念图。",
+      "在重视文字排版时提供精准文案内容。",
+      "进行编辑时，将保留指令与修改指令明确区分。"
+    ],
+    "engineWhy": [
+      "当视觉简报中包含对文本和版式精确度的要求时，该模型表现尤为出色。",
+      "画质直接影响费用，因此建议先以低画质起草，定稿后再以 High 画质重绘。",
+      "为每张源参考图赋予明确分工角色，能显著提升参考编辑的效果。"
+    ],
+    "demo": null,
+    "imageExamples": {
+      "title": "GPT Image 2 图像提示词示例",
+      "intro": "适用于清晰文字排版、产品大片、UI 原型图、受控编辑、局部遮罩与 4K 终极成片的 GPT Image 2 提示词。",
+      "workspaceLabel": "打开图像工作区",
+      "items": [
+        {
+          "id": "image-1",
+          "title": "带清晰标签的产品静态图",
+          "badge": "High · 1024x768",
+          "kind": "image",
+          "prompt": "高端咖啡袋目录产品照，标题为\"SUMMIT ROAST\"，可读风味描述，浅色木桌，柔和日光，干净构图，电商背景。"
+        },
+        {
+          "id": "typography-2",
+          "title": "精准文字海报",
+          "badge": "4K 文字",
+          "kind": "typography",
+          "prompt": "竖版 4K 海报，精确标题\"CREATOR LAUNCH CHECKLIST\"，8个编号模块，清晰排版，白色背景，海军蓝与青色点缀，均匀边距。"
+        },
+        {
+          "id": "layout-3",
+          "title": "UI 界面原型图",
+          "badge": "1920x1080",
+          "kind": "layout",
+          "prompt": "1920x1080 SaaS 数据分析仪表盘屏幕原型图，白色卡片，左侧导航栏，可读标题，真实感指标数据，高端产品 UI 风格。"
+        },
+        {
+          "id": "edit-4",
+          "title": "可控图像编辑",
+          "badge": "图像编辑",
+          "kind": "edit",
+          "prompt": "使用该产品图像，保留造型、标签、比例与主要反光。将背景替换为明亮的摄影棚环境，去除灰尘与干扰性反光。"
+        },
+        {
+          "id": "quality-5",
+          "title": "遮罩引导编辑",
+          "badge": "遮罩 URL",
+          "kind": "quality",
+          "prompt": "仅修改遮罩区域：将次级文案替换为\"LIMITED RESERVE\"，保持标志、包装颜色、阴影与透视角度不变。"
+        },
+        {
+          "id": "layout-6",
+          "title": "4K 主视觉静态大片",
+          "badge": "3840x2160",
+          "kind": "layout",
+          "prompt": "4K 产品页主视觉静态大片，黑色智能手机置于石墨色表面，屏幕文字清晰可读，可控反光，高端摄影棚布光，右侧留有负空间。"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "gpt-image-2",
+    "section": {
+      "title": "GPT Image 2 案例精选",
+      "intro": "探索真实的社区输出，了解 GPT Image 2 在 VideoAI 工作流中的实际表现。",
+      "defaultCtaLabel": null,
+      "recreateLabel": "重现该静态图 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "typography",
+        "label": "文字与版式"
+      },
+      {
+        "id": "ui",
+        "label": "界面"
+      },
+      {
+        "id": "edit",
+        "label": "剪辑变化"
+      },
+      {
+        "id": "mask",
+        "label": "遮罩"
+      },
+      {
+        "id": "final",
+        "label": "成片"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "静态图像案例",
+        "body": "专为 GPT Image 2 定制的提示词范式。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-2",
+        "title": "文字排版控制",
+        "body": "精准文案、字阶层次与位置布局始终清晰明确。",
+        "icon": "type"
+      },
+      {
+        "id": "proof-3",
+        "title": "参考图精修",
+        "body": "稳定保持产品造型、配色方案、构图版式或视觉风格。",
+        "icon": "pen"
+      },
+      {
+        "id": "proof-4",
+        "title": "4K 终极成片",
+        "body": "在 2K 验证构图，最后以 4K 完成交付渲染。",
+        "icon": "maximize"
+      },
+      {
+        "id": "proof-5",
+        "title": "符合商业规范",
+        "body": "支持自有参考资产并内置安全护栏。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": [
+      {
+        "id": "cinema",
+        "title": "OBLIQUE — 电影级社论画册",
+        "category": "电影感与文字排版",
+        "aspectRatio": "4K · 16:9",
+        "alt": "GPT Image 2 电影感杂志跨页画册，标题为 OBLIQUE，包含纪念碑式建筑与时尚肖像",
+        "tags": [
+          "typography",
+          "final"
+        ]
+      },
+      {
+        "id": "portrait",
+        "title": "FORM — 杂志肖像大片",
+        "category": "肖像与文字排版",
+        "aspectRatio": "1024x1536",
+        "alt": "GPT Image 2 时尚杂志封面，标题为 FORM，包含清晰的封面文案与雕塑感肖像",
+        "tags": [
+          "typography"
+        ]
+      }
+    ],
+    "showWhenEmpty": false
+  }
+}

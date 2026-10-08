@@ -281,7 +281,7 @@ function spendingError(dependencies: ConfirmGenerationDependencies): AgentApiErr
   }
   return new AgentApiError(
     'SPENDING_LIMIT_EXCEEDED',
-    'This generation is above the spending controls configured in MaxVideoAI.',
+    'This generation is above the spending controls configured in Keyvo.',
     false,
     { type: 'open_url', url },
   );
@@ -332,7 +332,7 @@ async function confirmationTransaction(
     if (await dependencies.getAccountRestriction(principal.userId, { executor })) {
       throw new AgentApiError(
         'ACCOUNT_RESTRICTED',
-        'This account is temporarily restricted. Open MaxVideoAI for help.',
+        'This account is temporarily restricted. Open Keyvo for help.',
       );
     }
     if (hashCanonicalGenerationRequest(quote.request) !== quote.requestHash) {

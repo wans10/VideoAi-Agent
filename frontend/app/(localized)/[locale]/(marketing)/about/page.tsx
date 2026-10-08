@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: A
     description: copy.meta.description,
     hreflangGroup: 'about',
     slugMap: ABOUT_SLUG_MAP,
-    keywords: ['MaxVideoAI', 'AI video models', 'AI video benchmarks', 'AI video editorial methodology'],
+    keywords: ['Keyvo', 'AI video models', 'AI video benchmarks', 'AI video editorial methodology'],
     imageAlt: copy.hero.eyebrow,
   });
 }

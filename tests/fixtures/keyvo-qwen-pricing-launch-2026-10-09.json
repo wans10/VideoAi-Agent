@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "review": "Supplier reference USD remains immutable; CNY customer projection is tested separately. Qwen is app-enabled, with no indexed model page.",
+  "rows": [
+    {
+      "id": "image-estimate:qwen-image-3-0-pro:default",
+      "surface": "image-estimate",
+      "engineId": "qwen-image-3-0-pro",
+      "status": "exact",
+      "currency": "USD",
+      "vendorSubtotalCents": 3,
+      "marginCents": 1,
+      "discountCents": 0,
+      "customerTotalCents": 4,
+      "unit": "image",
+      "quantity": 1,
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "image-estimate:qwen-image-3-0:default",
+      "surface": "image-estimate",
+      "engineId": "qwen-image-3-0",
+      "status": "exact",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "discountCents": 0,
+      "customerTotalCents": 3,
+      "unit": "image",
+      "quantity": 1,
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:qwen-image-3-0-pro:high",
+      "surface": "pricing-hub-image",
+      "engineId": "qwen-image-3-0-pro",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 8,
+      "unit": "image",
+      "quantity": 1,
+      "displayedAmount": "$0.08",
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:qwen-image-3-0-pro:quantity-4",
+      "surface": "pricing-hub-image",
+      "engineId": "qwen-image-3-0-pro",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 16,
+      "unit": "image",
+      "quantity": 4,
+      "displayedAmount": "$0.16",
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:qwen-image-3-0-pro:standard",
+      "surface": "pricing-hub-image",
+      "engineId": "qwen-image-3-0-pro",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 4,
+      "unit": "image",
+      "quantity": 1,
+      "displayedAmount": "$0.04",
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:qwen-image-3-0:high",
+      "surface": "pricing-hub-image",
+      "engineId": "qwen-image-3-0",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 3,
+      "unit": "image",
+      "quantity": 1,
+      "displayedAmount": "$0.03",
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:qwen-image-3-0:quantity-4",
+      "surface": "pricing-hub-image",
+      "engineId": "qwen-image-3-0",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 12,
+      "unit": "image",
+      "quantity": 4,
+      "displayedAmount": "$0.12",
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:qwen-image-3-0:standard",
+      "surface": "pricing-hub-image",
+      "engineId": "qwen-image-3-0",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 3,
+      "unit": "image",
+      "quantity": 1,
+      "displayedAmount": "$0.03",
+      "compatibilityProfile": "standard"
+    }
+  ]
+}

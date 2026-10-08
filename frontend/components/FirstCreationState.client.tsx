@@ -11,7 +11,7 @@ export function FirstCreationState() {
     ? ['De l’idée à la première image', 'Partez d’une idée ou adaptez un exemple dans Video.', 'Créer une vidéo']
     : locale === 'es'
       ? ['De la idea al primer fotograma', 'Empieza con una idea o adapta un ejemplo en Video.', 'Crear un vídeo']
-      : ['From idea to first frame', 'Start with an idea or adapt an example in Video.', 'Create a video'];
+      : locale === 'zh' ? ['从灵感到第一帧', '从一个想法开始，或在视频工作台复用案例。', '生成视频'] : ['From idea to first frame', 'Start with an idea or adapt an example in Video.', 'Create a video'];
   return <div className="flex flex-col items-center gap-4 px-4 py-14 text-center">
     <Clapperboard className="h-10 w-10 text-text-muted" aria-hidden />
     <h2 className="text-xl font-semibold text-text-primary">{copy[0]}</h2>

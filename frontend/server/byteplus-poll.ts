@@ -275,7 +275,7 @@ export async function runBytePlusPoll(options: { jobId?: string; deps?: BytePlus
         } else {
           await markBytePlusJobFailedFn(
             job,
-            `The output video could not be copied to MaxVideoAI storage after ${nextCopyState.attempts} attempts.`,
+            `The output video could not be copied to Keyvo storage after ${nextCopyState.attempts} attempts.`,
             task.rawStatus,
             null,
             'unknown',

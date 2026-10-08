@@ -91,7 +91,7 @@ test('operational MCP accepts a bounded array of ChatGPT file parameters and ret
     library: {
       type: 'open_url' as const,
       purpose: 'media_library' as const,
-      label: 'Open the MaxVideoAI media library',
+      label: 'Open the Keyvo media library',
       url: 'https://maxvideoai.com/app/library',
     },
   };
@@ -259,7 +259,7 @@ test('reference file import stores each authorized host file in order and return
     library: {
       type: 'open_url',
       purpose: 'media_library',
-      label: 'Open the MaxVideoAI media library',
+      label: 'Open the Keyvo media library',
       url: 'https://maxvideoai.com/app/library',
     },
   });

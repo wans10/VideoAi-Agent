@@ -1,0 +1,285 @@
+{
+  "marketingName": "FLUX 3 Video",
+  "versionLabel": "3",
+  "seo": {
+    "title": "FLUX 3 视频生成器：关键帧、图像与视频延伸",
+    "description": "规划 FLUX 3 Video 的文本、图像、首尾帧与视频延伸工作流，了解精确的输入边界、生产级提示词结构及各模式标准定价。"
+  },
+  "overview": "FLUX 3 Video 是新一代 FLUX 视频家族的当前生产路线，支持纯文本生成、首帧图像动画、精确首尾帧引导及源视频延伸。FLUX 由 Black Forest Labs 拥有，VideoAI 通过 Fal 而非 Black Forest Labs 直连路由分发这些发布端点。",
+  "decision": {
+    "modelSlug": "flux-3",
+    "hero": {
+      "eyebrow": "当前 FLUX 视频生产路线",
+      "title": "FLUX 3 Video",
+      "subtitle": "从文本或图像创建，精确桥接首尾帧，或以 720p 或 1080p 延伸短片源视频。",
+      "subtitleHighlights": [
+        "文本或图像",
+        "首尾帧",
+        "延伸短片源视频"
+      ],
+      "paragraph": "当生产任务需要四种明确工作流之一时，请选择 FLUX 3。首尾帧模式需要同时提供起始和结束图像；延伸模式需要符合条件的源视频，并使用其专属的标准定价规则。Black Forest Labs 拥有该模型家族，Fal 负责为此次发布分发 VideoAI 的执行能力。",
+      "primaryCta": {
+        "label": "使用 FLUX 3 生成",
+        "href": "/app?engine=flux-3"
+      },
+      "secondaryCta": {
+        "label": "浏览 FLUX 案例库",
+        "href": "/zh/examples/flux"
+      },
+      "quickLinks": [
+        {
+          "label": "查看 FLUX 3 Draft",
+          "href": "/zh/models/flux-3-draft"
+        },
+        {
+          "label": "对比 FLUX 3 与 Draft",
+          "href": "/zh/ai-video-engines/flux-3-vs-flux-3-draft?order=flux-3"
+        },
+        {
+          "label": "对比 FLUX 3 与 Grok",
+          "href": "/zh/ai-video-engines/flux-3-vs-grok-imagine-video-1-5?order=flux-3"
+        },
+        {
+          "label": "查看 FLUX 3 定价",
+          "href": "/zh/pricing#flux-3-pricing"
+        },
+        {
+          "label": "打开 FLUX 提示词实验室",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "FLUX 3 生产样本",
+      "description": "经审核的 FLUX 3 输出将在审核后显示",
+      "renderLabel": "查看已通过的输出",
+      "badges": [
+        "四种工作流",
+        "720p",
+        "1080p"
+      ],
+      "altContext": "已通过审核的 FLUX 3 Video 生产示例"
+    },
+    "features": [
+      {
+        "title": "四种明确的生成模式",
+        "body": "文本、图像、首尾帧和延伸各自保留其所需的输入。产品不会将关键帧或草稿增强重新命名为通用支持模式。",
+        "tone": "reference"
+      },
+      {
+        "title": "精确帧桥接",
+        "body": "首尾帧模式同时需要起始和结束图像。设计兼容的锚点，并描述在五到二十秒内能合理连接它们的运动方式。",
+        "tone": "continuity"
+      },
+      {
+        "title": "源视频延伸",
+        "body": "延伸模式接受一段短小的受支持源片段。请延续其摄像机向量、主体轨迹、光线和节奏，而非以无关方向重新开始场景。",
+        "tone": "duration"
+      },
+      {
+        "title": "独立的延伸报价",
+        "body": "当模式为延伸时，标准计算器会选取延伸专属的定价数据。页面场景不能悄然复用较便宜的普通生成费率。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "最佳场景：受控生产过渡",
+        "body": "将 FLUX 3 用于产品运动、精心设计的帧桥接、源视频续接，以及受益于明确输入控制的场景创作。",
+        "cta": {
+          "label": "开始 FLUX 3 渲染",
+          "href": "/app?engine=flux-3"
+        }
+      },
+      {
+        "title": "不适合：低成本探索性批量测试",
+        "body": "若团队仍在 720p 下测试多种方向，请使用 Draft 作为迭代版本，将标准 FLUX 3 留给已确定的方案。",
+        "cta": {
+          "label": "打开 FLUX 3 Draft",
+          "href": "/zh/models/flux-3-draft"
+        }
+      },
+      {
+        "title": "描述过渡过程，而非两张海报",
+        "body": "进行帧桥接时，说明姿势、摄像机、材质和光线如何在锚点之间演变。不可能的几何关系会降低稳定连接的概率。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本生成",
+        "body": "定义简洁的场景、物理动作、摄像机路径和稳定的结尾。"
+      },
+      {
+        "title": "图像动画",
+        "body": "保护开场构图，引导动作而不重新设计源图像。"
+      },
+      {
+        "title": "首帧与尾帧",
+        "body": "提供两张必要图像，并描述它们之间物理上可行的运动路径。"
+      },
+      {
+        "title": "视频延伸",
+        "body": "使用符合条件的源片段，延续其已建立的运动、摄像机、身份和氛围。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "FLUX 3 场景定价",
+      "subtitle": "对比相同六秒视频在 720p 和 1080p 下的价格。",
+      "footnote": "价格取决于您选择的设置。VideoAI 将在生成前确认报价。",
+      "ctaLabel": "使用 FLUX 3 生成",
+      "ctaHref": "/app?engine=flux-3"
+    },
+    "meta": {
+      "title": "FLUX 3 视频模型、帧控制与延伸定价",
+      "description": "评估 FLUX 3 的文本、图像、首尾帧和延伸模式、源文件限制、提示词结构、安全规则及模式感知的标准报价。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "flux-3",
+    "section": {
+      "title": "提示词实验室 — FLUX 3 Video",
+      "intro": "先选择工作流，再撰写尊重所有必要源文件及状态间物理规律的运动描述。",
+      "tip": "进行帧桥接或延伸时，先描述连续性，再添加新的场景元素。",
+      "guide": {
+        "label": "阅读 Black Forest Labs 的 FLUX 3 Video 指南",
+        "href": "https://bfl.ai/blog/flux-3-video"
+      },
+      "referencesTitle": "直接生成、帧桥接与续接"
+    },
+    "tabs": [
+      {
+        "id": "mode",
+        "label": "模式",
+        "title": "选择正确的源文件契约",
+        "description": "将任务匹配到文本、图像、双帧或延伸输入。",
+        "copy": "工作流：\n[文本、图像、首尾帧或延伸]\n\n必需源文件：\n[无、开场图像、两个锚点或源视频]\n\n成功状态：\n[审核人员必须看到的内容]\n\n时长：\n[适合动作和源文件约束的长度]"
+      },
+      {
+        "id": "transition",
+        "label": "过渡",
+        "title": "描述可行的路径",
+        "description": "连接状态之间的姿势、摄像机、材质和光线。",
+        "copy": "开场状态：\n[主体姿势、构图和环境]\n\n运动路径：\n[主要动作和摄像机运动]\n\n物理反应：\n[重量、接触、布料、反射或粒子]\n\n结束状态：\n[最终帧或稳定构图]"
+      },
+      {
+        "id": "continuation",
+        "label": "延伸",
+        "title": "延续源视频的动势",
+        "description": "保留已建立的身份、方向和节奏。",
+        "copy": "源视频结尾：\n[最后可见的动作和摄像机向量]\n\n续接内容：\n[下一个动作，无需重置]\n\n连续性锚点：\n[主体、服装、道具、光线和场地]\n\n避免：\n[硬切重启、新身份、突然换镜、文字、标志和不安全内容]"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "mode",
+        "body": "标准发布支持 fl2v，而非带有任意中间帧的通用关键帧序列。"
+      },
+      {
+        "tabId": "transition",
+        "body": "起始和结束图像应共享兼容的主体身份、视角和场景逻辑。"
+      },
+      {
+        "tabId": "continuation",
+        "body": "延伸定价因模式而异，源片段必须满足已发布的格式、大小和长度规则。"
+      }
+    ],
+    "globalPrinciples": [
+      "在撰写提示词之前先选择模式。",
+      "使运动与源媒体在物理上兼容。",
+      "每个短场景只使用一条有动机的摄像机路径。",
+      "在审批前检查版权、同意、安全性、意外文字和水印。"
+    ],
+    "engineWhy": [
+      "FLUX 3 将首尾帧控制与普通图像动画区分开来。",
+      "专用的延伸路线保留了源视频的所有权和定价背景。",
+      "标准输出支持 720p 和 1080p，供审核和生产决策使用。"
+    ],
+    "demo": {
+      "title": "FLUX 3 首尾帧桥接",
+      "promptLabel": "受控帧过渡",
+      "prompt": "从所提供的白色画廊中静止悬挂的红色织物装置的宽景帧开始。一股轻柔的气流依次掀起下方面板，同时摄像机缓慢向右跟拍。自然过渡到所提供的最终近景帧，织物在一个抛光钢铁形体上弯曲。保持画廊几何形状、织物颜色和光线方向。无访客、标识或标志。",
+      "notes": [
+        "提示词指明了物理作用力和兼容的摄像机路径。",
+        "两个锚点共享相同的地点、材质和光线逻辑。"
+      ],
+      "summary": {
+        "subject": "白色画廊中的红色织物装置",
+        "action": "气流将面板掀起并绕过钢铁形体",
+        "camera": "从宽景到近景的缓慢向右跟拍",
+        "style": "极简建筑艺术电影风格",
+        "output": "使用标准设置的首尾帧渲染"
+      },
+      "presentationOverrides": {
+        "modeLabel": "首帧与尾帧",
+        "outputLabel": "支持的帧工作流",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "media",
+        "audioChipLabel": null,
+        "altContext": "FLUX 3 红色织物帧桥接提示词"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "flux-3",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "已审核的 FLUX 3 示例",
+      "intro": "在两个已通过审核的 FLUX 3 素材稳定附加之前，案例库将保持隐藏。",
+      "defaultCtaLabel": "查看全部 FLUX 案例",
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "edit",
+        "label": "剪辑变化"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "anchors",
+        "icon": "image",
+        "title": "锚点还原度",
+        "body": "将开场和结尾构图与其源帧进行对比。"
+      },
+      {
+        "id": "physics",
+        "icon": "zap",
+        "title": "过渡物理效果",
+        "body": "检查接触、材质反应和合理的运动表现。"
+      },
+      {
+        "id": "continuity",
+        "icon": "users",
+        "title": "源视频连续性",
+        "body": "在延伸过程中检查身份、摄像机向量和环境的一致性。"
+      },
+      {
+        "id": "delivery",
+        "icon": "maximize",
+        "title": "交付稳定性",
+        "body": "审查细节、构图、时间一致性和最终节拍。"
+      },
+      {
+        "id": "safety",
+        "icon": "shield",
+        "title": "编辑审核关卡",
+        "body": "拒绝不安全内容、不需要的标记、文字和版权问题。"
+      }
+    ],
+    "fallbackItems": null
+  }
+}

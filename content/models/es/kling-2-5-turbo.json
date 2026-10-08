@@ -2,8 +2,8 @@
   "marketingName": "Kling 2.5 Turbo",
   "versionLabel": "2.5 Turbo",
   "seo": {
-    "title": "Kling 2.5 Turbo | Modelo de video IA, specs y precios | MaxVideoAI",
-    "description": "Usa Kling 2.5 Turbo en MaxVideoAI para borradores de video IA silenciosos y rápidos, y luego pasa a Kling 3 Standard o Kling 3 Pro para el workflow Kling actual.",
+    "title": "Kling 2.5 Turbo | Modelo de video IA, specs y precios | VideoAI",
+    "description": "Usa Kling 2.5 Turbo en VideoAI para borradores de video IA silenciosos y rápidos, y luego pasa a Kling 3 Standard o Kling 3 Pro para el workflow Kling actual.",
     "image": "/hero/kling-25.jpg"
   },
   "overview": "Kling 2.5 Turbo sigue disponible como modelo Kling anterior aún compatible para borradores silenciosos 1080p rápidos, clips cortos centrados en cámara y look-dev de menor costo.",
@@ -192,10 +192,10 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "Qué es realmente Kling 2.5 Turbo en MaxVideoAI",
+    "whatTitle": "Qué es realmente Kling 2.5 Turbo en VideoAI",
     "whatIntro1": "Kling 2.5 Turbo es un modelo short‑form de alto rendimiento para motion cinematográfico, buena adherencia al prompt y estilo consistente.",
-    "whatIntro2": "En MaxVideoAI es un motor multi‑tier que puedes cambiar por render.",
-    "whatFlowTitle": "Flujo MaxVideoAI",
+    "whatIntro2": "En VideoAI es un motor multi‑tier que puedes cambiar por render.",
+    "whatFlowTitle": "Flujo VideoAI",
     "whatFlowSteps": [
       "1. Elige Kling 2.5 Turbo.",
       "2. Texto → Video (Pro Text) o Imagen → Video (Pro Image / Standard).",
@@ -205,8 +205,8 @@
       "6. Revisa el precio exacto antes de renderizar.",
       "7. Compara con Sora, Veo, Wan, MiniMax en el mismo workspace."
     ],
-    "specTitle": "Especificaciones reales — Kling 2.5 Turbo en MaxVideoAI (1080p, 5–10 s)",
-    "specNote": "Esto describe Kling 2.5 Turbo tal como se usa en MaxVideoAI.",
+    "specTitle": "Especificaciones reales — Kling 2.5 Turbo en VideoAI (1080p, 5–10 s)",
+    "specNote": "Esto describe Kling 2.5 Turbo tal como se usa en VideoAI.",
     "specSections": [
       {
         "title": "Motion y física",
@@ -284,7 +284,7 @@
       "Pika 2.2: animación estilizada y silenciosa para loops y visuales juguetones"
     ],
     "comparisonCta": "Comparar Kling vs Sora 2 Pro →",
-    "faqTitle": "FAQ – Kling 2.5 Turbo en MaxVideoAI",
+    "faqTitle": "FAQ – Kling 2.5 Turbo en VideoAI",
     "faqs": [
       {
         "q": "¿Kling 2.5 Turbo genera audio?",
@@ -308,8 +308,8 @@
       }
     ],
     "relatedTitle": "Explora otros modelos",
-    "relatedSubtitle": "Compara precios, latencia y salidas en el catálogo de MaxVideoAI.",
-    "finalPara1": "Kling 2.5 Turbo en MaxVideoAI es tu motor 1080p silencioso y cinematográfico para beats cortos y contundentes.",
+    "relatedSubtitle": "Compara precios, latencia y salidas en el catálogo de VideoAI.",
+    "finalPara1": "Kling 2.5 Turbo en VideoAI es tu motor 1080p silencioso y cinematográfico para beats cortos y contundentes.",
     "finalPara2": "Úsalo cuando cámara y motion llevan la historia, luego añade audio en post o con motores con audio.",
     "finalButton": "Abrir Generate",
     "tipsIntro": "Kling 2.5 Turbo es más fácil de dirigir cuando escribes para el movimiento: un sujeto, una acción clara, un movimiento de cámara — y peso/inercia explícitos.",
@@ -451,13 +451,13 @@
     "pricingCopy": {
       "title": "Precios de Kling 2.5 Turbo de un vistazo",
       "subtitle": "Totales de borradores silenciosos. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 1080p",
       "ctaHref": "/es/precios#kling-2-5-turbo-pricing"
     },
     "meta": {
-      "title": "Kling 2.5 Turbo: precios y borradores mudos | MaxVideoAI",
+      "title": "Kling 2.5 Turbo: precios y borradores mudos | VideoAI",
       "description": "Usa Kling 2.5 Turbo para borradores Kling silenciosos aún compatibles, arranque con texto o imagen, prompt negativo y look-dev 1080p de menor costo."
     }
   },
@@ -552,7 +552,7 @@
     "modelSlug": "kling-2-5-turbo",
     "section": {
       "title": "Galería de ejemplos: Kling 2.5 Turbo",
-      "intro": "Renders reales del routing Kling actual en MaxVideoAI.",
+      "intro": "Renders reales del routing Kling actual en VideoAI.",
       "defaultCtaLabel": "Ver todos los ejemplos Kling 2.5 Turbo →",
       "recreateLabel": "Recrear esta toma →"
     },

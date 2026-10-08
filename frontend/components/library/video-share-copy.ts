@@ -1,7 +1,44 @@
 export function videoShareCopy(locale: string) {
+  if (locale.startsWith('zh')) return {
+    "share": "分享",
+    "link": "链接",
+    "email": "电子邮件",
+    "reels": "Reels",
+    "shorts": "Shorts",
+    "more": "更多",
+    "heading": "分享视频",
+    "signature": "建议署名",
+    "defaultSignature": "使用 Keyvo 创作的视频",
+    "hashtag": "建议话题标签",
+    "shareApps": "通过应用分享",
+    "saveMp4": "保存 MP4",
+    "preparing": "正在准备…",
+    "xShareApps": "通过应用分享 MP4",
+    "xNativeHint": "如果列表中有 X，请选择并在发布前检查文案。",
+    "nativeVideoHint": "选择目标应用；建议文案可能不会随文件传递。",
+    "xManualFallback": "如果未显示 X，请手动添加 MP4",
+    "xVideoIntro": "要在 X 信息流中播放视频，请为帖子附加 MP4。",
+    "xOpenComposer": "打开 X",
+    "xAttachVideo": "发布前在 X 中添加已下载的 MP4。可用时将预填文案和链接。",
+    "xLinkOnly": "仅分享链接（图片预览）",
+    "publicNotice": "任何持有此链接的人都可以查看此视频。",
+    "exampleNotice": "此视频公开页面的链接。",
+    "revoke": "停用链接",
+    "copied": "链接已复制",
+    "copySignature": "复制署名",
+    "signatureCopied": "署名已复制",
+    "copyHashtag": "复制话题标签",
+    "hashtagCopied": "话题标签已复制",
+    "linkUnavailable": "此原始视频无法生成长期链接，仍可分享文件。",
+    "linkRevoked": "链接已停用。重新打开分享面板以创建新链接。",
+    "fileUnavailable": "此处无法分享文件，请保存 MP4 后发布。",
+    "shareFailed": "无法准备分享，请重试。",
+    "revoking": "正在停用…",
+    "nativeLink": "通过应用分享链接"
+};
   if (locale.startsWith('fr')) return {
     share: 'Partager', link: 'Lien', email: 'E-mail', reels: 'Reels', shorts: 'Shorts', more: 'Autres',
-    heading: 'Partager', signature: 'Signature proposée', defaultSignature: 'Vidéo créée avec MaxVideoAI', hashtag: 'Hashtag proposé',
+    heading: 'Partager', signature: 'Signature proposée', defaultSignature: 'Vidéo créée avec Keyvo', hashtag: 'Hashtag proposé',
     shareApps: 'Via les apps', saveMp4: 'Enregistrer MP4', preparing: 'Préparation…',
     xShareApps: 'Partager le MP4 via les apps', xNativeHint: 'Choisissez X si l’app apparaît, puis vérifiez le texte avant de publier.',
     nativeVideoHint: 'Choisissez l’app souhaitée si elle apparaît. Le texte proposé peut ne pas être repris.',
@@ -19,7 +56,7 @@ export function videoShareCopy(locale: string) {
   };
   if (locale.startsWith('es')) return {
     share: 'Compartir', link: 'Enlace', email: 'E-mail', reels: 'Reels', shorts: 'Shorts', more: 'Otros',
-    heading: 'Compartir', signature: 'Firma sugerida', defaultSignature: 'Vídeo creado con MaxVideoAI', hashtag: 'Hashtag sugerido',
+    heading: 'Compartir', signature: 'Firma sugerida', defaultSignature: 'Vídeo creado con Keyvo', hashtag: 'Hashtag sugerido',
     shareApps: 'Con apps', saveMp4: 'Guardar MP4', preparing: 'Preparando…',
     xShareApps: 'Compartir MP4 con apps', xNativeHint: 'Elige X si aparece y revisa el texto antes de publicar.',
     nativeVideoHint: 'Elige la app si aparece. Puede que no se incluya el texto sugerido.',
@@ -37,7 +74,7 @@ export function videoShareCopy(locale: string) {
   };
   return {
     share: 'Share', link: 'Link', email: 'E-mail', reels: 'Reels', shorts: 'Shorts', more: 'More',
-    heading: 'Share', signature: 'Suggested signature', defaultSignature: 'Video created with MaxVideoAI', hashtag: 'Suggested hashtag',
+    heading: 'Share', signature: 'Suggested signature', defaultSignature: 'Video created with Keyvo', hashtag: 'Suggested hashtag',
     shareApps: 'Via apps', saveMp4: 'Save MP4', preparing: 'Preparing…',
     xShareApps: 'Share MP4 via apps', xNativeHint: 'Choose X if it appears, then review the text before posting.',
     nativeVideoHint: 'Choose the app if it appears. The suggested text may not be included.',

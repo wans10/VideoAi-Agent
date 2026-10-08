@@ -155,17 +155,17 @@ async function fetchCheckoutGuardCounts(userId: string, ipHash: string): Promise
     `SELECT
        COUNT(*) FILTER (
          WHERE user_id = $1
-           AND stripe_checkout_session_id IS NOT NULL
+           AND (stripe_checkout_session_id IS NOT NULL OR llmhub_pay_out_trade_no IS NOT NULL)
            AND created_at >= NOW() - INTERVAL '15 minutes'
        ) AS user_attempts_15m,
        COUNT(*) FILTER (
          WHERE user_id = $1
-           AND stripe_checkout_session_id IS NOT NULL
+           AND (stripe_checkout_session_id IS NOT NULL OR llmhub_pay_out_trade_no IS NOT NULL)
            AND created_at >= NOW() - INTERVAL '1 hour'
        ) AS user_attempts_1h,
        COUNT(*) FILTER (
          WHERE ip_hash = $2
-           AND stripe_checkout_session_id IS NOT NULL
+           AND (stripe_checkout_session_id IS NOT NULL OR llmhub_pay_out_trade_no IS NOT NULL)
            AND created_at >= NOW() - INTERVAL '15 minutes'
        ) AS ip_attempts_15m,
        (
@@ -331,6 +331,16 @@ export async function markCheckoutAttemptSessionCreated(attemptId: number, sessi
             stripe_checkout_session_id = $2
       WHERE id = $1`,
     [attemptId, sessionId]
+  );
+}
+
+export async function markCheckoutAttemptLlmhubOrderCreated(attemptId: number, outTradeNo: string): Promise<void> {
+  if (!Number.isSafeInteger(attemptId) || attemptId <= 0) return;
+  await query(
+    `UPDATE checkout_attempts
+        SET outcome = 'session_created', llmhub_pay_out_trade_no = $2
+      WHERE id = $1`,
+    [attemptId, outTradeNo]
   );
 }
 

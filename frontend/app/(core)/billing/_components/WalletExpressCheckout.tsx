@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type {
   Stripe,
   StripeCheckout,
@@ -97,7 +98,7 @@ export function WalletExpressCheckout({
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'unavailable' | 'error'>('idle');
   const [message, setMessage] = useState<string | null>(null);
   const [analyticsConsentGranted, setAnalyticsConsentGranted] = useState(hasAnalyticsConsentCookieInBrowser);
-  const normalizedChargeCurrency = (chargeCurrency || 'USD').toUpperCase();
+  const normalizedChargeCurrency = (chargeCurrency || CUSTOMER_CURRENCY).toUpperCase();
   const sessionUserId = session?.user?.id ?? null;
 
   useEffect(() => {
@@ -347,7 +348,7 @@ export function WalletExpressCheckout({
               status: 'success',
               amount: (amountCents / 100).toFixed(2),
               amountCents: String(amountCents),
-              currency: 'USD',
+              currency: CUSTOMER_CURRENCY,
               settlementCurrency: normalizedChargeCurrency,
             });
             if (checkoutSessionResult.sessionId) {

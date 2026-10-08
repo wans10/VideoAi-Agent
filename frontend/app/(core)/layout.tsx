@@ -1,3 +1,4 @@
+import { resolveSiteLocale } from '@/i18n/locales';
 import localFont from 'next/font/local';
 import { AppExperienceRoot } from '@/components/AppExperienceRoot';
 import '@/styles/app-experience.css';
@@ -16,7 +17,7 @@ import { SessionWatchdog } from '@/components/auth/SessionWatchdog';
 import { SWRFocusResync } from '@/components/swr/SWRFocusResync';
 import { SWRProvider } from '@/components/swr/SWRProvider';
 import { I18nProvider } from '@/lib/i18n/I18nProvider';
-import { defaultLocale, locales, type AppLocale } from '@/i18n/locales';
+import { defaultExperienceLocale, locales, type AppLocale } from '@/i18n/locales';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { resolveDictionary } from '@/lib/i18n/server';
 import { LocaleSync } from '@/components/i18n/LocaleSync';
@@ -28,10 +29,10 @@ const NORMALIZED_SITE_URL = SITE_ORIGIN;
 export const metadata: Metadata = {
   metadataBase: new URL(`${NORMALIZED_SITE_URL}/`),
   title: {
-    default: 'MaxVideoAI — AI Video Generator Hub',
-    template: '%s — MaxVideoAI',
+    default: 'Keyvo — 影像制作工作室',
+    template: '%s — Keyvo',
   },
-  description: 'Create AI videos, images and audio in MaxVideoAI’s web workspace or through MCP integrations. Compare models, see the price before generating and pay as you go.',
+  description: '在 Keyvo 影像工作室创作视频、图片和声音。比较模型，生成前确认价格，按需付费。',
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -51,10 +52,10 @@ export const viewport: Viewport = {
 
 export default async function CoreLayout({ children }: { children: ReactNode }) {
   const cookieStore = await cookies();
-  const locale = [cookieStore.get(LOCALE_COOKIE)?.value, cookieStore.get('NEXT_LOCALE')?.value].find(
+  const locale = resolveSiteLocale([cookieStore.get(LOCALE_COOKIE)?.value, cookieStore.get('NEXT_LOCALE')?.value].find(
     (candidate): candidate is AppLocale =>
       typeof candidate === 'string' && (locales as readonly string[]).includes(candidate)
-  ) ?? defaultLocale;
+  ) ?? defaultExperienceLocale);
   const { dictionary, fallback } = await resolveDictionary({ locale });
 
   const homeUrl = `${NORMALIZED_SITE_URL}/`;
@@ -64,7 +65,7 @@ export default async function CoreLayout({ children }: { children: ReactNode }) 
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     url: homeUrl,
-    name: 'MaxVideoAI',
+    name: 'Keyvo',
   };
 
   return (

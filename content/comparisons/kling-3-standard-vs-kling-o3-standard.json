@@ -54,7 +54,7 @@
         },
         {
           "question": "Do Kling 3 Standard and Omni Standard cost the same?",
-          "answer": "The catalog lists the same provider base rates for both: $0.084 per second with audio off and $0.126 per second with audio on, before MaxVideoAI platform margin."
+          "answer": "The catalog lists the same provider base rates for both: $0.084 per second with audio off and $0.126 per second with audio on, before VideoAI platform margin."
         },
         {
           "question": "Which Kling Standard model should I use for reference assets?",
@@ -117,7 +117,7 @@
         },
         {
           "question": "Kling 3 Standard et Omni Standard coûtent-ils le même prix ?",
-          "answer": "Le catalogue indique les mêmes tarifs fournisseur : 0,084 $ par seconde sans audio et 0,126 $ avec audio, avant la marge appliquée par MaxVideoAI."
+          "answer": "Le catalogue indique les mêmes tarifs fournisseur : 0,084 $ par seconde sans audio et 0,126 $ avec audio, avant la marge appliquée par VideoAI."
         },
         {
           "question": "Quel modèle choisir pour travailler avec des références ?",
@@ -180,11 +180,74 @@
         },
         {
           "question": "¿Kling 3 Standard y Omni Standard cuestan lo mismo?",
-          "answer": "El catálogo indica las mismas tarifas del proveedor: US$0.084 por segundo sin audio y US$0.126 con audio, antes del margen aplicado por MaxVideoAI."
+          "answer": "El catálogo indica las mismas tarifas del proveedor: US$0.084 por segundo sin audio y US$0.126 con audio, antes del margen aplicado por VideoAI."
         },
         {
           "question": "¿Qué modelo debo usar con recursos de referencia?",
           "answer": "Elige Kling 3.0 Omni Standard si imágenes de referencia o un video fuente deben guiar el resultado. Kling 3 Standard basta cuando un prompt o imagen inicial resuelven la toma."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 3 Standard 对比 Omni Standard：如何选择",
+      "description": "在 VideoAI 上对比 Kling 3 Standard 与 Kling 3.0 Omni Standard 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 Kling 3 Standard 和 Kling 3.0 Omni Standard：两者均提供 15 秒 1080p 及音频，列出的基础价格相同。Standard 侧重文本与起始图像生成；Omni 为源素材驱动工作增加参考生视频及视频生视频控制。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "提示词或起始帧测试已足够，额外参考模式只会增加复杂度时，选择 Kling 3 Standard。需要角色、产品、视觉参考或现有视频通过参考生视频或视频生视频引导结果时，选择 Kling 3.0 Omni Standard。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Kling 3 Standard",
+        "body": "直接提示词生成、起始图动画和可重复 1080p 草稿测试可使用 Standard，可选音频。"
+      },
+      {
+        "title": "选择 Omni Standard",
+        "body": "除文本与图像生成之外，镜头还需要参考素材或现有源视频时，使用 Omni。"
+      },
+      {
+        "title": "核心取舍",
+        "body": "两者分辨率、时长、音频及列出的基础价格相同；Omni 扩展输入工作流，Standard 更简单。"
+      },
+      {
+        "title": "适用工作流",
+        "body": "Standard 适合快速起始帧草稿；Omni 适合参考引导角色、产品连贯性和源视频转换。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-3-standard",
+        "label": "查看 Kling 3 Standard 详情"
+      },
+      {
+        "href": "/models/kling-o3-standard",
+        "label": "查看 Kling 3.0 Omni Standard 详情"
+      },
+      {
+        "href": "/ai-video-engines/kling-3-pro-vs-kling-3-standard",
+        "label": "对比 Kling 3 Pro 对比 Kling 3 Standard"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在 Kling Standard 与 Omni Standard 工作流之间选择。",
+      "items": [
+        {
+          "question": "Kling 3 Standard 和 Omni Standard 的主要区别是什么？",
+          "answer": "两者都支持带音频的 15 秒 1080p。Omni Standard 增加参考生视频和视频生视频；Kling 3 Standard 侧重文生视频和图生视频。"
+        },
+        {
+          "question": "Kling 3 Standard 和 Omni Standard 价格相同吗？",
+          "answer": "目录列出的提供商基础价格相同：无音频每秒 0.084 美元，含音频每秒 0.126 美元，均未计入 VideoAI 平台加价。"
+        },
+        {
+          "question": "参考素材应该用哪款 Kling Standard？",
+          "answer": "需要参考图或源视频引导输出时，选择 Kling 3.0 Omni Standard；提示词或起始图已足够时，使用 Kling 3 Standard。"
         }
       ]
     }

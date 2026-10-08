@@ -1,5 +1,15 @@
 # MaxVideoAI MCP support and disclosure readiness
 
+## Keyvo deployment policy — 2026-10-09
+
+Keyvo hides public MCP marketing and indexing (`publicMarketing=false`, `publicIndexing=false`), while authenticated transport, OAuth, discovery, paid generation and reference uploads stay enabled. Upstream MaxVideoAI rollout, host and directory evidence below is historical source evidence; it does not certify a Keyvo listing or host approval.
+
+| Current Keyvo flag | Value |
+| --- | --- |
+| `publicMarketing` | false |
+| `publicIndexing` | false |
+
+
 Checked: 2026-09-16
 Readiness: **DIRECT PRODUCTION RELEASE LIVE**
 

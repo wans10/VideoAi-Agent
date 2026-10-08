@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
-import test from 'node:test';
+import test, { before, after } from 'node:test';
+import { publishedLocales, locales } from '../frontend/i18n/locales';
+
+// Legacy route mappings must also survive a future multilingual reopening.
+const deploymentLocales = [...publishedLocales];
+before(() => { publishedLocales.splice(0, publishedLocales.length, ...locales); });
+after(() => { publishedLocales.splice(0, publishedLocales.length, ...deploymentLocales); });
 import { NextRequest } from 'next/server';
 import registry from '../frontend/config/model-registry.json' with { type: 'json' };
 import { shouldHandleLocale } from '../frontend/lib/middleware/routing-locale.ts';
@@ -104,7 +110,7 @@ test('public marketing URLs remain authoritative over browser locale detection',
   const routingLocaleSource = readFileSync(routingLocalePath, 'utf8');
 
   assert.match(routingLocaleSource, /localeDetection:\s*false/);
-  assert.doesNotMatch(middlewareSource, /getPreferredLocale\(req\)/);
+  assert.match(middlewareSource, /const homepageLocale = getPreferredLocale\(req\) \?\? defaultExperienceLocale/);
 });
 
 test('private MCP reference-upload handoffs bypass marketing locale routing', () => {
@@ -158,8 +164,8 @@ test('real middleware resolves every dotted public alias in localized English mo
 
   assert.equal(dottedAliases.length, 6);
   assert.ok(
-    middlewareConfig.matcher.includes('/:locale(fr|es)/models/:slug([^/]*\\.[^/]*)'),
-    'the middleware matcher must admit only single-slug dotted FR/ES English model compatibility paths'
+    middlewareConfig.matcher.includes('/:locale(fr|es|zh)/models/:slug([^/]*\\.[^/]*)'),
+    'the middleware matcher must admit only single-slug dotted localized English model compatibility paths'
   );
 
   for (const { alias, canonicalSlug } of dottedAliases) {
@@ -184,4 +190,8 @@ test('real middleware resolves every dotted public alias in localized English mo
   assert.equal(staticAssetResponse.status, 200);
   assert.equal(staticAssetResponse.headers.get('location'), null);
   assert.equal(staticAssetResponse.headers.get('x-middleware-next'), '1');
+});
+
+test('password recovery routes bypass locale rewriting for Chinese visitors', () => {
+  assert.equal(shouldHandleLocale('/auth/reset-password'), false);
 });

@@ -26,7 +26,7 @@ export function ImageConversationComposer({
   readOnly?: boolean;
   libraryLabel?: string;
 }) {
-  const t = (en: string, fr: string, es=en) => locale === 'fr' ? fr : locale === 'es' ? es : en;
+  const t = (en: string, fr: string, es=en, zh=en) => locale === 'zh' ? zh : locale === 'fr' ? fr : locale === 'es' ? es : en;
   const textarea = useRef<HTMLTextAreaElement>(null);
   const resizeTextarea = useCallback(() => {
     const element = textarea.current;
@@ -54,7 +54,7 @@ export function ImageConversationComposer({
         type="button"
         disabled={blocked}
         ref={libraryTrigger}
-        aria-label={libraryLabel??t('Open library', 'Ouvrir la bibliothèque')}
+        aria-label={libraryLabel??t('Open library', 'Ouvrir la bibliothèque', 'Abrir biblioteca', '打开素材库')}
         onClick={event => onOpenLibrary(event.currentTarget)}
       >
         <Plus size={21} />
@@ -62,11 +62,11 @@ export function ImageConversationComposer({
       <textarea
         ref={textarea}
         rows={1}
-        aria-label={t('Message Studio', 'Message à Studio', 'Mensaje a Studio')}
+        aria-label={t('Message Studio', 'Message à Studio', 'Mensaje a Studio', '向 Studio 发送消息')}
         value={text}
         readOnly={readOnly}
         onChange={(event) => onTextChange(event.target.value)}
-        placeholder={t('Describe your idea…', 'Décrivez votre idée…', 'Describe tu idea…')}
+        placeholder={t('Describe your idea…', 'Décrivez votre idée…', 'Describe tu idea…', '描述您的创意…')}
         maxLength={4000}
         enterKeyHint="send"
         onKeyDown={(event) => {

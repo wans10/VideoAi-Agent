@@ -2,8 +2,8 @@
 
 import clsx from 'clsx';
 import { useMarketingMenuFocus } from './useMarketingMenuFocus';
-import { AudioWaveform, Boxes, ChevronDown, Clapperboard, Images, Plug, Scale, WalletCards, Wrench, X, type LucideIcon } from 'lucide-react';
-import Image from 'next/image';
+import { Boxes, ChevronDown, Clapperboard, Camera, Projector, Workflow, Plug, Scale, WalletCards, Wrench, X, type LucideIcon } from 'lucide-react';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import { Link } from '@/i18n/navigation';
 import { LanguageToggle } from '@/components/marketing/LanguageToggle';
 import { Button } from '@/components/ui/Button';
@@ -14,7 +14,7 @@ import type { MarketingTopNavLink } from '@/config/navigation';
 import { buildLoginHref } from '@/lib/auth-entry-href';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 
-const MENU_ICONS: Record<string, LucideIcon> = { models: Boxes, examples: Clapperboard, compare: Scale, tools: Wrench, pricing: WalletCards, connect: Plug };
+const MENU_ICONS: Record<string, LucideIcon> = { production: Clapperboard, craft: Camera, screening: Projector, pipeline: Workflow, models: Boxes, examples: Clapperboard, compare: Scale, tools: Wrench, pricing: WalletCards, connect: Plug };
 
 type MarketingTranslate = <T = unknown>(key: string, fallback?: T) => T | undefined;
 
@@ -61,7 +61,7 @@ export function MarketingMobileMenu({
       className="marketing-menu-panel"
     >
       <div className="marketing-menu-header">
-        <span className="flex items-center gap-2 text-base font-semibold"><Image src="/assets/branding/logo-mark.svg" alt="" aria-hidden="true" width={28} height={28} />MaxVideoAI</span>
+        <BrandLockup />
         <Button
           type="button"
           size="sm"
@@ -74,12 +74,6 @@ export function MarketingMobileMenu({
         </Button>
       </div>
       <div className="marketing-menu-body">
-        <p className="marketing-menu-caption">{t('nav.menuCreate', 'Create')}</p>
-        <div className="marketing-menu-create">{[
-          { href: '/app', key: 'video', label: 'Video', icon: Clapperboard },
-          { href: '/app/image', key: 'image', label: 'Image', icon: Images },
-          { href: '/app/audio', key: 'audio', label: 'Audio', icon: AudioWaveform },
-        ].map((entry) => <Link key={entry.key} href={entry.href} prefetch={false} onClick={onClose}><UIIcon icon={entry.icon} size={21} /><span>{t(`nav.menuMedia.${entry.key}`, entry.label)}</span></Link>)}</div>
         <p className="marketing-menu-caption">{t('nav.menuExplore', 'Explore')}</p>
         <nav className="marketing-menu-nav">
           {links.map((item) => {
@@ -138,7 +132,7 @@ export function MarketingMobileMenu({
                           key={entry.key}
                           href={entry.href}
                           onClick={onClose}
-                          className="rounded-input px-2 py-2 transition hover:bg-surface-2 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className="production-mobile-entry rounded-input px-2 py-2 transition hover:bg-surface-2 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           <MarketingNavEntryContent
                             entry={entry}
@@ -146,6 +140,7 @@ export function MarketingMobileMenu({
                             badgeLabel={badgeLabel}
                             showModelLogo={item.key === 'models'}
                           />
+                          {entry.description ? <small className="production-mobile-description">{t(`nav.dropdown.${item.key}.descriptions.${entry.key}`, entry.description)}</small> : null}
                         </Link>
                       );
                     })}

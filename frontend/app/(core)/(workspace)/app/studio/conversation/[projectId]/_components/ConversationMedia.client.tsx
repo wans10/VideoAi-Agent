@@ -1,10 +1,11 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import type {AgentGenerationResult} from '@/server/generations/generation-status';
 import type {ConversationLocale} from '@/lib/studio/conversation-quote-presentation';
 import styles from '../image-conversation.module.css';
 
 export function ConversationMedia({result, locale}: {result: AgentGenerationResult; locale: ConversationLocale}) {
-  const t = (en: string, fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   const open = (url: string) => <a href={url} target="_blank" rel="noopener noreferrer">{t('Open original', 'Ouvrir l’original')}</a>;
   return <div className={styles.results}>
     {result.surface === 'image' ? result.imageUrls.map((url, index) => <figure key={url}>

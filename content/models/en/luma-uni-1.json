@@ -2,12 +2,12 @@
   "marketingName": "Luma Uni-1",
   "versionLabel": "Uni-1",
   "seo": {
-    "title": "Luma Uni-1: Image Pricing, References and Editing | MaxVideoAI",
-    "description": "Use Luma Uni-1 in MaxVideoAI for 2K text-to-image, source-image edits, multi-reference layouts, optional web-grounded visual research and MaxVideoAI display pricing.",
+    "title": "Luma Uni-1: Image Pricing, References and Editing | VideoAI",
+    "description": "Use Luma Uni-1 in VideoAI for 2K text-to-image, source-image edits, multi-reference layouts, optional web-grounded visual research and VideoAI display pricing.",
     "image": "/assets/model-examples/luma-uni-1/product.webp"
   },
-  "overview": "Luma Uni-1 is a 2K image generation and editing model in MaxVideoAI for still-image concepts, source edits, layout reasoning, multi-reference guidance and visual research. It is an image-only route.",
-  "pricingNotes": "Display prices use MaxVideoAI pricing. Reference and edit examples include source/reference image counts where shown, and the exact app quote appears before generation.",
+  "overview": "Luma Uni-1 is a 2K image generation and editing model in VideoAI for still-image concepts, source edits, layout reasoning, multi-reference guidance and visual research. It is an image-only route.",
+  "pricingNotes": "Display prices use VideoAI pricing. Reference and edit examples include source/reference image counts where shown, and the exact app quote appears before generation.",
   "hero": {
     "title": "Luma Uni-1 - 2K image generation and editing",
     "intro": "Create still images, edit a source image and guide layouts with references before selecting the best still for product, brand, storyboard or motion handoff work.",
@@ -80,7 +80,7 @@
     },
     {
       "label": "Pricing",
-      "body": "Public copy uses MaxVideoAI display pricing, not lower provider-cost promises"
+      "body": "Public copy uses VideoAI display pricing, not lower provider-cost promises"
     }
   ],
   "promptStructure": {
@@ -127,7 +127,7 @@
   "faqs": [
     {
       "q": "Is Luma Uni-1 an image model?",
-      "a": "Yes. In MaxVideoAI this page describes still-image generation and image editing only."
+      "a": "Yes. In VideoAI this page describes still-image generation and image editing only."
     },
     {
       "q": "Can Uni-1 use references?",
@@ -135,7 +135,7 @@
     },
     {
       "q": "How should I price a Uni-1 run?",
-      "a": "Use the displayed MaxVideoAI quote. Public copy uses MaxVideoAI pricing with margin rather than promising lower provider costs."
+      "a": "Use the displayed VideoAI quote. Public copy uses VideoAI pricing with margin rather than promising lower provider costs."
     },
     {
       "q": "Should I use Uni-1 or Uni-1 Max?",
@@ -172,10 +172,10 @@
       "Image-only workflow||Use Uni-1 for still creation and edits, not direct motion generation.",
       "Reference roles||Tell the model which reference controls product, layout, style or palette.",
       "Web-grounded option||Use web search only when current visual context improves the brief.",
-      "Pricing context||Display prices use MaxVideoAI pricing and the app confirms the final quote."
+      "Pricing context||Display prices use VideoAI pricing and the app confirms the final quote."
     ],
     "specTitle": "Uni-1 image specs",
-    "specNote": "Specs describe the public MaxVideoAI image workspace route.",
+    "specNote": "Specs describe the public VideoAI image workspace route.",
     "specSections": [
       {
         "title": "Image workflows",
@@ -189,8 +189,8 @@
       {
         "title": "Pricing behavior",
         "items": [
-          "Base image and reference costs follow MaxVideoAI display pricing.",
-          "MaxVideoAI display margin is reflected in public examples.",
+          "Base image and reference costs follow VideoAI display pricing.",
+          "VideoAI display margin is reflected in public examples.",
           "The exact app quote is authoritative before generation.",
           "Direct-provider discounts are not promised in public copy."
         ]
@@ -218,7 +218,7 @@
       "Still images only.",
       "Exact text and small labels need manual review.",
       "Web-grounded output still needs human verification.",
-      "Public pricing follows MaxVideoAI display pricing."
+      "Public pricing follows VideoAI display pricing."
     ],
     "safetyTitle": "Safety and likeness",
     "safetyRules": [
@@ -243,7 +243,7 @@
         "ctaLabel": "View Ray 3.2"
       }
     ],
-    "finalPara1": "Luma Uni-1 is the practical 2K image route for still creation, edits and reference prep in MaxVideoAI.",
+    "finalPara1": "Luma Uni-1 is the practical 2K image route for still creation, edits and reference prep in VideoAI.",
     "finalButton": "Generate with Luma Uni-1"
   },
   "decision": {
@@ -320,7 +320,7 @@
       },
       {
         "title": "Display pricing",
-        "body": "Display prices use MaxVideoAI pricing before generation.",
+        "body": "Display prices use VideoAI pricing before generation.",
         "tone": "price"
       }
     ],
@@ -374,15 +374,15 @@
     ],
     "pricingCopy": {
       "title": "Luma Uni-1 pricing at a glance",
-      "subtitle": "Display prices use MaxVideoAI pricing; exact price appears before generation.",
+      "subtitle": "Display prices use VideoAI pricing; exact price appears before generation.",
       "footnote": "Reference and edit examples include source/reference image counts where shown; final app quotes remain authoritative.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "One image",
       "ctaHref": "/pricing#luma-uni-1-pricing"
     },
     "meta": {
-      "title": "Luma Uni-1: Image Pricing, References & Editing | MaxVideoAI",
-      "description": "Explore Luma Uni-1 2K image generation, source-image edits, multi-reference guidance, web-grounded visual research and MaxVideoAI pricing."
+      "title": "Luma Uni-1: Image Pricing, References & Editing | VideoAI",
+      "description": "Explore Luma Uni-1 2K image generation, source-image edits, multi-reference guidance, web-grounded visual research and VideoAI pricing."
     }
   },
   "prompting": {

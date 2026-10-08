@@ -94,7 +94,7 @@ export function StudioGuestDemo({starter,available=false}:{starter?:string;avail
   </section>;
 }
 
-function DemoDialog({view,copy,locale,onClose}:{view:DemoView;copy:StudioGuestCopy;locale:'en'|'fr'|'es';onClose:()=>void}) {
+function DemoDialog({view,copy,locale,onClose}:{view:DemoView;copy:StudioGuestCopy;locale:'en'|'fr'|'es'|'zh';onClose:()=>void}) {
   const {dialogRef,onDialogKeyDown}=useAccessibleModal({onClose});
   const image='image' in view?view.image:null;
   return <div className={demo.backdrop} onClick={event=>{if(event.target===event.currentTarget)onClose();}}>

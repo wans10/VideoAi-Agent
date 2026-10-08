@@ -264,7 +264,7 @@ function spendingLimitError(dependencies: PrepareGenerationDependencies): AgentA
   }
   return new AgentApiError(
     'SPENDING_LIMIT_EXCEEDED',
-    'This generation is above the spending controls configured in MaxVideoAI.',
+    'This generation is above the spending controls configured in Keyvo.',
     false,
     { type: 'open_url', url: approvalUrl },
   );
@@ -286,7 +286,7 @@ export async function prepareGenerationForActor(
   if (await dependencies.getAccountRestriction(principal.userId)) {
     throw new AgentApiError(
       'ACCOUNT_RESTRICTED',
-      'This account is temporarily restricted. Open MaxVideoAI for help.',
+      'This account is temporarily restricted. Open Keyvo for help.',
     );
   }
 

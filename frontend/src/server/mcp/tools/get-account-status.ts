@@ -15,9 +15,9 @@ export function registerGetAccountStatusTool(
   server.registerTool(
     'get_account_status',
     {
-      title: 'Get MaxVideoAI account status',
+      title: 'Get Keyvo account status',
       description:
-        'Use this when the user asks which MaxVideoAI account is connected, its current credit balance, trial state, spending limits, or safe account destinations. Do not use it to reveal a private email, collect payment details, charge credits, change the wallet, or generate media.',
+        'Use this when the user asks which Keyvo account is connected, its current credit balance, trial state, spending limits, or safe account destinations. Do not use it to reveal a private email, collect payment details, charge credits, change the wallet, or generate media.',
       inputSchema: getAccountStatusInputSchema,
       annotations: {
         readOnlyHint: true,

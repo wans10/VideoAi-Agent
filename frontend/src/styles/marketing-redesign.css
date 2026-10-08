@@ -11,13 +11,13 @@ body:has(.marketing-site) .cookie-consent-surface {
   --text-muted: #716e69;
   --hairline: #d7d3cc;
   --border: #c9c5bd;
-  --brand: #805126;
-  --brand-hover: #623d1c;
-  --brand-soft: #80512612;
-  --brand-gradient: linear-gradient(115deg,#9b6836,#754a24);
-  --brand-gradient-strong: linear-gradient(115deg,#805126,#623d1c);
+  --brand: #b83c2b;
+  --brand-hover: #9c3022;
+  --brand-soft: #b83c2b12;
+  --brand-gradient: linear-gradient(115deg,#b83c2b,#b83c2b);
+  --brand-gradient-strong: linear-gradient(115deg,#b83c2b,#9c3022);
   --on-brand: #fffefa;
-  --ring: #967047;
+  --ring: #b83c2b;
   --shadow-card: 0 2px 8px #23232305;
   --shadow-float: 0 15px 40px #2323230d;
   --shadow-brand-button: 0 3px 8px #80512618;
@@ -40,9 +40,9 @@ body:has(.marketing-site) .cookie-consent-surface {
   --text-muted: #b4afa7;
   --hairline: #373532;
   --border: #514d47;
-  --brand: #dab17b;
-  --brand-gradient: linear-gradient(115deg,#ddb985,#bd905d);
-  --brand-gradient-strong: linear-gradient(115deg,#e6c699,#c9a06c);
+  --brand: #ef8a71;
+  --brand-gradient: linear-gradient(115deg,#ef8a71,#ef8a71);
+  --brand-gradient-strong: linear-gradient(115deg,#ef8a71,#ef8a71);
   --on-brand: #232323;
   --surface-glass-90: #191919;
   --surface-glass-80: #191919;
@@ -72,7 +72,7 @@ body:has(.marketing-site) .cookie-consent-surface {
 .marketing-site > header nav a{position:relative;min-height:44px;display:inline-flex;align-items:center}
 .marketing-site > header nav a::after{content:'';position:absolute;bottom:4px;left:0;right:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .2s}
 .marketing-site > header nav a:hover::after{transform:scaleX(1)}
-.marketing-site .home-hero-section{background:#f4f2ee;color:#242424;--text-primary:#242424;--text-secondary:#565553;--text-muted:#716e69;--hairline:#d7d3cc;--surface:#fffefa;--surface-2:#eae7e1;--bg:#f4f2ee;--brand:#805126;--brand-gradient:linear-gradient(115deg,#805126,#623d1c);--on-brand:#fffefa}
+.marketing-site .home-hero-section{background:#f4f2ee;color:#242424;--text-primary:#242424;--text-secondary:#565553;--text-muted:#716e69;--hairline:#d7d3cc;--surface:#fffefa;--surface-2:#eae7e1;--bg:#f4f2ee;--brand:#b83c2b;--brand-gradient:linear-gradient(115deg,#b83c2b,#9c3022);--on-brand:#fffefa}
 .marketing-site .home-hero-section > img,.marketing-site .home-hero-section > .absolute,.marketing-site .home-hero-dark-grid{display:none}
 .marketing-site .home-hero-section h1{max-width:14ch;font-size:clamp(44px,5.4vw,78px);letter-spacing:-.055em}
 .marketing-site .home-hero-section h1 span{background:none;color:inherit}

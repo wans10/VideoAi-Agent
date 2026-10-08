@@ -13,7 +13,7 @@ test('localized fallback SEO noindexes untranslated localized pages and points c
 
   assert.deepEqual(result.availableLocales, ['en', 'fr']);
   assert.deepEqual(result.robots, { index: false, follow: true });
-  assert.equal(result.canonicalOverride, 'https://maxvideoai.com/docs/get-started');
+  assert.equal(result.canonicalOverride, 'https://app.keyvo.cn/docs/get-started');
 });
 
 test('localized fallback SEO keeps localized canonicals when the translation exists', () => {

@@ -1,0 +1,505 @@
+{
+  "marketingName": "Nano Banana 2",
+  "versionLabel": "2",
+  "seo": {
+    "title": "Nano Banana 2 - 搜索接地图像生成与编辑 | VideoAI",
+    "description": "在 VideoAI 中使用 Nano Banana 2 生成搜索接地静态图。支持 0.5K 至 4K 输出、宽画幅与极限画幅比例、最多 14 张参考图编辑，以及可选的联网搜索接地提示词。",
+    "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
+  },
+  "overview": "Nano Banana 2 是 Nano Banana 家族中更具灵活性的静态图像分支：低成本的 0.5K 草稿、1K 至 4K 终稿输出、更广泛的画幅比例、更大规模的参考图编辑集合，以及在同一个 VideoAI 图像工作区中需要获取最新参考信息时的可选联网搜索接地功能。",
+  "hero": {
+    "title": "Nano Banana 2 - 搜索接地文本生图与图像编辑",
+    "intro": "高灵活性的静态图像生成方案，专为有据可依的创意概念、更宽广的画面版式和多图参考编辑而设计。",
+    "badge": "文本 -> 图像 · 图像 -> 图像 · 0.5K / 1K / 2K / 4K",
+    "ctaPrimary": {
+      "label": "启动 Nano Banana 2",
+      "href": "/app/image?engine=nano-banana-2"
+    },
+    "secondaryLinks": [
+      {
+        "label": "打开图像实验室",
+        "href": "/app/image"
+      },
+      {
+        "label": "查看实时价格",
+        "href": "/app"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳使用场景",
+    "items": [
+      {
+        "title": "宽画幅商业大片与主视觉横幅",
+        "icon": "layout"
+      },
+      {
+        "title": "融合当下视觉线索的情绪板",
+        "icon": "sparkles"
+      },
+      {
+        "title": "基于大批量参考图的产品精修",
+        "icon": "layers"
+      },
+      {
+        "title": "从草图到成片的快速图像工作流",
+        "icon": "storyboard"
+      }
+    ]
+  },
+  "promptStructure": {
+    "title": "提示词快速指南",
+    "quote": "[主体] 置于 [环境] 中，[构图]，[光影/风格]，[使用场景]，以及 [哪些保持固定或改变]。",
+    "description": "优先描述主体与构图，随后补充风格、材质和交付场景。对于搜索接地提示词，明确指出需要参考哪些最新线索或流行趋势。",
+    "steps": [
+      "主体与画面取景",
+      "环境、光影与材质",
+      "目标版式或画幅比例意图",
+      "图像编辑时的参考锁定说明",
+      "启用联网搜索时的接地背景信息",
+      "草稿与成片的分辨率选择"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "使用 0.5K 或 1K 快速探索创意，定稿后再以 2K 或 4K 重新渲染。",
+      "仅在需要当前外部上下文时启用联网搜索；该功能会增加单次请求的固定费用。",
+      "在编辑模式下最多可使用 14 张参考图，用于锁定产品细节、配色方案或布景陈列。",
+      "使用 4:1 或 8:1 等极限比例时，明确描述构图分区效果最佳。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "搜索接地零售概念",
+      "prompt": "设计一张高端护肤品发布静态图，灵感来源于当下奢侈品零售陈列语言，浅石色展示台，受控自然采光，克制衬线字体排版，精致大片级成品效果。"
+    },
+    {
+      "title": "超宽建筑展板",
+      "prompt": "8:1 全景静态图，展现日出时分未来感十足的机场候机大厅，抛光混凝土地面，修长倒影，稀疏旅客，电影感十足却又编辑风格利落的构图。"
+    },
+    {
+      "title": "多图参考产品精修",
+      "prompt": "将这些参考图合并为一张最终的广告静态图：保持包款轮廓与车线完全一致，统一皮革色调，清洁反光，并匹配柔和的棚拍光效。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Nano Banana 2 的定价机制是怎样的？",
+      "a": "按单张图像计费：0.5K 为每张 $0.06，1K 为每张 $0.11，2K 为每张 $0.16，4K 为每张 $0.21（不含可选设置）。生成前可在应用中查看确切的实时报价。"
+    },
+    {
+      "q": "单次运行最多可以生成多少张图像？",
+      "a": "单次请求最多可生成 4 张图像。"
+    },
+    {
+      "q": "在编辑模式下可以使用多少张参考图像？",
+      "a": "在 VideoAI 图像工作区中，Nano Banana 2 编辑最多支持 14 张参考图像。"
+    }
+  ],
+  "pricingNotes": "VideoAI 展示价格为 0.5K 每张 $0.06、1K 每张 $0.11、2K 每张 $0.16、4K 每张 $0.21 起。生成前可在应用中查看确切的实时报价。",
+  "custom": {
+    "heroEyebrow": "Nano Banana 2 图像模型",
+    "heroSupportLine": "最适合搜索接地静态图、超宽构图版式以及大批量多图参考编辑工作流。",
+    "heroSpecChips": [
+      {
+        "label": "文本->图像",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图像->图像",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "最多 14 张参考图"
+      },
+      {
+        "label": "0.5K 至 4K",
+        "icon": "resolution"
+      },
+      {
+        "label": "联网搜索接地"
+      }
+    ],
+    "whyTitle": "为什么 Nano Banana 2 脱颖而出",
+    "heroDesc1": "Nano Banana 2 在同一套图像工作流中为您提供成本更低的草稿阶段、更广泛的画幅比例覆盖以及可选的联网搜索接地提示词。",
+    "heroDesc2": "当您需要更开阔的取景构图或更庞大的参考图集合而无需切换工具时，它是 Nano Banana 家族中最易上手的方案。",
+    "heroHighlights": [
+      "更低成本的草稿循环||在定稿前，使用 0.5K 和 1K 快速进行前期版式探索。",
+      "更广泛的画幅选项||支持自动、标准以及 4:1、8:1 等极端画幅比例。",
+      "更庞大的编辑参考集合||最多支持 14 张参考图，满足产品与情绪板驱动的精修需求。",
+      "可选搜索接地||当创意简报依赖最新的视觉参考时，可启用联网搜索。"
+    ],
+    "whatTitle": "Nano Banana 2 在此的工作方式",
+    "whatIntro1": "选择“创建”或“编辑”，设置生成张数，选择画幅比例与分辨率，然后根据需求决定是否启用联网搜索接地或深度思考。",
+    "whatIntro2": "进行编辑时，载入一张或多张参考图，确认实时价格标识，即可直接使用 VideoAI 共享钱包余额进行生成。",
+    "whatFlowTitle": "工作流",
+    "whatFlowSteps": [
+      "在图像实验室中选择 Nano Banana 2",
+      "选择文本生图或图像编辑模式",
+      "设置生成数量、画幅比例与分辨率",
+      "可选择性启用联网搜索、输出格式、种子或思考层级",
+      "若进行编辑则添加参考图，随后启动生成任务"
+    ],
+    "tipsTitle": "使用技巧与限制",
+    "tipsIntro": "当您将构图意图与风格意图明确区分，且仅在提示词确实需要全新上下文时才启用接地，Nano Banana 2 的效果最为出色。",
+    "strengths": [
+      "使用 0.5K 和 1K 在测试构图时降低成本。",
+      "使用极端比例时，明确描述画面宽幅或纵向的各个分区。",
+      "若启用了联网搜索接地，请指明哪些当前线索至关重要，以便搜索上下文发挥效用。",
+      "对于多图参考编辑，为每张参考图分配明确角色，并说明哪些部分必须保持不变。"
+    ],
+    "boundaries": [
+      "仅限静态图像。",
+      "单次请求最多输出 4 张图像。",
+      "联网搜索为可选功能，按单次请求计费。",
+      "编辑模式最多接收 14 张参考图像。"
+    ],
+    "safetyTitle": "安全与肖像权",
+    "safetyRules": [
+      "禁止生成色情内容或涉及未成年人的内容。",
+      "禁止仇恨、骚扰或血腥暴力相关请求。",
+      "未经同意，禁止模仿真实人物或公众人物。",
+      "禁止包含个人隐私数据或敏感文档。"
+    ],
+    "relatedTitle": "Nano Banana 系列",
+    "relatedSubtitle": "使用 Lite 快速生成 1K 草稿，使用 Nano Banana 2 打造搜索接地的灵活静态图，使用 Pro 渲染精致的 4K 终稿。",
+    "relatedItems": [
+      {
+        "brand": "Google",
+        "title": "Nano Banana Lite",
+        "modelSlug": "nano-banana-lite",
+        "description": "当生成速度和简单的 1K 草稿比搜索接地或 2K/4K 输出更重要时，选用 Lite。",
+        "ctaLabel": "打开 Nano Banana Lite"
+      },
+      {
+        "brand": "Google",
+        "title": "Nano Banana Pro",
+        "modelSlug": "nano-banana-pro",
+        "description": "当图像需要 4K 交付、精致文字排版和专业广告大片质感时，选用 Pro。",
+        "ctaLabel": "打开 Nano Banana Pro"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Nano Banana 2 是用于静态图像还是视频？",
+        "a": "Nano Banana 2 在 VideoAI 上仅支持静态图像。适用于文本生图与图像编辑，不支持视频、音频或动态渲染。"
+      },
+      {
+        "q": "Nano Banana 2 的费用是多少？",
+        "a": "VideoAI 展示价格为 0.5K 每张 $0.06、1K 每张 $0.11、2K 每张 $0.16、4K 每张 $0.21 起。可选设置在生成前于应用内实时报价。"
+      },
+      {
+        "q": "什么时候应该使用 Nano Banana 2 而非 Nano Banana Pro？",
+        "a": "在需要搜索接地图像生成、更低成本草稿、更宽画幅比例以及多图参考编辑时选用 Nano Banana 2。而在文字排版精致度、4K 商业成片交付以及面向客户的高品质视觉资产更重要时，选用 Nano Banana Pro。"
+      },
+      {
+        "q": "Nano Banana 2 是否支持多张参考图进行编辑？",
+        "a": "支持。VideoAI 路由支持最多使用 14 张参考图进行图像编辑，因此建议为每张参考图设定清晰的分工角色（例如产品特征、材质纹理、配色方案或构图布局）。"
+      }
+    ]
+  },
+  "decision": {
+    "modelSlug": "nano-banana-2",
+    "hero": {
+      "eyebrow": "GOOGLE 搜索接地图像模型",
+      "title": "Nano Banana 2",
+      "subtitle": "搜索接地图像生成、超宽画幅比例以及多图参考编辑，打造交付级静态大片。",
+      "subtitleHighlights": [
+        "搜索接地图像生成",
+        "超宽画幅比例",
+        "多图参考编辑"
+      ],
+      "paragraph": "当您需要 0.5K 至 4K 静态图、可选的联网搜索接地、更宽广的画幅比例以及更庞大的参考图集合进行可控的图像生成或精修时，选用 Nano Banana 2。",
+      "primaryCta": {
+        "label": "使用 Nano Banana 2 生成",
+        "href": "/app/image?engine=nano-banana-2"
+      },
+      "secondaryCta": {
+        "label": "查看价格",
+        "href": "/zh/pricing#nano-banana-2-pricing"
+      },
+      "quickLinks": [
+        {
+          "label": "打开图像工作区",
+          "href": "/app/image?engine=nano-banana-2"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#nano-banana-2-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Nano Banana 2 示例",
+      "description": "搜索接地静态图生成与编辑工作流",
+      "renderLabel": "查看图像",
+      "badges": [
+        "搜索接地",
+        "4K",
+        "多图参考"
+      ],
+      "altContext": "Nano Banana 2 搜索接地图像生成示例"
+    },
+    "features": [
+      {
+        "title": "搜索接地提示词",
+        "body": "当当前视觉上下文至关重要时，使用可选的联网搜索接地功能。",
+        "tone": "reference"
+      },
+      {
+        "title": "0.5K 至 4K",
+        "body": "低成本起草草图，随后将精选静态图升级至更高分辨率。",
+        "tone": "quality"
+      },
+      {
+        "title": "超宽画幅比例",
+        "body": "支持常用、全景以及极限画幅比例。",
+        "tone": "duration"
+      },
+      {
+        "title": "多图参考编辑",
+        "body": "使用更庞大的参考图集合保持产品、情绪板或版式的一致性。",
+        "tone": "continuity"
+      },
+      {
+        "title": "种子锁定",
+        "body": "复用种子数值，围绕同一构图反复迭代微调。",
+        "tone": "reference"
+      },
+      {
+        "title": "按量付费",
+        "body": "生成前在应用中查看确切的实时价格。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "选择 Nano Banana 2 还是 Pro？",
+        "body": "需要搜索接地、画幅比例控制和成本优化时选用 Nano Banana 2；需要更强文字排版和商业成片交付时选用 Pro。",
+        "cta": {
+          "label": "查看 Nano Banana Pro",
+          "href": "/zh/models/nano-banana-pro"
+        }
+      },
+      {
+        "title": "如何使用联网搜索接地？",
+        "body": "仅在创意简报需要当前视觉上下文时启用联网搜索；自有品牌参考图应保持明确指定。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "需要文字密集的 OpenAI 静态图？",
+        "body": "当标签精准度与受控局部遮罩编辑为首要任务时，可将您的简报与 GPT Image 2 进行对比。",
+        "cta": {
+          "label": "查看 GPT Image 2",
+          "href": "/zh/models/gpt-image-2"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本生图",
+        "body": "设定主体、画幅比例、分辨率、风格以及提示词是否需要搜索接地。"
+      },
+      {
+        "title": "图像编辑",
+        "body": "使用参考图保持产品造型、画面版式、材质或配色方案。"
+      },
+      {
+        "title": "联网搜索接地",
+        "body": "仅在当前外部上下文能提升图像简报表现时启用。"
+      },
+      {
+        "title": "极限画幅比例",
+        "body": "在生成前针对全景或超高纵向构图进行合理规划。"
+      },
+      {
+        "title": "分辨率进阶阶梯",
+        "body": "使用 0.5K 或 1K 快速起草草图，满意后再以 2K 或 4K 输出成片。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Nano Banana 2 定价一览",
+      "subtitle": "预设图像总览——生成前可在应用中查看确切的实时价格。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数显示的参考价格。",
+      "ctaLabel": "查看完整定价",
+      "maxDurationNote": "最高支持 4K",
+      "ctaHref": "/zh/pricing#nano-banana-2-pricing"
+    },
+    "meta": {
+      "title": "Nano Banana 2：定价、搜索接地图像与图像编辑 | VideoAI",
+      "description": "了解 Nano Banana 2 定价方案、搜索接地图像生成、0.5K 至 4K 输出、超宽画幅比例、多图参考编辑以及联网接地提示词。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "nano-banana-2",
+    "section": {
+      "title": "如何撰写优秀的 Nano Banana 2 提示词",
+      "intro": "Nano Banana 2 对清晰的构图指令、明确的编辑约束响应最佳，且仅在必要时结合接地上下文。",
+      "tip": "提示：画幅比例、分辨率、种子、联网搜索和输出格式均可在界面中设置。提示词应聚焦于主体、构图版式、风格以及哪些元素保持不变。",
+      "guide": null,
+      "referencesTitle": "Nano Banana 2 如何使用参考图"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [
+      "在定义风格处理之前，先清晰描述取景构图。",
+      "对于图像编辑，明确指出保留什么、修改什么。",
+      "仅在需要实时或当前最新上下文时使用搜索接地。"
+    ],
+    "engineWhy": [
+      "超宽画幅比例在具有明确的构图分区时表现更佳。",
+      "大批量参考图很有帮助，但为每张参考图指定明确角色能使编辑更干净利落。",
+      "搜索接地提示词仍应对目标审美质感做出具体说明。"
+    ],
+    "demo": null,
+    "imageExamples": {
+      "title": "Nano Banana 2 图像提示词示例",
+      "intro": "适用于搜索接地静态图、产品精修、多图参考工作流以及超宽画幅 4K 图像。",
+      "workspaceLabel": "打开图像工作区",
+      "items": [
+        {
+          "id": "quality-1",
+          "title": "搜索接地产品场景",
+          "badge": "1K 搜索接地",
+          "kind": "quality",
+          "prompt": "1K 户外水壶产品静态图，放置于浅色石面上，自然日光，高端电商广告风格，如启用联网搜索接地则参考当前都市徒步场景。"
+        },
+        {
+          "id": "edit-2",
+          "title": "产品精修编辑",
+          "badge": "图像编辑",
+          "kind": "edit",
+          "prompt": "使用这张产品参考图，保持形状、Logo、主色调与比例不变。将背景环境替换为浅色矿石质感棚拍风格，清洁反光，去除灰尘。"
+        },
+        {
+          "id": "image-3",
+          "title": "多图参考编辑",
+          "badge": "最多 14 张参考图",
+          "kind": "image",
+          "prompt": "将参考图合并为一张统一的静态图：参考图1用于产品主体识别，参考图2用于材质质感，参考图3用于配色方案，参考图4用于构图版式。不要混入相互冲突的风格。"
+        },
+        {
+          "id": "layout-4",
+          "title": "超宽画幅 4K 静态图",
+          "badge": "4K · 21:9",
+          "kind": "layout",
+          "prompt": "4K · 21:9 发布主视觉横幅静态图，产品位于左侧，右侧留有足够负空间供后期添加文案，柔和光效，照片级写实质感。"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "nano-banana-2",
+    "section": {
+      "title": "Nano Banana 2 案例精选",
+      "intro": "探索真实的社区输出，了解 Nano Banana 2 在 VideoAI 工作流中的实际表现。",
+      "defaultCtaLabel": null,
+      "recreateLabel": "重现该静态图 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "grounded",
+        "label": "写实"
+      },
+      {
+        "id": "edit",
+        "label": "剪辑变化"
+      },
+      {
+        "id": "reference",
+        "label": "多模态参考"
+      },
+      {
+        "id": "wide",
+        "label": "宽画幅"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "静态图像案例",
+        "body": "专为 Nano Banana 2 定制的提示词范式。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-2",
+        "title": "文字排版控制",
+        "body": "精准文案、字阶层次与位置布局始终清晰明确。",
+        "icon": "type"
+      },
+      {
+        "id": "proof-3",
+        "title": "参考图精修",
+        "body": "稳定保持产品造型、配色方案、构图版式或视觉风格。",
+        "icon": "pen"
+      },
+      {
+        "id": "proof-4",
+        "title": "4K 终极成片",
+        "body": "在 2K 验证构图，最后以 4K 完成交付渲染。",
+        "icon": "maximize"
+      },
+      {
+        "id": "proof-5",
+        "title": "符合商业规范",
+        "body": "支持自有参考资产并内置安全护栏。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": [
+      {
+        "id": "grounded",
+        "title": "搜索接地产品场景",
+        "category": "搜索接地 · 1K",
+        "aspectRatio": "1K",
+        "alt": "Nano Banana 2 搜索接地产品发布图像",
+        "tags": [
+          "grounded"
+        ]
+      },
+      {
+        "id": "edit",
+        "title": "受控产品精修",
+        "category": "图像编辑",
+        "aspectRatio": "Edit",
+        "alt": "带有保留与修改约束的 Nano Banana 2 产品编辑图",
+        "tags": [
+          "edit"
+        ]
+      },
+      {
+        "id": "reference",
+        "title": "多图参考编辑",
+        "category": "多图参考",
+        "aspectRatio": "Refs",
+        "alt": "结合多个产品参考图的 Nano Banana 2 图像",
+        "tags": [
+          "reference"
+        ]
+      },
+      {
+        "id": "wide",
+        "title": "超宽画幅 4K 静态图",
+        "category": "宽画幅",
+        "aspectRatio": "4K · 21:9",
+        "alt": "Nano Banana 2 超宽 4K 静态图像",
+        "tags": [
+          "wide"
+        ]
+      }
+    ],
+    "showWhenEmpty": false
+  }
+}

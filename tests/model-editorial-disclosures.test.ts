@@ -51,6 +51,7 @@ test('localized capability labels retain numerical limits and unknown values', (
 test('model pages retain a localized contextual MCP link when no prep tools are supplied', () => {
   for (const locale of ['fr', 'es'] as const) {
     const html = renderToStaticMarkup(React.createElement(ModelPrepLinksSection, { prepLinksSection: null, locale }));
+    if (!mcpPublication.publicMarketing) { assert.equal(html, ''); continue; }
     assert.match(html, new RegExp(`href="/${locale}/mcp"`));
     assert.equal((html.match(/<a\b/g) ?? []).length, 1);
     assert.match(html, /compatibles/);

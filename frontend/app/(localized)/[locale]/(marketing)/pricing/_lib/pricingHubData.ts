@@ -25,6 +25,7 @@ import { isLumaAgentsImageEngineId, isLumaRay32EngineId, type LumaAgentsImageMod
 import { buildSlugMap, type LocalizedSlugKey } from '@/lib/i18nSlugs';
 import { formatCurrencyForLocale } from './pricingPageContent';
 import { getPricingHubCopy } from './pricingHubCopy';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
 const FALLBACK_CURRENCY = 'USD';
 
@@ -251,12 +252,12 @@ export type PricingHubData = {
 
 type AudioRateMode = 'default' | 'audio_off';
 
-function formatPrice(locale: AppLocale, cents: number | null | undefined, currency = FALLBACK_CURRENCY) {
+function formatPrice(locale: AppLocale, cents: number | null | undefined, currency = CUSTOMER_CURRENCY) {
   if (typeof cents !== 'number' || !Number.isFinite(cents)) return getPricingHubCopy(locale).liveQuote;
   return formatCurrencyForLocale(locale, currency, cents / 100);
 }
 
-function formatRateDisplay(locale: AppLocale, cents: number | null | undefined, currency = FALLBACK_CURRENCY) {
+function formatRateDisplay(locale: AppLocale, cents: number | null | undefined, currency = CUSTOMER_CURRENCY) {
   const price = formatPrice(locale, cents, currency);
   const copy = getPricingHubCopy(locale);
   return price === copy.liveQuote ? price : copy.quote.perSecond(price);
@@ -476,7 +477,6 @@ export function getPresetQuote(entry: FalEngineEntry, preset: VideoPriceScenario
     preset.id === 'entry-route'
       ? { supported: true, resolution: chooseEntryResolution(engine), note: null as string | null }
       : resolveResolutionSupport(engine, preset.resolution, locale);
-  const currency = engine.pricingDetails?.currency ?? engine.pricing?.currency ?? FALLBACK_CURRENCY;
   const audioMode: AudioRateMode = preset.audio ? 'default' : supportsAudioOff(engine) ? 'audio_off' : 'default';
   const canExactAudio = preset.audio ? engine.audio : true;
   const requestedDurationSec = resolvePresetDuration(entry, preset);
@@ -510,7 +510,7 @@ export function getPresetQuote(entry: FalEngineEntry, preset: VideoPriceScenario
     return {
       status: 'exact',
       amountCents: exactCents ?? undefined,
-      display: formatPrice(locale, exactCents, currency),
+      display: formatPrice(locale, exactCents),
       note:
         preset.id === 'entry-route'
           ? `${formatCompactSeconds(locale, duration.durationSec)} ${formatResolutionLabel(resolution.resolution)}${
@@ -521,7 +521,7 @@ export function getPresetQuote(entry: FalEngineEntry, preset: VideoPriceScenario
           : !preset.audio && engine.audio && !supportsAudioOff(engine)
             ? copy.quote.audioIncluded
             : undefined,
-      rateDisplay: formatRateDisplay(locale, rateCents, currency),
+      rateDisplay: formatRateDisplay(locale, rateCents),
       sortValue: exactCents ?? Number.POSITIVE_INFINITY,
     };
   }
@@ -868,6 +868,7 @@ function quoteImageScenarioCents(engine: EngineCaps, preset: ImagePriceScenario)
 }
 
 function formatImageQuantityNote(locale: AppLocale, quantity: number, resolution: string) {
+  if (locale === 'zh') return `${quantity} 张图片 · ${resolution}`;
   const label =
     locale === 'fr'
       ? quantity > 1
@@ -888,23 +889,25 @@ function formatLumaImageReferenceNote(locale: AppLocale, mode: LumaAgentsImageMo
     if (referenceImageCount <= 0) return '2K';
     if (locale === 'fr') return `${referenceImageCount} refs image · 2K`;
     if (locale === 'es') return `${referenceImageCount} refs de imagen · 2K`;
+    if (locale === 'zh') return `${referenceImageCount} 张参考图 · 2K`;
     return `${referenceImageCount} image refs · 2K`;
   }
   if (referenceImageCount <= 0) {
     if (locale === 'fr') return 'Source edit · 2K';
     if (locale === 'es') return 'Edición de fuente · 2K';
+    if (locale === 'zh') return '源图编辑 · 2K';
     return 'Source edit · 2K';
   }
   if (locale === 'fr') return `Source + ${referenceImageCount} refs · 2K`;
   if (locale === 'es') return `Fuente + ${referenceImageCount} refs · 2K`;
+  if (locale === 'zh') return `源图 + ${referenceImageCount} 张参考图 · 2K`;
   return `Source + ${referenceImageCount} refs · 2K`;
 }
 
 function getLumaAgentsImagePresetQuote(
   entry: FalEngineEntry,
   preset: ImagePriceScenario,
-  locale: AppLocale,
-  currency: string
+  locale: AppLocale
 ): PresetQuote | null {
   if (!isLumaAgentsImageEngineId(entry.engine.id)) return null;
 
@@ -920,7 +923,7 @@ function getLumaAgentsImagePresetQuote(
   return {
     status: 'exact',
     amountCents,
-    display: formatPrice(locale, amountCents, currency),
+    display: formatPrice(locale, amountCents),
     note: formatLumaImageReferenceNote(locale, mode, referenceImageCount),
     sortValue: amountCents,
   };
@@ -933,7 +936,6 @@ export function getImagePresetQuote(
 ): PresetQuote {
   const copy = getPricingHubCopy(locale);
   const engine = entry.engine;
-  const currency = engine.pricingDetails?.currency ?? engine.pricing?.currency ?? FALLBACK_CURRENCY;
   const quantity = Math.max(1, Math.floor(preset.quantity ?? 1));
 
   if (!supportsImageGeneration(entry)) {
@@ -945,7 +947,7 @@ export function getImagePresetQuote(
     };
   }
 
-  const lumaAgentsQuote = getLumaAgentsImagePresetQuote(entry, preset, locale, currency);
+  const lumaAgentsQuote = getLumaAgentsImagePresetQuote(entry, preset, locale);
   if (lumaAgentsQuote) return lumaAgentsQuote;
 
   const totalCents = quoteImageScenarioCents(engine, { ...preset, quantity });
@@ -961,7 +963,7 @@ export function getImagePresetQuote(
   return {
     status: 'exact',
     amountCents: totalCents,
-    display: formatPrice(locale, totalCents, currency),
+    display: formatPrice(locale, totalCents),
     note: quantity > 1 ? formatImageQuantityNote(locale, quantity, preset.resolution) : preset.resolution,
     sortValue: totalCents,
   };

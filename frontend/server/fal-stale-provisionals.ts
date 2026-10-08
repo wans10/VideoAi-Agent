@@ -2,7 +2,7 @@ import { query, withDbTransaction, type TransactionQueryExecutor } from '@/lib/d
 import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-messages';
 
 const STALE_PROVISIONAL_MESSAGE =
-  'MaxVideoAI could not start this render. Please retry in a few moments.';
+  'Keyvo could not start this render. Please retry in a few moments.';
 
 type StaleProvisionalJob = {
   job_id: string;

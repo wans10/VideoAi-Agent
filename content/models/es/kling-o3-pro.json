@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni Pro",
   "versionLabel": "3.0 Omni Pro",
   "seo": {
-    "title": "Kling 3.0 Omni Pro referencia, storyboard y video-to-video | MaxVideoAI",
+    "title": "Kling 3.0 Omni Pro referencia, storyboard y video-to-video | VideoAI",
     "description": "Usa Kling 3.0 Omni Pro para video Kling guiado por imágenes de referencia, storyboard, video fuente V2V, anclas @Image y @Video1, audio nativo y precios actualizados."
   },
   "overview": "Kling 3.0 Omni Pro es la ruta Kling Omni para usar imágenes o un video fuente como guía visual sin convertir automáticamente la primera subida en el frame inicial.",
-  "pricingNotes": "Coste aproximado del proveedor antes del margen MaxVideoAI: $0.168/s con audio y $0.112/s sin audio.",
+  "pricingNotes": "Coste aproximado del proveedor antes del margen VideoAI: $0.168/s con audio y $0.112/s sin audio.",
   "custom": {
     "relatedTitle": "Dónde encaja Kling 3.0 Omni Pro",
     "relatedSubtitle": "Pro es la ruta O3 principal cuando las imágenes de referencia y el video fuente deben guiar el plano sin imponer un frame inicial fijo.",
@@ -200,12 +200,12 @@
     "pricingCopy": {
       "title": "Precios de Kling 3.0 Omni Pro de un vistazo",
       "subtitle": "Totales por escenario con referencias o video-to-video. Revisa el precio en vivo antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "ctaHref": "/es/precios#kling-o3-pro-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Pro: referencias, storyboard y V2V | MaxVideoAI",
+      "title": "Kling 3.0 Omni Pro: referencias, storyboard y V2V | VideoAI",
       "description": "Usa Kling 3.0 Omni Pro para reference-to-video, storyboard, V2V desde video fuente, prompts @Image y @Video1, audio nativo y precio en vivo."
     }
   },

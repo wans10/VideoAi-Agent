@@ -1,0 +1,281 @@
+{
+  "marketingName": "Grok Imagine Video 1.5",
+  "versionLabel": "1.5",
+  "seo": {
+    "title": "Grok Imagine Video 1.5 生成器与参考工作流",
+    "description": "探索 Grok Imagine Video 1.5 的文本、图像及图像参考视频功能，包括当前限制、参考提示词、安全指南和规范报价。"
+  },
+  "overview": "Grok Imagine Video 1.5 为 VideoAI 引入了全新的 xAI 视频系列。该模型支持纯提示词生成、开场图像动画，以及使用一到七张图像的参考转视频功能。xAI 拥有 Grok Imagine；VideoAI 通过 Fal 分发启动端点，本次发布 Grok 仅限 Fal 使用。",
+  "decision": {
+    "modelSlug": "grok-imagine-video-1-5",
+    "hero": {
+      "eyebrow": "当前 Grok 视频路由",
+      "title": "Grok Imagine Video 1.5",
+      "subtitle": "从文本、开场图像或命名图像参考集生成一到十五秒的视频，支持模式专属分辨率与构图控制。",
+      "subtitleHighlights": [
+        "一到十五秒",
+        "开场图像",
+        "图像参考集"
+      ],
+      "paragraph": "当任务需要直接提示词生成、首帧动画或在提示词中显式引用图像时，请选择 Grok Imagine Video 1.5。参考模式支持 480p 或 720p，并增加了按图像计费的定价输入；文本和图像模式还提供 1080p。xAI 是所有者，Fal 分发 VideoAI 的启动路径。",
+      "primaryCta": {
+        "label": "使用 Grok Imagine Video 1.5 生成",
+        "href": "/app?engine=grok-imagine-video-1-5"
+      },
+      "secondaryCta": {
+        "label": "浏览 Grok 案例库",
+        "href": "/zh/examples/grok"
+      },
+      "quickLinks": [
+        {
+          "label": "对比 Grok 与 Sora 2",
+          "href": "/zh/ai-video-engines/grok-imagine-video-1-5-vs-sora-2?order=grok-imagine-video-1-5"
+        },
+        {
+          "label": "对比 Grok 与 FLUX 3",
+          "href": "/zh/ai-video-engines/flux-3-vs-grok-imagine-video-1-5?order=grok-imagine-video-1-5"
+        },
+        {
+          "label": "查看 Grok 定价",
+          "href": "/zh/pricing#grok-imagine-video-1-5-pricing"
+        },
+        {
+          "label": "打开 Grok 提示词实验室",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Grok Imagine Video 1.5 案例展示库",
+      "description": "审核通过的 Grok 示例将在发布审查后显示",
+      "renderLabel": "查看已通过的输出",
+      "badges": [
+        "文本",
+        "图像",
+        "最多 7 张参考图"
+      ],
+      "altContext": "已通过审核的 Grok Imagine Video 1.5 示例"
+    },
+    "features": [
+      {
+        "title": "全新一级 Grok 系列",
+        "body": "Grok 不以其他提供商的隐藏变体形式呈现。它拥有独立的系列定位、提示词建议、证据审核门控和未来对比场景，在完整的发布图谱就绪前保持未发布状态。",
+        "tone": "quality"
+      },
+      {
+        "title": "提示词与首帧启动",
+        "body": "文本模式通过支持的宽高比控制构图。图像模式为单张开场图像添加动画，并以该来源固定构图，因此提示词应专注于运动、镜头和场景反应。",
+        "tone": "reference"
+      },
+      {
+        "title": "命名图像参考",
+        "body": "参考模式接受一到七张图像，并通过有序图像标记在提示词中引用。请指定哪个来源控制身份、服装、物体设计或环境，而不是让模型对所有图像取平均值。",
+        "tone": "continuity"
+      },
+      {
+        "title": "模式感知报价",
+        "body": "参考场景将确切的图像数量提供给规范定价，并使用支持的参考分辨率。文本和图像场景保持时长与分辨率的报价，不附加虚构的参考附加费。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "最佳场景：富有表现力的概念画面",
+        "body": "将 Grok 用于短篇电影创意、风格化角色动作和图像主导的概念，清晰的提示词或少量身份参考集即可引导结果。",
+        "cta": {
+          "label": "开始一个 Grok 场景",
+          "href": "/app?engine=grok-imagine-video-1-5"
+        }
+      },
+      {
+        "title": "不适合：不支持的参考媒体",
+        "body": "参考模式在规范的发布合约中以图像为基础。请勿将来源视频、来源音频或通用文档描述为 Grok 支持的参考输入。",
+        "cta": {
+          "label": "对比 Grok 与 FLUX",
+          "href": "/zh/ai-video-engines/flux-3-vs-grok-imagine-video-1-5?order=grok-imagine-video-1-5"
+        }
+      },
+      {
+        "title": "按角色引用参考图",
+        "body": "在提示词中使用有序图像标记，明确说明每张图像需要保留的内容。这可以减少身份混合，使输出更易于审核。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文本转视频",
+        "body": "选择支持的宽高比，描述主体、动作、镜头、场景和结尾，生成最高 1080p 的片段。"
+      },
+      {
+        "title": "图像转视频",
+        "body": "为单张开场图像添加动画，最高 1080p；该来源固定构图，因为此模式不提供独立的宽高比控制。"
+      },
+      {
+        "title": "参考图转视频",
+        "body": "附加一到七张图像，从 <IMAGE_0> 开始引用，命名每个角色，仅使用 480p 或 720p。"
+      },
+      {
+        "title": "权利与安全",
+        "body": "使用已获授权的来源，获取肖像同意，避免欺骗性模仿，并检查意外出现的文字或不安全内容。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Grok Imagine Video 1.5 场景定价",
+      "subtitle": "对比 720p 和 1080p 下六秒文本场景，以及使用两张参考图的八秒 480p 场景。",
+      "footnote": "价格取决于您所选的设置。VideoAI 在生成前确认报价。",
+      "ctaLabel": "使用 Grok Imagine Video 1.5 生成",
+      "ctaHref": "/app?engine=grok-imagine-video-1-5"
+    },
+    "meta": {
+      "title": "Grok Imagine Video 1.5 模型、参考与定价",
+      "description": "了解 Grok Imagine Video 1.5 的文本、图像和参考模式、时长、分辨率、按图像计费定价、提示词标记、安全性及未来评测排行。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "grok-imagine-video-1-5",
+    "section": {
+      "title": "提示词实验室 — Grok Imagine Video 1.5",
+      "intro": "编写可观察的场景，在参考模式下，明确说明每张有序图像的贡献。",
+      "tip": "将图像标记放在其控制的特征旁边，而不是将所有参考都列在最后。",
+      "guide": {
+        "label": "阅读 xAI 的 Grok Imagine Video 1.5 指南",
+        "href": "https://docs.x.ai/developers/models/grok-imagine-video-1.5"
+      },
+      "referencesTitle": "在提示词中明确指定参考角色"
+    },
+    "tabs": [
+      {
+        "id": "story",
+        "label": "故事",
+        "title": "定义一个可见的故事变化",
+        "description": "为场景设置开场状态、动作和稳定的结尾。",
+        "copy": "主体：\n[外貌与受保护细节]\n\n开场状态：\n[地点、姿态、光线与构图]\n\n动作：\n[一个清晰的表演或物理变化]\n\n结尾：\n[最终姿态、物体状态与镜头构图]"
+      },
+      {
+        "id": "cinema",
+        "label": "镜头",
+        "title": "指导镜头与氛围",
+        "description": "选择支持动作的运镜，而不是与之竞争。",
+        "copy": "构图：\n[景别与镜头特性]\n\n镜头路径：\n[一个平移、跟拍、推进、拉出或环绕]\n\n时机：\n[动作开始、达到高潮与平息的时机]\n\n氛围：\n[光线、天气、质感与预期声音背景]"
+      },
+      {
+        "id": "images",
+        "label": "图像",
+        "title": "引用每一张参考图",
+        "description": "使用有序标记，每个来源分配一个角色。",
+        "copy": "<IMAGE_0>：\n[身份、面部、服装或主要物体]\n\n<IMAGE_1>：\n[环境、色调或材质细节]\n\n优先级：\n[细节冲突时以哪个来源为准]\n\n避免：\n[身份混合、重复、手部变形、标志、标题和水印]"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "story",
+        "body": "即使是短场景也需要一个收尾节拍，以避免结果在动作中途结束。"
+      },
+      {
+        "tabId": "cinema",
+        "body": "图像转视频在规范端点中没有独立的宽高比控制；请相应地裁剪来源图像。"
+      },
+      {
+        "tabId": "images",
+        "body": "参考模式在本次发布中仅支持图像，提供的数量将计入报价。"
+      }
+    ],
+    "globalPrinciples": [
+      "保持主要动作在物理上可观察。",
+      "使用明确的特征和参考角色保护身份。",
+      "将叙事复杂度控制在最长十五秒的片段范围内。",
+      "使用已获授权的来源，避免欺骗性地模仿真实人物。"
+    ],
+    "engineWhy": [
+      "三种不同模式涵盖提示词、首帧和图像参考启动。",
+      "有序参考标记使提示词能够将来源与特定特征关联起来。",
+      "模式专属的分辨率规则将参考场景限制在合约范围内，而不借用不支持的 1080p。"
+    ],
+    "demo": {
+      "title": "Grok 参考引导的夜市场景",
+      "promptLabel": "双图参考提示词",
+      "prompt": "使用 <IMAGE_0> 提供厨师的面部、围裙和铜锅；使用 <IMAGE_1> 提供雨夜夜市的色调和灯笼设计。厨师翻炒一次面条，蒸汽升入温暖的灯光中，镜头从中远景缓缓推进至中景。保留身份和锅的形状。以面条落定作为结尾，画面中无标牌、字幕或标志。",
+      "notes": [
+        "每张图像控制不同的视觉层次。",
+        "动作和最终的落定节拍易于检验。"
+      ],
+      "summary": {
+        "subject": "由第一张图像引导的夜市厨师",
+        "action": "单次翻面配升腾蒸汽",
+        "camera": "缓慢推进至中景",
+        "style": "来自第二张图像的雨夜市场色调",
+        "output": "参考引导片段，规范报价中包含实际图像数量"
+      },
+      "presentationOverrides": {
+        "modeLabel": "参考转视频",
+        "outputLabel": "支持的参考设置",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "media",
+        "audioChipLabel": null,
+        "altContext": "Grok Imagine Video 1.5 双图夜市提示词"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "grok-imagine-video-1-5",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "已审核的 Grok Imagine Video 1.5 示例",
+      "intro": "不显示空的案例库；该部分需要附加两个已通过审核的持久输出后才会显示。",
+      "defaultCtaLabel": "查看所有 Grok 案例",
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "character",
+        "label": "角色"
+      },
+      {
+        "id": "reference",
+        "label": "多模态参考"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "identity",
+        "icon": "users",
+        "title": "身份还原度",
+        "body": "将主体与提示词中指定的图像角色进行对比。"
+      },
+      {
+        "id": "reference",
+        "icon": "image",
+        "title": "参考分离度",
+        "body": "检验身份来源与环境来源是否保持独立。"
+      },
+      {
+        "id": "motion",
+        "icon": "zap",
+        "title": "动作表现",
+        "body": "检验复杂肢体动作与物理动态的平滑度。"
+      },
+      {
+        "id": "composition",
+        "icon": "maximize",
+        "title": "构图稳定性",
+        "body": "审核镜头意图、构图和时间一致性。"
+      },
+      {
+        "id": "safety",
+        "icon": "shield",
+        "title": "负责任的输出",
+        "body": "拒绝不安全图像、欺骗性肖像、不需要的文字和标记。"
+      }
+    ],
+    "fallbackItems": null
+  }
+}

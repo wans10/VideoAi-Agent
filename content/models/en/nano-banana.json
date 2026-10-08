@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana",
   "versionLabel": "Image",
   "seo": {
-    "title": "Nano Banana – Photoreal Image Generation | MaxVideoAI",
+    "title": "Nano Banana – Photoreal Image Generation | VideoAI",
     "description": "Generate photoreal stills and edits with Nano Banana. Text-to-image and image-to-image for keyframes, thumbnails, and references before you animate in Sora, Veo, or Kling.",
     "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
   },
-  "overview": "Nano Banana is your photoreal image sidekick in MaxVideoAI. Lock style, lighting, and framing before you render video—text-to-image plus image edits from the same wallet and prompt lab.",
+  "overview": "Nano Banana is your photoreal image sidekick in VideoAI. Lock style, lighting, and framing before you render video—text-to-image plus image edits from the same wallet and prompt lab.",
   "hero": {
     "title": "Nano Banana – Photoreal Image Generation",
     "intro": "Fast still generation and edits from natural language — built for quick creative exploration.",
@@ -193,7 +193,7 @@
         "icon": "storyboard"
       }
     ],
-    "whatTitle": "How Nano Banana works in MaxVideoAI",
+    "whatTitle": "How Nano Banana works in VideoAI",
     "whatIntro1": "Choose text-to-image or image-to-image, set the batch size (1–8), write your prompt or edit instructions, and generate.",
     "whatIntro2": "Use it to lock style, lighting, and framing before animating in video engines.",
     "whatFlowTitle": "Workflow",
@@ -223,7 +223,7 @@
       "No hateful, harassing, or graphic-violence content.",
       "Don’t impersonate real people or public figures; use consent for any likeness.",
       "Don’t include private personal data (faces of non-consenting people, addresses, phone numbers, documents).",
-      "Some prompts or reference images may be blocked by MaxVideoAI safety filters."
+      "Some prompts or reference images may be blocked by VideoAI safety filters."
     ]
   },
   "decision": {
@@ -300,7 +300,7 @@
       },
       {
         "title": "Image workspace",
-        "body": "Use the same MaxVideoAI wallet, prompts and history as the rest of the app.",
+        "body": "Use the same VideoAI wallet, prompts and history as the rest of the app.",
         "tone": "continuity"
       }
     ],
@@ -355,14 +355,14 @@
     "pricingCopy": {
       "title": "Nano Banana pricing at a glance",
       "subtitle": "Preset image totals - see the exact live price in the app before you generate.",
-      "footnote": "All prices are MaxVideoAI display prices in USD credits for preset scenarios.",
+      "footnote": "All prices are VideoAI display prices in USD credits for preset scenarios.",
       "ctaLabel": "View full pricing",
       "maxDurationNote": "Up to 8 images",
       "ctaHref": "/pricing#nano-banana-pricing"
     },
     "meta": {
-      "title": "Nano Banana: Pricing, Fast Image Drafts & Edits | MaxVideoAI",
-      "description": "Explore Nano Banana pricing, fast still drafts, reference image edits, batch variants and lightweight Google image workflows on MaxVideoAI."
+      "title": "Nano Banana: Pricing, Fast Image Drafts & Edits | VideoAI",
+      "description": "Explore Nano Banana pricing, fast still drafts, reference image edits, batch variants and lightweight Google image workflows on VideoAI."
     }
   },
   "prompting": {

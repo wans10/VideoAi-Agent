@@ -71,7 +71,7 @@
 .resourceLink>span:last-child{color:var(--brand);font-size:18px;transition:transform .18s}
 .resourceLink:hover>span:last-child{transform:translate(2px,-2px)}
 .faqList{border-top:1px solid var(--border)}
-.faqItem{border-bottom:1px solid var(--border)}
+.faqItem{padding-inline:20px;border-bottom:1px solid var(--border)}
 .faqItem summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:15px 0;color:var(--text-primary);font-size:15px;font-weight:600;line-height:1.45;list-style:none}
 .faqItem summary::-webkit-details-marker{display:none}
 .faqItem summary>span{flex:none;color:var(--brand);font-size:24px;font-weight:300;line-height:1;transition:transform .18s}

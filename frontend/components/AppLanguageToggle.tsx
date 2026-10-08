@@ -1,24 +1,27 @@
 'use client';
 
+import { publishedLocales } from '@/i18n/locales';
+
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { Check, Globe } from 'lucide-react';
-import { localeLabels } from '@/i18n/locales';
+import { localeLabels, type AppLocale } from '@/i18n/locales';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { Button } from '@/components/ui/Button';
 import { UIIcon } from '@/components/ui/UIIcon';
 
-type Locale = 'en' | 'fr' | 'es';
+type Locale = AppLocale;
 
 const FLAG_MAP: Record<Locale, string> = {
   en: '🇺🇸',
   fr: '🇫🇷',
   es: '🇪🇸',
+  zh: '🇨🇳',
 };
 
-export function AppLanguageToggle() {
+function AppLanguageToggleControl() {
   const router = useRouter();
   const pathname = usePathname();
   const { locale, t } = useI18n();
@@ -37,7 +40,7 @@ export function AppLanguageToggle() {
       (Object.entries(localeLabels) as Array<[Locale, string]>).map(([localeKey, label]) => ({
         locale: localeKey,
         label,
-      })),
+      })).filter(option => publishedLocales.includes(option.locale)),
     []
   );
 
@@ -127,4 +130,8 @@ export function AppLanguageToggle() {
       ) : null}
     </div>
   );
+}
+
+export function AppLanguageToggle() {
+  return publishedLocales.length > 1 ? <AppLanguageToggleControl /> : null;
 }

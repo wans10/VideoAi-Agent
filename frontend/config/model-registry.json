@@ -3221,6 +3221,90 @@
       "replacement": null,
       "lifecycle": "current",
       "successorId": null
+    },
+    {
+      "id": "qwen-image-3-0",
+      "slug": "qwen-image-3-0",
+      "family": "qwen-image",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "discoveryRank": 51,
+          "variantGroup": "qwen-image",
+          "variantLabel": "3.0"
+        },
+        "pricing": {
+          "published": false
+        },
+        "sitemap": {
+          "published": false
+        }
+      },
+      "replacement": null,
+      "lifecycle": "current",
+      "successorId": null
+    },
+    {
+      "id": "qwen-image-3-0-pro",
+      "slug": "qwen-image-3-0-pro",
+      "family": "qwen-image",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "discoveryRank": 52,
+          "variantGroup": "qwen-image",
+          "variantLabel": "3.0 Pro"
+        },
+        "pricing": {
+          "published": false
+        },
+        "sitemap": {
+          "published": false
+        }
+      },
+      "replacement": null,
+      "lifecycle": "current",
+      "successorId": null
     }
   ],
   "tombstones": [

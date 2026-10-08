@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-type Locale = 'fr' | 'es';
+type Locale = 'fr' | 'es' | 'zh';
 type Dictionary = Record<string, unknown>;
 type FlatDictionary = Record<string, string>;
 
@@ -10,6 +10,7 @@ const SOURCE_PATH = path.resolve(BASE_PATH, 'messages/en.json');
 const TARGETS: Record<Locale, string> = {
   fr: path.resolve(BASE_PATH, 'messages/fr.json'),
   es: path.resolve(BASE_PATH, 'messages/es.json'),
+  zh: path.resolve(BASE_PATH, 'messages/zh.json'),
 };
 const PATH_SEPARATOR = '§';
 
@@ -35,6 +36,27 @@ function flatten(input: Dictionary, prefix: string[] = [], accumulator: FlatDict
   return accumulator;
 }
 
+function nodeType(value: unknown): string {
+  if (Array.isArray(value)) return 'array';
+  if (value === null) return 'null';
+  return typeof value;
+}
+
+function findTypeMismatches(source: unknown, target: unknown, prefix: string[] = []): string[] {
+  if (nodeType(source) !== nodeType(target)) return [prefix.join(PATH_SEPARATOR)];
+  if (Array.isArray(source) && Array.isArray(target)) {
+    return source.flatMap((value, index) =>
+      index < target.length ? findTypeMismatches(value, target[index], [...prefix, String(index)]) : []
+    );
+  }
+  if (source && target && typeof source === 'object' && typeof target === 'object') {
+    return Object.entries(source).flatMap(([key, value]) =>
+      key in target ? findTypeMismatches(value, (target as Dictionary)[key], [...prefix, key]) : []
+    );
+  }
+  return [];
+}
+
 function loadJson(filePath: string, label: string): Dictionary {
   if (!fs.existsSync(filePath)) {
     throw new Error(`Missing ${label} dictionary at ${filePath}`);
@@ -53,6 +75,7 @@ function main() {
     const targetFlat = flatten(target);
 
     const missing = Object.keys(sourceFlat).filter((key) => !(key in targetFlat));
+    const typeMismatches = findTypeMismatches(source, target);
     if (missing.length) {
       hasErrors = true;
       console.error(`\n[i18n] Missing keys for ${locale}:`);
@@ -62,6 +85,11 @@ function main() {
       }
     } else {
       console.log(`[i18n] ${locale}: parity OK (${Object.keys(targetFlat).length} keys).`);
+    }
+    if (typeMismatches.length) {
+      hasErrors = true;
+      console.error(`[i18n] Type mismatches for ${locale}: ${typeMismatches.slice(0, 20).join(', ')}`);
+      if (typeMismatches.length > 20) console.error(` ...and ${typeMismatches.length - 20} more.`);
     }
   });
 

@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import type { QueryExecutor } from '../frontend/src/lib/db';
 import { getWalletSummary } from '../frontend/src/server/wallet-summary';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency';
 
 function executorReturning(rows: unknown[]): QueryExecutor {
   return {
@@ -12,7 +13,7 @@ function executorReturning(rows: unknown[]): QueryExecutor {
   };
 }
 
-test('wallet summary aggregates the USD receipt ledger in integer cents', async () => {
+test('wallet summary aggregates the customer-currency receipt ledger in integer cents', async () => {
   const summary = await getWalletSummary(
     'user-1',
     executorReturning([
@@ -28,7 +29,7 @@ test('wallet summary aggregates the USD receipt ledger in integer cents', async 
 
   assert.deepEqual(summary, {
     balanceCents: 600,
-    currency: 'USD',
+    currency: CUSTOMER_CURRENCY,
     pendingCents: 0,
     hasCompletedTopUp: true,
   });
@@ -52,7 +53,7 @@ test('wallet summary clamps a negative ledger balance and handles an empty ledge
   assert.equal(negative.balanceCents, 0);
   assert.deepEqual(empty, {
     balanceCents: 0,
-    currency: 'USD',
+    currency: CUSTOMER_CURRENCY,
     pendingCents: 0,
     hasCompletedTopUp: false,
   });
@@ -75,5 +76,5 @@ test('wallet summary query is scoped to one user and aggregates rather than retu
   assert.match(capturedSql, /SUM\(CASE WHEN type = 'charge'/);
   assert.match(capturedSql, /SUM\(CASE WHEN type = 'refund'/);
   assert.match(capturedSql, /WHERE user_id = \$1/);
-  assert.deepEqual(capturedParams, ['user-123', 'USD', 'usd']);
+  assert.deepEqual(capturedParams, ['user-123', CUSTOMER_CURRENCY, CUSTOMER_CURRENCY.toLowerCase()]);
 });

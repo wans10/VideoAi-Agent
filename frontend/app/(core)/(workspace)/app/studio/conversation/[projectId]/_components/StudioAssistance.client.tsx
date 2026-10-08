@@ -1,4 +1,5 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import {useEffect,useId,useRef,useState,type RefObject} from 'react';
 import Link from 'next/link';
 import {ArrowUpRight,ChevronDown,Check, X} from 'lucide-react';
@@ -6,13 +7,13 @@ import type {StudioAssistanceChoice,StudioAssistanceStatus} from '@/lib/studio/a
 import {additionalAssistanceBudget} from '../_lib/conversation-assistance';
 import styles from './studio-assistance.module.css';
 import {StudioAssistanceCreditsDialog} from './StudioAssistanceCredits.client';
-export type StudioAssistanceProps={tasksEnabled?:boolean;openSignal?:number;status:StudioAssistanceStatus|null;busy:boolean;error:string|null;locale:'en'|'fr';conversationBusy:boolean;choose:(choice:StudioAssistanceChoice)=>Promise<boolean>;refresh:()=>Promise<void>;onChoice:()=>void};
+export type StudioAssistanceProps={tasksEnabled?:boolean;openSignal?:number;status:StudioAssistanceStatus|null;busy:boolean;error:string|null;locale:'en'|'fr'|'zh';conversationBusy:boolean;choose:(choice:StudioAssistanceChoice)=>Promise<boolean>;refresh:()=>Promise<void>;onChoice:()=>void};
 type Props=StudioAssistanceProps;
 const money=(cents:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(cents/100);
 export function StudioAssistance(props:Props) {
   const [open,setOpen]=useState(false),trigger=useRef<HTMLButtonElement>(null);
   useEffect(()=>{if(props.openSignal)setOpen(true);},[props.openSignal]);
-  const {status,locale}=props,t=(en:string,fr:string)=>locale==='fr'?fr:en;
+  const {status,locale}=props,t=(en: string, fr: string) => conversationCopy(locale, en, fr);
   if(status&&!status.enabled)return null;
   const luna=status?.mode==='sponsored_luna';
   const detail=status?status.mode==='paid_sol'?money(status.paid.remainingCents)+' '+t('left','restants'):Math.round((luna?status.sponsoredLuna:status.includedSol).remainingPercent)+'%':props.error?t('Unavailable','Indisponible'):'…';
@@ -23,7 +24,7 @@ export function StudioAssistance(props:Props) {
   </>;
 }
 function AssistanceDialog({status,busy,error,locale,conversationBusy,choose,refresh,onChoice,trigger,onClose}:Props&{trigger:RefObject<HTMLButtonElement>;onClose:()=>void}) {
-  const dialog=useRef<HTMLDialogElement>(null),id=useId(),t=(en:string,fr:string)=>locale==='fr'?fr:en;
+  const dialog=useRef<HTMLDialogElement>(null),id=useId(),t=(en: string, fr: string) => conversationCopy(locale, en, fr);
   const [amount,setAmount]=useState(500);
   useEffect(()=>{const el=dialog.current,opener=trigger.current;el?.showModal();return()=>{el?.close();opener?.focus();};},[trigger]);
   async function select(choice:StudioAssistanceChoice) {if(await choose(choice)){onChoice();onClose();}}
@@ -38,7 +39,7 @@ function AssistanceDialog({status,busy,error,locale,conversationBusy,choose,refr
     {status&&<>
       {!!status.unresolvedCalls&&<p className={styles.notice} role="status">{t('A previous assistance cost needs verification. Its budget remains reserved until it is settled or released by support.','Un coût d’assistance précédent doit être vérifié. Le budget reste réservé jusqu’à sa confirmation ou sa restitution par le support.')} <Link href="/contact" prefetch={false}>{t('Contact support','Contacter le support')}</Link></p>}
       <section className={styles.allowance}><div><strong>{t('Included Sol','Sol inclus')}</strong><span>{Math.round(status.includedSol.remainingPercent)}% {t('remaining','restants')}</span></div><progress max={100} value={status.includedSol.remainingPercent} aria-label={t('Included Sol remaining','Sol inclus restant')}/><small>{t('One-time introductory allowance. Does not renew automatically.','Allocation unique de découverte. Sans renouvellement automatique.')}</small></section>
-      <section className={styles.budget}><div className={styles.sectionTitle}><h3>{t('Continue with Sol','Continuer avec Sol')}</h3>{status.mode==='paid_sol'&&<Check size={15}/>}</div><p>{t('Choose an additional limit for assistance, paid from your existing MaxVideoAI balance as you use it.','Choisissez un budget supplémentaire d’assistance, prélevé sur votre solde MaxVideoAI au fil de l’utilisation.')}</p>
+      <section className={styles.budget}><div className={styles.sectionTitle}><h3>{t('Continue with Sol','Continuer avec Sol')}</h3>{status.mode==='paid_sol'&&<Check size={15}/>}</div><p>{t('Choose an additional limit for assistance, paid from your existing Keyvo balance as you use it.','Choisissez un budget supplémentaire d’assistance, prélevé sur votre solde Keyvo au fil de l’utilisation.')}</p>
         {!status.paid.enabled&&status.paid.remainingCents>0&&<button className={styles.textButton} disabled={locked||!!error} onClick={()=>void select({action:'authorize_paid',budgetCents:status.paid.authorizedCents,tariffVersion:status.tariff.version,expectedRevision:status.revision})}>{t('Resume authorized Sol · ','Reprendre Sol autorisé · ')+money(status.paid.remainingCents)}</button>}
         <div className={styles.amounts} role="group" aria-label={t('Additional assistance budget','Budget d’assistance supplémentaire')}>{availableAmounts.map(value=><button key={value} disabled={locked||!!error} aria-pressed={selectedAmount===value} onClick={()=>setAmount(value)}>{money(value)}</button>)}</div>
         <button className={styles.primary} disabled={locked||!!error||!selectedAmount} onClick={()=>void select({action:'authorize_paid',budgetCents:additionalAssistanceBudget(status,selectedAmount!),tariffVersion:status.tariff.version,expectedRevision:status.revision})}>{busy?t('Saving…','Enregistrement…'):selectedAmount?t('Authorize ','Autoriser ')+money(selectedAmount)+t(' more',' de plus'):t('Maximum budget reached','Budget maximum atteint')}<ArrowUpRight size={15}/></button>

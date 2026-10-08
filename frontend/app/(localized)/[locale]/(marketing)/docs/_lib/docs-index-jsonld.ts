@@ -54,7 +54,7 @@ export function buildDocsCollectionJsonLd({ content, metadataUrls, site, toc }: 
     about: jsonLdCopy.about ?? ['onboarding', 'refund policy', 'brand safety', 'webhooks', 'api references'],
     publisher: {
       '@type': 'Organization',
-      name: 'MaxVideo AI',
+      name: 'Keyvo',
       url: site,
     },
   };

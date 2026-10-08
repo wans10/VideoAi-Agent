@@ -1,3 +1,4 @@
+import { resolveAgentGenerationEngineExecutability } from '../frontend/src/server/agent-runtime/model-executability';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -165,7 +166,7 @@ function realRegistryDetailsDeps(): AgentModelDetailsDeps {
       if (!entry) return null;
       return entry.category === 'image' ? 'image' : 'video';
     },
-    isEngineExecutable: isAgentGenerationEngineExecutable,
+    isEngineExecutable: engine => resolveAgentGenerationEngineExecutability(engine, { bytePlusEnabled: ENV.BYTEPLUS_ARK_ENABLED === 'true', bytePlusApiKey: ENV.BYTEPLUS_ARK_API_KEY, falApiKey: ENV.FAL_API_KEY, providerEnv: { LLMHUB_API_KEY: '' } }).executable,
   };
 }
 

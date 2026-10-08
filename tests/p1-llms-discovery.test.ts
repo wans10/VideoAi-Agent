@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -84,8 +85,8 @@ test('P1 LLM discovery exposes current names, canonical URLs, families, and scor
   for (const id of P1_IDS) {
     const model = projection.currentModels.find((candidate) => candidate.id === id);
     assert.equal(model?.label, expectedLabels[id]);
-    assert.equal(model?.href, `https://maxvideoai.com/models/${id}`);
-    assert.equal(text.split(`](https://maxvideoai.com/models/${id})`).length - 1, 1, id);
+    assert.equal(model?.href, `https://app.keyvo.cn/models/${id}`);
+    assert.equal(text.split(`](https://app.keyvo.cn/models/${id})`).length - 1, 1, id);
   }
   assert.deepEqual(projection.families.map(({ id }) => id).sort(), ['hailuo', 'kling', 'veo']);
   assert.deepEqual(
@@ -110,22 +111,27 @@ test('default llms output includes priority models once and drops the stale Sora
     'minimax-h3', 'minimax-h3-max', 'seedance-2-5',
   ]);
   for (const id of ['minimax-h3', 'minimax-h3-max', 'seedance-2-5']) {
-    assert.equal(text.split(`](https://maxvideoai.com/models/${id})`).length - 1, 1, id);
+    assert.equal(text.split(`](${SITE_ORIGIN}/models/${id})`).length - 1, 1, id);
   }
   assert.doesNotMatch(text, /sora-2|Sora 2|## Engines \(key pages\)|## Current launch models/);
   assert.match(text, /available through its web application/);
-  assert.match(text, /In addition to the web application.*remote MCP integration/);
-  assert.match(text, /Public n8n template 19591 is listed; OAuth setup remains manual/);
-  assert.doesNotMatch(text, /no public template listing/i);
+  assert.doesNotMatch(text, /remote MCP integration|Public n8n template|\/integrations\/|\/docs\/mcp/);
   for (const slug of [
     'gemini-omni-flash-vs-veo-3-1',
     'seedance-2-0-vs-seedance-2-0-fast',
     'veo-3-1-fast-vs-veo-3-1-lite',
   ]) {
-    assert.ok(text.includes(`](https://maxvideoai.com/ai-video-engines/${slug})`), slug);
+    assert.ok(text.includes(`](${SITE_ORIGIN}/ai-video-engines/${slug})`), slug);
   }
   const urls = [...text.matchAll(/\]\((https:\/\/[^)]+)\)/g)].map((match) => match[1]);
   assert.equal(new Set(urls).size, urls.length, 'source links must not be duplicated');
+});
+
+test('reopening MCP publication restores its documented discovery sources', () => {
+  const text = buildLlmsText({ ...mcpPublication, publicMarketing: true, publicIndexing: true });
+  assert.match(text, /In addition to the web application.*remote MCP integration/);
+  assert.match(text, /Public n8n template 19591 is listed; OAuth setup remains manual/);
+  assert.doesNotMatch(text, /no public template listing/i);
 });
 
 test('curated llms model links follow lifecycle, publication, canonical slug and label changes', () => {
@@ -138,7 +144,7 @@ test('curated llms model links follow lifecycle, publication, canonical slug and
     const projection = buildLlmsModelDiscoveryProjection({ models });
     assert.equal(projection.currentModels.some(({ id }) => id === model.id), false, state);
     const text = buildLlmsText(mcpPublication, projection);
-    assert.equal(text.includes(`](https://maxvideoai.com/models/${model.slug})`), false, state);
+    assert.equal(text.includes(`](${SITE_ORIGIN}/models/${model.slug})`), false, state);
     if (state !== 'legacy') {
       assert.equal(projection.primaryComparisons.some(({ slug }) => slug.includes(model.slug)), false, state);
     }
@@ -148,6 +154,6 @@ test('curated llms model links follow lifecycle, publication, canonical slug and
   model.slug = 'renamed-h3';
   model.label = 'Updated H3 label';
   const text = buildLlmsText(mcpPublication, buildLlmsModelDiscoveryProjection({ models }));
-  assert.match(text, /\[Updated H3 label\]\(https:\/\/maxvideoai.com\/models\/renamed-h3\)/);
-  assert.equal(text.includes('](https://maxvideoai.com/models/minimax-h3)'), false);
+  assert.ok(text.includes(`[Updated H3 label](${SITE_ORIGIN}/models/renamed-h3)`));
+  assert.equal(text.includes(`](${SITE_ORIGIN}/models/minimax-h3)`), false);
 });

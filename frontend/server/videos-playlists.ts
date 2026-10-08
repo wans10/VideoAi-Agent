@@ -1,4 +1,6 @@
-import { query } from '@/lib/db';
+import { listBundledModelExamples, listBundledPublicExamples } from './bundled-public-examples';
+import { getExamplesHubPlaylistSlug, getStarterPlaylistSlug } from './playlists';
+import { isDatabaseConfigured, query } from '@/lib/db';
 import { isLocalPublicExamplesEnabled, listLocalModelExamples } from './local-public-examples';
 import { mapGalleryVideoRow, type GalleryVideo, type VideoRow } from './videos-normalization';
 import { BASE_SELECT } from './videos-query';
@@ -89,6 +91,13 @@ export async function listPlaylistVideosWithOptions({
 }: PlaylistVideoQueryOptions, curationScope?: CurationReadScope): Promise<GalleryVideo[]> {
   if (isLocalPublicExamplesEnabled()) {
     return slug.startsWith('examples-') ? listLocalModelExamples(slug.slice('examples-'.length), limit) : [];
+  }
+  if (process.env.NEXT_PHASE === 'phase-production-build' || !isDatabaseConfigured()) {
+    const items = slug.startsWith('examples-') ? listBundledModelExamples(slug.slice('examples-'.length), limit)
+      : slug.startsWith('family-') ? listBundledPublicExamples(slug.slice('family-'.length), 'playlist', limit ?? 200, 0).items
+      : [getExamplesHubPlaylistSlug(), getStarterPlaylistSlug()].includes(slug) ? listBundledPublicExamples('', 'playlist', limit ?? 200, 0).items : [];
+    const aliases = engineAliases ? new Set(engineAliases.map(id => id.toLowerCase())) : null;
+    return items.filter(item => !aliases || aliases.has(item.engineId.toLowerCase()));
   }
   const curated = await listCuratedGalleryVideos(slug, {limit, engineAliases}, curationScope);
   if (curated !== null) return curated;

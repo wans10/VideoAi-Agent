@@ -30,8 +30,8 @@ export function registerImportReferenceFilesTool(
     {
       title: 'Import private reference files',
       description: [
-        'Use this to import up to eight user-authorized image, video or audio files from temporary host file handles, including attachments or authorized generation results, into the connected private MaxVideoAI library.',
-        'MaxVideoAI manages these references; the host owns creating or selecting reference media.',
+        'Use this to import up to eight user-authorized image, video or audio files from temporary host file handles, including attachments or authorized generation results, into the connected private Keyvo library.',
+        'Keyvo manages these references; the host owns creating or selecting reference media.',
         'Use returned asset IDs directly and preserve input order; do not call list_media after a successful direct import.',
         'On partial failure, keep successful IDs and retry only failed files.',
         'Do not invent or substitute download URLs, send local filesystem paths, re-import existing library assets, generate, or spend.',

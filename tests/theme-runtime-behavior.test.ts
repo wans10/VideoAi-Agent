@@ -59,6 +59,8 @@ test('app and classic Studio share the OS default and each manual choice in the 
     assert.equal(fixture.app.resolvedTheme, 'light');
     assert.equal(fixture.studio.resolvedTheme, 'light');
     await fixture.setDark(true);
+    assert.equal(fixture.app.resolvedTheme, 'light', 'Keyvo starts in light mode until System is explicitly chosen');
+    await React.act(async () => fixture.app.setPreference('system'));
     assert.equal(fixture.app.resolvedTheme, 'dark');
     assert.equal(fixture.studio.resolvedTheme, 'dark');
     await React.act(async () => fixture.app.setPreference('light'));

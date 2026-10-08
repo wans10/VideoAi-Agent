@@ -1,0 +1,506 @@
+{
+  "marketingName": "Kling 3 4K",
+  "versionLabel": "v3 4K",
+  "seo": {
+    "title": "Kling 3 4K | 原生 4K AI 视频模型 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 3 4K 进行原生 4K 文生视频与图生视频交付渲染，支持 3–15 秒片段、可选原生音频与成片级计费。",
+    "image": "/hero/kling-3-4k-hero.jpg"
+  },
+  "overview": "Kling 3 4K 是专为最终成片交付渲染打造的原生 4K Kling AI 视频路由，适用于已定稿的文生视频提示词、图生视频母片、锁定构图以及可选原生音频。",
+  "pricingNotes": "会员展示预估价格已包含 VideoAI 综合费率：原生 4K 输出约为 $0.55/秒，建议将此路由用于已定稿的最终交付渲染。",
+  "hero": {
+    "title": "Kling 3 4K — 原生 4K 视频生成",
+    "intro": "当提示词或起始帧已经定稿，且镜头需要原生 4K 输出用于交付、后期剪辑或大屏评审时，请使用 Kling 3 4K。若希望使用参考图片或分镜画面引导 4K 镜头而不强制将其作为视频起始帧，请使用 Kling 3.0 Omni 4K。",
+    "badge": "原生 4K · 3–15 秒 · 文本或图像输入 · 音频开/关",
+    "ctaPrimary": {
+      "label": "使用 Kling 3 4K 开始生成",
+      "href": "/app?engine=kling-3-4k"
+    },
+    "secondaryLinks": [
+      {
+        "label": "查看 Kling 3 Pro",
+        "href": "/zh/models/kling-3-pro"
+      },
+      {
+        "label": "查看 Kling 3 Standard",
+        "href": "/zh/models/kling-3-standard"
+      },
+      {
+        "label": "查看 Kling AI 视频案例",
+        "href": "/zh/examples/kling"
+      }
+    ]
+  },
+  "compareLink": {
+    "label": "对比 Kling 3 Pro 与 Kling 3 4K ->",
+    "href": "/ai-video-engines/kling-3-4k-vs-kling-3-pro"
+  },
+  "bestUseCases": {
+    "title": "最佳适用场景",
+    "items": [
+      {
+        "title": "最终 4K 交付渲染",
+        "icon": "cinematic"
+      },
+      {
+        "title": "产品主视觉特写与高端广告",
+        "icon": "product"
+      },
+      {
+        "title": "高分辨率图生视频定稿成片",
+        "icon": "layers"
+      },
+      {
+        "title": "便于剪辑与裁切的宣传母片",
+        "icon": "scissors"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术规格概览",
+  "technicalOverview": [
+    {
+      "label": "详情",
+      "body": "Kling 3 4K 采用活跃的原生 4K 路由，因此应将其作为最终成片交付路由，而非用于低成本创意构思的模型。"
+    },
+    {
+      "label": "时长",
+      "body": "每次渲染 3–15 秒"
+    },
+    {
+      "label": "分辨率",
+      "body": "原生 4K"
+    },
+    {
+      "label": "画幅比例",
+      "body": "16:9、9:16、1:1"
+    },
+    {
+      "label": "输入方式",
+      "body": "文生视频；基于单张源图片的图生视频（支持可选尾帧）。当前 VideoAI 该路由不支持视频输入。"
+    },
+    {
+      "label": "音频",
+      "body": "可自由开启或关闭原生音频；无论开启与否，当前活跃路由均按相同的 4K 费率计费"
+    }
+  ],
+  "promptStructure": {
+    "title": "Kling 3 4K 提示词编写技巧",
+    "quote": "复用在 Standard 或 Pro 中经过验证的单提示词或多提示词方案，随后直接在 Kling 3 4K 中渲染原生 4K 终版成片。",
+    "description": "保持紧凑严密的镜头规划，切忌直接使用 4K 进行早期的提示词构思与试错。",
+    "steps": [
+      "先在 Standard 或 Pro 中验证画面构图与运镜",
+      "将已通过的单提示词或多提示词方案迁移至 Kling 3 4K",
+      "确保每个镜头只聚焦一个清晰明确的动作",
+      "利用起始帧锁定最终画面的景别与构图",
+      "渲染原生 4K 成片用于交付"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "建议在创意方向与分镜定稿后再使用 Kling 3 4K。",
+      "原生 4K 的渲染成本高于 Kling 3 Pro 1080p。",
+      "提示词保持精炼，并基于明确的镜头动作进行描述。",
+      "先使用 Standard 或 Pro 进行低成本迭代与测试。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "原生 4K 产品亮相特写",
+      "prompt": "原生 4K 电影级产品亮相：精致设备表面的微距反光细节，缓慢推镜头，可控摄影棚布光，线条锐利清晰，细腻环境音效。"
+    },
+    {
+      "title": "4K 旅游宣传母片",
+      "prompt": "16:9 原生 4K 旅游宣传主镜头：悬崖边酒店的日出时分，流畅的无人机滑动，温暖光晕，海浪飞溅，精致奢华的广告质感。"
+    }
+  ],
+  "faqTitle": "常见问题 — VideoAI 中的 Kling 3 4K",
+  "faqs": [
+    {
+      "q": "Kling 3 4K 生成的是真正的原生 4K 视频吗？",
+      "a": "是的。Kling 3 4K 是 VideoAI 上专门用于指定文生视频或图生视频镜头的原生 4K 交付路由。"
+    },
+    {
+      "q": "什么时候应该使用 Kling 3 4K，而不是 Kling 3 Pro？",
+      "a": "对于绝大多数创意验证和 1080p 审批，推荐使用 Kling 3 Pro。仅当镜头定稿后确实需要原生 4K 最终成片交付时，才使用 Kling 3 4K。"
+    },
+    {
+      "q": "Kling 3 4K 支持图生视频吗？",
+      "a": "支持。VideoAI 当前路由支持基于单张源图片的图生视频，并在可用时支持可选尾帧控制。"
+    },
+    {
+      "q": "Kling 3 4K 支持音频和口型同步吗？",
+      "a": "支持，可以自由开启或关闭音频，并支持口型同步。当口型同步至关重要时，建议保持对白简短且面部构图稳定。"
+    },
+    {
+      "q": "Kling 3 4K 生成的视频最长可以有多长？",
+      "a": "该路由适用于短片生成，支持最长 15 秒的时长选项。渲染前请在生成器界面中确认最终时长与预估报价。"
+    }
+  ],
+  "custom": {
+    "quickPricingTitle": "推荐阶梯式成本工作流",
+    "quickPricingItems": [
+      "当需要以 Kling 3 当前最具性价比的费率测试更多变体时，先在 Kling 3 Standard 中起草。",
+      "将更满意的创意方向转移至 Kling 3 Pro，完成核心的 1080p 质量评审。",
+      "仅将 Kling 3 4K 用于定稿交付渲染，此时原生 4K 的超高清晰度完全值得更高的每秒成本。"
+    ],
+    "relatedTitle": "Kling 3 4K 的定位与分工",
+    "relatedSubtitle": "将 4K 作为 Kling 系列中的最终交付步骤，而非直接取代 Pro 主力工作流。",
+    "relatedItems": [
+      {
+        "brand": "Kling",
+        "title": "Kling 3 Pro",
+        "description": "在最终 4K 导出前，使用 Pro 完成核心创意把控、多镜头调度以及更低成本的 1080p 审批确认。",
+        "modelSlug": "kling-3-pro",
+        "ctaLabel": "对比 Kling 3 Pro 与 4K ->"
+      },
+      {
+        "brand": "Kling",
+        "title": "Kling 3 Standard",
+        "description": "在投入 Pro 或 4K 之前，使用 Standard 进行提示词测试与分镜脚本变体探索。",
+        "modelSlug": "kling-3-standard",
+        "ctaLabel": "对比 Standard 与 4K ->"
+      }
+    ],
+    "finalPara1": "当创意方向已经确立并获批时，Kling 3 4K 才能发挥最大价值。请将其视作已通过镜头的原生 4K 母片制作路由。",
+    "finalPara2": "对于大多数团队而言，最高效的工作流是在 Standard 中探索，在 Pro 中进行首轮审批，最后仅在 4K 中完成最终交付。",
+    "finalButton": "渲染 Kling 3 4K 最终镜头",
+    "demoSummary": {
+      "subject": "高端智能手表产品母片",
+      "action": "缓慢展示边缘工艺、反光质感与屏幕细节",
+      "camera": "原生 4K 锁定的 16:9 推镜头",
+      "style": "极简摄影棚布光，石墨色台面，利落的产品高光",
+      "audio": "关闭音频供后期剪辑调配"
+    },
+    "tipsIntro": "使用 Kling 3 4K 进行原生 4K 终版渲染的最佳实践、成本控制与交付边界。",
+    "strengths": [
+      "创意方向定稿后的原生 4K 交付成片。",
+      "非常适合产品母片、高端广告和大屏评审母带。",
+      "支持文生视频与图生视频工作流，并提供可选原生音频。",
+      "当最终构图与细节表现力重于试错成本时尤为理想。"
+    ],
+    "troubleshootingTitle": "常见 4K 交付问题与对策",
+    "troubleshootingItems": [
+      "成本上升过快 → 先在 Standard 或 Pro 中验证，仅对最终定稿的镜头进行 4K 渲染。",
+      "构图发生漂移 → 使用清晰的高质量源图片，并在提示词中明确锁定构图。",
+      "音频显得多余 → 面向剪辑制作或配乐主导的项目，直接关闭原生音频。",
+      "画面动作过于杂乱 → 简化为一个清晰可辨的主体动作与单一运镜方式。"
+    ],
+    "boundaries": [
+      "支持文本或单张源图片输入；当前 VideoAI 的 Kling 3 4K 路由不支持视频输入。",
+      "原生 4K 专为精选的成片交付设计，不适合大规模提示词发散探索。",
+      "单次生成仍属于短片形态，时长最长支持 15 秒。",
+      "该路由当前支持 1:1、16:9 和 9:16 画幅比例。",
+      "在客户交付或自动化批量工作流前，请务必在生成界面确认最终报价。"
+    ],
+    "safetyNote": "内置安全规范与合规建议，助力负责任地使用 Kling 3 4K 交付高质量成果。",
+    "faqs": [
+      {
+        "q": "Kling 3 4K 生成的是真正的原生 4K 视频吗？",
+        "a": "是的。Kling 3 4K 是 VideoAI 上专门用于指定文生视频或图生视频镜头的原生 4K 交付路由。"
+      },
+      {
+        "q": "什么时候应该使用 Kling 3 4K，而不是 Kling 3 Pro？",
+        "a": "对于绝大多数创意验证和 1080p 审批，推荐使用 Kling 3 Pro。仅当镜头定稿后确实需要原生 4K 最终成片交付时，才使用 Kling 3 4K。"
+      },
+      {
+        "q": "Kling 3 4K 支持图生视频吗？",
+        "a": "支持。VideoAI 当前路由支持基于单张源图片的图生视频，并在可用时支持可选尾帧控制。"
+      },
+      {
+        "q": "Kling 3 4K 支持音频和口型同步吗？",
+        "a": "支持，可以自由开启或关闭音频，并支持口型同步。当口型同步至关重要时，建议保持对白简短且面部构图稳定。"
+      },
+      {
+        "q": "Kling 3 4K 生成的视频最长可以有多长？",
+        "a": "该路由适用于短片生成，支持最长 15 秒的时长选项。渲染前请在生成器界面中确认最终时长与预估报价。"
+      }
+    ]
+  },
+  "decision": {
+    "modelSlug": "kling-3-4k",
+    "hero": {
+      "eyebrow": "KLING 原生 4K 交付路由",
+      "title": "Kling 3 4K",
+      "subtitle": "专为定稿图生视频镜头、产品母片与终版活动成片打造的原生 4K 交付。",
+      "subtitleHighlights": [
+        "原生 4K 交付",
+        "定稿图生视频镜头",
+        "终版活动成片"
+      ],
+      "paragraph": "当提示词或起始帧已经定稿，且镜头需要原生 4K 输出用于成片交付、后期剪辑或大屏评审时，请使用 Kling 3 4K。若希望使用参考素材引导镜头而不强制作为起始画面，请使用 Kling 3.0 Omni 4K。",
+      "primaryCta": {
+        "label": "使用 Kling 3 4K 生成",
+        "href": "/app?engine=kling-3-4k"
+      },
+      "secondaryCta": {
+        "label": "查看案例",
+        "href": "/zh/examples/kling"
+      },
+      "quickLinks": [
+        {
+          "label": "对比 Pro 版本",
+          "href": "/zh/ai-video-engines/kling-3-4k-vs-kling-3-pro"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#kling-3-4k-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Kling 3 4K 案例",
+      "description": "原生 4K 交付渲染",
+      "renderLabel": "查看成片",
+      "badges": [
+        "原生 4K",
+        "最长 15 秒",
+        "终剪交付"
+      ],
+      "altContext": "Kling 3 原生 4K 交付渲染"
+    },
+    "features": [
+      {
+        "title": "原生 4K 输出",
+        "body": "直接在 4K 专属路由上生成交付级画质成片。",
+        "tone": "quality"
+      },
+      {
+        "title": "文本或图像",
+        "body": "使用已通过的提示词或参考图片进行终版渲染。",
+        "tone": "reference"
+      },
+      {
+        "title": "终版母片",
+        "body": "将 4K 专用于定稿广告、产品特写和营销母片。",
+        "tone": "continuity"
+      },
+      {
+        "title": "可选音频",
+        "body": "当成片需要声音氛围时，直接生成原生音频。",
+        "tone": "audio"
+      },
+      {
+        "title": "最长 15 秒",
+        "body": "渲染最长达 15 秒的精选定稿片段。",
+        "tone": "duration"
+      },
+      {
+        "title": "按需付费",
+        "body": "生成前即可实时查看精确的透明报价。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "何时应当使用 4K？",
+        "body": "在创意方向得到充分验证后再使用 Kling 3 4K。在支付终版交付费用前，建议先在 Standard 或 Pro 中起草验证。",
+        "cta": {
+          "label": "对比 4K 与 Pro",
+          "href": "/zh/ai-video-engines/kling-3-4k-vs-kling-3-pro"
+        }
+      },
+      {
+        "title": "正在准备图生视频母片？",
+        "body": "在渲染 4K 版本之前，先锁定源帧图片、产品细节与最终构图。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "仍在测试提示词？",
+        "body": "在镜头配方定稿前，建议继续留在 Kling 3 Standard 或 Pro 进行测试。",
+        "cta": {
+          "label": "查看 Kling 3 Standard",
+          "href": "/zh/models/kling-3-standard"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "已定稿提示词",
+        "body": "将验证通过的分镜方案直接导入 4K，避免从零开始盲目探索。"
+      },
+      {
+        "title": "图像参考",
+        "body": "当产品构图或视觉身份要求极高时，使用清晰的高质量源图片。"
+      },
+      {
+        "title": "交付构图",
+        "body": "根据最终投放媒介需求，灵活选择 16:9、9:16 或 1:1 画幅。"
+      },
+      {
+        "title": "音频决策",
+        "body": "仅当交付文件在评审或导出时需要伴音时，才开启音频。"
+      },
+      {
+        "title": "成本控制",
+        "body": "先以较低成本验证创意，一旦定稿再开启 4K 终版渲染。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Kling 3 4K 价格一览",
+      "subtitle": "预设原生 4K 方案总览 — 在应用中生成前即可查看实时准确价格。",
+      "footnote": "所有价格均为 VideoAI 美元积分展示价，适用于预设生成场景。",
+      "ctaLabel": "查看完整价格表",
+      "maxDurationNote": "原生 4K 路由",
+      "ctaHref": "/zh/pricing#kling-3-4k-pricing"
+    },
+    "meta": {
+      "title": "Kling 3 4K：原生 4K 价格与案例 | VideoAI",
+      "description": "使用 Kling 3 4K 生成原生 4K 交付成片，适用于定稿图生视频镜头、产品母片与最长 15 秒的营销成片。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "kling-3-4k",
+    "section": {
+      "title": "提示词实验室 — Kling 3 4K",
+      "intro": "Kling 3 4K 最适合作为最终成片交付环节。从已通过的提示词或起始帧出发，锁定构图与时长，确认母片是否需要音频，随后仅对选定镜头进行原生 4K 渲染。",
+      "tip": "提示：在投入 4K 母片渲染前，建议先在 Kling 3 Standard 或 Pro 中验证节奏、动态与构图。",
+      "guide": null,
+      "referencesTitle": "Kling 3 4K 如何使用参考素材"
+    },
+    "tabs": [
+      {
+        "id": "quick",
+        "label": "终版母片",
+        "title": "终版 4K 交付提示词",
+        "description": "当镜头配方已经审批定稿时使用。",
+        "copy": "模板（复制 / 粘贴）\n镜头目标：[最终交付用途：产品母片、宣传短片、大屏评审]\n主体：[已定稿的产品 / 角色 / 场景]\n动作：[单一清晰明确的动作]\n运镜：[锁定构图 + 单一运镜动作]\n风格：[已通过的光影、色调、镜头质感]\n交付规格：原生 4K，[时长]，[画幅比例]，音频 [开/关]\n\n示例：\n为深色石墨底座上的高端智能手表制作最终原生 4K 产品母片。一次缓慢推镜头展示屏幕反光与抛光金属边缘。16:9 锁定构图，清晰摄影棚高光，黑色背景，无额外文字，不更改 Logo。关闭音频供后期精剪调配。"
+      },
+      {
+        "id": "structured",
+        "label": "参考图",
+        "title": "图生视频母片提示词",
+        "description": "当需要借助源帧图片控制产品特征或画面构图时使用。",
+        "copy": "模板（复制 / 粘贴）\n源图片作用：[主体特征 / 产品外观结构 / 最终构图]\n保持不变：[形态、Logo、配色、姿势、构图]\n动态表现：[单一动态节拍]\n运镜：[微幅推进 / 环绕运镜 / 固定机位]\n尾帧：[如需要，指定平稳落幅画面]\n交付规格：原生 4K，[时长]，音频 [开/关]\n\n示例：\n以已审批的产品静帧作为源帧。保持瓶身形态、标签位置与琥珀色玻璃颜色。加入微妙的 4K 微距环绕运镜与可控反光，保持瓶身居中，以同样干净的正面构图收尾，不添加文字。开启音频，仅保留柔和的摄影棚环境音。"
+      },
+      {
+        "id": "pro",
+        "label": "音频决策",
+        "title": "音频决策提示词",
+        "description": "当 4K 交付成片需要伴音背景时使用。",
+        "copy": "模板（复制 / 粘贴）\n音频定位：[评审参考音 / 终版环境氛围 / 简短人声 / 静音]\n与声音绑定的画面动作：[发出声音的具体动作]\n避免包含：[长段对白、冲突背景音乐、干扰画外音]\n导出说明：[音频 开/关]\n\n示例：\n原生 4K 时尚广告母片，模特在柔和摄影棚灯光下转身一次。音频开启：轻微的布料摩擦声，微妙的室内环境音，转身时一声低沉的电影感击鼓。无对白，无音乐底床，无画外音。"
+      },
+      {
+        "id": "storyboard",
+        "label": "成本控制",
+        "title": "4K 升级核对清单",
+        "description": "在由 Standard 或 Pro 进阶到 4K 之前使用。",
+        "copy": "核对清单\n1. 提示词已在低成本 Kling 路由中测试通过。\n2. 源首帧或尾帧图片已最终定稿。\n3. 画幅比例与时长与成片交付标准一致。\n4. 已明确是否开启音频。\n5. 仅将最终定稿的镜头迁移至 Kling 3 4K。\n\n示例：\n已审批的 Kling 3 Pro 1080p 镜头升级为 4K 母片：相同主体、相同运镜路径、相同时序、相同源帧，原生 4K 输出用于最终交付。"
+      }
+    ],
+    "tabNotes": [],
+    "globalPrinciples": [
+      "使用单一明确且定稿的镜头简报，切忌在 4K 中发散探索多种创意方向。",
+      "在渲染最终母片之前，先锁定主体、动作、运镜、画幅比例与时长。",
+      "当产品外观、品牌标识或构图需要高度稳定时，务必使用清晰干净的源图片。",
+      "在导出前确定是否开启音频，将音频视作交付规格的一部分。",
+      "合理控制成本：先在低阶模型中起草打磨，仅将定稿镜头迁移至 Kling 3 4K。"
+    ],
+    "engineWhy": [
+      "Kling 3 4K 在 VideoAI 上以文生视频和图生视频形式提供，不支持视频输入路由。",
+      "图生视频支持一张源图片输入，并在当前可用路由支持时提供可选尾帧。",
+      "该路由提供原生 4K 超高清画质，比起大范围提示词探索，更适合制作最终交付母片。",
+      "支持口型同步，但提示词中仍需保持对白清晰简短，并维持面部构图稳定。",
+      "在面向客户交付或批量渲染之前，请以生成界面中的最终报价为准。"
+    ],
+    "demo": {
+      "title": "演示提示词 — Kling 3 4K",
+      "promptLabel": "终版 4K 母片",
+      "prompt": "Kling 3 原生 4K 交付渲染，16:9，6秒，关闭音频。\n一块高端智能手表静置于极简摄影棚的深色石墨底座上。\n一次缓慢推镜头展示抛光边缘、玻璃反光与屏幕细节。\n产品锁定构图，清晰高光，干净黑色背景，不添加文字或 Logo 改动。\n仅在 Standard 或 Pro 中完成构图与时序审批后再使用此提示词。",
+      "notes": [],
+      "summary": {
+        "subject": "高端智能手表产品母片",
+        "action": "缓慢展示边缘工艺、反光质感与屏幕细节",
+        "camera": "原生 4K 锁定的 16:9 推镜头",
+        "style": "极简摄影棚布光，石墨色台面，利落的产品高光",
+        "output": "关闭音频供后期剪辑调配"
+      },
+      "presentationOverrides": {
+        "modeLabel": "终版 4K 母片",
+        "outputLabel": "音频",
+        "duration": "6秒",
+        "aspectRatio": null,
+        "audioChipMode": "off",
+        "audioChipLabel": "音频关闭",
+        "altContext": "Kling 3 4K 产品母片渲染效果"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "kling-3-4k",
+    "section": {
+      "title": "Kling 3 4K 交付案例",
+      "intro": "查看适合使用原生 4K 输出的精选 Kling 定稿镜头：产品母片、高端广告、大屏剪辑成片以及高分辨率图生视频定稿成片。",
+      "defaultCtaLabel": "查看全部 Kling 3 4K 案例 ->",
+      "recreateLabel": null
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "原生 4K 母片",
+        "body": "了解 Kling 3 4K 所能呈现的成片交付级画质。",
+        "icon": "maximize"
+      },
+      {
+        "id": "proof-2",
+        "title": "一键同款生成",
+        "body": "在应用中打开 Kling 3 4K，直接复用已验证的提示词。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "可选原生音频",
+        "body": "仅当交付文件需要伴音时开启音频。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "锁定源图片",
+        "body": "在图生视频中保持产品细节、景别与构图的高度稳定。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-5",
+        "title": "交付级品质",
+        "body": "专为 4K 超清细节完全值得其成本的定稿镜头打造。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  }
+}

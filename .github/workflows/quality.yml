@@ -2,9 +2,9 @@ name: Quality CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, MaxVideoAI, "integrate/**"]
   push:
-    branches: [main]
+    branches: [main, MaxVideoAI, "integrate/**"]
   schedule:
     - cron: '23 3 * * *'
   workflow_dispatch:
@@ -154,11 +154,26 @@ jobs:
         run: pnpm run sources:check
         continue-on-error: true
 
+  customer-cny:
+    name: CNY customer contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup-project
+      - uses: ./.github/actions/setup-validation-tools
+      - name: Check CNY billing, payment and image recovery
+        env:
+          NEXT_PUBLIC_CUSTOMER_CURRENCY: CNY
+        run: pnpm exec tsx --tsconfig frontend/tsconfig.json --test tests/billing-currency-policy.test.ts tests/llmhub-pay-protocol.test.ts tests/image-generation-client.test.ts tests/keyvo-merge-billing.test.ts tests/keyvo-cny-credit-packs-postgres.test.ts
+
   quality:
     # Preserve the exact branch-protection context. Never skip this job or the
     # workflow with path filters; an omitted required lane must fail this gate.
     name: Quality CI
-    needs: [plan, fast, integration, tariffs, browser]
+    needs: [plan, fast, integration, tariffs, browser, customer-cny]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -170,6 +185,8 @@ jobs:
         with:
           node-version: '22'
           package-manager-cache: false
+      - name: Require CNY customer contracts
+        run: test '${{ needs.customer-cny.result }}' = 'success'
       - name: Check all required results
         env:
           CI_JOB_RESULTS: ${{ toJSON(needs) }}

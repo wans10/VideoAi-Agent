@@ -1,0 +1,6 @@
+frontend/app/(core)/(workspace)/app/studio/workspace/_components/StudioHeaderSession.tsx
+frontend/app/(core)/(workspace)/app/studio/workspace/_controllers/useCanvasController.ts
+frontend/app/(core)/(workspace)/app/studio/workspace/_hooks/useWorkspaceShotPricing.ts
+frontend/app/(core)/(workspace)/app/studio/workspace/_lib/models/model-capability-registry.ts
+frontend/app/(core)/(workspace)/app/studio/workspace/_lib/workspace-generation.ts
+frontend/app/(core)/(workspace)/app/studio/workspace/_styles/shell.module.css

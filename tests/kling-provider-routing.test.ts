@@ -37,6 +37,7 @@ const generateRouteSource = readFileSync(join(root, 'frontend/app/api/generate/r
 const generationAdapterSource = readFileSync(join(root, 'frontend/app/api/generate/_lib/video-generation-adapters.ts'), 'utf8');
 const providerSubmissionSource = readFileSync(join(root, 'frontend/app/api/generate/_lib/video-provider-submission.ts'), 'utf8');
 const jobDetailRouteSource = readFileSync(join(root, 'frontend/app/api/jobs/[jobId]/route.ts'), 'utf8');
+const klingCredentials = { KLING_ACCESS_KEY: 'test-access', KLING_SECRET_KEY: 'test-secret' };
 
 test('Kling direct router selects admin-only primary routing for V3 and O3 public engine slugs', () => {
   const klingEngineIds = [
@@ -57,6 +58,7 @@ test('Kling direct router selects admin-only primary routing for V3 and O3 publi
       mode: 't2v',
       isAdmin: true,
       env: {
+        ...klingCredentials,
         KLING_DIRECT_ENABLED: 'true',
         KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'false',
         KLING_DIRECT_ADMIN_ONLY: 'true',
@@ -82,6 +84,7 @@ test('Kling direct routes source subject references to Fal unless element regist
     mode: 'i2v',
     isAdmin: true,
     env: {
+      ...klingCredentials,
       KLING_DIRECT_ENABLED: 'true',
       KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'false',
       KLING_DIRECT_ADMIN_ONLY: 'true',
@@ -95,6 +98,7 @@ test('Kling direct routes source subject references to Fal unless element regist
     mode: 'i2v',
     isAdmin: true,
     env: {
+      ...klingCredentials,
       KLING_DIRECT_ENABLED: 'true',
       KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'false',
       KLING_DIRECT_ADMIN_ONLY: 'true',
@@ -388,6 +392,7 @@ test('Kling direct is preferred for Kling 3.0 Omni video-to-video with Fal fallb
       mode: 'v2v',
       isAdmin: true,
       env: {
+        ...klingCredentials,
         KLING_DIRECT_ENABLED: 'true',
         KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'true',
         KLING_DIRECT_FALLBACK_TO_FAL_ENABLED: 'true',

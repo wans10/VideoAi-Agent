@@ -1,3 +1,4 @@
+import { I18nProvider } from '../frontend/lib/i18n/I18nProvider';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createRequire } from 'node:module';
@@ -96,13 +97,13 @@ test('the active workspace preview keeps its optimized cover until ready without
     else delete require.extensions['.css'];
   }
   for (const ready of [false, true]) {
-    const markup = renderToStaticMarkup(React.createElement(CompositePreviewDockTile, {
+    const markup = renderToStaticMarkup(React.createElement(I18nProvider, { locale: 'zh', dictionary: {}, fallback: {}, children: React.createElement(CompositePreviewDockTile, {
       item: { id: 'take', url: '/renders/take.mp4', thumb: '/renders/take.jpg', aspect: '16:9' },
       itemKey: 'take', activeVideoKey: 'take', index: 0, tileCount: 1,
       isPlaying: true, isVideoReady: ready, isSingleLayout: true, isMuted: true, isLooping: true,
       showGroupError: false, markReady() {}, onVideoCanPlay() {}, onVideoLoadedData() {},
       registerVideo: () => () => {},
-    }));
+    }) }));
     const dom = new JSDOM(markup);
     try {
       const image = dom.window.document.querySelector('img')!;

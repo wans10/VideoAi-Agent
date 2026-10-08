@@ -136,14 +136,15 @@ test('pricing page does not regain calculator-first or long model-section owners
 
 test('hero is compact and uses the requested CTA copy', () => {
   assert.match(heroSource, /export function PricingHeroSection/);
-  assert.match(heroSource, /MaxVideoAI Pricing/);
+  assert.match(heroSource, /Keyvo Pricing/);
   assert.match(heroSource, /AI Video Pricing Comparison/);
   assert.match(heroSource, /eyebrow/);
   assert.match(heroSource, /Open app for live pricing before you generate/);
   assert.match(heroSource, /Compare prices below/);
   assert.match(heroSource, /No subscription/);
   assert.match(heroSource, /Guest preview/);
-  assert.match(heroSource, /Starter credits from \$10/);
+  assert.match(heroSource, /Starter credits from/);
+  assert.match(heroSource, /CUSTOMER_CURRENCY === 'CNY' \? '¥80' : '\$10'/);
   assert.match(heroSource, /min-h-\[260px\]|min-h-\[300px\]|min-h-\[320px\]|min-h-\[340px\]/);
   assert.doesNotMatch(heroSource, /min-h-\[520px\]/);
   assert.doesNotMatch(heroSource, /MarketingHeroImage/);
@@ -221,8 +222,8 @@ test('video matrix renders exact scenario columns and compact links', () => {
   assert.match(videoMatrixSource, /EngineIcon/);
   assert.match(hubCopySource, /AI video prices by engine/);
   assert.match(hubCopySource, /Prix vidéo IA par moteur/);
-  assert.match(hubCopySource, /Compare preset MaxVideoAI total prices/);
-  assert.match(hubCopySource, /Comparez les prix totaux MaxVideoAI/);
+  assert.match(hubCopySource, /Compare preset Keyvo total prices/);
+  assert.match(hubCopySource, /Comparez les prix totaux Keyvo/);
   assert.match(hubCopySource, /Compare by scenario/);
   assert.match(hubCopySource, /Comparer par scénario/);
   assert.match(hubCopySource, /Recommended video engines/);
@@ -257,8 +258,8 @@ test('video matrix renders exact scenario columns and compact links', () => {
   assert.match(hubCopySource, /Plus/);
   assert.match(hubCopySource, /Cheapest 4K output/);
   assert.match(hubCopySource, /Dedicated 4K engine/);
-  assert.match(hubCopySource, /Prices are current MaxVideoAI display prices for preset scenarios/);
-  assert.match(hubCopySource, /Les prix sont les prix affichés MaxVideoAI/);
+  assert.match(hubCopySource, /Prices are current Keyvo display prices for preset scenarios/);
+  assert.match(hubCopySource, /Les prix sont les prix affichés Keyvo/);
   assert.doesNotMatch(videoMatrixSource, /engineName\.slice/);
   assert.doesNotMatch(videoMatrixSource, /from \$/i);
   assert.doesNotMatch(videoMatrixSource, /per output second/);
@@ -352,7 +353,7 @@ test('pricing metadata and FAQ target comparison intent first', () => {
 
   assert.equal(
     pricing?.meta?.title,
-    'AI Video Pricing: Compare Models | MaxVideoAI'
+    'AI Video Pricing: Compare Models | Keyvo'
   );
   assert.equal(
     pricing?.meta?.description,

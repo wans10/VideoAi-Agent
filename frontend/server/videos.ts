@@ -2,7 +2,8 @@ import { listCatalogPage } from './videos-catalog-page';
 import { createCurationReadScope, listPlaylistVideosWithOptions, listCuratedGalleryVideos, type CurationReadScope } from './videos-playlists';
 import { BASE_SELECT, BASE_SELECT_WITH_SETTINGS, PUBLIC_VIDEO_SOURCE_ELIGIBILITY } from './videos-query';
 import { getLocalPublicExample, isLocalPublicExamplesEnabled, listLocalPublicExamples } from './local-public-examples';
-import { query } from '@/lib/db';
+import { isDatabaseConfigured, query } from '@/lib/db';
+import { getBundledPublicExample, listBundledPublicExamples } from './bundled-public-examples';
 import { getDiscoverableExampleEngineAliases } from '@/lib/examples/discovery';
 import { getExampleFamilyEngineAliases } from '@/lib/model-families';
 import { removeVideosFromIndexablePlaylists } from '@/server/indexing';
@@ -35,14 +36,22 @@ const PUBLIC_VIDEO_PREDICATE = `
 
 
 export async function getVideoById(videoId: string): Promise<GalleryVideo | null> {
-  const rows = await query<VideoRow>(
-    `${BASE_SELECT} WHERE job_id = $1 LIMIT 1`,
-    [videoId]
-  );
-  return rows[0] ? mapGalleryVideoRow(rows[0]) : null;
+  if (isDatabaseConfigured()) {
+    try {
+      const rows = await query<VideoRow>(
+        `${BASE_SELECT} WHERE job_id = $1 LIMIT 1`,
+        [videoId]
+      );
+      return rows[0] ? mapGalleryVideoRow(rows[0]) : null;
+    } catch {
+      // Fall through to bundled example
+    }
+  }
+  return getBundledPublicExample(videoId);
 }
 
 export async function getSeoVideoById(videoId: string): Promise<GalleryVideo | null> {
+  if (!isDatabaseConfigured()) return getBundledPublicExample(videoId);
   const rows = await query<VideoRow>(
     `${BASE_SELECT_WITH_SETTINGS} WHERE job_id = $1 AND ${PUBLIC_VIDEO_PREDICATE} AND ${PUBLIC_VIDEO_SOURCE_ELIGIBILITY} LIMIT 1`,
     [videoId]
@@ -55,14 +64,32 @@ export async function getVideosByIds(videoIds: string[]): Promise<Map<string, Ga
     return new Map();
   }
   const uniqueIds = Array.from(new Set(videoIds));
-  const rows = await query<VideoRow>(
-    `${BASE_SELECT} WHERE job_id = ANY($1::text[])`,
-    [uniqueIds]
-  );
-  return new Map(rows.map((row) => [row.job_id, mapGalleryVideoRow(row)]));
+  const result = new Map<string, GalleryVideo>();
+  if (isDatabaseConfigured()) {
+    try {
+      const rows = await query<VideoRow>(
+        `${BASE_SELECT} WHERE job_id = ANY($1::text[])`,
+        [uniqueIds]
+      );
+      for (const row of rows) {
+        result.set(row.job_id, mapGalleryVideoRow(row));
+      }
+      return result;
+    } catch {
+      // Fall through to bundled examples only when the database read failed.
+    }
+  }
+  for (const id of uniqueIds) {
+    if (!result.has(id)) {
+      const fallback = getBundledPublicExample(id);
+      if (fallback) result.set(id, fallback);
+    }
+  }
+  return result;
 }
 
 export async function getSeoVideosByIds(videoIds: string[]): Promise<Map<string, GalleryVideo>> {
+  if (!isDatabaseConfigured()) return new Map(videoIds.flatMap(id => { const video = getBundledPublicExample(id); return video ? [[id, video] as const] : []; }));
   if (!videoIds.length) {
     return new Map();
   }
@@ -81,16 +108,21 @@ export async function getPublicVideosByIds(videoIds: string[]): Promise<Map<stri
       return video ? [[id, video] as const] : [];
     }));
   }
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return new Map();
   if (!videoIds.length) {
     return new Map();
   }
+  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) {
+    return new Map(videoIds.flatMap(id => {
+      const video = getBundledPublicExample(id);
+      return video ? [[id, video] as const] : [];
+    }));
+  }
   const uniqueIds = Array.from(new Set(videoIds));
   const rows = await query<VideoRow>(
-    `${BASE_SELECT} WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE}`,
+    `${BASE_SELECT} WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE} AND ${PUBLIC_VIDEO_SOURCE_ELIGIBILITY}`,
     [uniqueIds]
   );
-  return new Map(rows.map((row) => [row.job_id, mapGalleryVideoRow(row)]));
+  return new Map(rows.map(row => [row.job_id, mapGalleryVideoRow(row)]));
 }
 
 export async function listPublicVideoPagesForSeoAudit(limit = 1000): Promise<GalleryVideo[]> {
@@ -139,7 +171,6 @@ export async function getLatestPublicVideoByPromptAndEngine(
 }
 
 export async function listPlaylistVideos(slug: string, limit: number, curationScope?: CurationReadScope): Promise<GalleryVideo[]> {
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return [];
   return listPlaylistVideosWithOptions({ slug, limit }, curationScope);
 }
 
@@ -255,7 +286,7 @@ export async function listExampleFamilyPage(
 ): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0 } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset);
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return { items: [], total: 0, limit, offset, hasMore: false };
+  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset);
   if (!curationScope) return listCatalogPage({ familyId, sort, limit, offset });
   const readScope = curationScope ?? createCurationReadScope();
   const merged = await loadExampleFamilyFeed(familyId, { includeFamilyPlaylist: true }, readScope);
@@ -266,12 +297,12 @@ export async function listExampleFamilyPage(
 export async function listExamplesPage(options: ListExamplesPageOptions, curationScope?: CurationReadScope): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0, engineGroup } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(engineGroup ?? '', sort, limit, offset);
-  if (shouldSkipBuildTimeMarketingVideoQueries()) return { items: [], total: 0, limit, offset, hasMore: false };
+  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
   if (!curationScope) return listCatalogPage({ sort, limit, offset,
     engineAliases: engineGroup ? getExampleFamilyEngineAliases(engineGroup.trim().toLowerCase()) : undefined });
   const hubSlug = getExamplesHubPlaylistSlug();
   if (!hubSlug) {
-    return { items: [], total: 0, limit, offset, hasMore: false };
+    return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
   }
 
   const readScope = curationScope ?? createCurationReadScope();
@@ -290,9 +321,6 @@ export async function listExamplesPage(options: ListExamplesPageOptions, curatio
     return [] as GalleryVideo[];
   });
 
-  if (!aggregated.length) {
-    return { items: [], total: 0, limit, offset, hasMore: false };
-  }
 
   const candidates = normalizedGroup
     ? aggregated.filter((video) => resolveExampleGroupId(video.engineId) === normalizedGroup)

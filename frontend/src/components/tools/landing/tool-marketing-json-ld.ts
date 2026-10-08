@@ -33,13 +33,13 @@ export function buildToolBreadcrumbJsonLd({
         '@type': 'ListItem',
         position: 1,
         name: breadcrumb.home,
-        item: `https://maxvideoai.com${localizePathFromEnglish(locale, '/')}`,
+        item: `https://app.keyvo.cn${localizePathFromEnglish(locale, '/')}`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: breadcrumb.tools,
-        item: `https://maxvideoai.com${localizePathFromEnglish(locale, '/tools')}`,
+        item: `https://app.keyvo.cn${localizePathFromEnglish(locale, '/tools')}`,
       },
       {
         '@type': 'ListItem',

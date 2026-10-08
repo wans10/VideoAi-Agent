@@ -55,7 +55,7 @@ async function load(fixture: Fixture) {
     if (normalized.startsWith('SELECT GREATEST')) return [{ balance_cents: fixture.walletCents }];
     if (normalized.startsWith('INSERT INTO app_receipts')) {
       const type = normalized.includes("'refund'") ? 'refund' : 'charge';
-      const exportId = type === 'refund' ? values[2] : values[3];
+      const exportId = type === 'refund' ? values[3] : values[3];
       fixture.receipts.push({ userId: values[0], type, amountCents: values[1], exportId });
       fixture.events.push(type);
       return [];

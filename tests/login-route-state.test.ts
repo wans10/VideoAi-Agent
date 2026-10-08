@@ -14,11 +14,11 @@ test('login mode accepts only the supported scalar query values', () => {
   assert.equal(resolveInitialAuthMode(['signin', 'signup']), 'signin');
 });
 
-test('login locale accepts the first supported cookie value', () => {
-  assert.equal(resolveInitialAuthLocale('fr', 'en'), 'fr');
-  assert.equal(resolveInitialAuthLocale('de', 'es'), 'es');
-  assert.equal(resolveInitialAuthLocale(undefined, 'EN'), 'en');
-  assert.equal(resolveInitialAuthLocale('pt', undefined), 'en');
+test('login locale ignores disabled languages stored in old cookies', () => {
+  assert.equal(resolveInitialAuthLocale('fr', 'en'), 'zh');
+  assert.equal(resolveInitialAuthLocale('de', 'es'), 'zh');
+  assert.equal(resolveInitialAuthLocale(undefined, 'EN'), 'zh');
+  assert.equal(resolveInitialAuthLocale('pt', undefined), 'zh');
 });
 
 test('legacy MCP consent links open sign-in while explicit auth choices remain available', () => {

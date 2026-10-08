@@ -104,7 +104,13 @@ export const GROK_IMAGINE_VIDEO_1_5_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     { mode: 'ref2v', falModelId: GROK_IMAGINE_VIDEO_1_5_ENDPOINTS.ref2v, ui: engine.modeCaps!.ref2v! },
   ],
   defaultFalModelId: GROK_IMAGINE_VIDEO_1_5_ENDPOINTS.t2v,
-  seo: { title: 'Grok Imagine Video 1.5 | MaxVideoAI', description: 'Generate Grok Imagine Video 1.5 clips from text, an image, or up to seven image references.', canonicalPath: '/models/grok-imagine-video-1-5' },
+  seo: { title: 'Grok Imagine Video 1.5 | Keyvo', description: 'Generate Grok Imagine Video 1.5 clips from text, an image, or up to seven image references.', canonicalPath: '/models/grok-imagine-video-1-5' },
+  demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/8357a0bc-65ef-4573-8a3d-4cba08df6ee9.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/8357a0bc-65ef-4573-8a3d-4cba08df6ee9.mp4',
+    imagePath: 'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/71120025-f773-455b-b9d5-7ea7378ff24f.jpg',
+    altText: 'Grok Imagine Video 1.5 demo video',
+  },
   prompts: [
     { title: 'Cinematic prompt', prompt: 'A cinematic night drive through a rain-soaked city, realistic reflections and natural sound.', mode: 't2v' },
     { title: 'Animate an image', prompt: 'Bring the uploaded frame to life with subtle subject motion and a smooth camera push.', mode: 'i2v' },

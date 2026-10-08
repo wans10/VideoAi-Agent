@@ -19,20 +19,18 @@ test('hreflang variants use Google-supported language and region codes', () => {
   }
 });
 
-test('Spanish hreflang uses a supported generic language code', () => {
-  const spanishVariant = HREFLANG_VARIANTS.find((variant) => variant.locale === 'es');
-  assert.ok(spanishVariant, 'Missing Spanish hreflang variant');
-  assert.equal(spanishVariant.hreflang, 'es');
+test('only the authored published Chinese locale is advertised', () => {
+  assert.deepEqual(HREFLANG_VARIANTS, [{ hreflang: 'zh', locale: 'zh' }]);
 });
 
 test('Seedance 2.5 and 2.0 expose reciprocal EN, FR, ES, and x-default model routes', () => {
   for (const slug of ['seedance-2-5', 'seedance-2-0'] as const) {
     const expectedUrls = {
-      en: `https://maxvideoai.com/models/${slug}`,
-      fr: `https://maxvideoai.com/fr/modeles/${slug}`,
-      es: `https://maxvideoai.com/es/modelos/${slug}`,
+      en: `https://app.keyvo.cn/models/${slug}`,
+      fr: `https://app.keyvo.cn/fr/modeles/${slug}`,
+      es: `https://app.keyvo.cn/es/modelos/${slug}`,
     };
-    const expectedLanguages = { ...expectedUrls, 'x-default': expectedUrls.en };
+    const expectedLanguages = { 'x-default': `https://app.keyvo.cn/zh/models/${slug}` };
 
     for (const locale of ['en', 'fr', 'es'] as const) {
       const metadataUrls = buildMetadataUrls(locale, buildDetailSlugMap(slug), {

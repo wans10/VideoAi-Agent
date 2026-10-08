@@ -1,28 +1,110 @@
 {
-  "models": { "en": "models", "fr": "modeles", "es": "modelos" },
-  "pricing": { "en": "pricing", "fr": "tarifs", "es": "precios" },
+  "models": {
+    "en": "models",
+    "fr": "modeles",
+    "es": "modelos",
+    "zh": "models"
+  },
+  "pricing": {
+    "en": "pricing",
+    "fr": "tarifs",
+    "es": "precios",
+    "zh": "pricing"
+  },
   "payAsYouGoVideo": {
     "en": "pay-as-you-go-ai-video-generator",
     "fr": "pay-as-you-go-ai-video-generator",
-    "es": "pay-as-you-go-ai-video-generator"
+    "es": "pay-as-you-go-ai-video-generator",
+    "zh": "pay-as-you-go-ai-video-generator"
   },
-  "tools": { "en": "tools", "fr": "outils", "es": "herramientas" },
-  "gallery": { "en": "examples", "fr": "galerie", "es": "galeria" },
-  "compare": { "en": "ai-video-engines", "fr": "comparatif", "es": "comparativa" },
-  "blog": { "en": "blog", "fr": "blog", "es": "blog" },
-  "workflows": { "en": "workflows", "fr": "workflows", "es": "workflows" },
-  "company": { "en": "company", "fr": "entreprise", "es": "empresa" },
-  "about": { "en": "about", "fr": "a-propos", "es": "acerca-de" },
+  "tools": {
+    "en": "tools",
+    "fr": "outils",
+    "es": "herramientas",
+    "zh": "tools"
+  },
+  "gallery": {
+    "en": "examples",
+    "fr": "galerie",
+    "es": "galeria",
+    "zh": "examples"
+  },
+  "compare": {
+    "en": "ai-video-engines",
+    "fr": "comparatif",
+    "es": "comparativa",
+    "zh": "ai-video-engines"
+  },
+  "blog": {
+    "en": "blog",
+    "fr": "blog",
+    "es": "blog",
+    "zh": "blog"
+  },
+  "workflows": {
+    "en": "workflows",
+    "fr": "workflows",
+    "es": "workflows",
+    "zh": "workflows"
+  },
+  "company": {
+    "en": "company",
+    "fr": "entreprise",
+    "es": "empresa",
+    "zh": "company"
+  },
+  "about": {
+    "en": "about",
+    "fr": "a-propos",
+    "es": "acerca-de",
+    "zh": "about"
+  },
   "editorialStandards": {
     "en": "editorial-standards",
     "fr": "normes-editoriales",
-    "es": "estandares-editoriales"
+    "es": "estandares-editoriales",
+    "zh": "editorial-standards"
   },
-  "contact": { "en": "contact", "fr": "contact", "es": "contact" },
-  "status": { "en": "status", "fr": "statut", "es": "estado" },
-  "changelog": { "en": "changelog", "fr": "changelog", "es": "changelog" },
-  "docs": { "en": "docs", "fr": "docs", "es": "docs" },
-  "studio": { "en": "studio", "fr": "studio", "es": "studio" },
-  "mcp": { "en": "mcp", "fr": "mcp", "es": "mcp" },
-  "integrations": { "en": "integrations", "fr": "integrations", "es": "integraciones" }
+  "contact": {
+    "en": "contact",
+    "fr": "contact",
+    "es": "contact",
+    "zh": "contact"
+  },
+  "status": {
+    "en": "status",
+    "fr": "statut",
+    "es": "estado",
+    "zh": "status"
+  },
+  "changelog": {
+    "en": "changelog",
+    "fr": "changelog",
+    "es": "changelog",
+    "zh": "changelog"
+  },
+  "docs": {
+    "en": "docs",
+    "fr": "docs",
+    "es": "docs",
+    "zh": "docs"
+  },
+  "studio": {
+    "en": "studio",
+    "fr": "studio",
+    "es": "studio",
+    "zh": "studio"
+  },
+  "mcp": {
+    "en": "mcp",
+    "fr": "mcp",
+    "es": "mcp",
+    "zh": "mcp"
+  },
+  "integrations": {
+    "en": "integrations",
+    "fr": "integrations",
+    "es": "integraciones",
+    "zh": "integrations"
+  }
 }

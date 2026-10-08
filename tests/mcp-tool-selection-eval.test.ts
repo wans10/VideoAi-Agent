@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -541,8 +541,8 @@ test('public fixture corpus covers every approved intent with strict labels and 
   ]);
   assert.ok(byId.get('expired-quote-reprepare')?.prohibitedTools.includes('confirm_generation'));
   assert.deepEqual(mcpPublication, {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,
@@ -1094,7 +1094,7 @@ test('fixture-contract fingerprint and mandatory policy coverage reject disappea
   });
 });
 
-test('read-only MCP baseline observes five discovery tools while production publication remains active', async () => {
+test('read-only MCP baseline preserves discovery tools while reporting publication as hidden', async () => {
   const evidence = await inspectLiveMcpMetadata();
   assert.deepEqual(evidence.liveTools, [
     'get_account_status',
@@ -1105,7 +1105,7 @@ test('read-only MCP baseline observes five discovery tools while production publ
   ]);
   assert.equal(evidence.resourcesAdvertised, false);
   assert.equal(evidence.generationAvailable, false);
-  assert.equal(evidence.productionPublicationActive, true);
+  assert.equal(evidence.productionPublicationActive, false);
   assert.match(evidence.instructions, /generation is not available/i);
 });
 
@@ -1123,8 +1123,9 @@ test('offline package command is deterministic, complete, and never claims real 
     'frontend/tsconfig.scripts.json',
     'frontend/scripts/qa/mcp-tool-selection-eval.ts',
   ];
-  const first = execFileSync('./frontend/node_modules/.bin/tsx', command, { encoding: 'utf8' });
-  const second = execFileSync('./frontend/node_modules/.bin/tsx', command, { encoding: 'utf8' });
+  const tsxBin = existsSync('./frontend/node_modules/.bin/tsx') ? './frontend/node_modules/.bin/tsx' : './node_modules/.bin/tsx';
+  const first = execFileSync(tsxBin, command, { encoding: 'utf8' });
+  const second = execFileSync(tsxBin, command, { encoding: 'utf8' });
   assert.equal(first, second);
   const report = JSON.parse(first) as {
     executionMode: string;

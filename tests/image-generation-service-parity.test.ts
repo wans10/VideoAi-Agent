@@ -5,6 +5,7 @@ import test from 'node:test';
 
 const root = process.cwd();
 const servicePath = join(root, 'frontend/src/server/images/execute-image-generation.ts');
+const providerRoutingPath = join(root, 'frontend/src/server/images/image-provider-routing.ts');
 const initialPath = join(root, 'frontend/src/server/images/image-initial-job.ts');
 const routePath = join(root, 'frontend/app/api/images/generate/route.ts');
 const characterPath = join(root, 'frontend/src/server/tools/character-builder/runner.ts');
@@ -35,10 +36,13 @@ test('image web and internal callers use an internal-only wallet reservation con
 
 test('image provider submission remains after initial job reservation and keeps parity hooks', () => {
   const service = readFileSync(servicePath, 'utf8');
+  const providerRouting = readFileSync(providerRoutingPath, 'utf8');
   const reservation = service.indexOf('await createAtomicInitialImageJob');
   const directProvider = service.indexOf('await executeDirectImageProviderIfAvailable');
-  const falProvider = service.indexOf('await executeImageProviderWithLumaAgentsDirectFallback');
-  assert.ok(reservation >= 0 && directProvider > reservation && falProvider > reservation);
+  const routedProvider = service.indexOf('await executeConfiguredImageProvider');
+  assert.ok(reservation >= 0 && directProvider > reservation && routedProvider > reservation);
+  assert.match(providerRouting, /runLlmhubFlareGeneration/);
+  assert.match(providerRouting, /executeImageProviderWithLumaAgentsDirectFallback/);
   assert.match(service, /buildResponseFromExistingJob/);
   assert.match(service, /persistCompletedImageGeneration/);
   assert.match(service, /persistFailedImageGeneration/);

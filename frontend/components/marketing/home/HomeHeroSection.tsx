@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { ButtonLink } from '@/components/ui/Button';
 import { HomeHeroSecondaryLinks } from './HomeHeroSecondaryLinks';
@@ -69,7 +68,7 @@ function buildHeroVideoItems(copy: HomeHeroContent['mockup'], previews: HomeExam
       videoSrc: fallbackMedia.videoSrc ?? preview?.videoSrc ?? null,
       duration: fallbackMedia.duration,
       resolution: fallbackMedia.resolution,
-      imageAlt: engine.imageAlt ?? preview?.imageAlt ?? `${engineName} AI video preview in MaxVideoAI.`,
+      imageAlt: engine.imageAlt ?? preview?.imageAlt ?? `${engineName} AI video preview in Keyvo.`,
     };
   });
 }
@@ -92,7 +91,7 @@ function applyCuratedHeroMedia(item: HeroVideoShowcaseItem): HeroVideoShowcaseIt
     mediaInfo: [modeLabel, durationLabel, media.resolution].filter(Boolean).join(' · '),
     estimateValue: media.estimateValue ?? item.estimateValue,
     estimateMeta: media.estimateMeta ?? item.estimateMeta,
-    imageAlt: media.imageAlt ?? `${item.name} AI video preview in MaxVideoAI.`,
+    imageAlt: media.imageAlt ?? `${item.name} AI video preview in Keyvo.`,
   };
 }
 
@@ -106,12 +105,14 @@ function applyHomeLcpPoster(item: HeroVideoShowcaseItem): HeroVideoShowcaseItem 
 
 export function HomeHero({
   copy,
+  proofStats = [],
   previews,
   programmedHeroItems = [],
   currentHeroPrices,
   locale = 'en',
 }: {
   copy: HomeHeroContent;
+  proofStats?: Array<{ id: string; value: string; label: string }>;
   previews: HomeExampleCard[];
   programmedHeroItems?: HeroVideoShowcaseItem[];
   currentHeroPrices?: ReadonlyMap<string, CurrentExamplePrice>;
@@ -162,11 +163,11 @@ export function HomeHero({
     return [applyHomeLcpPoster(currentItem)];
   });
   return (
-    <section className="home-hero-section cinema-opening">
+    <section className="home-hero-section cinema-opening videoai-home-opening">
       <div className="container-page cinema-opening-grid">
         <div className="cinema-opening-copy">
-          <p className="mb-5 text-xs uppercase tracking-micro text-text-muted">{copy.eyebrow}</p>
-          <h1>{copy.title}</h1>
+          <p className="videoai-kicker">{copy.eyebrow}</p>
+          <h1>{copy.title.split('\n').map((line, index) => <span key={`${index}-${line}`}>{line}</span>)}</h1>
           <p className="mt-5 text-base leading-7 text-text-secondary lg:text-lg">{copy.subtitle}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <ButtonLink href="/app" prefetch={false} linkComponent={Link} size="lg" data-analytics-event="hero_start_render_click" data-analytics-cta-name="start_render" data-analytics-cta-location="home_hero">{copy.primaryCta}<span aria-hidden>↗</span></ButtonLink>
@@ -174,6 +175,7 @@ export function HomeHero({
           </div>
         </div>
         <div className="cinema-opening-stage">
+          <div className="videoai-preview-caption"><span>{copy.mockup.outputLabel}</span><span aria-hidden="true">FRAME / 01</span></div>
           <HeroVideoShowcase items={videoItems}
             playLabel={copy.mockup.playLabel} pauseLabel={copy.mockup.pauseLabel}
             loadingLabel={copy.mockup.loadingLabel} errorLabel={copy.mockup.errorLabel} retryLabel={copy.mockup.retryLabel} fullscreenLabel={copy.mockup.fullscreenLabel}
@@ -183,18 +185,8 @@ export function HomeHero({
         <HomeHeroSecondaryLinks compareLabel={copy.examplesCta} trustBadges={copy.trustBadges ?? []} />
       </div>
       <div id="model-brands" className="container-page cinema-models">
-        <div className="cinema-model-marks">{[
-          ['kling-3-pro','Kling','/brand/partners/kling/kling-mark-light.png'],
-          ['seedance-2-5','Seedance','/brand/partners/bytedance/bytedance-mark-light.svg'],
-          ['minimax-h3-max','MiniMax','/brand/partners/minimax/minimax-mark-light.svg'],
-          ['wan-3-prime','Wan','/brand/partners/wan/wan-mark-light.png'],
-          ['ltx-2-5-pro','LTX','/brand/partners/lightricks/lightricks-mark-light.png'],
-          ['veo-3-1','Veo','/brand/partners/google/google-mark-light.svg'],
-          ['happy-horse-1-1','Happy Horse','/brand/partners/alibaba/alibaba-icon.png'],
-          ['grok-imagine-video-1-5','Grok','/brand/partners/xai/grok-app-icon.png'],
-          ['luma-ray-3-2','Luma','/brand/partners/luma/luma-mark-light.png'],
-          ['pika-text-to-video','Pika','/brand/partners/pika/pika-mark-light.png'],
-        ].map(([slug,label,src])=><Link key={slug} href={{pathname:'/models/[slug]',params:{slug}}} prefetch={false}><Image src={src} alt="" aria-hidden="true" width={30} height={24}/><span>{label}</span></Link>)}</div>
+        <div className="videoai-proof-strip">{proofStats.slice(0, 3).map((stat) => <div key={stat.id}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div>
+
       </div>
     </section>
   );

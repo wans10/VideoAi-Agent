@@ -191,5 +191,69 @@
       ]
     },
     "decisionSummary": "Esta página compara LTX 2.3 Fast con Seedance 2.0. Parte de LTX para planos de texto/imagen, o de Seedance para varias referencias, edición de vídeo o extensión."
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Fast 对比 Seedance 2.0：价格还是控制？",
+      "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 Seedance 2.0 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 LTX 2.3 Fast 和 Seedance 2.0，选择价格档位明确的高分辨率生成或更广泛的制作工具。两者都支持 4K 和音频，Seedance 另有参考素材、视频编辑、延长、动态控制与更多宽高比。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "价格透明的高分辨率生成选择 LTX 2.3 Fast，但超过 10 秒要求 1080p、25 fps。参考素材、编辑、延长、动态控制或更多画幅选择 Seedance 2.0；其按 token 动态计价，因此不存在始终更便宜的一方。"
+    },
+    "topCards": [
+      {
+        "title": "明确价格档位选择 LTX",
+        "body": "LTX 2.3 Fast 提供按分辨率划分的 1080p、1440p、4K 文本 / 图像生成档位，含音频，支持 16:9 或 9:16。"
+      },
+      {
+        "title": "制作控制选择 Seedance",
+        "body": "Seedance 2.0 支持参考素材、源视频编辑、延长、动态控制、音频、多种画幅及 480p 至 4K 输出。"
+      },
+      {
+        "title": "按具体任务比较价格",
+        "body": "Seedance 按 token 动态计价，LTX 列出固定分辨率档位；输入和输出选项不同，不存在始终更便宜的一方。"
+      },
+      {
+        "title": "适用高分辨率工作流",
+        "body": "直接高分辨率文本 / 图像生成使用 LTX；参考素材、源视频编辑、延长或动态控制决定任务时，使用 Seedance。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "查看 LTX 2.3 Fast 详情"
+      },
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-pro-vs-seedance-2-0",
+        "label": "对比 LTX 2.3 Pro 对比 Seedance 2.0"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解 LTX 的价格档位与 Seedance 的制作控制。",
+      "items": [
+        {
+          "question": "LTX 2.3 Fast 总比 Seedance 2.0 便宜吗？",
+          "answer": "没有固定答案。LTX 有明确的分辨率价格档位；Seedance 根据选定任务按 token 动态报价。"
+        },
+        {
+          "question": "哪款更适合参考素材密集的视频制作？",
+          "answer": "Seedance 2.0 支持参考输入、视频编辑、延长和动态控制，更适合此类需求；LTX Fast 侧重文本 / 图像生成。"
+        },
+        {
+          "question": "LTX 2.3 Fast 长视频有什么限制？",
+          "answer": "超过 10 秒必须使用 1080p、25 fps；其他分辨率和帧率仅适用于 10 秒及以内。"
+        }
+      ]
+    },
+    "decisionSummary": "需要 LTX 工作流和精细控制时查看 LTX 2.3 Fast；多素材引导和 Seedance 功能需求请查看 Seedance 2.0，并在生成前确认当前报价。"
   }
 }

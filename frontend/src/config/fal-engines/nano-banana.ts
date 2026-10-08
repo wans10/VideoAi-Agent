@@ -92,7 +92,7 @@ const NANO_BANANA_ENGINE: EngineCaps = {
   updatedAt: '2025-03-01T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'google_vertex_image',
+    provider: 'llmhub',
     modelSlug: 'gemini-2.5-flash-image',
   },
   availability: 'available',
@@ -115,7 +115,7 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: [
       {
         mode: 't2i',
-        falModelId: 'fal-ai/nano-banana',
+        falModelId: 'gemini-2.5-flash-image',
         ui: {
           modes: ['t2i'],
           aspectRatio: ['9:16', '16:9', '1:1', '4:5', '5:4', '4:3', '3:4', '3:2', '2:3', '21:9'],
@@ -124,7 +124,7 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         mode: 'i2i',
-        falModelId: 'fal-ai/nano-banana/edit',
+        falModelId: 'gemini-2.5-flash-image',
         ui: {
           modes: ['i2i'],
           aspectRatio: ['auto', '9:16', '16:9', '1:1', '4:5', '5:4', '4:3', '3:4', '3:2', '2:3', '21:9'],
@@ -134,16 +134,16 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
         },
       },
     ],
-    defaultFalModelId: 'fal-ai/nano-banana',
+    defaultFalModelId: 'gemini-2.5-flash-image',
     seo: {
-      title: 'Nano Banana – Google Text-to-Image on MaxVideoAI',
+      title: 'Nano Banana – Google Text-to-Image on Keyvo',
       description:
-        'Generate photoreal stills or remix reference shots with Nano Banana, the Google-powered image model available with MaxVideoAI credits.',
+        'Generate photoreal stills or remix reference shots with Nano Banana, the Google-powered image model available with Keyvo credits.',
       canonicalPath: '/models/nano-banana',
     },
     type: 'image',
     seoText:
-      'Bring your existing MaxVideoAI workflow to still imagery. Nano Banana covers both text-to-image runs and prompt-driven edits from the same prompt lab, wallet, and logging stack.',
+      'Bring your existing Keyvo workflow to still imagery. Nano Banana covers both text-to-image runs and prompt-driven edits from the same prompt lab, wallet, and logging stack.',
     media: {
       videoUrl: '',
       imagePath: 'https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png',
@@ -174,7 +174,7 @@ export const NANO_BANANA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   {
     question: 'How does pricing work for Nano Banana?',
     answer:
-      'Each image costs $0.039 from your MaxVideoAI wallet. Running 4 outputs in a batch equals $0.156, so you always know the spend up front.',
+      'Each image costs $0.039 from your Keyvo wallet. Running 4 outputs in a batch equals $0.156, so you always know the spend up front.',
   },
 ],
 pricingHint: {

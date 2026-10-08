@@ -1,3 +1,4 @@
+import { I18nProvider } from '../frontend/lib/i18n/I18nProvider';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as React from 'react';
@@ -10,7 +11,7 @@ const noop = () => {};
 
 function renderLogin(locale: keyof typeof AUTH_COPY, staging = false, mode: 'signin' | 'signup' | 'reset' = 'signin') {
   const authCopy = AUTH_COPY[locale];
-  return renderToStaticMarkup(React.createElement(LoginAuthSurface, {
+  return renderToStaticMarkup(React.createElement(I18nProvider, { locale: locale, dictionary: {}, fallback: {}, children: React.createElement(LoginAuthSurface, {
     authCopy, mode, effectiveMode: mode === 'signup' ? 'signup' : 'signin',
     continuation: { kind: 'mcp', ...authCopy.continuation.mcp }, isMcpStaging: staging,
     email: '', password: '', confirm: '', status: null, statusTone: 'info', error: null,
@@ -22,7 +23,7 @@ function renderLogin(locale: keyof typeof AUTH_COPY, staging = false, mode: 'sig
     onConfirmChange: noop, onSyncInputState: noop, onAcceptTermsChange: noop,
     onAgeConfirmedChange: noop, onMarketingOptInChange: noop, onAcceptSignupSuggestion: noop,
     onClearSignupSuggestion: noop,
-  }));
+  }) }));
 }
 
 test('MCP sign-in shows account connection from the first render without a duplicate continuation card', () => {

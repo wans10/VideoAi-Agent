@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { query } from '@/lib/db';
+import { isDatabaseConfigured, query } from '@/lib/db';
 import { isStablePublicMediaUrl } from '@/lib/media';
 
 type VideoShareSourceType = 'job_output' | 'media_asset' | 'user_asset' | 'job';
@@ -131,6 +131,7 @@ async function readCurrentVideoSource(link: VideoShareRow, dbQuery: QueryFn): Pr
 
 export async function getSharedVideo(token: string, dbQuery: QueryFn = query): Promise<{ url: string; thumbUrl: string | null } | null> {
   if (!/^[a-zA-Z0-9_-]{32}$/.test(token)) return null;
+  if (dbQuery === query && !isDatabaseConfigured()) return null;
   const link = first(await dbQuery<VideoShareRow>(
     `SELECT token, user_id, source_type, source_id FROM video_share_links
       WHERE token = $1 AND revoked_at IS NULL LIMIT 1`,

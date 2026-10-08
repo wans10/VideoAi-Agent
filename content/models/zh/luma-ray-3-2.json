@@ -1,0 +1,515 @@
+{
+  "marketingName": "Luma Ray 3.2",
+  "versionLabel": "Ray 3.2",
+  "seo": {
+    "title": "Luma Ray 3.2 视频 Modify 修改、Reframe 重构、价格与案例 | VideoAI",
+    "description": "在 VideoAI 中使用 Luma Ray 3.2 进行源视频 Modify 修改、AI 视频 Reframe 画幅重构、关键帧与引导帧控制、5秒/10秒无声视频生成，获取提示词、案例展示与实时价格。",
+    "image": "/hero/luma-dream.jpg"
+  },
+  "overview": "Luma Ray 3.2 在 VideoAI 中定位为以编辑为核心的 Luma 视频路线：修改现有源视频片段、利用引导帧或关键帧精准把控特定时刻，并将已确认的成片 Reframe 重构为新画幅比例。文生视频与图生视频依然可用，适合进行短小灵活的 Luma 动态测试；Ray 3.2 本身不生成原生音频或对口型。",
+  "pricingNotes": "所有 Ray 3.2 路线（包括 Modify 和 Reframe）在 VideoAI 中的客户报价均严格对齐 Fal 参考价格加上配置的利润率。底层路由调度不会改变生成前向客户展示的结算价格。",
+  "hero": {
+    "title": "Luma Ray 3.2 — 面向现代 Luma 视频的 Modify 修改与 Reframe 画幅重构",
+    "intro": "当源视频节奏与运镜已符合预期时，利用 Ray 3.2 Modify 改变画面质感或受指引的特定时刻，或使用 Reframe 生成竖屏、方形、横屏与超宽画幅的交付成片。纯提示词与起始静图生成依然可用，适合用于快速的短小时长无声动态测试。",
+    "badge": "视频 Modify 修改 + Reframe 画幅重构 · 引导帧/关键帧控制 · 无声输出",
+    "ctaPrimary": {
+      "label": "使用 Luma Ray 3.2 生成",
+      "href": "/app?engine=luma-ray-3-2"
+    },
+    "secondaryLinks": [
+      {
+        "label": "浏览 Luma 案例",
+        "href": "/zh/examples/luma"
+      },
+      {
+        "label": "查看 Ray 3.2 价格",
+        "href": "/zh/pricing#luma-ray-3-2-pricing"
+      },
+      {
+        "label": "提示词示例",
+        "href": "#prompting"
+      }
+    ]
+  },
+  "bestUseCases": {
+    "title": "最佳应用场景",
+    "items": [
+      {
+        "title": "源视频画面视觉修改 (Modify)",
+        "icon": "storyboard"
+      },
+      {
+        "title": "竖屏、方形、横屏或超宽 Reframe 画幅裁剪与外绘",
+        "icon": "repeat2"
+      },
+      {
+        "title": "基于引导帧与关键帧定向指引的编辑润色",
+        "icon": "imageToVideo"
+      },
+      {
+        "title": "基于文本或静图的短小时长 Luma 无声动态测试",
+        "icon": "camera"
+      },
+      {
+        "title": "针对精选编辑候选片段的 1080p 终审质检",
+        "icon": "sparkles"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术概览",
+  "technicalOverview": [
+    {
+      "label": "工作流",
+      "body": "源视频 Modify 修改、Reframe 画幅重构、文生视频与图生视频"
+    },
+    {
+      "label": "生成时长",
+      "body": "全新生成支持 5 秒或 10 秒；Modify/Reframe 支持上传至配置上限的源视频片段"
+    },
+    {
+      "label": "分辨率",
+      "body": "540p、720p 或 1080p"
+    },
+    {
+      "label": "画幅比例",
+      "body": "支持当前开放路线提供的常用横屏、方形、竖屏及超宽比例"
+    },
+    {
+      "label": "指引控制",
+      "body": "图生视频支持一张起始图片；Modify 支持可选引导帧或最多 64 个索引关键帧"
+    },
+    {
+      "label": "源视频",
+      "body": "Modify 与 Reframe 支持单个 MP4、MOV 或 WebM 格式的源视频片段"
+    },
+    {
+      "label": "计费方式",
+      "body": "全新生成、Modify 与 Reframe 均采用相同的 Fal 参考报价加 VideoAI 利润率结算逻辑"
+    }
+  ],
+  "promptStructure": {
+    "title": "提示词编写指南",
+    "quote": "源视频目标 + 保留内容 + 变更内容 + 引导时刻或目标画布 + 时长/分辨率（如适用）。",
+    "description": "当工作流模式明确时，Ray 3.2 的表现最为出色。对于 Modify，在描述视觉变化之前先指明源视频中需要保留的内容；对于 Reframe，指明优先主体以及新画幅画布的填充方式。",
+    "steps": [
+      "当已有经确认的源视频片段时，优先从 Modify 或 Reframe 开始。",
+      "明确列出源视频中必须保留的要素：节奏时序、运镜轨迹、主体动作或产品比例。",
+      "随后描述视觉变更、引导时刻或交付目标画幅比例。",
+      "紧凑的编辑测试选择 5 秒，需要更舒缓的生成或渐变展示时选择 10 秒。",
+      "探索阶段使用 540p 或 720p，精选终审时使用 1080p。",
+      "仅在尚未准备好源视频片段时，才使用纯提示词或起始静图生成。",
+      "音频、旁白配音与音效设计请在 Ray 3.2 流程之外另行规划。"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "当源视频节奏时序已满足需求，仅需改变画面风格、主体细节或场景氛围时，使用 Modify。",
+      "当特定源视频时刻需要明确视觉指引时，使用引导帧或关键帧。",
+      "当已确认的母带需要适配新分发画幅而无需从头重构时，使用 Reframe。",
+      "生成提示词建议控制在 5 秒或 10 秒时长，以及 540p 至 1080p 分辨率范围内。",
+      "当产品形态、身份一致性或首帧构图至关重要但尚无源视频时，使用起始图片。",
+      "将 Ray 3.2 视为无声视频输出引擎，音频与音效后续单独添加。",
+      "提交生成前，请在应用中仔细确认显示的精确价格。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "Modify 源视频修改",
+      "prompt": "保留源视频的原始运镜与节奏时序，将场景改为明亮的编辑展厅风格，保留产品比例与主体动作，5秒，720p。"
+    },
+    {
+      "title": "关键帧定向编辑",
+      "prompt": "保留源视频片段中的步行节奏与摄影机推轨运镜。在标记的关键帧处，将夹克从黑色尼龙材质变为奶白色技术面料，同时保持面部、双手与背景动态稳定不变。"
+    },
+    {
+      "title": "Reframe 画幅重构交付",
+      "prompt": "将源视频冲浪片段 Reframe 重构为 9:16 竖屏，保持骑手居中，自然延伸海浪与天空，保留原始动作节奏时序。"
+    },
+    {
+      "title": "辅助动态生成测试",
+      "prompt": "短小无声产品动态测试：镜头缓慢推入放置于深色石台上的高端音箱，反光柔和可控，边缘轮廓光细腻，织物微微震动，5秒，16:9，720p。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Luma Ray 3.2 在 VideoAI 中支持哪些功能？",
+      "a": "该模型页面主要聚焦源视频 Modify 修改、Reframe 画幅重构、引导帧/关键帧编辑，同时支持在需要全新 Luma 无声视频片段时进行简短的文生视频与图生视频。"
+    },
+    {
+      "q": "什么时候 Ray 3.2 是最佳选择？",
+      "a": "当您手中已有现成可用的源视频，并需要调整视觉风格、指引特定时刻或生成新的交付画幅比例时，Ray 3.2 是最理想的选择。如果需要原生音轨、人物对白或对口型，请选用支持音频的生成引擎。"
+    },
+    {
+      "q": "页面是否开放了 HDR 或 EXR 选项？",
+      "a": "没有。公开营销文案严格保持在已受支持的生成设置范围内，高级选项需经产品审批通过后才会上线。"
+    },
+    {
+      "q": "价格是如何展示的？",
+      "a": "页面展示的示例基于包含利润率的 VideoAI 标准价格。生成前应用界面会显示确切的实时结算报价。"
+    },
+    {
+      "q": "Ray 3.2 是否支持生成音频？",
+      "a": "不支持。Ray 3.2 的渲染结果均为无声视频，旁白配音、音乐或音效设计需在后期另行添加。"
+    }
+  ],
+  "custom": {
+    "heroEyebrow": "Luma Ray 3.2 视频模型",
+    "heroSupportLine": "适用于源视频 Modify 修改、引导帧/关键帧精细控制以及成片画幅 Reframe 重构。",
+    "heroSpecChips": [
+      {
+        "label": "Modify 视频修改",
+        "icon": "storyboard"
+      },
+      {
+        "label": "Reframe 画幅重构",
+        "icon": "repeat2"
+      },
+      {
+        "label": "引导帧 / 关键帧",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "文生视频",
+        "icon": "textToVideo"
+      },
+      {
+        "label": "图生视频",
+        "icon": "imageToVideo"
+      },
+      {
+        "label": "5秒或10秒",
+        "icon": "duration"
+      },
+      {
+        "label": "540p / 720p / 1080p",
+        "icon": "resolution"
+      }
+    ],
+    "whyTitle": "为什么选择 Luma Ray 3.2",
+    "heroDesc1": "Ray 3.2 为团队提供了现代化的 Luma 路线，专注于源视频 Modify 修改与 Reframe 画幅重构，让已确认的镜头能够在不从头重搭场景的情况下快速完成风格演变或比例重构。",
+    "heroDesc2": "可用于局部编辑润色、关键帧定向视觉把控、多规格画幅分发版本制作、短小动态测试以及交付下游配音剪辑前的 1080p 终审。",
+    "heroHighlights": [
+      "以 Modify 为核心价值||当源视频节奏已完美契合、仅需改变视觉风格时，使用 Ray 3.2 能够最高效达成目标。",
+      "引导帧与关键帧精准把控||借助单张引导帧或索引关键帧，精准引导特定时刻的视觉演变。",
+      "Reframe 多规格交付||将已确认片段向外外绘拓展为全新的画幅比例。",
+      "专注无声输出||Ray 3.2 在 VideoAI 中为纯视频输出，音频部分可在下游流程单独规划。"
+    ],
+    "specTitle": "Ray 3.2 规格参数",
+    "specNote": "规格涵盖 VideoAI 中开放的 Ray 3.2 全新生成、Modify 修改与 Reframe 重构能力。",
+    "specSections": [
+      {
+        "title": "编辑与画幅重构能力",
+        "intro": "Ray 3.2 优先作为源视频 Modify 修改与 Reframe 重构路线开放，全新生成则作为辅助支持路线。",
+        "items": [
+          "Modify 支持针对源视频进行视觉风格与细节修改。",
+          "引导帧或索引关键帧支持定向把控 Modify 过程。",
+          "在提供商路线支持的前提下，最多可设置 64 个 Modify 关键帧针点。",
+          "Reframe 支持按多种交付比例重构画面。",
+          "文生视频支持纯提示词的无声动态测试。",
+          "图生视频支持以单张起始静图锚定镜头。",
+          "支持 5 秒和 10 秒两种时长。",
+          "支持 540p、720p 与 1080p 输出分辨率。"
+        ]
+      },
+      {
+        "title": "运行与调度须知",
+        "items": [
+          "VideoAI 确保 Ray 3.2 请求严格运行在受支持的配置下。",
+          "服务提供商容量在高峰期可能有所波动。",
+          "所有 Ray 3.2 公开模式均保持基于 Fal 参考价格加利润率的客户报价。",
+          "底层内部路由调度不会影响前端展示给客户的结算价格。"
+        ]
+      }
+    ],
+    "whatTitle": "如何使用 Ray 3.2",
+    "whatIntro1": "当您拥有源视频时，优先使用 Ray 3.2 Modify；当源视频已获确认但需要适配其他交付规格时，使用 Reframe。",
+    "whatIntro2": "当您需要全新的 Luma 无声动态备选镜头时，可使用纯提示词或起始静图生成作为辅助路径。",
+    "whatFlowTitle": "操作流程",
+    "whatFlowSteps": [
+      "选择 Luma Ray 3.2 作为生成引擎。",
+      "上传一段用于 Modify 或 Reframe 的源视频。",
+      "如使用 Modify，可在特定关键时刻添加引导帧或索引关键帧进行定向指引。",
+      "如使用 Reframe，选择目标画幅比例与核心主体优先级。",
+      "在支持的模式下将时长设置为 5 秒或 10 秒。",
+      "选择 540p、720p 或 1080p 分辨率。",
+      "仅在需要创作全新片段时才使用纯提示词或起始图片。",
+      "确认实时价格后提交生成。"
+    ],
+    "tipsTitle": "实用优势与使用边界",
+    "strengths": [
+      "借助源视频，Modify 能完美保留原始时序节奏与运镜轨迹。",
+      "引导帧与关键帧非常适合对源视频特定时刻进行定向视觉把控。",
+      "Reframe 极大方便了单条已确认成片派生出多种交付画幅。",
+      "非常适合产品、时尚、环境与社媒等领域的短小动态概念测试。",
+      "1080p 分辨率非常适合对精选短片段进行最终质检。"
+    ],
+    "boundaries": [
+      "全新生成时长限制为 5 秒或 10 秒。",
+      "可选分辨率档位为 540p、720p 与 1080p。",
+      "Ray 3.2 在 VideoAI 中输出均为无声视频。",
+      "当项目需要原生音轨、人物对白或对口型时，Ray 3.2 并非最佳全能选择。",
+      "在服务提供商用量高峰期，处理排队容量可能存在波动。"
+    ],
+    "safetyTitle": "安全与肖像规范",
+    "safetyRules": [
+      "严禁生成色情内容或涉及未成年人的违规内容。",
+      "严禁生成仇恨、骚扰或血腥暴力的内容请求。",
+      "未经授权不得仿冒真实人物或公众人物。",
+      "请勿上传私密个人数据或敏感文件。"
+    ],
+    "finalPara1": "当 Modify 修改、引导帧/关键帧控制以及 Reframe 画幅重构比原生音频生成更重要时，Ray 3.2 是 VideoAI 中最理想的现代化 Luma 视频路线。",
+    "finalButton": "使用 Luma Ray 3.2 开始生成"
+  },
+  "decision": {
+    "modelSlug": "luma-ray-3-2",
+    "hero": {
+      "eyebrow": "LUMA MODIFY 修改与 REFRAME 重构路线",
+      "title": "Luma Ray 3.2",
+      "subtitle": "源视频 Modify 修改、Reframe 画幅重构、引导帧/关键帧控制与纯视频无声输出。",
+      "subtitleHighlights": [
+        "源视频 Modify 修改",
+        "Reframe 画幅重构",
+        "纯视频无声输出"
+      ],
+      "paragraph": "当源视频节奏与运镜已符合预期时使用 Ray 3.2：利用 Modify 改变画面视觉风格，借助单张引导帧或关键帧掌控特定时刻，或使用 Reframe 将已确认镜头重构成新的交付画幅比例。文生视频与图生视频依然可用，作为短小 Luma 无声动态测试的实用辅助路线。",
+      "primaryCta": {
+        "label": "使用 Luma Ray 3.2 生成",
+        "href": "/app?engine=luma-ray-3-2"
+      },
+      "secondaryCta": {
+        "label": "浏览案例",
+        "href": "/zh/examples/luma"
+      },
+      "quickLinks": [
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#luma-ray-3-2-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        },
+        {
+          "label": "技术规格",
+          "href": "#specs"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Luma Ray 3.2 案例",
+      "description": "现代 Luma 视频的 Modify 修改与 Reframe 重构路线",
+      "renderLabel": "查看渲染",
+      "badges": [
+        "Modify 修改",
+        "Reframe 重构",
+        "无声视频"
+      ],
+      "altContext": "Luma Ray 3.2 源视频 Modify 与 Reframe 案例"
+    },
+    "features": [
+      {
+        "title": "修改源视频片段",
+        "body": "在保留源视频节奏与摄影机运镜的同时，改变外观质感、主体细节或场景氛围。",
+        "tone": "continuity"
+      },
+      {
+        "title": "重构成片画幅",
+        "body": "将源视频片段向外外绘为竖屏、方形、横屏或超宽画幅格式。",
+        "tone": "duration"
+      },
+      {
+        "title": "引导帧与关键帧",
+        "body": "当源视频中特定时刻需要明确视觉指引时，使用引导帧或索引关键帧。",
+        "tone": "reference"
+      },
+      {
+        "title": "文本或起始图片",
+        "body": "在尚未准备好源视频时，生成短小时长的 Luma 无声动态概念镜头。",
+        "tone": "reference"
+      },
+      {
+        "title": "540p 至 1080p",
+        "body": "先以低分辨率起步打样，再以 720p 或 1080p 质检精选的编辑或画幅重构成果。",
+        "tone": "quality"
+      },
+      {
+        "title": "专属无声设计",
+        "body": "Ray 3.2 在 VideoAI 中仅输出纯视频；音乐、旁白或音效可在后期流程中添加。",
+        "tone": "price"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "优先选择 Modify 还是 Reframe？",
+        "body": "当源视频时序节奏已可用且需要改变画面质感时使用 Modify；当已确认的母带需要适配另一种画幅比例时使用 Reframe。",
+        "cta": {
+          "label": "打开应用",
+          "href": "/app?engine=luma-ray-3-2"
+        }
+      },
+      {
+        "title": "需要引导帧吗？",
+        "body": "单一视觉目标可使用单张引导帧；若源视频中的特定时间点需要明确指引，可使用索引关键帧。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "需要音频？",
+        "body": "Ray 3.2 在此为无声视频路线。适合用于画面视觉编辑与画幅重构，音乐、旁白或音效可在下游流程中添加。",
+        "cta": {
+          "label": "查看价格",
+          "href": "/zh/pricing#luma-ray-3-2-pricing"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "源视频",
+        "body": "当 Modify 或 Reframe 需要保留源视频时序节奏时，上传清晰的 MP4、MOV 或 WebM 片段。"
+      },
+      {
+        "title": "Modify 修改",
+        "body": "首先注明源视频中需要保留的内容，然后描述期望的视觉变化以及重构演绎的强度。"
+      },
+      {
+        "title": "引导帧",
+        "body": "当特定关键时刻需要定向视觉指引时，为 Modify 添加单张引导帧或索引关键帧。"
+      },
+      {
+        "title": "Reframe 目标",
+        "body": "首先选定交付画幅比例，然后在提示词中聚焦主体优先级与画布内容补充。"
+      },
+      {
+        "title": "辅助生成",
+        "body": "仅在正式编辑前需要创作一段全新简短无声镜头时，才使用文本提示词或起始图片。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Luma Ray 3.2 价格一览",
+      "subtitle": "预设的 Ray 3.2 费用采用 VideoAI 展示价格；确切金额将在生成前明确显示。",
+      "footnote": "所有 Ray 3.2 路线均保持基于 Fal 参考价格加预设利润率的统一客户报价；直接交付调度不会改变客户端结算价格。",
+      "ctaLabel": "查看完整价格",
+      "maxDurationNote": "最高 1080p",
+      "ctaHref": "/zh/pricing#luma-ray-3-2-pricing"
+    },
+    "meta": {
+      "title": "Luma Ray 3.2 视频 Modify 修改、Reframe 重构与案例 | VideoAI",
+      "description": "探索 Luma Ray 3.2 源视频 Modify 修改、AI 视频 Reframe 画幅重构、引导帧/关键帧控制、5秒/10秒无声输出、价格详情、提示词技巧与精选案例。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "luma-ray-3-2",
+    "section": {
+      "title": "如何编写出色的 Ray 3.2 提示词",
+      "intro": "撰写一份包含源内容保留规则、变更要求、运镜/构图意图、时长与分辨率的简明编辑或画幅重构需求。",
+      "tip": "技巧：对于 Modify 修改，优先写明保留规则，避免提示词与源视频内容产生冲突。",
+      "guide": null,
+      "referencesTitle": "Luma Ray 3.2 如何使用参考素材"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [
+      "每个源视频片段聚焦单一编辑目标。",
+      "将保留规则与变更要求清晰分开描述。",
+      "仅在动作演变确实需要更长时间时才选择 10 秒。",
+      "仅在尚无现成源视频片段时才使用全新生成。"
+    ],
+    "engineWhy": [
+      "当时序节奏已获确认时，源视频能够让 Modify 与 Reframe 的落地极为高效实用。",
+      "引导帧与关键帧有助于精准命中特定时刻，而非盲目重绘整段视频。",
+      "简短的 Luma 生成仍适合在后续编辑/画幅重构流程前制作候选片段。",
+      "分辨率、时长与工作流模式的选择会直接影响展示价格。"
+    ],
+    "demo": {
+      "title": "演示提示词 — Luma Ray 3.2",
+      "promptLabel": "文生视频",
+      "prompt": "主体：骷髅机甲骑士\n动作：摩托车驶近并平稳停下\n镜头：低角度正面跟拍，轻微向前推进\n风格：电影级质感，潮湿路面倒影\n音频：引擎轰鸣，金属碰撞，远方雷鸣",
+      "notes": [],
+      "summary": {
+        "subject": "骷髅机甲骑士",
+        "action": "摩托车驶近并平稳停下",
+        "camera": "低角度正面跟拍，轻微向前推进",
+        "style": "电影级质感，潮湿路面倒影",
+        "output": "引擎轰鸣，金属碰撞，远方雷鸣"
+      },
+      "presentationOverrides": {
+        "modeLabel": "文生视频",
+        "outputLabel": "音频",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "on",
+        "audioChipLabel": null,
+        "altContext": "Luma Ray 3.2 AI 视频案例：Luma Ray 3.2 演示渲染"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "luma-ray-3-2",
+    "section": {
+      "title": "Luma Ray 3.2 案例展示",
+      "intro": "通过实际案例研究 Modify 提示词编写、关键帧定向源视频演变、Reframe 画幅交付配置以及辅助短动态生成效果。",
+      "defaultCtaLabel": "查看全部 Luma 案例 →",
+      "recreateLabel": "复现此镜头 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "修改源视频片段",
+        "body": "了解 Ray 3.2 如何在不丢失原片节奏的前提下修改画面质感。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "Reframe 画幅交付",
+        "body": "基于同一条已确认的母带，一键复现竖屏、方形或宽屏版本。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "纯视频无声输出",
+        "body": "Ray 3.2 在此 VideoAI 路线下不生成原生音频。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "引导帧与关键帧",
+        "body": "借助单张引导帧或索引关键帧精准引导特定源视频时刻。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-5",
+        "title": "成本与质量把控",
+        "body": "在进入 1080p 渲染前，先用 5 秒 / 540p 或 720p 进行充分验证。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  }
+}

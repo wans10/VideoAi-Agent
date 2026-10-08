@@ -51,7 +51,7 @@ export function buildCompareSpecRows({
 }): CompareSpecRow[] {
   return [
     {
-      label: specLabels.pricing ?? 'Pricing (MaxVideoAI)',
+      label: specLabels.pricing ?? 'Pricing (Keyvo)',
       left: leftPricingDisplay.headline,
       right: rightPricingDisplay.headline,
       subline: leftPricingDisplay.subline,

@@ -22,8 +22,8 @@ const outputPersistenceSource = readFileSync(outputPersistencePath, 'utf8');
 const errorsSource = readFileSync(errorsPath, 'utf8');
 const constantsSource = readFileSync(constantsPath, 'utf8');
 
-test('upscale outputs must be owned by MaxVideoAI before completion', () => {
-  assert.match(outputPersistenceSource, /MaxVideoAI storage is required for upscale outputs/);
+test('upscale outputs must be owned by Keyvo before completion', () => {
+  assert.match(outputPersistenceSource, /Keyvo storage is required for upscale outputs/);
   assert.doesNotMatch(outputPersistenceSource, /catch \(error\) \{[\s\S]*?return output;/);
 });
 

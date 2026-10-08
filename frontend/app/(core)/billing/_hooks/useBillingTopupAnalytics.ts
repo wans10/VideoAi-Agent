@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useRef } from 'react';
-import { USD_TOPUP_TIERS } from '@/config/topupTiers';
+import { TOPUP_TIERS } from '@/config/topupTiers';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 import {
   clearPendingTopupCancelledEvent,
   persistPendingTopupCancelledEvent,
@@ -13,7 +14,7 @@ import { classifyTopupFailure } from '@/lib/analytics/topup-failure';
 import type { TopupQuote } from '../_lib/billing-types';
 
 const GOOGLE_ADS_CONVERSION_TARGET = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID ?? 'AW-992154028/7oDUCMuC9rQbEKyjjNkD';
-const GOOGLE_ADS_CONVERSION_CURRENCY = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_CURRENCY ?? 'EUR';
+const GOOGLE_ADS_CONVERSION_CURRENCY = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_CURRENCY ?? CUSTOMER_CURRENCY;
 const GOOGLE_ADS_CONVERSION_VALUE_ENV = Number(process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_VALUE ?? 1);
 const GOOGLE_ADS_CONVERSION_VALUE_FALLBACK = Number.isFinite(GOOGLE_ADS_CONVERSION_VALUE_ENV) ? GOOGLE_ADS_CONVERSION_VALUE_ENV : 1;
 
@@ -40,23 +41,24 @@ export function useBillingTopupAnalytics(topupQuotes: Record<number, TopupQuote>
 
   const buildTopupAnalyticsPayload = useCallback(
     (amountCents: number | null | undefined, chargeCurrency: string): Record<string, unknown> => {
-      const normalizedChargeCurrency = (chargeCurrency || 'USD').toUpperCase();
+      const normalizedChargeCurrency = (chargeCurrency || CUSTOMER_CURRENCY).toUpperCase();
       const normalizedAmount = Number.isFinite(amountCents) ? Math.max(0, Math.round(Number(amountCents))) : 0;
       const payload: Record<string, unknown> = {
         route_family: 'billing',
         payment_provider: 'stripe',
         payment_flow: 'checkout',
         charge_currency: normalizedChargeCurrency,
-        wallet_amount_usd: normalizedAmount > 0 ? normalizedAmount / 100 : undefined,
+        wallet_amount_usd: normalizedAmount > 0 ? normalizedAmount / 100 / (CUSTOMER_CURRENCY === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1) : undefined,
+        wallet_currency: CUSTOMER_CURRENCY,
         wallet_amount_cents: normalizedAmount > 0 ? normalizedAmount : undefined,
         credits_amount: normalizedAmount > 0 ? normalizedAmount / 100 : undefined,
       };
       if (normalizedAmount <= 0) {
         return payload;
       }
-      const tier = USD_TOPUP_TIERS.find((entry) => entry.amountCents === normalizedAmount);
+      const tier = TOPUP_TIERS.find((entry) => entry.amountCents === normalizedAmount);
       const quote = topupQuotes[normalizedAmount];
-      payload.topup_amount_usd = normalizedAmount / 100;
+      payload.topup_amount_usd = normalizedAmount / 100 / (CUSTOMER_CURRENCY === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1);
       payload.topup_amount_cents = normalizedAmount;
       payload.topup_tier_id = tier?.id ?? 'custom';
       payload.topup_tier_label = tier?.label ?? 'Custom';

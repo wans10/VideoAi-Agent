@@ -1,3 +1,4 @@
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import { createWalletDirectPaymentIntent } from '@/server/wallet-direct-checkout';
 import { requireCurrentWalletDirectPricingPolicy } from '@/server/pricing/wallet-direct-policy';
 import { NextRequest, NextResponse } from 'next/server';
@@ -16,7 +17,7 @@ import {
   buildWalletTopUpCheckoutSessionParams,
   normalizeWalletTopUpAmountCents,
 } from '@/lib/stripe-checkout';
-import { defaultLocale, type AppLocale } from '@/i18n/locales';
+import { defaultExperienceLocale, type AppLocale } from '@/i18n/locales';
 import { getOrCreateStripeCustomerForUser } from '@/server/stripe-customers';
 import { buildRestrictedAccountPayload, getActiveAccountRestriction } from '@/server/fraud-cleanup';
 import {
@@ -42,15 +43,10 @@ const CHECKOUT_COPY_BY_LOCALE: Record<
     productName: string;
   }
 > = {
-  en: {
-    productName: 'Wallet top-up',
-  },
-  fr: {
-    productName: 'Recharge portefeuille',
-  },
-  es: {
-    productName: 'Recarga de billetera',
-  },
+  en: { productName: `${PRODUCT_BRAND_NAME} Wallet top-up` },
+  fr: { productName: `${PRODUCT_BRAND_NAME} Recharge portefeuille` },
+  es: { productName: `${PRODUCT_BRAND_NAME} Recarga de billetera` },
+  zh: { productName: `${PRODUCT_BRAND_NAME} 账户充值` },
 };
 
 export const dynamic = 'force-dynamic';
@@ -76,7 +72,7 @@ function hasAnalyticsConsent(req: NextRequest): boolean {
 }
 
 function normalizeRequestLocale(value: unknown): AppLocale | null {
-  if (value === 'fr' || value === 'es' || value === 'en') {
+  if (value === 'fr' || value === 'es' || value === 'en' || value === 'zh') {
     return value;
   }
   return null;
@@ -95,7 +91,8 @@ function resolveCheckoutLocale(req: NextRequest, bodyLocale: unknown): AppLocale
   const acceptLanguage = req.headers.get('accept-language') ?? '';
   if (/\bfr\b/i.test(acceptLanguage)) return 'fr';
   if (/\bes\b/i.test(acceptLanguage)) return 'es';
-  return defaultLocale;
+  if (/\bzh\b/i.test(acceptLanguage)) return 'zh';
+  return defaultExperienceLocale;
 }
 
 async function resolveAuthenticatedUser(req: NextRequest): Promise<string | null> {
@@ -278,7 +275,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const tier = findTopupTier({ usdAmountCents: amountCents });
+    const tier = findTopupTier({ amountCents });
     const captchaToken = typeof body.captchaToken === 'string' ? body.captchaToken : null;
     const checkoutGuard = await evaluateWalletCheckoutGuard({
       userId,

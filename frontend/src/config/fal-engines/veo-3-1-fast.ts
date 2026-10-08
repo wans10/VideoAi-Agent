@@ -286,7 +286,7 @@ export const VEO_3_1_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Veo 3.1 Fast - Text, References, Last Frame & Extend Video',
       description:
-        'Use Veo 3.1 Fast for affordable text prompts, start-image animation, multi-reference guidance, optional last-frame control, and extend workflows with optional native audio inside one unified MaxVideoAI model page.',
+        'Use Veo 3.1 Fast for affordable text prompts, start-image animation, multi-reference guidance, optional last-frame control, and extend workflows with optional native audio inside one unified Keyvo model page.',
       canonicalPath: '/models/veo-3-1-fast',
     },
     type: 'Text, start image, references, last frame, extend',
@@ -303,7 +303,7 @@ export const VEO_3_1_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     prompts: [
       {
         title: 'Street interview',
-        prompt: 'Casual street interview on a busy sidewalk, handheld camera, native dialogue: “Have you seen Veo 3.1 Fast inside MaxVideoAI?”',
+        prompt: 'Casual street interview on a busy sidewalk, handheld camera, native dialogue: “Have you seen Veo 3.1 Fast inside Keyvo?”',
         mode: 't2v',
       },
       {
@@ -328,7 +328,7 @@ export const VEO_3_1_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     faqs: [
       {
         question: 'Does Veo 3 ship with the latest motion tuning?',
-        answer: 'Yes. MaxVideoAI syncs routing with Google DeepMind updates so motion tuning stays current without manual work.',
+        answer: 'Yes. Keyvo syncs routing with Google DeepMind updates so motion tuning stays current without manual work.',
       },
       {
         question: 'Can I use more than one image with Veo 3.1 Fast?',

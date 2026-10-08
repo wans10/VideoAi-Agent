@@ -15,9 +15,12 @@ export function AppNavigation({ variant, studioVisible = false }: {
   const selection = getAppNavigationSelection(pathname, undefined, studioVisible);
   if (variant === 'activities' && !selection.activity) return null;
   const activities = variant === 'activities';
-  const label = activities ? (locale === 'fr' ? 'Type de création' : locale === 'es' ? 'Tipo de creación' : 'Creation type') : (locale === 'fr' ? 'Navigation principale' : locale === 'es' ? 'Navegación principal' : 'Primary navigation');
+  const label = activities
+    ? (locale === 'fr' ? 'Type de création' : locale === 'es' ? 'Tipo de creación' : locale === 'zh' ? '创作类型' : 'Creation type')
+    : (locale === 'fr' ? 'Navigation principale' : locale === 'es' ? 'Navegación principal' : locale === 'zh' ? '主导航' : 'Primary navigation');
   return (
     <nav className={`app-navigation app-navigation-${variant}`} aria-label={label}>
+      {variant === 'rail' ? <p className="app-navigation-caption">{locale === 'zh' ? '我的工作室' : locale === 'fr' ? 'Mon studio' : locale === 'es' ? 'Mi estudio' : 'MY STUDIO'}</p> : null}
       {(activities ? APP_ACTIVITIES : getAppNavigation(undefined, studioVisible)).map((item) => (
         <Link
           key={item.id}

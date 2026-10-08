@@ -179,11 +179,16 @@ const SEEDANCE_REFERENCE_GUIDANCE_COPY = {
     tooltip:
       'Para personajes de referencia, crea primero imágenes coherentes con Seedream text-to-image, o sube una referencia ilustrada/estilizada y pide a Seedance en el prompt que la haga realista.',
   },
+  zh: {
+    label: 'Seedance 可能会拒绝参考图中的可识别真实人物。',
+    tooltip:
+      '可使用 Seedream 文生图创建一致的角色参考图，或上传手绘/风格化插画参考图，并在提示词中要求 Seedance 真实化渲染。',
+  },
 } as const;
 
 function getSeedanceReferenceGuidance(locale: string): SeedanceReferenceGuidance {
   const language = locale.toLowerCase().split('-')[0];
-  if (language === 'fr' || language === 'es') return SEEDANCE_REFERENCE_GUIDANCE_COPY[language];
+  if (language === 'fr' || language === 'es' || language === 'zh') return SEEDANCE_REFERENCE_GUIDANCE_COPY[language];
   return SEEDANCE_REFERENCE_GUIDANCE_COPY.en;
 }
 
@@ -367,10 +372,12 @@ export function WorkspaceComposerSurface({
         ? 'Ouvre le Storyboarder avant de générer avec Seedance ou Kling.'
         : uiLocale === 'es'
           ? 'Abre Storyboarder antes de generar con Seedance o Kling.'
-          : 'Open Storyboarder before generating with Seedance or Kling.';
+          : uiLocale === 'zh'
+            ? '在使用 Seedance 或 Kling 生成前打开分镜脚本。'
+            : 'Open Storyboarder before generating with Seedance or Kling.';
     return {
       id: 'storyboard-launch',
-      label: 'Storyboard',
+      label: uiLocale === 'zh' ? '分镜脚本' : 'Storyboard',
       tooltip,
       active: false,
       icon: 'sparkles',
@@ -404,8 +411,23 @@ export function WorkspaceComposerSurface({
   }, [cfgScale, selectedEngine, form.mode, setCfgScale]);
 
   const durationSec = multiPromptActive ? multiPromptTotalSec : form.durationSec;
-  const durationManagedLabel = `Duration managed by multi-prompt · ${multiPromptTotalSec}s`;
-  const audioControlNote = voiceControlEnabled ? 'Audio locked by voice control' : undefined;
+  const durationManagedLabel =
+    uiLocale === 'fr'
+      ? `Durée gérée par le multi-prompt · ${multiPromptTotalSec}s`
+      : uiLocale === 'es'
+        ? `Duración gestionada por multi-prompt · ${multiPromptTotalSec}s`
+        : uiLocale === 'zh'
+          ? `时长由多提示词管理 · ${multiPromptTotalSec} 秒`
+          : `Duration managed by multi-prompt · ${multiPromptTotalSec}s`;
+  const audioControlNote = voiceControlEnabled
+    ? uiLocale === 'fr'
+      ? 'Audio verrouillé par le contrôle vocal'
+      : uiLocale === 'es'
+        ? 'Audio bloqueado por el control de voz'
+        : uiLocale === 'zh'
+          ? '音频已被语音控制锁定'
+          : 'Audio locked by voice control'
+    : undefined;
   const showLoopControl = supportsModeLoopControl(selectedEngine, submissionMode);
   const showOptionsControl = Boolean(
     showLoopControl ||
@@ -544,8 +566,18 @@ export function WorkspaceComposerSurface({
             {showRetakeWorkflowAction ? (
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="space-y-0.5">
-                  <p className="text-[11px] font-semibold uppercase tracking-micro text-text-muted">Edit workflow</p>
-                  <p className="text-xs text-text-secondary">Use retake when you want to reinterpret an existing clip.</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-micro text-text-muted">
+                    {uiLocale === 'fr' ? 'Modifier le workflow' : uiLocale === 'es' ? 'Modificar flujo' : uiLocale === 'zh' ? '编辑工作流' : 'Edit workflow'}
+                  </p>
+                  <p className="text-xs text-text-secondary">
+                    {uiLocale === 'fr'
+                      ? 'Utilisez retake pour réinterpréter un clip existant.'
+                      : uiLocale === 'es'
+                        ? 'Usa retake para reinterpretar un clip existente.'
+                        : uiLocale === 'zh'
+                          ? '使用重拍（Retake）功能重新诠释现有视频片段。'
+                          : 'Use retake when you want to reinterpret an existing clip.'}
+                  </p>
                 </div>
                 <Button
                   type="button"

@@ -2,7 +2,10 @@ import type { AssetFieldRole } from '@/components/asset-dropzone/asset-dropzone-
 import type { EngineCaps, EngineInputField } from '@/types/engines';
 
 export function workspaceReferenceCopy(locale: string) {
-  return locale === 'fr' ? {
+  return locale === 'zh' ? {
+    sending:'发送中…',calculating:'计算中…',priceUnavailable:'价格暂不可用',kinds:{image:'图片',video:'视频',audio:'音频'},
+    start:'首帧',end:'尾帧',title:'参考素材',add:'添加参考素材',manage:'管理',close:'关闭',replace:'替换',remove:'移除',upload:'上传',library:'从素材库选择',required:'必填',unavailable:'此模型暂不支持',details:'格式与指南',options:'选项',placeholder:'描述您的创意…',
+  } : locale === 'fr' ? {
     sending: 'Envoi…',
     calculating: 'Calcul…', priceUnavailable: 'Prix indisponible', kinds: { image: 'Images', video: 'Vidéos', audio: 'Audio' },
     start: 'Image de début', end: 'Image de fin', title: 'Références', add: 'Ajouter des références', manage: 'Gérer', close: 'Fermer', replace: 'Remplacer', remove: 'Retirer', upload: 'Importer', library: 'Choisir dans Médias', required: 'Requis', unavailable: 'Indisponible pour ce modèle', details: 'Formats et conseils', options: 'Options', placeholder: 'Décrivez votre création…',
@@ -27,25 +30,25 @@ export function resolveWorkspaceReferenceFieldTitle(
     const kind = field.type === 'audio' ? 'audio' : field.type === 'video' ? 'video' : 'image';
     return workspaceReferenceCopy(locale).kinds[kind];
   }
-  if (locale !== 'fr' && locale !== 'es') return field.label;
+  if (locale !== 'fr' && locale !== 'es' && locale !== 'zh') return field.label;
   const label = field.label.trim();
   const capacity = typeof field.maxCount === 'number' && Number.isFinite(field.maxCount) && field.maxCount > 1
     ? Math.floor(field.maxCount)
     : null;
-  const suffix = capacity == null ? '' : locale === 'fr' ? ` (jusqu’à ${capacity})` : ` (hasta ${capacity})`;
+  const suffix = capacity == null ? '' : locale === 'fr' ? ` (jusqu’à ${capacity})` : locale === 'es' ? ` (hasta ${capacity})` : `（最多 ${capacity} 个）`;
 
   if (field.id === 'video_url' && /^source video$/i.test(label)) {
-    return locale === 'fr' ? 'Vidéo source' : 'Video fuente';
+    return locale === 'fr' ? 'Vidéo source' : locale === 'es' ? 'Video fuente' : '源视频';
   }
   if (role !== 'reference') return field.label;
   if (field.id === 'image_urls' && /^reference images(?:\s*\([^)]*\))?$/i.test(label)) {
-    return locale === 'fr' ? `Images de référence${suffix}` : `Imágenes de referencia${suffix}`;
+    return locale === 'fr' ? `Images de référence${suffix}` : locale === 'es' ? `Imágenes de referencia${suffix}` : `参考图像${capacity != null ? `（最多 ${capacity} 张）` : ''}`;
   }
   if (field.id === 'video_urls' && /^reference video clips(?:\s*\([^)]*\))?$/i.test(label)) {
-    return locale === 'fr' ? `Clips vidéo de référence${suffix}` : `Clips de vídeo de referencia${suffix}`;
+    return locale === 'fr' ? `Clips vidéo de référence${suffix}` : locale === 'es' ? `Clips de vídeo de referencia${suffix}` : `参考视频片段${suffix}`;
   }
   if (field.id === 'audio_urls' && /^reference audio clips(?:\s*\([^)]*\))?$/i.test(label)) {
-    return locale === 'fr' ? `Clips audio de référence${suffix}` : `Clips de audio de referencia${suffix}`;
+    return locale === 'fr' ? `Clips audio de référence${suffix}` : locale === 'es' ? `Clips de audio de referencia${suffix}` : `参考音频片段${suffix}`;
   }
   return field.label;
 }

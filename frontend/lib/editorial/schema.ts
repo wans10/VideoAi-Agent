@@ -36,10 +36,10 @@ const videoBlock = z.object({id:blockId,type:z.literal('video'),heading:text.or(
 export function sourceVideoId(url:string){const u=new URL(url);return u.hostname==='youtu.be'?u.pathname.slice(1):['youtube.com','www.youtube.com'].includes(u.hostname)?u.pathname==='/watch'?u.searchParams.get('v'):u.pathname.match(/^\/(?:shorts|embed)\/([\w-]{11})$/)?.[1]:null;}
 
 export const editorialBlockSchema = z.discriminatedUnion('type', [textBlock, mediaBlock, comparisonBlock, stepsBlock, promptBlock, conclusionBlock, diagramBlock, videoBlock]);
-const locale = z.enum(['en', 'fr', 'es']);
+const locale = z.enum(['en', 'fr', 'es', 'zh']);
 export const editorialVariantSchema = z.object({
   locale,
-  audience: z.enum(['en', 'fr-FR', 'es-419']).optional(),
+  audience: z.enum(['en', 'fr-FR', 'es-419', 'zh-CN']).optional(),
   slug,
   title: text.pipe(z.string().max(160)),
   description: text.pipe(z.string().max(320)),

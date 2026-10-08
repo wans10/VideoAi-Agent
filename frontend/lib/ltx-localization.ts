@@ -1,13 +1,9 @@
 import type { AppLocale } from '@/i18n/locales';
 import type { EngineInputField, Mode } from '@/types/engines';
 import { ASSET_DROPZONE_COPY, type AssetDropzoneCopy } from './ltx-asset-dropzone-copy';
+import { LTX_FIELD_COPY } from './ltx-field-copy';
 
-type UiLocale = Extract<AppLocale, 'en' | 'fr' | 'es'>;
-
-type FieldCopy = {
-  label: string;
-  description?: string;
-};
+type UiLocale = Extract<AppLocale, 'en' | 'fr' | 'es' | 'zh'>;
 
 type WorkflowCopy = {
   generateVideo: string;
@@ -70,128 +66,19 @@ const MODE_LABELS: Record<UiLocale, Record<Mode, string>> = {
     t2i: 'Texto → Imagen',
     i2i: 'Imagen → Imagen',
   },
-};
-
-const LTX_FIELD_COPY: Record<UiLocale, Record<string, FieldCopy>> = {
-  en: {
-    prompt: { label: 'Prompt' },
-    negative_prompt: { label: 'Negative prompt' },
-    image_url: {
-      label: 'Start image',
-      description: 'Use this still as the first frame that anchors the motion.',
-    },
-    end_image_url: {
-      label: 'End image',
-      description: 'Optional final frame for start-to-end transitions in Image → Video.',
-    },
-    audio_url: {
-      label: 'Source audio',
-      description: 'Required for Audio → Video. Video length follows the audio file duration.',
-    },
-    video_url: {
-      label: 'Source video',
-      description: 'Upload or reuse a previous render to extend it or retake a section.',
-    },
-    guidance_scale: {
-      label: 'Guidance scale',
-      description: 'Adjust how strongly the result should follow the prompt.',
-    },
-    context: {
-      label: 'Context window',
-      description: 'Controls how much of the source video is considered during the extension.',
-    },
-    mode: {
-      label: 'Extend position',
-      description: 'Choose whether the extension is added before the clip or after it.',
-    },
-    start_time: {
-      label: 'Start time',
-      description: 'Set where the retake begins inside the source video.',
-    },
-    retake_mode: {
-      label: 'Retake mode',
-      description: 'Choose how the source segment should be replaced.',
-    },
-  },
-  fr: {
-    prompt: { label: 'Prompt' },
-    negative_prompt: { label: 'Prompt négatif' },
-    image_url: {
-      label: 'Image de départ',
-      description: "Utilisez cette image comme première frame pour ancrer le mouvement.",
-    },
-    end_image_url: {
-      label: 'Image de fin',
-      description: "Frame finale optionnelle pour les transitions début → fin en Image → Vidéo.",
-    },
-    audio_url: {
-      label: 'Audio source',
-      description: "Obligatoire en Audio → Vidéo. La durée vidéo suit la durée du fichier audio.",
-    },
-    video_url: {
-      label: 'Vidéo source',
-      description: 'Importez ou réutilisez un rendu précédent pour l’étendre ou refaire une section.',
-    },
-    guidance_scale: {
-      label: 'Force du guidage',
-      description: 'Ajuste à quel point le résultat doit suivre le prompt.',
-    },
-    context: {
-      label: 'Fenêtre de contexte',
-      description: 'Détermine quelle portion de la vidéo source est prise en compte pendant l’extension.',
-    },
-    mode: {
-      label: 'Position de l’extension',
-      description: 'Choisissez si l’extension est ajoutée avant le clip ou après.',
-    },
-    start_time: {
-      label: 'Temps de départ',
-      description: 'Définissez le point de départ du retake dans la vidéo source.',
-    },
-    retake_mode: {
-      label: 'Mode de retake',
-      description: 'Choisissez comment la portion source doit être remplacée.',
-    },
-  },
-  es: {
-    prompt: { label: 'Prompt' },
-    negative_prompt: { label: 'Prompt negativo' },
-    image_url: {
-      label: 'Imagen inicial',
-      description: 'Usa esta imagen como primer frame para anclar el movimiento.',
-    },
-    end_image_url: {
-      label: 'Imagen final',
-      description: 'Frame final opcional para transiciones inicio → fin en Imagen → Video.',
-    },
-    audio_url: {
-      label: 'Audio fuente',
-      description: 'Obligatorio en Audio → Video. La duración del video sigue la duración del audio.',
-    },
-    video_url: {
-      label: 'Video fuente',
-      description: 'Sube o reutiliza un render previo para extenderlo o rehacer una sección.',
-    },
-    guidance_scale: {
-      label: 'Intensidad de guía',
-      description: 'Ajusta cuánto debe seguir el resultado al prompt.',
-    },
-    context: {
-      label: 'Ventana de contexto',
-      description: 'Controla cuánto del video fuente se toma en cuenta durante la extensión.',
-    },
-    mode: {
-      label: 'Posición de extensión',
-      description: 'Elige si la extensión se agrega antes del clip o después.',
-    },
-    start_time: {
-      label: 'Tiempo de inicio',
-      description: 'Define dónde empieza el retake dentro del video fuente.',
-    },
-    retake_mode: {
-      label: 'Modo de retake',
-      description: 'Elige cómo debe reemplazarse el segmento fuente.',
-    },
+  zh: {
+    t2v: '文生视频',
+    i2v: '图生视频',
+    ref2v: '参考生视频',
+    fl2v: '首尾帧',
+    v2v: '修改视频',
+    r2v: '视频转视频',
+    a2v: '音频生视频',
+    extend: '延长视频',
+    retake: '重新拍摄',
+    reframe: '重构画面',
+    t2i: '文生图',
+    i2i: '图生图',
   },
 };
 
@@ -255,6 +142,25 @@ const WORKFLOW_COPY: Record<UiLocale, WorkflowCopy> = {
     selectOption: 'Selecciona una opción',
     defaultOption: 'Predeterminado',
   },
+  zh: {
+    clearIncompatibleMedia: '添加此参考素材前，请移除不兼容的素材。',
+    generateVideo: '生成视频',
+    removeAudioToUnlock: '移除源音频以解锁“延长视频”和“重新拍摄”。',
+    audioUnsupported: '此引擎不支持音频生视频。请移除源音频或切换至 LTX 2.3 Pro。',
+    audioLocked:
+      '检测到源音频。LTX 2.3 Pro 目前已锁定为音频生视频模式。移除源音频后将重新解锁“延长视频”与“重新拍摄”。',
+    audioLockedFallback:
+      '检测到源音频。在移除源音频之前，可用控制选项已限定为音频生视频设置。',
+    removeAudioToUseEdit: '移除源音频以使用“延长视频”或“重新拍摄”。',
+    clearReferencesToUseStartEnd: '清除 Seedance 参考文件以使用起始图与结束图。',
+    clearStartEndToUseReferences: '清除起始图或结束图以使用 Seedance 参考文件。',
+    addReferenceMediaBeforeAudio: '在使用参考音频之前，请至少添加一张参考图像或一个参考视频。',
+    addSourceVideo: (modeLabel) => `运行 ${modeLabel} 之前需添加源视频。`,
+    workflowOptionsTitle: '工作流选项',
+    workflowOptionsSubtitle: '此工作流的专属设置。',
+    selectOption: '选择一个选项',
+    defaultOption: '默认',
+  },
 };
 
 const MODEL_CARD_USE_CASES: Record<UiLocale, Record<string, string>> = {
@@ -272,6 +178,11 @@ const MODEL_CARD_USE_CASES: Record<UiLocale, Record<string, string>> = {
     'gpt-image-2': 'imágenes con texto, producto y ediciones controladas',
     'ltx-2-3': 'flujos LTX todo en uno con audio, retakes, control fuerte y precios competitivos en texto e imagen a video',
     'ltx-2-3-fast': 'iteraciones rápidas de LTX 2.3 para texto e imagen a video',
+  },
+  zh: {
+    'gpt-image-2': '文字丰富的静态图、产品摄影及可控编辑',
+    'ltx-2-3': '集音频、重拍、强控制力及优惠资费于一体的 LTX 文生/图生视频全流程工作流',
+    'ltx-2-3-fast': '快速的 LTX 2.3 文生与图生视频迭代',
   },
 };
 
@@ -303,6 +214,15 @@ const MODEL_CARD_CAPABILITY_KEYWORDS: Record<UiLocale, Record<string, string>> =
     'First/Last': 'control de primer / último frame',
     Extend: 'workflows de extensión',
   },
+  zh: {
+    T2V: '文生视频',
+    I2V: '图生视频',
+    V2V: '视频转视频',
+    'Lip sync': '对口型',
+    Audio: '原生音频',
+    'First/Last': '首尾帧控制',
+    Extend: '延长工作流',
+  },
 };
 
 const HERO_CHIP_LABELS: Record<UiLocale, Record<string, string>> = {
@@ -333,16 +253,26 @@ const HERO_CHIP_LABELS: Record<UiLocale, Record<string, string>> = {
     maxResolution: 'Resolución máx.',
     audio: 'Audio',
   },
+  zh: {
+    textToImage: '文生图',
+    imageToImage: '图生图',
+    textToVideo: '文生视频',
+    imageToVideo: '图生视频',
+    maxDuration: '最大时长',
+    maxResolution: '最高分辨率',
+    audio: '音频',
+  },
 };
 
 const MODEL_META_LABELS: Record<UiLocale, { price: string; duration: string; format: string }> = {
   en: { price: 'Price', duration: 'Duration', format: 'Format' },
   fr: { price: 'Prix', duration: 'Durée', format: 'Format' },
   es: { price: 'Precio', duration: 'Duración', format: 'Formato' },
+  zh: { price: '价格', duration: '时长', format: '格式' },
 };
 
 export function normalizeUiLocale(locale?: string | null): UiLocale {
-  if (locale === 'fr' || locale === 'es') return locale;
+  if (locale === 'fr' || locale === 'es' || locale === 'zh') return locale;
   return 'en';
 }
 

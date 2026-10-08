@@ -13,7 +13,7 @@ import type {
 } from './internal-seo-types';
 import { stripOrigin } from './seo-opportunity-engine';
 
-const SITE_ORIGIN = 'https://maxvideoai.com';
+const SITE_ORIGIN = 'https://app.keyvo.cn';
 const MAX_CURATED_TARGETS = 30;
 const RECENT_INSPECTION_WINDOW_MS = 24 * 60 * 60 * 1000;
 

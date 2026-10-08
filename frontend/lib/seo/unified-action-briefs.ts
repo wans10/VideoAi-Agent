@@ -365,7 +365,7 @@ function buildRecommendedImplementation(draft: BriefDraft) {
     parts.push('Treat this as protect/expand work: preserve the current page intent while improving the visible user value.');
   }
   if (draft.sourceModules.has('opportunity_finder') && !parts.length) {
-    parts.push(`Strengthen ${target} for ${cluster} using the existing page pattern and current MaxVideoAI tone.`);
+    parts.push(`Strengthen ${target} for ${cluster} using the existing page pattern and current Keyvo tone.`);
   }
   if (draft.urlInspection && draft.urlInspection.status !== 'indexed_ok' && draft.urlInspection.status !== 'unknown') {
     parts.unshift(`Resolve the URL Inspection issue first: ${draft.urlInspection.suggestedAction}`);

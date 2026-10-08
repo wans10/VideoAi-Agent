@@ -1,11 +1,12 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import type {StudioPreparedExport} from '@/lib/studio/conversation-export-contract';
 import type {TimelineExportJobResponse} from '@/server/timeline-exports/contracts';
 import {usePreparedConversationExport} from '../_hooks/usePreparedConversationExport';
 import styles from '../image-conversation.module.css';
-export function ConversationExportQuote({quote,jobs,busy,locale,onChange,onRenew}:{quote:StudioPreparedExport;jobs:TimelineExportJobResponse[];busy:boolean;locale:'en'|'fr';onChange:()=>void|Promise<void>;onRenew:()=>void}){
+export function ConversationExportQuote({quote,jobs,busy,locale,onChange,onRenew}:{quote:StudioPreparedExport;jobs:TimelineExportJobResponse[];busy:boolean;locale:'en'|'fr'|'zh';onChange:()=>void|Promise<void>;onRenew:()=>void}){
   const state=usePreparedConversationExport(quote,jobs,onChange);
-  const t=(en:string,fr:string)=>locale==='fr'?fr:en;
+  const t=(en: string, fr: string) => conversationCopy(locale, en, fr);
   const price=state.job?.billing??quote.price;
   const amount=price.amountCents===0?t('Free','Gratuit'):new Intl.NumberFormat(locale,{style:'currency',currency:price.currency}).format(price.amountCents/100);
   const needsNewQuote=state.error==='QUOTE_EXPIRED'||state.error==='PRICING_REFRESH_REQUIRED'||(state.expired&&!state.uncertain&&!state.job);

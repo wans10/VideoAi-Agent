@@ -1,16 +1,17 @@
-import { USD_TOPUP_TIERS } from '@/config/topupTiers';
+import { TOPUP_TIERS } from '@/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
-const DEFAULT_AMOUNT_CENTS = USD_TOPUP_TIERS[0]?.amountCents ?? 1000;
+const DEFAULT_AMOUNT_CENTS = TOPUP_TIERS[0]?.amountCents ?? 1000;
 
 export type BillingIntent = {
   amountCents: number;
-  currency: 'USD';
+  currency: 'USD' | 'CNY';
   isExplicit: boolean;
 };
 
 export const DEFAULT_BILLING_INTENT: BillingIntent = {
   amountCents: DEFAULT_AMOUNT_CENTS,
-  currency: 'USD',
+  currency: CUSTOMER_CURRENCY,
   isExplicit: false,
 };
 
@@ -28,17 +29,17 @@ export function parseBillingIntent(searchParams: SearchParamsReader): BillingInt
   const amountCents = rawAmount == null || rawAmount.trim() === '' ? null : normalizeAmountCents(rawAmount);
   const currency = rawCurrency?.trim().toUpperCase();
 
-  if (amountCents == null || currency !== 'USD') {
+  if (amountCents == null || currency !== CUSTOMER_CURRENCY) {
     return DEFAULT_BILLING_INTENT;
   }
 
-  return { amountCents, currency: 'USD', isExplicit: true };
+  return { amountCents, currency: CUSTOMER_CURRENCY, isExplicit: true };
 }
 
 export function buildBillingIntentTarget(intent: { amountCents: number; currency: string }): string {
   const currency = intent.currency.trim().toUpperCase();
-  const amountCents = currency === 'USD'
+  const amountCents = currency === CUSTOMER_CURRENCY
     ? normalizeAmountCents(intent.amountCents) ?? DEFAULT_AMOUNT_CENTS
     : DEFAULT_AMOUNT_CENTS;
-  return `/billing?amount=${amountCents}&currency=USD`;
+  return `/billing?amount=${amountCents}&currency=${CUSTOMER_CURRENCY}`;
 }

@@ -274,7 +274,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
   let nextMessage =
     extractedErrorMessage ??
     (nextStatus === 'failed'
-      ? 'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+      ? 'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
       : null);
 
   if (nextMessage && /^video_[A-Za-z0-9_-]+$/i.test(nextMessage)) {
@@ -462,7 +462,7 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
     nextStatus === 'failed'
       ? nextMessage ??
         job.message ??
-        'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
+        'Keyvo could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.'
       : nextMessage ?? null;
   const normalizedMessage = messageToPersist
     ? (nextStatus === 'failed' ? toUserFacingFailureMessage(messageToPersist) : messageToPersist)

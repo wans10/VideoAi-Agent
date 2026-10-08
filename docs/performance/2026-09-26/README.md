@@ -36,4 +36,3 @@ CrUX Vis a proposé uniquement l'origine après la recherche URL de `/docs/mcp`.
 Voir [le protocole CWV](../../engineering/core-web-vitals.md). L'exporteur API conserve séparément les requêtes d'origine et d'URL, les fenêtres quotidiennes/historiques, l'appareil et les absences de données. Il garde les réponses Google brutes lorsqu'un accès API est configuré.
 
 Sources de méthode : [API CrUX](https://developer.chrome.com/docs/crux/api), [API historique](https://developer.chrome.com/docs/crux/history-api), [critères CrUX](https://developer.chrome.com/docs/crux/methodology).
-

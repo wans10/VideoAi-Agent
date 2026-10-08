@@ -6,6 +6,7 @@ const labels = {
   en: { quality: 'Quality', auto: 'Auto', original: 'Original' },
   fr: { quality: 'Qualité', auto: 'Auto', original: 'Original' },
   es: { quality: 'Calidad', auto: 'Auto', original: 'Original' },
+  zh: { quality: '画质', auto: '自动', original: '原始' },
 };
 
 export function PublicVideoQualitySelect({ value, onChange, title, locale = 'en' }: {

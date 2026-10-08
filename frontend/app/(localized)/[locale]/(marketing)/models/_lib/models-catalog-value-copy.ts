@@ -122,6 +122,7 @@ export const DEFAULT_VALUE_SENTENCE_BY_LOCALE: Record<AppLocale, string> = {
   en: DEFAULT_VALUE_SENTENCE,
   fr: 'Idéal pour {useCase} avec de bons résultats sur {strengths} dans les workflows {capabilities}.',
   es: 'Ideal para {useCase} con buen nivel en {strengths} dentro de flujos de {capabilities}.',
+  zh: '适用于{useCase}，在{capabilities}工作流中具有出色的{strengths}表现。',
 };
 export const DEFAULT_CAPABILITY_KEYWORDS: Record<string, string> = {
   T2V: 'text-to-video',
@@ -136,14 +137,17 @@ export const DEFAULT_VALUE_STRENGTHS_FALLBACK: Record<AppLocale, string> = {
   en: 'reliable outputs',
   fr: 'des résultats fiables',
   es: 'resultados fiables',
+  zh: '可靠的生成效果',
 };
 export const DEFAULT_VALUE_CAPABILITY_FALLBACK: Record<AppLocale, string> = {
   en: 'AI video',
   fr: 'vidéo IA',
   es: 'video IA',
+  zh: 'AI 视频',
 };
 export const DEFAULT_VALUE_CONJUNCTION: Record<AppLocale, string> = {
   en: 'and',
   fr: 'et',
   es: 'y',
+  zh: '与',
 };

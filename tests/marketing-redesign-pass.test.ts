@@ -26,7 +26,7 @@ test('paired comparison uses a common scale and rejects invalid ratings', () => 
 });
 
 test('site navigation exposes assistants without changing the app shared destinations', () => {
-  assert.equal(MARKETING_SITE_NAV_LINKS.find((item) => item.key === 'connect')?.href, '/mcp');
+  assert.equal(MARKETING_SITE_NAV_LINKS.find((item) => item.key === 'pipeline'), undefined);
   assert.ok(MARKETING_TOP_NAV_LINKS.some((item) => item.key === 'blog'));
 });
 
@@ -72,8 +72,8 @@ test('home tools reuse catalogue artwork and model guidance remains image-led wi
   assert.match(tools, /loading="lazy"/);
   assert.match(choice, /HOME_USE_CASE_FILMS.map/);
   assert.match(choice, /<CreativeFilm/);
-  assert.match(choice, /<HomeModelDiscovery/);
-  assert.match(choice, /href=\{card.href\}/);
+  assert.match(choice, /pathname: '\/models\/\[slug\]'/);
+  assert.match(choice, /film.modelSlug/);
   assert.doesNotMatch(tools + choice, /<video|autoPlay|preload=/);
 });
 
@@ -84,7 +84,7 @@ test('workspace follows the hero and owns optional assistant access instead of a
   assert.ok(route.indexOf('<HomeCreationSection') < route.indexOf('<HomeCreativeWorlds'));
   assert.match(route, /assistantHref=\{mcpLink\?\.href\}/);
   assert.doesNotMatch(route, /HomeAssistantWorkflow/);
-  assert.match(creation, /assistantHref \? <HomeAssistantStrip/);
+  assert.match(creation, /assistantHref \? <div className="production-pipeline-note"/);
 });
 
 

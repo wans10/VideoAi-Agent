@@ -221,5 +221,79 @@
         "label": "LTX 2.3 vs 2.5 · versiones Pro"
       }
     ]
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Fast 对比 Wan 2.5：价格、4K与升级",
+      "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 Wan 2.5 Text & Image to Video 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 LTX 2.3 Fast 和仍可用的 Wan 2.5 文生视频 / 图生视频。LTX 提供 4K、受限的更长视频及更低的共有 1080p 列价；Wan 为简单 10 秒任务保留 1:1、480p / 720p 低分辨率入门选项。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "现有简单任务、1:1 或低分辨率输出可继续用 Wan 2.5；需要 4K、更低的 1080p 列价或受限的长视频时，选择 LTX 2.3 Fast。超过 10 秒，LTX 要求 1080p、25 fps。"
+    },
+    "topCards": [
+      {
+        "title": "便捷画幅继续用 Wan",
+        "body": "480p、720p、1080p 及 16:9、9:16、方形的简单文本 / 图像生成，含音频，可继续用 Wan 2.5。"
+      },
+      {
+        "title": "更高分辨率选择 LTX",
+        "body": "LTX 2.3 Fast 增加 1440p、4K、更多帧率，并在共有的 1080p 分辨率下提供比 Wan 更低的列价。"
+      },
+      {
+        "title": "画幅与时长的核心取舍",
+        "body": "Wan 提供 1:1 和低分辨率入门档位；LTX 提供高分辨率和更长输出，但超过 10 秒限于 1080p、25 fps。"
+      },
+      {
+        "title": "各模型的适用工作流",
+        "body": "简单方形或入门分辨率视频使用 Wan；1080p 性价比、1440p / 4K 交付及受限的更长横屏 / 竖屏镜头使用 LTX。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "查看 current LTX 2.3 Fast 详情"
+      },
+      {
+        "href": "/models/wan-2-5",
+        "label": "查看 available Wan 2.5 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-wan-2-6",
+        "label": "对比 LTX 2.3 Fast 对比 Wan 2.6"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解继续使用 Wan 2.5 或将高分辨率任务转至 LTX 2.3 Fast 的选择。",
+      "items": [
+        {
+          "question": "何时应该继续用 Wan 2.5？",
+          "answer": "简单 10 秒文本 / 图像视频，尤其 480p、720p 或原生 1:1 符合发布渠道需求时，可继续用现有模型。"
+        },
+        {
+          "question": "为何将 1080p 任务转至 LTX 2.3 Fast？",
+          "answer": "LTX 在共有 1080p 档位列出的每秒价格更低，并为当前制作增加 1440p、4K 和更多帧率。"
+        },
+        {
+          "question": "LTX 2.3 Fast 能生成 20 秒 4K 视频吗？ 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。",
+          "answer": "不能。超过 10 秒要求 1080p、25 fps，因此 1440p / 4K 必须在 10 秒及以内。"
+        }
+      ]
+    },
+    "decisionSummary": "按参考素材、模式和当前价格选择 LTX 2.3 Fast 或 Wan 2.5；请查看对应模型详情以确认支持的设置。",
+    "decisionLinks": [
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-ltx-2-5-fast",
+        "label": "LTX 2.3 vs 2.5 · Fast tiers"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-pro-vs-ltx-2-5-pro",
+        "label": "LTX 2.3 vs 2.5 · Pro tiers"
+      }
+    ]
   }
 }

@@ -107,7 +107,13 @@ export const FLUX_3_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     { mode: 'extend', falModelId: FLUX_3_ENDPOINTS.extend, ui: STANDARD_MODE_CAPS.extend! },
   ],
   defaultFalModelId: FLUX_3_ENDPOINTS.t2v,
-  seo: { title: 'FLUX 3 AI Video | MaxVideoAI', description: 'Generate FLUX 3 video from text, images, first/last frames, or extend an MP4.', canonicalPath: '/models/flux-3' },
+  seo: { title: 'FLUX 3 AI Video | Keyvo', description: 'Generate FLUX 3 video from text, images, first/last frames, or extend an MP4.', canonicalPath: '/models/flux-3' },
+  demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/3d6c8206-8d6f-47fc-8f74-d4b9687e148e.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/3d6c8206-8d6f-47fc-8f74-d4b9687e148e.mp4',
+    imagePath: 'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/3e9569aa-8b5e-4c74-8806-2586a117b3eb.jpg',
+    altText: 'FLUX 3 cinematic video demonstration',
+  },
   prompts: [
     { title: 'Cinematic generation', prompt: 'A cinematic macro sequence with detailed motion, atmospheric sound, and controlled lighting.', mode: 't2v' },
     { title: 'Animate an opening frame', prompt: 'Continue naturally from the opening frame with realistic motion and a smooth camera move.', mode: 'i2v' },

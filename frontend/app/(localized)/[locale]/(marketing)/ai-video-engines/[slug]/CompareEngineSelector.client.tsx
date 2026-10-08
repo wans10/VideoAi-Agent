@@ -17,8 +17,8 @@ export function CompareEngineSelector({ options, value, otherValue, side, engine
   const router = useRouter();
   const locale = useLocale();
   const searchPlaceholder =
-    locale === 'fr' ? 'Rechercher un modèle...' : locale === 'es' ? 'Buscar modelo...' : 'Search engine...';
-  const noResultsLabel = locale === 'fr' ? 'Aucun résultat' : locale === 'es' ? 'Sin resultados' : 'No results';
+    locale === 'fr' ? 'Rechercher un modèle...' : locale === 'es' ? 'Buscar modelo...' : locale === 'zh' ? '搜索模型…' : 'Search engine...';
+  const noResultsLabel = locale === 'fr' ? 'Aucun résultat' : locale === 'es' ? 'Sin resultados' : locale === 'zh' ? '暂无结果' : 'No results';
 
   return (
     <CompareEngineFamilySelect

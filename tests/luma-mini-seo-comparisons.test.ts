@@ -7,7 +7,7 @@ import { buildCompareShowdownSlots } from '../frontend/app/(localized)/[locale]/
 import { getComparePageOverride } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides.ts';
 import { getPublishedComparisonSlugs } from '../frontend/lib/compare-hub/data.ts';
 import mcpPublication from '../frontend/config/mcp-publication.json';
-import { buildLlmsText } from '../frontend/lib/seo/llms-text.ts';
+import { buildLlmsModelDiscoveryProjection, buildLlmsText } from '../frontend/lib/seo/llms-text.ts';
 
 type EngineCatalogEntry = (typeof engineCatalog)[number];
 
@@ -72,11 +72,9 @@ test('Seedance Mini vs Luma Ray 3.2 stays scorecard-only without comparison vide
 test('llms.txt lists the Luma and Mini comparison wave', () => {
   const llmsSource = buildLlmsText(mcpPublication);
 
-  LUMA_MINI_SEO_COMPARISONS.forEach((slug) =>
-    assert.match(
-      llmsSource,
-      new RegExp(`https://maxvideoai\\.com/ai-video-engines/${slug}`),
-      `Missing llms.txt URL for ${slug}`
-    )
-  );
+  const advertised = new Set(buildLlmsModelDiscoveryProjection().primaryComparisons.map(pair => pair.slug));
+  for (const slug of LUMA_MINI_SEO_COMPARISONS) {
+    const href = `https://app.keyvo.cn/ai-video-engines/${slug}`;
+    assert.equal(llmsSource.includes(href), advertised.has(slug), 'discovery must follow current launch and publication qualification');
+  }
 });

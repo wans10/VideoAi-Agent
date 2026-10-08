@@ -6,7 +6,7 @@ import {
   buildAgentGenerationDestination,
 } from '../frontend/src/server/agent-api/account-destinations';
 
-test('account destinations keep every customer handoff on the production MaxVideoAI origin', () => {
+test('account destinations keep every customer handoff on the production Keyvo origin', () => {
   const destinations = buildAgentAccountDestinations(
     'https://maxvideoai.com/account/connections',
   );
@@ -15,37 +15,37 @@ test('account destinations keep every customer handoff on the production MaxVide
     connections: {
       type: 'open_url',
       purpose: 'account_connections',
-      label: 'Manage the MaxVideoAI connection',
+      label: 'Manage the Keyvo connection',
       url: 'https://maxvideoai.com/account/connections',
     },
     billing: {
       type: 'open_url',
       purpose: 'billing',
-      label: 'Add MaxVideoAI credits',
+      label: 'Add Keyvo credits',
       url: 'https://maxvideoai.com/billing',
     },
     library: {
       type: 'open_url',
       purpose: 'media_library',
-      label: 'Open the MaxVideoAI media library',
+      label: 'Open the Keyvo media library',
       url: 'https://maxvideoai.com/app/library',
     },
     videoWorkspace: {
       type: 'open_url',
       purpose: 'video_workspace',
-      label: 'Open the MaxVideoAI video workspace',
+      label: 'Open the Keyvo video workspace',
       url: 'https://maxvideoai.com/app',
     },
     imageWorkspace: {
       type: 'open_url',
       purpose: 'image_workspace',
-      label: 'Open the MaxVideoAI image workspace',
+      label: 'Open the Keyvo image workspace',
       url: 'https://maxvideoai.com/app/image',
     },
     support: {
       type: 'open_url',
       purpose: 'support',
-      label: 'Contact MaxVideoAI support',
+      label: 'Contact Keyvo support',
       url: 'https://maxvideoai.com/contact',
     },
   });
@@ -87,7 +87,7 @@ test('account destinations reject URLs that can redirect a customer outside the 
   ];
 
   for (const value of rejected) {
-    assert.throws(() => buildAgentAccountDestinations(value), /trusted MaxVideoAI account URL/);
+    assert.throws(() => buildAgentAccountDestinations(value), /trusted Keyvo account URL/);
   }
 });
 
@@ -101,7 +101,7 @@ test('generation destinations encode owned job IDs as query data instead of path
     {
       type: 'open_url',
       purpose: 'generation',
-      label: 'Open this video in MaxVideoAI',
+      label: 'Open this video in Keyvo',
       url: 'https://maxvideoai.com/app?job=job%2Fid%3Fnext%3D%2Fbilling',
     },
   );

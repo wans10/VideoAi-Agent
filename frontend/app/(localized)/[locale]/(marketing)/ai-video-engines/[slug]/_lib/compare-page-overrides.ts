@@ -16,6 +16,7 @@ const internalHrefPatternsByLocale: Record<AppLocale, readonly RegExp[]> = {
   en: [neutralInternalHrefPattern, generationInternalHrefPattern],
   fr: [neutralInternalHrefPattern, generationInternalHrefPattern, /^\/fr\/(?:(?:modeles|exemples|comparatif)\/[^\s]+|tarifs(?:#[^\s]+)?)$/],
   es: [neutralInternalHrefPattern, generationInternalHrefPattern, /^\/es\/(?:(?:modelos|ejemplos|comparativa)\/[^\s]+|precios(?:#[^\s]+)?)$/],
+  zh: [neutralInternalHrefPattern, generationInternalHrefPattern, /^\/zh\/(?:(?:models|examples|ai-video-engines)\/[^\s]+|pricing(?:#[^\s]+)?)$/],
 };
 
 const metaSchema = z.object({
@@ -70,6 +71,7 @@ const comparePageContentSchema: z.ZodType<ComparePageContentDocument> = z.object
   en: comparePageOverrideSchema,
   fr: comparePageOverrideSchema,
   es: comparePageOverrideSchema,
+  zh: comparePageOverrideSchema.optional(),
 }).strict();
 
 function assertPathSafeComparisonSlug(slug: string): void {
@@ -104,6 +106,15 @@ function assertStructuralParity(document: ComparePageContentDocument, source: st
       );
     }
   }
+  if (document.zh) {
+    const localizedPaths = collectStructuralFieldPaths(document.zh);
+    if (JSON.stringify(localizedPaths) !== JSON.stringify(englishPaths)) {
+      throw new Error(
+        `[comparison-content] Failed structural parity for zh in ${source}: ` +
+          `expected ${JSON.stringify(englishPaths)}, received ${JSON.stringify(localizedPaths)}`,
+      );
+    }
+  }
 }
 
 function assertSupportedLinkHrefs(document: ComparePageContentDocument, source: string): void {
@@ -116,6 +127,16 @@ function assertSupportedLinkHrefs(document: ComparePageContentDocument, source: 
               `expected a supported ${locale} public route, received ${JSON.stringify(link.href)}`,
           );
         }
+      }
+    }
+  }
+  if (document.zh?.primaryLinks) {
+    for (const [index, link] of document.zh.primaryLinks.entries()) {
+      if (!internalHrefPatternsByLocale.zh.some((pattern) => pattern.test(link.href))) {
+        throw new Error(
+          `[comparison-content] Invalid href in ${source} at zh.primaryLinks.${index}.href: ` +
+            `expected a supported zh public route, received ${JSON.stringify(link.href)}`,
+        );
       }
     }
   }

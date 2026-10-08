@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "Tarification par scénario Wan 3",
       "subtitle": "Comparez une scène en 720p avec la même scène en 1080p.",
-      "footnote": "Ajouter une vidéo augmente votre devis Wan 3 : sa durée entre dans le calcul du prix avec celle de la vidéo générée, pour les références, la modification ou l’extension. MaxVideoAI confirme le devis avant de générer.",
+      "footnote": "Ajouter une vidéo augmente votre devis Wan 3 : sa durée entre dans le calcul du prix avec celle de la vidéo générée, pour les références, la modification ou l’extension. VideoAI confirme le devis avant de générer.",
       "ctaLabel": "Générer avec Wan 3",
       "ctaHref": "/app?engine=wan-3"
     },

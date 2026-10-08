@@ -36,7 +36,7 @@ export const recommendModelsInputSchema = z.object({
     'native_audio',
     'high_resolution',
   ]).nullable().default(null).describe(
-    'Creative goal used only with reviewed MaxVideoAI model guidance, or null when unstated.',
+    'Creative goal used only with reviewed Keyvo model guidance, or null when unstated.',
   ),
   priorities: z.array(z.enum([
     'speed',
@@ -62,7 +62,7 @@ export function registerRecommendModelsTool(
   server.registerTool(
     'recommend_models',
     {
-      title: 'Recommend MaxVideoAI models',
+      title: 'Recommend Keyvo models',
       description: [
         'Use this when the user is undecided or asks for advice on which AI video/image model fits a creative goal.',
         'Present the best-fit available executable model first, then strong alternatives from distinct model families when useful.',

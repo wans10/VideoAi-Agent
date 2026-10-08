@@ -163,7 +163,7 @@ export const PIKA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     seo: {
       title: 'Pika 2.2 – Stylized Text & Image to Video',
       description:
-        'Generate stylized AI video from prompts or animate uploaded stills using Pika 2.2. Perfect for short-form loops without audio via MaxVideoAI.',
+        'Generate stylized AI video from prompts or animate uploaded stills using Pika 2.2. Perfect for short-form loops without audio via Keyvo.',
       canonicalPath: '/models/pika-text-to-video',
     },
     type: 'textImage',
@@ -200,7 +200,7 @@ export const PIKA_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         question: 'Does Pika 2.2 include audio?',
-        answer: 'Base renders are silent. Layer audio afterwards in MaxVideoAI using the soundtrack add-on.',
+        answer: 'Base renders are silent. Layer audio afterwards in Keyvo using the soundtrack add-on.',
       },
     ],
     pricingHint: {

@@ -98,7 +98,7 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
   const model = resolveRuntimePublicSlug(slug);
   if (!model || !isRuntimeModelPagePublished(model)) {
     return {
-      title: 'Model not found - MaxVideo AI',
+      title: 'Model not found - Keyvo',
       robots: { index: false, follow: false },
     };
   }
@@ -125,7 +125,7 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
   const engine = getFalEngineBySlug(slug);
   if (!isPublishedModelPage(engine)) {
     return {
-      title: 'Model not found - MaxVideo AI',
+      title: 'Model not found - Keyvo',
       robots: { index: false, follow: false },
     };
   }
@@ -135,13 +135,13 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
     locale,
     decisionContent: localized.decision,
   });
-  const fallbackTitle = engine.seo.title ?? `${engine.marketingName} — MaxVideo AI`;
+  const fallbackTitle = engine.seo.title ?? `${engine.marketingName} — Keyvo`;
   const title = decisionData?.meta.title ?? localized.seo.title ?? fallbackTitle;
   const description =
     decisionData?.meta.description ??
     localized.seo.description ??
     engine.seo.description ??
-    'Explore availability, prompts, pricing, and render policies for this model on MaxVideoAI.';
+    'Explore availability, prompts, pricing, and render policies for this model on Keyvo.';
   const ogImagePath =
     localized.seo.image ?? MODEL_OG_IMAGE_MAP[canonicalSlug] ?? engine.media?.imagePath ?? '/og/brand-2026-09-25.png';
   return buildSeoMetadata({
@@ -243,13 +243,13 @@ async function renderMarketingModelPage({
     id: `${engine.modelSlug}-hero-fallback`,
     prompt:
       engine.type === 'image'
-        ? `${modelName} demo still from MaxVideoAI`
-        : `${modelName} demo clip from MaxVideoAI`,
+        ? `${modelName} demo still from Keyvo`
+        : `${modelName} demo clip from Keyvo`,
     videoUrl:
       engine.type === 'image'
         ? null
         : (resolvePublicMarketingVideoUrl(engine.media?.videoUrl) ?? resolvePublicMarketingVideoUrl(engine.demoUrl)),
-    posterUrl: normalizeMediaUrl(engine.media?.imagePath),
+    posterUrl: normalizeMediaUrl(engine.media?.imagePath) ?? normalizeMediaUrl(localizedContent.seo?.image),
     durationSec: null,
     hasAudio: engine.type === 'image' ? false : true,
     href: null,

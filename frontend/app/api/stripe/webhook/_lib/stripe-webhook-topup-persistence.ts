@@ -1,4 +1,5 @@
 import { ensureUserPreferredCurrency, normalizeCurrencyCode } from '@/lib/currency';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { query, withDbTransaction, type QueryExecutor } from '@/lib/db';
 import { ensureBillingSchema } from '@/lib/schema';
 import { recordMockWalletTopUp } from '@/lib/wallet';
@@ -199,7 +200,7 @@ export async function recordStripeTopup(
     stripeReceiptUrl,
   } = input;
   const { receiptsPriceOnly } = options;
-  const walletCurrencyUpper = walletCurrency ? walletCurrency.toUpperCase() : 'USD';
+  const walletCurrencyUpper = walletCurrency ? walletCurrency.toUpperCase() : CUSTOMER_CURRENCY;
   const normalizedWalletAmount = Math.max(0, Math.round(walletAmountCents));
   const settlementCurrencyUpper = settlementCurrency ? settlementCurrency.toUpperCase() : walletCurrencyUpper;
   const normalizedSettlementAmount = settlementAmountCents != null ? Math.max(0, Math.round(settlementAmountCents)) : null;

@@ -1,5 +1,12 @@
 /** Fallbacks for picker keys that are not yet present in the route translation bundles. */
 export function assetLibraryLocaleDefaults(locale: string) {
+  if (locale === 'zh') return {
+    searchPlaceholder: '搜索素材…', import: '导入', importing: '导入中…', importFailed: '导入失败，请重试。',
+    sourcesTitle: '素材', toolsTitle: '创作或转换', toolsDescription: '在其他工具中准备源素材，再导入此处。', emptySearch: '没有符合搜索条件的素材。',
+    emptyRecent: '暂无近期输出。', emptyStoryboard: '暂无已保存分镜。', emptyCharacter: '暂无已保存角色。', emptyAngle: '暂无已保存视角。', emptyUpscale: '暂无已保存放大结果。',
+    tabs: { recent: '近期输出', storyboard: '分镜', character: '角色', angle: '视角', upscale: '放大' },
+    shortcuts: { createImage: '生成图片', storyboard: '分镜', changeAngle: '改变视角', characterBuilder: '创建角色', upscale: '放大' },
+  };
   if (locale === 'fr') return {
     searchPlaceholder: 'Rechercher des médias…', import: 'Importer', importing: 'Importation…', importFailed: 'Échec de l’importation. Réessayez.',
     sourcesTitle: 'Médias', toolsTitle: 'Créer ou transformer', toolsDescription: 'Préparez une source dans un autre outil, puis importez-la ici.', emptySearch: 'Aucun média ne correspond à cette recherche.',
@@ -17,6 +24,7 @@ export function assetLibraryLocaleDefaults(locale: string) {
   return {};
 }
 export function assetLibraryActionsCopy(locale: string) {
+  if (locale === 'zh') return { use: '使用', delete: '删除', deleting: '删除中…', loadError: '无法加载素材库，请点击刷新重试。' };
   return locale === 'fr'
     ? { use: 'Utiliser', delete: 'Supprimer', deleting: 'Suppression…', loadError: 'Impossible de charger Médias. Réessayez avec Actualiser.' }
     : locale === 'es'

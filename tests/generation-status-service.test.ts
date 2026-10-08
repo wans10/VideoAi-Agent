@@ -179,7 +179,7 @@ test('agent status returns only stable completed image media and omits private g
   }
 });
 
-test('agent status rejects absolute private MaxVideoAI result paths', () => {
+test('agent status rejects absolute private Keyvo result paths', () => {
   for (const videoUrl of [
     'https://maxvideoai.com/api/media/job.mp4',
     'https://maxvideoai.com/jobs/job_1.mp4',
@@ -309,7 +309,7 @@ test('agent status exposes only the safe Seedance task-type code and actionable 
 
 test('agent failure messages never echo arbitrary secrets, identities, or opaque bodies', () => {
   const expected =
-    `MaxVideoAI could not complete this render. ${FAILED_ATTEMPT_BOUNDARY}`;
+    `Keyvo could not complete this render. ${FAILED_ATTEMPT_BOUNDARY}`;
   for (const message of [
     'Stripe key sk_live_supersecret belongs to alice@example.com',
     'api_token=tok_123456789 short_secret=abc123',
@@ -564,7 +564,7 @@ test('provider polling stalled is a terminal safe public failure without retry',
     surface: 'video',
     status: 'failed',
     progress: 90,
-    message: `This render needs manual review. Contact MaxVideoAI support with your request ID before preparing another attempt. ${FAILED_ATTEMPT_BOUNDARY}`,
+    message: `This render needs manual review. Contact Keyvo support with your request ID before preparing another attempt. ${FAILED_ATTEMPT_BOUNDARY}`,
     priceCents: 42,
     currency: 'USD',
     paymentStatus: 'paid_wallet',

@@ -48,7 +48,7 @@
         },
         {
           "question": "Do Seedance 2.0 and Fast support video edit and extend?",
-          "answer": "Yes. On MaxVideoAI, Seedance 2.0 and Seedance 2.0 Fast support video edit and extend workflows, plus text-to-video, image-to-video, and reference-to-video."
+          "answer": "Yes. On VideoAI, Seedance 2.0 and Seedance 2.0 Fast support video edit and extend workflows, plus text-to-video, image-to-video, and reference-to-video."
         },
         {
           "question": "Is Seedance 2.0 better for polished Seedance video output?",
@@ -109,7 +109,7 @@
         },
         {
           "question": "Seedance 2.0 et Fast supportent-ils video edit et extend ?",
-          "answer": "Oui. Sur MaxVideoAI, Seedance 2.0 et Seedance 2.0 Fast supportent les workflows video edit et extend, en plus du text-to-video, image-to-video et reference-to-video."
+          "answer": "Oui. Sur VideoAI, Seedance 2.0 et Seedance 2.0 Fast supportent les workflows video edit et extend, en plus du text-to-video, image-to-video et reference-to-video."
         },
         {
           "question": "Seedance 2.0 est-il meilleur pour une sortie video Seedance soignee ?",
@@ -170,7 +170,7 @@
         },
         {
           "question": "Seedance 2.0 y Fast soportan video edit y extend?",
-          "answer": "Si. En MaxVideoAI, Seedance 2.0 y Seedance 2.0 Fast soportan workflows de video edit y extend, ademas de text-to-video, image-to-video y reference-to-video."
+          "answer": "Si. En VideoAI, Seedance 2.0 y Seedance 2.0 Fast soportan workflows de video edit y extend, ademas de text-to-video, image-to-video y reference-to-video."
         },
         {
           "question": "Es mejor Seedance 2.0 para una salida de video de Seedance mas pulida?",
@@ -181,6 +181,67 @@
           "answer": "No. La espera depende de la duración, la resolución, las referencias y las colas del proveedor. La mediana y el P90 usan tráfico de producción admisible de los últimos 30 días, sin exigir ajustes idénticos. La ausencia de datos indica una muestra insuficiente o una medición no disponible."
         }
       ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.0 对比 Fast：画质、速度、价格与适用场景",
+      "description": "在 VideoAI 上对比 Seedance 2.0 与 Seedance 2.0 Fast 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "精细 1080p / 4K 输出选择 Seedance 2.0；低成本 480p / 720p 草稿选择 Fast。对比下方输出与设置；实际等待时间取决于路由、设置和提供商队列。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "主要取舍是输出画质、分辨率与测试成本。Seedance 2.0 支持带原生音频和参考的精细 1080p / 4K；Fast 提供低成本 480p / 720p 提示词和时序测试。Fast 名称不保证每项任务等待更短；下方带日期的生产测量仅供参考，不是受控速度实验。"
+    },
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/seedance-2-0",
+        "label": "查看 Seedance 2.0 详情"
+      },
+      {
+        "href": "/examples/seedance",
+        "label": "查看 Seedance AI 视频案例"
+      },
+      {
+        "href": "/models/seedance-2-0-fast",
+        "label": "查看 Seedance 2.0 Fast 详情"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择适合的 Seedance 工作流。",
+      "items": [
+        {
+          "question": "草稿应该使用哪款 Seedance AI 模型？",
+          "answer": "低成本 480p / 720p 草稿和提示词测试使用 Fast；1080p / 4K 交付及更精细输出使用标准 Seedance 2.0。生成前核对当前价格和设置。"
+        },
+        {
+          "question": "Seedance 2.0 和 Seedance 2.0 Fast 有何不同？",
+          "answer": "精细多镜头、原生音频和复杂参考驱动输出更适合 Seedance 2.0；低成本测试、时序检查和早期迭代更适合 Fast。"
+        },
+        {
+          "question": "Seedance 2.0 Fast 与标准版有什么区别？",
+          "answer": "通常“标准版”指 Seedance 2.0。低成本 480p / 720p 草稿和时序检查使用 Fast；精细画面、1080p / 4K 和最终成片一致性使用标准版。"
+        },
+        {
+          "question": "Seedance 2.0 和 Fast 都支持视频编辑和延长吗？",
+          "answer": "是。VideoAI 中两款都支持视频编辑和延长，以及文生视频、图生视频和参考生视频。"
+        },
+        {
+          "question": "精细 Seedance 输出更适合 Seedance 2.0 吗？",
+          "answer": "是。精细输出更适合 Seedance 2.0；快速测试想法和对比工作流更适合 Fast。"
+        },
+        {
+          "question": "Seedance 2.0 Fast 总是更快吗？",
+          "answer": "不是。生成时间取决于时长、分辨率、参考素材和提供商队列。下方中位数与 P90 来自 30 天内符合要求的生产流量，不是相同设置对比。缺少数据表示未达到公开样本要求或测量不可用。"
+        }
+      ]
+    },
+    "pricingCreditLink": {
+      "href": "/pay-as-you-go-ai-video-generator",
+      "label": "余额与计费说明"
     }
   }
 }

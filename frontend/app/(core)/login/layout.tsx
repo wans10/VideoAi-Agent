@@ -3,11 +3,11 @@ import type { ReactNode } from 'react';
 import { SITE_ORIGIN } from '@/lib/siteOrigin';
 
 const DESCRIPTION =
-  'Create your MaxVideoAI workspace account to generate videos with Sora, Veo, Pika, Kling and more. Sign in, manage credits, and keep every render in one hub.';
+  '登录 Keyvo 影像工作室，创作视频、图片与声音，管理账户余额和生成作品。';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'MaxVideoAI — Log in',
+    absolute: 'Keyvo — 登录',
   },
   description: DESCRIPTION,
   alternates: {
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
     follow: false,
   },
   openGraph: {
-    title: 'MaxVideoAI — Log in',
+    title: 'Keyvo — 登录',
     description: DESCRIPTION,
     url: `${SITE_ORIGIN}/login`,
   },
   twitter: {
-    title: 'MaxVideoAI — Log in',
+    title: 'Keyvo — 登录',
     description: DESCRIPTION,
   },
 };

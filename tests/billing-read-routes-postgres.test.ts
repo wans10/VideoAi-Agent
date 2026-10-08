@@ -100,14 +100,14 @@ test('Billing GETs read only the authenticated ledger and expose database failur
     fixture.userId = otherUser;
     for (const preferred of ['gbp', 'chf']) {
       await pg.pool.query('UPDATE profiles SET preferred_currency = $2 WHERE id = $1', [otherUser, preferred]);
-      for (const [country, expected] of [['GB', 'EUR'], ['US', 'USD']]) {
+      for (const [country, expected] of [['GB', 'CNY'], ['US', 'CNY']]) {
         fixture.statements.length = 0;
         const response = await routes.getCurrency(new Request('http://localhost/api/me/currency', {
           headers: { 'x-vercel-ip-country': country },
         }));
         const data = await response.json();
         assert.equal(response.status, 200);
-        assert.deepEqual(data.enabled, ['EUR', 'USD']);
+        assert.deepEqual(data.enabled, ['CNY', 'EUR', 'USD']);
         assert.equal(data.currency, expected);
         assert.equal(data.locked, false);
         assert.deepEqual(data.balances, [{ currency: 'GBP', balanceCents: 99999 }]);
@@ -116,6 +116,7 @@ test('Billing GETs read only the authenticated ledger and expose database failur
         assert.equal((await pg.pool.query('SELECT preferred_currency FROM profiles WHERE id = $1', [otherUser])).rows[0].preferred_currency, preferred);
       }
     }
+    await pg.pool.query('UPDATE profiles SET preferred_currency = $2 WHERE id = $1', [otherUser, 'gbp']);
     fixture.userId = fixtureUser;
   });
   await t.test('receipts keep pagination, original cents and stored invoice precedence', async () => {

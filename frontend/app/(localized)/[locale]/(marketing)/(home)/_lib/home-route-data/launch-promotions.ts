@@ -108,7 +108,7 @@ export function buildHomepageP0PromotionCards({
       mode: content.modeLabels?.t2v ?? 'Text-to-video',
       duration: `${video.durationSec}${locale === 'fr' ? ' s' : 's'}`,
       price: formatCurrentExamplePrice(currentPrices.get(video.id), locale),
-      useCase: locale === 'fr' ? 'Nouvelle génération' : locale === 'es' ? 'Nueva generación' : 'New generation',
+      useCase: locale === 'fr' ? 'Nouvelle génération' : locale === 'es' ? 'Nueva generación' : locale === 'zh' ? '新一代模型' : 'New generation',
       imageSrc: video.thumbUrl,
       videoSrc: video.videoUrl,
       imageAlt: locale === 'fr'

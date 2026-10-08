@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import { ActivityJobActionPanel } from './library/ActivityJobActionPanel.client';
 import { GalleryMediaActionPanel } from './library/GalleryMediaActionPanel.client';
 import { galleryMediaAssets } from './library/gallery-media-assets';
@@ -40,6 +41,7 @@ export function GroupedJobCardMenu({
   recreateLabel,
   savingToLibrary,
 }: GroupedJobCardMenuProps) {
+  const { locale } = useI18n();
   const showAdvancedMenuActions = menuVariant === 'full';
   const showGalleryActions = menuVariant === 'gallery';
   const showGalleryImageActions = menuVariant === 'gallery-image';
@@ -99,7 +101,7 @@ export function GroupedJobCardMenu({
             onClick={() => handleAction('download')}
             className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
           >
-            <span>Download</span>
+            <span>{locale === 'zh' ? '下载' : 'Download'}</span>
           </Button>
         </>
       ) : showGalleryImageActions ? (
@@ -111,7 +113,7 @@ export function GroupedJobCardMenu({
             onClick={() => handleAction('open')}
             className="w-full justify-between rounded-input px-2 py-1.5 text-left"
           >
-            <span>Open</span>
+            <span>{locale === 'zh' ? '打开' : 'Open'}</span>
           </Button>
           <Button
             type="button"
@@ -120,7 +122,7 @@ export function GroupedJobCardMenu({
             onClick={() => handleAction('save-image')}
             className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
           >
-            <span>Add to Media</span>
+            <span>{locale === 'zh' ? '保存到素材库' : 'Add to Media'}</span>
           </Button>
           <Button
             type="button"
@@ -129,7 +131,7 @@ export function GroupedJobCardMenu({
             onClick={() => handleAction('download')}
             className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
           >
-            <span>Download</span>
+            <span>{locale === 'zh' ? '下载' : 'Download'}</span>
           </Button>
           <Button
             type="button"
@@ -138,7 +140,7 @@ export function GroupedJobCardMenu({
             onClick={() => handleAction('copy')}
             className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
           >
-            <span>Copy link</span>
+            <span>{locale === 'zh' ? '复制链接' : 'Copy link'}</span>
           </Button>
         </>
       ) : (
@@ -173,7 +175,7 @@ export function GroupedJobCardMenu({
                 onClick={() => handleAction('continue')}
                 className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
               >
-                <span>Continue (Hero)</span>
+                <span>{locale === 'zh' ? '延续主结果' : 'Continue (Hero)'}</span>
               </Button>
               <Button
                 type="button"
@@ -182,7 +184,7 @@ export function GroupedJobCardMenu({
                 onClick={() => handleAction('refine')}
                 className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
               >
-                <span>Refine (Hero)</span>
+                <span>{locale === 'zh' ? '优化主结果' : 'Refine (Hero)'}</span>
               </Button>
               <Button
                 type="button"
@@ -191,7 +193,7 @@ export function GroupedJobCardMenu({
                 onClick={() => handleAction('branch')}
                 className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
               >
-                <span>Branch</span>
+                <span>{locale === 'zh' ? '创建分支' : 'Branch'}</span>
               </Button>
               <Button
                 type="button"
@@ -200,7 +202,7 @@ export function GroupedJobCardMenu({
                 onClick={() => handleAction('compare')}
                 className="mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left"
               >
-                <span>Compare</span>
+                <span>{locale === 'zh' ? '对比' : 'Compare'}</span>
               </Button>
             </>
           ) : null}
@@ -215,7 +217,7 @@ export function GroupedJobCardMenu({
           className={clsx('mt-1 w-full justify-between rounded-input px-2 py-1.5 text-left', savingToLibrary ? 'opacity-60' : '')}
           disabled={savingToLibrary}
         >
-          <span>{savingToLibrary ? 'Saving…' : 'Add to Media'}</span>
+          <span>{savingToLibrary ? (locale === 'zh' ? '保存中…' : 'Saving…') : (locale === 'zh' ? '保存到素材库' : 'Add to Media')}</span>
         </Button>
       )}
       {allowRemove && group.count <= 1 && (
@@ -226,7 +228,7 @@ export function GroupedJobCardMenu({
           onClick={() => handleAction('remove')}
           className="mt-2 w-full justify-between rounded-input px-2 py-1.5 text-left text-error hover:bg-error-bg"
         >
-          <span>Remove from history</span>
+          <span>{locale === 'zh' ? '从历史记录移除' : 'Remove from history'}</span>
         </Button>
       )}
     </div>

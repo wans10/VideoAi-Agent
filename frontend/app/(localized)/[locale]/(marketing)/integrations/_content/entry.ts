@@ -10,6 +10,24 @@ type EntryCopy = {
 };
 
 const copy: Record<AppLocale, Record<'claude' | 'codex', EntryCopy>> = {
+  zh: {
+    claude: {
+      eyebrow:'在 Claude Desktop 中制作首个片段',title:'连接、审核、创作。',
+      cost:'付费素材使用您的 MaxVideoAI 钱包。在您确认前展示模型、参数和准确报价。自定义连接器需要 Claude Pro / Max，或由 Team / Enterprise 组织启用的权限。无需额外 MaxVideoAI 订阅。',
+      scope:'已发布的 Claude Desktop 结果来自注明日期的受控 staging 测试。Claude Code 有独立配置指南，在宿主记录中仍未验证。',
+      steps:[{title:'连接并授权',body:'在 Claude Desktop 中添加自定义连接器。登录或创建 MaxVideoAI 账户，审核权限后返回对话。'},
+        {title:'提交需求并审核报价',body:'请求一个短片，审核模型、时长、分辨率和当前准确价格。建议或预算不会开始生成。'},
+        {title:'确认并获取片段',body:'确认报价后开始付费尝试。完成后在已连接的 MaxVideoAI 素材库中打开并下载片段。'}],
+    },
+    codex:{
+      eyebrow:'为项目准备发布素材',title:'让创意需求伴随开发。',
+      cost:'确认准确报价后，从 MaxVideoAI 钱包支付素材生成费用。Codex 有独立的访问要求，无需额外 MaxVideoAI 订阅。',
+      scope:'已发布的生产检查覆盖 Codex CLI，不代表所有 Codex 界面或版本具有相同行为。',
+      steps:[{title:'安装并授权',body:'使用下方指南添加 MaxVideoAI 插件，在浏览器中授权账户，再返回 Codex。'},
+        {title:'准备一个发布短片',body:'描述项目或网站需要的画面。确认前审核支持的模型、参数和当前准确价格。'},
+        {title:'确认并获取素材',body:'确认报价后开始付费尝试。成片保存在 MaxVideoAI 素材库，可打开和下载。'}],
+    },
+  },
   en: {
     claude: {
       eyebrow: 'Your first clip in Claude Desktop', title: 'Connect. Review. Create.',

@@ -73,7 +73,7 @@ test('link service creates one private 15-minute browser handoff for the OAuth p
     destination: {
       type: 'open_url',
       purpose: 'reference_upload',
-      label: 'Upload a private video reference to MaxVideoAI',
+      label: 'Upload a private video reference to Keyvo',
       url: `https://maxvideoai.com/mcp/reference-upload/${token}`,
     },
     expiresAt: expiresAt.toISOString(),
@@ -83,7 +83,7 @@ test('link service creates one private 15-minute browser handoff for the OAuth p
     library: {
       type: 'open_url',
       purpose: 'media_library',
-      label: 'Open the MaxVideoAI media library',
+      label: 'Open the Keyvo media library',
       url: 'https://maxvideoai.com/app/library',
     },
     nextAction: { tool: 'list_media', arguments: { kind: 'video' } },
@@ -95,7 +95,7 @@ test('create_reference_upload_link is gated, strict, non-destructive, and open-w
     destination: {
       type: 'open_url' as const,
       purpose: 'reference_upload' as const,
-      label: 'Upload a private audio reference to MaxVideoAI',
+      label: 'Upload a private audio reference to Keyvo',
       url: `https://maxvideoai.com/mcp/reference-upload/${token}`,
     },
     expiresAt: expiresAt.toISOString(),
@@ -105,7 +105,7 @@ test('create_reference_upload_link is gated, strict, non-destructive, and open-w
     library: {
       type: 'open_url' as const,
       purpose: 'media_library' as const,
-      label: 'Open the MaxVideoAI media library',
+      label: 'Open the Keyvo media library',
       url: 'https://maxvideoai.com/app/library',
     },
     nextAction: { tool: 'list_media' as const, arguments: { kind: 'audio' as const } },

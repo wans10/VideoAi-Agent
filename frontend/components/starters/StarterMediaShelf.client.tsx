@@ -8,7 +8,7 @@ export function StarterMediaShelf({ surface, onUsePrompt, onSelectItem }: { surf
   const { locale } = useI18n();
   const audioKinds = locale === 'fr' ? { voice: 'Voix · EN', music: 'Instrumental', song: 'Chanson · EN' }
     : locale === 'es' ? { voice: 'Voz · EN', music: 'Instrumental', song: 'Canción · EN' }
-      : { voice: 'Voice · EN', music: 'Instrumental', song: 'Song · EN' };
+      : locale === 'zh' ? { voice: '配音 · 英文', music: '纯音乐', song: '歌曲 · 英文' } : { voice: 'Voice · EN', music: 'Instrumental', song: 'Song · EN' };
   const copy = locale === 'fr' ? { title: 'À vous de jouer', samples: 'Exemples créatifs', voices: 'Samples audio', use: 'Reprendre le prompt', hint: 'Une idée de départ, à réinterpréter avec votre modèle.' }
     : locale === 'es' ? { title: 'Ahora te toca', samples: 'Ejemplos creativos', voices: 'Muestras de audio', use: 'Usar el prompt', hint: 'Una idea para reinterpretar con tu modelo.' }
       : { title: 'Make it your own', samples: 'Creative samples', voices: 'Audio samples', use: 'Use this prompt', hint: 'A starting idea to reinterpret with your model.' };

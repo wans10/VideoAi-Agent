@@ -256,6 +256,7 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
   paymentMode: PaymentMode;
   walletChargeReserved: boolean;
   fallbackToFalEnabled: boolean;
+  submitLlmhubFallback?: (directAttemptId: number | null) => Promise<GoogleVertexVeoGenerateSubmissionResult>;
   falPayload: GeneratePayload;
   falInputSummary: FalInputSummary;
   isLumaRay2: boolean;
@@ -281,6 +282,7 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
     falPayload: params.falPayload,
   });
   if (!support.supported) {
+    if (params.submitLlmhubFallback) return params.submitLlmhubFallback(null);
     if (!params.fallbackToFalEnabled) {
       const message = userSafeGoogleVertexVeoMessage('unsupported_params');
       console.warn('[google-vertex-veo] unsupported direct request failed without fallback', {
@@ -376,6 +378,7 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
     queryFn,
   });
 
+  let acceptedProviderJobId: string | null = null;
   try {
     const payload = await buildGoogleVertexVeoPayload({
       engineId: params.engineId,
@@ -396,6 +399,7 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
         raw: operation,
       });
     }
+    acceptedProviderJobId = operationName;
 
     await markProviderAttemptAccepted({
       attemptId: googleAttempt.id,
@@ -449,8 +453,21 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
     };
   } catch (error) {
     const normalized = classifyGoogleVertexVeoError(error);
-    const fallbackEligible = shouldFallbackFromGoogleVertexVeoSubmit({
-      acceptedProviderJobId: null,
+    if (acceptedProviderJobId) {
+      await queryFn(
+        `UPDATE app_jobs SET status = 'queued', provider = $2, provider_job_id = $3,
+          provisional = FALSE, updated_at = NOW() WHERE job_id = $1`,
+        [params.jobId, GOOGLE_VERTEX_VEO_PROVIDER, acceptedProviderJobId],
+      ).catch(() => undefined);
+      return { ok: false, status: 503, body: {
+        ok: false, error: 'PROVIDER_TRACKING_RECOVERING',
+        jobId: params.jobId, providerJobId: acceptedProviderJobId,
+      } };
+    }
+    const llmhubFallbackEligible = Boolean(params.submitLlmhubFallback)
+      && !acceptedProviderJobId && [429, 503].includes(normalized.status ?? 0);
+    const fallbackEligible = llmhubFallbackEligible || shouldFallbackFromGoogleVertexVeoSubmit({
+      acceptedProviderJobId,
       error,
       fallbackToFalEnabled: params.fallbackToFalEnabled,
     });
@@ -463,6 +480,9 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
       queryFn,
     });
 
+    if (llmhubFallbackEligible && params.submitLlmhubFallback) {
+      return params.submitLlmhubFallback(googleAttempt.id);
+    }
     if (!fallbackEligible) {
       const message = userSafeGoogleVertexVeoMessage(normalized.errorClass);
       console.warn('[google-vertex-veo] submit failed without fallback', {

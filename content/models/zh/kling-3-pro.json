@@ -1,0 +1,532 @@
+{
+  "marketingName": "Kling 3 Pro",
+  "versionLabel": "v3 Pro",
+  "seo": {
+    "title": "Kling 3 Pro | AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Kling 3 Pro 进行多镜头 AI 视频创作、场景控制与原生音频生成，渲染前即可查看实时参数规格与价格。",
+    "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/27311f53-6265-4eac-b88b-021d57eca35b-job_665a317f-f4dc-41c8-ade4-4a0a891627c8.jpg"
+  },
+  "overview": "Kling 3 Pro 是 VideoAI 上当前主流的 Kling AI 视频模型，支持多镜头视频生成、首帧图生视频工作流、可复用的 Kling Elements（元素）、可选尾帧控制以及原生音频生成。",
+  "pricingNotes": "会员展示预估价格已包含 VideoAI 综合费率：开启音频约 $0.22/秒，关闭音频约 $0.15/秒，启用语音控制约 $0.26/秒。",
+  "hero": {
+    "title": "Kling 3 Pro — 适用于多镜头视频与场景控制的当前主力 Kling 模型",
+    "intro": "Kling 3 Pro 是当前用于多镜头视频、首帧图生视频工作流、可复用 Kling Elements、可选尾帧以及原生音频的主力 Kling AI 模型，非常适合在广告、预告片和电影级序列中实现强大的场景控制。若希望上传的图片作为参考素材而非视频首帧，请使用 Kling 3.0 Omni。",
+    "badge": "1080p · 3–15 秒 · 多提示词（Multi-prompt） · 音频开/关",
+    "ctaPrimary": {
+      "label": "使用 Kling 3 Pro 开始生成",
+      "href": "/app?engine=kling-3-pro"
+    },
+    "secondaryLinks": [
+      {
+        "label": "查看 Kling AI 视频案例",
+        "href": "/zh/examples/kling"
+      },
+      {
+        "label": "查看 Kling 3 4K",
+        "href": "/zh/models/kling-3-4k"
+      },
+      {
+        "label": "查看 Kling 3 Standard",
+        "href": "/zh/models/kling-3-standard"
+      },
+      {
+        "label": "对比 Kling 3 Pro 与 Kling 3 Standard",
+        "href": "/zh/ai-video-engines/kling-3-pro-vs-kling-3-standard"
+      },
+      {
+        "label": "对比 Kling 2.6 Pro 与 Kling 3 Pro",
+        "href": "/zh/ai-video-engines/kling-2-6-pro-vs-kling-3-pro"
+      },
+      {
+        "label": "对比 Kling 3 Pro 与 Veo 3.1",
+        "href": "/zh/ai-video-engines/kling-3-pro-vs-veo-3-1"
+      },
+      {
+        "label": "对比 Kling 3 Pro 与 Seedance 2.0",
+        "href": "/zh/ai-video-engines/kling-3-pro-vs-seedance-2-0"
+      },
+      {
+        "label": "对比 Kling 3 Pro 与 Sora 2 Pro",
+        "href": "/zh/ai-video-engines/kling-3-pro-vs-sora-2-pro"
+      }
+    ]
+  },
+  "compareLink": {
+    "label": "查看 Kling 3 Pro 与 Kling 3 Standard 对比 ->",
+    "href": "/ai-video-engines/kling-3-pro-vs-kling-3-standard"
+  },
+  "bestUseCases": {
+    "title": "最佳适用场景",
+    "items": [
+      {
+        "title": "多镜头广告与预告片（最长 15 秒）",
+        "icon": "cinematic"
+      },
+      {
+        "title": "具备场景级控制的故事节拍",
+        "icon": "storyboard"
+      },
+      {
+        "title": "跨镜头角色与道具一致性（Elements）",
+        "icon": "layers"
+      },
+      {
+        "title": "语音主导的宣传片与吸睛短片（Voice ID）",
+        "icon": "mic"
+      },
+      {
+        "title": "平稳落幅的产品主视觉序列（尾帧控制）",
+        "icon": "product"
+      },
+      {
+        "title": "社交媒体竖屏切片（9:16 / 1:1 衍生版本）",
+        "icon": "smartphone"
+      }
+    ]
+  },
+  "technicalOverviewTitle": "技术规格概览",
+  "technicalOverview": [
+    {
+      "label": "核心特性",
+      "body": "Kling 3 Pro 专为结构化生成而设计：支持多镜头提示词（multi_prompt）、可复用 Kling Elements（@Element1...）、可选尾帧以及带可选 Voice ID 的原生音频。建议像规划分镜脚本一样使用它：标明镜头序号，每个镜头保持单一明确动作，并在各镜头间复用相同的锚点（主体、服装/道具、光影）。"
+    },
+    {
+      "label": "视频时长",
+      "body": "每次渲染 3–15 秒"
+    },
+    {
+      "label": "分辨率",
+      "body": "1080p"
+    },
+    {
+      "label": "画幅比例",
+      "body": "16:9、9:16、1:1"
+    },
+    {
+      "label": "帧率",
+      "body": "24 fps"
+    },
+    {
+      "label": "输入方式",
+      "body": "文生视频；图生视频（PNG/JPG/WebP），支持可选尾帧"
+    },
+    {
+      "label": "控制选项",
+      "body": "多提示词场景（Multi-prompt）、Kling Elements、镜头类型（shot_type）、Voice ID"
+    },
+    {
+      "label": "音频",
+      "body": "默认开启原生音频；可切换关闭或启用语音控制"
+    }
+  ],
+  "promptStructure": {
+    "title": "Kling 3 Pro 提示词结构",
+    "quote": "场景 1: [镜头]. 场景 2: [镜头]. 场景 3: [镜头]. 为每个场景添加时长，并包含音频或对白提示。",
+    "description": "使用多提示词（multi-prompt）将视频切分为多个场景，并通过 Kling Elements 和尾帧保持连贯性。",
+    "steps": [
+      "将视频拆分为 2–4 个场景",
+      "为每个场景分配时长",
+      "引用一致的 Elements 元素",
+      "添加运镜和光影说明",
+      "指定音频说明或 Voice ID"
+    ]
+  },
+  "tips": {
+    "title": "使用技巧与限制",
+    "items": [
+      "所有场景的总时长必须在 3–15 秒之间。",
+      "使用 Elements 保持角色和物体的一致性。",
+      "语音控制为可选功能，会产生少许额外费用。",
+      "添加尾帧可获得更平滑的图生视频连贯性。"
+    ]
+  },
+  "prompts": [
+    {
+      "title": "多场景城市蒙太奇",
+      "prompt": "场景 1 (4s)：黄昏时分的广角天际线，缓慢推进镜头。场景 2 (5s)：雨中霓虹灯倒影特写，浅景深。场景 3 (4s)：主角穿越小巷，环境音效。"
+    },
+    {
+      "title": "产品主视觉序列",
+      "prompt": "场景 1 (5s)：微距手表表盘，清晰倒影。场景 2 (4s)：轮廓光旋转主视觉镜头。场景 3 (4s)：手腕佩戴模特，柔和环境光。"
+    }
+  ],
+  "faqTitle": "常见问题 — VideoAI 中的 Kling 3 Pro",
+  "faqs": [
+    {
+      "q": "什么是多提示词（multi-prompt）？",
+      "a": "它允许您将一段视频拆分为多个场景，每个场景拥有独立的提示词与时长设定。"
+    },
+    {
+      "q": "什么是 Kling Elements（元素）？",
+      "a": "Kling Elements 允许您一次性定义角色或道具，并在不同镜头间复用它们，从而在同一视频片段中保持更稳定的身份和物体连贯性。"
+    },
+    {
+      "q": "我可以控制配音/声音吗？",
+      "a": "可以。提供 Voice ID 即可启用语音控制（按秒收取少许附加费）。"
+    },
+    {
+      "q": "如何使用 Kling AI 进行图生视频和多镜头场景创作？",
+      "a": "当希望图片作为视频的开头画面时，使用一张清晰的首帧图片；每个镜头保持一个清晰可辨的动作，并在各场景间复用相同的 Kling Elements 锚点以减少画面漂移。若希望图片仅作为镜头的参考指引而非首帧，请使用 Kling 3.0 Omni Reference。"
+    }
+  ],
+  "custom": {
+    "whyTitle": "为什么 Kling 3 Pro 表现出众",
+    "heroHighlights": [
+      "单次渲染生成多镜头分镜||逐镜头执导视频序列（最多约 6 个镜头），无需把所有要求塞进一段文字中",
+      "Kling Elements 锁定稳定角色与道具||一次性定义角色或物体，并在各镜头中通过 @Element1 / @Element2 引用以减少特征漂移",
+      "支持精细声音控制的语音功能||可选的 Voice ID 让您在不同镜头中保持一致音色；通过 <<<voice_1>>> / <<<voice_2>>> 进行引用（最多 2 个声音）",
+      "尾帧控制实现更干净的收尾||使用可选的结束帧，让转场、匹配剪辑和产品展示的落幅更具确定性",
+      "镜头类型适配不同创作需求||根据意图选择 shot_type：\"intelligent\"（智能）用于自动覆盖，\"customize\"（自定义）用于严格镜头控制"
+    ],
+    "specTitle": "真实规格 — VideoAI 中的 Kling 3 Pro",
+    "specNote": "规格参数对应当前实际的 Fal 路由能力。",
+    "specSections": [
+      {
+        "title": "多镜头控制",
+        "intro": "将视频拆分为定时镜头，实现长达 15 秒的分镜级专业调度。",
+        "items": [
+          "使用 2–4 个镜头可获得最干净的连贯性。",
+          "每个镜头保持单一明确的动作。",
+          "为每个镜头明确指定景别与单一运镜轨迹。",
+          "总时长保持在 3–15 秒以内。"
+        ]
+      },
+      {
+        "title": "连贯性与音频",
+        "intro": "Elements、Voice ID 和尾帧共同助力稳定角色、道具与声音表现。",
+        "items": [
+          "一次性定义 @Element1/@Element2，随后在各镜头中复用。",
+          "通过 <<<voice_1>>> / <<<voice_2>>> 引用特定声音。",
+          "可选尾帧以确保收尾画面干净精准。",
+          "可在同一次渲染中灵活开启或关闭原生音频。"
+        ]
+      }
+    ],
+    "tipsTitle": "使用技巧与局限性",
+    "tipsIntro": "当像规划分镜脚本一样使用 Kling 3 Pro 时，其输出最可预测：保持简单镜头、一致的元素以及简短的对白。",
+    "strengths": [
+      "生成 3–15 秒视频，包含 2–4 个具有明确镜头标注的镜头。",
+      "对需要保持稳定的角色或道具使用 Elements。",
+      "音频方面：一句简短对白 + 环境音 + 1 个关键音效（保持极简）。",
+      "需要干净落幅或匹配剪辑时，添加尾帧。",
+      "明确选择 shot_type（智能模式用于自动覆盖，自定义模式用于严格控制）。"
+    ],
+    "troubleshootingItems": [
+      "跨镜头画面漂移 → 重复核心锚点并使用 @Element 引用；将每个镜头简化为单一动作。",
+      "运镜感觉混乱 → 每个镜头仅指定一种运镜；避免使用模糊的“动态”，明确写明“平滑跟拍”或“三脚架固定机位”。",
+      "对白或口型不同步 → 缩短台词；减少头部剧烈转动；保持镜头画面更平稳。",
+      "画面出现随机文字/Logo → 加强负向提示词（\"no text, no logos, no UI\"），避免画面中出现指示牌。"
+    ],
+    "boundaries": [
+      "仅限短视频生成（最长 15 秒）；长篇叙事需在后期拼接。",
+      "当前路由支持 1080p 分辨率规格。",
+      "Voice ID 数量有限（最多 2 个），音频语言表现取决于实际路由支持。",
+      "尾帧为可选设置，在清晰描述最终构图时效果最佳。"
+    ],
+    "safetyNote": "VideoAI 内置安全防护与合规指引，助力负责任地使用 Kling 3 Pro 进行创作。"
+  },
+  "decision": {
+    "modelSlug": "kling-3-pro",
+    "hero": {
+      "eyebrow": "AI 视频 · Kling",
+      "title": "Kling 3 Pro",
+      "subtitle": "让故事随镜头生动流转。",
+      "subtitleHighlights": [
+        "让故事随镜头生动流转"
+      ],
+      "paragraph": "通过文本或图像生成 3 到 15 秒的 1080p 视频。精准调度镜头运镜，引导最终尾帧，并随画面同步生成原生音频。",
+      "primaryCta": {
+        "label": "使用 Kling 3 Pro 生成",
+        "href": "/app?engine=kling-3-pro"
+      },
+      "secondaryCta": {
+        "label": "查看案例",
+        "href": "/zh/examples/kling"
+      },
+      "quickLinks": [
+        {
+          "label": "与 Veo 对比",
+          "href": "/zh/ai-video-engines/kling-3-pro-vs-veo-3-1"
+        },
+        {
+          "label": "查看价格",
+          "href": "/zh/pricing#kling-3-pro-pricing"
+        },
+        {
+          "label": "提示词示例",
+          "href": "#prompting"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Kling 3 Pro 案例",
+      "description": "受控 1080p 制作级序列",
+      "renderLabel": "查看渲染",
+      "badges": [
+        "原生音频",
+        "最长 15 秒",
+        "1080p"
+      ],
+      "altContext": "具备分镜式镜头控制的 Kling 3 Pro 电影级序列"
+    },
+    "features": [
+      {
+        "title": "分镜级控制",
+        "body": "为叙事镜头结构化编排场景节拍与运镜方向。",
+        "tone": "continuity"
+      },
+      {
+        "title": "原生音频",
+        "body": "开启音频，生成同步环境音与逼真的场景音效。",
+        "tone": "audio"
+      },
+      {
+        "title": "3–15 秒时长",
+        "body": "自由选择 VideoAI 提供的精准时长范围。",
+        "tone": "duration"
+      },
+      {
+        "title": "1080p 高清输出",
+        "body": "使用专属 1080p 路由，满足制作审片与发布准备需求。",
+        "tone": "quality"
+      },
+      {
+        "title": "首尾帧控制",
+        "body": "从首帧图片启动生成，并可选择性引导结束帧画面。",
+        "tone": "reference"
+      },
+      {
+        "title": "CFG 与负向提示词",
+        "body": "调节提示词遵循度，抑制画面中不需要的瑕疵杂质。",
+        "tone": "quality"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "何时应选择 Kling 3 Pro？",
+        "body": "当需要分镜级运镜控制、最长 15 秒的连续镜头、原生音频以及精准的 1080p 画面时，选择 Kling 3 Pro。",
+        "cta": {
+          "label": "开始使用 Kling 3 Pro 渲染",
+          "href": "/app?engine=kling-3-pro"
+        }
+      },
+      {
+        "title": "需要更严格的运镜指导？",
+        "body": "当镜头轨迹需要精确约束时，使用明确的场景节拍、负向提示词、CFG 比例以及可选的尾帧。",
+        "cta": {
+          "label": "打开提示词实验室",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "对比高端旗舰模型？",
+        "body": "在较长受控镜头序列与高精短片质感之间进行权衡时，可将 Kling 3 Pro 与 Veo 3.1 进行对比。",
+        "cta": {
+          "label": "对比 Kling 与 Veo",
+          "href": "/zh/ai-video-engines/kling-3-pro-vs-veo-3-1"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "文生序列",
+        "body": "编写包含主体、场景节拍、运镜和音频指引的精简分镜脚本。"
+      },
+      {
+        "title": "首帧图片",
+        "body": "当角色身份、产品形态或构图必须以静态图像为基准起步时，使用图生视频模式。"
+      },
+      {
+        "title": "尾帧控制",
+        "body": "当最终姿态或产品落幅需要精确控制时，添加结束帧图片。"
+      },
+      {
+        "title": "负向提示词",
+        "body": "明确排除模糊、变形、多余肢体或与品牌不符的细节，减少异常生成。"
+      },
+      {
+        "title": "CFG 比例",
+        "body": "当提示词需要更严格的遵循度或更自然的动态时，微调 CFG 参数。"
+      }
+    ],
+    "pricingCopy": {
+      "title": "Kling 3 Pro 价格一览",
+      "subtitle": "开启音频的 1080p 预设参考总价 — 在应用中生成前可查看精确的实时报价。",
+      "footnote": "所有价格均为 VideoAI 针对预设场景以美元点数计费的展示价格。",
+      "ctaLabel": "查看完整价格表",
+      "maxDurationNote": "1080p 最长支持 15 秒",
+      "ctaHref": "/zh/pricing#kling-3-pro-pricing"
+    },
+    "meta": {
+      "title": "Kling 3 Pro：价格、原生音频与 15 秒镜头控制 | VideoAI",
+      "description": "生成具备分镜控制、原生音频、1080p 画质、3–15 秒时长的 Kling 3 Pro 视频，支持负向提示词、CFG 调节与可选尾帧指引。"
+    }
+  },
+  "prompting": {
+    "modelSlug": "kling-3-pro",
+    "section": {
+      "title": "如何为 Kling 3 Pro 编写多镜头控制提示词",
+      "intro": "Kling 3 Pro 擅长执行分镜脚本风格的提示词：利用 multi_prompt（多提示词）、可复用的 Kling Elements 锚点、可选尾帧以及简短的原生音频线索。请像镜头规划师一样思考，而不是散文作家。",
+      "tip": null,
+      "guide": {
+        "label": "Kling 3.0 提示词指南",
+        "href": "https://blog.fal.ai/kling-3-0-prompting-guide/"
+      },
+      "referencesTitle": "Kling 3 Pro 如何使用镜头与参考素材"
+    },
+    "tabs": [
+      {
+        "id": "quick",
+        "label": "单镜头",
+        "title": "单镜头提示词",
+        "description": "适用于只需单一清晰动作与单次运镜的场景。",
+        "copy": "[一个主体] [一个可见动作] 在 [场景中]，[构图 + 一个运镜]，[光线/风格]。\n音频（可选）：[环境音 + 1 个音效线索，或一句简短台词]。\n负向提示词：不要文字，不要Logo，不要字幕/覆盖层。"
+      },
+      {
+        "id": "structured",
+        "label": "多镜头",
+        "title": "多镜头提示词",
+        "description": "适用于结构化的 multi_prompt 分镜比单纯随机变化更关键的场景。",
+        "copy": "场景锚点：\n[主体 + 服装/道具 + 2–3 个环境锚点。]\n\n多镜头规划（总计 3–15s）：\n镜头 1 (0–4s)：[构图 + 动作 + 一个运镜]\n镜头 2 (4–10s)：[构图 + 动作 + 一个运镜]\n镜头 3 (10–15s)：[最终动作/揭示 + 收稳]\n\nElements（可选）：\n@Element1 = [主角/主体]\n@Element2 = [道具/产品]\n\n音频（可选）：\n对白：<<<voice_1>>> \"短句台词。\"\n环境音 + 1–2 个音效线索。保持极简。\n\n约束条件：\n不要Logo。不要可读文字。不要字幕/覆盖层。"
+      },
+      {
+        "id": "pro",
+        "label": "元素与音频",
+        "title": "Elements 元素与声音提示词",
+        "description": "适用于整段视频中角色身份、道具和声音必须严格保持锁定的场景。",
+        "copy": "导演简介：\n[目标 + 氛围 + 目标受众。]\n\nElements：\n@Element1 = [角色]\n@Element2 = [产品/道具]\n\n镜头类型：\n[customize | intelligent]\n\n连贯性：\n- 身份 + 服装/道具\n- 地点 + 时间 + 3 个锚点\n- 光线 + 色调\n\n音频（若开启）：\n对白：<<<voice_1>>> \"一句短台词。\"\n环境音 + 1–2 个音效线索。\n\n规则：\n若开启音频，保持台词简短，避免添加过多声音指令。"
+      },
+      {
+        "id": "storyboard",
+        "label": "分镜清单",
+        "title": "分镜清单提示词",
+        "description": "适用于需要完整多镜头序列、配合 shot_type 与可选尾帧的创作。",
+        "copy": "时长：[3–15s] • 画幅：[16:9 / 9:16 / 1:1] • 音频：[开/关] • shot_type：[customize | intelligent]\n\nElements（可选）：\n@Element1 = [主角/主体]\n@Element2 = [道具/产品]\n\n镜头 1 (0–3s)：\n[构图 + 动作 + 运镜]\n\n镜头 2 (3–8s)：\n[构图 + 动作 + 运镜]\n\n镜头 3 (8–15s)：\n[最终动作/揭示 + 运镜收稳]\n尾帧（可选）：[描述您希望落幅的最终画面]\n\n音频（若开启）：\n对白：<<<voice_1>>> \"短句台词。\"\n环境音 + 1–2 个音效线索。\n\n约束条件：\n不要Logo。不要可读文字。不要字幕/覆盖层。每个镜头只保持一个动作。"
+      }
+    ],
+    "tabNotes": [
+      {
+        "tabId": "quick",
+        "body": "单镜头 = 验证景别构图、动作动态与单个故事节拍。"
+      },
+      {
+        "tabId": "structured",
+        "body": "多镜头 = 2–4 个镜头，跨镜头复用核心锚点。"
+      },
+      {
+        "tabId": "pro",
+        "body": "元素与音频 = 锁定角色身份、关键道具与特定音色。"
+      },
+      {
+        "tabId": "storyboard",
+        "body": "分镜清单 = 完整序列，指定 shot_type 与可选尾帧。"
+      }
+    ],
+    "globalPrinciples": [
+      "以镜头而非整段视频为单位思考：每个镜头保持一个清晰可辨的动作。",
+      "将景别构图与运镜动作置于风格形容词之前。",
+      "尽早锚定主体特征（并在各镜头中复用完全相同的措辞）以减少画面漂移。",
+      "若开启音频：保持台词短小精炼，仅添加 1–2 个核心声音线索。"
+    ],
+    "engineWhy": [
+      "multi_prompt：推荐使用 2–4 个镜头以获得最佳连贯性；总时长控制在 15 秒以内。",
+      "Elements：在跨镜头中一致引用 @Element1/@Element2 以稳定身份和道具。",
+      "Voice ID：使用 <<<voice_1>>> / <<<voice_2>>> 引用特定声音（最多支持 2 个声音）。",
+      "音频：原生音频支持中英文；开启音频时其他语种可能会被自动转译为英文。",
+      "尾帧：避免在最后一秒引入全新动作；清晰明确地描述最终姿态与画面构图。",
+      "shot_type：\"intelligent\" 有助于自动化画面覆盖；\"customize\" 更适合进行严格的镜头控制。"
+    ],
+    "demo": {
+      "title": "演示提示词 — Kling 3 Pro",
+      "promptLabel": "生产级提示词",
+      "prompt": "时长：12s • 画幅：16:9 • 音频：开 • shot_type：customize\n@Element1 = 身着藏青色西装外套的女主讲人\n@Element2 = 放置于石墨色展台上的半透明产品原型\n镜头 1 (0-4s)：@Element1 手持 @Element2 的中景，高端摄影棚，柔和主光，稳定机位。\n镜头 2 (4-8s)：@Element1 走向演示大屏，平滑侧面跟拍，保持相同服装与产品锚点。\n镜头 3 (8-12s)：展台上原型特写，受控光影倒影，镜头收稳于最终构图。\n音频：<<<voice_1>>> \"这就是我们平台的下一代产品。\" 安静的摄影棚环境音，一声轻柔的 UI 提示音。不要文字，不要Logo，不要字幕。\"",
+      "notes": [],
+      "summary": {
+        "subject": "产品发布会主讲人",
+        "action": "介绍产品原型并走向演示大屏",
+        "camera": "三个 1080p 分镜镜头，带有平稳跟踪运镜",
+        "style": "高端摄影棚、柔和光线、克制的光影倒影",
+        "output": "开启音频：简短 Voice ID 台词与摄影棚环境音"
+      },
+      "presentationOverrides": {
+        "modeLabel": "提示词",
+        "outputLabel": "音频",
+        "duration": null,
+        "aspectRatio": null,
+        "audioChipMode": "on",
+        "audioChipLabel": null,
+        "altContext": "Kling 3 Pro 产品发布会渲染效果"
+      }
+    },
+    "imageExamples": null
+  },
+  "examples": {
+    "modelSlug": "kling-3-pro",
+    "section": {
+      "title": "Kling 3 Pro 案例展示",
+      "intro": "展示使用多提示词、Elements 元素与语音控制生成的最新 Kling 3 Pro 渲染作品。",
+      "defaultCtaLabel": "查看全部 Kling 3 Pro 案例 →",
+      "recreateLabel": "复现此镜头 →"
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "全部"
+      },
+      {
+        "id": "cinematic",
+        "label": "电影感"
+      },
+      {
+        "id": "product",
+        "label": "产品"
+      },
+      {
+        "id": "action",
+        "label": "动作"
+      },
+      {
+        "id": "vertical",
+        "label": "竖屏"
+      },
+      {
+        "id": "audio",
+        "label": "音频"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-1",
+        "title": "专业级受控渲染",
+        "body": "体验 Kling 3 Pro 所呈现的高级镜头序列 — 适用于多镜头视频与场景控制的当前主力 Kling 模型。",
+        "icon": "sparkles"
+      },
+      {
+        "id": "proof-2",
+        "title": "一键复现作品",
+        "body": "在工作台中载入 Kling 3 Pro 并直接复用其生成参数与提示词结构。",
+        "icon": "zap"
+      },
+      {
+        "id": "proof-3",
+        "title": "音频与音色",
+        "body": "在镜头需要时使用原生音频、口型同步以及指定的 Voice ID。",
+        "icon": "audio"
+      },
+      {
+        "id": "proof-4",
+        "title": "Elements 与尾帧",
+        "body": "使用 Elements 稳定主体与产品特征，并精准控制落幅画面。",
+        "icon": "image"
+      },
+      {
+        "id": "proof-5",
+        "title": "高品质交付",
+        "body": "当画面保真度与稳定性比草稿成本更重要时，选用 Pro 级别。",
+        "icon": "shield"
+      }
+    ],
+    "fallbackItems": null,
+    "showWhenEmpty": true
+  }
+}

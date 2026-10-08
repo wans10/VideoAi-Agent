@@ -1,6 +1,7 @@
 import { safeInternalReturnTarget } from '@/lib/auth-return-target';
-import { locales as LOCALE_OPTIONS } from '@/i18n/locales';
+import { defaultExperienceLocale, resolveSiteLocale } from '@/i18n/locales';
 import type { AuthMode, Locale } from './login-copy';
+const LOCALE_OPTIONS: Locale[] = ['en','fr','es','zh'];
 
 export const DEFAULT_NEXT_PATH = '/generate';
 export const NEXT_PATH_PREFIXES = [
@@ -24,14 +25,14 @@ export function detectLocale(): Locale {
   if (typeof document !== 'undefined') {
     const attr = document.documentElement.lang?.slice(0, 2).toLowerCase();
     if (attr && LOCALE_OPTIONS.includes(attr as Locale)) {
-      return attr as Locale;
+      return resolveSiteLocale(attr);
     }
     const match = document.cookie.match(/(?:NEXT_LOCALE|mvid_locale)=([a-z]{2})/i);
     if (match && LOCALE_OPTIONS.includes(match[1].toLowerCase() as Locale)) {
-      return match[1].toLowerCase() as Locale;
+      return resolveSiteLocale(match[1].toLowerCase());
     }
   }
-  return 'en';
+  return defaultExperienceLocale;
 }
 
 export function formatTemplate(template: string, replacements: Record<string, string>): string {

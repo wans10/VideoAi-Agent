@@ -192,10 +192,10 @@ test('rejected bearer credentials receive an actionable challenge without exposi
   assert.equal(response.status, 401);
   const challenge = response.headers.get('www-authenticate') ?? '';
   assert.match(challenge, /error="invalid_token"/);
-  assert.match(challenge, /error_description="[^"]*Reconnect MaxVideoAI/);
+  assert.match(challenge, /error_description="[^"]*Reconnect (?:VideoAI|Keyvo)/);
   assert.match(challenge, /resource_metadata="https:\/\/api\.maxvideoai\.com\//);
   const body = await response.text();
-  assert.match(body, /Reconnect MaxVideoAI/);
+  assert.match(body, /Reconnect (?:VideoAI|Keyvo)/);
   assert.doesNotMatch(body + challenge, /access-token|private cause|expired|revoked/i);
   assert.equal(response.headers.get('cache-control'), 'private, no-store, no-transform');
 });

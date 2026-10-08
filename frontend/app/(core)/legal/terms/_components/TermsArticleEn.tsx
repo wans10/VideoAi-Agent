@@ -13,7 +13,7 @@ export function TermsArticleEn({
   return (
     <article className="stack-gap-lg text-base leading-relaxed text-text-secondary">
       <p>
-        These Terms govern your access to and use of the MaxVideoAI workspace (the “Service”), including AI-assisted video creation, wallet
+        These Terms govern your access to and use of the Keyvo workspace (the “Service”), including AI-assisted video creation, wallet
         top-ups, job management, and receipts. By creating an account or using the Service you agree to these Terms, the Privacy Policy, and
         the Cookie Policy.
       </p>
@@ -85,19 +85,19 @@ export function TermsArticleEn({
             restrictions specific to the model or provider used.
           </li>
           <li>
-            <strong>Generated media licence.</strong> For every output created with MaxVideoAI, you grant us a worldwide, non-exclusive, royalty-free,
+            <strong>Generated media licence.</strong> For every output created with Keyvo, you grant us a worldwide, non-exclusive, royalty-free,
             transferable, and sublicensable licence to host, reproduce, index, display, and otherwise use that media to (a) operate the Service, (b)
             improve routing, safeguards, and underlying models, (c) run security and abuse investigations, and (d) showcase Examples galleries,
             template pages, case studies, or other marketing placements.
           </li>
           <li>
             <strong>Privacy controls.</strong> New renders are private by default. Public publishing, site-wide indexing, and any Video SEO rollout are
-            managed by MaxVideoAI through an internal review workflow. If you need a public render delisted, deindexed, or deleted, email{' '}
+            managed by Keyvo through an internal review workflow. If you need a public render delisted, deindexed, or deleted, email{' '}
             <ObfuscatedEmailLink
-              user="support"
-              domain="maxvideoai.com"
-              label="support@maxvideoai.com"
-              placeholder="support [at] maxvideoai.com"
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
               unstyled
               className="font-medium"
             />{' '}
@@ -109,7 +109,7 @@ export function TermsArticleEn({
             third-party rights contained in your inputs or outputs.
           </li>
           <li>
-            <strong>Our IP.</strong> MaxVideoAI retains ownership of the platform, interfaces, pipelines, model improvements, safety systems, and other
+            <strong>Our IP.</strong> Keyvo retains ownership of the platform, interfaces, pipelines, model improvements, safety systems, and other
             technology used to render or transform content. These Terms do not transfer any of that IP to you.
           </li>
         </ul>
@@ -210,10 +210,10 @@ export function TermsArticleEn({
         <p>
           Questions about these Terms?{' '}
           <ObfuscatedEmailLink
-            user="legal"
-            domain="maxvideoai.com"
-            label="legal@maxvideoai.com"
-            placeholder="legal [at] maxvideoai.com"
+            user="contact"
+            domain="llmhub.com.cn"
+            label="contact@llmhub.com.cn"
+            placeholder="contact [at] llmhub.com.cn"
           />
           .
         </p>

@@ -19,14 +19,8 @@ export function getPricePerSecondCents(entry: EngineCatalogEntry): number | null
   return null;
 }
 
-export function resolveAudioOffPrice(entry: EngineCatalogEntry): string | null {
-  const perSecond = entry.engine?.pricingDetails?.perSecondCents;
-  if (!perSecond || typeof perSecond.default !== 'number') return null;
-  const audioOffDelta = entry.engine?.pricingDetails?.addons?.audio_off?.perSecondCents;
-  if (typeof audioOffDelta !== 'number') return null;
-  const total = applyDisplayedPriceMarginCents(perSecond.default + audioOffDelta);
-  return `Audio off: $${(total / 100).toFixed(2)}/s`;
-}
+/** Catalog prices are historical facts, not current customer quotes. */
+export function resolveAudioOffPrice(_entry: EngineCatalogEntry, _locale?: string): string | null { return null; }
 
 const PRICING_SCORE_MIN = 0.03;
 const PRICING_SCORE_MAX = 1.0;
@@ -110,6 +104,7 @@ function buildPricingDisplayFromPoints(points: ComparePricePoint[], locale: AppL
 export function getPrelaunchPricingLabel(locale: AppLocale) {
   if (locale === 'fr') return 'Confirmé au lancement';
   if (locale === 'es') return 'Confirmado en lanzamiento';
+  if (locale.startsWith('zh')) return '发布时确认';
   return 'TBD at launch';
 }
 
@@ -129,6 +124,12 @@ export function getPrelaunchCompareNotice(locale: AppLocale) {
     return {
       title: 'Comparación de prelanzamiento',
       body: 'Un motor de esta página está en prelanzamiento. Los renders runtime aún no están disponibles; los precios y resultados finales se confirman en el lanzamiento.',
+    };
+  }
+  if (locale.startsWith('zh')) {
+    return {
+      title: '发布前对比',
+      body: '本页面中至少包含一个处于发布前阶段的模型。暂不提供实际运行渲染；最终定价与成片输出将在正式发布时确认。',
     };
   }
   return {
@@ -155,7 +156,7 @@ export async function resolvePricingDisplay(
   preferredDurationSec?: number,
 ): Promise<ComparePricingDisplay> {
   if (entry.surfaces?.app?.enabled === false) {
-    return { headline: locale === 'fr' ? 'Génération indisponible' : locale === 'es' ? 'Generación no disponible' : 'Generation unavailable', subline: null, prices: [], scorePrices: [] };
+    return { headline: locale === 'fr' ? 'Génération indisponible' : locale === 'es' ? 'Generación no disponible' : locale === 'zh' ? '暂不可生成' : 'Generation unavailable', subline: null, prices: [], scorePrices: [] };
   }
   const availability = String(entry.availability ?? '').toLowerCase();
   if (availability === 'waitlist') {

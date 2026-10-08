@@ -51,5 +51,11 @@ export const KLING_3_TURBO_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     description: 'Private Kling 3.0 Turbo Pro fallback contract.',
     canonicalPath: '/models/kling-3-turbo-pro',
   },
+  demoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/19e8b262-e0e2-4de1-a399-3b5da3ab8733.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/19e8b262-e0e2-4de1-a399-3b5da3ab8733.mp4',
+    imagePath: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/0241e03e-f986-4026-9064-6a2f4af0c0dc.jpg',
+    altText: 'Kling 3.0 Turbo Pro high-motion cinematic video render',
+  },
   prompts: [],
 }];

@@ -41,7 +41,7 @@ export function useImageConversation(
   projectId: string,
   accountKey: string,
   initialName: string,
-  locale: "en" | "fr" = "en",
+  locale: "en" | "fr" | "zh" = "en",
 ) {
   const scope = `${accountKey}:${projectId}`;
   const active = useRef<ConversationRequests | null>(null);

@@ -1,9 +1,11 @@
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import { buildLegacyReferenceUploadAppHtml } from '@/server/mcp/reference-upload-app-legacy';
 
-export const REFERENCE_UPLOAD_APP_URI = 'ui://maxvideoai/reference-upload-v2.html';
+export const REFERENCE_UPLOAD_APP_URI = 'ui://maxvideoai/reference-upload-v3.html';
 export const LEGACY_REFERENCE_UPLOAD_APP_URIS = [
+  'ui://maxvideoai/reference-upload-v2.html',
   'ui://maxvideoai/reference-upload-v1.html',
 ] as const;
 
@@ -13,7 +15,7 @@ const CONNECT_DOMAINS = [
   'https://maxvideoai-mcp-staging.vercel.app',
 ];
 
-export function buildReferenceUploadAppHtml(): string {
+function buildReferenceUploadAppV2Html(): string {
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -44,10 +46,10 @@ export function buildReferenceUploadAppHtml(): string {
   <body>
     <main class="card">
       <h1>Import private references</h1>
-      <p id="summary">Choose up to 8 files. They are saved in your connected MaxVideoAI library.</p>
+      <p id="summary">Choose up to 8 files. They are saved in your connected Keyvo library.</p>
       <label for="files"><span id="selection">Choose files</span></label>
       <input id="files" type="file" multiple />
-      <button id="upload" type="button" disabled>Add to MaxVideoAI</button>
+      <button id="upload" type="button" disabled>Add to Keyvo</button>
       <p id="error" class="error" role="alert"></p>
       <ul id="results"></ul>
     </main>
@@ -196,7 +198,7 @@ export function buildReferenceUploadAppHtml(): string {
         await request('ui/update-model-context', {
           content: [{
             type: 'text',
-            text: 'Private MaxVideoAI references imported and ready:\\n' + lines.join('\\n'),
+            text: 'Private Keyvo references imported and ready:\\n' + lines.join('\\n'),
           }],
         }).catch(() => undefined);
       }
@@ -293,7 +295,7 @@ export function buildReferenceUploadAppHtml(): string {
 
       async function connect() {
         await request('ui/initialize', {
-          appInfo: { name: 'MaxVideoAI private reference import', version: '1.0.0' },
+          appInfo: { name: 'Keyvo private reference import', version: '1.0.0' },
           appCapabilities: {},
           protocolVersion: '2026-01-26',
         });
@@ -309,6 +311,11 @@ export function buildReferenceUploadAppHtml(): string {
 </html>`;
 }
 
+/** v3 updates display branding; v1/v2 conversations keep their original document bytes. */
+export function buildReferenceUploadAppHtml(): string {
+  return buildReferenceUploadAppV2Html().replace(/\bMaxVideoAI\b/g, PRODUCT_BRAND_NAME);
+}
+
 export function registerReferenceUploadApp(server: McpServer): void {
   const resourceUris = [REFERENCE_UPLOAD_APP_URI, ...LEGACY_REFERENCE_UPLOAD_APP_URIS];
   for (const [index, resourceUri] of resourceUris.entries()) {
@@ -316,7 +323,7 @@ export function registerReferenceUploadApp(server: McpServer): void {
       `maxvideoai-reference-upload-${index + 1}`,
       resourceUri,
       {
-        title: 'MaxVideoAI private reference import',
+        title: 'Keyvo private reference import',
         description: 'Import up to eight private image, video, or audio references.',
         mimeType: 'text/html;profile=mcp-app',
         _meta: {
@@ -332,13 +339,15 @@ export function registerReferenceUploadApp(server: McpServer): void {
           mimeType: 'text/html;profile=mcp-app',
           text: resourceUri === REFERENCE_UPLOAD_APP_URI
             ? buildReferenceUploadAppHtml()
-            : buildLegacyReferenceUploadAppHtml(),
+            : resourceUri === 'ui://maxvideoai/reference-upload-v2.html'
+              ? buildReferenceUploadAppV2Html()
+              : buildLegacyReferenceUploadAppHtml(),
           _meta: {
             ui: {
               prefersBorder: true,
               csp: { connectDomains: CONNECT_DOMAINS, resourceDomains: [] },
             },
-            'openai/widgetDescription': 'Private multi-file reference import for the connected MaxVideoAI account.',
+            'openai/widgetDescription': 'Private multi-file reference import for the connected Keyvo account.',
             'openai/widgetPrefersBorder': true,
             'openai/widgetCSP': {
               connect_domains: CONNECT_DOMAINS,

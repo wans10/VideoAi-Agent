@@ -20,6 +20,7 @@ test('Editorial Standards routing owns approved localized slugs', () => {
     en: '/editorial-standards',
     fr: '/normes-editoriales',
     es: '/estandares-editoriales',
+    zh: '/editorial-standards',
   });
   assert.match(readFileSync('frontend/next-sitemap.config.js', 'utf8'), /['"]\/editorial-standards['"]/);
 });
@@ -50,15 +51,13 @@ test('Editorial Standards metadata is reciprocal in every locale', async () => {
     }>;
   };
   const cases = [
-    ['en', 'https://maxvideoai.com/editorial-standards', 'en_US'],
-    ['fr', 'https://maxvideoai.com/fr/normes-editoriales', 'fr_FR'],
-    ['es', 'https://maxvideoai.com/es/estandares-editoriales', 'es_419'],
+    ['en', 'https://app.keyvo.cn/editorial-standards', 'en_US'],
+    ['fr', 'https://app.keyvo.cn/fr/normes-editoriales', 'fr_FR'],
+    ['es', 'https://app.keyvo.cn/es/estandares-editoriales', 'es_419'],
   ] as const;
   const expectedLanguages = {
-    en: 'https://maxvideoai.com/editorial-standards',
-    fr: 'https://maxvideoai.com/fr/normes-editoriales',
-    es: 'https://maxvideoai.com/es/estandares-editoriales',
-    'x-default': 'https://maxvideoai.com/editorial-standards',
+    zh: 'https://app.keyvo.cn/zh/editorial-standards',
+    'x-default': 'https://app.keyvo.cn/zh/editorial-standards',
   };
 
   for (const [locale, canonical, ogLocale] of cases) {
@@ -87,6 +86,6 @@ test('Editorial Standards route stays a server orchestrator with limited schema'
     buildEditorialStandardsBreadcrumbJsonLd(input: { canonicalUrl: string; copy: unknown }): { '@type': string };
   };
   const copy = copyModule.getEditorialStandardsCopy('en');
-  assert.equal(schemaModule.buildEditorialStandardsWebPageJsonLd({ canonicalUrl: 'https://maxvideoai.com/editorial-standards', copy, inLanguage: 'en-US' })['@type'], 'WebPage');
-  assert.equal(schemaModule.buildEditorialStandardsBreadcrumbJsonLd({ canonicalUrl: 'https://maxvideoai.com/editorial-standards', copy })['@type'], 'BreadcrumbList');
+  assert.equal(schemaModule.buildEditorialStandardsWebPageJsonLd({ canonicalUrl: 'https://app.keyvo.cn/editorial-standards', copy, inLanguage: 'en-US' })['@type'], 'WebPage');
+  assert.equal(schemaModule.buildEditorialStandardsBreadcrumbJsonLd({ canonicalUrl: 'https://app.keyvo.cn/editorial-standards', copy })['@type'], 'BreadcrumbList');
 });

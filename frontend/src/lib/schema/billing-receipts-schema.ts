@@ -7,7 +7,7 @@ export async function ensureBillingReceiptsSchema(): Promise<void> {
         user_id TEXT NOT NULL,
         type TEXT NOT NULL CHECK (type IN ('topup','charge','refund','discount','tax')),
         amount_cents INTEGER NOT NULL CHECK (amount_cents >= 0),
-        currency TEXT NOT NULL DEFAULT 'USD',
+        currency TEXT NOT NULL DEFAULT 'CNY',
         description TEXT,
         metadata JSONB,
         job_id TEXT,
@@ -40,6 +40,10 @@ export async function ensureBillingReceiptsSchema(): Promise<void> {
       ADD COLUMN IF NOT EXISTS stripe_receipt_url TEXT,
       ADD COLUMN IF NOT EXISTS stripe_document_synced_at TIMESTAMPTZ;
     `);
+
+    await query(`ALTER TABLE app_receipts ADD COLUMN IF NOT EXISTS llmhub_pay_out_trade_no TEXT`);
+    await query(`CREATE UNIQUE INDEX IF NOT EXISTS app_receipts_llmhub_pay_order_unique
+      ON app_receipts (llmhub_pay_out_trade_no) WHERE llmhub_pay_out_trade_no IS NOT NULL`);
 
     await query(`
       CREATE INDEX IF NOT EXISTS app_receipts_user_created_idx ON app_receipts (user_id, created_at DESC);
@@ -117,7 +121,7 @@ export async function ensureBillingReceiptsSchema(): Promise<void> {
       ALTER TABLE app_receipts
       ADD COLUMN IF NOT EXISTS platform_revenue_cents BIGINT,
       ADD COLUMN IF NOT EXISTS destination_acct TEXT,
-      ADD COLUMN IF NOT EXISTS currency TEXT DEFAULT 'USD';
+      ADD COLUMN IF NOT EXISTS currency TEXT DEFAULT 'CNY';
     `);
 
     const appReceiptsPublicViewSql = `

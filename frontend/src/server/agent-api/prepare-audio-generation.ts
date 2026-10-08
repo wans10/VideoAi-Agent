@@ -85,7 +85,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || !principal.clientId.trim()
     || principal.clientId !== principal.clientId.trim()
     || principal.clientId.length > 256) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before preparing Audio.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect Keyvo before preparing Audio.');
   }
 }
 
@@ -98,7 +98,7 @@ function spendingError(dependencies: PrepareAudioGenerationDependencies): AgentA
   }
   return new AgentApiError(
     'SPENDING_LIMIT_EXCEEDED',
-    'This generation is above the spending controls configured in MaxVideoAI.',
+    'This generation is above the spending controls configured in Keyvo.',
     false,
     { type: 'open_url', url },
   );
@@ -148,7 +148,7 @@ export async function prepareAudioGenerationForActor(
     throw new AgentApiError('ENGINE_UNAVAILABLE', 'Paid Audio generation is not available.');
   }
   if (await dependencies.getAccountRestriction(principal.userId)) {
-    throw new AgentApiError('ACCOUNT_RESTRICTED', 'This account is temporarily restricted. Open MaxVideoAI for help.');
+    throw new AgentApiError('ACCOUNT_RESTRICTED', 'This account is temporarily restricted. Open Keyvo for help.');
   }
 
   let request: CanonicalAudioRequest;

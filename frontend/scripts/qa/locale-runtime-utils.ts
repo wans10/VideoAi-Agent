@@ -233,7 +233,7 @@ async function checkMetadataDiff(locale: AppLocale, englishPath: string, localiz
 export async function runLocaleFixtureSet(familyName: string, fixtures: LocaleFixture[]) {
   let hasIssues = false;
 
-  for (const locale of ['fr', 'es'] as AppLocale[]) {
+  for (const locale of ['fr', 'es', 'zh'] as AppLocale[]) {
     for (const fixture of fixtures) {
       try {
         const page = await analyzeLocalizedPage(locale, fixture.englishPath);

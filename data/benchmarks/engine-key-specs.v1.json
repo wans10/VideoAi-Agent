@@ -13,8 +13,8 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not exposed in current MaxVideoAI route",
-        "firstLastFrame": "Not exposed in current MaxVideoAI route",
+        "videoToVideo": "Not exposed in current VideoAI route",
+        "firstLastFrame": "Not exposed in current VideoAI route",
         "referenceImageStyle": "Supported (single start image; no style-reference stack)",
         "referenceVideo": "Not supported",
         "maxResolution": "720p (1280×720 landscape; 720×1280 portrait)",
@@ -33,7 +33,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Sep 2025"
       }
     },
@@ -49,8 +49,8 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not exposed in current MaxVideoAI route",
-        "firstLastFrame": "Not exposed in current MaxVideoAI route",
+        "videoToVideo": "Not exposed in current VideoAI route",
+        "firstLastFrame": "Not exposed in current VideoAI route",
         "referenceImageStyle": "Supported (single start image)",
         "referenceVideo": "Not supported",
         "maxResolution": "720p / 1080p",
@@ -69,7 +69,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Sep 2025"
       }
     },
@@ -106,7 +106,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Prompt-based only",
-        "watermark": "No visible MaxVideoAI watermark; provider/model provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider/model provenance markers may apply",
         "releaseDate": "Oct 2025"
       }
     },
@@ -143,7 +143,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Prompt-based only",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Oct 2025"
       }
     },
@@ -179,8 +179,8 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Prompt-based only",
-        "watermark": "No (MaxVideoAI)",
-        "releaseDate": "MaxVideoAI availability: Apr 2026"
+        "watermark": "No (VideoAI)",
+        "releaseDate": "VideoAI availability: Apr 2026"
       }
     },
     {
@@ -213,7 +213,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported through native dialogue and audio generation",
         "cameraMotionControls": "Prompt-based sound, camera and edit directions",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Google public preview: Aug 27 2026"
       }
     },
@@ -226,10 +226,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not exposed in current MaxVideoAI route",
-        "firstLastFrame": "Not exposed in current MaxVideoAI route",
+        "videoToVideo": "Not exposed in current VideoAI route",
+        "firstLastFrame": "Not exposed in current VideoAI route",
         "referenceImageStyle": "Supported (one start image in image-to-video mode)",
-        "referenceVideo": "Not exposed in current MaxVideoAI route",
+        "referenceVideo": "Not exposed in current VideoAI route",
         "maxResolution": "720p",
         "maxDuration": "3–15s",
         "aspectRatios": [
@@ -247,7 +247,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported through native dialogue and audio generation",
         "cameraMotionControls": "Prompt-based camera direction",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Sep 2026"
       }
     },
@@ -260,10 +260,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not exposed in current MaxVideoAI route",
-        "firstLastFrame": "Not exposed in current MaxVideoAI route",
+        "videoToVideo": "Not exposed in current VideoAI route",
+        "firstLastFrame": "Not exposed in current VideoAI route",
         "referenceImageStyle": "Supported (one start image in image-to-video mode)",
-        "referenceVideo": "Not exposed in current MaxVideoAI route",
+        "referenceVideo": "Not exposed in current VideoAI route",
         "maxResolution": "1080p",
         "maxDuration": "3–15s",
         "aspectRatios": [
@@ -281,7 +281,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported through native dialogue and audio generation",
         "cameraMotionControls": "Prompt-based camera direction",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Sep 2026"
       }
     },
@@ -319,7 +319,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported through native dialogue and audio generation",
         "cameraMotionControls": "Prompt-based camera direction",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Aug 2026",
         "referenceToVideo": "Supported",
         "referenceAudio": "Up to 3 audio references; 2-15s each and 15s combined; audio-only supported",
@@ -361,7 +361,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Oct 2025"
       }
     },
@@ -393,7 +393,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Oct 2025"
       }
     },
@@ -433,7 +433,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Prompt-based only",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Data pending"
       }
     },
@@ -470,7 +470,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Prompt-based only",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Data pending"
       }
     },
@@ -503,7 +503,7 @@
         "nativeAudioGeneration": "Not supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Dec 2025"
       }
     },
@@ -536,7 +536,7 @@
         "nativeAudioGeneration": "Not supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Sep 2025"
       }
     },
@@ -571,7 +571,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Advanced",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Dec 2025"
       }
     },
@@ -604,7 +604,7 @@
         "nativeAudioGeneration": "Not supported",
         "lipSync": "Not supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Sep 2025"
       }
     },
@@ -619,10 +619,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not supported (no video input on this MaxVideoAI route)",
+        "videoToVideo": "Not supported (no video input on this VideoAI route)",
         "firstLastFrame": "Supported",
         "referenceImageStyle": "Image-to-video: 1 source image; optional end frame; Kling Elements in prompt",
-        "referenceVideo": "Not supported (no video input on this MaxVideoAI route)",
+        "referenceVideo": "Not supported (no video input on this VideoAI route)",
         "maxResolution": "1080p",
         "maxDuration": "15s",
         "aspectRatios": [
@@ -637,7 +637,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -651,10 +651,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not supported (no video input on this MaxVideoAI route)",
+        "videoToVideo": "Not supported (no video input on this VideoAI route)",
         "firstLastFrame": "Supported",
         "referenceImageStyle": "Image-to-video: 1 source image; optional end frame; Kling Elements in prompt",
-        "referenceVideo": "Not supported (no video input on this MaxVideoAI route)",
+        "referenceVideo": "Not supported (no video input on this VideoAI route)",
         "maxResolution": "1080p",
         "maxDuration": "15s",
         "aspectRatios": [
@@ -669,7 +669,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -683,10 +683,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not supported (no video input on this MaxVideoAI route)",
+        "videoToVideo": "Not supported (no video input on this VideoAI route)",
         "firstLastFrame": "Supported",
         "referenceImageStyle": "Image-to-video: 1 source image; optional end frame",
-        "referenceVideo": "Not supported (no video input on this MaxVideoAI route)",
+        "referenceVideo": "Not supported (no video input on this VideoAI route)",
         "maxResolution": "4K",
         "maxDuration": "15s",
         "aspectRatios": [
@@ -701,7 +701,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -737,7 +737,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Native audio/dialogue supported; element voice control not exposed yet",
         "cameraMotionControls": "Shot type + multi-shot prompt structure + prompt-based camera control",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -773,7 +773,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Native audio/dialogue supported; element voice control not exposed yet",
         "cameraMotionControls": "Shot type + multi-shot prompt structure + prompt-based camera control",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -808,7 +808,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Native audio/dialogue supported; element voice control not exposed yet",
         "cameraMotionControls": "Shot type + multi-shot prompt structure + prompt-based camera control",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -846,7 +846,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -889,7 +889,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -923,7 +923,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "camera_fixed + prompt-based controls",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -1009,7 +1009,7 @@
         "lipSync": "Supported",
         "pricePerSecond": null,
         "cameraMotionControls": "Advanced",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": null
       }
     },
@@ -1046,7 +1046,7 @@
         "lipSync": "Supported",
         "pricePerSecond": null,
         "cameraMotionControls": "Advanced",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": null
       }
     },
@@ -1086,7 +1086,7 @@
         "lipSync": "Supported",
         "pricePerSecond": null,
         "cameraMotionControls": "Advanced",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Jun 2026"
       }
     },
@@ -1126,7 +1126,7 @@
         "nativeAudioGeneration": "Not supported",
         "lipSync": "Not supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Feb 2025"
       }
     },
@@ -1175,7 +1175,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported",
         "cameraMotionControls": "Prompt-based camera and multi-shot control",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Jul 2026",
         "soundtrack": "Optional supplied soundtrack in text-to-video and image-to-video"
       }
@@ -1213,7 +1213,7 @@
         "nativeAudioGeneration": "Not supported",
         "lipSync": "Not supported",
         "cameraMotionControls": "Basic",
-        "watermark": "No (MaxVideoAI)",
+        "watermark": "No (VideoAI)",
         "releaseDate": "Jun 2025"
       }
     },
@@ -1252,7 +1252,7 @@
         "nativeAudioGeneration": "Not supported",
         "lipSync": "Not supported",
         "cameraMotionControls": "Prompt, source-video preservation, guide frames and Modify keyframes",
-        "watermark": "No (MaxVideoAI)"
+        "watermark": "No (VideoAI)"
       }
     },
     {
@@ -1605,7 +1605,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Prompt-directed native dialogue",
         "cameraMotionControls": "Prompt-based; native multi-shot storyboard support",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Sep 2026",
         "referenceAudio": "Up to 5 audio references; 15s combined; audio-only supported",
         "referenceContext": "Document or public webpage URL; mutually exclusive",
@@ -1652,7 +1652,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Prompt-directed native dialogue",
         "cameraMotionControls": "Prompt-based; native multi-shot storyboard support",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Sep 2026",
         "referenceAudio": "Up to 5 audio references; 15s combined; audio-only supported",
         "referenceContext": "Document or public webpage URL; mutually exclusive",
@@ -1688,7 +1688,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported through synchronized audio and audio-to-video workflows",
         "cameraMotionControls": "Dolly, jib, static and focus-shift presets",
-        "watermark": "No visible MaxVideoAI watermark",
+        "watermark": "No visible VideoAI watermark",
         "releaseDate": "Aug 2026"
       }
     },
@@ -1715,7 +1715,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported through synchronized audio and audio-to-video workflows",
         "cameraMotionControls": "Dolly, jib, static and focus-shift presets",
-        "watermark": "No visible MaxVideoAI watermark",
+        "watermark": "No visible VideoAI watermark",
         "releaseDate": "Aug 2026"
       }
     },
@@ -1729,10 +1729,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported by xAI for video editing; not exposed in current MaxVideoAI route",
-        "firstLastFrame": "Not exposed in current MaxVideoAI route",
+        "videoToVideo": "Supported by xAI for video editing; not exposed in current VideoAI route",
+        "firstLastFrame": "Not exposed in current VideoAI route",
         "referenceImageStyle": "1-7 reference images",
-        "referenceVideo": "Provider video-edit input is not exposed in current MaxVideoAI route",
+        "referenceVideo": "Provider video-edit input is not exposed in current VideoAI route",
         "maxResolution": "1080p (720p for reference-to-video)",
         "maxDuration": "15s",
         "aspectRatios": ["16:9", "4:3", "3:2", "1:1", "2:3", "3:4", "9:16"],
@@ -1742,7 +1742,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported through generated and preset-voice workflows",
         "cameraMotionControls": "Prompt-based",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "May 2026"
       }
     },
@@ -1769,7 +1769,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Supported for multilingual dialogue",
         "cameraMotionControls": "Prompt-based; native multi-shot support",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Aug 2026"
       }
     },
@@ -1796,7 +1796,7 @@
         "nativeAudioGeneration": "Supported",
         "lipSync": "Prompt-directed dialogue in the FLUX 3 Draft endpoint family",
         "cameraMotionControls": "Prompt-based",
-        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "watermark": "No visible VideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Aug 2026"
       }
     }

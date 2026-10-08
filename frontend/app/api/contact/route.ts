@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
       : NextResponse.redirect(safeRedirectUrl(req, locale, false, reason));
   }
 
-  const from = getDefaultFromAddress() || 'no-reply@maxvideoai.com';
+  const from = getDefaultFromAddress() || 'contact@llmhub.com.cn';
   const subject = 'New contact form message';
   const htmlName = escapeHtml(name);
   const htmlEmail = escapeHtml(email);

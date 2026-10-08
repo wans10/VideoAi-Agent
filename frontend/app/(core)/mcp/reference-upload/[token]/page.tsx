@@ -48,10 +48,10 @@ export default async function ReferenceUploadPage({
     <div className="min-h-screen bg-bg text-text-primary">
       <HeaderBar />
       <main className="mx-auto w-full max-w-2xl px-5 py-12 sm:py-16">
-        <p className="text-xs font-semibold uppercase tracking-micro text-brand">MaxVideoAI × your assistant</p>
+        <p className="text-xs font-semibold uppercase tracking-micro text-brand">VideoAI × your assistant</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight">Add a reference {mediaLabel}</h1>
         <p className="mt-3 max-w-xl text-sm leading-6 text-text-secondary sm:text-base">
-          Upload one {mediaLabel} to your private MaxVideoAI library, then return to Claude or Codex to continue preparing your generation.
+          Upload one {mediaLabel} to your private VideoAI library, then return to Claude or Codex to continue preparing your generation.
         </p>
         <div className="mt-7">
           <ReferenceUploadClient

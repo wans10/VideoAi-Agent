@@ -342,7 +342,7 @@ function buildWhyThisAction(
 ) {
   if (recommendationType === 'watchlist') return 'The intent is real, but current ranking distance makes a lightweight monitoring action more appropriate than new content.';
   if (recommendationType === 'create_page') return 'The cluster is repeated, high-intent, and lacks a clear page candidate in cached GSC rows.';
-  if (cluster.targetUrl) return 'GSC already maps the demand to an existing MaxVideoAI page, so strengthening that page is safer than creating another URL.';
+  if (cluster.targetUrl) return 'GSC already maps the demand to an existing Keyvo page, so strengthening that page is safer than creating another URL.';
   if (intent === 'pricing' || intent === 'pricing_specs' || intent === 'pay_as_you_go') return 'Pricing intent usually belongs on pricing or model pages before it deserves a standalone page.';
   return 'The recommendation keeps the work scoped to an existing route or likely candidate instead of creating low-signal pages.';
 }
@@ -367,7 +367,7 @@ function buildAcceptanceCriteria(
   const criteria = [
     'Review existing page content first; do not assume a section is missing without checking the target files',
     `${labelizeMissingContentIntent(intent).replace('Irrelevant Junk', 'Relevant')} intent is addressed without keyword stuffing`,
-    'Copy stays compact, premium, and aligned with existing MaxVideoAI page structure',
+    'Copy stays compact, premium, and aligned with existing Keyvo page structure',
   ];
 
   if (recommendationType === 'add_comparison_block') criteria.push('Comparison block names the variants and practical differences clearly');

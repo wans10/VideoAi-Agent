@@ -1,3 +1,4 @@
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import {assistanceNextActionSchema,type AssistanceNextAction} from './conversation-assistance';
 export type ConversationIssue = {
   operation: "read" | "submit" | "confirm";
@@ -32,9 +33,9 @@ export function conversationIssue(
 /** Present stable guidance; backend diagnostics never become customer copy. */
 export function conversationErrorMessage(
   issue: ConversationIssue,
-  locale: "en" | "fr",
+  locale: "en" | "fr" | "zh",
 ): string {
-  const t = (en: string, fr: string) => locale === "fr" ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   switch (issue.code) {
     case "SPENDING_LIMIT_EXCEEDED":
       if(issue.assistance?.reason==='call_limit')return t('This message reached its working limit. Your completed work is saved; continue with a follow-up.','Cet échange a atteint sa limite de travail. Le travail effectué est enregistré ; continuez avec un nouveau message.');

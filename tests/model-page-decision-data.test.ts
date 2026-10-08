@@ -22,6 +22,7 @@ import { getImagePresetQuote, getPresetQuote } from '../frontend/app/(localized)
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
 import { buildSeoMetadata } from '../frontend/lib/seo/metadata.ts';
 import { buildModelDecisionDataFromContent } from './helpers/model-decision-content.ts';
+import { CNY_BUILD, expectedCustomerPrice } from './helpers/customer-currency-expectations.ts';
 
 function getEngine(engineId: string) {
   const entry = listFalEngines().find((candidate) => candidate.id === engineId || candidate.modelSlug === engineId);
@@ -801,7 +802,11 @@ test('Seedance 2.0 decision pricing scenarios reuse pricing page quotes', () => 
   );
   assert.deepEqual(
     scenarios.map((scenario) => scenario.value),
-    ['$0.85', '$3.03', '$9.36', '$9.73', '$0 extra', '15s']
+    [
+      ...['$0.85', '$3.03', '$9.36', '$9.73'].map(expectedCustomerPrice),
+      CNY_BUILD ? '¥0 extra' : '$0 extra',
+      '15s',
+    ]
   );
   assert.deepEqual(
     scenarios.map((scenario) => scenario.label),
@@ -879,7 +884,7 @@ test('migrated model pricing scenarios return configured IDs and helper values',
     );
     assert.deepEqual(
       scenarios.map((scenario) => scenario.value),
-      expectedValues
+      expectedValues.map((value) => value.startsWith('$') ? expectedCustomerPrice(value) : value)
     );
     assert.equal(scenarios.every((scenario) => scenario.value.trim().length > 0 && scenario.value !== '—'), true);
     assert.equal(scenarios.every((scenario) => scenario.label.trim().length > 0), true);

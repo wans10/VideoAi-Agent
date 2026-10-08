@@ -119,6 +119,15 @@ export async function persistFailedImageGeneration(params: {
         ? 'Fal rejected the input (422). Check that your reference image URLs are reachable and valid image files.'
         : messageBase);
 
+  if (refundOnFailure) {
+    await (deps.recordRefundReceiptFn ?? recordRefundReceipt)(
+      pendingReceipt,
+      safetyReason ? `${refundDescription.replace(/\b1 images\b/g, '1 image')} - ${safetyReason}` : refundDescription,
+      priceOnlyReceipts
+    );
+  }
+
+
   try {
     await queryFn(
       `UPDATE app_jobs
@@ -190,13 +199,6 @@ export async function persistFailedImageGeneration(params: {
     console.warn('[images] failed to record fal queue log', logError);
   }
 
-  if (refundOnFailure) {
-    await (deps.recordRefundReceiptFn ?? recordRefundReceipt)(
-      pendingReceipt,
-      safetyReason ? `${refundDescription.replace(/\b1 images\b/g, '1 image')} - ${safetyReason}` : refundDescription,
-      priceOnlyReceipts
-    );
-  }
 
   return { message, providerBody, providerStatus };
 }

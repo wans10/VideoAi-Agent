@@ -112,7 +112,7 @@ export function SidebarNav({ groups, mobileOpen, onMobileClose }: SidebarNavProp
     >
       <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-5">
         <Link href="/admin" className="text-base font-semibold tracking-tight text-text-primary">
-          MaxVideoAI
+          Keyvo
           <span className="ml-2 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium text-text-secondary">
             ADMIN
           </span>

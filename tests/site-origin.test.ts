@@ -27,7 +27,7 @@ function withEnv<T>(overrides: Record<string, string | undefined>, run: () => T)
   }
 }
 
-test('resolveSiteOrigin keeps production origin on Vercel production', () => {
+test('resolveSiteOrigin honors the configured commercial site on Vercel production', () => {
   const origin = withEnv(
     {
       VERCEL_ENV: 'production',
@@ -39,7 +39,7 @@ test('resolveSiteOrigin keeps production origin on Vercel production', () => {
     () => resolveSiteOrigin()
   );
 
-  assert.equal(origin, 'https://maxvideoai.com');
+  assert.equal(origin, 'https://preview.example.vercel.app');
 });
 
 test('resolveSiteOrigin uses preview deployment origin on Vercel preview', () => {
@@ -70,4 +70,9 @@ test('resolveSiteOrigin uses configured site outside Vercel production', () => {
   );
 
   assert.equal(origin, 'https://staging.maxvideoai.test');
+});
+
+ test('resolveSiteOrigin defaults to the Keyvo commercial site', () => {
+  const origin = withEnv({ NEXT_PUBLIC_SITE_URL: undefined, SITE_URL: undefined, VERCEL_URL: undefined, VERCEL_PROJECT_PRODUCTION_URL: undefined }, () => resolveSiteOrigin());
+  assert.equal(origin, 'https://app.keyvo.cn');
 });

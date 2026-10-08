@@ -1,0 +1,29 @@
+TAP version 13
+# [llmhub-pay] checkout creation failed Error: network timeout
+#     at createLlmhubPayOrder (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-rqkUht/route.cjs:71:39)
+#     at async POST (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-rqkUht/route.cjs:169:21)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/llmhub-pay-checkout-recovery.test.ts:56:17)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+# [llmhub-pay] checkout creation failed Error: unique order
+#     at createPendingLlmhubPayOrder (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-rqkUht/route.cjs:82:42)
+#     at POST (/private/var/folders/gh/35s5g6xn27qgp0znm_q_1x6w0000gn/T/keyvo-checkout-rqkUht/route.cjs:160:11)
+#     at async Promise.all (index 1)
+#     at async TestContext.<anonymous> (/private/tmp/VideoAi-Agent-keyvo-integrate/tests/llmhub-pay-checkout-recovery.test.ts:76:22)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+# Subtest: payment timeout, reload, concurrent retry and late notification recover the same user-bound order
+ok 1 - payment timeout, reload, concurrent retry and late notification recover the same user-bound order
+  ---
+  duration_ms: 90.159083
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 382.320208

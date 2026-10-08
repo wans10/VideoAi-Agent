@@ -7,6 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { dictionary, fallback } = await resolveDictionary();
   return {
     title: dictionary.notFound.metaTitle || fallback.notFound.metaTitle,
+    robots: { index: false, follow: true },
   };
 }
 

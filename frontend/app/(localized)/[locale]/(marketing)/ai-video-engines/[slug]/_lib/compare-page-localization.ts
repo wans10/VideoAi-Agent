@@ -49,6 +49,30 @@ const LOCALIZED_BEST_FOR: Partial<Record<AppLocale, Record<string, string>>> = {
     'Studio-grade Sora renders': 'Renders de Sora con nivel de estudio',
     'Stylised text or image motion': 'Movimiento estilizado de texto o imagen',
   },
+  zh: {
+    'Native-audio multimodal character video': '多模态连贯角色与原生音频',
+    'Ads and B-roll': '广告与辅助镜头 (B-roll)',
+    'Budget Veo drafts': '高性价比 Veo 草稿',
+    'Cinematic dialogue': '电影级对白',
+    'Cinematic motion with camera lock': '电影级运镜与相机锁定',
+    'Cinematic shots': '电影级镜头',
+    'Fast Seedance tests, reference tests, and shot planning':
+      '快速 Seedance 测试、参考图测试与分镜规划',
+    'Fast cinematic drafts with modify and reframe': '快速电影级草稿及修改与重新构图',
+    'Fast iterations': '快速迭代',
+    'Flagship multi-shot video with native audio and references':
+      '旗舰级多镜头视频，支持原生音频与参考素材',
+    'General purpose video': '通用视频生成',
+    'Grounded stills and wide-format image edits': '写实静态图与宽幅图像编辑',
+    'Multi-shot cinematic control': '多镜头电影级控制',
+    'Multi-shot testing at lower cost': '低成本多镜头测试',
+    'Premium cinematic generation with modify and reframe': '高品质电影级生成及修改与重新构图',
+    'Premium product stories': '高品质产品故事',
+    'Prompts or image loops': '提示词或图像循环',
+    'Rapid social clips': '快速社交媒体短片',
+    'Studio-grade Sora renders': '影棚级 Sora 渲染',
+    'Stylised text or image motion': '风格化文本或图像动效',
+  },
 };
 
 export const LOCALIZED_SHOWDOWN_TITLES: Partial<Record<AppLocale, Record<string, string>>> = {
@@ -63,6 +87,12 @@ export const LOCALIZED_SHOWDOWN_TITLES: Partial<Record<AppLocale, Record<string,
     'UGC Talking Head + Lip Sync (9:16)': 'UGC talking head + sincronización labial (9:16)',
     'UGC Talking Head (9:16)': 'UGC talking head (9:16)',
     'Hands + Product Demo + On-screen Text': 'Manos + demo de producto + texto en pantalla',
+  },
+  zh: {
+    'Fast Motion + Physics (16:9)': '快速运动 + 物理规律 (16:9)',
+    'UGC Talking Head + Lip Sync (9:16)': 'UGC 口播解说 + 口型同步 (9:16)',
+    'UGC Talking Head (9:16)': 'UGC 口播解说 (9:16)',
+    'Hands + Product Demo + On-screen Text': '手部动作 + 产品演示 + 屏幕文字',
   },
 };
 
@@ -86,6 +116,16 @@ export const LOCALIZED_SHOWDOWN_TESTS: Partial<Record<AppLocale, Record<string, 
       'Realismo del movimiento + consistencia temporal + calidad visual',
     'Hands/Fingers + Text & UI Legibility + Prompt Adherence':
       'Manos/dedos + legibilidad de texto e interfaz + adherencia al prompt',
+  },
+  zh: {
+    'Human Fidelity + Audio/Lip Sync + Prompt Adherence':
+      '人像还原度 + 音频/口型同步 + 提示词遵从度',
+    'Human Fidelity + Prompt Adherence + Vertical Framing':
+      '人像还原度 + 提示词遵从度 + 竖屏构图',
+    'Motion Realism + Temporal Consistency + Visual Quality':
+      '运动真实感 + 时间连贯性 + 画质表现',
+    'Hands/Fingers + Text & UI Legibility + Prompt Adherence':
+      '手部/手指 + 文字与界面清晰度 + 提示词遵从度',
   },
 };
 

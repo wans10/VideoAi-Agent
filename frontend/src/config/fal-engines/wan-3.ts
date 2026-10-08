@@ -30,7 +30,13 @@ export const WAN_3_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
     { mode: 'extend', falModelId: WAN_3_ENDPOINTS.extend, ui: WAN_3_MODE_CAPS.extend! },
   ],
   defaultFalModelId: WAN_3_ENDPOINTS.t2v,
-  seo: { title: 'Wan 3 AI Video Generator | MaxVideoAI', description: 'Generate Wan 3 video from text, images, or mixed references with native audio.', canonicalPath: '/models/wan-3' },
+  seo: { title: 'Wan 3 AI Video Generator | Keyvo', description: 'Generate Wan 3 video from text, images, or mixed references with native audio.', canonicalPath: '/models/wan-3' },
+  demoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/cb6eb769-7a2c-4970-82c6-3e9529949397.mp4',
+  media: {
+    videoUrl: 'https://media.maxvideoai.com/mcp-reference-staging/media-assets/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/cb6eb769-7a2c-4970-82c6-3e9529949397.mp4',
+    imagePath: 'https://media.maxvideoai.com/mcp-render-staging/1a3c083f-bbda-4dc0-9e2a-75d46a6b5cbb/d3c5c35e-42d8-4abd-95bd-8608c50f92c7.jpg',
+    altText: 'Wan 3 continuous contemporary choreography on city rooftop',
+  },
   prompts: [
     { title: 'Cinematic scene', prompt: 'A cinematic street at blue hour, natural dialogue and ambient sound, slow camera push.', mode: 't2v' },
     { title: 'Animate a still', prompt: 'Preserve the subject while adding subtle parallax, cloth motion, and a slow dolly move.', mode: 'i2v' },

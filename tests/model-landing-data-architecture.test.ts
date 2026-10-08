@@ -15,7 +15,9 @@ const localeDataPaths = ['en', 'fr', 'es'].map((locale) =>
 const builderSource = readFileSync(builderPath, 'utf8');
 
 test('example model landing builder delegates localized data and shared types', () => {
+  const genericDataPath = join(root, 'frontend/lib/examples/modelLandingGenericData.ts');
   assert.ok(existsSync(dataPath), 'localized model landing data selector should live outside the builder');
+  assert.ok(existsSync(genericDataPath), 'generic localized fallback copy should live outside the builder');
   assert.ok(existsSync(faqPath), 'hub example FAQ content should live outside the builder');
   assert.ok(existsSync(typesPath), 'shared model landing types should live outside the builder');
   for (const localePath of localeDataPaths) {
@@ -23,6 +25,7 @@ test('example model landing builder delegates localized data and shared types', 
   }
 
   assert.match(builderSource, /from '@\/lib\/examples\/modelLandingData'/);
+  assert.match(builderSource, /from '@\/lib\/examples\/modelLandingGenericData'/);
   assert.match(builderSource, /from '@\/lib\/examples\/modelLandingFaq'/);
   assert.match(builderSource, /from '@\/lib\/examples\/modelLandingTypes'/);
 });

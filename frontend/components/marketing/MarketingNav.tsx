@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
@@ -24,8 +24,8 @@ type MarketingNavProps = {
 
 export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: MarketingNavProps) {
   const pathname = usePathname();
-  const isCompanyTrustHub = /^\/(?:fr\/|es\/)?company\/?$/.test(pathname ?? '');
-  const isHomePage = /^\/(?:fr|es)?\/?$/.test(pathname ?? '');
+  const isCompanyTrustHub = /^\/(?:fr\/|es\/|zh\/)?company\/?$/.test(pathname ?? '');
+  const isHomePage = /^\/(?:fr|es|zh)?\/?$/.test(pathname ?? '');
   const { locale, t } = useI18n();
   const [email, setEmail] = useState<string | null>(initialEmail);
   const [isAdmin, setIsAdmin] = useState(Boolean(initialIsAdmin));
@@ -36,8 +36,6 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
   const avatarRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const desktopDropdownCloseTimeout = useRef<number | null>(null);
-  const brand = t('nav.brand', 'MaxVideoAI') ?? 'MaxVideoAI';
-  const compactBrand = brand.replace(/\s+/g, '');
   const links = MARKETING_SITE_NAV_LINKS;
   const login = t('nav.login', 'Log in');
   const cta = t('nav.startCreating', 'Start creating');
@@ -276,9 +274,9 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
 
   return (
     <>
-    <header className={clsx('sticky top-0 z-40 border-b border-hairline bg-surface dark:bg-surface-glass-90 dark:backdrop-blur-xl', isHomePage && 'home-monochrome')}>
-      <div className="mx-auto flex h-16 max-w-[1460px] items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3 sm:gap-6">
+    <header className={clsx('videoai-public-header sticky top-0 z-40 border-b border-hairline bg-surface', isHomePage && 'home-monochrome')}>
+      <div className="videoai-public-nav mx-auto flex h-16 max-w-[1460px] items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="studio-navigation-main flex items-center gap-3 sm:gap-6">
           <Button
             type="button"
             size="sm"
@@ -298,17 +296,9 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
             prefetch={false}
             className="flex items-center gap-1.5 text-text-primary whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg sm:gap-2"
           >
-            <Image
-              src="/assets/branding/logo-mark.svg"
-              alt=""
-              aria-hidden="true"
-              width={28}
-              height={28}
-              className="h-7 w-7 shrink-0"
-              priority
-            />
-            <span className="text-sm font-semibold tracking-tight max-[420px]:sr-only sm:text-lg">{compactBrand}</span>
+            <BrandLockup caption={locale === 'zh' ? '影像工作室' : 'CREATIVE STUDIO'} />
           </Link>
+          <p className="studio-navigation-caption">{locale === 'zh' ? '从灵感，到成片。' : locale === 'fr' ? 'De l’idée au film.' : locale === 'es' ? 'De la idea a la escena.' : 'From idea to moving image.'}</p>
           <MarketingDesktopNav
             desktopDropdownOpen={desktopDropdownOpen}
             links={links}
@@ -318,7 +308,7 @@ export function MarketingNav({ initialEmail = null, initialIsAdmin = false }: Ma
             onOpenDesktopDropdown={openDesktopDropdown}
           />
         </div>
-        <div className="flex items-center gap-2 whitespace-nowrap sm:gap-3 lg:gap-4">
+        <div className="studio-navigation-account flex items-center gap-2 whitespace-nowrap sm:gap-3 lg:gap-4">
           <div className="hidden items-center gap-1 md:flex">
             <LanguageToggle variant="icon" />
 

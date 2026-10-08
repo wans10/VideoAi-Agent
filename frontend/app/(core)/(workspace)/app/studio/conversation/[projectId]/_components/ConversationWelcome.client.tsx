@@ -1,11 +1,12 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 
 import {ArrowUpRight} from 'lucide-react';
 import type {ConversationLocale} from '@/lib/studio/conversation-quote-presentation';
 import styles from '../image-conversation.module.css';
 
 export function ConversationWelcome({locale, onDraft, onReference,hasDraft=false}: {locale: ConversationLocale; onDraft: (value: string) => void; onReference: (trigger: HTMLButtonElement) => void;hasDraft?:boolean}) {
-  const t = (en: string,fr: string) => locale === 'fr' ? fr : en;
+  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
   return <div className={styles.welcome} data-drafting={hasDraft}>
     <h2>{t('What shall we','Et si l’on')} <span>{t('create?','créait ?')}</span></h2>
     <p>{t('A thought, a prompt, a reference. Start anywhere.','Une idée, un prompt, une référence. Partez de ce que vous avez.')}</p>

@@ -91,5 +91,6 @@ export async function recordRefundReceipt(receipt: PendingReceipt, label: string
     );
   } catch (error) {
     console.warn('[images] failed to record refund receipt', error);
+    throw error;
   }
 }

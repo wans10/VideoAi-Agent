@@ -29,6 +29,11 @@ test('Connect opens one localized assistant list and restores its trigger after 
     for (const locale of ['en', 'fr', 'es'] as const) {
       await act(async () => root.render(React.createElement(AppMcpShortcuts, { locale })));
       const trigger = dom.window.document.querySelector<HTMLButtonElement>('button[aria-controls]')!;
+      if (!mcpPublication.publicMarketing || !mcpPublication.publicIndexing) {
+        assert.equal(trigger, null);
+        assert.equal(dom.window.document.querySelector('a'), null, 'hidden marketing must not expose setup links');
+        continue;
+      }
       assert.ok(trigger, 'one disclosure trigger controls the assistant panel');
       assert.equal(trigger.textContent?.trim(), 'Connect');
       assert.equal(trigger.querySelector('img'), null, 'provider logos stay out of the header trigger');

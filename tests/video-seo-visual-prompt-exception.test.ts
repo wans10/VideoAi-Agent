@@ -58,8 +58,8 @@ const visualQaContext = {
   hasStableVideoAsset: true,
   hasStableThumbnailAsset: true,
   hasInternalLinkTargets: true,
-  canonicalUrl: 'https://maxvideoai.com/video/job_visual_storyboard',
-  expectedCanonicalUrl: 'https://maxvideoai.com/video/job_visual_storyboard',
+  canonicalUrl: 'https://app.keyvo.cn/video/job_visual_storyboard',
+  expectedCanonicalUrl: 'https://app.keyvo.cn/video/job_visual_storyboard',
   canonicalTargetIndexable: true,
   technicallyIndexable: true,
   duplicateVideoObjectNames: new Set<string>(),
@@ -129,8 +129,8 @@ test('short text-to-video prompts still fail video SEO QA', () => {
       hasVisualReferenceAsset: false,
       hasAudio: false,
       hasMultiShot: false,
-      canonicalUrl: 'https://maxvideoai.com/video/job_short_text',
-      expectedCanonicalUrl: 'https://maxvideoai.com/video/job_short_text',
+      canonicalUrl: 'https://app.keyvo.cn/video/job_short_text',
+      expectedCanonicalUrl: 'https://app.keyvo.cn/video/job_short_text',
     }
   );
 

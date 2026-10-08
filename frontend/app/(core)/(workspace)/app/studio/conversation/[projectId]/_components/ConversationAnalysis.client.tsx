@@ -1,11 +1,12 @@
 'use client';
+import { conversationCopy } from "@/lib/studio/conversation-copy";
 import type {StudioPreparedAnalysis} from '@/lib/studio/media-analysis-contract';
 import {useConversationAnalysis} from '../_hooks/useConversationAnalysis';
 import styles from './conversation-analysis.module.css';
 
-export function ConversationAnalysis({quote,projectId,accountKey,locale,busy,onConfirmed,onRenew}:{quote:StudioPreparedAnalysis;projectId:string;accountKey:string;locale:'en'|'fr';busy:boolean;onConfirmed:()=>void;onRenew:()=>void}){
+export function ConversationAnalysis({quote,projectId,accountKey,locale,busy,onConfirmed,onRenew}:{quote:StudioPreparedAnalysis;projectId:string;accountKey:string;locale:'en'|'fr'|'zh';busy:boolean;onConfirmed:()=>void;onRenew:()=>void}){
   const analysis=useConversationAnalysis(projectId,accountKey,quote);
-  const t=(en:string,fr:string)=>locale==='fr'?fr:en;
+  const t=(en: string, fr: string) => conversationCopy(locale, en, fr);
   const state=analysis.status?.state;
   const expired=Date.parse(quote.expiresAt)<=Date.now();
   const blocked=busy||analysis.busy;

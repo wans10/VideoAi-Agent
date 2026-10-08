@@ -6,6 +6,8 @@ import {
 
 import { withDbTransaction, type TransactionQueryExecutor } from '@/lib/db';
 import { getWalletSummary, type WalletSummary } from '@/server/wallet-summary';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+import { TOPUP_TIERS } from '@/config/topupTiers';
 
 import { AgentApiError } from './errors';
 import type { AgentPrincipal } from './principal';
@@ -19,7 +21,7 @@ import { anyGenerationQuoteRepository, type CanonicalAnyGenerationRequest } from
 
 const TOKEN_VERSION = 'v1';
 const TOKEN_LIFETIME_SECONDS = 10 * 60;
-const MIN_TOPUP_CENTS = 1000;
+const MIN_TOPUP_CENTS = TOPUP_TIERS[0].amountCents;
 const MAX_CENTS = 2_147_483_647;
 const MAX_TOKEN_CHARS = 4096;
 const MAX_PAYLOAD_CHARS = 1024;
@@ -31,7 +33,7 @@ const INPUT_KEYS = new Set(['quoteId']);
 
 export type McpTopupHandoffPayload = {
   amountCents: number;
-  currency: 'USD';
+  currency: 'USD' | 'CNY';
   quoteIntentId: string;
   expiresAt: number;
 };
@@ -123,7 +125,7 @@ function validPayloadShape(value: unknown): value is McpTopupHandoffPayload {
     && Number.isSafeInteger(value.amountCents)
     && (value.amountCents as number) >= MIN_TOPUP_CENTS
     && (value.amountCents as number) <= MAX_CENTS
-    && value.currency === 'USD'
+    && value.currency === CUSTOMER_CURRENCY
     && typeof value.quoteIntentId === 'string'
     && UUID_V4_PATTERN.test(value.quoteIntentId)
     && Number.isSafeInteger(value.expiresAt)
@@ -252,7 +254,7 @@ function requirePrincipal(principal: AgentPrincipal): void {
     || !safeIdentifier(principal.userId, 128)
     || (principal.clientId !== null && !safeIdentifier(principal.clientId, 256))
   ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before creating a top-up handoff.');
+    throw new AgentApiError('AUTH_REQUIRED', 'Connect Keyvo before creating a top-up handoff.');
   }
 }
 
@@ -300,12 +302,12 @@ export async function createMcpTopupHandoff(
       await dependencies.invalidatePreparedQuote(owner, { executor, expiredAt: databaseNow });
       return { kind: 'stale' };
     }
-    if (quote.currency !== 'USD' || !Number.isSafeInteger(quote.priceCents) || quote.priceCents < 0) {
+    if (quote.currency !== CUSTOMER_CURRENCY || !Number.isSafeInteger(quote.priceCents) || quote.priceCents < 0) {
       throw new AgentApiError('INTERNAL_ERROR', 'The quote cannot be funded.');
     }
     const wallet = await dependencies.getWalletSummary(principal.userId, executor);
     if (
-      wallet.currency !== 'USD'
+      wallet.currency !== CUSTOMER_CURRENCY
       || !Number.isSafeInteger(wallet.balanceCents)
       || wallet.balanceCents < 0
     ) {
@@ -320,7 +322,7 @@ export async function createMcpTopupHandoff(
     const expiresAt = Math.floor(databaseNow.getTime() / 1000) + TOKEN_LIFETIME_SECONDS;
     const payload: McpTopupHandoffPayload = {
       amountCents,
-      currency: 'USD',
+      currency: CUSTOMER_CURRENCY,
       quoteIntentId,
       expiresAt,
     };
@@ -341,7 +343,7 @@ export async function createMcpTopupHandoff(
         destination: {
           type: 'open_url',
           purpose: 'billing',
-          label: 'Add credits securely on MaxVideoAI',
+          label: 'Add credits securely on Keyvo',
           url: billingUrl.toString(),
         },
         freshQuoteRequired: true,
@@ -377,7 +379,7 @@ export function resolveMcpTopupBillingIntent(
   token: string | null | undefined,
   options: TokenOptions,
 ): {
-  billingIntent: { amountCents: number; currency: 'USD'; isExplicit: true };
+  billingIntent: { amountCents: number; currency: 'USD' | 'CNY'; isExplicit: true };
   loginRedirectTarget: string;
 } | null {
   const payload = verifyMcpTopupHandoff(token, options);
@@ -385,7 +387,7 @@ export function resolveMcpTopupBillingIntent(
   return {
     billingIntent: {
       amountCents: payload.amountCents,
-      currency: 'USD',
+      currency: CUSTOMER_CURRENCY,
       isExplicit: true,
     },
     loginRedirectTarget: `/billing?mcp_topup=${encodeURIComponent(token)}`,

@@ -1,3 +1,4 @@
+import { getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { Calculator, ArrowRight } from 'lucide-react';
 import { FlagPill } from '@/components/FlagPill';
@@ -11,13 +12,14 @@ type PricingEstimatorSectionProps = {
   openGeneratorLabel: string;
 };
 
-export function PricingEstimatorSection({
+export async function PricingEstimatorSection({
   comingSoonLabel,
   generatorHref,
   liveLabel,
   livePricingLine,
   openGeneratorLabel,
 }: PricingEstimatorSectionProps) {
+  const locale = await getLocale();
   return (
     <section id="live-calculator" className="scroll-mt-28">
       <div className="rounded-[8px] border border-hairline bg-text-primary p-5 text-bg shadow-float sm:p-6">
@@ -28,7 +30,7 @@ export function PricingEstimatorSection({
             </span>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-2xl font-semibold">Open live calculator</h2>
+                <h2 className="text-2xl font-semibold">{locale === 'zh' ? '打开实时价格计算器' : 'Open live calculator'}</h2>
                 <FlagPill live={FEATURES.pricing.publicCalculator} liveLabel={liveLabel} soonLabel={comingSoonLabel} />
               </div>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-bg/78">{livePricingLine}</p>

@@ -12,7 +12,7 @@ export function ConversationReferenceLightbox({url,label,locale,onClose,trigger}
     return()=>{element?.close();returnTarget?.focus();};
   },[trigger]);
   return <dialog ref={dialog} className={styles.lightbox} aria-label={label} onCancel={event=>{event.preventDefault();onClose();}} onClick={event=>{if(event.target===event.currentTarget)onClose();}}>
-    <div><span>{label}</span><button autoFocus onClick={onClose} aria-label={locale==='fr'?'Fermer l’aperçu':'Close preview'}><X size={20}/></button></div>
+    <div><span>{label}</span><button autoFocus onClick={onClose} aria-label={locale==='zh'?'关闭预览':locale==='fr'?'Fermer l’aperçu':'Close preview'}><X size={20}/></button></div>
     <img src={url} alt={label}/>
   </dialog>;
 }

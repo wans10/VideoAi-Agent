@@ -394,9 +394,25 @@ test('Alibaba client uses the Singapore DashScope async contract without leaking
   assert.equal(new Headers(requests[1]?.init?.headers).get('X-DashScope-Async'), null);
   assert.equal(new Headers(requests[1]?.init?.headers).get('Content-Type'), null);
 
+  assert.equal(
+    normalizeAlibabaBaseUrl('https://dashscope.aliyuncs.com'),
+    'https://dashscope.aliyuncs.com'
+  );
+  assert.equal(
+    normalizeAlibabaBaseUrl('https://llm-sht8iw7gotwbq82x.cn-beijing.maas.aliyuncs.com'),
+    'https://llm-sht8iw7gotwbq82x.cn-beijing.maas.aliyuncs.com'
+  );
+  assert.equal(
+    normalizeAlibabaBaseUrl('https://dashscope-intl.us-east-1.aliyuncs.com'),
+    'https://dashscope-intl.us-east-1.aliyuncs.com'
+  );
+  assert.equal(
+    normalizeAlibabaBaseUrl('https://dashscope-intl.cn-hongkong.aliyuncs.com'),
+    'https://dashscope-intl.cn-hongkong.aliyuncs.com'
+  );
   assert.throws(
-    () => normalizeAlibabaBaseUrl('https://dashscope.aliyuncs.com'),
-    /Singapore endpoint/
+    () => normalizeAlibabaBaseUrl('https://example.com'),
+    /DashScope or MaaS endpoint/
   );
   assert.throws(
     () => normalizeAlibabaBaseUrl('http://dashscope-intl.ap-southeast-1.aliyuncs.com'),

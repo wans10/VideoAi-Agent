@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni Pro",
   "versionLabel": "3.0 Omni Pro",
   "seo": {
-    "title": "Kling 3.0 Omni Pro références, storyboard et video-to-video | MaxVideoAI",
+    "title": "Kling 3.0 Omni Pro références, storyboard et video-to-video | VideoAI",
     "description": "Utilisez Kling 3.0 Omni Pro pour guider une vidéo Kling avec images de référence, storyboard, vidéo source V2V, ancres @Image et @Video1, audio natif et prix à jour."
   },
   "overview": "Kling 3.0 Omni Pro est la route Kling Omni à utiliser quand des images ou une vidéo source doivent guider la vidéo sans devenir automatiquement la première frame.",
-  "pricingNotes": "Coût provider approximatif avant marge MaxVideoAI : $0.168/s avec audio, $0.112/s audio off.",
+  "pricingNotes": "Coût provider approximatif avant marge VideoAI : $0.168/s avec audio, $0.112/s audio off.",
   "custom": {
     "relatedTitle": "Où placer Kling 3.0 Omni Pro",
     "relatedSubtitle": "Pro est la route O3 principale quand les images de référence et la vidéo source doivent guider le plan sans imposer une frame d’ouverture fixe.",
@@ -231,12 +231,12 @@
     "pricingCopy": {
       "title": "Prix Kling 3.0 Omni Pro en un coup d’œil",
       "subtitle": "Totaux par scénario référence ou video-to-video. Vérifiez le prix live avant génération.",
-      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "ctaHref": "/fr/tarifs#kling-o3-pro-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Pro : références, storyboard et V2V | MaxVideoAI",
+      "title": "Kling 3.0 Omni Pro : références, storyboard et V2V | VideoAI",
       "description": "Utilisez Kling 3.0 Omni Pro pour reference-to-video, storyboard, V2V depuis vidéo source, prompts @Image et @Video1, audio natif et prix live."
     }
   },

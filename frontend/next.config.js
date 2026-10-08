@@ -17,20 +17,25 @@ const MARKETING_CDN_CACHE_PATHS = [
   '/',
   '/fr',
   '/es',
+  '/zh',
   '/fr/tarifs',
   '/es/precios',
+  '/zh/pricing',
   '/fr/modeles/:path*',
   '/es/modelos/:path*',
   '/pricing',
   '/models/:path*',
+  '/zh/models/:path*',
 ];
 const CONTENT_GLOBS = [
   '../content/en/blog/**/*',
   '../content/fr/blog/**/*',
   '../content/es/blog/**/*',
+  '../content/zh/blog/**/*',
   '../content/docs/**/*',
   '../content/fr/docs/**/*',
   '../content/es/docs/**/*',
+  '../content/zh/docs/**/*',
   '../content/models/**/*',
   '../content/comparisons/**/*',
 ];
@@ -91,6 +96,9 @@ const imageOptimizer = require('./config/image-optimizer.json');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Docker enables this to copy only traced runtime files into its runner image.
+  // Other hosts retain the existing Next.js output behavior.
+  output: process.env.NEXT_OUTPUT_STANDALONE === 'true' ? 'standalone' : undefined,
   reactStrictMode: true,
   // Keep loopback auth redirects on the browser's cookie origin in local dev.
   // Production retains Next.js URL normalization and its public routing policy.
@@ -114,10 +122,12 @@ const nextConfig = {
       { pathname: '/icons/**' },
       { pathname: '/images/**' },
       { pathname: '/media/mcp/**' },
+      { pathname: '/models/**' },
       { pathname: '/og/**' },
       { pathname: '/assets/tools/character-builder-workspace.png', search: '?hero=1' },
     ],
     remotePatterns: [
+      { protocol: 'https', hostname: 'dckxoj4hsyfz.cloudfront.net' },
       { protocol: 'https', hostname: 'videohub-uploads-us.s3.amazonaws.com' },
       { protocol: 'https', hostname: 'media.maxvideoai.com' },
       { protocol: 'https', hostname: '*.s3.amazonaws.com' },

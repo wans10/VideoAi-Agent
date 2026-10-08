@@ -1,4 +1,6 @@
 import { listFalEngines } from '@/config/falEngines';
+import { isQwenImageEngineId } from '@/lib/image/qwen-image';
+import { resolveQwenImageSize } from '@/lib/image/qwen-image';
 import type { PricingSnapshot } from '@/types/engines';
 import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-generation';
 import { isLumaAgentsImageEngineId } from '@/lib/luma-agents';
@@ -57,6 +59,8 @@ export type ImageEstimateErrorCode =
   | 'engine_unavailable'
   | 'mode_unsupported'
   | 'resolution_invalid'
+  | 'reference_images_invalid'
+  | 'aspect_ratio_invalid'
   | 'image_size_invalid';
 
 export class ImageEstimateError extends Error {
@@ -148,7 +152,7 @@ async function estimateImageGenerationInternal(
     customImageSize = result.size;
   }
   if (isGptImageFamilyEngineId(engine.id) && mode === 'i2i' && resolutionResult.resolution === 'auto') {
-    customImageSize = resolveGptImage2AutoInputImageSize(rawReferenceSizes);
+    customImageSize = resolveGptImage2AutoInputImageSize(rawReferenceSizes, engine.id);
   }
 
   const submittedReferenceSizeCount = rawReferenceSizes.filter(
@@ -159,11 +163,21 @@ async function estimateImageGenerationInternal(
       ? Math.max(0, Math.round(input.referenceImageCount))
       : 0;
   const referenceImageCount = explicitReferenceCount || submittedReferenceSizeCount;
+  if (isQwenImageEngineId(engine.id)) {
+    if (mode === 'i2i' && (referenceImageCount < 1 || referenceImageCount > 3)) {
+      throw new ImageEstimateError('reference_images_invalid', 400);
+    }
+    try {
+      resolveQwenImageSize(resolutionResult.resolution, typeof input.aspectRatio === 'string' ? input.aspectRatio : null);
+    } catch {
+      throw new ImageEstimateError('aspect_ratio_invalid', 400);
+    }
+  }
   const pricedReferenceImageCount = isLumaAgentsImageEngineId(engine.id)
     ? mode === 'i2i'
       ? Math.max(0, referenceImageCount - 1)
       : referenceImageCount
-    : isGptImage25EngineId(engine.id) && mode === 'i2i'
+    : (isGptImage25EngineId(engine.id) || isQwenImageEngineId(engine.id)) && mode === 'i2i'
       ? referenceImageCount
       : undefined;
 

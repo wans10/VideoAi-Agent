@@ -20,7 +20,7 @@ export const STORYBOARD_REFERENCE_FIELD: EngineInputField = {
 export const STORYBOARD_REFERENCE_ENGINE: EngineCaps = {
   id: 'gpt-image-2',
   label: 'Storyboarder',
-  provider: 'MaxVideoAI',
+  provider: 'Keyvo',
   status: 'live',
   latencyTier: 'standard',
   modes: ['i2i'],

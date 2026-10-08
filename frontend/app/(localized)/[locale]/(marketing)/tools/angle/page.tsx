@@ -4,8 +4,8 @@ import { resolveDictionary } from '@/lib/i18n/server';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { AngleLandingPage } from '@/components/tools/AngleLandingPage';
 
-const AVAILABLE_LOCALES: AppLocale[] = ['en', 'fr', 'es'];
-const ANGLE_SOCIAL_IMAGE_URL = 'https://maxvideoai.com/assets/tools/angle-orbit-hero-dialogue-field.webp';
+const AVAILABLE_LOCALES: AppLocale[] = ['en', 'fr', 'es', 'zh'];
+const ANGLE_SOCIAL_IMAGE_URL = 'https://app.keyvo.cn/assets/tools/angle-orbit-hero-dialogue-field.webp';
 
 export async function generateMetadata(props: { params: Promise<{ locale: AppLocale }> }): Promise<Metadata> {
   const params = await props.params;

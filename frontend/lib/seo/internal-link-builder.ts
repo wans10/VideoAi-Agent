@@ -327,7 +327,7 @@ function buildAcceptanceCriteria(item: LinkDraft) {
     'Review the source page first and avoid adding a duplicate internal link if a clear one already exists',
     `If added, the link points from ${item.sourceUrl} to ${item.targetUrl}`,
     `Anchor text is natural and close to "${item.suggestedAnchor}" without keyword stuffing`,
-    'The link is placed where it helps users navigate related MaxVideoAI content',
+    'The link is placed where it helps users navigate related Keyvo content',
   ];
 
   if (item.recommendationType === 'compare_to_model') {

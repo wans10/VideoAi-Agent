@@ -78,13 +78,8 @@ test('each localized archive preserves canonical, hreflang and indexability with
       const metadata = buildModelArchiveMetadata(getRuntimeModelById(id)!, archive, locale);
       const closure = { en: /generations are closed/, fr: /générations sont fermées/, es: /generaciones están cerradas/ };
       assert.match(metadata.description ?? '', closure[locale]);
-      assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com${paths[locale]}`);
-      assert.deepEqual(metadata.alternates?.languages, {
-        en: `https://maxvideoai.com${paths.en}`,
-        fr: `https://maxvideoai.com${paths.fr}`,
-        es: `https://maxvideoai.com${paths.es}`,
-        'x-default': `https://maxvideoai.com${paths.en}`,
-      });
+      assert.equal(metadata.alternates?.canonical, `https://app.keyvo.cn${paths[locale]}`);
+      assert.deepEqual(metadata.alternates?.languages, { zh: `https://app.keyvo.cn/zh/models/${id}`, 'x-default': `https://app.keyvo.cn/zh/models/${id}` });
       assert.deepEqual(metadata.robots, { index: true, follow: true });
       assert.throws(() => parseModelArchiveContent({ ...archive, intro: '' }));
     }

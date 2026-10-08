@@ -181,9 +181,9 @@ export const LTX_2_3_FAST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: 'fal-ai/ltx-2.3/text-to-video/fast',
     seo: {
-      title: 'LTX 2.3 Fast AI Video – Fast Text & Image to Video | MaxVideoAI',
+      title: 'LTX 2.3 Fast AI Video – Fast Text & Image to Video | Keyvo',
       description:
-        'Generate fast AI video with LTX 2.3 Fast on MaxVideoAI. Text and image workflows support 6–20s clips, 1080p/1440p/4K, native audio, and 25/50 fps options.',
+        'Generate fast AI video with LTX 2.3 Fast on Keyvo. Text and image workflows support 6–20s clips, 1080p/1440p/4K, native audio, and 25/50 fps options.',
       canonicalPath: '/models/ltx-2-3-fast',
     },
     type: 'textImage',

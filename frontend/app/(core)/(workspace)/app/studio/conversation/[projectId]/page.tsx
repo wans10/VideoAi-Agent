@@ -10,7 +10,7 @@ import {assertTimelineExportWorkerLauncherConfigured} from '@/server/timeline-ex
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Studio | MaxVideoAI",
+  title: "Studio | Keyvo",
   robots: { index: false, follow: false },
 };
 export default async function StudioConversationPage({

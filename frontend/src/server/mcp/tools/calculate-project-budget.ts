@@ -39,7 +39,7 @@ const lineSchema = z.object({
     'Short human-readable purpose of this line, such as opening hero shot or product cutaways.',
   ),
   engineId: z.string().trim().min(1).max(128).describe(
-    'Exact public MaxVideoAI video model ID returned by list_models or get_model_details.',
+    'Exact public Keyvo video model ID returned by list_models or get_model_details.',
   ),
   mode: z.enum(CANONICAL_VIDEO_GENERATION_MODES).describe(
     'Video creation mode: text, image, multimodal reference, first/last frame, source-video edit, ordered reference videos, or clip extension.',
@@ -92,7 +92,7 @@ export function registerCalculateProjectBudgetTool(
   server.registerTool(
     'calculate_project_budget',
     {
-      title: 'Calculate a MaxVideoAI project budget',
+      title: 'Calculate a Keyvo project budget',
       description: [
         'Use this when the user needs current pricing estimates of concrete video production proposals, including single- or mixed-model shots, clip counts and explicit creative attempts.',
         'The host owns the creative plan and names each proposal; give mixed-model shots a factual rationale.',

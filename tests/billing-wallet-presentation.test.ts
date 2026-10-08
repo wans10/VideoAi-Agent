@@ -6,6 +6,8 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { DEFAULT_BILLING_COPY } from '../frontend/app/(core)/billing/_lib/billing-copy';
+import { TOPUP_TIERS } from '../frontend/src/config/topupTiers';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 
@@ -17,13 +19,14 @@ async function loadBillingPresentation() {
     module.exports = { __esModule: true, default: classes };
   };
   try {
-    const [{ BillingWalletOverview }, { WalletCheckoutSummary }, { ReceiptsPanel }, { WalletTopupPanel }] = await Promise.all([
+    const [{ BillingWalletOverview }, { WalletCheckoutSummary }, { ReceiptsPanel }, { WalletTopupPanel }, { WalletAmountPicker }] = await Promise.all([
       import('../frontend/app/(core)/billing/_components/BillingWalletOverview'),
       import('../frontend/app/(core)/billing/_components/WalletCheckoutSummary'),
       import('../frontend/app/(core)/billing/_components/ReceiptsPanel'),
       import('../frontend/app/(core)/billing/_components/WalletTopupPanel'),
+      import('../frontend/app/(core)/billing/_components/WalletAmountPicker'),
     ]);
-    return { BillingWalletOverview, WalletCheckoutSummary, ReceiptsPanel, WalletTopupPanel };
+    return { BillingWalletOverview, WalletCheckoutSummary, ReceiptsPanel, WalletTopupPanel, WalletAmountPicker };
   } finally {
     if (previousCssLoader) require.extensions['.css'] = previousCssLoader;
     else delete require.extensions['.css'];
@@ -51,6 +54,38 @@ test('wallet overview makes the available balance, refresh action, and billing d
     DEFAULT_BILLING_COPY.receipts.openDocuments,
   );
   assert.match(document.body.textContent ?? '', new RegExp(DEFAULT_BILLING_COPY.hero.testMode));
+});
+
+test('CNY wallet balance and selectable recharge amounts render as renminbi', async () => {
+  if (CUSTOMER_CURRENCY !== 'CNY') return;
+  const { BillingWalletOverview, WalletAmountPicker } = await loadBillingPresentation();
+  const overview = new JSDOM(renderToStaticMarkup(React.createElement(BillingWalletOverview, {
+    copy: DEFAULT_BILLING_COPY,
+    stripeMode: 'live',
+    wallet: { balance: 0, currency: 'CNY' },
+    walletStatus: 'ready',
+    onRefresh() {},
+  }))).window.document;
+  assert.equal(overview.querySelector('[data-wallet-balance]')?.textContent, '¥0.00');
+
+  const picker = new JSDOM(renderToStaticMarkup(React.createElement(WalletAmountPicker, {
+    applyCustomAmount() {},
+    copy: DEFAULT_BILLING_COPY,
+    customAmountCents: null,
+    customAmountError: null,
+    customAmountInput: '',
+    customAmountInputRef: null,
+    customAmountValid: false,
+    customCardActive: false,
+    formatUsdAmount: (amountCents: number) => `¥${amountCents / 100}`,
+    onCustomAmountInputChange() {},
+    onOpenCustomAmountEditor() {},
+    onPresetSelected() {},
+    selectedTopupCents: TOPUP_TIERS[0].amountCents,
+  }))).window.document;
+  const buttons = Array.from(picker.querySelectorAll('button')).map((button) => button.textContent ?? '');
+  for (const tier of TOPUP_TIERS) assert.ok(buttons.some((button) => button.includes(tier.label)), tier.label);
+  assert.ok(!buttons.some((button) => button.includes('$')));
 });
 
 test('checkout summary separates the quoted payment from USD wallet credits', async () => {
@@ -168,6 +203,36 @@ test('currency selector displays the quoted currency while enabled options are s
   assert.equal(select.disabled, true);
   assert.equal(select.selectedOptions[0].textContent, 'EUR');
   assert.match(document.body.textContent ?? '', /€8.60/);
+});
+
+test('CNY payment shows only Alipay and WeChat Pay with USD wallet credits', async () => {
+  const { WalletTopupPanel } = await loadBillingPresentation();
+  const noop = () => {};
+  const markup = renderToStaticMarkup(React.createElement(WalletTopupPanel, {
+    applyCustomAmount: noop, checkoutCaptchaError: null, checkoutCaptchaRequired: true,
+    checkoutCaptchaResetGeneration: 0, checkoutCaptchaToken: null, copy: DEFAULT_BILLING_COPY,
+    currencyLoading: false, currencyOptions: ['EUR', 'USD', 'CNY'], currencyStatus: 'Charging in CNY',
+    currencyStatusClass: '', customAmountCents: null, customAmountError: null, customAmountInput: '',
+    customAmountInputRef: null, customAmountValid: false, customCardActive: false,
+    formatUsdAmount: (cents) => `$${cents / 100}`, handleCheckoutCaptchaError: noop,
+    handleCheckoutCaptchaRequired: noop, handleCheckoutCaptchaToken: noop, handleCurrencyChange: noop,
+    handleExpressTopupFailed: noop, handleExpressTopupStarted: noop, handleTopUp: noop,
+    isTopupStarting: false, hostedCheckoutStarting: false, llmhubPayEnabled: true, locale: 'zh',
+    normalizedChargeCurrency: 'CNY', onCustomAmountInputChange: noop,
+    onOpenCustomAmountEditor: noop, onPresetSelected: noop,
+    onAuthRequired: noop, onLlmhubRateLimited: noop,
+    quoteError: null, quoteLoading: false, selectedTopupAmountLabel: '$10', selectedTopupCents: 1000,
+    selectedTopupPaymentLabel: null, session: null,
+    stripePromise: null, turnstileSiteKey: '', wallet: null,
+  }));
+  const document = new JSDOM(markup).window.document;
+  assert.equal(document.querySelector('select')?.value, 'CNY');
+  assert.match(document.body.textContent ?? '', /Alipay/);
+  assert.match(document.body.textContent ?? '', /WeChat Pay/);
+  assert.match(document.body.textContent ?? '', /Credits received:\s*\$10/);
+  assert.match(document.body.textContent ?? '', /Security check required/);
+  assert.equal(document.querySelector('[aria-label="Stripe"]'), null);
+  assert.equal(document.querySelector('.checkoutButton'), null);
 });
 
 test('receipt document and support links have 44px touch targets', () => {

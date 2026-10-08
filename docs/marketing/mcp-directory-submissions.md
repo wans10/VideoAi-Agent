@@ -1,5 +1,15 @@
 # MaxVideoAI MCP distribution packages
 
+## Keyvo deployment policy — 2026-10-09
+
+Keyvo hides public MCP marketing and indexing (`publicMarketing=false`, `publicIndexing=false`), while authenticated transport, OAuth, discovery, paid generation and reference uploads stay enabled. Upstream MaxVideoAI rollout, host and directory evidence below is historical source evidence; it does not certify a Keyvo listing or host approval.
+
+| Current Keyvo flag | Value |
+| --- | --- |
+| `publicMarketing` | false |
+| `publicIndexing` | false |
+
+
 Latest submission checkpoint: [5 October 2026 n8n update](#n8n-update-submission--2026-10-05).
 Latest package publication: [5 October 2026 plugin and Registry checkpoint](../operations/mcp-distribution-publication-2026-10-05.md).
 Earlier read-only checkpoint: [4 October 2026 distribution rollout](../operations/studio-mcp-distribution-rollout-2026-10-04.md).

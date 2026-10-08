@@ -213,8 +213,8 @@ const GPT_IMAGE_2_ENGINE: EngineCaps = {
   updatedAt: '2026-04-23T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
-    provider: 'fal.ai',
-    modelSlug: 'openai/gpt-image-2',
+    provider: 'llmhub',
+    modelSlug: 'gpt-image-2',
   },
   availability: 'available',
   brandId: 'openai',
@@ -236,7 +236,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: [
       {
         mode: 't2i',
-        falModelId: 'openai/gpt-image-2',
+        falModelId: 'gpt-image-2',
         ui: {
           modes: ['t2i'],
           resolution: [
@@ -259,7 +259,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         mode: 'i2i',
-        falModelId: 'openai/gpt-image-2/edit',
+        falModelId: 'gpt-image-2',
         ui: {
           modes: ['i2i'],
           resolution: [
@@ -284,16 +284,16 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
         },
       },
     ],
-    defaultFalModelId: 'openai/gpt-image-2',
+    defaultFalModelId: 'gpt-image-2',
     seo: {
-      title: 'GPT Image 2 - OpenAI Image Generation & Editing | MaxVideoAI',
+      title: 'GPT Image 2 - OpenAI Image Generation & Editing | Keyvo',
       description:
-        'Use GPT Image 2 in MaxVideoAI for text-to-image, image edits, high-fidelity text rendering, product photography, image_size presets/custom size, quality controls, and PNG/JPEG/WEBP output.',
+        'Use GPT Image 2 in Keyvo for text-to-image, image edits, high-fidelity text rendering, product photography, image_size presets/custom size, quality controls, and PNG/JPEG/WEBP output.',
       canonicalPath: '/models/gpt-image-2',
     },
     type: 'image',
     seoText:
-      'GPT Image 2 brings OpenAI’s quality-first image model into the same MaxVideoAI image workspace as Nano Banana: one model selector for text-to-image and image-to-image, with image_size presets, custom width/height, quality, output format, and mask URL controls.',
+      'GPT Image 2 brings OpenAI’s quality-first image model into the same Keyvo image workspace as Nano Banana: one model selector for text-to-image and image-to-image, with image_size presets, custom width/height, quality, output format, and mask URL controls.',
     media: {
       videoUrl: 'https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4ea3493c-6831-4f08-bedc-803506e0792f.png',
       imagePath: 'https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/4ea3493c-6831-4f08-bedc-803506e0792f.png',
@@ -325,7 +325,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Does GPT Image 2 support both generation and editing?',
         answer:
-          'Yes. MaxVideoAI exposes one GPT Image 2 entry with text-to-image mapped to openai/gpt-image-2 and image-to-image mapped to openai/gpt-image-2/edit.',
+          'Yes. Keyvo exposes one GPT Image 2 entry with text-to-image mapped to openai/gpt-image-2 and image-to-image mapped to openai/gpt-image-2/edit.',
       },
       {
         question: 'Which GPT Image 2 controls are available?',
@@ -335,7 +335,7 @@ export const GPT_IMAGE_2_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'How is GPT Image 2 priced?',
         answer:
-          'Provider prices follow the quality x size table: 1024x768 is $0.01 / $0.04 / $0.15 and 3840x2160 is $0.02 / $0.11 / $0.41 for Low / Medium / High before MaxVideoAI account pricing rules.',
+          'Provider prices follow the quality x size table: 1024x768 is $0.01 / $0.04 / $0.15 and 3840x2160 is $0.02 / $0.11 / $0.41 for Low / Medium / High before Keyvo account pricing rules.',
       },
     ],
     pricingHint: {

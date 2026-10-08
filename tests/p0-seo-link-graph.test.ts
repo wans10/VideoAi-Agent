@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 
-import type { AppLocale } from '../frontend/i18n/locales.ts';
+import { publishedLocales, siteDefaultLocale, type AppLocale } from '../frontend/i18n/locales.ts';
 import * as runtime from '../frontend/config/model-runtime.ts';
 import * as comparisons from '../frontend/lib/compare-hub/data.ts';
 import * as llms from '../frontend/lib/seo/llms-text.ts';
@@ -177,17 +177,18 @@ test('the supplied-roster sitemap fixture emits exactly one reciprocal canonical
 
   for (const id of P0_IDS) {
     const urls = {
-      en: `https://maxvideoai.com/models/${id}`,
-      fr: `https://maxvideoai.com/fr/modeles/${id}`,
-      es: `https://maxvideoai.com/es/modelos/${id}`,
+      en: `https://app.keyvo.cn/models/${id}`,
+      fr: `https://app.keyvo.cn/fr/modeles/${id}`,
+      es: `https://app.keyvo.cn/es/modelos/${id}`,
+      zh: `https://app.keyvo.cn/zh/models/${id}`,
     } as const;
     assert.equal(routeEntries.filter((entry) => entry.englishPath === `/models/${id}`).length, 1, id);
-    for (const locale of LOCALES) {
+    for (const locale of publishedLocales) {
       assert.equal(xml.split(`<loc>${urls[locale]}</loc>`).length - 1, 1, `${id}:${locale}`);
-      for (const alternate of LOCALES) {
+      for (const alternate of publishedLocales) {
         assert.match(xml, new RegExp(`hreflang="${alternate}" href="${urls[alternate]}"`));
       }
-      assert.match(xml, new RegExp(`hreflang="x-default" href="${urls.en}"`));
+      assert.match(xml, new RegExp(`hreflang="x-default" href="${urls[siteDefaultLocale]}"`));
     }
   }
 });
@@ -205,13 +206,13 @@ test('published model fixtures have unique localized metadata and 2-4 rendered e
         title: decision.meta.title,
         description: decision.meta.description,
         englishPath: `/models/${id}`,
-        availableLocales: [...LOCALES],
+        availableLocales: [...LOCALES, 'zh'],
         robots: { index: true, follow: true },
       });
       titles.add(String(metadata.title && typeof metadata.title === 'object' ? metadata.title.absolute : metadata.title));
       descriptions.add(String(metadata.description));
       assert.match(String(metadata.alternates?.canonical), new RegExp(locale === 'en' ? `/models/${id}$` : `/${locale}/(?:modeles|modelos)/${id}$`));
-      assert.deepEqual(Object.keys(metadata.alternates?.languages ?? {}).sort(), ['en', 'es', 'fr', 'x-default']);
+      assert.deepEqual(Object.keys(metadata.alternates?.languages ?? {}).sort(), [...publishedLocales, 'x-default'].sort());
 
       const rendered = buildModelDecisionData({
         engine: entries.get(id)!,
@@ -368,7 +369,7 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
   assert.deepEqual(unrelatedProjection.primaryComparisons, [{
     slug: 'flux-3-vs-grok-imagine-video-1-5',
     label: 'FLUX 3 vs Grok Imagine Video 1.5',
-    href: 'https://maxvideoai.com/ai-video-engines/flux-3-vs-grok-imagine-video-1-5',
+    href: 'https://app.keyvo.cn/ai-video-engines/flux-3-vs-grok-imagine-video-1-5',
   }]);
 
   const wanUpgradeModels = wanOnlyModels.map((model) => {
@@ -413,7 +414,7 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
   assert.deepEqual(upgradeProjection.primaryComparisons, [{
     slug: 'wan-2-6-vs-wan-3',
     label: 'Wan 2.6 vs Wan 3',
-    href: 'https://maxvideoai.com/ai-video-engines/wan-2-6-vs-wan-3',
+    href: 'https://app.keyvo.cn/ai-video-engines/wan-2-6-vs-wan-3',
   }]);
 
   const deepLegacyPairModels = wanOnlyModels.map((model) => model.id === 'wan-3'
@@ -464,7 +465,7 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
   });
   const fixtureText = llms.buildLlmsText(mcpPublication, fixtureProjection);
   for (const id of P0_IDS) {
-    assert.equal(fixtureText.split(`](https://maxvideoai.com/models/${id})`).length - 1, 1, id);
+    assert.equal(fixtureText.split(`](https://app.keyvo.cn/models/${id})`).length - 1, 1, id);
   }
   for (const family of ['ltx', 'wan', 'grok', 'flux']) {
     assert.equal(fixtureText.split(`/examples/${family}`).length - 1, 1, family);

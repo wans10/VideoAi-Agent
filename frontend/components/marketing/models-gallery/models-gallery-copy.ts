@@ -1,3 +1,4 @@
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { SelectOption } from '@/components/ui/SelectMenu';
 import type {
   GalleryFilterKey,
@@ -235,9 +236,9 @@ export function resolveModelsGalleryCopy(copy?: ModelsGalleryCopy): ResolvedMode
       ]),
       price: buildSelectOptions([
         ['all', priceCopy.options.all],
-        ['cheap', priceCopy.options.cheap],
-        ['mid', priceCopy.options.mid],
-        ['premium', priceCopy.options.premium],
+        ['cheap', CUSTOMER_CURRENCY === 'CNY' ? '¥' : priceCopy.options.cheap],
+        ['mid', CUSTOMER_CURRENCY === 'CNY' ? '¥¥' : priceCopy.options.mid],
+        ['premium', CUSTOMER_CURRENCY === 'CNY' ? '¥¥¥' : priceCopy.options.premium],
       ]),
       age: buildSelectOptions([
         ['latest', ageCopy.options.latest],

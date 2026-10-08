@@ -32,7 +32,7 @@ type ComparisonIndexationConfig = {
   schemaVersion: number;
   wave: string;
   evidenceDate: string;
-  noindexByLocale: Record<CuratedLocale, string[]> & { en?: string[] };
+  noindexByLocale: Record<CuratedLocale | 'zh', string[]> & { en?: string[] };
 };
 
 type EngineCatalogEntry = {
@@ -68,7 +68,7 @@ test('wave 1 exposes one shared locale indexation policy', async () => {
   assert.equal(policy.isComparisonIndexable('en', 'ltx-2-vs-veo-3-1-lite'), true);
   assert.equal(policy.isComparisonIndexable('fr', 'ltx-2-vs-veo-3-1-lite'), false);
   assert.equal(policy.isComparisonIndexable('es', 'kling-3-pro-vs-minimax-hailuo-02-text'), false);
-  assert.deepEqual(policy.getIndexableComparisonLocales('ltx-2-vs-veo-3-1-lite'), ['en', 'es']);
+  assert.deepEqual(policy.getIndexableComparisonLocales('ltx-2-vs-veo-3-1-lite'), ['en', 'es', 'zh']);
   assert.deepEqual(
     policy.getIndexableComparisonSlugs('fr', [
       'ltx-2-vs-veo-3-1-lite',
@@ -211,6 +211,7 @@ test('wave 1 sitemap contains exactly the indexable localized comparison URLs', 
     en: '/ai-video-engines',
     fr: '/fr/comparatif',
     es: '/es/comparativa',
+    zh: '/zh/ai-video-engines',
   } as const;
   const publishedSlugs = getHubComparisonSlugsForSitemap();
   const publishedSlugSet = new Set(publishedSlugs);
@@ -231,9 +232,10 @@ test('wave 1 sitemap contains exactly the indexable localized comparison URLs', 
   assert.equal(comparisonEntries.length, publishedSlugs.length);
   assert.equal(
     comparisonUrlKeys.size,
-    publishedSlugs.length * 3 -
+    publishedSlugs.length * 4 -
       comparisonIndexation.noindexByLocale.fr.length -
-      comparisonIndexation.noindexByLocale.es.length,
+      comparisonIndexation.noindexByLocale.es.length -
+      comparisonIndexation.noindexByLocale.zh.length,
   );
 
   for (const slug of publishedSlugs) {
@@ -243,7 +245,7 @@ test('wave 1 sitemap contains exactly the indexable localized comparison URLs', 
     );
   }
 
-  for (const locale of ['fr', 'es'] as const) {
+  for (const locale of ['fr', 'es', 'zh'] as const) {
     const excludedSlugs = new Set(comparisonIndexation.noindexByLocale[locale]);
     for (const slug of publishedSlugs) {
       const key = `${locale}:${comparisonPathByLocale[locale]}/${slug}`;
@@ -287,23 +289,21 @@ test('wave 1 applies locale exclusions to comparison metadata and hreflang alter
   assert.deepEqual(frenchSelected.robots, { index: false, follow: true });
   assert.equal(
     frenchSelected.alternates?.canonical,
-    `https://maxvideoai.com/fr/comparatif/${frenchSelectedSlug}`,
+    `https://app.keyvo.cn/fr/comparatif/${frenchSelectedSlug}`,
   );
   assert.deepEqual(frenchSelected.alternates?.languages, {
-    en: `https://maxvideoai.com/ai-video-engines/${frenchSelectedSlug}`,
-    es: `https://maxvideoai.com/es/comparativa/${frenchSelectedSlug}`,
-    'x-default': `https://maxvideoai.com/ai-video-engines/${frenchSelectedSlug}`,
+    zh: `https://app.keyvo.cn/zh/ai-video-engines/${frenchSelectedSlug}`,
+    'x-default': `https://app.keyvo.cn/zh/ai-video-engines/${frenchSelectedSlug}`,
   });
 
   assert.deepEqual(spanishSelected.robots, { index: false, follow: true });
   assert.equal(
     spanishSelected.alternates?.canonical,
-    `https://maxvideoai.com/es/comparativa/${spanishSelectedSlug}`,
+    `https://app.keyvo.cn/es/comparativa/${spanishSelectedSlug}`,
   );
   assert.deepEqual(spanishSelected.alternates?.languages, {
-    en: `https://maxvideoai.com/ai-video-engines/${spanishSelectedSlug}`,
-    fr: `https://maxvideoai.com/fr/comparatif/${spanishSelectedSlug}`,
-    'x-default': `https://maxvideoai.com/ai-video-engines/${spanishSelectedSlug}`,
+    zh: `https://app.keyvo.cn/zh/ai-video-engines/${spanishSelectedSlug}`,
+    'x-default': `https://app.keyvo.cn/zh/ai-video-engines/${spanishSelectedSlug}`,
   });
 
   assert.notEqual(
@@ -324,7 +324,7 @@ test('wave 1 applies locale exclusions to comparison metadata and hreflang alter
   );
   assert.equal(
     frenchUnselected.alternates?.canonical,
-    `https://maxvideoai.com/fr/comparatif/${spanishSelectedSlug}`,
+    `https://app.keyvo.cn/fr/comparatif/${spanishSelectedSlug}`,
   );
 });
 

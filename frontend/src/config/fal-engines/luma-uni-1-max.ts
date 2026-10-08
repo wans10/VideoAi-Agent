@@ -159,14 +159,14 @@ export const LUMA_UNI_1_MAX_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     defaultFalModelId: LUMA_UNI_FAL_MODEL_BY_ENGINE_MODE['luma-uni-1-max'].t2i,
     seo: {
-      title: 'Luma Uni-1 Max AI Image Generator | MaxVideoAI',
+      title: 'Luma Uni-1 Max AI Image Generator | Keyvo',
       description:
-        'Use Luma Uni-1 Max in MaxVideoAI for text-to-image and image editing with references, manga style, output format controls, and 2K image output.',
+        'Use Luma Uni-1 Max in Keyvo for text-to-image and image editing with references, manga style, output format controls, and 2K image output.',
       canonicalPath: '/models/luma-uni-1-max',
     },
     type: 'Image generation and editing',
     seoText:
-      'Luma Uni-1 Max is available in MaxVideoAI as a public image generation and image editing engine for higher-fidelity stills and guided edits.',
+      'Luma Uni-1 Max is available in Keyvo as a public image generation and image editing engine for higher-fidelity stills and guided edits.',
     media: {
       videoUrl: '/assets/model-examples/luma-uni-1-max/hero-product.webp',
       imagePath: '/assets/model-examples/luma-uni-1-max/hero-product.webp',

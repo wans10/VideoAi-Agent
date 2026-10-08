@@ -60,7 +60,7 @@ const DEFAULT_PUBLIC_MEDIA_HOSTS = new Set([
 ]);
 
 const AGENT_FAILURE_COPY = {
-  default: 'MaxVideoAI could not complete this render.',
+  default: 'Keyvo could not complete this render.',
   busy: 'The render queue is temporarily busy.',
   noOutput: 'The render finished without a usable output.',
   reference: 'MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request.',
@@ -69,7 +69,7 @@ const AGENT_FAILURE_COPY = {
   storage: 'The render finished, but MaxVideoAI could not prepare the output for download.',
   timeout: 'This render exceeded the expected processing window.',
   unsupported: 'This request is not supported with the selected inputs. Adjust the prompt, media, or settings before preparing a new request.',
-  pollingStalled: 'This render needs manual review. Contact MaxVideoAI support with your request ID before preparing another attempt.',
+  pollingStalled: 'This render needs manual review. Contact Keyvo support with your request ID before preparing another attempt.',
   seedanceTaskType:
     'Seedance could not identify the intended video edit or extension. Refer to the source directly as Video 1 before preparing a new request.',
 } as const;

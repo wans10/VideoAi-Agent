@@ -12,8 +12,14 @@
     },
     "primaryLinksTitle": "Explore the models",
     "primaryLinks": [
-      { "href": "/models/seedance-2-5", "label": "Seedance 2.5" },
-      { "href": "/models/wan-3", "label": "Wan 3" }
+      {
+        "href": "/models/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/models/wan-3",
+        "label": "Wan 3"
+      }
     ]
   },
   "fr": {
@@ -28,8 +34,14 @@
     },
     "primaryLinksTitle": "Explorer les modèles",
     "primaryLinks": [
-      { "href": "/fr/modeles/seedance-2-5", "label": "Seedance 2.5" },
-      { "href": "/fr/modeles/wan-3", "label": "Wan 3" }
+      {
+        "href": "/fr/modeles/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/fr/modeles/wan-3",
+        "label": "Wan 3"
+      }
     ]
   },
   "es": {
@@ -44,8 +56,36 @@
     },
     "primaryLinksTitle": "Explorar los modelos",
     "primaryLinks": [
-      { "href": "/es/modelos/seedance-2-5", "label": "Seedance 2.5" },
-      { "href": "/es/modelos/wan-3", "label": "Wan 3" }
+      {
+        "href": "/es/modelos/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/es/modelos/wan-3",
+        "label": "Wan 3"
+      }
+    ]
+  },
+  "zh": {
+    "meta": {
+      "title": "Seedance 2.5 对比 Wan 3：评分、多镜头与性价比",
+      "description": "比较 Seedance 2.5 与 Wan 3 的评分、多镜头控制、音频、画质、时长和实际使用成本。",
+      "titleBranding": "none"
+    },
+    "quickVerdict": {
+      "title": "选型结论",
+      "body": "注重整体成片质量、运动表现和多镜头连贯性，可优先测试 Seedance 2.5；需要更长片段、灵活参考素材，并关注多镜头制作成本，可测试 Wan 3。最终选择请结合相同任务的生成结果与实时人民币报价。"
+    },
+    "primaryLinksTitle": "了解这两个模型",
+    "primaryLinks": [
+      {
+        "href": "/zh/models/seedance-2-5",
+        "label": "Seedance 2.5"
+      },
+      {
+        "href": "/zh/models/wan-3",
+        "label": "Wan 3"
+      }
     ]
   }
 }

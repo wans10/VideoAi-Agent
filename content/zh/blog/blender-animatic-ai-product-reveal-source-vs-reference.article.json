@@ -1,0 +1,386 @@
+{
+  "schemaVersion": 1,
+  "canonicalSlug": "blender-animatic-ai-product-reveal-source-vs-reference",
+  "publication": {
+    "articleId": "045e8cce-4da7-49e7-ae52-a2f86e913f3f",
+    "version": 1,
+    "digest": "71ac0744c3cd2a0dc972e1155fd1426067752f07c63e2afd0995d18a8be14d17",
+    "publishedAt": "2026-09-24T11:08:55.803Z"
+  },
+  "article": {
+    "locale": "zh",
+    "audience": "zh-CN",
+    "slug": "blender-animatic-ai-product-reveal-source-vs-reference",
+    "title": "用 Blender 动态分镜制作 AI 产品展示：源视频还是动作参考？",
+    "description": "先在 Blender 中制作六秒产品展示动态分镜，再选择用 Seedance 2.5 编辑源素材，或用它引导 MiniMax H3 生成新镜头。",
+    "keywords": [
+      "Blender animatic",
+      "AI product video",
+      "product reveal",
+      "Seedance 2.5",
+      "MiniMax H3",
+      "source video",
+      "motion reference",
+      "video-to-video",
+      "reference-to-video"
+    ],
+    "blocks": [
+      {
+        "id": "editorial-hero",
+        "type": "media",
+        "assetId": "editorial-hero",
+        "heading": "",
+        "presentation": "single",
+        "alt": "底座上的瓶子结合了素模和琥珀玻璃两种外观，下方的相机路径分成两条制作路线。",
+        "caption": "示意图——同一个展示计划，动态分镜可以承担两种不同角色。"
+      },
+      {
+        "id": "reveal-target",
+        "type": "text",
+        "heading": "先明确展示镜头要达成什么目标",
+        "paragraphs": [
+          {
+            "text": "即使 Blender 中的产品很逼真，镜头仍可能缺乏明确意图。在细化材质之前，先设计结果清晰的运镜：观众应能看出展示的是什么、何时能看清，以及相机最终停在哪里。",
+            "sourceIds": []
+          },
+          {
+            "text": "想象一个带炭灰色瓶盖的无品牌琥珀色瓶子，放在浅色圆柱底座上。前景的青绿色挡板遮住部分瓶身。瓶子保持静止，相机横向移动，利用视差让产品逐渐显露。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "六秒镜头的每个阶段都应有明确任务。",
+                "bold": true
+              },
+              {
+                "text": "开场让瓶子部分被遮挡，在移动中段越过挡板，最后停留在干净的产品定格画面上，让观众有时间看清轮廓、瓶盖和瓶子与底座的接触处。稳定的结尾也为后续剪辑提供可用的取舍点，避免镜头在构图仍变化时结束。"
+              }
+            ],
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "明确目标后，再决定是把动态分镜作为源素材交给"
+              },
+              {
+                "text": "Seedance 2.5",
+                "href": "https://maxvideoai.com/zh/models/seedance-2-5"
+              },
+              {
+                "text": "进行变换，还是作为动作和构图参考，让"
+              },
+              {
+                "text": "MiniMax H3",
+                "href": "https://maxvideoai.com/zh/models/minimax-h3"
+              },
+              {
+                "text": "生成新镜头。"
+              }
+            ],
+            "sourceIds": [
+              "source-2",
+              "source-3"
+            ]
+          },
+          {
+            "text": "本文根据文档和虚构案例解释工作流程，并未复现端到端生成过程。生成结果和演示播放均未经独立验证，因此应把这个展示镜头视为创作目标，而非对模型结果的预测。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "reveal-example",
+        "type": "media",
+        "assetId": "reveal-example",
+        "heading": "为展示镜头设计清晰的结尾",
+        "presentation": "single",
+        "alt": "三个假想画面依次呈现部分被遮挡的瓶子、清晰的展示和稳定的最终产品画面。",
+        "caption": "示意图——从部分遮挡到清晰产品画面的瓶子展示计划。"
+      },
+      {
+        "id": "build-animatic",
+        "type": "steps",
+        "heading": "导出前先确认场景安排和节奏",
+        "steps": [
+          {
+            "title": "只搭建会影响镜头的形体",
+            "body": "用简单几何体表示瓶子、瓶盖、底座和前景挡板。保留瓶子的大致轮廓和与底座的接触关系，暂时跳过精细材质和细节。动态分镜需要表达空间关系和节奏，无需达到成品渲染的精度。"
+          },
+          {
+            "title": "设计开场和最终产品构图",
+            "body": "开场相机位置应让近处挡板遮住部分瓶子，同时仍能辨认主体。再设置最终相机位置，让整个瓶子可见，周围留出适当空间。尽早设计结尾，可以避免横移最终停在不自然的裁切位置。"
+          },
+          {
+            "title": "用关键帧设置相机横移",
+            "body": "瓶子、底座和挡板保持静止，直接用关键帧驱动相机。设置一个中间检查点，让挡板正在让出瓶身，轮廓开始清晰。前后景分离产生明显视差，比所有物体深度相近的运镜更容易评估展示效果。"
+          },
+          {
+            "title": "检查三个关键时刻和完整运镜",
+            "body": "分别检查开场遮挡、中段显露和最终构图，再播放完整六秒。静帧能发现位置问题；播放才能看出挡板是否移开过快、遮挡过久或出现无意的停顿。在外观细化增加判断难度之前，利用中间预览调整节奏。"
+          },
+          {
+            "title": "导出干净的相机视图预览",
+            "body": "进入活动相机视图，在实体或材质预览模式下使用轻量的视口渲染，隐藏叠加层，避免辅助线和关键帧出现在视频中。明确选择分辨率、宽高比、输出路径和格式；例如 960 × 540、16:9 预览能减少规划渲染的负担，这只是示例，并非模型上传要求。文档中的视口渲染适用于 Workbench 和 EEVEE，而非 Cycles。若导出帧序列，请在交接前合成为视频。"
+          }
+        ]
+      },
+      {
+        "id": "blender-camera-blocking",
+        "type": "media",
+        "assetId": "blender-camera-blocking",
+        "heading": "围绕挡板设计运镜",
+        "presentation": "single",
+        "alt": "Blender 场景示意图，包含前景挡板、瓶子、三个相机位置和无遮挡的最终相机视图。",
+        "caption": "示意图——在 Blender 中规划挡板、运镜和最终构图。"
+      },
+      {
+        "id": "choose-input-role",
+        "type": "comparison",
+        "heading": "决定动态分镜是变换素材还是创作指引",
+        "columns": [
+          "Seedance 2.5——编辑动态分镜",
+          "MiniMax H3——引导新镜头"
+        ],
+        "rows": [
+          [
+            "当 Blender 预览应作为被变换或重新设定风格的源素材时，选择此路线。",
+            "当 Blender 预览应引导新生成镜头的运镜方向、展示节奏和构图时，选择此路线。"
+          ],
+          [
+            "提供的网站输入结构要求：Prompt（提示词）和恰好一段 Source video（源视频）。",
+            "提供的网站输入结构要求 Prompt（提示词）。一般约定中参考视频可选，最多三段。"
+          ],
+          [
+            "参考图片可选；若提供，结构接受一至三十张。上传源视频并不意味着外观图片必填。",
+            "本流程主动附加一段六秒动态分镜作为动作参考。这是该镜头的创作选择，不代表每个 H3 参考模式请求都需要视频。"
+          ],
+          [
+            "将动态分镜指定为源素材。要求琥珀玻璃、炭灰色瓶盖和克制的产品光照，同时引导变换保留目标横移、显露顺序、底座位置和稳定结尾。",
+            "仅给动态分镜分配必要任务：运镜、节奏和构图。用文字单独描述琥珀玻璃与光照；仅在可用且受支持时使用自有或已授权外观素材。明确排除素模材质作为目标外观。"
+          ],
+          [
+            "公开 Seedance 2.5 页面说明了源视频风格重设。保留指令仍表达意图，不能保证几何、运镜或时序完全一致。",
+            "MiniMax H3 页面另行说明混合参考限制：最多九张图片、三段视频和三段音频，总计不超过十二项独立参考。视频和音频各自的合计时长上限为十五秒。这些限制不会为所提供的输入结构快照增加必填字段。"
+          ],
+          [
+            "审阅过的 MaxVideoAI 提示词示例将视频用于动作、场景调度、相机路径、空间布局和时序，排除低多边形外观。这是带出处的素材用途书面示例，并非已验证的播放或输出质量证明。",
+            "这里采用同样的用途标注方法：明确动态分镜控制什么、不能定义什么，区分动作方向与表面外观，不暗示新镜头会精确保留 Blender 场景。"
+          ],
+          [
+            "模型页面和本地输入结构说明网站约定，但不能证明当前执行或成功渲染。独立 MCP 文档说明该 MCP 路线未暴露直接 Seedance 视频生视频；这不表示网站模式已被移除。",
+            "模型页面和本地结构说明参考生视频输入，但不能证明当前部署或成功结果。本流程不声称 MCP 控制 Blender，也不提供另一种 Blender 自动化路径。"
+          ]
+        ]
+      },
+      {
+        "id": "input-role-illustration",
+        "type": "media",
+        "assetId": "input-role-illustration",
+        "heading": "让同一段视频承担不同任务",
+        "presentation": "single",
+        "alt": "同一个瓶子动态分镜在一条路线中作为源视频，在另一条路线中与相机路径草图一起作为动作参考。",
+        "caption": "示意图——为 Seedance 2.5 提供源素材，或为 MiniMax H3 提供动作指引。"
+      },
+      {
+        "id": "seedance-prompt",
+        "type": "prompt",
+        "heading": "把源视频描述为需要变换的素材",
+        "template": "Treat the uploaded six-second Blender animatic as source material to edit. Transform the grey-box product into an unbranded amber-glass bottle with a charcoal cylindrical cap, using restrained product lighting and a warm ivory environment. Keep the bottle stationary on the pale cylindrical pedestal. Retain the intended lateral camera direction, the initial partial obstruction by the teal foreground panel, the gradual reveal order, the spatial relationship between the panel, pedestal and bottle, and the settled final packshot with breathing room. Replace the preview materials rather than reproducing their low-poly appearance. Maintain a readable bottle silhouette, consistent cap detail and stable contact with the pedestal throughout the panel crossing. No label, logo or on-screen text.",
+        "note": "将动态分镜上传到唯一必填的 Source video（源视频）字段，把这段文字放入必填的 Prompt（提示词）字段。根据需要在可用设置中选择六秒时长。外观图片是可选输入；若提供自有或已获授权的图片，请明确说明它们仅用于材质、颜色和光照。保留场景安排和节奏的要求表达了创作方向，但不能保证几何形状或运镜完全一致。"
+      },
+      {
+        "id": "h3-prompt",
+        "type": "prompt",
+        "heading": "让动态分镜引导动作，而非外观",
+        "template": "Create a new six-second product-reveal shot featuring an unbranded amber-glass bottle with a charcoal cylindrical cap on a pale cylindrical pedestal, lit with restrained product lighting in a warm ivory environment. Use the supplied animatic only as a motion, timing and composition reference: follow its lateral camera direction, begin with the bottle partly hidden by the teal foreground panel, reveal the bottle progressively through the middle of the shot, and settle into a clear final packshot with breathing room. Preserve the intended spatial logic and reveal pacing without adopting the animatic’s grey-box geometry, flat preview materials or simplified lighting. Keep the bottle silhouette, cap and pedestal contact coherent while the foreground panel crosses the frame. No label, logo or on-screen text.",
+        "note": "将这段文字放入必填的 Prompt（提示词）字段，并主动附加六秒动态分镜作为一段 Reference video（参考视频）。H3 的一般输入约定中参考视频是可选的，这里是为本工作流程而选择使用。提示词用文字定义外观，因此不默认需要图片。若通过受支持的输入添加已获授权的外观参考，请限定其用于瓶子表面和光照。通过可用的输出设置选择时长和构图，不要把配置要求写入提示词。"
+      },
+      {
+        "id": "inspect-and-edit",
+        "type": "steps",
+        "heading": "先检查镜头，再考虑用剪辑补救",
+        "steps": [
+          {
+            "title": "比较开场和最终构图",
+            "body": "生成结果可用后，将有代表性的首尾帧与动态分镜比较。确认瓶子开场部分被遮挡，结尾是清晰的产品画面，并留有可用空间。若动态分镜中的任一构图本就不明确，应修改 Blender 相机或挡板位置并重新导出。"
+          },
+          {
+            "title": "检查轮廓和瓶盖细节",
+            "body": "在多个画面中检查瓶肩、外轮廓和炭灰色瓶盖，而非只看好看的结尾。若动态分镜动作清晰，但生成外观发生漂移，应强化表面描述，或明确已获授权的外观参考的用途。不要指望剪辑工具可靠地修复不断变化的几何形状。"
+          },
+          {
+            "title": "检查瓶子与底座的接触",
+            "body": "检查接触位置是否出现悬浮、下陷或滑动。若问题来自源场景，应在 Blender 中修正物体位置。若动态分镜稳定但生成结果的接触关系变化，应先修改提示词或参考素材的用途，再生成新候选。"
+          },
+          {
+            "title": "完整播放前景遮挡过程",
+            "body": "观看挡板越过主体的完整过程，判断连续性；只检查静帧无法确认运动中的遮挡是否连贯。若展示过程断裂，应调整 Blender 中模糊的节奏安排，或更明确地说明动态分镜用于动作参考。若镜头连贯，可将选中的候选交给外部剪辑软件，完成选片、镜头衔接、修正、字幕和声音。"
+          }
+        ]
+      },
+      {
+        "id": "reveal-inspection",
+        "type": "media",
+        "assetId": "reveal-inspection",
+        "heading": "不要只看漂亮的最终帧",
+        "presentation": "single",
+        "alt": "四个示意画面分别突出产品构图、瓶子轮廓、底座接触和前景遮挡边界。",
+        "caption": "示意图——检查构图、轮廓、接触和挡板越过过程；遮挡过程还需通过播放检查。"
+      },
+      {
+        "id": "workflow-handoff",
+        "type": "diagram",
+        "heading": "保持交接流程简单",
+        "nodes": [
+          {
+            "kind": "file",
+            "label": "Blender 场景"
+          },
+          {
+            "kind": "video",
+            "label": "相机视图动态分镜"
+          },
+          {
+            "kind": "model",
+            "label": "MaxVideoAI：Seedance 编辑或 H3 参考"
+          },
+          {
+            "kind": "video",
+            "label": "可用时检查候选输出"
+          },
+          {
+            "kind": "file",
+            "label": "外部剪辑项目"
+          }
+        ],
+        "connections": [
+          "导出规划的运镜",
+          "提供视频和明确用途的提示词",
+          "通过选定的可用路线生成",
+          "检查后导入选定镜头"
+        ],
+        "alt": "Blender 场景导出为动态分镜，进入选定的 MaxVideoAI 路线，再检查候选视频并交给外部剪辑软件。",
+        "caption": "Blender 定义运镜，选定的 MaxVideoAI 路线负责生成，外部剪辑软件组装选中的镜头。"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "source-1",
+      "title": "Blender 5.2 LTS",
+      "publisher": "Blender Foundation",
+      "url": "https://www.blender.org/releases/5-2/",
+      "retrievedAt": "2026-09-24"
+    },
+    {
+      "id": "source-10",
+      "title": "MaxVideoAI MCP: Connectors, Plugins and Workflows",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/docs/mcp",
+      "retrievedAt": "2026-09-24",
+      "publishedAt": "2026-07-14"
+    },
+    {
+      "id": "source-2",
+      "title": "Seedance 2.5 AI Video Generator: 30s, 1080p & Audio",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/seedance-2-5",
+      "retrievedAt": "2026-09-24"
+    },
+    {
+      "id": "source-3",
+      "title": "MiniMax H3 AI Video Generator: 4K, References & Audio",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/minimax-h3",
+      "retrievedAt": "2026-09-24"
+    },
+    {
+      "id": "source-4",
+      "title": "One-take Creation, Flexible Referencing: Introducing Seedance 2.5",
+      "publisher": "ByteDance Seed",
+      "url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+      "retrievedAt": "2026-09-24",
+      "publishedAt": "2026-07-31"
+    },
+    {
+      "id": "source-5",
+      "title": "Open General Intelligence: MiniMax H3 Is Now Open Source",
+      "publisher": "MiniMax",
+      "url": "https://www.minimax.io/news/minimax-h3-open-source",
+      "retrievedAt": "2026-09-24",
+      "publishedAt": "2026-08-03"
+    },
+    {
+      "id": "source-6",
+      "title": "Viewport Render — Blender 5.2 LTS Manual",
+      "publisher": "Blender Foundation",
+      "url": "https://docs.blender.org/manual/sl/5.2/editors/3dview/viewport_render.html",
+      "retrievedAt": "2026-09-24"
+    },
+    {
+      "id": "source-7",
+      "title": "Introduction — Blender 5.2 LTS Animation Manual",
+      "publisher": "Blender Foundation",
+      "url": "https://docs.blender.org/manual/en/5.2/animation/introduction.html",
+      "retrievedAt": "2026-09-24"
+    },
+    {
+      "id": "source-8",
+      "title": "Rendering Animations — Blender 5.2 LTS Manual",
+      "publisher": "Blender Foundation",
+      "url": "https://docs.blender.org/manual/en/latest/render/output/animation.html",
+      "retrievedAt": "2026-09-24"
+    },
+    {
+      "id": "source-9",
+      "title": "Seedance 2.5 Video Reference Example: Giant Duck VFX",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/video/seedance-2-5-video-reference-giant-duck-vfx",
+      "retrievedAt": "2026-09-24"
+    }
+  ],
+  "assets": [
+    {
+      "id": "editorial-hero",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "4a0c381ef9b7e792b5c5c69e822297f84655fe8523b79db6949bd1d64a3d65ee",
+      "url": "https://media.maxvideoai.com/editorial/published/4a0c381ef9b7e792b5c5c69e822297f84655fe8523b79db6949bd1d64a3d65ee.webp"
+    },
+    {
+      "id": "reveal-example",
+      "kind": "generated-illustration",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "051897ae9f1aef5d5963173f0bb2f0bb1ec3e10991bfc98bdb34eb3e80e2469f",
+      "url": "https://media.maxvideoai.com/editorial/published/051897ae9f1aef5d5963173f0bb2f0bb1ec3e10991bfc98bdb34eb3e80e2469f.webp"
+    },
+    {
+      "id": "blender-camera-blocking",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "e3205a8fc4f00667323ed2227a4976afc0b437b35765f8d941b7114407578b18",
+      "url": "https://media.maxvideoai.com/editorial/published/e3205a8fc4f00667323ed2227a4976afc0b437b35765f8d941b7114407578b18.webp"
+    },
+    {
+      "id": "input-role-illustration",
+      "kind": "generated-illustration",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "3b88184aaacff1212df85de6e73c9e91b179d9f445f3e55b7710f9dc2f6c16fb",
+      "url": "https://media.maxvideoai.com/editorial/published/3b88184aaacff1212df85de6e73c9e91b179d9f445f3e55b7710f9dc2f6c16fb.webp"
+    },
+    {
+      "id": "reveal-inspection",
+      "kind": "generated-illustration",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6f1cb45098ec83b06f65f0bae9685cb6c835a64ee7f5216b41eae6d46e02d4de",
+      "url": "https://media.maxvideoai.com/editorial/published/6f1cb45098ec83b06f65f0bae9685cb6c835a64ee7f5216b41eae6d46e02d4de.webp"
+    }
+  ]
+}

@@ -41,7 +41,7 @@ test('marketing message selection excludes unrelated workspace copy', () => {
 
 test('connected marketing navigation has localized account copy inside its small message payload', () => {
   for (const [locale, generate, signOut] of [
-    ['en', 'Generate', 'Sign out'], ['fr', 'Générer', 'Se déconnecter'], ['es', 'Generar', 'Cerrar sesión'],
+    ['en', 'Open studio', 'Sign out'], ['fr', 'Ouvrir le studio', 'Se déconnecter'], ['es', 'Abrir el estudio', 'Cerrar sesión'], ['zh', '进入制作台', '退出登录'],
   ]) {
     const dictionary = JSON.parse(readFileSync(join(root, `frontend/messages/${locale}.json`), 'utf8'));
     const client = pickClientMessageNamespaces(dictionary, MARKETING_CLIENT_MESSAGE_NAMESPACES);

@@ -37,10 +37,10 @@ export function buildLegacyReferenceUploadAppHtml(): string {
   <body>
     <main class="card">
       <h1>Import private references</h1>
-      <p id="summary">Choose up to 8 files. They are saved in your connected MaxVideoAI library.</p>
+      <p id="summary">Choose up to 8 files. They are saved in your connected Keyvo library.</p>
       <label for="files"><span id="selection">Choose files</span></label>
       <input id="files" type="file" multiple />
-      <button id="upload" type="button" disabled>Add to MaxVideoAI</button>
+      <button id="upload" type="button" disabled>Add to Keyvo</button>
       <p id="error" class="error" role="alert"></p>
       <ul id="results"></ul>
     </main>
@@ -186,7 +186,7 @@ export function buildLegacyReferenceUploadAppHtml(): string {
         await request('ui/update-model-context', {
           content: [{
             type: 'text',
-            text: 'Private MaxVideoAI references imported and ready:\\n' + lines.join('\\n'),
+            text: 'Private Keyvo references imported and ready:\\n' + lines.join('\\n'),
           }],
         }).catch(() => undefined);
       }
@@ -271,7 +271,7 @@ export function buildLegacyReferenceUploadAppHtml(): string {
 
       async function connect() {
         await request('ui/initialize', {
-          appInfo: { name: 'MaxVideoAI private reference import', version: '1.0.0' },
+          appInfo: { name: 'Keyvo private reference import', version: '1.0.0' },
           appCapabilities: {},
           protocolVersion: '2026-01-26',
         });

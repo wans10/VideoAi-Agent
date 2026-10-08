@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "Wan 3 scenario pricing",
       "subtitle": "Compare a scene in 720p with the same scene in 1080p.",
-      "footnote": "Adding video increases your Wan 3 quote: its duration is priced alongside the generated video, whether you use it as a reference, for editing or for extension. MaxVideoAI confirms the quote before you generate.",
+      "footnote": "Adding video increases your Wan 3 quote: its duration is priced alongside the generated video, whether you use it as a reference, for editing or for extension. VideoAI confirms the quote before you generate.",
       "ctaLabel": "Generate with Wan 3",
       "ctaHref": "/app?engine=wan-3"
     },

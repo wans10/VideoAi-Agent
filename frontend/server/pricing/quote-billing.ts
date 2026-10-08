@@ -32,6 +32,7 @@ import { resolveCustomerTariffQuote } from './resolve-customer-tariff';
 import { buildManualTariffScenario } from '@/lib/pricing-manual-scenario';
 import { assertSeedanceWorkflowPricing } from '@/lib/seedance-workflow-pricing';
 import { CustomerTariffUnavailableError } from './resolve-customer-tariff';
+import { customerSnapshot, providerUsdSnapshot } from '@/lib/customer-currency';
 
 /** Finishing tools supply vendor facts; the canonical kernel owns all customer rounding and margins. */
 export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: string; quality: string; vendorBudgetUsd: number; durationSec: number; profileId: string; pricingSource: string },
@@ -49,8 +50,8 @@ export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: 
     scenario: { id: `billing:tool:${input.toolId}:${input.quality}`, engineId, mode: `${input.toolId}:${input.quality}`, membershipTier: LIVE_MEMBERSHIP_POLICY.tier, discountPercent: 0 },
     policy, compatibilityProfile,
   });
-  return projectCanonicalQuoteToSnapshot({ quote, base: { seconds: input.durationSec, rate: input.vendorBudgetUsd, unit: 'video', amountCents: input.vendorBudgetUsd * 100 }, addons: [], vendorAccountId,
-    meta: { surface: 'tool', toolId: input.toolId, quality: input.quality, profileId: input.profileId, providerCostSource: input.pricingSource, providerCostKind: 'conservative-budget', vendorBudgetUsd: input.vendorBudgetUsd, ruleId: policy.sourceRuleId } });
+  return customerSnapshot(projectCanonicalQuoteToSnapshot({ quote, base: { seconds: input.durationSec, rate: input.vendorBudgetUsd, unit: 'video', amountCents: input.vendorBudgetUsd * 100 }, addons: [], vendorAccountId,
+    meta: { surface: 'tool', toolId: input.toolId, quality: input.quality, profileId: input.profileId, providerCostSource: input.pricingSource, providerCostKind: 'conservative-budget', vendorBudgetUsd: input.vendorBudgetUsd, ruleId: policy.sourceRuleId } }));
 }
 
 export async function computeCanonicalBillingSnapshot(
@@ -85,7 +86,7 @@ export async function computeCanonicalBillingSnapshot(
     const manual = resolveCustomerTariffQuote({ context, facts: billingFacts.facts,
       at: new Date().toISOString(), state: tariffState });
     if (manual) {
-      return projectCanonicalQuoteToSnapshot({
+      return customerSnapshot(projectCanonicalQuoteToSnapshot({
         quote: manual.quote,
         base: manual.supplierCost ? { ...billingFacts.base, rate: manual.supplierCost.amountUsd / billingFacts.base.seconds,
           amountCents: manual.quote.breakdown.vendorSubtotalExactCents } : billingFacts.base,
@@ -105,7 +106,7 @@ export async function computeCanonicalBillingSnapshot(
           engineLabel: context.engine.label,
           engineVersion: context.engine.version,
         },
-      });
+      }));
     }
   }
   if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.');
@@ -167,7 +168,7 @@ export async function computeCanonicalBillingSnapshot(
       membershipDiscounts: memberTierDiscounts,
     },
   });
-  return snapshot;
+  return customerSnapshot(snapshot);
 }
 
 export async function computeCanonicalAudioBillingSnapshot(input: AudioPricingInput, dependencies: { pricingPolicy?: ResolveServerPricingPolicyDependencies } = {}): Promise<PricingSnapshot> {
@@ -211,7 +212,7 @@ export async function computeCanonicalAudioBillingSnapshot(input: AudioPricingIn
     },
   });
   delete snapshot.margin.ruleId;
-  return snapshot;
+  return customerSnapshot(snapshot);
 }
 
 export type CanonicalStoryboardSnapshotInput = {
@@ -224,7 +225,7 @@ export async function computeCanonicalStoryboardBillingSnapshot(
   input: CanonicalStoryboardSnapshotInput,
   dependencies: { pricingPolicy?: ResolveServerPricingPolicyDependencies } = {}
 ): Promise<PricingSnapshot> {
-  const projection = buildStoryboardPricingProjection(input);
+  const projection = buildStoryboardPricingProjection({ ...input, snapshot: providerUsdSnapshot(input.snapshot) });
   const { policy, vendorAccountId } = await resolveServerBillingPolicy(
     {
       engineId: STORYBOARD_BILLING_ENGINE_ID,
@@ -254,11 +255,11 @@ export async function computeCanonicalStoryboardBillingSnapshot(
     policy,
     compatibilityProfile,
   });
-  return projectCanonicalQuoteToSnapshot({
+  return customerSnapshot(projectCanonicalQuoteToSnapshot({
     quote,
     base: projection.base,
     addons: projection.addons,
     vendorAccountId,
     meta: projection.meta,
-  });
+  }));
 }

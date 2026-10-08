@@ -49,7 +49,7 @@
       "subtitle": "Answers for staying on the established Pro route or adopting LTX 2.3 Pro controls.",
       "items": [
         {
-          "question": "Is LTX Video 2.0 Pro still accessible on MaxVideoAI?",
+          "question": "Is LTX Video 2.0 Pro still accessible on VideoAI?",
           "answer": "Yes. It remains available for ten-second 16:9 text/image generation with audio in 1080p, 1440p, or 4K."
         },
         {
@@ -112,7 +112,7 @@
       "subtitle": "Réponses pour rester sur LTX 2.0 Pro ou adopter les contrôles de LTX 2.3 Pro.",
       "items": [
         {
-          "question": "LTX Video 2.0 Pro est-il toujours accessible sur MaxVideoAI ?",
+          "question": "LTX Video 2.0 Pro est-il toujours accessible sur VideoAI ?",
           "answer": "Oui. Il reste disponible pour des générations de 10 secondes en 16:9 à partir d’un texte ou d’une image, avec audio, en 1080p, 1440p ou 4K."
         },
         {
@@ -175,7 +175,7 @@
       "subtitle": "Respuestas para quedarse en la ruta Pro conocida o adoptar los controles de 2.3 Pro.",
       "items": [
         {
-          "question": "¿LTX Video 2.0 Pro sigue disponible en MaxVideoAI?",
+          "question": "¿LTX Video 2.0 Pro sigue disponible en VideoAI?",
           "answer": "Sí. Sigue disponible para generar desde texto o imagen en 16:9 durante diez segundos, con audio y salida en 1080p, 1440p o 4K."
         },
         {
@@ -185,6 +185,69 @@
         {
           "question": "¿Cambian los precios publicados entre LTX 2.0 Pro y 2.3 Pro?",
           "answer": "No. Sus precios por segundo coinciden en 1080p, 1440p y 4K; elige según los modos y el formato de entrega, no por el precio por resolución."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.0 Pro 对比 LTX 2.3 Pro：升级还是继续使用？",
+      "description": "在 VideoAI 上对比 LTX Video 2.0 Pro 与 LTX 2.3 Pro 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比仍可用的 LTX Video 2.0 Pro 和 LTX 2.3 Pro。两者包含音频、支持 4K，并采用相同分辨率价格档位；2.3 Pro 增加 9:16、音频生视频、延长、局部重做及更新的首尾帧控制。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "两者仍可用且列价档位相同。熟悉的 10 秒 16:9 文本 / 图像任务可继续用 LTX Video 2.0 Pro；需要 9:16、音频生视频、延长、局部重做或首尾帧控制时，选择 LTX 2.3 Pro。"
+    },
+    "topCards": [
+      {
+        "title": "继续熟悉的 Pro 方案",
+        "body": "已验证的 10 秒 16:9 文本 / 图像工作流及音频已满足交付时，可继续用 LTX Video 2.0 Pro。"
+      },
+      {
+        "title": "按模式区分 2.3 Pro 时长",
+        "body": "LTX 2.3 Pro 文生视频和图生视频支持 6、8、10 秒；20 秒上限仅适用于音频生视频、延长或局部重做。"
+      },
+      {
+        "title": "价格不是这组对比的决定因素",
+        "body": "两款 Pro 在 1080p、1440p、4K 列出的每秒价格档位相同，因此按工作流需求选择。"
+      },
+      {
+        "title": "需要控制能力时再迁移",
+        "body": "竖屏、音频驱动、延长或局部重做可发挥新模型优势；成熟横屏生成可继续用 2.0 Pro。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2",
+        "label": "查看 available LTX Video 2.0 Pro 详情"
+      },
+      {
+        "href": "/models/ltx-2-3-pro",
+        "label": "查看 current LTX 2.3 Pro 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-ltx-2-3-pro",
+        "label": "对比 LTX 2.3 Fast 对比 LTX 2.3 Pro"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "了解继续旧版 Pro 或采用 LTX 2.3 Pro 控制的选择。",
+      "items": [
+        {
+          "question": "LTX Video 2.0 Pro 在 VideoAI 仍可用吗？",
+          "answer": "可以。仍支持 10 秒 16:9 文本 / 图像生成及音频，提供 1080p、1440p、4K。"
+        },
+        {
+          "question": "LTX 2.3 Pro 哪些功能值得升级？",
+          "answer": "需要 9:16、最长 20 秒音频生视频、延长、局部重做或更新的首尾帧控制时，可从 LTX Video 2.0 Pro 迁移。"
+        },
+        {
+          "question": "LTX 2.0 Pro 和 2.3 Pro 的列价档位不同吗？",
+          "answer": "不同版本的 1080p、1440p、4K 每秒列价档位相同，应按模式与交付需求选择。"
         }
       ]
     }

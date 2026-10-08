@@ -360,7 +360,7 @@ export function projectAgentModelModeDetails(
 ): AgentModelModeDetails {
   const caps = candidate.modeCaps[mode];
   if (!caps) {
-    throw new AgentApiError('ENGINE_UNAVAILABLE', 'This MaxVideoAI model is not currently available.');
+    throw new AgentApiError('ENGINE_UNAVAILABLE', 'This Keyvo model is not currently available.');
   }
   const fps = caps.fps === undefined ? [] : Array.isArray(caps.fps) ? caps.fps : [caps.fps];
   const isImage = candidate.surface === 'image';
@@ -479,13 +479,13 @@ export async function getAgentModelDetails(
     : null;
   if (retiredIdentity) return retiredIdentity;
   if (requestedRuntime?.lifecycle === 'retired') {
-    throw new AgentApiError('ENGINE_UNAVAILABLE', 'This MaxVideoAI model is not currently available.');
+    throw new AgentApiError('ENGINE_UNAVAILABLE', 'This Keyvo model is not currently available.');
   }
 
   const candidates = await listPublicCandidates(engineId, deps, access);
   const candidate = candidates.find((entry) => entry.engine.id === engineId);
   if (!candidate) {
-    throw new AgentApiError('ENGINE_UNAVAILABLE', 'This MaxVideoAI model is not currently available.');
+    throw new AgentApiError('ENGINE_UNAVAILABLE', 'This Keyvo model is not currently available.');
   }
 
   const runtime = resolveDetailsRuntimeModel(candidate.engine.id, deps);

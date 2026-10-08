@@ -34,20 +34,20 @@ export function buildPricingBreadcrumbJsonLd({ canonical, locale }: { canonical:
 export function buildPricingServiceJsonLd({ canonical, locale }: { canonical: string; locale: AppLocale }) {
   return buildMarketingServiceJsonLd({
     name:
-      locale === 'fr' ? 'Tarifs MaxVideoAI' : locale === 'es' ? 'Precios de MaxVideoAI' : 'MaxVideoAI pricing',
+      locale === 'fr' ? 'Tarifs Keyvo' : locale === 'es' ? 'Precios de Keyvo' : locale === 'zh' ? 'Keyvo 价格' : 'Keyvo pricing',
     description:
       locale === 'fr'
-        ? 'Comparez les prix MaxVideoAI par moteur, durée, résolution, audio, image et outils.'
+        ? 'Comparez les prix Keyvo par moteur, durée, résolution, audio, image et outils.'
         : locale === 'es'
-          ? 'Compara precios de MaxVideoAI por motor, duración, resolución, audio, imagen y herramientas.'
-          : 'Compare MaxVideoAI prices by engine, duration, resolution, audio, image and tools.',
+          ? 'Compara precios de Keyvo por motor, duración, resolución, audio, imagen y herramientas.'
+          : 'Compare Keyvo prices by engine, duration, resolution, audio, image and tools.',
     serviceType:
       locale === 'fr'
         ? 'Comparaison de prix IA'
         : locale === 'es'
           ? 'Comparación de precios de IA'
           : 'AI pricing comparison',
-    category: locale === 'fr' ? 'Tarification' : locale === 'es' ? 'Precios' : 'Pricing',
+    category: locale === 'fr' ? 'Tarification' : locale === 'es' ? 'Precios' : locale === 'zh' ? '价格' : 'Pricing',
     url: canonical,
   });
 }

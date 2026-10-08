@@ -1,0 +1,5 @@
+
+> maxvideoai-mock-api@0.1.0 lint:exposure
+> node scripts/check-public-exposure.mjs
+
+Public exposure check passed.

@@ -21,6 +21,10 @@ test('known reference roles use localized French and Spanish capacity copy', () 
   assert.equal(resolveWorkspaceReferenceFieldTitle(images, 'reference', 'es'), 'Imágenes de referencia (hasta 30)');
   assert.equal(resolveWorkspaceReferenceFieldTitle(videos, 'reference', 'es'), 'Clips de vídeo de referencia (hasta 10)');
   assert.equal(resolveWorkspaceReferenceFieldTitle(audio, 'reference', 'es'), 'Clips de audio de referencia (hasta 10)');
+  assert.equal(resolveWorkspaceReferenceFieldTitle(source, 'generic', 'zh'), '源视频');
+  assert.equal(resolveWorkspaceReferenceFieldTitle(images, 'reference', 'zh'), '参考图像（最多 30 张）');
+  assert.equal(resolveWorkspaceReferenceFieldTitle(videos, 'reference', 'zh'), '参考视频片段（最多 10 个）');
+  assert.equal(resolveWorkspaceReferenceFieldTitle(audio, 'reference', 'zh'), '参考音频片段（最多 10 个）');
 });
 
 test('custom labels and exact field identity remain unchanged', () => {

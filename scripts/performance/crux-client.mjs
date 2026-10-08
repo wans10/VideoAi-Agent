@@ -74,4 +74,3 @@ export async function queryCrux(requested, { apiKey, history = false, fetchImpl 
     return { ...base, status: 'error', errorStatus: 'FETCH_OR_DATA_ERROR', rows: [] };
   }
 }
-

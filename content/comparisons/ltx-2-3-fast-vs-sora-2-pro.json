@@ -188,5 +188,68 @@
         }
       ]
     }
+  },
+  "zh": {
+    "meta": {
+      "title": "LTX 2.3 Fast 对比 Sora 2 Pro：价格、4K与适用场景",
+      "description": "在 VideoAI 上对比 LTX 2.3 Fast 与 OpenAI Sora 2 Pro 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "对比 LTX 2.3 Fast 和 OpenAI Sora 2 Pro，选择经济的高分辨率迭代或工作室级 Sora 输出。LTX 在 10 秒及以内支持 1440p / 4K，在 1080p、25 fps 下最长 20 秒；Sora Pro 为最长 12 秒的精细镜头提供参考驱动工作流。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "经济的 1440p / 4K 迭代且最长 10 秒，或更长的 1080p、25 fps 视频选择 LTX 2.3 Fast；工作室级 Sora 画面和图像 / 参考工作流比时长、价格更重要时，选择 OpenAI Sora 2 Pro。"
+    },
+    "topCards": [
+      {
+        "title": "更长迭代选择 LTX",
+        "body": "LTX 支持原生音频，在 1080p、25 fps 下最长 20 秒；1440p / 4K 仅适用于 10 秒及以内。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+      },
+      {
+        "title": "参考素材选择 Sora Pro",
+        "body": "Sora Pro 接受文本、图像和参考素材，适合需要最长 12 秒工作室级 Sora 画面的团队。"
+      },
+      {
+        "title": "分辨率与成本取舍",
+        "body": "LTX 1080p 每秒 0.04 美元起，可生成 4K；Sora Pro 720p 每秒 0.30 美元起，最高 1080p。"
+      },
+      {
+        "title": "适用制作场景",
+        "body": "反复测试广告概念、最长 10 秒的 1440p / 4K，以及更长 1080p、25 fps 视频使用 LTX；高价值参考驱动主镜头使用 Sora Pro。"
+      }
+    ],
+    "primaryLinksTitle": "建议下一步",
+    "primaryLinks": [
+      {
+        "href": "/models/ltx-2-3-fast",
+        "label": "查看 LTX 2.3 Fast 详情"
+      },
+      {
+        "href": "/models/sora-2-pro",
+        "label": "查看 OpenAI Sora 2 Pro 详情"
+      },
+      {
+        "href": "/ai-video-engines/ltx-2-3-fast-vs-ltx-2-3-pro",
+        "label": "对比 LTX 2.3 Fast 对比 LTX 2.3 Pro"
+      }
+    ],
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你选择经济的 4K 迭代或参考驱动 Sora 工作流。",
+      "items": [
+        {
+          "question": "LTX 2.3 Fast 和 Sora 2 Pro 哪款视频更长？",
+          "answer": "LTX 2.3 Fast 在 1080p、25 fps 下最长 20 秒；OpenAI Sora 2 Pro 最长 12 秒，LTX 的 1440p / 4K 输出最长 10 秒。 高分辨率与高帧率对应更短的时长上限，具体组合请以当前设置为准。"
+        },
+        {
+          "question": "LTX 2.3 Fast 和 Sora 2 Pro 都生成原生音频吗？",
+          "answer": "是。两款均支持原生音频。LTX 的 1440p / 4K 最长 10 秒，更长任务使用 1080p、25 fps；Sora Pro 侧重参考驱动的工作室级输出。"
+        },
+        {
+          "question": "4K 交付应该选择 LTX 2.3 Fast 吗？",
+          "answer": "直接 4K 输出且最长 10 秒可选择 LTX。超过 12 秒的视频使用其 1080p、25 fps 方案；图像 / 参考工作流和 Sora 风格决定镜头时，选择 Sora Pro。"
+        }
+      ]
+    }
   }
 }

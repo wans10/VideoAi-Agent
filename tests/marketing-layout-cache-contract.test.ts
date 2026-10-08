@@ -17,16 +17,16 @@ test('marketing layout keeps account lookup out of the cacheable public shell', 
 });
 
 test('canonical localized marketing pages do not set locale cookies in middleware', async () => {
-  const response = await middleware(new NextRequest('https://maxvideoai.com/fr'));
+  const response = await middleware(new NextRequest('https://maxvideoai.com/zh'));
 
   assert.equal(response.headers.get('set-cookie'), null);
 });
 
 test('canonical localized marketing pages receive cache headers on the middleware response', async () => {
   for (const url of [
-    'https://maxvideoai.com/fr',
-    'https://maxvideoai.com/fr/tarifs',
-    'https://maxvideoai.com/fr/modeles/veo-3-1',
+    'https://maxvideoai.com/zh',
+    'https://maxvideoai.com/zh/pricing',
+    'https://maxvideoai.com/zh/models/veo-3-1',
   ]) {
     const response = await middleware(new NextRequest(url));
 
@@ -38,21 +38,21 @@ test('canonical localized marketing pages receive cache headers on the middlewar
   }
 });
 
-test('default homepage receives cache headers on the middleware response', async () => {
-  const response = await middleware(new NextRequest('https://maxvideoai.com/'));
-
-  assert.equal(response.headers.get('cache-control'), 'public, max-age=0, must-revalidate');
-  assert.equal(
-    response.headers.get('vercel-cdn-cache-control'),
-    'max-age=300, stale-while-revalidate=60'
-  );
+test('new visitors, bots and disabled-locale cookies choose Chinese without caching the redirect', async () => {
+  for (const headers of [{}, { cookie: 'mvid_locale=fr' }, { cookie: 'mvid_locale=en' }, { 'user-agent': 'Googlebot' }]) {
+    const response = await middleware(new NextRequest('https://app.keyvo.cn/', { headers }));
+    assert.equal(response.status, 307);
+    assert.equal(response.headers.get('location'), 'https://app.keyvo.cn/zh');
+    assert.equal(response.headers.get('cache-control'), 'private, no-store, max-age=0');
+    assert.equal(response.headers.get('vercel-cdn-cache-control'), 'no-store');
+  }
 });
 
 test('cache-safe English pricing and model pages receive the middleware CDN policy', async () => {
   for (const url of [
-    'https://maxvideoai.com/pricing',
-    'https://maxvideoai.com/models',
-    'https://maxvideoai.com/models/veo-3-1',
+    'https://maxvideoai.com/zh/pricing',
+    'https://maxvideoai.com/zh/models',
+    'https://maxvideoai.com/zh/models/veo-3-1',
   ]) {
     const response = await middleware(new NextRequest(url));
 
@@ -66,9 +66,9 @@ test('cache-safe English pricing and model pages receive the middleware CDN poli
 
 test('logout, authorization, non-idempotent and non-approved requests do not receive middleware cache eligibility', async () => {
   for (const url of [
-    'https://maxvideoai.com/pricing',
-    'https://maxvideoai.com/models',
-    'https://maxvideoai.com/models/veo-3-1',
+    'https://maxvideoai.com/zh/pricing',
+    'https://maxvideoai.com/zh/models',
+    'https://maxvideoai.com/zh/models/veo-3-1',
   ]) {
     const personalizedResponse = await middleware(
       new NextRequest(url, {
@@ -89,7 +89,7 @@ test('logout, authorization, non-idempotent and non-approved requests do not rec
   }
 
   const examplesResponse = await middleware(
-    new NextRequest('https://maxvideoai.com/examples/seedance')
+    new NextRequest('https://maxvideoai.com/zh/examples/seedance')
   );
 
   assert.equal(examplesResponse.headers.get('vercel-cdn-cache-control'), null);
@@ -97,13 +97,13 @@ test('logout, authorization, non-idempotent and non-approved requests do not rec
 
 test('tracking URLs retain noindex while sharing the public per-URL cache policy', async () => {
   for (const path of [
-    '/?utm_custom=campaign',
-    '/pricing?UTM_Source=campaign',
-    '/fr/tarifs?gclid=test-only',
-    '/es/precios?utm_custom=campaign',
-    '/fr/modeles/veo-3-1?UTM_Source=campaign',
-    '/es/modelos/veo-3-1?fbclid=test-only',
-    '/models/veo-3-1?fbclid=test-only',
+    '/zh?utm_custom=campaign',
+    '/zh/pricing?UTM_Source=campaign',
+    '/zh/pricing?gclid=test-only',
+    '/zh/pricing?utm_custom=campaign',
+    '/zh/models/veo-3-1?UTM_Source=campaign',
+    '/zh/models/veo-3-1?fbclid=test-only',
+    '/zh/models/veo-3-1?fbclid=test-only',
   ]) {
     const response = await middleware(new NextRequest(`https://maxvideoai.com${path}`));
     assert.equal(response.headers.get('x-robots-tag'), 'noindex, follow', path);

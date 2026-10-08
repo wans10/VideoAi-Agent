@@ -2,7 +2,7 @@
   "marketingName": "LTX 2.3 Pro",
   "versionLabel": "2.3",
   "seo": {
-    "title": "LTX 2.3 Pro | Modelo de video IA, specs y precios | MaxVideoAI",
+    "title": "LTX 2.3 Pro | Modelo de video IA, specs y precios | VideoAI",
     "description": "LTX 2.3 Pro sigue como ruta ejecutable de generación anterior; consulta sus controles, precios y el avance hacia LTX 2.5 Pro.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/f397ab6d-d0ef-44eb-977a-3419f494d17e-job_cda079d3-9895-45a0-866c-2dbf57593463.jpg"
   },
@@ -99,7 +99,7 @@
     },
     {
       "label": "Precios",
-      "body": "Pago por uso; la página usa totales mostrados por MaxVideoAI desde el helper compartido para escenarios Generate, y la app muestra la cotización exacta según el workflow."
+      "body": "Pago por uso; la página usa totales mostrados por VideoAI desde el helper compartido para escenarios Generate, y la app muestra la cotización exacta según el workflow."
     }
   ],
   "promptStructure": {
@@ -159,11 +159,11 @@
     },
     {
       "q": "¿LTX 2.3 Fast incluye Audio a video, Extend o Retake?",
-      "a": "No. LTX 2.3 Fast está limitado a texto a video e imagen a video en la ruta actual de MaxVideoAI."
+      "a": "No. LTX 2.3 Fast está limitado a texto a video e imagen a video en la ruta actual de VideoAI."
     },
     {
       "q": "¿Cuánto cuesta LTX 2.3 Pro?",
-      "a": "Usa la tarjeta de precios para ver totales mostrados por MaxVideoAI y confirma la cotización exacta en Generate. El precio cambia por workflow, duración, resolución, fps y ajustes de audio."
+      "a": "Usa la tarjeta de precios para ver totales mostrados por VideoAI y confirma la cotización exacta en Generate. El precio cambia por workflow, duración, resolución, fps y ajustes de audio."
     },
     {
       "q": "¿4K funciona con Audio-to-Video, Extend y Retake?",
@@ -171,7 +171,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "LTX 2.3 Pro es la página LTX con la cobertura de workflows más completa dentro de MaxVideoAI. Reúne generación, animación guiada por audio, extensión de video fuente y retakes puntuales en un solo motor en vez de repartir esas tareas en varias páginas de modelo.",
+    "heroDesc1": "LTX 2.3 Pro es la página LTX con la cobertura de workflows más completa dentro de VideoAI. Reúne generación, animación guiada por audio, extensión de video fuente y retakes puntuales en un solo motor en vez de repartir esas tareas en varias páginas de modelo.",
     "heroDesc2": "Eso importa en producción: puedes bloquear una toma desde texto, refinarla desde una imagen, probar una versión guiada por audio, extender la toma ganadora y luego retakear solo la sección rota sin cambiar de motor.",
     "heroSupportLine": "Ideal para equipos que quieren una sola interfaz LTX para ideación, animación guiada por sonido y correcciones editoriales rápidas.",
     "heroSpecChips": [
@@ -206,8 +206,8 @@
       "Más margen de edición||Extend y Retake sirven para conservar una buena toma en vez de empezar desde cero.",
       "Encaja con los formatos actuales||Los modos horizontal y vertical facilitan planificar variantes hero y social."
     ],
-    "specTitle": "Specs reales - LTX 2.3 Pro en MaxVideoAI",
-    "specNote": "Estas specs describen la ruta activa expuesta hoy en MaxVideoAI, no una lista teórica de funciones futuras.",
+    "specTitle": "Specs reales - LTX 2.3 Pro en VideoAI",
+    "specNote": "Estas specs describen la ruta activa expuesta hoy en VideoAI, no una lista teórica de funciones futuras.",
     "specSections": [
       {
         "title": "Workflows de generación",
@@ -230,7 +230,7 @@
         ]
       }
     ],
-    "whatTitle": "Cómo funciona LTX 2.3 Pro en MaxVideoAI",
+    "whatTitle": "Cómo funciona LTX 2.3 Pro en VideoAI",
     "whatIntro1": "Elige LTX 2.3 Pro, quédate en Generate Video para los flujos estándar de texto / imagen o cambia a Extend Video / Retake Video cuando necesites editar un video fuente. Audio a video se selecciona automáticamente cuando hay una fuente de audio presente.",
     "whatIntro2": "Esta estructura mantiene la página centrada en un solo motor mientras refleja las opciones reales disponibles en la app.",
     "whatFlowTitle": "Workflow",
@@ -434,13 +434,13 @@
     "pricingCopy": {
       "title": "Precios de LTX 2.3 Pro de un vistazo",
       "subtitle": "Totales de producción por escenario. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Ruta de 20 s; presets Generate varían por modo",
       "ctaHref": "/es/precios#ltx-2-3-pro-pricing"
     },
     "meta": {
-      "title": "LTX 2.3 Pro: precios, audio, Extend y Retake | MaxVideoAI",
+      "title": "LTX 2.3 Pro: precios, audio, Extend y Retake | VideoAI",
       "description": "Usa LTX 2.3 Pro para flujos LTX de producción: audio-to-video, Extend, Retake, imagen a video y pasadas Generate de mayor resolución."
     }
   },

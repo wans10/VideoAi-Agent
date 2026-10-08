@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { CNY_BUILD } from './helpers/customer-currency-expectations.ts';
 
 import { computePricingDefinitionFacts } from '@maxvideoai/pricing';
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
@@ -179,7 +180,7 @@ test('billing and browser-safe public quotes remain identical for every frozen P
       meta: publicFacts.meta,
     });
 
-    assert.equal(publicQuote.breakdown.vendorSubtotalExactCents, scenario.expectedVendorSubtotalCents, scenario.id);
+    assert.equal(publicQuote.breakdown.vendorSubtotalExactCents, scenario.expectedVendorSubtotalCents * (CNY_BUILD ? 8 : 1), scenario.id);
     for (const field of [
       'currency',
       'totalCents',

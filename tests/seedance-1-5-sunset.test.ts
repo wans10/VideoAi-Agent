@@ -63,11 +63,9 @@ for (const locale of ['en', 'fr', 'es']) {
     const model = getRuntimeModelById(id)!;
     const content = JSON.parse(readFileSync(`content/models/${locale}/${id}.json`, 'utf8'));
     const metadata = buildModelArchiveMetadata(model, content.archive, locale as 'en' | 'fr' | 'es');
-    assert.equal(metadata.alternates?.canonical, metadata.alternates?.languages?.[locale]);
+    assert.ok(String(metadata.alternates?.canonical).startsWith('https://app.keyvo.cn/'));
     assert.ok(String(metadata.alternates?.canonical).endsWith(id));
-    assert.ok(metadata.alternates?.languages?.en);
-    assert.ok(metadata.alternates?.languages?.fr);
-    assert.ok(metadata.alternates?.languages?.es);
+    assert.deepEqual(Object.keys(metadata.alternates?.languages ?? {}), ['zh', 'x-default']);
     assert.deepEqual(metadata.robots, { index: true, follow: true });
     assert.equal(metadata.openGraph?.type, 'article');
   });

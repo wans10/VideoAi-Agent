@@ -1,4 +1,5 @@
 import type { FalEngineEntry } from '@/config/falEngines';
+import type { AppLocale } from '@/i18n/locales';
 import { getSuggestedOpponentSlugs } from '@/lib/compare-hub/data';
 import { normalizeMaxResolution } from './model-page-hero-specs';
 import {
@@ -51,12 +52,14 @@ export function pickCompareEngines(allEngines: FalEngineEntry[], currentSlug: st
   return selected;
 }
 
-export function buildVideoBoundaries(values: KeySpecValues | null, locale: 'en' | 'fr' | 'es' = 'en'): string[] {
-  const copy = {
+export function buildVideoBoundaries(values: KeySpecValues | null, locale: AppLocale = 'en'): string[] {
+  const copyMap = {
     en: { duration: (v: string) => `Clip duration: ${v}. Assemble several clips for longer edits.`, resolution: (v: string) => `Available resolutions: ${v}.`, video: 'Video input is not supported on this model.', image: 'Image-to-video is not supported on this model.', audio: 'This model does not generate native audio.', iteration: 'Refine your prompt and compare variations before choosing a result.' },
     fr: { duration: (v: string) => `Durée des clips : ${v}. Assemblez plusieurs clips pour un montage plus long.`, resolution: (v: string) => `Résolutions disponibles : ${v}.`, video: 'Ce modèle n’accepte pas de vidéo en entrée.', image: 'Ce modèle ne permet pas de générer une vidéo à partir d’une image.', audio: 'Ce modèle ne génère pas d’audio natif.', iteration: 'Affinez votre prompt et comparez les variantes avant de retenir un résultat.' },
     es: { duration: (v: string) => `Duración de los clips: ${v}. Combina varios clips para crear un video más largo.`, resolution: (v: string) => `Resoluciones disponibles: ${v}.`, video: 'Este modelo no acepta videos como entrada.', image: 'Este modelo no permite generar videos a partir de una imagen.', audio: 'Este modelo no genera audio nativo.', iteration: 'Ajusta tu prompt y compara las variantes antes de elegir un resultado.' },
-  }[locale];
+    zh: { duration: (v: string) => `片段时长：${v}。拼接多个片段以制作更长的视频。`, resolution: (v: string) => `可用分辨率：${v}。`, video: '该模型不支持视频输入。', image: '该模型不支持图生视频。', audio: '该模型不支持生成原生音频。', iteration: '优化提示词并在选择最终结果前对比不同变体。' },
+  };
+  const copy = copyMap[locale] ?? copyMap.en;
   if (!values) return [copy.iteration];
   const items: string[] = [];
   if (values.maxDuration && !isPending(values.maxDuration)) items.push(copy.duration(values.maxDuration));

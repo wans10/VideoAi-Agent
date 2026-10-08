@@ -2,7 +2,7 @@
   "marketingName": "LTX 2 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2 Fast | Modelo de video IA, specs y precios | MaxVideoAI",
+    "title": "LTX 2 Fast | Modelo de video IA, specs y precios | VideoAI",
     "description": "LTX 2 Fast es un perfil histórico de legado profundo conservado por su intención de búsqueda; inicia los borradores actuales con LTX 2.5 Fast.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
@@ -149,7 +149,7 @@
     }
   ],
   "custom": {
-    "whyTitle": "Por qué LTX 2 Fast en MaxVideoAI",
+    "whyTitle": "Por qué LTX 2 Fast en VideoAI",
     "heroDesc1": "Crea clips de 6–20 s con audio nativo, 1080p–4K y 25/50 fps en una sola tarjeta. LTX‑2 Fast es el tier “instantáneo” de la familia LTX‑2: perfecto para cortes sociales rápidos, borradores, storyboards y mood pieces cuando quieres calidad 4K sin esperar.",
     "heroDesc2": "Por encima de 10 s, bloqueamos automáticamente en 1080p/25 fps para respetar el routing de Fal y mantener estabilidad.",
     "heroSupportLine": "Úsalo para hooks, pacing y exploración de mood, luego regenera los ganadores en el tier premium.",
@@ -159,7 +159,7 @@
       "Borradores listos para sonido||Perfecto para temporales de diálogo/ambiente/SFX (o silencia y termina en post).",
       "Upgrade fácil||Mantén la misma estructura de prompt y relanza los ganadores en LTX 2.5 Pro."
     ],
-    "specTitle": "Especificaciones reales — LTX 2 Fast en MaxVideoAI",
+    "specTitle": "Especificaciones reales — LTX 2 Fast en VideoAI",
     "specNote": "Las specs reflejan el routing de Fal en producción.",
     "specSections": [
       {
@@ -183,7 +183,7 @@
         ]
       }
     ],
-    "whatTitle": "Cómo funciona LTX 2 Fast en MaxVideoAI",
+    "whatTitle": "Cómo funciona LTX 2 Fast en VideoAI",
     "whatIntro1": "Elige modo texto o imagen, ajusta 6–20 s, elige resolución y fps, y luego promtea. El audio está on por defecto y se puede apagar.",
     "whatIntro2": "Para 12–20 s, restringimos automáticamente a 1080p/25 fps para mantener rutas estables.",
     "whatFlowTitle": "Workflow",
@@ -409,13 +409,13 @@
     "pricingCopy": {
       "title": "Precios de drafts LTX 2 Fast",
       "subtitle": "Totales de borrador por escenario. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Generar con LTX 2.5 Fast",
       "maxDurationNote": "20 s en 1080p / 25 fps",
       "ctaHref": "/app?engine=ltx-2-5-fast"
     },
     "meta": {
-      "title": "LTX 2 Fast: precios, borradores 20 s y ejemplos | MaxVideoAI",
+      "title": "LTX 2 Fast: precios, borradores 20 s y ejemplos | VideoAI",
       "description": "Referencia histórica de LTX 2 Fast para borradores 16:9, checks de timing de 20 s, texto a video, imagen a video, revisión en alta resolución y precios."
     }
   },

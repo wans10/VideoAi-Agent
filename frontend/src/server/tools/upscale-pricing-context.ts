@@ -1,4 +1,5 @@
 import { computeBillingProductSnapshot, repriceCanonicalFixedProductSnapshot } from '@/lib/billing-products';
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
 import {
   estimateImageUpscaleCostUsd,
   estimateVideoUpscaleCostUsd,
@@ -58,7 +59,7 @@ export async function resolveUpscalePricingContext({
       });
       const multiplier = resolveDynamicToolPriceMultiplier(billingProductKey, pricing.meta);
       if (multiplier == null) throw new Error('Dynamic upscale billing product is unsupported');
-      const dynamicCents = Math.max(1, Math.ceil(estimate.costUsd * 100 * multiplier));
+      const dynamicCents = Math.max(1, Math.ceil(estimate.costUsd * 100 * multiplier)) * (CUSTOMER_CURRENCY === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1);
       const dynamicFloorCents = pricing.totalCents;
       pricing = repriceCanonicalFixedProductSnapshot(pricing, dynamicCents, {
         ...(dynamicCents > dynamicFloorCents

@@ -5,6 +5,7 @@ import { Wallet } from 'lucide-react';
 import { UIIcon } from '@/components/ui/UIIcon';
 import { AppGlyph } from '@/components/app/AppGlyph';
 import { ButtonLink } from '@/components/ui/Button';
+import { formatWalletBalance } from '@/lib/customer-currency';
 
 type HeaderTranslate = (key: string, fallback: string) => string | undefined;
 
@@ -12,7 +13,7 @@ type HeaderWalletStatusProps = {
   localQa?: boolean;
   promptId: string;
   t: HeaderTranslate;
-  wallet: { balance: number } | null;
+  wallet: { balance: number; currency?: string } | null;
   walletLoading: boolean;
   walletPromptOpen: boolean;
   onOpenPrompt: () => void;
@@ -29,7 +30,7 @@ export function HeaderWalletStatus({
   onOpenPrompt,
   onSchedulePromptClose,
 }: HeaderWalletStatusProps) {
-  const walletAmount = localQa ? 'QA local' : wallet ? `$${wallet.balance.toFixed(2)}` : walletLoading ? '...' : '--';
+  const walletAmount = localQa ? 'QA local' : wallet ? formatWalletBalance(wallet.balance, wallet.currency) : walletLoading ? '...' : '--';
   const walletBaseLabel = t('workspace.header.wallet.label', 'Wallet') ?? 'Wallet';
   const missingLabel = walletLoading
     ? t('workspace.header.wallet.loading', 'Loading…') ?? 'Loading…'
@@ -69,7 +70,7 @@ export function HeaderWalletStatus({
             {localQa ? 'Session Google réelle' : t('workspace.header.walletTopUp.label', 'Top up available')}
           </p>
           <p className="mt-1 text-sm text-text-primary">
-            {localQa ? 'Wallet et bibliothèque : données de test locales. Le solde de votre compte MaxVideoAI n’est pas affiché ici.' : t('workspace.header.walletTopUp.copy', 'Click to add funds and keep generating without interruption.')}
+            {localQa ? 'Wallet et bibliothèque : données de test locales. Le solde de votre compte Keyvo n’est pas affiché ici.' : t('workspace.header.walletTopUp.copy', 'Click to add funds and keep generating without interruption.')}
           </p>
           <div className={`mt-3 grid ${localQa ? 'grid-cols-1' : 'grid-cols-2'} gap-2`}>
             <ButtonLink

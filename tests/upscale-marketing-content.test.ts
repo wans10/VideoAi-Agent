@@ -44,12 +44,12 @@ function readLocale(locale: 'en' | 'fr' | 'es') {
   };
 }
 
-test('upscale marketing explains model fit, quality, and MaxVideoAI pricing in every locale', () => {
+test('upscale marketing explains model fit, quality, and Keyvo pricing in every locale', () => {
   for (const locale of ['en', 'fr', 'es'] as const) {
     const guide = readLocale(locale).toolMarketing.upscale.modelGuide;
 
     assert.ok(guide?.title, `${locale} should expose a model guide title`);
-    assert.ok(guide?.body?.toLowerCase().includes('maxvideoai'), `${locale} should mention MaxVideoAI pricing context`);
+    assert.ok(guide?.body?.toLowerCase().includes('keyvo'), `${locale} should mention Keyvo pricing context`);
     assert.deepEqual(Object.keys(guide?.columns ?? {}), ['model', 'bestFor', 'quality', 'price', 'useWhen']);
     assert.equal(guide?.rows?.length, 4, `${locale} should compare four model routes`);
 

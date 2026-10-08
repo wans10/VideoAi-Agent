@@ -39,19 +39,19 @@ export function DocsArticleAttribution({
   return (
     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-text-muted">
       <span>
-        {locale === 'fr' ? 'Par' : locale === 'es' ? 'Por' : 'By'}{' '}
+        {locale === 'fr' ? 'Par' : locale === 'es' ? 'Por' : locale.startsWith('zh') ? '作者：' : 'By'}{' '}
         <a href={author.aboutHref} className="font-semibold text-text-primary hover:text-brand">
           {author.name}
         </a>
       </span>
       <span aria-hidden="true">·</span>
       <span>
-        {locale === 'fr' ? 'Publié le' : locale === 'es' ? 'Publicado el' : 'Published'}{' '}
+        {locale === 'fr' ? 'Publié le' : locale === 'es' ? 'Publicado el' : locale.startsWith('zh') ? '发布于' : 'Published'}{' '}
         {formatDate(date, locale)}
       </span>
       <span aria-hidden="true">·</span>
       <span>
-        {locale === 'fr' ? 'Mis à jour le' : locale === 'es' ? 'Actualizado el' : 'Updated'}{' '}
+        {locale === 'fr' ? 'Mis à jour le' : locale === 'es' ? 'Actualizado el' : locale === 'zh' ? '更新于' : 'Updated'}{' '}
         {formatDate(updatedAt ?? date, locale)}
       </span>
     </div>

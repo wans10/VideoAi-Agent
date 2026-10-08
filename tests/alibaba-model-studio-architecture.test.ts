@@ -16,7 +16,7 @@ function source(path: string): string {
 
 function frontendTypescriptFiles(): string[] {
   return readdirSync(frontendDirectory, { recursive: true, withFileTypes: true })
-    .filter((entry) => entry.isFile() && /\.(?:ts|tsx)$/u.test(entry.name))
+    .filter((entry) => entry.isFile() && /\.(?:ts|tsx)$/u.test(entry.name) && !/(?:^|[\\/])(?:node_modules|\.next)(?:[\\/]|$)/u.test(entry.parentPath))
     .map((entry) => join(entry.parentPath, entry.name));
 }
 

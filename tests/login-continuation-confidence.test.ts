@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { CUSTOMER_CURRENCY } from '../frontend/src/lib/customer-currency';
+import { TOPUP_TIERS } from '../frontend/src/config/topupTiers';
 import { AUTH_COPY } from '../frontend/app/(core)/login/_lib/login-copy.ts';
 import { buildLoginContinuation } from '../frontend/app/(core)/login/_lib/login-continuation.ts';
 
@@ -18,11 +20,11 @@ test('billing continuation confirms the preserved top-up amount', () => {
     buildLoginContinuation({
       copy: AUTH_COPY.en.continuation,
       locale: 'en',
-      nextPath: '/billing?amount=2500&currency=USD',
+      nextPath: `/billing?amount=${TOPUP_TIERS[1].amountCents}&currency=${CUSTOMER_CURRENCY}`,
     }),
     {
       kind: 'billing',
-      title: 'Your $25 top-up is saved',
+      title: `Your ${CUSTOMER_CURRENCY === 'CNY' ? 'CN¥200' : '$25'} top-up is saved`,
       body: 'Create an account or sign in, then you’ll return to Billing with that amount still selected.',
     }
   );
@@ -76,8 +78,8 @@ test('MCP consent explains account connection in every locale without claiming i
       nextPath: '/oauth/consent?authorization_id=authz_1234567890',
     });
     assert.equal(result?.kind, 'mcp');
-    assert.ok(result?.title.includes('MaxVideoAI'));
-    assert.ok(result?.body.includes('MaxVideoAI'));
+    assert.ok(result?.title.includes('Keyvo'));
+    assert.ok(result?.body.includes('Keyvo'));
     assert.doesNotMatch(result?.body ?? '', /ChatGPT|Claude|installed|payment|paiement|pago/i);
   }
   assert.equal(buildLoginContinuation({ copy: AUTH_COPY.en.continuation, locale: 'en', nextPath: '/oauth/consent' }), null);

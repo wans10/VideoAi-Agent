@@ -92,5 +92,36 @@
       ]
     },
     "decisionSummary": "Elige Lite para pruebas más económicas en 720p o 1080p, y Fast para 4K o varias imágenes de referencia. Ambos ofrecen audio opcional."
+  },
+  "zh": {
+    "meta": {
+      "title": "Veo 3.1 Lite 对比 Fast：价格、画质与适用场景",
+      "description": "在 VideoAI 上对比 Google Veo 3.1 Fast 与 Google Veo 3.1 Lite 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "低成本测试选择 Veo 3.1 Lite；画质、音频控制和工作流灵活性更重要时选择 Veo 3.1 Fast。选择前比较价格、输出画质、音频表现和档位取舍。",
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "帮助你在当前 Veo Fast 和 Lite 档位之间选择。",
+      "items": [
+        {
+          "question": "哪款 Veo 3 更适合图生视频测试？",
+          "answer": "两款都可用。最低成本含音频图生视频测试更适合 Veo 3.1 Lite；更广泛灵活性及后续升级完整 Veo 3.1 更适合 Fast。"
+        },
+        {
+          "question": "Veo 3.1 Lite 和 Fast 哪款更适合文生视频草稿？",
+          "answer": "最低成本含音频测试选择 Lite；更多输出选项、可选音频及衔接主 Veo 3.1 工作流选择 Fast。"
+        },
+        {
+          "question": "何时应该选 Veo 3.1 Fast 而非 Lite？",
+          "answer": "更广泛工作流、可选音频控制及便于升级至 Veo 3.1 时选择 Fast；最低成本、音频始终开启的当前 Veo 测试选择 Lite。"
+        }
+      ]
+    },
+    "decisionSummary": "根据工作流、参考素材和当前准确报价选择 Veo 3.1 Fast 或 Lite，生成前确认可用模式和设置。",
+    "pricingCreditLink": {
+      "href": "/pay-as-you-go-ai-video-generator",
+      "label": "余额与计费说明"
+    }
   }
 }

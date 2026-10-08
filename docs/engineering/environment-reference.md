@@ -7,6 +7,9 @@ This reference records the environment variables and operational ownership previ
 | Variable | Scope | Purpose |
 | --- | --- | --- |
 | `FAL_KEY` / `FAL_API_KEY` | Server | Fal.ai API key used by server-side provider access. Prefer `FAL_KEY` on Vercel. |
+| `LLMHUB_API_KEY` | Server | LLM Hub model inference key through `api.llmhub.com.cn`; independent of LLM Hub Pay merchant credentials. Required when a matching model uses LLM Hub as its primary route or fallback. Configure it in the server's `.env.production` or secret store. |
+| `LLMHUB_INFERENCE_ROUTING_ENABLED` | Server | Enables LLM Hub for its verified video modes when the configured direct provider is unavailable. A direct provider that safely rejects a submission before accepting a task can also switch to LLM Hub. Other modes retain their current provider. |
+| `LLMHUB_VIDEO_POLL_TOKEN` | Server | Optional local token for `/api/cron/llmhub-video-poll`; use `CRON_SECRET` or an authorized scheduler in production. |
 | `GOOGLE_VERTEX_PROJECT_ID` / `GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON` | Server | Google Vertex AI project and service account for direct Google providers such as Veo and Lyria 3. |
 | `GOOGLE_VERTEX_LYRIA_ENABLED` | Server, optional | Enables Google Vertex Lyria 3 for `generate audio` music when credentials are configured. Set `0` to make music unavailable; this does not switch to a Fal provider. |
 | `GOOGLE_VERTEX_LYRIA_LOCATION` | Server, optional | Vertex location for Lyria 3 interactions. Defaults to `global`. |
@@ -17,6 +20,10 @@ This reference records the environment variables and operational ownership previ
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Public | Stripe publishable key used by the browser. |
 | `STRIPE_SECRET_KEY` | Server | Stripe secret key for server-side payment operations. |
 | `STRIPE_WEBHOOK_SECRET` | Server, optional | Stripe webhook signing secret. |
+| `LLMHUB_PAY_PID` | Server, optional | LLM Hub Pay V2 merchant ID; with both RSA keys and `NEXT_PUBLIC_SITE_URL`, enables the Billing page's Alipay and WeChat Pay choices. |
+| `LLMHUB_PAY_MERCHANT_PRIVATE_KEY` | Server, optional | Merchant RSA private key used to sign V2 create and query requests. Never expose to the browser. |
+| `LLMHUB_PAY_PLATFORM_PUBLIC_KEY` | Server, optional | Platform RSA public key used to verify create/query responses and payment callbacks. |
+| `FX_RATE_USD_CNY` | Server, optional | Explicit USD/CNY fallback for wallet top-up quotes if the live FX source is unavailable; without either source, CNY checkout fails closed. |
 
 ## Legal, consent, and marketing variables
 

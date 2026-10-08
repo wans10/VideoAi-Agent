@@ -62,7 +62,7 @@
         },
         {
           "question": "Can Kling 3 Pro edit or extend a source video?",
-          "answer": "Not on the current MaxVideoAI Kling 3 Pro route. Seedance 2.5 supports both video editing and extension, so it is the direct choice when an existing clip is the input."
+          "answer": "Not on the current VideoAI Kling 3 Pro route. Seedance 2.5 supports both video editing and extension, so it is the direct choice when an existing clip is the input."
         },
         {
           "question": "Which model supports longer clips?",
@@ -137,7 +137,7 @@
         },
         {
           "question": "Kling 3 Pro peut-il monter ou prolonger une vidéo source ?",
-          "answer": "Pas sur la route Kling 3 Pro actuelle de MaxVideoAI. Seedance 2.5 prend en charge le montage vidéo et l’extension : c’est le choix direct lorsqu’un clip existant sert d’entrée."
+          "answer": "Pas sur la route Kling 3 Pro actuelle de VideoAI. Seedance 2.5 prend en charge le montage vidéo et l’extension : c’est le choix direct lorsqu’un clip existant sert d’entrée."
         },
         {
           "question": "Quel modèle produit les clips les plus longs ?",
@@ -212,7 +212,7 @@
         },
         {
           "question": "¿Kling 3 Pro puede editar o extender un vídeo fuente?",
-          "answer": "No en la ruta actual de Kling 3 Pro en MaxVideoAI. Seedance 2.5 admite edición y extensión de vídeo, por lo que es la elección directa cuando la entrada es un clip existente."
+          "answer": "No en la ruta actual de Kling 3 Pro en VideoAI. Seedance 2.5 admite edición y extensión de vídeo, por lo que es la elección directa cuando la entrada es un clip existente."
         },
         {
           "question": "¿Qué modelo admite clips más largos?",
@@ -221,6 +221,81 @@
         {
           "question": "¿Cómo comparo el precio de Kling 3 Pro y Seedance 2.5?",
           "answer": "Compara trabajos equivalentes en la sección de precio en vivo. La duración, el modo, la resolución y el audio pueden cambiar el presupuesto, así que la proyección actual es más útil que una cifra escrita en esta guía."
+        }
+      ]
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Kling 3 Pro 对比 Seedance 2.5：电影感控制还是更多参考素材？",
+      "description": "在 VideoAI 上对比 Kling 3 Pro 与 Seedance 2.5 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "titleBranding": "none"
+    },
+    "heroIntro": "Kling 3 Pro 和 Seedance 2.5 面向不同的参考驱动需求。起始图、可选尾帧、Kling Elements 和最长 15 秒的专注 1080p 电影级工作流选择 Kling 3 Pro；更长序列、更多图像 / 视频 / 音频参考，或源视频编辑与延长更重要时，选择 Seedance 2.5。",
+    "quickVerdict": {
+      "title": "快速结论",
+      "body": "两款都支持 1080p。规划首尾帧之间的电影级运动，或用 Kling Elements 引导角色与产品连贯性时，Kling 3 Pro 更专注。Seedance 2.5 提供更广泛的制作空间：最长 30 秒、合计最多 50 份参考素材、可选生成音频、视频编辑和延长。"
+    },
+    "topCards": [
+      {
+        "title": "选择 Kling 3 Pro",
+        "body": "简洁的电影级需求、1080p 交付、起始图和可选尾帧，以及在提示词中用 Elements 控制角色或产品时，选择 Kling。"
+      },
+      {
+        "title": "选择 Seedance 2.5",
+        "body": "更长叙事段落、大量多模态参考素材，或编辑、延长现有视频时，选择 Seedance。"
+      },
+      {
+        "title": "参考素材策略",
+        "body": "Kling 的参考设置更集中、精简；需求需要更多源素材时，Seedance 接受更大规模的图像、视频与音频组合。"
+      },
+      {
+        "title": "按具体生成请求比较价格",
+        "body": "使用页面实时价格卡，对比实际时长、模式、分辨率和音频选项。商业成本判断随当前价格计算结果更新。"
+      }
+    ],
+    "primaryLinksTitle": "打开适合的制作方案",
+    "primaryLinks": [
+      {
+        "href": "/models/kling-3-pro",
+        "label": "查看 Kling 3 Pro 详情"
+      },
+      {
+        "href": "/app?engine=kling-3-pro",
+        "label": "使用 Kling 3 Pro 生成"
+      },
+      {
+        "href": "/models/seedance-2-5",
+        "label": "查看 Seedance 2.5 详情"
+      },
+      {
+        "href": "/app?engine=seedance-2-5",
+        "label": "使用 Seedance 2.5 生成"
+      }
+    ],
+    "faq": {
+      "title": "Kling 3 Pro 对比 Seedance 2.5 常见问题",
+      "subtitle": "帮助你选择电影镜头、角色和参考素材密集的制作方案。",
+      "items": [
+        {
+          "question": "哪款更适合电影级控制？",
+          "answer": "1080p 电影镜头、提示词控制运镜，以及起始图和可选尾帧之间的规划运动，Kling 3 Pro 更专注；序列需要更多源素材或更长时间时，Seedance 2.5 更合适。"
+        },
+        {
+          "question": "哪款更适合一致角色？",
+          "answer": "Kling 3 Pro 适合以源图和 Kling Elements 为基础的精简角色工作流；同一流程需要大量角色、服装、道具、场景、视频或音频参考时，Seedance 2.5 更合适。"
+        },
+        {
+          "question": "Kling 3 Pro 能编辑或延长源视频吗？",
+          "answer": "当前 VideoAI 的 Kling 3 Pro 方案不支持。Seedance 2.5 支持视频编辑和延长，因此以现有视频为输入时可选择它。"
+        },
+        {
+          "question": "哪款支持更长视频？",
+          "answer": "Seedance 2.5 最长 30 秒；Kling 3 Pro 最长 15 秒，其 1080p 方案面向更紧凑的电影级序列。"
+        },
+        {
+          "question": "如何对比 Kling 3 Pro 和 Seedance 2.5 的价格？",
+          "answer": "在实时价格区域比较相同需求。时长、模式、分辨率和音频会影响报价，因此当前计算价格比写在指南中的固定数字更有参考价值。"
         }
       ]
     }

@@ -19,7 +19,7 @@ for (const locale of ['en', 'fr', 'es'] as const) {
     assert.doesNotMatch(JSON.stringify(document), /\/app\?engine=seedance-1-5-pro/);
     const metadata = buildModelArchiveMetadata(model, archive, locale);
     const prefix = { en: '/models', fr: '/fr/modeles', es: '/es/modelos' }[locale];
-    assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com${prefix}/seedance-1-5-pro`);
+    assert.equal(metadata.alternates?.canonical, `https://app.keyvo.cn${prefix}/seedance-1-5-pro`);
     assert.deepEqual(metadata.robots, { index: true, follow: true });
   });
 

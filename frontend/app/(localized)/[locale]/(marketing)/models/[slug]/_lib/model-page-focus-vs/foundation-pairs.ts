@@ -1,7 +1,8 @@
 import type { FocusVsPair } from './types';
+import { WAN_FOCUS_VS_PAIRS } from './wan-pairs';
 
 export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
-{
+  {
     slugA: 'sora-2',
     slugB: 'sora-2-pro',
     nameA: 'Sora 2',
@@ -31,6 +32,14 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Un primer borrador rápido cuando 720p es suficiente',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Sora 2：',
+        items: [
+          '快速创意验证与片段生成',
+          '分镜、概念设计、UGC 风格短片及短视频广告',
+          '720p 即可满足需求的初版预览',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -57,9 +66,17 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Tomas finales más limpias tras validar la idea',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Sora 2 Pro：',
+        items: [
+          '更高分辨率的成片输出',
+          '更精准的成片控制（包括界面中的音频控制）',
+          '创意验证后的高质量最终镜头',
+        ],
+      },
     },
   },
-{
+  {
     slugA: 'veo-3-1-fast',
     slugB: 'veo-3-1',
     nameA: 'Veo 3.1 Fast',
@@ -89,6 +106,14 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Iteración rápida antes de pasar a los ganadores',
         ],
       },
+      zh: {
+        title: '在以下场景推荐使用 Veo 3.1 Fast：',
+        items: [
+          '快速概念测试与批量草稿生成',
+          '高性价比的 A/B 广告变体与社交循环视频',
+          '在升级高质版本前的快速试错迭代',
+        ],
+      },
     },
     copyB: {
       en: {
@@ -115,64 +140,15 @@ export const FOUNDATION_FOCUS_VS_PAIRS: FocusVsPair[] = [
           'Seguimiento de prompts más fiable',
         ],
       },
-    },
-  },
-{
-    slugA: 'wan-2-5',
-    slugB: 'wan-2-6',
-    nameA: 'Wan 2.5',
-    nameB: 'Wan 2.6',
-    copyA: {
-      en: {
-        title: 'Use Wan 2.5 when you want:',
+      zh: {
+        title: '在以下场景推荐使用 Veo 3.1：',
         items: [
-          'Native audio in the same render',
-          'Simple short beats at lower cost',
-          'Quick ideation with sound-led timing',
-        ],
-      },
-      fr: {
-        title: 'Utilisez Wan 2.5 quand vous voulez :',
-        items: [
-          'Audio natif dans le même rendu',
-          'Beats courts simples à moindre coût',
-          'Idéation rapide avec timing guidé par le son',
-        ],
-      },
-      es: {
-        title: 'Usa Wan 2.5 cuando quieras:',
-        items: [
-          'Audio nativo en el mismo render',
-          'Beats cortos simples a menor coste',
-          'Ideación rápida con timing guiado por el audio',
-        ],
-      },
-    },
-    copyB: {
-      en: {
-        title: 'Use Wan 2.6 when you need:',
-        items: [
-          'Reference-to-video consistency',
-          'Timestamped multi-shot sequences',
-          'More aspect-ratio control and structure',
-        ],
-      },
-      fr: {
-        title: 'Utilisez Wan 2.6 quand vous avez besoin :',
-        items: [
-          'Cohérence en reference-to-video',
-          'Séquences multi-shots horodatées',
-          'Plus de contrôle de format et de structure',
-        ],
-      },
-      es: {
-        title: 'Usa Wan 2.6 cuando necesites:',
-        items: [
-          'Consistencia en reference-to-video',
-          'Secuencias multi-shot con timestamps',
-          'Más control de formato y estructura',
+          '更高保真度的画面质感与精细度',
+          '同一次渲染中一并生成高质量音频',
+          '更稳定、更精准的提示词遵循度',
         ],
       },
     },
   },
+  ...WAN_FOCUS_VS_PAIRS,
 ];

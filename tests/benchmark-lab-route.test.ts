@@ -143,15 +143,13 @@ test('score table renders localized editorial provenance for every current row',
 
 test('benchmark metadata is self-canonical, reciprocal, regionalized, and indexable in every locale', async () => {
   const cases = [
-    { locale: 'en', canonical: 'https://maxvideoai.com/benchmarks', ogLocale: 'en_US' },
-    { locale: 'fr', canonical: 'https://maxvideoai.com/fr/benchmarks', ogLocale: 'fr_FR' },
-    { locale: 'es', canonical: 'https://maxvideoai.com/es/benchmarks', ogLocale: 'es_419' },
+    { locale: 'en', canonical: 'https://app.keyvo.cn/benchmarks', ogLocale: 'en_US' },
+    { locale: 'fr', canonical: 'https://app.keyvo.cn/fr/benchmarks', ogLocale: 'fr_FR' },
+    { locale: 'es', canonical: 'https://app.keyvo.cn/es/benchmarks', ogLocale: 'es_419' },
   ] as const;
   const languages = {
-    en: 'https://maxvideoai.com/benchmarks',
-    fr: 'https://maxvideoai.com/fr/benchmarks',
-    es: 'https://maxvideoai.com/es/benchmarks',
-    'x-default': 'https://maxvideoai.com/benchmarks',
+    zh: 'https://app.keyvo.cn/zh/benchmarks',
+    'x-default': 'https://app.keyvo.cn/zh/benchmarks',
   };
 
   for (const entry of cases) {
@@ -163,17 +161,17 @@ test('benchmark metadata is self-canonical, reciprocal, regionalized, and indexa
   }
 });
 
-test('benchmark schema is limited to WebPage and BreadcrumbList with MaxVideoAI as publisher', () => {
+test('benchmark schema is limited to WebPage and BreadcrumbList with Keyvo as publisher', () => {
   const copy = getBenchmarkCopy('en');
   const webPage = buildBenchmarkWebPageJsonLd({
-    canonicalUrl: 'https://maxvideoai.com/benchmarks',
+    canonicalUrl: 'https://app.keyvo.cn/benchmarks',
     copy,
     editorialProfile: getEditorialProfile('en'),
     inLanguage: 'en-US',
     modifiedAt: '2026-07-11',
   });
   const breadcrumb = buildBenchmarkBreadcrumbJsonLd({
-    canonicalUrl: 'https://maxvideoai.com/benchmarks',
+    canonicalUrl: 'https://app.keyvo.cn/benchmarks',
     copy,
   });
   const schemas = [webPage, breadcrumb];
@@ -181,14 +179,14 @@ test('benchmark schema is limited to WebPage and BreadcrumbList with MaxVideoAI 
   assert.deepEqual(schemas.map((schema) => schema['@type']), ['WebPage', 'BreadcrumbList']);
   assert.deepEqual(webPage.publisher, {
     '@type': 'Organization',
-    name: 'MaxVideoAI',
-    url: 'https://maxvideoai.com',
+    name: 'Keyvo',
+    url: 'https://app.keyvo.cn',
   });
   assert.deepEqual(webPage.author, {
     '@type': 'Person',
     name: 'Adrien Millot',
     jobTitle: 'Founder & Product Lead',
-    url: 'https://maxvideoai.com/about#adrien-millot',
+    url: 'https://app.keyvo.cn/about#adrien-millot',
   });
   assert.equal(JSON.stringify(schemas).includes('Dataset'), false);
 });
@@ -284,9 +282,9 @@ test('page builder preserves Seedance 2.5 official evidence while distinguishing
   assert.ok(pageData.specs.every((row) => row.sourceUrl == null || /^https?:\/\//.test(row.sourceUrl)));
 
   const localizedLabels = {
-    en: ['MaxVideoAI production route contract', 'Generic API mechanics'],
-    fr: ['Contrat de la route de production MaxVideoAI', 'Mécanique API générique'],
-    es: ['Contrato de la ruta de producción de MaxVideoAI', 'Mecánica de la API genérica'],
+    en: ['Keyvo production route contract', 'Generic API mechanics'],
+    fr: ['Contrat de la route de production Keyvo', 'Mécanique API générique'],
+    es: ['Contrato de la ruta de producción de Keyvo', 'Mecánica de la API genérica'],
   } as const;
   for (const locale of ['en', 'fr', 'es'] as const) {
     const copy = getBenchmarkCopy(locale);
@@ -330,9 +328,9 @@ test('localized sitemap generation emits each benchmark locale URL exactly once'
       .map((alternate) => alternate.href)
   );
   for (const expected of [
-    'https://maxvideoai.com/benchmarks',
-    'https://maxvideoai.com/fr/benchmarks',
-    'https://maxvideoai.com/es/benchmarks',
+    'https://app.keyvo.cn/benchmarks',
+    'https://app.keyvo.cn/fr/benchmarks',
+    'https://app.keyvo.cn/es/benchmarks',
   ]) {
     assert.equal(localizedUrls.filter((url) => url === expected).length, 1, `${expected} must appear once`);
   }
@@ -347,6 +345,7 @@ test('middleware and i18n routing recognize every public benchmark URL', () => {
     en: '/benchmarks',
     fr: '/benchmarks',
     es: '/benchmarks',
+    zh: '/benchmarks',
   });
   assert.ok(existsSync(defaultPagePath), 'the canonical English URL needs a default-locale wrapper');
   const defaultPage = readFileSync(defaultPagePath, 'utf8');

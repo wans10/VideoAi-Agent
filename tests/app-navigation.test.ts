@@ -26,8 +26,9 @@ test('creation activities select Create together without selecting unrelated app
 });
 
 test('every existing destination keeps a named complete-menu path and tools obey their flag', () => {
-  const expected = ['/app', '/app/image', '/app/audio', '/app/library', '/jobs', '/settings', '/account/connections', '/billing', '/app/tools', '/app/tools/character-builder', '/app/tools/storyboard', '/app/tools/angle', '/app/tools/upscale', '/app/tools/background-removal', '/app/tools/restore-video', '/app/tools/denoise', '/app/tools/fix-blur', '/app/tools/smooth-motion'];
+  const expected = ['/app', '/app/image', '/app/audio', '/app/library', '/jobs', '/settings', '/billing', '/app/tools', '/app/tools/character-builder', '/app/tools/storyboard', '/app/tools/angle', '/app/tools/upscale', '/app/tools/background-removal', '/app/tools/restore-video', '/app/tools/denoise', '/app/tools/fix-blur', '/app/tools/smooth-motion'];
   const menu = getAppMenuItems(true, true);
+  assert.ok(menu.every(item => item.href !== '/account/connections'), 'MCP connections stay hidden');
   for (const href of expected) assert.ok(menu.some((item) => item.href === href && item.label.length), href);
   assert.equal(new Set(menu.map((item) => item.href)).size, menu.length);
   assert.ok(menu.every((item) => item.href !== '/dashboard'));
@@ -85,7 +86,7 @@ test('app shell keeps account authority, localized separate public links, and na
   assert.doesNotMatch(menu, /fetch\(|useHeaderAccountState|supabase/);
   assert.match(menu, /getPathname\(\{ locale, href: item.href \}\)/);
   assert.match(menu, /target="_blank" rel="noopener noreferrer"/);
-  assert.match(menu, /\/assets\/branding\/logo-mark\.svg/);
+  assert.match(menu, /BrandLockup/);
   assert.match(menu, /showModal\(\)/);
   assert.match(menu, /addEventListener\('close', restoreFocus\)/);
   assert.match(menu, /openerRef\.current\?\.focus\(\)/);
@@ -102,7 +103,7 @@ test('wallet retains its real billing destination and distinguishes zero from mi
   for (const [locale, loading, unavailable] of [['en', 'Loading…', 'Unavailable'], ['fr', 'Chargement…', 'Indisponible'], ['es', 'Cargando…', 'No disponible']]) {
     const dictionary = JSON.parse(readFileSync(`frontend/messages/${locale}.json`, 'utf8'));
     const t = (key: string, fallback: string) => key.split('.').reduce((obj, part) => obj?.[part], dictionary) ?? fallback;
-    for (const [walletLoading, wallet, expected] of [[true, null, loading], [false, null, unavailable], [false, { balance: 0 }, '$0.00'], [false, { balance: 12.3 }, '$12.30']] as const) {
+    for (const [walletLoading, wallet, expected] of [[true, null, loading], [false, null, unavailable], [false, { balance: 0, currency: 'USD' }, '$0.00'], [false, { balance: 12.3, currency: 'USD' }, '$12.30'], [false, { balance: 12.3, currency: 'CNY' }, '¥12.30']] as const) {
       const markup = renderToStaticMarkup(React.createElement(HeaderWalletStatus, { walletLoading, wallet, t, promptId: 'wallet', walletPromptOpen: false, onOpenPrompt() {}, onSchedulePromptClose() {} }));
       assert.ok(markup.includes(`aria-label="Wallet: ${expected}"`), `${locale}: ${expected}`);
       assert.match(markup, /href="\/billing"/);

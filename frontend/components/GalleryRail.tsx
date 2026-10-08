@@ -470,7 +470,7 @@ export function GalleryRail({
 
   const content = (
     <>
-      <GalleryRailHeader title={sampleOnly ? (locale === 'fr' ? 'Exemples à adapter' : locale === 'es' ? 'Ejemplos para adaptar' : 'Examples to make your own') : copy.title} viewAll={copy.viewAll} />
+      <GalleryRailHeader title={sampleOnly ? (locale === 'fr' ? 'Exemples à adapter' : locale === 'es' ? 'Ejemplos para adaptar' : locale === 'zh' ? '复用案例，开始创作' : 'Examples to make your own') : copy.title} viewAll={copy.viewAll} />
       <GalleryRailCuratedBanner copy={copy.curated} show={hasMounted && hasCuratedJobs} />
       <GalleryRailErrorBanner copy={copy.error} retryLabel={copy.retry} show={hasMounted && Boolean(error)} onRetry={retry} />
       {body}

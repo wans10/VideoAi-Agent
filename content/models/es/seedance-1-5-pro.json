@@ -126,7 +126,7 @@
       "prompt": "Anima la imagen inicial con un push‑in suave y resuelve hacia el frame final proporcionado, ambiente suave."
     }
   ],
-  "faqTitle": "FAQ – Seedance 1.5 Pro en MaxVideoAI",
+  "faqTitle": "FAQ – Seedance 1.5 Pro en VideoAI",
   "faqs": [
     {
       "q": "¿Qué hace camera_fixed?",
@@ -149,8 +149,8 @@
       "a": "T2V soporta 480p y 720p. I2V soporta 480p, 720p y 1080p."
     },
     {
-      "q": "¿Sigue siendo Seedance 1.5 Pro el workflow Seedance Pro principal en MaxVideoAI?",
-      "a": "Seedance 1.5 Pro sigue siendo el workflow Seedance Pro anterior aún compatible en MaxVideoAI, pero Seedance 2.0 es ahora el modelo Seedance actual principal para trabajo de producción más amplio."
+      "q": "¿Sigue siendo Seedance 1.5 Pro el workflow Seedance Pro principal en VideoAI?",
+      "a": "Seedance 1.5 Pro sigue siendo el workflow Seedance Pro anterior aún compatible en VideoAI, pero Seedance 2.0 es ahora el modelo Seedance actual principal para trabajo de producción más amplio."
     }
   ],
   "custom": {
@@ -161,7 +161,7 @@
       "Control de frame inicial + final (I2V)||Añade un frame final opcional para guiar el aterrizaje (transiciones, match cuts, finales limpios)",
       "Audio nativo en el mismo render||Genera diálogo, ambiente y SFX en una pasada — o apaga el audio para borradores silenciosos y post"
     ],
-    "specTitle": "Especificaciones reales — Seedance 1.5 Pro en MaxVideoAI",
+    "specTitle": "Especificaciones reales — Seedance 1.5 Pro en VideoAI",
     "specNote": "Las specs reflejan el routing de Fal en producción.",
     "specSections": [
       {
@@ -335,7 +335,7 @@
     "pricingCopy": {
       "title": "Precios de Seedance 1.5 Pro de un vistazo",
       "subtitle": "Totales con audio. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD. Las rutas audio off pueden cotizar menos en la app.",
+      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD. Las rutas audio off pueden cotizar menos en la app.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "1080p solo en I2V",
       "ctaHref": "/es/precios#seedance-1-5-pro-pricing"

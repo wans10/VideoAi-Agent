@@ -1,3 +1,4 @@
+import { CNY_BUILD } from './helpers/customer-currency-expectations';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -24,8 +25,9 @@ test('visible offer and Product consume the same price and selected scenario for
     }
     const offer = resolveModelPublicOffer(engine, engine.engine)!;
     assert.ok(offer, row.id);
-    assert.equal(offer.amountCents, row.totalCents, row.id);
-    assert.equal(resolveModelOfferAmountCents(engine, engine.engine), row.totalCents, row.id);
+    assert.equal(offer.currency, CNY_BUILD ? 'CNY' : 'USD');
+    assert.equal(offer.amountCents, row.totalCents * (CNY_BUILD ? 8 : 1), row.id);
+    assert.equal(resolveModelOfferAmountCents(engine, engine.engine), row.totalCents * (CNY_BUILD ? 8 : 1), row.id);
     assert.equal(offer.scenario.mode, row.mode, row.id);
     assert.equal(offer.scenario.resolution, row.resolution, row.id);
     if (row.mode === 't2v') {
@@ -35,7 +37,7 @@ test('visible offer and Product consume the same price and selected scenario for
       assert.equal(offer.scenario.quantity, 1, row.id);
       if (engine.id.startsWith('gpt-image')) assert.equal(offer.scenario.quality, row.quality, row.id);
     }
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       const display = formatModelPublicOffer(offer, locale);
       const product = buildProductSchema({ engine, pricingEngine: engine.engine, publicOffer: offer, locale,
         canonical: `https://maxvideoai.com/models/${engine.modelSlug}`, description: 'Model', heroTitle: engine.marketingName, heroPosterAbsolute: null });
@@ -62,11 +64,11 @@ test('examples name their real options without pretending to be the lowest price
   const lumaOffer = resolveModelPublicOffer(luma, luma.engine)!;
   assert.equal(lumaOffer.scenario.resolution, '540p');
   assert.equal(lumaOffer.scenario.durationSeconds, 5);
-  assert.equal(lumaOffer.amountCents, 65);
+  assert.equal(lumaOffer.amountCents, CNY_BUILD ? 520 : 65);
   assert.match(formatModelPublicOffer(lumaOffer, 'en').name, /Silent/);
   const seed = engines.find((entry) => entry.id === 'seedance-2-5')!;
   const seedOffer = resolveModelPublicOffer(seed, seed.engine)!;
-  assert.equal(seedOffer.amountCents, 103);
+  assert.equal(seedOffer.amountCents, CNY_BUILD ? 824 : 103);
   assert.match(formatModelPublicOffer(seedOffer, 'en').name, /16:9/);
 });
 
@@ -76,7 +78,7 @@ test('disabled app models have neither a purchasable Product nor a visible offer
     assert.equal(offer, null, engine.id);
     assert.equal(buildProductSchema({ engine, pricingEngine: engine.engine, publicOffer: offer,
       canonical: `https://maxvideoai.com/models/${engine.modelSlug}`, description: 'Historical model', heroTitle: engine.marketingName, heroPosterAbsolute: null }), null);
-    for (const locale of ['en', 'fr', 'es'] as const) {
+    for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
       assert.equal(renderToStaticMarkup(React.createElement(ModelPublicOfferLine, { offer, locale })), '');
     }
   }
