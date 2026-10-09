@@ -60,7 +60,10 @@ function filesAt(path: string, current = path): string[] {
 
 function buildBundle(temporary: string): string {
   const out = join(temporary, 'release');
-  const result = spawnSync(process.execPath, [builder, '--source', pluginSource, '--out', out], {
+  // Mirror safety remains covered with historical upstream approvals. Keyvo has
+  // not approved those original exports for a new customer package.
+  const manifest = resolve(root, 'docs/marketing/upstream-maxvideoai/github-asset-manifest.json');
+  const result = spawnSync(process.execPath, [builder, '--source', pluginSource, '--out', out, '--asset-manifest', manifest], {
     cwd: root,
     encoding: 'utf8',
   });

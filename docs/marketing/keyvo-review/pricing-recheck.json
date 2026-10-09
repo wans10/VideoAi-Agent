@@ -1,0 +1,58 @@
+{
+  "site": "https://app.keyvo.cn",
+  "productionCommitReportedByUser": "638ee295c61d882fa1a1ebb784fb122e26373d18",
+  "containerIdentityIndependentlyVerified": false,
+  "assets": [
+    {
+      "id": "pricing-1",
+      "path": "/zh/pricing",
+      "finalUrl": "https://app.keyvo.cn/zh/pricing",
+      "httpStatus": 200,
+      "title": "AI 视频生成计费与模型价格对比 | Keyvo",
+      "headings": [
+        "把预算留给值得拍的镜头。"
+      ],
+      "capturedAt": "2026-10-09T12:34:26.704Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "e2fb5c4bae2b2a5f8a9bc6d9fb19afe1ac0c6d4dc0ef7e11eacfab9792aed9be",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    },
+    {
+      "id": "pricing-2",
+      "path": "/zh/pricing",
+      "finalUrl": "https://app.keyvo.cn/zh/pricing",
+      "httpStatus": 200,
+      "title": "AI 视频生成计费与模型价格对比 | Keyvo",
+      "headings": [
+        "把预算留给值得拍的镜头。"
+      ],
+      "capturedAt": "2026-10-09T12:34:47.334Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "e2fb5c4bae2b2a5f8a9bc6d9fb19afe1ac0c6d4dc0ef7e11eacfab9792aed9be",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    },
+    {
+      "id": "pricing-3",
+      "path": "/zh/pricing",
+      "finalUrl": "https://app.keyvo.cn/zh/pricing",
+      "httpStatus": 200,
+      "title": "AI 视频生成计费与模型价格对比 | Keyvo",
+      "headings": [
+        "把预算留给值得拍的镜头。"
+      ],
+      "capturedAt": "2026-10-09T12:35:07.923Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "e2fb5c4bae2b2a5f8a9bc6d9fb19afe1ac0c6d4dc0ef7e11eacfab9792aed9be",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    }
+  ]
+}

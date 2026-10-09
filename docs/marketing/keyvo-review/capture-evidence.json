@@ -1,0 +1,111 @@
+{
+  "site": "https://app.keyvo.cn",
+  "productionCommitReportedByUser": "638ee295c61d882fa1a1ebb784fb122e26373d18",
+  "containerIdentityIndependentlyVerified": false,
+  "assets": [
+    {
+      "id": "home",
+      "path": "/zh",
+      "finalUrl": "https://app.keyvo.cn/zh",
+      "httpStatus": 200,
+      "title": "按需付费 AI 视频生成平台 | Keyvo",
+      "headings": [
+        "把脑中的一场戏，拍成眼前的一镜。"
+      ],
+      "capturedAt": "2026-10-09T12:31:43.383Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "e731ecb8508cdbcc5d62ffba6efe6028192fbc45ba2cdef19eff28ff2a587cba",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    },
+    {
+      "id": "models",
+      "path": "/zh/models",
+      "finalUrl": "https://app.keyvo.cn/zh/models",
+      "httpStatus": 200,
+      "title": "AI 视频与图像模型：技术规格、限制与定价 | Keyvo",
+      "headings": [
+        "为您的下一个灵感找到最合适的模型"
+      ],
+      "capturedAt": "2026-10-09T12:32:09.793Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "a96ece1acede5e71500a1940da9952fe140d3edfbbb35b3af128cc45b7dfd670",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    },
+    {
+      "id": "pricing",
+      "path": "/zh/pricing",
+      "finalUrl": "https://app.keyvo.cn/zh/pricing",
+      "httpStatus": 200,
+      "title": "AI 视频生成计费与模型价格对比 | Keyvo",
+      "headings": [
+        "把预算留给值得拍的镜头。"
+      ],
+      "capturedAt": "2026-10-09T12:32:31.441Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "e2fb5c4bae2b2a5f8a9bc6d9fb19afe1ac0c6d4dc0ef7e11eacfab9792aed9be",
+      "pageErrors": [
+        "Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+      ],
+      "privateAccountData": false,
+      "approval": "pending"
+    },
+    {
+      "id": "examples",
+      "path": "/zh/examples",
+      "finalUrl": "https://app.keyvo.cn/zh/examples",
+      "httpStatus": 200,
+      "title": "AI 视频案例：提示词、模型与生成费用记录 — Keyvo",
+      "headings": [
+        "镜头放映室"
+      ],
+      "capturedAt": "2026-10-09T12:32:44.247Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "069897f6723881dacb6023f6e094a7ba495183101577df40de4acb19e0dc9dbb",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    },
+    {
+      "id": "comparison",
+      "path": "/zh/ai-video-engines",
+      "finalUrl": "https://app.keyvo.cn/zh/ai-video-engines",
+      "httpStatus": 200,
+      "title": "对比主流 AI 视频模型：11 项综合评测得分表",
+      "headings": [
+        "对比 AI 视频生成模型"
+      ],
+      "capturedAt": "2026-10-09T12:32:56.834Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "ee27cde3d8ecbd99ba7e619e64dcac7876732eb6a4a3599e1f4f05e40309d8b1",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    },
+    {
+      "id": "tools",
+      "path": "/zh/tools",
+      "finalUrl": "https://app.keyvo.cn/zh/tools",
+      "httpStatus": 200,
+      "title": "AI 前期制作工具箱：图像与视频工作流 | Keyvo",
+      "headings": [
+        "先把这一场戏准备好。"
+      ],
+      "capturedAt": "2026-10-09T12:33:02.154Z",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "cabd6b739d89c7c8108b5cfded2b44f9d1141d8539303c643defb13e05e39b62",
+      "pageErrors": [],
+      "privateAccountData": false,
+      "approval": "pending"
+    }
+  ]
+}

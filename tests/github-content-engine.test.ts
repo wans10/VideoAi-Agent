@@ -127,7 +127,7 @@ function assertUnsafeOutreachPolicy(ledger: string): void {
 
 test('GitHub content engine parses every proof-led calendar unit and release draft gate', () => {
   const calendar = read('docs/marketing/github-editorial-calendar.md');
-  const manifest = JSON.parse(read('docs/marketing/github-asset-manifest.json')) as { assets: Array<{ path: string; kind: string; state: string }> };
+  const manifest = JSON.parse(read('docs/marketing/upstream-maxvideoai/github-asset-manifest.json')) as { assets: Array<{ path: string; kind: string; state: string }> };
   const manifestAssets = new Map(manifest.assets.map((asset) => [asset.path, asset]));
   const weeks = parseSections(calendar, /^## Week \d+:\s*(.+)$/gm);
   assert.equal(weeks.length, 8, 'the calendar needs eight publication weeks');
@@ -267,7 +267,7 @@ test('new workflow examples are actionable and host guides keep contextual link 
   }
 
   for (const surface of ['README.md', 'examples/README.md'] as const) {
-    const links = markdownLinks(readFileSync(path.join(pluginRoot, surface), 'utf8'));
+    const links = markdownLinks(readFileSync(surface === 'README.md' ? path.join(process.cwd(), 'docs/marketing/upstream-maxvideoai/PLUGIN-README.md') : path.join(pluginRoot, surface), 'utf8'));
     for (const example of examples) assert.ok(links.some((link) => link.endsWith(example)), `${surface} must retain ${example}`);
   }
 

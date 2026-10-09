@@ -1,0 +1,51 @@
+{
+  "byteHashDimensionsAndHttp": "pass",
+  "assets": [
+    {
+      "id": "home",
+      "sha256": "e731ecb8508cdbcc5d62ffba6efe6028192fbc45ba2cdef19eff28ff2a587cba",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "id": "models",
+      "sha256": "a96ece1acede5e71500a1940da9952fe140d3edfbbb35b3af128cc45b7dfd670",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "id": "pricing",
+      "sha256": "e2fb5c4bae2b2a5f8a9bc6d9fb19afe1ac0c6d4dc0ef7e11eacfab9792aed9be",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "id": "examples",
+      "sha256": "069897f6723881dacb6023f6e094a7ba495183101577df40de4acb19e0dc9dbb",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "id": "comparison",
+      "sha256": "ee27cde3d8ecbd99ba7e619e64dcac7876732eb6a4a3599e1f4f05e40309d8b1",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "id": "tools",
+      "sha256": "cabd6b739d89c7c8108b5cfded2b44f9d1141d8539303c643defb13e05e39b62",
+      "width": 1440,
+      "height": 1000
+    }
+  ],
+  "approval": "pending",
+  "pageErrors": [
+    {
+      "id": "pricing",
+      "errors": [
+        "Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+      ]
+    }
+  ],
+  "overallPageErrorGate": "fail"
+}

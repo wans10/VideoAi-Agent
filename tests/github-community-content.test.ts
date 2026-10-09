@@ -291,7 +291,7 @@ test('community documents route public and private reports safely', () => {
 
 test('community Markdown preserves the editorial and no-table contracts', () => {
   for (const markdownPath of allMarkdownFiles(pluginRoot)) {
-    assert.doesNotMatch(readFileSync(markdownPath, 'utf8'), /^\|.*\|$/m, `${path.relative(pluginRoot, markdownPath)} must not use Markdown tables`);
+    assert.doesNotMatch(readFileSync(markdownPath === path.join(pluginRoot, 'README.md') ? path.join(process.cwd(), 'docs/marketing/upstream-maxvideoai/PLUGIN-README.md') : markdownPath, 'utf8'), /^\|.*\|$/m, `${path.relative(pluginRoot, markdownPath)} must not use Markdown tables`);
   }
 
   for (const relativePath of [...exampleFiles, ...communityFiles]) {

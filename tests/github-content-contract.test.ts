@@ -45,7 +45,7 @@ function checkFixture(name: string) {
 
 test('the plugin README covers the current assistant, agent, and automation ecosystem with safe compatibility language', () => {
   const readmePath = path.join(repositoryRoot, 'plugins', 'maxvideoai', 'README.md');
-  const readme = readFileSync(readmePath, 'utf8');
+  const readme = readFileSync(path.join(repositoryRoot, 'docs/marketing/upstream-maxvideoai/PLUGIN-README.md'), 'utf8');
   const lines = readme.split(/\r?\n/);
   const words = readme.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu) ?? [];
   const opening = lines.slice(0, 60).join('\n');
@@ -115,9 +115,9 @@ test('release-facing install copy follows VERSION and the focused public reposit
   const pluginRoot = path.join(repositoryRoot, 'plugins', 'maxvideoai');
   const version = readFileSync(path.join(pluginRoot, 'VERSION'), 'utf8').trim();
   const expectedInstallCommand = `codex plugin marketplace add camgraphe/maxvideoai-plugin --ref v${version}`;
-  const pluginReadme = readFileSync(path.join(pluginRoot, 'README.md'), 'utf8');
+  const pluginReadme = readFileSync(path.join(repositoryRoot, 'docs/marketing/upstream-maxvideoai/PLUGIN-README.md'), 'utf8');
   const codexGuide = readFileSync(path.join(pluginRoot, 'docs', 'codex.md'), 'utf8');
-  const sourceReadme = readFileSync(path.join(repositoryRoot, 'README.md'), 'utf8');
+  const sourceReadme = readFileSync(path.join(repositoryRoot, 'docs/marketing/upstream-maxvideoai/ROOT-README.md'), 'utf8');
 
   for (const releaseSurface of [pluginReadme, codexGuide]) {
     assert.match(releaseSurface, new RegExp(expectedInstallCommand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));

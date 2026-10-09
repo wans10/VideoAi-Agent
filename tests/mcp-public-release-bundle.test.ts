@@ -22,7 +22,8 @@ import test from 'node:test';
 const root = process.cwd();
 const builder = resolve(root, 'scripts/build-maxvideoai-plugin-release.mjs');
 const source = resolve(root, 'plugins/maxvideoai');
-const defaultAssetManifest = resolve(root, 'docs/marketing/github-asset-manifest.json');
+// Exercise the retained upstream archive contract, not a new Keyvo plugin release.
+const defaultAssetManifest = resolve(root, 'docs/marketing/upstream-maxvideoai/github-asset-manifest.json');
 const safeTemporaryRoot = realpathSync(tmpdir());
 const outputMarker = '.maxvideoai-plugin-release-output.json';
 
@@ -139,7 +140,7 @@ function expectedPublicFilesForVersion(version: string): string[] {
 function runBuilder(
   sourcePath: string,
   outPath: string,
-  assetManifestPath?: string,
+  assetManifestPath = defaultAssetManifest,
   environment: Record<string, string> = {},
   workingDirectory = root,
 ) {

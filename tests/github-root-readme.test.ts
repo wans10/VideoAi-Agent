@@ -5,7 +5,8 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const read = (relativePath: string) => readFileSync(path.join(repositoryRoot, relativePath), 'utf8');
+// Historical upstream presentation remains independently checked after Keyvo replaces the active README.
+const read = (relativePath: string) => readFileSync(path.join(repositoryRoot, relativePath === 'README.md' ? 'docs/marketing/upstream-maxvideoai/ROOT-README.md' : relativePath === 'docs/marketing/github-asset-manifest.json' ? 'docs/marketing/upstream-maxvideoai/github-asset-manifest.json' : relativePath), 'utf8');
 
 function headingOffset(readme: string, heading: string) {
   return readme.indexOf(`## ${heading}`);

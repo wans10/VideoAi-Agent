@@ -5,7 +5,7 @@ import test from 'node:test';
 
 import { readImageDimensions, validateImageDecode } from '../scripts/register-github-asset.mjs';
 
-const manifest = JSON.parse(readFileSync('docs/marketing/github-asset-manifest.json', 'utf8')) as {
+const manifest = JSON.parse(readFileSync('docs/marketing/upstream-maxvideoai/github-asset-manifest.json', 'utf8')) as {
   assets: Array<{
     id: string;
     path: string;
@@ -119,8 +119,8 @@ test('ships seven distinct current public product captures for the proof-led REA
     assert.ok(record.placements?.includes('plugin_readme'));
   }
 
-  const rootReadme = readFileSync('README.md', 'utf8');
-  const pluginReadme = readFileSync('plugins/maxvideoai/README.md', 'utf8');
+  const rootReadme = readFileSync('docs/marketing/upstream-maxvideoai/ROOT-README.md', 'utf8');
+  const pluginReadme = readFileSync('docs/marketing/upstream-maxvideoai/PLUGIN-README.md', 'utf8');
   for (const obsoleteComposite of [
     'assets/demos/readme-proof-hero.webp',
     'assets/demos/brief-to-video-workflow.webp',
@@ -206,7 +206,7 @@ test('ships a dedicated editorial hero without presenting it as product or host 
   assert.deepEqual(record.placements, ['root_readme']);
   assert.match(record.claim, /not product UI or native host proof/i);
 
-  const rootReadme = readFileSync('README.md', 'utf8');
+  const rootReadme = readFileSync('docs/marketing/upstream-maxvideoai/ROOT-README.md', 'utf8');
   assert.match(rootReadme, /maxvideoai-github-hero-v2\.webp/);
 });
 

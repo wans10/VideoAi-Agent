@@ -1,0 +1,23 @@
+{
+  "approvedAt": "2026-10-09T12:43:19Z",
+  "approvedBy": "Keyvo repository owner",
+  "userApproval": "批准文案及四张截图，暂缓定价和案例",
+  "approvedIds": [
+    "home",
+    "models",
+    "comparison",
+    "tools"
+  ],
+  "heldIds": [
+    "pricing",
+    "examples"
+  ],
+  "approvedBytes": {
+    "home": "e731ecb8508cdbcc5d62ffba6efe6028192fbc45ba2cdef19eff28ff2a587cba",
+    "models": "a96ece1acede5e71500a1940da9952fe140d3edfbbb35b3af128cc45b7dfd670",
+    "comparison": "ee27cde3d8ecbd99ba7e619e64dcac7876732eb6a4a3599e1f4f05e40309d8b1",
+    "tools": "cabd6b739d89c7c8108b5cfded2b44f9d1141d8539303c643defb13e05e39b62"
+  },
+  "reviewedCandidate": "e2e91226f0de95c5cf55bfa99945898fa6d2c5d8",
+  "scope": "README copy and four actual public page captures only; no new provider or host certification"
+}

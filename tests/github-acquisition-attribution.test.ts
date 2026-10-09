@@ -170,17 +170,17 @@ test('GitHub Markdown links match the exact per-file campaign contract and keep 
     'docs/marketing/github-release-template.md': [releaseConnect, releaseDocs],
     'docs/marketing/github-distribution-matrix.md': [],
   };
-  for (const path of markdownPaths) assertTrackedUrlOrder(readFileSync(path, 'utf8'), expectedByPath[path]);
+  for (const path of markdownPaths) assertTrackedUrlOrder(readFileSync(path === 'README.md' ? 'docs/marketing/upstream-maxvideoai/ROOT-README.md' : path === 'plugins/maxvideoai/README.md' ? 'docs/marketing/upstream-maxvideoai/PLUGIN-README.md' : path, 'utf8'), expectedByPath[path]);
 
   assert.throws(() => assertTrackedUrlOrder(
-    `${readFileSync('README.md', 'utf8')}\n${pluginConnect}`,
+    `${readFileSync('docs/marketing/upstream-maxvideoai/ROOT-README.md', 'utf8')}\n${pluginConnect}`,
     expectedByPath['README.md'],
   ), /strictly deep-equal/);
-  const pluginReadme = readFileSync('plugins/maxvideoai/README.md', 'utf8');
+  const pluginReadme = readFileSync('docs/marketing/upstream-maxvideoai/PLUGIN-README.md', 'utf8');
   assert.match(pluginReadme, /https:\/\/maxvideoai\.com\/legal\/privacy(?!\?)/);
   assert.match(pluginReadme, /https:\/\/maxvideoai\.com\/contact(?!\?)/);
   assert.match(pluginReadme, /mailto:support@maxvideoai\.com/);
-  const rootReadme = readFileSync('README.md', 'utf8');
+  const rootReadme = readFileSync('docs/marketing/upstream-maxvideoai/ROOT-README.md', 'utf8');
   assert.match(rootReadme, /https:\/\/github\.com\/camgraphe\/maxvideoai-plugin(?!\?)/);
   for (const markdown of [rootReadme, pluginReadme]) {
     assert.doesNotMatch(markdown, /(?:legal\/privacy|legal\/terms|contact|security@|support@)[^\s)]*[?&]utm_/i);

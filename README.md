@@ -1,138 +1,48 @@
-<p align="center"><img src="plugins/maxvideoai/assets/logo-mark.svg" width="88" alt="MaxVideoAI white monogram on a dark rounded square"></p>
+# Keyvo
 
-# MaxVideoAI
+**比较模型、查看价格，在同一个工作台创作。**
 
-**Compare AI video models. Know the price. Create in one workspace.**
+Keyvo 是基于 MaxVideoAI 定制的 AI 视频与图像创作平台。本仓库包含模型目录、生成工作台、私有作品库、人民币账户充值及后台管理。
 
-MaxVideoAI is a multi-model AI video production platform for turning a brief into finished, reusable work. Explore real examples, compare current engines side by side, review model capabilities and pricing, prepare characters and shots with production tools, generate video, image, or audio, and keep outputs and references together in the MaxVideoAI Library.
+[打开 Keyvo](https://app.keyvo.cn) · [查看模型](https://app.keyvo.cn/zh/models) · [查看定价](https://app.keyvo.cn/zh/pricing)
 
-[Plan a video with MaxVideoAI](https://maxvideoai.com/mcp?utm_source=github&utm_medium=repository&utm_campaign=maxvideoai_product&utm_content=hero_try) · [Compare current models](https://maxvideoai.com/models?utm_source=github&utm_medium=repository&utm_campaign=maxvideoai_product&utm_content=models) · [Connect MaxVideoAI to your assistant or automation](https://maxvideoai.com/mcp?utm_source=github&utm_medium=repository&utm_campaign=maxvideoai_product&utm_content=plugin_callout)
+![Keyvo 实际生产首页的导航、创作入口与首屏内容](docs/marketing/keyvo-review/assets/keyvo-home.png)
 
-[Plugin repository](https://github.com/camgraphe/maxvideoai-plugin) · [Plugin releases](https://github.com/camgraphe/maxvideoai-plugin/releases)
+## 选择模型与工作流
 
-![Cinematic MaxVideoAI production direction with a professional camera and five distinct visual worlds](plugins/maxvideoai/assets/brand/maxvideoai-github-hero-v2.webp)
+模型目录和比较页展示当前站点的模型信息。截图记录页面展示，不代表每个供应商、每种模式均完成真实付费验收。
 
-## What does the MaxVideoAI workspace bring together?
+![Keyvo 实际模型目录的模型卡片与分类](docs/marketing/keyvo-review/assets/keyvo-models.png)
 
-MaxVideoAI brings model choice, prompts, references, settings, live pricing, previews, results, and next-shot context into one production workspace. That workspace is the main product; the GitHub plugin extends the same production path to Claude, ChatGPT, Codex, OpenClaw, and a bounded self-hosted n8n workflow later in this page.
+![Keyvo 实际模型比较页面的比较入口与内容](docs/marketing/keyvo-review/assets/keyvo-comparison.png)
 
-![Public MaxVideoAI home page with a colorful MiniMax H3 Max film preview and pay-as-you-go creation actions](plugins/maxvideoai/assets/screenshots/maxvideoai-workspace-live.webp)
+## 查看价格与充值
 
-*The current public production experience, captured from production on September 16, 2026.*
+本次定价页截图采集记录到一次 React hydration 错误；该页面暂缓作为已通过运行检查的发布证明。
 
-## What can you make with MaxVideoAI?
+选择模型、参数和参考素材后，在提交前核对当次报价。Keyvo 的客户钱包以人民币计价；账户充值采用站点配置的支付渠道。供应商成本与客户钱包收费分别核算。
 
-Use MaxVideoAI to develop a single shot, animate an image, build a multi-shot sequence, create supporting images or audio, and continue from earlier work. The workspace keeps model selection, prompts, references, settings, price, previews, results, and the Library in one production path instead of scattering them across provider tabs.
+[查看定价页](https://app.keyvo.cn/zh/pricing)（截图暂缓发布）
 
-![MaxVideoAI examples gallery showing colorful Seedance cinematic and animated AI video stories](plugins/maxvideoai/assets/screenshots/maxvideoai-examples-gallery-live.webp)
+## 案例与工具
 
-Every public example opens into its prompt, settings, model, duration, and recorded render cost. Browse the [AI video examples gallery](https://maxvideoai.com/examples), then recreate a useful starting point in your own workspace.
+本次采集时，案例页显示暂无视频，不将其作为已填充案例画廊的证明。工具入口用于寻找适合的准备或处理流程；具体能力、参数和价格以当前站点及提交前报价为准。
 
-| Production goal | Start here |
+[查看案例页](https://app.keyvo.cn/zh/examples)（当前为空，截图暂缓发布）
+
+![Keyvo 实际工具页面的工具入口与介绍](docs/marketing/keyvo-review/assets/keyvo-tools.png)
+
+## 工程与部署
+
+| 目录 | 职责 |
 | --- | --- |
-| Find a visual direction | Preview varied examples and inspect the prompt and settings behind them. |
-| Build with references | Choose a workflow that supports the image, video, or audio material you want to use. |
-| Plan several shots | Keep one brief visible while comparing a consistent route with an intentional model mix. |
-| Continue finished work | Recover outputs and reusable media from the MaxVideoAI Library. |
+| `frontend/` | Next.js 页面、API、生成与计费业务 |
+| `neon/migrations/` | PostgreSQL 应用迁移 |
+| `docker/` | 应用与迁移镜像构建 |
+| `tests/` | 契约、数据库及浏览器验证 |
+| `plugins/maxvideoai/` | 保留的上游插件源码与兼容标识 |
 
-## How do you compare current AI video models?
-
-MaxVideoAI compares AI video engines by workflow, supported inputs, duration, resolution, audio, pricing, strengths, and a documented editorial score. The side-by-side hub is designed for an actual production decision: choose two engines, inspect the trade-offs, open the detailed matchup, and move to the model that fits the shot.
-
-![MaxVideoAI comparison page showing MiniMax H3 and Seedance 2.5 scores, strengths, and colorful video examples](plugins/maxvideoai/assets/screenshots/maxvideoai-engine-scoreboard-live.webp)
-
-The broader [model directory](https://maxvideoai.com/models) adds recommended starting points and routes for video, image, audio, and preparation work.
-
-![MaxVideoAI model directory with colorful MiniMax and Kling examples beside current model discovery actions](plugins/maxvideoai/assets/screenshots/maxvideoai-model-directory-live.webp)
-
-Model families such as Sora, Veo, Kling, Seedance, LTX, MiniMax, Wan, Happy Horse, Gemini Omni, and Pika are examples rather than a frozen catalogue. Use the live directory for current availability and pricing.
-
-## How do project pricing and approval work?
-
-MaxVideoAI is pay as you go. The pricing surface compares common scenarios across video, image, audio, and production tools, while the workspace shows the live price for the selected request before launch. In the assistant workflow, a concrete request becomes an exact quote and one explicit approval authorizes one paid attempt.
-
-![MaxVideoAI pricing page with three current video starting points and navigation across video, image, audio, and tools](plugins/maxvideoai/assets/screenshots/maxvideoai-pricing-comparison-live.webp)
-
-1. Choose the model, mode, duration, resolution, and supported extras.
-2. Compare the current [AI video pricing](https://maxvideoai.com/pricing).
-3. Review the live workspace price or assistant quote.
-4. Launch from the web app, or explicitly approve one prepared assistant attempt.
-
-## What can you prepare before generation?
-
-The public [production toolbox](https://maxvideoai.com/tools) brings repeatable preparation and finishing work into the same product path. Build a consistent character sheet, explore camera angles, refine or remove an image background, and finish a video without pretending that every useful step needs a new generation model.
-
-![MaxVideoAI tools page showing a colorful character sheet, camera-angle work, image refinement, and video finishing options](plugins/maxvideoai/assets/screenshots/maxvideoai-tools-workflow-live.webp)
-
-Tool availability and price still come from the live product. The exact input, output, and billing boundary is shown before a tool runs.
-
-## How do references and continuity work?
-
-Supported workflows can use image, video, or audio references for composition, subject, motion, timing, or sound direction. The selected model and mode determine the accepted reference roles and limits. Finished results and reusable assets remain in the connected MaxVideoAI Library, ready for the next shot or another production route.
-
-![Public MaxVideoAI MCP page showing a finished colorful video in Claude with confirmation that it was saved to the connected Library](plugins/maxvideoai/assets/screenshots/maxvideoai-library-continuity-production.jpg)
-
-[Open the Library](https://maxvideoai.com/app/library) to browse saved media and continue where the production stopped.
-
-## Which assistants, agents and automations can use MaxVideoAI?
-
-MaxVideoAI exposes one remote MCP production service through five public paths: Claude, ChatGPT, Codex, OpenClaw, and a tested self-hosted n8n workflow. A connected assistant or automation can help shape the brief, compare current model options, calculate project budgets, prepare an exact quote, wait for explicit approval, and recover the accepted result in the same MaxVideoAI account.
-
-![Public MaxVideoAI MCP integration grid for Claude, ChatGPT, Codex, OpenClaw, and n8n on a light background](plugins/maxvideoai/assets/screenshots/maxvideoai-assistant-workflow-live.webp)
-
-[Claude setup](plugins/maxvideoai/docs/claude.md) · [ChatGPT setup](plugins/maxvideoai/docs/chatgpt.md) · [Codex setup](plugins/maxvideoai/docs/codex.md) · [OpenClaw setup](https://maxvideoai.com/integrations/openclaw) · [n8n setup](https://maxvideoai.com/integrations/n8n) · [MCP technical reference](https://maxvideoai.com/docs/mcp) · [Public plugin source](https://github.com/camgraphe/maxvideoai-plugin)
-
-OpenClaw is tested with limits and has a listed ClawHub skill. n8n is tested on self-hosted n8n through a manual setup of the deterministic MCP Client workflow; n8n Cloud and MCP Client Tool agent invocation are not claimed. Cursor, GitHub Copilot, Gemini CLI, and Microsoft Copilot remain in preparation and do not yet have public setup paths.
-
-```text
-Brief → compare models → budget shots → prepare exact quote → approve one attempt → recover result
-```
-
-The focused [plugin repository](https://github.com/camgraphe/maxvideoai-plugin) carries tagged, checksum-backed releases. Use its release page for the current installable package; this product repository remains the authored source of the application and plugin bundle.
-
-## How is MaxVideoAI built?
-
-This repository contains the production application, its public marketing and comparison surfaces, provider orchestration, billing controls, media workflows, model registry, remote MCP server, and the distributable MaxVideoAI plugin package.
-
-```mermaid
-flowchart LR
-  B[Creative brief] --> W[Next.js workspace]
-  B --> A[Assistant, agent or automation]
-  A --> M[Remote MCP + OAuth]
-  M --> W
-  W --> C[Capability-driven model catalogue]
-  W --> P[Server-owned provider orchestration]
-  P --> J[Jobs, billing and refunds]
-  J --> L[Private media Library]
-  L --> W
-```
-
-| Layer | Technology and ownership |
-| --- | --- |
-| Web product | Next.js App Router, React, TypeScript, Tailwind CSS |
-| Authentication | Supabase Auth |
-| Application data | Neon Postgres |
-| Media storage | Amazon S3 |
-| Billing | Stripe and server-owned price/approval controls |
-| Model execution | Capability-driven registry plus provider adapters owned by the server |
-| Assistant integration | Remote Streamable HTTP MCP, OAuth, checked-in Claude/Codex manifests and skills, plus documented OpenClaw and n8n paths |
-| Quality | Node test contracts, Playwright browser checks, lint, typecheck, exposure and asset gates |
-
-| Repository area | Responsibility |
-| --- | --- |
-| [`frontend/app`](frontend/app) | Routes, layouts, metadata, APIs, and route orchestration |
-| [`frontend/components`](frontend/components) | Shared product and marketing UI |
-| [`frontend/lib`](frontend/lib) | Browser-safe product, pricing, routing, and SEO logic |
-| [`frontend/server`](frontend/server) and [`frontend/src/server`](frontend/src/server) | Server orchestration, providers, jobs, billing, and MCP |
-| [`frontend/config/model-registry.json`](frontend/config/model-registry.json) | Authored model identity and publication policy |
-| [`plugins/maxvideoai`](plugins/maxvideoai) | Public plugin package, skills, host guides, examples, and release assets |
-| [`neon/migrations`](neon/migrations) | Application database migrations |
-
-Read the [project structure](docs/engineering/project-structure.md), [model registry workflow](docs/engineering/model-registry.md), [MCP mode coverage](docs/engineering/mcp-mode-coverage.md), and [private reference-import boundaries](docs/engineering/mcp-reference-imports.md) before changing those contracts.
-
-## Local development
-
-The contributor path uses Node.js 22 and the repository-pinned pnpm version:
+应用镜像和迁移镜像分别运行。部署应使用 GitHub 已发布的完整提交标签，检查迁移结果及 Quality CI，再执行运行环境验收。
 
 ```bash
 pnpm install
@@ -140,31 +50,17 @@ cp frontend/.env.local.example frontend/.env.local
 pnpm dev
 ```
 
-Focused validation for public GitHub and plugin work:
+环境操作详见 [本地开发](docs/engineering/local-development.md) 与 [环境变量](docs/engineering/environment-reference.md)。
 
-```bash
-pnpm github:content:check
-pnpm github:assets:check
-pnpm github:score -- --require-after
-npm run lint:exposure
-git diff --check
-```
+开发前阅读根目录 `AGENTS.md` 和 `docs/engineering/llm-working-guide.md`。
 
-Read [local development](docs/engineering/local-development.md) for the frontend, contract server, Docker, migrations, model onboarding, scheduled jobs, and validation commands. The [environment reference](docs/engineering/environment-reference.md) documents variables, health endpoints, and the Supabase/Neon/S3 ownership boundary.
+## 来源与许可证
 
-Before an architecture or model-policy change, start with [`AGENTS.md`](AGENTS.md), the [LLM working guide](docs/engineering/llm-working-guide.md), and the closest area-specific instructions.
-
-## Contributing, security, and license
-
-Small, reviewable contributions are welcome when they preserve public URLs, the authored model registry, server/client boundaries, private-media handling, and the evidence contracts that keep public claims accurate.
-
-| Need | Start here |
+| 项目 | 说明 |
 | --- | --- |
-| Propose or implement a change | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
-| Report a vulnerability privately | Email [security@maxvideoai.com](mailto:security@maxvideoai.com); do not open a public issue. |
-| Ask for product or repository help | [Contact MaxVideoAI](https://maxvideoai.com/contact) |
-| Review public/private boundaries | [`docs/public-vs-private.md`](docs/public-vs-private.md) |
+| 原始项目 | [MaxVideoAI](https://github.com/camgraphe/MaxVideoAi) |
+| 定制仓库 | [Keyvo / VideoAi-Agent](https://github.com/wans10/VideoAi-Agent) |
+| 许可证与署名 | 原仓库 `LICENSE`、`NOTICE` 及 `docs/licensing/` 继续适用 |
+| 插件发布 | 上游发布记录不自动证明 Keyvo 的主机连接与安装路径 |
 
-The repository uses the [Business Source License 1.1](LICENSE), with its terms and change date defined in the license file. Commercial deployments require a separate licence; see the [dual-license guide](docs/licensing/dual-license.md), email [licensing@maxvideo.ai](mailto:licensing@maxvideo.ai), and review [`NOTICE`](NOTICE).
-
-Last reviewed: 2026-09-16.
+截图采自 `app.keyvo.cn` 的公开页面；采集记录、源版本说明及 SHA-256 摘要见 [采集记录](docs/marketing/keyvo-review/capture-evidence.json)。
