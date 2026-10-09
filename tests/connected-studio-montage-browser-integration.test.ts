@@ -272,7 +272,10 @@ test('MCP montage opens the current conversation with private playback, durable 
     assert.notEqual(replay.result.isError, true);
     assert.equal(replay.result.structuredContent.projectId, montage.projectId);
     assert.equal(replay.result.structuredContent.revision, 4, 'Replaying the original MCP receipt must preserve the current browser edits.');
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.goto('about:blank');
+    const incomingRead = page.waitForResponse(response => response.url() === `${timelineEndpoint}?preview=1` && response.status() === 200, {timeout: 60_000});
+    await page.goto(`${runtime.browserOrigin}${montage.studioUrl}`, {waitUntil: 'domcontentloaded'});
+    await (await incomingRead).json();
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start', '3');
     await expect(page.locator('[data-timeline-item="montage-clip-01"]')).toHaveAttribute('data-timeline-duration', '1');
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-duration', '1');
@@ -297,7 +300,10 @@ test('MCP montage opens the current conversation with private playback, durable 
     assert.equal(binSave.status, 200, await binSave.clone().text());
     assert.equal((await binSave.json()).revision, 5);
     const privateBeforeBinReload = browserFixture!.readPrivateRequests().length;
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.goto('about:blank');
+    const finalIncomingRead = page.waitForResponse(response => response.url() === `${timelineEndpoint}?preview=1` && response.status() === 200, {timeout: 60_000});
+    await page.goto(`${runtime.browserOrigin}${montage.studioUrl}`, {waitUntil: 'domcontentloaded'});
+    await (await finalIncomingRead).json();
     await expect(page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '5');
     await page.getByRole('button', { name: copy('Select clip')+' Pattern B', exact: true }).click();
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);

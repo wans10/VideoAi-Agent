@@ -25,7 +25,23 @@
     },
     "exposure": "pass",
     "diffCheck": "pass",
-    "assetReleaseGate": "pass"
+    "assetReleaseGate": "pass",
+    "fullEditor": {
+      "pass": 1165,
+      "fail": 0,
+      "skip": 1,
+      "durationMs": 473059,
+      "skipReason": "Real multitrack render requires explicit opt-in"
+    },
+    "explicitMultitrackRender": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "durationMs": 38462,
+      "videoFrames": 90,
+      "getOnly": true,
+      "paidProviderCalls": 0
+    }
   },
   "newFailures": [
     {
@@ -38,11 +54,16 @@
       "suite": "local complete editor",
       "failure": "Local initdb unavailable; must use authorized PostgreSQL 17 test server",
       "countedAsPass": false
+    },
+    {
+      "suite": "montage refresh",
+      "failure": "First fix advanced beyond renewal but fresh document had no loaded timeline within 5 seconds; next run reached later reload with same condition",
+      "change": "Await actual incoming-document timeline HTTP 200 before unchanged DOM assertions",
+      "wholeSuitePassed": false
     }
   ],
   "running": {
-    "fullEditor": "/opt/keyvo-audit/release-editor-full.log",
-    "montageRefreshFixed": "/opt/keyvo-audit/release-montage-refresh-fixed.log"
+    "montageAllReadsFixed": "/opt/keyvo-audit/release-montage-all-reads-fixed.log"
   },
   "limits": [
     "Latest remote Quality CI is mandatory before release",
