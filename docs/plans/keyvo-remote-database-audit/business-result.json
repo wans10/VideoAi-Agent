@@ -1,0 +1,12 @@
+{
+  "kind": "real application remote CNY wallet and Studio credit validation",
+  "owner": "318a209f-91fb-40fa-88ba-d4c0932dad47",
+  "checks": [
+    "CNY wallet reads initial funding",
+    "all three packs convert 8x once, preserve credits and replay without another debit",
+    "real wallet debit rolls back with transaction",
+    "wallet reader isolates another account",
+    "mixed-currency purchase refuses without debit and reports currency reconciliation instead of top-up"
+  ],
+  "status": "passed"
+}

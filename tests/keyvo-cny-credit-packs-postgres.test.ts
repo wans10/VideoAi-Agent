@@ -27,6 +27,10 @@ test('CNY Sol packs debit 8x once, retain source credits, and display the actual
   assert.equal(status.credits?.included.remaining,500);
   assert.equal(status.credits?.purchased.total,17000);
   assert.deepEqual(status.credits?.purchased.packs.map(p=>[p.amountCents,p.total,Math.abs(p.paidAmountCents!),p.paidCurrency]),[[200,2000,1600,'CNY'],[500,5000,4000,'CNY'],[1000,10000,8000,'CNY']]);
+  await pg.pool.query("INSERT INTO app_receipts(user_id,type,amount_cents,currency) VALUES('owner','topup',777,'USD')");
+  const mixed=await ledger.readStudioAssistanceStatus('owner',policy);
+  await assert.rejects(ledger.chooseStudioAssistance('owner',{action:'purchase_pack',amountCents:200,expectedRevision:mixed.revision,tariffVersion:mixed.tariff.version,purchaseKey:randomUUID()},policy),
+    (error:any)=>error.code==='PARAMETER_INVALID'&&error.nextAction?.reason==='wallet_currency_mismatch');
   const charges=(await pg.pool.query("SELECT amount_cents,currency,pricing_snapshot FROM app_receipts WHERE type='charge' ORDER BY id")).rows;
   assert.equal(charges.length,3);
   assert.deepEqual(charges.map(c=>Math.abs(c.amount_cents)),[1600,4000,8000]);

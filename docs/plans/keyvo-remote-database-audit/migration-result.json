@@ -1,0 +1,544 @@
+{
+  "kind": "remote PostgreSQL migration validation",
+  "node": "v24.20.0",
+  "startedAt": "2026-10-09T03:53:35.761Z",
+  "passes": [
+    {
+      "concurrent": false,
+      "applied": [],
+      "skipped": [
+        "00_create_profiles.sql",
+        "01_legal_documents.sql",
+        "02_user_consents.sql",
+        "03_profiles_extensions.sql",
+        "04_profiles_timestamps.sql",
+        "05_cost_reduction_indexes.sql",
+        "06_stripe_customers_and_documents.sql",
+        "07_email_events.sql",
+        "08_admin_controls.sql",
+        "09_engine_settings.sql",
+        "10_app_jobs_cost_breakdown.sql",
+        "11_legal_reports.sql",
+        "12_app_settings.sql",
+        "13_app_jobs_provider.sql",
+        "14_app_jobs_preview_video_url.sql",
+        "15_app_jobs_keyframe_urls.sql",
+        "16_media_workspace_scalable.sql",
+        "17_fraud_wallet_cleanup.sql",
+        "18_checkout_abuse_guard.sql",
+        "18_media_assets_thumb_backfill.sql",
+        "19_media_preview_urls.sql",
+        "20_account_restriction_support_contact.sql",
+        "21_provider_attempts.sql",
+        "22_provider_element_assets.sql",
+        "23_video_seo_pages.sql",
+        "24_video_seo_canonical_slug.sql",
+        "25_video_seo_visual_context.sql",
+        "26_background_removal_tool.sql",
+        "26_studio_projects.sql",
+        "27_pricing_admin_cockpit.sql",
+        "28_storyboard_pricing_policy.sql",
+        "29_mcp_audit_events.sql",
+        "30_mcp_paid_generation.sql",
+        "31_mcp_trial_entitlements.sql",
+        "32_mcp_reference_uploads.sql",
+        "33_mcp_acquisition_funnel.sql",
+        "34_mcp_reference_upload_media_kind.sql",
+        "35_mcp_reference_upload_hardening.sql",
+        "36_mcp_reference_upload_replay_safety.sql",
+        "37_mcp_reference_upload_recovery_state.sql",
+        "38_mcp_chatgpt_acquisition_attribution.sql",
+        "39_mcp_quote_lifetime.sql",
+        "40_video_seo_rollout_exclusions.sql",
+        "41_mcp_client_family.sql",
+        "42_mcp_client_family_ecosystem.sql",
+        "42_studio_connected_montages.sql",
+        "42_toolbox_finishing_pricing.sql",
+        "43_app_starter_playlists.sql",
+        "43_mcp_reference_asset_deletion.sql",
+        "44_mcp_reference_staging_storage_namespace.sql",
+        "45_generation_timing_samples.sql",
+        "46_generation_provider_timing.sql",
+        "47_generation_poll_state.sql",
+        "48_mcp_client_family_glama.sql",
+        "49_editorial_drafts.sql",
+        "49_llmhub_pay_topups.sql",
+        "49_studio_generation_scope.sql",
+        "49_video_share_links.sql",
+        "50_cny_preferred_currency.sql",
+        "50_editorial_checks.sql",
+        "50_studio_image_conversation.sql",
+        "51_cny_wallet_receipt_default.sql",
+        "51_editorial_publications.sql",
+        "51_studio_image_model_usage.sql",
+        "52_playlist_curations.sql",
+        "52_studio_conversation_runs.sql",
+        "53_playlist_opening.sql",
+        "53_seedance_draft_links.sql",
+        "53_studio_media_generation_scope.sql",
+        "54_customer_tariff_cells.sql",
+        "54_studio_assistance_ledger.sql",
+        "55_admin_studio_review_access.sql",
+        "55_customer_tariff_versions.sql",
+        "56_direct_payment_quotes.sql",
+        "57_customer_tariff_local_activation_events.sql",
+        "58_customer_tariff_bulk_interval_lock.sql",
+        "59_seedance_draft_final_state.sql",
+        "60_mcp_trial_provider_rasters.sql",
+        "61_customer_tariff_cutover_events.sql",
+        "62_studio_assistance_resolutions.sql",
+        "63_studio_assistance_credits.sql",
+        "64_studio_media_analysis.sql",
+        "65_studio_task_budgets.sql"
+      ]
+    },
+    {
+      "concurrent": false,
+      "applied": [],
+      "skipped": [
+        "00_create_profiles.sql",
+        "01_legal_documents.sql",
+        "02_user_consents.sql",
+        "03_profiles_extensions.sql",
+        "04_profiles_timestamps.sql",
+        "05_cost_reduction_indexes.sql",
+        "06_stripe_customers_and_documents.sql",
+        "07_email_events.sql",
+        "08_admin_controls.sql",
+        "09_engine_settings.sql",
+        "10_app_jobs_cost_breakdown.sql",
+        "11_legal_reports.sql",
+        "12_app_settings.sql",
+        "13_app_jobs_provider.sql",
+        "14_app_jobs_preview_video_url.sql",
+        "15_app_jobs_keyframe_urls.sql",
+        "16_media_workspace_scalable.sql",
+        "17_fraud_wallet_cleanup.sql",
+        "18_checkout_abuse_guard.sql",
+        "18_media_assets_thumb_backfill.sql",
+        "19_media_preview_urls.sql",
+        "20_account_restriction_support_contact.sql",
+        "21_provider_attempts.sql",
+        "22_provider_element_assets.sql",
+        "23_video_seo_pages.sql",
+        "24_video_seo_canonical_slug.sql",
+        "25_video_seo_visual_context.sql",
+        "26_background_removal_tool.sql",
+        "26_studio_projects.sql",
+        "27_pricing_admin_cockpit.sql",
+        "28_storyboard_pricing_policy.sql",
+        "29_mcp_audit_events.sql",
+        "30_mcp_paid_generation.sql",
+        "31_mcp_trial_entitlements.sql",
+        "32_mcp_reference_uploads.sql",
+        "33_mcp_acquisition_funnel.sql",
+        "34_mcp_reference_upload_media_kind.sql",
+        "35_mcp_reference_upload_hardening.sql",
+        "36_mcp_reference_upload_replay_safety.sql",
+        "37_mcp_reference_upload_recovery_state.sql",
+        "38_mcp_chatgpt_acquisition_attribution.sql",
+        "39_mcp_quote_lifetime.sql",
+        "40_video_seo_rollout_exclusions.sql",
+        "41_mcp_client_family.sql",
+        "42_mcp_client_family_ecosystem.sql",
+        "42_studio_connected_montages.sql",
+        "42_toolbox_finishing_pricing.sql",
+        "43_app_starter_playlists.sql",
+        "43_mcp_reference_asset_deletion.sql",
+        "44_mcp_reference_staging_storage_namespace.sql",
+        "45_generation_timing_samples.sql",
+        "46_generation_provider_timing.sql",
+        "47_generation_poll_state.sql",
+        "48_mcp_client_family_glama.sql",
+        "49_editorial_drafts.sql",
+        "49_llmhub_pay_topups.sql",
+        "49_studio_generation_scope.sql",
+        "49_video_share_links.sql",
+        "50_cny_preferred_currency.sql",
+        "50_editorial_checks.sql",
+        "50_studio_image_conversation.sql",
+        "51_cny_wallet_receipt_default.sql",
+        "51_editorial_publications.sql",
+        "51_studio_image_model_usage.sql",
+        "52_playlist_curations.sql",
+        "52_studio_conversation_runs.sql",
+        "53_playlist_opening.sql",
+        "53_seedance_draft_links.sql",
+        "53_studio_media_generation_scope.sql",
+        "54_customer_tariff_cells.sql",
+        "54_studio_assistance_ledger.sql",
+        "55_admin_studio_review_access.sql",
+        "55_customer_tariff_versions.sql",
+        "56_direct_payment_quotes.sql",
+        "57_customer_tariff_local_activation_events.sql",
+        "58_customer_tariff_bulk_interval_lock.sql",
+        "59_seedance_draft_final_state.sql",
+        "60_mcp_trial_provider_rasters.sql",
+        "61_customer_tariff_cutover_events.sql",
+        "62_studio_assistance_resolutions.sql",
+        "63_studio_assistance_credits.sql",
+        "64_studio_media_analysis.sql",
+        "65_studio_task_budgets.sql"
+      ]
+    },
+    {
+      "concurrent": true,
+      "applied": [
+        "concurrent/66_public_deleted_media_index.sql"
+      ],
+      "skipped": []
+    },
+    {
+      "concurrent": true,
+      "applied": [],
+      "skipped": [
+        "concurrent/66_public_deleted_media_index.sql"
+      ]
+    }
+  ],
+  "server": {
+    "database": "test",
+    "version": "18.6"
+  },
+  "ledger": [
+    {
+      "filename": "00_create_profiles.sql",
+      "checksum": "0fbd01130b54b81963af916c120b516baecf11d86bba7dc1d9632d6890e769ff"
+    },
+    {
+      "filename": "01_legal_documents.sql",
+      "checksum": "9eefec3d1b7b38629eb0b54449ffa29ad52715b4e67d71280066ec7febb99991"
+    },
+    {
+      "filename": "02_user_consents.sql",
+      "checksum": "b8a91cb57dc41bc160e0798d3d8e91b4917c89b37047269abb2debe69a9f27ba"
+    },
+    {
+      "filename": "03_profiles_extensions.sql",
+      "checksum": "bef9aeb3ee0b3078270e019426240f904daea7efb639e0b69d46213d7efbc8d3"
+    },
+    {
+      "filename": "04_profiles_timestamps.sql",
+      "checksum": "28efea2c348061a7e1241c1b8667cdd741b0cad5a8b8d31758201c790d2427ad"
+    },
+    {
+      "filename": "05_cost_reduction_indexes.sql",
+      "checksum": "9eedc39d9eb0d402348224422cf315d34ae35883b705478bb5aeadde330564ee"
+    },
+    {
+      "filename": "06_stripe_customers_and_documents.sql",
+      "checksum": "aed1b65511ee8e016da668a383d449bd600c1a0c2520d17b7e5e33847ae9da96"
+    },
+    {
+      "filename": "07_email_events.sql",
+      "checksum": "72ab9a8fc8c8455ceb9a2adea3676bec88ca89d06c914774bbef4522f91e7d2a"
+    },
+    {
+      "filename": "08_admin_controls.sql",
+      "checksum": "b560251cfdd44a1954f96f9e6ede3dc5a838439f05af236c4d309fe4c4f744d0"
+    },
+    {
+      "filename": "09_engine_settings.sql",
+      "checksum": "233cbc79bf9e328e8df9124922f199e9ddb7ad528b94265ec873188bc9c9dd56"
+    },
+    {
+      "filename": "10_app_jobs_cost_breakdown.sql",
+      "checksum": "60a717162cd06400350a65ca14e7ea11dc3fa69b4d9d08f5ff6d949fd78b28b2"
+    },
+    {
+      "filename": "11_legal_reports.sql",
+      "checksum": "780ac35e3ae2ff581c541fb09cce7bea0d9d0f550bbf40012f64f6ed0b4b08b1"
+    },
+    {
+      "filename": "12_app_settings.sql",
+      "checksum": "6a46245267a51c9f17586b2d3ad6d802ae83cf4242938b189b30d7586d08df02"
+    },
+    {
+      "filename": "13_app_jobs_provider.sql",
+      "checksum": "52620f319d588911c8d89fa24250afef564d01b2a4293110a0a91fcf16b74bc1"
+    },
+    {
+      "filename": "14_app_jobs_preview_video_url.sql",
+      "checksum": "f41aaf56187160d7093ba8da7dc73788d506f3217101da2f283ba17f1f6c5942"
+    },
+    {
+      "filename": "15_app_jobs_keyframe_urls.sql",
+      "checksum": "3554bfd598568e45f7936c87b7ff7015a0a0a8ba13fab27cf524c360e96d5715"
+    },
+    {
+      "filename": "16_media_workspace_scalable.sql",
+      "checksum": "60b352efd9a4762867101d43fe28e4cd1d2a5cc2129c5f040437434626a45ed9"
+    },
+    {
+      "filename": "17_fraud_wallet_cleanup.sql",
+      "checksum": "9b4dab3c628dc0dc12e7a7a009ce288635b5205994b3836e6697aa9e6a6dbf3a"
+    },
+    {
+      "filename": "18_checkout_abuse_guard.sql",
+      "checksum": "7aed69258e0d4033bd157b8eeebc7ccac9200a7ef7288362eb7a267509cf109e"
+    },
+    {
+      "filename": "18_media_assets_thumb_backfill.sql",
+      "checksum": "a226054e0e4a2eb0ea050bcde18ebe9bda2ba4dd3af547e7df9c5ee1c3d7c7a2"
+    },
+    {
+      "filename": "19_media_preview_urls.sql",
+      "checksum": "a29903a0c111a0ac92a99ce6ca48eb882da61c91842ba6b51e91a2223149504d"
+    },
+    {
+      "filename": "20_account_restriction_support_contact.sql",
+      "checksum": "2e6bc7658a880ec236000e16006d9cc382baf1f0ffb84a8a4b6af4009795a8f1"
+    },
+    {
+      "filename": "21_provider_attempts.sql",
+      "checksum": "29051059c4d92946caeb7cc32937db18a6ff80b301d31870f1428e54a0de97fb"
+    },
+    {
+      "filename": "22_provider_element_assets.sql",
+      "checksum": "ab72a99f34ccd5c8f4a43714ef34ed7f585138bcc54fb0a0ce0c52be9bcb83fd"
+    },
+    {
+      "filename": "23_video_seo_pages.sql",
+      "checksum": "dd9c6fe534e92c5f843c0fefe65389112dbfd0b4e9ab40816e924b080a9f4680"
+    },
+    {
+      "filename": "24_video_seo_canonical_slug.sql",
+      "checksum": "a6e7180960ef1b9de579dd67fb647f047c6db8193b401063830234f573a8c636"
+    },
+    {
+      "filename": "25_video_seo_visual_context.sql",
+      "checksum": "d207c7c693e5bf1acb39fac5ea503a0f9211a12eb0f20d2a4999728d484160c5"
+    },
+    {
+      "filename": "26_background_removal_tool.sql",
+      "checksum": "f0a489f39e69b4dfae61dde57d0a30feba9babd1f9f018045b3d4c982f88bb6d"
+    },
+    {
+      "filename": "26_studio_projects.sql",
+      "checksum": "c9af654c13689d26e1345be12112bc8dccf2871651e0c4e6b03577646a4b3430"
+    },
+    {
+      "filename": "27_pricing_admin_cockpit.sql",
+      "checksum": "ad3ac0f1fee602ac00b895bcac1b765d331a2c4bd2905ad304376ea95a5d5379"
+    },
+    {
+      "filename": "28_storyboard_pricing_policy.sql",
+      "checksum": "6c0c3c69aac17d5d9cf7d5ea1abd1c39391c1aeb9816587e881882a19c1ae474"
+    },
+    {
+      "filename": "29_mcp_audit_events.sql",
+      "checksum": "de55d133476397e850605c2df0a5661d4afb2bba03c46ec1161b9db39b287969"
+    },
+    {
+      "filename": "30_mcp_paid_generation.sql",
+      "checksum": "e2ff7c2f18a2e6cfb80ada9773b87d7b091f59ed5030b1cafcb907bbcf06f6d9"
+    },
+    {
+      "filename": "31_mcp_trial_entitlements.sql",
+      "checksum": "4f681f3dc502a44c0f1c8ca49837061033f76efdf5d27f21ff3b492b2893ae55"
+    },
+    {
+      "filename": "32_mcp_reference_uploads.sql",
+      "checksum": "648f96999c11d667d9a6ac4a7c2153ea8d8a6bd5e8fd2794d2fd3df34aa8b4ca"
+    },
+    {
+      "filename": "33_mcp_acquisition_funnel.sql",
+      "checksum": "6096c98e9669e70dcb159c529af266d878e5d784a8c9506950ba43942c53ae3f"
+    },
+    {
+      "filename": "34_mcp_reference_upload_media_kind.sql",
+      "checksum": "6d8af1905519a6bbe26f85e3258b9bc683135c780c55e2542dbb012c709e9524"
+    },
+    {
+      "filename": "35_mcp_reference_upload_hardening.sql",
+      "checksum": "a81b55b5215ef2925bff704ac3d5ae478b660f6609f8f6d3251781016c5219db"
+    },
+    {
+      "filename": "36_mcp_reference_upload_replay_safety.sql",
+      "checksum": "d229ae8e2272dd0cfc6c6481bd50f192c60ebe268c50802cf11105040a502c92"
+    },
+    {
+      "filename": "37_mcp_reference_upload_recovery_state.sql",
+      "checksum": "f78f89036e8399686e62eb1f47c9600bd129d2bd7384cf565b3f67d2064ba1fc"
+    },
+    {
+      "filename": "38_mcp_chatgpt_acquisition_attribution.sql",
+      "checksum": "9a0c07e3f646085fc49ee68c8fca5ade1a75fa34855c8046012ed19cd3b2a1b9"
+    },
+    {
+      "filename": "39_mcp_quote_lifetime.sql",
+      "checksum": "b862f16fa69193ae1d721182c8722d1d57954f63e5ae670ab08d800086ea5fdb"
+    },
+    {
+      "filename": "40_video_seo_rollout_exclusions.sql",
+      "checksum": "5dc640a82ccc96ad4f3f5fd3a793f282e96c63e8f4d1d526db33aded189b43da"
+    },
+    {
+      "filename": "41_mcp_client_family.sql",
+      "checksum": "28c97f827082f5b0bcd029b3f3ddb9c6769e198c4a50b3e4e5034531cc4b79ff"
+    },
+    {
+      "filename": "42_mcp_client_family_ecosystem.sql",
+      "checksum": "5eee1679180b3e79cc3590eada825cb5651f04cc0afac76f542b5e42c6605a85"
+    },
+    {
+      "filename": "42_studio_connected_montages.sql",
+      "checksum": "9c82ae33f26912ea75ed26a3cfeab1853e8a0b9dee00fa0850f3f558cf6b027e"
+    },
+    {
+      "filename": "42_toolbox_finishing_pricing.sql",
+      "checksum": "107b2f5b9e0394e92bdeb68db8ec6f57f3517644b513ebbdd3a0402c6a5b1e8e"
+    },
+    {
+      "filename": "43_app_starter_playlists.sql",
+      "checksum": "8cea50b25698a504607ea0b1d16a6ba1b4e8c49012db535be47f7b2d2a9729d6"
+    },
+    {
+      "filename": "43_mcp_reference_asset_deletion.sql",
+      "checksum": "e3a6c8890fb3380f056549f07f461a0f6baa909dbe6f7f279bbbe0ba22963192"
+    },
+    {
+      "filename": "44_mcp_reference_staging_storage_namespace.sql",
+      "checksum": "0c0039db2efed6533bb18b6c609c9b9527e001c976088787aec07a2b7b5a61f3"
+    },
+    {
+      "filename": "45_generation_timing_samples.sql",
+      "checksum": "b3a72b4326f0544bcbef9f083643d12ae7879694cae5fcfa0e041fb64acf0609"
+    },
+    {
+      "filename": "46_generation_provider_timing.sql",
+      "checksum": "63c5417d4decdeaf5ae950ab57652a454d2b80a4a5132d81a2b8bd1d0bf3fbc7"
+    },
+    {
+      "filename": "47_generation_poll_state.sql",
+      "checksum": "5496737aecbeed6715f1c118fa68fd31806ac0150daac59e06369862f63e6848"
+    },
+    {
+      "filename": "48_mcp_client_family_glama.sql",
+      "checksum": "b5c0bb43a57abe7b6fdc7ab7eb6488f204a4a48f18d6bdb082961d8e538b145a"
+    },
+    {
+      "filename": "49_editorial_drafts.sql",
+      "checksum": "8eae3a225ea9b2b7c5d1107369a5defa7e2fbdfa77a851bb9126a6a1e26eee93"
+    },
+    {
+      "filename": "49_llmhub_pay_topups.sql",
+      "checksum": "79159b1af6afdca3613173962329853d99cb1fb9180de45b35f0d63ddb9d2df9"
+    },
+    {
+      "filename": "49_studio_generation_scope.sql",
+      "checksum": "f46dbe0e299a0da0cf74aa431cc4d6bce6ad45ec25e58bf2d7a83e65bf5832c8"
+    },
+    {
+      "filename": "49_video_share_links.sql",
+      "checksum": "49de3f998797b02ff54d1d18a031ed4df2aa38382d3b3e4a019ec33836ad291c"
+    },
+    {
+      "filename": "50_cny_preferred_currency.sql",
+      "checksum": "d03882dbf3e6e8a7e5b8f13a961712e965cdb03033af4c828b1c5705d9ebc6ca"
+    },
+    {
+      "filename": "50_editorial_checks.sql",
+      "checksum": "07bc86f2d63402e02884a056ed7ffb327af5d2d77e72c0403052f5c7f7bdd638"
+    },
+    {
+      "filename": "50_studio_image_conversation.sql",
+      "checksum": "42783225227eaad06bc4bbc52c7b850df7061cb99b8489bd86d68ba3227d962e"
+    },
+    {
+      "filename": "51_cny_wallet_receipt_default.sql",
+      "checksum": "20d3d722eaee4ab055dbcc7a84e4f8643c55cf49dba6bac9fc7db03ede342d19"
+    },
+    {
+      "filename": "51_editorial_publications.sql",
+      "checksum": "5ccd10bd075e05ce4e55996c6ff6598a00ea9c4316cb66c2b0aa6a2ff42b2dd8"
+    },
+    {
+      "filename": "51_studio_image_model_usage.sql",
+      "checksum": "d8330b856072c010d204605afc2c01a6890173bae34e6fc28616f2cf5d2944a0"
+    },
+    {
+      "filename": "52_playlist_curations.sql",
+      "checksum": "9a2cf4258eb560ded30adcf23130cabc430b30da9f6d87de365971de4137f962"
+    },
+    {
+      "filename": "52_studio_conversation_runs.sql",
+      "checksum": "7f1728ee99226fc6ff06dade6be02878820e362e7c732d76682c14f08fc55719"
+    },
+    {
+      "filename": "53_playlist_opening.sql",
+      "checksum": "6c097cb6e6760d46d8efb05a1ba9b975b909e3be951f4d600b415b8a6de4b26d"
+    },
+    {
+      "filename": "53_seedance_draft_links.sql",
+      "checksum": "f6207f460ea08cdd669c590d934bd4b07d2becc20dfa2e5a810423a71ee02087"
+    },
+    {
+      "filename": "53_studio_media_generation_scope.sql",
+      "checksum": "a1d9a2a47b4519e66a6ee2f4fd4c8bc6613283d81fa41bd066864acf9f01f2af"
+    },
+    {
+      "filename": "54_customer_tariff_cells.sql",
+      "checksum": "b2e78e0ff2e165830defe111af5c54dd7743e5120a2582e9ff90abf70668f95f"
+    },
+    {
+      "filename": "54_studio_assistance_ledger.sql",
+      "checksum": "f577cf56ee6236d77653a9560b912b6ff96388cdb0c266917f68680a062b7b55"
+    },
+    {
+      "filename": "55_admin_studio_review_access.sql",
+      "checksum": "b86ec3a0244ee22282d3dee08b23a21c8a29c220b0e9731a0de70d9472d41424"
+    },
+    {
+      "filename": "55_customer_tariff_versions.sql",
+      "checksum": "4131ae010fcdf4dc370a8802da535f98a2fe7f934e643ca6acf9028e2d00f6b5"
+    },
+    {
+      "filename": "56_direct_payment_quotes.sql",
+      "checksum": "572d200910ca1bcb9171681994c826cf8f94fcb8250b6c94bc72e88dc6921c88"
+    },
+    {
+      "filename": "57_customer_tariff_local_activation_events.sql",
+      "checksum": "14ba28ce6917122eb3f5986093b1eb1e09423f112a421d3c98da93e8399f973d"
+    },
+    {
+      "filename": "58_customer_tariff_bulk_interval_lock.sql",
+      "checksum": "2fafdb7f9ac695a9bbf1a485356a49a48503209ccc19c8240d276762a1b71280"
+    },
+    {
+      "filename": "59_seedance_draft_final_state.sql",
+      "checksum": "6bbe84de4d705c7a098b264c7ddc26018ac098fb4e11c7dfb190aa4a549b6736"
+    },
+    {
+      "filename": "60_mcp_trial_provider_rasters.sql",
+      "checksum": "a94b188c34f228ed36d525b1a6259c14ee1795b91301a31ecc8ec05be219dcff"
+    },
+    {
+      "filename": "61_customer_tariff_cutover_events.sql",
+      "checksum": "bb3c8eaf339da31457dc98e21a5cee7f5f746c6aa6c01f58f0ecf516702f2f75"
+    },
+    {
+      "filename": "62_studio_assistance_resolutions.sql",
+      "checksum": "e6793855ea375a7b284f3987c4db2f12dd4005987f7801f6de72dae1118b86ef"
+    },
+    {
+      "filename": "63_studio_assistance_credits.sql",
+      "checksum": "3a8af9acad0463c66d69e3e02bac6c2614637d0d9f2e6736aba08a6a70b12cd3"
+    },
+    {
+      "filename": "64_studio_media_analysis.sql",
+      "checksum": "39020ef0d50ba5b0ffd6a0b80ad7bed3e6d02aeb92f82dd9dec6f035eec77306"
+    },
+    {
+      "filename": "65_studio_task_budgets.sql",
+      "checksum": "f676d4ab5682fa818f7aa0a106bf511c372ad5c1b942e75ecc79f2ccb9f2e50a"
+    },
+    {
+      "filename": "concurrent/66_public_deleted_media_index.sql",
+      "checksum": "eedf90b6d26d9d789dc7acd5e8def55805fdfb43e0979b8575cafb6924d22b87"
+    }
+  ],
+  "tables": 97,
+  "status": "passed",
+  "finishedAt": "2026-10-09T03:53:56.458Z"
+}

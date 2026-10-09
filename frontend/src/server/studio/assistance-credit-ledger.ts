@@ -37,7 +37,10 @@ export async function existingStudioCreditPurchase(tx:TransactionQueryExecutor,u
 export async function purchaseStudioCreditPack(tx:TransactionQueryExecutor,userId:string,choice:{purchaseKey:string;amountCents:number;tariffVersion:string}){
   const id=randomUUID();
   const debit=await reserveWalletChargeInExecutor(tx,{userId,amountCents:choice.amountCents*(CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1),currency:CUSTOMER_CURRENCY,description:'GPT-6.1 Sol credit pack',jobId:'studio-sol-pack:'+id,surface:'tool',billingProductKey:'studio_assistance_pack',pricingSnapshotJson:JSON.stringify({customerCurrency:CUSTOMER_CURRENCY,sourceCurrency:'USD',sourceAmountCents:choice.amountCents,conversionRate:CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1,tariff:STUDIO_ASSISTANCE_CREDIT_TARIFF,credits:choice.amountCents*creditsPerCent,creditsPerDollar:STUDIO_SOL_CREDITS_PER_DOLLAR,purchaseKey:choice.purchaseKey}),applicationFeeCents:null,vendorAccountId:null},{preferredCurrency:null});
-  if(!debit.ok)throw new AgentApiError('INSUFFICIENT_FUNDS','Your Keyvo balance cannot fund this Sol pack. Top up your balance before purchasing.');
+  if(!debit.ok){
+    if(debit.errorCode==='currency_mismatch')throw new AgentApiError('PARAMETER_INVALID','Your wallet contains an incompatible currency balance. Contact support to reconcile it before purchasing.',false,{reason:'wallet_currency_mismatch',currency:CUSTOMER_CURRENCY});
+    throw new AgentApiError('INSUFFICIENT_FUNDS','Your Keyvo balance cannot fund this Sol pack. Top up your balance before purchasing.');
+  }
   await tx.query(`INSERT INTO studio_assistance_credit_lots(id,user_id,kind,total_credits,amount_cents,purchase_key,tariff_version,receipt_id) VALUES($1,$2,'purchased',$3,$4,$5,$6,$7)`,[id,userId,choice.amountCents*creditsPerCent,choice.amountCents,choice.purchaseKey,choice.tariffVersion,debit.receiptId]);
 }
 export type CreditReservation={allocations:Array<{lotId:string;credits:number}>;quotedCents:number;sponsoredNanoUsd:number};

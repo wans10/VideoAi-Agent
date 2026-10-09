@@ -1,0 +1,17 @@
+✔ CNY launch converts one USD quote and every customer-facing monetary component at the fixed rate (0.755334ms)
+✔ CNY top-up preset is paid and credited in the same fen amount (0.349375ms)
+✔ public and fixed-product customer quotes use CNY while source facts remain USD (0.71525ms)
+✔ the Chinese pricing page highlights display renminbi quotes (15.404625ms)
+✔ CNY wallet rejects a stale USD charge before touching the ledger (0.168792ms)
+✔ video, image and audio server charges use the same CNY units as customer quotes (0.794792ms)
+✔ curated homepage estimates use the configured CNY display instead of USD literals (36.22625ms)
+✔ production v1 remains enabled without credits while production v2 requires its own approval (0.574292ms)
+✔ the actual director explains the selected assistance regime with bounded guidance and identical tool authority (1.721541ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 268.642708
