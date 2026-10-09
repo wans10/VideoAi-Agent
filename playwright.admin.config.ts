@@ -6,6 +6,8 @@ const baseURL = `http://localhost:${port}`;
 export default defineConfig({
   testDir: './tests/e2e',
   testMatch: ['**/admin-*.spec.ts'],
+  // Cold Next dev compilation and first database reads share the test deadline.
+  timeout: 90_000,
   expect: {
     timeout: 15_000,
   },

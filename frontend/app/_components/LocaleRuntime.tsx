@@ -48,8 +48,8 @@ export async function LocaleRuntime({ children, locale, clientMessageNamespaces 
       <I18nProvider locale={locale} dictionary={messages} fallback={fallbackMessages}>
         {children}
       </I18nProvider>
-      {process.env.NODE_ENV === 'production' ? <VercelAnalytics /> : null}
-      <AnalyticsScripts />
+      {process.env.VERCEL === '1' ? <VercelAnalytics /> : null}
+      <AnalyticsScripts vercelEnabled={process.env.VERCEL === '1'} />
       <CookieBanner />
       <JsonLd json={orgSchema} />
       <JsonLd json={websiteSchema} />

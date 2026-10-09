@@ -1,0 +1,280 @@
+{
+  "checkedAt": "2026-10-09T09:04:05.044879+00:00",
+  "deployedVersionReported": "1167faa43b58c34d9aa6b3b5741758f96c533469",
+  "productionGenerationRoutes": [
+    {
+      "jobId": "img_642962d9-9b81-4ec5-be7a-bc53f52fd696",
+      "provider": "byteplus_modelark",
+      "providerJobId": null
+    },
+    {
+      "jobId": "img_626cd7f5-d9db-47e0-aa11-a09346567ebe",
+      "provider": "alibaba_qwen_image_direct",
+      "providerJobId": "0d760a6a-fb35-997f-aced-a5493959b950"
+    },
+    {
+      "jobId": "img_c51514b8-d0a3-480a-a917-e324729e59b7",
+      "provider": "google_vertex_image_direct",
+      "providerJobId": "uanIarSPGL22i9sP3ZXaiAE"
+    }
+  ],
+  "generationChargeTotal": {
+    "authorizedGenerationReceipts": [
+      {
+        "currency": "CNY",
+        "type": "charge",
+        "n": 3,
+        "amount": 96
+      }
+    ]
+  },
+  "seedream": {
+    "jobId": "img_642962d9-9b81-4ec5-be7a-bc53f52fd696",
+    "first": {
+      "job": [
+        {
+          "job_id": "img_642962d9-9b81-4ec5-be7a-bc53f52fd696",
+          "status": "completed",
+          "payment_status": "paid_wallet",
+          "currency": "CNY",
+          "pricing_snapshot": {
+            "currency": "CNY",
+            "totalCents": 40
+          },
+          "provider_job_id": null,
+          "visibility": "private"
+        }
+      ],
+      "receipts": [
+        {
+          "type": "charge",
+          "amount_cents": 40,
+          "currency": "CNY"
+        }
+      ],
+      "outputCount": 1
+    },
+    "walletBefore": 141.76,
+    "walletAfterGeneration": 141.12,
+    "quoteCents": 40,
+    "library": {
+      "httpStatus": 200,
+      "ok": true,
+      "count": 1
+    },
+    "media": [
+      {
+        "kind": "original",
+        "status": 200,
+        "bytes": 128731,
+        "mime": "image/jpeg",
+        "sha256": "8c0193b24b4572766ee71ef4da309f819a18719ea465879cefe84c9cec69c1c3"
+      },
+      {
+        "kind": "thumbnail",
+        "status": 200,
+        "bytes": 4028,
+        "mime": "image/webp",
+        "sha256": "d62a499e236f2df250ef5e049471e067e8a44e2847f0a9ad2a8306dd5e5f26b6"
+      }
+    ]
+  },
+  "qwen": {
+    "jobId": "img_626cd7f5-d9db-47e0-aa11-a09346567ebe",
+    "first": {
+      "job": [
+        {
+          "job_id": "img_626cd7f5-d9db-47e0-aa11-a09346567ebe",
+          "status": "completed",
+          "payment_status": "paid_wallet",
+          "currency": "CNY",
+          "pricing_snapshot": {
+            "currency": "CNY",
+            "totalCents": 24
+          },
+          "provider_job_id": "0d760a6a-fb35-997f-aced-a5493959b950",
+          "visibility": "private"
+        }
+      ],
+      "receipts": [
+        {
+          "type": "charge",
+          "amount_cents": 24,
+          "currency": "CNY"
+        }
+      ],
+      "outputCount": 1
+    },
+    "walletBefore": 141.36,
+    "walletAfterGeneration": 141.12,
+    "quoteCents": 24,
+    "library": {
+      "httpStatus": 200,
+      "ok": true,
+      "count": 1
+    },
+    "media": [
+      {
+        "kind": "original",
+        "status": 200,
+        "bytes": 879131,
+        "mime": "image/png",
+        "sha256": "2f41696ac77caef656ff67000da64e5c18b42c5c7911e8210cca715de71eefa7"
+      },
+      {
+        "kind": "thumbnail",
+        "status": 200,
+        "bytes": 6936,
+        "mime": "image/webp",
+        "sha256": "401e0c4ef420c3177e1773dc237f912ad073ebce19a66612af3e185becda1a5d"
+      }
+    ]
+  },
+  "browser": {
+    "url": "/app/image",
+    "errors": [
+      "HTTP 404 https://app.keyvo.cn/_vercel/insights/script.js",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "HTTP 404 https://app.keyvo.cn/_vercel/speed-insights/script.js",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "HTTP 404 https://app.keyvo.cn/_vercel/insights/script.js",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "HTTP 404 https://app.keyvo.cn/_vercel/speed-insights/script.js",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "buttons": [
+      "Keyvo创作工作室",
+      "Account",
+      "SeedreamByteDance - 5.0 Lite",
+      "5.0 Lite",
+      "编辑此图像",
+      "添加到媒体库",
+      "下载",
+      "复制链接",
+      "打开完整预览",
+      "参考素材+",
+      "角色素材",
+      "画幅比例: Auto",
+      "分辨率: 2K",
+      "文件格式: JPEG",
+      "",
+      "图像: 1 张图像",
+      "生成图像CN¥0.40",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "全部接受",
+      "全部拒绝",
+      "管理偏好",
+      "",
+      "分享",
+      "让图片动起来",
+      "使用此图片创作",
+      "提升分辨率",
+      "保存到素材库"
+    ],
+    "imageCount": 19,
+    "downloadBytes": 71483,
+    "downloadName": "a4ceeb97-8513-4913-92a5-86830f92162b.jpg"
+  },
+  "programmaticChecks": {
+    "fixContracts": {
+      "pass": 14,
+      "fail": 0
+    },
+    "paymentProtocol": {
+      "pass": 6,
+      "fail": 0
+    },
+    "paymentPostgresRecovery": {
+      "pass": 1,
+      "fail": 0
+    },
+    "imagePaidRecoveryPostgres": {
+      "pass": 1,
+      "fail": 0
+    },
+    "cnyAssistanceSettlementRefundPostgres": {
+      "pass": 1,
+      "fail": 0
+    },
+    "studioImageUsdFixture": {
+      "pass": 4,
+      "fail": 0
+    },
+    "assetsContracts": {
+      "pass": 13,
+      "fail": 1
+    },
+    "assetsReleaseGate": "failed: authored source and review revisions are not candidate ancestors",
+    "lint": {
+      "errors": 0,
+      "warnings": 10
+    },
+    "finalFocused": {
+      "passed": 20,
+      "failed": 0
+    }
+  },
+  "newIssues": [
+    "Docker site loads Vercel-only analytics and speed scripts, producing 404; candidate patch gates both on VERCEL=1",
+    "Admin CI relied on missing remote DB secret; candidate patch creates disposable DB and loopback auth fixture",
+    "Empty admin fixture has no task/receipt; candidate fixture now seeds exact test records",
+    "30-second aggregate deadline fails during Next cold compile; candidate test deadline is 90 seconds, individual assertions unchanged"
+  ],
+  "testHarnessFailuresPreserved": [
+    "Wrong Playwright module/Chromium paths corrected",
+    "Missing TSX_TSCONFIG_PATH/NODE_PATH corrected",
+    "USD-funded general Studio fixture fails when forced into CNY lane; rerun in its USD contract passes, separate CNY accounting test passes",
+    "Local legacy next lint invocation failed; direct repository ESLint passes"
+  ],
+  "financialLimits": {
+    "userModelBudgetCny": 10,
+    "productionWalletChargeCny": 0.96,
+    "previousAdapterOnlySupplierEstimateUsd": 0.03360475,
+    "supplierActualBilledTotalVerified": false,
+    "newPaymentOrders": 0
+  },
+  "remaining": [
+    "Full admin lane completion and candidate CI rerun",
+    "Full candidate payment signed notify/return observation: prior real paid order used mixed-version callback",
+    "Additional paid video model routes: no measured price/budget plan yet",
+    "Asset publication provenance and actual Keyvo host proof approval",
+    "Deploy new analytics patch and verify resulting image identity"
+  ],
+  "originalCandidateQualityCI": {
+    "conclusion": "failure",
+    "databaseMedia": "success",
+    "exhaustiveFinancial": "success",
+    "cny": "success",
+    "fast": "cancelled",
+    "adminBrowser": "failure",
+    "run": "https://github.com/wans10/VideoAi-Agent/actions/runs/37903372866"
+  },
+  "adminVerification": {
+    "fullRun": {
+      "passed": 25,
+      "failed": 1,
+      "skipped": 1,
+      "total": 27
+    },
+    "failure": "Screenshot caret style injected before hydration",
+    "fix": "Playwright screenshot caret initial; console errors still asserted",
+    "supplement": {
+      "passed": 1,
+      "failed": 0
+    },
+    "distinctTestsPassed": 26,
+    "uncovered": [
+      "User detail drilldown requires service-role fixture data"
+    ],
+    "singleAllGreenFullRun": false
+  }
+}

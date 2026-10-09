@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-09T08:42:56.977223+00:00",
+  "imageTag": "1167faa43b58c34d9aa6b3b5741758f96c533469",
+  "migrationContainerEvidence": "User supplied pull/recreate logs and inspect: exact image tag, exit 0, finished 2026-10-09T08:40:27.411885469Z",
+  "databaseReadOnlyCheck": {
+    "candidateFiles": 83,
+    "recordedFiles": 83,
+    "missing": [],
+    "unexpected": [],
+    "tariffStateTableExists": true,
+    "tariffCellsTableExists": true,
+    "tariffState": {
+      "revision": 0,
+      "active": false
+    },
+    "tariffCells": 0
+  },
+  "imageEstimate": {
+    "engineId": "nano-banana-lite",
+    "mode": "t2i",
+    "resolution": "1k",
+    "numImages": 1,
+    "httpStatus": 200,
+    "ok": true,
+    "currency": "CNY",
+    "totalCents": 32,
+    "probeLocation": "authorized test server 111.228.7.169",
+    "pricingPolicySource": "database",
+    "manualTariffActive": false
+  },
+  "diagnosticFailures": [
+    "Local Node HTTP probes failed with TypeError; curl confirmed DNS resolution timeout. Test-server probe succeeded."
+  ],
+  "conclusion": "Missing-migration blocker and previously observed image estimate HTTP 500 resolved. Full authenticated model generation and release gates remain unverified; no new paid generation or payment submitted."
+}

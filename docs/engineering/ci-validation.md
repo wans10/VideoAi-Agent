@@ -107,3 +107,17 @@ The shared toolchain lives in `.github/actions/setup-project/action.yml`.
 PostgreSQL 17 and FFmpeg installation live in
 `.github/actions/setup-validation-tools/action.yml`. Keep pinned pnpm and Node
 versions aligned with the workspace package manifests.
+
+## Keyvo Docker acceptance
+
+The admin browser lane runs `scripts/qa/run-isolated-admin-smoke.ts`. It creates
+a disposable PostgreSQL cluster, bootstraps and migrates it, seeds an admin identity
+and one task/receipt, and uses the loopback Supabase protocol fixture. It never
+uses `RUNTIME_AUDIT_DATABASE_URL` or production authentication credentials. The
+full admin test selection remains enabled; data-dependent skips must be reported.
+The browser test deadline includes cold Next development compilation; individual
+assertion deadlines remain unchanged.
+
+Docker deployments do not serve Vercel Analytics or Speed Insights endpoints.
+Server layouts enable these readers only when `VERCEL=1`; marketing consent gates
+and other analytics providers retain their existing policy.

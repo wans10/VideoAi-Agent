@@ -92,11 +92,15 @@ test.describe('admin critical flows', () => {
   });
 
   test('pricing cockpit compares costs and previews a policy change', async ({ page }) => {
+    test.setTimeout(120_000);
     const confirmRequests: string[] = [];
     page.on('request', (request) => {
       if (request.url().includes('/api/admin/pricing/confirm')) confirmRequests.push(request.url());
     });
+    const inventoryResponse = page.waitForResponse(response =>
+      new URL(response.url()).pathname === '/api/admin/pricing/inventory', { timeout: 90_000 });
     await openAdminRoute(page, '/admin/pricing');
+    expect((await inventoryResponse).status()).toBe(200);
     await expect(page.getByRole('heading', { level: 1, name: 'Pricing', exact: true })).toBeVisible();
     await expect(page.getByText('Supplier cost and customer price', { exact: true })).toBeVisible();
     await page.getByRole('tab', { name: 'Pricing', exact: true }).focus();
@@ -265,6 +269,7 @@ test.describe('admin critical flows', () => {
       return button.contains(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2));
     });
     expect(firstDestinationHit, 'destination choices are not covered by save controls').toBe(true);
+    await destinationMenu.getByRole('button', { name: /^Families/ }).click();
     const firstFamily = destinationMenu.locator('[data-destination-group="families"] button[data-destination-id]').first();
     const familyLabel = await firstFamily.locator('span').nth(1).innerText();
     await firstFamily.click();

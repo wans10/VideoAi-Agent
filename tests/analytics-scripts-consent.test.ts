@@ -28,7 +28,7 @@ test('analytics-only consent does not configure Ads; granting advertising enable
           'next/navigation': "export const usePathname=()=>'/models/seedance-2-5';",
           'next/dynamic': "import React from 'react';export default function dynamic(load){const Lazy=React.lazy(()=>Promise.resolve(load()).then(component=>({default:component.default??component})));return function Deferred(props){return React.createElement(React.Suspense,{fallback:null},React.createElement(Lazy,props));};}",
           '@/components/analytics/Clarity': 'export const Clarity=()=>null;',
-          '@vercel/speed-insights/next': 'export const SpeedInsights=()=>null;',
+          '@vercel/speed-insights/next': "import React from 'react';export const SpeedInsights=()=>React.createElement('span',{'data-testid':'vercel-speed-insights'});",
         };
         builder.onResolve({ filter: /.*/ }, args => {
           if (args.path in boundaries) return { path: args.path, namespace: 'boundary' };
@@ -48,6 +48,11 @@ test('analytics-only consent does not configure Ads; granting advertising enable
     const { AnalyticsScripts } = requireFrontend(output);
     root = createRoot(dom.window.document.getElementById('root')!);
     await act(async () => root!.render(React.createElement(AnalyticsScripts)));
+    assert.equal(dom.window.document.querySelector('[data-testid="vercel-speed-insights"]'), null,
+      'self-hosted pages must not request Vercel-only scripts');
+    await act(async () => root!.render(React.createElement(AnalyticsScripts, { vercelEnabled: true })));
+    assert.ok(dom.window.document.querySelector('[data-testid="vercel-speed-insights"]'),
+      'Vercel pages retain their existing Speed Insights reader');
     assert.deepEqual(configured, [], 'an analytics choice must not configure the advertising destination');
     await act(async () => consent(true, true));
     assert.deepEqual(configured, [['config', 'AW-CONSENT-FIXTURE', { allow_enhanced_conversions: false }]]);

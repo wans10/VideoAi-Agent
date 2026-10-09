@@ -15,7 +15,7 @@ const SpeedInsights = dynamic(() => import('@vercel/speed-insights/next').then((
 });
 const GOOGLE_ADS_CONSENT: ConsentCategory[] = ['analytics', 'ads'];
 
-export function AnalyticsScripts() {
+export function AnalyticsScripts({ vercelEnabled = false }: { vercelEnabled?: boolean }) {
   const pathname = usePathname();
 
   if (!pathname) {
@@ -23,7 +23,7 @@ export function AnalyticsScripts() {
   }
 
   const routeContext = getAnalyticsRouteContext(pathname);
-  const loadSpeedInsights = shouldLoadSpeedInsights(routeContext.family);
+  const loadSpeedInsights = vercelEnabled && shouldLoadSpeedInsights(routeContext.family);
   const loadMarketingAnalytics = shouldLoadMarketingAnalytics(routeContext.family);
 
   return (

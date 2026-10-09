@@ -14,7 +14,7 @@ test('insights charts keep period, granularity and display choices usable', asyn
   await expect(page.getByRole('img', { name: /Signups per day/ })).toBeVisible();
 
   await mkdir(evidenceDir, { recursive: true });
-  await page.screenshot({ path: `${evidenceDir}/admin-insights-desktop.png` });
+  await page.screenshot({ path: `${evidenceDir}/admin-insights-desktop.png`, caret: 'initial' });
 
   await page.getByRole('button', { name: 'Custom days' }).click();
   await page.getByLabel('Last number of days').fill('45');
@@ -41,7 +41,7 @@ test('insights charts keep period, granularity and display choices usable', asyn
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('button', { name: 'Customize' }).click();
-  await page.screenshot({ path: `${evidenceDir}/admin-insights-mobile.png`, fullPage: true });
+  await page.screenshot({ path: `${evidenceDir}/admin-insights-mobile.png`, fullPage: true, caret: 'initial' });
   const width = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }));
   expect(width.content).toBeLessThanOrEqual(width.viewport);
   assertNoClientErrors(errors);

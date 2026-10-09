@@ -1,0 +1,127 @@
+{
+  "checkedAt": "2026-10-09T08:33:24.971819+00:00",
+  "reportedImageTag": "1167faa43b58c34d9aa6b3b5741758f96c533469",
+  "runningContainerDigestIndependentlyVerified": false,
+  "httpProbes": [
+    {
+      "path": "/",
+      "status": 307,
+      "redirect": "/zh",
+      "health": null
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "redirect": null,
+      "health": null
+    },
+    {
+      "path": "/billing",
+      "status": 200,
+      "redirect": null,
+      "health": null
+    },
+    {
+      "path": "/api/health/db",
+      "status": 200,
+      "redirect": null,
+      "health": {
+        "ok": true
+      }
+    },
+    {
+      "path": "/api/llmhub-pay/notify",
+      "status": 400,
+      "redirect": null,
+      "health": null
+    },
+    {
+      "path": "/api/llmhub-pay/return",
+      "status": 307,
+      "redirect": "/billing",
+      "health": null
+    }
+  ],
+  "apiProbes": [
+    {
+      "path": "/api/llmhub-pay/quote",
+      "authenticated": false,
+      "status": 401,
+      "error": "Unauthorized"
+    },
+    {
+      "path": "/api/llmhub-pay/quote",
+      "authenticated": true,
+      "status": 200,
+      "ok": true,
+      "amountCents": 8000,
+      "amountFen": 8000,
+      "currency": "CNY"
+    },
+    {
+      "path": "/api/images/estimate",
+      "authenticated": false,
+      "status": 500,
+      "ok": false,
+      "error": "pricing_error"
+    },
+    {
+      "path": "/api/images/generate",
+      "authenticated": false,
+      "status": 401,
+      "ok": false,
+      "error": {
+        "code": "auth_required",
+        "message": "Authentication required."
+      }
+    }
+  ],
+  "database": {
+    "version": "17.6",
+    "tariffStateTableExists": false,
+    "tariffCellsTableExists": false,
+    "candidateMigrationFiles": 83,
+    "recordedMigrationFiles": 63,
+    "missingMigrationFiles": [
+      "49_studio_generation_scope.sql",
+      "50_studio_image_conversation.sql",
+      "51_studio_image_model_usage.sql",
+      "52_studio_conversation_runs.sql",
+      "53_seedance_draft_links.sql",
+      "53_studio_media_generation_scope.sql",
+      "54_customer_tariff_cells.sql",
+      "54_studio_assistance_ledger.sql",
+      "55_admin_studio_review_access.sql",
+      "55_customer_tariff_versions.sql",
+      "56_direct_payment_quotes.sql",
+      "57_customer_tariff_local_activation_events.sql",
+      "58_customer_tariff_bulk_interval_lock.sql",
+      "59_seedance_draft_final_state.sql",
+      "60_mcp_trial_provider_rasters.sql",
+      "61_customer_tariff_cutover_events.sql",
+      "62_studio_assistance_resolutions.sql",
+      "63_studio_assistance_credits.sql",
+      "64_studio_media_analysis.sql",
+      "65_studio_task_budgets.sql"
+    ],
+    "recordedButAbsentFiles": []
+  },
+  "authorizedPayment": {
+    "orderStatus": "paid",
+    "amountFen": 8000,
+    "testAccountTopupCount": 2,
+    "testAccountTopupTotalCents": 16000,
+    "changedSincePreviousCheckpoint": false,
+    "newPaymentCreated": false
+  },
+  "qualityCI": {
+    "run": "https://github.com/wans10/VideoAi-Agent/actions/runs/37903372866",
+    "overall": "not_passed",
+    "browser": "failure_admin_smoke",
+    "fast": "cancelled",
+    "cny": "success",
+    "databaseMedia": "in_progress_at_checkpoint",
+    "financial": "in_progress_at_checkpoint"
+  },
+  "conclusion": "Production readiness blocked: real image estimate returns HTTP 500 and required tariff tables are absent. Run same-tag migration image against the intended database, then re-test. Production database was read-only; no migrations or price changes performed."
+}

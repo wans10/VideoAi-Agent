@@ -1,0 +1,126 @@
+{
+  "jobId": "img_c51514b8-d0a3-480a-a917-e324729e59b7",
+  "first": {
+    "job": [
+      {
+        "job_id": "img_c51514b8-d0a3-480a-a917-e324729e59b7",
+        "status": "completed",
+        "payment_status": "paid_wallet",
+        "currency": "CNY",
+        "pricing_snapshot": {
+          "currency": "CNY",
+          "totalCents": 32
+        },
+        "provider_job_id": "uanIarSPGL22i9sP3ZXaiAE",
+        "visibility": "private"
+      }
+    ],
+    "receipts": [
+      {
+        "type": "charge",
+        "amount_cents": 32,
+        "currency": "CNY"
+      }
+    ],
+    "outputCount": 1
+  },
+  "after": {
+    "job": [
+      {
+        "job_id": "img_c51514b8-d0a3-480a-a917-e324729e59b7",
+        "status": "completed",
+        "payment_status": "paid_wallet",
+        "currency": "CNY",
+        "pricing_snapshot": {
+          "currency": "CNY",
+          "totalCents": 32
+        },
+        "provider_job_id": "uanIarSPGL22i9sP3ZXaiAE",
+        "visibility": "private"
+      }
+    ],
+    "receipts": [
+      {
+        "type": "charge",
+        "amount_cents": 32,
+        "currency": "CNY"
+      }
+    ],
+    "outputCount": 1
+  },
+  "walletBefore": 142.08,
+  "walletAfterGeneration": 141.76,
+  "walletAfterDuplicate": 141.76,
+  "debitedCents": 32,
+  "quoteCents": 32,
+  "library": {
+    "httpStatus": 200,
+    "ok": true,
+    "outputs": [
+      {
+        "jobId": "img_c51514b8-d0a3-480a-a917-e324729e59b7",
+        "width": 1024,
+        "height": 1024,
+        "hasThumb": true
+      }
+    ]
+  },
+  "media": [
+    {
+      "kind": "original",
+      "status": 200,
+      "bytes": 71483,
+      "mime": "image/jpeg",
+      "sha256": "b414e50cdd791f764805be03df2c08edea67695b6b3749a718f3bd87c81b3a56"
+    },
+    {
+      "kind": "thumbnail",
+      "status": 200,
+      "bytes": 7616,
+      "mime": "image/webp",
+      "sha256": "8f5ba1387f56c1216d3ea8573902b94e334498ef34898115953daa38c02459c5"
+    }
+  ],
+  "duplicate": {
+    "httpStatus": 200,
+    "ok": true,
+    "jobId": "img_c51514b8-d0a3-480a-a917-e324729e59b7",
+    "imageCount": 1,
+    "providerRequestIdUnchanged": true
+  },
+  "accountingUnchangedAfterDuplicate": true,
+  "checkedAt": "2026-10-09T08:47:18.510440+00:00",
+  "assertions": {
+    "quoteEqualsWalletDebit": true,
+    "singleCnyCharge": true,
+    "completedPrivateJob": true,
+    "singleStoredOutput": true,
+    "libraryReadable": true,
+    "originalAndThumbnailReadable": true,
+    "retryDoesNotChangeAccounting": true,
+    "retryUsesSameProviderRequest": true
+  },
+  "sourceImageTagReportedByUser": "1167faa43b58c34d9aa6b3b5741758f96c533469",
+  "automatedContractTests": {
+    "tests": 6,
+    "pass": 6,
+    "fail": 0,
+    "skip": 0,
+    "scope": "Atomic charge/recovery and failed-provider persistence/refund-message contracts; mocked executors, not production failed-provider refund"
+  },
+  "newPaidSubmissions": 1,
+  "testAccountChargeCny": 0.32,
+  "modelBudgetCny": 10,
+  "actualSupplierDebitVerified": false,
+  "remaining": [
+    "Authenticated browser preview/download/UI acceptance",
+    "Real failed-provider wallet refund end-to-end",
+    "Other enabled supplier routes",
+    "Full candidate signed payment notify/return acceptance; previous real payment was mixed-version",
+    "Quality CI and asset provenance gate"
+  ],
+  "diagnosticFailures": [
+    "Latest local GitHub API query failed with TypeError; previous CI was not passed. No new green CI conclusion."
+  ],
+  "providerVerifiedFromDatabase": "google_vertex_image_direct"
+}

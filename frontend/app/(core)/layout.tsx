@@ -81,8 +81,8 @@ export default async function CoreLayout({ children }: { children: ReactNode }) 
           <AppExperienceRoot fontClass={appFont.variable}>{children}</AppExperienceRoot>
         </SWRProvider>
       </I18nProvider>
-      {process.env.NODE_ENV === 'production' ? <VercelAnalytics /> : null}
-      <AnalyticsScripts />
+      {process.env.VERCEL === '1' ? <VercelAnalytics /> : null}
+      <AnalyticsScripts vercelEnabled={process.env.VERCEL === '1'} />
       <CookieBanner />
       <JsonLd json={orgSchema} />
       <JsonLd json={websiteSchema} />
