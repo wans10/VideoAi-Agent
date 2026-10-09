@@ -297,7 +297,7 @@ export function ExamplesGallerySection({
   show,
   sort,
 }: ExamplesGallerySectionProps) {
-  if (!show) return <p className="py-12 text-center text-sm text-text-secondary">{locale==='fr'?'Aucune vidéo disponible dans cette galerie.':locale==='es'?'No hay vídeos disponibles en esta galería.':'No videos are available in this gallery yet.'}</p>;
+  if (!show) return <p className="py-12 text-center text-sm text-text-secondary">{locale==='zh'?'此案例库暂无视频。':locale==='fr'?'Aucune vidéo disponible dans cette galerie.':locale==='es'?'No hay vídeos disponibles en esta galería.':'No videos are available in this gallery yet.'}</p>;
 
   return (
     <section id="gallery" className="min-w-0">

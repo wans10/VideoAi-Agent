@@ -36,6 +36,20 @@
       "sha256": "cabd6b739d89c7c8108b5cfded2b44f9d1141d8539303c643defb13e05e39b62",
       "width": 1440,
       "height": 1000
+    },
+    {
+      "id": "examples-wan",
+      "sha256": "fa919df16366a9857f709b85abd11790c89d5f059843b017e737df8b0bfc7846",
+      "width": 1440,
+      "height": 1000,
+      "ownerApproved": true
+    },
+    {
+      "id": "watch-wan",
+      "sha256": "7d672ffe7969332e651ce544d14dfda53a90dab1a4b462a1ab77187f159d910e",
+      "width": 1440,
+      "height": 1000,
+      "ownerApproved": true
     }
   ],
   "approval": "pending",
@@ -47,5 +61,6 @@
       ]
     }
   ],
-  "overallPageErrorGate": "fail"
+  "overallPageErrorGate": "fail",
+  "additionalVerification": "Actual detail HTTP 200, video decoded 1280x720 with advancing time, original Range 206; production OCI source inspected."
 }

@@ -38,6 +38,7 @@ export async function startStudioAuthFixture(options: { appOrigin?: string; port
   const { publicKey, privateKey } = generateKeyPairSync('ec', { namedCurve: 'prime256v1' });
   const kid = randomUUID();
   const anonKey = 'studio-disposable-auth-fixture-anon';
+  const serviceRoleKey = randomUUID();
   const publicJwk = { ...publicKey.export({ format: 'jwk' }), kid, alg: 'ES256', use: 'sig' };
   const sessions = new Map<string, { subject: string; sessionId: string; clientId?: string }>();
   const grants = new Map<string, FixtureGrant>();
@@ -109,6 +110,23 @@ export async function startStudioAuthFixture(options: { appOrigin?: string; port
     const reply = (status: number, body: unknown) => { response.writeHead(status); response.end(JSON.stringify(body)); };
     if (request.method === 'OPTIONS') { response.writeHead(204).end(); return; }
     const url = new URL(request.url ?? '/', origin);
+    if (request.method === 'GET' && (url.pathname === '/auth/v1/admin/users' || url.pathname.startsWith('/auth/v1/admin/users/'))) {
+      if (request.headers.authorization !== `Bearer ${serviceRoleKey}` || request.headers.apikey !== serviceRoleKey) {
+        reply(403, { code: 'not_admin', message: 'Fixture service role required.' }); return;
+      }
+      const users = STUDIO_FIXTURE_USERS.map(id => ({
+        id, aud: 'authenticated', role: 'authenticated', email: `studio-${id.slice(-1)}@example.invalid`,
+        created_at: '2026-10-01T00:00:00Z', updated_at: '2026-10-01T00:00:00Z',
+        app_metadata: { provider: 'email', providers: ['email'] }, user_metadata: {}, identities: [], factors: [],
+      }));
+      if (url.pathname === '/auth/v1/admin/users') {
+        const page = Math.max(1, Number(url.searchParams.get('page')) || 1);
+        const perPage = Math.max(1, Math.min(1000, Number(url.searchParams.get('per_page')) || 50));
+        reply(200, { users: users.slice((page - 1) * perPage, page * perPage), aud: 'authenticated', total: users.length }); return;
+      }
+      const user = users.find(user => user.id === url.pathname.slice('/auth/v1/admin/users/'.length));
+      reply(user ? 200 : 404, user ?? { code: 'user_not_found', message: 'Unknown fixture user.' }); return;
+    }
     if (request.method === 'GET' && url.pathname === '/auth/v1/.well-known/jwks.json') {
       reply(200, { keys: [publicJwk] }); return;
     }
@@ -163,7 +181,7 @@ export async function startStudioAuthFixture(options: { appOrigin?: string; port
   origin = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 
   return {
-    origin, anonKey, createSession,
+    origin, anonKey, serviceRoleKey, createSession,
     cookiesFor(session: FixtureSession): Array<{ name: string; value: string }> {
       const value = `base64-${encode(session)}`;
       if (value.length <= 3000) return [{ name: 'sb-127-auth-token', value }];

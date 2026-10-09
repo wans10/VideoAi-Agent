@@ -1,0 +1,39 @@
+{
+  "source": "638ee295c61d882fa1a1ebb784fb122e26373d18",
+  "sourceIndependentlyVerified": true,
+  "orderId": "kv411728261266c4169d2a836e14356268",
+  "authorizedTopupCents": 8000,
+  "currency": "CNY",
+  "signedGatewayQuery": {
+    "signatureVerified": true,
+    "status": 1,
+    "money": "80.00"
+  },
+  "proxyAccess": [
+    {
+      "utcTime": "2026-10-09T13:02:21Z",
+      "method": "GET",
+      "path": "/api/llmhub-pay/notify",
+      "status": 200
+    },
+    {
+      "utcTime": "2026-10-09T13:02:34Z",
+      "method": "GET",
+      "path": "/api/llmhub-pay/return",
+      "status": 307
+    }
+  ],
+  "receipt": {
+    "count": 1,
+    "type": "topup",
+    "amountCents": 8000,
+    "currency": "CNY",
+    "originalAmountCents": 8000,
+    "originalCurrency": "CNY",
+    "fxRate": 1
+  },
+  "agentManuallyReconciled": false,
+  "signatureReplayed": false,
+  "secretsAndBuyerFieldsOmitted": true,
+  "limits": "Real return observed in proxy logs; redirect Location/body not captured during user navigation. No fake notify/return requests."
+}

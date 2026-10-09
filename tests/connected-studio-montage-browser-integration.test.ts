@@ -193,7 +193,13 @@ test('MCP montage opens the current conversation with private playback, durable 
     const renewalProof = Promise.all([renewed, newPrivateAccess]);
     void renewalProof.catch(() => undefined);
     expiredPrivateUrl = oldSignedUrl;
-    await firstVideo.evaluate((element) => (element as HTMLVideoElement).load());
+    // A decoder may report more than one failure for the same expired source.
+    // Keep the monitor alive while its one authorized renewal is in flight.
+    await firstVideo.evaluate((element) => {
+      (element as HTMLVideoElement).load();
+      element.dispatchEvent(new Event('error'));
+      element.dispatchEvent(new Event('error'));
+    });
     await expect.poll(() => expiredRequestCount).toBeGreaterThan(0);
     await renewalProof;
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);
@@ -231,7 +237,11 @@ test('MCP montage opens the current conversation with private playback, durable 
       await expect(stale.page.getByLabel(copy('Audio volume'), { exact: true })).toHaveValue('0');
     } finally { releaseStaleReads(); await stale.close(); }
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    // Await the incoming document's actual owned read, not a pre-navigation poll.
+    await page.goto('about:blank');
+    const restoredTimeline = page.waitForResponse(response => response.url() === `${timelineEndpoint}?preview=1` && response.status() === 200, {timeout: 60_000});
+    await page.goto(`${runtime.browserOrigin}${montage.studioUrl}`, {waitUntil: 'domcontentloaded'});
+    assert.equal((await (await restoredTimeline).json()).result.data.revision,2);
     await expect(page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '2');
     await page.getByRole('button', { name: copy('Select clip')+' Pattern A', exact: true }).click();
     let refusedWrite = false;

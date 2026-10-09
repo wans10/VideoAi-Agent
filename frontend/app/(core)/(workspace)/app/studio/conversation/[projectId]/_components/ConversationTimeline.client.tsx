@@ -37,6 +37,7 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
   const starterKey = useRef<string | null>(null);
   const handledInsertion = useRef<string | null>(null);
   const renewalAttempts = useRef(new Set<string>());
+  const pendingRenewals = useRef(new Set<string>());
   const [mediaReloadKeys,setMediaReloadKeys] = useState<Record<string,number>>({});
   const items = useMemo(() => preview ?? view?.items ?? [],[preview,view]);
   const timelineExpanded = expanded ?? items.length > 0;
@@ -72,10 +73,12 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
   function closeMonitor() {playback.stopTimelinePlayback();setMonitor(false);renewalAttempts.current.clear();}
   function mediaFailure(item: WorkspaceTimelineItem) {
     playback.stopTimelinePlayback();
+    if (pendingRenewals.current.has(item.id)) return;
     if (consumeConversationMediaRenewal(item,renewalAttempts.current)) {
+      pendingRenewals.current.add(item.id);
       void timeline.refresh({renewMediaId: item.id}).then(() => {
         setMediaReloadKeys(current => ({...current,[item.id]: (current[item.id] ?? 0)+1}));
-      });
+      }).finally(() => {pendingRenewals.current.delete(item.id);});
       return;
     }
     setMonitor(false);

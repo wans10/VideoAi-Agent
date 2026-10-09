@@ -31,6 +31,9 @@ test.describe('admin critical flows', () => {
 
     await openAdminRoute(page, '/admin/users');
     const directoryState = await waitForUserDirectoryState(page);
+    if (process.env.ADMIN_SMOKE_REQUIRE_USER_DIRECTORY === '1') {
+      expect(directoryState, 'isolated admin fixture must exercise user detail').toBe('rows');
+    }
     if (directoryState !== 'rows') {
       test.skip(true, 'requires Supabase service role data');
     }
@@ -43,7 +46,14 @@ test.describe('admin critical flows', () => {
 
     const row = page.locator('tbody tr').filter({ hasText: userId }).first();
     await expect(row).toBeVisible();
+    // The first detail request may cold-compile its route. Require its actual
+    // successful response before asserting the resulting navigation and content.
+    const detailResponse = page.waitForResponse(response => {
+      const url = new URL(response.url());
+      return url.pathname === `/admin/users/${userId}` && response.request().method() === 'GET';
+    }, { timeout: 60_000 });
     await row.getByRole('link', { name: 'View' }).click();
+    expect((await detailResponse).status()).toBe(200);
 
     await expect(page).toHaveURL(new RegExp(`/admin/users/${userId}$`));
     await expect(page.locator('body')).toContainText('Account summary');

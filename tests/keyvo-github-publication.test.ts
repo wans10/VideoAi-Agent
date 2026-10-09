@@ -20,9 +20,9 @@ test('current Keyvo approvals reject a plugin archive containing retired upstrea
   assert.ok(!existsSync(path.join(temporary,'release','maxvideoai-plugin-release.json')));
 });
 
-test('Keyvo publication uses only the four explicitly approved, unchanged public captures',async()=>{
+test('Keyvo publication uses only the six explicitly approved, unchanged public captures',async()=>{
   const current=manifest.assets.filter((a:any)=>a.state==='publishable_proof');
-  assert.deepEqual(current.map((a:any)=>a.id).sort(),['keyvo-comparison-production','keyvo-home-production','keyvo-models-production','keyvo-tools-production']);
+  assert.deepEqual(current.map((a:any)=>a.id).sort(),['keyvo-comparison-production','keyvo-home-production','keyvo-models-production','keyvo-tools-production','keyvo-examples-wan-production','keyvo-watch-wan-production'].sort());
   for(const a of current){
     const id=a.id.replace(/^keyvo-/,'').replace(/-production$/,'');
     assert.ok(approval.approvedIds.includes(id));
@@ -31,7 +31,7 @@ test('Keyvo publication uses only the four explicitly approved, unchanged public
     assert.equal(a.kind,'product_proof');assert.equal(a.sourceEnvironment,'production');
     assert.match(a.claim,/does not establish paid provider coverage or native assistant host execution/);
     assert.equal(a.approvalRecord,'docs/marketing/keyvo-review/approval.json');
-    assert.equal(a.containerIdentityIndependentlyVerified,false);
+    assert.equal(a.containerIdentityIndependentlyVerified,['examples-wan','watch-wan'].includes(id));
   }
   assert.deepEqual(await validateReleaseReadmeAssets(manifest,{repositoryRoot:root}),[]);
 });
@@ -40,11 +40,11 @@ test('active Keyvo READMEs resolve images and destinations without inheriting up
   const rootReadme=read('README.md'),pluginReadme=read('plugins/maxvideoai/README.md');
   assert.match(rootReadme,/^# Keyvo$/m);assert.match(pluginReadme,/^# Keyvo 集成源码$/m);
   assert.match(rootReadme,/https:\/\/app.keyvo.cn/);assert.match(rootReadme,/基于 MaxVideoAI 定制/);
-  assert.match(rootReadme,/人民币/);assert.match(rootReadme,/暂无视频/);assert.match(rootReadme,/hydration/);
+  assert.match(rootReadme,/人民币/);assert.match(rootReadme,/Wan 3 图生视频/);assert.doesNotMatch(rootReadme,/当前为空/);assert.match(rootReadme,/hydration/);
   assert.match(pluginReadme,/不继承上游主机证明/);assert.match(pluginReadme,/不发布新的插件安装包/);
   for(const [p,md] of [['README.md',rootReadme],['plugins/maxvideoai/README.md',pluginReadme]]){
     const refs=findReadmeImageReferences(md,path.join(root,p),root);
-    if(p==='README.md')assert.equal(refs.length,4);assert.ok(refs.every((r:string)=>/keyvo-(home|models|comparison|tools)\.png$/.test(r)));
+    if(p==='README.md')assert.equal(refs.length,6);assert.ok(refs.every((r:string)=>/keyvo-(home|models|comparison|tools|examples-wan|watch-wan)\.png$/.test(r)));
     for(const match of md.matchAll(/!?\[[^\]]*\]\(([^)]+)\)/g)){
       if(!/^(https?:|#)/.test(match[1]))assert.ok(existsSync(path.resolve(path.dirname(p),match[1])),match[1]);
     }

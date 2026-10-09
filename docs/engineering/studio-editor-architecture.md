@@ -142,3 +142,5 @@ Older untitled conversations use a read-only projection of the first ten retaine
 messages (240 characters each), for at most 100 owned projects. Reads never backfill
 storage, fetch workspace JSON or expose those source messages to the browser. The
 next substantive turn can persist a title; manually named projects are excluded.
+
+Private monitor renewal coalesces repeated decoder errors for the same clip while its single automatic signed-URL refresh is in flight. A duplicate error must not close the monitor or discard a pending response. After that attempt settles, further failures retain the existing explicit reopen/remove error path. The connected montage browser regression injects duplicate decoder errors and still requires an expired HTTP 403, a fresh signed Range response, decoded frames and preserved source time.

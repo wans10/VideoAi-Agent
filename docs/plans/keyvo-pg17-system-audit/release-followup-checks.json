@@ -1,0 +1,54 @@
+{
+  "candidateParent": "a2161b8b4b1fe7df36c196e1e18acaa8aaf9b4f5",
+  "completed": {
+    "isolatedAdmin": {
+      "pass": 27,
+      "fail": 0,
+      "skip": 0,
+      "retries": 0,
+      "log": "/opt/keyvo-audit/release-admin-complete-fixed.log"
+    },
+    "examplesAndChineseRender": {
+      "pass": 27,
+      "fail": 0,
+      "skip": 0
+    },
+    "publicationAuthMediaFocused": {
+      "pass": 8,
+      "fail": 0,
+      "skip": 0
+    },
+    "typescript": "pass",
+    "frontendLint": {
+      "errors": 0,
+      "warnings": 10
+    },
+    "exposure": "pass",
+    "diffCheck": "pass",
+    "assetReleaseGate": "pass"
+  },
+  "newFailures": [
+    {
+      "suite": "connected Studio montage",
+      "originalFailure": "Expired URL renewal timeout closes monitor",
+      "candidateObservation": "With committed pending-renewal fix, expired source/new signed Range/playback assertions passed, later incoming-document revision wait failed under concurrent compilation",
+      "wholeSuitePassed": false
+    },
+    {
+      "suite": "local complete editor",
+      "failure": "Local initdb unavailable; must use authorized PostgreSQL 17 test server",
+      "countedAsPass": false
+    }
+  ],
+  "running": {
+    "fullEditor": "/opt/keyvo-audit/release-editor-full.log",
+    "montageRefreshFixed": "/opt/keyvo-audit/release-montage-refresh-fixed.log"
+  },
+  "limits": [
+    "Latest remote Quality CI is mandatory before release",
+    "Original pricing React #418 root cause unknown",
+    "Only one real Wan 3 i2v mode verified",
+    "Historical refunds do not prove current-source real provider failure",
+    "Candidate business fix not yet deployed"
+  ]
+}

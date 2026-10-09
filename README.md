@@ -26,9 +26,15 @@ Keyvo 是基于 MaxVideoAI 定制的 AI 视频与图像创作平台。本仓库�
 
 ## 案例与工具
 
-本次采集时，案例页显示暂无视频，不将其作为已填充案例画廊的证明。工具入口用于寻找适合的准备或处理流程；具体能力、参数和价格以当前站点及提交前报价为准。
+案例页现已展示一项经授权的 Wan 3 图生视频：参考图 Sink_Surfers.png，5 秒、720p，当次钱包收费 ¥4.80。真实生成与公开播放已验收；这不代表所有模型与模式均已验收。
 
-[查看案例页](https://app.keyvo.cn/zh/examples)（当前为空，截图暂缓发布）
+![Keyvo 真实 Wan 3 公开案例页](docs/marketing/keyvo-review/assets/keyvo-examples-wan.png)
+
+![Keyvo Wan 3 视频详情与提示词](docs/marketing/keyvo-review/assets/keyvo-watch-wan.png)
+
+工具入口用于寻找适合的准备或处理流程；具体能力、参数和价格以当前站点及提交前报价为准。
+
+[查看案例页](https://app.keyvo.cn/zh/examples) · [播放已验收的 Wan 3 视频](https://app.keyvo.cn/video/job_4a7156e8-2b3e-4569-9a34-b0ec5485cc8e)
 
 ![Keyvo 实际工具页面的工具入口与介绍](docs/marketing/keyvo-review/assets/keyvo-tools.png)
 

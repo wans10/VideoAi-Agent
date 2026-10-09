@@ -988,6 +988,58 @@
       "freshnessStatus": "current",
       "approvalRecord": "docs/marketing/keyvo-review/approval.json",
       "containerIdentityIndependentlyVerified": false
+    },
+    {
+      "id": "keyvo-examples-wan-production",
+      "path": "docs/marketing/keyvo-review/assets/keyvo-examples-wan.png",
+      "kind": "product_proof",
+      "state": "publishable_proof",
+      "capturedAt": "2026-10-09T13:12:20.501Z",
+      "sourceEnvironment": "production",
+      "host": "app.keyvo.cn",
+      "hostVersion": "Next.js production; web and migration OCI revision independently inspected",
+      "maxvideoaiRevision": "638ee295c61d882fa1a1ebb784fb122e26373d18",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "fa919df16366a9857f709b85abd11790c89d5f059843b017e737df8b0bfc7846",
+      "claim": "Actual Keyvo public examples-wan page with one owner-authorized Wan 3 image-to-video case; does not establish paid provider coverage or native assistant host execution.",
+      "placements": [
+        "root_readme"
+      ],
+      "alt": "Keyvo 已获批准的 Wan 3 真实案例examples-wan",
+      "reviewTrigger": "Recapture and seek owner review when the page layout, brand or visible capabilities change.",
+      "approvedBy": "Keyvo repository owner (explicit approval in this session)",
+      "lastReviewedAt": "2026-10-09T13:21:46Z",
+      "lastReviewedRevision": "a2161b8b4b1fe7df36c196e1e18acaa8aaf9b4f5",
+      "freshnessStatus": "current",
+      "approvalRecord": "docs/marketing/keyvo-review/approval.json",
+      "containerIdentityIndependentlyVerified": true
+    },
+    {
+      "id": "keyvo-watch-wan-production",
+      "path": "docs/marketing/keyvo-review/assets/keyvo-watch-wan.png",
+      "kind": "product_proof",
+      "state": "publishable_proof",
+      "capturedAt": "2026-10-09T13:17:28.698Z",
+      "sourceEnvironment": "production",
+      "host": "app.keyvo.cn",
+      "hostVersion": "Next.js production; web and migration OCI revision independently inspected",
+      "maxvideoaiRevision": "638ee295c61d882fa1a1ebb784fb122e26373d18",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "7d672ffe7969332e651ce544d14dfda53a90dab1a4b462a1ab77187f159d910e",
+      "claim": "Actual Keyvo public watch-wan page with one owner-authorized Wan 3 image-to-video case; does not establish paid provider coverage or native assistant host execution.",
+      "placements": [
+        "root_readme"
+      ],
+      "alt": "Keyvo 已获批准的 Wan 3 真实案例watch-wan",
+      "reviewTrigger": "Recapture and seek owner review when the page layout, brand or visible capabilities change.",
+      "approvedBy": "Keyvo repository owner (explicit approval in this session)",
+      "lastReviewedAt": "2026-10-09T13:21:46Z",
+      "lastReviewedRevision": "a2161b8b4b1fe7df36c196e1e18acaa8aaf9b4f5",
+      "freshnessStatus": "current",
+      "approvalRecord": "docs/marketing/keyvo-review/approval.json",
+      "containerIdentityIndependentlyVerified": true
     }
   ]
 }
