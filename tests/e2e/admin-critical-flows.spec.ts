@@ -137,7 +137,13 @@ test.describe('admin critical flows', () => {
   });
 
   test('expired pricing inventory does not leave cached customer prices visible', async ({ page }) => {
+    test.setTimeout(120_000);
+    // Establish the real initial inventory before injecting session expiry.
+    // Hosted runners can still be loading it after the route heading renders.
+    const initialInventory = page.waitForResponse(response =>
+      new URL(response.url()).pathname === '/api/admin/pricing/inventory', { timeout: 90_000 });
     await openAdminRoute(page, '/admin/pricing');
+    expect((await initialInventory).status()).toBe(200);
     await expect(page.locator('summary').filter({ hasText: 'Seedance 2.0 Mini' })).toBeVisible();
     await page.route('**/api/admin/pricing/inventory', (route) => route.fulfill({
       status: 401,

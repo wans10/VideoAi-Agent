@@ -69,3 +69,11 @@ Quality CI 37922498181 最终失败；Docker 构建成功。数据库/媒体、�
 fast 完整跑完 7062 项：7058 pass / 2 fail / 2 skip。失败一是既有素材来源/审核 SHA 不是候选祖先；失败二是上次提高财务时限后遗漏了 quality-ci-contract 的旧 60 分钟精确断言。后者是本轮新增的测试配置不一致，已同步四个任务的明确预算，未删除断言或放宽最终质量门禁。14 项相关契约与选择策略复验全部通过；actionlint、diff 通过。素材门禁未修改。
 
 详见 dda02-ci-result.json。新修复仅测试与报告，业务代码仍与用户生产运行的 638ee295 相同；无需仅为此再更新生产。新的提交 CI 尚需等待，不能把本次补测当作远程全量通过。
+
+## fc2d559 Quality CI 与后台重试问题
+
+Quality CI 37925898948 最终失败；fast 同次完整 7062 项中 7059 pass / 1 fail / 2 skip，唯一失败为素材来源祖先。时限契约已通过；Studio 13 pass / 0 fail / 0 skip，数据库/媒体、财务、CNY、Docker 均成功。
+
+后台 CI 实际为 25 pass / 1 flaky / 1 skip：过期定价库存首轮等待 Seedance 2.0 Mini summary 超过 15 秒，重试通过。不能仅据 job success 将其报告为 26 个首轮通过。测试现在等待真实初始库存 API HTTP 200，再验证初始价格及注入 401；原缓存清除断言保持。使用已有 638ee 应用归档（与 fc2d 业务代码相同）的完整隔离后台复验 26 pass / 0 fail / 1 skip，关闭重试，耗时 4.9 分钟。14 项 CI 契约、TypeScript、actionlint、diff 通过。
+
+素材方案需用户选择 Keyvo 展示重新采集审核，或保留 MaxVideoAI 展示整合真实原作者历史。未伪造审核、替换来源 SHA、删除检查器或引入假祖先。本轮没有新业务实现改动、付费请求或生产部署。
