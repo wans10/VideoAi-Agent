@@ -41,6 +41,23 @@
       "videoFrames": 90,
       "getOnly": true,
       "paidProviderCalls": 0
+    },
+    "montageAllReadsFixed": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "durationMs": 157038,
+      "coverage": [
+        "expired signed URL and repeated decoder error",
+        "new signed Range and decoded playback",
+        "source time preserved",
+        "revision conflicts",
+        "durable trim gain and drag edits",
+        "fresh navigation recovery",
+        "export history recovery",
+        "account isolation"
+      ],
+      "log": "/opt/keyvo-audit/release-montage-all-reads-fixed.log"
     }
   },
   "newFailures": [
@@ -59,11 +76,12 @@
       "suite": "montage refresh",
       "failure": "First fix advanced beyond renewal but fresh document had no loaded timeline within 5 seconds; next run reached later reload with same condition",
       "change": "Await actual incoming-document timeline HTTP 200 before unchanged DOM assertions",
-      "wholeSuitePassed": false
+      "wholeSuitePassed": false,
+      "wholeSuitePassedAfterFix": true
     }
   ],
   "running": {
-    "montageAllReadsFixed": "/opt/keyvo-audit/release-montage-all-reads-fixed.log"
+    "latestGitHubQualityCI": "Required; not yet successful"
   },
   "limits": [
     "Latest remote Quality CI is mandatory before release",

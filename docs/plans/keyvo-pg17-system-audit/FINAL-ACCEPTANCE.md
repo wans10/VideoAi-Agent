@@ -106,3 +106,5 @@ Quality CI 37925898948 最终失败；fast 同次完整 7062 项中 7059 pass / 
 本轮没有执行生产部署。生产仍运行 638ee295；新增业务修复必须在最新候选 Quality CI 成功后由用户更新应用镜像，再做生产复核。
 
 完整编辑器检查最终同次 1165 pass / 0 fail / 1 skip（真实多轨渲染需显式 opt-in）。显式设置已有 Linux Chromium 后，真实多轨 Chromium/FFmpeg 渲染 1 pass / 0 fail / 0 skip：90 帧、视频裁切正确、语音/音乐增益与静音符合测量、仅 GET 请求、零供应商调用。默认渲染探测的 macOS 缓存路径在 Linux 上先报 ENOENT；采用测试已支持的 STUDIO_RENDER_BROWSER_EXECUTABLE 正确配置通过，没有修改业务或隐藏失败。完整浏览器复验仍发现后续两个刷新也在实际数据返回前开始 5 秒 DOM 断言；已统一等新文档真实 timeline HTTP 200，原版本/裁切/持久化断言保持。最新完整浏览器结果及 GitHub CI 仍待确认。
+
+最终确切已提交隔离候选的 montage 浏览器完整复验：1 pass / 0 fail / 0 skip，157 秒，包含过期签名、重复错误、续签 Range、解码/源时间、修订冲突、裁切/音量/拖拽持久化、刷新恢复、导出历史与账户隔离。最新候选 98ee362 已成功推送 GitHub；不能以该单项复验代替最新完整 Quality CI，也尚未部署候选业务修复。原工作区 programmatic-coverage.json 与两个依赖链接未纳入提交。
