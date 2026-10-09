@@ -1,3 +1,6 @@
+import {siteDefaultLocale} from '../frontend/i18n/locales';
+import {conversationCopy} from '../frontend/lib/studio/conversation-copy';
+const copy=(en:string,fr=en)=>conversationCopy(siteDefaultLocale,en,fr);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,mkdir} from 'node:fs/promises';
@@ -36,30 +39,33 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     async function setTheme(dark:boolean) {
       await expect(page.getByLabel('Loading account',{exact:true})).toHaveCount(0);
       await expect(async()=>{
-        if(!await page.getByRole('dialog',{name:'MaxVideoAI',exact:true}).isVisible())await page.getByRole('button',{name:'Open MaxVideoAI menu',exact:true}).click();
+        if(!await page.getByRole('dialog',{name:'Keyvo',exact:true}).isVisible())await page.getByRole('button',{name:(siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu'),exact:true}).click();
         await expect(page.getByRole('button',{name:dark?'Dark':'Light',exact:true})).toBeVisible({timeout:1000});
       }).toPass({timeout:10000});
-      const menu = page.getByRole('dialog',{name:'MaxVideoAI',exact:true});
+      const menu = page.getByRole('dialog',{name:'Keyvo',exact:true});
       const preferences = menu.locator('.app-site-preferences');
       const palette = menu.getByRole('button',{name:dark?'Dark':'Light',exact:true});
       await expect(palette).toBeInViewport();
-      await expect(menu.getByText('Language',{exact:true})).toBeInViewport();
+      await expect(menu.getByText((siteDefaultLocale==='zh'?'语言':'Language'),{exact:true})).toBeInViewport();
       assert.equal(await preferences.evaluate(element => !!element.closest('.app-site-dialog-body')),false,'preferences are outside scrolling destinations');
       await menu.locator('.app-site-dialog-body').evaluate(element => {element.scrollTop = element.scrollHeight;});
       await expect(palette).toBeInViewport();
       await palette.click();
       await expect(palette).toHaveAttribute('aria-pressed','true');
       await proof('preferences-'+(dark?'dark':'light')+'-'+page.viewportSize()!.width);
-      await page.getByRole('dialog',{name:'MaxVideoAI',exact:true}).getByRole('button',{name:'Close ×',exact:true}).click();
+      await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:(siteDefaultLocale==='zh'?'关闭 ×':'Close ×'),exact:true}).click();
     }
     let diagnosticPage = page;
     const mediaFailures: string[] = [];
+    const previewResponses:unknown[]=[];
+    page.on('response',async response=>{if(response.url().endsWith('/reference-previews'))previewResponses.push({status:response.status(),body:await response.json().catch(()=>null)});});
     page.on('response',response => {if (response.status() === 403) mediaFailures.push(new URL(response.url()).pathname);});
     diagnose = async () => {
       await proof('failure',diagnosticPage);
       return {
-        mediaFailures,
-        monitor: await diagnosticPage.getByLabel('Film monitor',{exact: true}).count(),
+        mediaFailures,previewResponses,
+        shelf:await diagnosticPage.locator('[data-media-card]').allTextContents(),
+        monitor: await diagnosticPage.getByLabel(copy('Film monitor'),{exact: true}).count(),
         alerts: await diagnosticPage.getByRole('alert').allTextContents(),
         decoders: await diagnosticPage.locator('video').evaluateAll(elements => elements.map(element => {
           const video = element as HTMLVideoElement;
@@ -82,68 +88,68 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     async function checkLibrary() {
       const endpoint = runtime.browserOrigin+'/api/media-library/assets?*';
       await page.route(endpoint,route => route.fulfill({status: 503,json: {ok: false}}));
-      await page.getByRole('button',{name: 'Open library',exact: true}).click();
-      const dialog = page.getByRole('dialog',{name: 'MaxVideoAI library',exact: true});
+      await page.getByRole('button',{name: copy('Open library'),exact: true}).click();
+      const dialog = page.getByRole('dialog',{name: copy('Keyvo library'),exact: true});
       await expect(dialog).toBeVisible();
-      await expect(dialog.getByRole('alert')).toHaveText('The library is unavailable. Check your connection.');
-      await expect(dialog.getByRole('button',{name: 'Upload from device',exact: true})).toBeEnabled();
+      await expect(dialog.getByRole('alert')).toHaveText(copy('The library is unavailable. Check your connection.'));
+      await expect(dialog.getByRole('button',{name: copy('Upload from device'),exact: true})).toBeEnabled();
       const bounds = await dialog.boundingBox();
       assert.ok(bounds && bounds.x >= 0 && bounds.x+bounds.width <= page.viewportSize()!.width,'Library fits the viewport.');
-      await page.getByRole('button',{name: 'Close library',exact: true}).click();
-      await expect(page.getByRole('button',{name: 'Open library',exact: true})).toBeFocused();
+      await page.getByRole('button',{name: copy('Close library'),exact: true}).click();
+      await expect(page.getByRole('button',{name: copy('Open library'),exact: true})).toBeFocused();
       await page.unroute(endpoint);
       await page.route(endpoint,route => route.fulfill({json: {ok: true,assets: [],nextCursor: null}}));
-      await page.getByRole('button',{name: 'Open library',exact: true}).click();
-      await expect(dialog.getByText('No media here yet',{exact: true})).toBeVisible();
-      await expect(dialog.getByRole('button',{name:'Add to conversation',exact:true})).toBeDisabled();
+      await page.getByRole('button',{name: copy('Open library'),exact: true}).click();
+      await expect(dialog.getByText(copy('No media here yet'),{exact: true})).toBeVisible();
+      await expect(dialog.getByRole('button',{name:copy('Add to conversation'),exact:true})).toBeDisabled();
       await dialog.getByRole('button',{name: 'Audio',exact: true}).click();
       await expect(dialog.getByRole('button',{name: 'Audio',exact: true})).toHaveAttribute('aria-pressed','true');
       await expect(dialog.getByRole('alert')).toHaveCount(0);
       await proof('olive-library-'+page.viewportSize()!.width);
       await page.keyboard.press('Escape');
       await expect(dialog).toHaveCount(0);
-      await expect(page.getByRole('button',{name: 'Open library',exact: true})).toBeFocused();
+      await expect(page.getByRole('button',{name: copy('Open library'),exact: true})).toBeFocused();
       await page.unroute(endpoint);
-      await page.getByRole('button',{name:'Add library media to film',exact:true}).click();
-      await expect(dialog.getByRole('button',{name:'Add to timeline',exact:true})).toBeDisabled();
+      await page.getByRole('button',{name:copy('Add library media to film'),exact:true}).click();
+      await expect(dialog.getByRole('button',{name:copy('Add to timeline'),exact:true})).toBeDisabled();
       await page.keyboard.press('Escape');
-      await expect(page.getByRole('button',{name:'Add library media to film',exact:true})).toBeFocused();
+      await expect(page.getByRole('button',{name:copy('Add library media to film'),exact:true})).toBeFocused();
     }
     await page.goto(runtime.browserOrigin+'/app/studio',{waitUntil: 'domcontentloaded',timeout: 120000});
     await expect(page).toHaveURL(url);
     await expect(page.locator('[data-timeline-item]')).toHaveCount(2,{timeout: 45000});
-    const cookies = page.getByRole('button',{name: 'Reject all',exact: true});
+    const cookies = page.getByRole('button',{name:siteDefaultLocale==='zh'?'全部拒绝':'Reject all',exact: true});
     if (await cookies.isVisible()) await cookies.click();
-    await expect(page.getByRole('heading',{name:'What shall we create?'})).toBeVisible();
+    await expect(page.getByRole('heading',{name:conversationCopy(siteDefaultLocale,'What shall we','Et si l’on')+' '+conversationCopy(siteDefaultLocale,'create?','créait ?')})).toBeVisible();
     const namingBefore=(await runtime.database.pool.query('SELECT name,revision FROM studio_projects WHERE id=$1',[project.projectId])).rows[0];
-    await page.getByRole('button',{name:'Projects',exact:true}).click();
+    await page.getByRole('button',{name:(siteDefaultLocale==='zh'?'项目':'Projects'),exact:true}).click();
     const projectsDialog=page.getByRole('dialog',{name:'Your projects',exact:true});
     await projectsDialog.getByRole('button',{name:'Rename '+namingBefore.name,exact:true}).click();
     const nameField=projectsDialog.getByRole('textbox',{name:'Project name',exact:true});
     await expect(nameField).toBeFocused();await nameField.fill('Native Studio film');await nameField.press('Enter');
     await expect(projectsDialog.getByRole('button',{name:'Rename Native Studio film',exact:true})).toBeFocused();
     await page.keyboard.press('Escape');
-    await expect(page.getByRole('button',{name:'Projects',exact:true})).toBeFocused();
-    await expect(page.locator('section[aria-label="Conversational Studio"] > header').getByText('Native Studio film',{exact:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:(siteDefaultLocale==='zh'?'项目':'Projects'),exact:true})).toBeFocused();
+    await expect(page.locator('section > header').getByText('Native Studio film',{exact:true})).toBeVisible();
     const namingAfter=(await runtime.database.pool.query('SELECT name,revision FROM studio_projects WHERE id=$1',[project.projectId])).rows[0];
     assert.equal(namingAfter.name,'Native Studio film');assert.equal(namingAfter.revision,namingBefore.revision);
-    const message = page.getByRole('textbox',{name:'Message Studio',exact:true});
-    await page.getByRole('button',{name:'Shape a prompt',exact:false}).click();
+    const message = page.getByRole('textbox',{name:(siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio')),exact:true});
+    await page.getByRole('button',{name:copy('Shape a prompt'),exact:false}).click();
     await expect(message).toBeFocused();
-    await expect(message).toHaveValue('Help me write a prompt for ');
-    await expect(page.getByRole('button',{name:'Explore an idea',exact:false})).toHaveCount(0);
+    await expect(message).toHaveValue(copy('Help me write a prompt for '));
+    await expect(page.getByRole('button',{name:copy('Explore an idea'),exact:false})).toHaveCount(0);
     await message.fill('');
-    await page.getByRole('button',{name:'Studio help',exact:true}).click();
-    await expect(page.getByRole('dialog',{name:'Make it yours.',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:copy('Studio help'),exact:true}).click();
+    await expect(page.getByRole('dialog',{name:copy('Make it yours.'),exact:true})).toBeVisible();
     await proof('help-desktop');
     await page.keyboard.press('Escape');
-    await expect(page.getByRole('button',{name:'Studio help',exact:true})).toBeFocused();
-    await page.getByRole('button',{name:'Collapse timeline',exact:true}).click();
-    await expect(page.getByRole('button',{name:'Select clip Pattern B',exact:true})).not.toBeVisible();
+    await expect(page.getByRole('button',{name:copy('Studio help'),exact:true})).toBeFocused();
+    await page.getByRole('button',{name:copy('Collapse timeline'),exact:true}).click();
+    await expect(page.getByRole('button',{name:copy('Select clip')+' Pattern B',exact:true})).not.toBeVisible();
     await expect(message).toBeVisible();
     await proof('timeline-collapsed');
-    await page.getByRole('button',{name:'Open timeline',exact:true}).click();
-    await expect(page.getByRole('button',{name:'Select clip Pattern B',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:copy('Open timeline'),exact:true}).click();
+    await expect(page.getByRole('button',{name:copy('Select clip')+' Pattern B',exact:true})).toBeVisible();
 
     // Real owned database references and preview route; local image transport only.
     for(const [index,file] of ['frontend/public/media/mcp/project-demo/watch-static.webp','frontend/public/assets/app-starters/night-shift-9f91929fe7da.webp'].entries()) {
@@ -152,25 +158,28 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     }
     const libraryEndpoint=runtime.browserOrigin+'/api/media-library/assets?*';
     await page.route(libraryEndpoint,route=>route.fulfill({json:{ok:true,assets:referenceIds.map((assetId,index)=>({assetId,kind:'image',name:index?'Night shift':'Watch study',url:referenceUrls[index]})),nextCursor:null}}));
+    const preparation=await owned.context.request.post(runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/reference-previews',{headers:{origin:runtime.browserOrigin},data:{refs:referenceIds.map(assetId=>({type:'asset',assetId,kind:'image'}))},timeout:90000});
+    assert.equal(preparation.status(),200,await preparation.text());
+    await preparation.dispose();
     for(const name of ['Watch study','Night shift']) {
-      await page.getByRole('button',{name:'Open library',exact:true}).click();
-      const library = page.getByRole('dialog',{name:'MaxVideoAI library',exact:true});
-      await expect(library.getByRole('button',{name:'Upload from device',exact:true})).toBeInViewport();
-      const tile = library.getByRole('button',{name:'Choose '+name,exact:true});
+      await page.getByRole('button',{name:copy('Open library'),exact:true}).click();
+      const library = page.getByRole('dialog',{name:copy('Keyvo library'),exact:true});
+      await expect(library.getByRole('button',{name:copy('Upload from device'),exact:true})).toBeInViewport();
+      const tile = library.getByRole('button',{name:copy('Choose')+' '+name,exact:true});
       await tile.click();
       await expect(tile).toHaveAttribute('aria-pressed','true');
       await expect(library).toBeVisible();
       await proof('library-selected-'+name.replaceAll(' ','-'));
-      await library.getByRole('button',{name:'Add to conversation',exact:true}).click();
+      await library.getByRole('button',{name:copy('Add to conversation'),exact:true}).click();
     }
     await page.unroute(libraryEndpoint);
-    const shelf=page.getByRole('complementary',{name:'Media panel',exact:true});
+    const shelf=page.getByRole('complementary',{name:copy('Media panel'),exact:true});
     await expect(shelf).toBeVisible();
     await expect(shelf.getByRole('img',{name:'Night shift',exact:true})).toBeVisible();
-    await shelf.getByRole('button',{name:'Preview Image 1',exact:true}).click();
+    await shelf.getByRole('button',{name:copy('Preview ')+'Image 1',exact:true}).click();
     await expect(shelf.getByRole('img',{name:'Watch study',exact:true})).toBeVisible();
     const drag=await page.evaluateHandle(()=>new DataTransfer());
-    await shelf.getByRole('button',{name:'Preview Image 1',exact:true}).dispatchEvent('dragstart',{dataTransfer:drag});
+    await shelf.getByRole('button',{name:copy('Preview ')+'Image 1',exact:true}).dispatchEvent('dragstart',{dataTransfer:drag});
     await message.dispatchEvent('drop',{dataTransfer:drag});
     await expect(message).toHaveValue('@Image 1 ');
     await expect(message).toBeFocused();
@@ -178,33 +187,33 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     const referenceBounds=await shelf.locator('[data-media-card]').evaluateAll(elements=>elements.map(element=>{const b=element.getBoundingClientRect();return {left:b.left,right:b.right};}));
     assert.ok(centerBounds && referenceBounds.every(b=>b.right<centerBounds.x || b.left>centerBounds.x+centerBounds.width),'References preserve the central writing space.');
     await proof('media-dock-desktop');
-    await page.getByRole('button',{name:'Remove Image 1',exact:true}).click();
+    await page.getByRole('button',{name:copy('Remove ')+'Image 1',exact:true}).click();
     await expect(message).toHaveValue(' ');
-    await shelf.getByRole('button',{name:'Mention in message',exact:true}).click();
+    await shelf.getByRole('button',{name:copy('Mention in message'),exact:true}).click();
     await expect(message).toHaveValue(/\s*@Image 1\s/);
-    await shelf.getByRole('button',{name:'Collapse media',exact:true}).click();
-    await expect(shelf.getByRole('button',{name:'Preview Image 1',exact:true})).toBeVisible();
-    await expect(shelf.getByRole('button',{name:'Mention in message',exact:true})).toHaveCount(0);
+    await shelf.getByRole('button',{name:copy('Collapse media'),exact:true}).click();
+    await expect(shelf.getByRole('button',{name:copy('Preview ')+'Image 1',exact:true})).toBeVisible();
+    await expect(shelf.getByRole('button',{name:copy('Mention in message'),exact:true})).toHaveCount(0);
     await expect(message).toHaveValue(/\s*@Image 1\s/);
-    await shelf.getByRole('button',{name:'Open media',exact:true}).click();
+    await shelf.getByRole('button',{name:copy('Open media'),exact:true}).click();
     await page.setViewportSize({width:390,height:844});
     await expect(message).toBeVisible();
-    await expect(shelf.getByRole('button',{name:'Open media',exact:true})).toBeVisible();
+    await expect(shelf.getByRole('button',{name:copy('Open media'),exact:true})).toBeVisible();
     await proof('media-dock-mobile-compact');
-    await shelf.getByRole('button',{name:'Open media',exact:true}).click();
-    await expect(shelf.getByRole('button',{name:'Mention in message',exact:true})).toBeVisible();
-    await shelf.getByRole('button',{name:'Preview Image 2',exact:true}).click();
+    await shelf.getByRole('button',{name:copy('Open media'),exact:true}).click();
+    await expect(shelf.getByRole('button',{name:copy('Mention in message'),exact:true})).toBeVisible();
+    await shelf.getByRole('button',{name:copy('Preview ')+'Image 2',exact:true}).click();
     await expect.poll(async()=>{const b=await shelf.locator('[data-media-card][data-selected="true"]').boundingBox();return !!b&&b.x>=0&&b.x+b.width<=390;}).toBe(true);
-    await shelf.getByRole('button',{name:'Preview Image 1',exact:true}).click();
-    await shelf.getByRole('button',{name:'Enlarge Image 1',exact:true}).click();
+    await shelf.getByRole('button',{name:copy('Preview ')+'Image 1',exact:true}).click();
+    await shelf.getByRole('button',{name:copy('Enlarge ')+'Image 1',exact:true}).click();
     await expect(page.getByRole('dialog',{name:'Image 1',exact:true})).toBeVisible();
     await proof('media-lightbox-mobile');
     await page.keyboard.press('Escape');
-    await expect(shelf.getByRole('button',{name:'Enlarge Image 1',exact:true})).toBeFocused();
+    await expect(shelf.getByRole('button',{name:copy('Enlarge ')+'Image 1',exact:true})).toBeFocused();
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),390);
     await proof('media-dock-mobile');
-    await page.getByRole('button',{name:'Remove Image 1',exact:true}).click();
-    await page.getByRole('button',{name:'Remove Image 2',exact:true}).click();
+    await page.getByRole('button',{name:copy('Remove ')+'Image 1',exact:true}).click();
+    await page.getByRole('button',{name:copy('Remove ')+'Image 2',exact:true}).click();
     await message.fill('');
     await page.setViewportSize({width:1440,height:900});
     await page.reload({waitUntil:'domcontentloaded'});
@@ -220,21 +229,21 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await expect(page.locator('html')).not.toHaveAttribute('data-theme','dark');
     await setTheme(true);
     await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
-    await expect(page.getByLabel('Film monitor',{exact: true})).toHaveCount(0);
+    await expect(page.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
     await expect(page.locator('video[data-playback-item-id]')).toHaveCount(0);
-    await page.getByRole('button',{name: 'Select clip Pattern B',exact: true}).click();
+    await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
     const video = page.locator('video[data-playback-item-id="montage-clip-01"]');
     await expect.poll(() => video.evaluate(element => (element as HTMLVideoElement).readyState),{timeout: 20000}).toBeGreaterThanOrEqual(2);
     await expect.poll(() => video.evaluate(element => (element as HTMLVideoElement).currentTime)).toBeGreaterThanOrEqual(.98);
-    await page.getByRole('button',{name: 'Start',exact: true}).click();
-    await page.getByLabel('Clip duration in seconds',{exact: true}).fill('1');
-    await page.getByLabel('Clip duration in seconds',{exact: true}).press('Tab');
-    await expect(page.getByLabel('Film timeline',{exact: true})).toHaveAttribute('data-revision','1');
+    await page.getByRole('button',{name: copy('Start'),exact: true}).click();
+    await page.getByLabel(copy('Clip duration in seconds'),{exact: true}).fill('1');
+    await page.getByLabel(copy('Clip duration in seconds'),{exact: true}).press('Tab');
+    await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','1');
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','1');
     await expect.poll(() => video.evaluate(element => (element as HTMLVideoElement).currentTime)).toBeGreaterThanOrEqual(1.98);
-    await page.getByRole('button',{name: 'Play film',exact: true}).click();
+    await page.getByRole('button',{name: copy('Play film'),exact: true}).click();
     await expect.poll(() => video.evaluate(element => (element as HTMLVideoElement).currentTime)).toBeGreaterThan(2.1);
-    await page.getByRole('button',{name: 'Pause film',exact: true}).click();
+    await page.getByRole('button',{name: copy('Pause film'),exact: true}).click();
     const mountedSource = await video.getAttribute('src');
     const currentSourceTime = await video.evaluate(element => (element as HTMLVideoElement).currentTime);
     const poll = await page.waitForResponse(response => response.url().includes('/conversation-timeline?preview=1') && response.request().method() === 'GET',{timeout: 25000});
@@ -244,19 +253,19 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     assert.equal(await video.getAttribute('src'),mountedSource,'ordinary polling preserves the mounted decoder source');
     assert.ok(Math.abs(await video.evaluate(element => (element as HTMLVideoElement).currentTime)-currentSourceTime) < .04);
     await proof('charcoal-desktop');
-    await page.getByRole('button',{name: 'Collapse monitor',exact: true}).first().click();
+    await page.getByRole('button',{name: copy('Collapse monitor'),exact: true}).first().click();
     await expect(page.locator('video[data-playback-item-id]')).toHaveCount(0);
     await page.reload({waitUntil: 'domcontentloaded'});
     await expect(page.locator('[data-timeline-item="montage-clip-01"]')).toHaveAttribute('data-timeline-duration','1');
-    await expect(page.getByLabel('Film monitor',{exact: true})).toHaveCount(0);
+    await expect(page.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
     await page.setViewportSize({width: 390,height: 844});
-    await page.getByRole('button',{name: 'Select clip Pattern B',exact: true}).click();
-    await expect(page.getByRole('textbox',{name: 'Message Studio',exact: true})).toBeVisible();
-    const geometry = await page.evaluate(() => {
+    await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
+    await expect(page.getByRole('textbox',{name: (siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio')),exact: true})).toBeVisible();
+    const geometry = await page.evaluate((monitorLabel) => {
       const chat = document.querySelector('textarea')!.getBoundingClientRect();
-      const monitor = document.querySelector('[aria-label="Film monitor"]')!.getBoundingClientRect();
+      const monitor = document.querySelector(`[aria-label="${monitorLabel}"]`)!.getBoundingClientRect();
       return {chatBottom: chat.bottom,chatTop: chat.top,monitorTop: monitor.top,monitorHeight: monitor.height,width: document.documentElement.scrollWidth,viewport: window.innerWidth};
-    });
+    },copy('Film monitor'));
     assert.ok(geometry.chatBottom <= geometry.monitorTop,'Chat composer stays above the compact monitor.');
     assert.ok(geometry.chatTop >= 0);
     assert.ok(geometry.monitorHeight <= 112);
@@ -265,15 +274,15 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
     await proof('olive-mobile');
     await checkLibrary();
-    await page.getByLabel('Audio volume',{exact: true}).press('Home');
-    await expect(page.getByLabel('Film timeline',{exact: true})).toHaveAttribute('data-revision','2');
+    await page.getByLabel(copy('Audio volume'),{exact: true}).press('Home');
+    await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','2');
     await page.reload({waitUntil: 'domcontentloaded'});
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
     await expect(page.locator('html')).not.toHaveAttribute('data-theme','dark');
     await expect(page.locator('[data-timeline-item]')).toHaveCount(2);
-    await page.getByRole('button',{name: 'Select clip Pattern B',exact: true}).click();
-    await expect(page.getByLabel('Audio volume',{exact: true})).toHaveValue('0');
-    await page.getByRole('button',{name: 'Collapse monitor',exact: true}).first().click();
+    await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
+    await expect(page.getByLabel(copy('Audio volume'),{exact: true})).toHaveValue('0');
+    await page.getByRole('button',{name: copy('Collapse monitor'),exact: true}).first().click();
     const blockedMedia = 'https://'+STUDIO_PRIVATE_MEDIA_HOST+'/'+STUDIO_PRIVATE_MEDIA_KEYS.b+'?*';
     // Fresh contexts prevent Firefox's already-decoded media cache from bypassing the injected denial.
     for (const permanent of [false,true]) {
@@ -294,21 +303,21 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       await retryPage.goto(url,{waitUntil: 'domcontentloaded'});
       const originalProjection = await (await initialRead).json();
       await expect(retryPage.locator('[data-timeline-item]')).toHaveCount(2);
-      const consent = retryPage.getByRole('button',{name: 'Reject all',exact: true});
+      const consent = retryPage.getByRole('button',{name:siteDefaultLocale==='zh'?'全部拒绝':'Reject all',exact: true});
       if (await consent.isVisible()) await consent.click();
       // Replay this actual owned projection to guarantee a same-URL renewal, independent of wall-clock seconds.
       if (!permanent) await retryPage.route(runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/conversation-timeline?preview=1',route => route.fulfill({json: originalProjection}));
       retryPage.on('request',request => {if (request.url().includes('/conversation-timeline?preview=1')) renewalReads++;});
-      await retryPage.getByRole('button',{name: 'Select clip Pattern B',exact: true}).click();
+      await retryPage.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
       if (permanent) {
-        await expect(retryPage.getByText('This clip could not be played. Reopen the monitor to retry, or remove it from the film.',{exact: true})).toBeVisible();
-        await expect(retryPage.getByLabel('Film monitor',{exact: true})).toHaveCount(0);
+        await expect(retryPage.getByText(copy('This clip could not be played. Reopen the monitor to retry, or remove it from the film.'),{exact: true})).toBeVisible();
+        await expect(retryPage.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
         assert.ok(denied >= 2,'The permanent denial reaches both decoder attempts.');
       } else {
         const recoveredVideo = retryPage.locator('video[data-playback-item-id="montage-clip-01"]');
         await expect.poll(() => recoveredVideo.evaluate(element => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);
         await expect(recoveredVideo).toHaveAttribute('src',originalProjection.result.items[0].mediaAccessUrl);
-        await expect(retryPage.getByLabel('Film monitor',{exact: true})).toBeVisible();
+        await expect(retryPage.getByLabel(copy('Film monitor'),{exact: true})).toBeVisible();
         assert.ok(denied >= 1,'A denied decoder load recovers with the same URL and real bytes.');
       }
       assert.equal(renewalReads,1,'One automatic renewal per explicit monitor opening.');
@@ -316,41 +325,46 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     }
     diagnosticPage = page;
     await runtime.database.pool.query('UPDATE media_assets SET deleted_at=NOW() WHERE public_id=$1',[STUDIO_CONNECTED_ASSET_IDS.b]);
+    const deletedMediaProjection=page.waitForResponse(response=>response.url().includes('/conversation-timeline?preview=1')&&response.request().method()==='GET',{timeout:30000});
     await page.reload({waitUntil: 'domcontentloaded'});
+    const deletedMediaResponse=await deletedMediaProjection;
+    const deletedMediaBody=await deletedMediaResponse.json();
+    assert.equal(deletedMediaResponse.status(),200,JSON.stringify(deletedMediaBody));
+    assert.equal(deletedMediaBody.result.items.length,2,'Deleting owned media retains both editable timeline items');
     await expect(page.locator('[data-timeline-item]')).toHaveCount(2);
-    await page.getByRole('button',{name: 'Select clip Pattern B',exact: true}).click();
-    await expect(page.getByText('Media unavailable. You can remove this clip.',{exact: true}).first()).toBeVisible();
-    await expect(page.getByLabel('Film monitor',{exact: true})).toHaveCount(0);
-    await page.getByRole('button',{name: 'Remove selected clip',exact: true}).click();
-    await expect(page.getByLabel('Film timeline',{exact: true})).toHaveAttribute('data-revision','3');
+    await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
+    await expect(page.getByText(copy('Media unavailable. You can remove this clip.'),{exact: true}).first()).toBeVisible();
+    await expect(page.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
+    await page.getByRole('button',{name: copy('Remove selected clip'),exact: true}).click();
+    await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','3');
     await expect(page.locator('[data-timeline-item]')).toHaveCount(1);
-    await page.getByRole('button',{name: 'Select clip Pattern A',exact: true}).click();
+    await page.getByRole('button',{name: copy('Select clip')+' Pattern A',exact: true}).click();
     await expect.poll(() => page.locator('video[data-playback-item-id="montage-clip-02"]').evaluate(element => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','0');
-    const clipBounds = await page.getByRole('button',{name: 'Select clip Pattern A',exact: true}).boundingBox();
+    const clipBounds = await page.getByRole('button',{name: copy('Select clip')+' Pattern A',exact: true}).boundingBox();
     assert.ok(clipBounds);
     const grip = {x: clipBounds.x+clipBounds.width/2,y: clipBounds.y+clipBounds.height/2};
     await page.mouse.move(grip.x,grip.y);
     await page.mouse.down();
     await page.mouse.move(grip.x+68,grip.y,{steps: 4});
     await page.mouse.up();
-    await expect(page.getByLabel('Film timeline',{exact: true})).toHaveAttribute('data-revision','4');
+    await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','4');
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','2');
     await page.reload({waitUntil: 'domcontentloaded'});
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','2');
     for (const width of [320,768]) {
       await page.setViewportSize({width,height: 844});
-      await expect(page.getByRole('textbox',{name: 'Message Studio',exact: true})).toBeVisible();
-      await expect(page.getByRole('button',{name:'Projects',exact:true})).toBeVisible();
-      await page.getByRole('button',{name:'Studio help',exact:true}).click();
-      await expect(page.getByRole('dialog',{name:'Make it yours.',exact:true})).toBeVisible();
+      await expect(page.getByRole('textbox',{name: (siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio')),exact: true})).toBeVisible();
+      await expect(page.getByRole('button',{name:(siteDefaultLocale==='zh'?'项目':'Projects'),exact:true})).toBeVisible();
+      await page.getByRole('button',{name:copy('Studio help'),exact:true}).click();
+      await expect(page.getByRole('dialog',{name:copy('Make it yours.'),exact:true})).toBeVisible();
       await proof('help-'+width);
       await page.keyboard.press('Escape');
       if(width===320){await setTheme(true);await checkLibrary();await setTheme(false);}
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),'The document stays within the viewport, including classic WebKit scrollbars.');
     }
     await page.setViewportSize({width:1440,height:900});
-    await page.getByRole('button',{name:'Projects',exact:true}).click();
+    await page.getByRole('button',{name:(siteDefaultLocale==='zh'?'项目':'Projects'),exact:true}).click();
     await expect(page.getByRole('dialog',{name:'Your projects',exact:true})).toBeVisible({timeout:30000});
     await page.getByRole('button',{name:'Rename Native Studio film',exact:true}).click();
     const mobileName=page.getByRole('textbox',{name:'Project name',exact:true});
@@ -360,12 +374,12 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await proof('projects-entry');
     await page.getByRole('button',{name:'New conversation',exact:true}).click();
     await expect(page).toHaveURL(/\/app\/studio\/conversation\/project_/,{timeout:30000});
-    await expect(page.getByRole('heading',{name:'What shall we create?'})).toBeVisible();
-    await expect(page.getByRole('button',{name:'Open timeline',exact:true})).toBeVisible();
+    await expect(page.getByRole('heading',{name:conversationCopy(siteDefaultLocale,'What shall we','Et si l’on')+' '+conversationCopy(siteDefaultLocale,'create?','créait ?')})).toBeVisible();
+    await expect(page.getByRole('button',{name:copy('Open timeline'),exact:true})).toBeVisible();
     await proof('empty-workspace');
     assert.deepEqual(errors,[]);
     assert.ok(browser.readPrivateRequests().some(request => request.status === 200 || request.status === 206));
     await owned.close();
-  } catch (error) {throw new Error(String(error)+'\n'+JSON.stringify(await diagnose())+'\n'+runtime.readLogs().slice(-4000),{cause: error});}
+  } catch (error) {throw new Error(String(error)+(error instanceof Error?'\n'+error.stack:'')+'\n'+JSON.stringify(await diagnose())+'\n'+runtime.readLogs().slice(-4000),{cause: error});}
   finally {await browser?.close();await runtime.close();}
 });

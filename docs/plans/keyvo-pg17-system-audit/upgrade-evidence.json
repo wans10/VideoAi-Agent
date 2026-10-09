@@ -1,0 +1,60 @@
+{
+  "scope": "Isolated tests only; mock auth/providers, real disposable PostgreSQL/Chromium/FFmpeg. Raw logs retained outside Git and on authorized test server.",
+  "logs": [
+    {
+      "name": "keyvo-upgrade-build.log",
+      "sha256": "6477c9e7b41fa5272294e281c8834ad93767d044df7d4baf364cbb2c2f5ca3a4",
+      "bytes": 64484
+    },
+    {
+      "name": "upgrade-montage.log",
+      "sha256": "67669e633294831d0be646d3f06cfe0db9e16e9a8601408df11ee1b1cc709b7c",
+      "bytes": 434
+    },
+    {
+      "name": "upgrade-task.log",
+      "sha256": "dac05a8b45ec8c40f14844bc565a94bb292f5c24e23166454b03f0ad1bf9913a",
+      "bytes": 401
+    },
+    {
+      "name": "upgrade-admin.log",
+      "sha256": "0f0d8c335cd7a6714815d9dd4f5ed4d623dda10924a383a2b6fb9efc10083623",
+      "bytes": 33855
+    },
+    {
+      "name": "upgrade-conversation-menu.log",
+      "sha256": "1be8322ffb60bcb11dea8f1ed283053491f0f65676f0a00fcc832beae49c0e45",
+      "bytes": 352
+    },
+    {
+      "name": "keyvo-upgrade-conversation.log",
+      "sha256": "ec66a92b51ee90f9bac5d031d94ddb82e925b744471f1a998240bbe5e7a4b5bd",
+      "bytes": 6367
+    },
+    {
+      "name": "keyvo-upgrade-conversation-projection.log",
+      "sha256": "9f7ef4e89f793361f97365d3d10103eb6d7ef2dec3f7625860d2def3a72468c1",
+      "bytes": 19054
+    },
+    {
+      "name": "keyvo-upgrade-menu-contracts.log",
+      "sha256": "4368108a6bb941db378ddba5e2a8cef093a1cc63d2d9328c05fba589f984fb4c",
+      "bytes": 2004
+    },
+    {
+      "name": "keyvo-upgrade-menu-lint-corrected.log",
+      "sha256": "c2fa6be4aa3bf17e6743d47c2aa184fad17cdb14ea91176d42240138a5958500",
+      "bytes": 3076
+    },
+    {
+      "name": "keyvo-upgrade-tsc-menu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "name": "upgrade-build-menu.log",
+      "sha256": "671aa9e786b4c573261bccf42332d9d1caf7df28094e4abf187c634326e7167f",
+      "bytes": 64671
+    }
+  ]
+}

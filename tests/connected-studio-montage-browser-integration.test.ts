@@ -1,3 +1,6 @@
+import {siteDefaultLocale} from '../frontend/i18n/locales';
+import {conversationCopy} from '../frontend/lib/studio/conversation-copy';
+const copy=(en:string,fr=en)=>conversationCopy(siteDefaultLocale,en,fr);
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -106,7 +109,7 @@ test('MCP montage opens the current conversation with private playback, durable 
       await owned.page.goto(`${runtime.browserOrigin}${oldUrl ? `/app/studio/workspace/${montage.projectId}` : montage.studioUrl}`, { waitUntil: 'domcontentloaded', timeout: 120_000 });
       await expect(owned.page).toHaveURL(`${runtime.browserOrigin}${montage.studioUrl}`);
       await expect(owned.page.locator('[data-timeline-item]')).toHaveCount(2, { timeout: 45_000 });
-      const cookies = owned.page.getByRole('button', { name: 'Reject all', exact: true });
+      const cookies = owned.page.getByRole('button', { name:siteDefaultLocale==='zh'?'全部拒绝':'Reject all', exact: true });
       if (await cookies.isVisible()) await cookies.click();
       return owned;
     };
@@ -126,20 +129,20 @@ test('MCP montage opens the current conversation with private playback, durable 
     };
     await expect(page.locator('[data-timeline-item="montage-clip-01"]')).toHaveAttribute('data-timeline-start', '0');
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start', '2');
-    await expect(page.getByLabel('Film monitor', { exact: true })).toHaveCount(0);
+    await expect(page.getByLabel(copy('Film monitor'), { exact: true })).toHaveCount(0);
     assert.equal(timelineWrites.length, 0, 'Hydration must not create an edit or a competing revision.');
-    await expect(page.getByRole('button', { name: 'Export film', exact: true })).toHaveCount(0);
-    await page.getByRole('button', { name: 'Select clip Pattern B', exact: true }).click();
+    await expect(page.getByRole('button', { name: copy('Export film'), exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: copy('Select clip')+' Pattern B', exact: true }).click();
     const firstVideo = page.locator('video[data-playback-item-id="montage-clip-01"]');
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).readyState), { timeout: 20_000 }).toBeGreaterThanOrEqual(2);
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).currentTime)).toBeCloseTo(1, 1);
-    const geometry = await firstVideo.evaluate((element) => {
-      const frameElement = element.closest('[aria-label="Film monitor"]') as HTMLElement;
+    const geometry = await firstVideo.evaluate((element,monitorLabel) => {
+      const frameElement = element.closest(`[aria-label="${monitorLabel}"]`) as HTMLElement;
       const frame = frameElement.getBoundingClientRect(), video = element.getBoundingClientRect();
       return { sourceAspectRatio: (element as HTMLVideoElement).videoWidth / (element as HTMLVideoElement).videoHeight,
         frameAspectRatio: frameElement.clientWidth / frameElement.clientHeight, widthRatio: video.width / frame.width,
         heightRatio: video.height / frame.height, fit: getComputedStyle(element).objectFit };
-    });
+    },copy('Film monitor'));
     assert.equal(geometry.fit, 'contain');
     assert.ok(Math.abs(geometry.sourceAspectRatio - 16 / 9) < 0.001);
     assert.ok(Math.abs(geometry.frameAspectRatio - 16 / 9) < 0.02);
@@ -157,7 +160,7 @@ test('MCP montage opens the current conversation with private playback, durable 
       };
       video.requestVideoFrameCallback(onFrame);
     })()`);
-    await page.getByRole('button', { name: 'Play film', exact: true }).click();
+    await page.getByRole('button', { name: copy('Play film'), exact: true }).click();
     await expect.poll(() => firstVideo.getAttribute('data-proof-frames').then(Number)).toBeGreaterThan(1);
     await expect.poll(() => firstVideo.getAttribute('data-proof-media-time').then(Number)).toBeGreaterThan(1.05);
     await expect(firstVideo).toHaveAttribute('data-proof-width', '320');
@@ -165,7 +168,7 @@ test('MCP montage opens the current conversation with private playback, durable 
     assert.equal(await firstVideo.evaluate((element) => (element as HTMLVideoElement).muted), false);
     assert.ok(await firstVideo.evaluate((element) => (element as HTMLVideoElement).volume) > 0);
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement & { webkitAudioDecodedByteCount?: number }).webkitAudioDecodedByteCount ?? 0)).toBeGreaterThan(0);
-    await page.getByRole('button', { name: 'Pause film', exact: true }).click();
+    await page.getByRole('button', { name: copy('Pause film'), exact: true }).click();
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).paused)).toBe(true);
     const privateRequestCount = browserFixture.readPrivateRequests().length;
     const sourceTimeBeforeExpiry = await firstVideo.evaluate((element) => (element as HTMLVideoElement).currentTime);
@@ -188,7 +191,7 @@ test('MCP montage opens the current conversation with private playback, durable 
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).currentTime)).toBeCloseTo(sourceTimeBeforeExpiry, 1);
     assert.equal(await firstVideo.evaluate((element) => (element as HTMLVideoElement).paused), true);
     assert.ok(browserFixture.readPrivateRequests().slice(privateRequestCount).some((entry) => entry.status === 206 && entry.range !== null));
-    await page.getByRole('button', { name: 'Select clip Pattern A', exact: true }).click();
+    await page.getByRole('button', { name: copy('Select clip')+' Pattern A', exact: true }).click();
     const secondVideo = page.locator('video[data-playback-item-id="montage-clip-02"]');
     await expect.poll(() => secondVideo.evaluate((element) => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);
     await expect.poll(() => secondVideo.evaluate((element) => (element as HTMLVideoElement).currentTime)).toBeCloseTo(0.5, 1);
@@ -198,54 +201,54 @@ test('MCP montage opens the current conversation with private playback, durable 
     const staleReadGate = new Promise<void>((resolve) => { releaseStaleReads = resolve; });
     await stale.page.route(`${timelineEndpoint}?preview=1`, async (route) => { await staleReadGate; await route.continue(); });
     try {
-      await page.getByRole('button', { name: 'Select clip Pattern B', exact: true }).click();
-      await page.getByLabel('Clip duration in seconds', { exact: true }).fill('1');
-      await page.getByLabel('Clip duration in seconds', { exact: true }).press('Tab');
-      await expect(page.getByLabel('Film timeline', { exact: true })).toHaveAttribute('data-revision', '1');
+      await page.getByRole('button', { name: copy('Select clip')+' Pattern B', exact: true }).click();
+      await page.getByLabel(copy('Clip duration in seconds'), { exact: true }).fill('1');
+      await page.getByLabel(copy('Clip duration in seconds'), { exact: true }).press('Tab');
+      await expect(page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '1');
       await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start', '1');
-      await stale.page.getByRole('button', { name: 'Select clip Pattern B', exact: true }).click();
+      await stale.page.getByRole('button', { name: copy('Select clip')+' Pattern B', exact: true }).click();
       const conflict = stale.page.waitForResponse((response) => response.url() === timelineEndpoint && response.request().method() === 'POST' && response.status() === 409);
       void conflict.catch(() => undefined);
-      await stale.page.getByLabel('Audio volume', { exact: true }).press('Home');
+      await stale.page.getByLabel(copy('Audio volume'), { exact: true }).press('Home');
       await conflict;
       releaseStaleReads();
-      await expect(stale.page.getByLabel('Film timeline', { exact: true }).getByRole('alert')).toContainText('The film changed.');
-      await expect(stale.page.getByLabel('Film timeline', { exact: true })).toHaveAttribute('data-revision', '1');
+      await expect(stale.page.getByLabel(copy('Film timeline'), { exact: true }).getByRole('alert')).toContainText(siteDefaultLocale==='zh'?'影片已变更': 'The film changed.');
+      await expect(stale.page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '1');
       // The failed command remains in the inspector until explicitly retried;
       // the canonical timeline has refreshed to the winning revision.
-      await expect(stale.page.getByLabel('Audio volume', { exact: true })).toHaveValue('0');
-      await stale.page.getByLabel('Audio volume', { exact: true }).press('Home');
-      await expect(stale.page.getByLabel('Film timeline', { exact: true })).toHaveAttribute('data-revision', '2');
-      await expect(stale.page.getByLabel('Audio volume', { exact: true })).toHaveValue('0');
+      await expect(stale.page.getByLabel(copy('Audio volume'), { exact: true })).toHaveValue('0');
+      await stale.page.getByLabel(copy('Audio volume'), { exact: true }).press('Home');
+      await expect(stale.page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '2');
+      await expect(stale.page.getByLabel(copy('Audio volume'), { exact: true })).toHaveValue('0');
     } finally { releaseStaleReads(); await stale.close(); }
 
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await expect(page.getByLabel('Film timeline', { exact: true })).toHaveAttribute('data-revision', '2');
-    await page.getByRole('button', { name: 'Select clip Pattern A', exact: true }).click();
+    await expect(page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '2');
+    await page.getByRole('button', { name: copy('Select clip')+' Pattern A', exact: true }).click();
     let refusedWrite = false;
     await page.route(timelineEndpoint, async (route) => {
       assert.equal(route.request().method(), 'POST');
       if (!refusedWrite) { refusedWrite = true; return route.fulfill({ status: 503, json: { ok: false, error: 'STUDIO_TIMELINE_EDIT_FAILED' } }); }
       return route.continue();
     });
-    await page.getByLabel('Clip duration in seconds', { exact: true }).fill('1');
-    await page.getByLabel('Clip duration in seconds', { exact: true }).press('Tab');
-    await expect(page.getByLabel('Film timeline', { exact: true }).getByRole('alert')).toHaveText('STUDIO_TIMELINE_EDIT_FAILED');
-    await expect(page.getByLabel('Clip duration in seconds', { exact: true })).toHaveValue('1');
+    await page.getByLabel(copy('Clip duration in seconds'), { exact: true }).fill('1');
+    await page.getByLabel(copy('Clip duration in seconds'), { exact: true }).press('Tab');
+    await expect(page.getByLabel(copy('Film timeline'), { exact: true }).getByRole('alert')).toHaveText('STUDIO_TIMELINE_EDIT_FAILED');
+    await expect(page.getByLabel(copy('Clip duration in seconds'), { exact: true })).toHaveValue('1');
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-duration', '2');
     assert.equal(Number((await runtime.database.pool.query('SELECT revision FROM studio_projects WHERE id=$1', [montage.projectId])).rows[0].revision), 2);
-    await page.getByLabel('Clip duration in seconds', { exact: true }).fill('1');
-    await page.getByLabel('Clip duration in seconds', { exact: true }).press('Tab');
-    await expect(page.getByLabel('Film timeline', { exact: true })).toHaveAttribute('data-revision', '3');
+    await page.getByLabel(copy('Clip duration in seconds'), { exact: true }).fill('1');
+    await page.getByLabel(copy('Clip duration in seconds'), { exact: true }).press('Tab');
+    await expect(page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '3');
     await page.unroute(timelineEndpoint);
-    const clipBounds = await page.getByRole('button', { name: 'Select clip Pattern A', exact: true }).boundingBox();
+    const clipBounds = await page.getByRole('button', { name: copy('Select clip')+' Pattern A', exact: true }).boundingBox();
     assert.ok(clipBounds);
     const grip = { x: clipBounds.x + clipBounds.width / 2, y: clipBounds.y + clipBounds.height / 2 };
     await page.mouse.move(grip.x, grip.y);
     await page.mouse.down();
     await page.mouse.move(grip.x + 68, grip.y, { steps: 4 });
     await page.mouse.up();
-    await expect(page.getByLabel('Film timeline', { exact: true })).toHaveAttribute('data-revision', '4');
+    await expect(page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '4');
     const replay = await mcp('create_studio_montage', STUDIO_CONNECTED_MONTAGE_INPUT);
     assert.notEqual(replay.result.isError, true);
     assert.equal(replay.result.structuredContent.projectId, montage.projectId);
@@ -276,8 +279,8 @@ test('MCP montage opens the current conversation with private playback, durable 
     assert.equal((await binSave.json()).revision, 5);
     const privateBeforeBinReload = browserFixture!.readPrivateRequests().length;
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await expect(page.getByLabel('Film timeline', { exact: true })).toHaveAttribute('data-revision', '5');
-    await page.getByRole('button', { name: 'Select clip Pattern B', exact: true }).click();
+    await expect(page.getByLabel(copy('Film timeline'), { exact: true })).toHaveAttribute('data-revision', '5');
+    await page.getByRole('button', { name: copy('Select clip')+' Pattern B', exact: true }).click();
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);
     const retainedSource = await firstVideo.evaluate((element) => {
       const url = new URL((element as HTMLVideoElement).currentSrc);
@@ -286,10 +289,10 @@ test('MCP montage opens the current conversation with private playback, durable 
     assert.ok(retainedSource.endsWith('/' + STUDIO_PRIVATE_MEDIA_KEYS.b), 'Playback must keep B after its bin entry is removed.');
     assert.ok(browserFixture!.readPrivateRequests().slice(privateBeforeBinReload).some((entry) => entry.url === retainedSource && entry.status === 206));
 
-    const renderCard = page.getByRole('article', { name: 'Film render', exact: true });
+    const renderCard = page.getByRole('article', { name: copy('Film render'), exact: true });
     await expect(renderCard).toHaveCount(1);
-    await expect(renderCard).toContainText('Your film is ready.');
-    await expect(renderCard.getByRole('link', { name: 'Open original', exact: true })).toHaveAttribute('href', exportMediaPath);
+    await expect(renderCard).toContainText(copy('Your film is ready.'));
+    await expect(renderCard.getByRole('link', { name: copy('Open original'), exact: true })).toHaveAttribute('href', exportMediaPath);
     const exportDeliveries: Array<{ status: number; range: string | null }> = [];
     // Playwright routes only the first URL in a redirect chain. Follow this real
     // owned 307 locally, validating its grant before serving the offline bucket
@@ -309,7 +312,7 @@ test('MCP montage opens the current conversation with private playback, durable 
       exportDeliveries.push({ status: media.status, range });
       await route.fulfill({ status: media.status, headers: media.headers, body: media.body });
     });
-    const renderedVideo = renderCard.getByLabel('Generated video', { exact: true });
+    const renderedVideo = renderCard.getByLabel(copy('Generated video'), { exact: true });
     await renderedVideo.evaluate((element) => (element as HTMLVideoElement).play());
     await expect.poll(() => renderedVideo.evaluate((element) => (element as HTMLVideoElement).videoWidth)).toBe(320);
     await expect.poll(() => renderedVideo.evaluate((element) => (element as HTMLVideoElement).currentTime)).toBeGreaterThan(0.05);
@@ -338,7 +341,7 @@ test('MCP montage opens the current conversation with private playback, durable 
 
     // The current mobile picker recovers one committed project after a lost acknowledgement.
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.getByRole('button', { name: 'Projects', exact: true }).click();
+    await page.getByRole('button', { name: (siteDefaultLocale==='zh'?'项目':'Projects'), exact: true }).click();
     const projects = page.getByRole('dialog', { name: 'Your projects', exact: true });
     await expect(projects.locator('[data-project-row]')).toHaveCount(1);
     await expect(projects.locator('[data-project-row]')).toHaveAttribute('href', montage.studioUrl);
@@ -358,11 +361,11 @@ test('MCP montage opens the current conversation with private playback, durable 
     });
     await projects.getByRole('button', { name: 'New conversation', exact: true }).click();
     await expect(projects.getByRole('alert')).toContainText('Try again to recover the same project.');
-    await projects.getByRole('button', { name: 'Try again', exact: true }).click();
+    await projects.getByRole('button', { name:'Try again', exact: true }).click();
     await expect(page).toHaveURL(`${runtime.browserOrigin}/app/studio/conversation/${newProjectId}`);
-    await expect(page.getByRole('heading', { name: 'What shall we create?', exact: true })).toBeVisible();
-    await expect(page.getByRole('textbox', { name: 'Message Studio', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Open timeline', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name:copy('What shall we')+' '+copy('create?'), exact: true })).toBeVisible();
+    await expect(page.getByRole('textbox', { name: (siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio')), exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: copy('Open timeline'), exact: true })).toBeVisible();
     assert.equal(createAttempts.length, 2);
     assert.deepEqual(createAttempts[0], createAttempts[1]);
     const receipt = await runtime.database.pool.query('SELECT project_id FROM studio_project_commands WHERE user_id=$1 AND idempotency_key=$2', [STUDIO_FIXTURE_OWNERS[0], createAttempts[0].idempotencyKey]);

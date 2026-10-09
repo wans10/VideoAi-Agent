@@ -1,6 +1,6 @@
 {
   "baselineRevision": "0ed7ec495",
-  "sourceRevision": "0ed7ec495f4a1133d24029010f49770758d73da8",
+  "sourceRevision": "f2f6d8ea10523c0d1e35c87d3859813cc4d11c67",
   "scope": "AST assertion-count and parse guard; does not prove semantic equivalence.",
   "rows": [
     {
@@ -31,7 +31,7 @@
     },
     {
       "path": "tests/connected-studio-conversation-browser-integration.test.ts",
-      "sha256": "17c7f947d11c49d519e7b0cf921bc9e1e58dc69a1b525dd9ac7169833ec376d8",
+      "sha256": "bb7b320bb86d0ce2e050701578b19e54ef132312ba1defd422abdcb92e26cb9f",
       "before": {
         "calls": {
           "ok": 12,
@@ -66,7 +66,7 @@
           "toPass": 1,
           "toBeVisible": 29,
           "toBeInViewport": 5,
-          "equal": 8,
+          "equal": 10,
           "toHaveAttribute": 21,
           "toHaveText": 1,
           "toBeEnabled": 1,
