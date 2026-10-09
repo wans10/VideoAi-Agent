@@ -421,15 +421,222 @@
   "full-fast": {
     "complete": false,
     "counts": {},
-    "failureCount": 0,
-    "failures": [],
-    "sha256": "dc6a7433cfc209c10b00f996365d13190917dd9c3cc06cbad46af598ca6b2999"
+    "failureCount": 1,
+    "failures": [
+      {
+        "name": "1856 - ships archival MCP captures with real hashes and dimensions while production release mode scans both READMEs",
+        "detail": "  ---\n  duration_ms: 2732.251393\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/github-assets.test.ts:10:8201'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly deep-equal:\n    + actual - expected\n    \n    + [\n    +   'maxvideoai-logo-mark: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-logo-mark: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-workspace-production: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-workspace-production: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-github-hero-v2: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-github-hero-v2: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-library-continuity-production: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-library-continuity-production: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-workspace-live: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-workspace-live: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-examples-gallery-live: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-examples-gallery-live: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-engine-scoreboard-live: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-engine-scoreboard-live: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-model-directory-live: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-model-directory-live: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-pricing-comparison-live: publishable_proof maxvideoaiRevision must be a real ancestor commit',\n    +   'maxvideoai-pricing-comparison-live: publishable_proof lastReviewedRevision must be a real ancestor commit',\n    +   'maxvideoai-tools-workflow-live: publishable_proof maxvideoaiRevision must be a real ancestor commit',"
+      }
+    ],
+    "sha256": "ca76026f67a0c9d1a7e742c99a2c82ba4254f6440173b01722cb7a38c87afe65"
   },
   "final-studio": {
+    "complete": true,
+    "counts": {
+      "tests": 4,
+      "pass": 3,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 1,
+    "failures": [
+      {
+        "name": "2 - real MCP persists caller-ordered videos, enforces owner and idempotency, and coexists with revisioned UI saves",
+        "detail": "  ---\n  duration_ms: 46751.206249\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:2:1435'\n  failureType: 'testCodeFailure'\n  error: 'Owned MCP fixture request timed out.'\n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    ClientRequest.<anonymous> (/opt/keyvo-audit/repo/tests/helpers/studio-mcp-http-fixture.ts:39:56)\n    Object.onceWrapper (node:events:633:28)\n    ClientRequest.emit (node:events:519:28)\n    Socket.emitRequestTimeout (node:_http_client:931:9)\n    Object.onceWrapper (node:events:633:28)\n    Socket.emit (node:events:531:35)\n    Socket._onTimeout (node:net:605:8)\n    listOnTimeout (node:internal/timers:585:17)\n    process.processTimers (node:internal/timers:521:7)\n  ...\n# Subtest: missing connected migration fails closed through real UI and MCP without applying runtime DDL\nok 3 - missing connected migration fails closed through real UI and MCP without applying runtime DDL\n  ---\n  duration_ms: 66639.324851\n  type: 'test'\n  ...\n# Subtest: real Studio routes authenticate cookie and bearer owners against a fresh PostgreSQL 17 cluster\nok 4 - real Studio routes authenticate cookie and bearer owners against a fresh PostgreSQL 17 cluster\n  ---\n  duration_ms: 101543.809874\n  type: 'test'"
+      }
+    ],
+    "sha256": "03cd73600d655d206ba3623c2b45aced7f2a159557505663fa526bc6d20e2a74"
+  },
+  "final-browser": {
+    "complete": true,
+    "counts": {
+      "tests": 13,
+      "pass": 8,
+      "fail": 5,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 5,
+    "failures": [
+      {
+        "name": "1 - analysis review works on desktop/mobile and only explicit confirmation queues an owned run",
+        "detail": "  ---\n  duration_ms: 140039.427473\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-analysis-browser-integration.test.ts:2:2082'\n  failureType: 'testCodeFailure'\n  error: |-\n    expect(locator).toBeVisible() failed\n    \n    Locator: getByRole('region', { name: 'Media analysis' })\n    Expected: visible\n    Timeout: 5000ms\n    Error: element(s) not found\n    \n    Call log:\n      - Expect \"to.be.visible\" with timeout 5000ms\n      - waiting for getByRole('region', { name: 'Media analysis' })\n    \n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    Proxy.<anonymous> (/opt/keyvo-audit/repo/node_modules/.pnpm/playwright@1.59.1/node_modules/playwright/lib/matchers/expect.js:213:24)\n    TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-analysis-browser-integration.test.ts:59:24)\n    async Test.run (node:internal/test_runner/test:1054:7)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)\n  ...\n# Subtest: native chat timeline, persistent app themes and mobile chat access (chromium)"
+      },
+      {
+        "name": "2 - native chat timeline, persistent app themes and mobile chat access (chromium)",
+        "detail": "  ---\n  duration_ms: 118342.922676\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-conversation-browser-integration.test.ts:2:2003'\n  failureType: 'testCodeFailure'\n  error: |-\n    Error: expect(locator).toBeVisible() failed\n    \n    Locator: getByRole('heading', { name: 'What shall we create?' })\n    Expected: visible\n    Timeout: 5000ms\n    Error: element(s) not found\n    \n    Call log:\n      - Expect \"to.be.visible\" with timeout 5000ms\n      - waiting for getByRole('heading', { name: 'What shall we create?' })\n    \n    {\"mediaFailures\":[],\"monitor\":0,\"alerts\":[\"\"],\"decoders\":[]}\n       \u25b2 Next.js 15.5.25\n       - Local:        http://127.0.0.1:42205\n       - Network:      http://127.0.0.1:42205\n       - Experiments (use with caution):\n         \u2713 webpackMemoryOptimizations\n    \n     \u2713 Starting...\n     \u2713 Ready in 4.5s\n     \u25cb Compiling /api/studio/projects ...\n     \u2713 Compiled /api/studio/projects in 4.5s (370 modules)\n     GET /api/studio/projects 401 in 502ms"
+      },
+      {
+        "name": "4 - native export quote stays accessible on mobile and recovers one identity after a lost acknowledgement (chromium)",
+        "detail": "  ---\n  duration_ms: 131487.0627\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-export-quote-browser-integration.test.ts:2:1747'\n  failureType: 'testCodeFailure'\n  error: |-\n    expect(locator).toBeVisible() failed\n    \n    Locator: getByLabel('Film export quote', { exact: true })\n    Expected: visible\n    Timeout: 45000ms\n    Error: element(s) not found\n    \n    Call log:\n      - Expect \"to.be.visible\" with timeout 45000ms\n      - waiting for getByLabel('Film export quote', { exact: true })\n    \n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    Proxy.<anonymous> (/opt/keyvo-audit/repo/node_modules/.pnpm/playwright@1.59.1/node_modules/playwright/lib/matchers/expect.js:213:24)\n    TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-export-quote-browser-integration.test.ts:57:24)\n    async Test.run (node:internal/test_runner/test:1054:7)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)\n  ...\n# Subtest: MCP montage opens the current conversation with private playback, durable edits, export recovery and account isolation"
+      },
+      {
+        "name": "5 - MCP montage opens the current conversation with private playback, durable edits, export recovery and account isolation",
+        "detail": "  ---\n  duration_ms: 186709.129745\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-browser-integration.test.ts:2:1619'\n  failureType: 'testCodeFailure'\n  error: |-\n    TimeoutError: locator.click: Timeout 30000ms exceeded.\n    Call log:\n      - waiting for getByRole('button', { name: 'Select clip Pattern B', exact: true })\n    \n    {\"alerts\":[\"\"],\"timelineWrites\":[],\"retiredWrites\":[],\"privateRequests\":[],\"videos\":[{\"ready\":0,\"time\":0}]}\n       \u25b2 Next.js 15.5.25\n       - Local:        http://127.0.0.1:33335\n       - Network:      http://127.0.0.1:33335\n       - Experiments (use with caution):\n         \u2713 webpackMemoryOptimizations\n    \n     \u2713 Starting...\n     \u2713 Ready in 3.6s\n     \u25cb Compiling /api/studio/projects ...\n     \u2713 Compiled /api/studio/projects in 4.5s (370 modules)\n     GET /api/studio/projects 401 in 445ms\n     \u25cb Compiling /middleware ...\n     \u2713 Compiled /middleware in 2s (222 modules)\n     \u25cb Compiling /api/mcp ...\n    <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (106kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)\n    <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (253kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)\n     \u2713 Compiled /api/mcp in 17s (2569 modules)\n     POST /api/mcp 200 in 18792ms"
+      },
+      {
+        "name": "6 - task ceilings, explicit continuation and saved progress work on desktop/mobile without hidden dispatch",
+        "detail": "  ---\n  duration_ms: 115911.410171\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-task-browser-integration.test.ts:2:1809'\n  failureType: 'testCodeFailure'\n  error: |-\n    apiRequestContext.get: Timeout 90000ms exceeded.\n    Call log:\n      - \u2192 GET http://localhost:33229/app/studio/conversation/project_c2ff3f08-142d-49e9-a40b-a0630af8f10c\n        - user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.7727.15 Safari/537.36\n        - accept: */*\n        - accept-encoding: gzip,deflate,br\n[disposable auth cookie redacted]\n    \n  code: 'ERR_TEST_FAILURE'\n  name: 'TimeoutError'\n  stack: |-\n    TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-task-browser-integration.test.ts:37:50)\n  ...\n# Subtest: site and phone renderer accept controlled diagrams/videos with source attribution\nok 7 - site and phone renderer accept controlled diagrams/videos with source attribution\n  ---\n  duration_ms: 42.778397\n  type: 'test'\n  ...\n# Subtest: invalid connections, changed localized media and arbitrary video URLs fail ingestion\nok 8 - invalid connections, changed localized media and arbitrary video URLs fail ingestion\n  ---\n  duration_ms: 23.803703"
+      }
+    ],
+    "sha256": "eec94a1a78cc4de2909c7bc186b960f5379989f824e7c4d4b8f80317260e0050"
+  },
+  "final-tariffs": {
     "complete": false,
     "counts": {},
     "failureCount": 0,
     "failures": [],
-    "sha256": "e6fd25636b92b28e07a92ae26b86e6c37569922fdef9f79247d8832bb0a2e861"
+    "sha256": "6b9ca2656548be0e44d488159b04da759f7f2c490b6c13004814c9209bc506b1"
+  },
+  "isolated-mcp-retry": {
+    "complete": true,
+    "counts": {
+      "tests": 2,
+      "pass": 0,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 2,
+    "failures": [
+      {
+        "name": "1 - real MCP persists caller-ordered videos, enforces owner and idempotency, and coexists with revisioned UI saves",
+        "detail": "  ---\n  duration_ms: 53574.769215\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:2:1435'\n  failureType: 'testCodeFailure'\n  error: 'Owned MCP fixture request timed out.'\n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    ClientRequest.<anonymous> (/opt/keyvo-audit/repo/tests/helpers/studio-mcp-http-fixture.ts:39:56)\n    Object.onceWrapper (node:events:633:28)\n    ClientRequest.emit (node:events:519:28)\n    Socket.emitRequestTimeout (node:_http_client:931:9)\n    Object.onceWrapper (node:events:633:28)\n    Socket.emit (node:events:531:35)\n    Socket._onTimeout (node:net:605:8)\n    listOnTimeout (node:internal/timers:585:17)\n    process.processTimers (node:internal/timers:521:7)\n  ...\n# Subtest: missing connected migration fails closed through real UI and MCP without applying runtime DDL"
+      },
+      {
+        "name": "2 - missing connected migration fails closed through real UI and MCP without applying runtime DDL",
+        "detail": "  ---\n  duration_ms: 67323.854523\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:4:16320'\n  failureType: 'testCodeFailure'\n  error: 'Owned MCP fixture request timed out.'\n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    ClientRequest.<anonymous> (/opt/keyvo-audit/repo/tests/helpers/studio-mcp-http-fixture.ts:39:56)\n    Object.onceWrapper (node:events:633:28)\n    ClientRequest.emit (node:events:519:28)\n    Socket.emitRequestTimeout (node:_http_client:931:9)\n    Object.onceWrapper (node:events:633:28)\n    Socket.emit (node:events:531:35)\n    Socket._onTimeout (node:net:605:8)\n    listOnTimeout (node:internal/timers:585:17)\n    process.processTimers (node:internal/timers:521:7)\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 0\n# fail 2\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 121885.344423"
+      }
+    ],
+    "sha256": "bdbd0933bee4ef844a249fa4be241454262f22c8d5fbe31f952aafdf60d9a079"
+  },
+  "analysis-locale-retry": {
+    "complete": true,
+    "counts": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 1,
+    "failures": [
+      {
+        "name": "1 - analysis review works on desktop/mobile and only explicit confirmation queues an owned run",
+        "detail": "  ---\n  duration_ms: 117605.967337\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-analysis-browser-integration.test.ts:2:2334'\n  failureType: 'testCodeFailure'\n  error: |-\n    apiRequestContext.get: Timeout 90000ms exceeded.\n    Call log:\n      - \u2192 GET http://localhost:34433/app/studio/conversation/project_e509bbcc-a1cc-4c2f-92f5-9e6dcd731e68\n        - user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.7727.15 Safari/537.36\n        - accept: */*\n        - accept-encoding: gzip,deflate,br\n[disposable auth cookie redacted]\n    \n  code: 'ERR_TEST_FAILURE'\n  name: 'TimeoutError'\n  stack: |-\n    TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-analysis-browser-integration.test.ts:50:50)\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 0\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 120736.417445"
+      }
+    ],
+    "sha256": "2b24f44a4d5a24dde70d97e30ce5dafd846221598934820e38d1cb6d01353d32"
+  },
+  "mcp-prepared-retry": {
+    "complete": true,
+    "counts": {
+      "tests": 2,
+      "pass": 0,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 2,
+    "failures": [
+      {
+        "name": "1 - real MCP persists caller-ordered videos, enforces owner and idempotency, and coexists with revisioned UI saves",
+        "detail": "  ---\n  duration_ms: 76992.217238\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:2:1435'\n  failureType: 'testCodeFailure'\n  error: |-\n    AssertionError [ERR_ASSERTION]: Cold route preparation must refuse unauthenticated execution.\n       \u25b2 Next.js 15.5.25\n       - Local:        http://127.0.0.1:38389\n       - Network:      http://127.0.0.1:38389\n       - Experiments (use with caution):\n         \u2713 webpackMemoryOptimizations\n    \n     \u2713 Starting...\n     \u2713 Ready in 5.6s\n     \u25cb Compiling /api/studio/projects ...\n     \u2713 Compiled /api/studio/projects in 15.3s (370 modules)\n     GET /api/studio/projects 401 in 1256ms\n     \u25cb Compiling /api/mcp ...\n     \u2713 Compiled /api/mcp in 45.4s (2569 modules)\n    \n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:238:24)\n    process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    async Test.run (node:internal/test_runner/test:1054:7)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)\n  ...\n# Subtest: missing connected migration fails closed through real UI and MCP without applying runtime DDL"
+      },
+      {
+        "name": "2 - missing connected migration fails closed through real UI and MCP without applying runtime DDL",
+        "detail": "  ---\n  duration_ms: 63781.04521\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:4:16414'\n  failureType: 'testCodeFailure'\n  error: 'Owned MCP fixture request timed out.'\n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    ClientRequest.<anonymous> (/opt/keyvo-audit/repo/tests/helpers/studio-mcp-http-fixture.ts:39:56)\n    Object.onceWrapper (node:events:633:28)\n    ClientRequest.emit (node:events:519:28)\n    Socket.emitRequestTimeout (node:_http_client:931:9)\n    Object.onceWrapper (node:events:633:28)\n    Socket.emit (node:events:531:35)\n    Socket._onTimeout (node:net:605:8)\n    listOnTimeout (node:internal/timers:585:17)\n    process.processTimers (node:internal/timers:521:7)\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 0\n# fail 2\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 142659.45043"
+      }
+    ],
+    "sha256": "8235773867a8923f0a6397e390fbfcc959c06bfe5ab29058b6eec912669f5cb6"
+  },
+  "mcp-host-prepared-retry": {
+    "complete": true,
+    "counts": {
+      "tests": 2,
+      "pass": 0,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 2,
+    "failures": [
+      {
+        "name": "1 - real MCP persists caller-ordered videos, enforces owner and idempotency, and coexists with revisioned UI saves",
+        "detail": "  ---\n  duration_ms: 64871.736759\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:2:1435'\n  failureType: 'testCodeFailure'\n  error: |-\n    AssertionError [ERR_ASSERTION]: Cold route preparation must refuse unauthenticated execution (404).\n       \u25b2 Next.js 15.5.25\n       - Local:        http://127.0.0.1:36263\n       - Network:      http://127.0.0.1:36263\n       - Experiments (use with caution):\n         \u2713 webpackMemoryOptimizations\n    \n     \u2713 Starting...\n     \u2713 Ready in 4.3s\n     \u25cb Compiling /api/studio/projects ...\n     \u2713 Compiled /api/studio/projects in 11.3s (370 modules)\n     GET /api/studio/projects 401 in 739ms\n     \u25cb Compiling /api/mcp ...\n     \u2713 Compiled /api/mcp in 39.6s (2569 modules)\n    \n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:238:24)\n    process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    async Test.run (node:internal/test_runner/test:1054:7)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)\n  ...\n# Subtest: missing connected migration fails closed through real UI and MCP without applying runtime DDL"
+      },
+      {
+        "name": "2 - missing connected migration fails closed through real UI and MCP without applying runtime DDL",
+        "detail": "  ---\n  duration_ms: 67219.672375\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:4:16414'\n  failureType: 'testCodeFailure'\n  error: 'Owned MCP fixture request timed out.'\n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    ClientRequest.<anonymous> (/opt/keyvo-audit/repo/tests/helpers/studio-mcp-http-fixture.ts:39:56)\n    Object.onceWrapper (node:events:633:28)\n    ClientRequest.emit (node:events:519:28)\n    Socket.emitRequestTimeout (node:_http_client:931:9)\n    Object.onceWrapper (node:events:633:28)\n    Socket.emit (node:events:531:35)\n    Socket._onTimeout (node:net:605:8)\n    listOnTimeout (node:internal/timers:585:17)\n    process.processTimers (node:internal/timers:521:7)\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 0\n# fail 2\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 133470.055616"
+      }
+    ],
+    "sha256": "29b3fbec036a48bd1588fb0706026bf64ac32df531a52fdd6f919496e45fe802"
+  },
+  "mcp-cold-separated": {
+    "complete": true,
+    "counts": {
+      "tests": 2,
+      "pass": 1,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 1,
+    "failures": [
+      {
+        "name": "2 - missing connected migration fails closed through real UI and MCP without applying runtime DDL",
+        "detail": "  ---\n  duration_ms: 69313.672703\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:4:16414'\n  failureType: 'testCodeFailure'\n  error: 'Owned MCP fixture request timed out.'\n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    ClientRequest.<anonymous> (/opt/keyvo-audit/repo/tests/helpers/studio-mcp-http-fixture.ts:39:56)\n    Object.onceWrapper (node:events:633:28)\n    ClientRequest.emit (node:events:519:28)\n    Socket.emitRequestTimeout (node:_http_client:931:9)\n    Object.onceWrapper (node:events:633:28)\n    Socket.emit (node:events:531:35)\n    Socket._onTimeout (node:net:605:8)\n    listOnTimeout (node:internal/timers:585:17)\n    process.processTimers (node:internal/timers:521:7)\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 1\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 231001.44062"
+      }
+    ],
+    "sha256": "657f29afacecd5aa80e98054a767ea205d5d539ae3036f87617d903ab4d17f4a"
+  },
+  "mcp-all-cold-separated": {
+    "complete": true,
+    "counts": {
+      "tests": 2,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 1,
+      "skipped": 0
+    },
+    "failureCount": 2,
+    "failures": [
+      {
+        "name": "1 - real MCP persists caller-ordered videos, enforces owner and idempotency, and coexists with revisioned UI saves",
+        "detail": "  ---\n  duration_ms: 180027.968774\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:2:1435'\n  failureType: 'testTimeoutFailure'\n  error: 'test timed out after 180000ms'\n  code: 'ERR_TEST_FAILURE'\n  ...\n# Subtest: missing connected migration fails closed through real UI and MCP without applying runtime DDL"
+      },
+      {
+        "name": "2 - missing connected migration fails closed through real UI and MCP without applying runtime DDL",
+        "detail": "  ---\n  duration_ms: 48619.217785\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:4:16414'\n  failureType: 'testCodeFailure'\n  error: |-\n    Isolated Next exited before readiness.    \u25b2 Next.js 15.5.25\n       - Local:        http://127.0.0.1:34625\n       - Network:      http://127.0.0.1:34625\n       - Experiments (use with caution):\n         \u2713 webpackMemoryOptimizations\n    \n     \u2713 Starting...\n     \u2713 Ready in 9.9s\n     \u25cb Compiling /api/studio/projects ...\n    \u001b[?25h\n    \n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    startStudioIntegrationRuntime (/opt/keyvo-audit/repo/tests/helpers/studio-integration-runtime.ts:169:15)\n    async TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-montage-http-integration.test.ts:242:19)\n    async Test.run (node:internal/test_runner/test:1054:7)\n    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 0\n# fail 1"
+      }
+    ],
+    "sha256": "93b8d5f2ee29075aba4f4dadd869ec6685c4743a577c03c27ed942d6153e7376"
+  },
+  "locale-fixtures-final": {
+    "complete": true,
+    "counts": {
+      "tests": 3,
+      "pass": 0,
+      "fail": 3,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "failureCount": 3,
+    "failures": [
+      {
+        "name": "1 - analysis review works on desktop/mobile and only explicit confirmation queues an owned run",
+        "detail": "  ---\n  duration_ms: 124974.403561\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-analysis-browser-integration.test.ts:2:2334'\n  failureType: 'testCodeFailure'\n  error: |-\n    apiRequestContext.get: Timeout 90000ms exceeded.\n    Call log:\n      - \u2192 GET http://localhost:42569/app/studio/conversation/project_9907d33e-1af6-4e29-96e0-883d84207f60\n        - user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.7727.15 Safari/537.36\n        - accept: */*\n        - accept-encoding: gzip,deflate,br\n[disposable auth cookie redacted]\n    \n  code: 'ERR_TEST_FAILURE'\n  name: 'TimeoutError'\n  stack: |-\n    TestContext.<anonymous> (/opt/keyvo-audit/repo/tests/connected-studio-analysis-browser-integration.test.ts:50:50)\n  ...\n# Subtest: native chat timeline, persistent app themes and mobile chat access (chromium)"
+      },
+      {
+        "name": "2 - native chat timeline, persistent app themes and mobile chat access (chromium)",
+        "detail": "  ---\n  duration_ms: 69102.276601\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-conversation-browser-integration.test.ts:2:2139'\n  failureType: 'testCodeFailure'\n  error: |-\n    Error: Owned MCP fixture request timed out.\n    {}\n       \u25b2 Next.js 15.5.25\n       - Local:        http://127.0.0.1:37883\n       - Network:      http://127.0.0.1:37883\n       - Experiments (use with caution):\n         \u2713 webpackMemoryOptimizations\n    \n     \u2713 Starting...\n     \u2713 Ready in 6.9s\n     \u25cb Compiling /api/studio/projects ...\n     \u2713 Compiled /api/studio/projects in 16.1s (370 modules)\n     GET /api/studio/projects 200 in 1166ms\n     GET /api/studio/projects 200 in 769ms\n     GET /api/studio/projects 401 in 638ms\n     \u25cb Compiling /middleware ...\n     \u2713 Compiled /middleware in 5.1s (222 modules)\n     \u25cb Compiling /api/mcp ...\n    <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (106kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)\n    <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (253kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)\n    \n  code: 'ERR_TEST_FAILURE'\n  stack: |-"
+      },
+      {
+        "name": "3 - native export quote stays accessible on mobile and recovers one identity after a lost acknowledgement (chromium)",
+        "detail": "  ---\n  duration_ms: 64089.610718\n  type: 'test'\n  location: '/opt/keyvo-audit/repo/tests/connected-studio-export-quote-browser-integration.test.ts:2:2007'\n  failureType: 'testCodeFailure'\n  error: 'Owned MCP fixture request timed out.'\n  code: 'ERR_TEST_FAILURE'\n  stack: |-\n    ClientRequest.<anonymous> (/opt/keyvo-audit/repo/tests/helpers/studio-mcp-http-fixture.ts:39:56)\n    Object.onceWrapper (node:events:633:28)\n    ClientRequest.emit (node:events:519:28)\n    Socket.emitRequestTimeout (node:_http_client:931:9)\n    Object.onceWrapper (node:events:633:28)\n    Socket.emit (node:events:531:35)\n    Socket._onTimeout (node:net:605:8)\n    listOnTimeout (node:internal/timers:585:17)\n    process.processTimers (node:internal/timers:521:7)\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 0\n# fail 3\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 270762.899369"
+      }
+    ],
+    "sha256": "87d184d1fc3f371b463ad4f81126a04ee161e32583247801482c740e87b2dd64"
   }
 }
