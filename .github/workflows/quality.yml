@@ -44,7 +44,8 @@ jobs:
   fast:
     name: Fast checks
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # The complete fast suite exceeded 20 minutes on the hosted runner.
+    timeout-minutes: 40
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -73,7 +74,7 @@ jobs:
     needs: plan
     if: ${{ needs.plan.outputs.integration == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -92,7 +93,7 @@ jobs:
     if: ${{ needs.plan.outputs.tariffs == 'true' }}
     runs-on: ubuntu-latest
     # Preserve all 26,818 canonical quotes and atomic failure/recovery checks.
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -108,7 +109,8 @@ jobs:
     needs: plan
     if: ${{ needs.plan.outputs.browser == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Preserve both connected Studio and the full isolated admin suite.
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v5

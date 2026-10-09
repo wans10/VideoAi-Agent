@@ -49,3 +49,15 @@
 一次完整后台运行共 27 项：25 通过、1 跳过、1 失败。失败是 Insights 截图与 hydration 竞争：Playwright 默认截图注入 `caret-color: transparent`，React 报告该属性与服务器 DOM 不一致。候选截图设为 `caret: initial`，保留全部 console/page error 断言并单独复验。用户详情跳过因本地认证夹具未提供 service-role 管理接口数据；不计入通过。图库跨宽度、排序、定价预览、过期缓存、计费产品和会员历史均已通过。
 
 Insights 修复后独立复验 1/1 通过；保留前轮全量 25 pass / 1 fail / 1 skip，不宣称同次全绿。最终聚合 26 个不同后台测试通过，1 个用户详情未覆盖。最后提交前 20 项 focused 检查、TypeScript、exposure、actionlint 和 diff 检查通过。
+
+## 638ee295 部署后及 CI 跟进
+
+用户报告 13.212.96.236 更新为 638ee295c61d882fa1a1ebb784fb122e26373d18；容器身份尚未独立核验。登录、账单、受保护数据库健康均 HTTP 200。真实登录浏览器下载原图 879131 字节、刷新和预览成功，errors=[]；Vercel 统计脚本 404 已消失。
+
+该版本 Docker build 成功；Quality CI 最终失败。CNY、数据库/媒体及全量财务均通过；浏览器 11 pass / 2 fail，后台步骤未执行；fast 在约 20 分钟取消，日志已含素材来源祖先失败。
+
+两个失败分别是刷新时抓到旧文档响应、Chromium 回收响应体，以及单次过期注入允许解码器重试旧签名成功。测试修复读取新导航路由的真实响应，并持续拒绝确切过期 URL，继续验证新签名、解码帧、编辑持久化、导出恢复与账户隔离。未修改业务实现或放宽素材断言。fast/browser/integration/tariffs 时限分别调整为 40/30/35/90 分钟，保留完整覆盖。
+
+使用候选已提交源码归档（不含环境及依赖）建立测试服务器合成 Git 快照，应用源码仍为 638ee295。修改前独立复现 1 pass / 1 fail（首项时间线在 5 秒内未挂载，第二项通过）；修改后同次完整 2 pass / 0 fail / 0 skip。相关逻辑/CI policy 12 项、浏览器网络隔离夹具 1 项通过；TypeScript、actionlint、exposure、diff 通过。根目录测试 ESLint 无配置，未将其算为 lint 通过。
+
+这只建立两个已失败场景的修复证据，不代表完整新 CI 或全量后台通过；素材来源及既有真实支付/失败退款覆盖缺口继续保留。详见 638ee-ci-followup.json。本轮没有新增付费请求。

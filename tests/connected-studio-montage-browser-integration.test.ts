@@ -76,11 +76,9 @@ test('MCP montage opens the current conversation with private playback, durable 
     const exportLocation = exportGrant.headers.get('location')!;
     const exportValidation = await validateStudioPrivateMediaRequest({ url: exportLocation, method: 'GET' });
     assert.equal(exportValidation.ok, true, JSON.stringify({ validation: exportValidation, queryNames: [...new URL(exportLocation).searchParams.keys()] }));
-    let expireNextPrivateRequest = false;
-    browserFixture = await startStudioConnectedBrowserFixture({ runtime, signatureClock: () => {
-      if (expireNextPrivateRequest) { expireNextPrivateRequest = false; return new Date(Date.now() + 3_600_000); }
-      return new Date();
-    } });
+    let expiredPrivateUrl: string | null = null;
+    let expiredRequestCount = 0;
+    browserFixture = await startStudioConnectedBrowserFixture({ runtime });
     const allErrors: string[] = [], retiredWrites: string[] = [];
     const timelineWrites: Array<{ expectedRevision: number; edit: { kind: string } }> = [];
     const prepareFresh = async (browserSession = session, viewport = { width: 1440, height: 900 }) => {
@@ -173,6 +171,17 @@ test('MCP montage opens the current conversation with private playback, durable 
     const privateRequestCount = browserFixture.readPrivateRequests().length;
     const sourceTimeBeforeExpiry = await firstVideo.evaluate((element) => (element as HTMLVideoElement).currentTime);
     const oldSignedUrl = await firstVideo.evaluate((element) => (element as HTMLVideoElement).currentSrc);
+    // An expired signature stays expired on every decoder Range retry. A
+    // one-request clock jump lets Chromium retry the old URL successfully,
+    // bypassing the application's renewal path this scenario must exercise.
+    await page.route(oldSignedUrl,async route=>{
+      if (expiredPrivateUrl !== route.request().url()) return route.fallback();
+      const request=route.request();
+      const response=await serveStudioPrivateMediaRequest({url: request.url(),method: request.method(),range: request.headers()['range'] ?? null,now: new Date(Date.now()+3_600_000)});
+      assert.equal(response.status,403);
+      expiredRequestCount++;
+      await route.fulfill({status: response.status,headers: response.headers,body: response.body});
+    });
     const originalResource = new URL(oldSignedUrl), signedTime = originalResource.searchParams.get('X-Amz-Date')!;
     const signedAt = Date.UTC(Number(signedTime.slice(0, 4)), Number(signedTime.slice(4, 6)) - 1, Number(signedTime.slice(6, 8)), Number(signedTime.slice(9, 11)), Number(signedTime.slice(11, 13)), Number(signedTime.slice(13, 15)));
     await expect.poll(() => Date.now() - signedAt).toBeGreaterThan(1100);
@@ -183,9 +192,9 @@ test('MCP montage opens the current conversation with private playback, durable 
     });
     const renewalProof = Promise.all([renewed, newPrivateAccess]);
     void renewalProof.catch(() => undefined);
-    expireNextPrivateRequest = true;
+    expiredPrivateUrl = oldSignedUrl;
     await firstVideo.evaluate((element) => (element as HTMLVideoElement).load());
-    await expect.poll(() => browserFixture!.readPrivateRequests().slice(privateRequestCount).some((entry) => entry.status === 403)).toBe(true);
+    await expect.poll(() => expiredRequestCount).toBeGreaterThan(0);
     await renewalProof;
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).currentTime)).toBeCloseTo(sourceTimeBeforeExpiry, 1);

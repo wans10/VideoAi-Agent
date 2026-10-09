@@ -325,13 +325,26 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     }
     diagnosticPage = page;
     await runtime.database.pool.query('UPDATE media_assets SET deleted_at=NOW() WHERE public_id=$1',[STUDIO_CONNECTED_ASSET_IDS.b]);
-    const deletedMediaProjection=page.waitForResponse(response=>response.url().includes('/conversation-timeline?preview=1')&&response.request().method()==='GET',{timeout:30000});
-    await page.reload({waitUntil: 'domcontentloaded'});
+    // Read through the route before delivering it to the browser. A response
+    // from the outgoing document can otherwise win waitForResponse on reload,
+    // and Chromium discards that document's response body during navigation.
+    const deletedEndpoint=runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/conversation-timeline?preview=1';
+    await page.goto('about:blank');
+    let resolveDeletedProjection!: (projection: {status: number;body: any}) => void;
+    const deletedMediaProjection=new Promise<{status: number;body: any}>(resolve=>{resolveDeletedProjection=resolve;});
+    await page.route(deletedEndpoint,async route=>{
+      const response=await route.fetch();
+      const body=await response.json();
+      await route.fulfill({response});
+      resolveDeletedProjection({status: response.status(),body});
+    });
+    await page.goto(url,{waitUntil: 'domcontentloaded'});
     const deletedMediaResponse=await deletedMediaProjection;
-    const deletedMediaBody=await deletedMediaResponse.json();
-    assert.equal(deletedMediaResponse.status(),200,JSON.stringify(deletedMediaBody));
+    const deletedMediaBody=deletedMediaResponse.body;
+    assert.equal(deletedMediaResponse.status,200,JSON.stringify(deletedMediaBody));
     assert.equal(deletedMediaBody.result.items.length,2,'Deleting owned media retains both editable timeline items');
-    await expect(page.locator('[data-timeline-item]')).toHaveCount(2);
+    await expect(page.locator('[data-timeline-item]')).toHaveCount(2,{timeout: 30000});
+    await page.unroute(deletedEndpoint);
     await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
     await expect(page.getByText(copy('Media unavailable. You can remove this clip.'),{exact: true}).first()).toBeVisible();
     await expect(page.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
