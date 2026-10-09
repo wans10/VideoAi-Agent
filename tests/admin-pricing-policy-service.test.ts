@@ -1,3 +1,4 @@
+import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '../frontend/src/lib/customer-currency';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -767,7 +768,7 @@ test('inventory supplier facts never reprice an effective database customer quot
   assert.ok(prior?.customerQuote);
   assert.equal(current.customerQuote.source, 'database');
   assert.equal(current.customerQuote.ruleId, override.id);
-  assert.equal(current.customerQuote.totalCents, prior.customerQuote.totalCents + 137);
+  assert.equal(current.customerQuote.totalCents, prior.customerQuote.totalCents + 137*(CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1));
   assert.equal(current.supplierList.amountUsd, prior.supplierList.amountUsd);
 });
 

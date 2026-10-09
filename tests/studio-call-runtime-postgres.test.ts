@@ -1,3 +1,4 @@
+import {CUSTOMER_CURRENCY} from '../frontend/src/lib/customer-currency';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {randomUUID,createHash} from 'node:crypto';
@@ -204,7 +205,7 @@ test('real conversation Audio preparation covers seven packs, exact clone/source
       calls++;return {id:'audio-pack-response-'+item.mode,model:'gpt-6.1-sol',status:'completed',service_tier:'default',usage:undefined,output_text:'',output:[{type:'function_call',name:'audio_prepare',call_id:'audio-pack-call-'+item.mode,arguments:JSON.stringify(args)}]};
     },requestId);
     assert.equal(result.error,undefined);assert.equal(result.result?.state,'ready');assert.equal(result.quotes.length,1);assert.equal(calls,1);
-    const quote=result.quotes[0];assert.equal(quote.state,'prepared');assert.equal(quote.request_json.surface,'audio');assert.equal(quote.request_json.mode,item.mode);assert.equal(quote.currency,'USD');assert.ok(quote.price_cents>0);
+    const quote=result.quotes[0];assert.equal(quote.state,'prepared');assert.equal(quote.request_json.surface,'audio');assert.equal(quote.request_json.mode,item.mode);assert.equal(quote.currency,CUSTOMER_CURRENCY);assert.ok(quote.price_cents>0);
     assert.deepEqual(quote.request_json.references,references);assert.deepEqual(result.counts,{jobs:0,charges:0});assert.equal(result.parity.length,0,'The public OAuth Audio gate stays closed.');
     assert.deepEqual(result.fixtureReferences.map(ref=>ref.key),item.keys);
     const replay=await runtime.submit(id,'Prepare this Audio pack using my exact references.',item.keys,async()=>{throw new Error('Replay must not buy another Response.');},requestId);

@@ -1,3 +1,5 @@
+import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '../frontend/src/lib/customer-currency';
+const customerRate=CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1;
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { selectAffectedPricingScenarios, quoteCanonicalAdminScenarios } from '../frontend/server/pricing-admin/canonical-scenarios';
@@ -33,7 +35,7 @@ test('finishing previews cover each released tool and priced options with the ac
     assert.ok(scenario, mode);
     const outcome = outcomes.find(row => row.scenarioId === scenario.id)!;
     assert.equal(outcome.status, 'quoted');
-    if (outcome.status === 'quoted') assert.equal(outcome.customerTotalCents, cents, `${mode}:${seconds}`);
+    if (outcome.status === 'quoted') assert.equal(outcome.customerTotalCents, cents*customerRate, `${mode}:${seconds}`);
   }
   assert.ok(scenarios.some(row => row.input.outputResolution === '4k'));
   assert.ok(scenarios.some(row => row.input.targetFps === 120));
@@ -41,7 +43,7 @@ test('finishing previews cover each released tool and priced options with the ac
   const snapshot = await computeCanonicalFinishingBillingSnapshot({ toolId: 'denoise', quality: 'standard',
     vendorBudgetUsd: 0.1, durationSec: 10, profileId: 'topaz-nyx-fast', pricingSource: 'fixture' },
     { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded' as const, rules: toolRules }) } });
-  assert.equal(snapshot.totalCents, 25);
+  assert.equal(snapshot.totalCents, 25*customerRate);
   assert.equal(snapshot.meta?.ruleId, 'toolbox-finishing');
 });
 

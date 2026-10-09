@@ -1,3 +1,5 @@
+import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '../frontend/src/lib/customer-currency';
+const customerRate=CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1;
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { quotePublicAudioPricingSnapshot } from '../frontend/src/lib/pricing-public-quote';
@@ -28,10 +30,10 @@ const cases: Array<[string, AudioPricingInput, number]> = [
 for (const [label, input, expected] of cases) test(`Audio canonical price: ${label}`, async () => {
   const browser = quotePublicAudioPricingSnapshot(input);
   const server = await computeCanonicalAudioBillingSnapshot(input, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [], routingRules: [] }) } });
-  assert.equal(browser.totalCents, expected);
-  assert.equal(server.totalCents, expected);
+  assert.equal(browser.totalCents, expected*customerRate);
+  assert.equal(server.totalCents, expected*customerRate);
   assert.equal(server.margin.percentApplied, 2);
-  assert.equal(server.vendorShareCents! + server.platformFeeCents!, expected);
+  assert.equal(server.vendorShareCents! + server.platformFeeCents!, expected*customerRate);
   assert.equal(server.margin.amountCents, server.platformFeeCents);
 });
 
@@ -48,7 +50,7 @@ test('rounding policy validates positive integer increments and preserves old pr
 test('explicit database Audio overrides retain precedence over versioned defaults', async () => {
   const rule = getVersionedPricingPolicy().rules.find(rule => rule.engineId === 'audio-generation')!;
   const snapshot = await computeCanonicalAudioBillingSnapshot({ pack: 'song', durationSec: 3 }, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [{ ...rule, id: 'db-audio-rule', marginPercent: 1 }], routingRules: [] }) } });
-  assert.equal(snapshot.totalCents, 30);
+  assert.equal(snapshot.totalCents, 30*customerRate);
 });
 
 test('Audio override without a profile has the same live admin and billed total while historical interpretation stays fixed', async () => {
@@ -60,7 +62,7 @@ test('Audio override without a profile has the same live admin and billed total 
   assert.equal(admin.status, 'quoted');
   assert.equal(historical.status, 'quoted');
   if (admin.status !== 'quoted' || historical.status !== 'quoted') throw new Error('Expected canonical quotes');
-  assert.equal(admin.customerTotalCents, 15);
+  assert.equal(admin.customerTotalCents, 15*customerRate);
   assert.equal(admin.customerTotalCents, billed.totalCents);
   assert.equal(admin.policyProvenance.compatibilityProfile, 'audio-tripled-rounded');
   assert.equal(historical.customerTotalCents, 12);

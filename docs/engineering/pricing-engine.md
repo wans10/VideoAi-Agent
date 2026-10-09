@@ -891,3 +891,15 @@ require the current authoritative estimate. Accepted quote recovery preserves it
 stored funding; old prepared quotes must be prepared again. Migration 60 expands
 the database CHECK for historical/current tuples and migration 31 preserves that
 upgrade on replay. Do not substitute padded retail cents for this supplier budget.
+
+## Keyvo legacy assistance wallet currency
+
+Legacy Studio assistance budgets, cumulative tariff quotes, `reserved_cents` and
+`charged_cents` retain the immutable USD tariff units. New wallet receipts use the
+configured customer currency, with a frozen source amount and conversion rate in
+the reservation snapshot. Settlement and support waiver refunds validate that
+original reservation and use its currency and rate, including old USD receipts
+after switching the customer build to CNY. Supplier usage remains in nano USD.
+Support previews expose both tariff-unit refunds and actual wallet amount/currency.
+`keyvo-cny-assistance-wallet-postgres.test.ts` checks real reservations, settlement,
+waiver replay and incompatible wallet balances in the required CNY CI job.

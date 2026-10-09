@@ -167,7 +167,7 @@ jobs:
       - name: Check CNY billing, payment and image recovery
         env:
           NEXT_PUBLIC_CUSTOMER_CURRENCY: CNY
-        run: pnpm exec tsx --tsconfig frontend/tsconfig.json --test tests/billing-currency-policy.test.ts tests/llmhub-pay-protocol.test.ts tests/image-generation-client.test.ts tests/keyvo-merge-billing.test.ts tests/keyvo-cny-credit-packs-postgres.test.ts tests/llmhub-pay-checkout-recovery.test.ts
+        run: pnpm exec tsx --tsconfig frontend/tsconfig.json --test tests/billing-currency-policy.test.ts tests/llmhub-pay-protocol.test.ts tests/image-generation-client.test.ts tests/keyvo-merge-billing.test.ts tests/keyvo-cny-credit-packs-postgres.test.ts tests/keyvo-cny-assistance-wallet-postgres.test.ts tests/admin-billing-products-pricing.test.ts tests/admin-product-policy-scenarios.test.ts tests/audio-pricing-policy.test.ts tests/studio-call-runtime-postgres.test.ts tests/studio-preparation-correction-postgres.test.ts tests/llmhub-pay-checkout-recovery.test.ts
 
   quality:
     # Preserve the exact branch-protection context. Never skip this job or the

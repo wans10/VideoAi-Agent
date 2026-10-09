@@ -1,3 +1,5 @@
+import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '../frontend/src/lib/customer-currency';
+const customerRate=CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1;
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -178,7 +180,7 @@ test('the fixed-product projector remains the canonical production projection', 
     meta: { billingProductKey: 'character-draft' },
   });
 
-  assert.equal(snapshot.totalCents, 8);
+  assert.equal(snapshot.totalCents, 8*customerRate);
   assert.equal(snapshot.meta?.pricingPolicy && typeof snapshot.meta.pricingPolicy === 'object', true);
 });
 
@@ -197,8 +199,8 @@ test('preview projects price, label and active changes without client-authored t
   assert.equal(preview.targetId, 'character-draft');
   assert.equal(preview.rows.length, 1);
   assert.equal(preview.rows[0]?.surface, 'character');
-  assert.equal(preview.rows[0]?.currentTotalCents, 8);
-  assert.equal(preview.rows[0]?.proposedTotalCents, 9);
+  assert.equal(preview.rows[0]?.currentTotalCents, 8*customerRate);
+  assert.equal(preview.rows[0]?.proposedTotalCents, 9*customerRate);
   assert.equal(preview.rows[0]?.deltaPercent, 1 / 8);
   assert.match(preview.warnings.join('\n'), /deactivated/i);
   assert.deepEqual(preview.proposedState, {
@@ -228,14 +230,14 @@ test('proposals reject unreferenced product IDs, unsupported currencies and inva
 });
 
 test('unit price accepts both PostgreSQL INTEGER storage boundaries', async () => {
-  for (const unitPriceCents of [0, 2_147_483_647]) {
+  for (const unitPriceCents of [0, Math.floor(2_147_483_647/customerRate)]) {
     const harness = buildHarness();
     const preview = await previewBillingProductChange(
       { productKey: 'character-draft', unitPriceCents },
       harness.dependencies
     );
     assert.equal((preview.proposedState as { unitPriceCents: number }).unitPriceCents, unitPriceCents);
-    assert.equal(preview.rows[0]?.proposedTotalCents, unitPriceCents);
+    assert.equal(preview.rows[0]?.proposedTotalCents, unitPriceCents*customerRate);
   }
 });
 
@@ -417,4 +419,10 @@ test('executor mutation owns SQL persistence but never invalidates its caller ca
 
   assert.equal(updated.unitPriceCents, 9);
   assert.equal(calls.length, 1);
+});
+
+test('customer conversion rejects fixed-product totals outside PostgreSQL storage before confirmation',async()=>{
+  const harness=buildHarness();
+  if(customerRate>1)await assert.rejects(previewBillingProductChange({productKey:'character-draft',unitPriceCents:Math.floor(2_147_483_647/customerRate)+1},harness.dependencies),/PostgreSQL INTEGER/);
+  assert.throws(()=>buildCanonicalFixedProductSnapshot({engineId:'character-draft',currency:'USD',amountCents:2_147_483_648,quantity:1,unit:'image',unitRate:21474836.48,memberTier:'member',discountPercent:0,meta:{}}),/PostgreSQL INTEGER/);
 });

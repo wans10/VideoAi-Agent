@@ -290,7 +290,11 @@ export function buildCanonicalFixedProductSnapshot(input: {
     meta: input.meta,
   });
   snapshot.margin = { amountCents: quote.marginCents, flatCents: quote.breakdown.marginFlatCents };
-  return customerSnapshot(snapshot);
+  const customer = customerSnapshot(snapshot);
+  if (!Number.isSafeInteger(customer.totalCents) || customer.totalCents < 0 || customer.totalCents > 2_147_483_647) {
+    throw new Error('Customer fixed-product total exceeds PostgreSQL INTEGER storage bounds');
+  }
+  return customer;
 }
 
 export function repriceCanonicalFixedProductSnapshot(

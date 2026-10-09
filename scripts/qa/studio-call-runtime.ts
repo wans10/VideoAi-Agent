@@ -1,3 +1,4 @@
+import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '../../frontend/src/lib/customer-currency';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {randomUUID,createHash} from 'node:crypto';
@@ -96,7 +97,7 @@ export async function createStudioCallRuntime(catalog:AgentPublicGenerationEngin
         await pg.pool.query(`INSERT INTO media_assets(id,public_id,user_id,kind,url,mime_type,size_bytes,width,height,status,metadata)
           VALUES ($1,$1,$2,$3,$4,$5,$6,$7,$8,'ready',$9::jsonb)`,[referenceId(id,fixture.key),userId,fixture.kind,url,fixture.mime,fixture.bytes.length,fixture.width,fixture.height,JSON.stringify(metadata)]);
       }
-      await pg.pool.query("INSERT INTO app_receipts(user_id,type,amount_cents,currency,description) VALUES ($1,'topup',10000,'USD','Isolated QA funding fixture')",[userId]);
+      await pg.pool.query("INSERT INTO app_receipts(user_id,type,amount_cents,currency,description) VALUES ($1,'topup',$2,$3,'Isolated QA funding fixture')",[userId,10000*(CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1),CUSTOMER_CURRENCY]);
       ensuredCases.add(id);
     }
     const availability=()=>({executable:true as const,reason:'available' as const});

@@ -1,10 +1,11 @@
+import {USD_TO_CNY_CUSTOMER_RATE} from '@/lib/customer-currency';
 import {reconcileStudioTaskResolution} from './tasks/resolution';
 import {createHash,randomUUID} from 'node:crypto';
 import {z} from 'zod';
 import {query,withDbTransaction,type QueryExecutor} from '@/lib/db';
 import {lockUserWalletInExecutor} from '@/lib/wallet';
 import {stableJson} from '@/server/agent-api/generation-normalization';
-import {lockAccount,settleStudioAssistanceCall,type AssistanceCall,type StudioUsageEvidence} from './assistance-ledger';
+import {lockAccount,settleStudioAssistanceCall,studioAssistanceWalletReceipt,type AssistanceCall,type StudioUsageEvidence} from './assistance-ledger';
 import {studioAssistancePolicy} from './assistance-policy';
 import {readStudioUsage,STUDIO_PROVIDER_RATE_VERSION} from './assistance-provider-facts';
 import {studioAssistanceTariff,STUDIO_ASSISTANCE_CREDIT_TARIFF} from '@/lib/studio/assistance-contract';
@@ -60,13 +61,13 @@ function validate(state:Snapshot,action:StudioAssistanceResolutionAction){
   if(state.creditAllocations.some(row=>row.user_id!==call.user_id||row.charged_credits!==null||row.released_at!==null))throw new Error('The original credit allocations are inconsistent or already released.');
   if(call.reserved_cents===0){if(state.receipts.length||call.charge_receipt_id)throw new Error('The reservation receipts are inconsistent.');return 0;}
   const charge=state.receipts[0];
-  if(state.receipts.length!==1||!charge||charge.id!==String(call.charge_receipt_id)||charge.user_id!==call.user_id||charge.type!=='charge'||charge.amount_cents!==call.reserved_cents||charge.currency!=='USD'||charge.job_id!=='studio-assistance:'+call.id||charge.surface!=='tool'||charge.billing_product_key!=='studio_assistance')throw new Error('The original Studio wallet charge is inconsistent or already refunded.');
+  if(state.receipts.length!==1||!charge||charge.id!==String(call.charge_receipt_id)||charge.user_id!==call.user_id||charge.type!=='charge'||!(charge.currency==='USD'&&charge.amount_cents===call.reserved_cents||charge.currency==='CNY'&&charge.amount_cents===call.reserved_cents*USD_TO_CNY_CUSTOMER_RATE)||charge.job_id!=='studio-assistance:'+call.id||charge.surface!=='tool'||charge.billing_product_key!=='studio_assistance')throw new Error('The original Studio wallet charge is inconsistent or already refunded.');
   return call.reserved_cents;
 }
 function preview(state:Snapshot,action:StudioAssistanceResolutionAction){
   const refundCents=validate(state,action);
   const refundCredits=action==='waive_unknown'?(state.resolutions.find(row=>row.action===action)?.refund_credits??state.creditAllocations.filter(row=>row.charged_credits===null&&!row.released_at).reduce((sum,row)=>sum+Number(row.reserved_credits),0)):0;
-  return {callId:state.call.id,userId:state.call.user_id,projectId:state.call.project_id,requestId:state.call.request_id,action,callState:state.call.state,refundCents,refundCredits,supplierExposureNanoUsd:String(state.call.reserved_nano_usd),alreadyApplied:state.resolutions.some(row=>row.action===action),fingerprint:hash(JSON.parse(JSON.stringify({action,...state})))};
+  return {callId:state.call.id,userId:state.call.user_id,projectId:state.call.project_id,requestId:state.call.request_id,action,callState:state.call.state,refundCents,refundCredits,refundCurrency:state.receipts[0]?.currency??null,refundWalletCents:refundCents*(state.receipts[0]?.currency==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1),supplierExposureNanoUsd:String(state.call.reserved_nano_usd),alreadyApplied:state.resolutions.some(row=>row.action===action),fingerprint:hash(JSON.parse(JSON.stringify({action,...state})))};
 }
 /** Read-only preview: no schema bootstrap, locks, model requests or customer content output. */
 export async function inspectStudioAssistanceResolution(callId:string,action:StudioAssistanceResolutionAction){
@@ -100,7 +101,8 @@ export async function applyStudioAssistanceResolution(raw:z.input<typeof applySc
     }else{
       if(state.call.tariff_version===STUDIO_ASSISTANCE_CREDIT_TARIFF.version&&state.call.model==='gpt-6.1-sol')await releaseStudioCredits(tx,input.callId);
       if(proposed.refundCents>0){
-        const inserted=await tx.query<{id:string}>(`INSERT INTO app_receipts(user_id,type,amount_cents,currency,description,job_id,surface,billing_product_key,metadata) VALUES($1,'refund',$2,'USD','Studio assistance customer waiver; supplier usage remains unresolved',$3,'tool','studio_assistance',$4::jsonb) RETURNING id::text`,[state.call.user_id,proposed.refundCents,'studio-assistance:'+input.callId,JSON.stringify({reason:'studio_assistance_customer_waiver',original_receipt_id:state.call.charge_receipt_id,operator_id:input.operator})]);
+        const receipt=await studioAssistanceWalletReceipt(tx,input.callId,state.call.user_id,state.call.reserved_cents,state.call.charge_receipt_id);
+        const inserted=await tx.query<{id:string}>(`INSERT INTO app_receipts(user_id,type,amount_cents,currency,description,job_id,surface,billing_product_key,metadata) VALUES($1,'refund',$2,$5,'Studio assistance customer waiver; supplier usage remains unresolved',$3,'tool','studio_assistance',$4::jsonb) RETURNING id::text`,[state.call.user_id,proposed.refundCents*receipt.rate,'studio-assistance:'+input.callId,JSON.stringify({reason:'studio_assistance_customer_waiver',original_receipt_id:state.call.charge_receipt_id,operator_id:input.operator}),receipt.currency]);
         refundReceiptId=inserted[0].id;
       }
       if(state.turn){

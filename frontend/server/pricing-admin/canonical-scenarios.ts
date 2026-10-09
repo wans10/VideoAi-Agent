@@ -1,3 +1,4 @@
+import {customerQuote} from '@/lib/customer-currency';
 import {
   quoteCanonicalPricing,
   resolvePricingPolicy,
@@ -292,7 +293,7 @@ function quoteCanonicalScenarios(
         compatibilityProfile,
       });
       return {
-        ...quote,
+        ...(projection==='live'?customerQuote(quote):quote),
         status: 'quoted',
         surface: scenario.surface,
         ...(typeof scenario.input.scenarioLabel === 'string' ? { scenarioLabel: scenario.input.scenarioLabel } : {}),

@@ -33,6 +33,7 @@ test('actual model catalogue image cards display the quoted CNY currency without
  b.onResolve({filter:/^server-only$/},()=>({path:'server-only',namespace:'empty'}));b.onLoad({filter:/.*/,namespace:'empty'},()=>({contents:'',loader:'js'}));
  b.onResolve({filter:/^@\/lib\/pricing-marketing$/},()=>({path:'price',namespace:'fixture'}));
  b.onLoad({filter:/.*/,namespace:'fixture'},()=>({contents:"export const computeMarketingPriceRange=async()=>({currency:'CNY',min:{cents:24},max:{cents:24}});",loader:'js',resolveDir:process.cwd()}));
+ b.onResolve({filter:/^(react(?:\/.*)?|lucide-react|clsx)$/},a=>({path:req.resolve(a.path),external:true}));
  }}]});
  const {buildModelsCatalogCards}=req(output);
  const cards=await buildModelsCatalogCards({activeLocale:'zh',engineMetaCopy:{},galleryCopy:{},scope:'image'});

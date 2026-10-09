@@ -1,3 +1,4 @@
+import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '@/lib/customer-currency';
 import {readStudioAnalysisExposure} from './media-analysis/exposure';
 import {readStudioTaskBudget,enforceStudioTaskBounds,enforceStudioTaskQuote} from './tasks/budget';
 import {studioTaskFundingRequestIds} from './tasks/repository';
@@ -17,7 +18,7 @@ import {ensureStudioMonthlyCredits,readStudioCreditBalance,existingStudioCreditP
 const CAMPAIGN = STUDIO_ASSISTANCE_CAMPAIGN_ID;
 type Account = {user_id:string;selected_model:StudioAssistantModel;paid_enabled:boolean;paid_authorized_cents:number;tariff_version:string|null;sol_limit_nano_usd:string|number;luna_limit_nano_usd:string|number;revision:string|number};
 export type AssistanceTurn = {model:StudioAssistantModel;mode:StudioAssistanceMode;tariff_version:string;policy_version:string};
-export type AssistanceCall = {id:string;user_id:string;project_id:string;request_id:string;lease_id:string;response_index:number;model:StudioAssistantModel;mode:StudioAssistanceMode;state:'reserved'|'unknown'|'settled';reserved_nano_usd:string|number;reserved_cents:number;input_token_bound:number;output_token_bound:number;response_id:string|null;tariff_version:string;rate_version:string;policy_version:string};
+export type AssistanceCall = {id:string;user_id:string;project_id:string;request_id:string;lease_id:string;response_index:number;model:StudioAssistantModel;mode:StudioAssistanceMode;state:'reserved'|'unknown'|'settled';reserved_nano_usd:string|number;reserved_cents:number;charge_receipt_id:string|null;input_token_bound:number;output_token_bound:number;response_id:string|null;tariff_version:string;rate_version:string;policy_version:string};
 export function assistanceError(reason:string,message:string,safeToStartNewRequest=false,completedModelCalls=0,canStartFollowup=!safeToStartNewRequest&&completedModelCalls>0):never {throw new AgentApiError('SPENDING_LIMIT_EXCEEDED',message,false,{type:'studio_assistance',reason,safeToStartNewRequest,canStartFollowup,completedModelCalls});}
 export async function stopStudioAssistanceReplay(actor:StudioGenerationActor,requestId:string):Promise<never>{
   const usage=(await query<{settled:string;unresolved:string}>(`SELECT count(*) FILTER(WHERE state='settled')::text settled,count(*) FILTER(WHERE state<>'settled')::text unresolved FROM studio_assistance_calls WHERE user_id=$1 AND project_id=$2 AND request_id=$3`,[actor.userId,actor.projectId,requestId]))[0];
@@ -175,8 +176,9 @@ export async function reserveStudioAssistanceCall(input:{userId:string;projectId
       cents=price.customerTotalCents-total.charged;
       if(usage.paidSpent+usage.paidReserved+cents>account.paid_authorized_cents)fail('paid_budget_exhausted','This next model call exceeds your authorized Studio budget.');
       if(cents>0){
-        const result=await reserveWalletChargeInExecutor(tx,{userId:input.userId,amountCents:cents,currency:'USD',description:'Studio assistance reservation',jobId:'studio-assistance:'+id,surface:'tool',billingProductKey:'studio_assistance',pricingSnapshotJson:JSON.stringify({phase:'reservation',tariff:STUDIO_ASSISTANCE_TARIFF,maximumMessageQuote:price}),applicationFeeCents:null,vendorAccountId:null},{preferredCurrency:null});
+        const result=await reserveWalletChargeInExecutor(tx,{userId:input.userId,amountCents:cents*(CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1),currency:CUSTOMER_CURRENCY,description:'Studio assistance reservation',jobId:'studio-assistance:'+id,surface:'tool',billingProductKey:'studio_assistance',pricingSnapshotJson:JSON.stringify({phase:'reservation',customerCurrency:CUSTOMER_CURRENCY,sourceCurrency:'USD',sourceAmountCents:cents,conversionRate:CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1,tariff:STUDIO_ASSISTANCE_TARIFF,maximumMessageQuote:price}),applicationFeeCents:null,vendorAccountId:null},{preferredCurrency:null});
         if(result.ok)receiptId=result.receiptId;
+        else if(result.errorCode==='currency_mismatch')fail('wallet_currency_mismatch','Your wallet currency is incompatible with this customer build. Contact support before continuing.');
         else fail('wallet_insufficient','Top up your wallet to fund the Studio budget, or explicitly choose included Luna assistance.');
       }
     }else{
@@ -213,10 +215,22 @@ export async function settleStudioAssistanceCall(id:string,userId:string,respons
       const total=await paidTurnBasis(tx,call);price=quoteStudioAssistance(total.basis+facts.tariffBasisNanoUsd,call.tariff_version);charged=price.customerTotalCents-total.charged;
       if(charged<0||charged>call.reserved_cents)throw new AgentApiError('INTERNAL_ERROR','Studio settlement exceeds its reservation.');
       const refund=call.reserved_cents-charged;
-      if(refund>0)await tx.query(`INSERT INTO app_receipts(user_id,type,amount_cents,currency,description,job_id,surface,billing_product_key,pricing_snapshot) VALUES($1,'refund',$2,'USD','Unused Studio assistance reservation',$3,'tool','studio_assistance',$4::jsonb)`,[userId,refund,'studio-assistance:'+id,JSON.stringify({tariffVersion:call.tariff_version,chargedCents:charged,settledMessageQuote:price})]);
+      if(refund>0){
+        const receipt=await studioAssistanceWalletReceipt(tx,id,userId,call.reserved_cents,call.charge_receipt_id);
+        await tx.query(`INSERT INTO app_receipts(user_id,type,amount_cents,currency,description,job_id,surface,billing_product_key,pricing_snapshot) VALUES($1,'refund',$2,$5,'Unused Studio assistance reservation',$3,'tool','studio_assistance',$4::jsonb)`,[userId,refund*receipt.rate,'studio-assistance:'+id,JSON.stringify({tariffVersion:call.tariff_version,chargedCents:charged,settledMessageQuote:price}),receipt.currency]);
+      }
     }
     await tx.query(`UPDATE studio_assistance_calls SET state='settled',response_id=$3,returned_model=$4,service_tier=$5,usage_facts=$6::jsonb,provider_min_nano_usd=$7,provider_max_nano_usd=$8,tariff_basis_nano_usd=$9,charged_cents=$10,pricing_snapshot=$11::jsonb,settled_at=clock_timestamp() WHERE id=$1 AND user_id=$2`,[id,userId,response.id,response.model,response.service_tier,JSON.stringify(facts),facts.providerMinNanoUsd,facts.providerMaxNanoUsd,facts.tariffBasisNanoUsd,charged,JSON.stringify(price)]);
     return true;
   };
   return executor?settle(executor):withDbTransaction(settle);
+}
+
+/** Frozen USD tariff units are distinct from the wallet currency recorded at reservation. */
+export async function studioAssistanceWalletReceipt(db:QueryExecutor,callId:string,userId:string,reservedCents:number,receiptId:string|null){
+  const rows=await db.query<{id:string;currency:string;amount_cents:number;pricing_snapshot:{customerCurrency?:string;sourceCurrency?:string;sourceAmountCents?:number;conversionRate?:number}|null}>("SELECT id::text,currency,amount_cents,pricing_snapshot FROM app_receipts WHERE job_id=$1 AND user_id=$2 AND type='charge' AND surface='tool' AND billing_product_key='studio_assistance'",['studio-assistance:'+callId,userId]);
+  const receipt=rows[0],snapshot=receipt?.pricing_snapshot;
+  const rate=receipt?.currency==='USD'?1:receipt?.currency==='CNY'&&snapshot?.customerCurrency==='CNY'&&snapshot.sourceCurrency==='USD'&&snapshot.sourceAmountCents===reservedCents&&snapshot.conversionRate===USD_TO_CNY_CUSTOMER_RATE?USD_TO_CNY_CUSTOMER_RATE:0;
+  if(rows.length!==1||!rate||receipt.id!==String(receiptId)||receipt.amount_cents!==reservedCents*rate)throw new AgentApiError('INTERNAL_ERROR','The original Studio assistance wallet reservation is inconsistent.');
+  return {currency:receipt.currency,rate};
 }
