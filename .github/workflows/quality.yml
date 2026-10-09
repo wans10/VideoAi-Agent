@@ -2,9 +2,9 @@ name: Quality CI
 
 on:
   pull_request:
-    branches: [main, MaxVideoAI, "integrate/**"]
+    branches: [main, MaxVideoAI, "integrate/**", audit/keyvo-completeness-d0acb5e]
   push:
-    branches: [main, MaxVideoAI, "integrate/**"]
+    branches: [main, MaxVideoAI, "integrate/**", audit/keyvo-completeness-d0acb5e]
   schedule:
     - cron: '23 3 * * *'
   workflow_dispatch:

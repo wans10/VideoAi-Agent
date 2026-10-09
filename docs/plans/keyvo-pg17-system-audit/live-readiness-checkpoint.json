@@ -1,0 +1,125 @@
+{
+  "status": "completed",
+  "submits": 1,
+  "providerMode": "LLMHUB",
+  "providerJobId": "spvIaraPMfSp7PkPxrXAyQg",
+  "usage": {
+    "promptTokenCount": 19,
+    "candidatesTokenCount": 1120,
+    "totalTokenCount": 1139,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 19
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      }
+    ]
+  },
+  "assets": [
+    {
+      "bytes": 71059,
+      "mime": "image/jpeg",
+      "sha256": "64a663d73d2e3b8a0956034d7412cdff3088c5935d0c7827f97ab9480beb6938",
+      "width": 1024,
+      "height": 1024,
+      "format": "JPEG",
+      "metadataCheck": "passed via sips"
+    }
+  ],
+  "scope": "Real supplier and authored adapter; local persistence injected, no wallet debit or real S3/DB verified",
+  "budgetCny": 10,
+  "outputTokenCap": 8192,
+  "publicPricingEstimateUsd": 0.03360475,
+  "actualProviderDebitVerified": false,
+  "payment": {
+    "status": "paid_with_new_receipt_metadata_issue",
+    "authorizedAmountCny": 80,
+    "checkoutHttp": 200,
+    "signedGatewayResponseVerified": true,
+    "outTradeNo": "kvf13d9980494e63c915916c7ffc61919d",
+    "type": "alipay",
+    "amountFen": 8000,
+    "signedQuery": {
+      "signatureVerified": true,
+      "status": 1,
+      "money": "80.00"
+    },
+    "candidateRepeatedCheckout": {
+      "httpStatus": 200,
+      "paid": true,
+      "newPaymentUrlCreated": false
+    },
+    "candidateRepeatedSettlement": [
+      "duplicate",
+      "duplicate"
+    ],
+    "receiptCountForOrder": 1,
+    "receipt": {
+      "id": "20",
+      "amountCents": 8000,
+      "currency": "CNY",
+      "originalAmountCents": 8000,
+      "originalCurrency": "CNY",
+      "fxRate": 1,
+      "containsPaymentUrl": true
+    },
+    "testCandidateRemoteSnapshot": "6a489bbf140a072840b4e0005c8f181bc9e8e702",
+    "callbackOrigin": "https://app.keyvo.cn",
+    "productionCallbackSourceVerified": false,
+    "callbackEvidence": "Database paid and receipt committed before candidate repeated checkout; exact notification HTTP acknowledgement and browser return not captured",
+    "newIssue": "Live receipt metadata retains paymentUrl; candidate settleLlmhubPayOrderInTransaction deletes it. Existing public callback behavior differs; do not claim candidate end-to-end callback certification.",
+    "unverified": [
+      "raw signed notification replay against candidate HTTP handler",
+      "actual browser return reconciliation",
+      "wxpay real payment",
+      "deployed callback source identity"
+    ],
+    "diagnosticFailure": "First standalone script used wrong CommonJS import wrapper; corrected script passed, original failure log retained",
+    "productionImageTagReportedByUser": "9ed63ad",
+    "versionDiffConfirmed": "9ed63ad settle spreads entire quote_metadata; candidate removes paymentUrl. Candidate-created order carries paymentUrl for retry; old production callback copies it into receipt.",
+    "testTopology": "Candidate checkout -> real payment gateway -> 9ed63ad public callback -> candidate repeated checkout/query/settlement. Mixed-version test, not candidate full end-to-end.",
+    "productionCallbackSourceEvidence": "User reported IMAGE_TAG9ed63ad; repository source diff confirms behavior; image digest/source labels not independently checked."
+  },
+  "configuration": {
+    "credentialsLogged": false,
+    "databaseUrlPresent": true,
+    "paymentRsaKeysParse": "passed2048bit",
+    "vertexServiceAccountParse": "passed base64 JSON and RSA; initial JSON-only diagnostic failed",
+    "testAccountFound": true,
+    "testAccountEmailConfirmed": true,
+    "supabaseHealthHttp": 200,
+    "modelCatalogHttp": 200,
+    "paymentDocumentationHttp": 404,
+    "databaseConnectivity": {
+      "testServer": "passed after whitelist",
+      "schemaChecked": true
+    }
+  },
+  "remaining": [
+    "full candidate application wallet/reservation/database/S3/output and failure recovery acceptance",
+    "other enabled direct supplier routes",
+    "real payment notify/return/query and exactly-once wallet credit",
+    "asset publication gate"
+  ],
+  "runtimeSource": "9834d647b7852701d4b21ed5e425a0510c6b2505",
+  "evidence": [
+    {
+      "file": "keyvo-payment-after.json",
+      "sha256": "ab4427e2b22e175b4b07bdb92eb0302952c5ce026c1454a3ffe0ab65e65affaf"
+    },
+    {
+      "file": "keyvo-payment-reconcile-result.json",
+      "sha256": "3fb0229a97946cbb49f86faff6861a503b64ed1c7379365b80e5e866acc5eb80"
+    },
+    {
+      "file": "keyvo-payment-reconcile-corrected-result.json",
+      "sha256": "02acb41ab62b2a9e1991fd551bc40149c06c9b68504bc6edd0b1dd87a4b098f7"
+    }
+  ]
+}

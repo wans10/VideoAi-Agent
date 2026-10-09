@@ -1,6 +1,9 @@
 name: Build and Push Docker Images
 
 on:
+  # Candidate artifacts are built for operator acceptance; this does not deploy.
+  push:
+    branches: [audit/keyvo-completeness-d0acb5e]
   workflow_run:
     workflows: [Quality CI]
     types: [completed]
@@ -11,8 +14,9 @@ permissions:
 
 jobs:
   build-and-push:
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_repository.full_name == github.repository
+    if: github.event_name == 'push' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     env:
       # Support both variables (vars) and secrets, with fallback to repository owner
       DOCKERHUB_USER: ${{ vars.DOCKERHUB_USERNAME || secrets.DOCKERHUB_USERNAME || 'wans10' }}
@@ -20,12 +24,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           fetch-depth: 0
 
       - name: Verify approved source is on MaxVideoAI
+        if: github.event_name == 'workflow_run'
         env:
-          APPROVED_SHA: ${{ github.event.workflow_run.head_sha }}
+          APPROVED_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
           git fetch origin MaxVideoAI
           git merge-base --is-ancestor "$APPROVED_SHA" origin/MaxVideoAI
@@ -39,6 +44,14 @@ jobs:
             echo "::error::NEXT_PUBLIC_SITE_URL must be https://app.keyvo.cn for the Keyvo image. Update the repository variable."
             exit 1
           fi
+
+      - name: Verify required public authentication configuration
+        env:
+          BUILD_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          BUILD_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY || secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          test -n "$BUILD_SUPABASE_URL"
+          test -n "$BUILD_SUPABASE_ANON_KEY"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -55,7 +68,7 @@ jobs:
         with:
           images: ${{ env.DOCKERHUB_USER }}/videoai-web
           tags: |
-            type=raw,value=${{ github.event.workflow_run.head_sha }}
+            type=raw,value=${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Extract Docker metadata for db-migrate
         id: meta-migrate
@@ -63,7 +76,7 @@ jobs:
         with:
           images: ${{ env.DOCKERHUB_USER }}/videoai-db-migrate
           tags: |
-            type=raw,value=${{ github.event.workflow_run.head_sha }}
+            type=raw,value=${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Build and push db-migrate image
         uses: docker/build-push-action@v6
@@ -87,7 +100,7 @@ jobs:
           build-args: |
             NEXT_PUBLIC_API_BASE=/api
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL || 'https://app.keyvo.cn' }}
-            NEXT_PUBLIC_SUPABASE_URL=${{ vars.NEXT_PUBLIC_SUPABASE_URL || 'https://sbayxqlhqhjsripkktdx.supabase.co' }}
+            NEXT_PUBLIC_SUPABASE_URL=${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
             NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY || secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
             NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '' }}
             NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || '' }}
