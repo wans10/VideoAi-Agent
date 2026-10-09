@@ -61,3 +61,11 @@ Insights 修复后独立复验 1/1 通过；保留前轮全量 25 pass / 1 fail 
 使用候选已提交源码归档（不含环境及依赖）建立测试服务器合成 Git 快照，应用源码仍为 638ee295。修改前独立复现 1 pass / 1 fail（首项时间线在 5 秒内未挂载，第二项通过）；修改后同次完整 2 pass / 0 fail / 0 skip。相关逻辑/CI policy 12 项、浏览器网络隔离夹具 1 项通过；TypeScript、actionlint、exposure、diff 通过。根目录测试 ESLint 无配置，未将其算为 lint 通过。
 
 这只建立两个已失败场景的修复证据，不代表完整新 CI 或全量后台通过；素材来源及既有真实支付/失败退款覆盖缺口继续保留。详见 638ee-ci-followup.json。本轮没有新增付费请求。
+
+## dda02c2 Quality CI 最终结果
+
+Quality CI 37922498181 最终失败；Docker 构建成功。数据库/媒体、全量财务、CNY 全部通过。Studio 浏览器同次 13 pass / 0 fail / 0 skip；完整后台同次 26 pass / 0 fail / 1 skip，用户详情依赖 service-role 数据的场景仍未覆盖。
+
+fast 完整跑完 7062 项：7058 pass / 2 fail / 2 skip。失败一是既有素材来源/审核 SHA 不是候选祖先；失败二是上次提高财务时限后遗漏了 quality-ci-contract 的旧 60 分钟精确断言。后者是本轮新增的测试配置不一致，已同步四个任务的明确预算，未删除断言或放宽最终质量门禁。14 项相关契约与选择策略复验全部通过；actionlint、diff 通过。素材门禁未修改。
+
+详见 dda02-ci-result.json。新修复仅测试与报告，业务代码仍与用户生产运行的 638ee295 相同；无需仅为此再更新生产。新的提交 CI 尚需等待，不能把本次补测当作远程全量通过。

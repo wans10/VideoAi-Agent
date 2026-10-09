@@ -46,7 +46,11 @@ test('the permanent Quality CI gate waits for all lanes and runs after failures 
   assert.ok(Object.hasOwn(workflow.on, 'workflow_dispatch'));
   assert.equal(Object.hasOwn(workflow.on.pull_request as object, 'paths'), false);
   assert.equal(Object.hasOwn(workflow.on.pull_request as object, 'paths-ignore'), false);
-  assert.equal(workflow.jobs.tariffs['timeout-minutes'], 60);
+  // Keep the measured full-suite budgets explicit; no lane may silently
+  // return to a deadline that cancels its required assertions.
+  for (const [name, minutes] of Object.entries({fast: 40, integration: 35, tariffs: 90, browser: 30})) {
+    assert.equal(workflow.jobs[name]['timeout-minutes'], minutes, name);
+  }
 });
 
 test('superseded PR validation is canceled independently from nightly and main validation', () => {

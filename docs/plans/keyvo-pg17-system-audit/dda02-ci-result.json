@@ -1,0 +1,43 @@
+{
+  "candidate": "dda02c2c40d1a90eae39a07563c0c295b829e549",
+  "run": "https://github.com/wans10/VideoAi-Agent/actions/runs/37922498181",
+  "conclusion": "failure",
+  "docker": "success",
+  "lanes": {
+    "fast": "failure",
+    "browser": "success",
+    "integration": "success",
+    "tariffs": "success",
+    "customerCny": "success"
+  },
+  "fast": {
+    "total": 7062,
+    "pass": 7058,
+    "fail": 2,
+    "skip": 2,
+    "failures": [
+      "github-assets.test.ts: source/review revisions are not candidate ancestors",
+      "quality-ci-contract.test.ts: stale 60-minute expectation versus new 90-minute tariff budget"
+    ]
+  },
+  "studioBrowser": {
+    "pass": 13,
+    "fail": 0,
+    "skip": 0
+  },
+  "admin": {
+    "pass": 26,
+    "fail": 0,
+    "skip": 1,
+    "uncovered": "users search can drill down to member detail: requires Supabase service role data"
+  },
+  "newIssueFixed": "Synchronize explicit timeout contract for all four lanes; keep the gate fail-closed",
+  "fixVerification": {
+    "focusedTests": 14,
+    "fail": 0,
+    "actionlint": "pass",
+    "diff": "pass"
+  },
+  "releaseReady": false,
+  "assetGateUnchanged": true
+}
