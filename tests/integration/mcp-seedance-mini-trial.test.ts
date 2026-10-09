@@ -452,7 +452,7 @@ test('verified OAuth acquisition completes one local SDK trial without wallet or
   const prepared = await prepareTrial(session.client, { aspectRatio: '16:9', audio: true });
   const quoteId = String(prepared.value.quoteId);
   assert.equal(prepared.value.fundingMode, 'trial');
-  assert.deepEqual(prepared.value.price, { amountCents: 0, currency: 'USD' });
+  assert.deepEqual(prepared.value.price, { amountCents: 0, currency: 'USD', formattedAmount: '$0.00' });
   assert.deepEqual(prepared.value.balance, { beforeCents: 5000, afterCents: 5000 });
   assert.deepEqual(prepared.value.summary, {
     schemaVersion: 1,
@@ -726,8 +726,8 @@ test('verified OAuth acquisition completes one local SDK trial without wallet or
     readFileSync('frontend/config/mcp-publication.json', 'utf8'),
   ) as Record<string, unknown>;
   assert.deepEqual(publication, {
-    publicMarketing: true,
-    publicIndexing: true,
+    publicMarketing: false,
+    publicIndexing: false,
     transport: true,
     oauth: true,
     discovery: true,

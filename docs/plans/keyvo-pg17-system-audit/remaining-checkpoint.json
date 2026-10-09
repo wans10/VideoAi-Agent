@@ -1,0 +1,118 @@
+{
+  "runtimeSource": "350ffe0a00336db7d386d0ef48637912c97a0f7a",
+  "scope": "Existing isolated environment only; user deferred live payment/provider acceptance.",
+  "completed": {
+    "fast": {
+      "tests": 7062,
+      "pass": 7059,
+      "fail": 1,
+      "skip": 2,
+      "failure": "GitHub asset candidate-ancestor provenance"
+    },
+    "integration": {
+      "tests": 752,
+      "pass": 747,
+      "fail": 0,
+      "skip": 5
+    },
+    "studio": {
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skip": 0
+    },
+    "tariffs": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skip": 0,
+      "log": "final-tariffs.log",
+      "duplicateRun": "cancelled explicitly after same runtime source passed"
+    },
+    "editorialSupplement": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skip": 0
+    },
+    "mcpSdkSupplement": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "skip": 0
+    },
+    "cnyRequired": {
+      "tests": 95,
+      "pass": 95,
+      "fail": 0,
+      "skip": 0
+    },
+    "multitrackRenderSupplement": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "typescript": {
+      "status": "passed"
+    },
+    "lint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 10
+    }
+  },
+  "browserLatestCompleted": {
+    "tests": 13,
+    "pass": 10,
+    "fail": 3,
+    "skip": 0,
+    "failures": [
+      "conversation Cookie overlay blocked click; Chinese dismiss locator corrected; retest pending",
+      "montage geometry lookup used English aria label; corrected; retest pending",
+      "task assistance read503; missing app_receipts in isolated fixture; corrected; retest pending"
+    ]
+  },
+  "pending": [
+    "production build",
+    "final conversation browser",
+    "final montage browser",
+    "final task browser",
+    "admin isolated smoke",
+    "commit verified fixture changes"
+  ],
+  "assetProvenance": "Supplemental original-history and byte proof passes; strict publication gate still fails, not waived.",
+  "productionBuildFirstAttempt": {
+    "status": "failed",
+    "reason": "Next type-check worker default~2GB V8 heap OOM",
+    "compiled": "with Supabase Edge Runtime warning",
+    "retry": "queued after browser/admin; NODE_OPTIONS max-old-space-size=3072; no skipped gates"
+  },
+  "finalBrowserAttempts": {
+    "conversation": {
+      "status": "failed",
+      "reason": "reference Night shift image absent; real preview precheck and response diagnostics added; retry queued"
+    },
+    "montage": {
+      "status": "failed",
+      "reason": "page.reload30s timeout after verified private playback/recovery and edits; retry queued"
+    },
+    "task": {
+      "status": "failed",
+      "reason": "after missing receipts/schema corrected, progressed to explicit task continuation then reload ERR_CONNECTION_RESET; application log diagnostics added; retry queued"
+    }
+  },
+  "adminFirstAttempt": {
+    "status": "failed",
+    "pass": 9,
+    "fail": 1,
+    "notRun": 6,
+    "reason": "VideoSEO dark theme entry goto30s timeout",
+    "retry": "failed+notRun7scenarios queued, prior9pass retained"
+  },
+  "remoteConnectivity": {
+    "status": "SSH banner exchange timeout during build retry",
+    "buildRetry": "result not retrieved; cannot mark passed",
+    "pendingQueuedTests": "waiting for build retry status; not executed yet"
+  }
+}

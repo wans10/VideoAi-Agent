@@ -1,4 +1,7 @@
 import test from 'node:test';
+import {siteDefaultLocale} from '../frontend/i18n/locales';
+import {conversationCopy} from '../frontend/lib/studio/conversation-copy';
+const copy=(en:string)=>conversationCopy(siteDefaultLocale,en,en);
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFile,mkdir} from 'node:fs/promises';
@@ -55,21 +58,21 @@ test('analysis review works on desktop/mobile and only explicit confirmation que
     ]);
     assert.equal(response.status(),200,JSON.stringify(await response.json()));
     assert.equal(analysisResponse.status(),200,JSON.stringify(await analysisResponse.json()));
-    const card=page.getByRole('region',{name:'Media analysis'});
-    await expect(card).toBeVisible();await expect(card.getByRole('button',{name:/Analyse with Sol 6.1/})).toBeEnabled();
+    const card=page.getByRole('region',{name:copy('Media analysis')});
+    await expect(card).toBeVisible();await expect(card.getByRole('button',{name:new RegExp(copy('Analyse with Sol 6.1'))})).toBeEnabled();
     assert.equal((await analysis.read(quote.analysisId)).state,'prepared','Rendering and GETs cannot queue or charge analysis');
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
     const evidence=join(process.cwd(),'.superpowers/sdd/2026-10-06-studio-media-analysis/browser');await mkdir(evidence,{recursive:true});await page.screenshot({path:join(evidence,'analysis-mobile.png'),fullPage:true});
     const confirmed=page.waitForResponse(response=>response.url().endsWith(`/api/studio/projects/${project.projectId}/analyses/${quote.analysisId}`)&&response.request().method()==='POST',{timeout:30_000});
-    await card.getByRole('button',{name:/Analyse with Sol 6.1/}).click();
+    await card.getByRole('button',{name:new RegExp(copy('Analyse with Sol 6.1'))}).click();
     const confirmationResponse=await confirmed;
     assert.equal(confirmationResponse.status(),200,JSON.stringify(await confirmationResponse.json()));
-    await expect(card.getByText('Analysis in progress. Your media is preserved.')).toBeVisible();
+    await expect(card.getByText(copy('Analysis in progress. Your media is preserved.'))).toBeVisible();
     assert.equal((await analysis.read(quote.analysisId)).state,'queued');
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM studio_analysis_credit_funding')).rows[0].n,1);
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM studio_assistance_calls')).rows[0].n,0,'Browser delivery never creates an analytical model call');
-    await page.reload();await expect(page.getByRole('region',{name:'Media analysis'}).getByText('Analysis in progress. Your media is preserved.')).toBeVisible();
+    await page.reload();await expect(page.getByRole('region',{name:copy('Media analysis')}).getByText(copy('Analysis in progress. Your media is preserved.'))).toBeVisible();
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM studio_analysis_credit_funding')).rows[0].n,1);
   }catch(error){
     console.error(summarizeStudioReadinessFailure(runtime.readLogs(),8000));

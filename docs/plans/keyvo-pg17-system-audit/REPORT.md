@@ -35,3 +35,28 @@
 资源诊断与取消：4GB测试主机在重复Next/browser复验并发时耗尽内存及2GBswap；仅清理keyvoaudit用户的测试Next/browser子进程，不影响1Panel。最后MCP复验0通过、1失败、1取消；语言夹具组合0通过、3失败。待验证夹具继续留在工作树，不提交为通过修复。正式canonical runner与完整财务矩阵仍在远程后台运行。正式fast已记录的首个失败仍为GitHub素材祖先门禁。
 
 注意：远程完整tariffs冻结在修复源码350ffe0；本地后续仅提交审计文档，不能把尚未结束的财务矩阵宣称为最终通过。原先程序化核查文件仅SHA修改的既有工作树更改保留，未纳入本轮提交。
+
+
+## 2026-10-09 后续隔离核查检查点（替代上文旧进度）
+
+用户明确本轮仅完成现有隔离环境，不执行真实支付网关或供应商付费调用。
+
+- 正式 fast 完成：7062项，7059通过、1失败、2跳过；唯一失败为GitHub素材祖先门禁。两项跳过分别为未安装Codex authoring validators、Linux不存在macOS临时目录别名。
+- 正式 integration 完成：752项，747通过、0失败、5跳过。两项CNY定向测试由完整专门CNY组覆盖；两项编辑发布PostgreSQL测试已在新建临时集群补跑2/2通过；真实多轨render opt-in已补跑1/1通过。因此这5项已有补测，不再作为未覆盖项。
+- 正式 Studio 完成：4/4通过，之前MCP超时失败保留为历史，不能再作为最新失败。
+- 完整财务矩阵：冻结业务源码350ffe0，2/2通过，未抽样；重复的另一矩阵运行明确取消，不能计为通过。
+- 新增根目录之外的本地MCP SDK、模拟供应商和PostgreSQL补测，首次5项3通过2失败（营销公开策略旧预期、报价新增formattedAmount字段）；更新测试契约后最终10/10通过。不会把模拟供应商称为真实远程生成。
+- 完整CNY CI组95/95通过，0跳过；本轮TypeScript通过，完整lint 0 errors、10 warnings；图片alt检查298文件通过，暴露及whitespace通过。
+- 真实多轨render：90帧/3秒，双轨裁剪正确、music/voice比例0.311811，静音比例0.00000662；5个GET请求、0 HEAD、0拒绝；video trim RMSE10.99 vs untrimmed56.65。仅本地真实渲染，providerCalls0。
+- 最新已结束browser 13项10通过3失败。分析、真实MP4、移动导出恢复均已通过。对话Cookie提示遮挡、montage几何英文aria残留、task助手读路径503分别继续修正复验。task夹具缺少64迁移和新收据关联所需app_receipts；增加直接读取断言，不放宽功能超时。
+- 测试修正前再次AST程序核查：断言数量无减少、0新增skip、0解析错误；该结构守卫不替代真实行为验证。四树核查仍确认d0acb5e和9ed63ad祖先均包含，0基线回退、0新增导出缺失、0JSON解析/未解释差异。
+
+生产构建、最后browser专项及后台隔离smoke仍在进行，测试修改仍未提交为通过。素材严格release-check仍失败；原历史字节证据不替代当前候选祖先及当前产品审阅记录。不能伪造SHA、导入假祖先或降低检查器以消除红灯。
+
+新失败补录：生产构建第一次在Next类型检查子进程约2GB默认V8堆处OOM，完整build退出1。编译成功/独立tsc通过不能替代完整build。保留该失败并在后续browser/admin结束后以测试进程3GB堆上限复跑，不关闭类型或prebuild门禁。
+
+最后browser专项仍发现新失败：对话参考图片Night shift未显示（正在增加真实预览POST/响应诊断）；montage已走过签名过期恢复与编辑，但reload30秒超时；task修正收据表后已进入显式continuation/approval阶段，reload发生ERR_CONNECTION_RESET。三项均未视为通过，继续串行复验。
+
+后台隔离smoke首次16场景：9通过、1失败、6因串行前项失败未运行。失败为video SEO dark-theme场景再次进入页面时goto30s超时，补测该场景及6项未运行场景，不能将其计为通过。
+
+构建复跑期间测试主机SSH banner exchange超时，尚未取得复跑退出状态；不能把其记为通过。后续browser/admin补测队列等待build retry状态，当前仍未完成。已通过夹具可以单独提交，未通过对话/montage/task修改保留为未验证工作树，不宣称修复成功。

@@ -1,0 +1,46 @@
+[
+  {
+    "log": "remaining-cny.log",
+    "sha256": "b857b079e9a295b105e0368ab03551d2467011ca75a47263d64ac67ddbf69a4b",
+    "summary": {
+      "tests": 95,
+      "pass": 95,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  {
+    "log": "remaining-render.log",
+    "sha256": "48f4bf8ab0f23eb5cc321fd38969ac320044b53b5a70965eb59e02c84fe58dff",
+    "summary": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  {
+    "log": "remaining-editorial-retry.log",
+    "sha256": "caea6f2ce5ab5455179d9cb430461fe13e3adedbc9b12e42daaf51642d50bb03",
+    "summary": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  {
+    "log": "remaining-mcp-sdk-final.log",
+    "sha256": "aa74c6c3c80ea10e1b642a953b4448ac1471bb4c8df10baba286f0baabc9b3e1",
+    "summary": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  }
+]

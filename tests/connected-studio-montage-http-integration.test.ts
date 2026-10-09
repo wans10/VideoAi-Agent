@@ -24,6 +24,10 @@ test('real MCP persists caller-ordered videos, enforces owner and idempotency, a
       ...init, headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, ...init.headers },
       signal: AbortSignal.timeout(30_000),
     });
+    // Compile the real MCP route with an unauthenticated read before timing functional requests.
+    // This cannot discover tools, persist a command or reserve customer funds.
+    const warmed = await fetch(`${runtime.origin}/api/mcp`, { headers: {Host:runtime.mcpHost,Accept:'application/json, text/event-stream'}, signal: AbortSignal.timeout(90_000) });
+    assert.ok([401, 404, 405].includes(warmed.status), `Cold route preparation must refuse unauthenticated execution (${warmed.status}).`);
     const discovery = await readStudioMcpResponse(await postStudioMcpRequest(runtime, {
       jsonrpc: '2.0', id: ++requestId, method: 'tools/list', params: {},
     }, { token: ownerA.access_token }));
@@ -231,7 +235,7 @@ test('real MCP persists caller-ordered videos, enforces owner and idempotency, a
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int AS count FROM studio_projects')).rows[0].count, 1);
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int AS count FROM studio_sequences')).rows[0].count, 1);
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int AS count FROM studio_project_commands')).rows[0].count, 1);
-  } finally { await runtime.close(); }
+  } catch(error){throw new Error(String(error)+'\n'+runtime.readLogs().slice(-4000),{cause:error});} finally { await runtime.close(); }
 });
 
 test('missing connected migration fails closed through real UI and MCP without applying runtime DDL', { timeout: 180_000 }, async () => {
@@ -247,6 +251,10 @@ test('missing connected migration fails closed through real UI and MCP without a
   try {
     const session = runtime.auth.createSession(STUDIO_FIXTURE_OWNERS[0], { clientId: 'studio-unmigrated-local-fixture' });
     const cookie = runtime.auth.cookiesFor(session).map((item) => `${item.name}=${item.value}`).join('; ');
+    for(const path of ['/api/studio/montages','/api/mcp']){
+      const warmed=await fetch(runtime.origin+path,{headers:{Host:runtime.mcpHost,Accept:'application/json, text/event-stream'},signal:AbortSignal.timeout(90_000)});
+      assert.ok([401,404,405].includes(warmed.status),'Cold read preparation cannot execute a montage.');
+    }
     const ui = await postStudioMontageUiRequest(runtime, STUDIO_CONNECTED_MONTAGE_INPUT, { cookie });
     assert.equal(ui.status, 503);
     assert.deepEqual(await ui.json(), { ok: false, error: 'STUDIO_CONNECTED_SCHEMA_UNAVAILABLE' });

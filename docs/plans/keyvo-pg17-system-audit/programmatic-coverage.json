@@ -4,10 +4,10 @@
       "base": "a58d5cb1b83b5f8dc7120c5e7a6eab9135b76535",
       "upstream": "d0acb5ee1aafea1440f164d9ae351f957681320d",
       "custom": "9ed63ada5cc95b7f53aae0de0f52859fb8b0387a",
-      "candidate": "350ffe0a00336db7d386d0ef48637912c97a0f7a"
+      "candidate": "0ed7ec495f4a1133d24029010f49770758d73da8"
     },
     "candidateSource": "working tree (tracked candidate paths and new audit code/tests)",
-    "sourceSnapshotSha256": "bebab64e64e95d1d24dd5bb48f55308b701e623d923c515117b6faff51c35391",
+    "sourceSnapshotSha256": "4d2fe9c22265fb6a956f8fc9b4148731df7acb9658f48175af6fd4a1554e62d2",
     "newAuditPaths": [],
     "ancestry": {
       "upstream": true,
@@ -16,10 +16,10 @@
     "changedPaths": 3258,
     "states": {
       "custom_exact": 1071,
-      "integrated_change": 366,
-      "upstream_exact": 1821
+      "integrated_change": 373,
+      "upstream_exact": 1814
     },
-    "singleSideDivergences": 153,
+    "singleSideDivergences": 159,
     "missingExportCount": 0,
     "lostJsonLeafCount": 18,
     "parseErrorCount": 0,
@@ -16650,11 +16650,11 @@
     ],
     [
       "tests/connected-studio-analysis-browser-integration.test.ts",
-      "bf9c060d39e72730f7e455c40059a7319eca3c5e"
+      "dd0716be0168c919da3ba2eae619c1faf8551802"
     ],
     [
       "tests/connected-studio-conversation-browser-integration.test.ts",
-      "eb6f318d813687dde9387a4ed2e520b15553bae4"
+      "b50e030958d47e74a83ab6542aa2a94f55499e9d"
     ],
     [
       "tests/connected-studio-conversation-render-integration.test.ts",
@@ -16662,7 +16662,7 @@
     ],
     [
       "tests/connected-studio-export-quote-browser-integration.test.ts",
-      "911b63ddcbc26186438fef7447f4d571cf2de5d1"
+      "40c81d31bfbcdcb138f56777563b6df3ac087190"
     ],
     [
       "tests/connected-studio-mcp-route-integration.test.ts",
@@ -16670,11 +16670,11 @@
     ],
     [
       "tests/connected-studio-montage-browser-integration.test.ts",
-      "a6109214998ef7aa47c3c8b5b5d185d0f6df8071"
+      "afaf459398887000714822584208afa59c5a8ebb"
     ],
     [
       "tests/connected-studio-montage-http-integration.test.ts",
-      "80d2e7714760e7ebb8c5774dcf11c9c316f7a9f9"
+      "ebf8064a8dce78eceeede372a867e800f16d3337"
     ],
     [
       "tests/connected-studio-route-integration.test.ts",
@@ -16682,7 +16682,7 @@
     ],
     [
       "tests/connected-studio-task-browser-integration.test.ts",
-      "9f7f6d302cef029e470fb10a751023719ac65a46"
+      "e1bed641d5a929ea02e52ddcad89b6a518b2b778"
     ],
     [
       "tests/consent-script-version.test.ts",
@@ -18074,11 +18074,11 @@
     ],
     [
       "tests/integration/mcp-paid-generation.test.ts",
-      "4f5d3b2ddc30b76225677bb6892d19f384280374"
+      "a64d3ea451ed531ff784b9f72a9fecd7ece20e3a"
     ],
     [
       "tests/integration/mcp-seedance-mini-trial.test.ts",
-      "6bb77849df76f23a33a1bfc343cd796bd35b7bc9"
+      "cbebb9c193eb5192f7bb6ca59e4cc350d6fb6f83"
     ],
     [
       "tests/job-groups-image-thumbs.test.ts",
@@ -50360,20 +50360,20 @@
       "path": "tests/connected-studio-analysis-browser-integration.test.ts",
       "upstreamChanged": true,
       "customChanged": false,
-      "state": "upstream_exact",
+      "state": "integrated_change",
       "hashes": {
         "upstream": "bf9c060d39e72730f7e455c40059a7319eca3c5e",
-        "candidate": "bf9c060d39e72730f7e455c40059a7319eca3c5e"
+        "candidate": "dd0716be0168c919da3ba2eae619c1faf8551802"
       }
     },
     {
       "path": "tests/connected-studio-conversation-browser-integration.test.ts",
       "upstreamChanged": true,
       "customChanged": false,
-      "state": "upstream_exact",
+      "state": "integrated_change",
       "hashes": {
         "upstream": "eb6f318d813687dde9387a4ed2e520b15553bae4",
-        "candidate": "eb6f318d813687dde9387a4ed2e520b15553bae4"
+        "candidate": "b50e030958d47e74a83ab6542aa2a94f55499e9d"
       }
     },
     {
@@ -50390,34 +50390,34 @@
       "path": "tests/connected-studio-export-quote-browser-integration.test.ts",
       "upstreamChanged": true,
       "customChanged": false,
-      "state": "upstream_exact",
+      "state": "integrated_change",
       "hashes": {
         "upstream": "911b63ddcbc26186438fef7447f4d571cf2de5d1",
-        "candidate": "911b63ddcbc26186438fef7447f4d571cf2de5d1"
+        "candidate": "40c81d31bfbcdcb138f56777563b6df3ac087190"
       }
     },
     {
       "path": "tests/connected-studio-montage-browser-integration.test.ts",
       "upstreamChanged": true,
       "customChanged": true,
-      "state": "upstream_exact",
+      "state": "integrated_change",
       "hashes": {
         "base": "634c2a7bdf1a4cdc5a6dc87aece7cc1b84b49fae",
         "upstream": "a6109214998ef7aa47c3c8b5b5d185d0f6df8071",
         "custom": "caa11566077f19eb33d865447d95273470b09f3d",
-        "candidate": "a6109214998ef7aa47c3c8b5b5d185d0f6df8071"
+        "candidate": "afaf459398887000714822584208afa59c5a8ebb"
       }
     },
     {
       "path": "tests/connected-studio-montage-http-integration.test.ts",
       "upstreamChanged": true,
       "customChanged": false,
-      "state": "upstream_exact",
+      "state": "integrated_change",
       "hashes": {
         "base": "5c7e97a055368e8dab11f4c6725fbccb1d4b04da",
         "upstream": "80d2e7714760e7ebb8c5774dcf11c9c316f7a9f9",
         "custom": "5c7e97a055368e8dab11f4c6725fbccb1d4b04da",
-        "candidate": "80d2e7714760e7ebb8c5774dcf11c9c316f7a9f9"
+        "candidate": "ebf8064a8dce78eceeede372a867e800f16d3337"
       }
     },
     {
@@ -50436,10 +50436,10 @@
       "path": "tests/connected-studio-task-browser-integration.test.ts",
       "upstreamChanged": true,
       "customChanged": false,
-      "state": "upstream_exact",
+      "state": "integrated_change",
       "hashes": {
         "upstream": "9f7f6d302cef029e470fb10a751023719ac65a46",
-        "candidate": "9f7f6d302cef029e470fb10a751023719ac65a46"
+        "candidate": "e1bed641d5a929ea02e52ddcad89b6a518b2b778"
       }
     },
     {
@@ -52040,12 +52040,12 @@
       "path": "tests/integration/mcp-seedance-mini-trial.test.ts",
       "upstreamChanged": true,
       "customChanged": false,
-      "state": "upstream_exact",
+      "state": "integrated_change",
       "hashes": {
         "base": "b4df963b0a85b92e5d9a5de8ab207a05d8a8e0f9",
         "upstream": "6bb77849df76f23a33a1bfc343cd796bd35b7bc9",
         "custom": "b4df963b0a85b92e5d9a5de8ab207a05d8a8e0f9",
-        "candidate": "6bb77849df76f23a33a1bfc343cd796bd35b7bc9"
+        "candidate": "cbebb9c193eb5192f7bb6ca59e4cc350d6fb6f83"
       }
     },
     {
