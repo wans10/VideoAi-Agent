@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import {createRequire} from 'node:module';
+import {startDisposablePostgres} from './helpers/disposable-postgres';
+const {repairStudioProjectAssetCache,digest}=createRequire(import.meta.url)('../frontend/scripts/repair-studio-project-asset-cache.cjs');
+
+test('bounded cache repair preserves full sequences and unrelated fields, rejects stale snapshots, and rolls back failures',async t=>{
+ const pg=await startDisposablePostgres('studio-cache-repair');let held: {release():void}|undefined;t.after(async()=>{held?.release();await pg.cleanup();});
+ await pg.pool.query(`CREATE TABLE studio_projects(id text PRIMARY KEY,user_id text,revision bigint,persistence_mode text,workspace_state jsonb,settings jsonb,updated_at timestamptz DEFAULT NOW(),deleted_at timestamptz);
+ CREATE TABLE studio_sequences(id text,project_id text,user_id text,timeline_state jsonb);
+ CREATE TABLE studio_project_commands(project_id text,idempotency_key text,payload jsonb);
+ CREATE TABLE media_assets(id text,public_id text,user_id text,kind text,status text,deleted_at timestamptz,metadata jsonb,url text,source_job_id text,source_output_id text);
+ CREATE TABLE app_jobs(job_id text,user_id text,hidden boolean);CREATE TABLE job_outputs(id text,job_id text,user_id text,status text);`);
+ const ref={type:'asset',assetId:'asset',kind:'video'},item={id:'cached',ref,filename:'Keep',mediaFacts:{source:'probe',durationSec:4},audioProvenance:'none',custom:{kept:true}};
+ const f={source:'probe',durationSec:4,width:854,height:480,hasAudio:true},metadata={mediaFacts:f},url='https://media.example.com/private.mp4';
+ const patch={mediaFacts:f,durationSec:4,width:854,height:480,hasAudio:true,audioProvenance:'embedded'};
+ await pg.pool.query(`INSERT INTO studio_projects(id,user_id,revision,persistence_mode,workspace_state,settings) VALUES('p','u',9,'connected',$1,'{"custom":true}')`,[JSON.stringify({projectAssets:[item],custom:{kept:true}})]);
+ await pg.pool.query(`INSERT INTO studio_sequences VALUES('s','p','u','{"timelineItems":[{"id":"clip","startSec":2,"durationSec":3,"audioMix":{"volume":25},"transform":{"scale":0.5}}],"locked":["audio"]}');INSERT INTO studio_project_commands VALUES('p','receipt','{"kept":true}');`);
+ await pg.pool.query(`INSERT INTO media_assets(id,public_id,user_id,kind,status,metadata,url) VALUES('a','asset','u','video','ready',$1,$2)`,[JSON.stringify(metadata),url]);
+ const alreadyCorrect={...item,...patch};
+ await pg.pool.query("UPDATE studio_projects SET workspace_state=jsonb_set(workspace_state,'{projectAssets}',$1::jsonb)",[JSON.stringify([item,alreadyCorrect])]);
+ const stored=(await pg.pool.query('SELECT workspace_state FROM studio_projects')).rows[0].workspace_state.projectAssets[0];
+ const storedMetadata=(await pg.pool.query('SELECT metadata FROM media_assets')).rows[0].metadata;
+ const plan={target:{projectId:'p',expectedRevision:'9',itemId:'cached',expectedSnapshotSha256:digest(stored),ref},verifiedSource:{ownerHash:digest('u'),urlSha256:digest(url),metadataSha256:digest(storedMetadata)},patchFields:patch};
+ const c=await pg.pool.connect();held=c;
+ const before=(await pg.pool.query('SELECT * FROM studio_projects')).rows;
+ await assert.rejects(repairStudioProjectAssetCache(c,{...plan,target:{...plan.target,expectedRevision:8}},{apply:true}),/REVISION_CHANGED/);
+ await assert.rejects(repairStudioProjectAssetCache(c,plan,{apply:true,backup:()=>{throw Error('backup failed')}}),/backup failed/);
+ assert.deepEqual((await pg.pool.query('SELECT * FROM studio_projects')).rows,before);
+ let backup:any;const preview=await repairStudioProjectAssetCache(c,plan,{backup:(x:any)=>backup=x});assert.equal(preview.applied,false);assert.deepEqual((await pg.pool.query('SELECT * FROM studio_projects')).rows,before);
+ const applied=await repairStudioProjectAssetCache(c,plan,{apply:true,backup:(x:any)=>backup=x});assert.equal(applied.afterRevision,'10');
+ const after=(await pg.pool.query('SELECT * FROM studio_projects')).rows[0];assert.deepEqual(after.workspace_state,{projectAssets:[{...item,...patch},alreadyCorrect],custom:{kept:true}});
+ assert.deepEqual((await pg.pool.query('SELECT * FROM studio_sequences ORDER BY id')).rows,backup.sequences);
+ await assert.rejects(repairStudioProjectAssetCache(c,plan,{apply:true}),/REVISION_CHANGED/);
+});

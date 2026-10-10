@@ -1,0 +1,332 @@
+{
+  "checkedAt": "2026-10-10T06:25:57.143599+00:00",
+  "source": "32b6168b3eef265cb67858ff8ad8723b1756ed18",
+  "independentlyVerified": true,
+  "web": {
+    "imageId": "sha256:247457ba33512550484e555234b609013e0f6a4a36f9d14814b7765f9330bec1",
+    "health": "healthy",
+    "restarts": 0,
+    "ociRevision": "32b6168b3eef265cb67858ff8ad8723b1756ed18"
+  },
+  "migration": {
+    "imageId": "sha256:9bf0330f79024ec248f0460a9602142289e0470b692b81ea19d6da70bb278510",
+    "exitCode": 0,
+    "ociRevision": "32b6168b3eef265cb67858ff8ad8723b1756ed18"
+  },
+  "qualityCI": {
+    "run": 38021410941,
+    "conclusion": "success"
+  },
+  "dockerCI": {
+    "run": 38021410982,
+    "conclusion": "success"
+  },
+  "flags": {
+    "conversation": true,
+    "actions": true,
+    "media": true,
+    "editing": true,
+    "exports": false
+  },
+  "authenticatedHealth": {
+    "container": {
+      "status": 200,
+      "ok": true
+    },
+    "public": {
+      "status": 200,
+      "ok": true
+    }
+  },
+  "audioFirstObservation": {
+    "checkedAt": "2026-10-10T06:21:28.583Z",
+    "source": "32b6168b3eef265cb67858ff8ad8723b1756ed18",
+    "errors": [],
+    "before": [
+      {
+        "id": "clip-c35c53ac84e007e58f659e40",
+        "hasEmbeddedAudio": false,
+        "mediaFacts": {
+          "source": "probe",
+          "durationSec": 4.087
+        }
+      }
+    ],
+    "insertion": {
+      "status": 200,
+      "ok": true,
+      "revision": 3
+    },
+    "newClip": {
+      "id": "clip-fc6aaf18c324e1f97e16d42d",
+      "hasEmbeddedAudio": true,
+      "audioProvenance": "embedded",
+      "mediaFacts": {
+        "width": 854,
+        "height": 480,
+        "source": "probe",
+        "hasAudio": true,
+        "durationSec": 4.087
+      }
+    },
+    "volumeEdit": {
+      "status": 200,
+      "persistedAfterReload": "0"
+    },
+    "audio": {
+      "muted": false,
+      "volume": 0,
+      "decodedBytes": 3901,
+      "width": 854,
+      "height": 480
+    },
+    "passed": false,
+    "failure": {
+      "name": "AssertionError",
+      "message": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    }
+  },
+  "audioFinal": {
+    "checkedAt": "2026-10-10T06:22:30.657Z",
+    "source": "32b6168b3eef265cb67858ff8ad8723b1756ed18",
+    "errors": [],
+    "newClip": {
+      "id": "clip-fc6aaf18c324e1f97e16d42d",
+      "mediaFacts": {
+        "width": 854,
+        "height": 480,
+        "source": "probe",
+        "hasAudio": true,
+        "durationSec": 4.087
+      },
+      "hasEmbeddedAudio": true,
+      "audioMix": {
+        "muted": false,
+        "volume": 100
+      }
+    },
+    "volumeEdit": {
+      "status": 200,
+      "persistedAfterReload": "0"
+    },
+    "restoredMix": {
+      "muted": false,
+      "volume": 100
+    },
+    "audio": {
+      "muted": false,
+      "volume": 1,
+      "decodedBytes": 3901,
+      "width": 854,
+      "height": 480
+    },
+    "passed": true
+  },
+  "playback": {
+    "checkedAt": "2026-10-10T06:23:57.632Z",
+    "source": "32b6168b3eef265cb67858ff8ad8723b1756ed18",
+    "probeHost": "111.228.7.169",
+    "steps": [
+      {
+        "name": "signedRange",
+        "status": 206,
+        "bytes": 1024
+      },
+      {
+        "name": "decodedPlaybackAndPause",
+        "width": 854,
+        "height": 480,
+        "time": 0.902,
+        "paused": true
+      },
+      {
+        "name": "expiredSignatureRecovery",
+        "trigger": "browser-only old URL consistently returns 403; duplicate and delayed decoder errors",
+        "expiredRequests": 1,
+        "renewalStatus": 200,
+        "newSignature": true,
+        "timeBefore": 0.902,
+        "timeAfter": 0.902,
+        "decodedReady": 3
+      },
+      {
+        "name": "resumedPlayback",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "network": [
+      {
+        "status": 200,
+        "range": null
+      },
+      {
+        "status": 206,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 206,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 200,
+        "range": null
+      },
+      {
+        "status": 403,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 206,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 200,
+        "range": null
+      },
+      {
+        "status": 200,
+        "range": null
+      }
+    ],
+    "alerts": [
+      ""
+    ],
+    "passed": true
+  },
+  "dedicatedProjectOldClipReplacement": {
+    "scope": "only explicitly authorized dedicated acceptance project",
+    "originalMediaChanged": false,
+    "before": {
+      "id": "clip-c35c53ac84e007e58f659e40",
+      "hasEmbeddedAudio": false,
+      "duration": 2
+    },
+    "replacement": {
+      "id": "clip-bd32b2d000143678a825d24a",
+      "hasEmbeddedAudio": true,
+      "mediaFacts": {
+        "width": 854,
+        "height": 480,
+        "source": "probe",
+        "hasAudio": true,
+        "durationSec": 4.087
+      }
+    },
+    "finalRevision": 9,
+    "clips": [
+      {
+        "id": "clip-bd32b2d000143678a825d24a",
+        "start": 0,
+        "duration": 2,
+        "hasEmbeddedAudio": true,
+        "audioMix": {
+          "muted": false,
+          "volume": 100
+        }
+      },
+      {
+        "id": "clip-fc6aaf18c324e1f97e16d42d",
+        "start": 2,
+        "duration": 2,
+        "hasEmbeddedAudio": true,
+        "audioMix": {
+          "muted": false,
+          "volume": 100
+        }
+      }
+    ]
+  },
+  "interpretation": {
+    "newInsertionAudioFactsBug": "Fixed and verified in production: probe dimensions/audio truth, volume gesture persistence and decoded audio volume.",
+    "firstAudioAssertion": "Test read decoder volume before authoritative edit refresh completed; waiting for controls enabled, canonical mix and actual decoder volume passed. Original failed observation retained.",
+    "existingOtherProjects": "No broad inventory or mutation performed. Existing clips in other projects do not auto-backfill. Dedicated acceptance project was corrected through remove/reinsert only.",
+    "exports": "Remain disabled; not production export acceptance.",
+    "physicalSpeakerOutput": "Headless audio decoding proven, physical speaker output not measured.",
+    "paidOperations": 0,
+    "originalMediaChanged": false,
+    "allFeaturesReleaseClaim": false
+  },
+  "publicBrowser": [
+    {
+      "path": "/zh",
+      "status": 200,
+      "finalUrl": "https://app.keyvo.cn/zh",
+      "title": "按需付费 AI 视频生成平台 | Keyvo",
+      "headings": [
+        "把脑中的一场戏，拍成眼前的一镜。"
+      ],
+      "pageErrors": [],
+      "playback": null
+    },
+    {
+      "path": "/zh/pricing",
+      "status": 200,
+      "finalUrl": "https://app.keyvo.cn/zh/pricing",
+      "title": "AI 视频生成计费与模型价格对比 | Keyvo",
+      "headings": [
+        "把预算留给值得拍的镜头。"
+      ],
+      "pageErrors": [],
+      "playback": null
+    },
+    {
+      "path": "/zh/examples",
+      "status": 200,
+      "finalUrl": "https://app.keyvo.cn/zh/examples",
+      "title": "AI 视频案例：提示词、模型与生成费用记录 — Keyvo",
+      "headings": [
+        "镜头放映室"
+      ],
+      "pageErrors": [],
+      "playback": null
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "finalUrl": "https://app.keyvo.cn/login",
+      "title": "Keyvo — 登录",
+      "headings": [
+        "创建您的工作区账户"
+      ],
+      "pageErrors": [],
+      "playback": null
+    },
+    {
+      "path": "/app/studio",
+      "status": 200,
+      "finalUrl": "https://app.keyvo.cn/app/studio",
+      "title": "Studio | Keyvo — Keyvo",
+      "headings": [
+        "Studio."
+      ],
+      "pageErrors": [],
+      "playback": null
+    },
+    {
+      "path": "/video/job_4a7156e8-2b3e-4569-9a34-b0ec5485cc8e",
+      "status": 200,
+      "finalUrl": "https://app.keyvo.cn/video/job_4a7156e8-2b3e-4569-9a34-b0ec5485cc8e",
+      "title": "Wan 3 image-to-video example: A surreal cinematic macro video Tiny — Keyvo",
+      "headings": [
+        "Wan 3 image-to-video example: A surreal cinematic macro video Tiny"
+      ],
+      "pageErrors": [],
+      "playback": {
+        "ready": 2,
+        "time": 0.740372,
+        "width": 1280,
+        "height": 720,
+        "error": null
+      }
+    },
+    {
+      "path": "/api/health/db",
+      "status": 401,
+      "body": {
+        "ok": false,
+        "error": "UNAUTHORIZED"
+      }
+    }
+  ]
+}

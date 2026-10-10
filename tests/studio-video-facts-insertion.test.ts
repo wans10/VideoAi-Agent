@@ -88,6 +88,22 @@ test('partial probed metadata cannot infer silent audio or skip measured dimensi
   }
 });
 
+test('reinserting an owned source refreshes its stale project cache without replacing authored fields or duplicating it', async () => {
+  const {state,dependencies}=fixture();
+  const stale={id:'keep-id',kind:'video',ref,filename:'Keep my title',url:state.source.url,thumbUrl:'https://media.maxvideoai.com/keep.jpg',mediaFacts:{source:'probe',durationSec:5},hasAudio:false,audioProvenance:'none',custom:{kept:true}};
+  const unrelated={...stale,id:'unrelated',ref:{...ref,outputId:'different'}};
+  state.workspace.projectAssets=[stale,unrelated];
+  await editStudioConversationTimeline({userId:'owner'},command,dependencies);
+  const assets=state.workspace.projectAssets as any[];
+  assert.equal(assets.length,2);
+  assert.deepEqual(assets[1],unrelated);
+  const updated=assets[0];
+  assert.deepEqual(updated,{...stale,mediaFacts:facts,durationSec:6,width:320,height:180,hasAudio:true,audioProvenance:'embedded'});
+  const saved=structuredClone(assets);
+  await editStudioConversationTimeline({userId:'owner'},command,dependencies);
+  assert.deepEqual(state.workspace.projectAssets,saved,'Receipt replay leaves cache and clips unchanged.');
+});
+
 test('source preparation cannot bypass ownership, project quote scope, revision or measured duration', async () => {
   for (const scenario of ['foreign', 'scope', 'revision', 'overlong'] as const) {
     const { state, dependencies } = fixture();

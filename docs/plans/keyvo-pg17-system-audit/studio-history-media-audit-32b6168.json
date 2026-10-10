@@ -1,0 +1,144 @@
+{
+  "checkedAt": "2026-10-10T06:39:20.093Z",
+  "mode": "REPEATABLE READ READ ONLY; no probes, grants or writes",
+  "projectCount": 2,
+  "sequenceCount": 2,
+  "activeProjects": 2,
+  "activeSequences": 2,
+  "counts": {
+    "active.asset.video": 3,
+    "active.issues": 1,
+    "active.clip.video": 2
+  },
+  "issues": [
+    {
+      "projectId": "project_7542036a-7098-4fa5-b5f4-1ba65b36515d",
+      "ownerHash": "17df086a87ca712217281af38a5d9980caeb33e08a9e360a320db0e1acb9059d",
+      "revision": "9",
+      "persistenceMode": "connected",
+      "location": "workspace.projectAssets",
+      "active": true,
+      "itemType": "asset",
+      "itemId": "studio-media-output:job_c05e77c1-c568-4e57-91d6-93bb1c1726a3:video:0",
+      "kind": "video",
+      "ref": {
+        "kind": "video",
+        "type": "asset",
+        "assetId": "ma_099af84a53ca4ec680d8515a99a860b6"
+      },
+      "missing": [
+        "width",
+        "height",
+        "hasAudio"
+      ],
+      "contradictions": [],
+      "facts": {
+        "durationSec": 4.087
+      },
+      "audioProvenance": "none",
+      "sourceStatus": "owned_ready",
+      "sourceFacts": {
+        "durationSec": 4.087,
+        "width": 854,
+        "height": 480,
+        "hasAudio": true
+      },
+      "sourceMissing": [],
+      "snapshotSha256": "13992d83d32662413f406b68e451782f0ce07b5a306bee82b650d4d1a45434fa"
+    }
+  ],
+  "sources": [
+    {
+      "ownerHash": "17df086a87ca712217281af38a5d9980caeb33e08a9e360a320db0e1acb9059d",
+      "status": "owned_ready",
+      "ref": {
+        "kind": "video",
+        "type": "asset",
+        "assetId": "ma_099af84a53ca4ec680d8515a99a860b6"
+      },
+      "facts": {
+        "durationSec": 4.087,
+        "width": 854,
+        "height": 480,
+        "hasAudio": true
+      },
+      "missing": [],
+      "urlSha256": "995838e9356b405c6f432b35e5b226314026ececd38e1f3748d8db8a879e311f",
+      "metadataSha256": "a89bf7557f71fbbe1beeb20dc093a87c60f05055fc02d7663f5106ac6209aea7"
+    }
+  ],
+  "malformed": [],
+  "scannedItems": 5,
+  "uniqueSources": 1,
+  "independentCrosscheck": {
+    "checkedAt": "2026-10-10T06:39:58.157Z",
+    "transactionMode": [
+      {
+        "transaction_read_only": "on"
+      }
+    ],
+    "projectModes": [
+      {
+        "persistence_mode": "connected",
+        "projects": 2
+      }
+    ],
+    "sequenceItems": [
+      {
+        "project_id": "project_4648deeb-2343-43f5-a48a-d30d59092362",
+        "sequence_id": "sequence_043f9a66-9175-4645-ad67-6137997f5f4a",
+        "video_clips": 0,
+        "audio_clips": 0,
+        "image_clips": 0
+      },
+      {
+        "project_id": "project_7542036a-7098-4fa5-b5f4-1ba65b36515d",
+        "sequence_id": "sequence_97ae3d83-1447-4f31-8b0c-ec8c7147833c",
+        "video_clips": 2,
+        "audio_clips": 0,
+        "image_clips": 0
+      }
+    ],
+    "projectAssetsTable": [
+      {
+        "total": 0,
+        "active": 0
+      }
+    ],
+    "rootShapes": [
+      {
+        "id": "project_4648deeb-2343-43f5-a48a-d30d59092362",
+        "root_timeline_type": "array",
+        "embedded_sequence_count": 0,
+        "assets": 0
+      },
+      {
+        "id": "project_7542036a-7098-4fa5-b5f4-1ba65b36515d",
+        "root_timeline_type": "array",
+        "embedded_sequence_count": 0,
+        "assets": 3
+      }
+    ],
+    "orphanSequenceOwners": [
+      {
+        "invalid": 0
+      }
+    ]
+  },
+  "conclusion": {
+    "affectedTimelineClips": 0,
+    "affectedProjectAssetCaches": 1,
+    "affectedProjects": 1,
+    "sourceRecordsRequiringProbe": 0,
+    "sourceOwnershipIssues": 0,
+    "malformedRecords": 0,
+    "productionWrites": 0,
+    "scope": "All 2 projects (including deletion state), all 2 sequences, root timelines, embedded sequences, projectAssets, and studio_project_assets table at read snapshots. Snapshots do not include future writes."
+  },
+  "evidenceSha256": {
+    "keyvo-history-audit.json": "65b5c8ebbd2df2aa176655441b635d7a2fa66236df0b8840fb32b9299eb72e0b",
+    "keyvo-history-crosscheck.json": "29d164a14a7464ad7f930659e3eb4df3e932c5a5d4e0e88366c42bd6973f7c4b",
+    "keyvo-history-audit.cjs": "b9f61e11d04683ec9bbe181aded820984956b7b385f92e5f7a82e666e04c242f",
+    "keyvo-history-crosscheck.cjs": "4772298cdfca483e4f75c3d5bcb63906d6ca240a6afce7593526670f756efc8a"
+  }
+}
