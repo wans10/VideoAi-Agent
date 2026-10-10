@@ -1,3 +1,4 @@
+import {isStudioSameOriginRequest} from './studio-route-utils';
 import type {NextRequest} from 'next/server';
 import {z,ZodError} from 'zod';
 import {resolveStudioApiAccess} from '@/server/studio/access';
@@ -12,7 +13,7 @@ export async function handleStudioTask(req:NextRequest,projectId:string,requestI
   const access=await (dependencies.resolveAccess??resolveStudioApiAccess)(req);
   if(!access.ok)return studioJson({ok:false,error:access.error},{status:access.status});
   if(!projectId||projectId!==projectId.trim()||projectId.length>128||!z.string().uuid().safeParse(requestId).success)return studioJson({ok:false,error:'INVALID_REQUEST'},{status:400});
-  if(operation!=='read'&&(req.headers.get('origin')!==req.nextUrl.origin||req.headers.get('sec-fetch-site')==='cross-site'))return studioJson({ok:false,error:'SAME_ORIGIN_REQUIRED'},{status:403});
+  if(operation!=='read'&&!isStudioSameOriginRequest(req))return studioJson({ok:false,error:'SAME_ORIGIN_REQUIRED'},{status:403});
   try{
     const service=(dependencies.serviceFactory??createStudioTaskService)({authMethod:'studio-session',userId:access.userId,projectId,clientId:null});
     if(operation==='read')return studioJson({ok:true,result:await service.read(requestId)});

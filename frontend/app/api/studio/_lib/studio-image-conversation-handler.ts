@@ -1,3 +1,4 @@
+import {isStudioSameOriginRequest} from './studio-route-utils';
 import {createStudioTaskConversationAdapter} from '@/server/studio/tasks/conversation-adapter';
 import {studioTasksEnabled} from '@/server/studio/tasks/policy';
 import {scheduleStudioWorker} from '@/server/studio/worker-host';
@@ -67,8 +68,7 @@ export async function handleStudioImageConversation(
     return studioJson({ ok: false, error: "INVALID_PROJECT" }, { status: 400 });
   if (
     action !== "read" &&
-    (req.headers.get("origin") !== req.nextUrl.origin ||
-      req.headers.get("sec-fetch-site") === "cross-site")
+    !isStudioSameOriginRequest(req)
   ) {
     return studioJson(
       { ok: false, error: "SAME_ORIGIN_REQUIRED" },
@@ -98,7 +98,7 @@ export async function handleStudioImageConversation(
     const service = (
       overrides.serviceFactory ?? createImageConversationService
     )(actor, { enabled, ...(process.env.STUDIO_CONVERSATION_ACTIONS_ENABLED === "true" ? {actionsEnabled: true,
-      mediaEnabled: process.env.STUDIO_CONVERSATION_MEDIA_ENABLED === 'true',editingEnabled: process.env.STUDIO_CONVERSATION_EDITING_ENABLED === 'true',exportsEnabled: process.env.STUDIO_CONVERSATION_EXPORTS_ENABLED === 'true',requestOrigin: req.nextUrl.origin} : {}) });
+      mediaEnabled: process.env.STUDIO_CONVERSATION_MEDIA_ENABLED === 'true',editingEnabled: process.env.STUDIO_CONVERSATION_EDITING_ENABLED === 'true',exportsEnabled: process.env.STUDIO_CONVERSATION_EXPORTS_ENABLED === 'true',requestOrigin: req.headers.get('origin')!} : {}) });
     const adapter=(overrides.taskAdapterFactory??createStudioTaskConversationAdapter)(actor,service,overrides.tasksEnabled??studioTasksEnabled());
     const result =
       action === "read"

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {NextRequest} from 'next/server';
+import {isStudioSameOriginRequest} from '../frontend/app/api/studio/_lib/studio-route-utils';
 import {handleStudioConversationEditing} from '../frontend/app/api/studio/_lib/studio-conversation-editing-handler';
 
 test('native editing guards account, gate, origin and bounded scope before any mutation',async () => {
@@ -35,4 +36,24 @@ test('renaming requires the authenticated account and origin; names and request 
   assert.equal(calls,0);
   const response=await handleStudioConversationEditing(request(valid),'rename',undefined,options);
   assert.equal(response.status,200);assert.equal(response.headers.get('cache-control'),'private, no-store');assert.equal(calls,1);
+});
+
+
+test('production HTTPS proxy origin permits owned creation but rejects foreign and malformed forwarding',async()=>{
+ const payload={name:'Proxy fixture',idempotencyKey:'proxy-fixture'};let creates=0;
+ const options={enabled:true,resolveAccess:async()=>({ok:true as const,userId:'owner'}),create:async()=>{creates++;return {projectId:'film',sequenceId:'seq',revision:0};}};
+ const req=(headers:Record<string,string>)=>new NextRequest('https://0.0.0.0:3000/api/studio/conversation-projects',{method:'POST',headers,body:JSON.stringify(payload)});
+ const headers={origin:'https://app.keyvo.cn',host:'app.keyvo.cn','x-forwarded-proto':'https'};
+ assert.equal((await handleStudioConversationEditing(req(headers),'create',undefined,options)).status,200);
+ for(const changes of [{origin:'https://foreign.example'},{'sec-fetch-site':'cross-site'},{host:'app.keyvo.cn, foreign.example'},{'x-forwarded-host':'app.keyvo.cn, foreign.example'},{'x-forwarded-proto':'javascript'},{origin:'https://app.keyvo.cn/path'}])assert.equal((await handleStudioConversationEditing(req({...headers,...changes}),'create',undefined,options)).status,403);
+ assert.equal(creates,1);
+});
+
+
+test('shared Studio mutation origin guard supports exact local and proxy origins without accepting cross-site intent',()=>{
+ const request=(url:string,headers:Record<string,string>)=>new NextRequest(url,{headers});
+ assert.equal(isStudioSameOriginRequest(request('http://localhost:4320/api/studio',{origin:'http://localhost:4320'})),true);
+ assert.equal(isStudioSameOriginRequest(request('https://0.0.0.0:3000/api/studio',{origin:'https://app.keyvo.cn',host:'app.keyvo.cn','x-forwarded-proto':'https'})),true);
+ for(const origin of ['', 'null','https://foreign.example','https://user:pass@app.keyvo.cn','https://app.keyvo.cn/path'])assert.equal(isStudioSameOriginRequest(request('https://0.0.0.0:3000/api/studio',{origin,host:'app.keyvo.cn','x-forwarded-proto':'https'})),false);
+ assert.equal(isStudioSameOriginRequest(request('https://app.keyvo.cn/api/studio',{origin:'https://app.keyvo.cn','sec-fetch-site':'cross-site'})),false);
 });

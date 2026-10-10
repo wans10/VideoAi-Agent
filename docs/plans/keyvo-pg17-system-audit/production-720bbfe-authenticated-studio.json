@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-10-10T02:21:14.446850+00:00",
+  "source": "720bbfe73a3e630b911a915de6b1880e2c2fbabf",
+  "account": "wans10@hotmail.com",
+  "authentication": "success; no email sent",
+  "projectEndpoint": {
+    "status": 404,
+    "error": "STUDIO_CONVERSATION_EDITING_DISABLED"
+  },
+  "flags": {
+    "STUDIO_IMAGE_CONVERSATION_ENABLED": true,
+    "STUDIO_CONVERSATION_ACTIONS_ENABLED": true,
+    "STUDIO_CONVERSATION_MEDIA_ENABLED": true,
+    "STUDIO_CONVERSATION_EDITING_ENABLED": true,
+    "STUDIO_CONVERSATION_EXPORTS_ENABLED": false
+  },
+  "authenticatedPage": {
+    "status": 200,
+    "alert": "Studio is temporarily unavailable. Please try again.",
+    "browserExceptions": []
+  },
+  "impact": "Studio conversation entry unavailable in production under current flags; preview/renewal/editing cannot be verified there",
+  "productionWrites": "Four authorized flags enabled and Web recreated; no project created, no paid requests",
+  "paidRequests": 0,
+  "next": "Push candidate, require Quality CI and Docker build; user deploys new image before production playback/renewal/editing acceptance",
+  "authorization": "User approved enabling four Studio flags and restarting Web",
+  "afterEnable": {
+    "projectReadStatus": 200,
+    "projectCreateStatus": 403,
+    "error": "SAME_ORIGIN_REQUIRED",
+    "pageAlert": "Studio could not confirm your project. Try again to recover the same project."
+  },
+  "newConfirmedBug": "Studio origin comparison uses internal Next URL behind HTTPS standalone proxy",
+  "fix": "Shared proxy-aware same-origin guard; validated Origin passed to services",
+  "localValidation": {
+    "before": "Legal proxy origin returns 403",
+    "after": "25 focused tests pass; TypeScript pass; lint zero errors; exposure pass",
+    "localLimitation": "Disposable PostgreSQL executable incompatible with local architecture; full validation delegated to CI"
+  }
+}

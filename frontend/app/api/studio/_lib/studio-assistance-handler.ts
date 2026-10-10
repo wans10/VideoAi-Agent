@@ -1,3 +1,4 @@
+import {isStudioSameOriginRequest} from './studio-route-utils';
 import type {NextRequest} from 'next/server';
 import {ZodError} from 'zod';
 import {resolveStudioApiAccess,type StudioAccessDecision} from '@/server/studio/access';
@@ -16,7 +17,7 @@ async function boundedChoice(req:NextRequest){
 export async function handleStudioAssistance(req:NextRequest,action:'read'|'choose',overrides:{resolveAccess?:(req:NextRequest)=>Promise<StudioAccessDecision>;read?:typeof readStudioAssistanceStatus;choose?:typeof chooseStudioAssistance}={}){
   const access=await(overrides.resolveAccess??resolveStudioApiAccess)(req);
   if(!access.ok)return studioJson({ok:false,error:access.error},{status:access.status});
-  if(action==='choose'&&(req.headers.get('origin')!==req.nextUrl.origin||req.headers.get('sec-fetch-site')==='cross-site'))return studioJson({ok:false,error:'SAME_ORIGIN_REQUIRED'},{status:403});
+  if(action==='choose'&&!isStudioSameOriginRequest(req))return studioJson({ok:false,error:'SAME_ORIGIN_REQUIRED'},{status:403});
   try{
     const result=action==='read'?await(overrides.read??readStudioAssistanceStatus)(access.userId):await(overrides.choose??chooseStudioAssistance)(access.userId,await boundedChoice(req));
     return studioJson({ok:true,result});

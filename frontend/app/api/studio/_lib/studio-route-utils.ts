@@ -1,3 +1,4 @@
+import { isSameOriginConsentRequest } from '@/server/mcp/oauth-consent';
 import { NextRequest, NextResponse } from 'next/server';
 import { isDatabaseConfigured } from '@/lib/db';
 import { resolveStudioApiAccess } from '@/server/studio/access';
@@ -32,4 +33,9 @@ export function payloadRecord(value: unknown): Record<string, unknown> {
 
 export function payloadString(value: unknown): string | undefined {
   return typeof value === 'string' ? value : undefined;
+}
+
+/** Preserve browser same-origin intent across the trusted deployment proxy. */
+export function isStudioSameOriginRequest(req: NextRequest): boolean {
+  return req.headers.get('sec-fetch-site') !== 'cross-site' && isSameOriginConsentRequest(req);
 }
