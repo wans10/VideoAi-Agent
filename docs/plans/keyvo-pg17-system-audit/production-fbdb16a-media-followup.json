@@ -1,0 +1,300 @@
+{
+  "checkedAt": "2026-10-10T03:26:06.338643+00:00",
+  "source": "fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+  "networkConclusion": "Authorized remote test server resolved storage and decoded signed media; prior local DNS timeout does not establish a global storage outage.",
+  "playback": {
+    "checkedAt": "2026-10-10T03:19:03.397Z",
+    "source": "fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+    "probeHost": "111.228.7.169",
+    "steps": [
+      {
+        "name": "signedRange",
+        "status": 206,
+        "bytes": 1024
+      },
+      {
+        "name": "decodedPlaybackAndPause",
+        "width": 854,
+        "height": 480,
+        "time": 0.35,
+        "paused": true
+      },
+      {
+        "name": "expiredSignatureRecovery",
+        "trigger": "browser-only old URL consistently returns 403; duplicate and delayed decoder errors",
+        "expiredRequests": 1,
+        "renewalStatus": 200,
+        "newSignature": true,
+        "timeBefore": 0.35,
+        "timeAfter": 0.35,
+        "decodedReady": 4
+      },
+      {
+        "name": "resumedPlayback",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "network": [
+      {
+        "status": 200,
+        "range": null
+      },
+      {
+        "status": 206,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 403,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 200,
+        "range": null
+      },
+      {
+        "status": 206,
+        "range": "bytes=0-"
+      }
+    ],
+    "alerts": [
+      ""
+    ],
+    "passed": true
+  },
+  "audioAndMetadata": {
+    "checkedAt": "2026-10-10T03:21:38.410Z",
+    "source": "fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+    "probeHost": "111.228.7.169",
+    "steps": [
+      {
+        "name": "signedRange",
+        "status": 206,
+        "bytes": 1024
+      },
+      {
+        "name": "decodedPlaybackAndPause",
+        "width": 854,
+        "height": 480,
+        "time": 0.399999,
+        "paused": true,
+        "audio": {
+          "muted": false,
+          "volume": 1,
+          "audioDecodedBytes": 13973
+        }
+      },
+      {
+        "name": "expiredSignatureRecovery",
+        "trigger": "browser-only old URL consistently returns 403; duplicate and delayed decoder errors",
+        "expiredRequests": 1,
+        "renewalStatus": 200,
+        "newSignature": true,
+        "timeBefore": 0.399999,
+        "timeAfter": 0.399999,
+        "decodedReady": 3
+      },
+      {
+        "name": "resumedPlayback",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "projection": [
+      {
+        "id": "clip-c35c53ac84e007e58f659e40",
+        "hasEmbeddedAudio": false,
+        "audioProvenance": "none",
+        "mediaFacts": {
+          "source": "probe",
+          "durationSec": 4.087
+        },
+        "audioMix": {
+          "muted": false,
+          "volume": 100
+        }
+      }
+    ],
+    "network": [
+      {
+        "status": 200,
+        "range": null
+      },
+      {
+        "status": 206,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 403,
+        "range": "bytes=0-"
+      },
+      {
+        "status": 200,
+        "range": null
+      },
+      {
+        "status": 206,
+        "range": "bytes=0-"
+      }
+    ],
+    "alerts": [
+      ""
+    ],
+    "passed": true
+  },
+  "originalByteProbes": [
+    {
+      "jobId": "job_4a7156e8-2b3e-4569-9a34-b0ec5485cc8e",
+      "index": 0,
+      "status": 200,
+      "bytes": 8772928,
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1280,
+            "height": 720
+          }
+        ],
+        "format": {
+          "duration": "5.000000"
+        }
+      }
+    },
+    {
+      "jobId": "job_c05e77c1-c568-4e57-91d6-93bb1c1726a3",
+      "index": 1,
+      "status": 200,
+      "bytes": 1560821,
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 854,
+            "height": 480
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "4.062993"
+        }
+      }
+    },
+    {
+      "jobId": "job_db86ac03-09b6-4f7a-9e3c-37470ff8d5e9",
+      "index": 2,
+      "status": 200,
+      "bytes": 1655767,
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1280,
+            "height": 720
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "4.010000"
+        }
+      }
+    },
+    {
+      "jobId": "job_186f1102-c81f-4601-bc1b-1d38907da96d",
+      "index": 3,
+      "status": 200,
+      "bytes": 832144,
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 992,
+            "height": 432
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "5.088000"
+        }
+      }
+    },
+    {
+      "jobId": "job_e7de92e6-3165-40ec-9580-25aa97933057",
+      "index": 4,
+      "status": 200,
+      "bytes": 3307723,
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 854,
+            "height": 480
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "4.040000"
+        }
+      }
+    }
+  ],
+  "newBug": {
+    "confirmed": true,
+    "trigger": "Legacy source:probe facts contain duration only; insertion skips hydration and assigns audioProvenance:none to unknown audio.",
+    "impact": "Actual browser audio decodes unmuted, but audio editing controls are absent and stored clip facts are incomplete.",
+    "oldImplementationRegression": "1 failed; expected hydrate call 1, actual 0",
+    "fixedDatabaseRegression": "3 passed, 0 failed, 0 skipped",
+    "candidateFix": "Require duration, width, height and explicit audio boolean before video insertion; hydrate original bytes outside transaction.",
+    "productionFixed": false,
+    "existingClips": "No broad repair was applied; existing stored clips retain their facts. Corrected insertion does not automatically backfill existing clips.",
+    "additionalRegression": "29 passed, 0 failed, 0 skipped: Studio qualification and insertion original-byte probing"
+  },
+  "verificationScope": {
+    "physicalAudibility": "Headless decoder bytes prove audio decoding, not physical speaker output.",
+    "expiration": "Browser-only old URL forced to persistent 403; no storage permissions or clocks changed.",
+    "paidOperations": 0,
+    "publicVisibilityChanged": false,
+    "productionSSHFlagsRecheck": "Still times out during banner exchange; functional editor/media APIs are effective."
+  },
+  "candidateChecks": {
+    "typescript": "passed",
+    "lint": "0 errors, 10 existing warnings",
+    "publicExposure": "passed",
+    "diffCheck": "passed",
+    "completeEditor": {
+      "tests": 1172,
+      "passed": 1171,
+      "failed": 0,
+      "skipped": 1,
+      "skip": "Opt-in local multitrack render; no production export acceptance",
+      "initialFixtureFailureRuns": "Retained: light code snapshot omitted referenced fixtures; original-byte fixtures restored; affected rerun passed 29/29; final full suite 1171/0/1."
+    },
+    "evidenceSha256": {
+      "keyvo-audio-editor-final.log": "581f34b1d0f6ca5781b123a757c004a8d9f4294b3b04172888ed0df2c0d73b55",
+      "keyvo-audio-before-final.log": "088ea9dfacf4d07a9ab1d27368d79f76dd4b5d9f3651b830495661f99486b770",
+      "keyvo-audio-focus-final.log": "901665f27d4628b1518e9f4b4b936c472d5429dda9a3f67c7747686e9e24c951"
+    }
+  }
+}

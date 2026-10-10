@@ -71,6 +71,23 @@ test('a ready generated video obtains measured facts outside locks before the sh
   assert.equal(state.hydrations, 1, 'Receipt replay cannot inspect or require the source again.');
 });
 
+test('partial probed metadata cannot infer silent audio or skip measured dimensions', async () => {
+  for (const partial of [
+    {source:'probe',durationSec:6},
+    {source:'probe',durationSec:6,width:320,height:180},
+    {source:'probe',durationSec:6,hasAudio:false},
+  ]) {
+    const {state,dependencies}=fixture();
+    state.source.metadata.mediaFacts=partial;
+    await editStudioConversationTimeline({userId:'owner'},command,dependencies);
+    assert.equal(state.hydrations,1);
+    const item=(state.timeline.timelineItems as any[])[0];
+    assert.equal(item.hasEmbeddedAudio,true);
+    assert.equal(item.audioProvenance,'embedded');
+    assert.deepEqual(item.mediaFacts,facts);
+  }
+});
+
 test('source preparation cannot bypass ownership, project quote scope, revision or measured duration', async () => {
   for (const scenario of ['foreign', 'scope', 'revision', 'overlong'] as const) {
     const { state, dependencies } = fixture();

@@ -116,13 +116,16 @@ async function insertion(actor: ConversationEditActor, input: ConversationTimeli
   const sourceStartSec=timelineFrameToSeconds(edit.sourceInFrame??0,settings.fps);
   if(media.kind==='image'&&sourceStartSec!==0)throw new Error('Invalid Studio image source offset.');
   if (durationSec < 1 || durationSec > 1800) throw new Error('Invalid Studio timeline clip duration.');
-  if (media.kind !== 'image' && (!media.mediaFacts?.durationSec || media.mediaFacts.source !== 'probe')) {
+  const completeVideoFacts = media.mediaFacts?.source === 'probe' && media.mediaFacts.durationSec
+    && media.mediaFacts.width && media.mediaFacts.height && typeof media.mediaFacts.hasAudio === 'boolean';
+  if (media.kind !== 'image' && (!media.mediaFacts?.durationSec || media.mediaFacts.source !== 'probe'
+    || (media.kind === 'video' && !completeVideoFacts))) {
     if (media.kind === 'video') throw new VideoFactsPreparationRequired(media);
     throw new Error('MEDIA_METADATA_REQUIRED');
   }
   if (media.kind !== 'image' && durationSec+sourceStartSec > media.mediaFacts!.durationSec! + .000001) throw new Error('Invalid Studio timeline clip duration.');
   const id = createHash('sha256').update(input.idempotencyKey).digest('hex').slice(0,24);
-  const asset: WorkspaceAssetRecord = {id: `studio-media-${media.id}`,ref: media.ref,kind: media.kind,filename: media.originalName ?? `${media.kind} clip`,subtitle: media.kind,url: media.url,mimeType: media.mime,thumbUrl: media.thumbUrl ?? undefined,mediaFacts: media.mediaFacts,mediaAccessRequired: true,durationSec: media.mediaFacts?.durationSec,width: media.mediaFacts?.width,height: media.mediaFacts?.height,hasAudio: media.mediaFacts?.hasAudio,audioProvenance: media.mediaFacts?.hasAudio ? 'embedded' : 'none'};
+  const asset: WorkspaceAssetRecord = {id: `studio-media-${media.id}`,ref: media.ref,kind: media.kind,filename: media.originalName ?? `${media.kind} clip`,subtitle: media.kind,url: media.url,mimeType: media.mime,thumbUrl: media.thumbUrl ?? undefined,mediaFacts: media.mediaFacts,mediaAccessRequired: true,durationSec: media.mediaFacts?.durationSec,width: media.mediaFacts?.width,height: media.mediaFacts?.height,hasAudio: media.mediaFacts?.hasAudio,audioProvenance: media.mediaFacts?.hasAudio === true ? 'embedded' : media.mediaFacts?.hasAudio === false ? 'none' : 'unknown'};
   const drafts = buildWorkspaceTimelineItemsForAsset({assetNodeId: asset.id,title: asset.filename,asset,startSec: 0,idSeed: id});
   const draft = drafts[0];
   if (!draft) throw new Error('MEDIA_NOT_AVAILABLE');

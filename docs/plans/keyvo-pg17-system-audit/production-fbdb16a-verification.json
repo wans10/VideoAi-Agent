@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-10T03:14:54.824196+00:00",
+  "source": "fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+  "web": {
+    "image": "wans10/videoai-web:fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+    "imageId": "sha256:80a215f64c900a2d26475f35590a8dee79cbfc26511f06c35ea34de45d72889e",
+    "ociRevision": "fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+    "health": "healthy",
+    "restarts": 0
+  },
+  "migration": {
+    "image": "wans10/videoai-db-migrate:fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+    "imageId": "sha256:39bfa42698e7cf5690448fbf34152ab74871b8efbbb268ed56232952590f377f",
+    "ociRevision": "fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+    "exitCode": 0
+  },
+  "qualityCI": {
+    "run": 38017089648,
+    "conclusion": "success"
+  },
+  "dockerCI": {
+    "run": 38017089713,
+    "conclusion": "success"
+  },
+  "authenticatedStudio": {
+    "projectId": "project_7542036a-7098-4fa5-b5f4-1ba65b36515d",
+    "projectCreation": "passed",
+    "existingPrivateVideoImport": "passed",
+    "edit": {
+      "checkedAt": "2026-10-10T03:13:33.808Z",
+      "source": "fbdb16aff48e7eb7e59ec72c38d281d173bce57c",
+      "edit": {
+        "status": 200,
+        "ok": true,
+        "before": "1",
+        "after": "2",
+        "requestedDuration": "2",
+        "restoredDuration": "2"
+      },
+      "pageErrors": [],
+      "alerts": [
+        ""
+      ]
+    },
+    "renewal": {
+      "checkedAt": "2026-10-10T03:14:40.308Z",
+      "renewalTrigger": "browser-only duplicate decoder error injection; not natural expiration",
+      "renewal": {
+        "status": 200,
+        "signatureChanged": true
+      },
+      "videos": [
+        {
+          "ready": 0,
+          "width": 0
+        }
+      ],
+      "pageErrors": [],
+      "alerts": [
+        ""
+      ]
+    }
+  },
+  "incompleteChecks": {
+    "decodedPlayback": "not established: browser storage requests timed out, readyState=0 and videoWidth=0",
+    "renewedRangeAndPlaybackRecovery": "not established",
+    "audioPlayback": "not established; chosen existing video has no embedded audio",
+    "productionFlagsRecheck": "SSH banner exchange timed out after initial version inspection; editor/media effective via actual successful API calls"
+  },
+  "networkEvidence": {
+    "storageHost": "keyvo-media-prod-hangzhou.s3.ap-southeast-1.amazonaws.com",
+    "browserErrors": [
+      "net::ERR_TIMED_OUT",
+      "net::ERR_ABORTED"
+    ],
+    "curlHostCheck": "exit 28: Resolving timed out after 10007 milliseconds",
+    "laterSSH": "connection timed out during banner exchange"
+  },
+  "interpretation": "Successful production mutations confirm proxy-origin fix. Renewal API success does not establish decoded media recovery. Network observation does not distinguish local path failure from broad production reachability failure. Do not assert full release readiness.",
+  "paidOperations": 0,
+  "originalVideoAndVisibilityChanged": false
+}
