@@ -129,3 +129,29 @@ test('renewal reads survive ordinary polls, serialize clip renewals and report r
   assert.equal(state!.view?.items[0].mediaAccessUrl,'https://signed.test/newer','ordinary reads keep the still-valid decoder grant');
  }finally{await act(async()=>root.unmount());dom.window.close();for(const [key,d] of saved){if(d)Object.defineProperty(globalThis,key,d);else Reflect.deleteProperty(globalThis,key);}}
 });
+
+
+test('a successful edit waits for renewal and its updated revision before allowing the next edit',async()=>{
+ const dom=new JSDOM('<div id="root"></div>',{url:'https://app.keyvo.cn'});
+ const saved=new Map(['window','document','navigator','fetch','IS_REACT_ACT_ENVIRONMENT'].map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]));
+ const reads:Array<(response:Response)=>void>=[];const posts:any[]=[];
+ const projection=(revision:number)=>Response.json({ok:true,result:{data:{sequenceId:'main',revision},settings:{fps:30,aspectRatio:'16:9',resolution:'720p'},items:[clip('video')]}});
+ for(const [key,value] of Object.entries({window:dom.window,document:dom.window.document,navigator:dom.window.navigator,IS_REACT_ACT_ENVIRONMENT:true,fetch:async(_url:unknown,options?:RequestInit)=>{
+  if(options?.method==='POST'){posts.push(JSON.parse(String(options.body)));return Response.json({ok:true,result:{revision:8}});}
+  return new Promise<Response>(resolve=>reads.push(resolve));
+ }}))Object.defineProperty(globalThis,key,{value,configurable:true,writable:true});
+ const root=createRoot(dom.window.document.getElementById('root')!);let state:ReturnType<typeof useConversationTimeline>;
+ function Harness(){state=useConversationTimeline('fixture',0);return null;}
+ try{
+  await act(async()=>root.render(React.createElement(Harness)));await act(async()=>reads[0](projection(7)));
+  let renewal:Promise<boolean>,edit:Promise<void>;
+  await act(async()=>{renewal=state!.refresh({renewMediaId:'video'});});
+  await act(async()=>{edit=state!.edit({kind:'gain',clipId:'video',volume:0});await Promise.resolve();});
+  assert.equal(posts.length,1);assert.equal(state!.busy,true,'The accepted edit must stay busy until the authoritative revision is read.');
+  await act(async()=>{await state!.edit({kind:'remove',clipId:'video'});});assert.equal(posts.length,1,'No second command may use the stale revision.');
+  await act(async()=>{reads[1](projection(7));assert.equal(await renewal!,false,'The edit invalidates a read started before the command.');});
+  assert.equal(reads.length,3,'A required post-edit read cannot be skipped by renewal protection.');
+  await act(async()=>{reads[2](projection(8));await edit!;});
+  assert.equal(state!.view?.data.revision,8);assert.equal(state!.busy,false);
+ }finally{await act(async()=>root.unmount());dom.window.close();for(const [key,d] of saved){if(d)Object.defineProperty(globalThis,key,d);else Reflect.deleteProperty(globalThis,key);}}
+});

@@ -19,13 +19,13 @@
     "refresh reports accepted response; errors/discarded reads cannot trigger success reload"
   ],
   "running": [
-    "serial conversation+montage browser after full editor complete",
-    "latest GitHub Quality CI"
+    "Latest updated candidate Quality CI, including all selected lanes"
   ],
   "limits": [
     "Exact event order of original GitHub failure was not traced; deterministic regression establishes a real vulnerability, not proof of one unique cause",
     "Latest candidate Quality CI required",
-    "No production deployment or paid provider requests in this fix"
+    "No production deployment or paid provider requests in this fix",
+    "Final business change requires new full editor/browser validation; prior full-editor pass alone does not validate post-edit refresh change"
   ],
   "additionalFailure": {
     "suite": "connected conversation browser",
@@ -68,5 +68,20 @@
     "conversation": "fails on fresh document 5-second loading assertion"
   },
   "pushedCandidate": "163d0fb30f43ebbf7419949a1bebfc95cf35f55f",
-  "networkFailure": "Test-server SSH timed out during final log collection; candidate already pushed but no production update"
+  "networkFailure": "Test-server SSH timed out during final log collection; candidate already pushed but no production update",
+  "additionalConfirmedBug": {
+    "scenario": "Successful edit POST completes while a forced decoder renewal is pending",
+    "before": "Post-edit refresh is skipped by renewal guard; busy clears while view retains old revision; deterministic actual-hook test fails",
+    "fix": "Wait for in-flight renewal, perform authoritative post-edit read, then clear pending/busy",
+    "after": {
+      "focusedPass": 16,
+      "focusedFail": 0
+    },
+    "relationToRemoteRemovalFailure": "Not proven: remote event log unavailable"
+  },
+  "github163d0fb": {
+    "run": 38010884256,
+    "studioBrowserStep": "success",
+    "adminAndOverall": "still pending at observation; not a complete Quality CI result"
+  }
 }

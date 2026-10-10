@@ -46,7 +46,14 @@ export function useConversationTimeline(projectId: string,refreshKey: unknown) {
       const result = await response.json();
       if (!response.ok || !result.ok) throw new Error(result.error ?? 'TIMELINE_UNAVAILABLE');
     } catch (failure) {if (active.current) setEditError(failure instanceof Error ? failure.message : 'TIMELINE_UNAVAILABLE');}
-    finally {pending.current = false;if (active.current) {setBusy(false);await refresh();}}
+    finally {
+      // An accepted command changes the revision. Its read must not be skipped
+      // by an in-flight decoder renewal, or the next edit would use stale state.
+      while (renewing.current) await renewing.current;
+      if (active.current) await refresh();
+      pending.current = false;
+      if (active.current) setBusy(false);
+    }
   },[path,refresh,view]);
   return {view,legacy,busy,error:editError??error,edit,refresh};
 }
