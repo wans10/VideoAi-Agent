@@ -18,7 +18,7 @@ type ProgramPlaybackLayersProps = {
   registerPlaybackVideo: (video: HTMLVideoElement | null) => void;
   syncPlaybackAudios: () => void;
   syncPlaybackVideos: () => void;
-  onMediaAccessError?: (item: PlaybackLayer['item']) => void;
+  onMediaAccessError?: (item: PlaybackLayer['item'], attempt: {generation: number; url: string}) => void;
   /** Retry a failed decoder even when a same-second renewal returns the same signed URL. */
   mediaReloadKeys?: Readonly<Record<string, number>>;
 };
@@ -46,7 +46,7 @@ export function ProgramPlaybackLayers({
             data-playback-image-item-id={layer.item.id}
             src={layer.url}
             alt=""
-            onError={() => onMediaAccessError?.(layer.item)}
+            onError={event => onMediaAccessError?.(layer.item,{generation: mediaReloadKeys?.[layer.item.id] ?? 0,url: event.currentTarget.currentSrc || layer.url})}
             style={clipVisualStyleFor(layer)}
           />
         ) : (
@@ -62,7 +62,7 @@ export function ProgramPlaybackLayers({
               Boolean(layer.item.linkedGroupId && linkedAudioGroupIds.has(layer.item.linkedGroupId))
             }
             onLoadedMetadata={syncPlaybackVideos}
-            onError={() => onMediaAccessError?.(layer.item)}
+            onError={event => onMediaAccessError?.(layer.item,{generation: mediaReloadKeys?.[layer.item.id] ?? 0,url: event.currentTarget.currentSrc || layer.url})}
             playsInline
             preload="auto"
             src={layer.url}
@@ -80,7 +80,7 @@ export function ProgramPlaybackLayers({
           data-playback-audio-track-id={layer.item.track}
           muted={Boolean(layer.item.audioMix?.muted)}
           onLoadedMetadata={syncPlaybackAudios}
-          onError={() => onMediaAccessError?.(layer.item)}
+          onError={event => onMediaAccessError?.(layer.item,{generation: mediaReloadKeys?.[layer.item.id] ?? 0,url: event.currentTarget.currentSrc || layer.url})}
           preload="auto"
           src={layer.url}
         />

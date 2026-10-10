@@ -196,10 +196,13 @@ test('MCP montage opens the current conversation with private playback, durable 
     // A decoder may report more than one failure for the same expired source.
     // Keep the monitor alive while its one authorized renewal is in flight.
     await firstVideo.evaluate((element) => {
+      (window as unknown as {failedDecoder: Element}).failedDecoder = element;
       (element as HTMLVideoElement).load();
       element.dispatchEvent(new Event('error'));
       element.dispatchEvent(new Event('error'));
     });
+    await renewed;
+    await page.evaluate(() => (window as unknown as {failedDecoder: Element}).failedDecoder.dispatchEvent(new Event('error')));
     await expect.poll(() => expiredRequestCount).toBeGreaterThan(0);
     await renewalProof;
     await expect.poll(() => firstVideo.evaluate((element) => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);

@@ -37,7 +37,8 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
   const starterKey = useRef<string | null>(null);
   const handledInsertion = useRef<string | null>(null);
   const renewalAttempts = useRef(new Set<string>());
-  const pendingRenewals = useRef(new Set<string>());
+  const decoderGenerations = useRef(new Map<string,number>());
+  const monitorEpoch = useRef(0);
   const [mediaReloadKeys,setMediaReloadKeys] = useState<Record<string,number>>({});
   const items = useMemo(() => preview ?? view?.items ?? [],[preview,view]);
   const timelineExpanded = expanded ?? items.length > 0;
@@ -68,17 +69,29 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
     setExpanded(true);
     void edit({kind: 'insert',ref: {type: 'asset',assetId: asset.assetId,kind},...timing});
   },[insertion,view,edit,duration,fps,t]); // Explicit library selection, never auto-insert a new generation.
-  function openMonitor() {setExpanded(true);if (!monitor) {renewalAttempts.current.clear();setLocalError(null);}setMonitor(true);}
+  function openMonitor() {setExpanded(true);if (!monitor) {monitorEpoch.current++;renewalAttempts.current.clear();setMediaReloadKeys(Object.fromEntries(decoderGenerations.current));setLocalError(null);}setMonitor(true);}
   function seek(second: number) {playback.stopTimelinePlayback();playback.setPlayheadSec(Math.max(0,Math.min(duration,Math.round(second*fps)/fps)));openMonitor();}
-  function closeMonitor() {playback.stopTimelinePlayback();setMonitor(false);renewalAttempts.current.clear();}
-  function mediaFailure(item: WorkspaceTimelineItem) {
+  function closeMonitor() {playback.stopTimelinePlayback();setMonitor(false);monitorEpoch.current++;renewalAttempts.current.clear();}
+  function mediaFailure(item: WorkspaceTimelineItem,attempt: {generation: number;url: string}) {
+    // Invalidate the failed decoder synchronously, before any refresh or React commit.
+    // Same-URL renewals still have a new generation; permanent failures must surface.
+    if (attempt.generation !== (decoderGenerations.current.get(item.id) ?? 0)) return;
+    const current = items.find(value => value.id === item.id);
+    if (!current || attempt.url !== (current.mediaAccessRequired ? current.mediaAccessUrl : current.mediaUrl)) return;
     playback.stopTimelinePlayback();
-    if (pendingRenewals.current.has(item.id)) return;
     if (consumeConversationMediaRenewal(item,renewalAttempts.current)) {
-      pendingRenewals.current.add(item.id);
-      void timeline.refresh({renewMediaId: item.id}).then(() => {
-        setMediaReloadKeys(current => ({...current,[item.id]: (current[item.id] ?? 0)+1}));
-      }).finally(() => {pendingRenewals.current.delete(item.id);});
+      const generation = attempt.generation+1;
+      const opening = monitorEpoch.current;
+      decoderGenerations.current.set(item.id,generation);
+      void timeline.refresh({renewMediaId: item.id}).then(applied => {
+        if (opening !== monitorEpoch.current) return;
+        if (!applied) {
+          setMonitor(false);
+          setLocalError(t('This clip could not be played. Reopen the monitor to retry, or remove it from the film.','Ce clip ne peut pas être lu. Rouvrez le moniteur pour réessayer, ou retirez-le du film.'));
+          return;
+        }
+        setMediaReloadKeys(current => ({...current,[item.id]: generation}));
+      });
       return;
     }
     setMonitor(false);

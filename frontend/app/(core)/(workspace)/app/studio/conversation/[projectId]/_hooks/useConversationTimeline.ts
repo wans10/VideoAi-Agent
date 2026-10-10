@@ -15,18 +15,26 @@ export function useConversationTimeline(projectId: string,refreshKey: unknown) {
   const active = useRef(true);
   const pending = useRef(false);
   const epoch = useRef(0);
+  const renewing = useRef<Promise<void> | null>(null);
   const invalidate = useCallback(() => {epoch.current++;},[]);
   const path = `/api/studio/projects/${encodeURIComponent(projectId)}/conversation-timeline`;
   const refresh = useCallback(async (options?: {renewMediaId?: string}) => {
+    const renewal = Boolean(options?.renewMediaId);
+    if (!renewal && renewing.current) return false;
+    while (renewing.current) await renewing.current;
+    let finishRenewal: (() => void) | undefined;
+    if (renewal) renewing.current = new Promise<void>(resolve => {finishRenewal = resolve;});
     const request = ++epoch.current;
     try {
       const response = await fetch(path+'?preview=1',{cache: 'no-store'});
       const result = await response.json();
-      if (!active.current || request !== epoch.current) return;
-      if (result.error === 'STUDIO_CONNECTED_PROJECT_REQUIRED') {setLegacy(true);return;}
+      if (!active.current || request !== epoch.current) return false;
+      if (result.error === 'STUDIO_CONNECTED_PROJECT_REQUIRED') {setLegacy(true);return false;}
       if (!response.ok || !result.ok) throw new Error(result.error ?? 'TIMELINE_UNAVAILABLE');
       setLegacy(false);setError(null);setView(previous => ({...result.result,items: retainConversationMediaAccess(previous?.items ?? [],result.result.items,Date.now(),options?.renewMediaId)}));
-    } catch (failure) {if (active.current && request === epoch.current) setError(failure instanceof Error ? failure.message : 'TIMELINE_UNAVAILABLE');}
+      return true;
+    } catch (failure) {if (active.current && request === epoch.current) setError(failure instanceof Error ? failure.message : 'TIMELINE_UNAVAILABLE');return false;}
+    finally {if (renewal) {renewing.current = null;finishRenewal?.();}}
   },[path]);
   useEffect(() => {active.current = true;void refresh();return () => {active.current = false;invalidate();};},[refresh,refreshKey,invalidate]);
   useEffect(() => {const timer = window.setInterval(() => {if (!pending.current && !document.hidden) void refresh();},20000);return () => window.clearInterval(timer);},[refresh]);
