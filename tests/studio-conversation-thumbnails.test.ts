@@ -111,12 +111,13 @@ test('renewal reads survive ordinary polls, serialize clip renewals and report r
  const response=(url:string)=>Response.json({ok:true,result:{data:{sequenceId:'main',revision:7},settings:{fps:30,aspectRatio:'16:9',resolution:'720p'},items:[{...preview,mediaAccessUrl:url}]}});
  for(const [key,value] of Object.entries({window:dom.window,document:dom.window.document,navigator:dom.window.navigator,IS_REACT_ACT_ENVIRONMENT:true,fetch:()=>new Promise<Response>(resolve=>requests.push(resolve))}))Object.defineProperty(globalThis,key,{value,configurable:true,writable:true});
  const root=createRoot(dom.window.document.getElementById('root')!);let state:ReturnType<typeof useConversationTimeline>;
- function Harness(){state=useConversationTimeline('fixture',0);return null;}
+ let refreshKey=0;function Harness(){state=useConversationTimeline('fixture',refreshKey);return null;}
  try{
   await act(async()=>root.render(React.createElement(Harness)));await act(async()=>requests[0](response(preview.mediaAccessUrl)));
   let renewal:Promise<boolean>,second:Promise<boolean>;
   await act(async()=>{renewal=state!.refresh({renewMediaId:'video'});});assert.equal(requests.length,2);
   assert.equal(await state!.refresh(),false,'ordinary poll must not supersede forced renewal');assert.equal(requests.length,2);
+  await act(async()=>{refreshKey++;root.render(React.createElement(Harness));});assert.equal(requests.length,2,'A parent conversation refresh cannot bypass renewal protection.');
   await act(async()=>{second=state!.refresh({renewMediaId:'video'});});assert.equal(requests.length,2,'concurrent renewals wait instead of consuming another clip retry without a read');
   await act(async()=>{requests[1](response('https://signed.test/new'));assert.equal(await renewal!,true);});
   assert.equal(state!.view?.items[0].mediaAccessUrl,'https://signed.test/new');assert.equal(requests.length,3);

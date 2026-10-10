@@ -36,7 +36,10 @@ export function useConversationTimeline(projectId: string,refreshKey: unknown) {
     } catch (failure) {if (active.current && request === epoch.current) setError(failure instanceof Error ? failure.message : 'TIMELINE_UNAVAILABLE');return false;}
     finally {if (renewal) {renewing.current = null;finishRenewal?.();}}
   },[path]);
-  useEffect(() => {active.current = true;void refresh();return () => {active.current = false;invalidate();};},[refresh,refreshKey,invalidate]);
+  useEffect(() => {active.current = true;return () => {active.current = false;invalidate();};},[refresh,invalidate]);
+  // A parent conversation poll is a read trigger, not a hook lifetime change.
+  // Its cleanup must not invalidate the forced renewal it is forbidden to replace.
+  useEffect(() => {void refresh();},[refresh,refreshKey]);
   useEffect(() => {const timer = window.setInterval(() => {if (!pending.current && !document.hidden) void refresh();},20000);return () => window.clearInterval(timer);},[refresh]);
   const edit = useCallback(async (command: ConversationTimelineCommand['edit']) => {
     if (!view || pending.current) return;

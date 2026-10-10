@@ -19,7 +19,7 @@
     "refresh reports accepted response; errors/discarded reads cannot trigger success reload"
   ],
   "running": [
-    "Latest updated candidate Quality CI, including all selected lanes"
+    "New candidate CI required after refreshKey lifecycle correction"
   ],
   "limits": [
     "Exact event order of original GitHub failure was not traced; deterministic regression establishes a real vulnerability, not proof of one unique cause",
@@ -67,7 +67,7 @@
     "montage": "pass",
     "conversation": "fails on fresh document 5-second loading assertion"
   },
-  "pushedCandidate": "163d0fb30f43ebbf7419949a1bebfc95cf35f55f",
+  "pushedCandidate": "4c704ef7c365b51f65bf9a1bf2e3faa7d906e802",
   "networkFailure": "Test-server SSH timed out during final log collection; candidate already pushed but no production update",
   "additionalConfirmedBug": {
     "scenario": "Successful edit POST completes while a forced decoder renewal is pending",
@@ -81,7 +81,32 @@
   },
   "github163d0fb": {
     "run": 38010884256,
-    "studioBrowserStep": "success",
-    "adminAndOverall": "still pending at observation; not a complete Quality CI result"
+    "studioBrowserPass": 13,
+    "studioBrowserFail": 0,
+    "adminPass": 27,
+    "browserJob": "success",
+    "overall": "Obsolete run cancelled after browser completed to release latest candidate queue"
+  },
+  "finalCandidate": {
+    "sha": "4c704ef7c365b51f65bf9a1bf2e3faa7d906e802",
+    "run": 38012065523,
+    "url": "https://github.com/wans10/VideoAi-Agent/actions/runs/38012065523",
+    "status": "browser failure: 12 pass, 1 fail, original montage scenario",
+    "local": {
+      "focusedPass": 16,
+      "focusedFail": 0,
+      "typescript": "pass",
+      "lintErrors": 0,
+      "existingLintWarnings": 10,
+      "exposure": "pass",
+      "diff": "pass"
+    }
+  },
+  "thirdConfirmedBug": {
+    "scenario": "Parent conversation refreshKey changes during forced media renewal",
+    "before": "effect cleanup increments epoch; ordinary replacement read is skipped; forced renewal resolves false despite successful HTTP",
+    "fix": "Separate actual hook lifetime cleanup from refreshKey-triggered read effect",
+    "deterministic": "Actual hook: old implementation fails renewal accepted assertion; fixed implementation passes all 16 related tests",
+    "relationshipToCI": "Consistent with available alert/read logs; precise original browser event order remains untraced"
   }
 }
