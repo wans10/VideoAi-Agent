@@ -26,5 +26,12 @@
     "Exact event order of original GitHub failure was not traced; deterministic regression establishes a real vulnerability, not proof of one unique cause",
     "Latest candidate Quality CI required",
     "No production deployment or paid provider requests in this fix"
-  ]
+  ],
+  "additionalFailure": {
+    "suite": "connected conversation browser",
+    "failure": "Fresh desktop reload waits only 5 seconds for timeline, 0 cards before read",
+    "beforeRenewalScenario": true,
+    "change": "Wait incoming-document owned timeline HTTP 200; assert API items and DOM both equal 2",
+    "reverification": "running"
+  }
 }

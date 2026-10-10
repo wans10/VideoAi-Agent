@@ -216,7 +216,11 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await page.getByRole('button',{name:copy('Remove ')+'Image 2',exact:true}).click();
     await message.fill('');
     await page.setViewportSize({width:1440,height:900});
-    await page.reload({waitUntil:'domcontentloaded'});
+    // The incoming document must hydrate and read its owned timeline before assertions.
+    await page.goto('about:blank');
+    const desktopTimelineRead = page.waitForResponse(response=>response.url()===runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/conversation-timeline?preview=1' && response.status()===200,{timeout:60_000});
+    await page.goto(url,{waitUntil:'domcontentloaded'});
+    assert.equal((await (await desktopTimelineRead).json()).result.items.length,2);
     await expect(page.locator('[data-timeline-item]')).toHaveCount(2);
 
     await setTheme(false);
