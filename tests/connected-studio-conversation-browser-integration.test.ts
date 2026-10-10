@@ -352,7 +352,15 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
     await expect(page.getByText(copy('Media unavailable. You can remove this clip.'),{exact: true}).first()).toBeVisible();
     await expect(page.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
+    const removalAck=page.waitForResponse(response=>response.url()===deletedEndpoint.replace('?preview=1','') && response.request().method()==='POST',{timeout:30_000});
+    const removalRead=page.waitForResponse(async response=>{
+      if(response.url()!==deletedEndpoint || response.status()!==200) return false;
+      return (await response.json()).result.data.revision===3;
+    },{timeout:30_000});
     await page.getByRole('button',{name: copy('Remove selected clip'),exact: true}).click();
+    assert.equal((await removalAck).status(),200);
+    const removedProjection=await (await removalRead).json();
+    assert.equal(removedProjection.result.data.revision,3,JSON.stringify(removedProjection));
     await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','3');
     await expect(page.locator('[data-timeline-item]')).toHaveCount(1);
     await page.getByRole('button',{name: copy('Select clip')+' Pattern A',exact: true}).click();

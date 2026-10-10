@@ -19,8 +19,8 @@
     "refresh reports accepted response; errors/discarded reads cannot trigger success reload"
   ],
   "running": [
-    "full editor",
-    "connected conversation and montage browser"
+    "serial conversation+montage browser after full editor complete",
+    "latest GitHub Quality CI"
   ],
   "limits": [
     "Exact event order of original GitHub failure was not traced; deterministic regression establishes a real vulnerability, not proof of one unique cause",
@@ -32,6 +32,41 @@
     "failure": "Fresh desktop reload waits only 5 seconds for timeline, 0 cards before read",
     "beforeRenewalScenario": true,
     "change": "Wait incoming-document owned timeline HTTP 200; assert API items and DOM both equal 2",
-    "reverification": "running"
-  }
+    "reverification": "Fresh-document read passed; later removal expects revision 3 but saw 2; added actual POST ACK and matching revision read, final verification not yet obtained",
+    "otherAttempt": "Independent retry while full editor still compiling timed out before MCP request completed; not counted as pass",
+    "potentialCause": "Unconfirmed: pending command or stale poll; not classified as mere slowness"
+  },
+  "completed": {
+    "typescript": "pass",
+    "lint": {
+      "errors": 0,
+      "warnings": 10
+    },
+    "exposure": "pass",
+    "diffCheck": "pass",
+    "focused": {
+      "pass": 9,
+      "fail": 0
+    },
+    "fullEditor": {
+      "pass": 1167,
+      "fail": 0,
+      "skip": 1,
+      "skipReason": "Explicit opt-in real multitrack render; unchanged owner, previously verified"
+    },
+    "originalMontageScenario": "complete pass with late old error injection",
+    "finalFocused": {
+      "pass": 15,
+      "fail": 0,
+      "skip": 0
+    }
+  },
+  "initialBrowserRun": {
+    "pass": 1,
+    "fail": 1,
+    "montage": "pass",
+    "conversation": "fails on fresh document 5-second loading assertion"
+  },
+  "pushedCandidate": "163d0fb30f43ebbf7419949a1bebfc95cf35f55f",
+  "networkFailure": "Test-server SSH timed out during final log collection; candidate already pushed but no production update"
 }
