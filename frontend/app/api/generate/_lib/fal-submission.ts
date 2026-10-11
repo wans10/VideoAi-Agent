@@ -19,6 +19,7 @@ import { projectProviderErrorResponse } from '@/server/provider-error-projection
 import type { ProviderClientErrorPolicy } from '@/types/engines';
 import { createFalMediaTransport } from '@/server/fal-provider-media-access';
 import { sanitizeProviderMediaDiagnostics } from '@/server/provider-media-diagnostics';
+import { FalPreSubmissionError } from '@/lib/fal-error';
 
 const LUMA_RAY2_TIMEOUT_MS = 180_000;
 const FAL_RETRY_DELAYS_MS = [5_000, 15_000, 30_000];
@@ -258,7 +259,7 @@ export async function submitFalGenerateTask(params: {
       });
 
     // A request id cannot turn a definitive enqueue rejection into a pending job.
-    const uncertainSubmission = providerSubmissionStarted && params.falPayload.submissionMode === 'enqueue' &&
+    const uncertainSubmission = providerSubmissionStarted && !(error instanceof FalPreSubmissionError) && params.falPayload.submissionMode === 'enqueue' &&
       (!status || status >= 500 || status === 408);
     if (isTimeoutError || uncertainSubmission) {
       const progressFloor = Math.min(95, FAL_PROGRESS_FLOOR + FAL_RETRY_DELAYS_MS.length * 5);

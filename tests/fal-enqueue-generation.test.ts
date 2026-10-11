@@ -3,7 +3,7 @@ import test from 'node:test';
 import { ENV } from '../frontend/src/lib/env';
 import { getFalClient } from '../frontend/src/lib/fal-client';
 import { generateVideo } from '../frontend/src/lib/fal';
-import { FalGenerationError } from '../frontend/src/lib/fal-error';
+import { FalGenerationError, FalPreSubmissionError } from '../frontend/src/lib/fal-error';
 
 test('MCP enqueue returns the accepted request without subscribing to a long render and awaits persistence', async (t) => {
   const previousKey = ENV.FAL_API_KEY;
@@ -80,4 +80,14 @@ test('ordinary video requests retain synchronous completion', async (t) => {
   const result = await generateVideo({ engineId: 'minimax-h3', prompt: 'Test', mode: 't2v' });
   assert.equal(result.status, 'completed');
   assert.equal(result.videoUrl, 'https://example.test/output.mp4');
+});
+
+test('missing Fal credentials are a definitive failure before any provider submission', async (t) => {
+  const previousKey = ENV.FAL_API_KEY;
+  ENV.FAL_API_KEY = undefined;
+  t.after(() => { ENV.FAL_API_KEY = previousKey; });
+  let requests = 0;
+  t.mock.method(globalThis, 'fetch', async () => { requests += 1; throw new Error('Unexpected network call'); });
+  await assert.rejects(generateVideo({ engineId: 'minimax-h3', prompt: 'test', mode: 't2v', submissionMode: 'enqueue' }), FalPreSubmissionError);
+  assert.equal(requests, 0);
 });

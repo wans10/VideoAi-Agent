@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "model": "qwen-image-3-0",
+      "jobId": "img_4d9fc5c0-c17c-4652-bdf9-e96e0d9b0691",
+      "passed": true,
+      "originalStatus": 200,
+      "thumbnailStatus": 200,
+      "bytes": 690280,
+      "width": 1024,
+      "height": 1024,
+      "sha256": "07afee54ead1239b169f0acdcdeda810a7eb069dc54d54c3fb5adea48cf23aee",
+      "replaySameOutput": true
+    },
+    {
+      "model": "seedream",
+      "jobId": "img_19328b66-c221-4daf-a065-1e8493f034d9",
+      "passed": true,
+      "originalStatus": 200,
+      "thumbnailStatus": 200,
+      "bytes": 157616,
+      "width": 2048,
+      "height": 2048,
+      "sha256": "bbd1c49da8525e5018c781a830b777e6d53006c74d0cad9a1974a6363250d716",
+      "replaySameOutput": true
+    },
+    {
+      "model": "nano-banana-lite",
+      "jobId": "img_8a5e8051-b6c3-43f6-9055-8dd6edfb6628",
+      "passed": true,
+      "originalStatus": 200,
+      "thumbnailStatus": 200,
+      "bytes": 64102,
+      "width": 1024,
+      "height": 1024,
+      "sha256": "8d337024b3d2ae1407d4c05da0c16e790cc70cdc9cf92fbab5144e59d9163d4d",
+      "replaySameOutput": true
+    },
+    {
+      "model": "gpt-image-2-5-flare",
+      "jobId": "img_fee37c49-ecdd-4ffe-84a6-93a24c9a09b1",
+      "passed": true,
+      "originalStatus": 200,
+      "thumbnailStatus": 200,
+      "bytes": 1230588,
+      "width": null,
+      "height": null,
+      "sha256": "5bd252a1c744d0184acd2fda446cf2e6257085287948d28bffa105ee43be32b2",
+      "replaySameOutput": true
+    }
+  ]
+}

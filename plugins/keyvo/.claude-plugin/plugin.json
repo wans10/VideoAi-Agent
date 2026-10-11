@@ -1,0 +1,12 @@
+{
+  "name": "maxvideoai",
+  "version": "0.1.0",
+  "displayName": "Keyvo",
+  "description": "Keyvo AI video and image planning, exact quotes, approved generation and recovery. Keyvo account required.",
+  "author": {
+    "name": "Keyvo",
+    "url": "https://app.keyvo.cn"
+  },
+  "homepage": "https://app.keyvo.cn",
+  "license": "BUSL-1.1"
+}

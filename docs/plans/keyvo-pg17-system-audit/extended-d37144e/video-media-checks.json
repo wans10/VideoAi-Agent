@@ -1,0 +1,97 @@
+{
+  "checkedAt": "2026-10-11T11:57:22.095Z",
+  "checks": [
+    {
+      "model": "wan-3",
+      "jobId": "job_0445d02f-a5c9-4245-bad8-434740567adb",
+      "apiStatus": 200,
+      "jobStatus": "completed",
+      "passed": true,
+      "originalStatus": 200,
+      "rangeStatus": 206,
+      "bytes": 3396096,
+      "sha256": "21d9994a13b7a56611be74c8739f6db641db7e62feb043b2a38e5dee7ead3962",
+      "media": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1280,
+            "height": 720
+          }
+        ],
+        "format": {
+          "duration": "5.000000"
+        }
+      },
+      "fullDecode": true,
+      "replayStatus": 200,
+      "replaySameJob": true
+    },
+    {
+      "model": "seedance-2-0-fast",
+      "jobId": "job_5db6e96d-b39f-49e9-9d6c-af3fc46ecc7a",
+      "apiStatus": 200,
+      "jobStatus": "completed",
+      "passed": true,
+      "originalStatus": 200,
+      "rangeStatus": 206,
+      "bytes": 1384527,
+      "sha256": "85d09617587c50f4c8a775696bc81c3089d925be8bbb86caed7163307017e52c",
+      "media": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1280,
+            "height": 720
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "5.088000"
+        }
+      },
+      "fullDecode": true,
+      "replayStatus": 200,
+      "replaySameJob": true
+    },
+    {
+      "model": "veo-3-1-lite",
+      "jobId": "job_f01326e7-94d7-494c-89d4-380dd5a27d9a",
+      "apiStatus": 200,
+      "jobStatus": "completed",
+      "passed": true,
+      "originalStatus": 200,
+      "rangeStatus": 206,
+      "bytes": 1854108,
+      "sha256": "0c698a2072d7221cdb88eeb16aee0216265a218d94602cab82afe64586409855",
+      "media": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1280,
+            "height": 720
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "8.000000"
+        }
+      },
+      "fullDecode": true,
+      "replayStatus": 200,
+      "replaySameJob": true
+    }
+  ]
+}

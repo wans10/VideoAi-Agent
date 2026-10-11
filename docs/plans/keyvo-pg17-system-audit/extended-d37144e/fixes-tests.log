@@ -1,0 +1,52 @@
+[fal] No webhook URL configured; relying on polling only.
+✔ MCP enqueue returns the accepted request without subscribing to a long render and awaits persistence (26.576333ms)
+✔ an enqueue rejection preserves the provider error and never submits a replacement (5.627ms)
+✔ ordinary video requests retain synchronous completion (3.356917ms)
+✔ missing Fal credentials are a definitive failure before any provider submission (0.227791ms)
+✔ generate route delegates Fal submission and transient error handling (0.484334ms)
+✔ Fal submission helper exposes the route contract (0.103334ms)
+✔ markJobAwaitingFal updates the running job and records provider queue context (3.738875ms)
+✔ submitFalGenerateTask returns generation results and persists request ids (3.050167ms)
+✔ submitFalGenerateTask defers timeout responses without refunding pending payments (2.722958ms)
+✔ submitFalGenerateTask defers before the Vercel runtime deadline (0.39825ms)
+✔ enqueue rejection 400 refunds the charge instead of polling a local batch id (0.59275ms)
+✔ enqueue rejection 401 refunds the charge instead of polling a local batch id (0.172917ms)
+✔ enqueue rejection 402 refunds the charge instead of polling a local batch id (0.170625ms)
+✔ enqueue rejection 403 refunds the charge instead of polling a local batch id (0.175ms)
+✔ enqueue rejection 422 refunds the charge instead of polling a local batch id (0.204875ms)
+✔ enqueue rejection 429 refunds the charge instead of polling a local batch id (0.144208ms)
+✔ a definitive 403 error with a Fal request id still follows the refund policy (0.148583ms)
+✔ a definitive 422 error with a Fal request id still follows the refund policy (0.158042ms)
+✔ uncertain enqueue FalGenerationError/network stays pending without a synthetic Fal id (0.914792ms)
+✔ uncertain enqueue FalGenerationError/503 stays pending without a synthetic Fal id (0.170875ms)
+✔ uncertain enqueue FalGenerationError/408 stays pending without a synthetic Fal id (0.11525ms)
+✔ uncertain enqueue FalTimeoutError/timeout stays pending without a synthetic Fal id (0.101041ms)
+✔ an accepted Fal request survives a transient 404 error without a refund (0.170542ms)
+✔ an accepted Fal request survives a transient 503 error without a refund (0.146208ms)
+✔ local pre-submission failure FAL_API_KEY is missing fails and refunds instead of pending forever (0.149125ms)
+✔ local pre-submission failure Unable to resolve FAL model for requested engine fails and refunds instead of pending forever (0.162625ms)
+✔ legacy Flare-only credential helper stays scoped (0.497791ms)
+✔ Flare text to image uses LLM Hub OpenAI-compatible generation API (13.686333ms)
+✔ Flare edit sends source images as multipart files to LLM Hub (2.743833ms)
+✔ Flare cannot persist an output without account ownership (0.289375ms)
+✔ gpt-image-2-5-flare persists Base64 before returning owned results (10.8885ms)
+✔ gpt-image-2-5-sunburst persists Base64 before returning owned results (1.76675ms)
+✔ accepted storage failure retains provider identity and never resubmits (1.802583ms)
+✔ 504 remains an explicit uncertain failure with no repeated POST (0.299625ms)
+✔ invalid encoding, wrong format and incomplete batch cannot reach upload (0.121333ms)
+✔ wrong stored dimensions cannot complete at the quoted price (1.339084ms)
+✔ 2.5 valid landscape and auto dimensions preserve canonical price tiers without changing legacy 2 (0.231834ms)
+✔ 16 references and mask retain multipart order and explicit quoted edit size (3.297334ms)
+✔ JPEG bytes are persisted with the correct original mime and extension (2.427167ms)
+✔ full decoding rejects truncated PNG before any upload (0.760833ms)
+✔ the entire batch is validated before wrong dimensions can write any object (1.242417ms)
+✔ batch rollback deletes only keys created by this attempt, including an ambiguous PUT (2.122334ms)
+✔ rollback failure exposes exact remaining keys and retains original failure (1.165208ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 598.28575

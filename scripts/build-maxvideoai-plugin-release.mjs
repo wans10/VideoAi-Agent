@@ -83,6 +83,21 @@ const VERSION_0_3_PUBLIC_FILES = [
   'server.json',
 ];
 
+// Keyvo ships its own documentation and retains the MCP dependency/plugin ID
+// for compatibility. Upstream screenshots and host evidence are not exported.
+const KEYVO_PUBLIC_FILES = [
+  '.claude-plugin/marketplace.json', '.claude-plugin/plugin.json',
+  '.codex-plugin/plugin.json', '.mcp.json', 'VERSION', 'LICENSE', 'NOTICE',
+  'README.md', 'CHANGELOG.md', 'docs/connection.md',
+  'scripts/import-reference-files.mjs',
+  'skills/plan/SKILL.md', 'skills/plan/agents/openai.yaml',
+  'skills/plan/references/budget-planning.md',
+  'skills/generate/SKILL.md', 'skills/generate/agents/openai.yaml',
+  'skills/generate/references/generation-safety.md',
+  'skills/generate/references/reference-inputs.md',
+];
+let releaseProfile = 'maxvideoai';
+
 const DEFAULT_ASSET_MANIFEST = 'docs/marketing/github-asset-manifest.json';
 const PLUGIN_MANIFEST_PREFIX = 'plugins/maxvideoai/';
 const OUTPUT_MARKER = '.maxvideoai-plugin-release-output.json';
@@ -132,7 +147,7 @@ function fail(message) {
 }
 
 function parseArguments(argv) {
-  const supported = new Set(['--source', '--out', '--asset-manifest']);
+  const supported = new Set(['--source', '--out', '--asset-manifest', '--profile']);
   const values = new Map();
   for (let index = 0; index < argv.length; index += 2) {
     const key = argv[index];
@@ -143,6 +158,9 @@ function parseArguments(argv) {
     if (values.has(key)) fail(`duplicate argument: ${key}`);
     values.set(key, value);
   }
+  releaseProfile = values.get('--profile') ?? 'maxvideoai';
+  if (!['maxvideoai', 'keyvo'].includes(releaseProfile)) fail('unknown release profile');
+  if (releaseProfile === 'keyvo' && !values.has('--source')) fail('Keyvo profile requires an explicit source');
   const requestedOut = resolve(values.get('--out') ?? 'dist/maxvideoai-plugin-release');
   return {
     source: resolve(values.get('--source') ?? 'plugins/maxvideoai'),
@@ -493,8 +511,9 @@ function loadAssetManifest(path) {
 
   const records = new Map();
   for (const asset of manifest.assets) {
-    if (typeof asset?.path !== 'string' || !asset.path.startsWith(PLUGIN_MANIFEST_PREFIX)) continue;
-    const name = asset.path.slice(PLUGIN_MANIFEST_PREFIX.length).replaceAll('\\', '/');
+    const prefix = releaseProfile === 'keyvo' ? 'plugins/keyvo/' : PLUGIN_MANIFEST_PREFIX;
+    if (typeof asset?.path !== 'string' || !asset.path.startsWith(prefix)) continue;
+    const name = asset.path.slice(prefix.length).replaceAll('\\', '/');
     if (!name.startsWith('assets/') || name.includes('../') || name.startsWith('/')) {
       fail(`asset manifest contains an unsafe plugin path: ${asset.path}`);
     }
@@ -625,6 +644,7 @@ function versionAtLeast(version, minimum) {
 }
 
 function publicFilesForVersion(version) {
+  if (releaseProfile === 'keyvo') return [...KEYVO_PUBLIC_FILES].sort();
   const files = versionAtLeast(version, '0.3.0')
     ? [...CURRENT_PUBLIC_FILES, ...VERSION_0_3_PUBLIC_FILES]
     : [...CURRENT_PUBLIC_FILES];

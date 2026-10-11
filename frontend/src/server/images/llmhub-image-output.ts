@@ -13,7 +13,7 @@ export async function storeLlmhubImageOutputs(params: {
   expectedSize: { width: number; height: number };
   upload?: typeof uploadImageToStorage;
   remove?: typeof deleteStorageObjectKey;
-}): Promise<Array<{ url: string }>> {
+}): Promise<Array<{ url: string; width: number; height: number; content_type: string }>> {
   const items = (params.payload as { data?: unknown } | null)?.data;
   if (!Array.isArray(items) || items.length !== params.expectedCount) {
     throw new Error('LLM Hub returned an unexpected image count.');
@@ -49,7 +49,7 @@ export async function storeLlmhubImageOutputs(params: {
     // metadata() only reads headers. Force full pixel decoding before any write.
     await decoder.raw().toBuffer();
   }
-  const images: Array<{ url: string }> = [];
+  const images: Array<{ url: string; width: number; height: number; content_type: string }> = [];
   const createdKeys = new Set<string>();
   try {
     for (const [index, data] of buffers.entries()) {
@@ -65,7 +65,14 @@ export async function storeLlmhubImageOutputs(params: {
       if (stored.width !== params.expectedSize.width || stored.height !== params.expectedSize.height) {
         throw new Error('LLM Hub output dimensions do not match the quoted size.');
       }
-      images.push({ url: normalizeMediaUrl(stored.url) ?? stored.url });
+      // Owned outputs bypass the later copy step, so carry the measured facts
+      // through the provider payload into response and persistence projections.
+      images.push({
+        url: normalizeMediaUrl(stored.url) ?? stored.url,
+        width: stored.width,
+        height: stored.height,
+        content_type: params.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png',
+      });
     }
     return images;
   } catch (error) {

@@ -1,0 +1,30 @@
+✔ mirror replaces obsolete public content with the exact verified bundle (196.603416ms)
+▶ mirror rejects extra or tampered bundle files before changing the public checkout
+  ✔ extra source file (167.980375ms)
+  ✔ checksum mismatch (171.179625ms)
+✔ mirror rejects extra or tampered bundle files before changing the public checkout (339.399542ms)
+▶ mirror requires resolved, separated, marked repository paths
+  ✔ missing source (25.327333ms)
+  ✔ missing target (25.613916ms)
+  ✔ missing git directory (33.127125ms)
+  ✔ missing marker (34.917667ms)
+  ✔ symlink target (26.21725ms)
+  ✔ workspace root (26.629208ms)
+  ✔ bundle as target (26.0145ms)
+✔ mirror requires resolved, separated, marked repository paths (335.020792ms)
+✔ mirror dry run reports the exact change without touching the checkout (164.503791ms)
+✔ mirror validates copied bytes against the manifest without rereading mutable source files (425.37ms)
+✔ publication preparation exposes the complete staged diff before environment approval (6.062375ms)
+✔ protected publication rebuilds the bundle and refuses a different base or tree (2.24425ms)
+✔ publication workflow is manual only, pinned, and binds dispatch to its tag ref (1.702291ms)
+✔ publication workflow uses only contexts available in job-level env (1.17125ms)
+✔ public release accepts an existing tag only when it resolves to the prepared public commit (1.127709ms)
+✔ publication workflow uses reviewable non-force publication (1.393708ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1581.751167

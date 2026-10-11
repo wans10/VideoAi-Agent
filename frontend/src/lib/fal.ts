@@ -4,7 +4,7 @@ import { getResultProviderMode } from '@/lib/result-provider';
 import type { ResultProviderMode } from '@/types/providers';
 import { resolveFalModelId } from '@/lib/fal-catalog';
 import { getFalClient } from '@/lib/fal-client';
-import { FalGenerationError } from '@/lib/fal-error';
+import { FalGenerationError, FalPreSubmissionError } from '@/lib/fal-error';
 import { resolveFalModelSlug } from '@/lib/fal-model-helpers';
 import { buildFalGenerationRequest } from '@/lib/fal-request-body';
 import {
@@ -32,12 +32,12 @@ let warnedMissingWebhookUrl = false;
 export async function generateVideo(payload: GeneratePayload, hooks?: GenerateHooks): Promise<GenerateResult> {
   const provider = getResultProviderMode();
   if (!ENV.FAL_API_KEY) {
-    throw new Error('FAL_API_KEY is missing');
+    throw new FalPreSubmissionError('FAL_API_KEY is missing');
   }
   const resolvedFallback = await resolveFalModelId(payload.engineId);
   const resolvedModelSlug = resolveFalModelSlug(payload, resolvedFallback);
   if (!resolvedModelSlug && !payload.soraRequest) {
-    throw new Error('Unable to resolve FAL model for requested engine');
+    throw new FalPreSubmissionError('Unable to resolve FAL model for requested engine');
   }
 
   return generateViaFal(payload, provider, resolvedModelSlug ?? '', hooks);

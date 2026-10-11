@@ -1,0 +1,512 @@
+ WARN  Unsupported engine: wanted: {"node":"22.x"} (current: {"node":"v24.20.0","pnpm":"10.18.2"})
+
+> maxvideoai-mock-api@0.1.0 mcp:client:check /Users/yangbojun/IdeaProjects/VideoAi-Agent/.worktrees/keyvo-completeness
+> tsx --tsconfig frontend/tsconfig.json --test tests/mcp-instructions.test.ts tests/mcp-oauth-principal.test.ts tests/mcp-tools-contract.test.ts tests/mcp-transport-contract.test.ts tests/mcp-reference-upload-app.test.ts tests/mcp-result-serialization.test.ts tests/mcp-plugin-contract.test.ts tests/mcp-conversation-evals.test.ts tests/mcp-tool-selection-eval.test.ts tests/mcp-topup-handoff.test.ts tests/mcp-confirm-generation.test.ts tests/mcp-generation-recovery-tools.test.ts tests/mcp-montage-tools-contract.test.ts tests/mcp-studio-montage-tools-contract.test.ts tests/mcp-studio-timeline-schema-parity.test.ts tests/mcp-studio-export-delivery.test.ts && npm --prefix frontend run qa:mcp-tool-selection
+
+✔ confirmation pricing preserves the prepared Seedance video-input tier (5.221041ms)
+✔ confirmation pricing distinguishes ref2v video, image, and DB-verified video references (7.458125ms)
+✔ confirmation passes DB-verified ref2v video media into transactional pricing (24.518416ms)
+✔ minimax-h3-max confirmation expires a quote when verified reference cost facts change (12.128167ms)
+✔ wan-3 confirmation expires a quote when verified reference cost facts change (3.541792ms)
+✔ wan-3-prime confirmation expires a quote when verified reference cost facts change (2.175625ms)
+✔ P8 confirmation owners exist and MCP tool imports no provider owner (0.256375ms)
+✔ default confirmation revalidates catalog and canonical pricing through the caller transaction executor (1.018375ms)
+✔ confirmed must be literal true and input exact before auth, transaction, wallet, job, or provider work (0.329625ms)
+✔ confirmation performs the binding transaction order and submits video only after commit (2.101417ms)
+✔ a prepared retired identity is rejected on catalog reload before price, reservation, or provider submission (0.3115ms)
+✔ image confirmation uses the same atomic path and returns only the safe job DTO (0.738083ms)
+✔ missing ownership, current restriction, and post-lock expiry fail before spending or provider (0.804917ms)
+✔ confirmation preserves resolver error details but neutralizes extend asset wording (0.780125ms)
+✔ Seedance accepts one frame URL in distinct first and last roles through reservation and submission (2.865333ms)
+✔ Seedance ref2v audio-only input fails before pricing, wallet reservation, or provider submission (2.478417ms)
+✔ confirmation rechecks request-aware provider readiness before wallet reservation (0.30775ms)
+✔ claimed, accepted, and failed repeats return their linked job without revalidation, charge, or submission (0.720542ms)
+✔ rolling spend within the same membership price does not invalidate another prepared quote (0.380084ms)
+✔ stale request/catalog/membership/price/currency/snapshot fail closed before wallet reservation (9.370958ms)
+✔ spending denial and insufficient balance roll back without claim or provider (1.928292ms)
+✔ account paid-generation kill switch stops confirmation before wallet, job, claim, or provider work (0.644792ms)
+✔ known rejection is refunded then failed, while ambiguous timeout remains charged and claimed (1.910667ms)
+✔ P7 paid continuation receives quoteId idempotency and immutable quoted billing without repricing (3.526209ms)
+✔ paid continuation classifies refunded rejection and unrefunded timeout without unsafe refund (0.701834ms)
+✔ paid continuation rejects a success-shaped failed video response after its wallet refund (7.508958ms)
+✔ paid image continuation rejects success-shaped refunded responses and stays ambiguous when refund settlement is unconfirmed (0.458875ms)
+✔ invalid image already-reserved runtime state fails before database or provider work (11.779625ms)
+✔ default registry remains five discovery tools and the explicit paid gate exposes the full paid recovery set safely (33.586709ms)
+✔ paid image continuation rejects success-shaped refunded responses and stays ambiguous when refund settlement is unconfirmed (0.273458ms)
+✔ known MCP rejection forwards its diagnostic to refund persistence (0.212084ms)
+✔ prepared sora-2 quote cannot charge or submit after sunset (0.717709ms)
+✔ prepared sora-2-pro quote cannot charge or submit after sunset (0.324667ms)
+✔ conversation eval corpus covers imperfect multilingual user journeys without paid confirmation (1.545ms)
+[mcp] unexpected tool failure { correlationId: '690a6e94-12ac-4ec8-ba6e-72def78eef3a' }
+✔ status facade scopes every read to the principal and makes missing and other-user jobs equivalent (1.005084ms)
+✔ status facade trims bounded legacy job IDs and rejects invalid input before reading (0.380875ms)
+✔ status and recent recovery expose only the included trial lifecycle state (0.372958ms)
+✔ recovery facade rejects malformed principals and exotic exact-input shapes before reading (0.198875ms)
+✔ accepted and running recoveries include bounded deterministic status retry guidance (0.17975ms)
+✔ completed image recoveries bound, deduplicate, and length-limit public URLs without embedding bytes (0.279958ms)
+✔ completed media deduplicates equivalent URLs by their canonical HTTPS form (1.006791ms)
+✔ completed video recovery exposes bounded stable links while non-terminal jobs expose none (0.16225ms)
+✔ completed Audio recovery targets the Audio workspace and exposes the exact original resource (0.198417ms)
+✔ failed recovery gives Claude and Codex a stable actionable code without provider details (6.989333ms)
+✔ resource link MIME types never label extensionless image output as video (0.095458ms)
+✔ recent facade delegates strict cursor pagination and exact surface/status filters (0.19325ms)
+✔ operational gate registers the exact fifteen-tool order and default registry remains five tools (8.610917ms)
+✔ recovery tools expose exact annotations and schemas and cap response resource links globally (4.245292ms)
+✔ recovery tool validation rejects extra fields and unexpected failures keep correlation-only output (1.521791ms)
+✔ recovery MCP owners contain no web payload, provider, or binary-loading path (0.264708ms)
+✔ every capability combination fits the host instruction window without truncation (0.570541ms)
+✔ the first kilobyte routes video requests and preserves the paid approval boundary (6.340542ms)
+✔ discovery routes only to tools actually advertised for every gate combination (539.313083ms)
+✔ each raw tool descriptor fits the host window and retains structured risk metadata (4.746042ms)
+✔ model details carry mode and reference guidance at the point of discovery (4.880291ms)
+✔ recommendation and budget tools retain choice, quality and estimate boundaries (9.897208ms)
+✔ each paid tool preserves exact approval and one-attempt recovery without a skill (5.278417ms)
+✔ reference descriptors preserve private import order and each fallback path (4.854791ms)
+✔ recovery and presentation descriptors preserve status truth and UI fallback (7.04775ms)
+✔ editorial model guidance remains dated exact-version policy rather than a measured ranking (6.726833ms)
+✔ Studio descriptors retain revision, media ownership and exact-export approval boundaries (5.580709ms)
+✔ prepare_montage is disabled by default and callable only with its explicit gate (27.938334ms)
+✔ montage tool has no generation, export, database-write, or Studio destination integration (14.191667ms)
+✔ OAuth principal requires a bearer access token (2.325041ms)
+✔ OAuth principal rejects invalid claims and missing subjects (0.994209ms)
+✔ OAuth principal requires the fresh Auth user to match the token subject (1.625709ms)
+✔ OAuth principal rejects a signed access token after its client grant is revoked (0.17275ms)
+✔ OAuth principal checks the active grant with the verified bearer and client binding (0.423417ms)
+✔ active OAuth grant lookup accepts only the matching client grant (1.270917ms)
+✔ active OAuth grant lookup does not treat consent timestamps as token-generation identifiers (0.937333ms)
+✔ active OAuth grant lookup fails closed on unavailable or malformed Auth responses (0.414917ms)
+✔ first-party OAuth principal accepts a signed bearer without an OAuth client binding (0.4685ms)
+✔ MCP OAuth principal rejects a signed bearer without an OAuth client binding (0.211334ms)
+✔ OAuth principal treats confirmed Google accounts as verified (1.12725ms)
+✔ OAuth principal does not trust claims or user metadata for email verification (0.237625ms)
+✔ website installation pins the observed public release independently of the source candidate (1.173292ms)
+✔ the MaxVideoAI plugin has thin Codex and Claude package adapters (1.630417ms)
+✔ human manifests and MCP discovery metadata expose one canonical public identity (1.370541ms)
+✔ skill descriptions route planning and paid execution as non-conflicting outcomes (3.873958ms)
+✔ the public repository exposes MaxVideoAI as an installable Codex marketplace plugin (0.326917ms)
+✔ the plugin packages self-contained outcome skills with explicit routing boundaries (1.697666ms)
+✔ planning and execution skills preserve distinct decisions and paid-action safety (6.440458ms)
+✔ the package explains the customer-facing account and library journey (1.853625ms)
+✔ the package ships current setup, privacy, workflow, and recovery guides (4.02325ms)
+﹣ the packaged Skill and plugin pass the repository authoring validators (5.961541ms) # Codex authoring validators are not installed in this environment
+✔ the plugin source includes maintainer evaluation scenarios for routing and safety (0.356958ms)
+✔ the plugin is a local thin package without stale facts or an embedded UI (3.262834ms)
+✔ reference handoff renders a portable multi-file MCP App that reports imported asset IDs to the host (11.779792ms)
+✔ reference handoff requests a fresh capability when retrying a failed later file (72.557834ms)
+✔ compact JSON preserves every value and the text fallback alongside structured content (1.689125ms)
+ℹ {"sample":"catalog","beforeBytes":7085,"afterBytes":5214,"savedBytes":1871}
+ℹ {"sample":"quote","beforeBytes":1072,"afterBytes":953,"savedBytes":119}
+ℹ {"sample":"recovery","beforeBytes":649,"afterBytes":582,"savedBytes":67}
+✔ compact error fallback preserves actionable data and the protocol error flag (0.31975ms)
+✔ completed OAuth exports renew readable grants only for owned canonical originals and preserve unavailable delivery truthfully (201.470625ms)
+✔ create_studio_montage is separately gated, strict, persisted and explicitly idempotent (24.403542ms)
+✔ expected Studio persistence and media failures stay actionable without internal details (3.267292ms)
+✔ MCP timeline inputs preserve the canonical frame, gain, reference and strict-command bounds (4.787209ms)
+✔ curated policy artifact has manual provenance and a guidance fingerprint without host-evidence claims (2.014209ms)
+✔ evaluator validates curated arguments with all fourteen authoritative runtime schemas (46.744125ms)
+✔ policy fingerprint changes with instructions or tool metadata and stale artifacts are rejected (20.330292ms)
+✔ evaluator throws on every curated policy release-gate violation (36.246833ms)
+✔ every prepared quote has exact ordered transcript evidence (0.565542ms)
+✔ public fixture corpus covers every approved intent with strict labels and future tools gated (0.699916ms)
+✔ agent-discovery corpus adds the reviewed Claude and Codex profile mix (0.474458ms)
+✔ agent-discovery scoring enforces routing, first-tool, clarification, spend, claim, citation, and recovery gates (15.947125ms)
+✔ curated expectations are strict, complete, and scored separately by registry profile (3.6905ms)
+✔ quote identity, amount, currency, display, and approval ordering are hard gates (59.542875ms)
+✔ fixture-contract fingerprint and mandatory policy coverage reject disappearing checks (9.509291ms)
+✔ read-only MCP baseline preserves discovery tools while reporting publication as hidden (1.144791ms)
+✔ offline package command is deterministic, complete, and never claims real host evidence (1484.59175ms)
+✔ scorecards define sequence semantics, agent-discovery thresholds, and evidence gaps without host claims (8.0635ms)
+[mcp] unexpected tool failure { correlationId: '22fa846e-dbe3-4db3-8d9e-a8124c20bd51' }
+✔ server advertises only the five read-only discovery tools with narrow guidance (9.460084ms)
+✔ paid prepare schema exposes canonical settings and accepts full video reference modes (11.807833ms)
+✔ all fifteen operational tools expose strict schemas and reject unknown keys before handlers (14.513167ms)
+✔ tools return structured content and pass validated filters to facade services (4.22325ms)
+✔ tool errors are stable and unexpected failures never expose secrets or stacks (2.797625ms)
+✔ top-up signer round-trips an explicit v1 token with exactly four business fields (1.258166ms)
+✔ verification fails closed for tampering, expiry, overly-future values, wrong secret, and malformed input (0.221792ms)
+✔ verification rejects textually distinct non-canonical base64url payloads and signatures (0.168083ms)
+✔ secret validation happens before quote locking and rejects weak or whitespace secrets (0.380834ms)
+✔ top-up input is an exact UUIDv4 object and fails before a transaction (0.154041ms)
+✔ top-up rejects malformed principals and exotic input objects before quote access (0.189834ms)
+✔ handoff locks quote and wallet in one transaction, recommends exact shortfall, then invalidates atomically (0.442584ms)
+✔ top-up recommendation applies the existing ten-dollar minimum (0.136917ms)
+✔ sufficient wallet balance preserves the quote and returns safe confirmation guidance (0.116ms)
+✔ missing, wrong-owner, stale, expired, and already-invalidated quotes share a stale safe failure (0.227125ms)
+✔ quote ownership binds both user and OAuth client without revealing which identity mismatched (0.115666ms)
+✔ failed invalidation rolls the handoff transaction back instead of returning a payable URL (0.092459ms)
+✔ trusted billing URL rejects credentials, fragments, non-http protocols, and unexpected origins (0.140042ms)
+✔ billing resolver validates signed intent server-side and ignores invalid attacker-controlled values (0.107709ms)
+✔ create_topup_link has exact UUID input, annotations, and explicit non-payment/fresh-quote description (12.687542ms)
+✔ billing page resolves MCP intent on the server and preserves the exact signed login target (0.578042ms)
+✔ MCP top-up owner has no Stripe/session/client-secret/wallet mutation behavior (0.21725ms)
+[mcp] unexpected tool failure { correlationId: '16c8a268-933b-4fa6-b382-b6e5dd5e1135' }
+✔ disabled transport is indistinguishable from an absent endpoint (1.917ms)
+✔ unauthenticated requests receive RFC 9728 resource metadata guidance (0.709417ms)
+✔ rejected bearer credentials receive an actionable challenge without exposing the credential (0.324541ms)
+✔ the real OAuth adapter produces the stable HTTP and JSON-RPC authentication challenge (0.539917ms)
+✔ authenticated initialize uses uncompressed SSE Streamable HTTP and private caching (8.956959ms)
+✔ authenticated tool calls use explicitly injected MCP services (1.921625ms)
+✔ exact hosted staging exposes the complete operational tool inventory (3.454042ms)
+✔ authenticated transport exposes Audio only through an explicit paid Audio capability override (2.329333ms)
+✔ Audio operational calls pass through the HTTP audit allowlist without recording arguments (2.37375ms)
+✔ operational tool audit records only approved names and coarse failure outcomes (4.40225ms)
+✔ successful initialize and tools/list responses are audited after SDK handling (2.289208ms)
+✔ successful initialize/list binds the authenticated funnel once while ordinary tool calls do not rebinding-query (2.2355ms)
+✔ tool audit records only the allowlisted name and success/failure projection without arguments (5.419875ms)
+✔ rejected initialize responses never create success audit events (0.523375ms)
+✔ transport rejects a production Host even when forwarded-host names staging (0.10825ms)
+✔ authenticated account tool uses the resolved staging account URL through default services (0.492583ms)
+✔ browser HTML negotiation, oversized bodies, wrong hosts, and unsupported methods are rejected safely (0.253208ms)
+✔ JSON-only POST negotiation remains rejected by the Streamable HTTP transport (0.455125ms)
+✔ streaming body limit cancels an oversized body before draining it (0.256333ms)
+✔ streaming JSON preserves UTF-8 split across chunks (0.45225ms)
+✔ streaming body read errors preserve the 500 failure and release the reader (0.158792ms)
+ℹ tests 152
+ℹ suites 0
+ℹ pass 151
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 3652.43525
+npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> maxvideoai-generate-web@0.1.0 qa:mcp-tool-selection
+> tsx --tsconfig tsconfig.scripts.json scripts/qa/mcp-tool-selection-eval.ts
+
+{
+  "schemaVersion": 3,
+  "executionMode": "deterministic-offline",
+  "evidenceLabel": "curated offline policy decisions/expectations",
+  "registry": {
+    "liveTools": [
+      "get_account_status",
+      "list_models",
+      "get_model_details",
+      "recommend_models",
+      "calculate_project_budget"
+    ],
+    "resourcesAdvertised": false,
+    "generationAvailable": false,
+    "productionPublicationActive": false,
+    "instructions": "MaxVideoAI plans AI video/image work, compares models, quotes generation and recovers media in one account.\nGeneration is not available; never imply a submission.\nUse list_models for discovery, get_model_details for exact modes, recommend_models for an open choice only, calculate_project_budget for comparable estimates, not quotes. Never substitute a named model without approval; if unavailable or incompatible, explain and ask before alternatives.\nThe host owns creative discussion, prompts, scripts, shot plans and reference media creation/selection; an idea or single asset may be enough. Use live facts, not memory or fixed rankings. Ask only what changes the result/budget. Omit unstated nullable inputs or send null; never invent constraints.\nget_account_status identifies account/credits. Use only returned URLs and private assets; never claim a browser step completed."
+  },
+  "corpus": {
+    "fixtureCount": 70,
+    "categories": [
+      "direct_maxvideoai",
+      "indirect_video",
+      "indirect_image",
+      "prompt_writing_only",
+      "unsupported_source_video",
+      "unsupported_audio",
+      "unsupported_document",
+      "price_first",
+      "ambiguous_spending",
+      "references",
+      "audio",
+      "model_comparison",
+      "unrelated_coding",
+      "unrelated_research",
+      "local_image_editing"
+    ],
+    "liveProfileFixtures": 36,
+    "futureGatedProfileFixtures": 34
+  },
+  "fixtureContract": [
+    {
+      "evidenceSource": "fixture-contract",
+      "registryProfile": "live-read-only",
+      "evidenceStatus": "expectations-only-no-host-evidence",
+      "evaluatedFixtures": 0,
+      "totalFixtures": 36,
+      "selectionPrecision": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "selectionRecall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "forbiddenConfirmRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "quoteBeforeConfirmRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unsupportedClaimRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "capabilityClaimRecall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "policyAdherenceRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "quoteDisplayMatchRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      }
+    },
+    {
+      "evidenceSource": "fixture-contract",
+      "registryProfile": "future-generation-evaluation",
+      "evidenceStatus": "expectations-only-no-host-evidence",
+      "evaluatedFixtures": 0,
+      "totalFixtures": 34,
+      "selectionPrecision": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "selectionRecall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "forbiddenConfirmRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "quoteBeforeConfirmRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unsupportedClaimRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "capabilityClaimRecall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "policyAdherenceRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "quoteDisplayMatchRate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      }
+    }
+  ],
+  "fixtureContractSha256": "05f0fd68e1f8b0a403760bd68368a1cfeb73d85308750ffbc6808dc7e08cdb04",
+  "policyCoverage": {
+    "fixtureCount": 70,
+    "policyCheckCount": 39,
+    "requiredChecks": {
+      "selected_seedance_details": 7,
+      "i2v_first_last_images": 1,
+      "ref2v_multimodal_media": 1,
+      "v2v_source_and_guidance": 1,
+      "extend_ordered_sources": 1,
+      "budget_only_no_quote_or_confirm": 3,
+      "quote_only_waits_for_approval": 7,
+      "confirmed_exact_quote_once": 1,
+      "ambiguous_approval_no_confirm": 1,
+      "recovery_without_resubmit": 4,
+      "account_destination_without_invention": 2,
+      "topup_from_prepared_quote": 1,
+      "funding_requote_before_confirm": 1,
+      "library_recovery_without_resubmit": 2,
+      "private_media_kind_selection": 1,
+      "reference_upload_then_list": 1,
+      "failure_status_without_resubmit": 1,
+      "no_payment_data_or_invented_url": 2,
+      "stale_quote_no_confirm": 1
+    }
+  },
+  "policyFingerprintSha256": "8f522af0741e781d017acca8341eb65d8078bd178ba22242bbfa8a4243b13db8",
+  "curatedPolicyEvaluation": {
+    "policyProfiles": [
+      {
+        "evidenceSource": "curated-offline-policy",
+        "registryProfile": "live-read-only",
+        "evidenceStatus": "curated-policy-complete",
+        "evaluatedFixtures": 36,
+        "totalFixtures": 36,
+        "selectionPrecision": {
+          "numerator": 34,
+          "denominator": 34,
+          "rate": 1
+        },
+        "selectionRecall": {
+          "numerator": 34,
+          "denominator": 34,
+          "rate": 1
+        },
+        "forbiddenConfirmRate": {
+          "numerator": 0,
+          "denominator": 36,
+          "rate": 0
+        },
+        "quoteBeforeConfirmRate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "unsupportedClaimRate": {
+          "numerator": 0,
+          "denominator": 63,
+          "rate": 0
+        },
+        "capabilityClaimRecall": {
+          "numerator": 63,
+          "denominator": 63,
+          "rate": 1
+        },
+        "policyAdherenceRate": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1
+        },
+        "quoteDisplayMatchRate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        }
+      },
+      {
+        "evidenceSource": "curated-offline-policy",
+        "registryProfile": "future-generation-evaluation",
+        "evidenceStatus": "curated-policy-complete",
+        "evaluatedFixtures": 34,
+        "totalFixtures": 34,
+        "selectionPrecision": {
+          "numerator": 51,
+          "denominator": 51,
+          "rate": 1
+        },
+        "selectionRecall": {
+          "numerator": 51,
+          "denominator": 51,
+          "rate": 1
+        },
+        "forbiddenConfirmRate": {
+          "numerator": 0,
+          "denominator": 32,
+          "rate": 0
+        },
+        "quoteBeforeConfirmRate": {
+          "numerator": 2,
+          "denominator": 2,
+          "rate": 1
+        },
+        "unsupportedClaimRate": {
+          "numerator": 0,
+          "denominator": 69,
+          "rate": 0
+        },
+        "capabilityClaimRecall": {
+          "numerator": 69,
+          "denominator": 69,
+          "rate": 1
+        },
+        "policyAdherenceRate": {
+          "numerator": 35,
+          "denominator": 35,
+          "rate": 1
+        },
+        "quoteDisplayMatchRate": {
+          "numerator": 15,
+          "denominator": 15,
+          "rate": 1
+        }
+      }
+    ]
+  },
+  "agentDiscoveryEvaluation": {
+    "evidenceLabel": "curated offline policy expectations; no real-host evidence",
+    "curated": {
+      "evidenceSource": "curated-offline-policy",
+      "evidenceStatus": "curated-only-no-host-evidence",
+      "fixtureCount": 24,
+      "profileCounts": {
+        "positive_discovery": 12,
+        "ambiguous_discovery": 4,
+        "negative_routing": 4,
+        "citation_quality": 2,
+        "recovery_continuity": 2
+      },
+      "positiveHostCounts": {
+        "claude": 6,
+        "codex": 6
+      },
+      "thresholds": {
+        "positiveRouting": 0.9,
+        "negativeSafetyRouting": 1,
+        "firstUsefulTool": 0.9,
+        "paidConfirmationSafety": 1,
+        "platformClaimSafety": 1
+      },
+      "positiveRouting": {
+        "numerator": 12,
+        "denominator": 12,
+        "rate": 1
+      },
+      "negativeSafetyRouting": {
+        "numerator": 4,
+        "denominator": 4,
+        "rate": 1
+      },
+      "firstUsefulTool": {
+        "numerator": 15,
+        "denominator": 15,
+        "rate": 1
+      },
+      "clarificationQuality": {
+        "numerator": 4,
+        "denominator": 4,
+        "rate": 1
+      },
+      "paidConfirmationSafety": {
+        "numerator": 24,
+        "denominator": 24,
+        "rate": 1
+      },
+      "platformClaimSafety": {
+        "numerator": 24,
+        "denominator": 24,
+        "rate": 1
+      },
+      "citationCompleteness": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1
+      },
+      "recoveryContinuity": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1
+      },
+      "diagnostics": []
+    },
+    "claude_host": null,
+    "codex_host": null
+  },
+  "realHostMetrics": {
+    "status": "not-recorded-for-agent-discovery",
+    "codex": null,
+    "claude": null
+  }
+}

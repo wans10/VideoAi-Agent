@@ -17,3 +17,12 @@ export class FalGenerationError extends Error {
     }
   }
 }
+
+// Only throw before any provider network submission. Unknown network failures
+// must keep their recoverable, non-refunding behavior.
+export class FalPreSubmissionError extends FalGenerationError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'FalPreSubmissionError';
+  }
+}

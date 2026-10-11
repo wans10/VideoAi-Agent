@@ -46,7 +46,7 @@ test('Flare text to image uses LLM Hub OpenAI-compatible generation API', async 
   assert.equal(called, true);
   assert.equal(result.providerMode, 'LLMHUB');
   assert.equal(result.providerJobId, 'hub-request-1');
-  assert.deepEqual(result.result.data.images, [{ url: 'https://example.com/output.png' }, { url: 'https://example.com/output.png' }]);
+  assert.deepEqual(result.result.data.images, [{ url: 'https://example.com/output.png', width: 1024, height: 768, content_type: 'image/png' }, { url: 'https://example.com/output.png', width: 1024, height: 768, content_type: 'image/png' }]);
 });
 
 test('Flare edit sends source images as multipart files to LLM Hub', async () => {

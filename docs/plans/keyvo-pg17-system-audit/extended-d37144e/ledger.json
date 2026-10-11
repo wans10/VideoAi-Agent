@@ -1,0 +1,151 @@
+{
+  "checkedAt": "2026-10-11T11:59:52.819Z",
+  "jobs": [
+    {
+      "job_id": "img_19328b66-c221-4daf-a065-1e8493f034d9",
+      "engine_id": "seedream",
+      "status": "completed",
+      "provider": "byteplus_modelark",
+      "provider_job_id": null,
+      "payment_status": "paid_wallet",
+      "message": null
+    },
+    {
+      "job_id": "img_4d9fc5c0-c17c-4652-bdf9-e96e0d9b0691",
+      "engine_id": "qwen-image-3-0",
+      "status": "completed",
+      "provider": "alibaba_qwen_image_direct",
+      "provider_job_id": "03ab9396-27aa-9268-bc41-67b210930736",
+      "payment_status": "paid_wallet",
+      "message": null
+    },
+    {
+      "job_id": "img_8a5e8051-b6c3-43f6-9055-8dd6edfb6628",
+      "engine_id": "nano-banana-lite",
+      "status": "completed",
+      "provider": "google_vertex_image_direct",
+      "provider_job_id": "MXbLar7HDbX2jNAPpYOU8AU",
+      "payment_status": "paid_wallet",
+      "message": null
+    },
+    {
+      "job_id": "img_fee37c49-ecdd-4ffe-84a6-93a24c9a09b1",
+      "engine_id": "gpt-image-2-5-flare",
+      "status": "completed",
+      "provider": "LLMHUB",
+      "provider_job_id": "10deda99-a756-4133-960e-093aa1480e2f",
+      "payment_status": "paid_wallet",
+      "message": null
+    },
+    {
+      "job_id": "job_0445d02f-a5c9-4245-bad8-434740567adb",
+      "engine_id": "wan-3",
+      "status": "completed",
+      "provider": "alibaba_model_studio",
+      "provider_job_id": "ea8c9173-3565-4eff-b56f-36bf3d9c366f",
+      "payment_status": "paid_wallet",
+      "message": null
+    },
+    {
+      "job_id": "job_5db6e96d-b39f-49e9-9d6c-af3fc46ecc7a",
+      "engine_id": "seedance-2-0-fast",
+      "status": "completed",
+      "provider": "byteplus_modelark",
+      "provider_job_id": "cgt-20261011195337-s6fvb",
+      "payment_status": "paid_wallet",
+      "message": null
+    },
+    {
+      "job_id": "job_be07f4dd-33bf-4a5b-92cc-35330ae4b531",
+      "engine_id": "seedance-2-0-fast",
+      "status": "failed",
+      "provider": "fal",
+      "provider_job_id": null,
+      "payment_status": "refunded_wallet",
+      "message": "Generation could not start because the selected provider was not configured. Wallet charge refunded."
+    },
+    {
+      "job_id": "job_f01326e7-94d7-494c-89d4-380dd5a27d9a",
+      "engine_id": "veo-3-1-lite",
+      "status": "completed",
+      "provider": "google_vertex_veo_direct",
+      "provider_job_id": "projects/keyvo-production/locations/us-central1/publishers/google/models/veo-3.1-lite-generate-001/operations/3ba9a109-9606-4822-9fa5-58d9852bd34e",
+      "payment_status": "paid_wallet",
+      "message": null
+    }
+  ],
+  "receipts": [
+    {
+      "job_id": "img_19328b66-c221-4daf-a065-1e8493f034d9",
+      "type": "charge",
+      "amount_cents": 40,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "img_4d9fc5c0-c17c-4652-bdf9-e96e0d9b0691",
+      "type": "charge",
+      "amount_cents": 24,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "img_8a5e8051-b6c3-43f6-9055-8dd6edfb6628",
+      "type": "charge",
+      "amount_cents": 32,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "img_fee37c49-ecdd-4ffe-84a6-93a24c9a09b1",
+      "type": "charge",
+      "amount_cents": 56,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "job_0445d02f-a5c9-4245-bad8-434740567adb",
+      "type": "charge",
+      "amount_cents": 480,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "job_5db6e96d-b39f-49e9-9d6c-af3fc46ecc7a",
+      "type": "charge",
+      "amount_cents": 1120,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "job_be07f4dd-33bf-4a5b-92cc-35330ae4b531",
+      "type": "charge",
+      "amount_cents": 1120,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "job_be07f4dd-33bf-4a5b-92cc-35330ae4b531",
+      "type": "refund",
+      "amount_cents": 1120,
+      "currency": "CNY"
+    },
+    {
+      "job_id": "job_f01326e7-94d7-494c-89d4-380dd5a27d9a",
+      "type": "charge",
+      "amount_cents": 384,
+      "currency": "CNY"
+    }
+  ],
+  "attempts": [
+    {
+      "job_id": "job_f01326e7-94d7-494c-89d4-380dd5a27d9a",
+      "provider": "google_vertex_veo_direct",
+      "provider_model": "veo-3.1-lite-generate-001",
+      "status": "completed",
+      "error_code": null,
+      "error_class": null
+    },
+    {
+      "job_id": "job_0445d02f-a5c9-4245-bad8-434740567adb",
+      "provider": "alibaba_model_studio",
+      "provider_model": "wan3.0-video",
+      "status": "completed",
+      "error_code": null,
+      "error_class": null
+    }
+  ]
+}

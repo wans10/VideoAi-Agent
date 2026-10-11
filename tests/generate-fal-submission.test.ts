@@ -10,7 +10,7 @@ import {
 import { FalTimeoutError } from '../frontend/app/api/generate/_lib/fal-error-handling';
 import { persistRefundReceipt } from '../frontend/app/api/generate/_lib/payment-rollback';
 import type { PendingReceipt } from '../frontend/app/api/generate/_lib/initial-video-job';
-import { FalGenerationError } from '../frontend/src/lib/fal-error';
+import { FalGenerationError, FalPreSubmissionError } from '../frontend/src/lib/fal-error';
 import type { GeneratePayload, GenerateResult } from '../frontend/src/lib/fal';
 
 const root = process.cwd();
@@ -348,4 +348,16 @@ async function withMutedFalLogs<T>(fn: () => Promise<T>): Promise<T> {
     console.info = originalInfo;
     console.error = originalError;
   }
+}
+
+for (const message of ['FAL_API_KEY is missing', 'Unable to resolve FAL model for requested engine']) {
+  test(`local pre-submission failure ${message} fails and refunds instead of pending forever`, async () => {
+    const { result, queries } = await submitRejectedEnqueue(new FalPreSubmissionError(message));
+    assert.equal(result.ok, false);
+    if (result.ok) return;
+    assert.equal(result.status, 500);
+    assert.notEqual(result.body.deferred, true);
+    assert.match(queries.find(({ sql }) => sql.includes('UPDATE app_jobs'))?.sql ?? '', /SET status = 'failed'/);
+    assertExactWalletRefund(queries);
+  });
 }

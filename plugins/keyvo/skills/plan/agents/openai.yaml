@@ -1,0 +1,13 @@
+interface:
+  display_name: "Keyvo Plan"
+  short_description: "Compare models, budget projects, and plan shots"
+  default_prompt: "Use $plan to turn my brief into a shot list, model comparison, and project budget."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "maxvideoai"
+      description: "Live Keyvo model, capability, and project budget tools"
+      transport: "streamable_http"
+      url: "https://app.keyvo.cn/mcp"
+policy:
+  allow_implicit_invocation: true

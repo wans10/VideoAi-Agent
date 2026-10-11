@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { runLlmhubFlareGeneration } from '../frontend/src/server/images/llmhub-flare-generation.ts';
+import { extractImages } from '../frontend/src/server/images/image-provider-payload.ts';
+import { copyGeneratedImagesToStorage } from '../frontend/src/server/images/image-output-storage.ts';
 import { storeLlmhubImageOutputs } from '../frontend/src/server/images/llmhub-image-output.ts';
 import { resolveGptImage25PricingTier, resolveGptImage2PricingTier } from '../frontend/lib/image/gptImage2.ts';
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
@@ -41,7 +43,14 @@ for (const engineId of ['gpt-image-2-5-flare', 'gpt-image-2-5-sunburst']) {
     });
     assert.equal(submissions, 1);
     assert.equal(result.providerJobId, 'accepted-1');
-    assert.deepEqual(result.result.data.images, [{ url: stored.url }]);
+    assert.deepEqual(result.result.data.images, [{ url: stored.url, width: 1024, height: 768, content_type: 'image/png' }]);
+    const projected = await copyGeneratedImagesToStorage({
+      images: extractImages(result.result.data), jobId: input.jobId, userId: input.userId, requireOwnedOutput: true,
+      deps: { isStorageConfigured: () => true, extractStorageKeyFromUrl: () => stored.key,
+        fetch: async () => { throw new Error('Owned output must not be fetched again'); },
+        uploadImageToStorage: async () => { throw new Error('Owned output must not be uploaded again'); } },
+    });
+    assert.deepEqual(projected, [{ url: stored.url, width: 1024, height: 768, mimeType: 'image/png' }]);
   });
 }
 
