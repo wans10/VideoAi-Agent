@@ -513,6 +513,15 @@ export async function calculateAgentProjectBudget(
           'references',
         );
       }
+      if (engineId === 'seedance-2-5' && mode === 'v2v') {
+        editProjectLine(
+          'REFERENCE_REQUIRED',
+          'Seedance 2.5 edit pricing requires the actual owned source video and its verified duration. Use prepare_generation with an owned source video for a fixed customer quote.',
+          proposalIndex,
+          lineIndex,
+          'references',
+        );
+      }
       const settings = normalizeSettings(rawLine.settings, proposalIndex, lineIndex);
       const clipCount = requireLineInteger(
         rawLine.clipCount, 1, MAX_PROJECT_CLIPS_PER_LINE, proposalIndex, lineIndex, 'clipCount',

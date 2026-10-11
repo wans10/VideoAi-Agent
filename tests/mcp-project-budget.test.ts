@@ -230,6 +230,35 @@ test('budgets real H3 and Seedance 2.5 i2v lines with source-derived framing', a
   ]);
 });
 
+test('Seedance 2.5 edit budgets locate the missing owned duration before pricing', async () => {
+  const deps = makeDeps({ listPublicEngines: async () => [registryCapability('seedance-2-5')] });
+  await assertLineError(calculateAgentProjectBudget(input([
+    { name: 'Valid alternative', lines: [line({
+      mode: 't2v', settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
+    })] },
+    { name: 'Source video edit', lines: [line({
+      mode: 'v2v',
+      settings: { durationSec: 4, resolution: '480p', audio: true },
+      referenceRoles: ['source'],
+    })] },
+  ]), principal, deps), 'REFERENCE_REQUIRED', {
+    proposalIndex: 1, lineIndex: 0, field: 'references',
+  });
+  assert.equal(deps.calls.length, 1, 'Only the preceding valid line may reach pricing.');
+  assert.equal(deps.calls[0]?.mode, 't2v');
+
+  const isolated = makeDeps({ listPublicEngines: deps.listPublicEngines });
+  await assert.rejects(calculateAgentProjectBudget(input([{
+    name: 'Edit without owned facts', lines: [line({ mode: 'v2v', referenceRoles: ['source'] })],
+  }]), principal, isolated), (error) => {
+    assert.ok(error instanceof AgentApiError);
+    assert.equal(error.code, 'REFERENCE_REQUIRED');
+    assert.match(error.message, /owned source video.*verified duration.*prepare_generation/);
+    return true;
+  });
+  assert.equal(isolated.calls.length, 0, 'Role placeholders must never produce an edit quote.');
+});
+
 test('budgets source-video modes without inventing a ref2v media kind', async () => {
   const candidate = registryCapability('seedance-2-5');
   const pricedModes: string[] = [];
@@ -237,12 +266,6 @@ test('budgets source-video modes without inventing a ref2v media kind', async ()
   const result = await calculateAgentProjectBudget(input([{
     name: 'Source video workflows',
     lines: [
-      line({
-        purpose: 'Edit source',
-        mode: 'v2v',
-        settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
-        referenceRoles: ['source'],
-      }),
       line({
         purpose: 'Extend clips',
         mode: 'extend',
@@ -270,13 +293,13 @@ test('budgets source-video modes without inventing a ref2v media kind', async ()
     },
   });
 
-  assert.deepEqual(pricedModes, ['v2v', 'extend', 'ref2v']);
-  assert.deepEqual(billingInputTypes, ['video_input', 'video_input', 'no_video_input']);
+  assert.deepEqual(pricedModes, ['extend', 'ref2v']);
+  assert.deepEqual(billingInputTypes, ['video_input', 'no_video_input']);
   assert.deepEqual(
     result.proposals[0]?.lines.map((budgetLine) => budgetLine.mode),
-    ['v2v', 'extend', 'ref2v'],
+    ['extend', 'ref2v'],
   );
-  assert.deepEqual(result.proposals[0]?.lines.map((budgetLine) => budgetLine.referenceCount), [1, 3, 1]);
+  assert.deepEqual(result.proposals[0]?.lines.map((budgetLine) => budgetLine.referenceCount), [3, 1]);
 });
 
 test('budgets first/last-frame and ordered reference-video workflows exposed by the MCP', async () => {

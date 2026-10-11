@@ -1247,14 +1247,25 @@ test('prepare pricing uses the real Seedance video-input tier for source-video m
       prompt: 'Continue the source video.',
       settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
       references: [{
-        kind: 'https',
-        url: `https://cdn.example.com/${mode}-source.mp4`,
+        kind: 'asset',
+        assetId: `${mode}-owned-source`,
         role: 'source',
-        mediaKind: 'video',
       }],
       outputCount: 1,
     };
-    const pricing = await priceCanonicalGeneration(request, 'member');
+    const resolvedReferences = [{
+      assetId: `${mode}-owned-source`,
+      role: 'source' as const,
+      mediaKind: 'video' as const,
+      storageUrl: `https://assets.example.com/${mode}-source.mp4`,
+      durationSec: 4.25,
+      width: 1280,
+      height: 720,
+      mimeType: 'video/mp4',
+    }];
+    const pricing = await priceCanonicalGeneration(
+      request, 'member', undefined, { resolvedReferences },
+    );
     const meta = pricing.pricingSnapshot.meta as Record<string, unknown>;
     assert.equal(meta.byteplus_billing_input_type, 'video_input');
   }

@@ -22,6 +22,11 @@ and initial job timing use its duration rounded upward to the existing integer
 customer tariff cell. The -1 provider sentinel never enters pricing or storage.
 This preserves authored rates while fixing the previous caller-duration mismatch;
 actual output metadata and provider usage remain independently measured.
+Project budget requests carry role placeholders rather than owned source facts.
+Seedance 2.5 V2V therefore returns `REFERENCE_REQUIRED` with the exact project
+line and guidance to `prepare_generation`; it must not invent source timing or
+fall through to an opaque internal pricing error. Preparation and confirmation
+continue to require the exact server-resolved source before returning a quote.
 Account ownership, one-attempt submission and durable output logic are unchanged. Stored `byteplusTransport`
 continues to own polling; historical LAS jobs are never moved to ModelArk.
 

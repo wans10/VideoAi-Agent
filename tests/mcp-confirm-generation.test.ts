@@ -99,16 +99,28 @@ test('confirmation pricing preserves the prepared Seedance video-input tier', as
     prompt: 'Edit the source video.',
     settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
     references: [{
-      kind: 'https',
-      url: 'https://cdn.example.com/source.mp4',
+      kind: 'asset',
+      assetId: 'owned-edit-source',
       role: 'source',
-      mediaKind: 'video',
     }],
     outputCount: 1,
   };
-  const prepared = await priceCanonicalGeneration(request, 'member');
+  const resolvedReferences = [{
+    assetId: 'owned-edit-source',
+    role: 'source' as const,
+    mediaKind: 'video' as const,
+    storageUrl: 'https://assets.example.com/source.mp4',
+    durationSec: 4.25,
+    width: 1280,
+    height: 720,
+    mimeType: 'video/mp4',
+  }];
+  const prepared = await priceCanonicalGeneration(
+    request, 'member', undefined, { resolvedReferences },
+  );
   const confirmed = await priceCanonicalGenerationInExecutor(request, 'member', {
     candidate,
+    resolvedReferences,
     executor: { async query() { return []; } } as TransactionQueryExecutor,
   });
   assert.equal(
