@@ -24,5 +24,17 @@
   },
   "exposure": "passed",
   "diffCheck": "passed",
-  "fullBrowserSuite": "running in isolated Node22/PG17/Chromium environment"
+  "fullBrowserSuite": {
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 701263.338516,
+    "environment": "Isolated Node22/PG17/Chromium"
+  },
+  "githubFollowup": {
+    "run": "https://github.com/wans10/VideoAi-Agent/actions/runs/38143526245",
+    "jobStepsStarted": false,
+    "annotation": "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the Billing & plans section in your settings",
+    "dockerAlsoBlocked": true
+  }
 }

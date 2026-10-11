@@ -1,0 +1,90 @@
+
+[validate] browser suite (10 files)
+TAP version 13
+# Subtest: analysis review works on desktop/mobile and only explicit confirmation queues an owned run
+ok 1 - analysis review works on desktop/mobile and only explicit confirmation queues an owned run
+  ---
+  duration_ms: 99430.690865
+  type: 'test'
+  ...
+# Subtest: native chat timeline, persistent app themes and mobile chat access (chromium)
+ok 2 - native chat timeline, persistent app themes and mobile chat access (chromium)
+  ---
+  duration_ms: 191537.770471
+  type: 'test'
+  ...
+# Subtest: the production composition renders the same native cut, length and embedded sound into a real MP4
+ok 3 - the production composition renders the same native cut, length and embedded sound into a real MP4
+  ---
+  duration_ms: 34284.361279
+  type: 'test'
+  ...
+# Subtest: native export quote stays accessible on mobile and recovers one identity after a lost acknowledgement (chromium)
+ok 4 - native export quote stays accessible on mobile and recovers one identity after a lost acknowledgement (chromium)
+  ---
+  duration_ms: 83824.758193
+  type: 'test'
+  ...
+# Subtest: MCP montage opens the current conversation with private playback, durable edits, export recovery and account isolation
+ok 5 - MCP montage opens the current conversation with private playback, durable edits, export recovery and account isolation
+  ---
+  duration_ms: 160227.646617
+  type: 'test'
+  ...
+# Subtest: task ceilings, explicit continuation and saved progress work on desktop/mobile without hidden dispatch
+ok 6 - task ceilings, explicit continuation and saved progress work on desktop/mobile without hidden dispatch
+  ---
+  duration_ms: 110509.510416
+  type: 'test'
+  ...
+# Subtest: site and phone renderer accept controlled diagrams/videos with source attribution
+ok 7 - site and phone renderer accept controlled diagrams/videos with source attribution
+  ---
+  duration_ms: 18.204911
+  type: 'test'
+  ...
+# Subtest: invalid connections, changed localized media and arbitrary video URLs fail ingestion
+ok 8 - invalid connections, changed localized media and arbitrary video URLs fail ingestion
+  ---
+  duration_ms: 7.539514
+  type: 'test'
+  ...
+# Subtest: French diagram text can expand naturally and remains visible in the site reader
+ok 9 - French diagram text can expand naturally and remains visible in the site reader
+  ---
+  duration_ms: 4.510057
+  type: 'test'
+  ...
+# Subtest: embedded video identifies the site without exposing the private article URL
+ok 10 - embedded video identifies the site without exposing the private article URL
+  ---
+  duration_ms: 387.23534
+  type: 'test'
+  ...
+# Subtest: reader keeps the same dialog frame while delayed content replaces loading or an error
+ok 11 - reader keeps the same dialog frame while delayed content replaces loading or an error
+  ---
+  duration_ms: 920.832789
+  type: 'test'
+  ...
+# Subtest: non-legacy prompting tab ids show the first panel, switch, and recover after prop changes
+ok 12 - non-legacy prompting tab ids show the first panel, switch, and recover after prop changes
+  ---
+  duration_ms: 903.592951
+  type: 'test'
+  ...
+# Subtest: owned Chromium contexts isolate sessions, constrain network and validate private bytes
+ok 13 - owned Chromium contexts isolate sessions, constrain network and validate private bytes
+  ---
+  duration_ms: 439.076345
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 701263.338516
