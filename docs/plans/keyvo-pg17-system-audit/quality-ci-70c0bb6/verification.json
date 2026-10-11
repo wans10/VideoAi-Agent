@@ -1,0 +1,28 @@
+{
+  "sourceCommit": "70c0bb6c24c878c42b064145fed2fb886b1490e5",
+  "failedRun": "https://github.com/wans10/VideoAi-Agent/actions/runs/38138984113",
+  "failedJob": "Browser integration",
+  "failure": "Permanent media denial UI assertion started before awaiting signed media renewal and its second decoder denial.",
+  "ciOtherRequiredLanes": "success",
+  "baselineChromiumRuns": [
+    {
+      "passed": true,
+      "durationMs": 199850.902109
+    },
+    {
+      "passed": true,
+      "durationMs": 197952.460596,
+      "instrumented": true
+    }
+  ],
+  "finding": "Failure was not reproduced. Network-inclusive assertion timing is a plausible cause, not a proven product root cause.",
+  "change": "Await successful renewal and >=2 denied decoder requests before unchanged five-second UI visibility assertion. No production code change.",
+  "focusedTests": {
+    "passed": 23,
+    "failed": 0,
+    "skipped": 0
+  },
+  "exposure": "passed",
+  "diffCheck": "passed",
+  "fullBrowserSuite": "running in isolated Node22/PG17/Chromium environment"
+}

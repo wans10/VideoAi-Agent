@@ -312,8 +312,16 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       // Replay this actual owned projection to guarantee a same-URL renewal, independent of wall-clock seconds.
       if (!permanent) await retryPage.route(runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/conversation-timeline?preview=1',route => route.fulfill({json: originalProjection}));
       retryPage.on('request',request => {if (request.url().includes('/conversation-timeline?preview=1')) renewalReads++;});
+      // Wait for the actual renewal before checking its decoder outcome. The
+      // five-second UI assertion must not also pay for a cold authenticated route.
+      const renewalResponse = retryPage.waitForResponse(response => response.url().includes('/conversation-timeline?preview=1') && response.request().method() === 'GET',{timeout: 30_000});
+      void renewalResponse.catch(() => undefined);
       await retryPage.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
+      const renewedProjection = await renewalResponse;
+      assert.equal(renewedProjection.status(),200,'The automatic renewal must reach the owned timeline route.');
+      assert.equal((await renewedProjection.json()).ok,true,'The renewal must return a usable projection.');
       if (permanent) {
+        await expect.poll(() => denied,{timeout: 30_000,message: 'Both the original and renewed decoder must encounter the permanent denial.'}).toBeGreaterThanOrEqual(2);
         await expect(retryPage.getByText(copy('This clip could not be played. Reopen the monitor to retry, or remove it from the film.'),{exact: true})).toBeVisible();
         await expect(retryPage.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
         assert.ok(denied >= 2,'The permanent denial reaches both decoder attempts.');
