@@ -150,3 +150,5 @@ Studio session mutations share `isStudioSameOriginRequest` in `studio-route-util
 Video insertion requires original-byte probe facts for duration, width, height and an explicit audio boolean. Legacy duration-only `source: probe` records do not establish a silent clip; hydrate them outside the editor transaction before retrying the guarded insertion. Existing stored clips retain their state until an explicit bounded repair or replacement.
 
 Reinsertion refreshes measured media facts on the existing exact owned project asset reference without replacing its ID, authored name, URL, thumbnail or unrelated fields. The refresh is part of the same revisioned insertion transaction; receipt replay remains read-only. Historical caches require explicit bounded snapshot/revision-guarded repair, never a read-route backfill.
+
+Project asset identity compares typed reference fields, never serialized object key order. The same identity guard applies to conversational insertion attachment checks and measured-cache refresh; PostgreSQL jsonb key ordering must not duplicate assets or reject a valid already-owned project reference.

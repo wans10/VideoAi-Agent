@@ -1,4 +1,4 @@
-import { refreshStudioProjectAssetMediaFacts } from './project-asset-media-facts';
+import { refreshStudioProjectAssetMediaFacts, sameStudioProjectAssetReference } from './project-asset-media-facts';
 import {createHash} from 'node:crypto';
 import {withDbTransaction, type QueryExecutor} from '@/lib/db';
 import {applyConversationTimelineEdit, conversationTimelineCommandSchema} from '@/lib/studio/conversation-timeline-editing';
@@ -72,7 +72,7 @@ export async function editStudioConversationTimeline(actor: ConversationEditActo
           ? layerWorkspaceTimelineAudioItem({items: previousItems,item: inserted.items[0],startFrame: edit.startFrame,fps: settings.fps,maxAudioTracks: MAX_TIMELINE_AUDIO_TRACKS,unavailableTracks: [...state.lockedTimelineTracks ?? [],...state.mutedAudioTracks ?? []]})
           : insertWorkspaceTimelineItems({items: previousItems, newItems: inserted.items, mode: 'insert', playheadSec: timelineFrameToSeconds(edit.startFrame,settings.fps), idSeed: requestHash.slice(0,20)+':'+index});
         if (timelineEditTouchesLockedTracks(state.timelineItems,items,state.lockedTimelineTracks ?? [])) throw new Error('Timeline track is locked.');
-        const existingAssetIndex = projectAssets.findIndex(asset => JSON.stringify(asset.ref) === JSON.stringify(inserted.asset.ref));
+        const existingAssetIndex = projectAssets.findIndex(asset => sameStudioProjectAssetReference(asset.ref,inserted.asset.ref));
         if (existingAssetIndex < 0) projectAssets = [...projectAssets,inserted.asset];
         else projectAssets = projectAssets.map((asset,index) => index === existingAssetIndex
           ? refreshStudioProjectAssetMediaFacts(asset,inserted.asset) : asset);

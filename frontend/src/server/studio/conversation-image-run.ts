@@ -1,3 +1,5 @@
+import {sameStudioProjectAssetReference} from './project-asset-media-facts';
+import {toolAssetRefSchema,type ToolAssetRef} from '@/lib/toolbox/contract';
 import {assertStudioTaskExecution,setStudioTaskPhase,type StudioTaskExecution} from "./tasks/execution";
 import {StudioTaskStop} from "./tasks/policy";
 import {recallStudioTaskMemory} from "./tasks/memory";
@@ -154,16 +156,16 @@ export async function runStudioImageActions(options: {
     }),
     editTimeline: async action => {
       const insertedRefs=action.edit.kind==='insert'?[action.edit.ref]:action.edit.kind==='assemble'?action.edit.clips.map(clip=>clip.ref):[];
-      let projectRefs:Set<string>|undefined;
+      let projectRefs:ToolAssetRef[]|undefined;
       for(const ref of insertedRefs.filter(ref=>ref.type==='asset')){
         const attached = ref.kind === 'image' ? input.references.includes(ref.assetId) : input.attachments?.some(item => item.type === 'asset' && item.assetId === ref.assetId && item.kind === ref.kind);
         if (!attached) {
           if(!projectRefs){
             const existing = await readStudioWorkspace(actor,actor.projectId);
             const assets = (existing.project.workspaceState as {projectAssets?: {ref?: unknown}[]}).projectAssets ?? [];
-            projectRefs=new Set(assets.map(asset=>JSON.stringify(asset.ref)));
+            projectRefs=assets.flatMap(asset=>{const parsed=toolAssetRefSchema.safeParse(asset.ref);return parsed.success?[parsed.data]:[];});
           }
-          if (!projectRefs.has(JSON.stringify(ref))) throw new AgentApiError('REFERENCE_INVALID','Attach this library media before inserting it.');
+          if (!projectRefs.some(existingRef=>sameStudioProjectAssetReference(existingRef,ref))) throw new AgentApiError('REFERENCE_INVALID','Attach this library media before inserting it.');
         }
       }
       try {

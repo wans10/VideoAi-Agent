@@ -90,7 +90,7 @@ test('partial probed metadata cannot infer silent audio or skip measured dimensi
 
 test('reinserting an owned source refreshes its stale project cache without replacing authored fields or duplicating it', async () => {
   const {state,dependencies}=fixture();
-  const stale={id:'keep-id',kind:'video',ref,filename:'Keep my title',url:state.source.url,thumbUrl:'https://media.maxvideoai.com/keep.jpg',mediaFacts:{source:'probe',durationSec:5},hasAudio:false,audioProvenance:'none',custom:{kept:true}};
+  const stale={id:'keep-id',kind:'video',ref:{kind:ref.kind,outputId:ref.outputId,jobId:ref.jobId,type:ref.type},filename:'Keep my title',url:state.source.url,thumbUrl:'https://media.maxvideoai.com/keep.jpg',mediaFacts:{source:'probe',durationSec:5},hasAudio:false,audioProvenance:'none',custom:{kept:true}};
   const unrelated={...stale,id:'unrelated',ref:{...ref,outputId:'different'}};
   state.workspace.projectAssets=[stale,unrelated];
   await editStudioConversationTimeline({userId:'owner'},command,dependencies);
