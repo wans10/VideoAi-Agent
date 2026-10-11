@@ -99,7 +99,13 @@ export function resolveBytePlusTransport(
   mode: Mode | string | null | undefined,
 ): BytePlusTransport {
   if (engineId?.trim() !== SEEDANCE_2_5_ENGINE_ID) return 'modelark';
-  return mode?.trim().toLowerCase() === 'v2v' ? 'las' : 'modelark';
+  if (mode?.trim().toLowerCase() !== 'v2v') return 'modelark';
+  // This applies only to new submissions. Polling keeps the stored transport.
+  const transport = (ENV.SEEDANCE_2_5_V2V_TRANSPORT ?? 'las').trim().toLowerCase();
+  if (transport === 'modelark' || transport === 'las') return transport;
+  throw new BytePlusModelArkError('Seedance 2.5 V2V transport must be modelark or las.', {
+    code: 'BYTEPLUS_V2V_TRANSPORT_INVALID',
+  });
 }
 
 export function resolveBytePlusPollTransport(input: {
