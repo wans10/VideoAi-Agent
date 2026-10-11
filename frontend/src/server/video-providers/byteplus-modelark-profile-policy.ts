@@ -217,6 +217,7 @@ function filterInputFieldsForModes(
       if (field.id === 'aspect_ratio' && field.type === 'enum') {
         return {
           ...field,
+          ...(profile.engineId === 'seedance-2-5' ? {modes: ['t2v', 'ref2v'] as Mode[]} : {}),
           values: aspectRatios,
           default: profile.defaultAspectRatio,
         };
@@ -224,6 +225,7 @@ function filterInputFieldsForModes(
       if (field.id === 'duration' && field.type === 'enum') {
         return {
           ...field,
+          ...(profile.engineId === 'seedance-2-5' ? {modes: ['t2v', 'i2v', 'ref2v', 'extend'] as Mode[]} : {}),
           values: durationOptions.map(String),
           default: String(profile.defaultDurationSec),
           min: durationOptions[0] ?? 5,
@@ -462,7 +464,7 @@ export function applyBytePlusSeedanceRuntimeOptions(
                   resolution: resolutions,
                   resolutionLocked: false,
                   aspectRatio:
-                    engine.id === 'seedance-2-5' && mode === 'i2v'
+                    engine.id === 'seedance-2-5' && ['i2v', 'v2v', 'extend'].includes(mode)
                       ? undefined
                       : aspectRatios,
                   duration: {

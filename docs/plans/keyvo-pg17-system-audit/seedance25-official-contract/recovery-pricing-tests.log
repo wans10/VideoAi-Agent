@@ -1,0 +1,45 @@
+✔ an old BytePlus job that succeeded at the provider is completed without a refund (2.677292ms)
+✔ an old BytePlus job still running at the provider is stalled without a refund (0.379542ms)
+✔ an old BytePlus job with an unavailable provider lookup is stalled without a refund (0.482542ms)
+✔ source-video context derives duration labels and video presence (1.357ms)
+✔ source-video context returns the route rejection contract when the input is too long (0.217042ms)
+✔ Omni v2v price receives exact owned fractional source duration (0.763583ms)
+✔ Omni extend price receives exact owned fractional source duration (0.145625ms)
+✔ Omni source pricing refuses missing ownership measurements and caller settings cannot replace them (0.26775ms)
+✔ Omni image pricing counts all selected frames while only video source modes inherit timing (0.113417ms)
+✔ P1 pricing, preflight, and MCP preparation share one canonical quote (35.087083ms)
+✔ P1 PAYG cards and lookups copy localized canonical pricing rows (60.517667ms)
+✔ P1 PAYG content owns no copied price and never attributes H3 Max to Fal (0.462ms)
+✔ Seedance 2.5 uses its own factual ModelArk input rates (0.511417ms)
+✔ BytePlus list-cost rates distinguish 1080p and video input (0.080625ms)
+✔ BytePlus pricing still fails closed for an unknown Seedance engine (0.172ms)
+✔ Seedance 2.5 public quotes cover no-video and video-input generation (4.650834ms)
+✔ Seedance 2.5 presents pricing in customer-facing language (0.374584ms)
+✔ hidden direct Fast keeps the current Fast unit rate (0.094541ms)
+✔ BytePlus token estimation also fails closed for an unknown profile (0.123792ms)
+✔ Seedance 2 token quote follows dimensions and targets 2.5x BytePlus no-video pricing (0.081417ms)
+✔ Seedance 2 pricing snapshot lands on the 2.5x BytePlus public target after margin (0.170083ms)
+✔ Seedance 2 Fast uses the lower 2.5x BytePlus Fast public target (0.187916ms)
+✔ Seedance 2 Standard uses flat 2.5x BytePlus no-video targets across video input types (0.238333ms)
+✔ Seedance 2 Standard 4K uses BytePlus canonical dimensions for non-16:9 ratios (0.070833ms)
+✔ Seedance 2 Mini uses one 2.5x BytePlus no-video public target for every input type (0.169334ms)
+✔ Seedance 2 pricing changes with aspect ratio because BytePlus pricing follows output pixels (0.403375ms)
+✔ Draft/final prices never alias a normal 480p/1080p customer tariff (9.77975ms)
+✔ unsupported Draft pricing settings are refused before a quote (0.2885ms)
+✔ actual ModelArk HTTP bodies follow Seedance 2.5 task-type constraints for all modes (21.437667ms)
+✔ edit tariff timing uses verified source boundaries and never caller or provider sentinel values (0.160459ms)
+✔ canonical preparation uses source duration and refuses missing or mismatched owned measurements (139.321542ms)
+✔ video generation has a thin HTTP adapter and an injected server orchestration owner (1.42325ms)
+✔ pre-reserved video execution skips a second reservation and submits once after caller commit (314.016167ms)
+✔ walletReservation is not controllable from video HTTP or agent/MCP request input (0.688708ms)
+✔ shared P6 execution constraints remain the canonical validation owner (0.121084ms)
+✔ video lifecycle adapters preserve existing, async, direct, and error response parity after reservation (53.394667ms)
+✔ video lifecycle delegates reservation failures to the rollback/error adapter exactly once (0.381ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 550.084958

@@ -1,3 +1,4 @@
+import { seedance25EditQuoteDuration } from '@/server/seedance25-edit-duration';
 import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
 import {
   computeConfiguredPreflight,
@@ -147,6 +148,16 @@ function canonicalReferenceImageCount(
     // fallback conservative so a non-standard caller can never underquote.
     return count + (!resolved || resolved.mediaKind === 'image' ? 1 : 0);
   }, 0);
+}
+
+function canonicalSeedance25EditDuration(request: CanonicalGenerationRequest, context: GenerationPricingReferenceContext): number | undefined {
+  if (request.engineId !== 'seedance-2-5' || request.mode !== 'v2v') return undefined;
+  const source = request.references.filter(reference => reference.role === 'source');
+  if (source.length !== 1 || source[0].kind !== 'asset') throw new Error('One owned Seedance 2.5 edit source is required.');
+  const reference = source[0];
+  const matches = context.resolvedReferences?.filter(resolved => resolved.assetId === reference.assetId && resolved.role === reference.role && resolved.slot === reference.slot && resolved.mediaKind === 'video');
+  if (matches?.length !== 1) throw new Error('Verified Seedance 2.5 edit source metadata is required.');
+  return seedance25EditQuoteDuration(request.engineId, request.mode, matches[0].durationSec);
 }
 
 function canonicalInputAudioDurationSec(
@@ -338,7 +349,7 @@ export async function priceCanonicalGeneration(
     const result = await dependencies.computeVideoPreflight({
       engine: request.engineId,
       mode: engineMode,
-      durationSec: requiredPositiveInteger(settings, 'durationSec'),
+      durationSec: canonicalSeedance25EditDuration(request, referenceContext) ?? requiredPositiveInteger(settings, 'durationSec'),
       resolution: requiredString(settings, 'resolution') as PreflightRequest['resolution'],
       ...(aspectRatio === undefined
         ? {}
@@ -400,7 +411,7 @@ export async function priceCanonicalGenerationInExecutor(
   if (request.surface === 'video') {
     const engineMode = toEngineGenerationMode(engine.id, request.mode);
     const pricingEngine = applyEngineVariantPricing(engine, engineMode);
-    const durationSec = requiredPositiveInteger(request.settings, 'durationSec');
+    const durationSec = canonicalSeedance25EditDuration(request, dependencies) ?? requiredPositiveInteger(request.settings, 'durationSec');
     const resolution = requiredString(request.settings, 'resolution');
     const audioEnabled = typeof request.settings.audio === 'boolean'
       ? request.settings.audio

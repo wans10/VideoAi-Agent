@@ -1,3 +1,4 @@
+import { seedance25EditQuoteDuration } from '@/server/seedance25-edit-duration';
 import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
 import { calculateMinimaxH3MaxReferenceTokenBudget } from '@/lib/minimax-h3-max-pricing';
 import { getWan3InputVideoDurationSec } from '@/lib/wan3-pricing';
@@ -219,7 +220,13 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     logMetric('rejected', sourceVideoContext.metric);
     return { body: sourceVideoContext.body, status: sourceVideoContext.status };
   }
-  const { durationSec: effectiveDurationSec, durationLabel: effectiveDurationLabel, hasVideoInput } = sourceVideoContext;
+  const { durationLabel: effectiveDurationLabel, hasVideoInput } = sourceVideoContext;
+  let effectiveDurationSec = sourceVideoContext.durationSec;
+  try {
+    effectiveDurationSec = seedance25EditQuoteDuration(engine.id, mode, trustedDurationSecByField.video_url?.[0]) ?? effectiveDurationSec;
+  } catch {
+    return {status: 422, body: {ok: false, error: 'MEDIA_DURATION_UNSUPPORTED', message: 'Seedance 2.5 editing requires a verified source video between 4 and 30 seconds.'}};
+  }
   const trustedSourceVideoDurationSec = trustedDurationSecByField.video_url?.[0];
   const inheritedDurationSec = await resolveGoogleOmniInheritedDurationSec({
     engineId: engine.id,

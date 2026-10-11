@@ -1,0 +1,54 @@
+TAP version 13
+# [byteplus] task submission failed {
+#   jobId: 'final',
+#   engineId: 'seedance-2-5',
+#   status: 400,
+#   code: 'BYTEPLUS_PROVIDER_ERROR',
+#   message: 'submission rejected'
+# }
+# Subtest: Draft and final submission use stored owned lineage and uncertain submissions cannot refund or retry
+ok 1 - Draft and final submission use stored owned lineage and uncertain submissions cannot refund or retry
+  ---
+  duration_ms: 1055.858447
+  type: 'test'
+  ...
+# Subtest: a refund write failure rolls back final failure; concurrent retry refunds only its persisted charge once
+ok 2 - a refund write failure rolls back final failure; concurrent retry refunds only its persisted charge once
+  ---
+  duration_ms: 1066.195921
+  type: 'test'
+  ...
+# Subtest: final storage retry exhaustion refunds only the final and retains the ready paid Draft
+ok 3 - final storage retry exhaustion refunds only the final and retains the ready paid Draft
+  ---
+  duration_ms: 1095.529162
+  type: 'test'
+  ...
+# Subtest: local seed is atomic, refuses stale review and TCP, and preserves unrelated and old tariffs
+ok 4 - local seed is atomic, refuses stale review and TCP, and preserves unrelated and old tariffs
+  ---
+  duration_ms: 9287.434994
+  type: 'test'
+  ...
+# [byteplus-poll] completed workflow reconciliation deferred { jobId: 'draft' }
+# Subtest: durable completed output survives a transient lineage failure and owned terminal reads repair eligibility
+ok 5 - durable completed output survives a transient lineage failure and owned terminal reads repair eligibility
+  ---
+  duration_ms: 1121.72428
+  type: 'test'
+  ...
+# Subtest: owned Draft and final HTTP preflight select independent tariffs rather than ordinary 480p/1080p prices
+ok 6 - owned Draft and final HTTP preflight select independent tariffs rather than ordinary 480p/1080p prices
+  ---
+  duration_ms: 1153.261447
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18552.531451

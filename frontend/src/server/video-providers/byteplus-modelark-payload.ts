@@ -36,8 +36,9 @@ export type BytePlusSeedanceFastPayload = {
   model: string;
   content: BytePlusContentItem[];
   resolution: '480p' | '720p' | '1080p' | '4k';
-  ratio?: '21:9' | '16:9' | '4:3' | '1:1' | '3:4' | '9:16';
+  ratio?: 'adaptive' | '21:9' | '16:9' | '4:3' | '1:1' | '3:4' | '9:16';
   duration: number;
+  omni_reference_task_type?: 'reference' | 'edit' | 'extend';
   generate_audio: boolean;
   camera_fixed?: boolean;
   seed?: number;
@@ -80,6 +81,7 @@ function makeBytePlusTaskIntentExplicit(
 
 export function buildBytePlusSeedancePayload(params: {
   modelId: string;
+  seedance25?: boolean;
   prompt: string;
   durationSec: number;
   mode?: Extract<Mode, 't2v' | 'i2v' | 'ref2v' | 'v2v' | 'extend'>;
@@ -253,10 +255,9 @@ export function buildBytePlusSeedancePayload(params: {
     ? params.resolution.trim()
     : '720p') as Resolution;
   const requestedRatio = (typeof params.ratio === 'string' && params.ratio.trim() ? params.ratio.trim() : '16:9') as AspectRatio;
-  const inheritsSourceAspectRatio =
-    mode === 'i2v' &&
-    (params.inheritSourceAspectRatio === true ||
-      params.modelId.trim().toLowerCase().includes('seedance-2-5'));
+  const seedance25 = params.seedance25 === true || params.modelId.trim().toLowerCase().includes('seedance-2-5');
+  const inheritsSourceAspectRatio = (seedance25 && ['i2v', 'v2v', 'extend'].includes(mode))
+    || (mode === 'i2v' && params.inheritSourceAspectRatio === true);
   if (!prompt) {
     throw new BytePlusModelArkError('Prompt is required for BytePlus Seedance.', { code: 'PROMPT_REQUIRED' });
   }
@@ -359,9 +360,11 @@ export function buildBytePlusSeedancePayload(params: {
     content,
     resolution: requestedResolution as BytePlusSeedancePayload['resolution'],
     ...(inheritsSourceAspectRatio
-      ? {}
+      ? { ratio: 'adaptive' as const }
       : { ratio: requestedRatio as BytePlusSeedancePayload['ratio'] }),
-    duration,
+    duration: seedance25 && mode === 'v2v' ? -1 : duration,
+    ...(seedance25 && ['ref2v', 'v2v', 'extend'].includes(mode)
+      ? { omni_reference_task_type: (mode === 'v2v' ? 'edit' : mode === 'extend' ? 'extend' : 'reference') as 'edit' | 'extend' | 'reference' } : {}),
     generate_audio: params.generateAudio === true,
     ...(typeof params.cameraFixed === 'boolean' ? { camera_fixed: params.cameraFixed } : {}),
     ...(params.seed !== undefined ? { seed: params.seed } : {}),

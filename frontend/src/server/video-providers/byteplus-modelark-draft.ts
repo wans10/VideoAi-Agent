@@ -33,6 +33,7 @@ export function buildSeedance25DraftRequest(input: DraftInput): Seedance25DraftR
       allowedDurationOptions: BYTEPLUS_SEEDANCE_2_5_DURATION_OPTIONS,
       allowedModes: BYTEPLUS_SEEDANCE_2_5_MODES,
       inheritSourceAspectRatio: true,
+      seedance25: true,
     }),
     draft: true,
   };

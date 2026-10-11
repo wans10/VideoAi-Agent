@@ -1,0 +1,33 @@
+{
+  "officialSource": "https://ark.volcengine.com/region:cn-beijing/docs/ark/seedance-2-5",
+  "fixes": [
+    "explicit adaptive ratio for i2v/v2v/extend",
+    "edit duration=-1 only at provider boundary",
+    "explicit reference/edit/extend task type",
+    "account model endpoint IDs receive explicit 2.5 policy",
+    "owned source edit timing 4-30s; ceil tariff cell shared by preflight/confirmation/submission",
+    "per-video duration validation",
+    "mode-specific ratio/duration field exposure"
+  ],
+  "verification": {
+    "modeTests": 172,
+    "pricingRecoveryTests": 37,
+    "officialContractTests": 4,
+    "postgresTests": 6,
+    "typecheck": "pass",
+    "registry": "pass",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 10
+    },
+    "diff": "pass",
+    "exposure": "pass"
+  },
+  "limitations": [
+    "No paid supplier edit canary",
+    "Adaptive aspect ratio uses existing tariff policy; actual supplier costs need live verification",
+    "Conservative upload limits and optional formats unchanged",
+    "Historical LAS jobs keep persisted transport"
+  ],
+  "productionChanged": false
+}

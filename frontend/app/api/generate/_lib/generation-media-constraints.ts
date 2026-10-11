@@ -464,17 +464,18 @@ export async function validateGenerationMediaConstraints(params: {
           message: `This ${field.type} reference has no trusted duration metadata. Upload it again before generating.`,
         });
       }
-      const belowMinimum =
-        typeof field.minDurationSec === 'number' && durationSec < field.minDurationSec;
+      const minDurationSec = params.engineId === 'seedance-2-5' && params.mode === 'v2v' && field.type === 'video' ? 4 : field.minDurationSec;
+      const maxDurationSec = params.engineId === 'seedance-2-5' && field.type === 'video' ? 30 : field.maxDurationSec;
+      const belowMinimum = typeof minDurationSec === 'number' && durationSec < minDurationSec;
       const aboveMaximum =
-        typeof field.maxDurationSec === 'number' && durationSec > field.maxDurationSec;
+        typeof maxDurationSec === 'number' && durationSec > maxDurationSec;
       if (belowMinimum || aboveMaximum) {
         return failure({
           error: 'MEDIA_DURATION_UNSUPPORTED',
           fieldId: candidate.fieldId,
-          message: `Each ${field.type} reference must be between ${field.minDurationSec ?? 0} and ${field.maxDurationSec ?? 'the provider maximum'} seconds.`,
-          minDurationSec: field.minDurationSec,
-          maxDurationSec: field.maxDurationSec,
+          message: `Each ${field.type} reference must be between ${minDurationSec ?? 0} and ${maxDurationSec ?? 'the provider maximum'} seconds.`,
+          minDurationSec,
+          maxDurationSec,
           durationSec,
         });
       }

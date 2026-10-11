@@ -1,3 +1,4 @@
+import { seedance25EditQuoteDuration } from '@/server/seedance25-edit-duration';
 import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
 import { calculateMinimaxH3MaxReferenceTokenBudget } from '@/lib/minimax-h3-max-pricing';
 import { getWan3InputVideoDurationSec } from '@/lib/wan3-pricing';
@@ -110,7 +111,7 @@ export async function resolveMediaAwarePreflight(
 ): Promise<PreflightResponse> {
   const parsedRequest = parsePreflightRequestPayload(input.request);
   if (!parsedRequest.ok) return parsedRequest.response;
-  const request = parsedRequest.request;
+  let request = parsedRequest.request;
   if (request.seedanceWorkflow && !input.trustedSeedanceWorkflow) {
     return mediaPricingFailure('SEEDANCE_DRAFT_UNAVAILABLE', 'An owned Draft workflow is required.');
   }
@@ -257,6 +258,12 @@ export async function resolveMediaAwarePreflight(
     } catch {
       return mediaPricingFailure('PRICING_MEDIA_FACTS_UNVERIFIED', 'Reference metadata is required to calculate this price.');
     }
+  }
+  try {
+    const editDuration = seedance25EditQuoteDuration(engine.id, request.mode, processed.trustedDurationSecByField.video_url?.[0]);
+    if (editDuration !== undefined) request = {...request, durationSec: editDuration};
+  } catch {
+    return mediaPricingFailure('MEDIA_DURATION_UNSUPPORTED', 'Seedance 2.5 editing requires a verified source video between 4 and 30 seconds.', {field: 'video_url'});
   }
   const trustedMediaPricingFacts: TrustedPreflightMediaPricingFacts = {
     ...(inputVideoDurationSec !== undefined ? { inputVideoDurationSec } : {}),

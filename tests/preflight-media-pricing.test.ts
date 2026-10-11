@@ -40,7 +40,7 @@ test('Seedance preflight rejects long reference videos with measured facts for t
     mediaConstraintDeps: { queryFn: async () => [{ asset_id: 'video-a', url, origin_url: null, original_name: 'reference.mp4', mime_type: 'video/mp4', size_bytes: 1000, duration_sec: 44, width: 1280, height: 720 }] as never[] },
   });
   assert.equal(response.ok, false);
-  assert.equal(response.error?.code, 'MEDIA_COMBINED_DURATION_EXCEEDED');
+  assert.equal(response.error?.code, 'MEDIA_DURATION_UNSUPPORTED');
   assert.equal(response.error?.field, 'extension_source_videos');
   assert.equal(response.error?.durationSec, 44);
 });
@@ -428,4 +428,17 @@ test('Seedance video preflight derives input seconds from owned records instead 
   });
   assert.equal(response.ok, true, JSON.stringify(response.error));
   assert.deepEqual(observed, { hasVideoInput: true, duration: 4.25 });
+});
+
+test('Seedance 2.5 editing quotes verified source timing and rejects out-of-range source before pricing',async()=>{
+ const engine=engineFor('seedance-2-5');const url='https://media.maxvideoai.com/user-assets/pricing-user/edit.mp4';
+ for(const [source,want] of [[4,4],[8.25,9],[30,30],[3.9,null],[30.1,null]] as const){
+  let observed:number|undefined;
+  const result=await resolveMediaAwarePreflight({userId:'pricing-user',request:{...requestFor(engine,'v2v'),durationSec:4,inputs:[{assetId:'owned-edit',slotId:'video_url',kind:'video',url}]}},{
+   getConfiguredEngineFn:async()=>engine,
+   computeConfiguredPreflightFn:async request=>{observed=request.durationSec;return {ok:true} as never;},
+   mediaConstraintDeps:{queryFn:async()=>[{asset_id:'owned-edit',url,origin_url:null,original_name:'edit.mp4',mime_type:'video/mp4',size_bytes:1000,duration_sec:source,width:1280,height:720}] as never[]},
+  });
+  assert.equal(result.ok,want!==null,JSON.stringify(result));assert.equal(observed,want??undefined);
+ }
 });

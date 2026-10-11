@@ -21,7 +21,7 @@ test('Seedance 2.5 Draft is one 480p provider task with the original creative in
   assert.equal(draft.draft, true);
   assert.equal(draft.resolution, '480p');
   assert.equal(draft.generate_audio, false);
-  assert.equal('ratio' in draft, false);
+  assert.equal(draft.ratio, 'adaptive');
   assert.deepEqual(draft.content.map((item) => item.type), ['text', 'image_url', 'image_url']);
 });
 
