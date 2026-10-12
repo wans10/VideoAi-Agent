@@ -78,6 +78,14 @@ jobs:
           tags: |
             type=raw,value=${{ github.event.workflow_run.head_sha || github.sha }}
 
+      - name: Extract Docker metadata for timeline worker
+        id: meta-worker
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKERHUB_USER }}/videoai-timeline-worker
+          tags: |
+            type=raw,value=${{ github.event.workflow_run.head_sha || github.sha }}
+
       - name: Build and push db-migrate image
         uses: docker/build-push-action@v6
         with:
@@ -107,3 +115,31 @@ jobs:
             NEXT_PUBLIC_CUSTOMER_CURRENCY=CNY
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Build and push timeline worker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.timeline-worker
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta-worker.outputs.tags }}
+          labels: ${{ steps.meta-worker.outputs.labels }}
+          cache-from: type=gha,scope=timeline-worker
+          cache-to: type=gha,mode=max,scope=timeline-worker
+
+      - name: Verify published timeline worker runtime
+        env:
+          WORKER_IMAGE: ${{ env.DOCKERHUB_USER }}/videoai-timeline-worker:${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          docker pull "$WORKER_IMAGE"
+          docker run --rm --entrypoint sh "$WORKER_IMAGE" -c 'node --version && chromium --version && ffmpeg -version && pnpm --version'
+          # No credentials: startup must reach its database preflight, not fail
+          # on a missing module, source path, package manager or browser.
+          set +e
+          docker run --rm "$WORKER_IMAGE" > worker-preflight.log 2>&1
+          result=$?
+          set -e
+          cat worker-preflight.log
+          test "$result" -ne 0
+          grep -q 'TIMELINE_EXPORT_WORKER_DATABASE_NOT_CONFIGURED' worker-preflight.log
