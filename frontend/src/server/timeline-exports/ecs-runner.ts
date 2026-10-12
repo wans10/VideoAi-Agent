@@ -21,6 +21,7 @@ type TimelineExportEcsConfig = {
   subnets: string[];
   securityGroups: string[];
   containerName: string;
+  assignPublicIp: 'ENABLED' | 'DISABLED';
 };
 
 export type TimelineExportWorkerLaunchResult =
@@ -46,7 +47,12 @@ function readTimelineExportEcsConfig(env: NodeJS.ProcessEnv = process.env): Time
   const missingKeys = REQUIRED_ENV.filter((key) => !env[key]?.trim());
   if (missingKeys.length) throw new Error(`MISSING_${missingKeys.join(',')}`);
   const readRequiredEnv = (key: TimelineExportEcsEnvKey) => String(env[key]).trim();
+  const assignPublicIp = env.TIMELINE_EXPORT_ECS_ASSIGN_PUBLIC_IP?.trim() || 'ENABLED';
+  if (assignPublicIp !== 'ENABLED' && assignPublicIp !== 'DISABLED') {
+    throw new Error('INVALID_TIMELINE_EXPORT_ECS_ASSIGN_PUBLIC_IP');
+  }
   return {
+    assignPublicIp,
     cluster: readRequiredEnv('TIMELINE_EXPORT_ECS_CLUSTER'),
     taskDefinition: readRequiredEnv('TIMELINE_EXPORT_ECS_TASK_DEFINITION'),
     region: readRequiredEnv('TIMELINE_EXPORT_ECS_REGION'),
@@ -95,7 +101,7 @@ export async function launchTimelineExportWorkerTask(params: {
       },
       networkConfiguration: {
         awsvpcConfiguration: {
-          assignPublicIp: 'ENABLED',
+          assignPublicIp: config.assignPublicIp,
           subnets: config.subnets,
           securityGroups: config.securityGroups,
         },

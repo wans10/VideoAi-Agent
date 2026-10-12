@@ -129,7 +129,8 @@ test('timeline export ECS runner starts one Fargate task without long route rend
   assert.match(source, /RunTaskCommand/, 'ECS runner should launch tasks with RunTask');
   assert.match(source, /assertTimelineExportWorkerLauncherConfigured/, 'ECS runner should expose a non-launching config preflight');
   assert.match(source, /launchType:\s*'FARGATE'/, 'ECS runner should launch Fargate tasks');
-  assert.match(source, /assignPublicIp:\s*'ENABLED'/, 'ECS runner should use public subnets without NAT');
+  assert.match(source, /assignPublicIp:\s*config\.assignPublicIp/, 'ECS runner should use validated public IP policy');
+  assert.match(source, /TIMELINE_EXPORT_ECS_ASSIGN_PUBLIC_IP/);
   assert.match(source, /containerOverrides/, 'ECS runner should pass export targeting into the worker container');
   assert.match(source, /TIMELINE_EXPORT_TARGET_ID/, 'ECS runner should target the export that triggered the task');
   assert.match(source, /TIMELINE_EXPORT_ECS_CONTAINER_NAME/, 'ECS runner should allow task definition container name overrides');

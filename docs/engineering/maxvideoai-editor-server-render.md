@@ -106,3 +106,21 @@ Do not run a real export or Fargate task from local validation without explicit 
 - Empty or missing MP4 output is treated as a failed render, not a completed export.
 - Free quota is released when a free job fails.
 - Paid jobs are refunded when they fail before completion.
+
+## Private subnet and fixed database egress
+
+Set `TIMELINE_EXPORT_ECS_ASSIGN_PUBLIC_IP=DISABLED` for private subnets routed
+through a public NAT Gateway. Unset/empty retains the historical `ENABLED` policy;
+other values fail the non-launching preflight before billing or RunTask.
+The database source whitelist must allow the NAT Elastic IP, not the task private
+address. Keep the NAT public subnet's Internet Gateway route intact. Explicitly
+associate only worker private subnets with the NAT route table. NAT availability,
+Secrets Manager access, actual database/S3 connectivity and Docker instance-role
+credential access need independent acceptance before enabling exports.
+
+Keyvo's configured private subnet is `subnet-0fdd69b922bf53869`, worker security
+group `sg-0fbb310f52720049a`, cluster `keyvo-render`, task definition
+`keyvo-timeline-export:1`, container `timeline-export-worker`, region
+`ap-southeast-1`. The NAT egress whitelist is `18.140.86.123/32`. These operational
+identifiers are not proof of connectivity. Keep
+`STUDIO_CONVERSATION_EXPORTS_ENABLED=false` until bounded export acceptance.
