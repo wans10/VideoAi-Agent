@@ -1,0 +1,93 @@
+{
+  "sourceCommit": "9ae67b994745840b8432f9bd2407bb91cfa88a33",
+  "scope": "dedicated account server-command acceptance; production conversation export UI flag remains false",
+  "projectRevision": 21,
+  "exportId": "tlx_2a9e650a24bc15af4004ed990059a98ae2ca4b56d6fab9efd3fbe28c96f57a57",
+  "taskId": "f538dc57b169456dbe6a7243c82e91f4",
+  "workerDigest": "sha256:2fd3ed3d7f182bdac9796a0b02a4c7f212cde9335b2448cdb577a95e2edf3c38",
+  "taskStopped": true,
+  "taskExitCode": 0,
+  "jobStatus": "completed",
+  "billingStatus": "free_completed",
+  "customerAmountCents": 0,
+  "currency": "CNY",
+  "repeat": {
+    "sameJob": true,
+    "reused": true,
+    "workerLaunch": "reused"
+  },
+  "foreignEstimate": "STUDIO_PROJECT_NOT_FOUND",
+  "foreignArtifactProjection": "EXPORT_NOT_FOUND",
+  "media": {
+    "sizeBytes": 1150595,
+    "videoCodec": "h264",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "frames": 120,
+    "videoDurationSec": 4,
+    "audioCodec": "aac",
+    "audioDurationSec": 4.053333,
+    "audioSampleRate": 48000,
+    "audioChannels": 2,
+    "downloadHttp": 200,
+    "rangeHttp": 206,
+    "rangeBytes": 1024
+  },
+  "privacy": {
+    "unsignedS3Http": 403,
+    "unsignedCloudFrontHttp": 403,
+    "status": "PASSED_FOR_TIMELINE_EXPORT_PREFIX",
+    "cdnDefaultBehavior": "Restrict viewer access: No; no function associations",
+    "policyInspection": "current storage credentials AccessDenied",
+    "anonymousRangeHttp": 403,
+    "signedS3RangeHttp": 206,
+    "remediationFunction": "keyvo-private-timeline-exports",
+    "distributionId": "E2XD88PF0IQHZV",
+    "association": "Default (*) viewer-request",
+    "publicExampleRangeHttp": 206,
+    "publicExamplesChecked": 1
+  },
+  "newBug": "Conversation export quote/acknowledgement schema only accepted USD, rejecting CNY pricing before submission",
+  "candidateFix": "accept USD and CNY without converting amounts",
+  "fixValidation": {
+    "focusedTestsPassed": 22,
+    "cloudfrontGuardTestsPassed": 2,
+    "realFixedQuoteCurrency": "CNY",
+    "unconfirmedRequest": "CONFIRMATION_REQUIRED",
+    "typecheck": "passed",
+    "lintErrors": 0,
+    "lintWarnings": 10,
+    "exposure": "passed",
+    "isolatedEditor": {
+      "tests": 1176,
+      "pass": 1175,
+      "fail": 0,
+      "skipped": 1,
+      "skipReason": "multitrack real render requires explicit opt-in"
+    },
+    "multitrackOptIn": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0,
+      "sourceTrim": "passed",
+      "musicMix": "passed",
+      "musicMute": "passed",
+      "GETOnlyTransport": "passed",
+      "aacPaddingSec": 0.050667,
+      "maxAacPaddingSec": 0.064
+    },
+    "localFullEditor": {
+      "pass": 828,
+      "fail": 87,
+      "skip": 1,
+      "diagnosis": "x86_64 PostgreSQL tool fails with bad CPU type on local host; missing ffprobe; isolated Linux rerun passed"
+    }
+  },
+  "limitations": [
+    "Production UI export not enabled or accepted",
+    "Paid live export reservation not exercised; offline recovery tests passed",
+    "AWS invoiced acceptance cost not yet available",
+    "CDN rule is active; privacy of other storage namespaces has not been certified"
+  ]
+}

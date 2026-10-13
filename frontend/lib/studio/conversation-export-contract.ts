@@ -12,7 +12,7 @@ export const studioPreparedExportSchema=z.object({
   revision:z.number().int().nonnegative(),durationSec:z.number().finite().positive(),
   resolution:z.string(),aspectRatio:z.string(),fps:z.number().int().positive(),
   qualityPreset:z.enum(['draft','standard','high']),includeAudio:z.boolean(),
-  price:z.object({amountCents:z.number().int().nonnegative(),currency:z.literal('USD'),billingKind:z.enum(['free','paid'])}).strict(),
+  price:z.object({amountCents:z.number().int().nonnegative(),currency:z.enum(['USD','CNY']),billingKind:z.enum(['free','paid'])}).strict(),
   expiresAt:z.string().datetime(),confirmationRequired:z.literal(true),
 }).strict();
 export type StudioPreparedExport=z.infer<typeof studioPreparedExportSchema>;
