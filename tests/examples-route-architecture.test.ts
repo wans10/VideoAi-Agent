@@ -56,10 +56,17 @@ test('examples route delegates URL, filter, and gallery helper logic', () => {
   assert.match(pageSource, /from '\.\/_lib\/examples-route-utils'/, 'route should import examples helpers');
   assert.match(pageSource, /from '\.\/_lib\/examples-page-copy'/, 'route should import examples copy helpers');
   assert.match(pageSource, /from '\.\/_lib\/examples-page-data'/, 'route should import examples data builders');
-  assert.match(pageSource, /await buildCurrentExamplesGalleryData\(/, 'server gallery pricing should use its route-local data owner');
+  assert.match(pageSource, /prepareCurrentExamplesGalleryData\(/, 'server gallery preparation should use its route-local data owner');
+  assert.doesNotMatch(pageSource, /await prepareCurrentExamplesGalleryData\(/, 'exact price reads must not gate the poster gallery');
+  assert.match(pageSource, /priceSlots=\{buildExamplesPriceSlots\(initialExamples, \{ currentPrices, locale: appLocale \}\)\}/);
   const currentGallerySource = readFileSync(join(dirname(pagePath), '_lib/current-examples-gallery-data.ts'), 'utf8');
   assert.match(currentGallerySource, /from '@\/server\/current-example-price'/);
-  assert.match(currentGallerySource, /await quoteCurrentExamplePrices\(input\.allVideos\)/);
+  assert.match(currentGallerySource, /quoteCurrentExamplePrices\(input\.allVideos\)/);
+  assert.doesNotMatch(currentGallerySource, /await quoteCurrentExamplePrices/);
+  const priceSlotsSource = readFileSync(join(dirname(pagePath), '_components/examples-gallery-prices.tsx'), 'utf8');
+  assert.match(priceSlotsSource, /<Suspense key=\{id\} fallback=\{null\}>/);
+  assert.match(priceSlotsSource, /formatCurrentExamplePrice\(\(await currentPrices\)\.get\(id\), locale\)/);
+  assert.doesNotMatch(priceSlotsSource, /ExamplesGalleryGrid|buildExamplesGalleryData|use client/);
   assert.doesNotMatch(pageDataSource, /import \{[^}]*quoteCurrentExamplePrices|\bgetDb\(|\bsql`/);
   assert.match(pageSource, /from '\.\/_lib\/examples-page-hrefs'/, 'route should import href builders');
   assert.match(pageSource, /from '\.\/_lib\/examples-page-jsonld'/, 'route should import JSON-LD builders');
@@ -401,8 +408,18 @@ test('public_routes_keep_seo_and_media_owners', () => {
   for (const source of [pageSource, modelPageSource, pageViewSource, jsonLdSource]) {
     assert.doesNotMatch(source, /playlists\/destinations|curation-service|saveCuration|loadPlaylistDestinations/);
   }
-  const watch = readFileSync(join(root, 'frontend/app/(core)/video/[id]/page.tsx'), 'utf8');
+  const watch = readFileSync(join(root, 'frontend/app/(public-watch)/video/[id]/page.tsx'), 'utf8');
   assert.match(watch, /getVideoWatchPageDataById/);
   const card = readFileSync(join(root, 'frontend/components/examples/ExampleGalleryCard.tsx'), 'utf8');
   assert.match(card, /useExampleCardPlayback/);
+});
+
+test('family metadata delegates preview selection while keeping route SEO ownership', () => {
+  assert.match(modelPageSource, /await selectFamilyMetadataVideo\(canonical\)/);
+  assert.doesNotMatch(modelPageSource, /listExampleFamilyPage|EXAMPLES_HERO_SELECTION_LIMIT|pickFirstPlayableVideo/);
+  assert.match(modelPageSource, /toAbsoluteUrl\(heroVideo\?\.thumbUrl\)/);
+  assert.match(modelPageSource, /buildSeoMetadata\(/);
+  const metadataSelector = readFileSync(join(dirname(modelPagePath), '_lib/family-metadata-video.ts'), 'utf8');
+  assert.match(metadataSelector, /from '@\/server\/videos'/);
+  assert.doesNotMatch(metadataSelector, /\bgetDb\(|\bsql`|\.catch\(|\bcache\(/);
 });

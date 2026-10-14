@@ -1,6 +1,6 @@
 import {readStudioTaskMemory} from "./tasks/memory";
 import {automaticallyNameStudioProject} from './conversation-project-naming';
-import {assistanceError, reserveStudioAssistanceCall, settleStudioAssistanceCall, markStudioAssistanceUnknown, stopStudioAssistanceReplay, type AssistanceCall} from './assistance-ledger';
+import {assistanceError, reserveStudioAssistanceCall, settleStudioAssistanceCall, markStudioAssistanceUnknown, stopStudioAssistanceReplay, type AssistanceCall,type StudioLunaFallback} from './assistance-ledger';
 import type {StudioAssistancePolicy} from './assistance-policy';
 import {studioPreparedExportSchema} from '@/lib/studio/conversation-export-contract';
 import {createHash} from 'node:crypto';
@@ -27,6 +27,7 @@ export async function readStudioConversationProject(actor: StudioGenerationActor
       q.price_cents AS "amountCents",q.currency,q.expires_at AS "expiresAt",clock_timestamp() AS "databaseNow",
       q.request_json->>'engineId' AS "modelId",q.request_json->>'mode' AS mode,q.request_json->'outputCount' AS "outputCount",
       q.pricing_snapshot->'canonicalPricing'->'meta'->'output_duration_sec' AS "outputDurationSec",
+      q.pricing_snapshot->'canonicalPricing'->'meta'->'seedanceEditSource' AS "sourceVideoOutput",
       (SELECT jsonb_object_agg(key,value) FROM jsonb_each(q.request_json->'settings') WHERE key=ANY($3::text[])) AS settings,
       jsonb_array_length(q.request_json->'references') AS "referenceCount",
       ARRAY(SELECT reference->>'role' FROM jsonb_array_elements(q.request_json->'references') AS reference) AS "referenceRoles"
@@ -58,6 +59,18 @@ export async function saveStudioConversationMemory(actor: StudioGenerationActor,
     return studioMemorySchema.parse({...rows[0], revision: Number(rows[0].revision)});
   };
   return executor ? save(executor) : withDbTransaction(save);
+}
+
+/** Read a completed immutable receipt without claiming/executing a skipped action. */
+export async function readCompletedStudioAction(actor:StudioGenerationActor,turn:StoredImageTurn,callId:string,action:StudioActionRequest):Promise<StudioActionResult|null> {
+  const saved=(await query<{action_hash:string;result_json:StudioActionResult}>(`SELECT c.action_hash,c.result_json FROM studio_conversation_steps c
+    JOIN studio_image_turns t ON t.user_id=c.user_id AND t.project_id=c.project_id AND t.request_id=c.request_id
+    JOIN studio_projects p ON p.id=t.project_id AND p.user_id=t.user_id AND p.deleted_at IS NULL
+    WHERE c.user_id=$1 AND c.project_id=$2 AND c.request_id=$3 AND c.call_id=$4 AND c.state='completed'
+      AND t.lease_id=$5 AND t.state='thinking'`,[actor.userId,actor.projectId,turn.request_id,callId,turn.lease_id]))[0];
+  if(!saved)return null;
+  if(saved.action_hash!==createHash('sha256').update(stableJson(action)).digest('hex'))throw new AgentApiError('PARAMETER_INVALID','This action identity belongs to another request.');
+  return saved.result_json;
 }
 
 export async function beginStudioAction(actor: StudioGenerationActor, turn: StoredImageTurn, callId: string, action: StudioActionRequest): Promise<StudioActionResult | null> {
@@ -103,7 +116,7 @@ export async function completeStudioAction(actor: StudioGenerationActor, turn: S
 }
 
 /** Checkpoint each paid text request before dispatch and its complete output before any action. */
-export async function checkpointStudioResponse(actor: StudioGenerationActor, turn: StoredImageTurn, index: number, create: () => Promise<StudioDirectorResponse>, meter?: {prepare(): Promise<{inputTokens: number;outputTokens: number;policy: StudioAssistancePolicy}>}, options: {replayOnly?: boolean} = {}): Promise<StudioDirectorResponse> {
+export async function checkpointStudioResponse(actor: StudioGenerationActor, turn: StoredImageTurn, index: number, create: () => Promise<StudioDirectorResponse>, meter?: {prepare(): Promise<{inputTokens: number;outputTokens: number;policy: StudioAssistancePolicy;lunaFallback?:StudioLunaFallback}>}, options: {replayOnly?: boolean} = {}): Promise<StudioDirectorResponse> {
   const scope = [actor.userId, actor.projectId, turn.request_id, turn.lease_id, index];
   const prior = (await query<{response_json: StudioDirectorResponse}>(`SELECT response_json FROM studio_conversation_responses
     WHERE user_id=$1 AND project_id=$2 AND request_id=$3 AND response_index=$4 AND state='reported' ORDER BY created_at DESC LIMIT 1`, [actor.userId, actor.projectId, turn.request_id, index]))[0];
@@ -128,7 +141,7 @@ export async function checkpointStudioResponse(actor: StudioGenerationActor, tur
       AND EXISTS (SELECT 1 FROM studio_projects p WHERE p.id=t.project_id AND p.user_id=t.user_id AND p.deleted_at IS NULL)
     ON CONFLICT DO NOTHING RETURNING lease_id`, scope);
     if (!start.length) throw new AgentApiError('PARAMETER_INVALID', 'This model step is already in progress or superseded.');
-    if (bounds) assistanceCall = await reserveStudioAssistanceCall({userId: actor.userId,projectId: actor.projectId,requestId: turn.request_id,leaseId: turn.lease_id,index,inputTokens: bounds.inputTokens,outputTokens: bounds.outputTokens},bounds.policy,tx);
+    if (bounds) assistanceCall = await reserveStudioAssistanceCall({userId: actor.userId,projectId: actor.projectId,requestId: turn.request_id,leaseId: turn.lease_id,index,inputTokens: bounds.inputTokens,outputTokens: bounds.outputTokens,lunaFallback:bounds.lunaFallback},bounds.policy,tx);
   });
   const began = performance.now();
   try {

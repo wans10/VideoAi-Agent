@@ -32,6 +32,7 @@ import { resolveCustomerTariffQuote } from './resolve-customer-tariff';
 import { buildManualTariffScenario } from '@/lib/pricing-manual-scenario';
 import { assertSeedanceWorkflowPricing } from '@/lib/seedance-workflow-pricing';
 import { CustomerTariffUnavailableError } from './resolve-customer-tariff';
+import { isSeedance25LasInputPricing, isSeedance25EditInputPricing } from '@/server/byteplus-las-tariff';
 
 /** Finishing tools supply vendor facts; the canonical kernel owns all customer rounding and margins. */
 export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: string; quality: string; vendorBudgetUsd: number; durationSec: number; profileId: string; pricingSource: string },
@@ -79,7 +80,9 @@ export async function computeCanonicalBillingSnapshot(
   const memberTierDiscounts = LIVE_MEMBERSHIP_DISCOUNTS;
 
   const billingFacts = buildBillingPricingFacts(context, pricingDetails, currency);
-  if (context.workflowStep || dependencies.loadCustomerTariffState || customerTariffsEnabledByCode()) {
+  const requiresLasTariff = !context.workflowStep && isSeedance25LasInputPricing(context.engine.id, context.mode);
+  const requiresEditTariff = !context.workflowStep && isSeedance25EditInputPricing(context.engine.id, context.mode);
+  if (requiresEditTariff || context.workflowStep || dependencies.loadCustomerTariffState || customerTariffsEnabledByCode()) {
     const selector = buildManualTariffScenario(context, billingFacts.facts).selector;
     const tariffState = await (dependencies.loadCustomerTariffState ?? (() => loadCustomerTariffQuoteState(selector, dependencies.customerTariffExecutor)))();
     const manual = resolveCustomerTariffQuote({ context, facts: billingFacts.facts,
@@ -94,6 +97,8 @@ export async function computeCanonicalBillingSnapshot(
         vendorAccountId,
         meta: {
           ...billingFacts.meta,
+          ...(context.seedanceEditSource ? { seedanceEditSource: context.seedanceEditSource,
+            output_duration_sec: context.seedanceEditSource.durationSec } : {}),
           ...(context.workflowStep ? { workflowStep: context.workflowStep } : {}),
           ...(manual.supplierCost ? { providerCostKind: manual.supplierCost.kind,
             providerCostSource: manual.supplierCost.source, providerCostSourceUrl: manual.supplierCost.sourceUrl,
@@ -108,6 +113,7 @@ export async function computeCanonicalBillingSnapshot(
       });
     }
   }
+  if (requiresEditTariff) throw new CustomerTariffUnavailableError(`An active reviewed ${requiresLasTariff ? 'LAS' : 'ModelArk'} Edit customer tariff is required.`);
   if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.');
   const policyDocument = getVersionedPricingPolicy();
   const profileId = policy.rule.compatibilityProfile ?? billingFacts.compatibilityProfileId;

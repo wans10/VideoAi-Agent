@@ -69,8 +69,38 @@ pnpm test:admin-smoke
 node scripts/run-validation-tests.mjs --plan
 ```
 
+### Local PostgreSQL version selection
+
+Database validation and `pnpm test:editor` (also used by `pnpm qa:editor`) select
+PostgreSQL 17 automatically through `scripts/_lib/test-postgres-toolchain.mjs`.
+The resolver looks for a complete PG17 installation in PATH, then the standard
+Apple Silicon/Intel Homebrew directories on macOS or `/usr/lib/postgresql/17/bin`
+on Linux. An older PostgreSQL installation earlier in PATH does not take precedence.
+The selected directory is printed before the suite starts. Every selected tool
+(`postgres`, `initdb`, `pg_ctl`, `psql`, `pg_isready`) must report major version 17.
+
+If PG17 is unavailable, validation stops before allocating a disposable database
+with installation guidance. On macOS use `brew install postgresql@17`; no service
+needs to be started. For a nonstandard installation, set `TEST_POSTGRES_BIN` to
+its bin directory. This override is strict: an invalid or mixed-version directory
+fails rather than silently falling back to a different installation.
+
+Focused tests use the same resolver through `tests/helpers/disposable-postgres.ts`;
+legacy fixtures that own their lifecycle use its `testPostgresCommand` helper.
+Database initialization, startup and cleanup use the selected absolute executable
+paths. Manual PATH prefixes are no longer needed, including for direct `tsx --test`
+runs. The fast suite and `--plan` do not require PostgreSQL. The toolchain regression
+uses executable doubles and stays in the fast suite.
+
+This selection only affects test child processes. It does not change shell startup
+files, Homebrew links or running services, and never connects to an inherited
+`DATABASE_URL`. Existing disposable-database isolation and PG17 qualification
+assertions remain in place. CI continues to install PostgreSQL 17 with its existing
+setup action.
+
 The runner automatically places `*-postgres.test.ts` files and tests importing
-the disposable PostgreSQL/Studio runtime helpers or using initdb/FFmpeg in the
+the disposable PostgreSQL/Studio runtime helpers, a `*-postgres-fixture` helper,
+or using initdb/FFmpeg in the
 integration lane. Tests directly launching Chromium, Firefox or WebKit, or using
 their installed executable paths for a renderer, belong in the browser lane, as
 do tests importing the connected browser fixture helper. The real composition
@@ -86,6 +116,15 @@ manual runs use separate concurrency groups and do not cancel the PR's check.
 Before merge, wait for Quality CI on the latest candidate and follow the normal
 production alignment checks in `docs/deployment/github-vercel.md`.
 
+`frontend/next.config.js` explicitly enables `experimental.webpackBuildWorker`
+because next-intl adds a custom Webpack hook, which disables Next 15's automatic
+worker selection. This is a build-memory mitigation; it does not establish the
+cause of a previous OOM. Keep `webpackMemoryOptimizations` and lint/type gates
+enabled. Changes to this setting or the plugin require a complete source build
+and CSS/route output parity checks because custom plugins can be incompatible
+with the worker. See [Next's memory guide](https://nextjs.org/docs/app/guides/memory-usage#webpack-build-worker)
+and the [Next 15.5.25 build source](https://github.com/vercel/next.js/blob/v15.5.25/packages/next/src/build/index.ts).
+
 ## Lighthouse
 
 Lighthouse measures the live production URLs daily at 05:41 UTC and on manual
@@ -93,6 +132,36 @@ dispatch. It no longer starts on a main push before Vercel finishes deploying.
 For a performance-sensitive release, dispatch it after the Git-backed deployment
 is READY. The existing measurement-integrity check and six reports remain intact;
 reports are uploaded even after a measurement failure.
+
+Both `frontend/lighthouserc.js` and `lighthouserc.site.js` use
+`scripts/performance/lighthouse-chrome-settings.cjs`. It resolves the Chrome
+launcher used by the installed Lighthouse, preserves its complete default flag
+list including Linux's sandbox setting, and restores only `RenderDocument`.
+Defaults are read through the actual launcher's flag getter, with flags shared
+by both default modes left to the launcher. `chromeIgnoreDefaultFlags` prevents the
+original disabled-feature list from being appended again. Do not replace the
+whole feature list or disable GPU, analytics, styles, media or real requests to
+improve a score. The ordinary Lighthouse mobile/desktop profiles, storage reset,
+consent behavior and six production URLs retain their existing settings.
+
+The 2026-10-13 Exemples investigation found ~1-second compositor presentation gaps
+under the launcher's legacy `RenderDocument`-disabled configuration. Five
+interleaved pairs on unchanged production, same Chrome and runner, removed those
+gaps after restoring the feature. This corrects a laboratory configuration;
+it is not a production-page speedup or evidence that CrUX/field INP improved.
+Raw delayed results remain part of the retained evidence and are never silently
+dropped or rewritten. See the [upstream investigation](https://github.com/GoogleChrome/lighthouse/issues/17148).
+
+For a bounded reproduction, manually dispatch Lighthouse with
+`examples_diagnostics: true`. The opt-in runner collects five alternating pairs
+against the unchanged public Exemples URL, preserving both flag lists, all reports,
+DevTools request logs and complete traces in the existing report artifact. The
+normal six-page audit runs first, so a diagnostic failure cannot suppress it.
+`tests/lighthouse-render-document.test.ts`
+executes both configs through the real LHCI argument builder and Lighthouse parser,
+checking the real macOS/Linux launcher arguments, feature-list preservation,
+headless launch and the original measurement
+settings. It is included in the pre-audit `pnpm cwv:check` gate.
 
 ## Verification contracts
 

@@ -82,7 +82,7 @@ const imageRequest: CanonicalGenerationRequest = {
   outputCount: 1,
 };
 
-test('confirmation pricing preserves the prepared Seedance video-input tier', async () => {
+test('confirmation pricing preserves the prepared ModelArk extension video-input tier', async () => {
   const entry = listFalEngines().find((candidate) => candidate.id === 'seedance-2-5');
   assert.ok(entry);
   const candidate: AgentPublicGenerationEngine = {
@@ -95,8 +95,8 @@ test('confirmation pricing preserves the prepared Seedance video-input tier', as
     schemaVersion: 1,
     surface: 'video',
     engineId: 'seedance-2-5',
-    mode: 'v2v',
-    prompt: 'Edit the source video.',
+    mode: 'extend',
+    prompt: 'Extend the source video.',
     settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
     references: [{
       kind: 'https',
@@ -1235,7 +1235,7 @@ test('invalid image already-reserved runtime state fails before database or prov
   }
 });
 
-test('default registry remains five discovery tools and the explicit paid gate exposes the full paid recovery set safely', async () => {
+test('default registry remains discovery and comparison tools and the explicit paid gate exposes the full paid recovery set safely', async () => {
   const services = {
     getAccountStatus: async () => ({
       connected: true, userId: USER_ID, emailVerified: true, accountUrl: 'https://maxvideoai.com/account',
@@ -1278,12 +1278,12 @@ test('default registry remains five discovery tools and the explicit paid gate e
 
   assert.deepEqual((await defaultClient.listTools()).tools.map((tool) => tool.name), [
     'get_account_status', 'list_models', 'get_model_details', 'recommend_models',
-    'calculate_project_budget',
+    'calculate_project_budget', 'compare_generation_prices',
   ]);
   const tools = (await enabledClient.listTools()).tools;
   assert.deepEqual(tools.map((tool) => tool.name), [
     'get_account_status', 'list_models', 'get_model_details', 'recommend_models',
-    'calculate_project_budget', 'prepare_generation', 'confirm_generation',
+    'calculate_project_budget', 'compare_generation_prices', 'prepare_generation', 'confirm_generation',
     'get_generation_status', 'list_recent_generations', 'get_generation_download', 'present_generation', 'create_topup_link',
   ]);
   const confirm = tools.find((tool) => tool.name === 'confirm_generation');

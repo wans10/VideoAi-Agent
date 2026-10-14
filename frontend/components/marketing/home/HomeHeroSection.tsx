@@ -1,8 +1,10 @@
 import Image from 'next/image';
+import { buildHeroVideoPriceDisplay } from './hero-video-price-display';
+import { Suspense } from 'react';
 import { Link } from '@/i18n/navigation';
 import { ButtonLink } from '@/components/ui/Button';
 import { HomeHeroSecondaryLinks } from './HomeHeroSecondaryLinks';
-import { HeroVideoShowcase, type HeroVideoShowcaseItem } from '@/components/marketing/home/HeroVideoShowcase';
+import { HeroVideoShowcase, HeroVideoPriceQuote, type HeroVideoShowcaseItem, type HeroVideoPriceSlots } from '@/components/marketing/home/HeroVideoShowcase';
 import {
   HERO_ENGINE_MEDIA,
   HERO_VIDEO_CHIPS,
@@ -15,26 +17,7 @@ import type { CurrentExamplePrice } from '@/server/current-example-price';
 import type { AppLocale } from '@/i18n/locales';
 import { formatCurrentExampleAmount, formatCurrentExampleScenario } from '@/lib/current-example-price-display';
 
-function normalizeHeroText(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, '');
-}
-
-function findPreviewForEngine(engineId: string, engineName: string, previews: HomeExampleCard[]) {
-  const normalizedId = normalizeHeroText(engineId);
-  const normalizedName = normalizeHeroText(engineName);
-  return previews.find((preview) => {
-    const previewId = normalizeHeroText(preview.engineId ?? '');
-    const previewEngine = normalizeHeroText(preview.engine);
-    return (
-      previewId === normalizedId ||
-      previewEngine.includes(normalizedName) ||
-      normalizedName.includes(previewEngine) ||
-      previewEngine.includes(normalizedId)
-    );
-  });
-}
-
-function buildHeroVideoItems(copy: HomeHeroContent['mockup'], previews: HomeExampleCard[]): HeroVideoShowcaseItem[] {
+function buildHeroVideoItems(copy: HomeHeroContent['mockup']): HeroVideoShowcaseItem[] {
   const orderedEngines = [...copy.engineRecommendations].sort((left, right) => {
     if (left.selected) return -1;
     if (right.selected) return 1;
@@ -42,7 +25,6 @@ function buildHeroVideoItems(copy: HomeHeroContent['mockup'], previews: HomeExam
   });
 
   return orderedEngines.map((engine) => {
-    const preview = findPreviewForEngine(engine.engineId, engine.name, previews);
     const fallbackMedia = HERO_ENGINE_MEDIA[engine.engineId] ?? HERO_ENGINE_MEDIA['kling-3-pro'];
     const engineName = engine.engineId === 'kling-3-pro' ? 'Kling 3 Pro' : engine.name;
     const durationLabel = fallbackMedia.duration.startsWith('0:')
@@ -65,11 +47,11 @@ function buildHeroVideoItems(copy: HomeHeroContent['mockup'], previews: HomeExam
       modelHref: engine.modelHref,
       examplesLabel: engine.examplesLabel,
       modelLabel: engine.modelLabel,
-      posterSrc: fallbackMedia.posterSrc ?? preview?.imageSrc ?? '/assets/placeholders/preview-16x9.png',
-      videoSrc: fallbackMedia.videoSrc ?? preview?.videoSrc ?? null,
+      posterSrc: fallbackMedia.posterSrc,
+      videoSrc: fallbackMedia.videoSrc ?? null,
       duration: fallbackMedia.duration,
       resolution: fallbackMedia.resolution,
-      imageAlt: engine.imageAlt ?? preview?.imageAlt ?? `${engineName} AI video preview in MaxVideoAI.`,
+      imageAlt: engine.imageAlt ?? `${engineName} AI video preview in MaxVideoAI.`,
     };
   });
 }
@@ -104,20 +86,46 @@ function applyHomeLcpPoster(item: HeroVideoShowcaseItem): HeroVideoShowcaseItem 
   return item;
 }
 
+function applyCurrentHeroPrice(item: HeroVideoShowcaseItem, prices: ReadonlyMap<string, CurrentExamplePrice>, locale: AppLocale): HeroVideoShowcaseItem {
+  const currentPrice = prices.get(item.engineId ?? item.id);
+  const amount = currentPrice ? formatCurrentExampleAmount(currentPrice, locale) : null;
+  const quoteScenario = currentPrice ? formatCurrentExampleScenario(currentPrice, locale) : null;
+  return {
+    ...item,
+    price: amount ?? '',
+    estimateValue: amount ?? (locale === 'fr' ? 'Indisponible' : locale === 'es' ? 'No disponible' : 'Unavailable'),
+    estimateLabel: currentPrice?.kind === 'reference'
+      ? (locale === 'fr' ? 'Tarif actuel dès' : locale === 'es' ? 'Precio actual desde' : 'Current price from')
+      : currentPrice?.kind === 'exact'
+        ? (locale === 'fr' ? 'Prix actuel' : locale === 'es' ? 'Precio actual' : 'Current price')
+        : (locale === 'fr' ? 'Tarif actuel' : locale === 'es' ? 'Precio actual' : 'Current price'),
+    quoteScenario: quoteScenario ?? undefined,
+    priceKind: currentPrice?.kind ?? 'unavailable',
+    priceNote: undefined,
+  };
+}
+
+async function ResolvedHeroPrice({ item, prices, locale, details }: {
+  item: HeroVideoShowcaseItem; prices: Promise<ReadonlyMap<string, CurrentExamplePrice>>; locale: AppLocale; details?: boolean;
+}) {
+  return <HeroVideoPriceQuote quote={buildHeroVideoPriceDisplay(applyCurrentHeroPrice(item, await prices, locale))} details={details} />;
+}
+
 export function HomeHero({
   copy,
-  previews,
   programmedHeroItems = [],
   currentHeroPrices,
+  currentHeroPricesPending,
   locale = 'en',
 }: {
   copy: HomeHeroContent;
-  previews: HomeExampleCard[];
+  previews?: HomeExampleCard[];
   programmedHeroItems?: HeroVideoShowcaseItem[];
   currentHeroPrices?: ReadonlyMap<string, CurrentExamplePrice>;
+  currentHeroPricesPending?: Promise<ReadonlyMap<string, CurrentExamplePrice>>;
   locale?: AppLocale;
 }) {
-  const fallbackItems = buildHeroVideoItems(copy.mockup, previews);
+  const fallbackItems = buildHeroVideoItems(copy.mockup);
   const programmedByEngine = new Map<string, HeroVideoShowcaseItem>();
   programmedHeroItems.forEach((item) => {
     const engineId = item.engineId ?? item.id;
@@ -141,26 +149,20 @@ export function HomeHero({
         }
       : curatedItem;
 
-    const currentPrice = currentHeroPrices?.get(engineId);
-    const amount = currentPrice ? formatCurrentExampleAmount(currentPrice, locale) : null;
-    const quoteScenario = currentPrice ? formatCurrentExampleScenario(currentPrice, locale) : null;
-    const currentItem = currentHeroPrices
-      ? {
-          ...localizedItem,
-          price: amount ?? '',
-          estimateValue: amount ?? (locale === 'fr' ? 'Indisponible' : locale === 'es' ? 'No disponible' : 'Unavailable'),
-          estimateLabel: currentPrice?.kind === 'exact'
-            ? (locale === 'fr' ? 'Prix actuel' : locale === 'es' ? 'Precio actual' : 'Current price')
-            : currentPrice?.kind === 'reference'
-              ? (locale === 'fr' ? 'Tarif actuel dès' : locale === 'es' ? 'Precio actual desde' : 'Current price from')
-              : (locale === 'fr' ? 'Tarif actuel' : locale === 'es' ? 'Precio actual' : 'Current price'),
-          quoteScenario: quoteScenario ?? undefined,
-          priceKind: currentPrice?.kind ?? 'unavailable',
-          priceNote: undefined,
-        }
-      : localizedItem;
+    const currentItem = currentHeroPrices ? applyCurrentHeroPrice(localizedItem, currentHeroPrices, locale) : localizedItem;
     return [applyHomeLcpPoster(currentItem)];
   });
+  // Stream only price content: the player and its media identity remain in the initial shell.
+  const priceQuotes: HeroVideoPriceSlots | undefined = currentHeroPricesPending
+    ? Object.fromEntries(videoItems.map(item => {
+        const pendingItem = { ...item, price: '', estimateValue: '—', priceKind: 'unavailable' as const,
+          estimateLabel: locale === 'fr' ? 'Chargement du prix…' : locale === 'es' ? 'Cargando precio…' : 'Loading price…' };
+        return [item.id, {
+          badge: <Suspense fallback={<HeroVideoPriceQuote quote={buildHeroVideoPriceDisplay(pendingItem)} />}><ResolvedHeroPrice item={item} prices={currentHeroPricesPending} locale={locale} /></Suspense>,
+          details: <Suspense fallback={<HeroVideoPriceQuote quote={buildHeroVideoPriceDisplay(pendingItem)} details />}><ResolvedHeroPrice item={item} prices={currentHeroPricesPending} locale={locale} details /></Suspense>,
+        }];
+      }))
+    : undefined;
   return (
     <section className="home-hero-section cinema-opening">
       <div className="container-page cinema-opening-grid">
@@ -174,7 +176,7 @@ export function HomeHero({
           </div>
         </div>
         <div className="cinema-opening-stage">
-          <HeroVideoShowcase items={videoItems}
+          <HeroVideoShowcase items={videoItems} priceQuotes={priceQuotes}
             playLabel={copy.mockup.playLabel} pauseLabel={copy.mockup.pauseLabel}
             loadingLabel={copy.mockup.loadingLabel} errorLabel={copy.mockup.errorLabel} retryLabel={copy.mockup.retryLabel} fullscreenLabel={copy.mockup.fullscreenLabel}
             soundOnLabel={copy.mockup.soundOnLabel} soundOffLabel={copy.mockup.soundOffLabel} progressLabel={copy.mockup.progressLabel}

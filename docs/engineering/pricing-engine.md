@@ -1,10 +1,74 @@
 # Pricing Engine
 
+## Seedance 2.5 LAS Edit
+
+Current new-work classification follows `SEEDANCE_2_5_EDIT_TRANSPORT`. The
+ModelArk alternative documented on 2026-10-13 reads existing reviewed token
+curves and preserves the source's exact timing/framing. Its provider duration
+`-1` never enters pricing: the positive integer output tariff class rounds up,
+while exact source seconds remain continuous and both values are disclosed in
+`seedanceEditSource`. Quotes and terminal jobs bind their selected transport;
+current flags cannot reinterpret paid history. LAS authoring refuses a ModelArk
+selection. See the [ModelArk Edit qualification](../model-launch/seedance-2-5-modelark-edit.md).
+
+LAS V2V uses the separate factual `server/byteplus-las-tariff.ts` input-plus-output
+duration rate. Runtime customer quotes require an active reviewed literal tariff
+with no ModelArk token minimum; ModelArk discount and token costs cannot fill a
+LAS quote. The four ModelArk modes retain their current owners. The focused
+`pricing-admin/seedance-las-tariff-release.ts` preview/confirmation replaces only
+the 324 supported Edit classes through the normal append-only store and an atomic
+release event. Exact exceptions, stale review and partial writes fail closed.
+It does not activate execution. See the [LAS release procedure](../model-launch/seedance-2-5-las-edit.md).
+
 ## Studio conversational estimates
+
+Studio whole-film estimates compose this same canonical read seam through
+`conversation-film-pricing.ts`; see [Studio task budgets](studio-task-budgets.md).
+The shared/MCP single-output comparison contract remains a per-clip price.
+Studio's optional `filmDurationSec` returns fully summed cut variants, never a
+linear extrapolation of one clip or a generation approval.
 
 `src/server/agent-api/generation-pricing-read.ts` is the shared read-only normalization-adjacent validation and canonical pricing seam used by preparation and Studio estimates. It checks current executable model/mode facts, references, settings, membership projection and pricing snapshots. It never persists a quote, checks/reserves a wallet or submits a provider request. Preparation retains those responsibilities in its existing owner.
 
 `pricing_read` exposes one exact image/video scenario through Studio's existing director loop. `image-generation-service.ts` additionally applies current Studio authority and certification. Saved media references must be explicitly attached, carry their exact supported kinds and roles, and resolve to the current owner. Estimates return amount/currency, settings, reference count, `estimatedAt` and `quoteRequired`; the client still confirms a fresh canonical quote before spending. Audio and unsaved project-output estimates are unsupported. Advice and comparisons must leave existing prepared/accepted quotes intact. Behavioral coverage lives in `studio-conversation-pricing*.test.ts` and the existing MCP preparation/budget tests.
+
+`generation-price-comparison.ts` owns the shared single-output comparison for
+Studio `pricing_compare` and MCP `compare_generation_prices`. It reads the live
+eligible catalog once, resolves owned reference metadata once, then validates
+each exact mode/scenario through `generation-pricing-read`. Studio additionally
+retains certification, project ownership and explicit attachment checks. Explicit
+settings never change to fill a shortlist; unspecified presets are disclosed.
+Fixed audio is checked as a requirement without inventing an audio toggle.
+Normally three options retain different verified prices, the lowest price and
+an exact requested baseline/editorial preference; price does not prove quality.
+Fewer matches return fewer options. No quote, wallet, provider job or reservation
+is created. Selection still requires live model details and a fresh exact quote.
+
+A valid scenario with no matching model retains the existing fail-closed error,
+with `nextAction.type=generation_comparison` and `reason=no_matching_scenario`.
+It supplies bounded live mode facts from the authorized catalog. Discrete durations
+and ranges remain distinct; `durationMismatch` is true only when every candidate's
+requested-duration policy demonstrably rejects the requested single-clip duration.
+Other setting, audio, source-derived timing and pricing failures do not become a
+duration diagnosis. This is still a single-output comparison: a film's total length
+must not be silently substituted into a component clip quote, or shortened to obtain
+a price. Studio can use these facts to plan and price supported components while
+preserving the full film, then assemble ready owned media through its timeline tools.
+When the film exceeds every single-clip duration, the eight-model diagnostic keeps
+the longest supported component choices first (`modelsOrder=longest_supported_clip`),
+so twenty/thirty-second variants remain visible. This is a duration ordering, not
+an artistic or price ranking; current component prices still require comparison.
+
+`baselineModelId` reprices the comparison baseline, and `baselineSettings`
+preserves its original configuration when changing resolution or duration.
+Savings use current integer customer cents in the same currency and disclose
+configuration differences. Shortlists use the baseline currency (otherwise the
+largest currency group) and disclose other currencies without ranking their amounts.
+Output timing comes from canonical pricing receipts, including fractional source timing. Historical estimates never supply current savings.
+The conversation journal projects at most three options from each of the two
+latest completed owned pricing actions, with private settings removed, marked
+historical and requiring a quote. Behavioral tests cover fresh prices, strict
+constraints, combined references, savings, ownership and unchanged quote rows.
 
 `src/server/agent-api/generation-omni-pricing-facts.ts` supplies Gemini Omni source
 image counts and measured input-video duration to the shared preparation/estimate
@@ -26,6 +90,47 @@ atomic initial activation installs the reviewed grid separately. Missing schema,
 unavailable database, or a missing active cell refuses a quote rather than
 silently falling back. Standalone production quote audits must explicitly select
 `NODE_ENV=production`; older baseline collectors do not select it automatically.
+
+Selected active quote reads retain the state read, then fetch historical and
+current cells together with `UNION ALL`: two data commands, or four commands
+including the existing repeatable-read/read-only transaction. Exact selectors
+and reviewed continuous alternatives retain every row, with history ordered by
+tariff ID/revision before current cells by ID. Inactive reads, full admin inventory
+and the locked maintenance batch retain their separate read paths. Caller-owned
+transactions still expose their uncommitted candidate; new requests read fresh
+state. Validation, fail-closed errors and canonical quote ownership are unchanged.
+This reduces SQL round trips; it does not establish a production latency gain.
+
+Public snapshot scopes share the first successfully loaded complete effective
+policy, including routing provenance, through the lazy loader in
+`server/pricing/scoped-public-policy.ts`. The contextual-only
+`createScopedCurrentPublicSnapshot` factory belongs to `quote-public.ts`;
+`createScopedPublicPricingReaders` in the model-scenario owner reuses that loader
+for its contextual and exact readers. Constructing either scope starts no I/O.
+Failed attempts are shared by their concurrent callers and released for later
+work in the same scope; successful empty policies are retained. No tariff state,
+cell, transaction or complete quote is cached by a policy scope.
+
+`buildCompareRouteData` owns one contextual scope per invocation and supplies the
+same `quotePoints` callback to both pricing sides. The optional fourth reader
+argument of `computeComparePricingPoints` preserves its existing third quote
+callback and all comparison context fields, including variant pricing, t2v,
+member tier, video flags and audio addons. The route imports no model admission
+or complete tariff coverage owner. For six admitted scenarios, the real PG17
+contract measures six policy SELECTs reduced to one, with six individual
+BEGIN/state/selected-cell/COMMIT sequences retained (30 to 25 pricing commands).
+The Veo/Lite fixture has five scenarios (25 to 21 commands); cardinality depends
+on each pair's supported modes/resolutions. Missing active cells and unavailable
+policy remain unavailable without catalogue-price fallback.
+
+Comparison failure consistency changes within that invocation: one transient
+shared policy attempt can make all six concurrent quotes unavailable, where six
+independent baseline reads could produce mixed success. No automatic retry is
+added to refill those points. Later work in the same scope retries after failure;
+a new invocation reads its own policy. A successful first policy stays fixed
+within a scope, while a subsequent quote still observes a committed tariff
+revision. `compare-policy-postgres.test.ts`, contextual-only and mixed scoped
+reader tests own these boundaries. See the CWV guide for measurement limits.
 
 Development still requires `PRICING_SANDBOX=1` and the exact local Unix-socket
 database gate. The production switch does not enable arbitrary development or
@@ -349,6 +454,7 @@ Provider facts include vendor rates, units, duration, resolution, provider tiers
 | `frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-spec-values.ts` | Capability specs plus supplied current quote labels | Presentation only | Authored capabilities cannot override customer prices |
 | `frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-pricing.ts` | Comparison price display, comparable pricing score and specs input | Current canonical public consumer | Unavailable if no current pricing engine/quote |
 | `frontend/server/current-example-price.ts` | Current recreation/reference quote for public examples and home | Current canonical public consumer | Original paid snapshot remains immutable |
+| `frontend/server/example-watch-detail-loader.ts` | Prepared current policy/catalog context and detail quotes for public watch readers | Current canonical public consumer | Quote functions remain on the server |
 | `frontend/src/server/agent-api/generation-pricing.ts` | MCP preparation and executor-bound confirmation pricing | Shared live preflight/canonical billing consumer | Same effective customer quote |
 | `frontend/server/pricing-admin/revalidation.ts` | Confirmed price-change invalidation across actual English/localized routes | Refresh only | No commercial arithmetic |
 | `frontend/lib/pricing-unit-display.ts` | Currency formatting of a quoted total divided by quantity | Presentation only | Shared admin/public unit precision |
@@ -369,6 +475,62 @@ Provider facts include vendor rates, units, duration, resolution, provider tiers
 | `frontend/app/(core)/admin/membership` | Read-only historical membership thresholds, discounts, and immutable events | Retired for mutation | Stable historical owner |
 | `frontend/app/(core)/admin/billing-products` | Referenced fixed-product preview, confirmation, history, and rollback | Operationally accepted on isolated DB | Stable billing-product-domain owner |
 | `frontend/app/api/admin/pricing`, `membership`, `billing-products` | Authorized inventory/history reads; pricing and billing-product preview/confirm mutations; explicit membership-retired errors | Operationally accepted on isolated DB | Stable thin route adapters |
+
+Direct watch data in `server/video-seo.ts` owns public selection, eligibility,
+canonical signals, source images and related links. It does not prepare a price.
+The watch route prepares its current catalog/policy context separately through
+`example-watch-detail-loader.ts`; the detail builder supplies the reader's
+displayed quotes. Keep the shared `current-example-price.ts` helper for gallery,
+model and homepage callers. `video-seo-no-unused-price.test.ts` checks this owner
+boundary; the quote-context and detail tests retain actual reader price coverage.
+Removing an unused quote dependency alone does not establish a latency or CWV gain.
+
+## Pricing route initial rendering
+
+The Pricing route starts `buildCurrentPricingHubData(locale)` once per render.
+Its static hero and existing SEO scripts render before the complete quote matrix
+settles. `PricingCurrentContent` consumes the same promise in two server Suspense
+boundaries: the hero's quick-start cards and the lower price sections. Keep current
+video, image, audio, tool and popular-check projections on that one complete hub;
+neither boundary owns another quote, persisted cache or commercial fallback.
+An early rejection is observed without changing the original promise: failures
+still reach the server boundaries rather than producing stale amounts.
+
+`PricingPendingContent` reserves the quick-start grid with the same localized
+scenario labels and no guessed model, price or row destination. On mobile, both
+pending and resolved cards reserve at least 8.5rem for the price/arrow column, so
+localized USD prices do not narrow the scenario label only after reveal. The
+reservation resets at the existing desktop breakpoint; larger amounts and longer
+names remain free to grow without truncation. The lower pending
+surface retains the hero's `#video-pricing` target and at least a viewport of space
+so the footer does not enter the initial viewport while prices are pending. The
+resolved components retain their existing markup and order. The large lower
+matrices are not duplicated as loading tables. Validate reveal geometry and early
+anchor navigation in a browser, particularly French mobile and unavailable quote
+results; renderer tests cannot establish layout stability.
+
+`PricingAnchorRestore` restores missed local section, model/product row and FAQ
+fragments after both price boundaries' readiness markers are revealed, including
+when the matrix arrives before the quick-start grid. It excludes
+pending duplicates and hidden React transport payloads, accepts an early local
+link or an arrival at zero scroll, and never rewrites history. A nonzero arrival
+keeps its position because document Navigation Timing cannot distinguish a fresh
+SPA entry from a history return; explicit local clicks still restore from any
+position. The three new streamed public readers share the browser-safe
+`anchor-history-arrival.ts` observer. Its single passive document listener records
+Back/Forward before a route remount, including a restored zero position; mounted
+same-route handlers consume the signal so local hash history cannot suppress a
+later fresh arrival. It never patches or writes browser history. User input, changed navigation, completion without a
+matching target, unmount or a 30-second deadline cancels the wait. Initial document
+and back/forward restored scroll positions retain their existing authority.
+`tests/pricing-anchor-restore.test.ts` covers this route-local contract.
+
+`tests/pricing-streaming.test.ts` holds canonical quote I/O through the real hub
+and Next's bundled server renderer. It checks early hero/SEO, one hub read, final
+localized markup, unavailable amounts and original-error propagation. This is
+composition evidence only: `revalidate = 600`, CDN headers and price invalidation
+remain unchanged, and a production build/CDN can buffer output. Comparable HTTP
+and browser evidence is required before claiming TTFB or Core Web Vitals gains.
 
 ## Homepage guided pricing demonstration
 
@@ -433,6 +595,42 @@ are removed from the supporting strip to avoid duplicate choices; unavailable ex
 quotes stay in the matrix's existing fallback presentation. Labels and the indicative
 USD/live-quote explanation are authored in the three locale message files.
 `tests/pricing-quick-start.test.ts` locks matrix parity and the server boundary.
+`buildCurrentPricingHubData` groups identical authored video/image quote inputs
+within each hub construction before its eight-worker queue starts. One current
+canonical result updates every matching matrix cell, retaining each cell's note,
+localized formatting and existing sorting/highlight ownership. Every construction
+creates fresh groups; unavailable results and unexpected quote rejections cannot
+be cached into a later request. The hub starts independent audio and fixed-product
+reads with four workers in `buildCurrentOtherPricing` alongside the eight model
+workers, keeping the combined budget at twelve. Only after every model worker
+settles does it release eight extra workers to the same audio/product queue, so
+slow remaining other reads can use all twelve places. A model rejection still
+rejects the hub promptly with the original error; it never releases the budget
+while surviving model workers remain active. All started promises are observed,
+including later rejections. Failed model requests can now have already-started
+audio/product reads; siblings continue without cancellation within the same
+budget, so error-branch work counts can differ from the preceding serial path.
+Successful hubs await both queues, so their shared
+image rows are finalized before returning the complete server-rendered data.
+The default hub constructs a new `createScopedPublicModelQuoter` in
+`frontend/server/pricing/quote-public-model-scenario.ts` for every render. It lazily
+shares concurrent effective-policy loads and retains the complete first successful
+result, including routing provenance, until that render ends. Unsupported scenarios
+do no policy I/O; unavailable or rejected attempts are cleared and later work may
+retry. An injected public quoter performs no default policy I/O. An admin policy
+change after the first successful read appears in the next render. This is a policy
+observation boundary, not an atomic snapshot of all prices: every scenario retains
+its independent tariff-state/cell transaction and can observe a later tariff update.
+Single-quote APIs and audio/product readers retain their current fresh-read behavior.
+Standalone `buildCurrentOtherPricing` callers retain twelve workers immediately.
+This preserves exact inputs, family input order, Character Builder quantities,
+validation and truthful localized live-quote fallbacks, without retaining any
+quote results across requests. Controlled owner scheduling checks establish the
+overlap and work budgets; they do not measure production TTFB or browser LCP.
+`tests/current-other-pricing-queue.test.ts` covers this boundary.
+`tests/current-pricing-hub-queue.test.ts` covers complete input
+coverage, bounded overlap, worker settlement on failure, finalized image rows,
+duplicate projection and fresh-request recovery.
 Scenario clicks reuse the consent-controlled `cta_click` bridge with the explicitly
 allowed `pricing_scenario` / `pricing_hero` values. These are aggregate card clicks;
 they do not prove a paid conversion or distinguish the three scenarios.
@@ -813,10 +1011,56 @@ and catalogue-plus-margin amounts cannot fill an unavailable commercial value.
 Comparison pricing also requires a current pricing engine and a successful
 current-policy quote; its spec row and price score reuse that result.
 
+`pricing-marketing.ts` selects an explicit supported `t2i` mode for engines whose
+modes are all image modes. This lets image catalogue ranges and model labels/rows
+match the same active exact cells as public image scenarios. Video and mixed-mode
+contexts retain their existing mode behavior. Marketing owns no source images;
+edit-only engines or text-image modes requiring a source stay unavailable rather
+than inventing a reference-free quote. Current-policy admission and canonical
+billing defaults remain unchanged. The model route's `buildModelPagePriceProjection`
+resolves one image grid per response for both the minimum label and spec rows.
+Its points stay sequential; unavailable points are omitted consistently from both
+projections. A fresh render reads a fresh grid and can recover, without caching
+failures or successful amounts across requests. The standalone label and row
+helpers retain independent reads for other callers. Hiding spec prices does not
+add quotes. Video labels and rows start together, as do the layout's independent
+decision pricing and public offer; their formatting, fallbacks and quote errors
+retain their existing owners. `tests/model-page-price-projection.test.ts` locks
+the quote counts, admission, fresh-render recovery and deferred-start behavior.
+
+An active model render creates `createScopedPublicPricingReaders` once and passes
+its contextual snapshot reader to that projection and its exact scenario reader
+to the server layout's existing decision/public-offer owners. Construction is
+lazy. Overlapping callers share the current policy attempt; the first successful
+complete result (both rules and routing rules, including empty rules) remains
+the policy observation for that render. Rejected or unavailable attempts remain
+retryable; another render reads its own policy. Functions stay between Server
+Components. The compatibility quoter used by Pricing delegates to this factory.
+This scope stores no amounts or tariff state: every quote retains independent
+canonical normalization and its own current tariff state/cell transaction.
+Contextual engine overrides and exact catalog inputs keep their existing owners.
+`tests/model-page-policy-postgres.test.ts` measures actual SQL through the active
+route and real server layout, including full localized output and failure parity.
+
+Model loading separates critical media/spec inputs from the same current pricing
+projection through `prepareModelPageInputs`. Video pages with a decision template
+render their existing hero first. `ModelCurrentDetails` waits for the exact price
+projection and shared commercial result before emitting the complete details,
+including the pricing card, variable-height specs and native JSON-LD. Its neutral
+viewport-height placeholder keeps the footer out of the initial viewport; do not
+replace it with independently expanding price cells. The template's authored
+numeric prices are never a loading fallback. Image and legacy pages retain their
+awaited render, including legacy hero prices. Keep the existing
+`loadModelPageInputs` awaited API and complete timing/error observation for its
+other callers; this scheduling split must not add a price cache or quote requests.
+`ModelDetailsAnchorRestore.client.tsx` restores a direct section hash missed while
+those details were suspended. Keep it scoped to the page's existing section IDs,
+cancel it on interaction/navigation, and preserve browser history restoration.
+
 Public scenario admission builds finite catalogue combinations only for the
 requested model and mode. `quote-public-model-scenario.ts` retains those immutable
 combinations per model/mode in process memory; it does not cache customer quotes
-or effective database policy. Preparing the complete catalogue on the first
+or effective database policy across renders. Preparing the complete catalogue on the first
 public quote blocked unrelated parallel page reads during cold execution.
 `collectSellableManualTariffCoverage()` without a scope still captures the full
 maintenance/financial matrix. `public-quote-scenario-coverage.test.ts` checks every
@@ -891,3 +1135,20 @@ require the current authoritative estimate. Accepted quote recovery preserves it
 stored funding; old prepared quotes must be prepared again. Migration 60 expands
 the database CHECK for historical/current tuples and migration 31 preserves that
 upgrade on replay. Do not substitute padded retail cents for this supplier budget.
+
+## Public page loading scopes (2026-10-12)
+
+`buildCurrentPricingHubData` keeps the complete Pricing-page projection. Its
+request-local canonical worker queue and shared policy scope remain unchanged.
+`buildCurrentVideoPricingData` reuses that same owner but exposes only `video`:
+PAYG does not consume image, audio or tool prices and must not start those reads.
+The narrow return type prevents unrefreshed base amounts from escaping as current
+prices. PAYG's pure projection accepts `Pick<PricingHubData, 'video'>`.
+
+With the current catalog, the full hub runs 132 distinct image/video quotes plus
+21 audio/tool quotes; the video-only owner runs the same 114 video quotes through
+at most eight workers. This is a count of canonical quote calls, not SQL commands.
+`tests/payg-current-video-pricing.test.ts` compares the entire EN/FR/ES PAYG output
+against the full hub for exact and unavailable results. Existing hub queue tests
+retain full-surface limits, failure observation and next-request freshness. No
+cross-request quote cache or tariff arithmetic is introduced.

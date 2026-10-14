@@ -12,6 +12,8 @@ export type CurrentOtherPricingDependencies = {
   audio: (input: AudioPricingInput) => Promise<Amount>;
   product: (input: { productKey: string; quantity: number }) => Promise<Amount>;
 };
+/** The hub reserves eight workers for models; standalone callers retain twelve. */
+type CurrentOtherPricingSchedule = { modelWorkersSettled: Promise<void> };
 const defaults: CurrentOtherPricingDependencies = {
   audio: computeCurrentAudioSnapshot,
   product: computeBillingProductSnapshot,
@@ -35,16 +37,18 @@ const toolPresets: Record<string, [string, string, number, number]> = {
 export async function buildCurrentOtherPricing(
   base: PricingHubData['otherSurfaces'], locale: AppLocale,
   dependencies: CurrentOtherPricingDependencies = defaults,
+  schedule?: CurrentOtherPricingSchedule,
 ): Promise<PricingHubData['otherSurfaces']> {
   const copy = getPricingHubCopy(locale);
-  const format = async (quote: () => Promise<Amount>) => {
+  const tasks: Array<() => Promise<void>> = [];
+  const format = (quote: () => Promise<Amount>) => new Promise<string>((resolve) => tasks.push(async () => {
     try {
       const amount = await quote();
       if (!Number.isSafeInteger(amount.totalCents) || amount.totalCents < 0 || !amount.currency) throw new Error('Invalid price');
-      return formatCurrencyForLocale(locale, amount.currency, amount.totalCents / 100);
-    } catch { return copy.liveQuote; }
-  };
-  const audioRows = await Promise.all(base.audioRows.map(async (row) => {
+      resolve(formatCurrencyForLocale(locale, amount.currency, amount.totalCents / 100));
+    } catch { resolve(copy.liveQuote); }
+  }));
+  const audioRows = Promise.all(base.audioRows.map(async (row) => {
     const preset = audioPresets[row.id];
     if (!preset) return { ...row, thirtySeconds: copy.liveQuote, sixtySeconds: copy.liveQuote, oneTwentySeconds: copy.liveQuote };
     if (getAudioPackConfig(preset.pack).requiresVideo) {
@@ -56,7 +60,7 @@ export async function buildCurrentOtherPricing(
     }))));
     return { ...row, thirtySeconds: prices[0], sixtySeconds: prices[1], oneTwentySeconds: prices[2] };
   }));
-  const toolRows = await Promise.all(base.toolRows.map(async (row) => {
+  const toolRows = Promise.all(base.toolRows.map(async (row) => {
     const preset = toolPresets[row.id];
     if (!preset) return { ...row, standardOutput: copy.liveQuote, proOutput: copy.liveQuote };
     const values = await Promise.all([0, 1].map((index) => format(() => dependencies.product({
@@ -69,5 +73,16 @@ export async function buildCurrentOtherPricing(
     };
     return { ...row, standardOutput: display(row.standardOutput, values[0]), proOutput: display(row.proOutput, values[1]) };
   }));
-  return { ...base, audioRows, toolRows };
+  let nextTask = 0;
+  const work = async () => {
+    while (nextTask < tasks.length) await tasks[nextTask++]();
+  };
+  const workers = Array.from({ length: Math.min(schedule ? 4 : 12, tasks.length) }, work);
+  if (schedule) {
+    // A fail-fast model rejection is not settlement: surviving workers still own their budget.
+    workers.push(schedule.modelWorkersSettled.then(() =>
+      Promise.all(Array.from({ length: Math.min(8, tasks.length) }, work)).then(() => undefined)));
+  }
+  await Promise.all(workers);
+  return { ...base, audioRows: await audioRows, toolRows: await toolRows };
 }

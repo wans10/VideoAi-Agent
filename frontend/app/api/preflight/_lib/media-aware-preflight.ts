@@ -26,6 +26,9 @@ import { resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/
 import { validateRuntimeRequestSettings } from '@/app/api/generate/_lib/runtime-schema-options';
 import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
 import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
+import { resolveSeedance25ModeAvailability } from '@/server/engine-mode-availability';
+import { normalizeBytePlusOptions } from '@/app/api/generate/_lib/request-options-byteplus';
+import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
 
 type MediaConstraintDependencies = Parameters<
   typeof validateNormalizedGenerationAttachments
@@ -143,6 +146,14 @@ export async function resolveMediaAwarePreflight(
     : undefined;
   const engine = publicEngine ?? privateEngine;
   if (!engine) return computeConfiguredPreflightFn(request, { bootstrap: false });
+  if (engine.id === 'seedance-2-5' && request.mode === 'v2v') {
+    if (resolveSeedance25ModeAvailability(engine, request.mode)?.available === false) {
+      return mediaPricingFailure('ENGINE_MODE_UNAVAILABLE', 'Video editing is temporarily unavailable for this model.');
+    }
+    const options = normalizeBytePlusOptions({ engineId: engine.id, mode: request.mode,
+      durationSec: request.durationSec, requestedResolution: request.resolution ?? '480p', aspectRatio: request.aspectRatio ?? null });
+    if (!options.ok) return mediaPricingFailure(String(options.body.error), String(options.body.message));
+  }
   if (
     privateEngine
     && !resolveAgentGenerationModeExecutability(
@@ -240,6 +251,12 @@ export async function resolveMediaAwarePreflight(
 
   let referenceTokenBudget: number | undefined;
   let inputVideoDurationSec: number | undefined;
+  let seedanceEditSource;
+  try {
+    seedanceEditSource = resolveSeedance25ModelArkEditSource(engine.id, request.mode, processed.trustedMediaReferences ?? []);
+  } catch (error) {
+    return mediaPricingFailure('SEEDANCE_EDIT_SOURCE_UNSUPPORTED', error instanceof Error ? error.message : 'Verified Edit source facts are required.');
+  }
   if (needsWanVideoDuration || needsSeedanceReferenceDuration) {
     try {
       inputVideoDurationSec = needsSeedanceReferenceDuration
@@ -259,6 +276,7 @@ export async function resolveMediaAwarePreflight(
     }
   }
   const trustedMediaPricingFacts: TrustedPreflightMediaPricingFacts = {
+    ...(seedanceEditSource ? { seedanceEditSource } : {}),
     ...(inputVideoDurationSec !== undefined ? { inputVideoDurationSec } : {}),
     ...(referenceTokenBudget !== undefined ? { referenceTokenBudget } : {}),
     ...(needsReferenceImageCount
@@ -279,7 +297,10 @@ export async function resolveMediaAwarePreflight(
     );
   }
 
-  return computeConfiguredPreflightFn(needsSeedanceReferenceDuration ? { ...request, hasVideoInput: true } : request, {
+  return computeConfiguredPreflightFn({ ...request,
+    ...(needsSeedanceReferenceDuration ? { hasVideoInput: true } : {}),
+    ...(seedanceEditSource ? { durationSec: seedanceEditSource.billedDurationSec, aspectRatio: seedanceEditSource.pricingAspectRatio } : {}),
+  }, {
     seedanceWorkflowStep: input.trustedSeedanceWorkflow?.workflow.step,
     resolvedEngine: engine,
     trustedMediaPricingFacts,
