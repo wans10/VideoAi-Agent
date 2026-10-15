@@ -227,6 +227,12 @@ export interface EngineModeUiCaps {
   notes?: string;
 }
 
+export type EngineModeAvailability = Readonly<{
+  available: boolean;
+  inheritsSourceVideo?: boolean;
+  reason: 'available' | 'provider_disabled' | 'provider_credentials_missing' | 'provider_admin_only' | 'profile_invalid';
+}>;
+
 export interface EngineCaps {
   id: string;
   label: string;
@@ -245,6 +251,7 @@ export interface EngineCaps {
   region?: string;
   vendorAccountId?: string;
   modes: Mode[];
+  modeAvailability?: Partial<Record<Mode, EngineModeAvailability>>;
   maxDurationSec: number;
   resolutions: Resolution[];
   aspectRatios: AspectRatio[];

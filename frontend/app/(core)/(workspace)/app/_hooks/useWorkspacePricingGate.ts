@@ -6,6 +6,7 @@ import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import type { AppLocale } from '@/i18n/locales';
 import { dispatchGaEvent } from '@/lib/analytics/ga-events';
 import { classifyTopupFailure } from '@/lib/analytics/topup-failure';
+import { getEngineModeUnavailableMessage } from '@/lib/engine-mode-availability';
 import { formatRateLimitMessage } from '@/lib/wallet/rate-limit-message';
 import type { EngineCaps, Mode, PreflightResponse } from '@/types/engines';
 import type { WorkspaceCopy } from '../_lib/workspace-copy';
@@ -89,8 +90,9 @@ export function useWorkspacePricingGate({
   submissionMode,
   inputAssets,
 }: UseWorkspacePricingGateOptions): UseWorkspacePricingGateResult {
-  const { preflight, preflightError, setPreflightError, isPricing, price, currency } = useWorkspacePreflightQuote({
-    request: form && selectedEngine ? buildWorkspacePreflightRequest({
+  const modeUnavailableMessage = getEngineModeUnavailableMessage(selectedEngine, submissionMode, locale);
+  const { preflight, preflightError: quoteError, setPreflightError, isPricing, price, currency } = useWorkspacePreflightQuote({
+    request: form && selectedEngine && !modeUnavailableMessage ? buildWorkspacePreflightRequest({
       form, selectedEngine, memberTier, supportsAudioToggle,
       effectiveDurationSec, voiceControlEnabled, submissionMode, inputAssets,
     }) : null,
@@ -99,6 +101,7 @@ export function useWorkspacePricingGate({
     authChecked,
     locale,
   });
+  const preflightError = modeUnavailableMessage ?? quoteError;
   const [topUpModal, setTopUpModal] = useState<TopUpModalState>(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [topUpAmount, setTopUpAmount] = useState<number>(TOPUP_TIERS[0].amountCents);

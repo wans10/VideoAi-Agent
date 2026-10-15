@@ -259,13 +259,19 @@ test('Seedance 2.5 edit budgets locate the missing owned duration before pricing
   assert.equal(isolated.calls.length, 0, 'Role placeholders must never produce an edit quote.');
 });
 
-test('budgets source-video modes without inventing a ref2v media kind', async () => {
+test('budgets ModelArk source-video modes without inventing a ref2v media kind', async () => {
   const candidate = registryCapability('seedance-2-5');
   const pricedModes: string[] = [];
   const billingInputTypes: unknown[] = [];
   const result = await calculateAgentProjectBudget(input([{
     name: 'Source video workflows',
     lines: [
+      line({
+        purpose: 'Extend one source',
+        mode: 'extend',
+        settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
+        referenceRoles: ['source'],
+      }),
       line({
         purpose: 'Extend clips',
         mode: 'extend',
@@ -293,13 +299,30 @@ test('budgets source-video modes without inventing a ref2v media kind', async ()
     },
   });
 
-  assert.deepEqual(pricedModes, ['extend', 'ref2v']);
-  assert.deepEqual(billingInputTypes, ['video_input', 'no_video_input']);
+  assert.deepEqual(pricedModes, ['extend', 'extend', 'ref2v']);
+  assert.deepEqual(billingInputTypes, ['video_input', 'video_input', 'no_video_input']);
   assert.deepEqual(
     result.proposals[0]?.lines.map((budgetLine) => budgetLine.mode),
-    ['extend', 'ref2v'],
+    ['extend', 'extend', 'ref2v'],
   );
-  assert.deepEqual(result.proposals[0]?.lines.map((budgetLine) => budgetLine.referenceCount), [3, 1]);
+  // One count per submitted line: [extend source, extend three sources, ref2v reference].
+  assert.deepEqual(result.proposals[0]?.lines.map((budgetLine) => budgetLine.referenceCount), [1, 3, 1]);
+});
+
+test('a source-role-only LAS budget cannot invent measured source timing or a reviewed price', async () => {
+  await assert.rejects(calculateAgentProjectBudget(input([{
+    name: 'LAS edit', lines: [line({ mode: 'v2v', referenceRoles: ['source'],
+      settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true } })],
+  }]), principal, { listPublicEngines: async () => [registryCapability('seedance-2-5')],
+    getMembershipStatus: async () => ({ pricing: { tier: 'member' } }),
+    computeCatalogRevision: () => 'mcp-catalog-v2:las-required-facts',
+    priceGeneration: priceCanonicalGeneration }), (error: unknown) => {
+    // The Keyvo owned-source guard runs before preflight, so a role-only source fails as a required reference.
+    assert.ok(error instanceof AgentApiError);
+    assert.equal(error.code, 'REFERENCE_REQUIRED');
+    assert.match(error.message, /owned source video.*verified duration/);
+    return true;
+  });
 });
 
 test('budgets first/last-frame and ordered reference-video workflows exposed by the MCP', async () => {

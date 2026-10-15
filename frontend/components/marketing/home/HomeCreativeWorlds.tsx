@@ -1,6 +1,8 @@
 import { Link } from '@/i18n/navigation';
+import type { ReactNode } from 'react';
 import type { AppLocale } from '@/i18n/locales';
 import { CreativeFilm } from '@/components/marketing/CreativeFilm.client';
+import { HomeModelDiscovery } from './HomeModelDiscovery';
 import { HOME_USE_CASE_FILMS } from './home-use-case-films';
 import type { HomeExampleCard, ProviderItem, SectionCopy, ShotTypeCard } from './home-redesign-types';
 
@@ -11,9 +13,10 @@ const COPY = {
   zh: { eyebrow: "放映室 / 镜头研究", title: "带着一个制作问题，看一组镜头。", body: "观察光线怎样塑造人物，镜头如何靠近主体，运动是否符合预期。打开样片，查阅生成条件，再决定自己的试拍方式。", all: "打开样片档案", guides: "查阅制作方法", play: '观看视频', loading: '加载中…', error: '重试', cta: "研究这一类镜头", labels: ["光影与气氛", "参考图试拍", "视觉方向测试", "商业影像"], titles: ["先让环境讲述情绪。", "检查静态构图如何进入运动。", "在细化之前，验证方向。", "用一个镜头建立产品印象。"], descriptions: ["观察光线、空间层次与镜头运动的配合。", "从同一张参考图出发，判断画面的延续方式。", "用短片段评估节奏和表现，再决定下一轮试拍。", "关注材质、主体轮廓与景别变化。"] },
 };
 
-export function HomeCreativeWorlds({ locale, cards }: {
-  locale: AppLocale; cards: ShotTypeCard[]; examples: HomeExampleCard[]; providers: ProviderItem[];
+export function HomeCreativeWorlds({ locale, cards, examples = [], providers = [], examplesCopy, modelDiscovery }: {
+  locale: AppLocale; cards: ShotTypeCard[]; examples?: HomeExampleCard[]; providers?: ProviderItem[];
   examplesCopy: SectionCopy & { featuredModelCta: string };
+  modelDiscovery?: ReactNode;
 }) {
   const c = COPY[locale] ?? COPY.en;
   return <section id="creations" className="creative-worlds home-use-case-gallery section"><div className="container-page">
@@ -28,5 +31,6 @@ export function HomeCreativeWorlds({ locale, cards }: {
       </figure>;
     })}</div>
     <div className="use-case-all"><Link href="/ai-video-engines/best-for">{c.guides} <span aria-hidden>↗</span></Link></div>
+    {modelDiscovery ?? <HomeModelDiscovery locale={locale} examples={examples} providers={providers} copy={examplesCopy}/>}
   </div></section>;
 }

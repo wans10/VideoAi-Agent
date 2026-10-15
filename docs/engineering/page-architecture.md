@@ -17,6 +17,38 @@ Everything else should usually live outside `page.tsx`.
 
 The home, model-detail and comparison-detail pages import their own `marketing-home.css`, `marketing-models.css` and `marketing-compare.css`. The localized `tools/layout.tsx` statically imports `marketing-tools.css` for the tool hub and all tool detail pages. The English entry at `frontend/app/tools/layout.tsx` must compose that same `ToolsLayout` inside its marketing layout: default-language routes do not automatically traverse the localized route tree. Keep these imports out of the shared marketing layout so unrelated routes do not download these stylesheets. Route CSS stays available during server rendering; do not move it into an effect or client-only loader. Shared marketing styling stays in the layout. Moving an import must preserve the cascade and be checked on direct loads and client navigation, including mobile; `tests/marketing-route-styles-contract.test.ts` locks both route entries and the ownership boundary.
 
+`McpPageView` and `IntegrationPageView` synchronously import `marketing-mcp.css`;
+English and localized entries reuse these same server views. The shared layout
+retains `marketing-navigation.css`, including the MCP badge used on every page.
+MCP selectors overlap the shared typography and container rules, so changes to
+this ownership also require computed-style and visual parity on direct loads and
+SPA navigation, including returning to an unrelated page with retained CSS.
+The shared redesign sheet owns container width, heading letter spacing and the
+generic h1/h2 line heights. MCP must not redeclare these previously overridden
+values: its route sheet can arrive last during SPA navigation. More specific
+proof and caption typography remains owned by MCP;
+`tests/marketing-mcp-cascade-browser.test.ts` checks both stylesheet orders.
+
+Blog Markdown prose belongs to `blog/blog-prose.css`, imported synchronously by
+the localized `blog/[slug]/layout.tsx`. The English article layout composes that
+same owner; the blog index does not import it. Keep this sheet as ordinary
+`.blog-prose` rules with `@apply`: `globals.css` owns the Tailwind reset and utility
+bundle. An isolated `@layer components` needs a corresponding Tailwind directive,
+and adding the three global directives here duplicates the site bundle. Preserve
+the existing selectors and declarations when changing this boundary, including
+the separate `not-prose` exclusions in typography rules and the explicit native
+media rules. The newer editorial reader keeps its own `editorial-article.css`.
+The 2026-10-09 real PostCSS comparison reduced the unminified blog sheet from
+302,911 to 20,603 bytes, retaining all 118 article rules and identical global CSS.
+`tests/blog-prose-styles.test.ts` rejects unscoped output and keeps this compiled
+sheet below 24 KiB; `tests/blog-prose-cascade-browser.test.ts` checks both shared
+stylesheet orders and retained article CSS at mobile and desktop widths. These
+byte and cascade checks do not establish field Core Web Vitals gains.
+Current rendered Markdown articles have no descendants with utility classes.
+If that markup contract changes, recheck equal-specificity font/size utilities:
+the article sheet can arrive after the global utilities during navigation, so
+the old duplicate bundle's utility ordering is not a contract for future markup.
+
 ## Server Page Pattern
 
 Use this for marketing, SEO, model, comparison, docs, examples, legal, and admin server pages.
@@ -105,8 +137,26 @@ Avoid passing the entire dictionary or entire engine object unless the section t
 ## JSON-LD Pattern
 
 MaxVideoAI's organization identity and profiles belong in `frontend/lib/seo/site-organization-schema.ts`.
-Both `LocaleRuntime` and the core layout render its shared builder; retain `/#organization`
+Both `LocaleRuntime` and the shared `AppRuntime` render its shared builder; retain `/#organization`
 when adding a profile, and keep profile-only schema changes independent of visible social links.
+
+Core and direct public watch pages use the same server `app/_components/AppRuntime.tsx`
+under the existing HTML root. Core calls it without a namespace selection and keeps full
+messages; `(public-watch)/layout.tsx` selects the existing `nav`/`footer` namespaces.
+The runtime selects valid cookies in `mvid_locale`, then `NEXT_LOCALE`, then default
+order and filters both the dictionary and its English fallback before the client
+provider. If the resolver shares its EN dictionary/fallback object, keep that identity
+after selection. `LocaleRuntime` has separate public locale/fallback semantics and
+must not substitute for this runtime.
+
+The shared runtime retains the existing provider/effect order, app styles, Geist font,
+analytics, consent and organization/WebSite schemas. Both sibling layouts re-export
+metadata/viewport from `app/_lib/app-runtime-metadata.ts`; neither imports the other's
+layout. Only `video/**` lives in `(public-watch)`, preserving `/video/[id]` URLs and
+the unchanged marketing auth snapshot, reader copy, data, redirects and SEO owners.
+Group transitions remount these lower layouts. The runtime behavior and remount tests
+cover dictionary props, fallback, effect cleanup, cache and theme; production browser
+navigation and comparable loading measurements remain required for performance work.
 
 Build schema payloads in pure helpers, then render them at the route/shell level:
 
@@ -220,6 +270,61 @@ document block.
 ## Media In Public Pages
 
 Use the owners and validation rules in `docs/engineering/media-delivery.md`. Routes select data and compose media surfaces; they do not own an encoding pipeline or construct independent image optimizer settings. Preserve discovery of the critical poster in server HTML and stable media dimensions through hydration and playback. A route cleanup must not trade a faster preview for a slower LCP or interactive form.
+
+`loadModelPageInputs` owns active-model read scheduling. Its optional pricing
+callback waits only for the current request's override read; engine, locale and
+pricing presentation options are already available. Gallery, score and spec
+reads start once and continue independently. Keep canonical pricing and gallery
+policy in their existing owners, and await the complete input result before
+composing hero, curation and spec props. The original two-argument API retains
+its output shape. The public result preserves the first original rejection
+promptly; model-only diagnostic completion waits for all started siblings,
+including late errors, without changing the global timing helper. The new
+`model-pricing` phase covers the price projection, which is now included in model
+`dataDurationMs`; older model aggregates are not directly comparable. See the
+controlled evidence and delivery limits in the media guide and
+`tests/model-page-input-overlap.test.ts` for the scheduling/error contract.
+
+The homepage data owner exposes `prepareHomePageData` with independently awaitable
+critical and example reads plus eventual timing completion. Start the request's
+reads once, await only critical data in the route, and pass the example promise to
+route-local `HomeDiscovery`. Its Suspense boundary belongs in the discovery slot
+of `HomeCreativeWorlds`; the hero and four authored films remain stable siblings.
+Authored fallback discovery cards reserve the existing card geometry and preserve
+crawlable links. The complete `loadHomePageData` API still awaits the same reads for
+callers that require all data. Keep completion diagnostics and error observation in
+the data owner. Home retains `revalidate = 60`; that directive alone does not
+establish static/dynamic delivery or how production cache generation flushes the
+HTTP response. The 2026-10-09 production build marks home dynamic (`ƒ`), and the
+local held-gallery check confirms early hero HTML delivery with unchanged reveal
+geometry and playback. See the dated evidence and delivery limits in the media
+guide; this does not establish CDN HIT or field Core Web Vitals gains.
+The fallback plus final discovery also increases encoded HTML; the comparable
+local browser runs showed overlapping LCP ranges rather than an established LCP
+gain. Keep that measured delivery cost visible in the media guide.
+
+## Models catalogue initial rendering
+
+`prepareModelsCatalogCards` retains one set of current marketing range reads and
+exposes only model identity, localized label, score and href before those reads
+settle. The full `buildModelsCatalogCards` API still waits for the exact same
+price-bearing cards. `buildModelsCatalogHeroData` uses only that narrow metadata,
+so the complete hero, top picks and use-case strip keep their existing geometry.
+The catalogue route streams the remaining recommended cards, gallery filters,
+comparison/FAQ sections and native JSON-LD together after exact cards resolve.
+No provisional card prices or cross-request quote cache are introduced.
+
+A viewport-height fallback keeps the footer out of the initial viewport while
+those sections wait. `ModelsCatalogAnchorRestore.client.tsx` handles the two
+route-local delayed anchors (`models-grid`, `recommended`) and cancels restoration
+when the visitor changes navigation or scroll intent. The model-detail restorer
+remains separately owned. Held-price SSR tests cover all/video/image in EN/FR/ES,
+complete final output, unavailable quotes and original rejected errors; DOM tests
+cover anchor restoration and cancellation. These tests establish composition,
+not measured HTTP/cache or browser Core Web Vitals gains. Comparable browser
+geometry, anchor and performance checks are required before accepting a release.
+Once the shell is sent, a later quote rejection cannot change its HTTP status;
+React/Next may retain the pending boundary until its error/retry handling.
 
 ## Refactor Checklist
 

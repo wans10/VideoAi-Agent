@@ -103,56 +103,42 @@ test('the actual conversation edit hook submits only its command, never preview 
   }
 });
 
-test('renewal reads survive ordinary polls, serialize clip renewals and report rejected or superseded responses',async()=>{
+test('renewal reads survive ordinary polls, keep a renewal across superseded or failed reads, and never double-apply it',async()=>{
  const dom=new JSDOM('<div id="root"></div>',{url:'https://app.keyvo.cn'});
  const saved=new Map(['window','document','navigator','fetch','IS_REACT_ACT_ENVIRONMENT'].map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]));
  const requests:Array<(value:Response)=>void>=[];
  const preview={...clip('video'),mediaAccessUrl:'https://signed.test/old',mediaAccessExpiresAt:new Date(Date.now()+300000).toISOString()};
  const response=(url:string)=>Response.json({ok:true,result:{data:{sequenceId:'main',revision:7},settings:{fps:30,aspectRatio:'16:9',resolution:'720p'},items:[{...preview,mediaAccessUrl:url}]}});
  for(const [key,value] of Object.entries({window:dom.window,document:dom.window.document,navigator:dom.window.navigator,IS_REACT_ACT_ENVIRONMENT:true,fetch:()=>new Promise<Response>(resolve=>requests.push(resolve))}))Object.defineProperty(globalThis,key,{value,configurable:true,writable:true});
- const root=createRoot(dom.window.document.getElementById('root')!);let state:ReturnType<typeof useConversationTimeline>;
- let refreshKey=0;function Harness(){state=useConversationTimeline('fixture',refreshKey);return null;}
- try{
-  await act(async()=>root.render(React.createElement(Harness)));await act(async()=>requests[0](response(preview.mediaAccessUrl)));
-  let renewal:Promise<boolean>,second:Promise<boolean>;
-  await act(async()=>{renewal=state!.refresh({renewMediaId:'video'});});assert.equal(requests.length,2);
-  assert.equal(await state!.refresh(),false,'ordinary poll must not supersede forced renewal');assert.equal(requests.length,2);
-  await act(async()=>{refreshKey++;root.render(React.createElement(Harness));});assert.equal(requests.length,2,'A parent conversation refresh cannot bypass renewal protection.');
-  await act(async()=>{second=state!.refresh({renewMediaId:'video'});});assert.equal(requests.length,2,'concurrent renewals wait instead of consuming another clip retry without a read');
-  await act(async()=>{requests[1](response('https://signed.test/new'));assert.equal(await renewal!,true);});
-  assert.equal(state!.view?.items[0].mediaAccessUrl,'https://signed.test/new');assert.equal(requests.length,3);
-  await act(async()=>{requests[2](response('https://signed.test/newer'));assert.equal(await second!,true);});
-  let failed:Promise<boolean>;await act(async()=>{failed=state!.refresh({renewMediaId:'video'});});
-  await act(async()=>{requests[3](Response.json({ok:false,error:'TIMELINE_UNAVAILABLE'},{status:503}));assert.equal(await failed!,false);});
-  assert.equal(state!.error,'TIMELINE_UNAVAILABLE');
-  let old:Promise<boolean>,fresh:Promise<boolean>;await act(async()=>{old=state!.refresh();fresh=state!.refresh();});
-  await act(async()=>{requests[4](response('https://signed.test/stale'));assert.equal(await old!,false);requests[5](response('https://signed.test/ordinary'));assert.equal(await fresh!,true);});
-  assert.equal(state!.view?.items[0].mediaAccessUrl,'https://signed.test/newer','ordinary reads keep the still-valid decoder grant');
- }finally{await act(async()=>root.unmount());dom.window.close();for(const [key,d] of saved){if(d)Object.defineProperty(globalThis,key,d);else Reflect.deleteProperty(globalThis,key);}}
-});
-
-
-test('a successful edit waits for renewal and its updated revision before allowing the next edit',async()=>{
- const dom=new JSDOM('<div id="root"></div>',{url:'https://app.keyvo.cn'});
- const saved=new Map(['window','document','navigator','fetch','IS_REACT_ACT_ENVIRONMENT'].map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]));
- const reads:Array<(response:Response)=>void>=[];const posts:any[]=[];
- const projection=(revision:number)=>Response.json({ok:true,result:{data:{sequenceId:'main',revision},settings:{fps:30,aspectRatio:'16:9',resolution:'720p'},items:[clip('video')]}});
- for(const [key,value] of Object.entries({window:dom.window,document:dom.window.document,navigator:dom.window.navigator,IS_REACT_ACT_ENVIRONMENT:true,fetch:async(_url:unknown,options?:RequestInit)=>{
-  if(options?.method==='POST'){posts.push(JSON.parse(String(options.body)));return Response.json({ok:true,result:{revision:8}});}
-  return new Promise<Response>(resolve=>reads.push(resolve));
- }}))Object.defineProperty(globalThis,key,{value,configurable:true,writable:true});
- const root=createRoot(dom.window.document.getElementById('root')!);let state:ReturnType<typeof useConversationTimeline>;
+ const root=createRoot(dom.window.document.getElementById('root')!);
+ let state!:ReturnType<typeof useConversationTimeline>;
  function Harness(){state=useConversationTimeline('fixture',0);return null;}
+ const grant=()=>state.view?.items[0].mediaAccessUrl;
+ const reloadKey=()=>state.mediaReloadKeys.video??0;
  try{
-  await act(async()=>root.render(React.createElement(Harness)));await act(async()=>reads[0](projection(7)));
-  let renewal:Promise<boolean>,edit:Promise<void>;
-  await act(async()=>{renewal=state!.refresh({renewMediaId:'video'});});
-  await act(async()=>{edit=state!.edit({kind:'gain',clipId:'video',volume:0});await Promise.resolve();});
-  assert.equal(posts.length,1);assert.equal(state!.busy,true,'The accepted edit must stay busy until the authoritative revision is read.');
-  await act(async()=>{await state!.edit({kind:'remove',clipId:'video'});});assert.equal(posts.length,1,'No second command may use the stale revision.');
-  await act(async()=>{reads[1](projection(7));assert.equal(await renewal!,false,'The edit invalidates a read started before the command.');});
-  assert.equal(reads.length,3,'A required post-edit read cannot be skipped by renewal protection.');
-  await act(async()=>{reads[2](projection(8));await edit!;});
-  assert.equal(state!.view?.data.revision,8);assert.equal(state!.busy,false);
- }finally{await act(async()=>root.unmount());dom.window.close();for(const [key,d] of saved){if(d)Object.defineProperty(globalThis,key,d);else Reflect.deleteProperty(globalThis,key);}}
+  await act(async()=>root.render(React.createElement(Harness)));
+  await act(async()=>requests[0](response(preview.mediaAccessUrl)));
+  // A forced renewal read is in flight when an ordinary poll starts; the poll is the newer read and applies the renewal once.
+  let renewal!:Promise<void>,poll!:Promise<void>;
+  await act(async()=>{renewal=state.refresh({renewMediaId:'video'});});
+  await act(async()=>{poll=state.refresh();});
+  assert.equal(requests.length,3,'each read issues exactly one request');
+  await act(async()=>{requests[2](response('https://signed.test/poll'));await poll;});
+  assert.equal(reloadKey(),1);assert.equal(grant(),'https://signed.test/poll');
+  // The older renewal read is superseded: its late response must neither replace the grant nor apply a second renewal.
+  await act(async()=>{requests[1](response('https://signed.test/renewal'));await renewal;});
+  assert.equal(reloadKey(),1);assert.equal(grant(),'https://signed.test/poll');
+  // A failed renewal read keeps its pending renewal for the next successful read.
+  let failed!:Promise<void>;
+  await act(async()=>{failed=state.refresh({renewMediaId:'video'});});
+  await act(async()=>{requests[3](Response.json({ok:false,error:'TIMELINE_UNAVAILABLE'},{status:503}));await failed;});
+  assert.equal(state.error,'TIMELINE_UNAVAILABLE');assert.equal(reloadKey(),1);
+  let recovered!:Promise<void>;
+  await act(async()=>{recovered=state.refresh();});
+  await act(async()=>{requests[4](response('https://signed.test/recovered'));await recovered;});
+  assert.equal(state.error,null);assert.equal(reloadKey(),2,'the pending renewal survived the failed read');assert.equal(grant(),'https://signed.test/recovered');
+ }finally{
+  await act(async()=>root.unmount());dom.window.close();
+  for(const [key,descriptor] of saved){if(descriptor)Object.defineProperty(globalThis,key,descriptor);else Reflect.deleteProperty(globalThis,key);}
+ }
 });

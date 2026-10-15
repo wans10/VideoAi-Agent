@@ -1,5 +1,5 @@
 'use client';
-import {useCallback,useEffect,useRef,useState} from 'react';
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import type {StudioConversationTimeline} from '@/lib/studio/conversation-editing-contract';
 import type {ConversationTimelineCommand} from '@/lib/studio/conversation-timeline-editing';
 import {retainConversationMediaAccess} from '@/lib/studio/conversation-preview-access';
@@ -7,7 +7,7 @@ import type {WorkspaceProjectSettings,WorkspaceTimelineItem} from '../../../_sha
 
 export type ConversationTimelineView = {data: StudioConversationTimeline;settings: WorkspaceProjectSettings;items: WorkspaceTimelineItem[]};
 export function useConversationTimeline(projectId: string,refreshKey: unknown) {
-  const [view,setView] = useState<ConversationTimelineView | null>(null);
+  const [{view,mediaReloadKeys},setPreviewState] = useState<{view: ConversationTimelineView | null;mediaReloadKeys: Record<string,number>}>({view: null,mediaReloadKeys: {}});
   const [legacy,setLegacy] = useState(false);
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState<string | null>(null);
@@ -15,32 +15,34 @@ export function useConversationTimeline(projectId: string,refreshKey: unknown) {
   const active = useRef(true);
   const pending = useRef(false);
   const epoch = useRef(0);
-  const renewing = useRef<Promise<void> | null>(null);
   const invalidate = useCallback(() => {epoch.current++;},[]);
   const path = `/api/studio/projects/${encodeURIComponent(projectId)}/conversation-timeline`;
+  const reads = useMemo(() => ({path,inFlight: 0,renewMediaIds: new Set<string>()}),[path]);
   const refresh = useCallback(async (options?: {renewMediaId?: string}) => {
-    const renewal = Boolean(options?.renewMediaId);
-    if (!renewal && renewing.current) return false;
-    while (renewing.current) await renewing.current;
-    let finishRenewal: (() => void) | undefined;
-    if (renewal) renewing.current = new Promise<void>(resolve => {finishRenewal = resolve;});
+    if (options?.renewMediaId) reads.renewMediaIds.add(options.renewMediaId);
+    reads.inFlight++;
     const request = ++epoch.current;
     try {
-      const response = await fetch(path+'?preview=1',{cache: 'no-store'});
+      const response = await fetch(reads.path+'?preview=1',{cache: 'no-store'});
       const result = await response.json();
-      if (!active.current || request !== epoch.current) return false;
-      if (result.error === 'STUDIO_CONNECTED_PROJECT_REQUIRED') {setLegacy(true);return false;}
+      if (!active.current || request !== epoch.current) return;
+      if (result.error === 'STUDIO_CONNECTED_PROJECT_REQUIRED') {setLegacy(true);return;}
       if (!response.ok || !result.ok) throw new Error(result.error ?? 'TIMELINE_UNAVAILABLE');
-      setLegacy(false);setError(null);setView(previous => ({...result.result,items: retainConversationMediaAccess(previous?.items ?? [],result.result.items,Date.now(),options?.renewMediaId)}));
-      return true;
-    } catch (failure) {if (active.current && request === epoch.current) setError(failure instanceof Error ? failure.message : 'TIMELINE_UNAVAILABLE');return false;}
-    finally {if (renewal) {renewing.current = null;finishRenewal?.();}}
-  },[path]);
-  useEffect(() => {active.current = true;return () => {active.current = false;invalidate();};},[refresh,invalidate]);
-  // A parent conversation poll is a read trigger, not a hook lifetime change.
-  // Its cleanup must not invalidate the forced renewal it is forbidden to replace.
-  useEffect(() => {void refresh();},[refresh,refreshKey]);
-  useEffect(() => {const timer = window.setInterval(() => {if (!pending.current && !document.hidden) void refresh();},20000);return () => window.clearInterval(timer);},[refresh]);
+      // A newer canonical read may supersede this request, but it must still
+      // replace every rejected grant. Snapshot before React's deferred updater.
+      const renewMediaIds = new Set(reads.renewMediaIds);
+      reads.renewMediaIds.clear();
+      setLegacy(false);setError(null);setPreviewState(previous => {
+        const previousView = previous.view?.data.projectId === result.result.data.projectId ? previous.view : null;
+        const mediaReloadKeys = previousView ? {...previous.mediaReloadKeys} : {};
+        for (const id of renewMediaIds) mediaReloadKeys[id] = (mediaReloadKeys[id] ?? 0)+1;
+        return {view: {...result.result,items: retainConversationMediaAccess(previousView?.items ?? [],result.result.items,Date.now(),renewMediaIds)},mediaReloadKeys};
+      });
+    } catch (failure) {if (active.current && request === epoch.current) setError(failure instanceof Error ? failure.message : 'TIMELINE_UNAVAILABLE');}
+    finally {reads.inFlight--;}
+  },[reads]);
+  useEffect(() => {active.current = true;void refresh();return () => {active.current = false;invalidate();};},[refresh,refreshKey,invalidate]);
+  useEffect(() => {const timer = window.setInterval(() => {if (!pending.current && reads.inFlight === 0 && !document.hidden) void refresh();},20000);return () => window.clearInterval(timer);},[refresh,reads]);
   const edit = useCallback(async (command: ConversationTimelineCommand['edit']) => {
     if (!view || pending.current) return;
     pending.current = true;setBusy(true);setEditError(null);epoch.current++;
@@ -49,14 +51,7 @@ export function useConversationTimeline(projectId: string,refreshKey: unknown) {
       const result = await response.json();
       if (!response.ok || !result.ok) throw new Error(result.error ?? 'TIMELINE_UNAVAILABLE');
     } catch (failure) {if (active.current) setEditError(failure instanceof Error ? failure.message : 'TIMELINE_UNAVAILABLE');}
-    finally {
-      // An accepted command changes the revision. Its read must not be skipped
-      // by an in-flight decoder renewal, or the next edit would use stale state.
-      while (renewing.current) await renewing.current;
-      if (active.current) await refresh();
-      pending.current = false;
-      if (active.current) setBusy(false);
-    }
+    finally {pending.current = false;if (active.current) {setBusy(false);await refresh();}}
   },[path,refresh,view]);
-  return {view,legacy,busy,error:editError??error,edit,refresh};
+  return {view,mediaReloadKeys,legacy,busy,error:editError??error,edit,refresh};
 }

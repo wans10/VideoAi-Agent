@@ -9,6 +9,7 @@ import {
 } from './video-failure-codes';
 
 type Locale = 'en' | 'fr' | 'es' | 'zh';
+const SEEDANCE_EDIT_SOURCE_UNSUPPORTED = 'SEEDANCE_EDIT_SOURCE_UNSUPPORTED';
 const copy = {
   zh: {
     outputAudio: 'Seedance 的安全检查拦截了生成音频。请修改提示词或关闭生成音频后重试。',
@@ -19,6 +20,7 @@ const copy = {
     duration: '参考视频的总时长超过了 Seedance 的 30 秒限制。请裁剪或移除一段参考视频，然后重试。',
     task: 'Seedance 无法对源视频执行所选的编辑或延长操作。请明确说明源视频中需要更改或延续的内容，然后重试。',
     unsupported: 'Seedance 无法接受所选的参考素材或设置。请检查参考文件、时长、分辨率和宽高比，然后重试。',
+    editSource: 'Seedance 2.5 编辑需要已验证时长的自有源视频。请从你的素材库中选择已就绪的源视频，然后重试。',
     refunded: '积分已退回到你的钱包。',
     refundAmount: '{amount} 已退回到你的钱包。',
     refund: '退款',
@@ -34,6 +36,7 @@ const copy = {
     media: 'Seedance blocked reference media during its safety checks. Review the prompt and reference images, videos, or audio before trying again.',
     duration: 'The combined duration of the reference videos exceeds the Seedance limit of 30 seconds. Trim or remove a reference clip before trying again.',
     task: 'Seedance could not apply the selected edit or extension to the source video. Clarify what should change or continue in the source video, then try again.',
+    editSource: 'Seedance 2.5 editing needs an owned source video with verified duration. Choose a ready source video from your library, then try again.',
     unsupported: 'Seedance could not accept the selected references or settings. Check the reference files, duration, resolution, and aspect ratio before trying again.',
     refunded: 'Your credits were returned to your wallet.',
     refundAmount: '{amount} was returned to your wallet.',
@@ -50,6 +53,7 @@ const copy = {
     media: 'Seedance a bloqué un média de référence lors de ses contrôles de sécurité. Vérifiez le prompt et les images, vidéos ou fichiers audio avant de réessayer.',
     duration: 'La durée cumulée des vidéos de référence dépasse la limite Seedance de 30 secondes. Raccourcissez ou retirez un clip avant de réessayer.',
     task: 'Seedance n’a pas pu appliquer le montage ou la prolongation à la vidéo source. Précisez ce qui doit changer ou se poursuivre dans cette vidéo, puis réessayez.',
+    editSource: 'La modification Seedance 2.5 nécessite une vidéo source possédée dont la durée est vérifiée. Choisissez une vidéo source prête dans votre bibliothèque, puis réessayez.',
     unsupported: 'Seedance n’a pas accepté les références ou les réglages sélectionnés. Vérifiez les fichiers, la durée, la résolution et le format avant de réessayer.',
     refunded: 'Vos crédits ont été recrédités à votre portefeuille.',
     refundAmount: '{amount} ont été recrédités à votre portefeuille.',
@@ -66,6 +70,7 @@ const copy = {
     media: 'Seedance ha bloqueado un archivo de referencia durante sus controles de seguridad. Revisa el prompt y las imágenes, los vídeos o el audio antes de intentarlo de nuevo.',
     duration: 'La duración total de los vídeos de referencia supera el límite de Seedance de 30 segundos. Recorta o elimina un clip antes de intentarlo de nuevo.',
     task: 'Seedance no ha podido aplicar la edición o ampliación al vídeo original. Especifica qué debe cambiar o continuar en ese vídeo e inténtalo de nuevo.',
+    editSource: 'La edición con Seedance 2.5 requiere un vídeo de origen propio con duración verificada. Elige un vídeo de origen listo de tu biblioteca y vuelve a intentarlo.',
     unsupported: 'Seedance no ha aceptado las referencias o los ajustes seleccionados. Revisa los archivos, la duración, la resolución y la relación de aspecto antes de intentarlo de nuevo.',
     refunded: 'Tus créditos se han devuelto a tu monedero.',
     refundAmount: 'Se han devuelto {amount} a tu monedero.',
@@ -121,6 +126,10 @@ export function getSeedanceReferenceValidationMessage(params: {
   durationSec?: unknown;
   locale: string;
 }): string | null {
+  // Refused before any quote is issued; this public error code is not a provider failure code.
+  if (params.engineId === 'seedance-2-5' && params.error === SEEDANCE_EDIT_SOURCE_UNSUPPORTED) {
+    return copy[localeKey(params.locale)].editSource;
+  }
   if (params.engineId !== 'seedance-2-5' || !['video_url', 'video_urls', 'extension_source_videos'].includes(String(params.field))) return null;
   const locale = localeKey(params.locale);
   const text = copy[locale];

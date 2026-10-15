@@ -10,11 +10,11 @@ const COPY = {
  es:{eyebrow: "Presupuesto / Coste por toma",title: "Conoce el coste de la próxima prueba.",body: "Consulta el presupuesto por modelo, duración y resolución. Elige las especificaciones antes de confirmar, sin suscripción."},
  zh:{eyebrow: "制作预算 / 按镜头核算",title: "每次试拍，都有清楚的成本。",body: "按模型、时长与分辨率查看单次生成报价。先确定这一镜需要的规格，再确认生成；按需使用，无需订阅。"},
 };
-export function HomePricingSection({locale,models,copy}:{locale:AppLocale;models:HomePriceModel[];copy:SectionCopy}) {
+export function HomePricingSection({locale,models,copy,pending=false}:{locale:AppLocale;models?:HomePriceModel[];copy:SectionCopy;pending?:boolean}) {
  const c = COPY[locale] ?? COPY.en;
  return <section id="your-price" className="home-price-lab section"><div className="container-page">
   <header className="chapter-heading"><div><p className="editorial-eyebrow">{c.eyebrow}</p><h2>{c.title}</h2></div><p>{c.body}</p></header>
-  <HomePriceDemo locale={locale} models={models}/>
+  <HomePriceDemo locale={locale} models={models} pending={pending}/>
   <nav className="price-demo-related" aria-label={copy.title}><Link href="/models">{copy.modelsLink}</Link><Link href="/examples">{copy.examplesLink}</Link><Link href="/ai-video-engines">{copy.compareLink}</Link></nav>
  </div></section>;
 }

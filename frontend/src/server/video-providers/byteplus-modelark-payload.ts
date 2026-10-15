@@ -37,8 +37,8 @@ export type BytePlusSeedanceFastPayload = {
   content: BytePlusContentItem[];
   resolution: '480p' | '720p' | '1080p' | '4k';
   ratio?: 'adaptive' | '21:9' | '16:9' | '4:3' | '1:1' | '3:4' | '9:16';
-  duration: number;
   omni_reference_task_type?: 'reference' | 'edit' | 'extend';
+  duration: number;
   generate_audio: boolean;
   camera_fixed?: boolean;
   seed?: number;
@@ -85,6 +85,7 @@ export function buildBytePlusSeedancePayload(params: {
   prompt: string;
   durationSec: number;
   mode?: Extract<Mode, 't2v' | 'i2v' | 'ref2v' | 'v2v' | 'extend'>;
+  transport?: 'modelark' | 'las';
   imageUrl?: string | null;
   endImageUrl?: string | null;
   referenceImageUrls?: string[];
@@ -256,8 +257,12 @@ export function buildBytePlusSeedancePayload(params: {
     : '720p') as Resolution;
   const requestedRatio = (typeof params.ratio === 'string' && params.ratio.trim() ? params.ratio.trim() : '16:9') as AspectRatio;
   const seedance25 = params.seedance25 === true || params.modelId.trim().toLowerCase().includes('seedance-2-5');
-  const inheritsSourceAspectRatio = (seedance25 && ['i2v', 'v2v', 'extend'].includes(mode))
-    || (mode === 'i2v' && params.inheritSourceAspectRatio === true);
+  // ModelArk rejects fixed ratios for Seedance 2.5 extensions after task creation.
+  const isSeedance25Extension = mode === 'extend' && seedance25;
+  const isSeedance25ModelArkEdit = mode === 'v2v' && params.transport === 'modelark' && seedance25;
+  // One Seedance 2.5 identity: the explicit flag or a 2.5 model id (same owner as the edit/extension checks above).
+  const inheritsSourceAspectRatio =
+    mode === 'i2v' && (params.inheritSourceAspectRatio === true || seedance25);
   if (!prompt) {
     throw new BytePlusModelArkError('Prompt is required for BytePlus Seedance.', { code: 'PROMPT_REQUIRED' });
   }
@@ -308,7 +313,7 @@ export function buildBytePlusSeedancePayload(params: {
       code: 'BYTEPLUS_RESOLUTION_UNSUPPORTED',
     });
   }
-  if (!inheritsSourceAspectRatio && !allowedAspectRatios.includes(requestedRatio)) {
+  if (!inheritsSourceAspectRatio && !isSeedance25Extension && !isSeedance25ModelArkEdit && !allowedAspectRatios.includes(requestedRatio)) {
     throw new BytePlusModelArkError('BytePlus Seedance aspect ratio is not supported.', {
       code: 'BYTEPLUS_RATIO_UNSUPPORTED',
     });
@@ -359,12 +364,15 @@ export function buildBytePlusSeedancePayload(params: {
     model: params.modelId.trim(),
     content,
     resolution: requestedResolution as BytePlusSeedancePayload['resolution'],
-    ...(inheritsSourceAspectRatio
-      ? { ratio: 'adaptive' as const }
-      : { ratio: requestedRatio as BytePlusSeedancePayload['ratio'] }),
-    duration: seedance25 && mode === 'v2v' ? -1 : duration,
-    ...(seedance25 && ['ref2v', 'v2v', 'extend'].includes(mode)
-      ? { omni_reference_task_type: (mode === 'v2v' ? 'edit' : mode === 'extend' ? 'extend' : 'reference') as 'edit' | 'extend' | 'reference' } : {}),
+    ...(isSeedance25ModelArkEdit
+      ? { ratio: 'adaptive' as const, omni_reference_task_type: 'edit' as const }
+      : isSeedance25Extension
+      ? { ratio: 'adaptive' as const, omni_reference_task_type: 'extend' as const }
+      : inheritsSourceAspectRatio
+        ? { ratio: 'adaptive' as const }
+        : { ratio: requestedRatio as BytePlusSeedancePayload['ratio'] }),
+    duration: isSeedance25ModelArkEdit ? -1 : duration,
+    ...(seedance25 && mode === 'ref2v' ? { omni_reference_task_type: 'reference' as const } : {}),
     generate_audio: params.generateAudio === true,
     ...(typeof params.cameraFixed === 'boolean' ? { camera_fixed: params.cameraFixed } : {}),
     ...(params.seed !== undefined ? { seed: params.seed } : {}),

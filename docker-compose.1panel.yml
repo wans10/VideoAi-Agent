@@ -6,8 +6,10 @@ services:
     build:
       context: .
       target: migrations
-    environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://videoai_user:xDP6QpdkXSEXTkTz@1Panel-postgresql-AEf7:5432/videoai}
+    # DATABASE_URL has no default: it must come from .env.production. docker/scripts/migrate.sh exits
+    # non-zero when it is missing, and web waits for this job to complete successfully.
+    env_file:
+      - .env.production
     restart: "no"
     networks:
       - 1panel-network
@@ -26,8 +28,7 @@ services:
         NEXT_PUBLIC_CUSTOMER_CURRENCY: CNY
         NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:-}
     env_file:
-      - path: .env.production
-        required: false
+      - .env.production
     environment:
       NODE_ENV: production
       DEFAULT_CURRENCY: CNY
@@ -35,7 +36,6 @@ services:
       ENABLED_CURRENCIES: cny
       PORT: 3000
       HOSTNAME: 0.0.0.0
-      DATABASE_URL: ${DATABASE_URL:-postgresql://videoai_user:xDP6QpdkXSEXTkTz@1Panel-postgresql-AEf7:5432/videoai}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://app.keyvo.cn}
       SUPABASE_SITE_URL: ${SUPABASE_SITE_URL:-https://app.keyvo.cn}
     depends_on:

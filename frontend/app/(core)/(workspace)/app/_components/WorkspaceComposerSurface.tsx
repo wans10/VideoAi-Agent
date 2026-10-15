@@ -13,6 +13,9 @@ import { SettingsControls } from '@/components/SettingsControls';
 import type { KlingElementState, KlingElementsBuilderProps } from '@/components/KlingElementsBuilder';
 import { Button } from '@/components/ui/Button';
 import { getLocalizedModeLabel } from '@/lib/ltx-localization';
+import { getEngineModeUnavailableMessage, isEngineModeQuoteReady } from '@/lib/engine-mode-availability';
+import { resolveSeedanceEditSourceFacts } from '@/lib/seedance-edit-source';
+import { seedanceEditSourceLabel } from '@/lib/seedance-edit-source-copy';
 import { getWorkspaceReferenceFields } from '../_lib/workspace-reference-fields';
 import type { EngineCaps, EngineInputField, EngineModeUiCaps, Mode } from '@/types/engines';
 import {
@@ -410,9 +413,15 @@ export function WorkspaceComposerSurface({
     }
   }, [cfgScale, selectedEngine, form.mode, setCfgScale]);
 
-  const durationSec = multiPromptActive ? multiPromptTotalSec : form.durationSec;
-  const durationManagedLabel =
-    uiLocale === 'fr'
+  const inheritsSourceVideo = selectedEngine.modeAvailability?.[submissionMode]?.inheritsSourceVideo === true;
+  const inheritedSource = useMemo(() => {
+    if (!inheritsSourceVideo) return undefined;
+    const source = inputAssets.video_url?.find(asset => asset?.kind === 'video' && asset.status === 'ready');
+    try { return source ? resolveSeedanceEditSourceFacts(source) : undefined; } catch { return undefined; }
+  }, [inheritsSourceVideo, inputAssets.video_url]);
+  const durationSec = inheritedSource?.billedDurationSec ?? (multiPromptActive ? multiPromptTotalSec : form.durationSec);
+  const durationManagedLabel = inheritsSourceVideo ? seedanceEditSourceLabel(inheritedSource, uiLocale)
+    : uiLocale === 'fr'
       ? `Durée gérée par le multi-prompt · ${multiPromptTotalSec}s`
       : uiLocale === 'es'
         ? `Duración gestionada por multi-prompt · ${multiPromptTotalSec}s`
@@ -451,7 +460,9 @@ export function WorkspaceComposerSurface({
     showKlingElementsBuilder ||
     (showOptionsControl && optionsOpen)
   );
-  const resolvedWorkflowNotice = klingO3UnsupportedVideoReason ?? composerWorkflowNotice;
+  const modeUnavailableMessage = getEngineModeUnavailableMessage(selectedEngine, submissionMode, uiLocale);
+  const quoteUnavailable = !isEngineModeQuoteReady(selectedEngine, submissionMode, preflight);
+  const resolvedWorkflowNotice = modeUnavailableMessage ?? klingO3UnsupportedVideoReason ?? composerWorkflowNotice;
 
   const handleAudioChange = useCallback(
     (audio: boolean) => {
@@ -536,7 +547,7 @@ export function WorkspaceComposerSurface({
               }
             : null
         }
-        disableGenerate={draftSettingsLocked || multiPromptInvalid || audioWorkflowUnsupported || Boolean(klingO3UnsupportedVideoReason)}
+        disableGenerate={Boolean(modeUnavailableMessage) || quoteUnavailable || draftSettingsLocked || multiPromptInvalid || audioWorkflowUnsupported || Boolean(klingO3UnsupportedVideoReason)}
         extraFields={showExtraFields ? (
           <>
             {showLumaRay32KeyframeEditor ? (
@@ -633,7 +644,7 @@ export function WorkspaceComposerSurface({
                 onSeedLockedChange={handleSeedLockedChange}
                 cfgScale={cfgScale}
                 onCfgScaleChange={setCfgScale}
-                durationManaged={multiPromptActive}
+                durationManaged={multiPromptActive || inheritsSourceVideo}
                 durationManagedLabel={durationManagedLabel}
                 showKlingV3Controls={supportsKlingV3Controls}
                 showKlingV3VoiceControls={supportsKlingV3VoiceControl}
@@ -700,7 +711,7 @@ export function WorkspaceComposerSurface({
                 showHdrControl={Boolean(hdrFieldEntry)}
                 hdrEnabled={hdrEnabled}
                 onHdrChange={handleHdrChange}
-                durationManaged={multiPromptActive}
+                durationManaged={multiPromptActive || inheritsSourceVideo}
                 durationManagedLabel={durationManagedLabel}
               />
             </fieldset>

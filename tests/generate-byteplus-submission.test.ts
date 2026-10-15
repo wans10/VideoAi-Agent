@@ -311,6 +311,7 @@ test('Seedance 2.5 submission keeps proven reference workflows on ModelArk and r
         engineId: 'seedance-2-5',
         engineLabel: 'Seedance 2.5',
         mode,
+        effectiveResolution: mode === 'v2v' ? '480p' : baseParams.effectiveResolution,
         initialImageUrl: mode === 'i2v' ? 'https://cdn.maxvideoai.com/start.png' : null,
         normalizedReferenceImages:
           mode === 'ref2v' || mode === 'v2v' ? ['https://cdn.maxvideoai.com/reference.png'] : [],
@@ -334,7 +335,10 @@ test('Seedance 2.5 submission keeps proven reference workflows on ModelArk and r
               }),
             };
           },
-          queryFn: async () => undefined,
+          queryFn: async (sql) => /SELECT \* FROM app_jobs|RETURNING \*/.test(sql)
+            ? [{ job_id: baseParams.jobId, user_id: baseParams.userId, engine_id: 'seedance-2-5',
+              provider: 'byteplus_modelark', status: 'pending', provider_job_id: null, settings_snapshot: {} }]
+            : undefined,
         },
       });
       assert.equal(result.ok, true, mode);
@@ -1494,6 +1498,7 @@ test('Seedance 2.5 submits the exact provider content for every public mode', { 
         engineLabel: 'Seedance 2.5',
         durationSec: 8,
         mode: scenario.mode,
+        effectiveResolution: scenario.mode === 'v2v' ? '480p' : baseParams.effectiveResolution,
         initialImageUrl: scenario.initialImageUrl,
         endImageUrl: null,
         normalizedReferenceImages: scenario.normalizedReferenceImages,
@@ -1514,7 +1519,10 @@ test('Seedance 2.5 submits the exact provider content for every public mode', { 
               };
             },
           }),
-          queryFn: async () => undefined,
+          queryFn: async (sql) => /SELECT \* FROM app_jobs|RETURNING \*/.test(sql)
+            ? [{ job_id: baseParams.jobId, user_id: baseParams.userId, engine_id: 'seedance-2-5',
+              provider: 'byteplus_modelark', status: 'pending', provider_job_id: null, settings_snapshot: {} }]
+            : undefined,
         },
       });
 
