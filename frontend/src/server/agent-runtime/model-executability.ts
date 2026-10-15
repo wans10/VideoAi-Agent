@@ -1,6 +1,7 @@
 import {
   isBytePlusModelArkEnabled,
   isBytePlusLasExecutionEnabled,
+  isBytePlusModelArkEditExecutionEnabled,
   isBytePlusSeedanceAdminOnly,
   isBytePlusSeedanceSubmissionEnabled,
   getBytePlusSeedanceAllowedModes,
@@ -44,6 +45,7 @@ export type AgentGenerationExecutabilityEnvironment = Readonly<{
   bytePlusApiKey: string | undefined;
   bytePlusLasApiKey?: string | undefined;
   bytePlusLasEnabled?: boolean;
+  bytePlusModelArkEditEnabled?: boolean;
   falApiKey?: string | undefined;
   providerEnv?: Readonly<Record<string, string | undefined>>;
 }>;
@@ -56,6 +58,7 @@ export function createAgentGenerationExecutabilityEnvironment(
     bytePlusApiKey: ENV.BYTEPLUS_ARK_API_KEY,
     bytePlusLasApiKey: ENV.BYTEPLUS_LAS_API_KEY,
     bytePlusLasEnabled: isBytePlusLasExecutionEnabled(),
+    bytePlusModelArkEditEnabled: isBytePlusModelArkEditExecutionEnabled(),
     falApiKey: ENV.FAL_API_KEY,
     providerEnv,
   };
@@ -259,6 +262,10 @@ export function resolveAgentGenerationModeExecutability(
       if (isLlmhubVideoRoutingSelected(engine.id, mode, providerEnv)) {
         return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
       }
+      return { executable: false, reason: 'provider_disabled' };
+    }
+    if (engine.id === 'seedance-2-5' && mode === 'v2v' && transport === 'modelark'
+      && !(environment.bytePlusModelArkEditEnabled ?? isBytePlusModelArkEditExecutionEnabled())) {
       return { executable: false, reason: 'provider_disabled' };
     }
     const apiKey = transport === 'las'

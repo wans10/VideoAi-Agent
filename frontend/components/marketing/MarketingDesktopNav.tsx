@@ -20,6 +20,7 @@ type Props = {
 
 // Mobile/account state must not rebuild the unchanged, CSS-hidden desktop menus.
 // Keep all links server-rendered; actual desktop, route and locale changes still render.
+// Decorative DOM waits until the panel becomes visible.
 export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, onCloseDesktopDropdown, onOpenDesktopDropdown }: Props) {
   const navRef = useRef<HTMLElement>(null);
   const closeRef = useRef(onCloseDesktopDropdown);
@@ -60,7 +61,7 @@ export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDr
         </button>
         <div id={panelId} className="marketing-mega-menu studio-navigation-panel production-navigation-panel" hidden={!isOpen}>
           <header className="studio-menu-intro"><span className="studio-menu-section">{label}</span><div><p>{t(`nav.dropdown.${item.key}.heading`, dropdown.heading)}</p><span>{t(`nav.dropdown.${item.key}.intro`, dropdown.intro)}</span></div>
-            <Link href={dropdown.allHref} prefetch={false} onClick={() => onCloseDesktopDropdown(0)}>{t(dropdown.allLabelKey, dropdown.allLabelFallback)}<ArrowUpRight size={16} aria-hidden="true" /></Link>
+            <Link href={dropdown.allHref} prefetch={false} onClick={() => onCloseDesktopDropdown(0)}>{t(dropdown.allLabelKey, dropdown.allLabelFallback)}{isOpen ? <ArrowUpRight size={16} aria-hidden="true" /> : null}</Link>
           </header>
           <div className="marketing-mega-content">
             <div className={clsx('marketing-mega-links', twoColumns && 'two-columns')}>
@@ -70,9 +71,9 @@ export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDr
                 const description = entry.description ? t<string>(`nav.dropdown.${item.key}.descriptions.${entry.key}`, entry.description) : undefined;
                 return <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className="marketing-mega-link">
                   <span className="studio-menu-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="studio-menu-entry"><MarketingNavEntryContent entry={entry} label={entryLabel} badgeLabel={badgeLabel} showModelLogo={item.key === 'models'} />
+                  <span className="studio-menu-entry"><MarketingNavEntryContent entry={entry} label={entryLabel} badgeLabel={badgeLabel} showModelLogo={item.key === 'models'} showDecoration={isOpen} />
                   {description ? <small>{description}</small> : null}</span>
-                  <ArrowUpRight className="studio-menu-arrow" size={16} aria-hidden="true" />
+                  {isOpen ? <ArrowUpRight className="studio-menu-arrow" size={16} aria-hidden="true" /> : null}
                 </Link>;
               })}
             </div>
@@ -80,7 +81,7 @@ export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDr
             {dropdown.sections?.length ? <aside className="studio-menu-guides">{dropdown.sections.map(section => <div key={section.key}>
               {!section.hideTitle ? <p className="marketing-menu-caption">{section.titleKey ? t(section.titleKey, section.titleFallback) : section.titleFallback}</p> : null}
               <div className="studio-menu-guide-links">{section.items.map(entry => <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className={clsx('marketing-aside-link', entry.emphasized && 'font-semibold text-text-primary')}>
-                <MarketingNavEntryContent entry={entry} label={t<string>(`nav.dropdown.${item.key}.sections.${section.key}.items.${entry.key}`, entry.label) ?? entry.label} showModelLogo={false} /><ArrowUpRight size={13} aria-hidden="true" />
+                <MarketingNavEntryContent entry={entry} label={t<string>(`nav.dropdown.${item.key}.sections.${section.key}.items.${entry.key}`, entry.label) ?? entry.label} showModelLogo={false} showDecoration={isOpen} />{isOpen ? <ArrowUpRight size={13} aria-hidden="true" /> : null}
               </Link>)}</div>
             </div>)}</aside> : null}
         </div>

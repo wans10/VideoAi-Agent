@@ -1,5 +1,5 @@
 import { isWorkspaceModelCertifiedForBlock, isStudioConversationVideoModeCertified } from "@/app/(core)/(workspace)/app/studio/_shared/_lib/models/workspace-model-certification";
-import {recordedStudioOutputDuration} from './conversation-quote-facts';
+import {recordedStudioOutputDuration,recordedStudioSourceVideoOutput} from './conversation-quote-facts';
 import {customerDisplayPrice} from '@/lib/customer-price-presentation';
 import {
   requireGenerationActor,
@@ -44,6 +44,7 @@ import {readGenerationPricing} from '@/server/agent-api/generation-pricing-read'
 import {priceCanonicalGeneration} from '@/server/agent-api/generation-pricing';
 import {getUserMembershipStatus} from '@/server/membership/user-membership-status';
 import {resolveAgentGenerationRequestExecutability} from '@/server/agent-runtime/model-executability';
+import {compareGenerationPrices,type GenerationPriceComparisonInput} from '@/server/agent-api/generation-price-comparison';
 
 function certified(catalog: AgentPublicGenerationEngine[], surface: 'image' | 'video') {
   return catalog
@@ -221,6 +222,15 @@ function createStudioVisualGenerationService(
     walletSummary: () =>
       (prepareDeps.getWalletSummary ?? getWalletSummary)(actor.userId),
     catalog,
+    async compare(input:GenerationPriceComparisonInput) {
+      if(!options.enabled||input.surface!==surface) throw new AgentApiError('ENGINE_UNAVAILABLE','Studio comparisons are unavailable for this surface.');
+      return compareGenerationPrices(input,actor,{
+        listPublicEngines:catalog,resolveGenerationReferences:request=>resolveReferences(request),
+        resolveMembershipPricing:prepareDeps.resolveMembershipPricing??(async userId=>(await getUserMembershipStatus(userId)).pricing),
+        priceGeneration:prepareDeps.priceGeneration??((request,tier,context)=>priceCanonicalGeneration(request,tier,undefined,context)),
+        resolveRequestExecutability:prepareDeps.resolveRequestExecutability??((request,candidate,references)=>resolveAgentGenerationRequestExecutability(request,candidate.engine,references)),
+      });
+    },
     async estimate(input: PrepareGenerationInput): Promise<StudioPricingEstimate> {
       if (!options.enabled) throw new AgentApiError('ENGINE_UNAVAILABLE','Studio estimates are unavailable.');
       let request: CanonicalGenerationRequest;
@@ -245,7 +255,9 @@ function createStudioVisualGenerationService(
       });
       const outputDurationSec=request.surface==='video'
         ? recordedStudioOutputDuration({canonicalPricing:pricing.pricingSnapshot}) : undefined;
+      const sourceVideoOutput=request.surface==='video'?recordedStudioSourceVideoOutput({canonicalPricing:pricing.pricingSnapshot}):undefined;
       return {modelId:request.engineId,surface:request.surface,mode:request.mode,settings,outputCount:1,referenceCount:request.references.length,
+        ...(sourceVideoOutput ? {sourceVideoOutput} : {}),
         ...(outputDurationSec!==undefined ? {outputDurationSec} : {}),
         price:customerDisplayPrice(pricing.priceCents,pricing.currency),estimatedAt:(prepareDeps.now?.() ?? new Date()).toISOString(),quoteRequired:true};
     },

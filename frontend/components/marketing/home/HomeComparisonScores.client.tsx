@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import type { HomeComparisonModel } from './home-comparison-types';
 import { PairedScores, type PairedMetric } from '@/components/marketing/PairedScores';
@@ -8,35 +8,44 @@ import { PairedScores, type PairedMetric } from '@/components/marketing/PairedSc
 /** The comparison pages and homepage share the same score scale and details. */
 export function HomeComparisonScores({ metrics, label, right, overallLabel, leftOverall }: { metrics: PairedMetric[]; label: string; right?: HomeComparisonModel; overallLabel?: string; leftOverall?: number | null }) {
   const root = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(1);
   useEffect(() => {
     const node = root.current;
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (!node || motion.matches) return;
     let frame = 0;
     let started = false;
+    let active = true;
     const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting || started) return;
+      if (!active || !entry.isIntersecting || started) return;
       started = true;
       observer.disconnect();
       const start = performance.now();
-      setProgress(0);
+      node.style.setProperty('--home-score-progress', '0');
       const tick = (now: number) => {
+        if (!active) return;
         const fraction = Math.min(1, (now - start) / 1100);
-        setProgress(1 - Math.pow(1 - fraction, 3));
+        node.style.setProperty('--home-score-progress', String(1 - Math.pow(1 - fraction, 3)));
         if (fraction < 1) frame = requestAnimationFrame(tick);
+        else node.style.removeProperty('--home-score-progress');
       };
       frame = requestAnimationFrame(tick);
     }, { threshold: 0.35 });
     observer.observe(node);
     const finish = () => {
       if (!motion.matches) return;
+      active = false;
       observer.disconnect();
       cancelAnimationFrame(frame);
-      setProgress(1);
+      node.style.removeProperty('--home-score-progress');
     };
     motion.addEventListener('change', finish);
-    return () => { observer.disconnect(); cancelAnimationFrame(frame); motion.removeEventListener('change', finish); };
+    return () => {
+      active = false;
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+      motion.removeEventListener('change', finish);
+      node.style.removeProperty('--home-score-progress');
+    };
   }, [right?.slug]);
 
   return <div ref={root} className="studio-score-sheet">
@@ -51,7 +60,7 @@ export function HomeComparisonScores({ metrics, label, right, overallLabel, left
       </div>
     </div>
     <p className="comparison-scale">{label}</p>
-    <PairedScores metrics={metrics} className="home-paired-scores" motionProgress={{ left: right ? 1 : progress, right: progress }}/>
+    <PairedScores metrics={metrics} className="home-paired-scores" motionProgress={{ left: right ? 1 : 'var(--home-score-progress, 1)', right: 'var(--home-score-progress, 1)' }}/>
 
   </div>;
 }

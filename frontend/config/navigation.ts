@@ -2,11 +2,10 @@ import { STUDIO_NAV_LINKS, STUDIO_NAV_DROPDOWNS } from './studio-navigation';
 import { getMcpPublicIntegrationIds, getMcpIntegration } from '@/lib/mcp-integration-registry';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import mcpPublication from '@/config/mcp-publication.json';
-import { getModelFamilyDefinition } from '@/config/model-families';
+import { getExampleNavFamilyIds, getModelFamilyDefinition } from '@/config/model-families';
 import { listRuntimeModels, type RuntimeModelEntry } from '@/config/model-runtime';
 import { orderExamplesHubFamilyIds } from '@/lib/examples/familyOrder';
-import { buildPublishedComparisonSlugsFromModels } from '@/lib/compare-hub/data';
-import { getExampleNavFamilyIds } from '@/lib/model-families';
+import { createPublishedComparisonSlugLookup } from '@/lib/compare-hub/pairs';
 import { getMcpPublicationState } from '@/lib/mcp-publication';
 
 export type MarketingNavItem = {
@@ -205,9 +204,9 @@ export const MARKETING_FOOTER_EXAMPLES: MarketingNavItem[] = FOOTER_EXAMPLES_MEN
 }));
 
 export function buildMarketingCompareMenu(models: readonly RuntimeModelEntry[]): LabeledSlug[] {
-  const publishedSlugs = new Set(buildPublishedComparisonSlugsFromModels(models, () => true));
+  const isPublishedComparisonSlug = createPublishedComparisonSlugLookup(models);
   return COMPARE_MENU
-    .filter(({ slug }) => publishedSlugs.has(slug))
+    .filter(({ slug }) => isPublishedComparisonSlug(slug))
     .slice(0, 10);
 }
 

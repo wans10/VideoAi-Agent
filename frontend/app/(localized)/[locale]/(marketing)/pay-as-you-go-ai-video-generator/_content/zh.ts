@@ -10,6 +10,7 @@ export const zhPayAsYouGoContent = {
   common: {
     aiVideoModelAlt: 'AI 视频模型',
     liveQuote: '实时报价',
+    audioOff: '无音频',
     audioIncluded: '包含音频',
     examplePrefix: '案例',
   },
@@ -209,6 +210,12 @@ export const zhPayAsYouGoContent = {
       intro: '这些示例摘自当前定价中心，便于快速建立预期。生成前应用内会显示最终实时报价。',
     },
     settingsLabel: '示例配置',
+    quoteReminder: '将使用您的应用设置打开此模型，设置可能与本示例不同。请先核对时长、分辨率和音频，生成前确认准确报价。',
+    budgetTemplate: '计划尝试三次？按不变的报价 {unitPrice} 计算，三次完成的生成将消耗 {totalPrice} 的媒体点数。',
+    budgetContext: 'LTX 2.5 Pro · 10 秒 720p · 无音频。',
+    budgetCaveat: '这只是预算示意，并不保证三次尝试就能得到理想结果。已消耗的媒体点数与最低充值金额无关。设置或价格变化后需要重新报价。',
+    studioAssistance: '使用 Studio？Sol 会使用赠送或已购买的助手点数。媒体生成另有独立报价，规划预算时请一并核对。',
+    studioLinkLabel: '打开 Studio',
     labels: {
       'gemini-omni-flash': 'Gemini Omni Flash 1.1 多模态测试',
       'kling-3-turbo-pro': 'Kling 3.0 Turbo Pro 1080p 测试',
@@ -259,7 +266,6 @@ export const zhPayAsYouGoContent = {
       engineImageAltSuffix: 'AI 视频模型',
     },
     runtime: {
-      priceUnavailable: '价格预先展示',
       defaultEngineLabel: 'AI 视频模型',
       defaultTitleEngineLabel: 'AI 视频',
       defaultTitleTemplate: '{engine} 示例渲染',

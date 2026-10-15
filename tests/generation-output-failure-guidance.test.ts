@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as guidance from '../frontend/lib/generation-failure-messages';
 import { getVideoFailureCodeFromSettingsSnapshot } from '../frontend/lib/video-failure-codes';
-import { localizeSeedanceRefundDescription } from '../frontend/lib/seedance-failure-messages';
+import { getSeedanceReferenceValidationMessage, localizeSeedanceRefundDescription } from '../frontend/lib/seedance-failure-messages';
 import { getBytePlusTaskFailureCode, getBytePlusUserSafeTaskFailureMessage } from '../frontend/src/server/video-providers/byteplus-modelark-response';
 import { toUserFacingFailureMessage, toUserFacingRefundReason } from '../frontend/server/user-facing-failure-messages';
 import { getWorkspaceGenerationFailureMessage } from '../frontend/app/(core)/(workspace)/app/_lib/workspace-failure-messages';
@@ -17,6 +17,16 @@ const historicalAudioFailure = {
 };
 const copyrightMessage = 'Seedance stopped this render after it started because its output checks detected possible copyright-restricted content. Change recognizable characters, brands, logos, franchise references, or source media before trying again.';
 const workspaceCopy = { messages: { seedanceCopyrightBlocked: 'Copyright blocked', seedanceCopyrightBlockedRefunded: 'Copyright blocked and refunded' } };
+
+test('an Edit source refused before quoting is localized in Chinese instead of falling back to English', () => {
+  const zh = getSeedanceReferenceValidationMessage({ engineId: 'seedance-2-5', error: 'SEEDANCE_EDIT_SOURCE_UNSUPPORTED', locale: 'zh-CN' });
+  assert.ok(zh);
+  assert.match(zh, /[一-鿿]/u);
+  assert.match(zh, /自有源视频/);
+  assert.notEqual(zh, getSeedanceReferenceValidationMessage({ engineId: 'seedance-2-5', error: 'SEEDANCE_EDIT_SOURCE_UNSUPPORTED', locale: 'en' }));
+  assert.match(getSeedanceReferenceValidationMessage({ engineId: 'seedance-2-5', error: 'SEEDANCE_EDIT_SOURCE_UNSUPPORTED', locale: 'en' }) ?? '', /owned source video/);
+  assert.equal(getSeedanceReferenceValidationMessage({ engineId: 'seedance-1-5-pro', error: 'SEEDANCE_EDIT_SOURCE_UNSUPPORTED', locale: 'zh' }), null);
+});
 
 test('output audio refusals take priority over generic reference policy diagnostics', () => {
   const raw = 'The generated audio was rejected by the content policy. Request id: private';

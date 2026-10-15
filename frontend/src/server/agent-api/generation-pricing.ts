@@ -1,5 +1,7 @@
 import { seedance25EditQuoteDuration } from '@/server/seedance25-edit-duration';
+import { resolveBytePlusTransport } from '@/server/video-providers/byteplus-modelark-transport';
 import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
+import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
 import {
   computeConfiguredPreflight,
   type ComputeConfiguredPreflightOptions,
@@ -157,7 +159,9 @@ function canonicalSeedance25EditDuration(request: CanonicalGenerationRequest, co
   const reference = source[0];
   const matches = context.resolvedReferences?.filter(resolved => resolved.assetId === reference.assetId && resolved.role === reference.role && resolved.slot === reference.slot && resolved.mediaKind === 'video');
   if (matches?.length !== 1) throw new Error('Verified Seedance 2.5 edit source metadata is required.');
-  return seedance25EditQuoteDuration(request.engineId, request.mode, matches[0].durationSec);
+  const quoted = seedance25EditQuoteDuration(request.engineId, request.mode, matches[0].durationSec);
+  // Only ModelArk Edit bills at the verified source length; LAS prices the requested output plus continuous input seconds.
+  return resolveBytePlusTransport(request.engineId, request.mode) === 'modelark' ? quoted : undefined;
 }
 
 function canonicalInputAudioDurationSec(
@@ -212,6 +216,13 @@ function canonicalInputVideoDurationSec(
     throw new Error('A trusted source video duration is required for reference pricing.');
   }
   return inputVideoDurationSec;
+}
+
+function canonicalSeedanceEditSource(request: CanonicalGenerationRequest, context: GenerationPricingReferenceContext) {
+  return resolveSeedance25ModelArkEditSource(request.engineId, request.mode,
+    (context.resolvedReferences ?? []).filter(reference => request.references.some(input => input.kind === 'asset'
+      && input.assetId === reference.assetId && input.role === reference.role && input.slot === reference.slot))
+      .map(reference => ({ kind: reference.mediaKind, durationSec: reference.durationSec, width: reference.width, height: reference.height })));
 }
 
 function canonicalImageReferences(request: CanonicalGenerationRequest) {
@@ -272,8 +283,10 @@ function canonicalVideoTrustedMediaPricingFacts(
   const inputAudioDurationSec = canonicalInputAudioDurationSec(request, context);
   const inputVideoDurationSec = canonicalInputVideoDurationSec(request, context);
   const referenceTokenBudget = canonicalReferenceTokenBudget(request, context);
+  const seedanceEditSource = canonicalSeedanceEditSource(request, context);
   return {
     referenceImageCount: canonicalReferenceImageCount(request, context),
+    ...(seedanceEditSource ? { seedanceEditSource } : {}),
     ...(inputAudioDurationSec !== undefined ? { inputAudioDurationSec } : {}),
     ...(inputVideoDurationSec !== undefined ? { inputVideoDurationSec } : {}),
     ...(referenceTokenBudget !== undefined ? { referenceTokenBudget } : {}),
@@ -412,6 +425,7 @@ export async function priceCanonicalGenerationInExecutor(
     const engineMode = toEngineGenerationMode(engine.id, request.mode);
     const pricingEngine = applyEngineVariantPricing(engine, engineMode);
     const durationSec = canonicalSeedance25EditDuration(request, dependencies) ?? requiredPositiveInteger(request.settings, 'durationSec');
+    const seedanceEditSource = canonicalSeedanceEditSource(request, dependencies);
     const resolution = requiredString(request.settings, 'resolution');
     const audioEnabled = typeof request.settings.audio === 'boolean'
       ? request.settings.audio
@@ -424,14 +438,15 @@ export async function priceCanonicalGenerationInExecutor(
     };
     snapshot = await computeBillingSnapshot({
       engine: pricingEngine,
-      durationSec,
+      durationSec: seedanceEditSource?.billedDurationSec ?? durationSec,
       resolution,
-      aspectRatio: optionalString(request.settings, 'aspectRatio'),
+      aspectRatio: seedanceEditSource?.pricingAspectRatio ?? optionalString(request.settings, 'aspectRatio'),
       mode: engineMode,
       hasVideoInput: hasCanonicalVideoInput(request, dependencies),
       referenceImageCount: canonicalReferenceImageCount(request, dependencies),
       inputAudioDurationSec: canonicalInputAudioDurationSec(request, dependencies),
       inputVideoDurationSec: canonicalInputVideoDurationSec(request, dependencies),
+      ...(seedanceEditSource ? { seedanceEditSource } : {}),
       referenceTokenBudget: canonicalReferenceTokenBudget(request, dependencies),
       ...canonicalOmniPricingFacts(request,dependencies.resolvedReferences),
       membershipTier,

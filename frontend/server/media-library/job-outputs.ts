@@ -46,7 +46,7 @@ export async function upsertJobOutputs(outputs: JobOutputRecord[]): Promise<void
          status = EXCLUDED.status,
          metadata = (CASE WHEN COALESCE(job_outputs.storage_url, job_outputs.url) IS NOT DISTINCT FROM COALESCE(EXCLUDED.storage_url, EXCLUDED.url)
                           THEN COALESCE(job_outputs.metadata, '{}'::jsonb)
-                          ELSE COALESCE(job_outputs.metadata, '{}'::jsonb) - 'mediaFacts' END) || EXCLUDED.metadata,
+                          ELSE COALESCE(job_outputs.metadata, '{}'::jsonb) - 'mediaFacts' - 'inheritedOutputDurationSec' END) || EXCLUDED.metadata,
          updated_at = NOW()
        WHERE job_outputs.user_id IS NOT DISTINCT FROM EXCLUDED.user_id
        RETURNING id`,
@@ -62,7 +62,7 @@ export async function upsertJobOutputs(outputs: JobOutputRecord[]): Promise<void
         output.mimeType,
         output.width,
         output.height,
-        output.durationSec,
+        output.kind === 'video' && output.durationSec !== null ? Math.round(output.durationSec) : output.durationSec,
         output.position,
         output.status,
         JSON.stringify(output.metadata ?? {}),
@@ -74,10 +74,23 @@ export async function upsertJobOutputs(outputs: JobOutputRecord[]): Promise<void
   }
 }
 
-export async function upsertLegacyJobOutputs(row: LegacyJobMediaRow): Promise<void> {
+export async function upsertLegacyJobOutputs(row: LegacyJobMediaRow, options: {
+  requireMcpPromotion?: boolean; promoteMcpOutputsFn?: typeof promoteCompletedMcpJobOutputs;
+} = {}): Promise<void> {
   const outputs = mapLegacyJobRowToOutputs(row);
   await upsertJobOutputs(outputs);
-  await promoteCompletedMcpJobOutputs(outputs).catch((error) => {
+  const promote = options.promoteMcpOutputsFn ?? promoteCompletedMcpJobOutputs;
+  if (options.requireMcpPromotion) {
+    const result = await promote(outputs);
+    if (result.failed > 0) throw new Error('Completed MCP output library promotion is pending.');
+    if (result.promoted < outputs.length) {
+      const ownedQuotes = await query<{ job_id: string }>(`SELECT job_id FROM mcp_generation_quotes
+        WHERE job_id = $1 AND user_id IS NOT DISTINCT FROM $2 LIMIT 1`, [row.job_id, row.user_id]);
+      if (ownedQuotes.length) throw new Error('Owned MCP output library promotion is pending.');
+    }
+    return;
+  }
+  await promote(outputs).catch((error) => {
     console.warn('[media-library] failed to promote completed MCP job outputs', {
       jobId: row.job_id,
       error,

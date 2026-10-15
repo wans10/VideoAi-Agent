@@ -42,8 +42,11 @@ test('budget planning remains a server-side guide beside canonical quote project
   const page = source(`${marketing}/pricing/page.tsx`);
   const sheet = source(`${marketing}/pricing/_components/ProductionBudgetSheet.tsx`);
   assert.match(page, /<ProductionBudgetSheet locale=\{locale\}/);
-  assert.match(page, /highlights=\{pricingHub.video.highlights\}/);
-  assert.match(page, /<PricingVideoMatrixSection video=\{pricingHub.video\}/);
+  // Upstream streams the canonical quote projections through PricingCurrentContent behind Suspense.
+  const current = source(`${marketing}/pricing/_components/PricingCurrentContent.tsx`);
+  assert.match(page, /<Suspense/);
+  assert.match(current, /highlights=\{data.video.highlights\}/);
+  assert.match(current, /<PricingVideoMatrixSection video=\{data.video\}/);
   assert.doesNotMatch(sheet, /use client|useState|fetch\(|quoteCanonicalPricing|localStorage/);
 });
 

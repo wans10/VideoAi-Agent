@@ -19,22 +19,18 @@ import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { resolveLocalesForEnglishPath } from '@/lib/seo/alternateLocales';
 import { getEngineLocalized, type EngineLocalizedContent } from '@/lib/models/i18n';
 import { resolvePublicMarketingVideoUrl } from '@/lib/media';
-import { listPlaylistVideos, getPublicVideosByIds, type GalleryVideo } from '@/server/videos';
-import { quoteCurrentExamplePrices, type CurrentExamplePrice } from '@/server/current-example-price';
+import { listPlaylistVideos, getPublicVideosByIds, getPublicVideoIds, type GalleryVideo } from '@/server/videos';
 import { applyEnginePricingOverride } from '@/lib/pricing-definition';
-import { loadModelPageInputs } from './_lib/model-page-inputs';
+import { createScopedPublicPricingReaders } from '@/server/pricing/quote-public-model-scenario';
+import { prepareModelPageInputs } from './_lib/model-page-inputs';
 import {
   buildDetailSlugMap,
   MODELS_BASE_PATH_MAP,
 } from './_lib/model-page-links';
 import { buildModelDecisionData } from './_lib/model-page-decision-data';
 import { isPublishedModelPage } from './_lib/model-page-publication';
-import {
-  buildPricePerImageLabel,
-  buildPricePerImageRows,
-  buildPricePerSecondLabel,
-  buildPricePerSecondRows,
-} from './_lib/model-page-pricing';
+import { buildModelPageSpecProjection } from './_lib/model-page-spec-projection';
+import { buildModelPagePriceProjection } from './_lib/model-page-pricing';
 import {
   pickDemoMedia,
   pickHeroMedia,
@@ -52,14 +48,8 @@ import {
   type DetailCopy,
 } from './_lib/model-page-copy';
 import {
-  buildSpecValues,
-  isPending,
-  isUnsupported,
-  normalizeMaxResolution,
   resolveAudioPricingLabels,
-  resolveSpecRowDefs,
   resolveSpecRowLabel,
-  type KeySpecRow,
 } from './_lib/model-page-specs';
 import { MarketingModelPageLayout } from './_components/MarketingModelPageLayout';
 import {
@@ -173,6 +163,7 @@ async function renderMarketingModelPage({
   localizedContent: EngineLocalizedContent;
   locale: AppLocale;
 }) {
+  const { currentSnapshot, quoteModel } = createScopedPublicPricingReaders();
   const detailSlugMap = buildDetailSlugMap(engine.modelSlug);
   const publishableLocales = Array.from(resolveLocalesForEnglishPath(`/models/${engine.modelSlug}`));
   const metadataUrls = buildMetadataUrls(locale, detailSlugMap, {
@@ -201,7 +192,9 @@ async function renderMarketingModelPage({
       return `/models/${engine.modelSlug}`;
     }
   })();
-  const { benchmarkScoreSlugs, enginePricingOverrides, keySpecsMap, gallery } = await loadModelPageInputs(
+  const showPriceInSpecs =
+    engine.id !== 'lumaRay2' && engine.surfaces.pricing.includeInEstimator;
+  const inputs = prepareModelPageInputs(
     locale,
     async () => {
       let examples: GalleryVideo[] = [];
@@ -216,28 +209,33 @@ async function renderMarketingModelPage({
       } catch (error) {
         console.warn('[models/sora-2] failed to load examples', error);
       }
-      const examplePrices = new Map<string, CurrentExamplePrice>();
-      const readPricedVideos = async (ids: string[]) => {
-        const videos = await getPublicVideosByIds(ids);
-        const prices = await quoteCurrentExamplePrices(Array.from(videos.values()));
-        for (const [id, price] of prices) examplePrices.set(id, price);
-        return videos;
-      };
       return projectModelPageGallery({
         engine, examples, managed: managedCuration,
         preferred: PREFERRED_MEDIA[engine.modelSlug] ?? {hero:null,demo:null},
         featuredIds: FEATURED_EXAMPLE_MEDIA[engine.modelSlug] ?? [],
-        getPublicVideosByIds: readPricedVideos,
+        getPublicVideosByIds,
+        getPublicVideoIds,
         toCard: video => resolveGalleryCardHref(toGalleryCard(
           video, engine.brandId, localizedContent.marketingName ?? engine.marketingName,
-          engine.modelSlug, engine.id, backPath, appPath, examplePrices.get(video.id), locale,
+          engine.modelSlug, engine.id, backPath, appPath, undefined, locale,
         )),
       });
-    }
+    },
+    async (overrides) => {
+      const pricingEngine = applyEnginePricingOverride(engine.engine, overrides[engine.engine.id]);
+      const projection = await buildModelPagePriceProjection(pricingEngine, locale, {
+        isImageEngine,
+        showPriceInSpecs,
+        rowLabel: resolveSpecRowLabel(locale, isImageEngine ? 'pricePerImage' : 'pricePerSecond', isImageEngine),
+        audioLabels: resolveAudioPricingLabels(locale),
+        currentSnapshot,
+      });
+      return { pricingEngine, ...projection };
+    },
   );
+  const { benchmarkScoreSlugs, keySpecsMap, gallery } = await inputs.critical;
   const { galleryVideos, preferredIds, managed: managedCuration } = gallery;
   const showBenchmarkLink = isVideoEngine && benchmarkScoreSlugs.has(engine.modelSlug);
-  const pricingEngine = applyEnginePricingOverride(engine.engine, enginePricingOverrides[engine.engine.id]);
   const modelName = localizedContent.marketingName ?? engine.marketingName;
   const fallbackMedia: FeaturedMedia = {
     id: `${engine.modelSlug}-hero-fallback`,
@@ -273,71 +271,15 @@ async function renderMarketingModelPage({
   }
   const compareEngines = pickCompareEngines(listFalEngines(), engine.modelSlug);
   const faqEntries = localizedContent.faqs.length ? localizedContent.faqs : copy.faqs;
-  const showPriceInSpecs =
-    engine.id !== 'lumaRay2' && engine.surfaces.pricing.includeInEstimator;
   const keySpecsEntry =
     keySpecsMap.get(engine.modelSlug) ?? keySpecsMap.get(engine.id) ?? null;
-  const pricePerSecondLabel = await buildPricePerSecondLabel(pricingEngine, locale);
-  const pricePerImageLabel = await buildPricePerImageLabel(pricingEngine, locale);
-  const keySpecValues = buildSpecValues(engine, keySpecsEntry?.keySpecs, {
-    pricePerSecond: pricePerSecondLabel,
-    pricePerImage: pricePerImageLabel,
+  const specInput = { engine, locale, isImageEngine, showPriceInSpecs, keySpecs: keySpecsEntry?.keySpecs };
+  const { keySpecValues, keySpecRows } = buildModelPageSpecProjection(specInput);
+  const pricing = inputs.pricing.then((projection) => {
+    if (!projection) throw new Error('Model price projection was not started');
+    return { ...projection, ...buildModelPageSpecProjection({ ...specInput, projection }) };
   });
-  const priceRows = showPriceInSpecs
-    ? isImageEngine
-      ? await buildPricePerImageRows(pricingEngine, locale, resolveSpecRowLabel(locale, 'pricePerImage', true))
-      : await buildPricePerSecondRows(
-          pricingEngine,
-          locale,
-          resolveSpecRowLabel(locale, 'pricePerSecond', false),
-          resolveAudioPricingLabels(locale)
-        )
-    : [];
-  const rowDefs = resolveSpecRowDefs(locale, isImageEngine);
-  const pricePerSecondRowLabel = resolveSpecRowLabel(locale, 'pricePerSecond', false);
-  const pricePerImageRowLabel = resolveSpecRowLabel(locale, 'pricePerImage', true);
-  const keySpecDefs = rowDefs.filter((row) => row.key !== (isImageEngine ? 'pricePerImage' : 'pricePerSecond'));
-  const fallbackPriceRows: KeySpecRow[] = !showPriceInSpecs
-    ? []
-    : priceRows.length
-    ? []
-    : isImageEngine
-      ? keySpecValues?.pricePerImage && !isUnsupported(keySpecValues.pricePerImage)
-        ? [
-            {
-              id: 'pricePerImage',
-              key: 'pricePerImage',
-              label: pricePerImageRowLabel,
-              value: keySpecValues.pricePerImage,
-            },
-          ]
-        : []
-      : keySpecValues?.pricePerSecond && !isUnsupported(keySpecValues.pricePerSecond)
-      ? [
-          {
-            id: 'pricePerSecond',
-            key: 'pricePerSecond',
-            label: pricePerSecondRowLabel,
-            value: keySpecValues.pricePerSecond,
-          },
-        ]
-      : [];
-  const keySpecRows: KeySpecRow[] = keySpecValues
-    ? [
-        ...(priceRows.length ? priceRows : fallbackPriceRows),
-        ...keySpecDefs
-          .map(({ key, label }) => ({
-            id: key,
-            key,
-            label,
-            value:
-              key === 'maxResolution' && !isImageEngine
-                ? normalizeMaxResolution(keySpecValues[key])
-                : keySpecValues[key],
-          }))
-          .filter((row) => !isPending(row.value) && !isUnsupported(row.value)),
-      ]
-    : [];
+  void pricing.catch(() => undefined);
 
   return (
     <MarketingModelPageLayout
@@ -346,7 +288,8 @@ async function renderMarketingModelPage({
       localizedContent={localizedContent}
       copy={copy}
       engine={engine}
-      pricingEngine={pricingEngine}
+      pricing={pricing}
+      quoteModel={quoteModel}
       isVideoEngine={isVideoEngine}
       isImageEngine={isImageEngine}
       showBenchmarkLink={showBenchmarkLink}
@@ -357,8 +300,6 @@ async function renderMarketingModelPage({
       faqEntries={faqEntries}
       keySpecRows={keySpecRows}
       keySpecValues={keySpecValues}
-      pricePerImageLabel={pricePerImageLabel}
-      pricePerSecondLabel={pricePerSecondLabel}
       engineSlug={engine.modelSlug}
       locale={locale}
       canonicalUrl={canonicalUrl}

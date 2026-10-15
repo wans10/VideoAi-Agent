@@ -1,3 +1,4 @@
+import {recordedGenerationSourceVideoOutput} from '@/lib/generation-output-duration';
 import type {StudioConversationProject,StudioConversationQuoteFacts,StudioConversationQuoteSettings} from '@/lib/studio/conversation-action-contract';
 import {customerDisplayPrice} from '@/lib/customer-price-presentation';
 
@@ -20,21 +21,14 @@ export type StudioConversationQuoteRow = {
   modelId: unknown; mode: unknown; settings: unknown; outputCount: unknown;
   referenceCount: unknown; referenceRoles: unknown;
   outputDurationSec?: unknown;
+  sourceVideoOutput?: unknown;
 };
 
 function positiveDuration(value:unknown):number|undefined {
   return typeof value==='number'&&Number.isFinite(value)&&value>0?value:undefined;
 }
 
-/** A descriptive receipt field only; never recompute timing from requested settings. */
-export function recordedStudioOutputDuration(snapshot:unknown):number|undefined {
-  if(!snapshot||typeof snapshot!=='object'||Array.isArray(snapshot))return undefined;
-  const canonical=(snapshot as Record<string,unknown>).canonicalPricing;
-  if(!canonical||typeof canonical!=='object'||Array.isArray(canonical))return undefined;
-  const meta=(canonical as Record<string,unknown>).meta;
-  if(!meta||typeof meta!=='object'||Array.isArray(meta))return undefined;
-  return positiveDuration((meta as Record<string,unknown>).output_duration_sec);
-}
+export {recordedGenerationOutputDuration as recordedStudioOutputDuration, recordedGenerationSourceVideoOutput as recordedStudioSourceVideoOutput} from '@/lib/generation-output-duration';
 
 function boundedToken(value: unknown,maxLength: number): value is string {
   return typeof value === 'string' && value.length <= maxLength && /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.test(value);
@@ -63,10 +57,12 @@ function safeQuoteFacts(row: StudioConversationQuoteRow): StudioConversationQuot
   const roles = Array.isArray(row.referenceRoles) ? row.referenceRoles.filter((role): role is StudioConversationQuoteFacts['referenceRoles'][number] =>
     typeof role === 'string' && referenceRoles.has(role as StudioConversationQuoteFacts['referenceRoles'][number])) : [];
   const outputDurationSec=row.surface==='video'?positiveDuration(row.outputDurationSec):undefined;
+  const sourceVideoOutput=row.surface==='video'?recordedGenerationSourceVideoOutput({canonicalPricing:{meta:{seedanceEditSource:row.sourceVideoOutput}}}):undefined;
   return {price:customerDisplayPrice(row.amountCents,row.currency),expiresAt:expiresAt.toISOString(),
     expiredUnconfirmedQuote:row.quoteState === 'expired' || (row.quoteState === 'prepared' && expiresAt.getTime() <= now.getTime()),
     modelId:row.modelId,mode:row.mode,settings,outputCount:row.outputCount,
     ...(outputDurationSec===undefined?{}:{outputDurationSec}),
+    ...(sourceVideoOutput?{sourceVideoOutput}:{}),
     referenceCount:row.referenceCount,referenceRoles:[...new Set(roles)]};
 }
 

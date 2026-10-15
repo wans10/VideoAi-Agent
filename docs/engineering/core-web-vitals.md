@@ -161,18 +161,51 @@ from provider event receipt and production field measurements. See
 
 `loadComparePageData` owns the comparison's independent data and gallery reads. It starts them together; the qualified benchmark, exact prices and complete gallery results still resolve before rendering. Keep prelaunch gallery exclusions in this owner. Its concurrency test holds all read boundaries open to prove that none waits for unrelated data.
 
+Comparison policy sharing (2026-10-09) belongs to one `buildCompareRouteData`
+invocation. Its lazy contextual reader retains the first successful complete
+policy across both engines and keeps every quote's tariff transaction separate.
+The PG17 contract measures Veo 3.1/Fast's six 4-second audio scenarios at
+720p/1080p/4K: 30 to 25 pricing commands, with policy SELECTs 6 to 1 and all six
+tariff transactions retained. EN/FR/ES complete contexts, snapshots and route
+pricing outputs match for healthy, partial and unavailable cases. The empty-policy
+case is covered in EN.
+Veo/Lite has five quoted points, not six. These counts describe pricing commands
+only. A shared transient policy failure affects the concurrent group together;
+later work may retry, while a new render has a fresh scope. See the pricing guide
+for failure-group and freshness ownership.
+
+The controlled owner capture used Node 22.23.2, PostgreSQL 17.6 and an Apple M3
+Max on Darwin 25.6.0, with the same warm pool/fixtures and instrumentation disabled
+for both variants. Three ABBA blocks retained six samples per variant, without
+imposed latency: baseline median 1.331 ms (1.274–1.388), candidate 1.188 ms
+(1.105–1.354). The ranges overlap; these local data-owner timings are not HTTP,
+TTFB, rendering, LCP or field performance. Capture through
+`CWV_COMPARE_POLICY_BENCHMARK=1` and `CWV_COMPARE_POLICY_EVIDENCE_PATH` when running
+the focused PostgreSQL contract. A real-owner esbuild ESM graph adds only the
+light policy-loader helper (226 to 227 parsed inputs; 1,457,464 to 1,458,587
+emitted bytes), with no new model admission/coverage modules. That diagnostic
+is separate from Next production output and cold-process latency. Production
+build, browser route evidence and all selected Quality CI lanes remain release
+gates; the local SQL reduction does not establish a Core Web Vitals improvement.
+
 Production comparison loads emit one bounded `[cwv:server]` JSON record through existing runtime logs. It contains locale, deployed Git SHA, total **data-loading** duration and the start/duration/status of seven fixed phases: benchmark, scores, key specs, two price reads and two galleries. This is not TTFB, HTML render time or browser LCP. Phases overlap and must not be summed. A resolved fallback still has phase status `ok`; status describes promise completion, not data availability. Pending phases can remain in an error record when a sibling rejects first.
 
 The diagnostic contains no query text, model/job/account IDs, URL or exception content. It preserves rejections and cannot fail a page if logging fails. It is disabled outside production and during a declared production build; `CWV_SERVER_TIMING=0` disables it operationally. No cache, database schema, pricing algorithm, media selection or consent rule is changed by the concurrent loading correction.
 
-The homepage's `loadHomePageData` uses the same logger with route `home` and five
+The homepage's `prepareHomePageData` uses the same logger with route `home` and five
 concurrent phases: `examples`, `hero-slots`, `scores`, `hero-pricing` and
 `demo-pricing`. Current hero reference prices and the below-fold exact demo quotes
-start with the gallery reads rather than after them. Their complete results still
-resolve before rendering; price unavailability and localization stay unchanged.
-It no longer waits for an unused generation count. Slot reads require the explicitly initialized schema;
-they do not bootstrap billing during page loading. See
-`read-route-schema-bootstrap.md` for read and mutation ownership. Root-layout
+start with the gallery reads. The route awaits slots, scores and both price reads
+before rendering the hero and demonstrations; only discovery awaits the examples
+promise beneath its own Suspense boundary. The four authored films remain outside
+that boundary. All five reads start once, and the timing record waits for their
+eventual settlement even when an earlier read fails. Immediate observers preserve
+consumer rejections without supplying successful fallbacks. The complete
+`loadHomePageData` API still awaits every result. Price unavailability and
+localization stay unchanged; no unused generation count is read. Slot reads
+require the explicitly initialized schema and do not bootstrap billing during
+page loading. See `read-route-schema-bootstrap.md` for read and mutation ownership
+and `media-delivery.md` for controlled delivery evidence and costs. Root-layout
 theme reads and rendering are outside these loader timings.
 
 The shared gallery reader reserves the desktop dialog's viewport-bounded height
@@ -188,13 +221,18 @@ Active model details use the route-local `loadModelPageInputs` to start four
 independent inputs together: `scores`, `engine-settings`, `key-specs` and
 `model-gallery`. The route retains gallery selection, exact-model filtering,
 public revalidation, managed-empty behavior and legacy alias ordering in its
-callback. Price formatting still waits for the selected overrides and uses the
-existing pricing owners. Archive and prelaunch branches never invoke this loader.
-Its `model` timing covers only these inputs; subsequent price quotes, layout and
-rendering are excluded. Starting independent readers together can increase work
-on a failed request because already-started siblings are not cancelled. An error
-record may contain pending siblings; it is not a measurement of their eventual
-completion or database connection wait. No new cross-request cache is introduced.
+callback. The optional pricing callback starts `model-pricing` as soon as the same
+request's `engine-settings` resolves, using the existing canonical price owners
+while the other inputs continue. The route awaits every input and price projection
+before composing its hero, gallery and specs. Archive and prelaunch branches
+never invoke this loader. Its `model` data timing now includes `model-pricing`;
+older aggregate records without that phase are not directly comparable. Layout
+and rendering remain excluded. The public result retains the first original
+rejection promptly, while model-only diagnostic completion waits for every
+started sibling to settle, including later errors. Starting independent readers
+together can increase work on a failed request because siblings are not cancelled.
+These timings do not isolate database connection wait or establish browser LCP
+gains. No new cross-request cache is introduced.
 
 The root layout separately emits `root-layout` / `theme-tokens` for the existing
 `getThemeTokensSettingCached()` await, **after** `resolveLocale()`. This bounded
@@ -216,6 +254,64 @@ of late image discovery or database latency by itself.
 First prove the implicated phase/interaction improved on the unchanged user journey. Then segment fresh production RUM by deployment and adequate route/device samples. Finally confirm CrUX's explicit window and Search Console group status. Keep the prior baseline; do not reset a failed validation as proof of recovery. A new 28-day window does not excuse an unresolved present-day RUM regression.
 
 ## Marketing navigation rendering
+
+### Editorial typography ownership
+
+The default `tailwind.config.ts` owns the shared theme, reset and utilities without
+the typography plugin. `tailwind.typography.config.ts` extends that same config
+and enables the plugin only for the native editorial sheets. The docs detail
+route and BestFor editorial component synchronously import
+`components/marketing/public-prose.css`; their `public-prose prose` wrapper
+preserves the effective `prose prose-slate max-w-none` cascade. Keep the `prose`
+marker because Tailwind `@apply` leaves seven literal internal `.prose >`
+references in first/last-child and list selectors. The marker emits no global
+typography with the default plugin absent. Blog keeps its
+existing article-only `blog-prose.css` output with the dedicated config. Keep
+these imports out of shared layouts and avoid adding Tailwind reset/utility
+directives to a reader sheet.
+
+The 2026-10-09 isolated production builds retain every non-typography global rule
+and reduce the global CSS from 242,672 to 229,247 decoded bytes. Controlled gzip
+at level 6 falls from 37,574 to 35,862 bytes; those numbers are separate from CDN
+encoding and live transfer sizes. Public prose adds a 13,822-byte sheet (1,866
+bytes controlled gzip), so docs/BestFor pay 397 more decoded bytes, 154 more
+controlled gzip bytes and one extra stylesheet request. The blog sheet remains
+byte-identical at 16,996 decoded bytes (2,341 bytes controlled gzip). These builds
+use installed Next 15.5.18, while the manifest and CI specify 15.5.25; CI and
+deployment verification remain required. A CSS byte saving alone establishes no
+FCP, LCP or field Core Web Vitals gain.
+
+Count the exact route when comparing totals: local `/blog` index has five CSS
+requests, 308,131 to 294,706 decoded bytes; `/blog/compare-ai-video-engines`
+article has seven, 329,645 to 316,220 bytes, including its two article sheets.
+These local decoded-body totals do not establish production CDN transfer sizes.
+The qualified browser matrix covers 80 direct visits across EN/FR/ES and
+390/1440 widths, plus 144 client transitions, with identical visible content,
+geometry, computed typography, canonical/hreflang and JSON-LD. Failed initial
+paths and the pre-marker margin regression are retained in the raw evidence.
+
+Local EN mobile timing uses three cold visits per build/route in alternating
+order, CPU 4x, latency 150 ms and download 200,000 B/s, with no database configured
+and no consent interaction. Observers start before navigation; the snapshot is
+five seconds after `load`. FCP and the last LCP candidate observed in that window
+are both 700 ms median (700–704) to 708 ms (704–712) on docs and 880 ms (872–896)
+to 884 ms (880–892) on BestFor; observed CLS is zero. Keep this possible small
+reader cost visible alongside the extra request; the overlapping or touching
+ranges and small sample remain inconclusive. These samples do not measure final LCP,
+the full session, production data behavior or field Core Web Vitals.
+
+The current 45 docs/BestFor source documents produce no utility-bearing
+descendants; generated `language-*` code labels are allowed. A native sheet
+arriving after global utilities can win an equal-specificity declaration, so
+`.public-prose` is scoped to this current Markdown contract. New descendant
+utility classes require an intentional cascade review. The generated-content
+guard in `tests/public-prose-styles.test.ts` fails when that boundary changes;
+its compilation checks preserve ordered effective Slate variables, all 86
+descendant selectors in their original order and exact blog output.
+`tests/public-prose-cascade-browser.test.ts` checks all 45 generated HTML bodies,
+both themes, 390/1440 widths, stylesheet orders, retained CSS, `.not-prose`,
+first/last-child and nested-list overlaps, typography and native media. Real
+route/load evidence remains separate from those fixtures.
 
 `MarketingDesktopNav` keeps its complete server-rendered link tree, but skips unchanged renders when its parent updates mobile or account state. Keep its open/close callbacks stable; desktop selection, pathname and translation changes must still invalidate it. `tests/marketing-navigation-rendering.test.ts` exercises these boundaries through the real navigation components and translation provider. It does not replace real-browser interaction timing, localized navigation or field INP validation.
 
