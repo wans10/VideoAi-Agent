@@ -54,7 +54,7 @@ const fixture = `
     useEffect(()=>{window.__fixtureSetLocale=setLocale},[]);
     useEffect(()=>{window.__fixtureHydrated=true;window.__fixtureHydrationDuration=performance.now()-window.__fixtureHydrationStarted},[]);
     return <I18nProvider locale={locale} dictionary={{en,fr,es,zh}[locale]} fallback={en}>
-      <div className={globalThis.__fixtureConfiguration.marketingSite ? "marketing-site" : undefined}><MarketingNav initialEmail={globalThis.__fixtureConfiguration.initialEmail ?? null}/><main style={{minHeight:'1800px'}}><h1>Navigation fixture</h1><a href="#after">After navigation</a></main></div>
+      <div className={globalThis.__fixtureConfiguration.marketingSite ? "marketing-site videoai-site" : undefined}><MarketingNav initialEmail={globalThis.__fixtureConfiguration.initialEmail ?? null}/><main style={{minHeight:'1800px'}}><h1>Navigation fixture</h1><a href="#after">After navigation</a></main></div>
       <aside className="cookie-consent-overlay"><button type="button">Consent fixture</button></aside>
     </I18nProvider>;
   }
@@ -77,7 +77,9 @@ export async function createMarketingNavigationBrowserFixture({forcePopoverFallb
     outfile: nodeOutput, bundle: true, platform: 'node', format: 'cjs', jsx: 'automatic', tsconfig: join(frontendRoot,'tsconfig.json'), plugins: [plugin(true)] });
   const browserBundle = await build({ stdin: { contents: fixture + `import {hydrateRoot} from 'react-dom/client';window.__fixtureHydrationStarted=performance.now();window.__fixtureRoot=hydrateRoot(document.getElementById('root'),<Fixture/>,{onRecoverableError:error=>window.__fixtureHydrationErrors.push(error.message)});`, loader:'tsx',resolveDir:frontendRoot },
     write:false,bundle:true,platform:'browser',format:'iife',jsx:'automatic',tsconfig:join(frontendRoot,'tsconfig.json'),define:{'process.env.NODE_ENV':'"production"'},plugins:[plugin(false)] });
-  const styles = await Promise.all(['app/globals.css','src/styles/tokens.css','src/styles/skeleton.css','src/styles/marketing-cinema.css','src/styles/marketing-navigation.css','src/styles/cookie-consent.css'].map(path => readFile(join(frontendRoot,path),'utf8')));
+  const styles = await Promise.all(['app/globals.css','src/styles/tokens.css','src/styles/skeleton.css','src/styles/marketing-cinema.css','src/styles/marketing-navigation.css','src/styles/cookie-consent.css',
+    // Production loads these from the root and marketing layouts; without them the brand mark has no size and headers measure wider than in production.
+    'src/styles/videoai-brand.css','src/styles/videoai-marketing.css','src/styles/videoai-site-layout.css'].map(path => readFile(join(frontendRoot,path),'utf8')));
   const cssInput = styles.join('\n').replace(/^@import .*;$/gm,'');
   const postcss = frontendRequire('postcss');
   const tailwind = frontendRequire('tailwindcss');
