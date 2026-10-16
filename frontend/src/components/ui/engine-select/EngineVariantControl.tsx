@@ -23,8 +23,8 @@ export function EngineVariantControl(props: Props) {
 
   if (presentation === 'workspace') {
     return (
-      <div className="w-full shrink-0 space-y-1 min-[360px]:w-[108px] sm:w-[124px]">
-        <span className="text-[10px] uppercase tracking-micro text-text-muted">{label}</span>
+      <div className="flex w-full shrink-0 flex-col gap-1 min-[360px]:w-[108px] sm:w-[124px]">
+        <span className="block text-[10px] uppercase tracking-micro text-text-muted">{label}</span>
         <SelectMenu
           options={variants.map((entry) => ({
             value: entry.id,
@@ -34,8 +34,8 @@ export function EngineVariantControl(props: Props) {
           }))}
           value={selectedEngineId}
           onChange={(value) => onChange(String(value))}
-          className="min-w-0"
-          buttonClassName="!min-h-11 !min-w-0 h-auto rounded-input border-border bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-micro shadow-sm [&>span>span]:!overflow-visible [&>span>span]:!whitespace-normal [&>span>span]:!text-clip [&>span>span]:break-words [&>span>span]:text-center [&>span>span]:leading-tight"
+          className="flex min-w-0 flex-1 flex-col"
+          buttonClassName="!min-h-11 !min-w-0 flex-1 h-auto rounded-input border-border bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-micro shadow-sm [&>span>span]:!overflow-visible [&>span>span]:!whitespace-normal [&>span>span]:!text-clip [&>span>span]:break-words [&>span>span]:text-center [&>span>span]:leading-tight"
           hideChevron
         />
       </div>
