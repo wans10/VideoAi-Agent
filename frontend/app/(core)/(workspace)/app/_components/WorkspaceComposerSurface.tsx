@@ -28,6 +28,7 @@ import {
   supportsKlingO3VideoToVideo,
 } from '../_lib/kling-o3-unified-workflow';
 import { OMNI_CUSTOM_FIELD_IDS } from '../_lib/gemini-omni-unified-workflow';
+import { localizeKlingO3Message } from '../_lib/kling-o3-unified-workflow';
 import type { FormState } from '../_lib/workspace-form-state';
 import { normalizeExtraInputValue } from '../_lib/workspace-form-state';
 import {
@@ -297,7 +298,7 @@ export function WorkspaceComposerSurface({
   );
   const klingO3VideoToVideoSupported = supportsKlingO3VideoToVideo(selectedEngine);
   const klingO3VideoReferenceDisabledReason =
-    isUnifiedKlingO3 && !klingO3VideoToVideoSupported ? KLING_O3_SOURCE_VIDEO_UNSUPPORTED_MESSAGE : null;
+    isUnifiedKlingO3 && !klingO3VideoToVideoSupported ? localizeKlingO3Message(KLING_O3_SOURCE_VIDEO_UNSUPPORTED_MESSAGE, uiLocale) : null;
   const showLumaRay32KeyframeEditor = selectedEngine.id === 'luma-ray-3-2' && submissionMode === 'v2v';
   const showOmniStudioPanel = selectedEngine.id === 'gemini-omni-flash';
   const showMultiPrompt = supportsWorkspaceMultiPrompt(selectedEngine, submissionMode);
@@ -312,7 +313,7 @@ export function WorkspaceComposerSurface({
   const composerAssetFields = useMemo(() => getWorkspaceReferenceFields(inputSchemaSummary.assetFields, {
     inputAssets, isUnifiedSeedance, isUnifiedKlingO3, klingO3VideoToVideoSupported,
     hasAnyVideoInput: klingO3AssetState.hasAnyVideoInput, guestUploadLockedReason, workflowCopy,
-    showOmniStudioPanel, showLumaRay32KeyframeEditor,
+    showOmniStudioPanel, showLumaRay32KeyframeEditor, locale: uiLocale,
     previousInteractionId: form.extraInputValues.previous_interaction_id,
   }).map((entry) => ({ ...entry,
     guidance: isUnifiedSeedance && shouldShowSeedanceReferenceGuidance(entry.field)
@@ -462,7 +463,8 @@ export function WorkspaceComposerSurface({
   );
   const modeUnavailableMessage = getEngineModeUnavailableMessage(selectedEngine, submissionMode, uiLocale);
   const quoteUnavailable = !isEngineModeQuoteReady(selectedEngine, submissionMode, preflight);
-  const resolvedWorkflowNotice = modeUnavailableMessage ?? klingO3UnsupportedVideoReason ?? composerWorkflowNotice;
+  const localizedKlingO3UnsupportedVideoReason = klingO3UnsupportedVideoReason ? localizeKlingO3Message(klingO3UnsupportedVideoReason, uiLocale) : null;
+  const resolvedWorkflowNotice = modeUnavailableMessage ?? localizedKlingO3UnsupportedVideoReason ?? composerWorkflowNotice;
 
   const handleAudioChange = useCallback(
     (audio: boolean) => {

@@ -234,7 +234,7 @@ export function getGenerationIterationGuardMessage(options: GenerationIterationG
       if (constraints?.referenceAudioRequiresVisual
         && activeSchemaInputs.some((input) => input.kind === 'audio')
         && !activeSchemaInputs.some((input) => input.kind === 'image' || input.kind === 'video')) {
-        return 'Reference audio requires at least one image or video reference.';
+        return '参考音频至少需要一张图片或一段视频参考。';
       }
     } else if (options.referenceImageUrls.length === 0) {
       if (options.selectedEngineId.startsWith('kling-o3-') && options.hasKlingElements) {

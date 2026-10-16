@@ -15,7 +15,7 @@ import { useWorkspaceModelReview } from '../_hooks/useWorkspaceModelReview';
 import { WorkspaceModelReviewCommands } from './WorkspaceModelReviewCommands';
 import { WorkspaceAppShell } from './WorkspaceAppShell';
 import { WorkspaceRecentReferences } from './WorkspaceRecentReferences.client';
-import { getKlingO3AssetState, supportsKlingO3VideoToVideo } from '../_lib/kling-o3-unified-workflow';
+import { getKlingO3AssetState, localizeKlingO3Message, supportsKlingO3VideoToVideo } from '../_lib/kling-o3-unified-workflow';
 import { WorkspaceComposerSurface } from './WorkspaceComposerSurface';
 import { WorkspaceRuntimeModals } from './WorkspaceRuntimeModals';
 import type { useWorkspaceAppBootstrap } from '../_hooks/useWorkspaceAppBootstrap';
@@ -226,6 +226,10 @@ export function WorkspaceAppReadyView({
     previewAutoPlayRequestId,
   } = gallery;
 
+  const localizedKlingO3DisabledEngineReasons = useMemo(
+    () => Object.fromEntries(Object.entries(klingO3DisabledEngineReasons ?? {}).map(([engineId, reason]) => [engineId, localizeKlingO3Message(reason, uiLocale)])),
+    [klingO3DisabledEngineReasons, uiLocale]
+  );
   const currentSetup = useMemo(
     () => form ? { form, inputAssets, klingElements, prompt, negativePrompt, multiPromptEnabled, multiPromptScenes, shotType, voiceIdsInput, cfgScale } : null,
     [form, inputAssets, klingElements, prompt, negativePrompt, multiPromptEnabled, multiPromptScenes, shotType, voiceIdsInput, cfgScale],
@@ -239,7 +243,7 @@ export function WorkspaceAppReadyView({
     onModelSwitchNotice: showNotice,
     accountId: app.authStatus === 'authed' && app.session?.access_token ? app.user?.id ?? null : null,
     accessToken: app.authStatus === 'authed' ? app.session?.access_token ?? null : null,
-    memberTier: routeForm.memberTier, disabledEngineReasons: klingO3DisabledEngineReasons, engineScores,
+    memberTier: routeForm.memberTier, disabledEngineReasons: localizedKlingO3DisabledEngineReasons, engineScores,
     applyPreparedForm: composer.applyPreparedForm, setInputAssets: assets.setInputAssets,
     setKlingElements: routeForm.setKlingElements, setPrompt, setNegativePrompt, setMultiPromptEnabled,
     setMultiPromptScenes: routeForm.setMultiPromptScenes, setShotType, setVoiceIdsInput, setCfgScale,
@@ -263,7 +267,7 @@ export function WorkspaceAppReadyView({
       <WorkspaceRecentReferences userId={app.user?.id} locale={uiLocale} engineId={selectedEngine.id} engine={selectedEngine}
         fields={inputSchemaSummary.assetFields} inputAssets={inputAssets} inputSchema={selectedEngine.inputSchema}
         mode={submissionMode} onInsert={handleSelectLibraryAsset} availability={{
-          inputAssets, isUnifiedSeedance, isUnifiedKlingO3, guestUploadLockedReason, workflowCopy,
+          inputAssets, isUnifiedSeedance, isUnifiedKlingO3, guestUploadLockedReason, workflowCopy, locale: uiLocale,
           klingO3VideoToVideoSupported: supportsKlingO3VideoToVideo(selectedEngine),
           hasAnyVideoInput: getKlingO3AssetState({ inputAssets, klingElements }).hasAnyVideoInput,
           showOmniStudioPanel: selectedEngine.id === 'gemini-omni-flash',

@@ -418,6 +418,7 @@ function EngineAdvancedControls({
 
 function AdvancedContent(props: SettingsAdvancedPanelProps) {
   const { panelVariant, showLoopControl, loopEnabled, onLoopChange, showSeedanceControls, state } = props;
+  const { locale } = useI18n();
   const labelClassName =
     panelVariant === 'standalone'
       ? 'text-[11px] font-semibold uppercase tracking-micro text-text-muted'
@@ -440,6 +441,7 @@ function AdvancedContent(props: SettingsAdvancedPanelProps) {
           fields={props.advancedFields ?? []}
           values={props.advancedFieldValues ?? {}}
           onChange={props.onAdvancedFieldChange}
+          locale={locale}
         />
       ) : null}
 

@@ -697,7 +697,7 @@ function validateRef2vInputs(engineId: string, payload: Record<string, unknown>)
       error: {
         code: 'ENGINE_CONSTRAINT',
         field: audioFieldId,
-        message: 'Reference audio requires at least one reference image or reference video',
+        message: '参考音频至少需要一张参考图片或一段参考视频。',
       },
     };
   }

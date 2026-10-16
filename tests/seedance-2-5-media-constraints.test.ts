@@ -222,12 +222,19 @@ test('Seedance 2.5 rejects source videos below the provider pixel floor before s
   assert.deepEqual(belowFloor.body, {
     ok: false,
     error: 'MEDIA_DIMENSIONS_TOO_SMALL',
-    message: 'This video is 637 x 640 px. Seedance 2.5 requires at least 407696 total pixels. Choose a larger video and try again.',
+    message: '该视频为 637 x 640 px。Seedance 2.5 要求总像素数至少为 407696。请选择更大的视频后重试。',
     field: 'video_url',
     actualWidth: 637,
     actualHeight: 640,
     minimumPixelCount: 407696,
   });
+
+  const productionSmall = await validateStoredVideo(832, 480);
+  assert.equal(productionSmall.ok, false);
+  if (productionSmall.ok) return;
+  assert.equal(productionSmall.status, 422);
+  assert.equal(productionSmall.body.error, 'MEDIA_DIMENSIONS_TOO_SMALL');
+  assert.equal(productionSmall.body.message, '该视频为 832 x 480 px。Seedance 2.5 要求总像素数至少为 407696。请选择更大的视频后重试。');
 
   const aboveFloor = await validateStoredVideo(638, 640);
   assert.deepEqual(aboveFloor, {

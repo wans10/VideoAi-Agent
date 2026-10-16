@@ -234,6 +234,10 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
   );
 }
 
+function currencyName(copy: BillingCopy, code: string): string {
+  return copy.wallet.currencyNames?.[code] ?? code;
+}
+
 function CurrencySelect({
   copy,
   currencyLoading,
@@ -261,9 +265,9 @@ function CurrencySelect({
         disabled={currencyLoading}
       >
         {!currencyOptions.includes(normalizedChargeCurrency) ? (
-          <option value={normalizedChargeCurrency} disabled>{normalizedChargeCurrency}</option>
+          <option value={normalizedChargeCurrency} disabled>{currencyName(copy, normalizedChargeCurrency)}</option>
         ) : null}
-        {currencyOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+        {currencyOptions.map((option) => <option key={option} value={option}>{currencyName(copy, option)}</option>)}
       </select>
       <p className={currencyStatusClass} data-error={currencyStatusClass.includes('warning')}>{currencyStatus}</p>
     </div>

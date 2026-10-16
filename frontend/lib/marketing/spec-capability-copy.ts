@@ -1,7 +1,9 @@
 import type { AppLocale } from '@/i18n/locales';
 
 // Exact capability phrases only: unknown values keep their original meaning.
-const CAPABILITY_COPY: Record<string, { fr: string; es: string; zh: string }> = {
+// fr/es are optional: entries added for zh only return null for those locales,
+// exactly as an unknown phrase did before.
+const CAPABILITY_COPY: Record<string, { fr?: string; es?: string; zh: string }> = {
   'optional end frame': { fr: 'image de fin facultative', es: 'imagen final opcional', zh: '可选尾帧' },
   'single start image plus optional end frame': { fr: 'Une image de départ et une image de fin facultative', es: 'Una imagen inicial y una imagen final opcional', zh: '单张起始图加可选尾帧' },
   'supported through synchronized audio and audio-to-video workflows': { fr: 'Via l’audio synchronisé et la génération audio-vers-vidéo', es: 'Mediante audio sincronizado y generación de audio a video', zh: '通过同步音频和音频生视频工作流支持' },
@@ -20,6 +22,26 @@ const CAPABILITY_COPY: Record<string, { fr: string; es: string; zh: string }> = 
   'prompt-based camera control': { fr: 'Caméra guidée par le prompt', es: 'Cámara guiada por el prompt', zh: '基于提示词的相机运镜控制' },
   'start image, end image, or both': { fr: 'image de début, image de fin ou les deux', es: 'imagen inicial, imagen final o ambas', zh: '首帧、尾帧或两者' },
   'video editing and extension': { fr: 'modification et extension vidéo', es: 'edición y extensión de video', zh: '视频编辑与延长' },
+  // zh-only phrases observed on public model and comparison pages (lowercased keys).
+  'no visible keyvo watermark': { zh: '无可见 Keyvo 水印' },
+  'no visible videoai watermark': { zh: '无可见 Keyvo 水印' },
+  'no visible videoai watermark; provider provenance markers may apply': { zh: '无可见 Keyvo 水印；可能保留提供商标注' },
+  'optional generated audio': { zh: '可选生成音频' },
+  'related image-start workflow': { zh: '关联的图生视频工作流' },
+  'camera_fixed + prompt-based controls': { zh: 'camera_fixed 与基于提示词的控制' },
+  'shot type + multi-shot prompt structure + prompt-based camera control': { zh: '镜头类型 + 多镜头提示词结构 + 基于提示词的运镜控制' },
+  'single start image; optional end frame in i2v': { zh: '单张起始图；图生视频可选尾帧' },
+  'i2v start image + optional end frame; optional start/end frames in reference mode': { zh: '图生视频首帧 + 可选尾帧；参考模式可选首尾帧' },
+  'image-to-video: 1 source image; optional end frame': { zh: '图生视频：1 张源图；可选尾帧' },
+  'image-to-video: 1 start image; reference-to-video: 1-3 stills': { zh: '图生视频：1 张首帧；参考生视频：1–3 张静态参考图' },
+  'image-to-video: 1 start image; reference mode: 1-3 stills': { zh: '图生视频：1 张首帧；参考模式：1–3 张静态图' },
+  'reference-to-video: @image references plus kling elements; i2v: one start image': { zh: '参考生视频：@图片参考 + Kling 元素；图生视频：1 张首帧' },
+  'reference-to-video and v2v: @image references plus kling elements; i2v: one start image': { zh: '参考生视频与视频生视频：@图片参考 + Kling 元素；图生视频：1 张首帧' },
+  'one start image in image-to-video mode': { zh: '图生视频模式下支持单张首帧图' },
+  '1-9 reference stills': { zh: '1–9 张参考静态图' },
+  'single start image; no style-reference stack': { zh: '单张起始图；无风格参考图堆栈' },
+  'single start image; no separate style-reference stack': { zh: '单张起始图；无独立风格参考图堆栈' },
+  '4k on the standard dreamina seedance 2.0 route': { zh: '标准 Dreamina Seedance 2.0 路线支持 4K' },
 };
 
 /** Shared exact capability translation for model and comparison pages. */
@@ -41,6 +63,22 @@ export function localizeCapabilityDetail(value: string, locale: AppLocale): stri
       : locale === 'es'
         ? `Hasta ${videos[1]} videos de referencia; ${videos[2]}–${videos[3]} s cada uno, ${videos[4]} s en total`
         : `最多 ${videos[1]} 个参考视频；每个 ${videos[2]}–${videos[3]} 秒，总计 ${videos[4]} 秒`;
+    if (locale === 'zh') return localizeZhTemplate(normalized);
   }
+  return null;
+}
+
+// zh-only templates. Numeric values and model/feature names are copied verbatim.
+function localizeZhTemplate(value: string): string | null {
+  const route = value.match(/^Not exposed in current (.+) route$/i);
+  if (route) return `当前 ${route[1].replace(/\b(?:max)?videoai\b/gi, 'Keyvo')} 路线暂未开放`;
+  const perGeneration = value.match(/^Up to (\d+)s \(per generation\)$/i);
+  if (perGeneration) return `单次生成最长 ${perGeneration[1]} 秒`;
+  const maxResolution = value.match(/^Up to (\d+p|4K)$/i);
+  if (maxResolution) return `最高 ${maxResolution[1].replace(/k$/i, 'K')}`;
+  const canonical = value.match(/^Up to (4K) canonical sizes$/i);
+  if (canonical) return `最高 ${canonical[1]} 标准尺寸`;
+  const duration = value.match(/^Generate (\d+)–(\d+)s; Audio\/Extend\/Retake up to (\d+)s$/i);
+  if (duration) return `生成 ${duration[1]}–${duration[2]} 秒；音频 / 延长 / 重拍最长 ${duration[3]} 秒`;
   return null;
 }

@@ -6768,7 +6768,15 @@
         "exportWorkerEmpty": "El servidor aceptó la solicitud de exportación pero no devolvió una tarea de render. La facturación se liberó por este fallo de lanzamiento.",
         "insufficientWalletBalance": "Tu saldo de wallet es demasiado bajo para esta exportación.",
         "exportCreateFailed": "No se pudo crear el job de exportación.",
-        "exportJobInvalid": "La respuesta del job de exportación no es válida."
+        "exportJobInvalid": "La respuesta del job de exportación no es válida.",
+        "timelineProcessingIssue": "{item} todavía se está procesando y aún no se puede renderizar.",
+        "timelineFailedIssue": "{item} falló y no tiene medios renderizables.",
+        "timelineMissingMediaIssue": "{item} no tiene una URL de medios para el renderizado final.",
+        "timelineLinkedAudioIssue": "{item} es audio vinculado sin un clip de video correspondiente.",
+        "timelineMissingDimensionsIssue": "{item} tiene dimensiones de origen desconocidas. El renderizado mantendrá un respaldo de cuadro completo hasta que se midan los metadatos.",
+        "timelineTransitionNoNextIssue": "{item} tiene una transición, pero no hay un clip de video siguiente.",
+        "timelineCrossfadeGapIssue": "{item} tiene un fundido cruzado sobre un hueco.",
+        "timelineEmptyIssue": "La línea de tiempo está vacía."
       },
       "assetLibrary": {
         "library": "Elegir en Medios",

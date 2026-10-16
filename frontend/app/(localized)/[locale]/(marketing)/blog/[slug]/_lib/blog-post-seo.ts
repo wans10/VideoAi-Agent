@@ -101,10 +101,8 @@ export function buildBlogPostMetadata({
 }): Metadata {
   const lastModified = toIsoDate(post.updatedAt ?? post.date);
   const published = toIsoDate(post.date);
-  const overrideTitle =
-    BLOG_TITLE_OVERRIDES[localization.canonicalSlug]?.[locale] ??
-    BLOG_TITLE_OVERRIDES[localization.canonicalSlug]?.en ??
-    null;
+  // Overrides are per locale only. Falling back to the English string here leaked it into other locales.
+  const overrideTitle = BLOG_TITLE_OVERRIDES[localization.canonicalSlug]?.[locale] ?? null;
   const pageTitle = overrideTitle ?? `${post.title} — Keyvo`;
   const imageUrl = resolveAbsoluteImageUrl(post.image);
 

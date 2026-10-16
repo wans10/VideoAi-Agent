@@ -16,7 +16,13 @@ import { isSeedance25LasInputPricing, isSeedance25EditInputPricing } from '@/ser
 import { seedanceInputTariffRate } from './seedance-input-tariff';
 
 export class CustomerTariffUnavailableError extends Error {
-  constructor(message: string) { super(message); this.name = 'CustomerTariffUnavailableError'; }
+  // `message` stays English for logs; `userMessage` is the customer-facing zh copy.
+  readonly userMessage: string;
+  constructor(message: string, userMessage = '该价格暂时无法计算，请稍后再试或联系支持。') {
+    super(message);
+    this.name = 'CustomerTariffUnavailableError';
+    this.userMessage = userMessage;
+  }
 }
 
 export function resolveCustomerTariffQuote(input: {

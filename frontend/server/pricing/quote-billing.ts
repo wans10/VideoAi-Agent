@@ -114,8 +114,8 @@ export async function computeCanonicalBillingSnapshot(
       }));
     }
   }
-  if (requiresEditTariff) throw new CustomerTariffUnavailableError(`An active reviewed ${requiresLasTariff ? 'LAS' : 'ModelArk'} Edit customer tariff is required.`);
-  if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.');
+  if (requiresEditTariff) throw new CustomerTariffUnavailableError(`An active reviewed ${requiresLasTariff ? 'LAS' : 'ModelArk'} Edit customer tariff is required.`, '该编辑模式暂时无法报价，请稍后再试或联系支持。');
+  if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.', '该工作流步骤暂时无法报价，请稍后再试或联系支持。');
   const policyDocument = getVersionedPricingPolicy();
   const profileId = policy.rule.compatibilityProfile ?? billingFacts.compatibilityProfileId;
   const compatibilityProfile: PricingCompatibilityProfile | undefined = policyDocument.compatibilityProfiles.find(
