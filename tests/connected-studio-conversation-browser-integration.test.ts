@@ -40,11 +40,11 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       await expect(page.getByLabel('Loading account',{exact:true})).toHaveCount(0);
       await expect(async()=>{
         if(!await page.getByRole('dialog',{name:'Keyvo',exact:true}).isVisible())await page.getByRole('button',{name:(siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu'),exact:true}).click();
-        await expect(page.getByRole('button',{name:dark?'Dark':'Light',exact:true})).toBeVisible({timeout:1000});
+        await expect(page.getByRole('button',{name:dark?/^(?:Dark|深色)$/:/^(?:Light|浅色)$/})).toBeVisible({timeout:1000});
       }).toPass({timeout:10000});
       const menu = page.getByRole('dialog',{name:'Keyvo',exact:true});
       const preferences = menu.locator('.app-site-preferences');
-      const palette = menu.getByRole('button',{name:dark?'Dark':'Light',exact:true});
+      const palette = menu.getByRole('button',{name:dark?/^(?:Dark|深色)$/:/^(?:Light|浅色)$/});
       await expect(palette).toBeInViewport();
       await expect(menu.getByText((siteDefaultLocale==='zh'?'语言':'Language'),{exact:true})).toBeInViewport();
       assert.equal(await preferences.evaluate(element => !!element.closest('.app-site-dialog-body')),false,'preferences are outside scrolling destinations');
