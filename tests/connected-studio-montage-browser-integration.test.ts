@@ -422,8 +422,8 @@ test('MCP montage opens the current conversation with private playback, durable 
       return route.fulfill({ response });
     });
     await projects.getByRole('button', { name: 'New conversation', exact: true }).click();
-    await expect(projects.getByRole('alert')).toContainText('Try again to recover the same project.');
-    await projects.getByRole('button', { name:'Try again', exact: true }).click();
+    await expect(projects.getByRole('alert')).toContainText(/Try again to recover the same project\.|请重试以恢复同一项目/);
+    await projects.getByRole('button', { name:/^(?:Try again|重试)$/ }).click();
     await expect(page).toHaveURL(`${runtime.browserOrigin}/app/studio/conversation/${newProjectId}`);
     await expect(page.getByRole('heading', { name:copy('What shall we')+' '+copy('create?'), exact: true })).toBeVisible();
     await expect(page.getByRole('textbox', { name: (siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio')), exact: true })).toBeVisible();
