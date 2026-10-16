@@ -261,9 +261,9 @@ export function EngineSelect({
       >
         <div className={clsx('flex-1 min-w-0', isBarVariant ? (isCompact ? 'space-y-1' : 'space-y-1.5') : 'space-y-2 sm:min-w-[240px]')}>
           {controlPresentation === 'workspace' ? (
-            <div className="flex w-full max-w-full min-w-0 flex-col items-stretch gap-1.5 min-[360px]:flex-row min-[360px]:items-end min-[360px]:gap-2 sm:gap-3">
-              <div className="w-full min-w-0 min-[360px]:flex-1 min-[1088px]:w-[320px] min-[1088px]:flex-none">
-                <label className={clsx('uppercase tracking-micro text-text-muted', isBarVariant ? 'text-[10px]' : 'text-[12px]')}>
+            <div className="flex w-full max-w-full min-w-0 flex-col items-stretch gap-1.5 min-[360px]:flex-row min-[360px]:gap-2 sm:gap-3">
+              <div className="flex w-full min-w-0 flex-col gap-1 min-[360px]:flex-1 min-[1088px]:w-[320px] min-[1088px]:flex-none">
+                <label className={clsx('block uppercase tracking-micro text-text-muted', isBarVariant ? 'text-[10px]' : 'text-[12px]')}>
                   {copy.choose}
                 </label>
                 {engineTrigger}
