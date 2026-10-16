@@ -139,7 +139,7 @@ export async function GET(req: NextRequest) {
         payment_amount_cents: row.kind === 'topup' ? row.original_amount_cents : null,
         payment_currency: row.kind === 'topup' ? row.original_currency : null,
         description: row.kind === 'refund'
-          ? localizeGenerationRefundDescription(row.description, 'en', getVideoFailureCodeFromSettingsSnapshot({ providerFailure: row.job_provider_failure }))
+          ? localizeGenerationRefundDescription(row.description, 'zh', getVideoFailureCodeFromSettingsSnapshot({ providerFailure: row.job_provider_failure }))
           : row.description,
         created_at: row.created_at,
         job_id: row.job_id,

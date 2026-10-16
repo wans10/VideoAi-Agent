@@ -17,7 +17,7 @@ const BIOS: Record<AppLocale, string> = {
   en: 'Adrien Millot is the founder and product lead of MaxVideoAI. He builds the product, evaluates model behavior, and maintains its practical guides and benchmark methodology.',
   fr: 'Adrien Millot est le fondateur et responsable produit de MaxVideoAI. Il développe le produit, évalue le comportement des modèles et maintient ses guides pratiques ainsi que sa méthodologie de benchmark.',
   es: 'Adrien Millot es el fundador y responsable de producto de MaxVideoAI. Desarrolla el producto, evalúa el comportamiento de los modelos y mantiene sus guías prácticas y su metodología de benchmarks.',
-  zh: 'Adrien Millot 是 MaxVideoAI 的创始人兼产品负责人。他致力于打造产品、评估各模型表现，并维护实用的使用指南与基准测试方法。',
+  zh: 'Adrien Millot 是原始项目的创始人兼产品负责人。他致力于打造产品、评估各模型表现，并维护实用的使用指南与基准测试方法。',
 };
 
 export function getEditorialProfile(

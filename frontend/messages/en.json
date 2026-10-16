@@ -6748,7 +6748,15 @@
         "exportWorkerEmpty": "The server accepted the export request but did not return a render task. Billing was released for this failed launch.",
         "insufficientWalletBalance": "Your wallet balance is too low for this export.",
         "exportCreateFailed": "The export job could not be created.",
-        "exportJobInvalid": "The export job response was invalid."
+        "exportJobInvalid": "The export job response was invalid.",
+        "timelineProcessingIssue": "{item} is still processing and cannot be rendered yet.",
+        "timelineFailedIssue": "{item} failed and has no renderable media.",
+        "timelineMissingMediaIssue": "{item} has no media URL for final render.",
+        "timelineLinkedAudioIssue": "{item} is linked audio without a matching video clip.",
+        "timelineMissingDimensionsIssue": "{item} has unknown source dimensions. The render will keep a full-frame fallback until metadata is measured.",
+        "timelineTransitionNoNextIssue": "{item} has a transition but no next video clip.",
+        "timelineCrossfadeGapIssue": "{item} has a crossfade across a gap.",
+        "timelineEmptyIssue": "The timeline is empty."
       },
       "assetLibrary": {
         "library": "Choose from Media",

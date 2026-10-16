@@ -36,6 +36,7 @@ export const BLOG_TITLE_OVERRIDES: Partial<Record<string, Partial<Record<AppLoca
     en: 'Sora 2 sequenced prompts for AI video – Keyvo blog',
     fr: 'Sora 2 prompts séquencés vidéo IA – Blog Keyvo',
     es: 'Sora 2 prompts secuenciales para video IA – Blog Keyvo',
+    zh: 'Sora 2 分镜提示词：节奏、声音与品牌元素 — Keyvo 博客',
   },
 };
 

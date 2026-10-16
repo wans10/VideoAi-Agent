@@ -6776,7 +6776,15 @@
         "exportWorkerEmpty": "Le serveur a accepté la demande d’export mais n’a pas renvoyé de tâche de rendu. La facturation a été libérée pour cet échec de lancement.",
         "insufficientWalletBalance": "Votre solde wallet est trop faible pour cet export.",
         "exportCreateFailed": "Le job d’export n’a pas pu être créé.",
-        "exportJobInvalid": "La réponse du job d’export est invalide."
+        "exportJobInvalid": "La réponse du job d’export est invalide.",
+        "timelineProcessingIssue": "{item} est encore en cours de traitement et ne peut pas encore être rendu.",
+        "timelineFailedIssue": "{item} a échoué et n’a aucun média exploitable pour le rendu.",
+        "timelineMissingMediaIssue": "{item} n’a pas d’URL média pour le rendu final.",
+        "timelineLinkedAudioIssue": "{item} est un audio lié sans clip vidéo correspondant.",
+        "timelineMissingDimensionsIssue": "{item} a des dimensions source inconnues. Le rendu conservera un repli plein cadre jusqu’à la mesure des métadonnées.",
+        "timelineTransitionNoNextIssue": "{item} a une transition mais aucun clip vidéo suivant.",
+        "timelineCrossfadeGapIssue": "{item} a un fondu enchaîné au-dessus d’un espace vide.",
+        "timelineEmptyIssue": "La timeline est vide."
       },
       "assetLibrary": {
         "library": "Choisir dans Médias",

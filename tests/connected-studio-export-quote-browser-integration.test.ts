@@ -92,7 +92,7 @@ test('native export quote stays accessible on mobile and recovers one identity a
     if(await cookies.isVisible())await cookies.click();
     await page.setViewportSize({width:390,height:844});
     await page.getByRole('button',{name:siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu',exact:true}).click();
-    await page.getByRole('button',{name:'Light',exact:true}).click();
+    await page.getByRole('button',{name:/^(?:Light|浅色)$/}).click();
     await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:siteDefaultLocale==='zh'?'关闭 ×':'Close ×',exact:true}).click();
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
     await expect(page.getByRole('textbox',{name:siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio'),exact:true})).toBeVisible();
@@ -109,13 +109,13 @@ test('native export quote stays accessible on mobile and recovers one identity a
     await expect(card.getByRole('button')).toHaveCount(0);
     assert.deepEqual(confirmations,[{quoteId:quote.quoteId,confirmed:true},{quoteId:quote.quoteId,confirmed:true}]);
     await page.getByRole('button',{name:siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu',exact:true}).click();
-    await page.getByRole('button',{name:'Dark',exact:true}).click();
+    await page.getByRole('button',{name:/^(?:Dark|深色)$/}).click();
     await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:siteDefaultLocale==='zh'?'关闭 ×':'Close ×',exact:true}).click();
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','charcoal');
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),390);
     Object.assign(job,{status:'completed',progress:100,artifact:{outputUrl:mediaPath,outputAssetId:null,sizeBytes:outputBytes.length,mimeType:'video/mp4'}});
     await page.reload({waitUntil:'domcontentloaded'});
-    const downloadLink=page.getByRole('link',{name:'Download MP4',exact:true});
+    const downloadLink=page.getByRole('link',{name:/^(?:Download MP4|下载 MP4)$/});
     await expect(downloadLink).toBeVisible({timeout:45000});
     await expect(downloadLink).toHaveAttribute('href',mediaPath+'?download=1');
     const receiving=page.waitForEvent('download');

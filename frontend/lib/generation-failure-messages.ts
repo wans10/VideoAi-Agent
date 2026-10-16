@@ -1,6 +1,6 @@
 import { getSeedanceFailureMessage } from './seedance-failure-messages';
 
-type Locale = 'en' | 'fr' | 'es';
+type Locale = 'en' | 'fr' | 'es' | 'zh';
 const copy = {
   en: {
     outputImage: 'A generated image was blocked by safety checks. Change the prompt before trying again.',
@@ -11,6 +11,20 @@ const copy = {
     unverified: 'We could not verify the duration of a reference video. Upload it again before generating.',
     measured: 'Measured duration: {duration} seconds.',
     noCharge: 'No credits were charged.',
+    connection: 'The connection to the model service was interrupted, so this render did not complete. Please try again later.',
+    timeout: 'The connection to the model service timed out, so this render did not complete. Please try again later.',
+  },
+  zh: {
+    outputImage: '生成的图片被安全检查拦截。请修改提示词后重试。',
+    refund: '退款',
+    duration: '参考视频超过了 15 秒的输入限制。请缩短或更换参考视频后重试。更改输出时长不会缩短参考视频。',
+    combined: '参考视频的总时长超过了 15 秒的输入限制。请缩短或移除一段参考视频后重试。',
+    safety: '该请求被安全检查拦截。请检查提示词以及参考图片、视频或音频后重试。',
+    unverified: '无法确认参考视频的时长。请重新上传后再生成。',
+    measured: '测得的时长：{duration} 秒。',
+    noCharge: '未扣除积分。',
+    connection: '与模型服务的连接中断，本次生成未能完成，请稍后重试。',
+    timeout: '与模型服务的连接超时，本次生成未能完成，请稍后重试。',
   },
   fr: {
     outputImage: 'Une image générée a été bloquée par les contrôles de sécurité. Modifiez le prompt avant de réessayer.',
@@ -21,6 +35,8 @@ const copy = {
     unverified: 'Nous n’avons pas pu vérifier la durée d’une vidéo de référence. Importez-la à nouveau avant de générer.',
     measured: 'Durée mesurée : {duration} secondes.',
     noCharge: 'Aucun crédit n’a été débité.',
+    connection: 'La connexion au service du modèle a été interrompue, la génération n’a pas abouti. Réessayez plus tard.',
+    timeout: 'La connexion au service du modèle a expiré, la génération n’a pas abouti. Réessayez plus tard.',
   },
   es: {
     outputImage: 'Una imagen generada ha sido bloqueada por los controles de seguridad. Cambia el prompt antes de intentarlo de nuevo.',
@@ -31,11 +47,25 @@ const copy = {
     unverified: 'No hemos podido verificar la duración de un vídeo de referencia. Vuelve a subirlo antes de generar.',
     measured: 'Duración medida: {duration} segundos.',
     noCharge: 'No se han descontado créditos.',
+    connection: 'Se interrumpió la conexión con el servicio del modelo, por lo que la generación no se completó. Vuelve a intentarlo más tarde.',
+    timeout: 'La conexión con el servicio del modelo ha expirado, por lo que la generación no se completó. Vuelve a intentarlo más tarde.',
   },
 } satisfies Record<Locale, Record<string, string>>;
 
 function localeKey(locale = 'en'): Locale {
-  return locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en';
+  return locale.startsWith('zh') ? 'zh' : locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en';
+}
+
+// Network-layer errors from undici/Node sockets. Matched only by transport shape; the raw text is never shown.
+const TRANSPORT_TIMEOUT_PATTERN = /\b(?:ETIMEDOUT|UND_ERR_[A-Z_]*TIMEOUT)\b|connection to the model service timed out|与模型服务的连接超时/i;
+const TRANSPORT_CONNECTION_PATTERN = /\b(?:fetch failed|ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|socket hang up|other side closed|UND_ERR_[A-Z_]+)\b|connection to the model service was interrupted|与模型服务的连接中断/i;
+
+export function getTransportFailureMessage(message: string | null | undefined, locale = 'en'): string | null {
+  const value = message?.trim() ?? '';
+  if (!value || value.length > 400) return null;
+  if (TRANSPORT_TIMEOUT_PATTERN.test(value)) return copy[localeKey(locale)].timeout;
+  if (TRANSPORT_CONNECTION_PATTERN.test(value)) return copy[localeKey(locale)].connection;
+  return null;
 }
 
 export function getGeneratedImageFailureMessage(message: string | null | undefined, locale = 'en'): string | null {
@@ -72,6 +102,8 @@ export function getKnownGenerationFailureMessage(params: {
   const message = params.message?.trim() ?? '';
   // Known historical H3 input rejection; no conclusion about a stored clip's actual duration.
   if (/^Video duration exceeds the maximum allowed\. Maximum is 15(?:\.0+)? seconds\.$/i.test(message)) return text.duration;
+  const transport = getTransportFailureMessage(message, params.locale);
+  if (transport) return transport;
   if (/responsible ai|sensitive words|content policy|policy violation|safety|moderation|prohibited|blocked/i.test(message)) return text.safety;
   return null;
 }

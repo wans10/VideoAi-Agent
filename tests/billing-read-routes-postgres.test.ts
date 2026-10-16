@@ -174,11 +174,14 @@ test('Billing GETs read only the authenticated ledger and expose database failur
     assert.equal(response.status, 200);
     const data = await response.json();
     const ownAudio = data.receipts.find((row: { job_id: string }) => row.job_id === 'audio-refusal');
-    assert.match(ownAudio.description, /generated audio.*blocked/i);
+    // Keyvo publishes only zh, so the refund projection is localized to Chinese (receipts route).
+    assert.match(ownAudio.description, /生成音频/);
+    assert.match(ownAudio.description, /拦截/);
     assert.doesNotMatch(ownAudio.description, /reference media/i);
     assert.equal(ownAudio.amount_cents, 40);
     const wan = data.receipts.find((row: { job_id: string }) => row.job_id === 'wan-refusal');
-    assert.match(wan.description, /generated image.*blocked/i);
+    assert.match(wan.description, /生成的图片/);
+    assert.match(wan.description, /拦截/);
     assert.doesNotMatch(wan.description, /Green net/i);
     assert.equal(data.receipts.find((row: { job_id: string }) => row.job_id === 'other-audio-refusal').description,
       'Refund Seedance 2.0 Fast - 5s - Render could not be completed.');

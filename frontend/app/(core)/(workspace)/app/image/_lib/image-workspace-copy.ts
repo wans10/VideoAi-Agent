@@ -38,6 +38,10 @@ export interface ImageWorkspaceCopy {
       plural: string;
     };
     aspectRatioLabel: string;
+    /** Localized option labels keyed by option value; missing keys fall back to English labels. */
+    aspectRatioLabels: Record<string, string>;
+    imageSizeLabels: Record<string, string>;
+    qualityLabels: Record<string, string>;
     aspectRatioHint: string;
     aspectRatioAutoNote: string;
     resolutionLabel: string;
@@ -208,6 +212,9 @@ export const DEFAULT_COPY: ImageWorkspaceCopy = {
       plural: 'images',
     },
     aspectRatioLabel: 'Aspect ratio',
+    aspectRatioLabels: {},
+    imageSizeLabels: {},
+    qualityLabels: {},
     aspectRatioHint: 'Choose a preset to match your frame.',
     aspectRatioAutoNote: 'Auto lets the model decide the final crop.',
     resolutionLabel: 'Resolution',

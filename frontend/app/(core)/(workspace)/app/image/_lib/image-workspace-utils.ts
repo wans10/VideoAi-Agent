@@ -10,7 +10,7 @@ type ImageCountControlOption = {
   disabled?: boolean;
 };
 
-export function formatImageSizeLabel(value: string): string {
+export function formatImageSizeLabel(value: string, localizedLabels: Readonly<Record<string, string>> = {}): string {
   const normalized = value.trim().toLowerCase();
   const labels: Record<string, string> = {
     auto: 'Auto',
@@ -26,6 +26,7 @@ export function formatImageSizeLabel(value: string): string {
     '2560x1440': '2.5K · 2560 x 1440',
     custom: 'Custom size',
   };
+  if (localizedLabels[normalized]) return localizedLabels[normalized];
   if (labels[normalized]) return labels[normalized];
   const parsed = parseGptImage2SizeKey(normalized);
   if (parsed) {
@@ -34,8 +35,9 @@ export function formatImageSizeLabel(value: string): string {
   return value.toUpperCase();
 }
 
-export function formatQualityLabel(value: string): string {
+export function formatQualityLabel(value: string, localizedLabels: Readonly<Record<string, string>> = {}): string {
   const normalized = value.trim().toLowerCase();
+  if (localizedLabels[normalized]) return localizedLabels[normalized];
   if (normalized === 'low') return 'Low';
   if (normalized === 'medium') return 'Medium';
   if (normalized === 'high') return 'High';

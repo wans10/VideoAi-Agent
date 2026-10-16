@@ -4,6 +4,12 @@ import { EngineIcon } from '@/components/ui/EngineIcon';
 import { getCompareEditorialCopy, getCompareDetailActions } from '../_lib/compare-editorial-copy';
 import type { AppLocale } from '@/i18n/locales';
 import { formatEngineName } from '../_lib/compare-page-helpers';
+import {
+  getComparePerVideoLabel,
+  getCompareQuoteUnavailableLabel,
+  getCompareScenarioLabel,
+  getCompareScoreLabel,
+} from '../_lib/compare-pricing-copy';
 import type { ComparePricingDisplay, EngineCatalogEntry } from '../_lib/compare-page-types';
 import type { ComparePageOverride } from '../_lib/compare-page-overrides-types';
 
@@ -31,20 +37,12 @@ export function ComparePricingQuickSection({
 }: ComparePricingQuickSectionProps) {
   const pricingCopy = getCompareEditorialCopy(activeLocale);
   const actions = getCompareDetailActions(activeLocale);
-  const copy = { title: pricingCopy.pricing, subtitle: pricingCopy.priceNote, comparable: activeLocale === 'fr' ? 'Références tarifaires de la grille' : activeLocale === 'es' ? 'Precios de referencia de la evaluación' : 'Scorecard price references' };
+  const copy = { title: pricingCopy.pricing, subtitle: pricingCopy.priceNote, comparable: getCompareScoreLabel(activeLocale) };
   const leftLines = getPricingLines(leftPricingDisplay);
   const rightLines = getPricingLines(rightPricingDisplay);
   const hasComparableLine = leftPricingDisplay.scoreLine && rightPricingDisplay.scoreLine;
-  const scenarioLabel = (display: ComparePricingDisplay) => {
-    const scenario = display.scenario;
-    if (!scenario) return null;
-    const mode = activeLocale === 'fr' ? 'Texte vers vidéo' : activeLocale === 'es' ? 'Texto a vídeo' : 'Text to video';
-    const audio = scenario.audio
-      ? activeLocale === 'fr' ? 'audio activé' : activeLocale === 'es' ? 'audio activado' : 'audio on'
-      : activeLocale === 'fr' ? 'sans audio' : activeLocale === 'es' ? 'sin audio' : 'audio off';
-    return [mode, `${scenario.durationSec} s`, scenario.aspectRatio, audio].filter(Boolean).join(' · ');
-  };
-  const perVideo = activeLocale === 'fr' ? 'par vidéo' : activeLocale === 'es' ? 'por vídeo' : 'per video';
+  const scenarioLabel = (display: ComparePricingDisplay) => getCompareScenarioLabel(activeLocale, display.scenario);
+  const perVideo = getComparePerVideoLabel(activeLocale);
 
   return (
     <section id="pricing" className="compare-price-panel">
@@ -66,7 +64,7 @@ export function ComparePricingQuickSection({
               const separator = line.indexOf(':');
               return <div key={line}>{separator > -1 ? <><dt>{line.slice(0, separator)}</dt><dd>{line.slice(separator + 1).trim()}</dd></> : <dd>{line}</dd>}</div>;
             })}</dl>}
-            {display.quoteUnavailable ? <p className="compare-price-scenario">{activeLocale === 'fr' ? 'Le devis actuel ne peut pas être confirmé. Vérifiez les réglages dans l’app avant de générer.' : activeLocale === 'es' ? 'No se puede confirmar el precio actual. Revisa los ajustes en la app antes de generar.' : 'The current quote could not be confirmed. Check your settings in the app before generating.'}</p> : null}
+            {display.quoteUnavailable ? <p className="compare-price-scenario">{getCompareQuoteUnavailableLabel(activeLocale)}</p> : null}
           </article>
         ))}
       </div>

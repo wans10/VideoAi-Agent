@@ -65,6 +65,7 @@ export const DEFAULT_BILLING_COPY = {
     autoTopUp: 'Enable auto top-up (optional)',
     lowBalance: 'Your balance is low. Top up to keep creating.',
     currencyLabel: "Pay in",
+    currencyNames: { CNY: 'CNY', USD: 'USD' } as Record<string, string>,
     currencyLoading: 'Detecting currencies…',
     currencyLoadError: 'Unable to load currencies. Defaulting to CNY.',
     currencyDetected: 'Auto-detected {currency}',

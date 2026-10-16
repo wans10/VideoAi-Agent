@@ -120,7 +120,9 @@ export function AppSiteMenu({ children, ...props }: Props) {
     ? { account: 'Compte', signIn: 'Connexion' }
     : locale === 'es'
       ? { account: 'Cuenta', signIn: 'Entrar' }
-      : { account: 'Account', signIn: 'Sign in' };
+      : locale === 'zh'
+        ? { account: '账户', signIn: '登录' }
+        : { account: 'Account', signIn: 'Sign in' };
   return (
     <>
       <AppSiteMenuButton {...props} controllerRef={controllerRef} />
