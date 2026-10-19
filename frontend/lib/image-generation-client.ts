@@ -43,7 +43,12 @@ async function recoverImageResponse(payload: ImageGenerationRequest, deps: Depen
   throw new Error('The image request connection was interrupted. Its result could not yet be confirmed. Check generation history before submitting again.');
 }
 
-export async function submitImageGeneration(payload: ImageGenerationRequest, overrides: Partial<Dependencies> = {}, pricingSnapshot?: PricingSnapshot | null): Promise<ImageGenerationResponse> {
+export async function submitImageGeneration(
+  payload: ImageGenerationRequest,
+  overrides: Partial<Dependencies> = {},
+  pricingSnapshot?: PricingSnapshot | null,
+  request?: { accessToken: string; signal: AbortSignal },
+): Promise<ImageGenerationResponse> {
   const principal = readLastKnownUserId();
   const deps: Dependencies = {
     fetch: authFetch, getStatus: getJobStatus,
@@ -54,10 +59,15 @@ export async function submitImageGeneration(payload: ImageGenerationRequest, ove
   let response: Response;
   try {
     response = await deps.fetch('/api/images/generate', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION, ...customerTariffRequestHeaders(pricingSnapshot) },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION, ...customerTariffRequestHeaders(pricingSnapshot),
+        ...(request ? { Authorization: `Bearer ${request.accessToken}` } : {}) },
+      signal: request?.signal,
       body: JSON.stringify(payload),
     });
-  } catch {
+  } catch (error) {
+    // A caller-aborted submission is cancelled, not interrupted: never start status recovery for it.
+    if (request?.signal.aborted) throw error;
     return recoverImageResponse(payload, deps);
   }
   const data = await response.json().catch(() => null) as ImageGenerationResponse | null;

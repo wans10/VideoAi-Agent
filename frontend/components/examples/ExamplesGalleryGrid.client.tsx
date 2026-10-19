@@ -18,7 +18,7 @@ const ExampleReader = dynamic(() => import('./ExampleReader.client'), { ssr: fal
 
 export default function ExamplesGalleryGridClient({initialExamples,priceSlots,detailsCtaLabel='View settings & price',
   noPreviewLabel='No preview',prioritizeFirstPoster=false,audioAvailableLabel='Audio available on playback',
-  openingEnabled,openingDetails,sort,locale,engineFilter,initialOffset,familyLabel}:ExamplesGalleryProps) {
+  openingEnabled,sort,locale,engineFilter,initialOffset}:ExamplesGalleryProps) {
   const videos=useMemo(()=>dedupeExamples(initialExamples),[initialExamples]);
   const {opening,rest}=useMemo(()=>buildGalleryOpening(videos,openingEnabled??(prioritizeFirstPoster&&sort==='playlist')),[videos,openingEnabled,prioritizeFirstPoster,sort]);
   const visibleVideos=useMemo(()=>[...opening,...rest],[opening,rest]);
@@ -34,10 +34,6 @@ export default function ExamplesGalleryGridClient({initialExamples,priceSlots,de
     onVisibility={preview.onVisibility} onIntent={preview.setIntent} onOpen={reader.open} />;
   const pauseLabel=locale==='fr'?'Pause des aperçus':locale==='es'?'Pausar vistas previas':locale==='zh'?'暂停样片预览':'Pause previews';
   const resumeLabel=locale==='fr'?'Animer les aperçus':locale==='es'?'Animar vistas previas':locale==='zh'?'播放样片预览':'Animate previews';
-  const continuationLabel=familyLabel
-    ? locale==='fr'?`Plus de vidéos ${familyLabel}`:locale==='es'?`Más videos de ${familyLabel}`:locale==='zh'?`更多 ${familyLabel} 视频`:`More ${familyLabel} videos`
-    : locale==='fr'?'Encore des vidéos':locale==='es'?'Más vídeos':locale==='zh'?'更多视频':'More videos';
-  const pageCountLabel=locale==='fr'?'sur cette page':locale==='es'?'en esta página':locale==='zh'?'本页':'on this page';
   const guideLabel=locale==='fr'?'Ouvrez une vidéo pour voir comment elle a été créée.':locale==='es'?'Abre un vídeo para ver cómo se creó.':locale==='zh'?'打开任意视频，查看它的制作方式。':'Open any video to see how it was made.';
   const guidePills=locale==='fr'?['Prompt','Réglages','Prix actuel']:locale==='es'?['Prompt','Ajustes','Precio actual']:locale==='zh'?['提示词','生成设置','当前价格']:['Prompt','Settings','Current price'];
   const createLabel=locale==='fr'?'Créer dans l’app':locale==='es'?'Crear en la app':locale==='zh'?'在创作台生成':'Create in the app';
@@ -60,8 +56,6 @@ export default function ExamplesGalleryGridClient({initialExamples,priceSlots,de
           data-analytics-target-family="workspace">{createLabel}<ArrowUpRight size={14} aria-hidden="true"/></Link>
       </div>
     </div>:null}
-    {openingDetails}
-    {opening.length>0&&rest.length>0?<div className={styles.continuationHeading}><h2>{continuationLabel}</h2><span>{rest.length} {pageCountLabel}</span></div>:null}
     <div className={styles.gallery}>{rest.map(video=><div key={video.id} className={styles.item} style={{'--video-ratio':galleryVideoRatio(video)} as CSSProperties}>{card(video)}</div>)}</div>
   </div>;
 }

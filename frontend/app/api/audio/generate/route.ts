@@ -7,6 +7,7 @@ import { CustomerTariffUnavailableError } from '@/server/pricing/resolve-custome
 import { RESTRICTED_ACCOUNT_MESSAGE, getActiveAccountRestriction } from '@/server/fraud-cleanup';
 
 export const runtime = 'nodejs';
+export const maxDuration = 800;
 
 export async function POST(req: NextRequest) {
   const { userId } = await getRouteAuthContext(req);

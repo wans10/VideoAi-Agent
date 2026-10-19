@@ -15,6 +15,7 @@ import {
 import {
   ENGINE_GROUP_FETCH_CAP,
   ENGINE_GROUP_FETCH_MULTIPLIER,
+  buildExampleVersionSamples,
   mergeUniqueGalleryVideos,
   paginateGalleryVideos,
   resolveExampleGroupId,
@@ -296,17 +297,17 @@ export async function listExampleModelCurrentPublicOrder(modelSlug: string): Pro
 
 export async function listExampleFamilyPage(
   familyId: string,
-  options: Omit<ListExamplesPageOptions, 'engineGroup'>,
+  options: Omit<ListExamplesPageOptions, 'engineGroup'> & { includeVersionSamples?: boolean },
   curationScope?: CurationReadScope,
 ): Promise<ListExamplesPageResult> {
-  const { sort, limit = 150, offset = 0 } = options;
-  if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset);
-  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset);
-  if (!curationScope) return listCatalogPage({ familyId, sort, limit, offset });
+  const { sort, limit = 150, offset = 0, includeVersionSamples } = options;
+  if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset, includeVersionSamples);
+  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset, includeVersionSamples);
+  if (!curationScope) return listCatalogPage({ familyId, sort, limit, offset, includeVersionSamples });
   const readScope = curationScope ?? createCurationReadScope();
   const merged = await loadExampleFamilyFeed(familyId, { includeFamilyPlaylist: true }, readScope);
   const sorted = sortVideosByPreference(merged, sort);
-  return paginateGalleryVideos(sorted, limit, offset);
+  return { ...paginateGalleryVideos(sorted, limit, offset), ...(includeVersionSamples ? { versionSamples: buildExampleVersionSamples(sorted) } : {}) };
 }
 
 export async function listExamplesPage(options: ListExamplesPageOptions, curationScope?: CurationReadScope): Promise<ListExamplesPageResult> {

@@ -33,6 +33,7 @@ function MediaContent({ asset, locale, children, details }: { asset: AssetBrowse
   const zh = locale.startsWith('zh'), fr = locale.startsWith('fr'), es = locale.startsWith('es');
   const labels = zh ? ['分享', '复制素材链接', '链接已复制', '打开原始素材', '详情', '无法复制链接。', '原始链接可能会过期。'] : fr ? ['Partager', 'Copier le lien du média', 'Lien copié', 'Ouvrir l’original', 'Détails', 'Impossible de copier le lien.', 'Le lien original peut expirer.'] : es ? ['Compartir', 'Copiar enlace del medio', 'Enlace copiado', 'Abrir original', 'Detalles', 'No se pudo copiar el enlace.', 'El enlace original puede caducar.'] : ['Share', 'Copy media link', 'Link copied', 'Open original', 'Details', 'Unable to copy link.', 'The original link may expire.'];
   const name = recentMediaFilename(asset.url, asset.kind);
+  const playbackUrl = asset.playbackVideoUrl ?? asset.url;
   const label = meaningfulMediaLabel(asset.url, recentMediaCopy(locale)[asset.kind]);
   const share = async () => {
     if (asset.kind === 'video' || asset.kind === 'image') { setSharing(value => !value); return; }
@@ -43,7 +44,7 @@ function MediaContent({ asset, locale, children, details }: { asset: AssetBrowse
   return <div className="app-media-detail-layout">
     <div className="app-media-view">
       <div className={`app-media-panel-cover is-${asset.kind}`}>
-        {asset.kind === 'video' ? playing ? <video key={asset.url} src={asset.url} poster={asset.thumbUrl || undefined} controls playsInline autoPlay preload="none" onError={() => setPlaybackError(true)} /> : <button type="button" className="app-media-play" aria-label={zh ? '播放视频' : fr ? 'Lire la vidéo' : es ? 'Reproducir vídeo' : 'Play video'} onClick={() => { setPlaybackError(false); setPlaying(true); }}>
+        {asset.kind === 'video' ? playing ? <video key={playbackUrl} src={playbackUrl} poster={asset.thumbUrl || undefined} controls playsInline autoPlay preload="none" onError={() => setPlaybackError(true)} /> : <button type="button" className="app-media-play" aria-label={zh ? '播放视频' : fr ? 'Lire la vidéo' : es ? 'Reproducir vídeo' : 'Play video'} onClick={() => { setPlaybackError(false); setPlaying(true); }}>
           {asset.thumbUrl ? <LibraryImageThumbnail asset={{ url: asset.thumbUrl }} alt={label} /> : <Film size={64} aria-hidden />}
           <span><Play size={24} fill="currentColor" aria-hidden /></span>
         </button>

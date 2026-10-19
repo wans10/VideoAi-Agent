@@ -130,6 +130,7 @@
       },
       "examples": {
         "items": {
+          "all-examples": "All examples",
           "sora": "Sora",
           "sora-2": "Sora 2",
           "sora-2-pro": "Sora 2 Pro",
@@ -156,7 +157,10 @@
           "ltx-2-fast": "LTX 2 Fast"
         },
         "heading": "Watch before you choose.",
-        "intro": "Real videos, prompts and model details."
+        "intro": "Real videos, prompts and model details.",
+        "descriptions": {
+          "all-examples": "Videos and prompts from every model."
+        }
       },
       "compare": {
         "items": {
@@ -4165,7 +4169,7 @@
         "llmhubAlipay": "Alipay",
         "llmhubWxpay": "WeChat Pay",
         "customLabel": "Custom amount",
-        "customPresetLabel": "Custom",
+        "customPresetLabel": "Other",
         "customPresetHint": "Enter amount",
         "customPlaceholder": "Minimum ¥80",
         "customHint": "Enter any amount from ¥80.",
@@ -4176,6 +4180,8 @@
         "chooseAmount": "Select",
         "expressTitle": "Pay instantly",
         "expressLoading": "Loading secure payment options…",
+        "expressSlow": "Payment options are taking longer to load. You can also pay by card below.",
+        "expressRetry": "Try again",
         "expressUnavailable": "Instant payment is unavailable. Choose another payment method below.",
         "expressError": "Unable to open instant payment. Choose another payment method below.",
         "expressClosed": "Payment window closed. Try again or choose another method below.",
@@ -7097,7 +7103,7 @@
     "scorecard": {
       "title": "Compare the strengths.",
       "subtitle": "Scores reflect quality and control on Keyvo across 11 criteria.",
-      "provisionalNote": "Pre-launch scores are provisional and will update once runtime renders and final pricing are available.",
+      "provisionalNote": "Pre-launch scores are provisional and need review once runtime renders are available.",
       "strengthsLabel": "Strengths",
       "winnerSummary": "At a glance",
       "winnerSummaryPrelaunch": "Current leader (pre-launch)",

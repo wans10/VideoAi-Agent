@@ -3,6 +3,7 @@ import { appendConfirmedWalletRefund } from '@/lib/seedance-failure-messages';
 import { deriveJobSurface } from '@/lib/job-surface';
 import { extractRenderIds, extractRenderThumbUrls, parseStoredImageRenders } from '@/lib/image-renders';
 import { isStablePublicMediaUrl, normalizeMediaUrl } from '@/lib/media';
+import { generatedVideoArtifactProjection } from '@/lib/generated-video-output-artifacts';
 import {
   SEEDANCE_OUTPUT_AUDIO_BLOCKED,
   getVideoFailureCodeFromSettingsSnapshot,
@@ -262,9 +263,12 @@ function buildAgentResult(
   if (surface === 'video') {
     const videoUrl = stableMediaUrl(record.video_url);
     if (!videoUrl) return null;
+    const artifacts = generatedVideoArtifactProjection(record.settings_snapshot, videoUrl, record.provider_job_id);
     return {
       surface,
       videoUrl,
+      ...(stableMediaUrl(artifacts.playbackVideoUrl) ? { playbackVideoUrl: stableMediaUrl(artifacts.playbackVideoUrl) } : {}),
+      ...(stableMediaUrl(artifacts.lastFrameUrl) ? { lastFrameUrl: stableMediaUrl(artifacts.lastFrameUrl) } : {}),
       previewUrl: stableMediaUrl(record.preview_video_url),
       thumbnailUrl: stableMediaUrl(record.thumb_url),
       audioUrl: stableMediaUrl(record.audio_url),
@@ -345,11 +349,17 @@ export function mapGenerationStatusRecordToAgent(
   const surface = normalizeAgentSurface(record);
   if (!surface) return null;
   const status = normalizeAgentStatus(record.status);
+  const settings = record.settings_snapshot as { seedanceWorkflow?: { step?: string; draftJobId?: string } } | null;
+  const workflow = record.engine_id === 'seedance-2-5' ? settings?.seedanceWorkflow : undefined;
+  const workflowStep = workflow?.step;
+  const draftJobId = workflowStep === 'draft' ? record.job_id : workflow?.draftJobId;
   const failureCode = status === 'failed'
     ? safeAgentFailureCode(record.settings_snapshot)
     : null;
   return {
     jobId: record.job_id,
+    ...((workflowStep === 'draft' || workflowStep === 'final') && typeof draftJobId === 'string'
+      ? { seedanceWorkflow: { step: workflowStep, draftJobId } } : {}),
     surface,
     status,
     progress: normalizeProgress(record.progress, status),

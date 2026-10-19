@@ -33,7 +33,6 @@ async function loadLayout(entry: string) {
     ['components/analytics/GA4RouteTracker', 'GA4RouteTracker'],
     ['components/legal/CookieBanner', 'CookieBanner'],
     ['components/SeoJsonLd', 'JsonLd'],
-    ['components/auth/SessionWatchdog', 'SessionWatchdog'],
     ['components/swr/SWRFocusResync', 'SWRFocusResync'],
     ['components/swr/SWRProvider', 'SWRProvider'],
     ['lib/i18n/I18nProvider', 'I18nProvider'],
@@ -112,7 +111,7 @@ test('Core keeps full messages while direct watch serializes only navigation and
         const vercelLeaves = process.env.VERCEL === '1' ? ['VercelAnalytics'] : [];
         assert.deepEqual(nodes.map(node => node.type), [
           'fragment', 'ConsentModeBootstrap', 'GA4RouteTracker', 'GA4EventBridge', 'I18nProvider',
-          'SWRProvider', 'LocaleSync', 'SessionWatchdog', 'SWRFocusResync', 'AppExperienceRoot', 'reader',
+          'SWRProvider', 'LocaleSync', 'SWRFocusResync', 'AppExperienceRoot', 'reader',
           ...vercelLeaves, 'AnalyticsScripts', 'CookieBanner', 'JsonLd', 'JsonLd',
         ], 'one runtime retains provider/effect order and all analytics/consent leaves');
         assert.equal(nodes.find(node => node.type === 'AppExperienceRoot')?.props.fontClass, 'fixture-font');
