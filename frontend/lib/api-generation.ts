@@ -201,11 +201,12 @@ export async function runGenerate(
   return body as GenerateResult;
 }
 
-export async function runImageGeneration(payload: ImageGenerationRequest, pricingSnapshot?: PricingSnapshot | null): Promise<ImageGenerationResponse> {
+export async function runImageGeneration(payload: ImageGenerationRequest, pricingSnapshot?: PricingSnapshot | null, request?: { accessToken: string; signal: AbortSignal }): Promise<ImageGenerationResponse> {
   const response = await authFetch('/api/images/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION,
-      ...customerTariffRequestHeaders(pricingSnapshot) },
+      ...customerTariffRequestHeaders(pricingSnapshot), ...(request ? { Authorization: `Bearer ${request.accessToken}` } : {}) },
+    signal: request?.signal,
     body: JSON.stringify(payload),
   });
   const data = (await response.json().catch(() => null)) as ImageGenerationResponse | null;
@@ -254,10 +255,15 @@ export async function runAudioGenerate(payload: AudioGenerateRequestBody): Promi
   return data;
 }
 
-export async function runCharacterBuilderTool(payload: CharacterBuilderRequest): Promise<CharacterBuilderResponse> {
+export async function runCharacterBuilderTool(
+  payload: CharacterBuilderRequest,
+  request?: { accessToken: string; signal: AbortSignal }
+): Promise<CharacterBuilderResponse> {
   const response = await authFetch('/api/tools/character-builder', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION },
+    headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION,
+      ...(request ? { Authorization: `Bearer ${request.accessToken}` } : {}) },
+    signal: request?.signal,
     body: JSON.stringify(payload),
   });
   const data = (await response.json().catch(() => null)) as CharacterBuilderResponse | null;

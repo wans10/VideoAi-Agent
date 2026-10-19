@@ -1,10 +1,10 @@
-# VideoAI-Agent Engineering Guide
+# MaxVideoAI Engineering Guide
 
 This file is the first reference for Codex, AI agents, and contributors working in this repository.
 
 ## Product Shape
 
-VideoAI-Agent is a production Next.js application for AI video generation, model comparison, examples, pricing, billing, media library, and admin operations.
+MaxVideoAI is a production Next.js application for AI video generation, model comparison, examples, pricing, billing, media library, and admin operations.
 
 The frontend lives in `frontend/`. Most product work should happen there.
 

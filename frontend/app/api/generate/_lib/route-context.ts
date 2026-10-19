@@ -48,6 +48,7 @@ import {
 import { resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
 import { validateRuntimeRequestSettings } from './runtime-schema-options';
 import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
+import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
 
 export type GenerateRouteContext = {
   engine: EngineCaps;
@@ -87,6 +88,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
   jobId: string;
   mode: Mode;
   providerEnv?: VideoProviderRoutingEnv;
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
 }): GenerateRouteContextResult {
   const { body, engine, jobId, mode, providerEnv } = params;
   if (isArchivedGenerationModel(engine.id)) {
@@ -108,7 +110,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
       }
       assertBytePlusSeedanceSubmissionEnabled(engine.id);
       resolveBytePlusSeedanceModelId(engine.id, getBytePlusArkConfig());
-      assertBytePlusTransportConfigured(engine.id, mode);
+      assertBytePlusTransportConfigured(engine.id, params.seedanceWorkflow && engine.id === 'seedance-2-5' ? 't2v' : mode);
     }
   } catch (error) {
     if (error instanceof BytePlusModelArkError) {
@@ -164,6 +166,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
 }
 
 export async function resolveGenerateRouteContext(params: {
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
   boundaryOverrides?: Partial<GenerateRouteContextBoundaries>;
   body: Record<string, unknown>;
   req: NextRequest;
@@ -328,7 +331,7 @@ export async function resolveGenerateRouteContext(params: {
 
   if (isBytePlusV1a) {
     try {
-      assertBytePlusTransportConfigured(engine.id, mode);
+      assertBytePlusTransportConfigured(engine.id, params.seedanceWorkflow && engine.id === 'seedance-2-5' ? 't2v' : mode);
     } catch (error) {
       if (error instanceof BytePlusModelArkError) {
         return {
