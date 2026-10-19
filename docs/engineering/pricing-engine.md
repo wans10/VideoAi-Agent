@@ -309,7 +309,7 @@ using the rule-path no-video quote as anchor and the ModelArk supplier cost. Aut
 (`--check` compares only). These cells take effect only after the database customer-tariff state is
 activated by the reviewed initial cutover; the source flag alone never activates them. 1080p is not
 in the v2v executable scope and has no cell. Selectors do not include the Edit transport, so LAS
-pricing refuses these cells fail-closed. Audit: `merge-audit/v2v-tariff/REPORT.md` (local evidence).
+pricing refuses these cells fail-closed.
 
 ## ByteDance supplier facts migration (2026-09-28)
 
