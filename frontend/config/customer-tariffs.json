@@ -71,6 +71,40 @@
       }
     },
     {
+      "id": "customer:019cd46dd07e56e029028c8c6f7a1b2b",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "22",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2879,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8108108108108,
+                "includedUnits": 15
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:01b710d6b7f7de3d016d3bb584329ff9",
       "selector": {
         "engineId": "seedance-2-5",
@@ -166,6 +200,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 25.958333333333332,
                 "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:02a82b71fd56957a9d112453f4b58ade",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "11",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1109,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36842105263158,
+                "includedUnits": 8
               }
             ]
           }
@@ -615,6 +683,40 @@
       }
     },
     {
+      "id": "customer:0a4d768d4db7d685ae128ebd52987308",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "14",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2451,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.12497825032287,
+                "includedUnits": 10.000005111308322
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:0b3377b7969e02d881488551cc70b2e7",
       "selector": {
         "engineId": "seedance-2-5",
@@ -683,6 +785,40 @@
       }
     },
     {
+      "id": "customer:0c5821405cc2cdacf69ac40ad413d6f9",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "8",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 614,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.857142857142854,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:0de862d5e0a037a97d53c2c70afd9df2",
       "selector": {
         "engineId": "seedance-2-5",
@@ -710,6 +846,108 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 19.529411764705884,
                 "includedUnits": 7
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:0f118c5d510ad4321e495a476eea96ad",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "11",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1109,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36842105263158,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:0f3f755cfdfd7da847ebae3fab1f2d96",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "27",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2626,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.355555555555554,
+                "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:0f8977dff4987cb9b4da837b24b2937e",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "12",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1557,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.85,
+                "includedUnits": 8
               }
             ]
           }
@@ -853,6 +1091,40 @@
       }
     },
     {
+      "id": "customer:12d6a5123ff23dec40730339ca71134a",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "9",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1168,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.86666666666666,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:12d8a2719e62629b92df9985bf07bd72",
       "selector": {
         "engineId": "seedance-2-5",
@@ -955,6 +1227,40 @@
       }
     },
     {
+      "id": "customer:140d02703f1a0b810ad7bba92e81531e",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "29",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2859,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.3469387755102,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:154b811a0c5c44634506196bb8843849",
       "selector": {
         "engineId": "seedance-2-5",
@@ -982,6 +1288,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 20.19047619047619,
                 "includedUnits": 17
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:15cbfabf6f18925d953e626f37d4ae77",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "23",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2276,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.35897435897436,
+                "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:16100aa606ec8d8c9d3419bb87652674",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "27",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3501,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8,
+                "includedUnits": 18
               }
             ]
           }
@@ -1084,6 +1458,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 15.421010392072004,
                 "includedUnits": 8.000052042674994
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:179e75afff88dd2af73da645b1b9a7f2",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "4",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 546,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 78,
+                "includedUnits": 3
               }
             ]
           }
@@ -1227,6 +1635,40 @@
       }
     },
     {
+      "id": "customer:1b7c11d904b57408ddd8277df6aec4a3",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "7",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 526,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.833333333333336,
+                "includedUnits": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:1b9e481dcc6faccae0a517b4f2f3098e",
       "selector": {
         "engineId": "seedance-2-5",
@@ -1295,6 +1737,74 @@
       }
     },
     {
+      "id": "customer:1e9acc2eb89a9fcf3cbb13d135a74e9e",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "6",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 585,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.5,
+                "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:1f8d8723b023c799133ab2d844c8e9f3",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "29",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2145,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.775510204081634,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:2029833607c821d5ee60ced75b3ba61c",
       "selector": {
         "engineId": "seedance-2-5",
@@ -1322,6 +1832,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 15.39997710125705,
                 "includedUnits": 14.000052042674994
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:20c5382e370af4d67bcf5759cc0062cb",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "7",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 935,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.91666666666667,
+                "includedUnits": 5
               }
             ]
           }
@@ -1533,6 +2077,40 @@
       }
     },
     {
+      "id": "customer:25d2f7f6ef218cd5c5ba11bba0a80ac0",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "9",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 658,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.86666666666667,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:2602a63beb3d0f46ab0624514e64517a",
       "selector": {
         "engineId": "seedance-2-5",
@@ -1628,6 +2206,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 20.2,
                 "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:2732cc15bb5d53a7f98fd7629a5deb89",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "4",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 716,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.28574229360532,
+                "includedUnits": 2.9999980832593787
               }
             ]
           }
@@ -1737,6 +2349,40 @@
       }
     },
     {
+      "id": "customer:28d6370ae6f6ebe9e4f09aa8d9920795",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "11",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1479,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.84210526315789,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:296fa019647cb7af46fddd0f05519d46",
       "selector": {
         "engineId": "seedance-2-5",
@@ -1764,6 +2410,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 15.39996794177894,
                 "includedUnits": 10.000052042674994
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:29896b161c1a7bbd2a7dd59217156d6d",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "13",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1713,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.86363636363636,
+                "includedUnits": 9
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:2a05a64f2c813fafb2bb4a7e68b3b6f4",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "14",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1402,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.416666666666664,
+                "includedUnits": 10
               }
             ]
           }
@@ -1873,6 +2587,40 @@
       }
     },
     {
+      "id": "customer:2b400250e0e1c14b765359ea23d3de5f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "10",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1737,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.17642834700357,
+                "includedUnits": 7.000007028048945
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:2b95d0bc15934f3b9e12f2fe57858003",
       "selector": {
         "engineId": "seedance-2-5",
@@ -1934,6 +2682,142 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.55,
                 "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:2c06d06ae07580b9b84d0c640f4d3a87",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "8",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1090,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.85714285714286,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:2c0f3bef315388f1a577e060d8d0059d",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "9",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1168,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.86666666666666,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:2c60aff4f3853c6efb3315de3d2fce35",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "23",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3982,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.10256912061902,
+                "includedUnits": 15.999998083259378
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:2ca73b13dec2fa7d35ed75a53538f62d",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "5",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 702,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 78,
+                "includedUnits": 4
               }
             ]
           }
@@ -2179,6 +3063,74 @@
       }
     },
     {
+      "id": "customer:2e74e62e23f89271caa950c6d7f5e4ac",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "18",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2335,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.83333333333333,
+                "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:2e844e7536ddcdc8548f3398df168624",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "16",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1577,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.407407407407405,
+                "includedUnits": 11
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:2e9270fc47c56eb388bc803e048ab8a3",
       "selector": {
         "engineId": "seedance-2-5",
@@ -2281,6 +3233,74 @@
       }
     },
     {
+      "id": "customer:304306e4cf9bb73558c89b1e43b6ead5",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "13",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1284,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36363636363637,
+                "includedUnits": 9
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:3122a9aebcedac3e1ca27ac9479dab24",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "30",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2918,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:3223ebfc55477f43aa730766731409e0",
       "selector": {
         "engineId": "seedance-2-5",
@@ -2308,6 +3328,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.666666666666664,
                 "includedUnits": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:332c9c89e8f6bc0394ba8ae97bd5c614",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "25",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3268,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.80952380952381,
+                "includedUnits": 17
               }
             ]
           }
@@ -2478,6 +3532,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 25.93616703928551,
                 "includedUnits": 19.000005750795047
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:35d1698cd6d9369206451a195f03fd77",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "12",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2043,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.15001305300531,
+                "includedUnits": 7.999997444345837
               }
             ]
           }
@@ -2791,6 +3879,74 @@
       }
     },
     {
+      "id": "customer:3cc2b6f09c9fad86ec59d705279d0f7c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "21",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3574,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.11431367523615,
+                "includedUnits": 13.999990416296896
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:3ce326d4927d8e875ba8aee8d0e06a3d",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "29",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3813,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.81632653061224,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:3d13bbcbae4f647d13b378827e20a170",
       "selector": {
         "engineId": "seedance-2-5",
@@ -2818,6 +3974,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.538461538461538,
                 "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:3d14ab69e94c5f013400bce31fb24a83",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "25",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 4288,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.0952163518994,
+                "includedUnits": 17.000008944789563
               }
             ]
           }
@@ -2893,6 +4083,40 @@
       }
     },
     {
+      "id": "customer:3e7f4bfeb90dc6bd4ff6cea78d2c232c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "13",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1284,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36363636363637,
+                "includedUnits": 9
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:40b26051d3ab8122764f9d30a086e7cb",
       "selector": {
         "engineId": "seedance-2-5",
@@ -2961,6 +4185,40 @@
       }
     },
     {
+      "id": "customer:44bdb885ea974a541752f328b9cc3627",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "12",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 876,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.8,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:450f6a876638209166b82494b885e0b7",
       "selector": {
         "engineId": "seedance-2-5",
@@ -2995,6 +4253,40 @@
       }
     },
     {
+      "id": "customer:4565951b8c0116b9cfee28e87aa7ccf6",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "9",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1532,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.13338118656011,
+                "includedUnits": 5.999992971951057
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:45c6327c378b84ff1940de7280294562",
       "selector": {
         "engineId": "seedance-2-5",
@@ -3022,6 +4314,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.714285714285715,
                 "includedUnits": 3
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:45d344d31b187b9367ece4d238b1b184",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "30",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2918,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36,
+                "includedUnits": 20
               }
             ]
           }
@@ -3097,6 +4423,74 @@
       }
     },
     {
+      "id": "customer:4851b019cf4160c88441a0818e9be511",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "15",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1459,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:490f7750834011abdfe2e24d9ca72eee",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "16",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1577,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.407407407407405,
+                "includedUnits": 11
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:49462d2afe2eb122d4aeff0ddc79362d",
       "selector": {
         "engineId": "seedance-2-5",
@@ -3124,6 +4518,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 8.68,
                 "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:497d0955bd82215b927d6fb3fde9ecca",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "28",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2743,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.361702127659576,
+                "includedUnits": 19
               }
             ]
           }
@@ -3165,6 +4593,40 @@
       }
     },
     {
+      "id": "customer:49bc907f1773646897d9dd6a58535c53",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "19",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2490,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8125,
+                "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:4adca90c5efd42619fd405b02115749e",
       "selector": {
         "engineId": "seedance-2-5",
@@ -3192,6 +4654,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.666666666666666,
                 "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:4ae5f4d040ad8ed7e6251047713dffd6",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "30",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2188,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.76,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:4b7e311340660966cf6208df3b3dc719",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "21",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2043,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.371428571428574,
+                "includedUnits": 14
               }
             ]
           }
@@ -3267,6 +4797,40 @@
       }
     },
     {
+      "id": "customer:4c9084fa271d0246b9fe97a17ede3f84",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "15",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1946,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.84,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:4cc1c730bbd3e9aa7755c3664db69271",
       "selector": {
         "engineId": "seedance-2-5",
@@ -3294,6 +4858,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.57446808510638,
                 "includedUnits": 19
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:4dc42f66923c9e0c88c8e47c15a6cd01",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "24",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 4085,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.12501304981073,
+                "includedUnits": 15.999994888691674
               }
             ]
           }
@@ -3607,6 +5205,142 @@
       }
     },
     {
+      "id": "customer:51612fb1999b3b852153f152806797d3",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "10",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1324,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.88235294117646,
+                "includedUnits": 7
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:5203563aef83b0bc6a4fc8835ca46711",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "22",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1620,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.78378378378378,
+                "includedUnits": 15
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:530e85877e473cd8751178350e8c1035",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "20",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2646,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82352941176471,
+                "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:54b290c2d2df2441a93cf3c0b17c6013",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "20",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3472,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.11766624834107,
+                "includedUnits": 13.9999936108646
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:54ec67166c2cd7e9c827b443186712ad",
       "selector": {
         "engineId": "seedance-2-5",
@@ -3770,6 +5504,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 8.777777777777779,
                 "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:564189f73e539adc018019b21f175057",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "10",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1324,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.88235294117646,
+                "includedUnits": 7
               }
             ]
           }
@@ -3947,6 +5715,40 @@
       }
     },
     {
+      "id": "customer:590795a83af7f35a39d95d79ef54e866",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "13",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1713,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.86363636363636,
+                "includedUnits": 9
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:5a4b64d085d744e6a636b696e09afde9",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4049,6 +5851,40 @@
       }
     },
     {
+      "id": "customer:5c538f254fbe56fdda0f9bb040f3945a",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "29",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 5003,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.1020261718768,
+                "includedUnits": 20.00000702804894
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:5cd792f6ad3165265de747113165586c",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4076,6 +5912,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.59090909090909,
                 "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:5d0828765ab699b4bafccbc83c1ce358",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "10",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 993,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.411764705882355,
+                "includedUnits": 7
               }
             ]
           }
@@ -4185,6 +6055,40 @@
       }
     },
     {
+      "id": "customer:5de44abe75e06f8987465fc96ae22a8a",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "16",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1183,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.81481481481482,
+                "includedUnits": 11
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:5de6fe7fc683f6309c338dfdc8f9d5c6",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4279,6 +6183,40 @@
               {
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.578947368421053,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:5e428f8bab00b56cc027d7a5c2484ab5",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "12",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1168,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.4,
                 "includedUnits": 8
               }
             ]
@@ -4382,6 +6320,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 20.2,
                 "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:5fdd7e666c34b07cae441c3319608d27",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "16",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2102,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.85185185185185,
+                "includedUnits": 11
               }
             ]
           }
@@ -4593,6 +6565,74 @@
       }
     },
     {
+      "id": "customer:64287eea1494add9a867b40165fe2af7",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "28",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3657,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.80851063829788,
+                "includedUnits": 19
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:65a6602c1c95ff33ff958c43fcf39e1b",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "22",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3778,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.10809576573743,
+                "includedUnits": 15.000004472394785
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:66645f1efbfb8576d7aae7a2b0abdf24",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4695,6 +6735,40 @@
       }
     },
     {
+      "id": "customer:67c746334b13e1f112186325df9dc600",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "19",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1868,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.375,
+                "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:68781cbfd2a129fb12ff62cc0a4862fd",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4729,6 +6803,40 @@
       }
     },
     {
+      "id": "customer:68bfef1ea1181ce9ea42be45c04e6561",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "30",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3890,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:6993e8de9d762d4255d5c849d4496fb0",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4756,6 +6864,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 19.482758620689655,
                 "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:6a351e428d8ee2c2c144a9f1b3850d59",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "19",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1401,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.78125,
+                "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:6a81d7aa2dcc1d157aa4229199bccb49",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "15",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1459,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36,
+                "includedUnits": 10
               }
             ]
           }
@@ -4865,6 +7041,40 @@
       }
     },
     {
+      "id": "customer:6bde31bd504c8a024c26eabf490ffb58",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "19",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1868,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.375,
+                "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:6c02e0d985eed8e33b46927a79bd8d67",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4967,6 +7177,74 @@
       }
     },
     {
+      "id": "customer:6d3aa9cfc9ff02f7c96289b7c27f7a9e",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "6",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 779,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.9,
+                "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:6d543ca0f999e3f07ae4271276814beb",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "11",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1940,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.10525972439827,
+                "includedUnits": 8.00000063891354
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:6d8a0b5e9e1deb602f4575f39bc7748f",
       "selector": {
         "engineId": "seedance-2-5",
@@ -4994,6 +7272,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 8.685714285714285,
                 "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:6e3a33ae3be5e1a4d0710b7e7bde47de",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "27",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 4595,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.11111256089272,
+                "includedUnits": 17.99999936108646
               }
             ]
           }
@@ -5341,6 +7653,142 @@
       }
     },
     {
+      "id": "customer:74cfc70ad30cb6de3e244678e2498dbe",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "17",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1270,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.793103448275865,
+                "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:74f40f024cb17e901346007482324df5",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "17",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2257,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82758620689656,
+                "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:77a01d85193c0adf9dd6453ab88c050d",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "24",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2335,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.375,
+                "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:79ccbfe32d38938341525e35c33138b6",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "4",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 410,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.57142857142857,
+                "includedUnits": 3
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:7a89840e0ed922007bee61883936e6eb",
       "selector": {
         "engineId": "seedance-2-5",
@@ -5368,6 +7816,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 15.428456723120158,
                 "includedUnits": 3.0000520426749935
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:7abda8cd225702316342db38ca8418bf",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "24",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3113,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.825,
+                "includedUnits": 16
               }
             ]
           }
@@ -5538,6 +8020,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.533333333333333,
                 "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:7caa7c118f4703ed427c1740b78827bf",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "15",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1094,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.76,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:7cce0e3470d74ecfedba2850c3cc109e",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "9",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 876,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.4,
+                "includedUnits": 6
               }
             ]
           }
@@ -5919,6 +8469,108 @@
       }
     },
     {
+      "id": "customer:867bcde563d175848f134e045447ce9a",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "28",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2057,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.765957446808514,
+                "includedUnits": 19
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:870f05feb29dc45e08e61e1bde18e1ee",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "17",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2257,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82758620689656,
+                "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:871801dd1d76e45da38c1915a666dbf7",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "15",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1946,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.84,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:8771eaa5f35d434525f0161799b50602",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6048,6 +8700,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 20.2,
                 "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:8a040dc8e35037cde3a7d04331b2f5c5",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "26",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2568,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36363636363637,
+                "includedUnits": 18
               }
             ]
           }
@@ -6293,6 +8979,108 @@
       }
     },
     {
+      "id": "customer:8d491922d684e6ca8262e55430d78728",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "28",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2743,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.361702127659576,
+                "includedUnits": 19
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:8d50350e55cbee0f64ca17a5b14ee0da",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "16",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2102,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.85185185185185,
+                "includedUnits": 11
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:8d8e6716a21fea3e02f4d7da4fed1ed9",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "6",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1022,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.19990858433242,
+                "includedUnits": 4.000008944789565
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:8df3aca1521e03d9127524f3b8829f61",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6320,6 +9108,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.542857142857143,
                 "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:8df555021f05cafd292646472e42302f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "23",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1707,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.76923076923077,
+                "includedUnits": 16
               }
             ]
           }
@@ -6361,6 +9183,40 @@
       }
     },
     {
+      "id": "customer:90561311828d7f8808556fef15e08d85",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "5",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 526,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.44444444444444,
+                "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:909ba004ea388e2c0a9e0cc64895fedb",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6388,6 +9244,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 20.17241379310345,
                 "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:90d9846c440978bed5cff241eb6a4e14",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "26",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1926,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.77272727272727,
+                "includedUnits": 18
               }
             ]
           }
@@ -6463,6 +9353,74 @@
       }
     },
     {
+      "id": "customer:9154ef64fccbbccfeed466a590613feb",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "22",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2160,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.37837837837838,
+                "includedUnits": 15
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:91d52206d873f88d24f5d99c101bc56c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "27",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1970,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.77777777777778,
+                "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:920f866b4c9b071c777f2bfaa9a76f6d",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6490,6 +9448,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 8.7,
                 "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:92c929b7c54edc81092260250be6a170",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "4",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 546,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 78,
+                "includedUnits": 3
               }
             ]
           }
@@ -6565,6 +9557,40 @@
       }
     },
     {
+      "id": "customer:93912550c40e9e53321a062ee47358db",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "22",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2160,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.37837837837838,
+                "includedUnits": 15
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:9436a76e2cb3ae88bb4f511ff9e7a12f",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6599,6 +9625,40 @@
       }
     },
     {
+      "id": "customer:94479d1f5f5881411ba07f5f00e891d6",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "29",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3813,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.81632653061224,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:945e92b13bf73f2dcdc8547047d37cda",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6626,6 +9686,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.592592592592595,
                 "includedUnits": 11
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:9487c6ab5b5476673533f49f9641043b",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "7",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1226,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.16664490811573,
+                "includedUnits": 5.000002555654161
               }
             ]
           }
@@ -6735,6 +9829,74 @@
       }
     },
     {
+      "id": "customer:98bac5f2b1a77bbdbd206626ca0fbf09",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "23",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2276,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.35897435897436,
+                "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:98dbfa96be4eff47e4d186ebbc77534f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "26",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3424,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.81818181818181,
+                "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:994a8382d0368df128fa76bffe3042f3",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6762,6 +9924,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.575,
                 "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:996cc0d9290946604a7f8c1fbcb8ad1b",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "18",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3064,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.13331158188143,
+                "includedUnits": 12.000006389135404
               }
             ]
           }
@@ -6837,6 +10033,74 @@
       }
     },
     {
+      "id": "customer:9a55dc7ad5344917d46d06f96680af9a",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "19",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3267,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.09375,
+                "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:9aa17a9289f31c242a3ec46be9f0476c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "7",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 701,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.416666666666664,
+                "includedUnits": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:9b302c12ab0fe955472c0c35438e6600",
       "selector": {
         "engineId": "seedance-2-5",
@@ -6898,6 +10162,142 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 19.5,
                 "includedUnits": 9
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:9c6012ecf3e86f4d13314a0bcdc2d634",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "17",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2961,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.10341453348929,
+                "includedUnits": 12.000009583703104
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:9c6626acc44ef52e8dc9389f1ec7352b",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "20",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1985,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.38235294117647,
+                "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:9d129e243888ad53f18754099d550aa3",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "30",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3890,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:9dce834b7b9b1c5154f1b7a4add3f431",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "20",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1985,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.38235294117647,
+                "includedUnits": 14
               }
             ]
           }
@@ -7109,6 +10509,74 @@
       }
     },
     {
+      "id": "customer:a23fe7d4d91b51818ece908cbba49941",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "6",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 779,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.9,
+                "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:a319c87085060b71d39b1ba4d5b2a5fb",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "21",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2724,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82857142857142,
+                "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:a408f340d03abae876b453469a6b4d84",
       "selector": {
         "engineId": "seedance-2-5",
@@ -7279,6 +10747,108 @@
       }
     },
     {
+      "id": "customer:a65c73ca9d20914cf9ef77ff84a9507c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "9",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 876,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.4,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:a6bff7027997d4d3adc0cbec9467cd58",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "7",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 701,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.416666666666664,
+                "includedUnits": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:a6da9d08d417345900a65ef0da4c3c19",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "5",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 920,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.22231656065425,
+                "includedUnits": 3.9999916941239757
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:a6ee66754250be063bba303c83a9d215",
       "selector": {
         "engineId": "seedance-2-5",
@@ -7313,6 +10883,40 @@
       }
     },
     {
+      "id": "customer:a75e602d034b1405164c91058df896ab",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "23",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3035,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82051282051282,
+                "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:a7d83b40ce24ce623355cd1f5c6086fe",
       "selector": {
         "engineId": "seedance-2-5",
@@ -7340,6 +10944,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.59375,
                 "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:a81f628b431ca437eb40ddbd37558e57",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "27",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3501,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8,
+                "includedUnits": 18
               }
             ]
           }
@@ -7449,6 +11087,40 @@
       }
     },
     {
+      "id": "customer:aa06d133fe2104c6eecaed0848cd363f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "5",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 395,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.888888888888886,
+                "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:aa0a7036fc54afb3047951c0a3c0f984",
       "selector": {
         "engineId": "seedance-2-5",
@@ -7476,6 +11148,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.54054054054054,
                 "includedUnits": 15
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:ab5ce5017edcf9100c438dfebaa8bb30",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "13",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 963,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.77272727272727,
+                "includedUnits": 9
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:ab904d90e3b1dbc95e83115d2c961411",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "5",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 526,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.44444444444444,
+                "includedUnits": 4
               }
             ]
           }
@@ -7619,6 +11359,142 @@
       }
     },
     {
+      "id": "customer:adbb4a9f60321a67b8ea4239cd33f2f0",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "17",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1693,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.37931034482759,
+                "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:adea8aee279e85b6212818d9f6929a11",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "26",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3424,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.81818181818181,
+                "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:adf5e113f6ecd4d1c97349d65981417c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "21",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1532,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.77142857142857,
+                "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:ae42fb0b05c390fb2bd14dc64fd0359f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "14",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1051,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.791666666666664,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:ae9d483a2807c416a2ec86ff78fabd8a",
       "selector": {
         "engineId": "seedance-2-5",
@@ -7653,6 +11529,74 @@
       }
     },
     {
+      "id": "customer:afd38fb3ca7c9fddaba8a026cc7389fb",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "27",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2626,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.355555555555554,
+                "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:aff81223b18b1de23c9f3361e759bcc0",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "11",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1479,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.84210526315789,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:b00d550b3dacc77f33a4cbfe457298f4",
       "selector": {
         "engineId": "seedance-2-5",
@@ -7680,6 +11624,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 25.931019056140418,
                 "includedUnits": 12.000017252385142
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:b0725ea1fa8faeff6e5d3f002e37b719",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "30",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 5105,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.0999921720319,
+                "includedUnits": 20.000003833481244
               }
             ]
           }
@@ -8027,6 +12005,74 @@
       }
     },
     {
+      "id": "customer:b5838b9df84fe368a0c2c26cfbf32133",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "11",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 832,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.78947368421053,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:b5b9f32938e90b099d50e03f218cdf73",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "14",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1868,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.83333333333333,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:b5d66a51a48c1225cd74001740a0eacf",
       "selector": {
         "engineId": "seedance-2-5",
@@ -8163,6 +12209,40 @@
       }
     },
     {
+      "id": "customer:b6efcc42eaf56a5a2a82b4a93c984e65",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "25",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3268,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.80952380952381,
+                "includedUnits": 17
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:b73d45f3baff06c6d85d2d1af0940556",
       "selector": {
         "engineId": "seedance-2-5",
@@ -8265,6 +12345,40 @@
       }
     },
     {
+      "id": "customer:b8098a6397e60b5e72fa2cd630988280",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "20",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2646,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82352941176471,
+                "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:b83b0e1d90e823f38fd9a8311a7fc6ea",
       "selector": {
         "engineId": "seedance-2-5",
@@ -8326,6 +12440,108 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 25.9318046246824,
                 "includedUnits": 18.00002300318019
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:b89a8bfa512dd19ffe22a7d32e698789",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "12",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1557,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.85,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:b8ded0c3ae47651861634864b28d2ba4",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "5",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 702,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 78,
+                "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:b8f7e813fabbd8e6869315f5ef59f605",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "21",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2724,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82857142857142,
+                "includedUnits": 14
               }
             ]
           }
@@ -8503,6 +12719,108 @@
       }
     },
     {
+      "id": "customer:bbde746026ed7bfdf0808f3282481b5c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "25",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2451,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.357142857142854,
+                "includedUnits": 17
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:bc8c936af9f23b7fff58f6f0ae7b824c",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "15",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2553,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.1199921704985,
+                "includedUnits": 10.000001916740622
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:bc9954117457a888173d75ab24d1c6bb",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "23",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3035,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.82051282051282,
+                "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:bd3ccf35b7ae14605a89bb02baeb8c25",
       "selector": {
         "engineId": "seedance-2-5",
@@ -8571,6 +12889,74 @@
       }
     },
     {
+      "id": "customer:be044247833c542cc1a0277b8cd247e1",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "14",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1868,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.83333333333333,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:be0fa0183e160137117b6141a6c69b7d",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "28",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 4799,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.10639824699498,
+                "includedUnits": 18.99999297195106
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:be1171544729cbc3ec5ea7abf0095d06",
       "selector": {
         "engineId": "seedance-2-5",
@@ -8598,6 +12984,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.6,
                 "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:bf1bddb09444b315b851c7413899f0ac",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "6",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 585,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.5,
+                "includedUnits": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:bf792cfe713ebb5e69663516e1ceff23",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "4",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 410,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.57142857142857,
+                "includedUnits": 3
               }
             ]
           }
@@ -8707,6 +13161,74 @@
       }
     },
     {
+      "id": "customer:c080002b7939b9e41d552f30a1edb436",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "18",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1314,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.8,
+                "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:c0d15501b3d460368d3ff23ff4f53dc0",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "10",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 993,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.411764705882355,
+                "includedUnits": 7
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:c20803d81178ce7750199b48cc6f12b5",
       "selector": {
         "engineId": "seedance-2-5",
@@ -8734,6 +13256,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 15.466613005072407,
                 "includedUnits": 6.000052042674994
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:c25045059e352395849745f90f322171",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "24",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2335,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.375,
+                "includedUnits": 16
               }
             ]
           }
@@ -8877,6 +13433,40 @@
       }
     },
     {
+      "id": "customer:c5de2eb00660de484a52faf5dda7fef4",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "20",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1489,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.794117647058826,
+                "includedUnits": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:c61fe800ba7214267d7fb9561ea7d662",
       "selector": {
         "engineId": "seedance-2-5",
@@ -8972,6 +13562,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 15.405383736827595,
                 "includedUnits": 15.000052042674994
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:c763f5eea458ec394fe9efd3be6c9def",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "4",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 307,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.857142857142854,
+                "includedUnits": 3
               }
             ]
           }
@@ -9115,6 +13739,40 @@
       }
     },
     {
+      "id": "customer:c9cc4dadc4d8447e1bc0d8e8bae3cabe",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "25",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1839,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.785714285714285,
+                "includedUnits": 17
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:ca7b0c1a606ea22ba3ce6a858d7f7082",
       "selector": {
         "engineId": "seedance-2-5",
@@ -9176,6 +13834,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 25.95453188552787,
                 "includedUnits": 9.000011501590095
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:cce3b6b43a910caee8ab28dcd8a2a478",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "22",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2879,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8108108108108,
+                "includedUnits": 15
               }
             ]
           }
@@ -9278,6 +13970,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 34.6,
                 "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:d0ec980849bc33b14e47541514598fbd",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "24",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1751,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.775,
+                "includedUnits": 16
               }
             ]
           }
@@ -9421,6 +14147,40 @@
       }
     },
     {
+      "id": "customer:d2d742debc0a7cea1fe796ee808c5082",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "12",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1168,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.4,
+                "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:d3fd8ae29b542fad8c5f788ad14429c4",
       "selector": {
         "engineId": "seedance-2-5",
@@ -9448,6 +14208,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 8.68421052631579,
                 "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:d43c73cb178a9377be3d819ba6bbcc72",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "6",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 438,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.8,
+                "includedUnits": 4
               }
             ]
           }
@@ -9591,6 +14385,40 @@
       }
     },
     {
+      "id": "customer:da30deccaeaf6de71d23f6915080ae50",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "13",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2247,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.1364051631205,
+                "includedUnits": 8.999991055210437
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:da329cb120b4bab7e460b3dff81311b5",
       "selector": {
         "engineId": "seedance-2-5",
@@ -9652,6 +14480,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 15.379282745551256,
                 "includedUnits": 12.000052042674994
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:da6979912198e21057f62f47f18be52f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "7",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 935,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.91666666666667,
+                "includedUnits": 5
               }
             ]
           }
@@ -9761,6 +14623,40 @@
       }
     },
     {
+      "id": "customer:db8d61284b9b0f7873d4304474764e77",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "8",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1431,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.21431370261817,
+                "includedUnits": 5.999996166518757
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:dbf18c2637b5c2a910f575168807465e",
       "selector": {
         "engineId": "seedance-2-5",
@@ -9788,6 +14684,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 19.48,
                 "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:dc43e23f354dbfbc853fbac69185e306",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "21",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2043,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.371428571428574,
+                "includedUnits": 14
               }
             ]
           }
@@ -10033,6 +14963,40 @@
       }
     },
     {
+      "id": "customer:e01392d85f2dfbd7455d4cd9d577eb1f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "29",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2859,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.3469387755102,
+                "includedUnits": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:e08a7044b8178a61cf274a898872dc8d",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10060,6 +15024,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.6,
                 "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:e1bbc0dc78cf13c4d45bd477d1508a0e",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "8",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 818,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.42857142857143,
+                "includedUnits": 6
               }
             ]
           }
@@ -10271,6 +15269,40 @@
       }
     },
     {
+      "id": "customer:e68ecf9d13a5f44ed3054af57a6cd40f",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "19",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2490,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.8125,
+                "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:e6bfd335ca60f80fa60754da3b097497",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10373,6 +15405,40 @@
       }
     },
     {
+      "id": "customer:e842f99f826cb0d03686ee1a164b432a",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "24",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3113,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.825,
+                "includedUnits": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:e8cc2bd158ccc7e5ab0bd0b0b86643d5",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10400,6 +15466,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 25.96875,
                 "includedUnits": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:e91cb87ee5b926828853802a3a255486",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "28",
+        "aspectRatio": "9:16",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 3657,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.80851063829788,
+                "includedUnits": 19
               }
             ]
           }
@@ -10468,6 +15568,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 25.95453188552787,
                 "includedUnits": 9.000011501590095
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:ec920e929ee027bc31a62517c6af16bd",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "18",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2335,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.83333333333333,
+                "includedUnits": 12
               }
             ]
           }
@@ -10577,6 +15711,40 @@
       }
     },
     {
+      "id": "customer:edb42be5e7dde5b069d862a68dbef5b3",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "8",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 818,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.42857142857143,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:edefb95daafa6e61a512a2f4590cbd01",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10604,6 +15772,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.6,
                 "includedUnits": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:efd44952358bb30bfbbe76fdf46c5ce9",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "16",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2758,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.14816506840445,
+                "includedUnits": 10.999995527605218
               }
             ]
           }
@@ -10679,6 +15881,40 @@
       }
     },
     {
+      "id": "customer:f069ffa974f80ea8c90b8ab44c8d843b",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "10",
+        "aspectRatio": "1:1",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 745,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 43.8235294117647,
+                "includedUnits": 7
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:f123c036089c3d43be21781899e4b108",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10706,6 +15942,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 11.714285714285714,
                 "includedUnits": 3
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:f204aa1a8cfd6f297d5cc15f3ff9ba91",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "25",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2451,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.357142857142854,
+                "includedUnits": 17
               }
             ]
           }
@@ -10781,6 +16051,74 @@
       }
     },
     {
+      "id": "customer:f50028473a2c3e708209256fa3741115",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "26",
+        "aspectRatio": "21:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 4493,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 102.11363043256534,
+                "includedUnits": 18.000002555654163
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:f5391908c9d7026df43f96ee86a26dcd",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "8",
+        "aspectRatio": "16:9",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1090,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 77.85714285714286,
+                "includedUnits": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:f55d3bd4a6e9e96f7332cb672387ddf6",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10815,6 +16153,40 @@
       }
     },
     {
+      "id": "customer:f6490a67e435e2ee5b1e911a84708b89",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "18",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1751,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36666666666667,
+                "includedUnits": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:f6e606201cb7ce853faaf089c696d717",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10842,6 +16214,74 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 20.181818181818183,
                 "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:f7fbb1ba201e0b38cec246ad1d3daaec",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "26",
+        "aspectRatio": "3:4",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 2568,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36363636363637,
+                "includedUnits": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:f8e8bf0cd6ec9c3cc6adb475aa9b14a9",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "17",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1693,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.37931034482759,
+                "includedUnits": 12
               }
             ]
           }
@@ -10951,6 +16391,40 @@
       }
     },
     {
+      "id": "customer:fc9ff7da5292db80c44b9d9d4ad20bca",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "14",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1402,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.416666666666664,
+                "includedUnits": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "customer:fe2b13ca9320d624183682f3c3508152",
       "selector": {
         "engineId": "seedance-2-5",
@@ -10978,6 +16452,40 @@
                 "unit": "input_video_seconds",
                 "centsPerUnit": 45.42104230620944,
                 "includedUnits": 8.000004319187994
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer:ff4d3fb8afd3c7f308bbf5048d56cfa4",
+      "selector": {
+        "engineId": "seedance-2-5",
+        "mode": "v2v",
+        "resolution": "1080p",
+        "durationSec": "18",
+        "aspectRatio": "4:3",
+        "inputVideoDurationSec": "continuous",
+        "billingInputType": "video_input"
+      },
+      "source": "versioned",
+      "version": 1,
+      "currency": "USD",
+      "effectiveFrom": "2026-10-19T00:00:00.000Z",
+      "price": {
+        "kind": "unit_components",
+        "rounding": "up",
+        "components": [
+          {
+            "id": "retail",
+            "rounding": "none",
+            "flatCents": 1751,
+            "terms": [
+              {
+                "unit": "input_video_seconds",
+                "centsPerUnit": 58.36666666666667,
+                "includedUnits": 12
               }
             ]
           }

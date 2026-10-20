@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import test from 'node:test';
 import { isValidManualTariffPrice } from '../packages/pricing/src/manual-tariff-price';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
+import { ENV } from '../frontend/src/lib/env';
 import { continuousInputTariffSelector } from '../frontend/src/lib/pricing-manual-scenario';
 import { computeCanonicalBillingSnapshot } from '../frontend/server/pricing/quote-billing';
 import { validateSeedanceInputTariffDomain } from '../frontend/server/pricing/seedance-input-tariff';
@@ -13,12 +14,19 @@ import { buildSeedanceV2vVersionedCells, customerTariffDocumentText,
 const documentPath = resolve('frontend/config/customer-tariffs.json');
 const key = (selector: Record<string, string>) => JSON.stringify(Object.entries(selector).sort(([a], [b]) => a.localeCompare(b)));
 const INPUTS = [4, 5, 8.25, 15, 30];
+/** Coverage follows the Edit transport (ModelArk also sells 1080p); the authored cells are ModelArk cells. */
+function modelArkCoverage(selection?: { modelId: string; mode: string }) {
+  const previous = ENV.SEEDANCE_2_5_EDIT_TRANSPORT;
+  ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'modelark';
+  try { return collectSellableManualTariffCoverage(selection as never); } finally { ENV.SEEDANCE_2_5_EDIT_TRANSPORT = previous; }
+}
+
 const policy = { loadOverrides: async () => ({ status: 'loaded' as const, rules: [] }) };
 
 test('the repository tariff file carries exactly one reviewed v2v cell for every covered Seedance 2.5 v2v selector',
   { concurrency: false }, async () => {
     const built = await buildSeedanceV2vVersionedCells();
-    const scenarios = collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios;
+    const scenarios = modelArkCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios;
     assert.equal(built.scenarioCount, scenarios.length);
     assert.equal(built.cells.length, scenarios.length, 'one cell per covered v2v scenario, no representative subset');
 
@@ -50,7 +58,7 @@ test('the repository tariff file carries exactly one reviewed v2v cell for every
 test('every file-authored v2v cell passes the whole-domain validator and keeps the no-video margin within rounding',
   { concurrency: false }, async () => {
     const document = JSON.parse(readFileSync(documentPath, 'utf8')) as { cells: any[] };
-    const scenarios = collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios;
+    const scenarios = modelArkCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios;
     const scenarioByKey = new Map(scenarios.map(s => [key(continuousInputTariffSelector(s.selector)!), s]));
     const { rows } = await buildSeedanceV2vVersionedCells();
     const rowByScenario = new Map(rows.map(row => [row.scenarioId, row]));
@@ -75,7 +83,7 @@ test('the live quote path reads the file without a database and honours the mini
   { concurrency: false }, async () => {
     const document = JSON.parse(readFileSync(documentPath, 'utf8')) as { cells: any[] };
     const cellByKey = new Map(document.cells.map(cell => [key(cell.selector), cell]));
-    const scenarios = collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios;
+    const scenarios = modelArkCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios;
     const state = { status: 'loaded' as const, active: true, revision: 1, databaseCells: [], versionedCells: document.cells };
     await withModelArkEditTransport(async () => {
       for (const scenario of scenarios) {
@@ -98,7 +106,7 @@ test('no other covered scenario selects a file-authored v2v cell and other model
   { concurrency: false }, async () => {
     const document = JSON.parse(readFileSync(documentPath, 'utf8')) as { cells: any[] };
     const cellKeys = new Set(document.cells.map(cell => key(cell.selector)));
-    const all = collectSellableManualTariffCoverage().scenarios;
+    const all = modelArkCoverage().scenarios;
     const selected = all.filter(s => cellKeys.has(key(continuousInputTariffSelector(s.selector) ?? s.selector)));
     assert.equal(selected.length, document.cells.length);
     assert.ok(selected.every(s => s.modelId === 'seedance-2-5' && s.selector.mode === 'v2v'));

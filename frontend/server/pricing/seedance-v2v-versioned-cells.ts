@@ -113,14 +113,16 @@ async function buildCell(scenario: ManualTariffCoverageScenario, at: string) {
 
 /** Deterministic authoring of every reviewed Seedance 2.5 ModelArk v2v selector. Performs no database access. */
 export async function buildSeedanceV2vVersionedCells(at: string = SEEDANCE_V2V_VERSIONED_CELL_EFFECTIVE_FROM) {
-  const coverage = collectSellableManualTariffCoverage({ modelId: MODEL_ID, mode: MODE });
-  if (coverage.gaps.length) throw new Error(`Seedance v2v coverage has gaps: ${JSON.stringify(coverage.gaps)}`);
-  const scenarios = [...coverage.scenarios].sort((a, b) => a.id.localeCompare(b.id));
-  if (!scenarios.length) throw new Error('No Seedance 2.5 v2v coverage scenarios.');
-  const built = await withModelArkEditTransport(async () => {
+  // The sellable resolutions follow the Edit transport (ModelArk also admits 1080p), so coverage is
+  // collected under the same ModelArk selection that prices it.
+  const { scenarios, built } = await withModelArkEditTransport(async () => {
+    const coverage = collectSellableManualTariffCoverage({ modelId: MODEL_ID, mode: MODE });
+    if (coverage.gaps.length) throw new Error(`Seedance v2v coverage has gaps: ${JSON.stringify(coverage.gaps)}`);
+    const sorted = [...coverage.scenarios].sort((a, b) => a.id.localeCompare(b.id));
+    if (!sorted.length) throw new Error('No Seedance 2.5 v2v coverage scenarios.');
     const items = [];
-    for (const scenario of scenarios) items.push(await buildCell(scenario, at));
-    return items;
+    for (const scenario of sorted) items.push(await buildCell(scenario, at));
+    return { scenarios: sorted, built: items };
   });
   built.sort((a, b) => a.cell.id.localeCompare(b.cell.id));
   if (new Set(built.map(item => item.cell.id)).size !== built.length) throw new Error('Duplicate Seedance v2v cell identity.');
