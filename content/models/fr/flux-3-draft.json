@@ -5,7 +5,7 @@
     "title": "Générateur vidéo IA FLUX 3 Draft pour les essais rapides",
     "description": "Testez texte, image, transition ou extension en 720p avec FLUX 3 Draft avant un passage en production, avec prompts et devis canoniques."
   },
-  "overview": "FLUX 3 Draft est la route d'exploration rapide de la nouvelle génération FLUX vidéo. Elle reprend les quatre workflows de FLUX 3 en 720p pour répondre à une question créative avant une passe standard. Black Forest Labs possède le modèle et Fal distribue les endpoints utilisés par VideoAI pour ce lancement.",
+  "overview": "FLUX 3 Draft est la route d'exploration rapide de la nouvelle génération FLUX vidéo. Elle reprend les quatre workflows de FLUX 3 en 720p pour répondre à une question créative avant une passe standard. Black Forest Labs possède le modèle et Fal distribue les endpoints utilisés par MaxVideoAI pour ce lancement.",
   "decision": {
     "modelSlug": "flux-3-draft",
     "hero": {
@@ -13,7 +13,7 @@
       "title": "FLUX 3 Draft",
       "subtitle": "Testez rapidement un prompt, une animation d'image, un pont entre deux cadres ou l'extension d'un clip en 720p.",
       "subtitleHighlights": ["rapidement", "quatre workflows", "720p"],
-      "paragraph": "Choisissez Draft pour répondre à une question précise sur l'action, la caméra, la compatibilité des images ou la continuité d'une extension avant d'investir dans la route standard. Les entrées restent celles des quatre modes de FLUX 3. Black Forest Labs possède FLUX ; Fal distribue l'exécution de ce modèle sur VideoAI au lancement.",
+      "paragraph": "Choisissez Draft pour répondre à une question précise sur l'action, la caméra, la compatibilité des images ou la continuité d'une extension avant d'investir dans la route standard. Les entrées restent celles des quatre modes de FLUX 3. Black Forest Labs possède FLUX ; Fal distribue l'exécution de ce modèle sur MaxVideoAI au lancement.",
       "primaryCta": { "label": "Générer avec FLUX 3 Draft", "href": "/app?engine=flux-3-draft" },
       "secondaryCta": { "label": "Voir la galerie FLUX", "href": "/fr/galerie/flux" },
       "quickLinks": [

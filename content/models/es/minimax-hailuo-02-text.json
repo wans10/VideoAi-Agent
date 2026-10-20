@@ -3,10 +3,10 @@
   "versionLabel": "02",
   "seo": {
     "title": "Hailuo 02 (512p/768p) — borradores texto a video (6–10s)",
-    "description": "Crea clips borrador Hailuo 02 de bajo costo en 512p/768p desde texto (o imágenes). Videos silenciosos de 6–10s para storyboards y pruebas de movimiento, y luego sube a Veo/Kling/Wan/Sora en VideoAI.",
+    "description": "Crea clips borrador Hailuo 02 de bajo costo en 512p/768p desde texto (o imágenes). Videos silenciosos de 6–10s para storyboards y pruebas de movimiento, y luego sube a Veo/Kling/Wan/Sora en MaxVideoAI.",
     "image": "/hero/minimax-video01.jpg"
   },
-  "overview": "MiniMax Hailuo 02 en VideoAI: clips cortos y económicos, con física marcada, a 512p/768p en 6 o 10 segundos. Entrada de texto o imagen, frame final opcional, salida silenciosa y pricing por wallet para borradores rápidos y loops.",
+  "overview": "MiniMax Hailuo 02 en MaxVideoAI: clips cortos y económicos, con física marcada, a 512p/768p en 6 o 10 segundos. Entrada de texto o imagen, frame final opcional, salida silenciosa y pricing por wallet para borradores rápidos y loops.",
   "hero": {
     "title": "MiniMax Hailuo 02 – Borradores de video IA económicos con física fuerte",
     "intro": "Borradores silenciosos de 6–10s en 512p/768p — pruebas de movimiento, cámara e iteración rápida.",
@@ -133,7 +133,7 @@
     },
     {
       "q": "¿Soporta video vertical?",
-      "a": "Sí — 16:9, 9:16, 1:1 están disponibles en VideoAI."
+      "a": "Sí — 16:9, 9:16, 1:1 están disponibles en MaxVideoAI."
     },
     {
       "q": "¿Soporta audio?",
@@ -182,10 +182,10 @@
         "icon": "coins"
       }
     ],
-    "whatTitle": "Qué es realmente MiniMax Hailuo 02 en VideoAI",
+    "whatTitle": "Qué es realmente MiniMax Hailuo 02 en MaxVideoAI",
     "whatIntro1": "El modelo principal de MiniMax para secuencias cortas con física fuerte y buena adherencia al prompt.",
-    "whatIntro2": "En VideoAI está cableado como un motor de borrador rápido y silencioso a 512p/768p.",
-    "whatFlowTitle": "Flujo VideoAI",
+    "whatIntro2": "En MaxVideoAI está cableado como un motor de borrador rápido y silencioso a 512p/768p.",
+    "whatFlowTitle": "Flujo MaxVideoAI",
     "whatFlowSteps": [
       "1. Elige MiniMax Hailuo 02.",
       "2. Selecciona Texto → Video o Imagen → Video.",
@@ -194,8 +194,8 @@
       "5. Pega un prompt corto orientado a la acción (añade física si hace falta).",
       "6. Revisa el precio por wallet antes de renderizar."
     ],
-    "specTitle": "Especificaciones reales — MiniMax Hailuo 02 en VideoAI (512p/768p, 6–10 s)",
-    "specNote": "Specs tal como se usan hoy en VideoAI.",
+    "specTitle": "Especificaciones reales — MiniMax Hailuo 02 en MaxVideoAI (512p/768p, 6–10 s)",
+    "specNote": "Specs tal como se usan hoy en MaxVideoAI.",
     "specSections": [
       {
         "title": "Borradores con física marcada",
@@ -272,7 +272,7 @@
       "Wan 2.5: 5–10 s con audio nativo/subido y múltiples tiers"
     ],
     "comparisonCta": "Comparar MiniMax vs Pika 2.2 →",
-    "faqTitle": "FAQ – MiniMax Hailuo 02 en VideoAI",
+    "faqTitle": "FAQ – MiniMax Hailuo 02 en MaxVideoAI",
     "faqs": [
       {
         "q": "¿Por qué elegir MiniMax en lugar de motores premium?",
@@ -284,7 +284,7 @@
       },
       {
         "q": "¿Puede hacer video vertical?",
-        "a": "Sí—16:9, 9:16, 1:1 están disponibles en VideoAI."
+        "a": "Sí—16:9, 9:16, 1:1 están disponibles en MaxVideoAI."
       },
       {
         "q": "¿Soporta audio?",
@@ -296,7 +296,7 @@
       }
     ],
     "relatedTitle": "Explora otros modelos",
-    "relatedSubtitle": "Compara precios, latencia y opciones de salida en VideoAI.",
+    "relatedSubtitle": "Compara precios, latencia y opciones de salida en MaxVideoAI.",
     "finalPara1": "MiniMax Hailuo 02 es tu motor de boceto rápido y con física para probar motion y transiciones barato.",
     "finalPara2": "Úsalo para explorar ideas y luego pasa los ganadores a modelos de gama alta para audio y finales en alta resolución.",
     "finalButton": "Abrir Generate",
@@ -439,14 +439,14 @@
     "pricingCopy": {
       "title": "Precios de MiniMax Hailuo 02 de un vistazo",
       "subtitle": "Totales de borrador. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 768P",
       "ctaHref": "/es/precios#minimax-hailuo-02-text-pricing"
     },
     "meta": {
-      "title": "MiniMax Hailuo 02: precios, borradores y ejemplos | VideoAI",
-      "description": "Explora MiniMax Hailuo 02: precios, borradores de movimiento económicos, pruebas físicas, imagen a video y ejemplos storyboard sin audio en VideoAI."
+      "title": "MiniMax Hailuo 02: precios, borradores y ejemplos | MaxVideoAI",
+      "description": "Explora MiniMax Hailuo 02: precios, borradores de movimiento económicos, pruebas físicas, imagen a video y ejemplos storyboard sin audio en MaxVideoAI."
     }
   },
   "prompting": {

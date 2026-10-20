@@ -5,7 +5,7 @@
     "title": "Générateur vidéo IA FLUX 3 : images, transition et extension",
     "description": "Utilisez FLUX 3 pour le texte, l'animation d'image, la transition entre deux images ou l'extension vidéo, avec prompts et devis canoniques."
   },
-  "overview": "FLUX 3 est la route de production actuelle de la famille vidéo FLUX. Elle couvre texte vers vidéo, image vers vidéo, transition entre première et dernière image et extension d'un clip. Black Forest Labs possède le modèle ; VideoAI distribue ces endpoints via Fal au lancement, sans affirmer une connexion directe au propriétaire.",
+  "overview": "FLUX 3 est la route de production actuelle de la famille vidéo FLUX. Elle couvre texte vers vidéo, image vers vidéo, transition entre première et dernière image et extension d'un clip. Black Forest Labs possède le modèle ; MaxVideoAI distribue ces endpoints via Fal au lancement, sans affirmer une connexion directe au propriétaire.",
   "decision": {
     "modelSlug": "flux-3",
     "hero": {
@@ -129,7 +129,7 @@
     "pricingCopy": {
       "title": "Tarification par scénario FLUX 3",
       "subtitle": "Comparez la même vidéo de six secondes en 720p et 1080p.",
-      "footnote": "Le prix dépend de vos réglages. VideoAI confirme le devis avant de générer.",
+      "footnote": "Le prix dépend de vos réglages. MaxVideoAI confirme le devis avant de générer.",
       "ctaLabel": "Générer avec FLUX 3",
       "ctaHref": "/app?engine=flux-3"
     },

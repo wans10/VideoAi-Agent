@@ -2,11 +2,11 @@
   "marketingName": "GPT Image 2.5 Flare",
   "versionLabel": "2.5 Flare",
   "seo": {
-    "title": "GPT Image 2.5 Flare - text-to-image y edición | VideoAI",
-    "description": "Genera y edita imágenes con GPT Image 2.5 Flare en VideoAI. Text-to-image, image-to-image, presets de tamaño, tamaño custom, niveles de calidad, formatos de salida y mask URL opcional.",
+    "title": "GPT Image 2.5 Flare - text-to-image y edición | MaxVideoAI",
+    "description": "Genera y edita imágenes con GPT Image 2.5 Flare en MaxVideoAI. Text-to-image, image-to-image, presets de tamaño, tamaño custom, niveles de calidad, formatos de salida y mask URL opcional.",
     "image": "https://media.maxvideoai.com/renders/images/301cc489-d689-477f-94c4-0b051deda0bc/eb9ab949-13ac-474a-b945-4f89d6effdd8.png"
   },
-  "overview": "GPT Image 2.5 Flare es un modelo de imagen quality-first dentro de VideoAI. Una sola entrada en Image Lab cubre text-to-image e image-to-image, con presets de tamaño, width/height custom, quality, número de salidas, formato y mask URL cuando un edit debe quedar limitado a una región.",
+  "overview": "GPT Image 2.5 Flare es un modelo de imagen quality-first dentro de MaxVideoAI. Una sola entrada en Image Lab cubre text-to-image e image-to-image, con presets de tamaño, width/height custom, quality, número de salidas, formato y mask URL cuando un edit debe quedar limitado a una región.",
   "hero": {
     "title": "GPT Image 2.5 Flare - generacion y edits de alta calidad",
     "intro": "Generación de imágenes para tipografía clara, producto realista, mockups UI, infografías y edits guiados por referencia.",
@@ -95,10 +95,10 @@
     },
     {
       "q": "¿Cuánto cuesta GPT Image 2.5 Flare?",
-      "a": "El precio depende del tamaño, la calidad y la cantidad de imágenes que elijas. VideoAI muestra la cotización antes de generar para que puedas ajustar la configuración a tu presupuesto."
+      "a": "El precio depende del tamaño, la calidad y la cantidad de imágenes que elijas. MaxVideoAI muestra la cotización antes de generar para que puedas ajustar la configuración a tu presupuesto."
     }
   ],
-  "pricingNotes": "Los costos varían por quality e image_size. VideoAI muestra el precio final antes de generar; usa la cotización de la app para estimaciones de cliente.",
+  "pricingNotes": "Los costos varían por quality e image_size. MaxVideoAI muestra el precio final antes de generar; usa la cotización de la app para estimaciones de cliente.",
   "custom": {
     "heroEyebrow": "Modelo de imagen GPT Image 2.5 Flare",
     "heroSupportLine": "Ideal para imagenes con texto, producto, mockups UI y edits controlados.",
@@ -123,7 +123,7 @@
     ],
     "whyTitle": "Por que GPT Image 2.5 Flare destaca",
     "heroDesc1": "GPT Image 2.5 Flare apunta a stills de alta fidelidad donde texto, detalle de producto y adherencia al prompt importan mas que la velocidad bruta.",
-    "heroDesc2": "En VideoAI funciona en Image Lab como una sola entrada para Create y Edit, con wallet compartida, referencias reutilizables, controles de calidad y precio live antes de ejecutar.",
+    "heroDesc2": "En MaxVideoAI funciona en Image Lab como una sola entrada para Create y Edit, con wallet compartida, referencias reutilizables, controles de calidad y precio live antes de ejecutar.",
     "heroHighlights": [
       "Texto legible||Util para posters, labels, infografias y pantallas UI con tipografia limpia.",
       "Fidelidad producto||Buen ajuste para packaging, catalogo y e-commerce con etiquetas visibles.",
@@ -151,7 +151,7 @@
     ],
     "boundaries": [
       "Solo imagenes fijas.",
-      "El composer VideoAI permite actualmente hasta 4 salidas por solicitud.",
+      "El composer MaxVideoAI permite actualmente hasta 4 salidas por solicitud.",
       "Edit requiere al menos una imagen de referencia.",
       "El mask se introduce como URL."
     ],
@@ -290,14 +290,14 @@
     "pricingCopy": {
       "title": "Precios de GPT Image 2.5 Flare de un vistazo",
       "subtitle": "Totales por escenario de imagen. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 4 imágenes",
       "ctaHref": "/es/precios#gpt-image-2-5-flare-pricing"
     },
     "meta": {
-      "title": "GPT Image 2.5 Flare: precios, texto legible y edición | VideoAI",
-      "description": "Explora GPT Image 2.5 Flare: precios, texto legible, producto, tamaños personalizados, ediciones con referencias y máscaras en VideoAI."
+      "title": "GPT Image 2.5 Flare: precios, texto legible y edición | MaxVideoAI",
+      "description": "Explora GPT Image 2.5 Flare: precios, texto legible, producto, tamaños personalizados, ediciones con referencias y máscaras en MaxVideoAI."
     }
   },
   "prompting": {
@@ -376,7 +376,7 @@
     "modelSlug": "gpt-image-2-5-flare",
     "section": {
       "title": "Ejemplos de GPT Image 2.5 Flare",
-      "intro": "Explora resultados de la comunidad y mira cómo GPT Image 2.5 Flare funciona en flujos de VideoAI.",
+      "intro": "Explora resultados de la comunidad y mira cómo GPT Image 2.5 Flare funciona en flujos de MaxVideoAI.",
       "defaultCtaLabel": null,
       "recreateLabel": "Recrear este resultado →"
     },

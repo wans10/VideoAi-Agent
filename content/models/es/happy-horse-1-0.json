@@ -2,11 +2,11 @@
   "marketingName": "Happy Horse 1.0",
   "versionLabel": "1.0",
   "seo": {
-    "title": "Happy Horse 1.0 | Ruta anterior de edición de video | VideoAI",
-    "description": "Usa la ruta anterior Happy Horse 1.0 para edición de video en VideoAI. Usa Happy Horse 1.1 para nuevas generaciones de texto, imagen y referencia.",
+    "title": "Happy Horse 1.0 | Ruta anterior de edición de video | MaxVideoAI",
+    "description": "Usa la ruta anterior Happy Horse 1.0 para edición de video en MaxVideoAI. Usa Happy Horse 1.1 para nuevas generaciones de texto, imagen y referencia.",
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
-  "overview": "Happy Horse 1.0 es la ruta anterior de Happy Horse para edición de video en VideoAI. Usa Happy Horse 1.1 para nuevas generaciones de texto, imagen y referencia, y conserva 1.0 cuando una fuente de video debe editarse.",
+  "overview": "Happy Horse 1.0 es la ruta anterior de Happy Horse para edición de video en MaxVideoAI. Usa Happy Horse 1.1 para nuevas generaciones de texto, imagen y referencia, y conserva 1.0 cuando una fuente de video debe editarse.",
   "pricingNotes": "Las generaciones de texto, imagen y R2V usan tarifas por segundo según resolución. La edición de video se factura con la tarifa combinada entrada/salida, así que cuesta el doble que la tarifa estándar para la misma resolución.",
   "hero": {
     "title": "Happy Horse 1.0 - ruta anterior de edición de video",
@@ -122,7 +122,7 @@
       "prompt": "Edita el clip subido como una escena de lanzamiento premium: conserva la persona y el ritmo, cambia la luz a dorado de estudio cálido, mantiene audio natural con habla sincronizada."
     }
   ],
-  "faqTitle": "FAQ - Happy Horse 1.0 en VideoAI",
+  "faqTitle": "FAQ - Happy Horse 1.0 en MaxVideoAI",
   "faqs": [
     {
       "q": "¿Para qué debería usarse Happy Horse 1.0 ahora?",
@@ -235,7 +235,7 @@
       },
       {
         "title": "720p o 1080p",
-        "body": "Elige la resolución disponible en VideoAI antes de generar.",
+        "body": "Elige la resolución disponible en MaxVideoAI antes de generar.",
         "tone": "quality"
       },
       {
@@ -295,13 +295,13 @@
     "pricingCopy": {
       "title": "Precios de Happy Horse 1.0 de un vistazo",
       "subtitle": "Totales con audio nativo. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 1080p",
       "ctaHref": "/es/precios#happy-horse-1-0-pricing"
     },
     "meta": {
-      "title": "Happy Horse 1.0: edición de video anterior | VideoAI",
+      "title": "Happy Horse 1.0: edición de video anterior | MaxVideoAI",
       "description": "Usa Happy Horse 1.0 como ruta anterior de Happy Horse para edición de video. Usa Happy Horse 1.1 para nuevas generaciones de texto, imagen y referencia."
     }
   },

@@ -2,8 +2,8 @@
   "marketingName": "Nano Banana 2",
   "versionLabel": "2",
   "seo": {
-    "title": "Nano Banana 2 - Generation d'images guidee et edition | VideoAI",
-    "description": "Generez des stills avec Nano Banana 2 dans VideoAI. Sorties 0.5K a 4K, ratios larges et extremes, jusqu'a 14 references en edit, et grounding web optionnel.",
+    "title": "Nano Banana 2 - Generation d'images guidee et edition | MaxVideoAI",
+    "description": "Generez des stills avec Nano Banana 2 dans MaxVideoAI. Sorties 0.5K a 4K, ratios larges et extremes, jusqu'a 14 references en edit, et grounding web optionnel.",
     "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
   },
   "overview": "Nano Banana 2 est la branche la plus souple de la famille Nano Banana pour l'image fixe : tests 0.5K moins chers, finals de 1K a 4K, ratios plus varies, sets d'edition plus grands, et grounding web optionnel quand il faut des references plus actuelles.",
@@ -94,10 +94,10 @@
     },
     {
       "q": "Combien d'images de reference en mode Edit ?",
-      "a": "Jusqu'a 14 references dans le studio image de VideoAI pour Nano Banana 2."
+      "a": "Jusqu'a 14 references dans le studio image de MaxVideoAI pour Nano Banana 2."
     }
   ],
-  "pricingNotes": "Le prix affiché VideoAI commence à 0,06 $ en 0.5K, 0,11 $ en 1K, 0,16 $ en 2K et 0,21 $ en 4K. L'app affiche le devis exact avant génération.",
+  "pricingNotes": "Le prix affiché MaxVideoAI commence à 0,06 $ en 0.5K, 0,11 $ en 1K, 0,16 $ en 2K et 0,21 $ en 4K. L'app affiche le devis exact avant génération.",
   "custom": {
     "heroEyebrow": "Modèle image Nano Banana 2",
     "heroSupportLine": "Ideal pour des stills guides, des layouts larges et des edits multi-image plus lourds.",
@@ -132,7 +132,7 @@
     ],
     "whatTitle": "Comment Nano Banana 2 fonctionne ici",
     "whatIntro1": "Choisissez Create ou Edit, reglez le nombre d'images, le ratio et la resolution, puis decidez si la web search ou un thinking level plus eleve est utile.",
-    "whatIntro2": "Pour les edits, chargez une ou plusieurs references, verifiez le price chip live, puis generez depuis le wallet VideoAI partage.",
+    "whatIntro2": "Pour les edits, chargez une ou plusieurs references, verifiez le price chip live, puis generez depuis le wallet MaxVideoAI partage.",
     "whatFlowTitle": "Workflow",
     "whatFlowSteps": [
       "Selectionnez Nano Banana 2 dans l'Image Lab",
@@ -165,11 +165,11 @@
     "faqs": [
       {
         "q": "Nano Banana 2 sert-il aux images fixes ou à la vidéo ?",
-        "a": "Nano Banana 2 sert uniquement aux images fixes sur VideoAI. Utilisez-le pour générer des images et faire des retouches image-to-image, pas pour la vidéo, l'audio ou le mouvement."
+        "a": "Nano Banana 2 sert uniquement aux images fixes sur MaxVideoAI. Utilisez-le pour générer des images et faire des retouches image-to-image, pas pour la vidéo, l'audio ou le mouvement."
       },
       {
         "q": "Combien coûte Nano Banana 2 ?",
-        "a": "Le prix affiché VideoAI commence à 0,06 $ en 0.5K, 0,11 $ en 1K, 0,16 $ en 2K et 0,21 $ en 4K. Les options sont chiffrées dans l'app avant génération."
+        "a": "Le prix affiché MaxVideoAI commence à 0,06 $ en 0.5K, 0,11 $ en 1K, 0,16 $ en 2K et 0,21 $ en 4K. Les options sont chiffrées dans l'app avant génération."
       },
       {
         "q": "Quand utiliser Nano Banana 2 plutôt que Nano Banana Pro ?",
@@ -177,7 +177,7 @@
       },
       {
         "q": "Nano Banana 2 peut-il éditer avec plusieurs références ?",
-        "a": "Oui. La route VideoAI accepte jusqu'à 14 images de référence en edit. Donnez un rôle clair à chaque référence : identité produit, matière, palette ou composition."
+        "a": "Oui. La route MaxVideoAI accepte jusqu'à 14 images de référence en edit. Donnez un rôle clair à chaque référence : identité produit, matière, palette ou composition."
       }
     ]
   },
@@ -310,13 +310,13 @@
     "pricingCopy": {
       "title": "Prix Nano Banana 2 en un coup d’œil",
       "subtitle": "Prix totaux par scénario image — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 4K",
       "ctaHref": "/fr/tarifs#nano-banana-2-pricing"
     },
     "meta": {
-      "title": "Nano Banana 2 : tarifs, images guidées et retouche | VideoAI",
+      "title": "Nano Banana 2 : tarifs, images guidées et retouche | MaxVideoAI",
       "description": "Explorez Nano Banana 2 : prix, génération guidée, sorties 0.5K à 4K, ratios larges, retouches multi-références et grounding web."
     }
   },
@@ -382,7 +382,7 @@
     "modelSlug": "nano-banana-2",
     "section": {
       "title": "Exemples Nano Banana 2",
-      "intro": "Explorez des rendus de la communauté et voyez comment Nano Banana 2 se comporte dans des workflows VideoAI.",
+      "intro": "Explorez des rendus de la communauté et voyez comment Nano Banana 2 se comporte dans des workflows MaxVideoAI.",
       "defaultCtaLabel": null,
       "recreateLabel": "Recréer ce rendu →"
     },

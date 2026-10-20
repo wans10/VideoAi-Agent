@@ -2,12 +2,12 @@
   "marketingName": "Luma Ray 3.2",
   "versionLabel": "Ray 3.2",
   "seo": {
-    "title": "Luma Ray 3.2 Modify Video, Reframe, tarifs et exemples | VideoAI",
-    "description": "Utilisez Luma Ray 3.2 dans VideoAI pour Modify de vidéo source, Reframe vidéo IA, images guides, sorties silencieuses 5 s / 10 s, prompts, exemples et tarifs.",
+    "title": "Luma Ray 3.2 Modify Video, Reframe, tarifs et exemples | MaxVideoAI",
+    "description": "Utilisez Luma Ray 3.2 dans MaxVideoAI pour Modify de vidéo source, Reframe vidéo IA, images guides, sorties silencieuses 5 s / 10 s, prompts, exemples et tarifs.",
     "image": "/hero/luma-dream.jpg"
   },
-  "overview": "Luma Ray 3.2 doit surtout être présenté dans VideoAI comme une route vidéo Luma orientée retouche : modifier un clip source, guider certains moments avec image guide ou images clés, puis recadrer un plan validé avec Reframe. Texte vers vidéo et image vers vidéo restent disponibles pour des tests de mouvement Luma courts, mais Ray 3.2 ne génère pas d’audio natif ni de lip sync.",
-  "pricingNotes": "Toutes les routes Ray 3.2 gardent le devis client VideoAI aligné sur la référence Fal avec la marge configurée, y compris Modify et Reframe. Le routage interne ne change pas le prix affiché au client avant génération.",
+  "overview": "Luma Ray 3.2 doit surtout être présenté dans MaxVideoAI comme une route vidéo Luma orientée retouche : modifier un clip source, guider certains moments avec image guide ou images clés, puis recadrer un plan validé avec Reframe. Texte vers vidéo et image vers vidéo restent disponibles pour des tests de mouvement Luma courts, mais Ray 3.2 ne génère pas d’audio natif ni de lip sync.",
+  "pricingNotes": "Toutes les routes Ray 3.2 gardent le devis client MaxVideoAI aligné sur la référence Fal avec la marge configurée, y compris Modify et Reframe. Le routage interne ne change pas le prix affiché au client avant génération.",
   "hero": {
     "title": "Luma Ray 3.2 - Modify et Reframe pour la vidéo Luma actuelle",
     "intro": "Partez d’une vidéo source lorsque le timing fonctionne déjà, puis utilisez Modify pour changer le rendu visuel ou guider certains moments, ou Reframe pour produire des livrables verticaux, carrés, paysage et ultrawide. La génération depuis prompt ou image reste utile pour des tests courts et silencieux.",
@@ -84,7 +84,7 @@
     },
     {
       "label": "Prix",
-      "body": "Génération, Modify et Reframe utilisent la même logique de devis client basée sur la référence Fal avec marge VideoAI"
+      "body": "Génération, Modify et Reframe utilisent la même logique de devis client basée sur la référence Fal avec marge MaxVideoAI"
     }
   ],
   "promptStructure": {
@@ -133,7 +133,7 @@
   ],
   "faqs": [
     {
-      "q": "Que prend en charge Luma Ray 3.2 dans VideoAI ?",
+      "q": "Que prend en charge Luma Ray 3.2 dans MaxVideoAI ?",
       "a": "La page met surtout en avant Modify de vidéo source, Reframe, images guides et images clés, avec aussi texte vers vidéo et image vers vidéo pour créer un court clip Luma silencieux."
     },
     {
@@ -146,7 +146,7 @@
     },
     {
       "q": "Comment le prix est-il affiché ?",
-      "a": "Les exemples utilisent les prix publics de référence VideoAI avec marge. Le devis exact apparaît dans l’app avant génération."
+      "a": "Les exemples utilisent les prix publics de référence MaxVideoAI avec marge. Le devis exact apparaît dans l’app avant génération."
     },
     {
       "q": "Ray 3.2 génère-t-il de l’audio ?",
@@ -193,10 +193,10 @@
       "Valeur Modify||Utilisez Ray 3.2 quand le timing source fonctionne et que le rendu visuel doit changer.",
       "Direction par images clés||Les images guides et images clés aident à piloter des moments précis.",
       "Formats de livraison||Reframe outpainte des clips validés vers de nouveaux ratios.",
-      "Sortie silencieuse||Ray 3.2 reste vidéo seule dans VideoAI, donc l’audio se prépare ensuite."
+      "Sortie silencieuse||Ray 3.2 reste vidéo seule dans MaxVideoAI, donc l’audio se prépare ensuite."
     ],
     "specTitle": "Caractéristiques Ray 3.2",
-    "specNote": "Ces caractéristiques décrivent la surface VideoAI Ray 3.2 pour génération, Modify et Reframe.",
+    "specNote": "Ces caractéristiques décrivent la surface MaxVideoAI Ray 3.2 pour génération, Modify et Reframe.",
     "specSections": [
       {
         "title": "Surface Modify et Reframe",
@@ -215,7 +215,7 @@
       {
         "title": "Notes opérationnelles",
         "items": [
-          "VideoAI garde les demandes Ray 3.2 sur des réglages pris en charge.",
+          "MaxVideoAI garde les demandes Ray 3.2 sur des réglages pris en charge.",
           "La capacité fournisseur peut varier aux heures de pointe.",
           "Tous les modes publics Ray 3.2 gardent le devis client de référence Fal avec marge.",
           "Le routage interne ne change pas le prix affiché au client."
@@ -247,7 +247,7 @@
     "boundaries": [
       "Durée de génération : 5 s ou 10 s.",
       "Résolutions : 540p, 720p et 1080p.",
-      "La sortie Ray 3.2 est silencieuse dans VideoAI.",
+      "La sortie Ray 3.2 est silencieuse dans MaxVideoAI.",
       "Ce n’est pas le meilleur choix généraliste lorsque l’audio natif, le dialogue ou le lip sync sont prioritaires.",
       "La capacité fournisseur peut varier aux heures de pointe."
     ],
@@ -258,7 +258,7 @@
       "N’imitez pas de personnes réelles sans consentement.",
       "N’incluez pas de données personnelles privées."
     ],
-    "finalPara1": "Ray 3.2 est la route vidéo Luma actuelle dans VideoAI quand Modify, images clés et Reframe comptent plus que la génération audio native.",
+    "finalPara1": "Ray 3.2 est la route vidéo Luma actuelle dans MaxVideoAI quand Modify, images clés et Reframe comptent plus que la génération audio native.",
     "finalButton": "Générer avec Luma Ray 3.2"
   },
   "decision": {
@@ -335,7 +335,7 @@
       },
       {
         "title": "Sortie silencieuse",
-        "body": "Ray 3.2 produit la vidéo seule dans VideoAI; ajoutez musique, voix ou sound design ensuite.",
+        "body": "Ray 3.2 produit la vidéo seule dans MaxVideoAI; ajoutez musique, voix ou sound design ensuite.",
         "tone": "price"
       }
     ],
@@ -389,14 +389,14 @@
     ],
     "pricingCopy": {
       "title": "Prix Luma Ray 3.2 en un coup d’oeil",
-      "subtitle": "Totaux Ray 3.2 par preset avec prix affichés VideoAI de référence; prix exact avant génération.",
-      "footnote": "Toutes les routes Ray 3.2 gardent le même devis client VideoAI basé sur la référence Fal avec la marge configurée; l’exécution directe ne change pas le prix client.",
+      "subtitle": "Totaux Ray 3.2 par preset avec prix affichés MaxVideoAI de référence; prix exact avant génération.",
+      "footnote": "Toutes les routes Ray 3.2 gardent le même devis client MaxVideoAI basé sur la référence Fal avec la marge configurée; l’exécution directe ne change pas le prix client.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 1080p",
       "ctaHref": "/fr/tarifs#luma-ray-3-2-pricing"
     },
     "meta": {
-      "title": "Luma Ray 3.2 Modify Video, Reframe et exemples | VideoAI",
+      "title": "Luma Ray 3.2 Modify Video, Reframe et exemples | MaxVideoAI",
       "description": "Explorez Luma Ray 3.2 : Modify de vidéo source, Reframe vidéo IA, images guides, sorties silencieuses 5 s / 10 s, tarifs, prompts et exemples."
     }
   },
@@ -493,7 +493,7 @@
       {
         "id": "proof-3",
         "title": "Sortie silencieuse",
-        "body": "Ray 3.2 ne genere pas d audio natif sur cette route VideoAI.",
+        "body": "Ray 3.2 ne genere pas d audio natif sur cette route MaxVideoAI.",
         "icon": "audio"
       },
       {

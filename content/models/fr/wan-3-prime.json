@@ -127,7 +127,7 @@
     "pricingCopy": {
       "title": "Tarification par scénario Wan 3 Prime",
       "subtitle": "Comparez la même scène de six secondes en 720p et 1080p.",
-      "footnote": "Ajouter une vidéo augmente votre devis Wan 3 Prime : sa durée entre dans le calcul du prix avec celle de la vidéo générée, pour les références, la modification ou l’extension. VideoAI confirme le devis avant de générer.",
+      "footnote": "Ajouter une vidéo augmente votre devis Wan 3 Prime : sa durée entre dans le calcul du prix avec celle de la vidéo générée, pour les références, la modification ou l’extension. MaxVideoAI confirme le devis avant de générer.",
       "ctaLabel": "Générer avec Wan 3 Prime",
       "ctaHref": "/app?engine=wan-3-prime"
     },
