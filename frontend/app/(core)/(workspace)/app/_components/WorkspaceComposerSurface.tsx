@@ -1,4 +1,5 @@
 'use client';
+import { getSeedanceAutomaticPricingNote } from '@/lib/seedance-modelark-options';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ComponentProps, Dispatch, SetStateAction } from 'react';
@@ -10,7 +11,9 @@ import { SeedanceDraftLocalPreviewMode } from './SeedanceDraftLocalPreviewMode.c
 import { getSeedanceDraftCopy } from '../_lib/seedance-draft-copy';
 import { CoreIterationsControl, CoreSettingsBar } from '@/components/CoreSettingsBar';
 import { SettingsControls } from '@/components/SettingsControls';
-import type { KlingElementState, KlingElementsBuilderProps } from '@/components/KlingElementsBuilder';
+// Subject slots occupy the initial form. A nested lazy boundary inserts the
+// panel late and moves the mobile results rail.
+import { KlingElementsBuilder, type KlingElementState, type KlingElementsBuilderProps } from '@/components/KlingElementsBuilder';
 import { Button } from '@/components/ui/Button';
 import { getLocalizedModeLabel } from '@/lib/ltx-localization';
 import { getEngineModeUnavailableMessage, isEngineModeQuoteReady } from '@/lib/engine-mode-availability';
@@ -45,11 +48,6 @@ import { supportsWorkspaceMultiPrompt } from '../_hooks/useWorkspaceEngineModeSt
 import type { LumaRay32KeyframeEditorProps } from './LumaRay32KeyframeEditor';
 import type { OmniStudioPanelProps } from './omni/OmniStudioPanel.client';
 import type { StoryboardLaunchModalProps } from './StoryboardLaunchModal';
-
-const KlingElementsBuilder = dynamic<KlingElementsBuilderProps>(
-  () => import('@/components/KlingElementsBuilder').then((mod) => mod.KlingElementsBuilder),
-  { ssr: false }
-);
 
 const LumaRay32KeyframeEditor = dynamic<LumaRay32KeyframeEditorProps>(
   () => import('./LumaRay32KeyframeEditor').then((mod) => mod.LumaRay32KeyframeEditor),
@@ -464,7 +462,10 @@ export function WorkspaceComposerSurface({
   const modeUnavailableMessage = getEngineModeUnavailableMessage(selectedEngine, submissionMode, uiLocale);
   const quoteUnavailable = !isEngineModeQuoteReady(selectedEngine, submissionMode, preflight);
   const localizedKlingO3UnsupportedVideoReason = klingO3UnsupportedVideoReason ? localizeKlingO3Message(klingO3UnsupportedVideoReason, uiLocale) : null;
-  const resolvedWorkflowNotice = modeUnavailableMessage ?? localizedKlingO3UnsupportedVideoReason ?? composerWorkflowNotice;
+  const automaticPricingNote = getSeedanceAutomaticPricingNote({ engineId: selectedEngine.id, mode: submissionMode,
+    durationOption: form.durationOption, aspectRatio: form.aspectRatio, locale: uiLocale, inheritsSourceVideo });
+  const resolvedWorkflowNotice = modeUnavailableMessage ?? localizedKlingO3UnsupportedVideoReason
+    ?? ([composerWorkflowNotice, automaticPricingNote].filter(Boolean).join(' ') || undefined);
 
   const handleAudioChange = useCallback(
     (audio: boolean) => {

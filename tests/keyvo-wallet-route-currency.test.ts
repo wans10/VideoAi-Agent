@@ -25,7 +25,7 @@ test('CNY customer checkout quotes CNY identity and freezes CNY wallet metadata 
  '@/server/fraud-cleanup':"export const getActiveAccountRestriction=async()=>null;export const buildRestrictedAccountPayload=()=>({});",
  '@/server/checkout-guard':"export const resolveCheckoutClientIp=()=> '127.0.0.1';export const evaluateWalletCheckoutGuard=async()=>({action:'allow',attemptId:1});export const markCheckoutAttemptSessionCreated=async()=>{};export const markCheckoutAttemptSessionFailed=async()=>{};export const hashCheckoutIp=()=> 'fixture';",
  '@/server/checkout-session-coordination':"export const withCheckoutSessionPreparationLock=async(_input,work)=>work();",
- '@/server/stripe-customers':"export const getOrCreateStripeCustomerForUser=async()=> 'customer';",
+ '@/server/stripe-customers':"export const getOrCreateStripeCheckoutCustomerForUser=async()=>({id:'customer',hasShippingAddress:false});",
  '@/server/checkout-session-reuse':"export const findReusableExpressCheckoutSession=async()=>null;",
  stripe:"export default class Stripe{checkout={sessions:{create:async p=>{globalThis.__walletCurrencyAudit.session=p;return {id:'cs_fixture',url:'https://checkout.stripe.com/fixture'};}}};}",
  };

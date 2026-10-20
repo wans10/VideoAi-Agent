@@ -6,6 +6,19 @@ configuration as part of a customer request.
 
 ## Current read boundaries
 
+- `GET /api/character-references` authenticates and reads the account's migrated
+  `app_jobs` without billing bootstrap. `GET /api/media-library/recent-outputs`
+  reads migrated `job_outputs`, jobs and saved-asset projections without media
+  schema setup, including its optional included Kling first-frame enrichment.
+  The route passes `ensureSchema: false` to both output readers; their default
+  compatibility behavior still initializes schema for other callers. Missing
+  primary tables fail explicitly, without repair or successful empty fallbacks.
+  `tests/library-read-routes-postgres.test.ts` runs the actual GETs through a
+  read-only PG17 connection: one SELECT for character references and two for
+  Storyboard outputs with first frames. It also checks account/source/search
+  filters, saved/original/thumbnail identity, hidden jobs and missing-schema errors.
+  These operation counts do not establish a browser latency or CWV gain.
+
 - Homepage `listHomepageSections` and `getHomepageSlots` read existing sections
   and public-video rows without global billing bootstrap. The 60-second public
   slot cache, ordering, hydration and admin cache invalidation remain unchanged.
@@ -34,7 +47,11 @@ configuration as part of a customer request.
 - `GET /api/receipts` authenticates before reading the account's paginated ledger
   and resolves its stored Stripe document metadata. A configured database failure
   returns 503, never a successful empty mock ledger. The intentional unconfigured
-  local response remains explicitly marked `mock: true`.
+  local response remains explicitly marked `mock: true`. With a live Stripe key,
+  historical `cs_test_` checkouts are not queried for documents. The canonical
+  `stripe_checkout_session_id` takes precedence over legacy metadata `sessionId`
+  and `session_id`; unknown modes retain the normal lookup. Stored documents,
+  ledger rows, balances and original Stripe references remain unchanged.
 - `GET /api/user/exports/summary` counts the account's visible jobs and retains
   the idempotent per-user `user_preferences` initialization. It does not run the
   unrelated global billing bootstrap.

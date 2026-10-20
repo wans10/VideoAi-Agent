@@ -1,3 +1,5 @@
+import { seedanceWorkflowCandidate } from './seedance-workflow-capabilities';
+import { resolveAgentSeedanceWorkflow, seedanceWorkflowQuoteBinding } from './seedance-workflow';
 import {retireMembershipPricing} from '@/lib/membership-policy';
 import {isGptImageFamilyEngineId} from '@/lib/image/gptImage2';
 import type {MembershipPricingContext} from '@/server/membership/user-membership-status';
@@ -46,7 +48,7 @@ const REFERENCE_CONSTRAINT_MESSAGES: Record<ReferenceConstraintFailure, string> 
   image_aspect_ratio_unsupported: 'Reference image aspect ratio is outside the selected model mode limits. Check get_model_details and import a supported image.',
 };
 
-function validateCapabilities(
+export function validateGenerationPricingCapabilities(
   request: CanonicalGenerationRequest,
   candidate: AgentPublicGenerationEngine,
   resolvedReferences?: readonly ResolvedReference[],
@@ -153,15 +155,19 @@ export function buildGenerationPricingSnapshot(
 /** Shared read-only verification and canonical pricing. No quote, wallet or reservation writes. */
 export async function readGenerationPricing(request: CanonicalGenerationRequest,principal: GenerationActor,dependencies: GenerationPricingReadDependencies) {
   requireGenerationActor(principal);
+  const inherited = await resolveAgentSeedanceWorkflow(request, principal.userId);
+  request = inherited.request;
+  const finalFacts = inherited.workflow?.finalFacts;
   const publicEngines = await dependencies.listPublicEngines();
-  const candidate = publicEngines.find((entry) => entry.engine.id === request.engineId);
+  const publicCandidate = publicEngines.find((entry) => entry.engine.id === request.engineId);
+  const candidate = publicCandidate ? seedanceWorkflowCandidate(request, publicCandidate) : undefined;
   if (!candidate || candidate.surface !== request.surface) {
     throw new AgentApiError('ENGINE_UNAVAILABLE', 'The selected model is not publicly available.');
   }
   if (!candidate.publicModes.includes(request.mode)) {
     throw new AgentApiError('MODE_UNSUPPORTED', 'The selected model does not support this mode.');
   }
-  validateCapabilities(request, candidate);
+  if (!finalFacts) validateGenerationPricingCapabilities(request, candidate);
   validateRepresentablePricingFacts(request);
   let resolvedReferences: ResolvedReference[] = [];
   if (request.references.some((reference) => reference.kind === 'asset')) {
@@ -170,7 +176,7 @@ export async function readGenerationPricing(request: CanonicalGenerationRequest,
         ?? ((currentRequest, currentPrincipal) =>
           resolveGenerationReferencesForActor(currentRequest, currentPrincipal));
       resolvedReferences = await resolveReferences(request, principal);
-      validateCapabilities(request, candidate, resolvedReferences);
+      validateGenerationPricingCapabilities(request, candidate, resolvedReferences);
     } catch (error) {
       if (error instanceof AgentApiError) {
         throw request.mode === 'v2v' || request.mode === 'extend'
@@ -208,7 +214,7 @@ export async function readGenerationPricing(request: CanonicalGenerationRequest,
     pricing = await dependencies.priceGeneration(
       request,
       membership.tier,
-      { resolvedReferences, resolvedEngine: candidate.engine },
+      { resolvedReferences, resolvedEngine: candidate.engine, seedanceFinalFacts: finalFacts },
     );
   } catch {
     throw new AgentApiError(
@@ -216,6 +222,7 @@ export async function readGenerationPricing(request: CanonicalGenerationRequest,
       'The selected settings cannot be priced for this model.',
     );
   }
-  const pricingSnapshot = buildGenerationPricingSnapshot(pricing, request, catalogRevision, membership);
-  return {pricing, pricingSnapshot, resolvedReferences, catalogRevision};
+  const pricingSnapshot = { ...buildGenerationPricingSnapshot(pricing, request, catalogRevision, membership),
+    ...seedanceWorkflowQuoteBinding(inherited.workflow) };
+  return {pricing, pricingSnapshot, resolvedReferences, catalogRevision, request, workflow: inherited.workflow, resolvedEngine: candidate.engine};
 }

@@ -23,9 +23,10 @@ export function listBundledPublicExamples(
   family: string,
   sort: ExampleSort,
   limit: number,
-  offset: number
+  offset: number,
+  includeVersionSamples = false,
 ): ListExamplesPageResult {
-  return selectLocalPublicExamples(snapshot, family, sort, limit, offset);
+  return selectLocalPublicExamples(snapshot, family, sort, limit, offset, includeVersionSamples);
 }
 
 export function listBundledModelExamples(modelSlug: string, limit = 200): GalleryVideo[] {
