@@ -315,20 +315,6 @@ provider keeps its existing facts. The production reader requires its own runtim
 and database activation as described above.
 See [the contract checkpoint](2026-10-01-byteplus-contract-pricing.md).
 
-### Seedance 2.5 v2v file-authored cells (2026-10-19)
-
-`frontend/config/customer-tariffs.json` holds 486 `versioned` cells for the ModelArk Seedance 2.5 v2v
-coverage (480p/720p/1080p × six aspect ratios × 4–30 source seconds; audio is not a selector dimension and
-is priced identically). Each v2v row keeps the margin of the same request without a source video,
-using the rule-path no-video quote as anchor and the ModelArk supplier cost. Authoring lives in
-`frontend/server/pricing/seedance-v2v-versioned-cells.ts`; regenerate with
-`frontend/node_modules/.bin/tsx --tsconfig frontend/tsconfig.json frontend/scripts/generate-seedance-v2v-tariff-cells.ts`
-(`--check` compares only). These cells take effect only after the database customer-tariff state is
-activated by the reviewed initial cutover; the source flag alone never activates them. Coverage is
-collected under the ModelArk transport, which sells 1080p; the 162 1080p cells are authored the same way
-and are never reachable under LAS, whose v2v scope stops at 720p. Selectors do not include the Edit
-transport, so LAS pricing refuses these cells fail-closed.
-
 ## ByteDance supplier facts migration (2026-09-28)
 
 `frontend/server/byteplus-list-tariff.ts` owns a dated, published ModelArk list-rate projection for Seedance 2.0/2.5, Seedance 1.5 audio and Draft, and Seedream 5.0 Lite/Pro. It records Fast and Mini's time-limited public promotion separately. The promotion is not an account-specific effective rate. Until the BytePlus contract and invoice are confirmed, effective and observed costs stay `null`; the BytePlus poller records a list-price estimate from reported tokens (or dimensions when tokens are missing), with its provenance. Draft and final are separate paid provider tasks.
