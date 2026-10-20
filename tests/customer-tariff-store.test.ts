@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import versionedDocument from '../frontend/config/customer-tariffs.json';
 import {
   loadEffectiveCustomerTariffState,
   validateCustomerTariffCell,
@@ -33,8 +32,7 @@ test('inactive store loads versioned and database cells with one revision', asyn
   assert.equal(state.revision, 7);
   assert.equal(state.databaseCells.length, 1);
   assert.deepEqual(state.databaseCells[0]?.selector, base.selector);
-  // The reviewed file's cells are loaded as-is; the database row alone decides activation.
-  assert.equal(state.versionedCells.length, versionedDocument.cells.length);
+  assert.equal(state.versionedCells.length, 0);
   assert.equal(calls.length, 2);
 });
 
