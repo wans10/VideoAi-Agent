@@ -1,8 +1,0 @@
-{
-  "jobId": "job_be07f4dd-33bf-4a5b-92cc-35330ae4b531",
-  "refundedCents": 1120,
-  "currency": "CNY",
-  "refundReceiptId": "34",
-  "status": "failed",
-  "paymentStatus": "refunded_wallet"
-}

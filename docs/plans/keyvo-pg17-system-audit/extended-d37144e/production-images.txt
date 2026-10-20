@@ -1,2 +1,0 @@
-image=wans10/videoai-web:d37144e02e7d82e86f94aea61893fa5eb2b184aa health=healthy
-migration=wans10/videoai-db-migrate:d37144e02e7d82e86f94aea61893fa5eb2b184aa exit=0
