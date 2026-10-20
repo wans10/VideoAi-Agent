@@ -84,26 +84,10 @@ Z no signal	.gitignore
 7 white-label	content/en/blog/multiple-camera-angles-from-one-image.mdx
 7 white-label	content/en/blog/sora-2-sequenced-prompts.mdx
 7 white-label	content/en/blog/veo-3-updates.mdx
-7 white-label	content/es/best-for/4k-video.mdx
-7 white-label	content/es/blog/accede-a-sora-2-sin-invitacion.mdx
-7 white-label	content/es/blog/como-comparar-motores-de-video-con-ia-sora-vs-veo-vs-pika.mdx
-7 white-label	content/es/blog/como-crear-personajes-de-ia-coherentes-en-imagenes-y-video.mdx
-7 white-label	content/es/blog/como-explorar-multiples-angulos-de-camara-desde-una-imagen-aprobada.mdx
-7 white-label	content/es/blog/generador-de-fichas-de-personaje-con-ia.mdx
 7 white-label	content/es/blog/indicaciones-secuenciadas-de-sora-2-con-sonido-e-identidad-de-marca.mdx
-7 white-label	content/es/blog/la-ia-puede-cambiar-el-angulo-de-camara-de-una-foto.mdx
-7 white-label	content/es/blog/las-actualizaciones-de-veo-3-traen-controles-cinematograficos.mdx
 7 white-label	content/es/docs/get-started.mdx
 7 white-label	content/es/docs/mcp.mdx
-7 white-label	content/fr/best-for/4k-video.mdx
-7 white-label	content/fr/blog/acceder-a-sora-2-sans-invitation.mdx
-7 white-label	content/fr/blog/comment-comparer-les-moteurs-video-dia-sora-vs-veo-vs-pika.mdx
-7 white-label	content/fr/blog/comment-creer-des-personnages-ia-coherents-dans-les-images-et-la-video.mdx
-7 white-label	content/fr/blog/explorer-plusieurs-angles-de-camera-a-partir-dune-image-approuvee.mdx
-7 white-label	content/fr/blog/generateur-de-fiche-personnage-ia.mdx
 7 white-label	content/fr/blog/invites-sequencees-sora-2-avec-son-et-image-de-marque.mdx
-7 white-label	content/fr/blog/les-mises-a-jour-de-veo-3-apportent-des-controles-cinematographiques.mdx
-7 white-label	content/fr/blog/lia-peut-elle-changer-langle-de-camera-dune-photo.mdx
 7 white-label	content/fr/docs/get-started.mdx
 7 white-label	content/fr/docs/mcp.mdx
 7 white-label	content/models/en/dreamina-seedance-2-0-mini.json
@@ -156,106 +140,6 @@ Z no signal	.gitignore
 7 white-label	content/models/en/wan-2-6.json
 7 white-label	content/models/en/wan-3-prime.json
 7 white-label	content/models/en/wan-3.json
-7 white-label	content/models/es/dreamina-seedance-2-0-mini.json
-7 white-label	content/models/es/flux-3-draft.json
-7 white-label	content/models/es/flux-3.json
-7 white-label	content/models/es/gpt-image-2-5-flare.json
-7 white-label	content/models/es/gpt-image-2-5-sunburst.json
-7 white-label	content/models/es/gpt-image-2.json
-7 white-label	content/models/es/grok-imagine-video-1-5.json
-7 white-label	content/models/es/happy-horse-1-0.json
-6 cn-providers	content/models/es/happy-horse-1-1.json
-7 white-label	content/models/es/kling-2-5-turbo.json
-7 white-label	content/models/es/kling-2-6-pro.json
-7 white-label	content/models/es/kling-3-4k.json
-7 white-label	content/models/es/kling-3-pro.json
-7 white-label	content/models/es/kling-3-standard.json
-7 white-label	content/models/es/kling-o3-4k.json
-7 white-label	content/models/es/kling-o3-pro.json
-7 white-label	content/models/es/kling-o3-standard.json
-7 white-label	content/models/es/ltx-2-3-fast.json
-7 white-label	content/models/es/ltx-2-3-pro.json
-7 white-label	content/models/es/ltx-2-5-fast.json
-7 white-label	content/models/es/ltx-2-5-pro.json
-7 white-label	content/models/es/ltx-2-fast.json
-7 white-label	content/models/es/ltx-2.json
-7 white-label	content/models/es/luma-ray-2-flash.json
-7 white-label	content/models/es/luma-ray-2.json
-7 white-label	content/models/es/luma-ray-3-2.json
-7 white-label	content/models/es/luma-uni-1-max.json
-7 white-label	content/models/es/luma-uni-1.json
-7 white-label	content/models/es/minimax-h3.json
-7 white-label	content/models/es/minimax-hailuo-02-text.json
-7 white-label	content/models/es/nano-banana-2.json
-7 white-label	content/models/es/nano-banana-lite.json
-7 white-label	content/models/es/nano-banana-pro.json
-7 white-label	content/models/es/nano-banana.json
-7 white-label	content/models/es/pika-text-to-video.json
-7 white-label	content/models/es/seedance-1-5-pro.json
-7 white-label	content/models/es/seedance-2-0-fast.json
-7 white-label	content/models/es/seedance-2-0.json
-7 white-label	content/models/es/seedance-2-5.json
-7 white-label	content/models/es/seedream-5-0-pro.json
-7 white-label	content/models/es/seedream.json
-7 white-label	content/models/es/sora-2-pro.json
-7 white-label	content/models/es/sora-2.json
-7 white-label	content/models/es/veo-3-1-fast.json
-7 white-label	content/models/es/veo-3-1-lite.json
-7 white-label	content/models/es/veo-3-1.json
-7 white-label	content/models/es/wan-2-5.json
-7 white-label	content/models/es/wan-2-6.json
-7 white-label	content/models/es/wan-3-prime.json
-7 white-label	content/models/es/wan-3.json
-7 white-label	content/models/fr/dreamina-seedance-2-0-mini.json
-7 white-label	content/models/fr/flux-3-draft.json
-7 white-label	content/models/fr/flux-3.json
-7 white-label	content/models/fr/gpt-image-2-5-flare.json
-7 white-label	content/models/fr/gpt-image-2-5-sunburst.json
-7 white-label	content/models/fr/gpt-image-2.json
-7 white-label	content/models/fr/grok-imagine-video-1-5.json
-7 white-label	content/models/fr/happy-horse-1-0.json
-6 cn-providers	content/models/fr/happy-horse-1-1.json
-7 white-label	content/models/fr/kling-2-5-turbo.json
-7 white-label	content/models/fr/kling-2-6-pro.json
-7 white-label	content/models/fr/kling-3-4k.json
-7 white-label	content/models/fr/kling-3-pro.json
-7 white-label	content/models/fr/kling-3-standard.json
-7 white-label	content/models/fr/kling-o3-4k.json
-7 white-label	content/models/fr/kling-o3-pro.json
-7 white-label	content/models/fr/kling-o3-standard.json
-7 white-label	content/models/fr/ltx-2-3-fast.json
-7 white-label	content/models/fr/ltx-2-3-pro.json
-7 white-label	content/models/fr/ltx-2-5-fast.json
-7 white-label	content/models/fr/ltx-2-5-pro.json
-7 white-label	content/models/fr/ltx-2-fast.json
-7 white-label	content/models/fr/ltx-2.json
-7 white-label	content/models/fr/luma-ray-2-flash.json
-7 white-label	content/models/fr/luma-ray-2.json
-7 white-label	content/models/fr/luma-ray-3-2.json
-7 white-label	content/models/fr/luma-uni-1-max.json
-7 white-label	content/models/fr/luma-uni-1.json
-7 white-label	content/models/fr/minimax-h3.json
-7 white-label	content/models/fr/minimax-hailuo-02-text.json
-7 white-label	content/models/fr/nano-banana-2.json
-7 white-label	content/models/fr/nano-banana-lite.json
-7 white-label	content/models/fr/nano-banana-pro.json
-7 white-label	content/models/fr/nano-banana.json
-7 white-label	content/models/fr/pika-text-to-video.json
-7 white-label	content/models/fr/seedance-1-5-pro.json
-7 white-label	content/models/fr/seedance-2-0-fast.json
-7 white-label	content/models/fr/seedance-2-0.json
-7 white-label	content/models/fr/seedance-2-5.json
-7 white-label	content/models/fr/seedream-5-0-pro.json
-7 white-label	content/models/fr/seedream.json
-7 white-label	content/models/fr/sora-2-pro.json
-7 white-label	content/models/fr/sora-2.json
-7 white-label	content/models/fr/veo-3-1-fast.json
-7 white-label	content/models/fr/veo-3-1-lite.json
-7 white-label	content/models/fr/veo-3-1.json
-7 white-label	content/models/fr/wan-2-5.json
-7 white-label	content/models/fr/wan-2-6.json
-7 white-label	content/models/fr/wan-3-prime.json
-7 white-label	content/models/fr/wan-3.json
 1 zh	content/models/zh/dreamina-seedance-2-0-mini.json
 1 zh	content/models/zh/flux-3-draft.json
 1 zh	content/models/zh/flux-3.json
@@ -370,6 +254,7 @@ Z no signal	docs/engineering/auth-locale-continuity.md
 7 white-label	docs/engineering/ci-validation.md
 2 llmhub-pay	docs/engineering/cny-migration.md
 2 llmhub-pay	docs/engineering/environment-reference.md
+K kept (documented)	docs/engineering/keyvo-deviation-baseline.tsv
 K kept (documented)	docs/engineering/keyvo-seedance-modelark-edit.md
 K kept (documented)	docs/engineering/keyvo-upstream-deviations.md
 5 llmhub-api	docs/engineering/llmhub-gpt-image-audit-2026-10-08.json
@@ -908,7 +793,6 @@ K kept (documented)	frontend/app/api/generate/_lib/google-vertex-veo-submission.
 1 zh	frontend/components/ui/TurnstileChallenge.tsx
 Z no signal	frontend/config/blog-slugs.ts
 Z no signal	frontend/config/comparison-indexation.json
-Z no signal	frontend/config/customer-tariffs.json
 5 llmhub-api	frontend/config/engine-catalog.json
 Z no signal	frontend/config/localized-slugs.json
 Z no signal	frontend/config/mcp-publication.json
@@ -1023,7 +907,6 @@ Z no signal	frontend/next.config.js
 4 ui-redesign	frontend/public/favicon.svg
 7 white-label	frontend/public/site.webmanifest
 1 zh	frontend/scripts/generate_zh_json.py
-Z no signal	frontend/scripts/generate-seedance-v2v-tariff-cells.ts
 1 zh	frontend/scripts/glossary.json
 6 cn-providers	frontend/scripts/pricing-public-baseline.ts
 1 zh	frontend/scripts/qa/compare-locales.ts
@@ -1057,7 +940,6 @@ Z no signal	frontend/server/local-public-examples.ts
 5 llmhub-api	frontend/server/pricing-admin/tariff-provider-comparison.ts
 1 zh	frontend/server/pricing/quote-billing.ts
 1 zh	frontend/server/pricing/resolve-customer-tariff.ts
-3 cny	frontend/server/pricing/seedance-v2v-versioned-cells.ts
 7 white-label	frontend/server/provider-output-policy.ts
 5 llmhub-api	frontend/server/refresh-direct-generation.ts
 Z no signal	frontend/server/seedance25-edit-duration.ts
@@ -1343,6 +1225,7 @@ Z no signal	scripts/qa/run-isolated-admin-smoke.ts
 7 white-label	scripts/qa/videoai-production-performance.mjs
 1 zh	scripts/qa/videoai-production-review.mjs
 1 zh	scripts/qa/videoai-theme-review.mjs
+K kept (documented)	scripts/report-upstream-deviations.mjs
 K kept (documented)	scripts/seed-public-examples.ts
 7 white-label	supabase/config.toml
 7 white-label	supabase/templates/confirm-signup.html
@@ -1383,7 +1266,7 @@ Z no signal	tests/billing-page-architecture.test.ts
 1 zh	tests/billing-read-routes-postgres.test.ts
 3 cny	tests/billing-topup-selection.test.ts
 2 llmhub-pay	tests/billing-wallet-presentation.test.ts
-7 white-label	tests/blog-language-switch.test.ts
+Z no signal	tests/blog-language-switch.test.ts
 Z no signal	tests/bundled-public-examples-fallback.test.ts
 Z no signal	tests/byteplus-provider-architecture.test.ts
 Z no signal	tests/byteplus-seedance-draft.test.ts
@@ -1411,7 +1294,6 @@ Z no signal	tests/crux-export.test.ts
 Z no signal	tests/customer-facing-legal-contact.test.ts
 Z no signal	tests/customer-tariff-cutover-evidence.test.ts
 6 cn-providers	tests/customer-tariff-initial-cutover-postgres.test.ts
-Z no signal	tests/customer-tariff-store.test.ts
 7 white-label	tests/dark-mode-theme.test.ts
 7 white-label	tests/docker-build-push-contract.test.ts
 1 zh	tests/domestic-media-sharing-dom.test.ts
@@ -1620,7 +1502,6 @@ Z no signal	tests/seedance-2-5-edit-transport-fallback.test.ts
 7 white-label	tests/seedance-2-5-marketing-page.test.ts
 1 zh	tests/seedance-2-5-media-constraints.test.ts
 Z no signal	tests/seedance-2-5-modelark-edit-routing.test.ts
-Z no signal	tests/seedance-2-5-v2v-versioned-tariffs.test.ts
 1 zh	tests/seedance-prelaunch.test.ts
 1 zh	tests/seedance-refund-regressions.test.ts
 1 zh	tests/seedance25-official-task-contract.test.ts
@@ -1655,6 +1536,7 @@ Z no signal	tests/tool-marketing-landing-architecture.test.ts
 1 zh	tests/trending-comparison-wave.test.ts
 7 white-label	tests/upscale-marketing-content.test.ts
 7 white-label	tests/upscale-server-architecture.test.ts
+K kept (documented)	tests/upstream-deviation-report.test.ts
 7 white-label	tests/user-facing-failure-messages.test.ts
 Z no signal	tests/validate-request.test.ts
 7 white-label	tests/video-seo-audit-report.test.ts
