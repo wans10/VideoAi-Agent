@@ -103,8 +103,8 @@ test('task ceilings, explicit continuation and saved progress work on desktop/mo
     await expect(page.getByRole('region',{name:copy('Studio task')}).last().getByText(copy('Luna · Included assistance'))).toBeVisible();
     await page.reload();await expect(page.getByText('Continued with the approved framing.')).toBeVisible();assert.equal(calls,4);
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM mcp_generation_quotes')).rows[0].n,0,'Assistance fallback cannot implicitly prepare or confirm generation');
-    await page.getByRole('button',{name:'Remove Image 1',exact:true}).click();
-    await page.reload();await expect(page.getByRole('button',{name:'Remove Image 1',exact:true})).toHaveCount(0);
+    await page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true}).click();
+    await page.reload();await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true})).toHaveCount(0);
     await runtime.database.pool.query('UPDATE studio_assistance_credit_lots SET consumed_credits=500 WHERE user_id=$1',[STUDIO_FIXTURE_OWNERS[0]]);
     await page.reload();await expect(picker).toBeVisible();
     await picker.getByRole('radio',{name:new RegExp(copy('Complex · Sol'))}).check();await picker.getByRole('checkbox').check();
