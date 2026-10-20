@@ -98,7 +98,7 @@
     },
     {
       "q": "¿Puedo generar con MiniMax H3 desde esta página?",
-      "a": "Sí. MiniMax H3 está disponible en VideoAI y el precio exacto aparece antes de cada render."
+      "a": "Sí. MiniMax H3 está disponible en MaxVideoAI y el precio exacto aparece antes de cada render."
     }
   ],
   "decision": {
@@ -320,7 +320,7 @@
     "showWhenEmpty": false,
     "section": {
       "title": "Renders reales de MiniMax H3",
-      "intro": "Revisa renders de VideoAI que prueban continuidad del personaje, dirección de cámara, control por referencias y sonido sincronizado.",
+      "intro": "Revisa renders de MaxVideoAI que prueban continuidad del personaje, dirección de cámara, control por referencias y sonido sincronizado.",
       "defaultCtaLabel": "Ver todos los ejemplos de MiniMax H3",
       "recreateLabel": "Recrear esta escena"
     },
@@ -371,7 +371,7 @@
         "id": "production",
         "icon": "shield",
         "title": "Renders de producción reales",
-        "body": "Cada ejemplo de esta página se genera con VideoAI."
+        "body": "Cada ejemplo de esta página se genera con MaxVideoAI."
       }
     ],
     "fallbackItems": null

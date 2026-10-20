@@ -5,7 +5,7 @@
     "title": "Generador con IA Grok Imagine Video 1.5 y referencias",
     "description": "Descubre la nueva familia Grok para generar desde texto o imágenes de referencia, con método de prompt, límites y cotizaciones canónicas."
   },
-  "overview": "Grok Imagine Video 1.5 abre una familia nueva en VideoAI. Genera desde texto o desde una hasta siete imágenes de referencia para separar identidad, entorno y estilo. xAI es propietario del modelo; Fal distribuye el endpoint usado en este lanzamiento. VideoAI no presenta esta ruta como una integración directa con xAI.",
+  "overview": "Grok Imagine Video 1.5 abre una familia nueva en MaxVideoAI. Genera desde texto o desde una hasta siete imágenes de referencia para separar identidad, entorno y estilo. xAI es propietario del modelo; Fal distribuye el endpoint usado en este lanzamiento. MaxVideoAI no presenta esta ruta como una integración directa con xAI.",
   "decision": {
     "modelSlug": "grok-imagine-video-1-5",
     "hero": {
@@ -17,7 +17,7 @@
         "una a siete imágenes",
         "funciones separadas"
       ],
-      "paragraph": "Elige Grok Imagine Video 1.5 para explorar la primera ruta Grok de VideoAI, sobre todo cuando un brief puede repartir funciones entre imágenes distintas. El modo de referencias exige al menos una imagen válida y admite hasta siete fuentes. xAI posee Grok Imagine Video, mientras Fal distribuye la ejecución de esta versión.",
+      "paragraph": "Elige Grok Imagine Video 1.5 para explorar la primera ruta Grok de MaxVideoAI, sobre todo cuando un brief puede repartir funciones entre imágenes distintas. El modo de referencias exige al menos una imagen válida y admite hasta siete fuentes. xAI posee Grok Imagine Video, mientras Fal distribuye la ejecución de esta versión.",
       "primaryCta": {
         "label": "Generar con Grok 1.5",
         "href": "/app?engine=grok-imagine-video-1-5"
@@ -125,7 +125,7 @@
     "pricingCopy": {
       "title": "Precios por escenario de Grok 1.5",
       "subtitle": "Compara un plano de texto de seis segundos en 720p con una escena de ocho segundos en 480p guiada por dos imágenes.",
-      "footnote": "El precio depende de tus ajustes. VideoAI confirma la cotización antes de generar.",
+      "footnote": "El precio depende de tus ajustes. MaxVideoAI confirma la cotización antes de generar.",
       "ctaLabel": "Generar con Grok 1.5",
       "ctaHref": "/app?engine=grok-imagine-video-1-5"
     },

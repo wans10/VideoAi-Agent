@@ -2,11 +2,11 @@
   "marketingName": "Happy Horse 1.1",
   "versionLabel": "1.1",
   "seo": {
-    "title": "Happy Horse 1.1 | Modèle vidéo IA avec audio natif | VideoAI",
-    "description": "Utilisez Happy Horse 1.1 sur VideoAI pour générer une vidéo depuis un texte, une image ou plusieurs références, avec audio natif et synchronisation labiale.",
+    "title": "Happy Horse 1.1 | Modèle vidéo IA avec audio natif | MaxVideoAI",
+    "description": "Utilisez Happy Horse 1.1 sur MaxVideoAI pour générer une vidéo depuis un texte, une image ou plusieurs références, avec audio natif et synchronisation labiale.",
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
-  "overview": "Happy Horse 1.1 est le modèle vidéo Alibaba actuel sur VideoAI pour les consignes texte, les images de départ et jusqu’à neuf images de référence avec audio synchronisé et synchronisation labiale.",
+  "overview": "Happy Horse 1.1 est le modèle vidéo Alibaba actuel sur MaxVideoAI pour les consignes texte, les images de départ et jusqu’à neuf images de référence avec audio synchronisé et synchronisation labiale.",
   "pricingNotes": "Happy Horse 1.1 utilise les tarifs Fal actuels pour les générations à partir de texte, d’image et de références. L’édition d’une vidéo source reste disponible sur l’ancienne route Happy Horse 1.0.",
   "hero": {
     "title": "Happy Horse 1.1 - génération vidéo Alibaba avec audio natif",
@@ -64,7 +64,7 @@
   "technicalOverview": [
     {
       "label": "Workflows",
-      "body": "Les générations depuis un texte, une image ou plusieurs références sont exposées comme un seul modèle Happy Horse 1.1 actuel dans VideoAI."
+      "body": "Les générations depuis un texte, une image ou plusieurs références sont exposées comme un seul modèle Happy Horse 1.1 actuel dans MaxVideoAI."
     },
     {
       "label": "Durée",
@@ -122,11 +122,11 @@
       "prompt": "Animez le visuel de campagne importé avec un mouvement avant fluide, un mouvement subtil des tissus et cheveux, une lumière publicitaire soignée et une ambiance synchronisée."
     }
   ],
-  "faqTitle": "FAQ - Happy Horse 1.1 sur VideoAI",
+  "faqTitle": "FAQ - Happy Horse 1.1 sur MaxVideoAI",
   "faqs": [
     {
       "q": "Quelles entrées Happy Horse 1.1 prend-il en charge ?",
-      "a": "VideoAI expose Happy Horse 1.1 comme un modèle actuel pour générer depuis un texte, une image ou plusieurs références."
+      "a": "MaxVideoAI expose Happy Horse 1.1 comme un modèle actuel pour générer depuis un texte, une image ou plusieurs références."
     },
     {
       "q": "Happy Horse 1.1 prend-il en charge la synchronisation labiale ?",
@@ -235,12 +235,12 @@
       },
       {
         "title": "720p ou 1080p",
-        "body": "Choisissez la résolution exposée dans VideoAI avant génération.",
+        "body": "Choisissez la résolution exposée dans MaxVideoAI avant génération.",
         "tone": "quality"
       },
       {
         "title": "1080p fournisseur moins cher",
-        "body": "Happy Horse 1.1 utilise le tarif fournisseur 1080p actuel avant marge VideoAI.",
+        "body": "Happy Horse 1.1 utilise le tarif fournisseur 1080p actuel avant marge MaxVideoAI.",
         "tone": "price"
       }
     ],
@@ -295,14 +295,14 @@
     "pricingCopy": {
       "title": "Prix Happy Horse 1.1 en un coup d’œil",
       "subtitle": "Prix totaux avec audio natif — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 1080p",
       "ctaHref": "/fr/tarifs#happy-horse-1-1-pricing"
     },
     "meta": {
-      "title": "Happy Horse 1.1 : tarifs, audio natif et références | VideoAI",
-      "description": "Explorez Happy Horse 1.1 : prix, audio natif, synchronisation labiale, génération depuis texte, image et références sur VideoAI."
+      "title": "Happy Horse 1.1 : tarifs, audio natif et références | MaxVideoAI",
+      "description": "Explorez Happy Horse 1.1 : prix, audio natif, synchronisation labiale, génération depuis texte, image et références sur MaxVideoAI."
     }
   },
   "prompting": {

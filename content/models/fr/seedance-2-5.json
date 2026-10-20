@@ -94,7 +94,7 @@
     },
     {
       "q": "Puis-je générer avec Seedance 2.5 depuis cette page ?",
-      "a": "La génération Seedance 2.5 est accessible aux utilisateurs de VideoAI, avec le prix calculé et affiché avant chaque rendu."
+      "a": "La génération Seedance 2.5 est accessible aux utilisateurs de MaxVideoAI, avec le prix calculé et affiché avant chaque rendu."
     }
   ],
   "decision": {
@@ -132,7 +132,7 @@
     },
     "media": {
       "caption": "Rendu réel Seedance 2.5",
-      "description": "Une séquence cinématographique plus longue créée avec VideoAI",
+      "description": "Une séquence cinématographique plus longue créée avec MaxVideoAI",
       "renderLabel": "Voir le rendu complet",
       "badges": [
         "24s",
@@ -308,7 +308,7 @@
     "showWhenEmpty": false,
     "section": {
       "title": "Rendus réels Seedance 2.5",
-      "intro": "Examinez des rendus VideoAI publiés qui testent la narration longue, la maîtrise de la caméra, la cohérence physique et le jeu naturel des personnages.",
+      "intro": "Examinez des rendus MaxVideoAI publiés qui testent la narration longue, la maîtrise de la caméra, la cohérence physique et le jeu naturel des personnages.",
       "defaultCtaLabel": "Voir tous les exemples Seedance",
       "recreateLabel": null
     },
@@ -355,7 +355,7 @@
         "id": "production",
         "icon": "shield",
         "title": "Évaluation éditoriale",
-        "body": "Chaque exemple présenté ici est un vrai rendu VideoAI."
+        "body": "Chaque exemple présenté ici est un vrai rendu MaxVideoAI."
       }
     ],
     "fallbackItems": null

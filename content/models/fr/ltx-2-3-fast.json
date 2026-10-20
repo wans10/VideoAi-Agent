@@ -2,7 +2,7 @@
   "marketingName": "LTX 2.3 Fast",
   "versionLabel": "Fast",
   "seo": {
-    "title": "LTX 2.3 Fast | Modèle vidéo IA, specs, prix et durée max | VideoAI",
+    "title": "LTX 2.3 Fast | Modèle vidéo IA, specs, prix et durée max | MaxVideoAI",
     "description": "LTX 2.3 Fast reste une route exécutable de génération précédente pour les brouillons établis ; consultez les tarifs et la montée vers LTX 2.5 Fast.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1bd62e34-0e55-4f49-b434-295276b991d4-job_d895c3b0-562a-4e36-ae06-4ce083a47126.jpg"
   },
@@ -196,7 +196,7 @@
       "Commencer par les exemples||Ouvrez d’abord la page d’exemples LTX si vous voulez des patterns de prompts, des réglages et des bases image-vers-vidéo avant de générer.",
       "Meilleurs cas d’usage||Fast convient bien aux tests de prompts, aux variantes verticales, aux tests plus longs et à l’exploration motion à moindre coût."
     ],
-    "specTitle": "Vraies specs - LTX 2.3 Fast dans VideoAI",
+    "specTitle": "Vraies specs - LTX 2.3 Fast dans MaxVideoAI",
     "specNote": "Les specs reflètent le routing Fast public exposé aujourd’hui.",
     "specSections": [
       {
@@ -220,7 +220,7 @@
         ]
       }
     ],
-    "whatTitle": "Comment fonctionne LTX 2.3 Fast dans VideoAI",
+    "whatTitle": "Comment fonctionne LTX 2.3 Fast dans MaxVideoAI",
     "whatIntro1": "Choisissez LTX 2.3 Fast, restez dans le flux standard de génération, puis basculez entre entrée pilotée par texte et entrée pilotée par image en ajoutant ou retirant l’image de départ.",
     "whatIntro2": "La page évite volontairement les modes d’édition Pro pour que les options restent cohérentes avec le routing Fast public.",
     "whatFlowTitle": "Workflow",
@@ -424,13 +424,13 @@
     "pricingCopy": {
       "title": "Prix des brouillons LTX 2.3 Fast",
       "subtitle": "Prix totaux par scénario de brouillon — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Brouillons longs en 1080p",
       "ctaHref": "/fr/tarifs#ltx-2-3-fast-pricing"
     },
     "meta": {
-      "title": "LTX 2.3 Fast : prix brouillons et tests de prompts | VideoAI",
+      "title": "LTX 2.3 Fast : prix brouillons et tests de prompts | MaxVideoAI",
       "description": "Utilisez LTX 2.3 Fast pour des boucles de brouillon rapides, exploration visuelle, tests de prompts et vidéos verticales ou sociales."
     }
   },

@@ -2,12 +2,12 @@
   "marketingName": "Kling 3 Pro",
   "versionLabel": "v3 Pro",
   "seo": {
-    "title": "Kling 3 Pro | Modelo de video IA, specs y precios | VideoAI",
-    "description": "Usa Kling 3 Pro en VideoAI para video IA multi-shot, control de escena, audio nativo y specs y precios en vivo antes de renderizar.",
+    "title": "Kling 3 Pro | Modelo de video IA, specs y precios | MaxVideoAI",
+    "description": "Usa Kling 3 Pro en MaxVideoAI para video IA multi-shot, control de escena, audio nativo y specs y precios en vivo antes de renderizar.",
     "image": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/27311f53-6265-4eac-b88b-021d57eca35b-job_665a317f-f4dc-41c8-ade4-4a0a891627c8.jpg"
   },
-  "overview": "Kling 3 Pro es el modelo de video IA Kling actual en VideoAI para video multi-shot, workflows Kling de imagen-a-video con start frame, Kling Elements reutilizables, frames finales opcionales y audio nativo.",
-  "pricingNotes": "Las estimaciones mostradas a miembros incluyen el margen de VideoAI: aprox. 0,22 $/s con audio, 0,15 $/s audio off y 0,26 $/s con voice control.",
+  "overview": "Kling 3 Pro es el modelo de video IA Kling actual en MaxVideoAI para video multi-shot, workflows Kling de imagen-a-video con start frame, Kling Elements reutilizables, frames finales opcionales y audio nativo.",
+  "pricingNotes": "Las estimaciones mostradas a miembros incluyen el margen de MaxVideoAI: aprox. 0,22 $/s con audio, 0,15 $/s audio off y 0,26 $/s con voice control.",
   "hero": {
     "title": "Kling 3 Pro — modelo Kling actual para video multi-shot y control de escena",
     "intro": "Kling 3 Pro es el modelo Kling AI actual para video multi-shot, workflows Kling de imagen-a-video con start frame, Kling Elements reutilizables, frames finales opcionales y audio nativo. Usa Kling 3.0 Omni cuando las imagenes subidas deben servir como referencias sin abrir el clip.",
@@ -150,7 +150,7 @@
       "prompt": "Escena 1 (5 s): macro de la esfera de un reloj. Escena 2 (4 s): toma hero girando con rim light. Escena 3 (4 s): muñeca en modelo, ambiente suave."
     }
   ],
-  "faqTitle": "FAQ – Kling 3 Pro en VideoAI",
+  "faqTitle": "FAQ – Kling 3 Pro en MaxVideoAI",
   "faqs": [
     {
       "q": "¿Qué es multi‑prompt?",
@@ -178,7 +178,7 @@
       "Frame final para cierres más limpios||Usa un frame final opcional para aterrizar transiciones, match cuts y reveals de producto",
       "Shot type para cobertura más rápida||Elige shot_type según la intención: “intelligent” para cobertura automática, “customize” para control estricto"
     ],
-    "specTitle": "Especificaciones reales — Kling 3 Pro en VideoAI",
+    "specTitle": "Especificaciones reales — Kling 3 Pro en MaxVideoAI",
     "specNote": "Las specs reflejan el routing de Fal en producción.",
     "specSections": [
       {
@@ -282,7 +282,7 @@
       },
       {
         "title": "3 a 15 segundos",
-        "body": "Elige el rango de duración expuesto en VideoAI.",
+        "body": "Elige el rango de duración expuesto en MaxVideoAI.",
         "tone": "duration"
       },
       {
@@ -352,13 +352,13 @@
     "pricingCopy": {
       "title": "Precios de Kling 3 Pro de un vistazo",
       "subtitle": "Precios totales 1080p con audio activado. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 15 s en 1080p",
       "ctaHref": "/es/precios#kling-3-pro-pricing"
     },
     "meta": {
-      "title": "Kling 3 Pro: precios, audio nativo y control 15 s | VideoAI",
+      "title": "Kling 3 Pro: precios, audio nativo y control 15 s | MaxVideoAI",
       "description": "Genera con Kling 3 Pro: control tipo storyboard, audio nativo, salida 1080p, duración de 3 a 15 s, prompt negativo, CFG scale y cuadro final opcional."
     }
   },
