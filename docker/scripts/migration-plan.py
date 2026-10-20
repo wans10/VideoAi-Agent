@@ -18,10 +18,10 @@ for path in sorted((root / 'concurrent' if concurrent else root).glob('*.sql')):
     sql = raw.decode()
     if not concurrent:
         # Owned files use a single outer BEGIN/COMMIT pair. Nested DO bodies stay intact.
-        if re.match(r'^\s*BEGIN;', sql, re.I):
+        if re.match(r'^(?:\s*--[^\n]*\n)*\s*BEGIN;', sql, re.I):
             if not re.search(r'COMMIT;\s*$', sql, re.I):
                 raise ValueError('Unbalanced migration transaction: ' + name)
-            sql = re.sub(r'^\s*BEGIN;\s*', '', sql, count=1, flags=re.I)
+            sql = re.sub(r'^((?:\s*--[^\n]*\n)*)\s*BEGIN;\s*', r'\1', sql, count=1, flags=re.I)
             sql = re.sub(r'COMMIT;\s*$', '', sql, count=1, flags=re.I)
         if re.search(r'^\s*(BEGIN|COMMIT|ROLLBACK);', sql, re.M | re.I):
             raise ValueError('Unexpected transaction boundary: ' + name)

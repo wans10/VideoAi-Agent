@@ -118,6 +118,7 @@
       },
       "examples": {
         "items": {
+          "all-examples": "全部示例",
           "sora": "Sora",
           "sora-2": "Sora 2",
           "sora-2-pro": "Sora 2 Pro",
@@ -144,7 +145,10 @@
           "ltx-2-fast": "LTX 2 Fast"
         },
         "heading": "先看效果，再做决定。",
-        "intro": "真实生成视频、提示词与模型细节。"
+        "intro": "真实生成视频、提示词与模型细节。",
+        "descriptions": {
+          "all-examples": "所有模型的视频与提示词。"
+        }
       },
       "compare": {
         "items": {
@@ -4287,6 +4291,8 @@
         "chooseAmount": "选择",
         "expressTitle": "快捷支付",
         "expressLoading": "正在加载快捷支付选项…",
+        "expressSlow": "支付选项加载时间较长。您也可以在下方使用银行卡支付。",
+        "expressRetry": "重试",
         "expressUnavailable": "快捷支付暂不可用，请选择下方的其他支付方式。",
         "expressError": "无法打开快捷支付，请选择下方的其他支付方式。",
         "expressClosed": "支付窗口已关闭。请重试或在下方选择其他支付方式。",

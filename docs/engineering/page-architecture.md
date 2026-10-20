@@ -109,6 +109,24 @@ Extract client pages in this order:
 4. self-contained panels/cards
 5. heavy optional UI with `next/dynamic`
 
+### Image gallery settings hydration
+
+`app/image/_hooks/useImageGallerySelection.ts` owns gallery selection defaults and
+the asynchronous job settings lookup. Each selection replaces and aborts the
+previous lookup. Check request identity after JSON parsing as well as abort state;
+an already received response can finish parsing after a newer selection. Account
+changes and unmount invalidate the active request in layout cleanup.
+
+`ImageWorkspace.tsx` wraps composer user actions with `guardComposerActions`,
+including settings, reference insertion/removal, character references, starter
+selection and generation submission. These actions cancel pending gallery
+hydration before changing the form. Keep internal setters used by selection
+defaults, snapshot application, persistence and schema normalization unwrapped:
+an effect watching all composer state would cancel valid hydration itself.
+`tests/image-gallery-selection-dom.test.ts` exercises real React lifecycle and
+delayed transport responses; `tests/image-workspace-split-contract.test.ts` keeps
+the user-action wiring at the route boundary.
+
 ## Data Builder Pattern
 
 When a route has many derived props, create a builder:
@@ -222,6 +240,35 @@ shared by the pair, and quote through `computeCurrentPublicSnapshot` with explic
 mode, resolution, aspect and audio. Project the exact video total and per-second
 rate without a catalogue fallback. Avoid initializing the complete tariff audit
 coverage on the request path; the public quote API remains a parity check in tests.
+
+Examples pagination keeps its path and page number in the canonical, Open Graph URL
+and every hreflang alternate. The route-local `examples-pagination-seo.ts` owns
+strict decimal page parsing and the distinction between the default series and
+sort/filter variants. Localize the base path before appending the page query.
+Page 1 and invalid values redirect to a normalized destination; out-of-range
+requests retain the existing last-page redirect. Normalize legacy `engine` links
+to their family before discarding invalid query values. Preserve intentional
+`public_noindex` families. Pagination hrefs are already localized strings because
+the shared navigation renderer uses `next/link`, not the locale-aware wrapper.
+
+The model catalogue exposes scope navigation and a text-only server directory in
+`ModelsCatalogDirectory.tsx`, using the same price-free selection as the hero.
+Keep all admitted catalogue model links available without clicking tabs or scrolling,
+including image models and separately labelled legacy versions. Do not expand the
+interactive six-card initial batch, fetch extra media, or wait for current prices
+to render these links. Deep archives remain accessible through their existing
+family/history routes, not current-model promotion. Tests in
+`examples-pagination-seo`, `examples-price-streaming`, `examples-family-metadata`
+and `models-catalog-streaming` cover these boundaries.
+
+The comparison hub's directory includes every published, locale-indexable pair
+among its available, limited and waitlist engines. Executable selectors keep their
+own narrower availability policy; archives retain their separate historical routes.
+Render all directory anchors in the initial HTML, with the first 24 outside a native
+`details` disclosure and the remainder inside it. Search can filter the list after
+hydration, but discovery must never depend on a load-more handler. Keep prefetch off
+and the directory free of media. `comparisons-directory-discovery.test.ts` exercises
+the actual component, localized links and publication selection.
 
 LTX and Seedance gallery prompt shortcuts use only examples already present on the
 current first SSR page, after its four opening cards. Select distinct exact versions
@@ -385,3 +432,22 @@ the database is unavailable. These contracts are covered by
 `ExamplesMainVideoFeature` offers an explicit workspace continuation (`/app?from=<public video id>`) beside the watch/details link. The linked model name remains the model entry point. Keep the card media lifecycle unchanged and do not prefetch the workspace from public galleries. `example-reuse-copy.ts` describes available settings, user references and the next quote; it must not promise an exact clone. Full family copy remains in the server-rendered disclosure when the hero is condensed. CTA analytics uses the existing bridge and bounded labels, not prompts or video identifiers.
 
 `useWorkspaceVideoSettings` owns failed shared-example loading notices, including locale and stale/account guards. The public video GET enforces visibility before returning data: public shares remain available independently of search indexability; private videos require their owner. Keep its no-store response, original payload boundary and identical missing/unauthorized 404. `tests/examples-acquisition-journey.test.ts`, `tests/workspace-shared-video-load-dom.test.ts` and `tests/video-read-access-route.test.ts` cover these contracts.
+
+The shared watch/dialog reader keeps the existing app reuse link as its primary
+action. `ExampleContinuationActions.client.tsx` owns the secondary Studio link,
+ChatGPT/Claude draft links, existing partner marks and complete-request clipboard
+recovery. `frontend/lib/example-continuation.ts` builds localized requests from
+the public `ExampleWatchDetail` projection: original prompt, known settings,
+canonical example and original video links, approved public references and an
+exact-quote approval reminder. Comparison proposals and historical charges are
+not original template settings. Missing configuration stays explicit.
+
+External `q` URLs are best-effort draft handoffs, not verified MCP installation
+links; they do not change the integration registry's installation or host-proof
+state. An explicit assistant click also copies the full request. URLs over 8,000
+characters open the assistant without a query; the full request remains available
+through Copy request and a selectable fallback when clipboard access fails. The
+request describes connector setup when needed without claiming a connection or
+automatic video ingestion. `tests/example-continuation.test.ts` and the real
+reader browser fixture cover request identity, languages, logos, touch geometry,
+keyboard navigation and clipboard failure.

@@ -357,6 +357,7 @@ async function connectTrial(identity: AgentPrincipal, services: MaxVideoAiMcpSer
   const server = createMaxVideoAiMcpServer(identity, services, {
     paidGeneration: true,
     referenceUploads: false,
+    audioGeneration: false,
   });
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
   const client = new Client({ name: `t9-${identity.userId}`, version: '1.0.0' });
@@ -735,7 +736,7 @@ test('verified OAuth acquisition completes one local SDK trial without wallet or
     trial: false,
     referenceUploads: true,
     montagePreparation: false,
-    audioGeneration: false,
+    audioGeneration: true,
     studioMontageCreation: false,
   });
 });

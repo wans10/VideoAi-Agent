@@ -101,6 +101,8 @@ export function QuadPreviewPanel({
         jobId: tile.id,
         label: locale === 'zh' ? `版本 ${tile.iterationIndex + 1}` : `Version ${tile.iterationIndex + 1}`,
         videoUrl: tile.videoUrl ?? undefined,
+        playbackVideoUrl: tile.playbackVideoUrl,
+        lastFrameUrl: tile.lastFrameUrl,
         thumbUrl: tile.thumbUrl ?? undefined,
         aspectRatio: tile.aspectRatio,
         status: tile.status,

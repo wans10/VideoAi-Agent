@@ -12,6 +12,30 @@ A coordinated read-only production check at 2026-10-05T13:08:15Z confirmed conve
 
 Removing a presentation label does not change feature flags, access gates, grant types or immutable assistance-policy versions containing `beta` or `preview`. Historical dated guides and captures retain the status they actually recorded. A hidden export flag is not evidence about whether renderer secrets are configured; masked environment reads cannot establish that fact.
 
+## Public example entry — 2026-10-16
+
+`/app/studio?example=<public-example-id>` starts an editable example brief.
+`frontend/server/studio-example-entry.ts` validates the bounded identifier and
+reuses the public watch eligibility and sanitized detail projection, including
+legacy public rows with `indexable=NULL`; catalog curation still requires explicit
+`indexable=true`. The
+root entry skips the recent-project redirect, `StudioStart` carries the identifier
+to the new owned conversation, and that route revalidates the public example.
+Only the public request facts cross into the client; raw job snapshots, owners,
+historical charges and comparison prices do not. The conversation consumes the
+query after draft initialization so refreshing a sent conversation does not
+reinsert the example request.
+
+Guests see the selected example and its editable brief rather than unrelated
+demonstration media. Login destinations retain the example identifier; existing
+one-use draft continuation preserves edits within its shared 100,000-character serialized
+payload bound, independently of the send limit. Requests above the existing
+4,000-character Studio limit remain visible in full, with submission disabled and
+an instruction to shorten them. Oversized guest drafts are never silently sliced
+into the continuation store. Entry does not send a message, import private media,
+generate, export or approve spending. `tests/studio-example-entry.test.ts`, guest
+DOM tests and composer tests cover these boundaries.
+
 ## Ownership map
 
 | Owner | Responsibility |
@@ -47,6 +71,44 @@ selected/named model follows exact details and preparation. Alternative requests
 may reprice original `baselineSettings` for verified savings; the quote card
 invites model, resolution, duration and budget comparisons. Historical options
 remain bounded receipt facts, never current prices or purchase authorization.
+
+Media selection continuity (reviewed 2026-10-16) belongs to
+`useConversationMediaShelf`. Sending a message keeps its visible selection.
+Session storage is scoped to account and project and stores only asset identities,
+kinds and labels. Restore once after owned history loads, falling back to the
+latest turn only when no local selection exists. An explicit empty selection stays
+empty; polling must not reattach removed media. Server ownership and measured-source
+validation still run on every request. The connected browser tests cover sending,
+reloading, following up and explicitly removing a reference.
+
+Film estimates support t2v, i2v and ref2v, including several images when the live
+mode supports their roles. A failed film comparison permits at most one changed
+comparison within the original response allowance. Freeze the approved film total
+before checkpointing. The full action fingerprint includes the prompt; a shortened
+prompt is a real correction. An identical failed action is skipped in fresh and
+replayed responses. Recover only recorded responses after a historical failure;
+never buy a new response just to reconstruct its missing terminal reply.
+
+`tasks/previous-work.ts` projects up to 12 receipts within 12,000 characters.
+Current-task receipts take priority; other messages contribute only failed reads
+from the same owned project within seven days. Prompts and media URLs are excluded.
+The immutable action hash supplies exact attempt identity without copying a prompt.
+Only a proven single-clip capability rejection can suppress a repeated read, with
+unchanged action, reviewed source fingerprint and complete catalog capability
+fingerprint (including input limits). Tariff outages and legacy incomplete evidence
+are revalidated. The separate duration cache never applies to film plans: failure
+of one film component is not proof that every cut is impossible. Paid follow-up
+responses remain recoverable in replay-only mode even after a comparison receipt.
+
+Server-authored comparison/preparation replies follow the client's conversation
+language, including short confirmations using recent authored history. Requested
+voice-over/dialogue language does not change Studio's reply language. Failure
+copy distinguishes a proven incompatibility from an unverified price and never
+asks a client to interpret raw comparison tool errors. Preparation validation
+receipts carry canonical mode capabilities to support their single correction.
+Instructions cannot promise pixel-identical subject preservation or deterministic
+interpolation from a generative model; source-derived timing and requested integer
+output timing remain separate mode contracts.
 
 Preparation recovery is bounded inside the existing four Responses and assistance-call allowance (reviewed 2026-10-05). Discovery publishes canonical base setting names, including `durationSec`, `resolution`, `aspectRatio`, `fps` and an `audio` boolean only when that mode has a toggle. Always-generated or unavailable sound does not grant an audio toggle. Null discovery defaults preserve the generation adapters' existing default ownership.
 

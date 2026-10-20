@@ -3,7 +3,7 @@ import type { AppLocale } from '@/i18n/locales';
 // Exact capability phrases only: unknown values keep their original meaning.
 // fr/es are optional: entries added for zh only return null for those locales,
 // exactly as an unknown phrase did before.
-const CAPABILITY_COPY: Record<string, { fr?: string; es?: string; zh: string }> = {
+const CAPABILITY_COPY: Record<string, { fr?: string; es?: string; zh?: string }> = {
   'optional end frame': { fr: 'image de fin facultative', es: 'imagen final opcional', zh: '可选尾帧' },
   'single start image plus optional end frame': { fr: 'Une image de départ et une image de fin facultative', es: 'Una imagen inicial y una imagen final opcional', zh: '单张起始图加可选尾帧' },
   'supported through synchronized audio and audio-to-video workflows': { fr: 'Via l’audio synchronisé et la génération audio-vers-vidéo', es: 'Mediante audio sincronizado y generación de audio a video', zh: '通过同步音频和音频生视频工作流支持' },
@@ -33,7 +33,7 @@ const CAPABILITY_COPY: Record<string, { fr?: string; es?: string; zh: string }> 
   'single start image; optional end frame in i2v': { zh: '单张起始图；图生视频可选尾帧' },
   'i2v start image + optional end frame; optional start/end frames in reference mode': { zh: '图生视频首帧 + 可选尾帧；参考模式可选首尾帧' },
   'image-to-video: 1 source image; optional end frame': { zh: '图生视频：1 张源图；可选尾帧' },
-  'image-to-video: 1 start image; reference-to-video: 1-3 stills': { zh: '图生视频：1 张首帧；参考生视频：1–3 张静态参考图' },
+  'image-to-video: 1 start image; reference-to-video: 1-3 stills': { fr: 'Image vers vidéo : 1 image de départ ; génération avec références : 1 à 3 images', es: 'Imagen a video: 1 imagen inicial; generación con referencias: de 1 a 3 imágenes', zh: '图生视频：1 张首帧；参考生视频：1–3 张静态参考图' },
   'image-to-video: 1 start image; reference mode: 1-3 stills': { zh: '图生视频：1 张首帧；参考模式：1–3 张静态图' },
   'reference-to-video: @image references plus kling elements; i2v: one start image': { zh: '参考生视频：@图片参考 + Kling 元素；图生视频：1 张首帧' },
   'reference-to-video and v2v: @image references plus kling elements; i2v: one start image': { zh: '参考生视频与视频生视频：@图片参考 + Kling 元素；图生视频：1 张首帧' },
@@ -42,6 +42,15 @@ const CAPABILITY_COPY: Record<string, { fr?: string; es?: string; zh: string }> 
   'single start image; no style-reference stack': { zh: '单张起始图；无风格参考图堆栈' },
   'single start image; no separate style-reference stack': { zh: '单张起始图；无独立风格参考图堆栈' },
   '4k on the standard dreamina seedance 2.0 route': { zh: '标准 Dreamina Seedance 2.0 路线支持 4K' },
+  // Upstream-added phrases (fr/es/en); zh added for Keyvo.
+  'edit, extend, and conversational refine': { fr: 'modification, extension et retouches par conversation', es: 'edición, extensión y refinamiento mediante conversación', zh: '编辑、延长与对话式精修' },
+  'extend from one source video': { fr: 'extension à partir d’une vidéo source', es: 'extensión a partir de un video de origen', zh: '从一个源视频延长' },
+  'short source video for edit; previous interaction id for refine': { fr: 'courte vidéo source pour la modification ; interaction précédente pour les retouches par conversation', es: 'video de origen corto para editar; interacción anterior para refinar mediante conversación', zh: '编辑需短源视频；精修需上一次交互 ID' },
+  'one source clip for extend': { fr: 'un clip source pour l’extension', es: 'un clip de origen para la extensión', zh: '延长需 1 个源片段' },
+  'supported in current omni 1.1 route': { fr: 'Pris en charge avec Omni 1.1 sur Keyvo', es: 'Compatible con Omni 1.1 en Keyvo', zh: 'Omni 1.1 当前路线支持' },
+  'supported through native dialogue and audio generation': { fr: 'Pris en charge via le dialogue et l’audio natifs', es: 'Compatible mediante diálogo y audio nativos', zh: '通过原生对白与音频生成支持' },
+  'prompt-based sound, camera and edit directions': { fr: 'Son, caméra et modifications guidés par le prompt', es: 'Sonido, cámara y edición guiados por el prompt', zh: '基于提示词的声音、运镜与编辑指令' },
+  'no visible maxvideoai watermark; provider/model provenance markers may apply': { fr: 'Aucun filigrane Keyvo visible ; des marqueurs de provenance du fournisseur ou du modèle peuvent être présents', es: 'Sin marca de agua visible de Keyvo; puede haber marcadores de procedencia del proveedor o del modelo', zh: '无可见 Keyvo 水印；可能保留提供商或模型标注' },
 };
 
 /** Shared exact capability translation for model and comparison pages. */

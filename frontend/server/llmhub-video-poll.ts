@@ -157,7 +157,7 @@ export async function runLlmhubVideoPoll(options: {
       updates += 1;
       continue;
     }
-    const claim = await (options.deps?.claimFn ?? claimGenerationPoll)(job.job_id, queryFn, 10);
+    const claim = await (options.deps?.claimFn ?? claimGenerationPoll)(job.job_id, queryFn, { leaseDurationMs: 600_000 });
     if (!claim) continue;
     try {
       const task = await client.status(job.provider_job_id);

@@ -14,7 +14,7 @@ test('closed desktop panels keep their complete SSR link roster and render decor
     const dropdown=MARKETING_NAV_DROPDOWNS[item.key];
     if(!dropdown)return [];
     return [{id:`marketing-${item.key}-dropdown`,links:[
-      {href:href(dropdown.allHref),label:translate(dropdown.allLabelKey,dropdown.allLabelFallback),badge:null,description:null},
+      ...(!dropdown.allLinkInItems ? [{href:href(dropdown.allHref),label:translate(dropdown.allLabelKey,dropdown.allLabelFallback),badge:null,description:null}] : []),
       ...dropdown.items.map(entry=>({href:href(entry.href),label:translate(`nav.dropdown.${item.key}.items.${entry.key}`,entry.label),badge:entry.badge?translate(`nav.badges.${entry.badge}`,entry.badge):null,description:entry.description?translate(`nav.dropdown.${item.key}.descriptions.${entry.key}`,entry.description):null})),
       ...(dropdown.sections??[]).flatMap(section=>section.items.map(entry=>({href:href(entry.href),label:translate(`nav.dropdown.${item.key}.sections.${section.key}.items.${entry.key}`,entry.label),badge:null,description:null}))),
     ]}];
@@ -52,6 +52,11 @@ test('closed desktop panels keep their complete SSR link roster and render decor
       await trigger.focus();
       await page.keyboard.press('ArrowDown');
       await panel.waitFor({state:'visible'});
+      if (id === 'marketing-examples-dropdown') {
+        assert.equal(await panel.locator('a[href="/examples"]').count(), 1, 'one clear entry opens the main gallery');
+        assert.equal(await panel.locator('.marketing-mega-links a').first().getAttribute('href'), '/examples');
+        assert.equal(await panel.locator('header a[href="/examples"]').count(), 0);
+      }
       assert.ok(await panel.locator('.marketing-entry-content img, .marketing-entry-content svg, .marketing-entry-content [role="img"]').count()>0,'visible panels render their original entry decoration');
       assert.ok(await panel.locator('.lucide-arrow-up-right').count()>0,'panel action arrows appear with the panel');
       assert.deepEqual(await roster(),expected,'enhancement must preserve the complete link roster');
@@ -103,6 +108,7 @@ test('mobile actions skip unchanged desktop menus while desktop state and locale
     assert.match(await page.locator('#mobile-craft-panel').textContent()??'',/Camera studies/);
     assert.ok(await page.locator('#mobile-craft-panel .marketing-entry-content svg').count()>0,'mobile entries retain their decoration by default');
     assert.equal(await desktopMutations(),before,'expanding a mobile section must leave desktop production links untouched');
+    assert.equal(await desktopMutations(),before,'expanding a mobile section must leave desktop model links untouched');
     await page.getByRole('button',{name:'Close menu',exact:true}).tap();
     await page.locator('.marketing-menu-overlay').waitFor({state:'hidden'});
     assert.equal(await desktopMutations(),before);
@@ -150,3 +156,6 @@ test('zh mobile account labels follow guest and signed-in navigation before and 
     } finally {await browser.close();await fixture.close()}
   }
 });
+
+// Upstream's examples dropdown and entry tests are intentionally not carried over: Keyvo's header uses the
+// production/craft/screening structure and has no examples menu (see docs/engineering/keyvo-upstream-deviations.md).

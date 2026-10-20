@@ -1,3 +1,4 @@
+import { seedanceWorkflowEnabled } from '@/server/seedance-workflow-request';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import mcpPublication from '@/config/mcp-publication.json';
@@ -55,7 +56,7 @@ import {
   type PrepareGenerationInput,
   type TrialRiskRequestContext,
 } from '@/server/agent-api/prepare-generation';
-import { listAudioCapabilities } from '@/server/agent-api/audio-capabilities';
+import { listAudioCapabilities, listMcpAudioCapabilities } from '@/server/agent-api/audio-capabilities';
 import {
   createPrepareAudioGenerationService,
   type PreparedAudioGeneration,
@@ -238,7 +239,10 @@ export function createDefaultMaxVideoAiMcpServices(
     listModels: (filter, principal) => listAgentModels(filter, catalogDepsFor(principal)),
     getModelDetails: (engineId, principal) => getAgentModelDetails(
       engineId,
-      catalogDepsFor(principal),
+      { ...catalogDepsFor(principal), seedanceWorkflowAvailability: () => {
+        const web = seedanceWorkflowEnabled(config.resourceUrl);
+        return { mcp: capabilities.paidGeneration && web, web };
+      } },
       prelaunchAccessFor(principal),
     ),
     recommendModels: (input, principal) => recommendAgentModels(input, catalogDepsFor(principal)),
@@ -296,6 +300,7 @@ export function createDefaultMaxVideoAiMcpServices(
       },
     )(input, principal),
     getGenerationStatus: (input, principal) => getAgentGenerationStatus(input, principal, {
+      paidGenerationEnabled: () => capabilities.paidGeneration,
       accountUrl: config.accountUrl,
     }),
     listRecentGenerations: (input, principal) => listAgentRecentGenerations(input, principal, {
@@ -309,14 +314,14 @@ export function createDefaultMaxVideoAiMcpServices(
     createReferenceUploadLink: createDefaultReferenceUploadLinkService(config.accountUrl),
     importReferenceFiles: createDefaultReferenceFileImportService(config.accountUrl),
     prepareMontage: createPrepareMontageService(),
-    listAudioCapabilities: async () => listAudioCapabilities(runtimeEnv),
+    listAudioCapabilities: async () => listMcpAudioCapabilities(runtimeEnv),
     prepareAudioGeneration: (input, principal) => createPrepareAudioGenerationService(
       config.accountUrl,
-      { paidGenerationEnabled: () => capabilities.paidGeneration },
+      { paidGenerationEnabled: () => capabilities.paidGeneration, listCapabilities: () => listMcpAudioCapabilities(runtimeEnv) },
     )(input, principal),
     confirmAudioGeneration: (input, principal) => createConfirmAudioGenerationService(
       config.accountUrl,
-      { paidGenerationEnabled: () => capabilities.paidGeneration },
+      { paidGenerationEnabled: () => capabilities.paidGeneration, listCapabilities: () => listMcpAudioCapabilities(runtimeEnv) },
     )(input, principal),
     createStudioMontage: (input, principal) => createStudioMontageProject(
       { userId: principal.userId },
