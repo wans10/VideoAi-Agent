@@ -38,6 +38,8 @@ const KEPT = [
   /google-vertex|vertex-regions/i,
   /^frontend\/lib\/image-generation-client\.ts$/,
   /^docs\/engineering\/keyvo-/,
+  /^scripts\/report-upstream-deviations\.mjs$/,
+  /^tests\/upstream-deviation-report\.test\.ts$/,
 ];
 const INFRA = /^(\.github\/|docker\/|docker-compose|Dockerfile|\.dockerignore|\.env\.production|scripts\/(select-ci|run-validation))/;
 const UI = /^(frontend\/(app|components)\/|frontend\/src\/components\/|frontend\/public\/|frontend\/styles|.*\.css$)/;
