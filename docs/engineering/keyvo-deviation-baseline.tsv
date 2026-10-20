@@ -246,6 +246,7 @@ Y deploy-infra	docker/scripts/scheduler.mjs
 Y deploy-infra	Dockerfile
 Y deploy-infra	Dockerfile.mock
 6 cn-providers	docs/deployment/customer-tariff-cutover.md
+5 llmhub-api	docs/deployment/keyvo-turnstile.md
 3 cny	docs/deployment/qwen-image.md
 K kept (documented)	docs/deployment/vertex-regions.md
 1 zh	docs/design/production-studio/README.md
