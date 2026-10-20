@@ -84,7 +84,8 @@ test('MCP montage opens the current conversation with private playback, durable 
     const exportValidation = await validateStudioPrivateMediaRequest({ url: exportLocation, method: 'GET' });
     assert.equal(exportValidation.ok, true, JSON.stringify({ validation: exportValidation, queryNames: [...new URL(exportLocation).searchParams.keys()] }));
     let expiredPrivateUrl: string | null = null;
-    browserFixture = await startStudioConnectedBrowserFixture({ runtime, signatureClock: (url) => {
+    // CI sets STUDIO_BROWSER_TRACE_DIR so a failing run uploads traces; local runs record nothing.
+    browserFixture = await startStudioConnectedBrowserFixture({ runtime, traceDir: process.env.STUDIO_BROWSER_TRACE_DIR || undefined, signatureClock: (url) => {
       if (url === expiredPrivateUrl) return new Date(Date.now() + 3_600_000);
       return new Date();
     } });
