@@ -83,8 +83,15 @@ test('MCP montage opens the current conversation with private playback, durable 
     const exportLocation = exportGrant.headers.get('location')!;
     const exportValidation = await validateStudioPrivateMediaRequest({ url: exportLocation, method: 'GET' });
     assert.equal(exportValidation.ok, true, JSON.stringify({ validation: exportValidation, queryNames: [...new URL(exportLocation).searchParams.keys()] }));
+    // Compile the cold dev routes the held phase depends on before any 5-second poll starts: a held
+    // journal read compiles its route when it is released, which can outlast the default poll window on CI.
+    for (const path of [`${endpoint}/image-conversation`, `${endpoint}/conversation-timeline?preview=1`]) {
+      await fetch(`${runtime.origin}${path}`, { headers: { Authorization: `Bearer ${session.access_token}` }, signal: AbortSignal.timeout(120_000) })
+        .then((warmed) => warmed.arrayBuffer()).catch(() => undefined);
+    }
     let expiredPrivateUrl: string | null = null;
-    browserFixture = await startStudioConnectedBrowserFixture({ runtime, signatureClock: (url) => {
+    // CI sets STUDIO_BROWSER_TRACE_DIR so a failing run uploads traces; local runs record nothing.
+    browserFixture = await startStudioConnectedBrowserFixture({ runtime, traceDir: process.env.STUDIO_BROWSER_TRACE_DIR || undefined, signatureClock: (url) => {
       if (url === expiredPrivateUrl) return new Date(Date.now() + 3_600_000);
       return new Date();
     } });
@@ -102,18 +109,22 @@ test('MCP montage opens the current conversation with private playback, durable 
           await journalGate; await route.continue();
         });
         await owned.page.route(`${timelineEndpoint}?preview=1`, async route => {
+          // Teardown can close the page while a read is still inside route.fetch(); that rejection is
+          // not a product failure, so it must not fail whichever test is running.
           if (holdRenewal) {
             holdRenewal = false;
-            const response = await route.fetch();
+            const response = await route.fetch().catch(() => null);
+            if (!response) return;
             renewalBlocked = true;
             await renewalGate;
-            await route.fulfill({response});
+            await route.fulfill({response}).catch(() => undefined);
           } else if (holdCanonical) {
             holdCanonical = false;
-            const response = await route.fetch();
+            const response = await route.fetch().catch(() => null);
+            if (!response) return;
             canonicalBlocked = true;
             await canonicalGate;
-            await route.fulfill({response});
+            await route.fulfill({response}).catch(() => undefined);
           } else await route.continue();
         });
       }
@@ -220,12 +231,12 @@ test('MCP montage opens the current conversation with private playback, durable 
     holdRenewal = true;
     expiredPrivateUrl = oldSignedUrl;
     await firstVideo.evaluate((element) => (element as HTMLVideoElement).load());
-    await expect.poll(() => browserFixture!.readPrivateRequests().slice(privateRequestCount).some((entry) => entry.status === 403)).toBe(true);
-    await expect.poll(() => renewalBlocked).toBe(true);
+    await expect.poll(() => browserFixture!.readPrivateRequests().slice(privateRequestCount).some((entry) => entry.status === 403), { timeout: 30_000 }).toBe(true);
+    await expect.poll(() => renewalBlocked, { timeout: 30_000 }).toBe(true);
     holdCanonical = true;
     releaseJournal();
     // The later canonical read wins; the held renewal response is obsolete.
-    await expect.poll(() => canonicalBlocked).toBe(true);
+    await expect.poll(() => canonicalBlocked, { timeout: 30_000 }).toBe(true);
     if (renewalFirst) {
       releaseRenewal();
       const obsolete = await renewed;await obsolete.finished();

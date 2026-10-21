@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   chromium,
   firefox,
@@ -13,6 +15,9 @@ import {
   STUDIO_PRIVATE_MEDIA_HOST,
   serveStudioPrivateMediaRequest,
 } from './studio-private-storage-fixture';
+
+/** Distinguishes trace files of the several fixtures one test process starts. */
+let traceFixtureSequence = 0;
 
 type AuthCookie = { name: string; value: string };
 type BrowserContextFixtureOptions = Pick<
@@ -96,6 +101,8 @@ export async function startStudioConnectedBrowserFixture<Session>(options: {
   browserName?: 'chromium' | 'firefox' | 'webkit';
   signatureClock?: (url: string) => Date;
   headless?: boolean;
+  /** When set, every context records a Playwright trace that is saved here as it closes. */
+  traceDir?: string;
 }) {
   assert.equal(process.versions.node.split('.')[0], '22', 'Use the project Node 22 runtime.');
   const app = exactOrigin(options.runtime.browserOrigin);
@@ -122,6 +129,26 @@ export async function startStudioConnectedBrowserFixture<Session>(options: {
   });
   const contexts = new Set<BrowserContext>();
   let closing: Promise<void> | null = null;
+  const retiring = new WeakMap<BrowserContext, Promise<void>>();
+  const fixtureNumber = ++traceFixtureSequence;
+  let traceCount = 0;
+  if (options.traceDir) mkdirSync(options.traceDir, { recursive: true });
+
+  /** Stop the optional trace (saved as it closes) and close the context once. */
+  function retire(context: BrowserContext, traced: boolean): Promise<void> {
+    let pending = retiring.get(context);
+    if (!pending) {
+      pending = (async () => {
+        if (traced && options.traceDir) {
+          const name = `fixture-${String(fixtureNumber).padStart(2, '0')}-context-${String(++traceCount).padStart(2, '0')}.zip`;
+          await context.tracing.stop({ path: join(options.traceDir, name) }).catch(() => undefined);
+        }
+        await context.close();
+      })();
+      retiring.set(context, pending);
+    }
+    return pending;
+  }
 
   async function newContext(
     session: Session,
@@ -135,7 +162,9 @@ export async function startStudioConnectedBrowserFixture<Session>(options: {
     });
     contexts.add(context);
     context.once('close', () => contexts.delete(context));
+    const traced = Boolean(options.traceDir);
     try {
+      if (traced) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
       const cookies = options.runtime.auth.cookiesFor(session);
       assert.ok(cookies.length > 0, 'Authenticated browser context requires fixture cookies.');
       await context.addCookies(cookies.map(({ name, value }) => ({ name, value, url: app.origin })));
@@ -151,12 +180,12 @@ export async function startStudioConnectedBrowserFixture<Session>(options: {
         context,
         page,
         close() {
-          contextClosing ??= context.close();
+          contextClosing ??= retire(context, traced);
           return contextClosing;
         },
       });
     } catch (error) {
-      await context.close().catch(() => undefined);
+      await retire(context, traced).catch(() => undefined);
       throw error;
     }
   }
@@ -164,7 +193,7 @@ export async function startStudioConnectedBrowserFixture<Session>(options: {
   async function close(): Promise<void> {
     closing ??= (async () => {
       try {
-        await Promise.all([...contexts].map((context) => context.close()));
+        await Promise.all([...contexts].map((context) => retire(context, Boolean(options.traceDir))));
       } finally {
         await browser.close();
       }

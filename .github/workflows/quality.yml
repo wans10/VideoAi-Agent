@@ -122,8 +122,18 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
       - name: Validate connected Studio browser
         run: pnpm run test:validate -- --suite browser
+        env:
+          STUDIO_BROWSER_TRACE_DIR: ${{ github.workspace }}/output/studio-browser-traces
       - name: Smoke test admin
         run: pnpm exec tsx --tsconfig frontend/tsconfig.json scripts/qa/run-isolated-admin-smoke.ts
+      - name: Upload Studio browser traces
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: studio-browser-traces
+          path: output/studio-browser-traces/**
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Upload Playwright admin report
         if: failure()
         uses: actions/upload-artifact@v6
