@@ -16,6 +16,9 @@ import {
   serveStudioPrivateMediaRequest,
 } from './studio-private-storage-fixture';
 
+/** Distinguishes trace files of the several fixtures one test process starts. */
+let traceFixtureSequence = 0;
+
 type AuthCookie = { name: string; value: string };
 type BrowserContextFixtureOptions = Pick<
   BrowserContextOptions,
@@ -127,23 +130,18 @@ export async function startStudioConnectedBrowserFixture<Session>(options: {
   const contexts = new Set<BrowserContext>();
   let closing: Promise<void> | null = null;
   const retiring = new WeakMap<BrowserContext, Promise<void>>();
+  const fixtureNumber = ++traceFixtureSequence;
   let traceCount = 0;
   if (options.traceDir) mkdirSync(options.traceDir, { recursive: true });
 
-  /**
-   * Close a context without surfacing errors from page route handlers that are still awaiting
-   * `route.fetch()`. Closing under them rejects with "Target page, context or browser has been
-   * closed" and fails whichever test is running. The fixture's own context-level handler only
-   * fulfils or continues, so it is left in place.
-   */
+  /** Stop the optional trace (saved as it closes) and close the context once. */
   function retire(context: BrowserContext, traced: boolean): Promise<void> {
     let pending = retiring.get(context);
     if (!pending) {
       pending = (async () => {
-        for (const page of context.pages()) await page.unrouteAll({ behavior: 'ignoreErrors' }).catch(() => undefined);
         if (traced && options.traceDir) {
-          const path = join(options.traceDir, `context-${String(++traceCount).padStart(2, '0')}.zip`);
-          await context.tracing.stop({ path }).catch(() => undefined);
+          const name = `fixture-${String(fixtureNumber).padStart(2, '0')}-context-${String(++traceCount).padStart(2, '0')}.zip`;
+          await context.tracing.stop({ path: join(options.traceDir, name) }).catch(() => undefined);
         }
         await context.close();
       })();
