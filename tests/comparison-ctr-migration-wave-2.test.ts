@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { comparisonInvolvesHiddenModel } from './helpers/keyvo-hidden-comparisons.ts';
 
 import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 'json' };
 import { getComparePageOverride } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides.ts';
@@ -146,7 +147,8 @@ for (const locale of ['en', 'fr', 'es'] as const) {
     };
 
     TARGET_COMPARISONS.forEach(([slug, leftSlug, rightSlug]) => {
-      assert.ok(isPublishedComparisonSlug(slug), `${slug} should remain published`);
+      // Pairs involving a model Keyvo hides are not published.
+      assert.equal(isPublishedComparisonSlug(slug), !comparisonInvolvesHiddenModel(slug), `${slug} publication follows the Keyvo visibility policy`);
       const left = CATALOG_BY_SLUG.get(leftSlug);
       const right = CATALOG_BY_SLUG.get(rightSlug);
       assert.ok(left, `missing catalog entry ${leftSlug}`);
@@ -289,9 +291,10 @@ test('wave-2 links resolve to public model and comparison routes', () => {
             comparisonSlug,
             `comparison href should use its exact canonical slug: ${link.href}`,
           );
-          assert.ok(
+          assert.equal(
             isPublishedComparisonSlug(comparisonSlug),
-            `comparison route should be published: ${link.href}`,
+            !comparisonInvolvesHiddenModel(comparisonSlug),
+            `comparison route publication follows the Keyvo visibility policy: ${link.href}`,
           );
         }
       }

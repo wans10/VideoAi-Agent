@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 import { getFalEngineById } from '../frontend/src/config/falEngines.ts';
 import { buildSeoMetadata } from '../frontend/lib/seo/metadata.ts';
 
@@ -181,7 +182,9 @@ test('P0 route inputs are indexable, sitemap-eligible and localized', () => {
   for (const id of P0_MODEL_IDS) {
     const engine = getFalEngineById(id);
     assert.ok(engine, id);
-    assert.deepEqual(engine.surfaces.modelPage, { indexable: true, includeInSitemap: true }, id);
+    // Keyvo hides non-Chinese-vendor models on the web: their model page is neither indexable nor in the sitemap.
+    const visible = isKeyvoVisibleFamily(engine.family);
+    assert.deepEqual(engine.surfaces.modelPage, { indexable: visible, includeInSitemap: visible }, id);
     for (const locale of ['en', 'fr', 'es'] as const) {
       assert.equal(existsSync(path.join(repoRoot, 'content/models', locale, `${engine.modelSlug}.json`)), true, `${locale}:${id}`);
     }

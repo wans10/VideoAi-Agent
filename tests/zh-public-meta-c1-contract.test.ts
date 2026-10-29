@@ -38,7 +38,11 @@ test('zh about page metadata is Chinese, branded Keyvo and free of the retired b
 
 test('zh model example landings never fall back to English description templates', () => {
   const slugs = getCanonicalExampleModelSlugs();
-  assert.ok(slugs.length >= 7, 'expected the example family set');
+  // Keyvo only presents the Chinese-vendor example families (Seedance, Kling, Wan, Happy Horse, MiniMax).
+  assert.ok(slugs.length >= 5, 'expected the example family set');
+  for (const hidden of ['veo', 'ltx', 'luma', 'grok', 'flux', 'pika', 'sora']) {
+    assert.ok(!slugs.includes(hidden as (typeof slugs)[number]), `${hidden} examples must stay hidden`);
+  }
   for (const slug of slugs) {
     const landing = getExampleModelLanding('zh', slug);
     assert.ok(landing, `${slug} should have a landing`);

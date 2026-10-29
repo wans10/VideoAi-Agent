@@ -3,6 +3,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
+import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 'json' };
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
+
 import { BEST_FOR_PAGES } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-config.ts';
 
 const EXPECTED_SHORTLISTS: Record<string, string[]> = {
@@ -19,6 +22,10 @@ const EXPECTED_SHORTLISTS: Record<string, string[]> = {
   'fast-drafts': ['ltx-2-5-fast', 'minimax-h3-max', 'grok-imagine-video-1-5', 'seedance-2-0-fast', 'kling-3-standard'],
   'stylized-anime': ['seedance-2-5', 'minimax-h3', 'kling-o3-pro', 'grok-imagine-video-1-5', 'ltx-2-5-fast'],
 };
+
+// Keyvo hides non-Chinese-vendor models, so the visible shortlist drops them while the authored editorial keeps the full list.
+const VISIBLE_SLUGS = new Set(engineCatalog.filter((entry) => isKeyvoVisibleFamily(entry.family)).map((entry) => entry.modelSlug));
+const visibleShortlist = (slugs: string[]) => slugs.filter((slug) => VISIBLE_SLUGS.has(slug));
 
 const OBSOLETE_RECOMMENDATIONS = new Set([
   'pika-text-to-video',
@@ -46,7 +53,7 @@ test('best-for rankings replace obsolete recommendations with current frontier m
 
   assert.equal(bySlug.size, 12);
   for (const [usecase, expected] of Object.entries(EXPECTED_SHORTLISTS)) {
-    assert.deepEqual(bySlug.get(usecase), expected, `${usecase} should expose the approved current shortlist`);
+    assert.deepEqual(bySlug.get(usecase), visibleShortlist(expected), `${usecase} should expose the approved current shortlist (visible models only)`);
   }
 
   for (const [usecase, shortlist] of bySlug) {

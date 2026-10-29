@@ -1,16 +1,11 @@
+import visibleFamilies from './keyvo-visible-families.json';
+
 /**
  * Keyvo only presents models from mainland-China vendors. Everything else stays in the
  * upstream registry (so upstream syncs do not conflict) but is projected as unpublished.
  */
-const KEYVO_VISIBLE_FAMILIES: ReadonlySet<string> = new Set([
-  'seedance',
-  'seedream',
-  'kling',
-  'wan',
-  'happy-horse',
-  'hailuo',
-  'qwen-image',
-]);
+// The family list lives in JSON so plain-Node scripts (IndexNow) read the same source.
+const KEYVO_VISIBLE_FAMILIES: ReadonlySet<string> = new Set<string>(visibleFamilies);
 
 export function isKeyvoVisibleFamily(family: string | null | undefined): boolean {
   // Generators and the pricing baseline set KEYVO_MODEL_VISIBILITY=off to see the unfiltered upstream catalog.

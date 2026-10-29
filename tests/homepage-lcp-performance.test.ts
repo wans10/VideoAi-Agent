@@ -45,7 +45,8 @@ test('homepage keeps responsive LCP discovery in the initial markup without dupl
   assert.match(heroSource, /HOME_LCP_POSTER_SRC/);
   assert.match(heroSource, /engineId === HERO_VIDEO_ORDER\[0\]/);
   assert.ok(
-    (heroSource.match(/prefetch=\{false\}/g) ?? []).length >= 2 && /prefetch=\{false\}/.test(readSource('frontend/components/marketing/home/HomeHeroSecondaryLinks.tsx')),
+    // Keyvo removed the secondary compare link, so only the hero CTAs remain.
+    (heroSource.match(/prefetch=\{false\}/g) ?? []).length >= 2,
     'above-the-fold homepage CTAs must not compete with the LCP image through route prefetches',
   );
 });

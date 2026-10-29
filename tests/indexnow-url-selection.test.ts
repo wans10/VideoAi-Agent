@@ -5,9 +5,13 @@ import test from 'node:test';
 
 import engineCatalog from '../frontend/config/engine-catalog.json';
 import modelRoster from '../frontend/config/model-roster.json';
+import { filterKeyvoVisibleEntries } from '../frontend/config/keyvo-model-visibility.ts';
 import { getHubComparisonSlugsForSitemap } from '../frontend/lib/compare-hub/data.ts';
 import { getIndexableComparisonLocales } from '../frontend/lib/compare-hub/indexation.ts';
 import * as indexNowSelection from '../scripts/indexnow-url-selection.mjs';
+
+// Keyvo only presents Chinese-vendor models; IndexNow selects from the same visible catalog.
+const visibleCatalog = filterKeyvoVisibleEntries(engineCatalog);
 
 const {
   addComparisonHubUrls,
@@ -17,7 +21,7 @@ const {
 } = indexNowSelection;
 
 test('IndexNow comparison slugs are exactly the sitemap publication set', () => {
-  assert.deepEqual(getPublishedComparisonSlugs(engineCatalog), getHubComparisonSlugsForSitemap());
+  assert.deepEqual(getPublishedComparisonSlugs(visibleCatalog), getHubComparisonSlugsForSitemap());
 });
 
 test('changed models only select published comparisons involving that model', () => {
@@ -68,7 +72,7 @@ test('IndexNow locale selection exactly matches the shared comparison indexation
     'function',
     'IndexNow must export its comparison locale resolver',
   );
-  const publishedSlugs = getPublishedComparisonSlugs(engineCatalog);
+  const publishedSlugs = getPublishedComparisonSlugs(visibleCatalog);
 
   for (const slug of publishedSlugs) {
     assert.deepEqual(
@@ -128,6 +132,18 @@ test('IndexNow dry run excludes private, parameterized, redirecting, and noindex
     assert.ok(!pathname.startsWith('/video/job_'), `private render URL submitted: ${pathname}`);
     assert.ok(!pathname.startsWith('/fr/ai-video-engines'), `redirecting FR hub submitted: ${pathname}`);
     assert.ok(!pathname.startsWith('/es/ai-video-engines'), `redirecting ES hub submitted: ${pathname}`);
+  });
+
+  const hiddenModelSlugs = new Set(
+    modelRoster
+      .filter((entry) => !filterKeyvoVisibleEntries([entry]).length)
+      .map((entry) => entry.modelSlug),
+  );
+  assert.ok(hiddenModelSlugs.size > 0);
+  urls.forEach(({ pathname }) => {
+    assert.ok(!pathname.startsWith('/ai-video-engines/best-for'), `hidden best-for page submitted: ${pathname}`);
+    const hiddenMatch = pathname.match(/^\/(?:models|fr\/modeles|es\/modelos|zh\/models)\/([^/]+)$/);
+    assert.ok(!hiddenMatch || !hiddenModelSlugs.has(hiddenMatch[1]), `hidden model submitted: ${pathname}`);
   });
 
   const sitemapModelSlugs = new Set(

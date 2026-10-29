@@ -108,16 +108,14 @@ test('Pika max length intent maps to specs candidates without fabricating a targ
   assert.equal(item.family, 'Pika');
   assert.equal(item.recommendationType, 'add_specs_block');
   assert.equal(item.targetUrl, null);
-  assert.ok(item.likelyPageCandidates.includes('/models/pika-text-to-video'));
+  // Keyvo hides the Pika model page, so it is no longer offered as a candidate target.
+  assert.ok(!item.likelyPageCandidates.includes('/models/pika-text-to-video'));
 });
 
 test('missing-content candidate selection uses one current canonical P0 target per family', () => {
-  const expectedPaths = new Set([
-    '/models/wan-3-prime',
-    '/models/ltx-2-5-pro',
-    '/models/grok-imagine-video-1-5',
-    '/models/flux-3',
-  ]);
+  // Keyvo only publishes the Wan model page; LTX, Grok and FLUX model pages are hidden.
+  const expectedPaths = new Set(['/models/wan-3-prime']);
+  const hiddenPaths = ['/models/ltx-2-5-pro', '/models/grok-imagine-video-1-5', '/models/flux-3'];
   const selectedPaths = new Set<string>();
 
   for (const [slug, family] of P0_MODEL_CASES) {
@@ -130,6 +128,7 @@ test('missing-content candidate selection uses one current canonical P0 target p
     for (const item of items) {
       for (const candidate of item.likelyPageCandidates) {
         if (expectedPaths.has(candidate)) selectedPaths.add(candidate);
+        assert.ok(!hiddenPaths.includes(candidate), `hidden model page offered: ${candidate}`);
       }
     }
   }

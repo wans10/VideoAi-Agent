@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { comparisonInvolvesHiddenModel } from './helpers/keyvo-hidden-comparisons.ts';
 
 import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 'json' };
 import { getComparePageOverride } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides.ts';
@@ -96,7 +97,8 @@ for (const locale of ['en', 'fr', 'es'] as const) {
     const descriptions = new Set<string>();
 
     TARGET_COMPARISONS.forEach(([slug, leftSlug, rightSlug]) => {
-      assert.ok(isPublishedComparisonSlug(slug), `${slug} should remain published`);
+      // Pairs involving a model Keyvo hides are not published.
+      assert.equal(isPublishedComparisonSlug(slug), !comparisonInvolvesHiddenModel(slug), `${slug} publication follows the Keyvo visibility policy`);
       const left = CATALOG_BY_SLUG.get(leftSlug);
       const right = CATALOG_BY_SLUG.get(rightSlug);
       assert.ok(left, `missing catalog entry ${leftSlug}`);
@@ -182,9 +184,10 @@ test('every comparison enrichment link resolves to a public model or comparison 
           assert.equal(model.surfaces.modelPage.indexable, true, `model route should be public: ${link.href}`);
         }
         if (link.href.startsWith('/ai-video-engines/')) {
-          assert.ok(
+          assert.equal(
             isPublishedComparisonSlug(link.href.slice('/ai-video-engines/'.length)),
-            `comparison route should be published: ${link.href}`,
+            !comparisonInvolvesHiddenModel(link.href.slice('/ai-video-engines/'.length)),
+            `comparison route publication follows the Keyvo visibility policy: ${link.href}`,
           );
         }
       }

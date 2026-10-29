@@ -11,6 +11,7 @@ import { evaluateManualTariffPrice, isValidManualTariffPrice } from '../packages
 import { prepareContinuousInputTariffChange, continuousInputTariffDetail } from '../frontend/server/pricing-admin/continuous-input-tariff';
 import { chooseCustomerTariffScenario } from '../frontend/server/pricing-admin/customer-tariff-service';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import { resolvePublicModelScenario } from '../frontend/server/pricing/quote-public-model-scenario';
 
 const policy = { status: 'loaded' as const, rules: [{ id: 'default', currency: 'USD', marginPercent: .3,
@@ -26,6 +27,11 @@ test('admin and public current quotes accept unseen supported output seconds and
     assert.equal(selected.scenario.selector[tokens ? 'referenceTokenBudget' : 'durationSec'], tokens ? '9096' : '131');
     const publicScenario = resolvePublicModelScenario({ modelId, mode, resolution: requested.resolution,
       durationSec: tokens ? 5 : 131, ...(tokens ? { referenceTokenBudget: 9096 } : {}) });
+    if (!isKeyvoVisibleFamily(getFalEngineById(modelId)!.family)) {
+      // Keyvo hides this model's page, so its public quote does not resolve; the admin tariff above still does.
+      assert.equal(publicScenario ?? null, null, modelId);
+      continue;
+    }
     assert.ok(publicScenario);
     assert.equal(publicScenario.selector[tokens ? 'referenceTokenBudget' : 'durationSec'], tokens ? '9096' : '131');
   }

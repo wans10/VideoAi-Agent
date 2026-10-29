@@ -19,6 +19,10 @@ const DRY_RUN = process.argv.includes('--dry-run');
 const REPO_ROOT = process.cwd();
 const ENGINE_CATALOG_PATH = path.join(REPO_ROOT, 'frontend/config/engine-catalog.json');
 const MODEL_ROSTER_PATH = path.join(REPO_ROOT, 'frontend/config/model-roster.json');
+const VISIBLE_FAMILIES_PATH = path.join(REPO_ROOT, 'frontend/config/keyvo-visible-families.json');
+
+// Keyvo hides comparison/best-for pages and non-Chinese-vendor models, so IndexNow must not submit them.
+const COMPARISON_PAGES_HIDDEN = true;
 
 function toAbsoluteUrl(pathname) {
   if (!pathname || pathname === '/') return SITE;
@@ -32,6 +36,9 @@ function readJson(filePath, fallback = {}) {
     return fallback;
   }
 }
+
+const VISIBLE_FAMILIES = new Set(readJson(VISIBLE_FAMILIES_PATH, []));
+const isVisibleEntry = (entry) => VISIBLE_FAMILIES.has(String(entry?.family ?? '').trim().toLowerCase());
 
 function safeGitChangedFiles(before, after) {
   if (!before || /^0+$/.test(before)) {
@@ -72,12 +79,14 @@ function addDocsUrl(urls, locale, slug) {
 }
 
 function addBestForHubUrls(urls) {
+  if (COMPARISON_PAGES_HIDDEN) return;
   urls.add(toAbsoluteUrl('/ai-video-engines/best-for'));
   urls.add(toAbsoluteUrl('/fr/comparatif/best-for'));
   urls.add(toAbsoluteUrl('/es/comparativa/best-for'));
 }
 
 function addBestForUrl(urls, locale, slug) {
+  if (COMPARISON_PAGES_HIDDEN) return;
   if (locale === 'en') urls.add(toAbsoluteUrl(`/ai-video-engines/best-for/${slug}`));
   if (locale === 'fr') urls.add(toAbsoluteUrl(`/fr/comparatif/best-for/${slug}`));
   if (locale === 'es') urls.add(toAbsoluteUrl(`/es/comparativa/best-for/${slug}`));
@@ -98,7 +107,7 @@ function collectUrlsFromChangedFiles(changedFiles) {
   const changedModelSlugs = new Set();
   const indexableModelSlugs = new Set(
     readJson(MODEL_ROSTER_PATH, [])
-      .filter((entry) => entry?.modelSlug && entry?.surfaces?.modelPage?.includeInSitemap !== false)
+      .filter((entry) => entry?.modelSlug && entry?.surfaces?.modelPage?.includeInSitemap !== false && isVisibleEntry(entry))
       .map((entry) => entry.modelSlug)
   );
   let comparisonPublicationTouched = false;
@@ -152,7 +161,7 @@ function collectUrlsFromChangedFiles(changedFiles) {
       comparisonPublicationTouched = true;
     }
 
-    if (filePath.startsWith('frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/')) {
+    if (!COMPARISON_PAGES_HIDDEN && filePath.startsWith('frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/')) {
       addComparisonHubUrls(urls, SITE);
     }
 
@@ -170,7 +179,7 @@ function collectUrlsFromChangedFiles(changedFiles) {
     }
   });
 
-  const engineCatalog = readJson(ENGINE_CATALOG_PATH, []);
+  const engineCatalog = readJson(ENGINE_CATALOG_PATH, []).filter(isVisibleEntry);
   if (comparisonPublicationTouched) {
     addBestForHubUrls(urls);
     getPublishedComparisonSlugs(engineCatalog).forEach((slug) => addComparisonUrls(urls, SITE, slug));

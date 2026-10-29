@@ -664,7 +664,7 @@ test('image model benchmark specs expose max resolution for model pages', () => 
 test('model page layout disables every compare block for image models', () => {
   assert.match(
     modelPageLayoutSource,
-    /const hasCompareSection = !isImageEngine && \(Boolean\(focusVsConfig\) \|\| hasCompareGrid\);/
+    /const hasCompareSection = false && !isImageEngine && \(Boolean\(focusVsConfig\) \|\| hasCompareGrid\);/
   );
 });
 

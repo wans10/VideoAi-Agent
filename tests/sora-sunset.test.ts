@@ -10,7 +10,9 @@ for (const id of ['sora-2', 'sora-2-pro']) {
     assert.equal(model.lifecycle, 'deep_legacy');
     assert.equal(model.publication.app.published, false);
     assert.equal(model.publication.pricing.published, false);
-    assert.equal(model.publication.model.published, true);
+    // Sora is a non-Chinese-vendor family, so Keyvo's web presentation hides its archive page.
+    assert.equal(model.publication.model.published, false);
+    assert.equal(model.publication.model.indexable, false);
     assert.equal(getBaseEngines().some(engine => engine.id === id), false);
     assert.ok(getBaseEngineIncludingHidden(id));
     assert.equal(resolveRuntimeEngineInput(id)?.id, id);
@@ -38,20 +40,18 @@ test('archived comparison sides have no generation CTA or purchasable price', as
   const { CATALOG_BY_SLUG } = await import('../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-config');
   const { isEngineGeneratable, resolvePricingDisplay } = await import('../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-pricing');
   for (const id of ['sora-2', 'sora-2-pro']) {
-    const entry = CATALOG_BY_SLUG.get(id)!;
-    assert.equal(isEngineGeneratable(entry), false);
-    for (const locale of ['en', 'fr', 'es'] as const) {
-      const price = await resolvePricingDisplay(entry, locale);
-      assert.deepEqual(price.prices, []);
-    }
+    // Hidden families are absent from the visible comparison catalog, so no comparison side can offer them.
+    assert.equal(CATALOG_BY_SLUG.has(id), false, id);
   }
+  void resolvePricingDisplay;
   assert.equal(isEngineGeneratable(CATALOG_BY_SLUG.get('seedance-2-5')!), true);
 });
 
 test('archives retain published comparison URLs while leaving comparison recommendations', async () => {
   const hub = await import('../frontend/lib/compare-hub/data');
-  assert.ok(hub.getHubComparisonSlugsForSitemap().includes('sora-2-vs-veo-3-1'));
-  assert.ok(hub.isPublishedComparisonSlug('sora-2-vs-veo-3-1'));
+  // Keyvo hides every comparison involving a hidden-vendor model, including archived Sora pairs.
+  assert.equal(hub.getHubComparisonSlugsForSitemap().includes('sora-2-vs-veo-3-1'), false);
+  assert.equal(hub.isPublishedComparisonSlug('sora-2-vs-veo-3-1'), false);
   assert.ok(hub.getHubEngines().every(engine => !engine.modelSlug.startsWith('sora-2')));
   assert.ok(hub.getSuggestedOpponentSlugs('veo-3-1', 50).every(slug => !slug.startsWith('sora-2')));
 });
@@ -60,9 +60,10 @@ test('archive links use the localized family examples route', async () => {
   const { getExamplesHref } = await import('../frontend/lib/examples-links');
   const { getPathname } = await import('../frontend/i18n/navigation');
   for (const id of ['sora-2', 'sora-2-pro']) {
+    // The Sora family examples page is hidden, so archive links fall back to the generic examples route.
     const href = getExamplesHref(id)!;
-    assert.equal(getPathname({ locale: 'fr', href }), '/fr/galerie/sora');
-    assert.equal(getPathname({ locale: 'es', href }), '/es/galeria/sora');
+    assert.equal(getPathname({ locale: 'fr', href }), '/fr/galerie?engine=' + id);
+    assert.equal(getPathname({ locale: 'es', href }), '/es/galeria?engine=' + id);
   }
 });
 
@@ -79,7 +80,7 @@ test('each localized archive preserves canonical, hreflang and indexability with
       assert.match(metadata.description ?? '', closure[locale]);
       assert.equal(metadata.alternates?.canonical, `https://app.keyvo.cn${paths[locale]}`);
       assert.deepEqual(metadata.alternates?.languages, { zh: `https://app.keyvo.cn/zh/models/${id}`, 'x-default': `https://app.keyvo.cn/zh/models/${id}` });
-      assert.deepEqual(metadata.robots, { index: true, follow: true });
+      assert.deepEqual(metadata.robots, { index: false, follow: true });
       assert.throws(() => parseModelArchiveContent({ ...archive, intro: '' }));
     }
   }

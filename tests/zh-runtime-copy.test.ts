@@ -26,7 +26,8 @@ test('Chinese examples runtime covers gallery, model navigation and comparison l
     chineseProse(getExamplesModelPageLabels({ ...flags, locale: 'zh' }));
     const links = buildExamplesNextStepLinks({ ...flags, familySlug: family, appLocale: 'zh', locale: 'zh', pricingPath: '/zh/pricing' });
     assert.ok(links.length);
-    links.forEach(link => { chineseProse(link.label); assert.doesNotMatch(link.label, /Compare | vs /); assert.match(link.href, /^\/zh\//); });
+    // Keyvo hides comparison pages, so next steps are plain model links (brand names) and the pricing link.
+    links.forEach(link => { if (!link.modelSlug) chineseProse(link.label); assert.doesNotMatch(link.label, /Compare | vs /); assert.doesNotMatch(link.href, /ai-video-engines/); assert.match(link.href, /^\/zh\//); });
   }
   chineseProse(getFallbackCapabilityDifference('zh'));
 });

@@ -1,3 +1,5 @@
+// This suite audits the upstream comparison inventory, which Keyvo hides on the web: evaluate it unfiltered.
+import '../scripts/lib/disable-keyvo-model-visibility.ts';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';

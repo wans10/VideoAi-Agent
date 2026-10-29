@@ -68,10 +68,11 @@ test('classifiers identify MaxVideoAI model-family and intent clusters', () => {
 });
 
 test('published P0 demand is actionable after the registry publishes the exact model', () => {
+  // Keyvo hides Grok on the web, so the published (visible) P0 model Wan 3 Prime carries this check.
   const opportunities = findGscOpportunities([
     {
-      query: 'grok imagine video 1.5',
-      page: 'https://maxvideoai.com/models/grok-imagine-video-1-5',
+      query: 'wan 3 prime',
+      page: 'https://maxvideoai.com/models/wan-3-prime',
       country: 'usa',
       device: 'DESKTOP',
       searchAppearance: null,
@@ -90,9 +91,10 @@ test('published P0 demand is actionable after the registry publishes the exact m
 });
 
 test('historic and published successor demand are both eligible for GSC actioning', () => {
-  assert.equal(isHiddenRuntimeModelDemand('ltx 2.3 pro impressions', '/models/ltx-2-3-pro'), false);
+  // LTX is hidden on Keyvo's web surfaces, so historic and published LTX demand is monitor-only.
+  assert.equal(isHiddenRuntimeModelDemand('ltx 2.3 pro impressions', '/models/ltx-2-3-pro'), true);
   assert.equal(isHiddenRuntimeModelDemand('wan 2.6 examples', '/examples/wan-2-6'), false);
-  assert.equal(isHiddenRuntimeModelDemand('ltx 2.5 pro', '/models/ltx-2-5-pro'), false);
+  assert.equal(isHiddenRuntimeModelDemand('ltx 2.5 pro', '/models/ltx-2-5-pro'), true);
   assert.equal(isHiddenRuntimeModelDemand('wan 3 prime', '/models/wan-3-prime'), false);
 });
 

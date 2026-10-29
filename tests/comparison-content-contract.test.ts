@@ -10,6 +10,7 @@ import {
 import { isPublishedComparisonSlug } from '../frontend/lib/compare-hub/data.ts';
 import { getIndexableComparisonLocales } from '../frontend/lib/compare-hub/indexation.ts';
 import { buildSeoMetadata } from '../frontend/lib/seo/metadata.ts';
+import { comparisonInvolvesHiddenModel } from './helpers/keyvo-hidden-comparisons.ts';
 import type { ComparePageContentDocument } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides-types.ts';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'comparisons');
@@ -169,7 +170,8 @@ test('the three priority Seedance 2.5 comparisons keep their curated EN/FR/ES co
   const documentSlugs = new Set(contentFiles().map((fileName) => fileName.slice(0, -'.json'.length)));
 
   for (const slug of PRIORITY_SEEDANCE_2_5_COMPARISON_SLUGS) {
-    assert.ok(isPublishedComparisonSlug(slug), `${slug} must be published by the reciprocal pair graph`);
+    // Pairs with a hidden model (Veo) are not published on Keyvo.
+    assert.equal(isPublishedComparisonSlug(slug), !comparisonInvolvesHiddenModel(slug), `${slug} publication follows the Keyvo visibility policy`);
     assert.ok(documentSlugs.has(slug), `${slug} must have an enriched comparison document`);
     assert.deepEqual(getIndexableComparisonLocales(slug), ['en', 'fr', 'es', 'zh'], `${slug} must be indexable in all locales`);
 
@@ -240,7 +242,7 @@ test('all 25 generic metadata fallbacks remain complete, published and document-
         typeof fallback.description === 'string' && fallback.description.trim().length > 0,
         `${locale} description for ${slug}`,
       );
-      assert.ok(isPublishedComparisonSlug(slug), `${slug} must remain published`);
+      assert.equal(isPublishedComparisonSlug(slug), !comparisonInvolvesHiddenModel(slug), `${slug} publication follows the Keyvo visibility policy`);
       assert.equal(documentSlugs.has(slug), false, `${slug} must not have a comparison content document`);
       assert.equal(getComparePageOverride(locale, slug), undefined, `${locale} ${slug} must use generic content`);
     }
