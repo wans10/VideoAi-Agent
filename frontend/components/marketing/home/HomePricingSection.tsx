@@ -15,6 +15,6 @@ export function HomePricingSection({locale,models,copy,pending=false}:{locale:Ap
  return <section id="your-price" className="home-price-lab section"><div className="container-page">
   <header className="chapter-heading"><div><p className="editorial-eyebrow">{c.eyebrow}</p><h2>{c.title}</h2></div><p>{c.body}</p></header>
   <HomePriceDemo locale={locale} models={models} pending={pending}/>
-  <nav className="price-demo-related" aria-label={copy.title}><Link href="/models">{copy.modelsLink}</Link><Link href="/examples">{copy.examplesLink}</Link><Link href="/ai-video-engines">{copy.compareLink}</Link></nav>
+  <nav className="price-demo-related" aria-label={copy.title}><Link href="/models">{copy.modelsLink}</Link><Link href="/examples">{copy.examplesLink}</Link></nav>
  </div></section>;
 }

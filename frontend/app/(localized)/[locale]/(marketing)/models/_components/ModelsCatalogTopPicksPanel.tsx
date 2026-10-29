@@ -40,12 +40,6 @@ export function ModelsCatalogTopPicksPanel({ title, viewAllLabel, items }: Model
               <span className="block truncate text-[13px] font-semibold leading-tight text-text-primary">{item.label}</span>
               <span className="mt-1 block text-xs leading-5 text-text-secondary">{item.detail}</span>
             </span>
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-hairline bg-surface text-sm font-semibold text-text-primary">
-              <span>
-                {item.score != null ? item.score.toFixed(1) : '-'}
-                <span className="text-[8px] font-medium text-text-muted">/10</span>
-              </span>
-            </span>
           </Link>
         ))}
       </div>

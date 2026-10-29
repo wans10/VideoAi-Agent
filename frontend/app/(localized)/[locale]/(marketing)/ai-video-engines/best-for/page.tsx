@@ -1,3 +1,5 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ChevronRight, Eye, Sparkles, Wallet, Workflow } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -6,7 +8,7 @@ import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { getLocalizedUrl } from '@/lib/metadataUrls';
 import { getContentEntries } from '@/lib/content/markdown';
 import { EngineIcon } from '@/components/ui/EngineIcon';
-import engineCatalog from '@/config/engine-catalog.json';
+import engineCatalog from '@/config/engine-catalog-visible';
 import compareConfig from '@/config/compare-config.json';
 import { filterPublicCurrentModelSlugs } from '@/config/model-runtime';
 
@@ -179,6 +181,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
 }
 
 export default async function BestForHubPage(props: { params: Promise<{ locale: AppLocale }> }) {
+  if (KEYVO_COMPARE_HIDDEN) notFound();
   const params = await props.params;
   const locale = params.locale ?? 'en';
   const copy = HUB_COPY[locale] ?? HUB_COPY.en;

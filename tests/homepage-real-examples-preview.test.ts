@@ -100,11 +100,11 @@ test('homepage examples preview keeps only real crawlable example routes', () =>
   const expectedExamples = new Map([
     ['Seedance 2.0', 'seedance'],
     ['Kling 3 Pro', 'kling'],
-    ['Veo 3.1', 'veo'],
     ['Happy Horse 1.1', 'happy-horse'],
-    ['LTX 2.3 Fast', 'ltx'],
     ['Wan 2.6', 'wan'],
   ]);
+  // Keyvo unpublishes non-Chinese-vendor families, so their examples routes are not indexed.
+  for (const hidden of ['veo', 'ltx']) assert.equal(isIndexedExampleFamilyId(hidden), false, `/examples/${hidden} must be hidden`);
 
   for (const [title, examplesSlug] of expectedExamples) {
     assert.equal(cards.find((card) => card.title === title)?.examplesSlug, examplesSlug);

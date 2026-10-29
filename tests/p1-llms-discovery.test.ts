@@ -116,13 +116,9 @@ test('default llms output includes priority models once and drops the stale Sora
   assert.doesNotMatch(text, /sora-2|Sora 2|## Engines \(key pages\)|## Current launch models/);
   assert.match(text, /available through its web application/);
   assert.doesNotMatch(text, /remote MCP integration|Public n8n template|\/integrations\/|\/docs\/mcp/);
-  for (const slug of [
-    'gemini-omni-flash-vs-veo-3-1',
-    'seedance-2-0-vs-seedance-2-0-fast',
-    'veo-3-1-fast-vs-veo-3-1-lite',
-  ]) {
-    assert.ok(text.includes(`](${SITE_ORIGIN}/ai-video-engines/${slug})`), slug);
-  }
+  // Keyvo hides comparison pages, so llms.txt advertises none by default.
+  assert.deepEqual(projection.primaryComparisons, []);
+  assert.doesNotMatch(text, /\/ai-video-engines|## Selected comparisons/);
   const urls = [...text.matchAll(/\]\((https:\/\/[^)]+)\)/g)].map((match) => match[1]);
   assert.equal(new Set(urls).size, urls.length, 'source links must not be duplicated');
 });

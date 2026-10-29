@@ -1,3 +1,4 @@
+import {isKeyvoVisibleFamily} from '../frontend/config/keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {listFalEngines} from '../frontend/src/config/falEngines';
@@ -80,7 +81,8 @@ test('published retirement and legacy aliases survive the Studio integration',as
     assert.equal(model.lifecycle,'deep_legacy',id);
     assert.equal(model.publication.app.published,false,id);
     assert.equal(model.publication.pricing.published,false,id);
-    assert.equal(model.publication.model.published,true,id);
+    // Archived models of hidden-vendor families (Sora) have no public model page on Keyvo.
+    assert.equal(model.publication.model.published,isKeyvoVisibleFamily(model.family),id);
   }
   for(const [alias,id] of [['veo-3-fast','veo-3-1-fast'],['veo3fast','veo-3-1-fast'],['pika-image-to-video','pika-text-to-video']])
     assert.equal(resolveRuntimeEngineInput(alias)?.id,id,alias);

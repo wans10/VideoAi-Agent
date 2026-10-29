@@ -1,3 +1,4 @@
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -56,6 +57,10 @@ function countLocaleComparisons<T>(run: () => T): { result: T; calls: number } {
     String.prototype.localeCompare = original;
   }
 }
+
+// Keyvo hides non-Chinese-vendor families, so pairs involving them leave the published graph and the menu.
+const KEYVO_EDITORIAL_COMPARISONS = EDITORIAL_COMPARISONS.filter(({ slug }) =>
+  slug.split('-vs-').every((id) => isKeyvoVisibleFamily(listRuntimeModels().find((entry) => entry.id === id)?.family)));
 
 test('each editorial comparison accepts a declaration from either canonical endpoint using IDs', () => {
   for (const item of EDITORIAL_COMPARISONS) {
@@ -188,8 +193,8 @@ test('live runtime comparison menu retains every link, label, brand and badge fr
   const published = new Set(buildPublishedComparisonSlugsFromModels(models, () => true));
   const isPublished = createPublishedComparisonSlugLookup(models);
   for (const slug of published) assert.equal(isPublished(slug), true, slug);
-  assert.deepEqual(EDITORIAL_COMPARISONS.filter(({ slug }) => published.has(slug)), EDITORIAL_COMPARISONS);
-  assert.deepEqual(buildMarketingCompareMenu(models), EDITORIAL_COMPARISONS);
+  assert.deepEqual(EDITORIAL_COMPARISONS.filter(({ slug }) => published.has(slug)), KEYVO_EDITORIAL_COMPARISONS);
+  assert.deepEqual(buildMarketingCompareMenu(models), KEYVO_EDITORIAL_COMPARISONS);
 
   const brandsBySlug: Record<string, string> = {
     'minimax-h3': 'minimax', 'minimax-h3-max': 'minimax', 'seedance-2-5': 'bytedance',
@@ -198,7 +203,7 @@ test('live runtime comparison menu retains every link, label, brand and badge fr
     'gemini-omni-flash': 'google-veo', 'veo-3-1': 'google-veo',
     'seedance-2-0': 'bytedance', 'seedance-2-0-fast': 'bytedance',
   };
-  assert.deepEqual(MARKETING_NAV_COMPARE, EDITORIAL_COMPARISONS.map(({ slug, label }) => ({
+  assert.deepEqual(MARKETING_NAV_COMPARE, KEYVO_EDITORIAL_COMPARISONS.map(({ slug, label }) => ({
     key: slug,
     label,
     href: { pathname: '/ai-video-engines/[slug]', params: { slug } },
@@ -218,7 +223,7 @@ test('comparison menu bounds canonical comparison work to editorial candidates e
     const expanded = countLocaleComparisons(() => buildPublishedComparisonSlugsFromModels(models, () => true));
     const menu = countLocaleComparisons(() => buildMarketingCompareMenu(models));
     t.diagnostic(`${name}: full graph ${expanded.result.length} canonical pairs / ${expanded.calls} localeCompare calls; menu ${menu.result.length} entries / ${menu.calls} localeCompare calls.`);
-    assert.deepEqual(menu.result, EDITORIAL_COMPARISONS);
+    assert.deepEqual(menu.result, KEYVO_EDITORIAL_COMPARISONS);
     assert.ok(menu.calls <= EDITORIAL_COMPARISONS.length,
       `${name}: menu should canonicalize at most its ${EDITORIAL_COMPARISONS.length} candidates; observed ${menu.calls} localeCompare calls`);
     assert.ok(expanded.calls > menu.calls, `${name}: the bounded menu avoids full graph canonicalization and sorting`);

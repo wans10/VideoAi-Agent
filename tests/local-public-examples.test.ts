@@ -62,12 +62,12 @@ test('complete local catalog paginates beyond 120 and keeps independent family m
   assert.equal(selectLocalPublicExamples(complete,'kling','playlist',24,144).items[0].id,'public-144');
 });
 
-test('historical stored IDs retain their registry family and discovery eligibility',async()=>{
+test('historical stored IDs retain their registry family but are not discoverable on Keyvo',async()=>{
  const {resolveExampleFamilyId}=await import('../frontend/lib/model-families');
  const {normalizeEngineId}=await import('../frontend/src/lib/engine-alias');
  const {isDiscoverableExampleEngine}=await import('../frontend/lib/examples/discovery');
  for(const [input,canonical,family] of [['veo-3-fast','veo-3-1-fast','veo'],['veo3fast','veo-3-1-fast','veo'],['pika-image-to-video','pika-text-to-video','pika'],['lumaRay2','lumaRay2','luma'],['lumaRay2_flash','lumaRay2_flash','luma']]){
-  assert.equal(normalizeEngineId(input),canonical);assert.equal(resolveExampleFamilyId(input),family);assert.equal(isDiscoverableExampleEngine(input),true);
+  assert.equal(normalizeEngineId(input),canonical);assert.equal(resolveExampleFamilyId(input),null,family); // the family page itself is hiddenassert.equal(isDiscoverableExampleEngine(input),false); // hidden vendor families are not discoverable on Keyvo
  }
 });
 

@@ -326,20 +326,24 @@ test('P0 galleries are published and contain no placeholder media', () => {
   for (const slug of P0_SLUGS) {
     const runtime = getRuntimeModelByCanonicalSlug(slug);
     assert.ok(runtime);
-    assert.deepEqual(runtime.publication.model, { published: true, indexable: true });
-    assert.deepEqual(runtime.publication.examples, {
+    // Authored upstream publication; Keyvo's runtime overlay only hides page surfaces on web.
+    const authored = (JSON.parse(readFileSync('frontend/config/model-runtime.json', 'utf8')).models as Array<{ slug: string; publication: typeof runtime.publication }>)
+      .find((model) => model.slug === slug);
+    assert.ok(authored);
+    assert.deepEqual(authored.publication.model, { published: true, indexable: true });
+    assert.deepEqual(authored.publication.examples, {
       published: true,
       includeInFamilyCopy: true,
       current: true,
-      familyRank: runtime.publication.examples.familyRank,
+      familyRank: authored.publication.examples.familyRank,
     });
-    assert.equal(Number.isInteger(runtime.publication.examples.familyRank), true);
-    assert.equal(runtime.publication.compare.published, true);
-    assert.equal(runtime.publication.compare.indexed, true);
-    assert.ok(runtime.publication.compare.publishedPairIds.length > 0);
-    assert.deepEqual(runtime.publication.app, { published: true });
-    assert.deepEqual(runtime.publication.pricing, { published: true });
-    assert.deepEqual(runtime.publication.sitemap, { published: true });
+    assert.equal(Number.isInteger(authored.publication.examples.familyRank), true);
+    assert.equal(authored.publication.compare.published, true);
+    assert.equal(authored.publication.compare.indexed, true);
+    assert.ok(authored.publication.compare.publishedPairIds.length > 0);
+    assert.deepEqual(authored.publication.app, { published: true });
+    assert.deepEqual(authored.publication.pricing, { published: true });
+    assert.deepEqual(authored.publication.sitemap, { published: true });
     for (const locale of LOCALES) {
       const examples = parseModelExamplesContent(readDocument(locale, slug).examples, slug, locale);
       assert.equal(examples.showWhenEmpty, false);

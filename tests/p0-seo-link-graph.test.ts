@@ -6,6 +6,7 @@ import test from 'node:test';
 
 import { publishedLocales, siteDefaultLocale, type AppLocale } from '../frontend/i18n/locales.ts';
 import * as runtime from '../frontend/config/model-runtime.ts';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 import * as comparisons from '../frontend/lib/compare-hub/data.ts';
 import * as llms from '../frontend/lib/seo/llms-text.ts';
 import * as bestFor from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-ranking.ts';
@@ -34,6 +35,10 @@ const P0_IDS = [
   'flux-3-draft',
 ] as const;
 const P0_SET = new Set<string>(P0_IDS);
+// Keyvo hides non-Chinese-vendor families from web discovery; only Wan stays visible among the P0 models.
+const isVisibleP0 = (id: string) => isKeyvoVisibleFamily(runtime.getRuntimeModelById(id)?.family);
+const VISIBLE_P0_IDS = P0_IDS.filter(isVisibleP0);
+const HIDDEN_P0_IDS = P0_IDS.filter((id) => !isVisibleP0(id));
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
 const LEGACY_IDS = ['ltx-2-3', 'ltx-2-3-fast', 'wan-2-6'] as const;
 const LOCALES = ['en', 'fr', 'es'] as const;
@@ -119,8 +124,8 @@ function localizedDecision(modelId: string, locale: AppLocale) {
 test('the real published state exposes every P0 across current and machine discovery owners', async () => {
   ensureReactCacheForSitemapImports();
   const sitemap = await import('../frontend/lib/sitemapData.ts');
-  assert.deepEqual(runtime.listPublicCurrentRuntimeModels().filter((model) => P0_SET.has(model.id)).map((model) => model.id).sort(), [...P0_IDS].sort());
-  assert.deepEqual(selectCurrentModelCatalogSlugs(runtime.listRuntimeModels()).filter((slug) => P0_SET.has(slug)).sort(), [...P0_IDS].sort());
+  assert.deepEqual(runtime.listPublicCurrentRuntimeModels().filter((model) => P0_SET.has(model.id)).map((model) => model.id).sort(), [...VISIBLE_P0_IDS].sort());
+  assert.deepEqual(selectCurrentModelCatalogSlugs(runtime.listRuntimeModels()).filter((slug) => P0_SET.has(slug)).sort(), [...VISIBLE_P0_IDS].sort());
 
   const xml = await sitemap.buildModelsSitemapXml();
   const llmsText = llms.buildLlmsText(mcpPublication, llms.buildLlmsModelDiscoveryProjection());
@@ -131,7 +136,12 @@ test('the real published state exposes every P0 across current and machine disco
     pricingHub: buildPricingHubData('en'),
   });
   const paygLinks = JSON.stringify(payg);
-  for (const id of P0_IDS) {
+  for (const id of HIDDEN_P0_IDS) {
+    assert.doesNotMatch(xml, new RegExp(`/models/${id}(?:<|$)`), `${id} hidden from sitemap`);
+    assert.doesNotMatch(llmsText, new RegExp(`/models/${id}(?:\\)|$)`), `${id} hidden from llms`);
+    assert.equal(pricingRows.some((row) => row.id === id), false, `${id} hidden from pricing page`);
+  }
+  for (const id of VISIBLE_P0_IDS) {
     assert.match(xml, new RegExp(`/models/${id}(?:<|$)`), id);
     assert.match(llmsText, new RegExp(`/models/${id}(?:\\)|$)`), id);
     assert.equal(pricingRows.some((row) => row.id === id), true, id);
@@ -143,11 +153,13 @@ test('the real published state exposes every P0 across current and machine disco
     );
   }
 
-  assert.equal(comparisons.getHubComparisonSlugsForSitemap().filter((slug) => P0_IDS.some((id) => slug.includes(id))).length, 9);
+  assert.equal(comparisons.getHubComparisonSlugsForSitemap().filter((slug) => HIDDEN_P0_IDS.some((id) => slug.includes(id))).length, 0);
 });
 
 test('published P0 comparison metadata is index,follow', () => {
-  assert.equal(resolveComparePublicationRobots('en', 'flux-3-vs-grok-imagine-video-1-5'), undefined);
+  assert.equal(resolveComparePublicationRobots('en', 'wan-3-vs-wan-3-prime'), undefined);
+  // Pairs involving a hidden model are noindex.
+  assert.deepEqual(resolveComparePublicationRobots('en', 'flux-3-vs-grok-imagine-video-1-5'), { index: false, follow: true });
 });
 
 test('one public-current predicate excludes hidden, legacy and deep-legacy models', () => {
@@ -260,7 +272,7 @@ test('published fixtures have model, family, pricing and evidence-backed best-fo
     const model = models.find((entry) => entry.id === id)!;
     assert.ok(catalogue.has(model.slug), `models inbound ${id}`);
     assert.ok(familyResolver.getModelSlugs(model.family!).includes(model.slug), `family inbound ${id}`);
-    assert.ok(pricingRows.some((row) => row.id === id && row.modelHref === `/models/${id}`), `pricing inbound ${id}`);
+    if (isVisibleP0(id)) assert.ok(pricingRows.some((row) => row.id === id && row.modelHref === `/models/${id}`), `pricing inbound ${id}`);
     assert.ok(ranked.includes(id), `evidence-backed best-for inbound ${id}`);
   }
 });
@@ -341,13 +353,14 @@ test('symmetric comparison publication requires both endpoint flags and a comple
 test('LLMS accepts a registry-derived projection and publishes the complete P0 set', () => {
   const realProjection = llms.buildLlmsModelDiscoveryProjection();
   const realText = llms.buildLlmsText(mcpPublication, realProjection);
-  for (const id of P0_IDS) assert.match(realText, new RegExp(`/models/${id}(?:\\)|$)`));
+  for (const id of VISIBLE_P0_IDS) assert.match(realText, new RegExp(`/models/${id}(?:\\)|$)`));
+  for (const id of HIDDEN_P0_IDS) assert.doesNotMatch(realText, new RegExp(`/models/${id}(?:\\)|$)`));
   for (const id of ['ltx-2-3-pro', 'wan-2-6']) {
     assert.ok(!realProjection.currentModels.some((model) => model.id === id), `${id} must not be featured as current`);
     assert.ok(!realText.includes(`](https://maxvideoai.com/models/${id})`));
   }
-  assert.match(realText, /\/ai-video-engines\/ltx-2-3-pro-vs-ltx-2-5-pro\)/);
-  assert.match(realText, /\/ai-video-engines\/wan-2-6-vs-wan-3\)/);
+  // Keyvo does not publish comparison pages.
+  assert.doesNotMatch(realText, /\/ai-video-engines\//);
 
   const wanOnlyModels = runtime.listRuntimeModels().map((model) => model.id === 'wan-3'
     ? {
@@ -361,15 +374,15 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
   const unrelatedProjection = llms.buildLlmsModelDiscoveryProjection({
     models: wanOnlyModels,
     primaryComparisons: [{
-      slug: 'flux-3-vs-grok-imagine-video-1-5',
-      label: 'FLUX 3 vs Grok Imagine Video 1.5',
+      slug: 'kling-3-pro-vs-seedance-2-0',
+      label: 'Kling 3 Pro vs Seedance 2.0',
     }],
     isLocalizedScoreboardComplete: () => true,
   });
   assert.deepEqual(unrelatedProjection.primaryComparisons, [{
-    slug: 'flux-3-vs-grok-imagine-video-1-5',
-    label: 'FLUX 3 vs Grok Imagine Video 1.5',
-    href: 'https://app.keyvo.cn/ai-video-engines/flux-3-vs-grok-imagine-video-1-5',
+    slug: 'kling-3-pro-vs-seedance-2-0',
+    label: 'Kling 3 Pro vs Seedance 2.0',
+    href: 'https://app.keyvo.cn/ai-video-engines/kling-3-pro-vs-seedance-2-0',
   }]);
 
   const wanUpgradeModels = wanOnlyModels.map((model) => {

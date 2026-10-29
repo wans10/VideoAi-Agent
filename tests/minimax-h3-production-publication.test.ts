@@ -79,9 +79,13 @@ test('localized Hailuo 02 pages link crawlably to the current MiniMax H3 model',
 });
 
 test('priority comparison publication is reciprocal for H3', () => {
-  for (const opponentId of ['seedance-2-5', 'kling-o3-pro', 'veo-3-1']) {
+  for (const opponentId of ['seedance-2-5', 'kling-o3-pro']) {
     const opponent = getRuntimeModelById(opponentId);
     assert.ok(opponent, `missing ${opponentId}`);
     assert.ok(opponent.publication.compare.publishedPairIds.includes(slug), `${opponentId} must publish H3 pair`);
   }
+  // Veo is hidden on Keyvo web, so it publishes no comparison pairs at all.
+  const veo = getRuntimeModelById('veo-3-1');
+  assert.ok(veo, 'missing veo-3-1');
+  assert.deepEqual(veo.publication.compare.publishedPairIds, []);
 });

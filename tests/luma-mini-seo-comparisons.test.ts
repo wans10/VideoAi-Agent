@@ -27,12 +27,13 @@ test('Luma Ray 3.2 and Seedance Mini SEO comparison wave is published', () => {
   const luma = getCatalogEntry('luma-ray-3-2');
   const mini = getCatalogEntry('dreamina-seedance-2-0-mini');
 
-  assert.ok(luma.surfaces.compare.publishedPairs.includes('veo-3-1-fast'));
-  assert.ok(luma.surfaces.compare.publishedPairs.includes('dreamina-seedance-2-0-mini'));
-  assert.ok(mini.surfaces.compare.publishedPairs.includes('luma-ray-3-2'));
+  // The raw catalog stays identical to upstream; Keyvo hides Luma and comparison pages at runtime,
+  // so no wave slug is published.
+  assert.ok(luma);
+  assert.ok(mini);
 
   LUMA_MINI_SEO_COMPARISONS.forEach((slug) =>
-    assert.ok(publishedComparisonSlugs.includes(slug), `Missing published comparison ${slug}`)
+    assert.equal(publishedComparisonSlugs.includes(slug), false, `${slug} must stay unpublished`)
   );
 });
 

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 import type { GscPerformanceRow } from '../frontend/lib/seo/gsc-analysis';
 import {
   classifySeoIntent,
@@ -76,11 +77,12 @@ test('builds family dictionary from real app model families', () => {
 
 test('published P0 family defaults and identities resolve to their canonical SEO families', () => {
   const dictionary = getSeoFamilyDictionary();
+  // Keyvo hides the LTX, Grok and FLUX families on the web, so they have no published default model.
   const expectedSeoDefaults = {
-    ltx: 'ltx-2-5-pro',
+    ltx: null,
     wan: 'wan-3-prime',
-    grok: 'grok-imagine-video-1-5',
-    flux: 'flux-3',
+    grok: null,
+    flux: null,
   } as const;
   const p0FamilyBySlug = {
     'wan-3': 'wan',
@@ -101,8 +103,12 @@ test('published P0 family defaults and identities resolve to their canonical SEO
   for (const [slug, ownerFamilyId] of Object.entries(p0FamilyBySlug)) {
     for (const family of dictionary) {
       const isOwner = family.id === ownerFamilyId;
-      assert.equal(family.modelSlugs.includes(slug), isOwner, `${family.id}:modelSlugs:${slug}`);
-      assert.equal(family.aliases.includes(slug), isOwner, `${family.id}:aliases:${slug}`);
+      // Hidden families keep their aliases but publish no model slugs.
+      assert.equal(family.modelSlugs.includes(slug), isOwner && isKeyvoVisibleFamily(ownerFamilyId), `${family.id}:modelSlugs:${slug}`);
+      // Hidden families may drop aliases of their unpublished models, but no other family may claim them.
+      if (isKeyvoVisibleFamily(ownerFamilyId) || !isOwner) {
+        assert.equal(family.aliases.includes(slug), isOwner, `${family.id}:aliases:${slug}`);
+      }
     }
   }
 });

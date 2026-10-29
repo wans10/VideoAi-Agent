@@ -119,8 +119,12 @@ test('Seedance 2.5 uses the public conversion template with pricing and comparis
   assert.deepEqual(listPrelaunchModelPageTemplateSlugs(), []);
 });
 
-test('Seedance 2.5 launches with three localized, indexable comparison decisions', () => {
-  for (const comparisonSlug of priorityComparisonSlugs) {
+// Keyvo hides Veo, so only the pairs between visible models stay published.
+const visiblePriorityComparisonSlugs = priorityComparisonSlugs.filter((comparisonSlug) => comparisonSlug !== 'seedance-2-5-vs-veo-3-1');
+
+test('Seedance 2.5 launches with two localized, indexable comparison decisions and hides the Veo pair', () => {
+  assert.equal(isPublishedComparisonSlug('seedance-2-5-vs-veo-3-1'), false, 'Veo comparison is hidden');
+  for (const comparisonSlug of visiblePriorityComparisonSlugs) {
     assert.equal(isPublishedComparisonSlug(comparisonSlug), true, `${comparisonSlug} publication`);
     assert.deepEqual(getIndexableComparisonLocales(comparisonSlug), [...locales, 'zh'], `${comparisonSlug} indexation`);
 
@@ -181,12 +185,12 @@ test('the three priority Seedance 2.5 comparisons remain published while best-fo
   assert.ok(bestForBySlug.get('multi-shot-video')?.includes('kling-o3-pro-vs-minimax-h3'));
 });
 
-test('the indexation matrix keeps all nine localized Seedance 2.5 comparison URLs', () => {
+test('the indexation matrix keeps all six localized visible Seedance 2.5 comparison URLs', () => {
   const rows = generateComparisonIndexationArtifacts().document.rows.filter((row) =>
-    priorityComparisonSlugs.includes(row.slug as (typeof priorityComparisonSlugs)[number]),
+    visiblePriorityComparisonSlugs.includes(row.slug as (typeof priorityComparisonSlugs)[number]),
   );
 
-  assert.equal(rows.length, 9);
+  assert.equal(rows.length, 6);
   for (const row of rows) {
     assert.equal(row.hasLocalizedOverride, true, `${row.locale} ${row.slug} localized content`);
     assert.equal(row.classification, 'keep', `${row.locale} ${row.slug} classification`);

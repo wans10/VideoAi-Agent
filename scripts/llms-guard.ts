@@ -12,11 +12,8 @@ const REQUIRED_URLS = [
   'https://app.keyvo.cn/pricing',
   'https://app.keyvo.cn/models',
   'https://app.keyvo.cn/examples',
-  'https://app.keyvo.cn/ai-video-engines',
-  'https://app.keyvo.cn/ai-video-engines/best-for',
   'https://app.keyvo.cn/blog',
   'https://app.keyvo.cn/docs',
-  'https://app.keyvo.cn/models/veo-3-1',
   'https://app.keyvo.cn/models/kling-3-pro',
   'https://app.keyvo.cn/models/minimax-h3',
   'https://app.keyvo.cn/models/minimax-h3-max',
@@ -45,7 +42,11 @@ const ENABLED_PUBLICATION = {
   montagePreparation: false,
 };
 
+// Keyvo hides comparison pages and non-Chinese-vendor models, so llms.txt must not advertise them.
 const FORBIDDEN_EXACT_URLS = [
+  'https://app.keyvo.cn/ai-video-engines',
+  'https://app.keyvo.cn/ai-video-engines/best-for',
+  'https://app.keyvo.cn/models/veo-3-1',
   'https://app.keyvo.cn/models/veo-3-fast',
   'https://app.keyvo.cn/models/kling',
   'https://app.keyvo.cn/privacy',

@@ -10,7 +10,7 @@ import {
   MARKETING_NAV_MODELS,
   MARKETING_TOP_NAV_LINKS,
 } from '../frontend/config/navigation.ts';
-import { FOOTER_MODELS, FOOTER_COMPARISONS, FOOTER_EXAMPLES } from '../frontend/config/marketing-footer';
+import { FOOTER_MODELS, FOOTER_EXAMPLES } from '../frontend/config/marketing-footer';
 import { getPartnerBrandMark } from '../frontend/src/lib/brand-partners.ts';
 
 const marketingNavSource = readFileSync('frontend/components/marketing/MarketingNav.tsx', 'utf8');
@@ -46,7 +46,7 @@ const hrefPath = (href: unknown) => {
 test('marketing top navigation stays clean while Best-For links live inside dropdowns', () => {
   assert.deepEqual(
     MARKETING_TOP_NAV_LINKS.map((item) => item.key),
-    ['models', 'examples', 'compare', 'tools', 'pricing', 'blog']
+    ['models', 'examples', 'tools', 'pricing', 'blog']
   );
 
   const modelsDropdown = MARKETING_NAV_DROPDOWNS.models as {
@@ -56,36 +56,14 @@ test('marketing top navigation stays clean while Best-For links live inside drop
       items: Array<{ label: string; href: unknown; emphasized?: boolean }>;
     }>;
   };
-  const modelsUseCases = modelsDropdown.sections?.[0];
-  assert.ok(modelsUseCases, 'Models dropdown should expose use-case guide links');
-  assert.notEqual(modelsUseCases.hideTitle, true);
-  assert.notEqual(modelsUseCases.titleFallback, 'Choose by use case');
-  assert.deepEqual(
-    modelsUseCases.items.map((item) => [item.label, hrefPath(item.href), Boolean(item.emphasized)]),
-    [
-      ['All use-case guides', '/ai-video-engines/best-for', true],
-      ...bestForUseCaseLinks.map(([label, href]) => [label, href, false] as const),
-    ]
-  );
+  // Keyvo hides the Best-For guides and comparisons, so no dropdown section may link to them.
+  const bestForOrCompareHrefs = (dropdown: typeof modelsDropdown | undefined) =>
+    (dropdown?.sections ?? []).flatMap((section) => section.items.map((item) => hrefPath(item.href)))
+      .filter((href) => String(href).startsWith('/ai-video-engines'));
+  assert.deepEqual(bestForOrCompareHrefs(modelsDropdown), []);
 
-  const compareDropdown = MARKETING_NAV_DROPDOWNS.compare as {
-    sections?: Array<{
-      titleFallback?: string;
-      hideTitle?: boolean;
-      items: Array<{ label: string; href: unknown; emphasized?: boolean }>;
-    }>;
-  };
-  const compareUseCases = compareDropdown.sections?.[0];
-  assert.ok(compareUseCases, 'Compare dropdown should expose decision guide links');
-  assert.notEqual(compareUseCases.hideTitle, true);
-  assert.notEqual(compareUseCases.titleFallback, 'Decision guides');
-  assert.deepEqual(
-    compareUseCases.items.map((item) => [item.label, hrefPath(item.href), Boolean(item.emphasized)]),
-    [
-      ['Best models by use case', '/ai-video-engines/best-for', true],
-      ...bestForUseCaseLinks.map(([label, href]) => [label, href, false] as const),
-    ]
-  );
+  const compareDropdown = MARKETING_NAV_DROPDOWNS.compare as typeof modelsDropdown | undefined;
+  assert.deepEqual(compareDropdown?.sections ?? [], []);
 
   assert.match(marketingDesktopNavSource, /entry\.emphasized/);
   assert.match(marketingDesktopNavSource, /font-semibold text-text-primary/);
@@ -169,14 +147,12 @@ test('editorial navigation promotes current models and preserves comparisons wit
     MARKETING_NAV_MODELS
       .filter(({ key }) => ['ltx-2-5-pro', 'wan-3-prime', 'happy-horse-1-1'].includes(key))
       .map(({ key }) => key),
-    ['ltx-2-5-pro', 'wan-3-prime', 'happy-horse-1-1'],
+    ['wan-3-prime', 'happy-horse-1-1'], // LTX is hidden by the Keyvo visibility policy
   );
   const expectedComparisons = [
     'minimax-h3-vs-seedance-2-5',
-    'ltx-2-5-fast-vs-ltx-2-5-pro',
-    'gemini-omni-flash-vs-veo-3-1',
     'seedance-2-0-vs-seedance-2-0-fast',
-  ];
+  ]; // LTX and Veo comparisons are hidden by the Keyvo visibility policy
   const actualComparisons = MARKETING_NAV_DROPDOWNS.compare?.items
     .map(({ key }) => key)
     .filter((key) => expectedComparisons.includes(key)) ?? [];
@@ -236,7 +212,7 @@ test('marketing footer keeps crawlable Best-For hub and priority child links', (
 test('examples navigation exposes discoverable families without promoting archives', () => {
   const examplesDropdown = MARKETING_NAV_DROPDOWNS.examples;
   assert.equal(examplesDropdown?.desktopColumns, 2);
-  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['all-examples', 'ltx', 'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse']);
+  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['all-examples', 'kling', 'seedance', 'wan', 'hailuo', 'happy-horse']);
   assert.equal(hrefPath(examplesDropdown?.items[0].href), '/examples');
   assert.equal(examplesDropdown?.allLinkInItems, true, 'the root gallery is a primary entry instead of a duplicate heading action');
   for (const locale of ['en', 'fr', 'es']) {
@@ -245,7 +221,7 @@ test('examples navigation exposes discoverable families without promoting archiv
     assert.match(copy.examples.descriptions['all-examples'], /prompt/i);
   }
   const allEntries = [...examplesDropdown!.items, ...examplesDropdown!.sections!.flatMap(section => section.items)];
-  assert.deepEqual(allEntries.map(item => item.key).sort(), ['all-examples','veo','seedance','ltx','kling','wan','happy-horse','luma','grok','flux','pika','hailuo'].sort());
+  assert.deepEqual(allEntries.map(item => item.key).sort(), ['all-examples','seedance','kling','wan','happy-horse','hailuo'].sort());
   assert.equal(new Set(allEntries.map(item => item.key)).size, allEntries.length);
   assert.match(marketingDesktopNavSource, /dropdown\.desktopColumns === 2/);
   assert.match(marketingDesktopNavSource, /two-columns/);
@@ -287,18 +263,10 @@ test('model pages do not prefetch every linked route while their hero media is l
   }
 });
 
-test('marketing footer separates Best-For use cases from popular comparisons', () => {
+test('marketing footer renders neither Best-For use cases nor popular comparisons under the Keyvo policy', () => {
   const source = marketingFooterSource;
-  const comparisonBlock = source.slice(source.indexOf('const comparisonLinks'), source.indexOf('const useCaseLinks'));
-  const useCaseBlock = source.slice(source.indexOf('const useCaseLinks'), source.indexOf('const exampleLinks'));
-
-  assert.match(source, /useCasesTitle/);
-  assert.match(source, /footer\.sections\.useCases\.title/);
-  assert.doesNotMatch(comparisonBlock, /MARKETING_NAV_BEST_FOR_HUB/);
-  assert.doesNotMatch(comparisonBlock, /MARKETING_NAV_BEST_FOR_USE_CASES/);
-  assert.match(useCaseBlock, /MARKETING_NAV_BEST_FOR_HUB/);
-  assert.match(useCaseBlock, /MARKETING_NAV_BEST_FOR_HUB/);
-  assert.equal(useCaseBlock.includes('MARKETING_NAV_BEST_FOR_USE_CASES'), false);
+  assert.doesNotMatch(source, /comparisonLinks|useCaseLinks|useCasesTitle|comparisonsTitle/);
+  assert.doesNotMatch(source, /MARKETING_NAV_BEST_FOR_HUB|MARKETING_NAV_BEST_FOR_USE_CASES/);
 });
 
 test('marketing brand mark is decorative alongside the visible wordmark', () => {
@@ -308,13 +276,8 @@ test('marketing brand mark is decorative alongside the visible wordmark', () => 
   assert.match(brand, /<strong>Key<span>vo<\/span><\/strong>/);
 });
 
-test('marketing footer promotes the current shared comparison selection', () => {
-  assert.match(marketingFooterSource, /FOOTER_COMPARISONS\.map/);
-  for (const key of ['seedance-2-0-vs-seedance-2-0-fast', 'gemini-omni-flash-vs-veo-3-1']) {
-    assert.ok(FOOTER_COMPARISONS.some(item => item.key === key), 'Preserve comparisons with recorded search demand');
-  }
-  assert.ok(FOOTER_COMPARISONS.length <= 4);
-  assert.equal(FOOTER_EXAMPLES[0]?.key, 'ltx');
+test('marketing footer no longer renders comparison links under the Keyvo policy', () => {
+  assert.doesNotMatch(marketingFooterSource, /FOOTER_COMPARISONS|ai-video-engines'/);
   assert.doesNotMatch(marketingFooterSource, /seedance-1-5-pro|ltx-2-3/);
 });
 

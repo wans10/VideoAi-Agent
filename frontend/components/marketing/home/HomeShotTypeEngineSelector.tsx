@@ -118,7 +118,7 @@ export function ShotTypeEngineSelector({
             );
           })}
         </div>
-        {copy.cta ? (
+        {false ? (
           <div className="mx-auto flex max-w-[620px] flex-col items-center gap-2">
             <Link
               href={{ pathname: '/ai-video-engines/best-for' }}

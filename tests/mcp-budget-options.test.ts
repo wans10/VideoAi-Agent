@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { buildLocalizedModelPath } from '../frontend/config/model-registry';
-import { getRuntimeModelById } from '../frontend/config/model-runtime';
+import { getUpstreamRuntimeModelById } from '../frontend/config/model-runtime';
+import { withUpstreamSurfaces } from './keyvo-upstream-view';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import { localeRegions, type AppLocale } from '../frontend/i18n/locales';
 import type { McpPublicationState } from '../frontend/lib/mcp-publication';
 import { listFalEngines, type FalEngineEntry } from '../frontend/src/config/falEngines';
@@ -54,9 +56,13 @@ function option(options: McpBudgetOption[], slot: McpBudgetOption['slot']): McpB
 
 function defaultDependencies(): McpBudgetOptionsDependencies {
   return {
-    listEngines: listFalEngines,
-    getRosterByEngineId: getModelByEngineId,
-    getRuntimeByEngineId: getRuntimeModelById,
+    // The contract is exercised on upstream publication state; Keyvo's web hiding is asserted separately.
+    listEngines: () => listFalEngines().map(withUpstreamSurfaces),
+    getRosterByEngineId: (engineId) => {
+      const roster = getModelByEngineId(engineId);
+      return roster ? withUpstreamSurfaces(roster) : roster;
+    },
+    getRuntimeByEngineId: getUpstreamRuntimeModelById,
     buildPricingFacts: buildPublicPricingFacts,
     quotePricing: quotePublicPricing,
   };
@@ -254,7 +260,7 @@ test('budget selection accepts injectable authoritative catalog and quote depend
   });
 
   assert.equal(catalogReads, 1);
-  assert.deepEqual(options, buildMcpBudgetOptions('en', livePublication));
+  assert.deepEqual(options, buildMcpBudgetOptions('en', livePublication, defaultDependencies()));
 });
 
 test('lowest paid is the independently derived minimum across exact eligible routes', () => {
@@ -428,7 +434,7 @@ test('catalog resolution mismatches are excluded before pricing', () => {
 });
 
 test('budget options use the current canonical trial and lowest paid route without legacy upgrades', () => {
-  const options = buildMcpBudgetOptions('en', livePublication);
+  const options = buildMcpBudgetOptions('en', livePublication, defaultDependencies());
 
   assert.deepEqual(options.map((candidate) => candidate.slot), [
     'included_trial',
@@ -525,10 +531,11 @@ test('the named public pricing scenarios stay locked to current canonical totals
 });
 
 test('selected routes are current, public, enabled, non-legacy, and text-to-video compatible', () => {
-  for (const selected of buildMcpBudgetOptions('en', livePublication)) {
+  for (const selected of buildMcpBudgetOptions('en', livePublication, defaultDependencies())) {
     const entry = listFalEngines().find((candidate) => candidate.id === selected.engineId);
-    const roster = getModelByEngineId(selected.engineId);
-    const runtime = getRuntimeModelById(selected.engineId);
+    const rosterEntry = getModelByEngineId(selected.engineId);
+    const roster = rosterEntry ? withUpstreamSurfaces(rosterEntry) : rosterEntry;
+    const runtime = getUpstreamRuntimeModelById(selected.engineId);
 
     assert.ok(entry);
     assert.ok(roster);
@@ -620,7 +627,7 @@ test('labels, currency, and model links are stable and localized in English, Fre
   };
 
   for (const locale of ['en', 'fr', 'es'] as const) {
-    const options = buildMcpBudgetOptions(locale, livePublication);
+    const options = buildMcpBudgetOptions(locale, livePublication, defaultDependencies());
     const trial = option(options, 'included_trial');
     const paid = option(options, 'lowest_paid');
     const expected = expectations[locale];
@@ -650,6 +657,7 @@ test('unmatched localized route segments fall back without crashing MCP budget l
   const options = buildMcpBudgetOptions(
     '.well-known' as AppLocale,
     livePublication,
+    defaultDependencies(),
   );
   const trial = option(options, 'included_trial');
   const paid = option(options, 'lowest_paid');
@@ -658,4 +666,13 @@ test('unmatched localized route segments fall back without crashing MCP budget l
   assert.match(paid.scenarioLabel, /Silent/);
   assert.equal(trial.modelHref.startsWith('/models/'), true);
   assert.equal(paid.modelHref.startsWith('/models/'), true);
+});
+
+test('Keyvo web budget options never select a hidden-vendor model', () => {
+  const options = buildMcpBudgetOptions('en', livePublication);
+  for (const candidate of options) {
+    const runtime = getUpstreamRuntimeModelById(candidate.engineId);
+    assert.ok(runtime);
+    assert.equal(isKeyvoVisibleFamily(runtime.family), true, `${candidate.engineId} is hidden on Keyvo`);
+  }
 });

@@ -13,11 +13,10 @@ const exact = (amountCents: number): PublicModelQuote => ({
   status: 'exact', amountCents, currency: 'USD', revision: 'controlled-current', scenarioLabel: 'Current scenario',
 });
 const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
-// Upstream quotes 132 distinct model inputs: 114 video and 18 t2i image presets. The Keyvo branch also publishes
-// qwen-image-3-0 and qwen-image-3-0-pro in the image pricing rows, each with a standard (1k) and high-quality (2k)
-// t2i preset: 2 engines x 2 presets = 4 extra distinct inputs. Each distinct input is still quoted exactly once.
-const MODEL_QUOTES = 136;
-const T2I_IMAGE_QUOTES = 22;
+// Keyvo's public pricing hub excludes hidden-vendor families, so it quotes 73 distinct model inputs:
+// 66 video presets and 7 t2i image presets. Each distinct input is still quoted exactly once.
+const MODEL_QUOTES = 73;
+const T2I_IMAGE_QUOTES = 7;
 const TOTAL_QUOTES = MODEL_QUOTES + 21;
 const other = {
   audio: async () => ({ totalCents: 432, currency: 'USD' }),
@@ -64,7 +63,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     const data = await pending;
     assert.deepEqual(new Set(requests.map(key)), new Set(authored.map(key)), 'every exact authored input remains quoted');
     assert.equal(requests.length, new Set(requests.map(key)).size, 'identical matrix inputs share one quote');
-    assert.equal(requests.filter((input) => input.mode !== 't2i').length, 114);
+    assert.equal(requests.filter((input) => input.mode !== 't2i').length, 66);
     assert.equal(requests.filter((input) => input.mode === 't2i').length, T2I_IMAGE_QUOTES);
     assert.equal(requests.length + audioCalls + productCalls, TOTAL_QUOTES);
     assert.equal(maximum, 8);

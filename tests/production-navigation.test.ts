@@ -11,7 +11,8 @@ test('public navigation follows production departments with technical catalogs a
   assert.ok(MARKETING_NAV_DROPDOWNS.craft!.items.some(item => item.href === '/tools/angle'));
   const references = MARKETING_NAV_DROPDOWNS.screening!.sections![0].items;
   assert.ok(references.some(item => item.href === '/models'));
-  assert.ok(references.some(item => item.href === '/ai-video-engines'));
+  // Keyvo hides the comparison catalog, so the screening reference must not link to it.
+  assert.equal(references.some(item => item.href === '/ai-video-engines'), false);
   assert.equal(MARKETING_NAV_DROPDOWNS.pipeline?.items.length, 0, 'disabled public MCP cannot expose setup links');
 });
 

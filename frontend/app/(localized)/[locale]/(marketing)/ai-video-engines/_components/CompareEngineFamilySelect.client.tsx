@@ -5,7 +5,7 @@ import { useLocale } from 'next-intl';
 import { Check, ChevronDown, ChevronRight, Search } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { EngineIcon } from '@/components/ui/EngineIcon';
-import engineCatalog from '@/config/engine-catalog.json';
+import engineCatalog from '@/config/engine-catalog-visible';
 import { getModelFamilyDefinition } from '@/config/model-families';
 import { getEngineSelectFamilyRank } from '@/lib/engine-family-priority';
 import { formatEngineSelectScore, getCompactModeLabel } from '@/components/ui/engine-select/engine-select-helpers';

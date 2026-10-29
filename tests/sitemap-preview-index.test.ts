@@ -27,7 +27,9 @@ test('development discovers all routes despite a nonempty incremental manifest; 
       assert.ok(development.includes(route), route);
     }
     for (const id of ['claude', 'chatgpt', 'codex', 'openclaw', 'n8n']) assert.equal(development.includes(`/integrations/${id}`), false);
-    assert.ok(development.length > 100, 'a development sitemap cannot collapse to the visited home route');
+    // Keyvo hides comparison and benchmark routes, which were ~330 of the ~390 discovered routes.
+    assert.ok(development.length > 40, 'a development sitemap cannot collapse to the visited home route');
+    for (const route of development) assert.equal(/^\/(?:ai-video-engines|benchmarks)(?:\/|$)/.test(route), false, `${route} is hidden by the Keyvo policy`);
     process.env.NODE_ENV = 'production';
     const production = (await getCanonicalPathEntries()).map((entry) => entry.englishPath);
     assert.ok(production.includes('/'));

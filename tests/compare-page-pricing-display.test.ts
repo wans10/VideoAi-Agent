@@ -44,7 +44,7 @@ test('a failed current comparison quote never falls back to catalogue amounts', 
 });
 
 test('comparison without a current pricing engine cannot display catalogue margin prices', async () => {
-  for (const slug of ['seedance-2-0', 'veo-3-1', 'pika-text-to-video']) {
+  for (const slug of ['seedance-2-0', 'kling-3-pro', 'minimax-h3']) {
     const entry = CATALOG_BY_SLUG.get(slug)!;
     assert.ok(entry, slug);
     const result = await resolvePricingDisplay(entry, 'en', undefined);

@@ -21,9 +21,9 @@ import {
   DEFAULT_PAYG_DISCOVERY_CONFIGS,
   type PaygDiscoveryConfigs,
 } from './payg-discovery-config';
-
 export const PAYG_PAGE_PATH = '/pay-as-you-go-ai-video-generator';
 const MODEL_FAMILIES = ['ltx', 'wan', 'grok', 'flux', 'seedance', 'kling', 'veo', 'gemini', 'hailuo', 'happy-horse', 'seedance-mini'] as const;
+const BUDGET_REFERENCES = [{ id: 'ltx-2-5-pro', presetId: '10s-720p' }, { id: 'wan-3-prime', presetId: '5s-720p' }] as const satisfies readonly { id: string; presetId: VideoPricePresetId }[];
 const PRIMARY_PRICE_PRESETS: readonly VideoPricePresetId[] = ['5s-720p', '8s-1080p', '10s-1080p'];
 const MODEL_FAMILY_PREFERRED_IDS: Record<(typeof MODEL_FAMILIES)[number], readonly string[]> = {
   seedance: ['seedance-2-0', 'seedance-2-0-fast', 'seedance-2-0-mini'],
@@ -344,7 +344,7 @@ export function buildPayAsYouGoPageData({
     content.common.liveQuote,
     content.common.audioOff,
   );
-  const budgetQuote = pricingHub.video.rows.find((row) => row.id === 'ltx-2-5-pro')?.quotes['10s-720p'];
+  const budgetQuote = BUDGET_REFERENCES.map(({ id, presetId }) => pricingHub.video.rows.find((row) => row.id === id)?.quotes[presetId]).find((quote) => quote !== undefined);
   const budget = budgetQuote?.status === 'exact' && Number.isSafeInteger(budgetQuote.amountCents)
     && budgetQuote.amountCents! >= 0 && Number.isSafeInteger(budgetQuote.amountCents! * 3)
     ? budgetTemplate.replace('{unitPrice}', formatCurrencyForLocale(locale, CUSTOMER_CURRENCY, budgetQuote.amountCents! / 100))

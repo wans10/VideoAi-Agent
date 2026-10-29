@@ -30,10 +30,8 @@ import { ModelsCatalogGallerySection } from './_components/ModelsCatalogGalleryS
 import { ModelsCatalogDirectory, ModelsCatalogScopeNav } from './_components/ModelsCatalogDirectory';
 import { ModelsCatalogHero } from './_components/ModelsCatalogHero';
 import { ModelsCatalogJsonLdScripts } from './_components/ModelsCatalogJsonLdScripts';
-import { ModelsCatalogPopularComparisons } from './_components/ModelsCatalogPopularComparisons';
 import { ModelsCatalogPricingLimitsSection } from './_components/ModelsCatalogPricingLimitsSection';
 import { ModelsCatalogRecommendedSection } from './_components/ModelsCatalogRecommendedSection';
-import { ModelsCatalogUseCaseStrip } from './_components/ModelsCatalogUseCaseStrip';
 
 type ModelsDecisionCopy = {
   eyebrow?: string;
@@ -182,7 +180,7 @@ export default async function ModelsCatalogPage({ scope = 'all' }: { scope?: Mod
 
         <div className="py-8 sm:py-10">
           <ModelsCatalogGallerySection
-            allowCompare={scope !== 'image'}
+            allowCompare={false}
             bridgeText={galleryBridgeText}
             cards={modelCards}
             copy={content.gallery}
@@ -200,12 +198,6 @@ export default async function ModelsCatalogPage({ scope = 'all' }: { scope?: Mod
           <div className="space-y-6">
             {scope === 'all' ? (
               <>
-                <ModelsCatalogPopularComparisons
-                  title={decisionCopy.popularComparisonsTitle ?? scopeDefaults.reliabilityTitle}
-                  subtitle={decisionCopy.popularComparisonsSubtitle ?? scopeDefaults.reliabilitySubtitle}
-                  hubLabel={decisionCopy.compareHubLabel ?? 'Compare hub'}
-                  comparisons={decisionData.popularComparisons}
-                />
                 <ModelsCatalogPricingLimitsSection
                   title={decisionCopy.pricingLimitsTitle ?? scopeDefaults.reliabilityTitle}
                   body={decisionCopy.pricingLimitsBody ?? scopeDefaults.reliabilitySubtitle}
@@ -246,14 +238,6 @@ export default async function ModelsCatalogPage({ scope = 'all' }: { scope?: Mod
         topPicksViewAllLabel={decisionCopy.topPicksViewAll ?? 'View all recommendations'}
       />
       <ModelsCatalogScopeNav locale={activeLocale} scope={scope} />
-      {scope === 'all' ? (
-        <ModelsCatalogUseCaseStrip
-          bestLabel={decisionCopy.bestLabel ?? 'Best'}
-          title={decisionCopy.useCasesTitle ?? scopeDefaults.chooseOutcomeTitle}
-          viewAllLabel={decisionCopy.useCasesViewAll ?? scopeDefaults.ctaPrimaryLabel}
-          items={heroData.useCases}
-        />
-      ) : null}
       <Suspense fallback={<div className="min-h-screen" aria-hidden="true" />}>
         <ModelsCatalogSections />
       </Suspense>

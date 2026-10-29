@@ -86,9 +86,9 @@ test('examples posters and SEO stream before held canonical prices without repla
     const fixture = requireFrontend(bundled.output);
     for (const [locale, base] of [['en', '/examples'], ['fr', '/fr/galerie'], ['es', '/es/galeria']]) {
       for (const [searchParams, target] of [
-        [{ engine: 'ltx', page: '1' }, `${base}/ltx`],
-        [{ engine: 'ltx', sort: 'invalid', page: '2' }, `${base}/ltx?page=2`],
-        [{ engine: 'ltx', page: '2junk', utm_source: 'audit' }, `${base}/ltx?utm_source=audit`],
+        [{ engine: 'kling', page: '1' }, `${base}/kling`],
+        [{ engine: 'kling', sort: 'invalid', page: '2' }, `${base}/kling?page=2`],
+        [{ engine: 'kling', page: '2junk', utm_source: 'audit' }, `${base}/kling?utm_source=audit`],
         [{ page: ['2', '3'] }, base],
       ] as const) {
         await assert.rejects(() => fixture.Page({ params: Promise.resolve({ locale }), searchParams: Promise.resolve(searchParams) }),

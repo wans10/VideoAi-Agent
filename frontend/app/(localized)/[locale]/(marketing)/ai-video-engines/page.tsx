@@ -1,3 +1,5 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
@@ -47,6 +49,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
 }
 
 export default async function AiVideoEnginesPage() {
+  if (KEYVO_COMPARE_HIDDEN) notFound();
   const { locale } = await resolveDictionary();
   const copy = getHubCopy(locale);
   const bestForCta = getBestForCta(locale);

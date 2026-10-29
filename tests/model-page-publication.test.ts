@@ -7,6 +7,7 @@ import {
   listRuntimeModels,
   toLegacyModelSurfaces,
 } from '../frontend/config/model-runtime.ts';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 import { isPublishedModelPage } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-publication.ts';
 
 const P0_MODEL_IDS = [
@@ -28,7 +29,7 @@ function engine(id: string, publication: { indexable: boolean; includeInSitemap:
 
 test('published noindex model pages render even when excluded from the sitemap', () => {
   assert.equal(
-    isPublishedModelPage(engine('gemini-omni-flash', { indexable: false, includeInSitemap: false })),
+    isPublishedModelPage(engine('kling-3-pro', { indexable: false, includeInSitemap: false })),
     true
   );
 });
@@ -75,6 +76,13 @@ test('all seven P0 model routes are published, indexable and sitemap-eligible', 
   for (const id of P0_MODEL_IDS) {
     const model = runtimeById.get(id);
     assert.ok(model, id);
+    if (!isKeyvoVisibleFamily(model.family)) {
+      // Keyvo presents only Chinese-vendor models on the web.
+      assert.equal(isRuntimeModelPagePublished(model), false, id);
+      assert.deepEqual(model.publication.model, { published: false, indexable: false }, id);
+      assert.equal(model.publication.sitemap.published, false, id);
+      continue;
+    }
     assert.equal(isRuntimeModelPagePublished(model), true, id);
     assert.deepEqual(model.publication.model, { published: true, indexable: true }, id);
     assert.equal(model.publication.sitemap.published, true, id);

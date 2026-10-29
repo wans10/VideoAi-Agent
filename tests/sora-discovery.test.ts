@@ -7,9 +7,10 @@ import { getExampleFamilyCurrentModelSlugs, getExampleFamilyModelSlugs, getExamp
 import { buildExamplesEngineFilterState, buildExamplesModelLinks } from '../frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-page-data';
 import { selectLocalPublicExamples, type PublicExamplesSnapshot } from '../frontend/server/local-public-examples-data';
 
-test('archived Sora remains indexed with historical membership but no current models or menu promotion', () => {
-  assert.equal(isIndexedExampleFamilyId('sora'), true);
-  assert.equal(getExampleFamilyModelSlugs('sora').length, 2);
+test('archived Sora is hidden on Keyvo web: no indexed family, no members, no current models or menu promotion', () => {
+  // Sora is a non-Chinese-vendor family, so its examples family page is hidden entirely.
+  assert.equal(isIndexedExampleFamilyId('sora'), false);
+  assert.equal(getExampleFamilyModelSlugs('sora').length, 0);
   assert.deepEqual(getExampleFamilyCurrentModelSlugs('sora'), []);
   assert.equal(getModelFamilyDefinition('sora')?.examplesPage?.showInNav, false);
   assert.equal(getExampleNavFamilyIds().includes('sora'), false);
@@ -22,24 +23,25 @@ test('archived Sora remains indexed with historical membership but no current mo
 });
 
 test('retirement removes other families from discovery through registry policy, without deleting their routes', () => {
-  const models = listRuntimeModels().map(model => model.family === 'veo' ? {
+  const models = listRuntimeModels().map(model => model.family === 'kling' ? {
     ...model, lifecycle: 'deep_legacy' as const,
     publication: { ...model.publication, app: { ...model.publication.app, published: false }, examples: { ...model.publication.examples, current: false } },
   } : model);
-  const family = buildModelFamilyDefinitions(models).find(item => item.id === 'veo')!;
+  const family = buildModelFamilyDefinitions(models).find(item => item.id === 'kling')!;
   assert.equal(family.examplesPage?.stage, 'indexed');
   assert.equal(family.examplesPage?.showInNav, false);
   assert.deepEqual(family.examplesPage?.currentModelSlugs, []);
-  assert(!buildMarketingModelMenu(models).some(item => item.slug === 'veo-3-1'));
+  assert(!buildMarketingModelMenu(models).some(item => item.slug === 'kling-3-pro'));
 });
 
 test('general example selectors omit Sora while direct archive entry retains its selection and model links', () => {
   const hub = buildExamplesEngineFilterState({ allVideos: [], collapsedEngineParam: '' });
   assert(!hub.engineFilterOptions.some(option => option.id === 'sora'));
+  // The Sora family is hidden on Keyvo, so direct archive entry no longer selects it or lists its model links.
   const archive = buildExamplesEngineFilterState({ allVideos: [], collapsedEngineParam: 'sora' });
-  assert.equal(archive.selectedEngine, 'sora');
-  assert.equal(archive.selectedOption?.label, 'Sora');
-  assert.equal(buildExamplesModelLinks({ locale: 'fr', selectedEngine: 'sora', usesCurrentAndSupportedBlocks: false }).modelLinks.length, 2);
+  assert.equal(archive.selectedEngine, null);
+  assert.equal(archive.selectedOption, null);
+  assert.equal(buildExamplesModelLinks({ locale: 'fr', selectedEngine: 'sora', usesCurrentAndSupportedBlocks: false }).modelLinks.length, 0);
 });
 
 test('local public gallery removes archives before sorting and pagination while keeping the archive feed', () => {

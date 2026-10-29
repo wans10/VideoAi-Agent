@@ -73,9 +73,10 @@ test('models catalog route delegates catalog helper logic', () => {
   assert.match(pageSource, /from '\.\/_components\/ModelsCatalogHero'/, 'route should import the hero component');
   assert.match(pageSource, /from '\.\/_components\/ModelsCatalogGallerySection'/, 'route should import the gallery section component');
   assert.match(pageSource, /from '\.\/_components\/ModelsCatalogJsonLdScripts'/, 'route should import the JSON-LD script component');
-  assert.match(pageSource, /from '\.\/_components\/ModelsCatalogUseCaseStrip'/);
+  // Keyvo hides best-for/comparison surfaces: the use-case strip and popular comparisons are no longer composed here.
+  assert.doesNotMatch(pageSource, /ModelsCatalogUseCaseStrip/);
   assert.match(pageSource, /from '\.\/_components\/ModelsCatalogRecommendedSection'/);
-  assert.match(pageSource, /from '\.\/_components\/ModelsCatalogPopularComparisons'/);
+  assert.doesNotMatch(pageSource, /ModelsCatalogPopularComparisons/);
   assert.match(pageSource, /from '\.\/_components\/ModelsCatalogPricingLimitsSection'/);
   assert.match(pageSource, /from '\.\/_components\/ModelsCatalogDecisionFaq'/);
   assert.match(heroSource, /from '\.\/ModelsCatalogTopPicksPanel'/);

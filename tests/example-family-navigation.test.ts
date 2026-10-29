@@ -66,8 +66,9 @@ test('lightweight default getter preserves the legacy resolver result and defens
   assert.deepEqual(legacyNavIds(), original);
 });
 
+// Veo is hidden on Keyvo, so the archive-only policy is exercised on a visible family.
 test('archive-only families retain their published page while leaving navigation through materialized policy', () => {
-  const models = listRuntimeModels().map((model) => model.family === 'veo' ? {
+  const models = listRuntimeModels().map((model) => model.family === 'kling' ? {
     ...model,
     lifecycle: 'deep_legacy' as const,
     publication: {
@@ -76,12 +77,12 @@ test('archive-only families retain their published page while leaving navigation
     },
   } : model);
   const families = familyConfig.buildModelFamilyDefinitions(models);
-  const archived = families.find((entry) => entry.id === 'veo')!;
+  const archived = families.find((entry) => entry.id === 'kling')!;
   assert.equal(archived.examplesPage?.stage, 'indexed');
   assert.ok(archived.examplesPage!.publishedModelSlugs!.length > 0);
   assert.deepEqual(archived.examplesPage?.currentModelSlugs, []);
-  assert.equal(project(families).includes('veo'), false);
-  assert.equal(createExampleFamilyResolver({ families, engines: [] }).getNavFamilyIds().includes('veo'), false);
+  assert.equal(project(families).includes('kling'), false);
+  assert.equal(createExampleFamilyResolver({ families, engines: [] }).getNavFamilyIds().includes('kling'), false);
   assert.equal(project(familyConfig.MODEL_FAMILIES).includes('sora'), false);
 });
 
@@ -91,7 +92,8 @@ test('family selection reuses existing launch readiness and publication admissio
   for (const id of ['grok', 'flux'] as const) {
     assert.equal(withoutEvidence.find((entry) => entry.id === id)?.examplesPage?.stage, 'hidden');
     assert.equal(project(withoutEvidence).includes(id), false);
-    assert.equal(project(familyConfig.MODEL_FAMILIES).includes(id), true);
+    // Keyvo hides these families' example pages, so they are not in the runtime nav either.
+    assert.equal(project(familyConfig.MODEL_FAMILIES).includes(id), false);
   }
   assert.deepEqual(project(withoutEvidence), createExampleFamilyResolver({ families: withoutEvidence, engines: [] }).getNavFamilyIds());
   const unpublishedModels = models.map((model) => model.family === 'grok' ? {

@@ -1,3 +1,5 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import type { AppLocale } from '@/i18n/locales';
 import { localeRegions } from '@/i18n/locales';
@@ -29,6 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: A
 }
 
 export default async function BenchmarkLabPage({ params }: { params: Promise<{ locale: AppLocale }> }) {
+  if (KEYVO_COMPARE_HIDDEN) notFound();
   const { locale } = await params;
   const copy = getBenchmarkCopy(locale);
   const [staticData, latency] = await Promise.all([loadBenchmarkLabStaticData(), fetchPublicBenchmarkLatency()]);

@@ -1,3 +1,4 @@
+import '../scripts/lib/disable-keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { getDb } from '../frontend/src/lib/db';

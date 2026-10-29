@@ -58,17 +58,6 @@ export function RealExamplesPreview({
               {copy.modelsCta ?? 'View all model specs'}
               <span aria-hidden="true">→</span>
             </ButtonLink>
-            <Link
-              href={{ pathname: '/ai-video-engines' }}
-              className="inline-flex min-h-10 items-center gap-2 rounded-input px-2 text-sm font-semibold text-brand transition hover:text-brandHover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              data-analytics-event="comparison_card_click"
-              data-analytics-cta-name="compare_engines"
-              data-analytics-cta-location="examples_preview_header"
-              data-analytics-target-family="compare"
-            >
-              {copy.compareLink ?? 'Compare engines'}
-              <span aria-hidden="true">→</span>
-            </Link>
           </div>
         </div>
 

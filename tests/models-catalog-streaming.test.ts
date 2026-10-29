@@ -100,9 +100,11 @@ test('catalogue streams the complete stable hero before prices and reveals exact
         const catalogBase={en:'/models',fr:'/fr/modeles',es:'/es/modelos',zh:'/zh/models'}[locale as 'en'|'fr'|'es'|'zh'];
         const targets=new Set([...initial.window.document.querySelectorAll('a[href]')].map(a=>a.getAttribute('href')));
         for (const suffix of ['/video','/image']) assert.ok(targets.has(catalogBase+suffix), `Missing hub ${catalogBase}${suffix}`);
-        if(scope!=='video')for(const slug of ['nano-banana-2','gpt-image-2-5-sunburst']) {
+        if(scope!=='video')for(const slug of ['seedream','seedream-5-0-pro']) {
           assert.ok(targets.has(`${catalogBase}/${slug}`), `Missing initial image model ${slug}`);
         }
+        // Keyvo hides non-Chinese-vendor image models from the public catalogue.
+        for(const slug of ['nano-banana-2','gpt-image-2-5-sunburst']) assert.ok(!targets.has(`${catalogBase}/${slug}`), `Hidden image model ${slug} must not be linked`);
         assert.equal(discovery.querySelectorAll('img,video').length,0,'Discovery must not load another media gallery');
         assert.ok(!targets.has(`${catalogBase}/seedance-1-5-pro`), 'Closed generation is not promoted as a current catalogue choice');
         const hero=initial.window.document.querySelector('.catalog-editorial-hero');

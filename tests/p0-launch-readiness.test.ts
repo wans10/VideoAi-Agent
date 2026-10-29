@@ -16,6 +16,7 @@ import {
 } from '../frontend/config/navigation.ts';
 import { buildLlmsModelDiscoveryProjection } from '../frontend/lib/seo/llms-text.ts';
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 
 const P0 = P0_VIDEO_EXAMPLE_MODEL_IDS;
 const EXPECTED_MODES = new Map<string, readonly string[]>([
@@ -90,8 +91,12 @@ test('every non-publication P0 launch prerequisite is complete', () => {
 test('the complete P0 graph publishes atomically across public discovery surfaces', () => {
   const runtimeById = new Map(listRuntimeModels().map((model) => [model.id, model]));
   const engineById = new Map(listFalEngines().map((entry) => [entry.id, entry]));
+  // Keyvo shows only Chinese-vendor families on web; hidden P0 models keep upstream app/pricing but no page surfaces.
+  const visibleP0 = P0.filter((id) => isKeyvoVisibleFamily(runtimeById.get(id)?.family));
+  const hiddenP0 = P0.filter((id) => !visibleP0.includes(id));
+  assert.deepEqual([...visibleP0].sort(), ['wan-3', 'wan-3-prime']);
 
-  for (const id of P0) {
+  for (const id of visibleP0) {
     const publication = runtimeById.get(id)?.publication;
     assert.deepEqual(publication, {
       model: { published: true, indexable: true },
@@ -99,7 +104,7 @@ test('the complete P0 graph publishes atomically across public discovery surface
         published: true,
         includeInFamilyCopy: true,
         current: true,
-        familyRank: id === 'wan-3-prime' || id === 'ltx-2-5-pro' || id === 'grok-imagine-video-1-5' || id === 'flux-3' ? 0 : 1,
+        familyRank: id === 'wan-3-prime' ? 0 : 1,
       },
       compare: publication?.compare,
       app: { published: true },
@@ -116,28 +121,37 @@ test('the complete P0 graph publishes atomically across public discovery surface
     assert.equal(surfaces?.pricing.includeInEstimator, true, id);
   }
 
+  for (const id of hiddenP0) {
+    const publication = runtimeById.get(id)?.publication;
+    assert.equal(publication?.model.published, false, `${id} model page`);
+    assert.equal(publication?.examples.published, false, `${id} examples`);
+    assert.equal(publication?.compare.published, false, `${id} compare`);
+    assert.equal(publication?.sitemap.published, false, `${id} sitemap`);
+    assert.equal(publication?.app.published, true, `${id} app stays upstream`);
+    assert.equal(publication?.pricing.published, true, `${id} pricing stays upstream`);
+  }
+
   assert.deepEqual(
     MARKETING_NAV_MODELS.filter(({ key }) => P0.includes(key as (typeof P0)[number])).map(({ key }) => key),
-    ['ltx-2-5-pro', 'ltx-2-5-fast', 'wan-3', 'wan-3-prime'],
+    ['wan-3', 'wan-3-prime'],
   );
+  const navExamples = [...MARKETING_NAV_EXAMPLES, ...(MARKETING_NAV_DROPDOWNS.examples?.sections ?? []).flatMap(section => section.items)];
   for (const familyId of ['wan', 'ltx', 'grok', 'flux']) {
     const family = MODEL_FAMILIES.find(({ id }) => id === familyId);
-    assert.equal(family?.examplesPage?.stage, 'indexed', familyId);
-    const entries = [...MARKETING_NAV_EXAMPLES, ...(MARKETING_NAV_DROPDOWNS.examples?.sections ?? []).flatMap(section => section.items)];
-    assert.ok(entries.some(({ key }) => key === familyId), familyId);
+    const visible = familyId === 'wan';
+    assert.equal(family?.examplesPage?.stage, visible ? 'indexed' : 'hidden', familyId);
+    assert.equal(navExamples.some(({ key }) => key === familyId), visible, familyId);
   }
 
   const discovery = buildLlmsModelDiscoveryProjection();
   assert.deepEqual(
     discovery.currentModels.filter(({ id }) => P0.includes(id as (typeof P0)[number])).map(({ id }) => id).sort(),
-    [...P0].sort(),
+    [...visibleP0].sort(),
   );
   assert.deepEqual(
     discovery.families.filter(({ id }) => ['flux', 'grok', 'ltx', 'wan'].includes(id)).map(({ id }) => id).sort(),
-    ['flux', 'grok', 'ltx', 'wan'],
+    ['wan'],
   );
-  assert.deepEqual(
-    discovery.primaryComparisons.filter(({ slug }) => PAIRS.includes(slug as (typeof PAIRS)[number])).map(({ slug }) => slug).sort(),
-    PAIRS.filter((slug) => slug !== 'grok-imagine-video-1-5-vs-sora-2').sort(),
-  );
+  // Keyvo does not publish comparison pages.
+  assert.deepEqual(discovery.primaryComparisons, []);
 });

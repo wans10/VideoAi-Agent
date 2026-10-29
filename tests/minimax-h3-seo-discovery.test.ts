@@ -24,8 +24,9 @@ const LOCALES = ['en', 'fr', 'es'] as const;
 const COMPARISONS = [
   'minimax-h3-vs-seedance-2-5',
   'kling-o3-pro-vs-minimax-h3',
-  'minimax-h3-vs-veo-3-1',
 ] as const;
+// Veo is hidden on Keyvo, so its pair with H3 is not published there.
+const HIDDEN_COMPARISONS = ['minimax-h3-vs-veo-3-1'] as const;
 const REQUIRED_BEST_FOR = [
   'cinematic-realism',
   'character-reference',
@@ -51,6 +52,11 @@ function scoreFor(slug: string): number | null {
 
 test('H3 comparison pages are enriched, localized, canonical, and indexable', () => {
   const sitemapSlugs = getHubComparisonSlugsForSitemap();
+
+  for (const slug of HIDDEN_COMPARISONS) {
+    assert.equal(isPublishedComparisonSlug(slug), false, `${slug} is hidden`);
+    assert.equal(sitemapSlugs.includes(slug), false, `${slug} is absent from the comparison sitemap`);
+  }
 
   for (const slug of COMPARISONS) {
     assert.equal(isPublishedComparisonSlug(slug), true, `${slug} published pair`);
@@ -105,7 +111,7 @@ test('bounded discovery surfaces lead with the two H3 variants and retain Seedan
     ],
   );
   assert.equal(MARKETING_NAV_MODELS[2]?.key, 'seedance-2-5');
-  assert.equal(MARKETING_NAV_COMPARE.length, 8);
+  assert.equal(MARKETING_NAV_COMPARE.length, 6, 'the two Veo-led menu entries are hidden');
   assert.equal(MARKETING_NAV_COMPARE[0]?.key, 'minimax-h3-vs-seedance-2-5');
   assert.ok(MARKETING_NAV_COMPARE.some(({ key }) => key === 'minimax-h3-vs-seedance-2-5'));
 
@@ -114,7 +120,8 @@ test('bounded discovery surfaces lead with the two H3 variants and retain Seedan
   assert.equal(popular[0]?.slug, 'minimax-h3-vs-seedance-2-5');
 
   const buckets = new Map(getUseCaseBuckets().map((bucket) => [bucket.id, bucket.pairs]));
-  for (const bucketId of ['cinematic', 'audio', 'best-value', 'best-quality', 'text-to-video', 'image-to-video']) {
+  // The image-to-video bucket only surfaced the H3 vs Veo pair, which is hidden on Keyvo.
+  for (const bucketId of ['cinematic', 'audio', 'best-value', 'best-quality', 'text-to-video']) {
     assert.ok(
       buckets.get(bucketId)?.some((pair) => COMPARISONS.includes(pair.slug as (typeof COMPARISONS)[number])),
       `${bucketId} should surface an H3 comparison`,

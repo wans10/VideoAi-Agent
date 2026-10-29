@@ -123,10 +123,12 @@ test('Luma Ray 3.2 best-for cards resolve through the existing Luma examples fam
   assert.equal(lumaFamily.navLabel, 'Ray 3.2');
   assert.equal(lumaFamily.defaultModelSlug, 'luma-ray-3-2');
   assert.ok(lumaFamily.routeAliases?.includes('luma-ray-3-2'));
-  assert.ok(lumaFamily.examplesPage?.publishedModelSlugs?.includes('luma-ray-3-2'));
-  assert.deepEqual(lumaFamily.examplesPage?.currentModelSlugs, ['luma-ray-3-2']);
-  assert.ok(getExampleFamilyModelSlugs('luma').includes('luma-ray-3-2'));
-  assert.deepEqual(getExampleFamilyCurrentModelSlugs('luma'), ['luma-ray-3-2']);
+  // Keyvo hides the Luma family from the web example routes.
+  assert.equal(lumaFamily.examplesPage?.stage, 'hidden');
+  assert.deepEqual(lumaFamily.examplesPage?.publishedModelSlugs, []);
+  assert.deepEqual(lumaFamily.examplesPage?.currentModelSlugs, []);
+  assert.equal(getExampleFamilyModelSlugs('luma').includes('luma-ray-3-2'), false);
+  assert.deepEqual(getExampleFamilyCurrentModelSlugs('luma'), []);
 });
 
 test('Luma Ray 2 routes stay indexable but move behind current Ray 3.2 discovery', () => {
@@ -144,8 +146,9 @@ test('Luma Ray 2 routes stay indexable but move behind current Ray 3.2 discovery
   assert.equal(ray2Flash.isLegacy, true);
   assert.equal(ray2.seo.canonicalPath, '/models/luma-ray-2');
   assert.equal(ray2Flash.seo.canonicalPath, '/models/luma-ray-2-flash');
-  assert.equal(ray2.surfaces.modelPage.indexable, true);
-  assert.equal(ray2Flash.surfaces.modelPage.indexable, true);
+  // Keyvo hides the Luma model pages on web.
+  assert.equal(ray2.surfaces.modelPage.indexable, false);
+  assert.equal(ray2Flash.surfaces.modelPage.indexable, false);
   assert.match(ray2.seo.title, /Legacy/);
   assert.match(ray2Flash.seo.title, /Legacy/);
   assert.match(catalogEntry('luma-ray-2').bestFor ?? '', /Legacy Luma/i);

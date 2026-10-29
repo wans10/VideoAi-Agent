@@ -11,8 +11,8 @@ test('PAYG budget is labelled in the CNY customer currency, never as USD', () =>
   assert.equal(CUSTOMER_CURRENCY, 'CNY');
   const content = getPayAsYouGoContent('en');
   const pricingHub = structuredClone(buildPricingHubData('en'));
-  const row = pricingHub.video.rows.find((candidate) => candidate.id === 'ltx-2-5-pro')!;
-  row.quotes['10s-720p'] = { status: 'exact', amountCents: 157, display: '¥1.57', note: 'Audio included.' };
+  const row = pricingHub.video.rows.find((candidate) => candidate.id === 'wan-3-prime')!;
+  row.quotes['5s-720p'] = { status: 'exact', amountCents: 157, display: '¥1.57', note: 'Audio included.' };
   const data = buildPayAsYouGoPageData({ locale: 'en', content, pricingHub });
   const cny = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CNY' }).format(amount);
   const budget = data.exampleCosts.budget ?? '';

@@ -52,7 +52,6 @@ export type MarketingTopNavLink = {
 export const MARKETING_TOP_NAV_LINKS = [
   { key: 'models', href: '/models' },
   { key: 'examples', href: '/examples' },
-  { key: 'compare', href: '/ai-video-engines' },
   { key: 'tools', href: '/tools' },
   { key: 'pricing', href: '/pricing' },
   { key: 'blog', href: '/blog' },
@@ -236,7 +235,8 @@ export const MARKETING_NAV_BEST_FOR_HUB: MarketingNavItem = {
   icon: 'guides',
 };
 
-const MARKETING_MODELS_USE_CASE_SECTION: MarketingNavSection = {
+// Keyvo hides the best-for guides, so this section is no longer part of the models dropdown.
+export const MARKETING_MODELS_USE_CASE_SECTION: MarketingNavSection = {
   key: 'useCaseGuides',
   titleKey: 'nav.dropdown.guideTitle',
   titleFallback: 'Find your model',
@@ -252,7 +252,7 @@ const MARKETING_MODELS_USE_CASE_SECTION: MarketingNavSection = {
   ],
 };
 
-const MARKETING_COMPARE_DECISION_GUIDES_SECTION: MarketingNavSection = {
+export const MARKETING_COMPARE_DECISION_GUIDES_SECTION: MarketingNavSection = {
   key: 'useCaseGuides',
   titleKey: 'nav.dropdown.useCaseTitle',
   titleFallback: 'Choose by use case',
@@ -305,7 +305,7 @@ export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdow
     desktopColumns: 2,
     heading: 'Meet your next video model.',
     intro: 'Capabilities, examples and prices. Choose what your project needs.',
-    sections: [MARKETING_MODELS_USE_CASE_SECTION, {
+    sections: [{
       key: 'moreModels', titleKey: 'nav.dropdown.moreModels', titleFallback: 'More creative possibilities',
       items: ['gpt-image-2-5-flare', 'flux-3', 'gemini-omni-flash'].flatMap(slug => {
         const model = listRuntimeModels().find(item => item.slug === slug && item.publication.model.published && item.lifecycle !== 'retired' && item.lifecycle !== 'deep_legacy');
@@ -332,7 +332,7 @@ export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdow
     items: MARKETING_NAV_COMPARE,
     heading: 'Two models. A clearer choice.',
     intro: 'Compare scores, video examples, capabilities and costs.',
-    sections: [MARKETING_COMPARE_DECISION_GUIDES_SECTION],
+    sections: [],
     allHref: { pathname: '/ai-video-engines' },
     allLabelKey: 'nav.dropdown.allComparisons',
     allLabelFallback: 'All comparisons',

@@ -1,3 +1,5 @@
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
+import { getRuntimeModelByCanonicalSlug } from '../frontend/config/model-runtime';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { VIDEO_SEO_EDITORIAL_ENTRIES } from '../frontend/config/video-seo-editorial.ts';
@@ -34,6 +36,11 @@ test('stored editorial aliases cannot create a nonexistent examples route', () =
 test('every authored watch example points to a real canonical family', () => {
   for (const entry of VIDEO_SEO_EDITORIAL_ENTRIES) {
     const family = resolveExampleCanonicalSlug(entry.modelSlug);
+    // Hidden-vendor families have no examples family page on Keyvo.
+    if (!isKeyvoVisibleFamily(getRuntimeModelByCanonicalSlug(entry.modelSlug)?.family)) {
+      assert.equal(family, null, entry.modelSlug);
+      continue;
+    }
     assert.ok(family, entry.modelSlug);
     assert.ok(getExampleFamilyPageConfig(family), family);
     assert.equal(entry.examplesSlug, family, entry.id);

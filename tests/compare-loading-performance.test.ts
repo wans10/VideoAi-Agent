@@ -70,9 +70,9 @@ test('both pricing sides use one lazy contextual scope per comparison invocation
   h.setSnapshotReader(async () => { throw new Error('unscoped comparison read'); });
   h.setSnapshotFactory(() => async context => {
     reads++; await held;
-    return { totalCents: context.engine.id === 'veo-3-1' ? 200 : 40, currency: 'USD' } as PricingSnapshot;
+    return { totalCents: context.engine.id === 'seedance-2-0' ? 200 : 40, currency: 'USD' } as PricingSnapshot;
   });
-  const input = { activeLocale: 'en' as const, left: CATALOG_BY_SLUG.get('veo-3-1')!, right: CATALOG_BY_SLUG.get('veo-3-1-fast')! };
+  const input = { activeLocale: 'en' as const, left: CATALOG_BY_SLUG.get('seedance-2-0')!, right: CATALOG_BY_SLUG.get('seedance-2-0-fast')! };
   try {
     assert.equal(reads, 0);
     const pending = h.buildCompareRouteData(input);
@@ -82,9 +82,11 @@ test('both pricing sides use one lazy contextual scope per comparison invocation
     release();
     const result = await pending;
     assert.equal(scopes, 1);
-    assert.equal(startedReads, 6, 'all six contextual quotes start before their readers finish');
-    assert.equal(result.leftPricingDisplay.priceRows?.length, 3);
-    assert.equal(result.rightPricingDisplay.priceRows?.length, 3);
+    // Veo (three rows per side, six quotes) is hidden on Keyvo; the visible Seedance pair yields one quote per price row.
+    const leftRows = result.leftPricingDisplay.priceRows?.length ?? 0;
+    const rightRows = result.rightPricingDisplay.priceRows?.length ?? 0;
+    assert.ok(leftRows > 0 && rightRows > 0);
+    assert.equal(startedReads, leftRows + rightRows, 'every contextual quote starts before its reader finishes');
     await h.buildCompareRouteData(input);
     assert.equal(h.scopes.length, 2);
     for (const extra of [{ availability: 'waitlist' }, { surfaces: { app: { enabled: false } } }]) {

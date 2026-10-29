@@ -125,7 +125,7 @@ test('model route starts independent inputs together and preserves localized out
       assert.equal(props.locale,locale);
       assert.equal(props.canonicalUrl,`https://maxvideoai.com/${locale}/models/veo-3-1`);
       assert.equal(props.heroMedia.id,'public-one');
-      assert.equal(props.showBenchmarkLink,true);
+      assert.equal(props.showBenchmarkLink,false,'Keyvo hides benchmark scores');
       assert.deepEqual(props.pricingEngine.pricingDetails,{fixture:'override'});
       assert.equal(props.pricePerSecondLabel,locale+' 0.10/s');
       assert.equal(props.galleryVideos.length,1);

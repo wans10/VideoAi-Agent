@@ -299,7 +299,9 @@ for (const locale of locales) {
     assert.ok(semantic.links.some((link) => link.href === '/app' && link.text === expected.primaryCta));
     assert.ok(semantic.links.some((link) => link.href === expected.pricingHref));
     assert.ok(semantic.links.some((link) => link.href === expected.modelHref));
-    assert.ok(semantic.links.some((link) => link.href === expected.comparisonHref));
+    // Keyvo hides comparison pages: the Veo comparison link must not be rendered.
+    assert.ok(!semantic.links.some((link) => link.href === expected.comparisonHref));
+    assert.ok(!semantic.links.some((link) => /ai-video-engines|comparatif|comparativa/.test(link.href)));
     assert.ok(semantic.links.some((link) => link.href === expected.lookupHref));
     assert.equal(semantic.showcasePresent, false);
     assert.ok(!semantic.headings.includes(expected.showcase.title));

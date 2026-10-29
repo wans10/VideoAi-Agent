@@ -25,8 +25,6 @@ export const STUDIO_NAV_DROPDOWNS: Record<string, MarketingNavDropdown> = {
   ] },
   screening: { heading: "Watch the shot. Study the process.", intro: "Use real outputs to develop the approach for your next scene.", allHref: '/examples', allLabelKey: 'nav.dropdown.screening.all', allLabelFallback: "Enter the shot library", desktopColumns: 2, items: [
     { key: 'reels', href: '/examples', icon: 'cinema', label: "Shot library", description: "Inspect generated shots, prompts and settings." },
-    { key: 'cinematic', href: '/ai-video-engines/best-for/cinematic-realism', icon: 'cinema', label: "Cinematic studies", description: "Explore light, camera movement and realism." },
-    { key: 'commercial', href: '/ai-video-engines/best-for/ads', icon: 'ads', label: "Commercial work", description: "Find an approach for product-led short films." },
     { key: 'journal', href: '/blog', icon: 'docs', label: "Production journal", description: "Prompt methods, workflow breakdowns and practice." },
-  ], sections: [{ key: 'reference', titleKey: 'nav.dropdown.screening.reference', titleFallback: 'Technical reference', items: [{ key: 'models', label: 'Model directory', href: '/models', icon: 'guides' }, { key: 'compare', label: 'Compare capabilities', href: '/ai-video-engines', icon: 'guides' }, { key: 'docs', label: 'Production guides', href: '/docs', icon: 'docs' }] }] },
+  ], sections: [{ key: 'reference', titleKey: 'nav.dropdown.screening.reference', titleFallback: 'Technical reference', items: [{ key: 'models', label: 'Model directory', href: '/models', icon: 'guides' }, { key: 'docs', label: 'Production guides', href: '/docs', icon: 'docs' }] }] },
 };

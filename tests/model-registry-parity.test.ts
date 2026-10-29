@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 import { buildLocalizedModelPath } from '../frontend/config/model-registry.ts';
 import {
   createRuntimeModelResolver,
@@ -42,6 +43,10 @@ const APPROVED_SUCCESSORS = {
 
 test('runtime model projection matches every baseline identity and surface', () => {
   const runtimeById = new Map(listRuntimeModels().map((model) => [model.id, model]));
+  const baselineRuntimeById = new Map(
+    (JSON.parse(readFileSync('frontend/config/model-runtime.json', 'utf8')).models as Array<{ id: string; publication: any }>)
+      .map((model) => [model.id, model]),
+  );
   const reciprocalSeedance25PairOwners = new Set([
     'kling-3-pro',
     'seedance-2-0',
@@ -74,6 +79,17 @@ test('runtime model projection matches every baseline identity and surface', () 
       APPROVED_SUCCESSORS[expected.id as keyof typeof APPROVED_SUCCESSORS] ?? expected.successorId,
     );
     const actualPublication = toLegacyModelSurfaces(actual);
+    if (!isKeyvoVisibleFamily(expected.family)) {
+      // Keyvo hides these families from web pages; app and pricing publication stay upstream.
+      assert.equal(actual.publication.model.published, false, expected.id);
+      assert.equal(actual.publication.examples.published, false, expected.id);
+      assert.equal(actual.publication.compare.published, false, expected.id);
+      assert.equal(actual.publication.sitemap.published, false, expected.id);
+      const authored = baselineRuntimeById.get(expected.id);
+      assert.deepEqual(actual.publication.app, authored?.publication.app, expected.id);
+      assert.deepEqual(actual.publication.pricing, authored?.publication.pricing, expected.id);
+      continue;
+    }
     if (reciprocalSeedance25PairOwners.has(expected.id)) {
       assert.equal(
         actualPublication.compare.publishedPairs.filter((slug) => slug === 'seedance-2-5').length,
@@ -322,6 +338,11 @@ test('family membership and current variants preserve baseline with explicit lif
   for (const expected of baseline.familyDefinitions) {
     const actual = MODEL_FAMILIES.find((family) => family.id === expected.id);
     assert.ok(actual, expected.id);
+    if (!isKeyvoVisibleFamily(expected.id)) {
+      assert.equal(getModelFamilyExamplesPageConfig(expected.id)?.stage, 'hidden', expected.id);
+      assert.deepEqual(getModelFamilyExamplesPageConfig(expected.id)?.publishedModelSlugs, [], expected.id);
+      continue;
+    }
     assert.equal(
       actual.defaultModelSlug,
       expected.id === 'hailuo'

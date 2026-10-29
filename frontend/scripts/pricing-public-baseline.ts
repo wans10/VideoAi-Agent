@@ -12,6 +12,8 @@ const DETERMINISTIC_ENV_KEYS = [
 ] as const;
 
 async function main(): Promise<void> {
+  // The baseline is the upstream pricing-policy contract, independent of Keyvo's web-presentation hiding.
+  process.env.KEYVO_MODEL_VISIBILITY = 'off';
   for (const key of DETERMINISTIC_ENV_KEYS) delete process.env[key];
   const collector = await import('./pricing-public-baseline-collector');
   const rows = await collector.collectPublicPricingProjectionRows();

@@ -233,19 +233,13 @@ test('Seedance aliases, family routing, hub publication, and locale coverage are
 
   const publishedComparisonSlugs = getPublishedComparisonSlugs();
   [
-    'seedance-2-0-vs-veo-3-1',
     'kling-3-pro-vs-seedance-2-0',
-    'seedance-2-0-vs-sora-2',
-    'seedance-2-0-fast-vs-veo-3-1-fast',
-    'ltx-2-3-fast-vs-seedance-2-0-fast',
     'seedance-1-5-pro-vs-seedance-2-0-fast',
-    'seedance-2-0-fast-vs-sora-2',
     'dreamina-seedance-2-0-mini-vs-seedance-2-0',
     'dreamina-seedance-2-0-mini-vs-seedance-2-0-fast',
-    'dreamina-seedance-2-0-mini-vs-ltx-2-3-fast',
-    'dreamina-seedance-2-0-mini-vs-veo-3-1-fast',
-    'dreamina-seedance-2-0-mini-vs-luma-ray-3-2',
   ].forEach((slug) => assert.ok(publishedComparisonSlugs.includes(slug), `Missing published comparison ${slug}`));
+  ['seedance-2-0-vs-veo-3-1', 'seedance-2-0-vs-sora-2', 'dreamina-seedance-2-0-mini-vs-luma-ray-3-2'].forEach((slug) =>
+    assert.ok(!publishedComparisonSlugs.includes(slug), `Hidden-model comparison ${slug} must not be published`));
 
   const hubEngines = getHubEngines();
   assert.ok(hubEngines.some((engine) => engine.modelSlug === 'seedance-2-0'));
@@ -401,27 +395,21 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
 
   assert.deepEqual(
     MARKETING_NAV_MODELS.map((item) => item.key),
-    ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'veo-3-1', 'ltx-2-5-pro', 'ltx-2-5-fast', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']
+    ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'ltx-2-5-fast-vs-ltx-2-5-pro', 'wan-3-vs-wan-3-prime', 'gemini-omni-flash-vs-veo-3-1', 'seedance-2-0-vs-seedance-2-0-fast']
+    ['minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast']
   );
-  assert.equal(MARKETING_NAV_COMPARE.length, 8);
+  assert.equal(MARKETING_NAV_COMPARE.length, 6);
   const expectedExampleFamilies = [
-    'veo',
     'seedance',
-    'ltx',
     'kling',
     'wan',
     'happy-horse',
-    'luma',
-    'grok',
-    'flux',
-    'pika',
     'hailuo',
   ];
-  assert.deepEqual(MARKETING_NAV_EXAMPLES.map((item) => item.key), ['ltx', 'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse']);
+  assert.deepEqual(MARKETING_NAV_EXAMPLES.map((item) => item.key), ['kling', 'seedance', 'wan', 'hailuo', 'happy-horse']);
   assert.deepEqual(MARKETING_FOOTER_EXAMPLES.map((item) => item.key).sort(), expectedExampleFamilies.slice().sort());
 });
 
@@ -439,22 +427,15 @@ test('Seedance 1.5 Pro stays historical while Seedance 2.0 keeps the primary ali
 });
 
 test('Header model menu keeps H3 and the current P1 representatives in the bounded set', () => {
-  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'veo-3-1', 'ltx-2-5-pro', 'ltx-2-5-fast', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
+  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
 });
 
 test('Examples hub family order follows the current business priority without reordering global families', () => {
   assert.deepEqual(orderExamplesHubFamilyIds(getExampleFamilyIds()), [
-    'veo',
     'seedance',
-    'ltx',
     'kling',
     'wan',
     'happy-horse',
-    'sora',
-    'luma',
-    'grok',
-    'flux',
-    'pika',
     'hailuo',
   ]);
 });
@@ -497,7 +478,7 @@ test('Examples family current model groups do not classify new delivery models a
     'seedance-2-0-fast',
     'dreamina-seedance-2-0-mini',
   ]);
-  assert.deepEqual(getExampleFamilyCurrentModelSlugs('ltx'), ['ltx-2-5-pro', 'ltx-2-5-fast']);
+  assert.deepEqual(getExampleFamilyCurrentModelSlugs('ltx'), []); // LTX is hidden by Keyvo
 });
 
 test('Engine select keeps its app-specific family priority stable', () => {

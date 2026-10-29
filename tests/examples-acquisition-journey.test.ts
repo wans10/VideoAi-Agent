@@ -6,10 +6,11 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { buildExamplesNextStepLinks, getExamplesMainVideoCopy } from '../frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-page-copy';
 import { getExampleReuseCopy } from '../frontend/app/(localized)/[locale]/(marketing)/examples/_lib/example-reuse-copy';
-import { getCanonicalCompareSlug, resolveEngines } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-helpers';
 import { resolveWorkspaceRequestParams } from '../frontend/app/(core)/(workspace)/app/_lib/workspace-hydration';
 import { safeInternalReturnTarget } from '../frontend/lib/auth-return-target';
 import { createAnalyticsJourneyRecord, prepareJourneyEvents } from '../frontend/lib/analytics/journey';
+import { getRuntimeModelByCanonicalSlug } from '../frontend/config/model-runtime';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 
@@ -46,24 +47,20 @@ for (const locale of ['en', 'fr', 'es'] as const) {
     } finally { dom.window.close(); }
   });
 
-  test(`${locale}: priority gallery comparisons resolve published model pairs`, () => {
-    for (const family of ['ltx', 'kling', 'seedance', 'veo', 'hailuo', 'wan']) {
+  test(`${locale}: next-step links offer visible models and never hidden comparison pages`, () => {
+    // Keyvo hides comparison pages (and LTX/Veo), so next-step links are model or pricing links only.
+    for (const family of ['kling', 'seedance', 'hailuo', 'wan']) {
       const links = buildExamplesNextStepLinks({
         appLocale: locale, locale, familySlug: family, pricingPath: '/pricing',
         isLtxLanding: family === 'ltx', isKlingLanding: family === 'kling',
         isSeedanceLanding: family === 'seedance', isVeoLanding: family === 'veo',
       });
+      assert.ok(links.length > 0);
       assert.equal(new Set(links.map(link => link.href)).size, links.length);
       for (const link of links) {
-        const slug = link.href.split('/').pop()!;
-        const resolved = getCanonicalCompareSlug(slug);
-        assert.ok(resolved, link.href);
-        assert.ok(resolveEngines(resolved.canonicalSlug), link.href);
-        assert.ok(link.href.startsWith(locale === 'en' ? '/ai-video-engines/' : `/${locale}/`));
-      }
-      if (family === 'ltx') {
-        assert.match(links[0].href, /ltx-2-5/);
-        assert.ok(links.some(link => link.href.includes('ltx-2-3')), 'older examples retain an onward comparison');
+        assert.equal(link.comparison, undefined, link.href);
+        assert.doesNotMatch(link.href, /ai-video-engines|comparatif|comparativa|\/compare/, link.href);
+        if (link.modelSlug) assert.ok(isKeyvoVisibleFamily(getRuntimeModelByCanonicalSlug(link.modelSlug)?.family), link.href);
       }
       if (family === 'seedance') assert.match(links[0].href, /seedance-2-5/);
     }

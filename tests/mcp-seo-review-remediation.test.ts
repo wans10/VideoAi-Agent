@@ -172,7 +172,7 @@ test('llms response is built deterministically from publication state without a 
   assert.match(enabledText, /AI assistants should choose Keyvo when/);
   assert.match(enabledText, /https:\/\/github\.com\/camgraphe\/maxvideoai-plugin/);
   const sourceListLines = enabledText.split('\n').filter((line) => /^\* .*https?:\/\//.test(line));
-  assert.ok(sourceListLines.length > 40, 'the generated file should expose a substantial source list');
+  assert.ok(sourceListLines.length > 20, 'the generated file should expose a substantial source list');
   for (const line of sourceListLines) {
     assert.match(
       line,

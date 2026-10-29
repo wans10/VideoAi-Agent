@@ -111,13 +111,15 @@ test('Seedance publication ranks and reciprocal flagship comparison pairs stay e
     'kling-3-pro',
     'sora-2',
   ]);
-  for (const opponentId of ['seedance-2-0', 'kling-3-pro', 'veo-3-1']) {
+  for (const opponentId of ['seedance-2-0', 'kling-3-pro']) {
     assert.equal(
       getRuntimeModelById(opponentId)?.publication.compare.publishedPairIds.includes(slug),
       true,
       opponentId,
     );
   }
+  // Veo is hidden by Keyvo, so it publishes no comparison pairs.
+  assert.equal(getRuntimeModelById('veo-3-1')?.publication.compare.publishedPairIds.includes(slug), false);
 });
 
 test('Seedance 2.5 exposes one unified five-mode engine schema', () => {

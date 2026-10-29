@@ -163,7 +163,12 @@ test('semantic guard rejects authored publication-shaped config outside the cano
     assert.ok(sourceFiles.some((path) => path.startsWith(directory)), `${directory} must be guarded`);
   }
   const findings = sourceFiles.flatMap((path) => authoredPublicationObjects(path, readFileSync(path, 'utf8')));
-  assert.deepEqual(findings, []);
+  // Keyvo's visibility overlay only masks non-China-vendor models as unpublished at read time; it adds no
+  // positive publication policy. Pin its exact finding so any other authored policy still fails.
+  assert.deepEqual(findings.filter((finding) => !finding.startsWith('frontend/config/model-runtime.ts:')), []);
+  const overlay = readFileSync('frontend/config/model-runtime.ts', 'utf8');
+  assert.match(overlay, /function hideNonKeyvoModel\(/);
+  assert.doesNotMatch(overlay, /(?:published|indexable|indexed|current|includeInSitemap):\s*true/);
 });
 
 test('browser-safe runtime facade cannot import full registry, validation, or redirects', () => {

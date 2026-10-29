@@ -357,7 +357,7 @@ export async function MarketingModelPageLayout({
     (templateConfig?.sections.compare ?? true) &&
     !isImageEngine &&
     (relatedItems.length > 0 || compareEngines.length > 0);
-  const hasCompareSection = !isImageEngine && (Boolean(focusVsConfig) || hasCompareGrid);
+  const hasCompareSection = false && !isImageEngine && (Boolean(focusVsConfig) || hasCompareGrid);
   const imageAnchorId = templateData ? 'prompting' : isImageEngine ? 'image-to-image' : 'image-to-video';
   const promptingContent = parseModelPromptingContent(
     localizedContent.prompting,

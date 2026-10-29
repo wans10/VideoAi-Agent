@@ -30,14 +30,12 @@ function createPick(slug: string): RankedPick {
 
 test('4K best-for shortlist ranks H3 first and keeps capability-specific alternatives', () => {
   assert.ok(fourKEntry, '4K best-for entry should exist');
-  assert.deepEqual(fourKEntry.topPicks?.slice(0, 4), ['minimax-h3', 'veo-3-1', 'kling-3-4k', 'veo-3-1-fast']);
-  assert.equal(fourKEntry.topPicks?.[4], 'seedance-2-0');
-  assert.deepEqual(getPublishedRelatedComparisons(fourKEntry, 'en').slice(0, 3), [
-    'minimax-h3-vs-veo-3-1',
-    'kling-3-4k-vs-veo-3-1',
-    'minimax-h3-vs-seedance-2-5',
-  ]);
-  assert.ok(getPublishedRelatedComparisons(fourKEntry, 'en').includes('seedance-2-0-vs-veo-3-1'));
+  // Veo is hidden on Keyvo: the visible shortlist keeps the H3-first order without it.
+  assert.deepEqual(fourKEntry.topPicks, ['minimax-h3', 'kling-3-4k', 'seedance-2-0']);
+  // Only comparisons between visible models remain published; every Veo pair is hidden.
+  const related = getPublishedRelatedComparisons(fourKEntry, 'en');
+  assert.deepEqual(related.slice(0, 1), ['minimax-h3-vs-seedance-2-5']);
+  assert.equal(related.some((slug) => slug.includes('veo-3-1')), false);
 });
 
 test('localized 4K best-for editorial content reflects the H3-first ranking', () => {

@@ -1,3 +1,4 @@
+import '../scripts/lib/disable-keyvo-model-visibility';
 import { JSDOM } from 'jsdom';
 import * as React from 'react';
 import { act } from 'react';

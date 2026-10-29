@@ -77,7 +77,8 @@ test('family copy does not repeat an automatic model list beside the version lin
 
 test('real historical identities remain discoverable without promoting them as current', () => {
   for (const [family, historicalSlug] of [
-    ['wan', 'wan-2-5'], ['kling', 'kling-2-6-pro'], ['ltx', 'ltx-2-3-pro'],
+    ['wan', 'wan-2-5'], ['kling', 'kling-2-6-pro'], // LTX is hidden on Keyvo
+    
     ['hailuo', 'minimax-hailuo-02-text'], ['seedance', 'seedance-1-5-pro'],
   ]) {
     const { modelLinks } = buildExamplesModelLinks({ locale: 'en', selectedEngine: family, usesCurrentAndSupportedBlocks: true });

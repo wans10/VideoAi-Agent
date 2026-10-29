@@ -1,3 +1,4 @@
+import '../scripts/lib/disable-keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';

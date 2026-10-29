@@ -1,3 +1,5 @@
+// The internal-link builder is SEO tooling over upstream GSC data (it also covers models Keyvo hides): evaluate it unfiltered.
+import '../scripts/lib/disable-keyvo-model-visibility.ts';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -70,9 +72,9 @@ test('Seedance 2.5 leads relevant best-for clusters while Seedance 2.0 stays 4K-
       locale,
       pricingPath: locale === 'fr' ? '/fr/tarifs' : locale === 'es' ? '/es/precios' : '/pricing',
     });
-    assert.match(examplesLinks[0]?.href ?? '', /seedance-2-5-vs-minimax-h3$/, `${locale} leads with a current comparison`);
-    assert.match(examplesLinks[1]?.href ?? '', /seedance-2-5-vs-kling-3-pro$/);
-    assert.ok(examplesLinks.some(({href}) => href.endsWith('/seedance-2-0-vs-seedance-2-0-fast')), 'retain the established comparison');
+    // Keyvo hides comparison pages: the next steps lead with the current model and offer no comparison links.
+    assert.match(examplesLinks[0]?.href ?? '', /seedance-2-5$/, `${locale} leads with the current model`);
+    assert.equal(examplesLinks.some((link) => link.comparison !== undefined || link.href.includes('-vs-')), false, 'no comparison links');
     assert.equal(examplesLinks.length, 4);
 
     const seedance20Path = `content/models/${locale}/seedance-2-0.json`;

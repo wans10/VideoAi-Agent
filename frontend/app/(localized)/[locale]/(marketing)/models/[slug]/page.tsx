@@ -235,7 +235,7 @@ async function renderMarketingModelPage({
   );
   const { benchmarkScoreSlugs, keySpecsMap, gallery } = await inputs.critical;
   const { galleryVideos, preferredIds, managed: managedCuration } = gallery;
-  const showBenchmarkLink = isVideoEngine && benchmarkScoreSlugs.has(engine.modelSlug);
+  const showBenchmarkLink = false && isVideoEngine && benchmarkScoreSlugs.has(engine.modelSlug);
   const modelName = localizedContent.marketingName ?? engine.marketingName;
   const fallbackMedia: FeaturedMedia = {
     id: `${engine.modelSlug}-hero-fallback`,

@@ -1,3 +1,5 @@
+// This suite audits the upstream comparison inventory, which Keyvo hides on the web: evaluate it unfiltered.
+import '../scripts/lib/disable-keyvo-model-visibility.ts';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -202,60 +204,24 @@ test('wave 1 keeps English and every comparison carrying a positive safety signa
   }
 });
 
-test('wave 1 sitemap contains exactly the indexable localized comparison URLs', async (t) => {
+test('wave 1 sitemap omits every comparison URL while Keyvo hides comparison pages', async (t) => {
   const originalExists = fs.existsSync;
   const manifest = mock.method(fs, 'existsSync', (path) => String(path).endsWith('app-paths-manifest.json') ? false : originalExists(path));
   t.after(() => manifest.mock.restore());
   const { getCanonicalPathEntries } = await import('../frontend/lib/sitemap/route-discovery.ts');
-  const comparisonPathByLocale = {
-    en: '/ai-video-engines',
-    fr: '/fr/comparatif',
-    es: '/es/comparativa',
-    zh: '/zh/ai-video-engines',
-  } as const;
   const publishedSlugs = getHubComparisonSlugsForSitemap();
   const publishedSlugSet = new Set(publishedSlugs);
   const comparisonEntries = (await getCanonicalPathEntries()).filter(({ englishPath }) => {
     const slug = englishPath.slice('/ai-video-engines/'.length);
     return englishPath.startsWith('/ai-video-engines/') && publishedSlugSet.has(slug);
   });
-  const comparisonUrlKeys = new Set(
-    comparisonEntries.flatMap((entry) => {
-      const slug = entry.englishPath.slice('/ai-video-engines/'.length);
-      return (entry.locales ?? []).map(
-        (locale) => `${locale}:${comparisonPathByLocale[locale]}/${slug}`,
-      );
-    }),
-  );
-
   assert.equal(publishedSlugs.length, 312);
-  assert.equal(comparisonEntries.length, publishedSlugs.length);
+  // Keyvo hides comparison pages (404), so route discovery keeps every comparison URL out of the sitemap.
+  assert.equal(comparisonEntries.length, 0, 'comparison pages must not be listed in the Keyvo sitemap');
   assert.equal(
-    comparisonUrlKeys.size,
-    publishedSlugs.length * 4 -
-      comparisonIndexation.noindexByLocale.fr.length -
-      comparisonIndexation.noindexByLocale.es.length -
-      comparisonIndexation.noindexByLocale.zh.length,
+    (await getCanonicalPathEntries()).some(({ englishPath }) => englishPath.startsWith('/ai-video-engines') || englishPath.startsWith('/benchmarks')),
+    false,
   );
-
-  for (const slug of publishedSlugs) {
-    assert.ok(
-      comparisonUrlKeys.has(`en:${comparisonPathByLocale.en}/${slug}`),
-      `English comparison must remain in the sitemap: ${slug}`,
-    );
-  }
-
-  for (const locale of ['fr', 'es', 'zh'] as const) {
-    const excludedSlugs = new Set(comparisonIndexation.noindexByLocale[locale]);
-    for (const slug of publishedSlugs) {
-      const key = `${locale}:${comparisonPathByLocale[locale]}/${slug}`;
-      if (excludedSlugs.has(slug)) {
-        assert.ok(!comparisonUrlKeys.has(key), `configured sitemap URL must be omitted: ${key}`);
-      } else {
-        assert.ok(comparisonUrlKeys.has(key), `unselected sitemap URL must remain: ${key}`);
-      }
-    }
-  }
 });
 
 test('wave 1 applies locale exclusions to comparison metadata and hreflang alternates', async () => {

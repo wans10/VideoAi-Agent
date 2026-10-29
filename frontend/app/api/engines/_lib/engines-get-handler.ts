@@ -6,6 +6,8 @@ import {
 import { fetchEngineAverageDurations } from '@/server/generate-metrics';
 import { loadAppEngineScoreMap } from '@/server/engine-scores';
 import { getBaseEnginesByCategory } from '@/lib/engines';
+import { isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
+import { getRuntimeModelById } from '@/config/model-runtime';
 import { resolveLaunchCanaryRequestContext } from '@/server/model-launch-canary-request';
 import { createAgentGenerationExecutabilityEnvironment, resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
 import { projectSeedance25ModeAvailability } from '@/server/engine-mode-availability';
@@ -47,6 +49,12 @@ function workspaceModeProjection(engine: EngineCaps, modes: readonly Mode[]): En
   };
 }
 
+// Keyvo's workspace picker only offers Chinese-vendor models; backend lookups stay upstream.
+function isKeyvoWorkspaceEngine(engine: { id: string }): boolean {
+  const model = getRuntimeModelById(engine.id);
+  return !model || isKeyvoVisibleFamily(model.family);
+}
+
 export function createEnginesGetHandler(
   dependencyOverrides: Partial<EnginesRouteDependencies> = {},
 ) {
@@ -85,7 +93,7 @@ export function createEnginesGetHandler(
       }
       const averageMap = new Map(averages.map((entry) => [entry.engineId, entry]));
       const generationEnvironment = dependencies.getGenerationEnvironment();
-      const publicWorkspaceEngines = publicEngines.map((engine) => projectSeedance25ModeAvailability(
+      const publicWorkspaceEngines = publicEngines.filter(isKeyvoWorkspaceEngine).map((engine) => projectSeedance25ModeAvailability(
         isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)
@@ -110,7 +118,7 @@ export function createEnginesGetHandler(
       );
     } catch (error) {
       console.error('[api/engines] failed to load configured engines, falling back to base registry', error);
-      const payload = getBaseEnginesByCategory(category).map((engine) => ({
+      const payload = getBaseEnginesByCategory(category).filter(isKeyvoWorkspaceEngine).map((engine) => ({
         ...projectSeedance25ModeAvailability(isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)

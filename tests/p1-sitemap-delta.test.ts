@@ -12,25 +12,27 @@ const comparisonPaths = getHubComparisonSlugsForSitemap().map(
 const modelPaths = modelRoster.map(({ modelSlug }) => `/models/${modelSlug}`);
 const dynamicPaths = new Set([...modelPaths, ...comparisonPaths]);
 
-test('P1 EN/FR/ES route delta stays stable while Chinese comparison URLs follow the publication policy', () => {
-  assert.equal(modelPaths.length - fixture.publishedModelCount, 5);
-  assert.equal(comparisonPaths.length - fixture.publishedComparisonCount, 6);
-  assert.equal(dynamicPaths.size - fixture.dynamicEnglishCanonicalCount, 11);
+// Keyvo hides comparison pages that involve non-Chinese-vendor models (see config/keyvo-model-visibility.ts).
+const HIDDEN_MODEL_TOKEN = /veo|gemini-omni|ltx|luma|grok|flux|pika|sora|gpt-image|nano-banana/;
+const isVisiblePath = (path: string) => !HIDDEN_MODEL_TOKEN.test(path);
 
-  const legacyLocalizedLocCount = modelRoster.length * 3 + getHubComparisonSlugsForSitemap().reduce(
-    (total, slug) => total + getIndexableComparisonLocales(slug).filter((locale) => locale !== 'zh').length,
-    0,
-  );
-  assert.equal(legacyLocalizedLocCount - fixture.localizedLocCount, 29 - 82);
+test('P1 route delta: models stay in the roster while Keyvo hides non-Chinese-vendor comparisons', () => {
+  assert.equal(modelPaths.length - fixture.publishedModelCount, 5);
+  assert.ok(comparisonPaths.length < fixture.publishedComparisonCount, 'hidden-vendor comparisons are not published');
+  for (const path of comparisonPaths) assert.equal(isVisiblePath(path), true, `${path} involves a hidden model`);
+
   for (const slug of ['seedance-2-5-vs-wan-3', 'minimax-h3-max-vs-seedance-2-5']) {
     assert.ok(getIndexableComparisonLocales(slug).includes('zh'), `${slug} must have a Chinese sitemap URL`);
   }
-  for (const path of fixture.expectedNewEnglishPaths) assert.equal(dynamicPaths.has(path), true, path);
-  for (const path of [
+  const expected = [
+    ...fixture.expectedNewEnglishPaths,
+    ...fixture.protectedEnglishPaths,
     '/ai-video-engines/seedance-2-5-vs-wan-3',
     '/ai-video-engines/minimax-h3-max-vs-seedance-2-5',
-  ]) assert.equal(dynamicPaths.has(path), true, path);
-  for (const path of fixture.protectedEnglishPaths) assert.equal(dynamicPaths.has(path), true, path);
+  ];
+  for (const path of expected) {
+    assert.equal(dynamicPaths.has(path), path.startsWith('/models/') || isVisiblePath(path), path);
+  }
 });
 
 test('aliases and excluded products add no canonical route', () => {

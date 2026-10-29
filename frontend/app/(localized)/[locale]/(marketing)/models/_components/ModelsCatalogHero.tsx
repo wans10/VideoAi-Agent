@@ -65,12 +65,6 @@ export function ModelsCatalogHero({
                   {primaryCtaLabel}
                   <ArrowRight className="h-4 w-4" aria-hidden />
                 </a>
-                <Link
-                  href="/ai-video-engines"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-[8px] border border-hairline bg-surface/88 px-5 text-sm font-semibold text-text-primary shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-text-muted"
-                >
-                  {secondaryCtaLabel}
-                </Link>
               </div>
             </header>
 

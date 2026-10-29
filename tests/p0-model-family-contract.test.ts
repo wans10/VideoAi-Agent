@@ -9,6 +9,7 @@ import {
 } from '../frontend/config/model-runtime';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { getBaseEngines } from '../frontend/src/lib/engines';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import { getModelRoster } from '../frontend/src/lib/model-roster';
 import { getSeoFamilyDictionary } from '../frontend/lib/seo/seo-intents';
 import {
@@ -102,18 +103,15 @@ test('P0 family defaults and new family example routes are public', () => {
     assert.equal(getModelFamilyDefinition(familyId)?.defaultModelSlug, defaultModelSlug, familyId);
   }
 
-  assert.deepEqual(getModelFamilyExamplesPageConfig('grok'), {
-    stage: 'indexed',
-    showInNav: true,
-    publishedModelSlugs: ['grok-imagine-video-1-5'],
-    currentModelSlugs: ['grok-imagine-video-1-5'],
-  });
-  assert.deepEqual(getModelFamilyExamplesPageConfig('flux'), {
-    stage: 'indexed',
-    showInNav: true,
-    publishedModelSlugs: ['flux-3', 'flux-3-draft'],
-    currentModelSlugs: ['flux-3', 'flux-3-draft'],
-  });
+  // Keyvo hides non-Chinese-vendor families from the web example routes.
+  for (const familyId of ['grok', 'flux']) {
+    assert.deepEqual(getModelFamilyExamplesPageConfig(familyId), {
+      stage: 'hidden',
+      showInNav: false,
+      publishedModelSlugs: [],
+      currentModelSlugs: [],
+    }, familyId);
+  }
 });
 
 test('published P0 identities stay aligned across model, workspace, MCP, roster, family, and SEO discovery', async () => {
@@ -137,17 +135,24 @@ test('published P0 identities stay aligned across model, workspace, MCP, roster,
   const seoFamilies = getSeoFamilyDictionary();
 
   for (const id of p0Ids) {
-    assert.equal(publicModelIds.has(id), true, `model publication missing ${id}`);
-    assert.equal(workspaceIds.has(id), true, `workspace missing ${id}`);
-    assert.equal(mcpIds.has(id), true, `MCP missing ${id}`);
-    assert.equal(rosterIds.has(id), true, `roster missing ${id}`);
-
     const familyId = P0_MODELS[id as keyof typeof P0_MODELS];
+    const visible = isKeyvoVisibleFamily(familyId);
+    // Roster stays upstream; every web presentation surface follows Keyvo visibility.
+    assert.equal(rosterIds.has(id), true, `roster missing ${id}`);
+    assert.equal(publicModelIds.has(id), visible, `model publication mismatch ${id}`);
+    // Backend workspace/MCP engines stay upstream; the web picker filters them in the engines route handler.
+    assert.equal(workspaceIds.has(id), true, `workspace mismatch ${id}`);
+    assert.equal(mcpIds.has(id), true, `MCP mismatch ${id}`);
+
     const family = getModelFamilyExamplesPageConfig(familyId);
-    assert.equal(family?.publishedModelSlugs.includes(id), true, `family publication missing ${id}`);
-    assert.equal(family?.currentModelSlugs.includes(id), true, `family current list missing ${id}`);
+    assert.equal(family?.publishedModelSlugs.includes(id), visible, `family publication mismatch ${id}`);
+    assert.equal(family?.currentModelSlugs.includes(id), visible, `family current list mismatch ${id}`);
 
     const seoFamily = seoFamilies.find((entry) => entry.id === familyId);
+    if (!visible) {
+      assert.equal(seoFamily?.publishedModelSlugs.includes(id) ?? false, false, `SEO publication leaked ${id}`);
+      continue;
+    }
     assert.equal(seoFamily?.publishedModelSlugs.includes(id), true, `SEO publication missing ${id}`);
     assert.equal(seoFamily?.currentModelSlugs.includes(id), true, `SEO current list missing ${id}`);
     assert.equal(seoFamily?.modelSlugs.includes(id), true, `SEO link target missing ${id}`);

@@ -23,10 +23,11 @@ test('PAYG preserves its whole localized projection with only the video quotes i
     const full = await buildCurrentPricingHubData(locale, quote(fullCalls), { audio: other, product: other });
     const video = await buildCurrentVideoPricingData(locale, quote(videoCalls));
     assert.deepEqual(Object.keys(video), ['video'], 'The narrow owner must expose no unrefreshed pricing surface');
-    // 114 video + 22 t2i image quotes (Keyvo's qwen-image-3-0/-pro add 4 image inputs; see current-pricing-hub-queue).
-    assert.equal(fullCalls.length, 136);
+    // 66 video + 7 t2i image quotes: Keyvo's public pricing hub only quotes Chinese-vendor families
+    // (the upstream hub has 114 video + 22 t2i; see current-pricing-hub-queue).
+    assert.equal(fullCalls.length, 73);
     assert.equal(otherCalls, 21);
-    assert.equal(videoCalls.length, 114);
+    assert.equal(videoCalls.length, 66);
     assert.deepEqual(videoCalls, fullCalls.filter(input => input.mode !== 't2i'));
     assert.deepEqual(video.video, full.video);
     const content = getPayAsYouGoContent(locale);
