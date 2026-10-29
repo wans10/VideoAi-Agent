@@ -296,7 +296,8 @@ export async function listExampleModelCurrentPublicOrder(modelSlug: string): Pro
 }
 
 // Keyvo serves the example galleries only from the repository's bundled examples (its database has none).
-const KEYVO_BUNDLED_EXAMPLES_ONLY: boolean = true;
+// Upstream database-reader tests set KEYVO_BUNDLED_EXAMPLES=off to exercise the database path.
+const keyvoBundledExamplesOnly = () => process.env.KEYVO_BUNDLED_EXAMPLES !== 'off';
 
 export async function listExampleFamilyPage(
   familyId: string,
@@ -305,7 +306,7 @@ export async function listExampleFamilyPage(
 ): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0, includeVersionSamples } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset, includeVersionSamples);
-  if (KEYVO_BUNDLED_EXAMPLES_ONLY || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset, includeVersionSamples);
+  if (keyvoBundledExamplesOnly() || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset, includeVersionSamples);
   if (!curationScope) return listCatalogPage({ familyId, sort, limit, offset, includeVersionSamples });
   const readScope = curationScope ?? createCurationReadScope();
   const merged = await loadExampleFamilyFeed(familyId, { includeFamilyPlaylist: true }, readScope);
@@ -316,7 +317,7 @@ export async function listExampleFamilyPage(
 export async function listExamplesPage(options: ListExamplesPageOptions, curationScope?: CurationReadScope): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0, engineGroup } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(engineGroup ?? '', sort, limit, offset);
-  if (KEYVO_BUNDLED_EXAMPLES_ONLY || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
+  if (keyvoBundledExamplesOnly() || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
   if (!curationScope) return listCatalogPage({ sort, limit, offset,
     engineAliases: engineGroup ? getExampleFamilyEngineAliases(engineGroup.trim().toLowerCase()) : undefined });
   const hubSlug = getExamplesHubPlaylistSlug();
