@@ -108,7 +108,8 @@ jobs:
     name: Browser integration
     needs: plan
     if: ${{ needs.plan.outputs.browser == 'true' }}
-    runs-on: ubuntu-latest
+    # Playwright 1.59 has no chromium build for Ubuntu 26.04, which ubuntu-latest now resolves to.
+    runs-on: ubuntu-24.04
     # Preserve both connected Studio and the full isolated admin suite.
     timeout-minutes: 30
     steps:
