@@ -2,12 +2,12 @@
   "marketingName": "Luma Uni-1",
   "versionLabel": "Uni-1",
   "seo": {
-    "title": "Luma Uni-1 : prix image, références et retouche | VideoAI",
-    "description": "Utilisez Luma Uni-1 dans VideoAI pour générer des images 2K, retoucher une image source, guider la composition avec plusieurs références, utiliser une recherche visuelle web optionnelle et consulter des prix publics de référence.",
+    "title": "Luma Uni-1 : prix image, références et retouche | MaxVideoAI",
+    "description": "Utilisez Luma Uni-1 dans MaxVideoAI pour générer des images 2K, retoucher une image source, guider la composition avec plusieurs références, utiliser une recherche visuelle web optionnelle et consulter des prix publics de référence.",
     "image": "/assets/model-examples/luma-uni-1/product.webp"
   },
-  "overview": "Luma Uni-1 est un modèle d’image 2K dans VideoAI pour concepts visuels, retouches source, composition guidée, références multiples et recherche visuelle. C’est une route image uniquement.",
-  "pricingNotes": "Les prix affichés utilisent les prix publics de référence VideoAI. Les exemples de retouche et de références incluent les comptes d’images indiqués; le devis exact apparaît dans l’app avant génération.",
+  "overview": "Luma Uni-1 est un modèle d’image 2K dans MaxVideoAI pour concepts visuels, retouches source, composition guidée, références multiples et recherche visuelle. C’est une route image uniquement.",
+  "pricingNotes": "Les prix affichés utilisent les prix publics de référence MaxVideoAI. Les exemples de retouche et de références incluent les comptes d’images indiqués; le devis exact apparaît dans l’app avant génération.",
   "hero": {
     "title": "Luma Uni-1 - génération d’images 2K et retouches",
     "intro": "Créez des images fixes, retouchez une source et guidez la composition avec des références avant de sélectionner le meilleur visuel pour produit, marque, storyboard ou passage vers le mouvement.",
@@ -80,7 +80,7 @@
     },
     {
       "label": "Prix",
-      "body": "La copie publique utilise les prix de référence VideoAI"
+      "body": "La copie publique utilise les prix de référence MaxVideoAI"
     }
   ],
   "promptStructure": {
@@ -127,7 +127,7 @@
   "faqs": [
     {
       "q": "Luma Uni-1 est-il un modèle image ?",
-      "a": "Oui. Dans VideoAI, cette page décrit seulement la génération d’images fixes et la retouche image."
+      "a": "Oui. Dans MaxVideoAI, cette page décrit seulement la génération d’images fixes et la retouche image."
     },
     {
       "q": "Uni-1 peut-il utiliser des références ?",
@@ -135,7 +135,7 @@
     },
     {
       "q": "Comment estimer le prix Uni-1 ?",
-      "a": "Utilisez le devis affiché dans VideoAI. La copie publique utilise des prix publics de référence avec marge."
+      "a": "Utilisez le devis affiché dans MaxVideoAI. La copie publique utilise des prix publics de référence avec marge."
     },
     {
       "q": "Uni-1 ou Uni-1 Max ?",
@@ -172,10 +172,10 @@
       "Flux image uniquement||Utilisez Uni-1 pour créer et retoucher des images fixes.",
       "Rôles des références||Indiquez quelle image contrôle produit, composition, style ou palette.",
       "Option web||Activez la recherche web seulement si le contexte actuel aide.",
-      "Contexte prix||Les prix affichés suivent les références publiques VideoAI et l’app confirme le devis final."
+      "Contexte prix||Les prix affichés suivent les références publiques MaxVideoAI et l’app confirme le devis final."
     ],
     "specTitle": "Specs image Uni-1",
-    "specNote": "Ces specs décrivent la route publique de l’espace image VideoAI.",
+    "specNote": "Ces specs décrivent la route publique de l’espace image MaxVideoAI.",
     "specSections": [
       {
         "title": "Flux image",
@@ -190,7 +190,7 @@
         "title": "Comportement prix",
         "items": [
           "Les coûts image et références suivent les prix publics de référence.",
-          "La marge VideoAI est reflétée dans les exemples publics.",
+          "La marge MaxVideoAI est reflétée dans les exemples publics.",
           "Le devis exact dans l’app fait foi.",
           "La copie publique ne promet pas de prix direct fournisseur plus bas."
         ]
@@ -218,7 +218,7 @@
       "Images fixes uniquement.",
       "Texte exact et petites étiquettes à vérifier.",
       "Le résultat avec contexte web demande validation humaine.",
-      "Prix public basé sur les références VideoAI."
+      "Prix public basé sur les références MaxVideoAI."
     ],
     "safetyTitle": "Sécurité et ressemblance",
     "safetyRules": [
@@ -243,7 +243,7 @@
         "ctaLabel": "Voir Ray 3.2"
       }
     ],
-    "finalPara1": "Luma Uni-1 est la route image 2K pratique pour création, retouches et préparation de références dans VideoAI.",
+    "finalPara1": "Luma Uni-1 est la route image 2K pratique pour création, retouches et préparation de références dans MaxVideoAI.",
     "finalButton": "Générer avec Luma Uni-1"
   },
   "decision": {
@@ -320,7 +320,7 @@
       },
       {
         "title": "Prix de référence",
-        "body": "Les prix affichés utilisent les références publiques VideoAI avant génération.",
+        "body": "Les prix affichés utilisent les références publiques MaxVideoAI avant génération.",
         "tone": "price"
       }
     ],
@@ -374,14 +374,14 @@
     ],
     "pricingCopy": {
       "title": "Prix Luma Uni-1 en un coup d’oeil",
-      "subtitle": "Les prix affichés utilisent les références publiques VideoAI; le prix exact apparaît avant génération.",
+      "subtitle": "Les prix affichés utilisent les références publiques MaxVideoAI; le prix exact apparaît avant génération.",
       "footnote": "Les exemples de retouche/référence incluent les comptes images indiqués; le devis dans l’app reste la référence.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Une image",
       "ctaHref": "/fr/tarifs#luma-uni-1-pricing"
     },
     "meta": {
-      "title": "Luma Uni-1 : prix image, références et retouche | VideoAI",
+      "title": "Luma Uni-1 : prix image, références et retouche | MaxVideoAI",
       "description": "Explorez Luma Uni-1 : génération image 2K, retouches source, guidage multi-référence, recherche visuelle avec contexte web et prix de référence."
     }
   },

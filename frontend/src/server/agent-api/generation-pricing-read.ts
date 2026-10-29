@@ -1,9 +1,11 @@
+import { seedanceWorkflowCandidate } from './seedance-workflow-capabilities';
+import { resolveAgentSeedanceWorkflow, seedanceWorkflowQuoteBinding } from './seedance-workflow';
 import {retireMembershipPricing} from '@/lib/membership-policy';
 import {isGptImageFamilyEngineId} from '@/lib/image/gptImage2';
 import type {MembershipPricingContext} from '@/server/membership/user-membership-status';
 import {computeGenerationCatalogRevision} from './catalog-revision';
 import {AgentApiError,withMediaNeutralReferenceMessage} from './errors';
-import {GenerationCapabilityError,validateCanonicalGenerationCapabilities} from './generation-capability-validation';
+import {GenerationCapabilityError,validateCanonicalGenerationCapabilities,type ReferenceConstraintFailure} from './generation-capability-validation';
 import {requireGenerationActor,type GenerationActor} from './generation-actor';
 import type {CanonicalGenerationRequest} from './generation-types';
 import type {AgentPublicGenerationEngine} from './model-catalog';
@@ -34,7 +36,19 @@ function invalidParameter(field?: string): never {
   throw new AgentApiError('PARAMETER_INVALID',message);
 }
 
-function validateCapabilities(
+// Fixed public guidance only. Never forward stored names, URLs, IDs or provider fields.
+const REFERENCE_CONSTRAINT_MESSAGES: Record<ReferenceConstraintFailure, string> = {
+  metadata_unverified: 'Reference file metadata is unverified. Re-import the original file before preparing another quote.',
+  dimensions_unverified: 'Reference dimensions are unverified. Re-import the original file before preparing another quote.',
+  duration_unverified: 'Reference duration is unverified. Re-import the original file before preparing another quote.',
+  duration_unsupported: 'Reference duration is outside the selected model mode limits. Check get_model_details and choose a supported clip.',
+  combined_duration_exceeded: 'Combined reference duration exceeds the selected model mode limit. Remove or shorten clips using the limits in get_model_details.',
+  size_exceeded: 'Reference file size exceeds the selected model mode limit. Check get_model_details and import a smaller file.',
+  format_unsupported: 'Reference file format is unsupported for the selected model mode. Check get_model_details and import a supported format.',
+  image_aspect_ratio_unsupported: 'Reference image aspect ratio is outside the selected model mode limits. Check get_model_details and import a supported image.',
+};
+
+export function validateGenerationPricingCapabilities(
   request: CanonicalGenerationRequest,
   candidate: AgentPublicGenerationEngine,
   resolvedReferences?: readonly ResolvedReference[],
@@ -51,7 +65,9 @@ function validateCapabilities(
         throw new AgentApiError('REFERENCE_REQUIRED', 'This generation mode requires reference media.');
       }
       if (error.kind === 'reference_invalid') {
-        throw new AgentApiError('REFERENCE_INVALID', 'The reference media is invalid for this model mode.');
+        throw new AgentApiError('REFERENCE_INVALID', error.referenceFailure
+          ? REFERENCE_CONSTRAINT_MESSAGES[error.referenceFailure]
+          : 'The reference media is invalid for this model mode.');
       }
       invalidParameter(error.field);
     }
@@ -139,15 +155,19 @@ export function buildGenerationPricingSnapshot(
 /** Shared read-only verification and canonical pricing. No quote, wallet or reservation writes. */
 export async function readGenerationPricing(request: CanonicalGenerationRequest,principal: GenerationActor,dependencies: GenerationPricingReadDependencies) {
   requireGenerationActor(principal);
+  const inherited = await resolveAgentSeedanceWorkflow(request, principal.userId);
+  request = inherited.request;
+  const finalFacts = inherited.workflow?.finalFacts;
   const publicEngines = await dependencies.listPublicEngines();
-  const candidate = publicEngines.find((entry) => entry.engine.id === request.engineId);
+  const publicCandidate = publicEngines.find((entry) => entry.engine.id === request.engineId);
+  const candidate = publicCandidate ? seedanceWorkflowCandidate(request, publicCandidate) : undefined;
   if (!candidate || candidate.surface !== request.surface) {
     throw new AgentApiError('ENGINE_UNAVAILABLE', 'The selected model is not publicly available.');
   }
   if (!candidate.publicModes.includes(request.mode)) {
     throw new AgentApiError('MODE_UNSUPPORTED', 'The selected model does not support this mode.');
   }
-  validateCapabilities(request, candidate);
+  if (!finalFacts) validateGenerationPricingCapabilities(request, candidate);
   validateRepresentablePricingFacts(request);
   let resolvedReferences: ResolvedReference[] = [];
   if (request.references.some((reference) => reference.kind === 'asset')) {
@@ -156,7 +176,7 @@ export async function readGenerationPricing(request: CanonicalGenerationRequest,
         ?? ((currentRequest, currentPrincipal) =>
           resolveGenerationReferencesForActor(currentRequest, currentPrincipal));
       resolvedReferences = await resolveReferences(request, principal);
-      validateCapabilities(request, candidate, resolvedReferences);
+      validateGenerationPricingCapabilities(request, candidate, resolvedReferences);
     } catch (error) {
       if (error instanceof AgentApiError) {
         throw request.mode === 'v2v' || request.mode === 'extend'
@@ -194,7 +214,7 @@ export async function readGenerationPricing(request: CanonicalGenerationRequest,
     pricing = await dependencies.priceGeneration(
       request,
       membership.tier,
-      { resolvedReferences, resolvedEngine: candidate.engine },
+      { resolvedReferences, resolvedEngine: candidate.engine, seedanceFinalFacts: finalFacts },
     );
   } catch {
     throw new AgentApiError(
@@ -202,6 +222,7 @@ export async function readGenerationPricing(request: CanonicalGenerationRequest,
       'The selected settings cannot be priced for this model.',
     );
   }
-  const pricingSnapshot = buildGenerationPricingSnapshot(pricing, request, catalogRevision, membership);
-  return {pricing, pricingSnapshot, resolvedReferences, catalogRevision};
+  const pricingSnapshot = { ...buildGenerationPricingSnapshot(pricing, request, catalogRevision, membership),
+    ...seedanceWorkflowQuoteBinding(inherited.workflow) };
+  return {pricing, pricingSnapshot, resolvedReferences, catalogRevision, request, workflow: inherited.workflow, resolvedEngine: candidate.engine};
 }

@@ -1,0 +1,1568 @@
+Y deploy-infra	.dockerignore
+Y deploy-infra	.env.production.example
+Y deploy-infra	.github/workflows/docker-build-push.yml
+Y deploy-infra	.github/workflows/quality.yml
+Z no signal	.gitignore
+1 zh	artifacts/keyvo-fix-2026-10-06/audit-results.json
+1 zh	artifacts/keyvo-fix-2026-10-06/http-results.json
+1 zh	artifacts/keyvo-fix-2026-10-06/REPORT.md
+1 zh	content/comparisons/dreamina-seedance-2-0-mini-vs-happy-horse-1-1.json
+1 zh	content/comparisons/dreamina-seedance-2-0-mini-vs-ltx-2-3-fast.json
+1 zh	content/comparisons/dreamina-seedance-2-0-mini-vs-luma-ray-3-2.json
+1 zh	content/comparisons/dreamina-seedance-2-0-mini-vs-seedance-2-0-fast.json
+1 zh	content/comparisons/dreamina-seedance-2-0-mini-vs-seedance-2-0.json
+1 zh	content/comparisons/dreamina-seedance-2-0-mini-vs-veo-3-1-fast.json
+1 zh	content/comparisons/flux-3-vs-flux-3-draft.json
+1 zh	content/comparisons/flux-3-vs-grok-imagine-video-1-5.json
+1 zh	content/comparisons/gemini-omni-flash-vs-kling-3-turbo-pro.json
+1 zh	content/comparisons/gemini-omni-flash-vs-veo-3-1.json
+1 zh	content/comparisons/grok-imagine-video-1-5-vs-sora-2.json
+1 zh	content/comparisons/happy-horse-1-1-vs-kling-o3-pro.json
+1 zh	content/comparisons/happy-horse-1-1-vs-ltx-2-3-pro.json
+1 zh	content/comparisons/happy-horse-1-1-vs-seedance-2-0-fast.json
+1 zh	content/comparisons/happy-horse-1-1-vs-veo-3-1-fast.json
+1 zh	content/comparisons/kling-2-5-turbo-vs-veo-3-1.json
+1 zh	content/comparisons/kling-2-5-turbo-vs-wan-2-6.json
+1 zh	content/comparisons/kling-2-6-pro-vs-kling-3-pro.json
+1 zh	content/comparisons/kling-2-6-pro-vs-minimax-hailuo-02-text.json
+1 zh	content/comparisons/kling-2-6-pro-vs-wan-2-5.json
+1 zh	content/comparisons/kling-3-4k-vs-kling-3-standard.json
+1 zh	content/comparisons/kling-3-4k-vs-seedance-2-0.json
+1 zh	content/comparisons/kling-3-pro-vs-kling-3-standard.json
+1 zh	content/comparisons/kling-3-pro-vs-kling-3-turbo-pro.json
+1 zh	content/comparisons/kling-3-pro-vs-seedance-2-5.json
+1 zh	content/comparisons/kling-3-standard-vs-kling-o3-standard.json
+1 zh	content/comparisons/kling-3-turbo-pro-vs-kling-3-turbo-standard.json
+1 zh	content/comparisons/kling-o3-pro-vs-minimax-h3.json
+1 zh	content/comparisons/ltx-2-3-fast-vs-ltx-2-5-fast.json
+1 zh	content/comparisons/ltx-2-3-fast-vs-ltx-2-fast.json
+1 zh	content/comparisons/ltx-2-3-fast-vs-luma-ray-2.json
+1 zh	content/comparisons/ltx-2-3-fast-vs-seedance-2-0.json
+1 zh	content/comparisons/ltx-2-3-fast-vs-sora-2-pro.json
+1 zh	content/comparisons/ltx-2-3-fast-vs-wan-2-5.json
+1 zh	content/comparisons/ltx-2-3-pro-vs-ltx-2-5-pro.json
+1 zh	content/comparisons/ltx-2-3-pro-vs-ltx-2-fast.json
+1 zh	content/comparisons/ltx-2-5-fast-vs-ltx-2-5-pro.json
+1 zh	content/comparisons/ltx-2-fast-vs-minimax-hailuo-02-text.json
+1 zh	content/comparisons/ltx-2-vs-ltx-2-3-fast.json
+1 zh	content/comparisons/ltx-2-vs-ltx-2-3-pro.json
+1 zh	content/comparisons/ltx-2-vs-wan-2-6.json
+1 zh	content/comparisons/luma-ray-2-vs-luma-ray-2-flash.json
+1 zh	content/comparisons/luma-ray-2-vs-seedance-2-0-fast.json
+1 zh	content/comparisons/luma-ray-3-2-vs-veo-3-1-fast.json
+1 zh	content/comparisons/minimax-h3-max-vs-seedance-2-5.json
+1 zh	content/comparisons/minimax-h3-vs-minimax-h3-max.json
+1 zh	content/comparisons/minimax-h3-vs-seedance-2-5.json
+1 zh	content/comparisons/minimax-h3-vs-veo-3-1.json
+1 zh	content/comparisons/minimax-hailuo-02-text-vs-seedance-2-0.json
+1 zh	content/comparisons/minimax-hailuo-02-text-vs-veo-3-1-fast.json
+1 zh	content/comparisons/minimax-hailuo-02-text-vs-wan-2-6.json
+1 zh	content/comparisons/pika-text-to-video-vs-wan-2-6.json
+1 zh	content/comparisons/seedance-1-5-pro-vs-seedance-2-0.json
+1 zh	content/comparisons/seedance-2-0-fast-vs-veo-3-1.json
+1 zh	content/comparisons/seedance-2-0-vs-seedance-2-0-fast.json
+1 zh	content/comparisons/seedance-2-0-vs-seedance-2-5.json
+1 zh	content/comparisons/seedance-2-0-vs-veo-3-1-fast.json
+1 zh	content/comparisons/seedance-2-0-vs-wan-2-5.json
+1 zh	content/comparisons/seedance-2-5-vs-veo-3-1.json
+1 zh	content/comparisons/seedance-2-5-vs-wan-3.json
+1 zh	content/comparisons/veo-3-1-fast-vs-veo-3-1-lite.json
+1 zh	content/comparisons/veo-3-1-fast-vs-wan-2-5.json
+1 zh	content/comparisons/veo-3-1-vs-veo-3-1-fast.json
+1 zh	content/comparisons/veo-3-1-vs-veo-3-1-lite.json
+1 zh	content/comparisons/veo-3-1-vs-wan-2-5.json
+1 zh	content/comparisons/wan-2-6-vs-wan-3.json
+1 zh	content/comparisons/wan-3-vs-wan-3-prime.json
+7 white-label	content/docs/get-started.mdx
+7 white-label	content/docs/mcp.mdx
+7 white-label	content/en/best-for/4k-video.mdx
+7 white-label	content/en/blog/access-sora-2-without-invite.mdx
+7 white-label	content/en/blog/ai-character-sheet-generator.mdx
+7 white-label	content/en/blog/change-camera-angle-with-ai.mdx
+7 white-label	content/en/blog/compare-ai-video-engines.mdx
+7 white-label	content/en/blog/how-to-create-consistent-ai-characters.mdx
+7 white-label	content/en/blog/multiple-camera-angles-from-one-image.mdx
+7 white-label	content/en/blog/sora-2-sequenced-prompts.mdx
+7 white-label	content/en/blog/veo-3-updates.mdx
+7 white-label	content/es/blog/indicaciones-secuenciadas-de-sora-2-con-sonido-e-identidad-de-marca.mdx
+7 white-label	content/es/docs/get-started.mdx
+7 white-label	content/es/docs/mcp.mdx
+7 white-label	content/fr/blog/invites-sequencees-sora-2-avec-son-et-image-de-marque.mdx
+7 white-label	content/fr/docs/get-started.mdx
+7 white-label	content/fr/docs/mcp.mdx
+7 white-label	content/models/en/dreamina-seedance-2-0-mini.json
+7 white-label	content/models/en/flux-3-draft.json
+7 white-label	content/models/en/flux-3.json
+7 white-label	content/models/en/gpt-image-2-5-flare.json
+7 white-label	content/models/en/gpt-image-2-5-sunburst.json
+7 white-label	content/models/en/gpt-image-2.json
+7 white-label	content/models/en/grok-imagine-video-1-5.json
+6 cn-providers	content/models/en/happy-horse-1-0.json
+6 cn-providers	content/models/en/happy-horse-1-1.json
+7 white-label	content/models/en/kling-2-5-turbo.json
+7 white-label	content/models/en/kling-2-6-pro.json
+7 white-label	content/models/en/kling-3-4k.json
+7 white-label	content/models/en/kling-3-pro.json
+7 white-label	content/models/en/kling-3-standard.json
+7 white-label	content/models/en/kling-o3-4k.json
+7 white-label	content/models/en/kling-o3-pro.json
+7 white-label	content/models/en/kling-o3-standard.json
+7 white-label	content/models/en/ltx-2-3-fast.json
+7 white-label	content/models/en/ltx-2-3-pro.json
+7 white-label	content/models/en/ltx-2-5-fast.json
+7 white-label	content/models/en/ltx-2-5-pro.json
+7 white-label	content/models/en/ltx-2-fast.json
+7 white-label	content/models/en/ltx-2.json
+7 white-label	content/models/en/luma-ray-2-flash.json
+7 white-label	content/models/en/luma-ray-2.json
+7 white-label	content/models/en/luma-ray-3-2.json
+7 white-label	content/models/en/luma-uni-1-max.json
+7 white-label	content/models/en/luma-uni-1.json
+7 white-label	content/models/en/minimax-h3.json
+7 white-label	content/models/en/minimax-hailuo-02-text.json
+7 white-label	content/models/en/nano-banana-2.json
+7 white-label	content/models/en/nano-banana-lite.json
+7 white-label	content/models/en/nano-banana-pro.json
+7 white-label	content/models/en/nano-banana.json
+7 white-label	content/models/en/pika-text-to-video.json
+7 white-label	content/models/en/seedance-1-5-pro.json
+7 white-label	content/models/en/seedance-2-0-fast.json
+7 white-label	content/models/en/seedance-2-0.json
+7 white-label	content/models/en/seedance-2-5.json
+7 white-label	content/models/en/seedream-5-0-pro.json
+7 white-label	content/models/en/seedream.json
+7 white-label	content/models/en/sora-2-pro.json
+7 white-label	content/models/en/sora-2.json
+7 white-label	content/models/en/veo-3-1-fast.json
+7 white-label	content/models/en/veo-3-1-lite.json
+7 white-label	content/models/en/veo-3-1.json
+7 white-label	content/models/en/wan-2-5.json
+7 white-label	content/models/en/wan-2-6.json
+7 white-label	content/models/en/wan-3-prime.json
+7 white-label	content/models/en/wan-3.json
+1 zh	content/models/zh/dreamina-seedance-2-0-mini.json
+1 zh	content/models/zh/flux-3-draft.json
+1 zh	content/models/zh/flux-3.json
+1 zh	content/models/zh/gemini-omni-flash.json
+1 zh	content/models/zh/gpt-image-2-5-flare.json
+1 zh	content/models/zh/gpt-image-2-5-sunburst.json
+1 zh	content/models/zh/gpt-image-2.json
+1 zh	content/models/zh/grok-imagine-video-1-5.json
+1 zh	content/models/zh/happy-horse-1-0.json
+1 zh	content/models/zh/happy-horse-1-1.json
+1 zh	content/models/zh/kling-2-5-turbo.json
+1 zh	content/models/zh/kling-2-6-pro.json
+1 zh	content/models/zh/kling-3-4k.json
+1 zh	content/models/zh/kling-3-pro.json
+1 zh	content/models/zh/kling-3-standard.json
+1 zh	content/models/zh/kling-3-turbo-pro.json
+1 zh	content/models/zh/kling-3-turbo-standard.json
+1 zh	content/models/zh/kling-o3-4k.json
+1 zh	content/models/zh/kling-o3-pro.json
+1 zh	content/models/zh/kling-o3-standard.json
+1 zh	content/models/zh/ltx-2-3-fast.json
+1 zh	content/models/zh/ltx-2-3-pro.json
+1 zh	content/models/zh/ltx-2-5-fast.json
+1 zh	content/models/zh/ltx-2-5-pro.json
+1 zh	content/models/zh/ltx-2-fast.json
+1 zh	content/models/zh/ltx-2.json
+1 zh	content/models/zh/luma-ray-2-flash.json
+1 zh	content/models/zh/luma-ray-2.json
+1 zh	content/models/zh/luma-ray-3-2.json
+1 zh	content/models/zh/luma-uni-1-max.json
+1 zh	content/models/zh/luma-uni-1.json
+1 zh	content/models/zh/minimax-h3-max.json
+1 zh	content/models/zh/minimax-h3.json
+1 zh	content/models/zh/minimax-hailuo-02-text.json
+1 zh	content/models/zh/nano-banana-2.json
+1 zh	content/models/zh/nano-banana-lite.json
+1 zh	content/models/zh/nano-banana-pro.json
+1 zh	content/models/zh/nano-banana.json
+1 zh	content/models/zh/pika-text-to-video.json
+1 zh	content/models/zh/seedance-1-5-pro.json
+1 zh	content/models/zh/seedance-2-0-fast.json
+1 zh	content/models/zh/seedance-2-0.json
+1 zh	content/models/zh/seedance-2-5.json
+1 zh	content/models/zh/seedream-5-0-pro.json
+1 zh	content/models/zh/seedream.json
+1 zh	content/models/zh/sora-2-pro.json
+1 zh	content/models/zh/sora-2.json
+1 zh	content/models/zh/veo-3-1-fast.json
+1 zh	content/models/zh/veo-3-1-lite.json
+1 zh	content/models/zh/veo-3-1.json
+1 zh	content/models/zh/wan-2-5.json
+1 zh	content/models/zh/wan-2-6.json
+1 zh	content/models/zh/wan-3-prime.json
+1 zh	content/models/zh/wan-3.json
+1 zh	content/zh/best-for/4k-video.mdx
+1 zh	content/zh/best-for/ads.mdx
+1 zh	content/zh/best-for/character-reference.mdx
+1 zh	content/zh/best-for/cinematic-realism.mdx
+1 zh	content/zh/best-for/fast-drafts.mdx
+1 zh	content/zh/best-for/image-to-video.mdx
+1 zh	content/zh/best-for/lipsync-dialogue.mdx
+1 zh	content/zh/best-for/multi-shot-video.mdx
+1 zh	content/zh/best-for/product-videos.mdx
+1 zh	content/zh/best-for/reference-to-video.mdx
+1 zh	content/zh/best-for/stylized-anime.mdx
+1 zh	content/zh/best-for/ugc-ads.mdx
+1 zh	content/zh/blog/30-second-music-promo-two-minimax-h3-clips.article.json
+1 zh	content/zh/blog/30-second-music-promo-two-minimax-h3-clips.mdx
+1 zh	content/zh/blog/access-sora-2-without-invite.mdx
+1 zh	content/zh/blog/ai-character-sheet-generator.mdx
+1 zh	content/zh/blog/animated-cafe-menu-flux-3-codex-cli.article.json
+1 zh	content/zh/blog/animated-cafe-menu-flux-3-codex-cli.mdx
+1 zh	content/zh/blog/blender-animatic-ai-product-reveal-source-vs-reference.article.json
+1 zh	content/zh/blog/blender-animatic-ai-product-reveal-source-vs-reference.mdx
+1 zh	content/zh/blog/change-camera-angle-with-ai.mdx
+1 zh	content/zh/blog/compare-ai-video-engines.mdx
+1 zh	content/zh/blog/course-visual-kit-claude-desktop-maxvideoai.article.json
+1 zh	content/zh/blog/course-visual-kit-claude-desktop-maxvideoai.mdx
+1 zh	content/zh/blog/gpt-6-podcast-maxvideoai-premiere-pro.article.json
+1 zh	content/zh/blog/gpt-6-podcast-maxvideoai-premiere-pro.mdx
+1 zh	content/zh/blog/how-to-create-consistent-ai-characters.mdx
+1 zh	content/zh/blog/multiple-camera-angles-from-one-image.mdx
+1 zh	content/zh/blog/pack-broll-codex-cli-maxvideoai.article.json
+1 zh	content/zh/blog/pack-broll-codex-cli-maxvideoai.mdx
+1 zh	content/zh/blog/sora-2-sequenced-prompts.mdx
+1 zh	content/zh/blog/veo-3-updates.mdx
+1 zh	content/zh/blog/voiceover-to-visual-capsule-ltx-2-5-pro.article.json
+1 zh	content/zh/blog/voiceover-to-visual-capsule-ltx-2-5-pro.mdx
+1 zh	content/zh/blog/website-images-30-second-social-ad-chatgpt-work-maxvideoai.article.json
+1 zh	content/zh/blog/website-images-30-second-social-ad-chatgpt-work-maxvideoai.mdx
+1 zh	content/zh/docs/brand-safety.mdx
+1 zh	content/zh/docs/get-started.mdx
+1 zh	content/zh/docs/mcp.mdx
+7 white-label	data/benchmarks/engine-key-specs.v1.json
+Y deploy-infra	docker-compose.1panel.yml
+Y deploy-infra	docker-compose.yml
+Y deploy-infra	docker/cloudfront/keyvo-private-timeline-exports.js
+Y deploy-infra	docker/nginx/nginx.conf
+Y deploy-infra	docker/scripts/bootstrap-schema.ts
+Y deploy-infra	docker/scripts/migrate.sh
+Y deploy-infra	docker/scripts/migration-plan.py
+Y deploy-infra	docker/scripts/run-migrations.sh
+Y deploy-infra	docker/scripts/scheduler.mjs
+Y deploy-infra	Dockerfile
+Y deploy-infra	Dockerfile.mock
+6 cn-providers	docs/deployment/customer-tariff-cutover.md
+5 llmhub-api	docs/deployment/keyvo-turnstile.md
+3 cny	docs/deployment/qwen-image.md
+K kept (documented)	docs/deployment/vertex-regions.md
+1 zh	docs/design/production-studio/README.md
+6 cn-providers	docs/engineering/alibaba-model-studio-provider.md
+Z no signal	docs/engineering/auth-locale-continuity.md
+7 white-label	docs/engineering/ci-validation.md
+2 llmhub-pay	docs/engineering/cny-migration.md
+2 llmhub-pay	docs/engineering/environment-reference.md
+K kept (documented)	docs/engineering/keyvo-deviation-baseline.tsv
+K kept (documented)	docs/engineering/keyvo-seedance-modelark-edit.md
+K kept (documented)	docs/engineering/keyvo-upstream-deviations.md
+5 llmhub-api	docs/engineering/llmhub-gpt-image-audit-2026-10-08.json
+5 llmhub-api	docs/engineering/llmhub-gpt-image-audit-2026-10-08.md
+5 llmhub-api	docs/engineering/llmhub-gpt-image-implementation-2026-10-08.json
+5 llmhub-api	docs/engineering/llmhub-gpt-image-implementation-2026-10-08.md
+5 llmhub-api	docs/engineering/llmhub-gpt-image-output-fix-2026-10-08.md
+5 llmhub-api	docs/engineering/llmhub-gpt-image-system-audit-2026-10-08.json
+5 llmhub-api	docs/engineering/llmhub-gpt-image-system-audit-2026-10-08.md
+2 llmhub-pay	docs/engineering/llmhub-inference.md
+1 zh	docs/engineering/llmhub-pay.md
+7 white-label	docs/engineering/maxvideoai-editor-server-render.md
+7 white-label	docs/engineering/mcp-client-experience.md
+Z no signal	docs/engineering/page-architecture.md
+3 cny	docs/engineering/pricing-engine.md
+3 cny	docs/engineering/product-brand.md
+3 cny	docs/engineering/qwen-image-audit-2026-10-08.md
+1 zh	docs/engineering/site-experience.md
+Z no signal	docs/engineering/studio-editor-architecture.md
+1 zh	docs/engineering/video-sharing.md
+1 zh	docs/engineering/videoai-design-system.md
+1 zh	docs/engineering/zh-coverage-audit.md
+1 zh	docs/marketing/github-asset-manifest.json
+1 zh	docs/marketing/keyvo-review/approval.json
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-comparison.png
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-examples-wan.png
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-examples.png
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-home.png
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-models.png
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-pricing.png
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-tools.png
+7 white-label	docs/marketing/keyvo-review/assets/keyvo-watch-wan.png
+1 zh	docs/marketing/keyvo-review/capture-evidence.json
+1 zh	docs/marketing/keyvo-review/index.html
+1 zh	docs/marketing/keyvo-review/PLUGIN-README.candidate.md
+1 zh	docs/marketing/keyvo-review/pricing-recheck.json
+1 zh	docs/marketing/keyvo-review/README.candidate.md
+7 white-label	docs/marketing/keyvo-review/review-overview.jpg
+1 zh	docs/marketing/keyvo-review/REVIEW.md
+7 white-label	docs/marketing/keyvo-review/verification.json
+7 white-label	docs/marketing/mcp-directory-submissions.md
+7 white-label	docs/marketing/mcp-public-claims-matrix.md
+7 white-label	docs/marketing/upstream-maxvideoai/github-asset-manifest.json
+7 white-label	docs/marketing/upstream-maxvideoai/PLUGIN-README.md
+7 white-label	docs/marketing/upstream-maxvideoai/ROOT-README.md
+Z no signal	docs/model-roster-report.md
+7 white-label	docs/operations/mcp-support-runbook.md
+Z no signal	docs/performance/2026-09-26/README.md
+2 llmhub-pay	frontend/.env.local.example
+7 white-label	frontend/app/_components/AppRuntime.tsx
+7 white-label	frontend/app/_components/LocaleRuntime.tsx
+1 zh	frontend/app/_lib/app-runtime-metadata.ts
+1 zh	frontend/app/(core)/(workspace)/app/_components/WorkspaceActiveDraftStatus.tsx
+3 cny	frontend/app/(core)/(workspace)/app/_components/WorkspaceAppReadyView.tsx
+1 zh	frontend/app/(core)/(workspace)/app/_components/WorkspaceComposerSurface.tsx
+7 white-label	frontend/app/(core)/(workspace)/app/_components/WorkspaceCreationHeading.tsx
+3 cny	frontend/app/(core)/(workspace)/app/_components/WorkspaceTopUpModal.tsx
+7 white-label	frontend/app/(core)/(workspace)/app/_hooks/useWorkspaceJobRefresh.ts
+3 cny	frontend/app/(core)/(workspace)/app/_hooks/useWorkspacePricingGate.ts
+1 zh	frontend/app/(core)/(workspace)/app/_lib/gemini-omni-unified-workflow.ts
+1 zh	frontend/app/(core)/(workspace)/app/_lib/kling-o3-unified-workflow.ts
+1 zh	frontend/app/(core)/(workspace)/app/_lib/workspace-generation-guards.ts
+1 zh	frontend/app/(core)/(workspace)/app/_lib/workspace-model-review-copy.ts
+4 ui-redesign	frontend/app/(core)/(workspace)/app/_lib/workspace-reference-fields.ts
+7 white-label	frontend/app/(core)/(workspace)/app/_lib/workspace-render-status.ts
+1 zh	frontend/app/(core)/(workspace)/app/_lib/workspace-shared-video-copy.ts
+3 cny	frontend/app/(core)/(workspace)/app/_lib/workspace-topup.ts
+1 zh	frontend/app/(core)/(workspace)/app/audio/_lib/audio-creation-copy.ts
+7 white-label	frontend/app/(core)/(workspace)/app/audio/copy.ts
+7 white-label	frontend/app/(core)/(workspace)/app/audio/page.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/image/_hooks/useImageSettingsFields.ts
+1 zh	frontend/app/(core)/(workspace)/app/image/_lib/image-workspace-character-references.ts
+4 ui-redesign	frontend/app/(core)/(workspace)/app/image/_lib/image-workspace-copy.ts
+4 ui-redesign	frontend/app/(core)/(workspace)/app/image/_lib/image-workspace-utils.ts
+7 white-label	frontend/app/(core)/(workspace)/app/image/page.tsx
+7 white-label	frontend/app/(core)/(workspace)/app/layout.tsx
+1 zh	frontend/app/(core)/(workspace)/app/library/_components/LibraryPageClient.tsx
+1 zh	frontend/app/(core)/(workspace)/app/studio/_components/ConversationProjects.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/_components/StudioGuestDemo.client.tsx
+1 zh	frontend/app/(core)/(workspace)/app/studio/_components/StudioPreviewAccess.client.tsx
+1 zh	frontend/app/(core)/(workspace)/app/studio/_lib/studio-conversation-entry.ts
+1 zh	frontend/app/(core)/(workspace)/app/studio/_lib/studio-copy.ts
+1 zh	frontend/app/(core)/(workspace)/app/studio/_lib/studio-guest-demo.ts
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/_shared/_components/viewer/ProgramPlaybackLayers.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/_shared/_lib/workspace-timeline-render.ts
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationAnalysis.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationExport.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationExportQuote.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationHelp.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationMedia.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationMediaShelf.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationReferenceCard.client.tsx
+1 zh	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationReferenceLightbox.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationRenderCards.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationTask.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationTimeline.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationWelcome.client.tsx
+1 zh	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ImageConversationComposer.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ImageQuoteCard.client.tsx
+7 white-label	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ImageReferenceLibrary.client.tsx
+7 white-label	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/StudioAssistance.client.tsx
+1 zh	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/StudioAssistanceCredits.client.tsx
+3 cny	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/TaskBudgetPicker.client.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_hooks/useConversationMediaShelf.ts
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_hooks/useImageConversation.ts
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_lib/conversation-errors.ts
+7 white-label	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/page.tsx
+4 ui-redesign	frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/StudioImageConversation.client.tsx
+7 white-label	frontend/app/(core)/(workspace)/app/studio/page.tsx
+7 white-label	frontend/app/(core)/account/connections/_components/McpSpendingControls.tsx
+7 white-label	frontend/app/(core)/account/connections/page.tsx
+7 white-label	frontend/app/(core)/admin/editorial/_components/ApproveDraftButton.tsx
+7 white-label	frontend/app/(core)/admin/editorial/_components/EditorialArticle.tsx
+7 white-label	frontend/app/(core)/admin/editorial/_components/EditorialTrendResearch.tsx
+7 white-label	frontend/app/(core)/admin/layout.tsx
+4 ui-redesign	frontend/app/(core)/admin/users/[userId]/_components/AdminUserWalletLedgerSection.tsx
+3 cny	frontend/app/(core)/admin/users/[userId]/_lib/admin-user-detail-format.ts
+4 ui-redesign	frontend/app/(core)/admin/users/[userId]/_lib/admin-user-detail-metrics.ts
+4 ui-redesign	frontend/app/(core)/billing/_components/billing-layout.module.css
+5 llmhub-api	frontend/app/(core)/billing/_components/billing-topup.module.css
+4 ui-redesign	frontend/app/(core)/billing/_components/BillingCheckoutReturnNotice.tsx
+2 llmhub-pay	frontend/app/(core)/billing/_components/BillingClient.tsx
+3 cny	frontend/app/(core)/billing/_components/BillingWalletOverview.tsx
+2 llmhub-pay	frontend/app/(core)/billing/_components/LlmhubPayCheckout.client.tsx
+3 cny	frontend/app/(core)/billing/_components/WalletAmountPicker.tsx
+3 cny	frontend/app/(core)/billing/_components/WalletExpressCheckout.tsx
+2 llmhub-pay	frontend/app/(core)/billing/_components/WalletTopupPanel.tsx
+3 cny	frontend/app/(core)/billing/_hooks/useBillingCheckoutReturnToast.ts
+2 llmhub-pay	frontend/app/(core)/billing/_hooks/useBillingCurrencyState.ts
+3 cny	frontend/app/(core)/billing/_hooks/useBillingSessionState.ts
+3 cny	frontend/app/(core)/billing/_hooks/useBillingTopupAnalytics.ts
+2 llmhub-pay	frontend/app/(core)/billing/_hooks/useBillingTopupQuotes.ts
+4 ui-redesign	frontend/app/(core)/billing/_hooks/useBillingTopupSelection.ts
+2 llmhub-pay	frontend/app/(core)/billing/_lib/billing-copy.ts
+3 cny	frontend/app/(core)/billing/_lib/billing-intent.ts
+4 ui-redesign	frontend/app/(core)/billing/_lib/billing-selection.ts
+3 cny	frontend/app/(core)/billing/_lib/express-checkout-session-cache.ts
+2 llmhub-pay	frontend/app/(core)/billing/page.tsx
+7 white-label	frontend/app/(core)/jobs/_hooks/useJobsPageController.ts
+5 llmhub-api	frontend/app/(core)/jobs/_lib/jobs-copy.ts
+1 zh	frontend/app/(core)/legal/acceptable-use/page.tsx
+1 zh	frontend/app/(core)/legal/cookies-list/page.tsx
+7 white-label	frontend/app/(core)/legal/cookies/page.tsx
+1 zh	frontend/app/(core)/legal/layout.tsx
+1 zh	frontend/app/(core)/legal/mentions/page.tsx
+1 zh	frontend/app/(core)/legal/page.tsx
+5 llmhub-api	frontend/app/(core)/legal/privacy/_components/PrivacyArticleEn.tsx
+5 llmhub-api	frontend/app/(core)/legal/privacy/_components/PrivacyArticleEs.tsx
+5 llmhub-api	frontend/app/(core)/legal/privacy/_components/PrivacyArticleFr.tsx
+1 zh	frontend/app/(core)/legal/privacy/_lib/privacy-page-copy.ts
+5 llmhub-api	frontend/app/(core)/legal/privacy/page.tsx
+5 llmhub-api	frontend/app/(core)/legal/reconsent/page.tsx
+1 zh	frontend/app/(core)/legal/subprocessors/page.tsx
+1 zh	frontend/app/(core)/legal/takedown/page.tsx
+5 llmhub-api	frontend/app/(core)/legal/terms/_components/TermsArticleEn.tsx
+5 llmhub-api	frontend/app/(core)/legal/terms/_components/TermsArticleEs.tsx
+5 llmhub-api	frontend/app/(core)/legal/terms/_components/TermsArticleFr.tsx
+1 zh	frontend/app/(core)/legal/terms/_lib/terms-page-copy.ts
+5 llmhub-api	frontend/app/(core)/legal/terms/page.tsx
+7 white-label	frontend/app/(core)/login/_components/LoginAuthSurface.tsx
+3 cny	frontend/app/(core)/login/_lib/login-continuation.ts
+4 ui-redesign	frontend/app/(core)/login/_lib/login-copy.ts
+4 ui-redesign	frontend/app/(core)/login/_lib/login-helpers.ts
+4 ui-redesign	frontend/app/(core)/login/_lib/login-route-state.ts
+1 zh	frontend/app/(core)/login/layout.tsx
+7 white-label	frontend/app/(core)/mcp/reference-upload/[token]/_components/ReferenceUploadClient.tsx
+7 white-label	frontend/app/(core)/mcp/reference-upload/[token]/page.tsx
+7 white-label	frontend/app/(core)/oauth/consent/_lib/consent-copy.ts
+5 llmhub-api	frontend/app/(core)/return-policy/page.tsx
+1 zh	frontend/app/(core)/s/[token]/page.tsx
+5 llmhub-api	frontend/app/(core)/settings/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-jsonld.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-price-demo-data.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-route-data/hero.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-route-data/launch-promotions.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/(home)/page.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/404/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/about/_lib/about-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/about/_lib/about-schema.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/about/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/_components/CompareEngineFamilySelect.client.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/_lib/ai-video-engines-copy-zh.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/_lib/ai-video-engines-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/CompareFaqSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/ComparePricingQuickSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/CompareScoreActions.client.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/CompareScorecardSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/CompareScoreGrid.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/CompareSpecsSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/CompareVideoDialog.client.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-duration-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-editorial-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-export.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-faq.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-localization.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-metadata.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides-types.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-pricing.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-related-links.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-schema.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-score-utils.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-spec-rows.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-spec-values.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-pricing-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-score-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/CompareEngineSelector.client.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-config.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-presentation.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-ranking.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/page.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/benchmarks/_components/BenchmarkSpecsTable.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/benchmarks/_lib/benchmark-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/benchmarks/_lib/benchmark-schema.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/benchmarks/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/blog/[slug]/_lib/blog-editorial-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/blog/[slug]/_lib/blog-post-data.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/blog/[slug]/_lib/blog-post-seo.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/blog/[slug]/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/blog/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/changelog/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/company/_components/CompanyTrustView.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/company/_lib/company-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/contact/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/docs/_components/DocsArticleAttribution.tsx
+5 llmhub-api	frontend/app/(localized)/[locale]/(marketing)/docs/_components/DocsFeedbackSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/docs/_components/DocsIndexView.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/docs/_components/DocsTocNav.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/docs/_lib/docs-article-jsonld.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/docs/_lib/docs-index-jsonld.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/docs/[slug]/page.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/docs/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/editorial-standards/_lib/editorial-standards-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/editorial-standards/_lib/editorial-standards-schema.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/editorial-standards/page.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/examples/_components/examples-editorial.module.css
+1 zh	frontend/app/(localized)/[locale]/(marketing)/examples/_components/examples-engine-filter-nav.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/examples/_components/examples-main-video-feature.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/examples/_components/examples-page-view.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/examples/_components/examples-route-sections.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/examples/_components/ScreeningRoom.module.css
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/examples/_components/ScreeningRoomNotes.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/examples/_lib/example-reuse-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-page-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-page-data.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-page-jsonld.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-route-utils.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/examples/_lib/screening-room-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/examples/[model]/page.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/examples/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_components/IntegrationConversationPreview.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_components/IntegrationSetupSection.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/integrations/_components/IntegrationWorkflowSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/editorial.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/en.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/entry.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/es.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/fr.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/n8n.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/openclaw.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/shared.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/integrations/_content/zh.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/integrations/_lib/integration-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/integrations/_lib/integration-jsonld.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/layout.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/mcp/_components/McpConversationPreview.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/mcp/_components/McpEditorialSections.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/mcp/_components/McpFaqResourcesSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/mcp/_components/McpProjectDemo.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-budget-options.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-host-proof.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-page-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/mcp/_lib/mcp-project-demo-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/_components/ModelsCatalogDirectory.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/_components/ModelsCatalogHero.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/models/_components/ModelsCatalogRecommendedSection.tsx
+3 cny	frontend/app/(localized)/[locale]/(marketing)/models/_lib/models-catalog-cards.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/_lib/models-catalog-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/_lib/models-catalog-decision-data.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/_lib/models-catalog-utils.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/_lib/models-catalog-value-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/MarketingModelPageLayout.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/MarketingModelPrelaunchPageLayout.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/MediaPreview.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelDecisionCompareSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelDecisionHeroSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelDecisionMediaCard.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelDecisionSafetyFaqSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelDecisionTipsSection.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelPrepLinksSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelSafetyFaqSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelSpecsSection.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-copy-helpers.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-decision-content.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-decision-pricing.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-decision-toc.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-default-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-examples-ui-copy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-examples-view-model.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/creative-pairs.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/foundation-pairs.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/kling-3-pairs.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/kling-pairs.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/resolve.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/seedance-pairs.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/specialized-pairs.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/types.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-focus-vs/wan-pairs.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-gpt-image-prep-links.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-hero-specs.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-media.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-offer-display.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prelaunch-content.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prelaunch-route.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prelaunch-schema.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prep-links.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-pricing-callouts.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prompting-content.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prompting-ui-copy.ts
+3 cny	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-schema.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-spec-status.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-spec-values.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-specs-constants.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-static-media.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/not-found.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/[slug]/page.tsx
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/model-jsonld.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/models/ModelsCatalogPage.tsx
+3 cny	frontend/app/(localized)/[locale]/(marketing)/pay-as-you-go-ai-video-generator/_content/en.ts
+3 cny	frontend/app/(localized)/[locale]/(marketing)/pay-as-you-go-ai-video-generator/_content/es.ts
+3 cny	frontend/app/(localized)/[locale]/(marketing)/pay-as-you-go-ai-video-generator/_content/fr.ts
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/pay-as-you-go-ai-video-generator/_content/index.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/pay-as-you-go-ai-video-generator/_content/zh.ts
+3 cny	frontend/app/(localized)/[locale]/(marketing)/pay-as-you-go-ai-video-generator/_lib/payg-jsonld.ts
+3 cny	frontend/app/(localized)/[locale]/(marketing)/pay-as-you-go-ai-video-generator/_lib/payg-page-data.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/pricing/_components/PricingEstimatorSection.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/pricing/_components/PricingExampleCostsSection.tsx
+3 cny	frontend/app/(localized)/[locale]/(marketing)/pricing/_components/PricingHeroSection.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/pricing/_components/PricingPreviewSection.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/pricing/_components/ProductionBudget.module.css
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/pricing/_components/ProductionBudgetSheet.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricing-jsonld.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubCopy.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingPageContent.ts
+1 zh	frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/production-budget-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/pricing/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/status/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/studio/_lib/studio-marketing-copy.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/studio/_lib/studio-marketing-schema.ts
+7 white-label	frontend/app/(localized)/[locale]/(marketing)/tools/angle/page.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/tools/background-removal/page.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/tools/character-builder/page.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/tools/page.tsx
+4 ui-redesign	frontend/app/(localized)/[locale]/(marketing)/tools/upscale/page.tsx
+1 zh	frontend/app/(localized)/[locale]/(marketing)/workflows/page.tsx
+1 zh	frontend/app/(localized)/[locale]/layout.tsx
+1 zh	frontend/app/(localized)/[locale]/return-policy/_components/ReturnPolicyZh.tsx
+1 zh	frontend/app/(localized)/[locale]/return-policy/page.tsx
+7 white-label	frontend/app/(public-watch)/video/[id]/_components/VideoWatchContent.tsx
+7 white-label	frontend/app/(public-watch)/video/[id]/_lib/video-watch-page-utils.ts
+7 white-label	frontend/app/(public-watch)/video/[id]/page.tsx
+7 white-label	frontend/app/404/page.tsx
+3 cny	frontend/app/api/admin/users/[userId]/wallet/route.ts
+1 zh	frontend/app/api/audio/generate/route.ts
+5 llmhub-api	frontend/app/api/contact/route.ts
+5 llmhub-api	frontend/app/api/cron/llmhub-video-poll/route.ts
+7 white-label	frontend/app/api/email-test/route.ts
+7 white-label	frontend/app/api/examples/route.ts
+5 llmhub-api	frontend/app/api/generate/_lib/alibaba-model-studio-submission.ts
+3 cny	frontend/app/api/generate/_lib/billing-preflight.ts
+5 llmhub-api	frontend/app/api/generate/_lib/byteplus-submission.ts
+4 ui-redesign	frontend/app/api/generate/_lib/fal-submission.ts
+7 white-label	frontend/app/api/generate/_lib/generation-attachment-processing.ts
+1 zh	frontend/app/api/generate/_lib/generation-media-constraints.ts
+K kept (documented)	frontend/app/api/generate/_lib/google-vertex-veo-submission.ts
+3 cny	frontend/app/api/generate/_lib/initial-video-job.ts
+1 zh	frontend/app/api/generate/_lib/kling-element-image-dimensions.ts
+5 llmhub-api	frontend/app/api/generate/_lib/llmhub-submission.ts
+5 llmhub-api	frontend/app/api/generate/_lib/route-context.ts
+1 zh	frontend/app/api/generate/_lib/validate-media-inputs.ts
+5 llmhub-api	frontend/app/api/generate/_lib/video-provider-submission.ts
+4 ui-redesign	frontend/app/api/jobs/_lib/jobs-fal-refresh.ts
+2 llmhub-pay	frontend/app/api/llmhub-pay/checkout/route.ts
+2 llmhub-pay	frontend/app/api/llmhub-pay/notify/route.ts
+2 llmhub-pay	frontend/app/api/llmhub-pay/quote/route.ts
+2 llmhub-pay	frontend/app/api/llmhub-pay/return/route.ts
+4 ui-redesign	frontend/app/api/preflight/_lib/media-aware-preflight.ts
+4 ui-redesign	frontend/app/api/preflight/_lib/preflight-request.ts
+4 ui-redesign	frontend/app/api/receipts/route.ts
+3 cny	frontend/app/api/stripe/webhook/_lib/stripe-webhook-topup-events.ts
+3 cny	frontend/app/api/stripe/webhook/_lib/stripe-webhook-topup-persistence.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-analysis-handler.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-assistance-handler.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-conversation-editing-handler.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-conversation-export-handler.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-image-conversation-handler.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-reference-previews-handler.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-route-utils.ts
+4 ui-redesign	frontend/app/api/studio/_lib/studio-task-handler.ts
+7 white-label	frontend/app/api/studio/timeline-exports/[exportId]/media/route.ts
+3 cny	frontend/app/api/topup/quote/route.ts
+1 zh	frontend/app/api/wallet/route.ts
+7 white-label	frontend/app/auth/reset-password/_components/PasswordRecoveryForm.client.tsx
+1 zh	frontend/app/auth/reset-password/page.tsx
+4 ui-redesign	frontend/app/error.tsx
+4 ui-redesign	frontend/app/global-error.tsx
+4 ui-redesign	frontend/app/globals.css
+7 white-label	frontend/app/layout.tsx
+4 ui-redesign	frontend/app/not-found.tsx
+4 ui-redesign	frontend/app/sitemap-en.xml/route.ts
+4 ui-redesign	frontend/app/sitemap-es.xml/route.ts
+4 ui-redesign	frontend/app/sitemap-fr.xml/route.ts
+4 ui-redesign	frontend/app/sitemap-zh.xml/route.ts
+7 white-label	frontend/components/admin-system/shell/AdminFrame.tsx
+7 white-label	frontend/components/admin-system/shell/AdminPageHeader.tsx
+3 cny	frontend/components/admin/ManualCreditForm.tsx
+7 white-label	frontend/components/admin/SidebarNav.tsx
+4 ui-redesign	frontend/components/analytics/AnalyticsScripts.tsx
+1 zh	frontend/components/app/app-navigation.ts
+1 zh	frontend/components/app/AppAppearanceControl.client.tsx
+7 white-label	frontend/components/app/AppAssistantConnections.tsx
+1 zh	frontend/components/app/AppNavigation.client.tsx
+1 zh	frontend/components/app/AppSiteMenu.client.tsx
+7 white-label	frontend/components/AppExperienceRoot.tsx
+4 ui-redesign	frontend/components/AppLanguageToggle.tsx
+7 white-label	frontend/components/AppSidebar.tsx
+1 zh	frontend/components/brand/AuthBrandStory.tsx
+7 white-label	frontend/components/brand/BrandLockup.tsx
+1 zh	frontend/components/brand/RecoverySurface.tsx
+1 zh	frontend/components/Composer.tsx
+1 zh	frontend/components/composer/generation-activity-copy.ts
+1 zh	frontend/components/composer/workspace-reference-copy.ts
+1 zh	frontend/components/composer/WorkspaceEmptyPreview.client.tsx
+1 zh	frontend/components/composer/WorkspaceReferenceInventory.client.tsx
+1 zh	frontend/components/editorial/EditorialReader.tsx
+1 zh	frontend/components/editorial/EditorialVisual.tsx
+1 zh	frontend/components/editorial/PublicEditorialArticleView.tsx
+1 zh	frontend/components/examples/example-reader-copy.ts
+1 zh	frontend/components/examples/ExampleReaderContext.tsx
+1 zh	frontend/components/examples/examples-gallery-helpers.ts
+1 zh	frontend/components/examples/ExamplesGalleryGrid.client.tsx
+1 zh	frontend/components/examples/VideoWatchShare.client.tsx
+1 zh	frontend/components/FirstCreationState.client.tsx
+1 zh	frontend/components/GalleryRail.tsx
+1 zh	frontend/components/GalleryRailCards.tsx
+1 zh	frontend/components/GroupedJobCard.tsx
+1 zh	frontend/components/GroupedJobCardMenu.tsx
+1 zh	frontend/components/groups/CompositePreviewDockTile.tsx
+1 zh	frontend/components/groups/GenerationPendingStatus.tsx
+4 ui-redesign	frontend/components/header/HeaderLogoMark.tsx
+3 cny	frontend/components/header/HeaderWalletStatus.tsx
+4 ui-redesign	frontend/components/header/useHeaderAccountState.ts
+1 zh	frontend/components/i18n/DeferredSourcePrompt.client.tsx
+1 zh	frontend/components/KlingElementsBuilder.tsx
+1 zh	frontend/components/legal/cookie-banner-copy.ts
+4 ui-redesign	frontend/components/legal/CookieBanner.tsx
+1 zh	frontend/components/legal/LegalVersionBadge.tsx
+7 white-label	frontend/components/legal/ReconsentPrompt.tsx
+1 zh	frontend/components/library/ActivityJobActionPanel.client.tsx
+1 zh	frontend/components/library/asset-library-copy.ts
+1 zh	frontend/components/library/AssetLibraryBrowser.tsx
+1 zh	frontend/components/library/AssetLibraryModal.tsx
+1 zh	frontend/components/library/domestic-share-platforms.ts
+1 zh	frontend/components/library/GalleryMediaActionPanel.client.tsx
+1 zh	frontend/components/library/media-action-copy.ts
+1 zh	frontend/components/library/MediaActionPanel.client.tsx
+1 zh	frontend/components/library/MediaDestinationActions.client.tsx
+1 zh	frontend/components/library/MediaEmptyState.tsx
+1 zh	frontend/components/library/MediaVisitorIntro.client.tsx
+1 zh	frontend/components/library/recent-media-copy.ts
+1 zh	frontend/components/library/reference-picker-copy.ts
+1 zh	frontend/components/library/ReferenceLibraryPicker.client.tsx
+1 zh	frontend/components/library/ToolMediaHandoff.client.tsx
+1 zh	frontend/components/library/video-share-copy.ts
+1 zh	frontend/components/library/video-share-intents.ts
+1 zh	frontend/components/library/VideoSharePanel.client.tsx
+1 zh	frontend/components/marketing/assistant-journey-copy.ts
+1 zh	frontend/components/marketing/AssistantFirstRequest.tsx
+1 zh	frontend/components/marketing/BenchmarkMethodologyLink.tsx
+1 zh	frontend/components/marketing/CreativeWorlds.tsx
+3 cny	frontend/components/marketing/home/hero-video-price-display.ts
+4 ui-redesign	frontend/components/marketing/home/HeroVideoShowcase.tsx
+1 zh	frontend/components/marketing/home/home-production-copy.ts
+3 cny	frontend/components/marketing/home/home-redesign-visuals.ts
+1 zh	frontend/components/marketing/home/HomeAssistantStrip.tsx
+1 zh	frontend/components/marketing/home/HomeAssistantWorkflow.tsx
+1 zh	frontend/components/marketing/home/HomeComparisonCarousel.client.tsx
+4 ui-redesign	frontend/components/marketing/home/HomeComparisonScores.client.tsx
+1 zh	frontend/components/marketing/home/HomeComparisonSection.tsx
+7 white-label	frontend/components/marketing/home/HomeConversionSections.tsx
+4 ui-redesign	frontend/components/marketing/home/HomeCreationSection.tsx
+1 zh	frontend/components/marketing/home/HomeCreativeWorlds.tsx
+1 zh	frontend/components/marketing/home/HomeHeroSection.tsx
+1 zh	frontend/components/marketing/home/HomeModelChoice.tsx
+1 zh	frontend/components/marketing/home/HomeModelDiscovery.tsx
+1 zh	frontend/components/marketing/home/HomePriceAppSurface.client.tsx
+1 zh	frontend/components/marketing/home/HomePriceDemo.client.tsx
+1 zh	frontend/components/marketing/home/HomePricingSection.tsx
+4 ui-redesign	frontend/components/marketing/home/HomeShotTypeEngineSelector.tsx
+1 zh	frontend/components/marketing/home/HomeStudioPreview.tsx
+1 zh	frontend/components/marketing/home/HomeToolsGallery.tsx
+1 zh	frontend/components/marketing/home/HomeWorkflowSeoSummary.tsx
+1 zh	frontend/components/marketing/LanguageToggle.tsx
+4 ui-redesign	frontend/components/marketing/MarketingDesktopNav.tsx
+1 zh	frontend/components/marketing/MarketingFooter.tsx
+7 white-label	frontend/components/marketing/MarketingFooterAssistants.tsx
+4 ui-redesign	frontend/components/marketing/MarketingMobileMenu.tsx
+1 zh	frontend/components/marketing/MarketingNav.tsx
+1 zh	frontend/components/marketing/mcp/mcp-editorial-copy.ts
+1 zh	frontend/components/marketing/mcp/mcp-production-copy.ts
+1 zh	frontend/components/marketing/mcp/McpStoryVisual.client.tsx
+3 cny	frontend/components/marketing/models-gallery/models-gallery-copy.ts
+4 ui-redesign	frontend/components/marketing/models-gallery/ModelsGalleryCompareBar.tsx
+4 ui-redesign	frontend/components/marketing/ModelsGallery.tsx
+4 ui-redesign	frontend/components/marketing/ModelsGalleryCard.tsx
+7 white-label	frontend/components/marketing/PartnerBadges.tsx
+3 cny	frontend/components/marketing/price-estimator/price-estimator-options.ts
+4 ui-redesign	frontend/components/marketing/StudioFooterDepartments.tsx
+4 ui-redesign	frontend/components/media-lightbox/MediaLightboxEntryCard.tsx
+1 zh	frontend/components/media/PublicVideoPlayer.client.tsx
+1 zh	frontend/components/media/PublicVideoQualitySelect.client.tsx
+1 zh	frontend/components/MediaLightbox.tsx
+7 white-label	frontend/components/NotFoundContent.tsx
+1 zh	frontend/components/PriceFactorsBar.tsx
+1 zh	frontend/components/quad-preview/QuadMosaicFigure.tsx
+1 zh	frontend/components/quad-preview/QuadSingleTilesGrid.tsx
+1 zh	frontend/components/QuadPreviewPanel.tsx
+1 zh	frontend/components/settings-controls/settings-control-engine-advanced.tsx
+1 zh	frontend/components/settings-controls/settings-control-generic-fields.tsx
+1 zh	frontend/components/settings-controls/SettingsAdvancedPanel.tsx
+1 zh	frontend/components/starters/StarterMediaShelf.client.tsx
+7 white-label	frontend/components/ui/Button.tsx
+1 zh	frontend/components/ui/TurnstileChallenge.tsx
+Z no signal	frontend/config/blog-slugs.ts
+Z no signal	frontend/config/comparison-indexation.json
+5 llmhub-api	frontend/config/engine-catalog.json
+Z no signal	frontend/config/localized-slugs.json
+Z no signal	frontend/config/mcp-publication.json
+6 cn-providers	frontend/config/model-registry.json
+Z no signal	frontend/config/model-registry.ts
+6 cn-providers	frontend/config/model-runtime.json
+7 white-label	frontend/config/navigation.ts
+K kept (documented)	frontend/config/public-examples.json
+1 zh	frontend/config/site-experience.json
+Z no signal	frontend/config/studio-navigation.ts
+1 zh	frontend/i18n/locales.ts
+Z no signal	frontend/i18n/request.ts
+Z no signal	frontend/i18n/routing.ts
+3 cny	frontend/lib/analytics/journey.ts
+Z no signal	frontend/lib/api-generation.ts
+7 white-label	frontend/lib/api-job-status.ts
+7 white-label	frontend/lib/api-jobs.ts
+Z no signal	frontend/lib/compare-hub/indexation.ts
+1 zh	frontend/lib/current-example-price-display.ts
+1 zh	frontend/lib/editorial/profile.ts
+Z no signal	frontend/lib/editorial/schema.ts
+1 zh	frontend/lib/example-continuation-copy.ts
+Z no signal	frontend/lib/example-continuation.ts
+7 white-label	frontend/lib/examples/family-overview.ts
+1 zh	frontend/lib/examples/modelLanding.ts
+7 white-label	frontend/lib/examples/modelLandingData.en.ts
+7 white-label	frontend/lib/examples/modelLandingData.es.ts
+7 white-label	frontend/lib/examples/modelLandingData.fr.ts
+Z no signal	frontend/lib/examples/modelLandingData.ts
+1 zh	frontend/lib/examples/modelLandingFaq.ts
+1 zh	frontend/lib/examples/modelLandingGenericData.ts
+1 zh	frontend/lib/generation-failure-messages.ts
+1 zh	frontend/lib/homepage-price-label.ts
+7 white-label	frontend/lib/i18n/dictionary-data/en-content.ts
+7 white-label	frontend/lib/i18n/dictionary-data/en-home.ts
+7 white-label	frontend/lib/i18n/dictionary-data/en-layout.ts
+5 llmhub-api	frontend/lib/i18n/dictionary-data/en-legal-status.ts
+5 llmhub-api	frontend/lib/i18n/dictionary-data/en-pricing.ts
+Z no signal	frontend/lib/i18n/marketing-locale-switch.ts
+Z no signal	frontend/lib/i18n/paths.ts
+Z no signal	frontend/lib/i18n/server.ts
+1 zh	frontend/lib/image-alt.ts
+K kept (documented)	frontend/lib/image-generation-client.ts
+Z no signal	frontend/lib/image/aspectRatios.ts
+Z no signal	frontend/lib/image/gptImage2.ts
+7 white-label	frontend/lib/job-groups.ts
+1 zh	frontend/lib/ltx-asset-dropzone-copy.ts
+1 zh	frontend/lib/ltx-field-copy.ts
+1 zh	frontend/lib/ltx-localization.ts
+1 zh	frontend/lib/marketing/spec-capability-copy.ts
+1 zh	frontend/lib/mcp-internal-links.ts
+Z no signal	frontend/lib/mcp-publication.ts
+Z no signal	frontend/lib/metadataUrls.ts
+7 white-label	frontend/lib/middleware/routing-locale.ts
+Z no signal	frontend/lib/middleware/routing-marketing.ts
+Z no signal	frontend/lib/middleware/routing-response.ts
+Z no signal	frontend/lib/middleware/site-language.ts
+1 zh	frontend/lib/model-generation-policy.ts
+7 white-label	frontend/lib/password-recovery.ts
+1 zh	frontend/lib/product-brand.ts
+1 zh	frontend/lib/seedance-failure-messages.ts
+1 zh	frontend/lib/seedance-modelark-options.ts
+Z no signal	frontend/lib/seo/alternateLocales.ts
+1 zh	frontend/lib/seo/breadcrumbs.ts
+7 white-label	frontend/lib/seo/codex-action-queue.ts
+7 white-label	frontend/lib/seo/content-momentum.ts
+7 white-label	frontend/lib/seo/ctr-doctor.ts
+7 white-label	frontend/lib/seo/gsc-analysis.ts
+Z no signal	frontend/lib/seo/hreflang.ts
+7 white-label	frontend/lib/seo/internal-link-builder-format.ts
+7 white-label	frontend/lib/seo/internal-link-builder.ts
+7 white-label	frontend/lib/seo/llms-text.ts
+7 white-label	frontend/lib/seo/marketingServiceJsonLd.ts
+7 white-label	frontend/lib/seo/metadata.ts
+7 white-label	frontend/lib/seo/missing-content.ts
+7 white-label	frontend/lib/seo/robots-text.ts
+7 white-label	frontend/lib/seo/seo-opportunity-engine.ts
+7 white-label	frontend/lib/seo/site-organization-schema.ts
+7 white-label	frontend/lib/seo/unified-action-briefs.ts
+7 white-label	frontend/lib/seo/url-inspection.ts
+Z no signal	frontend/lib/settings-navigation.ts
+Z no signal	frontend/lib/sitemap/route-discovery.ts
+Z no signal	frontend/lib/sitemap/types.ts
+Z no signal	frontend/lib/sitemapData.ts
+7 white-label	frontend/lib/siteOrigin.ts
+1 zh	frontend/lib/starter-media.ts
+1 zh	frontend/lib/studio/conversation-copy.ts
+3 cny	frontend/lib/studio/conversation-export-contract.ts
+7 white-label	frontend/lib/studio/conversation-pricing-contract.ts
+Z no signal	frontend/lib/theme-bootstrap.ts
+Z no signal	frontend/lighthouserc.site.js
+1 zh	frontend/messages/en.json
+1 zh	frontend/messages/es.json
+1 zh	frontend/messages/fr.json
+1 zh	frontend/messages/zh.json
+Z no signal	frontend/middleware.ts
+7 white-label	frontend/next-sitemap.config.js
+Z no signal	frontend/next.config.js
+4 ui-redesign	frontend/public/android-chrome-192x192.png
+4 ui-redesign	frontend/public/android-chrome-512x512.png
+4 ui-redesign	frontend/public/apple-touch-icon.png
+4 ui-redesign	frontend/public/assets/branding/logo-mark.svg
+4 ui-redesign	frontend/public/assets/tools/redesign/angle-workspace-v2.webp
+4 ui-redesign	frontend/public/assets/tools/redesign/background-removal-workspace-v2.webp
+4 ui-redesign	frontend/public/assets/tools/redesign/character-builder-workspace-v2.webp
+4 ui-redesign	frontend/public/assets/tools/redesign/upscale-workspace-v2.webp
+4 ui-redesign	frontend/public/favicon-16x16.png
+4 ui-redesign	frontend/public/favicon-32x32.png
+4 ui-redesign	frontend/public/favicon-512.png
+4 ui-redesign	frontend/public/favicon.ico
+4 ui-redesign	frontend/public/favicon.png
+4 ui-redesign	frontend/public/favicon.svg
+7 white-label	frontend/public/site.webmanifest
+1 zh	frontend/scripts/generate_zh_json.py
+1 zh	frontend/scripts/glossary.json
+6 cn-providers	frontend/scripts/pricing-public-baseline.ts
+1 zh	frontend/scripts/qa/compare-locales.ts
+Z no signal	frontend/scripts/qa/locale-runtime-utils.ts
+1 zh	frontend/scripts/qa/locale-surface-check.ts
+Z no signal	frontend/scripts/qa/mcp-tool-selection-eval.ts
+7 white-label	frontend/scripts/qa/mcp-tool-selection-scoring.ts
+7 white-label	frontend/scripts/repair-studio-project-asset-cache.cjs
+Z no signal	frontend/scripts/scaffold-model-page.ts
+Z no signal	frontend/scripts/snapshot-public-examples.ts
+Z no signal	frontend/scripts/translate-blog.ts
+Z no signal	frontend/scripts/translate-messages.ts
+Z no signal	frontend/scripts/translate-models.ts
+Z no signal	frontend/scripts/validate-keys.ts
+3 cny	frontend/server/admin-transactions/topups.ts
+3 cny	frontend/server/admin-users.ts
+K kept (documented)	frontend/server/bundled-public-examples.ts
+7 white-label	frontend/server/byteplus-poll.ts
+2 llmhub-pay	frontend/server/checkout-guard.ts
+7 white-label	frontend/server/fal-stale-provisionals.ts
+7 white-label	frontend/server/fal-webhook-handler.ts
+7 white-label	frontend/server/fal-webhook-image-output.ts
+K kept (documented)	frontend/server/google-vertex-readiness.ts
+7 white-label	frontend/server/legal-reports.ts
+2 llmhub-pay	frontend/server/llmhub-pay/client.ts
+2 llmhub-pay	frontend/server/llmhub-pay/orders.ts
+2 llmhub-pay	frontend/server/llmhub-pay/quote.ts
+3 cny	frontend/server/llmhub-video-poll.ts
+Z no signal	frontend/server/local-public-examples.ts
+3 cny	frontend/server/pricing-admin/canonical-scenarios.ts
+5 llmhub-api	frontend/server/pricing-admin/tariff-provider-comparison.ts
+1 zh	frontend/server/pricing/quote-billing.ts
+1 zh	frontend/server/pricing/resolve-customer-tariff.ts
+7 white-label	frontend/server/provider-output-policy.ts
+5 llmhub-api	frontend/server/refresh-direct-generation.ts
+Z no signal	frontend/server/seedance25-edit-duration.ts
+7 white-label	frontend/server/sitemaps/video-xml.ts
+7 white-label	frontend/server/user-facing-failure-messages.ts
+K kept (documented)	frontend/server/video-seo.ts
+Z no signal	frontend/server/video-shares.ts
+Z no signal	frontend/server/videos-playlists.ts
+K kept (documented)	frontend/server/videos.ts
+3 cny	frontend/server/wallet-direct-checkout.ts
+1 zh	frontend/src/components/tools/angle/landing/angle-production-copy.ts
+4 ui-redesign	frontend/src/components/tools/angle/landing/AngleLanding.module.css
+7 white-label	frontend/src/components/tools/angle/landing/AngleLandingView.tsx
+4 ui-redesign	frontend/src/components/tools/angle/landing/AngleProduction.module.css
+4 ui-redesign	frontend/src/components/tools/angle/landing/AngleProductionSections.tsx
+4 ui-redesign	frontend/src/components/tools/background-removal/landing/BackgroundRemovalLandingSections.tsx
+7 white-label	frontend/src/components/tools/background-removal/landing/BackgroundRemovalLandingView.tsx
+7 white-label	frontend/src/components/tools/character-builder/landing/character-builder-landing-assets.ts
+4 ui-redesign	frontend/src/components/tools/character-builder/landing/CharacterBuilderLandingLeadSections.tsx
+4 ui-redesign	frontend/src/components/tools/character-builder/landing/CharacterBuilderLandingSections.tsx
+7 white-label	frontend/src/components/tools/character-builder/landing/CharacterBuilderLandingView.tsx
+1 zh	frontend/src/components/tools/finishing-copy.ts
+7 white-label	frontend/src/components/tools/landing/tool-marketing-json-ld.ts
+4 ui-redesign	frontend/src/components/tools/landing/tool-workspace-assets.ts
+4 ui-redesign	frontend/src/components/tools/production/ProductionDepartments.module.css
+4 ui-redesign	frontend/src/components/tools/production/ProductionReviewNotes.tsx
+1 zh	frontend/src/components/tools/production/tool-production-copy.ts
+7 white-label	frontend/src/components/tools/storyboard/_lib/storyboard-workspace-config.ts
+7 white-label	frontend/src/components/tools/storyboard/_lib/storyboard-workspace-copy.ts
+1 zh	frontend/src/components/tools/toolbox-copy.ts
+1 zh	frontend/src/components/tools/ToolboxVideoPreview.tsx
+7 white-label	frontend/src/components/tools/ToolMarketingPage.tsx
+4 ui-redesign	frontend/src/components/tools/tools-catalogue.module.css
+4 ui-redesign	frontend/src/components/tools/ToolsMarketingHubPage.tsx
+1 zh	frontend/src/components/tools/upscale/_components/UpscaleLibraryModal.tsx
+1 zh	frontend/src/components/tools/upscale/_components/UpscaleRecentRail.tsx
+1 zh	frontend/src/components/tools/upscale/_lib/upscale-workspace-labels.ts
+7 white-label	frontend/src/components/tools/UpscaleLandingPage.tsx
+4 ui-redesign	frontend/src/components/ui/engine-select/EngineVariantControl.tsx
+4 ui-redesign	frontend/src/components/ui/EngineSelect.tsx
+7 white-label	frontend/src/config/fal-engines/flux-3-draft.ts
+7 white-label	frontend/src/config/fal-engines/flux-3.ts
+7 white-label	frontend/src/config/fal-engines/gemini-omni-flash.ts
+5 llmhub-api	frontend/src/config/fal-engines/gpt-image-2-5.ts
+5 llmhub-api	frontend/src/config/fal-engines/gpt-image-2.ts
+7 white-label	frontend/src/config/fal-engines/grok-imagine-video-1-5.ts
+7 white-label	frontend/src/config/fal-engines/hailuo.ts
+6 cn-providers	frontend/src/config/fal-engines/happy-horse-1-1.ts
+6 cn-providers	frontend/src/config/fal-engines/happy-horse.ts
+7 white-label	frontend/src/config/fal-engines/kling-2-5.ts
+7 white-label	frontend/src/config/fal-engines/kling-2-6.ts
+7 white-label	frontend/src/config/fal-engines/kling-3-4k.ts
+7 white-label	frontend/src/config/fal-engines/kling-3-pro.ts
+7 white-label	frontend/src/config/fal-engines/kling-3-standard.ts
+Z no signal	frontend/src/config/fal-engines/kling-3-turbo-pro.ts
+Z no signal	frontend/src/config/fal-engines/kling-3-turbo-standard.ts
+7 white-label	frontend/src/config/fal-engines/kling-o3.ts
+7 white-label	frontend/src/config/fal-engines/ltx-2-3-fast.ts
+7 white-label	frontend/src/config/fal-engines/ltx-2-3.ts
+7 white-label	frontend/src/config/fal-engines/ltx-2-5-fast.ts
+7 white-label	frontend/src/config/fal-engines/ltx-2-5-pro.ts
+7 white-label	frontend/src/config/fal-engines/ltx-2-fast.ts
+7 white-label	frontend/src/config/fal-engines/ltx-2.ts
+7 white-label	frontend/src/config/fal-engines/luma-ray-2-flash.ts
+7 white-label	frontend/src/config/fal-engines/luma-ray-2.ts
+7 white-label	frontend/src/config/fal-engines/luma-ray-3-2.ts
+7 white-label	frontend/src/config/fal-engines/luma-uni-1-max.ts
+7 white-label	frontend/src/config/fal-engines/luma-uni-1.ts
+7 white-label	frontend/src/config/fal-engines/minimax-h3-max.ts
+7 white-label	frontend/src/config/fal-engines/minimax-h3.ts
+5 llmhub-api	frontend/src/config/fal-engines/nano-banana-2.ts
+5 llmhub-api	frontend/src/config/fal-engines/nano-banana-lite.ts
+5 llmhub-api	frontend/src/config/fal-engines/nano-banana-pro.ts
+5 llmhub-api	frontend/src/config/fal-engines/nano-banana.ts
+7 white-label	frontend/src/config/fal-engines/pika.ts
+6 cn-providers	frontend/src/config/fal-engines/qwen-image.ts
+6 cn-providers	frontend/src/config/fal-engines/registry.ts
+7 white-label	frontend/src/config/fal-engines/seedance-1-5.ts
+7 white-label	frontend/src/config/fal-engines/seedance-2-5.ts
+7 white-label	frontend/src/config/fal-engines/seedance-2-fast.ts
+7 white-label	frontend/src/config/fal-engines/seedance-2-mini.ts
+7 white-label	frontend/src/config/fal-engines/seedance-2-standard.ts
+5 llmhub-api	frontend/src/config/fal-engines/seedream.ts
+7 white-label	frontend/src/config/fal-engines/sora.ts
+7 white-label	frontend/src/config/fal-engines/veo-3-1-fast.ts
+7 white-label	frontend/src/config/fal-engines/veo-3-1-lite.ts
+7 white-label	frontend/src/config/fal-engines/veo-3-1.ts
+7 white-label	frontend/src/config/fal-engines/wan-2-6.ts
+7 white-label	frontend/src/config/fal-engines/wan-3-prime.ts
+7 white-label	frontend/src/config/fal-engines/wan-3.ts
+3 cny	frontend/src/config/topupTiers.ts
+Z no signal	frontend/src/hooks/useThemePreference.ts
+3 cny	frontend/src/lib/billing-products.ts
+6 cn-providers	frontend/src/lib/brand-partners.ts
+3 cny	frontend/src/lib/currency.ts
+3 cny	frontend/src/lib/customer-currency.ts
+Z no signal	frontend/src/lib/customer-price-presentation.ts
+K kept (documented)	frontend/src/lib/env.ts
+Z no signal	frontend/src/lib/fal-error.ts
+Z no signal	frontend/src/lib/fal.ts
+3 cny	frontend/src/lib/fxQuote.ts
+3 cny	frontend/src/lib/image/qwen-image.ts
+3 cny	frontend/src/lib/pricing-billing-facts.ts
+3 cny	frontend/src/lib/pricing-public-facts.ts
+3 cny	frontend/src/lib/pricing-public-quote.ts
+2 llmhub-pay	frontend/src/lib/schema/billing-receipts-schema.ts
+2 llmhub-pay	frontend/src/lib/schema/billing-user-admin-schema.ts
+1 zh	frontend/src/lib/seedance-edit-source-copy.ts
+7 white-label	frontend/src/lib/stripe-checkout.ts
+Z no signal	frontend/src/lib/studio/assistance-contract.ts
+1 zh	frontend/src/lib/studio/conversation-quote-presentation.ts
+Z no signal	frontend/src/lib/studio/image-conversation-contract.ts
+3 cny	frontend/src/lib/tools-background-removal.ts
+3 cny	frontend/src/lib/wallet.ts
+7 white-label	frontend/src/server/agent-api/account-destinations.ts
+7 white-label	frontend/src/server/agent-api/audio-reference-assets.ts
+7 white-label	frontend/src/server/agent-api/confirm-audio-generation.ts
+7 white-label	frontend/src/server/agent-api/confirm-generation.ts
+7 white-label	frontend/src/server/agent-api/create-reference-upload-link.ts
+7 white-label	frontend/src/server/agent-api/generation-mode-aliases.ts
+Z no signal	frontend/src/server/agent-api/generation-pricing.ts
+7 white-label	frontend/src/server/agent-api/generation-status.ts
+7 white-label	frontend/src/server/agent-api/media-library.ts
+7 white-label	frontend/src/server/agent-api/model-details.ts
+7 white-label	frontend/src/server/agent-api/prepare-audio-generation.ts
+7 white-label	frontend/src/server/agent-api/prepare-generation.ts
+7 white-label	frontend/src/server/agent-api/project-budget.ts
+7 white-label	frontend/src/server/agent-api/reference-file-import.ts
+7 white-label	frontend/src/server/agent-api/reference-upload-sessions.ts
+7 white-label	frontend/src/server/agent-api/spending-limits.ts
+3 cny	frontend/src/server/agent-api/topup-handoff.ts
+5 llmhub-api	frontend/src/server/agent-runtime/model-executability.ts
+Z no signal	frontend/src/server/editorial/publication-locale-map.ts
+5 llmhub-api	frontend/src/server/fraud-cleanup/constants.ts
+7 white-label	frontend/src/server/generations/agent-generation-policy.ts
+6 cn-providers	frontend/src/server/images/alibaba-qwen-image-client.ts
+6 cn-providers	frontend/src/server/images/alibaba-qwen-image-execution.ts
+Z no signal	frontend/src/server/images/byteplus-seedream-execution.ts
+6 cn-providers	frontend/src/server/images/estimate-image-generation.ts
+3 cny	frontend/src/server/images/execute-image-generation.ts
+K kept (documented)	frontend/src/server/images/google-vertex-image-execution.ts
+Z no signal	frontend/src/server/images/image-direct-fallback-policy.ts
+6 cn-providers	frontend/src/server/images/image-direct-provider-execution.ts
+Z no signal	frontend/src/server/images/image-generation-failure.ts
+3 cny	frontend/src/server/images/image-generation-pricing.ts
+Z no signal	frontend/src/server/images/image-generation-receipts.ts
+7 white-label	frontend/src/server/images/image-output-storage.ts
+5 llmhub-api	frontend/src/server/images/image-provider-routing.ts
+5 llmhub-api	frontend/src/server/images/llmhub-flare-generation.ts
+5 llmhub-api	frontend/src/server/images/llmhub-gemini-generation.ts
+5 llmhub-api	frontend/src/server/images/llmhub-image-models.ts
+5 llmhub-api	frontend/src/server/images/llmhub-image-output.ts
+Z no signal	frontend/src/server/images/luma-agents-execution.ts
+7 white-label	frontend/src/server/mcp/generation-result-app.ts
+7 white-label	frontend/src/server/mcp/http-handler.ts
+7 white-label	frontend/src/server/mcp/oauth-resource-metadata.ts
+7 white-label	frontend/src/server/mcp/reference-upload-app-legacy.ts
+7 white-label	frontend/src/server/mcp/reference-upload-app.ts
+7 white-label	frontend/src/server/mcp/tools/calculate-project-budget.ts
+7 white-label	frontend/src/server/mcp/tools/compare-generation-prices.ts
+7 white-label	frontend/src/server/mcp/tools/confirm-audio-generation.ts
+7 white-label	frontend/src/server/mcp/tools/confirm-generation.ts
+7 white-label	frontend/src/server/mcp/tools/create-reference-upload-link.ts
+7 white-label	frontend/src/server/mcp/tools/create-topup-link.ts
+7 white-label	frontend/src/server/mcp/tools/get-account-status.ts
+7 white-label	frontend/src/server/mcp/tools/get-generation-download.ts
+7 white-label	frontend/src/server/mcp/tools/get-generation-status.ts
+7 white-label	frontend/src/server/mcp/tools/get-model-details.ts
+7 white-label	frontend/src/server/mcp/tools/import-reference-files.ts
+7 white-label	frontend/src/server/mcp/tools/list-audio-capabilities.ts
+7 white-label	frontend/src/server/mcp/tools/list-media.ts
+7 white-label	frontend/src/server/mcp/tools/list-models.ts
+7 white-label	frontend/src/server/mcp/tools/list-recent-generations.ts
+7 white-label	frontend/src/server/mcp/tools/prepare-audio-generation.ts
+7 white-label	frontend/src/server/mcp/tools/prepare-generation.ts
+7 white-label	frontend/src/server/mcp/tools/present-generation.ts
+7 white-label	frontend/src/server/mcp/tools/recommend-models.ts
+3 cny	frontend/src/server/studio/assistance-credit-ledger.ts
+3 cny	frontend/src/server/studio/assistance-ledger.ts
+3 cny	frontend/src/server/studio/assistance-policy.ts
+3 cny	frontend/src/server/studio/assistance-resolution.ts
+7 white-label	frontend/src/server/studio/conversation-director-instructions.ts
+Z no signal	frontend/src/server/studio/conversation-edit-command.ts
+Z no signal	frontend/src/server/studio/conversation-image-run.ts
+7 white-label	frontend/src/server/studio/conversation-language.ts
+Z no signal	frontend/src/server/studio/project-asset-media-facts.ts
+Z no signal	frontend/src/server/studio/tasks/execution.ts
+1 zh	frontend/src/server/studio/tasks/stop-draft.ts
+3 cny	frontend/src/server/timeline-exports/billing.ts
+3 cny	frontend/src/server/timeline-exports/contracts.ts
+Z no signal	frontend/src/server/timeline-exports/ecs-runner.ts
+3 cny	frontend/src/server/timeline-exports/pricing.ts
+3 cny	frontend/src/server/timeline-exports/schema.ts
+7 white-label	frontend/src/server/tools/angle-output-persistence.ts
+7 white-label	frontend/src/server/tools/background-removal-output-persistence.ts
+3 cny	frontend/src/server/tools/finishing-run.ts
+7 white-label	frontend/src/server/tools/upscale-output-persistence.ts
+3 cny	frontend/src/server/tools/upscale-pricing-context.ts
+Z no signal	frontend/src/server/video-generation/execute-prepared-video-generation.ts
+6 cn-providers	frontend/src/server/video-providers/alibaba-model-studio/client.ts
+Z no signal	frontend/src/server/video-providers/byteplus-modelark-draft.ts
+Z no signal	frontend/src/server/video-providers/byteplus-modelark-payload.ts
+Z no signal	frontend/src/server/video-providers/byteplus-modelark-profile-policy.ts
+K kept (documented)	frontend/src/server/video-providers/google-vertex-veo/client.ts
+7 white-label	frontend/src/server/video-providers/kling-direct/elements.ts
+5 llmhub-api	frontend/src/server/video-providers/llmhub/client.ts
+5 llmhub-api	frontend/src/server/video-providers/llmhub/model-map.ts
+5 llmhub-api	frontend/src/server/video-providers/llmhub/video-size.ts
+5 llmhub-api	frontend/src/server/video-providers/router.ts
+5 llmhub-api	frontend/src/server/video-providers/types.ts
+3 cny	frontend/src/server/wallet-summary.ts
+7 white-label	frontend/src/styles/app-experience.css
+7 white-label	frontend/src/styles/app-shell.css
+7 white-label	frontend/src/styles/home-comparison.css
+7 white-label	frontend/src/styles/home-showcase.css
+7 white-label	frontend/src/styles/home-studio-sections.css
+4 ui-redesign	frontend/src/styles/marketing-cinema.css
+4 ui-redesign	frontend/src/styles/marketing-compare.css
+7 white-label	frontend/src/styles/marketing-home.css
+4 ui-redesign	frontend/src/styles/marketing-mcp.css
+7 white-label	frontend/src/styles/marketing-models.css
+4 ui-redesign	frontend/src/styles/marketing-navigation.css
+4 ui-redesign	frontend/src/styles/marketing-redesign.css
+4 ui-redesign	frontend/src/styles/marketing-tools.css
+7 white-label	frontend/src/styles/studio-public-surfaces.css
+4 ui-redesign	frontend/src/styles/tokens.css
+7 white-label	frontend/src/styles/videoai-admin.css
+7 white-label	frontend/src/styles/videoai-brand.css
+7 white-label	frontend/src/styles/videoai-marketing.css
+7 white-label	frontend/src/styles/videoai-site-layout.css
+Z no signal	frontend/tailwind.config.ts
+Z no signal	frontend/tsconfig.json
+Z no signal	frontend/types/engines.ts
+5 llmhub-api	frontend/vercel.json
+7 white-label	LICENSE
+2 llmhub-pay	neon/migrations/49_llmhub_pay_topups.sql
+3 cny	neon/migrations/50_cny_preferred_currency.sql
+3 cny	neon/migrations/51_cny_wallet_receipt_default.sql
+Z no signal	package.json
+Z no signal	playwright.admin.config.ts
+7 white-label	plugins/keyvo/.claude-plugin/marketplace.json
+7 white-label	plugins/keyvo/.claude-plugin/plugin.json
+7 white-label	plugins/keyvo/.codex-plugin/plugin.json
+7 white-label	plugins/keyvo/.mcp.json
+7 white-label	plugins/keyvo/AGENTS.md
+7 white-label	plugins/keyvo/CHANGELOG.md
+1 zh	plugins/keyvo/docs/connection.md
+7 white-label	plugins/keyvo/LICENSE
+7 white-label	plugins/keyvo/NOTICE
+1 zh	plugins/keyvo/README.md
+7 white-label	plugins/keyvo/scripts/import-reference-files.mjs
+7 white-label	plugins/keyvo/skills/generate/agents/openai.yaml
+7 white-label	plugins/keyvo/skills/generate/references/generation-safety.md
+7 white-label	plugins/keyvo/skills/generate/references/reference-inputs.md
+7 white-label	plugins/keyvo/skills/generate/SKILL.md
+7 white-label	plugins/keyvo/skills/plan/agents/openai.yaml
+7 white-label	plugins/keyvo/skills/plan/references/budget-planning.md
+7 white-label	plugins/keyvo/skills/plan/SKILL.md
+7 white-label	plugins/keyvo/VERSION
+1 zh	plugins/maxvideoai/README.md
+1 zh	README.md
+1 zh	scripts/audit-keyvo-branding.cjs
+7 white-label	scripts/audit-keyvo-http.cjs
+7 white-label	scripts/audit-keyvo-merge.mjs
+1 zh	scripts/audit-zh-coverage.mjs
+7 white-label	scripts/build-maxvideoai-plugin-release.mjs
+1 zh	scripts/generate-zh-models.py
+Z no signal	scripts/indexnow-submit-changed.mjs
+Z no signal	scripts/indexnow-url-selection.mjs
+7 white-label	scripts/llms-guard.ts
+Z no signal	scripts/performance/crux-client.mjs
+Z no signal	scripts/performance/export-crux.mjs
+7 white-label	scripts/qa/keyvo-fixture-assertion-audit.cjs
+7 white-label	scripts/qa/keyvo-remote-migration-audit.cjs
+3 cny	scripts/qa/keyvo-remote-wallet-audit.ts
+7 white-label	scripts/qa/keyvo-source-provenance-audit.mjs
+Z no signal	scripts/qa/run-isolated-admin-smoke.ts
+3 cny	scripts/qa/studio-call-runtime.ts
+1 zh	scripts/qa/videoai-capture-tool-workspaces.mjs
+1 zh	scripts/qa/videoai-design-audit.mjs
+1 zh	scripts/qa/videoai-design-interactions.mjs
+1 zh	scripts/qa/videoai-production-pages.mjs
+7 white-label	scripts/qa/videoai-production-performance.mjs
+1 zh	scripts/qa/videoai-production-review.mjs
+1 zh	scripts/qa/videoai-theme-review.mjs
+K kept (documented)	scripts/report-upstream-deviations.mjs
+K kept (documented)	scripts/seed-public-examples.ts
+7 white-label	supabase/config.toml
+7 white-label	supabase/templates/confirm-signup.html
+7 white-label	supabase/templates/confirm-signup.txt
+7 white-label	supabase/templates/magic-link.html
+7 white-label	supabase/templates/magic-link.txt
+7 white-label	supabase/templates/reset-password.html
+7 white-label	supabase/templates/reset-password.txt
+3 cny	tests/_setup-cny-env.ts
+7 white-label	tests/about-editorial-trust.test.ts
+6 cn-providers	tests/admin-all-model-comparison.test.ts
+3 cny	tests/admin-billing-products-pricing.test.ts
+Z no signal	tests/admin-mcp-architecture.test.ts
+3 cny	tests/admin-pricing-policy-service.test.ts
+3 cny	tests/admin-product-policy-scenarios.test.ts
+6 cn-providers	tests/alibaba-model-studio-architecture.test.ts
+6 cn-providers	tests/alibaba-model-studio-provider.test.ts
+5 llmhub-api	tests/alibaba-model-studio-submission.test.ts
+6 cn-providers	tests/alibaba-qwen-image-audit.test.ts
+3 cny	tests/alibaba-qwen-image-execution.test.ts
+6 cn-providers	tests/alibaba-qwen-image.test.ts
+Z no signal	tests/analytics-scripts-consent.test.ts
+7 white-label	tests/angle-server-architecture.test.ts
+Z no signal	tests/app-locale-runtime-fallback.test.ts
+Z no signal	tests/app-mcp-navigation.test.ts
+3 cny	tests/app-navigation.test.ts
+3 cny	tests/audio-pricing-policy.test.ts
+Z no signal	tests/auth-local-origin.test.ts
+Z no signal	tests/auth-locale-continuity.test.ts
+7 white-label	tests/background-removal-provider.test.ts
+7 white-label	tests/benchmark-lab-route.test.ts
+7 white-label	tests/best-for-serp-metadata.test.ts
+2 llmhub-pay	tests/billing-auth-and-quote-render.test.ts
+3 cny	tests/billing-currency-policy.test.ts
+Z no signal	tests/billing-intent-integration.test.ts
+3 cny	tests/billing-intent.test.ts
+Z no signal	tests/billing-page-architecture.test.ts
+1 zh	tests/billing-read-routes-postgres.test.ts
+3 cny	tests/billing-topup-selection.test.ts
+2 llmhub-pay	tests/billing-wallet-presentation.test.ts
+Z no signal	tests/blog-language-switch.test.ts
+Z no signal	tests/bundled-public-examples-fallback.test.ts
+Z no signal	tests/byteplus-provider-architecture.test.ts
+Z no signal	tests/byteplus-seedance-draft.test.ts
+2 llmhub-pay	tests/checkout-captcha-replay-postgres.test.ts
+2 llmhub-pay	tests/checkout-guard-reuse-postgres.test.ts
+2 llmhub-pay	tests/cny-customer-wallet.test.ts
+3 cny	tests/cny-payment-quote.test.ts
+Z no signal	tests/company-content-rights.test.ts
+3 cny	tests/compare-page-pricing-display.test.ts
+7 white-label	tests/comparison-content-contract.test.ts
+Z no signal	tests/comparison-export-interactions.test.ts
+7 white-label	tests/comparison-indexation-wave-1.test.ts
+Z no signal	tests/connected-studio-analysis-browser-integration.test.ts
+1 zh	tests/connected-studio-conversation-browser-integration.test.ts
+1 zh	tests/connected-studio-export-quote-browser-integration.test.ts
+1 zh	tests/connected-studio-montage-browser-integration.test.ts
+Z no signal	tests/connected-studio-montage-http-integration.test.ts
+1 zh	tests/connected-studio-route-integration.test.ts
+1 zh	tests/connected-studio-task-browser-integration.test.ts
+Z no signal	tests/cookie-banner-architecture.test.ts
+Z no signal	tests/core-workspace-locale.test.ts
+Z no signal	tests/crux-export.test.ts
+6 cn-providers	tests/current-pricing-hub-policy-postgres.test.ts
+6 cn-providers	tests/current-pricing-hub-queue.test.ts
+Z no signal	tests/customer-facing-legal-contact.test.ts
+Z no signal	tests/customer-tariff-cutover-evidence.test.ts
+6 cn-providers	tests/customer-tariff-initial-cutover-postgres.test.ts
+7 white-label	tests/dark-mode-theme.test.ts
+7 white-label	tests/docker-build-push-contract.test.ts
+1 zh	tests/domestic-media-sharing-dom.test.ts
+Z no signal	tests/e2e/admin-critical-flows.spec.ts
+Z no signal	tests/e2e/admin-insights-charts.spec.ts
+7 white-label	tests/editorial-profile.test.ts
+7 white-label	tests/editorial-standards-route.test.ts
+Z no signal	tests/engine-catalog-cli.test.ts
+Z no signal	tests/engine-select-architecture.test.ts
+Z no signal	tests/example-continuation.test.ts
+Z no signal	tests/examples-family-metadata.test.ts
+1 zh	tests/examples-gallery-opening.test.ts
+Z no signal	tests/examples-pagination-seo.test.ts
+Z no signal	tests/examples-price-streaming.test.ts
+7 white-label	tests/examples-route-architecture.test.ts
+Z no signal	tests/fal-enqueue-generation.test.ts
+Z no signal	tests/fallback-video-resolution.test.ts
+3 cny	tests/fixtures/keyvo-qwen-pricing-launch-2026-10-09.json
+5 llmhub-api	tests/fixtures/llmhub-output.jpeg
+5 llmhub-api	tests/fixtures/llmhub-output.png
+5 llmhub-api	tests/fixtures/llmhub-square.png
+Z no signal	tests/fixtures/mcp-tool-selection-curated-policy.json
+5 llmhub-api	tests/fraud-cleanup.test.ts
+5 llmhub-api	tests/generate-byteplus-submission.test.ts
+Z no signal	tests/generate-fal-submission.test.ts
+7 white-label	tests/generate-provider-media.test.ts
+Z no signal	tests/generate-route-context.test.ts
+1 zh	tests/generation-output-failure-guidance.test.ts
+7 white-label	tests/generation-status-service.test.ts
+Z no signal	tests/github-acquisition-attribution.test.ts
+Z no signal	tests/github-community-content.test.ts
+Z no signal	tests/github-content-contract.test.ts
+Z no signal	tests/github-content-engine.test.ts
+7 white-label	tests/github-root-readme.test.ts
+Z no signal	tests/github-visual-system.test.ts
+5 llmhub-api	tests/google-gemini-image-model.test.ts
+5 llmhub-api	tests/google-models-vertex-only-contract.test.ts
+K kept (documented)	tests/google-vertex-image-routing.test.ts
+K kept (documented)	tests/google-vertex-omni-routing.test.ts
+K kept (documented)	tests/google-vertex-readiness.test.ts
+K kept (documented)	tests/google-vertex-veo-config.test.ts
+K kept (documented)	tests/google-vertex-veo-routing.test.ts
+5 llmhub-api	tests/gpt-image-2-5-integration.test.ts
+7 white-label	tests/happy-horse-compare-page.test.ts
+Z no signal	tests/header-auth-initial-session-behavior.test.ts
+Z no signal	tests/header-bar-architecture.test.ts
+3 cny	tests/helpers/customer-currency-expectations.ts
+7 white-label	tests/helpers/marketing-navigation-browser-fixture.ts
+Z no signal	tests/helpers/studio-auth-fixture.ts
+2 llmhub-pay	tests/helpers/turnstile-migration-fixture.ts
+7 white-label	tests/home-comparison-motion.test.ts
+7 white-label	tests/home-data-loading.test.ts
+Z no signal	tests/home-examples-read-postgres.test.ts
+7 white-label	tests/home-price-demo-loading.test.ts
+7 white-label	tests/home-seo-signals.test.ts
+1 zh	tests/home-streaming.test.ts
+Z no signal	tests/homepage-lcp-performance.test.ts
+Z no signal	tests/homepage-real-examples-preview.test.ts
+7 white-label	tests/hreflang-variants.test.ts
+Z no signal	tests/image-direct-fallback-policy.test.ts
+3 cny	tests/image-generation-client.test.ts
+Z no signal	tests/image-generation-server-architecture.test.ts
+5 llmhub-api	tests/image-generation-service-parity.test.ts
+7 white-label	tests/image-output-storage.test.ts
+Z no signal	tests/indexnow-url-selection.test.ts
+Z no signal	tests/integration/mcp-paid-generation.test.ts
+Z no signal	tests/integration/mcp-seedance-mini-trial.test.ts
+1 zh	tests/jsonld-serialization.test.ts
+7 white-label	tests/keyvo-admin-auth-fixture.test.ts
+7 white-label	tests/keyvo-auth-config.test.ts
+3 cny	tests/keyvo-cny-assistance-wallet-postgres.test.ts
+3 cny	tests/keyvo-cny-credit-packs-postgres.test.ts
+1 zh	tests/keyvo-github-publication.test.ts
+2 llmhub-pay	tests/keyvo-merge-billing.test.ts
+1 zh	tests/keyvo-merged-localization-render.test.ts
+7 white-label	tests/keyvo-migration-runner-postgres.test.ts
+7 white-label	tests/keyvo-plugin-package.test.ts
+3 cny	tests/keyvo-system-audit-regressions.test.ts
+3 cny	tests/keyvo-wallet-route-currency.test.ts
+Z no signal	tests/kling-3-turbo-direct-contract.test.ts
+7 white-label	tests/kling-direct-elements.test.ts
+1 zh	tests/kling-element-image-dimensions.test.ts
+Z no signal	tests/kling-provider-routing.test.ts
+5 llmhub-api	tests/llmhub-flare-generation.test.ts
+5 llmhub-api	tests/llmhub-gpt-image-output.test.ts
+2 llmhub-pay	tests/llmhub-pay-architecture.test.ts
+2 llmhub-pay	tests/llmhub-pay-checkout-recovery.test.ts
+2 llmhub-pay	tests/llmhub-pay-notify-route.test.ts
+1 zh	tests/llmhub-pay-protocol.test.ts
+5 llmhub-api	tests/llmhub-provider-routing.test.ts
+3 cny	tests/llmhub-video-poll.test.ts
+7 white-label	tests/localized-fallback-seo.test.ts
+7 white-label	tests/login-auth-surface-contract.test.ts
+3 cny	tests/login-continuation-confidence.test.ts
+Z no signal	tests/login-copy-localization.test.ts
+Z no signal	tests/login-mcp-surface.test.ts
+1 zh	tests/login-metadata.test.ts
+Z no signal	tests/login-route-state.test.ts
+Z no signal	tests/luma-agents-image-provider.test.ts
+Z no signal	tests/luma-agents-provider-routing.test.ts
+7 white-label	tests/luma-mini-seo-comparisons.test.ts
+Z no signal	tests/manual-tariff-coverage.test.ts
+1 zh	tests/marketing-client-message-performance-contract.test.ts
+7 white-label	tests/marketing-jsonld-schema-audit.test.ts
+Z no signal	tests/marketing-language-switch.test.ts
+7 white-label	tests/marketing-layout-cache-contract.test.ts
+Z no signal	tests/marketing-locale-routing.test.ts
+1 zh	tests/marketing-navigation-browser.test.ts
+1 zh	tests/marketing-navigation-rendering.test.ts
+Z no signal	tests/marketing-navigation.test.ts
+Z no signal	tests/marketing-redesign-pass.test.ts
+Z no signal	tests/marketing-route-styles-contract.test.ts
+7 white-label	tests/marketing-theme-boundary.test.ts
+7 white-label	tests/maxvideoai-plugin-mirror.test.ts
+7 white-label	tests/mcp-account-destinations.test.ts
+7 white-label	tests/mcp-account-status.test.ts
+7 white-label	tests/mcp-acquisition-attribution.test.ts
+7 white-label	tests/mcp-acquisition-strategy.test.ts
+Z no signal	tests/mcp-config.test.ts
+7 white-label	tests/mcp-confirm-generation.test.ts
+7 white-label	tests/mcp-connections-contract.test.ts
+7 white-label	tests/mcp-default-services-config.test.ts
+7 white-label	tests/mcp-docs-content.test.ts
+7 white-label	tests/mcp-generation-recovery-tools.test.ts
+1 zh	tests/mcp-host-proof.test.ts
+7 white-label	tests/mcp-inline-media-app.test.ts
+7 white-label	tests/mcp-instructions.test.ts
+Z no signal	tests/mcp-launch-readiness.test.ts
+Z no signal	tests/mcp-legal-support-readiness.test.ts
+7 white-label	tests/mcp-marketing-copy.test.ts
+7 white-label	tests/mcp-marketing-route-architecture.test.ts
+5 llmhub-api	tests/mcp-model-catalog.test.ts
+5 llmhub-api	tests/mcp-model-details.test.ts
+5 llmhub-api	tests/mcp-model-executability.test.ts
+7 white-label	tests/mcp-oauth-discovery.test.ts
+Z no signal	tests/mcp-paid-e2e-proof-contract.test.ts
+7 white-label	tests/mcp-plugin-contract.test.ts
+7 white-label	tests/mcp-prepare-generation.test.ts
+7 white-label	tests/mcp-project-budget.test.ts
+7 white-label	tests/mcp-public-release-bundle.test.ts
+Z no signal	tests/mcp-publication.test.ts
+7 white-label	tests/mcp-reference-direct-upload.test.ts
+7 white-label	tests/mcp-reference-file-import.test.ts
+7 white-label	tests/mcp-reference-upload-app.test.ts
+7 white-label	tests/mcp-reference-upload-handoff.test.ts
+7 white-label	tests/mcp-seedance-workflow-postgres.test.ts
+7 white-label	tests/mcp-seo-review-remediation.test.ts
+7 white-label	tests/mcp-seo-signals.test.ts
+Z no signal	tests/mcp-staging-provider-canary-access.test.ts
+Z no signal	tests/mcp-tool-selection-eval.test.ts
+7 white-label	tests/mcp-tools-contract.test.ts
+7 white-label	tests/mcp-topup-handoff.test.ts
+7 white-label	tests/mcp-transport-contract.test.ts
+Z no signal	tests/mcp-trial-reconciliation.test.ts
+7 white-label	tests/mcp-workspace-promotion.test.ts
+1 zh	tests/media-action-panel-dom.test.ts
+7 white-label	tests/minimax-h3-seo-discovery.test.ts
+7 white-label	tests/model-archive-publication.test.ts
+Z no signal	tests/model-editorial-disclosures.test.ts
+Z no signal	tests/model-image-decision-parity.test.ts
+Z no signal	tests/model-landing-data-architecture.test.ts
+3 cny	tests/model-page-decision-data.test.ts
+Z no signal	tests/model-page-layout-architecture.test.ts
+3 cny	tests/model-page-loading-performance.test.ts
+7 white-label	tests/model-page-policy-postgres.test.ts
+7 white-label	tests/model-page-price-projection.test.ts
+Z no signal	tests/model-page-static-architecture.test.ts
+3 cny	tests/model-page-template-content.test.ts
+Z no signal	tests/model-registry-validation.test.ts
+7 white-label	tests/model-seo-signals.test.ts
+Z no signal	tests/model-setup-cli.test.ts
+Z no signal	tests/model-unused-example-pricing.test.ts
+7 white-label	tests/models-catalog-streaming.test.ts
+Z no signal	tests/p0-pricing-discovery.test.ts
+6 cn-providers	tests/p0-provider-routing.test.ts
+7 white-label	tests/p0-seo-link-graph.test.ts
+3 cny	tests/p0-video-pricing-parity.test.ts
+7 white-label	tests/p1-llms-discovery.test.ts
+Z no signal	tests/p1-sitemap-delta.test.ts
+Z no signal	tests/password-recovery.test.ts
+Z no signal	tests/payg-ai-video-generator-page.test.ts
+6 cn-providers	tests/payg-current-video-pricing.test.ts
+3 cny	tests/payg-page-content-contract.test.ts
+3 cny	tests/payg-page-data-cny.test.ts
+3 cny	tests/payg-page-rendering.test.ts
+Z no signal	tests/preflight-media-pricing.test.ts
+7 white-label	tests/premerge-seo-routes.test.ts
+Z no signal	tests/preview-thumbnail-loading.test.ts
+3 cny	tests/pricing-page-architecture.test.ts
+Z no signal	tests/pricing-public-projection.test.ts
+7 white-label	tests/product-brand-coverage.test.ts
+3 cny	tests/product-schema-customer-price.test.ts
+3 cny	tests/product-schema-visible-offer.test.ts
+1 zh	tests/production-navigation.test.ts
+Z no signal	tests/production-page-architecture.test.ts
+7 white-label	tests/public-video-presence-postgres.test.ts
+7 white-label	tests/public-video-presence.test.ts
+7 white-label	tests/public-watch-runtime-behavior.test.ts
+7 white-label	tests/public-watch-runtime-remount.test.ts
+Z no signal	tests/quality-ci-contract.test.ts
+7 white-label	tests/recent-generations-service.test.ts
+5 llmhub-api	tests/return-policy-route.test.ts
+7 white-label	tests/schema-sitemap-architecture.test.ts
+7 white-label	tests/seedance-1-5-sunset.test.ts
+Z no signal	tests/seedance-2-5-edit-transport-fallback.test.ts
+7 white-label	tests/seedance-2-5-marketing-page.test.ts
+1 zh	tests/seedance-2-5-media-constraints.test.ts
+Z no signal	tests/seedance-2-5-modelark-edit-routing.test.ts
+1 zh	tests/seedance-prelaunch.test.ts
+1 zh	tests/seedance-refund-regressions.test.ts
+1 zh	tests/seedance25-official-task-contract.test.ts
+5 llmhub-api	tests/seedream-image-model.test.ts
+7 white-label	tests/seo-complete-titles.test.ts
+1 zh	tests/site-experience-policy.test.ts
+7 white-label	tests/site-origin.test.ts
+Z no signal	tests/sitemap-preview-index.test.ts
+7 white-label	tests/sora-sunset.test.ts
+3 cny	tests/stripe-webhook-topup-events.test.ts
+7 white-label	tests/studio-assistance-credits-dialog.test.ts
+3 cny	tests/studio-call-runtime-postgres.test.ts
+Z no signal	tests/studio-capability-projection.test.ts
+Z no signal	tests/studio-conversation-edit-command-postgres.test.ts
+7 white-label	tests/studio-conversation-editing-route.test.ts
+7 white-label	tests/studio-conversation-renewal-lifecycle.test.ts
+7 white-label	tests/studio-conversation-thumbnails.test.ts
+7 white-label	tests/studio-director-instructions.test.ts
+3 cny	tests/studio-export-currency-contract.test.ts
+7 white-label	tests/studio-marketing-page.test.ts
+Z no signal	tests/studio-project-asset-cache-repair-postgres.test.ts
+Z no signal	tests/studio-project-asset-reference.test.ts
+Z no signal	tests/studio-video-facts-insertion.test.ts
+Z no signal	tests/theme-preference.test.ts
+7 white-label	tests/theme-runtime-behavior.test.ts
+7 white-label	tests/timeline-export-cloudfront-guard.test.ts
+7 white-label	tests/timeline-export-ecs-network.test.ts
+Z no signal	tests/timeline-export-orchestration.test.ts
+3 cny	tests/timeline-export-server-contract.test.ts
+7 white-label	tests/tool-journey-seo.test.ts
+Z no signal	tests/tool-marketing-landing-architecture.test.ts
+1 zh	tests/trending-comparison-wave.test.ts
+7 white-label	tests/upscale-marketing-content.test.ts
+7 white-label	tests/upscale-server-architecture.test.ts
+K kept (documented)	tests/upstream-deviation-report.test.ts
+7 white-label	tests/user-facing-failure-messages.test.ts
+Z no signal	tests/validate-request.test.ts
+7 white-label	tests/video-seo-audit-report.test.ts
+7 white-label	tests/video-seo-canonical-slugs.test.ts
+7 white-label	tests/video-seo-editorial-contract.test.ts
+7 white-label	tests/video-seo-editorial-validation.test.ts
+7 white-label	tests/video-seo-no-unused-price.test.ts
+7 white-label	tests/video-seo-visual-prompt-exception.test.ts
+7 white-label	tests/video-sharing.test.ts
+1 zh	tests/video-watch-share-dom.test.ts
+Z no signal	tests/videoai-design-contract.test.ts
+7 white-label	tests/wallet-checkout-session.test.ts
+3 cny	tests/wallet-summary.test.ts
+1 zh	tests/wan-3-reference-audio-constraints.test.ts
+7 white-label	tests/workspace-app-client-architecture.test.ts
+1 zh	tests/workspace-gallery-rail-contract.test.ts
+1 zh	tests/workspace-locale-copy.test.ts
+1 zh	tests/workspace-reference-presentation.test.ts
+Z no signal	tests/workspace-shell-route-state-contract.test.ts
+3 cny	tests/workspace-topup.test.ts
+1 zh	tests/zh-authenticated-workspace-copy.test.ts
+1 zh	tests/zh-capability-copy.test.ts
+1 zh	tests/zh-compare-pricing-copy.test.ts
+1 zh	tests/zh-content-coverage.test.ts
+1 zh	tests/zh-generation-failure-copy.test.ts
+1 zh	tests/zh-public-copy.test.ts
+1 zh	tests/zh-public-meta-c1-contract.test.ts
+1 zh	tests/zh-runtime-copy.test.ts

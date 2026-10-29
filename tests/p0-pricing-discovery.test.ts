@@ -33,6 +33,15 @@ const P0_IDS: string[] = ALL_P0_IDS.filter(isVisibleP0);
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
 const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5', 'flux-3'] as const).filter(isVisibleP0);
 const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro', 'wan-3-prime'] as const).filter(isVisibleP0);
+const P0_PAYG_PRESETS = {
+  'ltx-2-5-pro': '10s-720p',
+  'ltx-2-5-fast': '10s-720p',
+  'wan-3-prime': '5s-720p',
+  'wan-3': '5s-720p',
+  'grok-imagine-video-1-5': '5s-720p',
+  'flux-3': '5s-720p',
+  'flux-3-draft': '5s-720p',
+} as const;
 const entries = listFalEngines();
 
 function publishedP0Entries(): FalEngineEntry[] {
@@ -160,9 +169,10 @@ test('published P0 representatives and pricing data project consistently into PA
     assert.deepEqual(p0IdsIn(data.priceLookups.items), P0_IDS, `${locale}:lookups`);
     assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS, `${locale}:examples`);
     for (const id of P0_REPRESENTATIVE_IDS) {
-      assert.match(
-        data.pricing.rows.find((row) => row.id === id)?.compareHref ?? '',
-        /^\/(?:fr\/comparatif|es\/comparativa|ai-video-engines)\/[a-z0-9-]+-vs-[a-z0-9-]+$/,
+      // Keyvo hides the comparison pages, so pricing rows carry no comparison link.
+      assert.equal(
+        data.pricing.rows.find((row) => row.id === id)?.compareHref,
+        undefined,
         `${locale}:${id}:comparison`,
       );
     }
@@ -244,7 +254,7 @@ test('a future PAYG config fails closed until its canonical pricing row is visib
   assert.deepEqual(visible.exampleCosts.items.map((item) => item.id), [futureId]);
   assert.equal(visible.modelTesting.items[0]?.href, `/models/${futureId}`);
   assert.deepEqual(visible.priceLookups.items[0]?.href, { pathname: '/pricing', hash: `${futureId}-pricing` });
-  assert.deepEqual(visible.exampleCosts.items[0]?.href, { pathname: '/pricing', hash: `${futureId}-pricing` });
+  assert.equal(visible.exampleCosts.items[0]?.href, `/app?engine=${futureId}`);
 });
 
 test('explicit published model fallbacks remain available without a pricing row', () => {
@@ -330,8 +340,9 @@ test('published fixtures expose all P0 model cards and one current row per famil
     );
     assert.deepEqual(p0IdsIn(data.hero.quote.previewRows), P0_REPRESENTATIVE_IDS);
     for (const id of P0_IDS) {
-      const sourceQuote = pricingHub.video.rows.find((row) => row.id === id)?.quotes['5s-720p'];
-      assert.ok(sourceQuote?.display, `${locale}:${id}:5s-source-quote`);
+      const presetId = P0_PAYG_PRESETS[id];
+      const sourceQuote = pricingHub.video.rows.find((row) => row.id === id)?.quotes[presetId];
+      assert.ok(sourceQuote?.display, `${locale}:${id}:${presetId}:source-quote`);
       assert.equal(
         data.priceLookups.items.find((item) => item.id === id)?.price,
         sourceQuote.display,
@@ -339,7 +350,7 @@ test('published fixtures expose all P0 model cards and one current row per famil
       );
     }
     for (const id of P0_VISIBLE_EXAMPLE_IDS) {
-      const sourceQuote = pricingHub.video.rows.find((row) => row.id === id)?.quotes['5s-720p'];
+      const sourceQuote = pricingHub.video.rows.find((row) => row.id === id)?.quotes[P0_PAYG_PRESETS[id]];
       assert.equal(
         data.exampleCosts.items.find((item) => item.id === id)?.price,
         sourceQuote?.display,
@@ -360,6 +371,12 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
     amountCents: 43_210,
     display: '$432.10',
   };
+  sourceRow.quotes['8s-1080p'] = {
+    ...sourceRow.quotes['8s-1080p'],
+    status: 'exact',
+    amountCents: 65_432,
+    display: '$654.32',
+  };
 
   const data = buildPayAsYouGoPageData({ locale: 'en', content, pricingHub });
   assert.equal(
@@ -379,7 +396,7 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
     '$432.10',
   );
-  assert.doesNotMatch(JSON.stringify(content), /432\.10/);
+  assert.doesNotMatch(JSON.stringify(content), /432\.10|654\.32/);
 });
 
 test('P0 discovery config and localized content own no finished price or rate', () => {

@@ -25,6 +25,18 @@ export const GEMINI_OMNI_SOURCE_VIDEO_ACTIVE_MESSAGE =
 export const GEMINI_OMNI_REFINE_ACTIVE_MESSAGE =
   'Refine uses a previous interaction id. Clear it before adding image, references, or source video.';
 
+const GEMINI_OMNI_ZH_MESSAGES: Record<string, string> = {
+  [GEMINI_OMNI_SOURCE_IMAGE_ACTIVE_MESSAGE]: '源图像正在控制此 Omni 工作流。请先移除它，再使用参考素材、视频编辑或精修。',
+  [GEMINI_OMNI_REFERENCE_IMAGES_ACTIVE_MESSAGE]: '参考图像正在控制此 Omni 工作流。请先移除参考图，再使用源图像、视频编辑或精修。',
+  [GEMINI_OMNI_SOURCE_VIDEO_ACTIVE_MESSAGE]: '源视频正在控制此 Omni 工作流。请先移除源视频，再使用图像、参考素材、纯文本或精修。',
+  [GEMINI_OMNI_REFINE_ACTIVE_MESSAGE]: '精修会沿用上一次交互 ID。请先清除该 ID，再添加图像、参考素材或源视频。',
+};
+
+/** Displays the English workflow notice in the requested locale; unknown messages pass through unchanged. */
+export function localizeGeminiOmniMessage(message: string, locale?: string | null): string {
+  return locale === 'zh' ? GEMINI_OMNI_ZH_MESSAGES[message] ?? message : message;
+}
+
 export type GeminiOmniAssetState = {
   hasSourceImage: boolean;
   hasReferenceImages: boolean;

@@ -130,6 +130,7 @@
       },
       "examples": {
         "items": {
+          "all-examples": "All examples",
           "sora": "Sora",
           "sora-2": "Sora 2",
           "sora-2-pro": "Sora 2 Pro",
@@ -156,7 +157,10 @@
           "ltx-2-fast": "LTX 2 Fast"
         },
         "heading": "Watch before you choose.",
-        "intro": "Real videos, prompts and model details."
+        "intro": "Real videos, prompts and model details.",
+        "descriptions": {
+          "all-examples": "Videos and prompts from every model."
+        }
       },
       "compare": {
         "items": {
@@ -579,6 +583,7 @@
             },
             {
               "engineId": "seedance-2-5",
+              "imageAlt": "Preview of a 10-second AI video generated with Seedance 2.5.",
               "name": "Seedance 2.5",
               "provider": "ByteDance",
               "bestFor": "Complex cinematic physics",
@@ -605,6 +610,7 @@
             },
             {
               "engineId": "wan-3-prime",
+              "imageAlt": "Preview of a 5-second AI video generated with Wan 3 Prime.",
               "name": "Wan 3 Prime",
               "provider": "Alibaba",
               "bestFor": "Controlled craft motion",
@@ -631,6 +637,7 @@
             },
             {
               "engineId": "kling-3-pro",
+              "imageAlt": "Preview of a 12-second image-to-video clip generated with Kling 3 Pro.",
               "name": "Kling 3 Pro",
               "provider": "Kuaishou",
               "bestFor": "Camera movement",
@@ -657,6 +664,7 @@
             },
             {
               "engineId": "ltx-2-5-pro",
+              "imageAlt": "Preview of a 6-second image-to-video clip generated with LTX 2.5 Pro.",
               "name": "LTX 2.5 Pro",
               "provider": "Lightricks",
               "bestFor": "Fast image animation",
@@ -4161,7 +4169,7 @@
         "llmhubAlipay": "Alipay",
         "llmhubWxpay": "WeChat Pay",
         "customLabel": "Custom amount",
-        "customPresetLabel": "Custom",
+        "customPresetLabel": "Other",
         "customPresetHint": "Enter amount",
         "customPlaceholder": "Minimum ¥80",
         "customHint": "Enter any amount from ¥80.",
@@ -4172,6 +4180,8 @@
         "chooseAmount": "Select",
         "expressTitle": "Pay instantly",
         "expressLoading": "Loading secure payment options…",
+        "expressSlow": "Payment options are taking longer to load. You can also pay by card below.",
+        "expressRetry": "Try again",
         "expressUnavailable": "Instant payment is unavailable. Choose another payment method below.",
         "expressError": "Unable to open instant payment. Choose another payment method below.",
         "expressClosed": "Payment window closed. Try again or choose another method below.",
@@ -6744,7 +6754,15 @@
         "exportWorkerEmpty": "The server accepted the export request but did not return a render task. Billing was released for this failed launch.",
         "insufficientWalletBalance": "Your wallet balance is too low for this export.",
         "exportCreateFailed": "The export job could not be created.",
-        "exportJobInvalid": "The export job response was invalid."
+        "exportJobInvalid": "The export job response was invalid.",
+        "timelineProcessingIssue": "{item} is still processing and cannot be rendered yet.",
+        "timelineFailedIssue": "{item} failed and has no renderable media.",
+        "timelineMissingMediaIssue": "{item} has no media URL for final render.",
+        "timelineLinkedAudioIssue": "{item} is linked audio without a matching video clip.",
+        "timelineMissingDimensionsIssue": "{item} has unknown source dimensions. The render will keep a full-frame fallback until metadata is measured.",
+        "timelineTransitionNoNextIssue": "{item} has a transition but no next video clip.",
+        "timelineCrossfadeGapIssue": "{item} has a crossfade across a gap.",
+        "timelineEmptyIssue": "The timeline is empty."
       },
       "assetLibrary": {
         "library": "Choose from Media",
@@ -7085,7 +7103,7 @@
     "scorecard": {
       "title": "Compare the strengths.",
       "subtitle": "Scores reflect quality and control on Keyvo across 11 criteria.",
-      "provisionalNote": "Pre-launch scores are provisional and will update once runtime renders and final pricing are available.",
+      "provisionalNote": "Pre-launch scores are provisional and need review once runtime renders are available.",
       "strengthsLabel": "Strengths",
       "winnerSummary": "At a glance",
       "winnerSummaryPrelaunch": "Current leader (pre-launch)",

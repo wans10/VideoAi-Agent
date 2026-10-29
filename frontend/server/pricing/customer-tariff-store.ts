@@ -159,13 +159,32 @@ async function readState(executor: QueryExecutor, selector?: ManualTariffSelecto
     const args = keys ? [keys.length > 1 ? keys : keys[0]] : [];
     [state] = await executor.query<RawState>('SELECT revision, active FROM app_customer_tariff_state WHERE singleton = TRUE');
     if (!state) return { status: 'unavailable' };
-    rows = await executor.query<RawCell>(
-      `SELECT id, selector_json, price_json, currency, effective_from, effective_until, revision
-       FROM app_customer_tariff_cells ${where} ORDER BY id`, args);
-    versions = state.active ? await executor.query<RawCell>(
-      `SELECT tariff_id AS id, selector_json, price_json, currency, effective_from, effective_until, revision
-       FROM app_customer_tariff_cell_versions ${where} ORDER BY tariff_id, revision`, args) : [];
+    if (state.active && keys) {
+      // One selected read preserves every interval and the historical/current order.
+      const selected = await executor.query<RawCell & { row_source: number }>(
+        `SELECT 0 AS row_source, tariff_id AS id, selector_json, price_json, currency, effective_from, effective_until, revision
+         FROM app_customer_tariff_cell_versions ${where}
+         UNION ALL
+         SELECT 1 AS row_source, id, selector_json, price_json, currency, effective_from, effective_until, revision
+         FROM app_customer_tariff_cells ${where}
+         ORDER BY row_source, id, revision`, args);
+      versions = selected.filter(row => row.row_source === 0);
+      rows = selected.filter(row => row.row_source === 1);
+    } else {
+      rows = await executor.query<RawCell>(
+        `SELECT id, selector_json, price_json, currency, effective_from, effective_until, revision
+         FROM app_customer_tariff_cells ${where} ORDER BY id`, args);
+      versions = state.active ? await executor.query<RawCell>(
+        `SELECT tariff_id AS id, selector_json, price_json, currency, effective_from, effective_until, revision
+         FROM app_customer_tariff_cell_versions ${where} ORDER BY tariff_id, revision`, args) : [];
+    }
   }
+  return projectSelectedState(state, selectors, versions, rows);
+}
+
+function projectSelectedState(state: RawState, selectors: ManualTariffSelector[] | null,
+  versions: RawCell[], rows: RawCell[]): EffectiveCustomerTariffState {
+  const keys = selectors?.map(selectorKey);
   if (versionedDocument.schemaVersion !== 1 || !Array.isArray(versionedDocument.cells)) return { status: 'unavailable' };
   return {
     status: 'loaded', revision: integer(state.revision), active: state.active && customerTariffsEnabledByCode(),
@@ -183,6 +202,63 @@ export async function loadEffectiveCustomerTariffState(executor?: QueryExecutor)
 /** A quote reads only its exact selector; the admin inventory can explicitly read all cells. */
 export async function loadCustomerTariffQuoteState(selector: ManualTariffSelector, executor?: QueryExecutor): Promise<EffectiveCustomerTariffState> {
   return loadState(executor, selector);
+}
+
+/** Concurrent public quotes share a fresh, selected snapshot without maintenance locks. */
+export async function loadCustomerTariffQuoteStates(selectors: ManualTariffSelector[]): Promise<EffectiveCustomerTariffState[]> {
+  if (!selectors.length) return [];
+  const unavailable = (): EffectiveCustomerTariffState[] => selectors.map(() => ({ status: 'unavailable' }));
+  try {
+    const client = await getDb().connect();
+    try {
+      await client.query('BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
+      const [state] = await createQueryExecutor(client).query<RawState>(
+        'SELECT revision, active FROM app_customer_tariff_state WHERE singleton = TRUE');
+      if (!state) throw new Error('Customer tariff state is missing');
+      const keys = [...new Set(selectors.flatMap(quoteSelectors).map(selectorKey))];
+      const result = await createQueryExecutor(client).query<RawCell & { selector_key: string; row_source: number }>(
+        state.active
+          ? `SELECT 0 AS row_source, tariff_id AS id, selector_key, selector_json, price_json, currency, effective_from, effective_until, revision
+             FROM app_customer_tariff_cell_versions WHERE selector_key = ANY($1::text[])
+             UNION ALL
+             SELECT 1 AS row_source, id, selector_key, selector_json, price_json, currency, effective_from, effective_until, revision
+             FROM app_customer_tariff_cells WHERE selector_key = ANY($1::text[])
+             ORDER BY row_source, id, revision`
+          : `SELECT 1 AS row_source, id, selector_key, selector_json, price_json, currency, effective_from, effective_until, revision
+             FROM app_customer_tariff_cells WHERE selector_key = ANY($1::text[]) ORDER BY id`, [keys]);
+      const versions = indexRawCells(result.filter(row => row.row_source === 0));
+      const rows = indexRawCells(result.filter(row => row.row_source === 1));
+      const states = selectors.map(selector => {
+        try {
+          const selected = quoteSelectors(selector), selectedKeys = selected.map(selectorKey);
+          return structuredClone(projectSelectedState(state, selected,
+            selectBatchRows(versions, selectedKeys), selectBatchRows(rows, selectedKeys)));
+        } catch { return { status: 'unavailable' } as const; }
+      });
+      await client.query('COMMIT');
+      return states;
+    } catch {
+      await client.query('ROLLBACK').catch(() => undefined);
+      return unavailable();
+    } finally { client.release(); }
+  } catch { return unavailable(); }
+}
+
+/** Coalesce only concurrent calls. Later batches read current prices and revision again. */
+export function createScopedCustomerTariffQuoteLoader(): (selector: ManualTariffSelector) => Promise<EffectiveCustomerTariffState> {
+  let pending: Array<{ selector: ManualTariffSelector; resolve: (state: EffectiveCustomerTariffState) => void }> = [];
+  return selector => new Promise(resolve => {
+    pending.push({ selector, resolve });
+    if (pending.length !== 1) return;
+    queueMicrotask(() => {
+      const batch = pending;
+      pending = [];
+      void loadCustomerTariffQuoteStates(batch.map(item => item.selector)).then(
+        states => batch.forEach((item, index) => item.resolve(states[index])),
+        () => batch.forEach(item => item.resolve({ status: 'unavailable' })),
+      );
+    });
+  });
 }
 
 async function loadState(executor?: QueryExecutor, selector?: ManualTariffSelector): Promise<EffectiveCustomerTariffState> {

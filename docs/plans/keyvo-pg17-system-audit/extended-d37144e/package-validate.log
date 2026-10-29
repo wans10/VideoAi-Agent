@@ -1,8 +1,0 @@
-Validating marketplace manifest: /Users/yangbojun/IdeaProjects/VideoAi-Agent/.worktrees/keyvo-completeness/plugins/keyvo/.claude-plugin/marketplace.json
-
-ℹ Advice (does not change the verdict):
-
-  ❯ /Users/yangbojun/IdeaProjects/VideoAi-Agent/.worktrees/keyvo-completeness/plugins/keyvo/README.md: This README has no line that installs "maxvideoai" from a marketplace. Add the install line, which works in one step on Claude Code 2.1.275 or later. In it, replace <owner>/<repo> with the repository that holds the marketplace.
-      /plugin install maxvideoai --marketplace <owner>/<repo>
-
-✔ Validation passed

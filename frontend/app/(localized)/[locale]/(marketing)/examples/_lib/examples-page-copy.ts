@@ -1,8 +1,6 @@
 import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
-import { normalizeEngineId } from '@/lib/engine-alias';
-import type { ExampleGalleryVideo } from '@/components/examples/examples-gallery-types';
 import type { AppLocale } from '@/i18n/locales';
-import { buildCompareHref, buildModelHref, formatPromptExcerpt } from './examples-route-utils';
+import { buildCompareHref, buildModelHref } from './examples-route-utils';
 
 type PaginationDictionary = {
   prev?: string;
@@ -43,7 +41,7 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
           loading: 'Chargement…',
           noPreview: 'Aucun aperçu',
           audioAvailable: 'Audio disponible à la lecture',
-          detailsCta: 'Voir réglages et prix',
+          detailsCta: 'Voir prompt, réglages et prix',
         }
       : locale === 'es'
         ? {
@@ -54,7 +52,7 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
             loading: 'Cargando…',
             noPreview: 'Sin vista previa',
             audioAvailable: 'Audio disponible al reproducir',
-            detailsCta: 'Ver ajustes y precio',
+            detailsCta: 'Ver prompt, ajustes y precio',
           }
         : locale === 'zh' ? {
             prev: '上一页', next: '下一页', page: '页', loadMore: '加载更多案例', loading: '加载中…', noPreview: '暂无预览', audioAvailable: '播放时可听音频', detailsCta: '查看设置与价格',
@@ -66,7 +64,7 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
             loading: 'Loading…',
             noPreview: 'No preview',
             audioAvailable: 'Audio available on playback',
-            detailsCta: 'View settings & price',
+            detailsCta: 'View prompt, settings & price',
           };
 
   return {
@@ -142,24 +140,7 @@ export function getExamplesModelPageLabels({
           : locale === 'es'
             ? 'Páginas de modelo actuales'
             : locale === 'zh' ? '当前模型页面' : 'Current model pages';
-  const supportedOlderVersionLabel =
-    isKlingLanding
-      ? locale === 'fr'
-        ? 'Anciens modèles Kling encore pris en charge'
-        : locale === 'es'
-          ? 'Modelos Kling anteriores aún compatibles'
-          : locale === 'zh' ? '仍受支持的旧版 Kling 模型' : 'Supported older Kling models'
-      : isLtxLanding
-        ? locale === 'fr'
-          ? 'Modèles LTX plus anciens encore pris en charge'
-          : locale === 'es'
-            ? 'Modelos LTX anteriores aún compatibles'
-            : locale === 'zh' ? '仍受支持的旧版 LTX 模型' : 'Supported older LTX models'
-      : locale === 'fr'
-        ? 'Version plus ancienne prise en charge'
-        : locale === 'es'
-          ? 'Versión anterior compatible'
-          : locale === 'zh' ? '仍受支持的旧版模型' : 'Supported older version';
+  const supportedOlderVersionLabel = locale === 'fr' ? 'Versions historiques' : locale === 'es' ? 'Versiones anteriores' : locale === 'zh' ? '更早版本' : 'Earlier versions';
   const pricingLinkLabel =
     locale === 'fr' ? 'Comparer les tarifs' : locale === 'es' ? 'Comparar precios' : locale === 'zh' ? '比较价格' : 'Compare pricing';
 
@@ -301,22 +282,4 @@ export function getExamplesMainVideoCopy(locale: AppLocale, familySlug?: string)
     audioOn: 'Audio on',
     fullPrompt: 'Full prompt',
   };
-}
-
-/** Reuse only public summaries already selected for this gallery page. */
-export function buildExamplesPromptStarters(
-  family: string | null,
-  examples: ExampleGalleryVideo[],
-  sources: ReadonlyArray<{ id: string; promptExcerpt?: string | null; prompt?: string | null }>,
-) {
-  const prompts = new Map(sources.map(source => [source.id, formatPromptExcerpt(source.promptExcerpt || source.prompt || '')]));
-  const versionGroups = family === 'ltx'
-    ? [['ltx-2-5-pro', 'ltx-2-5-fast'], ['ltx-2-3-pro', 'ltx-2-3-fast']]
-    : family === 'seedance' ? [['seedance-2-5'], ['seedance-2-0', 'seedance-2-0-fast']] : [];
-  return versionGroups.flatMap(group => {
-    const ids = group.map(id => normalizeEngineId(id));
-    const video = examples.find(item => ids.includes(normalizeEngineId(item.engineIconId)) && prompts.get(item.id)?.trim() && item.href);
-    return video ? [{ href: video.href, engineLabel: video.engineLabel, prompt: prompts.get(video.id)!,
-      durationSec: video.durationSec, aspectRatio: video.aspectRatio, hasAudio: video.hasAudio }] : [];
-  });
 }

@@ -60,7 +60,7 @@
       }
     ],
     "heroTrustLine": "Paiement à l’usage · Prix affiché avant génération",
-    "heroDesc1": "Sora 2 Pro est le grand frère premium de Sora 2. La route VideoAI actuelle expose 720p/1080p, une bascule audio explicite et un chaînage de prompts plus riche pour des séquences multi‑beats.",
+    "heroDesc1": "Sora 2 Pro est le grand frère premium de Sora 2. La route MaxVideoAI actuelle expose 720p/1080p, une bascule audio explicite et un chaînage de prompts plus riche pour des séquences multi‑beats.",
     "heroDesc2": "Prototypez vite avec Sora 2, puis passez à Sora 2 Pro pour régénérer vos plans gagnants avec un contrôle plus fin du timing, du mouvement et du son.",
     "secondaryCta": "Comparer Sora 2 vs Sora 2 Pro (haute résolution)",
     "whyTitle": "Pourquoi Sora 2 Pro est puissant",
@@ -71,7 +71,7 @@
       "Idéal pour les prises finales||À utiliser quand le concept est verrouillé et que vous voulez le rendu le plus propre."
     ],
     "specTitle": "Specs réelles — OpenAI Sora 2 Pro",
-    "specNote": "Limites de la route VideoAI actuelle. Les notes fournisseur/famille peuvent décrire des capacités plus larges hors route exposée.",
+    "specNote": "Limites de la route MaxVideoAI actuelle. Les notes fournisseur/famille peuvent décrire des capacités plus larges hors route exposée.",
     "specSections": [
       {
         "title": "Contrôle haute fidélité",
@@ -94,7 +94,7 @@
         ]
       }
     ],
-    "specValueProp": "Sora 2 Pro est fait pour des sorties 720p/1080p avec contrôle audio et continuité multi‑scènes sur la route VideoAI actuelle.",
+    "specValueProp": "Sora 2 Pro est fait pour des sorties 720p/1080p avec contrôle audio et continuité multi‑scènes sur la route MaxVideoAI actuelle.",
     "microCta": "Générer avec Sora 2 Pro →",
     "imageTitle": "Image→Vidéo avec Sora 2 Pro",
     "imageIntro": "Verrouillez le style avec un visuel, puis animez avec un mouvement précis et des repères audio.",
@@ -120,7 +120,7 @@
     ],
     "tipsTitle": "Conseils & limites",
     "strengths": [
-      "Sorties 720p/1080p pour des rendus premium sur la route VideoAI actuelle",
+      "Sorties 720p/1080p pour des rendus premium sur la route MaxVideoAI actuelle",
       "Bascule audio avec gestion explicite des cues",
       "Chaînage multi‑scènes avec meilleure continuité",
       "Idéal pour pubs, trailers, explainers, decks clients",
@@ -147,7 +147,7 @@
     "comparisonTitle": "Sora 2 vs Sora 2 Pro",
     "comparisonPoints": [
       "Prototypez en Sora 2 (720p) pour la vitesse et le coût.",
-      "Finalisez en Sora 2 Pro (720p/1080p dans VideoAI aujourd’hui) pour le polish, le contrôle audio et la continuité.",
+      "Finalisez en Sora 2 Pro (720p/1080p dans MaxVideoAI aujourd’hui) pour le polish, le contrôle audio et la continuité.",
       "Même workflow : changez d’engin dans la même UI quand vous êtes prêt à upscaler."
     ],
     "comparisonCta": "Comparer Sora 2 et Sora 2 Pro →",
@@ -163,7 +163,7 @@
       },
       {
         "q": "Faut‑il prototyper d’abord en Sora 2 ?",
-        "a": "Souvent oui : explorez vite et pas cher en Sora 2, puis régénérez vos sélections en Pro en 720p/1080p sur la route VideoAI actuelle avec contrôle audio."
+        "a": "Souvent oui : explorez vite et pas cher en Sora 2, puis régénérez vos sélections en Pro en 720p/1080p sur la route MaxVideoAI actuelle avec contrôle audio."
       },
       {
         "q": "Puis‑je faire de l’image→vidéo avec Sora 2 Pro ?",
@@ -173,7 +173,7 @@
     "relatedTitle": "Explorer d’autres modèles",
     "relatedSubtitle": "Comparez prix, latence et options de sortie sur les autres modèles disponibles.",
     "finalPara1": "Sora 2 Pro est conçu pour des sorties premium, prêtes pour les clients, avec contrôle du mouvement, de l’audio et de la continuité.",
-    "finalPara2": "Prototypez en Sora 2, puis passez à Sora 2 Pro quand il est temps de polir et livrer sur la route VideoAI actuelle plus qualitative.",
+    "finalPara2": "Prototypez en Sora 2, puis passez à Sora 2 Pro quand il est temps de polir et livrer sur la route MaxVideoAI actuelle plus qualitative.",
     "finalButton": "Générer avec Sora 2 Pro →",
     "tipsIntro": "Sora est plus prévisible quand le plan reste simple, lisible et physique."
   },
@@ -285,16 +285,16 @@
       "a": "L’audio est activé par défaut pour la lip‑sync et le sound design, mais vous pouvez le désactiver si vous ne voulez que les visuels."
     },
     {
-      "q": "Comment Sora 2 Pro est-il facturé dans VideoAI ?",
-      "a": "La page affiche des totaux VideoAI pour des scénarios Pro courants. L’espace Generate reste la source exacte du prix live avant lancement."
+      "q": "Comment Sora 2 Pro est-il facturé dans MaxVideoAI ?",
+      "a": "La page affiche des totaux MaxVideoAI pour des scénarios Pro courants. L’espace Generate reste la source exacte du prix live avant lancement."
     },
     {
       "q": "Quelle est la durée maximale de Sora 2 Pro ?",
-      "a": "La route VideoAI actuelle expose des générations de 4 s, 8 s et 12 s. Pour un montage plus long, assemblez plusieurs clips."
+      "a": "La route MaxVideoAI actuelle expose des générations de 4 s, 8 s et 12 s. Pour un montage plus long, assemblez plusieurs clips."
     },
     {
       "q": "Quelle résolution Sora 2 Pro supporte-t-il ici ?",
-      "a": "La route VideoAI actuelle expose 720p et 1080p. Des docs fournisseur/famille peuvent décrire d’autres capacités, mais cette page reflète la route disponible dans l’app."
+      "a": "La route MaxVideoAI actuelle expose 720p et 1080p. Des docs fournisseur/famille peuvent décrire d’autres capacités, mais cette page reflète la route disponible dans l’app."
     },
     {
       "q": "Puis-je utiliser Sora 2 Pro en image-to-video ?",
@@ -435,7 +435,7 @@
     "pricingCopy": {
       "title": "Prix Sora 2 Pro en un coup d’œil",
       "subtitle": "Prix totaux Pro — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "4/8/12 s · jusqu’à 1080p",
       "ctaHref": "/fr/tarifs#sora-2-pro-pricing"
@@ -532,7 +532,7 @@
     "modelSlug": "sora-2-pro",
     "section": {
       "title": "Galerie d’exemples : rendus Sora 2 Pro",
-      "intro": "Découvrez des clips multi‑beats rendus avec Sora 2 Pro dans VideoAI.",
+      "intro": "Découvrez des clips multi‑beats rendus avec Sora 2 Pro dans MaxVideoAI.",
       "defaultCtaLabel": "Voir tous les exemples Sora 2 Pro →",
       "recreateLabel": "Recréer ce plan Pro →"
     },
@@ -603,7 +603,7 @@
     "alternativesTitle": "Choisissez un modèle pour votre prochaine vidéo",
     "chooseLabel": "Découvrir ce modèle",
     "historyTitle": "Vos vidéos existantes",
-    "historyBody": "Vos vidéos VideoAI existantes restent dans votre bibliothèque. Vous pouvez consulter et télécharger les résultats disponibles. Choisissez un autre modèle pour créer une nouvelle vidéo ; ses réglages et son prix seront présentés avant la génération.",
+    "historyBody": "Vos vidéos MaxVideoAI existantes restent dans votre bibliothèque. Vous pouvez consulter et télécharger les résultats disponibles. Choisissez un autre modèle pour créer une nouvelle vidéo ; ses réglages et son prix seront présentés avant la génération.",
     "historyLabel": "Ouvrir ma bibliothèque",
     "examplesLabel": "Voir les exemples historiques Sora",
     "alternatives": [

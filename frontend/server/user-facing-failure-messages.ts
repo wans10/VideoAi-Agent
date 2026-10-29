@@ -1,6 +1,6 @@
 import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import { getSeedanceFailureMessage, seedanceFailureCodeFromMessage } from '@/lib/seedance-failure-messages';
-import { getGeneratedImageFailureMessage, getKnownGenerationFailureMessage } from '@/lib/generation-failure-messages';
+import { getGeneratedImageFailureMessage, getKnownGenerationFailureMessage, getTransportFailureMessage } from '@/lib/generation-failure-messages';
 import { SEEDANCE_OUTPUT_AUDIO_BLOCKED, SEEDANCE_REFERENCE_MEDIA_BLOCKED, SEEDANCE_REFERENCE_VIDEO_BLOCKED, SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED } from '@/lib/video-failure-codes';
 
 const DEFAULT_FAILURE_MESSAGE =
@@ -267,6 +267,9 @@ export function toUserFacingFailureMessage(message: string | null | undefined): 
   const normalized = normalizeMessage(message);
   const knownMessage = getSeedanceFailureMessage({ message: normalized }) ?? getGeneratedImageFailureMessage(normalized);
   if (knownMessage) return knownMessage;
+  // Raw socket/fetch errors are never customer copy; Keyvo publishes only zh.
+  const transportMessage = getTransportFailureMessage(normalized, 'zh');
+  if (transportMessage) return transportMessage;
   const seedanceFailure = classifySeedanceSpecificFailure(normalized);
   if (seedanceFailure === 'copyright') return SEEDANCE_COPYRIGHT_FAILURE_MESSAGE;
   if (seedanceFailure === 'reference_safety') return SEEDANCE_REFERENCE_FAILURE_MESSAGE;
@@ -289,6 +292,8 @@ export function toUserFacingRefundReason(message: string | null | undefined): st
   if (specificCode === SEEDANCE_REFERENCE_MEDIA_BLOCKED) return 'Reference media was blocked by Seedance safety checks.';
   if (specificCode === SEEDANCE_REFERENCE_VIDEO_BLOCKED) return 'Reference video was blocked by Seedance safety checks.';
   if (specificCode === SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED) return 'The combined reference video duration exceeded the Seedance limit of 30 seconds.';
+  const transportReason = getTransportFailureMessage(normalized, 'en');
+  if (transportReason) return transportReason;
   const seedanceFailure = classifySeedanceSpecificFailure(normalized);
   if (seedanceFailure === 'copyright') return SEEDANCE_COPYRIGHT_REFUND_REASON;
   if (seedanceFailure === 'reference_safety') return SEEDANCE_REFERENCE_REFUND_REASON;

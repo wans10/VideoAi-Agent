@@ -139,6 +139,7 @@
       },
       "examples": {
         "items": {
+          "all-examples": "Todos los ejemplos",
           "sora": "Sora",
           "sora-2": "Sora 2",
           "sora-2-pro": "Sora 2 Pro",
@@ -165,7 +166,10 @@
           "seedance-1-5-pro": "Seedance 1.5 Pro"
         },
         "heading": "Mira los resultados antes de elegir.",
-        "intro": "Videos reales, sus prompts y los modelos utilizados."
+        "intro": "Videos reales, sus prompts y los modelos utilizados.",
+        "descriptions": {
+          "all-examples": "Videos y prompts de todos los modelos."
+        }
       },
       "compare": {
         "items": {
@@ -679,6 +683,7 @@
             },
             {
               "engineId": "seedance-2-5",
+              "imageAlt": "Vista previa de un video con IA de 10 segundos generado con Seedance 2.5.",
               "name": "Seedance 2.5",
               "provider": "ByteDance",
               "bestFor": "Física cinematográfica compleja",
@@ -705,6 +710,7 @@
             },
             {
               "engineId": "wan-3-prime",
+              "imageAlt": "Vista previa de un video con IA de 5 segundos generado con Wan 3 Prime.",
               "name": "Wan 3 Prime",
               "provider": "Alibaba",
               "bestFor": "Movimiento artesanal controlado",
@@ -731,6 +737,7 @@
             },
             {
               "engineId": "kling-3-pro",
+              "imageAlt": "Vista previa de un video de 12 segundos generado a partir de una imagen con Kling 3 Pro.",
               "name": "Kling 3 Pro",
               "provider": "Kuaishou",
               "bestFor": "Movimiento de cámara",
@@ -757,6 +764,7 @@
             },
             {
               "engineId": "ltx-2-5-pro",
+              "imageAlt": "Vista previa de un video de 6 segundos generado a partir de una imagen con LTX 2.5 Pro.",
               "name": "LTX 2.5 Pro",
               "provider": "Lightricks",
               "bestFor": "Animación rápida de imagen",
@@ -4012,7 +4020,7 @@
         "llmhubAlipay": "Alipay",
         "llmhubWxpay": "WeChat Pay",
         "customLabel": "Importe personalizado",
-        "customPresetLabel": "Personalizado",
+        "customPresetLabel": "Otro",
         "customPresetHint": "Introducir importe",
         "customPlaceholder": "Mínimo 80 ¥",
         "customHint": "Introduce cualquier importe desde 80 ¥.",
@@ -4023,6 +4031,8 @@
         "chooseAmount": "Seleccionar",
         "expressTitle": "Pagar al instante",
         "expressLoading": "Cargando los métodos de pago seguros…",
+        "expressSlow": "Los métodos de pago tardan más en cargar. También puedes pagar con tarjeta abajo.",
+        "expressRetry": "Reintentar",
         "expressUnavailable": "El pago instantáneo no está disponible. Elige otro método de pago abajo.",
         "expressError": "No se pudo abrir el pago instantáneo. Elige otro método de pago abajo.",
         "expressClosed": "Ventana de pago cerrada. Inténtalo de nuevo o elige otro método abajo.",
@@ -6764,7 +6774,15 @@
         "exportWorkerEmpty": "El servidor aceptó la solicitud de exportación pero no devolvió una tarea de render. La facturación se liberó por este fallo de lanzamiento.",
         "insufficientWalletBalance": "Tu saldo de wallet es demasiado bajo para esta exportación.",
         "exportCreateFailed": "No se pudo crear el job de exportación.",
-        "exportJobInvalid": "La respuesta del job de exportación no es válida."
+        "exportJobInvalid": "La respuesta del job de exportación no es válida.",
+        "timelineProcessingIssue": "{item} todavía se está procesando y aún no se puede renderizar.",
+        "timelineFailedIssue": "{item} falló y no tiene medios renderizables.",
+        "timelineMissingMediaIssue": "{item} no tiene una URL de medios para el renderizado final.",
+        "timelineLinkedAudioIssue": "{item} es audio vinculado sin un clip de video correspondiente.",
+        "timelineMissingDimensionsIssue": "{item} tiene dimensiones de origen desconocidas. El renderizado mantendrá un respaldo de cuadro completo hasta que se midan los metadatos.",
+        "timelineTransitionNoNextIssue": "{item} tiene una transición, pero no hay un clip de video siguiente.",
+        "timelineCrossfadeGapIssue": "{item} tiene un fundido cruzado sobre un hueco.",
+        "timelineEmptyIssue": "La línea de tiempo está vacía."
       },
       "assetLibrary": {
         "library": "Elegir en Medios",
@@ -7105,7 +7123,7 @@
     "scorecard": {
       "title": "Compara los puntos fuertes.",
       "subtitle": "Las puntuaciones reflejan la calidad y el control en Keyvo a lo largo de 11 criterios.",
-      "provisionalNote": "Las puntuaciones de prelanzamiento son provisionales y se actualizarán cuando haya renders runtime y precio final.",
+      "provisionalNote": "Las notas de prelanzamiento son provisionales y deberán revisarse cuando haya resultados disponibles.",
       "strengthsLabel": "Fortalezas",
       "winnerSummary": "Lo esencial",
       "winnerSummaryPrelaunch": "Líder actual (prelanzamiento)",

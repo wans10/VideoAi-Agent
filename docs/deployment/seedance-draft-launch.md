@@ -5,7 +5,10 @@ selects a separately priced 480p text-to-video Draft, with one output. An owned
 ready Draft can receive a separately quoted and confirmed 1080p final. Prompt,
 duration, framing and audio are inherited; the paid Draft remains available.
 An ordinary 480p generation is a different offer and cannot be finalized through
-this workflow. MCP remains deliberately outside this initial release.
+this workflow. MCP was outside the initial release; the 2026-10-18 source
+candidate adds the explicit workflow described in
+[mode coverage](../engineering/mcp-mode-coverage.md#native-seedance-draft-workflow--2026-10-18-source-candidate).
+Its deployment, plugin publication and host refresh remain separate release gates.
 
 ## Server availability
 
@@ -31,6 +34,14 @@ instructions appear only for compatible Draft scenarios, and an unchecked
 Draft option keeps the normal localized generation label.
 The comparison panel retains the same Draft resolution and single-output
 constraints, locks submitted settings, and displays the active workflow quote.
+
+The Draft checkbox can return the composer to standard generation after an
+accepted, completed, failed or uncertain Draft. Leaving the mode preserves the
+account-scoped active job and same-attempt recovery facts; it neither cancels
+the task nor submits a replacement. The separate account-scoped selection flag
+preserves an unchecked choice across reloads. Re-entering Draft resumes its
+existing job, while only the explicit new-Draft action clears terminal setup.
+The checkbox is temporarily disabled while the submission request is pending.
 
 ## Acceptance before activation
 

@@ -98,6 +98,8 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
         ? `Exemples vidéo IA ${label} avec prompts, réglages et tarifs actuels estimés sur les fiches disponibles. ${variantsSentence}`
         : locale === 'es'
           ? `Ejemplos de video con IA de ${label} con prompts, ajustes y precios actuales estimados en las fichas disponibles. ${variantsSentence}`
+          : locale === 'zh'
+            ? `${label} 案例：提示词、参数设置与当前生成价格估算，可打开对应详情页查看。${variantsSentence}`
           : `${label} examples with prompts, settings, and current price estimates on available detail pages. ${variantsSentence}`),
     heroTitle:
       localized.heroTitle ??
@@ -105,13 +107,7 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
     heroSubtitle: localized.subtitle,
     guideTitle: localized.guideTitle,
     intro: localized.intro,
-    summary:
-      localized.summary ??
-      (locale === 'fr'
-        ? `${variantsSentence} Ouvrez un exemple pour consulter son prompt, ses réglages et le tarif actuel estimé avant de lancer un nouveau rendu.`
-        : locale === 'es'
-          ? `${variantsSentence} Abre un ejemplo para consultar su prompt, ajustes y precio actual estimado antes de lanzar un nuevo render.`
-          : `${variantsSentence} Open an example to review its prompt, settings, and current price estimate before running a new render.`),
+    summary: localized.summary,
     sections: [
       {
         title: localized.sectionTitles?.[0] ?? sectionPromptTitle,

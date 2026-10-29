@@ -2,11 +2,11 @@
   "marketingName": "Kling 3.0 Omni Standard",
   "versionLabel": "3.0 Omni Standard",
   "seo": {
-    "title": "Kling 3.0 Omni Standard referencia y video-to-video | VideoAI",
+    "title": "Kling 3.0 Omni Standard referencia y video-to-video | MaxVideoAI",
     "description": "Usa Kling 3.0 Omni Standard para borradores Kling guiados por referencias, storyboard, video fuente V2V, anclas @Image y @Video1, audio opcional y separación clara de start frame."
   },
   "overview": "Kling 3.0 Omni Standard es la ruta Kling Omni de menor costo para reference-to-video, borradores storyboard y pruebas video-to-video desde video fuente.",
-  "pricingNotes": "Costo aproximado del proveedor antes del margen VideoAI: $0.126/s con audio y $0.084/s sin audio.",
+  "pricingNotes": "Costo aproximado del proveedor antes del margen MaxVideoAI: $0.126/s con audio y $0.084/s sin audio.",
   "custom": {
     "relatedTitle": "Elegir la ruta Kling correcta",
     "relatedSubtitle": "Usa Standard para borradores O3 de menor costo, Pro cuando importan V2V y continuidad, y Kling 3 Standard cuando la imagen debe abrir el clip.",
@@ -214,12 +214,12 @@
     "pricingCopy": {
       "title": "Precios de Kling 3.0 Omni Standard de un vistazo",
       "subtitle": "Totales de menor costo para borradores guiados por referencias y pruebas V2V.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "ctaHref": "/es/precios#kling-o3-standard-pricing"
     },
     "meta": {
-      "title": "Kling 3.0 Omni Standard: borradores referencia y V2V | VideoAI",
+      "title": "Kling 3.0 Omni Standard: borradores referencia y V2V | MaxVideoAI",
       "description": "Usa Kling 3.0 Omni Standard para reference-to-video de menor costo, borradores storyboard, V2V fuente, prompts @Image y @Video1."
     }
   },

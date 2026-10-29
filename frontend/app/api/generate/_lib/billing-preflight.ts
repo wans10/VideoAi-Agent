@@ -102,6 +102,8 @@ export async function resolveGenerateBillingPreflight(params: {
   referenceImageCount?: number;
   inputImageCount?: number;
   inputVideoDurationSec?: number;
+  seedanceEditSource?: import('@/lib/seedance-edit-source').SeedanceEditSourceFacts;
+  seedanceSourceAspectRatio?: import('@/types/engines').AspectRatio;
   inheritedDurationSec?: number;
   inputAudioDurationSec?: number;
   trustedMediaPricingFacts?: TrustedPreflightMediaPricingFacts;
@@ -201,6 +203,8 @@ export async function resolveGenerateBillingPreflight(params: {
         ? Math.max(0, Math.floor(params.inputImageCount))
         : undefined,
     inputVideoDurationSec: params.inputVideoDurationSec,
+    seedanceEditSource: params.seedanceEditSource,
+    seedanceSourceAspectRatio: params.seedanceSourceAspectRatio,
     inheritedDurationSec: params.inheritedDurationSec,
     inputAudioDurationSec: params.inputAudioDurationSec,
     referenceTokenBudget,

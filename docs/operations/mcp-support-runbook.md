@@ -10,25 +10,32 @@ Keyvo hides public MCP marketing and indexing (`publicMarketing=false`, `publicI
 | `publicIndexing` | false |
 
 
-Checked: 2026-09-16
+Checked: 2026-10-17 (upstream MaxVideoAI evidence below)
 Readiness: **DIRECT PRODUCTION RELEASE LIVE**
 
 This runbook is the support and disclosure boundary for the MaxVideoAI MCP production release. It is not a directory
-approval or a legal policy. Production registers fourteen model-visible tools plus one app-only helper, the
+approval or a legal policy. The checked-in release candidate registers eighteen model-visible tools plus one app-only helper, the
 download-refresh helper listed separately below. Marketing, indexation, transport, OAuth, discovery, paid generation, and reference uploads are approved
 for direct first-party publication. The promotional trial remains disabled: users must sign in and use their MaxVideoAI
 credit balance before confirming a paid generation.
 
 | Tool profile | Exact tool inventory |
 | --- | --- |
-| Default discovery | `get_account_status`, `list_models`, `get_model_details`, `recommend_models`, `calculate_project_budget` |
-| Production model-visible tools | `get_account_status`, `list_models`, `get_model_details`, `recommend_models`, `calculate_project_budget`, `list_media`, `create_reference_upload_link`, `import_reference_files`, `prepare_generation`, `confirm_generation`, `get_generation_status`, `list_recent_generations`, `present_generation`, `create_topup_link` |
+| Default discovery | `get_account_status`, `list_models`, `get_model_details`, `recommend_models`, `calculate_project_budget`, `compare_generation_prices` |
+| Production model-visible tools | `get_account_status`, `list_models`, `get_model_details`, `recommend_models`, `calculate_project_budget`, `compare_generation_prices`, `list_media`, `create_reference_upload_link`, `import_reference_files`, `list_audio_capabilities`, `prepare_audio_generation`, `confirm_audio_generation`, `prepare_generation`, `confirm_generation`, `get_generation_status`, `list_recent_generations`, `present_generation`, `create_topup_link` |
 | App-only helper | `get_generation_download` |
 
 The current inventory is checked in and covered by local contracts. The dated
 hosted staging revision in the host compatibility matrix predates
 `import_reference_files`; its Claude Desktop and Codex CLI evidence therefore
 covers the previous 13-tool profile rather than the later direct-file path.
+
+The 2026-10-08 candidate adds read-only `compare_generation_prices` for up to three
+compatible current prices and freshly repriced savings. This addition has offline
+contract evidence; deployment and native-host verification remain pending. These
+candidate inventories do not extend the dated hosted evidence.
+
+The 2026-10-17 owner-approved release adds Audio discovery, preparation and confirmation, including Eleven v4 and free stock previews. Exact quote approval, ownership, spending limits and one-attempt recovery still apply. Native-host verification and paid qualification of every stock voice remain separate from publication.
 
 ## Authoritative checked-in state
 
@@ -43,7 +50,7 @@ covers the previous 13-tool profile rather than the later direct-file path.
 | `trial` | false | No promotional MCP trial is available. |
 | `referenceUploads` | true | Private reference-upload handoffs are public and use the production storage namespace. |
 | `montagePreparation` | false | Montage preparation remains unpublished and absent from default tool discovery. |
-| `audioGeneration` | false | Paid Audio generation remains unpublished pending qualification. |
+| `audioGeneration` | true | The owner-approved Audio release publishes capabilities and exact-quote preparation/confirmation; paid generation remains an independent requirement. |
 | `studioMontageCreation` | false | Persisted Studio montage creation remains unpublished pending qualification. |
 
 Dated host evidence and remaining checkpoints:
@@ -373,7 +380,7 @@ host’s “always allow” setting is not a substitute for MaxVideoAI confirmat
 
 ### Provider processing
 
-The five default discovery tools do not submit prompts or media to an inference
+The six default discovery tools do not submit prompts or media to an inference
 provider. An explicitly confirmed production generation sends the necessary
 prompt, settings, and account-scoped reference assets to the selected provider
 under the published Privacy Policy and current subprocessor list. Legal/Privacy

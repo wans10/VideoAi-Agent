@@ -136,7 +136,7 @@ test('curated policy artifact has manual provenance and a guidance fingerprint w
   );
 });
 
-test('evaluator validates curated arguments with all fourteen authoritative runtime schemas', async () => {
+test('evaluator validates curated arguments with all authoritative runtime schemas', async () => {
   const validate = (evaluatorApi as any).validateCuratedToolArguments;
   const schemaNames = (evaluatorApi as any).authoritativeToolSchemaNames;
   assert.equal(typeof validate, 'function');
@@ -147,9 +147,13 @@ test('evaluator validates curated arguments with all fourteen authoritative runt
     'get_model_details',
     'recommend_models',
     'calculate_project_budget',
+    'compare_generation_prices',
     'list_media',
     'create_reference_upload_link',
     'import_reference_files',
+    'list_audio_capabilities',
+    'prepare_audio_generation',
+    'confirm_audio_generation',
     'prepare_generation',
     'confirm_generation',
     'get_generation_status',
@@ -176,6 +180,7 @@ test('evaluator validates curated arguments with all fourteen authoritative runt
         }],
       }],
     },
+    compare_generation_prices:{surface:'video',mode:'t2v',prompt:'A cinematic opening',settings:{durationSec:8}},
     list_media: { kind: 'image' },
     create_reference_upload_link: { kind: 'video' },
     import_reference_files: {
@@ -186,6 +191,10 @@ test('evaluator validates curated arguments with all fourteen authoritative runt
         file_name: 'reference.png',
       }],
     },
+    list_audio_capabilities: {},
+    prepare_audio_generation: { surface: 'audio', engineId: 'audio-voice-only', mode: 'voice_only',
+      prompt: '', settings: { voiceModel: 'eleven-v4', script: 'Hello.' } },
+    confirm_audio_generation: { quoteId: '11111111-1111-4111-8111-111111111111', confirmed: true },
     prepare_generation: {
       surface: 'video',
       engineId: 'seedance-2-5',
@@ -550,7 +559,7 @@ test('public fixture corpus covers every approved intent with strict labels and 
     trial: false,
     referenceUploads: true,
     montagePreparation: false,
-    audioGeneration: false,
+    audioGeneration: true,
     studioMontageCreation: false,
   });
 });
@@ -1094,7 +1103,7 @@ test('fixture-contract fingerprint and mandatory policy coverage reject disappea
   });
 });
 
-test('read-only MCP baseline preserves discovery tools while reporting publication as hidden', async () => {
+test('read-only MCP baseline observes discovery and price comparison tools while reporting publication as hidden', async () => {
   const evidence = await inspectLiveMcpMetadata();
   assert.deepEqual(evidence.liveTools, [
     'get_account_status',
@@ -1102,6 +1111,7 @@ test('read-only MCP baseline preserves discovery tools while reporting publicati
     'get_model_details',
     'recommend_models',
     'calculate_project_budget',
+    'compare_generation_prices',
   ]);
   assert.equal(evidence.resourcesAdvertised, false);
   assert.equal(evidence.generationAvailable, false);

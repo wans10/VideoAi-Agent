@@ -2,11 +2,11 @@
   "marketingName": "Happy Horse 1.1",
   "versionLabel": "1.1",
   "seo": {
-    "title": "Happy Horse 1.1 | Modelo de video IA con audio nativo | VideoAI",
-    "description": "Usa Happy Horse 1.1 en VideoAI para generar video desde texto, imagen o varias referencias, con audio nativo y sincronización labial.",
+    "title": "Happy Horse 1.1 | Modelo de video IA con audio nativo | MaxVideoAI",
+    "description": "Usa Happy Horse 1.1 en MaxVideoAI para generar video desde texto, imagen o varias referencias, con audio nativo y sincronización labial.",
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
-  "overview": "Happy Horse 1.1 es el modelo de video actual de Alibaba en VideoAI para prompts de texto, imágenes iniciales y hasta nueve imágenes de referencia con audio sincronizado y sincronización labial.",
+  "overview": "Happy Horse 1.1 es el modelo de video actual de Alibaba en MaxVideoAI para prompts de texto, imágenes iniciales y hasta nueve imágenes de referencia con audio sincronizado y sincronización labial.",
   "pricingNotes": "Happy Horse 1.1 usa las tarifas Fal actuales para generaciones desde texto, imagen y referencias. La edición de un video fuente queda en la ruta anterior Happy Horse 1.0.",
   "hero": {
     "title": "Happy Horse 1.1 - generación de video Alibaba con audio nativo",
@@ -64,7 +64,7 @@
   "technicalOverview": [
     {
       "label": "Flujos",
-      "body": "Las generaciones desde texto, imagen o varias referencias se exponen como un solo modelo Happy Horse 1.1 actual en VideoAI."
+      "body": "Las generaciones desde texto, imagen o varias referencias se exponen como un solo modelo Happy Horse 1.1 actual en MaxVideoAI."
     },
     {
       "label": "Duración",
@@ -122,11 +122,11 @@
       "prompt": "Da vida al visual de campaña subido con un acercamiento suave de cámara, movimiento sutil de tela y cabello, luz publicitaria pulida y ambiente sincronizado."
     }
   ],
-  "faqTitle": "FAQ - Happy Horse 1.1 en VideoAI",
+  "faqTitle": "FAQ - Happy Horse 1.1 en MaxVideoAI",
   "faqs": [
     {
       "q": "¿Qué entradas soporta Happy Horse 1.1?",
-      "a": "VideoAI expone Happy Horse 1.1 como un modelo actual para generar desde texto, imagen o varias referencias."
+      "a": "MaxVideoAI expone Happy Horse 1.1 como un modelo actual para generar desde texto, imagen o varias referencias."
     },
     {
       "q": "¿Happy Horse 1.1 soporta sincronización labial?",
@@ -235,12 +235,12 @@
       },
       {
         "title": "720p o 1080p",
-        "body": "Elige la resolución disponible en VideoAI antes de generar.",
+        "body": "Elige la resolución disponible en MaxVideoAI antes de generar.",
         "tone": "quality"
       },
       {
         "title": "1080p proveedor más barato",
-        "body": "Happy Horse 1.1 usa la tarifa actual del proveedor para 1080p antes del margen VideoAI.",
+        "body": "Happy Horse 1.1 usa la tarifa actual del proveedor para 1080p antes del margen MaxVideoAI.",
         "tone": "price"
       }
     ],
@@ -295,14 +295,14 @@
     "pricingCopy": {
       "title": "Precios de Happy Horse 1.1 de un vistazo",
       "subtitle": "Totales con audio nativo. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 1080p",
       "ctaHref": "/es/precios#happy-horse-1-1-pricing"
     },
     "meta": {
-      "title": "Happy Horse 1.1: precios, audio nativo y referencias | VideoAI",
-      "description": "Explora Happy Horse 1.1: precios, audio nativo, sincronización labial, texto a video, imagen a video y referencias a video en VideoAI."
+      "title": "Happy Horse 1.1: precios, audio nativo y referencias | MaxVideoAI",
+      "description": "Explora Happy Horse 1.1: precios, audio nativo, sincronización labial, texto a video, imagen a video y referencias a video en MaxVideoAI."
     }
   },
   "prompting": {

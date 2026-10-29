@@ -2,11 +2,11 @@
   "marketingName": "Seedance 2.0",
   "versionLabel": "2.0",
   "seo": {
-    "title": "Seedance 2.0 | Modelo de video IA, precios, audio nativo y ejemplos | VideoAI",
-    "description": "Usa Seedance 2.0 en VideoAI para video con continuidad entre tomas, audio nativo, precios actuales, capacidades clave y ejemplos del flujo Seedance actual."
+    "title": "Seedance 2.0 | Modelo de video IA, precios, audio nativo y ejemplos | MaxVideoAI",
+    "description": "Usa Seedance 2.0 en MaxVideoAI para video con continuidad entre tomas, audio nativo, precios actuales, capacidades clave y ejemplos del flujo Seedance actual."
   },
-  "overview": "Seedance 2.0 es el modelo actual de video IA Dreamina Seedance 2.0 en VideoAI para video con continuidad entre tomas, audio nativo y flujos guiados por referencias cuando necesitas el flujo principal de Seedance para anuncios pulidos, lanzamientos y secuencias de marca con tono cinematográfico.",
-  "pricingNotes": "Seedance 2 usa precios del proveedor basados en tokens. VideoAI muestra el precio aplicado y el total final antes de enviar la generación.",
+  "overview": "Seedance 2.0 es el modelo actual de video IA Dreamina Seedance 2.0 en MaxVideoAI para video con continuidad entre tomas, audio nativo y flujos guiados por referencias cuando necesitas el flujo principal de Seedance para anuncios pulidos, lanzamientos y secuencias de marca con tono cinematográfico.",
+  "pricingNotes": "Seedance 2 usa precios del proveedor basados en tokens. MaxVideoAI muestra el precio aplicado y el total final antes de enviar la generación.",
   "hero": {
     "title": "Seedance 2.0 — modelo actual de Seedance para video con continuidad entre tomas y audio nativo",
     "intro": "Seedance 2.0 es el modelo actual de video IA Dreamina Seedance 2.0 para video con continuidad entre tomas, audio nativo y flujos guiados por referencias cuando necesitas el flujo principal de Seedance para anuncios pulidos, lanzamientos y secuencias de marca con tono cinematográfico. Usa esta página para revisar precios, capacidades clave, mejores usos y cuándo este flujo de video de Seedance encaja mejor que Fast o que versiones anteriores.",
@@ -107,7 +107,7 @@
     },
     {
       "label": "Audio",
-      "body": "Audio nativo activado por defecto y desactivable; VideoAI muestra el presupuesto final antes de generar"
+      "body": "Audio nativo activado por defecto y desactivable; MaxVideoAI muestra el presupuesto final antes de generar"
     },
     {
       "label": "Cámara y movimiento",
@@ -163,7 +163,7 @@
       "prompt": "Diálogo breve entre dos personajes en andén de metro nocturno. Ambiente continuo + SFX metálicos en acciones visibles, dolly suave y corte a primer plano. Mezcla estéreo, 10 segundos."
     }
   ],
-  "faqTitle": "FAQ – Seedance 2.0 en VideoAI",
+  "faqTitle": "FAQ – Seedance 2.0 en MaxVideoAI",
   "faqs": [
     {
       "q": "¿Para qué conviene usar Seedance 2.0?",
@@ -171,7 +171,7 @@
     },
     {
       "q": "¿Seedance 2.0 también es Dreamina Seedance 2.0?",
-      "a": "Sí. La documentación de ByteDance y el nombre de producto Dreamina describen la familia API actual como Dreamina Seedance 2.0. En VideoAI, esta página sigue siendo la ruta Seedance 2.0 estándar para renders finales."
+      "a": "Sí. La documentación de ByteDance y el nombre de producto Dreamina describen la familia API actual como Dreamina Seedance 2.0. En MaxVideoAI, esta página sigue siendo la ruta Seedance 2.0 estándar para renders finales."
     },
     {
       "q": "¿Seedance 2.0 incluye audio nativo?",
@@ -196,7 +196,7 @@
   ],
   "custom": {
     "whyTitle": "Precio, audio nativo y siguientes pasos",
-    "heroTrustLine": "Pago por uso en VideoAI · Precio final visible antes de generar",
+    "heroTrustLine": "Pago por uso en MaxVideoAI · Precio final visible antes de generar",
     "heroHighlights": [
       "Precio y flujo actual||Usa Seedance 2.0 cuando quieras el flujo principal actual de Seedance y el precio final visible antes de generar.",
       "Audio nativo||Diálogo, ambiente, música y efectos sonoros pueden mantenerse dentro del mismo flujo de generación en lugar de tratarse como una capa aparte.",
@@ -438,12 +438,12 @@
     "pricingCopy": {
       "title": "Precios de Seedance 2.0 de un vistazo",
       "subtitle": "Precios totales 720p, 1080p y 4K por escenario. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "ctaHref": "/es/precios#seedance-2-0-pricing"
     },
     "meta": {
-      "title": "Seedance 2.0: precios, audio nativo y ejemplos | VideoAI",
+      "title": "Seedance 2.0: precios, audio nativo y ejemplos | MaxVideoAI",
       "description": "Explora precios de Seedance 2.0, salida 4K, audio nativo, video con continuidad entre tomas y flujos guiados por referencias. Compara Seedance 2.0 vs Fast y versiones anteriores."
     }
   },
@@ -548,7 +548,7 @@
     "modelSlug": "seedance-2-0",
     "section": {
       "title": "Ejemplos de Seedance 2.0",
-      "intro": "Usa esta galería para revisar patrones de prompt, estructura de escenas y tipos de secuencias que Seedance 2.0 resuelve bien dentro de VideoAI.",
+      "intro": "Usa esta galería para revisar patrones de prompt, estructura de escenas y tipos de secuencias que Seedance 2.0 resuelve bien dentro de MaxVideoAI.",
       "defaultCtaLabel": "Ver todos los ejemplos de Seedance ->",
       "recreateLabel": "Recrear esta toma ->"
     },

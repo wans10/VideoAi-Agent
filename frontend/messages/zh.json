@@ -118,6 +118,7 @@
       },
       "examples": {
         "items": {
+          "all-examples": "全部示例",
           "sora": "Sora",
           "sora-2": "Sora 2",
           "sora-2-pro": "Sora 2 Pro",
@@ -144,7 +145,10 @@
           "ltx-2-fast": "LTX 2 Fast"
         },
         "heading": "先看效果，再做决定。",
-        "intro": "真实生成视频、提示词与模型细节。"
+        "intro": "真实生成视频、提示词与模型细节。",
+        "descriptions": {
+          "all-examples": "所有模型的视频与提示词。"
+        }
       },
       "compare": {
         "items": {
@@ -3865,6 +3869,42 @@
           "library": "从媒体库选择",
           "replace": "替换",
           "remove": "移除"
+        },
+        "aspectRatioLabels": {
+          "auto": "自动",
+          "9:16": "竖屏 9:16",
+          "16:9": "横屏 16:9",
+          "1:1": "方形 1:1",
+          "4:1": "全景 4:1",
+          "1:4": "竖长 1:4",
+          "8:1": "超宽 8:1",
+          "1:8": "超高 1:8",
+          "4:5": "竖屏 4:5",
+          "5:4": "横屏 5:4",
+          "4:3": "经典 4:3",
+          "3:4": "竖屏 3:4",
+          "3:2": "画框 3:2",
+          "2:3": "竖屏 2:3",
+          "21:9": "电影宽幅 21:9"
+        },
+        "imageSizeLabels": {
+          "auto": "自动",
+          "2k": "2K",
+          "3k": "3K",
+          "square": "方形 · 1024 x 1024",
+          "square_hd": "高清方形 · 1024 x 1024",
+          "portrait_4_3": "竖屏 4:3 · 768 x 1024",
+          "portrait_16_9": "竖屏 · 1024 x 1536",
+          "landscape_4_3": "横屏 4:3 · 1024 x 768",
+          "landscape_16_9": "横屏 16:9 · 1920 x 1080",
+          "3840x2160": "4K · 3840 x 2160",
+          "2560x1440": "2.5K · 2560 x 1440",
+          "custom": "自定义尺寸"
+        },
+        "qualityLabels": {
+          "low": "低",
+          "medium": "中",
+          "high": "高"
         }
       },
       "history": {
@@ -4251,6 +4291,8 @@
         "chooseAmount": "选择",
         "expressTitle": "快捷支付",
         "expressLoading": "正在加载快捷支付选项…",
+        "expressSlow": "支付选项加载时间较长。您也可以在下方使用银行卡支付。",
+        "expressRetry": "重试",
         "expressUnavailable": "快捷支付暂不可用，请选择下方的其他支付方式。",
         "expressError": "无法打开快捷支付，请选择下方的其他支付方式。",
         "expressClosed": "支付窗口已关闭。请重试或在下方选择其他支付方式。",
@@ -4259,7 +4301,11 @@
         "captchaComplete": "安全验证完成，继续付款。",
         "captchaError": "安全验证暂不可用，请重试。",
         "rateLimited": "支付尝试过于频繁，请在 {time} 后重试。",
-        "terms": "所有点数购买均遵守我们的服务条款。"
+        "terms": "所有点数购买均遵守我们的服务条款。",
+        "currencyNames": {
+          "CNY": "人民币（CNY）",
+          "USD": "美元（USD）"
+        }
       },
       "teams": {
         "title": "团队功能",
@@ -7022,7 +7068,15 @@
         "exportWorkerEmpty": "服务器已接受导出请求，但未返回有效的渲染任务。本次失败未扣除余额。",
         "insufficientWalletBalance": "您的钱包余额不足以支付本次导出。",
         "exportCreateFailed": "创建导出任务失败。",
-        "exportJobInvalid": "导出任务响应数据无效。"
+        "exportJobInvalid": "导出任务响应数据无效。",
+        "timelineProcessingIssue": "{item} 仍在处理中，暂时无法渲染。",
+        "timelineFailedIssue": "{item} 生成失败，没有可渲染的素材。",
+        "timelineMissingMediaIssue": "{item} 没有可用于最终渲染的素材地址。",
+        "timelineLinkedAudioIssue": "{item} 是关联音频，但没有匹配的视频片段。",
+        "timelineMissingDimensionsIssue": "{item} 的源尺寸未知。在完成元数据检测前，渲染将保留全画幅回退。",
+        "timelineTransitionNoNextIssue": "{item} 设有转场，但之后没有下一个视频片段。",
+        "timelineCrossfadeGapIssue": "{item} 的交叉淡化跨越了空隙。",
+        "timelineEmptyIssue": "时间线为空。"
       },
       "assetLibrary": {
         "library": "从媒体库选择",

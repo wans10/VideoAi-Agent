@@ -9,7 +9,9 @@ export function AppAppearanceControl({locale}: {locale: string}) {
     ? {label: 'Apparence', light: 'Clair', dark: 'Sombre'}
     : locale === 'es'
       ? {label: 'Apariencia', light: 'Claro', dark: 'Oscuro'}
-      : {label: 'Appearance', light: 'Light', dark: 'Dark'};
+      : locale === 'zh'
+        ? {label: '外观', light: '浅色', dark: '深色'}
+        : {label: 'Appearance', light: 'Light', dark: 'Dark'};
 
   return (
     <div className="app-appearance-options" role="group" aria-label={copy.label}>

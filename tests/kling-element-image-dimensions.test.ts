@@ -45,7 +45,7 @@ test('rejects a Kling element image when height is below 300 px', async () => {
     ok: false,
     error: 'KLING_ELEMENT_IMAGE_TOO_SMALL',
     message:
-      'This image is 648 x 157 px. Kling requires at least 300 px in width and 300 px in height. Choose a larger image and try again.',
+      '该图片为 648 x 157 px。Kling 要求宽度至少为 300 px、高度至少为 300 px。请选择更大的图片后重试。',
     actualWidth: 648,
     actualHeight: 157,
     minimumWidth: 300,
@@ -78,7 +78,7 @@ test('rejects a Kling element image when width is below 300 px', async () => {
   assert.equal(result.body.actualHeight, 600);
   assert.equal(
     result.body.message,
-    'This image is 299 x 600 px. Kling requires at least 300 px in width and 300 px in height. Choose a larger image and try again.'
+    '该图片为 299 x 600 px。Kling 要求宽度至少为 300 px、高度至少为 300 px。请选择更大的图片后重试。'
   );
 });
 

@@ -56,12 +56,16 @@ const DEFAULT_DISCOVERY_TOOLS = [
   'get_model_details',
   'recommend_models',
   'calculate_project_budget',
+  'compare_generation_prices',
 ];
 const OPERATIONAL_TOOLS = [
   ...DEFAULT_DISCOVERY_TOOLS,
   'list_media',
   'create_reference_upload_link',
   'import_reference_files',
+  'list_audio_capabilities',
+  'prepare_audio_generation',
+  'confirm_audio_generation',
   'prepare_generation',
   'confirm_generation',
   'get_generation_status',
@@ -151,6 +155,9 @@ async function getLiveTools(options: MaxVideoAiMcpServerOptions = {}): Promise<T
     createGenerationDownload: unavailable,
     listRecentGenerations: unavailable,
     createTopupLink: unavailable,
+    listAudioCapabilities: unavailable,
+    prepareAudioGeneration: unavailable,
+    confirmAudioGeneration: unavailable,
   };
   const server = createMaxVideoAiMcpServer(principal, services, options);
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
@@ -197,7 +204,7 @@ test('readiness records the owner-approved direct production publication state',
     trial: false,
     referenceUploads: true,
     montagePreparation: false,
-    audioGeneration: false,
+    audioGeneration: true,
     studioMontageCreation: false,
   };
 
@@ -565,7 +572,7 @@ test('readiness packages follow the live registry and canonical localized route 
   assert.match(support, /host compatibility matrix owns local-versus-real-host evidence/i);
   assert.match(support, /support runbook owns support procedures and\s+escalation/i);
 
-  assert.match(paidRunbook, /registry returns to the five default\s+discovery tools/i);
+  assert.match(paidRunbook, /registry returns to the six default\s+discovery tools/i);
   assert.doesNotMatch(paidRunbook, /three read-only tools|three-tool/i);
   assert.match(stagingDeployment, /Claude Desktop 1\.37937\.1 and Codex CLI 0\.149\.0-alpha\.4\.3 completed controlled\s+OAuth-backed staging sessions/i);
   assert.match(stagingDeployment, /migration files 30–44 are present locally/i);
@@ -577,7 +584,7 @@ test('readiness packages follow the live registry and canonical localized route 
   assert.doesNotMatch(oauthRunbook, /Codex CLI \d|requested all four during local testing/i);
   const smokeInventory = foundationSmoke
     .split('\n')
-    .find((line) => line.includes('List the five default discovery tools in canonical order:')) ?? '';
+    .find((line) => line.includes('List the six default discovery tools in canonical order:')) ?? '';
   assert.deepEqual(toolNames(smokeInventory), DEFAULT_DISCOVERY_TOOLS);
   const activeRunbooks = readdirSync(join(root, 'docs/operations'))
     .filter((name) => name.endsWith('.md'))
@@ -600,7 +607,7 @@ test('active MCP truth records follow the enabled production boundary', () => {
     trial: false,
     referenceUploads: true,
     montagePreparation: false,
-    audioGeneration: false,
+    audioGeneration: true,
     studioMontageCreation: false,
   });
 
@@ -608,15 +615,16 @@ test('active MCP truth records follow the enabled production boundary', () => {
     claims,
     /Production transport disabled|MCP production disabled|Production OAuth disabled/i,
   );
-  assert.match(claims, /fourteen model-visible tools plus one app-only helper/i);
+  assert.match(claims, /eighteen model-visible tools plus one app-only helper/i);
   assert.match(claims, /trial=false/i);
   assert.doesNotMatch(
     support,
     /production OAuth is off|no quote tool is public|generation enforcement is future-gated/i,
   );
-  assert.match(support, /fourteen model-visible tools plus one app-only/i);
+  assert.match(support, /checked-in release candidate registers eighteen model-visible tools plus one app-only/i);
+  assert.match(support, /2026-10-08 candidate adds read-only `compare_generation_prices`[\s\S]*deployment and native-host verification remain pending/i);
   assert.doesNotMatch(directory, /launch product is a 13-tool|every publication flag is false/i);
-  assert.match(directory, /fourteen model-visible tools plus one app-only/i);
+  assert.match(directory, /eighteen model-visible tools plus one app-only/i);
   assert.doesNotMatch(directory, /no public\s+ChatGPT\/Codex plugin install, fresh paid generation/i);
   assert.doesNotMatch(directory, /small paid result remain post-cutover validation/i);
   assert.match(directory, /Codex CLI 0\.150\.0-alpha\.8[\s\S]{0,250}explicitly approved[\s\S]{0,100}charged[\s\S]{0,100}completed/i);
@@ -631,7 +639,7 @@ test('directory facts do not outrun checked-in claims or host evidence', () => {
   assert.match(compatibility, /ChatGPT web custom app \/ full MCP[\s\S]+Not run/i);
   assert.match(
     directory,
-    /fourteen model-visible tools plus one app-only[\s\S]{0,500}Claude Desktop\s+1\.37937\.1[\s\S]{0,260}Codex CLI/i,
+    /eighteen model-visible tools plus one app-only[\s\S]{0,500}Claude Desktop\s+1\.37937\.1[\s\S]{0,260}Codex CLI/i,
   );
   assert.match(support, /graphical\s+ChatGPT\/Codex installation, and Claude Code remain unverified for the dated\s+Claude Desktop and Codex CLI checkpoints/i);
   assert.match(support, /For every other host, defer\s+to its own dated compatibility-matrix record/i);

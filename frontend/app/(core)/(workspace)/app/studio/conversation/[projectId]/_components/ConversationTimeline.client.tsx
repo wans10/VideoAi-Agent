@@ -37,9 +37,10 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
   const starterKey = useRef<string | null>(null);
   const handledInsertion = useRef<string | null>(null);
   const renewalAttempts = useRef(new Set<string>());
-  const decoderGenerations = useRef(new Map<string,number>());
-  const monitorEpoch = useRef(0);
-  const [mediaReloadKeys,setMediaReloadKeys] = useState<Record<string,number>>({});
+  const renewalPending = useRef(new Set<string>());
+  // Handlers captured by a retired decoder are stale; the hook-owned generation must be read from the latest render.
+  const reloadKeys = useRef(timeline.mediaReloadKeys);
+  reloadKeys.current = timeline.mediaReloadKeys;
   const items = useMemo(() => preview ?? view?.items ?? [],[preview,view]);
   const timelineExpanded = expanded ?? items.length > 0;
   const settings = timeline.view?.settings ?? {fps: 30 as const,aspectRatio: '16:9' as const,resolution: '720p' as const};
@@ -69,29 +70,21 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
     setExpanded(true);
     void edit({kind: 'insert',ref: {type: 'asset',assetId: asset.assetId,kind},...timing});
   },[insertion,view,edit,duration,fps,t]); // Explicit library selection, never auto-insert a new generation.
-  function openMonitor() {setExpanded(true);if (!monitor) {monitorEpoch.current++;renewalAttempts.current.clear();setMediaReloadKeys(Object.fromEntries(decoderGenerations.current));setLocalError(null);}setMonitor(true);}
+  function openMonitor() {setExpanded(true);if (!monitor) {renewalAttempts.current.clear();setLocalError(null);}setMonitor(true);}
   function seek(second: number) {playback.stopTimelinePlayback();playback.setPlayheadSec(Math.max(0,Math.min(duration,Math.round(second*fps)/fps)));openMonitor();}
-  function closeMonitor() {playback.stopTimelinePlayback();setMonitor(false);monitorEpoch.current++;renewalAttempts.current.clear();}
+  function closeMonitor() {playback.stopTimelinePlayback();setMonitor(false);renewalAttempts.current.clear();}
   function mediaFailure(item: WorkspaceTimelineItem,attempt: {generation: number;url: string}) {
-    // Invalidate the failed decoder synchronously, before any refresh or React commit.
-    // Same-URL renewals still have a new generation; permanent failures must surface.
-    if (attempt.generation !== (decoderGenerations.current.get(item.id) ?? 0)) return;
+    // Ignore decoder failures from a superseded reload generation (hook-owned mediaReloadKeys).
+    // Same-URL renewals still bump the generation; permanent failures must surface.
+    if (attempt.generation !== (reloadKeys.current[item.id] ?? 0)) return;
     const current = items.find(value => value.id === item.id);
     if (!current || attempt.url !== (current.mediaAccessRequired ? current.mediaAccessUrl : current.mediaUrl)) return;
+    // A duplicate error from the same decoder while this clip's renewal read is in flight is not a second failure.
+    if (renewalPending.current.has(item.id)) return;
     playback.stopTimelinePlayback();
     if (consumeConversationMediaRenewal(item,renewalAttempts.current)) {
-      const generation = attempt.generation+1;
-      const opening = monitorEpoch.current;
-      decoderGenerations.current.set(item.id,generation);
-      void timeline.refresh({renewMediaId: item.id}).then(applied => {
-        if (opening !== monitorEpoch.current) return;
-        if (!applied) {
-          setMonitor(false);
-          setLocalError(t('This clip could not be played. Reopen the monitor to retry, or remove it from the film.','Ce clip ne peut pas être lu. Rouvrez le moniteur pour réessayer, ou retirez-le du film.'));
-          return;
-        }
-        setMediaReloadKeys(current => ({...current,[item.id]: generation}));
-      });
+      renewalPending.current.add(item.id);
+      void timeline.refresh({renewMediaId: item.id}).finally(() => renewalPending.current.delete(item.id));
       return;
     }
     setMonitor(false);
@@ -123,7 +116,7 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
   return <footer className={styles.footer} data-empty={!items.length} data-expanded={timelineExpanded} data-revision={timeline.view?.data.revision} aria-label={t('Film timeline','Timeline du film')}>
     {monitor && items.length > 0 && <div className={styles.monitorRow}>
       <div className={styles.monitor} style={{aspectRatio: settings.aspectRatio.replace(':','/')}} aria-label={t('Film monitor','Moniteur du film')}>
-        <ProgramPlaybackLayers copy={copy.viewer.monitor} {...layers} mediaReloadKeys={mediaReloadKeys} onMediaAccessError={mediaFailure} />
+        <ProgramPlaybackLayers copy={copy.viewer.monitor} {...layers} mediaReloadKeys={timeline.mediaReloadKeys} onMediaAccessError={mediaFailure} />
       </div>
       <button className={styles.close} aria-label={t('Collapse monitor','Replier le moniteur')} onClick={closeMonitor}><X size={16}/></button>
     </div>}

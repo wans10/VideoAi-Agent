@@ -2,12 +2,12 @@
   "marketingName": "Luma Uni-1 Max",
   "versionLabel": "Uni-1 Max",
   "seo": {
-    "title": "Luma Uni-1 Max: precios, imágenes 2K y edición | VideoAI",
-    "description": "Usa Luma Uni-1 Max en VideoAI para imágenes 2K de alta fidelidad, visuales de producto, composiciones sensibles a tipografía, ediciones de fuente y flujos de imagen con referencias.",
+    "title": "Luma Uni-1 Max: precios, imágenes 2K y edición | MaxVideoAI",
+    "description": "Usa Luma Uni-1 Max en MaxVideoAI para imágenes 2K de alta fidelidad, visuales de producto, composiciones sensibles a tipografía, ediciones de fuente y flujos de imagen con referencias.",
     "image": "/assets/model-examples/luma-uni-1-max/hero-product.webp"
   },
-  "overview": "Luma Uni-1 Max es la ruta Uni de mayor fidelidad en VideoAI para imágenes seleccionadas que necesitan más detalle de producto, revisiones cuidadosas, composiciones sensibles a tipografía y dirección creativa con referencias.",
-  "pricingNotes": "Los precios mostrados usan precios públicos de referencia de VideoAI. Uni-1 Max no se presenta como más barato o rápido que Uni-1; elige esta ruta cuando la imagen necesite mayor fidelidad.",
+  "overview": "Luma Uni-1 Max es la ruta Uni de mayor fidelidad en MaxVideoAI para imágenes seleccionadas que necesitan más detalle de producto, revisiones cuidadosas, composiciones sensibles a tipografía y dirección creativa con referencias.",
+  "pricingNotes": "Los precios mostrados usan precios públicos de referencia de MaxVideoAI. Uni-1 Max no se presenta como más barato o rápido que Uni-1; elige esta ruta cuando la imagen necesite mayor fidelidad.",
   "hero": {
     "title": "Luma Uni-1 Max - generación de imagen 2K premium y edición",
     "intro": "Crea visuales principales, imágenes de producto, conceptos de póster y revisiones de fuente cuidadosas con una ruta Uni de mayor fidelidad.",
@@ -76,7 +76,7 @@
     },
     {
       "label": "Precio",
-      "body": "Los ejemplos públicos usan precios de referencia de VideoAI"
+      "body": "Los ejemplos públicos usan precios de referencia de MaxVideoAI"
     }
   ],
   "promptStructure": {
@@ -135,7 +135,7 @@
     },
     {
       "q": "¿Cómo se muestra el precio de Uni-1 Max?",
-      "a": "Los ejemplos mostrados usan precios públicos de referencia de VideoAI con margen. La cotización exacta aparece antes de generar."
+      "a": "Los ejemplos mostrados usan precios públicos de referencia de MaxVideoAI con margen. La cotización exacta aparece antes de generar."
     }
   ],
   "custom": {
@@ -168,10 +168,10 @@
       "Ruta de imagen de mayor fidelidad||Usa Max cuando la imagen seleccionada necesita más detalle y acabado.",
       "Producto y tipografía||Describe etiquetas, jerarquía y superficies de forma explícita, y revisa el resultado.",
       "Ediciones con referencias||Usa una fuente más referencias útiles para revisiones controladas.",
-      "Contexto de precio||Los precios mostrados siguen referencias públicas de VideoAI y la app confirma la cotización final."
+      "Contexto de precio||Los precios mostrados siguen referencias públicas de MaxVideoAI y la app confirma la cotización final."
     ],
     "specTitle": "Specs de imagen Uni-1 Max",
-    "specNote": "Estas specs describen la ruta pública del espacio de imagen VideoAI.",
+    "specNote": "Estas specs describen la ruta pública del espacio de imagen MaxVideoAI.",
     "specSections": [
       {
         "title": "Flujos de imagen",
@@ -186,7 +186,7 @@
         "title": "Comportamiento de precio",
         "items": [
           "Los costos de imagen y referencias siguen precios públicos de referencia.",
-          "El margen VideoAI está incluido en ejemplos públicos.",
+          "El margen MaxVideoAI está incluido en ejemplos públicos.",
           "La cotización exacta en la app manda.",
           "Max es una ruta de mayor fidelidad, no una promesa de menor precio."
         ]
@@ -214,7 +214,7 @@
       "Solo imágenes fijas.",
       "No se presenta como siempre más barato o rápido que Uni-1.",
       "Tipografía y etiquetas exactas deben revisarse.",
-      "Precio público basado en las referencias de VideoAI."
+      "Precio público basado en las referencias de MaxVideoAI."
     ],
     "safetyTitle": "Seguridad y semejanza",
     "safetyRules": [
@@ -316,7 +316,7 @@
       },
       {
         "title": "Precio de referencia",
-        "body": "Los precios mostrados usan referencias públicas de VideoAI antes de generar.",
+        "body": "Los precios mostrados usan referencias públicas de MaxVideoAI antes de generar.",
         "tone": "price"
       }
     ],
@@ -370,14 +370,14 @@
     ],
     "pricingCopy": {
       "title": "Precios de Luma Uni-1 Max de un vistazo",
-      "subtitle": "Los precios mostrados usan referencias públicas de VideoAI; el precio exacto aparece antes de generar.",
+      "subtitle": "Los precios mostrados usan referencias públicas de MaxVideoAI; el precio exacto aparece antes de generar.",
       "footnote": "Max no se presenta como más barato o rápido que Uni-1; elige esta ruta cuando la imagen necesite mayor fidelidad.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Una imagen",
       "ctaHref": "/es/precios#luma-uni-1-max-pricing"
     },
     "meta": {
-      "title": "Luma Uni-1 Max: precios, imágenes 2K y edición | VideoAI",
+      "title": "Luma Uni-1 Max: precios, imágenes 2K y edición | MaxVideoAI",
       "description": "Explora Luma Uni-1 Max: precios, imágenes 2K de alta fidelidad, ediciones de fuente, composiciones sensibles a tipografía y flujos con referencias."
     }
   },

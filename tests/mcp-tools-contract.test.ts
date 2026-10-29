@@ -146,6 +146,9 @@ const projectBudget: AgentProjectBudgetResult = {
 
 function services(overrides: Partial<MaxVideoAiMcpServices> = {}): MaxVideoAiMcpServices {
   return {
+    listAudioCapabilities: async () => ({}) as never,
+    prepareAudioGeneration: async () => ({}) as never,
+    confirmAudioGeneration: async () => ({}) as never,
     async getAccountStatus() {
       return account;
     },
@@ -261,7 +264,7 @@ async function connectedClient(serviceOverrides: Partial<MaxVideoAiMcpServices> 
   };
 }
 
-test('server advertises only the five read-only discovery tools with narrow guidance', async (t) => {
+test('server advertises the read-only discovery and price comparison tools with narrow guidance', async (t) => {
   const connected = await connectedClient();
   t.after(() => connected.close());
 
@@ -273,6 +276,7 @@ test('server advertises only the five read-only discovery tools with narrow guid
     'get_model_details',
     'recommend_models',
     'calculate_project_budget',
+    'compare_generation_prices',
   ]);
 
   for (const tool of result.tools) {
@@ -462,7 +466,7 @@ test('paid prepare schema exposes canonical settings and accepts full video refe
   });
 });
 
-test('all fifteen operational tools expose strict schemas and reject unknown keys before handlers', async (t) => {
+test('all operational tools expose strict schemas and reject unknown keys before handlers', async (t) => {
   const calls = new Map<string, number>();
   const called = (name: string) => calls.set(name, (calls.get(name) ?? 0) + 1);
   const operationalServices = services({
@@ -474,6 +478,9 @@ test('all fifteen operational tools expose strict schemas and reject unknown key
     listMedia: async () => { called('list_media'); return { items: [], nextCursor: null, hasMore: false }; },
     createReferenceUploadLink: async () => { called('create_reference_upload_link'); return {} as never; },
     importReferenceFiles: async () => { called('import_reference_files'); return {} as never; },
+    listAudioCapabilities: async () => { called('list_audio_capabilities'); return {} as never; },
+    prepareAudioGeneration: async () => { called('prepare_audio_generation'); return {} as never; },
+    confirmAudioGeneration: async () => { called('confirm_audio_generation'); return {} as never; },
     prepareGeneration: async () => { called('prepare_generation'); return {} as never; },
     confirmGeneration: async () => { called('confirm_generation'); return {} as never; },
     getGenerationStatus: async () => { called('get_generation_status'); return {} as never; },
@@ -550,6 +557,7 @@ test('all fifteen operational tools expose strict schemas and reject unknown key
         }],
       }],
     },
+    compare_generation_prices:{surface:'video',mode:'t2v',prompt:'A cinematic opening shot',settings:{durationSec:4}},
     list_media: {},
     create_reference_upload_link: { kind: 'image' },
     import_reference_files: {
@@ -560,6 +568,10 @@ test('all fifteen operational tools expose strict schemas and reject unknown key
         file_name: 'reference.png',
       }],
     },
+    list_audio_capabilities: {},
+    prepare_audio_generation: { surface: 'audio', engineId: 'audio-voice-only', mode: 'voice_only',
+      prompt: '', settings: { voiceModel: 'eleven-v4', script: 'Hello.' } },
+    confirm_audio_generation: { quoteId: '00000000-0000-4000-8000-000000000001', confirmed: true },
     prepare_generation: {
       surface: 'video',
       engineId: 'seedance-2-5',

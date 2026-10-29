@@ -22,6 +22,7 @@ type TimelineExportEcsConfig = {
   securityGroups: string[];
   containerName: string;
   assignPublicIp: 'ENABLED' | 'DISABLED';
+  credentials?: { accessKeyId: string; secretAccessKey: string };
 };
 
 export type TimelineExportWorkerLaunchResult =
@@ -46,6 +47,10 @@ function splitCsv(value: string, label: string): string[] {
 function readTimelineExportEcsConfig(env: NodeJS.ProcessEnv = process.env): TimelineExportEcsConfig {
   const missingKeys = REQUIRED_ENV.filter((key) => !env[key]?.trim());
   if (missingKeys.length) throw new Error(`MISSING_${missingKeys.join(',')}`);
+  const accessKeyId = env.TIMELINE_EXPORT_ECS_ACCESS_KEY_ID?.trim();
+  const secretAccessKey = env.TIMELINE_EXPORT_ECS_SECRET_ACCESS_KEY?.trim();
+  if (accessKeyId && !secretAccessKey) throw new Error('MISSING_TIMELINE_EXPORT_ECS_SECRET_ACCESS_KEY');
+  if (secretAccessKey && !accessKeyId) throw new Error('MISSING_TIMELINE_EXPORT_ECS_ACCESS_KEY_ID');
   const readRequiredEnv = (key: TimelineExportEcsEnvKey) => String(env[key]).trim();
   const assignPublicIp = env.TIMELINE_EXPORT_ECS_ASSIGN_PUBLIC_IP?.trim() || 'ENABLED';
   if (assignPublicIp !== 'ENABLED' && assignPublicIp !== 'DISABLED') {
@@ -60,6 +65,7 @@ function readTimelineExportEcsConfig(env: NodeJS.ProcessEnv = process.env): Time
     securityGroups: splitCsv(readRequiredEnv('TIMELINE_EXPORT_ECS_SECURITY_GROUP'), 'TIMELINE_EXPORT_ECS_SECURITY_GROUP'),
     containerName:
       env.TIMELINE_EXPORT_ECS_CONTAINER_NAME?.trim() || DEFAULT_TIMELINE_EXPORT_ECS_CONTAINER_NAME,
+    ...(accessKeyId && secretAccessKey ? { credentials: { accessKeyId, secretAccessKey } } : {}),
   };
 }
 
@@ -82,7 +88,7 @@ export async function launchTimelineExportWorkerTask(params: {
   if (env.NODE_ENV === 'test') return { status: 'skipped', reason: 'test_environment' };
 
   const config = readTimelineExportEcsConfig(env);
-  const client = new ECSClient({ region: config.region });
+  const client = new ECSClient({ region: config.region, ...(config.credentials ? { credentials: config.credentials } : {}) });
   const response = await client.send(
     new RunTaskCommand({
       cluster: config.cluster,

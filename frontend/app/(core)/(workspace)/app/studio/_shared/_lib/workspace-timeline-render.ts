@@ -235,7 +235,8 @@ function localizedTrackLabel(
 function issueForUnavailableItem(
   nodes: WorkspaceGraphNode[],
   item: WorkspaceTimelineItem,
-  canvasNodeCopy?: StudioCopy['canvas']['nodes']
+  canvasNodeCopy?: StudioCopy['canvas']['nodes'],
+  issueCopy?: StudioCopy['exportDialog']
 ): WorkspaceTimelineRenderIssue | null {
   const output = outputForItem(nodes, item);
   const title = issueTitle(item, canvasNodeCopy);
@@ -244,7 +245,7 @@ function issueForUnavailableItem(
       code: 'processing_media',
       severity: 'blocking',
       itemId: item.id,
-      message: `${title} is still processing and cannot be rendered yet.`,
+      message: formatRenderCopy(issueCopy?.timelineProcessingIssue ?? '{item} is still processing and cannot be rendered yet.', { item: title }),
     };
   }
   if (output?.status === 'failed') {
@@ -252,7 +253,7 @@ function issueForUnavailableItem(
       code: 'missing_media',
       severity: 'blocking',
       itemId: item.id,
-      message: `${title} failed and has no renderable media.`,
+      message: formatRenderCopy(issueCopy?.timelineFailedIssue ?? '{item} failed and has no renderable media.', { item: title }),
     };
   }
   if (!mediaUrlForItem(nodes, item)) {
@@ -260,7 +261,7 @@ function issueForUnavailableItem(
       code: 'missing_media',
       severity: 'blocking',
       itemId: item.id,
-      message: `${title} has no media URL for final render.`,
+      message: formatRenderCopy(issueCopy?.timelineMissingMediaIssue ?? '{item} has no media URL for final render.', { item: title }),
     };
   }
   return null;
@@ -371,7 +372,8 @@ function overlapIssues(
 
 function linkedAudioIssues(
   items: WorkspaceTimelineItem[],
-  canvasNodeCopy?: StudioCopy['canvas']['nodes']
+  canvasNodeCopy?: StudioCopy['canvas']['nodes'],
+  issueCopy?: StudioCopy['exportDialog']
 ): WorkspaceTimelineRenderIssue[] {
   return items.flatMap((item) => {
     if (!isWorkspaceTimelineAudioTrack(item.track) || !item.linkedGroupId) return [];
@@ -381,7 +383,7 @@ function linkedAudioIssues(
       code: 'orphan_linked_audio' as const,
       severity: 'warning' as const,
       itemId: item.id,
-      message: `${issueTitle(item, canvasNodeCopy)} is linked audio without a matching video clip.`,
+      message: formatRenderCopy(issueCopy?.timelineLinkedAudioIssue ?? '{item} is linked audio without a matching video clip.', { item: issueTitle(item, canvasNodeCopy) }),
     }];
   });
 }
@@ -389,7 +391,8 @@ function linkedAudioIssues(
 function missingDimensionIssues(
   nodes: WorkspaceGraphNode[],
   items: WorkspaceTimelineItem[],
-  canvasNodeCopy?: StudioCopy['canvas']['nodes']
+  canvasNodeCopy?: StudioCopy['canvas']['nodes'],
+  issueCopy?: StudioCopy['exportDialog']
 ): WorkspaceTimelineRenderIssue[] {
   return items.flatMap((item) => {
     if (mediaKindForItem(item) === 'audio') return [];
@@ -400,14 +403,15 @@ function missingDimensionIssues(
       code: 'missing_dimensions' as const,
       severity: 'warning' as const,
       itemId: item.id,
-      message: `${issueTitle(item, canvasNodeCopy)} has unknown source dimensions. The render will keep a full-frame fallback until metadata is measured.`,
+      message: formatRenderCopy(issueCopy?.timelineMissingDimensionsIssue ?? '{item} has unknown source dimensions. The render will keep a full-frame fallback until metadata is measured.', { item: issueTitle(item, canvasNodeCopy) }),
     }];
   });
 }
 
 function transitionIssues(
   items: WorkspaceTimelineItem[],
-  canvasNodeCopy?: StudioCopy['canvas']['nodes']
+  canvasNodeCopy?: StudioCopy['canvas']['nodes'],
+  issueCopy?: StudioCopy['exportDialog']
 ): WorkspaceTimelineRenderIssue[] {
   return items.flatMap((item) => {
     if (!isVideoTimelineTrack(item.track) || item.transitionOut?.type !== 'crossfade') return [];
@@ -417,7 +421,7 @@ function transitionIssues(
         code: 'invalid_transition' as const,
         severity: 'warning' as const,
         itemId: item.id,
-        message: `${issueTitle(item, canvasNodeCopy)} has a transition but no next video clip.`,
+        message: formatRenderCopy(issueCopy?.timelineTransitionNoNextIssue ?? '{item} has a transition but no next video clip.', { item: issueTitle(item, canvasNodeCopy) }),
       }];
     }
     const nextClip = items.find((candidate) => candidate.id === transition.nextClipId);
@@ -426,7 +430,7 @@ function transitionIssues(
       code: 'invalid_transition' as const,
       severity: 'warning' as const,
       itemId: item.id,
-      message: `${issueTitle(item, canvasNodeCopy)} has a crossfade across a gap.`,
+      message: formatRenderCopy(issueCopy?.timelineCrossfadeGapIssue ?? '{item} has a crossfade across a gap.', { item: issueTitle(item, canvasNodeCopy) }),
     }];
   });
 }
@@ -455,19 +459,19 @@ export function buildWorkspaceTimelineRenderManifest(params: {
     issues.push({
       code: 'empty_timeline',
       severity: 'blocking',
-      message: 'The timeline is empty.',
+      message: params.exportDialogCopy?.timelineEmptyIssue ?? 'The timeline is empty.',
     });
   }
 
   exportItems.forEach((item) => {
-    const issue = issueForUnavailableItem(params.nodes, item, params.canvasNodeCopy);
+    const issue = issueForUnavailableItem(params.nodes, item, params.canvasNodeCopy, params.exportDialogCopy);
     if (issue) issues.push(issue);
   });
   issues.push(
     ...overlapIssues(exportItems, params.canvasNodeCopy, params.exportDialogCopy),
-    ...linkedAudioIssues(exportItems, params.canvasNodeCopy),
-    ...missingDimensionIssues(params.nodes, exportItems, params.canvasNodeCopy),
-    ...transitionIssues(exportItems, params.canvasNodeCopy)
+    ...linkedAudioIssues(exportItems, params.canvasNodeCopy, params.exportDialogCopy),
+    ...missingDimensionIssues(params.nodes, exportItems, params.canvasNodeCopy, params.exportDialogCopy),
+    ...transitionIssues(exportItems, params.canvasNodeCopy, params.exportDialogCopy)
   );
 
   const tracks = timelineTrackOrderForItems(exportItems).map((track): WorkspaceTimelineRenderTrack => {

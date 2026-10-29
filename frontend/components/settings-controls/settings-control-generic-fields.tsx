@@ -5,12 +5,14 @@ interface SettingsGenericAdvancedFieldsProps {
   fields: Array<{ field: EngineInputField; required: boolean }>;
   values: Record<string, unknown>;
   onChange?: (field: EngineInputField, value: unknown) => void;
+  locale?: string;
 }
 
 export function SettingsGenericAdvancedFields({
   fields,
   values,
   onChange,
+  locale,
 }: SettingsGenericAdvancedFieldsProps) {
   return (
     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -21,6 +23,7 @@ export function SettingsGenericAdvancedFields({
           required={required}
           value={values[field.id] ?? field.default ?? ''}
           onChange={onChange}
+          locale={locale}
         />
       ))}
     </div>
@@ -32,11 +35,13 @@ function SettingsGenericAdvancedField({
   required,
   value,
   onChange,
+  locale,
 }: {
   field: EngineInputField;
   required: boolean;
   value: unknown;
   onChange?: (field: EngineInputField, value: unknown) => void;
+  locale?: string;
 }) {
   const label = `${field.label}${required ? ' *' : ''}`;
   const toggleButtonClass = 'min-h-0 h-auto px-3 py-1.5 text-[13px]';
@@ -68,7 +73,7 @@ function SettingsGenericAdvancedField({
               onClick={() => onChange?.(field, option)}
               className={`${toggleButtonClass} ${activeToggleClass(option === active)}`}
             >
-              {option ? 'On' : 'Off'}
+              {locale === 'zh' ? (option ? '开启' : '关闭') : (option ? 'On' : 'Off')}
             </Button>
           ))}
         </div>

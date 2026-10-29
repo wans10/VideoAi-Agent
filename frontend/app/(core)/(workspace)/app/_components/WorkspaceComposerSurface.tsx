@@ -1,4 +1,5 @@
 'use client';
+import { getSeedanceAutomaticPricingNote } from '@/lib/seedance-modelark-options';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ComponentProps, Dispatch, SetStateAction } from 'react';
@@ -10,9 +11,14 @@ import { SeedanceDraftLocalPreviewMode } from './SeedanceDraftLocalPreviewMode.c
 import { getSeedanceDraftCopy } from '../_lib/seedance-draft-copy';
 import { CoreIterationsControl, CoreSettingsBar } from '@/components/CoreSettingsBar';
 import { SettingsControls } from '@/components/SettingsControls';
-import type { KlingElementState, KlingElementsBuilderProps } from '@/components/KlingElementsBuilder';
+// Subject slots occupy the initial form. A nested lazy boundary inserts the
+// panel late and moves the mobile results rail.
+import { KlingElementsBuilder, type KlingElementState, type KlingElementsBuilderProps } from '@/components/KlingElementsBuilder';
 import { Button } from '@/components/ui/Button';
 import { getLocalizedModeLabel } from '@/lib/ltx-localization';
+import { getEngineModeUnavailableMessage, isEngineModeQuoteReady } from '@/lib/engine-mode-availability';
+import { resolveSeedanceEditSourceFacts } from '@/lib/seedance-edit-source';
+import { seedanceEditSourceLabel } from '@/lib/seedance-edit-source-copy';
 import { getWorkspaceReferenceFields } from '../_lib/workspace-reference-fields';
 import type { EngineCaps, EngineInputField, EngineModeUiCaps, Mode } from '@/types/engines';
 import {
@@ -25,6 +31,7 @@ import {
   supportsKlingO3VideoToVideo,
 } from '../_lib/kling-o3-unified-workflow';
 import { OMNI_CUSTOM_FIELD_IDS } from '../_lib/gemini-omni-unified-workflow';
+import { localizeKlingO3Message } from '../_lib/kling-o3-unified-workflow';
 import type { FormState } from '../_lib/workspace-form-state';
 import { normalizeExtraInputValue } from '../_lib/workspace-form-state';
 import {
@@ -41,11 +48,6 @@ import { supportsWorkspaceMultiPrompt } from '../_hooks/useWorkspaceEngineModeSt
 import type { LumaRay32KeyframeEditorProps } from './LumaRay32KeyframeEditor';
 import type { OmniStudioPanelProps } from './omni/OmniStudioPanel.client';
 import type { StoryboardLaunchModalProps } from './StoryboardLaunchModal';
-
-const KlingElementsBuilder = dynamic<KlingElementsBuilderProps>(
-  () => import('@/components/KlingElementsBuilder').then((mod) => mod.KlingElementsBuilder),
-  { ssr: false }
-);
 
 const LumaRay32KeyframeEditor = dynamic<LumaRay32KeyframeEditorProps>(
   () => import('./LumaRay32KeyframeEditor').then((mod) => mod.LumaRay32KeyframeEditor),
@@ -294,7 +296,7 @@ export function WorkspaceComposerSurface({
   );
   const klingO3VideoToVideoSupported = supportsKlingO3VideoToVideo(selectedEngine);
   const klingO3VideoReferenceDisabledReason =
-    isUnifiedKlingO3 && !klingO3VideoToVideoSupported ? KLING_O3_SOURCE_VIDEO_UNSUPPORTED_MESSAGE : null;
+    isUnifiedKlingO3 && !klingO3VideoToVideoSupported ? localizeKlingO3Message(KLING_O3_SOURCE_VIDEO_UNSUPPORTED_MESSAGE, uiLocale) : null;
   const showLumaRay32KeyframeEditor = selectedEngine.id === 'luma-ray-3-2' && submissionMode === 'v2v';
   const showOmniStudioPanel = selectedEngine.id === 'gemini-omni-flash';
   const showMultiPrompt = supportsWorkspaceMultiPrompt(selectedEngine, submissionMode);
@@ -309,7 +311,7 @@ export function WorkspaceComposerSurface({
   const composerAssetFields = useMemo(() => getWorkspaceReferenceFields(inputSchemaSummary.assetFields, {
     inputAssets, isUnifiedSeedance, isUnifiedKlingO3, klingO3VideoToVideoSupported,
     hasAnyVideoInput: klingO3AssetState.hasAnyVideoInput, guestUploadLockedReason, workflowCopy,
-    showOmniStudioPanel, showLumaRay32KeyframeEditor,
+    showOmniStudioPanel, showLumaRay32KeyframeEditor, locale: uiLocale,
     previousInteractionId: form.extraInputValues.previous_interaction_id,
   }).map((entry) => ({ ...entry,
     guidance: isUnifiedSeedance && shouldShowSeedanceReferenceGuidance(entry.field)
@@ -410,9 +412,15 @@ export function WorkspaceComposerSurface({
     }
   }, [cfgScale, selectedEngine, form.mode, setCfgScale]);
 
-  const durationSec = multiPromptActive ? multiPromptTotalSec : form.durationSec;
-  const durationManagedLabel =
-    uiLocale === 'fr'
+  const inheritsSourceVideo = selectedEngine.modeAvailability?.[submissionMode]?.inheritsSourceVideo === true;
+  const inheritedSource = useMemo(() => {
+    if (!inheritsSourceVideo) return undefined;
+    const source = inputAssets.video_url?.find(asset => asset?.kind === 'video' && asset.status === 'ready');
+    try { return source ? resolveSeedanceEditSourceFacts(source) : undefined; } catch { return undefined; }
+  }, [inheritsSourceVideo, inputAssets.video_url]);
+  const durationSec = inheritedSource?.billedDurationSec ?? (multiPromptActive ? multiPromptTotalSec : form.durationSec);
+  const durationManagedLabel = inheritsSourceVideo ? seedanceEditSourceLabel(inheritedSource, uiLocale)
+    : uiLocale === 'fr'
       ? `Durée gérée par le multi-prompt · ${multiPromptTotalSec}s`
       : uiLocale === 'es'
         ? `Duración gestionada por multi-prompt · ${multiPromptTotalSec}s`
@@ -451,7 +459,13 @@ export function WorkspaceComposerSurface({
     showKlingElementsBuilder ||
     (showOptionsControl && optionsOpen)
   );
-  const resolvedWorkflowNotice = klingO3UnsupportedVideoReason ?? composerWorkflowNotice;
+  const modeUnavailableMessage = getEngineModeUnavailableMessage(selectedEngine, submissionMode, uiLocale);
+  const quoteUnavailable = !isEngineModeQuoteReady(selectedEngine, submissionMode, preflight);
+  const localizedKlingO3UnsupportedVideoReason = klingO3UnsupportedVideoReason ? localizeKlingO3Message(klingO3UnsupportedVideoReason, uiLocale) : null;
+  const automaticPricingNote = getSeedanceAutomaticPricingNote({ engineId: selectedEngine.id, mode: submissionMode,
+    durationOption: form.durationOption, aspectRatio: form.aspectRatio, locale: uiLocale, inheritsSourceVideo });
+  const resolvedWorkflowNotice = modeUnavailableMessage ?? localizedKlingO3UnsupportedVideoReason
+    ?? ([composerWorkflowNotice, automaticPricingNote].filter(Boolean).join(' ') || undefined);
 
   const handleAudioChange = useCallback(
     (audio: boolean) => {
@@ -536,7 +550,7 @@ export function WorkspaceComposerSurface({
               }
             : null
         }
-        disableGenerate={draftSettingsLocked || multiPromptInvalid || audioWorkflowUnsupported || Boolean(klingO3UnsupportedVideoReason)}
+        disableGenerate={Boolean(modeUnavailableMessage) || quoteUnavailable || draftSettingsLocked || multiPromptInvalid || audioWorkflowUnsupported || Boolean(klingO3UnsupportedVideoReason)}
         extraFields={showExtraFields ? (
           <>
             {showLumaRay32KeyframeEditor ? (
@@ -633,7 +647,7 @@ export function WorkspaceComposerSurface({
                 onSeedLockedChange={handleSeedLockedChange}
                 cfgScale={cfgScale}
                 onCfgScaleChange={setCfgScale}
-                durationManaged={multiPromptActive}
+                durationManaged={multiPromptActive || inheritsSourceVideo}
                 durationManagedLabel={durationManagedLabel}
                 showKlingV3Controls={supportsKlingV3Controls}
                 showKlingV3VoiceControls={supportsKlingV3VoiceControl}
@@ -700,7 +714,7 @@ export function WorkspaceComposerSurface({
                 showHdrControl={Boolean(hdrFieldEntry)}
                 hdrEnabled={hdrEnabled}
                 onHdrChange={handleHdrChange}
-                durationManaged={multiPromptActive}
+                durationManaged={multiPromptActive || inheritsSourceVideo}
                 durationManagedLabel={durationManagedLabel}
               />
             </fieldset>

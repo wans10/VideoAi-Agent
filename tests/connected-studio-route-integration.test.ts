@@ -75,7 +75,7 @@ test('real Studio routes authenticate cookie and bearer owners against a fresh P
     const entry = await fetch(`${runtime.origin}/app/studio`, { headers: { cookie: cookieA }, redirect: 'manual' });
     assert.equal(entry.status, 200, 'Disabled conversation flags must show the new Studio unavailable state, never redirect to classic Canvas.');
     assert.equal(entry.headers.get('location'), null);
-    assert.match(await entry.text(), /Studio is temporarily unavailable/);
+    assert.match(await entry.text(), /Studio (?:is temporarily unavailable|暂时不可用)/);
     const mediaEndpoint = `${runtime.origin}/api/studio/media/resolve`;
     const assetRef = { type: 'asset', assetId: `ma_${'a'.repeat(32)}`, kind: 'video' };
     const outputRef = { type: 'job-output', jobId: 'fixture-job', outputId: 'fixture-output', kind: 'video' };

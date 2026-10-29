@@ -1,6 +1,7 @@
 import {
   isBytePlusModelArkEnabled,
   isBytePlusLasExecutionEnabled,
+  isBytePlusModelArkEditExecutionEnabled,
   isBytePlusSeedanceAdminOnly,
   isBytePlusSeedanceSubmissionEnabled,
   getBytePlusSeedanceAllowedModes,
@@ -44,6 +45,7 @@ export type AgentGenerationExecutabilityEnvironment = Readonly<{
   bytePlusApiKey: string | undefined;
   bytePlusLasApiKey?: string | undefined;
   bytePlusLasEnabled?: boolean;
+  bytePlusModelArkEditEnabled?: boolean;
   falApiKey?: string | undefined;
   providerEnv?: Readonly<Record<string, string | undefined>>;
 }>;
@@ -56,6 +58,7 @@ export function createAgentGenerationExecutabilityEnvironment(
     bytePlusApiKey: ENV.BYTEPLUS_ARK_API_KEY,
     bytePlusLasApiKey: ENV.BYTEPLUS_LAS_API_KEY,
     bytePlusLasEnabled: isBytePlusLasExecutionEnabled(),
+    bytePlusModelArkEditEnabled: isBytePlusModelArkEditExecutionEnabled(),
     falApiKey: ENV.FAL_API_KEY,
     providerEnv,
   };
@@ -163,6 +166,7 @@ export function resolveAgentGenerationModeExecutability(
   engine: EngineCaps,
   mode: Mode,
   environment: AgentGenerationExecutabilityEnvironment = defaultEnvironment(),
+  options?: { nativeSeedanceWorkflow: true },
 ): AgentGenerationExecutabilityDecision {
   if (resolveLlmhubImageModel(engine.id)) {
     const providerEnv = environment.providerEnv ?? process.env;
@@ -254,11 +258,16 @@ export function resolveAgentGenerationModeExecutability(
     ) {
       return { executable: false, reason: 'profile_invalid' };
     }
-    const transport = resolveBytePlusTransport(engine.id, mode);
+    const nativeWorkflow = options?.nativeSeedanceWorkflow === true && engine.id === 'seedance-2-5';
+    const transport = nativeWorkflow ? 'modelark' : resolveBytePlusTransport(engine.id, mode);
     if (transport === 'las' && !environment.bytePlusLasEnabled) {
       if (isLlmhubVideoRoutingSelected(engine.id, mode, providerEnv)) {
         return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
       }
+      return { executable: false, reason: 'provider_disabled' };
+    }
+    if (!nativeWorkflow && engine.id === 'seedance-2-5' && mode === 'v2v' && transport === 'modelark'
+      && !(environment.bytePlusModelArkEditEnabled ?? isBytePlusModelArkEditExecutionEnabled())) {
       return { executable: false, reason: 'provider_disabled' };
     }
     const apiKey = transport === 'las'
@@ -324,6 +333,9 @@ export function resolveAgentGenerationRequestExecutability(
   resolvedReferences: readonly ResolvedReference[] = [],
   environment: AgentGenerationExecutabilityEnvironment = defaultEnvironment(),
 ): AgentGenerationExecutabilityDecision {
+  if (request.engineId === 'seedance-2-5' && request.seedanceWorkflow) {
+    return resolveAgentGenerationModeExecutability(engine, request.mode as Mode, environment, { nativeSeedanceWorkflow: true });
+  }
   if (request.surface === 'video' && isLumaAgentsVideoEngine(engine.id)) {
     const providerEnv = environment.providerEnv ?? process.env;
     const support = resolveLumaAgentsVideoSupport({

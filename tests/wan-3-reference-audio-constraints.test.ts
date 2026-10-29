@@ -50,7 +50,7 @@ test('Wan 3 rejects stored M4A before billing with a useful format message', asy
     if (!result.ok) {
       assert.equal(result.body.error, 'MEDIA_FORMAT_UNSUPPORTED');
       assert.equal(result.body.field, 'reference_audio_urls');
-      assert.match(result.body.message, /MP3 or WAV/);
+      assert.match(result.body.message, /MP3 或 WAV/);
     }
   }
 });

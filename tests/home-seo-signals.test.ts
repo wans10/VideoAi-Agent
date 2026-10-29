@@ -320,7 +320,7 @@ test('every FAQ answer has a contextual route and keeps the supported-input cave
     assert.equal(items.length,8);
     assert.ok(items.every((item: {links?: unknown[]}) => item.links?.length));
   }
-  assert.match(homeSectionsSource, /item.links\?\.map/);
+  assert.match(homeSectionsSource, /item.links\?\.filter\(.*\)\.map/); // Keyvo filters hidden comparison links
   assert.match(homeSectionsSource, /prefetch=\{false\}/);
 });
 

@@ -266,8 +266,8 @@ test('Seedance 2.5 localized marketing content converts in EN, FR, and ES withou
       locale === 'en'
         ? /available to VideoAI users.*price.*shown before each render/i
         : locale === 'fr'
-          ? /accessible aux utilisateurs de VideoAI.*prix.*affiché avant chaque rendu/i
-          : /disponible para los usuarios de VideoAI.*precio.*muestra antes de cada render/i,
+          ? /accessible aux utilisateurs de MaxVideoAI.*prix.*affiché avant chaque rendu/i
+          : /disponible para los usuarios de MaxVideoAI.*precio.*muestra antes de cada render/i,
     );
     assert.equal(prompting.modelSlug, slug);
     assert.equal(examples.modelSlug, slug);

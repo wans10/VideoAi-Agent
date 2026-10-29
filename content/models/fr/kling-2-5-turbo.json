@@ -2,8 +2,8 @@
   "marketingName": "Kling 2.5 Turbo",
   "versionLabel": "2.5 Turbo",
   "seo": {
-    "title": "Kling 2.5 Turbo | Modèle vidéo IA, specs et prix | VideoAI",
-    "description": "Utilisez Kling 2.5 Turbo sur VideoAI pour des tests vidéo IA silencieux rapides, puis passez à Kling 3 Standard ou Kling 3 Pro pour le workflow Kling actuel.",
+    "title": "Kling 2.5 Turbo | Modèle vidéo IA, specs et prix | MaxVideoAI",
+    "description": "Utilisez Kling 2.5 Turbo sur MaxVideoAI pour des tests vidéo IA silencieux rapides, puis passez à Kling 3 Standard ou Kling 3 Pro pour le workflow Kling actuel.",
     "image": "/hero/kling-25.jpg"
   },
   "overview": "Kling 2.5 Turbo reste disponible comme ancien modèle Kling encore pris en charge pour des tests silencieux 1080p rapides, des clips courts orientés caméra et du look-dev à moindre coût.",
@@ -192,10 +192,10 @@
         "icon": "wand2"
       }
     ],
-    "whatTitle": "Ce qu’est vraiment Kling 2.5 Turbo dans VideoAI",
+    "whatTitle": "Ce qu’est vraiment Kling 2.5 Turbo dans MaxVideoAI",
     "whatIntro1": "Kling 2.5 Turbo est un modèle vidéo short‑form haute performance pour motion ciné, bonne adhérence au prompt et style cohérent.",
-    "whatIntro2": "Dans VideoAI c’est un modèle multitier que vous changez à chaque rendu.",
-    "whatFlowTitle": "Flux VideoAI",
+    "whatIntro2": "Dans MaxVideoAI c’est un modèle multitier que vous changez à chaque rendu.",
+    "whatFlowTitle": "Flux MaxVideoAI",
     "whatFlowSteps": [
       "1. Choisissez Kling 2.5 Turbo.",
       "2. Texte → Vidéo (Pro Text) ou Image → Vidéo (Pro Image / Standard).",
@@ -205,8 +205,8 @@
       "6. Vérifiez le prix exact avant rendu.",
       "7. Comparez avec Sora, Veo, Wan, MiniMax dans le même espace."
     ],
-    "specTitle": "Specs réelles — Kling 2.5 Turbo dans VideoAI (1080p, 5–10 s)",
-    "specNote": "Ces specs décrivent Kling 2.5 Turbo tel qu’il est utilisé dans VideoAI.",
+    "specTitle": "Specs réelles — Kling 2.5 Turbo dans MaxVideoAI (1080p, 5–10 s)",
+    "specNote": "Ces specs décrivent Kling 2.5 Turbo tel qu’il est utilisé dans MaxVideoAI.",
     "specSections": [
       {
         "title": "Motion & physique",
@@ -284,7 +284,7 @@
       "Pika 2.2 : animation stylisée et silencieuse pour loops et visuels ludiques"
     ],
     "comparisonCta": "Comparer Kling vs Sora 2 Pro →",
-    "faqTitle": "FAQ – Kling 2.5 Turbo dans VideoAI",
+    "faqTitle": "FAQ – Kling 2.5 Turbo dans MaxVideoAI",
     "faqs": [
       {
         "q": "Kling 2.5 Turbo sort‑il de l’audio ?",
@@ -308,8 +308,8 @@
       }
     ],
     "relatedTitle": "Explorer d’autres modèles",
-    "relatedSubtitle": "Comparez prix, latence et sorties sur le catalogue VideoAI.",
-    "finalPara1": "Kling 2.5 Turbo dans VideoAI est votre modèle 1080p silencieux et ciné pour des beats courts et percutants.",
+    "relatedSubtitle": "Comparez prix, latence et sorties sur le catalogue MaxVideoAI.",
+    "finalPara1": "Kling 2.5 Turbo dans MaxVideoAI est votre modèle 1080p silencieux et ciné pour des beats courts et percutants.",
     "finalPara2": "Utilisez‑le quand la caméra et la motion portent l’histoire, puis ajoutez l’audio en post ou via des modèles audio.",
     "finalButton": "Ouvrir Generate",
     "tipsIntro": "Kling 2.5 Turbo est plus facile à piloter quand vous écrivez pour le mouvement : un sujet, une action claire, un mouvement caméra — et des cues de poids/inertie explicites.",
@@ -451,13 +451,13 @@
     "pricingCopy": {
       "title": "Prix Kling 2.5 Turbo en un coup d’œil",
       "subtitle": "Prix totaux de drafts muets — prix exact affiché dans l’app avant génération.",
-      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 1080p",
       "ctaHref": "/fr/tarifs#kling-2-5-turbo-pricing"
     },
     "meta": {
-      "title": "Kling 2.5 Turbo : tarifs et drafts muets | VideoAI",
+      "title": "Kling 2.5 Turbo : tarifs et drafts muets | MaxVideoAI",
       "description": "Utilisez Kling 2.5 Turbo pour des drafts Kling muets encore pris en charge, départ texte ou image, prompt négatif et look-dev 1080p à moindre coût."
     }
   },
@@ -552,7 +552,7 @@
     "modelSlug": "kling-2-5-turbo",
     "section": {
       "title": "Galerie d’exemples : Kling 2.5 Turbo",
-      "intro": "Rendus réels de la route Kling actuelle dans VideoAI.",
+      "intro": "Rendus réels de la route Kling actuelle dans MaxVideoAI.",
       "defaultCtaLabel": "Voir tous les exemples Kling 2.5 Turbo →",
       "recreateLabel": "Recréer ce plan →"
     },

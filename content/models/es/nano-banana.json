@@ -2,11 +2,11 @@
   "marketingName": "Nano Banana",
   "versionLabel": "Image",
   "seo": {
-    "title": "Nano Banana – Generación de imágenes fotorrealistas | VideoAI",
+    "title": "Nano Banana – Generación de imágenes fotorrealistas | MaxVideoAI",
     "description": "Genera stills y ediciones fotorrealistas con Nano Banana. Texto→Imagen e Imagen→Imagen para keyframes, miniaturas y referencias antes de animar en Sora, Veo o Kling.",
     "image": "https://media.maxvideoai.com/marketing/marketing/2e71a814-3eed-4965-8beb-bd22d1c243e4.png"
   },
-  "overview": "Nano Banana es tu sidekick de imagen fotorrealista en VideoAI. Bloquea estilo, iluminación y encuadre antes de renderizar video—texto→imagen + edits desde la misma wallet y el mismo lab de prompts.",
+  "overview": "Nano Banana es tu sidekick de imagen fotorrealista en MaxVideoAI. Bloquea estilo, iluminación y encuadre antes de renderizar video—texto→imagen + edits desde la misma wallet y el mismo lab de prompts.",
   "hero": {
     "title": "Nano Banana – Generación de imágenes fotorrealistas",
     "intro": "Generación rápida de stills y edits desde lenguaje natural — pensada para exploración creativa rápida.",
@@ -193,7 +193,7 @@
         "icon": "storyboard"
       }
     ],
-    "whatTitle": "Cómo funciona Nano Banana en VideoAI",
+    "whatTitle": "Cómo funciona Nano Banana en MaxVideoAI",
     "whatIntro1": "Elige texto→imagen o imagen→imagen, define el batch (1–8), escribe tu prompt o tus instrucciones de edición y genera.",
     "whatIntro2": "Úsalo para bloquear estilo, iluminación y encuadre antes de animar en motores de video.",
     "whatFlowTitle": "Workflow",
@@ -300,7 +300,7 @@
       },
       {
         "title": "Workspace de imagen",
-        "body": "Mismo wallet, prompts e historial que el resto de VideoAI.",
+        "body": "Mismo wallet, prompts e historial que el resto de MaxVideoAI.",
         "tone": "continuity"
       }
     ],
@@ -355,14 +355,14 @@
     "pricingCopy": {
       "title": "Precios de Nano Banana de un vistazo",
       "subtitle": "Totales por escenario de imagen. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 8 imágenes",
       "ctaHref": "/es/precios#nano-banana-pricing"
     },
     "meta": {
-      "title": "Nano Banana: precios, borradores rápidos y edición | VideoAI",
-      "description": "Explora Nano Banana: precios, borradores rápidos de imagen, ediciones con referencia, variantes en lote y flujos Google ligeros en VideoAI."
+      "title": "Nano Banana: precios, borradores rápidos y edición | MaxVideoAI",
+      "description": "Explora Nano Banana: precios, borradores rápidos de imagen, ediciones con referencia, variantes en lote y flujos Google ligeros en MaxVideoAI."
     }
   },
   "prompting": {

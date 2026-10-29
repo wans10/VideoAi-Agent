@@ -377,25 +377,25 @@ export function useImageSettingsFields({
     () =>
       aspectRatioOptions.map((option) => ({
         value: option,
-        label: formatAspectRatioLabel(option) ?? option,
+        label: formatAspectRatioLabel(option, resolvedCopy.composer.aspectRatioLabels) ?? option,
       })),
-    [aspectRatioOptions]
+    [aspectRatioOptions, resolvedCopy.composer.aspectRatioLabels]
   );
   const resolutionSelectOptions = useMemo(
     () =>
       resolutionOptions.map((option) => ({
         value: option,
-        label: formatImageSizeLabel(option),
+        label: formatImageSizeLabel(option, resolvedCopy.composer.imageSizeLabels),
       })),
-    [resolutionOptions]
+    [resolutionOptions, resolvedCopy.composer.imageSizeLabels]
   );
   const qualitySelectOptions = useMemo(
     () =>
       qualityOptions.map((option) => ({
         value: option,
-        label: formatQualityLabel(option),
+        label: formatQualityLabel(option, resolvedCopy.composer.qualityLabels),
       })),
-    [qualityOptions]
+    [qualityOptions, resolvedCopy.composer.qualityLabels]
   );
   const outputFormatSelectOptions = useMemo(
     () =>

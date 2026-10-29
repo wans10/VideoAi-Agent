@@ -13,7 +13,7 @@
     },
     "quickVerdict": {
       "title": "Quick verdict",
-      "body": "Choose Gemini Omni Flash 1.1 for conversational refine, larger reference stacks and flexible video editing. Choose Veo 3.1 for the established Veo production workflow and cinematic first-pass generation."
+      "body": "Need to combine several references or change an existing clip? Omni Flash 1.1 accepts up to 10 reference images and supports editing, extension and conversational refinement. Veo 3.1 accepts up to 3 reference images; its source-video workflow extends a clip rather than editing it. For a new shot from text or an image, both are options: compare the examples and the price at your chosen resolution. Both offer 4K and native audio."
     },
     "primaryLinksTitle": "Explore the models",
     "primaryLinks": [
@@ -40,7 +40,7 @@
     },
     "quickVerdict": {
       "title": "Verdict rapide",
-      "body": "Choisissez Gemini Omni Flash 1.1 pour le raffinement conversationnel, les grandes piles de références et l’édition vidéo flexible. Choisissez Veo 3.1 pour son workflow de production établi et sa génération cinématographique dès le premier rendu."
+      "body": "Vous voulez combiner plusieurs références ou modifier une vidéo existante ? Omni Flash 1.1 accepte jusqu’à 10 images de référence et permet la modification, l’extension et les retouches par conversation. Veo 3.1 accepte jusqu’à 3 images de référence ; avec une vidéo source, il prolonge le clip au lieu de le modifier. Pour créer un plan à partir de texte ou d’une image, les deux conviennent : comparez les exemples et le prix à la résolution souhaitée. Les deux proposent la 4K et l’audio natif."
     },
     "primaryLinksTitle": "Explorer les modèles",
     "primaryLinks": [
@@ -67,7 +67,7 @@
     },
     "quickVerdict": {
       "title": "Veredicto rápido",
-      "body": "Elige Gemini Omni Flash 1.1 para refinado conversacional, grandes pilas de referencias y edición flexible. Elige Veo 3.1 para el flujo de producción Veo establecido y generación cinematográfica desde el primer render."
+      "body": "¿Quieres combinar varias referencias o modificar un clip existente? Omni Flash 1.1 acepta hasta 10 imágenes de referencia y permite editar, extender y refinar mediante conversación. Veo 3.1 acepta hasta 3 imágenes de referencia; su flujo con video de origen extiende el clip en lugar de editarlo. Para crear un plano desde texto o una imagen, ambos son opciones: compara los ejemplos y el precio a la resolución que necesitas. Ambos ofrecen 4K y audio nativo."
     },
     "primaryLinksTitle": "Explorar los modelos",
     "primaryLinks": [
@@ -84,12 +84,12 @@
   "zh": {
     "meta": {
       "title": "Gemini Omni Flash 1.1 对比 Veo 3.1：评分与规格",
-      "description": "在 VideoAI 上对比 Gemini Omni Flash 1.1 与 Google Veo 3.1 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
+      "description": "在 Keyvo 上对比 Gemini Omni Flash 1.1 与 Google Veo 3.1 的画质、生成模式、音频、参考素材、时长、分辨率及当前价格。结合本页规格、评分和制作建议，为实际项目选择合适方案。",
       "titleBranding": "none"
     },
     "quickVerdict": {
       "title": "快速结论",
-      "body": "对话式优化、更多参考素材和灵活的视频编辑选择 Gemini Omni Flash 1.1；成熟的 Veo 制作工作流和首次生成的电影级画面选择 Veo 3.1。"
+      "body": "想组合多张参考素材或修改现有片段？Omni Flash 1.1 最多支持 10 张参考图，并支持编辑、延长与对话式精修。Veo 3.1 最多支持 3 张参考图；其源视频工作流用于延长片段，而非编辑。若要从文字或图片生成新镜头，两者都可选：请对比示例，并查看所选分辨率下的价格。两者均支持 4K 与原生音频。"
     },
     "primaryLinksTitle": "了解模型",
     "primaryLinks": [

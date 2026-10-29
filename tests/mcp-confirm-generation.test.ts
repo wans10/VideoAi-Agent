@@ -82,7 +82,7 @@ const imageRequest: CanonicalGenerationRequest = {
   outputCount: 1,
 };
 
-test('confirmation pricing preserves the prepared Seedance video-input tier', async () => {
+test('confirmation pricing preserves the prepared ModelArk extension video-input tier', async () => {
   const entry = listFalEngines().find((candidate) => candidate.id === 'seedance-2-5');
   assert.ok(entry);
   const candidate: AgentPublicGenerationEngine = {
@@ -95,8 +95,8 @@ test('confirmation pricing preserves the prepared Seedance video-input tier', as
     schemaVersion: 1,
     surface: 'video',
     engineId: 'seedance-2-5',
-    mode: 'v2v',
-    prompt: 'Edit the source video.',
+    mode: 'extend',
+    prompt: 'Extend the source video.',
     settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
     references: [{
       kind: 'asset',
@@ -116,12 +116,13 @@ test('confirmation pricing preserves the prepared Seedance video-input tier', as
     mimeType: 'video/mp4',
   }];
   const prepared = await priceCanonicalGeneration(
-    request, 'member', undefined, { resolvedReferences },
+    request, 'member', undefined, { resolvedReferences, resolvedEngine: entry.engine },
   );
   const confirmed = await priceCanonicalGenerationInExecutor(request, 'member', {
     candidate,
     resolvedReferences,
     executor: { async query() { return []; } } as TransactionQueryExecutor,
+    resolvedReferences,
   });
   assert.equal(
     (prepared.pricingSnapshot.meta as Record<string, unknown>).byteplus_billing_input_type,
@@ -813,8 +814,8 @@ test('Seedance accepts one frame URL in distinct first and last roles through re
     prompt: 'Animate one intentionally repeated frame.',
     settings: { durationSec: 4, resolution: '480p', audio: true },
     references: [
-      { kind: 'https', url: duplicateUrl, role: 'first_frame', mediaKind: 'image' },
-      { kind: 'https', url: duplicateUrl, role: 'last_frame', mediaKind: 'image' },
+      { kind: 'asset', assetId: 'duplicate-frame', role: 'first_frame' },
+      { kind: 'asset', assetId: 'duplicate-frame', role: 'last_frame' },
     ],
     outputCount: 1,
   };
@@ -827,6 +828,9 @@ test('Seedance accepts one frame URL in distinct first and last roles through re
   const { dependencies, captures } = baseDependencies(request, {
     lockOwnedQuote: async () => ({ quote: stored, databaseNow: NOW }),
     listPublicEngines: async () => [candidate],
+    resolveGenerationReferences: async () => ['first_frame', 'last_frame'].map(role => ({ assetId: 'duplicate-frame',
+      role: role as 'first_frame' | 'last_frame', storageUrl: duplicateUrl, mediaKind: 'image' as const,
+      width: 1024, height: 1024, durationSec: null, mimeType: 'image/png' })),
   });
 
   const result = await confirmGeneration(
@@ -1247,7 +1251,7 @@ test('invalid image already-reserved runtime state fails before database or prov
   }
 });
 
-test('default registry remains five discovery tools and the explicit paid gate exposes the full paid recovery set safely', async () => {
+test('default registry remains discovery and comparison tools and the explicit paid gate exposes the full paid recovery set safely', async () => {
   const services = {
     getAccountStatus: async () => ({
       connected: true, userId: USER_ID, emailVerified: true, accountUrl: 'https://maxvideoai.com/account',
@@ -1273,6 +1277,7 @@ test('default registry remains five discovery tools and the explicit paid gate e
   const enabledServer = createMaxVideoAiMcpServer(principal, services, {
     paidGeneration: true,
     referenceUploads: false,
+    audioGeneration: false,
   });
   const defaultClient = new Client({ name: 'default-confirm-test', version: '1.0.0' });
   const enabledClient = new Client({ name: 'enabled-confirm-test', version: '1.0.0' });
@@ -1290,12 +1295,12 @@ test('default registry remains five discovery tools and the explicit paid gate e
 
   assert.deepEqual((await defaultClient.listTools()).tools.map((tool) => tool.name), [
     'get_account_status', 'list_models', 'get_model_details', 'recommend_models',
-    'calculate_project_budget',
+    'calculate_project_budget', 'compare_generation_prices',
   ]);
   const tools = (await enabledClient.listTools()).tools;
   assert.deepEqual(tools.map((tool) => tool.name), [
     'get_account_status', 'list_models', 'get_model_details', 'recommend_models',
-    'calculate_project_budget', 'prepare_generation', 'confirm_generation',
+    'calculate_project_budget', 'compare_generation_prices', 'prepare_generation', 'confirm_generation',
     'get_generation_status', 'list_recent_generations', 'get_generation_download', 'present_generation', 'create_topup_link',
   ]);
   const confirm = tools.find((tool) => tool.name === 'confirm_generation');

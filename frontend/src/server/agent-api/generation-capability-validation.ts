@@ -12,6 +12,7 @@ import type { ImageGenerationMode } from '@/types/image-generation';
 import { isLumaRay2EngineId } from '@/lib/luma-ray2';
 import { isGptImageFamilyEngineId, validateGptImage2CustomImageSize } from '@/lib/image/gptImage2';
 import { SEEDREAM_MAX_IMAGE_SET_IMAGES } from '@/lib/image/seedream';
+import { seedanceAutomaticDurationBounds } from '@/lib/seedance-option-pricing';
 import {
   isVideoDurationSupported,
   validateProviderControls,
@@ -37,6 +38,9 @@ import {
 } from '@/lib/media-field-constraints';
 
 const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
+  outputFormat: 'output_format',
+  returnLastFrame: 'return_last_frame',
+  watermark: 'watermark',
   cameraFixed: 'camera_fixed',
   cfgScale: 'cfg_scale',
   contextSec: 'context',
@@ -88,10 +92,21 @@ const IMAGE_FIELD_BY_SETTING: Record<string, string> = {
   watermark: 'watermark',
 };
 
+export type ReferenceConstraintFailure =
+  | 'metadata_unverified'
+  | 'dimensions_unverified'
+  | 'duration_unverified'
+  | 'duration_unsupported'
+  | 'combined_duration_exceeded'
+  | 'size_exceeded'
+  | 'format_unsupported'
+  | 'image_aspect_ratio_unsupported';
+
 export class GenerationCapabilityError extends Error {
   constructor(
     readonly field: string,
     readonly kind: 'parameter_invalid' | 'reference_required' | 'reference_invalid' = 'parameter_invalid',
+    readonly referenceFailure?: ReferenceConstraintFailure,
   ) {
     super('The canonical generation request is not executable by this public model mode.');
     this.name = 'GenerationCapabilityError';
@@ -101,8 +116,9 @@ export class GenerationCapabilityError extends Error {
 function fail(
   field: string,
   kind: GenerationCapabilityError['kind'] = 'parameter_invalid',
+  referenceFailure?: ReferenceConstraintFailure,
 ): never {
-  throw new GenerationCapabilityError(field, kind);
+  throw new GenerationCapabilityError(field, kind, referenceFailure);
 }
 
 function applicableField(
@@ -161,6 +177,9 @@ function validateVideoModeCaps(
   candidate: AgentPublicGenerationEngine,
 ): void {
   const duration = request.settings.durationSec;
+  if (request.settings.durationOption !== undefined && (request.settings.durationOption !== 'auto'
+    || !seedanceAutomaticDurationBounds(candidate.engine.id) || !caps.duration || !('options' in caps.duration)
+    || !caps.duration.options.includes('auto'))) fail('durationOption');
   if (!Number.isSafeInteger(duration) || (duration as number) < 1) fail('durationSec');
   if (caps.frames) fail('durationSec');
   if (caps.duration && !isVideoDurationSupported(duration, caps.duration, candidate.engine.maxDurationSec)) {
@@ -300,7 +319,7 @@ function validateDerivedSourceFacts(
         || sizeBytes <= 0
         || !resolved.mimeType
         || !originalName
-      ) fail('references', 'reference_invalid');
+      ) fail('references', 'reference_invalid', 'metadata_unverified');
       if (
         (resolved.mediaKind === 'image' || resolved.mediaKind === 'video')
         && (
@@ -309,7 +328,7 @@ function validateDerivedSourceFacts(
           || Number(resolved.width) <= 0
           || Number(resolved.height) <= 0
         )
-      ) fail('references', 'reference_invalid');
+      ) fail('references', 'reference_invalid', 'dimensions_unverified');
       const mediaValidation = validateMediaFileAgainstConstraint({
         name: originalName,
         mimeType: resolved.mimeType,
@@ -319,7 +338,8 @@ function validateDerivedSourceFacts(
           field: fields[0]!,
         }),
       });
-      if (!mediaValidation.ok) fail('references', 'reference_invalid');
+      if (!mediaValidation.ok) fail('references', 'reference_invalid',
+        mediaValidation.reason === 'size' ? 'size_exceeded' : 'format_unsupported');
     }
   }
   if (
@@ -669,7 +689,9 @@ function validateTrustedReferenceDuration(
     typeof durationSec !== 'number'
     || !Number.isFinite(durationSec)
     || durationSec <= 0
-    || (typeof field.minDurationSec === 'number' && durationSec < field.minDurationSec)
+  ) fail('references', 'reference_invalid', 'duration_unverified');
+  if (
+    (typeof field.minDurationSec === 'number' && durationSec < field.minDurationSec)
     || (typeof field.maxDurationSec === 'number' && durationSec > field.maxDurationSec)
     || (typeof exclusiveMaximum === 'number' && durationSec >= exclusiveMaximum)
     || (
@@ -677,7 +699,7 @@ function validateTrustedReferenceDuration(
       && typeof requestedOutputDurationSec === 'number'
       && durationSec + requestedOutputDurationSec > sourcePlusOutputMaximum
     )
-  ) fail('references', 'reference_invalid');
+  ) fail('references', 'reference_invalid', 'duration_unsupported');
 }
 
 function requestModeForExclusiveDuration(
@@ -713,11 +735,11 @@ function validateCombinedReferenceDurations(
         typeof resolved.durationSec !== 'number'
         || !Number.isFinite(resolved.durationSec)
         || resolved.durationSec <= 0
-      ) fail('references', 'reference_invalid');
+      ) fail('references', 'reference_invalid', 'duration_unverified');
       durations.set(resolved.storageUrl, resolved.durationSec);
     }
     const total = [...durations.values()].reduce((sum, durationSec) => sum + durationSec, 0);
-    if (total > limit) fail('references', 'reference_invalid');
+    if (total > limit) fail('references', 'reference_invalid', 'combined_duration_exceeded');
   }
 }
 
@@ -793,8 +815,10 @@ function validateReferences(
         if (!options.allowUnverifiedReferenceDuration) fail('references', 'reference_invalid');
       } else if (options.resolvedReferences) {
         const resolved = resolvedReference(reference, options);
-        if (validateImageAspectRatio(fields[0]!, resolved?.width, resolved?.height) !== 'valid') {
-          fail('references', 'reference_invalid');
+        const geometry = validateImageAspectRatio(fields[0]!, resolved?.width, resolved?.height);
+        if (geometry !== 'valid') {
+          fail('references', 'reference_invalid',
+            geometry === 'unverified' ? 'dimensions_unverified' : 'image_aspect_ratio_unsupported');
         }
       }
     }

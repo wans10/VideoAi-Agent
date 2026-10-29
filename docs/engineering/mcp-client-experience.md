@@ -51,6 +51,22 @@ Les deux essais réels Codex du paquet 0.3.6 et leurs limites restent consignés
 [point de contrôle du 22 septembre](../operations/mcp-main-repository-release-v0.3.6.md). La validation de
 chaque hôte reste distincte ; consulter le [parcours de mise à jour](../operations/mcp-client-updates.md).
 
+## Eleven v4 Audio contract — 17 October 2026
+
+The existing Audio preparation schema and live discovery include the reviewed Eleven v4 voices and exact model controls, shared with Studio and web Audio. The owner explicitly authorized production release on 17 October. The independent Audio publication gate is now enabled, with the first MCP catalog restricted to `voice_only` plus `eleven-v4`. The same projection controls discovery, preparation and confirmation. Existing conditional Audio guidance becomes visible without rewriting global instructions or tool descriptions; the 2,000-byte metadata budgets remain unchanged. Live results carry names/IDs/accents and read-only official sample links; the catalog is not copied into instructions. New preparations freeze default voice settings before exact-price approval; existing quote replay, ownership and one-attempt boundaries remain in force. The reviewed policy fingerprint now includes the three published Audio schemas; the existing curated conversation decisions remain unchanged. Measured production instructions: 1,551 UTF-8 bytes; 18 model-visible tool descriptions, maximum 1,767 bytes. The reviewed fingerprint is `edaf4dc36c6f35ccd6538b02ab985faa6f05af0c3323f62182433aa2eeae3990`; the 70 existing curated decisions and their fixture contract are unchanged. No plugin package release or real-host verification is inferred from deterministic checks. Deployment evidence is recorded separately.
+
+## Returned video artifacts — 14 October 2026
+
+Owned completed-video results add optional `playbackVideoUrl` for full-duration
+browser playback and `lastFrameUrl` for the separately stored supplier JPEG. They
+retain the original `videoUrl` and existing short preview/thumbnail roles. Result
+app v6 uses the full playback URL while its primary download remains the original;
+its independent frame download uses the app-only `get_generation_download`
+`outputRole='last_frame'` option. Frame reuse opens that owned job's image results
+in Media. Established v1-v5 resources remain readable with their existing documents.
+Local executable-app and signed-descriptor tests cover these contracts; deployment,
+plugin release and real-host qualification remain independent evidence.
+
 ## Customer price presentation — 5 October 2026
 
 Image/video and Audio preparation results add an optional `price.formattedAmount`
@@ -115,6 +131,23 @@ reconnection; recover submitted jobs before another request. Neither reconnectio
 nor a refund authorizes a new paid attempt.
 
 ## Objectif et limite
+
+### Compatible price comparisons — 2026-10-08
+
+Studio and MCP now share the read-only generation comparison owner described in
+[pricing-engine.md](pricing-engine.md). `compare_generation_prices` supplies up
+to three compatible current prices for a simple image/video brief; a chosen model
+still proceeds through details, exact preparation and explicit approval. Required
+reference combinations and explicit settings remain strict. Baseline settings
+support fresh savings for changed resolution/duration. Packaged plan/generate
+guidance and quote copy invite financial comparisons with brief explanations.
+
+Offline metadata evidence: the maximum over all 128 global capability combinations
+is 1,930 UTF-8 bytes; the comparison descriptor is 1,082 bytes and preparation is
+1,329 bytes. Recomputed `policyFingerprintSha256` using the documented collector;
+the existing 70 curated decisions and fixture fingerprint are unchanged. New
+comparison service/schema tests are included in `mcp:client:check`. These checks
+do not establish deployment, installed-plugin release or real-host routing.
 
 Un utilisateur qui veut produire une vidéo, animer une image, comparer des modèles
 ou chiffrer un projet doit pouvoir découvrir MaxVideoAI, comprendre la prochaine
@@ -435,3 +468,45 @@ required coverage counts were preserved. The 14 tool-selection tests pass; this
 is offline contract evidence and does not establish host execution or publication.
 Keyvo keeps public MCP marketing/indexing disabled while authenticated transport
 and account revocation remain available.
+
+## Native Seedance Draft — 18 October 2026 upstream MaxVideoAI source candidate
+
+The additive `seedanceWorkflow` preparation field exposes the existing native
+Draft/final business owners. Model details own live availability, constraints
+and the useful direct 1080p versus Draft-then-final choice. The assistant offers
+that choice before the selected quote, respects an explicit direct choice and
+never calls ordinary 480p a finalizable Draft. Each paid step requires its own
+exact quote and explicit approval. Status/history retain account-owned lineage;
+full status reports eligibility, actual expiry and existing final recovery.
+See [mode coverage](mcp-mode-coverage.md#native-seedance-draft-workflow--2026-10-18-source-candidate).
+
+Tool descriptors retain prerequisites/recovery within their individual 2,000-byte
+budgets; global instructions and capability gates are unchanged. New deterministic
+schema/discovery tests join `mcp:client:check`; a disposable PostgreSQL test checks
+separate tariffs, real native request payloads, owner/expiry rejection, concurrent
+reservation and same-attempt recovery with substituted provider HTTP. No paid
+provider call is authorized or performed. These fixtures do not prove real-host
+selection or production activation.
+
+Plugin source candidate 0.3.8 needs the immutable release builder/publication flow.
+The observed public website pin remains 0.3.7. Server deployment, plugin release,
+host catalog refresh and real-host verification are distinct. After authorized
+server delivery, refresh the host by its supported flow and verify a fresh task's
+`get_model_details` and `prepare_generation` schemas contain `seedanceWorkflow`.
+Keep the brief and known Draft/final job IDs through reconnect; recover them first.
+An old schema is not permission to emulate Draft with ordinary 480p. Test explicit
+Draft, unchosen 1080p, explicit direct 1080p, ordinary 480p, unavailable workflow,
+expired/foreign Draft and interrupted final in each named host/version before
+claiming compatibility. Offer the returned web URL only when live web availability
+is true. No production deployment, public release or host qualification is claimed
+by this source candidate.
+
+
+Local metadata measurements for this candidate: `get_model_details` 1,927 UTF-8
+bytes, `prepare_generation` 1,639, `get_generation_status` 1,098 and
+`list_recent_generations` 649. All 128 global gate combinations remain under
+2,000 bytes. Upstream MaxVideoAI recorded its refreshed policy fingerprint as
+`ace13aa36761736648b4b33f8cb750a22176078abf732e3b6a29bb594a1d725a` for its own
+descriptors; the Keyvo candidate recalculates its fingerprint with the documented
+collector rather than reusing that value; the Keyvo fingerprint is
+`371411c26f11cb532275569acd8f7958799a208fa266c99839af55283fd62a6c`. The 70 curated decisions were preserved.

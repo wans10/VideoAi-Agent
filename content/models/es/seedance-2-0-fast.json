@@ -2,11 +2,11 @@
   "marketingName": "Seedance 2.0 Fast",
   "versionLabel": "2.0 Fast",
   "seo": {
-    "title": "Seedance 2.0 Fast | Modelo de video IA rapido, specs y precios | VideoAI",
-    "description": "Usa Seedance 2.0 Fast en VideoAI para borradores más rápidos, iteraciones multimodales y specs/precios visibles antes de generar."
+    "title": "Seedance 2.0 Fast | Modelo de video IA rapido, specs y precios | MaxVideoAI",
+    "description": "Usa Seedance 2.0 Fast en MaxVideoAI para borradores más rápidos, iteraciones multimodales y specs/precios visibles antes de generar."
   },
   "overview": "Seedance 2.0 Fast es el modelo de video IA Dreamina Seedance 2.0 Fast actual para borradores cortos, planificación de tomas y bucles de comparación antes del render final.",
-  "pricingNotes": "Seedance 2.0 Fast usa tarificación de proveedor por tokens. VideoAI añade su margen y redondea al céntimo superior; Generate muestra el precio final antes de enviar.",
+  "pricingNotes": "Seedance 2.0 Fast usa tarificación de proveedor por tokens. MaxVideoAI añade su margen y redondea al céntimo superior; Generate muestra el precio final antes de enviar.",
   "hero": {
     "title": "Seedance 2.0 Fast — modelo Seedance rápido actual para drafts e iteración",
     "intro": "Usa Seedance 2.0 Fast como la opción de video IA Dreamina Seedance 2.0 Fast más rápida para borradores más rápidos, planificación de tomas, checks de timing e iteraciones A/B antes de mover las direcciones aprobadas a Seedance 2.0.",
@@ -75,7 +75,7 @@
   "technicalOverview": [
     {
       "label": "Rol en la familia",
-      "body": "Variante rápida optimizada dentro de la familia Dreamina Seedance 2 en VideoAI."
+      "body": "Variante rápida optimizada dentro de la familia Dreamina Seedance 2 en MaxVideoAI."
     },
     {
       "label": "Entradas",
@@ -91,7 +91,7 @@
     },
     {
       "label": "Audio",
-      "body": "Audio nativo activado por defecto y desactivable; VideoAI muestra el precio final antes de cada run"
+      "body": "Audio nativo activado por defecto y desactivable; MaxVideoAI muestra el precio final antes de cada run"
     },
     {
       "label": "Cuándo usarlo",
@@ -139,7 +139,7 @@
       "prompt": "Borrador vertical de seis segundos de una botella de skincare en un baño luminoso, una revelación limpia, un giro de tapa y un sutil sonido de agua."
     }
   ],
-  "faqTitle": "FAQ – Seedance 2.0 Fast en VideoAI",
+  "faqTitle": "FAQ – Seedance 2.0 Fast en MaxVideoAI",
   "faqs": [
     {
       "q": "¿Qué es Seedance 2.0 Fast?",
@@ -399,7 +399,7 @@
     "pricingCopy": {
       "title": "Precios de generación Seedance 2.0 Fast",
       "subtitle": "Precios totales por escenario. Consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios mostrados por VideoAI en créditos USD para escenarios predefinidos.",
+      "footnote": "Todos los precios son precios mostrados por MaxVideoAI en créditos USD para escenarios predefinidos.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Hasta 720p",
       "ctaHref": "/es/precios#seedance-2-0-fast-pricing"

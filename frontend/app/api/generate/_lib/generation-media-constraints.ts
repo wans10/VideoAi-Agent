@@ -71,6 +71,12 @@ export type GenerationMediaConstraintValidationResult =
       };
     };
 
+// Keyvo publishes only zh; these user-facing reference errors are written in zh directly.
+const MEDIA_KIND_ZH: Record<string, string> = { image: '图片', video: '视频', audio: '音频' };
+function mediaKindZh(kind: unknown): string {
+  return MEDIA_KIND_ZH[String(kind)] ?? String(kind);
+}
+
 function normalizeUrl(value: unknown): string | null {
   return typeof value === 'string' && value.trim().length ? value.trim() : null;
 }
@@ -174,7 +180,8 @@ export async function validateGenerationMediaConstraints(params: {
   if (!engine) return { ok: true };
   const combinedModes = params.inputSchema?.constraints?.combinedDurationModes;
   const applyCombinedLimits = !Array.isArray(combinedModes) || combinedModes.includes(params.mode);
-  const requiresOwnedMedia = params.inputSchema?.constraints?.ownedAssetModes?.includes(params.mode) === true;
+  const requiresExactOwnedMedia = params.engineId === 'seedance-2-5' && params.mode === 'v2v';
+  const requiresOwnedMedia = requiresExactOwnedMedia || params.inputSchema?.constraints?.ownedAssetModes?.includes(params.mode) === true;
 
   const constrainedFields = [
     ...(params.inputSchema?.required ?? []),
@@ -298,19 +305,19 @@ export async function validateGenerationMediaConstraints(params: {
     const matchingRows = rows.filter((row) => {
       const rowUrl = normalizeUrl(row.url);
       const originUrl = normalizeUrl(row.origin_url);
-      return rowUrl === candidate.url || originUrl === candidate.url;
+      return rowUrl === candidate.url || (!requiresExactOwnedMedia && originUrl === candidate.url);
     });
     const stored =
       (candidate.assetId
         ? matchingRows.find((row) => row.asset_id === candidate.assetId)
-        : undefined) ?? matchingRows[0];
+        : undefined) ?? (requiresExactOwnedMedia && candidate.assetId ? undefined : matchingRows[0]);
     const sizeBytes = stored ? normalizeSizeBytes(stored.size_bytes) : null;
     if (!stored || sizeBytes == null) {
       if (candidate.kind === 'image' && !requiresOwnedMedia) continue;
       return failure({
         error: 'MEDIA_METADATA_UNVERIFIED',
         fieldId: candidate.fieldId,
-        message: `This ${candidate.kind} reference could not be verified in your media library. Upload it again before generating.`,
+        message: `无法在你的素材库中验证该${mediaKindZh(candidate.kind)}参考。请重新上传后再生成。`,
       });
     }
 
@@ -319,7 +326,7 @@ export async function validateGenerationMediaConstraints(params: {
     const trustedName = normalizeUrl(stored.original_name) ?? normalizeUrl(stored.origin_url) ?? stored.url;
     const trustedMime = normalizeUrl(stored.mime_type) ?? inferredAudioMime(trustedName);
     if (requiresOwnedMedia && !trustedMime.startsWith(`${candidate.kind}/`)) {
-      return failure({ error: 'MEDIA_FORMAT_UNSUPPORTED', fieldId: candidate.fieldId, message: 'The stored media type does not match this reference field.' });
+      return failure({ error: 'MEDIA_FORMAT_UNSUPPORTED', fieldId: candidate.fieldId, message: '所选素材的类型与该参考位不匹配。' });
     }
     const validation = validateMediaFileAgainstConstraint({
       name: trustedName,
@@ -331,7 +338,7 @@ export async function validateGenerationMediaConstraints(params: {
       return failure({
         error: 'MEDIA_FILE_TOO_LARGE',
         fieldId: candidate.fieldId,
-        message: `Each ${field.type} reference must be ${validation.maxSizeMB} MB or smaller.`,
+        message: `每个${mediaKindZh(field.type)}参考文件不得超过 ${validation.maxSizeMB} MB。`,
         maxMB: validation.maxSizeMB,
       });
     }
@@ -339,33 +346,44 @@ export async function validateGenerationMediaConstraints(params: {
       return failure({
         error: 'MEDIA_FORMAT_UNSUPPORTED',
         fieldId: candidate.fieldId,
-        message: `${field.type[0]?.toUpperCase()}${field.type.slice(1)} references must use ${validation.acceptedFileExtensions?.map((format) => format.toUpperCase()).join(' or ')}.`,
+        message: `${mediaKindZh(field.type)}参考必须使用 ${validation.acceptedFileExtensions?.map((format) => format.toUpperCase()).join(' 或 ')} 格式。`,
         acceptedFormats: validation.acceptedFileExtensions,
       });
     }
 
     const trustedWidth = normalizeDimension(stored.width);
     const trustedHeight = normalizeDimension(stored.height);
-    trustedMediaReferences.push({ kind: candidate.kind, url: candidate.url, width: trustedWidth, height: trustedHeight, durationSec: (candidate.kind === 'video' ? videoDuration(stored.media_metadata ?? {}, stored.url, normalizeDurationSec(stored.duration_sec)) : normalizeDurationSec(stored.duration_sec)) });
+    const trustedReference: MinimaxH3MaxPricingReference = {
+      kind: candidate.kind,
+      fieldId: candidate.fieldId,
+      url: candidate.url,
+      width: trustedWidth,
+      height: trustedHeight,
+      durationSec: candidate.kind === 'video'
+        ? videoDuration(stored.media_metadata ?? {}, stored.url, normalizeDurationSec(stored.duration_sec))
+        : normalizeDurationSec(stored.duration_sec),
+    };
+    trustedMediaReferences.push(trustedReference);
     const imageRatio = validateImageAspectRatio(field, trustedWidth, trustedHeight);
     if (imageRatio !== 'valid') {
       return failure({
         error: imageRatio === 'unverified' ? 'MEDIA_DIMENSIONS_UNVERIFIED' : 'MEDIA_ASPECT_RATIO_UNSUPPORTED',
         fieldId: candidate.fieldId,
         message: imageRatio === 'unverified'
-          ? 'This image reference has no trusted dimension metadata. Upload it again before generating.'
-          : `This image is ${trustedWidth} x ${trustedHeight} px. ${engine.label} requires an image width/height ratio between ${field.imageAspectRatio!.min} and ${field.imageAspectRatio!.max}. Crop or pad the image before generating.`,
+          ? '无法确认该图片参考的尺寸信息。请重新上传后再生成。'
+          : `该图片为 ${trustedWidth} x ${trustedHeight} px。${engine.label} 要求图片的宽高比在 ${field.imageAspectRatio!.min} 到 ${field.imageAspectRatio!.max} 之间。生成前请裁剪或填充图片。`,
       });
     }
     if (
       requiresOwnedMedia
+      && !(requiresExactOwnedMedia && field.type === 'video')
       && (field.type === 'image' || field.type === 'video')
       && (trustedWidth == null || trustedHeight == null)
     ) {
       return failure({
         error: 'MEDIA_DIMENSIONS_UNVERIFIED',
         fieldId: candidate.fieldId,
-        message: `This ${field.type} reference has no trusted dimension metadata. Upload it again before generating.`,
+        message: `无法确认该${mediaKindZh(field.type)}参考的尺寸信息。请重新上传后再生成。`,
       });
     }
 
@@ -379,7 +397,7 @@ export async function validateGenerationMediaConstraints(params: {
         return failure({
           error: 'MEDIA_DIMENSIONS_UNVERIFIED',
           fieldId: candidate.fieldId,
-          message: 'This image reference has no trusted dimension metadata. Upload it again before generating.',
+          message: '无法确认该图片参考的尺寸信息。请重新上传后再生成。',
           minimumSidePx,
         });
       }
@@ -387,7 +405,7 @@ export async function validateGenerationMediaConstraints(params: {
         return failure({
           error: 'MEDIA_DIMENSIONS_TOO_SMALL',
           fieldId: candidate.fieldId,
-          message: `This image is ${width} x ${height} px. ${engine.label} requires each side to be at least ${minimumSidePx} px.`,
+          message: `该图片为 ${width} x ${height} px。${engine.label} 要求每条边至少为 ${minimumSidePx} px。`,
           actualWidth: width,
           actualHeight: height,
           minimumSidePx,
@@ -407,7 +425,7 @@ export async function validateGenerationMediaConstraints(params: {
     ) {
       let width = trustedWidth;
       let height = trustedHeight;
-      if (!requiresOwnedMedia && (width == null || height == null)) {
+      if ((!requiresOwnedMedia || requiresExactOwnedMedia) && (width == null || height == null)) {
         const detected = await detectVideoDimensionsFn(stored.url).catch(() => null);
         width = normalizeDimension(detected?.width);
         height = normalizeDimension(detected?.height);
@@ -416,7 +434,7 @@ export async function validateGenerationMediaConstraints(params: {
         return failure({
           error: 'MEDIA_DIMENSIONS_UNVERIFIED',
           fieldId: candidate.fieldId,
-          message: 'This video reference has no trusted dimension metadata. Upload it again before generating.',
+          message: '无法确认该视频参考的尺寸信息。请重新上传后再生成。',
           minimumPixelCount,
         });
       }
@@ -424,12 +442,14 @@ export async function validateGenerationMediaConstraints(params: {
         return failure({
           error: 'MEDIA_DIMENSIONS_TOO_SMALL',
           fieldId: candidate.fieldId,
-          message: `This video is ${width} x ${height} px. ${engine.label} requires at least ${minimumPixelCount} total pixels. Choose a larger video and try again.`,
+          message: `该视频为 ${width} x ${height} px。${engine.label} 要求总像素数至少为 ${minimumPixelCount}。请选择更大的视频后重试。`,
           actualWidth: width,
           actualHeight: height,
           minimumPixelCount,
         });
       }
+      trustedReference.width = width;
+      trustedReference.height = height;
     }
 
     const combinedDurationLimit =
@@ -461,9 +481,11 @@ export async function validateGenerationMediaConstraints(params: {
         return failure({
           error: 'MEDIA_DURATION_UNVERIFIED',
           fieldId: candidate.fieldId,
-          message: `This ${field.type} reference has no trusted duration metadata. Upload it again before generating.`,
+          message: `无法确认该${mediaKindZh(field.type)}参考的时长信息。请重新上传后再生成。`,
         });
       }
+      // Pricing consumes these references, including facts measured above.
+      trustedReference.durationSec = durationSec;
       const minDurationSec = params.engineId === 'seedance-2-5' && params.mode === 'v2v' && field.type === 'video' ? 4 : field.minDurationSec;
       const maxDurationSec = params.engineId === 'seedance-2-5' && field.type === 'video' ? 30 : field.maxDurationSec;
       const belowMinimum = typeof minDurationSec === 'number' && durationSec < minDurationSec;
@@ -473,7 +495,7 @@ export async function validateGenerationMediaConstraints(params: {
         return failure({
           error: 'MEDIA_DURATION_UNSUPPORTED',
           fieldId: candidate.fieldId,
-          message: `Each ${field.type} reference must be between ${minDurationSec ?? 0} and ${maxDurationSec ?? 'the provider maximum'} seconds.`,
+          message: `每个${mediaKindZh(field.type)}参考的时长必须在 ${minDurationSec ?? 0} 到 ${maxDurationSec ?? '服务商上限'} 秒之间。`,
           minDurationSec,
           maxDurationSec,
           durationSec,
@@ -503,7 +525,7 @@ export async function validateGenerationMediaConstraints(params: {
     return failure({
       error: 'MEDIA_COMBINED_DURATION_EXCEEDED',
       fieldId: matching[0]?.fieldId ?? (kind === 'video' ? 'video_urls' : 'audio_urls'),
-      message: `Combined ${kind} references must be ${maxDurationSec} seconds or shorter.`,
+      message: `合并后的${mediaKindZh(kind)}参考时长不得超过 ${maxDurationSec} 秒。`,
       maxDurationSec,
       durationSec,
     });

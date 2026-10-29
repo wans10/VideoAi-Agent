@@ -2,11 +2,11 @@
   "marketingName": "Luma Ray 2 Flash",
   "versionLabel": "Ray 2 Flash",
   "seo": {
-    "title": "Luma Ray 2 Flash Specs, Prix et workflows legacy rapides | VideoAI",
-    "description": "Utilisez Luma Ray 2 Flash dans VideoAI comme route Luma rapide de generation precedente pour anciens drafts, tests image-to-video, passes modify et reframes sociaux. Demarrez les nouveaux edits Luma et Reframe sur Ray 3.2.",
+    "title": "Luma Ray 2 Flash Specs, Prix et workflows legacy rapides | MaxVideoAI",
+    "description": "Utilisez Luma Ray 2 Flash dans MaxVideoAI comme route Luma rapide de generation precedente pour anciens drafts, tests image-to-video, passes modify et reframes sociaux. Demarrez les nouveaux edits Luma et Reframe sur Ray 3.2.",
     "image": "/hero/luma-ray2-flash.jpg"
   },
-  "overview": "Luma Ray 2 Flash est une route Luma rapide de generation precedente dans VideoAI. Gardez-la pour les anciens drafts Ray 2 Flash et le contexte de comparaison, tandis que Ray 3.2 est la route Luma actuelle pour Modify, keyframes et Reframe.",
+  "overview": "Luma Ray 2 Flash est une route Luma rapide de generation precedente dans MaxVideoAI. Gardez-la pour les anciens drafts Ray 2 Flash et le contexte de comparaison, tandis que Ray 3.2 est la route Luma actuelle pour Modify, keyframes et Reframe.",
   "hero": {
     "title": "Luma Ray 2 Flash - tests rapides, modify et reframe",
     "intro": "Choisissez Ray 2 Flash lorsque vous devez reprendre d'anciens drafts Luma rapides ou une exploration video source compatible Ray 2 Flash. Pour les nouveaux edits Luma, images guides/keyframes et Reframe, commencez sur Ray 3.2.",
@@ -79,7 +79,7 @@
     },
     {
       "label": "Options Modify",
-      "body": "Presets Modify exposes dans VideoAI: adhere_1 a adhere_3, flex_1 a flex_3 et reimagine_1 a reimagine_3"
+      "body": "Presets Modify exposes dans MaxVideoAI: adhere_1 a adhere_3, flex_1 a flex_3 et reimagine_1 a reimagine_3"
     },
     {
       "label": "Options Reframe",
@@ -154,7 +154,7 @@
     }
   ],
   "custom": {
-    "heroDesc1": "Luma Ray 2 Flash suit maintenant le meme schema workflow-complet que les pages LTX et Veo les plus riches dans VideoAI. La famille reste a deux modeles, mais chaque modele expose les routes principales Luma au lieu de cacher les outils sur video source.",
+    "heroDesc1": "Luma Ray 2 Flash suit maintenant le meme schema workflow-complet que les pages LTX et Veo les plus riches dans MaxVideoAI. La famille reste a deux modeles, mais chaque modele expose les routes principales Luma au lieu de cacher les outils sur video source.",
     "heroDesc2": "Cela donne une histoire produit plus propre. Ray 2 reste premium, Flash reste rapide, et les deux modeles supportent la generation nette plus les workflows modify et reframe a partir d'une video source.",
     "heroSupportLine": "Ideal pour iterer vite tout en gardant de vrais outils modify et reframe dans la meme famille Luma.",
     "heroSpecChips": [
@@ -190,8 +190,8 @@
       "Edits de livraison sans depense premium||Reframe reste tres utile meme quand le creative final n'a pas encore besoin du tier flagship.",
       "Chemin d'upgrade propre||Une fois le concept, le preset Modify ou la strategie de crop approuves, l'equipe peut deplacer exactement le meme workflow sur Ray 2."
     ],
-    "specTitle": "Vraies specs - Luma Ray 2 Flash dans VideoAI",
-    "specNote": "Ces specs decrivent le routing Luma actif expose aujourd'hui dans VideoAI, pas une page placeholder reduite.",
+    "specTitle": "Vraies specs - Luma Ray 2 Flash dans MaxVideoAI",
+    "specNote": "Ces specs decrivent le routing Luma actif expose aujourd'hui dans MaxVideoAI, pas une page placeholder reduite.",
     "specSections": [
       {
         "title": "Workflows generate",
@@ -214,7 +214,7 @@
         ]
       }
     ],
-    "whatTitle": "Comment Luma Ray 2 Flash fonctionne dans VideoAI",
+    "whatTitle": "Comment Luma Ray 2 Flash fonctionne dans MaxVideoAI",
     "whatIntro1": "Choisissez Luma Ray 2 Flash, restez sur Generate Video pour les tests texte ou image, ou passez sur Modify / Reframe quand vous travaillez a partir d'un clip source.",
     "whatIntro2": "La famille reste ainsi facile a comprendre tout en exposant les vrais workflows la ou ils comptent: dans la page modele et le studio.",
     "whatFlowTitle": "Workflow",
@@ -373,13 +373,13 @@
     "pricingCopy": {
       "title": "Prix Luma Ray 2 Flash legacy",
       "subtitle": "Prix totaux de brouillon legacy — utilisez Ray 3.2 d’abord pour les workflows Luma Modify et Reframe actuels.",
-      "footnote": "Tous les prix sont des prix affichés VideoAI en crédits USD pour des scénarios prédéfinis.",
+      "footnote": "Tous les prix sont des prix affichés MaxVideoAI en crédits USD pour des scénarios prédéfinis.",
       "ctaLabel": "Voir tous les tarifs",
       "maxDurationNote": "Jusqu’à 1080p",
       "ctaHref": "/fr/tarifs#luma-ray-2-flash-pricing"
     },
     "meta": {
-      "title": "Luma Ray 2 Flash legacy : tarifs et brouillons | VideoAI",
+      "title": "Luma Ray 2 Flash legacy : tarifs et brouillons | MaxVideoAI",
       "description": "Utilisez Luma Ray 2 Flash comme route Luma fast d’ancienne génération : tarifs de brouillon, Modify, Reframe, contexte Ray 2 et migration vers Ray 3.2."
     }
   },

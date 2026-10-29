@@ -2,12 +2,12 @@
   "marketingName": "Luma Uni-1",
   "versionLabel": "Uni-1",
   "seo": {
-    "title": "Luma Uni-1: precios de imagen, referencias y edición | VideoAI",
-    "description": "Usa Luma Uni-1 en VideoAI para generar imágenes 2K, editar una imagen fuente, guiar la composición con varias referencias, usar investigación visual web opcional y consultar precios públicos de referencia.",
+    "title": "Luma Uni-1: precios de imagen, referencias y edición | MaxVideoAI",
+    "description": "Usa Luma Uni-1 en MaxVideoAI para generar imágenes 2K, editar una imagen fuente, guiar la composición con varias referencias, usar investigación visual web opcional y consultar precios públicos de referencia.",
     "image": "/assets/model-examples/luma-uni-1/product.webp"
   },
-  "overview": "Luma Uni-1 es un modelo de imagen 2K en VideoAI para conceptos visuales, ediciones de fuente, composición guiada, varias referencias e investigación visual. Es una ruta solo de imagen.",
-  "pricingNotes": "Los precios mostrados usan precios públicos de referencia de VideoAI. Los ejemplos de edición y referencias incluyen los conteos de imagen indicados; la cotización exacta aparece en la app antes de generar.",
+  "overview": "Luma Uni-1 es un modelo de imagen 2K en MaxVideoAI para conceptos visuales, ediciones de fuente, composición guiada, varias referencias e investigación visual. Es una ruta solo de imagen.",
+  "pricingNotes": "Los precios mostrados usan precios públicos de referencia de MaxVideoAI. Los ejemplos de edición y referencias incluyen los conteos de imagen indicados; la cotización exacta aparece en la app antes de generar.",
   "hero": {
     "title": "Luma Uni-1 - generación de imágenes 2K y edición",
     "intro": "Crea imágenes fijas, edita una fuente y guía la composición con referencias antes de elegir la mejor imagen para producto, marca, storyboard o paso a movimiento.",
@@ -80,7 +80,7 @@
     },
     {
       "label": "Precio",
-      "body": "La copia pública usa precios de referencia de VideoAI"
+      "body": "La copia pública usa precios de referencia de MaxVideoAI"
     }
   ],
   "promptStructure": {
@@ -127,7 +127,7 @@
   "faqs": [
     {
       "q": "¿Luma Uni-1 es un modelo de imagen?",
-      "a": "Sí. En VideoAI esta página describe solo generación de imágenes fijas y edición de imagen."
+      "a": "Sí. En MaxVideoAI esta página describe solo generación de imágenes fijas y edición de imagen."
     },
     {
       "q": "¿Uni-1 puede usar referencias?",
@@ -135,7 +135,7 @@
     },
     {
       "q": "¿Cómo estimar el precio de Uni-1?",
-      "a": "Usa la cotización mostrada en VideoAI. La copia pública usa precios públicos de referencia con margen."
+      "a": "Usa la cotización mostrada en MaxVideoAI. La copia pública usa precios públicos de referencia con margen."
     },
     {
       "q": "¿Uni-1 o Uni-1 Max?",
@@ -172,10 +172,10 @@
       "Flujo solo de imagen||Usa Uni-1 para crear y editar imágenes fijas.",
       "Roles de referencia||Indica qué imagen controla producto, composición, estilo o paleta.",
       "Opción web||Activa búsqueda web solo si el contexto actual ayuda.",
-      "Contexto de precio||Los precios mostrados siguen referencias públicas de VideoAI y la app confirma la cotización final."
+      "Contexto de precio||Los precios mostrados siguen referencias públicas de MaxVideoAI y la app confirma la cotización final."
     ],
     "specTitle": "Specs de imagen Uni-1",
-    "specNote": "Estas specs describen la ruta pública del espacio de imagen VideoAI.",
+    "specNote": "Estas specs describen la ruta pública del espacio de imagen MaxVideoAI.",
     "specSections": [
       {
         "title": "Flujos de imagen",
@@ -190,7 +190,7 @@
         "title": "Comportamiento de precio",
         "items": [
           "Los costos de imagen y referencias siguen precios públicos de referencia.",
-          "El margen VideoAI se refleja en ejemplos públicos.",
+          "El margen MaxVideoAI se refleja en ejemplos públicos.",
           "La cotización exacta de la app manda.",
           "La copia pública no promete precio directo de proveedor más bajo."
         ]
@@ -218,7 +218,7 @@
       "Solo imágenes fijas.",
       "Texto exacto y etiquetas pequeñas deben revisarse.",
       "El resultado con contexto web necesita validación humana.",
-      "Precio público basado en las referencias de VideoAI."
+      "Precio público basado en las referencias de MaxVideoAI."
     ],
     "safetyTitle": "Seguridad y semejanza",
     "safetyRules": [
@@ -243,7 +243,7 @@
         "ctaLabel": "Ver Ray 3.2"
       }
     ],
-    "finalPara1": "Luma Uni-1 es la ruta práctica de imagen 2K para creación, ediciones y preparación de referencias en VideoAI.",
+    "finalPara1": "Luma Uni-1 es la ruta práctica de imagen 2K para creación, ediciones y preparación de referencias en MaxVideoAI.",
     "finalButton": "Generar con Luma Uni-1"
   },
   "decision": {
@@ -320,7 +320,7 @@
       },
       {
         "title": "Precio de referencia",
-        "body": "Los precios mostrados usan referencias públicas de VideoAI antes de generar.",
+        "body": "Los precios mostrados usan referencias públicas de MaxVideoAI antes de generar.",
         "tone": "price"
       }
     ],
@@ -374,14 +374,14 @@
     ],
     "pricingCopy": {
       "title": "Precios de Luma Uni-1 de un vistazo",
-      "subtitle": "Los precios mostrados usan referencias públicas de VideoAI; el precio exacto aparece antes de generar.",
+      "subtitle": "Los precios mostrados usan referencias públicas de MaxVideoAI; el precio exacto aparece antes de generar.",
       "footnote": "Los ejemplos de edición/referencia incluyen los conteos de imagen indicados; la cotización en la app manda.",
       "ctaLabel": "Ver precios completos",
       "maxDurationNote": "Una imagen",
       "ctaHref": "/es/precios#luma-uni-1-pricing"
     },
     "meta": {
-      "title": "Luma Uni-1: precios de imagen, referencias y edición | VideoAI",
+      "title": "Luma Uni-1: precios de imagen, referencias y edición | MaxVideoAI",
       "description": "Explora Luma Uni-1: generación de imagen 2K, ediciones de fuente, guía multi-referencia, investigación visual con contexto web y precios de referencia."
     }
   },

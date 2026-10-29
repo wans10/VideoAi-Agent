@@ -8,6 +8,16 @@ export const KLING_O3_SOURCE_VIDEO_UNSUPPORTED_MESSAGE =
 export const KLING_O3_VIDEO_FRAME_IGNORED_MESSAGE =
   'Source video controls this Omni workflow. Opening and end frames are ignored for video-to-video.';
 
+const KLING_O3_ZH_MESSAGES: Record<string, string> = {
+  [KLING_O3_SOURCE_VIDEO_UNSUPPORTED_MESSAGE]: 'Kling 3.0 Omni 4K 暂不支持源视频。请移除源视频，或切换回标准版 / 专业版。',
+  [KLING_O3_VIDEO_FRAME_IGNORED_MESSAGE]: '源视频正在控制此 Omni 工作流。视频生视频模式会忽略首帧和尾帧。',
+};
+
+/** Displays the English Kling O3 workflow notice in the requested locale; unknown messages pass through unchanged. */
+export function localizeKlingO3Message(message: string, locale?: string | null): string {
+  return locale === 'zh' ? KLING_O3_ZH_MESSAGES[message] ?? message : message;
+}
+
 export const KLING_O3_END_FRAME_REQUIRES_START_FRAME_MESSAGE =
   'End frame requires a start frame for Kling 3.0 Omni reference-to-video.';
 

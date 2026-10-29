@@ -3,6 +3,7 @@ import { resolveFalModelId } from '@/lib/fal-catalog';
 import { getFalClient } from '@/lib/fal-client';
 import { deriveJobSurface } from '@/lib/job-surface';
 import { updateJobFromFalWebhook } from '@/server/fal-webhook-handler';
+import { toUserFacingFailureMessage } from '@/server/user-facing-failure-messages';
 import { APP_JOBS_SELECT, type JobRow } from './jobs-route-types';
 
 const FAILURE_STATES = new Set(['FAILED', 'FAIL', 'ERROR', 'ERRORED', 'CANCELLED', 'CANCELED', 'NOT_FOUND', 'MISSING', 'UNKNOWN']);
@@ -92,7 +93,7 @@ async function markJobFailedFromStaleRefresh(
     try {
       await query(
         `UPDATE app_jobs SET status = 'failed', progress = LEAST(progress, 1), message = $1 WHERE job_id = $2`,
-        [reason, jobRow.job_id]
+        [toUserFacingFailureMessage(reason), jobRow.job_id]
       );
     } catch (writeError) {
       console.warn('[api/jobs] database update fallback for failed job also failed', jobRow.job_id, writeError);

@@ -448,9 +448,9 @@ test('site Organization schema keeps one canonical complete entity', () => {
   assert.ok(!('sameAs' in organization), 'custom brand does not claim upstream social accounts');  const reference = buildSiteOrganizationReference();
   assert.equal(reference['@id'], organization['@id']);
   assert.ok(!('sameAs' in reference));
-  const coreLayout = readFileSync('frontend/app/(core)/layout.tsx', 'utf8');
-  assert.match(coreLayout, /const orgSchema = buildSiteOrganizationSchema\(\)/);
-  assert.doesNotMatch(coreLayout, /sameAs:/);
+  const appRuntime = readFileSync('frontend/app/_components/AppRuntime.tsx', 'utf8');
+  assert.match(appRuntime, /const orgSchema = buildSiteOrganizationSchema\(\)/);
+  assert.doesNotMatch(appRuntime, /sameAs:/);
 });
 
 test('homepage application features use the declared language and canonical provider entity', () => {

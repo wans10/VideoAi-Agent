@@ -264,7 +264,9 @@ export function AssetLibraryModal({
           ? "Aucune sortie recente pour l'instant. Lancez un rendu pour reutiliser une video ici."
           : uiLocale === 'es'
             ? 'Aun no hay salidas recientes. Renderiza un video para reutilizarlo aqui.'
-            : copyAssetLibrary.emptyRecent
+            : uiLocale === 'zh'
+              ? '暂无近期输出。生成视频后可在此处复用。'
+              : copyAssetLibrary.emptyRecent
         : copyAssetLibrary.emptyRecent
     : source === 'generated'
       ? assetType === 'video'
@@ -272,7 +274,9 @@ export function AssetLibraryModal({
           ? "Aucune video generee pour l'instant. Lancez un rendu video pour la reutiliser ici."
           : uiLocale === 'es'
             ? 'Aun no hay videos generados. Renderiza un video para reutilizarlo aqui.'
-            : 'No generated videos yet. Render a video to reuse it here.'
+            : uiLocale === 'zh'
+              ? '暂无已生成的视频。生成视频后可在此处复用。'
+              : 'No generated videos yet. Render a video to reuse it here.'
         : copyAssetLibrary.emptyGenerated
       : source === 'upload'
         ? assetType === 'video'
@@ -280,7 +284,9 @@ export function AssetLibraryModal({
             ? "Aucune video uploadee pour l'instant. Importez une video source pour la voir ici."
             : uiLocale === 'es'
               ? 'Aun no hay videos subidos. Sube un video fuente para verlo aqui.'
-              : 'No uploaded videos yet. Upload a source video to see it here.'
+              : uiLocale === 'zh'
+                ? '暂无已上传的视频。上传源视频后将显示在此处。'
+                : 'No uploaded videos yet. Upload a source video to see it here.'
           : copyAssetLibrary.emptyUploads
         : source === 'storyboard'
           ? copyAssetLibrary.emptyStoryboard
@@ -295,7 +301,9 @@ export function AssetLibraryModal({
                     ? "Aucune video enregistree pour l'instant. Importez ou generez une video pour la voir ici."
                     : uiLocale === 'es'
                       ? 'Aun no hay videos guardados. Sube o genera un video para verlo aqui.'
-                      : 'No saved videos yet. Upload or generate a video to see it here.'
+                      : uiLocale === 'zh'
+                        ? '暂无保存的视频。上传或生成视频后将显示在此处。'
+                        : 'No saved videos yet. Upload or generate a video to see it here.'
                   : copyAssetLibrary.empty;
   const [importError, setImportError] = useState<string | null>(null);
   const importInputRef = useRef<HTMLInputElement | null>(null);
@@ -384,7 +392,9 @@ export function AssetLibraryModal({
           ? 'Selectionner une video de reference'
           : uiLocale === 'es'
             ? 'Seleccionar video de referencia'
-            : 'Select reference video')
+            : uiLocale === 'zh'
+              ? '选择参考视频'
+              : 'Select reference video')
       : copyAssetLibrary.title;
   const searchPlaceholder =
     copyAssetLibrary.searchPlaceholder ??
@@ -393,7 +403,7 @@ export function AssetLibraryModal({
     copyAssetLibrary.sourcesTitle ?? (uiLocale === 'fr' ? 'Médias' : uiLocale === 'es' ? 'Medios' : 'Media');
   const loadMoreLabel = t(
     'workspace.library.browser.loadMore',
-    uiLocale === 'fr' ? 'Afficher plus' : uiLocale === 'es' ? 'Mostrar más' : 'Load more'
+    uiLocale === 'fr' ? 'Afficher plus' : uiLocale === 'es' ? 'Mostrar más' : uiLocale === 'zh' ? '加载更多' : 'Load more'
   ) as string;
   const emptySearchLabel =
     copyAssetLibrary.emptySearch ??
@@ -432,7 +442,9 @@ export function AssetLibraryModal({
         loadMoreLabel={loadMoreLabel}
         searchPlaceholder={searchPlaceholder}
         sourcesTitle={sourcesTitle}
-        emptyLabel={emptyLabel ?? (assetType === 'video' ? 'No saved videos yet.' : 'No saved images yet.')}
+        emptyLabel={emptyLabel ?? (assetType === 'video'
+          ? (uiLocale === 'zh' ? '暂无保存的视频。' : 'No saved videos yet.')
+          : (uiLocale === 'zh' ? '暂无保存的图像。' : 'No saved images yet.'))}
         emptySearchLabel={emptySearchLabel}
         headerActions={
           <>

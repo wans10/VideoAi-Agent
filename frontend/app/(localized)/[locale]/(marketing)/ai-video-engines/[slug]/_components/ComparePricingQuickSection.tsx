@@ -4,11 +4,17 @@ import { EngineIcon } from '@/components/ui/EngineIcon';
 import { getCompareEditorialCopy, getCompareDetailActions } from '../_lib/compare-editorial-copy';
 import type { AppLocale } from '@/i18n/locales';
 import { formatEngineName } from '../_lib/compare-page-helpers';
+import {
+  compareScenarioChips,
+  getComparePerVideoLabel,
+  getCompareQuoteUnavailableLabel,
+} from '../_lib/compare-pricing-copy';
 import type { ComparePricingDisplay, EngineCatalogEntry } from '../_lib/compare-page-types';
 import type { ComparePageOverride } from '../_lib/compare-page-overrides-types';
 
 type ComparePricingQuickSectionProps = {
   activeLocale: AppLocale;
+  priceSnapshotAt: string;
   pricingCreditLink?: ComparePageOverride['pricingCreditLink'];
   left: EngineCatalogEntry;
   leftPricingDisplay: ComparePricingDisplay;
@@ -22,7 +28,7 @@ function getPricingLines(display: ComparePricingDisplay) {
 }
 
 export function ComparePricingQuickSection({
-  activeLocale,
+  activeLocale, priceSnapshotAt,
   pricingCreditLink,
   left,
   leftPricingDisplay,
@@ -31,20 +37,11 @@ export function ComparePricingQuickSection({
 }: ComparePricingQuickSectionProps) {
   const pricingCopy = getCompareEditorialCopy(activeLocale);
   const actions = getCompareDetailActions(activeLocale);
-  const copy = { title: pricingCopy.pricing, subtitle: pricingCopy.priceNote, comparable: activeLocale === 'fr' ? 'Références tarifaires de la grille' : activeLocale === 'es' ? 'Precios de referencia de la evaluación' : 'Scorecard price references' };
+  const copy = { title: pricingCopy.pricing, subtitle: pricingCopy.priceNote };
   const leftLines = getPricingLines(leftPricingDisplay);
   const rightLines = getPricingLines(rightPricingDisplay);
-  const hasComparableLine = leftPricingDisplay.scoreLine && rightPricingDisplay.scoreLine;
-  const scenarioLabel = (display: ComparePricingDisplay) => {
-    const scenario = display.scenario;
-    if (!scenario) return null;
-    const mode = activeLocale === 'fr' ? 'Texte vers vidéo' : activeLocale === 'es' ? 'Texto a vídeo' : 'Text to video';
-    const audio = scenario.audio
-      ? activeLocale === 'fr' ? 'audio activé' : activeLocale === 'es' ? 'audio activado' : 'audio on'
-      : activeLocale === 'fr' ? 'sans audio' : activeLocale === 'es' ? 'sin audio' : 'audio off';
-    return [mode, `${scenario.durationSec} s`, scenario.aspectRatio, audio].filter(Boolean).join(' · ');
-  };
-  const perVideo = activeLocale === 'fr' ? 'par vidéo' : activeLocale === 'es' ? 'por vídeo' : 'per video';
+  const perVideo = getComparePerVideoLabel(activeLocale);
+  const scenarioChips = (display: ComparePricingDisplay) => compareScenarioChips(display, activeLocale);
 
   return (
     <section id="pricing" className="compare-price-panel">
@@ -54,34 +51,29 @@ export function ComparePricingQuickSection({
       </div>
       <div className="compare-price-tickets">
         {[
-          { entry: left, lines: leftLines, display: leftPricingDisplay },
-          { entry: right, lines: rightLines, display: rightPricingDisplay },
-        ].map(({ entry, lines, display }) => (
-          <article key={entry.modelSlug} className="compare-price-ticket">
+          { entry: left, lines: leftLines, display: leftPricingDisplay, side: 'left' },
+          { entry: right, lines: rightLines, display: rightPricingDisplay, side: 'right' },
+        ].map(({ entry, lines, display, side }) => (
+          <article key={entry.modelSlug} className={`compare-price-ticket compare-price-ticket--${side}`}>
             <h3><EngineIcon engine={{ id: entry.engineId, label: formatEngineName(entry), brandId: entry.brandId }} size={28} framed={false} />{formatEngineName(entry)}</h3>
-            {scenarioLabel(display) ? <p className="compare-price-scenario">{scenarioLabel(display)}</p> : null}
+            {scenarioChips(display).length ? <div className="compare-price-scenario" aria-label={scenarioChips(display).join(', ')}>{scenarioChips(display).map(chip => <span key={chip}>{chip}</span>)}</div> : null}
             {display.priceRows?.length ? <dl>{display.priceRows.map(row => (
-              <div key={row.resolution}><dt>{row.resolution}</dt><dd>{row.unitPrice}<small>{row.totalPrice} {perVideo}</small></dd></div>
+              <div key={row.resolution} className="compare-price-row"><dt><span>{row.resolution}</span></dt><dd><strong>{row.totalPrice}</strong><small>{perVideo} · <span className="compare-price-unit">{row.unitPrice}</span></small></dd></div>
             ))}</dl> : <dl>{lines.map(line => {
               const separator = line.indexOf(':');
               return <div key={line}>{separator > -1 ? <><dt>{line.slice(0, separator)}</dt><dd>{line.slice(separator + 1).trim()}</dd></> : <dd>{line}</dd>}</div>;
             })}</dl>}
-            {display.quoteUnavailable ? <p className="compare-price-scenario">{activeLocale === 'fr' ? 'Le devis actuel ne peut pas être confirmé. Vérifiez les réglages dans l’app avant de générer.' : activeLocale === 'es' ? 'No se puede confirmar el precio actual. Revisa los ajustes en la app antes de generar.' : 'The current quote could not be confirmed. Check your settings in the app before generating.'}</p> : null}
+            {display.quoteUnavailable ? <p className="compare-price-scenario">{getCompareQuoteUnavailableLabel(activeLocale)}</p> : null}
           </article>
         ))}
       </div>
       <div className="compare-price-next">
-        <p>{actions.pricingNote}</p>
+        <p>{actions.pricingNote}<br /><span>{activeLocale === 'fr' ? 'Estimation en USD · relevé généré le' : activeLocale === 'es' ? 'Estimación en USD · instantánea generada el' : activeLocale === 'zh' ? '人民币估算 · 价格快照生成于' : 'USD estimate · snapshot generated'} <time dateTime={priceSnapshotAt}>{new Intl.DateTimeFormat(activeLocale, { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(priceSnapshotAt))}</time></span></p>
         <div className="flex shrink-0 flex-wrap items-center gap-x-6 gap-y-2">
           {pricingCreditLink ? <Link href={pricingCreditLink.href}>{pricingCreditLink.label}<ArrowRight size={16} aria-hidden="true" /></Link> : null}
           <Link href="/pricing">{actions.priceLink}<ArrowRight size={16} aria-hidden="true" /></Link>
         </div>
       </div>
-      {hasComparableLine ? (
-        <p className="mt-3 text-center text-xs font-semibold text-text-muted">
-          {copy.comparable}: {leftPricingDisplay.scoreLine} vs {rightPricingDisplay.scoreLine}
-        </p>
-      ) : null}
     </section>
   );
 }

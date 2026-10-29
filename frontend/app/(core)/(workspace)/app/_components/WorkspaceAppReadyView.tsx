@@ -15,7 +15,7 @@ import { useWorkspaceModelReview } from '../_hooks/useWorkspaceModelReview';
 import { WorkspaceModelReviewCommands } from './WorkspaceModelReviewCommands';
 import { WorkspaceAppShell } from './WorkspaceAppShell';
 import { WorkspaceRecentReferences } from './WorkspaceRecentReferences.client';
-import { getKlingO3AssetState, supportsKlingO3VideoToVideo } from '../_lib/kling-o3-unified-workflow';
+import { getKlingO3AssetState, localizeKlingO3Message, supportsKlingO3VideoToVideo } from '../_lib/kling-o3-unified-workflow';
 import { WorkspaceComposerSurface } from './WorkspaceComposerSurface';
 import { WorkspaceRuntimeModals } from './WorkspaceRuntimeModals';
 import type { useWorkspaceAppBootstrap } from '../_hooks/useWorkspaceAppBootstrap';
@@ -33,6 +33,7 @@ import type { useWorkspaceRenderState } from '../_hooks/useWorkspaceRenderState'
 import type { useWorkspaceRouteFormState } from '../_hooks/useWorkspaceRouteFormState';
 import { formatWorkspaceTopupPaymentAmount } from '../_lib/workspace-topup';
 import { buildPendingGenerations } from '@/lib/pending-generations';
+import { prepareSeedanceDraftWorkspaceRequest } from '../_lib/seedance-draft-request';
 
 const WorkspaceModelReview = dynamic(() => import('./WorkspaceModelReview.client').then(module => module.WorkspaceModelReview), { ssr: false });
 
@@ -183,6 +184,7 @@ export function WorkspaceAppReadyView({
   const {
     guestUploadLockedReason,
     inputSchemaSummary,
+    extraInputFields, primaryAssetFieldIds, referenceAssetFieldIds, genericImageFieldIds, frameAssetFieldIds, referenceAudioFieldIds,
   } = inputSchema;
   const {
     authModalOpen,
@@ -226,6 +228,10 @@ export function WorkspaceAppReadyView({
     previewAutoPlayRequestId,
   } = gallery;
 
+  const localizedKlingO3DisabledEngineReasons = useMemo(
+    () => Object.fromEntries(Object.entries(klingO3DisabledEngineReasons ?? {}).map(([engineId, reason]) => [engineId, localizeKlingO3Message(reason, uiLocale)])),
+    [klingO3DisabledEngineReasons, uiLocale]
+  );
   const currentSetup = useMemo(
     () => form ? { form, inputAssets, klingElements, prompt, negativePrompt, multiPromptEnabled, multiPromptScenes, shotType, voiceIdsInput, cfgScale } : null,
     [form, inputAssets, klingElements, prompt, negativePrompt, multiPromptEnabled, multiPromptScenes, shotType, voiceIdsInput, cfgScale],
@@ -239,7 +245,7 @@ export function WorkspaceAppReadyView({
     onModelSwitchNotice: showNotice,
     accountId: app.authStatus === 'authed' && app.session?.access_token ? app.user?.id ?? null : null,
     accessToken: app.authStatus === 'authed' ? app.session?.access_token ?? null : null,
-    memberTier: routeForm.memberTier, disabledEngineReasons: klingO3DisabledEngineReasons, engineScores,
+    memberTier: routeForm.memberTier, disabledEngineReasons: localizedKlingO3DisabledEngineReasons, engineScores,
     applyPreparedForm: composer.applyPreparedForm, setInputAssets: assets.setInputAssets,
     setKlingElements: routeForm.setKlingElements, setPrompt, setNegativePrompt, setMultiPromptEnabled,
     setMultiPromptScenes: routeForm.setMultiPromptScenes, setShotType, setVoiceIdsInput, setCfgScale,
@@ -251,8 +257,17 @@ export function WorkspaceAppReadyView({
   });
   const workflowAccount = app.authStatus === 'authed' && app.user?.id && app.session?.access_token
     ? { userId: app.user.id, token: app.session.access_token } : null;
+  const draftRequest = selectedEngine?.id === 'seedance-2-5' && form ? prepareSeedanceDraftWorkspaceRequest({
+    selectedEngineId: selectedEngine.id, selectedEngineLabel: selectedEngine.label, activeMode, submissionMode, form, prompt,
+    inputSchema: selectedEngine.inputSchema, inputSchemaSummary, extraInputFields, inputAssets,
+    primaryAssetFieldIds, referenceAssetFieldIds, genericImageFieldIds, frameAssetFieldIds, referenceAudioFieldIds,
+    supportsKlingV3Controls: false, klingElements: [], multiPromptActive: false, multiPromptScenes: [],
+  }) : null;
   const draftWorkflow = useSeedanceDraftWorkflow({ enabled: seedanceDraftWorkflowEnabled && !localSeedanceDraftPreview,
     form, engineId: selectedEngine?.id, mode: submissionMode, prompt, account: workflowAccount,
+    preparedPayload: draftRequest?.ok ? draftRequest.payload : undefined,
+    preflightInputs: draftRequest?.ok ? draftRequest.preflightInputs : undefined,
+    inputPreparationError: draftRequest && !draftRequest.ok ? draftRequest.message : undefined,
     onResolutionChange: handleResolutionChange, showNotice });
   const candidateDraftControls = localSeedanceDraftPreview ? draftPreview : seedanceDraftWorkflowEnabled ? draftWorkflow : undefined;
   const draftControls = candidateDraftControls?.available ? candidateDraftControls : undefined;
@@ -263,7 +278,7 @@ export function WorkspaceAppReadyView({
       <WorkspaceRecentReferences userId={app.user?.id} locale={uiLocale} engineId={selectedEngine.id} engine={selectedEngine}
         fields={inputSchemaSummary.assetFields} inputAssets={inputAssets} inputSchema={selectedEngine.inputSchema}
         mode={submissionMode} onInsert={handleSelectLibraryAsset} availability={{
-          inputAssets, isUnifiedSeedance, isUnifiedKlingO3, guestUploadLockedReason, workflowCopy,
+          inputAssets, isUnifiedSeedance, isUnifiedKlingO3, guestUploadLockedReason, workflowCopy, locale: uiLocale,
           klingO3VideoToVideoSupported: supportsKlingO3VideoToVideo(selectedEngine),
           hasAnyVideoInput: getKlingO3AssetState({ inputAssets, klingElements }).hasAnyVideoInput,
           showOmniStudioPanel: selectedEngine.id === 'gemini-omni-flash',
@@ -432,6 +447,7 @@ export function WorkspaceAppReadyView({
           }}
         />} /> : null}
       <WorkspaceRuntimeModals
+        locale={uiLocale}
         viewerGroup={viewerGroup}
         onCloseViewer={() => setViewerTarget(null)}
         onRefreshJob={handleRefreshJob}

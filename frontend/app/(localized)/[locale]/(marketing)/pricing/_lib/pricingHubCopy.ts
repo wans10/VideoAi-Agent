@@ -6,6 +6,7 @@ type PricingHubCopy = {
   noExactRoute: string;
   priceCellCheapest: string;
   quote: {
+    audioOff: string;
     audioIncluded: string;
     audioOptional: string;
     audioUnavailable: string;
@@ -178,6 +179,7 @@ const en: PricingHubCopy = {
   noExactRoute: 'No exact route',
   priceCellCheapest: 'Cheapest',
   quote: {
+    audioOff: 'Audio off',
     audioIncluded: 'audio incl.',
     audioOptional: 'audio opt.',
     audioUnavailable: 'no audio',
@@ -342,7 +344,7 @@ const en: PricingHubCopy = {
       },
       {
         title: 'Exact price before launch',
-        body: 'The app shows the live price for your selected engine, duration, resolution and options before generation, even as a guest.',
+        body: "The app shows the live price for your selected engine, duration, resolution and options before generation, even as a guest. Using Studio? Sol uses included or purchased assistance credits. Media generation has its own quote. Review both when planning your budget.",
       },
       {
         title: 'Failed generations refunded',
@@ -363,6 +365,7 @@ const fr: PricingHubCopy = {
   priceCellCheapest: 'Moins cher',
   quote: {
     ...en.quote,
+    audioOff: 'Audio désactivé',
     audioIncluded: 'audio incl.',
     audioOptional: 'audio opt.',
     audioUnavailable: 'sans audio',
@@ -529,7 +532,7 @@ const fr: PricingHubCopy = {
       },
       {
         title: 'Prix exact avant lancement',
-        body: 'L’app affiche le prix live selon le moteur, la durée, la résolution et les options sélectionnés avant génération, même en invité.',
+        body: "L’app affiche le prix live selon le moteur, la durée, la résolution et les options sélectionnés avant génération, même en invité. Vous utilisez Studio ? Sol consomme des crédits d’assistance inclus ou achetés. La génération média dispose de son propre devis. Tenez compte des deux dans votre budget.",
       },
       {
         title: 'Échecs remboursés',
@@ -550,6 +553,7 @@ const es: PricingHubCopy = {
   priceCellCheapest: 'Más barato',
   quote: {
     ...en.quote,
+    audioOff: 'Audio desactivado',
     audioIncluded: 'audio incl.',
     audioOptional: 'audio opc.',
     audioUnavailable: 'sin audio',
@@ -716,7 +720,7 @@ const es: PricingHubCopy = {
       },
       {
         title: 'Precio exacto antes de lanzar',
-        body: 'La app muestra el precio vivo según el motor, la duración, la resolución y las opciones antes de generar, incluso como invitado.',
+        body: "La app muestra el precio vivo según el motor, la duración, la resolución y las opciones antes de generar, incluso como invitado. ¿Usas Studio? Sol utiliza créditos de asistencia incluidos o comprados. La generación de medios tiene su propia cotización. Ten en cuenta ambos al planificar tu presupuesto.",
       },
       {
         title: 'Fallos reembolsados',
@@ -736,6 +740,7 @@ const zh: PricingHubCopy = {
   noExactRoute: '无完全匹配方案',
   priceCellCheapest: '最实惠',
   quote: {
+    audioOff: '音频关闭',
     audioIncluded: '含音频',
     audioOptional: '可选音频',
     audioUnavailable: '无音频',

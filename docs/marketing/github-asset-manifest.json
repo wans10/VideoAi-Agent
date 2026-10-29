@@ -188,7 +188,7 @@
       "reviewTrigger": "Refresh after a material home-page, primary-action, or featured-video change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -255,7 +255,7 @@
       "reviewTrigger": "Refresh after a material MCP result-section, Claude evidence, or Library-continuity claim change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -288,7 +288,7 @@
       "reviewTrigger": "Refresh after a material home-page, primary-action, or featured-video change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -309,11 +309,11 @@
       "sourceEnvironment": "production",
       "host": "MaxVideoAI website",
       "hostVersion": null,
-      "maxvideoaiRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "maxvideoaiRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "width": 1268,
       "height": 713,
-      "sha256": "2bb35e0af2a26befcb788f5155284434ec7e0742a6ffc215dab1153c36610fe9",
-      "claim": "Historical MaxVideoAI source asset retained for attribution; not current Keyvo publication proof. Original claim: Current public MaxVideoAI examples gallery hero and brand filters with cinematic Paris and animated runner previews and partial model labels.",
+      "sha256": "da706017d044165bf2b5a031282f073d101e685bc898997498b60f77cee8e464",
+      "claim": "Historical MaxVideoAI source asset retained for attribution; not current Keyvo publication proof. Original claim: Public MaxVideoAI examples gallery captured on 16 October 2026, showing brand filters and four opening cards for Wan 3 Prime, Seedance 2.0 Fast and FLUX 3.",
       "placements": [
         "upstream_historical_reference"
       ],
@@ -321,7 +321,7 @@
       "reviewTrigger": "Refresh after a material gallery hero, brand filters, featured previews, or model labels change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -329,7 +329,7 @@
           "plugin_readme",
           "root_readme"
         ],
-        "claim": "Current public MaxVideoAI examples gallery hero and brand filters with cinematic Paris and animated runner previews and partial model labels.",
+        "claim": "Public MaxVideoAI examples gallery captured on 16 October 2026, showing brand filters and four opening cards for Wan 3 Prime, Seedance 2.0 Fast and FLUX 3.",
         "origin": "MaxVideoAI upstream; not current Keyvo proof"
       }
     },
@@ -354,7 +354,7 @@
       "reviewTrigger": "Refresh after a material comparison-hub, benchmark-presentation, engine, or score change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -387,7 +387,7 @@
       "reviewTrigger": "Refresh after a material model-directory hero, actions, pricing or specification cues, or artwork change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -408,10 +408,10 @@
       "sourceEnvironment": "production",
       "host": "MaxVideoAI website",
       "hostVersion": null,
-      "maxvideoaiRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "maxvideoaiRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "width": 1268,
       "height": 713,
-      "sha256": "f5057762e8d55a2f8921e1c03d51413ccbbc7a3bca732cbba0324aaf28454d7f",
+      "sha256": "8ee47ccfd17748c4cb76a708df9a28947377f8d1317e6b37bc8661be6f3c932f",
       "claim": "Historical MaxVideoAI source asset retained for attribution; not current Keyvo publication proof. Original claim: Current public MaxVideoAI pricing page showing three pay-as-you-go video starting-point prices plus navigation tabs for Image, Audio, and Tools & Upscale.",
       "placements": [
         "upstream_historical_reference"
@@ -420,7 +420,7 @@
       "reviewTrigger": "Refresh after a material pricing, scenario-card, or pricing-navigation change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -453,7 +453,7 @@
       "reviewTrigger": "Refresh after a material tools-directory, featured-tool, or workflow-presentation change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -486,7 +486,7 @@
       "reviewTrigger": "Refresh after a material assistant-entry, integration, conversation, or MCP marketing change, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "historicalPublication": {
         "state": "publishable_proof",
@@ -555,7 +555,7 @@
       "reviewTrigger": "Refresh after a material home-page or MCP result-section change, when either source proof expires, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "sourceProofIds": [
         "maxvideoai-workspace-production",
@@ -594,7 +594,7 @@
       "reviewTrigger": "Refresh when the home-page or MCP result-section source proof changes, when either proof expires, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "sourceProofIds": [
         "maxvideoai-workspace-production",
@@ -633,7 +633,7 @@
       "reviewTrigger": "Refresh after a material home-page or MCP result-section change, when source proof expires, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "sourceProofIds": [
         "maxvideoai-workspace-production",
@@ -672,7 +672,7 @@
       "reviewTrigger": "Refresh after a material home-page, MCP result-section, or Claude continuity claim change, when either proof expires, or within 30 days of publication review.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "sourceProofIds": [
         "maxvideoai-workspace-production",
@@ -711,7 +711,7 @@
       "reviewTrigger": "Refresh after a material public-page change, integration wording change, source-proof expiry, or repository social update.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "sourceProofIds": [
         "maxvideoai-workspace-production",
@@ -836,7 +836,7 @@
       "reviewTrigger": "Retain unchanged as historical evidence of the cancelled 0.3.4 candidate; never promote or reuse as a current release card.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "sourceProofIds": [
         "maxvideoai-workspace-production",
@@ -866,7 +866,7 @@
       "reviewTrigger": "Refresh before directory submission if dimensions, copy, compatibility status, or either source proof changes.",
       "approvedBy": "MaxVideoAI owner",
       "lastReviewedAt": "2026-09-16T00:07:39Z",
-      "lastReviewedRevision": "5423599b472ae6d6e31beb3e8a5c59e23d3a1a83",
+      "lastReviewedRevision": "16e92f3d0831aa89743316cbf7f87f642c4bb7fb",
       "freshnessStatus": "current",
       "sourceProofIds": [
         "maxvideoai-workspace-production",

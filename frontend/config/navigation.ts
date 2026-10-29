@@ -2,11 +2,10 @@ import { STUDIO_NAV_LINKS, STUDIO_NAV_DROPDOWNS } from './studio-navigation';
 import { getMcpPublicIntegrationIds, getMcpIntegration } from '@/lib/mcp-integration-registry';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import mcpPublication from '@/config/mcp-publication.json';
-import { getModelFamilyDefinition } from '@/config/model-families';
+import { getExampleNavFamilyIds, getModelFamilyDefinition } from '@/config/model-families';
 import { listRuntimeModels, type RuntimeModelEntry } from '@/config/model-runtime';
 import { orderExamplesHubFamilyIds } from '@/lib/examples/familyOrder';
-import { buildPublishedComparisonSlugsFromModels } from '@/lib/compare-hub/data';
-import { getExampleNavFamilyIds } from '@/lib/model-families';
+import { createPublishedComparisonSlugLookup } from '@/lib/compare-hub/pairs';
 import { getMcpPublicationState } from '@/lib/mcp-publication';
 
 export type MarketingNavItem = {
@@ -37,6 +36,7 @@ export type MarketingNavDropdown = {
   allHref: LocalizedLinkHref;
   allLabelKey: string;
   allLabelFallback: string;
+  allLinkInItems?: boolean;
   intro?: string;
   heading?: string;
 };
@@ -204,9 +204,9 @@ export const MARKETING_FOOTER_EXAMPLES: MarketingNavItem[] = FOOTER_EXAMPLES_MEN
 }));
 
 export function buildMarketingCompareMenu(models: readonly RuntimeModelEntry[]): LabeledSlug[] {
-  const publishedSlugs = new Set(buildPublishedComparisonSlugsFromModels(models, () => true));
+  const isPublishedComparisonSlug = createPublishedComparisonSlugLookup(models);
   return COMPARE_MENU
-    .filter(({ slug }) => publishedSlugs.has(slug))
+    .filter(({ slug }) => isPublishedComparisonSlug(slug))
     .slice(0, 10);
 }
 
@@ -318,7 +318,8 @@ export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdow
     allLabelFallback: 'All models',
   },
   examples: {
-    items: MARKETING_NAV_EXAMPLES,
+    items: [{ key: 'all-examples', label: 'All examples', href: { pathname: '/examples' }, icon: 'cinema', description: 'Videos and prompts from every model.' }, ...MARKETING_NAV_EXAMPLES],
+    allLinkInItems: true,
     heading: 'Watch before you choose.',
     intro: 'Real videos, prompts and model details.',
     sections: [{ key: 'moreExamples', titleKey: 'nav.dropdown.moreExamples', titleFallback: 'More to explore', items: OTHER_EXAMPLES.map(item => ({key:item.slug,label:item.label,href:exampleLink(item.slug),brandId:['sora', 'flux'].includes(item.slug) ? undefined : item.brandId,...(['sora', 'flux'].includes(item.slug) ? {icon:'cinema' as const} : {})})) }],

@@ -1,10 +1,10 @@
-# VideoAI-Agent Engineering Guide
+# MaxVideoAI Engineering Guide
 
 This file is the first reference for Codex, AI agents, and contributors working in this repository.
 
 ## Product Shape
 
-VideoAI-Agent is a production Next.js application for AI video generation, model comparison, examples, pricing, billing, media library, and admin operations.
+MaxVideoAI is a production Next.js application for AI video generation, model comparison, examples, pricing, billing, media library, and admin operations.
 
 The frontend lives in `frontend/`. Most product work should happen there.
 
@@ -247,6 +247,12 @@ candidate must include current `main` and have a successful required `Quality CI
 Its selected integration, browser and exhaustive financial lanes remain mandatory.
 Do not use `[skip ci]` or bypass branch protection to accelerate delivery.
 See `docs/engineering/ci-validation.md` for selection rules and local suite commands.
+
+Local database tests select PostgreSQL 17 automatically. Use `pnpm test:validate`,
+`pnpm test:editor` or focused tests through the disposable PostgreSQL helper; do not
+retry version failures by manually prefixing PATH. For a nonstandard installation,
+set `TEST_POSTGRES_BIN` to its complete PG17 bin directory. Missing or mixed-version
+tools must fail before database initialization; never weaken version assertions.
 
 For architecture refactors, also run the related architecture or contract tests directly before broader validation.
 

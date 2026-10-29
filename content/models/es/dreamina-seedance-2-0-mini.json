@@ -2,11 +2,11 @@
   "marketingName": "Dreamina Seedance 2.0 Mini",
   "versionLabel": "2.0 Mini",
   "seo": {
-    "title": "Dreamina Seedance 2.0 Mini | video IA de bajo coste, specs y precios | VideoAI",
-    "description": "Usa Dreamina Seedance 2.0 Mini en VideoAI para lotes de video IA 480p/720p de menor coste, variantes ecommerce, hooks UGC, edición de video, extensión y pruebas con referencias."
+    "title": "Dreamina Seedance 2.0 Mini | video IA de bajo coste, specs y precios | MaxVideoAI",
+    "description": "Usa Dreamina Seedance 2.0 Mini en MaxVideoAI para lotes de video IA 480p/720p de menor coste, variantes ecommerce, hooks UGC, edición de video, extensión y pruebas con referencias."
   },
-  "overview": "Dreamina Seedance 2.0 Mini es la ruta Seedance de coste-rendimiento en VideoAI para trabajo batch de valor: variantes ecommerce, pruebas de marketing, hooks UGC, referencias multimodales, edición de video y extensión en clips 480p o 720p de 4 a 15 segundos.",
-  "pricingNotes": "Dreamina Seedance 2.0 Mini usa precios por tokens de generación. VideoAI aplica el precio mostrado y enseña la cotización final antes del envío.",
+  "overview": "Dreamina Seedance 2.0 Mini es la ruta Seedance de coste-rendimiento en MaxVideoAI para trabajo batch de valor: variantes ecommerce, pruebas de marketing, hooks UGC, referencias multimodales, edición de video y extensión en clips 480p o 720p de 4 a 15 segundos.",
+  "pricingNotes": "Dreamina Seedance 2.0 Mini usa precios por tokens de generación. MaxVideoAI aplica el precio mostrado y enseña la cotización final antes del envío.",
   "hero": {
     "title": "Dreamina Seedance 2.0 Mini — ruta de menor coste para variantes de video en lote",
     "intro": "Usa Dreamina Seedance 2.0 Mini cuando necesites una ruta de valor para muchas variantes de video 480p/720p antes de pasar tomas hero a Seedance 2.0. Esta página documenta specs, prompts, precios y scorecards para generación orientada a batch.",
@@ -131,7 +131,7 @@
       "prompt": "Extiende el clip fuente corto a un cierre de producto de 15 segundos en 720p con deriva suave de cámara y pose final limpia para revisión."
     }
   ],
-  "faqTitle": "FAQ – Seedance 2.0 Mini en VideoAI",
+  "faqTitle": "FAQ – Seedance 2.0 Mini en MaxVideoAI",
   "faqs": [
     {
       "q": "¿Para qué es mejor Seedance 2.0 Mini?",
@@ -139,7 +139,7 @@
     },
     {
       "q": "¿Qué resolución y duración soporta Seedance 2.0 Mini?",
-      "a": "La ruta Mini de VideoAI expone salida 480p o 720p, duraciones de 4 a 15 segundos y 24 fps."
+      "a": "La ruta Mini de MaxVideoAI expone salida 480p o 720p, duraciones de 4 a 15 segundos y 24 fps."
     },
     {
       "q": "¿Seedance 2.0 Mini soporta audio y lip-sync?",
@@ -156,7 +156,7 @@
   ],
   "custom": {
     "whyTitle": "Lotes de menor coste antes de renders finales Seedance",
-    "heroTrustLine": "Pay-as-you-go en VideoAI · precio mostrado antes de generar",
+    "heroTrustLine": "Pay-as-you-go en MaxVideoAI · precio mostrado antes de generar",
     "heroHighlights": [
       "Ruta batch/valor de menor coste||Mini está pensada para coste-rendimiento cuando hay que revisar muchas variantes ecommerce, marketing o UGC.",
       "480p/720p y 4-15 s||Usa formatos compactos para checks batch sin exceder los límites Mini.",
@@ -165,11 +165,11 @@
     ],
     "heroSupportLine": "Usa Mini para lotes de valor, Seedance 2.0 Fast para borradores centrados en velocidad y Seedance 2.0 para trabajo final pulido.",
     "specTitle": "Specs",
-    "specNote": "Las specs Mini se mantienen limitadas a la ruta VideoAI y a la superficie del modelo Dreamina Seedance.",
+    "specNote": "Las specs Mini se mantienen limitadas a la ruta MaxVideoAI y a la superficie del modelo Dreamina Seedance.",
     "specSections": [
       {
         "title": "Modelo y límites",
-        "intro": "Dreamina Seedance 2.0 Mini funciona en VideoAI con el ID de modelo API dreamina-seedance-2-0-mini-260615.",
+        "intro": "Dreamina Seedance 2.0 Mini funciona en MaxVideoAI con el ID de modelo API dreamina-seedance-2-0-mini-260615.",
         "items": [
           "Desarrollador: ByteDance",
           "ID de modelo: dreamina-seedance-2-0-mini-260615",
@@ -354,7 +354,7 @@
     "pricingCopy": {
       "title": "Precios de valor de Seedance 2.0 Mini",
       "subtitle": "Totales Mini por escenario 480p/720p de 4 a 15 s - consulta el precio exacto en la app antes de generar.",
-      "footnote": "Todos los precios son precios VideoAI mostrados en créditos USD para escenarios Mini predefinidos.",
+      "footnote": "Todos los precios son precios MaxVideoAI mostrados en créditos USD para escenarios Mini predefinidos.",
       "ctaLabel": "Ver precios completos",
       "ctaHref": "/es/precios#dreamina-seedance-2-0-mini-pricing"
     },

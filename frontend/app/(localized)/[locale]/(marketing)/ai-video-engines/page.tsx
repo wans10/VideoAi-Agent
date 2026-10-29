@@ -90,7 +90,7 @@ export default async function AiVideoEnginesPage() {
   const engineCards = toEngineCards(engines);
   const extendedEngineCards = toEngineCards(enginesWithWaitlist);
 
-  const allComparisonEntries = getRankedComparisonPairs(engines)
+  const allComparisonEntries = getRankedComparisonPairs(enginesWithWaitlist)
     .filter((pair) => isIndexablePair(pair.slug))
     .map((pair) => ({
       slug: pair.slug,
@@ -337,7 +337,6 @@ export default async function AiVideoEnginesPage() {
             entries={allComparisonEntries}
             labels={copy.listLabels}
             initialCount={24}
-            step={24}
           />
         </section>
 

@@ -1,8 +1,0 @@
-
-> maxvideoai-generate-web@0.1.0 seo:check /private/tmp/VideoAi-Agent-keyvo-integrate/frontend
-> node ../scripts/seo-guard.mjs && tsx --tsconfig tsconfig.json ../scripts/llms-guard.ts && node ../scripts/internal-link-guard.mjs && node ../scripts/public-media-origin-guard.mjs
-
-seo-guard: OK (aucun lien non canonique trouvé).
-llms-guard: OK
-internal-link-guard: OK
-[public-media-origin-guard] OK scanned=2325

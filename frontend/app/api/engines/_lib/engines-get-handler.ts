@@ -9,7 +9,8 @@ import { getBaseEnginesByCategory } from '@/lib/engines';
 import { isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
 import { getRuntimeModelById } from '@/config/model-runtime';
 import { resolveLaunchCanaryRequestContext } from '@/server/model-launch-canary-request';
-import { resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
+import { createAgentGenerationExecutabilityEnvironment, resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
+import { projectSeedance25ModeAvailability } from '@/server/engine-mode-availability';
 import { isMinimaxH3MaxEngineId, isMinimaxH3MaxRuntimeModeAvailable } from '@/lib/minimax-h3-max';
 import { isKling3TurboEngineId } from '@/lib/kling-3-turbo';
 import type { EngineCaps, Mode } from '@/types/engines';
@@ -20,6 +21,7 @@ type EnginesRouteDependencies = Readonly<{
   resolveLaunchCanaryRequestContext: typeof resolveLaunchCanaryRequestContext;
   fetchEngineAverageDurations: typeof fetchEngineAverageDurations;
   loadAppEngineScoreMap: typeof loadAppEngineScoreMap;
+  getGenerationEnvironment: typeof createAgentGenerationExecutabilityEnvironment;
 }>;
 
 const defaultDependencies: EnginesRouteDependencies = {
@@ -28,6 +30,7 @@ const defaultDependencies: EnginesRouteDependencies = {
   resolveLaunchCanaryRequestContext,
   fetchEngineAverageDurations,
   loadAppEngineScoreMap,
+  getGenerationEnvironment: createAgentGenerationExecutabilityEnvironment,
 };
 
 function workspaceModeProjection(engine: EngineCaps, modes: readonly Mode[]): EngineCaps {
@@ -89,12 +92,14 @@ export function createEnginesGetHandler(
         }
       }
       const averageMap = new Map(averages.map((entry) => [entry.engineId, entry]));
-      const publicWorkspaceEngines = publicEngines.filter(isKeyvoWorkspaceEngine).map((engine) => (
+      const generationEnvironment = dependencies.getGenerationEnvironment();
+      const publicWorkspaceEngines = publicEngines.filter(isKeyvoWorkspaceEngine).map((engine) => projectSeedance25ModeAvailability(
         isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)
             ? workspaceModeProjection(engine, engine.modes)
-          : engine
+          : engine,
+        generationEnvironment,
       ));
       const payload = [...publicWorkspaceEngines, ...privateEngines].map((engine) => ({
         ...engine,
@@ -114,11 +119,11 @@ export function createEnginesGetHandler(
     } catch (error) {
       console.error('[api/engines] failed to load configured engines, falling back to base registry', error);
       const payload = getBaseEnginesByCategory(category).filter(isKeyvoWorkspaceEngine).map((engine) => ({
-        ...(isMinimaxH3MaxEngineId(engine.id)
+        ...projectSeedance25ModeAvailability(isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)
             ? workspaceModeProjection(engine, engine.modes)
-          : engine),
+          : engine, dependencies.getGenerationEnvironment()),
         avgDurationMs: null,
       }));
       return NextResponse.json(

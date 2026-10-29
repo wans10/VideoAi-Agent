@@ -9,6 +9,7 @@ import { resolveMediaAwarePreflight } from '../frontend/app/api/preflight/_lib/m
 import { ENV } from '../frontend/src/lib/env.ts';
 import { parsePreflightRequestPayload } from '../frontend/app/api/preflight/_lib/preflight-request.ts';
 import type { EngineCaps, PreflightRequest } from '../frontend/types/engines.ts';
+import { withReviewedLasPreflightFixture } from './helpers/seedance-las-preflight-postgres-fixture';
 
 function engineFor(id: string): EngineCaps {
   const engine = listFalEngines().find((entry) => entry.id === id)?.engine;
@@ -44,6 +45,17 @@ test('Seedance preflight rejects long reference videos with measured facts for t
   assert.equal(response.error?.field, 'extension_source_videos');
   assert.equal(response.error?.durationSec, 44);
 });
+
+/** The source-length quote rule is ModelArk Edit semantics. LAS is the default v2v transport and needs its own fixture. */
+async function withModelArkEditFlags(work: () => Promise<void>) {
+  const flags = { BYTEPLUS_ARK_ENABLED: 'true', BYTEPLUS_ARK_API_KEY: 'test-ark-key', SEEDANCE_2_5_BYTEPLUS_ENABLED: 'true',
+    SEEDANCE_2_5_PROVIDER: 'byteplus_modelark', SEEDANCE_2_5_BYTEPLUS_ADMIN_ONLY: 'false',
+    SEEDANCE_2_5_BYTEPLUS_MODES: 't2v,i2v,ref2v,v2v,extend', SEEDANCE_2_5_EDIT_TRANSPORT: 'modelark',
+    SEEDANCE_2_5_MODELARK_EDIT_ENABLED: 'true' };
+  const before = Object.fromEntries(Object.keys(flags).map(key => [key, ENV[key as keyof typeof ENV]]));
+  Object.assign(ENV, flags);
+  try { await work(); } finally { Object.assign(ENV, before); }
+}
 
 test('media-aware preflight resolves the normalized Grok reference count and matches final billing', async () => {
   const engine = engineFor('grok-imagine-video-1-5');
@@ -430,7 +442,7 @@ test('Seedance video preflight derives input seconds from owned records instead 
   assert.deepEqual(observed, { hasVideoInput: true, duration: 4.25 });
 });
 
-test('Seedance 2.5 editing quotes verified source timing and rejects out-of-range source before pricing',async()=>{
+test('ModelArk Seedance 2.5 editing quotes verified source timing and rejects out-of-range source before pricing',async()=>{ await withModelArkEditFlags(async()=>{
  const engine=engineFor('seedance-2-5');const url='https://media.maxvideoai.com/user-assets/pricing-user/edit.mp4';
  for(const [source,want] of [[4,4],[8.25,9],[30,30],[3.9,null],[30.1,null]] as const){
   let observed:number|undefined;
@@ -441,4 +453,47 @@ test('Seedance 2.5 editing quotes verified source timing and rejects out-of-rang
   });
   assert.equal(result.ok,want!==null,JSON.stringify(result));assert.equal(observed,want??undefined);
  }
-});
+});});
+
+for (const { mode, slotId } of [
+  { mode: 'extend', slotId: 'extension_source_videos' },
+  { mode: 'v2v', slotId: 'video_url' },
+  { mode: 'ref2v', slotId: 'video_urls' },
+] as const) {
+  test(`Seedance ${mode} prices an owned upload whose duration is measured during validation`, async () => {
+    const engine = engineFor('seedance-2-5');
+    const verify = async () => {
+    const url = 'https://media.maxvideoai.com/user-assets/pricing-user/multipart.mp4';
+    let pricedInputDuration: number | undefined;
+    const response = await resolveMediaAwarePreflight({
+      userId: 'pricing-user',
+      request: {
+        ...requestFor(engine, mode), durationSec: 4, resolution: '480p',
+        inputs: [{ assetId: 'multipart-video', slotId, kind: 'video', url }],
+      },
+    }, {
+      getConfiguredEngineFn: async () => engine,
+      computeConfiguredPreflightFn: async (request, options) => {
+        pricedInputDuration = options?.trustedMediaPricingFacts?.inputVideoDurationSec;
+        return computeConfiguredPreflight(request, options);
+      },
+      mediaConstraintDeps: {
+        queryFn: async () => [{
+          asset_id: 'multipart-video', url, origin_url: null,
+          original_name: 'video.mp4', mime_type: 'video/mp4', size_bytes: 33_353_296,
+          duration_sec: null, width: null, height: null,
+        }] as never[],
+        detectVideoDimensionsFn: async () => ({ width: 1918, height: 1080 }),
+        detectMediaDurationFn: async () => 15.041667,
+      },
+    });
+    assert.equal(response.ok, true, JSON.stringify(response.error));
+    assert.equal(pricedInputDuration, 15.041667);
+    assert.ok(typeof response.total === 'number' && response.total > 0);
+    if (mode === 'v2v') assert.equal(response.total,586);
+    };
+    if (mode === 'v2v') await withReviewedLasPreflightFixture({ engine, mode, durationSec: 4, resolution: '480p',
+      aspectRatio: '16:9', hasVideoInput: true, inputVideoDurationSec: 15.041667 }, verify);
+    else await verify();
+  });
+}

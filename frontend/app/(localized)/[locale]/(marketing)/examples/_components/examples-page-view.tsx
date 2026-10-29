@@ -1,5 +1,6 @@
 import { ExamplesPromptStarters } from './examples-prompt-starters';
-import type { buildExamplesPromptStarters } from '../_lib/examples-page-copy';
+import type { ReactNode } from 'react';
+import type { ExamplesVersionLink } from '../_lib/examples-version-links';
 import { ScreeningRoomNotes } from './ScreeningRoomNotes';
 import { getScreeningRoomCopy } from '../_lib/screening-room-copy';
 import screening from './ScreeningRoom.module.css';
@@ -59,7 +60,8 @@ type ExamplesPageViewProps = {
   heroTitle: string;
   initialDesktopBatch: number;
   initialExamples: ExampleGalleryVideo[];
-  promptStarters: ReturnType<typeof buildExamplesPromptStarters>;
+  priceSlots?: Record<string, ReactNode>;
+  promptStarters: ExamplesVersionLink[];
   initialMobileBatch: number;
   isModelLanding: boolean;
   itemListJson: unknown;
@@ -136,6 +138,7 @@ export function ExamplesPageView({
   heroTitle,
   initialDesktopBatch,
   initialExamples,
+  priceSlots,
   promptStarters,
   initialMobileBatch,
   isModelLanding,
@@ -200,12 +203,12 @@ export function ExamplesPageView({
           ) : null}
 
           <ExamplesGallerySection
-            familyLabel={isModelLanding ? modelLandingLabel : undefined}
             audioAvailableLabel={galleryUiCopy.audioAvailable}
             detailsCtaLabel={galleryUiCopy.detailsCta}
             engineFilter={selectedEngine?.toLowerCase() ?? null}
             initialDesktopBatch={initialDesktopBatch}
             initialExamples={initialExamples}
+            priceSlots={priceSlots}
             initialMobileBatch={initialMobileBatch}
             initialOffset={nextOffsetStart}
             loadMoreLabel={loadMoreLabel}
@@ -214,7 +217,6 @@ export function ExamplesPageView({
             noPreviewLabel={galleryUiCopy.noPreview}
             pageOffsetEnd={pageOffsetEnd}
             prioritizeFirstPoster={true}
-            openingDetails={isModelLanding && currentPage === 1 && sort === 'playlist' ? <ExamplesPromptStarters locale={locale} starters={promptStarters} /> : null}
             openingEnabled={currentPage === 1 && sort === 'playlist'}
             show={showGallerySection}
             sort={sort}
@@ -240,6 +242,10 @@ export function ExamplesPageView({
             ) : null}
 
             <details className={screening.index} open={isModelLanding}><summary>{room.reference}</summary>
+            {isModelLanding && currentPage === 1 && sort === 'playlist' ? (
+              <ExamplesPromptStarters locale={locale} starters={promptStarters} />
+            ) : null}
+
             <ExamplesModelLinksSection
               currentModelPagesLabel={currentModelPagesLabel}
               galleryExamples={initialExamples}
@@ -256,7 +262,9 @@ export function ExamplesPageView({
               usesCurrentAndSupportedBlocks={usesCurrentAndSupportedBlocks}
             />
 
-            <ExamplesSummarySection longDescription={longDescription} modelLandingSummary={modelLandingSummary} />
+            {!isModelLanding || modelLandingSummary ? (
+              <ExamplesSummarySection longDescription={longDescription} modelLandingSummary={modelLandingSummary} />
+            ) : null}
 
             <ExamplesModelLandingCardsSection sections={modelLandingSections} />
 

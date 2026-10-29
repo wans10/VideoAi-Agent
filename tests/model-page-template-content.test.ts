@@ -109,12 +109,12 @@ test('Seedance 2.0 keeps unique titles while introducing a localized Seedance 2.
       anchor: /Discover (?:the latest )?Seedance 2\.5/i,
     },
     fr: {
-      title: 'Seedance 2.0 | Modèle vidéo IA, prix, audio natif et cas d’usage | VideoAI',
+      title: 'Seedance 2.0 | Modèle vidéo IA, prix, audio natif et cas d’usage | MaxVideoAI',
       href: '/fr/modeles/seedance-2-5',
       anchor: /Découvrir (?:le nouveau )?Seedance 2\.5/i,
     },
     es: {
-      title: 'Seedance 2.0 | Modelo de video IA, precios, audio nativo y ejemplos | VideoAI',
+      title: 'Seedance 2.0 | Modelo de video IA, precios, audio nativo y ejemplos | MaxVideoAI',
       href: '/es/modelos/seedance-2-5',
       anchor: /Descubrir (?:el nuevo )?Seedance 2\.5/i,
     },

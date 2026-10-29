@@ -3,9 +3,11 @@ import { isCurrentAudioPricingPolicy } from '@/lib/audio-pricing-policy';
 
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { generateAudioRun, AudioGenerationError } from '@/server/audio/generate-audio';
+import { CustomerTariffUnavailableError } from '@/server/pricing/resolve-customer-tariff';
 import { RESTRICTED_ACCOUNT_MESSAGE, getActiveAccountRestriction } from '@/server/fraud-cleanup';
 
 export const runtime = 'nodejs';
+export const maxDuration = 800;
 
 export async function POST(req: NextRequest) {
   const { userId } = await getRouteAuthContext(req);
@@ -53,7 +55,9 @@ export async function POST(req: NextRequest) {
       {
         ok: false,
         error: 'audio_generation_failed',
-        message: error instanceof Error ? error.message : 'Audio generation failed.',
+        message: error instanceof CustomerTariffUnavailableError
+          ? error.userMessage
+          : error instanceof Error ? error.message : '音频生成失败。',
       },
       { status: 500 }
     );

@@ -58,6 +58,7 @@ export const conversationZhCopy: Record<string, string> = {
   "Resume exchange": "恢复对话",
   "Edit request": "编辑请求",
   "Refresh balance": "刷新余额",
+  "Download MP4": "下载 MP4",
   "Your assistance allowance needs attention. Choose how to continue.": "助手额度需要处理，请选择继续方式。",
   "See options": "查看选项",
   "Some work may already be saved. Send a follow-up to continue from your current project. Your original request will not be replayed.": "部分工作可能已保存。请发送后续消息从当前项目继续，原请求不会重新执行。",

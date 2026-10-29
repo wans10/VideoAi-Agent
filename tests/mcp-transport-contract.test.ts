@@ -253,6 +253,9 @@ test('authenticated tool calls use explicitly injected MCP services', async () =
     async listMedia() { throw new Error('not exercised'); },
     async createReferenceUploadLink() { throw new Error('not exercised'); },
     async importReferenceFiles() { throw new Error('not exercised'); },
+    async listAudioCapabilities() { throw new Error('not exercised'); },
+    async prepareAudioGeneration() { throw new Error('not exercised'); },
+    async confirmAudioGeneration() { throw new Error('not exercised'); },
   } satisfies MaxVideoAiMcpServices;
   const response = await handleMcpHttpRequest(
     protocolRequest({
@@ -281,6 +284,8 @@ test('exact hosted staging exposes the complete operational tool inventory', asy
     assert.equal(response.status, 200);
     assert.deepEqual(payload.result.tools.map((tool: { name: string }) => tool.name).sort(), [
       'calculate_project_budget',
+      'compare_generation_prices',
+      'confirm_audio_generation',
       'confirm_generation',
       'create_reference_upload_link',
       'create_topup_link',
@@ -289,9 +294,11 @@ test('exact hosted staging exposes the complete operational tool inventory', asy
       'get_generation_status',
       'get_model_details',
       'import_reference_files',
+      'list_audio_capabilities',
       'list_media',
       'list_models',
       'list_recent_generations',
+      'prepare_audio_generation',
       'prepare_generation',
       'present_generation',
       'recommend_models',
@@ -517,11 +524,19 @@ test('tool audit records only the allowlisted name and success/failure projectio
     }),
     deps({ recordEvent }),
   );
+  const priceComparison = await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0', id: 9, method: 'tools/call',
+      params: { name: 'compare_generation_prices', arguments: {} },
+    }),
+    deps({ recordEvent }),
+  );
 
   assert.equal(success.status, 200);
   assert.equal(failed.status, 200);
   assert.equal(details.status, 200);
   assert.equal(projectBudget.status, 200);
+  assert.equal(priceComparison.status, 200);
   assert.deepEqual(events, [
     {
       eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
@@ -538,6 +553,10 @@ test('tool audit records only the allowlisted name and success/failure projectio
     {
       eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
       tool: 'calculate_project_budget', outcome: 'failure', surface: null, engineId: null, errorCode: null,
+    },
+    {
+      eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
+      tool: 'compare_generation_prices', outcome: 'failure', surface: null, engineId: null, errorCode: null,
     },
   ]);
   assert.doesNotMatch(JSON.stringify(events), /private|prompt|token|provider/i);

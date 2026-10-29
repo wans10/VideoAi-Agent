@@ -1,7 +1,0 @@
-
-> maxvideoai-generate-web@0.1.0 i18n:check /private/tmp/VideoAi-Agent-keyvo-integrate/frontend
-> tsx scripts/validate-keys.ts
-
-[i18n] fr: parity OK (5850 keys).
-[i18n] es: parity OK (5844 keys).
-[i18n] zh: parity OK (6149 keys).

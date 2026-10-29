@@ -58,7 +58,8 @@ const RATIO_LABEL_MAP: Record<string, string> = {
   '21:9': 'Cinematic 21:9',
 };
 
-export function formatAspectRatioLabel(value: string | null | undefined): string | null {
+/** `labels` carries localized overrides from the caller's copy; English stays the fallback. */
+export function formatAspectRatioLabel(value: string | null | undefined, labels: Readonly<Record<string, string>> = {}): string | null {
   if (!value) return null;
-  return RATIO_LABEL_MAP[value] ?? value;
+  return labels[value] ?? RATIO_LABEL_MAP[value] ?? value;
 }

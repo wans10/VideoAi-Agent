@@ -18,7 +18,22 @@ const ENGLISH_ENTRY_COPY = {
   unavailable: 'Studio is temporarily unavailable. Please try again.',
 };
 
+const ZH_ENTRY_COPY: typeof ENGLISH_ENTRY_COPY = {
+  eyebrow: '您的创作空间',
+  title: '您想创作什么？',
+  description: '探索创意、打磨提示词，或使用您的素材创作。开启对话，并按需推进。',
+  open: '打开 Studio',
+  opening: '正在打开 Studio…',
+  retry: '重试',
+  note: '确认任何生成前，请先查看价格。',
+  projectName: '未命名项目',
+  error: 'Studio 无法确认您的项目。请重试以恢复同一项目。',
+  unauthorized: '请重新登录，然后重试打开 Studio。',
+  unavailable: 'Studio 暂时不可用，请稍后重试。',
+};
+
 export function studioConversationEntryCopy(locale: string): typeof ENGLISH_ENTRY_COPY {
+  if (locale === 'zh') return ZH_ENTRY_COPY;
   if (locale !== 'fr') return ENGLISH_ENTRY_COPY;
   return {
     eyebrow: 'VOTRE ESPACE CRÉATIF',

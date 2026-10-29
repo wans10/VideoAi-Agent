@@ -15,6 +15,7 @@ import {
 import {
   ENGINE_GROUP_FETCH_CAP,
   ENGINE_GROUP_FETCH_MULTIPLIER,
+  buildExampleVersionSamples,
   mergeUniqueGalleryVideos,
   paginateGalleryVideos,
   resolveExampleGroupId,
@@ -123,6 +124,21 @@ export async function getPublicVideosByIds(videoIds: string[]): Promise<Map<stri
     [uniqueIds]
   );
   return new Map(rows.map(row => [row.job_id, mapGalleryVideoRow(row)]));
+}
+
+/** Fresh public membership only; callers retain their already loaded media records. */
+export async function getPublicVideoIds(videoIds: string[]): Promise<Set<string>> {
+  if (isLocalPublicExamplesEnabled()) {
+    return new Set(videoIds.filter(id => getLocalPublicExample(id)));
+  }
+  if (shouldSkipBuildTimeMarketingVideoQueries()) return new Set();
+  if (!videoIds.length) return new Set();
+  const uniqueIds = Array.from(new Set(videoIds));
+  const rows = await query<{ job_id: string }>(
+    `SELECT job_id FROM app_jobs WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE} AND ${PUBLIC_VIDEO_SOURCE_ELIGIBILITY}`,
+    [uniqueIds]
+  );
+  return new Set(rows.map(row => row.job_id));
 }
 
 export async function listPublicVideoPagesForSeoAudit(limit = 1000): Promise<GalleryVideo[]> {
@@ -284,17 +300,17 @@ const KEYVO_BUNDLED_EXAMPLES_ONLY: boolean = true;
 
 export async function listExampleFamilyPage(
   familyId: string,
-  options: Omit<ListExamplesPageOptions, 'engineGroup'>,
+  options: Omit<ListExamplesPageOptions, 'engineGroup'> & { includeVersionSamples?: boolean },
   curationScope?: CurationReadScope,
 ): Promise<ListExamplesPageResult> {
-  const { sort, limit = 150, offset = 0 } = options;
-  if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset);
-  if (KEYVO_BUNDLED_EXAMPLES_ONLY || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset);
-  if (!curationScope) return listCatalogPage({ familyId, sort, limit, offset });
+  const { sort, limit = 150, offset = 0, includeVersionSamples } = options;
+  if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset, includeVersionSamples);
+  if (KEYVO_BUNDLED_EXAMPLES_ONLY || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset, includeVersionSamples);
+  if (!curationScope) return listCatalogPage({ familyId, sort, limit, offset, includeVersionSamples });
   const readScope = curationScope ?? createCurationReadScope();
   const merged = await loadExampleFamilyFeed(familyId, { includeFamilyPlaylist: true }, readScope);
   const sorted = sortVideosByPreference(merged, sort);
-  return paginateGalleryVideos(sorted, limit, offset);
+  return { ...paginateGalleryVideos(sorted, limit, offset), ...(includeVersionSamples ? { versionSamples: buildExampleVersionSamples(sorted) } : {}) };
 }
 
 export async function listExamplesPage(options: ListExamplesPageOptions, curationScope?: CurationReadScope): Promise<ListExamplesPageResult> {

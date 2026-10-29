@@ -1,8 +1,10 @@
 import type { AppLocale } from '@/i18n/locales';
 import { fetchPublicBenchmarkLatency } from '@/server/benchmark-lab-metrics';
+import { createScopedCurrentPublicSnapshot } from '@/server/pricing/quote-public';
 import { withPublicPageTiming, withoutPublicPageTiming, type MeasurePublicPagePhase } from '@/server/public-page-timing';
 import { loadCompareGallery } from './compare-gallery-loader';
-import { getCompareReferenceDuration } from './compare-pricing-scenarios';
+import { computeComparePricingPoints, getCompareReferenceDuration } from './compare-pricing-scenarios';
+import type { EngineCaps } from '@/types/engines';
 import { PRICING_ENGINES } from './compare-page-config';
 import {
   buildSpecValues,
@@ -28,12 +30,16 @@ export async function buildCompareRouteData({
   const leftPricingEngine = PRICING_ENGINES.get(left.modelSlug);
   const rightPricingEngine = PRICING_ENGINES.get(right.modelSlug);
   const referenceDuration = getCompareReferenceDuration(leftPricingEngine, rightPricingEngine);
+  const priceSnapshotAt = new Date().toISOString();
+  const currentSnapshot = createScopedCurrentPublicSnapshot();
+  const quotePoints = (engine: EngineCaps, durationSec?: number) =>
+    computeComparePricingPoints(engine, durationSec, undefined, currentSnapshot);
   const [latency, scores, keySpecs, leftPricingDisplay, rightPricingDisplay] = await Promise.all([
     measure('benchmark', () => fetchPublicBenchmarkLatency()),
     measure('scores', () => loadEngineScores()),
     measure('key-specs', () => loadEngineKeySpecs()),
-    measure('left-pricing', () => resolvePricingDisplay(left, activeLocale, leftPricingEngine, undefined, referenceDuration)),
-    measure('right-pricing', () => resolvePricingDisplay(right, activeLocale, rightPricingEngine, undefined, referenceDuration)),
+    measure('left-pricing', () => resolvePricingDisplay(left, activeLocale, leftPricingEngine, quotePoints, referenceDuration)),
+    measure('right-pricing', () => resolvePricingDisplay(right, activeLocale, rightPricingEngine, quotePoints, referenceDuration)),
   ]);
   const leftLatency = latency.rows.find((row) => row.engineId === left.engineId) ?? null;
   const rightLatency = latency.rows.find((row) => row.engineId === right.engineId) ?? null;
@@ -46,7 +52,7 @@ export async function buildCompareRouteData({
   const leftSpecs = buildSpecValues(left, leftKeySpecs);
   const rightSpecs = buildSpecValues(right, rightKeySpecs);
   const pairHasNativeAudio = Boolean(left.engine?.audio) || Boolean(right.engine?.audio);
-  const criteriaCount = pairHasNativeAudio ? 11 : 10;
+  const criteriaCount = pairHasNativeAudio ? 10 : 9;
   const pairHasKling3Native4k =
     left.modelSlug === 'kling-3-4k' || right.modelSlug === 'kling-3-4k';
   const leftOverall = computeOverall(leftScore);
@@ -60,6 +66,8 @@ export async function buildCompareRouteData({
   const rightIsPrelaunch = isPrelaunchAvailability(right);
 
   return {
+    priceSnapshotAt,
+    specSources: [left, right].map(entry => ({ name: entry.marketingName, urls: keySpecs.get(entry.modelSlug)?.sources ?? keySpecs.get(entry.engineId)?.sources ?? [] })),
     criteriaCount,
     hasPrelaunchEngine: leftIsPrelaunch || rightIsPrelaunch,
     left,

@@ -11,6 +11,7 @@ import { SettingsGenericAdvancedFields } from '@/components/settings-controls/se
 import { RangeWithInput } from '@/components/settings-controls/settings-control-parts';
 import type { SettingsControlsProps } from '@/components/settings-controls/settings-control-types';
 import type { useSettingsControlState } from '@/components/settings-controls/useSettingsControlState';
+import { isUnifiedSeedanceEngineId } from '@/lib/seedance-workflow';
 
 type SettingsControlState = ReturnType<typeof useSettingsControlState>;
 
@@ -418,10 +419,12 @@ function EngineAdvancedControls({
 
 function AdvancedContent(props: SettingsAdvancedPanelProps) {
   const { panelVariant, showLoopControl, loopEnabled, onLoopChange, showSeedanceControls, state } = props;
+  const { locale } = useI18n();
   const labelClassName =
     panelVariant === 'standalone'
       ? 'text-[11px] font-semibold uppercase tracking-micro text-text-muted'
       : 'text-[12px] uppercase tracking-micro text-text-muted';
+  const showGenericSeed = !showSeedanceControls && !isUnifiedSeedanceEngineId(props.engine.id);
 
   return (
     <>
@@ -429,8 +432,8 @@ function AdvancedContent(props: SettingsAdvancedPanelProps) {
         <LoopModeControl copy={state.controlsCopy.loop} loopEnabled={loopEnabled} onLoopChange={onLoopChange} />
       ) : null}
 
-      {!showSeedanceControls && panelVariant === 'standalone' ? <StandaloneSeedControls {...props} /> : null}
-      {!showSeedanceControls && panelVariant === 'embedded' ? <EmbeddedSeedControls {...props} /> : null}
+      {showGenericSeed && panelVariant === 'standalone' ? <StandaloneSeedControls {...props} /> : null}
+      {showGenericSeed && panelVariant === 'embedded' ? <EmbeddedSeedControls {...props} /> : null}
 
       <AdvancedRangeFields labelClassName={labelClassName} state={state} props={props} />
       <ExtendAndKeyframeControls labelClassName={labelClassName} state={state} props={props} />
@@ -440,6 +443,7 @@ function AdvancedContent(props: SettingsAdvancedPanelProps) {
           fields={props.advancedFields ?? []}
           values={props.advancedFieldValues ?? {}}
           onChange={props.onAdvancedFieldChange}
+          locale={locale}
         />
       ) : null}
 

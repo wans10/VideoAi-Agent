@@ -100,9 +100,9 @@ export async function validateKlingElementImageDimensions(params: {
     const minimumWidth = KLING_ELEMENT_MINIMUM_IMAGE_WIDTH;
     const minimumHeight = KLING_ELEMENT_MINIMUM_IMAGE_HEIGHT;
     const message =
-      `This image is ${actualWidth} x ${actualHeight} px. ` +
-      `Kling requires at least ${minimumWidth} px in width and ${minimumHeight} px in height. ` +
-      'Choose a larger image and try again.';
+      `该图片为 ${actualWidth} x ${actualHeight} px。` +
+      `Kling 要求宽度至少为 ${minimumWidth} px、高度至少为 ${minimumHeight} px。` +
+      '请选择更大的图片后重试。';
     const dimensions = {
       actualWidth,
       actualHeight,

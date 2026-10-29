@@ -40,7 +40,7 @@ test('French compare article keeps its crawlable ASCII slug aligned', () => {
 
   assert.equal(BLOG_SLUGS_BY_CANONICAL['compare-ai-video-engines'].fr, slug);
   assert.equal(readFrontMatterValue(source, 'slug'), slug);
-  assert.equal(readFrontMatterValue(source, 'canonical'), `https://videoai.omninodetech.com/fr/blog/${slug}`);
+  assert.equal(readFrontMatterValue(source, 'canonical'), `https://maxvideoai.com/fr/blog/${slug}`);
 });
 
 test('blog slug switch map covers every localized blog frontmatter slug', () => {
