@@ -6,6 +6,7 @@ import {
   PER_IMAGE_ENGINE_IDS,
 } from '@/components/marketing/price-estimator/price-estimator-options';
 import { listFalEngines, type FalEngineEntry } from '@/config/falEngines';
+import { getUpstreamRuntimeModelById, toLegacyModelSurfaces } from '@/config/model-runtime';
 import { normalizeEngineId } from '@/lib/engine-alias';
 import { isGptImageFamilyEngineId } from '@/lib/image/gptImage2';
 import { supportsImageGeneration } from '@/lib/models/catalog';
@@ -177,7 +178,11 @@ function resolveCompatibilityProfile(row: PublicProjectionRow): string {
 export async function collectPublicPricingProjectionRows(): Promise<PublicProjectionRow[]> {
   for (const key of DETERMINISTIC_ENV_KEYS) delete process.env[key];
 
-  const entries = listFalEngines();
+  // The baseline is the upstream pricing-policy contract: use upstream publication surfaces, not Keyvo's web hiding.
+  const entries = listFalEngines().map((entry) => {
+    const upstream = getUpstreamRuntimeModelById(entry.id);
+    return upstream ? { ...entry, surfaces: toLegacyModelSurfaces(upstream) } : entry;
+  });
   const rows: PublicProjectionRow[] = [];
   const hub = buildPricingHubData('en');
 

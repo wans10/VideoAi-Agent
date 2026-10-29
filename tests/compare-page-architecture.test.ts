@@ -131,9 +131,11 @@ test('comparison routing accepts public P1 engines while preserving unresolved-p
   assert.equal(publicP1Pair?.right.modelSlug, 'minimax-h3-max');
   assert.equal(resolveEngines('missing-model-vs-veo-3-1'), null);
 
-  const publishedPair = resolveEngines('gemini-omni-flash-vs-veo-3-1');
-  assert.equal(publishedPair?.left.modelSlug, 'gemini-omni-flash');
-  assert.equal(publishedPair?.right.modelSlug, 'veo-3-1');
+  // Keyvo hides non-Chinese-vendor models, so a pair that includes one no longer resolves.
+  assert.equal(resolveEngines('gemini-omni-flash-vs-veo-3-1'), null);
+  const publishedPair = resolveEngines('minimax-h3-vs-minimax-h3-max');
+  assert.equal(publishedPair?.left.modelSlug, 'minimax-h3');
+  assert.equal(publishedPair?.right.modelSlug, 'minimax-h3-max');
   assert.match(pageSource, /const resolved = resolveEngines\(canonicalInfo\.canonicalSlug\);[\s\S]*if \(!resolved\) \{[\s\S]*notFound\(\);/);
 });
 const scorecardSource = readFileSync(

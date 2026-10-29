@@ -10,7 +10,7 @@ import {
   MARKETING_NAV_MODELS,
   MARKETING_TOP_NAV_LINKS,
 } from '../frontend/config/navigation.ts';
-import { FOOTER_MODELS, FOOTER_COMPARISONS, FOOTER_EXAMPLES } from '../frontend/config/marketing-footer';
+import { FOOTER_MODELS, FOOTER_EXAMPLES } from '../frontend/config/marketing-footer';
 import { getPartnerBrandMark } from '../frontend/src/lib/brand-partners.ts';
 
 const marketingNavSource = readFileSync('frontend/components/marketing/MarketingNav.tsx', 'utf8');
@@ -46,7 +46,7 @@ const hrefPath = (href: unknown) => {
 test('marketing top navigation stays clean while Best-For links live inside dropdowns', () => {
   assert.deepEqual(
     MARKETING_TOP_NAV_LINKS.map((item) => item.key),
-    ['models', 'examples', 'compare', 'tools', 'pricing', 'blog']
+    ['models', 'examples', 'tools', 'pricing', 'blog']
   );
 
   const modelsDropdown = MARKETING_NAV_DROPDOWNS.models as {
@@ -169,14 +169,12 @@ test('editorial navigation promotes current models and preserves comparisons wit
     MARKETING_NAV_MODELS
       .filter(({ key }) => ['ltx-2-5-pro', 'wan-3-prime', 'happy-horse-1-1'].includes(key))
       .map(({ key }) => key),
-    ['ltx-2-5-pro', 'wan-3-prime', 'happy-horse-1-1'],
+    ['wan-3-prime', 'happy-horse-1-1'], // LTX is hidden by the Keyvo visibility policy
   );
   const expectedComparisons = [
     'minimax-h3-vs-seedance-2-5',
-    'ltx-2-5-fast-vs-ltx-2-5-pro',
-    'gemini-omni-flash-vs-veo-3-1',
     'seedance-2-0-vs-seedance-2-0-fast',
-  ];
+  ]; // LTX and Veo comparisons are hidden by the Keyvo visibility policy
   const actualComparisons = MARKETING_NAV_DROPDOWNS.compare?.items
     .map(({ key }) => key)
     .filter((key) => expectedComparisons.includes(key)) ?? [];
@@ -236,9 +234,9 @@ test('marketing footer keeps crawlable Best-For hub and priority child links', (
 test('examples navigation exposes discoverable families without promoting archives', () => {
   const examplesDropdown = MARKETING_NAV_DROPDOWNS.examples;
   assert.equal(examplesDropdown?.desktopColumns, 2);
-  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['ltx', 'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse']);
+  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['kling', 'seedance', 'wan', 'hailuo', 'happy-horse']);
   const allEntries = [...examplesDropdown!.items, ...examplesDropdown!.sections!.flatMap(section => section.items)];
-  assert.deepEqual(allEntries.map(item => item.key).sort(), ['veo','seedance','ltx','kling','wan','happy-horse','luma','grok','flux','pika','hailuo'].sort());
+  assert.deepEqual(allEntries.map(item => item.key).sort(), ['seedance','kling','wan','happy-horse','hailuo'].sort());
   assert.equal(new Set(allEntries.map(item => item.key)).size, allEntries.length);
   assert.match(marketingDesktopNavSource, /dropdown\.desktopColumns === 2/);
   assert.match(marketingDesktopNavSource, /two-columns/);
@@ -301,13 +299,8 @@ test('marketing brand mark is decorative alongside the visible wordmark', () => 
   assert.match(brand, /<strong>Key<span>vo<\/span><\/strong>/);
 });
 
-test('marketing footer promotes the current shared comparison selection', () => {
-  assert.match(marketingFooterSource, /FOOTER_COMPARISONS\.map/);
-  for (const key of ['seedance-2-0-vs-seedance-2-0-fast', 'gemini-omni-flash-vs-veo-3-1']) {
-    assert.ok(FOOTER_COMPARISONS.some(item => item.key === key), 'Preserve comparisons with recorded search demand');
-  }
-  assert.ok(FOOTER_COMPARISONS.length <= 4);
-  assert.equal(FOOTER_EXAMPLES[0]?.key, 'ltx');
+test('marketing footer no longer renders comparison links under the Keyvo policy', () => {
+  assert.doesNotMatch(marketingFooterSource, /FOOTER_COMPARISONS|ai-video-engines'/);
   assert.doesNotMatch(marketingFooterSource, /seedance-1-5-pro|ltx-2-3/);
 });
 

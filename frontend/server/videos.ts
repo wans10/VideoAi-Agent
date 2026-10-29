@@ -279,6 +279,9 @@ export async function listExampleModelCurrentPublicOrder(modelSlug: string): Pro
   });
 }
 
+// Keyvo serves the example galleries only from the repository's bundled examples (its database has none).
+const KEYVO_BUNDLED_EXAMPLES_ONLY: boolean = true;
+
 export async function listExampleFamilyPage(
   familyId: string,
   options: Omit<ListExamplesPageOptions, 'engineGroup'>,
@@ -286,7 +289,7 @@ export async function listExampleFamilyPage(
 ): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0 } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(familyId, sort, limit, offset);
-  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset);
+  if (KEYVO_BUNDLED_EXAMPLES_ONLY || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(familyId, sort, limit, offset);
   if (!curationScope) return listCatalogPage({ familyId, sort, limit, offset });
   const readScope = curationScope ?? createCurationReadScope();
   const merged = await loadExampleFamilyFeed(familyId, { includeFamilyPlaylist: true }, readScope);
@@ -297,7 +300,7 @@ export async function listExampleFamilyPage(
 export async function listExamplesPage(options: ListExamplesPageOptions, curationScope?: CurationReadScope): Promise<ListExamplesPageResult> {
   const { sort, limit = 150, offset = 0, engineGroup } = options;
   if (isLocalPublicExamplesEnabled()) return listLocalPublicExamples(engineGroup ?? '', sort, limit, offset);
-  if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
+  if (KEYVO_BUNDLED_EXAMPLES_ONLY || shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) return listBundledPublicExamples(engineGroup ?? '', sort, limit, offset);
   if (!curationScope) return listCatalogPage({ sort, limit, offset,
     engineAliases: engineGroup ? getExampleFamilyEngineAliases(engineGroup.trim().toLowerCase()) : undefined });
   const hubSlug = getExamplesHubPlaylistSlug();

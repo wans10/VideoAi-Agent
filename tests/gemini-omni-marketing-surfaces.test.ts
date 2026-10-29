@@ -7,7 +7,7 @@ import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 
 import compareConfig from '../frontend/config/compare-config.json' with { type: 'json' };
 import scoresFile from '../data/benchmarks/engine-scores.v1.json' with { type: 'json' };
 import type { ExampleGalleryVideo } from '../frontend/components/examples/examples-gallery-types.ts';
-import { MARKETING_MODEL_SLUGS, MARKETING_NAV_COMPARE, MARKETING_NAV_MODELS } from '../frontend/config/navigation.ts';
+import { MARKETING_MODEL_SLUGS, MARKETING_NAV_COMPARE } from '../frontend/config/navigation.ts';
 import { canonicalizeFalModelSlug, listFalEngines } from '../frontend/src/config/falEngines.ts';
 import { buildModelDecisionDataFromContent } from './helpers/model-decision-content.ts';
 import { PREFERRED_MEDIA } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-static-media.ts';
@@ -172,7 +172,7 @@ test('Gemini Omni Flash aliases canonicalize to the public model slug', () => {
   }
 });
 
-test('Gemini Omni Flash decision template exposes app, pricing, specs and Veo comparison paths', () => {
+test('Gemini Omni Flash decision template exposes app, pricing and specs paths without comparison links (Keyvo hides comparisons)', () => {
   const engine = listFalEngines().find((candidate) => candidate.modelSlug === 'gemini-omni-flash');
   assert.ok(engine, 'Gemini Omni Flash engine should exist');
 
@@ -180,46 +180,25 @@ test('Gemini Omni Flash decision template exposes app, pricing, specs and Veo co
     const decision = buildModelDecisionDataFromContent({ engine, locale });
     assert.ok(decision, `${locale} decision data should exist`);
     assert.equal(decision.hero.primaryCta.href, '/app?engine=gemini-omni-flash');
-    assert.ok(decision.hero.quickLinks.some((link) => link.href.includes('gemini-omni-flash-vs-veo-3-1')));
+    assert.ok(!decision.hero.quickLinks.some((link) => link.href.includes('-vs-')));
     assert.ok(decision.hero.quickLinks.some((link) => link.href.includes('gemini-omni-flash-pricing')));
     assert.ok(decision.hero.quickLinks.some((link) => link.href === '#specs'));
-    assert.match(JSON.stringify(decision), /Veo 3\.1/);
     assert.doesNotMatch(JSON.stringify(decision), /fal\.ai|\bFal\b|\bFAL\b/);
   }
 });
 
-test('Gemini Omni Flash is exposed on the pricing matrix with a visible 10s 720p price', () => {
-  const expectedModelHrefs = {
-    en: '/models/gemini-omni-flash',
-    fr: '/fr/modeles/gemini-omni-flash',
-    es: '/es/modelos/gemini-omni-flash',
-  };
-
+test('Gemini Omni Flash is hidden from the pricing matrix under the Keyvo visibility policy', () => {
   for (const locale of LOCALES) {
     const row = buildPricingHubData(locale).video.rows.find((candidate) => candidate.anchorId === 'gemini-omni-flash-pricing');
-    assert.ok(row, `${locale} pricing row should include Gemini Omni Flash`);
-    assert.equal(row.engineName, 'Gemini Omni Flash 1.1');
-    assert.equal(row.family, 'veo');
-    assert.equal(row.modelHref, expectedModelHrefs[locale]);
-    assert.ok(row.links.some((link) => link.href === '/app?engine=gemini-omni-flash'));
-
-    const previewQuote = row.quotes['10s-720p'];
-    assert.equal(previewQuote.status, 'exact');
-    assert.equal(previewQuote.amountCents, 132);
-    assert.match(previewQuote.rateDisplay ?? '', /0[,.]13/);
-
-    const standard1080Quote = row.quotes['10s-1080p'];
-    assert.equal(standard1080Quote.status, 'exact');
-    assert.equal(standard1080Quote.amountCents, 198);
-    assert.match(standard1080Quote.rateDisplay ?? '', /0[,.]20/);
+    assert.equal(row, undefined, `${locale} pricing row must not include the non-Chinese-vendor Gemini Omni Flash`);
   }
 });
 
-test('Gemini Omni Flash comparison pages are published as scorecard-only with localized 1.1 overrides', () => {
+test('Gemini Omni Flash comparison pages keep scorecard-only overrides but are not published under Keyvo', () => {
   const publishedSlugs = getPublishedComparisonSlugs();
   for (const slug of OMNI_COMPARE_SLUGS) {
     assert.ok(compareConfig.scoreboardOnlyComparisons.includes(slug), `${slug} should be scorecard-only at launch`);
-    assert.ok(publishedSlugs.includes(slug), `${slug} should be a published comparison slug`);
+    assert.ok(!publishedSlugs.includes(slug), `${slug} must not be a published comparison slug`);
   }
 
   const englishComparison = getComparePageOverride('en', PRIMARY_COMPARE_SLUG);
@@ -240,7 +219,7 @@ test('Gemini Omni Flash limited preview is not labeled as pre-launch on compare 
   assert.equal(isPrelaunchAvailability(entry), false);
 });
 
-test('Gemini Omni Flash has benchmark scores and a promoted comparison while the bounded menu prioritizes Veo', () => {
+test('Gemini Omni Flash keeps benchmark scores but is not promoted in navigation', () => {
   const score = scoresFile.scores.find((entry) => entry.modelSlug === 'gemini-omni-flash');
   assert.ok(score, 'Gemini Omni Flash should have a benchmark score row for compare scorecards');
   for (const field of SCORE_FIELDS) {
@@ -249,7 +228,6 @@ test('Gemini Omni Flash has benchmark scores and a promoted comparison while the
   assert.equal(score.controllability, 9.2);
   assert.equal(score.pricing, 8.1);
 
-  assert.ok(MARKETING_NAV_COMPARE.some((item) => item.key === PRIMARY_COMPARE_SLUG));
-  assert.ok(MARKETING_NAV_MODELS.some((item) => item.key === 'veo-3-1'));
+  assert.ok(!MARKETING_NAV_COMPARE.some((item) => item.key === PRIMARY_COMPARE_SLUG));
   assert.ok(MARKETING_MODEL_SLUGS.length <= 11);
 });

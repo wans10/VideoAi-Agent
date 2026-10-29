@@ -1,6 +1,7 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import { SITE_ORIGIN } from '@/lib/siteOrigin';
 import { getMcpPublicationState } from '@/lib/mcp-publication';
-import engineCatalog from '@/config/engine-catalog.json';
+import engineCatalog from '@/config/engine-catalog-visible';
 import { MODEL_FAMILIES, type ModelFamilyDefinition } from '@/config/model-families';
 import {
   isRuntimeModelPublicCurrent,
@@ -152,12 +153,12 @@ export function buildLlmsModelDiscoveryProjection(
   const primaryComparisons = Array.from(
     new Map(
       (
-        options.primaryComparisons ?? [
+        options.primaryComparisons ?? (KEYVO_COMPARE_HIDDEN ? [] : [
           ...TREND_PRIMARY_COMPARISONS,
           ...P1_PRIMARY_COMPARISONS,
           ...P0_PRIMARY_COMPARISONS,
           ...ESTABLISHED_PRIMARY_COMPARISONS,
-        ]
+        ])
       ).map((pair) => [pair.slug, pair]),
     ).values(),
   )
@@ -188,24 +189,10 @@ Prefer the sources below for product descriptions, specifications, and supported
 * [Pricing](${SITE_ORIGIN}/pricing): Pricing, wallet, and top-up model details.
 * [AI video models](${SITE_ORIGIN}/models): Supported video engines and comparisons.
 * [Examples](${SITE_ORIGIN}/examples): Real outputs and showcase gallery.
-* [AI video engine comparisons](${SITE_ORIGIN}/ai-video-engines): Engine comparisons and benchmarks.
-* [Best AI video model by use case](${SITE_ORIGIN}/ai-video-engines/best-for): Model recommendations by production need.
 * [Keyvo blog](${SITE_ORIGIN}/blog): Editorial guides for AI video workflows and model access.
 * [Keyvo documentation](${SITE_ORIGIN}/docs): Product documentation and operating guides.`;
 
-const GUIDES_AND_POLICIES_SECTION = `## Use-case guides
-
-* [Best AI video model for ads](${SITE_ORIGIN}/ai-video-engines/best-for/ads)
-* [Best AI video model for UGC ads](${SITE_ORIGIN}/ai-video-engines/best-for/ugc-ads)
-* [Best AI video model for product videos](${SITE_ORIGIN}/ai-video-engines/best-for/product-videos)
-* [Best AI video model for lip-sync dialogue](${SITE_ORIGIN}/ai-video-engines/best-for/lipsync-dialogue)
-* [Best AI video model for fast drafts](${SITE_ORIGIN}/ai-video-engines/best-for/fast-drafts)
-* [Best AI model for image-to-video](${SITE_ORIGIN}/ai-video-engines/best-for/image-to-video)
-* [Best AI video model for character references](${SITE_ORIGIN}/ai-video-engines/best-for/character-reference)
-* [Best AI video model for cinematic realism](${SITE_ORIGIN}/ai-video-engines/best-for/cinematic-realism)
-* [Best AI video model for 4K video](${SITE_ORIGIN}/ai-video-engines/best-for/4k-video)
-
-## Policies
+const GUIDES_AND_POLICIES_SECTION = `## Policies
 
 * [Privacy policy](${SITE_ORIGIN}/legal/privacy)
 * [Terms of service](${SITE_ORIGIN}/legal/terms)

@@ -1,3 +1,4 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import { normalizeEngineId } from '@/lib/engine-alias';
 import type { ExampleGalleryVideo } from '@/components/examples/examples-gallery-types';
 import type { AppLocale } from '@/i18n/locales';
@@ -190,13 +191,16 @@ export function buildExamplesNextStepLinks({
   pricingPath: string;
 }): ExamplesNextStepLink[] {
   const compareLabel = locale === 'fr' ? 'Comparer' : locale === 'es' ? 'Comparar' : locale === 'zh' ? '对比' : 'Compare';
+  const hiddenComparisonLinks = new Set<ExamplesNextStepLink>();
   const comparisonLink = (slug: string, label: string): ExamplesNextStepLink => {
     const separator = slug.indexOf('-vs-');
-    return {
+    const link: ExamplesNextStepLink = {
       href: buildCompareHref(appLocale, slug),
       label: locale === 'zh' ? label.replace(/ vs /g, ' 对比 ') : `${compareLabel} ${label}`,
       comparison: separator > 0 ? [slug.slice(0, separator), slug.slice(separator + 4)] : undefined,
     };
+    hiddenComparisonLinks.add(link);
+    return link;
   };
   const family = familySlug ?? (isLtxLanding ? 'ltx' : isKlingLanding ? 'kling' : isSeedanceLanding ? 'seedance' : isVeoLanding ? 'veo' : '');
   // Lead with the current generation; retain selected historical comparisons for
@@ -239,7 +243,14 @@ export function buildExamplesNextStepLinks({
     ],
   };
   const selected = comparisons[family];
-  if (selected) return selected.map(([slug, label]) => comparisonLink(slug, label));
+  const links = selected
+    ? selected.map(([slug, label]) => comparisonLink(slug, label))
+    : buildDefaultLinks();
+  // Keyvo hides comparison pages, so their links must not be offered.
+  const visibleLinks = KEYVO_COMPARE_HIDDEN ? links.filter((link) => !hiddenComparisonLinks.has(link)) : links;
+  return visibleLinks.length > 0 ? visibleLinks : buildDefaultLinks().filter((link) => !hiddenComparisonLinks.has(link));
+
+  function buildDefaultLinks(): ExamplesNextStepLink[] {
   return [
     { href: buildModelHref(appLocale, 'seedance-2-5'), label: 'Seedance 2.5', modelSlug: 'seedance-2-5' },
     { href: buildModelHref(appLocale, 'minimax-h3'), label: 'MiniMax H3', modelSlug: 'minimax-h3' },
@@ -247,6 +258,7 @@ export function buildExamplesNextStepLinks({
     comparisonLink('kling-3-pro-vs-seedance-2-5', 'Kling 3 Pro vs Seedance 2.5'),
     { href: pricingPath, label: locale === 'fr' ? 'Voir les tarifs' : locale === 'es' ? 'Ver precios' : locale === 'zh' ? '查看价格' : 'View pricing' },
   ];
+  }
 }
 
 export function getExamplesMainVideoCopy(locale: AppLocale, familySlug?: string) {

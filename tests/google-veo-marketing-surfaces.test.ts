@@ -83,7 +83,7 @@ test('Veo 3.1 Fast Examples keep the active real-media title instead of editoria
   assert.equal(viewModel.decision.items[0]?.audioBadgeLabel, 'Audio on');
 });
 
-test('Google Veo marketing cards and compare specs reflect 4K support by tier', () => {
+test('Google Veo marketing cards and compare specs reflect 4K support by tier and stay out of the Keyvo compare hub', () => {
   const standard = getCatalogEntry('veo-3-1');
   const fast = getCatalogEntry('veo-3-1-fast');
   const lite = getCatalogEntry('veo-3-1-lite');
@@ -111,9 +111,10 @@ test('Google Veo marketing cards and compare specs reflect 4K support by tier', 
   assert.doesNotMatch(fastSpecs.referenceImageStyle, /1-4/);
 
   const hubCards = new Map(getHubEngines().map((entry) => [entry.modelSlug, entry]));
-  assert.equal(hubCards.get('veo-3-1')?.maxResolutionLabel, '4K');
-  assert.equal(hubCards.get('veo-3-1-fast')?.maxResolutionLabel, '4K');
-  assert.equal(hubCards.get('veo-3-1-lite')?.maxResolutionLabel, '1080p');
+  // Keyvo hides non-Chinese-vendor models from the compare hub.
+  for (const slug of ['veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite']) {
+    assert.equal(hubCards.has(slug), false, `${slug} must not appear in the compare hub`);
+  }
 });
 
 test('Google Veo compare specs expose lip sync consistently across all public tiers', () => {

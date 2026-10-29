@@ -1,5 +1,5 @@
 import compareConfig from '@/config/compare-config.json';
-import engineCatalog from '@/config/engine-catalog.json';
+import engineCatalog from '@/config/engine-catalog-visible';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import type { Mode } from '@/types/engines';
 import type { BestForPageConfig, EngineCatalogEntry, HomepageExampleFamily } from './types';

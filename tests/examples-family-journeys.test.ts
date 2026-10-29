@@ -1,25 +1,24 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildExamplesNextStepLinks, getExamplesMainVideoCopy } from '../frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-page-copy';
-import { getCanonicalCompareSlug, resolveEngines } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-helpers';
+import { getRuntimeModelByCanonicalSlug } from '../frontend/config/model-runtime';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 
 for (const locale of ['en', 'fr', 'es'] as const) {
-  test(`${locale} Veo and Hailuo journeys point to existing family comparisons`, () => {
+  test(`${locale} Veo and Hailuo journeys offer no hidden comparison links`, () => {
     const pricingPath = locale === 'fr' ? '/fr/tarifs' : locale === 'es' ? '/es/precios' : '/pricing';
     for (const family of ['veo', 'hailuo']) {
       const links = buildExamplesNextStepLinks({
         appLocale: locale, locale, pricingPath, familySlug: family,
         isKlingLanding: false, isLtxLanding: false, isSeedanceLanding: false, isVeoLanding: family === 'veo',
       });
+      // Keyvo hides comparison pages, so these journeys offer no comparison links.
+      assert.ok(links.length > 0);
       assert.equal(new Set(links.map((link) => link.href)).size, links.length);
-      assert.ok(links[0].href.endsWith(family === 'veo' ? '/gemini-omni-flash-vs-veo-3-1' : '/minimax-h3-vs-minimax-h3-max'));
       for (const link of links) {
-        assert.ok(link.href.startsWith(locale === 'en' ? '/ai-video-engines/' : `/${locale}/`));
-        const slug = link.href.split('/').pop()!;
-        assert.deepEqual(link.comparison, slug.split('-vs-'), `${link.href} must show the models named by its route`);
-        const canonical = getCanonicalCompareSlug(slug);
-        assert.ok(canonical, `${link.href} must resolve through the comparison route`);
-        assert.ok(resolveEngines(canonical.canonicalSlug), `${link.href} must resolve both published models`);
+        assert.equal(link.comparison, undefined, link.href);
+        assert.doesNotMatch(link.href, /ai-video-engines|comparatif|comparativa/, link.href);
+        if (link.modelSlug) assert.ok(isKeyvoVisibleFamily(getRuntimeModelByCanonicalSlug(link.modelSlug)?.family), link.href);
       }
       assert.ok(getExamplesMainVideoCopy(locale, family).recreationHint);
     }

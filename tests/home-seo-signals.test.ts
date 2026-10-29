@@ -329,11 +329,11 @@ test('homepage promotes published current comparisons without reviving older edi
   const { buildHomeComparisonLinks, buildHomeComparisonData } = await import('../frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-comparison-data.ts');
   const { isPublishedComparisonSlug } = await import('../frontend/lib/compare-hub/data.ts');
   const links = buildHomeComparisonLinks();
-  assert.equal(links.length, 3);
+  // Keyvo hides non-Chinese-vendor models, so the LTX comparison is no longer promoted.
+  assert.equal(links.length, 2);
   assert.ok(links.every(link => isPublishedComparisonSlug(link.slug)));
   assert.ok(links.some(link => link.slug.includes('seedance-2-5')));
-  assert.ok(links.some(link => link.slug.includes('ltx-2-5')));
-  assert.ok(links.every(link => !/seedance-1-5|seedance-2-0|ltx-2-3/.test(link.slug)));
+  assert.ok(links.every(link => !/seedance-1-5|seedance-2-0|ltx/.test(link.slug)));
   // A new model must never inherit the scores of its predecessor.
   assert.deepEqual(buildHomeComparisonData(new Map()).opponents, []);
 });

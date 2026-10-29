@@ -236,7 +236,7 @@ async function renderMarketingModelPage({
     }
   );
   const { galleryVideos, preferredIds, managed: managedCuration } = gallery;
-  const showBenchmarkLink = isVideoEngine && benchmarkScoreSlugs.has(engine.modelSlug);
+  const showBenchmarkLink = false && isVideoEngine && benchmarkScoreSlugs.has(engine.modelSlug);
   const pricingEngine = applyEnginePricingOverride(engine.engine, enginePricingOverrides[engine.engine.id]);
   const modelName = localizedContent.marketingName ?? engine.marketingName;
   const fallbackMedia: FeaturedMedia = {

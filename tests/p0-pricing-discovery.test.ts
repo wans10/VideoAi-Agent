@@ -15,8 +15,9 @@ import {
   buildVideoPricingRowsFromEntries,
 } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData.ts';
 import { listFalEngines, type FalEngineEntry } from '../frontend/src/config/falEngines.ts';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 
-const P0_IDS = [
+const ALL_P0_IDS = [
   'ltx-2-5-pro',
   'ltx-2-5-fast',
   'wan-3-prime',
@@ -25,15 +26,13 @@ const P0_IDS = [
   'flux-3',
   'flux-3-draft',
 ] as const;
-const P0_ID_SET = new Set<string>(P0_IDS);
+const P0_ID_SET = new Set<string>(ALL_P0_IDS);
+// Keyvo's public pricing pages only list models from visible (Chinese-vendor) families.
+const isVisibleP0 = (id: string) => isKeyvoVisibleFamily(listFalEngines().find((entry) => entry.id === id)?.family);
+const P0_IDS: string[] = ALL_P0_IDS.filter(isVisibleP0);
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
-const P0_REPRESENTATIVE_IDS = [
-  'ltx-2-5-pro',
-  'wan-3-prime',
-  'grok-imagine-video-1-5',
-  'flux-3',
-] as const;
-const P0_VISIBLE_EXAMPLE_IDS = ['ltx-2-5-pro', 'wan-3-prime'] as const;
+const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5', 'flux-3'] as const).filter(isVisibleP0);
+const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro', 'wan-3-prime'] as const).filter(isVisibleP0);
 const entries = listFalEngines();
 
 function publishedP0Entries(): FalEngineEntry[] {
@@ -112,17 +111,12 @@ test('visible pricing fixtures keep current family variants before legacy histor
     'pricing order must not depend on registry input order',
   );
 
-  assert.deepEqual(idsByFamily('ltx'), [
-    'ltx-2-5-pro',
-    'ltx-2-5-fast',
-    'ltx-2-3',
-    'ltx-2-3-fast',
-  ]);
+  assert.deepEqual(idsByFamily('ltx'), []);
   assert.deepEqual(idsByFamily('wan'), ['wan-3-prime', 'wan-3', 'wan-2-6']);
-  assert.deepEqual(idsByFamily('grok'), ['grok-imagine-video-1-5']);
-  assert.deepEqual(idsByFamily('flux'), ['flux-3', 'flux-3-draft']);
+  assert.deepEqual(idsByFamily('grok'), []);
+  assert.deepEqual(idsByFamily('flux'), []);
 
-  for (const id of ['ltx-2-3', 'ltx-2-3-fast', 'wan-2-6']) {
+  for (const id of ['wan-2-6']) {
     assert.equal(rows.find((row) => row.id === id)?.pricingGroup, 'legacy');
   }
   for (const id of P0_IDS) {
@@ -281,7 +275,7 @@ test('explicit published model fallbacks remain available without a pricing row'
 });
 
 test('unpublished comparison suggestions cannot leak an unknown opponent', () => {
-  const entriesWithHiddenSuggestion = entries.map((entry) => entry.id === 'ltx-2-3' ? {
+  const entriesWithHiddenSuggestion = entries.map((entry) => entry.id === 'wan-2-6' ? {
     ...structuredClone(entry),
     surfaces: {
       ...structuredClone(entry.surfaces),
@@ -293,24 +287,24 @@ test('unpublished comparison suggestions cannot leak an unknown opponent', () =>
       },
     },
   } : entry);
-  const ltxLegacy = buildVideoPricingRowsFromEntries(entriesWithHiddenSuggestion, 'en')
-    .find((row) => row.id === 'ltx-2-3');
-  assert.ok(ltxLegacy);
-  assert.doesNotMatch(JSON.stringify(ltxLegacy.links), /future-video-model/);
+  const legacyRow = buildVideoPricingRowsFromEntries(entriesWithHiddenSuggestion, 'en')
+    .find((row) => row.id === 'wan-2-6');
+  assert.ok(legacyRow);
+  assert.doesNotMatch(JSON.stringify(legacyRow.links), /future-video-model/);
 
   const pricingHub = structuredClone(buildPricingHubData('en'));
-  const ltxPaygRow = pricingHub.video.rows.find((row) => row.id === 'ltx-2-3-fast');
-  assert.ok(ltxPaygRow);
-  ltxPaygRow.links.push({
+  const paygRow = pricingHub.video.rows.find((row) => row.id === 'wan-2-6');
+  assert.ok(paygRow);
+  paygRow.links.push({
     label: 'Compare',
-    href: '/ai-video-engines/ltx-2-3-pro-vs-ltx-2-5-pro',
+    href: '/ai-video-engines/wan-2-6-vs-wan-3-prime',
   });
   const data = buildPayAsYouGoPageData({
     locale: 'en',
     content: getPayAsYouGoContent('en'),
     pricingHub,
   });
-  assert.equal(data.pricing.rows.find((row) => row.id === 'ltx-2-3-fast')?.compareHref, undefined);
+  assert.equal(data.pricing.rows.find((row) => row.id === 'wan-2-6')?.compareHref, undefined);
 });
 
 test('published fixtures expose all P0 model cards and one current row per family', () => {
@@ -358,7 +352,7 @@ test('published fixtures expose all P0 model cards and one current row per famil
 test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
   const content = getPayAsYouGoContent('en');
   const pricingHub = pricingHubWithEntries('en', publishedP0Entries());
-  const sourceRow = pricingHub.video.rows.find((row) => row.id === 'ltx-2-5-pro');
+  const sourceRow = pricingHub.video.rows.find((row) => row.id === 'wan-3-prime');
   assert.ok(sourceRow);
   sourceRow.quotes['5s-720p'] = {
     ...sourceRow.quotes['5s-720p'],
@@ -369,20 +363,20 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
 
   const data = buildPayAsYouGoPageData({ locale: 'en', content, pricingHub });
   assert.equal(
-    data.pricing.rows.find((row) => row.id === 'ltx-2-5-pro')
+    data.pricing.rows.find((row) => row.id === 'wan-3-prime')
       ?.priceCells.find((cell) => cell.presetId === '5s-720p')?.value,
     '$432.10',
   );
   assert.equal(
-    data.priceLookups.items.find((item) => item.id === 'ltx-2-5-pro')?.price,
+    data.priceLookups.items.find((item) => item.id === 'wan-3-prime')?.price,
     '$432.10',
   );
   assert.equal(
-    data.exampleCosts.items.find((item) => item.id === 'ltx-2-5-pro')?.price,
+    data.exampleCosts.items.find((item) => item.id === 'wan-3-prime')?.price,
     '$432.10',
   );
   assert.equal(
-    data.hero.quote.previewRows.find((row) => row.id === 'ltx-2-5-pro')?.quoteLabel,
+    data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
     '$432.10',
   );
   assert.doesNotMatch(JSON.stringify(content), /432\.10/);

@@ -1,3 +1,4 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { CreativeFilm } from '@/components/marketing/CreativeFilm.client';
@@ -24,9 +25,8 @@ export function HomeCreativeWorlds({ locale, cards }: {
         <CreativeFilm {...film} title={c.titles[i]} playLabel={c.play} loadingLabel={c.loading} errorLabel={c.error}/>
         <figcaption><span><small>{c.labels[i]}</small><strong>{c.titles[i]}</strong></span><Link href={{ pathname: '/models/[slug]', params: { slug: film.modelSlug } }}>{film.model}<span aria-hidden> ↗</span></Link></figcaption>
         <p className="use-case-description">{c.descriptions[i]}</p>
-        {card ? <Link href={card.href} className="use-case-link" data-analytics-event="shot_type_card_click" data-analytics-cta-name={card.slug} data-analytics-cta-location="shot_type_card" data-analytics-target-family="best-for">{c.cta}<span className="sr-only"> — {c.labels[i]}</span><span aria-hidden> ↗</span></Link> : null}
+        {!KEYVO_COMPARE_HIDDEN && card ? <Link href={card.href} className="use-case-link" data-analytics-event="shot_type_card_click" data-analytics-cta-name={card.slug} data-analytics-cta-location="shot_type_card" data-analytics-target-family="best-for">{c.cta}<span className="sr-only"> — {c.labels[i]}</span><span aria-hidden> ↗</span></Link> : null}
       </figure>;
     })}</div>
-    <div className="use-case-all"><Link href="/ai-video-engines/best-for">{c.guides} <span aria-hidden>↗</span></Link></div>
   </div></section>;
 }

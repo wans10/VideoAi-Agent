@@ -58,7 +58,6 @@ export function ModelCard({
   const canCompareCard = compareEnabled && !card.compareDisabled;
   const showCompareAction = canCompareCard && Boolean(card.compareHref);
   const showCompareModeAction = canCompareCard && !card.compareHref;
-  const scoreValue = typeof card.overallScore === 'number' ? card.overallScore.toFixed(1) : null;
   const capabilityItems = [...(card.capabilities ?? [])];
   if (card.filterMeta?.lipSync && !capabilityItems.includes('Lip sync')) {
     capabilityItems.push('Lip sync');
@@ -102,7 +101,6 @@ export function ModelCard({
           <EngineIcon engine={{ id: card.engineId ?? card.id, label: card.label, brandId: card.brandId ?? undefined }} size={24} framed rounded="full" />
           <span>{card.provider}</span>
         </div>
-        {scoreValue ? <p className="studio-model-score"><strong>{scoreValue}</strong><span>/ 10</span></p> : null}
       </header>
       <h3>{card.label}</h3>
       <p className="studio-model-description">{card.description}</p>

@@ -1,3 +1,4 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import '@/styles/marketing-compare.css';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, redirect } from 'next/navigation';
@@ -62,6 +63,7 @@ export default async function CompareDetailPage(
     searchParams?: Promise<{ order?: string }>;
   }
 ) {
+  if (KEYVO_COMPARE_HIDDEN) notFound();
   const searchParams = await props.searchParams;
   const params = await props.params;
   const activeLocale = params.locale ?? 'en';

@@ -12,6 +12,7 @@ import {
   getMcpIntegrationIds,
   getMcpPublicIntegrationPaths,
 } from '@/lib/mcp-integration-registry';
+import { filterKeyvoVisibleEntries } from '@/config/keyvo-model-visibility';
 import compareConfig from '@/config/compare-config.json';
 import { getHubComparisonSlugsForSitemap } from '@/lib/compare-hub/data';
 import { getIndexableComparisonLocales } from '@/lib/compare-hub/indexation';
@@ -40,6 +41,7 @@ const IGNORED_ROUTE_TEMPLATES = new Set([
   '/v/[videoId]',
   '/legal/cookies',
 ]);
+const HIDDEN_ROUTE_PREFIXES = ['/ai-video-engines', '/benchmarks'];
 const MCP_PUBLIC_INDEXABLE_PATHS = new Set<string>([
   '/mcp',
   ...getMcpPublicIntegrationPaths(),
@@ -66,6 +68,10 @@ async function resolveCanonicalPathEntries(): Promise<CanonicalPathEntry[]> {
   const dynamicTemplates = new Set<string>();
 
   templates.forEach((template) => {
+    // Keyvo does not present model comparisons or scores.
+    if (HIDDEN_ROUTE_PREFIXES.some((prefix) => template.template === prefix || template.template.startsWith(`${prefix}/`))) {
+      return;
+    }
     if (template.template === '/ai-video-engines/best-for' && !(compareConfig.bestForPages ?? []).length) {
       return;
     }
@@ -388,7 +394,7 @@ const DYNAMIC_ROUTE_GENERATORS: Record<string, DynamicRouteGenerator> = {
       englishPath: `/examples/${model}`,
     })),
   '/models/[slug]': async () =>
-    buildModelRouteEntriesFromRoster(modelRoster),
+    buildModelRouteEntriesFromRoster(filterKeyvoVisibleEntries(modelRoster)),
   '/ai-video-engines/[slug]': async () =>
     Array.from(new Set(getHubComparisonSlugsForSitemap().map((slug) => canonicalizeCompareSlug(slug)))).map((slug) => ({
       englishPath: `/ai-video-engines/${slug}`,
@@ -418,9 +424,7 @@ function validateLocaleCounts(entries: CanonicalPathEntry[]): void {
   const intentionalComparisonOmissions = Object.fromEntries(
     LOCALES.map((locale) => [
       locale,
-      getHubComparisonSlugsForSitemap().filter(
-        (slug) => !getIndexableComparisonLocales(slug).includes(locale),
-      ).length,
+      0, // comparison pages are not published, so none are omitted by locale
     ]),
   ) as Record<AppLocale, number>;
 

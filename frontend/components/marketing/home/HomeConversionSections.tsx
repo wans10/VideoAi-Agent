@@ -1,3 +1,4 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import Image from 'next/image';
 import {
   BadgeCheck,
@@ -300,7 +301,6 @@ export function TransparentPricingBlock({ copy, cards }: { copy: SectionCopy; ca
   const footerLinks = [
     { href: { pathname: '/models' } as const, label: copy.modelsLink ?? 'Models' },
     { href: { pathname: '/examples' } as const, label: copy.examplesLink ?? 'Examples' },
-    { href: { pathname: '/ai-video-engines' } as const, label: copy.compareLink ?? 'Compare engines' },
   ];
 
   return (
@@ -423,7 +423,7 @@ export function HomeFaq({ copy, items }: { copy: SectionCopy; items: FaqItem[] }
                 <span aria-hidden className="text-text-muted transition group-open:rotate-45">+</span>
               </summary>
               <p className="mt-3 text-sm leading-7 text-text-secondary">{item.answer}</p>
-              {item.links?.map(link => <Link key={link.label} href={link.href} prefetch={false} className="home-faq-resource">{link.label} <span aria-hidden>→</span></Link>)}
+              {item.links?.filter(link => !(KEYVO_COMPARE_HIDDEN && JSON.stringify(link.href).includes('/ai-video-engines'))).map(link => <Link key={link.label} href={link.href} prefetch={false} className="home-faq-resource">{link.label} <span aria-hidden>→</span></Link>)}
             </details>
           ))}
         </div>

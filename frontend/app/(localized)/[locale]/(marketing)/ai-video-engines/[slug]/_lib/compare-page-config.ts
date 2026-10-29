@@ -1,5 +1,5 @@
 import compareConfig from '@/config/compare-config.json';
-import engineCatalog from '@/config/engine-catalog.json';
+import engineCatalog from '@/config/engine-catalog-visible';
 import { listFalEngines } from '@/config/falEngines';
 import { buildSlugMap } from '@/lib/i18nSlugs';
 import type { EngineCaps } from '@/types/engines';

@@ -8,7 +8,7 @@ const COPY = {
  es:{title:'¿Con qué quieres empezar?',body:'Una descripción, una imagen o un clip existente: elige el proceso adecuado para tu proyecto.',cards:[['Texto a video','Describe una escena. Explora videos y prompts.'],['Imagen a video','Anima una imagen con un modelo compatible.'],['Video a video','Revisa qué modelos admiten clips existentes.']]},
  zh:{title:'你的创作从何开始？',body:'一段提示词、一张静态图片或一段现有视频：选择适合你现有素材的生成工作流。',cards:[['文生视频','描述一段场景。探索精选案例与提示词。'],['图生视频','使用兼容的模型让静态图片动起来。'],['视频生视频','查看哪些模型支持基于现有视频进行重绘。']]},
 };
-const LINKS: LocalizedLinkHref[] = ['/examples',{pathname:'/ai-video-engines/best-for/[usecase]',params:{usecase:'image-to-video'}},'/models'];
+const LINKS: LocalizedLinkHref[] = ['/examples','/examples','/models'];
 
 export function WorkflowSeoSummary({ copy, locale }: { copy: WorkflowSeoSummaryCopy; locale: AppLocale }) {
  if (!copy.generateWays?.items?.length) return null;

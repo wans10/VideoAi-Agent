@@ -7,8 +7,7 @@ import { useI18n } from '@/lib/i18n/I18nProvider';
 import { StudioFooterDepartments } from './StudioFooterDepartments';
 import { MarketingFooterAssistants } from '@/components/marketing/MarketingFooterAssistants';
 import { LanguageToggle } from '@/components/marketing/LanguageToggle';
-import { MARKETING_NAV_BEST_FOR_HUB } from '@/config/navigation';
-import { FOOTER_MODELS, FOOTER_COMPARISONS, FOOTER_EXAMPLES } from '@/config/marketing-footer';
+import { FOOTER_MODELS, FOOTER_EXAMPLES } from '@/config/marketing-footer';
 
 type FooterLink = { key: string; label: string; href: LocalizedLinkHref };
 type PolicyLink = { label: string; href: string; locale?: boolean };
@@ -58,19 +57,6 @@ export function MarketingFooter() {
     href: item.href,
   })), { key: 'all-models', label: labelFor('nav.dropdown.allModels', 'All models'), href: '/models' }];
 
-  const comparisonLinks: FooterLink[] = [
-    ...FOOTER_COMPARISONS.map(item => ({ ...item, label: labelFor(`nav.dropdown.compare.items.${item.key}`, item.label) })),
-    { key: 'all-comparisons', label: labelFor('nav.dropdown.allComparisons', 'All comparisons'), href: '/ai-video-engines' },
-  ];
-
-  const useCaseLinks: FooterLink[] = [
-    {
-      key: MARKETING_NAV_BEST_FOR_HUB.key,
-      label: labelFor('footer.sections.useCases.items.bestFor', MARKETING_NAV_BEST_FOR_HUB.label),
-      href: MARKETING_NAV_BEST_FOR_HUB.href,
-    },
-  ];
-
   const exampleLinks: FooterLink[] = [
     ...FOOTER_EXAMPLES.map((item) => ({
       key: item.key,
@@ -117,8 +103,6 @@ export function MarketingFooter() {
   ];
 
   const enginesTitle = labelFor('footer.sections.engines.title', 'AI Video Engines');
-  const comparisonsTitle = labelFor('footer.sections.comparisons.title', 'Popular comparisons');
-  const useCasesTitle = labelFor('footer.sections.useCases.title', 'Use cases');
   const examplesTitle = labelFor('footer.sections.examples.title', 'Real examples');
   const productTitle = labelFor('footer.sections.product.title', 'Product');
   const companyTitle = labelFor('footer.sections.company.title', 'Resources');
@@ -165,20 +149,6 @@ export function MarketingFooter() {
                   {item.label}
                 </Link>
               ))}
-            </nav>
-          </div>
-          <div>
-            <p className={sectionTitleClass}>{comparisonsTitle}</p>
-            <nav className="mt-3 flex flex-col gap-2" aria-label={comparisonsTitle}>
-              {comparisonLinks.map((item) => (
-                <Link key={item.key} href={item.href} prefetch={false} className={linkClass}>
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-            <p className={`${sectionTitleClass} mt-6`}>{useCasesTitle}</p>
-            <nav className="mt-3 flex flex-col gap-2" aria-label={useCasesTitle}>
-              {useCaseLinks.map(item => <Link key={item.key} href={item.href} prefetch={false} className={linkClass}>{item.label}</Link>)}
             </nav>
           </div>
           <div>

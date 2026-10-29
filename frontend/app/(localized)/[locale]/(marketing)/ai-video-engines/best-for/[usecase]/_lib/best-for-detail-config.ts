@@ -1,5 +1,5 @@
 import type { AppLocale } from '@/i18n/locales';
-import engineCatalog from '@/config/engine-catalog.json';
+import engineCatalog from '@/config/engine-catalog-visible';
 import compareConfig from '@/config/compare-config.json';
 import {
   filterPublicCurrentModelSlugs,

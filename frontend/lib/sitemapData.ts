@@ -1,5 +1,6 @@
 import { siteDefaultLocale, publishedLocales, type AppLocale } from '@/i18n/locales';
 import modelRoster from '@/config/model-roster.json';
+import { filterKeyvoVisibleEntries } from '@/config/keyvo-model-visibility';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { HREFLANG_VARIANTS } from '@/lib/seo/alternateLocales';
 import { getCanonicalPathEntries } from './sitemap/route-discovery';
@@ -200,5 +201,5 @@ export async function buildModelsSitemapXmlFromRoster(
 }
 
 export async function buildModelsSitemapXml(): Promise<string> {
-  return buildModelsSitemapXmlFromRoster(modelRoster);
+  return buildModelsSitemapXmlFromRoster(filterKeyvoVisibleEntries(modelRoster));
 }

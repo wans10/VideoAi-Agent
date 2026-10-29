@@ -1,6 +1,6 @@
 import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
 import compareHubConfig from '@/config/compare-hub.json';
-import engineCatalog from '@/config/engine-catalog.json';
+import engineCatalog from '@/config/engine-catalog-visible';
 
 const EXCLUDED_ENGINE_SLUGS = new Set([
   'nano-banana',

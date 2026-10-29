@@ -1,3 +1,4 @@
+import { KEYVO_COMPARE_HIDDEN, isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
 import type { AppLocale } from '@/i18n/locales';
 import type { PublicModelQuoteInput } from '@/lib/pricing-public-model-contract';
 import { localePathnames } from '@/i18n/locales';
@@ -278,10 +279,11 @@ function anchorFromSlug(slug: string) {
 export function isPricingDiscoveryEntry(entry: FalEngineEntry) {
   if (entry.availability !== 'available' && entry.availability !== 'limited') return false;
   if (entry.lifecycle !== 'current' && entry.lifecycle !== 'legacy') return false;
-  return entry.surfaces.pricing.includeInEstimator === true;
+  return entry.surfaces.pricing.includeInEstimator === true && isKeyvoVisibleFamily(entry.family);
 }
 
 function isPublicMarketingEntry(entry: FalEngineEntry) {
+  if (!isKeyvoVisibleFamily(entry.family)) return false;
   if (entry.availability !== 'available' && entry.availability !== 'limited') return false;
   const surfaces = entry.surfaces;
   return Boolean(
@@ -578,7 +580,7 @@ function buildVideoLinks(entry: FalEngineEntry, locale: AppLocale): PricingHubLi
   ]
     .map((opponentSlug) => buildCanonicalCompareSlug(entry.modelSlug, opponentSlug))
     .find(isPublishedComparisonSlug);
-  if (entry.surfaces.compare.includeInHub && compareSlug) {
+  if (!KEYVO_COMPARE_HIDDEN && entry.surfaces.compare.includeInHub && compareSlug) {
     links.push({
       label: copy.links.compare,
       href: buildLocalizedMarketingHref(locale, 'compare', compareSlug),

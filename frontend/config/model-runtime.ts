@@ -1,6 +1,7 @@
 import runtimeDocument from './model-runtime.json' with { type: 'json' };
 import type { ModelPublicationSurfaces } from './model-publication';
 import type { ModelRegistryEntry } from './model-registry-validation';
+import { isKeyvoVisibleFamily } from './keyvo-model-visibility';
 
 export type RuntimeModelEntry = Omit<ModelRegistryEntry, 'replacement'> & {
   successorSlug: string | null;
@@ -65,7 +66,34 @@ export function createRuntimeModelResolver(document: ModelRuntimeDocument) {
   };
 }
 
-const runtimeResolver = createRuntimeModelResolver(runtimeDocument as ModelRuntimeDocument);
+// Only page-level surfaces are hidden here; app/pricing stay upstream so backend pricing and MCP are unaffected.
+// Generator scripts set KEYVO_MODEL_VISIBILITY=off so generated projections stay identical to upstream.
+function hideNonKeyvoModel(model: RuntimeModelEntry): RuntimeModelEntry {
+  if (process.env.KEYVO_MODEL_VISIBILITY === 'off' || isKeyvoVisibleFamily(model.family)) return model;
+  const { publication } = model;
+  return {
+    ...model,
+    publication: {
+      ...publication,
+      model: { ...publication.model, published: false, indexable: false },
+      examples: { ...publication.examples, published: false, includeInFamilyCopy: false, current: false },
+      compare: { ...publication.compare, published: false, indexed: false, suggestedOpponentIds: [], publishedPairIds: [] },
+      sitemap: { ...publication.sitemap, published: false },
+    },
+  };
+}
+
+const keyvoRuntimeDocument: ModelRuntimeDocument = {
+  ...(runtimeDocument as ModelRuntimeDocument),
+  models: (runtimeDocument as ModelRuntimeDocument).models.map(hideNonKeyvoModel),
+};
+const runtimeResolver = createRuntimeModelResolver(keyvoRuntimeDocument);
+const upstreamRuntimeResolver = createRuntimeModelResolver(runtimeDocument as ModelRuntimeDocument);
+
+/** Upstream publication state without Keyvo's web-presentation hiding (backend contracts and tests). */
+export function getUpstreamRuntimeModelById(id: string): RuntimeModelEntry | null {
+  return upstreamRuntimeResolver.getById(id);
+}
 
 export function listRuntimeModels(): readonly RuntimeModelEntry[] {
   return runtimeResolver.models;

@@ -1,3 +1,4 @@
+import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n/locales';
@@ -79,6 +80,7 @@ export async function generateMetadata(props: { params: Promise<Params> }): Prom
 }
 
 export default async function BestForDetailPage(props: { params: Promise<Params> }) {
+  if (KEYVO_COMPARE_HIDDEN) notFound();
   const params = await props.params;
   const entry = getEntry(params.usecase);
   if (!entry) {

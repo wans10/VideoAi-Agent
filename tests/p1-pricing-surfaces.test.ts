@@ -19,15 +19,14 @@ import type { CanonicalGenerationRequest } from '../frontend/src/server/agent-ap
 import { listFalEngines, type FalEngineEntry } from '../frontend/src/config/falEngines.ts';
 import type { Resolution } from '../frontend/types/engines.ts';
 
+// Gemini Omni Flash is hidden from Keyvo's public pricing pages, so it is not part of these web projections.
 const P1_IDS = [
-  'gemini-omni-flash',
   'kling-3-turbo-pro',
   'kling-3-turbo-standard',
   'minimax-h3-max',
 ] as const;
 
 const SCENARIOS = [
-  { id: 'gemini-omni-flash', durationSec: 10, resolution: '720p', presetId: '10s-720p' },
   { id: 'kling-3-turbo-pro', durationSec: 8, resolution: '1080p', presetId: '8s-1080p' },
   { id: 'kling-3-turbo-standard', durationSec: 5, resolution: '720p', presetId: '5s-720p' },
   { id: 'minimax-h3-max', durationSec: 10, resolution: '768P', presetId: 'entry-route' },
@@ -39,7 +38,6 @@ const SCENARIOS = [
 }[];
 
 const PAYG_PRESET_BY_ID: Record<(typeof P1_IDS)[number], VideoPricePresetId> = {
-  'gemini-omni-flash': '5s-720p',
   'kling-3-turbo-pro': '8s-1080p',
   'kling-3-turbo-standard': '5s-720p',
   'minimax-h3-max': 'entry-route',

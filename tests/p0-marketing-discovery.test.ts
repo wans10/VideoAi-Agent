@@ -7,7 +7,9 @@ import test from 'node:test';
 import * as familyConfig from '../frontend/config/model-families.ts';
 import * as launchReadiness from '../frontend/config/model-launch-readiness.ts';
 import { MODEL_LAUNCH_WAVES } from '../frontend/config/model-launch-waves.ts';
-import { listRuntimeModels, type RuntimeModelEntry } from '../frontend/config/model-runtime.ts';
+import { listRuntimeModels, type ModelRuntimeDocument, type RuntimeModelEntry } from '../frontend/config/model-runtime.ts';
+import rawRuntimeDocument from '../frontend/config/model-runtime.json' with { type: 'json' };
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 import * as launchAssets from '../frontend/server/model-launch-assets-validation.ts';
 import * as navigation from '../frontend/config/navigation.ts';
 import * as homepageExamples from '../frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-route-data/examples.ts';
@@ -91,9 +93,11 @@ type AcceptedAsset = {
   playlistSlugs: readonly string[];
 };
 
+// Fixtures start from the authored upstream projection, not Keyvo's read-time mask, so these tests keep
+// exercising the generic launch logic for every P0 family. Live Keyvo visibility is asserted separately.
 function publishedFixture(): RuntimeModelEntry[] {
   const p0 = new Set<string>(P0_IDS);
-  return listRuntimeModels().map((model) => {
+  return (rawRuntimeDocument as ModelRuntimeDocument).models.map((model) => {
     if (!p0.has(model.id)) return structuredClone(model);
     const rank = FAMILY_RANKS[model.id as (typeof P0_IDS)[number]];
     return {
@@ -371,6 +375,8 @@ test('test validation compares both launch projections with source and detects i
 
 test('published P0 identities enter public discovery with the two promoted Wan variants', () => {
   const runtime = listRuntimeModels();
+  const visibleP0 = new Set(runtime.filter((model) => P0_IDS.includes(model.id as never) && isKeyvoVisibleFamily(model.family)).map((model) => model.slug));
+  assert.deepEqual([...visibleP0].sort(), ['wan-3', 'wan-3-prime']);
   const selectCatalogSlugs = (
     modelCatalog as typeof modelCatalog & {
       selectCurrentModelCatalogSlugs?: (models: readonly RuntimeModelEntry[]) => string[];
@@ -383,21 +389,22 @@ test('published P0 identities enter public discovery with the two promoted Wan v
   const catalogSlugs = selectCatalogSlugs(runtime);
   assert.deepEqual(
     navigation.MARKETING_MODEL_SLUGS.filter((slug) => P0_IDS.includes(slug as never)),
-    P0_BOUNDED_NAV_MENU_ENTRIES,
+    P0_BOUNDED_NAV_MENU_ENTRIES.filter((slug) => visibleP0.has(slug)),
   );
   const menuFamilies = [...navigation.MARKETING_NAV_EXAMPLES, ...navigation.MARKETING_NAV_DROPDOWNS.examples!.sections!.flatMap(section => section.items)];
   assert.deepEqual(menuFamilies.map(({ key }) => key).sort(), navigation.MARKETING_FOOTER_EXAMPLES.map(({ key }) => key).sort());
-  assert.equal(menuFamilies.some(({ key }) => key === 'grok'), true);
-  assert.equal(menuFamilies.some(({ key }) => key === 'flux'), true);
+  // Keyvo hides non-China-vendor families (LTX, Grok, FLUX) at read time; only Wan stays public.
+  assert.equal(menuFamilies.some(({ key }) => key === 'grok'), false);
+  assert.equal(menuFamilies.some(({ key }) => key === 'flux'), false);
   assert.deepEqual(
     catalogSlugs.filter((slug) => P0_IDS.includes(slug as never)).sort(),
-    [...P0_IDS].sort(),
+    [...visibleP0].sort(),
   );
   assert.equal(catalogSlugs.includes('ltx-2'), false);
   assert.equal(catalogSlugs.includes('ltx-2-fast'), false);
   assert.equal(catalogSlugs.includes('wan-2-5'), false);
-  assert.equal(modelFamilies.resolveExampleFamilyId('grok'), 'grok');
-  assert.equal(modelFamilies.resolveExampleFamilyId('flux'), 'flux');
+  assert.equal(modelFamilies.resolveExampleFamilyId('grok'), null);
+  assert.equal(modelFamilies.resolveExampleFamilyId('flux'), null);
   for (const modelId of P0_IDS) {
     assert.equal(buildDefaultModelCompareHref(modelId), null, `${modelId} must not invent a generic comparison route`);
   }
@@ -528,12 +535,7 @@ test('homepage P0 eligibility requires publication, safe readiness and exact pub
 
   assert.deepEqual(
     buildTargets({ models: listRuntimeModels(), readiness: readinessFixture() }).map(({ family, modelId }) => [family, modelId]),
-    [
-      ['ltx', 'ltx-2-5-pro'],
-      ['wan', 'wan-3-prime'],
-      ['grok', 'grok-imagine-video-1-5'],
-      ['flux', 'flux-3'],
-    ],
+    [['wan', 'wan-3-prime']],
   );
   assert.deepEqual(buildTargets({ models: publishedFixture(), readiness: [] }), []);
   assert.deepEqual(
