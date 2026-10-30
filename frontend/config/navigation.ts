@@ -54,7 +54,6 @@ export const MARKETING_TOP_NAV_LINKS = [
   { key: 'examples', href: '/examples' },
   { key: 'tools', href: '/tools' },
   { key: 'pricing', href: '/pricing' },
-  { key: 'blog', href: '/blog' },
 ] as const satisfies readonly MarketingTopNavLink[];
 
 export const MARKETING_SITE_NAV_LINKS = STUDIO_NAV_LINKS.filter(item => item.key !== 'pipeline' || getMcpPublicationState(mcpPublication).renderPublicPage);
@@ -280,6 +279,7 @@ export const MARKETING_NAV_DOCS: MarketingNavItem[] = [
   { key: 'brand-safety', label: 'Brand safety', href: docLink('brand-safety') },
 ];
 
+// Hidden on Keyvo: the blog is not published (see KEYVO_BLOG_HIDDEN).
 export const MARKETING_NAV_BLOG: MarketingNavItem[] = [
   { key: 'compare-ai-video-engines', label: 'Compare AI video engines', href: blogLink('compare-ai-video-engines') },
   { key: 'sora-2-sequenced-prompts', label: 'Sora 2 sequenced prompts', href: blogLink('sora-2-sequenced-prompts') },
@@ -292,7 +292,6 @@ export const MARKETING_NAV_ASSISTANTS: MarketingNavItem[] = getMcpPublicationSta
 const MARKETING_RESOURCES_SECTION: MarketingNavSection = {
   key: 'resources', titleKey: 'nav.dropdown.resourcesTitle', titleFallback: 'Guides & resources',
   items: [
-    {key:'blog', label:'Blog', href:'/blog', icon:'docs'},
     {key:'get-started', label:'Getting started', href:docLink('get-started'), icon:'guides'},
   ],
 };

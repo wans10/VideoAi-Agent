@@ -4,20 +4,12 @@ import type { LocalizedLinkHref } from '@/i18n/navigation';
 import type { Mode } from '@/types/engines';
 import type { BestForPageConfig, EngineCatalogEntry, HomepageExampleFamily } from './types';
 
+// Keyvo presents only mainland-China vendor models, so the overseas ids are not ranked here.
 export const EXAMPLE_ENGINE_PRIORITY = [
-  'ltx-2-5-pro',
   'wan-3-prime',
-  'grok-imagine-video-1-5',
-  'flux-3',
   'seedance-2-0',
   'kling-3-pro',
-  'veo-3-1',
-  'veo-3-1-lite',
   'happy-horse-1-1',
-  'ltx-2-3-pro',
-  'pika-text-to-video',
-  'sora-2',
-  'ltx-2-3-fast',
   'wan-2-6',
   'kling-3-standard',
 ] as const;
@@ -59,14 +51,13 @@ export const PROVIDER_MODEL_LINKS: Partial<Record<string, LocalizedLinkHref>> = 
   Alibaba: { pathname: '/examples/[model]', params: { model: 'happy-horse' } },
 };
 
-export type HeroEngineId = 'minimax-h3-max' | 'seedance-2-5' | 'wan-3-prime' | 'kling-3-pro' | 'ltx-2-5-pro';
+export type HeroEngineId = 'minimax-h3-max' | 'seedance-2-5' | 'wan-3-prime' | 'kling-3-pro';
 
 export const HERO_VIDEO_CHIPS: Record<string, string[]> = {
   'minimax-h3-max': ['Narrative', 'Native audio'],
   'seedance-2-5': ['Physics', 'Cinematic'],
   'wan-3-prime': ['Craft motion', 'Realism'],
   'kling-3-pro': ['Cinematic', 'Camera move'],
-  'ltx-2-5-pro': ['Fast', 'Image control'],
 };
 
 export const HERO_ENGINE_TARGETS: Record<
@@ -82,7 +73,6 @@ export const HERO_ENGINE_TARGETS: Record<
   'seedance-2-5': { name: 'Seedance 2.5', exampleFamily: 'seedance', modelSlug: 'seedance-2-5', mode: 't2v' },
   'wan-3-prime': { name: 'Wan 3 Prime', exampleFamily: 'wan', modelSlug: 'wan-3-prime', mode: 't2v' },
   'kling-3-pro': { name: 'Kling 3 Pro', exampleFamily: 'kling', modelSlug: 'kling-3-pro', mode: 'i2v' },
-  'ltx-2-5-pro': { name: 'LTX 2.5 Pro', exampleFamily: 'ltx', modelSlug: 'ltx-2-5-pro', mode: 'i2v' },
 };
 
 export const DEFAULT_MODEL_BY_EXAMPLE_FAMILY: Record<HomepageExampleFamily, string> = {

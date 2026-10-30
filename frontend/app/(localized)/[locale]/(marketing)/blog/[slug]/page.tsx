@@ -1,3 +1,4 @@
+import { KEYVO_BLOG_HIDDEN } from '@/config/keyvo-model-visibility';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { resolveDictionary } from '@/lib/i18n/server';
@@ -35,6 +36,7 @@ const DEFAULT_ARTICLE_COPY: BlogArticleCopy = {
 
 export async function generateStaticParams(): Promise<BlogPostParams[]> {
   const params: BlogPostParams[] = [];
+  if (KEYVO_BLOG_HIDDEN) return params;
   for (const locale of locales) {
     const entries = await getBlogPosts(locale);
     entries.forEach((entry) => {
@@ -67,6 +69,7 @@ export async function generateMetadata(props: { params: Promise<BlogPostParams> 
 }
 
 export default async function BlogPostPage(props: { params: Promise<BlogPostParams> }) {
+  if (KEYVO_BLOG_HIDDEN) notFound();
   const { locale, slug } = await props.params;
   const post = await getPost(locale, slug);
   if (!post) {

@@ -1,6 +1,8 @@
 'use client';
 
 import { BrandLockup } from '@/components/brand/BrandLockup';
+import { IcpFiling } from '@/components/marketing/IcpFiling';
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import { Link, usePathname, type LocalizedLinkHref } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
@@ -93,7 +95,6 @@ export function MarketingFooter() {
   const companyLinks: FooterLink[] = [
     { key: 'getting-started', label: labelFor('nav.dropdown.tools.sections.resources.items.get-started', 'Getting started'), href: { pathname: '/docs/[slug]', params: { slug: 'get-started' } } },
     { key: 'contact', label: labelFor('footer.sections.company.items.contact', 'Contact'), href: '/contact' },
-    { key: 'blog', label: labelFor('footer.sections.company.items.blog', 'Blog'), href: { pathname: '/blog' } },
     {
       key: 'companyHub',
       label: labelFor('footer.sections.company.items.companyHub', 'Company & Trust'),
@@ -206,6 +207,10 @@ export function MarketingFooter() {
               {manageCookiesLabel}
             </button>
           </nav>
+          <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-text-muted">
+            <span>© {new Date().getFullYear()} {PRODUCT_BRAND_NAME}</span>
+            <IcpFiling className="transition hover:text-text-primary" />
+          </p>
         </div>
       </div>
     </footer>

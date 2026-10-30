@@ -1,3 +1,5 @@
+import { KEYVO_BLOG_HIDDEN } from '@/config/keyvo-model-visibility';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { serializeJsonLd } from '@/lib/seo/jsonld';
 import Image from 'next/image';
@@ -154,6 +156,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
 }
 
 export default async function BlogIndexPage(props: { params: Promise<{ locale: AppLocale }> }) {
+  if (KEYVO_BLOG_HIDDEN) notFound();
   const params = await props.params;
   const locale = params.locale;
   const posts = await getBlogPosts(locale);

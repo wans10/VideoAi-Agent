@@ -3,6 +3,7 @@ import { resolveLocale } from '@/lib/i18n/server';
 import type { AppLocale } from '@/i18n/locales';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { BrandLockup } from '@/components/brand/BrandLockup';
+import { IcpFiling } from '@/components/marketing/IcpFiling';
 
 const LAYOUT_COPY: Record<AppLocale, { title: string; back: string }> = {
   en: { title: 'Legal', back: 'Back to homepage' },
@@ -31,6 +32,7 @@ export default async function LegalLayout({ children }: { children: React.ReactN
         <section className="stack-gap-xl rounded-card border border-border bg-surface p-6 shadow-card sm:p-10">
           {children}
         </section>
+        <p className="text-center text-xs text-text-muted"><IcpFiling /></p>
       </div>
     </main>
   );

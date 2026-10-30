@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { IcpFiling } from '@/components/marketing/IcpFiling';
 import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink';
 
 const SECTIONS = [
@@ -40,6 +41,7 @@ export function ReturnPolicyZh() {
             ))}
           </article>
         </section>
+        <p className="text-center text-xs text-text-muted"><IcpFiling /></p>
       </div>
     </main>
   );

@@ -11,6 +11,7 @@ import { formatTemplate } from '../_lib/login-helpers';
 import type { AuthFieldErrors, AuthFieldName } from '../_lib/login-validation';
 import { LoginPasswordField } from './LoginPasswordField';
 import { AuthBrandStory } from '@/components/brand/AuthBrandStory';
+import { IcpFiling } from '@/components/marketing/IcpFiling';
 
 type SignupSuggestion = { email: string; password: string };
 
@@ -478,6 +479,7 @@ export function LoginAuthSurface({
         )}
       </div>
       </div>
+      <p className="px-6 pb-6 text-center text-xs text-text-muted"><IcpFiling /></p>
     </main>
   );
 }

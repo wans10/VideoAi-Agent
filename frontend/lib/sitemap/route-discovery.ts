@@ -4,7 +4,6 @@ import type { AppLocale } from '@/i18n/locales';
 import modelRoster from '@/config/model-roster.json';
 import mcpPublication from '@/config/mcp-publication.json';
 import { INDEXED_MARKETING_EXAMPLE_CANONICAL_SLUGS } from '@/config/model-families';
-import { BLOG_ENTRIES } from '@/lib/i18n/paths';
 import { getContentEntries } from '@/lib/content/markdown';
 import { getMcpPublicationState } from '@/lib/mcp-publication';
 import {
@@ -18,7 +17,6 @@ import { getHubComparisonSlugsForSitemap } from '@/lib/compare-hub/data';
 import { getIndexableComparisonLocales } from '@/lib/compare-hub/indexation';
 import { canonicalizeCompareSlug, comparePaths, normalizeCompareEnglishPath } from './compare-paths';
 import { formatLastModified, getGitLastModified, getRouteLastModified } from './lastmod';
-import { hasBlogLocale } from './model-locales';
 import { buildModelRouteEntriesFromRoster } from './model-routes';
 import {
   BASE_EXTRA_CANONICAL_PATHS,
@@ -41,7 +39,7 @@ const IGNORED_ROUTE_TEMPLATES = new Set([
   '/v/[videoId]',
   '/legal/cookies',
 ]);
-const HIDDEN_ROUTE_PREFIXES = ['/ai-video-engines', '/benchmarks'];
+const HIDDEN_ROUTE_PREFIXES = ['/ai-video-engines', '/benchmarks', '/blog'];
 const MCP_PUBLIC_INDEXABLE_PATHS = new Set<string>([
   '/mcp',
   ...getMcpPublicIntegrationPaths(),
@@ -376,12 +374,7 @@ function safeReadDir(directory: string): fs.Dirent[] {
 }
 
 const DYNAMIC_ROUTE_GENERATORS: Record<string, DynamicRouteGenerator> = {
-  '/blog/[slug]': async () =>
-    BLOG_ENTRIES.map((entry) => ({
-      englishPath: `/blog/${entry.canonicalSlug}`,
-      lastModified: entry.lastModified,
-      locales: LOCALES.filter((locale) => hasBlogLocale(entry.canonicalSlug, locale)),
-    })),
+  // '/blog/[slug]' is intentionally absent: Keyvo hides the blog (KEYVO_BLOG_HIDDEN).
   '/docs/[slug]': async () => {
     const docs = await getContentEntries('content/docs');
     return docs.map((doc) => ({
