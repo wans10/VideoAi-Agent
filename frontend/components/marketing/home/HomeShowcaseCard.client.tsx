@@ -42,7 +42,7 @@ export function HomeShowcaseCard({ card, copy, requested, onVisibility, onIntent
       onFocus={() => onIntent(card.id)}
       onBlur={() => onIntent(null)}
     >
-      <Image src={card.posterUrl} alt="" fill className={styles.poster} sizes={POSTER_SIZES} quality={52} loading="lazy" />
+      <Image src={card.posterUrl} alt={card.promptExcerpt ? `${card.engineLabel}: ${card.promptExcerpt}` : card.engineLabel} fill className={styles.poster} sizes={POSTER_SIZES} quality={52} loading="lazy" />
       {playbackAttempt ? (
         <video
           key={playbackAttempt.id}

@@ -93,6 +93,7 @@ export function HomePromptStudio({ copy, scenePosters }: { copy: HomeShowcaseCop
                   <Image
                     src={posterUrl}
                     alt=""
+                    aria-hidden="true"
                     fill
                     className={styles.sceneImage}
                     sizes="(max-width: 767px) 50vw, 25vw"
