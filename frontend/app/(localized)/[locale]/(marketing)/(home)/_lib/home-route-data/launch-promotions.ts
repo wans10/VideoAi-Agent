@@ -13,7 +13,10 @@ import type { CurrentExamplePrice } from '@/server/current-example-price';
 import type { HomepageExampleFamily, RedesignContent } from './types';
 
 const P0_PROMOTION_CANDIDATES = [
+  { family: 'ltx', modelId: 'ltx-2-5-pro', label: 'LTX 2.5 Pro' },
   { family: 'wan', modelId: 'wan-3-prime', label: 'Wan 3 Prime' },
+  { family: 'grok', modelId: 'grok-imagine-video-1-5', label: 'Grok Imagine Video 1.5' },
+  { family: 'flux', modelId: 'flux-3', label: 'FLUX 3' },
 ] as const satisfies ReadonlyArray<{ family: HomepageExampleFamily; modelId: string; label: string }>;
 
 export type HomepageP0PromotionTarget = (typeof P0_PROMOTION_CANDIDATES)[number] & {

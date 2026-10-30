@@ -540,8 +540,12 @@ test('homepage P0 eligibility requires publication, safe readiness and exact pub
   assert.deepEqual(buildTargets({ models: publishedFixture(), readiness: [] }), []);
   assert.deepEqual(
     buildTargets({ models: publishedFixture(), readiness: readinessFixture() }).map(({ family, modelId }) => [family, modelId]),
-    // Keyvo promotes only visible-family P0 models on the home page (LTX, Grok and FLUX are hidden).
-    [['wan', 'wan-3-prime']],
+    [
+      ['ltx', 'ltx-2-5-pro'],
+      ['wan', 'wan-3-prime'],
+      ['grok', 'grok-imagine-video-1-5'],
+      ['flux', 'flux-3'],
+    ],
   );
 
   const assemble = homepageExamples.assembleHomepageExampleCards as unknown as (input: {
@@ -580,14 +584,9 @@ test('homepage P0 eligibility requires publication, safe readiness and exact pub
     acceptedAssets: completeAcceptedPackAssets(),
   });
   assert.deepEqual(rankedCards.map(({ id }) => id), [
-    // The home page promotes only visible-family P0 models.
-    ...P0_MENU_REPRESENTATIVES.filter((id) => id === 'wan-3-prime').map((id) => `launch-${id}`),
+    ...P0_MENU_REPRESENTATIVES.map((id) => `launch-${id}`),
     'fallback-seedance',
     'fallback-kling',
-    // The six-card limit now leaves room for more of the (English) fallback cards.
-    'fallback-happy-horse',
-    'fallback-wan',
-    'fallback-veo',
   ]);
   for (const card of rankedCards.filter(({ id }) => id.startsWith('launch-'))) {
     assert.match(card.imageSrc, /video_p0_accepted_/);
@@ -629,11 +628,8 @@ test('homepage P0 eligibility requires publication, safe readiness and exact pub
   assert.equal(typeof selectHeroPreviews, 'function');
   if (!selectHeroPreviews) return;
   assert.deepEqual(selectHeroPreviews(rankedCards).map(({ id }) => id), [
-    ...P0_MENU_REPRESENTATIVES.filter((id) => id === 'wan-3-prime').map((id) => `launch-${id}`),
+    ...P0_MENU_REPRESENTATIVES.map((id) => `launch-${id}`),
     'fallback-seedance',
-    'fallback-kling',
-    'fallback-happy-horse',
-    'fallback-wan',
   ]);
 
   const contentWithDuplicate = structuredClone(realContent);
@@ -692,10 +688,8 @@ test('homepage P0 eligibility requires publication, safe readiness and exact pub
     },
   });
   assert.deepEqual(loadedCards.map(({ id }) => id), rankedCards.map(({ id }) => id));
-  // Only the visible-family P0 promotion (Wan) is queried; Grok and FLUX are no longer promoted on the Keyvo home page.
-  assert.ok(queriedFamilies.includes('wan'), 'wan');
-  for (const family of ['grok', 'flux']) assert.equal(queriedFamilies.includes(family), false, family);
-  for (const modelId of P0_MENU_REPRESENTATIVES.filter((id) => id === 'wan-3-prime')) assert.ok(queriedModelPlaylists.includes(`examples-${modelId}`), modelId);
+  for (const family of ['wan', 'grok', 'flux']) assert.ok(queriedFamilies.includes(family), family);
+  for (const modelId of P0_MENU_REPRESENTATIVES) assert.ok(queriedModelPlaylists.includes(`examples-${modelId}`), modelId);
 });
 
 test('Grok and FLUX have complete genuine EN FR ES family descriptors ready behind routing gates', () => {

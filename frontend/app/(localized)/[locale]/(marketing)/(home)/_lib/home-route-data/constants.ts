@@ -4,12 +4,20 @@ import type { LocalizedLinkHref } from '@/i18n/navigation';
 import type { Mode } from '@/types/engines';
 import type { BestForPageConfig, EngineCatalogEntry, HomepageExampleFamily } from './types';
 
-// Keyvo presents only mainland-China vendor models, so the overseas ids are not ranked here.
 export const EXAMPLE_ENGINE_PRIORITY = [
+  'ltx-2-5-pro',
   'wan-3-prime',
+  'grok-imagine-video-1-5',
+  'flux-3',
   'seedance-2-0',
   'kling-3-pro',
+  'veo-3-1',
+  'veo-3-1-lite',
   'happy-horse-1-1',
+  'ltx-2-3-pro',
+  'pika-text-to-video',
+  'sora-2',
+  'ltx-2-3-fast',
   'wan-2-6',
   'kling-3-standard',
 ] as const;
