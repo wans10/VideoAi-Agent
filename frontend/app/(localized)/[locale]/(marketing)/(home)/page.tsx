@@ -1,38 +1,25 @@
 import '@/styles/marketing-home.css';
 import { Suspense } from 'react';
-import { buildHomeComparisonData, buildHomeComparisonLinks } from './_lib/home-comparison-data';
 import { HomePricingSection } from '@/components/marketing/home/HomePricingSection';
 import { HomeDeferredPricing } from './_components/HomeDeferredPricing';
-import { HomeCreativeWorlds } from '@/components/marketing/home/HomeCreativeWorlds';
-import { HomeCreationSection } from '@/components/marketing/home/HomeCreationSection';
-import { HomeModelChoice } from '@/components/marketing/home/HomeModelChoice';
-import { HomeToolsGallery } from '@/components/marketing/home/HomeToolsGallery';
-import { prepareHomePageData } from './_lib/home-page-data';
-import { HomeDiscovery } from './_components/HomeDiscovery';
-import { HomeModelDiscovery } from '@/components/marketing/home/HomeModelDiscovery';
-import { assembleHomepageExampleCards } from './_lib/home-route-data/examples';
+import { HomePromptHero } from '@/components/marketing/home/HomePromptHero';
+import { HomeShowcaseWall } from '@/components/marketing/home/HomeShowcaseWall.client';
+import { getHomeShowcaseCopy } from '@/components/marketing/home/home-showcase-copy';
+import { prepareHomePricingData } from './_lib/home-pricing-data';
+import { HOME_SHOWCASE_FIRST_BATCH, getShowcaseScenePosters, listShowcaseCards } from './_lib/home-route-data/showcase';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { resolveDictionary } from '@/lib/i18n/server';
-import { buildProofStats, computeEngineStats } from './_lib/home-route-data/engine-stats';
 import { normalizeAppLocale } from '@/i18n/locales';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { DeferredMarketingContent } from '@/components/marketing/DeferredMarketingContent';
 import {
   HomeFaq,
-  HomeHero,
   WorkflowSeoSummary,
   type WorkflowSeoSummaryCopy,
 } from '@/components/marketing/home/HomeRedesignSections';
+import { filterProviderItems, type RedesignContent } from './_lib/home-route-data';
 import { getMcpInternalLink } from '@/lib/mcp-internal-links';
-import {
-  BEST_FOR_MAIN_SLUGS,
-  buildBestForGuideCards,
-  buildHeroContent,
-  buildProgrammedHeroItems,
-  filterProviderItems,
-  type RedesignContent,
-} from './_lib/home-route-data';
 import { buildFaqSchema, buildItemListSchema, buildSoftwareSchema, serializeJsonLd } from './_lib/home-jsonld';
 
 export const revalidate = 60;
@@ -58,45 +45,26 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const { dictionary } = await resolveDictionary({ locale });
   const content = dictionary.home.redesign as RedesignContent;
   const workflowSeoCopy = dictionary.home.seoContent as WorkflowSeoSummaryCopy | undefined;
-  const startupFameLabel = dictionary.home.partners?.startupFameLabel ?? 'Featured on Startup Fame';
-  const hero = buildHeroContent(locale, content);
-  const pendingData = prepareHomePageData(locale, content);
-  const { programmedHeroSlots, engineScores } = await pendingData.critical;
-  const programmedHeroItems = buildProgrammedHeroItems(locale, content, programmedHeroSlots);
-  const primaryBestForCards = buildBestForGuideCards(content, BEST_FOR_MAIN_SLUGS);
-  const proofStats = buildProofStats(content, computeEngineStats(), locale, null);
-  const comparisonScores = buildHomeComparisonData(engineScores);
-  const providers = filterProviderItems(content);
-  const fallbackExamples = assembleHomepageExampleCards({ locale, content, globalCandidates: [], familyVideos: new Map() });
+  const pricing = prepareHomePricingData(locale);
+  const showcaseCopy = getHomeShowcaseCopy(locale);
+  const showcase = listShowcaseCards(0, HOME_SHOWCASE_FIRST_BATCH);
+  const scenePosters = getShowcaseScenePosters();
   const mcpLink = getMcpInternalLink(locale, 'home');
+  const providers = filterProviderItems(content);
   const softwareSchema = buildSoftwareSchema(content, locale);
   const faqSchema = buildFaqSchema(content.faq.items);
   const itemListSchema = buildItemListSchema(content, providers);
 
   return (
     <div className="home-monochrome home-cinema home-showcase">
-      <HomeHero
-        copy={hero}
-        proofStats={proofStats}
-        programmedHeroItems={programmedHeroItems}
-        currentHeroPricesPending={pendingData.heroPrices}
-        locale={locale}
+      <HomePromptHero
+        copy={showcaseCopy}
+        scenePosters={showcaseCopy.scenes.map((scene) => ({ id: scene.id, posterUrl: scenePosters[scene.id].posterUrl }))}
       />
-      <DeferredMarketingContent><HomeCreationSection locale={locale} assistantHref={mcpLink?.href} /></DeferredMarketingContent>
-      <DeferredMarketingContent><HomeToolsGallery locale={locale} /></DeferredMarketingContent>
-      <DeferredMarketingContent>
-        <HomeCreativeWorlds locale={locale} cards={primaryBestForCards} examplesCopy={content.examples} modelDiscovery={
-          <Suspense fallback={<HomeModelDiscovery locale={locale} examples={fallbackExamples} providers={providers} copy={content.examples} />}>
-            <HomeDiscovery locale={locale} examples={pendingData.examples} providers={providers} copy={content.examples} />
-          </Suspense>
-        } />
-      </DeferredMarketingContent>
-      <DeferredMarketingContent>
-        <HomeModelChoice locale={locale} scores={comparisonScores} startupFameLabel={startupFameLabel} comparisons={buildHomeComparisonLinks()}/>
-      </DeferredMarketingContent>
+      <HomeShowcaseWall initialCards={showcase.cards} hasMore={showcase.hasMore} copy={showcaseCopy} assistant={mcpLink} />
       <DeferredMarketingContent>
         <Suspense fallback={<HomePricingSection locale={locale} copy={content.pricingTrust} pending />}>
-          <HomeDeferredPricing locale={locale} models={pendingData.priceModels} copy={content.pricingTrust} />
+          <HomeDeferredPricing locale={locale} models={pricing.priceModels} copy={content.pricingTrust} />
         </Suspense>
       </DeferredMarketingContent>
       <DeferredMarketingContent>

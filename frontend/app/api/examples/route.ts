@@ -11,6 +11,8 @@ import { localePathnames, type AppLocale } from '@/i18n/locales';
 import { getExampleFamilyDescriptor, getExampleFamilyPrimaryModelSlug } from '@/lib/model-families';
 import { quoteCurrentExamplePrices, type CurrentExamplePrice } from '@/server/current-example-price';
 import { formatCurrentExamplePrice } from '@/lib/current-example-price-display';
+import { resolveRuntimeEngineInput } from '@/config/model-runtime';
+import { isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
 
 export const dynamic = 'force-dynamic';
 
@@ -166,6 +168,12 @@ export async function GET(req: NextRequest) {
     const engineFilter = canonicalEngineFilter ?? engineFilterRaw;
     const localeParam = (url.searchParams.get('locale') ?? 'en') as AppLocale;
     const locale: AppLocale = localeParam === 'fr' || localeParam === 'es' ? localeParam : 'en';
+
+    // Keyvo does not present hidden-vendor families, so an engine filter must not reach their bundled examples.
+    const filterFamily = canonicalEngineFilter ?? resolveRuntimeEngineInput(engineFilter)?.family ?? null;
+    if (engineFilter && !(filterFamily && isKeyvoVisibleFamily(filterFamily))) {
+      return NextResponse.json({ ok: true, cards: [], total: 0, limit, offset, hasMore: false });
+    }
 
     const page = canonicalEngineFilter
       ? await listExampleFamilyPage(engineFilter, { sort, limit, offset })

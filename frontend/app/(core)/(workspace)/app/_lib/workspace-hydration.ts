@@ -14,6 +14,7 @@ import {
   normalizeEngineToken,
 } from './workspace-engine-helpers';
 import { buildWorkspaceStorageKey, STORAGE_KEYS } from './workspace-storage';
+import { sanitizeWorkspacePrompt, WORKSPACE_PROMPT_PARAM } from '@/lib/workspace-prompt-link';
 
 type SearchParamsLike = Pick<URLSearchParams, 'get' | 'toString'> | null | undefined;
 
@@ -24,6 +25,8 @@ export type WorkspaceRequestParams = {
   requestedMode: Mode | null;
   resolvedRequestedEngineId: string | null;
   requestedEngineToken: string;
+  /** Starting prompt carried by a marketing link (`/app?prompt=`); applied once, then removed from the URL. */
+  requestedPrompt: string | null;
   searchString: string;
   loginRedirectTarget: string;
 };
@@ -85,6 +88,7 @@ export function resolveWorkspaceRequestParams(
     requestedMode,
     resolvedRequestedEngineId,
     requestedEngineToken,
+    requestedPrompt: sanitizeWorkspacePrompt(searchParams?.get(WORKSPACE_PROMPT_PARAM)),
     searchString,
     loginRedirectTarget: searchString ? `${base}?${searchString}` : base,
   };

@@ -34,6 +34,7 @@ type UseWorkspaceDraftStorageResult = {
   resolvedRequestedEngineId: string | null;
   requestedEngineToken: string;
   requestedMode: Mode | null;
+  requestedPrompt: string | null;
   searchString: string;
   loginRedirectTarget: string;
   effectiveRequestedEngineId: string | null;
@@ -94,6 +95,7 @@ export function useWorkspaceDraftStorage({
     resolvedRequestedEngineId,
     requestedEngineToken,
     requestedMode,
+    requestedPrompt,
     searchString,
     loginRedirectTarget,
   } = workspaceRequest;
@@ -172,6 +174,7 @@ export function useWorkspaceDraftStorage({
     resolvedRequestedEngineId,
     requestedEngineToken,
     requestedMode,
+    requestedPrompt,
     searchString,
     loginRedirectTarget,
     effectiveRequestedEngineId,

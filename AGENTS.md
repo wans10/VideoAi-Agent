@@ -35,6 +35,7 @@ Use these guides as context before changing the related areas:
 - `docs/engineering/activity-feed.md`: Activity pagination, account isolation, read-path latency, and output enrichment contracts.
 - `docs/engineering/read-route-schema-bootstrap.md`: request-time read paths versus explicit schema/bootstrap ownership.
 - `docs/engineering/ci-validation.md`: fast feedback, conditional integration and exhaustive financial checks, and required CI ownership.
+- `docs/engineering/home-showcase.md`: Keyvo home works wall, which examples may appear, media rules, and the `/app?prompt=` handoff.
 - `docs/engineering/media-delivery.md`: media ownership, original/preview contracts, image optimizer settings, safe repairs, and Core Web Vitals validation.
 - `docs/engineering/admin-routes.md`: admin route and admin UI conventions.
 - `docs/engineering/refactor-roadmap.md`: cleanup strategy and historical context; confirm current line counts with the audit.
