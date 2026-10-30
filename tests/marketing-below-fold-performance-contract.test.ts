@@ -29,8 +29,9 @@ test('marketing heroes remain outside deferred rendering while long content is c
   const modelSource = readSource(modelLayoutPath);
   const modelContentSource = readSource(modelContentPath);
 
-  assert.match(homeSource, /<HomeHero[\s\S]*?<\/HomeHero>|<HomeHero[\s\S]*?\/>[\s\S]*?<DeferredMarketingContent/);
-  assert.equal((homeSource.match(/<DeferredMarketingContent>/g) ?? []).length, 6, 'home should contain each long section, with assistant access integrated into the workspace chapter, independently');
+  // The works-wall home server-renders its prompt first screen and its works wall outside deferred rendering.
+  assert.match(homeSource, /<HomePromptHero[\s\S]*?\/>[\s\S]*?<HomeShowcaseWall[\s\S]*?\/>[\s\S]*?<DeferredMarketingContent/);
+  assert.equal((homeSource.match(/<DeferredMarketingContent>/g) ?? []).length, 2, 'home should contain the pricing section and the closing summary and FAQ independently');
   assert.match(pricingSource, /<PricingHeroSection[\s\S]*?<\/PricingHeroSection>[\s\S]*?<PricingCurrentSections/, 'the static pricing hero stays outside the contained current sections');
   assert.doesNotMatch(pricingContentSource, /<PricingHeroSection/, 'current pricing content must not own the opening hero');
   assert.equal((pricingContentSource.match(/<DeferredMarketingContent>/g) ?? []).length, 5, 'pricing should contain each long section independently');

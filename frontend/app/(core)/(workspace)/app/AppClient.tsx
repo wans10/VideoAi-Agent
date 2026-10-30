@@ -42,7 +42,7 @@ export default function AppClientPage({
     authStatus: app.authStatus,
     authenticatedUserId: app.user?.id,
   });
-  const { replaceWorkspaceRoute } = useWorkspaceRouteNavigation();
+  const { replaceWorkspaceRoute, clearRequestedPrompt } = useWorkspaceRouteNavigation();
   const renderState = useWorkspaceRenderState({
     recentJobs: app.recentJobs,
     engineIdByLabel: app.engineIdByLabel,
@@ -56,7 +56,6 @@ export default function AppClientPage({
     workspaceCopy: app.workspaceCopy,
     uiLocale: app.uiLocale,
   });
-
   const activeDraft = useWorkspaceDraftHydration({
     ...routeForm,
     ...assetState,
@@ -70,6 +69,7 @@ export default function AppClientPage({
     effectiveRequestedEngineId: draft.effectiveRequestedEngineId,
     effectiveRequestedEngineToken: draft.effectiveRequestedEngineToken,
     effectiveRequestedMode: draft.effectiveRequestedMode,
+    requestedPrompt: draft.requestedPrompt, onRequestedPromptApplied: clearRequestedPrompt,
     storageScope: draft.storageScope,
     hydratedForScope: draft.hydratedForScope,
     setHydratedForScope: draft.setHydratedForScope,

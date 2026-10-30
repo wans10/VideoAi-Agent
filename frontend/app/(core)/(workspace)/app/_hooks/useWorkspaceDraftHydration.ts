@@ -1,4 +1,5 @@
 import { useWorkspaceActiveDraft } from './useWorkspaceActiveDraft';
+import { useWorkspaceRequestedPrompt } from './useWorkspaceRequestedPrompt';
 import type { WorkspaceModelSetup } from '../_lib/workspace-model-candidate';
 import { useEffect, useMemo } from 'react';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
@@ -36,6 +37,8 @@ type UseWorkspaceDraftHydrationOptions = {
   effectiveRequestedEngineId: string | null;
   effectiveRequestedEngineToken: string;
   effectiveRequestedMode: Mode | null;
+  requestedPrompt?: string | null;
+  onRequestedPromptApplied?: () => void;
   storageScope: string;
   hydratedForScope: string | null;
   setHydratedForScope: Dispatch<SetStateAction<string | null>>;
@@ -85,6 +88,8 @@ export function useWorkspaceDraftHydration({
   effectiveRequestedEngineId,
   effectiveRequestedEngineToken,
   effectiveRequestedMode,
+  requestedPrompt,
+  onRequestedPromptApplied,
   storageScope,
   hydratedForScope,
   setHydratedForScope,
@@ -289,6 +294,13 @@ export function useWorkspaceDraftHydration({
     setShotType,
     setVoiceIdsInput,
   ]);
+
+  useWorkspaceRequestedPrompt({
+    requestedPrompt: requestedPrompt ?? null,
+    draftReady: activeDraft.ready && hydratedForScope === storageScope && Boolean(form),
+    setPrompt,
+    onApplied: onRequestedPromptApplied ?? (() => undefined),
+  });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

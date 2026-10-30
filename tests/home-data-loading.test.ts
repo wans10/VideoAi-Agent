@@ -15,7 +15,7 @@ test('homepage starts retained reads together, drops unused proof reads and reco
     const output = join(directory, 'page.cjs');
     const timingPath = resolve('frontend/server/public-page-timing.ts');
     await build({
-      stdin: { contents: `export {default as HomePage} from './frontend/app/(localized)/[locale]/(marketing)/(home)/page'; export * from './frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-page-data'; export * from 'probe';`, resolveDir: process.cwd() },
+      stdin: { contents: `export {default as HomePage} from './frontend/app/(localized)/[locale]/(marketing)/(home)/page'; export * from './frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-page-data'; export * from './frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-pricing-data'; export * from 'probe';`, resolveDir: process.cwd() },
       define: { 'import.meta.url': JSON.stringify(pathToFileURL(resolve('frontend/server/video-keyframes.ts')).href) },
       outfile: output, bundle: true, platform: 'node', format: 'cjs', packages: 'external', tsconfig: 'frontend/tsconfig.json', jsx: 'automatic',
       plugins: [{ name: 'controlled-home-reads', setup(builder) {
@@ -31,7 +31,7 @@ test('homepage starts retained reads together, drops unused proof reads and reco
             export function release(name){if(name){released.add(name);gates.get(name)?.();}else{for(const [key,done] of gates){released.add(key);done();}}}
             export async function read(name,value){calls.push(name);if(!released.has(name))await new Promise(done=>gates.set(name,done));if(name===failingPhase&&failure)throw failure;return value;}
           `,
-          '@/lib/i18n/server': `import en from ${JSON.stringify(resolve('frontend/messages/en.json'))};import fr from ${JSON.stringify(resolve('frontend/messages/fr.json'))};import es from ${JSON.stringify(resolve('frontend/messages/es.json'))};export async function resolveDictionary({locale}){return {dictionary:{en,fr,es}[locale]};}`,
+          '@/lib/i18n/server': `import en from ${JSON.stringify(resolve('frontend/messages/en.json'))};import fr from ${JSON.stringify(resolve('frontend/messages/fr.json'))};import es from ${JSON.stringify(resolve('frontend/messages/es.json'))};import zh from ${JSON.stringify(resolve('frontend/messages/zh.json'))};export async function resolveDictionary({locale}){return {dictionary:{en,fr,es,zh}[locale]};}`,
           'next-intl/server': `export async function getTranslations(){return key=>key;}`,
           '@/server/homepage': `import {read,slots} from 'probe';export const getHomepageSlotsCached=()=>read('hero-slots',{hero:slots,gallery:[]});export const getSuccessfulGenerationCountCached=()=>read('count',20000);`,
           '@/server/current-example-price': `import {read} from 'probe';export const quoteCurrentExamplePrices=()=>read('hero-pricing',new Map());`,
@@ -47,7 +47,7 @@ test('homepage starts retained reads together, drops unused proof reads and reco
           if (/^@\/components\/marketing\/(?:home\/)?[A-Z]/.test(args.path)) return { path: args.path, namespace: 'components' };
           if (!args.path.startsWith('.') && !args.path.startsWith('/') && !args.path.startsWith('@/') && !args.path.startsWith('node:')) return { path: requireFrontend.resolve(args.path), external: true };
         });
-        builder.onLoad({ filter: /.*/, namespace: 'components' }, () => ({ loader: 'js', contents: `export const HomeHero=()=>null,HomeFaq=()=>null,WorkflowSeoSummary=()=>null,DeferredMarketingContent=()=>null,HomeCreativeWorlds=()=>null,HomeModelDiscovery=()=>null,HomeCreationSection=()=>null,HomeModelChoice=()=>null,HomeToolsGallery=()=>null,HomePricingSection=()=>null;` }));
+        builder.onLoad({ filter: /.*/, namespace: 'components' }, () => ({ loader: 'js', contents: `export const HomeHero=()=>null,HomeFaq=()=>null,WorkflowSeoSummary=()=>null,DeferredMarketingContent=()=>null,HomeCreativeWorlds=()=>null,HomeModelDiscovery=()=>null,HomeCreationSection=()=>null,HomeModelChoice=()=>null,HomeToolsGallery=()=>null,HomePricingSection=()=>null,HomePromptHero=()=>null,HomeShowcaseWall=()=>null;` }));
         builder.onLoad({ filter: /.*/, namespace: 'controlled' }, args => ({ loader: 'js', resolveDir: process.cwd(), contents: mocks[args.path] ?? (args.path === 'examples'
           ? `import {read,examples} from 'probe';export const loadHomepageExamples=()=>read('examples',examples);export const assembleHomepageExampleCards=()=>examples;export const selectHomepageHeroPreviews=cards=>cards.slice(0,5);export const buildHomepageP0PromotionTargets=()=>[];`
           : args.path === 'demo-pricing' ? `import {read} from 'probe';export const buildCurrentHomePriceDemo=()=>read('demo-pricing',[]);`
@@ -103,28 +103,24 @@ test('homepage starts retained reads together, drops unused proof reads and reco
       assert.equal(fixture.records.length, 1);
       assert.ok(fixture.records[0].phases.every((phase: { status: string; durationMs: unknown }) => phase.status === 'ok' && typeof phase.durationMs === 'number'));
     });
-    for (const locale of ['en', 'fr', 'es']) {
-      await t.test(`retained reads overlap and content data is preserved for ${locale}`, async () => {
+    for (const locale of ['en', 'fr', 'es', 'zh']) {
+      await t.test(`the works-wall home starts only the price read and keeps its content data for ${locale}`, async () => {
         fixture.reset();
         const pending = fixture.HomePage({ params: Promise.resolve({ locale }) });
         await tick();
         const started = [...fixture.calls];
         fixture.release();
         await tick();
-        // Also release a sequential baseline score read so a failed assertion cannot hang.
-        fixture.release();
         const page = await pending;
-        assert.deepEqual(started.sort(), ['demo-pricing', 'examples', 'hero-pricing', 'hero-slots', 'scores'], 'current prices must start before unrelated gallery reads resolve');
+        await tick();
+        assert.deepEqual(started, ['demo-pricing'], 'hero slots, scores, example discovery and hero prices belonged to removed sections and must not start');
         const children = page.props.children;
         const hero = children[0];
-        assert.ok(Array.isArray(hero.props.proofStats));
-        assert.equal('previews' in hero.props, false);
-        assert.deepEqual(hero.props.programmedHeroItems, []);
-        const creative = children.find((child: any) => child.props?.children?.props?.modelDiscovery);
-        const discovery = creative.props.children.props.modelDiscovery;
-        assert.equal((await discovery.props.children.type(discovery.props.children.props)).props.examples, fixture.examples);
-        const models = children.find((child: any) => child.props?.children?.props?.scores);
-        assert.deepEqual(models.props.children.props.scores.opponents, []);
+        assert.equal(hero.props.scenePosters.length, 4);
+        assert.ok(hero.props.scenePosters.every((poster: { posterUrl: string }) => poster.posterUrl.startsWith('https://')));
+        const wall = children[1];
+        assert.equal(wall.props.initialCards.length, 24, 'the first server-rendered batch');
+        assert.equal(wall.props.hasMore, true);
         const schemas = children.filter((child: { type: string }) => child.type === 'script');
         assert.deepEqual(schemas.map((child: { props: { id: string } }) => child.props.id), ['home-webapp-jsonld', 'home-faq-jsonld', 'home-provider-itemlist-jsonld']);
         const software = JSON.parse(schemas[0].props.dangerouslySetInnerHTML.__html);
@@ -135,38 +131,33 @@ test('homepage starts retained reads together, drops unused proof reads and reco
         assert.equal(record.route, 'home');
         assert.equal(record.locale, locale);
         assert.equal(record.status, 'ok');
-        assert.deepEqual(record.phases.map(({ phase, status }: { phase: string; status: string }) => ({ phase, status })), [
-          { phase: 'examples', status: 'ok' }, { phase: 'hero-slots', status: 'ok' }, { phase: 'scores', status: 'ok' },
-          { phase: 'hero-pricing', status: 'ok' }, { phase: 'demo-pricing', status: 'ok' },
-        ]);
+        assert.deepEqual(record.phases.map(({ phase, status }: { phase: string; status: string }) => ({ phase, status })), [{ phase: 'demo-pricing', status: 'ok' }]);
         assert.deepEqual(Object.keys(record).sort(), ['schema', 'route', 'locale', 'deployment', 'status', 'dataDurationMs', 'phases'].sort());
       });
     }
-    await t.test('the hero-slot fallback remains successful data rather than an instrumentation error', async () => {
-      fixture.reset(new Error('unavailable fixture cache'), 'hero-slots');
-      const warn = console.warn;
-      console.warn = () => undefined;
-      try {
-        const pending = fixture.HomePage({ params: Promise.resolve({ locale: 'en' }) });
-        await tick(); fixture.release();
-        const page = await pending;
-        await tick();
-        assert.deepEqual(page.props.children[0].props.programmedHeroItems, []);
-        assert.equal(fixture.records.length, 1);
-        assert.equal(fixture.records[0].status, 'ok');
-        assert.equal(fixture.records[0].phases.find(({ phase }: { phase: string }) => phase === 'hero-slots').status, 'ok');
-      } finally { console.warn = warn; }
-    });
-    await t.test('unexpected loader errors preserve identity without logging their content', async () => {
-      const failure = new Error('private fixture details must never be recorded');
-      fixture.reset(failure);
-      const pending = fixture.HomePage({ params: Promise.resolve({ locale: 'en' }) });
-      const rejected = assert.rejects(pending, error => error === failure);
-      await tick(); fixture.release(); await tick(); fixture.release();
-      await rejected;
+    await t.test('a failed price read stays observable on its own boundary and finishes one error record', async () => {
+      const failure = new Error('private price fixture');
+      fixture.reset(failure, 'demo-pricing');
+      const prepared = fixture.prepareHomePricingData('en');
+      const priceRejected = assert.rejects(prepared.priceModels, error => error === failure);
+      const completionRejected = assert.rejects(prepared.completed, error => error === failure);
+      fixture.release();
+      await Promise.all([priceRejected, completionRejected]);
       assert.equal(fixture.records.length, 1);
       assert.equal(fixture.records[0].status, 'error');
-      assert.equal(fixture.records[0].phases.find(({ phase }: { phase: string }) => phase === 'scores').status, 'error');
+      assert.equal(fixture.records[0].phases.find(({ phase }: { phase: string }) => phase === 'demo-pricing').status, 'error');
+      assert.ok(!JSON.stringify(fixture.records).includes(failure.message));
+    });
+    await t.test('the page renders while a failing price read is still streaming, and records the error without its content', async () => {
+      const failure = new Error('private fixture details must never be recorded');
+      fixture.reset(failure, 'demo-pricing');
+      const pending = fixture.HomePage({ params: Promise.resolve({ locale: 'zh' }) });
+      await tick(); fixture.release(); await tick();
+      const page = await pending;
+      await tick();
+      assert.equal(page.props.children[0].props.scenePosters.length, 4, 'the first screen and the works wall do not wait for prices');
+      assert.equal(fixture.records.length, 1);
+      assert.equal(fixture.records[0].status, 'error');
       assert.ok(!JSON.stringify(fixture.records).includes(failure.message));
     });
     await t.test('discovery failure after critical data stays observable and finishes one error record', async () => {

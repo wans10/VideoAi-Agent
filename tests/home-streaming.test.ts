@@ -7,6 +7,7 @@ import test from 'node:test';
 import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
 import type { HomePriceModel } from '../frontend/components/marketing/home/home-price-demo-types';
+import { HOME_SHOWCASE_FIRST_BATCH, listShowcaseCards } from '../frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-route-data/showcase';
 
 const requireFrontend = createRequire(resolve('frontend/package.json'));
 const home = './frontend/app/(localized)/[locale]/(marketing)/(home)';
@@ -38,6 +39,8 @@ async function bundle() {
     define: { 'import.meta.url': JSON.stringify(pathToFileURL(resolve('frontend/server/video-keyframes.ts')).href) },
     outfile: output, bundle: true, platform: 'node', format: 'cjs', packages: 'external', tsconfig: 'frontend/tsconfig.json', jsx: 'automatic',
     plugins: [{ name: 'controlled-home-io', setup(builder) {
+      builder.onResolve({ filter: /\.module\.css$/ }, args => ({ path: args.path, namespace: 'css-module' }));
+      builder.onLoad({ filter: /.*/, namespace: 'css-module' }, () => ({ contents: 'export default new Proxy({}, { get: (_, key) => String(key) });', loader: 'js' }));
       builder.onResolve({ filter: /\.css$/ }, args => ({ path: args.path, namespace: 'empty' }));
       builder.onLoad({ filter: /.*/, namespace: 'empty' }, () => ({ contents: '', loader: 'js' }));
       builder.onResolve({ filter: /.*/ }, args => {
@@ -56,7 +59,7 @@ async function bundle() {
   return { directory, output, controlledBoundaries: [...Object.keys(mocks), 'compare-page-data-loaders', 'current-home-price-demo-data'] };
 }
 
-test('real homepage streams the poster before pending exact prices and discovery in the served zh locale', async (t) => {
+test('real homepage streams the prompt first screen and works wall before pending exact prices in the served zh locale', async (t) => {
   const Module = requireFrontend('node:module');
   const priorResolve = Module._resolveFilename;
   const aliases = Object.fromEntries(['react', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom', 'react-dom/server', 'react-dom/client'].map(name => [name, requireFrontend.resolve(`next/dist/compiled/${name}`)]));
@@ -83,9 +86,7 @@ test('real homepage streams the poster before pending exact prices and discovery
       let pageReady = false;
       const pagePromise = fixture.HomePage({ params: Promise.resolve({ locale }) }).then((page: unknown) => { pageReady = true; return page; });
       await tick();
-      for (const phase of ['hero-slots', 'scores']) fixture.release(phase);
-      await tick();
-      assert.equal(pageReady, true, 'The real route cannot wait for held exact price reads');
+      assert.equal(pageReady, true, 'The real route cannot wait for the held exact price read');
       const page = await pagePromise;
       const stream = await renderToReadableStream(wrap(page));
       const reader = stream.getReader();
@@ -95,52 +96,43 @@ test('real homepage streams the poster before pending exact prices and discovery
       assert.equal(first.done, false);
       while (!/home-provider-itemlist-jsonld[\s\S]*?<\/script>/.test(shell)) {
         const next = await reader.read();
-        assert.equal(next.done, false, 'The full shell must render while discovery is held');
+        assert.equal(next.done, false, 'The full shell must render while prices are held');
         shell += decoder.decode(next.value, { stream: true });
       }
-      assert.match(shell, /fetchPriority="high"|fetchpriority="high"/);
-      assert.match(shell, /hero\/prepared\/[a-f0-9]{64}\.webp/);
-      assert.match(shell, /home-hero-section cinema-opening/);
-      assert.equal((shell.match(/class="creative-film"/g) ?? []).length, 4, 'All four authored films stay in the initial shell');
+      // The headline is server-rendered text; the prompt form and scene cards are a client island.
+      assert.match(shell, /<h1[^>]*id="home-title"[^>]*>[\s\S]*?把脑中的一场戏[\s\S]*?拍成眼前的一镜/);
+      assert.match(shell, /data-home-prompt-form/);
+      assert.match(shell, /<form[^>]*action="\/app"[^>]*method="get"|<form[^>]*method="get"[^>]*action="\/app"/, 'without JavaScript the form still opens the studio with the prompt');
+      assert.equal((shell.match(/class="scene"/g) ?? []).length, 4, 'all four scene cards are in the initial shell');
+      assert.match(shell, /fetchPriority="high"|fetchpriority="high"/, 'only the first visible poster is prioritised');
+      assert.equal((shell.match(/<img[^>]*fetch[pP]riority="high"/g) ?? []).length, 1, 'exactly one image is high priority; React adds the matching preload link for it');
+      assert.equal((shell.match(/data-home-showcase/g) ?? []).length, 1);
+      const firstBatch = listShowcaseCards(0, HOME_SHOWCASE_FIRST_BATCH).cards;
+      const remixable = firstBatch.filter((card) => card.makeHref !== null).length;
+      assert.ok(remixable > 0 && remixable < firstBatch.length, 'some first-batch cards need reference files or are too long to remix');
+      // The scene cards and the starter chips also link to /app?prompt= only through client handlers, so the anchors here are the wall's.
+      assert.equal((shell.match(/href="\/app\?prompt=/g) ?? []).length, remixable, 'a card carries its remix link exactly when the whole Chinese prompt can travel');
+      assert.equal(new Set(shell.match(/href="\/video\/[^"]+"/g) ?? []).size, 24, 'every card opens its example details');
+      assert.doesNotMatch(shell, /<video/, 'no preview video is mounted before playback intent');
+      assert.doesNotMatch(shell, /LTX|Veo|Luma|Grok|FLUX|Pika|Sora|Gemini|GPT Image|Nano Banana/, 'no hidden-vendor model appears on the home page');
       assert.match(shell, /home-webapp-jsonld/);
       assert.match(shell, /home-faq-jsonld/);
       assert.match(shell, /home-provider-itemlist-jsonld/);
-      assert.match(shell, /id="explore-models"/);
-      assert.doesNotMatch(shell, /selected-real-kling\.webp/);
-      assert.equal(fixture.records.length, 0, 'Server diagnostics must wait for the eventual gallery duration');
-      assert.match(shell, /Loading price…|Chargement du prix…|Cargando precio…|价格加载中…/);
+      assert.equal(fixture.records.length, 0, 'Server diagnostics must wait for the eventual price duration');
+      assert.match(shell, /id="your-price"[\s\S]*?<button[^>]*disabled/, 'the pricing section is in the shell as a disabled placeholder while the price read is held');
       assert.doesNotMatch(shell, /\$1[.,]41|\$0[.,]73|\$2[.,]11|\$4[.,]21/, 'Pending canonical amounts must not appear in the initial shell');
-      fixture.release('hero-pricing'); fixture.release('demo-pricing');
-      fixture.release('example-latest'); fixture.release('example-playlist');
+      fixture.release('demo-pricing');
       let tail = '';
       for (;;) { const next = await reader.read(); if (next.done) break; tail += decoder.decode(next.value, { stream: true }); }
-      assert.match(tail, /selected-real-kling\.webp/);
-      const currentHeroPrices = new Map([['minimax-h3-max', { kind: 'reference', modelId: 'minimax-h3-max', amountCents: 141, currency: 'USD', scenarioLabel: 'Text to video · 5s · 1080p' }]]);
-      const expectedHero = renderToStaticMarkup(wrap(React.createElement(fixture.HomeHero, { ...page.props.children[0].props, currentHeroPricesPending: undefined, currentHeroPrices })));
-      const expectedQuotes = expectedHero.match(/<div class="cinema-film-quote[\s\S]*?<\/div>|<details class="cinema-quote-details"[\s\S]*?<\/details>/g) ?? [];
-      assert.equal(expectedQuotes.length, 2);
-      for (const quote of expectedQuotes) {
-        assert.ok(tail.replace(/<!--[\s\S]*?-->/g, '').includes(quote.replace(/<!--[\s\S]*?-->/g, '')), 'The streamed quote must preserve the canonical amount, scenario and reference label');
-      }
       const finalModels = fixture.buildHomePriceDemo(locale).map((model: HomePriceModel) => ({ ...model, steps: model.steps.map((step, index) => ({ ...step, amountCents: [73,211,421][index], display: ['$0.73','$2.11','$4.21'][index] })) }));
       const expectedPricing = renderToStaticMarkup(wrap(React.createElement(fixture.HomePricingSection, { locale, models: finalModels, copy: dictionary.home.redesign.pricingTrust })));
       assert.ok(tail.replace(/<!--[\s\S]*?-->/g, '').includes(expectedPricing), 'The revealed pricing demo preserves the exact canonical scenarios');
-      assert.doesNotMatch(tail, /home-hero-section|creative-film/, 'The later reveal must replace discovery alone');
-      const finalCards = fixture.assembleHomepageExampleCards({ locale, content: dictionary.home.redesign, globalCandidates: fixture.videos, familyVideos: new Map(), acceptedAssets: [] });
-      // Locate the creative-worlds wrapper by its streamed discovery slot; sibling order is layout-owned.
-      const creativeWorlds = page.props.children.find((node: any) => node?.props?.children?.props?.modelDiscovery);
-      assert.ok(creativeWorlds, 'The homepage must render creative worlds with the streamed model discovery');
-      const providers = creativeWorlds.props.children.props.modelDiscovery.props.children.props.providers;
-      const expectedDiscovery = renderToStaticMarkup(wrap(React.createElement(fixture.HomeModelDiscovery, { locale, examples: finalCards, providers, copy: dictionary.home.redesign.examples })));
-      assert.ok(tail.replace(/<!--[\s\S]*?-->/g, '').includes(expectedDiscovery), 'Final localized discovery markup must preserve the existing curation output');
+      assert.doesNotMatch(tail, /data-home-prompt-form|data-home-showcase/, 'The later reveal replaces pricing alone');
       await tick();
       assert.equal(fixture.records.length, 1);
       assert.equal(fixture.records[0].status, 'ok');
       assert.ok(fixture.records[0].phases.every((phase: { status: string; durationMs: unknown }) => phase.status === 'ok' && typeof phase.durationMs === 'number'));
-      assert.equal(fixture.calls.filter((phase: string) => phase === 'hero-slots').length, 1);
-      assert.equal(fixture.calls.filter((phase: string) => phase === 'hero-pricing').length, 1);
-      assert.equal(fixture.calls.filter((phase: string) => phase === 'example-latest').length, 1);
-      assert.equal(fixture.calls.filter((phase: string) => phase === 'example-playlist').length, 1);
+      assert.deepEqual(fixture.calls, ['demo-pricing'], 'the removed sections no longer start hero, score, example or hero-price reads');
       const reportDirectory = process.env.CWV_HOME_STREAM_REPORT_DIR;
       if (reportDirectory) {
         await mkdir(reportDirectory, { recursive: true });
@@ -148,10 +140,10 @@ test('real homepage streams the poster before pending exact prices and discovery
           writeFile(join(reportDirectory, `shell-${locale}.html`), shell),
           writeFile(join(reportDirectory, `reveal-${locale}.html`), tail),
           writeFile(join(reportDirectory, `proof-${locale}.json`), JSON.stringify({
-            locale, renderer: React.version, sourceOwners: 'real HomePage/HomeHero/HomeCreativeWorlds/HomeDiscovery/HomeModelDiscovery',
+            locale, renderer: React.version, sourceOwners: 'real HomePage/HomePromptHero/HomeShowcaseWall/HomeShowcaseCard',
             controlledBoundaries: bundled.controlledBoundaries, calls: fixture.calls, records: fixture.records,
-            criticalShellBeforeGallery: true, criticalShellBeforePrices: true, exactHeroQuoteMarkupEqual: true, exactDemoMarkupEqual: true, stableCreativeFilms: 4, seoScriptsInShell: 3,
-            heroReplacedInReveal: false, creativeFilmsReplacedInReveal: false, finalDiscoveryMarkupEqual: true,
+            criticalShellBeforePrices: true, exactDemoMarkupEqual: true, sceneCardsInShell: 4, wallCardsInShell: 24, seoScriptsInShell: 3,
+            promptHeroReplacedInReveal: false, wallReplacedInReveal: false,
             shellBytes: Buffer.byteLength(shell), revealBytes: Buffer.byteLength(tail),
             limitation: 'Controlled I/O and Next bundled React rendering; not HTTP cache, browser playback, CLS or LCP evidence.',
           }, null, 2)),

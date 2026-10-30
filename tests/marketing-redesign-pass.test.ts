@@ -39,17 +39,14 @@ test('motion is marketing scoped and never hides critical content', () => {
   assert.match(source, /animation.cancel\(\)/);
 });
 
-test('home merges inspiration and examples while retaining discovery data in the server section', () => {
+test('home shows a works wall; the retained discovery components keep their server-section contract', () => {
   const route = readFileSync('frontend/app/(localized)/[locale]/(marketing)/(home)/page.tsx', 'utf8');
   const section = readFileSync('frontend/components/marketing/home/HomeModelDiscovery.tsx', 'utf8');
   const discovery = readFileSync('frontend/app/(localized)/[locale]/(marketing)/(home)/_components/HomeDiscovery.tsx', 'utf8');
   const worlds = readFileSync('frontend/components/marketing/home/HomeCreativeWorlds.tsx', 'utf8');
-  assert.doesNotMatch(route, /RealExamplesPreview/);
-  assert.match(route, /HomeCreativeWorlds locale=\{locale\} cards=\{primaryBestForCards\} examplesCopy=\{content.examples\} modelDiscovery=\{/);
-  const boundary = route.slice(route.indexOf('<Suspense'), route.indexOf('</Suspense>'));
-  assert.match(boundary, /fallback=\{<HomeModelDiscovery locale=\{locale\} examples=\{fallbackExamples\} providers=\{providers\} copy=\{content.examples\}/);
-  assert.match(boundary, /<HomeDiscovery locale=\{locale\} examples=\{pendingData.examples\} providers=\{providers\} copy=\{content.examples\}/);
-  assert.doesNotMatch(boundary, /<HomeHero|<HomeCreativeWorlds|<CreativeFilm/);
+  // Keyvo's home replaces the showreel, discovery and creative-worlds chapters with the prompt box and works wall.
+  assert.doesNotMatch(route, /RealExamplesPreview|HomeCreativeWorlds|HomeDiscovery|HomeModelDiscovery/);
+  assert.match(route, /<HomePromptHero[\s\S]*?<HomeShowcaseWall/);
   assert.match(worlds, /modelDiscovery \?\? <HomeModelDiscovery/);
   assert.doesNotMatch(discovery, /'use client'/);
   assert.match(discovery, /<HomeModelDiscovery locale=\{locale\} examples=\{await examples\} providers=\{providers\} copy=\{copy\}/);
@@ -89,10 +86,10 @@ test('home tools reuse catalogue artwork and model guidance remains image-led wi
 test('workspace follows the hero and owns optional assistant access instead of a separate home chapter', () => {
   const route = readFileSync('frontend/app/(localized)/[locale]/(marketing)/(home)/page.tsx', 'utf8');
   const creation = readFileSync('frontend/components/marketing/home/HomeCreationSection.tsx', 'utf8');
-  assert.ok(route.indexOf('<HomeHero') < route.indexOf('<HomeCreationSection'));
-  assert.ok(route.indexOf('<HomeCreationSection') < route.indexOf('<HomeCreativeWorlds'));
-  assert.match(route, /assistantHref=\{mcpLink\?\.href\}/);
-  assert.doesNotMatch(route, /HomeAssistantWorkflow/);
+  // The works-wall home opens with the prompt box and the wall; the creation chapter is no longer composed here.
+  assert.ok(route.indexOf('<HomePromptHero') < route.indexOf('<HomeShowcaseWall'));
+  assert.ok(route.indexOf('<HomeShowcaseWall') < route.indexOf('<HomeDeferredPricing'));
+  assert.doesNotMatch(route, /HomeCreationSection|HomeAssistantWorkflow|assistantHref/);
   assert.match(creation, /assistantHref \? <div className="production-pipeline-note"/);
 });
 
