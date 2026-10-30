@@ -46,7 +46,7 @@ const hrefPath = (href: unknown) => {
 test('marketing top navigation stays clean while Best-For links live inside dropdowns', () => {
   assert.deepEqual(
     MARKETING_TOP_NAV_LINKS.map((item) => item.key),
-    ['models', 'examples', 'tools', 'pricing', 'blog']
+    ['models', 'examples', 'tools', 'pricing']
   );
 
   const modelsDropdown = MARKETING_NAV_DROPDOWNS.models as {
@@ -352,8 +352,8 @@ test('every example family has a real logo or a deliberate pictogram', () => {
   }
 });
 
-test('MCP anchors describe the destination and Blog remains discoverable in resources', () => {
-  assert.ok(MARKETING_NAV_DROPDOWNS.tools!.sections!.some(section => section.items.some(item => item.href === '/blog')));
+test('MCP anchors describe the destination and the hidden Blog is not offered in resources', () => {
+  assert.equal(MARKETING_NAV_DROPDOWNS.tools!.sections!.some(section => section.items.some(item => item.href === '/blog')), false);
   for (const locale of ['en', 'fr', 'es']) {
     const dictionary = JSON.parse(readFileSync(`frontend/messages/${locale}.json`, 'utf8'));
     const anchors = dictionary.footer.mcpFeature.anchors;

@@ -34,9 +34,9 @@ function entryForHero(input: ReturnType<typeof currentInput>, heroId: string) {
   return entry;
 }
 
-test('all five selected critical homepage videos have coherent ready coverage', () => {
+test('all four selected critical homepage videos have coherent ready coverage', () => {
   const input = currentInput();
-  assert.equal(input.heroVideoOrder.length, 5);
+  assert.equal(input.heroVideoOrder.length, 4);
   assert.doesNotThrow(() => checkCriticalHomeVideoCoverage(input));
 });
 

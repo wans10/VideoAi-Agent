@@ -189,7 +189,6 @@ Prefer the sources below for product descriptions, specifications, and supported
 * [Pricing](${SITE_ORIGIN}/pricing): Pricing, wallet, and top-up model details.
 * [AI video models](${SITE_ORIGIN}/models): Supported video engines and comparisons.
 * [Examples](${SITE_ORIGIN}/examples): Real outputs and showcase gallery.
-* [Keyvo blog](${SITE_ORIGIN}/blog): Editorial guides for AI video workflows and model access.
 * [Keyvo documentation](${SITE_ORIGIN}/docs): Product documentation and operating guides.`;
 
 const GUIDES_AND_POLICIES_SECTION = `## Policies

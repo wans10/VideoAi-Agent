@@ -19,3 +19,6 @@ export function filterKeyvoVisibleEntries<T extends { family?: string | null }>(
 
 /** Keyvo does not present model comparisons or scores; typed as boolean so guarded code stays type-checked. */
 export const KEYVO_COMPARE_HIDDEN: boolean = true;
+
+/** Keyvo does not publish the upstream blog (it covers overseas models); typed as boolean so guarded code stays type-checked. */
+export const KEYVO_BLOG_HIDDEN: boolean = true;

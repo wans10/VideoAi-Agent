@@ -51,9 +51,6 @@ export function HomeModelDiscovery({ locale, examples, providers, copy }: {
       <div className="creative-discovery-more">
         <Link href="/models">{copy.modelsCta}</Link>
         <Link href={{pathname:'/models/[slug]',params:{slug:'seedance-2-5'}}}>{copy.featuredModelCta}</Link>
-        <Link href={{pathname:'/examples/[model]',params:{model:'grok'}}}>Grok · {labels[0]}</Link>
-        <Link href={{pathname:'/examples/[model]',params:{model:'flux'}}}>Flux · {labels[0]}</Link>
-        <Link href={{pathname:'/models/[slug]',params:{slug:'flux-3'}}}>Flux 3 · {labels[1]}</Link>
         {extraProviders.map(provider => <Link key={provider.model} href={provider.href!}>{provider.model}</Link>)}
       </div>
     </div>
@@ -61,5 +58,5 @@ export function HomeModelDiscovery({ locale, examples, providers, copy }: {
 }
 
 function familyLabel(engine: string) {
-  return ['Happy Horse', 'Seedance', 'Kling', 'Veo', 'LTX', 'Wan'].find(name => engine.includes(name)) ?? engine;
+  return ['Happy Horse', 'Seedance', 'Kling', 'Wan', 'MiniMax'].find(name => engine.includes(name)) ?? engine;
 }

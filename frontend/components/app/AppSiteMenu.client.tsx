@@ -1,5 +1,6 @@
 'use client';
 
+import { IcpFiling } from '@/components/marketing/IcpFiling';
 import mcpPublication from '@/config/mcp-publication.json';
 
 import { BrandLockup } from '@/components/brand/BrandLockup';
@@ -74,7 +75,7 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
     close();
     void onAppNavigate(href);
   };
-  const topPaths = { models: '/models', examples: '/examples', compare: '/ai-video-engines', tools: '/tools', pricing: '/pricing', blog: '/blog' } as const;
+  const topPaths = { models: '/models', examples: '/examples', compare: '/ai-video-engines', tools: '/tools', pricing: '/pricing' } as const;
   const publicLinks: { key: string; label: string; href: (typeof topPaths)[keyof typeof topPaths] | '/' | '/integrations/claude' | '/integrations/chatgpt' | '/integrations/codex' }[] = [
     { key: 'home', label: locale === 'fr' ? 'Accueil' : locale === 'es' ? 'Inicio' : locale === 'zh' ? '首页' : 'Home', href: '/' },
     ...MARKETING_TOP_NAV_LINKS.map((item) => ({ ...item, href: topPaths[item.key], label: t(`nav.linkLabels.${item.key}`, item.key) ?? item.key })),
@@ -107,6 +108,7 @@ export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, si
             {email ? <><span>{email}</span><button type="button" onClick={() => { close(); onSignOut(); }}>{copy.signOut}</button></>
               : authResolved ? <><Link href={signinHref} prefetch={false} onClick={close}>{copy.signIn}</Link><Link href={signupHref} prefetch={false} onClick={close}>{copy.signUp}</Link></> : null}
           </div>
+          <p className="app-site-icp"><IcpFiling /></p>
         </div>
       </dialog>
     </>

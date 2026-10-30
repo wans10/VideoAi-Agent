@@ -62,7 +62,7 @@ export const REFERENCE_WORKFLOW_VISUALS = [
   '/assets/marketing/reference-workflow-final-video.webp',
 ] as const;
 
-export const HERO_VIDEO_ORDER = ['minimax-h3-max', 'seedance-2-5', 'wan-3-prime', 'kling-3-pro', 'ltx-2-5-pro'] as const;
+export const HERO_VIDEO_ORDER = ['minimax-h3-max', 'seedance-2-5', 'wan-3-prime', 'kling-3-pro'] as const;
 export const HOME_HERO_IMAGE_URL = '/assets/home/home-hero-reference.webp';
 
 export const HERO_VIDEO_MODE_LABELS: Record<string, string> = {
@@ -70,7 +70,6 @@ export const HERO_VIDEO_MODE_LABELS: Record<string, string> = {
   'seedance-2-5': 'text-to-video',
   'wan-3-prime': 'text-to-video',
   'kling-3-pro': 'image-to-video',
-  'ltx-2-5-pro': 'image-to-video',
 };
 
 export const HERO_VIDEO_CHIPS: Record<string, string[]> = {
@@ -78,7 +77,6 @@ export const HERO_VIDEO_CHIPS: Record<string, string[]> = {
   'seedance-2-5': ['Physics', 'Cinematic'],
   'wan-3-prime': ['Craft motion', 'Realism'],
   'kling-3-pro': ['Cinematic', 'Camera move'],
-  'ltx-2-5-pro': ['Fast', 'Image control'],
 };
 
 export const PROOF_ICONS: Record<string, LucideIcon> = {

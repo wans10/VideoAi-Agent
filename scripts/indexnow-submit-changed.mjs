@@ -66,10 +66,8 @@ function addModelUrl(urls, locale, slug) {
   if (locale === 'es') urls.add(toAbsoluteUrl(`/es/modelos/${slug}`));
 }
 
-function addBlogUrl(urls, locale, slug) {
-  if (locale === 'en') urls.add(toAbsoluteUrl(`/blog/${slug}`));
-  if (locale === 'fr') urls.add(toAbsoluteUrl(`/fr/blog/${slug}`));
-  if (locale === 'es') urls.add(toAbsoluteUrl(`/es/blog/${slug}`));
+function addBlogUrl() {
+  // Keyvo hides the blog (404 + not in the sitemap), so changed posts are never submitted.
 }
 
 function addDocsUrl(urls, locale, slug) {

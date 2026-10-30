@@ -262,7 +262,7 @@ test('homepage hero opens on the approved MiniMax H3 Max disaster story with coh
     assert.ok(showcaseItems, `HomeHero should compose the ${locale} video showcase`);
     assert.deepEqual(
       showcaseItems.map((item) => item.engineId),
-      ['minimax-h3-max', 'seedance-2-5', 'wan-3-prime', 'kling-3-pro', 'ltx-2-5-pro'],
+      ['minimax-h3-max', 'seedance-2-5', 'wan-3-prime', 'kling-3-pro'],
       `HomeHero should keep the approved current-model order in ${locale}`,
     );
     assert.equal(showcaseItems[0]?.bestFor, expectedMiniMaxDescriptions[locale]);
@@ -327,17 +327,6 @@ test('homepage hero opens on the approved MiniMax H3 Max disaster story with coh
         posterSrc: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/01245e62-6bb2-4d5d-89c6-c60923a004ad.jpg',
         videoSrc: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/7b1f1c7b-f7f0-473e-9610-82723604b690.mp4',
         duration: '0:12',
-        resolution: '16:9',
-      },
-      {
-        engineId: 'ltx-2-5-pro',
-        estimateMeta: '6s generation',
-        estimateValue: '$0.72',
-        mediaInfo: 'Image-to-video · 6s · 16:9',
-        modelHref: { pathname: '/models/[slug]', params: { slug: 'ltx-2-5-pro' } },
-        posterSrc: 'https://media.maxvideoai.com/user-asset-thumbs/by-content/c780259ed79d025b4ac74ccc513f18bf/eca62625821feb6bd76c6e023a43988bc8ea18508c783bc6adf4973f172b8d75.jpeg',
-        videoSrc: 'https://media.maxvideoai.com/media-assets/by-content/c780259ed79d025b4ac74ccc513f18bf/2506829a4f4f3d7e5d2bd864a701fc6cc2fb7c53182f7a7f5ca10cc580c70aa8.mp4',
-        duration: '0:06',
         resolution: '16:9',
       },
     ],

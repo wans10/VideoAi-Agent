@@ -27,7 +27,7 @@ test('paired comparison uses a common scale and rejects invalid ratings', () => 
 
 test('site navigation exposes assistants without changing the app shared destinations', () => {
   assert.equal(MARKETING_SITE_NAV_LINKS.find((item) => item.key === 'pipeline'), undefined);
-  assert.ok(MARKETING_TOP_NAV_LINKS.some((item) => item.key === 'blog'));
+  assert.equal(MARKETING_TOP_NAV_LINKS.some((item) => item.key === 'blog'), false, 'Keyvo hides the blog');
 });
 
 test('motion is marketing scoped and never hides critical content', () => {

@@ -59,14 +59,13 @@ export const PROVIDER_MODEL_LINKS: Partial<Record<string, LocalizedLinkHref>> = 
   Alibaba: { pathname: '/examples/[model]', params: { model: 'happy-horse' } },
 };
 
-export type HeroEngineId = 'minimax-h3-max' | 'seedance-2-5' | 'wan-3-prime' | 'kling-3-pro' | 'ltx-2-5-pro';
+export type HeroEngineId = 'minimax-h3-max' | 'seedance-2-5' | 'wan-3-prime' | 'kling-3-pro';
 
 export const HERO_VIDEO_CHIPS: Record<string, string[]> = {
   'minimax-h3-max': ['Narrative', 'Native audio'],
   'seedance-2-5': ['Physics', 'Cinematic'],
   'wan-3-prime': ['Craft motion', 'Realism'],
   'kling-3-pro': ['Cinematic', 'Camera move'],
-  'ltx-2-5-pro': ['Fast', 'Image control'],
 };
 
 export const HERO_ENGINE_TARGETS: Record<
@@ -82,7 +81,6 @@ export const HERO_ENGINE_TARGETS: Record<
   'seedance-2-5': { name: 'Seedance 2.5', exampleFamily: 'seedance', modelSlug: 'seedance-2-5', mode: 't2v' },
   'wan-3-prime': { name: 'Wan 3 Prime', exampleFamily: 'wan', modelSlug: 'wan-3-prime', mode: 't2v' },
   'kling-3-pro': { name: 'Kling 3 Pro', exampleFamily: 'kling', modelSlug: 'kling-3-pro', mode: 'i2v' },
-  'ltx-2-5-pro': { name: 'LTX 2.5 Pro', exampleFamily: 'ltx', modelSlug: 'ltx-2-5-pro', mode: 'i2v' },
 };
 
 export const DEFAULT_MODEL_BY_EXAMPLE_FAMILY: Record<HomepageExampleFamily, string> = {

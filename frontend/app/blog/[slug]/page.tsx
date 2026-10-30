@@ -1,3 +1,4 @@
+import { KEYVO_BLOG_HIDDEN } from '@/config/keyvo-model-visibility';
 import BlogPostPage, {
   generateMetadata as generateLocalizedMetadata,
 } from '../../(localized)/[locale]/(marketing)/blog/[slug]/page';
@@ -6,6 +7,7 @@ import { DEFAULT_LOCALE } from '../../default-locale-wrapper';
 import { getContentEntries } from '@/lib/content/markdown';
 
 export async function generateStaticParams() {
+  if (KEYVO_BLOG_HIDDEN) return [];
   const entries = await getContentEntries(`content/${DEFAULT_LOCALE}/blog`);
   return entries.map((entry) => ({ slug: entry.slug }));
 }

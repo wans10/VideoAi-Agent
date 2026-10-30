@@ -370,7 +370,7 @@
         "href": "/return-policy"
       }
     ],
-    "brandNote": "专业的独立 AI 视频聚合平台 —— 生成前明晰价格，始终紧跟最新模型，一个工作区掌控全部镜头。支持 Seedance、Kling、Veo、LTX、Wan、Pika、Sora 等。商标归各自所有者所有。",
+    "brandNote": "专业的独立 AI 视频聚合平台 —— 生成前明晰价格，始终紧跟最新模型，一个工作区掌控全部镜头。支持 Seedance、Kling、Wan、Happy Horse、MiniMax 等。商标归各自所有者所有。",
     "languageLabel": "语言",
     "languages": [
       {
@@ -658,32 +658,6 @@
                 "音频",
                 "多镜头"
               ]
-            },
-            {
-              "engineId": "ltx-2-5-pro",
-              "name": "LTX 2.5 Pro",
-              "provider": "Lightricks",
-              "bestFor": "快速图生视频",
-              "fallbackPrice": "实时价格",
-              "scores": [
-                {
-                  "label": "动态",
-                  "value": 88
-                },
-                {
-                  "label": "真实感",
-                  "value": 84
-                },
-                {
-                  "label": "速度",
-                  "value": 87
-                }
-              ],
-              "tags": [
-                "快速",
-                "图生视频",
-                "控制"
-              ]
             }
           ],
           "quoteLabel": "生成此视频的预估费用",
@@ -827,22 +801,6 @@
             "examplesSlug": "kling"
           },
           {
-            "id": "fallback-veo",
-            "title": "Veo 3.1",
-            "engine": "Veo 3.1",
-            "engineId": "veo-3-1",
-            "modelSlug": "veo-3-1",
-            "mode": "图生视频",
-            "duration": "6s",
-            "price": "实时价格",
-            "useCase": "顶级超写实",
-            "cta": "示例与提示词",
-            "modelCta": "参数与价格",
-            "imageSrc": "/hero/veo-3-1-hero.jpg",
-            "imageAlt": "Veo 3.1 顶级真实感与图生视频 AI 示例。",
-            "examplesSlug": "veo"
-          },
-          {
             "id": "fallback-happy-horse",
             "title": "Happy Horse 1.1",
             "engine": "Happy Horse 1.1",
@@ -857,22 +815,6 @@
             "imageSrc": "https://media.app.keyvo.cn/rendersthumbs/301cc489-d689-477f-94c4-0b051deda0bc/1212fdd0-0299-4e07-8546-c8fc0925432d.webp",
             "imageAlt": "Happy Horse 1.1 原生音频参考工作流 AI 视频示例。",
             "examplesSlug": "happy-horse"
-          },
-          {
-            "id": "fallback-ltx",
-            "title": "LTX 2.3 Fast",
-            "engine": "LTX 2.3 Fast",
-            "engineId": "ltx-2-3-fast",
-            "modelSlug": "ltx-2-3-fast",
-            "mode": "文生视频",
-            "duration": "10s",
-            "price": "实时价格",
-            "useCase": "快速分镜草稿",
-            "cta": "示例与提示词",
-            "modelCta": "参数与价格",
-            "imageSrc": "/hero/showcase-ltx-2-3-fast.webp",
-            "imageAlt": "LTX 2.3 Fast 快速分镜草稿生成 AI 视频示例。",
-            "examplesSlug": "ltx"
           },
           {
             "id": "fallback-wan",
@@ -1151,7 +1093,7 @@
         "title": "生成之前，费用了然于心。",
         "subtitle": "Keyvo 在每次生成前均会展示确切价格，让您对积分使用始终心中有数。",
         "cta": "查看价格方案",
-        "supportingText": "Keyvo 是支持 Seedance、Kling、Veo、LTX、Wan、Pika、Sora 等前沿模型的多模型按需付费 AI 视频创作平台。",
+        "supportingText": "Keyvo 是支持 Seedance、Kling、Wan、Happy Horse、MiniMax 等模型的多模型按需付费 AI 视频创作平台。",
         "modelsLink": "模型",
         "examplesLink": "示例",
         "compareLink": "对比模型",
@@ -1176,7 +1118,7 @@
       },
       "providers": {
         "title": "支持的顶级模型与技术厂商",
-        "subtitle": "统一模型目录，覆盖 Seedance、Kling、Veo、LTX、Wan、Pika、Happy Horse、MiniMax、Luma 与 Sora。",
+        "subtitle": "统一模型目录，覆盖 Seedance、Kling、Wan、Happy Horse 与 MiniMax。",
         "cta": "查看全部模型",
         "items": [
           {
@@ -1190,24 +1132,9 @@
             "model": "Kling"
           },
           {
-            "providerKey": "Google",
-            "provider": "Google",
-            "model": "Veo"
-          },
-          {
-            "providerKey": "Lightricks",
-            "provider": "Lightricks",
-            "model": "LTX"
-          },
-          {
             "providerKey": "Wan",
             "provider": "Wan",
             "model": "Wan"
-          },
-          {
-            "providerKey": "Pika",
-            "provider": "Pika",
-            "model": "Pika"
           },
           {
             "providerKey": "Alibaba",
@@ -1224,16 +1151,6 @@
             "providerKey": "MiniMax",
             "provider": "MiniMax",
             "model": "MiniMax"
-          },
-          {
-            "providerKey": "Luma AI",
-            "provider": "Luma",
-            "model": "Luma"
-          },
-          {
-            "providerKey": "OpenAI",
-            "provider": "OpenAI",
-            "model": "Sora"
           }
         ]
       },
@@ -1356,16 +1273,10 @@
     "worksWith": {
       "label": "支持模型",
       "brands": [
-        "Sora 2",
-        "Veo 3.1",
-        "LTX 2 Fast",
-        "LTX 2",
         "Kling 2.6 Pro",
-        "Pika 2.2",
         "MiniMax Hailuo 02",
         "Kling 2.5",
-        "Wan 2.5",
-        "Nano Banana"
+        "Wan 2.5"
       ],
       "caption": "商标归各自所有者所有。",
       "availabilityNotice": "可用性可能因提供商而异；价格标签会自动实时刷新。",
@@ -1407,7 +1318,7 @@
       },
       {
         "title": "全部前沿模型，汇聚一处。",
-        "body": "在 Sora、Veo、Pika、MiniMax 与混元之间随心切换，告别频繁切换后台或自行管理 API 密钥的繁琐。"
+        "body": "在 Seedance、Kling、Wan、Happy Horse 与 MiniMax 之间随心切换，告别频繁切换后台或自行管理 API 密钥的繁琐。"
       }
     ],
     "ways": [
@@ -1487,46 +1398,6 @@
       "hoverLabel": "悬停循环预览",
       "items": [
         {
-          "id": "veo-teaser",
-          "label": "Veo 3 · 发布预告",
-          "description": "使用叙事灯光与音频，为宣传活动制作揭幕镜头。",
-          "alt": "Google Veo 3 电影级预告。",
-          "meta": {
-            "slug": "veo-3-1",
-            "pricing": {
-              "engineId": "veo-3-1",
-              "durationSec": 8,
-              "resolution": "1080p",
-              "memberTier": "member"
-            }
-          },
-          "media": {
-            "videoSrc": "https://media.app.keyvo.cn/renders/marketing/f9711b1e-53d5-4a1d-9adf-8186784538e3.mp4",
-            "posterSrc": "/hero/veo-3-1-hero.jpg",
-            "hasAudio": true
-          }
-        },
-        {
-          "id": "veo31-fast-demo",
-          "label": "Veo 3.1 Fast · 首尾帧过渡",
-          "description": "使用 Veo 3.1 Fast 制作首帧与尾帧之间的 8 秒过渡。",
-          "alt": "Veo 3.1 Fast 过渡示例。",
-          "meta": {
-            "slug": "veo-3-1-fast",
-            "pricing": {
-              "engineId": "veo-3-1-fast",
-              "durationSec": 8,
-              "resolution": "720p",
-              "memberTier": "member"
-            }
-          },
-          "media": {
-            "videoSrc": "https://media.app.keyvo.cn/renders/301cc489-d689-477f-94c4-0b051deda0bc/f35b56ab-e529-4bf2-a066-bb2a3197f54d.mp4",
-            "posterSrc": "/hero/veo-3-1-hero.jpg",
-            "hasAudio": true
-          }
-        },
-        {
           "id": "minimax-hailuo",
           "label": "MiniMax Hailuo 02 · 概念草稿",
           "description": "开启提示词优化，在生成主镜头前先制作分镜概念草稿。",
@@ -1578,7 +1449,7 @@
         "value": "实时估算",
         "status": "生成前展示",
         "meta": [
-          "LTX 2.3 Pro",
+          "Seedance 2.5",
           "6秒",
           "1080P"
         ],
@@ -1590,8 +1461,8 @@
       "description": "关于平台与使用的最常见问题简答。",
       "items": [
         {
-          "q": "Sora 2 可以在欧盟/国内正常使用吗？",
-          "a": "Sora 2 当前可用性有限。Keyvo 会将您的需求智能路由至当前可用模型，并为 Sora 预留好现成预设。"
+          "q": "Keyvo 支持哪些视频生成模型？",
+          "a": "Keyvo 目前提供 Seedance、Kling、Wan、Happy Horse、MiniMax 等模型，每次生成前都会明示价格，仅为成功生成付费。"
         },
         {
           "q": "我可以为视频添加音频吗？",
@@ -1610,7 +1481,7 @@
     "priceChipSuffix": "生成前清晰可见。",
     "meta": {
       "title": "按需付费 AI 视频生成平台 | Keyvo",
-      "description": "生成前并排对比 Seedance、Kling、Veo、LTX、Wan、Pika 等前沿模型。先看真实成片，明晰生成价格，按需充值积分随心创作。"
+      "description": "按需付费的 AI 视频生成平台：Seedance、Kling、Wan、Happy Horse、MiniMax 等模型，先看真实成片，生成前明晰价格，按需充值积分随心创作。"
     },
     "compare": {
       "title": "AI 视频模型横评一览",
@@ -1676,25 +1547,13 @@
         ]
       },
       "compare": {
-        "title": "生成前全面对比 AI 视频模型",
-        "body": "Keyvo 让您可以在单一工作区内测试各大主流 AI 视频模型。各引擎在生成速度、提示词遵循度、动作幅度、写实度与艺术风格上各具特色。您可以并排对比真实成片，为每个镜头挑选最匹配的模型，且每次生成前价格一目了然。",
-        "worksWith": "支持 MiniMax H3、Seedance 2.5、Veo 3.1、Kling 3、LTX 2.3、Sora 2、Wan 2.6、Pika 2.2、Nano Banana 等众多前沿模型。",
+        "title": "在一个工作区选择合适的 AI 视频模型",
+        "body": "Keyvo 让您可以在单一工作区内使用多个主流 AI 视频模型。各引擎在生成速度、提示词遵循度、动作幅度、写实度与艺术风格上各具特色，您可以按镜头需求挑选，且每次生成前价格一目了然。",
+        "worksWith": "支持 MiniMax H3、Seedance 2.5、Kling 3、Wan 2.6、Happy Horse 等众多模型。",
         "popularLinks": [
           {
             "label": "MiniMax H3 与 Seedance 2.5 对比",
             "slug": "minimax-h3-vs-seedance-2-5"
-          },
-          {
-            "label": "Sora 2 与 Veo 3.1 对比",
-            "slug": "sora-2-vs-veo-3-1"
-          },
-          {
-            "label": "Kling 3 与 Sora 2 对比",
-            "slug": "kling-3-pro-vs-sora-2"
-          },
-          {
-            "label": "Veo 3.1 与 Kling 3 对比",
-            "slug": "kling-3-pro-vs-veo-3-1"
           }
         ],
         "seeAllLabel": "查看全部 AI 视频模型对比",
