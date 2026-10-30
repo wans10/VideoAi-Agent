@@ -168,6 +168,11 @@
 .marketing-site .price-app-surface .app-generation-action{border-radius:7px!important;background:var(--brand)!important;color:var(--on-brand)!important;box-shadow:none!important;min-height:46px!important;padding:10px 16px!important;gap:16px!important}
 .marketing-site .price-app-surface .app-generation-label{text-transform:none!important;letter-spacing:0!important}
 .marketing-site .price-app-surface .app-generation-price{border:0!important;border-left:1px solid #ffffff66!important;border-radius:0!important;padding:0 0 0 14px!important;background:none!important;color:inherit!important;box-shadow:none!important;font-size:18px!important;font-variant-numeric:tabular-nums}
+/* The shared quote slot sizes itself from two hidden status labels; its workspace rules only apply under .app-experience, so restate them here or both labels show next to the price. */
+.marketing-site .price-app-surface [data-composer-density="workspace"] .app-generation-quote{display:grid;flex:none;align-items:center;min-inline-size:12ch}
+.marketing-site .price-app-surface .app-generation-quote>*{grid-area:1/1}
+.marketing-site .price-app-surface .app-generation-quote .app-quote-status{max-width:none;white-space:nowrap;text-align:center;line-height:20px;color:inherit}
+.marketing-site .price-app-surface .app-generation-quote-size{visibility:hidden;pointer-events:none}
 .marketing-site .price-app-annotation{display:flex;align-items:center;justify-content:flex-end;gap:9px;font-size:11px;padding:0 12px 8px;color:#b83c2b}
 .marketing-site .price-app-annotation>span{font-size:20px}
 .marketing-site [data-price-step='1'] [data-settings-density]>div:first-child button,.marketing-site [data-price-step='2'] [data-settings-density]>div:nth-child(2) button{outline:2px solid #b83c2b;outline-offset:2px}
