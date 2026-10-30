@@ -73,17 +73,19 @@ export function HomeShowcaseCard({ card, copy, requested, onVisibility, onIntent
           {card.promptExcerpt ? <span className={styles.excerpt}>{card.promptExcerpt}</span> : null}
         </span>
       </Link>
-      <Link
-        href={card.makeHref}
-        prefetch={false}
-        className={styles.remix}
-        aria-label={copy.remixAria}
-        data-analytics-event="cta_click"
-        data-analytics-cta-name="showcase_remix"
-        data-analytics-cta-location="home_showcase"
-      >
-        {copy.remix}
-      </Link>
+      {card.makeHref ? (
+        <Link
+          href={card.makeHref}
+          prefetch={false}
+          className={styles.remix}
+          aria-label={copy.remixAria}
+          data-analytics-event="cta_click"
+          data-analytics-cta-name="showcase_remix"
+          data-analytics-cta-location="home_showcase"
+        >
+          {copy.remix}
+        </Link>
+      ) : null}
     </div>
   );
 }

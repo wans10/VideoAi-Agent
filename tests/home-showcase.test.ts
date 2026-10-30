@@ -4,6 +4,7 @@ import test from 'node:test';
 import { NextRequest } from 'next/server';
 import snapshot from '../frontend/config/public-examples.json';
 import visibleFamilies from '../frontend/config/keyvo-visible-families.json';
+import zhShowcasePrompts from '../frontend/config/home-showcase-zh.json';
 import { resolveRuntimeEngineInput } from '../frontend/config/model-runtime';
 import {
   HOME_SHOWCASE_FIRST_BATCH,
@@ -92,14 +93,14 @@ test('each card has fixed geometry, a poster, a short preview only, and a remix 
     if (card.previewVideoUrl) assert.match(card.previewVideoUrl, /\/renders\/?previews\//, 'the wall carries the short preview, never the full-length video');
     assert.equal('videoUrl' in card, false, 'the full-length video never reaches the wall');
     assert.equal(card.href, `/video/${encodeURIComponent(card.id)}`);
-    assert.ok(card.makeHref.startsWith('/app'));
-    if (card.makeHref !== '/app') {
+    if (card.makeHref !== null) {
+      assert.ok(card.makeHref.startsWith('/app?prompt='));
       const value = new URL(card.makeHref, 'https://example.test').searchParams.get('prompt')!;
-      assert.ok(encodeURIComponent(value).length <= 1000, `${card.id} remix prompt is ${encodeURIComponent(value).length} encoded characters`);
       assert.equal(sanitizeWorkspacePrompt(value), value);
-      assert.equal(card.makeHref, buildWorkspacePromptHref(value, 1000));
+      assert.equal(card.makeHref, buildWorkspacePromptHref(value));
+      assert.match(value, /[\u4e00-\u9fff]/, `${card.id} remix prompt is Chinese`);
+      assert.doesNotMatch(card.makeHref, HIDDEN_VENDOR_NAMES);
     }
-    assert.doesNotMatch(card.makeHref, HIDDEN_VENDOR_NAMES);
   }
 });
 
@@ -143,4 +144,29 @@ test('the showcase components keep the media rules: lazy posters, short previews
   assert.match(studio, /priority=\{index === 0\}/);
   assert.doesNotMatch(card + studio + wall, /media\.maxvideoai\.com/, 'no new hard-coded media host');
   assert.match(readFileSync('frontend/lib/home-showcase-media.ts', 'utf8'), /export function showcaseMediaUrl/);
+});
+
+test('every wall card carries a Chinese prompt, and remix only when the whole prompt can travel', () => {
+  const wall = allShowcaseCards();
+  const zhPrompts = zhShowcasePrompts as Record<string, string>;
+  const bySnapshotId = new Map(cards.map((card) => [card.id, card]));
+  const needsReference = /@\[[^\]]+\]|@(?:image|video|audio|element|ref)\w*\d*|\b(?:reference image|uploaded image)\b/i;
+  assert.ok(wall.length > 100);
+  for (const card of wall) {
+    const zh = zhPrompts[card.id];
+    assert.ok(zh && /[\u4e00-\u9fff]/.test(zh), `${card.id} has a Chinese prompt`);
+    assert.match(card.promptExcerpt, /[\u4e00-\u9fff]/, `${card.id} excerpt is Chinese`);
+    assert.doesNotMatch(zh, HIDDEN_VENDOR_NAMES, `${card.id} Chinese prompt names no hidden vendor`);
+    const source = bySnapshotId.get(card.id)!;
+    const original = source.promptFull ?? source.prompt;
+    if (needsReference.test(original)) {
+      assert.equal(card.makeHref, null, `${card.id} needs reference files, so it offers no remix`);
+    } else if (card.makeHref) {
+      assert.equal(new URL(card.makeHref, 'https://example.test').searchParams.get('prompt'), zh.trim(), `${card.id} remix carries the whole prompt`);
+    } else {
+      assert.ok(encodeURIComponent(zh.trim()).length > 3600, `${card.id} offers no remix only because it is too long to carry whole`);
+    }
+  }
+  // Nothing on the wall may be left without a translation: every eligible example is covered.
+  assert.equal(wall.every((card) => card.id in zhPrompts), true);
 });

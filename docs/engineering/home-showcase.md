@@ -17,6 +17,7 @@ route no longer composes them.
 | Which examples may appear | `app/(localized)/[locale]/(marketing)/(home)/_lib/home-route-data/showcase.ts` |
 | Next batches | `app/api/home-showcase/route.ts` (no database, no prices, no engine filter) |
 | Pricing-only data read for the route | `(home)/_lib/home-pricing-data.ts` |
+| Chinese prompts for the examples | `config/home-showcase-zh.json` (example id to Chinese prompt) |
 | Example media URLs | `lib/home-showcase-media.ts` (`showcaseMediaUrl`) |
 | `/app?prompt=` link building and parsing limits | `lib/workspace-prompt-link.ts` |
 | Applying the prompt in the workspace | `app/(core)/(workspace)/app/_lib/workspace-hydration.ts` (parsing), `_hooks/useWorkspaceRequestedPrompt.ts` (applying once) |
@@ -28,6 +29,18 @@ Only bundled examples (`config/public-examples.json`) whose model is in a family
 `retired` or `deep_legacy`. Hidden-vendor examples, and retired versions of visible families, are excluded so the wall
 does not promise results the product cannot produce. Families take turns so the first screen mixes vendors.
 `tests/home-showcase.test.ts` locks this against the snapshot.
+
+## Chinese prompts
+
+The bundled examples carry English prompts, but the wall is a Chinese surface, so it shows and remixes only the Chinese
+translations in `config/home-showcase-zh.json`. A bundled example without an entry there is left off the wall; when a
+sync adds examples, translate them (keep durations, timecodes, aspect ratios, `@` tokens and on-screen text unchanged,
+and drop any settings header line) or they will not appear. The translations are not the original inputs, so "make the
+same" gives a similar, not identical, video.
+
+"做同款" is offered only when the whole prompt can travel in the link (within `WORKSPACE_PROMPT_LINK_MAX_ENCODED`) and the
+original run did not rely on reference files (`@Image1`, `@[storyboard ref]`, "reference image"). Otherwise the card only
+links to its detail page: a silently shortened prompt would not make the same video.
 
 The wall reads the bundled snapshot directly; it does not depend on the database, `KEYVO_MODEL_VISIBILITY` or the
 general examples readers. `/api/examples` rejects an `engine` filter for a hidden family for the same reason.

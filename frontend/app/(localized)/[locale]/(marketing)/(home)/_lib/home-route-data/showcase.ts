@@ -1,16 +1,20 @@
 import visibleFamilies from '@/config/keyvo-visible-families.json';
+import showcasePromptsZh from '@/config/home-showcase-zh.json';
 import { resolveRuntimeEngineInput } from '@/config/model-runtime';
 import { galleryVideoRatio } from '@/components/examples/examples-discovery-layout';
 import { showcaseMediaUrl } from '@/lib/home-showcase-media';
-import { buildWorkspacePromptHref } from '@/lib/workspace-prompt-link';
+import { buildWorkspacePromptHref, WORKSPACE_PROMPT_LINK_MAX_ENCODED } from '@/lib/workspace-prompt-link';
 import { getBundledPublicExamplesSnapshot } from '@/server/bundled-public-examples';
 import type { PublicExampleCard } from '@/server/local-public-examples-data';
 
 /** The first server-rendered batch of the home works wall. */
 export const HOME_SHOWCASE_FIRST_BATCH = 24;
 export const HOME_SHOWCASE_MAX_BATCH = 48;
-/** The remix link carries a shorter prompt than the workspace accepts, to keep the home HTML small. */
-const REMIX_PROMPT_MAX_ENCODED = 1000;
+/** Chinese prompts for the bundled examples (the originals are English); the wall never shows English prompts. */
+const PROMPTS_ZH: Readonly<Record<string, string>> = showcasePromptsZh;
+const EXCERPT_CHARS = 90;
+/** Examples whose prompt only works with the reference files the original run attached. */
+const NEEDS_REFERENCE_ASSETS = /@\[[^\]]+\]|@(?:image|video|audio|element|ref)\w*\d*|\b(?:reference image|uploaded image)\b/i;
 
 export type HomeShowcaseCard = {
   id: string;
@@ -23,7 +27,8 @@ export type HomeShowcaseCard = {
   posterUrl: string;
   previewVideoUrl: string | null;
   promptExcerpt: string;
-  makeHref: string;
+  /** Null when the prompt cannot be reproduced from a link (needs reference files, or is too long to travel whole). */
+  makeHref: string | null;
 };
 
 // A fixed, reviewed pick for each scene card on the first screen (one per visible vendor family).
@@ -64,7 +69,7 @@ function buildShowcaseSequence(): PublicExampleCard[] {
   const queues = FAMILIES.map((family) =>
     (snapshot.feeds?.[family]?.playlist ?? []).flatMap((id) => {
       const card = snapshot.cards?.[id];
-      if (!card || seen.has(card.id) || !card.rawPosterUrl || !isShowcaseEngine(card.engineIconId)) return [];
+      if (!card || seen.has(card.id) || !card.rawPosterUrl || !PROMPTS_ZH[card.id] || !isShowcaseEngine(card.engineIconId)) return [];
       seen.add(card.id);
       return [card];
     }),
@@ -81,7 +86,21 @@ function showcaseSequence(): PublicExampleCard[] {
   return cachedCards;
 }
 
+function plainExcerpt(prompt: string): string {
+  const flat = prompt.replace(/[*#>`]/g, '').replace(/\s+/g, ' ').trim();
+  return flat.length > EXCERPT_CHARS ? `${flat.slice(0, EXCERPT_CHARS).trimEnd()}…` : flat;
+}
+
+/** The whole Chinese prompt, or null: a silently shortened prompt would not make the same video. */
+function buildRemixHref(card: PublicExampleCard, promptZh: string): string | null {
+  if (NEEDS_REFERENCE_ASSETS.test(card.promptFull ?? card.prompt ?? '')) return null;
+  const href = buildWorkspacePromptHref(promptZh, WORKSPACE_PROMPT_LINK_MAX_ENCODED);
+  const carried = new URL(href, 'https://example.test').searchParams.get('prompt');
+  return carried === promptZh.trim() ? href : null;
+}
+
 function toShowcaseCard(card: PublicExampleCard): HomeShowcaseCard {
+  const promptZh = PROMPTS_ZH[card.id];
   const aspectRatio = card.aspectRatio ?? null;
   return {
     id: card.id,
@@ -93,8 +112,8 @@ function toShowcaseCard(card: PublicExampleCard): HomeShowcaseCard {
     hasAudio: card.hasAudio,
     posterUrl: showcaseMediaUrl(card.rawPosterUrl as string),
     previewVideoUrl: showcaseMediaUrl(card.previewVideoUrl),
-    promptExcerpt: (card.prompt || card.promptFull || '').trim().slice(0, 160),
-    makeHref: buildWorkspacePromptHref(card.promptFull ?? card.prompt, REMIX_PROMPT_MAX_ENCODED),
+    promptExcerpt: plainExcerpt(promptZh),
+    makeHref: buildRemixHref(card, promptZh),
   };
 }
 

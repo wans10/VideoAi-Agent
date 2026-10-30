@@ -7,6 +7,7 @@ import test from 'node:test';
 import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
 import type { HomePriceModel } from '../frontend/components/marketing/home/home-price-demo-types';
+import { HOME_SHOWCASE_FIRST_BATCH, listShowcaseCards } from '../frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-route-data/showcase';
 
 const requireFrontend = createRequire(resolve('frontend/package.json'));
 const home = './frontend/app/(localized)/[locale]/(marketing)/(home)';
@@ -106,7 +107,11 @@ test('real homepage streams the prompt first screen and works wall before pendin
       assert.match(shell, /fetchPriority="high"|fetchpriority="high"/, 'only the first visible poster is prioritised');
       assert.equal((shell.match(/<img[^>]*fetch[pP]riority="high"/g) ?? []).length, 1, 'exactly one image is high priority; React adds the matching preload link for it');
       assert.equal((shell.match(/data-home-showcase/g) ?? []).length, 1);
-      assert.equal((shell.match(/href="\/app\?prompt=/g) ?? []).length, 24, 'every card in the first batch carries its remix link');
+      const firstBatch = listShowcaseCards(0, HOME_SHOWCASE_FIRST_BATCH).cards;
+      const remixable = firstBatch.filter((card) => card.makeHref !== null).length;
+      assert.ok(remixable > 0 && remixable < firstBatch.length, 'some first-batch cards need reference files or are too long to remix');
+      // The scene cards and the starter chips also link to /app?prompt= only through client handlers, so the anchors here are the wall's.
+      assert.equal((shell.match(/href="\/app\?prompt=/g) ?? []).length, remixable, 'a card carries its remix link exactly when the whole Chinese prompt can travel');
       assert.equal(new Set(shell.match(/href="\/video\/[^"]+"/g) ?? []).size, 24, 'every card opens its example details');
       assert.doesNotMatch(shell, /<video/, 'no preview video is mounted before playback intent');
       assert.doesNotMatch(shell, /LTX|Veo|Luma|Grok|FLUX|Pika|Sora|Gemini|GPT Image|Nano Banana/, 'no hidden-vendor model appears on the home page');
