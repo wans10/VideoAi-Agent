@@ -4,6 +4,7 @@ import { BASE_SELECT, BASE_SELECT_WITH_SETTINGS, PUBLIC_VIDEO_SOURCE_ELIGIBILITY
 import { getLocalPublicExample, isLocalPublicExamplesEnabled, listLocalPublicExamples } from './local-public-examples';
 import { isDatabaseConfigured, query } from '@/lib/db';
 import { getBundledPublicExample, listBundledPublicExamples } from './bundled-public-examples';
+import { bundledExampleFallback, keyvoBundledExamplesOnly } from './videos-bundled-fallback';
 import { getDiscoverableExampleEngineAliases } from '@/lib/examples/discovery';
 import { getExampleFamilyEngineAliases } from '@/lib/model-families';
 import { removeVideosFromIndexablePlaylists } from '@/server/indexing';
@@ -43,21 +44,21 @@ export async function getVideoById(videoId: string): Promise<GalleryVideo | null
         `${BASE_SELECT} WHERE job_id = $1 LIMIT 1`,
         [videoId]
       );
-      return rows[0] ? mapGalleryVideoRow(rows[0]) : null;
+      return rows[0] ? mapGalleryVideoRow(rows[0]) : bundledExampleFallback(videoId, 'missing');
     } catch {
       // Fall through to bundled example
     }
   }
-  return getBundledPublicExample(videoId);
+  return bundledExampleFallback(videoId, 'unavailable');
 }
 
 export async function getSeoVideoById(videoId: string): Promise<GalleryVideo | null> {
-  if (!isDatabaseConfigured()) return getBundledPublicExample(videoId);
+  if (!isDatabaseConfigured()) return bundledExampleFallback(videoId, 'unavailable');
   const rows = await query<VideoRow>(
     `${BASE_SELECT_WITH_SETTINGS} WHERE job_id = $1 AND ${PUBLIC_VIDEO_PREDICATE} AND ${PUBLIC_VIDEO_SOURCE_ELIGIBILITY} LIMIT 1`,
     [videoId]
   );
-  return rows[0] ? mapGalleryVideoRow(rows[0]) : null;
+  return rows[0] ? mapGalleryVideoRow(rows[0]) : bundledExampleFallback(videoId, 'missing');
 }
 
 export async function getVideosByIds(videoIds: string[]): Promise<Map<string, GalleryVideo>> {
@@ -66,6 +67,7 @@ export async function getVideosByIds(videoIds: string[]): Promise<Map<string, Ga
   }
   const uniqueIds = Array.from(new Set(videoIds));
   const result = new Map<string, GalleryVideo>();
+  let databaseAnswered = false;
   if (isDatabaseConfigured()) {
     try {
       const rows = await query<VideoRow>(
@@ -75,14 +77,14 @@ export async function getVideosByIds(videoIds: string[]): Promise<Map<string, Ga
       for (const row of rows) {
         result.set(row.job_id, mapGalleryVideoRow(row));
       }
-      return result;
+      databaseAnswered = true;
     } catch {
-      // Fall through to bundled examples only when the database read failed.
+      // Fall through to bundled examples when the database read failed.
     }
   }
   for (const id of uniqueIds) {
     if (!result.has(id)) {
-      const fallback = getBundledPublicExample(id);
+      const fallback = bundledExampleFallback(id, databaseAnswered ? 'missing' : 'unavailable');
       if (fallback) result.set(id, fallback);
     }
   }
@@ -90,7 +92,7 @@ export async function getVideosByIds(videoIds: string[]): Promise<Map<string, Ga
 }
 
 export async function getSeoVideosByIds(videoIds: string[]): Promise<Map<string, GalleryVideo>> {
-  if (!isDatabaseConfigured()) return new Map(videoIds.flatMap(id => { const video = getBundledPublicExample(id); return video ? [[id, video] as const] : []; }));
+  if (!isDatabaseConfigured()) return new Map(videoIds.flatMap(id => { const video = bundledExampleFallback(id, 'unavailable'); return video ? [[id, video] as const] : []; }));
   if (!videoIds.length) {
     return new Map();
   }
@@ -99,7 +101,13 @@ export async function getSeoVideosByIds(videoIds: string[]): Promise<Map<string,
     `${BASE_SELECT_WITH_SETTINGS} WHERE job_id = ANY($1::text[]) AND ${PUBLIC_VIDEO_PREDICATE} AND ${PUBLIC_VIDEO_SOURCE_ELIGIBILITY}`,
     [uniqueIds]
   );
-  return new Map(rows.map((row) => [row.job_id, mapGalleryVideoRow(row)]));
+  const result = new Map(rows.map((row) => [row.job_id, mapGalleryVideoRow(row)] as const));
+  for (const id of uniqueIds) {
+    if (result.has(id)) continue;
+    const fallback = bundledExampleFallback(id, 'missing');
+    if (fallback) result.set(id, fallback);
+  }
+  return result;
 }
 
 export async function getPublicVideosByIds(videoIds: string[]): Promise<Map<string, GalleryVideo>> {
@@ -296,8 +304,6 @@ export async function listExampleModelCurrentPublicOrder(modelSlug: string): Pro
 }
 
 // Keyvo serves the example galleries only from the repository's bundled examples (its database has none).
-// Upstream database-reader tests set KEYVO_BUNDLED_EXAMPLES=off to exercise the database path.
-const keyvoBundledExamplesOnly = () => process.env.KEYVO_BUNDLED_EXAMPLES !== 'off';
 
 export async function listExampleFamilyPage(
   familyId: string,

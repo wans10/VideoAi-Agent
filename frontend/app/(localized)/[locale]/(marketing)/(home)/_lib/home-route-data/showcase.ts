@@ -1,10 +1,10 @@
 import visibleFamilies from '@/config/keyvo-visible-families.json';
 import showcasePromptsZh from '@/config/home-showcase-zh.json';
-import { resolveRuntimeEngineInput } from '@/config/model-runtime';
 import { galleryVideoRatio } from '@/components/examples/examples-discovery-layout';
 import { showcaseMediaUrl } from '@/lib/home-showcase-media';
 import { buildWorkspacePromptHref, WORKSPACE_PROMPT_LINK_MAX_ENCODED } from '@/lib/workspace-prompt-link';
 import { getBundledPublicExamplesSnapshot } from '@/server/bundled-public-examples';
+import { isShowcaseEngine } from '@/server/keyvo-example-eligibility';
 import type { PublicExampleCard } from '@/server/local-public-examples-data';
 
 /** The first server-rendered batch of the home works wall. */
@@ -42,23 +42,8 @@ export type HomeShowcaseSceneId = keyof typeof SCENE_POSTER_IDS;
 
 const FAMILIES: readonly string[] = visibleFamilies;
 
-/**
- * The wall shows work from the Chinese-vendor families Keyvo presents, and only from models a visitor can
- * order today: retired and deep-legacy versions (and hidden-vendor models) are never shown, so the wall does
- * not promise results the product cannot produce. This does not read `isKeyvoVisibleFamily` because that helper
- * is deliberately bypassed by the upstream-contract tooling.
- */
-export function isShowcaseEngine(engineId: string): boolean {
-  const model = resolveRuntimeEngineInput(engineId);
-  return Boolean(
-    model &&
-      model.family &&
-      FAMILIES.includes(model.family) &&
-      model.publication.app.published &&
-      model.lifecycle !== 'retired' &&
-      model.lifecycle !== 'deep_legacy',
-  );
-}
+// The predicate is shared with the detail-page fallback in server/videos.ts, so the wall and its cards cannot drift apart.
+export { isShowcaseEngine };
 
 let cachedCards: PublicExampleCard[] | null = null;
 

@@ -15,6 +15,7 @@ import {
   type PersistedVideoSeoEditorialEntry,
 } from '@/server/video-seo-editorial';
 import { getSeoVideoById, getSeoVideosByIds, type GalleryVideo } from '@/server/videos';
+import { isBundledFallbackVideo } from '@/server/videos-bundled-fallback';
 import {
   deriveWatchPageSignals,
   pickRelatedWatchPages,
@@ -66,6 +67,8 @@ function isEligibleSeoWatchVideo(video: GalleryVideo | null): video is GalleryVi
   if (video.visibility !== 'public') return false;
   if (!video.indexable) return false;
   if (!video.videoUrl) return false;
+  // Bundled examples are upstream content that Keyvo serves for its works wall: renderable, never indexable.
+  if (isBundledFallbackVideo(video)) return false;
   return true;
 }
 
