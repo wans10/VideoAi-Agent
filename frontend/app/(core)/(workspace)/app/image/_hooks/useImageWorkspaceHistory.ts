@@ -25,8 +25,10 @@ export function useImageWorkspaceHistory({
   setPendingGroups: Dispatch<SetStateAction<GroupSummary[]>>;
 } {
   const [pendingGroups, setPendingGroups] = useState<GroupSummary[]>([]);
+  // stableJobs is the merged, account-scoped feed the gallery rail reads; unlike the raw SWR pages it is never
+  // emptied by a revalidation, so the preview cannot collapse to the empty state while a generation runs.
   const {
-    data: jobPages,
+    stableJobs,
     mutate: mutateJobs,
   } = useInfiniteJobs(24, { surface: 'image' });
 
@@ -59,12 +61,10 @@ export function useImageWorkspaceHistory({
     [imageEngineAliasSet]
   );
 
-  const remoteImageJobs = useMemo(() => {
-    if (!jobPages) return [];
-    return jobPages
-      .flatMap((page) => page.jobs ?? [])
-      .filter((job) => isImageJob(job));
-  }, [jobPages, isImageJob]);
+  const remoteImageJobs = useMemo(
+    () => stableJobs.filter((job) => isImageJob(job)),
+    [stableJobs, isImageJob]
+  );
 
   const remoteHistory = useMemo(() => {
     if (!remoteImageJobs.length) return [];

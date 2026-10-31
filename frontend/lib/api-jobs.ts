@@ -287,7 +287,9 @@ export function useInfiniteJobs(pageSize = 12, options?: { type?: JobFeedType; s
         const now = Date.now();
         if (now - lastRevalidateRef.current > 1500) {
           lastRevalidateRef.current = now;
-          void mutate(undefined, { revalidate: true });
+          // Revalidate in place. mutate(undefined, ...) would reset the SWR data to undefined until the refetch returns,
+          // so every consumer reading the raw feed (image history, video recent jobs) rendered an empty list each time.
+          void mutate();
         }
       }
     };
