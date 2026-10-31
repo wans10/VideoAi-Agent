@@ -61,7 +61,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
         copy={showcaseCopy}
         scenePosters={showcaseCopy.scenes.map((scene) => ({ id: scene.id, posterUrl: scenePosters[scene.id].posterUrl }))}
       />
-      <HomeShowcaseWall initialCards={showcase.cards} hasMore={showcase.hasMore} copy={showcaseCopy} assistant={mcpLink} />
+      <HomeShowcaseWall initialCards={showcase.cards} hasMore={showcase.hasMore} copy={showcaseCopy} locale={locale} assistant={mcpLink} />
       <DeferredMarketingContent>
         <Suspense fallback={<HomePricingSection locale={locale} copy={content.pricingTrust} pending />}>
           <HomeDeferredPricing locale={locale} models={pricing.priceModels} copy={content.pricingTrust} />

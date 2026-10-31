@@ -18,10 +18,9 @@ export type HomeShowcaseCopy = {
   loadMore: string;
   loading: string;
   loadError: string;
-  remix: string;
-  remixAria: string;
-  openAria: string;
-  seconds: string;
+  detailsCta: string;
+  noPreview: string;
+  audioAvailable: string;
 };
 
 const ZH: HomeShowcaseCopy = {
@@ -46,15 +45,14 @@ const ZH: HomeShowcaseCopy = {
     { id: 'everyone', label: '大众创作', description: '人人都能做的趣味短片', prompt: '一只毛茸茸的卡通小兔子抱着一大束彩色花朵在草地上蹦蹦跳跳，明亮可爱的色彩，欢快的氛围。' },
   ],
   wallTitle: '灵感作品',
-  wallSubtitle: '真实生成的案例。悬停预览，点开查看提示词与参数，或一键做同款。',
+  wallSubtitle: '真实生成的案例。悬停预览，点开查看提示词与生成参数。',
   wallAll: '浏览全部案例',
   loadMore: '加载更多',
   loading: '加载中…',
   loadError: '加载失败，点击重试',
-  remix: '做同款',
-  remixAria: '使用该作品的提示词开始创作',
-  openAria: '查看作品详情与提示词',
-  seconds: '秒',
+  detailsCta: '查看提示词与参数',
+  noPreview: '暂无预览',
+  audioAvailable: '播放时含音频',
 };
 
 const EN: HomeShowcaseCopy = {
@@ -79,15 +77,14 @@ const EN: HomeShowcaseCopy = {
     { id: 'everyone', label: 'For everyone', description: 'Fun shorts anyone can make', prompt: 'A fluffy cartoon bunny hops across a meadow carrying a huge bouquet of bright flowers, cheerful and colourful.' },
   ],
   wallTitle: 'Inspiration',
-  wallSubtitle: 'Real generated examples. Hover to preview, open for the prompt and settings, or remix in one click.',
+  wallSubtitle: 'Real generated examples. Hover to preview, open for the prompt and settings.',
   wallAll: 'Browse all examples',
   loadMore: 'Load more',
   loading: 'Loading…',
   loadError: 'Could not load. Tap to retry',
-  remix: 'Remix',
-  remixAria: 'Start creating with this example’s prompt',
-  openAria: 'Open example details and prompt',
-  seconds: 's',
+  detailsCta: 'View prompt & settings',
+  noPreview: 'No preview',
+  audioAvailable: 'Audio available on playback',
 };
 
 /** Keyvo serves Chinese pages; every other locale keeps readable English copy. */

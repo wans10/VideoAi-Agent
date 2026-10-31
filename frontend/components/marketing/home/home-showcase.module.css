@@ -34,7 +34,7 @@
 .sceneDescription{font-size:12px;opacity:.85}
 
 .wall{padding:clamp(28px,4vw,56px) 0 clamp(40px,6vw,88px)}
-.wallInner{max-width:1320px;margin:0 auto;padding:0 16px}
+.wallInner{max-width:1248px;margin:0 auto;padding:0 16px}
 .wallHead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 16px;margin-bottom:18px}
 .wallTitle{margin:0;font-size:clamp(24px,3vw,36px);font-weight:500}
 .wallSubtitle{margin:6px 0 0;max-width:40em;color:var(--text-secondary);font-size:14px;line-height:1.7}
@@ -43,42 +43,18 @@
 .wallAll{display:inline-flex;align-items:center;min-height:40px;padding:0 4px;color:var(--text-primary);font-size:14px;font-weight:600;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;transition:text-decoration-color .15s}
 .wallAll:hover{text-decoration-color:currentColor}
 
-/* Each batch balances its own columns, so appending a batch never moves cards that are already on screen. */
-.batch{column-count:5;column-gap:12px}
+/* Cards, justified rows and captions come from components/examples/examples-masonry.module.css. */
 .batch + .batch{margin-top:12px}
-.item{break-inside:avoid;margin-bottom:12px}
-.card{position:relative;overflow:hidden;border-radius:14px;background:#181a1a;isolation:isolate;aspect-ratio:var(--ratio)}
-.watch{position:absolute;inset:0;z-index:1;display:block;color:#fff;outline:none}
-.card:focus-within{outline:2px solid var(--brand);outline-offset:3px}
-.poster,.video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.video{z-index:0}
-.waiting{opacity:0}
-.playing{opacity:1}
-.caption{position:absolute;inset:auto 0 0;display:flex;flex-direction:column;gap:2px;padding:36px 12px 10px;background:linear-gradient(transparent,#000000b8);pointer-events:none;font-size:11px;line-height:1.45}
-.captionLabel{font-size:12px;font-weight:600}
-.captionMeta{opacity:.82}
-.excerpt{display:none;margin-top:2px;opacity:.9;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
-.card:hover .excerpt,.card:focus-within .excerpt{display:-webkit-box}
-.remix{position:absolute;top:10px;right:10px;z-index:2;display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:999px;background:#ffffffee;color:#232323;font-size:12px;font-weight:600;text-decoration:none;opacity:0;transform:translateY(-2px);transition:opacity .15s,transform .15s,background .15s}
-.card:hover .remix,.card:focus-within .remix,.remix:focus-visible{opacity:1;transform:none}
-.remix:hover{background:#fff}
-.remix:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-@media (hover:none){.remix{opacity:1;transform:none}.card:hover .excerpt{display:none}}
 
 .more{display:flex;justify-content:center;margin-top:24px}
 .moreButton{min-height:44px;min-width:160px;padding:0 24px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text-primary);font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s}
 .moreButton:hover{border-color:var(--brand)}
 .moreButton:disabled{opacity:.6;cursor:progress}
 
-@media (max-width:1499px){.batch{column-count:4}}
-@media (max-width:1099px){.batch{column-count:3}}
 @media (max-width:767px){
   .sceneGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .batch{column-count:2;column-gap:8px}
-  .item{margin-bottom:8px}
   .batch + .batch{margin-top:8px}
   .composerFoot{flex-direction:column-reverse;align-items:stretch}
   .submit{width:100%}
-  .caption{padding:24px 8px 8px}
 }
-@media (prefers-reduced-motion:reduce){.sceneImage,.remix{transition:none}.scene:hover .sceneImage{transform:none}}
+@media (prefers-reduced-motion:reduce){.sceneImage{transition:none}.scene:hover .sceneImage{transform:none}}

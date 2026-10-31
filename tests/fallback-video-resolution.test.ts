@@ -1,3 +1,6 @@
+// Upstream contract: with no database a bundled example is an eligible watch page. Keyvo's bundled fallback is noindex
+// by design (tests/example-detail-fallback.test.ts), so this file asserts the upstream behavior.
+import '../scripts/lib/disable-keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { getVideoWatchPageDataById } from '../frontend/server/video-seo';

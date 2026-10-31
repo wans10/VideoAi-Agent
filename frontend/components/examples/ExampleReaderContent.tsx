@@ -14,9 +14,13 @@ import { ExampleReaderContext } from './ExampleReaderContext';
 import { ExampleContinuationActions } from './ExampleContinuationActions.client';
 import { exampleRequestSource } from '@/lib/example-continuation';
 
-type Props = { detail: ExampleWatchDetail; copy: ReaderCopy; locale: string; navigation?: ReaderNavigation; onClose?: () => void; headingLevel?: 'h1' | 'h2' };
+type Props = {
+  detail: ExampleWatchDetail; copy: ReaderCopy; locale: string; navigation?: ReaderNavigation; onClose?: () => void; headingLevel?: 'h1' | 'h2';
+  /** A bundled example has no database job: no Studio/assistant hand-off and no per-model quote table. */
+  bundledExample?: boolean;
+};
 
-export function ExampleReaderContent({ detail, copy, locale, navigation, onClose, headingLevel = 'h2' }: Props) {
+export function ExampleReaderContent({ detail, copy, locale, navigation, onClose, headingLevel = 'h2', bundledExample = false }: Props) {
   const Heading = headingLevel;
   const SectionHeading = headingLevel === 'h1' ? 'h2' : 'h3';
   const QuoteHeading = headingLevel === 'h1' ? 'h3' : 'h4';
@@ -74,7 +78,7 @@ export function ExampleReaderContent({ detail, copy, locale, navigation, onClose
           </div>
           <div className={styles.creationActions}>
             {detail.recreateHref && <a className={styles.primary} href={detail.recreateHref} data-analytics-event="cta_click" data-analytics-cta-name="reuse_example" data-analytics-cta-location="example_reader">{copy.create}<ArrowUpRight size={17}/></a>}
-            <ExampleContinuationActions key={`${detail.id}:${locale}`} source={exampleRequestSource(detail)} locale={locale}/>
+            {!bundledExample && <ExampleContinuationActions key={`${detail.id}:${locale}`} source={exampleRequestSource(detail)} locale={locale}/>}
           </div>
         </section>
         <section className={styles.prompt} aria-labelledby="example-reader-prompt-title">
@@ -95,7 +99,7 @@ export function ExampleReaderContent({ detail, copy, locale, navigation, onClose
         </a>)}</div></section>}
         <VideoWatchShare watchUrl={new URL(detail.watchHref, SITE_ORIGIN).toString()} locale={locale}/>
       </aside>
-      <section className={styles.comparison} aria-labelledby="example-reader-comparison-title">
+      {!bundledExample && <section className={styles.comparison} aria-labelledby="example-reader-comparison-title">
         <div className={styles.comparisonHeading}>
           <SectionHeading id="example-reader-comparison-title">{copy.compare}</SectionHeading>
           {detail.quotes.length > 0 && <>
@@ -119,7 +123,7 @@ export function ExampleReaderContent({ detail, copy, locale, navigation, onClose
           <a className={styles.quoteCta} href={quote.href} aria-label={`${copy.use} · ${quote.label}`} data-analytics-event="cta_click" data-analytics-cta-name="compare_example_model" data-analytics-cta-location="example_reader"><span className={styles.ctaFull}>{copy.use}</span><span className={styles.ctaCompact}>{copy.useShort}</span><ArrowUpRight size={15}/></a>
         </article>)}</div> : <p className={styles.note}>{copy.unavailable}</p>}
         {detail.quotes.length > 0 && <p className={styles.footnote}>{copy.textOnly} {copy.priceNote}</p>}
-      </section>
+      </section>}
     </div>
     <ExampleReaderContext context={detail.context} detail={detail} locale={locale}/>
   </>;
