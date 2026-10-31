@@ -4,12 +4,12 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import { getVideoWatchPageDataById } from '@/server/video-seo';
 import { prepareExampleWatchDetailContext } from '@/server/example-watch-detail-loader';
 import { buildExpectedVideoCanonicalUrl, getVideoCanonicalRedirectPath } from '@/lib/video-seo-canonical';
+import { watchPageMeta } from './_lib/bundled-fallback-detail';
 import { VideoUnavailableState } from './_components/VideoUnavailableState';
 import { VideoWatchContent } from './_components/VideoWatchContent';
 import {
   FALLBACK_THUMB,
   TITLE_SUFFIX,
-  buildMetaTitle,
   isRenderable,
   parseAspectRatio,
   toAbsoluteUrl,
@@ -36,8 +36,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 
   const { video, signals, isEligible } = page;
-  const metaTitle = buildMetaTitle(signals.metaTitle);
-  const description = signals.metaDescription;
+  const { metaTitle, description } = watchPageMeta(video, signals);
   const thumbnail = toAbsoluteUrl(video.thumbUrl) ?? FALLBACK_THUMB;
   const videoUrl = toAbsoluteUrl(video.videoUrl) ?? canonical;
   const aspect = parseAspectRatio(signals.aspectRatio ?? video.aspectRatio);

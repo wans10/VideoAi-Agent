@@ -107,11 +107,8 @@ test('real homepage streams the prompt first screen and works wall before pendin
       assert.match(shell, /fetchPriority="high"|fetchpriority="high"/, 'only the first visible poster is prioritised');
       assert.equal((shell.match(/<img[^>]*fetch[pP]riority="high"/g) ?? []).length, 1, 'exactly one image is high priority; React adds the matching preload link for it');
       assert.equal((shell.match(/data-home-showcase/g) ?? []).length, 1);
-      const firstBatch = listShowcaseCards(0, HOME_SHOWCASE_FIRST_BATCH).cards;
-      const remixable = firstBatch.filter((card) => card.makeHref !== null).length;
-      assert.ok(remixable > 0 && remixable < firstBatch.length, 'some first-batch cards need reference files or are too long to remix');
-      // The scene cards and the starter chips also link to /app?prompt= only through client handlers, so the anchors here are the wall's.
-      assert.equal((shell.match(/href="\/app\?prompt=/g) ?? []).length, remixable, 'a card carries its remix link exactly when the whole Chinese prompt can travel');
+      assert.equal(listShowcaseCards(0, HOME_SHOWCASE_FIRST_BATCH).cards.length, 24);
+      assert.equal((shell.match(/href="\/app\?prompt=/g) ?? []).length, 0, 'the wall has no remix link; the prompt box and scene cards hand off through client handlers');
       assert.equal(new Set(shell.match(/href="\/video\/[^"]+"/g) ?? []).size, 24, 'every card opens its example details');
       assert.doesNotMatch(shell, /<video/, 'no preview video is mounted before playback intent');
       assert.doesNotMatch(shell, /LTX|Veo|Luma|Grok|FLUX|Pika|Sora|Gemini|GPT Image|Nano Banana/, 'no hidden-vendor model appears on the home page');
@@ -140,7 +137,7 @@ test('real homepage streams the prompt first screen and works wall before pendin
           writeFile(join(reportDirectory, `shell-${locale}.html`), shell),
           writeFile(join(reportDirectory, `reveal-${locale}.html`), tail),
           writeFile(join(reportDirectory, `proof-${locale}.json`), JSON.stringify({
-            locale, renderer: React.version, sourceOwners: 'real HomePage/HomePromptHero/HomeShowcaseWall/HomeShowcaseCard',
+            locale, renderer: React.version, sourceOwners: 'real HomePage/HomePromptHero/HomeShowcaseWall/ExampleGalleryCard',
             controlledBoundaries: bundled.controlledBoundaries, calls: fixture.calls, records: fixture.records,
             criticalShellBeforePrices: true, exactDemoMarkupEqual: true, sceneCardsInShell: 4, wallCardsInShell: 24, seoScriptsInShell: 3,
             promptHeroReplacedInReveal: false, wallReplacedInReveal: false,
