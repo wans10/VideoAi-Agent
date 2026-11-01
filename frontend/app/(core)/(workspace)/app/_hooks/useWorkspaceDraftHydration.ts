@@ -15,6 +15,7 @@ import {
   readStoredWorkspaceForm,
 } from '../_lib/workspace-hydration';
 import { createLocalId, createMultiPromptScene } from '../_lib/workspace-input-helpers';
+import { shouldDefaultToLatestPreview } from '../_lib/workspace-default-preview';
 import { STORAGE_KEYS } from '../_lib/workspace-storage';
 
 type ShotType = 'customize' | 'intelligent';
@@ -455,7 +456,10 @@ export function useWorkspaceDraftHydration({
     preserveStoredDraftRef,
   ]);
 
+  const defaultToLatestPreview = shouldDefaultToLatestPreview(authStatus);
   useEffect(() => {
+    // Signed-in users open on an empty preview; only logged-out visitors get the newest available result.
+    if (!defaultToLatestPreview) return;
     if (selectedPreview || rendersLength > 0) return;
     if (effectiveRequestedEngineId || effectiveRequestedEngineToken) return;
     if (hasStoredFormRef.current) return;
@@ -477,6 +481,7 @@ export function useWorkspaceDraftHydration({
       prompt: latestJobWithMedia.prompt ?? undefined,
     });
   }, [
+    defaultToLatestPreview,
     effectiveRequestedEngineId,
     effectiveRequestedEngineToken,
     fromVideoId,

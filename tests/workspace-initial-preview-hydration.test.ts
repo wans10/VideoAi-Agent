@@ -100,8 +100,8 @@ test('the server-selected latest preview survives boot instead of loading a stal
   }
 });
 
-test('legacy saved-preview restoration remains available when the server has no preview', async () => {
-  const fixture = await mount(null);
+test('legacy saved-preview restoration remains available to a logged-out visitor when the server has no preview', async () => {
+  const fixture = await mount(null, { accountScope: 'public' });
   try {
     assert.equal(fixture.video, null);
     await fixture.completeRequests();
@@ -109,6 +109,18 @@ test('legacy saved-preview restoration remains available when the server has no 
     assert.equal(fixture.prompt, 'Current draft');
     assert.deepEqual(fixture.requests.map(request => request.url), ['/api/jobs/job_old']);
   } finally { await fixture.dispose(); }
+});
+
+test('a signed-in user with no server preview never gets a remembered result restored', async () => {
+  for (const accountScope of ['fixture-account', null]) {
+    const fixture = await mount(null, { accountScope });
+    try {
+      await fixture.completeRequests();
+      assert.equal(fixture.video, null, 'the preview stays empty on entry');
+      assert.equal(fixture.prompt, 'Current draft');
+      assert.deepEqual(fixture.requests, [], 'no saved job or settings request is made');
+    } finally { await fixture.dispose(); }
+  }
 });
 
 test('an explicit job link can still select its preview instead of the default latest render', async () => {

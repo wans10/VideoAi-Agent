@@ -5,6 +5,7 @@ import type { PricingSnapshot } from '@maxvideoai/pricing';
 import type { ImageCompositePreviewEntry } from '@/components/groups/ImageCompositePreviewDock';
 import type { GroupSummary } from '@/types/groups';
 import { buildPendingGenerations } from '@/lib/pending-generations';
+import { resolveImagePreviewEntry } from '../_lib/image-workspace-preview';
 import type { HistoryEntry, ImageEngineOption } from '../_lib/image-workspace-types';
 import type { StarterMedia } from '@/lib/starter-media';
 import { useStarterMedia } from '@/components/starters/useStarterMedia';
@@ -19,6 +20,8 @@ type UseImageWorkspaceDisplayStateArgs = {
   selectedEngine: ImageEngineOption | undefined;
   selectedPreviewEntryId: string | null;
   suppressDefaultPreview?: boolean;
+  /** Open on the newest earlier entry. Off for signed-in users: their preview starts empty (see image-workspace-preview.ts). */
+  defaultToLatestEntry?: boolean;
   guestStarter?: { ready: boolean; prompt: string; setPrompt: Dispatch<SetStateAction<string>> };
 };
 
@@ -32,6 +35,7 @@ export function useImageWorkspaceDisplayState({
   selectedEngine,
   selectedPreviewEntryId,
   suppressDefaultPreview = false,
+  defaultToLatestEntry = false,
   guestStarter,
 }: UseImageWorkspaceDisplayStateArgs) {
   const [selectedStarter, setSelectedStarter] = useState<StarterMedia | null>(null);
@@ -51,14 +55,12 @@ export function useImageWorkspaceDisplayState({
     if (guestStarter.prompt.trim() || selectedPreviewEntryId || historyEntries.length || pendingGroups.length || suppressDefaultPreview) return;
     selectStarter(starterItems[0]);
   }, [guestStarter, historyEntries.length, pendingGroups.length, selectedPreviewEntryId, starterItems, suppressDefaultPreview, selectStarter]);
-  const previewEntry = (() => {
-    if (suppressDefaultPreview && !selectedPreviewEntryId) return undefined;
-    if (selectedPreviewEntryId) {
-      const match = historyEntries.find((entry) => entry.id === selectedPreviewEntryId);
-      if (match) return match;
-    }
-    return historyEntries[0];
-  })();
+  const previewEntry = resolveImagePreviewEntry({
+    historyEntries,
+    selectedPreviewEntryId,
+    suppressDefaultPreview,
+    defaultToLatestEntry,
+  });
 
   const pendingGenerations = useMemo(() => buildPendingGenerations(pendingGroups, 'group'), [pendingGroups]);
 

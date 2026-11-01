@@ -363,7 +363,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     pricingSnapshot,
     selectedEngine,
     selectedPreviewEntryId,
-    suppressDefaultPreview: librarySource === 'storyboard',
+    suppressDefaultPreview: librarySource === 'storyboard', defaultToLatestEntry: !accountId,
   });
   const {
     copiedUrl,

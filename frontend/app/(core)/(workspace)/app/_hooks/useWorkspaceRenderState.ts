@@ -39,6 +39,7 @@ import {
   mergeRecentJobsIntoLocalRenders,
   shouldRemoveCompletedSyncedRender,
 } from '../_lib/workspace-render-status';
+import { resolveActiveGroupId, resolveActiveVideoGroup, shouldDefaultToLatestPreview } from '../_lib/workspace-default-preview';
 import { STORAGE_KEYS } from '../_lib/workspace-storage';
 
 type UseWorkspaceRenderStateOptions = {
@@ -53,6 +54,8 @@ type UseWorkspaceRenderStateOptions = {
   writeScopedStorage: (base: string, value: string | null) => void;
   workspaceCopy: WorkspaceFailureCopy;
   uiLocale: string;
+  /** Signed-in users open on an empty preview; only `loggedOut` keeps the newest-result default (see workspace-default-preview.ts). */
+  authStatus: string | null | undefined;
 };
 
 type UseWorkspaceRenderStateResult = {
@@ -93,7 +96,9 @@ export function useWorkspaceRenderState({
   writeScopedStorage,
   workspaceCopy,
   uiLocale,
+  authStatus,
 }: UseWorkspaceRenderStateOptions): UseWorkspaceRenderStateResult {
+  const defaultToLatestPreview = shouldDefaultToLatestPreview(authStatus);
   const [renders, setRenders] = useState<LocalRender[]>([]);
   const [selectedPreview, setSelectedPreview] = useState<SelectedVideoPreview | null>(null);
   const [activeBatchId, setActiveBatchId] = useState<string | null>(null);
@@ -368,28 +373,28 @@ export function useWorkspaceRenderState({
     if (compositeOverrideSummary || selectedPreview) {
       return;
     }
-    if (!pendingGroups.length) {
-      if (activeGroupId !== null) {
-        setActiveGroupId(null);
-      }
-      return;
+    // A group becomes active by a user action or a generation started here; only the logged-out default picks the newest.
+    const nextGroupId = resolveActiveGroupId({
+      activeGroupId,
+      groupIds: pendingGroups.map((group) => group.id),
+      defaultToLatest: defaultToLatestPreview,
+    });
+    if (nextGroupId !== activeGroupId) {
+      setActiveGroupId(nextGroupId);
     }
-    if (!activeGroupId || !pendingGroups.some((group) => group.id === activeGroupId)) {
-      setActiveGroupId(pendingGroups[0].id);
-    }
-  }, [pendingGroups, activeGroupId, compositeOverrideSummary, selectedPreview]);
+  }, [pendingGroups, activeGroupId, compositeOverrideSummary, selectedPreview, defaultToLatestPreview]);
 
-  const activeVideoGroup = useMemo<VideoGroup | null>(() => {
-    if (compositeOverride) return null;
-    if (!activeVideoGroups.length) return null;
-    if (selectedPreview) {
-      // An unrelated active job must not replace an explicitly selected result.
-      return activeVideoGroups.find(group => group.id === selectedPreview.batchId ||
-        group.items.some(item => (item.jobId ?? item.id) === selectedPreview.id)) ?? null;
-    }
-    if (!activeGroupId) return activeVideoGroups[0] ?? null;
-    return activeVideoGroups.find((group) => group.id === activeGroupId) ?? activeVideoGroups[0] ?? null;
-  }, [activeVideoGroups, activeGroupId, compositeOverride, selectedPreview]);
+  const activeVideoGroup = useMemo<VideoGroup | null>(
+    () =>
+      resolveActiveVideoGroup({
+        activeVideoGroups,
+        activeGroupId,
+        selectedPreview,
+        hasCompositeOverride: Boolean(compositeOverride),
+        defaultToLatest: defaultToLatestPreview,
+      }),
+    [activeVideoGroups, activeGroupId, compositeOverride, selectedPreview, defaultToLatestPreview]
+  );
 
   const isGenerationLoading = useMemo(() => isGenerationGroupLoading(pendingGroups), [pendingGroups]);
   const generationSkeletonCount = useMemo(

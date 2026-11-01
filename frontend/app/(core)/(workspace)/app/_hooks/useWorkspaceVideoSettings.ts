@@ -601,6 +601,9 @@ export function useWorkspaceVideoSettings({
     if (fromVideoId) return;
     // The server already chose the latest render for this visit. A remembered
     // gallery selection is only a fallback when that initial preview is absent.
+    // Signed-in users open on an empty preview, so nothing remembered is shown for them. The 'public' scope is the
+    // logged-out visitor (AppClient draftOwner); an unresolved or account scope never restores.
+    if (accountScope !== 'public') return;
     if (initialPreviewGroup) return;
     if (rendersLength > 0) return;
     if (compositeOverride) return;
@@ -652,6 +655,7 @@ export function useWorkspaceVideoSettings({
     engines.length,
     fromVideoId,
     hydratedForScope,
+    accountScope,
     initialPreviewGroup,
     provider,
     readScopedStorage,
