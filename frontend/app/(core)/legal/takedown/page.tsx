@@ -4,6 +4,8 @@ import { resolveLocale } from '@/lib/i18n/server';
 import type { AppLocale } from '@/i18n/locales';
 import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
+import { LegalContactEmail, LegalFact } from '@/components/legal/LegalFact';
+import { legalText } from '@/lib/legal-entity';
 
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
@@ -64,7 +66,7 @@ const HEADER_COPY: Record<AppLocale, { title: string; effective: string; company
   },
   zh: {
     title: '通知与下架',
-    effective: '生效日期：2025年10月28日',
+    effective: `生效日期：${legalText('effectiveDate')}`,
     companyLine: '服务：Keyvo',
     contactLabel: '联系方式：',
   },
@@ -167,17 +169,30 @@ function TakedownArticle({ locale }: { locale: AppLocale }) {
       return (
         <article className="space-y-4 text-base leading-relaxed text-text-secondary">
           <p>
-            如果通过 Keyvo 生成的内容侵犯了您的合法权益或违反了法律法规，请使用此表单申请审查。我们将确认收到、迅速展开调查并采取适当措施（包括在必要时下架内容或暂停账户）。
+            您认为通过 <LegalFact k="productName" /> 生成或展示的内容侵犯了您的著作权、商标权、肖像权、名誉权、隐私和个人信息权益等合法权益，或发现违法违规内容的，可以使用下方表单，或发送邮件至{' '}
+            <LegalContactEmail />，向我们投诉举报。
           </p>
+          <section className="space-y-2">
+            <h2 className="text-lg font-semibold text-text-primary">请提供以下材料</h2>
+            <ul className="ml-5 list-disc space-y-1.5">
+              <li>权利人的姓名或名称、身份证明和联系方式；</li>
+              <li>权属证明，或证明您对该内容享有权益的材料；</li>
+              <li>被投诉内容所在的网址，以及能定位该内容的描述；</li>
+              <li>认为构成侵权或违法的理由和初步证据；</li>
+              <li>您对通知内容真实性的声明。通知不实造成他人损失的，您可能需要承担相应的法律责任。</li>
+            </ul>
+          </section>
+          <section className="space-y-2">
+            <h2 className="text-lg font-semibold text-text-primary">我们如何处理</h2>
+            <ol className="space-y-2">
+              <li>1. 我们收到后会确认并审核材料，必要时请您补充。</li>
+              <li>2. 通知符合要求的，我们会依法及时采取删除、屏蔽、限制账号等必要措施，并把通知转送给发布该内容的用户。</li>
+              <li>3. 该用户认为不构成侵权的，可以提交说明和证明材料，我们会转告权利人，并按法律规定继续处理。权利人在法定期限内未采取进一步措施的，我们可以依法恢复相关内容。</li>
+              <li>4. 具体程序依照《中华人民共和国民法典》及相关法律法规中关于网络侵权通知与反通知的规定（以现行有效为准）。</li>
+            </ol>
+          </section>
           <p>
-            紧急情况（涉及人身安全或执法请求），请发送邮件至{' '}
-            <ObfuscatedEmailLink
-              user="contact"
-              domain="llmhub.com.cn"
-              label="contact@llmhub.com.cn"
-              placeholder="contact [at] llmhub.com.cn"
-            />{' '}
-            并在主题中注明“URGENT”。
+            紧急情况（涉及人身安全或有权机关的要求），请发送邮件至 <LegalContactEmail /> 并在主题中注明“紧急”。您也可以向有关主管部门举报违法违规内容。
           </p>
         </article>
       );

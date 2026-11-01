@@ -3,6 +3,7 @@ import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink'
 import { resolveLocale } from '@/lib/i18n/server';
 import type { AppLocale } from '@/i18n/locales';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
+import { legalText } from '@/lib/legal-entity';
 
 type Subprocessor = {
   provider: string;
@@ -43,6 +44,7 @@ const PAGE_COPY: Record<
     lastUpdated: string;
     columns: { provider: string; service: string; location: string; data: string };
     contactIntro: string;
+    note?: string;
   }
 > = {
   en: {
@@ -82,16 +84,17 @@ const PAGE_COPY: Record<
     contactIntro: '¿Necesitas más información o una copia firmada de nuestro acuerdo de tratamiento de datos? Contacta con',
   },
   zh: {
-    title: '数据子处理者',
-    intro: '我们聘用以下第三方协助提供服务。我们维持适当的数据处理协议并进行定期审查。',
-    lastUpdated: '最后更新：2025年10月26日',
+    title: '子处理方清单',
+    intro: '为提供服务，我们委托下列第三方处理部分个人信息，各自的作用和涉及的信息如下。',
+    note: `${legalText('dataStorageStatement')}。`,
+    lastUpdated: `最后更新：${legalText('effectiveDate')}`,
     columns: {
-      provider: '提供商',
-      service: '服务内容',
-      location: '主要处理地',
-      data: '处理的数据',
+      provider: '第三方',
+      service: '作用',
+      location: '',
+      data: '涉及的信息',
     },
-    contactIntro: '需要更多信息或索取已签署的数据处理协议副本？请联系',
+    contactIntro: '如需了解更多，请联系',
   },
 };
 
@@ -229,48 +232,20 @@ const SUBPROCESSORS: Record<AppLocale, Subprocessor[]> = {
     },
   ],
   zh: [
+    { provider: '聚合易支付（LLM Hub Pay）', service: '支付与充值', location: '', data: '订单号、金额、币种、支付结果与回调信息' },
     {
-      provider: 'Stripe Payments Europe, Ltd.',
-      service: '支付处理、反欺诈审查',
-      location: '欧盟（爱尔兰）/ 全球',
-      data: '账单元数据、部分卡信息（Token化）、钱包交易记录',
+      provider: 'LLM Hub 接口（api.llmhub.com.cn）',
+      service: '模型接口聚合，转发图像、视频生成请求',
+      location: '',
+      data: '提示词、参考素材、任务标识、生成结果',
+      notes: '该接口会把请求转发给其下游的模型提供方。',
     },
-    {
-      provider: 'Neon (Neon, Inc.)',
-      service: '主应用数据库',
-      location: '欧盟（法兰克福）',
-      data: '工作区数据、收据、同意日志、任务元数据',
-    },
-    {
-      provider: 'Supabase',
-      service: '身份验证与用户会话管理',
-      location: '欧盟（巴黎）',
-      data: '账户凭证、邮箱、身份验证日志',
-    },
-    {
-      provider: 'Vercel Inc.',
-      service: '托管、CDN、Serverless 平台',
-      location: '全球（美国/欧盟边缘节点）',
-      data: '应用程序内容、日志、IP 地址（边缘路由）',
-    },
-    {
-      provider: 'Amazon Web Services (AWS S3)',
-      service: '上传与导出对象存储',
-      location: '欧盟（巴黎）/ 欧盟（法兰克福）',
-      data: '用户上传的素材、DSAR 导出、生成的媒体',
-    },
-    {
-      provider: 'Fal.ai',
-      service: 'AI 视频推理 API',
-      location: '美国 / 欧盟地区',
-      data: '提示词、参考素材、推理输出、任务标识符',
-    },
-    {
-      provider: 'Resend, Inc.',
-      service: '事务性邮件发送',
-      location: '美国 / 欧盟',
-      data: '邮箱地址、模板变量、投递元数据',
-    },
+    { provider: '阿里云 Model Studio（百炼）', service: '图像与视频生成', location: '', data: '提示词、参考素材、生成结果' },
+    { provider: '火山引擎方舟', service: '图像与视频生成', location: '', data: '提示词、参考素材、生成结果' },
+    { provider: 'Supabase', service: '账号认证与会话管理', location: '', data: '邮箱、认证凭证、会话与认证日志' },
+    { provider: '对象存储与内容分发服务', service: '保存上传素材与生成结果', location: '', data: '您上传的素材、生成结果' },
+    { provider: '数据库服务', service: '保存账号、订单、任务数据', location: '', data: '账号、订单、钱包流水、任务元数据' },
+    { provider: '服务器与托管服务', service: '运行应用并记录访问日志', location: '', data: '访问日志（含 IP 地址）、应用运行数据' },
   ],
 };
 
@@ -300,6 +275,7 @@ export default async function SubprocessorsPage() {
         <h1 className="text-xl font-semibold text-text-primary">{copy.title}</h1>
         <p className="text-sm text-text-secondary">{copy.intro}</p>
         <p className="text-sm text-text-secondary">{copy.lastUpdated}</p>
+        {copy.note ? <p className="text-sm text-text-secondary">{copy.note}</p> : null}
       </header>
 
       <div className="overflow-x-auto">
@@ -308,7 +284,7 @@ export default async function SubprocessorsPage() {
             <tr>
               <th scope="col" className="px-4 py-3">{copy.columns.provider}</th>
               <th scope="col" className="px-4 py-3">{copy.columns.service}</th>
-              <th scope="col" className="px-4 py-3">{copy.columns.location}</th>
+              {copy.columns.location ? <th scope="col" className="px-4 py-3">{copy.columns.location}</th> : null}
               <th scope="col" className="px-4 py-3">{copy.columns.data}</th>
             </tr>
           </thead>
@@ -317,7 +293,7 @@ export default async function SubprocessorsPage() {
               <tr key={entry.provider}>
                 <td className="px-4 py-4 font-medium text-text-primary">{entry.provider}</td>
                 <td className="px-4 py-4 text-text-secondary">{entry.service}</td>
-                <td className="px-4 py-4 text-text-secondary">{entry.location}</td>
+                {copy.columns.location ? <td className="px-4 py-4 text-text-secondary">{entry.location}</td> : null}
                 <td className="px-4 py-4 text-text-secondary">
                   {entry.data}
                   {entry.notes ? <span className="block text-xs text-text-muted">{entry.notes}</span> : null}

@@ -5,6 +5,8 @@ import type { AppLocale } from '@/i18n/locales';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
+import { LegalContactEmail } from '@/components/legal/LegalFact';
+import { legalText } from '@/lib/legal-entity';
 
 const METADATA_COPY: Record<AppLocale, { title: string; description: string; imageAlt: string }> = {
   en: {
@@ -65,7 +67,7 @@ const HEADER_COPY: Record<AppLocale, { title: string; effective: string; company
   },
   zh: {
     title: '可接受使用政策',
-    effective: '生效日期：2025年10月28日',
+    effective: `生效日期：${legalText('effectiveDate')}`,
     companyLine: '服务：Keyvo',
     contactLabel: '联系方式：',
   },
@@ -93,12 +95,14 @@ function AupArticleZh({ takedownHref }: { takedownHref: string }) {
       <section className="space-y-2">
         <h2 className="text-lg font-semibold text-text-primary">禁止提交或分发以下内容</h2>
         <ul className="ml-5 list-disc space-y-1.5">
+          <li>危害国家安全、荣誉和利益，煽动颠覆国家政权、分裂国家，宣扬恐怖主义、极端主义，或散布谣言扰乱社会秩序的内容。</li>
           <li>任何违法内容，包括儿童性虐待材料或极端主义宣传。</li>
           <li>未经同意的私密影像、对未成年人的性化或剥削性描绘，以及旨在损害个人名誉或隐私的深度伪造内容。</li>
           <li>仇恨言论、骚扰、跟踪、泄露个人信息，或鼓励针对个人或群体的自残、自杀或暴力行为。</li>
           <li>侵犯知识产权或肖像等人格权益的内容，包括未经许可的标识和受版权保护的媒体。</li>
           <li>恶意软件、网络钓鱼内容，或试图未经授权访问系统或数据的内容。</li>
           <li>协助欺诈、诈骗、间谍软件、非法监控或其他犯罪活动的内容。</li>
+          <li>法律、行政法规禁止的其他内容。</li>
         </ul>
       </section>
       <section className="space-y-2">
@@ -111,7 +115,7 @@ function AupArticleZh({ takedownHref }: { takedownHref: string }) {
       </section>
       <section className="space-y-2">
         <h2 className="text-lg font-semibold text-text-primary">举报滥用</h2>
-        <p>如果您认为通过 Keyvo 生成的内容违反本政策或侵犯您的权益，请通过 <Link href={takedownHref} className="text-link underline">通知与下架表单</Link> 或发送邮件至 <ObfuscatedEmailLink user="contact" domain="llmhub.com.cn" label="contact@llmhub.com.cn" placeholder="contact [at] llmhub.com.cn" /> 通知我们。我们会审查每份举报并及时采取行动。</p>
+        <p>如果您认为通过 Keyvo 生成的内容违反本政策或侵犯您的权益，请通过 <Link href={takedownHref} className="text-link underline">通知与下架表单</Link> 或发送邮件至 <LegalContactEmail /> 通知我们。我们会审查每份举报并及时采取行动。</p>
       </section>
     </article>
   );

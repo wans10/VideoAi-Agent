@@ -3,6 +3,7 @@ import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink'
 import { resolveLocale } from '@/lib/i18n/server';
 import type { AppLocale } from '@/i18n/locales';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
+import { legalText } from '@/lib/legal-entity';
 
 type CookieRow = {
   name: string;
@@ -113,7 +114,7 @@ const PAGE_COPY: Record<
   zh: {
     title: 'Cookie 与 SDK 清单',
     intro: '我们记录 app.keyvo.cn 上使用的 Cookie 和 SDK。非必要技术仅在获得同意后才会激活。',
-    lastUpdated: '最后更新：2025年10月26日',
+    lastUpdated: `最后更新：${legalText('effectiveDate')}`,
     categoryLabel: {
       essential: '必要',
       analytics: '分析统计',

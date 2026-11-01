@@ -51,7 +51,7 @@ export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: strin
     title: '服务条款',
     versionLabel: '版本',
     effectiveLabel: '生效日期',
-    companyLine: '公司：Keyvo（设立中的个人独资企业）· 管辖法律：法国（巴黎法院）',
+    companyLine: '运营者信息见本页“运营者信息”一节',
     contactLabel: '联系方式：',
   },
 };
