@@ -1,0 +1,23 @@
+{
+  "_readme": "The facts the Chinese legal pages print, as given by the site owner. Only facts the owner provided or that are displayed on the live site are listed here; nothing is invented and nothing is a placeholder. A clause that would need a fact that is not listed here is not written. Entries with ownerStated:true are the owner's own statements that have not been checked against the infrastructure; see docs/legal/zh-legal-review-checklist.md. Draft text, not legal advice.",
+  "productName": { "value": "Keyvo" },
+  "siteUrl": { "value": "https://app.keyvo.cn" },
+  "icpFilingNumber": { "value": "津ICP备2025029271号-2", "note": "Confirmed by the owner (2026-10-30)." },
+  "paymentProvider": { "value": "聚合易支付（LLM Hub Pay）", "note": "Wallet top-ups go through the LLM Hub Pay integration in the code." },
+  "contactEmail": { "value": "contact@llmhub.com.cn", "note": "The address the live site already shows (rendered obfuscated as 'contact [at] llmhub.com.cn'). Used for customer service, infringement and complaint notices, and personal-information requests. No other channel is provided." },
+  "operatorName": { "value": "天津市南开区芊与芊寻信息服务工作室", "ownerStated": true },
+  "operatorType": { "value": "个体工商户", "ownerStated": true },
+  "creditCode": { "value": "92120104MA82H8MQ0M", "ownerStated": true, "note": "Unified social credit code." },
+  "registeredAddress": { "value": "天津市南开区士英路19号207", "ownerStated": true },
+  "governingLaw": { "value": "中华人民共和国大陆地区法律", "ownerStated": true },
+  "disputeForum": { "value": "被告住所地人民法院管辖", "ownerStated": true },
+  "personalInfoContact": { "value": "杨博钧", "ownerStated": true, "note": "Contact person; the only channel is contactEmail." },
+  "dataStorageStatement": {
+    "value": "您的个人信息保存和处理均在中华人民共和国大陆境内，我们不向中华人民共和国境外提供您的个人信息",
+    "ownerStated": true,
+    "note": "Owner-stated and NOT verified. It conflicts with evidence in the repo and production: the S3 region in .env.production.example is ap-southeast-1, the server shows an AWS default hostname ip-172-31-x-x with IP 13.212.96.236, the Supabase auth project's location is unknown, and the workspace history shows GPT Image and Veo entries routed through the LLM Hub aggregator. See the review checklist, priority item 1."
+  },
+  "effectiveDate": { "value": "2026年11月1日", "note": "Date of this change; the owner may change it." },
+  "documentVersion": { "value": "2026-11-01", "note": "Shown on the Chinese pages only. LEGAL_FALLBACK_VERSIONS and the legal_documents rows (which drive re-consent) are NOT changed by this draft." },
+  "genAiFilingStatus": { "value": "目前未取得生成式人工智能服务备案或登记", "ownerStated": true, "note": "For the review checklist only. It is never printed on the site and no page may imply a filing is held." }
+}

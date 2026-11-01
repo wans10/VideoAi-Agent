@@ -155,7 +155,7 @@ const HERO_COPY: Record<AppLocale, HeroCopy> = {
       {
         title: '需要协议？',
         body:
-          '企业客户可通过向 {{email}} 发送包含公司详细信息和所需表格的邮件，申请签署的 DPA、安全调查问卷或 SOC 文档。',
+          '如需了解本服务的条款、隐私或合规情况，可以通过 {{email}} 联系我们。',
       },
     ],
     versionLabel: '版本',

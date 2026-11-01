@@ -2,6 +2,7 @@ import type { AppLocale } from '@/i18n/locales';
 import { PrivacyArticleEn } from './PrivacyArticleEn';
 import { PrivacyArticleEs } from './PrivacyArticleEs';
 import { PrivacyArticleFr } from './PrivacyArticleFr';
+import { PrivacyArticleZh } from './PrivacyArticleZh';
 
 export type PrivacyBodyProps = {
   locale: AppLocale;
@@ -16,6 +17,8 @@ export type PrivacyBodyProps = {
 
 export function PrivacyArticle({ locale, version, effective, links }: PrivacyBodyProps) {
   switch (locale) {
+    case 'zh':
+      return <PrivacyArticleZh links={links} />;
     case 'fr':
       return <PrivacyArticleFr version={version} effective={effective} links={links} />;
     case 'es':

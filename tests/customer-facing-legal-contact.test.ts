@@ -30,8 +30,13 @@ test('customer-facing support references use the maxvideoai.com mailbox', () => 
   }
 });
 
-test('legal mentions use the Stripe public business address exactly', () => {
+test('legal mentions use the Stripe public business address exactly in the locales that publish it', () => {
   const source = readFileSync('frontend/app/(core)/legal/mentions/page.tsx', 'utf8');
-  assert.equal((source.match(new RegExp(stripeLegalAddress.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) ?? []).length, 4);
+  const escaped = stripeLegalAddress.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // English, French and Spanish keep the upstream operator address. The Chinese page publishes the Keyvo operator's
+  // own facts (config/legal-entity.json) and must not carry the upstream operator's address.
+  assert.equal((source.match(new RegExp(escaped, 'g')) ?? []).length, 3);
   assert.doesNotMatch(source, /324 rue de la mare, 60730 Novillers/i);
+  const zh = source.slice(source.indexOf("  zh: {\n    meta: {"), source.indexOf('export async function generateMetadata'));
+  assert.doesNotMatch(zh, /Novillers|France|Millot|SIREN/);
 });

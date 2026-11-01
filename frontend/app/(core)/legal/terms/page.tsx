@@ -8,6 +8,7 @@ import { resolveLocale } from '@/lib/i18n/server';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
+import { LegalFact } from '@/components/legal/LegalFact';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await resolveLocale()) as AppLocale;
@@ -34,34 +35,58 @@ export default async function TermsPage() {
 
   return (
     <div className="stack-gap-lg">
-      <header className="stack-gap-sm">
-        <h1 className="text-xl font-semibold text-text-primary">{header.title}</h1>
-        <p className="text-sm text-text-secondary">
-          {header.versionLabel}: {version} · {header.effectiveLabel}: {effective ?? version}
-        </p>
-        <p className="text-sm text-text-secondary">{header.companyLine}</p>
-        <p className="text-sm text-text-secondary">
-          {header.contactLabel}{' '}
-          <ObfuscatedEmailLink
-            user="contact"
-            domain="llmhub.com.cn"
-            label="contact@llmhub.com.cn"
-            placeholder="contact [at] llmhub.com.cn"
-            unstyled
-            className="font-medium"
-          />{' '}
-          ·{' '}
-          <ObfuscatedEmailLink
-            user="contact"
-            domain="llmhub.com.cn"
-            label="contact@llmhub.com.cn"
-            placeholder="contact [at] llmhub.com.cn"
-            unstyled
-            className="font-medium"
-          />
-        </p>
-        <LegalVersionBadge docKey="terms" doc={document} locale={locale} />
-      </header>
+      {locale === 'zh' ? (
+        <header className="stack-gap-sm">
+          <h1 className="text-xl font-semibold text-text-primary">{header.title}</h1>
+          <p className="text-sm text-text-secondary">
+            {header.versionLabel}：<LegalFact k="documentVersion" /> · {header.effectiveLabel}：<LegalFact k="effectiveDate" />
+          </p>
+          <p className="text-sm text-text-secondary">
+            运营者：<LegalFact k="operatorName" /> · 适用法律：<LegalFact k="governingLaw" />
+          </p>
+          <p className="text-sm text-text-secondary">
+            {header.contactLabel}
+            <ObfuscatedEmailLink
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
+              unstyled
+              className="font-medium"
+            />
+          </p>
+          <LegalVersionBadge docKey="terms" doc={document} locale={locale} />
+        </header>
+      ) : (
+        <header className="stack-gap-sm">
+          <h1 className="text-xl font-semibold text-text-primary">{header.title}</h1>
+          <p className="text-sm text-text-secondary">
+            {header.versionLabel}: {version} · {header.effectiveLabel}: {effective ?? version}
+          </p>
+          <p className="text-sm text-text-secondary">{header.companyLine}</p>
+          <p className="text-sm text-text-secondary">
+            {header.contactLabel}{' '}
+            <ObfuscatedEmailLink
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
+              unstyled
+              className="font-medium"
+            />{' '}
+            ·{' '}
+            <ObfuscatedEmailLink
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
+              unstyled
+              className="font-medium"
+            />
+          </p>
+          <LegalVersionBadge docKey="terms" doc={document} locale={locale} />
+        </header>
+      )}
       <TermsArticle locale={locale} version={version} effective={effective ?? version} subprocessorsHref={subprocessorsHref} />
     </div>
   );

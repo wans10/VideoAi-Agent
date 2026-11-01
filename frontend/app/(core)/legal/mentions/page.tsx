@@ -5,6 +5,7 @@ import { resolveLocale } from '@/lib/i18n/server';
 import type { AppLocale } from '@/i18n/locales';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
+import { MentionsZh } from './_components/MentionsZh';
 
 type MentionsCopy = {
   meta: {
@@ -192,51 +193,20 @@ const COPY: Record<AppLocale, MentionsCopy> = {
         'Ilustraciones y contenidos generados con Keyvo y sus socios de inferencia. Las marcas citadas siguen siendo propiedad de sus respectivos titulares.',
     },
   },
+  // The Chinese page is rendered by MentionsZh from the operator's own facts (config/legal-entity.json); only the
+  // metadata below is read from this table.
   zh: {
-    meta: {
-      title: '法律声明',
-      description: 'Keyvo 法定法律声明信息。',
-      imageAlt: '法律声明',
-    },
-    heading: '法律声明',
-    intro: '根据法国 2004 年 6 月 21 日关于数字经济信心的第 2004-575 号法律第 6 条。',
+    meta: { title: '运营者信息', description: 'Keyvo 运营者、备案与联系方式等公示信息。', imageAlt: '运营者信息' },
+    heading: '运营者信息',
+    intro: '',
     publisher: {
-      title: '网站发布者',
-      companyLabel: '公司名称：',
-      companyValue: 'Keyvo（设立中的个人独资企业）',
-      addressLabel: '地址：',
-      addressValue: "324 Rue De La Mare D'ovillers, 60730 Novillers, France",
-      directorLabel: '出版负责人：',
-      directorValue: 'Adrien Millot',
-      contactLabel: '联系方式：',
-      registrationLabel: 'SIREN：',
-      registrationValue: '等待分配',
-      vatLabel: '欧盟增值税号：',
-      vatValue: '等待分配',
+      title: '', companyLabel: '', companyValue: '', addressLabel: '', addressValue: '', directorLabel: '',
+      directorValue: '', contactLabel: '', registrationLabel: '', registrationValue: '', vatLabel: '', vatValue: '',
     },
-    hosting: {
-      title: '托管服务',
-      providerLabel: '托管服务商：',
-      providerValue: 'Vercel Inc., 444 De Haro Street, Suite 200, San Francisco, CA 94107, United States',
-      websiteLabel: '官方网站：',
-    },
-    intellectualProperty: {
-      title: '知识产权',
-      body:
-        'app.keyvo.cn 上提供的所有内容（文本、视觉图像、界面和功能）均受版权保护，并适当时受工业产权法保护。未经许可，严禁任何形式的复制或传播。',
-    },
-    personalData: {
-      title: '个人数据',
-      prefix: 'Keyvo 根据',
-      privacyLinkLabel: '隐私政策',
-      middle: ' 收集和处理个人数据。如需行使 GDPR 权利（访问、更正、删除、反对、数据迁移），请联系',
-      suffix: '。',
-    },
-    credits: {
-      title: '版权归属',
-      body:
-        '插图和素材均使用 Keyvo 及其推理合作伙伴生成。所提及的商标仍为其各自所有者的财产。',
-    },
+    hosting: { title: '', providerLabel: '', providerValue: '', websiteLabel: '' },
+    intellectualProperty: { title: '', body: '' },
+    personalData: { title: '', prefix: '', privacyLinkLabel: '', middle: '', suffix: '' },
+    credits: { title: '', body: '' },
   },
 };
 
@@ -257,6 +227,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MentionsLegalesPage() {
   const locale = (await resolveLocale()) as AppLocale;
+  if (locale === 'zh') return <MentionsZh />;
   const copy = COPY[locale] ?? COPY.en;
   const privacyHref = localizePathFromEnglish(locale, '/legal/privacy');
 

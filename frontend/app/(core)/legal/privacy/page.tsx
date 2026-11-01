@@ -9,6 +9,7 @@ import { resolveLocale } from '@/lib/i18n/server';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
+import { LegalFact } from '@/components/legal/LegalFact';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await resolveLocale()) as AppLocale;
@@ -39,60 +40,88 @@ export default async function PrivacyPage() {
 
   return (
     <div className="stack-gap-lg">
-      <header className="stack-gap-sm">
-        <h1 className="text-xl font-semibold text-text-primary">{header.title}</h1>
-        <p className="text-sm text-text-secondary">
-          {header.versionLabel}: {version} · {header.effectiveLabel}: {effective ?? version}
-        </p>
-        <p className="text-sm text-text-secondary">
-          {locale === 'en' ? (
-            <>
-              Controller: Keyvo (sole proprietorship in formation, France). Registered office: see{' '}
-              <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
-                legal mentions
-              </Link>
-              .
-            </>
-          ) : locale === 'fr' ? (
-            <>
-              Responsable de traitement : Keyvo (entreprise individuelle en France). Adresse : voir{' '}
-              <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
-                Mentions légales
-              </Link>
-              .
-            </>
-          ) : (
-            <>
-              Responsable: Keyvo (empresa individual en Francia). Dirección: consulta las{' '}
-              <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
-                menciones legales
-              </Link>
-              .
-            </>
-          )}
-        </p>
-        <p className="text-sm text-text-secondary">
-          {header.contactLabel}{' '}
-          <ObfuscatedEmailLink
-            user="contact"
-            domain="llmhub.com.cn"
-            label="contact@llmhub.com.cn"
-            placeholder="contact [at] llmhub.com.cn"
-            unstyled
-            className="font-medium"
-          />{' '}
-          ·{' '}
-          <ObfuscatedEmailLink
-            user="contact"
-            domain="llmhub.com.cn"
-            label="contact@llmhub.com.cn"
-            placeholder="contact [at] llmhub.com.cn"
-            unstyled
-            className="font-medium"
-          />
-        </p>
-        <LegalVersionBadge docKey="privacy" doc={document} locale={locale} />
-      </header>
+      {locale === 'zh' ? (
+        <header className="stack-gap-sm">
+          <h1 className="text-xl font-semibold text-text-primary">{header.title}</h1>
+          <p className="text-sm text-text-secondary">
+            {header.versionLabel}：<LegalFact k="documentVersion" /> · {header.effectiveLabel}：<LegalFact k="effectiveDate" />
+          </p>
+          <p className="text-sm text-text-secondary">
+            个人信息处理者：<LegalFact k="operatorName" />，详见{' '}
+            <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
+              运营者信息
+            </Link>
+            。
+          </p>
+          <p className="text-sm text-text-secondary">
+            {header.contactLabel}
+            <ObfuscatedEmailLink
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
+              unstyled
+              className="font-medium"
+            />
+          </p>
+          <LegalVersionBadge docKey="privacy" doc={document} locale={locale} />
+        </header>
+      ) : (
+        <header className="stack-gap-sm">
+          <h1 className="text-xl font-semibold text-text-primary">{header.title}</h1>
+          <p className="text-sm text-text-secondary">
+            {header.versionLabel}: {version} · {header.effectiveLabel}: {effective ?? version}
+          </p>
+          <p className="text-sm text-text-secondary">
+            {locale === 'en' ? (
+              <>
+                Controller: Keyvo (sole proprietorship in formation, France). Registered office: see{' '}
+                <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
+                  legal mentions
+                </Link>
+                .
+              </>
+            ) : locale === 'fr' ? (
+              <>
+                Responsable de traitement : Keyvo (entreprise individuelle en France). Adresse : voir{' '}
+                <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
+                  Mentions légales
+                </Link>
+                .
+              </>
+            ) : (
+              <>
+                Responsable: Keyvo (empresa individual en Francia). Dirección: consulta las{' '}
+                <Link href={links.mentionsHref} className="text-brand underline hover:text-brandHover">
+                  menciones legales
+                </Link>
+                .
+              </>
+            )}
+          </p>
+          <p className="text-sm text-text-secondary">
+            {header.contactLabel}{' '}
+            <ObfuscatedEmailLink
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
+              unstyled
+              className="font-medium"
+            />{' '}
+            ·{' '}
+            <ObfuscatedEmailLink
+              user="contact"
+              domain="llmhub.com.cn"
+              label="contact@llmhub.com.cn"
+              placeholder="contact [at] llmhub.com.cn"
+              unstyled
+              className="font-medium"
+            />
+          </p>
+          <LegalVersionBadge docKey="privacy" doc={document} locale={locale} />
+        </header>
+      )}
       <PrivacyArticle locale={locale} version={version} effective={effective ?? version} links={links} />
     </div>
   );
