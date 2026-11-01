@@ -108,7 +108,12 @@ test('image workspace hydrates storyboard tool query and keeps result actions ro
   assert.match(previewActionsHookSource, /buildMediaLibraryAssetsKey\(\{/);
   assert.match(previewActionsHookSource, /originUrl:\s*selectedPreviewUrl/);
   assert.match(displayStateHookSource, /suppressDefaultPreview/);
-  assert.match(displayStateHookSource, /if \(suppressDefaultPreview && !selectedPreviewEntryId\) return undefined;/);
+  assert.match(displayStateHookSource, /resolveImagePreviewEntry\(\{/);
+  assert.match(
+    readFileSync(join(root, 'frontend/app/(core)/(workspace)/app/image/_lib/image-workspace-preview.ts'), 'utf8'),
+    /if \(suppressDefaultPreview && !selectedPreviewEntryId\) return undefined;/,
+    'the storyboard hand-off keeps the preview empty until a result is selected',
+  );
 
   assert.match(composerSurfaceSource, /handleEditSelectedPreview/);
   assert.match(composerSurfaceSource, /onEditImage=\{handleEditSelectedPreview\}/);

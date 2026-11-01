@@ -21,6 +21,7 @@ This route owns the dedicated still-image generation workspace.
 - Keep browser-only library UI in `_components/ImageLibraryModal.tsx`.
 - Keep `ImageWorkspace.tsx` focused on orchestration; do not add new inline helper blocks or route-local modal implementations there.
 - Keep image composer storage keys and stored payload shape backward compatible.
+- A signed-in user opens the image workspace on an EMPTY preview; the rail still lists their history. `_lib/image-workspace-preview.ts` (`resolveImagePreviewEntry`) shows an entry only when one is selected (opened from the rail, a deep link, or the result of a generation started here, which `useImageGenerationRunner` selects). The fall-back to the newest entry applies only when `defaultToLatestEntry` is on, which `ImageWorkspace.tsx` sets for logged-out visitors (`!accountId`). `suppressDefaultPreview` (storyboard hand-off) still keeps it empty. `tests/workspace-default-preview-contract.test.ts` locks this.
 - Keep upload, generation, pricing, and auth behavior unchanged unless the task explicitly targets those flows.
 
 ## Media Delivery

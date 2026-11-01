@@ -36,6 +36,7 @@ This route is the main signed-in video generation workspace.
 - Keep asset-library selection, reference slot insertion, and Kling library asset mapping in `_lib`; route-local hooks should own bounded asset library state, upload orchestration, and network calls.
 - Keep generation, polling, wallet, preflight, and upload behavior unchanged unless the task explicitly targets those flows.
 - Keep browser storage keys and pending-render serialization backward compatible.
+- A signed-in user opens the video workspace on an EMPTY preview (the empty placeholder, with the rail populated). Only `loggedOut` keeps a default (the guest starter sample). The rule lives in `_lib/workspace-default-preview.ts` (`shouldDefaultToLatestPreview`, `resolveActiveGroupId`, `resolveActiveVideoGroup`) and in `src/server/app-initial-preview.ts`, which returns no preview for a signed-in user. A result reaches the preview only through a user action (opening a rail item), a deep link (`?job=`, `?from=`) or a generation started in this page session, which sets the active group and selected preview itself. Do not reintroduce a "select the newest job" effect; `tests/workspace-default-preview-contract.test.ts` locks this. Pending renders restored from storage keep their stored active group.
 - Do not introduce a global state library until repeated state sharing across workspace surfaces justifies it.
 - Use existing SWR hooks and `frontend/lib/api.ts` contracts before adding a new data layer.
 - Keep dynamic imports for heavy browser-only panels and modals.
