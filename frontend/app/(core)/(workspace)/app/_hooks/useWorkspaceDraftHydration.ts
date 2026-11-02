@@ -1,7 +1,9 @@
 import { useWorkspaceActiveDraft } from './useWorkspaceActiveDraft';
 import { useWorkspaceRequestedPrompt } from './useWorkspaceRequestedPrompt';
+import { useWorkspaceEntryKind } from './useWorkspaceEntryKind';
+import { shouldRestoreStoredPrompt } from '../_lib/workspace-prompt-entry';
 import type { WorkspaceModelSetup } from '../_lib/workspace-model-candidate';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import type { MultiPromptScene } from '@/components/Composer';
 import type { SelectedVideoPreview } from '@/lib/video-preview-group';
@@ -151,7 +153,26 @@ export function useWorkspaceDraftHydration({
       voiceIdsInput,
     ],
   );
+  // Fresh entry -> empty prompt (the other settings still restore); a reload, a ?job=/?from= link and a guest
+  // creation carried over a login keep theirs. See _lib/workspace-prompt-entry.ts.
+  const claimEntryKind = useWorkspaceEntryKind();
+  // The decision reads the latest request through refs so its identity never changes: the route drops ?from= once
+  // an import lands, and a new callback would re-run the restore effects and blank the prompt that import just set.
+  const promptDeepLinkRef = useRef(false);
+  promptDeepLinkRef.current ||= Boolean(requestedJobId || fromVideoId);
+  const authStatusRef = useRef(authStatus);
+  authStatusRef.current = authStatus;
+  const keepStoredPrompt = useCallback(
+    () =>
+      shouldRestoreStoredPrompt({
+        signedIn: authStatusRef.current !== 'loggedOut',
+        entry: claimEntryKind(),
+        promptDeepLink: promptDeepLinkRef.current,
+      }),
+    [claimEntryKind],
+  );
   const activeDraft = useWorkspaceActiveDraft({
+    keepStoredPrompt,
     authStatus,
     accountId,
     accessToken,
@@ -201,7 +222,7 @@ export function useWorkspaceDraftHydration({
 
     try {
       const promptValue = readStorage(STORAGE_KEYS.prompt);
-      setPrompt(promptValue ?? DEFAULT_PROMPT);
+      setPrompt(keepStoredPrompt() ? (promptValue ?? DEFAULT_PROMPT) : '');
 
       const negativeValue = readStorage(STORAGE_KEYS.negativePrompt);
       setNegativePrompt(negativeValue ?? '');
@@ -273,6 +294,7 @@ export function useWorkspaceDraftHydration({
     form,
     engines,
     hydratePendingRendersFromStorage,
+    keepStoredPrompt,
     readScopedStorage,
     readStorage,
     resetRenderState,

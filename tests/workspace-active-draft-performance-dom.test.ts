@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { resetWorkspaceDocumentEntryForTests } from '../frontend/app/(core)/(workspace)/app/_lib/workspace-prompt-entry';
 import { JSDOM } from 'jsdom';
 import * as React from 'react';
 import { act } from 'react';
@@ -22,6 +23,19 @@ type Current = ReturnType<typeof useWorkspaceRouteFormState> & ReturnType<typeof
   hydration: ReturnType<typeof useWorkspaceDraftHydration>;
 };
 
+
+// These suites test draft persistence across remounts, so every mount is a resumed (reloaded) document: the prompt
+// restores. The fresh-entry blanking has its own tests in workspace-prompt-entry.test.ts.
+function simulateResumedDocument() {
+  resetWorkspaceDocumentEntryForTests();
+  return new Proxy(performance, {
+    get(target, key) {
+      if (key === 'getEntriesByType') return () => [{ type: 'reload' }];
+      const value = Reflect.get(target, key, target);
+      return typeof value === 'function' ? value.bind(target) : value;
+    },
+  });
+}
 async function mount(stored: string | null = null) {
   let authStatus = 'authed';
   let accountId: string | null = 'draft-performance';
@@ -42,6 +56,7 @@ async function mount(stored: string | null = null) {
       },
     },
     IS_REACT_ACT_ENVIRONMENT: true,
+    performance: simulateResumedDocument(),
   };
   const previous = new Map(Object.keys(globals).map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
   for (const [key, value] of Object.entries(globals)) {
@@ -66,6 +81,7 @@ async function mount(stored: string | null = null) {
     return React.createElement('output', null, unrelated);
   }
   const container = dom.window.document.getElementById('root')!;
+  resetWorkspaceDocumentEntryForTests();
   let root = createRoot(container);
   let mounted = true;
   const render = () => root.render(React.createElement(Fixture, { unrelated: revision++ }));

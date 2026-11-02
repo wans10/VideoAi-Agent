@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { resetWorkspaceDocumentEntryForTests } from '../frontend/app/(core)/(workspace)/app/_lib/workspace-prompt-entry';
 import { JSDOM } from 'jsdom';
 import * as React from 'react';
 import { act } from 'react';
@@ -24,6 +25,20 @@ const allEngines = listFalEngines()
   .map((e) => e.engine);
 const noop = () => {};
 const jobs: never[] = [];
+
+// These suites test draft persistence across remounts, so every mount is a resumed (reloaded) document: the prompt
+// restores. The fresh-entry blanking has its own tests in workspace-prompt-entry.test.ts.
+let simulatedNavigationType = 'reload';
+function simulateResumedDocument() {
+  resetWorkspaceDocumentEntryForTests();
+  return new Proxy(performance, {
+    get(target, key) {
+      if (key === 'getEntriesByType') return () => [{ type: simulatedNavigationType }];
+      const value = Reflect.get(target, key, target);
+      return typeof value === 'function' ? value.bind(target) : value;
+    },
+  });
+}
 async function mount({
   stored = null as string | null,
   unavailable = false,
@@ -64,6 +79,7 @@ async function mount({
         }
       : dom.window.sessionStorage,
     IS_REACT_ACT_ENVIRONMENT: true,
+    performance: simulateResumedDocument(),
     fetch: (url: string) =>
       new Promise<Response>((resolve, reject) => {
         assert.ok(url.startsWith('/api/'), 'no external requests');
@@ -229,6 +245,7 @@ async function mount({
     return React.createElement('output', null, JSON.stringify(assets.inputAssets));
   }
   const container = dom.window.document.getElementById('root')!;
+  resetWorkspaceDocumentEntryForTests();
   let root = createRoot(container);
   await act(async () => root.render(React.createElement(Fixture)));
   return {
@@ -261,6 +278,7 @@ async function mount({
     async retireEngine(id: string) {
       await act(async () => root.unmount());
       engines = engines.filter((e) => e.id !== id);
+      resetWorkspaceDocumentEntryForTests();
       root = createRoot(container);
       await act(async () => root.render(React.createElement(Fixture)));
     },
@@ -269,6 +287,7 @@ async function mount({
       engines = engines.map((engine) =>
         engine.id === id ? { ...engine, availability: 'paused' as const } : engine,
       );
+      resetWorkspaceDocumentEntryForTests();
       root = createRoot(container);
       await act(async () => root.render(React.createElement(Fixture)));
     },
@@ -288,11 +307,13 @@ async function mount({
             }
           : engine,
       );
+      resetWorkspaceDocumentEntryForTests();
       root = createRoot(container);
       await act(async () => root.render(React.createElement(Fixture)));
     },
     async remount() {
       await act(async () => root.unmount());
+      resetWorkspaceDocumentEntryForTests();
       root = createRoot(container);
       await act(async () => root.render(React.createElement(Fixture)));
     },
@@ -554,6 +575,26 @@ for (const stored of ['{corrupt', 'x'.repeat(1024 * 1024 + 1)])
       await view.close();
     }
   });
+test('a fresh entry restores every setting but starts with an empty prompt, a reload keeps the prompt', async () => {
+  const view = await mount();
+  try {
+    await act(async () => {
+      view.current.setPrompt('typed last time');
+      view.current.setNegativePrompt('no blur');
+    });
+    simulatedNavigationType = 'navigate';
+    await view.remount();
+    assert.equal(view.current.prompt, '');
+    assert.equal(view.current.negativePrompt, 'no blur');
+    await act(async () => view.current.setPrompt('typed now'));
+    simulatedNavigationType = 'reload';
+    await view.remount();
+    assert.equal(view.current.prompt, 'typed now');
+  } finally {
+    simulatedNavigationType = 'reload';
+    await view.close();
+  }
+});
 test('unavailable storage preserves a complete draft across same-document navigation and pending auth only', async () => {
   const view = await mount({ unavailable: true });
   try {
