@@ -14,7 +14,7 @@ const SEEDANCE_2_MINI_PUBLIC_SLUG = 'dreamina-seedance-2-0-mini';
 
 const SEEDANCE_2_0_MINI_ENGINE: EngineCaps = withSeedanceModelArkOptions({
   id: 'seedance-2-0-mini',
-  label: 'Dreamina Seedance 2.0 Mini',
+  label: 'Seedance 2.0 Mini',
   provider: 'ByteDance',
   version: '2.0',
   variant: 'Mini',
@@ -198,8 +198,8 @@ function miniMode(mode: 't2v' | 'i2v' | 'ref2v' | 'v2v' | 'extend'): RawFalEngin
 export const SEEDANCE_2_MINI_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   {
     id: 'seedance-2-0-mini',
-    marketingName: 'Dreamina Seedance 2.0 Mini',
-    cardTitle: 'Dreamina Seedance 2.0 Mini',
+    marketingName: 'Seedance 2.0 Mini',
+    cardTitle: 'Seedance 2.0 Mini',
     provider: 'ByteDance',
     brandId: 'bytedance',
     versionLabel: '2.0 Mini',

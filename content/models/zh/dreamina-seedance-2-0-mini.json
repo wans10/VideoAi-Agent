@@ -1,15 +1,15 @@
 {
-  "marketingName": "Dreamina Seedance 2.0 Mini",
+  "marketingName": "Seedance 2.0 Mini",
   "versionLabel": "2.0 Mini",
   "seo": {
-    "title": "Dreamina Seedance 2.0 Mini | 低成本 AI 视频模型、技术规格与价格 | VideoAI",
-    "description": "在 VideoAI 上使用 Dreamina Seedance 2.0 Mini 进行更低成本的 480p/720p 批量视频生成、电商变体制作、UGC 吸睛片段、视频编辑、画面延展及多模态参考测试。"
+    "title": "Seedance 2.0 Mini | 低成本 AI 视频模型、技术规格与价格 | VideoAI",
+    "description": "在 VideoAI 上使用 Seedance 2.0 Mini 进行更低成本的 480p/720p 批量视频生成、电商变体制作、UGC 吸睛片段、视频编辑、画面延展及多模态参考测试。"
   },
-  "overview": "Dreamina Seedance 2.0 Mini 是 VideoAI 上兼具高性价比的 Seedance AI 视频路线，适用于低成本批量生产场景：电商多变体、日常营销测试、UGC 吸睛开头（Hook）、多模态参考生视频、视频编辑及画面延展，支持 4–15 秒的 480p 或 720p 视频片段。",
-  "pricingNotes": "Dreamina Seedance 2.0 Mini 采用基于 Token 的生成计费。VideoAI 按规则展示会员价格，并在提交生成前显示最终确切报价。",
+  "overview": "Seedance 2.0 Mini 是 VideoAI 上兼具高性价比的 Seedance AI 视频路线，适用于低成本批量生产场景：电商多变体、日常营销测试、UGC 吸睛开头（Hook）、多模态参考生视频、视频编辑及画面延展，支持 4–15 秒的 480p 或 720p 视频片段。",
+  "pricingNotes": "Seedance 2.0 Mini 采用基于 Token 的生成计费。VideoAI 按规则展示会员价格，并在提交生成前显示最终确切报价。",
   "hero": {
-    "title": "Dreamina Seedance 2.0 Mini — 适用于批量视频变体的低成本高性价比路线",
-    "intro": "当您在将最终精修镜头导入 Seedance 2.0 之前，需要一条高性价比路线来批量生成 480p/720p 视频变体时，Dreamina Seedance 2.0 Mini 是理想之选。本页面持续追踪聚焦批量生成的参数规格、提示词模式、实时价格与模型对比评分。",
+    "title": "Seedance 2.0 Mini — 适用于批量视频变体的低成本高性价比路线",
+    "intro": "当您在将最终精修镜头导入 Seedance 2.0 之前，需要一条高性价比路线来批量生成 480p/720p 视频变体时，Seedance 2.0 Mini 是理想之选。本页面持续追踪聚焦批量生成的参数规格、提示词模式、实时价格与模型对比评分。",
     "badge": "Dreamina Seedance · 480p/720p · 4–15秒 · 24fps · 原生音频与对口型",
     "ctaPrimary": {
       "label": "使用 Seedance 2.0 Mini 生成",
@@ -165,7 +165,7 @@
     "specSections": [
       {
         "title": "模型与规格限制",
-        "intro": "Dreamina Seedance 2.0 Mini 在 VideoAI 上运行，其 API 模型 ID 为 dreamina-seedance-2-0-mini-260615。",
+        "intro": "Seedance 2.0 Mini 在 VideoAI 上运行，其 API 模型 ID 为 dreamina-seedance-2-0-mini-260615。",
         "items": [
           "开发团队：字节跳动（ByteDance）",
           "模型 ID：dreamina-seedance-2-0-mini-260615",
@@ -369,7 +369,7 @@
         "label": "Seedance 2.0 Mini 工作流说明",
         "href": "/zh/models/dreamina-seedance-2-0-mini"
       },
-      "referencesTitle": "Dreamina Seedance 2.0 Mini 如何使用参考素材"
+      "referencesTitle": "Seedance 2.0 Mini 如何使用参考素材"
     },
     "tabs": [
       {
@@ -494,7 +494,7 @@
       {
         "id": "proof-1",
         "title": "真实社区生成效果",
-        "body": "探索 Dreamina Seedance 2.0 Mini 的无限可能 — 适用于批量视频变体的低成本路线。",
+        "body": "探索 Seedance 2.0 Mini 的无限可能 — 适用于批量视频变体的低成本路线。",
         "icon": "sparkles"
       },
       {

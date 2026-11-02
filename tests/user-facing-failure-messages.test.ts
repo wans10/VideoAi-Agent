@@ -155,14 +155,14 @@ test('Seedance task failures explain the delivered refund without claiming the r
   const reason =
     'Seedance started this render but did not deliver a video. Retry with a simpler prompt or fewer reference assets.';
   const description = buildUserFacingRefundDescription({
-    engineLabel: 'Dreamina Seedance 2.0 Mini',
+    engineLabel: 'Seedance 2.0 Mini',
     durationSec: 15,
     reason,
   });
 
   assert.equal(
     description,
-    'Refund Dreamina Seedance 2.0 Mini - 15s - Seedance started the render but did not deliver a video.'
+    'Refund Seedance 2.0 Mini - 15s - Seedance started the render but did not deliver a video.'
   );
   assert.doesNotMatch(description, forbidden);
 });
