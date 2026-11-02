@@ -10,7 +10,7 @@ export class QwenImageError extends Error {
   }
 }
 
-export function getQwenImageConfig(env: NodeJS.ProcessEnv = process.env) {
+export function getQwenImageConfig(env: Readonly<Record<string, string | undefined>> = process.env) {
   const apiKey = env.ALIBABA_MODEL_STUDIO_API_KEY?.trim();
   if (!apiKey || !env.ALIBABA_MODEL_STUDIO_BASE_URL?.trim()) {
     throw new ImageGenerationExecutionError('Alibaba Qwen image credentials and base URL are required.', {

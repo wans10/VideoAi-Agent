@@ -265,3 +265,16 @@ test('a failing admin lookup falls back to the member list', async () => {
   const body = await response.json() as { engines: EngineCaps[] };
   assert.deepEqual(body.engines.map((engine) => engine.id), ['wan-3']);
 });
+
+test('Qwen image engines are executable with a Beijing Model Studio key and hidden without one', () => {
+  const qwen = getBaseEnginesByCategory('image').find((engine) => engine.providerMeta?.provider === 'alibaba_qwen_image');
+  assert.ok(qwen, 'expected a Qwen image engine in the registry');
+  const withEnv = (providerEnv: Record<string, string>) =>
+    resolveAgentGenerationModeExecutability(qwen, 't2i', { bytePlusEnabled: false, providerEnv });
+  assert.deepEqual(
+    withEnv({ ALIBABA_MODEL_STUDIO_API_KEY: SECRET, ALIBABA_MODEL_STUDIO_BASE_URL: 'https://dashscope.aliyuncs.com' }),
+    available,
+  );
+  assert.deepEqual(withEnv({ ALIBABA_MODEL_STUDIO_API_KEY: SECRET }), missing);
+  assert.deepEqual(withEnv({}), missing);
+});
