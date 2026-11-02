@@ -22,6 +22,7 @@ import {
 import { resolveVideoProviderRoutingPlan, isLlmhubVideoRoutingSelected } from '@/server/video-providers/router';
 import { ENV } from '@/lib/env';
 import { resolveLlmhubImageModel } from '@/server/images/llmhub-image-models';
+import { getQwenImageConfig } from '@/server/images/alibaba-qwen-image-client';
 import type { CanonicalGenerationRequest } from '@/server/agent-api/generation-types';
 import type { ResolvedReference } from '@/server/agent-api/reference-types';
 import { parseGoogleVertexServiceAccount } from '@/server/video-providers/google-vertex-auth';
@@ -186,6 +187,16 @@ export function resolveAgentGenerationModeExecutability(
   }
 
   const providerEnv = environment.providerEnv ?? process.env;
+
+  if (engine.providerMeta?.provider === 'alibaba_qwen_image') {
+    // Same readiness the generation path enforces: a key plus a Beijing endpoint and region.
+    try {
+      getQwenImageConfig(providerEnv);
+      return { executable: true, reason: 'available' };
+    } catch {
+      return { executable: false, reason: 'provider_credentials_missing' };
+    }
+  }
 
   if (engine.providerMeta?.provider === 'google_vertex_image') {
     if (!configured(engine.providerMeta.modelSlug)) {
