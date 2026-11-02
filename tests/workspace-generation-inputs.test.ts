@@ -810,7 +810,7 @@ test('prepareGenerationInputs rejects a known undersized library image before ge
   const primary = field('image_url', 'image', 'Start image');
   const result = prepareGenerationInputs({
     selectedEngineId: 'seedance-2-0-mini',
-    selectedEngineLabel: 'Dreamina Seedance 2.0 Mini',
+    selectedEngineLabel: 'Seedance 2.0 Mini',
     activeMode: 'i2v',
     submissionMode: 'i2v',
     form: baseForm({ engineId: 'seedance-2-0-mini', mode: 'i2v' }),
@@ -838,6 +838,6 @@ test('prepareGenerationInputs rejects a known undersized library image before ge
   assert.deepEqual(result, {
     ok: false,
     message:
-      'This image is 648 x 157 px. Dreamina Seedance 2.0 Mini requires at least 300 x 300 px. Choose a larger image and try again.',
+      'This image is 648 x 157 px. Seedance 2.0 Mini requires at least 300 x 300 px. Choose a larger image and try again.',
   });
 });

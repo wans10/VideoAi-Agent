@@ -1125,7 +1125,7 @@ test('Seedance 2.0 Mini content JSON is localized and keeps Mini specs accurate'
       LOCALIZED_CONTENT_SKIP_KEYS
     ).join(' ');
 
-    assert.equal(content.marketingName, 'Dreamina Seedance 2.0 Mini');
+    assert.equal(content.marketingName, 'Seedance 2.0 Mini');
     assert.equal(content.hero?.ctaPrimary?.href, '/app?engine=seedance-2-0-mini');
     assert.ok(
       content.hero?.secondaryLinks?.some((link) => link.href === '/models/seedance-2-0'),

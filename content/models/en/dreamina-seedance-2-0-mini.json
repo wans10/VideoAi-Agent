@@ -1,15 +1,15 @@
 {
-  "marketingName": "Dreamina Seedance 2.0 Mini",
+  "marketingName": "Seedance 2.0 Mini",
   "versionLabel": "2.0 Mini",
   "seo": {
-    "title": "Dreamina Seedance 2.0 Mini | Low-Cost AI Video, Specs & Pricing | VideoAI",
-    "description": "Use Dreamina Seedance 2.0 Mini on VideoAI for lower-cost 480p/720p AI video batches, ecommerce variants, UGC hooks, video editing, extension, and reference-guided tests."
+    "title": "Seedance 2.0 Mini | Low-Cost AI Video, Specs & Pricing | VideoAI",
+    "description": "Use Seedance 2.0 Mini on VideoAI for lower-cost 480p/720p AI video batches, ecommerce variants, UGC hooks, video editing, extension, and reference-guided tests."
   },
-  "overview": "Dreamina Seedance 2.0 Mini is the cost-performance Seedance AI video route on VideoAI for lower-cost batch/value work: ecommerce variants, marketing tests, UGC hooks, multimodal references, video editing, and extension in 4-15 second 480p or 720p clips.",
-  "pricingNotes": "Dreamina Seedance 2.0 Mini uses token-based generation pricing. VideoAI applies the display price and shows the final quote before submission.",
+  "overview": "Seedance 2.0 Mini is the cost-performance Seedance AI video route on VideoAI for lower-cost batch/value work: ecommerce variants, marketing tests, UGC hooks, multimodal references, video editing, and extension in 4-15 second 480p or 720p clips.",
+  "pricingNotes": "Seedance 2.0 Mini uses token-based generation pricing. VideoAI applies the display price and shows the final quote before submission.",
   "hero": {
-    "title": "Dreamina Seedance 2.0 Mini — lower-cost route for batch video variants",
-    "intro": "Use Dreamina Seedance 2.0 Mini when you need a value route for many 480p/720p video variants before committing hero shots to Seedance 2.0. This page tracks specs, prompts, pricing, and scorecards for batch-focused generation.",
+    "title": "Seedance 2.0 Mini — lower-cost route for batch video variants",
+    "intro": "Use Seedance 2.0 Mini when you need a value route for many 480p/720p video variants before committing hero shots to Seedance 2.0. This page tracks specs, prompts, pricing, and scorecards for batch-focused generation.",
     "badge": "Dreamina Seedance · 480p/720p · 4-15s · 24fps · native audio and lip-sync",
     "ctaPrimary": {
       "label": "Generate with Seedance 2.0 Mini",
@@ -169,7 +169,7 @@
     "specSections": [
       {
         "title": "Model and limits",
-        "intro": "Dreamina Seedance 2.0 Mini runs on VideoAI with the API model id dreamina-seedance-2-0-mini-260615.",
+        "intro": "Seedance 2.0 Mini runs on VideoAI with the API model id dreamina-seedance-2-0-mini-260615.",
         "items": [
           "Developer: ByteDance",
           "Model id: dreamina-seedance-2-0-mini-260615",
@@ -373,7 +373,7 @@
         "label": "Seedance 2.0 Mini workflow notes",
         "href": "/models/dreamina-seedance-2-0-mini"
       },
-      "referencesTitle": "How Dreamina Seedance 2.0 Mini uses references"
+      "referencesTitle": "How Seedance 2.0 Mini uses references"
     },
     "tabs": [
       {
@@ -498,7 +498,7 @@
       {
         "id": "proof-1",
         "title": "Real community renders",
-        "body": "See what's possible with Dreamina Seedance 2.0 Mini — lower-cost route for batch video variants.",
+        "body": "See what's possible with Seedance 2.0 Mini — lower-cost route for batch video variants.",
         "icon": "sparkles"
       },
       {

@@ -75,7 +75,7 @@ test('rejects a 648 x 157 Seedance Mini input before provider submission', async
     ok: false,
     error: 'IMAGE_DIMENSIONS_TOO_SMALL',
     message:
-      'This image is 648 x 157 px. Dreamina Seedance 2.0 Mini requires at least 300 x 300 px. Choose a larger image and try again.',
+      'This image is 648 x 157 px. Seedance 2.0 Mini requires at least 300 x 300 px. Choose a larger image and try again.',
     actualWidth: 648,
     actualHeight: 157,
     minimumWidth: 300,

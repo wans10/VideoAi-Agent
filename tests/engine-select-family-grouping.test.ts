@@ -124,7 +124,7 @@ test('buildEngineFamilyGroups orders models by score when score data is availabl
     engines: [
       engine('seedance-2-0-fast', 'Seedance 2.0 Fast'),
       engine('seedance-2-0', 'Seedance 2.0'),
-      engine('dreamina-seedance-2-0-mini', 'Dreamina Seedance 2.0 Mini'),
+      engine('dreamina-seedance-2-0-mini', 'Seedance 2.0 Mini'),
     ],
     engineScores: {
       'dreamina-seedance-2-0-mini': 8.2,

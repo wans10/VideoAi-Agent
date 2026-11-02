@@ -12912,7 +12912,7 @@
   {
     "engineId": "seedance-2-0-mini",
     "modelSlug": "dreamina-seedance-2-0-mini",
-    "marketingName": "Dreamina Seedance 2.0 Mini",
+    "marketingName": "Seedance 2.0 Mini",
     "provider": "ByteDance",
     "brandId": "bytedance",
     "family": "seedance",
@@ -12978,7 +12978,7 @@
     "surfacesSource": "registry",
     "engine": {
       "id": "seedance-2-0-mini",
-      "label": "Dreamina Seedance 2.0 Mini",
+      "label": "Seedance 2.0 Mini",
       "provider": "ByteDance",
       "version": "2.0",
       "variant": "Mini",
