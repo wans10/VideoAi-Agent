@@ -386,12 +386,12 @@ function buildDecisionFaqItems(locale: AppLocale): Array<{ question: string; ans
       {
         question: '我应该从哪款 AI 视频模型开始？',
         answer:
-          '推荐从 Seedance 2.5 开始体验 30 秒电影级、图生视频及多参考工作流。追求 4K 画质可选用 Seedance 2.0；需要精确场景运镜控制推荐 Kling 3 Pro；而快速测试草稿首选 LTX 2.3 Fast。',
+          '推荐从 Seedance 2.5 开始体验 30 秒电影级、图生视频及多参考工作流。追求 4K 画质可选用 Seedance 2.0；需要精确场景运镜控制推荐 Kling 3 Pro；而快速测试草稿可选用 Seedance 2.0 Fast。',
       },
       {
         question: '哪些模型支持原生音效或口型同步？',
         answer:
-          'Seedance、Kling、Veo、Sora、LTX、Wan 等模型的部分版本支持音频或口型同步。请查看各模型卡片上的“音频”、“口型同步”、文生视频、图生视频、视频重绘及首尾帧支持标注。',
+          'Seedance、Kling、Wan 等模型的部分版本支持音频或口型同步。请查看各模型卡片上的“音频”、“口型同步”、文生视频、图生视频、视频重绘及首尾帧支持标注。',
       },
       {
         question: 'AI 视频生成的价格是如何计算的？',
@@ -406,7 +406,7 @@ function buildDecisionFaqItems(locale: AppLocale): Array<{ question: string; ans
       {
         question: '在哪里可以找到提示词范例与效果参考？',
         answer:
-          '可访问示例展示页面，按模型浏览包括 LTX、Kling、Seedance、Veo、Wan、Sora 及 Pika 的实测提示词与生成效果。',
+          '可访问示例展示页面，按模型浏览包括 Kling、Seedance、Wan 的实测提示词与生成效果。',
       },
       {
         question: '视频模型与图片模型有什么区别？',
