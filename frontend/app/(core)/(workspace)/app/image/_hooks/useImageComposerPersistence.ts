@@ -1,5 +1,7 @@
 import { listenForGuestCreationLogin, consumeGuestCreationFromLocation } from '@/lib/guest-creation-continuation';
 import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react';
+import { useWorkspaceEntryKind } from '../../_hooks/useWorkspaceEntryKind';
+import { shouldRestoreStoredPrompt } from '../../_lib/workspace-prompt-entry';
 import type { ImageGenerationMode } from '@/types/image-generation';
 import {
   clampRequestedImageCount,
@@ -130,6 +132,7 @@ export function useImageComposerPersistence({
   const persistTimerRef = useRef<number | null>(null);
   const persistedSignatureRef = useRef<string | null>(null);
   const [storageHydrated, setStorageHydrated] = useState(false);
+  const claimEntryKind = useWorkspaceEntryKind();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -137,8 +140,10 @@ export function useImageComposerPersistence({
     if (hasHydratedStorageRef.current) return;
     hasHydratedStorageRef.current = true;
     let parsed: PersistedImageComposerState | null = null;
+    let guestContinuation = false;
     try {
       const continuation = accountId ? consumeGuestCreationFromLocation('/app/image') : null;
+      guestContinuation = Boolean(continuation);
       const stored = continuation ?? window.localStorage.getItem(storageKey);
       if (stored) {
         parsed = parsePersistedImageComposerState(stored);
@@ -156,7 +161,19 @@ export function useImageComposerPersistence({
         setEngineId(engineMatch.id);
         const nextMode = engineMatch.modes.includes(parsed.mode) ? parsed.mode : engineMatch.modes[0] ?? 't2i';
         setMode(nextMode);
-        setPrompt(parsed.prompt);
+        // Fresh entry -> empty prompt (every other setting restores); reload, ?job=/?tool= links and a guest
+        // creation carried over a login keep theirs. See _lib/workspace-prompt-entry.ts.
+        const query = new URLSearchParams(window.location.search);
+        setPrompt(
+          shouldRestoreStoredPrompt({
+            signedIn: Boolean(accountId),
+            entry: claimEntryKind(),
+            promptDeepLink: query.has('job') || query.has('tool'),
+            guestContinuation,
+          })
+            ? parsed.prompt
+            : '',
+        );
         setNumImages(clampRequestedImageCount(engineMatch.engineCaps, nextMode, parsed.numImages));
         const allowedResolutions = getImageFieldValues(
           engineMatch.engineCaps,

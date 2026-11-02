@@ -45,6 +45,8 @@ export type WorkspaceActiveDraftOptions = WorkspaceSetupSetters & {
   legacyReady: boolean;
   storageReady: boolean;
   markLegacyReady: () => void;
+  /** False on a fresh entry: the saved setup is restored without its prompt text (see workspace-prompt-entry). */
+  keepStoredPrompt?: () => boolean;
 };
 export function useWorkspaceActiveDraft(options: WorkspaceActiveDraftOptions) {
   const account =
@@ -156,9 +158,11 @@ export function useWorkspaceActiveDraft(options: WorkspaceActiveDraftOptions) {
       }
     }
     const guestRaw = consumeGuestCreationFromLocation('/app');
+    let guestContinued = false;
     if (guestRaw) {
       try {
         const guest = serializeWorkspaceModelSetup(JSON.parse(guestRaw));
+        if (guest.ok) guestContinued = true;
         if (guest.ok) loaded = { ...loaded, recovery: loaded.current, current: { modelId: guest.setup.form.engineId, updatedAt: Date.now(), setup: guest.setup } };
       } catch { /* Invalid or expired continuation keeps the account draft. */ }
     }
@@ -184,7 +188,9 @@ export function useWorkspaceActiveDraft(options: WorkspaceActiveDraftOptions) {
       if (candidate?.applicable) {
         // Same-model restoration preserves every authored field and sparse slot; validation
         // rejects roles that no longer fit instead of silently migrating them to another model.
-        applyWorkspacePreparedSetup(saved, options);
+        // A guest creation carried over a login keeps its prompt; otherwise only a resumed document does.
+        const keepPrompt = guestContinued || options.keepStoredPrompt?.() !== false;
+        applyWorkspacePreparedSetup(keepPrompt ? saved : { ...saved, prompt: '' }, options);
         options.markLegacyReady();
         restored = true;
       } else {
