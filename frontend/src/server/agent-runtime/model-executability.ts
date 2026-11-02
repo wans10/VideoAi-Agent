@@ -166,7 +166,7 @@ export function resolveAgentGenerationModeExecutability(
   engine: EngineCaps,
   mode: Mode,
   environment: AgentGenerationExecutabilityEnvironment = defaultEnvironment(),
-  options?: { nativeSeedanceWorkflow: true },
+  options?: { nativeSeedanceWorkflow?: true; isAdmin?: boolean },
 ): AgentGenerationExecutabilityDecision {
   if (resolveLlmhubImageModel(engine.id)) {
     const providerEnv = environment.providerEnv ?? process.env;
@@ -213,7 +213,7 @@ export function resolveAgentGenerationModeExecutability(
       const routingPlan = resolveVideoProviderRoutingPlan({
         engineId: engine.id,
         mode,
-        isAdmin: false,
+        isAdmin: options?.isAdmin === true,
         env: providerEnv,
       });
       if (routingPlan.kind === 'google_vertex_unavailable') {
@@ -279,7 +279,7 @@ export function resolveAgentGenerationModeExecutability(
       }
       return { executable: false, reason: 'provider_credentials_missing' };
     }
-    if (isBytePlusSeedanceAdminOnly(engine.id)) {
+    if (isBytePlusSeedanceAdminOnly(engine.id) && options?.isAdmin !== true) {
       if (isLlmhubVideoRoutingSelected(engine.id, mode, providerEnv)) {
         return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
       }

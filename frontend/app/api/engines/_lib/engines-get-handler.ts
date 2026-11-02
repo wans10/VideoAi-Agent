@@ -6,10 +6,14 @@ import {
 import { fetchEngineAverageDurations } from '@/server/generate-metrics';
 import { loadAppEngineScoreMap } from '@/server/engine-scores';
 import { getBaseEnginesByCategory } from '@/lib/engines';
-import { isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
-import { getRuntimeModelById } from '@/config/model-runtime';
 import { resolveLaunchCanaryRequestContext } from '@/server/model-launch-canary-request';
 import { createAgentGenerationExecutabilityEnvironment, resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
+import {
+  filterExecutableWorkspaceEngines,
+  reportHiddenWorkspaceEngines,
+  resolveWorkspaceViewerIsAdmin,
+  type WorkspaceModeExecutability,
+} from '@/server/workspace-engine-availability';
 import { projectSeedance25ModeAvailability } from '@/server/engine-mode-availability';
 import { isMinimaxH3MaxEngineId, isMinimaxH3MaxRuntimeModeAvailable } from '@/lib/minimax-h3-max';
 import { isKling3TurboEngineId } from '@/lib/kling-3-turbo';
@@ -22,6 +26,8 @@ type EnginesRouteDependencies = Readonly<{
   fetchEngineAverageDurations: typeof fetchEngineAverageDurations;
   loadAppEngineScoreMap: typeof loadAppEngineScoreMap;
   getGenerationEnvironment: typeof createAgentGenerationExecutabilityEnvironment;
+  resolveModeExecutability: WorkspaceModeExecutability;
+  resolveIsAdmin: (request: NextRequest) => Promise<boolean>;
 }>;
 
 const defaultDependencies: EnginesRouteDependencies = {
@@ -31,6 +37,8 @@ const defaultDependencies: EnginesRouteDependencies = {
   fetchEngineAverageDurations,
   loadAppEngineScoreMap,
   getGenerationEnvironment: createAgentGenerationExecutabilityEnvironment,
+  resolveModeExecutability: resolveAgentGenerationModeExecutability,
+  resolveIsAdmin: resolveWorkspaceViewerIsAdmin,
 };
 
 function workspaceModeProjection(engine: EngineCaps, modes: readonly Mode[]): EngineCaps {
@@ -49,11 +57,8 @@ function workspaceModeProjection(engine: EngineCaps, modes: readonly Mode[]): En
   };
 }
 
-// Keyvo's workspace picker only offers Chinese-vendor models; backend lookups stay upstream.
-function isKeyvoWorkspaceEngine(engine: { id: string }): boolean {
-  const model = getRuntimeModelById(engine.id);
-  return !model || isKeyvoVisibleFamily(model.family);
-}
+// Seedance 2.5 reports availability per mode (projectSeedance25ModeAvailability), so its modes stay listed.
+const keepsOwnModeAvailability = (engine: EngineCaps) => engine.id === 'seedance-2-5';
 
 export function createEnginesGetHandler(
   dependencyOverrides: Partial<EnginesRouteDependencies> = {},
@@ -65,6 +70,9 @@ export function createEnginesGetHandler(
     const includeAverages =
       category !== 'image' && request.nextUrl.searchParams.get('includeAverages') === '1';
     const includeScores = category !== 'image';
+    // Fail closed: an error resolving the viewer means a non-admin list.
+    const isAdmin = await dependencies.resolveIsAdmin(request).catch(() => false);
+    const viewer = isAdmin ? 'admin' : 'member';
     try {
       const [publicEngines, averages, engineScores, launchCanaryContext] = await Promise.all([
         dependencies.getPublicConfiguredEnginesByCategory(category),
@@ -93,7 +101,16 @@ export function createEnginesGetHandler(
       }
       const averageMap = new Map(averages.map((entry) => [entry.engineId, entry]));
       const generationEnvironment = dependencies.getGenerationEnvironment();
-      const publicWorkspaceEngines = publicEngines.filter(isKeyvoWorkspaceEngine).map((engine) => projectSeedance25ModeAvailability(
+      // Offer only what this deployment can run (see workspace-engine-availability.ts); fails open.
+      const availability = filterExecutableWorkspaceEngines(publicEngines, {
+        environment: generationEnvironment,
+        resolve: dependencies.resolveModeExecutability,
+        isAdmin,
+        onCheckError: (engineId) => console.warn(`[engines] executability check failed for ${engineId}; keeping it listed`),
+        keepAllModes: keepsOwnModeAvailability,
+      });
+      reportHiddenWorkspaceEngines(category, availability, Date.now(), viewer);
+      const publicWorkspaceEngines = availability.engines.map((engine) => projectSeedance25ModeAvailability(
         isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)
@@ -118,12 +135,21 @@ export function createEnginesGetHandler(
       );
     } catch (error) {
       console.error('[api/engines] failed to load configured engines, falling back to base registry', error);
-      const payload = getBaseEnginesByCategory(category).filter(isKeyvoWorkspaceEngine).map((engine) => ({
+      const fallbackEnvironment = dependencies.getGenerationEnvironment();
+      const fallbackAvailability = filterExecutableWorkspaceEngines(getBaseEnginesByCategory(category), {
+        environment: fallbackEnvironment,
+        resolve: dependencies.resolveModeExecutability,
+        isAdmin,
+        onCheckError: (engineId) => console.warn(`[engines] executability check failed for ${engineId}; keeping it listed`),
+        keepAllModes: keepsOwnModeAvailability,
+      });
+      reportHiddenWorkspaceEngines(category, fallbackAvailability, Date.now(), viewer);
+      const payload = fallbackAvailability.engines.map((engine) => ({
         ...projectSeedance25ModeAvailability(isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)
             ? workspaceModeProjection(engine, engine.modes)
-          : engine, dependencies.getGenerationEnvironment()),
+          : engine, fallbackEnvironment),
         avgDurationMs: null,
       }));
       return NextResponse.json(

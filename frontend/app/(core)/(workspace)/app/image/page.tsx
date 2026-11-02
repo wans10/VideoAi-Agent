@@ -8,6 +8,11 @@ import type { ImageGenerationMode } from '@/types/image-generation';
 import ImageWorkspaceSession from './_components/ImageWorkspaceSession.client';
 import type { ImageEngineOption } from './ImageWorkspace';
 import { sortImageWorkspaceEngineOptions } from './_lib/image-workspace-engine-options';
+import {
+  filterExecutableWorkspaceEngines,
+  reportHiddenWorkspaceEngines,
+  resolveWorkspaceViewerIsAdmin,
+} from '@/server/workspace-engine-availability';
 
 export const metadata: Metadata = {
   title: 'Generate Images – Keyvo Workspace',
@@ -36,10 +41,16 @@ export default async function ImageGeneratePage({ searchParams }: ImageGenerateP
     redirect('/app/tools/storyboard');
   }
 
-  const imageEntries = listFalEngines().filter((engine) => (engine.category ?? 'video') === 'image');
-  if (!imageEntries.length) {
+  const registryImageEntries = listFalEngines().filter((engine) => (engine.category ?? 'video') === 'image');
+  if (!registryImageEntries.length) {
     notFound();
   }
+  // Same rule as the video picker (/api/engines): list only what this deployment can run. Fails open.
+  const isAdmin = await resolveWorkspaceViewerIsAdmin();
+  const availability = filterExecutableWorkspaceEngines(registryImageEntries.map((entry) => entry.engine), { isAdmin });
+  reportHiddenWorkspaceEngines('image', availability, Date.now(), isAdmin ? 'admin' : 'member');
+  const executableById = new Map(availability.engines.map((engine) => [engine.id, engine]));
+  const imageEntries = registryImageEntries.filter((entry) => executableById.has(entry.engine.id));
 
   const engines: ImageEngineOption[] = sortImageWorkspaceEngineOptions(
     imageEntries.map((entry) => {
@@ -59,9 +70,11 @@ export default async function ImageGeneratePage({ searchParams }: ImageGenerateP
           notes: prompt.notes,
           mode: prompt.mode as ImageGenerationMode,
         }));
+      const executableModes = new Set<string>(executableById.get(entry.engine.id)?.modes ?? []);
       const modes = entry.modes
         .map((modeConfig) => modeConfig.mode)
-        .filter((mode): mode is ImageGenerationMode => mode === 't2i' || mode === 'i2i');
+        .filter((mode): mode is ImageGenerationMode => mode === 't2i' || mode === 'i2i')
+        .filter((mode) => executableModes.has(mode));
 
       return {
         id: entry.id,
