@@ -322,7 +322,7 @@ export function LoginAuthSurface({
                       checked={acceptTerms}
                       onChange={(event) => onAcceptTermsChange(event.target.checked)}
                       className={clsx(
-                        'mt-1 h-4 w-4 rounded border-border text-brand focus:ring-ring',
+                        'mt-0.5 h-4 min-h-0 w-4 rounded border-border text-brand focus:ring-ring',
                         termsError && 'border-state-warning text-state-warning focus:ring-state-warning'
                       )}
                       aria-invalid={Boolean(termsError)}
@@ -345,7 +345,7 @@ export function LoginAuthSurface({
                       checked={ageConfirmed}
                       onChange={(event) => onAgeConfirmedChange(event.target.checked)}
                       className={clsx(
-                        'mt-1 h-4 w-4 rounded border-border text-brand focus:ring-ring',
+                        'mt-0.5 h-4 min-h-0 w-4 rounded border-border text-brand focus:ring-ring',
                         ageError && 'border-state-warning text-state-warning focus:ring-state-warning'
                       )}
                       aria-invalid={Boolean(ageError)}
@@ -364,7 +364,7 @@ export function LoginAuthSurface({
                       type="checkbox"
                       checked={marketingOptIn}
                       onChange={(event) => onMarketingOptInChange(event.target.checked)}
-                      className="mt-1 h-4 w-4 rounded border-border text-brand focus:ring-ring"
+                      className="mt-0.5 h-4 min-h-0 w-4 rounded border-border text-brand focus:ring-ring"
                     />
                     <span>{authCopy.terms.marketing}</span>
                   </label>
