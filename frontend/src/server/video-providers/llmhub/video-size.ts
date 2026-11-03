@@ -1,4 +1,6 @@
-const SHORT_SIDE = { '480p': 480, '720p': 720, '1080p': 1080, '4k': 2160 } as const;
+const SHORT_SIDE = { '480p': 480, '720p': 720, '768p': 768, '1080p': 1080, '4k': 2160 } as const;
+/** MiniMax H3's 2K tier: the provider does not publish exact frame sizes, so only a floor is checked. */
+const MINIMUM_SHORT_SIDE = { '2k': 1080 } as const;
 
 /** Requested geometry is advisory at submission and verified on the completed file. */
 export function llmhubVideoSize(
@@ -30,8 +32,12 @@ export function matchesLlmhubVideoGeometry(params: {
   width: number;
   height: number;
 }): boolean {
-  const shortSide = params.resolution && Object.hasOwn(SHORT_SIDE, params.resolution)
-    ? SHORT_SIDE[params.resolution as keyof typeof SHORT_SIDE] : null;
+  const resolution = params.resolution?.toLowerCase() ?? null;
+  const floor = resolution && Object.hasOwn(MINIMUM_SHORT_SIDE, resolution)
+    ? MINIMUM_SHORT_SIDE[resolution as keyof typeof MINIMUM_SHORT_SIDE] : null;
+  if (floor && Math.min(params.width, params.height) < floor) return false;
+  const shortSide = resolution && Object.hasOwn(SHORT_SIDE, resolution)
+    ? SHORT_SIDE[resolution as keyof typeof SHORT_SIDE] : null;
   if (shortSide && Math.abs(Math.min(params.width, params.height) - shortSide) > shortSide * 0.04) return false;
   const match = params.aspectRatio?.match(/^(\d+):(\d+)$/);
   if (!match) return true;

@@ -14,6 +14,7 @@ import {
   resolveWorkspaceViewerIsAdmin,
   type WorkspaceModeExecutability,
 } from '@/server/workspace-engine-availability';
+import { narrowToLlmhubMinimax } from '@/server/llmhub-minimax-capabilities';
 import { projectSeedance25ModeAvailability } from '@/server/engine-mode-availability';
 import { isMinimaxH3MaxEngineId, isMinimaxH3MaxRuntimeModeAvailable } from '@/lib/minimax-h3-max';
 import { isKling3TurboEngineId } from '@/lib/kling-3-turbo';
@@ -110,7 +111,7 @@ export function createEnginesGetHandler(
         keepAllModes: keepsOwnModeAvailability,
       });
       reportHiddenWorkspaceEngines(category, availability, Date.now(), viewer);
-      const publicWorkspaceEngines = availability.engines.map((engine) => projectSeedance25ModeAvailability(
+      const publicWorkspaceEngines = availability.engines.map((engine) => narrowToLlmhubMinimax(engine)).map((engine) => projectSeedance25ModeAvailability(
         isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)
@@ -144,7 +145,7 @@ export function createEnginesGetHandler(
         keepAllModes: keepsOwnModeAvailability,
       });
       reportHiddenWorkspaceEngines(category, fallbackAvailability, Date.now(), viewer);
-      const payload = fallbackAvailability.engines.map((engine) => ({
+      const payload = fallbackAvailability.engines.map((engine) => narrowToLlmhubMinimax(engine)).map((engine) => ({
         ...projectSeedance25ModeAvailability(isMinimaxH3MaxEngineId(engine.id)
           ? workspaceModeProjection(engine, engine.modes.filter(isMinimaxH3MaxRuntimeModeAvailable) as Mode[])
           : isKling3TurboEngineId(engine.id)

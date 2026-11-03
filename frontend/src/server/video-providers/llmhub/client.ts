@@ -67,6 +67,46 @@ export class LlmhubVideoClient {
       }
       return { id: taskId(raw), raw };
     }
+    if (input.model === 'MiniMax-H3' || input.model === 'MiniMax-Hailuo-02') {
+      // The hailuo task plugin takes JSON. H3 reads framing and first-frame content from metadata;
+      // Hailuo 02 follows the OpenAI input_reference field. Neither takes an audio switch.
+      const imageUrl = input.imageUrl ? await referenceUrl(input.imageUrl) : null;
+      const isH3 = input.model === 'MiniMax-H3';
+      const ratio = input.aspectRatio && input.aspectRatio !== 'auto' ? input.aspectRatio : 'adaptive';
+      const metadata = isH3
+        ? {
+            ratio: imageUrl ? 'adaptive' : ratio,
+            ...(imageUrl ? { content: [
+              { type: 'text', text: input.prompt },
+              { type: 'image_url', image_url: { url: imageUrl }, role: 'first_frame' },
+            ] } : {}),
+          }
+        : null;
+      const response = await this.fetchFn(BASE_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${key(this.apiKey)}`,
+          'Content-Type': 'application/json',
+          'Idempotency-Key': input.jobId,
+        },
+        body: JSON.stringify({
+          model: input.model,
+          prompt: input.prompt,
+          seconds: input.seconds,
+          ...(input.resolution ? { resolution: input.resolution.toUpperCase() } : {}),
+          ...(metadata ? { metadata } : {}),
+          ...(!isH3 && imageUrl ? { input_reference: imageUrl } : {}),
+        }),
+        signal: AbortSignal.timeout(60_000),
+      });
+      const raw = await response.json().catch(() => null);
+      if (!response.ok) {
+        const error = new Error(`LLM Hub video submission failed (${response.status}).`) as Error & { status: number };
+        error.status = response.status;
+        throw error;
+      }
+      return { id: taskId(raw), raw };
+    }
     const form = new FormData();
     form.set('model', input.model);
     form.set('prompt', input.prompt);
