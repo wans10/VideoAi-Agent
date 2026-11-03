@@ -131,3 +131,33 @@ test('leaves non-storyboard template URLs unchanged', async () => {
   assert.deepEqual(result.urls, ['http://localhost:3000/assets/other.png']);
   assert.equal(result.storedAssetInfoByUrl.size, 0);
 });
+
+test('publishes a template referenced through the deployed site origin, and nothing else on that host', async () => {
+  const uploaded: string[] = [];
+  const deps = {
+    cwd: '/workspace/frontend',
+    siteUrl: 'https://app.keyvo.cn',
+    isStorageConfiguredFn: () => true,
+    readFileFn: async () => Buffer.from('png'),
+    uploadImageToStorageFn: async ({ fileName, mime }: { fileName?: string | null; mime: string }) => {
+      uploaded.push(String(fileName));
+      return { url: 'https://media.example/storyboard-template-references/t.png', key: 'k', width: 1, height: 1, size: 3, mime };
+    },
+    recordUserAssetFn: async () => 'asset',
+  };
+  const result = await resolveStoryboardTemplateReferenceUrls({
+    userId: 'user_storyboard',
+    urls: [
+      'https://app.keyvo.cn/storyboard/templates/storyboard-template-6.png',
+      'https://app.keyvo.cn/storyboard/templates/../../secret.png',
+      'https://app.keyvo.cn/other/storyboard-template-6.png',
+      'https://elsewhere.example/storyboard/templates/storyboard-template-6.png',
+    ],
+    deps,
+  });
+  assert.deepEqual(uploaded, ['storyboard-template-6.png']);
+  assert.equal(result.urls[0], 'https://media.example/storyboard-template-references/t.png');
+  assert.equal(result.urls[1], 'https://app.keyvo.cn/storyboard/templates/../../secret.png');
+  assert.equal(result.urls[2], 'https://app.keyvo.cn/other/storyboard-template-6.png');
+  assert.equal(result.urls[3], 'https://elsewhere.example/storyboard/templates/storyboard-template-6.png');
+});

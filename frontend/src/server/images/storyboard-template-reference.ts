@@ -21,6 +21,8 @@ type ResolveDeps = {
   recordUserAssetFn?: typeof recordUserAsset;
   uploadImageToStorageFn?: typeof uploadImageToStorage;
   cwd?: string;
+  /** The site's own origin; defaults to NEXT_PUBLIC_SITE_URL. */
+  siteUrl?: string;
 };
 
 function isLocalTemplateHost(hostname: string): boolean {
@@ -34,10 +36,24 @@ function isLocalTemplateHost(hostname: string): boolean {
   );
 }
 
-function getLocalStoryboardTemplatePathname(url: string): string | null {
+function resolveSiteHostname(siteUrl: string | undefined): string | null {
+  try {
+    return siteUrl?.trim() ? new URL(siteUrl).hostname.toLowerCase() : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The browser sends the blank template as an absolute URL on the origin it was loaded from, so on a deployed
+ * site that is the site's own host rather than localhost. Both resolve to the same repository file, and the
+ * path must still match an exact template name, so no other host or path is ever read from disk.
+ */
+function getLocalStoryboardTemplatePathname(url: string, siteHostname: string | null): string | null {
   try {
     const parsed = new URL(url);
-    return isLocalTemplateHost(parsed.hostname) && STORYBOARD_TEMPLATE_PATH_PATTERN.test(parsed.pathname)
+    const ownHost = isLocalTemplateHost(parsed.hostname) || (siteHostname !== null && parsed.hostname.toLowerCase() === siteHostname);
+    return ownHost && STORYBOARD_TEMPLATE_PATH_PATTERN.test(parsed.pathname)
       ? parsed.pathname
       : null;
   } catch {
@@ -117,9 +133,10 @@ export async function resolveStoryboardTemplateReferenceUrls(params: {
 }): Promise<StoryboardTemplateReferenceResolution> {
   const storedAssetInfoByUrl = new Map<string, StoredAssetInfo>();
   const recordUserAssetFn = params.deps?.recordUserAssetFn ?? recordUserAsset;
+  const siteHostname = resolveSiteHostname(params.deps?.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL);
   const urls = await Promise.all(
     params.urls.map(async (url) => {
-      const pathname = getLocalStoryboardTemplatePathname(url);
+      const pathname = getLocalStoryboardTemplatePathname(url, siteHostname);
       if (!pathname) return url;
 
       const upload = await uploadStoryboardTemplateReference({

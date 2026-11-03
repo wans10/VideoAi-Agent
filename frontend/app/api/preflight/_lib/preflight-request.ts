@@ -71,7 +71,12 @@ const preflightRequestSchema = z.object({
   engine: z.string().trim().min(1).max(128),
   mode: z.enum(modes),
   durationSec: z.number().finite().positive().max(3_600),
-  durationOption: z.union([z.number().finite().positive().max(3_600), z.literal('auto')]).optional(),
+  // Engines that list durations as labels ('4s', '6s', '8s') send the label back; read it as seconds.
+  durationOption: z.union([
+    z.number().finite().positive().max(3_600),
+    z.literal('auto'),
+    z.string().regex(/^\d+(?:\.\d+)?s$/).transform((label) => Number.parseFloat(label)).pipe(z.number().finite().positive().max(3_600)),
+  ]).optional(),
   resolution: z.enum(resolutions).optional(),
   aspectRatio: z.enum(aspectRatios).optional(),
   fps: z.number().finite().positive().max(240),
