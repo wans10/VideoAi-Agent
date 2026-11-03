@@ -23,8 +23,11 @@ test('development discovers all routes despite a nonempty incremental manifest; 
     process.env.NODE_ENV = 'development';
     const { getCanonicalPathEntries } = await import('../frontend/lib/sitemap/route-discovery.ts');
     const development = (await getCanonicalPathEntries()).map((entry) => entry.englishPath);
-    for (const route of ['/tools', '/tools/background-removal', '/examples']) {
+    for (const route of ['/tools', '/tools/character-builder', '/examples']) {
       assert.ok(development.includes(route), route);
+    }
+    for (const route of ['/tools/angle', '/tools/upscale', '/tools/background-removal']) {
+      assert.equal(development.includes(route), false, `${route} is hidden by the Keyvo policy`);
     }
     assert.equal(development.some((route) => /^\/blog(?:\/|$)/.test(route)), false, 'Keyvo hides the blog');
     for (const id of ['claude', 'chatgpt', 'codex', 'openclaw', 'n8n']) assert.equal(development.includes(`/integrations/${id}`), false);

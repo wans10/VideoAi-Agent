@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { isKeyvoToolDisabled } from '../frontend/config/keyvo-disabled-features.ts';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
@@ -48,7 +49,10 @@ test('all released finishing tools are discoverable from Toolbox, the app menu a
   assert.ok(finishingDefinitions.every((tool) => tool.group === 'quick' && tool.href === `/app/tools/${tool.id}`));
 
   const menuHrefs = new Set(getAppMenuItems(true, true).map((item) => item.href));
-  for (const tool of finishingDefinitions) assert.ok(menuHrefs.has(tool.href), `${tool.id} should be in the app tool menu`);
+  for (const tool of finishingDefinitions) {
+    // Keyvo hides the fal-backed finishing tools; the definitions stay so upstream syncs do not conflict.
+    assert.equal(menuHrefs.has(tool.href), !isKeyvoToolDisabled(tool.id), `${tool.id} app tool menu presence follows the Keyvo visibility policy`);
+  }
   assert.ok(NAV_ITEMS.some((item) => item.id === 'tools' && item.href === '/app/tools'), 'Studio account navigation should expose Toolbox');
 
   const headerSource = readFileSync(

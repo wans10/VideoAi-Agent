@@ -1,4 +1,5 @@
 import { STUDIO_NAV_LINKS, STUDIO_NAV_DROPDOWNS } from './studio-navigation';
+import { isKeyvoHiddenFeaturePath } from './keyvo-disabled-features';
 import { getMcpPublicIntegrationIds, getMcpIntegration } from '@/lib/mcp-integration-registry';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import mcpPublication from '@/config/mcp-publication.json';
@@ -258,7 +259,7 @@ export const MARKETING_COMPARE_DECISION_GUIDES_SECTION: MarketingNavSection = {
   items: [{ ...MARKETING_NAV_BEST_FOR_HUB, emphasized: true }, ...MARKETING_NAV_BEST_FOR_USE_CASES],
 };
 
-export const MARKETING_NAV_TOOLS: MarketingNavItem[] = [
+const MARKETING_NAV_TOOLS_AUTHORED: MarketingNavItem[] = [
   { key: 'character-builder', icon: 'character', label: 'Consistent Character AI', href: toolLink('character-builder') },
   { key: 'angle', icon: 'angle', label: 'Change Camera Angle', href: toolLink('angle') },
   { key: 'upscale', icon: 'upscale', label: 'AI Upscale', href: toolLink('upscale') },
@@ -266,6 +267,11 @@ export const MARKETING_NAV_TOOLS: MarketingNavItem[] = [
   { key: 'image', icon: 'image', label: 'Generate image', href: '/app/image' },
   { key: 'audio', icon: 'audio', label: 'Generate audio', href: '/app/audio' },
 ];
+
+// Tools and audio without a provider on this deployment are not offered.
+export const MARKETING_NAV_TOOLS: MarketingNavItem[] = MARKETING_NAV_TOOLS_AUTHORED.filter(
+  (item) => !isKeyvoHiddenFeaturePath(typeof item.href === 'string' ? item.href : item.href.pathname),
+);
 
 export const MARKETING_NAV_WORKFLOWS: MarketingNavItem[] = [
   { key: 'how', label: 'How it works', href: '/workflows#how-it-works' },

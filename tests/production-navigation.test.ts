@@ -7,8 +7,10 @@ import { ANGLE_PRODUCTION_COPY } from '../frontend/src/components/tools/angle/la
 test('public navigation follows production departments with technical catalogs as secondary destinations', () => {
   assert.deepEqual(MARKETING_SITE_NAV_LINKS.map(item => item.key), ['production', 'craft', 'screening', 'pricing']);
   const tasks = MARKETING_NAV_DROPDOWNS.production!.items;
-  assert.deepEqual(tasks.map(item => item.href), ['/studio', '/app', '/app/tools/storyboard', '/app/image', '/app/audio']);
-  assert.ok(MARKETING_NAV_DROPDOWNS.craft!.items.some(item => item.href === '/tools/angle'));
+  // Keyvo hides the audio workspace and the fal-backed tools.
+  assert.deepEqual(tasks.map(item => item.href), ['/studio', '/app', '/app/tools/storyboard', '/app/image']);
+  assert.ok(MARKETING_NAV_DROPDOWNS.craft!.items.some(item => item.href === '/tools/character-builder'));
+  assert.equal(MARKETING_NAV_DROPDOWNS.craft!.items.some(item => item.href === '/tools/angle'), false);
   const references = MARKETING_NAV_DROPDOWNS.screening!.sections![0].items;
   assert.ok(references.some(item => item.href === '/models'));
   // Keyvo hides the comparison catalog, so the screening reference must not link to it.

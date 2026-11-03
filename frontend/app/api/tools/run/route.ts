@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { KEYVO_FAL_FEATURES_HIDDEN } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { getActiveAccountRestriction } from '@/server/fraud-cleanup';
@@ -9,6 +10,7 @@ export const runtime = 'nodejs';
 export const maxDuration = 800;
 const headers = { 'Cache-Control': 'private, no-store' };
 export async function POST(req: NextRequest) {
+  if (KEYVO_FAL_FEATURES_HIDDEN) return NextResponse.json({ ok: false }, { status: 404 });
   if (!FEATURES.workflows.toolsSection) return NextResponse.json({ ok: false }, { status: 404 });
   const { userId } = await getRouteAuthContext(req);
   if (!userId) return NextResponse.json({ ok: false }, { status: 401 });
@@ -24,6 +26,7 @@ export async function POST(req: NextRequest) {
   }
 }
 export async function GET(req: NextRequest) {
+  if (KEYVO_FAL_FEATURES_HIDDEN) return NextResponse.json({ ok: false }, { status: 404 });
   if (!FEATURES.workflows.toolsSection) return NextResponse.json({ ok: false }, { status: 404 });
   const { userId } = await getRouteAuthContext(req);
   if (!userId) return NextResponse.json({ ok: false }, { status: 401 });

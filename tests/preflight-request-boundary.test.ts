@@ -110,6 +110,20 @@ test('preflight boundary projects an exact persisted-reference payload', async (
   assert.deepEqual(parsed.request.inputs, validBody().inputs);
 });
 
+test('preflight boundary reads a duration label as seconds and still rejects other strings', async () => {
+  const { parsePreflightRequestPayload } = await loadBoundary();
+  for (const [label, seconds] of [['4s', 4], ['8s', 8], ['6.5s', 6.5]] as const) {
+    const parsed = parsePreflightRequestPayload({ ...validBody(), durationSec: seconds, durationOption: label });
+    assert.equal(parsed.ok, true, label);
+    if (parsed.ok) assert.equal(parsed.request.durationOption, seconds);
+  }
+  assert.equal(parsePreflightRequestPayload({ ...validBody(), durationOption: 'auto' }).ok, true);
+  assert.equal(parsePreflightRequestPayload({ ...validBody(), durationOption: 5 }).ok, true);
+  for (const bad of ['4', '4 s', 's', '-4s', '4m', '99999s', '4s; drop', '']) {
+    assert.equal(parsePreflightRequestPayload({ ...validBody(), durationOption: bad }).ok, false, bad);
+  }
+});
+
 test('preflight boundary rejects unknown and execution-only fields deterministically', async () => {
   const { parsePreflightRequestPayload } = await loadBoundary();
   const attacks = [

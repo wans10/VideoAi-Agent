@@ -103,9 +103,9 @@ test('mobile actions skip unchanged desktop menus while desktop state and locale
     await page.locator('[role="dialog"][aria-modal="true"]').waitFor();
     assert.equal(await desktopMutations(),before,'opening mobile navigation must not rebuild the hidden desktop production links');
     await page.locator('summary[aria-controls="mobile-craft-panel"]').tap();
-    await page.locator('#mobile-craft-panel a[href="/tools/angle"]').waitFor();
+    await page.locator('#mobile-craft-panel a[href="/tools/character-builder"]').waitFor();
     assert.ok(await page.locator('#mobile-craft-panel a[href="/tools"]').isVisible());
-    assert.match(await page.locator('#mobile-craft-panel').textContent()??'',/Camera studies/);
+    assert.match(await page.locator('#mobile-craft-panel').textContent()??'',/Character development/);
     assert.ok(await page.locator('#mobile-craft-panel .marketing-entry-content svg').count()>0,'mobile entries retain their decoration by default');
     assert.equal(await desktopMutations(),before,'expanding a mobile section must leave desktop production links untouched');
     assert.equal(await desktopMutations(),before,'expanding a mobile section must leave desktop model links untouched');

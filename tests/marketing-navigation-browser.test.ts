@@ -154,7 +154,7 @@ test('enhanced mobile navigation contains focus and restores native, CSS and rou
     await opener.tap();
     await dialog.waitFor();
     await page.locator('summary[aria-controls="mobile-craft-panel"]').tap();
-    await page.locator('#mobile-craft-panel a[href="/tools/angle"]').waitFor();
+    await page.locator('#mobile-craft-panel a[href="/tools/character-builder"]').waitFor();
     assert.ok(await menu.evaluate(node=>node.scrollHeight>node.clientHeight),'expanded sections must scroll on short screens');
     await page.locator('.marketing-menu-backdrop').tap({position:{x:385,y:10}});
     await menu.waitFor({state:'hidden'});

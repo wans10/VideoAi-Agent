@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { getToolDefinition } from '@/src/lib/toolbox/catalogue';
 import { QUICK_TOOL_ART, WORKSHOP_ART } from '@/src/components/tools/toolbox-art';
 
@@ -17,7 +18,7 @@ export function HomeToolsGallery({locale}: {locale:AppLocale}) {
     {key:'character', href:'/tools/character-builder', src:WORKSHOP_ART['character-builder']},
     {key:'angle', href:'/tools/angle', src:WORKSHOP_ART.angle},
     {key:'upscale', href:'/tools/upscale', src:QUICK_TOOL_ART['upscale-image']},
-  ];
+  ].map((card, i) => ({ ...card, i })).filter(card => !isKeyvoToolDisabled(card.key));
   const smallLabels = {
     en: ['Remove the background', 'Restore a video', 'Reduce noise', 'Fix motion blur', 'Smooth motion', 'Build a storyboard'],
     fr: ['Supprimer l’arrière-plan', 'Restaurer une vidéo', 'Réduire le bruit', 'Corriger le flou', 'Fluidifier le mouvement', 'Créer un storyboard'],
@@ -28,17 +29,17 @@ export function HomeToolsGallery({locale}: {locale:AppLocale}) {
     {key:'background-removal', href:'/tools/background-removal', src:QUICK_TOOL_ART['background-removal']},
     ...(['restore-video', 'denoise', 'fix-blur', 'smooth-motion'] as const).map(key => ({key, href:getToolDefinition(key)!.href, src:QUICK_TOOL_ART[key]})),
     {key:'storyboard', href:getToolDefinition('storyboard')!.href, src:WORKSHOP_ART.storyboard},
-  ];
+  ].map((card, i) => ({ ...card, i })).filter(card => !isKeyvoToolDisabled(card.key));
   return <section id="toolkit" className="home-tools-gallery section">
     <div className="container-page studio-toolkit">
       <header className="chapter-heading"><div><p className="editorial-eyebrow">{copy.eyebrow}</p><h2>{copy.title}</h2></div><div><p>{copy.body}</p><Link href="/tools" className="text-link">{copy.cta}<span aria-hidden>↗</span></Link></div></header>
       <div className="home-tool-visuals">{cards.map((card,index) => <Link key={card.key} href={card.href} className="home-tool-visual" data-analytics-event="tool_card_click" data-analytics-cta-name={card.key} data-analytics-cta-location="toolbox" data-analytics-tool-name={card.key} data-analytics-tool-surface="public">
-        <div><Image src={card.src} alt={copy.labels[index]} fill unoptimized sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" loading="lazy" /></div>
-        <span><span><small><b aria-hidden="true">0{index + 1} / </b>{copy.names[index]}</small><h3>{copy.labels[index]}</h3></span><span aria-hidden>↗</span></span>
+        <div><Image src={card.src} alt={copy.labels[card.i]} fill unoptimized sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" loading="lazy" /></div>
+        <span><span><small><b aria-hidden="true">0{index + 1} / </b>{copy.names[card.i]}</small><h3>{copy.labels[card.i]}</h3></span><span aria-hidden>↗</span></span>
       </Link>)}</div>
-      <div className="home-tool-shortcuts">{smallCards.map((card, index) => <Link key={card.key} href={card.href} prefetch={false} className="home-tool-shortcut" data-analytics-event="tool_card_click" data-analytics-cta-name={card.key} data-analytics-cta-location="toolbox" data-analytics-tool-name={card.key} data-analytics-tool-surface="public">
+      <div className="home-tool-shortcuts">{smallCards.map((card) => <Link key={card.key} href={card.href} prefetch={false} className="home-tool-shortcut" data-analytics-event="tool_card_click" data-analytics-cta-name={card.key} data-analytics-cta-location="toolbox" data-analytics-tool-name={card.key} data-analytics-tool-surface="public">
         <Image src={card.src} alt="" aria-hidden="true" width={64} height={48} sizes="64px" loading="lazy"/>
-        <span>{smallLabels[index]}</span><span aria-hidden>↗</span>
+        <span>{smallLabels[card.i]}</span><span aria-hidden>↗</span>
       </Link>)}</div>
       <p className="tool-gallery-note">{copy.note}</p>
     </div>

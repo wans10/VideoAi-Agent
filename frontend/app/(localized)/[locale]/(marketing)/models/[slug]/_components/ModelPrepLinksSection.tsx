@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
+import { isKeyvoHiddenFeaturePath } from '@/config/keyvo-disabled-features';
 import { getMcpInternalLink } from '@/lib/mcp-internal-links';
 import { PREP_LINK_VISUALS } from '../_lib/model-page-static';
 import { FULL_BLEED_SECTION, SECTION_BG_A, SECTION_PAD, SECTION_SCROLL_MARGIN } from '../_lib/model-page-specs';
@@ -17,8 +18,11 @@ type ModelPrepLinksSectionProps = {
   locale: AppLocale;
 };
 
-export function ModelPrepLinksSection({ prepLinksSection, locale }: ModelPrepLinksSectionProps) {
+export function ModelPrepLinksSection({ prepLinksSection: authoredSection, locale }: ModelPrepLinksSectionProps) {
   const mcpLink = getMcpInternalLink(locale, 'model');
+  // Links to hidden tools would dead-end, so the section keeps only the tools this deployment offers.
+  const visibleLinks = authoredSection ? authoredSection.links.filter((link) => !isKeyvoHiddenFeaturePath(link.href)) : [];
+  const prepLinksSection = authoredSection && visibleLinks.length ? { ...authoredSection, links: visibleLinks } : null;
   if (!prepLinksSection) {
     return mcpLink ? (
       <aside className="border-y border-hairline py-5">

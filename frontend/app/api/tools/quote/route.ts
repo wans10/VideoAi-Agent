@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { quoteToolboxRequest } from '@/server/tools/toolbox-quote';
@@ -8,7 +9,11 @@ export async function POST(req: NextRequest) {
   const { userId } = await getRouteAuthContext(req);
   if (!userId) return NextResponse.json({ ok: false, error: 'Authentication required.' }, { status: 401 });
   try {
-    const quote = await quoteToolboxRequest(await req.json(), userId);
+    const body: unknown = await req.json();
+    if (isKeyvoToolDisabled((body as { toolId?: string } | null)?.toolId)) {
+      return NextResponse.json({ ok: false, error: 'Tools unavailable.' }, { status: 404 });
+    }
+    const quote = await quoteToolboxRequest(body, userId);
     return NextResponse.json({ ok: true, quote }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch {
     return NextResponse.json({ ok: false, error: 'Unable to quote this source and settings.' }, { status: 422 });

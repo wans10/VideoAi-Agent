@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useId, useState } from 'react';
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { TOOLBOX, type ToolMediaKind } from '@/lib/toolbox/catalogue';
 import { isQuickToolArtId, QUICK_TOOL_ART, WORKSHOP_ART } from './toolbox-art';
 import { toolboxCopy, type ToolboxVisualId } from './toolbox-copy';
@@ -12,13 +13,16 @@ export function ToolboxCatalogue({ locale, mediaKind, onSelect }: { locale: stri
   const [filter, setFilter] = useState<ToolMediaKind | 'all'>(mediaKind ?? 'all');
   const copy = toolboxCopy(locale);
   const id = useId();
-  const quick = TOOLBOX.filter(tool => tool.group === 'quick').flatMap(tool => tool.inputKinds.map(kind => ({ ...tool, mediaKind: kind, visual: (tool.id === 'upscale' ? `upscale-${kind}` : tool.id) as ToolboxVisualId }))).filter(tool => filter === 'all' || tool.mediaKind === filter);
-  const workshops = TOOLBOX.filter(tool => tool.group === 'workshop' && (filter === 'all' || tool.inputKinds.includes(filter)));
+  const toolbox = TOOLBOX.filter(tool => !isKeyvoToolDisabled(tool.id));
+  const hasQuickTools = toolbox.some(tool => tool.group === 'quick');
+  const quick = toolbox.filter(tool => tool.group === 'quick').flatMap(tool => tool.inputKinds.map(kind => ({ ...tool, mediaKind: kind, visual: (tool.id === 'upscale' ? `upscale-${kind}` : tool.id) as ToolboxVisualId }))).filter(tool => filter === 'all' || tool.mediaKind === filter);
+  const workshops = toolbox.filter(tool => tool.group === 'workshop' && (filter === 'all' || tool.inputKinds.includes(filter)));
   const visibleCount = quick.length;
   return <div className={styles.catalogue}>
     <header className={styles.heading}>
       <h1>{copy.workspace}</h1>
     </header>
+    {hasQuickTools ? <>
     <div className={styles.sectionBar}>
       <div><h2>{copy.quick}</h2><p aria-live="polite">{visibleCount} {visibleCount === 1 ? copy.resultCountSingular : copy.results}</p></div>
       <div className={styles.filters} aria-label={copy.filtersLabel}>
@@ -38,6 +42,7 @@ export function ToolboxCatalogue({ locale, mediaKind, onSelect }: { locale: stri
       </>;
       return <li key={tool.visual}>{onSelect ? <button type="button" className={styles.quickTool} onClick={() => onSelect(tool.id, tool.mediaKind)}>{content}</button> : <Link prefetch={false} className={styles.quickTool} href={`${tool.href}${tool.id === 'upscale' ? `?kind=${tool.mediaKind}` : ''}`} aria-label={`${text.title} — ${copy.open}`}>{content}</Link>}</li>;
     })}</ul> : <div className={styles.empty}><span aria-hidden="true" className={styles.sound}>▂ ▅ ▃ ▇ ▄ ▆ ▂</span><h3>{copy.noAudio}</h3><p>{copy.audioHint}</p><Link href="/app/audio" prefetch={false}>{copy.audioOpen}</Link></div>}
+    </> : null}
     {workshops.length > 0 ? <section className={styles.workshopSection} aria-labelledby={`${id}-workshops`}>
       <div className={styles.sectionBar}><h2 id={`${id}-workshops`}>{copy.workshops}</h2></div>
       <ul className={styles.workshopGrid}>{workshops.map(tool => {

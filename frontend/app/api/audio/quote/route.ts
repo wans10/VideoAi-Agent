@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isKeyvoAudioDisabled } from '@/config/keyvo-disabled-features';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { prepareAudioRun } from '@/server/audio/prepare-audio';
 import { AudioGenerationError } from '@/server/audio/audio-generate-validation';
 
 export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
+  if (isKeyvoAudioDisabled()) return NextResponse.json({ ok: false, error: 'audio_unavailable' }, { status: 404 });
   const { userId } = await getRouteAuthContext(req);
   if (!userId) return NextResponse.json({ ok: false, error: 'UNAUTHORIZED' }, { status: 401 });
   const body = await req.json().catch(() => null);

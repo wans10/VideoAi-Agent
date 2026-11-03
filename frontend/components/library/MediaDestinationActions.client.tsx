@@ -55,7 +55,7 @@ export function MediaDestinationActions({ asset, userId, locale, onNavigate, sou
     {asset.kind === 'video' ? <button type="button" disabled={pending} onClick={() => void open('video', true)}><AppGlyph name="video" /><span>{zh ? '延长视频' : fr ? 'Prolonger la vidéo' : es ? 'Extender vídeo' : 'Extend video'}</span></button> : null}
     {supportsMediaDestination(asset, 'image') ? <button type="button" disabled={pending} onClick={() => void open('image')}><AppGlyph name="image" /><span>{zh ? '使用此图片创作' : fr ? 'Créer à partir de cette image' : es ? 'Crear con esta imagen' : 'Create with this image'}</span></button> : null}
     {supportsMediaDestination(asset, 'upscale') ? toolButton('upscale') : null}
-    {asset.kind !== 'audio' ? <details><summary>{zh ? '更多工具' : fr ? 'Plus d’outils' : es ? 'Más herramientas' : 'More tools'}</summary><div>{MEDIA_TOOL_DESTINATIONS.filter(destination => destination !== 'upscale' && supportsMediaDestination(asset, destination)).map(toolButton)}</div></details> : null}
+    {asset.kind !== 'audio' && MEDIA_TOOL_DESTINATIONS.some(destination => destination !== 'upscale' && supportsMediaDestination(asset, destination)) ? <details><summary>{zh ? '更多工具' : fr ? 'Plus d’outils' : es ? 'Más herramientas' : 'More tools'}</summary><div>{MEDIA_TOOL_DESTINATIONS.filter(destination => destination !== 'upscale' && supportsMediaDestination(asset, destination)).map(toolButton)}</div></details> : null}
     {pending ? <span role="status">{zh ? '准备中…' : fr ? 'Préparation…' : es ? 'Preparando…' : 'Preparing…'}</span> : null}
     {error ? <p role="alert">{copy.error}</p> : null}
   </div>;

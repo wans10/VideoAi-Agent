@@ -1,3 +1,5 @@
+import { isKeyvoAudioDisabled } from '@/config/keyvo-disabled-features';
+import { notFound } from 'next/navigation';
 import { AppCreationContent } from '@/components/app/AppCreationContent';
 import type { Metadata } from 'next';
 
@@ -17,6 +19,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default function AudioGeneratePage() {
+  if (isKeyvoAudioDisabled()) notFound();
   return (
     <div className="flex min-h-screen flex-col bg-bg">
       <HeaderBar />

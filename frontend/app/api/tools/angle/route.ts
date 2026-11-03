@@ -1,4 +1,5 @@
 import { requireCurrentWebPricingPolicy } from '@/server/pricing/web-pricing-policy';
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -28,6 +29,7 @@ function parseParams(value: unknown): AngleToolNumericParams | null {
 }
 
 export async function POST(req: NextRequest) {
+  if (isKeyvoToolDisabled('angle')) return NextResponse.json({ ok: false, error: { code: 'tools_disabled', message: 'Tools are currently disabled.' } }, { status: 404 });
   if (!FEATURES.workflows.toolsSection) {
     return NextResponse.json(
       {
