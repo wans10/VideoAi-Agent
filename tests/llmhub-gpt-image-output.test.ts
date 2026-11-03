@@ -190,3 +190,48 @@ test('rollback failure exposes exact remaining keys and retains original failure
     assert.match(String((error as Error).cause),/PUT disconnected/);return true;
   });
 });
+
+test('gpt-image-2 sends no response_format, which LLM Hub rejects with HTTP 400, and stores the Base64 answer', async () => {
+  let captured: Record<string, unknown> | null = null;
+  const result = await runLlmhubFlareGeneration({ ...input, engineId: 'gpt-image-2' }, {
+    apiKey: 'test', upload: async () => stored,
+    fetch: async (_url, init) => {
+      captured = JSON.parse(String(init?.body));
+      return Response.json({ data: [{ b64_json: png.toString('base64') }] });
+    },
+  });
+  assert.ok(captured);
+  assert.equal(captured!.model, 'gpt-image-2');
+  assert.equal('response_format' in captured!, false);
+  assert.equal(captured!.size, '1024x768');
+  const images = (result.result.data as { images: Array<{ url: string; width: number; height: number }> }).images;
+  assert.equal(images.length, 1);
+  assert.equal(images[0].url, stored.url);
+  assert.deepEqual([images[0].width, images[0].height], [1024, 768]);
+});
+
+test('gpt-image-2 rejects an output whose size differs from the pinned request size', async () => {
+  await assert.rejects(runLlmhubFlareGeneration({ ...input, engineId: 'gpt-image-2', providerImageSize: 'square' }, {
+    apiKey: 'test', upload: async () => ({ ...stored, key: 'renders/images/account-1/wrong.png' }), remove: async () => undefined,
+    fetch: async () => Response.json({ data: [{ b64_json: png.toString('base64') }] }),
+  }), /do not match the quoted size/);
+});
+
+test('gpt-image-2 refuses a WebP request instead of storing an unvalidated format', async () => {
+  await assert.rejects(runLlmhubFlareGeneration({ ...input, engineId: 'gpt-image-2', outputFormat: 'webp' }, {
+    apiKey: 'test', upload: async () => stored, fetch: async () => { throw new Error('must not call the provider'); },
+  }), /PNG and JPEG output only/);
+});
+
+test('Seedream through LLM Hub still asks for a URL and reads URLs', async () => {
+  let captured: Record<string, unknown> | null = null;
+  const result = await runLlmhubFlareGeneration({ ...input, engineId: 'seedream' }, {
+    apiKey: 'test', upload: async () => stored,
+    fetch: async (_url, init) => {
+      captured = JSON.parse(String(init?.body));
+      return Response.json({ data: [{ url: 'https://media.maxvideoai.com/seedream.png' }] });
+    },
+  });
+  assert.equal(captured?.response_format, 'url');
+  assert.equal((result.result.data as { images: Array<{ url: string }> }).images[0].url, 'https://media.maxvideoai.com/seedream.png');
+});

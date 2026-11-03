@@ -10,7 +10,8 @@ export async function storeLlmhubImageOutputs(params: {
   jobId: string;
   outputFormat: string;
   expectedCount: number;
-  expectedSize: { width: number; height: number };
+  /** Omit when the request did not pin a size (the model chose it), so only the format is checked. */
+  expectedSize?: { width: number; height: number };
   upload?: typeof uploadImageToStorage;
   remove?: typeof deleteStorageObjectKey;
 }): Promise<Array<{ url: string; width: number; height: number; content_type: string }>> {
@@ -43,7 +44,7 @@ export async function storeLlmhubImageOutputs(params: {
     if (metadata.format !== params.outputFormat || (metadata.pages ?? 1) !== 1) {
       throw new Error('LLM Hub returned an unexpected image format.');
     }
-    if (metadata.width !== params.expectedSize.width || metadata.height !== params.expectedSize.height) {
+    if (params.expectedSize && (metadata.width !== params.expectedSize.width || metadata.height !== params.expectedSize.height)) {
       throw new Error('LLM Hub output dimensions do not match the quoted size.');
     }
     // metadata() only reads headers. Force full pixel decoding before any write.
@@ -62,9 +63,10 @@ export async function storeLlmhubImageOutputs(params: {
         beforeUpload: async (key) => { createdKeys.add(key); },
       });
       createdKeys.add(stored.key);
-      if (stored.width !== params.expectedSize.width || stored.height !== params.expectedSize.height) {
+      if (params.expectedSize && (stored.width !== params.expectedSize.width || stored.height !== params.expectedSize.height)) {
         throw new Error('LLM Hub output dimensions do not match the quoted size.');
       }
+      if (stored.width == null || stored.height == null) throw new Error('LLM Hub output dimensions could not be measured.');
       // Owned outputs bypass the later copy step, so carry the measured facts
       // through the provider payload into response and persistence projections.
       images.push({
