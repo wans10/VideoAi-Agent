@@ -1,4 +1,5 @@
 import type { AppLocale } from '@/i18n/locales';
+import { isKeyvoAudioDisabled, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { Link } from '@/i18n/navigation';
 import type { ImagePricingRow, OtherSurfacePricingData, PricingHubLink } from '../_lib/pricingHubData';
 import { getPricingHubCopy } from '../_lib/pricingHubCopy';
@@ -28,6 +29,14 @@ function ImageEngineName({ row }: { row: Pick<ImagePricingRow, 'engine' | 'model
     <span>{row.engine}</span>
   );
 }
+
+// Pricing rows that belong to a tool without a provider on this deployment.
+const TOOL_ROW_TOOL_ID: Record<string, string> = {
+  'change-camera-angle': 'angle',
+  'generate-best-angles': 'angle',
+  'image-upscale': 'upscale',
+  'video-upscale': 'upscale',
+};
 
 export function PricingOtherSurfacesSection({ data, locale }: { data: OtherSurfacePricingData; locale: AppLocale }) {
   const copy = getPricingHubCopy(locale);
@@ -78,7 +87,7 @@ export function PricingOtherSurfacesSection({ data, locale }: { data: OtherSurfa
         </PricingTableScrollRegion>
       </div>
 
-      <div id="audio-pricing" className="scroll-mt-24 rounded-[8px] border border-hairline bg-surface p-5 shadow-card sm:scroll-mt-28 sm:p-6">
+      {isKeyvoAudioDisabled() ? null : <div id="audio-pricing" className="scroll-mt-24 rounded-[8px] border border-hairline bg-surface p-5 shadow-card sm:scroll-mt-28 sm:p-6">
         <h3 id="audio-pricing-title" className="text-xl font-semibold tracking-normal text-text-primary">
           {copy.otherSurfaces.audioTitle}
         </h3>
@@ -110,7 +119,7 @@ export function PricingOtherSurfacesSection({ data, locale }: { data: OtherSurfa
             </tbody>
           </table>
         </PricingTableScrollRegion>
-      </div>
+      </div>}
 
       <div id="tool-pricing" className="scroll-mt-24 rounded-[8px] border border-hairline bg-surface p-5 shadow-card sm:scroll-mt-28 sm:p-6">
         <h3 id="tool-pricing-title" className="text-xl font-semibold tracking-normal text-text-primary">
@@ -128,7 +137,7 @@ export function PricingOtherSurfacesSection({ data, locale }: { data: OtherSurfa
               </tr>
             </thead>
             <tbody>
-              {data.toolRows.map((row) => (
+              {data.toolRows.filter((row) => !isKeyvoToolDisabled(TOOL_ROW_TOOL_ID[row.id])).map((row) => (
                 <tr key={row.id} id={row.anchorId} className="scroll-mt-24 border-b border-hairline last:border-0">
                   <td className="py-3 pr-4 font-semibold text-text-primary">{row.tool}</td>
                   <td className="px-4 py-3 text-text-secondary">{row.standardOutput}</td>

@@ -74,11 +74,6 @@ export function MarketingFooter() {
 
   const productLinks: FooterLink[] = [
     {
-      key: 'angle',
-      label: labelFor('footer.sections.product.items.angle', 'Change Camera Angle'),
-      href: { pathname: '/tools/angle' },
-    },
-    {
       key: 'characterBuilder',
       label: labelFor('footer.sections.product.items.characterBuilder', 'Character Builder'),
       href: { pathname: '/tools/character-builder' },

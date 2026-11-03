@@ -1,4 +1,5 @@
 'use client';
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 
 import { createPortal } from 'react-dom';
 import { referencePickerCopy } from './reference-picker-copy';
@@ -384,8 +385,8 @@ export function AssetLibraryModal({
   );
 
   const sourceOptions = assetType === 'video'
-    ? (['all', 'upload', 'recent', 'generated', 'upscale'] as const)
-    : (['all', 'upload', 'generated', 'storyboard', 'character', 'angle', 'upscale'] as const);
+    ? (['all', 'upload', 'recent', 'generated', 'upscale'] as const).filter((source) => !isKeyvoToolDisabled(source))
+    : (['all', 'upload', 'generated', 'storyboard', 'character', 'angle', 'upscale'] as const).filter((source) => !isKeyvoToolDisabled(source));
   const libraryTitle =
     assetType === 'video'
       ? (uiLocale === 'fr'

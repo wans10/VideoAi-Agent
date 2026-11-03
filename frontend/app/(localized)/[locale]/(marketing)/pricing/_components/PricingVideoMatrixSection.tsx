@@ -1,3 +1,4 @@
+import { isKeyvoAudioDisabled } from '@/config/keyvo-disabled-features';
 import {
   BadgeCheck,
   ExternalLink,
@@ -338,9 +339,9 @@ export function PricingVideoMatrixSection({ locale, video }: { locale: AppLocale
   const surfaceTabs = [
     { label: copy.video.tabs.video, href: '#video-pricing', icon: Video, active: true },
     { label: copy.video.tabs.image, href: '#image-pricing', icon: Image, active: false },
-    { label: copy.video.tabs.audio, href: '#audio-pricing', icon: Music2, active: false },
+    ...(isKeyvoAudioDisabled() ? [] : [{ label: copy.video.tabs.audio, href: '#audio-pricing', icon: Music2, active: false }]),
     { label: copy.video.tabs.tools, href: '#tool-pricing', icon: Wrench, active: false },
-  ] as const;
+  ];
 
   return (
     <section id="video-pricing" className="scroll-mt-24 space-y-3 sm:scroll-mt-28">

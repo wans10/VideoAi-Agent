@@ -1,4 +1,5 @@
 import { KEYVO_COMPARE_HIDDEN, isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
+import { isKeyvoAudioDisabled, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import type { AppLocale } from '@/i18n/locales';
 import type { PublicModelQuoteInput } from '@/lib/pricing-public-model-contract';
 import { localePathnames } from '@/i18n/locales';
@@ -1253,7 +1254,7 @@ export function buildPopularChecks(
   const imageRow = imageRows[0];
   const voiceRow = audioRows.find((row) => row.id === 'audio-voice-only');
   const upscaleRow = toolRows.find((row) => row.id === 'video-upscale');
-  return [
+  const rows: PopularPriceCheckRow[] = [
     {
       id: '5s-720p-video',
       priceCheck: copy.popularChecks.rows.draft720,
@@ -1307,6 +1308,8 @@ export function buildPopularChecks(
       link: { label: copy.links.toolPricing, href: buildPricingAnchorHref(locale, 'upscale-pricing') },
     },
   ];
+  // Voice-over and upscale prices point at features this deployment does not offer.
+  return rows.filter((row) => !(row.id === '30s-voice-over' && isKeyvoAudioDisabled()) && !(row.id === '4k-upscale' && isKeyvoToolDisabled('upscale')));
 }
 
 export function buildPricingHubData(locale: AppLocale): PricingHubData {

@@ -1,3 +1,4 @@
+import { isKeyvoHiddenFeaturePath } from './keyvo-disabled-features';
 import type { MarketingNavDropdown, MarketingTopNavLink } from './navigation';
 
 /** Public information architecture is organized by production intent. */
@@ -9,7 +10,7 @@ export const STUDIO_NAV_LINKS: readonly MarketingTopNavLink[] = [
   { key: 'pricing', href: '/pricing' },
 ];
 
-export const STUDIO_NAV_DROPDOWNS: Record<string, MarketingNavDropdown> = {
+const STUDIO_NAV_DROPDOWNS_AUTHORED: Record<string, MarketingNavDropdown> = {
   production: { heading: "Set your next scene in motion.", intro: "Choose the stage you need: a shot, a visual reference or a sound.", allHref: '/app', allLabelKey: 'nav.dropdown.production.all', allLabelFallback: "Open production desk", desktopColumns: 2, items: [
     { key: 'studio', href: '/studio', icon: 'cinema', label: 'Conversational Studio', description: 'Plan, create and edit in one conversation.' },
     { key: 'shot', href: '/app', icon: 'cinema', label: "Generate a shot", description: "Build the next shot from a brief, reference or clip." },
@@ -27,3 +28,16 @@ export const STUDIO_NAV_DROPDOWNS: Record<string, MarketingNavDropdown> = {
     { key: 'reels', href: '/examples', icon: 'cinema', label: "Shot library", description: "Inspect generated shots, prompts and settings." },
   ], sections: [{ key: 'reference', titleKey: 'nav.dropdown.screening.reference', titleFallback: 'Technical reference', items: [{ key: 'models', label: 'Model directory', href: '/models', icon: 'guides' }, { key: 'docs', label: 'Production guides', href: '/docs', icon: 'docs' }] }] },
 };
+
+// Tools and audio without a provider on this deployment are not offered.
+export const STUDIO_NAV_DROPDOWNS: Record<string, MarketingNavDropdown> = Object.fromEntries(
+  Object.entries(STUDIO_NAV_DROPDOWNS_AUTHORED).map(([key, dropdown]) => [
+    key,
+    {
+      ...dropdown,
+      items: dropdown.items.filter(
+        (item) => !isKeyvoHiddenFeaturePath(typeof item.href === 'string' ? item.href : item.href.pathname),
+      ),
+    },
+  ]),
+);

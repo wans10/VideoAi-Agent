@@ -1,3 +1,5 @@
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import type { AppLocale } from '@/i18n/locales';
 import { resolveDictionary } from '@/lib/i18n/server';
@@ -25,6 +27,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
 }
 
 export default async function UpscalePage(props: { params: Promise<{ locale: AppLocale }> }) {
+  if (isKeyvoToolDisabled('upscale')) notFound();
   const params = await props.params;
   const { dictionary } = await resolveDictionary({ locale: params.locale });
 

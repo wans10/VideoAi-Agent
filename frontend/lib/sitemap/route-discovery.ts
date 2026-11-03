@@ -11,6 +11,7 @@ import {
   getMcpIntegrationIds,
   getMcpPublicIntegrationPaths,
 } from '@/lib/mcp-integration-registry';
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { filterKeyvoVisibleEntries } from '@/config/keyvo-model-visibility';
 import compareConfig from '@/config/compare-config.json';
 import { getHubComparisonSlugsForSitemap } from '@/lib/compare-hub/data';
@@ -39,7 +40,13 @@ const IGNORED_ROUTE_TEMPLATES = new Set([
   '/v/[videoId]',
   '/legal/cookies',
 ]);
-const HIDDEN_ROUTE_PREFIXES = ['/ai-video-engines', '/benchmarks', '/blog'];
+const HIDDEN_ROUTE_PREFIXES = [
+  '/ai-video-engines',
+  '/benchmarks',
+  '/blog',
+  // Public landing pages of tools that have no provider on this deployment (KEYVO_FAL_FEATURES_HIDDEN).
+  ...['angle', 'upscale', 'background-removal'].filter(isKeyvoToolDisabled).map((id) => `/tools/${id}`),
+];
 const MCP_PUBLIC_INDEXABLE_PATHS = new Set<string>([
   '/mcp',
   ...getMcpPublicIntegrationPaths(),

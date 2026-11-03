@@ -1,4 +1,5 @@
 import { requireCurrentWebPricingPolicy } from '@/server/pricing/web-pricing-policy';
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { NextRequest, NextResponse } from 'next/server';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { FEATURES } from '@/content/feature-flags';
@@ -23,6 +24,9 @@ export async function handleUpscaleToolRequest(
   mediaType: UpscaleMediaType,
   runUpscale: UpscaleRunner
 ) {
+  if (isKeyvoToolDisabled('upscale')) {
+    return NextResponse.json({ ok: false, error: { code: 'tools_disabled', message: 'Tools are currently disabled.' } }, { status: 404 });
+  }
   if (!FEATURES.workflows.toolsSection) {
     return NextResponse.json(
       {

@@ -1,3 +1,4 @@
+import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import type { AssetBrowserAsset } from '@/components/library/AssetLibraryBrowser';
 
 export const MEDIA_HANDOFF_KEY = 'maxvideoai:media-handoff:v1';
@@ -7,6 +8,7 @@ export type MediaToolDestination = typeof MEDIA_TOOL_DESTINATIONS[number];
 export type MediaDestination = 'image' | 'video' | MediaToolDestination;
 type StorageLike = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 export function supportsMediaDestination(asset: Pick<AssetBrowserAsset, 'kind'>, destination: MediaDestination) {
+  if (isKeyvoToolDisabled(destination)) return false;
   if (destination === 'video') return true;
   if (destination === 'image' || destination === 'angle') return asset.kind === 'image';
   if (destination === 'upscale') return asset.kind === 'image' || asset.kind === 'video';
