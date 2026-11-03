@@ -1,3 +1,4 @@
+import { hasKlingCredentials } from '@/server/video-providers/kling-direct/credentials';
 import {
   isBytePlusModelArkEnabled,
   isBytePlusLasExecutionEnabled,
@@ -238,10 +239,7 @@ export function resolveAgentGenerationModeExecutability(
         return credentialDecision(configured(environment.falApiKey));
       }
       if (routingPlan.kind === 'kling_direct_primary') {
-        return credentialDecision(
-          configured(providerEnv.KLING_ACCESS_KEY)
-          && configured(providerEnv.KLING_SECRET_KEY),
-        );
+        return credentialDecision(hasKlingCredentials(providerEnv));
       }
       if (routingPlan.kind === 'luma_agents_direct_primary') {
         return credentialDecision(configured(providerEnv.LUMA_AGENTS_API_KEY));

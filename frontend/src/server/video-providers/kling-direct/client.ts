@@ -9,6 +9,7 @@ import {
 import { firstString, normalizeKlingDirectTask, parseKlingJsonResponse } from './response';
 import type { KlingDirectPayload } from './payload';
 import type { NormalizedVideoProviderTask } from '../types';
+import { hasKlingCredentials } from './credentials';
 
 const DEFAULT_TIMEOUT_MS = 45_000;
 
@@ -40,6 +41,7 @@ export function createKlingJwt(params: {
 
 export function getKlingDirectConfig() {
   return {
+    apiKey: ENV.KLING_API_KEY,
     accessKey: ENV.KLING_ACCESS_KEY,
     secretKey: ENV.KLING_SECRET_KEY,
     baseUrl: trimTrailingSlash(ENV.KLING_API_BASE_URL ?? 'https://api-singapore.klingai.com'),
@@ -53,24 +55,29 @@ function timeoutSignal(timeoutMs: number): AbortSignal {
 }
 
 export class KlingDirectClient {
+  private readonly apiKey: string | null;
   private readonly accessKey: string;
   private readonly secretKey: string;
   private readonly baseUrl: string;
   private readonly timeoutMs: number;
 
   constructor(params: {
-    accessKey: string;
-    secretKey: string;
+    /** Preferred: sent as the Bearer token as is. */
+    apiKey?: string | null;
+    accessKey?: string;
+    secretKey?: string;
     baseUrl: string;
     timeoutMs?: number;
   }) {
-    this.accessKey = params.accessKey;
-    this.secretKey = params.secretKey;
+    this.apiKey = params.apiKey?.trim() || null;
+    this.accessKey = params.accessKey ?? '';
+    this.secretKey = params.secretKey ?? '';
     this.baseUrl = trimTrailingSlash(params.baseUrl);
     this.timeoutMs = params.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   }
 
   private authHeader(): string {
+    if (this.apiKey) return `Bearer ${this.apiKey}`;
     return `Bearer ${createKlingJwt({ accessKey: this.accessKey, secretKey: this.secretKey })}`;
   }
 
@@ -193,11 +200,15 @@ export class KlingDirectClient {
 
 export function getKlingDirectClient(): KlingDirectClient {
   const config = getKlingDirectConfig();
-  const { accessKey, secretKey, baseUrl } = config;
-  if (!accessKey || !secretKey) {
+  if (!hasKlingCredentials({ KLING_API_KEY: config.apiKey, KLING_ACCESS_KEY: config.accessKey, KLING_SECRET_KEY: config.secretKey })) {
     throw new KlingDirectError('Kling direct API keys are not configured.', {
       code: 'KLING_CREDENTIALS_MISSING',
     });
   }
-  return new KlingDirectClient({ accessKey, secretKey, baseUrl });
+  return new KlingDirectClient({
+    apiKey: config.apiKey,
+    accessKey: config.accessKey,
+    secretKey: config.secretKey,
+    baseUrl: config.baseUrl,
+  });
 }

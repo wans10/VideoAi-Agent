@@ -9,11 +9,13 @@ import {
 } from './luma-agents/model-map';
 import { resolveLlmhubVideoModel } from './llmhub/model-map';
 import { isSupportedLlmhubMinimaxRequest } from '@/server/llmhub-minimax-capabilities';
+import { hasKlingCredentials } from './kling-direct/credentials';
 import { parseGoogleVertexServiceAccount } from './google-vertex-auth';
 
 export type VideoProviderRoutingEnv = Readonly<Partial<Record<
   | 'PRICING_SANDBOX'
   | 'KLING_DIRECT_ENABLED'
+  | 'KLING_API_KEY'
   | 'KLING_ACCESS_KEY'
   | 'KLING_SECRET_KEY'
   | 'ALIBABA_MODEL_STUDIO_ENABLED'
@@ -300,7 +302,11 @@ export function resolveVideoProviderRoutingPlan(params: {
   if (isKlingDirectEngine(params.engineId)) {
     if (!isKlingDirectModeSupported(params.engineId, params.mode)) return falOnly;
     if (!flagEnabled(readEnv(params.env, 'KLING_DIRECT_ENABLED'))) return falOnly;
-    if (!readEnv(params.env, 'KLING_ACCESS_KEY')?.trim() || !readEnv(params.env, 'KLING_SECRET_KEY')?.trim()) return falOnly;
+    if (!hasKlingCredentials({
+      KLING_API_KEY: readEnv(params.env, 'KLING_API_KEY'),
+      KLING_ACCESS_KEY: readEnv(params.env, 'KLING_ACCESS_KEY'),
+      KLING_SECRET_KEY: readEnv(params.env, 'KLING_SECRET_KEY'),
+    })) return falOnly;
 
     const publicRoutingEnabled = flagEnabled(readEnv(params.env, 'KLING_DIRECT_PUBLIC_ROUTING_ENABLED'));
     const adminOnly = flagEnabled(readEnv(params.env, 'KLING_DIRECT_ADMIN_ONLY') ?? 'true');
