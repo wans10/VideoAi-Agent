@@ -124,6 +124,9 @@ export async function runLlmhubFlareGeneration(params: {
   if (isGpt25 && params.outputFormat && !['png', 'jpeg'].includes(params.outputFormat)) {
     throw new Error('GPT Image 2.5 supports PNG and JPEG output only.');
   }
+  if (!isGpt25 && engineId.startsWith('gpt-image-') && params.outputFormat && !['png', 'jpeg'].includes(params.outputFormat)) {
+    throw new Error('GPT Image 2 supports PNG and JPEG output only.');
+  }
   const isGptImage = engineId.startsWith('gpt-image-');
   const seedreamSize = engineId === 'seedream' && size
     ? resolveSeedreamProviderSize(size, params.aspectRatio) : null;
@@ -136,7 +139,8 @@ export async function runLlmhubFlareGeneration(params: {
     ...(isGptImage && params.background ? { background: params.background } : {}),
     ...(params.outputFormat ? { output_format: params.outputFormat } : {}),
     ...(engineId === 'seedream' ? { watermark: params.watermark === true } : {}),
-    ...(!isGpt25 ? { response_format: 'url' } : {}),
+    // The GPT Image models always answer with Base64, and LLM Hub rejects response_format for them (HTTP 400).
+    ...(!isGptImage ? { response_format: 'url' } : {}),
   };
   let body: BodyInit;
   const headers: Record<string, string> = {
@@ -169,10 +173,13 @@ export async function runLlmhubFlareGeneration(params: {
     error.detail = payload;
     throw error;
   }
-  const images = isGpt25 ? await storeLlmhubImageOutputs({
+  // Both GPT Image generations answer with Base64 that must be validated and stored before it is returned.
+  const pinnedSize = /^(\d+)x(\d+)$/.exec(size ?? '');
+  const images = isGptImage ? await storeLlmhubImageOutputs({
     payload, userId: params.userId, jobId: params.jobId,
     outputFormat: params.outputFormat ?? 'png', expectedCount: params.numImages,
-    expectedSize: tier!, upload: deps.upload, remove: deps.remove,
+    expectedSize: tier ?? (pinnedSize ? { width: Number(pinnedSize[1]), height: Number(pinnedSize[2]) } : undefined),
+    upload: deps.upload, remove: deps.remove,
   }) : Array.isArray(payload?.data)
     ? payload.data.filter((item: unknown): item is { url: string } =>
       Boolean(item && typeof item === 'object' && typeof (item as { url?: unknown }).url === 'string'
