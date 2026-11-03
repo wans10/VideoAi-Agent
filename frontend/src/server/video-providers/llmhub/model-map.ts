@@ -10,6 +10,8 @@ const MODELS = {
   'seedance-2-5': 'doubao-seedance-2.5',
   'wan-3': 'wan3.0-video',
   'wan-3-prime': 'wan3.0-video-prime',
+  'minimax-h3': 'MiniMax-H3',
+  'minimax-hailuo-02-text': 'MiniMax-Hailuo-02',
 } as const;
 
 export function resolveLlmhubVideoModel(engineId: string, mode: string): string | null {

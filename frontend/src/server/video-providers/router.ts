@@ -8,6 +8,7 @@ import {
   isLumaAgentsVideoModeSupported,
 } from './luma-agents/model-map';
 import { resolveLlmhubVideoModel } from './llmhub/model-map';
+import { isSupportedLlmhubMinimaxRequest } from '@/server/llmhub-minimax-capabilities';
 import { parseGoogleVertexServiceAccount } from './google-vertex-auth';
 
 export type VideoProviderRoutingEnv = Readonly<Partial<Record<
@@ -140,6 +141,12 @@ export function isLlmhubVideoRoutingSelected(
   return Boolean(resolveLlmhubVideoModel(engineId, mode))
     && (!isVeo || isVerifiedLlmhubVeoRequest(mode, request))
     && flagEnabled(readEnv(env, 'LLMHUB_INFERENCE_ROUTING_ENABLED'))
+    && isSupportedLlmhubMinimaxRequest({
+      engineId,
+      mode,
+      durationSec: request ? request.durationSec ?? request.duration : undefined,
+      resolution: request?.resolution,
+    })
     && (!request || !hasUnsupportedLlmhubVideoInputs(request, mode));
 }
 

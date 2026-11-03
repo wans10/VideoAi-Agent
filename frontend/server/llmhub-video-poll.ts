@@ -57,7 +57,7 @@ function requestedAudio(snapshot: unknown): boolean | null {
 
 function sourceDeterminesAspectRatio(snapshot: unknown, engineId: string): boolean {
   const record = snapshot && typeof snapshot === 'object' ? snapshot as Record<string, unknown> : null;
-  return record?.inputMode === 'i2v' && engineId.startsWith('seedance-');
+  return record?.inputMode === 'i2v' && (engineId.startsWith('seedance-') || engineId === 'minimax-h3' || engineId.startsWith('minimax-hailuo-'));
 }
 
 async function refundWallet(job: PendingJob, reason: string, queryFn: QueryFn): Promise<void> {
