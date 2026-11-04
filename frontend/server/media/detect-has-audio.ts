@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { promisify } from 'node:util';
 
 import ffprobe from 'ffprobe-static';
+import { runFfprobeOnUrl } from './ffprobe-run';
 
 const execFileAsync = promisify(execFile);
 
@@ -149,7 +150,7 @@ export async function detectMediaDuration(
   args.push('-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', mediaUrl);
 
   try {
-    const { stdout } = await execFileAsync(ffprobe.path, args, { timeout: timeoutMs, maxBuffer: 1024 * 1024 });
+    const { stdout } = await runFfprobeOnUrl(args, mediaUrl, { timeoutMs });
     const parsed = Number.parseFloat(stdout.trim());
     if (!Number.isFinite(parsed) || parsed <= 0) {
       return null;
@@ -272,7 +273,7 @@ export async function detectHasAudioStream(videoUrl: string, options: DetectOpti
   ];
 
   try {
-    const { stdout } = await execFileAsync(ffprobe.path, args, { timeout: timeoutMs, maxBuffer: 1024 * 1024 });
+    const { stdout } = await runFfprobeOnUrl(args, videoUrl, { timeoutMs });
     const normalized = stdout.trim().toLowerCase();
     if (!normalized) {
       return false;
@@ -317,7 +318,7 @@ export async function detectVideoDimensions(
   ];
 
   try {
-    const { stdout } = await execFileAsync(ffprobe.path, args, { timeout: timeoutMs, maxBuffer: 1024 * 1024 });
+    const { stdout } = await runFfprobeOnUrl(args, videoUrl, { timeoutMs });
     const line = stdout.trim();
     if (!line) {
       return null;
@@ -379,7 +380,7 @@ export async function detectVideoMetadata(
   ];
 
   try {
-    const { stdout } = await execFileAsync(ffprobe.path, args, { timeout: timeoutMs, maxBuffer: 1024 * 1024 });
+    const { stdout } = await runFfprobeOnUrl(args, videoUrl, { timeoutMs });
     const parsed = JSON.parse(stdout) as {
       streams?: Array<{ width?: number; height?: number; r_frame_rate?: string; duration?: string }>;
       format?: { duration?: string };
