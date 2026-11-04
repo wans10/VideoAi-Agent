@@ -96,6 +96,10 @@ export async function submitLlmhubGenerateTask(params: {
     const status = error && typeof error === 'object' && 'status' in error
       ? Number((error as { status?: unknown }).status) : NaN;
     const definiteFailure = !acceptedProviderJobId && Number.isFinite(status) && status >= 400 && status < 500;
+    console.warn('[llmhub] video submission failed', {
+      jobId: params.jobId, model: params.modelId, status: Number.isFinite(status) ? status : null,
+      detail: (error as { detail?: unknown } | null)?.detail ?? (error instanceof Error ? error.message : null),
+    });
     if (!acceptedProviderJobId) await markProviderAttemptFailed({
       attemptId: attempt.id,
       errorCode: definiteFailure ? `HTTP_${status}` : 'SUBMISSION_OUTCOME_UNKNOWN',

@@ -14,6 +14,14 @@ function taskId(payload: unknown): string {
   return record.id;
 }
 
+/** The provider's own error text, bounded; it carries no credentials and is the only clue when a submission fails. */
+function providerMessage(raw: unknown): string | undefined {
+  const record = raw && typeof raw === 'object' ? raw as Record<string, unknown> : null;
+  const nested = record?.error && typeof record.error === 'object' ? record.error as Record<string, unknown> : null;
+  const text = [record?.message, nested?.message, record?.code].find((value) => typeof value === 'string' && value.trim());
+  return typeof text === 'string' ? text.trim().slice(0, 300) : undefined;
+}
+
 function usesUrlReference(model: string): boolean {
   return model.startsWith('doubao-seedance-') || model.startsWith('wan3.0-video');
 }
@@ -61,8 +69,9 @@ export class LlmhubVideoClient {
       });
       const raw = await response.json().catch(() => null);
       if (!response.ok) {
-        const error = new Error(`LLM Hub video submission failed (${response.status}).`) as Error & { status: number };
+        const error = new Error(`LLM Hub video submission failed (${response.status}).`) as Error & { status: number; detail?: string };
         error.status = response.status;
+        error.detail = providerMessage(raw);
         throw error;
       }
       return { id: taskId(raw), raw };
@@ -101,8 +110,9 @@ export class LlmhubVideoClient {
       });
       const raw = await response.json().catch(() => null);
       if (!response.ok) {
-        const error = new Error(`LLM Hub video submission failed (${response.status}).`) as Error & { status: number };
+        const error = new Error(`LLM Hub video submission failed (${response.status}).`) as Error & { status: number; detail?: string };
         error.status = response.status;
+        error.detail = providerMessage(raw);
         throw error;
       }
       return { id: taskId(raw), raw };
@@ -139,8 +149,9 @@ export class LlmhubVideoClient {
     });
     const raw = await response.json().catch(() => null);
     if (!response.ok) {
-      const error = new Error(`LLM Hub video submission failed (${response.status}).`) as Error & { status: number };
+      const error = new Error(`LLM Hub video submission failed (${response.status}).`) as Error & { status: number; detail?: string };
       error.status = response.status;
+      error.detail = providerMessage(raw);
       throw error;
     }
     return { id: taskId(raw), raw };

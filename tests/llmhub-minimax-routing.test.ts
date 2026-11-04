@@ -27,7 +27,7 @@ test('MiniMax H3 and Hailuo 02 map to their LLM Hub models for text and image st
 test('routing sends only requests LLM Hub accepts, and only with the routing switch on', () => {
   assert.equal(plan('minimax-h3', 't2v', { durationSec: 5, resolution: '768P' }).kind, 'llmhub_primary');
   assert.equal(plan('minimax-h3', 't2v', { durationSec: 15, resolution: '2K' }).kind, 'llmhub_primary');
-  for (const request of [{ durationSec: 5, resolution: '480P' }, { durationSec: 5, resolution: '4K' }, { durationSec: 3, resolution: '768P' }, { durationSec: 16, resolution: '768P' }]) {
+  for (const request of [{ durationSec: 5, resolution: '480P' }, { durationSec: 5, resolution: '4K' }, { durationSec: 3, resolution: '768P' }, { durationSec: 4, resolution: '768P' }, { durationSec: 16, resolution: '768P' }]) {
     assert.equal(plan('minimax-h3', 't2v', request).kind, 'fal_only', JSON.stringify(request));
   }
   assert.equal(plan('minimax-h3', 'ref2v').kind, 'fal_only');
@@ -39,7 +39,8 @@ test('routing sends only requests LLM Hub accepts, and only with the routing swi
 });
 
 test('request support follows the plugin limits', () => {
-  assert.equal(isSupportedLlmhubMinimaxRequest({ engineId: 'minimax-h3', mode: 'i2v', durationSec: 4, resolution: '2k' }), true);
+  assert.equal(isSupportedLlmhubMinimaxRequest({ engineId: 'minimax-h3', mode: 'i2v', durationSec: 5, resolution: '2k' }), true);
+  assert.equal(isSupportedLlmhubMinimaxRequest({ engineId: 'minimax-h3', mode: 'i2v', durationSec: 4 }), false);
   assert.equal(isSupportedLlmhubMinimaxRequest({ engineId: 'minimax-h3', mode: 'v2v', durationSec: 4 }), false);
   assert.equal(isSupportedLlmhubMinimaxRequest({ engineId: 'wan-3', mode: 't2v', durationSec: 99, resolution: 'x' }), true);
 });
@@ -92,7 +93,7 @@ test('workspace sees only what LLM Hub accepts for H3 and Hailuo 02', () => {
   for (const gone of ['end_image_url', 'reference_image_urls', 'reference_video_urls', 'reference_audio_urls', 'target_audio_url', 'seed', 'prompt_expansion_mode']) {
     assert.equal(ids.includes(gone), false, gone);
   }
-  assert.deepEqual(optional.find((field) => field.id === 'duration')?.values, ['4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']);
+  assert.deepEqual(optional.find((field) => field.id === 'duration')?.values, ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']);
   assert.deepEqual(optional.find((field) => field.id === 'resolution')?.values, ['768P', '2K']);
 
   const hailuo = narrowToLlmhubMinimax(getFalEngineById('minimax-hailuo-02-text')!.engine, on);
@@ -116,4 +117,21 @@ test('geometry accepts MiniMax 768P and a 2K floor, and rejects a wrong size', (
   assert.equal(matchesLlmhubVideoGeometry({ resolution: '768P', aspectRatio: '16:9', width: 1280, height: 720 }), false);
   assert.equal(matchesLlmhubVideoGeometry({ resolution: '2K', aspectRatio: '16:9', width: 2560, height: 1440 }), true);
   assert.equal(matchesLlmhubVideoGeometry({ resolution: '2K', aspectRatio: null, width: 1366, height: 768 }), false);
+});
+
+test('every duration and resolution the workspace offers for H3 can be priced', async () => {
+  const { getFalEngineById } = await import('../frontend/src/config/falEngines.ts');
+  const { calculateMinimaxH3ProviderPrice } = await import('../frontend/src/lib/minimax-h3-pricing.ts');
+  const h3 = narrowToLlmhubMinimax(getFalEngineById('minimax-h3')!.engine, on);
+  const optional = h3.inputSchema?.optional ?? [];
+  const durations = (optional.find((field) => field.id === 'duration')?.values ?? []).map(Number);
+  const resolutions = (optional.find((field) => field.id === 'resolution')?.values ?? []) as string[];
+  assert.ok(durations.length > 0 && resolutions.length > 0);
+  for (const resolution of resolutions) {
+    for (const durationSec of durations) {
+      assert.doesNotThrow(() => calculateMinimaxH3ProviderPrice({ durationSec, resolution } as Parameters<typeof calculateMinimaxH3ProviderPrice>[0]), `${resolution} ${durationSec}s`);
+    }
+  }
+  // The guard itself: the pricing layer refuses a 4 s clip, which is why the workspace must not offer it.
+  assert.throws(() => calculateMinimaxH3ProviderPrice({ durationSec: 4, resolution: '768P' } as Parameters<typeof calculateMinimaxH3ProviderPrice>[0]));
 });

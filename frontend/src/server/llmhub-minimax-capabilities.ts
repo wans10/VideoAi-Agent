@@ -19,7 +19,8 @@ const H3: Narrowing = {
   modes: ['t2v', 'i2v'],
   resolutions: ['768P', '2K'],
   defaultResolution: '768P',
-  durations: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+  // LLM Hub also takes 4 s, but the catalogue's pricing and validation start at 5 s, so a 4 s clip could not be quoted.
+  durations: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   dropFields: ['end_image_url', 'reference_image_urls', 'reference_video_urls', 'reference_audio_urls', 'target_audio_url', 'seed', 'prompt_expansion_mode'],
 };
 
