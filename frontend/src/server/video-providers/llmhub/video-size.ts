@@ -1,6 +1,11 @@
-const SHORT_SIDE = { '480p': 480, '720p': 720, '768p': 768, '1080p': 1080, '4k': 2160 } as const;
-/** MiniMax H3's 2K tier: the provider does not publish exact frame sizes, so only a floor is checked. */
-const MINIMUM_SHORT_SIDE = { '2k': 1080 } as const;
+const SHORT_SIDE = { '480p': 480, '720p': 720, '1080p': 1080, '4k': 2160 } as const;
+/**
+ * MiniMax tiers fix the pixel count, not the short side: H3 at 768P renders 1344x768 (16:9), 1536x672 (21:9)
+ * and 768x1344 (9:16), all 1,032,192 px, and at 2K renders 2560x1440. Hailuo 02 at 768P (16:9) is 1366x768,
+ * within the same tolerance. Measured on the live provider.
+ */
+const TIER_PIXELS = { '768p': 1_032_192, '2k': 3_686_400 } as const;
+const TIER_PIXEL_TOLERANCE = 0.08;
 
 /** Requested geometry is advisory at submission and verified on the completed file. */
 export function llmhubVideoSize(
@@ -33,9 +38,9 @@ export function matchesLlmhubVideoGeometry(params: {
   height: number;
 }): boolean {
   const resolution = params.resolution?.toLowerCase() ?? null;
-  const floor = resolution && Object.hasOwn(MINIMUM_SHORT_SIDE, resolution)
-    ? MINIMUM_SHORT_SIDE[resolution as keyof typeof MINIMUM_SHORT_SIDE] : null;
-  if (floor && Math.min(params.width, params.height) < floor) return false;
+  const tierPixels = resolution && Object.hasOwn(TIER_PIXELS, resolution)
+    ? TIER_PIXELS[resolution as keyof typeof TIER_PIXELS] : null;
+  if (tierPixels && Math.abs(params.width * params.height - tierPixels) > tierPixels * TIER_PIXEL_TOLERANCE) return false;
   const shortSide = resolution && Object.hasOwn(SHORT_SIDE, resolution)
     ? SHORT_SIDE[resolution as keyof typeof SHORT_SIDE] : null;
   if (shortSide && Math.abs(Math.min(params.width, params.height) - shortSide) > shortSide * 0.04) return false;

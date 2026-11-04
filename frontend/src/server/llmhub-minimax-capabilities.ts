@@ -11,6 +11,8 @@ type Narrowing = Readonly<{
   defaultResolution: string;
   durations: readonly number[];
   aspectRatios?: readonly string[];
+  /** Presentation order only: 16:9 first, because a new form falls back to the first listed ratio. */
+  aspectOrder?: readonly string[];
   /** Optional input fields the plugin has no equivalent for. */
   dropFields: readonly string[];
 }>;
@@ -21,6 +23,7 @@ const H3: Narrowing = {
   defaultResolution: '768P',
   // LLM Hub also takes 4 s, but the catalogue's pricing and validation start at 5 s, so a 4 s clip could not be quoted.
   durations: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+  aspectOrder: ['16:9', '9:16', '1:1', '4:3', '3:4', '21:9'],
   dropFields: ['end_image_url', 'reference_image_urls', 'reference_video_urls', 'reference_audio_urls', 'target_audio_url', 'seed', 'prompt_expansion_mode'],
 };
 
@@ -59,6 +62,13 @@ export function isSupportedLlmhubMinimaxRequest(params: {
   return true;
 }
 
+function orderAspect<T extends string>(values: readonly T[], order: readonly string[] | undefined): T[] {
+  if (!order) return [...values];
+  const rank = (value: string) => { const index = order.indexOf(value); return index === -1 ? -1 : index; };
+  // Ratios the order does not name (such as 'auto' for a start image) keep their place at the front.
+  return [...values].sort((left, right) => rank(left) - rank(right));
+}
+
 function narrowField(field: EngineInputField, narrowing: Narrowing): EngineInputField {
   if (field.id === 'resolution') {
     return { ...field, values: [...narrowing.resolutions], default: narrowing.defaultResolution };
@@ -77,6 +87,10 @@ function narrowField(field: EngineInputField, narrowing: Narrowing): EngineInput
   if (field.id === 'aspect_ratio' && narrowing.aspectRatios) {
     return { ...field, values: [...narrowing.aspectRatios], default: narrowing.aspectRatios[0] };
   }
+  if (field.id === 'aspect_ratio' && narrowing.aspectOrder && field.values) {
+    const ordered = orderAspect(field.values as string[], narrowing.aspectOrder);
+    return { ...field, values: ordered, default: field.default && ordered.includes(String(field.default)) ? field.default : ordered[0] };
+  }
   return field;
 }
 
@@ -86,6 +100,8 @@ function narrowModeCaps(caps: EngineModeUiCaps, narrowing: Narrowing): EngineMod
     ...(caps.duration ? { duration: { ...caps.duration, options: [...narrowing.durations] } } : {}),
     ...(caps.resolution ? { resolution: [...narrowing.resolutions] } : {}),
     ...(caps.aspectRatio && narrowing.aspectRatios ? { aspectRatio: [...narrowing.aspectRatios] } : {}),
+    ...(caps.aspectRatio && !narrowing.aspectRatios && narrowing.aspectOrder
+      ? { aspectRatio: orderAspect(caps.aspectRatio, narrowing.aspectOrder) } : {}),
   };
 }
 
@@ -106,7 +122,8 @@ export function narrowToLlmhubMinimax<T extends EngineCaps>(engine: T, env: Node
     modes,
     maxDurationSec: narrowing.durations[narrowing.durations.length - 1],
     resolutions: engine.resolutions.filter((value) => narrowing.resolutions.includes(String(value).toUpperCase())),
-    ...(narrowing.aspectRatios ? { aspectRatios: engine.aspectRatios.filter((value) => narrowing.aspectRatios!.includes(value)) } : {}),
+    ...(narrowing.aspectRatios ? { aspectRatios: engine.aspectRatios.filter((value) => narrowing.aspectRatios!.includes(value)) }
+      : narrowing.aspectOrder ? { aspectRatios: orderAspect(engine.aspectRatios, narrowing.aspectOrder) } : {}),
     ...(schema ? { inputSchema: {
       ...schema,
       optional: schema.optional
