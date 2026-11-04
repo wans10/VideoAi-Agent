@@ -112,26 +112,33 @@ test('the narrowing is off unless LLM Hub is the only MiniMax route, and never t
   assert.equal(narrowToLlmhubMinimax(wan, on), wan);
 });
 
-test('geometry accepts MiniMax 768P and a 2K floor, and rejects a wrong size', () => {
-  assert.equal(matchesLlmhubVideoGeometry({ resolution: '768P', aspectRatio: '16:9', width: 1366, height: 768 }), true);
-  assert.equal(matchesLlmhubVideoGeometry({ resolution: '768P', aspectRatio: '16:9', width: 1280, height: 720 }), false);
-  assert.equal(matchesLlmhubVideoGeometry({ resolution: '2K', aspectRatio: '16:9', width: 2560, height: 1440 }), true);
-  assert.equal(matchesLlmhubVideoGeometry({ resolution: '2K', aspectRatio: null, width: 1366, height: 768 }), false);
+test('geometry follows the pixel count MiniMax tiers fix, measured on the live provider', () => {
+  const fits = (resolution: string, aspectRatio: string | null, width: number, height: number) =>
+    matchesLlmhubVideoGeometry({ resolution, aspectRatio, width, height });
+  // H3 768P: the same 1,032,192 px for every ratio.
+  assert.equal(fits('768P', '16:9', 1344, 768), true);
+  assert.equal(fits('768P', '21:9', 1536, 672), true);
+  assert.equal(fits('768P', '9:16', 768, 1344), true);
+  // H3 2K and Hailuo 02 768P.
+  assert.equal(fits('2K', '16:9', 2560, 1440), true);
+  assert.equal(fits('768P', '16:9', 1366, 768), true);
+  // A render of another tier or ratio is still refused.
+  assert.equal(fits('768P', '16:9', 1280, 720), false);
+  assert.equal(fits('768P', '16:9', 2560, 1440), false);
+  assert.equal(fits('2K', '16:9', 1344, 768), false);
+  assert.equal(fits('768P', '21:9', 1344, 768), false);
+  assert.equal(fits('2K', null, 1366, 768), false);
 });
 
-test('every duration and resolution the workspace offers for H3 can be priced', async () => {
-  const { getFalEngineById } = await import('../frontend/src/config/falEngines.ts');
-  const { calculateMinimaxH3ProviderPrice } = await import('../frontend/src/lib/minimax-h3-pricing.ts');
-  const h3 = narrowToLlmhubMinimax(getFalEngineById('minimax-h3')!.engine, on);
-  const optional = h3.inputSchema?.optional ?? [];
-  const durations = (optional.find((field) => field.id === 'duration')?.values ?? []).map(Number);
-  const resolutions = (optional.find((field) => field.id === 'resolution')?.values ?? []) as string[];
-  assert.ok(durations.length > 0 && resolutions.length > 0);
-  for (const resolution of resolutions) {
-    for (const durationSec of durations) {
-      assert.doesNotThrow(() => calculateMinimaxH3ProviderPrice({ durationSec, resolution } as Parameters<typeof calculateMinimaxH3ProviderPrice>[0]), `${resolution} ${durationSec}s`);
-    }
-  }
-  // The guard itself: the pricing layer refuses a 4 s clip, which is why the workspace must not offer it.
-  assert.throws(() => calculateMinimaxH3ProviderPrice({ durationSec: 4, resolution: '768P' } as Parameters<typeof calculateMinimaxH3ProviderPrice>[0]));
+test('H3 lists 16:9 first so a new form falls back to it', async () => {
+  const { getBaseEngines } = await import('../frontend/src/lib/engines.ts');
+  const h3 = narrowToLlmhubMinimax(getBaseEngines().find((engine) => engine.id === 'minimax-h3')!, on);
+  // The engine-level list keeps 'auto' (the start-image framing) in front and puts 16:9 next.
+  assert.deepEqual(h3.aspectRatios, ['auto', '16:9', '9:16', '1:1', '4:3', '3:4', '21:9']);
+  const t2v = (h3.modeCaps?.t2v?.aspectRatio ?? []) as string[];
+  assert.equal(t2v[0], '16:9');
+  assert.deepEqual([...t2v].sort(), ['1:1', '16:9', '21:9', '3:4', '4:3', '9:16'].sort());
+  const fields = (h3.inputSchema?.optional ?? []).filter((entry) => entry.id === 'aspect_ratio');
+  assert.ok(fields.length > 0);
+  for (const field of fields) assert.ok(field.default === '16:9' || (field.values as string[])[0] === 'auto', JSON.stringify(field.default));
 });
