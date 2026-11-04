@@ -1,6 +1,7 @@
 import { query } from '@/lib/db';
 import { LlmhubVideoClient } from '@/server/video-providers/llmhub/client';
 import { LLMHUB_VIDEO_PROVIDER } from '@/server/video-providers/llmhub/model-map';
+import { isDefiniteLlmhubRejection } from '@/server/video-providers/llmhub/rejection';
 import {
   createProviderAttempt,
   linkProviderFallbackAttempt,
@@ -95,7 +96,8 @@ export async function submitLlmhubGenerateTask(params: {
   } catch (error) {
     const status = error && typeof error === 'object' && 'status' in error
       ? Number((error as { status?: unknown }).status) : NaN;
-    const definiteFailure = !acceptedProviderJobId && Number.isFinite(status) && status >= 400 && status < 500;
+    const definiteFailure = !acceptedProviderJobId
+      && isDefiniteLlmhubRejection(status, (error as { detail?: unknown } | null)?.detail);
     console.warn('[llmhub] video submission failed', {
       jobId: params.jobId, model: params.modelId, status: Number.isFinite(status) ? status : null,
       detail: (error as { detail?: unknown } | null)?.detail ?? (error instanceof Error ? error.message : null),
