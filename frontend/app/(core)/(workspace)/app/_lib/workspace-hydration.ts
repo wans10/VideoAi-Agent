@@ -287,9 +287,12 @@ export function buildInitialWorkspaceFormState({
         requestedMode: effectiveRequestedMode,
         carryoverMode: nextForm?.mode ?? null,
       });
+      // A visitor without a saved draft still gets the engine's own defaults: the fixed fallback form
+      // (720p, 4 s) is only for an engine this build cannot describe, and is invalid for engines that
+      // offer neither, such as MiniMax H3 or Hailuo 02.
       nextForm = nextForm
         ? coerceFormStateForEngineChange(requestedEngine, preferredMode, nextForm)
-        : buildRequestedEngineFallbackForm(requestedEngine.id, preferredMode);
+        : coerceFormState(requestedEngine, preferredMode, null);
       debugEngineOverride = {
         from: storedFormRaw?.engineId ?? null,
         to: nextForm.engineId,
