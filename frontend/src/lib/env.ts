@@ -28,6 +28,7 @@ export const ENV = {
   NEXT_PUBLIC_SUPABASE_ANON_KEY: getOptionalEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
   S3_BUCKET: getOptionalEnv('S3_BUCKET'),
   S3_REGION: getOptionalEnv('S3_REGION'),
+  S3_ENDPOINT: getOptionalEnv('S3_ENDPOINT'),
   S3_PUBLIC_BASE_URL: getOptionalEnv('S3_PUBLIC_BASE_URL'),
   S3_UPLOAD_ACL: getOptionalEnv('S3_UPLOAD_ACL'),
   ASSET_MAX_IMAGE_MB: getOptionalEnv('ASSET_MAX_IMAGE_MB'),

@@ -720,3 +720,21 @@ can report its loaded window as the total; this local union reviews the new defa
 not the production admin's private configuration. Captured prompts and original media URLs
 come only from public APIs; no production database or publication writes occur. The server
 caches this file in process, so restart the opted-in dev server after recapturing it.
+
+## S3-compatible storage (Aliyun OSS)
+
+`frontend/server/storage.ts` talks to any S3-compatible service. Setting `S3_ENDPOINT` (for example
+`https://oss-cn-hangzhou.aliyuncs.com`) makes the client use that endpoint and send checksums only when an
+operation requires one, because OSS rejects the CRC32 checksum recent SDK versions add by default.
+
+- `S3_BUCKET`, `S3_REGION` (for OSS the region id such as `cn-hangzhou`), `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`
+  keep their meaning. Use a RAM sub-account limited to the one bucket.
+- `S3_PUBLIC_BASE_URL` should be the CDN domain in front of the bucket. Without it, public URLs fall back to
+  `<bucket>.<endpoint host>` (`frontend/lib/storage-host.ts` owns that rule for every reader).
+- `NEXT_IMAGE_EXTRA_HOSTS` is a build argument (Dockerfile and compose) listing extra `next/image` hosts, because
+  `next.config.js` runs at build time and cannot read `.env.production`. Put the CDN domain there and rebuild.
+- The bucket needs CORS for browser uploads (`PUT`, `GET`, `HEAD`; allowed origin `https://app.keyvo.cn`; allowed
+  headers `*`; expose `ETag`).
+- Only new uploads and new generations use the configured bucket. Assets already stored on S3/CloudFront keep their
+  URLs and stay readable through `ASSET_HOST_ALLOWLIST` (keep the CloudFront host there), but deleting such an old
+  asset no longer resolves its key and is skipped; migrating history needs a separate, explicit copy job.

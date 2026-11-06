@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import { normalizeMediaUrl } from '@/lib/media';
+import { defaultStorageHostFromEnv } from '@/lib/storage-host';
 import { ensureExecutableFfmpegPath } from '@/server/ffmpeg-runtime';
 import { isStorageConfigured, uploadFileBuffer } from '@/server/storage';
 import { copyProviderVideoOriginal } from './provider-video-original-copy';
@@ -70,11 +71,8 @@ function isStorageUrl(videoUrl: string): boolean {
       const base = new URL(publicBase);
       if (parsed.host === base.host) return true;
     }
-    const bucket = process.env.S3_BUCKET?.trim();
-    if (!bucket) return false;
-    const region = process.env.S3_REGION?.trim();
-    const regionalHost = region ? `${bucket}.s3.${region}.amazonaws.com` : `${bucket}.s3.amazonaws.com`;
-    return parsed.host === regionalHost;
+    const regionalHost = defaultStorageHostFromEnv();
+    return regionalHost !== null && parsed.host === regionalHost;
   } catch {
     return false;
   }

@@ -1,3 +1,4 @@
+import { defaultStorageHostFromEnv } from '@/lib/storage-host';
 export function normalizeMediaUrl(value?: string | null): string | null {
   if (typeof value !== 'string') return null;
   const trimmed = value.trim();
@@ -34,6 +35,8 @@ function rewriteManagedStorageUrl(url: string): string | null {
       `${bucket}.s3.amazonaws.com`,
       `${bucket}.s3.${region}.amazonaws.com`,
     ]);
+    const endpointHost = defaultStorageHostFromEnv();
+    if (endpointHost) managedHosts.add(endpointHost);
     if (!managedHosts.has(parsed.host)) return null;
 
     return `${publicBase.replace(/\/+$/, '')}${parsed.pathname}${parsed.search}${parsed.hash}`;
