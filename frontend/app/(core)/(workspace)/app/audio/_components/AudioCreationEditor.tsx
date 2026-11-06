@@ -1,4 +1,5 @@
 'use client';
+import { isKeyvoAudioVoiceOnly } from '@/config/keyvo-disabled-features';
 import { useRef } from 'react';
 import { AUDIO_ELEVEN_VOICES, findElevenVoice } from '@/lib/audio-eleven-voices';
 import {
@@ -6,6 +7,7 @@ import {
   AUDIO_LYRIA3_BPM_VALUES,
   AUDIO_LYRIA3_CLIP_DURATION_OPTIONS_SEC,
   AUDIO_LYRIA3_PRO_DURATION_OPTIONS_SEC,
+  AUDIO_MINIMAX_VOICE_LABELS,
   AUDIO_MINIMAX_VOICE_VALUES,
   AUDIO_SEED_AUDIO_VOICE_VALUES,
   AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES,
@@ -33,7 +35,8 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
     : intent === 'song' ? copy.models.song
       : intent === 'sfx' ? copy.models.sfx
         : copy.models.ambience;
-  const minimaxVoiceLabel = (voice: typeof AUDIO_MINIMAX_VOICE_VALUES[number]) => voice === 'English_FriendlyPerson' ? 'Friendly Person · EN' : 'Wise Woman';
+  const voiceOnly = isKeyvoAudioVoiceOnly();
+  const minimaxVoiceLabel = (voice: typeof AUDIO_MINIMAX_VOICE_VALUES[number]) => AUDIO_MINIMAX_VOICE_LABELS[voice];
   return <div className={styles.editor}>
     <div className={styles.modelRow}>
       <strong>{copy.intents[intent][0]}</strong>
@@ -56,7 +59,7 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
     <div className={styles.settings}>
       {spoken ? <>
         <label>{copy.model}<select aria-label={copy.model} disabled={Boolean(draft.reference)} value={draft.reference ? 'seed' : draft.voiceModel} onChange={event => onChange({ voiceModel: event.target.value as AudioCreationDraft['voiceModel'] })}>
-          <option value="eleven-v4">{copy.models.voiceEleven}</option><option value="minimax">{copy.models.voiceMinimax}</option><option value="seed">{copy.models.voiceSeed}</option>
+          {voiceOnly ? null : <option value="eleven-v4">{copy.models.voiceEleven}</option>}<option value="minimax">{copy.models.voiceMinimax}</option>{voiceOnly ? null : <option value="seed">{copy.models.voiceSeed}</option>}
         </select></label>
         <label>{copy.voice}<select aria-label={copy.voice} disabled={Boolean(draft.reference)} value={draft.reference ? 'reference' : eleven ? draft.elevenVoiceId : draft.voiceModel === 'minimax' ? draft.minimaxVoiceId : draft.voice} onChange={event => onChange(eleven ? { elevenVoiceId: event.target.value } : draft.voiceModel === 'minimax' ? { minimaxVoiceId: event.target.value } : { voice: event.target.value })}>
           {draft.reference ? <option value="reference">{copy.reference}</option> : eleven
@@ -65,7 +68,7 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
               : AUDIO_SEED_AUDIO_VOICE_VALUES.map(voice => <option key={voice} value={voice}>{voice === 'default' ? copy.auto : voice.split('_')[0].replace(/^./, letter => letter.toUpperCase())}</option>)}
         </select></label>
         <label>{copy.language}<select value={draft.language} onChange={event => onChange({ language: event.target.value })}>
-          <option value="auto">{copy.auto}</option><option value="english">English</option><option value="french">Français</option><option value="spanish">Español</option><option value="german">Deutsch</option>
+          <option value="auto">{copy.auto}</option><option value="chinese">中文</option><option value="english">English</option><option value="french">Français</option><option value="spanish">Español</option><option value="german">Deutsch</option>
         </select></label>
       </> : song ? <p className={styles.durationNote}>{copy.fullSong}</p> : <label>{copy.duration}<select value={draft.durationSec} onChange={event => { const durationSec = Number(event.target.value); onChange({ durationSec, ...(intent === 'music' && durationSec > 30 ? { musicModel: 'pro' as const } : {}) }); }}>
         {(intent === 'sfx' ? AUDIO_SFX_DURATION_OPTIONS_SEC : intent === 'music' ? draft.musicModel === 'clip' ? AUDIO_LYRIA3_CLIP_DURATION_OPTIONS_SEC : AUDIO_LYRIA3_PRO_DURATION_OPTIONS_SEC : AUDIO_AMBIENCE_DURATION_OPTIONS_SEC).map(value => <option key={value} value={value}>{value} s</option>)}

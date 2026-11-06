@@ -79,7 +79,40 @@ export const AUDIO_PACK_VALUES = ['music_only', 'voice_only', 'sfx_only', 'song'
 export type AudioPackId = (typeof AUDIO_PACK_VALUES)[number];
 
 export type AudioVoiceModel = 'seed' | 'minimax' | 'eleven-v4';
-export const AUDIO_MINIMAX_VOICE_VALUES = ['English_FriendlyPerson', 'Wise_Woman'] as const;
+export const AUDIO_MINIMAX_VOICE_VALUES = [
+  'English_FriendlyPerson',
+  'Wise_Woman',
+  'Chinese (Mandarin)_News_Anchor',
+  'Chinese (Mandarin)_Male_Announcer',
+  'Chinese (Mandarin)_Gentleman',
+  'Chinese (Mandarin)_Sweet_Lady',
+  'Chinese (Mandarin)_Warm_Bestie',
+  'Chinese (Mandarin)_Reliable_Executive',
+  'Chinese (Mandarin)_Radio_Host',
+  'Chinese (Mandarin)_Soft_Girl',
+  'female-shaonv',
+  'female-chengshu',
+  'male-qn-jingying',
+  'male-qn-qingse',
+] as const;
+export type AudioMinimaxVoice = (typeof AUDIO_MINIMAX_VOICE_VALUES)[number];
+/** Display names for the voices above, in the order the workspace lists them. */
+export const AUDIO_MINIMAX_VOICE_LABELS: Record<AudioMinimaxVoice, string> = {
+  English_FriendlyPerson: 'Friendly Person · EN',
+  Wise_Woman: 'Wise Woman · EN',
+  'Chinese (Mandarin)_News_Anchor': '新闻女声',
+  'Chinese (Mandarin)_Male_Announcer': '播报男声',
+  'Chinese (Mandarin)_Gentleman': '温润男声',
+  'Chinese (Mandarin)_Sweet_Lady': '甜美女声',
+  'Chinese (Mandarin)_Warm_Bestie': '温暖闺蜜',
+  'Chinese (Mandarin)_Reliable_Executive': '沉稳高管',
+  'Chinese (Mandarin)_Radio_Host': '电台男主播',
+  'Chinese (Mandarin)_Soft_Girl': '软软女孩',
+  'female-shaonv': '少女音色',
+  'female-chengshu': '成熟女性',
+  'male-qn-jingying': '精英青年',
+  'male-qn-qingse': '青涩青年',
+};
 export const AUDIO_MINIMAX_SPEECH_MODEL_ID = 'fal-ai/minimax/speech-02-hd';
 export const AUDIO_SONG_MODEL_ID = 'fal-ai/minimax-music/v2.6';
 export const AUDIO_AMBIENCE_MODEL_ID = 'fal-ai/stable-audio-25/text-to-audio';
@@ -115,7 +148,7 @@ export type AudioVoiceGender = (typeof AUDIO_VOICE_GENDER_VALUES)[number];
 export const AUDIO_VOICE_DELIVERY_VALUES = ['natural', 'cinematic', 'trailer', 'intimate'] as const;
 export type AudioVoiceDelivery = (typeof AUDIO_VOICE_DELIVERY_VALUES)[number];
 
-export const AUDIO_LANGUAGE_VALUES = ['auto', 'english', 'french', 'spanish', 'german'] as const;
+export const AUDIO_LANGUAGE_VALUES = ['auto', 'chinese', 'english', 'french', 'spanish', 'german'] as const;
 export type AudioLanguage = (typeof AUDIO_LANGUAGE_VALUES)[number];
 
 export const AUDIO_OUTPUT_KIND_VALUES = ['audio', 'video', 'both'] as const;

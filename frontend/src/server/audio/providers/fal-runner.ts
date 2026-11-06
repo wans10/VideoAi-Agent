@@ -1,6 +1,9 @@
 import { getFalClient } from '@/lib/fal-client';
 import { assertFalModelAllowed } from '@/lib/fal-model-policy';
 import { AudioProviderError } from './error';
+import { AUDIO_MINIMAX_SPEECH_MODEL_ID } from '@/lib/audio-generation';
+import { isMinimaxSpeechConfigured } from '@/config/keyvo-disabled-features';
+import { subscribeMinimaxSpeech } from './minimax-speech';
 import { AUDIO_PROVIDER_ROSTER, AUDIO_PROVIDER_TIMEOUT_MS, ENABLE_AUDIO_PROVIDER_FALLBACK } from './roster';
 import { findCustomVoiceId, findFileUrl } from './response';
 import type {
@@ -12,6 +15,8 @@ import type {
 } from './types';
 
 export async function subscribeFalModel(model: string, input: Record<string, unknown>) {
+  // MiniMax Speech runs on the mainland MiniMax API when it is configured; everything else stays on fal.
+  if (model === AUDIO_MINIMAX_SPEECH_MODEL_ID && isMinimaxSpeechConfigured()) return subscribeMinimaxSpeech(input);
   assertFalModelAllowed(model);
   const falClient = getFalClient();
   return falClient.subscribe(model, {

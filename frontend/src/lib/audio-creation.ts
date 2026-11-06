@@ -1,3 +1,4 @@
+import { isKeyvoAudioVoiceOnly } from '@/config/keyvo-disabled-features';
 import { AUDIO_ELEVEN_VOICE_IDS, DEFAULT_ELEVEN_VOICE_ID } from './audio-eleven-voices';
 import {
   AUDIO_LANGUAGE_VALUES,
@@ -23,6 +24,10 @@ import type { ToolAssetRef } from './toolbox/contract';
 import type { MediaFacts } from '@/lib/media-identity';
 
 export const AUDIO_CREATION_INTENTS = ['voice', 'music', 'song', 'sfx', 'ambience'] as const;
+/** Intents offered in the workspace; while only voice over has a provider the rest stay hidden. */
+export function visibleAudioIntents(): readonly AudioCreationIntent[] {
+  return isKeyvoAudioVoiceOnly() ? ['voice'] : AUDIO_CREATION_INTENTS;
+}
 export type AudioCreationIntent = typeof AUDIO_CREATION_INTENTS[number];
 export const AUDIO_INTENT_PACK: Record<AudioCreationIntent, AudioPackId> = {
   voice: 'voice_only', music: 'music_only', song: 'song', sfx: 'sfx_only', ambience: 'ambience_only',
@@ -82,6 +87,20 @@ export function repairAudioCreationDraft(intent: AudioCreationIntent, draft: Aud
     musicModel,
     bpm: oneOf(draft.bpm, AUDIO_LYRIA3_BPM_VALUES, defaults.bpm),
     mood: oneOf(draft.mood, AUDIO_MOOD_VALUES, defaults.mood),
+  };
+}
+/**
+ * While only MiniMax voice over has a provider, a draft is steered to it: a stored ElevenLabs or Seed Audio
+ * choice (or a reference voice) would be refused by the API, so it falls back to a Chinese MiniMax voice.
+ */
+export function applyKeyvoVoiceOnly(draft: AudioCreationDraft): AudioCreationDraft {
+  if (!isKeyvoAudioVoiceOnly()) return draft;
+  const fresh = draft.voiceModel === 'minimax' && !draft.reference;
+  return {
+    ...draft,
+    voiceModel: 'minimax',
+    reference: null,
+    minimaxVoiceId: fresh ? draft.minimaxVoiceId : 'Chinese (Mandarin)_News_Anchor',
   };
 }
 export function isAudioIntent(value: unknown): value is AudioCreationIntent {

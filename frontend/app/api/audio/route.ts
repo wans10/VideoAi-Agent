@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { isKeyvoAudioDisabled } from '@/config/keyvo-disabled-features';
+import { isKeyvoAudioWorkspaceDisabled } from '@/config/keyvo-disabled-features';
 import { isDatabaseConfigured, query } from '@/lib/db';
 import { ensureBillingSchema } from '@/lib/schema';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 
 export async function POST(req: NextRequest) {
-  if (isKeyvoAudioDisabled()) return NextResponse.json({ ok: false, error: 'audio_unavailable' }, { status: 404 });
+  if (isKeyvoAudioWorkspaceDisabled()) return NextResponse.json({ ok: false, error: 'audio_unavailable' }, { status: 404 });
   const body = await req.json().catch(() => null);
   if (!body?.jobId) return NextResponse.json({ ok: false, error: 'jobId required' }, { status: 400 });
   const { userId } = await getRouteAuthContext(req);

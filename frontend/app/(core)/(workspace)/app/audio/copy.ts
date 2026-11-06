@@ -186,6 +186,7 @@ export const DEFAULT_AUDIO_WORKSPACE_COPY = {
     } satisfies Record<AudioVoiceDelivery, string>,
     languages: {
       auto: 'Auto',
+      chinese: 'ZH',
       english: 'EN',
       french: 'FR',
       spanish: 'ES',

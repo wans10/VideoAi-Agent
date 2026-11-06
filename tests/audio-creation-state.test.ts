@@ -1,3 +1,5 @@
+// These tests cover the complete audio workspace; voice-only mode is covered in minimax-speech-direct.test.ts.
+process.env.KEYVO_AUDIO_FULL_UI = '1';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as React from 'react';

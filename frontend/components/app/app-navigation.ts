@@ -1,5 +1,5 @@
 import mcpPublication from '@/config/mcp-publication.json';
-import { KEYVO_FAL_FEATURES_HIDDEN, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
+import { KEYVO_FAL_FEATURES_HIDDEN, isKeyvoAudioVoiceOnly, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import type { AppGlyphName } from './AppGlyph';
 
@@ -15,7 +15,7 @@ type NavItemDefinition = {
 export const NAV_ITEMS: readonly NavItemDefinition[] = [
   { id: 'generate', label: 'Generate Video', badge: null, icon: 'generate', href: '/app' },
   { id: 'generate-image', label: 'Generate Image', badge: null, icon: 'generate-image', href: '/app/image' },
-  ...(KEYVO_FAL_FEATURES_HIDDEN ? [] : [{ id: 'generate-audio', label: 'Generate Audio', badge: null, icon: 'generate-audio', href: '/app/audio' }]),
+  ...(KEYVO_FAL_FEATURES_HIDDEN && !isKeyvoAudioVoiceOnly() ? [] : [{ id: 'generate-audio', label: 'Generate Audio', badge: null, icon: 'generate-audio', href: '/app/audio' }]),
   ...(FEATURES.workflows.toolsSection
     ? [{ id: 'tools', label: 'Tools', badge: null, icon: 'tools', href: '/app/tools' }]
     : []),
@@ -33,7 +33,7 @@ export type AppNavItem = { id: string; label: string; href: string; glyph: AppGl
 export const APP_ACTIVITIES: readonly AppNavItem[] = [
   { id: 'video', label: 'Video', href: '/app', glyph: 'video' },
   { id: 'image', label: 'Image', href: '/app/image', glyph: 'image' },
-  ...(KEYVO_FAL_FEATURES_HIDDEN ? [] : [{ id: 'audio', label: 'Audio', href: '/app/audio', glyph: 'audio' as const }]),
+  ...(KEYVO_FAL_FEATURES_HIDDEN && !isKeyvoAudioVoiceOnly() ? [] : [{ id: 'audio', label: 'Audio', href: '/app/audio', glyph: 'audio' as const }]),
 ];
 const PRIMARY_ITEMS: readonly (AppNavItem & { id: AppPrimary })[] = [
   { id: 'create', label: 'Create', href: '/app', glyph: 'create' },
