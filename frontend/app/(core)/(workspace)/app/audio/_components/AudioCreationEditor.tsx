@@ -7,7 +7,10 @@ import {
   AUDIO_LYRIA3_BPM_VALUES,
   AUDIO_LYRIA3_CLIP_DURATION_OPTIONS_SEC,
   AUDIO_LYRIA3_PRO_DURATION_OPTIONS_SEC,
+  AUDIO_DOUBAO_SEED_VOICE_LABELS,
+  AUDIO_DOUBAO_SEED_VOICE_VALUES,
   AUDIO_MINIMAX_VOICE_LABELS,
+  isDoubaoSeedVoice,
   AUDIO_MINIMAX_VOICE_VALUES,
   AUDIO_SEED_AUDIO_VOICE_VALUES,
   AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES,
@@ -59,13 +62,13 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
     <div className={styles.settings}>
       {spoken ? <>
         <label>{copy.model}<select aria-label={copy.model} disabled={Boolean(draft.reference)} value={draft.reference ? 'seed' : draft.voiceModel} onChange={event => onChange({ voiceModel: event.target.value as AudioCreationDraft['voiceModel'] })}>
-          {voiceOnly ? null : <option value="eleven-v4">{copy.models.voiceEleven}</option>}<option value="minimax">{copy.models.voiceMinimax}</option>{voiceOnly ? null : <option value="seed">{copy.models.voiceSeed}</option>}
+          {voiceOnly ? null : <option value="eleven-v4">{copy.models.voiceEleven}</option>}<option value="minimax">{copy.models.voiceMinimax}</option><option value="seed">{copy.models.voiceSeed}</option>
         </select></label>
         <label>{copy.voice}<select aria-label={copy.voice} disabled={Boolean(draft.reference)} value={draft.reference ? 'reference' : eleven ? draft.elevenVoiceId : draft.voiceModel === 'minimax' ? draft.minimaxVoiceId : draft.voice} onChange={event => onChange(eleven ? { elevenVoiceId: event.target.value } : draft.voiceModel === 'minimax' ? { minimaxVoiceId: event.target.value } : { voice: event.target.value })}>
           {draft.reference ? <option value="reference">{copy.reference}</option> : eleven
             ? AUDIO_ELEVEN_VOICES.map(voice => <option key={voice.id} value={voice.id}>{voice.name} · {copy.genderLabels[voice.gender]} · {copy.accentLabels[voice.accent]} (EN)</option>)
             : draft.voiceModel === 'minimax' ? AUDIO_MINIMAX_VOICE_VALUES.map(voice => <option key={voice} value={voice}>{minimaxVoiceLabel(voice)}</option>)
-              : AUDIO_SEED_AUDIO_VOICE_VALUES.map(voice => <option key={voice} value={voice}>{voice === 'default' ? copy.auto : voice.split('_')[0].replace(/^./, letter => letter.toUpperCase())}</option>)}
+              : (voiceOnly ? ['default', ...AUDIO_DOUBAO_SEED_VOICE_VALUES] as const : AUDIO_SEED_AUDIO_VOICE_VALUES).map(voice => <option key={voice} value={voice}>{voice === 'default' ? copy.auto : isDoubaoSeedVoice(voice) ? AUDIO_DOUBAO_SEED_VOICE_LABELS[voice] : voice.split('_')[0].replace(/^./, letter => letter.toUpperCase())}</option>)}
         </select></label>
         <label>{copy.language}<select value={draft.language} onChange={event => onChange({ language: event.target.value })}>
           <option value="auto">{copy.auto}</option><option value="chinese">中文</option><option value="english">English</option><option value="french">Français</option><option value="spanish">Español</option><option value="german">Deutsch</option>
@@ -78,7 +81,7 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
     {spoken && eleven && elevenVoice ? <div className={styles.voicePreview}>
       <AudioVoicePreview key={elevenVoice.id} voiceId={elevenVoice.id} name={elevenVoice.name} copy={copy} />
     </div> : null}
-    {spoken && draft.voiceModel === 'seed' && draft.voice !== 'default' && !draft.reference ? <div className={styles.voicePreview}><span>{copy.preview}</span><audio key={draft.voice} controls preload="none" src={`/assets/audio/seed-audio/${draft.voice}.mp3`} /></div> : null}
+    {spoken && draft.voiceModel === 'seed' && draft.voice !== 'default' && !draft.reference && !isDoubaoSeedVoice(draft.voice) ? <div className={styles.voicePreview}><span>{copy.preview}</span><audio key={draft.voice} controls preload="none" src={`/assets/audio/seed-audio/${draft.voice}.mp3`} /></div> : null}
     {spoken ? <>
       <details className={styles.advanced}><summary>{copy.options}<span aria-hidden>＋</span></summary><div className={styles.settings}>
         {eleven ? <>
@@ -95,7 +98,7 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
         </> : null}
         </>}
       </div></details>
-      {draft.reference || draft.voiceModel === 'seed' ? <div className={styles.reference}>
+      {!voiceOnly && (draft.reference || draft.voiceModel === 'seed') ? <div className={styles.reference}>
         <input ref={input} type="file" accept="audio/mpeg,audio/wav,.mp3,.wav" hidden tabIndex={-1} onChange={event => { const file = event.target.files?.[0]; if (file) onFile(file); event.target.value = ''; }} />
         {draft.reference ? <><div><span>{copy.reference}</span><strong>{draft.reference.name}</strong></div><button type="button" onClick={() => onChange({ reference: null })}>{copy.remove}</button><audio controls preload="none" src={draft.reference.url} aria-label={copy.reference} /></> : <div className={styles.referenceSources}><span>{copy.reference}</span><button type="button" disabled={uploading} onClick={() => input.current?.click()}>{uploading ? copy.loading : copy.import}</button><button type="button" onClick={onLibrary}>{copy.library}</button></div>}
         <p>{copy.referenceHint}</p>

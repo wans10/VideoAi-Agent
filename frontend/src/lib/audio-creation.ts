@@ -2,6 +2,7 @@ import { isKeyvoAudioVoiceOnly } from '@/config/keyvo-disabled-features';
 import { AUDIO_ELEVEN_VOICE_IDS, DEFAULT_ELEVEN_VOICE_ID } from './audio-eleven-voices';
 import {
   AUDIO_LANGUAGE_VALUES,
+  isDoubaoSeedVoice,
   AUDIO_AMBIENCE_DURATION_OPTIONS_SEC,
   AUDIO_LYRIA3_BPM_VALUES,
   AUDIO_LYRIA3_CLIP_DURATION_OPTIONS_SEC,
@@ -90,17 +91,21 @@ export function repairAudioCreationDraft(intent: AudioCreationIntent, draft: Aud
   };
 }
 /**
- * While only MiniMax voice over has a provider, a draft is steered to it: a stored ElevenLabs or Seed Audio
- * choice (or a reference voice) would be refused by the API, so it falls back to a Chinese MiniMax voice.
+ * While only MiniMax and Seed Audio preset voices have a mainland provider, a draft is steered to one of them:
+ * a stored ElevenLabs choice or a reference voice would be refused by the API, so it falls back to a Chinese
+ * MiniMax voice, and a Seed Audio draft keeps only a voice that exists on the mainland API.
  */
 export function applyKeyvoVoiceOnly(draft: AudioCreationDraft): AudioCreationDraft {
   if (!isKeyvoAudioVoiceOnly()) return draft;
-  const fresh = draft.voiceModel === 'minimax' && !draft.reference;
+  if (draft.voiceModel === 'seed' && !draft.reference) {
+    return { ...draft, reference: null, voice: draft.voice === 'default' || isDoubaoSeedVoice(draft.voice) ? draft.voice : 'default' };
+  }
+  const keep = draft.voiceModel === 'minimax' && !draft.reference;
   return {
     ...draft,
     voiceModel: 'minimax',
     reference: null,
-    minimaxVoiceId: fresh ? draft.minimaxVoiceId : 'Chinese (Mandarin)_News_Anchor',
+    minimaxVoiceId: keep ? draft.minimaxVoiceId : 'Chinese (Mandarin)_News_Anchor',
   };
 }
 export function isAudioIntent(value: unknown): value is AudioCreationIntent {

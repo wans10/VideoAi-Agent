@@ -43,15 +43,27 @@ export function isMinimaxSpeechConfigured(env: Record<string, string | undefined
     && Boolean(env.MINIMAX_API_KEY?.trim());
 }
 
+export function isSeedAudioConfigured(env: Record<string, string | undefined> = process.env): boolean {
+  return ['1', 'true', 'yes', 'on'].includes((env.SEED_AUDIO_ENABLED ?? '').trim().toLowerCase())
+    && Boolean(env.SEED_AUDIO_API_KEY?.trim());
+}
+
 /** The audio workspace, its routes and its APIs: hidden unless voice over is available. */
 export function isKeyvoAudioWorkspaceDisabled(env: Record<string, string | undefined> = process.env): boolean {
   if (!KEYVO_FAL_FEATURES_HIDDEN) return false;
-  return !(KEYVO_AUDIO_VOICE_ONLY && isMinimaxSpeechConfigured(env));
+  return !(KEYVO_AUDIO_VOICE_ONLY && (isMinimaxSpeechConfigured(env) || isSeedAudioConfigured(env)));
 }
 
-export function isKeyvoAudioRequestAllowed(request: { pack?: string | null; voiceModel?: string | null }): boolean {
+/** Voice over with MiniMax or Seed Audio (preset voices only; reference voices have no mainland executor). */
+export function isKeyvoAudioRequestAllowed(request: {
+  pack?: string | null;
+  voiceModel?: string | null;
+  hasReference?: boolean;
+}): boolean {
   if (!isKeyvoAudioVoiceOnly()) return true;
-  return request.pack === 'voice_only' && request.voiceModel === 'minimax';
+  return request.pack === 'voice_only'
+    && (request.voiceModel === 'minimax' || request.voiceModel === 'seed')
+    && !request.hasReference;
 }
 
 /** True for a workspace or public path that belongs to a hidden tool or to the audio workspace. */
