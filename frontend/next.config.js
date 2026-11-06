@@ -3,6 +3,11 @@ const modelRegistry = require('./config/model-registry.json');
 const { buildModelRegistryRedirects } = require('./config/model-registry-redirects.cjs');
 const isPreviewDeployment = process.env.VERCEL_ENV === 'preview';
 const repoRoot = path.join(__dirname, '..');
+// Build-time list of extra next/image hosts, e.g. the Aliyun OSS/CDN domain that S3_PUBLIC_BASE_URL points at.
+const EXTRA_IMAGE_HOSTS = (process.env.NEXT_IMAGE_EXTRA_HOSTS || '')
+  .split(',')
+  .map((host) => host.trim())
+  .filter((host) => /^[a-z0-9*.-]+$/i.test(host));
 const MARKETING_CDN_CACHE_HEADERS = [
   {
     key: 'Cache-Control',
@@ -139,6 +144,7 @@ const nextConfig = {
       { protocol: 'https', hostname: '*.fal.media' },
       { protocol: 'https', hostname: 'fal.media' },
       { protocol: 'https', hostname: '**.volces.com', pathname: '/seedream-5-0/**' },
+      ...EXTRA_IMAGE_HOSTS.map((hostname) => ({ protocol: 'https', hostname })),
     ],
   },
   modularizeImports: {

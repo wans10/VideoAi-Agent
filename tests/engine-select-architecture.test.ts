@@ -164,3 +164,12 @@ test('workspace engine and variant controls stack on phones, share a row from sm
   assert.match(variantControlSource, /title: disabledEngineReasons\?\.\[entry\.id\]/);
   assert.match(variantControlSource, /disabled: Boolean\(disabledEngineReasons\?\.\[entry\.id\]\)/);
 });
+
+test('the workspace hides the Variant box through the Keyvo flag, other selectors keep it', () => {
+  const flags = readFileSync(join(root, 'frontend/config/keyvo-disabled-features.ts'), 'utf8');
+  assert.match(flags, /export const KEYVO_WORKSPACE_VARIANT_HIDDEN: boolean = true/);
+  assert.match(
+    engineSelectSource,
+    /showVariantSelector && !\(KEYVO_WORKSPACE_VARIANT_HIDDEN && controlPresentation === 'workspace'\)/,
+  );
+});

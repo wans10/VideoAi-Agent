@@ -44,6 +44,7 @@ Use these guides as context before changing the related areas:
 - `docs/engineering/mcp-integration-registry.md`: MCP integration identity, host evidence, publication, acquisition, installation, and store-state ownership.
 - `docs/engineering/mcp-client-experience.md`: dated MCP discovery, instruction-size, tool guidance, reconnection, and client verification rules; also read the nested server/plugin `AGENTS.md` files.
 - `docs/engineering/alibaba-model-studio-provider.md`: direct Alibaba video routing, polling, observability, canary, and rollback contracts.
+- `docs/engineering/minimax-official-provider.md`: MiniMax-H3 official API switch, task-ID routing, refund and polling behaviour.
 - `docs/engineering/minimax-speech-provider.md`: audio workspace reduced to MiniMax voice over, its switch, routing and gate.
 - `docs/engineering/mcp-mode-coverage.md`: public MCP mode projection, intentional exclusions, and parity guard.
 - `docs/engineering/mcp-reference-imports.md`: private host attachments, MCP App uploads, and local helper trust boundaries.

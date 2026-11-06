@@ -26,6 +26,7 @@ import {
 import { useEngineSelectDropdownState } from './engine-select/useEngineSelectDropdownState';
 import { useEngineSelectRegistry } from './engine-select/useEngineSelectRegistry';
 import type { EngineSelectProps } from './engine-select/engine-select-types';
+import { KEYVO_WORKSPACE_VARIANT_HIDDEN } from '@/config/keyvo-disabled-features';
 export function EngineSelect({
   engines,
   engineId,
@@ -175,7 +176,7 @@ export function EngineSelect({
       </svg>
     </button>
   );
-  const variantControl = showVariantSelector ? (
+  const variantControl = showVariantSelector && !(KEYVO_WORKSPACE_VARIANT_HIDDEN && controlPresentation === 'workspace') ? (
     <EngineVariantControl
       bar={isBarVariant}
       compact={isCompact}
