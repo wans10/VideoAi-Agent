@@ -11,7 +11,7 @@ import {
   AUDIO_DOUBAO_SEED_VOICE_VALUES,
   AUDIO_MINIMAX_VOICE_LABELS,
   isDoubaoSeedVoice,
-  AUDIO_MINIMAX_VOICE_VALUES,
+  AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES,
   AUDIO_SEED_AUDIO_VOICE_VALUES,
   AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES,
   AUDIO_SEED_AUDIO_SAMPLE_RATE_VALUES,
@@ -39,7 +39,7 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
       : intent === 'sfx' ? copy.models.sfx
         : copy.models.ambience;
   const voiceOnly = isKeyvoAudioVoiceOnly();
-  const minimaxVoiceLabel = (voice: typeof AUDIO_MINIMAX_VOICE_VALUES[number]) => AUDIO_MINIMAX_VOICE_LABELS[voice];
+  const minimaxVoiceLabel = (voice: typeof AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES[number]) => AUDIO_MINIMAX_VOICE_LABELS[voice];
   return <div className={styles.editor}>
     <div className={styles.modelRow}>
       <strong>{copy.intents[intent][0]}</strong>
@@ -67,7 +67,7 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
         <label>{copy.voice}<select aria-label={copy.voice} disabled={Boolean(draft.reference)} value={draft.reference ? 'reference' : eleven ? draft.elevenVoiceId : draft.voiceModel === 'minimax' ? draft.minimaxVoiceId : draft.voice} onChange={event => onChange(eleven ? { elevenVoiceId: event.target.value } : draft.voiceModel === 'minimax' ? { minimaxVoiceId: event.target.value } : { voice: event.target.value })}>
           {draft.reference ? <option value="reference">{copy.reference}</option> : eleven
             ? AUDIO_ELEVEN_VOICES.map(voice => <option key={voice.id} value={voice.id}>{voice.name} · {copy.genderLabels[voice.gender]} · {copy.accentLabels[voice.accent]} (EN)</option>)
-            : draft.voiceModel === 'minimax' ? AUDIO_MINIMAX_VOICE_VALUES.map(voice => <option key={voice} value={voice}>{minimaxVoiceLabel(voice)}</option>)
+            : draft.voiceModel === 'minimax' ? AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES.map(voice => <option key={voice} value={voice}>{minimaxVoiceLabel(voice)}</option>)
               : (voiceOnly ? ['default', ...AUDIO_DOUBAO_SEED_VOICE_VALUES] as const : AUDIO_SEED_AUDIO_VOICE_VALUES).map(voice => <option key={voice} value={voice}>{voice === 'default' ? copy.auto : isDoubaoSeedVoice(voice) ? AUDIO_DOUBAO_SEED_VOICE_LABELS[voice] : voice.split('_')[0].replace(/^./, letter => letter.toUpperCase())}</option>)}
         </select></label>
         <label>{copy.language}<select value={draft.language} onChange={event => onChange({ language: event.target.value })}>

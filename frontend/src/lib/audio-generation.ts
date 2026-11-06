@@ -108,9 +108,11 @@ export const AUDIO_PACK_VALUES = ['music_only', 'voice_only', 'sfx_only', 'song'
 export type AudioPackId = (typeof AUDIO_PACK_VALUES)[number];
 
 export type AudioVoiceModel = 'seed' | 'minimax' | 'eleven-v4';
-export const AUDIO_MINIMAX_VOICE_VALUES = [
-  'English_FriendlyPerson',
-  'Wise_Woman',
+/** Voices published through MCP, agents and Studio. Their schemas are part of the reviewed MCP policy fingerprint. */
+export const AUDIO_MINIMAX_VOICE_VALUES = ['English_FriendlyPerson', 'Wise_Woman'] as const;
+/** Voices offered by the web workspace: the two above plus Mandarin voices of the mainland API. */
+export const AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES = [
+  ...AUDIO_MINIMAX_VOICE_VALUES,
   'Chinese (Mandarin)_News_Anchor',
   'Chinese (Mandarin)_Male_Announcer',
   'Chinese (Mandarin)_Gentleman',
@@ -124,7 +126,7 @@ export const AUDIO_MINIMAX_VOICE_VALUES = [
   'male-qn-jingying',
   'male-qn-qingse',
 ] as const;
-export type AudioMinimaxVoice = (typeof AUDIO_MINIMAX_VOICE_VALUES)[number];
+export type AudioMinimaxVoice = (typeof AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES)[number];
 /** Display names for the voices above, in the order the workspace lists them. */
 export const AUDIO_MINIMAX_VOICE_LABELS: Record<AudioMinimaxVoice, string> = {
   English_FriendlyPerson: 'Friendly Person · EN',
@@ -177,8 +179,11 @@ export type AudioVoiceGender = (typeof AUDIO_VOICE_GENDER_VALUES)[number];
 export const AUDIO_VOICE_DELIVERY_VALUES = ['natural', 'cinematic', 'trailer', 'intimate'] as const;
 export type AudioVoiceDelivery = (typeof AUDIO_VOICE_DELIVERY_VALUES)[number];
 
-export const AUDIO_LANGUAGE_VALUES = ['auto', 'chinese', 'english', 'french', 'spanish', 'german'] as const;
-export type AudioLanguage = (typeof AUDIO_LANGUAGE_VALUES)[number];
+/** Languages published through MCP, agents and Studio (part of the reviewed MCP policy fingerprint). */
+export const AUDIO_LANGUAGE_VALUES = ['auto', 'english', 'french', 'spanish', 'german'] as const;
+/** Languages offered by the web workspace: Chinese is added for the mainland providers. */
+export const AUDIO_WORKSPACE_LANGUAGE_VALUES = ['auto', 'chinese', 'english', 'french', 'spanish', 'german'] as const;
+export type AudioLanguage = (typeof AUDIO_WORKSPACE_LANGUAGE_VALUES)[number];
 
 export const AUDIO_OUTPUT_KIND_VALUES = ['audio', 'video', 'both'] as const;
 export type AudioOutputKind = (typeof AUDIO_OUTPUT_KIND_VALUES)[number];
@@ -399,7 +404,7 @@ export function coerceAudioVoiceDelivery(value: unknown): AudioVoiceDelivery | n
 export function coerceAudioLanguage(value: unknown): AudioLanguage | null {
   if (typeof value !== 'string') return null;
   const normalized = value.trim().toLowerCase();
-  return AUDIO_LANGUAGE_VALUES.find((entry) => entry === normalized) ?? null;
+  return AUDIO_WORKSPACE_LANGUAGE_VALUES.find((entry) => entry === normalized) ?? null;
 }
 
 export function coerceSeedAudioVoice(value: unknown): AudioSeedAudioVoice | null {

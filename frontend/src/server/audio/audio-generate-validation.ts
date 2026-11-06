@@ -1,7 +1,7 @@
 import { DEFAULT_ELEVEN_VOICE_ID, findElevenVoice } from '@/lib/audio-eleven-voices';
 import {
   AUDIO_MAX_DURATION_SEC,
-  AUDIO_MINIMAX_VOICE_VALUES,
+  AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES,
   AUDIO_CINEMATIC_MAX_DURATION_SEC,
   AUDIO_LYRICS_MAX_LENGTH,
   type AudioVoiceModel,
@@ -269,7 +269,7 @@ export function validateAudioGenerateRequest(body: AudioGenerateRequestBody): Va
     }
   }
   const minimaxVoiceId = voiceModel === 'minimax' ? normalizeString(body.minimaxVoiceId) ?? 'English_FriendlyPerson' : null;
-  if (body.minimaxVoiceId && (voiceModel !== 'minimax' || !(AUDIO_MINIMAX_VOICE_VALUES as readonly string[]).includes(body.minimaxVoiceId))) {
+  if (body.minimaxVoiceId && (voiceModel !== 'minimax' || !(AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES as readonly string[]).includes(body.minimaxVoiceId))) {
     throw new AudioGenerationError('Voice preset is unsupported.', { status: 400, code: 'voice_preset_invalid', field: 'minimaxVoiceId' });
   }
   if (voiceModel === 'minimax' && body.voiceSampleUrl) {

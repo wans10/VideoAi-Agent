@@ -10,7 +10,7 @@ import { subscribeFalModel } from '../frontend/src/server/audio/providers/fal-ru
 import { buildSeedAudioDirectRequest, subscribeSeedAudio } from '../frontend/src/server/audio/providers/seed-audio-direct';
 import { isSeedAudioConfigured } from '../frontend/config/keyvo-disabled-features';
 import { validateAudioGenerateRequest } from '../frontend/src/server/audio/audio-generate-validation';
-import { AUDIO_SEED_AUDIO_MODEL_ID, AUDIO_DOUBAO_SEED_VOICE_LABELS, AUDIO_DOUBAO_SEED_VOICE_VALUES, AUDIO_MINIMAX_SPEECH_MODEL_ID, AUDIO_MINIMAX_VOICE_LABELS, AUDIO_MINIMAX_VOICE_VALUES } from '../frontend/src/lib/audio-generation';
+import { AUDIO_SEED_AUDIO_MODEL_ID, AUDIO_DOUBAO_SEED_VOICE_LABELS, AUDIO_DOUBAO_SEED_VOICE_VALUES, AUDIO_MINIMAX_SPEECH_MODEL_ID, AUDIO_MINIMAX_VOICE_LABELS, AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES } from '../frontend/src/lib/audio-generation';
 
 const falInput = {
   text: '你好',
@@ -146,7 +146,7 @@ test('the workspace offers only voice over, and stored drafts are steered to Min
 });
 
 test('every listed MiniMax voice has a label', () => {
-  for (const voice of AUDIO_MINIMAX_VOICE_VALUES) assert.ok(AUDIO_MINIMAX_VOICE_LABELS[voice], voice);
+  for (const voice of AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES) assert.ok(AUDIO_MINIMAX_VOICE_LABELS[voice], voice);
 });
 
 test('the fal Seed Audio request is translated to the Volcengine one', () => {

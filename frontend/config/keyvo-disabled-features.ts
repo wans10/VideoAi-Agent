@@ -34,7 +34,11 @@ export const KEYVO_AUDIO_VOICE_ONLY: boolean = true;
 /** Static part of the rule, safe for client code. */
 export function isKeyvoAudioVoiceOnly(): boolean {
   // KEYVO_AUDIO_FULL_UI=1 is for tests that exercise the complete audio workspace; it is never set in production.
-  if (typeof process !== 'undefined' && process.env?.KEYVO_AUDIO_FULL_UI === '1') return false;
+  try {
+    if (process.env.KEYVO_AUDIO_FULL_UI === '1') return false;
+  } catch {
+    // A plain browser bundle has no `process`; the rule below applies.
+  }
   return KEYVO_FAL_FEATURES_HIDDEN && KEYVO_AUDIO_VOICE_ONLY;
 }
 
