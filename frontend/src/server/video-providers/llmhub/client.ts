@@ -1,4 +1,9 @@
 import { referenceFile } from '@/server/images/llmhub-flare-generation';
+import {
+  isMinimaxOfficialTaskId,
+  MinimaxOfficialVideoClient,
+  shouldUseMinimaxOfficial,
+} from '@/server/video-providers/minimax-official/client';
 import { createSignedDownloadUrl, extractStorageKeyFromUrl, isAllowedAssetHost, isStorageConfigured } from '@/server/storage';
 
 const BASE_URL = 'https://api.llmhub.com.cn/v1/videos';
@@ -37,6 +42,12 @@ async function referenceUrl(url: string): Promise<string> {
 export class LlmhubVideoClient {
   constructor(private readonly apiKey = process.env.LLMHUB_API_KEY, private readonly fetchFn: typeof fetch = fetch) {}
 
+  // MiniMax-H3 can run on the official API when MINIMAX_OFFICIAL_ENABLED is on; its numeric task IDs
+  // keep status and download on that API, while jobs already accepted by LLM Hub keep polling LLM Hub.
+  private official(): MinimaxOfficialVideoClient {
+    return new MinimaxOfficialVideoClient(process.env.MINIMAX_API_KEY, this.fetchFn, referenceUrl);
+  }
+
   async create(input: {
     model: string;
     prompt: string;
@@ -48,6 +59,16 @@ export class LlmhubVideoClient {
     imageUrl?: string | null;
     jobId: string;
   }): Promise<{ id: string; raw: unknown }> {
+    if (shouldUseMinimaxOfficial(input.model)) {
+      return this.official().create({
+        model: input.model,
+        prompt: input.prompt,
+        seconds: input.seconds,
+        resolution: input.resolution,
+        aspectRatio: input.aspectRatio,
+        imageUrl: input.imageUrl,
+      });
+    }
     // The three Veo 3.1 channels accept JSON on the OpenAI video path.
     // Their multipart adapter rejects these models before creating a task.
     if (['veo-3.1-generate-001', 'veo-3.1-fast-generate-001', 'veo-3.1-lite-generate-001'].includes(input.model)
@@ -158,6 +179,7 @@ export class LlmhubVideoClient {
   }
 
   async status(id: string): Promise<{ status: 'queued' | 'running' | 'completed' | 'failed'; progress: number; raw: unknown }> {
+    if (isMinimaxOfficialTaskId(id)) return this.official().status(id);
     const response = await this.fetchFn(`${BASE_URL}/${encodeURIComponent(id)}`, {
       headers: { Authorization: `Bearer ${key(this.apiKey)}` },
       signal: AbortSignal.timeout(30_000),
@@ -177,6 +199,7 @@ export class LlmhubVideoClient {
   }
 
   async content(id: string): Promise<Response> {
+    if (isMinimaxOfficialTaskId(id)) return this.official().content(id);
     const response = await this.fetchFn(`${BASE_URL}/${encodeURIComponent(id)}/content`, {
       headers: { Authorization: `Bearer ${key(this.apiKey)}` },
       signal: AbortSignal.timeout(300_000),
