@@ -20,6 +20,13 @@ export function isKeyvoToolDisabled(toolId: string | null | undefined): boolean 
   return KEYVO_FAL_FEATURES_HIDDEN && typeof toolId === 'string' && KEYVO_FAL_TOOL_IDS.has(toolId);
 }
 
+/**
+ * The workspace model chooser already lists every model of a family (Seedance 2.0, Fast, Mini...), so the
+ * separate Variant box repeated it with abbreviated labels. Hidden in the video and image workspaces only;
+ * marketing selectors keep it. Flip to false to restore the box.
+ */
+export const KEYVO_WORKSPACE_VARIANT_HIDDEN: boolean = true;
+
 export function isKeyvoAudioDisabled(): boolean {
   return KEYVO_FAL_FEATURES_HIDDEN;
 }
