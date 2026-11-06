@@ -75,7 +75,7 @@ test('mobile Recents lives in the creation heading action with drawer state and 
   assert.match(shell, /<WorkspaceCreationHeading action=\{recentMedia \? <>[\s\S]*<button ref=\{recentOpenerRef\}/);
   assert.match(shell, /aria-controls=\{activityPanelId\}/);
   assert.match(shell, /focusWorkspaceRecentTarget\(activityPanelRef\.current\)/);
-  assert.match(heading, /md:hidden/);
+  assert.match(heading, /flex items-center gap-2 md:hidden/);
   assert.match(heading, /studio-creation-title/);
   assert.match(heading, /<h1>/);
   assert.match(shell, /aria-expanded=\{mobileRecentOpen\} aria-controls=\{recentPanelId\}/);
