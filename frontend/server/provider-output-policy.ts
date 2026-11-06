@@ -1,3 +1,4 @@
+import { defaultStorageHostFromEnv } from '@/lib/storage-host';
 export const PROVIDER_VIDEO_COPY_FAILURE_MESSAGE =
   'The render finished, but Keyvo could not prepare the video for download. Please retry.';
 export const PROVIDER_VIDEO_COPY_RETRY_MESSAGE =
@@ -49,11 +50,8 @@ export function isManagedStorageUrl(url: string | null | undefined): boolean {
       }
     }
 
-    const bucket = process.env.S3_BUCKET?.trim();
-    if (!bucket) return false;
-    const region = process.env.S3_REGION?.trim();
-    const regionalHost = region ? `${bucket}.s3.${region}.amazonaws.com` : `${bucket}.s3.amazonaws.com`;
-    return parsed.host === regionalHost;
+    const regionalHost = defaultStorageHostFromEnv();
+    return regionalHost !== null && parsed.host === regionalHost;
   } catch {
     return false;
   }

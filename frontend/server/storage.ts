@@ -10,6 +10,7 @@ import { createHash, randomUUID } from 'crypto';
 import { createReadStream } from 'node:fs';
 import { ensureAssetSchema } from '@/lib/schema';
 import { query } from '@/lib/db';
+import { defaultStorageHost } from '@/lib/storage-host';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export type UploadResult = {
@@ -25,6 +26,7 @@ const S3_BUCKET = (process.env.S3_BUCKET || '').trim();
 const S3_REGION = (process.env.S3_REGION || '').trim();
 const S3_ACCESS_KEY_ID = (process.env.S3_ACCESS_KEY_ID || '').trim();
 const S3_SECRET_ACCESS_KEY = (process.env.S3_SECRET_ACCESS_KEY || '').trim();
+const S3_ENDPOINT = (process.env.S3_ENDPOINT || '').trim();
 const S3_PUBLIC_BASE_URL = (process.env.S3_PUBLIC_BASE_URL || '').trim();
 const S3_UPLOAD_ACL = (process.env.S3_UPLOAD_ACL || '').trim();
 const S3_CACHE_CONTROL = (process.env.S3_CACHE_CONTROL || 'public, max-age=3600').trim();
@@ -75,6 +77,15 @@ function getS3Client(): S3Client {
         accessKeyId: S3_ACCESS_KEY_ID,
         secretAccessKey: S3_SECRET_ACCESS_KEY,
       },
+      // S3-compatible services (Aliyun OSS) need their own endpoint, and reject the CRC32 checksum
+      // that recent SDK versions attach by default, so only send checksums when an operation requires one.
+      ...(S3_ENDPOINT
+        ? {
+            endpoint: S3_ENDPOINT,
+            requestChecksumCalculation: 'WHEN_REQUIRED' as const,
+            responseChecksumValidation: 'WHEN_REQUIRED' as const,
+          }
+        : {}),
     });
   }
   return s3Client;
@@ -225,7 +236,7 @@ function buildPublicUrl(key: string): string {
   if (S3_PUBLIC_BASE_URL) {
     return `${S3_PUBLIC_BASE_URL.replace(/\/+$/, '')}/${key}`;
   }
-  const host = S3_REGION ? `${S3_BUCKET}.s3.${S3_REGION}.amazonaws.com` : `${S3_BUCKET}.s3.amazonaws.com`;
+  const host = defaultStorageHost({ bucket: S3_BUCKET, region: S3_REGION, endpoint: S3_ENDPOINT });
   return `https://${host}/${key}`;
 }
 
@@ -355,8 +366,8 @@ function buildHostAllowList(): Set<string> {
       // ignore invalid URL
     }
   } else if (S3_BUCKET) {
-    const regionalHost = S3_REGION ? `${S3_BUCKET}.s3.${S3_REGION}.amazonaws.com` : `${S3_BUCKET}.s3.amazonaws.com`;
-    hosts.add(regionalHost);
+    const regionalHost = defaultStorageHost({ bucket: S3_BUCKET, region: S3_REGION, endpoint: S3_ENDPOINT });
+    if (regionalHost) hosts.add(regionalHost);
   }
   if (process.env.ASSET_HOST_ALLOWLIST) {
     process.env.ASSET_HOST_ALLOWLIST.split(',')
@@ -394,7 +405,7 @@ export function extractObjectKeyFromUrl(assetUrl: string): string | null {
     }
 
     if (!S3_BUCKET) return null;
-    const defaultHost = S3_REGION ? `${S3_BUCKET}.s3.${S3_REGION}.amazonaws.com` : `${S3_BUCKET}.s3.amazonaws.com`;
+    const defaultHost = defaultStorageHost({ bucket: S3_BUCKET, region: S3_REGION, endpoint: S3_ENDPOINT });
     if (parsed.host !== defaultHost) {
       return null;
     }
