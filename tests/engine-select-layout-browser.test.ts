@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { KEYVO_WORKSPACE_VARIANT_HIDDEN } from '../frontend/config/keyvo-disabled-features';
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
@@ -214,7 +215,8 @@ test('deferred registry metadata keeps workspace model/variant geometry stable w
       assert.equal(after.name, entry.marketingName, 'final names stay unchanged');
       const group = entry.surfaces.app.variantGroup;
       const expectedVariants = engines.filter(engine => engine.availability !== 'paused' && group && listFalEngines().find(entry => entry.id === engine.id)?.surfaces.app.variantGroup === group);
-      assert.equal(Boolean(after.variant), expectedVariants.length > 1, 'variant choices stay available only for groups with multiple eligible inputs');
+      // The workspace hides the Variant box (KEYVO_WORKSPACE_VARIANT_HIDDEN); with it restored the box shows only for groups with several eligible inputs.
+      assert.equal(Boolean(after.variant), KEYVO_WORKSPACE_VARIANT_HIDDEN ? false : expectedVariants.length > 1, 'variant choices stay available only for groups with multiple eligible inputs');
       if (after.variant) assert.equal(after.variantText, entry.surfaces.app.variantLabel);
       if (!baseline) {
         assert.deepEqual(after.model, before.model, JSON.stringify({ scenario, before, after, metadataShifts }));
@@ -226,12 +228,14 @@ test('deferred registry metadata keeps workspace model/variant geometry stable w
         if (scenario.engineId === 'pika-text-to-video') assert.equal(after.variant, null, 'no permanent empty variant slot');
       }
       if (!baseline && index === 0) {
-        const variant = page.locator('[data-selector-shell] button[aria-haspopup="listbox"]');
-        await variant.focus();
-        await page.keyboard.press('ArrowDown');
-        await page.getByRole('listbox').waitFor();
-        assert.equal(await page.getByRole('option', { name: 'Fast', exact: true }).isDisabled(), true);
-        await page.keyboard.press('Escape');
+        if (!KEYVO_WORKSPACE_VARIANT_HIDDEN) {
+          const variant = page.locator('[data-selector-shell] button[aria-haspopup="listbox"]');
+          await variant.focus();
+          await page.keyboard.press('ArrowDown');
+          await page.getByRole('listbox').waitFor();
+          assert.equal(await page.getByRole('option', { name: 'Fast', exact: true }).isDisabled(), true);
+          await page.keyboard.press('Escape');
+        }
         const model = page.locator('[data-selector-shell] button[aria-haspopup="dialog"]');
         await model.focus();
         await page.keyboard.press('Enter');
