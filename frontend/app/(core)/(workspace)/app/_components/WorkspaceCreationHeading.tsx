@@ -8,7 +8,7 @@ export function WorkspaceCreationHeading({ media = 'video', action }: { media?: 
   return (
     <header className="app-creation-heading studio-creation-title">
       <div><p className="app-eyebrow">Keyvo · STUDIO</p><h1>{media === 'image' ? t('workspace.header.createImage', 'Create image') : t('workspace.header.createVideo', 'Create video')}</h1></div>
-      {action ? <div className="md:hidden">{action}</div> : null}
+      {action ? <div className="flex items-center gap-2 md:hidden">{action}</div> : null}
     </header>
   );
 }
