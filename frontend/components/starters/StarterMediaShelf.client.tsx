@@ -4,7 +4,10 @@ import { useI18n } from '@/lib/i18n/I18nProvider';
 import { getStarterMediaTitle, type StarterMedia, type StarterMediaSurface } from '@/lib/starter-media';
 import { useStarterMedia } from './useStarterMedia';
 
-export function StarterMediaShelf({ surface, onUsePrompt, onSelectItem }: { surface: StarterMediaSurface; onUsePrompt?: (prompt: string) => void; onSelectItem?: (item: StarterMedia) => void }) {
+type AudioKind = NonNullable<StarterMedia['audioKind']>;
+
+/** `onlyAudioKinds` limits an audio shelf to those kinds; an item without a kind is hidden when a limit is set. */
+export function StarterMediaShelf({ surface, onUsePrompt, onSelectItem, onlyAudioKinds }: { surface: StarterMediaSurface; onUsePrompt?: (prompt: string) => void; onSelectItem?: (item: StarterMedia) => void; onlyAudioKinds?: readonly AudioKind[] }) {
   const { locale } = useI18n();
   const audioKinds = locale === 'fr' ? { voice: 'Voix · EN', music: 'Instrumental', song: 'Chanson · EN' }
     : locale === 'es' ? { voice: 'Voz · EN', music: 'Instrumental', song: 'Canción · EN' }
@@ -12,7 +15,9 @@ export function StarterMediaShelf({ surface, onUsePrompt, onSelectItem }: { surf
   const copy = locale === 'fr' ? { title: 'À vous de jouer', samples: 'Exemples créatifs', voices: 'Samples audio', use: 'Reprendre le prompt', hint: 'Une idée de départ, à réinterpréter avec votre modèle.' }
     : locale === 'es' ? { title: 'Ahora te toca', samples: 'Ejemplos creativos', voices: 'Muestras de audio', use: 'Usar el prompt', hint: 'Una idea para reinterpretar con tu modelo.' }
       : locale === 'zh' ? { title: '创作您的版本', samples: '创意示例', voices: '音频示例', use: '使用此提示词', hint: '一个起点，用您的模型重新演绎。' } : { title: 'Make it your own', samples: 'Creative samples', voices: 'Audio samples', use: 'Use this prompt', hint: 'A starting idea to reinterpret with your model.' };
-  const items = useStarterMedia(surface);
+  const allItems = useStarterMedia(surface);
+  const items = onlyAudioKinds ? allItems.filter(item => item.audioKind && onlyAudioKinds.includes(item.audioKind)) : allItems;
+  if (!items.length) return null;
   return <section aria-label={surface === 'image' ? copy.samples : copy.voices} className="w-full min-w-0 space-y-3" data-starter-media={surface}>
     <header><p className="text-xs font-semibold uppercase tracking-wide text-text-muted">{surface === 'image' ? copy.samples : copy.voices}</p><h2 className="text-lg font-semibold">{copy.title}</h2>{surface === 'image' ? <p className="text-xs text-text-muted">{copy.hint}</p> : null}</header>
     <div className="grid min-w-0 gap-3">

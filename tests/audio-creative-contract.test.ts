@@ -73,6 +73,23 @@ test('audio quotes remain available when provider credentials are temporarily un
   }
 });
 
+test('mainland voice over needs its own provider keys, not a fal key', async () => {
+  const mm = { MINIMAX_SPEECH_ENABLED: 'true', MINIMAX_API_KEY: 'k' };
+  const seed = { SEED_AUDIO_ENABLED: 'true', SEED_AUDIO_API_KEY: 'k' };
+  const normalized = (voiceModel: string, extra: object = {}) => validateAudioGenerateRequest({ pack: 'voice_only', voiceModel, script: 'Hello.', ...extra } as never);
+  assert.doesNotThrow(() => assertAudioProviderConfigured(normalized('minimax'), mm));
+  assert.doesNotThrow(() => assertAudioProviderConfigured(normalized('seed'), seed));
+  // Each provider needs its own switch and key; the other provider's keys do not count.
+  assert.throws(() => assertAudioProviderConfigured(normalized('minimax'), seed), /unavailable/i);
+  assert.throws(() => assertAudioProviderConfigured(normalized('seed'), mm), /unavailable/i);
+  assert.throws(() => assertAudioProviderConfigured(normalized('minimax'), { MINIMAX_API_KEY: 'k' }), /unavailable/i);
+  // A reference voice has no mainland executor, so it still needs fal.
+  assert.throws(() => assertAudioProviderConfigured(normalized('seed', { voiceSampleUrl: 'https://x.example/a.wav', voiceMode: 'clone' }), seed), /unavailable/i);
+  // Eleven v4 and every other pack still depend on fal.
+  assert.throws(() => assertAudioProviderConfigured(normalized('eleven-v4'), { ...mm, ...seed }), /unavailable/i);
+  assert.doesNotThrow(() => assertAudioProviderConfigured(normalized('eleven-v4'), { FAL_KEY: 'f' }));
+});
+
 test('generation checks provider readiness before reserving an audio charge', async () => {
   const { readFile } = await import('node:fs/promises');
   const source = await readFile('frontend/src/server/audio/generate-audio.ts', 'utf8');

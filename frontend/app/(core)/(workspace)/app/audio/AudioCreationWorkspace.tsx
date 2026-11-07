@@ -1,4 +1,5 @@
 'use client';
+import { isKeyvoAudioVoiceOnly } from '@/config/keyvo-disabled-features';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -37,7 +38,9 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
   const pathname = usePathname();
   const router = useRouter();
   const { locale } = useI18n();
-  const requestedIntent = params?.get('intent');
+  // The video soundtrack flow (intent=video) mixes fal sound design into a video; it has no mainland provider yet.
+  const rawIntent = params?.get('intent') ?? null;
+  const requestedIntent = rawIntent === 'video' && isKeyvoAudioVoiceOnly() ? null : rawIntent;
   const intent: AudioCreationIntent = isAudioIntent(requestedIntent) && visibleAudioIntents().includes(requestedIntent) ? requestedIntent : 'voice';
   const copy = audioCreationCopy(locale);
   const { draft, update, saved } = useAudioCreationDraft(userId, intent);
@@ -181,7 +184,7 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
   if (requestedIntent === 'video') return <div className="flex min-w-0 flex-1 flex-col"><div className={styles.root} style={{ flex: 'none', paddingBottom: 0 }}><a href={`${pathname}?intent=voice`}>← {copy.back}</a></div><VideoSoundtrack key={userId ?? 'guest'} /></div>;
   const price = quote ? new Intl.NumberFormat(locale, { style: 'currency', currency: quote.pricing.currency }).format(quote.pricing.totalCents / 100) : null;
   return <main className={styles.root} data-audio-creation={intent}>
-    <header className={styles.header}><h1 className="sr-only">{copy.title}</h1><a href={`${pathname}?intent=video`}>{copy.video}<span aria-hidden>↗</span></a></header>
+    <header className={styles.header}><h1 className="sr-only">{copy.title}</h1>{isKeyvoAudioVoiceOnly() ? null : <a href={`${pathname}?intent=video`}>{copy.video}<span aria-hidden>↗</span></a>}</header>
     <nav className={styles.intents} aria-label={copy.title}>{visibleAudioIntents().map((key, index) => <button type="button" className={styles.intent} key={key} aria-pressed={intent === key} onClick={() => chooseIntent(key)}><span className={styles.intentVisual} style={{ backgroundPositionX: `${index * 25}%` }} aria-hidden /><span className={styles.intentNumber} aria-hidden>0{index + 1}</span><span className={styles.intentCheck} aria-hidden>{intent === key ? '✓' : '↗'}</span><strong>{copy.intents[key][0]}</strong></button>)}</nav>
     {notice ? <div className={styles.status} role="alert">{notice}</div> : null}
     <div className={styles.layout}><div>
@@ -191,7 +194,7 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
         {userId ? <button type="button" className={styles.generate} disabled={!quote || pending.includes(quote.inputKey) || uploading} onClick={() => void generate()}>{copy.generate}{price ? ` · ${price}` : ''}<span aria-hidden>↗</span></button> : <a className={styles.generate} href={buildLoginHref({ mode: 'signin', nextPath: buildAuthReturnTarget(pathname, params) })}>{copy.signIn}</a>}
       </div>
     </div><AudioCreationResults intent={intent} copy={copy} result={result} pending={pending.length} onReuse={reuse}>
-      {!pending.length && !result && (!userId || (!isLoading && !historyError && !jobs.length)) ? <StarterMediaShelf surface="audio" /> : null}
+      {!pending.length && !result && (!userId || (!isLoading && !historyError && !jobs.length)) ? <StarterMediaShelf surface="audio" onlyAudioKinds={isKeyvoAudioVoiceOnly() ? ['voice'] : undefined} /> : null}
       <section className={styles.history}><h2>{copy.history}</h2><p className={styles.historyHint}>{copy.historyHint}</p>
         {userId && isLoading ? <p>{copy.loadingHistory}</p> : null}
         {userId && historyError ? <button type="button" onClick={() => void mutate()}>{copy.retry}</button> : null}
