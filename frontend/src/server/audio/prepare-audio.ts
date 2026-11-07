@@ -6,12 +6,17 @@ import { loadSourceJob } from './audio-generate-jobs';
 import { AudioGenerationError, resolveAudioRenderDuration, validateAudioGenerateRequest } from './audio-generate-validation';
 import { isVideoBackedPack } from './audio-generate-snapshots';
 import { isGoogleVertexLyria3Configured } from './providers/google-vertex-lyria';
+import { isMinimaxSpeechConfigured, isSeedAudioConfigured } from '@/config/keyvo-disabled-features';
 import type { ResolveServerPricingPolicyDependencies } from '@/server/pricing/resolve-pricing-policy';
 
 export function assertAudioProviderConfigured(normalized: ReturnType<typeof validateAudioGenerateRequest>, env = process.env) {
   const music = normalized.pack === 'music_only' || normalized.musicEnabled;
   if (music && !isGoogleVertexLyria3Configured(env)) throw new AudioGenerationError('Lyria is currently unavailable.', { status: 503, code: 'audio_provider_unavailable' });
-  if (normalized.pack !== 'music_only' && !(env.FAL_API_KEY || env.FAL_KEY)) throw new AudioGenerationError('Audio provider is currently unavailable.', { status: 503, code: 'audio_provider_unavailable' });
+  // Voice over with MiniMax Speech or Seed Audio runs on the mainland APIs and needs no fal key.
+  const mainlandVoice = normalized.pack === 'voice_only'
+    && ((normalized.voiceModel === 'minimax' && isMinimaxSpeechConfigured(env))
+      || (normalized.voiceModel === 'seed' && !normalized.voiceSampleUrl && isSeedAudioConfigured(env)));
+  if (normalized.pack !== 'music_only' && !mainlandVoice && !(env.FAL_API_KEY || env.FAL_KEY)) throw new AudioGenerationError('Audio provider is currently unavailable.', { status: 503, code: 'audio_provider_unavailable' });
 }
 
 export function audioQuoteInputKey(userId: string, normalized: unknown, durationSec: number) {
