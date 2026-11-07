@@ -16,7 +16,7 @@ test('Audio auditions survive Strict Mode, load only on Play and stop when the v
     function Fixture(){const[draft,set]=useState({...newAudioDraft('voice'),script:'Hello.'});return <main><AudioCreationEditor intent="voice" draft={draft} copy={audioCreationCopy(new URLSearchParams(location.search).get('locale')??'en')} onChange={patch=>set(old=>({...old,...patch}))} onFile={()=>{}} uploading={false} onLibrary={()=>{}}/><pre id="request">{JSON.stringify(buildAudioCreationRequest('voice',draft,'en'))}</pre></main>}
     createRoot(document.getElementById('root')).render(<React.StrictMode><Fixture/></React.StrictMode>);`;
   await build({ stdin: { contents: entry, loader: 'tsx', resolveDir: process.cwd() }, outfile: join(folder, 'editor.js'),
-    bundle: true, platform: 'browser', jsx: 'automatic', nodePaths: [join(process.cwd(), 'frontend/node_modules')], external: ['/assets/*'], tsconfig: 'frontend/tsconfig.json', define: { 'process.env.NODE_ENV': '"development"' } });
+    bundle: true, platform: 'browser', jsx: 'automatic', nodePaths: [join(process.cwd(), 'frontend/node_modules')], external: ['/assets/*'], tsconfig: 'frontend/tsconfig.json', define: { 'process.env.NODE_ENV': '"development"', 'process.env.KEYVO_AUDIO_FULL_UI': '"1"' } });
   const wav = Buffer.alloc(44 + 16000 * 2 * 4);
   wav.write('RIFF'); wav.writeUInt32LE(wav.length - 8, 4); wav.write('WAVEfmt ', 8); wav.writeUInt32LE(16, 16);
   wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22); wav.writeUInt32LE(16000, 24); wav.writeUInt32LE(32000, 28);

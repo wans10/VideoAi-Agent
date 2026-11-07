@@ -1,12 +1,14 @@
+import { isKeyvoAudioVoiceOnly } from '@/config/keyvo-disabled-features';
 import { AUDIO_ELEVEN_VOICE_IDS, DEFAULT_ELEVEN_VOICE_ID } from './audio-eleven-voices';
 import {
-  AUDIO_LANGUAGE_VALUES,
+  AUDIO_WORKSPACE_LANGUAGE_VALUES,
+  isDoubaoSeedVoice,
   AUDIO_AMBIENCE_DURATION_OPTIONS_SEC,
   AUDIO_LYRIA3_BPM_VALUES,
   AUDIO_LYRIA3_CLIP_DURATION_OPTIONS_SEC,
   AUDIO_LYRIA3_MODEL_VALUES,
   AUDIO_LYRIA3_PRO_DURATION_OPTIONS_SEC,
-  AUDIO_MINIMAX_VOICE_VALUES,
+  AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES,
   AUDIO_MOOD_VALUES,
   AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES,
   AUDIO_SEED_AUDIO_SAMPLE_RATE_VALUES,
@@ -23,6 +25,10 @@ import type { ToolAssetRef } from './toolbox/contract';
 import type { MediaFacts } from '@/lib/media-identity';
 
 export const AUDIO_CREATION_INTENTS = ['voice', 'music', 'song', 'sfx', 'ambience'] as const;
+/** Intents offered in the workspace; while only voice over has a provider the rest stay hidden. */
+export function visibleAudioIntents(): readonly AudioCreationIntent[] {
+  return isKeyvoAudioVoiceOnly() ? ['voice'] : AUDIO_CREATION_INTENTS;
+}
 export type AudioCreationIntent = typeof AUDIO_CREATION_INTENTS[number];
 export const AUDIO_INTENT_PACK: Record<AudioCreationIntent, AudioPackId> = {
   voice: 'voice_only', music: 'music_only', song: 'song', sfx: 'sfx_only', ambience: 'ambience_only',
@@ -68,7 +74,7 @@ export function repairAudioCreationDraft(intent: AudioCreationIntent, draft: Aud
     elevenVoiceId: oneOf(draft.elevenVoiceId, AUDIO_ELEVEN_VOICE_IDS, defaults.elevenVoiceId),
     elevenStability: typeof draft.elevenStability === 'number' && Number.isFinite(draft.elevenStability) && draft.elevenStability >= 0 && draft.elevenStability <= 1 ? draft.elevenStability : defaults.elevenStability,
     elevenSimilarityBoost: typeof draft.elevenSimilarityBoost === 'number' && Number.isFinite(draft.elevenSimilarityBoost) && draft.elevenSimilarityBoost >= 0 && draft.elevenSimilarityBoost <= 1 ? draft.elevenSimilarityBoost : defaults.elevenSimilarityBoost,
-    minimaxVoiceId: oneOf(draft.minimaxVoiceId, AUDIO_MINIMAX_VOICE_VALUES, defaults.minimaxVoiceId),
+    minimaxVoiceId: oneOf(draft.minimaxVoiceId, AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES, defaults.minimaxVoiceId),
     voice: oneOf(draft.voice, AUDIO_SEED_AUDIO_VOICE_VALUES, defaults.voice),
     speed: typeof draft.speed === 'number' && draft.speed >= 0.5 && draft.speed <= 2 ? draft.speed : defaults.speed,
     volume: typeof draft.volume === 'number' && draft.volume >= 0.5 && draft.volume <= 2 ? draft.volume : defaults.volume,
@@ -78,10 +84,28 @@ export function repairAudioCreationDraft(intent: AudioCreationIntent, draft: Aud
     voiceDelivery: oneOf(draft.voiceDelivery, AUDIO_VOICE_DELIVERY_VALUES, defaults.voiceDelivery),
     voiceProfile: oneOf(draft.voiceProfile, AUDIO_VOICE_PROFILE_VALUES, defaults.voiceProfile),
     voiceGender: oneOf(draft.voiceGender, AUDIO_VOICE_GENDER_VALUES, defaults.voiceGender),
-    language: oneOf(draft.language, AUDIO_LANGUAGE_VALUES, defaults.language),
+    language: oneOf(draft.language, AUDIO_WORKSPACE_LANGUAGE_VALUES, defaults.language),
     musicModel,
     bpm: oneOf(draft.bpm, AUDIO_LYRIA3_BPM_VALUES, defaults.bpm),
     mood: oneOf(draft.mood, AUDIO_MOOD_VALUES, defaults.mood),
+  };
+}
+/**
+ * While only MiniMax and Seed Audio preset voices have a mainland provider, a draft is steered to one of them:
+ * a stored ElevenLabs choice or a reference voice would be refused by the API, so it falls back to a Chinese
+ * MiniMax voice, and a Seed Audio draft keeps only a voice that exists on the mainland API.
+ */
+export function applyKeyvoVoiceOnly(draft: AudioCreationDraft): AudioCreationDraft {
+  if (!isKeyvoAudioVoiceOnly()) return draft;
+  if (draft.voiceModel === 'seed' && !draft.reference) {
+    return { ...draft, reference: null, voice: draft.voice === 'default' || isDoubaoSeedVoice(draft.voice) ? draft.voice : 'default' };
+  }
+  const keep = draft.voiceModel === 'minimax' && !draft.reference;
+  return {
+    ...draft,
+    voiceModel: 'minimax',
+    reference: null,
+    minimaxVoiceId: keep ? draft.minimaxVoiceId : 'Chinese (Mandarin)_News_Anchor',
   };
 }
 export function isAudioIntent(value: unknown): value is AudioCreationIntent {

@@ -24,6 +24,35 @@ export const AUDIO_MUSIC_DURATION_OPTIONS_SEC = AUDIO_LYRIA3_PRO_DURATION_OPTION
 export const AUDIO_SFX_DURATION_OPTIONS_SEC = [3, 5, 8, 10, 15, 20, 30] as const;
 export const AUDIO_AMBIENCE_DURATION_OPTIONS_SEC = [10, 15, 30, 45, 60, 90, 120, 180, 184] as const;
 
+/** Doubao speech voices usable as `speaker` on the mainland Seed Audio API. */
+export const AUDIO_DOUBAO_SEED_VOICE_LABELS = {
+  zh_female_vv_uranus_bigtts: 'Vivi',
+  zh_female_xiaohe_uranus_bigtts: '小何',
+  zh_female_qingxinnvsheng_uranus_bigtts: '清新女声',
+  zh_female_zhixingnv_uranus_bigtts: '知性女声',
+  zh_female_wenroushunv_uranus_bigtts: '温柔淑女',
+  zh_female_qinqienv_uranus_bigtts: '亲切女声',
+  zh_male_m191_uranus_bigtts: '云舟',
+  zh_male_liufei_uranus_bigtts: '刘飞',
+  zh_male_ruyaqingnian_uranus_bigtts: '儒雅青年',
+  zh_male_yangguangqingnian_uranus_bigtts: '阳光青年',
+  zh_male_wenrouxiaoge_uranus_bigtts: '温柔小哥',
+  zh_male_cixingjieshuonan_uranus_bigtts: '磁性解说男声',
+  zh_female_xiaoxue_uranus_bigtts: '儿童绘本',
+  zh_female_shaoergushi_uranus_bigtts: '少儿故事',
+  zh_male_baqiqingshu_uranus_bigtts: '霸气青叔',
+  zh_male_xuanyijieshuo_uranus_bigtts: '悬疑解说',
+  zh_male_guanggaojieshuo_uranus_bigtts: '广告解说',
+  en_male_tim_uranus_bigtts: 'Tim · EN',
+  en_female_dacey_uranus_bigtts: 'Dacey · EN',
+  en_female_stokie_uranus_bigtts: 'Stokie · EN',
+} as const;
+export type AudioDoubaoSeedVoice = keyof typeof AUDIO_DOUBAO_SEED_VOICE_LABELS;
+export const AUDIO_DOUBAO_SEED_VOICE_VALUES = Object.keys(AUDIO_DOUBAO_SEED_VOICE_LABELS) as AudioDoubaoSeedVoice[];
+export function isDoubaoSeedVoice(value: unknown): value is AudioDoubaoSeedVoice {
+  return typeof value === 'string' && Object.hasOwn(AUDIO_DOUBAO_SEED_VOICE_LABELS, value);
+}
+
 export const AUDIO_SEED_AUDIO_VOICE_VALUES = [
   'default',
   'vivi_mixed_en_zh_ja_es_id',
@@ -47,7 +76,7 @@ export const AUDIO_SEED_AUDIO_VOICE_VALUES = [
   'celeste_zh',
   'monkey_king_zh',
 ] as const;
-export type AudioSeedAudioVoice = (typeof AUDIO_SEED_AUDIO_VOICE_VALUES)[number];
+export type AudioSeedAudioVoice = (typeof AUDIO_SEED_AUDIO_VOICE_VALUES)[number] | AudioDoubaoSeedVoice;
 
 export const AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES = ['mp3', 'wav', 'pcm', 'ogg_opus'] as const;
 export type AudioSeedAudioOutputFormat = (typeof AUDIO_SEED_AUDIO_OUTPUT_FORMAT_VALUES)[number];
@@ -79,7 +108,42 @@ export const AUDIO_PACK_VALUES = ['music_only', 'voice_only', 'sfx_only', 'song'
 export type AudioPackId = (typeof AUDIO_PACK_VALUES)[number];
 
 export type AudioVoiceModel = 'seed' | 'minimax' | 'eleven-v4';
+/** Voices published through MCP, agents and Studio. Their schemas are part of the reviewed MCP policy fingerprint. */
 export const AUDIO_MINIMAX_VOICE_VALUES = ['English_FriendlyPerson', 'Wise_Woman'] as const;
+/** Voices offered by the web workspace: the two above plus Mandarin voices of the mainland API. */
+export const AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES = [
+  ...AUDIO_MINIMAX_VOICE_VALUES,
+  'Chinese (Mandarin)_News_Anchor',
+  'Chinese (Mandarin)_Male_Announcer',
+  'Chinese (Mandarin)_Gentleman',
+  'Chinese (Mandarin)_Sweet_Lady',
+  'Chinese (Mandarin)_Warm_Bestie',
+  'Chinese (Mandarin)_Reliable_Executive',
+  'Chinese (Mandarin)_Radio_Host',
+  'Chinese (Mandarin)_Soft_Girl',
+  'female-shaonv',
+  'female-chengshu',
+  'male-qn-jingying',
+  'male-qn-qingse',
+] as const;
+export type AudioMinimaxVoice = (typeof AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES)[number];
+/** Display names for the voices above, in the order the workspace lists them. */
+export const AUDIO_MINIMAX_VOICE_LABELS: Record<AudioMinimaxVoice, string> = {
+  English_FriendlyPerson: 'Friendly Person · EN',
+  Wise_Woman: 'Wise Woman · EN',
+  'Chinese (Mandarin)_News_Anchor': '新闻女声',
+  'Chinese (Mandarin)_Male_Announcer': '播报男声',
+  'Chinese (Mandarin)_Gentleman': '温润男声',
+  'Chinese (Mandarin)_Sweet_Lady': '甜美女声',
+  'Chinese (Mandarin)_Warm_Bestie': '温暖闺蜜',
+  'Chinese (Mandarin)_Reliable_Executive': '沉稳高管',
+  'Chinese (Mandarin)_Radio_Host': '电台男主播',
+  'Chinese (Mandarin)_Soft_Girl': '软软女孩',
+  'female-shaonv': '少女音色',
+  'female-chengshu': '成熟女性',
+  'male-qn-jingying': '精英青年',
+  'male-qn-qingse': '青涩青年',
+};
 export const AUDIO_MINIMAX_SPEECH_MODEL_ID = 'fal-ai/minimax/speech-02-hd';
 export const AUDIO_SONG_MODEL_ID = 'fal-ai/minimax-music/v2.6';
 export const AUDIO_AMBIENCE_MODEL_ID = 'fal-ai/stable-audio-25/text-to-audio';
@@ -115,8 +179,11 @@ export type AudioVoiceGender = (typeof AUDIO_VOICE_GENDER_VALUES)[number];
 export const AUDIO_VOICE_DELIVERY_VALUES = ['natural', 'cinematic', 'trailer', 'intimate'] as const;
 export type AudioVoiceDelivery = (typeof AUDIO_VOICE_DELIVERY_VALUES)[number];
 
+/** Languages published through MCP, agents and Studio (part of the reviewed MCP policy fingerprint). */
 export const AUDIO_LANGUAGE_VALUES = ['auto', 'english', 'french', 'spanish', 'german'] as const;
-export type AudioLanguage = (typeof AUDIO_LANGUAGE_VALUES)[number];
+/** Languages offered by the web workspace: Chinese is added for the mainland providers. */
+export const AUDIO_WORKSPACE_LANGUAGE_VALUES = ['auto', 'chinese', 'english', 'french', 'spanish', 'german'] as const;
+export type AudioLanguage = (typeof AUDIO_WORKSPACE_LANGUAGE_VALUES)[number];
 
 export const AUDIO_OUTPUT_KIND_VALUES = ['audio', 'video', 'both'] as const;
 export type AudioOutputKind = (typeof AUDIO_OUTPUT_KIND_VALUES)[number];
@@ -337,12 +404,13 @@ export function coerceAudioVoiceDelivery(value: unknown): AudioVoiceDelivery | n
 export function coerceAudioLanguage(value: unknown): AudioLanguage | null {
   if (typeof value !== 'string') return null;
   const normalized = value.trim().toLowerCase();
-  return AUDIO_LANGUAGE_VALUES.find((entry) => entry === normalized) ?? null;
+  return AUDIO_WORKSPACE_LANGUAGE_VALUES.find((entry) => entry === normalized) ?? null;
 }
 
 export function coerceSeedAudioVoice(value: unknown): AudioSeedAudioVoice | null {
   if (typeof value !== 'string') return null;
   const normalized = value.trim();
+  if (isDoubaoSeedVoice(normalized)) return normalized;
   return AUDIO_SEED_AUDIO_VOICE_VALUES.find((entry) => entry === normalized) ?? null;
 }
 

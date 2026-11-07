@@ -7,7 +7,7 @@ import { useI18n } from '@/lib/i18n/I18nProvider';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { buildAuthReturnTarget, buildLoginHref } from '@/lib/auth-entry-href';
 import { runAudioGenerate, useInfiniteJobs } from '@/lib/api';
-import { AUDIO_CREATION_INTENTS, AUDIO_INTENT_PACK, buildAudioCreationRequest, isAudioDraftReady, isAudioIntent, type AudioCreationIntent } from '@/lib/audio-creation';
+import { AUDIO_CREATION_INTENTS, AUDIO_INTENT_PACK, visibleAudioIntents, buildAudioCreationRequest, isAudioDraftReady, isAudioIntent, type AudioCreationIntent } from '@/lib/audio-creation';
 import type { Job } from '@/types/jobs';
 import { getAudioSubmissionId, clearAudioSubmissionId } from './_lib/audio-submission-identity';
 import { audioCreationReusePatch } from './_lib/audio-creation-reuse';
@@ -38,7 +38,7 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
   const router = useRouter();
   const { locale } = useI18n();
   const requestedIntent = params?.get('intent');
-  const intent: AudioCreationIntent = isAudioIntent(requestedIntent) ? requestedIntent : 'voice';
+  const intent: AudioCreationIntent = isAudioIntent(requestedIntent) && visibleAudioIntents().includes(requestedIntent) ? requestedIntent : 'voice';
   const copy = audioCreationCopy(locale);
   const { draft, update, saved } = useAudioCreationDraft(userId, intent);
   const body = useMemo(() => buildAudioCreationRequest(intent, draft, locale), [intent, draft, locale]);
@@ -182,7 +182,7 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
   const price = quote ? new Intl.NumberFormat(locale, { style: 'currency', currency: quote.pricing.currency }).format(quote.pricing.totalCents / 100) : null;
   return <main className={styles.root} data-audio-creation={intent}>
     <header className={styles.header}><h1 className="sr-only">{copy.title}</h1><a href={`${pathname}?intent=video`}>{copy.video}<span aria-hidden>↗</span></a></header>
-    <nav className={styles.intents} aria-label={copy.title}>{AUDIO_CREATION_INTENTS.map((key, index) => <button type="button" className={styles.intent} key={key} aria-pressed={intent === key} onClick={() => chooseIntent(key)}><span className={styles.intentVisual} style={{ backgroundPositionX: `${index * 25}%` }} aria-hidden /><span className={styles.intentNumber} aria-hidden>0{index + 1}</span><span className={styles.intentCheck} aria-hidden>{intent === key ? '✓' : '↗'}</span><strong>{copy.intents[key][0]}</strong></button>)}</nav>
+    <nav className={styles.intents} aria-label={copy.title}>{visibleAudioIntents().map((key, index) => <button type="button" className={styles.intent} key={key} aria-pressed={intent === key} onClick={() => chooseIntent(key)}><span className={styles.intentVisual} style={{ backgroundPositionX: `${index * 25}%` }} aria-hidden /><span className={styles.intentNumber} aria-hidden>0{index + 1}</span><span className={styles.intentCheck} aria-hidden>{intent === key ? '✓' : '↗'}</span><strong>{copy.intents[key][0]}</strong></button>)}</nav>
     {notice ? <div className={styles.status} role="alert">{notice}</div> : null}
     <div className={styles.layout}><div>
       <AudioCreationEditor intent={intent} draft={draft} copy={copy} onChange={update} onFile={file => void addReference(file)} uploading={uploading} onLibrary={() => userId ? setLibraryOpen(true) : setNotice(copy.signIn)} />

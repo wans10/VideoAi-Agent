@@ -2,8 +2,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { listenForGuestCreationLogin, consumeGuestCreationFromLocation } from '@/lib/guest-creation-continuation';
 import { useAudioCreationScope } from './useAudioCreationScope';
-import { AUDIO_CREATION_INTENTS, newAudioDraft, repairAudioCreationDraft, type AudioCreationIntent, type AudioCreationDraft } from '@/lib/audio-creation';
+import { AUDIO_CREATION_INTENTS, applyKeyvoVoiceOnly, newAudioDraft as newDraft, repairAudioCreationDraft, type AudioCreationIntent, type AudioCreationDraft } from '@/lib/audio-creation';
 
+const newAudioDraft = (intent: AudioCreationIntent) => applyKeyvoVoiceOnly(newDraft(intent));
 type Drafts = Record<AudioCreationIntent, AudioCreationDraft>;
 const defaults = () => Object.fromEntries(AUDIO_CREATION_INTENTS.map(intent => [intent, newAudioDraft(intent)])) as Drafts;
 /** Only a confirmed account may read/write drafts. Guests are session-only. */
@@ -40,7 +41,7 @@ export function useAudioCreationDraft(userId: string | null, intent: AudioCreati
             if (field !== 'reference' && typeof guest.draft[field] === typeof drafts[key][field]) Object.assign(drafts[key], { [field]: guest.draft[field] });
           }
         }
-        for (const key of AUDIO_CREATION_INTENTS) drafts[key] = repairAudioCreationDraft(key, drafts[key]);
+        for (const key of AUDIO_CREATION_INTENTS) drafts[key] = applyKeyvoVoiceOnly(repairAudioCreationDraft(key, drafts[key]));
       } catch { /* Corrupt or unavailable storage must not block creation. */ }
     }
     if (scope.isCurrent()) { setState({ owner: scope, drafts }); setSaved(false); }

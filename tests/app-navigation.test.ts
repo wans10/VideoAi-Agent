@@ -28,10 +28,10 @@ test('creation activities select Create together without selecting unrelated app
 
 test('every existing destination keeps a named complete-menu path and tools obey their flag', () => {
   const authored = ['/app', '/app/image', '/app/audio', '/app/library', '/jobs', '/settings', '/billing', '/app/tools', '/app/tools/character-builder', '/app/tools/storyboard', '/app/tools/angle', '/app/tools/upscale', '/app/tools/background-removal', '/app/tools/restore-video', '/app/tools/denoise', '/app/tools/fix-blur', '/app/tools/smooth-motion'];
-  // Keyvo hides the audio workspace and the fal-backed tools.
-  const expected = authored.filter((href) => !isKeyvoHiddenFeaturePath(href));
+  // Keyvo hides the fal-backed tools; the audio workspace is reduced to voice over but stays in the menu.
+  const expected = authored.filter((href) => !isKeyvoHiddenFeaturePath(href) || href === '/app/audio');
   const menu = getAppMenuItems(true, true);
-  for (const href of authored.filter((value) => isKeyvoHiddenFeaturePath(value))) assert.ok(menu.every((item) => item.href !== href), `${href} stays hidden`);
+  for (const href of authored.filter((value) => isKeyvoHiddenFeaturePath(value) && value !== '/app/audio')) assert.ok(menu.every((item) => item.href !== href), `${href} stays hidden`);
   assert.ok(menu.every(item => item.href !== '/account/connections'), 'MCP connections stay hidden');
   for (const href of expected) assert.ok(menu.some((item) => item.href === href && item.label.length), href);
   assert.equal(new Set(menu.map((item) => item.href)).size, menu.length);

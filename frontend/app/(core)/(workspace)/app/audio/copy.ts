@@ -1,15 +1,16 @@
-import type {
-  AudioLanguage,
-  AudioLyria3Bpm,
-  AudioLyria3Model,
-  AudioMood,
-  AudioOutputKind,
-  AudioPackId,
-  AudioSeedAudioOutputFormat,
-  AudioSeedAudioVoice,
-  AudioVoiceDelivery,
-  AudioVoiceGender,
-  AudioVoiceProfile,
+import {
+  AUDIO_DOUBAO_SEED_VOICE_LABELS,
+  type AudioLanguage,
+  type AudioLyria3Bpm,
+  type AudioLyria3Model,
+  type AudioMood,
+  type AudioOutputKind,
+  type AudioPackId,
+  type AudioSeedAudioOutputFormat,
+  type AudioSeedAudioVoice,
+  type AudioVoiceDelivery,
+  type AudioVoiceGender,
+  type AudioVoiceProfile,
 } from '@/lib/audio-generation';
 
 export const DEFAULT_AUDIO_WORKSPACE_COPY = {
@@ -135,6 +136,7 @@ export const DEFAULT_AUDIO_WORKSPACE_COPY = {
       felix_zh: 'Felix',
       celeste_zh: 'Celeste',
       monkey_king_zh: 'Monkey King',
+      ...AUDIO_DOUBAO_SEED_VOICE_LABELS,
     } satisfies Record<AudioSeedAudioVoice, string>,
     seedAudioOutputFormats: {
       mp3: 'MP3',
@@ -186,6 +188,7 @@ export const DEFAULT_AUDIO_WORKSPACE_COPY = {
     } satisfies Record<AudioVoiceDelivery, string>,
     languages: {
       auto: 'Auto',
+      chinese: 'ZH',
       english: 'EN',
       french: 'FR',
       spanish: 'ES',

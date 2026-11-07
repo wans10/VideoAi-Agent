@@ -42,7 +42,7 @@ const SEED_AUDIO_LANGUAGE_META: Record<string, SeedAudioVoiceLanguage> = {
 
 export const SEED_AUDIO_VOICE_SAMPLE_URLS = Object.fromEntries(
   AUDIO_SEED_AUDIO_VOICE_VALUES.map((voice) => [voice, `/assets/audio/seed-audio/${voice}.mp3`])
-) as Record<AudioSeedAudioVoice, string>;
+) as Partial<Record<AudioSeedAudioVoice, string>>;
 
 export function getSeedAudioVoiceSampleUrl(voice: AudioSeedAudioVoice): string | null {
   if (voice === 'default') return null;
@@ -51,7 +51,7 @@ export function getSeedAudioVoiceSampleUrl(voice: AudioSeedAudioVoice): string |
 
 function getSeedAudioVoiceLanguageCodes(voice: AudioSeedAudioVoice): string[] {
   if (voice === 'default') return [];
-  const tokens = voice.split('_');
+  const tokens = voice.split('_'); // Doubao speaker IDs carry no language tokens of this kind.
   return Object.keys(SEED_AUDIO_LANGUAGE_META).filter((code) => tokens.includes(code));
 }
 

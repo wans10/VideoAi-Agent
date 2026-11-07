@@ -1,16 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { isKeyvoAudioDisabled } from '@/config/keyvo-disabled-features';
+import { isKeyvoAudioWorkspaceDisabled } from '@/config/keyvo-disabled-features';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { prepareAudioRun } from '@/server/audio/prepare-audio';
 import { AudioGenerationError } from '@/server/audio/audio-generate-validation';
+import { refuseUnavailableAudioRequest } from '@/server/audio/keyvo-audio-gate';
 
 export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
-  if (isKeyvoAudioDisabled()) return NextResponse.json({ ok: false, error: 'audio_unavailable' }, { status: 404 });
+  if (isKeyvoAudioWorkspaceDisabled()) return NextResponse.json({ ok: false, error: 'audio_unavailable' }, { status: 404 });
   const { userId } = await getRouteAuthContext(req);
   if (!userId) return NextResponse.json({ ok: false, error: 'UNAUTHORIZED' }, { status: 401 });
   const body = await req.json().catch(() => null);
   if (!body || typeof body !== 'object' || Array.isArray(body)) return NextResponse.json({ ok: false, error: 'INVALID_JSON' }, { status: 400 });
+  const refused = refuseUnavailableAudioRequest(body);
+  if (refused) return refused;
   try {
     const prepared = await prepareAudioRun(body, userId);
     return NextResponse.json({ ok: true, pricing: prepared.pricingSnapshot, inputKey: prepared.inputKey, expiresAt: Date.now() + 60_000 }, { headers: { 'Cache-Control': 'no-store' } });
