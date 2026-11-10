@@ -51,12 +51,23 @@ const fixture = `
       globalThis.__fixtureModelLabelReads=(globalThis.__fixtureModelLabelReads??0)+1;return labels;
     }});
   }
+  // Keyvo's desktop menus read nav.dropdown.<section>.heading, which the mobile menu and the section-link fallback never read;
+  // gate that read so the desktop subtree suspends the way upstream's models label read does.
+  for (const dictionary of [en,fr,es,zh]) {
+    const production=dictionary.nav.dropdown.production;
+    if(!production)continue;
+    const heading=production.heading;
+    Object.defineProperty(production,'heading',{enumerable:true,get(){
+      if(globalThis.__fixtureDesktopLabelGate)throw globalThis.__fixtureDesktopLabelGate;
+      return heading;
+    }});
+  }
   export function Fixture() {
     const [locale,setLocale] = useState(globalThis.__fixtureConfiguration.locale);
     useEffect(()=>{window.__fixtureSetLocale=setLocale},[]);
     useEffect(()=>{window.__fixtureHydrated=true;window.__fixtureHydrationDuration=performance.now()-window.__fixtureHydrationStarted},[]);
     return <I18nProvider locale={locale} dictionary={{en,fr,es,zh}[locale]} fallback={en}>
-      <div className={globalThis.__fixtureConfiguration.marketingSite ? "marketing-site videoai-site" : undefined}><MarketingNav initialEmail={globalThis.__fixtureConfiguration.initialEmail ?? null}/><main style={{minHeight:'1800px'}}><h1>Navigation fixture</h1><a href="#after">After navigation</a></main></div>
+      <div className={globalThis.__fixtureConfiguration.marketingSite ? "marketing-site videoai-site" : undefined}><MarketingNav navigation={marketingHeaderNavigation} initialEmail={globalThis.__fixtureConfiguration.initialEmail ?? null}/><main style={{minHeight:'1800px'}}><h1>Navigation fixture</h1><a href="#after">After navigation</a></main></div>
 
       <aside className="cookie-consent-overlay"><button type="button">Consent fixture</button></aside>
     </I18nProvider>;

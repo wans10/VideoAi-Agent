@@ -12,9 +12,11 @@ test('canonical admin preview and save prepare Max membership without exposing i
   const pg=await startDisposablePostgres('curation-launch');
   const folder=mkdtempSync(join(tmpdir(),'curation-launch-'));
   const previous=process.env.DATABASE_URL;
+  const previousVisibility=process.env.KEYVO_MODEL_VISIBILITY;
+  process.env.KEYVO_MODEL_VISIBILITY='off';
   const requireFrontend=createRequire(resolve('frontend/package.json'));
   let reader:any;
-  t.after(async()=>{await reader?.getDb().end();if(previous===undefined)delete process.env.DATABASE_URL;else process.env.DATABASE_URL=previous;rmSync(folder,{recursive:true,force:true});await pg.cleanup();});
+  t.after(async()=>{await reader?.getDb().end();if(previous===undefined)delete process.env.DATABASE_URL;else process.env.DATABASE_URL=previous;if(previousVisibility===undefined)delete process.env.KEYVO_MODEL_VISIBILITY;else process.env.KEYVO_MODEL_VISIBILITY=previousVisibility;rmSync(folder,{recursive:true,force:true});await pg.cleanup();});
   await pg.pool.query(`CREATE TABLE playlists(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),slug text UNIQUE,is_public boolean DEFAULT true,updated_at timestamptz DEFAULT now());
     CREATE TABLE playlist_items(playlist_id uuid,video_id text,order_index int,pinned boolean DEFAULT false,PRIMARY KEY(playlist_id,video_id));
     CREATE TABLE app_jobs(job_id text PRIMARY KEY,user_id text,engine_id text,engine_label text,prompt text DEFAULT 'Fixture',thumb_url text,video_url text DEFAULT '/video.mp4',status text DEFAULT 'completed',surface text DEFAULT 'video',visibility text DEFAULT 'public',indexable boolean DEFAULT true,created_at timestamptz DEFAULT now(),duration_sec int,aspect_ratio text DEFAULT '16:9',has_audio boolean,can_upscale boolean,featured boolean,featured_order int,final_price_cents int,currency text,pricing_snapshot jsonb);

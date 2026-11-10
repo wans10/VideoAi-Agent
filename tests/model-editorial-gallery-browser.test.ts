@@ -8,8 +8,11 @@ import { chromium } from '@playwright/test';
 import { build } from 'esbuild';
 import tailwindConfig from '../frontend/tailwind.config';
 import records from '../frontend/config/gpt26-editorial-images.json';
-import { parseGpt26EditorialImages } from '../frontend/lib/gpt26-editorial-images';
-import { listModelEditorialImages, toGpt26EditorialImages } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-editorial-images';
+
+// Keyvo hides non-domestic model pages; the editorial readers are exercised against the upstream catalog.
+process.env.KEYVO_MODEL_VISIBILITY = 'off';
+// The runtime projection reads the switch once at module load, so the readers are imported after it is set.
+const loadEditorialReaders = async () => ({ ...(await import('../frontend/lib/gpt26-editorial-images')), ...(await import('../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-editorial-images')) });
 
 const frontend = join(process.cwd(), 'frontend');
 const requireFrontend = createRequire(join(frontend, 'package.json'));
@@ -57,6 +60,7 @@ async function startFixture() {
 }
 
 test('editorial image readers defer originals, preserve shared-source edits and retain modal navigation', { timeout: 240_000 }, async t => {
+  const { parseGpt26EditorialImages, listModelEditorialImages, toGpt26EditorialImages } = await loadEditorialReaders();
   const fixture = await startFixture();
   const browser = await chromium.launch({ headless: true });
   const originals = parseGpt26EditorialImages(records);

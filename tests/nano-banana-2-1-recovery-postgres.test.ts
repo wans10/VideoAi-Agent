@@ -101,6 +101,11 @@ test('reserved direct Vertex jobs preserve the real POST boundary, original char
           : scenario.kind === 'invalid' ? { responseId: scenario.responseId, candidates: [] }
             : scenario.kind === 'invalid-id' ? { responseId: { untrusted: 'object' }, candidates: [] } : IMAGE));
       const entry = scenario.old ? legacy : nano;
+      // Keyvo declares legacy Nano 2 as an LLM Hub engine; resolveImageProviderSelection promotes it to the direct
+      // Vertex engine when credentials exist, so the direct executor under test receives that promoted engine.
+      const directEngine = scenario.old
+        ? { ...entry.engine, providerMeta: { ...entry.engine.providerMeta, provider: 'google_vertex_image' as const, modelSlug: 'gemini-3.1-flash-image' } }
+        : entry.engine;
       const pricing = { totalCents: 79, currency: 'USD', membershipTier: 'member',
         meta: { pricingMode: 'manual_tariff', customerTariffRevision: 7, syntheticFixture: true } } as PricingSnapshot;
       const receipt = { userId: 'fixture-owner', amountCents: 79, currency: 'USD', description: 'Synthetic original image quote',
@@ -117,7 +122,7 @@ test('reserved direct Vertex jobs preserve the real POST boundary, original char
           return executeDirectImageProviderIfAvailable({ billingProductKey: null, characterReferenceCount: 0,
             combinedImageUrls: scenario.kind === 'reference' ? [owned.storageUrl] : [], costBreakdownJson: null,
             effectivePrompt: scenario.kind === 'payload' ? '' : 'Synthetic still', enableWebSearch: false,
-            engine: entry.engine, engineEntry: entry, indexable: false, jobId: scenario.id, jobSurface: 'image',
+            engine: directEngine, engineEntry: entry, indexable: false, jobId: scenario.id, jobSurface: 'image',
             limitGenerations: false, maskUrl: null, mode: scenario.kind === 'reference' ? 'i2i' : 't2i', normalizedSeed: null,
             numImages: 1, outputFormat: null, pendingReceipt: receipt, priceOnlyReceipts: false, pricing,
             pricingSnapshotJson: JSON.stringify(pricing), quality: null, refundDescription: 'Refund synthetic original quote',

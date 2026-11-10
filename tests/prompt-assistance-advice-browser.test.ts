@@ -67,6 +67,8 @@ test('advice remains conversation across restore; real video and Voiceover repla
      }});
      assert.equal(result.state,'complete',JSON.stringify(result));return route.fulfill({json:{ok:true,result}});
     });
+    // Keyvo starts a fresh workspace entry with an empty prompt; the stored draft under test is only restored when the same document is resumed.
+    if(surface==='video')await page.addInitScript(()=>{const read=performance.getEntriesByType.bind(performance);performance.getEntriesByType=(type:string)=>type==='navigation'?[{type:'reload'}] as never:read(type);});
     await page.goto(fixture.url);
     const editor=surface==='video'?page.locator('[data-workspace-prompt]'):page.locator('#audio-creation-text');
     await expect(editor).toHaveValue(manual);await page.getByRole('tab',{name:'AI assistant',exact:true}).click();

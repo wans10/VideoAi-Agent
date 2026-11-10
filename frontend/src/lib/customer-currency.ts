@@ -2,14 +2,7 @@ import type { CanonicalPricingQuote, PricingSnapshot } from '@maxvideoai/pricing
 
 // Provider facts and the frozen pricing baselines remain denominated in USD.
 // The Docker customer build prices and stores new customer transactions in CNY.
-// Sandboxed bundles without `process` (offline tests) resolve to the USD default.
-export const CUSTOMER_CURRENCY: string = (() => {
-  try {
-    return process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY === 'CNY' ? 'CNY' : 'USD';
-  } catch {
-    return 'USD';
-  }
-})();
+export const CUSTOMER_CURRENCY = process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY === 'CNY' ? 'CNY' : 'USD';
 export const USD_TO_CNY_CUSTOMER_RATE = 8;
 
 export function formatWalletBalance(balance: number, currency: string = CUSTOMER_CURRENCY): string {

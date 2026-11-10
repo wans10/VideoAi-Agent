@@ -41,7 +41,7 @@ test('Recast spending denials use the MCP preview destination in preparation and
   assert.deepEqual(await f.receipts(quote.quoteId), []);
   assert.throws(
     () => f.generation(principal, { enabled: true, accountUrl: 'https://maxvideoai-env-character-studio-test-camgraphes-projects.vercel.app.evil.example/account/connections' }),
-    /trusted MaxVideoAI account URL/,
+    /trusted Keyvo account URL/,
   );
 });
 

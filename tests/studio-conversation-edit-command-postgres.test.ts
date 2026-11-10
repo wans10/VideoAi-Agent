@@ -85,14 +85,16 @@ test('an unknown video can be muted and restored to its original volume through 
   const {editStudioConversationTimeline} = await import('../frontend/src/server/studio/conversation-edit-command');
   const {projectStudioConversationTimeline} = await import('../frontend/src/server/studio/conversation-timeline');
   const {pg,actor,deps,project} = await videoQualificationFixture(t);
-  await pg.pool.query('UPDATE media_assets SET metadata=$1::jsonb', [JSON.stringify({mediaFacts: {source: 'probe',durationSec: 6,width: 320,height: 180}})]);
+  await pg.pool.query('UPDATE media_assets SET metadata=$1::jsonb', [JSON.stringify({mediaFacts: {source: 'probe',durationSec: 6,width: 320,height: 180,hasAudio: true}})]);
   const originalMedia = (await pg.pool.query('SELECT * FROM media_assets ORDER BY id')).rows;
   const guarded = {...deps,hydrateVideoFacts: async () => {throw new Error('Mute/restore must not probe a source.');}};
   const base = {projectId: project.projectId,sequenceId: project.sequenceId};
   await editStudioConversationTimeline(actor, {...base,expectedRevision: 0,idempotencyKey: randomUUID(),edit: {kind: 'assemble',clips: [STUDIO_CONNECTED_ASSET_IDS.a,STUDIO_CONNECTED_ASSET_IDS.b,STUDIO_CONNECTED_ASSET_IDS.a].map(assetId => ({ref: {type: 'asset',assetId,kind: 'video'},sourceInFrame: 30,durationFrames: 60}))}}, guarded);
+  // Keyvo insertion needs complete probe facts (hasAudio); the third clip's cached fact is dropped below to reproduce an
+  // older insertion whose audio presence was never measured.
   // Reproduce older insertion metadata only on the third clip. Its neighbors
   // remain byte-for-byte intact while the explicit edit corrects this cache.
-  await pg.pool.query(`UPDATE studio_sequences SET timeline_state=jsonb_set(jsonb_set(timeline_state,'{timelineItems,2,audioProvenance}','"none"'::jsonb),'{timelineItems,2,hasEmbeddedAudio}','false'::jsonb) WHERE id=$1 AND user_id=$2`, [project.sequenceId,actor.userId]);
+  await pg.pool.query(`UPDATE studio_sequences SET timeline_state=jsonb_set(jsonb_set(timeline_state,'{timelineItems,2,audioProvenance}','"none"'::jsonb),'{timelineItems,2,hasEmbeddedAudio}','false'::jsonb) #- '{timelineItems,2,mediaFacts,hasAudio}' WHERE id=$1 AND user_id=$2`, [project.sequenceId,actor.userId]);
   const before = await readStudioWorkspace(actor, project.projectId, deps);
   const originalItems = (before.sequences[0].timelineState as {timelineItems: WorkspaceTimelineItem[]}).timelineItems;
   const selected = originalItems[2];

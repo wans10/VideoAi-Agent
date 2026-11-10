@@ -22,6 +22,8 @@ const bundle = build({
   entryPoints: ['app/api/jobs/_lib/jobs-fal-refresh.ts'],
   tsconfig: resolve(frontend, 'tsconfig.json'),
   bundle: true, platform: 'node', format: 'cjs', write: false,
+  // The offline sandbox has no `process`; Keyvo's currency config reads it at module load.
+  define: { 'process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY': '"USD"' },
   plugins: [{ name: 'synthetic-fal-refresh', setup(builder) {
     builder.onResolve({ filter: /.*/ }, args => args.path in stubs ? { path: args.path, namespace: 'fixture' } : undefined);
     builder.onLoad({ filter: /.*/, namespace: 'fixture' }, args => ({ contents: stubs[args.path], loader: 'js' }));

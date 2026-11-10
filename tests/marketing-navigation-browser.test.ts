@@ -29,8 +29,9 @@ test('an early mobile opening gains accessible focus without waiting for desktop
     await page.keyboard.press('Escape');
     await menu.waitFor({state: 'hidden'});
     await page.setViewportSize({width: 1280, height: 900});
-    await page.locator('button[aria-controls="marketing-models-dropdown"]').click();
-    assert.equal(await page.locator('#marketing-models-dropdown a[href="/models"]').first().isVisible(), true);
+    // Keyvo's desktop menus are production/craft/screening/pipeline (no models menu); production links to /app.
+    await page.locator('button[aria-controls="marketing-production-dropdown"]').click();
+    assert.equal(await page.locator('#marketing-production-dropdown a[href="/app"]').first().isVisible(), true);
     assert.deepEqual(await page.evaluate(() => (window as any).__fixtureHydrationErrors), []);
   } finally { await browser.close(); await fixture.close(); }
 });
@@ -41,9 +42,10 @@ test('desktop visitors can follow the section links without JavaScript while the
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
     const expected = {
-      '/': ['/models', '/examples', '/ai-video-engines', '/tools', '/mcp', '/pricing'],
-      '/fr': ['/fr/modeles', '/fr/galerie', '/fr/comparatif', '/fr/outils', '/fr/mcp', '/fr/tarifs'],
-      '/es': ['/es/modelos', '/es/galeria', '/es/comparativa', '/es/herramientas', '/es/mcp', '/es/precios'],
+      // Keyvo's section bar is production, craft, screening and pricing (the MCP entry is withheld while MCP is not public);
+      // it publishes zh only (fr/es dropped).
+      '/': ['/app', '/tools', '/examples', '/pricing'],
+      '/zh': ['/zh/app', '/zh/tools', '/zh/examples', '/zh/pricing'],
     };
     for (const [path, hrefs] of Object.entries(expected)) {
       await page.goto(new URL(path, fixture.url).href, { waitUntil: 'domcontentloaded' });

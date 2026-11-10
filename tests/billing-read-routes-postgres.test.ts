@@ -215,7 +215,8 @@ test('Billing GETs read only the authenticated ledger and expose database failur
     assert.equal(response.status, 200);
     const data = await response.json();
     const row = data.receipts.find((receipt: { job_id: string }) => receipt.job_id === 'veo-link-refusal');
-    assert.match(row.description, /reference link.*import/i);
+    // Keyvo renders the receipt recovery copy in Chinese.
+    assert.match(row.description, /参考链接.*导入/);
     assert.equal(row.amount_cents, 24);
     assert.equal(fixture.statements.length, 1);
     assert.doesNotMatch(JSON.stringify(data), /submissionFailure|IMAGE_HOST_NOT_ALLOWED|private prompt/);
@@ -247,8 +248,8 @@ test('Billing GETs read only the authenticated ledger and expose database failur
     assert.match(wan.description, /拦截/);
     assert.doesNotMatch(wan.description, /Green net/i);
     const otherOwnerReason = data.receipts.find((row: { job_id: string }) => row.job_id === 'other-audio-refusal').description;
-    assert.match(otherOwnerReason, /could not complete this render/i);
-    assert.doesNotMatch(otherOwnerReason, /generated audio|reference media/i);
+    assert.match(otherOwnerReason, /无法完成此次渲染/);
+    assert.doesNotMatch(otherOwnerReason, /生成音频|拦截/);
     assert.doesNotMatch(JSON.stringify(data), /providerErrorCode|providerFailure|settings_snapshot|private prompt/);
     assert.deepEqual((await pg.pool.query('SELECT * FROM app_receipts ORDER BY id')).rows, before);
     assert.equal(fixture.statements.length, 1);

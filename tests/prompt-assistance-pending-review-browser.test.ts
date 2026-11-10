@@ -84,6 +84,8 @@ test('a modern pending reply retains its original review baseline through real w
     if(url.searchParams.has('requestId')&&kind==='different-terminal-text')payload.result.reply.text='Another identity-bound terminal proposal.';
     await route.fulfill({status:response.status,json:payload});
    });
+   // Keyvo starts a fresh workspace entry with an empty prompt; the stored draft under test is only restored when the same document is resumed.
+   await page.addInitScript(()=>{const read=performance.getEntriesByType.bind(performance);performance.getEntriesByType=(type:string)=>type==='navigation'?[{type:'reload'}] as never:read(type);});
    await page.goto(fixture.url);await expect(page.locator('[data-workspace-prompt]')).toHaveValue(initialManual);
    if(['companion-roundtrip','active-companion-roundtrip'].includes(kind))await expect(page.locator('input[type="text"]')).toHaveCount(kind==='active-companion-roundtrip'?1:0);
    await page.getByRole('tab',{name:'AI assistant',exact:true}).click();

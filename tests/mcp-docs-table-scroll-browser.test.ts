@@ -106,7 +106,9 @@ test('only MCP tables scroll, preserving localized desktop columns and keyboard 
               await page.keyboard.press('ArrowRight', { delay: 150 });
               return tools.evaluate(element => element.scrollWidth - element.clientWidth - element.scrollLeft);
             }).toBeLessThan(2);
-            assert.equal(await tools.evaluate(element => element.querySelector('tr:last-child td:last-child')!.getBoundingClientRect().right <= element.getBoundingClientRect().right + 1), true);
+            // The edge poll above accepts up to 2px of remaining scroll, and Keyvo's brand text gives the table a fractional
+            // width (431.28px at 390), so allow that 2px plus 1px of subpixel rounding instead of upstream's 1px.
+            assert.equal(await tools.evaluate(element => element.querySelector('tr:last-child td:last-child')!.getBoundingClientRect().right <= element.getBoundingClientRect().right + 3), true);
             assert.equal(await page.evaluate(() => scrollX), 0);
             await page.keyboard.press('Tab');
             assert.equal(await tools.evaluate(element => element.contains(document.activeElement)), false, 'Tab leaves the region without a focus trap');

@@ -22,7 +22,7 @@ for(const surface of ['image','audio']as const)test(`shared ${surface} preflight
  const engine=getFalEngineById('seedream')!.engine;
  const asset={id:'legacy',kind:'image',status:'ready',name:'image.png',url:'/first.svg',previewUrl:'/first.svg',type:'image/png',size:1024};
  const config=surface==='image'?{engine,fields:[{field:{id:'reference_images',type:'image',label:'References',maxCount:14,modes:['i2i']},required:false}],assets:{reference_images:[asset,{...asset,id:'kept',url:'/second.svg',previewUrl:'/second.svg',ref:{type:'job-output',jobId:'owned-job',outputId:'owned-output',kind:'image'}}]}}:{};
- const fixture=await startWorkspaceReferenceFixture({source:surface==='image'?imageSource:audioSource,config,assistanceLive:true}),browser=await chromium.launch();
+ const fixture=await startWorkspaceReferenceFixture({source:surface==='image'?imageSource:audioSource,config,assistanceLive:true,audioFullUi:surface==='audio'}),browser=await chromium.launch();
  try{
   const page=await browser.newPage({viewport:{width:390,height:900}}),calls:any[]=[];
   await page.route('**/api/prompt-assistance*',async route=>{if(route.request().method()==='GET')return route.fulfill({json:{ok:true,result:initialStatus}});const body=route.request().postDataJSON();calls.push(body);const r=body.request;return route.fulfill({json:{ok:true,result:{sessionId:r.sessionId,requestId:r.requestId,state:'complete',reply:{reply:'Ready after explicit send.',text:null}}}});});

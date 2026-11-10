@@ -73,7 +73,8 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
     assert.equal(release.report.newOfferScenarios, 89);
     assert.equal(baseline.rows.filter(row => row.initialization?.kind === 'new_offer').length, 89);
     assert.ok(baseline.rows.filter(row => row.initialization).every(row => row.initialization!.beforeCents === null));
-    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982);
+    // Upstream's 26982 plus Keyvo's Alibaba Qwen Image models (qwen-image-3-0 and -pro, i2i and t2i, 2 cells each).
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8);
     const run = (candidate = release, fingerprint = release.report.fingerprint, bindings = release.report.bindings) => withDbTransaction(e =>
       activateLocalCustomerTariffs(e, { release: candidate, fingerprint, currentBindings: bindings, actorId: actor }));
     await assert.rejects(run(release, 'old-browser'), /stale/i);
