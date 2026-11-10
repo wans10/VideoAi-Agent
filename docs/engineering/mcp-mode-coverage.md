@@ -19,7 +19,7 @@ at execution, using the shared media-field constraint helper. Never trust
 client dimension claims or silently crop references. See the
 [7 September incident audit](../operations/minimax-h3-mcp-incident-20260907.md).
 
-Checked 2026-09-03 against the canonical runtime registry and engine schemas.
+Checked 2026-09-22 against the canonical runtime registry and engine schemas.
 
 MCP catalog and exact hidden-model resolution are read-only database paths. They
 use `frontend/src/server/agent-api/read-only-engine-catalog.ts`, whose transitive
@@ -64,11 +64,10 @@ them executable:
   without reusing the image-only `i2i` name;
 - `t2i` and `i2i`: text and reference-image generation.
 
-Seedance 2.5 uses ModelArk for `t2v`, `i2v`, `ref2v`, and `extend`. Its `v2v`
-mode is represented by the same canonical contract but remains hidden from
-executable discovery in environments without the separate LAS access and key.
-This does not restrict its image-to-video, multimodal-reference, or extension
-workflows.
+Seedance 2.5 uses the existing ModelArk account and key for all five modes when
+`SEEDANCE_2_5_EDIT_TRANSPORT=modelark` and the reviewed Edit flag is enabled.
+ModelArk Edit includes 1080p. Environments explicitly retaining LAS preserve
+its separate access, key and narrower resolution requirements.
 
 Gemini Omni Flash is exposed under the stable `gemini-omni-flash` identity and
 the visible 1.1 label. Its executable MCP projection is Google-direct only and
@@ -79,14 +78,11 @@ the workspace. Raw media URLs cannot satisfy that contract.
 
 ## Specialized workflows still closed
 
-One app-published model-mode pair and two unpublished prelaunch pairs remain
-intentionally absent from MCP execution:
+One app-published model-mode pair remains intentionally absent from MCP execution:
 
 | Model | Mode | Scope | Why it remains closed |
 | --- | --- | --- | --- |
 | Gemini Omni Flash 1.1 | `retake` | Public MCP | Requires a private previous-interaction identifier; exposing it would break the transport-neutral contract. The authenticated workspace can retain that private interaction state. |
-| MiniMax H3 Max | `i2v` | Public model, execution-gated mode | Trusted MIME type, extension, byte-size, and image-dimension enforcement has not been proven through the complete route. |
-| MiniMax H3 Max | `ref2v` | Public model, execution-gated mode | Mixed image/video/audio references require trusted token metadata and complete per-type limits before the mode can execute. |
 
 LTX 2.3 audio-to-video and retake, the Luma Ray reframe modes, and Kling 2.5
 Standard now use verified MaxVideoAI assets, exact canonical pricing, and the
@@ -95,7 +91,7 @@ provider configuration and runtime availability as the website.
 
 `tests/mcp-special-video-modes.test.ts` is the drift guard. It fails when a new
 app-published mode is not represented by the canonical MCP contract or when the
-explicit H3 Max execution-gated mode list changes without review.
+H3 Max owned-media modes stop being executable without a corresponding review.
 
 ## P1 public access
 
@@ -112,10 +108,41 @@ routes nor fallback implementation details. The direct route remains primary;
 the narrowly tested depleted-balance response may fall back once before any
 direct task is accepted.
 
-MiniMax H3 Max exposes only executable `t2v` in public MCP. Its details contain neither a
-Fal provider label nor a Fal endpoint. `i2v` and `ref2v` fail closed at the
-executability boundary for the reasons recorded above; their theoretical
-engine-schema presence is not projected as an executable capability.
+MiniMax H3 Max exposes executable `t2v`, `i2v`, and `ref2v` in public MCP. Its
+details contain neither a Fal provider label nor a Fal endpoint. Image-to-video
+accepts a start frame, end frame, or both. Text and image generation accept an
+owned audio reference as the target soundtrack. Reference generation accepts
+owned images, videos, and audio, including audio alone. The mode details project
+MIME types, extensions, byte-size limits, durations, and alternative required
+references from the shared schema. Target soundtracks do not inherit the combined
+reference-audio duration limit.
+
+H3 Max reference quotes use the shared `calculateMinimaxH3MaxReferenceTokenBudget`
+supplier-cost budget and the canonical commercial policy. This fixes the customer
+price before approval; it does not claim to reproduce the provider's exact token
+invoice. The adapter feeds only account-owned persisted dimensions and durations,
+never raw URL claims or caller token counts. Confirmation resolves and validates
+the same assets again before repricing and reserving funds. The budget tool has
+only reference roles, so its H3 Max `ref2v` lines return an actionable request to
+prepare a quote with actual owned assets instead of inventing metadata.
+
+Wan 3 and Wan 3 Prime document and webpage references use the canonical
+`documentUrl` and `webpageUrl` settings. They map to the existing provider fields,
+require controlled HTTPS URLs, remain mutually exclusive, and require prompt
+expansion. `enablePromptExpansion` is schema-derived. A document or webpage can
+satisfy reference mode without a media attachment. Image-to-video's `source`
+role resolves the authored start-image field alongside `first_frame`.
+
+Wan 3 and Wan 3 Prime video-reference, edit, and extension quotes include input
+video seconds as well as generated seconds. MCP derives `inputVideoDurationSec`
+from account-owned persisted durations, counting each storage URL once, and
+repeats this derivation at confirmation. Raw video URLs and missing duration
+metadata cannot create an exact quote. Image/audio-only requests have zero input
+video seconds. The project-budget tool cannot classify or measure its role-only
+reference placeholders, so those Wan modes return `REFERENCE_REQUIRED` with a
+route to `prepare_generation` and actual assets. Text/image-only mode estimates
+remain available. This follows the input-plus-output billing documented in
+[Alibaba Model Studio pricing](https://www.alibabacloud.com/help/en/model-studio/model-pricing).
 
 Launch videos are a separate publication concern: the eight P1 media rows are
 published as ordinary production gallery media and attached to their exact
@@ -123,7 +150,63 @@ model and family playlists. None has an editorial watch page or video-sitemap
 entry; any later Video SEO enrollment must still use the normal admin SEO
 workflow.
 
-Mode details normalize provider duration labels to executable numeric seconds;
-provider-only values such as `auto` are never advertised as MCP inputs. P0 and
-P1 modes continue to derive settings, references, prices, and paid request
-bodies from the shared engine, pricing, and site execution owners.
+Mode details keep `durationSec` positive and numeric. Current Seedance modes
+that support Auto additionally advertise `durationOption: "auto"`; canonical
+pricing fixes the billed duration at 15s (2.0) or 30s (2.5), while the provider
+receives -1. Source-preserving 2.5 Edit keeps its verified source timing. Auto
+aspect pricing uses the highest current exact tariff among the six documented
+formats, or the verified source class when framing is inherited. Unsupported
+arbitrary inherited framing fails closed until its pricing domain is reviewed.
+
+Seedance output settings map `outputFormat`, `returnLastFrame` and `watermark`
+to the shared creative input schema. MOV selection belongs to 2.5. Original
+downloads, full compatible playback and the reusable last-frame JPEG remain
+distinct owned artifacts. P0 and P1 modes continue to derive settings,
+references, prices and paid request bodies from the site execution owners.
+
+Numeric mode settings also project their authored `step`. Custom image modes
+project the five public `imageSize` limits (pixel multiples, total pixel bounds,
+maximum edge and aspect ratio) from the same input schema. Studio uses this exact
+projection. Never infer arbitrary custom dimensions from min/max alone, silently
+round a client size or weaken canonical validation: a supported predefined size
+may remain valid even when those dimensions are invalid as a custom request.
+`tests/mcp-model-details-custom-size.test.ts` guards this distinction and parity.
+
+## Native Seedance Draft workflow — 2026-10-18 source candidate
+
+Seedance 2.5 details include `seedanceWorkflow`: live MCP/web availability,
+compatible executable modes and their native `modeDetails`, native 480p single-output constraints, inherited
+1080p finalization, the conservative seven-day validity boundary and assistant
+choice guidance. Ordinary `resolution=480p` remains ordinary generation.
+The workflow uses the existing server release switch and paid-generation gate;
+it does not enable either. Missing independent tariffs refuse quotation.
+
+`prepare_generation` accepts an additive optional `seedanceWorkflow` discriminator:
+`{"step":"draft"}` selects native Draft; `{"step":"final","draftJobId":"…"}`
+resolves an account-owned ready Draft and inherits creative facts. Final requests
+can omit mode, prompt, settings and references. Each step has its own exact quote,
+hash, expiry and explicit `confirm_generation` approval. No provider task ID is
+accepted or returned. The final reserves the parent in the wallet/job transaction;
+competing quotes cannot both charge. Expiry and changed parent facts are rechecked
+before debit. Submitted quotes recover their existing job even after a gate closes.
+
+Status/history label workflow lineage; full status adds current eligibility,
+actual `expiresAt`, `finalJobId` and `finalizationAvailable`. A pending, failed,
+expired or already reserved Draft cannot start another final. The existing
+refund reconciliation alone can release a fully refunded failed final; ambiguity,
+partial refunds and reconnect never authorize replacement work. Original Draft
+media and both receipts remain separate.
+
+`seedanceWorkflowPrices` presents the actual Draft charge, final supplement and
+same-currency total when available. A prospective final price is a current
+canonical estimate, not a second quote or price reservation. Final preparation
+returns the new exact final quote and the stored Draft charge. Missing prices are
+null, never zero or ordinary-tariff fallbacks. Discovery and skills make no free
+finalization, pixel-for-pixel or unverified-savings claim.
+
+Native readiness is computed per selected mode using ModelArk credentials and
+the operator mode allowlist. It does not inherit the ordinary LAS Edit gate or
+require the unrelated t2v mode to be enabled. Ordinary `publicModes` remain
+unchanged; the workflow capability adapter projects ModelArk mode caps separately.
+The public-engine policy stays a pure leaf. Current native mode readiness also
+participates in quote catalog revisions.

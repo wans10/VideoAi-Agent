@@ -3,9 +3,11 @@ import { type AppLocale } from '@/i18n/locales';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import { MODEL_LAUNCH_READY_MODELS, type ModelLaunchReadinessEntry } from '@/config/model-launch-readiness';
 import { listRuntimeModels, type RuntimeModelEntry } from '@/config/model-runtime';
+import { isDiscoverableExampleEngine } from '@/lib/examples/discovery';
 import { normalizeEngineId } from '@/lib/engine-alias';
 import type { AcceptedDurableModelAsset } from '@/server/model-launch-assets-validation';
 import { listExampleFamilyPage, listExamples, listPlaylistVideos, type GalleryVideo } from '@/server/videos';
+import { createCurationReadScope } from '@/server/videos-playlists';
 import {
   DEFAULT_MODEL_BY_EXAMPLE_FAMILY,
   EXAMPLE_ENGINE_PRIORITY,
@@ -13,9 +15,11 @@ import {
   HOMEPAGE_EXAMPLE_VIDEO_OVERRIDES,
   HOMEPAGE_HERO_PREVIEW_LIMIT,
 } from './constants';
-import { formatCurrency } from './formatting';
+import { formatCurrentExamplePrice } from '@/lib/current-example-price-display';
 import { HOMEPAGE_EXAMPLE_FAMILIES, type HomepageExampleFamily, type RedesignContent } from './types';
 import { buildHomepageP0PromotionCards, buildHomepageP0PromotionTargets } from './launch-promotions';
+import type { CurrentExamplePrice } from '@/server/current-example-price';
+import { withoutPublicPageTiming, type MeasurePublicPagePhase } from '@/server/public-page-timing';
 
 export { buildHomepageP0PromotionTargets } from './launch-promotions';
 
@@ -54,8 +58,8 @@ function formatHomepageExampleDuration(locale: AppLocale, video: GalleryVideo | 
   return fallback;
 }
 
-function formatHomepageExamplePrice(locale: AppLocale, video: GalleryVideo | null, fallback?: string): string | null {
-  return formatCurrency(locale, video?.currency, video?.finalPriceCents) ?? fallback ?? null;
+function formatHomepageExamplePrice(locale: AppLocale, price?: CurrentExamplePrice): string | null {
+  return formatCurrentExamplePrice(price, locale);
 }
 
 export function assembleHomepageExampleCards({
@@ -67,6 +71,7 @@ export function assembleHomepageExampleCards({
   models = listRuntimeModels(),
   readiness = MODEL_LAUNCH_READY_MODELS,
   acceptedAssets = [],
+  currentPrices = new Map(),
 }: {
   locale: AppLocale;
   content: RedesignContent;
@@ -76,8 +81,10 @@ export function assembleHomepageExampleCards({
   models?: readonly RuntimeModelEntry[];
   readiness?: readonly ModelLaunchReadinessEntry[];
   acceptedAssets?: readonly AcceptedDurableModelAsset[];
+  currentPrices?: ReadonlyMap<string, CurrentExamplePrice>;
 }): HomeExampleCard[] {
   const fallbackCards = content.examples.fallbackCards.flatMap<HomeExampleCard>((fallback) => {
+    if (!isDiscoverableExampleEngine(fallback.engineId, models)) return [];
     const family = fallback.examplesSlug;
     const familyCandidates = family ? familyVideos.get(family) ?? [] : [];
     const override = HOMEPAGE_EXAMPLE_VIDEO_OVERRIDES[fallback.engineId];
@@ -92,12 +99,13 @@ export function assembleHomepageExampleCards({
     return [
       {
         id: fallback.id,
+        sourceVideoId: video?.id,
         title: fallback.title,
         engineId,
         engine: fallback.engine,
         mode: fallback.mode,
         duration: formatHomepageExampleDuration(locale, video, fallback.duration),
-        price: formatHomepageExamplePrice(locale, video, fallback.price),
+        price: formatHomepageExamplePrice(locale, video ? currentPrices.get(video.id) : undefined),
         useCase: fallback.useCase,
         imageSrc: override?.imageSrc ?? video?.thumbUrl ?? fallback.imageSrc,
         videoSrc: null,
@@ -119,6 +127,7 @@ export function assembleHomepageExampleCards({
     targets: buildHomepageP0PromotionTargets({ models, readiness }),
     modelVideos,
     acceptedAssets,
+    currentPrices,
   });
 
   const priority = new Map<string, number>(EXAMPLE_ENGINE_PRIORITY.map((id, index) => [id, index]));
@@ -148,6 +157,7 @@ type HomepageExamplesLoaderDependencies = {
   listExamples: typeof listExamples;
   listExampleFamilyPage: typeof listExampleFamilyPage;
   listPlaylistVideos: typeof listPlaylistVideos;
+  measure: MeasurePublicPagePhase;
 };
 
 export async function loadHomepageExamples(
@@ -163,17 +173,19 @@ export async function loadHomepageExamples(
   const loadExamples = dependencies.listExamples ?? listExamples;
   const loadExampleFamilyPage = dependencies.listExampleFamilyPage ?? listExampleFamilyPage;
   const loadPlaylistVideos = dependencies.listPlaylistVideos ?? listPlaylistVideos;
+  const measure = dependencies.measure ?? withoutPublicPageTiming;
   const promotionTargets = buildHomepageP0PromotionTargets({ models, readiness });
   const promotionFamilies = new Set<string>(promotionTargets.map(({ family }) => family));
   const familyIds = HOMEPAGE_EXAMPLE_FAMILIES.filter(
     (family) => !['wan', 'grok', 'flux'].includes(family) || promotionFamilies.has(family),
   );
+  const curationScope = createCurationReadScope();
   const [latestVideos, playlistVideos, familyPools, modelPools] = await Promise.all([
-    loadExamples('date-desc', 120).catch(() => [] as GalleryVideo[]),
-    loadExamples('playlist', 120).catch(() => [] as GalleryVideo[]),
-    Promise.all(
+    measure('example-latest', () => loadExamples('date-desc', 120, curationScope).catch(() => [] as GalleryVideo[])),
+    measure('example-playlist', () => loadExamples('playlist', 120, curationScope).catch(() => [] as GalleryVideo[])),
+    measure('example-families', () => Promise.all(
       familyIds.map(async (family) => {
-        const result = await loadExampleFamilyPage(family, { sort: 'date-desc', limit: 24, offset: 0 }).catch(() => ({
+        const result = await loadExampleFamilyPage(family, { sort: 'date-desc', limit: 24, offset: 0 }, curationScope).catch(() => ({
           items: [] as GalleryVideo[],
           total: 0,
           limit: 24,
@@ -182,19 +194,22 @@ export async function loadHomepageExamples(
         }));
         return [family, result.items] as const;
       })
-    ),
-    Promise.all(promotionTargets.map(async (target) => [
+    )),
+    measure('example-promotions', () => Promise.all(promotionTargets.map(async (target) => [
       target.modelId,
-      await loadPlaylistVideos(target.readiness.modelPlaylistSlug, 24).catch(() => [] as GalleryVideo[]),
-    ] as const)),
+      await loadPlaylistVideos(target.readiness.modelPlaylistSlug, 24, curationScope).catch(() => [] as GalleryVideo[]),
+    ] as const))),
   ]);
 
+  const globalCandidates = [...latestVideos, ...sortExamplesByPriority(playlistVideos)];
+  const familyVideos = new Map(familyPools);
+  const modelVideos = new Map(modelPools);
   return assembleHomepageExampleCards({
     locale,
     content,
-    globalCandidates: [...latestVideos, ...sortExamplesByPriority(playlistVideos)],
-    familyVideos: new Map(familyPools),
-    modelVideos: new Map(modelPools),
+    globalCandidates,
+    familyVideos,
+    modelVideos,
     models,
     readiness,
     acceptedAssets,

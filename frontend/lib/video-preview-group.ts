@@ -2,6 +2,8 @@ import type { GenerationObservation } from '@/lib/generation-observation';
 import type { ResultProvider, VideoGroup, VideoItem } from '@/types/video-groups';
 
 export type SharedVideoPreview = {
+  playbackVideoUrl?: string;
+  lastFrameUrl?: string;
   id: string;
   engineId: string;
   engineLabel: string;
@@ -12,10 +14,16 @@ export type SharedVideoPreview = {
   videoUrl?: string;
   previewVideoUrl?: string;
   aspectRatio?: string;
+  outputWidth?: number;
+  outputHeight?: number;
+  requestedResolution?: string;
+  hasAudio?: boolean;
   createdAt: string;
 };
 
 export type SelectedVideoPreview = {
+  playbackVideoUrl?: string;
+  lastFrameUrl?: string;
   startedAt?: number;
   localKey?: string;
   batchId?: string;
@@ -56,6 +64,8 @@ export function mapSharedVideoToGroup(video: SharedVideoPreview, provider: Resul
     id: video.id,
     url,
     previewUrl: video.previewVideoUrl,
+    playbackVideoUrl: video.playbackVideoUrl,
+    lastFrameUrl: video.lastFrameUrl,
     aspect,
     thumb: video.thumbUrl ?? undefined,
     jobId: video.id,
@@ -96,6 +106,8 @@ export function mapSelectedPreviewToGroup(
     id: itemId,
     url,
     previewUrl: preview.previewVideoUrl,
+    playbackVideoUrl: preview.playbackVideoUrl,
+    lastFrameUrl: preview.lastFrameUrl,
     aspect: toVideoAspect(preview.aspectRatio),
     thumb: preview.thumbUrl ?? undefined,
     jobId: preview.id ?? itemId,

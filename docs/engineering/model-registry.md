@@ -2,6 +2,8 @@
 
 `frontend/config/model-registry.json` is the only authored source for model identity, authoritative marketing label, aliases, family, category, lifecycle, successor, publication, replacement, and model-shaped tombstones.
 
+Editorial recommendation preference is separate: `frontend/config/agent-model-editorial-policy.json` records exact reviewed engine IDs, reference/alternative/on_request levels, rationale, provenance and review date. It cannot publish a model, create identity, certify execution or establish a measured quality score. `src/server/agent-api/model-editorial-policy.ts` validates entries against this registry; a new version is unreviewed until explicitly added. Current reference entries have strong recommendation weight after explicit user choices and factual requirements. Pika remains discoverable and may be explicitly selected when executable, but is omitted from automatic shortlists. A review older than the configured 90 days stops boosting ranking. Update version/date/provenance when re-reviewing; tests cover freshness, exact-version scope and exclusion/eligibility. Studio projects compact facts into its catalog and full facts into model details; MCP uses the same policy for details and recommendations.
+
 The following files are generated projections and must not be edited directly:
 
 - `frontend/config/model-runtime.json`
@@ -35,11 +37,58 @@ Always author `successorId` explicitly, using `null` when there is no successor.
 4. Run `pnpm model:registry:generate`, `pnpm engine:catalog`, and `pnpm model:generate:write` to refresh the generated projections.
 5. Run `pnpm model:registry:check` and the focused model/page tests.
 
-When a model becomes visible in a family gallery, review the family introduction, examples guidance and FAQ in `frontend/lib/examples/modelLandingData.{en,fr,es}.ts` as part of the same launch. Registry-derived model links do not update authored prose. Keep the gallery's existing canonical owner and metadata unless a separate SEO change is intended; distinguish different models grouped in one gallery. Route-local onward links live in `examples/_lib/examples-page-copy.ts` and must use the existing localized model/comparison href builders. Link to the example detail page for its recorded cost and recreation action; the workspace owns required inputs and the current quote. Verify the new comparison destinations and FAQ/JSON-LD consistency in all three locales. `tests/examples-family-journeys.test.ts` covers the Veo/Omni and Hailuo/H3 entry paths.
+For a newly published model page in an examples family, verify that admin Gallery
+lists its `examples-<model-slug>` collection. The registry and route do not create
+database playlists. After deployment, an admin must explicitly create missing
+model collections in the gallery selector, then review their media order before
+adopting Manual or Featured + Automatic curation. Creating an empty collection
+does not replace the route's existing editorial media; saving a managed curation
+does, so preview its effective gallery before saving.
+
+When a model becomes visible in a family gallery, review the family introduction, examples guidance and FAQ in `frontend/lib/examples/modelLandingData.{en,fr,es}.ts` as part of the same launch. Registry-derived model links do not update authored prose. Keep the gallery's existing canonical owner and metadata unless a separate SEO change is intended; distinguish different models grouped in one gallery. Route-local onward links live in `examples/_lib/examples-page-copy.ts` and must use the existing localized model/comparison href builders. Link to the example detail page for its settings, current price estimate and recreation action; distinguish any recorded historical cost from the current quote, which remains owned by the workspace. Verify the new comparison destinations and FAQ/JSON-LD consistency in all three locales. `tests/examples-family-journeys.test.ts` covers the Veo/Omni and Hailuo/H3 entry paths.
 
 `pnpm model:setup -- --from <source-slug> --slug <target-slug> --name "<Marketing Name>" --family <family-id>` can scaffold the localized content, provider/execution stub, registry entry skeleton, and optional presentation-only family stub.
 The scaffold retargets `decision.modelSlug`, but its generated English, French, and Spanish
 decision content still requires the manual review in the checklist above before publication.
+
+## Preserve accumulated discovery when launching a successor
+
+A new model is not an instruction to replace the existing family's search intent.
+Before changing lifecycle or family copy, compare the affected public URLs and
+version-specific queries with the latest dated GSC exports. Preserve useful
+historical prompts, examples, model labels, canonical URLs and native links unless
+the registry explicitly changes their publication/retirement policy. Keep current
+recommendations distinct from historical access; never relabel an old video as a
+new model or transfer its settings and claims to a successor.
+
+For the touched family, inspect initial HTML in EN/FR/ES: the new model and the
+still-published historical versions must remain reachable, valid pagination keeps
+its own canonical and localized hrefs, and eligible comparison-directory links
+exist without a click. Run the catalogue/comparison SSR, gallery pagination and
+family-journey contracts alongside registry checks. Keep each public video's real
+prompt excerpt associated with its original model and native watch link; localized
+model captions are not prompt substitutes. Run the prompt-starter, gallery-opening
+and prompt-layout browser contracts, including narrow cards with current price
+labels, so a successor launch preserves both prompt access and model identity.
+Keep family headings stable across launches and use the existing compact version
+navigation below the gallery. It intersects registry publication with real
+prompt-bearing membership across the full catalogue; older versions must not
+disappear merely because they move beyond the first 24 cards. Current/earlier
+groups follow `publication.examples.current`, never generation availability or a
+fallback to the first two models. Verify both a new published model without an
+example and a historical example beyond page one with
+`tests/examples-version-continuity.test.ts` and
+`tests/examples-catalog-pagination-postgres.test.ts`. Update version-specific
+advice when new evidence warrants it; do not generate capability claims from a
+model name or transfer older claims automatically to a successor.
+After the Git-backed release
+is READY, run `pnpm seo:public:check`; the daily Public SEO workflow catches live
+drift between releases. See [CI ownership](ci-validation.md#public-seo).
+
+Measure query/page cohorts on complete comparable GSC windows after recrawl.
+Separate impressions, average position and CTR; a launch or technical fix alone
+does not establish the cause of a traffic change. Add useful proof to existing
+pages before creating overlapping pages for keyword variants.
 
 ## Add a presentation-only model page
 
@@ -119,3 +168,21 @@ Commit the authored registry change and every refreshed generated projection tog
 ### Workspace quote input coverage
 
 When publishing new output resolutions, check both the engine runtime schema and the bounded request vocabulary in `frontend/app/api/preflight/_lib/preflight-request.ts`. A workspace option can otherwise be rejected before model validation and pricing (as happened with Omni 360p and H3 Max 480P). Keep model-specific resolution validation downstream; do not accept arbitrary resolution strings. Keep the Resolution type aligned instead of casting unsupported literals into it. The catalog-wide preflight test guards every declared output resolution. Exercise the configured quote path and rejection of an unknown resolution value in `tests/preflight-media-pricing.test.ts`, then smoke-test example recreation through the displayed current quote. This does not change pricing rules or authorize a paid generation.
+
+## Generation closure and archive pages
+
+`frontend/lib/model-generation-policy.ts` resolves historical input identity without following public-route replacement redirects. Generate (including trusted submissions) and preflight reject archived models before settings, billing, or provider calls. MCP uses its existing registry publication and lifecycle gates, including revalidation of pending quotes at confirmation. Preserve provider mappings for polling and accepted-job retries.
+
+The main workspace keeps saved historical capabilities and asks for an explicit model choice; Studio returns no executable capability for an archived model instead of borrowing its first available model. Never rewrite saved jobs or media identities to the alternative. Historical watch pages retain their prompt and original model identity, omit same-model recreation, and offer current executable alternatives with explicit model and settings in each handoff.
+
+A `deep_legacy` model may supply an explicit localized `archive` object in every model-content locale. The model route then renders `ModelArchivePage` with WebPage metadata, current published alternatives, library and canonical family-example links, without a Product offer or generation CTA. Archive content has no English fallback. Optional external source attribution is an authored strict HTTPS `source: {label, href}` object in each locale; do not hardcode a provider announcement into the generic renderer. Historical comparison URLs remain published; executable discovery and generation controls exclude archives.
+
+See [the Sora sunset audit](sora-sunset-audit-2026-09-21.md) for the September 2026 retirement and verification scope.
+
+### Archive discovery boundaries
+
+A published historical route is not a recommendation. Family `currentModelSlugs` must preserve an empty registry projection; never fall back to all published members. Families with no current examples remain routable/indexable but leave navigation. Example filters use discoverable families, adding an explicitly selected historical family only on its own archive route.
+
+`frontend/lib/examples/discovery.ts` derives eligible example identities and their input/provider aliases from the registry. The public hub applies that allowlist in the playlist SQL query before its limit; local review snapshots apply the same policy before sorting/pagination. Dedicated family/model playlists and watch pages retain historical media. Homepage fallback cards use the same discovery policy. Homepage engine/provider availability counts use app publication; authored provider cards must not name an archived model merely because another active model shares its provider. Do not delete playlist membership, media or historical URLs to change promotion.
+
+`tests/sora-discovery.test.ts` and `tests/sora-discovery-postgres.test.ts` cover navigation, empty-current families, archive selection, fallback/provider cards, localized alternatives, SQL limits and preserved historical readers. See [the published-baseline reconciliation](../operations/studio-published-baseline-validation-2026-10-04.md) for source provenance and release verification boundaries.

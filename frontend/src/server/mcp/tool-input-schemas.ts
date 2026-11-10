@@ -1,4 +1,5 @@
 import { calculateProjectBudgetInputSchema } from '@/server/mcp/tools/calculate-project-budget';
+import {compareGenerationPricesInputSchema} from '@/server/mcp/tools/compare-generation-prices';
 import { confirmGenerationInputSchema } from '@/server/mcp/tools/confirm-generation';
 import { createReferenceUploadLinkInputSchema } from '@/server/mcp/tools/create-reference-upload-link';
 import { createTopupLinkInputSchema } from '@/server/mcp/tools/create-topup-link';
@@ -16,6 +17,8 @@ import { listAudioCapabilitiesInputSchema } from '@/server/mcp/tools/list-audio-
 import { prepareAudioGenerationInputSchema } from '@/server/mcp/tools/prepare-audio-generation';
 import { confirmAudioGenerationInputSchema } from '@/server/mcp/tools/confirm-audio-generation';
 import { recommendModelsInputSchema } from '@/server/mcp/tools/recommend-models';
+import {getStudioTimelineToolInputSchema,editStudioTimelineToolInputSchema} from '@/server/mcp/tools/studio-timeline';
+import {prepareStudioExportInputSchema,confirmStudioExportInputSchema,getStudioExportInputSchema} from '@/server/mcp/tools/studio-export';
 
 export const MCP_TOOL_INPUT_SCHEMAS = {
   get_account_status: getAccountStatusInputSchema,
@@ -23,11 +26,17 @@ export const MCP_TOOL_INPUT_SCHEMAS = {
   get_model_details: getModelDetailsInputSchema,
   recommend_models: recommendModelsInputSchema,
   calculate_project_budget: calculateProjectBudgetInputSchema,
+  compare_generation_prices:compareGenerationPricesInputSchema,
   list_media: listMediaInputSchema,
   create_reference_upload_link: createReferenceUploadLinkInputSchema,
   import_reference_files: importReferenceFilesInputSchema,
   prepare_montage: prepareMontageInputSchema,
   create_studio_montage: createStudioMontageToolInputSchema,
+  get_studio_timeline: getStudioTimelineToolInputSchema,
+  edit_studio_timeline: editStudioTimelineToolInputSchema,
+  prepare_studio_export: prepareStudioExportInputSchema,
+  confirm_studio_export: confirmStudioExportInputSchema,
+  get_studio_export: getStudioExportInputSchema,
   list_audio_capabilities: listAudioCapabilitiesInputSchema,
   prepare_audio_generation: prepareAudioGenerationInputSchema,
   confirm_audio_generation: confirmAudioGenerationInputSchema,

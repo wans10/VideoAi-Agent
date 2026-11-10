@@ -4,6 +4,11 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { homedir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import {
+  MAXVIDEOAI_PUBLIC_PLUGIN_VERSION,
+  MAXVIDEOAI_PUBLIC_PLUGIN_SOURCE_TAG,
+  MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND,
+} from '../frontend/config/maxvideoai-plugin-release';
 
 const root = process.cwd();
 const pluginRoot = path.join(root, 'plugins', 'maxvideoai');
@@ -19,6 +24,7 @@ const allowedTools = new Set([
   'get_model_details',
   'recommend_models',
   'calculate_project_budget',
+  'compare_generation_prices',
   'list_media',
   'create_reference_upload_link',
   'import_reference_files',
@@ -91,6 +97,15 @@ function findCachedPyYamlPath(): string | null {
   }
   return null;
 }
+
+test('website installation pins the observed public release independently of the source candidate', () => {
+  const publishedVersion = read('docs/distribution.md').match(/Official MCP Registry — active at `([^`]+)`/)?.[1];
+  assert.ok(publishedVersion);
+  assert.equal(MAXVIDEOAI_PUBLIC_PLUGIN_VERSION, publishedVersion);
+  assert.equal(MAXVIDEOAI_PUBLIC_PLUGIN_SOURCE_TAG, `v${publishedVersion}`);
+  assert.equal(MAXVIDEOAI_CODEX_MARKETPLACE_ADD_COMMAND,
+    `codex plugin marketplace add camgraphe/maxvideoai-plugin --ref v${publishedVersion}`);
+});
 
 test('the MaxVideoAI plugin has thin Codex and Claude package adapters', () => {
   assert.equal(path.basename(pluginRoot), 'maxvideoai');
@@ -219,7 +234,7 @@ test('human manifests and MCP discovery metadata expose one canonical public ide
   }
   assert.match(
     discovery,
-    /0\.3\.5 is the active latest public Registry record[\s\S]{0,220}0\.3\.4[\s\S]{0,120}unpublished/i,
+    /Registry publication is separate from the package release[\s\S]{0,350}0\.3\.4[\s\S]{0,120}unpublished/i,
   );
 });
 
@@ -318,7 +333,7 @@ test('the plugin packages self-contained outcome skills with explicit routing bo
     const referenceFiles = readdirSync(referencesRoot).sort();
     assert.deepEqual([...new Set(linkedReferences)].sort(), referenceFiles, `${skillName} references must resolve without orphans`);
 
-    const toolNames = skill.match(/\b(?:get_account_status|list_models|get_model_details|recommend_models|calculate_project_budget|list_media|create_reference_upload_link|import_reference_files|prepare_generation|confirm_generation|get_generation_status|list_recent_generations|present_generation|create_topup_link)\b/g) ?? [];
+    const toolNames = skill.match(/\b(?:get_account_status|list_models|get_model_details|recommend_models|calculate_project_budget|compare_generation_prices|list_media|create_reference_upload_link|import_reference_files|prepare_generation|confirm_generation|get_generation_status|list_recent_generations|present_generation|create_topup_link)\b/g) ?? [];
     assert.ok(toolNames.length > 0);
     for (const tool of toolNames) assert.ok(allowedTools.has(tool), `unknown tool ${tool}`);
   }
@@ -418,9 +433,9 @@ test('the package ships current setup, privacy, workflow, and recovery guides', 
   const expectedReviewDates: Record<(typeof guideNames)[number], string> = {
     'chatgpt.md': '2026-09-16',
     'claude.md': '2026-08-28',
-    'codex.md': '2026-09-16',
+    'codex.md': '2026-10-04',
     'generic-mcp.md': '2026-08-28',
-    'privacy-and-permissions.md': '2026-09-16',
+    'privacy-and-permissions.md': '2026-10-03',
     'troubleshooting.md': '2026-09-16',
     'how-it-works.md': '2026-09-16',
   };
@@ -573,7 +588,7 @@ test('the packaged Skill and plugin pass the repository authoring validators', (
   ], { cwd: root, env: environment, stdio: 'pipe' });
 });
 
-test('the package ships user-centered evaluation scenarios for routing and safety', () => {
+test('the plugin source includes maintainer evaluation scenarios for routing and safety', () => {
   const evalReadme = read('evals/README.md');
   const scenarios = read('evals/scenarios.md');
 

@@ -1,4 +1,5 @@
 import { query, type QueryExecutor } from '@/lib/db';
+import { readMediaFacts } from '@/lib/media-identity';
 import {
   mapOutputRow,
   type DbJobOutputRow,
@@ -83,7 +84,13 @@ export async function promoteCompletedMcpJobOutputs(
         durationSec: output.durationSec,
         thumbUrl: output.thumbUrl,
         previewUrl: output.previewUrl,
-        metadata: { mcpGenerated: true },
+        metadata: { mcpGenerated: true,
+          ...(output.metadata.role === 'last_frame' ? { role: 'last_frame', sourceVideoUrl: output.metadata.sourceVideoUrl,
+            sourceVideoOutputId: output.metadata.sourceVideoOutputId, sha256: output.metadata.sha256, sizeBytes: output.metadata.sizeBytes } : {}),
+          ...(typeof output.metadata.playbackVideoUrl === 'string' ? { playbackVideoUrl: output.metadata.playbackVideoUrl } : {}),
+          ...(output.metadata.lastFrame ? { lastFrame: output.metadata.lastFrame } : {}),
+          ...(readMediaFacts(output.metadata.mediaFacts) ? { mediaFacts: readMediaFacts(output.metadata.mediaFacts) } : {}),
+        },
       })),
     );
     for (const result of results) {

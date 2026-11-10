@@ -1,3 +1,4 @@
+import { isArchivedGenerationModel, archivedGenerationMessage } from '@/lib/model-generation-policy';
 import { useCallback, useEffect, useMemo } from 'react';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import type { KlingElementState } from '@/components/KlingElementsBuilder';
@@ -18,6 +19,7 @@ import {
   resolveSelectedWorkspaceEngine,
 } from '../_lib/workspace-engine-helpers';
 import { STORAGE_KEYS } from '../_lib/workspace-storage';
+import { getWorkspaceMediaFields, workspaceAssetsSupportMode } from '../_lib/workspace-multimodal-workflow';
 
 type ShotType = 'customize' | 'intelligent';
 
@@ -165,7 +167,6 @@ export function useWorkspaceEngineModeState({
     showSafetyCheckerControl,
     capability,
     supportsAudioToggle,
-    isUnifiedMinimaxH3,
   } = useMemo(
     () => resolveWorkspaceWorkflow({ engine: selectedEngine, form, inputAssets, klingElements }),
     [selectedEngine, form, inputAssets, klingElements]
@@ -334,13 +335,13 @@ export function useWorkspaceEngineModeState({
 
   const composerWorkflowNotice = useMemo(
     () =>
-      getComposerWorkflowNotice({
+      isArchivedGenerationModel(selectedEngine?.id) ? archivedGenerationMessage(uiLocale) : getComposerWorkflowNotice({
         selectedEngine,
         hasAudioInput: referenceInputStatus.hasAudio,
         audioWorkflowUnsupported,
         workflowCopy,
       }),
-    [audioWorkflowUnsupported, referenceInputStatus.hasAudio, selectedEngine, workflowCopy]
+    [audioWorkflowUnsupported, referenceInputStatus.hasAudio, selectedEngine, workflowCopy, uiLocale]
   );
 
   const handleComposerModeToggle = useCallback(
@@ -348,8 +349,7 @@ export function useWorkspaceEngineModeState({
       if (!selectedEngine) return;
       if (
         referenceInputStatus.hasAudio &&
-        !isUnifiedSeedance &&
-        !isUnifiedMinimaxH3 &&
+        !workspaceAssetsSupportMode(getWorkspaceMediaFields(selectedEngine), inputAssets, mode ?? implicitMode, 'audio') &&
         (mode === 'v2v' || mode === 'reframe' || mode === 'extend' || mode === 'retake')
       ) {
         showNotice(workflowCopy.removeAudioToUseEdit);
@@ -361,7 +361,7 @@ export function useWorkspaceEngineModeState({
         coerceFormState(selectedEngine, nextMode, current ? { ...current, mode: nextMode } : null)
       );
     },
-    [implicitMode, isUnifiedMinimaxH3, isUnifiedSeedance, referenceInputStatus.hasAudio, selectedEngine, setForm, showNotice, workflowCopy, workspaceExecutableModes]
+    [implicitMode, inputAssets, referenceInputStatus.hasAudio, selectedEngine, setForm, showNotice, workflowCopy, workspaceExecutableModes]
   );
 
   useEffect(() => {

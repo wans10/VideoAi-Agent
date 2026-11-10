@@ -11,7 +11,12 @@ import { hasMissingRequiredComposerAsset } from '../frontend/components/composer
 const appClientPath = 'frontend/app/(core)/(workspace)/app/AppClient.tsx';
 const readyViewPath = 'frontend/app/(core)/(workspace)/app/_components/WorkspaceAppReadyView.tsx';
 const composerSurfacePath = 'frontend/app/(core)/(workspace)/app/_components/WorkspaceComposerSurface.tsx';
-const workspaceCopyPath = 'frontend/app/(core)/(workspace)/app/_lib/workspace-copy.ts';
+
+test('workspace composer surface owns runtime mode notices and Generate disabling', () => {
+  const surface = readFileSync(composerSurfacePath, 'utf8');
+  assert.match(surface, /getEngineModeUnavailableMessage\(selectedEngine, submissionMode, uiLocale\)/);
+  assert.match(surface, /disableGenerate=\{[^}]*Boolean\(modeUnavailableMessage\)/);
+});
 
 test('workspace composer and settings surface is owned by a route-local component', () => {
   assert.equal(existsSync(readyViewPath), true);
@@ -25,6 +30,8 @@ test('workspace composer and settings surface is owned by a route-local componen
   assert.doesNotMatch(appSource, /WorkspaceComposerSurface/);
   assert.match(readyViewSource, /import \{ WorkspaceComposerSurface \} from '\.\/WorkspaceComposerSurface';/);
   assert.match(readyViewSource, /<WorkspaceComposerSurface/);
+  assert.match(readyViewSource, /<WorkspaceComparisonSettings draftControls=\{draftControls\}/);
+  assert.doesNotMatch(readyViewSource, /<CoreSettingsBar\b/);
 
   assert.doesNotMatch(appSource, /<Composer\b/);
   assert.doesNotMatch(appSource, /<SettingsControls\b/);
@@ -59,22 +66,16 @@ test('workspace composer and settings surface is owned by a route-local componen
   );
 });
 
-test('workspace video composer shows in-progress render banner from pending groups', () => {
-  assert.equal(existsSync(readyViewPath), true);
-  assert.equal(existsSync(composerSurfacePath), true);
-  assert.equal(existsSync(workspaceCopyPath), true);
-
+test('workspace composer derives job activity outside the orchestrator and passes it to the shared control', () => {
+  const appSource = readFileSync(appClientPath, 'utf8');
   const readyViewSource = readFileSync(readyViewPath, 'utf8');
   const surfaceSource = readFileSync(composerSurfacePath, 'utf8');
-  const copySource = readFileSync(workspaceCopyPath, 'utf8');
-
-  assert.match(copySource, /generatingInProgress:/);
-  assert.match(readyViewSource, /buildWorkspaceInProgressMessage\(pendingGroups\.length, workspaceCopy\)/);
-  assert.match(readyViewSource, /inProgressMessage=\{inProgressMessage\}/);
-  assert.match(surfaceSource, /inProgressMessage: string \| null;/);
-  assert.match(surfaceSource, /role="status"/);
-  assert.match(surfaceSource, /aria-live="polite"/);
-  assert.match(surfaceSource, /bg-success-bg/);
+  assert.doesNotMatch(appSource, /buildPendingGenerations/);
+  assert.match(readyViewSource, /buildPendingGenerations\(pendingGroups\)/);
+  assert.match(readyViewSource, /pendingGenerations=\{pendingGenerations\}/);
+  assert.match(surfaceSource, /pendingGenerations=\{pendingGenerations\}/);
+  assert.match(surfaceSource, /isLoading=\{isSubmitting\}/);
+  assert.match(surfaceSource, /isPricing=\{isPricing\}/);
 });
 
 test('workspace Seedance composer explains recognizable-person reference limits near upload placeholders', () => {
@@ -165,11 +166,11 @@ test('workspace exposes Seedance 2.0 source-video fields for Standard and Fast c
       uiLocale: 'en',
     });
 
-    assert.deepEqual(extendSchema.assetFields.map(({ field }) => field.id), ['extension_source_videos']);
+    assert.deepEqual(extendSchema.assetFields.map(({ field }) => field.id), ['image_urls', 'extension_source_videos', 'audio_urls']);
   }
 });
 
-test('workspace exposes only source clips in the Seedance 2.0 Mini extension schema', () => {
+test('workspace exposes source clips and supplementary references in the Seedance 2.0 Mini extension schema', () => {
   const mini = listFalEngines().find((entry) => entry.id === 'seedance-2-0-mini');
   assert.ok(mini);
 
@@ -183,10 +184,11 @@ test('workspace exposes only source clips in the Seedance 2.0 Mini extension sch
     uiLocale: 'en',
   });
 
-  assert.deepEqual(schema.assetFields.map(({ field }) => field.id), ['extension_source_videos']);
-  assert.equal(schema.assetFields[0]?.field.label, 'Source clips to extend (up to 3)');
-  assert.equal(schema.assetFields[0]?.required, true);
-  assert.equal(schema.assetFields[0]?.role, 'generic');
+  assert.deepEqual(schema.assetFields.map(({ field }) => field.id), ['image_urls', 'extension_source_videos', 'audio_urls']);
+  const source = schema.assetFields.find(({field}) => field.id === 'extension_source_videos');
+  assert.equal(source?.field.label, 'Source clips to extend (up to 3)');
+  assert.equal(source?.required, true);
+  assert.equal(source?.role, 'generic');
 });
 
 test('workspace disables generation while an active mode is missing required assets', () => {

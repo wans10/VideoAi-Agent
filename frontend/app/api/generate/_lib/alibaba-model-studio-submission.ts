@@ -23,7 +23,7 @@ import {
 import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-messages';
 import { createProviderJobTracker } from './provider-job-tracker';
 import { rollbackPendingPayment } from './payment-rollback';
-import { submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
+import { isDeferredFalSubmission, submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 
@@ -52,7 +52,13 @@ function cleanUrl(value: unknown): string | null {
 
 function addUniqueAsset(assets: AlibabaReferenceAsset[], value: unknown, metadata?: Partial<AlibabaReferenceAsset>) {
   const url = cleanUrl(value);
-  if (!url || assets.some((asset) => asset.url === url)) return;
+  if (!url) return;
+  const existing = assets.find((asset) => asset.url === url);
+  if (existing) {
+    if (metadata?.mimeType) existing.mimeType = metadata.mimeType;
+    if (typeof metadata?.durationSec === 'number') existing.durationSec = metadata.durationSec;
+    return;
+  }
   assets.push({ url, ...metadata });
 }
 
@@ -82,10 +88,10 @@ export function resolveAlibabaSubmissionMediaInputs(params: {
     if (!url) continue;
     const slotId = input.slotId?.trim().toLowerCase() ?? '';
     const metadata = { mimeType: cleanUrl(input.type), durationSec: input.durationSec ?? null };
-    if (input.kind === 'image' && ['image_url', 'start_image_url', 'first_frame_url'].includes(slotId) && !startImageUrl) {
-      startImageUrl = url;
-    } else if (input.kind === 'image' && ['end_image_url', 'last_frame_url'].includes(slotId) && !endImageUrl) {
-      endImageUrl = url;
+    if (input.kind === 'image' && ['image_url', 'start_image_url', 'first_frame_url'].includes(slotId)) {
+      startImageUrl ??= url;
+    } else if (input.kind === 'image' && ['end_image_url', 'last_frame_url'].includes(slotId)) {
+      endImageUrl ??= url;
     } else if (input.kind === 'image') {
       addUniqueAsset(referenceImages, url, metadata);
     } else if (input.kind === 'video') {
@@ -111,7 +117,10 @@ export function resolveAlibabaSubmissionMediaInputs(params: {
   };
 }
 
-function userSafeAlibabaMessage(errorClass: string): string {
+function userSafeAlibabaMessage(errorClass: string, errorCode?: string | null): string {
+  if (errorCode === 'ALIBABA_REFERENCE_AUDIO_UNSUPPORTED') {
+    return 'Wan 3 reference audio must be an MP3 or WAV file. Convert the audio and try again.';
+  }
   if (errorClass === 'moderation') {
     return 'This request was blocked by safety checks. Review the prompt and reference media before trying again.';
   }
@@ -171,6 +180,7 @@ function falProviderJobId(result: FalGenerateSubmissionResult, getLastProviderJo
 }
 
 async function submitFalFallback(params: {
+  userId: string;
   directAttemptId: number;
   reason: string;
   errorCode: string | null;
@@ -219,6 +229,7 @@ async function submitFalFallback(params: {
     queryFn: params.queryFn,
   });
   const result = await params.submitFalGenerateTaskFn({
+    userId: params.userId,
     falPayload: params.falPayload,
     jobId: params.jobId,
     engineId: params.engineId,
@@ -245,6 +256,7 @@ async function submitFalFallback(params: {
     });
   }
   if (!result.ok) {
+    if (isDeferredFalSubmission(result)) return result;
     await markProviderAttemptFailed({
       attemptId: attempt.id,
       errorCode: typeof result.body.error === 'string' ? result.body.error : null,
@@ -432,6 +444,7 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
 
     if (fallbackEligible) {
       return submitFalFallback({
+        userId: params.userId,
         directAttemptId: attempt.id,
         reason: normalized.errorClass,
         errorCode: normalized.code,
@@ -454,7 +467,7 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
       });
     }
 
-    const message = userSafeAlibabaMessage(normalized.errorClass);
+    const message = userSafeAlibabaMessage(normalized.errorClass, normalized.code);
     if (!acceptedProviderJobId) {
       await failJobAndRollback({
         jobId: params.jobId,

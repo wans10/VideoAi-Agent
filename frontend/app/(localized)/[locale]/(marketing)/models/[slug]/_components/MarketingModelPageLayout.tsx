@@ -1,17 +1,16 @@
+import { Suspense } from 'react';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { localePathnames, localeRegions } from '@/i18n/locales';
 import type { FalEngineEntry } from '@/config/falEngines';
-import type { EngineCaps } from '@/types/engines';
 import type { EngineLocalizedContent } from '@/lib/models/i18n';
 import { getLocalizedModelMetaLabels } from '@/lib/ltx-localization';
 import { getExamplesHref } from '@/lib/examples-links';
 import type { ExampleGalleryVideo } from '@/components/examples/ExamplesGalleryGrid';
-import { serializeJsonLd } from '../../model-jsonld';
 import { ModelHeroSection } from './ModelHeroSection';
 import { ModelDecisionHeroSection } from './ModelDecisionHeroSection';
-import { ModelDecisionPricingCard } from './ModelDecisionPricingCard';
-import { ModelPageContentSections } from './ModelPageContentSections';
+import { ModelCurrentDetails } from './ModelCurrentDetails';
+import { ModelDetailsAnchorRestore } from './ModelDetailsAnchorRestore.client';
 import {
   DEFAULT_DETAIL_COPY,
   buildVideoBoundaries,
@@ -21,6 +20,10 @@ import {
 } from '../_lib/model-page-copy';
 import { type FeaturedMedia } from '../_lib/model-page-media';
 import { resolveProviderInfo } from '../_lib/model-page-schema';
+import { prepareModelCommercialData, type ModelPagePricing } from '../_lib/model-page-commercial-data';
+import { buildModelDecisionData } from '../_lib/model-page-decision-data';
+import { getModelPageTemplateConfig } from '../_lib/model-page-template-registry';
+import { quotePublicModelScenario } from '@/server/pricing/quote-public-model-scenario';
 import { resolveFocusVsConfig } from '../_lib/model-page-static';
 import {
   buildCanonicalComparePath,
@@ -59,22 +62,20 @@ import {
 } from '../_lib/model-page-specs';
 import { buildModelPrepLinksSection } from '../_lib/model-page-prep-links';
 import { buildModelPricingCallout } from '../_lib/model-page-pricing-callouts';
-import { buildModelSchemaPayloads } from '../_lib/model-page-schema-payloads';
-import { buildModelDecisionData } from '../_lib/model-page-decision-data';
 import { buildDecisionTocItems, resolveDecisionTocOverviewLabel } from '../_lib/model-page-decision-toc';
 import { parseModelPromptingContent } from '../_lib/model-page-prompting-content';
 import { resolveDefaultModelPromptingDemoPromptSource, resolveModelPromptingDemoPromptSource } from '../_lib/model-page-prompting-prompt-source';
 import { buildModelPromptingViewModel } from '../_lib/model-page-prompting-view-model';
-import { getModelPageTemplateConfig } from '../_lib/model-page-template-registry';
 import { parseModelExamplesContent } from '../_lib/model-page-examples-content';
 import { getModelExamplesUiCopy } from '../_lib/model-page-examples-ui-copy';
 import { resolveModelExampleFallbackPosters } from '../_lib/model-page-example-media';
 import { buildModelExamplePreviewAlts, resolveModelExamplesRuntimePolicy } from '../_lib/model-page-examples-runtime-policy';
 import { buildModelExamplesViewModel } from '../_lib/model-page-examples-view-model';
 
-export function MarketingModelPageLayout({
+export async function MarketingModelPageLayout({
   engine,
-  pricingEngine,
+  pricing,
+  quoteModel = quotePublicModelScenario,
   backLabel,
   pricingLinkLabel,
   localizedContent,
@@ -89,8 +90,6 @@ export function MarketingModelPageLayout({
   faqEntries,
   keySpecRows,
   keySpecValues,
-  pricePerImageLabel,
-  pricePerSecondLabel,
   engineSlug,
   locale,
   canonicalUrl,
@@ -98,7 +97,8 @@ export function MarketingModelPageLayout({
   breadcrumb,
 }: {
   engine: FalEngineEntry;
-  pricingEngine: EngineCaps;
+  pricing: Promise<ModelPagePricing>;
+  quoteModel?: typeof quotePublicModelScenario;
   backLabel: string;
   pricingLinkLabel: string;
   localizedContent: EngineLocalizedContent;
@@ -113,14 +113,23 @@ export function MarketingModelPageLayout({
   faqEntries: LocalizedFaqEntry[];
   keySpecRows: KeySpecRow[];
   keySpecValues: KeySpecValues | null;
-  pricePerImageLabel: string | null;
-  pricePerSecondLabel: string | null;
   engineSlug: string;
   locale: AppLocale;
   canonicalUrl: string;
   localizedCanonicalUrl: string;
   breadcrumb: DetailCopy['breadcrumb'];
 }) {
+  const templateData = buildModelDecisionData({ engine, locale, decisionContent: localizedContent.decision });
+  const templateConfig = templateData ? getModelPageTemplateConfig(engine.modelSlug) : null;
+  const commercial = prepareModelCommercialData({ engine, locale, pricing, templateData, templateConfig, quoteModel });
+  // Image price grids and legacy hero prices keep their complete, already-priced render.
+  // Decision video heroes are independent of prices; all following details reveal together.
+  const streamDetails = isVideoEngine && Boolean(templateData);
+  const current = streamDetails ? null : (await Promise.all([pricing, commercial]))[0];
+  if (current) {
+    keySpecValues = current.keySpecValues;
+    keySpecRows = current.keySpecRows;
+  }
   const inLanguage = localeRegions[locale] ?? 'en-US';
   const resolvedBreadcrumb = breadcrumb ?? DEFAULT_DETAIL_COPY.breadcrumb;
   const canonical = canonicalUrl.replace(/\/+$/, '') || canonicalUrl;
@@ -153,8 +162,8 @@ export function MarketingModelPageLayout({
   const specNote = normalizeSpecNote(copy.specNote, locale);
   const showHeroDescriptions = heroSpecChips.length === 0;
   const heroPrice = isImageEngine
-    ? keySpecValues?.pricePerImage ?? pricePerImageLabel ?? 'Data pending'
-    : keySpecValues?.pricePerSecond ?? pricePerSecondLabel ?? 'Data pending';
+    ? keySpecValues?.pricePerImage ?? current?.pricePerImageLabel ?? 'Data pending'
+    : keySpecValues?.pricePerSecond ?? current?.pricePerSecondLabel ?? 'Data pending';
   const heroDuration =
     typeof heroMedia.durationSec === 'number'
       ? `${heroMedia.durationSec}s`
@@ -289,12 +298,6 @@ export function MarketingModelPageLayout({
   const faqJsonLdEntries = faqList.slice(0, 6);
   const prepLinksSection = buildModelPrepLinksSection(engine.modelSlug, locale);
   const pricingCallout = buildModelPricingCallout(engine.modelSlug, locale);
-  const templateData = buildModelDecisionData({
-    engine,
-    locale,
-    decisionContent: localizedContent.decision,
-  });
-  const templateConfig = templateData ? getModelPageTemplateConfig(engine.modelSlug) : null;
   const sectionLabels = resolveSectionLabels(locale);
   const compareCopy = resolveCompareCopy(locale, heroTitle, supportsNativeAudio);
   const statusLabels = resolveSpecStatusLabels(locale);
@@ -398,7 +401,7 @@ export function MarketingModelPageLayout({
   ].filter((item) => item.visible);
   const decisionTocItems = buildDecisionTocItems({ locale, sectionLabels, textAnchorId, imageAnchorId, compareAnchorId, hasExamples, hasSpecs, hasTextSection, hasTipsSection, hasCompareSection, hasSafetySection, hasFaqSection });
   const decisionTocOverviewLabel = resolveDecisionTocOverviewLabel(locale);
-  const schemaPayloads = buildModelSchemaPayloads({
+  const schema = {
     canonical,
     description: templateData?.meta.description ?? pageDescription,
     engine,
@@ -409,30 +412,37 @@ export function MarketingModelPageLayout({
     localizedHomeUrl,
     localizedModelsUrl,
     pageTitle: templateData?.meta.title,
-    pricingEngine,
     resolvedBreadcrumb,
-  });
+  };
   const legacyPricingCallout = !templateData && pricingCallout ? pricingCallout : null;
   const legacyMicroCta = !templateData && isImageEngine ? copy.microCta : null;
 
+  const details = (
+    <ModelCurrentDetails pricing={pricing} commercial={commercial} schema={schema} pricingData={templateData?.pricing ?? null} locale={locale}
+      contentProps={{
+        isDecision: Boolean(templateData),
+        tocProps: { items: templateData ? decisionTocItems : tocItems, variant: templateData ? 'pill' : 'default', overviewLabel: decisionTocOverviewLabel },
+        specsProps: { hasSpecs, specTitle, specNote, keySpecRows, specSectionsToShow, isImageEngine, locale, statusLabels, showBenchmarkLink },
+        pricingCallout: legacyPricingCallout,
+        microCta: legacyMicroCta,
+        microCtaHref: normalizedPrimaryCtaHref,
+        examplesProps: { viewModel: examplesViewModel },
+        decisionCards: templateData?.decisionCards ?? null,
+        promptingProps: { viewModel: promptingViewModel },
+        prepLinksProps: { prepLinksSection, locale },
+        tipsProps: { hasTipsSection, copy, locale, modelName: heroTitle, strengths, troubleshootingItems, boundaries, tipsCardLabels, troubleshootingTitle },
+        compareProps: { hasCompareSection, compareAnchorId, focusVsConfig, localizeModelsPath, hasCompareGrid, compareCopy, relatedItems, compareEngines, engineSlug, localizeComparePath, locale, heroTitle },
+        safetyFaqProps: { copy, modelName: heroTitle, safetyRules, safetyInterpretation, faqList, faqTitle, locale, isSoraPrompting, faqJsonLdEntries },
+      }}
+    />
+  );
+
   return (
     <>
-      {schemaPayloads.map((schema, index) => (
-        <script
-          key={`schema-${index}`}
-          id={`model-jsonld-${index}`}
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
-        />
-      ))}
       <div className={['container-page model-page model-editorial overflow-x-clip pb-0 pt-5 sm:pt-7', templateData ? 'max-w-[1400px]' : 'max-w-6xl'].join(' ')}>
         <div className={templateData ? 'space-y-5' : 'stack-gap-lg gap-0'}>
           {templateData ? (
-            <>
-              <ModelDecisionHeroSection decision={templateData} localizeModelsPath={localizeModelsPath} resolvedBreadcrumb={resolvedBreadcrumb} breadcrumbModelLabel={breadcrumbModelLabel} heroMedia={heroMedia} locale={locale} audioBadgeLabel={audioBadgeLabel} mediaAltContext={mediaAltContexts.hero} />
-              <ModelDecisionPricingCard pricing={templateData.pricing} />
-            </>
+            <ModelDecisionHeroSection decision={templateData} localizeModelsPath={localizeModelsPath} resolvedBreadcrumb={resolvedBreadcrumb} breadcrumbModelLabel={breadcrumbModelLabel} heroMedia={heroMedia} locale={locale} audioBadgeLabel={audioBadgeLabel} mediaAltContext={mediaAltContexts.hero} />
           ) : (
             <ModelHeroSection
               modelsPathname={modelsPathname}
@@ -473,21 +483,10 @@ export function MarketingModelPageLayout({
               heroHighlights={heroHighlights}
             />
           )}
-          <ModelPageContentSections
-            isDecision={Boolean(templateData)}
-            tocProps={{ items: templateData ? decisionTocItems : tocItems, variant: templateData ? 'pill' : 'default', overviewLabel: decisionTocOverviewLabel }}
-            specsProps={{ hasSpecs, specTitle, specNote, keySpecRows, specSectionsToShow, isImageEngine, locale, statusLabels, showBenchmarkLink }}
-            pricingCallout={legacyPricingCallout}
-            microCta={legacyMicroCta}
-            microCtaHref={normalizedPrimaryCtaHref}
-            examplesProps={{ viewModel: examplesViewModel }}
-            decisionCards={templateData?.decisionCards ?? null}
-            promptingProps={{ viewModel: promptingViewModel }}
-            prepLinksProps={{ prepLinksSection, locale }}
-            tipsProps={{ hasTipsSection, copy, locale, modelName: heroTitle, strengths, troubleshootingItems, boundaries, tipsCardLabels, troubleshootingTitle }}
-            compareProps={{ hasCompareSection, compareAnchorId, focusVsConfig, localizeModelsPath, hasCompareGrid, compareCopy, relatedItems, compareEngines, engineSlug, localizeComparePath, locale, heroTitle }}
-            safetyFaqProps={{ copy, modelName: heroTitle, safetyRules, safetyInterpretation, faqList, faqTitle, locale, isSoraPrompting, faqJsonLdEntries }}
-          />
+          {streamDetails ? <ModelDetailsAnchorRestore anchorIds={decisionTocItems.map(item => item.id)} /> : null}
+          {streamDetails ? (
+            <Suspense fallback={<div aria-hidden="true" className="min-h-screen" />}>{details}</Suspense>
+          ) : details}
         </div>
       </div>
     </>

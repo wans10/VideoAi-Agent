@@ -38,7 +38,8 @@ test('wallet top-up Checkout uses Stripe dynamic payment methods for wallets', (
   assert.equal(params.billing_address_collection, 'auto');
   assert.equal(params.shipping_address_collection, undefined);
   assert.deepEqual(params.automatic_tax, { enabled: true });
-  assert.deepEqual(params.invoice_creation, { enabled: true });
+  assert.equal(params.invoice_creation?.enabled, true);
+  assert.equal(params.invoice_creation?.invoice_data?.metadata?.kind, 'topup');
 });
 
 test('wallet top-up Checkout keeps PaymentIntent metadata', () => {
@@ -75,7 +76,8 @@ test('wallet top-up Checkout can attach a Stripe Customer and update supported b
     address: 'auto',
     name: 'auto',
   });
-  assert.deepEqual(params.invoice_creation, { enabled: true });
+  assert.equal(params.invoice_creation?.enabled, true);
+  assert.equal(params.invoice_creation?.invoice_data?.metadata?.kind, 'topup');
 });
 
 test('wallet top-up Checkout omits customer update without a Stripe Customer', () => {
@@ -88,7 +90,8 @@ test('wallet top-up Checkout omits customer update without a Stripe Customer', (
 
   assert.equal(params.customer, undefined);
   assert.equal(params.customer_update, undefined);
-  assert.deepEqual(params.invoice_creation, { enabled: true });
+  assert.equal(params.invoice_creation?.enabled, true);
+  assert.equal(params.invoice_creation?.invoice_data?.metadata?.kind, 'topup');
 });
 
 test('wallet top-up Checkout can create Elements sessions for Express Checkout', () => {
@@ -105,25 +108,59 @@ test('wallet top-up Checkout can create Elements sessions for Express Checkout',
   assert.equal(params.cancel_url, undefined);
   assert.equal(params.payment_method_types, undefined);
   assert.deepEqual(params.automatic_tax, { enabled: true });
-  assert.deepEqual(params.invoice_creation, { enabled: true });
+  assert.equal(params.invoice_creation?.enabled, true);
+  assert.equal(params.invoice_creation?.invoice_data?.metadata?.kind, 'topup');
 });
 
-test('first and returning top-ups share unrestricted card acceptance and dynamic methods in both UIs', () => {
+test('native wallets collect the address required by Google Pay with Stripe Tax', () => {
+  const params = buildParams({
+    checkoutUiMode: 'elements',
+    returnUrl: 'https://maxvideoai.com/billing?status=success',
+    customer: 'cus_123',
+    customerUpdate: { address: 'auto', name: 'auto' },
+  });
+  const countries = params.shipping_address_collection?.allowed_countries ?? [];
+  for (const country of ['US', 'ES', 'FR', 'GB', 'DE', 'BR', 'JP', 'AU', 'IN'] as const) {
+    assert.ok(countries.includes(country), `${country} must remain eligible for native wallet payments`);
+  }
+  assert.deepEqual(params.customer_update, { address: 'auto', name: 'auto', shipping: 'auto' });
+  assert.equal(params.metadata?.wallet_express_tax_address, '1');
+  assert.deepEqual(params.automatic_tax, { enabled: true });
+  assert.equal(params.shipping_options, undefined, 'digital credits must not add a shipping charge');
+});
+
+test('native address collection does not send customer_update without a customer', () => {
+  const params = buildParams({
+    checkoutUiMode: 'elements',
+    returnUrl: 'https://maxvideoai.com/billing?status=success',
+  });
+  assert.ok(params.shipping_address_collection);
+  assert.equal(params.customer_update, undefined);
+});
+
+test('temporary Amex restriction covers first and returning hosted top-ups while preserving native wallets', () => {
   for (const checkoutUiMode of ['hosted', 'elements'] as const) {
     for (const firstTopUp of [true, false]) {
       const params = buildParams({
+        blockAmexCards: true,
         checkoutUiMode,
         returnUrl: 'https://maxvideoai.com/billing?status=success',
         sessionMetadata: { kind: 'topup', first_wallet_topup: String(firstTopUp) },
       });
-      assert.equal(params.payment_method_options, undefined);
+      if (checkoutUiMode === 'hosted') {
+        assert.deepEqual(params.payment_method_options, {
+          card: { restrictions: { brands_blocked: ['american_express'] } },
+        });
+      } else {
+        assert.equal(params.payment_method_options, undefined);
+      }
       assert.equal(params.payment_method_types, undefined);
       assert.equal(params.metadata?.first_wallet_topup, String(firstTopUp));
     }
   }
 });
 
-test('wallet top-up accepts all card brands while retaining first-purchase fraud controls', () => {
+test('wallet top-up applies the hosted Amex filter while retaining shared fraud controls', () => {
   const routeSource = fs.readFileSync(path.join(process.cwd(), 'frontend/app/api/wallet/route.ts'), 'utf8');
   const checkoutSource = fs.readFileSync(path.join(process.cwd(), 'frontend/src/lib/stripe-checkout.ts'), 'utf8');
 
@@ -134,7 +171,9 @@ test('wallet top-up accepts all card brands while retaining first-purchase fraud
   assert.match(routeSource, /checkoutGuard.action === 'captcha_required'/);
   assert.match(routeSource, /checkoutGuard.action === 'rate_limited'/);
   assert.match(routeSource, /checkout_captcha_passed: String\(checkoutGuard.captchaPassed\)/);
-  assert.doesNotMatch(routeSource + checkoutSource, /american_express|brands_blocked|blockAmexCards|amex_block/);
+  assert.match(routeSource, /blockAmexCards: HOSTED_CHECKOUT_BLOCK_AMEX/);
+  assert.match(routeSource, /amexBlocked: HOSTED_CHECKOUT_BLOCK_AMEX && !isExpressCheckoutTopUp/);
+  assert.match(checkoutSource, /blockAmexCards && checkoutUiMode !== 'elements'/);
   assert.doesNotMatch(routeSource, /express_checkout_unavailable_for_first_topup/);
 });
 
@@ -169,4 +208,34 @@ test('wallet GET delegates aggregated receipt reads instead of returning the led
   assert.match(summarySource, /SUM\(CASE WHEN type = 'refund'/);
   assert.match(summarySource, /STRING_AGG\(DISTINCT LOWER\(currency\)/);
   assert.doesNotMatch(summarySource, /SELECT type, amount_cents, currency FROM app_receipts WHERE user_id = \$1/);
+});
+
+test('wallet checkout preserves the FX margin and timestamp in payment metadata', () => {
+  const params = buildWalletTopUpCheckoutSessionParams({
+    currency: 'eur', settlementAmountCents: 894,
+    successUrl: 'https://maxvideoai.com/billing', cancelUrl: 'https://maxvideoai.com/billing',
+    productTaxCode: 'txcd_test', sessionMetadata: { kind: 'topup', user_id: 'user_1' },
+    paymentIntentMetadata: { kind: 'topup', user_id: 'user_1' },
+    fxQuote: { rate: 0.8726, source: 'frankfurter', marginBps: 250, rateTimestamp: '2026-09-19T00:00:00Z' },
+  });
+  assert.equal(params.metadata?.fx_margin_bps, '250');
+  assert.equal(params.metadata?.rate_timestamp, '2026-09-19T00:00:00Z');
+  assert.equal(params.payment_intent_data?.metadata?.fx_margin_bps, '250');
+  assert.equal(params.payment_intent_data?.metadata?.fx_rate, '0.8726');
+  assert.equal(params.invoice_creation?.invoice_data?.metadata?.kind, 'topup');
+});
+
+
+test('hosted checkout lets returning wallet customers correct the saved tax address', () => {
+  const params = buildParams({
+    customer: 'cus_returning_wallet',
+    customerHasShippingAddress: true,
+    customerUpdate: { address: 'auto', name: 'auto' },
+    blockAmexCards: true,
+  });
+  assert.ok(params.shipping_address_collection?.allowed_countries.includes('FR'));
+  assert.deepEqual(params.customer_update, { address: 'auto', name: 'auto', shipping: 'auto' });
+  assert.equal(params.ui_mode, undefined);
+  assert.deepEqual(params.payment_method_options, { card: { restrictions: { brands_blocked: ['american_express'] } } });
+  assert.deepEqual(params.automatic_tax, { enabled: true });
 });

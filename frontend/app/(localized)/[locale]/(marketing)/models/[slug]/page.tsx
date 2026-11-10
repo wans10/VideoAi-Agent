@@ -1,4 +1,8 @@
+import { modelExamplePlaylistKeys, projectModelPageGallery } from '@/server/model-gallery-projection';
+import { hasPlaylistCuration } from '@/server/playlists/curation-service';
 import '@/styles/marketing-models.css';
+import { ModelArchivePage } from './_components/ModelArchivePage';
+import { buildModelArchiveMetadata } from './_lib/model-page-archive-metadata';
 import { notFound, permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { resolveDictionary } from '@/lib/i18n/server';
@@ -14,24 +18,19 @@ import { buildMetadataUrls } from '@/lib/metadataUrls';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { resolveLocalesForEnglishPath } from '@/lib/seo/alternateLocales';
 import { getEngineLocalized, type EngineLocalizedContent } from '@/lib/models/i18n';
-import { normalizeEngineId } from '@/lib/engine-alias';
 import { resolvePublicMarketingVideoUrl } from '@/lib/media';
-import { listPlaylistVideos, getPublicVideosByIds, type GalleryVideo } from '@/server/videos';
+import { listPlaylistVideos, getPublicVideosByIds, getPublicVideoIds, type GalleryVideo } from '@/server/videos';
 import { applyEnginePricingOverride } from '@/lib/pricing-definition';
-import { listEnginePricingOverrides } from '@/server/engine-settings';
-import { loadBenchmarkScoreSlugs } from '@/server/benchmark-lab-data';
+import { createScopedPublicPricingReaders } from '@/server/pricing/quote-public-model-scenario';
+import { prepareModelPageInputs } from './_lib/model-page-inputs';
 import {
   buildDetailSlugMap,
   MODELS_BASE_PATH_MAP,
 } from './_lib/model-page-links';
 import { buildModelDecisionData } from './_lib/model-page-decision-data';
 import { isPublishedModelPage } from './_lib/model-page-publication';
-import {
-  buildPricePerImageLabel,
-  buildPricePerImageRows,
-  buildPricePerSecondLabel,
-  buildPricePerSecondRows,
-} from './_lib/model-page-pricing';
+import { buildModelPageSpecProjection } from './_lib/model-page-spec-projection';
+import { buildModelPagePriceProjection } from './_lib/model-page-pricing';
 import {
   pickDemoMedia,
   pickHeroMedia,
@@ -40,7 +39,6 @@ import {
   toGalleryCard,
   type FeaturedMedia,
 } from './_lib/model-page-media';
-import { loadEngineKeySpecs } from './_lib/model-page-key-specs';
 import { FEATURED_EXAMPLE_MEDIA, PREFERRED_MEDIA } from './_lib/model-page-static';
 import {
   DEFAULT_DETAIL_COPY,
@@ -50,14 +48,8 @@ import {
   type DetailCopy,
 } from './_lib/model-page-copy';
 import {
-  buildSpecValues,
-  isPending,
-  isUnsupported,
-  normalizeMaxResolution,
   resolveAudioPricingLabels,
-  resolveSpecRowDefs,
   resolveSpecRowLabel,
-  type KeySpecRow,
 } from './_lib/model-page-specs';
 import { MarketingModelPageLayout } from './_components/MarketingModelPageLayout';
 import {
@@ -103,6 +95,9 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
 
   const canonicalSlug = model.slug;
   const localized = await getEngineLocalized(canonicalSlug, locale);
+  if (model.lifecycle === 'deep_legacy' && localized.archive) {
+    return buildModelArchiveMetadata(model, localized.archive, locale);
+  }
   const detailSlugMap = buildDetailSlugMap(canonicalSlug);
   const publishableLocales = Array.from(resolveLocalesForEnglishPath(`/models/${canonicalSlug}`));
 
@@ -138,7 +133,7 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
     engine.seo.description ??
     'Explore availability, prompts, pricing, and render policies for this model on MaxVideoAI.';
   const ogImagePath =
-    localized.seo.image ?? MODEL_OG_IMAGE_MAP[canonicalSlug] ?? engine.media?.imagePath ?? '/og/price-before.png';
+    localized.seo.image ?? MODEL_OG_IMAGE_MAP[canonicalSlug] ?? engine.media?.imagePath ?? '/og/brand-2026-09-25.png';
   return buildSeoMetadata({
     locale,
     title,
@@ -168,6 +163,7 @@ async function renderMarketingModelPage({
   localizedContent: EngineLocalizedContent;
   locale: AppLocale;
 }) {
+  const { currentSnapshot, quoteModel } = createScopedPublicPricingReaders();
   const detailSlugMap = buildDetailSlugMap(engine.modelSlug);
   const publishableLocales = Array.from(resolveLocalesForEnglishPath(`/models/${engine.modelSlug}`));
   const metadataUrls = buildMetadataUrls(locale, detailSlugMap, {
@@ -188,13 +184,6 @@ async function renderMarketingModelPage({
   const hasImageMode = engineModes.some((mode) => mode.endsWith('i'));
   const isVideoEngine = hasVideoMode;
   const isImageEngine = hasImageMode && !hasVideoMode;
-  const benchmarkScoreSlugs = await loadBenchmarkScoreSlugs();
-  const showBenchmarkLink = isVideoEngine && benchmarkScoreSlugs.has(engine.modelSlug);
-  const enginePricingOverrides = await listEnginePricingOverrides();
-  const pricingEngine = applyEnginePricingOverride(
-    engine.engine,
-    enginePricingOverrides[engine.engine.id]
-  );
   const backPath = (() => {
     try {
       const url = new URL(canonicalUrl);
@@ -203,125 +192,50 @@ async function renderMarketingModelPage({
       return `/models/${engine.modelSlug}`;
     }
   })();
-  let examples: GalleryVideo[] = [];
-  const examplePlaylistKeys =
-    engine.modelSlug === 'ltx-2-3-pro' ? ['examples-ltx-2-3-pro', 'examples-ltx-2-3'] : [`examples-${engine.modelSlug}`];
-  try {
-    for (const playlistKey of examplePlaylistKeys) {
-      examples = await listPlaylistVideos(playlistKey, 200);
-      if (examples.length) break;
-    }
-  } catch (error) {
-    console.warn('[models/sora-2] failed to load examples', error);
-  }
-  const normalizedSlug = normalizeEngineId(engine.modelSlug) ?? engine.modelSlug;
-  const allowedEngineIds = new Set([
-    normalizedSlug,
-    engine.modelSlug,
-    engine.id,
-    ...(engine.modelSlug === 'sora-2-pro' ? ['sora-2', 'sora2'] : []),
-    ...(engine.modelSlug === 'sora-2' ? ['sora-2', 'sora2'] : []),
-  ].map((id) => (id ? id.toString().trim().toLowerCase() : '')).filter(Boolean));
-  const soraExamples = examples.filter((video) => {
-    const normalized = normalizeEngineId(video.engineId)?.trim().toLowerCase();
-    return normalized ? allowedEngineIds.has(normalized) : false;
-  });
-  const safeSoraExamples =
-    engine.modelSlug === 'sora-2'
-      ? soraExamples.filter((video) => {
-          const text = [video.prompt, video.promptExcerpt, video.id].filter(Boolean).join(' ');
-          return !/\b(john\s+lennon|lennon|beatles)\b/i.test(text);
-        })
-      : soraExamples;
-  const validatedMap = await getPublicVideosByIds(safeSoraExamples.map((video) => video.id));
-  let galleryVideos = safeSoraExamples
-    .filter((video) => validatedMap.has(video.id))
-    .map((video) =>
-      toGalleryCard(
-        video,
-        engine.brandId,
-        localizedContent.marketingName ?? engine.marketingName,
-        engine.modelSlug,
-        engine.id,
-        backPath,
-        appPath
-      )
-    )
-    .map((card) => resolveGalleryCardHref(card));
-
-  const featuredExampleIds = FEATURED_EXAMPLE_MEDIA[engine.modelSlug] ?? [];
-  const missingFeaturedExamples = featuredExampleIds.filter((id) => !galleryVideos.some((video) => video.id === id));
-  if (featuredExampleIds.length) {
-    const existingFeaturedCards = new Map(galleryVideos.map((video) => [video.id, video]));
-    const fetchedFeaturedCards = new Map<string, (typeof galleryVideos)[number]>();
-    if (missingFeaturedExamples.length) {
-      const featuredMap = await getPublicVideosByIds(missingFeaturedExamples);
-      for (const video of featuredMap.values()) {
-        fetchedFeaturedCards.set(
-          video.id,
-          resolveGalleryCardHref(
-            toGalleryCard(
-              video,
-              engine.brandId,
-              localizedContent.marketingName ?? engine.marketingName,
-              engine.modelSlug,
-              engine.id,
-              backPath,
-              appPath
-            )
-          )
-        );
+  const showPriceInSpecs =
+    engine.id !== 'lumaRay2' && engine.surfaces.pricing.includeInEstimator;
+  const inputs = prepareModelPageInputs(
+    locale,
+    async () => {
+      let examples: GalleryVideo[] = [];
+      let managedCuration=false;
+      const examplePlaylistKeys = modelExamplePlaylistKeys(engine.modelSlug);
+      try {
+        for (const playlistKey of examplePlaylistKeys) {
+          examples = await listPlaylistVideos(playlistKey, 200);
+          managedCuration=await hasPlaylistCuration(playlistKey);
+          if (examples.length || managedCuration) break;
+        }
+      } catch (error) {
+        console.warn('[models/sora-2] failed to load examples', error);
       }
-    }
-    const featuredCards: typeof galleryVideos = [];
-    for (const id of featuredExampleIds) {
-      const card = existingFeaturedCards.get(id) ?? fetchedFeaturedCards.get(id);
-      if (card) featuredCards.push(card);
-    }
-    if (featuredCards.length) {
-      galleryVideos = [
-        ...featuredCards,
-        ...galleryVideos.filter((video) => !featuredExampleIds.includes(video.id)),
-      ];
-    }
-  }
-
-  const preferredIds = PREFERRED_MEDIA[engine.modelSlug] ?? { hero: null, demo: null };
-  const preferredList = [preferredIds.hero, preferredIds.demo].filter((id): id is string => Boolean(id));
-  const missingPreferred = preferredList.filter((id) => !galleryVideos.some((video) => video.id === id));
-  if (missingPreferred.length) {
-    const preferredMap = await getPublicVideosByIds(missingPreferred);
-    for (const id of preferredList) {
-      if (!preferredMap.has(id) || galleryVideos.some((video) => video.id === id)) continue;
-      const video = preferredMap.get(id)!;
-      galleryVideos = [
-        ...galleryVideos,
-        toGalleryCard(
-          video,
-          engine.brandId,
-          localizedContent.marketingName ?? engine.marketingName,
-          engine.modelSlug,
-          engine.id,
-          backPath,
-          appPath
-        )
-      ];
-    }
-  }
-  if (!appGenerationEnabled) {
-    galleryVideos = galleryVideos.map((card) => resolveGalleryCardHref(card));
-  }
-  if (engine.modelSlug === 'kling-2-5-turbo') {
-    const isSixteenNine = (aspect?: string | null) => {
-      const normalized = (aspect ?? '').trim();
-      return normalized === '16:9' || normalized.startsWith('16:9');
-    };
-    galleryVideos = [...galleryVideos].sort((a, b) => {
-      const aScore = (isSixteenNine(a.aspectRatio) ? 0 : 2) + (a.videoUrl ? 0 : 1);
-      const bScore = (isSixteenNine(b.aspectRatio) ? 0 : 2) + (b.videoUrl ? 0 : 1);
-      return aScore - bScore;
-    });
-  }
+      return projectModelPageGallery({
+        engine, examples, managed: managedCuration,
+        preferred: PREFERRED_MEDIA[engine.modelSlug] ?? {hero:null,demo:null},
+        featuredIds: FEATURED_EXAMPLE_MEDIA[engine.modelSlug] ?? [],
+        getPublicVideosByIds,
+        getPublicVideoIds,
+        toCard: video => resolveGalleryCardHref(toGalleryCard(
+          video, engine.brandId, localizedContent.marketingName ?? engine.marketingName,
+          engine.modelSlug, engine.id, backPath, appPath, undefined, locale,
+        )),
+      });
+    },
+    async (overrides) => {
+      const pricingEngine = applyEnginePricingOverride(engine.engine, overrides[engine.engine.id]);
+      const projection = await buildModelPagePriceProjection(pricingEngine, locale, {
+        isImageEngine,
+        showPriceInSpecs,
+        rowLabel: resolveSpecRowLabel(locale, isImageEngine ? 'pricePerImage' : 'pricePerSecond', isImageEngine),
+        audioLabels: resolveAudioPricingLabels(locale),
+        currentSnapshot,
+      });
+      return { pricingEngine, ...projection };
+    },
+  );
+  const { benchmarkScoreSlugs, keySpecsMap, gallery } = await inputs.critical;
+  const { galleryVideos, preferredIds, managed: managedCuration } = gallery;
+  const showBenchmarkLink = isVideoEngine && benchmarkScoreSlugs.has(engine.modelSlug);
   const modelName = localizedContent.marketingName ?? engine.marketingName;
   const fallbackMedia: FeaturedMedia = {
     id: `${engine.modelSlug}-hero-fallback`,
@@ -340,8 +254,8 @@ async function renderMarketingModelPage({
     label: modelName ?? 'Sora',
   };
 
-  let heroMedia = pickHeroMedia(galleryVideos, preferredIds.hero, fallbackMedia);
-  if (engine.modelSlug === 'kling-2-5-turbo') {
+  let heroMedia = pickHeroMedia(galleryVideos, preferredIds.hero, fallbackMedia, { preserveOrder: managedCuration });
+  if (!managedCuration && engine.modelSlug === 'kling-2-5-turbo') {
     const heroCandidate =
       galleryVideos.find((video) => video.aspectRatio === '16:9' && Boolean(video.videoUrl)) ??
       galleryVideos.find((video) => video.aspectRatio === '16:9');
@@ -357,72 +271,15 @@ async function renderMarketingModelPage({
   }
   const compareEngines = pickCompareEngines(listFalEngines(), engine.modelSlug);
   const faqEntries = localizedContent.faqs.length ? localizedContent.faqs : copy.faqs;
-  const showPriceInSpecs =
-    engine.id !== 'lumaRay2' && engine.surfaces.pricing.includeInEstimator;
-  const keySpecsMap = await loadEngineKeySpecs();
   const keySpecsEntry =
     keySpecsMap.get(engine.modelSlug) ?? keySpecsMap.get(engine.id) ?? null;
-  const pricePerSecondLabel = await buildPricePerSecondLabel(pricingEngine, locale);
-  const pricePerImageLabel = await buildPricePerImageLabel(pricingEngine, locale);
-  const keySpecValues = buildSpecValues(engine, keySpecsEntry?.keySpecs, {
-    pricePerSecond: pricePerSecondLabel,
-    pricePerImage: pricePerImageLabel,
+  const specInput = { engine, locale, isImageEngine, showPriceInSpecs, keySpecs: keySpecsEntry?.keySpecs };
+  const { keySpecValues, keySpecRows } = buildModelPageSpecProjection(specInput);
+  const pricing = inputs.pricing.then((projection) => {
+    if (!projection) throw new Error('Model price projection was not started');
+    return { ...projection, ...buildModelPageSpecProjection({ ...specInput, projection }) };
   });
-  const priceRows = showPriceInSpecs
-    ? isImageEngine
-      ? await buildPricePerImageRows(pricingEngine, locale, resolveSpecRowLabel(locale, 'pricePerImage', true))
-      : await buildPricePerSecondRows(
-          pricingEngine,
-          locale,
-          resolveSpecRowLabel(locale, 'pricePerSecond', false),
-          resolveAudioPricingLabels(locale)
-        )
-    : [];
-  const rowDefs = resolveSpecRowDefs(locale, isImageEngine);
-  const pricePerSecondRowLabel = resolveSpecRowLabel(locale, 'pricePerSecond', false);
-  const pricePerImageRowLabel = resolveSpecRowLabel(locale, 'pricePerImage', true);
-  const keySpecDefs = rowDefs.filter((row) => row.key !== (isImageEngine ? 'pricePerImage' : 'pricePerSecond'));
-  const fallbackPriceRows: KeySpecRow[] = !showPriceInSpecs
-    ? []
-    : priceRows.length
-    ? []
-    : isImageEngine
-      ? keySpecValues?.pricePerImage && !isUnsupported(keySpecValues.pricePerImage)
-        ? [
-            {
-              id: 'pricePerImage',
-              key: 'pricePerImage',
-              label: pricePerImageRowLabel,
-              value: keySpecValues.pricePerImage,
-            },
-          ]
-        : []
-      : keySpecValues?.pricePerSecond && !isUnsupported(keySpecValues.pricePerSecond)
-      ? [
-          {
-            id: 'pricePerSecond',
-            key: 'pricePerSecond',
-            label: pricePerSecondRowLabel,
-            value: keySpecValues.pricePerSecond,
-          },
-        ]
-      : [];
-  const keySpecRows: KeySpecRow[] = keySpecValues
-    ? [
-        ...(priceRows.length ? priceRows : fallbackPriceRows),
-        ...keySpecDefs
-          .map(({ key, label }) => ({
-            id: key,
-            key,
-            label,
-            value:
-              key === 'maxResolution' && !isImageEngine
-                ? normalizeMaxResolution(keySpecValues[key])
-                : keySpecValues[key],
-          }))
-          .filter((row) => !isPending(row.value) && !isUnsupported(row.value)),
-      ]
-    : [];
+  void pricing.catch(() => undefined);
 
   return (
     <MarketingModelPageLayout
@@ -431,7 +288,8 @@ async function renderMarketingModelPage({
       localizedContent={localizedContent}
       copy={copy}
       engine={engine}
-      pricingEngine={pricingEngine}
+      pricing={pricing}
+      quoteModel={quoteModel}
       isVideoEngine={isVideoEngine}
       isImageEngine={isImageEngine}
       showBenchmarkLink={showBenchmarkLink}
@@ -442,8 +300,6 @@ async function renderMarketingModelPage({
       faqEntries={faqEntries}
       keySpecRows={keySpecRows}
       keySpecValues={keySpecValues}
-      pricePerImageLabel={pricePerImageLabel}
-      pricePerSecondLabel={pricePerSecondLabel}
       engineSlug={engine.modelSlug}
       locale={locale}
       canonicalUrl={canonicalUrl}
@@ -477,6 +333,9 @@ export default async function ModelDetailPage(props: PageParams) {
       breadcrumb: { ...DEFAULT_DETAIL_COPY.breadcrumb, ...(dictionary.models.detail?.breadcrumb ?? {}) },
     };
     const localizedContent = await getEngineLocalized(model.slug, activeLocale);
+    if (model.lifecycle === 'deep_legacy' && localizedContent.archive) {
+      return <ModelArchivePage model={model} value={localizedContent.archive} locale={activeLocale} />;
+    }
     if (
       isRuntimePresentationOnlyModel(model) ||
       isPrelaunchModelPageTemplateSlug(model.slug)

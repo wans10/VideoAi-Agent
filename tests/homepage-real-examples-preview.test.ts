@@ -45,7 +45,7 @@ test('homepage real examples preview uses compact decision-oriented copy and CTA
   assert.equal(examplesCopy.title, 'A world of stories to create.');
   assert.equal(
     examplesCopy.subtitle,
-    'Open an example to see the prompt, settings and recorded generation cost. Then use it as a starting point for your own creation.'
+    'Open an example to see its prompt, settings and current model price. Then use it as a starting point for your own creation.'
   );
   assert.equal(examplesCopy.eyebrow, 'AI video examples');
   assert.equal(examplesCopy.cta, 'Browse all examples');
@@ -164,6 +164,36 @@ test('homepage hero uses only curated media even when programmed slots exist', (
   assert.match(source, /videoSrc:\s*media\.videoSrc \?\? null/);
 });
 
+test('approved hero carousel alts belong to exact localized hero copy rather than discovery candidates', () => {
+  (globalThis as typeof globalThis & { React: typeof React }).React = React;
+  for (const [locale, messages] of [['en', enMessages], ['fr', frMessages], ['es', esMessages]] as const) {
+    const copy = buildHeroContent(locale, messages.home.redesign as RedesignContent);
+    const getItems = (previews: Parameters<typeof HomeHero>[0]['previews']) => {
+      const pending = [HomeHero({ copy, locale, previews })] as React.ReactNode[];
+      while (pending.length) {
+        const node = pending.shift();
+        if (!React.isValidElement(node)) continue;
+        if (node.type === HeroVideoShowcase) return (node.props as { items: HeroVideoShowcaseItem[] }).items;
+        pending.push(...React.Children.toArray((node.props as { children?: React.ReactNode }).children));
+      }
+      throw new Error('HomeHero must render its real carousel');
+    };
+    const withoutDiscovery = getItems([]);
+    for (const item of withoutDiscovery) {
+      const authored = copy.mockup.engineRecommendations.find(engine => engine.engineId === item.engineId)?.imageAlt;
+      assert.ok(authored?.trim(), `${locale}/${item.engineId} needs its own approved-media description`);
+      assert.equal(item.imageAlt, authored);
+    }
+    const unrelatedPreviews = copy.mockup.engineRecommendations.map(engine => ({
+      id: `discovery-${engine.engineId}`, engineId: engine.engineId, engine: engine.name, title: 'Unrelated gallery scene',
+      mode: 'Text to video', duration: '99s', price: null, useCase: 'Unrelated gallery',
+      imageSrc: '/unrelated-gallery.webp', videoSrc: 'https://example.invalid/unrelated.mp4', imageAlt: 'Unrelated gallery scene',
+      href: { pathname: '/examples' as const }, ctaLabel: 'Examples', cloneLabel: 'Use prompt',
+    }));
+    assert.deepEqual(getItems(unrelatedPreviews), withoutDiscovery, 'All carousel props must be ready independently of discovery candidates');
+  }
+});
+
 test('homepage hero opens on the approved MiniMax H3 Max disaster story with coherent media and pricing', () => {
   (globalThis as typeof globalThis & { React: typeof React }).React = React;
   const cases = [
@@ -193,7 +223,6 @@ test('homepage hero opens on the approved MiniMax H3 Max disaster story with coh
     const copy = buildHeroContent(locale, messages.home.redesign as RedesignContent);
     const hero = HomeHero({
       copy,
-      proofStats: [],
       previews: [],
       programmedHeroItems: [
         {

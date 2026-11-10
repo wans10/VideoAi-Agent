@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { extractFalErrorMessage } from '../frontend/server/fal-webhook-errors';
 import {
   buildUserFacingRefundDescription,
   toUserFacingFailureMessage,
@@ -23,6 +24,15 @@ test('user-facing failure messages hide provider and internal wording', () => {
     'The render finished without a usable output. Please retry or contact support with your request ID if it happens again.'
   );
   assert.doesNotMatch(message, forbidden);
+});
+
+test('Wan reference audio guidance survives job and refund sanitization', () => {
+  const message = 'Wan 3 reference audio must be an MP3 or WAV file. Convert the audio and try again.';
+  assert.equal(toUserFacingFailureMessage(message), message);
+  assert.equal(
+    buildUserFacingRefundDescription({ engineLabel: 'Wan 3 Prime', durationSec: 4, reason: message }),
+    `Refund Wan 3 Prime - 4s - ${message}`,
+  );
 });
 
 test('refund descriptions use product wording instead of raw provider failures', () => {
@@ -53,6 +63,47 @@ test('refund reasons classify storage preparation failures', () => {
 
   assert.equal(reason, 'Output could not be prepared for download.');
   assert.doesNotMatch(reason, forbidden);
+});
+
+test('Fal input download failures explain unreadable references without claiming output completion', () => {
+  const extracted = extractFalErrorMessage({
+    status: 'ERROR',
+    error: 'Unexpected status code: 422',
+  }, {
+    detail: [{
+      loc: ['body', 'input.start_image_url'],
+      type: 'file_download_error',
+      msg: 'Failed to download the file. Please check if the URL is accessible and try again.',
+      input: 'https://private.test/reference.png?token=secret',
+    }],
+  });
+
+  assert.equal(extracted, 'Failed to download the file. Please check if the URL is accessible and try again.');
+  const message = toUserFacingFailureMessage(extracted);
+  assert.match(message, /could not read the reference media/i);
+  assert.match(message, /select the reference again or upload a new file/i);
+  assert.doesNotMatch(message, /finished|completed|output|422|input\.start_image_url|https?:|token|secret/i);
+  assert.doesNotMatch(message, forbidden);
+
+  for (const reason of [extracted, message]) {
+    assert.equal(toUserFacingRefundReason(reason), 'Reference media could not be read.');
+    const description = buildUserFacingRefundDescription({ engineLabel: 'Wan 3', durationSec: 5, reason });
+    assert.equal(description, 'Refund Wan 3 - 5s - Reference media could not be read.');
+    assert.doesNotMatch(description, /finished|completed|output|422|input\.start_image_url|https?:|token|secret/i);
+    assert.doesNotMatch(description, forbidden);
+  }
+});
+
+test('output download and storage failures retain their existing preparation policy', () => {
+  for (const rawMessage of [
+    'The provider finished this render, but the video could not be copied to MaxVideoAI storage.',
+    'Failed to download the generated output video.',
+    'The render finished, but MaxVideoAI could not prepare the video for download. Please retry.',
+  ]) {
+    assert.equal(toUserFacingFailureMessage(rawMessage),
+      'The render finished, but MaxVideoAI could not prepare the output for download. Please retry.');
+    assert.equal(toUserFacingRefundReason(rawMessage), 'Output could not be prepared for download.');
+  }
 });
 
 test('Seedance recognizable-person failures explain reference-image limits', () => {
@@ -116,4 +167,18 @@ test('Seedance copyright output failures keep their precise refund reason', () =
     'Refund Seedance 2.0 - 10s - Output was blocked for possible copyright-restricted content.'
   );
   assert.doesNotMatch(description, forbidden);
+});
+
+test('short output copyright reasons retain priority over generic safety wording', () => {
+  const message = toUserFacingFailureMessage('Output was blocked for possible copyright-restricted content.');
+  assert.match(message, /output checks detected possible copyright-restricted content/);
+  assert.doesNotMatch(message, /This request was blocked|output for download/);
+  assert.equal(toUserFacingRefundReason(message), 'Output was blocked for possible copyright-restricted content.');
+});
+
+test('Seedance input-image safety diagnostics retain their specific reference guidance', () => {
+  const message = toUserFacingFailureMessage('Seedance rejected the input image during its safety checks.');
+  assert.match(message, /Seedance blocked a reference image/);
+  assert.match(message, /non-identifiable, stylized, or generated reference image/);
+  assert.doesNotMatch(message, /This request was blocked/);
 });

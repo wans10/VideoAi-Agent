@@ -3,6 +3,13 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { getAnalyticsRouteContext } from '@/lib/analytics-route';
+import { loadCookiePolicyVersion } from '@/components/legal/cookie-policy-version.client';
+import { hasAnalyticsConsentForPolicyVersion } from '@/lib/analytics/consent-client';
+import {
+  COMMERCIAL_ANALYTICS_CONTEXT_CHANGED_EVENT,
+  COMMERCIAL_ANALYTICS_RESOLVED_EVENT,
+  isBrowserCommercialAnalyticsExcluded,
+} from '@/lib/analytics/commercial-client';
 
 const GTM_ID =
   process.env.NEXT_PUBLIC_GTM_ID ??
@@ -33,19 +40,8 @@ function hasConsent({ storageKey, grantedValue }: { storageKey: string; grantedV
   }
 }
 
-function isLighthouseRun() {
-  if (typeof navigator === 'undefined') return false;
-  const ua = navigator.userAgent || '';
-  if (ua.includes('Chrome-Lighthouse')) return true;
-  try {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('lh-mode') === '1';
-  } catch {
-    return false;
-  }
-}
-
 type ConsentEventDetail = {
+  version?: string;
   categories?: {
     analytics?: boolean;
   };
@@ -58,12 +54,15 @@ export function GtmLazyLoader({
 }: GtmLazyLoaderProps = {}) {
   const pathname = usePathname();
   const [analyticsConsentGranted, setAnalyticsConsentGranted] = useState(false);
+  const [policyVersion, setPolicyVersion] = useState<string | null>(null);
   const routeContext = getAnalyticsRouteContext(pathname);
 
   useEffect(() => {
+    let active = true;
+    let currentVersion: string | null = null;
     const syncFromStorage = () => {
       setAnalyticsConsentGranted(
-        hasConsent({
+        !isBrowserCommercialAnalyticsExcluded() && hasAnalyticsConsentForPolicyVersion(currentVersion) && hasConsent({
           storageKey: consentStorageKey,
           grantedValue: consentGrantedValue,
         })
@@ -72,8 +71,12 @@ export function GtmLazyLoader({
 
     const handleConsentUpdated = (event: Event) => {
       const detail = (event as CustomEvent<ConsentEventDetail>).detail;
+      if (typeof detail?.version === 'string') {
+        currentVersion = detail.version;
+        setPolicyVersion(currentVersion);
+      }
       if (detail?.categories && typeof detail.categories.analytics === 'boolean') {
-        setAnalyticsConsentGranted(Boolean(detail.categories.analytics));
+        setAnalyticsConsentGranted(Boolean(detail.categories.analytics) && hasAnalyticsConsentForPolicyVersion(currentVersion) && !isBrowserCommercialAnalyticsExcluded());
         return;
       }
       syncFromStorage();
@@ -84,18 +87,30 @@ export function GtmLazyLoader({
       syncFromStorage();
     };
 
-    syncFromStorage();
+    if (GTM_ID && !DISABLE_GTM) {
+      void loadCookiePolicyVersion().then(version => {
+        if (!active) return;
+        currentVersion = version;
+        setPolicyVersion(version);
+        syncFromStorage();
+      });
+    }
     window.addEventListener('consent:updated', handleConsentUpdated as EventListener);
     window.addEventListener('storage', handleStorage);
+    window.addEventListener(COMMERCIAL_ANALYTICS_RESOLVED_EVENT, syncFromStorage);
+    window.addEventListener(COMMERCIAL_ANALYTICS_CONTEXT_CHANGED_EVENT, syncFromStorage);
     return () => {
+      active = false;
       window.removeEventListener('consent:updated', handleConsentUpdated as EventListener);
       window.removeEventListener('storage', handleStorage);
+      window.removeEventListener(COMMERCIAL_ANALYTICS_RESOLVED_EVENT, syncFromStorage);
+      window.removeEventListener(COMMERCIAL_ANALYTICS_CONTEXT_CHANGED_EVENT, syncFromStorage);
     };
   }, [consentGrantedValue, consentStorageKey]);
 
   useEffect(() => {
     if (!GTM_ID) return;
-    if (DISABLE_GTM || isLighthouseRun()) {
+    if (DISABLE_GTM) {
       return;
     }
     if (routeContext.excludedFromGa4) {
@@ -106,6 +121,8 @@ export function GtmLazyLoader({
     }
 
     const timer = window.setTimeout(() => {
+      if (isBrowserCommercialAnalyticsExcluded() || !hasAnalyticsConsentForPolicyVersion(policyVersion) || !hasConsent({ storageKey: consentStorageKey, grantedValue: consentGrantedValue })) return;
+      if (getAnalyticsRouteContext(window.location.pathname).excludedFromGa4) return;
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
 
@@ -123,7 +140,7 @@ export function GtmLazyLoader({
     return () => {
       window.clearTimeout(timer);
     };
-  }, [analyticsConsentGranted, delayMs, routeContext.excludedFromGa4]);
+  }, [analyticsConsentGranted, consentGrantedValue, consentStorageKey, delayMs, policyVersion, routeContext.excludedFromGa4]);
 
   return null;
 }

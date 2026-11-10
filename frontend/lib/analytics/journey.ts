@@ -38,9 +38,16 @@ type ApprovedUtmTouch = {
   contents?: readonly string[];
 };
 
+const ADS_READINESS_DRAFT_CONTENTS = [
+  'result_horizontal48', 'result_vertical48', 'quote_horizontal48', 'quote_vertical48',
+  'result_horizontal24', 'result_vertical24', 'quote_horizontal24', 'quote_vertical24',
+] as const;
+
 const APPROVED_UTM_TOUCHES: readonly ApprovedUtmTouch[] = [
   { source: 'google', medium: 'cpc' },
   { source: 'google', medium: 'cpc', campaign: 'Launch', contents: ['Hero'] },
+  { source: 'google', medium: 'cpc', campaign: 'claude_desktop_clip_20261005', contents: ADS_READINESS_DRAFT_CONTENTS },
+  { source: 'youtube', medium: 'paid_video', campaign: 'claude_desktop_clip_20261005', contents: ADS_READINESS_DRAFT_CONTENTS },
   { source: 'newsletter', medium: 'email' },
   {
     source: 'github', medium: 'repository', campaign: 'maxvideoai_product',
@@ -75,10 +82,12 @@ const ANALYTICS_ROUTE_FAMILIES = new Set([
 const ANALYTICS_LOCALES = new Set(['en', 'fr', 'es']);
 const ANALYTICS_TOOL_NAMES = new Set([
   'tools_hub', 'angle', 'background_removal', 'character_builder', 'storyboard', 'upscale', 'audio',
+  'studio',
 ]);
 const ANALYTICS_WORKSPACE_SECTIONS = new Set([
   'home', 'image', 'audio', 'library', 'tools', 'billing', 'generate', 'dashboard', 'jobs',
   'settings', 'connect', 'video',
+  'studio',
 ]);
 const SAFE_MARKETING_LANDING_SURFACES = new Set([
   '/', '/about', '/ai-video-engines', '/benchmarks', '/best-for', '/blog', '/changelog',
@@ -86,7 +95,7 @@ const SAFE_MARKETING_LANDING_SURFACES = new Set([
   ...getMcpPublicIntegrationPaths(), '/legal',
   '/legal/acceptable-use', '/legal/cookies', '/legal/cookies-list', '/legal/mentions',
   '/legal/privacy', '/legal/subprocessors', '/legal/takedown', '/legal/terms', '/mcp',
-  '/models', '/pay-as-you-go-ai-video-generator', '/pricing', '/status', '/tools', '/workflows',
+  '/models', '/pay-as-you-go-ai-video-generator', '/pricing', '/status', '/studio', '/tools', '/workflows',
 ]);
 const MARKETING_OWNER_SURFACES: Readonly<Record<string, string>> = {
   '/ai-video-engines/': '/ai-video-engines',
@@ -454,6 +463,7 @@ const TOPUP_PAYLOAD_KEYS = [
 ] as const;
 
 const ANALYTICS_EVENT_PAYLOAD_KEYS = {
+  comparison_interaction: ['route_family', 'action', 'engine', 'section', 'locale', 'model_left', 'model_right'],
   studio_guided_template_started: ['template_id', 'step_id', 'locale', 'elapsed_ms', 'viewport_class'],
   studio_guide_step_focused: ['template_id', 'step_id', 'locale', 'elapsed_ms', 'viewport_class'],
   studio_guide_hidden: ['template_id', 'step_id', 'locale', 'elapsed_ms', 'viewport_class'],
@@ -467,6 +477,8 @@ const ANALYTICS_EVENT_PAYLOAD_KEYS = {
   ],
   tool_view: ['route_family', 'tool_name', 'tool_surface', 'logged_in'],
   app_open: ['route_family', 'app_section'],
+  studio_entered: ['route_family'],
+  first_media_completed_in_journey: [...GENERATION_CONTEXT_PAYLOAD_KEYS, 'tool_name', 'tool_surface', 'completion_source', 'result_count', 'output_count'],
   tool_cta_click: CLICK_PAYLOAD_KEYS,
   cta_click: CLICK_PAYLOAD_KEYS,
   hero_start_render_click: CLICK_PAYLOAD_KEYS,
@@ -582,6 +594,9 @@ function analyticsPrimitive(value: unknown): string | number | boolean | undefin
 type AnalyticsPrimitive = string | number | boolean;
 
 const ENGINE_IDS = new Set([
+  'luma-ray-2', 'luma-ray-2-flash', 'kling-3-turbo-standard', 'kling-3-turbo-pro',
+  'dreamina-seedance-2-0-mini', 'ltx-2-3-pro', 'minimax-h3-max', 'wan-3', 'wan-3-prime',
+  'ltx-2-5-fast', 'ltx-2-5-pro', 'grok-imagine-video-1-5', 'flux-3', 'flux-3-draft',
   'happy-horse-1-0', 'happy-horse-1-1', 'seedance-2-0-mini', 'seedance-1-5-pro',
   'seedance-2-0', 'seedance-2-0-fast', 'seedance-2-5', 'seedream', 'seedream-5-0-pro',
   'nano-banana', 'nano-banana-2', 'nano-banana-lite', 'nano-banana-pro', 'gemini-omni-flash',
@@ -595,6 +610,7 @@ const ENGINE_IDS = new Set([
   'bria-video-background-removal-v3',
 ]);
 const CTA_NAMES = new Set([
+  'studio_open', 'mcp_setup_guide', 'mcp_choose_integration',
   'reuse_example', 'view_example_details',
   'pricing_scenario',
   'marketing_nav_login', 'marketing_nav_start_app', 'homepage_ai_video_plugin', 'all_comparisons',
@@ -605,10 +621,11 @@ const CTA_NAMES = new Set([
   ...ENGINE_IDS,
 ]);
 const CTA_LOCATIONS = new Set([
+  'studio_hero', 'studio_closing', 'integration_hero', 'mcp_hero',
   'examples_hero', 'examples_gallery', 'watch_hero', 'watch_sidebar',
   'pricing_hero',
   'marketing_nav_mobile', 'marketing_nav_desktop', 'home_assistant_workflow', 'comparison_intro',
-  'comparison_preview', 'reference_workflow', 'toolbox', 'toolbox_cta', 'transparent_pricing',
+  'comparison_scorecard', 'comparison_preview', 'reference_workflow', 'toolbox', 'toolbox_cta', 'transparent_pricing',
   'home_hero', 'examples_preview', 'examples_preview_cta', 'examples_preview_featured_model',
   'examples_preview_header', 'examples_preview_model', 'shot_type_hub_cta', 'shot_type_selector',
   'tools_hub_hero', 'tool_angle_final', 'tool_angle_hero', 'tool_angle_examples',
@@ -625,18 +642,22 @@ const EXACT_STRING_VALUES: Readonly<Record<string, ReadonlySet<string>>> = {
   app_section: new Set(['workspace', ...ANALYTICS_WORKSPACE_SECTIONS]),
   cta_name: CTA_NAMES,
   cta_location: CTA_LOCATIONS,
-  target_family: new Set(['auth', 'workspace', 'examples', 'compare', 'models', 'tools', 'pricing', 'mcp', 'best-for', 'public_tools', 'app_tools']),
-  action: new Set(['connect', 'copy_endpoint', 'generate', 'full_body_fix', 'lighting_variant', 'continue', 'refine', 'branch', 'copy', 'open']),
+  target_family: new Set(['auth', 'workspace', 'examples', 'compare', 'models', 'tools', 'pricing', 'mcp', 'studio', 'best-for', 'public_tools', 'app_tools']),
+  action: new Set(['copy_comparison', 'copy_link', 'model_change', 'details_open', 'video_play', 'connect', 'copy_endpoint', 'generate', 'full_body_fix', 'lighting_variant', 'continue', 'refine', 'branch', 'copy', 'open']),
   client: new Set(['claude', 'chatgpt', 'codex']),
   destination: new Set(['verified_deep_link', 'setup_guide', 'manual_setup']),
   locale: ANALYTICS_LOCALES,
   auth_surface: new Set(['login']),
   method: new Set(['password', 'google']),
+  completion_source: new Set(['generation', 'tool']),
   source_mode: new Set(['scratch', 'reference-image']),
   output_mode: new Set(['portrait_reference', 'character_sheet']),
   quality_mode: new Set(['draft', 'final']),
   format_mode: new Set(['standard', '2k', '4k']),
   engine: ENGINE_IDS,
+  model_left: ENGINE_IDS,
+  model_right: ENGINE_IDS,
+  section: new Set(['scores', 'specifications', 'left', 'right']),
   mode: new Set(['t2v', 'i2v', 'ref2v', 'v2v', 'r2v', 'fl2v', 'a2v', 't2i', 'i2i', 'extend', 'retake', 'reframe']),
   payment_mode: new Set(['wallet', 'platform']),
   payment_status: new Set(['pending_payment', 'paid_wallet', 'paid_direct', 'refunded_wallet', 'included_mcp_trial', 'platform', 'quoted', 'curated', 'completed']),
@@ -705,6 +726,7 @@ const LOCAL_KEY_PATTERN = /^local_batch_[a-z0-9]{4,20}_[a-z0-9]{4,16}_[1-9][0-9]
 const SAFE_STATIC_PATHS = new Set([
   '/', '/mcp', '/models', '/examples', '/compare', '/pricing', '/best-for', '/tools', '/app',
   '/app/image', '/app/audio', '/app/library', '/app/tools', '/billing', '/login', '/signup',
+  '/app/studio', '/studio',
   '/dashboard', '/generate', '/jobs', '/settings', '/connect', '/video/:video',
 ]);
 
@@ -898,6 +920,27 @@ export function prepareJourneyEvents(
       ...(funnelStage ? { funnel_stage: funnelStage } : {}),
     }),
   });
+
+  const projected = projectAnalyticsPayload(event, payload);
+  if (event === 'page_view' && projected.route_family === 'workspace' && projected.workspace_section === 'studio') {
+    events.push({ event: 'studio_entered', payload: mergeJourneyPayload('studio_entered', { route_family: 'workspace' }, common) });
+  }
+  const correlatedGenerationCompletion = event === 'generation_completed'
+    && typeof projected.job_id === 'string'
+    && typeof projected.generation_sequence === 'number'
+    && projected.generation_sequence > 0
+    && projected.generation_sequence <= record.generationStartedCount;
+  const toolCompletion = event === 'tool_complete' && typeof projected.tool_name === 'string'
+    && (Number(projected.result_count ?? 0) > 0 || Number(projected.output_count ?? 0) > 0);
+  if (nextRecord.firstMediaCompletedAt === undefined && (correlatedGenerationCompletion || toolCompletion)) {
+    nextRecord = { ...nextRecord, firstMediaCompletedAt: now };
+    events.push({
+      event: 'first_media_completed_in_journey',
+      payload: mergeJourneyPayload('first_media_completed_in_journey', {
+        ...projected, completion_source: correlatedGenerationCompletion ? 'generation' : 'tool',
+      }, common),
+    });
+  }
 
   return { record: nextRecord, events };
 }

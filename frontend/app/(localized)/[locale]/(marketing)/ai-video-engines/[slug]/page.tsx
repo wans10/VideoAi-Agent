@@ -16,19 +16,13 @@ import { getComparePageOverride } from './_lib/compare-page-overrides';
 import { buildCompareFaqItems, buildCompareFaqJsonLd } from './_lib/compare-page-faq';
 import { buildComparePageMetadata } from './_lib/compare-page-metadata';
 import { buildRelatedComparisonLinks } from './_lib/compare-page-related-links';
-import { buildCompareRouteData } from './_lib/compare-page-route-data';
+import { loadComparePageData } from './_lib/compare-page-route-data';
 import { buildCompareBreadcrumbJsonLd, buildCompareWebPageJsonLd } from './_lib/compare-page-schema';
-import {
-  buildCompareSummaryRows,
-  buildComparisonMetrics,
-} from './_lib/compare-page-scorecard';
+import { buildComparisonMetrics } from './_lib/compare-page-scorecard';
 import { buildCompareSpecRows } from './_lib/compare-page-spec-rows';
-import { loadCompareGallery } from './_lib/compare-gallery-loader';
 import {
-  computePricingScore,
   getCanonicalCompareSlug,
   getEngineAccent,
-  getEngineToneVars,
   isEngineGeneratable,
   resolveEngines,
   resolveExcludedCompareRedirect,
@@ -106,36 +100,30 @@ export default async function CompareDetailPage(
   if (shouldSwapDisplayOrder) {
     [left, right] = [right, left];
   }
-  const routeData = await buildCompareRouteData({ activeLocale, left, right });
+  const { routeData, leftGallery, rightGallery } = await loadComparePageData({ activeLocale, left, right });
   left = routeData.left;
   right = routeData.right;
   const {
     criteriaCount,
     engineScoresBySlug,
     hasPrelaunchEngine,
-    leftIsPrelaunch,
     leftOverall,
     leftPricingDisplay,
     leftScore,
     leftSpecs,
     pairHasKling3Native4k,
     pairHasNativeAudio,
-    rightIsPrelaunch,
     rightOverall,
     rightPricingDisplay,
     rightScore,
     rightSpecs,
   } = routeData;
-  const [leftGallery, rightGallery] = await Promise.all([
-    loadCompareGallery(left, leftIsPrelaunch), loadCompareGallery(right, rightIsPrelaunch),
-  ]);
   const {
     generateWithLabel,
     heroIntroTemplate,
     prelaunchNotice,
     scorecardCriteriaLabel,
     scorecardProvisionalNote,
-    winnerSummaryHeading,
   } = buildCompareDetailPageText({
     activeLocale,
     compareCopy,
@@ -150,10 +138,6 @@ export default async function CompareDetailPage(
   const rightAccent = getEngineAccent(right);
   const leftCanGenerate = isEngineGeneratable(left);
   const rightCanGenerate = isEngineGeneratable(right);
-  const priceScores = {
-    leftScore: computePricingScore(leftPricingDisplay.scorePrices ?? leftPricingDisplay.prices),
-    rightScore: computePricingScore(rightPricingDisplay.scorePrices ?? rightPricingDisplay.prices),
-  };
   // Observed production latency is not a controlled editorial speed score.
   const speedScores = { leftScore: null, rightScore: null };
   const resolvedLeftOptions = ENGINE_OPTIONS;
@@ -216,29 +200,13 @@ export default async function CompareDetailPage(
     leftScore,
     rightScore,
     pairHasNativeAudio,
-    priceScores,
     speedScores,
   });
-  const summaryRows = buildCompareSummaryRows({
-    activeLocale,
-    compareCopy,
-    comparisonMetrics,
-    hasPrelaunchEngine,
-    labels,
-    left,
-    right,
-    leftPricingDisplay,
-    rightPricingDisplay,
-    leftSpecs,
-    rightSpecs,
-    priceScores,
-    specLabels,
-  });
-  const leftScoreStyle = getEngineToneVars(left, leftOverall);
-  const rightScoreStyle = getEngineToneVars(right, rightOverall);
 
   return (
     <CompareDetailContent
+      priceSnapshotAt={routeData.priceSnapshotAt}
+      specSources={routeData.specSources}
       galleries={{ left: leftGallery, right: rightGallery }}
       returnPath={`${localePrefix}/${compareBase}/${canonicalSlug}`}
       activeLocale={activeLocale}
@@ -255,9 +223,9 @@ export default async function CompareDetailPage(
       left={left}
       leftAccent={leftAccent}
       leftCanGenerate={leftCanGenerate}
+      leftScoreUpdated={leftScore?.last_updated ?? null}
       leftOverall={leftOverall}
       leftPricingDisplay={leftPricingDisplay}
-      leftScoreStyle={leftScoreStyle}
       pageOverride={pageOverride}
       pairHasNativeAudio={pairHasNativeAudio}
       prelaunchNotice={prelaunchNotice}
@@ -268,15 +236,13 @@ export default async function CompareDetailPage(
       right={right}
       rightAccent={rightAccent}
       rightCanGenerate={rightCanGenerate}
+      rightScoreUpdated={rightScore?.last_updated ?? null}
       rightOverall={rightOverall}
       rightPricingDisplay={rightPricingDisplay}
-      rightScoreStyle={rightScoreStyle}
       scorecardCriteriaLabel={scorecardCriteriaLabel}
       scorecardProvisionalNote={scorecardProvisionalNote}
       specRows={specRows}
-      summaryRows={summaryRows}
       webPageJsonLd={webPageJsonLd}
-      winnerSummaryHeading={winnerSummaryHeading}
     />
   );
 }

@@ -1,12 +1,16 @@
 import '@/styles/marketing-home.css';
+import { Suspense } from 'react';
 import { buildHomeComparisonData, buildHomeComparisonLinks } from './_lib/home-comparison-data';
 import { HomePricingSection } from '@/components/marketing/home/HomePricingSection';
-import { buildHomePriceDemo } from './_lib/home-price-demo-data';
+import { HomeDeferredPricing } from './_components/HomeDeferredPricing';
 import { HomeCreativeWorlds } from '@/components/marketing/home/HomeCreativeWorlds';
 import { HomeCreationSection } from '@/components/marketing/home/HomeCreationSection';
 import { HomeModelChoice } from '@/components/marketing/home/HomeModelChoice';
 import { HomeToolsGallery } from '@/components/marketing/home/HomeToolsGallery';
-import { loadEngineScores } from '../ai-video-engines/[slug]/_lib/compare-page-data-loaders';
+import { prepareHomePageData } from './_lib/home-page-data';
+import { HomeDiscovery } from './_components/HomeDiscovery';
+import { HomeModelDiscovery } from '@/components/marketing/home/HomeModelDiscovery';
+import { assembleHomepageExampleCards } from './_lib/home-route-data/examples';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { resolveDictionary } from '@/lib/i18n/server';
@@ -25,13 +29,7 @@ import {
   buildBestForGuideCards,
   buildHeroContent,
   buildProgrammedHeroItems,
-  buildProofStats,
-  computeEngineStats,
   filterProviderItems,
-  loadHomepageExamples,
-  selectHomepageHeroPreviews,
-  loadProgrammedHomepageHeroSlots,
-  loadSuccessfulGenerationCount,
   type RedesignContent,
 } from './_lib/home-route-data';
 import { buildFaqSchema, buildItemListSchema, buildSoftwareSchema, serializeJsonLd } from './_lib/home-jsonld';
@@ -48,7 +46,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     title: t('title'),
     description: t('description'),
     hreflangGroup: 'home',
-    image: '/og/home-hub.png',
+    image: '/og/home-2026-09-25.png',
     imageAlt: t('title'),
   });
 }
@@ -60,19 +58,14 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const content = dictionary.home.redesign as RedesignContent;
   const workflowSeoCopy = dictionary.home.seoContent as WorkflowSeoSummaryCopy | undefined;
   const startupFameLabel = dictionary.home.partners?.startupFameLabel ?? 'Featured on Startup Fame';
-  const stats = computeEngineStats();
   const hero = buildHeroContent(locale, content);
-  const [examples, programmedHeroSlots, successfulGenerationCount] = await Promise.all([
-    loadHomepageExamples(locale, content),
-    loadProgrammedHomepageHeroSlots(),
-    loadSuccessfulGenerationCount(),
-  ]);
-  const proofStats = buildProofStats(content, stats, locale, successfulGenerationCount);
+  const pendingData = prepareHomePageData(locale, content);
+  const { programmedHeroSlots, engineScores } = await pendingData.critical;
   const programmedHeroItems = buildProgrammedHeroItems(locale, content, programmedHeroSlots);
   const primaryBestForCards = buildBestForGuideCards(content, BEST_FOR_MAIN_SLUGS);
-  const engineScores = await loadEngineScores();
   const comparisonScores = buildHomeComparisonData(engineScores);
   const providers = filterProviderItems(content);
+  const fallbackExamples = assembleHomepageExampleCards({ locale, content, globalCandidates: [], familyVideos: new Map() });
   const mcpLink = getMcpInternalLink(locale, 'home');
   const softwareSchema = buildSoftwareSchema(content, locale);
   const faqSchema = buildFaqSchema(content.faq.items);
@@ -82,12 +75,18 @@ export default async function HomePage(props: { params: Promise<{ locale: string
     <div className="home-monochrome home-cinema">
       <HomeHero
         copy={hero}
-        proofStats={proofStats}
-        previews={selectHomepageHeroPreviews(examples)}
         programmedHeroItems={programmedHeroItems}
+        currentHeroPricesPending={pendingData.heroPrices}
+        locale={locale}
       />
       <DeferredMarketingContent><HomeCreationSection locale={locale} assistantHref={mcpLink?.href} /></DeferredMarketingContent>
-      <DeferredMarketingContent><HomeCreativeWorlds locale={locale} cards={primaryBestForCards} examples={examples} providers={providers} examplesCopy={content.examples} /></DeferredMarketingContent>
+      <DeferredMarketingContent>
+        <HomeCreativeWorlds locale={locale} cards={primaryBestForCards} examplesCopy={content.examples} modelDiscovery={
+          <Suspense fallback={<HomeModelDiscovery locale={locale} examples={fallbackExamples} providers={providers} copy={content.examples} />}>
+            <HomeDiscovery locale={locale} examples={pendingData.examples} providers={providers} copy={content.examples} />
+          </Suspense>
+        } />
+      </DeferredMarketingContent>
       <DeferredMarketingContent>
         <HomeModelChoice locale={locale} scores={comparisonScores} startupFameLabel={startupFameLabel} comparisons={buildHomeComparisonLinks()}/>
       </DeferredMarketingContent>
@@ -95,7 +94,9 @@ export default async function HomePage(props: { params: Promise<{ locale: string
         <HomeToolsGallery locale={locale} />
       </DeferredMarketingContent>
       <DeferredMarketingContent>
-        <HomePricingSection locale={locale} models={buildHomePriceDemo(locale)} copy={content.pricingTrust} />
+        <Suspense fallback={<HomePricingSection locale={locale} copy={content.pricingTrust} pending />}>
+          <HomeDeferredPricing locale={locale} models={pendingData.priceModels} copy={content.pricingTrust} />
+        </Suspense>
       </DeferredMarketingContent>
       <DeferredMarketingContent>
         {workflowSeoCopy ? <WorkflowSeoSummary copy={workflowSeoCopy} locale={locale} /> : null}

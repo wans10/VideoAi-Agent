@@ -134,6 +134,19 @@ test('catalog emits a narrow public DTO and supported modes only', async () => {
   assert.equal('provider' in models[0], false);
 });
 
+test('catalog keeps Pika discoverable without recommending it by default', async () => {
+  const catalogDeps = realRegistryDeps('test-fal-key');
+  const broad = await listAgentModels({ surface: 'video' }, catalogDeps);
+  const exact = await listAgentModels({ id: 'pika-text-to-video' }, catalogDeps);
+
+  for (const model of [broad.find((entry) => entry.id === 'pika-text-to-video'), exact[0]]) {
+    assert.ok(model);
+    assert.equal(model.lifecycle, 'current');
+    assert.equal(model.generationEnabled, true);
+    assert.equal(model.recommendedByDefault, false);
+  }
+});
+
 test('hidden, disabled, admin-only, maintenance, and unsupported engines never appear', async () => {
   const engines = [
     engine('public', ['t2v']),
@@ -233,15 +246,15 @@ test('mode-scoped catalog filtering uses modeCaps while aggregate discovery stay
   assert.equal(aggregate.referenceImages, true);
 });
 
-test('real Sora 2 Pro never publishes ref2v without an executable mode capability', async () => {
+test('archived Sora 2 Pro retains historical modes without generation', async () => {
   const registryDeps = realRegistryDeps('test-fal-key');
   const [soraModel] = await listAgentModels({ id: 'sora-2-pro' }, registryDeps);
   const soraCapability = (await listPublicAgentGenerationEngines(registryDeps))
     .find((candidate) => candidate.engine.id === 'sora-2-pro');
   assert.ok(soraModel);
-  assert.ok(soraCapability);
+  assert.equal(soraCapability, undefined);
+  assert.equal(soraModel.generationEnabled, false);
   assert.deepEqual(soraModel.modes, ['t2v', 'i2v']);
-  assert.deepEqual(soraCapability.publicModes, ['t2v', 'i2v']);
 });
 
 test('catalog never advertises H3 generation without an effective Fal credential', async () => {
@@ -302,7 +315,7 @@ test('catalog mirrors real execution gates for newly registered video models', {
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v'],
         aspectRatios: ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', 'auto'],
-        resolutions: ['768P', '2K', '4K'],
+        resolutions: ['480P', '768P', '2K', '4K'],
         maxDurationSec: 15,
         audio: true,
         referenceImages: true,
@@ -330,7 +343,7 @@ test('catalog mirrors real execution gates for newly registered video models', {
         label: 'Seedance 2.5',
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v', 'extend'],
-        aspectRatios: ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16'],
+        aspectRatios: ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16'],
         resolutions: ['480p', '720p', '1080p'],
         maxDurationSec: 30,
         audio: true,
@@ -364,7 +377,7 @@ test('catalog mirrors real execution gates for newly registered video models', {
         label: 'Seedance 2.5',
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v', 'v2v', 'extend'],
-        aspectRatios: ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16'],
+        aspectRatios: ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16'],
         resolutions: ['480p', '720p', '1080p'],
         maxDurationSec: 30,
         audio: true,

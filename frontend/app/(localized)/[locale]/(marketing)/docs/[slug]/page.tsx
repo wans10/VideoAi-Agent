@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import '@/components/marketing/public-prose.css';
 import { notFound } from 'next/navigation';
 import { FEATURES } from '@/content/feature-flags';
 import { Link } from '@/i18n/navigation';
@@ -19,6 +19,7 @@ import {
   resolveDocsEntryPublication,
 } from '../_lib/docs-index-data';
 import { DocsArticleAttribution } from '../_components/DocsArticleAttribution';
+import { DocsArticleJsonLdScripts } from '../_components/DocsArticleJsonLdScripts';
 
 interface Params {
   locale?: AppLocale;
@@ -141,7 +142,7 @@ export async function generateMetadata(props: { params: Promise<Params> }): Prom
     locale,
     title: `${doc.title} — MaxVideo AI Docs`,
     description: doc.description,
-    image: doc.image ?? '/og/price-before.png',
+    image: doc.image ?? '/og/brand-2026-09-25.png',
     imageAlt: doc.title,
     ogType: 'article',
     englishPath: `/docs/${doc.slug}`,
@@ -261,7 +262,7 @@ export default async function DocPage(props: { params: Promise<Params> }) {
           <h1 className="text-3xl font-semibold text-text-primary sm:text-5xl">{doc.title}</h1>
           <p className="text-base leading-relaxed text-text-secondary">{doc.description}</p>
         </header>
-        <div className="prose prose-slate max-w-none" dangerouslySetInnerHTML={{ __html: doc.content }} />
+        <div className="public-prose prose" dangerouslySetInnerHTML={{ __html: doc.content }} />
         {relatedDocs.length ? (
           <p className="text-sm text-text-muted">
             <Link href="/docs" className="underline underline-offset-2 hover:text-text-primary">
@@ -282,22 +283,14 @@ export default async function DocPage(props: { params: Promise<Params> }) {
           </p>
         ) : null}
       </article>
-      <Script id={`docs-breadcrumb-${locale}-${doc.slug}-jsonld`} type="application/ld+json">
-        {JSON.stringify(breadcrumbJsonLd)}
-      </Script>
-      {docJsonLd ? (
-        <Script id={`docs-article-${locale}-${doc.slug}-jsonld`} type="application/ld+json">
-          {JSON.stringify(docJsonLd)}
-        </Script>
-      ) : null}
-      {(doc.slug !== 'mcp' || publication.indexable) ? doc.structuredData?.map((json, index) => (
-        <Script
-          key={`docs-jsonld-${doc.slug}-${index}`}
-          id={`docs-jsonld-${doc.slug}-${index}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: json }}
-        />
-      )) : null}
+      <DocsArticleJsonLdScripts
+        locale={locale}
+        slug={doc.slug}
+        breadcrumb={breadcrumbJsonLd}
+        article={docJsonLd}
+        structuredData={doc.structuredData}
+        includeAuthoredData={doc.slug !== 'mcp' || publication.indexable}
+      />
     </div>
   );
 }

@@ -32,7 +32,7 @@ test('watch, comparisons and card previews keep shared lifecycle and original UR
     read('frontend/components/examples/ExampleGalleryCard.tsx'),
     read('frontend/components/examples/useExampleCardPlayback.ts'),
     read('frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_components/CompareShowdownMedia.tsx'),
-    read('frontend/app/(core)/video/[id]/_components/VideoWatchContent.tsx'),
+    read('frontend/app/(public-watch)/video/[id]/_components/VideoWatchContent.tsx'),
   ]);
   for (const reader of [watch, comparison]) assert.match(reader, /usePublicVideoControls/);
   for (const owner of [controls, cardPlayback]) {
@@ -41,7 +41,8 @@ test('watch, comparisons and card previews keep shared lifecycle and original UR
   }
   assert.match(comparison, /usePublicVideoControls\(src, 'comparison', 'original'\)/);
   assert.match(comparisonMedia, /buildPublicVideoPosterUrl\(side.posterUrl\)/);
-  assert.match(card, /video.previewVideoUrl \?\? video.videoUrl/);
+  assert.match(card, /video.previewVideoUrl\?\?null/);
+  assert.doesNotMatch(card, /video.previewVideoUrl\s*\?\?\s*video.videoUrl/, 'incidental previews never autoplay full originals');
   assert.match(card, /useExampleCardPlayback/);
   assert.match(card, /preload="none"/);
   assert.doesNotMatch(card, /poster=\{/);

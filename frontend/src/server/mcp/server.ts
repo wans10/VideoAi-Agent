@@ -1,3 +1,4 @@
+import { seedanceWorkflowEnabled } from '@/server/seedance-workflow-request';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import mcpPublication from '@/config/mcp-publication.json';
@@ -55,7 +56,7 @@ import {
   type PrepareGenerationInput,
   type TrialRiskRequestContext,
 } from '@/server/agent-api/prepare-generation';
-import { listAudioCapabilities } from '@/server/agent-api/audio-capabilities';
+import { listAudioCapabilities, listMcpAudioCapabilities } from '@/server/agent-api/audio-capabilities';
 import {
   createPrepareAudioGenerationService,
   type PreparedAudioGeneration,
@@ -116,11 +117,24 @@ import { registerPrepareGenerationTool } from '@/server/mcp/tools/prepare-genera
 import { registerPresentGenerationTool } from '@/server/mcp/tools/present-generation';
 import { registerRecommendModelsTool } from '@/server/mcp/tools/recommend-models';
 import { registerCalculateProjectBudgetTool } from '@/server/mcp/tools/calculate-project-budget';
+import {registerCompareGenerationPricesTool} from '@/server/mcp/tools/compare-generation-prices';
+import {compareGenerationPrices,type GenerationPriceComparisonInput,type GenerationPriceComparison} from '@/server/agent-api/generation-price-comparison';
+import {priceCanonicalGeneration} from '@/server/agent-api/generation-pricing';
+import {getUserMembershipStatus} from '@/server/membership/user-membership-status';
 import { registerListAudioCapabilitiesTool } from '@/server/mcp/tools/list-audio-capabilities';
 import { registerPrepareAudioGenerationTool } from '@/server/mcp/tools/prepare-audio-generation';
 import { registerConfirmAudioGenerationTool } from '@/server/mcp/tools/confirm-audio-generation';
+import {createAgentStudioTimelineService,type GetStudioTimelineInput} from '@/server/agent-api/studio-timeline';
+import type {StudioConversationTimeline} from '@/lib/studio/conversation-editing-contract';
+import type {ConversationTimelineCommand} from '@/lib/studio/conversation-timeline-editing';
+import type {ConversationEditResult} from '@/server/studio/conversation-edit-command';
+import {registerStudioTimelineTools} from '@/server/mcp/tools/studio-timeline';
+import {createAgentStudioExportService,type PrepareAgentStudioExportInput,type ConfirmAgentStudioExportInput,type GetAgentStudioExportInput,type AgentStudioExportConfirmation,type AgentStudioExportObservation} from '@/server/agent-api/studio-export';
+import type {StudioPreparedExport} from '@/lib/studio/conversation-export-contract';
+import {registerStudioExportTools} from '@/server/mcp/tools/studio-export';
 
 export type MaxVideoAiMcpServices = {
+  compareGenerationPrices?(input:GenerationPriceComparisonInput,principal:AgentPrincipal):Promise<GenerationPriceComparison>;
   getAccountStatus(principal: AgentPrincipal): Promise<AgentAccountStatus>;
   listModels(filter: AgentModelFilter, principal: AgentPrincipal): Promise<AgentModel[]>;
   getModelDetails(engineId: string, principal: AgentPrincipal): Promise<AgentModelDetails>;
@@ -185,6 +199,11 @@ export type MaxVideoAiMcpServices = {
     input: CreateStudioMontageInput,
     principal: AgentPrincipal,
   ): Promise<CreateStudioMontageResult>;
+  readStudioTimeline?(input: GetStudioTimelineInput,principal: AgentPrincipal): Promise<StudioConversationTimeline>;
+  editStudioTimeline?(input: ConversationTimelineCommand,principal: AgentPrincipal): Promise<ConversationEditResult>;
+  prepareStudioExport?(input: PrepareAgentStudioExportInput,principal: AgentPrincipal): Promise<StudioPreparedExport>;
+  confirmStudioExport?(input: ConfirmAgentStudioExportInput,principal: AgentPrincipal): Promise<AgentStudioExportConfirmation>;
+  getStudioExport?(input: GetAgentStudioExportInput,principal: AgentPrincipal): Promise<AgentStudioExportObservation>;
 };
 
 export type MaxVideoAiMcpServerOptions = {
@@ -193,6 +212,8 @@ export type MaxVideoAiMcpServerOptions = {
   montagePreparation?: boolean;
   audioGeneration?: boolean;
   studioMontageCreation?: boolean;
+  studioTimelineEditing?: boolean;
+  studioExports?: boolean;
 };
 
 export function createDefaultMaxVideoAiMcpServices(
@@ -211,15 +232,26 @@ export function createDefaultMaxVideoAiMcpServices(
     const access = resolveMcpPrelaunchModelAccess(principal, config.accountUrl, runtimeEnv);
     return access ? { allowedPrelaunchModelIds: access.allowedModelIds } : undefined;
   };
+  const studioTimeline = createAgentStudioTimelineService({featureEnabled: true});
+  const studioExports = createAgentStudioExportService({enabled:true,requestOrigin:new URL(config.accountUrl).origin});
   return {
     getAccountStatus: createAgentAccountStatusService(config.accountUrl, accountStatusDeps),
     listModels: (filter, principal) => listAgentModels(filter, catalogDepsFor(principal)),
     getModelDetails: (engineId, principal) => getAgentModelDetails(
       engineId,
-      catalogDepsFor(principal),
+      { ...catalogDepsFor(principal), seedanceWorkflowAvailability: () => {
+        const web = seedanceWorkflowEnabled(config.resourceUrl);
+        return { mcp: capabilities.paidGeneration && web, web };
+      } },
       prelaunchAccessFor(principal),
     ),
     recommendModels: (input, principal) => recommendAgentModels(input, catalogDepsFor(principal)),
+    compareGenerationPrices:(input,principal)=>compareGenerationPrices(input,principal,{
+      listPublicEngines:()=>listPublicAgentGenerationEngines(catalogDepsFor(principal),prelaunchAccessFor(principal)),
+      resolveMembershipPricing:async userId=>(await getUserMembershipStatus(userId)).pricing,
+      priceGeneration:(request,tier,context)=>priceCanonicalGeneration(request,tier,undefined,context),
+      resolveRequestExecutability:(request,candidate,references)=>resolveAgentGenerationRequestExecutability(request,candidate.engine,references,generationEnvironmentFor(principal)),
+    }),
     calculateProjectBudget: (input, principal) => calculateAgentProjectBudget(
       input,
       principal,
@@ -268,6 +300,7 @@ export function createDefaultMaxVideoAiMcpServices(
       },
     )(input, principal),
     getGenerationStatus: (input, principal) => getAgentGenerationStatus(input, principal, {
+      paidGenerationEnabled: () => capabilities.paidGeneration,
       accountUrl: config.accountUrl,
     }),
     listRecentGenerations: (input, principal) => listAgentRecentGenerations(input, principal, {
@@ -281,20 +314,25 @@ export function createDefaultMaxVideoAiMcpServices(
     createReferenceUploadLink: createDefaultReferenceUploadLinkService(config.accountUrl),
     importReferenceFiles: createDefaultReferenceFileImportService(config.accountUrl),
     prepareMontage: createPrepareMontageService(),
-    listAudioCapabilities: async () => listAudioCapabilities(runtimeEnv),
+    listAudioCapabilities: async () => listMcpAudioCapabilities(runtimeEnv),
     prepareAudioGeneration: (input, principal) => createPrepareAudioGenerationService(
       config.accountUrl,
-      { paidGenerationEnabled: () => capabilities.paidGeneration },
+      { paidGenerationEnabled: () => capabilities.paidGeneration, listCapabilities: () => listMcpAudioCapabilities(runtimeEnv) },
     )(input, principal),
     confirmAudioGeneration: (input, principal) => createConfirmAudioGenerationService(
       config.accountUrl,
-      { paidGenerationEnabled: () => capabilities.paidGeneration },
+      { paidGenerationEnabled: () => capabilities.paidGeneration, listCapabilities: () => listMcpAudioCapabilities(runtimeEnv) },
     )(input, principal),
     createStudioMontage: (input, principal) => createStudioMontageProject(
       { userId: principal.userId },
       input,
       { featureEnabled: true },
     ),
+    readStudioTimeline: studioTimeline.read,
+    editStudioTimeline: studioTimeline.edit,
+    prepareStudioExport: studioExports.prepare,
+    confirmStudioExport: studioExports.confirm,
+    getStudioExport: studioExports.read,
   };
 }
 
@@ -308,6 +346,8 @@ export function createMaxVideoAiMcpServer(
   const montagePreparation = options.montagePreparation ?? mcpPublication.montagePreparation;
   const audioGeneration = paidGeneration && (options.audioGeneration ?? mcpPublication.audioGeneration);
   const studioMontageCreation = options.studioMontageCreation ?? mcpPublication.studioMontageCreation;
+  const studioTimelineEditing = options.studioTimelineEditing ?? mcpPublication.studioMontageCreation;
+  const studioExports = options.studioExports ?? mcpPublication.studioMontageCreation;
   const server = new McpServer(
     {
       name: 'maxvideoai',
@@ -321,6 +361,8 @@ export function createMaxVideoAiMcpServer(
         montagePreparation,
         audioGeneration,
         studioMontageCreation,
+        studioTimelineEditing,
+        studioExports,
       }),
       capabilities: { tools: {} },
     }
@@ -331,6 +373,7 @@ export function createMaxVideoAiMcpServer(
   registerGetModelDetailsTool(server, principal, services);
   registerRecommendModelsTool(server, principal, services);
   registerCalculateProjectBudgetTool(server, principal, services);
+  registerCompareGenerationPricesTool(server,principal,services);
   if (referenceUploads) {
     registerReferenceUploadApp(server);
     registerListMediaTool(server, principal, services);
@@ -343,6 +386,8 @@ export function createMaxVideoAiMcpServer(
   if (studioMontageCreation) {
     registerCreateStudioMontageTool(server, principal, services);
   }
+  if (studioTimelineEditing) registerStudioTimelineTools(server,principal,services);
+  if (studioExports) registerStudioExportTools(server,principal,services);
   if (audioGeneration) {
     registerListAudioCapabilitiesTool(server, principal, services);
     registerPrepareAudioGenerationTool(server, principal, services);

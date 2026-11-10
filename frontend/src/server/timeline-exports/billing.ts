@@ -1,7 +1,8 @@
+import { WALLET_FUNDED_RECEIPT_SQL } from '@/lib/wallet-funding';
 import { query, withDbTransaction } from '@/lib/db';
 import { ensureBillingSchema } from '@/lib/schema';
 import { lockUserWalletInExecutor } from '@/lib/wallet';
-import type { WorkspaceTimelineExportQualityPreset } from '../../../app/(core)/(workspace)/app/studio/workspace/_lib/workspace-timeline-export';
+import type { WorkspaceTimelineExportQualityPreset } from '../../../app/(core)/(workspace)/app/studio/_shared/_lib/workspace-timeline-export';
 import type { TimelineExportBillingStatus } from './contracts';
 import { estimateTimelineExportPrice, resolveTimelineExportQuota } from './pricing';
 import {
@@ -76,7 +77,8 @@ export async function reserveTimelineExportBilling(params: {
       )::int AS balance_cents
        FROM app_receipts
       WHERE user_id = $1
-        AND (currency IS NULL OR UPPER(currency) = 'USD')`,
+        AND (currency IS NULL OR UPPER(currency) = 'USD')
+        AND ${WALLET_FUNDED_RECEIPT_SQL}`,
       [params.userId]
     );
     const balanceCents = Number(walletRows[0]?.balance_cents ?? 0);
@@ -208,7 +210,8 @@ export async function createTimelineExportJobWithReservation(params: {
         )::int AS balance_cents
          FROM app_receipts
         WHERE user_id = $1
-          AND (currency IS NULL OR UPPER(currency) = 'USD')`,
+          AND (currency IS NULL OR UPPER(currency) = 'USD')
+        AND ${WALLET_FUNDED_RECEIPT_SQL}`,
         [params.userId]
       );
       const balanceCents = Number(walletRows[0]?.balance_cents ?? 0);

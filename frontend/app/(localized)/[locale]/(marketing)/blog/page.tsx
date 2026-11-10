@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
+import { serializeJsonLd } from '@/lib/seo/jsonld';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
-import Script from 'next/script';
 import { getContentEntries, type ContentEntry } from '@/lib/content/markdown';
 import { resolveDictionary } from '@/lib/i18n/server';
 import type { AppLocale } from '@/i18n/locales';
@@ -73,7 +73,7 @@ function getBlogLinkProps(locale: AppLocale, post: Pick<ContentEntry, 'slug' | '
 function normalizeImageSrc(src?: string | null) {
   const trimmed = typeof src === 'string' ? src.trim() : '';
   if (!trimmed) {
-    return '/og/price-before.png';
+    return '/og/brand-2026-09-25.png';
   }
   if (trimmed.startsWith('http')) {
     return trimmed;
@@ -375,9 +375,11 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: A
         </section>
       </div>
 
-      <Script id="blog-list-jsonld" type="application/ld+json">
-        {JSON.stringify(articleListSchema)}
-      </Script>
+      <script
+        id="blog-list-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleListSchema) }}
+      />
     </div>
   );
 }

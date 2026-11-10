@@ -21,7 +21,6 @@ export type PayAsYouGoShowcaseVideo = {
   id: string;
   engineId: string;
   engineLabel: string;
-  priceLabel: string;
   durationLabel: string;
   title: string;
   useCase: string;
@@ -31,23 +30,6 @@ export type PayAsYouGoShowcaseVideo = {
 };
 
 export type PayAsYouGoShowcaseRuntimeCopy = PayAsYouGoContent['showcase']['runtime'];
-
-function formatVideoPrice(video: GalleryVideo, locale: AppLocale, copy: PayAsYouGoShowcaseRuntimeCopy) {
-  if (typeof video.finalPriceCents !== 'number' || !Number.isFinite(video.finalPriceCents)) {
-    return copy.priceUnavailable;
-  }
-
-  const currency = video.currency?.trim().toUpperCase() || 'USD';
-  try {
-    return new Intl.NumberFormat(locale === 'es' ? 'es-419' : locale === 'fr' ? 'fr-FR' : 'en-US', {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 2,
-    }).format(video.finalPriceCents / 100);
-  } catch {
-    return `${currency} ${(video.finalPriceCents / 100).toFixed(2)}`;
-  }
-}
 
 function hasMedia(video: GalleryVideo) {
   return Boolean(video.previewVideoUrl || video.videoUrl || video.thumbUrl);
@@ -162,7 +144,6 @@ export function buildPayAsYouGoShowcaseVideo(
     id: video.id,
     engineId: video.engineId,
     engineLabel,
-    priceLabel: formatVideoPrice(video, locale, copy),
     durationLabel: `${duration}s`,
     title: formatVideoTitle(video.promptExcerpt || video.prompt || '', titleEngineLabel, copy),
     useCase: formatVideoUseCase(video, copy),
@@ -203,5 +184,6 @@ export async function loadPayAsYouGoVideoShowcase({
     videos = await loadFallbackVideos();
   }
 
-  return pickDiverseVideos(videos).map((video) => buildPayAsYouGoShowcaseVideo(video, locale, copy));
+  const selected = pickDiverseVideos(videos);
+  return selected.map((video) => buildPayAsYouGoShowcaseVideo(video, locale, copy));
 }

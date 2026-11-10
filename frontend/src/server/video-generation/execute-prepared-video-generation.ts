@@ -22,8 +22,11 @@ import type { WalletReservation } from '@/server/generations/initial-job-reserva
 import type { EngineInputSchema } from '@/types/engines';
 import { executeVideoGenerationLifecycle } from './video-generation-lifecycle';
 import type { PreReservedVideoInitialState, VideoGenerationAdapters, VideoGenerationResponse } from './video-generation-contracts';
+import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
+import { persistReservedBytePlusLasExecutionSettings } from '@/server/byteplus-submission-state';
 
 export type ExecutePreparedVideoGenerationParams = {
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
   body: Record<string, unknown>;
   routeContext: GenerateRouteContext;
   requestOptions: GenerateRequestOptions;
@@ -149,6 +152,11 @@ export async function executePreparedVideoGeneration(params: ExecutePreparedVide
     throw new Error('Invalid pre-reserved video initial state.');
   }
 
+  if (walletInitialState && engine.id === 'seedance-2-5' && (mode === 'v2v' || params.seedanceWorkflow)) {
+    await persistReservedBytePlusLasExecutionSettings({ jobId, userId, settings: settingsSnapshot,
+      priceCents: pricing.totalCents });
+  }
+
   return executeVideoGenerationLifecycle({
     trustedInitialState: params.preReservedInitialState,
     reserveInitialState: async (): Promise<VideoInitialJobResult> => {
@@ -156,6 +164,7 @@ export async function executePreparedVideoGeneration(params: ExecutePreparedVide
         throw new Error('Included trial jobs must be pre-reserved.');
       }
       const initialJobParams = {
+        seedanceFinal: params.seedanceWorkflow?.seedanceFinal,
         jobId,
         userId,
         pendingReceipt,
@@ -260,12 +269,15 @@ export async function executePreparedVideoGeneration(params: ExecutePreparedVide
         : false;
       if (isBytePlusV1a) {
         const submission = await adapters.submitBytePlusGenerateTask({
+          seedanceWorkflow: params.seedanceWorkflow?.workflow,
           jobId,
           userId,
           engineId: engine.id,
           engineLabel: engine.label,
           prompt,
           durationSec: effectiveDurationSec,
+          durationOption: falPayload.durationOption,
+          extraInputValues: falPayload.extraInputValues,
           mode,
           initialImageUrl,
           endImageUrl,
@@ -276,6 +288,8 @@ export async function executePreparedVideoGeneration(params: ExecutePreparedVide
           effectiveResolution,
           aspectRatio,
           audioEnabled,
+          cameraFixed: falPayload.cameraFixed,
+          seed: falPayload.seed,
           placeholderThumb,
           pricing,
           paymentStatus,

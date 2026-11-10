@@ -107,7 +107,7 @@ function includedSnapshot() {
       kind: 'included_trial',
       customerChargeCents: 0,
       normalPriceCents: 125,
-      providerCostCents: 17,
+      providerCostCents: 18,
     },
   };
 }
@@ -125,7 +125,7 @@ function trialQuote(options: Partial<McpGenerationQuote> = {}): McpGenerationQuo
     currency: 'USD',
     fundingMode: 'trial',
     trialFunding: {
-      kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 17,
+      kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 18,
     },
     state: 'prepared',
     jobId: null,
@@ -198,7 +198,7 @@ function dependencies(
         oauthClientId: CLIENT_ID,
         clientIp: riskContext.clientIp,
         userAgent: riskContext.userAgent,
-        providerCostCents: 17,
+        providerCostCents: 18,
       });
       return { allowed: true };
     },
@@ -299,7 +299,7 @@ test('trial confirmation rejects stale gates, principals, risk, and entitlement 
   for (const [label, identity, overrides, code] of [
     ['feature', principal, { trialGenerationEnabled: () => false }, 'TRIAL_NOT_ELIGIBLE'],
     ['email', { ...principal, emailVerified: false }, {}, 'TRIAL_NOT_ELIGIBLE'],
-    ['client', { ...principal, clientId: null }, {}, 'TRIAL_NOT_ELIGIBLE'],
+    ['client', { ...principal, clientId: null }, {}, 'QUOTE_EXPIRED'],
     ['risk', principal, { acceptTrialRisk: async () => ({ allowed: false, code: 'RATE_LIMITED', nextAction: { type: 'retry_later' } }) }, 'RATE_LIMITED'],
     ['entitlement', principal, { lockReservableEntitlement: async () => null }, 'TRIAL_NOT_ELIGIBLE'],
   ] as const) {

@@ -208,3 +208,28 @@ test('pending render hydration derives active group and batch hero state', () =>
   assert.equal(state.activeGroupId, 'group_1');
   assert.equal(typeof state.serialized, 'string');
 });
+
+test('archived engine in a saved draft or incoming link is preserved until explicit model choice', () => {
+  const engines = [makeEngine('seedance-2-5')];
+  for (const requested of [null, 'sora-2-pro']) {
+    const result = buildInitialWorkspaceFormState({
+      engines,
+      storedFormRaw: { engineId: 'sora-2', mode: 't2v', durationSec: 8 } as StoredFormState,
+      effectiveRequestedEngineId: requested,
+      effectiveRequestedEngineToken: requested ? 'sora2pro' : '',
+      effectiveRequestedMode: null,
+    });
+    assert.equal(result.form?.engineId, requested ?? 'sora-2');
+  }
+});
+
+test('saved Seedance 1.5 settings keep their recorded model instead of silently choosing Mini or Fast', () => {
+  const result = buildInitialWorkspaceFormState({
+    engines: [makeEngine('seedance-2-0-mini'), makeEngine('seedance-2-0-fast')],
+    storedFormRaw: { engineId: 'seedance-1-5-pro', mode: 't2v', durationSec: 8 } as StoredFormState,
+    effectiveRequestedEngineId: null,
+    effectiveRequestedEngineToken: '',
+    effectiveRequestedMode: null,
+  });
+  assert.equal(result.form?.engineId, 'seedance-1-5-pro');
+});

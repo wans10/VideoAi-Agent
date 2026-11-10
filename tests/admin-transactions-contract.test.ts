@@ -27,6 +27,8 @@ function rawTransaction(overrides: Partial<RawTransactionRow> = {}): RawTransact
     amount_cents: '900',
     currency: 'usd',
     description: 'Generation',
+    refund_reason_code: null,
+    refund_note: null,
     job_id: 'job_1',
     created_at: '2026-07-14T10:00:00.000Z',
     job_status: 'completed',
@@ -38,6 +40,7 @@ function rawTransaction(overrides: Partial<RawTransactionRow> = {}): RawTransact
     job_progress: 100,
     job_created_at: '2026-07-14T09:59:00.000Z',
     job_duration_sec: 8,
+    is_mcp_generation: false,
     has_refund: false,
     latest_charge_id: 10,
     ...overrides,
@@ -62,8 +65,29 @@ test('ledger mapper preserves latest paid-wallet refund eligibility and DTO shap
   assert.equal(record.amountCents, 900);
   assert.equal(record.currency, 'USD');
   assert.equal(record.jobVideoUrl, '/renders/video.mp4');
+  assert.equal(record.isMcpGeneration, false);
   assert.equal(record.isLatestCharge, true);
   assert.equal(record.canRefund, true);
+  assert.equal(mapAdminTransactionRow(rawTransaction({ is_mcp_generation: true }), null).isMcpGeneration, true);
+});
+
+test('refund history includes recorded internal context without inventing missing reasons', () => {
+  const automatic = mapAdminTransactionRow(rawTransaction({
+    type: 'refund',
+    description: 'Refund Veo - 8s - Render queue was temporarily busy.',
+    refund_reason_code: 'auto_render_failure_refund',
+    refund_note: 'The render queue is temporarily busy.',
+  }), null);
+  assert.equal(automatic.refundReason, 'Automatic refund after generation failure — The render queue is temporarily busy.');
+  assert.equal(automatic.description, 'Refund Veo - 8s - Render queue was temporarily busy.');
+
+  const manual = mapAdminTransactionRow(rawTransaction({
+    type: 'refund',
+    refund_reason_code: 'manual_admin_refund',
+    refund_note: 'Goodwill',
+  }), null);
+  assert.equal(manual.refundReason, 'Manual refund by admin — Goodwill');
+  assert.equal(mapAdminTransactionRow(rawTransaction({ type: 'refund' }), null).refundReason, null);
 });
 
 test('ledger mapper preserves rejection and historical missing-job behavior', () => {
@@ -259,6 +283,42 @@ test('receipt refund preserves orphan-charge fallback and skips job update', asy
   assert.match(harness.calls[2]!.text, /INSERT INTO app_receipts/);
   assert.equal(harness.calls.some((call) => /UPDATE app_jobs/.test(call.text)), false);
   assert.equal(harness.calls[2]!.params?.[3], 'Manual refund for receipt 30');
+});
+
+test('generic receipt refunds leave Studio assistance reservations to their reconciliation owner', async t => {
+  for (const identity of [
+    { billing_product_key: 'studio_assistance', job_id: null },
+    { billing_product_key: null, job_id: 'studio-assistance:call-1' },
+  ]) {
+    await t.test(JSON.stringify(identity), async () => {
+      const harness = refundHarness([
+        [{ id: 30, user_id: 'user_2', amount_cents: 500, currency: 'USD', description: 'Studio assistance reservation', vendor_account_id: null, pricing_snapshot: null, ...identity }],
+        [], [], [], [],
+      ]);
+      await assert.rejects(
+        issueManualWalletRefundByReceipt({ receiptId: 30, adminUserId: 'admin_1' }, harness.dependencies),
+        /Studio assistance charges require Studio assistance reconciliation/
+      );
+      assert.equal(harness.calls.length, 1, 'Only the selected charge may be read before rejecting the generic refund');
+      assert.match(harness.calls[0]!.text, /billing_product_key/);
+      assert.equal(harness.rollbackCount(), 1);
+    });
+  }
+});
+
+test('job refund selection cannot bypass the Studio assistance reconciliation boundary', async () => {
+  const harness = refundHarness([
+    [{ job_id: 'job_1', user_id: 'user_1', payment_status: 'paid_wallet', pricing_snapshot: null, vendor_account_id: null, currency: 'USD' }],
+    [{ id: 10, amount_cents: 900, currency: 'USD', description: null, billing_product_key: 'studio_assistance' }],
+    [], [], [], [],
+  ]);
+  await assert.rejects(
+    issueManualWalletRefund({ jobId: 'job_1', adminUserId: 'admin_1' }, harness.dependencies),
+    /Studio assistance charges require Studio assistance reconciliation/
+  );
+  assert.equal(harness.calls.length, 2);
+  assert.match(harness.calls[1]!.text, /billing_product_key/);
+  assert.equal(harness.rollbackCount(), 1);
 });
 
 test('duplicate refund is rejected after the charge lock and before insert', async () => {

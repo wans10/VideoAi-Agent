@@ -1,3 +1,7 @@
+import { seedanceWorkflowCandidate } from './seedance-workflow-capabilities';
+import { resolveAgentSeedanceWorkflow, assertSeedanceWorkflowQuoteBinding, seedanceWorkflowQuoteBinding } from './seedance-workflow';
+import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
+import type { SeedanceWorkflowMediaFacts } from '@/server/seedance-workflow-facts';
 import mcpPublication from '@/config/mcp-publication.json';
 import { withDbTransaction, type TransactionQueryExecutor } from '@/lib/db';
 import { retireMembershipPricing } from '@/lib/membership-policy';
@@ -45,6 +49,7 @@ import {
 } from './paid-generation-execution';
 import { buildGenerationPricingSnapshot, type TrialRiskRequestContext } from './prepare-generation';
 import type { AgentPrincipal } from './principal';
+import { requireGenerationActor, requireOAuthGenerationActor, quoteMatchesActor, bindStudioReferenceSnapshot, type GenerationActor } from './generation-actor';
 import {
   claimPreparedQuote,
   lockOwnedQuote,
@@ -56,8 +61,8 @@ import {
   type OwnedQuoteInput,
   type OwnedQuoteJobInput,
 } from './quote-repository';
-import { resolveOwnedReferenceAsset } from './reference-assets';
-import { resolveGenerationReferences } from './resolve-generation-references';
+import { resolveOwnedReferenceAssetForActor } from './reference-assets';
+import { resolveGenerationReferencesForActor } from './resolve-generation-references';
 import type { ResolvedReference } from './reference-types';
 import {
   checkMcpConfirmationSpendingLimits,
@@ -111,6 +116,7 @@ export type ConfirmGenerationDependencies = {
     dependencies: ExecutorDependencies & {
       candidate: AgentPublicGenerationEngine;
       resolvedReferences?: readonly ResolvedReference[];
+      seedanceFinalFacts?: SeedanceWorkflowMediaFacts;
     },
   ): Promise<GenerationPricingResult>;
   checkSpendingLimits(
@@ -140,6 +146,7 @@ export type ConfirmGenerationDependencies = {
       candidate: AgentPublicGenerationEngine;
       pricingSnapshot: Record<string, unknown>;
       resolvedReferences?: ResolvedReference[];
+      seedanceWorkflow?: PreparedSeedanceWorkflow;
     },
     dependencies: ExecutorDependencies,
   ): Promise<PaidGenerationReservation>;
@@ -165,7 +172,7 @@ export type ConfirmGenerationDependencies = {
   readGenerationStatus(input: { userId: string; jobId: string }): Promise<AgentGenerationStatus | null>;
   resolveGenerationReferences?(
     request: McpGenerationQuote['request'],
-    principal: AgentPrincipal,
+    principal: GenerationActor,
     dependencies: ExecutorDependencies,
   ): Promise<ResolvedReference[]>;
   resolveRequestExecutability?(
@@ -209,9 +216,9 @@ const defaultDependencies: Omit<ConfirmGenerationDependencies, 'trialRiskContext
   markQuoteFailed,
   readGenerationStatus: ({ userId, jobId }) => getGenerationStatus({ userId, jobId }),
   resolveGenerationReferences: (request, principal, { executor }) =>
-    resolveGenerationReferences(request, principal, {
+    resolveGenerationReferencesForActor(request, principal, {
       resolveOwnedReferenceAsset: (currentPrincipal, assetId) =>
-        resolveOwnedReferenceAsset(currentPrincipal, assetId, { executor }),
+        resolveOwnedReferenceAssetForActor(currentPrincipal, assetId, { executor }),
     }),
   resolveRequestExecutability: (request, candidate, resolvedReferences) =>
     resolveAgentGenerationRequestExecutability(
@@ -251,23 +258,6 @@ function assertInput(value: unknown): asserts value is ConfirmGenerationInput {
   }
 }
 
-function requirePrincipal(principal: AgentPrincipal): void {
-  if (
-    !principal
-    || principal.authMethod !== 'oauth'
-    || typeof principal.userId !== 'string'
-    || !principal.userId.trim()
-    || principal.userId !== principal.userId.trim()
-    || principal.userId.length > 128
-    || (principal.clientId !== null
-      && (typeof principal.clientId !== 'string'
-        || !principal.clientId.trim()
-        || principal.clientId !== principal.clientId.trim()
-        || principal.clientId.length > 256))
-  ) {
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before confirming a generation.');
-  }
-}
 
 function staleQuote(): never {
   throw new AgentApiError(
@@ -311,7 +301,7 @@ type TransactionResult =
 
 async function confirmationTransaction(
   input: ConfirmGenerationInput,
-  principal: AgentPrincipal,
+  principal: GenerationActor,
   dependencies: ConfirmGenerationDependencies,
 ): Promise<TransactionResult> {
   return dependencies.withTransaction(async (executor) => {
@@ -323,6 +313,7 @@ async function confirmationTransaction(
     const locked = await dependencies.lockOwnedQuote(owner, { executor });
     if (!locked) staleQuote();
     const { quote, databaseNow } = locked;
+    if (!quoteMatchesActor(quote, principal)) staleQuote();
 
     if (quote.state === 'claimed' || quote.state === 'accepted' || quote.state === 'failed') {
       if (!quote.jobId) staleQuote();
@@ -338,6 +329,7 @@ async function confirmationTransaction(
     const includedTrial = quote.fundingMode === 'trial';
     if (includedTrial) {
       if (!dependencies.trialGenerationEnabled()) trialNotEligible();
+      if (principal.authMethod !== 'oauth') staleQuote();
       requireTrialPrincipal(principal);
     } else if (!dependencies.paidGenerationEnabled()) {
       throw new AgentApiError('ENGINE_UNAVAILABLE', 'Paid generation is not available.');
@@ -354,16 +346,19 @@ async function confirmationTransaction(
       staleQuote();
     }
 
+    const inherited = await resolveAgentSeedanceWorkflow(quote.request, principal.userId, { queryFn: executor.query.bind(executor) });
+    assertSeedanceWorkflowQuoteBinding(quote.request, inherited.request, quote.pricingSnapshot, inherited.workflow);
     const publicEngines = await dependencies.listPublicEngines({ executor });
-    const candidate = publicEngines.find((entry) =>
+    const publicCandidate = publicEngines.find((entry) =>
       entry.engine.id === quote.request.engineId && entry.surface === quote.request.surface);
+    const candidate = publicCandidate ? seedanceWorkflowCandidate(quote.request, publicCandidate) : undefined;
     if (!candidate || !candidate.publicModes.includes(quote.request.mode)) {
       if (includedTrial) trialNotEligible();
       staleQuote();
     }
     if (includedTrial) assertCanonicalTrialRequest(quote, candidate);
     try {
-      validateCanonicalGenerationCapabilities(quote.request, candidate);
+      if (!inherited.workflow?.finalFacts) validateCanonicalGenerationCapabilities(quote.request, candidate);
     } catch (error) {
       if (error instanceof GenerationCapabilityError) {
         if (includedTrial) trialNotEligible();
@@ -376,9 +371,9 @@ async function confirmationTransaction(
       try {
         const resolveReferences = dependencies.resolveGenerationReferences
           ?? ((request, currentPrincipal, { executor: currentExecutor }) =>
-            resolveGenerationReferences(request, currentPrincipal, {
+            resolveGenerationReferencesForActor(request, currentPrincipal, {
               resolveOwnedReferenceAsset: (ownedPrincipal, assetId) =>
-                resolveOwnedReferenceAsset(ownedPrincipal, assetId, { executor: currentExecutor }),
+                resolveOwnedReferenceAssetForActor(ownedPrincipal, assetId, { executor: currentExecutor }),
             }));
         resolvedReferences = await resolveReferences(quote.request, principal, { executor });
         validateCanonicalGenerationCapabilities(
@@ -428,7 +423,7 @@ async function confirmationTransaction(
       pricing = await dependencies.priceGeneration(
         quote.request,
         membership.tier,
-        { executor, candidate, resolvedReferences },
+        { executor, candidate, resolvedReferences, seedanceFinalFacts: inherited.workflow?.finalFacts },
       );
     } catch (error) {
       if (error instanceof AgentApiError) throw error;
@@ -437,12 +432,12 @@ async function confirmationTransaction(
     }
     let pricingSnapshot: Record<string, unknown>;
     try {
-      pricingSnapshot = buildGenerationPricingSnapshot(
+      pricingSnapshot = bindStudioReferenceSnapshot({ ...buildGenerationPricingSnapshot(
         pricing,
         quote.request,
         catalogRevision,
         membership,
-      );
+      ), ...seedanceWorkflowQuoteBinding(inherited.workflow) }, principal, resolvedReferences);
     } catch {
       if (includedTrial) trialNotEligible();
       staleQuote();
@@ -454,7 +449,7 @@ async function confirmationTransaction(
         candidate,
         pricingSnapshot,
         pricing,
-        principal,
+        principal: principal.authMethod === 'oauth' ? principal : (() => { staleQuote(); })(),
         executor,
         dependencies,
       });
@@ -470,7 +465,7 @@ async function confirmationTransaction(
       if (!spending.allowed) throw spendingError(dependencies);
       try {
         reservation = await dependencies.reserveInitialJob(
-          { quote, candidate, pricingSnapshot, resolvedReferences },
+          { quote, candidate, pricingSnapshot, resolvedReferences, seedanceWorkflow: inherited.workflow },
           { executor },
         );
       } catch (error) {
@@ -481,6 +476,11 @@ async function confirmationTransaction(
         const status = error && typeof error === 'object' && 'status' in error
           ? Number((error as { status?: unknown }).status)
           : 0;
+        const responseCode = isRecord(error) && isRecord(error.body) ? error.body.error : undefined;
+        if (quote.request.seedanceWorkflow && /Draft/i.test(error instanceof Error ? error.message : '')) {
+          throw new AgentApiError('SEEDANCE_DRAFT_UNAVAILABLE', 'This Draft is unavailable, expired or already finalizing. Recover the existing final job before another quote.');
+        }
+        if (code === 'PRICING_REFRESH_REQUIRED' || responseCode === 'PRICING_REFRESH_REQUIRED') staleQuote();
         if (status === 402 || /insufficient/i.test(code)) {
           throw new AgentApiError('INSUFFICIENT_FUNDS', 'Add funds before confirming this generation.');
         }
@@ -515,13 +515,13 @@ async function readSafeStatus(
   return buildAgentGenerationRecovery(status, dependencies.accountUrl);
 }
 
-export async function confirmGeneration(
+export async function confirmGenerationForActor(
   input: ConfirmGenerationInput,
-  principal: AgentPrincipal,
+  principal: GenerationActor,
   dependencies: ConfirmGenerationDependencies,
 ): Promise<AgentGenerationRecovery> {
   assertInput(input);
-  requirePrincipal(principal);
+  requireGenerationActor(principal);
 
   const transaction = await confirmationTransaction(input, principal, dependencies);
   if (transaction.kind === 'expired') staleQuote();
@@ -570,11 +570,11 @@ export async function confirmGeneration(
   return readSafeStatus(principal.userId, transaction.reservation.jobId, dependencies);
 }
 
-export function createConfirmGenerationService(
+export function createConfirmGenerationForActorService(
   accountUrl: string,
   trialRiskContext: TrialRiskRequestContext,
   dependencies: Partial<Omit<ConfirmGenerationDependencies, 'trialRiskContext'>> = {},
-): (input: ConfirmGenerationInput, principal: AgentPrincipal) => Promise<AgentGenerationRecovery> {
+): (input: ConfirmGenerationInput, principal: GenerationActor) => Promise<AgentGenerationRecovery> {
   const requestContext = requireTrialRiskRequestContext(trialRiskContext);
   const resolved: ConfirmGenerationDependencies = {
     ...defaultDependencies,
@@ -582,5 +582,15 @@ export function createConfirmGenerationService(
     trialRiskContext: requestContext,
     accountUrl,
   };
-  return (input, principal) => confirmGeneration(input, principal, resolved);
+  return (input, principal) => confirmGenerationForActor(input, principal, resolved);
+}
+
+export async function confirmGeneration(input: ConfirmGenerationInput, principal: AgentPrincipal, dependencies: ConfirmGenerationDependencies): Promise<AgentGenerationRecovery> {
+  requireOAuthGenerationActor(principal);
+  return confirmGenerationForActor(input, principal, dependencies);
+}
+
+export function createConfirmGenerationService(accountUrl: string, trialRiskContext: TrialRiskRequestContext, dependencies: Partial<Omit<ConfirmGenerationDependencies, "trialRiskContext">> = {}): (input: ConfirmGenerationInput, principal: AgentPrincipal) => Promise<AgentGenerationRecovery> {
+  const service = createConfirmGenerationForActorService(accountUrl, trialRiskContext, dependencies);
+  return async (input, principal) => { requireOAuthGenerationActor(principal); return service(input, principal); };
 }

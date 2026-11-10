@@ -61,6 +61,21 @@ function protocolRequestWithoutAuthorization(body: object): Request {
   });
 }
 
+function streamingProtocolRequest(body: ReadableStream<Uint8Array>, extraHeaders: Record<string, string> = {}): Request {
+  return new Request('https://api.maxvideoai.com/mcp', {
+    method: 'POST',
+    headers: {
+      authorization: 'Bearer access-token',
+      accept: 'application/json, text/event-stream',
+      'content-type': 'application/json',
+      host: 'api.maxvideoai.com',
+      ...extraHeaders,
+    },
+    body,
+    duplex: 'half',
+  } as RequestInit & { duplex: 'half' });
+}
+
 async function readProtocolPayload(response: Response): Promise<any> {
   const contentType = response.headers.get('content-type') ?? '';
   if (contentType.includes('application/json')) return response.json();
@@ -147,7 +162,7 @@ test('disabled transport is indistinguishable from an absent endpoint', async ()
 
 test('unauthenticated requests receive RFC 9728 resource metadata guidance', async () => {
   const response = await handleMcpHttpRequest(
-    protocolRequest(initializeRequest),
+    protocolRequestWithoutAuthorization(initializeRequest),
     deps({
       async resolvePrincipal() {
         throw new AgentApiError('AUTH_REQUIRED', 'Bearer authentication is required.');
@@ -163,6 +178,26 @@ test('unauthenticated requests receive RFC 9728 resource metadata guidance', asy
   assert.equal(response.headers.get('cache-control'), 'private, no-store, no-transform');
   assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
   assert.doesNotMatch(await response.text(), /access-token|Bearer authentication is required/);
+});
+
+test('rejected bearer credentials receive an actionable challenge without exposing the credential', async () => {
+  const response = await handleMcpHttpRequest(
+    protocolRequest(initializeRequest),
+    deps({
+      async resolvePrincipal() {
+        throw new AgentApiError('AUTH_REQUIRED', 'private cause: access-token');
+      },
+    }),
+  );
+  assert.equal(response.status, 401);
+  const challenge = response.headers.get('www-authenticate') ?? '';
+  assert.match(challenge, /error="invalid_token"/);
+  assert.match(challenge, /error_description="[^"]*Reconnect MaxVideoAI/);
+  assert.match(challenge, /resource_metadata="https:\/\/api\.maxvideoai\.com\//);
+  const body = await response.text();
+  assert.match(body, /Reconnect MaxVideoAI/);
+  assert.doesNotMatch(body + challenge, /access-token|private cause|expired|revoked/i);
+  assert.equal(response.headers.get('cache-control'), 'private, no-store, no-transform');
 });
 
 test('the real OAuth adapter produces the stable HTTP and JSON-RPC authentication challenge', async () => {
@@ -218,6 +253,9 @@ test('authenticated tool calls use explicitly injected MCP services', async () =
     async listMedia() { throw new Error('not exercised'); },
     async createReferenceUploadLink() { throw new Error('not exercised'); },
     async importReferenceFiles() { throw new Error('not exercised'); },
+    async listAudioCapabilities() { throw new Error('not exercised'); },
+    async prepareAudioGeneration() { throw new Error('not exercised'); },
+    async confirmAudioGeneration() { throw new Error('not exercised'); },
   } satisfies MaxVideoAiMcpServices;
   const response = await handleMcpHttpRequest(
     protocolRequest({
@@ -246,6 +284,8 @@ test('exact hosted staging exposes the complete operational tool inventory', asy
     assert.equal(response.status, 200);
     assert.deepEqual(payload.result.tools.map((tool: { name: string }) => tool.name).sort(), [
       'calculate_project_budget',
+      'compare_generation_prices',
+      'confirm_audio_generation',
       'confirm_generation',
       'create_reference_upload_link',
       'create_topup_link',
@@ -254,9 +294,11 @@ test('exact hosted staging exposes the complete operational tool inventory', asy
       'get_generation_status',
       'get_model_details',
       'import_reference_files',
+      'list_audio_capabilities',
       'list_media',
       'list_models',
       'list_recent_generations',
+      'prepare_audio_generation',
       'prepare_generation',
       'present_generation',
       'recommend_models',
@@ -482,11 +524,19 @@ test('tool audit records only the allowlisted name and success/failure projectio
     }),
     deps({ recordEvent }),
   );
+  const priceComparison = await handleMcpHttpRequest(
+    protocolRequest({
+      jsonrpc: '2.0', id: 9, method: 'tools/call',
+      params: { name: 'compare_generation_prices', arguments: {} },
+    }),
+    deps({ recordEvent }),
+  );
 
   assert.equal(success.status, 200);
   assert.equal(failed.status, 200);
   assert.equal(details.status, 200);
   assert.equal(projectBudget.status, 200);
+  assert.equal(priceComparison.status, 200);
   assert.deepEqual(events, [
     {
       eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
@@ -503,6 +553,10 @@ test('tool audit records only the allowlisted name and success/failure projectio
     {
       eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
       tool: 'calculate_project_budget', outcome: 'failure', surface: null, engineId: null, errorCode: null,
+    },
+    {
+      eventType: 'tool_call', userId: 'user-1', oauthClientId: 'client-1',
+      tool: 'compare_generation_prices', outcome: 'failure', surface: null, engineId: null, errorCode: null,
     },
   ]);
   assert.doesNotMatch(JSON.stringify(events), /private|prompt|token|provider/i);
@@ -622,4 +676,97 @@ test('browser HTML negotiation, oversized bodies, wrong hosts, and unsupported m
   assert.equal(wrongHost.status, 404);
   assert.equal(unsupported.status, 405);
   assert.equal((await unsupported.json()).error.code, -32600);
+});
+
+test('JSON-only POST negotiation remains rejected by the Streamable HTTP transport', async () => {
+  const response = await handleMcpHttpRequest(
+    protocolRequest(initializeRequest, { accept: 'application/json' }),
+    deps(),
+  );
+
+  assert.equal(response.status, 406);
+  assert.match(await response.text(), /text\/event-stream/u);
+});
+
+test('streaming body limit cancels an oversized body before draining it', async () => {
+  for (const extraHeaders of [{}, { 'content-length': '1' }]) {
+    let pulls = 0;
+    let tailRequested = false;
+    let cancelled = false;
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        pulls += 1;
+        if (pulls === 1) {
+          controller.enqueue(new Uint8Array(96 * 1024));
+          return;
+        }
+        if (pulls === 2) {
+          controller.enqueue(new Uint8Array(32 * 1024 + 1));
+          return;
+        }
+        tailRequested = true;
+        controller.enqueue(new Uint8Array(1));
+        controller.close();
+      },
+      cancel() {
+        cancelled = true;
+      },
+    }, { highWaterMark: 0 });
+
+    const response = await handleMcpHttpRequest(streamingProtocolRequest(body, extraHeaders), deps());
+
+    assert.equal(response.status, 413);
+    assert.equal(pulls, 2);
+    assert.equal(tailRequested, false);
+    assert.equal(cancelled, true);
+  }
+});
+
+test('streaming JSON preserves UTF-8 split across chunks', async () => {
+  const encoded = new TextEncoder().encode(JSON.stringify({
+    ...initializeRequest,
+    params: {
+      ...initializeRequest.params,
+      clientInfo: { name: 'é', version: '1.0.0' },
+    },
+  }));
+  const split = encoded.findIndex((byte, index) => byte >= 0x80 && index > 0) + 1;
+  assert.ok(split > 0);
+  const body = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoded.slice(0, split));
+      controller.enqueue(encoded.slice(split));
+      controller.close();
+    },
+  });
+
+  const response = await handleMcpHttpRequest(streamingProtocolRequest(body), deps());
+
+  assert.equal(response.status, 200);
+  assert.equal((await readProtocolPayload(response)).result.serverInfo.name, 'maxvideoai');
+});
+
+test('streaming body read errors preserve the 500 failure and release the reader', async () => {
+  const body = new ReadableStream<Uint8Array>({
+    pull(controller) {
+      controller.error(new Error('read failed'));
+    },
+  });
+  const request = {
+    method: 'POST',
+    headers: new Headers({
+      authorization: 'Bearer access-token',
+      accept: 'application/json, text/event-stream',
+      'content-type': 'application/json',
+      host: 'api.maxvideoai.com',
+    }),
+    body,
+  } as unknown as Request;
+
+  const response = await handleMcpHttpRequest(request, deps());
+
+  assert.equal(response.status, 500);
+  assert.match(await response.text(), /MCP request handling failed/u);
+  const reader = body.getReader();
+  reader.releaseLock();
 });

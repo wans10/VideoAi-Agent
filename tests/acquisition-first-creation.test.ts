@@ -30,17 +30,37 @@ test('guest creation handoff is explicit, same-surface, one-use and expires', ()
   assert.equal(stageGuestCreation(store, '/app', 'a'.repeat(100_001), 'oversized'), false);
 });
 
-test('Studio permits only its presentation to visitors and independently gates both editor routes', () => {
+test('Studio opens its public demonstration while conversation and account routes remain protected', () => {
   assert.equal(canVisitorBrowseWorkspacePath('/app/studio/projects'), true);
-  for (const path of ['/app/studio/projects/private', '/app/studio/workspace', '/app/studio/workspace/private', '/api/studio/projects']) assert.equal(canVisitorBrowseWorkspacePath(path), false);
-  for (const file of ['page.tsx', '[projectId]/page.tsx']) {
-    const source = read(`frontend/app/(core)/(workspace)/app/studio/workspace/${file}`);
+  assert.equal(canVisitorBrowseWorkspacePath('/app/studio'),true);
+  for (const path of ['/app/studio/projects/private', '/app/studio/conversation/private', '/app/studio/workspace', '/app/studio/workspace/private', '/api/studio/projects']) assert.equal(canVisitorBrowseWorkspacePath(path), false);
+  const entry = read('frontend/app/(core)/(workspace)/app/studio/page.tsx');
+  const conversation = read('frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/page.tsx');
+  for (const source of [entry, conversation]) {
     assert.match(source, /await resolveStudioPageAccess\(\)/);
-    assert.match(source, /if \(!access.ok\) notFound\(\)/);
+    assert.match(source, /if\s*\(!access.ok\s*&&\s*access.status\s*===\s*404\)\s*notFound\(\)/);
     assert.doesNotMatch(source, /if \(FEATURES.studio.adminOnly\)/);
   }
-  const preview = read('frontend/app/(core)/(workspace)/app/studio/projects/StudioPreviewAccess.client.tsx');
+  assert.match(entry, /access.status===401\?<StudioGuestDemo/);
+  assert.match(conversation, /const project = access.ok\s*\? await readImageConversationProject\(access.userId, projectId\)/);
+  assert.match(conversation, /access.ok && project \? \(/);
+  assert.match(conversation, /visitor=\{!access.ok && access.status === 401\}/);
+
+  const retiredCanvas = read('frontend/app/(core)/(workspace)/app/studio/workspace/page.tsx');
+  assert.match(retiredCanvas, /redirect\('\/app\/studio'\)/);
+  const retiredProject = read('frontend/app/(core)/(workspace)/app/studio/workspace/[projectId]/page.tsx');
+  assert.match(retiredProject, /if\s*\(!access.ok\)\s*redirect\('\/app\/studio'\)/);
+  assert.match(retiredProject, /readStudioConversationProjectId\(access.userId,\s*projectId\)/);
+  assert.match(retiredProject, /redirect\(connectedProjectId/);
+
+  const preview = read('frontend/app/(core)/(workspace)/app/studio/_components/StudioPreviewAccess.client.tsx');
   assert.doesNotMatch(preview, /\/api\/studio|WorkspacePage|StudioProjectsPageClient/);
+  assert.doesNotMatch(preview, /invitation|invited|invitación|invité/i);
+  assert.match(preview, /buildAuthReturnTarget\(pathname \?\? '\/app\/studio', continuationParams\)/);
+  assert.match(preview, /continuationParams\.delete\('preview'\)/);
+  assert.match(preview, /buildLoginHref\(\{ mode: 'signin', nextPath \}\)/);
+  assert.match(preview, /const unavailable = !visitor && !available/);
+  assert.match(preview, /onClick=\{\(\) => router\.refresh\(\)\}/);
 });
 
 test('Activity separates starter examples from owned jobs without discarding real history', () => {

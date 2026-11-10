@@ -1,3 +1,4 @@
+import { AUDIO_ELEVEN_VOICE_IDS } from '@/lib/audio-eleven-voices';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod/v4';
 
@@ -34,7 +35,10 @@ const audioGenerationSettingsSchema = z.object({
   musicBpm: z.number().refine((value) => (AUDIO_LYRIA3_BPM_VALUES as readonly number[]).includes(value)).optional(),
   musicEnabled: z.boolean().optional(),
   exportAudioFile: z.boolean().optional(),
-  voiceModel: z.enum(['seed', 'minimax']).optional(),
+  voiceModel: z.enum(['seed', 'minimax', 'eleven-v4']).optional(),
+  elevenVoiceId: z.string().refine(value => (AUDIO_ELEVEN_VOICE_IDS as readonly string[]).includes(value)).optional(),
+  elevenStability: z.number().finite().min(0).max(1).optional(),
+  elevenSimilarityBoost: z.number().finite().min(0).max(1).optional(),
   minimaxVoiceId: z.enum(AUDIO_MINIMAX_VOICE_VALUES).optional(),
   voiceGender: z.enum(AUDIO_VOICE_GENDER_VALUES).optional(),
   voiceProfile: z.enum(AUDIO_VOICE_PROFILE_VALUES).optional(),
@@ -88,8 +92,15 @@ export function registerPrepareAudioGenerationTool(
     'prepare_audio_generation',
     {
       title: 'Prepare a MaxVideoAI Audio generation',
-      description:
-        'Validates one exact Audio request and saves a short-lived quote with exact cents, currency, expiry, wallet balance, and confirmation requirement. It does not debit the wallet or contact a provider.',
+      description: [
+        'Use this to validate one complete Audio request and save an exact short-lived quote without debiting the wallet or contacting a provider.',
+        'Read list_audio_capabilities first for a currently available mode, exact settings and owned reference roles.',
+        'Display exact cents, currency, expiry, balance and top-up state; wait for explicit approval of that exact quote before confirm_audio_generation.',
+        'Treat expiresAt as UTC; definitive expiry comes from QUOTE_EXPIRED.',
+        'Missing required assets block an exact quote.',
+        'A failed or refunded attempt requires a fresh quote and new approval.',
+        'Never infer approval from discussion or funding.',
+      ].join(' '),
       inputSchema: prepareAudioGenerationInputSchema,
       annotations: {
         readOnlyHint: false,

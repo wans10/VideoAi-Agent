@@ -116,13 +116,13 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.deepEqual(fastRef2v.ui.resolution, ['480p', '720p']);
   const miniV2v = mini.modes.find((mode) => mode.mode === 'v2v');
   assert.ok(miniV2v);
-  assert.deepEqual(miniV2v.ui.duration, { options: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], default: 5 });
+  assert.deepEqual(miniV2v.ui.duration, { options: ['auto', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], default: 5 });
   assert.deepEqual(miniV2v.ui.resolution, ['480p', '720p']);
   assert.equal(mini.modes.find((mode) => mode.mode === 't2v')?.ui.maxUploadMB, undefined);
   assert.equal(mini.modes.find((mode) => mode.mode === 'i2v')?.ui.maxUploadMB, 30);
-  assert.equal(mini.modes.find((mode) => mode.mode === 'ref2v')?.ui.maxUploadMB, 50);
-  assert.equal(mini.modes.find((mode) => mode.mode === 'v2v')?.ui.maxUploadMB, 50);
-  assert.equal(mini.modes.find((mode) => mode.mode === 'extend')?.ui.maxUploadMB, 50);
+  assert.equal(mini.modes.find((mode) => mode.mode === 'ref2v')?.ui.maxUploadMB, 200);
+  assert.equal(mini.modes.find((mode) => mode.mode === 'v2v')?.ui.maxUploadMB, 200);
+  assert.equal(mini.modes.find((mode) => mode.mode === 'extend')?.ui.maxUploadMB, 200);
 
   const seedanceFields = [...(seedance.engine.inputSchema?.required ?? []), ...(seedance.engine.inputSchema?.optional ?? [])];
   const fastFields = [...(fast.engine.inputSchema?.required ?? []), ...(fast.engine.inputSchema?.optional ?? [])];
@@ -164,7 +164,7 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.deepEqual(miniSourceVideoField.requiredInModes, ['v2v']);
   assert.equal(miniSourceVideoField.maxCount, 1);
   assert.ok(miniReferenceVideoField);
-  assert.deepEqual(miniReferenceVideoField.modes, ['ref2v']);
+  assert.deepEqual(miniReferenceVideoField.modes, ['ref2v', 'v2v']);
   assert.equal(miniReferenceVideoField.maxCount, 3);
   assert.ok(miniExtensionVideoField);
   assert.equal(miniExtensionVideoField.type, 'video');
@@ -175,7 +175,7 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(miniExtensionVideoField.maxCount, 3);
   assert.equal(miniExtensionVideoField.slotLabelPattern, 'Source clip {n}');
   assert.ok(miniReferenceAudioField);
-  assert.deepEqual(miniReferenceAudioField.modes, ['ref2v', 'v2v']);
+  assert.deepEqual(miniReferenceAudioField.modes, ['ref2v', 'v2v', 'extend']);
   assert.ok(miniFields.some((field) => field.id === 'image_urls' && field.modes?.includes('v2v')));
 
   assert.equal(seedance.availability, 'available');
@@ -395,7 +395,8 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.equal(appEngineIds[1], 'seedance-2-0');
   assert.equal(appEngineIds[2], 'minimax-h3');
   assert.equal(appEngineIds[3], 'seedance-2-0-fast');
-  assert.ok(appEngineIds.indexOf('sora-2') > appEngineIds.indexOf('seedance-2-5'));
+  assert.ok(!appEngineIds.includes('sora-2'));
+  assert.ok(!appEngineIds.includes('sora-2-pro'));
 
   assert.deepEqual(
     MARKETING_NAV_MODELS.map((item) => item.key),
@@ -413,7 +414,6 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
     'kling',
     'wan',
     'happy-horse',
-    'sora',
     'luma',
     'grok',
     'flux',
@@ -424,16 +424,17 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.deepEqual(MARKETING_FOOTER_EXAMPLES.map((item) => item.key).sort(), expectedExampleFamilies.slice().sort());
 });
 
-test('Seedance 1.5 Pro stays active while Seedance 2.0 keeps the primary alias and promoted slots', () => {
+test('Seedance 1.5 Pro stays historical while Seedance 2.0 keeps the primary alias and promoted slots', () => {
   const seedance15 = listFalEngines().find((entry) => entry.id === 'seedance-1-5-pro');
 
   assert.ok(seedance15);
-  assert.equal(Boolean(seedance15.isLegacy), false);
+  assert.equal(Boolean(seedance15.isLegacy), true);
+  assert.equal(seedance15.surfaces.app.enabled, false);
   assert.equal(seedance15.surfaces.compare.includeInHub, true);
   assert.equal(getPublishedComparisonSlugs().includes('seedance-1-5-pro-vs-seedance-2-0-fast'), true);
   assert.equal(normalizeEngineId('seedance'), 'seedance-2-0');
   assert.equal(MARKETING_NAV_MODELS.some((item) => item.key === 'seedance-1-5-pro'), false);
-  assert.equal(getHubEngines().some((engine) => engine.modelSlug === 'seedance-1-5-pro'), true);
+  assert.equal(getHubEngines().some((engine) => engine.modelSlug === 'seedance-1-5-pro'), false);
 });
 
 test('Header model menu keeps H3 and the current P1 representatives in the bounded set', () => {

@@ -1,0 +1,20 @@
+import type { ReactNode } from 'react';
+import type { ExampleGalleryVideo, ExampleSort } from './examples-gallery-types';
+export type ExamplesGalleryProps = {
+  initialExamples: ExampleGalleryVideo[];
+  priceSlots?: Record<string, ReactNode>;
+  detailsCtaLabel?: string;
+  loadMoreLabel?: string;
+  loadingLabel?: string;
+  noPreviewLabel?: string;
+  prioritizeFirstPoster?: boolean;
+  audioAvailableLabel?: string;
+  initialDesktopBatch?: number;
+  initialMobileBatch?: number;
+  sort: ExampleSort;
+  engineFilter?: string | null;
+  initialOffset: number;
+  pageOffsetEnd: number;
+  locale: string;
+  openingEnabled?: boolean;
+};

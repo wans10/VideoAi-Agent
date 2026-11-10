@@ -109,6 +109,8 @@ test('billing history separates Stripe documents from wallet activity', async ()
       type: 'topup',
       amount_cents: 2500,
       currency: 'USD',
+      payment_amount_cents: 2682,
+      payment_currency: 'EUR',
       description: 'Wallet top-up',
       created_at: '2026-09-08T09:30:00.000Z',
       job_id: null,
@@ -121,6 +123,8 @@ test('billing history separates Stripe documents from wallet activity', async ()
   }));
   const document = new JSDOM(markup).window.document;
 
+  assert.match(document.querySelector('dl')?.textContent ?? '', /Amount paid.*EUR 26\.82/);
+  assert.match(document.querySelector('dl')?.textContent ?? '', /Wallet movement.*USD 25\.00/);
   assert.equal(document.querySelectorAll('details').length, 1);
   assert.equal(document.querySelectorAll('[role="tab"]').length, 2);
   assert.equal(document.querySelector('[role="tab"][aria-selected="true"]')?.textContent?.trim(), 'Documents');
@@ -145,7 +149,7 @@ test('currency selector displays the quoted currency while enabled options are s
   const noop = () => {};
   const markup = renderToStaticMarkup(React.createElement(WalletTopupPanel, {
     applyCustomAmount: noop, checkoutCaptchaError: null, checkoutCaptchaRequired: false,
-    checkoutCaptchaResetGeneration: 0, checkoutCaptchaToken: null, copy: DEFAULT_BILLING_COPY,
+    checkoutCaptchaResetGeneration: 0, checkoutCaptchaToken: null, takeCheckoutCaptchaToken: () => null, copy: DEFAULT_BILLING_COPY,
     currencyLoading: true, currencyOptions: ['USD'], currencyStatus: 'Detecting currencies…',
     currencyStatusClass: '', customAmountCents: null, customAmountError: null, customAmountInput: '',
     customAmountInputRef: null, customAmountValid: false, customCardActive: false,

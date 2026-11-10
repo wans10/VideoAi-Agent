@@ -29,7 +29,6 @@ const outputDimensions = new Map([
   ['plugins/maxvideoai/assets/social/github-social-preview.png', [1280, 640]],
   ['plugins/maxvideoai/assets/social/release-0.3.0.png', [1200, 630]],
   ['plugins/maxvideoai/assets/social/release-0.3.2.png', [1200, 630]],
-  ['plugins/maxvideoai/assets/social/release-0.3.3.png', [1200, 630]],
   ['plugins/maxvideoai/assets/social/directory-thumbnail.png', [1200, 675]],
 ] as const);
 
@@ -44,6 +43,21 @@ const liveScreenshotDimensions = new Map([
 ] as const);
 
 const brandHeroPath = 'plugins/maxvideoai/assets/brand/maxvideoai-github-hero-v2.webp';
+
+test('the obsolete 0.3.3 release card keeps its original bytes outside active placements', async () => {
+  const record = manifest.assets.find((asset) => asset.id === 'release-0-3-3');
+  assert.ok(record);
+  assert.equal(record.state, 'reference_only');
+  assert.deepEqual(record.placements, ['historical_release_reference']);
+  assert.match(record.claim, /not current product proof/);
+  const bytes = readFileSync(record.path);
+  await validateImageDecode(bytes);
+  assert.deepEqual(readImageDimensions(bytes), { width: 1200, height: 630, format: 'png' });
+  assert.equal(sha256(bytes), 'ec45497e3603d6d08852cfd0f09313ba2b29b28b8b1482b03618fe9a08bbabae');
+  for (const path of ['README.md', 'plugins/maxvideoai/README.md']) {
+    assert.doesNotMatch(readFileSync(path, 'utf8'), /release-0\.3\.3\.png/);
+  }
+});
 
 test('the cancelled 0.3.4 release card remains historical evidence outside active placements', () => {
   const record = manifest.assets.find((asset) => asset.id === 'release-0-3-4');
@@ -71,7 +85,7 @@ test('ships the registered visual-system outputs at their exact target dimension
     assert.deepEqual([width, height], [expectedWidth, expectedHeight], path);
     const record = manifest.assets.find((asset) => asset.path === path);
     assert.ok(record, `${path} must be registered`);
-    assert.equal(record.state, 'publishable_proof');
+    assert.equal(record.state, /social\/release-0\.3\.[023]\.png$/.test(path)?'reference_only':'publishable_proof');
     assert.equal(record.sha256, sha256(bytes));
     assert.equal(record.editorialSourceId, 'maxvideoai-editorial-branch-converge-source');
     assert.ok(record.sourceProofIds?.length, `${path} must name its source proof`);
@@ -134,17 +148,18 @@ test('model-directory capture provenance describes only the visible public hero'
   assert.match(record.reviewTrigger, /hero.*actions.*pricing.*specification cues.*artwork/i);
 });
 
-test('gallery capture provenance excludes off-crop examples and detail destinations', () => {
+test('gallery capture provenance matches the current four-card opening', () => {
   const record = manifest.assets.find((asset) => asset.id === 'maxvideoai-examples-gallery-live');
   assert.ok(record);
   for (const text of [record.claim, record.alt, record.reviewTrigger]) {
     assert.doesNotMatch(text, /product.style|duration|settings|price destinations/i);
   }
   for (const text of [record.claim, record.alt]) {
-    assert.match(text, /public.*gallery hero.*filters/i);
-    assert.match(text, /cinematic Paris.*animated runner previews/i);
-    assert.match(text, /partial model labels/i);
+    assert.match(text, /MaxVideoAI examples gallery.*brand filters.*four opening/i);
+    assert.match(text, /Wan.*Seedance.*FLUX/i);
+    assert.doesNotMatch(text, /cinematic Paris|animated runner previews|partial model labels/i);
   }
+  assert.match(record.claim, /Wan 3 Prime.*Seedance 2\.0 Fast.*FLUX 3/i);
   assert.match(record.reviewTrigger, /gallery hero.*filters.*previews.*model labels/i);
 });
 

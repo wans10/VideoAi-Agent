@@ -13,7 +13,9 @@ Read these files before changing architecture or route structure:
 - `docs/engineering/admin-routes.md` when touching admin pages
 - `docs/engineering/refactor-roadmap.md`
 - `docs/engineering/model-registry.md` when changing model identity, aliases, family membership, publication, replacement, or redirects
+- `docs/engineering/mcp-client-experience.md` when changing MCP discovery, instruction ownership, skills, or client release checks
 - `docs/engineering/mcp-integration-registry.md` when changing MCP integration identity, host evidence, publication, acquisition, installation, or store state
+- `docs/engineering/mcp-client-experience.md` and the nested MCP/plugin `AGENTS.md` files when changing instructions, tool metadata, discovery or reconnection behavior
 - `docs/engineering/pricing-engine.md` when changing provider cost inputs, commercial policy, billing quotes, displayed prices, estimators, JSON-LD offers, or pricing admin behavior
 
 Then run the large-file audit when choosing a cleanup target:
@@ -85,7 +87,15 @@ Before merge or PR, run a full build when feasible:
 npm --prefix frontend run build
 ```
 
-Frontend `prebuild` first validates the model registry and then runs the offline public-rendition coherence and critical-home coverage gate. This gate does not make network, storage or database calls; use the explicit rendition command and its documented review/HTTP activation sequence for operational changes.
+Before production delivery, follow `docs/deployment/github-vercel.md` and the root
+AGENTS production policy, including `pnpm deployment:check`.
+
+Intermediate pushes can proceed while CI runs. Use the focused suites in
+`docs/engineering/ci-validation.md`; wait for the required `Quality CI` on the
+latest candidate before merging. CI selects expensive coverage conservatively and
+runs every lane nightly and on manual dispatch.
+
+Frontend `prebuild` first validates the model registry, checks production Git provenance, and then runs the offline public-rendition coherence and critical-home coverage gate. This gate does not make network, storage or database calls; use the explicit rendition command and its documented review/HTTP activation sequence for operational changes.
 
 ## Current Architecture Notes
 
@@ -108,3 +118,4 @@ Keep these boundaries stable when continuing workspace cleanup:
 - `useWorkspaceGenerationRunner` owns generation submission, accepted results, and polling.
 - `useWorkspaceRenderState` polls the latest render snapshot on a stable interval, with at most one outstanding request per job. Status/feed updates must not restart that interval. Completed jobs already in history must not be reinserted into local renders. The video rail keeps a single chronological order across active and historical groups; `tests/workspace-render-polling-behavior.test.ts` and `tests/gallery-rail-order-behavior.test.ts` cover these transitions.
 - `useWorkspaceAssetLibrary`, `useWorkspaceReferenceAssets`, and `useWorkspaceKlingElementAssets` own their specific asset concerns.
+- Shared `Composer` retains quote eligibility, currency formatting and Generate disabling. `ComposerGenerationQuote` owns only the workspace quote/status presentation inside the action: its localized, accessibility-hidden sizing labels keep toolbar geometry stable while the current quote or truthful status remains in an exposed polite live region. The default composer presentation and video/image pricing callers retain their existing contracts. `tests/composer-quote-layout-browser.test.ts` checks the real shared composer and CSS across asynchronous quote states; it does not replace smoke checks of the route-specific pricing readers.

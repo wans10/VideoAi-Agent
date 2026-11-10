@@ -11,9 +11,9 @@ export function CompareGenerateCard({ canGenerate, entry, fullProfileLabel, gene
   return <article className="compare-create-card" data-side={side}>
     <div className="compare-create-identity">
       <EngineIcon engine={{ id: entry.engineId, label: formatEngineName(entry), brandId: entry.brandId }} size={36} framed={false} />
-      <div><p>{generateWithLabel}</p><h3>{formatEngineName(entry)}</h3></div>
+      <div><p>{canGenerate ? generateWithLabel : fullProfileLabel}</p><h3>{formatEngineName(entry)}</h3></div>
     </div>
-    {canGenerate ? <Link href={`/app?engine=${entry.modelSlug}`} className="compare-create-button">
+    {canGenerate ? <Link href={`/app?engine=${entry.modelSlug}`} className="compare-create-button" data-analytics-event="cta_click" data-analytics-cta-name={entry.modelSlug} data-analytics-cta-location="comparison_scorecard" data-analytics-target-family="workspace">
       {generateButtonLabel}<ArrowRight size={19} aria-hidden="true" />
     </Link> : null}
     <Link href={{ pathname: '/models/[slug]', params: { slug: entry.modelSlug } }} className="compare-create-profile">

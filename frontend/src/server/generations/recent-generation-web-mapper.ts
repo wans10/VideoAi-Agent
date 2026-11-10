@@ -1,6 +1,9 @@
 import { deriveJobSurface } from '@/lib/job-surface';
 import { extractRenderIds, extractRenderThumbUrls, parseStoredImageRenders } from '@/lib/image-renders';
 import { normalizeMediaUrl } from '@/lib/media';
+import { getKnownGenerationFailureMessage } from '@/lib/generation-failure-messages';
+import { getVideoFailureCodeFromSettingsSnapshot } from '@/lib/video-failure-codes';
+import { generatedVideoArtifactProjection, generatedVideoOutputPreparationState } from '@/lib/generated-video-output-artifacts';
 
 import type { RecentGenerationRecord } from './recent-generations';
 
@@ -35,6 +38,8 @@ export function mapRecentGenerationRecordToWeb(record: RecentGenerationRecord) {
       ?? normalizeMediaUrl(record.preview_frame)
       ?? undefined,
     videoUrl: normalizeMediaUrl(record.video_url) ?? undefined,
+    outputPreparationState: generatedVideoOutputPreparationState(record.settings_snapshot, record.video_url, record.provider_job_id, record.status),
+    ...generatedVideoArtifactProjection(record.settings_snapshot, record.video_url, record.provider_job_id),
     previewVideoUrl: normalizeMediaUrl(record.preview_video_url) ?? undefined,
     audioUrl: normalizeMediaUrl(record.audio_url) ?? undefined,
     createdAt: record.created_at,
@@ -60,7 +65,12 @@ export function mapRecentGenerationRecordToWeb(record: RecentGenerationRecord) {
     localKey: record.local_key ?? undefined,
     status: record.status ?? undefined,
     progress: typeof record.progress === 'number' ? record.progress : undefined,
-    message: record.message ?? undefined,
+    message: (record.status?.toLowerCase() === 'failed'
+      ? getKnownGenerationFailureMessage({
+          failureCode: getVideoFailureCodeFromSettingsSnapshot(record.settings_snapshot),
+          message: record.message,
+        }) ?? record.message
+      : record.message) ?? undefined,
     etaSeconds: record.eta_seconds ?? undefined,
     etaLabel: record.eta_label ?? undefined,
     visibility: record.visibility ?? 'public',

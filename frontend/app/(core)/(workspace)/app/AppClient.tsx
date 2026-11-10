@@ -23,8 +23,12 @@ import { useWorkspaceVideoSettings } from './_hooks/useWorkspaceVideoSettings';
 
 export default function AppClientPage({
   initialPreviewGroup = null,
+  localSeedanceDraftPreview = false,
+  seedanceDraftWorkflowEnabled = false,
 }: {
   initialPreviewGroup?: VideoGroup | null;
+  localSeedanceDraftPreview?: boolean;
+  seedanceDraftWorkflowEnabled?: boolean;
 }) {
   const app = useWorkspaceAppBootstrap();
   const confirmedAccount =
@@ -50,6 +54,7 @@ export default function AppClientPage({
     compositeOverrideSummary: routeForm.compositeOverrideSummary,
     writeScopedStorage: draft.writeScopedStorage,
     workspaceCopy: app.workspaceCopy,
+    uiLocale: app.uiLocale,
   });
 
   const activeDraft = useWorkspaceDraftHydration({
@@ -103,6 +108,7 @@ export default function AppClientPage({
     activeDraftReady: activeDraft.ready,
     hasActiveSetup: activeDraft.hasActiveSetup,
     draftRevision: activeDraft.revision,
+    initialPreviewGroup,
     engines: app.engines,
     engineMap: app.engineMap,
     provider: app.provider,
@@ -257,13 +263,16 @@ export default function AppClientPage({
     klingElements: routeForm.klingElements,
   });
   const gallery = useWorkspaceGalleryActions({
-    provider: app.provider,
+    guestStarterReady: app.authStatus === 'loggedOut' && activeDraft.ready &&
+      !draft.hasStoredFormRef.current && !draft.fromVideoId && !draft.requestedJobId && !draft.effectiveRequestedEngineId &&
+      !draft.effectiveRequestedEngineToken && !draft.effectiveRequestedMode && renderState.renders.length === 0 &&
+      (!initialPreviewGroup || initialPreviewGroup.items.every(item => item.meta?.curated)),
+    prompt: routeForm.prompt, provider: app.provider, recentJobs: app.recentJobs,
     renderGroups: renderState.renderGroups,
     batchHeroes: renderState.batchHeroes,
     preflightCurrency: pricing.preflight?.currency,
     fallbackEngineId: composer.selectedEngine?.id ?? 'unknown-engine',
-    sharedPrompt: routeForm.sharedPrompt,
-    selectedPreview: renderState.selectedPreview,
+    sharedPrompt: routeForm.sharedPrompt, selectedPreview: renderState.selectedPreview,
     compositeOverrideSummary: routeForm.compositeOverrideSummary,
     applyVideoSettingsFromTile: videoSettings.applyVideoSettingsFromTile,
     hydrateVideoSettingsFromJob: videoSettings.hydrateVideoSettingsFromJob,
@@ -284,7 +293,7 @@ export default function AppClientPage({
     authLoading: app.authLoading,
     engineCount: app.engines.length,
     enginesError: app.enginesError,
-    hasForm: activeDraft.ready && Boolean(routeForm.form),
+    hasForm: activeDraft.ready && Boolean(routeForm.form) && !videoSettings.sharedVideoImportPending,
     hasSelectedEngine: Boolean(composer.selectedEngine),
     initialPreviewFallbackGroup: previewState.initialPreviewFallbackGroup,
     initialPreviewPosterSrc: previewState.compositePreviewPosterSrc,
@@ -297,6 +306,8 @@ export default function AppClientPage({
     <>
       {loadState}
       <WorkspaceAppReadyView
+        seedanceDraftWorkflowEnabled={seedanceDraftWorkflowEnabled}
+        localSeedanceDraftPreview={localSeedanceDraftPreview}
         suspended={Boolean(loadState)}
         activeDraft={activeDraft}
         app={app}

@@ -1,5 +1,5 @@
 import type { EngineCaps } from '@/types/engines';
-import { computeCanonicalPublicSnapshot } from '@/server/pricing/quote-public';
+import { computeCanonicalPublicSnapshot, computeCurrentPublicSnapshot } from '@/server/pricing/quote-public';
 import {
   GPT_IMAGE_2_CANONICAL_SIZE_VALUES,
   isGptImage25EngineId,
@@ -42,8 +42,17 @@ export type MarketingPricePoint = {
 
 export async function computeMarketingPricePoints(
   engine: EngineCaps,
-  options?: { durationSec?: number; memberTier?: MemberTier; limit?: number | null }
+  options?: { durationSec?: number; memberTier?: MemberTier; limit?: number | null; requireCurrentPolicy?: boolean;
+    currentSnapshot?: typeof computeCurrentPublicSnapshot }
 ): Promise<MarketingPricePoint[]> {
+  const hasOnlyImageModes = engine.modes.length > 0 && engine.modes.every((mode) => mode === 't2i' || mode === 'i2i');
+  const mode = hasOnlyImageModes && engine.modes.includes('t2i') ? 't2i' : undefined;
+  // Marketing has no owned source images, so edit-only/reference-required
+  // engines cannot supply a reference-free image scenario here.
+  if (hasOnlyImageModes && !mode) return [];
+  if (mode && engine.inputSchema?.required?.some((field) =>
+    field.type === 'image' && (!field.modes?.length || field.modes.includes(mode))
+  )) return [];
   const durationSec = isPerImageEngine(engine) ? 1 : options?.durationSec ?? DEFAULT_DURATION_SEC;
   const memberTier = options?.memberTier ?? 'member';
   const resolutionLimit = options?.limit === null ? 0 : options?.limit ?? 3;
@@ -62,12 +71,13 @@ export async function computeMarketingPricePoints(
   for (const resolution of resolutions) {
     for (const quality of qualities) {
       try {
-        const snapshot = await computeCanonicalPublicSnapshot({
+        const snapshot = await (options?.requireCurrentPolicy ? options.currentSnapshot ?? computeCurrentPublicSnapshot : computeCanonicalPublicSnapshot)({
           engine,
           durationSec,
           resolution,
           membershipTier: memberTier,
           quality,
+          ...(mode ? { mode } : {}),
         });
         const units = isPerImageEngine(engine)
           ? durationSec
@@ -75,7 +85,7 @@ export async function computeMarketingPricePoints(
             ? snapshot.base.seconds
             : durationSec;
         if (!units) continue;
-        const unitCents = Math.round(snapshot.totalCents / units);
+        const unitCents = snapshot.totalCents / units;
         points.push({
           resolution,
           quality,
@@ -98,7 +108,8 @@ export type MarketingPriceRange = {
 
 export async function computeMarketingPriceRange(
   engine: EngineCaps,
-  options?: { durationSec?: number; memberTier?: MemberTier; limit?: number | null }
+  options?: { durationSec?: number; memberTier?: MemberTier; limit?: number | null; requireCurrentPolicy?: boolean;
+    currentSnapshot?: typeof computeCurrentPublicSnapshot }
 ): Promise<MarketingPriceRange | null> {
   const points = await computeMarketingPricePoints(engine, options);
   if (!points.length) return null;

@@ -8,7 +8,7 @@ This reference records the environment variables and operational ownership previ
 | --- | --- | --- |
 | `FAL_KEY` / `FAL_API_KEY` | Server | Fal.ai API key used by server-side provider access. Prefer `FAL_KEY` on Vercel. |
 | `GOOGLE_VERTEX_PROJECT_ID` / `GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON` | Server | Google Vertex AI project and service account for direct Google providers such as Veo and Lyria 3. |
-| `GOOGLE_VERTEX_LYRIA_ENABLED` | Server, optional | Enables Google Vertex Lyria 3 as the primary `generate audio` music provider when credentials are configured. Set `0` to force Fal music providers. |
+| `GOOGLE_VERTEX_LYRIA_ENABLED` | Server, optional | Enables Google Vertex Lyria 3 for `generate audio` music when credentials are configured. Set `0` to make music unavailable; this does not switch to a Fal provider. |
 | `GOOGLE_VERTEX_LYRIA_LOCATION` | Server, optional | Vertex location for Lyria 3 interactions. Defaults to `global`. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Public | Supabase Auth project URL used by the browser. |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public | Supabase Auth anonymous key. |
@@ -83,6 +83,10 @@ These routes are read-only checks, but they still expose operational state. Keep
 ## Data ownership
 
 Supabase is Auth only. Keep authentication templates and configuration under `supabase/`; do not use `supabase db push` for application tables.
+
+Local gallery/admin review uses `http://127.0.0.1:3210`. Google sign-in keeps the current browser origin and returns to `/auth/callback` with the encoded `next` target and language. The deployed Supabase Auth redirect allowlist must include `http://127.0.0.1:3210/auth/callback**`, as recorded in `supabase/config.toml`. An unmatched return falls back to the configured Site URL and can send a local sign-in to production, where its loopback PKCE verifier is unavailable. Append this bounded callback entry to the existing project allowlist; do not replace the Site URL or push the whole local configuration to repair preview access. Browser session persistence and administrator roles still require their normal checks.
+
+Next.js also normalizes loopback IPs to `localhost` in `NextRequest` and rewrites middleware redirect headers through that normalization. Local development sets `skipMiddlewareUrlNormalize`; production retains its existing framework routing policy. `frontend/lib/auth-request-url.ts` preserves the matching loopback `Host` and port for explicit-language and auth-callback redirects, preventing a second origin change before PKCE exchange. It ignores forwarded headers and cannot replace a public origin or select another port. `tests/auth-local-origin.test.ts` exercises the actual middleware and callback boundaries and the development-only configuration. Bind the review server with `next dev --hostname 127.0.0.1 --port 3210`; normal login and administrator-role checks still apply.
 
 Neon is the application Postgres database. Jobs, outputs, media metadata, user assets, billing, admin, and workspace data live there, with migrations under `neon/migrations`.
 

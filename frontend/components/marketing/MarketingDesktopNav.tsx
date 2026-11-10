@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { MarketingNavEntryContent } from '@/components/marketing/MarketingNavEntryContent';
@@ -17,7 +17,10 @@ type Props = {
   onOpenDesktopDropdown: (key: string) => void;
 };
 
-export function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, onCloseDesktopDropdown, onOpenDesktopDropdown }: Props) {
+// Mobile/account state must not rebuild the unchanged, CSS-hidden desktop menus.
+// Keep all links server-rendered; actual desktop, route and locale changes still render.
+// Decorative DOM waits until the panel becomes visible.
+export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, onCloseDesktopDropdown, onOpenDesktopDropdown }: Props) {
   const navRef = useRef<HTMLElement>(null);
   const closeRef = useRef(onCloseDesktopDropdown);
   closeRef.current = onCloseDesktopDropdown;
@@ -56,7 +59,7 @@ export function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, o
         </button>
         <div id={panelId} className="marketing-mega-menu" hidden={!isOpen}>
           <header className="marketing-mega-heading"><div><p>{t(`nav.dropdown.${item.key}.heading`, dropdown.heading)}</p><span>{t(`nav.dropdown.${item.key}.intro`, dropdown.intro)}</span></div>
-            <Link href={dropdown.allHref} prefetch={false} onClick={() => onCloseDesktopDropdown(0)}>{t(dropdown.allLabelKey, dropdown.allLabelFallback)}<ArrowUpRight size={16} aria-hidden="true" /></Link>
+            {!dropdown.allLinkInItems ? <Link href={dropdown.allHref} prefetch={false} onClick={() => onCloseDesktopDropdown(0)}>{t(dropdown.allLabelKey, dropdown.allLabelFallback)}{isOpen ? <ArrowUpRight size={16} aria-hidden="true" /> : null}</Link> : null}
           </header>
           <div className={clsx('marketing-mega-content', dropdown.sections?.length && 'has-aside')}>
             <div className={clsx('marketing-mega-links', twoColumns && 'two-columns')}>
@@ -65,7 +68,7 @@ export function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, o
                 const badgeLabel = entry.badge ? t<string>(`nav.badges.${entry.badge}`, entry.badge) : undefined;
                 const description = entry.description ? t<string>(`nav.dropdown.${item.key}.descriptions.${entry.key}`, entry.description) : undefined;
                 return <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className="marketing-mega-link">
-                  <MarketingNavEntryContent entry={entry} label={entryLabel} badgeLabel={badgeLabel} showModelLogo={item.key === 'models'} />
+                  <MarketingNavEntryContent entry={entry} label={entryLabel} badgeLabel={badgeLabel} showModelLogo={item.key === 'models'} showDecoration={isOpen} />
                   {description ? <small>{description}</small> : null}
                 </Link>;
               })}
@@ -73,7 +76,7 @@ export function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, o
             {dropdown.sections?.length ? <aside className="marketing-mega-aside">{dropdown.sections.map(section => <div key={section.key}>
               {!section.hideTitle ? <p className="marketing-menu-caption">{section.titleKey ? t(section.titleKey, section.titleFallback) : section.titleFallback}</p> : null}
               {section.items.map(entry => <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className={clsx('marketing-aside-link', entry.emphasized && 'font-semibold text-text-primary')}>
-                <MarketingNavEntryContent entry={entry} label={t<string>(`nav.dropdown.${item.key}.sections.${section.key}.items.${entry.key}`, entry.label) ?? entry.label} showModelLogo={false} /><ArrowUpRight size={13} aria-hidden="true" />
+                <MarketingNavEntryContent entry={entry} label={t<string>(`nav.dropdown.${item.key}.sections.${section.key}.items.${entry.key}`, entry.label) ?? entry.label} showModelLogo={false} showDecoration={isOpen} />{isOpen ? <ArrowUpRight size={13} aria-hidden="true" /> : null}
               </Link>)}
             </div>)}</aside> : null}
           </div>
@@ -81,4 +84,4 @@ export function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, o
       </div>;
     })}
   </nav>;
-}
+});

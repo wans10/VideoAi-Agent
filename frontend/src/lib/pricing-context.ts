@@ -2,6 +2,10 @@ import type { GptImage2ImageSize } from '@/lib/image/gptImage2';
 import type { EngineCaps, Mode } from '@/types/engines';
 
 export type PricingContext = {
+  /** Internal class derived from server-resolved owned source dimensions. */
+  seedanceSourceAspectRatio?: import('@/types/engines').AspectRatio;
+  seedanceEditSource?: import('@/lib/seedance-edit-source').SeedanceEditSourceFacts;
+  workflowStep?: 'draft' | 'final';
   engine: EngineCaps;
   durationSec: number;
   resolution: string;
@@ -16,6 +20,7 @@ export type PricingContext = {
   durationOption?: number | string | null;
   inputAudioDurationSec?: number;
   referenceImageCount?: number;
+  referenceTokenBudget?: number;
   verifiedReferenceTokenCount?: number;
   inputImageCount?: number;
   inputVideoDurationSec?: number;

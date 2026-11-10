@@ -54,6 +54,7 @@ function storedRow(overrides: Partial<StoredMediaMetadataRow> = {}): StoredMedia
     original_name: 'reference.mp3',
     mime_type: 'audio/mpeg',
     size_bytes: 15 * MB,
+    duration_sec: 6,
     ...overrides,
   };
 }
@@ -110,6 +111,7 @@ async function validateStoredVideo(width: number, height: number) {
         size_bytes: 425_179,
         width,
         height,
+        duration_sec: 10,
       }] as T[],
     },
   });
@@ -158,7 +160,11 @@ test('Seedance 2.5 audio field resolves an exact 15 MB MP3/WAV contract', () => 
 
 test('generation validation uses stored user-owned metadata instead of client size or MIME', async () => {
   const exactMp3 = await validateStoredAudio({ row: storedRow() });
-  assert.deepEqual(exactMp3.result, { ok: true });
+  assert.deepEqual(exactMp3.result, {
+    ok: true,
+    trustedDurationSecByField: { audio_urls: [6] },
+    trustedMediaReferences: [{ kind: 'audio', fieldId: 'audio_urls', url: AUDIO_URL, width: null, height: null, durationSec: 6 }],
+  });
   assert.equal(exactMp3.calls.length, 1);
   assert.match(exactMp3.calls[0].sql, /user_assets/);
   assert.match(exactMp3.calls[0].sql, /media_assets/);
@@ -175,11 +181,16 @@ test('generation validation uses stored user-owned metadata instead of client si
       name: 'untrusted.m4a',
       type: 'audio/mp4',
       size: 99 * MB,
-      url: 'https://media.maxvideoai.com/library/original.wav',
+      url: 'https://media.maxvideoai.com/user-assets/reference.wav',
     }),
-    reference: referenceItem('https://media.maxvideoai.com/library/original.wav'),
+    reference: referenceItem('https://media.maxvideoai.com/user-assets/reference.wav'),
   });
-  assert.deepEqual(exactWav.result, { ok: true });
+  assert.deepEqual(exactWav.result, {
+    ok: true,
+    trustedDurationSecByField: { audio_urls: [6] },
+    trustedMediaReferences: [{ kind: 'audio', fieldId: 'audio_urls', url: 'https://media.maxvideoai.com/user-assets/reference.wav',
+      width: null, height: null, durationSec: 6 }],
+  });
 
   const tooLarge = await validateStoredAudio({
     row: storedRow({ size_bytes: 15 * MB + 1 }),
@@ -222,7 +233,11 @@ test('Seedance 2.5 rejects source videos below the provider pixel floor before s
   });
 
   const aboveFloor = await validateStoredVideo(638, 640);
-  assert.deepEqual(aboveFloor, { ok: true });
+  assert.deepEqual(aboveFloor, {
+    ok: true,
+    trustedDurationSecByField: { video_url: [10] },
+    trustedMediaReferences: [{ kind: 'video', fieldId: 'video_url', url: VIDEO_URL, width: 638, height: 640, durationSec: 10 }],
+  });
 });
 
 test('Seedance 2.5 probes a trusted stored video when dimension metadata is missing', async () => {
@@ -253,12 +268,17 @@ test('Seedance 2.5 probes a trusted stored video when dimension metadata is miss
         size_bytes: 425_179,
         width: null,
         height: null,
+        duration_sec: 10,
       }] as T[],
       detectVideoDimensionsFn: async () => ({ width: 638, height: 640 }),
     },
   });
 
-  assert.deepEqual(result, { ok: true });
+  assert.deepEqual(result, {
+    ok: true,
+    trustedDurationSecByField: { video_url: [10] },
+    trustedMediaReferences: [{ kind: 'video', fieldId: 'video_url', url: VIDEO_URL, width: 638, height: 640, durationSec: 10 }],
+  });
 });
 
 async function uploadRequest(params: {
@@ -335,7 +355,7 @@ test('workspace upload context and trusted generation validation are wired befor
   assert.match(workspaceUploadSource, /formData\.append\('engineId', engineId\)/);
   assert.match(workspaceUploadSource, /formData\.append\('mode', preferredMode\)/);
   assert.match(workspaceUploadSource, /formData\.append\('fieldId', field\.id\)/);
-  const constraintValidation = videoGenerationSource.indexOf('const attachmentProcessing = await processAndValidateGenerationAttachments');
+  const constraintValidation = videoGenerationSource.indexOf('await processAndValidateGenerationAttachments(attachmentParams)');
   const billingPreflight = videoGenerationSource.indexOf('const billingPreflight = trustedIncludedTrialBilling');
   assert.ok(constraintValidation >= 0);
   assert.ok(constraintValidation < billingPreflight, 'trusted media validation must run before billing preflight');

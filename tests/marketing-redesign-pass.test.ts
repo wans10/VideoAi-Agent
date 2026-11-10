@@ -33,7 +33,8 @@ test('site navigation exposes assistants without changing the app shared destina
 test('motion is marketing scoped and never hides critical content', () => {
   const source = readFileSync('frontend/components/marketing/MarketingMotion.client.tsx', 'utf8');
   assert.match(source, /prefers-reduced-motion: reduce/);
-  assert.match(source, /getBoundingClientRect\(\)\.top > window.innerHeight/);
+  assert.doesNotMatch(source, /getBoundingClientRect\(/, 'deferred sections must not be synchronously laid out for decorative motion');
+  assert.match(source, /entry\.boundingClientRect\.top/);
   assert.doesNotMatch(source, /opacity|visibility:|display:/);
   assert.match(source, /animation.cancel\(\)/);
 });
@@ -41,8 +42,17 @@ test('motion is marketing scoped and never hides critical content', () => {
 test('home merges inspiration and examples while retaining discovery data in the server section', () => {
   const route = readFileSync('frontend/app/(localized)/[locale]/(marketing)/(home)/page.tsx', 'utf8');
   const section = readFileSync('frontend/components/marketing/home/HomeModelDiscovery.tsx', 'utf8');
+  const discovery = readFileSync('frontend/app/(localized)/[locale]/(marketing)/(home)/_components/HomeDiscovery.tsx', 'utf8');
+  const worlds = readFileSync('frontend/components/marketing/home/HomeCreativeWorlds.tsx', 'utf8');
   assert.doesNotMatch(route, /RealExamplesPreview/);
-  assert.match(route, /HomeCreativeWorlds locale=\{locale\} cards=\{primaryBestForCards\} examples=\{examples\} providers=\{providers\}/);
+  assert.match(route, /HomeCreativeWorlds locale=\{locale\} cards=\{primaryBestForCards\} examplesCopy=\{content.examples\} modelDiscovery=\{/);
+  const boundary = route.slice(route.indexOf('<Suspense'), route.indexOf('</Suspense>'));
+  assert.match(boundary, /fallback=\{<HomeModelDiscovery locale=\{locale\} examples=\{fallbackExamples\} providers=\{providers\} copy=\{content.examples\}/);
+  assert.match(boundary, /<HomeDiscovery locale=\{locale\} examples=\{pendingData.examples\} providers=\{providers\} copy=\{content.examples\}/);
+  assert.doesNotMatch(boundary, /<HomeHero|<HomeCreativeWorlds|<CreativeFilm/);
+  assert.match(worlds, /modelDiscovery \?\? <HomeModelDiscovery/);
+  assert.doesNotMatch(discovery, /'use client'/);
+  assert.match(discovery, /<HomeModelDiscovery locale=\{locale\} examples=\{await examples\} providers=\{providers\} copy=\{copy\}/);
   assert.doesNotMatch(section, /'use client'/);
   assert.match(section, /href=\{example.href\}/);
   assert.match(section, /example.modelHref \?\? example.href/);

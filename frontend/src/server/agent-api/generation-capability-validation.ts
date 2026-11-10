@@ -12,6 +12,7 @@ import type { ImageGenerationMode } from '@/types/image-generation';
 import { isLumaRay2EngineId } from '@/lib/luma-ray2';
 import { isGptImageFamilyEngineId, validateGptImage2CustomImageSize } from '@/lib/image/gptImage2';
 import { SEEDREAM_MAX_IMAGE_SET_IMAGES } from '@/lib/image/seedream';
+import { seedanceAutomaticDurationBounds } from '@/lib/seedance-option-pricing';
 import {
   isVideoDurationSupported,
   validateProviderControls,
@@ -37,6 +38,9 @@ import {
 } from '@/lib/media-field-constraints';
 
 const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
+  outputFormat: 'output_format',
+  returnLastFrame: 'return_last_frame',
+  watermark: 'watermark',
   cameraFixed: 'camera_fixed',
   cfgScale: 'cfg_scale',
   contextSec: 'context',
@@ -44,6 +48,7 @@ const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
   cropEndY: 'y_end',
   cropStartX: 'x_start',
   cropStartY: 'y_start',
+  documentUrl: 'file_url',
   editDepthBlur: 'edit_depth_blur',
   editFace: 'edit_face',
   editKeyframeIndexes: 'edit_keyframe_indexes',
@@ -52,6 +57,7 @@ const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
   editStrength: 'edit_strength',
   editTrajectorySparsity: 'edit_trajectory_sparsity',
   exrExport: 'exr_export',
+  enablePromptExpansion: 'enable_prompt_expansion',
   extendPosition: 'mode',
   guidanceScale: 'guidance_scale',
   hdr: 'hdr',
@@ -70,6 +76,7 @@ const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
   sourcePositionX: 'source_position_x_norm',
   sourcePositionY: 'source_position_y_norm',
   startTimeSec: 'start_time',
+  webpageUrl: 'web_url',
 };
 const IMAGE_FIELD_BY_SETTING: Record<string, string> = {
   background: 'background',
@@ -85,10 +92,21 @@ const IMAGE_FIELD_BY_SETTING: Record<string, string> = {
   watermark: 'watermark',
 };
 
+export type ReferenceConstraintFailure =
+  | 'metadata_unverified'
+  | 'dimensions_unverified'
+  | 'duration_unverified'
+  | 'duration_unsupported'
+  | 'combined_duration_exceeded'
+  | 'size_exceeded'
+  | 'format_unsupported'
+  | 'image_aspect_ratio_unsupported';
+
 export class GenerationCapabilityError extends Error {
   constructor(
     readonly field: string,
     readonly kind: 'parameter_invalid' | 'reference_required' | 'reference_invalid' = 'parameter_invalid',
+    readonly referenceFailure?: ReferenceConstraintFailure,
   ) {
     super('The canonical generation request is not executable by this public model mode.');
     this.name = 'GenerationCapabilityError';
@@ -98,8 +116,9 @@ export class GenerationCapabilityError extends Error {
 function fail(
   field: string,
   kind: GenerationCapabilityError['kind'] = 'parameter_invalid',
+  referenceFailure?: ReferenceConstraintFailure,
 ): never {
-  throw new GenerationCapabilityError(field, kind);
+  throw new GenerationCapabilityError(field, kind, referenceFailure);
 }
 
 function applicableField(
@@ -158,6 +177,9 @@ function validateVideoModeCaps(
   candidate: AgentPublicGenerationEngine,
 ): void {
   const duration = request.settings.durationSec;
+  if (request.settings.durationOption !== undefined && (request.settings.durationOption !== 'auto'
+    || !seedanceAutomaticDurationBounds(candidate.engine.id) || !caps.duration || !('options' in caps.duration)
+    || !caps.duration.options.includes('auto'))) fail('durationOption');
   if (!Number.isSafeInteger(duration) || (duration as number) < 1) fail('durationSec');
   if (caps.frames) fail('durationSec');
   if (caps.duration && !isVideoDurationSupported(duration, caps.duration, candidate.engine.maxDurationSec)) {
@@ -297,7 +319,7 @@ function validateDerivedSourceFacts(
         || sizeBytes <= 0
         || !resolved.mimeType
         || !originalName
-      ) fail('references', 'reference_invalid');
+      ) fail('references', 'reference_invalid', 'metadata_unverified');
       if (
         (resolved.mediaKind === 'image' || resolved.mediaKind === 'video')
         && (
@@ -306,7 +328,7 @@ function validateDerivedSourceFacts(
           || Number(resolved.width) <= 0
           || Number(resolved.height) <= 0
         )
-      ) fail('references', 'reference_invalid');
+      ) fail('references', 'reference_invalid', 'dimensions_unverified');
       const mediaValidation = validateMediaFileAgainstConstraint({
         name: originalName,
         mimeType: resolved.mimeType,
@@ -316,7 +338,8 @@ function validateDerivedSourceFacts(
           field: fields[0]!,
         }),
       });
-      if (!mediaValidation.ok) fail('references', 'reference_invalid');
+      if (!mediaValidation.ok) fail('references', 'reference_invalid',
+        mediaValidation.reason === 'size' ? 'size_exceeded' : 'format_unsupported');
     }
   }
   if (
@@ -503,11 +526,14 @@ function fieldIdsForRole(
   request: CanonicalGenerationRequest,
   role: CanonicalGenerationReference['role'],
 ): readonly string[] {
+  if (request.mode === 't2v') {
+    return role === 'reference' ? ['target_audio_url'] : [];
+  }
   if (request.mode === 'i2v' || request.mode === 'i2v_standard') {
-    if (role === 'source') return ['image_url'];
+    if (role === 'source') return ['image_url', 'start_image_url', 'first_frame_url'];
     if (role === 'first_frame') return ['first_frame_url', 'start_image_url', 'image_url'];
     if (role === 'last_frame') return ['end_image_url', 'last_frame_url'];
-    return ['image_urls', 'reference_image_urls'];
+    return role === 'reference' ? ['image_urls', 'reference_image_urls', 'target_audio_url'] : [];
   }
   if (request.mode === 'ref2v') {
     if (role === 'first_frame') return ['start_image_url', 'image_url'];
@@ -547,7 +573,8 @@ function fieldIdsForRole(
     return role === 'reference' ? ['video_urls'] : [];
   }
   if (request.mode === 'extend') {
-    return role === 'source' ? ['extension_source_videos', 'video_urls', 'video_url'] : [];
+    if (role === 'source') return ['extension_source_videos', 'video_urls', 'video_url'];
+    return role === 'reference' ? ['reference_image_urls', 'image_urls', 'reference_audio_urls', 'audio_urls'] : [];
   }
   if (request.mode === 'a2v') {
     if (role === 'source') return ['audio_url'];
@@ -623,7 +650,10 @@ function validateTrustedReferenceDuration(
   if (fields.length !== 1) return;
   const field = fields[0]!;
   const constraints = candidate.engine.inputSchema?.constraints;
-  const combinedLimit = field.type === 'video'
+  const combinedModes = constraints?.combinedDurationModes;
+  const combinedLimitsApply = !Array.isArray(combinedModes)
+    || combinedModes.includes(toEngineGenerationMode(candidate.engine.id, request.mode));
+  const combinedLimit = !combinedLimitsApply ? undefined : field.type === 'video'
     ? constraints?.maxCombinedVideoDurationSec
     : field.type === 'audio'
       ? constraints?.maxCombinedAudioDurationSec
@@ -640,9 +670,15 @@ function validateTrustedReferenceDuration(
     && exclusiveMaximum === undefined
     && sourcePlusOutputMaximum === undefined
   ) return;
+  // Preparation validates role/schema shape before looking up owned media.
+  // An asset reference is revalidated with persisted metadata immediately after resolution.
+  if (reference.kind === 'asset' && !options.resolvedReferences) return;
   if (reference.kind !== 'asset' || !options.resolvedReferences) {
     if (options.allowUnverifiedReferenceDuration) return;
-    if (candidate.engine.id === 'minimax-h3') fail('references', 'reference_invalid');
+    if (candidate.engine.id === 'minimax-h3'
+      || ((candidate.engine.id === 'wan-3' || candidate.engine.id === 'wan-3-prime') && field.type === 'video')) {
+      fail('references', 'reference_invalid');
+    }
     return;
   }
   const resolved = resolvedReference(reference, options);
@@ -653,7 +689,9 @@ function validateTrustedReferenceDuration(
     typeof durationSec !== 'number'
     || !Number.isFinite(durationSec)
     || durationSec <= 0
-    || (typeof field.minDurationSec === 'number' && durationSec < field.minDurationSec)
+  ) fail('references', 'reference_invalid', 'duration_unverified');
+  if (
+    (typeof field.minDurationSec === 'number' && durationSec < field.minDurationSec)
     || (typeof field.maxDurationSec === 'number' && durationSec > field.maxDurationSec)
     || (typeof exclusiveMaximum === 'number' && durationSec >= exclusiveMaximum)
     || (
@@ -661,7 +699,7 @@ function validateTrustedReferenceDuration(
       && typeof requestedOutputDurationSec === 'number'
       && durationSec + requestedOutputDurationSec > sourcePlusOutputMaximum
     )
-  ) fail('references', 'reference_invalid');
+  ) fail('references', 'reference_invalid', 'duration_unsupported');
 }
 
 function requestModeForExclusiveDuration(
@@ -674,11 +712,15 @@ function requestModeForExclusiveDuration(
 }
 
 function validateCombinedReferenceDurations(
+  request: CanonicalGenerationRequest,
   candidate: AgentPublicGenerationEngine,
   options: GenerationCapabilityValidationOptions,
 ): void {
   if (!options.resolvedReferences) return;
   const constraints = candidate.engine.inputSchema?.constraints;
+  const combinedModes = constraints?.combinedDurationModes;
+  if (Array.isArray(combinedModes)
+    && !combinedModes.includes(toEngineGenerationMode(candidate.engine.id, request.mode))) return;
   const limits = {
     video: constraints?.maxCombinedVideoDurationSec,
     audio: constraints?.maxCombinedAudioDurationSec,
@@ -693,11 +735,11 @@ function validateCombinedReferenceDurations(
         typeof resolved.durationSec !== 'number'
         || !Number.isFinite(resolved.durationSec)
         || resolved.durationSec <= 0
-      ) fail('references', 'reference_invalid');
+      ) fail('references', 'reference_invalid', 'duration_unverified');
       durations.set(resolved.storageUrl, resolved.durationSec);
     }
     const total = [...durations.values()].reduce((sum, durationSec) => sum + durationSec, 0);
-    if (total > limit) fail('references', 'reference_invalid');
+    if (total > limit) fail('references', 'reference_invalid', 'combined_duration_exceeded');
   }
 }
 
@@ -731,10 +773,6 @@ function validateReferences(
   candidate: AgentPublicGenerationEngine,
   options: GenerationCapabilityValidationOptions,
 ): void {
-  if (request.mode === 't2v') {
-    if (request.references.length) fail('references', 'reference_invalid');
-    return;
-  }
   if (candidate.surface === 'image') {
     const constraints = getReferenceConstraints(candidate.engine, request.mode as ImageGenerationMode);
     const generationReferences = request.references.filter((reference) => reference.role !== 'mask');
@@ -777,8 +815,10 @@ function validateReferences(
         if (!options.allowUnverifiedReferenceDuration) fail('references', 'reference_invalid');
       } else if (options.resolvedReferences) {
         const resolved = resolvedReference(reference, options);
-        if (validateImageAspectRatio(fields[0]!, resolved?.width, resolved?.height) !== 'valid') {
-          fail('references', 'reference_invalid');
+        const geometry = validateImageAspectRatio(fields[0]!, resolved?.width, resolved?.height);
+        if (geometry !== 'valid') {
+          fail('references', 'reference_invalid',
+            geometry === 'unverified' ? 'dimensions_unverified' : 'image_aspect_ratio_unsupported');
         }
       }
     }
@@ -819,13 +859,19 @@ function validateReferences(
   }
   const atLeastOneReferenceField = candidate.engine.inputSchema?.constraints?.atLeastOneReferenceField;
   if (
-    request.mode === 'ref2v'
+    (request.mode === 'ref2v' || request.mode === 'i2v')
     && Array.isArray(atLeastOneReferenceField)
     && atLeastOneReferenceField.length
   ) {
-    const accepted = new Set(atLeastOneReferenceField);
-    const hasReference = selectedFields.some((fields) => fields.some((field) => accepted.has(field.id)));
-    if (!hasReference) fail('references', 'reference_required');
+    const accepted = new Set(atLeastOneReferenceField.filter((fieldId) =>
+      typeof fieldId === 'string' && applicableField(candidate, fieldId, request.mode)));
+    const hasReference = selectedFields.some((fields) => fields.some((field) => accepted.has(field.id)))
+      || Object.entries(VIDEO_FIELD_BY_SETTING).some(([setting, fieldId]) =>
+        accepted.has(fieldId)
+        && applicableField(candidate, fieldId, request.mode)
+        && typeof request.settings[setting] === 'string'
+        && String(request.settings[setting]).trim().length > 0);
+    if (accepted.size && !hasReference) fail('references', 'reference_required');
   }
   if (
     request.mode === 'a2v'
@@ -836,7 +882,7 @@ function validateReferences(
       && selectedFields[index]?.some((field) => field.type === 'image'))
   ) fail('prompt');
   validateReferenceBudget(request, candidate, selectedFields);
-  validateCombinedReferenceDurations(candidate, options);
+  validateCombinedReferenceDurations(request, candidate, options);
 }
 
 export function validateCanonicalGenerationCapabilities(

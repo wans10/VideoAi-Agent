@@ -49,6 +49,8 @@ Publication and acquisition are separate decisions. Making an entry visible or i
 
 Adding a registry entry alone never authors a Next.js route or localized content. Keep explicit route owners and do not create a generic catch-all integration page.
 
+The application header projects the live, indexable integrations in registry order through `frontend/components/app/AppAssistantConnections.tsx`, using the shared `McpIntegrationMark` logos and localized page paths. Both global `renderPublicPage` and `indexable` gates must be open. `AppMcpShortcuts.client.tsx` owns one **Connect** disclosure at every viewport: desktop mouse hover opens a compact assistant list, while click/touch and ArrowDown/ArrowUp support deliberate opening. Provider logos appear only inside the panel. Leaving the hover area, moving keyboard focus outside, clicking outside or Escape dismisses it; keyboard dismissal and choosing an integration restore its trigger. `AppSiteMenu.client.tsx` retains the separate general application/account menu. These links describe installation pages, not the user's connection status. `tests/app-mcp-navigation.test.ts` covers publication withdrawal, localized destinations, keyboard/focus restoration, outside dismissal and mouse-versus-touch behavior.
+
 ## Evidence update procedure
 
 `docs/operations/mcp-host-compatibility-matrix.md` owns detailed tested-host evidence: exact host version, environment, actions exercised, limits, failures, and evidence references. After completing a newer checkpoint:
@@ -69,19 +71,15 @@ have not been verified.
 n8n is `live`, indexable, and acquisition-enabled only for the tested
 self-hosted deterministic MCP Client workflow. The MCP Client host remains
 `tested_with_limits`; MCP Client Tool remains `not-run`, n8n Cloud is not
-claimed. The template-library store state is `submitted` only for private
-Creator Portal workflow `19591`, which is now `Pending` / `Under review` dated
-2026-09-17. After the reviewer requested explanatory Sticky Notes, the local
-credential-free JSON was aligned with n8n's overview and section-note rules.
-Four earlier `Upload new version` attempts returned the portal's generic error
-and did not resubmit the workflow; their exact cause remains unknown. The
-owner-authorized correction then used the existing workflow's distinct
-`Implement changes` → `Upload workflow JSON file` → `Submit for human review`
-path once. The portal confirmed `Your template has been re-submitted` and
-returned the dashboard to `Pending` / `Under review`. That is private review,
-not human approval or a public library listing. The other two reviewed JSON
-workflows remain unsubmitted, and `Share new template` is disabled again during
-review. No public listing or verification is claimed.
+claimed. The template-library store state is `submitted` for the October 5 update to
+[workflow 19591](https://n8n.io/workflows/19591-turn-creative-briefs-into-approved-maxvideoai-generations-with-human-review/).
+The Creator Portal shows `Pending` / `Under review`; the public API still
+returns the historical 20-node version and its direct page remains readable.
+The earlier public listing was observed on 2026-09-25. This changes distribution state only; users still
+configure OAuth manually, and the self-hosted 2.38.7 MCP Client checkpoint
+remains `tested_with_limits`. The other two reviewed JSON workflows have no
+verified public listing. The earlier private review and submission history is
+recorded in `docs/marketing/mcp-directory-submissions.md`.
 
 ## Later-host promotion sequence
 

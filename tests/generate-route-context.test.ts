@@ -26,10 +26,32 @@ const routeSource = readFileSync(routePath, 'utf8');
 const serviceSource = readFileSync(join(root, 'frontend/src/server/video-generation/execute-video-generation.ts'), 'utf8');
 const helperSource = readFileSync(helperPath, 'utf8');
 
+test('LAS Edit requires wallet settlement before billing and provider submission', async () => {
+  const entry = getFalEngineById('seedance-2-5')!;
+  const original = { ...ENV };
+  Object.assign(ENV, { BYTEPLUS_ARK_ENABLED: 'true', BYTEPLUS_ARK_API_KEY: 'test-ark',
+    BYTEPLUS_LAS_API_KEY: 'test-las', SEEDANCE_2_5_LAS_ENABLED: 'true',
+    SEEDANCE_2_5_BYTEPLUS_ENABLED: 'true', SEEDANCE_2_5_PROVIDER: 'byteplus_modelark',
+    SEEDANCE_2_5_BYTEPLUS_ADMIN_ONLY: 'false', SEEDANCE_2_5_BYTEPLUS_MODES: 't2v,i2v,ref2v,v2v,extend' });
+  try {
+    for (const funding of ['direct', 'platform', 'mcp_trial']) {
+      const result = await resolveGenerateRouteContext({
+        body: { engineId: 'seedance-2-5', mode: 'v2v', payment: { mode: funding } },
+        req: new NextRequest('http://localhost/api/generate', { method: 'POST' }),
+        boundaryOverrides: { getConfiguredEngine: async () => entry.engine,
+          isDatabaseConfigured: () => { throw new Error('Billing must not be reached'); },
+          ensureBillingSchema: async () => { throw new Error('Billing must not be reached'); } },
+      });
+      assert.deepEqual(result, { ok: false, status: 400,
+        body: { ok: false, error: 'BYTEPLUS_LAS_WALLET_REQUIRED', message: 'Edit requires wallet payment.' } });
+    }
+  } finally { Object.assign(ENV, original); }
+});
+
 test('generate route delegates engine, provider, db, and admin context', () => {
   assert.ok(existsSync(helperPath), 'route context should live in the generate route _lib folder');
   assert.match(routeSource, /from '\.\/_lib\/route-context'/);
-  assert.match(routeSource, /resolveGenerateRouteContext\(\{ body, req \}\)/);
+  assert.match(routeSource, /resolveGenerateRouteContext\(\{ body, req, seedanceWorkflow:/);
   assert.doesNotMatch(routeSource, /getConfiguredEngine/);
   assert.doesNotMatch(routeSource, /ensureBillingSchema/);
   assert.doesNotMatch(routeSource, /requireAdmin/);
@@ -111,7 +133,7 @@ test('generate route delegates attachment normalization and trusted media valida
   const normalizedAttachmentValidationSource = readFileSync(normalizedAttachmentValidationPath, 'utf8');
 
   assert.match(serviceSource, /generate\/_lib\/generation-attachment-processing/);
-  assert.match(serviceSource, /processAndValidateGenerationAttachments\(\{/);
+  assert.match(serviceSource, /processAndValidateGenerationAttachments\(/);
   assert.doesNotMatch(routeSource, /processGenerationAttachments\(\{/);
   assert.doesNotMatch(routeSource, /deriveGenerationAttachmentReferences\(\{/);
   assert.doesNotMatch(routeSource, /validateGenerationMediaConstraints\(\{/);
@@ -185,6 +207,64 @@ test('Seedance 2.5 hard-disable and routing gates run before database and billin
     ENV.BYTEPLUS_ARK_SEEDANCE_2_5_MODEL_ID = original.modelId;
     ENV.SEEDANCE_2_5_BYTEPLUS_ENABLED = original.seedance25Enabled;
     ENV.SEEDANCE_2_5_PROVIDER = original.seedance25Provider;
+  }
+});
+
+test('archived Seedance 1.5 rejects new requests before billing regardless of direct routing flags', { concurrency: false }, async () => {
+  const original = {
+    enabled: ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED,
+    provider: ENV.SEEDANCE_1_5_PROVIDER,
+    modelId: ENV.BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID,
+    arkEnabled: ENV.BYTEPLUS_ARK_ENABLED,
+    arkApiKey: ENV.BYTEPLUS_ARK_API_KEY,
+    adminOnly: ENV.SEEDANCE_1_5_BYTEPLUS_ADMIN_ONLY,
+  };
+  try {
+    ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = 'false';
+    ENV.SEEDANCE_1_5_PROVIDER = 'fal';
+    const result = await resolveGenerateRouteContext({
+      body: { engineId: 'seedance-1-5-pro', mode: 't2v' },
+      req: new NextRequest('http://localhost/api/generate', { method: 'POST' }),
+      boundaryOverrides: {
+        ensureBillingSchema: async () => { throw new Error('Billing must not be reached'); },
+      },
+    });
+    assert.deepEqual(result, {
+      ok: false,
+      status: 410,
+      body: { ok: false, error: 'ENGINE_RETIRED' },
+    });
+    const engine = getFalEngineById('seedance-1-5-pro')?.engine;
+    assert.ok(engine);
+    const trusted = resolveTrustedPaidGenerateRouteContext({
+      body: {}, engine, jobId: 'job_15', mode: 't2v',
+    });
+    assert.equal(trusted.ok, false);
+    if (!trusted.ok) assert.equal(trusted.body.error, 'ENGINE_RETIRED');
+
+    ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = 'true';
+    const disabledOverride = resolveTrustedPaidGenerateRouteContext({
+      body: {}, engine, jobId: 'job_15_fal_override', mode: 't2v',
+    });
+    assert.equal(disabledOverride.ok, false);
+
+    ENV.SEEDANCE_1_5_PROVIDER = 'byteplus_modelark';
+    ENV.BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID = 'seedance-1-5-pro-251215';
+    ENV.BYTEPLUS_ARK_ENABLED = 'true';
+    ENV.BYTEPLUS_ARK_API_KEY = 'ark-test-key';
+    ENV.SEEDANCE_1_5_BYTEPLUS_ADMIN_ONLY = 'false';
+    const direct = resolveTrustedPaidGenerateRouteContext({
+      body: {}, engine, jobId: 'job_15_direct', mode: 't2v',
+    });
+    assert.equal(direct.ok, false);
+    if (!direct.ok) assert.equal(direct.body.error, 'ENGINE_RETIRED');
+  } finally {
+    ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = original.enabled;
+    ENV.SEEDANCE_1_5_PROVIDER = original.provider;
+    ENV.BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID = original.modelId;
+    ENV.BYTEPLUS_ARK_ENABLED = original.arkEnabled;
+    ENV.BYTEPLUS_ARK_API_KEY = original.arkApiKey;
+    ENV.SEEDANCE_1_5_BYTEPLUS_ADMIN_ONLY = original.adminOnly;
   }
 });
 
@@ -425,4 +505,18 @@ test('disabled Seedance 2.5 does not reach the configured-engine database bounda
       databaseBoundary.close((error) => (error ? reject(error) : resolve()))
     );
   }
+});
+
+test('archived Sora is rejected before configuration, billing and provider routing, including trusted requests', async () => {
+  for (const engineId of ['sora-2', 'sora-2-pro', 'sora-pro', 'sora2pro', 'runway-gen2']) {
+    const result = await resolveGenerateRouteContext({
+      body: { engineId, mode: 't2v' }, req: new NextRequest('http://localhost/api/generate', { method: 'POST' }),
+      boundaryOverrides: { getConfiguredEngine: async () => { throw new Error('Must reject before DB configuration'); } },
+    });
+    assert.equal(result.ok, false);
+    if (!result.ok) assert.equal(result.body.error, 'ENGINE_RETIRED');
+  }
+  const engine = getFalEngineById('sora-2')!.engine;
+  const trusted = resolveTrustedPaidGenerateRouteContext({ body: {}, engine, jobId: 'historical', mode: 't2v' });
+  assert.equal(trusted.ok, false);
 });

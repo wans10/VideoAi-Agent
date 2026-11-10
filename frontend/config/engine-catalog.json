@@ -4626,20 +4626,17 @@
     "family": "sora",
     "familyExamplesPage": {
       "stage": "indexed",
-      "showInNav": true,
+      "showInNav": false,
       "publishedModelSlugs": [
         "sora-2-pro",
         "sora-2"
       ],
-      "currentModelSlugs": [
-        "sora-2-pro",
-        "sora-2"
-      ]
+      "currentModelSlugs": []
     },
     "versionLabel": "2",
     "availability": "available",
     "logoPolicy": "logoAllowed",
-    "lifecycle": "current",
+    "lifecycle": "deep_legacy",
     "successorId": null,
     "successorSlug": null,
     "surfaces": {
@@ -4685,13 +4682,10 @@
         "includeInHub": true
       },
       "app": {
-        "enabled": true,
-        "discoveryRank": 0,
-        "variantGroup": "sora",
-        "variantLabel": "Standard"
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -4907,20 +4901,17 @@
     "family": "sora",
     "familyExamplesPage": {
       "stage": "indexed",
-      "showInNav": true,
+      "showInNav": false,
       "publishedModelSlugs": [
         "sora-2-pro",
         "sora-2"
       ],
-      "currentModelSlugs": [
-        "sora-2-pro",
-        "sora-2"
-      ]
+      "currentModelSlugs": []
     },
     "versionLabel": "Pro",
     "availability": "available",
     "logoPolicy": "logoAllowed",
-    "lifecycle": "current",
+    "lifecycle": "deep_legacy",
     "successorId": null,
     "successorSlug": null,
     "surfaces": {
@@ -4960,13 +4951,10 @@
         "includeInHub": true
       },
       "app": {
-        "enabled": true,
-        "discoveryRank": 1,
-        "variantGroup": "sora",
-        "variantLabel": "Pro"
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -10859,7 +10847,7 @@
     "versionLabel": "v1.5 Pro",
     "availability": "available",
     "logoPolicy": "logoAllowed",
-    "lifecycle": "current",
+    "lifecycle": "deep_legacy",
     "successorId": null,
     "successorSlug": null,
     "surfaces": {
@@ -10869,7 +10857,7 @@
       },
       "examples": {
         "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyCopy": false
       },
       "compare": {
         "suggestOpponents": [
@@ -10903,10 +10891,10 @@
         "includeInHub": true
       },
       "app": {
-        "enabled": true
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -11344,9 +11332,10 @@
       "params": {},
       "inputLimits": {
         "imageMaxMB": 30,
-        "videoMaxMB": 50,
+        "videoMaxMB": 200,
         "audioMaxMB": 15,
-        "videoMaxDurationSec": 15
+        "videoMaxDurationSec": 15,
+        "audioMaxDurationSec": 15
       },
       "inputSchema": {
         "required": [
@@ -11368,7 +11357,29 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           }
         ],
         "optional": [
@@ -11382,7 +11393,29 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "duration",
@@ -11441,11 +11474,34 @@
             "description": "Optional visual references for Reference to Video or Video Edit. Create clean references with Seedream first for better composition and consistency.",
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "minCount": 1,
             "maxCount": 9,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "video_url",
@@ -11472,7 +11528,8 @@
             "minDurationSec": 2,
             "maxDurationSec": 15,
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v"
             ],
             "source": "either"
           },
@@ -11480,7 +11537,7 @@
             "id": "extension_source_videos",
             "type": "video",
             "label": "Source clips to extend (up to 3)",
-            "description": "Add one source clip to extend forward or backward, or 2-3 clips to stitch a transition.",
+            "description": "Extend a source clip or connect source clips within the combined video duration limit.",
             "modes": [
               "extend"
             ],
@@ -11501,7 +11558,8 @@
             "maxCount": 3,
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "source": "either"
           },
@@ -11510,6 +11568,20 @@
             "type": "boolean",
             "label": "Audio",
             "default": true
+          },
+          {
+            "id": "return_last_frame",
+            "type": "boolean",
+            "label": "Return last frame",
+            "default": false,
+            "description": "Save the final JPEG frame as a separate image to continue the next video."
+          },
+          {
+            "id": "watermark",
+            "type": "boolean",
+            "label": "AI watermark",
+            "default": false,
+            "description": "Include the provider’s AI-generated watermark in the video."
           }
         ],
         "constraints": {
@@ -11518,6 +11590,12 @@
             "jpeg",
             "png",
             "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif",
             "mp4",
             "mov",
             "mp3",
@@ -11525,8 +11603,39 @@
           ],
           "maxImageSizeMB": 30,
           "minImageSidePx": 300,
-          "maxVideoSizeMB": 50,
-          "maxAudioSizeMB": 15
+          "maxVideoSizeMB": 200,
+          "maxAudioSizeMB": 15,
+          "maxCombinedVideoDurationSec": 15,
+          "maxCombinedAudioDurationSec": 15,
+          "atLeastOneReferenceField": [
+            "image_urls",
+            "video_urls"
+          ],
+          "referenceAudioRequiresVisual": true
+        },
+        "referenceBudget": {
+          "fieldIds": [
+            "image_url",
+            "end_image_url",
+            "image_urls",
+            "video_url",
+            "video_urls",
+            "extension_source_videos",
+            "audio_urls"
+          ],
+          "modes": [
+            "i2v",
+            "ref2v",
+            "v2v",
+            "extend"
+          ],
+          "maxTotal": 15,
+          "countUniqueUrls": true,
+          "maxByType": {
+            "image": 9,
+            "video": 3,
+            "audio": 3
+          }
         }
       },
       "pricingDetails": {
@@ -11768,7 +11877,13 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
           "maxUploadMB": 30,
           "audioToggle": true,
@@ -11819,7 +11934,13 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
           "maxUploadMB": 30,
           "audioToggle": true,
@@ -11870,9 +11991,15 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
           "notes": "Video edit uses a source clip plus optional image and audio references for 4-15s Standard Seedance 2.0 edits."
         }
@@ -11917,7 +12044,7 @@
             "3:4",
             "9:16"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
           "notes": "Extend continues a source clip forward or backward, or stitches up to 3 clips into one coherent Standard Seedance 2.0 video."
         }
@@ -12064,9 +12191,10 @@
       "params": {},
       "inputLimits": {
         "imageMaxMB": 30,
-        "videoMaxMB": 50,
+        "videoMaxMB": 200,
         "audioMaxMB": 15,
-        "videoMaxDurationSec": 15
+        "videoMaxDurationSec": 15,
+        "audioMaxDurationSec": 15
       },
       "inputSchema": {
         "required": [
@@ -12088,7 +12216,29 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           }
         ],
         "optional": [
@@ -12102,7 +12252,29 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "duration",
@@ -12165,11 +12337,34 @@
             "description": "Optional visual references for draft continuity checks or Video Edit. Create clean references with Seedream first for better composition and consistency.",
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "minCount": 1,
             "maxCount": 9,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "video_url",
@@ -12196,7 +12391,8 @@
             "minDurationSec": 2,
             "maxDurationSec": 15,
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v"
             ],
             "source": "either"
           },
@@ -12204,7 +12400,7 @@
             "id": "extension_source_videos",
             "type": "video",
             "label": "Source clips to extend (up to 3)",
-            "description": "Add one source clip to extend forward or backward, or 2-3 clips to stitch a transition.",
+            "description": "Extend a source clip or connect source clips within the combined video duration limit.",
             "modes": [
               "extend"
             ],
@@ -12225,9 +12421,24 @@
             "maxCount": 3,
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "source": "either"
+          },
+          {
+            "id": "return_last_frame",
+            "type": "boolean",
+            "label": "Return last frame",
+            "default": false,
+            "description": "Save the final JPEG frame as a separate image to continue the next video."
+          },
+          {
+            "id": "watermark",
+            "type": "boolean",
+            "label": "AI watermark",
+            "default": false,
+            "description": "Include the provider’s AI-generated watermark in the video."
           }
         ],
         "constraints": {
@@ -12236,6 +12447,12 @@
             "jpeg",
             "png",
             "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif",
             "mp4",
             "mov",
             "mp3",
@@ -12243,8 +12460,39 @@
           ],
           "maxImageSizeMB": 30,
           "minImageSidePx": 300,
-          "maxVideoSizeMB": 50,
-          "maxAudioSizeMB": 15
+          "maxVideoSizeMB": 200,
+          "maxAudioSizeMB": 15,
+          "maxCombinedVideoDurationSec": 15,
+          "maxCombinedAudioDurationSec": 15,
+          "atLeastOneReferenceField": [
+            "image_urls",
+            "video_urls"
+          ],
+          "referenceAudioRequiresVisual": true
+        },
+        "referenceBudget": {
+          "fieldIds": [
+            "image_url",
+            "end_image_url",
+            "image_urls",
+            "video_url",
+            "video_urls",
+            "extension_source_videos",
+            "audio_urls"
+          ],
+          "modes": [
+            "i2v",
+            "ref2v",
+            "v2v",
+            "extend"
+          ],
+          "maxTotal": 15,
+          "countUniqueUrls": true,
+          "maxByType": {
+            "image": 9,
+            "video": 3,
+            "audio": 3
+          }
         }
       },
       "pricingDetails": {
@@ -12478,7 +12726,13 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
           "maxUploadMB": 30,
           "audioToggle": true,
@@ -12527,7 +12781,13 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
           "maxUploadMB": 30,
           "audioToggle": true,
@@ -12576,9 +12836,15 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
           "notes": "Video edit uses a source clip plus optional image and audio references for fast 4-15s Seedance 2.0 edits."
         }
@@ -12621,7 +12887,7 @@
             "3:4",
             "9:16"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
           "notes": "Extend continues a source clip forward or backward, or stitches up to 3 clips into one coherent Fast Seedance 2.0 video."
         }
@@ -12752,9 +13018,10 @@
       "params": {},
       "inputLimits": {
         "imageMaxMB": 30,
-        "videoMaxMB": 50,
+        "videoMaxMB": 200,
         "audioMaxMB": 15,
-        "videoMaxDurationSec": 15
+        "videoMaxDurationSec": 15,
+        "audioMaxDurationSec": 15
       },
       "inputSchema": {
         "required": [
@@ -12775,7 +13042,29 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           }
         ],
         "optional": [
@@ -12789,13 +13078,36 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "duration",
             "type": "enum",
             "label": "Duration (seconds)",
             "values": [
+              "auto",
               "4",
               "5",
               "6",
@@ -12851,11 +13163,34 @@
             "description": "Optional visual references for Reference to Video or Video Edit.",
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "minCount": 1,
             "maxCount": 9,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "video_url",
@@ -12878,7 +13213,8 @@
             "label": "Reference video clips (up to 3)",
             "description": "Optional video references for Reference to Video.",
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v"
             ],
             "minCount": 0,
             "maxCount": 3,
@@ -12888,7 +13224,7 @@
             "id": "extension_source_videos",
             "type": "video",
             "label": "Source clips to extend (up to 3)",
-            "description": "Add one source clip to extend forward or backward, or 2-3 clips to stitch a transition.",
+            "description": "Extend a source clip or connect source clips within the combined video duration limit.",
             "modes": [
               "extend"
             ],
@@ -12907,11 +13243,26 @@
             "description": "Optional audio references for pacing or soundtrack guidance.",
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "minCount": 0,
             "maxCount": 3,
             "source": "either"
+          },
+          {
+            "id": "return_last_frame",
+            "type": "boolean",
+            "label": "Return last frame",
+            "default": false,
+            "description": "Save the final JPEG frame as a separate image to continue the next video."
+          },
+          {
+            "id": "watermark",
+            "type": "boolean",
+            "label": "AI watermark",
+            "default": false,
+            "description": "Include the provider’s AI-generated watermark in the video."
           }
         ],
         "constraints": {
@@ -12920,6 +13271,12 @@
             "jpeg",
             "png",
             "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif",
             "mp4",
             "mov",
             "mp3",
@@ -12927,8 +13284,39 @@
           ],
           "maxImageSizeMB": 30,
           "minImageSidePx": 300,
-          "maxVideoSizeMB": 50,
-          "maxAudioSizeMB": 15
+          "maxVideoSizeMB": 200,
+          "maxAudioSizeMB": 15,
+          "maxCombinedVideoDurationSec": 15,
+          "maxCombinedAudioDurationSec": 15,
+          "atLeastOneReferenceField": [
+            "image_urls",
+            "video_urls"
+          ],
+          "referenceAudioRequiresVisual": true
+        },
+        "referenceBudget": {
+          "fieldIds": [
+            "image_url",
+            "end_image_url",
+            "image_urls",
+            "video_url",
+            "video_urls",
+            "extension_source_videos",
+            "audio_urls"
+          ],
+          "modes": [
+            "i2v",
+            "ref2v",
+            "v2v",
+            "extend"
+          ],
+          "maxTotal": 15,
+          "countUniqueUrls": true,
+          "maxByType": {
+            "image": 9,
+            "video": 3,
+            "audio": 3
+          }
         }
       },
       "pricingDetails": {
@@ -13028,6 +13416,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -13069,6 +13458,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -13101,7 +13491,13 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
           "maxUploadMB": 30,
           "audioToggle": true,
@@ -13117,6 +13513,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -13149,9 +13546,15 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
           "notes": "Dreamina Seedance Mini supports 4-15s, 480p/720p, 24fps, native audio/lip-sync, and multimodal references."
         }
@@ -13165,6 +13568,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -13197,9 +13601,15 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
           "notes": "Dreamina Seedance Mini supports 4-15s, 480p/720p, 24fps, native audio/lip-sync, and multimodal references."
         }
@@ -13213,6 +13623,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -13241,7 +13652,7 @@
             "3:4",
             "9:16"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
           "notes": "Dreamina Seedance Mini extends 1-3 source clips at 4-15s, 480p/720p, 24fps, with native audio on or off."
         }
@@ -13693,6 +14104,7 @@
         "1080p"
       ],
       "aspectRatios": [
+        "auto",
         "21:9",
         "16:9",
         "4:3",
@@ -13711,9 +14123,10 @@
       "params": {},
       "inputLimits": {
         "imageMaxMB": 30,
-        "videoMaxMB": 50,
+        "videoMaxMB": 200,
         "audioMaxMB": 15,
-        "videoMaxDurationSec": 30
+        "videoMaxDurationSec": 30,
+        "audioMaxDurationSec": 30
       },
       "inputSchema": {
         "required": [
@@ -13735,7 +14148,29 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           }
         ],
         "optional": [
@@ -13749,13 +14184,36 @@
             ],
             "minCount": 1,
             "maxCount": 1,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "duration",
             "type": "enum",
             "label": "Duration (seconds)",
             "values": [
+              "auto",
               "4",
               "5",
               "6",
@@ -13793,6 +14251,7 @@
             "type": "enum",
             "label": "Aspect ratio",
             "values": [
+              "auto",
               "21:9",
               "16:9",
               "4:3",
@@ -13832,11 +14291,34 @@
             "description": "Optional visual references for reference-to-video or video-to-video.",
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "minCount": 1,
             "maxCount": 30,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp",
+              "tif",
+              "tiff",
+              "gif",
+              "heic",
+              "heif"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/tiff",
+              "image/gif",
+              "image/heic",
+              "image/heif"
+            ]
           },
           {
             "id": "video_url",
@@ -13857,9 +14339,10 @@
             "id": "video_urls",
             "type": "video",
             "label": "Reference video clips (up to 10)",
-            "description": "Optional motion or pacing references for reference-to-video.",
+            "description": "Optional motion or pacing references. Keep all reference videos within 30 seconds in total.",
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v"
             ],
             "minCount": 0,
             "maxCount": 10,
@@ -13868,8 +14351,8 @@
           {
             "id": "extension_source_videos",
             "type": "video",
-            "label": "Source clips to extend (up to 3)",
-            "description": "Extend one source clip or stitch a transition from two or three clips.",
+            "label": "Source clips to extend (up to 10)",
+            "description": "Extend a source clip or connect source clips within the combined video duration limit.",
             "modes": [
               "extend"
             ],
@@ -13877,7 +14360,7 @@
               "extend"
             ],
             "minCount": 1,
-            "maxCount": 3,
+            "maxCount": 10,
             "source": "either",
             "slotLabelPattern": "Source clip {n}"
           },
@@ -13888,7 +14371,8 @@
             "description": "Optional audio references for reference-to-video or video-to-video.",
             "modes": [
               "ref2v",
-              "v2v"
+              "v2v",
+              "extend"
             ],
             "minCount": 0,
             "maxCount": 10,
@@ -13906,6 +14390,31 @@
               "wav"
             ],
             "source": "either"
+          },
+          {
+            "id": "output_format",
+            "type": "enum",
+            "label": "Output format",
+            "values": [
+              "mp4",
+              "mov"
+            ],
+            "default": "mp4",
+            "description": "MP4 for sharing; MOV preserves professional colour and audio fidelity. The original remains available to download."
+          },
+          {
+            "id": "return_last_frame",
+            "type": "boolean",
+            "label": "Return last frame",
+            "default": false,
+            "description": "Save the final JPEG frame as a separate image to continue the next video."
+          },
+          {
+            "id": "watermark",
+            "type": "boolean",
+            "label": "AI watermark",
+            "default": false,
+            "description": "Include the provider’s AI-generated watermark in the video."
           }
         ],
         "referenceBudget": {
@@ -13918,21 +14427,35 @@
             "extension_source_videos",
             "audio_urls"
           ],
-          "maxTotal": 50,
-          "countUniqueUrls": true,
           "modes": [
             "i2v",
             "ref2v",
             "v2v",
             "extend"
-          ]
+          ],
+          "maxTotal": 50,
+          "countUniqueUrls": true,
+          "maxByType": {
+            "image": 30,
+            "video": 10,
+            "audio": 10
+          }
         },
         "constraints": {
+          "ownedAssetModes": [
+            "v2v"
+          ],
           "supportedFormats": [
             "jpg",
             "jpeg",
             "png",
             "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif",
             "mp4",
             "mov",
             "mp3",
@@ -13940,9 +14463,22 @@
           ],
           "maxImageSizeMB": 30,
           "minImageSidePx": 300,
-          "maxVideoSizeMB": 50,
+          "maxVideoSizeMB": 200,
+          "maxCombinedVideoDurationSec": 30.2,
+          "combinedDurationModes": [
+            "ref2v",
+            "v2v",
+            "extend"
+          ],
           "minVideoPixelCount": 407696,
-          "maxAudioSizeMB": 15
+          "maxAudioSizeMB": 15,
+          "maxCombinedAudioDurationSec": 30,
+          "atLeastOneReferenceField": [
+            "image_urls",
+            "video_urls",
+            "audio_urls"
+          ],
+          "referenceAudioRequiresVisual": false
         }
       },
       "pricingDetails": {
@@ -14064,6 +14600,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -14100,6 +14637,7 @@
             "1080p"
           ],
           "aspectRatio": [
+            "auto",
             "21:9",
             "16:9",
             "4:3",
@@ -14120,6 +14658,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -14159,11 +14698,17 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
           "maxUploadMB": 30,
           "audioToggle": true,
-          "notes": "Animate one start image with an optional end image; 4-30 seconds, up to 1080p, landscape, square, or vertical, with generated audio. images: jpg, jpeg, png, webp"
+          "notes": "Animate one start image with an optional end image; 4-30 seconds, up to 1080p, landscape, square, or vertical, with generated audio. images: jpg, jpeg, png, webp, bmp, tif, tiff, gif, heic, heif"
         }
       },
       {
@@ -14175,6 +14720,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -14211,6 +14757,7 @@
             "1080p"
           ],
           "aspectRatio": [
+            "auto",
             "21:9",
             "16:9",
             "4:3",
@@ -14222,11 +14769,17 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
-          "notes": "Use up to 30 images, 10 video clips, and 10 audio clips, with 50 unique references total. images: jpg, jpeg, png, webp; video: mp4, mov; audio: mp3, wav"
+          "notes": "Use up to 30 images, 10 video clips, and 10 audio clips, with 50 unique references total. images: jpg, jpeg, png, webp, bmp, tif, tiff, gif, heic, heif; video: mp4, mov; audio: mp3, wav"
         }
       },
       {
@@ -14274,6 +14827,7 @@
             "1080p"
           ],
           "aspectRatio": [
+            "auto",
             "21:9",
             "16:9",
             "4:3",
@@ -14285,11 +14839,17 @@
             "jpg",
             "jpeg",
             "png",
-            "webp"
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
           ],
-          "maxUploadMB": 50,
+          "maxUploadMB": 200,
           "audioToggle": true,
-          "notes": "Edit one source video with optional image and audio references; 4-30 seconds, up to 1080p, landscape, square, or vertical, with generated audio. images: jpg, jpeg, png, webp; video: mp4, mov; audio: mp3, wav"
+          "notes": "Edit one source video with optional image, video and audio references; 4-30 seconds, up to 1080p, landscape, square, or vertical, with generated audio. images: jpg, jpeg, png, webp, bmp, tif, tiff, gif, heic, heif; video: mp4, mov; audio: mp3, wav"
         }
       },
       {
@@ -14301,6 +14861,7 @@
           ],
           "duration": {
             "options": [
+              "auto",
               4,
               5,
               6,
@@ -14337,6 +14898,7 @@
             "1080p"
           ],
           "aspectRatio": [
+            "auto",
             "21:9",
             "16:9",
             "4:3",
@@ -14344,9 +14906,21 @@
             "3:4",
             "9:16"
           ],
-          "maxUploadMB": 50,
+          "acceptsImageFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp",
+            "bmp",
+            "tif",
+            "tiff",
+            "gif",
+            "heic",
+            "heif"
+          ],
+          "maxUploadMB": 200,
           "audioToggle": true,
-          "notes": "Continue one to three source clips; 4-30 seconds, up to 1080p, landscape, square, or vertical, with generated audio. video: mp4, mov"
+          "notes": "Continue one to ten source clips with optional image and audio references; 4-30 seconds, up to 1080p, landscape, square, or vertical, with generated audio. images: jpg, jpeg, png, webp, bmp, tif, tiff, gif, heic, heif; video: mp4, mov; audio: mp3, wav"
         }
       }
     ],
@@ -16719,6 +17293,7 @@
       ],
       "maxDurationSec": 15,
       "resolutions": [
+        "480P",
         "768P",
         "2K",
         "4K"
@@ -16750,8 +17325,7 @@
           "mov"
         ],
         "audioMaxMB": 15,
-        "audioMaxDurationSec": 15,
-        "promptMaxChars": 7000,
+        "promptMaxChars": 50000,
         "promptMaxCharsSource": "official"
       },
       "inputSchema": {
@@ -16771,19 +17345,18 @@
               "i2v",
               "ref2v"
             ]
-          },
+          }
+        ],
+        "optional": [
           {
             "id": "image_url",
             "type": "image",
             "label": "Start image",
-            "description": "Required first frame for image-to-video.",
+            "description": "First frame; supply a start image, an end image, or both.",
             "modes": [
               "i2v"
             ],
-            "requiredInModes": [
-              "i2v"
-            ],
-            "minCount": 1,
+            "minCount": 0,
             "maxCount": 1,
             "maxSizeMB": 30,
             "acceptedMimeTypes": [
@@ -16798,14 +17371,12 @@
               "webp"
             ],
             "source": "either"
-          }
-        ],
-        "optional": [
+          },
           {
             "id": "end_image_url",
             "type": "image",
             "label": "End image",
-            "description": "Optional final frame for an image-to-video transition.",
+            "description": "Final frame; may be supplied alone or with a start image.",
             "modes": [
               "i2v"
             ],
@@ -16880,7 +17451,7 @@
             "id": "reference_audio_urls",
             "type": "audio",
             "label": "Reference audio (up to 3)",
-            "description": "Audio references paired with at least one image or video; 15 seconds combined maximum.",
+            "description": "Audio references, alone or with images and videos; 15 seconds combined maximum.",
             "modes": [
               "ref2v"
             ],
@@ -16902,6 +17473,51 @@
               "wav"
             ],
             "source": "either"
+          },
+          {
+            "id": "target_audio_url",
+            "type": "audio",
+            "label": "Soundtrack",
+            "description": "Use this audio as the soundtrack. It is trimmed or padded to the video duration, without changing playback speed.",
+            "modes": [
+              "t2v",
+              "i2v"
+            ],
+            "minCount": 0,
+            "maxCount": 1,
+            "minDurationSec": 2,
+            "maxSizeMB": 15,
+            "source": "either"
+          },
+          {
+            "id": "seed",
+            "type": "number",
+            "label": "Seed",
+            "modes": [
+              "t2v",
+              "i2v",
+              "ref2v"
+            ],
+            "min": 0,
+            "max": 2147483647,
+            "step": 1
+          },
+          {
+            "id": "prompt_expansion_mode",
+            "type": "enum",
+            "label": "Prompt expansion",
+            "modes": [
+              "t2v",
+              "i2v",
+              "ref2v"
+            ],
+            "values": [
+              "disabled",
+              "fast",
+              "balanced",
+              "quality"
+            ],
+            "default": "balanced"
           },
           {
             "id": "duration",
@@ -16939,6 +17555,7 @@
               "ref2v"
             ],
             "values": [
+              "480P",
               "768P",
               "2K",
               "4K"
@@ -16949,9 +17566,25 @@
             "id": "aspect_ratio",
             "type": "enum",
             "label": "Aspect ratio",
+            "modes": [
+              "t2v"
+            ],
+            "values": [
+              "21:9",
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16"
+            ],
+            "default": "16:9"
+          },
+          {
+            "id": "aspect_ratio",
+            "type": "enum",
+            "label": "Aspect ratio",
             "description": "Auto uses Fal adaptive framing.",
             "modes": [
-              "t2v",
               "ref2v"
             ],
             "values": [
@@ -16994,7 +17627,22 @@
           "maxAudioSizeMB": 15,
           "maxCombinedVideoDurationSec": 15,
           "maxCombinedAudioDurationSec": 15,
-          "referenceAudioRequiresVisual": true
+          "combinedDurationModes": [
+            "ref2v"
+          ],
+          "ownedAssetModes": [
+            "t2v",
+            "i2v",
+            "ref2v"
+          ],
+          "atLeastOneReferenceField": [
+            "image_url",
+            "end_image_url",
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls"
+          ],
+          "referenceAudioRequiresVisual": false
         }
       },
       "pricingDetails": {
@@ -17002,7 +17650,8 @@
         "perSecondCents": {
           "default": 13,
           "byResolution": {
-            "768P": 8,
+            "480P": 5,
+            "768P": 6,
             "2K": 13,
             "4K": 16
           }
@@ -17012,14 +17661,15 @@
         "unit": "USD/s",
         "base": 0.13,
         "byResolution": {
-          "768P": 0.08,
+          "480P": 0.05,
+          "768P": 0.06,
           "2K": 0.13,
           "4K": 0.16
         },
         "currency": "USD",
         "notes": "Provider cost varies by resolution; reference images above five add USD 0.08 each."
       },
-      "updatedAt": "2026-08-08T00:00:00Z",
+      "updatedAt": "2026-09-22T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
         "provider": "minimax",
@@ -17058,6 +17708,7 @@
             "default": 10
           },
           "resolution": [
+            "480P",
             "768P",
             "2K",
             "4K"
@@ -17068,12 +17719,11 @@
             "4:3",
             "1:1",
             "3:4",
-            "9:16",
-            "auto"
+            "9:16"
           ],
           "fps": 24,
           "audioToggle": false,
-          "notes": "Text-to-video with native stereo audio and fixed or Auto framing."
+          "notes": "Text-to-video with native stereo audio or an imposed soundtrack, and fixed framing."
         }
       },
       {
@@ -17100,6 +17750,7 @@
             "default": 10
           },
           "resolution": [
+            "480P",
             "768P",
             "2K",
             "4K"
@@ -17113,7 +17764,7 @@
           ],
           "maxUploadMB": 30,
           "audioToggle": false,
-          "notes": "Animate one start image with an optional end image; framing follows the source image and audio is generated natively."
+          "notes": "Animate a start image, end image, or both; framing follows the supplied image, with native audio or an imposed soundtrack."
         }
       },
       {
@@ -17140,6 +17791,7 @@
             "default": 10
           },
           "resolution": [
+            "480P",
             "768P",
             "2K",
             "4K"
@@ -17256,7 +17908,8 @@
       "maxDurationSec": 15,
       "resolutions": [
         "480P",
-        "768P"
+        "768P",
+        "1080P"
       ],
       "aspectRatios": [
         "21:9",
@@ -17264,7 +17917,8 @@
         "4:3",
         "1:1",
         "3:4",
-        "9:16"
+        "9:16",
+        "auto"
       ],
       "fps": [
         24
@@ -17277,7 +17931,6 @@
       "params": {},
       "inputLimits": {
         "videoMaxDurationSec": 15,
-        "audioMaxDurationSec": 15,
         "promptMaxChars": 50000,
         "promptMaxCharsSource": "official"
       },
@@ -17298,29 +17951,48 @@
               "i2v",
               "ref2v"
             ]
-          },
-          {
-            "id": "image_url",
-            "type": "image",
-            "label": "Start image",
-            "description": "Required first frame for image-to-video.",
-            "modes": [
-              "i2v"
-            ],
-            "requiredInModes": [
-              "i2v"
-            ],
-            "minCount": 1,
-            "maxCount": 1,
-            "source": "either"
           }
         ],
         "optional": [
           {
+            "id": "image_url",
+            "type": "image",
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp"
+            ],
+            "label": "Start image",
+            "description": "First frame; supply a start image, an end image, or both.",
+            "modes": [
+              "i2v"
+            ],
+            "minCount": 0,
+            "maxCount": 1,
+            "source": "either"
+          },
+          {
             "id": "end_image_url",
             "type": "image",
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp"
+            ],
             "label": "End image",
-            "description": "Optional final frame for first-to-last-frame generation.",
+            "description": "Final frame; may be supplied alone or with a start image.",
             "modes": [
               "i2v"
             ],
@@ -17331,7 +18003,22 @@
           {
             "id": "reference_image_urls",
             "type": "image",
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp"
+            ],
             "label": "Reference images",
+            "imageAspectRatio": {
+              "min": 0.4,
+              "max": 2.5
+            },
             "modes": [
               "ref2v"
             ],
@@ -17342,6 +18029,14 @@
           {
             "id": "reference_video_urls",
             "type": "video",
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
             "label": "Reference videos",
             "description": "Each clip must be 2–15 seconds, with at most 15 seconds combined.",
             "modes": [
@@ -17356,8 +18051,20 @@
           {
             "id": "reference_audio_urls",
             "type": "audio",
+            "acceptedMimeTypes": [
+              "audio/mpeg",
+              "audio/mp3",
+              "audio/wav",
+              "audio/x-wav",
+              "audio/wave",
+              "audio/vnd.wave"
+            ],
+            "acceptedFileExtensions": [
+              "mp3",
+              "wav"
+            ],
             "label": "Reference audio",
-            "description": "Each clip must be 2–15 seconds, with at most 15 seconds combined. Audio requires an image or video reference.",
+            "description": "Each clip must be 2–15 seconds, with at most 15 seconds combined. Audio may be used alone or with visual references.",
             "modes": [
               "ref2v"
             ],
@@ -17366,6 +18073,46 @@
             "minDurationSec": 2,
             "maxDurationSec": 15,
             "source": "either"
+          },
+          {
+            "id": "target_audio_url",
+            "type": "audio",
+            "acceptedMimeTypes": [
+              "audio/mpeg",
+              "audio/mp3",
+              "audio/wav",
+              "audio/x-wav",
+              "audio/wave",
+              "audio/vnd.wave"
+            ],
+            "acceptedFileExtensions": [
+              "mp3",
+              "wav"
+            ],
+            "label": "Soundtrack",
+            "description": "Use this audio as the soundtrack. It is trimmed or padded to the video duration, without changing playback speed.",
+            "modes": [
+              "t2v",
+              "i2v"
+            ],
+            "minCount": 0,
+            "maxCount": 1,
+            "minDurationSec": 2,
+            "maxSizeMB": 15,
+            "source": "either"
+          },
+          {
+            "id": "seed",
+            "type": "number",
+            "label": "Seed",
+            "modes": [
+              "t2v",
+              "i2v",
+              "ref2v"
+            ],
+            "min": 0,
+            "max": 2147483647,
+            "step": 1
           },
           {
             "id": "duration",
@@ -17404,7 +18151,8 @@
             ],
             "values": [
               "480P",
-              "768P"
+              "768P",
+              "1080P"
             ],
             "default": "768P"
           },
@@ -17426,6 +18174,24 @@
             "default": "16:9"
           },
           {
+            "id": "aspect_ratio",
+            "type": "enum",
+            "label": "Aspect ratio",
+            "modes": [
+              "ref2v"
+            ],
+            "values": [
+              "21:9",
+              "16:9",
+              "4:3",
+              "1:1",
+              "3:4",
+              "9:16",
+              "auto"
+            ],
+            "default": "auto"
+          },
+          {
             "id": "prompt_expansion_mode",
             "type": "enum",
             "label": "Prompt expansion",
@@ -17435,6 +18201,7 @@
               "ref2v"
             ],
             "values": [
+              "disabled",
               "balanced",
               "quality"
             ],
@@ -17456,7 +18223,22 @@
         "constraints": {
           "maxCombinedVideoDurationSec": 15,
           "maxCombinedAudioDurationSec": 15,
-          "referenceAudioRequiresVisual": true
+          "ownedAssetModes": [
+            "t2v",
+            "i2v",
+            "ref2v"
+          ],
+          "combinedDurationModes": [
+            "ref2v"
+          ],
+          "atLeastOneReferenceField": [
+            "image_url",
+            "end_image_url",
+            "reference_image_urls",
+            "reference_video_urls",
+            "reference_audio_urls"
+          ],
+          "referenceAudioRequiresVisual": false
         }
       },
       "pricingDetails": {
@@ -17465,13 +18247,19 @@
           "default": 8,
           "byResolution": {
             "480P": 5,
-            "768P": 8
+            "768P": 8,
+            "1080P": 16
           }
         },
         "byMode": {
           "ref2v": {
             "perSecondCents": {
-              "default": 8
+              "default": 8,
+              "byResolution": {
+                "480P": 5,
+                "768P": 8,
+                "1080P": 16
+              }
             }
           }
         },
@@ -17482,10 +18270,11 @@
         "base": 0.08,
         "byResolution": {
           "480P": 0.05,
-          "768P": 0.08
+          "768P": 0.08,
+          "1080P": 0.16
         },
         "currency": "USD",
-        "notes": "Normal output is $0.05/s at 480P or $0.08/s at 768P. Reference output is $0.08/s plus reference tokens above the included 4,096-token pool."
+        "notes": "Output catalog rates are $0.05/s at 480P, $0.08/s at 768P, and $0.16/s at 1080P. Reference generation also bills normalized media tokens above 4,096; MaxVideoAI quotes a fixed price from a conservative budget based on verified reference metadata."
       },
       "updatedAt": "2026-09-03T00:00:00Z",
       "ttlSec": 600,
@@ -17524,7 +18313,8 @@
           },
           "resolution": [
             "480P",
-            "768P"
+            "768P",
+            "1080P"
           ],
           "aspectRatio": [
             "21:9",
@@ -17559,14 +18349,24 @@
           },
           "resolution": [
             "480P",
-            "768P"
+            "768P",
+            "1080P"
           ],
           "audioToggle": false,
-          "notes": "Animate one required start image with an optional end image and automatic native audio."
+          "notes": "Animate a start image, end image, or both, with native audio or an imposed soundtrack."
         },
         "ref2v": {
           "modes": [
             "ref2v"
+          ],
+          "aspectRatio": [
+            "21:9",
+            "16:9",
+            "4:3",
+            "1:1",
+            "3:4",
+            "9:16",
+            "auto"
           ],
           "duration": {
             "options": [
@@ -17586,10 +18386,11 @@
           },
           "resolution": [
             "480P",
-            "768P"
+            "768P",
+            "1080P"
           ],
           "audioToggle": false,
-          "notes": "Combine image, video, and audio references within the Hailuo reference limits; audio requires a visual reference."
+          "notes": "Combine image, video, and audio references, including audio-only references."
         }
       }
     },
@@ -17619,7 +18420,8 @@
           },
           "resolution": [
             "480P",
-            "768P"
+            "768P",
+            "1080P"
           ],
           "aspectRatio": [
             "21:9",
@@ -17658,10 +18460,11 @@
           },
           "resolution": [
             "480P",
-            "768P"
+            "768P",
+            "1080P"
           ],
           "audioToggle": false,
-          "notes": "Animate one required start image with an optional end image and automatic native audio."
+          "notes": "Animate a start image, end image, or both, with native audio or an imposed soundtrack."
         }
       },
       {
@@ -17670,6 +18473,15 @@
         "ui": {
           "modes": [
             "ref2v"
+          ],
+          "aspectRatio": [
+            "21:9",
+            "16:9",
+            "4:3",
+            "1:1",
+            "3:4",
+            "9:16",
+            "auto"
           ],
           "duration": {
             "options": [
@@ -17689,10 +18501,11 @@
           },
           "resolution": [
             "480P",
-            "768P"
+            "768P",
+            "1080P"
           ],
           "audioToggle": false,
-          "notes": "Combine image, video, and audio references within the Hailuo reference limits; audio requires a visual reference."
+          "notes": "Combine image, video, and audio references, including audio-only references."
         }
       }
     ],
@@ -20769,8 +21582,7 @@
       ],
       "maxDurationSec": 1,
       "resolutions": [
-        "2K",
-        "4K"
+        "2K"
       ],
       "aspectRatios": [
         "auto",
@@ -20787,7 +21599,7 @@
         1
       ],
       "audio": false,
-      "upscale4k": true,
+      "upscale4k": false,
       "extend": false,
       "motionControls": false,
       "keyframes": false,
@@ -20898,15 +21710,13 @@
         "perSecondCents": {
           "default": 12,
           "byResolution": {
-            "2K": 12,
-            "4K": 24
+            "2K": 12
           }
         },
         "flatCents": {
           "default": 12,
           "byResolution": {
-            "2K": 12,
-            "4K": 24
+            "2K": 12
           }
         }
       },
@@ -20914,8 +21724,7 @@
         "unit": "image",
         "base": 0.12,
         "byResolution": {
-          "2K": 0.12,
-          "4K": 0.24
+          "2K": 0.12
         },
         "currency": "USD",
         "notes": "Seedream 5.0 Pro is billed per successfully generated professional image."
@@ -21155,6 +21964,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "One source MP4 or MOV. Source plus generated duration must not exceed 30 seconds."
           }
         ],
@@ -21188,12 +22005,28 @@
             "type": "image",
             "label": "Reference images",
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v",
+              "extend"
             ],
             "minCount": 0,
             "maxCount": 10,
             "maxSizeMB": 20,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/x-ms-bmp"
+            ]
           },
           {
             "id": "reference_video_urls",
@@ -21207,6 +22040,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "Combined video duration <=15 seconds; each video must be >=16 fps."
           },
           {
@@ -21214,13 +22055,27 @@
             "type": "audio",
             "label": "Reference audio",
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v",
+              "extend"
             ],
             "minCount": 0,
             "maxCount": 5,
             "maxDurationSec": 15,
             "maxSizeMB": 15,
             "source": "either",
+            "acceptedMimeTypes": [
+              "audio/mpeg",
+              "audio/mp3",
+              "audio/wav",
+              "audio/x-wav",
+              "audio/wave",
+              "audio/vnd.wave"
+            ],
+            "acceptedFileExtensions": [
+              "mp3",
+              "wav"
+            ],
             "description": "Combined audio duration <=15 seconds."
           },
           {
@@ -21373,7 +22228,7 @@
           "1080p": 0.2
         },
         "currency": "USD",
-        "notes": "Fal provider cost per generated output second, selected by resolution."
+        "notes": "Provider cost per input and generated output video second, selected by output resolution."
       },
       "updatedAt": "2026-09-01T12:00:20Z",
       "ttlSec": 600,
@@ -21830,6 +22685,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "One source MP4 or MOV. Source plus generated duration must not exceed 30 seconds."
           }
         ],
@@ -21863,12 +22726,28 @@
             "type": "image",
             "label": "Reference images",
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v",
+              "extend"
             ],
             "minCount": 0,
             "maxCount": 10,
             "maxSizeMB": 20,
-            "source": "either"
+            "source": "either",
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "bmp"
+            ],
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/bmp",
+              "image/x-ms-bmp"
+            ]
           },
           {
             "id": "reference_video_urls",
@@ -21882,6 +22761,14 @@
             "maxDurationSec": 15,
             "maxSizeMB": 100,
             "source": "either",
+            "acceptedFileExtensions": [
+              "mp4",
+              "mov"
+            ],
+            "acceptedMimeTypes": [
+              "video/mp4",
+              "video/quicktime"
+            ],
             "description": "Combined video duration <=15 seconds; each video must be >=16 fps."
           },
           {
@@ -21889,13 +22776,27 @@
             "type": "audio",
             "label": "Reference audio",
             "modes": [
-              "ref2v"
+              "ref2v",
+              "v2v",
+              "extend"
             ],
             "minCount": 0,
             "maxCount": 5,
             "maxDurationSec": 15,
             "maxSizeMB": 15,
             "source": "either",
+            "acceptedMimeTypes": [
+              "audio/mpeg",
+              "audio/mp3",
+              "audio/wav",
+              "audio/x-wav",
+              "audio/wave",
+              "audio/vnd.wave"
+            ],
+            "acceptedFileExtensions": [
+              "mp3",
+              "wav"
+            ],
             "description": "Combined audio duration <=15 seconds."
           },
           {
@@ -22048,7 +22949,7 @@
           "1080p": 0.28
         },
         "currency": "USD",
-        "notes": "Fal provider cost per generated output second, selected by resolution."
+        "notes": "Provider cost per input and generated output video second, selected by output resolution."
       },
       "updatedAt": "2026-09-01T12:00:20Z",
       "ttlSec": 600,

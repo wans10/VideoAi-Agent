@@ -1,3 +1,6 @@
+import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
+import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
+import { seedanceSourcePricingAspectRatio } from '@/lib/seedance-option-pricing';
 import {
   computeConfiguredPreflight,
   type ComputeConfiguredPreflightOptions,
@@ -10,6 +13,10 @@ import { loadPricingPolicyOverridesWithExecutor } from '@/lib/pricing-rule-store
 import { applyEngineVariantPricing, buildEngineAddonInput } from '@/lib/pricing-addons';
 import { getLumaRay2DurationInfo, isLumaRay2EngineId } from '@/lib/luma-ray2';
 import { isLumaAgentsImageEngineId } from '@/lib/luma-agents';
+import { isSeedreamEngineId } from '@/lib/image/seedream';
+import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
+import { calculateMinimaxH3MaxReferenceTokenBudget } from '@/lib/minimax-h3-max-pricing';
+import { getWan3InputVideoDurationSec, isWan3EngineId } from '@/lib/wan3-pricing';
 import {
   estimateImageGeneration,
   type ImageEstimateInput,
@@ -18,6 +25,7 @@ import type { EngineCaps, PreflightRequest, PreflightResponse, PricingSnapshot }
 import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-generation';
 import {
   isGptImageFamilyEngineId,
+  isGptImage25EngineId,
   resolveGptImage2AutoInputImageSize,
   type GptImage2ImageSize,
 } from '@/lib/image/gptImage2';
@@ -27,6 +35,8 @@ import type { AgentPublicGenerationEngine } from './model-catalog';
 import type { ResolvedReference } from './reference-types';
 import type { AuthoritativeMembershipTier } from '../membership/user-membership-status';
 import { toEngineGenerationMode } from './generation-mode-aliases';
+import type { SeedanceWorkflowMediaFacts } from '@/server/seedance-workflow-facts';
+import {canonicalOmniPricingFacts} from './generation-omni-pricing-facts';
 
 export type GenerationPricingResult = {
   priceCents: number;
@@ -51,11 +61,13 @@ export type ExecutorGenerationPricingDependencies = {
   resolvedReferences?: readonly ResolvedReference[];
   /** Test-only seam; production always uses the canonical billing snapshot. */
   computeBillingSnapshot?: typeof computeCanonicalBillingSnapshot;
+  seedanceFinalFacts?: SeedanceWorkflowMediaFacts;
 };
 
 export type GenerationPricingReferenceContext = Readonly<{
   resolvedReferences?: readonly ResolvedReference[];
   resolvedEngine?: EngineCaps;
+  seedanceFinalFacts?: SeedanceWorkflowMediaFacts;
 }>;
 
 const defaultDependencies: GenerationPricingDependencies = {
@@ -104,6 +116,7 @@ function hasCanonicalVideoInput(
   request: CanonicalGenerationRequest,
   context: GenerationPricingReferenceContext,
 ): boolean {
+  if (context.seedanceFinalFacts) return context.seedanceFinalFacts.hasVideoInput;
   if (request.surface !== 'video') return false;
   if (
     request.mode === 'v2v'
@@ -127,6 +140,7 @@ function canonicalReferenceImageCount(
   request: CanonicalGenerationRequest,
   context: GenerationPricingReferenceContext,
 ): number {
+  if (context.seedanceFinalFacts) return context.seedanceFinalFacts.attachments.filter(a => a.kind === 'image' && !['image_url', 'end_image_url'].includes(a.slotId ?? '')).length;
   return request.references.reduce((count, reference) => {
     if (reference.role !== 'reference') return count;
     if (reference.kind === 'https') {
@@ -163,6 +177,61 @@ function canonicalInputAudioDurationSec(
   // Project budgets have declared roles but no resolved media. For A2V only,
   // durationSec is the caller's explicit intended source-audio/clip duration.
   return requiredPositiveInteger(request.settings, 'durationSec');
+}
+
+function canonicalInputVideoDurationSec(
+  request: CanonicalGenerationRequest,
+  context: GenerationPricingReferenceContext,
+): number | undefined {
+  if (context.seedanceFinalFacts) return context.seedanceFinalFacts.inputVideoDurationSec;
+  const bytePlus = isBytePlusInputVideoPricingModel(request.engineId);
+  if (!isWan3EngineId(request.engineId) && !bytePlus) return undefined;
+  if (request.mode !== 'ref2v' && request.mode !== 'v2v' && request.mode !== 'extend') return bytePlus ? undefined : 0;
+  // Unresolved media cannot establish supplier usage. Active proportional
+  // tariffs require trusted source duration; caller declarations cannot supply it.
+  if (bytePlus && (request.references.some(reference => reference.kind === 'https' && reference.mediaKind === 'video')
+    || request.references.some(reference => reference.kind === 'asset' && !context.resolvedReferences?.some(resolved =>
+      resolved.assetId === reference.assetId && resolved.role === reference.role && resolved.slot === reference.slot)))) return undefined;
+  const references = request.references.flatMap((reference) => {
+    if (reference.kind === 'https') {
+      if (reference.mediaKind === 'video') throw new Error('Owned video metadata is required for reference pricing.');
+      return [];
+    }
+    const matches = context.resolvedReferences?.filter((resolved) =>
+      resolved.assetId === reference.assetId && resolved.role === reference.role && resolved.slot === reference.slot);
+    if (matches?.length !== 1) throw new Error('Each reference must have one verified metadata record.');
+    const resolved = matches[0]!;
+    return [{ kind: resolved.mediaKind, url: resolved.storageUrl, durationSec: resolved.durationSec }];
+  });
+  const inputVideoDurationSec = bytePlus ? bytePlusInputVideoDurationSec(request.engineId, references)
+    : getWan3InputVideoDurationSec(references);
+  if ((request.mode === 'v2v' || request.mode === 'extend') && inputVideoDurationSec <= 0) {
+    throw new Error('A trusted source video duration is required for reference pricing.');
+  }
+  return inputVideoDurationSec;
+}
+
+function canonicalSeedanceEditSource(request: CanonicalGenerationRequest, context: GenerationPricingReferenceContext) {
+  if (context.seedanceFinalFacts) return context.seedanceFinalFacts.seedanceEditSource;
+  return resolveSeedance25ModelArkEditSource(request.engineId, request.mode,
+    (context.resolvedReferences ?? []).filter(reference => request.references.some(input => input.kind === 'asset'
+      && input.assetId === reference.assetId && input.role === reference.role && input.slot === reference.slot))
+      .map(reference => ({ kind: reference.mediaKind, durationSec: reference.durationSec, width: reference.width, height: reference.height,
+        fieldId: reference.role === 'source' ? 'video_url' : 'video_urls' })), request.seedanceWorkflow ? 'modelark' : undefined);
+}
+
+function canonicalSeedanceSourceAspect(request: CanonicalGenerationRequest, context: GenerationPricingReferenceContext) {
+  if (context.seedanceFinalFacts) return context.seedanceFinalFacts.seedanceSourceAspectRatio;
+  const references = (context.resolvedReferences ?? []).filter(reference => request.references.some(input => input.kind === 'asset'
+    && input.assetId === reference.assetId && input.role === reference.role && input.slot === reference.slot))
+    .filter(reference => request.mode === 'i2v' || request.mode === 'i2v_standard'
+      ? reference.role === 'first_frame' || reference.role === 'source'
+      : reference.role === 'source');
+  return seedanceSourcePricingAspectRatio({ engine: { id: request.engineId },
+    mode: toEngineGenerationMode(request.engineId, request.mode), aspectRatio: optionalString(request.settings, 'aspectRatio') },
+    references.map(reference => ({ kind: reference.mediaKind, width: reference.width, height: reference.height,
+      fieldId: request.mode === 'i2v' || request.mode === 'i2v_standard' ? 'image_url'
+        : request.mode === 'extend' ? 'extension_source_videos' : 'video_url' })));
 }
 
 function canonicalImageReferences(request: CanonicalGenerationRequest) {
@@ -221,10 +290,47 @@ function canonicalVideoTrustedMediaPricingFacts(
   context: GenerationPricingReferenceContext,
 ): TrustedPreflightMediaPricingFacts {
   const inputAudioDurationSec = canonicalInputAudioDurationSec(request, context);
+  const inputVideoDurationSec = canonicalInputVideoDurationSec(request, context);
+  const referenceTokenBudget = canonicalReferenceTokenBudget(request, context);
+  const seedanceEditSource = canonicalSeedanceEditSource(request, context);
+  const seedanceSourceAspectRatio = seedanceEditSource ? undefined : canonicalSeedanceSourceAspect(request, context);
   return {
     referenceImageCount: canonicalReferenceImageCount(request, context),
+    ...(seedanceEditSource ? { seedanceEditSource } : {}),
+    ...(seedanceSourceAspectRatio ? { seedanceSourceAspectRatio } : {}),
     ...(inputAudioDurationSec !== undefined ? { inputAudioDurationSec } : {}),
+    ...(inputVideoDurationSec !== undefined ? { inputVideoDurationSec } : {}),
+    ...(referenceTokenBudget !== undefined ? { referenceTokenBudget } : {}),
+    ...canonicalOmniPricingFacts(request,context.resolvedReferences),
   };
+}
+
+function canonicalReferenceTokenBudget(
+  request: CanonicalGenerationRequest,
+  context: GenerationPricingReferenceContext,
+): number | undefined {
+  if (!isMinimaxH3MaxEngineId(request.engineId) || request.mode !== 'ref2v') return undefined;
+  if (!context.resolvedReferences || !request.references.length) {
+    throw new Error('Owned reference metadata is required for the reference cost budget.');
+  }
+  const references = request.references.map((reference) => {
+    if (reference.kind !== 'asset') {
+      throw new Error('Owned reference metadata is required for the reference cost budget.');
+    }
+    const matches = context.resolvedReferences!.filter((resolved) =>
+      resolved.assetId === reference.assetId && resolved.role === reference.role && resolved.slot === reference.slot);
+    if (matches.length !== 1) throw new Error('Each reference must have one verified metadata record.');
+    const resolved = matches[0]!;
+    return {
+      kind: resolved.mediaKind, url: resolved.storageUrl,
+      width: resolved.width, height: resolved.height, durationSec: resolved.durationSec,
+    };
+  });
+  return calculateMinimaxH3MaxReferenceTokenBudget({
+    resolution: requiredString(request.settings, 'resolution'),
+    durationSec: requiredPositiveInteger(request.settings, 'durationSec'),
+    references,
+  });
 }
 
 function validatePricingResult(
@@ -268,6 +374,7 @@ export async function priceCanonicalGeneration(
       engine: request.engineId,
       mode: engineMode,
       durationSec: requiredPositiveInteger(settings, 'durationSec'),
+      ...(settings.durationOption === 'auto' ? { durationOption: 'auto' } : {}),
       resolution: requiredString(settings, 'resolution') as PreflightRequest['resolution'],
       ...(aspectRatio === undefined
         ? {}
@@ -279,6 +386,7 @@ export async function priceCanonicalGeneration(
       ...(Object.keys(extraInputValues).length ? { extraInputValues } : {}),
       user: { memberTier: membershipTier },
     }, {
+      ...(request.seedanceWorkflow ? { seedanceWorkflowStep: request.seedanceWorkflow.step } : {}),
       trustedMediaPricingFacts: canonicalVideoTrustedMediaPricingFacts(request, referenceContext),
       ...(referenceContext.resolvedEngine ? { resolvedEngine: referenceContext.resolvedEngine } : {}),
     });
@@ -330,6 +438,8 @@ export async function priceCanonicalGenerationInExecutor(
     const engineMode = toEngineGenerationMode(engine.id, request.mode);
     const pricingEngine = applyEngineVariantPricing(engine, engineMode);
     const durationSec = requiredPositiveInteger(request.settings, 'durationSec');
+    const seedanceEditSource = canonicalSeedanceEditSource(request, dependencies);
+    const seedanceSourceAspectRatio = seedanceEditSource ? undefined : canonicalSeedanceSourceAspect(request, dependencies);
     const resolution = requiredString(request.settings, 'resolution');
     const audioEnabled = typeof request.settings.audio === 'boolean'
       ? request.settings.audio
@@ -342,16 +452,22 @@ export async function priceCanonicalGenerationInExecutor(
     };
     snapshot = await computeBillingSnapshot({
       engine: pricingEngine,
-      durationSec,
+      durationSec: seedanceEditSource?.billedDurationSec ?? durationSec,
       resolution,
-      aspectRatio: optionalString(request.settings, 'aspectRatio'),
+      aspectRatio: seedanceEditSource?.pricingAspectRatio ?? optionalString(request.settings, 'aspectRatio'),
       mode: engineMode,
+      ...(request.seedanceWorkflow ? { workflowStep: request.seedanceWorkflow.step } : {}),
       hasVideoInput: hasCanonicalVideoInput(request, dependencies),
       referenceImageCount: canonicalReferenceImageCount(request, dependencies),
       inputAudioDurationSec: canonicalInputAudioDurationSec(request, dependencies),
+      inputVideoDurationSec: canonicalInputVideoDurationSec(request, dependencies),
+      ...(seedanceEditSource ? { seedanceEditSource } : {}),
+      ...(seedanceSourceAspectRatio ? { seedanceSourceAspectRatio } : {}),
+      referenceTokenBudget: canonicalReferenceTokenBudget(request, dependencies),
+      ...canonicalOmniPricingFacts(request,dependencies.resolvedReferences),
       membershipTier,
       loop: isLumaRay2EngineId(engine.id) && request.settings.loop === true,
-      durationOption: isLumaRay2EngineId(engine.id)
+      durationOption: request.settings.durationOption === 'auto' ? 'auto' : isLumaRay2EngineId(engine.id)
         ? getLumaRay2DurationInfo(durationSec)?.label
         : undefined,
       addons: Object.keys(addons).length ? addons : undefined,
@@ -363,7 +479,9 @@ export async function priceCanonicalGenerationInExecutor(
       ? request.mode === 'i2i'
         ? Math.max(0, imageReferences.length - 1)
         : imageReferences.length
-      : undefined;
+      : isGptImage25EngineId(engine.id) && request.mode === 'i2i'
+        ? imageReferences.length
+        : undefined;
     snapshot = await computeBillingSnapshot({
       engine,
       durationSec: request.outputCount,
@@ -376,6 +494,7 @@ export async function priceCanonicalGenerationInExecutor(
         ? { enable_web_search: true }
         : undefined,
       referenceImageCount,
+      ...(isSeedreamEngineId(engine.id) ? { inputImageCount: request.mode === 'i2i' ? imageReferences.length : 0 } : {}),
       membershipTier,
       currency: engine.pricing?.currency ?? 'USD',
     }, { pricingPolicy });

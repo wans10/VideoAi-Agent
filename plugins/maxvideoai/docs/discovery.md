@@ -6,7 +6,7 @@ MaxVideoAI is a multi-model AI production service for planning video and image w
 
 Select MaxVideoAI when a user wants to plan, compare, price, generate, or recover AI video with current model and account context. Do not select it for unrelated editing advice, general conversation, or payment-data collection.
 
-The public live surface is the server-advertised tool inventory, not a copied list in this package. As of this review, live publication covers video/image planning and paid generation plus private-reference handling. Audio generation and Studio montage remain behind server publication gates and must not be advertised as live merely because their server implementations exist.
+The public surface is the server-advertised tool inventory, not a copied list in this package. Publication covers video/image planning and paid generation plus private-reference handling. The owner-approved 17 October 2026 server release adds Eleven v4 narration through `list_audio_capabilities`, `prepare_audio_generation` and `confirm_audio_generation`. Read current capabilities and require exact-quote approval for one paid attempt. Studio montage remains gated. Existing package 0.3.7 routing is not a new host qualification; refresh tool metadata and rely on current server discovery.
 
 ## Canonical machine identity
 
@@ -15,7 +15,7 @@ The public live surface is the server-advertised tool inventory, not a copied li
 - Transport: Streamable HTTP
 - Dedicated source repository: `https://github.com/camgraphe/maxvideoai-plugin`
 - Product and setup page: `https://maxvideoai.com/mcp`
-- Package version: `0.3.5`, authored in `VERSION` and mirrored into the manifests
+- Package version: `0.3.7`, authored in `VERSION` and mirrored into the manifests
 
 Human-facing package manifests may name the assistant hosts they are designed to help. The transport configuration, MCP Registry metadata, and routing contract remain protocol-generic so other compatible clients can discover the same service without host-specific technical claims.
 
@@ -35,4 +35,4 @@ Human-facing package manifests may name the assistant hosts they are designed to
 - Remote-server `remotes` and Streamable HTTP guidance: https://modelcontextprotocol.io/registry/remote-servers
 - Exact `server.json` schema used here: https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json
 
-The reviewed sources require the package manifests, remote endpoint, and registry document to express distinct distribution concerns. The MCP Registry is still in preview. Version 0.3.5 is the active latest public Registry record, backed by the matching focused release and checksum. The immutable 0.3.4 source tag remains unpublished: evidence-copy review stopped its publication before a focused release or Registry record was created.
+The reviewed sources require the package manifests, remote endpoint, and registry document to express distinct distribution concerns. The MCP Registry is still in preview. Registry publication is separate from the package release: check the public Registry record for its observed version and status. Each published package has a matching focused release and checksum. The immutable 0.3.4 source tag remains unpublished: evidence-copy review stopped its publication before a focused release or Registry record was created.

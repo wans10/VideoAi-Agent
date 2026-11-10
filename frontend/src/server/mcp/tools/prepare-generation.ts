@@ -18,7 +18,7 @@ const reference = z.discriminatedUnion('kind', [
     mediaKind: referenceMediaKind,
   }).strict(),
 ]);
-const canonicalSettingsSchema = z.object({
+export const canonicalSettingsSchema = z.object({
   multiPrompt: z.array(z.object({
     prompt: z.string().trim().min(1).max(512),
     durationSec: z.number().int().min(1).max(15),
@@ -28,6 +28,13 @@ const canonicalSettingsSchema = z.object({
   durationSec: z.number().int().min(1).max(86_400).nullable().default(null).describe(
     'For video modes, use the exact key settings.durationSec for the requested duration in seconds; never send settings.duration. Send null when not applicable.',
   ),
+  documentUrl: z.string().url().max(4_096).nullable().default(null).describe(
+    'Public HTTPS document reference; use only when reported by get_model_details. Mutually exclusive with webpageUrl and requires prompt expansion.',
+  ),
+  webpageUrl: z.string().url().max(4_096).nullable().default(null).describe(
+    'Public HTTPS webpage reference without login; use only when reported by get_model_details. Mutually exclusive with documentUrl and requires prompt expansion.',
+  ),
+  enablePromptExpansion: z.boolean().nullable().default(null),
   resolution: z.string().trim().min(1).max(64).nullable().default(null).describe(
     'Use one resolution supported by the selected mode from get_model_details, or null when not applicable.',
   ),
@@ -75,7 +82,7 @@ const canonicalSettingsSchema = z.object({
     'Use only when get_model_details reports a background setting for the selected image model.',
   ),
   outputFormat: z.string().trim().min(1).max(64).nullable().default(null),
-  promptExpansionMode: z.enum(['balanced', 'quality']).nullable().default(null).describe(
+  promptExpansionMode: z.enum(['disabled', 'balanced', 'quality']).nullable().default(null).describe(
     'Use only when get_model_details reports the promptExpansionMode setting for the selected mode.',
   ),
   quality: z.string().trim().min(1).max(64).nullable().default(null),
@@ -93,12 +100,20 @@ const canonicalSettingsSchema = z.object({
 }).strict().describe(
   'Canonical MaxVideoAI settings only. Read the selected mode from get_model_details and include only compatible fields.',
 );
+export const seedanceWorkflowSchema = z.discriminatedUnion('step', [
+  z.object({ step: z.literal('draft') }).strict(),
+  z.object({ step: z.literal('final'), draftJobId: z.string().min(1).max(255).regex(/^[A-Za-z0-9][A-Za-z0-9._:-]*$/u) }).strict(),
+]);
+
 export const prepareGenerationInputSchema = z.object({
   schemaVersion: z.literal(1).nullable().default(null),
   surface: z.enum(['video', 'image']),
   engineId: z.string(),
-  mode: z.enum(CANONICAL_GENERATION_MODES),
-  prompt: z.string(),
+  mode: z.enum(CANONICAL_GENERATION_MODES).nullable().default(null),
+  prompt: z.string().nullable().default(null),
+  seedanceWorkflow: seedanceWorkflowSchema.nullable().default(null).describe(
+    'Seedance 2.5 native Draft only: draft selects finalizable 480p; final uses an owned ready draftJobId and inherits creative facts. Omit for ordinary generation. For final, omit mode, prompt, settings and references.',
+  ),
   settings: canonicalSettingsSchema.nullable().default(null),
   references: z.array(reference).nullable().default(null),
   outputCount: z.number().int().min(1).max(15).nullable().default(null).describe(
@@ -127,8 +142,23 @@ export function registerPrepareGenerationTool(
     'prepare_generation',
     {
       title: 'Prepare a MaxVideoAI generation',
-      description:
-        'Use this when the user has selected an image model or a supported video workflow (t2v, i2v, i2v_standard, ref2v, fl2v, v2v, r2v, extend, a2v, retake, or reframe) and needs validation plus an exact short-lived quote. Every optional field is nullable: send null when it was not explicitly required by the selected mode’s live details or the user. For video duration, send settings.durationSec in seconds, never settings.duration. It saves the quote but does not spend or generate. Do not use it as confirmation or skip the selected mode’s live model details.',
+      description: [
+        'Use this to validate a complete selected AI video or image request and save an exact short-lived quote.',
+        'Read get_model_details for the selected mode first, including t2v, i2v, i2v_standard, ref2v, fl2v, v2v, r2v, extend, a2v, retake and reframe.',
+        'It saves the quote but does not spend or generate.',
+        'For a finalizable Seedance 2.5 Draft use seedanceWorkflow.step=draft, never resolution alone. Finalization uses step=final with the owned ready draftJobId and inherited creative facts. Each step needs its own quote and approval; show returned workflow prices, with a future final price labeled as an estimate.',
+        'Display the exact price, currency and validated request, then stop and wait for explicit user approval before confirm_generation.',
+        'Required private references must be present; if missing, no exact quote can be created.',
+        'A project budget is only an estimate.',
+        'For nullable inputs, omit or send null when not explicitly required by the selected mode’s live details or the user.',
+        'For video duration use settings.durationSec, never settings.duration.',
+        'Use only supported settings and ordered reference roles; never infer constraints from a sibling mode.',
+        'Treat expiresAt as UTC; declare definitive expiry only on QUOTE_EXPIRED, not a local-date comparison.',
+        'If credits are insufficient, use create_topup_link for this quote.',
+        'Funding, discussion and ambiguous assent do not approve generation.',
+        'Never substitute a named model or use a quote as a generation result.',
+        'After the quote, briefly invite another model, resolution, duration or budget for a new quote and price comparison; use compare_generation_prices for actual savings, never guess.',
+      ].join(' '),
       inputSchema: prepareGenerationInputSchema,
       annotations: {
         readOnlyHint: false,

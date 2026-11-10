@@ -38,7 +38,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     description: t('description'),
     hreflangGroup: 'compare',
     slugMap: COMPARE_SLUG_MAP,
-    image: '/og/compare-hub.png',
+    image: '/og/compare-2026-09-25.png',
     imageAlt: t('title'),
     ogType: 'website',
     titleBranding: 'none',
@@ -87,7 +87,7 @@ export default async function AiVideoEnginesPage() {
   const engineCards = toEngineCards(engines);
   const extendedEngineCards = toEngineCards(enginesWithWaitlist);
 
-  const allComparisonEntries = getRankedComparisonPairs(engines)
+  const allComparisonEntries = getRankedComparisonPairs(enginesWithWaitlist)
     .filter((pair) => isIndexablePair(pair.slug))
     .map((pair) => ({
       slug: pair.slug,
@@ -334,7 +334,6 @@ export default async function AiVideoEnginesPage() {
             entries={allComparisonEntries}
             labels={copy.listLabels}
             initialCount={24}
-            step={24}
           />
         </section>
 

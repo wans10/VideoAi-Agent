@@ -21,11 +21,12 @@ import {
   markProviderAttemptAccepted,
   markProviderAttemptFailed,
   markProviderAttemptFinished,
+  syncProviderAttemptTerminalStatus,
 } from '@/server/video-providers/provider-attempts';
 import { rollbackPendingPayment } from './payment-rollback';
 import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-messages';
 import { createProviderJobTracker } from './provider-job-tracker';
-import { submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
+import { isDeferredFalSubmission, submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 
@@ -493,6 +494,7 @@ export async function submitKlingDirectGenerateTask(params: {
       queryFn,
     });
     const falSubmission = await submitFalGenerateTaskFn({
+      userId: params.userId,
       falPayload: sanitizeKlingDirectFalFallbackPayload(params.falPayload),
       jobId: params.jobId,
       engineId: params.engineId,
@@ -505,7 +507,15 @@ export async function submitKlingDirectGenerateTask(params: {
       walletChargeReserved: params.walletChargeReserved,
       getLastProviderJobId: falTracker.getLastProviderJobId,
       setLastProviderJobId: falTracker.setLastProviderJobId,
-      persistProviderJobId: falTracker.persistProviderJobId,
+      persistProviderJobId: async (providerJobId) => {
+        await falTracker.persistProviderJobId(providerJobId);
+        try {
+          await markProviderAttemptAccepted({ attemptId: falAttempt.id, providerJobId, queryFn });
+          await syncProviderAttemptTerminalStatus({ publicJobId: params.jobId, provider: 'fal', providerJobId, queryFn });
+        } catch (error) {
+          console.warn('[kling-direct] failed to record Fal fallback acceptance', { jobId: params.jobId }, error);
+        }
+      },
       logMetricFn: params.logMetricFn,
       clientErrorPolicy: params.clientErrorPolicy,
     });
@@ -519,6 +529,7 @@ export async function submitKlingDirectGenerateTask(params: {
       });
     }
     if (!falSubmission.ok) {
+      if (isDeferredFalSubmission(falSubmission)) return falSubmission;
       await markProviderAttemptFailed({
         attemptId: falAttempt.id,
         errorCode: typeof falSubmission.body.error === 'string' ? falSubmission.body.error : null,

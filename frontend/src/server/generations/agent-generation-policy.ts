@@ -1,12 +1,20 @@
+import { getKnownGenerationFailureMessage } from '@/lib/generation-failure-messages';
+import { appendConfirmedWalletRefund } from '@/lib/seedance-failure-messages';
 import { deriveJobSurface } from '@/lib/job-surface';
 import { extractRenderIds, extractRenderThumbUrls, parseStoredImageRenders } from '@/lib/image-renders';
 import { isStablePublicMediaUrl, normalizeMediaUrl } from '@/lib/media';
+import { generatedVideoArtifactProjection } from '@/lib/generated-video-output-artifacts';
 import {
+  SEEDANCE_OUTPUT_AUDIO_BLOCKED,
   getVideoFailureCodeFromSettingsSnapshot,
   SEEDANCE_I2V_RATIO_REJECTED,
   SEEDANCE_INPUT_VIDEO_TOO_SMALL,
   SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED,
   SEEDANCE_TASK_TYPE_CONSTRAINT,
+  SEEDANCE_REFERENCE_IMAGE_BLOCKED,
+  SEEDANCE_REFERENCE_VIDEO_BLOCKED,
+  SEEDANCE_REFERENCE_MEDIA_BLOCKED,
+  SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED,
 } from '@/lib/video-failure-codes';
 
 import type {
@@ -56,7 +64,8 @@ const AGENT_FAILURE_COPY = {
   default: 'MaxVideoAI could not complete this render.',
   busy: 'The render queue is temporarily busy.',
   noOutput: 'The render finished without a usable output.',
-  safety: 'This request was blocked by safety checks. Rephrase it with safer, more neutral wording before preparing a new request.',
+  reference: 'MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request.',
+  safety: 'This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before preparing a new request.',
   start: 'MaxVideoAI could not start this render.',
   storage: 'The render finished, but MaxVideoAI could not prepare the output for download.',
   timeout: 'This render exceeded the expected processing window.',
@@ -70,10 +79,15 @@ const FAILED_ATTEMPT_BOUNDARY =
   'No new generation was started after this failure. A refund or recredit does not restore the previous authorization. To try again, prepare a fresh exact quote and wait for explicit user approval.';
 
 const SAFE_AGENT_FAILURE_CODES = new Set([
+  SEEDANCE_OUTPUT_AUDIO_BLOCKED,
   SEEDANCE_I2V_RATIO_REJECTED,
   SEEDANCE_INPUT_VIDEO_TOO_SMALL,
   SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED,
   SEEDANCE_TASK_TYPE_CONSTRAINT,
+  SEEDANCE_REFERENCE_IMAGE_BLOCKED,
+  SEEDANCE_REFERENCE_VIDEO_BLOCKED,
+  SEEDANCE_REFERENCE_MEDIA_BLOCKED,
+  SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED,
 ]);
 
 function safeAgentFailureCode(settingsSnapshot: unknown): string | null {
@@ -249,9 +263,12 @@ function buildAgentResult(
   if (surface === 'video') {
     const videoUrl = stableMediaUrl(record.video_url);
     if (!videoUrl) return null;
+    const artifacts = generatedVideoArtifactProjection(record.settings_snapshot, videoUrl, record.provider_job_id);
     return {
       surface,
       videoUrl,
+      ...(stableMediaUrl(artifacts.playbackVideoUrl) ? { playbackVideoUrl: stableMediaUrl(artifacts.playbackVideoUrl) } : {}),
+      ...(stableMediaUrl(artifacts.lastFrameUrl) ? { lastFrameUrl: stableMediaUrl(artifacts.lastFrameUrl) } : {}),
       previewUrl: stableMediaUrl(record.preview_video_url),
       thumbnailUrl: stableMediaUrl(record.thumb_url),
       audioUrl: stableMediaUrl(record.audio_url),
@@ -276,20 +293,33 @@ function buildAgentMessage(
   status: AgentGenerationStatus['status'],
   rawMessage: string | null,
   rawStatus: string | null,
-  failureCode: string | null
+  failureCode: string | null,
+  paymentStatus: string | null
 ): string | null {
   if (status === 'accepted') return 'Generation accepted.';
   if (status === 'running') return 'Generation in progress.';
   if (status === 'failed') {
     let failureMessage: string;
+    const knownMessage = rawStatus?.trim().toLowerCase() === 'provider_polling_stalled' && !failureCode
+      ? null : getKnownGenerationFailureMessage({ failureCode, message: rawMessage });
     if (failureCode === SEEDANCE_TASK_TYPE_CONSTRAINT) {
       failureMessage = AGENT_FAILURE_COPY.seedanceTaskType;
+    } else if (knownMessage) {
+      failureMessage = knownMessage
+        .replace(/before trying again\./g, 'before preparing a new request.')
+        .replace(/and try again\./g, 'before preparing a new request.')
+        .replace(/then try again\./g, 'then prepare a new request.');
     } else if (rawStatus?.trim().toLowerCase() === 'provider_polling_stalled') {
       failureMessage = AGENT_FAILURE_COPY.pollingStalled;
     } else {
       const message = rawMessage?.trim().toLowerCase() ?? '';
       if (/responsible ai|sensitive words|content policy|policy violation|safety|moderation|prohibited|blocked/iu.test(message)) {
         failureMessage = AGENT_FAILURE_COPY.safety;
+      } else if (
+        /could not read the reference media|reference media could not be read/iu.test(message) ||
+        (/failed to download the file/iu.test(message) && /check if the url is accessible/iu.test(message))
+      ) {
+        failureMessage = AGENT_FAILURE_COPY.reference;
       } else if (/unsupported|not supported|invalid request|unprocessable|does not support/iu.test(message)) {
         failureMessage = AGENT_FAILURE_COPY.unsupported;
       } else if (/no result|no video|no usable output|returned no|without a usable output/iu.test(message)) {
@@ -306,6 +336,8 @@ function buildAgentMessage(
         failureMessage = AGENT_FAILURE_COPY.default;
       }
     }
+    // Only a persisted wallet-refunded state establishes a wallet recredit.
+    if (knownMessage) failureMessage = appendConfirmedWalletRefund(failureMessage, { paymentStatus });
     return `${failureMessage} ${FAILED_ATTEMPT_BOUNDARY}`;
   }
   return null;
@@ -317,15 +349,21 @@ export function mapGenerationStatusRecordToAgent(
   const surface = normalizeAgentSurface(record);
   if (!surface) return null;
   const status = normalizeAgentStatus(record.status);
+  const settings = record.settings_snapshot as { seedanceWorkflow?: { step?: string; draftJobId?: string } } | null;
+  const workflow = record.engine_id === 'seedance-2-5' ? settings?.seedanceWorkflow : undefined;
+  const workflowStep = workflow?.step;
+  const draftJobId = workflowStep === 'draft' ? record.job_id : workflow?.draftJobId;
   const failureCode = status === 'failed'
     ? safeAgentFailureCode(record.settings_snapshot)
     : null;
   return {
     jobId: record.job_id,
+    ...((workflowStep === 'draft' || workflowStep === 'final') && typeof draftJobId === 'string'
+      ? { seedanceWorkflow: { step: workflowStep, draftJobId } } : {}),
     surface,
     status,
     progress: normalizeProgress(record.progress, status),
-    message: buildAgentMessage(status, record.message, record.status, failureCode),
+    message: buildAgentMessage(status, record.message, record.status, failureCode, normalizePaymentStatus(record.payment_status)),
     priceCents:
       typeof record.final_price_cents === 'number' &&
       Number.isSafeInteger(record.final_price_cents) &&

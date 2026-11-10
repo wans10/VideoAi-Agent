@@ -68,7 +68,7 @@ export function applyStoredConsentEffects(record: ConsentRecord) {
   setAnalyticsConsentCookie(analyticsGranted);
   setLocalAnalyticsFlag(analyticsGranted);
   if (!analyticsGranted) clearBrowserAnalyticsState();
-  setClarityConsent(analyticsGranted);
+  setClarityConsent(analyticsGranted, Boolean(record.categories.ads));
   updateGoogleConsent(record.categories);
 }
 
@@ -103,7 +103,7 @@ function setLocalAnalyticsFlag(granted: boolean) {
   }
 }
 
-function updateGoogleConsent(categories: ConsentRecord['categories']) {
+export function updateGoogleConsent(categories: ConsentRecord['categories']) {
   if (typeof window === 'undefined') return;
   if (PUBLIC_GOOGLE_CONSENT_MODE === 'false' || PUBLIC_GOOGLE_CONSENT_MODE === 'off') {
     return;

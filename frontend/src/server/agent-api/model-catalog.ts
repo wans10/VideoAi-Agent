@@ -1,3 +1,4 @@
+import { agentSeedanceWorkflowEnabled } from './seedance-workflow';
 import { listFalEngines } from '@/config/falEngines';
 import { getModelRegistryEntryById } from '@/config/model-registry';
 import {
@@ -26,6 +27,7 @@ import { getPrivateRuntimeEngineById } from '@/server/video-generation/private-e
 
 import type { AgentGenerationMode, AgentModel, AgentModelFilter } from './types';
 import { toCanonicalGenerationMode, toEngineGenerationMode } from './generation-mode-aliases';
+import { isAgentModelRecommendationEligible } from './model-editorial-policy';
 import {
   isPublicAgentEngine,
   listPublicAgentModes,
@@ -61,6 +63,7 @@ export type AgentModelCatalogDeps = {
   surfaceByEngineId(engineId: string): 'video' | 'image' | null;
   isEngineExecutable?(engine: EngineCaps): boolean;
   isModeExecutable?(engine: EngineCaps, mode: Mode): boolean;
+  isSeedanceWorkflowModeExecutable?(engine: EngineCaps, mode: Mode): boolean;
 };
 
 export type AgentModelAccessContext = Readonly<{
@@ -98,6 +101,8 @@ export function createAgentModelCatalogDeps(
     isEngineExecutable: environment
       ? (engine) => resolveAgentGenerationEngineExecutability(engine, environment).executable
       : isAgentGenerationEngineExecutable,
+    isSeedanceWorkflowModeExecutable: (engine, mode) => resolveAgentGenerationModeExecutability(
+      engine, mode, environment, { nativeSeedanceWorkflow: true }).executable,
     isModeExecutable: environment
       ? (engine, mode) => resolveAgentGenerationModeExecutability(engine, mode, environment).executable
       : isAgentGenerationModeExecutable,
@@ -160,7 +165,7 @@ function toCandidate(
       generationEnabled,
       lifecycle: runtime?.lifecycle ?? 'current',
       successor: successor ? { id: successor.id, slug: successor.slug } : null,
-      recommendedByDefault: runtime?.lifecycle === undefined || runtime.lifecycle === 'current',
+      recommendedByDefault: isAgentModelRecommendationEligible(engine.id, runtime?.lifecycle),
     },
     latencyTier: engine.latencyTier,
     discoveryRank: registryEntry?.publication.app.discoveryRank ?? null,
@@ -225,13 +230,17 @@ export async function listPublicAgentCatalogEngines(
     const executableModes = configuredModes.filter((mode) =>
       deps.isModeExecutable?.(engine, toEngineGenerationMode(engine.id, mode)) !== false
     );
+    const seedanceWorkflowModes = engine.id === 'seedance-2-5' ? configuredModes.filter(mode =>
+      ['t2v','i2v','ref2v','v2v','extend'].includes(mode)
+      && (deps.isSeedanceWorkflowModeExecutable ?? deps.isModeExecutable)?.(engine, toEngineGenerationMode(engine.id, mode)) !== false) : undefined;
     const generationEnabled = isExecutableLifecycle(runtime)
-      && deps.isEngineExecutable?.(engine) !== false
-      && executableModes.length > 0;
+      && ((deps.isEngineExecutable?.(engine) !== false && executableModes.length > 0)
+        || (agentSeedanceWorkflowEnabled() && Boolean(seedanceWorkflowModes?.length)));
     return [{
       engine,
       surface,
       publicModes: executableModes,
+      ...(seedanceWorkflowModes ? { seedanceWorkflowModes } : {}),
       modeCaps,
       generationEnabled,
     }];
@@ -276,6 +285,8 @@ export async function listPublicAgentGenerationEnginesInExecutor(
     isEngineExecutable: environment
       ? (engine) => resolveAgentGenerationEngineExecutability(engine, environment).executable
       : isAgentGenerationEngineExecutable,
+    isSeedanceWorkflowModeExecutable: (engine, mode) => resolveAgentGenerationModeExecutability(
+      engine, mode, environment, { nativeSeedanceWorkflow: true }).executable,
     isModeExecutable: environment
       ? (engine, mode) => resolveAgentGenerationModeExecutability(engine, mode, environment).executable
       : isAgentGenerationModeExecutable,

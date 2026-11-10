@@ -1,16 +1,17 @@
 import type { ExampleGalleryVideo } from '@/components/examples/ExamplesGalleryGrid';
 import type { AppLocale } from '@/i18n/locales';
-import { pickFirstPlayableVideo } from '@/lib/examples/heroVideo';
+import type { CurrentExamplePrice } from '@/server/current-example-price';
+import { formatCurrentExamplePrice } from '@/lib/current-example-price-display';
+
 import { buildExamplePosterProjection } from '@/lib/media-helpers';
-import { getExampleFamilyDescriptor } from '@/lib/model-families';
+import { getExampleFamilyDescriptor, getExampleNavFamilyIds } from '@/lib/model-families';
+import { canRecreatePublicExample } from '@/lib/public-example-recreation';
 import type { ExampleSort, listExamplesPage } from '@/server/videos';
 import {
   CURRENT_ENGINE_MODEL_LINKS_BY_GROUP,
   ENGINE_META,
   ENGINE_MODEL_LINKS,
   ENGINE_MODEL_LINKS_BY_GROUP,
-  FAMILY_INITIAL_DESKTOP_GALLERY_BATCH,
-  HUB_INITIAL_DESKTOP_GALLERY_BATCH,
   PREFERRED_ENGINE_ORDER,
   buildLocalizedExampleLabel,
   buildMainVideoHeroLine,
@@ -34,6 +35,8 @@ export type ExamplesModelLink = {
   slug: string;
   label: string;
   href: string;
+  engineId: string;
+  brandId?: string;
 };
 
 export function buildExamplesEngineFilterState({
@@ -65,7 +68,8 @@ export function buildExamplesEngineFilterState({
     return acc;
   }, new Map());
 
-  const engineFilterOptions = PREFERRED_ENGINE_ORDER.map((preferredId) => {
+  const visibleFamilyIds = new Set([...getExampleNavFamilyIds(), collapsedEngineParam]);
+  const engineFilterOptions = PREFERRED_ENGINE_ORDER.filter(id => visibleFamilyIds.has(id)).map((preferredId) => {
     const key = normalizeFilterId(preferredId);
     const existing = engineFilterMap.get(key);
     if (existing) {
@@ -103,27 +107,26 @@ export function buildExamplesModelLinks({
 }) {
   const modelSlugs = selectedEngine ? ENGINE_MODEL_LINKS_BY_GROUP[selectedEngine.toLowerCase()] ?? [] : [];
   const modelLinks = modelSlugs.map((slug) => {
-    const label = ENGINE_META.get(slug)?.label ?? formatModelSlugLabel(slug);
+    const meta = ENGINE_META.get(slug);
+    const label = meta?.label ?? formatModelSlugLabel(slug);
     return {
       slug,
       label,
       href: buildModelHref(locale, slug),
+      engineId: meta?.id ?? slug,
+      brandId: meta?.brandId,
     };
   });
   const currentModelSlugs = selectedEngine ? CURRENT_ENGINE_MODEL_LINKS_BY_GROUP[selectedEngine.toLowerCase()] ?? [] : [];
   const currentModelSlugSet = new Set(currentModelSlugs);
   const primaryModelLinks =
-    usesCurrentAndSupportedBlocks && currentModelSlugSet.size
+    usesCurrentAndSupportedBlocks
       ? modelLinks.filter((model) => currentModelSlugSet.has(model.slug))
-      : usesCurrentAndSupportedBlocks
-        ? modelLinks.slice(0, 2)
-        : modelLinks;
+      : modelLinks;
   const supportedOlderModelLinks =
-    usesCurrentAndSupportedBlocks && currentModelSlugSet.size
+    usesCurrentAndSupportedBlocks
       ? modelLinks.filter((model) => !currentModelSlugSet.has(model.slug))
-      : usesCurrentAndSupportedBlocks
-        ? modelLinks.slice(2)
-        : [];
+      : [];
 
   return {
     modelLinks,
@@ -136,10 +139,12 @@ export function buildExamplesGalleryData({
   allVideos,
   locale,
   selectedEngine,
+  currentPrices,
 }: {
   allVideos: ExampleRouteVideo[];
   locale: AppLocale;
   selectedEngine: string | null;
+  currentPrices?: ReadonlyMap<string, CurrentExamplePrice>;
 }): {
   videos: ExampleRouteVideo[];
   clientVideos: ExampleGalleryVideo[];
@@ -160,17 +165,14 @@ export function buildExamplesGalleryData({
 
   return {
     videos: filteredEntries.map((entry) => entry.video),
-    clientVideos: filteredEntries.map(({ video, index }) => buildClientVideo({ video, index, locale })),
+    clientVideos: filteredEntries.map(({ video, index }) => buildClientVideo({ video, index, locale, currentPrice: currentPrices?.get(video.id) })),
   };
 }
 
 export function buildExamplesGalleryPresentation({
   allVideos,
   clientVideos,
-  currentPage,
-  isModelLanding,
   pageOffsetStart,
-  sort,
   videos,
 }: {
   allVideos: ExampleRouteVideo[];
@@ -181,25 +183,15 @@ export function buildExamplesGalleryPresentation({
   sort: ExampleSort;
   videos: ExampleRouteVideo[];
 }) {
-  const showModelHero = isModelLanding && currentPage === 1 && sort === 'playlist';
-  const playableHeroCard = showModelHero ? pickFirstPlayableVideo(clientVideos) : null;
-  const mainVideoIndex = playableHeroCard ? clientVideos.indexOf(playableHeroCard) : -1;
-  const mainVideo =
-    mainVideoIndex >= 0
-      ? {
-          video: videos[mainVideoIndex],
-          card: clientVideos[mainVideoIndex],
-        }
-      : null;
-  const galleryVideos = mainVideo ? videos.filter((_, index) => index !== mainVideoIndex) : videos;
-  const galleryClientVideos = mainVideo ? clientVideos.filter((_, index) => index !== mainVideoIndex) : clientVideos;
-  const initialDesktopBatch = isModelLanding ? FAMILY_INITIAL_DESKTOP_GALLERY_BATCH : HUB_INITIAL_DESKTOP_GALLERY_BATCH;
-  const initialExamples = galleryClientVideos.slice(0, initialDesktopBatch);
-  const initialMaxIndex = initialExamples.reduce((max, video) => Math.max(max, video.sourceIndex ?? -1), -1);
+  // The entire logical page is server rendered. Opening videos are part of these same results.
+  const mainVideo: { video: ExampleRouteVideo; card: ExampleGalleryVideo } | null = null;
+  const galleryVideos = videos;
+  const galleryClientVideos = clientVideos;
+  const initialExamples = clientVideos;
+  const initialDesktopBatch = clientVideos.length;
   const pageOffsetEnd = pageOffsetStart + allVideos.length;
-  const consumedMaxIndex = Math.max(mainVideo?.card.sourceIndex ?? -1, initialMaxIndex);
-  const nextOffsetStart = pageOffsetStart + Math.max(0, consumedMaxIndex + 1);
-  const showGallerySection = galleryClientVideos.length > 0 || nextOffsetStart < pageOffsetEnd;
+  const nextOffsetStart = pageOffsetEnd;
+  const showGallerySection = clientVideos.length > 0;
 
   return {
     galleryClientVideos,
@@ -266,10 +258,12 @@ function buildClientVideo({
   index,
   locale,
   video,
+  currentPrice,
 }: {
   index: number;
   locale: AppLocale;
   video: ExampleRouteVideo;
+  currentPrice?: CurrentExamplePrice;
 }): ExampleGalleryVideo {
   const canonicalEngineId = resolveEngineLinkId(video.engineId);
   const engineKey = canonicalEngineId?.toLowerCase() ?? video.engineId?.toLowerCase() ?? '';
@@ -293,15 +287,19 @@ function buildClientVideo({
     engineLabel: engineMeta?.label ?? video.engineLabel ?? 'Engine',
     engineIconId: engineMeta?.id ?? canonicalEngineId ?? video.engineId ?? 'engine',
     engineBrandId: engineMeta?.brandId,
-    priceLabel: null,
+    priceLabel: formatCurrentExamplePrice(currentPrice, locale),
     prompt: promptDisplay,
+    sourcePromptExcerpt: formatPromptExcerpt(video.promptExcerpt?.trim() || video.prompt?.trim() || '') || null,
     promptFull: locale === 'en' ? video.prompt ?? null : null,
     aspectRatio: video.aspectRatio ?? null,
+    outputWidth: video.outputWidth,
+    outputHeight: video.outputHeight,
     durationSec: video.durationSec,
     hasAudio: video.hasAudio,
     ...buildExamplePosterProjection(video.thumbUrl, getPlaceholderPoster(video.aspectRatio)),
     videoUrl: video.videoUrl ?? null,
     previewVideoUrl: video.previewVideoUrl ?? null,
+    recreateHref: canRecreatePublicExample(video.engineId) ? `/app?from=${encodeURIComponent(video.id)}` : null,
     modelHref,
     sourceIndex: index,
   };

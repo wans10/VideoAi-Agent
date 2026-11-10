@@ -5,15 +5,25 @@ import { readStudioProject, readStudioSequence } from '@/server/studio/repositor
 import {
   buildWorkspaceTimelineRenderManifest,
   type WorkspaceTimelineRenderManifest,
-} from '../../../app/(core)/(workspace)/app/studio/workspace/_lib/workspace-timeline-render';
+} from '../../../app/(core)/(workspace)/app/studio/_shared/_lib/workspace-timeline-render';
 import type {
   WorkspaceAssetRecord,
   WorkspaceGraphNode,
   WorkspaceProjectSettings,
   WorkspaceTimelineItem,
-} from '../../../app/(core)/(workspace)/app/studio/workspace/_lib/workspace-types';
-import type { WorkspaceTimelineVideoExportRequest } from '../../../app/(core)/(workspace)/app/studio/workspace/_lib/workspace-timeline-export';
-import { normalizeWorkspaceTimelineSourceMetadata } from '../../../app/(core)/(workspace)/app/studio/workspace/_lib/timeline/timeline-source-metadata';
+} from '../../../app/(core)/(workspace)/app/studio/_shared/_lib/workspace-types';
+import type { WorkspaceTimelineVideoExportRequest } from '../../../app/(core)/(workspace)/app/studio/_shared/_lib/workspace-timeline-export';
+import { normalizeWorkspaceTimelineSourceMetadata } from '../../../app/(core)/(workspace)/app/studio/_shared/_lib/timeline/timeline-source-metadata';
+import {
+  filterHiddenVideoTrackItems,
+  muteAudioTrackItems,
+} from '../../../app/(core)/(workspace)/app/studio/_shared/_lib/workspace-timeline-selection';
+import {
+  coerceAudioTrackCount,
+  coerceHiddenVideoTracks,
+  coerceMutedAudioTracks,
+  coerceVideoTrackCount,
+} from '../../../app/(core)/(workspace)/app/studio/_shared/_state/workspace-state';
 import { parseTimelineExportManifest } from './render-request';
 import { validateTimelineExportManifestMediaUrls } from './media-security';
 import { timelineExportManifestHash } from './estimate-token';
@@ -25,6 +35,10 @@ type PersistedWorkspaceState = {
 
 type PersistedTimelineState = {
   timelineItems?: unknown;
+  hiddenVideoTracks?: unknown;
+  mutedAudioTracks?: unknown;
+  videoTrackCount?: unknown;
+  audioTrackCount?: unknown;
 };
 
 type StudioProjectRecord = NonNullable<Awaited<ReturnType<typeof readStudioProject>>>;
@@ -221,8 +235,18 @@ export async function resolveOwnedTimelineExportRequestWithDependencies(params: 
   const projectAssetsById = new Map(projectAssets.map((asset) => [asset.id, asset]));
   const nodes = persistedGraphNodes(workspaceState.nodes);
   const nodesById = new Map(nodes.map((node) => [node.id, node]));
-  const timelineItems = persistedTimelineItems(timelineState.timelineItems);
-  if (!timelineItems.length) throw new Error('EXPORT_SEQUENCE_NOT_PERSISTED');
+  const persistedItems = persistedTimelineItems(timelineState.timelineItems);
+  if (!persistedItems.length) throw new Error('EXPORT_SEQUENCE_NOT_PERSISTED');
+  const timelineItems = muteAudioTrackItems(
+    filterHiddenVideoTrackItems(persistedItems, coerceHiddenVideoTracks(
+      timelineState.hiddenVideoTracks,
+      coerceVideoTrackCount(timelineState.videoTrackCount, persistedItems),
+    )),
+    coerceMutedAudioTracks(
+      timelineState.mutedAudioTracks,
+      coerceAudioTrackCount(timelineState.audioTrackCount, persistedItems),
+    ),
+  );
 
   const resolvedItems = timelineItems.map((item) => ({
     ...item,
@@ -300,6 +324,7 @@ export async function resolveOwnedTimelineExportRequestWithDependencies(params: 
   }
   const validatedManifest = parseTimelineExportManifest(await dependencies.validateManifestMediaUrls({
     manifest: canonicalManifest,
+    userId: params.userId,
     requestOrigin: params.requestOrigin,
     fetchImpl: params.fetchImpl,
   }));

@@ -6,8 +6,10 @@ import { computeConfiguredPreflight } from '../frontend/src/server/engines.ts';
 import { MINIMAX_H3_MAX_ENGINE } from '../frontend/src/config/fal-engines/minimax-h3-max.ts';
 import { computeCanonicalBillingSnapshot } from '../frontend/server/pricing/quote-billing.ts';
 import { resolveMediaAwarePreflight } from '../frontend/app/api/preflight/_lib/media-aware-preflight.ts';
+import { ENV } from '../frontend/src/lib/env.ts';
 import { parsePreflightRequestPayload } from '../frontend/app/api/preflight/_lib/preflight-request.ts';
 import type { EngineCaps, PreflightRequest } from '../frontend/types/engines.ts';
+import { withReviewedLasPreflightFixture } from './helpers/seedance-las-preflight-postgres-fixture';
 
 function engineFor(id: string): EngineCaps {
   const engine = listFalEngines().find((entry) => entry.id === id)?.engine;
@@ -26,6 +28,23 @@ function requestFor(engine: EngineCaps, mode: PreflightRequest['mode']): Preflig
     user: { memberTier: 'Member' },
   };
 }
+
+test('Seedance preflight rejects long reference videos with measured facts for the customer message', async () => {
+  const engine = engineFor('seedance-2-5');
+  const url = 'https://media.maxvideoai.com/user-assets/pricing-user/reference.mp4';
+  const response = await resolveMediaAwarePreflight({
+    userId: 'pricing-user',
+    request: { ...requestFor(engine, 'extend'), inputs: [{ assetId: 'video-a', slotId: 'extension_source_videos', kind: 'video', url }] },
+  }, {
+    getConfiguredEngineFn: async () => engine,
+    computeConfiguredPreflightFn: async () => { throw new Error('Invalid references must not get a quote'); },
+    mediaConstraintDeps: { queryFn: async () => [{ asset_id: 'video-a', url, origin_url: null, original_name: 'reference.mp4', mime_type: 'video/mp4', size_bytes: 1000, duration_sec: 44, width: 1280, height: 720 }] as never[] },
+  });
+  assert.equal(response.ok, false);
+  assert.equal(response.error?.code, 'MEDIA_COMBINED_DURATION_EXCEEDED');
+  assert.equal(response.error?.field, 'extension_source_videos');
+  assert.equal(response.error?.durationSec, 44);
+});
 
 test('media-aware preflight resolves the normalized Grok reference count and matches final billing', async () => {
   const engine = engineFor('grok-imagine-video-1-5');
@@ -340,3 +359,117 @@ test('every catalog resolution is representable at the preflight request boundar
     }
   }
 });
+
+test('archived Sora preflight rejects before reading configuration or quoting', async () => {
+  for (const id of ['sora-2', 'sora-2-pro']) {
+    const response = await resolveMediaAwarePreflight({ request: requestFor(engineFor(id), 't2v') }, {
+      getConfiguredEngineFn: async () => { throw new Error('Unexpected configuration read'); },
+      computeConfiguredPreflightFn: async () => { throw new Error('Unexpected pricing'); },
+    });
+    assert.equal(response.ok, false);
+    assert.equal(response.error?.code, 'ENGINE_RETIRED');
+  }
+});
+
+test('archived Seedance 1.5 preflight never quotes, even with direct execution enabled', { concurrency: false }, async () => {
+  const original = {
+    enabled: ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED,
+    provider: ENV.SEEDANCE_1_5_PROVIDER,
+    modelId: ENV.BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID,
+    arkEnabled: ENV.BYTEPLUS_ARK_ENABLED,
+  };
+  try {
+    ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = 'false';
+    ENV.SEEDANCE_1_5_PROVIDER = 'fal';
+    const response = await resolveMediaAwarePreflight({
+      request: requestFor(engineFor('seedance-1-5-pro'), 't2v'),
+    }, {
+      getConfiguredEngineFn: async () => { throw new Error('Configuration must not be read'); },
+      computeConfiguredPreflightFn: async () => { throw new Error('Pricing must not be reached'); },
+    });
+    assert.equal(response.ok, false);
+    assert.equal(response.error?.code, 'ENGINE_RETIRED');
+    const aliasResponse = await resolveMediaAwarePreflight({
+      request: { ...requestFor(engineFor('seedance-1-5-pro'), 't2v'), engine: 'seedance-v1-5-pro' },
+    }, {
+      getConfiguredEngineFn: async () => { throw new Error('Alias must be blocked before configuration'); },
+    });
+    assert.equal(aliasResponse.error?.code, 'ENGINE_RETIRED');
+
+    ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = 'true';
+    ENV.SEEDANCE_1_5_PROVIDER = 'byteplus_modelark';
+    ENV.BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID = 'seedance-1-5-pro-251215';
+    ENV.BYTEPLUS_ARK_ENABLED = 'true';
+    const configured = await resolveMediaAwarePreflight({
+      request: requestFor(engineFor('seedance-1-5-pro'), 't2v'),
+    }, {
+      getConfiguredEngineFn: async () => engineFor('seedance-1-5-pro'),
+    });
+    assert.equal(configured.ok, false);
+    assert.equal(configured.error?.code, 'ENGINE_RETIRED');
+  } finally {
+    ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = original.enabled;
+    ENV.SEEDANCE_1_5_PROVIDER = original.provider;
+    ENV.BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID = original.modelId;
+    ENV.BYTEPLUS_ARK_ENABLED = original.arkEnabled;
+  }
+});
+
+
+test('Seedance video preflight derives input seconds from owned records instead of the client duration flag', async () => {
+  const engine = engineFor('seedance-2-5');
+  const url = 'https://media.maxvideoai.com/user-assets/pricing-user/reference.mp4';
+  let observed: unknown;
+  const response = await resolveMediaAwarePreflight({ userId: 'pricing-user',
+    request: { ...requestFor(engine, 'ref2v'), hasVideoInput: false,
+      inputs: [{ assetId: 'video-duration', slotId: 'video_urls', kind: 'video', url }] } }, {
+    getConfiguredEngineFn: async () => engine,
+    computeConfiguredPreflightFn: async (request, options) => { observed = { hasVideoInput: request.hasVideoInput, duration: options?.trustedMediaPricingFacts?.inputVideoDurationSec }; return { ok: true } as never; },
+    mediaConstraintDeps: { queryFn: async () => [{ asset_id: 'video-duration', url, origin_url: null, original_name: 'reference.mp4', mime_type: 'video/mp4', size_bytes: 1000, duration_sec: 4.25, width: 1280, height: 720 }] as never[] },
+  });
+  assert.equal(response.ok, true, JSON.stringify(response.error));
+  assert.deepEqual(observed, { hasVideoInput: true, duration: 4.25 });
+});
+
+for (const { mode, slotId } of [
+  { mode: 'extend', slotId: 'extension_source_videos' },
+  { mode: 'v2v', slotId: 'video_url' },
+  { mode: 'ref2v', slotId: 'video_urls' },
+] as const) {
+  test(`Seedance ${mode} prices an owned upload whose duration is measured during validation`, async () => {
+    const engine = engineFor('seedance-2-5');
+    const verify = async () => {
+    const url = 'https://media.maxvideoai.com/user-assets/pricing-user/multipart.mp4';
+    let pricedInputDuration: number | undefined;
+    const response = await resolveMediaAwarePreflight({
+      userId: 'pricing-user',
+      request: {
+        ...requestFor(engine, mode), durationSec: 4, resolution: '480p',
+        inputs: [{ assetId: 'multipart-video', slotId, kind: 'video', url }],
+      },
+    }, {
+      getConfiguredEngineFn: async () => engine,
+      computeConfiguredPreflightFn: async (request, options) => {
+        pricedInputDuration = options?.trustedMediaPricingFacts?.inputVideoDurationSec;
+        return computeConfiguredPreflight(request, options);
+      },
+      mediaConstraintDeps: {
+        queryFn: async () => [{
+          asset_id: 'multipart-video', url, origin_url: null,
+          original_name: 'video.mp4', mime_type: 'video/mp4', size_bytes: 33_353_296,
+          duration_sec: null, width: null, height: null,
+        }] as never[],
+        detectVideoDimensionsFn: async () => ({ width: 1918, height: 1080 }),
+        detectMediaDurationFn: async () => 15.041667,
+      },
+    });
+    assert.equal(response.ok, true, JSON.stringify(response.error));
+    assert.equal(pricedInputDuration, 15.041667);
+    assert.ok(typeof response.total === 'number' && response.total > 0);
+    if (mode === 'v2v') assert.equal(response.total,586);
+    };
+    if (mode === 'v2v') await withReviewedLasPreflightFixture({ engine, mode, durationSec: 4, resolution: '480p',
+      aspectRatio: '16:9', hasVideoInput: true, inputVideoDurationSec: 15.041667 }, verify);
+    else await verify();
+  });
+}

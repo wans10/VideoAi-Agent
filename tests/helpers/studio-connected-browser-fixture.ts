@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import {
   chromium,
+  firefox,
+  webkit,
   type Browser,
   type BrowserContext,
   type BrowserContextOptions,
@@ -54,7 +56,7 @@ async function handleRequest(
   route: Route,
   allowedOrigins: ReadonlySet<string>,
   privateRequests: StudioPrivateBrowserRequest[],
-  signatureClock: () => Date,
+  signatureClock: (url: string) => Date,
 ): Promise<void> {
   const request = route.request();
   const url = new URL(request.url());
@@ -69,7 +71,7 @@ async function handleRequest(
       url: request.url(),
       method: request.method(),
       range,
-      now: signatureClock(),
+      now: signatureClock(request.url()),
     });
     privateRequests.push(Object.freeze({
       method: request.method(),
@@ -88,10 +90,11 @@ async function handleRequest(
   await route.abort('blockedbyclient');
 }
 
-/** Owns one non-persistent Chromium process and every fresh session context it creates. */
+/** Owns one non-persistent browser process and every fresh session context it creates. */
 export async function startStudioConnectedBrowserFixture<Session>(options: {
   runtime: StudioBrowserRuntime<Session>;
-  signatureClock?: () => Date;
+  browserName?: 'chromium' | 'firefox' | 'webkit';
+  signatureClock?: (url: string) => Date;
   headless?: boolean;
 }) {
   assert.equal(process.versions.node.split('.')[0], '22', 'Use the project Node 22 runtime.');
@@ -109,12 +112,13 @@ export async function startStudioConnectedBrowserFixture<Session>(options: {
   const allowedOrigins = new Set([app.origin, appIpv4.origin, auth.origin]);
   const privateRequests: StudioPrivateBrowserRequest[] = [];
   const signatureClock = options.signatureClock ?? (() => new Date());
-  const browser = await chromium.launch({
+  const browserName = options.browserName ?? 'chromium';
+  const browser = await ({chromium,firefox,webkit})[browserName].launch({
     headless: options.headless ?? true,
-    args: [
+    args: browserName === 'chromium' ? [
       '--disable-background-networking',
       '--host-resolver-rules=MAP localhost 127.0.0.1',
-    ],
+    ] : [],
   });
   const contexts = new Set<BrowserContext>();
   let closing: Promise<void> | null = null;

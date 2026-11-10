@@ -1,3 +1,14 @@
+import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
+import { calculateMinimaxH3MaxReferenceTokenBudget } from '@/lib/minimax-h3-max-pricing';
+import { getWan3InputVideoDurationSec } from '@/lib/wan3-pricing';
+import { getGenerationModelIdentity, isArchivedGenerationModel } from '@/lib/model-generation-policy';
+import {
+  BytePlusModelArkError,
+  assertBytePlusSeedanceSubmissionEnabled,
+  getBytePlusArkConfig,
+  isBytePlusModelArkEnabled,
+  resolveBytePlusSeedanceModelId,
+} from '@/server/video-providers/byteplus-modelark';
 import { validateNormalizedGenerationAttachments } from '@/app/api/generate/_lib/normalized-generation-attachment-validation';
 import {
   computeConfiguredPreflight,
@@ -14,6 +25,12 @@ import type { LaunchCanaryRequestContext } from '@/server/model-launch-canary-re
 import { resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
 import { validateRuntimeRequestSettings } from '@/app/api/generate/_lib/runtime-schema-options';
 import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
+import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
+import { resolveSeedance25ModeAvailability } from '@/server/engine-mode-availability';
+import { normalizeBytePlusOptions } from '@/app/api/generate/_lib/request-options-byteplus';
+import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
+import { normalizeSeedancePricingContext, seedanceSourcePricingAspectRatio, seedanceAutomaticDurationBounds,
+  isSeedanceAdaptiveAspect } from '@/lib/seedance-option-pricing';
 
 type MediaConstraintDependencies = Parameters<
   typeof validateNormalizedGenerationAttachments
@@ -33,11 +50,12 @@ export type MediaAwarePreflightDependencies = {
 function mediaPricingFailure(
   code: string,
   message: string,
+  details: Pick<NonNullable<PreflightResponse['error']>, 'field' | 'durationSec' | 'maxDurationSec'> = {},
 ): PreflightResponse {
   return {
     ok: false,
     messages: [message],
-    error: { code, message },
+    error: { code, message, ...details },
   };
 }
 
@@ -50,7 +68,10 @@ function hasClientDeclaredMediaPricingFacts(request: PreflightRequest): boolean 
     && (
       Object.prototype.hasOwnProperty.call(extra, 'referenceImageCount')
       || Object.prototype.hasOwnProperty.call(extra, 'inputAudioDurationSec')
+      || Object.prototype.hasOwnProperty.call(extra, 'inputVideoDurationSec')
       || Object.prototype.hasOwnProperty.call(extra, 'verifiedReferenceTokenCount')
+      || Object.prototype.hasOwnProperty.call(extra, 'referenceTokenBudget')
+      || Object.prototype.hasOwnProperty.call(extra, 'seedanceSourceAspectRatio')
     )
   );
 }
@@ -86,6 +107,7 @@ function hasValidPersistedReferenceRoles(engine: EngineCaps, request: PreflightR
 export async function resolveMediaAwarePreflight(
   input: {
     request: PreflightRequest;
+    trustedSeedanceWorkflow?: PreparedSeedanceWorkflow;
     userId?: string | null;
     resolveUserId?: () => Promise<string | null>;
     launchCanaryContext?: LaunchCanaryRequestContext | null;
@@ -95,6 +117,26 @@ export async function resolveMediaAwarePreflight(
   const parsedRequest = parsePreflightRequestPayload(input.request);
   if (!parsedRequest.ok) return parsedRequest.response;
   const request = parsedRequest.request;
+  if (request.seedanceWorkflow && !input.trustedSeedanceWorkflow) {
+    return mediaPricingFailure('SEEDANCE_DRAFT_UNAVAILABLE', 'An owned Draft workflow is required.');
+  }
+  if (isArchivedGenerationModel(request.engine)) {
+    return { ok: false, messages: ['This model is no longer available. Choose another model.'], error: { code: 'ENGINE_RETIRED', message: 'This model is no longer available.' } };
+  }
+  if (getGenerationModelIdentity(request.engine)?.id === 'seedance-1-5-pro') {
+    if (!isBytePlusModelArkEnabled()) {
+      return mediaPricingFailure('ENGINE_UNAVAILABLE', 'This model is temporarily unavailable.');
+    }
+    try {
+      assertBytePlusSeedanceSubmissionEnabled('seedance-1-5-pro');
+      resolveBytePlusSeedanceModelId('seedance-1-5-pro', getBytePlusArkConfig());
+    } catch (error) {
+      if (error instanceof BytePlusModelArkError) {
+        return mediaPricingFailure('ENGINE_UNAVAILABLE', 'This model is temporarily unavailable.');
+      }
+      throw error;
+    }
+  }
   const getConfiguredEngineFn = dependencies.getConfiguredEngineFn ?? getReadOnlyConfiguredEngine;
   const getConfiguredEngineIncludingHiddenFn =
     dependencies.getConfiguredEngineIncludingHiddenFn ?? getReadOnlyConfiguredEngineIncludingRuntimePrivate;
@@ -107,6 +149,25 @@ export async function resolveMediaAwarePreflight(
     : undefined;
   const engine = publicEngine ?? privateEngine;
   if (!engine) return computeConfiguredPreflightFn(request, { bootstrap: false });
+  const finalFacts = input.trustedSeedanceWorkflow?.finalFacts;
+  if (finalFacts) {
+    return computeConfiguredPreflightFn({ ...request, mode: finalFacts.mode, durationSec: finalFacts.durationSec,
+      ...(finalFacts.durationOption != null ? { durationOption: finalFacts.durationOption } : {}),
+      aspectRatio: finalFacts.aspectRatio as PreflightRequest['aspectRatio'], hasVideoInput: finalFacts.hasVideoInput,
+      inputs: [] }, { resolvedEngine: engine, bootstrap: false, seedanceWorkflowStep: 'final',
+      trustedMediaPricingFacts: { inputVideoDurationSec: finalFacts.inputVideoDurationSec,
+        seedanceEditSource: finalFacts.seedanceEditSource, seedanceSourceAspectRatio: finalFacts.seedanceSourceAspectRatio } });
+  }
+  if (engine.id === 'seedance-2-5' && request.mode === 'v2v') {
+    if (!input.trustedSeedanceWorkflow && resolveSeedance25ModeAvailability(engine, request.mode)?.available === false) {
+      return mediaPricingFailure('ENGINE_MODE_UNAVAILABLE', 'Video editing is temporarily unavailable for this model.');
+    }
+    const options = normalizeBytePlusOptions({ engineId: engine.id, mode: request.mode,
+      durationSec: request.durationSec, durationOption: request.durationOption,
+      workflowStep: input.trustedSeedanceWorkflow?.workflow.step,
+      requestedResolution: request.resolution ?? '480p', aspectRatio: request.aspectRatio ?? null });
+    if (!options.ok) return mediaPricingFailure(String(options.body.error), String(options.body.message));
+  }
   if (
     privateEngine
     && !resolveAgentGenerationModeExecutability(
@@ -148,11 +209,25 @@ export async function resolveMediaAwarePreflight(
     );
   }
 
+  const needsReferenceTokenBudget = engine.id === 'minimax-h3-max' && request.mode === 'ref2v';
+  const needsWanVideoDuration = (engine.id === 'wan-3' || engine.id === 'wan-3-prime')
+    && (request.mode === 'v2v' || request.mode === 'extend' || request.inputs?.some((reference) => reference.kind === 'video') === true);
   const needsReferenceImageCount = requiresReferenceImageCount(engine, request);
   const needsInputAudioDuration = requiresInputAudioDuration(engine, request);
-  const needsTrustedOwnedMedia = requiresTrustedOwnedMedia(engine, request);
-  if (!needsReferenceImageCount && !needsInputAudioDuration && !needsTrustedOwnedMedia) {
-    return computeConfiguredPreflightFn(request, { resolvedEngine: engine, bootstrap: false });
+  const needsTrustedOwnedMedia = requiresTrustedOwnedMedia(engine, request) && Boolean(request.inputs?.length || request.mode !== 't2v');
+  const needsSeedanceReferenceDuration = isBytePlusInputVideoPricingModel(engine.id)
+    && ['ref2v', 'v2v', 'extend'].includes(request.mode)
+    && request.inputs?.some((reference) => reference.kind === 'video') === true;
+  const needsSeedanceSourceAspect = Boolean(seedanceAutomaticDurationBounds(engine.id)
+    && (isSeedanceAdaptiveAspect(request.aspectRatio) || (engine.id === 'seedance-2-5' && ['i2v', 'extend'].includes(request.mode)))
+    && ['i2v', 'v2v', 'extend'].includes(request.mode));
+  if (!needsReferenceTokenBudget && !needsReferenceImageCount && !needsInputAudioDuration && !needsTrustedOwnedMedia && !needsWanVideoDuration && !needsSeedanceReferenceDuration && !needsSeedanceSourceAspect) {
+    const priced = normalizeSeedancePricingContext({ ...request, engine, resolution: request.resolution ?? '480p' });
+    return computeConfiguredPreflightFn({ ...request, durationSec: priced.durationSec }, {
+      seedanceWorkflowStep: input.trustedSeedanceWorkflow?.workflow.step,
+      resolvedEngine: engine,
+      bootstrap: false,
+    });
   }
   const userId = input.userId === undefined
     ? await input.resolveUserId?.() ?? null
@@ -180,15 +255,55 @@ export async function resolveMediaAwarePreflight(
     mediaConstraintDeps: dependencies.mediaConstraintDeps,
   });
   if (!processed.ok) {
-    const body = processed.body as { error?: unknown; message?: unknown };
+    const body = processed.body;
     const code = typeof body.error === 'string' ? body.error : 'PRICING_MEDIA_FACTS_UNVERIFIED';
     const message = typeof body.message === 'string'
       ? body.message
       : 'Required media pricing facts could not be verified.';
-    return mediaPricingFailure(code, message);
+    return mediaPricingFailure(code, message, {
+      field: body.field,
+      ...(typeof body.durationSec === 'number' ? { durationSec: body.durationSec } : {}),
+      ...(typeof body.maxDurationSec === 'number' ? { maxDurationSec: body.maxDurationSec } : {}),
+    });
   }
 
+  let referenceTokenBudget: number | undefined;
+  let inputVideoDurationSec: number | undefined;
+  let seedanceEditSource;
+  let seedanceSourceAspectRatio;
+  try {
+    seedanceEditSource = resolveSeedance25ModelArkEditSource(engine.id, request.mode, processed.trustedMediaReferences ?? [],
+      input.trustedSeedanceWorkflow ? 'modelark' : undefined);
+    const primaryImageUrls = new Set((request.inputs ?? []).filter(reference => reference.slotId === 'image_url').map(reference => reference.url));
+    const sources = request.mode === 'i2v' ? (processed.trustedMediaReferences ?? []).filter(reference => primaryImageUrls.has(reference.url))
+      : processed.trustedMediaReferences ?? [];
+    seedanceSourceAspectRatio = seedanceSourcePricingAspectRatio({ engine, mode: request.mode, aspectRatio: request.aspectRatio }, sources);
+  } catch (error) {
+    return mediaPricingFailure('SEEDANCE_EDIT_SOURCE_UNSUPPORTED', error instanceof Error ? error.message : 'Verified Edit source facts are required.');
+  }
+  if (needsWanVideoDuration || needsSeedanceReferenceDuration) {
+    try {
+      inputVideoDurationSec = needsSeedanceReferenceDuration
+        ? bytePlusInputVideoDurationSec(engine.id, processed.trustedMediaReferences ?? [])
+        : getWan3InputVideoDurationSec(processed.trustedMediaReferences ?? []);
+      if (inputVideoDurationSec <= 0) throw new Error('Missing owned video metadata.');
+    } catch {
+      return mediaPricingFailure('PRICING_MEDIA_FACTS_UNVERIFIED', 'Verified video duration is required to calculate this price.');
+    }
+  }
+  if (needsReferenceTokenBudget) {
+    if (!processed.trustedMediaReferences?.length) return mediaPricingFailure('PRICING_MEDIA_FACTS_UNVERIFIED', 'Add owned references to calculate this price.');
+    try {
+      referenceTokenBudget = calculateMinimaxH3MaxReferenceTokenBudget({ resolution: request.resolution ?? '768P', durationSec: request.durationSec, references: processed.trustedMediaReferences });
+    } catch {
+      return mediaPricingFailure('PRICING_MEDIA_FACTS_UNVERIFIED', 'Reference metadata is required to calculate this price.');
+    }
+  }
   const trustedMediaPricingFacts: TrustedPreflightMediaPricingFacts = {
+    ...(seedanceSourceAspectRatio ? { seedanceSourceAspectRatio } : {}),
+    ...(seedanceEditSource ? { seedanceEditSource } : {}),
+    ...(inputVideoDurationSec !== undefined ? { inputVideoDurationSec } : {}),
+    ...(referenceTokenBudget !== undefined ? { referenceTokenBudget } : {}),
     ...(needsReferenceImageCount
       ? { referenceImageCount: processed.references.normalizedReferenceImages.length }
       : {}),
@@ -207,7 +322,12 @@ export async function resolveMediaAwarePreflight(
     );
   }
 
-  return computeConfiguredPreflightFn(request, {
+  const priced = normalizeSeedancePricingContext({ ...request, engine, resolution: request.resolution ?? '480p', seedanceEditSource, seedanceSourceAspectRatio });
+  return computeConfiguredPreflightFn({ ...request, durationSec: priced.durationSec,
+    ...(needsSeedanceReferenceDuration ? { hasVideoInput: true } : {}),
+    ...(seedanceEditSource ? { durationSec: seedanceEditSource.billedDurationSec, aspectRatio: seedanceEditSource.pricingAspectRatio } : {}),
+  }, {
+    seedanceWorkflowStep: input.trustedSeedanceWorkflow?.workflow.step,
     resolvedEngine: engine,
     trustedMediaPricingFacts,
     bootstrap: false,

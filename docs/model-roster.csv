@@ -4,7 +4,7 @@ happy-horse-1-1,Happy Horse 1.1,alibaba,happy-horse-1-1,happy-horse,current,,,1.
 flux-3,FLUX 3,black-forest-labs,flux-3,flux,current,,,3,available,textOnly,true,true
 flux-3-draft,FLUX 3 Draft,black-forest-labs,flux-3-draft,flux,current,,,3 Draft,available,textOnly,true,true
 seedance-2-0-mini,Dreamina Seedance 2.0 Mini,bytedance,dreamina-seedance-2-0-mini,seedance,current,,,2.0 Mini,available,logoAllowed,true,true
-seedance-1-5-pro,Seedance 1.5 Pro,bytedance,seedance-1-5-pro,seedance,current,,,v1.5 Pro,available,logoAllowed,true,true
+seedance-1-5-pro,Seedance 1.5 Pro,bytedance,seedance-1-5-pro,seedance,deep_legacy,,,v1.5 Pro,available,logoAllowed,true,true
 seedance-2-0,Seedance 2.0,bytedance,seedance-2-0,seedance,current,,,2.0,available,logoAllowed,true,true
 seedance-2-0-fast,Seedance 2.0 Fast,bytedance,seedance-2-0-fast,seedance,current,,,2.0 Fast,available,logoAllowed,true,true
 seedance-2-5,Seedance 2.5,bytedance,seedance-2-5,seedance,current,,,2.5,available,logoAllowed,true,true
@@ -45,8 +45,8 @@ minimax-hailuo-02-text,MiniMax Hailuo 02 Standard,minimax,minimax-hailuo-02-text
 gpt-image-2,GPT Image 2,openai,gpt-image-2,gpt-image,legacy,gpt-image-2-5-flare,gpt-image-2-5-flare,2,available,logoAllowed,true,true
 gpt-image-2-5-flare,GPT Image 2.5 Flare,openai,gpt-image-2-5-flare,gpt-image,current,,,2.5 Flare,available,logoAllowed,true,true
 gpt-image-2-5-sunburst,GPT Image 2.5 Sunburst,openai,gpt-image-2-5-sunburst,gpt-image,current,,,2.5 Sunburst,available,logoAllowed,true,true
-sora-2,OpenAI Sora 2,openai,sora-2,sora,current,,,2,available,logoAllowed,true,true
-sora-2-pro,OpenAI Sora 2 Pro,openai,sora-2-pro,sora,current,,,Pro,available,logoAllowed,true,true
+sora-2,OpenAI Sora 2,openai,sora-2,sora,deep_legacy,,,2,available,logoAllowed,true,true
+sora-2-pro,OpenAI Sora 2 Pro,openai,sora-2-pro,sora,deep_legacy,,,Pro,available,logoAllowed,true,true
 pika-text-to-video,Pika 2.2 Text & Image to Video,pika,pika-text-to-video,pika,current,,,2.2,available,logoAllowed,true,true
 wan-2-5,Wan 2.5 Text & Image to Video,wan,wan-2-5,wan,deep_legacy,wan-3,wan-3,Preview,available,logoAllowed,true,true
 wan-2-6,Wan 2.6 Text & Image to Video,wan,wan-2-6,wan,legacy,wan-3,wan-3,2.6,available,logoAllowed,true,true

@@ -9,7 +9,7 @@ import { resolveMediaAwarePreflight } from '../frontend/app/api/preflight/_lib/m
 import type { LaunchCanaryRequestContext } from '../frontend/src/server/model-launch-canary-request';
 import type { EngineCaps } from '../frontend/types/engines';
 
-const base = getBaseEngines().find((engine) => engine.id === 'sora-2')!;
+const base = getBaseEngines().find((engine) => engine.id === 'pika-text-to-video')!;
 const stale: EngineSettingsRecord = {
   engine_id: base.id,
   options: { maxDurationSec: 1 },
@@ -39,7 +39,7 @@ test('system defaults preserve admin ownership and legacy pricing fallback witho
   assert.equal(settings.get(base.id), stale);
 });
 
-test('private-capable preflight refreshes only the seeded public population, not hidden/image or existing MCP readers', async () => {
+test('preflight and MCP refresh only the seeded public population, preserving hidden/image settings', async () => {
   const image = getBaseEnginesByCategory('image')[0];
   assert.ok(image);
   assert.ok(!getBaseEngines().some((engine) => engine.id === image.id));
@@ -55,7 +55,7 @@ test('private-capable preflight refreshes only the seeded public population, not
   assert.equal(publicEngine?.maxDurationSec, base.maxDurationSec);
   assert.deepEqual(await getReadOnlyConfiguredEngineIncludingRuntimePrivate(base.id, false, dependencies), publicEngine);
   assert.equal((await getReadOnlyConfiguredEngineIncludingRuntimePrivate(image.id, false, dependencies))?.maxDurationSec, 1);
-  assert.equal((await getReadOnlyConfiguredEngineIncludingHidden(base.id, false, dependencies))?.maxDurationSec, 1);
+  assert.equal((await getReadOnlyConfiguredEngineIncludingHidden(base.id, false, dependencies))?.maxDurationSec, base.maxDurationSec);
   assert.equal(settingsReads, 4);
   assert.equal(overrideReads, 4);
   assert.equal(settings.get(base.id), stale);

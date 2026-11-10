@@ -1,5 +1,16 @@
+import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
 import compareHubConfig from '@/config/compare-hub.json';
 import engineCatalog from '@/config/engine-catalog.json';
+import { buildCanonicalCompareSlug, canonicalizeComparePair, canonicalizePublishedCompareSlug } from './pairs';
+
+export {
+  buildCanonicalCompareSlug,
+  buildCompareRoute,
+  buildPublishedComparisonSlugsFromModels,
+  canonicalizeComparePair,
+  canonicalizePublishedCompareSlug,
+} from './pairs';
+export type { CompareRoute, ComparisonPublicationModel } from './pairs';
 
 const EXCLUDED_ENGINE_SLUGS = new Set([
   'nano-banana',
@@ -40,11 +51,6 @@ export type HubPair = {
   leftName: string;
   rightName: string;
   label: string;
-};
-
-export type CompareRoute = {
-  slug: string;
-  order?: string;
 };
 
 type PairSeed = {
@@ -88,18 +94,6 @@ type HubEngineFilterOptions = {
   includeLimited?: boolean;
   includeWaitlist?: boolean;
   includeUnavailable?: boolean;
-};
-
-export type ComparisonPublicationModel = {
-  id: string;
-  slug: string;
-  publication: {
-    compare: {
-      published: boolean;
-      indexed: boolean;
-      publishedPairIds: readonly string[];
-    };
-  };
 };
 
 const hubConfig = compareHubConfig as CompareHubConfig;
@@ -196,7 +190,7 @@ function resolveMaxResolution(resolutions: string[] | undefined): { label: strin
 }
 
 function isHubEligibleEngine(entry: CatalogEngine, options: HubEngineFilterOptions = {}): boolean {
-  if (!entry?.modelSlug || EXCLUDED_ENGINE_SLUGS.has(entry.modelSlug)) return false;
+  if (!entry?.modelSlug || EXCLUDED_ENGINE_SLUGS.has(entry.modelSlug) || isArchivedGenerationModel(entry.modelSlug)) return false;
   if (getCompareSurface(entry)?.includeInHub !== true) return false;
   const status = String(entry.engine?.status ?? '').toLowerCase();
   if (!ELIGIBLE_STATUSES.has(status)) return false;
@@ -211,58 +205,6 @@ function isHubEligibleEngine(entry: CatalogEngine, options: HubEngineFilterOptio
   if (!allowedAvailability.has(availability)) return false;
   const modes = entry.engine?.modes ?? [];
   return modes.some((mode) => VIDEO_MODES.has(mode));
-}
-
-export function canonicalizeComparePair(leftSlug: string, rightSlug: string): { leftSlug: string; rightSlug: string } {
-  const [left, right] = [leftSlug, rightSlug].sort((a, b) => a.localeCompare(b));
-  return { leftSlug: left, rightSlug: right };
-}
-
-export function buildCanonicalCompareSlug(leftSlug: string, rightSlug: string): string {
-  const { leftSlug: left, rightSlug: right } = canonicalizeComparePair(leftSlug, rightSlug);
-  return `${left}-vs-${right}`;
-}
-
-export function buildPublishedComparisonSlugsFromModels(
-  models: readonly ComparisonPublicationModel[],
-  isLocalizedScoreboardComplete: (canonicalSlug: string) => boolean,
-): string[] {
-  const byId = new Map(models.map((model) => [model.id, model]));
-  const published = new Set<string>();
-
-  for (const model of models) {
-    for (const opponentId of model.publication.compare.publishedPairIds) {
-      const opponent = byId.get(opponentId);
-      if (!opponent || opponent.id === model.id) continue;
-      if (
-        !model.publication.compare.published ||
-        !model.publication.compare.indexed ||
-        !opponent.publication.compare.published ||
-        !opponent.publication.compare.indexed
-      ) {
-        continue;
-      }
-      const slug = buildCanonicalCompareSlug(model.slug, opponent.slug);
-      if (isLocalizedScoreboardComplete(slug)) published.add(slug);
-    }
-  }
-
-  return Array.from(published).sort((left, right) => left.localeCompare(right, 'en'));
-}
-
-export function canonicalizePublishedCompareSlug(slug: string): string {
-  const [leftSlug, rightSlug] = slug.split('-vs-');
-  if (!leftSlug || !rightSlug) return slug;
-  return buildCanonicalCompareSlug(leftSlug, rightSlug);
-}
-
-export function buildCompareRoute(leftSlug: string, rightSlug: string): CompareRoute {
-  const { leftSlug: canonicalLeft, rightSlug: canonicalRight } = canonicalizeComparePair(leftSlug, rightSlug);
-  const slug = `${canonicalLeft}-vs-${canonicalRight}`;
-  return {
-    slug,
-    order: canonicalLeft === leftSlug ? undefined : leftSlug,
-  };
 }
 
 export function isPublishedComparisonSlug(slug: string): boolean {
@@ -383,7 +325,7 @@ export function getSuggestedOpponentSlugs(engineSlug: string, maxCount = 3): str
   const selected: string[] = [];
   const used = new Set<string>();
   const add = (slug: string | null | undefined) => {
-    if (!slug || slug === engineSlug || used.has(slug) || !catalogBySlug.has(slug)) return;
+    if (!slug || slug === engineSlug || used.has(slug) || !catalogBySlug.has(slug) || isArchivedGenerationModel(slug)) return;
     used.add(slug);
     selected.push(slug);
   };

@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import Script from 'next/script';
+import '@/components/editorial/editorial-article.css';
+import { PublicEditorialArticleView } from '@/components/editorial/PublicEditorialArticleView';
 import { Link } from '@/i18n/navigation';
 import { TextLink } from '@/components/ui/TextLink';
 import type { ContentEntry } from '@/lib/content/markdown';
@@ -14,6 +15,7 @@ import {
 } from '../_lib/blog-post-data';
 import type { BlogEditorialCopy } from '../_lib/blog-editorial-copy';
 import { BlogAuthorByline, BlogAuthorCard } from './blog-author-byline';
+import { BlogPostJsonLdScripts } from './blog-post-jsonld-scripts';
 
 type BlogPostViewProps = {
   articleCopy: BlogArticleCopy;
@@ -45,13 +47,13 @@ export function BlogPostView({
   relatedPosts,
 }: BlogPostViewProps) {
   return (
-    <div className="container-page max-w-5xl section">
+    <div className={post.editorial ? 'editorial-blog-page section' : 'container-page max-w-5xl section'}>
       <div className="stack-gap-lg">
         <TextLink href="/blog" className="text-sm" linkComponent={Link}>
           {articleCopy.backLink}
         </TextLink>
 
-        <article className="blog-editorial-article overflow-hidden rounded-[28px] border border-hairline bg-surface/90 shadow-card backdrop-blur">
+        {post.editorial ? <PublicEditorialArticleView article={post.editorial} byline={<BlogAuthorByline copy={editorialCopy} locale={locale} modifiedLabel={modifiedLabel} profile={editorialProfile} publishedLabel={publishedLabel} />} /> : <article className="blog-editorial-article overflow-hidden rounded-[28px] border border-hairline bg-surface/90 shadow-card backdrop-blur">
           <header className="relative border-b border-hairline bg-gradient-to-br from-surface to-bg/60">
             {post.image ? (
               <div className="relative h-64 w-full overflow-hidden bg-bg sm:h-80">
@@ -95,7 +97,7 @@ export function BlogPostView({
           </header>
 
           <div className="blog-prose px-6 py-10 sm:px-10" dangerouslySetInnerHTML={{ __html: demotedContent }} />
-        </article>
+        </article>}
 
         <BlogAuthorCard copy={editorialCopy} locale={locale} profile={editorialProfile} />
 
@@ -106,26 +108,13 @@ export function BlogPostView({
         ) : null}
       </div>
 
-      <Script
-        id={`breadcrumb-${locale}-${post.slug}-jsonld`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      <BlogPostJsonLdScripts
+        locale={locale}
+        slug={post.slug}
+        breadcrumb={breadcrumbJsonLd}
+        article={articleSchema}
+        structuredData={post.structuredData}
       />
-
-      <Script
-        id={`article-${locale}-${post.slug}-jsonld`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
-
-      {post.structuredData?.map((json, index) => (
-        <Script
-          key={`faq-jsonld-${post.slug}-${index}`}
-          id={`faq-jsonld-${post.slug}-${index}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: json }}
-        />
-      ))}
     </div>
   );
 }

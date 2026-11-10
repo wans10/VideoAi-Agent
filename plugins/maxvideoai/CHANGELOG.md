@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.3.8 — 2026-10-18
+
+- Explain native Seedance 2.5 Draft 480p and separately approved 1080p finalization using live workflow fields, prices and owned lifecycle.
+- Offer the direct 1080p versus Draft-then-final choice once, respecting explicit user choices; ordinary 480p is never a finalizable Draft.
+- Requires deployed workflow-capable server metadata and refreshed host discovery; package publication does not establish new host qualification.
+
+## 0.3.7 — 2026-10-04
+
+- Preserve the brief, selected model, references and known jobs during reconnect;
+  recover an existing submission before preparing another paid request.
+- Clarify that authorized host attachments become generation references only
+  after import returns owned MaxVideoAI asset IDs.
+- Keep live model capabilities and exact quotes authoritative while the server
+  evolves its separately gated Studio timeline and export tools. Package
+  publication does not enable those gates or establish new host verification.
+
+## 0.3.6 — 2026-09-22
+
+- Clarify installed-package discovery, deferred tool lookup and OAuth reconnection
+  while preserving the user's brief and selected model.
+- Keep planning and generation skills focused; clarify creative-quality priorities,
+  project estimates, status recovery and server-directed polling delays.
+- Document the Node.js helper for private local references and retain successful
+  imports when retrying a partial batch.
+- Verify compact, complete MCP results and exact-quote approval boundaries in the
+  publication checks. Host selection remains controlled by each client.
+
+
 ## 0.3.5 — 2026-09-16
 
 - Supersede the cancelled 0.3.4 publication candidate with corrected proof

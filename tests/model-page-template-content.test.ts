@@ -664,9 +664,9 @@ test('migrated template metadata preserves non-cannibalizing route intent', () =
   assert.match(ltx2.meta.title, /Pricing|4K Clips/i);
   assert.match(ltx2Fast.meta.title, /Pricing|20s Drafts/i);
   assert.match(seedream.meta.title, /Image Pricing|Reference Prep/i);
-  assert.match(seedance15.meta.title, /Pricing|Camera Fixed/i);
-  assert.match(sora.meta.title, /Pricing|Native Audio|Examples/i);
-  assert.match(soraPro.meta.title, /Pricing|1080p|Examples/i);
+  assert.match(seedance15.meta.title, /historical model/i);
+  assert.match(sora.meta.title, /generation closed/i);
+  assert.match(soraPro.meta.title, /generation closed/i);
   assert.match(wan25.meta.title, /Pricing|Audio Drafts|Examples/i);
   assert.match(wan26.meta.title, /Pricing|References|Examples/i);
   assert.match(luma.meta.title, /Legacy|Modify|Reframe/i);
@@ -764,7 +764,7 @@ test('migrated template visible copy avoids route cannibalization claims', () =>
     /1080p|flagship|replaces Seedance 2\.0/i,
     'Seedance 2.0 Mini should stay lower-cost batch/value positioned without production-route overclaims'
   );
-  assert.match(visibleDecisionText(seedance15), /older supported Seedance route|legacy-compatible/i);
+  assert.match(visibleDecisionText(seedance15), /no longer available for new generations/i);
   assert.match(visibleDecisionText(seedance15), /camera-fixed|seed/i);
   assert.doesNotMatch(
     visibleDecisionText(seedance15),
@@ -1304,20 +1304,16 @@ test('new Luma model product schemas emit priced offers without synthetic rating
     assert.equal(returnPolicy.returnPolicyCategory, 'https://schema.org/MerchantReturnNotPermitted');
     assert.ok(Array.isArray(returnPolicy.applicableCountry), `${slug} Product return policy should include applicableCountry`);
     assert.ok((returnPolicy.applicableCountry as string[]).includes('US'), `${slug} Product return policy should apply to US`);
-    assert.ok(Array.isArray(returnPolicy.returnPolicyCountry), `${slug} Product return policy should include returnPolicyCountry`);
-    assert.ok((returnPolicy.returnPolicyCountry as string[]).includes('US'), `${slug} Product return policy should cover US`);
+    assert.ok(!('returnPolicyCountry' in returnPolicy), `${slug} digital Product return policy must not invent physical return destinations`);
     assert.ok(!('review' in product), `${slug} should not invent reviews`);
     assert.ok(!('aggregateRating' in product), `${slug} should not invent aggregate ratings`);
   }
 });
 
-test('indexed legacy model schemas reuse their authored prices without republishing them in the estimator', () => {
+test('executable legacy model schemas reuse authored prices without republishing them in the estimator', () => {
   const expectedOfferPrices = [
     ['luma-ray-2', '0.65'],
     ['luma-ray-2-flash', '0.26'],
-    ['wan-2-5', '0.75'],
-    ['ltx-2-fast', '0.31'],
-    ['ltx-2', '0.47'],
   ] as const;
 
   for (const [slug, expectedPrice] of expectedOfferPrices) {

@@ -8,18 +8,19 @@ import type { Pool } from 'pg';
 import { getFalEngineById } from '../../frontend/src/config/falEngines';
 import { applyEngineVariantPricing, buildEngineAddonInput } from '../../frontend/src/lib/pricing-addons';
 import { getAgentAccountStatus } from '../../frontend/src/server/agent-api/account-status';
-import { createConfirmGenerationService } from '../../frontend/src/server/agent-api/confirm-generation';
+import { createConfirmGenerationService, type ConfirmGenerationDependencies } from '../../frontend/src/server/agent-api/confirm-generation';
 import { getAgentGenerationStatus, listAgentRecentGenerations } from '../../frontend/src/server/agent-api/generation-status';
 import { normalizeGenerationRequest } from '../../frontend/src/server/agent-api/generation-normalization';
 import { priceCanonicalGeneration } from '../../frontend/src/server/agent-api/generation-pricing';
 import { listAgentModels, type AgentPublicGenerationEngine } from '../../frontend/src/server/agent-api/model-catalog';
+import { getAgentModelDetails } from '../../frontend/src/server/agent-api/model-details';
 import { recommendAgentModels } from '../../frontend/src/server/agent-api/model-recommendations';
 import {
   submitReservedPaidGeneration,
   type PaidGenerationExecution,
   type PaidGenerationProviderOutcome,
 } from '../../frontend/src/server/agent-api/paid-generation-execution';
-import { createPrepareGenerationService } from '../../frontend/src/server/agent-api/prepare-generation';
+import { createPrepareGenerationService, type PrepareGenerationDependencies } from '../../frontend/src/server/agent-api/prepare-generation';
 import type { AgentGenerationExecutabilityDecision } from '../../frontend/src/server/agent-runtime/model-executability';
 import type { AgentPrincipal } from '../../frontend/src/server/agent-api/principal';
 import { createMcpTopupHandoffService } from '../../frontend/src/server/agent-api/topup-handoff';
@@ -58,6 +59,7 @@ export async function sharedWebPrice(
     async computeVideoPreflight(input) {
       const selected = catalog.find((entry) => entry.engine.id === input.engine);
       assert.ok(selected && selected.surface === 'video');
+      assert.ok(typeof input.resolution==='string','The canonical video fixture requires an exact resolution.');
       const engine = applyEngineVariantPricing(selected.engine, input.mode);
       const pricing = await computeCanonicalPublicSnapshot({
         engine,
@@ -66,7 +68,7 @@ export async function sharedWebPrice(
         aspectRatio: input.aspectRatio,
         mode: input.mode,
         hasVideoInput: input.hasVideoInput,
-        membershipTier: input.user?.memberTier,
+        membershipTier: input.user?.memberTier ?? tier,
         addons: buildEngineAddonInput(engine, { audioEnabled: input.audio }),
       });
       return { ok: true, total: pricing.totalCents, currency: pricing.currency, pricing };
@@ -83,6 +85,8 @@ export function createServices(options: {
   prepareNow?: () => Date;
   publicEngines?: readonly AgentPublicGenerationEngine[];
   resolveRequestExecutability?: () => AgentGenerationExecutabilityDecision;
+  preparePriceGeneration?: PrepareGenerationDependencies['priceGeneration'];
+  confirmPriceGeneration?: ConfirmGenerationDependencies['priceGeneration'];
 } = {}): MaxVideoAiMcpServices {
   const publicEngines = options.publicEngines ?? catalog;
   const publicCatalogDependencies = {
@@ -97,6 +101,7 @@ export function createServices(options: {
       accountUrl: 'https://maxvideoai.com/account/connections',
     }),
     listModels: (filter) => listAgentModels(filter, publicCatalogDependencies),
+    getModelDetails: (engineId) => getAgentModelDetails(engineId, publicCatalogDependencies),
     recommendModels: (input) => recommendAgentModels(input, publicCatalogDependencies),
     prepareGeneration: createPrepareGenerationService(
       'https://maxvideoai.com/account/connections',
@@ -107,6 +112,7 @@ export function createServices(options: {
         resolveRequestExecutability: options.resolveRequestExecutability
           ?? (() => ({ executable: true, reason: 'available' })),
         ...(options.prepareNow ? { now: options.prepareNow } : {}),
+        ...(options.preparePriceGeneration ? { priceGeneration: options.preparePriceGeneration } : {}),
       },
     ),
     confirmGeneration: createConfirmGenerationService(
@@ -118,6 +124,7 @@ export function createServices(options: {
         resolveRequestExecutability: options.resolveRequestExecutability
           ?? (() => ({ executable: true, reason: 'available' })),
         submitPaidGeneration: options.submitPaidGeneration ?? (async () => ({ kind: 'accepted' })),
+        ...(options.confirmPriceGeneration ? { priceGeneration: options.confirmPriceGeneration } : {}),
       },
     ),
     getGenerationStatus: (input, identity) => getAgentGenerationStatus(input, identity),
@@ -223,6 +230,7 @@ export async function connect(identity: AgentPrincipal, services = createService
   const server = createMaxVideoAiMcpServer(identity, services, {
     paidGeneration,
     referenceUploads: false,
+    audioGeneration: false,
   });
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
   const client = new Client({ name: `p11-${identity.userId}`, version: '1.0.0' });
@@ -252,7 +260,8 @@ export function errorCode(result: CallToolResult): string {
 export async function callPrepared(client: Client, input: Record<string, unknown>) {
   const result = await client.callTool({ name: 'prepare_generation', arguments: input });
   assert.notEqual(result.isError, true, JSON.stringify(result.structuredContent));
-  return structured(result);
+  assert.ok('content' in result, 'Synchronous preparation must return a tool result.');
+  return structured(result as CallToolResult);
 }
 
 export async function callConfirmed(client: Client, quoteId: string): Promise<CallToolResult> {

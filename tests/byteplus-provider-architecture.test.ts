@@ -28,6 +28,23 @@ import {
   getBytePlusUnitPriceUsdPer1kTokens,
 } from '../frontend/server/byteplus-accounting';
 
+test('Seedance 1.5 direct list accounting distinguishes audio on and off', () => {
+  assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-1-5-pro', 'no_video_input', '720p', true), 0.0024);
+  assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-1-5-pro', 'no_video_input', '720p', false), 0.0012);
+  assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-1-5-pro', 'no_video_input', '1080p', true), 0.0024);
+  assert.throws(() => getBytePlusUnitPriceUsdPer1kTokens('seedance-1-5-pro', 'no_video_input', '4k', true));
+  assert.equal(expectedBytePlusTokens({
+    engine_id: 'seedance-1-5-pro',
+    duration_sec: 5,
+    settings_snapshot: { core: { resolution: '480p', aspectRatio: '16:9' } },
+  }), (864 * 496 * 5 * 24) / 1024);
+  assert.equal(expectedBytePlusTokens({
+    engine_id: 'seedance-1-5-pro',
+    duration_sec: 4,
+    settings_snapshot: { core: { resolution: '1080p', aspectRatio: '4:3' } },
+  }), (1664 * 1248 * 4 * 24) / 1024);
+});
+
 const pollPath = 'frontend/server/byteplus-poll.ts';
 const pollFailurePath = 'frontend/server/byteplus-poll-failure.ts';
 const accountingPath = 'frontend/server/byteplus-accounting.ts';
@@ -62,6 +79,8 @@ test('BytePlus poll delegates accounting, failure handling, storage-copy retry, 
   assert.match(accountingSource, /export function expectedBytePlusTokens/);
   assert.match(accountingSource, /export function getBytePlusAccounting/);
   assert.match(accountingSource, /export function getBytePlusUnitPriceUsdPer1kTokens/);
+  assert.match(accountingSource, /from '@\/lib\/seedance-output-dimensions'/);
+  assert.doesNotMatch(accountingSource, /const SEEDANCE_1_5_AND_2_0_DIMENSIONS/);
   assert.match(storageCopySource, /export function getBytePlusStorageCopyState/);
   assert.match(storageCopySource, /export function shouldRetryBytePlusStorageCopy/);
   assert.match(pollTypesSource, /export type BytePlusPendingJob/);
@@ -82,6 +101,11 @@ test('BytePlus ModelArk provider delegates payload and response normalization', 
   assert.match(providerSource, /from '\.\/byteplus-modelark-constants'/);
   assert.match(providerSource, /from '\.\/byteplus-modelark-payload'/);
   assert.match(providerSource, /from '\.\/byteplus-modelark-response'/);
+  assert.match(providerSource, /from '\.\/byteplus-modelark-transport'/);
+  const transportSource = readFileSync('frontend/src/server/video-providers/byteplus-modelark-transport.ts', 'utf8');
+  assert.match(transportSource, /export function resolveBytePlusTransport/);
+  assert.doesNotMatch(transportSource, /fetch\(|getBytePlusModelArkClient|createSeedanceFastTask/);
+  assert.match(readFileSync('frontend/server/byteplus-las-tariff.ts', 'utf8'), /from '@\/server\/video-providers\/byteplus-modelark-transport'/);
   assert.doesNotMatch(providerSource, /function extractVideoUrl/);
   assert.doesNotMatch(providerSource, /function uniqueNonEmptyUrls/);
   assert.doesNotMatch(providerSource, /export function buildBytePlusSeedancePayload/);
@@ -90,7 +114,7 @@ test('BytePlus ModelArk provider delegates payload and response normalization', 
   assert.match(payloadSource, /export function buildBytePlusSeedanceFastPayload/);
   assert.match(responseSource, /export function normalizeBytePlusTask/);
   assert.match(responseSource, /export function scrubBytePlusError/);
-  assert.match(responseSource, /recognizable person/);
+  assert.match(responseSource, /getSeedanceFailureMessage/);
   assert.match(responseSource, /export async function parseJsonResponse/);
 });
 
@@ -267,6 +291,33 @@ test('BytePlus Seedance makes video edit and extension intent explicit without r
   );
 });
 
+test('Seedance 2.5 extension submits an adaptive ratio and explicit extension task type', () => {
+  const base = {
+    prompt: 'Continue the camera move into the next shot.',
+    durationSec: 4,
+    mode: 'extend' as const,
+    referenceVideoUrls: ['https://cdn.maxvideoai.com/source.mp4'],
+    resolution: '480p',
+    ratio: '16:9',
+    allowedResolutions: ['480p'] as const,
+    allowedDurationOptions: [4] as const,
+  };
+
+  const seedance25 = buildBytePlusSeedancePayload({
+    ...base,
+    modelId: 'dreamina-seedance-2-5-260628',
+  });
+  assert.equal(seedance25.ratio, 'adaptive');
+  assert.equal(seedance25.omni_reference_task_type, 'extend');
+
+  const seedance20 = buildBytePlusSeedancePayload({
+    ...base,
+    modelId: 'dreamina-seedance-2-0-260128',
+  });
+  assert.equal(seedance20.ratio, '16:9');
+  assert.equal(seedance20.omni_reference_task_type, undefined);
+});
+
 test('BytePlus Seedance maps provider task-type constraints to safe actionable guidance', () => {
   const providerCode = 'InvalidParameter.TaskTypeConstraint';
   assert.equal(
@@ -275,7 +326,7 @@ test('BytePlus Seedance maps provider task-type constraints to safe actionable g
   );
   assert.equal(
     getBytePlusUserSafeTaskFailureMessage(null, providerCode),
-    'Seedance could not identify the intended video edit or extension. Refer to the source directly as Video 1, then prepare a new quote before retrying.'
+    'Seedance could not apply the selected edit or extension to the source video. Clarify what should change or continue in the source video, then try again.'
   );
 });
 
@@ -700,8 +751,8 @@ test('BytePlus Standard 4k accounting uses 4k dimensions and input-aware officia
   );
   assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-2-0', 'no_video_input', '4k'), 0.004);
   assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-2-0', 'video_input', '4k'), 0.0024);
-  assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-2-0', 'no_video_input', '1080p'), 0.007);
-  assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-2-0-fast', 'no_video_input', '4k'), 0.0056);
+  assert.equal(getBytePlusUnitPriceUsdPer1kTokens('seedance-2-0', 'no_video_input', '1080p'), 0.0077);
+  assert.throws(() => getBytePlusUnitPriceUsdPer1kTokens('seedance-2-0-fast', 'no_video_input', '4k'), /Unsupported/);
 });
 
 test('Seedance 2.5 accounting selects the factual rate class from video input presence', () => {
@@ -812,7 +863,7 @@ test('BytePlus runtime exposes Seedance 2.0 Standard and Fast video source workf
     assert.deepEqual(extensionSourceField?.requiredInModes, ['extend']);
     assert.equal(extensionSourceField?.minCount, 1);
     assert.equal(extensionSourceField?.maxCount, 3);
-    assert.deepEqual(referenceVideoField?.modes, ['ref2v']);
+    assert.deepEqual(referenceVideoField?.modes, ['ref2v', 'v2v']);
   }
 });
 
@@ -830,6 +881,7 @@ test('hidden direct Fast keeps its narrow raw runtime caps by default', () => {
 });
 
 test('Seedance early gating is independent from hidden-engine resolution', () => {
+  assert.equal(requiresBytePlusSeedanceEarlyGate('seedance-1-5-pro'), true);
   assert.equal(requiresBytePlusSeedanceEarlyGate('seedance-2-5'), true);
   assert.equal(requiresBytePlusSeedanceEarlyGate('seedance-2-0-fast-byteplus'), true);
   assert.equal(requiresBytePlusSeedanceEarlyGate('seedance-2-0'), false);

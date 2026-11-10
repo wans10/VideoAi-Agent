@@ -1,10 +1,16 @@
 import type { NormalizedVideoProviderTask, NormalizedVideoProviderUsage } from '@/server/video-providers/types';
 import {
+  SEEDANCE_OUTPUT_AUDIO_BLOCKED,
   SEEDANCE_I2V_RATIO_REJECTED,
   SEEDANCE_INPUT_VIDEO_TOO_SMALL,
   SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED,
   SEEDANCE_TASK_TYPE_CONSTRAINT,
+  SEEDANCE_REFERENCE_IMAGE_BLOCKED,
+  SEEDANCE_REFERENCE_VIDEO_BLOCKED,
+  SEEDANCE_REFERENCE_MEDIA_BLOCKED,
+  SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED,
 } from '@/lib/video-failure-codes';
+import { getSeedanceFailureMessage } from '@/lib/seedance-failure-messages';
 
 export type BytePlusTaskResponse = Record<string, unknown>;
 
@@ -80,11 +86,18 @@ export function normalizeBytePlusTask(task: unknown): NormalizedVideoProviderTas
           ? 'running'
           : 'queued';
 
+  const content = firstRecord(root, ['content', 'result', 'output']);
+  const lastFrameUrl = firstString(content, ['last_frame_url', 'lastFrameUrl'])
+    ?? firstString(root, ['last_frame_url', 'lastFrameUrl']);
+  const format = firstString(root, ['output_format', 'outputFormat']) ?? firstString(content, ['output_format', 'outputFormat']);
+
   return {
     providerJobId,
     status,
     rawStatus,
     videoUrl: extractVideoUrl(root) ?? extractVideoUrl(task),
+    ...(lastFrameUrl ? { lastFrameUrl } : {}),
+    ...(format === 'mov' || format === 'mp4' ? { outputFormat: format } : {}),
     message: extractErrorMessage(root) ?? extractErrorMessage(task),
     errorCode: extractErrorCode(root) ?? extractErrorCode(task),
     usage: extractUsage(root) ?? extractUsage(task),
@@ -117,7 +130,18 @@ const SEEDANCE_TASK_FAILURE_MESSAGE =
 const SEEDANCE_COPYRIGHT_FAILURE_MESSAGE =
   'Seedance stopped this render after it started because its output checks detected possible copyright-restricted content. Change recognizable characters, brands, logos, franchise references, or source media before trying again.';
 const SEEDANCE_TASK_TYPE_FAILURE_MESSAGE =
-  'Seedance could not identify the intended video edit or extension. Refer to the source directly as Video 1, then prepare a new quote before retrying.';
+  'Seedance could not apply the selected edit or extension to the source video. Clarify what should change or continue in the source video, then try again.';
+
+function getReferenceFailureCode(message: string): string | null {
+  const normalized = message.toLowerCase();
+  if (/video total duration.*(?:30\.2|30\b)/i.test(message)) return SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED;
+  if (/real person|private information|private content|recognizable|recognisable|identifiable|sensitive|policy/.test(normalized)) {
+    if (/input video|reference video/.test(normalized)) return SEEDANCE_REFERENCE_VIDEO_BLOCKED;
+    if (/input image|reference image/.test(normalized)) return SEEDANCE_REFERENCE_IMAGE_BLOCKED;
+    return SEEDANCE_REFERENCE_MEDIA_BLOCKED;
+  }
+  return null;
+}
 
 function isBytePlusCopyrightFailure(providerMessage: string, providerErrorCode?: string | null): boolean {
   const normalizedMessage = providerMessage.toLowerCase();
@@ -127,6 +151,10 @@ function isBytePlusCopyrightFailure(providerMessage: string, providerErrorCode?:
     normalizedMessage.includes('copyright restriction') ||
     normalizedCode === 'outputvideosensitivecontentdetected.policyviolation'
   );
+}
+
+function isBytePlusOutputAudioFailure(providerErrorCode?: string | null): boolean {
+  return /^outputaudiosensitivecontentdetected(?:\.|$)/i.test(providerErrorCode?.trim() ?? '');
 }
 
 function isBytePlusVideoPixelFloorFailure(providerMessage: string): boolean {
@@ -153,29 +181,22 @@ function getBytePlusUserSafeFailureMessage(
   providerErrorCode?: string | null
 ): string {
   const normalized = providerMessage.toLowerCase();
+  if (isBytePlusOutputAudioFailure(providerErrorCode)) {
+    return getSeedanceFailureMessage({ failureCode: SEEDANCE_OUTPUT_AUDIO_BLOCKED })!;
+  }
   if (isBytePlusTaskTypeConstraint(providerErrorCode)) {
     return SEEDANCE_TASK_TYPE_FAILURE_MESSAGE;
   }
   if (isBytePlusCopyrightFailure(providerMessage, providerErrorCode)) {
     return SEEDANCE_COPYRIGHT_FAILURE_MESSAGE;
   }
+  const referenceMessage = getSeedanceFailureMessage({ failureCode: getReferenceFailureCode(providerMessage) });
+  if (referenceMessage) return referenceMessage;
   if (isBytePlusVideoPixelFloorFailure(providerMessage)) {
     return 'The source video is too small for Seedance. Use a video with at least 407,696 total pixels and try again.';
   }
   if (isBytePlusInheritedRatioFailure(providerMessage)) {
     return "Seedance follows the start image's aspect ratio automatically. Re-upload the start image and try again.";
-  }
-  if (
-    normalized.includes('real person') ||
-    normalized.includes('private information') ||
-    normalized.includes('private content') ||
-    normalized.includes('recognizable') ||
-    normalized.includes('recognisable') ||
-    normalized.includes('identifiable') ||
-    normalized.includes('sensitive') ||
-    normalized.includes('policy')
-  ) {
-    return 'Seedance blocked a reference image because it may contain a recognizable person or private content. Use a non-identifiable, stylized, or generated reference image and try again.';
   }
   if (
     normalized.includes('quota') ||
@@ -225,12 +246,15 @@ export function getBytePlusTaskFailureCode(
   providerErrorCode?: string | null
 ): string | null {
   const message = providerMessage ?? '';
+  if (isBytePlusOutputAudioFailure(providerErrorCode)) return SEEDANCE_OUTPUT_AUDIO_BLOCKED;
   if (isBytePlusTaskTypeConstraint(providerErrorCode)) {
     return SEEDANCE_TASK_TYPE_CONSTRAINT;
   }
   if (isBytePlusCopyrightFailure(message, providerErrorCode)) {
     return SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED;
   }
+  const referenceCode = getReferenceFailureCode(message);
+  if (referenceCode) return referenceCode;
   if (isBytePlusVideoPixelFloorFailure(message)) {
     return SEEDANCE_INPUT_VIDEO_TOO_SMALL;
   }

@@ -494,7 +494,37 @@ export async function calculateAgentProjectBudget(
           'mode',
         );
       }
+      if (engineId === 'minimax-h3-max' && mode === 'ref2v') {
+        editProjectLine(
+          'REFERENCE_REQUIRED',
+          'MiniMax H3 Max reference pricing requires the actual owned media. Use prepare_generation with asset references for a fixed customer quote.',
+          proposalIndex,
+          lineIndex,
+          'references',
+        );
+      }
+      if ((engineId === 'wan-3' || engineId === 'wan-3-prime')
+        && (mode === 'ref2v' || mode === 'v2v' || mode === 'extend')) {
+        editProjectLine(
+          'REFERENCE_REQUIRED',
+          'Wan reference and source-video pricing requires the actual media to include input video duration. Use prepare_generation with asset references for a fixed customer quote.',
+          proposalIndex,
+          lineIndex,
+          'references',
+        );
+      }
       const settings = normalizeSettings(rawLine.settings, proposalIndex, lineIndex);
+      if ((engineId === 'seedance-2-5' && ['i2v', 'v2v', 'extend'].includes(mode))
+        || (['seedance-2-0', 'seedance-2-0-fast', 'seedance-2-0-mini'].includes(engineId)
+          && ['i2v', 'v2v', 'extend'].includes(mode) && ['auto', 'adaptive'].includes(settings.aspectRatio ?? ''))) {
+        editProjectLine(
+          'REFERENCE_REQUIRED',
+          'Seedance pricing requires verified source framing and video timing. Use prepare_generation with owned asset references for a fixed customer quote.',
+          proposalIndex,
+          lineIndex,
+          'references',
+        );
+      }
       const clipCount = requireLineInteger(
         rawLine.clipCount, 1, MAX_PROJECT_CLIPS_PER_LINE, proposalIndex, lineIndex, 'clipCount',
       );

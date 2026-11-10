@@ -1,6 +1,7 @@
 'use client';
 
 import type { FormEvent } from 'react';
+import type { PendingGeneration } from '@/lib/pending-generations';
 import { WorkspaceCreationHeading } from '../../_components/WorkspaceCreationHeading';
 import type { EngineCaps } from '@/types/engines';
 import type { ImageGenerationMode } from '@/types/image-generation';
@@ -15,6 +16,8 @@ import { ImageCompositePreviewDock, type ImageCompositePreviewEntry } from '@/co
 import { GPT_IMAGE_2_SIZE_CONSTRAINTS } from '@/lib/image/gptImage2';
 import type { ImageWorkspaceCopy } from '../_lib/image-workspace-copy';
 import type { HistoryEntry } from '../_lib/image-workspace-types';
+import type { StarterMedia } from '@/lib/starter-media';
+import { ImageStarterPreview, type ImageStarterNavigation } from './ImageStarterPreview.client';
 
 type ControlOption = {
   value: string | number | boolean;
@@ -23,6 +26,8 @@ type ControlOption = {
 };
 
 interface ImageWorkspaceComposerSurfaceProps {
+  starterPreview?: StarterMedia | null;
+  starterNavigation?: ImageStarterNavigation;
   advancedSettingsTitle: string;
   aspectRatio: string | null;
   aspectRatioSelectOptions: ControlOption[];
@@ -50,7 +55,7 @@ interface ImageWorkspaceComposerSurfaceProps {
   handleRemoveReferenceSlot: (index: number) => void;
   handleRun: (event?: FormEvent<HTMLFormElement> | null) => Promise<void> | void;
   imageCountOptions: ControlOption[];
-  inProgressMessage: string | null;
+  pendingGenerations: readonly PendingGeneration[];
   isInLibrary: boolean;
   isRemovingFromLibrary: boolean;
   isResolutionLocked: boolean;
@@ -117,6 +122,8 @@ interface ImageWorkspaceComposerSurfaceProps {
 }
 
 export function ImageWorkspaceComposerSurface({
+  starterPreview,
+  starterNavigation,
   advancedSettingsTitle,
   aspectRatio,
   aspectRatioSelectOptions,
@@ -144,7 +151,7 @@ export function ImageWorkspaceComposerSurface({
   handleRemoveReferenceSlot,
   handleRun,
   imageCountOptions,
-  inProgressMessage,
+  pendingGenerations,
   isInLibrary,
   isRemovingFromLibrary,
   isResolutionLocked,
@@ -239,7 +246,9 @@ export function ImageWorkspaceComposerSurface({
       {!compositePreviewEntry ? (
         <>
           <section className="app-model-strip app-image-model-strip">{engineSettings}</section>
-          <WorkspaceEmptyPreview media="image" />
+          {starterPreview && starterNavigation
+            ? <ImageStarterPreview item={starterPreview} navigation={starterNavigation} />
+            : <WorkspaceEmptyPreview media="image" />}
         </>
       ) : (
         <ImageCompositePreviewDock
@@ -263,15 +272,7 @@ export function ImageWorkspaceComposerSurface({
       )}
 
       <form onSubmit={handleRun} className="app-image-composer space-y-4">
-        {inProgressMessage ? (
-          <p
-            role="status"
-            aria-live="polite"
-            className="rounded-card border border-success-border bg-success-bg px-3 py-2 text-sm text-success"
-          >
-            {inProgressMessage}
-          </p>
-        ) : statusMessage ? (
+        {statusMessage ? (
           <p
             role="status"
             aria-live="polite"
@@ -290,6 +291,7 @@ export function ImageWorkspaceComposerSurface({
           price={estimatedCostAmount}
           currency={currency}
           isLoading={false}
+          pendingGenerations={pendingGenerations}
           error={composerError ?? undefined}
           promptField={{
             id: 'prompt',

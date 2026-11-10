@@ -1,11 +1,10 @@
 import { getMcpPublicIntegrationIds, getMcpIntegration } from '@/lib/mcp-integration-registry';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import mcpPublication from '@/config/mcp-publication.json';
-import { getModelFamilyDefinition } from '@/config/model-families';
+import { getExampleNavFamilyIds, getModelFamilyDefinition } from '@/config/model-families';
 import { listRuntimeModels, type RuntimeModelEntry } from '@/config/model-runtime';
 import { orderExamplesHubFamilyIds } from '@/lib/examples/familyOrder';
-import { buildPublishedComparisonSlugsFromModels } from '@/lib/compare-hub/data';
-import { getExampleNavFamilyIds } from '@/lib/model-families';
+import { createPublishedComparisonSlugLookup } from '@/lib/compare-hub/pairs';
 import { getMcpPublicationState } from '@/lib/mcp-publication';
 
 export type MarketingNavItem = {
@@ -36,11 +35,12 @@ export type MarketingNavDropdown = {
   allHref: LocalizedLinkHref;
   allLabelKey: string;
   allLabelFallback: string;
+  allLinkInItems?: boolean;
   intro?: string;
   heading?: string;
 };
 
-export type MarketingTopNavKey = 'models' | 'examples' | 'tools' | 'compare' | 'pricing' | 'blog' | 'connect';
+export type MarketingTopNavKey = 'models' | 'examples' | 'tools' | 'compare' | 'pricing' | 'blog' | 'connect' | 'studio';
 
 export type MarketingTopNavLink = {
   key: MarketingTopNavKey;
@@ -57,6 +57,7 @@ export const MARKETING_TOP_NAV_LINKS = [
 ] as const satisfies readonly MarketingTopNavLink[];
 
 export const MARKETING_SITE_NAV_LINKS: readonly MarketingTopNavLink[] = [
+  { key: 'studio', href: '/studio' },
   ...MARKETING_TOP_NAV_LINKS.filter((item) => item.key !== 'blog' && item.key !== 'pricing'),
   { key: 'connect', href: '/mcp' },
   { key: 'pricing', href: '/pricing' },
@@ -129,7 +130,7 @@ export function buildMarketingModelMenu(models: readonly RuntimeModelEntry[]): L
   return MODEL_MENU_CANDIDATES
     .filter(({ slug }) => {
       const model = bySlug.get(slug);
-      if (!model?.publication.model.published || model.lifecycle === 'retired') return false;
+      if (!model?.publication.model.published || model.lifecycle === 'retired' || model.lifecycle === 'deep_legacy') return false;
       if (model.lifecycle !== 'legacy' || !model.successorId) return true;
       return byId.get(model.successorId)?.publication.model.published !== true;
     })
@@ -207,9 +208,9 @@ export const MARKETING_FOOTER_EXAMPLES: MarketingNavItem[] = FOOTER_EXAMPLES_MEN
 }));
 
 export function buildMarketingCompareMenu(models: readonly RuntimeModelEntry[]): LabeledSlug[] {
-  const publishedSlugs = new Set(buildPublishedComparisonSlugsFromModels(models, () => true));
+  const isPublishedComparisonSlug = createPublishedComparisonSlugLookup(models);
   return COMPARE_MENU
-    .filter(({ slug }) => publishedSlugs.has(slug))
+    .filter(({ slug }) => isPublishedComparisonSlug(slug))
     .slice(0, 10);
 }
 
@@ -308,7 +309,7 @@ export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdow
     sections: [MARKETING_MODELS_USE_CASE_SECTION, {
       key: 'moreModels', titleKey: 'nav.dropdown.moreModels', titleFallback: 'More creative possibilities',
       items: ['gpt-image-2-5-flare', 'flux-3', 'gemini-omni-flash'].flatMap(slug => {
-        const model = listRuntimeModels().find(item => item.slug === slug && item.publication.model.published && item.lifecycle !== 'retired');
+        const model = listRuntimeModels().find(item => item.slug === slug && item.publication.model.published && item.lifecycle !== 'retired' && item.lifecycle !== 'deep_legacy');
         if (!model) return [];
         return [{key: slug, label: slug === 'gpt-image-2-5-flare' ? 'GPT Image 2.5 Flare' : slug === 'flux-3' ? 'FLUX 3' : 'Gemini Omni Flash 1.1', href: modelLink(slug), icon: slug === 'gpt-image-2-5-flare' ? 'image' as const : 'cinema' as const}];
       }),
@@ -318,7 +319,8 @@ export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdow
     allLabelFallback: 'All models',
   },
   examples: {
-    items: MARKETING_NAV_EXAMPLES,
+    items: [{ key: 'all-examples', label: 'All examples', href: { pathname: '/examples' }, icon: 'cinema', description: 'Videos and prompts from every model.' }, ...MARKETING_NAV_EXAMPLES],
+    allLinkInItems: true,
     heading: 'Watch before you choose.',
     intro: 'Real videos, prompts and model details.',
     sections: [{ key: 'moreExamples', titleKey: 'nav.dropdown.moreExamples', titleFallback: 'More to explore', items: OTHER_EXAMPLES.map(item => ({key:item.slug,label:item.label,href:exampleLink(item.slug),brandId:['sora', 'flux'].includes(item.slug) ? undefined : item.brandId,...(['sora', 'flux'].includes(item.slug) ? {icon:'cinema' as const} : {})})) }],

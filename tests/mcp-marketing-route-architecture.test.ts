@@ -1,3 +1,4 @@
+import './helpers/server-view-styles';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -558,6 +559,6 @@ test('the ChatGPT setup renders its machine compatibility state discreetly', asy
 
   assert.match(html, />not-run</);
   assert.match(html, /Developer.*MCP|MCP.*developer/is);
-  assert.match(html, /not submitted.*OpenAI directory|OpenAI directory non-submission/is);
+  assert.match(html, /direct connection does not require a public directory listing/i);
   assert.doesNotMatch(html, /public listing.*approval|OpenAI approval.*public listing/is);
 });

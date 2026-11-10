@@ -1,3 +1,4 @@
+import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
 import { randomUUID } from 'crypto';
 import type { NextRequest } from 'next/server';
 import { isDatabaseConfigured } from '@/lib/db';
@@ -47,6 +48,7 @@ import {
 import { resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
 import { validateRuntimeRequestSettings } from './runtime-schema-options';
 import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
+import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
 
 export type GenerateRouteContext = {
   engine: EngineCaps;
@@ -86,8 +88,12 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
   jobId: string;
   mode: Mode;
   providerEnv?: VideoProviderRoutingEnv;
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
 }): GenerateRouteContextResult {
   const { body, engine, jobId, mode, providerEnv } = params;
+  if (isArchivedGenerationModel(engine.id)) {
+    return { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } };
+  }
   if (isMinimaxH3MaxEngineId(engine.id) && !isMinimaxH3MaxRuntimeModeAvailable(mode)) {
     return { ok: false, status: 503, body: { ok: false, error: 'Engine unavailable' } };
   }
@@ -104,7 +110,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
       }
       assertBytePlusSeedanceSubmissionEnabled(engine.id);
       resolveBytePlusSeedanceModelId(engine.id, getBytePlusArkConfig());
-      assertBytePlusTransportConfigured(engine.id, mode);
+      assertBytePlusTransportConfigured(engine.id, params.seedanceWorkflow && engine.id === 'seedance-2-5' ? 't2v' : mode);
     }
   } catch (error) {
     if (error instanceof BytePlusModelArkError) {
@@ -160,6 +166,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
 }
 
 export async function resolveGenerateRouteContext(params: {
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
   boundaryOverrides?: Partial<GenerateRouteContextBoundaries>;
   body: Record<string, unknown>;
   req: NextRequest;
@@ -170,6 +177,9 @@ export async function resolveGenerateRouteContext(params: {
     ...params.boundaryOverrides,
   };
   const requestedEngineId = String(body.engineId || '');
+  if (isArchivedGenerationModel(requestedEngineId)) {
+    return { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } };
+  }
   let launchCanaryContext: LaunchCanaryRequestContext | null = null;
   if (isPrivateRuntimeEngineId(requestedEngineId)) {
     launchCanaryContext = await boundaries.resolveLaunchCanaryRequestContext(req);
@@ -321,7 +331,7 @@ export async function resolveGenerateRouteContext(params: {
 
   if (isBytePlusV1a) {
     try {
-      assertBytePlusTransportConfigured(engine.id, mode);
+      assertBytePlusTransportConfigured(engine.id, params.seedanceWorkflow && engine.id === 'seedance-2-5' ? 't2v' : mode);
     } catch (error) {
       if (error instanceof BytePlusModelArkError) {
         return {
@@ -336,6 +346,13 @@ export async function resolveGenerateRouteContext(params: {
       }
       throw error;
     }
+  }
+
+  if (engine.id === 'seedance-2-5' && mode === 'v2v'
+    && body.payment && typeof body.payment === 'object'
+    && 'mode' in body.payment && body.payment.mode !== undefined && body.payment.mode !== 'wallet') {
+    return { ok: false, status: 400, body: { ok: false, error: 'BYTEPLUS_LAS_WALLET_REQUIRED',
+      message: 'Edit requires wallet payment.' } };
   }
 
   if (!boundaries.isDatabaseConfigured()) {

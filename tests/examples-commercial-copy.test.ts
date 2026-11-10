@@ -48,13 +48,16 @@ const sample = {
 } as Parameters<typeof buildWatchAnchorText>[1];
 
 test('gallery affordance and accessible watch names describe settings and price', () => {
-  assert.equal(getExamplesGalleryUiCopy('en').detailsCta, 'View settings & price');
-  assert.equal(getExamplesGalleryUiCopy('fr').detailsCta, 'Voir réglages et prix');
-  assert.equal(getExamplesGalleryUiCopy('es').detailsCta, 'Ver ajustes y precio');
+  assert.equal(getExamplesGalleryUiCopy('en').detailsCta, 'View prompt, settings & price');
+  assert.equal(getExamplesGalleryUiCopy('fr').detailsCta, 'Voir prompt, réglages et prix');
+  assert.equal(getExamplesGalleryUiCopy('es').detailsCta, 'Ver prompt, ajustes y precio');
 
-  assert.match(buildWatchAnchorText('en', sample), /View settings and price for/);
-  assert.match(buildWatchAnchorText('fr', sample), /Voir les réglages et le prix de/);
-  assert.match(buildWatchAnchorText('es', sample), /Ver los ajustes y el precio de/);
+  assert.match(buildWatchAnchorText('en', sample), /View prompt, settings and price for/);
+  assert.match(buildWatchAnchorText('fr', sample), /Voir le prompt, les réglages et le prix de/);
+  assert.match(buildWatchAnchorText('es', sample), /Ver el prompt, los ajustes y el precio de/);
+  for (const locale of ['en', 'fr', 'es']) {
+    assert.match(buildWatchAnchorText(locale, { ...sample, sourcePromptExcerpt: 'The original public scene direction', prompt: 'Localized model caption' }), /The original public scene direction/);
+  }
 
   assert.match(cardSource, /aria-label=\{watchAnchorText\}/);
   assert.match(cardSource, /detailsCtaLabel/);
@@ -67,18 +70,18 @@ test('gallery affordance and accessible watch names describe settings and price'
   assert.doesNotMatch(cardSource, /recreateHref|recreateLabel|showRecreateLink/);
 });
 
-test('localized Examples copy sends visitors to the detail page for recorded cost', () => {
+test('localized Examples copy sends visitors to the detail page for current model prices', () => {
   for (const locale of ['en', 'fr', 'es'] as const) {
     const description = getExamplesLongDescription(locale);
     const mainVideo = getExamplesMainVideoCopy(locale);
     const faq = getHubExamplesFaq(locale);
-    assert.match(description, /recorded (?:render )?cost|coût enregistré|coût du rendu|cost[eo] registrado|cost[eo] del render/i);
+    assert.match(description, /current model price|tarif actuel du modèle|precio actual del modelo/i);
     assert.match(mainVideo.openExample, /settings|réglages|ajustes/i);
     assert.match(faq.items[2]?.answer ?? '', /open|ouvrez|abre/i);
   }
 });
 
-test('Examples source no longer claims gallery cards display price per clip', () => {
+test('Examples source does not promise a price for every clip when quotes may be unavailable', () => {
   const falseClaim =
     /(?:visible\s+)?per[-\s]+clip\s+(?:price|prices|pricing)|(?:price|prices|pricing)\s+(?:shown\s+)?per[-\s]+clip|prix\s+par\s+clip|precios?\s+por\s+clip/i;
   for (const unsupportedClaim of [
@@ -103,4 +106,11 @@ test('Examples source no longer claims gallery cards display price per clip', ()
     assert.doesNotMatch(messages.gallery.meta.description, falseClaim);
     assert.doesNotMatch(messages.gallery.meta.description_engine, falseClaim);
   }
+});
+
+test('localized family guidance describes current estimates instead of stored render costs', () => {
+  assert.doesNotMatch(modelLandingSources, /recorded (?:render )?costs?|coûts? enregistrés?|cost(?:e|o)s? registrados?|conserve le coût de l.exemple|conserva el costo del ejemplo/i);
+  assert.match(modelLandingSources, /current price estimate/i);
+  assert.match(modelLandingSources, /tarif actuel estimé/i);
+  assert.match(modelLandingSources, /precio actual estimado/i);
 });

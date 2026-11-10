@@ -1,3 +1,4 @@
+import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
 import { getPlatformFeeCents } from '@maxvideoai/pricing';
 
 import {
@@ -13,6 +14,7 @@ import {
 } from '@/server/images/image-initial-job';
 import type { TrustedQuotedBilling } from '@/server/generations/initial-job-reservation';
 import { paidProviderSubmissionDependencies } from '@/server/generations/paid-provider-execution';
+import { resolveTrustedPaidGenerateRouteContext } from '@/app/api/generate/_lib/route-context';
 import type { VideoProviderRoutingEnv } from '@/server/video-providers/router';
 
 import {
@@ -39,6 +41,7 @@ export type {
 } from './included-trial-generation-execution';
 
 export type PaidGenerationExecution = {
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
   surface: 'video' | 'image';
   quoteId: string;
   userId: string;
@@ -72,6 +75,7 @@ export type PaidVideoContinuationOptions = {
   trustedQuotedBilling: TrustedQuotedBilling;
   trustedResolvedReferences: readonly ResolvedReference[];
   providerEnv?: VideoProviderRoutingEnv;
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
 };
 
 export type PaidGenerationSubmissionOptions = {
@@ -99,10 +103,16 @@ export type PaidImageExecutionResponse = {
   paymentStatus?: string;
 };
 
+export type PaidGenerationRejection = {
+  code: string | null;
+  message: string | null;
+  status: number | null;
+};
+
 export type PaidGenerationSubmissionDependencies = {
   executeVideo(options: PaidVideoContinuationOptions | IncludedTrialVideoContinuationOptions): Promise<PaidVideoExecutionResponse>;
   executeImage(options: PaidImageContinuationOptions): Promise<PaidImageExecutionResponse>;
-  ensureKnownRejectionRefund?(execution: PaidGenerationExecution): Promise<boolean>;
+  ensureKnownRejectionRefund?(execution: PaidGenerationExecution, failure?: PaidGenerationRejection): Promise<boolean>;
 };
 
 export type ReservePaidGenerationInput = {
@@ -110,6 +120,7 @@ export type ReservePaidGenerationInput = {
   candidate: AgentPublicGenerationEngine;
   pricingSnapshot: Record<string, unknown>;
   resolvedReferences?: ResolvedReference[];
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
 };
 
 type ReservePaidGenerationDependencies = {
@@ -174,7 +185,17 @@ function videoInitialParams(
   const fee = platformFee(pricing);
   const vendorAccountId = vendorAccount(pricing);
   const pricingJson = JSON.stringify(pricing);
+  let provider = quote.request.seedanceWorkflow ? 'byteplus_modelark' : candidate.engine.provider;
+  if (quote.request.engineId === 'seedance-2-5' && quote.request.mode === 'v2v' && !quote.request.seedanceWorkflow) {
+    const context = resolveTrustedPaidGenerateRouteContext({
+      body: { ...quote.request.settings, payment: { mode: 'wallet' } },
+      engine: candidate.engine, jobId: quote.quoteId, mode: 'v2v',
+    });
+    if (!context.ok) throw new Error('The LAS generation reservation is unavailable.');
+    provider = context.context.providerKey;
+  }
   return {
+    seedanceFinal: input.seedanceWorkflow?.seedanceFinal,
     jobId: quote.quoteId,
     userId: quote.userId,
     paymentMode: 'wallet',
@@ -184,7 +205,7 @@ function videoInitialParams(
       userId: quote.userId,
       amountCents: quote.priceCents,
       currency: quote.currency,
-      description: `MCP ${candidate.engine.label} - ${durationSec}s`,
+      description: `${quote.authOrigin === 'studio-session' ? 'Studio' : 'MCP'} ${candidate.engine.label} - ${durationSec}s`,
       jobId: quote.quoteId,
       snapshot: pricing,
       applicationFeeCents: fee,
@@ -209,14 +230,14 @@ function videoInitialParams(
       batchId: null,
       groupId: null,
       iterationIndex: null,
-      iterationCount: null,
+      iterationCount: quote.request.seedanceWorkflow ? 1 : null,
       renderIdsJson: null,
       heroRenderId: null,
       localKey: null,
       message: null,
       etaSeconds: null,
       etaLabel: null,
-      provider: candidate.engine.provider,
+      provider,
       finalPriceCents: quote.priceCents,
       pricingSnapshotJson: pricingJson,
       costBreakdownJson: null,
@@ -245,7 +266,7 @@ function imageInitialParams(
     jobId: quote.quoteId,
     surface: 'image',
     billingProductKey: null,
-    description: `MCP ${candidate.engine.label} image generation`,
+    description: `${quote.authOrigin === 'studio-session' ? 'Studio' : 'MCP'} ${candidate.engine.label} image generation`,
     amountCents: quote.priceCents,
     currency: quote.currency,
     pricingSnapshotJson: JSON.stringify(pricing),
@@ -291,6 +312,7 @@ export async function reservePaidGenerationInitialJob(
         quoteId: input.quote.quoteId,
         userId: input.quote.userId,
         request: input.quote.request,
+        seedanceWorkflow: input.seedanceWorkflow,
         resolvedReferences: input.resolvedReferences ?? [],
         engine: input.candidate.engine,
         canonicalPricing: pricing,
@@ -394,9 +416,10 @@ async function rejectedOutcome(
   execution: PaidGenerationExecution,
   dependencies: PaidGenerationSubmissionDependencies,
   hasRefundMarker: boolean,
+  failure: PaidGenerationRejection,
 ): Promise<PaidGenerationProviderOutcome> {
   if (dependencies.ensureKnownRejectionRefund) {
-    return await dependencies.ensureKnownRejectionRefund(execution)
+    return await dependencies.ensureKnownRejectionRefund(execution, failure)
       ? { kind: 'rejected', refunded: true }
       : { kind: 'ambiguous', retryable: true };
   }
@@ -429,12 +452,17 @@ export async function submitReservedPaidGeneration(
         preReservedInitialState: execution.trustedInitialState,
         trustedQuotedBilling,
         trustedResolvedReferences: execution.resolvedReferences ?? [],
+        seedanceWorkflow: execution.seedanceWorkflow,
         providerEnv: submissionOptions.providerEnv,
       });
       if (result.body.ok === true) {
         const hasRefundMarker = refunded(result.body);
         if (result.body.status === 'failed' || hasRefundMarker) {
-          return rejectedOutcome(execution, dependencies, hasRefundMarker);
+          return rejectedOutcome(execution, dependencies, hasRefundMarker, {
+            code: typeof result.body.error === 'string' ? result.body.error : null,
+            message: typeof result.body.message === 'string' ? result.body.message : null,
+            status: result.status ?? null,
+          });
         }
         return typeof result.body.videoUrl === 'string'
           ? { kind: 'completed' }
@@ -442,7 +470,11 @@ export async function submitReservedPaidGeneration(
       }
       const hasRefundMarker = refunded(result.body);
       if (hasRefundMarker || (typeof result.status === 'number' && result.status >= 400 && result.status < 500)) {
-        return rejectedOutcome(execution, dependencies, hasRefundMarker);
+        return rejectedOutcome(execution, dependencies, hasRefundMarker, {
+          code: typeof result.body.error === 'string' ? result.body.error : null,
+          message: typeof result.body.message === 'string' ? result.body.message : null,
+          status: result.status ?? null,
+        });
       }
       return { kind: 'ambiguous', retryable: true };
     }
@@ -461,9 +493,14 @@ export async function submitReservedPaidGeneration(
       jobSurface: 'image',
       billingProductKey: null,
     });
-    if (result.ok) return { kind: 'completed' };
+    if (result.ok) {
+      if (refunded(result)) {
+        return rejectedOutcome(execution, dependencies, true, { code: null, message: null, status: null });
+      }
+      return { kind: 'completed' };
+    }
     return refunded(result)
-      ? rejectedOutcome(execution, dependencies, true)
+      ? rejectedOutcome(execution, dependencies, true, { code: null, message: null, status: null })
       : { kind: 'ambiguous', retryable: true };
   } catch (error) {
     const extras = error && typeof error === 'object' && 'extras' in error
@@ -477,7 +514,11 @@ export async function submitReservedPaidGeneration(
       : '';
     const hasRefundMarker = refunded(extras);
     if (hasRefundMarker || (Number.isFinite(status) && status >= 400 && status < 500 && code !== 'provider_outcome_ambiguous')) {
-      return rejectedOutcome(execution, dependencies, hasRefundMarker);
+      return rejectedOutcome(execution, dependencies, hasRefundMarker, {
+        code: code || null,
+        message: error instanceof Error ? error.message : null,
+        status: Number.isFinite(status) ? status : null,
+      });
     }
     return { kind: 'ambiguous', retryable: true };
   }

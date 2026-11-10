@@ -3,6 +3,7 @@ import {
   quoteCanonicalPricing,
   type PricingCompatibilityProfile,
   type PricingSnapshot,
+  type ManualTariffSelector,
 } from '@maxvideoai/pricing';
 import { getPricingDetails } from '@/lib/fal-catalog';
 import { buildAudioPricingPresentation, type AudioPricingInput } from '@/lib/audio-generation';
@@ -11,6 +12,7 @@ import { buildBillingPricingFacts } from '@/lib/pricing-billing-facts';
 import { isGptImage25EngineId } from '@/lib/image/gptImage2';
 import { getVersionedPricingPolicy, resolveLiveAudioPricingProfile } from '@/lib/pricing-policy-defaults';
 import type { PricingContext } from '@/lib/pricing-context';
+import type { QueryExecutor } from '@/lib/db';
 import {
   buildStoryboardPricingProjection,
   STORYBOARD_BILLING_ENGINE_ID,
@@ -22,12 +24,25 @@ import {
   resolveServerBillingPolicy,
   type ResolveServerPricingPolicyDependencies,
 } from './resolve-pricing-policy';
+import {
+  customerTariffsEnabledByCode,
+  loadCustomerTariffQuoteState,
+  type EffectiveCustomerTariffState,
+} from './customer-tariff-store';
+import { resolveCustomerTariffQuote } from './resolve-customer-tariff';
+import { buildManualTariffScenario } from '@/lib/pricing-manual-scenario';
+import { assertSeedanceWorkflowPricing } from '@/lib/seedance-workflow-pricing';
+import { CustomerTariffUnavailableError } from './resolve-customer-tariff';
+import { isSeedance25LasInputPricing, isSeedance25EditInputPricing } from '@/server/byteplus-las-tariff';
+import { normalizeSeedancePricingContext, seedanceAutomaticDurationBounds, isSeedanceAdaptiveAspect,
+  SEEDANCE_REVIEWED_PRICING_ASPECTS, seedanceAutomaticPricingMetadata } from '@/lib/seedance-option-pricing';
 
 /** Finishing tools supply vendor facts; the canonical kernel owns all customer rounding and margins. */
-export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: string; quality: string; vendorBudgetUsd: number; durationSec: number; profileId: string; pricingSource: string }): Promise<PricingSnapshot> {
+export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: string; quality: string; vendorBudgetUsd: number; durationSec: number; profileId: string; pricingSource: string },
+  dependencies: { pricingPolicy?: ResolveServerPricingPolicyDependencies } = {}): Promise<PricingSnapshot> {
   if (!Number.isFinite(input.vendorBudgetUsd) || input.vendorBudgetUsd <= 0) throw new Error('Invalid tool vendor budget.');
   const engineId = 'toolbox-finishing';
-  const { policy, vendorAccountId } = await resolveServerBillingPolicy({ engineId, mode: `${input.toolId}:${input.quality}`, resolution: 'video' });
+  const { policy, vendorAccountId } = await resolveServerBillingPolicy({ engineId, mode: `${input.toolId}:${input.quality}`, resolution: 'video' }, undefined, dependencies.pricingPolicy);
   // A database-wide legacy default must not silently replace this product's policy.
   if (policy.rule.engineId !== engineId) throw new Error('TOOL_PRICING_UNAVAILABLE');
   if (policy.rule.currency !== 'USD') throw new Error('Tool pricing currency is unsupported.');
@@ -47,8 +62,30 @@ export async function computeCanonicalBillingSnapshot(
   dependencies: {
     pricingPolicy?: ResolveServerPricingPolicyDependencies;
     membershipDiscounts?: Record<string, number>;
+    loadCustomerTariffState?: () => Promise<EffectiveCustomerTariffState>;
+    /** Public concurrent quotes can share selected reads within one response. */
+    loadCustomerTariffQuoteState?: (selector: ManualTariffSelector) => Promise<EffectiveCustomerTariffState>;
+    /** Operational cutover validates through the same selector reader before commit. */
+    customerTariffExecutor?: QueryExecutor;
   } = {}
 ): Promise<PricingSnapshot> {
+  const requestedContext = context;
+  context = normalizeSeedancePricingContext(context);
+  if (seedanceAutomaticDurationBounds(context.engine.id) && isSeedanceAdaptiveAspect(context.aspectRatio)) {
+    const snapshots = await Promise.all(SEEDANCE_REVIEWED_PRICING_ASPECTS.map(aspectRatio =>
+      computeCanonicalBillingSnapshot({ ...context, aspectRatio }, dependencies)));
+    const first = snapshots[0]!;
+    if (snapshots.some(snapshot => snapshot.currency !== first.currency
+      || snapshot.meta?.customerTariffRevision !== first.meta?.customerTariffRevision)) {
+      throw new CustomerTariffUnavailableError('Adaptive pricing changed during quotation; refresh the quote.');
+    }
+    const highest = snapshots.reduce((selected, snapshot) => snapshot.totalCents > selected.totalCents ? snapshot : selected);
+    const providerCostBoundUsd = Math.max(...snapshots.map(snapshot => Number(snapshot.meta?.providerCostListUsd) || 0));
+    return { ...highest, meta: { ...highest.meta, ...(providerCostBoundUsd > 0 ? { providerCostAdaptiveUpperBoundUsd: providerCostBoundUsd } : {}),
+      seedanceAutomaticPricing: seedanceAutomaticPricingMetadata(requestedContext,
+      { ...context, aspectRatio: highest.meta?.billed_aspect_ratio as string }, 'highest_current_tariff') } };
+  }
+  assertSeedanceWorkflowPricing(context);
   const pricingDetails = context.engine.pricingDetails ?? (await getPricingDetails(context.engine.id));
   const { policy, vendorAccountId } = await resolveServerBillingPolicy(
     {
@@ -64,6 +101,47 @@ export async function computeCanonicalBillingSnapshot(
   const memberTierDiscounts = LIVE_MEMBERSHIP_DISCOUNTS;
 
   const billingFacts = buildBillingPricingFacts(context, pricingDetails, currency);
+  const requiresLasTariff = !context.workflowStep && isSeedance25LasInputPricing(context.engine.id, context.mode);
+  const requiresEditTariff = !context.workflowStep && isSeedance25EditInputPricing(context.engine.id, context.mode);
+  if (requiresEditTariff || context.workflowStep || dependencies.loadCustomerTariffState || dependencies.loadCustomerTariffQuoteState || customerTariffsEnabledByCode()) {
+    const selector = buildManualTariffScenario(context, billingFacts.facts).selector;
+    const tariffState = await (dependencies.loadCustomerTariffState
+      ? dependencies.loadCustomerTariffState()
+      : dependencies.loadCustomerTariffQuoteState
+        ? dependencies.loadCustomerTariffQuoteState(selector)
+        : loadCustomerTariffQuoteState(selector, dependencies.customerTariffExecutor));
+    const manual = resolveCustomerTariffQuote({ context, facts: billingFacts.facts,
+      at: new Date().toISOString(), state: tariffState });
+    if (manual) {
+      return projectCanonicalQuoteToSnapshot({
+        quote: manual.quote,
+        base: manual.supplierCost ? { ...billingFacts.base, rate: manual.supplierCost.amountUsd / billingFacts.base.seconds,
+          amountCents: manual.quote.breakdown.vendorSubtotalExactCents } : billingFacts.base,
+        // This all-in factual estimate includes image references; legacy addons must not be counted again.
+        addons: manual.supplierCost ? [] : billingFacts.addons,
+        vendorAccountId,
+        meta: {
+          ...billingFacts.meta,
+          ...(seedanceAutomaticPricingMetadata(requestedContext, context) ? {
+            seedanceAutomaticPricing: seedanceAutomaticPricingMetadata(requestedContext, context) } : {}),
+          ...(context.seedanceEditSource ? { seedanceEditSource: context.seedanceEditSource,
+            output_duration_sec: context.seedanceEditSource.durationSec } : {}),
+          ...(context.workflowStep ? { workflowStep: context.workflowStep } : {}),
+          ...(manual.supplierCost ? { providerCostKind: manual.supplierCost.kind,
+            providerCostSource: manual.supplierCost.source, providerCostSourceUrl: manual.supplierCost.sourceUrl,
+            providerCostCheckedAt: manual.supplierCost.checkedAt, providerCostListUsd: manual.supplierCost.listAmountUsd,
+            providerCostContract: manual.supplierCost.contract, providerCostUsage: manual.supplierCost.usage } : {}),
+          pricingMode: 'manual_tariff',
+          customerTariffRevision: manual.revision,
+          customerTariffCellId: manual.quote.manualTariff.cellId,
+          engineLabel: context.engine.label,
+          engineVersion: context.engine.version,
+        },
+      });
+    }
+  }
+  if (requiresEditTariff) throw new CustomerTariffUnavailableError(`An active reviewed ${requiresLasTariff ? 'LAS' : 'ModelArk'} Edit customer tariff is required.`);
+  if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.');
   const policyDocument = getVersionedPricingPolicy();
   const profileId = policy.rule.compatibilityProfile ?? billingFacts.compatibilityProfileId;
   const compatibilityProfile: PricingCompatibilityProfile | undefined = policyDocument.compatibilityProfiles.find(
@@ -115,6 +193,8 @@ export async function computeCanonicalBillingSnapshot(
     vendorAccountId,
     meta: {
       ...billingFacts.meta,
+      ...(seedanceAutomaticPricingMetadata(requestedContext, context) ? {
+        seedanceAutomaticPricing: seedanceAutomaticPricingMetadata(requestedContext, context) } : {}),
       ruleId: policy.sourceRuleId,
       engineLabel: context.engine.label,
       engineVersion: context.engine.version,

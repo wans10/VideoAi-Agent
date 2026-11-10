@@ -24,7 +24,7 @@ import {
 import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-messages';
 import { createProviderJobTracker } from './provider-job-tracker';
 import { rollbackPendingPayment } from './payment-rollback';
-import { submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
+import { isDeferredFalSubmission, submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 
@@ -227,6 +227,7 @@ function falProviderJobIdFromResult(result: FalGenerateSubmissionResult, getLast
 }
 
 async function submitFalFromLumaAgents(params: {
+  userId: string;
   attemptIndex: number | null;
   fallbackFromAttemptId: number | null;
   fallbackReason?: string | null;
@@ -282,6 +283,7 @@ async function submitFalFromLumaAgents(params: {
     queryFn: params.queryFn,
   });
   const falSubmission = await params.submitFalGenerateTaskFn({
+    userId: params.userId,
     falPayload: params.falPayload,
     jobId: params.jobId,
     engineId: params.engineId,
@@ -308,6 +310,7 @@ async function submitFalFromLumaAgents(params: {
     });
   }
   if (!falSubmission.ok) {
+    if (isDeferredFalSubmission(falSubmission)) return falSubmission;
     if (falAttempt) {
       await markProviderAttemptFailed({
         attemptId: falAttempt.id,
@@ -399,6 +402,7 @@ export async function submitLumaAgentsGenerateTask(params: {
       reason: support.reason,
     });
     return submitFalFromLumaAgents({
+      userId: params.userId,
       attemptIndex: null,
       fallbackFromAttemptId: null,
       fallbackReason: support.reason,
@@ -590,6 +594,7 @@ export async function submitLumaAgentsGenerateTask(params: {
     }
 
     return submitFalFromLumaAgents({
+      userId: params.userId,
       attemptIndex: 2,
       fallbackFromAttemptId: lumaAttempt.id,
       fallbackReason: normalized.errorClass,

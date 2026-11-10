@@ -10,11 +10,13 @@ import {
   selectCurrentModelCatalogSlugs,
 } from '@/lib/models/catalog';
 import { computeMarketingPriceRange } from '@/lib/pricing-marketing';
+import { formatPricePerUnit } from '@/lib/pricing-unit-display';
 import type { ModelGalleryCard, ModelsGalleryCopy } from '@/components/marketing/ModelsGallery';
 
 import {
   buildDefaultModelCompareHref,
   buildModelExamplesHref,
+  type ModelsCatalogHeroCard,
 } from './models-catalog-decision-data';
 import {
   DEFAULT_CAPABILITY_KEYWORDS,
@@ -37,7 +39,6 @@ import {
   getCatalogBySlug,
   getEngineDisplayName,
   getEngineTypeKey,
-  getMinPricePerSecond,
   getPrelaunchPricingLabel,
   getPrelaunchPricingNote,
   loadEngineKeySpecs,
@@ -75,7 +76,7 @@ const DECISION_DESCRIPTION_OVERRIDES: Record<string, string> = {
   'gpt-image-2-5-flare': 'Best for fast high-quality stills, readable text, product work, and everyday edits.',
   'gpt-image-2-5-sunburst': 'Best for maximum detail, precision edits, typography, and premium campaign finals.',
   seedream: 'Best for clean reference images, product visuals, and Seedance-ready stills.',
-  'seedream-5-0-pro': 'Best for professional stills, dense infographics, and 4K campaign-ready images.',
+  'seedream-5-0-pro': 'Best for professional stills, dense infographics, and 2K campaign-ready images.',
   'nano-banana-lite': 'Best for fast 1K image drafts, social visuals, and local reference edits.',
   'nano-banana-2': 'Best for grounded stills, wide-format edits, and image references for video workflows.',
   'nano-banana-pro': 'Best for campaign stills, typography-focused edits, and polished product visuals.',
@@ -117,7 +118,7 @@ function listPublishedModelsByScope(scope: ModelsPageScope): FalEngineEntry[] {
   return currentEngines.filter((entry) => isModelInScope(entry, scope));
 }
 
-export async function buildModelsCatalogCards({
+export async function prepareModelsCatalogCards({
   activeLocale,
   engineMetaCopy,
   engineTypeLabelOverrides,
@@ -129,7 +130,7 @@ export async function buildModelsCatalogCards({
   engineTypeLabelOverrides?: Record<string, string>;
   galleryCopy: ModelsCatalogGalleryCopy;
   scope: ModelsPageScope;
-}): Promise<ModelGalleryCard[]> {
+}): Promise<{ heroCards: ModelsCatalogHeroCard[]; cards: Promise<ModelGalleryCard[]> }> {
   const engineTypeLabels = {
     ...DEFAULT_ENGINE_TYPE_LABELS,
     ...(engineTypeLabelOverrides ?? {}),
@@ -147,14 +148,12 @@ export async function buildModelsCatalogCards({
       })
     )
   );
-  const pricingRangeMap = new Map(
-    await Promise.all(
-      engines.map(async (engine) => {
-        const range = await computeMarketingPriceRange(engine.engine, { durationSec: 5, memberTier: 'member' });
-        return [engine.modelSlug, range] as const;
-      })
-    )
-  );
+  const pricingRangeMap = Promise.all(
+    engines.map(async (engine) => {
+      const range = await computeMarketingPriceRange(engine.engine, { durationSec: 5, memberTier: 'member', requireCurrentPolicy: true });
+      return [engine.modelSlug, range] as const;
+    })
+  ).then((ranges) => new Map(ranges));
 
   const scoreLabelMap = { ...DEFAULT_SCORE_LABEL_MAP, ...(galleryCopy.scoreLabels ?? {}) };
   const scoreLabels = SCORE_LABEL_KEYS.map((key) => ({
@@ -179,7 +178,8 @@ export async function buildModelsCatalogCards({
     ...(galleryCopy.valueSentence?.capabilityKeywords ?? {}),
   };
 
-  return engines.map((engine) => {
+  const heroCards: ModelsCatalogHeroCard[] = [];
+  const cards = Promise.all(engines.map(async (engine): Promise<ModelGalleryCard> => {
     const meta = engineMetaCopy[engine.modelSlug] ?? engineMetaCopy[engine.id] ?? null;
     const localized = localizedMap.get(engine.modelSlug);
     const engineTypeKey = getEngineTypeKey(engine);
@@ -225,15 +225,19 @@ export async function buildModelsCatalogCards({
       (keySpecs as Record<string, string>).maxDuration,
       catalogEntry?.engine?.maxDurationSec ?? null
     );
-    const pricingRange = pricingRangeMap.get(engine.modelSlug) ?? null;
-    const priceFromCents = pricingRange?.min.cents ?? getMinPricePerSecond(catalogEntry);
+    const href = { pathname: '/models/[slug]', params: { slug: engine.modelSlug } };
+    // Price-free metadata is complete before any card waits for its exact range.
+    // Only this narrow projection may enter the initial hero.
+    heroCards.push({ id: engine.modelSlug, label: titleLabel, overallScore, href });
+    const pricingRange = (await pricingRangeMap).get(engine.modelSlug) ?? null;
+    const priceFromCents = pricingRange?.min.cents ?? null;
     const isPrelaunchWaitlist = engine.availability === 'waitlist';
     const hasConfirmedPricing = !isPrelaunchWaitlist && typeof priceFromCents === 'number' && priceFromCents > 0;
     const showPrelaunchPricePlaceholder = isPrelaunchWaitlist;
     const priceFrom = hasConfirmedPricing
       ? isImageOnly
         ? `$${(priceFromCents / 100).toFixed(2)}`
-        : `$${(priceFromCents / 100).toFixed(2)}/s`
+        : `${formatPricePerUnit(activeLocale, pricingRange!.currency, priceFromCents / 100)}/s`
       : showPrelaunchPricePlaceholder
         ? getPrelaunchPricingLabel(activeLocale)
         : 'Data pending';
@@ -294,7 +298,7 @@ export async function buildModelsCatalogCards({
       overallScore,
       priceNote: showPrelaunchPricePlaceholder ? getPrelaunchPricingNote(activeLocale) : null,
       priceNoteHref: null,
-      href: { pathname: '/models/[slug]', params: { slug: engine.modelSlug } },
+      href,
       compareHref: buildDefaultModelCompareHref(engine.modelSlug),
       examplesHref: buildModelExamplesHref(engine.modelSlug),
       backgroundColor: pictogram.backgroundColor,
@@ -326,5 +330,14 @@ export async function buildModelsCatalogCards({
         legacy: Boolean(engine.isLegacy),
       },
     };
-  });
+  }));
+  // Observe deferred failures immediately; the suspended consumer still receives
+  // the original rejection, never a successful provisional-price card list.
+  void cards.catch(() => undefined);
+  return { heroCards, cards };
+}
+
+/** Compatibility reader for callers that need the complete exact catalogue. */
+export async function buildModelsCatalogCards(input: Parameters<typeof prepareModelsCatalogCards>[0]): Promise<ModelGalleryCard[]> {
+  return (await prepareModelsCatalogCards(input)).cards;
 }

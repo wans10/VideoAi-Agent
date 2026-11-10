@@ -5,6 +5,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 
+import { testPostgresCommand } from './helpers/disposable-postgres';
+
 import { Pool, type PoolClient } from 'pg';
 
 import type { TransactionQueryExecutor } from '../frontend/src/lib/db';
@@ -41,7 +43,7 @@ const generationRequest: CanonicalGenerationRequest = {
 };
 
 function commandExists(command: string): boolean {
-  return spawnSync('sh', ['-c', `command -v ${command}`], { encoding: 'utf8' }).status === 0;
+  return spawnSync(testPostgresCommand(command), ['--version'], { encoding: 'utf8' }).status === 0;
 }
 
 function failure(result: ReturnType<typeof spawnSync>): string {
@@ -86,23 +88,23 @@ test('top-up handoff invalidation and ledger non-mutation execute atomically in 
   const dataDirectory = join(temporaryRoot, 'data');
   const socketDirectory = join(temporaryRoot, 'socket');
   mkdirSync(socketDirectory);
-  const init = spawnSync('initdb', [
+  const init = spawnSync(testPostgresCommand('initdb'), [
     '-A', 'trust', '-U', 'postgres', '-D', dataDirectory, '--no-locale', '--encoding=UTF8',
   ], { encoding: 'utf8' });
   assert.equal(init.status, 0, failure(init));
-  const start = spawnSync('pg_ctl', [
+  const start = spawnSync(testPostgresCommand('pg_ctl'), [
     '-D', dataDirectory, '-o', `-F -k ${socketDirectory} -c listen_addresses=''`, '-w', 'start',
   ], { encoding: 'utf8', stdio: 'ignore' });
   assert.equal(start.status, 0, failure(start));
   const pool = new Pool({ host: socketDirectory, user: 'postgres', database: 'postgres' });
   t.after(async () => {
     await pool.end();
-    spawnSync('pg_ctl', ['-D', dataDirectory, '-m', 'immediate', '-w', 'stop'], {
+    spawnSync(testPostgresCommand('pg_ctl'), ['-D', dataDirectory, '-m', 'immediate', '-w', 'stop'], {
       encoding: 'utf8', stdio: 'ignore',
     });
     rmSync(temporaryRoot, { recursive: true, force: true });
   });
-  const psql = (...args: string[]) => spawnSync('psql', [
+  const psql = (...args: string[]) => spawnSync(testPostgresCommand('psql'), [
     '-X', '-h', socketDirectory, '-U', 'postgres', '-d', 'postgres', ...args,
   ], { encoding: 'utf8' });
   const migration = psql('--single-transaction', '-v', 'ON_ERROR_STOP=1', '-f', migrationPath);
@@ -111,13 +113,18 @@ test('top-up handoff invalidation and ledger non-mutation execute atomically in 
     '--single-transaction', '-v', 'ON_ERROR_STOP=1', '-f', quoteLifetimeMigrationPath,
   );
   assert.equal(quoteLifetimeMigration.status, 0, failure(quoteLifetimeMigration));
+  const scopeMigration = psql('--single-transaction', '-v', 'ON_ERROR_STOP=1', '-f', join(process.cwd(), 'neon/migrations/49_studio_generation_scope.sql'));
+  assert.equal(scopeMigration.status, 0, failure(scopeMigration));
   const schema = psql('-v', 'ON_ERROR_STOP=1', '-c', `
     CREATE TABLE app_receipts (
       id bigserial PRIMARY KEY,
       user_id text NOT NULL,
       type text NOT NULL,
       amount_cents integer NOT NULL,
-      currency text
+      currency text,
+      stripe_payment_intent_id text,
+      stripe_charge_id text,
+      metadata jsonb DEFAULT '{}'::jsonb
     );
     INSERT INTO app_receipts (user_id, type, amount_cents, currency)
     VALUES ('p9-pg-user', 'topup', 250, 'USD');
@@ -161,7 +168,9 @@ test('top-up handoff invalidation and ledger non-mutation execute atomically in 
     createMcpTopupHandoff({ quoteId }, principal, dependencies),
     createMcpTopupHandoff({ quoteId }, principal, dependencies),
   ]);
-  assert.equal(outcomes.filter((outcome) => outcome.status === 'fulfilled').length, 1);
+  assert.equal(outcomes.filter((outcome) => outcome.status === 'fulfilled').length, 1,
+    outcomes.filter((outcome) => outcome.status === 'rejected')
+      .map((outcome) => String(outcome.reason)).join('\n'));
   assert.equal(outcomes.filter(
     (outcome) => outcome.status === 'rejected'
       && outcome.reason instanceof AgentApiError

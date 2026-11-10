@@ -1,7 +1,7 @@
 import type { AgentApiFailure } from './errors';
 import type { CanonicalGenerationMode } from './generation-types';
 import type { CanonicalGenerationReferenceRole } from './generation-types';
-import type { AgentModelGuidance, AgentModelUseCase } from './model-guidance';
+import type { AgentModelGuidance, AgentModelUseCase, AgentModelEditorialGuidance } from './model-guidance';
 import type { AgentModelPromptingSource } from './model-prompting-sources';
 import type { RuntimeModelEntry } from '@/config/model-runtime';
 
@@ -133,6 +133,7 @@ export type AgentModelRecommendation = {
   model: AgentModel;
   reasons: string[];
   tradeoffs: string[];
+  editorialGuidance?: AgentModelEditorialGuidance;
   nextAction: 'calculate_project_budget' | 'discuss_and_choose' | 'clarify_requirements';
 };
 
@@ -153,6 +154,9 @@ export type AgentModelReferenceFieldDetails = Readonly<{
   type: 'image' | 'video' | 'audio';
   roles: readonly CanonicalGenerationReferenceRole[];
   assetRequired: boolean;
+  maxSizeMB?: number;
+  acceptedMimeTypes?: readonly string[];
+  acceptedFileExtensions?: readonly string[];
   imageAspectRatio?: Readonly<{ min: number; max: number }>;
   assetRequiredWhen?: Readonly<{
     setting: 'resolution';
@@ -181,7 +185,16 @@ export type AgentModelSettingDetails = Readonly<{
   values: readonly (string | number | boolean)[] | null;
   min: number | null;
   max: number | null;
+  step?: number;
   default: string | number | boolean | null;
+}>;
+
+export type AgentModelImageSizeConstraints = Readonly<{
+  multipleOf?: number;
+  minPixels?: number;
+  maxPixels?: number;
+  maxEdge?: number;
+  maxAspectRatio?: number;
 }>;
 
 export type AgentModelModeDetails = Readonly<{
@@ -194,7 +207,15 @@ export type AgentModelModeDetails = Readonly<{
   audio: AgentModelAudioPolicy;
   outputCount: AgentModelOutputCountDetails;
   settings: readonly AgentModelSettingDetails[];
+  imageSize?: AgentModelImageSizeConstraints;
   references: readonly AgentModelReferenceFieldDetails[];
+  referenceRequirement?: Readonly<{
+    min: number;
+    alternatives: readonly Readonly<{
+      type: 'image' | 'video' | 'audio';
+      roles: readonly CanonicalGenerationReferenceRole[];
+    } | { setting: string }>[];
+  }>;
 }>;
 
 export type AgentModelDetails = Readonly<{
@@ -210,11 +231,13 @@ export type AgentModelDetails = Readonly<{
   prelaunch: boolean;
   modes: readonly AgentModelModeDetails[];
   guidance: AgentModelGuidance | null;
+  editorialGuidance?: AgentModelEditorialGuidance;
   promptingSources: readonly AgentModelPromptingSource[];
   links: Readonly<{
     model: string | null;
     pricing: string | null;
     examples: string | null;
   }>;
+  seedanceWorkflow?: import('./seedance-workflow-discovery').SeedanceWorkflowDiscovery;
   catalogUpdatedAt: string | null;
 }>;

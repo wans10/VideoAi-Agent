@@ -1,3 +1,6 @@
+import { videoDuration } from '@/lib/generated-video-media-facts';
+import { isSeedance2TokenPricing } from '@/lib/seedance-2-pricing';
+import type { MinimaxH3MaxPricingReference } from '@/lib/minimax-h3-max-pricing';
 import { query } from '@/lib/db';
 import {
   hasFieldSpecificMediaConstraint,
@@ -12,7 +15,8 @@ import type { EngineInputSchema, Mode } from '@/types/engines';
 import type { NormalizedAttachment } from './generation-attachment-types';
 import { MINIMAX_H3_ENGINE } from '@/src/config/fal-engines/minimax-h3';
 import { isMinimaxH3EngineId } from '@/lib/minimax-h3';
-import { detectVideoDimensions } from '@/server/media/detect-has-audio';
+import { detectMediaDuration, detectVideoDimensions } from '@/server/media/detect-has-audio';
+import { isManagedStorageUrl } from '@/server/provider-output-policy';
 import type { ResolvedReference } from '@/server/agent-api/reference-types';
 
 type QueryFn = <T = unknown>(sql: string, params?: readonly unknown[]) => Promise<T[]>;
@@ -25,6 +29,7 @@ export type StoredMediaMetadataRow = {
   mime_type: string | null;
   size_bytes: string | number | null;
   duration_sec?: string | number | null;
+  media_metadata?: Record<string, unknown>;
   width?: string | number | null;
   height?: string | number | null;
 };
@@ -41,7 +46,7 @@ type MediaConstraintError =
   | 'MEDIA_COMBINED_DURATION_EXCEEDED';
 
 export type GenerationMediaConstraintValidationResult =
-  | { ok: true; trustedDurationSecByField?: Record<string, number[]> }
+  | { ok: true; trustedDurationSecByField?: Record<string, number[]>; trustedMediaReferences?: MinimaxH3MaxPricingReference[] }
   | {
       ok: false;
       status: 422;
@@ -159,6 +164,7 @@ export async function validateGenerationMediaConstraints(params: {
   deps?: {
     queryFn?: QueryFn;
     detectVideoDimensionsFn?: typeof detectVideoDimensions;
+    detectMediaDurationFn?: typeof detectMediaDuration;
   };
 }): Promise<GenerationMediaConstraintValidationResult> {
   const engine =
@@ -166,7 +172,10 @@ export async function validateGenerationMediaConstraints(params: {
     getPrivateRuntimeEngineById(params.engineId) ??
     (isMinimaxH3EngineId(params.engineId) ? MINIMAX_H3_ENGINE : undefined);
   if (!engine) return { ok: true };
-  const requiresOwnedMedia = params.inputSchema?.constraints?.ownedAssetModes?.includes(params.mode) === true;
+  const combinedModes = params.inputSchema?.constraints?.combinedDurationModes;
+  const applyCombinedLimits = !Array.isArray(combinedModes) || combinedModes.includes(params.mode);
+  const requiresExactOwnedMedia = params.engineId === 'seedance-2-5' && params.mode === 'v2v';
+  const requiresOwnedMedia = requiresExactOwnedMedia || params.inputSchema?.constraints?.ownedAssetModes?.includes(params.mode) === true;
 
   const constrainedFields = [
     ...(params.inputSchema?.required ?? []),
@@ -182,7 +191,7 @@ export async function validateGenerationMediaConstraints(params: {
             || constraint.acceptedMimeTypes.length > 0
             || constraint.acceptedFileExtensions.length > 0;
         })() ||
-        (requiresOwnedMedia && (field.type === 'image' || field.type === 'video')) ||
+        requiresOwnedMedia ||
         (field.type === 'image' && typeof params.inputSchema?.constraints?.minImageSidePx === 'number') ||
         (field.type === 'video' &&
           typeof params.inputSchema?.constraints?.minVideoPixelCount === 'number') ||
@@ -192,10 +201,13 @@ export async function validateGenerationMediaConstraints(params: {
   if (!constrainedFields.length) return { ok: true };
 
   const fieldsById = new Map(constrainedFields.map((field) => [field.id, field]));
+  // Extension payloads preserve repeated clips, so every occurrence consumes time.
+  const keepRepeatedVideos = params.engineId === 'seedance-2-5' && params.mode === 'extend';
   const candidates = params.referenceMediaItems
     .filter((item) => fieldsById.has(item.fieldId) && item.url.trim().length > 0)
     .filter(
       (item, index, items) =>
+        (keepRepeatedVideos && item.kind === 'video') ||
         items.findIndex(
           (candidate) =>
             candidate.fieldId === item.fieldId && candidate.url.trim() === item.url.trim()
@@ -246,6 +258,7 @@ export async function validateGenerationMediaConstraints(params: {
               mime_type,
               size_bytes,
               metadata->>'durationSec' AS duration_sec,
+              metadata AS media_metadata,
               width,
               height
          FROM user_assets
@@ -263,6 +276,7 @@ export async function validateGenerationMediaConstraints(params: {
               mime_type,
               size_bytes,
               metadata->>'durationSec' AS duration_sec,
+              metadata AS media_metadata,
               width,
               height
          FROM media_assets
@@ -279,17 +293,18 @@ export async function validateGenerationMediaConstraints(params: {
     rows = [];
   }
 
+  const trustedMediaReferences: MinimaxH3MaxPricingReference[] = [];
   const durationByKindAndUrl = new Map<string, { kind: 'video' | 'audio'; durationSec: number; fieldId: string }>();
   for (const candidate of candidates) {
     const matchingRows = rows.filter((row) => {
       const rowUrl = normalizeUrl(row.url);
       const originUrl = normalizeUrl(row.origin_url);
-      return rowUrl === candidate.url || originUrl === candidate.url;
+      return rowUrl === candidate.url || (!requiresExactOwnedMedia && originUrl === candidate.url);
     });
     const stored =
       (candidate.assetId
         ? matchingRows.find((row) => row.asset_id === candidate.assetId)
-        : undefined) ?? matchingRows[0];
+        : undefined) ?? (requiresExactOwnedMedia && candidate.assetId ? undefined : matchingRows[0]);
     const sizeBytes = stored ? normalizeSizeBytes(stored.size_bytes) : null;
     if (!stored || sizeBytes == null) {
       if (candidate.kind === 'image' && !requiresOwnedMedia) continue;
@@ -304,6 +319,9 @@ export async function validateGenerationMediaConstraints(params: {
     const constraint = resolveEngineMediaFieldConstraint({ engine, field });
     const trustedName = normalizeUrl(stored.original_name) ?? normalizeUrl(stored.origin_url) ?? stored.url;
     const trustedMime = normalizeUrl(stored.mime_type) ?? inferredAudioMime(trustedName);
+    if (requiresOwnedMedia && !trustedMime.startsWith(`${candidate.kind}/`)) {
+      return failure({ error: 'MEDIA_FORMAT_UNSUPPORTED', fieldId: candidate.fieldId, message: 'The stored media type does not match this reference field.' });
+    }
     const validation = validateMediaFileAgainstConstraint({
       name: trustedName,
       mimeType: trustedMime,
@@ -329,6 +347,17 @@ export async function validateGenerationMediaConstraints(params: {
 
     const trustedWidth = normalizeDimension(stored.width);
     const trustedHeight = normalizeDimension(stored.height);
+    const trustedReference: MinimaxH3MaxPricingReference = {
+      kind: candidate.kind,
+      fieldId: candidate.fieldId,
+      url: candidate.url,
+      width: trustedWidth,
+      height: trustedHeight,
+      durationSec: candidate.kind === 'video'
+        ? videoDuration(stored.media_metadata ?? {}, stored.url, normalizeDurationSec(stored.duration_sec))
+        : normalizeDurationSec(stored.duration_sec),
+    };
+    trustedMediaReferences.push(trustedReference);
     const imageRatio = validateImageAspectRatio(field, trustedWidth, trustedHeight);
     if (imageRatio !== 'valid') {
       return failure({
@@ -341,6 +370,7 @@ export async function validateGenerationMediaConstraints(params: {
     }
     if (
       requiresOwnedMedia
+      && !(requiresExactOwnedMedia && field.type === 'video')
       && (field.type === 'image' || field.type === 'video')
       && (trustedWidth == null || trustedHeight == null)
     ) {
@@ -389,7 +419,7 @@ export async function validateGenerationMediaConstraints(params: {
     ) {
       let width = trustedWidth;
       let height = trustedHeight;
-      if (!requiresOwnedMedia && (width == null || height == null)) {
+      if ((!requiresOwnedMedia || requiresExactOwnedMedia) && (width == null || height == null)) {
         const detected = await detectVideoDimensionsFn(stored.url).catch(() => null);
         width = normalizeDimension(detected?.width);
         height = normalizeDimension(detected?.height);
@@ -412,10 +442,12 @@ export async function validateGenerationMediaConstraints(params: {
           minimumPixelCount,
         });
       }
+      trustedReference.width = width;
+      trustedReference.height = height;
     }
 
     const combinedDurationLimit =
-      field.type === 'video'
+      !applyCombinedLimits ? undefined : field.type === 'video'
         ? params.inputSchema?.constraints?.maxCombinedVideoDurationSec
         : field.type === 'audio'
           ? params.inputSchema?.constraints?.maxCombinedAudioDurationSec
@@ -426,7 +458,19 @@ export async function validateGenerationMediaConstraints(params: {
         typeof field.maxDurationSec === 'number' ||
         typeof combinedDurationLimit === 'number');
     if ((field.type === 'video' || field.type === 'audio') && requiresTrustedDuration) {
-      const durationSec = normalizeDurationSec(stored.duration_sec);
+      let durationSec = (candidate.kind === 'video' ? videoDuration(stored.media_metadata ?? {}, stored.url, normalizeDurationSec(stored.duration_sec)) : normalizeDurationSec(stored.duration_sec));
+      // Older web uploads have no measured duration. Only probe an owned storage
+      // original, never an arbitrary browser URL or a claimed client duration.
+      if (durationSec == null && params.engineId === 'seedance-2-5' && field.type === 'video') {
+        const probe = params.deps?.detectMediaDurationFn;
+        // Ownership was established by the scoped metadata query above. Keep
+        // this read-only path independent from storage upload/schema writers.
+        if (probe || isManagedStorageUrl(stored.url)) {
+          durationSec = normalizeDurationSec(
+            await (probe ?? detectMediaDuration)(stored.url, { timeoutMs: 12_000 }, 'v').catch(() => null)
+          );
+        }
+      }
       if (durationSec == null) {
         return failure({
           error: 'MEDIA_DURATION_UNVERIFIED',
@@ -434,6 +478,8 @@ export async function validateGenerationMediaConstraints(params: {
           message: `This ${field.type} reference has no trusted duration metadata. Upload it again before generating.`,
         });
       }
+      // Pricing consumes these references, including facts measured above.
+      trustedReference.durationSec = durationSec;
       const belowMinimum =
         typeof field.minDurationSec === 'number' && durationSec < field.minDurationSec;
       const aboveMaximum =
@@ -448,7 +494,10 @@ export async function validateGenerationMediaConstraints(params: {
           durationSec,
         });
       }
-      durationByKindAndUrl.set(`${field.type}:${candidate.url}`, {
+      const durationKey = keepRepeatedVideos && field.type === 'video'
+        ? `${field.type}:${candidate.url}:${durationByKindAndUrl.size}`
+        : `${field.type}:${candidate.url}`;
+      durationByKindAndUrl.set(durationKey, {
         kind: field.type,
         durationSec,
         fieldId: candidate.fieldId,
@@ -457,8 +506,8 @@ export async function validateGenerationMediaConstraints(params: {
   }
 
   const combinedLimits = {
-    video: params.inputSchema?.constraints?.maxCombinedVideoDurationSec,
-    audio: params.inputSchema?.constraints?.maxCombinedAudioDurationSec,
+    video: applyCombinedLimits ? params.inputSchema?.constraints?.maxCombinedVideoDurationSec : undefined,
+    audio: applyCombinedLimits ? params.inputSchema?.constraints?.maxCombinedAudioDurationSec : undefined,
   } as const;
   for (const kind of ['video', 'audio'] as const) {
     const maxDurationSec = combinedLimits[kind];
@@ -482,7 +531,12 @@ export async function validateGenerationMediaConstraints(params: {
     },
     {},
   );
-  return Object.keys(trustedDurationSecByField).length
-    ? { ok: true, trustedDurationSecByField }
-    : { ok: true };
+  return {
+    ok: true,
+    ...(Object.keys(trustedDurationSecByField).length ? { trustedDurationSecByField } : {}),
+    ...(params.engineId === 'minimax-h3-max'
+      || isSeedance2TokenPricing(engine.pricingDetails)
+      || typeof params.inputSchema?.constraints?.maxSourcePlusOutputDurationSec === 'number'
+      ? { trustedMediaReferences } : {}),
+  };
 }

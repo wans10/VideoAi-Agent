@@ -136,7 +136,7 @@ test('public dropdowns limit launch badges to five current models with none on c
   }
 });
 
-test('model dropdown entries show the shared engine logo before every model name', () => {
+test('visible model dropdown entries show the shared engine logo before every model name', () => {
   assert.match(navEntryContentSource, /EngineIcon/);
   assert.match(navEntryContentSource, /showModelLogo/);
   assert.match(navEntryContentSource, /brandId:\s*entry\.brandId/);
@@ -233,12 +233,19 @@ test('marketing footer keeps crawlable Best-For hub and priority child links', (
   );
 });
 
-test('examples navigation can expose every public family without a one-column desktop menu', () => {
+test('examples navigation exposes discoverable families without promoting archives', () => {
   const examplesDropdown = MARKETING_NAV_DROPDOWNS.examples;
   assert.equal(examplesDropdown?.desktopColumns, 2);
-  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['ltx', 'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse']);
+  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['all-examples', 'ltx', 'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse']);
+  assert.equal(hrefPath(examplesDropdown?.items[0].href), '/examples');
+  assert.equal(examplesDropdown?.allLinkInItems, true, 'the root gallery is a primary entry instead of a duplicate heading action');
+  for (const locale of ['en', 'fr', 'es']) {
+    const copy = JSON.parse(readFileSync(`frontend/messages/${locale}.json`, 'utf8')).nav.dropdown;
+    assert.equal(copy.examples.items['all-examples'], copy.allExamples);
+    assert.match(copy.examples.descriptions['all-examples'], /prompt/i);
+  }
   const allEntries = [...examplesDropdown!.items, ...examplesDropdown!.sections!.flatMap(section => section.items)];
-  assert.deepEqual(allEntries.map(item => item.key).sort(), ['veo','seedance','ltx','kling','wan','happy-horse','sora','luma','grok','flux','pika','hailuo'].sort());
+  assert.deepEqual(allEntries.map(item => item.key).sort(), ['all-examples','veo','seedance','ltx','kling','wan','happy-horse','luma','grok','flux','pika','hailuo'].sort());
   assert.equal(new Set(allEntries.map(item => item.key)).size, allEntries.length);
   assert.match(marketingDesktopNavSource, /dropdown\.desktopColumns === 2/);
   assert.match(marketingDesktopNavSource, /two-columns/);
@@ -327,7 +334,7 @@ test('marketing footer links to the pay-as-you-go support page without promoting
 test('marketing nav keeps logged-out state after an explicit workspace logout intent', () => {
   assert.match(marketingNavSource, /import \{ consumeLogoutIntent, setLogoutIntent \} from '@\/lib\/logout-intent';/);
   assert.match(marketingNavSource, /const logoutIntentActive = consumeLogoutIntent\(\);/);
-  assert.match(marketingNavSource, /if \(logoutIntentActive\) \{\s*await supabase\.auth\.signOut\(\)\.catch\(\(\) => undefined\);\s*return;/s);
+  assert.match(marketingNavSource, /if \(logoutIntentActive\) \{\s*await supabase\.auth\.signOut\(\{ scope: 'local' \}\)\.catch\(\(\) => undefined\);\s*return;/s);
   assert.match(marketingNavSource, /if \(logoutIntentActive\) return;/);
 });
 

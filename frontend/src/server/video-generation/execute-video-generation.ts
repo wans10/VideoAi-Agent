@@ -1,3 +1,7 @@
+import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
+import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
+import { calculateMinimaxH3MaxReferenceTokenBudget } from '@/lib/minimax-h3-max-pricing';
+import { getWan3InputVideoDurationSec } from '@/lib/wan3-pricing';
 import type { NextRequest } from 'next/server';
 import { validateExtraInputValues } from '@/app/api/generate/_lib/extra-input-values';
 import { processAndValidateGenerationAttachments } from '@/app/api/generate/_lib/generation-attachment-processing';
@@ -16,52 +20,21 @@ import type {
   GenerateRouteMetricState,
   GenerateRouteMetricStatus,
 } from '@/app/api/generate/_lib/metric-logger';
-import type {
-  TrustedIncludedTrialBilling,
-  TrustedQuotedBilling,
-  WalletReservation,
-} from '@/server/generations/initial-job-reservation';
 import { executePreparedVideoGeneration } from './execute-prepared-video-generation';
-import type { PreReservedVideoInitialState, VideoGenerationAdapters, VideoGenerationResponse } from './video-generation-contracts';
+import type { VideoGenerationReservationOptions, VideoGenerationAdapters, VideoGenerationResponse } from './video-generation-contracts';
 import {
   buildTrustedIncludedTrialVideoBilling,
   buildTrustedQuotedVideoBilling,
 } from './trusted-video-billing';
 import { resolveGoogleOmniInheritedDurationSec } from '@/server/video-providers/google-vertex-omni/pricing-context';
-import type { ResolvedReference } from '@/server/agent-api/reference-types';
+import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
+import { captureSeedanceWorkflowMediaFacts, restoreSeedanceFinalAttachments, resolveSeedanceWorkflowSourceFacts, type SeedanceWorkflowMode } from '@/server/seedance-workflow-facts';
 
 export type { VideoGenerationAdapters, VideoGenerationResponse } from './video-generation-contracts';
 export { executeVideoGenerationLifecycle } from './video-generation-lifecycle';
 
-type VideoGenerationReservationOptions =
-  | ({ walletReservation: WalletReservation } & {
-      walletReservation: 'reserve';
-      preReservedInitialState?: never;
-      trustedQuotedBilling?: never;
-      funding?: never;
-      trustedIncludedTrialBilling?: never;
-    })
-  | ({ walletReservation: WalletReservation } & {
-      walletReservation: 'already_reserved';
-      preReservedInitialState: PreReservedVideoInitialState;
-      trustedQuotedBilling: TrustedQuotedBilling;
-      trustedResolvedReferences: readonly ResolvedReference[];
-      funding?: never;
-      trustedIncludedTrialBilling?: never;
-    })
-  | {
-      funding: {
-        kind: 'mcp_trial';
-        entitlementUserId: string;
-        quoteId: string;
-      };
-      walletReservation?: never;
-      preReservedInitialState: Extract<PreReservedVideoInitialState, { funding: unknown }>;
-      trustedQuotedBilling?: never;
-      trustedIncludedTrialBilling: TrustedIncludedTrialBilling;
-    };
-
 export type ExecuteVideoGenerationOptions = {
+  seedanceWorkflow?: PreparedSeedanceWorkflow;
   req: NextRequest;
   body: Record<string, unknown>;
   routeContext: GenerateRouteContext;
@@ -141,7 +114,8 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
   }
   const validatedExtraInputValues = extraInputValidation.values;
 
-  const attachmentProcessing = await processAndValidateGenerationAttachments({
+  const finalFacts = params.seedanceWorkflow?.finalFacts;
+  const attachmentParams = {
     rawInputs: body.inputs,
     userId,
     engineId: engine.id,
@@ -156,7 +130,9 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     endImageUrl,
     isBytePlusV1a,
     trustedResolvedReferences,
-  });
+  };
+  const attachmentProcessing = finalFacts ? restoreSeedanceFinalAttachments(finalFacts, attachmentParams)
+    : await processAndValidateGenerationAttachments(attachmentParams);
   if (!attachmentProcessing.ok) {
     if (attachmentProcessing.metric) logMetric('rejected', attachmentProcessing.metric);
     return {
@@ -183,6 +159,21 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
       referenceProvenanceIssues,
     },
   } = attachmentProcessing;
+  const isBytePlus = isBytePlusInputVideoPricingModel(engine.id);
+  const isWan3 = engine.id === 'wan-3' || engine.id === 'wan-3-prime';
+  let inputVideoDurationSec: number | undefined;
+  if (isWan3 || isBytePlus) {
+    try {
+      inputVideoDurationSec = finalFacts?.inputVideoDurationSec ?? (isBytePlus
+        ? bytePlusInputVideoDurationSec(engine.id, attachmentProcessing.trustedMediaReferences ?? [])
+        : getWan3InputVideoDurationSec(attachmentProcessing.trustedMediaReferences ?? []));
+    } catch {
+      return {
+        status: 422,
+        body: { ok: false, error: 'MEDIA_DURATION_UNVERIFIED', message: 'Verified video duration is required to calculate this price.' },
+      };
+    }
+  }
   const sourceVideoContext = resolveGenerateSourceVideoContext({
     mode,
     attachments: processedAttachments,
@@ -191,13 +182,23 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     fallbackDurationSec: durationSec,
     fallbackDurationLabel: durationLabel,
     maxDurationSec: engine.inputLimits?.videoMaxDurationSec ?? engine.maxDurationSec ?? null,
+    maxSourcePlusOutputDurationSec: engine.inputSchema?.constraints?.maxSourcePlusOutputDurationSec,
+    inputVideoDurationSec,
     engineLabel: engine.label,
   });
   if (!sourceVideoContext.ok) {
     logMetric('rejected', sourceVideoContext.metric);
     return { body: sourceVideoContext.body, status: sourceVideoContext.status };
   }
-  const { durationSec: effectiveDurationSec, durationLabel: effectiveDurationLabel, hasVideoInput } = sourceVideoContext;
+  let seedanceEditSource;
+  try { seedanceEditSource = finalFacts ? finalFacts.seedanceEditSource : resolveSeedance25ModelArkEditSource(engine.id, mode,
+    attachmentProcessing.trustedMediaReferences ?? [], params.seedanceWorkflow ? 'modelark' : undefined); }
+  catch (error) { return { status: 422, body: { ok: false, error: 'SEEDANCE_EDIT_SOURCE_UNSUPPORTED',
+    message: error instanceof Error ? error.message : 'Verified Edit source facts are required.' } }; }
+  const effectiveDurationSec = finalFacts?.durationSec ?? seedanceEditSource?.billedDurationSec ?? sourceVideoContext.durationSec;
+  const effectiveDurationLabel = seedanceEditSource ? `${seedanceEditSource.durationSec}s source · ${effectiveDurationSec}s tariff class` : sourceVideoContext.durationLabel;
+  const { hasVideoInput } = sourceVideoContext;
+  if (seedanceEditSource) aspectRatio = seedanceEditSource.pricingAspectRatio;
   const trustedSourceVideoDurationSec = trustedDurationSecByField.video_url?.[0];
   const inheritedDurationSec = await resolveGoogleOmniInheritedDurationSec({
     engineId: engine.id,
@@ -254,7 +255,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
   }
   const { needsImage, needsFirstLastFrames } = validationPayloadResult;
 
-  const dimensionValidation = await validateGenerationImageDimensions({
+  const dimensionValidation = finalFacts ? { ok: true as const, sourceAspectRatio: undefined } : await validateGenerationImageDimensions({
     engineId: engine.id,
     userId: String(userId),
     sourceImageUrl: isBytePlusV1a ? initialImageUrl : null,
@@ -272,6 +273,10 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
   if (dimensionValidation.sourceAspectRatio) {
     aspectRatio = dimensionValidation.sourceAspectRatio;
   }
+  const sourceFacts = resolveSeedanceWorkflowSourceFacts({ engine, mode, aspectRatio, initialImageUrl, finalFacts,
+    trustedMediaReferences: attachmentProcessing.trustedMediaReferences ?? [] });
+  if (!sourceFacts.ok) return sourceFacts;
+  const seedanceSourceAspectRatio = sourceFacts.sourceAspectRatio;
   const billingPreflight = trustedIncludedTrialBilling
     ? buildTrustedIncludedTrialVideoBilling(trustedIncludedTrialBilling)
     : trustedQuotedBilling
@@ -283,6 +288,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
         durationSec: effectiveDurationSec,
       })
     : await resolveGenerateBillingPreflight({
+    workflowStep: params.seedanceWorkflow?.workflow.step,
     req,
     engine,
     mode,
@@ -292,6 +298,8 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     durationSec: effectiveDurationSec,
     durationLabel: effectiveDurationLabel,
     pricingResolution,
+    seedanceEditSource,
+    seedanceSourceAspectRatio,
     effectiveResolution,
     aspectRatio,
     membershipTier: typeof body.membershipTier === 'string' ? body.membershipTier : undefined,
@@ -309,13 +317,25 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
             ? normalizedReferenceImages.length
             : 0,
     inputVideoDurationSec:
-      mode === 'v2v' || mode === 'extend'
-        ? trustedSourceVideoDurationSec
-        : 0,
+      isWan3 || isBytePlus
+        ? inputVideoDurationSec
+        : mode === 'v2v' || mode === 'extend'
+          ? trustedSourceVideoDurationSec
+          : 0,
     inheritedDurationSec,
     inputAudioDurationSec: trustedDurationSecByField.audio_url?.[0],
+    trustedMediaPricingFacts: engine.id === 'minimax-h3-max' && mode === 'ref2v'
+      ? {
+          referenceTokenBudget: calculateMinimaxH3MaxReferenceTokenBudget({
+            resolution: effectiveResolution,
+            durationSec: effectiveDurationSec,
+            references: attachmentProcessing.trustedMediaReferences ?? [],
+          }),
+        }
+      : undefined,
     rawDurationOption,
     lumaDurationLabel: lumaDurationInfo?.label ?? null,
+    validatedExtraInputValues,
     audioEnabled,
     voiceControl,
       });
@@ -415,6 +435,12 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     elements,
     falInputs,
   });
+  if (isBytePlus && inputVideoDurationSec !== undefined) settingsSnapshot.byteplusInputVideoDurationSec = inputVideoDurationSec;
+  if (seedanceEditSource) settingsSnapshot.seedanceEditSource = seedanceEditSource;
+  if (params.seedanceWorkflow) settingsSnapshot.seedanceWorkflow = { ...params.seedanceWorkflow.workflow,
+    mediaFacts: finalFacts ?? captureSeedanceWorkflowMediaFacts({ schemaVersion: 1, mode: mode as SeedanceWorkflowMode,
+      durationSec: effectiveDurationSec, durationOption: rawDurationOption, aspectRatio, hasVideoInput, inputVideoDurationSec,
+      seedanceEditSource, seedanceSourceAspectRatio, attachments: processedAttachments, trustedMediaReferences: attachmentProcessing.trustedMediaReferences ?? [] }) };
 
   return executePreparedVideoGeneration({
     body,
@@ -444,5 +470,6 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     falPayload,
     falInputSummary,
     settingsSnapshot,
+    seedanceWorkflow: params.seedanceWorkflow,
   });
 }

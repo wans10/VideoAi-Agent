@@ -1,5 +1,10 @@
 import type { AppLocale } from '@/i18n/locales';
 import { fetchPublicBenchmarkLatency } from '@/server/benchmark-lab-metrics';
+import { createScopedCurrentPublicSnapshot } from '@/server/pricing/quote-public';
+import { withPublicPageTiming, withoutPublicPageTiming, type MeasurePublicPagePhase } from '@/server/public-page-timing';
+import { loadCompareGallery } from './compare-gallery-loader';
+import { computeComparePricingPoints, getCompareReferenceDuration } from './compare-pricing-scenarios';
+import type { EngineCaps } from '@/types/engines';
 import { PRICING_ENGINES } from './compare-page-config';
 import {
   buildSpecValues,
@@ -15,16 +20,29 @@ export async function buildCompareRouteData({
   activeLocale,
   left,
   right,
+  measure = withoutPublicPageTiming,
 }: {
   activeLocale: AppLocale;
   left: EngineCatalogEntry;
   right: EngineCatalogEntry;
+  measure?: MeasurePublicPagePhase;
 }) {
-  const latency = await fetchPublicBenchmarkLatency();
+  const leftPricingEngine = PRICING_ENGINES.get(left.modelSlug);
+  const rightPricingEngine = PRICING_ENGINES.get(right.modelSlug);
+  const referenceDuration = getCompareReferenceDuration(leftPricingEngine, rightPricingEngine);
+  const priceSnapshotAt = new Date().toISOString();
+  const currentSnapshot = createScopedCurrentPublicSnapshot();
+  const quotePoints = (engine: EngineCaps, durationSec?: number) =>
+    computeComparePricingPoints(engine, durationSec, undefined, currentSnapshot);
+  const [latency, scores, keySpecs, leftPricingDisplay, rightPricingDisplay] = await Promise.all([
+    measure('benchmark', () => fetchPublicBenchmarkLatency()),
+    measure('scores', () => loadEngineScores()),
+    measure('key-specs', () => loadEngineKeySpecs()),
+    measure('left-pricing', () => resolvePricingDisplay(left, activeLocale, leftPricingEngine, quotePoints, referenceDuration)),
+    measure('right-pricing', () => resolvePricingDisplay(right, activeLocale, rightPricingEngine, quotePoints, referenceDuration)),
+  ]);
   const leftLatency = latency.rows.find((row) => row.engineId === left.engineId) ?? null;
   const rightLatency = latency.rows.find((row) => row.engineId === right.engineId) ?? null;
-  const scores = await loadEngineScores();
-  const keySpecs = await loadEngineKeySpecs();
   const leftScore = scores.get(left.modelSlug) ?? scores.get(left.engineId) ?? null;
   const rightScore = scores.get(right.modelSlug) ?? scores.get(right.engineId) ?? null;
   const leftKeySpecs =
@@ -34,13 +52,9 @@ export async function buildCompareRouteData({
   const leftSpecs = buildSpecValues(left, leftKeySpecs);
   const rightSpecs = buildSpecValues(right, rightKeySpecs);
   const pairHasNativeAudio = Boolean(left.engine?.audio) || Boolean(right.engine?.audio);
-  const criteriaCount = pairHasNativeAudio ? 11 : 10;
+  const criteriaCount = pairHasNativeAudio ? 10 : 9;
   const pairHasKling3Native4k =
     left.modelSlug === 'kling-3-4k' || right.modelSlug === 'kling-3-4k';
-  const [leftPricingDisplay, rightPricingDisplay] = await Promise.all([
-    resolvePricingDisplay(left, activeLocale, PRICING_ENGINES.get(left.modelSlug)),
-    resolvePricingDisplay(right, activeLocale, PRICING_ENGINES.get(right.modelSlug)),
-  ]);
   const leftOverall = computeOverall(leftScore);
   const rightOverall = computeOverall(rightScore);
   const engineScoresBySlug = Object.fromEntries(
@@ -52,6 +66,8 @@ export async function buildCompareRouteData({
   const rightIsPrelaunch = isPrelaunchAvailability(right);
 
   return {
+    priceSnapshotAt,
+    specSources: [left, right].map(entry => ({ name: entry.marketingName, urls: keySpecs.get(entry.modelSlug)?.sources ?? keySpecs.get(entry.engineId)?.sources ?? [] })),
     criteriaCount,
     hasPrelaunchEngine: leftIsPrelaunch || rightIsPrelaunch,
     left,
@@ -72,4 +88,20 @@ export async function buildCompareRouteData({
     rightScore,
     rightSpecs,
   };
+}
+
+export async function loadComparePageData(input: {
+  activeLocale: AppLocale;
+  left: EngineCatalogEntry;
+  right: EngineCatalogEntry;
+}) {
+  return withPublicPageTiming({ route: 'comparison', locale: input.activeLocale }, async measure => {
+    // These reads only depend on the resolved engines; none needs another read's result.
+    const [routeData, leftGallery, rightGallery] = await Promise.all([
+      buildCompareRouteData({ ...input, measure }),
+      measure('left-gallery', () => loadCompareGallery(input.left, isPrelaunchAvailability(input.left))),
+      measure('right-gallery', () => loadCompareGallery(input.right, isPrelaunchAvailability(input.right))),
+    ]);
+    return { routeData, leftGallery, rightGallery };
+  });
 }

@@ -3,13 +3,27 @@ import { safeInternalReturnTarget } from './auth-return-target';
 type Store = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 const KEY = 'maxvideoai:guest-creation:v1';
 const TTL = 30 * 60_000;
-const MAX_BYTES = 100_000;
-export type CreationSurface = '/app' | '/app/image' | '/app/audio';
+export const GUEST_CREATION_MAX_BYTES = 100_000;
+export type CreationSurface = '/app' | '/app/image' | '/app/audio' | '/app/studio';
 
 export function stageGuestCreation(storage: Store, surface: CreationSurface, payload: string, token: string, now = Date.now()) {
-  if (!token || payload.length > MAX_BYTES) return false;
+  if (!token || payload.length > GUEST_CREATION_MAX_BYTES) return false;
   storage.setItem(KEY, JSON.stringify({ surface, payload, token, createdAt: now }));
   return true;
+}
+
+function validGuestPayload(value: {createdAt?: unknown; payload?: unknown}, now: number): string | null {
+  return typeof value.createdAt === 'number' && now >= value.createdAt && now - value.createdAt <= TTL && typeof value.payload === 'string' && value.payload.length <= GUEST_CREATION_MAX_BYTES ? value.payload : null;
+}
+
+/** Validate before choosing an entry route, without claiming the one-use draft. */
+export function peekGuestCreation(storage: Store, surface: CreationSurface, token: string | null, now = Date.now()): string | null {
+  if (!token) return null;
+  try {
+    const value = JSON.parse(storage.getItem(KEY) ?? 'null');
+    if (value?.token !== token || value?.surface !== surface) return null;
+    return validGuestPayload(value, now);
+  } catch { return null; }
 }
 
 export function consumeGuestCreation(storage: Store, surface: CreationSurface, token: string | null, now = Date.now()): string | null {
@@ -20,8 +34,7 @@ export function consumeGuestCreation(storage: Store, surface: CreationSurface, t
     const value = JSON.parse(raw);
     if (value.token !== token || value.surface !== surface) return null;
     storage.removeItem(KEY); // Once claimed, no second account can inherit it.
-    if (typeof value.createdAt !== 'number' || now < value.createdAt || now - value.createdAt > TTL || typeof value.payload !== 'string' || value.payload.length > MAX_BYTES) return null;
-    return value.payload;
+    return validGuestPayload(value, now);
   } catch { storage.removeItem(KEY); return null; }
 }
 

@@ -11,7 +11,19 @@ type PaginationDictionary = {
 export type ExamplesNextStepLink = {
   href: string;
   label: string;
+  comparison?: readonly [leftEngineId: string, rightEngineId: string];
+  modelSlug?: string;
 };
+
+export function getExamplesEditorialSections(
+  sections: Array<{ title: string; body: string }>,
+  replacementTitles: string[] | null,
+) {
+  return sections.map((section, index) => ({
+    title: replacementTitles?.[index] ?? section.title,
+    body: section.body,
+  }));
+}
 
 export function getExamplesBrowseByModelLabel(locale: AppLocale) {
   return locale === 'fr' ? 'Parcourir par marque' : locale === 'es' ? 'Explorar por modelo' : 'Browse by brand';
@@ -28,7 +40,7 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
           loading: 'Chargement…',
           noPreview: 'Aucun aperçu',
           audioAvailable: 'Audio disponible à la lecture',
-          detailsCta: 'Voir réglages et prix',
+          detailsCta: 'Voir prompt, réglages et prix',
         }
       : locale === 'es'
         ? {
@@ -39,7 +51,7 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
             loading: 'Cargando…',
             noPreview: 'Sin vista previa',
             audioAvailable: 'Audio disponible al reproducir',
-            detailsCta: 'Ver ajustes y precio',
+            detailsCta: 'Ver prompt, ajustes y precio',
           }
         : {
             prev: 'Previous',
@@ -49,7 +61,7 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
             loading: 'Loading…',
             noPreview: 'No preview',
             audioAvailable: 'Audio available on playback',
-            detailsCta: 'View settings & price',
+            detailsCta: 'View prompt, settings & price',
           };
 
   return {
@@ -63,12 +75,12 @@ export function getExamplesGalleryUiCopy(locale: AppLocale, pagination: Paginati
 
 export function getExamplesLongDescription(locale: AppLocale) {
   if (locale === 'fr') {
-    return 'Parcourez des exemples vidéo IA par famille de modèles. Ouvrez un exemple pour consulter son prompt, ses réglages, sa durée et le coût enregistré du rendu, puis recréez-le dans votre studio.';
+    return 'Parcourez des exemples vidéo IA par famille de modèles. Ouvrez un exemple pour consulter son prompt, ses réglages, sa durée et le tarif actuel du modèle, puis recréez-le dans votre studio.';
   }
   if (locale === 'es') {
-    return 'Explora ejemplos de video IA por modelo. Abre un ejemplo para consultar su prompt, ajustes, duración y costo registrado de la generación, y después recréalo en tu espacio de trabajo.';
+    return 'Explora ejemplos de video IA por modelo. Abre un ejemplo para consultar su prompt, ajustes, duración y precio actual del modelo, y después recréalo en tu espacio de trabajo.';
   }
-  return 'Browse AI video examples by model. Open any example to inspect its prompt, settings, duration, and recorded render cost, then recreate it in your workspace.';
+  return 'Browse AI video examples by model. Open any example to inspect its prompt, settings, duration, and current model price, then recreate it in your workspace.';
 }
 
 export function getKlingExamplesSectionTitles(locale: AppLocale, isKlingLanding: boolean) {
@@ -85,10 +97,12 @@ export function getKlingExamplesSectionTitles(locale: AppLocale, isKlingLanding:
 export function getExamplesModelPageLabels({
   isKlingLanding,
   isLtxLanding,
+  isSeedanceLanding,
   locale,
 }: {
   isKlingLanding: boolean;
   isLtxLanding: boolean;
+  isSeedanceLanding: boolean;
   locale: AppLocale;
 }) {
   const modelPagesLabel =
@@ -110,29 +124,18 @@ export function getExamplesModelPageLabels({
           : locale === 'es'
             ? 'Elige tu modelo LTX'
             : 'Choose your LTX model'
-      : locale === 'fr'
-        ? 'Pages modèles actuelles'
-        : locale === 'es'
-          ? 'Páginas de modelo actuales'
-          : 'Current model pages';
-  const supportedOlderVersionLabel =
-    isKlingLanding
-      ? locale === 'fr'
-        ? 'Anciens modèles Kling encore pris en charge'
-        : locale === 'es'
-          ? 'Modelos Kling anteriores aún compatibles'
-          : 'Supported older Kling models'
-      : isLtxLanding
+      : isSeedanceLanding
         ? locale === 'fr'
-          ? 'Modèles LTX plus anciens encore pris en charge'
+          ? 'Choisissez votre modèle Seedance'
           : locale === 'es'
-            ? 'Modelos LTX anteriores aún compatibles'
-            : 'Supported older LTX models'
-      : locale === 'fr'
-        ? 'Version plus ancienne prise en charge'
-        : locale === 'es'
-          ? 'Versión anterior compatible'
-          : 'Supported older version';
+            ? 'Elige tu modelo Seedance'
+            : 'Choose your Seedance model'
+        : locale === 'fr'
+          ? 'Pages modèles actuelles'
+          : locale === 'es'
+            ? 'Páginas de modelo actuales'
+            : 'Current model pages';
+  const supportedOlderVersionLabel = locale === 'fr' ? 'Versions historiques' : locale === 'es' ? 'Versiones anteriores' : 'Earlier versions';
   const pricingLinkLabel =
     locale === 'fr' ? 'Comparer les tarifs' : locale === 'es' ? 'Comparar precios' : 'Compare pricing';
 
@@ -164,6 +167,14 @@ export function buildExamplesNextStepLinks({
   pricingPath: string;
 }): ExamplesNextStepLink[] {
   const compareLabel = locale === 'fr' ? 'Comparer' : locale === 'es' ? 'Comparar' : 'Compare';
+  const comparisonLink = (slug: string, label: string): ExamplesNextStepLink => {
+    const separator = slug.indexOf('-vs-');
+    return {
+      href: buildCompareHref(appLocale, slug),
+      label: `${compareLabel} ${label}`,
+      comparison: separator > 0 ? [slug.slice(0, separator), slug.slice(separator + 4)] : undefined,
+    };
+  };
   const family = familySlug ?? (isLtxLanding ? 'ltx' : isKlingLanding ? 'kling' : isSeedanceLanding ? 'seedance' : isVeoLanding ? 'veo' : '');
   // Lead with the current generation; retain selected historical comparisons for
   // visitors evaluating older examples. Published routes remain unchanged.
@@ -205,11 +216,12 @@ export function buildExamplesNextStepLinks({
     ],
   };
   const selected = comparisons[family];
-  if (selected) return selected.map(([slug, label]) => ({ href: buildCompareHref(appLocale, slug), label: `${compareLabel} ${label}` }));
+  if (selected) return selected.map(([slug, label]) => comparisonLink(slug, label));
   return [
-    { href: buildModelHref(appLocale, 'seedance-2-5'), label: 'Seedance 2.5' },
-    { href: buildModelHref(appLocale, 'minimax-h3'), label: 'MiniMax H3' },
-    { href: buildCompareHref(appLocale, 'kling-3-pro-vs-seedance-2-5'), label: `${compareLabel} Kling 3 Pro vs Seedance 2.5` },
+    { href: buildModelHref(appLocale, 'seedance-2-5'), label: 'Seedance 2.5', modelSlug: 'seedance-2-5' },
+    { href: buildModelHref(appLocale, 'minimax-h3'), label: 'MiniMax H3', modelSlug: 'minimax-h3' },
+    { href: buildModelHref(appLocale, 'wan-3'), label: 'Wan 3', modelSlug: 'wan-3' },
+    comparisonLink('kling-3-pro-vs-seedance-2-5', 'Kling 3 Pro vs Seedance 2.5'),
     { href: pricingPath, label: locale === 'fr' ? 'Voir les tarifs' : locale === 'es' ? 'Ver precios' : 'View pricing' },
   ];
 }

@@ -1,3 +1,7 @@
+import { getSeedanceFailureMessage, seedanceFailureCodeFromMessage } from '@/lib/seedance-failure-messages';
+import { getGeneratedImageFailureMessage, getKnownGenerationFailureMessage } from '@/lib/generation-failure-messages';
+import { SEEDANCE_OUTPUT_AUDIO_BLOCKED, SEEDANCE_REFERENCE_MEDIA_BLOCKED, SEEDANCE_REFERENCE_VIDEO_BLOCKED, SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED } from '@/lib/video-failure-codes';
+
 const DEFAULT_FAILURE_MESSAGE =
   'MaxVideoAI could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.';
 const DEFAULT_REFUND_REASON = 'Render could not be completed.';
@@ -14,7 +18,7 @@ const SEEDANCE_COPYRIGHT_FAILURE_MESSAGE =
   'Seedance stopped this render after it started because its output checks detected possible copyright-restricted content. Change recognizable characters, brands, logos, franchise references, or source media before trying again.';
 const SEEDANCE_COPYRIGHT_REFUND_REASON = 'Output was blocked for possible copyright-restricted content.';
 
-type FailureCategory = 'busy' | 'copyright' | 'no_output' | 'safety' | 'start' | 'storage' | 'timeout' | 'unsupported';
+type FailureCategory = 'busy' | 'copyright' | 'no_output' | 'reference' | 'safety' | 'start' | 'storage' | 'timeout' | 'unsupported';
 type SeedanceSpecificFailure = 'copyright' | 'reference_safety' | 'start' | 'task_output';
 
 const PROVIDER_OR_INTERNAL_PATTERN =
@@ -55,6 +59,14 @@ function classifyFailure(message: string | null): FailureCategory | null {
     ])
   ) {
     return 'safety';
+  }
+
+  // Fal's extracted input-download diagnostic no longer includes the input field or location.
+  if (
+    containsAny(lower, ['could not read the reference media', 'reference media could not be read']) ||
+    (lower.includes('failed to download the file') && lower.includes('check if the url is accessible'))
+  ) {
+    return 'reference';
   }
 
   if (
@@ -179,6 +191,8 @@ function messageForCategory(category: FailureCategory): string {
       return SEEDANCE_COPYRIGHT_FAILURE_MESSAGE;
     case 'no_output':
       return 'The render finished without a usable output. Please retry or contact support with your request ID if it happens again.';
+    case 'reference':
+      return 'MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before trying again.';
     case 'safety':
       return 'This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before trying again.';
     case 'start':
@@ -200,6 +214,8 @@ function refundReasonForCategory(category: FailureCategory): string {
       return SEEDANCE_COPYRIGHT_REFUND_REASON;
     case 'no_output':
       return 'Render finished without a usable output.';
+    case 'reference':
+      return 'Reference media could not be read.';
     case 'safety':
       return 'Request was blocked by safety checks.';
     case 'start':
@@ -248,12 +264,17 @@ function normalizeDurationSec(value: number | string | null | undefined): number
 
 export function toUserFacingFailureMessage(message: string | null | undefined): string {
   const normalized = normalizeMessage(message);
+  const knownMessage = getSeedanceFailureMessage({ message: normalized }) ?? getGeneratedImageFailureMessage(normalized);
+  if (knownMessage) return knownMessage;
   const seedanceFailure = classifySeedanceSpecificFailure(normalized);
   if (seedanceFailure === 'copyright') return SEEDANCE_COPYRIGHT_FAILURE_MESSAGE;
   if (seedanceFailure === 'reference_safety') return SEEDANCE_REFERENCE_FAILURE_MESSAGE;
   if (seedanceFailure === 'start') return SEEDANCE_START_FAILURE_MESSAGE;
   if (seedanceFailure === 'task_output') return SEEDANCE_TASK_FAILURE_MESSAGE;
   const category = classifyFailure(normalized);
+  if (category === 'copyright') return messageForCategory(category);
+  const sharedMessage = getKnownGenerationFailureMessage({ message: normalized });
+  if (sharedMessage) return sharedMessage;
   if (category) return messageForCategory(category);
   if (normalized && canReuseMessage(normalized)) return normalized;
   return DEFAULT_FAILURE_MESSAGE;
@@ -261,6 +282,12 @@ export function toUserFacingFailureMessage(message: string | null | undefined): 
 
 export function toUserFacingRefundReason(message: string | null | undefined): string {
   const normalized = normalizeMessage(message);
+  if (getGeneratedImageFailureMessage(normalized)) return 'Generated image was blocked by safety checks.';
+  const specificCode = seedanceFailureCodeFromMessage(normalized);
+  if (specificCode === SEEDANCE_OUTPUT_AUDIO_BLOCKED) return 'Generated audio was blocked by safety checks.';
+  if (specificCode === SEEDANCE_REFERENCE_MEDIA_BLOCKED) return 'Reference media was blocked by Seedance safety checks.';
+  if (specificCode === SEEDANCE_REFERENCE_VIDEO_BLOCKED) return 'Reference video was blocked by Seedance safety checks.';
+  if (specificCode === SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED) return 'The combined reference video duration exceeded the Seedance limit of 30 seconds.';
   const seedanceFailure = classifySeedanceSpecificFailure(normalized);
   if (seedanceFailure === 'copyright') return SEEDANCE_COPYRIGHT_REFUND_REASON;
   if (seedanceFailure === 'reference_safety') return SEEDANCE_REFERENCE_REFUND_REASON;

@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import type { ImageGenerationMode } from '@/types/image-generation';
 import { ImageMediaHandoff } from './_components/ImageMediaHandoff.client';
 import { ImageWorkspaceComposerSurface } from './_components/ImageWorkspaceComposerSurface';
-import { ImageWorkspaceEmptyState } from './_components/ImageWorkspaceEmptyState';
+import { ImageWorkspaceEmptyState, ImageWorkspaceLoadingState } from './_components/ImageWorkspaceEmptyState';
 import { ImageWorkspaceRuntimeModals } from './_components/ImageWorkspaceRuntimeModals';
 import { ImageWorkspaceShell } from './_components/ImageWorkspaceShell';
 import { useImageWorkspaceDisplayState } from './_hooks/useImageWorkspaceDisplayState';
@@ -155,6 +155,8 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     toolsEnabled,
   });
   const { pricingError, pricingSnapshot } = useImageWorkspacePricing({
+    aspectRatio,
+    referenceImageCount: combinedReferenceUrls.length,
     customImageHeight,
     customImageWidth,
     enableWebSearch,
@@ -180,7 +182,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     setMode,
   });
 
-  useImageComposerPersistence({
+  const { storageHydrated } = useImageComposerPersistence({
     accountId,
     engines,
     engineId,
@@ -281,6 +283,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
   });
 
   const handleRun = useImageGenerationRunner({
+    pricingSnapshot,
     aspectRatio,
     background,
     combinedReferenceUrls,
@@ -326,7 +329,8 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     watermark,
   });
 
-  const handleSelectGalleryGroup = useImageGallerySelection({
+  const { handleSelectGalleryGroup, guardComposerActions } = useImageGallerySelection({
+    accountId,
     applyImageSettingsSnapshot,
     engines,
     historyEntries,
@@ -346,16 +350,17 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     compositePreviewEntry,
     estimatedCostAmount,
     estimatedCostCurrency,
-    inProgressMessage,
-    previewEntry,
+    pendingGenerations,
+    previewEntry, starterPreview, starterNavigation, selectStarter,
   } = useImageWorkspaceDisplayState({
+    guestStarter: { ready: !accountId && storageHydrated && !hasAnyReferenceSelection &&
+      !searchParams?.get('job') && !searchParams?.get('engine') && !searchParams?.get('tool'), prompt, setPrompt },
     error,
     historyEntries,
     numImages,
     pendingGroups,
     pricingErrorMessage: pricingError?.message ?? null,
     pricingSnapshot,
-    resolvedCopy,
     selectedEngine,
     selectedPreviewEntryId,
     suppressDefaultPreview: librarySource === 'storyboard',
@@ -393,12 +398,13 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     resolvedCopy,
     supportsCharacterReferences,
   });
-  const composerSetterProps = {
-    setAspectRatio, setBackground, setCustomImageHeight, setCustomImageWidth, setEnableWebSearch, setEngineId, setError,
+  const composerActionProps = guardComposerActions({
+    setAspectRatio, setBackground, setCustomImageHeight, setCustomImageWidth, setEnableWebSearch, setEngineId,
     setLimitGenerations, setMaskUrl, setMode, setNumImagesPreset: setReferenceAwareNumImagesPreset, setOutputFormat,
-    setPrompt, setQuality, setResolutionPreset, setSeed, setSelectedPreviewImageIndex, setStyle, setThinkingLevel,
-    setWatermark,
-  };
+    setPrompt, setQuality, setResolutionPreset, setSeed, setStyle, setThinkingLevel, setWatermark,
+    handleEditSelectedPreview, handleReferenceFile, handleReferenceUrl, handleRemoveReferenceSlot, handleRun,
+    handleLibrarySelect, toggleCharacterReference, selectStarter,
+  });
   const composerVisibilityProps = {
     showAspectRatioControl, showBackgroundControl, showCustomImageSizeControl, showEnableWebSearchControl, showLimitGenerationsControl,
     showMaskUrlControl: Boolean(maskUrlField), showNumImagesControl, showOutputFormatControl, showQualityControl,
@@ -411,13 +417,14 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     seed, style, styleSelectOptions, thinkingLevel, thinkingLevelSelectOptions, watermark,
   };
 
+  if (!storageHydrated) return <ImageWorkspaceLoadingState />;
   if (!selectedEngine || !selectedEngineCaps) {
     return <ImageWorkspaceEmptyState message={resolvedCopy.general.emptyEngines} />;
   }
 
   return (
     <>
-      <ImageMediaHandoff modelName={selectedEngine?.name} slots={displayedReferenceSlots} limit={referenceSlotLimit} onInsert={handleLibrarySelect} />
+      <ImageMediaHandoff modelName={selectedEngine?.name} slots={displayedReferenceSlots} limit={referenceSlotLimit} onInsert={composerActionProps.handleLibrarySelect} />
       <ImageWorkspaceShell
         isDesktopLayout={isDesktopLayout}
         galleryRailProps={{
@@ -426,10 +433,13 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
           isImageJob,
           onOpenGroup: handleSelectGalleryGroup,
           selectedEngineCaps,
-          onUseStarterPrompt: setPrompt,
+          onSelectStarter: composerActionProps.selectStarter,
         }}
       >
         <ImageWorkspaceComposerSurface
+              starterPreview={starterPreview} starterNavigation={{ ...starterNavigation, ...guardComposerActions({
+                onPrev: starterNavigation.onPrev, onNext: starterNavigation.onNext,
+              }) }}
               advancedSettingsTitle={advancedSettingsTitle}
               composerError={composerError}
               composerReferenceAssets={composerReferenceAssets}
@@ -441,15 +451,10 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
               handleAddToLibrary={handleAddToLibrary}
               handleCopy={handleCopy}
               handleDownload={handleDownload}
-              handleEditSelectedPreview={handleEditSelectedPreview}
               handleOpenHistoryEntry={handleOpenHistoryEntry}
-              handleReferenceFile={handleReferenceFile}
-              handleReferenceUrl={handleReferenceUrl}
               handleRemoveFromLibrary={handleRemoveFromLibrary}
-              handleRemoveReferenceSlot={handleRemoveReferenceSlot}
-              handleRun={handleRun}
               imageCountOptions={effectiveImageCountOptions}
-              inProgressMessage={inProgressMessage}
+              pendingGenerations={pendingGenerations}
               isInLibrary={isInLibrary}
               isRemovingFromLibrary={isRemovingFromLibrary}
               isResolutionLocked={isResolutionLocked}
@@ -463,7 +468,8 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
               selectedEngineCaps={selectedEngineCaps}
               selectedEngineId={selectedEngine.id}
               selectedPreviewImageIndex={selectedPreviewImageIndex}
-              {...composerSetterProps}
+              setError={setError} setSelectedPreviewImageIndex={setSelectedPreviewImageIndex}
+              {...composerActionProps}
               {...composerSettingsProps}
               {...composerVisibilityProps}
               statusMessage={statusMessage}
@@ -475,7 +481,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
         characterSelectionLimit={characterSelectionLimit}
         closeLibraryModal={closeLibraryModal}
         closeViewer={closeViewer}
-        handleLibrarySelect={handleLibrarySelect}
+        handleLibrarySelect={composerActionProps.handleLibrarySelect}
         handleSaveVariantToLibrary={handleSaveVariantToLibrary}
         libraryModal={libraryModal}
         loginRedirectTarget={loginRedirectTarget}
@@ -484,7 +490,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
         setAuthModalOpen={setAuthModalOpen}
         supportedReferenceFormats={supportedReferenceFormats}
         supportedReferenceFormatsLabel={supportedReferenceFormatsLabel}
-        toggleCharacterReference={toggleCharacterReference}
+        toggleCharacterReference={composerActionProps.toggleCharacterReference}
         toolsEnabled={toolsEnabled}
         viewerGroup={viewerGroup}
       />

@@ -26,7 +26,7 @@ import {
 import { rollbackPendingPayment } from './payment-rollback';
 import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-messages';
 import { createProviderJobTracker } from './provider-job-tracker';
-import { submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
+import { isDeferredFalSubmission, submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 
@@ -129,6 +129,7 @@ function falProviderJobIdFromResult(result: FalGenerateSubmissionResult, getLast
 }
 
 async function submitFalFromGoogleVeo(params: {
+  userId: string;
   attemptIndex: number | null;
   fallbackFromAttemptId: number | null;
   fallbackReason?: string | null;
@@ -183,6 +184,7 @@ async function submitFalFromGoogleVeo(params: {
     queryFn: params.queryFn,
   });
   const falSubmission = await params.submitFalGenerateTaskFn({
+    userId: params.userId,
     falPayload: params.falPayload,
     jobId: params.jobId,
     engineId: params.engineId,
@@ -208,6 +210,7 @@ async function submitFalFromGoogleVeo(params: {
     });
   }
   if (!falSubmission.ok) {
+    if (isDeferredFalSubmission(falSubmission)) return falSubmission;
     if (falAttempt) {
       await markProviderAttemptFailed({
         attemptId: falAttempt.id,
@@ -320,6 +323,7 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
       reason: support.reason,
     });
     return submitFalFromGoogleVeo({
+      userId: params.userId,
       attemptIndex: null,
       fallbackFromAttemptId: null,
       fallbackReason: support.reason,
@@ -502,6 +506,7 @@ export async function submitGoogleVertexVeoGenerateTask(params: {
     }
 
     return submitFalFromGoogleVeo({
+      userId: params.userId,
       attemptIndex: 2,
       fallbackFromAttemptId: googleAttempt.id,
       fallbackReason: normalized.errorClass,

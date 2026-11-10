@@ -1,42 +1,38 @@
+import { getEvergreenExampleFamilyCopy } from './family-overview';
 import type { CanonicalExampleModelSlug, LocalizedModelDescriptor } from '@/lib/examples/modelLandingTypes';
 
 export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedModelDescriptor>> = {
   sora: {
-    subtitle: 'Cinematic examples, reusable prompts, and shot-level settings for Sora workflows.',
-    intro:
-      'Use this page to review real Sora examples before you run new renders. You can inspect prompt style, duration, and framing patterns that usually perform well on cinematic scenes, product storytelling, and social cuts. The goal is to help you recreate outputs consistently without mixing unrelated model behavior.',
-    promptPatterns:
-      'Start with scene intent, camera movement, and a clear subject anchor. Sora examples perform best when prompts separate composition, motion, and lighting constraints in short blocks.',
-    strengthsLimits:
-      'Sora generally excels in cinematic coherence and polished motion. Limits vary by mode and queue conditions, so keep test runs short before scaling to longer variants.',
-    pricingNotes:
-      'Pricing depends on duration, resolution, and add-ons. Open an example to inspect its recorded render cost before comparing Sora runs with other engines or starting batch generation.',
-    faq: [
-      {
-        question: 'What prompts work best for Sora examples?',
-        answer: 'Structured prompts with clear subject, camera, and motion constraints are the most reliable baseline.',
-      },
-      {
-        question: 'Are these Sora examples reusable in the workspace?',
-        answer: 'Yes. You can clone examples and adapt duration, resolution, and style details to your own brief.',
-      },
-      {
-        question: 'How should I budget Sora test runs?',
-        answer: 'Start with short test clips, validate motion and composition, then upscale winning variants.',
-      },
-    ],
-  },
+    "metaTitle": "Historical Sora examples | MaxVideoAI",
+    "metaDescription": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
+    "heroTitle": "Historical Sora examples",
+    "subtitle": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
+    "intro": "Sora generation is closed. The announced API shutdown date was September 24, 2026. Choose Seedance 2.5, MiniMax H3 or Wan 3 for a new video. Existing videos remain in your library.",
+    "promptPatterns": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
+    "strengthsLimits": "These videos were generated with Sora. New Sora generations are closed. Explore Seedance 2.5, MiniMax H3 and Wan 3 for your next video.",
+    "pricingNotes": "Archived models have no current generation price. Choose an available model and review a new quote before generating.",
+    "faq": [
+        {
+            "question": "Can I still generate with Sora?",
+            "answer": "Sora generation is closed. The announced API shutdown date was September 24, 2026. Choose Seedance 2.5, MiniMax H3 or Wan 3 for a new video. Existing videos remain in your library."
+        },
+        {
+            "question": "Sora archives and alternatives",
+            "answer": "Archived models have no current generation price. Choose an available model and review a new quote before generating."
+        }
+    ]
+},
   veo: {
     metaTitle: 'Veo 3.1 Examples, Prompts, Settings & Image-to-Video | MaxVideoAI',
     metaDescription:
-      'Browse Veo 3.1 examples, prompts, settings, and image-to-video patterns, then open a video detail page to see its recorded render cost on MaxVideoAI.',
+      'Browse Veo 3.1 examples, prompts, settings, and image-to-video patterns, then open a video detail page to see its current price estimate for the settings shown on MaxVideoAI.',
     heroTitle: 'Veo 3.1 examples, prompts, settings and image-to-video patterns',
     subtitle: "Veo 3.1 and Gemini Omni Flash 1.1 examples, with prompts, inputs and settings to inspect.",
     intro: "Compare Google video examples from Veo 3.1, Fast and Lite alongside Gemini Omni Flash 1.1. Open a result to inspect its prompt and settings, then adapt the example in your workspace.",
     summary: "Veo and Gemini Omni are distinct Google models grouped in this gallery. Keep the model shown on each example as your reference. Use the linked model pages and comparisons to choose a workflow, then check the current quote before generating.",
     promptPatterns: "Describe the subject, action and camera move first. With an opening image, specify what should move and what should remain. Keep the same brief when comparing models, and change one instruction at a time.",
     strengthsLimits: "Compare motion, framing and subject continuity across the whole clip. Veo and Omni do not share every input or editing option: check the selected model and mode before supplying images, references or a source video. One successful example does not guarantee the same result from a new prompt.",
-    pricingNotes: "The example detail page shows the recorded render cost. Your next render uses the current quote for its model, inputs, duration and resolution. Reuse the available settings, add your own sources where needed, and review the quote before submitting.",
+    pricingNotes: "The example detail page shows the current price estimate for the settings shown. Your next render uses the current quote for its model, inputs, duration and resolution. Reuse the available settings, add your own sources where needed, and review the quote before submitting.",
     faq: [
       {
         question: "Why are Gemini Omni examples shown in this Veo gallery?",
@@ -44,7 +40,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
       },
       {
         question: "How do I recreate a Veo or Omni example?",
-        answer: "Open the example detail page to review its prompt, settings and recorded cost, then use the recreation action. Check the selected model, supply any required source media and review the new quote in the workspace before generating.",
+        answer: "Open the example detail page to review its prompt, settings and current price estimate, then use the recreation action. Check the selected model, supply any required source media and review the new quote in the workspace before generating.",
       },
       {
         question: "How should I compare Veo 3.1, Fast, Lite and Omni?",
@@ -55,11 +51,12 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
   luma: {
     metaTitle: 'Luma Ray 3.2 Modify & Reframe Examples | MaxVideoAI',
     metaDescription: "See Luma Ray 3.2 Modify and Reframe video examples. Inspect prompts and settings for editing a source clip, then check the price before creating your own.",
+    heroTitle: 'Luma Ray 3.2 video examples',
     subtitle: "Luma Ray 3.2 video edits: change a scene with Modify or adapt its framing with Reframe.",
     intro: "Explore Luma Ray 3.2 Modify and Reframe examples. Open a video to inspect the prompt and settings used to edit it. Ray 2 and Ray 2 Flash examples retain their original model labels.",
     promptPatterns: "For Modify, describe what to preserve from the source video, then the change you want. For Reframe, identify the subject that must remain visible and what should fill the new frame. Use guide images or keyframes only in modes that support them.",
     strengthsLimits: "Judge Ray 3.2 on how well it preserves the source, follows the requested edit and keeps the subject consistent. It does not generate audio in MaxVideoAI. The supported inputs and settings differ from Ray 2 and Ray 2 Flash; check the model shown on each example.",
-    pricingNotes: "The detail page shows the recorded cost of the example. Your new edit has its own quote based on the selected mode and settings. Check that price before generating and test a short clip before committing to a longer edit.",
+    pricingNotes: "The detail page shows the current price estimate of the example. Your new edit has its own quote based on the selected mode and settings. Check that price before generating and test a short clip before committing to a longer edit.",
     faq: [
       {
         question: "How can I reuse a Luma video edit?",
@@ -76,11 +73,11 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   wan: {
-    subtitle: "Wan video examples with prompts, settings and the model used for each result.",
-    intro: "Watch Wan examples to compare movement, framing and scene continuity. Open a video for its prompt, settings and recorded cost, then adapt it to your project. Check its model version before reusing the settings.",
+    ...getEvergreenExampleFamilyCopy('en', 'Wan'),
+    sectionTitles: ['How to prompt a Wan video', 'What to check in Wan 3 and Prime results', 'Current price estimate and current Wan quote'],
     promptPatterns: "Describe one subject, one main action and a camera movement. If the shot has several stages, put them in order and keep the sequence short enough to follow. Change one instruction at a time when testing.",
     strengthsLimits: "Watch the whole clip for changes in the subject, unexpected cuts and motion that does not follow the prompt. Inputs, duration and output options vary across Wan models, so check the selected version and mode.",
-    pricingNotes: "The example shows a recorded cost on its detail page. Your model, duration and other settings determine a new quote in the workspace. Review that quote before generating; start with a short test to assess the result.",
+    pricingNotes: "The example shows a current price estimate on its detail page. Your model, duration and other settings determine a new quote in the workspace. Review that quote before generating; start with a short test to assess the result.",
     faq: [
       {
         question: "Can I use a Wan example as a starting point?",
@@ -96,12 +93,22 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
       },
     ],
   },
+  'happy-horse': {
+    heroTitle: 'Happy Horse 1.1 & 1.0 video examples',
+    subtitle: 'Watch Happy Horse 1.1 and 1.0 results. Open a video for its prompt, settings and current price estimate.',
+    intro: 'Compare Happy Horse 1.1 and 1.0 examples by watching the complete clip, not just its thumbnail. Each video keeps its original model label. Open one to inspect the prompt, duration and settings used for that result, then check the current quote before making your own.',
+    promptPatterns: 'Describe the subject, one visible action and the camera direction. If you start from an image, say what should move while keeping the source composition recognizable. Test a short shot before extending the idea.',
+    strengthsLimits: 'Look for stable subjects, readable movement and coherent framing through the final moment. Examples show individual outcomes; they do not establish identical controls or guaranteed results across Happy Horse 1.1 and 1.0. Confirm the selected model and mode before reusing a setup.',
+    pricingNotes: 'The video detail records what that example cost when it was made. A new render gets a current quote based on the selected model and settings. Compare costs only after checking the duration and output choices.',
+    faq: [
+      { question: 'Are all these videos made with Happy Horse 1.1?', answer: 'No. The gallery also includes Happy Horse 1.0 results. Read the model label on each video before comparing prompts or settings.' },
+      { question: 'Can I start from a Happy Horse example?', answer: 'Open the video for its prompt and recorded settings, then adapt them in the workspace. Add your own source image if the chosen mode needs one, and review the new quote before generating.' },
+      { question: 'Will the same prompt create the same video?', answer: 'No. An example is a starting point. Review the new result in full, including motion, framing and the ending.' },
+    ],
+  },
   kling: {
+    ...getEvergreenExampleFamilyCopy('en', 'Kling'),
     metaTitle: 'Kling AI Video Examples: Prompts, Motion & Product Shots',
-    metaDescription: "Watch Kling 3 and Kling 3.0 Omni video examples. Explore prompts, image-to-video and reference workflows, then inspect settings and recorded costs.",
-    heroTitle: 'Kling AI Video Examples, Prompts & Settings',
-    subtitle: "Kling 3 and Kling 3.0 Omni examples: see how opening images and visual references shape a shot.",
-    intro: "Watch Kling video examples, then open a result for its prompt and settings. Compare Kling 3 opening-image animation with Kling 3.0 Omni reference and video-editing workflows. Each example identifies the model used.",
     summary:
       'Kling 3.0 Omni Pro and Standard are the current routes for reference images, storyboard inputs, and source-video V2V. Kling 3 Pro and Standard remain the start-frame image-to-video routes, while Kling 3.0 Omni 4K is the native 4K reference-guided delivery route.',
     promptPatterns: "Decide whether an uploaded image should guide the video as a reference or appear as its first frame. Use @Image1 and @Video1 to identify sources in supported Omni modes. For Kling 3 image-to-video, describe the motion that should develop from the opening image.",
@@ -134,22 +141,18 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   seedance: {
-    metaTitle: 'Seedance 2.5 Video Examples, Prompts & Settings | MaxVideoAI',
-    metaDescription: "Watch Seedance 2.5 video examples with prompts and settings. Compare results from other Seedance versions and use an example as a starting point.",
-    heroTitle: 'Seedance 2.5 AI Video Examples, Prompts & Settings',
-    subtitle: "Seedance 2.5 and earlier versions: watch the results, inspect the prompts and find a starting point.",
-    intro: "Explore Seedance 2.5 examples alongside Seedance 2.0, Fast and Mini. Open a video to inspect its prompt, settings and recorded cost. Each result keeps its original model label so you can compare the versions accurately.",
-    summary: "Seedance 2.5 supports 4–30 second videos up to 1080p, generated audio, references, editing and extension. Seedance 2.0 remains available for 4K, while Fast and Mini offer other options for drafts and batches. Earlier 1.5 Pro examples keep their original labels.",
+    ...getEvergreenExampleFamilyCopy('en', 'Seedance'),
+    summary: "Seedance 2.5 supports 4–30 second videos up to 1080p, generated audio, references, editing and extension. Seedance 2.0 remains available for 4K; Fast offers ordinary iteration renders and Mini focuses on value-oriented batches. Earlier 1.5 Pro videos remain labeled, although new 1.5 generations are closed.",
     promptPatterns:
       'For Seedance 2.5, define one core action, camera direction and reference role before adding scene detail. Keep the same prompt structure when comparing 2.5 with Seedance 2.0, Fast or Mini.',
     strengthsLimits:
       'Use Seedance 2.5 when longer duration, generated audio, mixed references, editing or extension matter. Its public MaxVideoAI route supports landscape, square and vertical output at 480p, 720p or 1080p; keep Seedance 2.0 when 4K delivery is required.',
-    pricingNotes: "Duration, audio and source media can influence the price. The example detail shows its recorded cost; the generator shows the current quote for your selected settings before you launch.",
+    pricingNotes: "Duration, audio and source media can influence the price. The example detail shows its current price estimate; the generator shows the current quote for your selected settings before you launch.",
     faq: [
       {
         question: 'Are all Seedance examples on this page generated with Seedance 2.5?',
         answer:
-          'No. The gallery keeps factual labels for Seedance 2.5, Seedance 2.0, Fast, Mini and supported 1.5 Pro renders so you can compare the actual route used.',
+          'No. The gallery keeps factual labels for Seedance 2.5, Seedance 2.0, Fast, Mini and historical 1.5 Pro renders so you can compare the actual route used. New 1.5 generations are closed.',
       },
       {
         question: 'Which Seedance model should I start with for examples and prompt testing?',
@@ -164,18 +167,21 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   ltx: {
-    metaTitle: "LTX Video Examples, Prompts & Settings | MaxVideoAI",
-    metaDescription:
-      "Explore LTX 2.5 Pro and Fast video examples, prompts and settings, with clearly labelled LTX 2.3 and LTX 2 examples for older workflows.",
-    heroTitle: "LTX video examples, prompts and settings",
-    subtitle: "LTX 2.5 Pro and Fast examples, with earlier LTX versions clearly identified.",
-    intro: "Watch LTX 2.5 Pro and Fast examples, then open a video for its prompt, settings and recorded cost. Earlier LTX 2.3 and LTX 2 results keep their original labels so you can compare versions.",
+    ...getEvergreenExampleFamilyCopy('en', 'LTX'),
     summary:
       "LTX 2.5 Pro and Fast lead this page. Older LTX 2.3 and LTX 2 examples keep their original model labels so you can compare generations without confusing their capabilities.",
     promptPatterns: "Describe the subject, action, camera movement and visual style. For image-to-video, explain how the scene should move from the opening image. Keep the same starting point and change one instruction at a time.",
     strengthsLimits: "Compare the whole clip across Pro and Fast: does the motion follow the prompt, and does the subject remain consistent? Use the same source image for image-to-video tests. A successful example is a starting point, not a guarantee of identical results.",
     pricingNotes: "Keep the model, mode, duration, resolution and available audio settings explicit when comparing costs. The detail page records the cost of that example; check the current quote in the workspace before generating your version.",
     faq: [
+      {
+        question: "Where can I find LTX 2.3 prompt examples?",
+        answer: "Look for videos labelled LTX 2.3 Pro or LTX 2.3 Fast in this family gallery and use Next to browse older examples. Open a video for its original prompt and recorded settings, then consult the linked LTX 2.3 model page for that version’s supported modes. LTX 2.5 examples are labelled separately; a current price estimate is not the historical cost of the original render.",
+      },
+      {
+        question: 'How should I structure an LTX 2.3 prompt?',
+        answer: 'Start from a labelled LTX 2.3 example and inspect its original prompt. Identify the subject, main action, camera direction and visual style. For an image-to-video example, separate what the opening image already supplies from the movement described in the prompt. Keep the recorded duration, framing and model version alongside the text when comparing results; LTX 2.5 examples are a separate baseline.',
+      },
       {
         question: 'What are the best LTX 2.5 prompt examples to start from?',
         answer:
@@ -204,33 +210,33 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   pika: {
-    subtitle: 'Pika examples for short-form creative loops, stylized edits, and social-ready motion.',
+    heroTitle: 'Pika 2.2 video examples',
+    subtitle: 'Watch Pika 2.2 results, then inspect each video’s prompt, settings and current price estimate.',
     intro:
-      'This Pika examples page is built for short-form, stylized output patterns. It helps creators and growth teams quickly clone proven motions, update prompt details, and publish social-ready variants without rebuilding settings from scratch. The content is intentionally focused on Pika behavior only.',
+      'Explore Pika 2.2 results by watching the complete clip. Open a video for the prompt and settings used, then adapt the idea in your workspace. An example is a starting point, not a repeatable motion template; check your new result and current quote before using it.',
     promptPatterns:
-      'Use style-first prompts with one clear action and concise camera direction. Pika examples usually improve when scene scope stays narrow.',
+      'Describe the subject, one clear action, the visual style and a concise camera direction. Change one instruction at a time when testing a variant.',
     strengthsLimits:
-      'Pika is often effective for fast loops and stylized social visuals. Keep prompt structure simple to avoid unstable transitions.',
+      'Watch the full clip for subject consistency, readable motion and a stable ending. A thumbnail cannot confirm how a transition behaves.',
     pricingNotes:
-      'Pricing is easiest to control with short durations and fixed output settings. Validate one successful template, then duplicate.',
+      'The video detail shows its current price estimate. Duration and output settings affect the new quote in the workspace; check it before generating variants.',
     faq: [
       {
         question: 'What is the best way to reuse Pika examples?',
-        answer: 'Clone a relevant example, keep the motion template, and swap only subject/style elements first.',
+        answer: 'Open a relevant video for its prompt and settings. Adapt the subject or style, then review the new result rather than assuming identical motion.',
       },
       {
         question: 'Are Pika examples suitable for social ad variants?',
-        answer: 'Yes. They are optimized for short, stylized, and iteration-friendly outputs.',
+        answer: 'They can inspire short-form variants. Check the full result, format and usage requirements before publishing.',
       },
       {
         question: 'How do I keep Pika costs predictable?',
-        answer: 'Lock duration and resolution presets before running multiple variants.',
+        answer: 'Choose the intended duration and output settings, then check the current quote before each batch.',
       },
     ],
   },
   hailuo: {
-    subtitle: "MiniMax H3 Max, H3 and earlier Hailuo video examples, with prompts and settings to explore.",
-    intro: "Watch MiniMax H3 Max and H3 alongside earlier Hailuo examples. Open a video to inspect its prompt, settings and recorded cost, then use it as a starting point for your own scene.",
+    ...getEvergreenExampleFamilyCopy('en', 'MiniMax (Hailuo)'),
     summary: "Each MiniMax or Hailuo example keeps the name of the model that generated it. Compare motion, scene continuity and any audio across the full clip. Use the H3 and H3 Max model pages to check the inputs and settings available for your project.",
     promptPatterns: "Start with the subject, one clear action and camera direction. Add scene or sound instructions when relevant to the selected model. For reference-based work, give each permitted source a clear role and check that the model supports that input.",
     strengthsLimits: "Judge the full result: subject identity, motion, framing and any generated audio. H3 Max, H3 and older Hailuo models have different modes and output choices. An example shows one result; it does not establish perfect consistency or identical controls across the family.",
@@ -251,6 +257,8 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   grok: {
+    metaTitle: 'Grok Imagine Video 1.5 Examples, Prompts & Settings | MaxVideoAI',
+    heroTitle: 'Grok Imagine Video 1.5 examples',
     subtitle: 'Grok Imagine Video 1.5 examples for text-to-video, opening-image animation, and reference-guided clips.',
     intro:
       'Use this family page to study Grok Imagine Video 1.5 through MaxVideoAI’s Fal route. It covers text-to-video, image-to-video from one opening image, and reference-to-video workflows using one to seven reference images; availability on MaxVideoAI does not imply a direct xAI integration. Treat the gallery as evidence for choosing an input strategy, not as a promise that one prompt works for every mode. Text starts are useful when composition can be invented from the brief. An opening image is better when the first composition, subject placement, wardrobe, product, or palette already exists. A reference set is appropriate when several permitted images have separate jobs, such as identity, object design, environment, or lighting. Review prompt, mode, duration, resolution, framing, and accepted output together. A visually attractive result does not by itself prove reference fidelity, readable incidental text, stable hands, or continuity through the final beat. Compare examples with the same acceptance criteria and keep likeness consent, source rights, and brand safety in the production review.',
@@ -268,6 +276,7 @@ export const EN_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   flux: {
+    heroTitle: 'FLUX 3 & FLUX 3 Draft examples',
     subtitle: 'FLUX 3 and FLUX 3 Draft examples for text-to-video, image animation, start/end frames, and Extend.',
     intro:
       'This page compares the standard FLUX 3 route with FLUX 3 Draft through MaxVideoAI’s Fal distribution. Use it for text-to-video, image-to-video from an opening frame, first-and-last-frame transitions, and the separate Extend workflow for continuing an existing clip. The family view helps decide both model tier and input workflow. Draft is for controlled 720p exploration when the team still needs to validate action, camera, source compatibility, or transition logic. Standard FLUX 3 is the production-oriented sibling and exposes the higher resolution option shown on its model page. Neither label removes the need to review the output. A useful example records the source role, prompt, mode, duration, resolution, and visual acceptance question. Compare like with like: a frame bridge should be judged on the path between anchors, an extension on continuity with the source clip, and a text start on the shot invented from the brief. Black Forest Labs owns FLUX; the route described here is Fal-distributed rather than a claim of direct provider execution.',

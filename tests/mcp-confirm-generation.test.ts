@@ -1,3 +1,4 @@
+import { listPublicAgentGenerationEngines } from '../frontend/src/server/agent-api/model-catalog';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -81,7 +82,7 @@ const imageRequest: CanonicalGenerationRequest = {
   outputCount: 1,
 };
 
-test('confirmation pricing preserves the prepared Seedance video-input tier', async () => {
+test('confirmation pricing preserves the prepared ModelArk extension video-input tier', async () => {
   const entry = listFalEngines().find((candidate) => candidate.id === 'seedance-2-5');
   assert.ok(entry);
   const candidate: AgentPublicGenerationEngine = {
@@ -94,21 +95,23 @@ test('confirmation pricing preserves the prepared Seedance video-input tier', as
     schemaVersion: 1,
     surface: 'video',
     engineId: 'seedance-2-5',
-    mode: 'v2v',
-    prompt: 'Edit the source video.',
+    mode: 'extend',
+    prompt: 'Extend the source video.',
     settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9', audio: true },
     references: [{
-      kind: 'https',
-      url: 'https://cdn.example.com/source.mp4',
+      kind: 'asset',
+      assetId: 'owned-extend-source',
       role: 'source',
-      mediaKind: 'video',
     }],
     outputCount: 1,
   };
-  const prepared = await priceCanonicalGeneration(request, 'member');
+  const resolvedReferences = [{ assetId: 'owned-extend-source', role: 'source' as const, mediaKind: 'video' as const,
+    storageUrl: 'https://media.example.test/source.mp4', durationSec: 4, width: 1280, height: 720, mimeType: 'video/mp4' }];
+  const prepared = await priceCanonicalGeneration(request, 'member', undefined, { resolvedReferences, resolvedEngine: entry.engine });
   const confirmed = await priceCanonicalGenerationInExecutor(request, 'member', {
     candidate,
     executor: { async query() { return []; } } as TransactionQueryExecutor,
+    resolvedReferences,
   });
   assert.equal(
     (prepared.pricingSnapshot.meta as Record<string, unknown>).byteplus_billing_input_type,
@@ -175,6 +178,7 @@ test('confirmation pricing distinguishes ref2v video, image, and DB-verified vid
         width: 1920,
         height: 1080,
         mimeType: 'video/mp4',
+        durationSec: 4,
       }],
       expected: 'video_input',
     },
@@ -228,6 +232,7 @@ test('confirmation passes DB-verified ref2v video media into transactional prici
     role: 'reference' as const,
     mediaKind: 'video' as const,
     storageUrl: 'https://assets.example.com/reference.mp4',
+    durationSec: 10,
     width: 1920,
     height: 1080,
     mimeType: 'video/mp4',
@@ -257,6 +262,47 @@ test('confirmation passes DB-verified ref2v video media into transactional prici
   );
   assert.equal(billingInputType, 'video_input');
 });
+
+for (const referenceEngineId of ['minimax-h3-max', 'wan-3', 'wan-3-prime']) {
+test(`${referenceEngineId} confirmation expires a quote when verified reference cost facts change`, async () => {
+  const entry = listFalEngines().find((candidate) => candidate.id === referenceEngineId);
+  assert.ok(entry);
+  const candidate: AgentPublicGenerationEngine = {
+    engine: entry.engine, surface: 'video', publicModes: ['t2v', 'i2v', 'ref2v'],
+    modeCaps: Object.fromEntries(entry.modes.map(({ mode, ui }) => [mode, ui])),
+  };
+  const request: CanonicalGenerationRequest = {
+    schemaVersion: 1, surface: 'video', engineId: entry.id, mode: 'ref2v',
+    prompt: 'Follow the supplied action.', settings: { durationSec: 5, resolution: referenceEngineId === 'minimax-h3-max' ? '768P' : '720p', aspectRatio: '16:9' },
+    references: [{ kind: 'asset', assetId: 'reference-video', role: 'reference' }], outputCount: 1,
+  };
+  const original = {
+    assetId: 'reference-video', role: 'reference' as const, mediaKind: 'video' as const,
+    storageUrl: 'https://assets.example.com/reference.mp4', width: 1280, height: 720,
+    durationSec: 4, mimeType: 'video/mp4', sizeBytes: 1024, originalName: 'reference.mp4',
+  };
+  const pricingExecutor = { query: async () => [] } as TransactionQueryExecutor;
+  const prepared = await priceCanonicalGenerationInExecutor(request, 'member', {
+    executor: pricingExecutor, candidate, resolvedReferences: [original],
+  });
+  const catalogRevision = computeGenerationCatalogRevision([candidate]);
+  const stored = quoteFor(request, { catalogRevision, priceCents: prepared.priceCents });
+  stored.pricingSnapshot = { ...stored.pricingSnapshot, catalogRevision, canonicalPricing: prepared.pricingSnapshot };
+  for (const fresh of [{ ...original, durationSec: 2 }, { ...original, durationSec: null }]) {
+    const { dependencies, captures } = baseDependencies(request, {
+      listPublicEngines: async () => [candidate],
+      lockOwnedQuote: async () => ({ quote: stored, databaseNow: NOW }),
+      resolveGenerationReferences: async () => [fresh],
+      priceGeneration: (canonical, tier, input) => priceCanonicalGenerationInExecutor(canonical, tier, {
+        ...input, executor: pricingExecutor,
+      }),
+    });
+    await expectAgentError(confirmGeneration({ quoteId: QUOTE_ID, confirmed: true }, principal, dependencies), 'QUOTE_EXPIRED');
+    assert.equal(captures.events.includes('reserve_video'), false);
+    assert.equal(captures.providerCalls, 0);
+  }
+});
+}
 
 function capability(request: CanonicalGenerationRequest): AgentPublicGenerationEngine {
   const video = request.surface === 'video';
@@ -757,8 +803,8 @@ test('Seedance accepts one frame URL in distinct first and last roles through re
     prompt: 'Animate one intentionally repeated frame.',
     settings: { durationSec: 4, resolution: '480p', audio: true },
     references: [
-      { kind: 'https', url: duplicateUrl, role: 'first_frame', mediaKind: 'image' },
-      { kind: 'https', url: duplicateUrl, role: 'last_frame', mediaKind: 'image' },
+      { kind: 'asset', assetId: 'duplicate-frame', role: 'first_frame' },
+      { kind: 'asset', assetId: 'duplicate-frame', role: 'last_frame' },
     ],
     outputCount: 1,
   };
@@ -771,6 +817,9 @@ test('Seedance accepts one frame URL in distinct first and last roles through re
   const { dependencies, captures } = baseDependencies(request, {
     lockOwnedQuote: async () => ({ quote: stored, databaseNow: NOW }),
     listPublicEngines: async () => [candidate],
+    resolveGenerationReferences: async () => ['first_frame', 'last_frame'].map(role => ({ assetId: 'duplicate-frame',
+      role: role as 'first_frame' | 'last_frame', storageUrl: duplicateUrl, mediaKind: 'image' as const,
+      width: 1024, height: 1024, durationSec: null, mimeType: 'image/png' })),
   });
 
   const result = await confirmGeneration(
@@ -1143,6 +1192,29 @@ test('paid continuation rejects a success-shaped failed video response after its
   assert.deepEqual(outcome, { kind: 'rejected', refunded: true });
 });
 
+test('paid image continuation rejects success-shaped refunded responses and stays ambiguous when refund settlement is unconfirmed', async () => {
+  const quote = quoteFor(imageRequest);
+  const execution: PaidGenerationExecution = {
+    surface: 'image', quoteId: quote.quoteId, userId: quote.userId, request: imageRequest,
+    engine: capability(imageRequest).engine,
+    canonicalPricing: quote.pricingSnapshot.canonicalPricing as Record<string, unknown>,
+    trustedInitialState: { kind: 'created', jobId: quote.quoteId, recoveredCharge: true },
+  };
+
+  const rejected = await submitReservedPaidGeneration(execution, {
+    executeVideo: async () => assert.fail('unexpected video'),
+    executeImage: async () => ({ ok: true, paymentStatus: 'refunded_wallet' }),
+  });
+  assert.deepEqual(rejected, { kind: 'rejected', refunded: true });
+
+  const ambiguous = await submitReservedPaidGeneration(execution, {
+    executeVideo: async () => assert.fail('unexpected video'),
+    executeImage: async () => ({ ok: true, paymentStatus: 'refunded_wallet' }),
+    ensureKnownRejectionRefund: async () => false,
+  });
+  assert.deepEqual(ambiguous, { kind: 'ambiguous', retryable: true });
+});
+
 test('invalid image already-reserved runtime state fails before database or provider work', async () => {
   const { executeImageGeneration } = await import('../frontend/src/server/images/execute-image-generation');
   const previousDatabaseUrl = process.env.DATABASE_URL;
@@ -1168,7 +1240,7 @@ test('invalid image already-reserved runtime state fails before database or prov
   }
 });
 
-test('default registry remains five discovery tools and the explicit paid gate exposes the full paid recovery set safely', async () => {
+test('default registry remains discovery and comparison tools and the explicit paid gate exposes the full paid recovery set safely', async () => {
   const services = {
     getAccountStatus: async () => ({
       connected: true, userId: USER_ID, emailVerified: true, accountUrl: 'https://maxvideoai.com/account',
@@ -1194,6 +1266,7 @@ test('default registry remains five discovery tools and the explicit paid gate e
   const enabledServer = createMaxVideoAiMcpServer(principal, services, {
     paidGeneration: true,
     referenceUploads: false,
+    audioGeneration: false,
   });
   const defaultClient = new Client({ name: 'default-confirm-test', version: '1.0.0' });
   const enabledClient = new Client({ name: 'enabled-confirm-test', version: '1.0.0' });
@@ -1211,12 +1284,12 @@ test('default registry remains five discovery tools and the explicit paid gate e
 
   assert.deepEqual((await defaultClient.listTools()).tools.map((tool) => tool.name), [
     'get_account_status', 'list_models', 'get_model_details', 'recommend_models',
-    'calculate_project_budget',
+    'calculate_project_budget', 'compare_generation_prices',
   ]);
   const tools = (await enabledClient.listTools()).tools;
   assert.deepEqual(tools.map((tool) => tool.name), [
     'get_account_status', 'list_models', 'get_model_details', 'recommend_models',
-    'calculate_project_budget', 'prepare_generation', 'confirm_generation',
+    'calculate_project_budget', 'compare_generation_prices', 'prepare_generation', 'confirm_generation',
     'get_generation_status', 'list_recent_generations', 'get_generation_download', 'present_generation', 'create_topup_link',
   ]);
   const confirm = tools.find((tool) => tool.name === 'confirm_generation');
@@ -1236,3 +1309,67 @@ test('default registry remains five discovery tools and the explicit paid gate e
   assert.match(confirm?.description ?? '', /new paid attempt.*fresh exact quote.*new explicit user approval/i);
   assert.deepEqual(Object.keys(confirm?.inputSchema.properties ?? {}).sort(), ['confirmed', 'quoteId']);
 });
+
+test('paid image continuation rejects success-shaped refunded responses and stays ambiguous when refund settlement is unconfirmed', async () => {
+  const quote = quoteFor(imageRequest);
+  const execution: PaidGenerationExecution = {
+    surface: 'image', quoteId: quote.quoteId, userId: quote.userId, request: imageRequest,
+    engine: capability(imageRequest).engine,
+    canonicalPricing: quote.pricingSnapshot.canonicalPricing as Record<string, unknown>,
+    trustedInitialState: { kind: 'created', jobId: quote.quoteId, recoveredCharge: true },
+  };
+
+  const rejected = await submitReservedPaidGeneration(execution, {
+    executeVideo: async () => assert.fail('unexpected video'),
+    executeImage: async () => ({ ok: true, paymentStatus: 'refunded_wallet' }),
+  });
+  assert.deepEqual(rejected, { kind: 'rejected', refunded: true });
+
+  const ambiguous = await submitReservedPaidGeneration(execution, {
+    executeVideo: async () => assert.fail('unexpected video'),
+    executeImage: async () => ({ ok: true, paymentStatus: 'refunded_wallet' }),
+    ensureKnownRejectionRefund: async () => false,
+  });
+  assert.deepEqual(ambiguous, { kind: 'ambiguous', retryable: true });
+});
+
+test('known MCP rejection forwards its diagnostic to refund persistence', async () => {
+  const quote = quoteFor(videoRequest);
+  const execution: PaidGenerationExecution = {
+    surface: 'video', quoteId: quote.quoteId, userId: quote.userId, request: videoRequest,
+    engine: capability(videoRequest).engine,
+    canonicalPricing: quote.pricingSnapshot.canonicalPricing as Record<string, unknown>,
+    trustedInitialState: { kind: 'created', jobId: quote.quoteId, walletChargeReserved: true },
+  };
+  let diagnostic: unknown;
+  await submitReservedPaidGeneration(execution, {
+    executeVideo: async () => ({ status: 422, body: {
+      ok: false, error: 'ENGINE_CONSTRAINT', message: 'This engine does not support the selected aspect ratio.',
+    } }),
+    executeImage: async () => assert.fail('unexpected image execution'),
+    ensureKnownRejectionRefund: async (_execution, failure) => {
+      diagnostic = failure;
+      return true;
+    },
+  });
+  assert.deepEqual(diagnostic, {
+    code: 'ENGINE_CONSTRAINT', status: 422,
+    message: 'This engine does not support the selected aspect ratio.',
+  });
+});
+
+for (const engineId of ['sora-2', 'sora-2-pro']) {
+  test(`prepared ${engineId} quote cannot charge or submit after sunset`, async () => {
+    const request = { ...videoRequest, engineId };
+    const { dependencies, captures } = baseDependencies(request, {
+      listPublicEngines: async () => listPublicAgentGenerationEngines({
+        listEngines: async () => listFalEngines().map(entry => entry.engine),
+        surfaceByEngineId: () => 'video',
+      }),
+    });
+    await expectAgentError(confirmGeneration({ quoteId: QUOTE_ID, confirmed: true }, principal, dependencies), 'QUOTE_EXPIRED');
+    assert.equal(captures.events.includes('pricing'), false);
+    assert.equal(captures.events.some(event => event.startsWith('reserve_')), false);
+    assert.equal(captures.providerCalls, 0);
+  });
+}

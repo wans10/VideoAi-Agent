@@ -41,8 +41,13 @@ export function WorkspaceRuntimeModals({
   onRefreshJob,
   topUpModal,
   topUpCopy,
+  locale,
   currency,
+  chargeCurrency,
   topUpAmount,
+  paymentAmountLabel,
+  quoteLoading,
+  quoteError,
   isTopUpLoading,
   topUpError,
   checkoutCaptchaError,
@@ -82,8 +87,13 @@ export function WorkspaceRuntimeModals({
   onRefreshJob: (jobId: string) => Promise<void>;
   topUpModal: TopUpModalState;
   topUpCopy: WorkspaceTopUpModalProps['copy'];
+  locale?: string;
   currency: string;
+  chargeCurrency: string;
   topUpAmount: number;
+  paymentAmountLabel: string | null;
+  quoteLoading: boolean;
+  quoteError: boolean;
   isTopUpLoading: boolean;
   topUpError: string | null;
   checkoutCaptchaError: boolean;
@@ -129,10 +139,15 @@ export function WorkspaceRuntimeModals({
       ) : null}
       {topUpModal ? (
         <WorkspaceTopUpModal
+          locale={locale}
           modal={topUpModal}
           copy={topUpCopy}
           currency={currency}
+          chargeCurrency={chargeCurrency}
           topUpAmount={topUpAmount}
+          paymentAmountLabel={paymentAmountLabel}
+          quoteLoading={quoteLoading}
+          quoteError={quoteError}
           isTopUpLoading={isTopUpLoading}
           topUpError={topUpError}
           checkoutCaptchaError={checkoutCaptchaError}

@@ -12,7 +12,7 @@ import type { FormState } from '../_lib/workspace-form-state';
 import { prepareGenerationInputs } from '../_lib/workspace-generation-inputs';
 import {
   getLumaRay2GenerationContext,
-  getStartRenderValidationMessage,
+  getStartRenderValidationMessage, getWorkspaceGenerationModeMessage,
   supportsNegativePromptInput,
 } from '../_lib/workspace-generation-guards';
 import type {
@@ -187,9 +187,10 @@ export function useWorkspaceGenerationRunner({
     setTopUpModal,
     showComposerError,
   });
-
   const startRender = useCallback(async () => {
     if (!form || !selectedEngine) return;
+    const modeUnavailableMessage = getWorkspaceGenerationModeMessage(selectedEngine, submissionMode, uiLocale);
+    if (modeUnavailableMessage) return showComposerError(modeUnavailableMessage);
     if (klingO3UnsupportedVideoReason) {
       showComposerError(klingO3UnsupportedVideoReason);
       return;

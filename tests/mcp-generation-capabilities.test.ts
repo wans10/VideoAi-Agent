@@ -224,7 +224,7 @@ test('real Seedance 2.5 v2v and extend modes require bounded source references',
   rejectsCapability(seedance, { ...extendRequest, references: [...extendRequest.references, source('clip-4')] });
 });
 
-test('Seedance source and reference fields enforce canonical HTTPS media kinds', () => {
+test('Seedance Edit requires owned assets while ModelArk reference fields retain HTTPS media kinds', () => {
   const seedance = registryCapability('seedance-2-5');
   const httpsReference = (
     id: string,
@@ -242,7 +242,10 @@ test('Seedance source and reference fields enforce canonical HTTPS media kinds',
     settings: { durationSec: 4, resolution: '480p', aspectRatio: '16:9' },
     references: [httpsReference('source-video', 'source', 'video')],
   });
-  assert.doesNotThrow(() => validateCanonicalGenerationCapabilities(v2v, seedance));
+  rejectsCapability(seedance, v2v);
+  assert.doesNotThrow(() => validateCanonicalGenerationCapabilities({ ...v2v,
+    references: [{ kind: 'asset', assetId: 'owned-source-video', role: 'source' }],
+  }, seedance));
   rejectsCapability(seedance, {
     ...v2v,
     references: [httpsReference('source-image', 'source', 'image')],
@@ -285,6 +288,8 @@ test('MiniMax H3 provider constraints receive references in their canonical medi
     height: null,
     durationSec: 5,
     mimeType: 'audio/mpeg',
+    sizeBytes: 1024,
+    originalName: 'voice.mp3',
   }];
   const ref2v = request({
     engineId: 'minimax-h3',
@@ -293,7 +298,7 @@ test('MiniMax H3 provider constraints receive references in their canonical medi
     references: [audio],
   });
 
-  assert.throws(() => validateCanonicalGenerationCapabilities(
+  assert.doesNotThrow(() => validateCanonicalGenerationCapabilities(
     ref2v,
     minimax,
     { resolvedReferences: resolvedAudio },
@@ -310,6 +315,8 @@ test('MiniMax H3 provider constraints receive references in their canonical medi
       height: 1024,
       durationSec: null,
       mimeType: 'image/png',
+      sizeBytes: 1024,
+      originalName: 'subject.png',
     }] },
   ));
 });
@@ -326,10 +333,16 @@ test('H3, image, and Seedance capabilities allow the same media in distinct auth
       mode: 'i2v',
       settings: { durationSec, resolution },
       references: [
-        { kind: 'https', url, role: 'first_frame', mediaKind: 'image' },
-        { kind: 'https', url, role: 'last_frame', mediaKind: 'image' },
+        { kind: 'asset', assetId: 'shared-frame', role: 'first_frame' },
+        { kind: 'asset', assetId: 'shared-frame', role: 'last_frame' },
       ],
-    }), candidate));
+    }), candidate, {
+      resolvedReferences: (['first_frame', 'last_frame'] as const).map((role) => ({
+        assetId: 'shared-frame', role, mediaKind: 'image', storageUrl: url,
+        width: 1280, height: 720, durationSec: null,
+        mimeType: 'image/png', sizeBytes: 1024, originalName: 'shared-frame.png',
+      })),
+    }));
   }
 
   const imageFields: EngineInputField[] = [
@@ -724,4 +737,19 @@ test('HTTP route validators delegate provider rules to a route-independent serve
   assert.doesNotMatch(shared, /app\/api\/generate|\.\.\/\.\.\/\.\.\/app/u);
   assert.match(providerWrapper, /@\/server\/video-generation\/execution-constraints/u);
   assert.match(controlsWrapper, /@\/server\/video-generation\/execution-constraints/u);
+});
+
+
+test('MCP exposes only explicit native workflow authority and rejects settings/provider aliases', async () => {
+  const { prepareGenerationInputSchema } = await import('../frontend/src/server/mcp/tools/prepare-generation');
+  const normal = { surface: 'video', engineId: 'seedance-2-5', mode: 't2v', prompt: 'A valley', settings: { durationSec: 5, resolution: '480p' } };
+  assert.equal(prepareGenerationInputSchema.safeParse(normal).success, true);
+  assert.equal(prepareGenerationInputSchema.safeParse({ ...normal, seedanceWorkflow: { step: 'draft' } }).success, true);
+  assert.equal(prepareGenerationInputSchema.safeParse({ surface: 'video', engineId: 'seedance-2-5', seedanceWorkflow: { step: 'final', draftJobId: 'owned-draft' } }).success, true);
+  for (const unsupported of [
+    { ...normal, seedanceWorkflow: { step: 'final', draftJobId: 'owned-draft', providerTaskId: 'forged' } },
+    { ...normal, settings: { ...normal.settings, draft: true } },
+    { ...normal, settings: { ...normal.settings, workflowStep: 'final', draftJobId: 'owned-draft' } },
+    { ...normal, mode: 'draft' },
+  ]) assert.equal(prepareGenerationInputSchema.safeParse(unsupported).success, false);
 });

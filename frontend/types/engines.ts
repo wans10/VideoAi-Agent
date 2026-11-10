@@ -23,6 +23,7 @@ export type Resolution =
   | '480p'
   | '720p'
   | '1080p'
+  | '1080P'
   | '1440p'
   | '4k'
   | '1k'
@@ -180,6 +181,7 @@ export interface EngineReferenceBudget {
   modes?: Mode[];
   maxTotal: number;
   countUniqueUrls: boolean;
+  maxByType?: Partial<Record<'image' | 'video' | 'audio', number>>;
 }
 
 export interface EngineInputSchema {
@@ -225,6 +227,12 @@ export interface EngineModeUiCaps {
   notes?: string;
 }
 
+export type EngineModeAvailability = Readonly<{
+  available: boolean;
+  inheritsSourceVideo?: boolean;
+  reason: 'available' | 'provider_disabled' | 'provider_credentials_missing' | 'provider_admin_only' | 'profile_invalid';
+}>;
+
 export interface EngineCaps {
   id: string;
   label: string;
@@ -243,6 +251,7 @@ export interface EngineCaps {
   region?: string;
   vendorAccountId?: string;
   modes: Mode[];
+  modeAvailability?: Partial<Record<Mode, EngineModeAvailability>>;
   maxDurationSec: number;
   resolutions: Resolution[];
   aspectRatios: AspectRatio[];
@@ -279,9 +288,11 @@ export interface EnginesResponse {
 }
 
 export interface PreflightRequest {
+  seedanceWorkflow?: { step: 'draft' } | { step: 'final'; draftJobId: string };
   engine: string;
   mode: Mode;
   durationSec: number;
+  durationOption?: number | string;
   resolution?: Resolution;
   aspectRatio?: AspectRatio;
   fps: number;
@@ -334,6 +345,9 @@ export interface PreflightResponse {
   error?: {
     code: string;
     message: string;
+    field?: string;
+    durationSec?: number;
+    maxDurationSec?: number;
     suggestions?: Record<string, unknown>[];
   };
 }

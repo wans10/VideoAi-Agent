@@ -1,14 +1,19 @@
+import { ExamplesPromptStarters } from './examples-prompt-starters';
+import type { ReactNode } from 'react';
+import type { ExamplesVersionLink } from '../_lib/examples-version-links';
 import clsx from 'clsx';
+import styles from './examples-editorial.module.css';
 import type { ExampleGalleryVideo } from '@/components/examples/ExamplesGalleryGrid';
 import type { AppLocale } from '@/i18n/locales';
 import type { ExampleSort, listExamplesPage } from '@/server/videos';
 import type { ExamplesModelLink } from '../_lib/examples-page-data';
+import type { ExamplesNextStepLink } from '../_lib/examples-page-copy';
 import type { EngineFilterOption } from '../_lib/examples-route-utils';
 import { ExamplesEngineFilterNav } from './examples-engine-filter-nav';
 import { ExamplesJsonLdScripts } from './examples-jsonld-scripts';
-import { ExamplesMainVideoFeature } from './examples-main-video-feature';
 import {
   ExamplesFaqSection,
+  ExamplesFamilyIntro,
   ExamplesGallerySection,
   ExamplesIntroHero,
   ExamplesModelLandingCardsSection,
@@ -52,6 +57,8 @@ type ExamplesPageViewProps = {
   heroTitle: string;
   initialDesktopBatch: number;
   initialExamples: ExampleGalleryVideo[];
+  priceSlots?: Record<string, ReactNode>;
+  promptStarters: ExamplesVersionLink[];
   initialMobileBatch: number;
   isModelLanding: boolean;
   itemListJson: unknown;
@@ -83,16 +90,15 @@ type ExamplesPageViewProps = {
     title: string;
     body: string;
   }>;
+  modelLandingGuideTitle?: string;
   modelLandingSummary?: string;
+  modelLandingLabel?: string;
   modelLinks: ExamplesModelLink[];
   modelPagesLabel: string;
   nextHref: ExamplesPaginationHref;
   nextLabel: string;
   nextOffsetStart: number;
-  nextStepLinks: Array<{
-    href: string;
-    label: string;
-  }>;
+  nextStepLinks: ExamplesNextStepLink[];
   pageLabel: string;
   pageOffsetEnd: number;
   previousHref: ExamplesPaginationHref;
@@ -129,16 +135,17 @@ export function ExamplesPageView({
   heroTitle,
   initialDesktopBatch,
   initialExamples,
+  priceSlots,
+  promptStarters,
   initialMobileBatch,
   isModelLanding,
   itemListJson,
   loadMoreLabel,
   locale,
   longDescription,
-  mainVideo,
-  mainVideoCopy,
-  mainVideoFeature,
   modelLandingSections,
+  modelLandingGuideTitle,
+  modelLandingLabel,
   modelLandingSummary,
   modelLinks,
   modelPagesLabel,
@@ -161,12 +168,16 @@ export function ExamplesPageView({
   totalPages,
   usesCurrentAndSupportedBlocks,
 }: ExamplesPageViewProps) {
-  const hasRouteHero = Boolean(mainVideo && mainVideoFeature.contentUrl);
-  const familyNotesLabel = locale === 'fr' ? 'Notes sur la famille' : locale === 'es' ? 'Notas de la familia' : 'Family notes';
+  const hubSubtitle = locale === 'fr'
+    ? 'Explorez les vidéos. Retrouvez leur prompt. Créez la vôtre.'
+    : locale === 'es'
+      ? 'Explora los vídeos. Copia el prompt. Crea tu versión.'
+      : 'Explore the videos. Find the prompt. Create your own.';
 
   return (
     <>
       <ExamplesEngineFilterNav
+        locale={locale}
         browseByModelLabel={browseByModelLabel}
         engineFilterAllLabel={engineFilterAllLabel}
         engineFilterOptions={engineFilterOptions}
@@ -176,50 +187,16 @@ export function ExamplesPageView({
 
       <div
         className={clsx(
-          'container-page max-w-7xl',
+          'container-page max-w-[1800px]',
           engineFilterOptions.length ? 'pb-[var(--section-padding-y)] pt-4 sm:pt-6' : 'section'
         )}
       >
-        <div className="stack-gap-lg">
-          <ExamplesIntroHero heroLead={heroLead} heroSubtitle={heroSubtitle} heroTitle={heroTitle} />
-
-          {mainVideo && mainVideoFeature.contentUrl ? (
-            <ExamplesMainVideoFeature
-              aspectRatio={mainVideoFeature.aspectRatio}
-              contentUrl={mainVideoFeature.contentUrl}
-              copy={mainVideoCopy}
-              durationSec={mainVideo.video.durationSec}
-              engineLabel={mainVideo.card.engineLabel}
-              exampleHref={mainVideo.card.href}
-              recreateHref={`/app?from=${encodeURIComponent(mainVideo.video.id)}`}
-              hasAudio={mainVideo.video.hasAudio}
-              heroLine={mainVideoFeature.heroLine}
-              isPortrait={mainVideoFeature.isPortrait}
-              locale={locale}
-              mimeType={mainVideoFeature.mimeType}
-              modelHref={mainVideo.card.modelHref ?? null}
-              poster={mainVideoFeature.poster ?? null}
-              promptFull={mainVideoFeature.promptFull}
-              title={mainVideoFeature.title}
-            />
-          ) : null}
-
-          <ExamplesModelLinksSection
-            currentModelPagesLabel={currentModelPagesLabel}
-            isModelLanding={isModelLanding}
-            locale={locale}
-            modelLinks={modelLinks}
-            modelPagesLabel={modelPagesLabel}
-            pricingLinkLabel={pricingLinkLabel}
-            pricingPath={pricingPath}
-            primaryModelLinks={primaryModelLinks}
-            selectedEngine={selectedEngine}
-            supportedOlderModelLinks={supportedOlderModelLinks}
-            supportedOlderVersionLabel={supportedOlderVersionLabel}
-            usesCurrentAndSupportedBlocks={usesCurrentAndSupportedBlocks}
+        <div className="space-y-6 sm:space-y-8">
+          <ExamplesIntroHero
+            heroLead={heroLead}
+            heroSubtitle={isModelLanding ? heroSubtitle : hubSubtitle}
+            heroTitle={heroTitle}
           />
-
-          <ExamplesModelLandingCardsSection sections={modelLandingSections} />
 
           <ExamplesGallerySection
             audioAvailableLabel={galleryUiCopy.audioAvailable}
@@ -227,6 +204,7 @@ export function ExamplesPageView({
             engineFilter={selectedEngine?.toLowerCase() ?? null}
             initialDesktopBatch={initialDesktopBatch}
             initialExamples={initialExamples}
+            priceSlots={priceSlots}
             initialMobileBatch={initialMobileBatch}
             initialOffset={nextOffsetStart}
             loadMoreLabel={loadMoreLabel}
@@ -234,19 +212,11 @@ export function ExamplesPageView({
             locale={locale}
             noPreviewLabel={galleryUiCopy.noPreview}
             pageOffsetEnd={pageOffsetEnd}
-            prioritizeFirstPoster={!hasRouteHero}
+            prioritizeFirstPoster={true}
+            openingEnabled={currentPage === 1 && sort === 'playlist'}
             show={showGallerySection}
             sort={sort}
           />
-
-          {isModelLanding && heroBody ? (
-            <section className="mx-auto w-full max-w-4xl">
-              <details className="rounded-[12px] border border-hairline bg-surface/75 px-4 py-3 text-sm text-text-secondary shadow-sm">
-                <summary className="cursor-pointer font-semibold text-text-primary">{familyNotesLabel}</summary>
-                <p className="mt-3 leading-relaxed text-text-secondary/90">{heroBody}</p>
-              </details>
-            </section>
-          ) : null}
 
           <ExamplesPaginationNav
             currentPage={currentPage}
@@ -261,11 +231,41 @@ export function ExamplesPageView({
             show={totalPages > 1}
           />
 
-          <ExamplesSummarySection longDescription={longDescription} modelLandingSummary={modelLandingSummary} />
+          <div className={styles.editorial}>
+            {isModelLanding && heroBody && modelLandingLabel ? (
+              <ExamplesFamilyIntro body={heroBody} label={modelLandingLabel} locale={locale} title={modelLandingGuideTitle} />
+            ) : null}
 
-          <ExamplesNextStepsSection locale={locale} nextStepLinks={nextStepLinks} />
+            {isModelLanding && currentPage === 1 && sort === 'playlist' ? (
+              <ExamplesPromptStarters locale={locale} starters={promptStarters} />
+            ) : null}
 
-          <ExamplesFaqSection faqBlock={faqBlock} />
+            <ExamplesModelLinksSection
+              currentModelPagesLabel={currentModelPagesLabel}
+              galleryExamples={initialExamples}
+              isModelLanding={isModelLanding}
+              locale={locale}
+              modelLinks={modelLinks}
+              modelPagesLabel={modelPagesLabel}
+              pricingLinkLabel={pricingLinkLabel}
+              pricingPath={pricingPath}
+              primaryModelLinks={primaryModelLinks}
+              selectedEngine={selectedEngine}
+              supportedOlderModelLinks={supportedOlderModelLinks}
+              supportedOlderVersionLabel={supportedOlderVersionLabel}
+              usesCurrentAndSupportedBlocks={usesCurrentAndSupportedBlocks}
+            />
+
+            {!isModelLanding || modelLandingSummary ? (
+              <ExamplesSummarySection longDescription={longDescription} modelLandingSummary={modelLandingSummary} />
+            ) : null}
+
+            <ExamplesModelLandingCardsSection sections={modelLandingSections} />
+
+            <ExamplesNextStepsSection locale={locale} nextStepLinks={nextStepLinks} />
+
+            <ExamplesFaqSection faqBlock={faqBlock} />
+          </div>
         </div>
 
         <ExamplesJsonLdScripts

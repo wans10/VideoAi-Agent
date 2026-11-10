@@ -30,6 +30,7 @@ import {
   LUMA_RAY2_ERROR_UNSUPPORTED,
 } from '@/lib/luma-ray2';
 import { applyEngineVariantPricing, buildEngineAddonInput } from '@/lib/pricing-addons';
+import { videoPricingExtras } from '@/lib/pricing-video-extras';
 import { getEngineCaps } from '@/fixtures/engineCaps';
 import {
   applyConfiguredEngineRuntimeOptions,
@@ -37,7 +38,12 @@ import {
 } from '@/server/engine-configuration-projection';
 import { getPrivateRuntimeEngineById } from '@/server/video-generation/private-engine-registry';
 import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
-import { getReadOnlyConfiguredEngine } from '@/server/agent-api/read-only-engine-catalog';
+import {
+  getReadOnlyConfiguredEngine,
+  getReadOnlyConfiguredEnginesByCategory,
+  getReadOnlyConfiguredEnginesByCategoryInExecutor,
+} from '@/server/agent-api/read-only-engine-catalog';
+import { projectSeededEngineSettings } from '@/server/engine-settings-defaults';
 
 async function getConfiguredEnginesForBase(
   baseEngines: EngineCaps[],
@@ -76,23 +82,14 @@ export async function getPublicConfiguredEnginesByCategory(
   category: EngineCategory = 'video',
   includeDisabled = false
 ): Promise<EngineCaps[]> {
-  const baseEngines = getBaseEnginesByCategory(category);
-  return getConfiguredEnginesForBase(baseEngines, includeDisabled, { bootstrap: false });
+  return getReadOnlyConfiguredEnginesByCategory(category, includeDisabled);
 }
 
 export async function getPublicConfiguredEnginesByCategoryInExecutor(
   category: EngineCategory,
   executor: TransactionQueryExecutor,
 ): Promise<EngineCaps[]> {
-  await executor.query('LOCK TABLE engine_settings, engine_overrides IN SHARE MODE');
-  const [settingsMap, overridesMap] = await Promise.all([
-    fetchEngineSettingsWithExecutor(executor),
-    fetchEngineOverridesWithExecutor(executor),
-  ]);
-  return getBaseEnginesByCategory(category)
-    .map((engine) => projectConfiguredEngine(engine, settingsMap, overridesMap))
-    .filter((entry) => !entry.disabled)
-    .map((entry) => applyConfiguredEngineRuntimeOptions(entry.engine));
+  return getReadOnlyConfiguredEnginesByCategoryInExecutor(category, executor);
 }
 
 export async function getConfiguredEngines(includeDisabled = false): Promise<EngineCaps[]> {
@@ -131,18 +128,26 @@ export async function getConfiguredEngineIncludingHiddenInExecutor(
     fetchEngineSettingsWithExecutor(executor),
     fetchEngineOverridesWithExecutor(executor),
   ]);
-  const merged = projectConfiguredEngine(hiddenBase, settingsMap, overridesMap);
+  const effectiveSettings = projectSeededEngineSettings(getBaseEngines(), settingsMap);
+  const merged = projectConfiguredEngine(hiddenBase, effectiveSettings, overridesMap);
   if (merged.disabled) return undefined;
   return applyConfiguredEngineRuntimeOptions(merged.engine);
 }
 
 export type TrustedPreflightMediaPricingFacts = Readonly<{
+  seedanceSourceAspectRatio?: import('@/types/engines').AspectRatio;
+  seedanceEditSource?: import('@/lib/seedance-edit-source').SeedanceEditSourceFacts;
   referenceImageCount?: number;
   inputAudioDurationSec?: number;
+  inputVideoDurationSec?: number;
+  referenceTokenBudget?: number;
   verifiedReferenceTokenCount?: number;
+  inputImageCount?: number;
+  inheritedDurationSec?: number;
 }>;
 
 export type ComputeConfiguredPreflightOptions = Readonly<{
+  seedanceWorkflowStep?: 'draft' | 'final';
   resolvedEngine?: EngineCaps;
   trustedMediaPricingFacts?: TrustedPreflightMediaPricingFacts;
   bootstrap?: boolean;
@@ -271,8 +276,13 @@ export async function computeConfiguredPreflight(
       : {};
   if (
     Object.prototype.hasOwnProperty.call(rawExtraInputValues, 'referenceImageCount')
+    || Object.prototype.hasOwnProperty.call(rawExtraInputValues,'inputImageCount')
+    || Object.prototype.hasOwnProperty.call(rawExtraInputValues,'inheritedDurationSec')
     || Object.prototype.hasOwnProperty.call(rawExtraInputValues, 'inputAudioDurationSec')
+    || Object.prototype.hasOwnProperty.call(rawExtraInputValues, 'inputVideoDurationSec')
     || Object.prototype.hasOwnProperty.call(rawExtraInputValues, 'verifiedReferenceTokenCount')
+    || Object.prototype.hasOwnProperty.call(rawExtraInputValues, 'referenceTokenBudget')
+    || Object.prototype.hasOwnProperty.call(rawExtraInputValues, 'seedanceSourceAspectRatio')
   ) {
     return {
       ok: false,
@@ -286,36 +296,41 @@ export async function computeConfiguredPreflight(
   const {
     referenceImageCount,
     inputAudioDurationSec,
+    inputVideoDurationSec,
+    referenceTokenBudget,
     verifiedReferenceTokenCount,
+    inputImageCount,
+    inheritedDurationSec,
+    seedanceEditSource,
+    seedanceSourceAspectRatio,
   } = options.trustedMediaPricingFacts ?? {};
-  const booleanExtraAddon = (value: unknown): boolean | undefined => {
-    if (typeof value === 'boolean') return value;
-    if (typeof value === 'string') {
-      return ['1', 'true', 'yes', 'on'].includes(value.trim().toLowerCase());
-    }
-    return undefined;
-  };
   const pricingAddons = {
     ...(addons ?? {}),
-    ...(booleanExtraAddon(rawExtraInputValues.hdr) ? { hdr: true } : {}),
-    ...(booleanExtraAddon(rawExtraInputValues.exr_export ?? rawExtraInputValues.exrExport) ? { exr_export: true } : {}),
+    ...videoPricingExtras(pricingEngine.id, request.mode, rawExtraInputValues),
   };
   let snapshot: PricingSnapshot;
   try {
     snapshot = await computeCanonicalPublicSnapshot({
+      workflowStep: options.seedanceWorkflowStep,
       engine: pricingEngine,
-      durationSec,
+      durationSec: seedanceEditSource?.billedDurationSec ?? durationSec,
       resolution: effectiveResolution,
-      aspectRatio: request.aspectRatio,
+      aspectRatio: seedanceEditSource?.pricingAspectRatio ?? request.aspectRatio,
       mode: request.mode,
       membershipTier: memberTier,
       loop,
       hasVideoInput: request.hasVideoInput,
-      durationOption: durationInfo?.label,
+      durationOption: durationInfo?.label ?? request.durationOption,
       addons: Object.keys(pricingAddons).length ? pricingAddons : undefined,
       referenceImageCount,
       inputAudioDurationSec,
+      inputVideoDurationSec,
+      referenceTokenBudget,
       verifiedReferenceTokenCount,
+      inputImageCount,
+      inheritedDurationSec,
+      seedanceEditSource,
+      seedanceSourceAspectRatio,
     });
   } catch (error) {
     return {
