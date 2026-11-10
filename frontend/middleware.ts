@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { createIsbotFromList, list as botPatterns } from 'isbot';
 import { defaultLocale, localePathnames } from '@/i18n/locales';
+import { isEnglishOnlyMarketingPath } from '@/lib/i18n/marketing-page-fallback';
 import mcpPublication from '@/config/mcp-publication.json';
 import { FEATURES } from '@/content/feature-flags';
 import { LOGOUT_INTENT_COOKIE } from '@/lib/logout-intent-cookie';
@@ -9,6 +10,7 @@ import { getMcpApiRewritePath } from '@/lib/mcp-host-routing';
 import { isMcpPublicSourcePath } from '@/lib/mcp-publication';
 import { canVisitorBrowseWorkspacePath } from '@/lib/visitor-access';
 import { editorialSignInRedirect } from '@/lib/editorial/login';
+import { MiddlewareAuthTimeoutError } from '@/lib/middleware/auth-deadline';
 import {
   LOGIN_PATH,
   LOCALE_STRIPPABLE_PREFIXES,
@@ -23,6 +25,7 @@ import {
   isDottedLocalizedEnglishModelCompatibilityPath,
   isLoopbackHost,
   mergeResponseCookies,
+  middlewareAuthUnavailableResponse,
   normalizeLeadingLocaleSegments,
   normalizePublicQueryParams,
   resolveLangParamRedirect,
@@ -184,7 +187,9 @@ export async function middleware(req: NextRequest) {
 
   if (isMarketingPath) {
     const defaultPrefix = localePathnames[defaultLocale];
-    if ((isBotRequest || bypassLocaleRedirect) && !hasLocalePrefix(pathname)) {
+    if (isEnglishOnlyMarketingPath(pathname)) {
+      response = NextResponse.next();
+    } else if ((isBotRequest || bypassLocaleRedirect) && !hasLocalePrefix(pathname)) {
       if (defaultPrefix) {
         const rewriteUrl = req.nextUrl.clone();
         const suffix = pathname === '/' ? '' : pathname;
@@ -223,7 +228,14 @@ export async function middleware(req: NextRequest) {
   }
 
   const { updateSession } = await import('@/lib/supabase-ssr');
-  const { userId } = await updateSession(req, response);
+  let userId: string | null;
+  try {
+    ({ userId } = await updateSession(req, response));
+  } catch (error) {
+    if (!(error instanceof MiddlewareAuthTimeoutError)) throw error;
+    console.warn('[middleware] auth deadline exceeded');
+    return finalizeResponse(middlewareAuthUnavailableResponse(req, response), false, trackingNoindex, appNoindex);
+  }
 
   if (isAdminRoute) {
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');

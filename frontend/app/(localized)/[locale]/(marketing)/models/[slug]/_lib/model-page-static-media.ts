@@ -1,4 +1,12 @@
 export const PREFERRED_MEDIA: Record<string, { hero: string | null; demo: string | null }> = {
+  'kling-v4-flash': {
+    hero: 'job_external_fal_6712f839e8fdd81095934387795fdac464ae58ac',
+    demo: 'job_external_fal_d7520a41bbe895c4a4647a559218c446429d5989',
+  },
+  'flux-3-max': {
+    hero: 'job_external_fal_38061bc977ff126b5248f9f835436a9370a2f7bb',
+    demo: 'job_external_fal_348334c2377e9d31bda23c030095861ad2e9d55c',
+  },
   'minimax-h3': {
     hero: 'job_87d713f7-9193-4831-a9e5-59ce1e0c668c',
     demo: 'job_91c6f549-7b07-45b3-ad45-cbaf67d10959',
@@ -185,9 +193,9 @@ export const PREP_LINK_VISUALS = {
       es: 'Fija la identidad, el vestuario y la calidad de referencia.',
     },
     alt: {
-      en: 'Character Builder reference example',
-      fr: 'Exemple de référence Character Builder',
-      es: 'Ejemplo de referencia de Character Builder',
+      en: 'Character Studio reference example',
+      fr: 'Exemple de référence Character Studio',
+      es: 'Ejemplo de referencia de Character Studio',
     },
   },
   '/tools/angle': {

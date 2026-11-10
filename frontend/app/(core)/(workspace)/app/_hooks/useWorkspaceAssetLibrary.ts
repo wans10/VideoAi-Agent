@@ -1,6 +1,7 @@
+import { useLibraryCacheRevision, libraryCacheRevision, invalidateLibraryMedia } from '@/hooks/useLibraryCacheRevision';
+import { ownedAuthFetch } from '@/lib/owned-auth-fetch';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { authFetch } from '@/lib/authFetch';
 import {
   buildAssetLibraryCacheKey,
   buildAssetLibraryUrl,
@@ -20,15 +21,18 @@ type FetchAssetLibraryOptions = {
 
 type UseWorkspaceAssetLibraryOptions = {
   userId?: string | null;
+  listingEnabled?: boolean;
   showNotice: (message: string) => void;
   setInputAssets: Dispatch<SetStateAction<Record<string, (ReferenceAsset | null)[]>>>;
 };
 
 export function useWorkspaceAssetLibrary({
   userId = null,
+  listingEnabled = true,
   showNotice,
   setInputAssets,
 }: UseWorkspaceAssetLibraryOptions) {
+  const revision = useLibraryCacheRevision(userId);
   const owner = useRef({ userId, version: 0 });
   const requestVersion = useRef(0);
   if (owner.current.userId !== userId) {
@@ -53,8 +57,8 @@ export function useWorkspaceAssetLibrary({
 
   const assetLibraryKind = useMemo<AssetLibraryKind>(() => {
     if (!assetPickerTarget) return 'image';
-    if (assetPickerTarget.kind === 'field' && assetPickerTarget.field.type === 'video') {
-      return 'video';
+    if (assetPickerTarget.kind === 'field' && (assetPickerTarget.field.type === 'video' || assetPickerTarget.field.type === 'audio')) {
+      return assetPickerTarget.field.type;
     }
     if (assetPickerTarget.kind === 'kling' && assetPickerTarget.slot === 'video') {
       return 'video';
@@ -62,7 +66,7 @@ export function useWorkspaceAssetLibrary({
     return 'image';
   }, [assetPickerTarget]);
   const assetLibraryRequestKey = assetPickerTarget
-    ? `${userId ?? "guest"}:${buildAssetLibraryCacheKey(assetLibraryKind, assetLibrarySource)}`
+    ? `${userId ?? "guest"}:${revision}:${buildAssetLibraryCacheKey(assetLibraryKind, assetLibrarySource)}`
     : null;
   const visibleAssetLibrary = useMemo(
     () => libraryOwnerId === userId && userId && assetLibraryLoadedKey === assetLibraryRequestKey ? assetLibrary.filter((asset) => asset.kind === assetLibraryKind) : [],
@@ -94,22 +98,27 @@ export function useWorkspaceAssetLibrary({
   }, [userId]);
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
+  useEffect(() => { requestVersion.current += 1; setIsAssetLibraryLoading(false); setIsAssetLibraryLoadingMore(false); }, [revision]);
 
   const fetchAssetLibrary = useCallback(async (options?: FetchAssetLibraryOptions) => {
     if (!userId || owner.current.userId !== userId) return;
+    if (!listingEnabled) {
+      invalidateLibraryMedia(userId);
+      return;
+    }
     const scope = owner.current;
     const request = ++requestVersion.current;
-    const isCurrent = () => owner.current === scope && requestVersion.current === request;
+    const isCurrent = () => owner.current === scope && requestVersion.current === request && libraryCacheRevision(userId) === revision;
     const source = options?.source ?? assetLibrarySource;
     const kind = options?.kind ?? assetLibraryKind;
-    const requestKey = `${userId}:${buildAssetLibraryCacheKey(kind, source)}`;
+    const requestKey = `${userId}:${revision}:${buildAssetLibraryCacheKey(kind, source)}`;
     setIsAssetLibraryLoading(true);
     setIsAssetLibraryLoadingMore(false);
     setAssetLibraryError(null);
     setAssetLibraryNextCursor(null);
     setAssetLibraryHasMore(false);
     try {
-      const assetResponse = await authFetch(buildAssetLibraryUrl(kind, source));
+      const assetResponse = await ownedAuthFetch(buildAssetLibraryUrl(kind, source), userId);
       if (!isCurrent()) return;
       if (assetResponse.status === 401) {
         setAssetLibrary([]);
@@ -147,22 +156,22 @@ export function useWorkspaceAssetLibrary({
     } finally {
       if (isCurrent()) setIsAssetLibraryLoading(false);
     }
-  }, [assetLibraryKind, assetLibrarySource, userId]);
+  }, [assetLibraryKind, assetLibrarySource, listingEnabled, userId, revision]);
 
   const loadMoreAssetLibrary = useCallback(async () => {
-    if (!userId || owner.current.userId !== userId || !assetLibraryNextCursor || isAssetLibraryLoadingMore) return;
+    if (!listingEnabled || !userId || owner.current.userId !== userId || !assetLibraryNextCursor || isAssetLibraryLoadingMore) return;
     const scope = owner.current;
     const request = ++requestVersion.current;
-    const isCurrent = () => owner.current === scope && requestVersion.current === request;
+    const isCurrent = () => owner.current === scope && requestVersion.current === request && libraryCacheRevision(userId) === revision;
     const source = assetLibrarySource;
     const kind = assetLibraryKind;
-    const requestKey = `${userId}:${buildAssetLibraryCacheKey(kind, source)}`;
+    const requestKey = `${userId}:${revision}:${buildAssetLibraryCacheKey(kind, source)}`;
     if (assetLibraryLoadedKey !== requestKey) return;
 
     setIsAssetLibraryLoadingMore(true);
     setAssetLibraryError(null);
     try {
-      const response = await authFetch(buildAssetLibraryUrl(kind, source, assetLibraryNextCursor));
+      const response = await ownedAuthFetch(buildAssetLibraryUrl(kind, source, assetLibraryNextCursor), userId);
       const payload = await response.json().catch(() => null);
       if (!isCurrent()) return;
       if (!response.ok || !payload?.ok) {
@@ -182,10 +191,10 @@ export function useWorkspaceAssetLibrary({
     } finally {
       if (isCurrent()) setIsAssetLibraryLoadingMore(false);
     }
-  }, [assetLibraryKind, assetLibraryLoadedKey, assetLibraryNextCursor, assetLibrarySource, isAssetLibraryLoadingMore, userId]);
+  }, [assetLibraryKind, assetLibraryLoadedKey, assetLibraryNextCursor, assetLibrarySource, isAssetLibraryLoadingMore, listingEnabled, userId, revision]);
 
   useEffect(() => {
-    if (!userId || libraryOwnerId !== userId || !assetPickerTarget || !assetLibraryRequestKey || isAssetLibraryLoading) return;
+    if (!listingEnabled || !userId || libraryOwnerId !== userId || !assetPickerTarget || !assetLibraryRequestKey || isAssetLibraryLoading) return;
     if (assetLibraryLoadedKey === assetLibraryRequestKey) return;
     setAssetLibrary([]);
     setAssetLibraryError(null);
@@ -193,6 +202,7 @@ export function useWorkspaceAssetLibrary({
   }, [
     userId,
     libraryOwnerId,
+    listingEnabled,
     assetLibraryKind,
     assetLibraryLoadedKey,
     assetLibraryRequestKey,
@@ -204,10 +214,11 @@ export function useWorkspaceAssetLibrary({
 
   const handleDeleteLibraryAsset = useCallback(
     async (asset: UserAsset) => {
-      if (!asset?.id) return;
+      if (!asset?.id || !userId) return;
+      const scope = owner.current;
       setAssetDeletePendingId(asset.id);
       try {
-        const response = await authFetch(`/api/media-library/assets/${encodeURIComponent(asset.id)}`, {
+        const response = await ownedAuthFetch(`/api/media-library/assets/${encodeURIComponent(asset.id)}`, userId, {
           method: 'DELETE',
         });
         const payload = await response.json().catch(() => null);
@@ -218,6 +229,8 @@ export function useWorkspaceAssetLibrary({
           throw new Error(message);
         }
 
+        invalidateLibraryMedia(userId);
+        if (owner.current !== scope) return;
         setAssetLibrary((previous) => previous.filter((entry) => entry.id !== asset.id));
         setInputAssets((previous) => {
           let changed = false;
@@ -238,14 +251,15 @@ export function useWorkspaceAssetLibrary({
           return changed ? next : previous;
         });
       } catch (error) {
+        if (owner.current !== scope) return;
         console.error('[assets] failed to delete asset', error);
         showNotice(error instanceof Error ? error.message : 'Failed to delete image');
         throw error;
       } finally {
-        setAssetDeletePendingId(null);
+        if (owner.current === scope) setAssetDeletePendingId(null);
       }
     },
-    [setInputAssets, showNotice]
+    [setInputAssets, showNotice, userId]
   );
 
   const handleAssetLibrarySourceChange = useCallback(

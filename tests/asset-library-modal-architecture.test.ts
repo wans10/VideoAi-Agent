@@ -9,8 +9,8 @@ test('asset library modal title follows the requested asset type', () => {
 
   assert.match(
     source,
-    /const libraryTitle =\s+assetType === 'video'\s+\? \(uiLocale === 'fr'[\s\S]+?\)\s+: copyAssetLibrary\.title;/,
-    'video pickers should not reuse the reference-image title'
+    /const libraryTitle =[\s\S]+?assetType === 'audio'[\s\S]+?assetType === 'video'[\s\S]+?: copyAssetLibrary\.title;/,
+    'audio and video pickers should not reuse the reference-image title'
   );
   assert.match(source, /title=\{target\?\.role \?[^\n]+: libraryTitle\}/, 'AssetLibraryBrowser should receive the asset-type-aware title');
 });
@@ -22,6 +22,12 @@ test('selection is portal-scoped with a single visible heading and owner-control
   assert.match(modal, /return createPortal/);
   assert.match(modal, /headingId=\{titleId\}/);
   assert.doesNotMatch(modal, /<h2/);
-  assert.match(picker, /await selection\.onConfirm/);
+  const selection=readFileSync('frontend/components/library/useReferencePickerSelection.ts','utf8');
+  assert.match(picker,/useReferencePickerSelection/);
+  assert.match(picker,/useReferencePickerBrowse/);
+  assert.match(picker,/ReferencePickerFooter/);
+  assert.ok(picker.split('\n').length<=500);
+  assert.match(selection, /await live\.onConfirm/);
+  assert.match(selection,/validateLibraryPickerSelection/);
   assert.doesNotMatch(picker, /autoPlay|<video|<Image|asset\.id\}`/);
 });

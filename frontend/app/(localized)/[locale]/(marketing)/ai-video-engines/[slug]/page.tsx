@@ -106,6 +106,7 @@ export default async function CompareDetailPage(
   const {
     criteriaCount,
     engineScoresBySlug,
+    engineScoreReviewsBySlug,
     hasPrelaunchEngine,
     leftOverall,
     leftPricingDisplay,
@@ -188,7 +189,7 @@ export default async function CompareDetailPage(
   const webPageJsonLd = buildCompareWebPageJsonLd({
     compareCopy,
     comparisonCanonicalUrl,
-    criteriaCount,
+    pairHasNativeAudio,
     left,
     metaOverride,
     pairHasKling3Native4k,
@@ -233,6 +234,9 @@ export default async function CompareDetailPage(
       resolvedLeftOptions={resolvedLeftOptions}
       resolvedRightOptions={resolvedRightOptions}
       engineScoresBySlug={engineScoresBySlug}
+      engineScoreReviewsBySlug={engineScoreReviewsBySlug}
+      leftScoreReview={leftScore?.review}
+      rightScoreReview={rightScore?.review}
       right={right}
       rightAccent={rightAccent}
       rightCanGenerate={rightCanGenerate}

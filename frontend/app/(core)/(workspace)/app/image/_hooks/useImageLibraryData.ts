@@ -1,10 +1,11 @@
 'use client';
+import { useLibraryCacheRevision, libraryRevisionKey, useLibraryScopePersistence } from '@/hooks/useLibraryCacheRevision';
 
 import { useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
 import type { AssetLibrarySource } from '@/components/library/AssetLibraryBrowser';
-import { authFetch } from '@/lib/authFetch';
+import { ownedAuthFetch } from '@/lib/owned-auth-fetch';
 import {
   buildMediaLibraryAssetsKey,
   fetchMediaLibraryAssets,
@@ -16,33 +17,36 @@ import type { LibraryAsset } from '../_lib/image-workspace-types';
 export const IMAGE_LIBRARY_PAGE_SIZE = 30;
 
 /** Account is part of every cache identity; canonical first pages are shared with the Media page. */
-export function useImageLibraryData({ userId, source, isCharacterMode }: {
+export function useImageLibraryData({ userId, source, isCharacterMode, enabled = true }: {
   userId: string | null;
   source: AssetLibrarySource;
   isCharacterMode: boolean;
+  enabled?: boolean;
 }) {
+  const revision = useLibraryCacheRevision(userId);
+  const persistSize = useLibraryScopePersistence(JSON.stringify([userId, source, isCharacterMode]));
   const assetsQuery = useSWRInfinite<MediaLibraryAssetsResponse>(
     (pageIndex, previousPageData) => {
-      if (isCharacterMode || (previousPageData && !previousPageData.nextCursor)) return null;
-      return buildMediaLibraryAssetsKey({
+      if (!enabled || isCharacterMode || (previousPageData && !previousPageData.nextCursor)) return null;
+      return libraryRevisionKey(buildMediaLibraryAssetsKey({
         userId,
         kind: 'image',
         source,
         limit: IMAGE_LIBRARY_PAGE_SIZE,
         cursor: pageIndex === 0 ? null : previousPageData?.nextCursor,
-      });
+      }), revision);
     },
     fetchMediaLibraryAssets,
     {
       keepPreviousData: false,
-      persistSize: false,
+      persistSize,
     }
   );
-  const characterKey = userId && isCharacterMode
+  const characterKey = enabled && userId && isCharacterMode
     ? ['/api/character-references?limit=60', userId] as const
     : null;
-  const characterQuery = useSWR<CharacterReferencesResponse>(characterKey, async ([url]: readonly [string, string]) => {
-    const response = await authFetch(url);
+  const characterQuery = useSWR<CharacterReferencesResponse>(characterKey, async ([url, ownerId]: readonly [string, string]) => {
+    const response = await ownedAuthFetch(url, ownerId);
     const payload = (await response.json().catch(() => null)) as CharacterReferencesResponse | null;
     if (!response.ok || !payload?.ok) {
       throw new Error(payload?.error ?? 'Failed to load Media');
@@ -62,10 +66,10 @@ export function useImageLibraryData({ userId, source, isCharacterMode }: {
     assetsQuery.isValidating && assetsQuery.data && assetsQuery.size > assetsQuery.data.length
   );
   const loadMore = useCallback(() => {
-    if (!isCharacterMode && lastAssetPage?.nextCursor && !isLoadingMore) {
+    if (enabled && !isCharacterMode && lastAssetPage?.nextCursor && !isLoadingMore) {
       void assetsQuery.setSize((size) => size + 1);
     }
-  }, [assetsQuery, isCharacterMode, isLoadingMore, lastAssetPage?.nextCursor]);
+  }, [assetsQuery, enabled, isCharacterMode, isLoadingMore, lastAssetPage?.nextCursor]);
 
   if (isCharacterMode) {
     return {

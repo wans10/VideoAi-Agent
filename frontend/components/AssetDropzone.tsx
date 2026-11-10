@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { VIDEO_EXCERPT_PREPARATION_LIMITS } from '@/lib/video-excerpt';
 import { useMemo, useCallback, useRef } from 'react';
 import type { ChangeEvent, ClipboardEvent, DragEvent, ReactNode } from 'react';
 import type { EngineCaps, EngineInputField, EngineModeUiCaps as CapabilityCaps } from '@/types/engines';
@@ -28,7 +29,7 @@ import {
   validateEngineImageFile,
   VEO_REFERENCE_WARNING_ENGINES,
 } from '@/components/asset-dropzone/asset-dropzone-helpers';
-import type { AssetDisabledPresentation, AssetFieldGuidance as AssetFieldGuidanceCopy, AssetFieldRole, AssetSlotAttachment, AssetUploadMeta } from '@/components/asset-dropzone/asset-dropzone-types';
+import type { AssetDisabledPresentation, AssetFieldGuidance as AssetFieldGuidanceCopy, AssetFieldRole, AssetSlotAttachment, AssetUploadMeta, WorkspaceAssetPresentation } from '@/components/asset-dropzone/asset-dropzone-types';
 
 export type { AssetDisabledPresentation, AssetFieldConfig, AssetFieldGuidance, AssetFieldRole, AssetSlotAttachment, AssetUploadMeta } from '@/components/asset-dropzone/asset-dropzone-types';
 interface AssetDropzoneProps {
@@ -42,15 +43,18 @@ interface AssetDropzoneProps {
   assets: (AssetSlotAttachment | null)[];
   headerAction?: ReactNode;
   density?: 'default' | 'compact' | 'workspace';
+  allowVideoExcerptImport?: boolean;
+  renderWorkspaceSlot?: (asset: AssetSlotAttachment, slotIndex: number) => WorkspaceAssetPresentation;
   onSelect?: (field: EngineInputField, file: File, slotIndex: number, meta?: AssetUploadMeta) => void;
   onRemove?: (field: EngineInputField, index: number) => void;
   onError?: (message: string) => void;
-  onOpenLibrary?: (field: EngineInputField, slotIndex: number) => void;
+  onOpenLibrary?: (field: EngineInputField, slotIndex?: number) => void;
   onUrlSelect?: (field: EngineInputField, url: string, slotIndex: number) => void;
   referenceWarning?: string;
   guidance?: AssetFieldGuidanceCopy | null;
   disabled?: boolean;
   disabledReason?: string | null;
+  workspaceDisabledReasonContent?: ReactNode;
   disabledPresentation?: AssetDisabledPresentation;
 }
 
@@ -66,6 +70,8 @@ export function AssetDropzone({
   headerAction,
   density = 'default',
   onSelect,
+  allowVideoExcerptImport = false,
+  renderWorkspaceSlot,
   onRemove,
   onError,
   onOpenLibrary,
@@ -74,6 +80,7 @@ export function AssetDropzone({
   guidance,
   disabled = false,
   disabledReason = null,
+  workspaceDisabledReasonContent,
   disabledPresentation = 'default',
 }: AssetDropzoneProps) {
   const { locale } = useI18n();
@@ -138,7 +145,7 @@ export function AssetDropzone({
       if (!onSelect) return;
       if (field.type === 'image') {
         const validation = await validateEngineImageFile({
-          file, acceptFormats, minimumSidePx: minimumImageSidePx, engineLabel: engine.label, assetCopy,
+          file, acceptFormats, minimumSidePx: minimumImageSidePx, engineLabel: engine.label, engineId: engine.id, locale, assetCopy,
         });
         if (!validation.ok) return onError?.(validation.message);
         onSelect(field, file, slotIndex, validation.dimensions);
@@ -159,7 +166,9 @@ export function AssetDropzone({
           return;
         }
         const duration = await readMediaDuration(file, 'video');
-        const maxDurationSec = field.maxDurationSec ?? limits.videoMaxDurationSec;
+        const modelMaxDurationSec = field.maxDurationSec ?? limits.videoMaxDurationSec ?? constraints.maxVideoDurationSec;
+        const maxDurationSec = allowVideoExcerptImport && typeof modelMaxDurationSec === 'number'
+          ? Math.max(modelMaxDurationSec, VIDEO_EXCERPT_PREPARATION_LIMITS.maxSourceSec) : modelMaxDurationSec;
         if (duration == null && typeof maxDurationSec === 'number') {
           onError?.(assetCopy.unableToReadVideoDuration);
           return;
@@ -178,7 +187,9 @@ export function AssetDropzone({
           return;
         }
         const minDurationSec = field.minDurationSec;
-        const maxDurationSec = field.maxDurationSec ?? limits.audioMaxDurationSec;
+        const modelMaxDurationSec = field.maxDurationSec ?? limits.audioMaxDurationSec;
+        const maxDurationSec = allowVideoExcerptImport && typeof modelMaxDurationSec === 'number'
+          ? Math.max(modelMaxDurationSec, VIDEO_EXCERPT_PREPARATION_LIMITS.maxSourceSec) : modelMaxDurationSec;
         if (typeof minDurationSec === 'number' && duration < minDurationSec) {
           onError?.(assetCopy.audioMinDuration(minDurationSec));
           return;
@@ -187,21 +198,25 @@ export function AssetDropzone({
           onError?.(assetCopy.audioMaxDuration(maxDurationSec));
           return;
         }
-        onSelect(field, file, slotIndex, { durationSec: duration });
+        onSelect(field, file, slotIndex, { durationSec: duration, ...(allowVideoExcerptImport ? { prepareExcerpt: true } : {}) });
         return;
       }
       onSelect(field, file, slotIndex);
     },
     [
+      allowVideoExcerptImport,
       acceptFormats,
       assetCopy,
       constraints.maxVideoSizeMB,
+      constraints.maxVideoDurationSec,
       engine.label,
+      engine.id,
       field,
       limits.audioMaxDurationSec,
       limits.videoMaxDurationSec,
       limits.videoMaxMB,
       mediaFieldConstraint,
+      locale,
       minimumImageSidePx,
       onError,
       onSelect,
@@ -309,7 +324,7 @@ export function AssetDropzone({
   const shouldLimitSoloWidth = isSoloField && displaySlots.length === 1 && !workspaceDensity;
 
   const renderSlot = ({ asset, slotIndex }: (typeof displaySlots)[number]) => {
-    const canOpenLibrary = Boolean(onOpenLibrary && (field.type === 'image' || field.type === 'video'));
+    const canOpenLibrary = Boolean(onOpenLibrary && (field.type === 'image' || field.type === 'video' || field.type === 'audio'));
     const slotLabel = resolveSlotLabel(field, role, slotIndex, assetCopy);
 
     return (
@@ -323,6 +338,7 @@ export function AssetDropzone({
         compactDensity={compactDensity}
         compactCollectionLayout={compactCollectionLayout}
         workspaceDensity={workspaceDensity}
+        workspacePresentation={workspaceDensity && asset ? renderWorkspaceSlot?.(asset, slotIndex) : undefined}
         disabled={disabled}
         disabledReason={disabledReason}
         displaySlotCount={displaySlots.length}
@@ -359,7 +375,7 @@ export function AssetDropzone({
     return <div className="app-reference-field" data-reference-field={field.id}>
       <div className="app-reference-field-heading"><strong>{fieldTitle}</strong>{required ? <small>{copy.required}</small> : null}{headerAction}</div>
       {workspaceHelperText ? <p className="app-reference-limits">{workspaceHelperText}</p> : null}
-      {disabledReason ? <p className="app-reference-disabled" role="note">{disabledReason}</p> : null}
+      {disabledReason ? <p className="app-reference-disabled" role="note">{workspaceDisabledReasonContent ?? disabledReason}</p> : null}
       <div className="app-reference-slots">
           {renderSlots.map(renderSlot)}
       </div>

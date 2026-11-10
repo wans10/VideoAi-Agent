@@ -31,6 +31,22 @@ export type Resolution =
   | '2K'
   | '3K'
   | '4K'
+  | '1024x1024'
+  | '1024x1536'
+  | '1536x1024'
+  | '1536x864'
+  | '864x1536'
+  | '1024x768'
+  | '768x1024'
+  | '1536x512'
+  | '512x1536'
+  | '2048x1152'
+  | '1152x2048'
+  | '2560x1440'
+  | '1440x2560'
+  | '2880x2880'
+  | '3840x2160'
+  | '2160x3840'
   | '2048x2048'
   | '1920x1080'
   | '1080x1920'
@@ -72,6 +88,7 @@ export type Resolution =
   | 'auto';
 export type AspectRatio =
   | '16:9'
+  | '2:1'
   | '9:16'
   | '9:21'
   | '1:1'
@@ -214,14 +231,20 @@ export type EngineModeDurationCaps =
     };
 
 export interface EngineModeUiCaps {
+  /** Verified artifact layout; absent modes require manual continuity review. */
+  extensionOutput?:'continuation'|'combined';
   modes: Mode[];
   duration?: EngineModeDurationCaps;
+  /** Explicit source/output timing contract for source-video workflows. */
+  durationPolicy?: 'requested' | 'source_video';
   frames?: number[];
   resolution?: string[];
   resolutionLocked?: boolean;
   aspectRatio?: string[];
   fps?: number | number[];
   audioToggle?: boolean;
+  /** Display-only provenance: source audio (including silence) is retained. Does not change requests or controls. */
+  audioPresentation?: 'source';
   acceptsImageFormats?: string[];
   maxUploadMB?: number;
   notes?: string;
@@ -234,6 +257,9 @@ export type EngineModeAvailability = Readonly<{
 }>;
 
 export interface EngineCaps {
+  /** Effective client projection; request validation still resolves the canonical catalog. */
+  activeVideoOperation?: import('@/lib/video-operation').VideoOperation;
+  operationCaps?: Partial<Record<import('@/lib/video-operation').VideoOperation, import('@/lib/video-operation').VideoOperationCaps>>;
   id: string;
   label: string;
   provider: string;
@@ -282,12 +308,19 @@ export interface EngineCaps {
   modeCaps?: Partial<Record<Mode, EngineModeUiCaps>>;
 }
 
+export type EngineScoreReviewStatus = 'editorial-estimated';
+export type EngineScoreReviews = Record<string, EngineScoreReviewStatus>;
+
 export interface EnginesResponse {
   engines: EngineCaps[];
   engineScores?: Record<string, number>;
+  engineScoreReviews?: EngineScoreReviews;
 }
 
 export interface PreflightRequest {
+  sourceJobId?: string;
+  sourceOutputId?: string;
+  operation?: import('@/lib/video-operation').VideoOperation;
   seedanceWorkflow?: { step: 'draft' } | { step: 'final'; draftJobId: string };
   engine: string;
   mode: Mode;
@@ -295,13 +328,14 @@ export interface PreflightRequest {
   durationOption?: number | string;
   resolution?: Resolution;
   aspectRatio?: AspectRatio;
-  fps: number;
+  fps?: number;
   seedLocked?: boolean;
   loop?: boolean;
   audio?: boolean;
   hasVideoInput?: boolean;
   voiceControl?: boolean;
   inputs?: PreflightMediaInput[];
+  elements?: import('../src/lib/video-provider-elements').MaxVideoProviderElement[];
   extraInputValues?: Record<string, unknown>;
   user?: {
     memberTier?: string;

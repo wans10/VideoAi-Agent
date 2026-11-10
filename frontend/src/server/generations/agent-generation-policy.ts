@@ -5,7 +5,9 @@ import { extractRenderIds, extractRenderThumbUrls, parseStoredImageRenders } fro
 import { isStablePublicMediaUrl, normalizeMediaUrl } from '@/lib/media';
 import { generatedVideoArtifactProjection } from '@/lib/generated-video-output-artifacts';
 import {
+  SEEDANCE_CONTENT_BLOCKED,
   SEEDANCE_OUTPUT_AUDIO_BLOCKED,
+  SEEDANCE_PROMPT_BLOCKED,
   getVideoFailureCodeFromSettingsSnapshot,
   SEEDANCE_I2V_RATIO_REJECTED,
   SEEDANCE_INPUT_VIDEO_TOO_SMALL,
@@ -25,7 +27,8 @@ import type {
 
 const ACCEPTED_STATUSES = new Set(['accepted', 'created', 'pending', 'queued', 'submitted', 'waiting']);
 const RUNNING_STATUSES = new Set(['in_progress', 'processing', 'running']);
-const COMPLETED_STATUSES = new Set(['completed', 'finished', 'success', 'succeeded']);
+export const COMPLETED_GENERATION_STATUSES = ['completed', 'finished', 'success', 'succeeded'] as const;
+const COMPLETED_STATUSES = new Set<string>(COMPLETED_GENERATION_STATUSES);
 const FAILED_STATUSES = new Set([
   'aborted',
   'cancelled',
@@ -79,7 +82,10 @@ const FAILED_ATTEMPT_BOUNDARY =
   'No new generation was started after this failure. A refund or recredit does not restore the previous authorization. To try again, prepare a fresh exact quote and wait for explicit user approval.';
 
 const SAFE_AGENT_FAILURE_CODES = new Set([
+  'reference_link_unsupported',
+  SEEDANCE_CONTENT_BLOCKED,
   SEEDANCE_OUTPUT_AUDIO_BLOCKED,
+  SEEDANCE_PROMPT_BLOCKED,
   SEEDANCE_I2V_RATIO_REJECTED,
   SEEDANCE_INPUT_VIDEO_TOO_SMALL,
   SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED,
@@ -337,7 +343,7 @@ function buildAgentMessage(
       }
     }
     // Only a persisted wallet-refunded state establishes a wallet recredit.
-    if (knownMessage) failureMessage = appendConfirmedWalletRefund(failureMessage, { paymentStatus });
+    failureMessage = appendConfirmedWalletRefund(failureMessage, { paymentStatus });
     return `${failureMessage} ${FAILED_ATTEMPT_BOUNDARY}`;
   }
   return null;

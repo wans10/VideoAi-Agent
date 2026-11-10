@@ -52,11 +52,37 @@ test('public pricing baseline exhaustively covers eligible catalog and public su
   const launch = JSON.parse(
     readFileSync('tests/fixtures/gpt-image-2-5-public-pricing-launch-2026-09-15.json', 'utf8')
   ) as PublicProjectionFixture;
+  const fluxMaxLaunch = JSON.parse(
+    readFileSync('tests/fixtures/flux-3-max-public-pricing-launch-2026-10-20.json', 'utf8')
+  ) as PublicProjectionFixture;
+  const nano21Launch = JSON.parse(
+    readFileSync('tests/fixtures/nano21-fixed-public-pricing-launch-2026-10-27.json', 'utf8')
+  ) as PublicProjectionFixture;
+  const klingPublicDiscovery = JSON.parse(
+    readFileSync('tests/fixtures/kling-v4-public-discovery-projections-2026-10-27.json', 'utf8')
+  ) as PublicProjectionFixture;
+  const klingPricingDiscovery = JSON.parse(
+    readFileSync('tests/fixtures/kling-v4-pricing-discovery-projections-2026-10-29.json', 'utf8')
+  ) as PublicProjectionFixture;
+  const novemberMarketing = JSON.parse(
+    readFileSync('tests/fixtures/nov06-model-marketing-public-projections-2026-11-06.json', 'utf8')
+  ) as PublicProjectionFixture;
+  const novemberImages = JSON.parse(
+    readFileSync('tests/fixtures/nov05-functional-image-public-projections-2026-11-06.json', 'utf8')
+  ) as PublicProjectionFixture;
   assert.equal(fixture.version, 1);
   assert.equal(fixture.generatedFrom, 'canonical-public-pricing-paths');
   assert.ok(fixture.rows.length >= 250, `expected at least 250 public projection rows, got ${fixture.rows.length}`);
 
-  const rows = [...fixture.rows, ...launch.rows];
+  assert.deepEqual(klingPublicDiscovery.rows, [
+    { id: 'json-ld:kling-v4:offer', surface: 'json-ld', engineId: 'kling-v4', status: 'unavailable' },
+    { id: 'model-page:kling-v4:default', surface: 'model-page', engineId: 'kling-v4', status: 'unavailable' },
+  ]);
+  assert.equal(klingPricingDiscovery.rows.length, 10);
+  assert.ok(klingPricingDiscovery.rows.every((row) => row.engineId === 'kling-v4' && row.status === 'unavailable'));
+  assert.equal(novemberMarketing.rows.length, 28);
+  assert.ok(novemberMarketing.rows.every(row => row.status === 'unavailable' && row.customerTotalCents === undefined));
+  const rows = [...fixture.rows, ...launch.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...novemberImages.rows, ...novemberMarketing.rows];
   const ids = rows.map((row) => row.id);
   assert.equal(new Set(ids).size, ids.length, 'public projection scenario ids must be unique');
 
@@ -145,7 +171,41 @@ test('public pricing baseline ignores machine-specific pricing environment overr
     },
   });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stdout, /current \(577 rows\)/);
+  assert.match(result.stdout, /current \(640 rows\)/);
+});
+
+test('Character Studio static rows retire only four fixed prices and require a current native quote', async () => {
+  const frozen = JSON.parse(readFileSync('tests/fixtures/pricing-public-projections.v1.json', 'utf8')) as PublicProjectionFixture;
+  const transition = JSON.parse(readFileSync('tests/fixtures/character-studio-public-pricing-transition-2026-11-05.json', 'utf8')) as {
+    rows: Array<{ previous: PublicProjectionFixture['rows'][number]; current: PublicProjectionFixture['rows'][number] }>;
+  };
+  const { collectPublicPricingProjectionRows } = await import('../frontend/scripts/pricing-public-baseline-collector');
+  const current = await collectPublicPricingProjectionRows();
+  assert.equal(transition.rows.length, 4);
+  for (const change of transition.rows) {
+    assert.deepEqual(change.previous, frozen.rows.find(row => row.id === change.previous.id));
+    assert.equal(change.previous.status, 'exact');
+    assert.deepEqual(change.current, { id: change.previous.id, surface: 'pricing-hub-tool', engineId: change.previous.engineId, status: 'unavailable' });
+    assert.deepEqual(current.find(row => row.id === change.current.id), change.current);
+  }
+});
+
+test('Max launch adds only normal-list-plus-30-percent public projections and reproduces offline', () => {
+  const launch = JSON.parse(readFileSync('tests/fixtures/flux-3-max-public-pricing-launch-2026-10-20.json', 'utf8')) as PublicProjectionFixture;
+  assert.equal(launch.rows.length, 12);
+  assert.ok(launch.rows.every((row) => row.engineId === 'flux-3-max'));
+  const rows = new Map(launch.rows.map((row) => [row.id, row]));
+  for (const tier of ['member', 'plus', 'pro']) {
+    assert.equal(rows.get(`estimator:flux-3-max:${tier}:default`)?.customerTotalCents, 111);
+  }
+  assert.equal(rows.get('pricing-hub-video:flux-3-max:5s-720p')?.customerTotalCents, 111);
+  assert.equal(rows.get('pricing-hub-video:flux-3-max:10s-720p')?.customerTotalCents, 221);
+  assert.equal(rows.get('pricing-hub-video:flux-3-max:10s-1080p')?.customerTotalCents, 377);
+  assert.equal(rows.get('pricing-hub-video:flux-3-max:4k-route')?.status, 'unavailable');
+  const result = spawnSync('pnpm', ['exec', 'tsx', '--tsconfig', 'frontend/tsconfig.json', 'frontend/scripts/pricing-flux-3-max-launch.ts'], {
+    cwd: process.cwd(), encoding: 'utf8', env: { ...process.env, DATABASE_URL: 'postgresql://must-not-connect.invalid/test' },
+  });
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
 
 test('canonical public pricing adapters exist and stay browser safe', () => {

@@ -1,3 +1,6 @@
+import { NANO21_ENGINE_ID, normalizeNano21Settings, assertNano21UnsupportedFields, assertNano21Scenario } from '@/lib/nano-banana-2-1';
+import { isGptImage26EngineId, normalizeGptImage26Settings } from '@/lib/image/gptImage26';
+import { assertOpenAIImageAvailable } from './openai-image-execution';
 import { randomUUID } from 'crypto';
 import type { ImageGenerationResponse } from '@/types/image-generation';
 import { getPlatformFeeCents } from '@maxvideoai/pricing';
@@ -5,9 +8,8 @@ import { receiptsPriceOnlyEnabled } from '@/lib/env';
 import { ensureUserPreferredCurrency, getUserPreferredCurrency, type Currency } from '@/lib/currency';
 import { normalizeMediaUrl } from '@/lib/media';
 import { getResultProviderMode } from '@/lib/result-provider';
-import { createImageThumbnailBatch } from '@/server/image-thumbnails';
+import { createImageThumbnailBatch, prepareImageRenditions } from '@/server/image-thumbnails';
 import {
-  getImageFieldDefaultBoolean,
   getImageFieldValues,
   getImageInputField,
   normalizeFalImageResolution,
@@ -57,7 +59,7 @@ const DISPLAY_CURRENCY_LOWER: Currency = 'usd';
 
 export async function executeImageGeneration({
   userId,
-  body,
+  body: requestedBody,
   walletReservation,
   preReservedInitialState,
   trustedQuotedBilling,
@@ -68,16 +70,28 @@ export async function executeImageGeneration({
   isAdminForDirectProvider = false,
   customerTariffRevision,
 }: ExecuteImageGenerationOptions): Promise<ImageGenerationResponse> {
-  const recovered = await prepareImageGenerationAccounting({ userId, body, walletReservation,
+  const recovered = await prepareImageGenerationAccounting({ userId, body: requestedBody, walletReservation,
     preReservedInitialState, trustedQuotedBilling });
   if (recovered) return recovered;
 
   const { engineEntry, engine, mode, modeConfig, resolvedAspectRatio, prompt, numImages, durationSec } =
-    resolveImageGenerationRequestContext(body);
+    resolveImageGenerationRequestContext(requestedBody);
+  const gpt26 = isGptImage26EngineId(engine.id) ? normalizeGptImage26Settings(requestedBody) : null;
+  const body = gpt26 ? { ...requestedBody, ...gpt26 } : requestedBody;
 
+  let nano21: ReturnType<typeof normalizeNano21Settings> | null = null;
+  if (engine.id === NANO21_ENGINE_ID) {
+    try {
+      assertNano21UnsupportedFields(body as unknown as Record<string, unknown>);
+      nano21 = normalizeNano21Settings(body);
+      assertNano21Scenario({ ...nano21, mode, referenceImageCount: (body.imageUrls?.length ?? 0) + (body.characterReferences?.length ?? 0),
+        outputCount: body.numImages, aspectRatio: resolvedAspectRatio });
+    } catch { fail(mode, 'nano21_settings_invalid', 'Unsupported Nano Banana 2.1 scenario.', 400); }
+  }
   assertGoogleVertexImageAvailable(engine);
+  assertOpenAIImageAvailable(engine);
 
-  const { characterReferences, normalizedImageUrls, combinedImageUrls, effectivePrompt, storedAssetInfoByUrl } =
+  const { characterReferences, normalizedImageUrls, combinedImageUrls, effectivePrompt, storedAssetInfoByUrl, preparedOpenAIReferenceUrls } =
     await prepareImageGenerationReferences({ userId, body, engineEntry, mode, prompt });
 
   const requestId = typeof body.jobId === 'string' && body.jobId.trim().length ? body.jobId.trim() : null;
@@ -109,7 +123,7 @@ export async function executeImageGeneration({
   const resolution = resolutionResult.resolution;
   const shouldSendResolution = resolutionResult.configurable;
   const parsedResolutionImageSize = isGptImageFamilyEngineId(engine.id) ? parseGptImage2SizeKey(resolution) : null;
-  let customImageSize: GptImage2ImageSize | null = parsedResolutionImageSize;
+  let customImageSize: GptImage2ImageSize | null = gpt26?.customImageSize ?? parsedResolutionImageSize;
   let providerImageSize: string | GptImage2ImageSize | null =
     parsedResolutionImageSize ?? (shouldSendResolution ? normalizeFalImageResolution(resolution) : null);
   if (isGptImageFamilyEngineId(engine.id) && mode === 'i2i' && resolution === 'auto') {
@@ -205,8 +219,8 @@ export async function executeImageGeneration({
     );
   }
 
-  const thinkingLevelSetting = resolveImageEnumSetting(getImageFieldValues(engine, 'thinking_level', mode), body.thinkingLevel);
-  const thinkingLevel = thinkingLevelSetting.value;
+  const thinkingLevelSetting = resolveImageEnumSetting(getImageFieldValues(engine, 'thinking_level', mode), nano21?.thinkingLevel.toLowerCase() ?? body.thinkingLevel);
+  const thinkingLevel = nano21?.thinkingLevel.toLowerCase() ?? thinkingLevelSetting.value;
   if (thinkingLevelSetting.invalid) {
     fail(
       mode,
@@ -224,10 +238,7 @@ export async function executeImageGeneration({
   const limitGenerations =
     Boolean(getImageInputField(engine, 'limit_generations', mode)) &&
     normalizeOptionalBoolean(body.limitGenerations) === true;
-  const watermarkField = getImageInputField(engine, 'watermark', mode);
-  const watermark =
-    Boolean(watermarkField) &&
-    (normalizeOptionalBoolean(body.watermark) ?? getImageFieldDefaultBoolean(engine, 'watermark', mode) ?? false);
+  const watermark = false;
   const includedKlingFirstFrameParentJobId = await resolveIncludedKlingFirstFrameParentJobId({
     userId,
     jobId,
@@ -242,8 +253,9 @@ export async function executeImageGeneration({
   try {
     pricingResult = await resolveImageGenerationPricingSnapshot({
       engine, mode, durationSec, resolution, customImageSize, quality,
+      complexity: gpt26?.complexity,
       combinedImageCount: combinedImageUrls.length,
-      enableWebSearch, numImages, billingProductKey, billingQuantityMultiplier,
+      enableWebSearch, thinkingLevel, ...(nano21 ?? {}), numImages, billingProductKey, billingQuantityMultiplier,
       jobSurface, source: body.source, metadata: requestMetadata,
       includedKlingFirstFrameParentJobId, resolvedAspectRatio,
       trustedQuotedBilling,
@@ -286,6 +298,7 @@ export async function executeImageGeneration({
         ...(outputFormat ? { outputFormat } : {}),
         ...(quality ? { quality } : {}),
         ...(background ? { background } : {}),
+        ...(gpt26 ? { complexity: gpt26.complexity } : {}),
         ...(style ? { style } : {}),
         ...(maskUrl ? { maskUrl } : {}),
         ...(enableWebSearch ? { enableWebSearch } : {}),
@@ -317,6 +330,7 @@ export async function executeImageGeneration({
     settingsSnapshot ??
       buildDefaultSettingsSnapshot({
         surface: jobSurface,
+        nano21Settings: nano21 ?? undefined,
         engineEntry,
         mode,
         prompt,
@@ -328,6 +342,8 @@ export async function executeImageGeneration({
         outputFormat,
         quality,
         background,
+        complexity: gpt26?.complexity,
+        outputCompression: gpt26?.outputCompression,
         style,
         maskUrl,
         enableWebSearch,
@@ -431,6 +447,8 @@ export async function executeImageGeneration({
       let providerJobId: string | undefined;
 
       const directProviderResponse = await executeDirectImageProviderIfAvailable({
+        ...(nano21 ?? {}),
+        ...(gpt26 ? { outputCompression: gpt26.outputCompression, complexity: gpt26.complexity, background: gpt26.background, customImageSize: gpt26.customImageSize, preparedReferenceUrls: preparedOpenAIReferenceUrls } : {}),
         billingProductKey,
         characterReferenceCount: characterReferences.length,
         combinedImageUrls,
@@ -490,10 +508,10 @@ export async function executeImageGeneration({
           url: normalizeMediaUrl(image.url) ?? image.url,
         }));
         const stableImages = await copyGeneratedImagesToStorage({
-          images: normalizedImages, jobId, userId, requireOwnedOutput: true,
+          images: normalizedImages, jobId, userId, requireOwnedOutput: true, prepare: prepareImageRenditions,
         });
 
-        const thumbUrls = await createImageThumbnailBatch({
+        const thumbUrls = typeof prepareImageRenditions === 'function' ? stableImages.map(image => image.thumbUrl ?? null) : await createImageThumbnailBatch({
           jobId,
           userId,
           imageUrls: stableImages.map((image) => image.url),

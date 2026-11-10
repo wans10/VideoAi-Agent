@@ -42,6 +42,18 @@ function summary(value: EngineCaps, activeMode: Mode, options: Partial<Parameter
   });
 }
 
+test('Wan Modify defaults prompt rewriting off while creation and extension retain their defaults', () => {
+  for (const id of ['wan-3', 'wan-3-prime']) {
+    for (const mode of ['t2v', 'i2v', 'ref2v', 'v2v', 'extend'] as const) {
+      const value = summary(engine(id), mode);
+      const fields = [...value.promotedFields, ...value.secondaryFields]
+        .filter(({ field }) => field.id === 'enable_prompt_expansion');
+      assert.equal(fields.length, 1, `${id}:${mode} exposes one rewriting toggle`);
+      assert.equal(fields[0].field.default, mode !== 'v2v', `${id}:${mode}`);
+    }
+  }
+});
+
 function referenceOptions(inputAssets: Record<string, (ReferenceAsset | null)[]> = {}): WorkspaceReferenceAvailability {
   return {
     inputAssets,
@@ -55,6 +67,15 @@ function referenceOptions(inputAssets: Record<string, (ReferenceAsset | null)[]>
     showLumaRay32KeyframeEditor: false,
   };
 }
+
+test('Luma composer exposes one source picker with the selected workflow limit', () => {
+  const luma = engine('luma-ray-3-2');
+  for (const [mode, maxDuration] of [['t2v', 18], ['v2v', 18], ['reframe', 10]] as const) {
+    const fields = summary(luma, mode).assetFields.filter(({ field }) => field.id === 'video_url');
+    assert.equal(fields.length, 1, `${mode} has one source picker`);
+    assert.equal(fields[0].field.maxDurationSec, maxDuration);
+  }
+});
 
 function assertExactFieldOwners(value: EngineCaps, fields: ReturnType<typeof summary>['assetFields']) {
   const realFields = schemaFields(value);
@@ -144,8 +165,8 @@ test('Kling O3 keeps supported reference and frame combinations while source vid
     assert.equal(resolveKlingO3UnifiedMode({ engine: value, inputAssets: { video_url: [video] }, klingElements: [] }), 'v2v');
   }
   const fourK = engine('kling-o3-4k');
-  assert.equal(supportsKlingO3VideoToVideo(fourK), false);
-  assert.deepEqual(summary(fourK, 't2v').assetFields.map(({ field }) => field.id), ['image_urls', 'image_url', 'end_image_url']);
+  assert.equal(supportsKlingO3VideoToVideo(fourK), true);
+  assert.deepEqual(summary(fourK, 't2v').assetFields.map(({ field }) => field.id), ['image_urls', 'image_url', 'end_image_url', 'video_url']);
 });
 
 test('Veo exposes first/last controls in unified mode and reference fields only in reference mode', () => {
@@ -183,7 +204,16 @@ test('Happy Horse and Omni expose shared references while Luma keeps its editor'
   const luma = engine('luma-ray-3-2');
   const modifyFields = summary(luma, 'v2v').assetFields;
   assert.deepEqual(modifyFields.map(({ field }) => field.id), ['video_url', 'start_image_url', 'edit_keyframe_urls']);
-  assert.equal(getWorkspaceReferenceFields(modifyFields, { ...referenceOptions(), showLumaRay32KeyframeEditor: true }).length, 0);
+  const modifyOptions = { ...referenceOptions(), showLumaRay32KeyframeEditor: true };
+  const commonFields = getWorkspaceReferenceFields(modifyFields, modifyOptions);
+  assert.deepEqual(commonFields.map(({ field }) => field.id), ['video_url', 'start_image_url']);
+  assert.ok(commonFields.every(entry => !entry.disabled));
+  const withKeyframes = getWorkspaceReferenceFields(modifyFields, { ...modifyOptions, inputAssets: { edit_keyframe_urls: [image] } });
+  assert.equal(withKeyframes[0].disabled, false, 'source remains editable with keyframes');
+  assert.match(withKeyframes[1].disabledReason ?? '', /Remove keyframes/);
+  assert.equal(withKeyframes[1].disabled, true);
+  const guestFields = getWorkspaceReferenceFields(modifyFields, { ...modifyOptions, guestUploadLockedReason: 'Sign in' });
+  assert.ok(guestFields.every(entry => entry.disabled && entry.disabledPresentation === 'auth-lock'));
   const imageFields = summary(luma, 'i2v').assetFields;
   assert.deepEqual(imageFields.map(({ field }) => field.id), ['image_url', 'end_image_url']);
   assertExactFieldOwners(luma, imageFields);

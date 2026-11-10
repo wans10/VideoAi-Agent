@@ -6,6 +6,7 @@ import * as React from 'react';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { listFalEngines } from '../frontend/src/config/falEngines';
+import { getVideoWorkflowSourceField } from '../frontend/lib/video-source-workflow';
 import { coerceFormState, getModeCaps } from '../frontend/app/(core)/(workspace)/app/_lib/workspace-engine-helpers';
 import {
   decodeWorkspaceModelSetups,
@@ -24,11 +25,13 @@ async function mount({
   locale = 'en',
   emptyPrompt = false,
   mixedCatalogue = false,
+  operationCatalogue = false,
 } = {}) {
   process.env.NEXT_PUBLIC_SUPABASE_URL ??= 'https://maxvideoai-test.supabase.co';
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??= 'test-anon-key';
   const dom = new JSDOM('<div id="root"></div>', { url: 'http://localhost/app', pretendToBeVisual: true });
   const previous = new Map<string, PropertyDescriptor | undefined>();
+  const fixtureScope = crypto.randomUUID();
   const requests: Array<{
     resolve: (response: Response) => void;
     reject: (error: Error) => void;
@@ -96,7 +99,7 @@ async function mount({
   const { I18nProvider } = await import('../frontend/lib/i18n/I18nProvider');
   const { CoreSettingsBar } = await import('../frontend/components/CoreSettingsBar');
   const engines = listFalEngines()
-    .filter((e) => ['seedance-2-0', 'veo-3-1', 'kling-3-pro', 'ltx-2-3'].includes(e.id) || (mixedCatalogue && e.engine.modes.includes('t2i')))
+    .filter((e) => ['seedance-2-0', 'veo-3-1', 'kling-3-pro', 'ltx-2-3'].includes(e.id) || (mixedCatalogue && e.engine.modes.includes('t2i')) || (operationCatalogue && e.id === 'minimax-h3-max'))
     .map((e) => e.engine);
   let setup: WorkspaceModelSetup = {
     form: coerceFormState(engines.find((e) => e.id === 'seedance-2-0')!, 't2v', null),
@@ -114,7 +117,7 @@ async function mount({
   let authRequests = 0;
   const notices: string[] = [];
   let accountId: string | null = 'a',
-    accessToken: string | null = 'token-a';
+    accessToken: string | null = `token-a-${fixtureScope}`;
   let recoverySetup: { modelId: string; updatedAt: number; setup: WorkspaceModelSetup } | null = null;
   let current!: ReturnType<typeof useWorkspaceModelReview>;
   const authRenders: Array<{
@@ -278,7 +281,7 @@ async function mount({
     async auth(id: string | null) {
       authStatus = id ? 'authed' : 'loggedOut';
       accountId = id;
-      accessToken = id ? `token-${id}` : null;
+      accessToken = id ? `token-${id}-${fixtureScope}` : null;
       await render();
     },
     async pending() {
@@ -849,10 +852,14 @@ test('comparison settings reprice within the dialog and discard quotes for earli
     assert.equal(f.setup.form.durationSec, 8);
     assert.equal(f.current.candidate, null);
     await f.tick();
+    assert.ok(f.requests.length <= 3, 'old and new quotes share at most three network slots');
+    for (let index = 0; index < oldRequestCount; index++) await f.respond(index, 9999);
     assert.ok(f.requests.length > oldRequestCount);
     assert.ok(f.requests.slice(oldRequestCount).some(request => (request.body as { durationSec: number }).durationSec === 8));
-    for (let index = 0; index < oldRequestCount; index++) await f.respond(index, 9999);
-    assert.ok(f.current.alternatives.every(alternative => alternative.price === null), 'late earlier prices stay hidden');
+    for (const alternative of f.current.alternatives) {
+      const unchanged = f.requests.slice(0, oldRequestCount).some(request => JSON.stringify(request.body) === JSON.stringify(alternative.request));
+      assert.equal(alternative.price, unchanged ? 99.99 : null, 'only identical canonical requests may reuse a late price');
+    }
     for (let index = oldRequestCount; index < f.requests.length; index++) await f.respond(index, 125);
     assert.ok(f.current.alternatives.some(alternative => alternative.price === 1.25));
     assert.deepEqual(f.writes, [], 'editing settings never applies a different model');
@@ -863,11 +870,12 @@ test('comparison settings reprice within the dialog and discard quotes for earli
 test('Escape closes a settings menu before closing Compare', async () => {
   const f = await mount();
   try {
-    await f.click('Compare');
+    await f.click('Compare'); await f.tick();
     const duration = [...f.dom.window.document.querySelectorAll<HTMLButtonElement>('button[aria-haspopup="listbox"]')]
       .find(button => button.textContent?.startsWith('Duration:'));
     assert.ok(duration);
     await act(async () => { duration.focus(); duration.click(); });
+    assert.ok(f.dom.window.document.querySelector('[role="listbox"]'), 'settings menu is open before Escape');
     await act(async () => duration.dispatchEvent(new f.dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
     assert.equal(f.current.panel, 'compare');
     assert.equal(f.dom.window.document.querySelector('[role="listbox"]'), null);
@@ -997,6 +1005,28 @@ test('displaced active draft is visible through rendered Configurations and Canc
     assert.notEqual(f.current.savedSetups[0]?.saved?.setup.prompt, previous.prompt);
   } finally { await f.dispose(); }
 });
+test('restored Relight configuration quotes its lighting image and selected framing', async () => {
+  const f = await mount({ operationCatalogue: true });
+  try {
+    const engine = listFalEngines().find(e => e.id === 'minimax-h3-max')!.engine;
+    const previous = structuredClone(f.setup);
+    previous.form = { ...coerceFormState(engine, 'v2v', null), operation: 'h3-relight', resolution: '480P', aspectRatio: '9:16' };
+    previous.prompt = '';
+    const ref = (fieldId: string, kind: 'video' | 'image') => ({ id: fieldId, assetId: fieldId, fieldId, kind,
+      status: 'ready' as const, name: fieldId, type: kind === 'video' ? 'video/mp4' : 'image/png', size: 1024,
+      width: 720, height: 1280, durationSec: kind === 'video' ? 107 / 24 : null,
+      url: `https://example.com/${fieldId}`, previewUrl: `https://example.com/${fieldId}` });
+    previous.inputAssets = { video_url: [ref('video_url', 'video')], reference_image_url: [ref('reference_image_url', 'image')] };
+    await f.recovery(previous);
+    await act(async () => f.current.selectSavedSetup(engine.id));
+    await f.tick();
+    const request = f.requests.at(-1)?.body as { operation: string; aspectRatio: string; inputs: Array<{ assetId: string }> };
+    assert.ok(request, 'complete restored Relight setup requests a quote');
+    assert.equal(request.operation, 'h3-relight');
+    assert.equal(request.aspectRatio, '9:16');
+    assert.deepEqual(request.inputs.map(input => input.assetId).sort(), ['reference_image_url', 'video_url']);
+  } finally { await f.dispose(); }
+});
 
 
 test('incomplete candidates stay in Compare as cards and the family picker excludes image engines', async () => {
@@ -1022,5 +1052,60 @@ test('incomplete candidates stay in Compare as cards and the family picker exclu
     assert.equal(f.requests.length, 0, 'missing-input candidates are not quoted as valid jobs');
     assert.match(f.dom.window.document.body.textContent ?? '', /References or settings needed/);
     assert.deepEqual(f.setup, before); assert.equal(f.writes.length, 0);
+  } finally { await f.dispose(); }
+});
+
+test('picker scenario applies current-model settings transactionally and snapshots the prior setup', async () => {
+  const f = await mount();
+  try {
+    const before = structuredClone(f.setup);
+    let applied = false;
+    await act(async () => { applied = f.current.applyPickerScenario(before.form.engineId, before, { durationSec: 10, iterations: 2 }); });
+    assert.equal(applied, true);
+    assert.equal(f.setup.form.durationSec, 10);
+    assert.equal(f.setup.form.iterations, 2);
+    assert.equal(f.setup.prompt, before.prompt);
+    const saved = decodeWorkspaceModelSetups(f.storage.getItem(workspaceModelSetupsKey('a')), 'a');
+    assert.equal(saved.entries[before.form.engineId]?.setup.form.durationSec, before.form.durationSec);
+  } finally { await f.dispose(); }
+});
+
+test('picker scenario refuses stale source and account callbacks without changing any draft setter', async () => {
+  const f = await mount();
+  try {
+    const source = structuredClone(f.setup);
+    const apply = f.current.applyPickerScenario;
+    await f.edit({ prompt: 'An updated prompt' });
+    await act(async () => { assert.equal(apply(source.form.engineId, source, { durationSec: 10 }), false); });
+    assert.equal(f.writes.length, 0);
+    const updated = structuredClone(f.setup);
+    const oldAccountApply = f.current.applyPickerScenario;
+    await f.auth('b');
+    await act(async () => { assert.equal(oldAccountApply(updated.form.engineId, updated, { durationSec: 10 }), false); });
+    assert.equal(f.writes.length, 0);
+  } finally { await f.dispose(); }
+});
+
+test('manual picker switch parks original Modify media and scenes before applying Create, while saved recovery keeps Modify', async () => {
+  const f = await mount();
+  try {
+    const engine = listFalEngines().find(e => e.id === f.setup.form.engineId)!.engine;
+    const field = getVideoWorkflowSourceField(engine.inputSchema, 'v2v')!;
+    await f.edit({ form: coerceFormState(engine, 'v2v', f.setup.form), multiPromptEnabled: true,
+      multiPromptScenes: [{ id: 'saved-scene', prompt: 'Keep this scene', duration: 5 }],
+      inputAssets: { [field.id]: [{ id: 'source', assetId: 'source', fieldId: field.id, kind: 'video', name: 'Source', type: 'video/mp4', size: 1234, status: 'ready', durationSec: 8,
+        url: 'https://owned.test/source.mp4', previewUrl: 'https://owned.test/source.mp4' }] } });
+    const before = structuredClone(f.setup);
+    await act(async () => { assert.equal(f.current.applyPickerScenario('veo-3-1', before, {}), true); });
+    assert.equal(f.setup.form.engineId, 'veo-3-1'); assert.equal(f.setup.form.mode, 't2v');
+    assert.ok(!Object.values(f.setup.inputAssets).flat().some(asset => asset?.assetId === 'source'));
+    assert.equal(f.setup.prompt, before.prompt); assert.deepEqual(f.setup.multiPromptScenes, before.multiPromptScenes);
+    const saved = decodeWorkspaceModelSetups(f.storage.getItem(workspaceModelSetupsKey('a')), 'a');
+    assert.equal(saved.entries[before.form.engineId]?.setup.form.mode, 'v2v');
+    assert.equal(saved.entries[before.form.engineId]?.setup.inputAssets[field.id]?.[0]?.assetId, 'source');
+    assert.deepEqual(saved.entries[before.form.engineId]?.setup.multiPromptScenes, before.multiPromptScenes);
+    await act(async () => f.current.selectSavedSetup(before.form.engineId));
+    assert.equal(f.current.candidate?.workflow.submissionMode, 'v2v');
+    assert.equal(f.current.candidate?.setup.inputAssets[field.id]?.[0]?.assetId, 'source');
   } finally { await f.dispose(); }
 });

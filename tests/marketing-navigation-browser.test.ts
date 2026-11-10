@@ -5,6 +5,66 @@ import test from 'node:test';
 import {chromium,webkit} from '@playwright/test';
 import {createMarketingNavigationBrowserFixture} from './helpers/marketing-navigation-browser-fixture';
 
+test('an early mobile opening gains accessible focus without waiting for desktop menu hydration', async () => {
+  const fixture = await createMarketingNavigationBrowserFixture();
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage({viewport: {width: 390, height: 844}, isMobile: true, hasTouch: true});
+    await page.addInitScript(() => {
+      const win = window as any;
+      win.__fixtureDesktopLabelGate = new Promise<void>(resolve => {
+        win.__releaseDesktopLabels = () => { win.__fixtureDesktopLabelGate = null; resolve(); };
+      });
+    });
+    await page.goto(fixture.url, {waitUntil: 'commit'});
+    await page.getByRole('button', {name: 'Open menu', exact: true}).tap();
+    const menu = page.getByRole('dialog');
+    await menu.waitFor();
+    assert.equal(await menu.getAttribute('aria-modal'), null, 'a native opening precedes React');
+    fixture.releaseHydration();
+    await page.waitForFunction(() => !!document.querySelector('main')?.inert, null, {timeout: 3000});
+    assert.equal(await menu.getAttribute('aria-modal'), 'true');
+    assert.equal(await menu.evaluate(node => node.contains(document.activeElement)), true);
+    await page.evaluate(() => (window as any).__releaseDesktopLabels());
+    await page.keyboard.press('Escape');
+    await menu.waitFor({state: 'hidden'});
+    await page.setViewportSize({width: 1280, height: 900});
+    await page.locator('button[aria-controls="marketing-models-dropdown"]').click();
+    assert.equal(await page.locator('#marketing-models-dropdown a[href="/models"]').first().isVisible(), true);
+    assert.deepEqual(await page.evaluate(() => (window as any).__fixtureHydrationErrors), []);
+  } finally { await browser.close(); await fixture.close(); }
+});
+
+test('desktop visitors can follow the section links without JavaScript while the full menu is streaming', async () => {
+  const fixture = await createMarketingNavigationBrowserFixture({ deferDesktopServer: true });
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
+    const expected = {
+      '/': ['/models', '/examples', '/ai-video-engines', '/tools', '/mcp', '/pricing'],
+      '/fr': ['/fr/modeles', '/fr/galerie', '/fr/comparatif', '/fr/outils', '/fr/mcp', '/fr/tarifs'],
+      '/es': ['/es/modelos', '/es/galeria', '/es/comparativa', '/es/herramientas', '/es/mcp', '/es/precios'],
+    };
+    for (const [path, hrefs] of Object.entries(expected)) {
+      await page.goto(new URL(path, fixture.url).href, { waitUntil: 'domcontentloaded' });
+      const bar = page.locator('header nav:visible');
+      assert.equal(await bar.count(), 1, `the desktop section bar is visible at ${path}`);
+      const links = bar.getByRole('link');
+      assert.deepEqual(await links.evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))), hrefs);
+      await links.last().focus();
+      await page.keyboard.press('Enter');
+      await page.waitForURL(url => url.pathname === hrefs.at(-1));
+      await page.goBack({ waitUntil: 'domcontentloaded' });
+      await page.setViewportSize({ width: 390, height: 844 });
+      assert.equal(await bar.count(), 0, 'the desktop fallback must not appear beside the mobile popover');
+      await page.setViewportSize({ width: 1440, height: 900 });
+    }
+  } finally {
+    await browser.close();
+    await fixture.close();
+  }
+});
+
 test('native mobile navigation keeps a small SSR DOM and stable decoration slots', async () => {
   const fixture=await createMarketingNavigationBrowserFixture();
   const browser=await chromium.launch({headless:true});
@@ -22,7 +82,7 @@ test('native mobile navigation keeps a small SSR DOM and stable decoration slots
     assert.equal(before.svgCount,0,'decorative SVGs must wait for an observed opening after JS');
     assert.ok(before.elements<=70,`native SSR navigation should stay below 70 elements, got ${before.elements}`);
     assert.ok(before.bytes<=8500,`native SSR navigation should stay below 8.5KB, got ${before.bytes}`);
-    assert.deepEqual(before.slots,[[21,21],[21,21],[21,21],...Array.from({length:7},()=>[18,18])]);
+    assert.deepEqual(before.slots,[[21,21],[21,21],[21,21],...Array.from({length:6},()=>[18,18])]);
     assert.equal(await menu.locator('.marketing-menu-close-icon').evaluate(node=>getComputedStyle(node,'::before').content),'""');
     assert.equal(await menu.locator('.marketing-menu-chevron').first().evaluate(node=>getComputedStyle(node,'::before').content),'""');
     fixture.releaseHydration();
@@ -32,7 +92,7 @@ test('native mobile navigation keeps a small SSR DOM and stable decoration slots
       svgCount:node.querySelectorAll('svg').length,
       slots:Array.from(node.querySelectorAll('.marketing-menu-icon')).map(slot=>{const rect=slot.getBoundingClientRect();return [rect.width,rect.height].map(value=>Math.round(value*1000)/1000)}),
     }));
-    assert.ok(after.svgCount>=11,'opening adopts the rich decorative icons and language control');
+    assert.ok(after.svgCount>=10,'opening adopts the six top-level entries, media icons and language control');
     assert.deepEqual(after.slots,before.slots,'enhancement must preserve icon geometry');
     assert.deepEqual(await page.evaluate(()=>(window as any).__fixtureHydrationErrors),[]);
     if(process.env.MARKETING_NAV_EVIDENCE_DIR) {

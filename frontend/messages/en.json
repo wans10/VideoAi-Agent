@@ -11,7 +11,7 @@
     "saved": "Your password has been updated.",
     "continueToApp": "Continue to the app",
     "requestNew": "Request a new link",
-    "invalid": "This link is invalid or has expired. Request a new one. If you used another browser, try opening the original link in the browser where you requested it.",
+    "invalid": "This link is invalid, expired, or already used. Request a new one to reset your password.",
     "tooShort": "Use at least 6 characters.",
     "mismatch": "The passwords do not match.",
     "weak": "Choose a stronger password.",
@@ -164,6 +164,8 @@
           "wan-2-6-vs-wan-3": "Wan 2.6 vs Wan 3",
           "flux-3-vs-grok-imagine-video-1-5": "FLUX 3 vs Grok Imagine Video 1.5",
           "grok-imagine-video-1-5-vs-sora-2": "Grok Imagine Video 1.5 vs Sora 2",
+          "kling-v4-vs-seedance-2-5": "Kling 4.0 vs Seedance 2.5",
+          "kling-v4-vs-wan-3-prime": "Kling 4.0 vs Wan 3 Prime",
           "minimax-h3-vs-seedance-2-5": "MiniMax H3 vs Seedance 2.5",
           "kling-o3-pro-vs-minimax-h3": "Kling 3.0 Omni Pro vs MiniMax H3",
           "minimax-h3-vs-veo-3-1": "MiniMax H3 vs Veo 3.1",
@@ -184,7 +186,7 @@
           "sora-2-vs-wan-2-6": "Sora 2 vs Wan 2.6",
           "ltx-2-vs-veo-3-1": "LTX 2 vs Veo 3.1",
           "ltx-2-5-fast-vs-ltx-2-5-pro": "LTX 2.5 Fast vs Pro",
-          "gemini-omni-flash-vs-veo-3-1": "Gemini Omni Flash 1.1 vs Veo 3.1",
+          "gemini-omni-flash-vs-veo-3-1": "Gemini Omni Flash 1.2 vs Veo 3.1",
           "seedance-2-0-vs-seedance-2-0-fast": "Seedance 2.0 vs Fast"
         },
         "heading": "Two models. A clearer choice.",
@@ -193,12 +195,18 @@
       "tools": {
         "items": {
           "ai-video-assistant": "Claude, ChatGPT & Codex video assistant",
-          "character-builder": "Consistent Character AI",
+          "character-builder": "Character Studio",
           "angle": "Change Camera Angle",
           "image": "Generate image",
           "audio": "Generate audio",
           "background-removal": "Remove a video background",
-          "upscale": "AI Upscale"
+          "upscale": "AI Upscale",
+          "studio": "Studio",
+          "subtitles": "Video subtitles",
+          "lip-sync": "Lip Sync",
+          "product-photo-editor": "Product Photo Editor",
+          "product-video-editor": "Product Video Editor",
+          "motion-transfer": "Motion Transfer"
         },
         "heading": "Shape the next part of your story.",
         "intro": "Create your references, change an angle and finish the details.",
@@ -209,6 +217,9 @@
               "get-started": "Getting started"
             }
           }
+        },
+        "descriptions": {
+          "studio": "Your creative workspace with AI."
         }
       },
       "workflows": {
@@ -290,7 +301,7 @@
         "href": "/return-policy"
       }
     ],
-    "brandNote": "Independent hub for professional AI video - price before you generate, stay on the latest engines, one workspace for every shot. Works with Seedance, Kling, Veo, LTX, Wan, Pika, and more. Trademarks belong to their owners.",
+    "brandNote": "One workspace for AI video, images and audio. Develop your idea with Milo, plan a project in Studio, and review the price before generating. Third-party model names and trademarks belong to their owners.",
     "languageLabel": "Language",
     "languages": [
       {
@@ -382,7 +393,7 @@
         "title": "Product",
         "items": {
           "angle": "Change the camera angle",
-          "characterBuilder": "Character Builder",
+          "characterBuilder": "Character Studio",
           "pricing": "Pricing",
           "paygVideo": "Pay-as-you-go AI video",
           "models": "All models"
@@ -470,39 +481,26 @@
           "engineLabel": "2. Compare recommended engines",
           "engineRecommendations": [
             {
-              "engineId": "minimax-h3-max",
-              "name": "MiniMax H3 Max",
-              "provider": "MiniMax",
-              "bestFor": "Cinematic disaster storytelling",
-              "imageAlt": "A mother and child shelter during a photorealistic retro-futuristic disaster generated with MiniMax H3 Max.",
+              "engineId": "flux-3-max",
+              "name": "FLUX 3 Max",
+              "provider": "Black Forest Labs",
+              "bestFor": "Cinematic fantasy",
+              "imageAlt": "An armored queen crosses a throne hall in The Uncrowned, an 18-second FLUX 3 Max video.",
               "fallbackPrice": "Live price",
-              "selected": true,
-              "scores": [
-                {
-                  "label": "Motion",
-                  "value": 91
-                },
-                {
-                  "label": "Realism",
-                  "value": 88
-                },
-                {
-                  "label": "Speed",
-                  "value": 92
-                }
-              ],
               "tags": [
-                "Narrative",
+                "Fantasy",
                 "Native audio",
-                "Live action"
-              ]
+                "Cinematic"
+              ],
+              "selected": true,
+              "scores": []
             },
             {
               "engineId": "seedance-2-5",
-              "imageAlt": "Preview of a 10-second AI video generated with Seedance 2.5.",
+              "imageAlt": "A fluffy orange cat faces two men in an action scene generated with Seedance 2.5.",
               "name": "Seedance 2.5",
               "provider": "ByteDance",
-              "bestFor": "Complex cinematic physics",
+              "bestFor": "Playful cinematic action",
               "fallbackPrice": "Live price",
               "scores": [
                 {
@@ -519,17 +517,17 @@
                 }
               ],
               "tags": [
-                "Physics",
+                "Action",
                 "Audio",
                 "Cinematic"
               ]
             },
             {
-              "engineId": "wan-3-prime",
-              "imageAlt": "Preview of a 5-second AI video generated with Wan 3 Prime.",
-              "name": "Wan 3 Prime",
+              "engineId": "wan-3",
+              "imageAlt": "A 22-second Wan 3 music video brings together city sounds, a street drummer and a subway.",
+              "name": "Wan 3",
               "provider": "Alibaba",
-              "bestFor": "Controlled craft motion",
+              "bestFor": "Rhythm and city motion",
               "fallbackPrice": "Live price",
               "scores": [
                 {
@@ -546,9 +544,9 @@
                 }
               ],
               "tags": [
-                "Craft",
+                "Music video",
                 "Realism",
-                "Camera"
+                "Audio"
               ]
             },
             {
@@ -579,30 +577,30 @@
               ]
             },
             {
-              "engineId": "ltx-2-5-pro",
-              "imageAlt": "Preview of a 6-second image-to-video clip generated with LTX 2.5 Pro.",
-              "name": "LTX 2.5 Pro",
-              "provider": "Lightricks",
-              "bestFor": "Fast image animation",
+              "engineId": "minimax-h3",
+              "name": "MiniMax H3",
+              "provider": "MiniMax",
+              "bestFor": "High-speed cinematic action",
+              "imageAlt": "A flying character races above a tropical bay in a 15-second MiniMax H3 video.",
               "fallbackPrice": "Live price",
               "scores": [
                 {
                   "label": "Motion",
-                  "value": 88
+                  "value": 91
                 },
                 {
                   "label": "Realism",
-                  "value": 84
+                  "value": 88
                 },
                 {
                   "label": "Speed",
-                  "value": 87
+                  "value": 92
                 }
               ],
               "tags": [
-                "Fast",
-                "Image",
-                "Control"
+                "Action",
+                "Native audio",
+                "Cinematic"
               ]
             }
           ],
@@ -966,7 +964,7 @@
           {
             "title": "Lock character consistency",
             "body": "Build a repeatable character reference for scenes, variants and storyboards.",
-            "toolLabel": "Character Builder",
+            "toolLabel": "Character Studio",
             "href": {
               "pathname": "/tools/character-builder"
             }
@@ -1027,7 +1025,7 @@
           },
           {
             "id": "character-builder",
-            "title": "Character Builder",
+            "title": "Character Studio",
             "body": "Create consistent characters.",
             "shortBody": "Keep characters consistent.",
             "href": {
@@ -1071,7 +1069,7 @@
         "title": "Know the cost before you generate.",
         "subtitle": "MaxVideoAI shows the price before every video generation, so you stay in control of your credits.",
         "cta": "View pricing",
-        "supportingText": "MaxVideoAI is a pay-as-you-go multi-engine AI video generator for Seedance, Kling, Veo, LTX, Wan, Pika and more.",
+        "supportingText": "Compare FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 and more. Get prompt help from Milo, see the price before generating, and pay as you go.",
         "modelsLink": "Models",
         "examplesLink": "Examples",
         "compareLink": "Compare engines",
@@ -1096,18 +1094,29 @@
       },
       "providers": {
         "title": "Supported engines and providers",
-        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax and Luma are available from one model catalog.",
+        "subtitle": "Explore FLUX, MiniMax, Kling, Seedance, Veo, LTX and Wan in one model catalog.",
         "cta": "View all models",
         "items": [
           {
+            "providerKey": "Black Forest Labs",
+            "provider": "Black Forest Labs",
+            "model": "FLUX 3 Max",
+            "href": {
+              "pathname": "/models/[slug]",
+              "params": {
+                "slug": "flux-3-max"
+              }
+            }
+          },
+          {
             "providerKey": "ByteDance",
             "provider": "ByteDance",
-            "model": "Seedance"
+            "model": "Seedance 2.5"
           },
           {
             "providerKey": "Kling by Kuaishou",
             "provider": "Kling / Kuaishou",
-            "model": "Kling"
+            "model": "Kling 4.0"
           },
           {
             "providerKey": "Google",
@@ -1117,17 +1126,12 @@
           {
             "providerKey": "Lightricks",
             "provider": "Lightricks",
-            "model": "LTX"
+            "model": "LTX 2.5"
           },
           {
             "providerKey": "Wan",
             "provider": "Wan",
-            "model": "Wan"
-          },
-          {
-            "providerKey": "Pika",
-            "provider": "Pika",
-            "model": "Pika"
+            "model": "Wan 3"
           },
           {
             "providerKey": "Alibaba",
@@ -1143,7 +1147,7 @@
           {
             "providerKey": "MiniMax",
             "provider": "MiniMax",
-            "model": "MiniMax"
+            "model": "MiniMax H3"
           },
           {
             "providerKey": "Luma AI",
@@ -1271,16 +1275,13 @@
     "worksWith": {
       "label": "Works with",
       "brands": [
+        "FLUX 3 Max",
+        "MiniMax H3",
+        "Kling 4.0",
         "Seedance 2.5",
         "Veo 3.1",
-        "LTX 2 Fast",
-        "LTX 2",
-        "Kling 2.6 Pro",
-        "Pika 2.2",
-        "MiniMax Hailuo 02",
-        "Kling 2.5",
-        "Wan 2.5",
-        "Nano Banana"
+        "LTX 2.5",
+        "Wan 3"
       ],
       "caption": "Trademarks belong to their owners.",
       "availabilityNotice": "Availability may vary by provider; pricing chips refresh automatically.",
@@ -1322,7 +1323,7 @@
       },
       {
         "title": "All your engines in one place.",
-        "body": "Switch between Seedance 2.5, Veo, Pika, MiniMax, and Hunyuan without juggling dashboards or API keys."
+        "body": "Try FLUX 3 Max, MiniMax H3, Kling 4.0 and Seedance 2.5 in one workspace. Compare examples and the quote for your settings before choosing."
       }
     ],
     "ways": [
@@ -1362,10 +1363,10 @@
           "cta": "Open Image"
         },
         "character": {
-          "eyebrow": "Character Builder",
+          "eyebrow": "Character Studio",
           "title": "Lock character continuity",
           "body": "Build a portrait anchor or 8-panel sheet before the character has to survive more than one scene.",
-          "cta": "Open Character Builder"
+          "cta": "Open Character Studio"
         },
         "angle": {
           "eyebrow": "Angle",
@@ -1525,7 +1526,7 @@
     "priceChipSuffix": "Shown before you launch.",
     "meta": {
       "title": "Pay-as-you-go AI Video Generator | MaxVideoAI",
-      "description": "Compare Seedance, Kling, Veo, LTX, Wan, Pika and more before you generate. Preview real outputs, see pricing upfront, and generate with pay-as-you-go credits."
+      "description": "Compare FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 and more. Get prompt help from Milo, see the price before generating, and pay as you go."
     },
     "compare": {
       "title": "AI video engines in one view",
@@ -1593,7 +1594,7 @@
       "compare": {
         "title": "Compare AI video models before you generate",
         "body": "MaxVideoAI lets you test multiple AI video models in one workspace. Engines differ on speed, prompt fidelity, motion, realism, and style, so you can review outputs side by side, choose the best model for each shot, and keep pricing visible before every generation.",
-        "worksWith": "Works with MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Wan 2.6, Pika 2.2, Nano Banana, and more.",
+        "worksWith": "Works with FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, Veo 3.1, LTX 2.5, Wan 3 and image models.",
         "popularLinks": [
           {
             "label": "MiniMax H3 vs Seedance 2.5 comparison",
@@ -1652,7 +1653,7 @@
       "subtitle": "Compare video, image, audio and tool costs before you create.",
       "supportingLine": "Pay as you go. Confirm the exact price in the app before generating. Failed generations are refunded.",
       "quickStartTitle": "Three starting points for your next video",
-      "quickStartNote": "Indicative total per video, in USD. Select a scenario to see the full comparison. Confirm the live quote in the app before generating.",
+      "quickStartNote": "Lowest available current-generation price for each shown preset, in USD per video. These are different settings, not a quality ranking. Open the row for details and confirm the quote before generating.",
       "primaryCta": "Check a price in the app",
       "secondaryCta": "Compare prices below",
       "badges": [
@@ -1739,13 +1740,13 @@
       "cards": [
         {
           "title": "Social clip (vertical)",
-          "engine": "Pika 2.2",
+          "engine": "FLUX 3 Max",
           "duration": "5s",
           "resolution": "1080×1920",
           "audio": "Silent",
           "note": "Charged only if it succeeds.",
           "pricingScenario": {
-            "engineId": "pika-text-to-video",
+            "engineId": "flux-3-max",
             "durationSec": 5,
             "resolution": "1080p",
             "memberTier": "member"
@@ -1788,7 +1789,7 @@
         "Resolution changes the price on models with 720p, 1080p, 1440p, or 4K tiers.",
         "Text-to-video AI, image-to-video AI, and video-to-video AI routes can price differently depending on the engine and input type.",
         "Audio can be included, optional, or silent depending on the model family.",
-        "Engine tier (Veo, LTX, Kling, Seedance, Pika, Wan) sets the base rate."
+        "The selected model and workflow set the starting price; duration, resolution and references can change it."
       ]
     },
     "teams": {
@@ -1821,7 +1822,7 @@
         },
         {
           "question": "Which AI video engine is cheapest?",
-          "answer": "The cheapest engine depends on the scenario. A 5s 720p draft, an 8s 1080p premium clip, a 10s 1080p video and 4K output can all have different winners. The table highlights current-generation options first and lists older budget routes separately when available."
+          "answer": "Choose the duration, resolution and audio setting first, then compare the same column. The highlighted price is the lowest available quote among the eligible current-generation models in this table. Older models are listed separately; a lower price does not prove a better result."
         },
         {
           "question": "Which engine is cheapest for 10s 1080p video?",
@@ -1841,7 +1842,7 @@
         },
         {
           "question": "Do failed generations cost credits?",
-          "answer": "No. Failed generations are refunded automatically. Credits are charged only when a generation completes successfully."
+          "answer": "A technical failure is different from a completed clip you do not like. Failed generations receive a credit refund; subjective dissatisfaction with a completed result is not normally refundable. Check the Refund & Return Policy for the terms."
         },
         {
           "question": "Do I need a subscription?",
@@ -1849,15 +1850,15 @@
         },
         {
           "question": "Why are some cheaper engines not highlighted first?",
-          "answer": "Some previous-generation routes may be cheaper for simple tests, but MaxVideoAI highlights current-generation engines first because they are usually better choices for new projects. Older budget routes are still listed separately when available."
+          "answer": "The opening cards compare eligible current-generation models at matching settings. Previous-generation options remain in the table and may cost less. The grouping helps you navigate; it does not guarantee better quality."
         },
         {
           "question": "Are image, audio and tools priced the same as video?",
           "answer": "No. Video, image, audio and tools use different pricing rules. Image generation is usually priced per image, audio by duration or mode, and tools by output type or resolution."
         },
         {
-          "question": "Why does the table show total prices instead of cost per second?",
-          "answer": "Most users compare the full cost of a render, not raw per-second rates. MaxVideoAI shows preset total prices for common scenarios such as 8s 1080p, 10s 1080p and 4K output. Per-second or provider-level rates can vary by engine, duration, resolution and rounding, and the app shows the exact live quote before generation."
+          "question": "Does the displayed price cover every attempt?",
+          "answer": "Each new generation has its own quote. If you make several completed attempts to find the shot you want, each is a separate generation. Compare the total you are willing to spend on the scene, not only the price of one clip."
         },
         {
           "question": "How often do prices change?",
@@ -2051,8 +2052,8 @@
         },
         {
           "emoji": "⚡",
-          "title": "When to choose Pika or MiniMax",
-          "body": "Pika 2.2 excels at stylised loops and social edits, while MiniMax Hailuo 02 keeps budgets low for volume runs. Both complement Seedance 2.5 and Veo when you need fast alternates or lightweight briefs."
+          "title": "Explore the current model families",
+          "body": "Compare FLUX 3 Max, MiniMax H3, Kling 4.0 and Seedance 2.5 with the references and settings your project needs. Use examples to judge the look and the live quote to judge the cost."
         },
         {
           "emoji": "🖼️",
@@ -2810,12 +2811,12 @@
       ],
       "library": [
         {
-          "href": "/ai-video-engines/seedance-2-0-vs-sora-2",
-          "label": "Seedance 2.0 vs Sora 2"
+          "href": "/studio",
+          "label": "Create with Studio"
         },
         {
-          "href": "/models",
-          "label": "Models"
+          "href": "/examples",
+          "label": "Public examples"
         }
       ]
     },
@@ -2823,8 +2824,14 @@
       "heading": "Library",
       "liveLabel": "Live",
       "comingSoonLabel": "Coming soon",
-      "summaryLive": "Browse media saved to your account and reuse it as references in compatible generation modes.",
-      "summarySoon": "Documentation coming soon."
+      "summaryLive": "Open Media in your signed-in account to find images, videos and audio from your creations and saved uploads. Your personal library is separate from the public Examples gallery.",
+      "summarySoon": "Documentation coming soon.",
+      "steps": [
+        "Find a result: use the media-type filters or search; switch to creation history to check a job’s status.",
+        "Inspect what is available: open the result to preview or listen, see its dimensions or duration, and read the prompt or settings when recorded.",
+        "Keep the original: use Download original on an available output. Download important files rather than relying on a copied media link, which may expire.",
+        "Create from it: choose a compatible reference or tool action. Reuse settings from a result when that action is offered, then check the inputs and the new price."
+      ]
     },
     "feedback": {
       "srTitle": "Feedback",
@@ -2903,7 +2910,7 @@
         },
         {
           "title": "Tool guides",
-          "body": "Practical breakdowns for Character Builder, Angle, and the workflows that turn one approved image into more usable outputs."
+          "body": "Practical breakdowns for Character Studio, Angle, and the workflows that turn one approved image into more usable outputs."
         },
         {
           "title": "Model notes",
@@ -2920,14 +2927,14 @@
         },
         {
           "question": "Can I suggest a topic or request coverage?",
-          "answer": "Yes—send topics to press@maxvideo.ai and include reference renders if you can. We prioritize stories that help production teams stay current."
+          "answer": "Yes—send topics to admin@maxvideoai.com and include reference renders if you can. We prioritize stories that help production teams stay current."
         },
         {
           "question": "Where can I find release notes?",
           "answer": "Feature-level updates live in the product changelog, and API updates post inside the developer docs. The blog covers higher-level workflows."
         }
       ],
-      "footnote": "Need more detail? Email press@maxvideo.ai with your request and we’ll route it to the right producer."
+      "footnote": "Need more detail? Email admin@maxvideoai.com with your request and we’ll route it to the right producer."
     }
   },
   "videoPage": {
@@ -3011,7 +3018,7 @@
     },
     "paragraphs": [
       "We believe professional teams deserve clarity before they hit render. That means price transparency, reliable routing, and shared context between creatives, producers, and stakeholders.",
-      "Independence matters: we stay neutral across engines, integrate with Seedance 2.5, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image, and rotating betas, and list trademarks only to describe compatibility.",
+      "Choose among FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, Veo, LTX, Wan and image models in one workspace. Milo helps turn an idea into a prompt; Studio helps plan a project. Check each model’s inputs, examples and quote before choosing. Third-party trademarks describe compatibility.",
       "The product is engineered for teams that need precision without noise. Quiet UI, premium defaults, precise controls, and price-before chips that keep finance in the loop.",
       "We keep the workflow practical: compare models, prepare assets, generate only when the cost and settings are clear, then review outputs from one workspace instead of scattering production context across provider dashboards."
     ],
@@ -3020,10 +3027,10 @@
   "contact": {
     "hero": {
       "title": "Contact the team.",
-      "subtitle": "Need support, enterprise onboarding, or press information? Send a note and we’ll reply within one business day."
+      "subtitle": "Contact MaxVideoAI for product support, partnerships, or press enquiries."
     },
     "intro": {
-      "body": "Talk to us about support, partnerships, enterprise setup, or editorial coverage. Messages that include context such as team size, target models, deadlines, or compliance requirements reach the right specialist faster. Every request gets a human reply.",
+      "body": "Tell us what you need help with. For a generation issue, include the job ID; for partnerships or press, include your project, publication, and deadline.",
       "cards": {
         "productHelp": {
           "title": "Product help",
@@ -3073,7 +3080,7 @@
       "items": [
         {
           "question": "How fast will someone reply?",
-          "answer": "We answer during European and US business hours. Most support tickets receive a human response in under 12 hours, enterprise requests inside 24."
+          "answer": "Response times vary with the request and support availability. Include the relevant job ID and a clear description so we can investigate."
         },
         {
           "question": "Do you offer live demos?",
@@ -3081,13 +3088,13 @@
         },
         {
           "question": "Where can I check service status?",
-          "answer": "Visit the {email} for current engine latency and incident history before opening a ticket."
+          "answer": "Visit the {email} for service notices published by the MaxVideoAI team. For a delayed generation, contact support with the job ID."
         }
       ]
     },
     "statusCard": {
-      "title": "Check live engine status",
-      "body": "Before opening a ticket, confirm whether an engine is already degraded. Status updates list latency, incident notes, and mitigation steps so you can decide whether to retry or switch models.",
+      "title": "Service notices",
+      "body": "The status page shows service notices published by the team. If a generation is delayed, avoid submitting the same job again and contact support with its job ID.",
       "cta": "status page"
     }
   },
@@ -3737,6 +3744,9 @@
         "seedPlaceholder": "Optional",
         "outputFormatLabel": "Output format",
         "outputFormatHint": "Choose the file type for the final images.",
+        "outputCompressionLabel": "Output compression",
+        "outputCompressionHint": "JPEG/WebP only, 0–100. Leave empty for 100. Changes file encoding, not generation price.",
+        "gpt26AutoQuoteHint": "Auto size is quoted at the largest output size; Auto quality is quoted at Max. This fixed quote may exceed the cost of the generated result.",
         "qualityLabel": "Quality",
         "backgroundLabel": "Background",
         "qualityHint": "Controls model fidelity and cost when supported.",
@@ -3747,6 +3757,7 @@
         "enableWebSearchLabel": "Web search",
         "enableWebSearchHint": "Ground the request with current web context when supported.",
         "thinkingLevelLabel": "Thinking level",
+        "complexityLabel": "Planning complexity",
         "thinkingLevelHint": "Increase reasoning depth when the engine supports it.",
         "limitGenerationsLabel": "Limit generations",
         "limitGenerationsHint": "Reduce extra exploratory generations when supported.",
@@ -3835,18 +3846,18 @@
           "emptyUploads": "No uploaded images yet. Upload images from the composer or the Media page.",
           "emptyGenerated": "No generated images saved yet. Save a generated image to see it here.",
           "emptyStoryboard": "No storyboard assets saved yet. Save a storyboard image to see it here.",
-          "emptyCharacter": "No character assets saved yet. Generate one in Character Builder first.",
+          "emptyCharacter": "No character assets saved yet. Generate one in Character Studio first.",
           "emptyAngle": "No angle assets saved yet. Generate one in the Angle tool first.",
           "emptyUpscale": "No upscale assets saved yet. Save an upscale result first."
         }
       },
       "characterPicker": {
         "title": "Select characters",
-        "description": "Choose from your Character Builder outputs. Selected characters are added as identity references.",
+        "description": "Choose from your Character Studio outputs. Selected characters are added as identity references.",
         "selected": "Selected",
         "select": "Select",
         "done": "Done",
-        "empty": "No character references yet. Generate one in the Character Builder first.",
+        "empty": "No character references yet. Generate one in the Character Studio first.",
         "limitLabel": "Up to {count} character reference{suffix}"
       },
       "authGate": {
@@ -3923,7 +3934,14 @@
         "expandSection": "Show",
         "collapseSection": "Hide",
         "saving": "Saving…",
-        "removing": "Removing…"
+        "removing": "Removing…",
+        "savePending": "Saving to Media…",
+        "saveError": "Could not save to Media. Please try again.",
+        "saveSuccess": "Saved to Media.",
+        "removePending": "Removing from history…",
+        "removeError": "Could not remove from history. Please try again.",
+        "removeSuccess": "Removed from history.",
+        "dismiss": "Dismiss"
       }
     },
     "dashboard": {
@@ -4253,6 +4271,7 @@
         "importing": "Importing…",
         "importFailed": "Import failed. Please try again.",
         "refresh": "Refresh",
+        "loadMore": "Load more",
         "searchSaved": "Search names or render IDs…",
         "searchRenders": "Search prompts or render IDs…",
         "create": "Create"
@@ -4289,7 +4308,7 @@
         "emptyUploads": "No uploaded media yet. Import media from your device to see it here.",
         "emptyGenerated": "No saved renders yet. Review recent renders and save the outputs you want to reuse.",
         "emptyStoryboard": "No storyboard assets saved yet. Save a storyboard image to see it here.",
-        "emptyCharacter": "No character assets saved yet. Generate one in Character Builder to see it here.",
+        "emptyCharacter": "No character assets saved yet. Generate one in Character Studio to see it here.",
         "emptyAngle": "No angle assets saved yet. Generate one in the Angle tool to see it here.",
         "emptyUpscale": "No upscale assets saved yet. Save an upscale result to see it here.",
         "deleteError": "Unable to delete this asset.",
@@ -4416,7 +4435,7 @@
       "title": "Tools",
       "subtitle": "Prepare references. Refine your images and videos.",
       "characterEyebrow": "Character consistency",
-      "characterTitle": "Character Builder",
+      "characterTitle": "Character Studio",
       "characterBody": "Create a consistent character across eight views.",
       "characterBadge": "Image",
       "storyboardEyebrow": "Reference boards",
@@ -4602,7 +4621,8 @@
         "jobLabel": "Job {id}",
         "sourceLabel": "{label} source",
         "uploadDurationWarning": "The source video uploaded, but its duration could not be read in the browser.",
-        "selectedDurationWarning": "The selected video loaded, but its duration could not be confirmed in the browser."
+        "selectedDurationWarning": "The selected video loaded, but its duration could not be confirmed in the browser.",
+        "previewUnavailable": "Source preview unavailable."
       },
       "controls": {
         "eyebrow": "Controls",
@@ -4893,7 +4913,9 @@
           "label": "Qwen Multiple Angles",
           "description": "Qwen image edit multiple-angle engine tuned for angle consistency."
         }
-      }
+      },
+      "sourcePreviewUnavailable": "Source preview unavailable.",
+      "retrySourcePreview": "Retry"
     },
     "characterBuilder": {
       "auto": "Auto",
@@ -4917,7 +4939,7 @@
       "uploadTooLarge": "Image exceeds {maxMB} MB. Compress it or choose a smaller file.",
       "loadFromJobDone": "Loaded character builder settings from the selected job.",
       "duplicateDone": "Builder settings copied from that result.",
-      "missingRun": "Character builder run is missing.",
+      "missingRun": "Character Studio run is missing.",
       "runGenerateOneDone": "Generated a new character reference.",
       "runGenerateFourDone": "Generated 4 character reference options.",
       "runFullBodyDone": "Generated a full-body correction from the selected result.",
@@ -5220,11 +5242,11 @@
         "quality": {
           "draft": {
             "label": "Standard",
-            "description": "Fast exploratory passes on Nano Banana 2."
+            "description": "Fast exploratory passes on Nano Banana 2.1."
           },
           "final": {
             "label": "Pro",
-            "description": "Cleaner export-ready references on Nano Banana Pro."
+            "description": "Cleaner export-ready references on Nano Banana 2.1."
           }
         },
         "format": {
@@ -5843,7 +5865,7 @@
           },
           "specialized": {
             "sections": {
-              "characterBuilder": "Character Builder",
+              "characterBuilder": "Character Studio",
               "angleControls": "Angle controls",
               "upscale": "Upscale",
               "storyboard": "Storyboard",
@@ -6298,9 +6320,9 @@
           "storyboardDescription": "Generate storyboard panels, timing notes, and continuity references.",
           "storyboardGenerationTitle": "Storyboard generation",
           "storyboardGenerationSubtitle": "Storyboard boards and continuity frames.",
-          "character": "Character Builder",
+          "character": "Character Studio",
           "characterDescription": "Create a reusable character reference from identity notes or images.",
-          "characterGenerationTitle": "Character Builder",
+          "characterGenerationTitle": "Character Studio",
           "characterGenerationSubtitle": "Consistent character reference tool.",
           "angle": "Angle",
           "angleDescription": "Generate a stronger camera angle from an image reference.",
@@ -6860,14 +6882,23 @@
       "ageRequired": "Confirm that you meet the minimum age requirement."
     },
     "feedback": {
+      "passwordUnavailable": "We couldn't complete your request. Please try again.",
       "signingIn": "Signing in…",
       "signinRedirecting": "Signed in. Redirecting…",
       "signinSuggestion": "We couldn't sign you in with those details. If you're new, create your account without retyping anything.",
+      "emailNotConfirmed": "Confirm your email to sign in. Check your inbox and spam, or request a new confirmation link below.",
+      "resendConfirmation": "Send a new confirmation link",
+      "sendingConfirmation": "Sending confirmation link…",
+      "confirmationResent": "If this email still needs confirmation, we'll send a new link. Check your inbox and spam.",
+      "confirmationRateLimited": "Please wait a few minutes before requesting another confirmation link.",
+      "confirmationUnavailable": "We couldn't send a new confirmation link. Please try again later.",
+      "signupLinkFailed": "This confirmation link is invalid, expired, or already used. Sign in with your email and password; if your email still needs confirmation, you can request a new link here.",
       "mcpSigninFailed": "We couldn’t sign you in. Check your email and password, use “Forgot password?”, or continue with Google if that is how you created your MaxVideoAI account.",
       "signupSuggestionReady": "Great, let's create your account.",
       "creatingAccount": "Creating account…",
       "accountRedirecting": "Account created. Redirecting…",
       "confirmEmail": "If your account needs confirmation, check your inbox. Already have an account? Log in, or choose “Forgot password?” on the login form to recover access.",
+      "confirmEmailAfterSignup": "Check your inbox and spam for the MaxVideoAI email, then click “Confirm my email” to finish creating your account.",
       "sendingReset": "Sending reset link…",
       "resetSent": "If an account exists for this email, you’ll receive a reset link. Check your inbox and spam.",
       "resetUnavailable": "We couldn't send the reset link. Please try again later. If the problem persists, contact support.",
@@ -7197,7 +7228,7 @@
           "title": "Create reusable character references",
           "body": "Turn one image into an 8-panel character sheet with 4 full-body angles and 4 close-ups, or create a portrait anchor before you branch into scenes, prompts, and motion.",
           "cta": "Explore Tool",
-          "imageAlt": "Character Builder workspace screenshot from MaxVideoAI."
+          "imageAlt": "Character Studio workspace screenshot from MaxVideoAI."
         },
         "angle": {
           "eyebrow": "Perspective control",
@@ -7230,14 +7261,14 @@
           "image": {
             "eyebrow": "Image",
             "title": "Generate the source still",
-            "body": "Create the base frame first, then carry it into Character Builder, Angle, or motion.",
+            "body": "Create the base frame first, then carry it into Character Studio, Angle, or motion.",
             "cta": "Open Image"
           },
           "character": {
-            "eyebrow": "Character Builder",
+            "eyebrow": "Character Studio",
             "title": "Build a reusable character reference",
             "body": "Lock the face, outfit, and silhouette before you branch into scenes or video prep.",
-            "cta": "Open Character Builder"
+            "cta": "Open Character Studio"
           },
           "angle": {
             "eyebrow": "Angle",
@@ -7915,39 +7946,37 @@
           "same face same outfit ai",
           "image to video character consistency"
         ],
-        "imageAlt": "Reusable AI character sheet preview generated with MaxVideoAI Character Builder.",
-        "schemaName": "Consistent Character AI",
-        "schemaDescription": "Create reusable portrait anchors and 8-panel AI character sheets from one image, optional outfit reference, or scratch, then reuse them across images, edits, and still-reference video workflows.",
+        "imageAlt": "Dixie Trouble, a reusable character portrait generated in Character Studio.",
+        "schemaName": "Character Studio",
+        "schemaDescription": "Create a character from a photo or an idea. Save its identity, generate new looks and bring it into video with MaxVideoAI Recast.",
         "schemaFeatures": [
-          "Start from one identity photo, an optional outfit reference, or a scratch-built concept",
-          "Generate a reusable portrait anchor",
-          "Generate an 8-panel character sheet with four full-body angles and four matching close-ups",
-          "Reuse the same character reference across image prompts and image edits",
-          "Use the reference in Nano Banana and video engines that support still references"
+          "Saved characters",
+          "New looks",
+          "Video Recast"
         ],
-        "howToTitle": "How Character Builder Works",
-        "howToDescription": "Create one reusable character reference asset for consistent AI images and still-reference video workflows."
+        "howToTitle": "Explore the workflow",
+        "howToDescription": "Create a character from a photo or an idea. Save its identity, generate new looks and bring it into video with MaxVideoAI Recast."
       },
       "breadcrumb": {
         "home": "Home",
         "tools": "Tools",
-        "current": "Character Builder"
+        "current": "Character Studio"
       },
       "hero": {
-        "badge": "Consistent Character AI Tool",
+        "badge": "Character Studio",
         "secondaryBadge": "Portrait anchor + 8-panel character sheet",
-        "title": "AI characters. A consistent reference.",
-        "body": "Start with a portrait or an idea. Create a portrait reference or an eight-panel character sheet, then reuse it in your images and videos.",
-        "primaryCta": "Open Character Builder",
+        "title": "Consistent AI characters. Ready for their next scene.",
+        "body": "Create a character from a photo or an idea. Save its identity, generate new looks and bring it into video with MaxVideoAI Recast.",
+        "primaryCta": "Create your character",
         "proofs": [
-          "Start with one identity photo, optional outfit inspiration, or a scratch-built concept",
-          "Generate a reusable portrait anchor or an 8-panel character sheet",
-          "Reuse the same character across scenes, prompts, edits, and still-reference video workflows"
+          "Saved characters",
+          "New looks",
+          "Video Recast"
         ],
         "showcase": {
-          "topLabel": "Character Builder workspace",
+          "topLabel": "Character Studio workspace",
           "windowLabel": "choose input, generate asset, reuse",
-          "imageAlt": "Full screenshot of the MaxVideoAI Character Builder workspace.",
+          "imageAlt": "Full screenshot of the MaxVideoAI Character Studio workspace.",
           "callouts": [
             {
               "label": "01",
@@ -7977,12 +8006,12 @@
           "Silhouette continuity becomes harder to hold"
         ],
         "solutionLabel": "What this tool creates",
-        "solutionTitle": "Character Builder creates the reference first",
+        "solutionTitle": "Character Studio creates the reference first",
         "solutionBody": "Generate either a portrait anchor or an 8-panel character sheet, then bring that same reference back into prompts, edits, and still-reference video workflows.",
         "portraitInputLabel": "Portrait input",
-        "portraitInputAlt": "Portrait reference used as the base input for Character Builder.",
+        "portraitInputAlt": "Portrait reference used as the base input for Character Studio.",
         "sheetLabel": "Reusable 8-panel sheet",
-        "sheetAlt": "Reusable 8-panel character sheet output generated from Character Builder."
+        "sheetAlt": "Reusable 8-panel character sheet output generated from Character Studio."
       },
       "howItWorks": {
         "eyebrow": "How it works",
@@ -7991,8 +8020,8 @@
         "steps": [
           {
             "stepLabel": "Start with",
-            "title": "Start with a face, outfit cue, or scratch concept",
-            "body": "Use one identity photo, add optional style direction, or start without a source image.",
+            "title": "Create your character",
+            "body": "Upload an identity photo or describe a character. Choose its appearance, outfit and setting.",
             "pills": [
               "One identity photo",
               "Optional outfit reference"
@@ -8000,8 +8029,8 @@
           },
           {
             "stepLabel": "Generate",
-            "title": "Generate a portrait anchor or 8-panel sheet",
-            "body": "Create a tighter face reference or one coherent sheet with four body angles and four close-ups.",
+            "title": "Save a portrait or character sheet",
+            "body": "Choose the output and resolution, review the price, generate and save the character.",
             "pills": [
               "Portrait anchor",
               "8-panel character sheet"
@@ -8009,8 +8038,8 @@
           },
           {
             "stepLabel": "Reuse in",
-            "title": "Reuse it in stills, edits, and video prep",
-            "body": "Bring the same reference into prompts, Nano Banana, and still-reference video tools.",
+            "title": "Create a look or a Recast",
+            "body": "Reuse the saved identity for another outfit, or choose it in Recast with your video and audio passages.",
             "pills": [
               "Image prompts",
               "Video prep"
@@ -8021,7 +8050,7 @@
         "comparisonBody": "The reference does the continuity work before you start changing scenes.",
         "comparisons": [
           {
-            "eyebrow": "Without Character Builder",
+            "eyebrow": "Without Character Studio",
             "title": "Every new scene has to rebuild the character",
             "items": [
               "Face, hair, and outfit drift between prompts",
@@ -8029,7 +8058,7 @@
             ]
           },
           {
-            "eyebrow": "With Character Builder",
+            "eyebrow": "With Character Studio",
             "title": "One reference keeps the character grounded",
             "items": [
               "Face, outfit, and silhouette stay aligned",
@@ -8062,7 +8091,7 @@
             ],
             "badge": "Most reusable",
             "stats": "4 full-body + 4 close-ups",
-            "imageAlt": "8-panel character sheet output generated from Character Builder."
+            "imageAlt": "8-panel character sheet output generated from Character Studio."
           },
           {
             "eyebrow": "Video prep still",
@@ -8077,13 +8106,13 @@
         ],
         "workflow": {
           "label": "Reference workflow",
-          "title": "Character Builder -> Nano Banana -> Video",
+          "title": "Character Studio -> Nano Banana -> Video",
           "chainLabel": "Sheet -> Still -> Video",
           "steps": [
             {
               "label": "01 · Character sheet",
               "body": "Lock the character before motion starts.",
-              "imageAlt": "Character Builder sheet used as the reusable reference asset across images and video workflows."
+              "imageAlt": "Character Studio sheet used as the reusable reference asset across images and video workflows."
             },
             {
               "label": "02 · Nano Banana still",
@@ -8177,9 +8206,13 @@
       },
       "faq": {
         "eyebrow": "FAQ",
-        "title": "Consistent Character AI FAQ",
+        "title": "Before you create your AI character",
         "body": "Short answers before you build the reference.",
         "items": [
+          {
+            "question": "What is Character Studio?",
+            "answer": "Character Studio, previously Character Builder, creates reusable AI character references: portraits and eight-panel character sheets. You can save characters, generate new looks and use them in MaxVideoAI Recast. It is separate from Studio, the video editing workspace."
+          },
           {
             "question": "What is consistent character AI?",
             "answer": "It means building one stable character reference so the same face, outfit, and silhouette hold up better later on."
@@ -8199,6 +8232,22 @@
           {
             "question": "Can I reuse this in image-to-video workflows?",
             "answer": "Yes. You can reuse it in prompts, Nano Banana start-frame prep, and video engines that support still references."
+          },
+          {
+            "question": "Can I save a character and make another look?",
+            "answer": "Yes. Save the character, open it from your character library and create a new look from its identity. Saved looks can be selected in Recast."
+          },
+          {
+            "question": "How does MaxVideoAI Recast work?",
+            "answer": "Select a character image or saved look, add a reference video and choose the passage. You can also supply a product image, dialogue or an audio passage. Review the duration, resolution and exact quote before starting the video generation."
+          },
+          {
+            "question": "Will every image and video be identical?",
+            "answer": "No. References guide identity and appearance, but AI generation can change faces, clothing, movement or products. Review each result, especially character-sheet angles and product details."
+          },
+          {
+            "question": "How much does Character Studio cost?",
+            "answer": "The app shows the current quote before generation. Image outputs and Recast are priced separately. Image resolution, video duration, input passages and video resolution can affect the amount; a changed setup needs an updated quote."
           }
         ]
       },
@@ -8245,10 +8294,66 @@
         "eyebrow": "Create the reference first",
         "title": "Keep the Same Character Across Scenes, Stills, and Video",
         "body": "Generate a portrait anchor or 8-panel sheet, then reuse that same reference in prompts, edits, and still-reference video workflows.",
-        "primaryCta": "Open Character Builder",
+        "primaryCta": "Open Character Studio",
         "panelLeft": "Locked character",
         "panelRight": "Ready to reuse",
-        "panelAlt": "Reusable AI character sheet preview generated with MaxVideoAI Character Builder."
+        "panelAlt": "Reusable AI character sheet preview generated with MaxVideoAI Character Studio."
+      },
+      "studio": {
+        "nav": [
+          "Create",
+          "New looks",
+          "Character sheets",
+          "Recast"
+        ],
+        "castingTitle": "A face. A personality. A world of possibilities.",
+        "castingBody": "Human, animal or imagined creature: describe the face, age, skin tone, hair, outfit and setting. Add your own direction whenever a preset is not enough.",
+        "castingCaption": "Actual characters generated in Character Studio",
+        "looksTitle": "One character. A whole new look.",
+        "looksBody": "Start from a saved character, then change the wardrobe or setting. Use a style preset, describe your own outfit or add a clothing reference.",
+        "identity": "Saved identity",
+        "newLook": "New look",
+        "looksNote": "Dixie Trouble · two actual generations. Check the face and details before saving a look.",
+        "outputsTitle": "The right reference for the next shot.",
+        "outputsBody": "Choose Portrait or Character sheet, then the format and resolution. The generation price updates before you confirm.",
+        "portrait": "Portrait",
+        "portraitBody": "One image to anchor the face and appearance.",
+        "sheet": "Character sheet",
+        "sheetBody": "One eight-panel image: four full-body angles and four matching close-ups. Review every view before reuse.",
+        "sheetAlt": "AI character reference sheet with front, profile, three-quarter and back views, with matching close-ups.",
+        "recastEyebrow": "MaxVideoAI Recast",
+        "recastTitle": "Your character. The movement you choose.",
+        "recastBody": "Choose a saved character or upload an image. Add a video and select the passage to use as a motion reference. Product images, dialogue and audio references can guide the scene.",
+        "recastSteps": [
+          "Choose a character or saved look",
+          "Select the video and audio passages",
+          "Set duration, format and 720p or 1080p",
+          "Review the exact price, then generate"
+        ],
+        "recastNote": "Recast generates a new video. Movement, identity and product details can vary; review the result before using it in a campaign.",
+        "filmLabels": [
+          "Dixie · dance",
+          "Vesper · character comedy"
+        ],
+        "filmDescriptions": [
+          "A pink-and-white look, carried into a dance sequence.",
+          "An insect fashion designer in a sports-car scene."
+        ],
+        "frameLabel": "Frame from an actual Recast",
+        "videoLabel": "Watch a generated video",
+        "recastCta": "Open Character Studio",
+        "priceTitle": "Choose the result. See the price. Then generate.",
+        "priceBody": "Portraits, new looks and character sheets are image generations. Recast is a separate video generation: the selected duration and resolution affect its quote. Always use the current price shown in the app.",
+        "priceLink": "How pay-as-you-go works",
+        "faqTitle": "Before you create your AI character",
+        "finalTitle": "Meet your next recurring character.",
+        "finalBody": "Build the identity once, save the looks you like, then take the character into a new scene.",
+        "secondaryCta": "Explore the workflow",
+        "roles": [
+          "Recurring characters",
+          "Creators & UGC",
+          "Brand mascots"
+        ]
       }
     },
     "backgroundRemoval": {
@@ -8457,7 +8562,7 @@
       "all": "All tools",
       "open": "Open tool",
       "nav": "Explore creative tools",
-      "character": "Character",
+      "character": "Character Studio",
       "angle": "Camera angle",
       "upscale": "Upscale",
       "background": "Video cutout",
@@ -8488,25 +8593,5 @@
     "body": "We can't find that URL. It might be outdated, or it never existed. Use the links below to keep exploring MaxVideoAI.",
     "homeLabel": "Back to homepage",
     "modelsLabel": "Browse video models"
-  },
-  "passwordRecovery": {
-    "title": "Choose a new password",
-    "intro": "Continue to verify your reset link securely.",
-    "verify": "Continue",
-    "verifying": "Verifying your link…",
-    "password": "New password",
-    "confirm": "Confirm new password",
-    "save": "Save new password",
-    "saving": "Saving…",
-    "saved": "Your password has been updated.",
-    "continueToApp": "Continue to the app",
-    "requestNew": "Request a new link",
-    "invalid": "This link is invalid or has expired. Request a new one. If you used another browser, try opening the original link in the browser where you requested it.",
-    "tooShort": "Use at least 6 characters.",
-    "mismatch": "The passwords do not match.",
-    "weak": "Choose a stronger password.",
-    "same": "Choose a password different from your current one.",
-    "unavailable": "We could not update your password. Please try again.",
-    "ready": "Enter and confirm your new password."
   }
 }

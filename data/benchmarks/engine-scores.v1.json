@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "last_updated": "2026-09-03",
+  "last_updated": "2026-11-06",
   "method": "manual-v1-internet-calibrated-with-platform-pricing",
   "scores": [
     {
@@ -32,21 +32,6 @@
       "controllability": 8.3,
       "speedStability": 7.4,
       "pricing": 7.4
-    },
-    {
-      "modelSlug": "gemini-omni-flash",
-      "fidelity": 8.8,
-      "visualQuality": 8.5,
-      "motion": 8.2,
-      "consistency": 7.9,
-      "anatomy": 8.1,
-      "textRendering": 7.6,
-      "lipsyncQuality": 8.9,
-      "sequencingQuality": 8.0,
-      "controllability": 9.2,
-      "speedStability": 6.8,
-      "pricing": 8.1,
-      "last_updated": "2026-09-03"
     },
     {
       "modelSlug": "kling-3-turbo-standard",
@@ -643,6 +628,103 @@
       "speedStability": 9.2,
       "pricing": 9.1,
       "last_updated": "2026-09-02"
+    },
+    {
+      "modelSlug": "flux-3-max",
+      "fidelity": 8.8,
+      "visualQuality": 9.0,
+      "motion": 8.7,
+      "consistency": 8.6,
+      "anatomy": 8.5,
+      "textRendering": 7.8,
+      "lipsyncQuality": 7.0,
+      "sequencingQuality": 8.3,
+      "controllability": 8.6,
+      "speedStability": 8.8,
+      "pricing": 8.0,
+      "last_updated": "2026-10-20",
+      "reviewStatus": "editorial-estimated",
+      "evidenceFile": "flux-3-max-evidence.v1.json",
+      "reviewNote": "Public-evidence editorial estimates dated 2026-10-20, based on selected provider examples, primary documentation and separately reported Artificial Analysis context. No controlled MaxVideoAI runs; confidence varies and audio alignment / operational reliability were not measured.",
+      "reviewSourceUrl": "https://fal.ai/flux-3-max",
+      "reviewConfidence": {
+        "fidelity": "medium",
+        "visualQuality": "medium",
+        "motion": "low",
+        "consistency": "medium",
+        "anatomy": "medium",
+        "textRendering": "low",
+        "lipsyncQuality": "very-low",
+        "sequencingQuality": "low",
+        "controllability": "medium",
+        "speedStability": "low",
+        "pricing": "medium"
+      }
+    },
+    {
+      "modelSlug": "kling-v4",
+      "fidelity": 9.1,
+      "visualQuality": 9.3,
+      "motion": 9.2,
+      "consistency": 9.2,
+      "anatomy": 9.0,
+      "textRendering": 8.2,
+      "lipsyncQuality": 9.1,
+      "sequencingQuality": 9.3,
+      "controllability": 9.3,
+      "speedStability": 7.5,
+      "pricing": 8.4,
+      "last_updated": "2026-10-27"
+    },
+    {
+      "modelSlug": "kling-v4-flash",
+      "fidelity": 8.3,
+      "visualQuality": 8.7,
+      "motion": 8.1,
+      "consistency": 8.6,
+      "anatomy": 8.3,
+      "textRendering": 8.2,
+      "lipsyncQuality": 7.8,
+      "sequencingQuality": 8.6,
+      "controllability": 8.0,
+      "speedStability": 7.8,
+      "pricing": 8.8,
+      "last_updated": "2026-11-06",
+      "reviewStatus": "editorial-estimated",
+      "evidenceFile": "kling-v4-flash-evidence.v1.json",
+      "reviewNote": "Eleven editorial estimates from seven owned non-controlled Flash outputs, recorded requests, active quotes and attributed first-person reviews. Overall 8.3; no borrowed full-model score or external-index conversion.",
+      "reviewSourceUrl": "https://maxvideoai.com/models/kling-v4-flash",
+      "reviewConfidence": {
+        "fidelity": "medium",
+        "visualQuality": "medium",
+        "motion": "low",
+        "consistency": "medium",
+        "anatomy": "medium",
+        "textRendering": "low",
+        "lipsyncQuality": "low",
+        "sequencingQuality": "medium",
+        "controllability": "medium",
+        "speedStability": "low",
+        "pricing": "medium"
+      }
+    }
+  ],
+  "historicalScores": [
+    {
+      "modelSlug": "gemini-omni-flash",
+      "fidelity": 8.8,
+      "visualQuality": 8.5,
+      "motion": 8.2,
+      "consistency": 7.9,
+      "anatomy": 8.1,
+      "textRendering": 7.6,
+      "lipsyncQuality": 8.9,
+      "sequencingQuality": 8.0,
+      "controllability": 9.2,
+      "speedStability": 6.8,
+      "pricing": 8.1,
+      "last_updated": "2026-09-03",
+      "modelVersion": "1.1"
     }
   ]
 }

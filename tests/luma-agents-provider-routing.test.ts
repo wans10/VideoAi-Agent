@@ -8,6 +8,23 @@ import {
 } from '../frontend/src/server/video-providers/luma-agents/model-map';
 import { resolveVideoProviderRoutingPlan } from '../frontend/src/server/video-providers/router';
 
+test('Luma source-video routes never fall back to nonexistent Fal endpoints when direct is unavailable', () => {
+  for (const mode of ['v2v', 'reframe']) {
+    for (const flags of [
+      { LUMA_AGENTS_ENABLED: 'false' },
+      { LUMA_AGENTS_ENABLED: 'true', LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'false' },
+      { LUMA_AGENTS_ENABLED: 'true', LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
+        LUMA_AGENTS_PUBLIC_ROUTING_ENABLED: 'false', LUMA_AGENTS_ADMIN_ONLY: 'false' },
+      { LUMA_AGENTS_ENABLED: 'true', LUMA_AGENTS_VIDEO_DIRECT_ENABLED: 'true',
+        LUMA_AGENTS_PUBLIC_ROUTING_ENABLED: 'true', LUMA_AGENTS_ADMIN_ONLY: 'true' },
+    ]) {
+      const decision = resolveVideoProviderRoutingPlan({ engineId: 'luma-ray-3-2', mode,
+        isAdmin: false, env: flags });
+      assert.equal(decision.kind, 'luma_agents_unavailable', JSON.stringify({ mode, flags }));
+    }
+  }
+});
+
 test('Luma Agents routes Ray 3.2 direct for admins when enabled', () => {
   assert.deepEqual(
     resolveVideoProviderRoutingPlan({
@@ -139,8 +156,8 @@ test('Luma Agents source-video modes route direct without Fal fallback when vide
   );
 });
 
-test('Luma Agents keeps extend fal-only even when advanced direct-only flag is enabled', () => {
-  assert.equal(isLumaAgentsVideoModeSupported('extend'), false);
+test('Luma Agents routes owned Extend direct without fallback', () => {
+  assert.equal(isLumaAgentsVideoModeSupported('extend'), true);
   assert.deepEqual(
     resolveVideoProviderRoutingPlan({
       engineId: 'luma-ray-3-2',
@@ -153,7 +170,7 @@ test('Luma Agents keeps extend fal-only even when advanced direct-only flag is e
         LUMA_AGENTS_FALLBACK_TO_FAL_ENABLED: 'true',
       },
     }),
-    { kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false }
+    { kind: 'luma_agents_direct_primary', primaryProvider: 'luma_agents_direct', fallbackProvider: 'fal', fallbackEnabled: false, advancedDirectOnlyEnabled: true }
   );
 });
 

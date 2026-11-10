@@ -1,3 +1,5 @@
+import type { MediaReadAccess } from '@/lib/media-read-access';
+import type { ToolAssetRef } from '@/lib/toolbox/contract';
 import type { PricingSnapshot } from '@maxvideoai/pricing';
 import type { AssetLibrarySource } from '@/components/library/AssetLibraryBrowser';
 import type {
@@ -54,7 +56,8 @@ export type HistoryEntry = {
 
 export type UploadFailure = Error & { code?: string; maxMB?: number };
 
-export type ReferenceSlotValue = {
+export type ReferenceSlotValue = MediaReadAccess & {
+  ref?: ToolAssetRef;
   id: string;
   url: string;
   previewUrl?: string;
@@ -69,13 +72,15 @@ export type ReferenceSlotValue = {
 export type PersistedCharacterReference = CharacterReferenceSelection;
 
 export type PersistedReferenceSlot =
-  | {
+  | (Pick<MediaReadAccess, 'readAccessOwnerId' | 'readAccessRef' | 'readAccessRevision'> & {
       url: string;
+      ref?: ToolAssetRef;
+      name?: string;
       source?: ReferenceSlotValue['source'];
       width?: number | null;
       height?: number | null;
       characterReference?: PersistedCharacterReference | null;
-    }
+    })
   | null;
 
 export type PersistedImageComposerState = {
@@ -89,19 +94,24 @@ export type PersistedImageComposerState = {
   customImageSize: GptImage2ImageSize | null;
   seed: number | null;
   outputFormat: string | null;
+  outputCompression?: number | null;
   quality: string | null;
   background: string | null;
   style: string | null;
   maskUrl: string | null;
   enableWebSearch: boolean;
   thinkingLevel: string | null;
+  complexity?: string | null;
   limitGenerations: boolean;
   watermark: boolean;
   referenceSlots: PersistedReferenceSlot[];
   characterReferences?: PersistedCharacterReference[];
 };
 
-export type LibraryAsset = {
+export type LibraryAsset = MediaReadAccess & {
+  name?: string | null;
+  assetId?: string;
+  ref?: ToolAssetRef;
   id: string;
   url: string;
   mime?: string | null;

@@ -6,12 +6,12 @@ import type { AppLocale } from '@/i18n/locales';
 import type { StudioMarketingCopy } from '../_lib/studio-marketing-copy';
 import styles from './studio-marketing.module.css';
 
-// Real connected-project fixture capture, reviewed on 2026-10-04.
-const STUDIO_PREVIEW_IMAGE = '/assets/studio/studio-conversation-preview.webp';
+// Real connected-project fixture capture with Milo; no account data or generated balance.
+const STUDIO_PREVIEW_IMAGE = '/assets/studio/studio-milo-preview.webp';
 const icons = [MessageCircle, Sparkles, PanelsTopLeft];
 
 export function StudioMarketingPage({ copy, locale }: { copy: StudioMarketingCopy; locale: AppLocale }) {
-  const entryHref = `/api/studio/marketing-entry?starter=product-ad&lang=${locale}`;
+  const entryHref = `/api/studio/marketing-entry?lang=${locale}`;
   return <div className={styles.page}>
     <section className={styles.hero} aria-labelledby="studio-title">
       <div className={styles.heroCopy}>
@@ -33,6 +33,7 @@ export function StudioMarketingPage({ copy, locale }: { copy: StudioMarketingCop
         <a className={styles.secondary} href="#workflow">{copy.secondaryCta}<span aria-hidden="true">↓</span></a>
         <p className={styles.accessNote}>{copy.accessNote}</p>
         <p className={styles.costNote}>{copy.costNote}</p>
+      <Link href="/ai-video-prompt-generator" locale={locale} prefetch={false} className={styles.secondary}>{locale === 'fr' ? 'Milo pour vos prompts' : locale === 'es' ? 'Milo para tus prompts' : 'Milo for your prompts'}<ArrowRight size={15} aria-hidden /></Link>
       </div>
     </section>
     <section className={styles.workflow} id="workflow" aria-labelledby="studio-workflow">

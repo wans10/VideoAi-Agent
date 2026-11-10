@@ -1,3 +1,5 @@
+import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import {
   quoteCanonicalPricing,
   resolvePricingPolicy,
@@ -11,9 +13,11 @@ import { buildPricingAuditScenarios } from '@/lib/pricing-audit/scenarios';
 import type { PricingAuditScenario, PricingAuditSurface } from '@/lib/pricing-audit/types';
 import { getVersionedPricingPolicy, resolveLiveAudioPricingProfile } from '@/lib/pricing-policy-defaults';
 import { LIVE_MEMBERSHIP_DISCOUNTS, LIVE_MEMBERSHIP_POLICY } from '@/lib/membership-policy';
+import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
 
 import { PricingAdminError } from './errors';
 import { buildLiveProductPolicyScenarios, buildLiveProductPolicyFacts } from './product-policy-scenarios';
+import { isRecastPolicySelector, validateRecastPolicyRule } from './recast-policy';
 
 export type PricingScenarioSelector = Pick<PricingPolicyRule, 'engineId' | 'mode' | 'resolution'>;
 export type PricingMembershipDiscountMap = Record<'member' | 'plus' | 'pro', number>;
@@ -48,11 +52,11 @@ export type PricingChangePreviewRow = {
   scenarioLabel?: string;
   engineId: string;
   surface: PricingAuditSurface;
-  currentTotalCents: number;
+  currentTotalCents: number | null;
   proposedTotalCents: number;
-  deltaCents: number;
+  deltaCents: number | null;
   deltaPercent: number | null;
-  currentProvenance: CanonicalPricingQuote['policyProvenance'];
+  currentProvenance: CanonicalPricingQuote['policyProvenance'] | null;
   proposedProvenance: CanonicalPricingQuote['policyProvenance'];
   compatibilityProfile: string;
 };
@@ -202,6 +206,21 @@ function quoteCanonicalScenarios(
         );
       }
       const surcharge = resolveScenarioSurcharge(scenario);
+      if (projection === 'live' && scenario.input.adminProduct === 'recast') {
+        let qualified = policy.source === 'database' && isRecastPolicySelector(policy.rule);
+        try { validateRecastPolicyRule(policy.rule as unknown as Record<string, unknown>); } catch { qualified = false; }
+        if (!qualified) return { status: 'unsupported', scenarioId: scenario.id, engineId: scenario.engineId, surface: scenario.surface,
+          reason: 'product_policy_not_authoritative', warning: 'Recast requires an exact scoped supplier-cost pricing rule; its current price is unavailable.',
+          policyProvenance: { source: policy.source, matchedBy: policy.matchedBy, sourceRuleId: policy.sourceRuleId, compatibilityProfile: profileId } };
+      }
+      if (scenario.engineId === NANO21_ENGINE_ID || isKlingV4FalQueueEngineId(scenario.engineId) || isGptImage26EngineId(scenario.engineId)) {
+        return { status: 'unsupported', scenarioId: scenario.id, engineId: scenario.engineId, surface: scenario.surface,
+          reason: 'product_policy_not_authoritative',
+          warning: isGptImage26EngineId(scenario.engineId) ? 'GPT Image 2.6 requires reviewed customer tariffs; supplier input costs remain unqualified.' : isKlingV4FalQueueEngineId(scenario.engineId)
+            ? 'Kling 4 uses approved customer tariffs; legacy percentage-policy previews cannot reprice it.'
+            : 'Nano Banana 2.1 uses its fixed per-image customer tariff; percentage-policy previews cannot reprice it.',
+          policyProvenance: { source: policy.source, matchedBy: policy.matchedBy, sourceRuleId: policy.sourceRuleId, compatibilityProfile: profileId } };
+      }
       if (projection === 'live' && scenario.input.adminProduct === 'finishing' && policy.rule.engineId !== 'toolbox-finishing') {
         return { status: 'unsupported', scenarioId: scenario.id, engineId: scenario.engineId, surface: scenario.surface,
           reason: 'product_policy_not_authoritative', warning: 'Finishing tools require an effective tool-specific pricing policy.',

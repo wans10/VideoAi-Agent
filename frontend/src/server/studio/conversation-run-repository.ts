@@ -14,6 +14,7 @@ import {isReplayableStudioResponse, type StudioDirectorResponse} from './convers
 import {readStudioAnalysisFacts} from './media-analysis/repository';
 import type {ImageModelUsage} from './image-model-usage';
 import {projectStudioConversationQuotes,STUDIO_QUOTE_SETTING_KEYS,type StudioConversationQuoteRow} from './conversation-quote-facts';
+import {readStudioConversationRenderFacts} from './conversation-export-facts';
 
 export async function readStudioConversationProject(actor: StudioGenerationActor,options:{exportsEnabled?:boolean;taskContext?:{message:string;requestId:string}}={}): Promise<StudioConversationProject> {
   requireGenerationActor(actor);
@@ -24,6 +25,8 @@ export async function readStudioConversationProject(actor: StudioGenerationActor
   if (!row) throw new AgentApiError('PARAMETER_INVALID', 'This Studio project is not available.');
   const quoteRows = await query<StudioConversationQuoteRow>(`
     SELECT q.quote_id AS "quoteId",q.request_json->>'surface' AS surface,q.state AS "quoteState",q.job_id AS "jobId",j.status,
+      j.message AS "failureMessage",jsonb_build_object('providerFailure',j.settings_snapshot->'providerFailure') AS "failureSettings",
+      refund.amount_cents AS "refundAmountCents",refund.currency AS "refundCurrency",
       q.price_cents AS "amountCents",q.currency,q.expires_at AS "expiresAt",clock_timestamp() AS "databaseNow",
       q.request_json->>'engineId' AS "modelId",q.request_json->>'mode' AS mode,q.request_json->'outputCount' AS "outputCount",
       q.pricing_snapshot->'canonicalPricing'->'meta'->'output_duration_sec' AS "outputDurationSec",
@@ -33,12 +36,16 @@ export async function readStudioConversationProject(actor: StudioGenerationActor
       ARRAY(SELECT reference->>'role' FROM jsonb_array_elements(q.request_json->'references') AS reference) AS "referenceRoles"
     FROM studio_image_turns t JOIN mcp_generation_quotes q ON q.quote_id=t.quote_id AND q.user_id=t.user_id AND q.studio_project_id=t.project_id
     LEFT JOIN app_jobs j ON j.job_id=q.job_id AND j.user_id=q.user_id
+    LEFT JOIN app_receipts charge ON charge.job_id=j.job_id AND charge.user_id=j.user_id AND charge.type='charge'
+    LEFT JOIN app_receipts refund ON refund.job_id=j.job_id AND refund.user_id=j.user_id AND refund.type='refund'
+      AND j.payment_status='refunded_wallet' AND refund.amount_cents=charge.amount_cents AND refund.currency=charge.currency
     WHERE t.user_id=$1 AND t.project_id=$2 AND q.auth_origin='studio-session' ORDER BY t.created_at DESC LIMIT 30`, [actor.userId, actor.projectId,STUDIO_QUOTE_SETTING_KEYS]);
   const generations = projectStudioConversationQuotes(quoteRows);
   const authoredNotes=options.taskContext?await readStudioTaskMemory(actor,options.taskContext.message,options.taskContext.requestId):[];
   const analyses=await readStudioAnalysisFacts(actor);
   const exports = options.exportsEnabled ? await query<{safe_result: unknown}>(`SELECT safe_result FROM studio_project_commands WHERE user_id=$1 AND project_id=$2 AND command_kind='timeline_export_prepare' AND command_version=1 AND request_payload->'scope'->>'authOrigin'='studio-session' AND request_payload->'scope'->>'clientId' IS NULL ORDER BY created_at DESC LIMIT 8`,[actor.userId,actor.projectId]) : null;
-  return {...(authoredNotes.length?{authoredNotes}:{}),...(analyses.length?{analyses}:{}),...(exports ? {exports: exports.flatMap(value => {const parsed=studioPreparedExportSchema.safeParse(value.safe_result);return parsed.success ? [parsed.data] : [];})} : {}),name: row.name, revision: Number(row.revision), memory: studioMemorySchema.parse({revision: Number(row.memory_revision ?? 0), brief: row.brief ?? '', decisions: row.decisions ?? []}), generations};
+  const renders=options.exportsEnabled?await readStudioConversationRenderFacts(actor):null;
+  return {...(authoredNotes.length?{authoredNotes}:{}),...(analyses.length?{analyses}:{}),...(renders?{renders}:{}),...(exports ? {exports: exports.flatMap(value => {const parsed=studioPreparedExportSchema.safeParse(value.safe_result);return parsed.success ? [parsed.data] : [];})} : {}),name: row.name, revision: Number(row.revision), memory: studioMemorySchema.parse({revision: Number(row.memory_revision ?? 0), brief: row.brief ?? '', decisions: row.decisions ?? []}), generations};
 }
 
 export async function saveStudioConversationMemory(actor: StudioGenerationActor, value: StudioConversationMemory & {projectTitle?:string|null}, executor?: TransactionQueryExecutor) {
@@ -116,14 +123,15 @@ export async function completeStudioAction(actor: StudioGenerationActor, turn: S
 }
 
 /** Checkpoint each paid text request before dispatch and its complete output before any action. */
-export async function checkpointStudioResponse(actor: StudioGenerationActor, turn: StoredImageTurn, index: number, create: () => Promise<StudioDirectorResponse>, meter?: {prepare(): Promise<{inputTokens: number;outputTokens: number;policy: StudioAssistancePolicy;lunaFallback?:StudioLunaFallback}>}, options: {replayOnly?: boolean} = {}): Promise<StudioDirectorResponse> {
+export async function checkpointStudioResponse(actor: StudioGenerationActor, turn: StoredImageTurn, index: number, create: () => Promise<StudioDirectorResponse>, meter?: {prepare(): Promise<{inputTokens: number;outputTokens: number;policy: StudioAssistancePolicy;lunaFallback?:StudioLunaFallback}>;applyReservation?(call:Pick<AssistanceCall,'output_token_bound'|'pricing_snapshot'>):void}, options: {replayOnly?: boolean;reviewContext?:()=>unknown} = {}): Promise<StudioDirectorResponse> {
   const scope = [actor.userId, actor.projectId, turn.request_id, turn.lease_id, index];
   const prior = (await query<{response_json: StudioDirectorResponse}>(`SELECT response_json FROM studio_conversation_responses
     WHERE user_id=$1 AND project_id=$2 AND request_id=$3 AND response_index=$4 AND state='reported' ORDER BY created_at DESC LIMIT 1`, [actor.userId, actor.projectId, turn.request_id, index]))[0];
   if (prior) {
     if (meter) {
-      const savedCall = (await query<{id: string}>(`SELECT id FROM studio_assistance_calls WHERE user_id=$1 AND project_id=$2 AND request_id=$3 AND response_index=$4 AND (response_id=$5 OR state<>'settled') ORDER BY created_at DESC LIMIT 1`, [actor.userId,actor.projectId,turn.request_id,index,prior.response_json.id]))[0];
+      const savedCall = (await query<{id: string;output_token_bound:number;pricing_snapshot:unknown}>(`SELECT id,output_token_bound,pricing_snapshot FROM studio_assistance_calls WHERE user_id=$1 AND project_id=$2 AND request_id=$3 AND response_index=$4 AND (response_id=$5 OR state<>'settled') ORDER BY created_at DESC LIMIT 1`, [actor.userId,actor.projectId,turn.request_id,index,prior.response_json.id]))[0];
       if (savedCall && !await settleStudioAssistanceCall(savedCall.id,actor.userId,prior.response_json)) assistanceError('usage_unresolved','Provider usage for this saved response is unresolved.');
+      if(savedCall)meter.applyReservation?.(savedCall);
     }
     if (isReplayableStudioResponse(prior.response_json)) return prior.response_json;
   }
@@ -141,7 +149,9 @@ export async function checkpointStudioResponse(actor: StudioGenerationActor, tur
       AND EXISTS (SELECT 1 FROM studio_projects p WHERE p.id=t.project_id AND p.user_id=t.user_id AND p.deleted_at IS NULL)
     ON CONFLICT DO NOTHING RETURNING lease_id`, scope);
     if (!start.length) throw new AgentApiError('PARAMETER_INVALID', 'This model step is already in progress or superseded.');
-    if (bounds) assistanceCall = await reserveStudioAssistanceCall({userId: actor.userId,projectId: actor.projectId,requestId: turn.request_id,leaseId: turn.lease_id,index,inputTokens: bounds.inputTokens,outputTokens: bounds.outputTokens,lunaFallback:bounds.lunaFallback},bounds.policy,tx);
+    if (bounds) assistanceCall = await reserveStudioAssistanceCall({userId: actor.userId,projectId: actor.projectId,requestId: turn.request_id,leaseId: turn.lease_id,index,inputTokens: bounds.inputTokens,outputTokens: bounds.outputTokens,lunaFallback:bounds.lunaFallback,allowCreditCompletion:!!meter?.applyReservation},bounds.policy,tx);
+    if(assistanceCall)meter?.applyReservation?.(assistanceCall);
+    if(options.reviewContext)await tx.query('UPDATE studio_conversation_responses SET review_context_json=$6::jsonb WHERE user_id=$1 AND project_id=$2 AND request_id=$3 AND lease_id=$4 AND response_index=$5',[...scope,JSON.stringify(options.reviewContext())]);
   });
   const began = performance.now();
   try {

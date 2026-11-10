@@ -47,6 +47,7 @@ interface UseImageGenerationRunnerParams {
   hasSeedField: boolean;
   hasStyleField: boolean;
   hasThinkingLevelField: boolean;
+  hasComplexityField: boolean;
   hasWatermarkField: boolean;
   limitGenerations: boolean;
   maskUrl: string;
@@ -54,6 +55,8 @@ interface UseImageGenerationRunnerParams {
   mutateJobs: () => Promise<unknown>;
   numImages: number;
   outputFormat: string | null;
+  outputCompression?: number | null;
+  hasOutputCompressionField?: boolean;
   prompt: string;
   pricingSnapshot: PricingSnapshot | null;
   quality: string | null;
@@ -74,6 +77,7 @@ interface UseImageGenerationRunnerParams {
   setSelectedPreviewImageIndex: Dispatch<SetStateAction<number>>;
   setStatusMessage: Dispatch<SetStateAction<string | null>>;
   thinkingLevel: string | null;
+  complexity: string | null;
   watermark: boolean;
 }
 
@@ -95,6 +99,7 @@ export function useImageGenerationRunner({
   hasSeedField,
   hasStyleField,
   hasThinkingLevelField,
+  hasComplexityField,
   hasWatermarkField,
   limitGenerations,
   maskUrl,
@@ -102,6 +107,8 @@ export function useImageGenerationRunner({
   mutateJobs,
   numImages,
   outputFormat,
+  outputCompression,
+  hasOutputCompressionField,
   prompt,
   quality,
   readyReferenceSizes,
@@ -121,18 +128,20 @@ export function useImageGenerationRunner({
   setSelectedPreviewImageIndex,
   setStatusMessage,
   thinkingLevel,
+  complexity,
   watermark,
 }: UseImageGenerationRunnerParams) {
   return useCallback(
-    async (event?: FormEvent<HTMLFormElement> | null) => {
+    async (event?: FormEvent<HTMLFormElement> | null, canContinue?:()=>boolean) => {
       event?.preventDefault();
-      if (!selectedEngine) return;
+      if (!selectedEngine || canContinue && !canContinue()) return;
       if (!readLastKnownUserId() && !hasSupabaseAuthCookie()) {
         setAuthModalOpen(true);
         return;
       }
       const { supabase } = await import('@/lib/supabaseClient');
       const { data } = await supabase.auth.getSession();
+      if (canContinue && !canContinue()) return;
       if (!data.session?.access_token) {
         setAuthModalOpen(true);
         return;
@@ -211,12 +220,14 @@ export function useImageGenerationRunner({
           style: hasStyleField ? style ?? undefined : undefined,
           maskUrl: trimmedMaskUrl || undefined,
           enableWebSearch: hasEnableWebSearchField ? enableWebSearch : undefined,
+          ...(hasOutputCompressionField && (outputFormat === 'jpeg' || outputFormat === 'webp') && outputCompression != null ? { outputCompression } : {}),
+          complexity: hasComplexityField ? ((complexity ?? undefined) as 'low' | 'medium' | 'high' | undefined) : undefined,
           thinkingLevel: hasThinkingLevelField
             ? ((thinkingLevel ?? undefined) as 'minimal' | 'high' | undefined)
             : undefined,
           limitGenerations: hasLimitGenerationsField ? limitGenerations : undefined,
           watermark: hasWatermarkField ? watermark : undefined,
-        }, pricingSnapshot);
+        }, pricingSnapshot, { accessToken: data.session.access_token });
         const entry: HistoryEntry = {
           id: response.jobId ?? response.requestId ?? crypto.randomUUID(),
           jobId: response.jobId ?? response.requestId ?? null,
@@ -280,6 +291,7 @@ export function useImageGenerationRunner({
       hasSeedField,
       hasStyleField,
       hasThinkingLevelField,
+      hasComplexityField,
       hasWatermarkField,
       limitGenerations,
       maskUrl,
@@ -287,6 +299,8 @@ export function useImageGenerationRunner({
       mutateJobs,
       numImages,
       outputFormat,
+      outputCompression,
+      hasOutputCompressionField,
       prompt,
       pricingSnapshot,
       quality,
@@ -310,6 +324,7 @@ export function useImageGenerationRunner({
       setSelectedPreviewImageIndex,
       setStatusMessage,
       thinkingLevel,
+      complexity,
       watermark,
     ]
   );

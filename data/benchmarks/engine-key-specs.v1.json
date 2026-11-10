@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "last_updated": "2026-09-03",
+  "last_updated": "2026-11-05",
   "specs": [
     {
       "modelSlug": "sora-2",
@@ -187,14 +187,14 @@
       "modelSlug": "gemini-omni-flash",
       "sources": [
         "https://maxvideoai.com/models/gemini-omni-flash",
-        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/omni-1-1-flash",
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/omni-1-2-flash",
         "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/video/generate-videos-from-references"
       ],
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
         "videoToVideo": "Supported (edit, extend, and conversational refine)",
-        "firstLastFrame": "Supported in current Omni 1.1 route",
+        "firstLastFrame": "Supported in current Omni 1.2 route",
         "referenceImageStyle": "Supported (up to 10 reference images)",
         "referenceVideo": "Supported (short source video for edit; previous interaction id for refine)",
         "maxResolution": "4K",
@@ -214,7 +214,7 @@
         "lipSync": "Supported through native dialogue and audio generation",
         "cameraMotionControls": "Prompt-based sound, camera and edit directions",
         "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
-        "releaseDate": "Google public preview: Aug 27 2026"
+        "releaseDate": "Google general availability: Nov 5 2026"
       }
     },
     {
@@ -295,7 +295,7 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported as a reference-to-video input",
+        "videoToVideo": "Supported (Recast / Relight; specialized source tools)",
         "firstLastFrame": "Supported (start image, end image, or both)",
         "referenceImageStyle": "Supported (up to 9 image references)",
         "referenceVideo": "Supported (up to 3 video references; 2-15s each and 15s combined)",
@@ -410,12 +410,12 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported (extend / retake workflows)",
+        "videoToVideo": "Supported (Extend / Retake / Reframe)",
         "firstLastFrame": "Supported (start + end image in I2V)",
         "referenceImageStyle": "Supported (single start image; no separate style-reference stack)",
-        "referenceVideo": "Supported (source clip for extend / retake)",
-        "maxResolution": "4K on T2V/I2V generate; workflow-specific limits for Audio/Extend/Retake",
-        "maxDuration": "Generate 6–10s; Audio/Extend/Retake up to 20s",
+        "referenceVideo": "Supported (Extend / Retake / Reframe)",
+        "maxResolution": "4K on T2V/I2V generate; Reframe 720p/1080p; other workflow-specific limits",
+        "maxDuration": "Generate 6–10s; Audio/Extend/Retake up to 20s; Reframe source up to 60s",
         "aspectRatios": [
           "16:9 generate",
           "9:16 generate"
@@ -551,9 +551,9 @@
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
         "videoToVideo": "Not supported",
-        "firstLastFrame": "Not supported",
+        "firstLastFrame": "Supported (start image + optional end image)",
         "referenceImageStyle": "Supported",
-        "referenceVideo": "Supported",
+        "referenceVideo": "Not supported",
         "maxResolution": "1080p",
         "maxDuration": "10s",
         "aspectRatios": [
@@ -584,7 +584,7 @@
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
         "videoToVideo": "Not supported",
-        "firstLastFrame": "Not supported",
+        "firstLastFrame": "Supported (start image + optional end image)",
         "referenceImageStyle": "Supported",
         "referenceVideo": "Not supported",
         "maxResolution": "1080p",
@@ -716,10 +716,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported (source-video reference/edit via Fal)",
+        "videoToVideo": "Supported (Reference / Edit; source timing and framing for Edit)",
         "firstLastFrame": "I2V start image + optional end frame; optional start/end frames in Reference mode",
         "referenceImageStyle": "Reference-to-video and V2V: @Image references plus Kling Elements; I2V: one start image",
-        "referenceVideo": "V2V source video plus video elements in Reference/V2V modes",
+        "referenceVideo": "Supported (Reference / Edit; source timing and framing for Edit)",
         "maxResolution": "1080p",
         "maxDuration": "15s",
         "aspectRatios": [
@@ -752,10 +752,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported (source-video reference/edit via Fal)",
+        "videoToVideo": "Supported (Reference / Edit; source timing and framing for Edit)",
         "firstLastFrame": "I2V start image + optional end frame; optional start/end frames in Reference mode",
         "referenceImageStyle": "Reference-to-video and V2V: @Image references plus Kling Elements; I2V: one start image",
-        "referenceVideo": "V2V source video plus video elements in Reference/V2V modes",
+        "referenceVideo": "Supported (Reference / Edit; source timing and framing for Edit)",
         "maxResolution": "1080p",
         "maxDuration": "15s",
         "aspectRatios": [
@@ -787,10 +787,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Not available on the current Fal 4K route",
+        "videoToVideo": "Supported (Reference / Edit; source timing and framing for Edit)",
         "firstLastFrame": "I2V start image + optional end frame; optional start/end frames in Reference mode",
         "referenceImageStyle": "Reference-to-video: @Image references plus Kling Elements; I2V: one start image",
-        "referenceVideo": "Video elements in Reference mode",
+        "referenceVideo": "Supported (Reference / Edit; source timing and framing for Edit)",
         "maxResolution": "4K",
         "maxDuration": "15s",
         "aspectRatios": [
@@ -936,7 +936,7 @@
         "mechanicsSources": [
           "https://docs.byteplus.com/en/docs/modelark/1520757"
         ],
-        "note": "The live ModelArk product announcement is the source for Seedance 2.5 1080p availability; the documentation URL covers generic asynchronous video task mechanics only."
+        "note": "The live ModelArk product announcement is the source for Seedance 2.5 1080p availability; the documentation URL covers generic asynchronous video task mechanics only. MaxVideoAI input schemas at 90af7ed3b expose generated audio but no separate lip-sync parameter; this describes the available controls, not measured dialogue quality."
       },
       "keySpecs": {
         "textToVideo": "Supported",
@@ -970,7 +970,11 @@
           "24 fps"
         ],
         "audioOutput": "Optional generated audio",
-        "nativeAudioGeneration": "Optional"
+        "nativeAudioGeneration": "Optional",
+        "outputFormats": [
+          "MP4"
+        ],
+        "lipSync": "No separate lip-sync control"
       }
     },
     {
@@ -1228,12 +1232,12 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported (Ray 3.2 Modify and Reframe source-video routes)",
+        "videoToVideo": "Supported (Modify / Reframe / owned-generation Extend)",
         "firstLastFrame": "Supported (I2V end frame plus Modify guide/keyframes up to 64 anchors)",
         "referenceImageStyle": "Supported through guide frames and indexed Modify keyframes",
-        "referenceVideo": "Supported for Modify and Reframe source-video workflows",
+        "referenceVideo": "Supported (Modify / Reframe / owned-generation Extend)",
         "maxResolution": "1080p",
-        "maxDuration": "10s generation; source clips up to 30s for Modify/Reframe intake",
+        "maxDuration": "Generate 5s/10s; Modify source up to 18s; Reframe source up to 10s; Extend five new seconds",
         "aspectRatios": [
           "9:16",
           "3:4",
@@ -1479,6 +1483,40 @@
           "WEBP"
         ],
         "audioOutput": "Not supported"
+      }
+    },
+    {
+      "modelSlug": "nano-banana-2-1",
+      "sources": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1"
+      ],
+      "keySpecs": {
+        "textToImage": "Supported",
+        "imageToImage": "Supported",
+        "imageReferences": "Up to 14 ordered references for edit workflows",
+        "webSearch": "Supported",
+        "maxResolution": "4K",
+        "aspectRatios": [
+          "1:1",
+          "3:2",
+          "2:3",
+          "3:4",
+          "1:4",
+          "4:1",
+          "4:3",
+          "4:5",
+          "5:4",
+          "1:8",
+          "8:1",
+          "9:16",
+          "16:9",
+          "21:9"
+        ],
+        "audioOutput": "Not supported",
+        "outputFormats": [
+          "Provider-selected image format"
+        ],
+        "releaseDate": "Oct 2026"
       }
     },
     {
@@ -1756,10 +1794,10 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported (video continuation)",
+        "videoToVideo": "Supported (FAST Edit; source timing and framing)",
         "firstLastFrame": "Supported",
-        "referenceImageStyle": "Start image and first/last keyframes",
-        "referenceVideo": "Supported for continuation",
+        "referenceImageStyle": "Start image, first/last frames, or 1–10 indexed keyframe images",
+        "referenceVideo": "Supported (native Extend; FAST Edit)",
         "maxResolution": "1080p",
         "maxDuration": "20s",
         "aspectRatios": ["auto", "21:9", "2:1", "16:9", "4:3", "1:1", "3:4", "9:16"],
@@ -1783,11 +1821,11 @@
       "keySpecs": {
         "textToVideo": "Supported",
         "imageToVideo": "Supported",
-        "videoToVideo": "Supported (draft video continuation)",
+        "videoToVideo": "Supported (Enhance Draft; owned paired Draft cache)",
         "firstLastFrame": "Supported",
-        "referenceImageStyle": "Start image and first/last keyframes",
-        "referenceVideo": "Supported for draft continuation",
-        "maxResolution": "720p",
+        "referenceImageStyle": "Start image, first/last frames, or 1–10 indexed keyframe images",
+        "referenceVideo": "Supported (native Draft Extend; Enhance requires an owned paired Draft cache)",
+        "maxResolution": "720p native Draft; 1080p paired-cache Enhance",
         "maxDuration": "20s",
         "aspectRatios": ["auto", "21:9", "2:1", "16:9", "4:3", "1:1", "3:4", "9:16"],
         "fpsOptions": ["Provider-managed"],
@@ -1798,6 +1836,144 @@
         "cameraMotionControls": "Prompt-based",
         "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
         "releaseDate": "Aug 2026"
+      }
+    },
+    {
+      "modelSlug": "flux-3-max",
+      "sources": [
+        "https://fal.ai/models/blackforestlabs/flux-3-max/text-to-video/api",
+        "https://fal.ai/models/blackforestlabs/flux-3-max/image-to-video/api",
+        "https://fal.ai/models/blackforestlabs/flux-3-max/keyframes-to-video/api",
+        "https://fal.ai/models/blackforestlabs/flux-3-max/text-to-video"
+      ],
+      "provenance": {
+        "basis": "maxvideoai-production-route-contract",
+        "mechanicsSources": [
+          "https://fal.ai/models/blackforestlabs/flux-3-max/text-to-video/api",
+          "https://fal.ai/models/blackforestlabs/flux-3-max/image-to-video/api",
+          "https://fal.ai/models/blackforestlabs/flux-3-max/keyframes-to-video/api"
+        ],
+        "note": "Launch route supports text, one opening image, first/last frames and 1-10 keyframes with unique frame positions on a 24 fps timeline. Specifications checked on 2026-10-20; external preference scores are documented separately in flux-3-max-evidence.v1.json."
+      },
+      "keySpecs": {
+        "textToVideo": "Supported",
+        "imageToVideo": "Supported",
+        "videoToVideo": "Not supported",
+        "firstLastFrame": "Supported (optional ending image in image-to-video)",
+        "referenceImageStyle": "Opening image and optional ending image, or 1-10 keyframes at specified frame positions",
+        "referenceVideo": "Not supported",
+        "maxResolution": "1080p (upscaled from 720p)",
+        "maxDuration": "20s",
+        "aspectRatios": [
+          "auto",
+          "21:9",
+          "2:1",
+          "16:9",
+          "4:3",
+          "1:1",
+          "3:4",
+          "9:16"
+        ],
+        "fpsOptions": [
+          "24 fps keyframe timeline; no FPS control"
+        ],
+        "outputFormats": [
+          "MP4"
+        ],
+        "audioOutput": "Optional",
+        "nativeAudioGeneration": "Optional (enabled by default)",
+        "lipSync": "Prompted dialogue; no dedicated lip-sync control",
+        "cameraMotionControls": "Prompt-based; no dedicated camera-motion control",
+        "watermark": "Provider watermark policy not specified in endpoint documentation",
+        "releaseDate": "Oct 2026",
+        "workflows": [
+          "Text-to-video",
+          "Image-to-video",
+          "First and last frames",
+          "Keyframes-to-video"
+        ],
+        "durationOptions": "5-20 seconds in whole-second increments; default 5 seconds",
+        "reasoningLevel": "Low or high; default high",
+        "referenceLimit": "1-10 keyframe images; unique frame indices from 0 through duration × 24"
+      }
+    },
+    {
+      "modelSlug": "kling-v4",
+      "sources": [
+        "https://fal.ai/models/kling/v4/reference-to-video/api",
+        "https://fal.ai/models/kling/v4/image-to-video/api"
+      ],
+      "provenance": {
+        "basis": "maxvideoai-production-route-contract",
+        "note": "MaxVideoAI route contract at 5f91109bd; provider documentation already reviewed on 27 October 2026. Capability descriptions do not certify output quality."
+      },
+      "keySpecs": {
+        "textToVideo": "Supported",
+        "imageToVideo": "Supported",
+        "videoToVideo": "Supported (video editing)",
+        "firstLastFrame": "Supported (start + end image in i2v)",
+        "referenceImageStyle": "Up to 10 images total, including the opening image",
+        "referenceVideo": "Up to 5 reference videos; 30s combined with video elements",
+        "maxResolution": "720p / 1080p",
+        "maxDuration": "3–30s",
+        "aspectRatios": [
+          "16:9",
+          "9:16",
+          "1:1",
+          "21:9"
+        ],
+        "fpsOptions": [
+          "Provider-set; no FPS selector"
+        ],
+        "outputFormats": [
+          "MP4"
+        ],
+        "audioOutput": "Supported",
+        "nativeAudioGeneration": "Native audio directed by prompt; no audio switch",
+        "lipSync": "Prompt-directed native dialogue",
+        "cameraMotionControls": "Prompt-based camera and multi-shot control",
+        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "releaseDate": "Oct 2026"
+      }
+    },
+    {
+      "modelSlug": "kling-v4-flash",
+      "sources": [
+        "https://fal.ai/models/kling/v4/flash/text-to-video/api",
+        "https://fal.ai/models/kling/v4/flash/image-to-video/api",
+        "https://fal.ai/models/kling/v4/flash/reference-to-video/api"
+      ],
+      "provenance": {
+        "basis": "maxvideoai-production-route-contract",
+        "note": "Exact Flash contracts from the 2026-11-05 provider fixtures and merged integration b5f4bdddaa27e8620293dc9a59811559decc0cf5. Six external outputs retain this exact model identity; capabilities do not establish quality or latency scores."
+      },
+      "keySpecs": {
+        "textToVideo": "Supported",
+        "imageToVideo": "Supported",
+        "videoToVideo": "Not supported",
+        "firstLastFrame": "Opening image only; no end frame",
+        "referenceImageStyle": "Up to 10 images total, including the opening image",
+        "referenceVideo": "Up to 5 reference videos; 20s combined with video subjects",
+        "maxResolution": "720p",
+        "maxDuration": "3–20s",
+        "aspectRatios": [
+          "16:9",
+          "9:16",
+          "1:1",
+          "21:9"
+        ],
+        "fpsOptions": [
+          "Provider-set; no FPS selector"
+        ],
+        "outputFormats": [
+          "MP4"
+        ],
+        "audioOutput": "Supported",
+        "nativeAudioGeneration": "Native audio directed by prompt; no audio switch",
+        "lipSync": "Prompt-directed native dialogue",
+        "cameraMotionControls": "Prompt-based camera and cuts; no structured shot fields",
+        "watermark": "No visible MaxVideoAI watermark; provider provenance markers may apply",
+        "releaseDate": "Nov 2026"
       }
     }
   ]

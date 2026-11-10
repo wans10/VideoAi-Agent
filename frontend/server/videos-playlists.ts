@@ -1,3 +1,4 @@
+import { marketingVideoReader } from '@/server/marketing-media/public-read';
 import { query } from '@/lib/db';
 import { isLocalPublicExamplesEnabled, listLocalModelExamples } from './local-public-examples';
 import { mapGalleryVideoRow, type GalleryVideo, type VideoRow } from './videos-normalization';
@@ -69,7 +70,7 @@ export async function listCuratedGalleryVideos(
   const publicPlaylist = curationScope
     ? 'AND EXISTS (SELECT 1 FROM playlists p WHERE p.slug=$2 AND p.is_public=TRUE)'
     : '';
-  const rows = await query<VideoRow>(
+  const rows = await marketingVideoReader({ query }).query<VideoRow>(
     `${BASE_SELECT} WHERE job_id=ANY($1::text[]) AND ${CURATION_ELIGIBILITY} ${publicPlaylist}`,
     curationScope ? [ids, slug] : [ids],
   );
@@ -82,17 +83,19 @@ type PlaylistVideoQueryOptions = {
   engineAliases?: string[] | null;
 };
 
-export async function listPlaylistVideosWithOptions({
-  slug,
-  limit,
-  engineAliases,
-}: PlaylistVideoQueryOptions, curationScope?: CurationReadScope): Promise<GalleryVideo[]> {
+export async function readPlaylistVideoSelection(options: PlaylistVideoQueryOptions, curationScope?: CurationReadScope) {
+  const { slug, limit, engineAliases } = options;
   if (isLocalPublicExamplesEnabled()) {
-    return slug.startsWith('examples-') ? listLocalModelExamples(slug.slice('examples-'.length), limit) : [];
+    const videos = slug.startsWith('examples-') ? listLocalModelExamples(slug.slice('examples-'.length), limit) : [];
+    return { videos, managed: false };
   }
-  const curated = await listCuratedGalleryVideos(slug, {limit, engineAliases}, curationScope);
-  if (curated !== null) return curated;
-  return readLegacyPlaylistVideos({ slug, limit, engineAliases });
+  const curated = await listCuratedGalleryVideos(slug, { limit, engineAliases }, curationScope);
+  if (curated !== null) return { videos: curated, managed: true };
+  return { videos: await readLegacyPlaylistVideos(options), managed: false };
+}
+
+export async function listPlaylistVideosWithOptions(options: PlaylistVideoQueryOptions, curationScope?: CurationReadScope): Promise<GalleryVideo[]> {
+  return (await readPlaylistVideoSelection(options, curationScope)).videos;
 }
 
 

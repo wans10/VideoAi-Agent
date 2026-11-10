@@ -24,6 +24,8 @@ const schema = z.object({
     intro: nonEmpty,
     defaultCtaLabel: nonEmpty.nullable(),
     recreateLabel: nonEmpty.nullable(),
+    afterGallery: nonEmpty.nullable().optional(),
+    videoWorkflowLabel: nonEmpty.nullable().optional(),
   }).strict(),
   filters: z.array(z.object({ id: filterId, label: nonEmpty }).strict()).min(1),
   proofItems: z.array(z.object({
@@ -40,6 +42,15 @@ const schema = z.object({
     alt: nonEmpty,
     tags: z.array(filterId).min(1),
   }).strict()).nullable(),
+  editorialImages: z.array(z.object({ id: nonEmpty, title: nonEmpty }).strict()).min(1).max(50).optional(),
+  postGallery: z.object({
+    title: nonEmpty, example: nonEmpty, method: nonEmpty, limitation: nonEmpty,
+    ctaLabel: nonEmpty, exampleLinkLabel: nonEmpty, guideLinkLabel: nonEmpty,
+  }).strict().nullable().optional(),
+  keyframeDemo: z.object({
+    title: nonEmpty, intro: nonEmpty, imagesLabel: nonEmpty, timelineLabel: nonEmpty, resultLabel: nonEmpty,
+    promptLabel: nonEmpty, frameLabel: nonEmpty, secondsLabel: nonEmpty, recreateLabel: nonEmpty, limitation: nonEmpty,
+  }).strict().optional(),
 }).strict();
 
 export type ModelExamplesContent = z.infer<typeof schema>;
@@ -70,6 +81,7 @@ export function parseModelExamplesContent(
     ['filter', value.filters.map((item) => item.id)],
     ['proof', value.proofItems.map((item) => item.id)],
     ['fallback', value.fallbackItems?.map((item) => item.id) ?? []],
+    ['editorial image', value.editorialImages?.map((item) => item.id) ?? []],
   ] as const) {
     if (new Set(ids).size !== ids.length) throw new Error(`[model-examples-content] Duplicate ${label} id in ${source}`);
   }

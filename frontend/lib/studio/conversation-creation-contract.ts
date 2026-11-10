@@ -1,7 +1,20 @@
+import {MAX_GENERATION_REFERENCES} from '@/lib/generation-reference-limits';
 import {z} from 'zod';
 import {toolAssetRefSchema} from '@/lib/toolbox/contract';
+import {NANO21_ENGINE_ID} from '@/lib/nano-banana-2-1';
+import {isGptImage26EngineId} from '@/lib/image/gptImage26';
 
 export const STUDIO_CONVERSATION_MAX_REFERENCES=8;
+/** The attachment pool precedes model selection; generation keeps its own mode limit. */
+export const STUDIO_CONVERSATION_MAX_ATTACHMENTS=MAX_GENERATION_REFERENCES;
+export function studioImageReferenceLimit(modelId?: string | null): number {
+  return modelId === NANO21_ENGINE_ID ? 14 : isGptImage26EngineId(modelId) ? 16 : STUDIO_CONVERSATION_MAX_REFERENCES;
+}
+export function validateStudioImageReferences(value: {modelId?: string | null; references?: readonly unknown[] | null}, context: z.RefinementCtx) {
+  const maximum = studioImageReferenceLimit(value.modelId);
+  if ((value.references?.length ?? 0) > maximum) context.addIssue({code: z.ZodIssueCode.too_big,
+    type: 'array', maximum, inclusive: true, path: ['references'], message: `Choose at most ${maximum} references for this image model.`});
+}
 
 export const conversationAspectRatioSchema = z.string().regex(/^(?:[1-9]\d{0,2}:[1-9]\d{0,2}|auto)$/);
 const settingValue = z.union([z.string().max(4096), z.number().finite(), z.boolean(), z.null()]);
@@ -12,7 +25,7 @@ export function conversationSelectionSettings(values: z.infer<typeof conversatio
 }
 export const conversationReferenceSchema = z.object({
   ref: toolAssetRefSchema.refine(ref => ref.kind === 'image', 'Only image generation references are qualified.'),
-  role: z.enum(['reference','source','first_frame','last_frame','mask']),
+  role: z.enum(['reference','source','first_frame','middle_frame','last_frame','mask']),
   slot: z.number().int().min(0).max(49).nullable().optional(),
 }).strict();
 const selection = {
@@ -21,11 +34,14 @@ const selection = {
   outputCount: z.literal(1).nullable().optional(),
 };
 export const conversationSelectionFields = selection;
-export const imageSelectionSchema = z.object({
+export const imageSelectionFields = {
   prompt: z.string().min(1).max(12000), aspectRatio: conversationAspectRatioSchema,
   ...selection, mode: z.enum(['t2i','i2i']).nullable().optional(),
-  references: z.array(conversationReferenceSchema.refine(reference => reference.ref.type === 'asset', 'Attach a saved library image.')).max(STUDIO_CONVERSATION_MAX_REFERENCES).nullable().optional(),
-}).strict();
+  references: z.array(conversationReferenceSchema).max(STUDIO_CONVERSATION_MAX_ATTACHMENTS).nullable().optional(),
+};
+const imageSelectionObject = z.object(imageSelectionFields);
+export const imageSelectionSchema = imageSelectionObject.strict().superRefine(validateStudioImageReferences);
+export const imageSelectionStripSchema = imageSelectionObject.strip().superRefine(validateStudioImageReferences);
 
 const assetProperties = {type: 'string', enum: ['image']};
 export const conversationImageRefProperties = {
@@ -47,11 +63,11 @@ export const conversationCreationPromptProperty={type:'string',description:'Writ
 export function conversationReferencesProperties(jobOutputs: boolean) {
   return {type: ['array','null'], items: {type: 'object', additionalProperties: false, required: ['ref','role','slot'], properties: {
     ref: jobOutputs ? {anyOf: [conversationImageRefProperties,conversationJobImageRefProperties]} : conversationImageRefProperties,
-    role: {type: 'string',enum: ['reference','source','first_frame','last_frame','mask']},
+    role: {type: 'string',enum: ['reference','source','first_frame','middle_frame','last_frame','mask']},
     slot: {type: 'null',description: 'Use null for these Studio modes. Image labels and positions are not ordered reference slots.'},
   }}};
 }
 export const imageSelectionProperties = {
   prompt: conversationCreationPromptProperty, aspectRatio: {type: 'string'}, ...conversationSelectionProperties,
-  mode: {type: ['string','null'], enum: ['t2i','i2i',null]}, references: conversationReferencesProperties(false),
+  mode: {type: ['string','null'], enum: ['t2i','i2i',null]}, references: conversationReferencesProperties(true),
 };

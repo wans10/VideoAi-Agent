@@ -12,7 +12,14 @@ export type CompareMetric = {
   tooltip: string;
   leftValue: number | null;
   rightValue: number | null;
+  leftEstimated?: boolean;
+  rightEstimated?: boolean;
 };
+
+// Price/value belongs to the broader methodology, not this scorecard.
+export function getComparisonCriteriaCount(pairHasNativeAudio: boolean) {
+  return pairHasNativeAudio ? 10 : 9;
+}
 
 export function buildComparisonMetrics({
   compareCopy,
@@ -106,7 +113,7 @@ export function buildComparisonMetrics({
       leftValue: leftScore?.speedStability ?? speedScores.leftScore,
       rightValue: rightScore?.speedStability ?? speedScores.rightScore,
     },
-  ];
+  ].map((metric) => ({ ...metric, leftEstimated: leftScore?.reviewStatus === 'editorial-estimated', rightEstimated: rightScore?.reviewStatus === 'editorial-estimated' }));
 }
 
 export function deriveCompareStrengths(comparisonMetrics: CompareMetric[], side: 'left' | 'right') {

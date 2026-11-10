@@ -1,0 +1,824 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import {
+  bundleClientFlow,
+  createClientFlowDom,
+} from './helpers/client-flow-dom';
+import { deferred } from './helpers/auth-legal-client-fixture';
+
+// Regression coverage for account-bound uploads, character caches and Kling chunking.
+// Real React owners, SWR, image preparation, upload transport and Kling file input.
+// Only session lookup, browser bitmap decoding and HTTP are controlled boundaries.
+const sessionBoundary = {
+  '@/lib/supabaseClient':
+    'export const supabase={auth:{getSession:()=>window.getSession()}};',
+};
+const cacheBundle = bundleClientFlow(
+  `
+  import React,{act} from 'react';import {createRoot} from 'react-dom/client';
+  import {SWRProvider} from './components/swr/SWRProvider';
+  import {useImageLibraryData} from './app/(core)/(workspace)/app/image/_hooks/useImageLibraryData';
+  function Library(){
+    const state=useImageLibraryData({userId:window.owner,source:'character',isCharacterMode:true});
+    window.probe=state;return <output>{state.data?.map(a=>a.imageUrl).join(',') ?? ''}</output>;
+  }
+  const root=createRoot(document.getElementById('root'));window.IS_REACT_ACT_ENVIRONMENT=true;
+  window.fx={act,render:()=>root.render(<SWRProvider><Library key={window.owner}/></SWRProvider>),unmount:()=>root.unmount()};
+`,
+  {
+    ...sessionBoundary,
+    'next/navigation': `export const usePathname=()=>'/app/image';`,
+  },
+);
+
+const uploadBundle = bundleClientFlow(
+  `
+  import React,{act,useState} from 'react';import {createRoot} from 'react-dom/client';
+  import {useWorkspaceAssetState} from './app/(core)/(workspace)/app/_hooks/useWorkspaceAssetState';
+  import {useWorkspaceReferenceAssets} from './app/(core)/(workspace)/app/_hooks/useWorkspaceReferenceAssets';
+  import {useWorkspaceKlingElementAssets} from './app/(core)/(workspace)/app/_hooks/useWorkspaceKlingElementAssets';
+  import {KlingElementsBuilder} from './components/KlingElementsBuilder';
+  import {I18nProvider} from './lib/i18n/I18nProvider';
+  import {uploadVideoFile} from './lib/client-video-upload';
+  const noop=()=>{};
+  function Main(){
+    const state=useWorkspaceAssetState(window.owner);
+    const actions=useWorkspaceReferenceAssets({accountScope:window.owner,engineId:'wan-3',preferredMode:window.mode??'ref2v',assetPickerTarget:window.target,locale:window.locale,
+      inputAssets:state.inputAssets,setInputAssets:state.setInputAssets,commitInputAssetMutation:state.commitInputAssetMutation,
+      workflowCopy:{clearReferencesToUseStartEnd:'clear',clearStartEndToUseReferences:'clear'},
+      showNotice:m=>window.notices.push(m),assetLibrarySource:'all',resetAssetLibraryForSource:noop,setAssetPickerTarget:noop,setAssetLibrary:noop});
+    window.probe={...state,...actions};return <output>{JSON.stringify(state.inputAssets)}</output>;
+  }
+  function Kling(){
+    const [elements,setElements]=useState([{id:'subject',frontal:null,references:[null,null,null],video:null}]);
+    const actions=useWorkspaceKlingElementAssets({accountScope:window.owner,engineId:window.engineId,preferredMode:window.mode,klingElements:elements,setKlingElements:setElements,
+      showNotice:m=>window.notices.push(m),assetLibrarySource:'all',resetAssetLibraryForSource:noop,setAssetPickerTarget:noop});
+    window.probe={elements,...actions};
+    return <KlingElementsBuilder elements={elements} onAddElement={actions.handleKlingElementAdd}
+      onRemoveElement={actions.handleKlingElementRemove} onAddAsset={actions.handleKlingElementAssetAdd}
+      onRemoveAsset={actions.handleKlingElementAssetRemove} />;
+  }
+  const root=createRoot(document.getElementById('root'));window.IS_REACT_ACT_ENVIRONMENT=true;
+  window.fx={act,render:()=>root.render(<React.StrictMode><I18nProvider locale="en" dictionary={{}} fallback={{}}>
+    {window.suite==='kling'?<Kling key={window.owner}/>:<Main/>}</I18nProvider></React.StrictMode>),unmount:()=>root.unmount(),uploadVideoFile};
+`,
+  sessionBoundary,
+);
+
+function session(owner: string) {
+  return {
+    data: { session: { user: { id: owner }, access_token: 'token-' + owner } },
+    error: null,
+  };
+}
+async function settle(w: any, predicate: () => boolean, label: string) {
+  for (let n = 0; n < 100; n++) {
+    if (predicate()) return;
+    await w.fx.act(async () => new Promise((r) => setTimeout(r, 5)));
+  }
+  assert.fail(label);
+}
+
+for (const mismatch of [true, false])
+  test(`character cache: ${mismatch ? 'B response never enters A cache after A-B-A' : 'control, A response stays under A'}`, async () => {
+    const dom = createClientFlowDom('/app/image');
+    const w = dom.window as any;
+    const oldSession = deferred<any>();
+    const entered = deferred<void>();
+    const ownResponse = deferred<any>();
+    let reads = 0,
+      blockRefresh = false;
+    const requests: any[] = [];
+    w.owner = 'A';
+    w.sessionStorage.setItem('last-known:user-id', 'A');
+    w.getSession = () => {
+      if (++reads === 1) {
+        entered.resolve();
+        return oldSession.promise;
+      }
+      return Promise.resolve(session(w.owner));
+    };
+    const response = (owner: string) => ({
+      ok: true,
+      json: async () => ({
+        ok: true,
+        characters: [
+          {
+            id: owner + '-character',
+            jobId: owner + '-job',
+            imageUrl: 'https://example.invalid/' + owner + '/character.png',
+          },
+        ],
+      }),
+    });
+    w.fetch = (url: string, init: RequestInit) => {
+      const bearer = new Headers(init.headers).get('Authorization');
+      requests.push({ url, bearer });
+      return blockRefresh && bearer === 'Bearer token-A'
+        ? ownResponse.promise
+        : Promise.resolve(response(bearer === 'Bearer token-A' ? 'A' : 'B'));
+    };
+    w.eval(await cacheBundle);
+    try {
+      await w.fx.act(async () => w.fx.render());
+      await entered.promise;
+      await w.fx.act(async () => {
+        w.owner = 'B';
+        w.sessionStorage.setItem('last-known:user-id', 'B');
+        w.fx.render();
+      });
+      await settle(
+        w,
+        () => w.document.querySelector('output').textContent.includes('/B/'),
+        'B loads its own character',
+      );
+      await w.fx.act(async () =>
+        oldSession.resolve(session(mismatch ? 'B' : 'A')),
+      );
+      blockRefresh = true;
+      await w.fx.act(async () => {
+        w.owner = 'A';
+        w.sessionStorage.setItem('last-known:user-id', 'A');
+        w.fx.render();
+      });
+      assert.equal(
+        w.document.querySelector('output').textContent,
+        mismatch ? '' : 'https://example.invalid/A/character.png',
+      );
+      assert.equal(
+        requests.filter((r) => r.bearer === 'Bearer token-B').length,
+        1,
+        'B data may only be fetched for B cache',
+      );
+      await w.fx.act(async () => {
+        const refresh = w.probe.mutate();
+        ownResponse.resolve(response('A'));
+        await refresh;
+      });
+      assert.equal(
+        w.document.querySelector('output').textContent,
+        'https://example.invalid/A/character.png',
+      );
+    } finally {
+      await w.fx.act(async () => w.fx.unmount());
+      dom.window.close();
+    }
+  });
+
+async function uploadFixture(suite: 'main' | 'kling') {
+  const dom = createClientFlowDom('/app');
+  const w = dom.window as any;
+  const requests: any[] = [];
+  w.suite = suite;
+  w.owner = 'A';
+  w.notices = [];
+  w.sessionStorage.setItem('last-known:user-id', 'A');
+  w.console.error = () => {};
+  w.getSession = async () => session(w.owner);
+  Object.assign(w, { File, Blob, FormData });
+  w.createImageBitmap = async () => ({ width: 1024, height: 1024, close() {} });
+  w.URL.createObjectURL = (file: File) => 'blob:' + file.name;
+  w.URL.revokeObjectURL = () => {};
+  w.fetch = async (url: string, init: RequestInit) => {
+    requests.push({
+      url,
+      init,
+      bearer: new Headers(init.headers).get('Authorization'),
+      file: (init.body as FormData)?.get?.('file'),
+    });
+    return Response.json({
+      ok: true,
+      asset: {
+        id: 'asset',
+        url: 'https://example.invalid/uploaded',
+        mime: 'image/png',
+      },
+    });
+  };
+  w.eval(await uploadBundle);
+  await w.fx.act(async () => w.fx.render());
+  return {
+    w,
+    requests,
+    async dispose() {
+      await w.fx.act(async () => w.fx.unmount());
+      dom.window.close();
+    },
+  };
+}
+async function startUpload(w: any, suite: string, kind: string, file: File) {
+  await w.fx.act(async () => {
+    if (suite === 'kling') {
+      const input = w.document.querySelector(
+        'input[type=file][accept="' + kind + '/*"]',
+      );
+      assert.ok(input);
+      assert.equal(input.disabled, false);
+      Object.defineProperty(input, 'files', {
+        configurable: true,
+        value: [file],
+      });
+      input.dispatchEvent(new w.Event('change', { bubbles: true }));
+    } else {
+      w.probe.handleAssetAdd(
+        {
+          id: 'reference_' + kind + '_urls',
+          type: kind,
+          label: 'Reference',
+          maxCount: 3,
+        },
+        file,
+        0,
+      );
+    }
+  });
+}
+
+for (const retire of ['none', 'account', 'slot', 'mode']) test(`library import duration decoding retains its initiating ${retire === 'none' ? 'owned upload' : retire + ' lifetime'}`, async () => {
+  const f = await uploadFixture('main');
+  const { w } = f; const createElement = w.document.createElement.bind(w.document);
+  let reader: any;
+  w.document.createElement = (tag: string, options?: unknown) => {
+    const element = createElement(tag, options);
+    if (tag === 'audio') {
+      reader = element; element.load = () => {};
+      Object.defineProperty(element, 'duration', { value: 8 });
+    }
+    return element;
+  };
+  try {
+    const file = new File(['audio'], 'voice.wav', { type: 'audio/wav' });
+    let pending: Promise<unknown>;
+    await w.fx.act(async () => { pending = w.probe.handleImportLibraryFile({ id: 'audio_urls', label: 'Audio', type: 'audio', modes: ['ref2v'], maxCount: 3, minDurationSec: 2, maxDurationSec: 15 }, file, 0); });
+    assert.ok(reader); assert.equal(f.requests.length, 0);
+    if (retire !== 'none') await w.fx.act(async () => {
+      if (retire === 'account') { w.owner = 'B'; w.sessionStorage.setItem('last-known:user-id', 'B'); }
+      if (retire === 'slot') w.target = { kind: 'field', field: { id: 'other_audio', type: 'audio', label: 'Other' }, slotIndex: 1 };
+      if (retire === 'mode') w.mode = 'v2v';
+      w.fx.render();
+    });
+    await w.fx.act(async () => { reader.onloadedmetadata(); await pending!; });
+    if (retire !== 'none') {
+      assert.equal(f.requests.length, 0); assert.deepEqual(Object.keys(w.probe.inputAssets), []);
+    } else {
+      await settle(w, () => f.requests.length === 1, 'owned import should dispatch');
+      assert.equal(f.requests[0].bearer, 'Bearer token-A');
+      assert.equal(f.requests[0].init.credentials, 'same-origin');assert.equal(new Headers(f.requests[0].init?.headers).get('x-maxvideoai-auth-mode'), 'bearer');
+      assert.equal(f.requests[0].url, '/api/uploads/audio');
+      assert.equal(w.probe.inputAssets.audio_urls[0].durationSec, 8);
+    }
+  } finally { await f.dispose(); }
+});
+
+test('known incompatible library and file selections report the workspace locale before upload', async () => {
+  const f = await uploadFixture('main'); const { w } = f;
+  try {
+    w.locale = 'fr'; await w.fx.act(async () => w.fx.render());
+    const field = { id: 'video_url', label: 'Source', type: 'video', maxCount: 1, minDurationSec: 5, maxDurationSec: 30 };
+    const asset = { id: 'source', url: 'https://example.invalid/source.mp4', kind: 'video', mime: 'video/mp4', size: 5, durationSec: 4 };
+    const result = await w.probe.handleSelectLibraryAsset(field, asset);
+    assert.match(result, /Source trop courte/);
+    await w.fx.act(async () => w.probe.handleAssetAdd(field, new File(['video'], 'source.mp4', { type: 'video/mp4' }), 0, { durationSec: 4 }));
+    assert.match(w.notices.at(-1), /Source trop courte/);
+    assert.equal(f.requests.length, 0);
+  } finally { await f.dispose(); }
+});
+
+test('image file selection validates prepared bytes without rejecting an original that existing normalization can reduce', async () => {
+  const f = await uploadFixture('main'); const { w } = f;
+  w.createImageBitmap = async () => ({ width: 1024, height: 1024, close() {} });
+  w.HTMLCanvasElement.prototype.getContext = () => ({ drawImage() {}, clearRect() {}, fillRect() {} });
+  w.HTMLCanvasElement.prototype.toBlob = (callback: (blob: Blob) => void, mime: string) => callback(new Blob([new Uint8Array(4096)], { type: mime }));
+  try {
+    const file = new File([new Uint8Array(15 * 1024 * 1024)], 'large.png', { type: 'image/png' });
+    await w.fx.act(async () => w.probe.handleAssetAdd({ id: 'image_url', type: 'image', label: 'Start', maxCount: 1, maxSizeMB: 10 }, file, 0));
+    await settle(w, () => f.requests.length === 1, `normalized image must reach owned upload: ${JSON.stringify(w.notices)} ${JSON.stringify(w.probe.inputAssets)}`);
+    assert.equal(f.requests[0].file.size, 4096);
+    assert.equal(f.requests[0].bearer, 'Bearer token-A');
+  } finally { await f.dispose(); }
+});
+
+test('Kling element library rejects a known undersized image but retains a valid original and unknown facts', async () => {
+  const f = await uploadFixture('kling'); const { w } = f;
+  const target = { kind: 'kling', elementId: 'subject', slot: 'frontal' };
+  const original = { id: 'image', url: 'https://example.invalid/original.png?sig=Exact', kind: 'image', mime: 'image/png', width: 64, height: 64 };
+  try {
+    let message: unknown;
+    await w.fx.act(async () => { message = w.probe.handleSelectKlingLibraryAsset(target, original); });
+    assert.equal(typeof message, 'string'); assert.equal(w.probe.elements[0].frontal, null);
+    await w.fx.act(async () => w.probe.handleSelectKlingLibraryAsset(target, { ...original, width: 1024, height: 1024 }));
+    assert.equal(w.probe.elements[0].frontal.url, original.url);
+    await w.fx.act(async () => w.probe.handleSelectKlingLibraryAsset(target, { ...original, id: 'unknown', width: undefined, height: undefined }));
+    assert.equal(w.probe.elements[0].frontal.assetId, 'unknown');
+    assert.equal(f.requests.length, 0);
+  } finally { await f.dispose(); }
+});
+
+test('Kling element modal import rejects known small images after decoding and preserves large-image normalization', async () => {
+  const f = await uploadFixture('kling'); const { w } = f;
+  const target = { kind: 'kling', elementId: 'subject', slot: 'frontal' };
+  try {
+    w.createImageBitmap = async () => ({ width: 64, height: 64, close() {} });
+    await w.fx.act(async () => w.probe.handleImportKlingLibraryFile(target, new File(['small'], 'small.png', { type: 'image/png' })));
+    await settle(w, () => w.notices.length > 0, 'known small upload is rejected');
+    assert.match(w.notices.at(-1), /300 px/); assert.equal(f.requests.length, 0);
+    w.createImageBitmap = async () => ({ width: 1024, height: 1024, close() {} });
+    w.HTMLCanvasElement.prototype.getContext = () => ({ drawImage() {}, clearRect() {}, fillRect() {} });
+    w.HTMLCanvasElement.prototype.toBlob = (callback: (blob: Blob) => void, mime: string) => callback(new Blob([new Uint8Array(4096)], { type: mime }));
+    await w.fx.act(async () => w.probe.handleImportKlingLibraryFile(target, new File([new Uint8Array(30 * 1024 * 1024)], 'large.png', { type: 'image/png' })));
+    await settle(w, () => w.probe.elements[0].frontal?.status === 'ready', 'normalized import reaches its owned slot');
+    assert.equal(f.requests.length, 1); assert.equal(f.requests[0].file.size, 4096);
+    assert.equal(f.requests[0].bearer, 'Bearer token-A');
+  } finally { await f.dispose(); }
+});
+
+for (const changed of ['model', 'mode', 'slot'] as const) test(`Kling image decoding cannot dispatch after its ${changed} is retired`, async () => {
+  const f = await uploadFixture('kling'); const { w } = f; const decoded = deferred<any>();
+  try {
+    w.engineId = 'kling-o3-pro'; w.mode = 'v2v'; await w.fx.act(async () => w.fx.render());
+    w.createImageBitmap = () => decoded.promise;
+    await w.fx.act(async () => w.probe.handleImportKlingLibraryFile({ kind: 'kling', elementId: 'subject', slot: 'frontal' }, new File(['private'], 'pending.png', { type: 'image/png' })));
+    await w.fx.act(async () => {
+      if (changed === 'slot') w.probe.handleSelectKlingLibraryAsset({ kind: 'kling', elementId: 'subject', slot: 'frontal' },
+        { id: 'replacement', url: 'https://example.invalid/replacement.png', kind: 'image', mime: 'image/png', width: 1024, height: 1024 });
+      else { if (changed === 'model') w.engineId = 'kling-o3-standard'; else w.mode = 'ref2v'; w.fx.render(); }
+    });
+    if (changed !== 'slot') {
+      assert.equal(w.probe.elements[0].frontal, null, 'retired placeholder must not stay uploading');
+      await w.fx.act(async () => { w.engineId = 'kling-o3-pro'; w.mode = 'v2v'; w.fx.render(); });
+    }
+    await w.fx.act(async () => decoded.resolve({ width: 1024, height: 1024, close() {} }));
+    assert.equal(f.requests.length, 0); assert.equal(w.notices.length, 0);
+    if (changed === 'slot') assert.equal(w.probe.elements[0].frontal.assetId, 'replacement');
+    else assert.equal(w.probe.elements[0].frontal, null);
+  } finally { await f.dispose(); }
+});
+test('Create imports audio under its declared reference mode and explicitly requests bounded preparation', async () => {
+  const f = await uploadFixture('main');
+  try {
+    f.w.mode = 't2v'; await f.w.fx.act(async () => f.w.fx.render());
+    await f.w.fx.act(async () => f.w.probe.handleAssetAdd({ id: 'reference_audio_urls', type: 'audio', label: 'Audio', maxCount: 5,
+      modes: ['ref2v', 'v2v', 'extend'] }, new File(['synthetic'], 'source.wav', { type: 'audio/wav' }), 0, { durationSec: 40, prepareExcerpt: true }));
+    await settle(f.w, () => f.requests.length === 1, 'owned audio upload dispatched');
+    const request = f.requests[0], body = request.init.body as FormData;
+    assert.equal(request.url, '/api/uploads/audio');
+    assert.equal(request.bearer, 'Bearer token-A');
+    assert.equal(body.get('mode'), 'ref2v');
+    assert.equal(body.get('fieldId'), 'reference_audio_urls');
+    assert.equal(body.get('prepareExcerpt'), '1');
+  } finally { await f.dispose(); }
+});
+for (const [suite, kinds] of [
+  ['main', ['image', 'audio', 'video']],
+  ['kling', ['image', 'video']],
+] as const)
+  for (const kind of kinds)
+    for (const changed of [true, false]) {
+      test(`${suite} ${kind} upload: ${changed ? 'retired A file never dispatches with B session' : 'control, uninterrupted A upload succeeds'}`, async () => {
+        const f = await uploadFixture(suite);
+        const oldSession = deferred<any>();
+        const entered = deferred<void>();
+        f.w.getSession = () => {
+          entered.resolve();
+          return oldSession.promise;
+        };
+        const file = new File(
+          ['synthetic'],
+          `private-A.${kind === 'image' ? 'png' : kind === 'audio' ? 'wav' : 'mp4'}`,
+          {
+            type:
+              kind +
+              '/' +
+              (kind === 'image' ? 'png' : kind === 'audio' ? 'wav' : 'mp4'),
+          },
+        );
+        try {
+          await startUpload(f.w, suite, kind, file);
+          await entered.promise;
+          if (changed)
+            await f.w.fx.act(async () => {
+              f.w.owner = 'B';
+              f.w.sessionStorage.setItem('last-known:user-id', 'B');
+              f.w.fx.render();
+            });
+          await f.w.fx.act(async () =>
+            oldSession.resolve(session(changed ? 'B' : 'A')),
+          );
+          if (changed)
+            assert.equal(
+              f.requests.length,
+              0,
+              'retired upload must not send the file',
+            );
+          else {
+            assert.equal(f.requests.length, 1);
+            assert.equal(f.requests[0].bearer, 'Bearer token-A');
+            assert.equal(f.requests[0].file.name, file.name);
+            assert.equal(f.requests[0].init.credentials, 'same-origin');assert.equal(new Headers(f.requests[0].init?.headers).get('x-maxvideoai-auth-mode'), 'bearer');
+            assert.ok(f.requests[0].init.signal);
+            assert.equal(f.requests[0].init.signal.aborted, false);
+          }
+          if (changed) {
+            if (suite === 'main')
+              assert.deepEqual(
+                JSON.parse(f.w.document.querySelector('output').textContent),
+                {},
+              );
+            else
+              assert.equal(
+                kind === 'video'
+                  ? f.w.probe.elements[0].video
+                  : f.w.probe.elements[0].frontal,
+                null,
+              );
+          } else {
+            await settle(
+              f.w,
+              () =>
+                suite === 'main'
+                  ? f.w.probe.inputAssets['reference_' + kind + '_urls']?.[0]
+                      ?.status === 'ready'
+                  : (kind === 'video'
+                      ? f.w.probe.elements[0].video
+                      : f.w.probe.elements[0].frontal
+                    )?.status === 'ready',
+              'current upload updates state',
+            );
+          }
+        } finally {
+          await f.dispose();
+        }
+      });
+    }
+
+test('control: main reference image preparation is retired before authFetch begins', async () => {
+  const f = await uploadFixture('main');
+  const decode = deferred<any>();
+  f.w.createImageBitmap = () => decode.promise;
+  try {
+    await startUpload(
+      f.w,
+      'main',
+      'image',
+      new File(['synthetic'], 'private-A.png', { type: 'image/png' }),
+    );
+    await f.w.fx.act(async () => {
+      f.w.owner = 'B';
+      f.w.fx.render();
+    });
+    await f.w.fx.act(async () =>
+      decode.resolve({ width: 10, height: 10, close() {} }),
+    );
+    assert.equal(f.requests.length, 0);
+  } finally {
+    await f.dispose();
+  }
+});
+
+for (const sizeMiB of [1, 8, 20])
+  test(`Kling video picker uploads ${sizeMiB} MiB below the function body limit`, async () => {
+    const f = await uploadFixture('kling');
+    const requests: any[] = [];
+    f.w.fetch = async (url: string, init: RequestInit) => {
+      const bytes = (
+        await new Request('https://example.invalid' + url, init).arrayBuffer()
+      ).byteLength;
+      requests.push({ url, bytes });
+      if (bytes > 4.5 * 1024 * 1024)
+        return new Response('FUNCTION_PAYLOAD_TOO_LARGE', { status: 413 });
+      if (url.endsWith('/start'))
+        return Response.json({
+          ok: true,
+          upload: {
+            uploadId: 'fixture',
+            key: 'fixture.mp4',
+            chunkSizeBytes: 3670016,
+          },
+        });
+      if (url.endsWith('/part')) {
+        const body = init.body as FormData;
+        const n = Number(body.get('partNumber'));
+        return Response.json({
+          ok: true,
+          part: {
+            partNumber: n,
+            etag: 'part-' + n,
+            key: 'part-' + n,
+            size: (body.get('chunk') as Blob).size,
+          },
+        });
+      }
+      return Response.json({
+        ok: true,
+        asset: { id: 'uploaded', url: 'https://example.invalid/uploaded.mp4' },
+      });
+    };
+    try {
+      await startUpload(
+        f.w,
+        'kling',
+        'video',
+        new File([new Uint8Array(sizeMiB * 1024 * 1024)], 'synthetic.mp4', {
+          type: 'video/mp4',
+        }),
+      );
+      await settle(
+        f.w,
+        () => f.w.probe.elements[0].video?.status === 'ready',
+        'Kling final upload status',
+      );
+      assert.equal(
+        requests.length,
+        sizeMiB === 1 ? 1 : Math.ceil((sizeMiB * 1024 * 1024) / 3670016) + 2,
+      );
+      assert.equal(
+        requests[0].url,
+        sizeMiB === 1
+          ? '/api/uploads/video'
+          : '/api/uploads/video/multipart/start',
+      );
+      assert.ok(
+        requests.every((r) => r.bytes < 4.5 * 1024 * 1024),
+        'all HTTP bodies, including multipart overhead, fit',
+      );
+      assert.equal(
+        f.w.probe.elements[0].video.url,
+        'https://example.invalid/uploaded.mp4',
+      );
+      assert.equal(f.w.notices.length, 0);
+    } finally {
+      await f.dispose();
+    }
+  });
+
+test('control: shared video uploader splits the same 8 MiB file below the function limit', async () => {
+  const f = await uploadFixture('main');
+  const requests: any[] = [];
+  f.w.fetch = async (url: string, init: RequestInit) => {
+    const bytes = (
+      await new Request('https://example.invalid' + url, init).arrayBuffer()
+    ).byteLength;
+    requests.push({ url, bytes });
+    assert.ok(bytes < 4.5 * 1024 * 1024);
+    if (url.endsWith('/start'))
+      return Response.json({
+        ok: true,
+        upload: {
+          uploadId: 'fixture',
+          key: 'fixture.mp4',
+          chunkSizeBytes: 3670016,
+        },
+      });
+    if (url.endsWith('/part')) {
+      const body = init.body as FormData;
+      const n = Number(body.get('partNumber'));
+      return Response.json({
+        ok: true,
+        part: {
+          partNumber: n,
+          etag: 'part-' + n,
+          key: 'part-' + n,
+          size: (body.get('chunk') as Blob).size,
+        },
+      });
+    }
+    if (url.endsWith('/complete'))
+      return Response.json({
+        ok: true,
+        asset: { id: 'large', url: 'https://example.invalid/large.mp4' },
+      });
+    throw new Error('Unexpected ' + url);
+  };
+  try {
+    const result = await f.w.fx.uploadVideoFile(
+      new File([new Uint8Array(8 * 1024 * 1024)], 'synthetic.mp4', {
+        type: 'video/mp4',
+      }),
+    );
+    assert.equal(result.id, 'large');
+    assert.equal(requests.length, 5);
+  } finally {
+    await f.dispose();
+  }
+});
+
+for (const suite of ['main', 'kling'] as const) {
+  for (const retirement of ['switch-old-token', 'A-B-A', 'unmount'] as const) {
+    test(`${suite}: ${retirement} cancels pending session lookup even if it returns A`, async () => {
+      const f = await uploadFixture(suite);
+      const lookup = deferred<any>();
+      const entered = deferred<void>();
+      f.w.getSession = () => {
+        entered.resolve();
+        return lookup.promise;
+      };
+      try {
+        await startUpload(
+          f.w,
+          suite,
+          'image',
+          new File(['private'], 'A.png', { type: 'image/png' }),
+        );
+        await entered.promise;
+        if (retirement === 'unmount')
+          await f.w.fx.act(async () => f.w.fx.unmount());
+        else {
+          await f.w.fx.act(async () => {
+            f.w.owner = 'B';
+            f.w.fx.render();
+          });
+          if (retirement === 'A-B-A')
+            await f.w.fx.act(async () => {
+              f.w.owner = 'A';
+              f.w.fx.render();
+            });
+        }
+        await f.w.fx.act(async () => lookup.resolve(session('A')));
+        assert.equal(f.requests.length, 0);
+        assert.equal(f.w.notices.length, 0);
+      } finally {
+        await f.dispose();
+      }
+    });
+  }
+
+  for (const result of [
+    'wrong-account',
+    'missing-session',
+    'session-error',
+  ] as const) {
+    test(`${suite}: ${result} fails closed before HTTP even before the UI switches accounts`, async () => {
+      const f = await uploadFixture(suite);
+      f.w.getSession = async () =>
+        result === 'wrong-account'
+          ? session('B')
+          : {
+              data: { session: null },
+              error:
+                result === 'session-error'
+                  ? new Error('session unavailable')
+                  : null,
+            };
+      try {
+        await startUpload(
+          f.w,
+          suite,
+          'video',
+          new File(['private'], 'A.mp4', { type: 'video/mp4' }),
+        );
+        await settle(
+          f.w,
+          () => f.w.notices.length === 1,
+          'current owner receives a retryable upload error',
+        );
+        assert.equal(f.requests.length, 0);
+        const asset =
+          suite === 'main'
+            ? f.w.probe.inputAssets.reference_video_urls[0]
+            : f.w.probe.elements[0].video;
+        assert.equal(asset.status, 'error');
+      } finally {
+        await f.dispose();
+      }
+    });
+  }
+
+  test(`${suite}: account change aborts an in-flight part and prevents continuation or stale notices`, async () => {
+    const f = await uploadFixture(suite);
+    const part = deferred<Response>();
+    const requests: { url: string; init: RequestInit }[] = [];
+    f.w.fetch = async (url: string, init: RequestInit) => {
+      requests.push({ url, init });
+      if (url.endsWith('/start'))
+        return Response.json({
+          ok: true,
+          upload: {
+            uploadId: 'A-upload',
+            key: 'A.mp4',
+            chunkSizeBytes: 3670016,
+          },
+        });
+      if (url.endsWith('/part')) return part.promise;
+      throw new Error('Unexpected continuation: ' + url);
+    };
+    try {
+      await startUpload(
+        f.w,
+        suite,
+        'video',
+        new File([new Uint8Array(8 * 1024 * 1024)], 'A.mp4', {
+          type: 'video/mp4',
+        }),
+      );
+      await settle(
+        f.w,
+        () => requests.some((r) => r.url.endsWith('/part')),
+        'first part starts',
+      );
+      await f.w.fx.act(async () => {
+        f.w.owner = 'B';
+        f.w.fx.render();
+      });
+      assert.ok(
+        requests.every((r) => r.init.signal?.aborted),
+        'network receives cancellation for retired owner',
+      );
+      await f.w.fx.act(async () =>
+        part.resolve(
+          Response.json({
+            ok: true,
+            part: {
+              partNumber: 1,
+              etag: 'part-1',
+              key: 'part-1',
+              size: 3670016,
+            },
+          }),
+        ),
+      );
+      assert.equal(
+        requests.length,
+        2,
+        'no next part, completion or cleanup may run as B',
+      );
+      assert.equal(f.w.notices.length, 0);
+      assert.ok(
+        requests.every(
+          (r) =>
+            new Headers(r.init.headers).get('Authorization') ===
+            'Bearer token-A',
+        ),
+      );
+    } finally {
+      await f.dispose();
+    }
+  });
+}
+
+for (const suite of ['main', 'kling'] as const) {
+  test(`${suite}: route departure still cleans acknowledged chunks as the original owner`, async () => {
+    const f = await uploadFixture(suite);
+    const secondPart = deferred<Response>();
+    const requests: { url: string; init: RequestInit }[] = [];
+    f.w.fetch = async (url: string, init: RequestInit) => {
+      requests.push({ url, init });
+      if (url.endsWith('/start'))
+        return Response.json({
+          ok: true,
+          upload: {
+            uploadId: 'A-upload',
+            key: 'A.mp4',
+            chunkSizeBytes: 3670016,
+          },
+        });
+      if (url.endsWith('/part')) {
+        const n = Number((init.body as FormData).get('partNumber'));
+        if (n === 2) return secondPart.promise;
+        return Response.json({
+          ok: true,
+          part: { partNumber: n, etag: 'part-1', key: 'part-1', size: 3670016 },
+        });
+      }
+      if (url.endsWith('/abort')) return Response.json({ ok: true });
+      throw new Error('Unexpected request ' + url);
+    };
+    try {
+      await startUpload(
+        f.w,
+        suite,
+        'video',
+        new File([new Uint8Array(8 * 1024 * 1024)], 'A.mp4', {
+          type: 'video/mp4',
+        }),
+      );
+      await settle(
+        f.w,
+        () => requests.length === 3,
+        'second part starts after first acknowledgment',
+      );
+      await f.w.fx.act(async () => f.w.fx.unmount());
+      assert.equal(requests[2].init.signal?.aborted, true);
+      await f.w.fx.act(async () =>
+        secondPart.reject(new f.w.DOMException('aborted', 'AbortError')),
+      );
+      await settle(
+        f.w,
+        () => requests.some((r) => r.url.endsWith('/abort')),
+        'acknowledged chunks cleaned after unmount',
+      );
+      const cleanup = requests.at(-1)!;
+      assert.equal(
+        new Headers(cleanup.init.headers).get('Authorization'),
+        'Bearer token-A',
+      );
+      assert.equal(cleanup.init.credentials, 'same-origin');assert.equal(new Headers(cleanup.init?.headers).get('x-maxvideoai-auth-mode'), 'bearer');
+      assert.equal(cleanup.init.signal?.aborted, false);
+      assert.deepEqual(JSON.parse(cleanup.init.body as string).parts, [
+        { partNumber: 1, etag: 'part-1', key: 'part-1', size: 3670016 },
+      ]);
+      assert.equal(f.w.notices.length, 0);
+    } finally {
+      await f.dispose();
+    }
+  });
+}

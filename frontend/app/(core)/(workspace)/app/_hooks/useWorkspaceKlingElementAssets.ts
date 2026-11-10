@@ -2,8 +2,12 @@ import { useWorkspaceAssetLifetime } from './useWorkspaceAssetLifetime';
 import { useCallback, useEffect, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type { KlingElementAsset, KlingElementState } from '@/components/KlingElementsBuilder';
-import { authFetch } from '@/lib/authFetch';
-import { prepareImageFileForUpload } from '@/lib/client-image-upload';
+import { useWorkspaceUploadOperation } from './useWorkspaceUploadOperation';
+import { uploadVideoFile } from '@/lib/client-video-upload';
+import { prepareImageFileForUpload, readImageFileDimensions } from '@/lib/client-image-upload';
+import { getKlingElementMediaEligibility } from '@/lib/media-input-eligibility';
+import { mediaInputEligibilityMessage } from '@/components/library/media-input-eligibility-copy';
+import type { Mode } from '@/types/engines';
 import {
   buildKlingLibraryAsset,
   insertKlingLibraryAsset,
@@ -19,8 +23,18 @@ import {
   type UploadFailure,
 } from '../_lib/workspace-upload-errors';
 
+const slotKey = (elementId: string, slot: string, index?: number) => JSON.stringify([elementId, slot, index]);
+type SlotOperation = { assetId: string; cancel: () => void };
+function retireSlot(operations: Map<string, SlotOperation>, key: string) {
+  operations.get(key)?.cancel();
+  operations.delete(key);
+}
+
 type UseWorkspaceKlingElementAssetsOptions = {
   accountScope?: string | null;
+  engineId?: string | null;
+  preferredMode?: Mode;
+  locale?: string;
   showNotice: (message: string) => void;
   klingElements: KlingElementState[];
   setKlingElements: Dispatch<SetStateAction<KlingElementState[]>>;
@@ -31,6 +45,9 @@ type UseWorkspaceKlingElementAssetsOptions = {
 
 export function useWorkspaceKlingElementAssets({
   accountScope,
+  engineId,
+  preferredMode,
+  locale,
   showNotice,
   klingElements,
   setKlingElements,
@@ -38,8 +55,30 @@ export function useWorkspaceKlingElementAssets({
   resetAssetLibraryForSource,
   setAssetPickerTarget,
 }: UseWorkspaceKlingElementAssetsOptions) {
-  const valid = useWorkspaceAssetLifetime(accountScope);
-  const klingElementsRef = useRef<KlingElementState[]>([]);
+  const accountValid = useWorkspaceAssetLifetime(accountScope);
+  const valid = useWorkspaceAssetLifetime(accountScope === null ? null : JSON.stringify([accountScope ?? 'legacy', engineId, preferredMode]));
+  const beginUpload = useWorkspaceUploadOperation(accountScope, valid);
+  const klingElementsRef = useRef<KlingElementState[]>(klingElements);
+  const slotOperations = useRef(new Map<string, SlotOperation>());
+
+  useEffect(() => {
+    const operations = slotOperations.current;
+    return () => {
+      if (!accountValid()) return;
+      const retiredIds = new Set(Array.from(operations.values(), operation => operation.assetId));
+      operations.forEach(operation => operation.cancel());
+      operations.clear();
+      if (!retiredIds.size) return;
+      setKlingElements(previous => previous.map(element => {
+        const keep = (asset: KlingElementAsset | null) => {
+          if (!asset || !retiredIds.has(asset.id)) return asset;
+          revokeKlingAssetPreview(asset);
+          return null;
+        };
+        return { ...element, frontal: keep(element.frontal), video: keep(element.video), references: element.references.map(keep) };
+      }));
+    };
+  }, [valid, accountValid, setKlingElements]);
 
   useEffect(() => {
     klingElementsRef.current = klingElements;
@@ -70,6 +109,9 @@ export function useWorkspaceKlingElementAssets({
   const handleSelectKlingLibraryAsset = useCallback(
     (target: Extract<AssetPickerTarget, { kind: 'kling' }>, asset: UserAsset) => {
       if (!valid()) return;
+      const eligibility = getKlingElementMediaEligibility(asset, target.slot);
+      if (eligibility.status === 'blocked') return mediaInputEligibilityMessage(eligibility, locale)!;
+      retireSlot(slotOperations.current, slotKey(target.elementId, target.slot, target.slotIndex));
       const newAsset = buildKlingLibraryAsset(asset);
       setKlingElements((previous) =>
         insertKlingLibraryAsset(previous, target, newAsset, revokeKlingAssetPreview),
@@ -77,7 +119,7 @@ export function useWorkspaceKlingElementAssets({
 
       setAssetPickerTarget(null);
     },
-    [valid, setAssetPickerTarget, setKlingElements],
+    [valid, locale, setAssetPickerTarget, setKlingElements],
   );
 
   const handleKlingElementAdd = useCallback(() => {
@@ -88,6 +130,9 @@ export function useWorkspaceKlingElementAssets({
   const handleKlingElementRemove = useCallback(
     (id: string) => {
       if (!valid()) return;
+      for (const key of slotOperations.current.keys()) {
+        if (JSON.parse(key)[0] === id) retireSlot(slotOperations.current, key);
+      }
       setKlingElements((previous) => {
         const next = previous.filter((element) => element.id !== id);
         return next.length ? next : [createKlingElement()];
@@ -99,6 +144,7 @@ export function useWorkspaceKlingElementAssets({
   const handleKlingElementAssetRemove = useCallback(
     (elementId: string, slot: 'frontal' | 'reference' | 'video', index?: number) => {
       if (!valid()) return;
+      retireSlot(slotOperations.current, slotKey(elementId, slot, index));
       setKlingElements((previous) =>
         previous.map((element) => {
           if (element.id !== elementId) return element;
@@ -125,7 +171,23 @@ export function useWorkspaceKlingElementAssets({
   const handleKlingElementAssetAdd = useCallback(
     (elementId: string, slot: 'frontal' | 'reference' | 'video', file: File, index?: number) => {
       if (!valid()) return;
+      const kind = slot === 'video' ? 'video' : 'image';
+      const eligibility = getKlingElementMediaEligibility({ kind, url: file.name, mime: file.type }, slot);
+      if (eligibility.status === 'blocked') {
+        const message = mediaInputEligibilityMessage(eligibility, locale)!;
+        showNotice(message);
+        return message;
+      }
+      const element = klingElementsRef.current.find(entry => entry.id === elementId);
+      if (!element) return;
+      const targetIndex = slot === 'reference' ? index ?? element.references.findIndex(entry => entry === null) : undefined;
+      if (slot === 'reference' && (targetIndex == null || targetIndex < 0 || targetIndex >= element.references.length)) return;
       const assetId = createLocalId('element_asset');
+      const key = slotKey(elementId, slot, targetIndex);
+      retireSlot(slotOperations.current, key);
+      const operation = beginUpload();
+      slotOperations.current.set(key, { assetId, cancel: operation.cancel });
+      const current = () => valid() && slotOperations.current.get(key)?.assetId === assetId;
       const previewUrl = URL.createObjectURL(file);
       const baseAsset: KlingElementAsset = {
         id: assetId,
@@ -134,6 +196,8 @@ export function useWorkspaceKlingElementAssets({
         kind: slot === 'video' ? 'video' : 'image',
         status: 'uploading' as const,
         url: undefined as string | undefined,
+        size: file.size,
+        type: file.type,
       };
 
       if (!valid()) return;
@@ -149,12 +213,7 @@ export function useWorkspaceKlingElementAssets({
             return { ...element, video: baseAsset };
           }
           const references = [...element.references];
-          let targetIndex =
-            typeof index === 'number' ? index : references.findIndex((entry) => entry === null);
-          if (targetIndex < 0) {
-            targetIndex = references.length;
-          }
-          if (targetIndex >= references.length) {
+          if (targetIndex == null || targetIndex >= references.length) {
             return element;
           }
           revokeKlingAssetPreview(references[targetIndex]);
@@ -165,41 +224,33 @@ export function useWorkspaceKlingElementAssets({
 
       const upload = async () => {
         try {
-          const preparedFile =
-            slot === 'video'
-              ? file
-              : await prepareImageFileForUpload(file, {
+          const assetResponse = slot === 'video'
+            ? await uploadVideoFile(file, { request: operation.request, abortRequest: operation.abortRequest })
+            : await (async () => {
+                const preparedFile = await prepareImageFileForUpload(file, {
                   maxBytes: 25 * 1024 * 1024,
                 });
-          if (!valid()) {
+                if (!current()) throw new Error('Retired upload');
+                const dimensions = await readImageFileDimensions(preparedFile).catch(() => null);
+                if (!current()) throw new Error('Retired upload');
+                const prepared = getKlingElementMediaEligibility({ kind: 'image', url: preparedFile.name, mime: preparedFile.type, ...dimensions }, slot);
+                if (prepared.status === 'blocked') throw new Error(mediaInputEligibilityMessage(prepared, locale)!);
+                const formData = new FormData();
+                formData.append('file', preparedFile, preparedFile.name);
+                const response = await operation.request('/api/uploads/image', {
+                  method: 'POST',
+                  body: formData,
+                });
+                const payload = await response.json().catch(() => null);
+                if (!response.ok || !payload?.ok) {
+                  throw createUploadFailure('image', response.status, payload, 'Upload failed');
+                }
+                return payload.asset as { id: string; url: string; name?: string; width?: number | null; height?: number | null; size?: number | null; mime?: string | null; durationSec?: number };
+              })();
+          if (!current()) {
             revokeKlingAssetPreview(baseAsset);
             return;
           }
-          const formData = new FormData();
-          formData.append('file', preparedFile, preparedFile.name);
-          const uploadEndpoint = slot === 'video' ? '/api/uploads/video' : '/api/uploads/image';
-          const response = await authFetch(uploadEndpoint, {
-            method: 'POST',
-            body: formData,
-          });
-          const payload = await response.json().catch(() => null);
-          if (!response.ok || !payload?.ok) {
-            throw createUploadFailure(
-              slot === 'video' ? 'video' : 'image',
-              response.status,
-              payload,
-              'Upload failed',
-            );
-          }
-          if (!valid()) {
-            revokeKlingAssetPreview(baseAsset);
-            return;
-          }
-          const assetResponse = payload.asset as {
-            id: string;
-            url: string;
-            name?: string;
-          };
           setKlingElements((previous) =>
             previous.map((element) => {
               if (element.id !== elementId) return element;
@@ -212,6 +263,11 @@ export function useWorkspaceKlingElementAssets({
                   ...asset,
                   status: 'ready' as const,
                   assetId: assetResponse.id,
+                  width: assetResponse.width ?? null,
+                  height: assetResponse.height ?? null,
+                  size: assetResponse.size ?? file.size,
+                  type: assetResponse.mime ?? file.type,
+                  ...(typeof assetResponse.durationSec === 'number' ? { durationSec: assetResponse.durationSec } : {}),
                   url: assetResponse.url,
                   previewUrl: assetResponse.url || asset.previewUrl,
                   name: assetResponse.name ?? asset.name,
@@ -228,7 +284,7 @@ export function useWorkspaceKlingElementAssets({
             }),
           );
         } catch (error) {
-          if (!valid()) {
+          if (!current()) {
             revokeKlingAssetPreview(baseAsset);
             return;
           }
@@ -262,17 +318,28 @@ export function useWorkspaceKlingElementAssets({
             }),
           );
           showNotice(message);
+        } finally {
+          if (slotOperations.current.get(key)?.assetId === assetId) slotOperations.current.delete(key);
+          operation.finish();
         }
       };
 
       void upload();
+      return true;
     },
-    [valid, setKlingElements, showNotice],
+    [valid, locale, beginUpload, setKlingElements, showNotice],
   );
+
+  const handleImportKlingLibraryFile = useCallback(async (target: Extract<AssetPickerTarget, { kind: 'kling' }>, file: File) => {
+    const result = handleKlingElementAssetAdd(target.elementId, target.slot, file, target.slotIndex);
+    if (typeof result === 'string') return result;
+    if (result) setAssetPickerTarget(null);
+  }, [handleKlingElementAssetAdd, setAssetPickerTarget]);
 
   return {
     handleOpenKlingAssetLibrary,
     handleSelectKlingLibraryAsset,
+    handleImportKlingLibraryFile,
     handleKlingElementAdd,
     handleKlingElementRemove,
     handleKlingElementAssetRemove,

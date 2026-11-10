@@ -12,18 +12,33 @@ const comparisonPaths = getHubComparisonSlugsForSitemap().map(
 const modelPaths = modelRoster.map(({ modelSlug }) => `/models/${modelSlug}`);
 const dynamicPaths = new Set([...modelPaths, ...comparisonPaths]);
 
-test('P1 plus GPT Image 2.5 add eleven English routes while the safe GSC cleanup prunes 82 weak localized locs', () => {
-  assert.equal(modelPaths.length - fixture.publishedModelCount, 5);
-  assert.equal(comparisonPaths.length - fixture.publishedComparisonCount, 6);
-  assert.equal(dynamicPaths.size - fixture.dynamicEnglishCanonicalCount, 11);
+test('P1 and subsequent candidates add twenty-one English routes, retaining the historical inventory and three November models', () => {
+  assert.equal(modelPaths.length - fixture.publishedModelCount, 11);
+  assert.equal(comparisonPaths.length - fixture.publishedComparisonCount, 10);
+  assert.equal(dynamicPaths.size - fixture.dynamicEnglishCanonicalCount, 21);
 
   const localizedLocCount = modelRoster.length * 3 + getHubComparisonSlugsForSitemap().reduce(
     (total, slug) => total + getIndexableComparisonLocales(slug).length,
     0,
   );
-  assert.equal(localizedLocCount - fixture.localizedLocCount, 29 - 82);
+  // Preserve prior route deltas; November adds nine model URLs and three Flash comparison URLs.
+  assert.equal(localizedLocCount - fixture.localizedLocCount, 38 - 82 + 3 + 6 + 9 + 3);
+  const v4 = modelRoster.find(model => model.modelSlug === 'kling-v4');
+  assert.ok(v4);
+  assert.deepEqual(v4.surfaces.modelPage, { indexable: true, includeInSitemap: true });
+  assert.equal(dynamicPaths.has('/models/kling-v4'), true);
+  const nano21 = modelRoster.find(model => model.modelSlug === 'nano-banana-2-1');
+  assert.ok(nano21);
+  assert.deepEqual(nano21.surfaces.modelPage, { indexable: true, includeInSitemap: true });
+  assert.equal(dynamicPaths.has('/models/nano-banana-2-1'), true);
   for (const path of fixture.expectedNewEnglishPaths) assert.equal(dynamicPaths.has(path), true, path);
   for (const path of [
+    '/models/flux-3-max',
+    '/models/kling-v4-flash',
+    '/models/gpt-image-2-6-flare',
+    '/models/gpt-image-2-6-sunburst',
+    '/ai-video-engines/kling-v4-vs-kling-v4-flash',
+    '/ai-video-engines/flux-3-vs-flux-3-max',
     '/ai-video-engines/seedance-2-5-vs-wan-3',
     '/ai-video-engines/minimax-h3-max-vs-seedance-2-5',
   ]) assert.equal(dynamicPaths.has(path), true, path);

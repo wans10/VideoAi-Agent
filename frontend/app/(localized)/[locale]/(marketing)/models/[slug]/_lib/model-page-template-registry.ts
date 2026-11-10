@@ -1,3 +1,4 @@
+import { klingV4FlashTemplateConfig, gptImage26FlareTemplateConfig, gptImage26SunburstTemplateConfig } from './model-page-templates/nov05-models';
 import type { ModelPageTemplateConfig } from './model-page-template-types';
 import { geminiOmniFlashTemplateConfig } from './model-page-templates/gemini-omni-flash';
 import { gptImage2TemplateConfig } from './model-page-templates/gpt-image-2';
@@ -12,6 +13,7 @@ import { kling25TurboTemplateConfig } from './model-page-templates/kling-2-5-tur
 import { kling26ProTemplateConfig } from './model-page-templates/kling-2-6-pro';
 import { kling34kTemplateConfig } from './model-page-templates/kling-3-4k';
 import { kling3ProTemplateConfig } from './model-page-templates/kling-3-pro';
+import { klingV4TemplateConfig } from './model-page-templates/kling-v4';
 import { kling3StandardTemplateConfig } from './model-page-templates/kling-3-standard';
 import { kling3TurboProTemplateConfig, kling3TurboStandardTemplateConfig } from './model-page-templates/kling-3-turbo';
 import { klingO34kTemplateConfig } from './model-page-templates/kling-o3-4k';
@@ -31,6 +33,7 @@ import { ltx25ProTemplateConfig } from './model-page-templates/ltx-2-5-pro';
 import { minimaxHailuo02TemplateConfig } from './model-page-templates/minimax-hailuo-02-text';
 import { minimaxH3TemplateConfig } from './model-page-templates/minimax-h3';
 import { minimaxH3MaxTemplateConfig } from './model-page-templates/minimax-h3-max';
+import { nanoBanana21TemplateConfig } from './model-page-templates/nano-banana-2-1';
 import { nanoBanana2TemplateConfig } from './model-page-templates/nano-banana-2';
 import { nanoBananaLiteTemplateConfig } from './model-page-templates/nano-banana-lite';
 import { nanoBananaProTemplateConfig } from './model-page-templates/nano-banana-pro';
@@ -38,6 +41,7 @@ import { nanoBananaTemplateConfig } from './model-page-templates/nano-banana';
 import { pikaTextToVideoTemplateConfig } from './model-page-templates/pika-text-to-video';
 import { flux3TemplateConfig } from './model-page-templates/flux-3';
 import { flux3DraftTemplateConfig } from './model-page-templates/flux-3-draft';
+import { flux3MaxTemplateConfig } from './model-page-templates/flux-3-max';
 import { seedance15ProTemplateConfig } from './model-page-templates/seedance-1-5-pro';
 import { seedance20TemplateConfig } from './model-page-templates/seedance-2-0';
 import { seedance20FastTemplateConfig } from './model-page-templates/seedance-2-0-fast';
@@ -56,6 +60,9 @@ import { wan3TemplateConfig } from './model-page-templates/wan-3';
 import { wan3PrimeTemplateConfig } from './model-page-templates/wan-3-prime';
 
 const MODEL_PAGE_TEMPLATE_REGISTRY: Record<string, ModelPageTemplateConfig> = {
+  [klingV4FlashTemplateConfig.slug]: klingV4FlashTemplateConfig,
+  [gptImage26FlareTemplateConfig.slug]: gptImage26FlareTemplateConfig,
+  [gptImage26SunburstTemplateConfig.slug]: gptImage26SunburstTemplateConfig,
   [geminiOmniFlashTemplateConfig.slug]: geminiOmniFlashTemplateConfig,
   [gptImage2TemplateConfig.slug]: gptImage2TemplateConfig,
   [gptImage25FlareTemplateConfig.slug]: gptImage25FlareTemplateConfig,
@@ -67,6 +74,7 @@ const MODEL_PAGE_TEMPLATE_REGISTRY: Record<string, ModelPageTemplateConfig> = {
   [kling26ProTemplateConfig.slug]: kling26ProTemplateConfig,
   [kling34kTemplateConfig.slug]: kling34kTemplateConfig,
   [kling3ProTemplateConfig.slug]: kling3ProTemplateConfig,
+  [klingV4TemplateConfig.slug]: klingV4TemplateConfig,
   [kling3StandardTemplateConfig.slug]: kling3StandardTemplateConfig,
   [kling3TurboProTemplateConfig.slug]: kling3TurboProTemplateConfig,
   [kling3TurboStandardTemplateConfig.slug]: kling3TurboStandardTemplateConfig,
@@ -90,10 +98,12 @@ const MODEL_PAGE_TEMPLATE_REGISTRY: Record<string, ModelPageTemplateConfig> = {
   [nanoBananaTemplateConfig.slug]: nanoBananaTemplateConfig,
   [nanoBananaLiteTemplateConfig.slug]: nanoBananaLiteTemplateConfig,
   [nanoBanana2TemplateConfig.slug]: nanoBanana2TemplateConfig,
+  [nanoBanana21TemplateConfig.slug]: nanoBanana21TemplateConfig,
   [nanoBananaProTemplateConfig.slug]: nanoBananaProTemplateConfig,
   [pikaTextToVideoTemplateConfig.slug]: pikaTextToVideoTemplateConfig,
   [flux3TemplateConfig.slug]: flux3TemplateConfig,
   [flux3DraftTemplateConfig.slug]: flux3DraftTemplateConfig,
+  [flux3MaxTemplateConfig.slug]: flux3MaxTemplateConfig,
   [seedance15ProTemplateConfig.slug]: seedance15ProTemplateConfig,
   [seedance20TemplateConfig.slug]: seedance20TemplateConfig,
   [seedance20FastTemplateConfig.slug]: seedance20FastTemplateConfig,

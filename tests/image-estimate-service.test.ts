@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import { POST as estimateImagePricing } from '../frontend/app/api/images/estimate/route.ts';
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
+import { GPT_IMAGE_26_SIZES } from '../frontend/lib/image/gptImage26Dimensions.ts';
 import {
   ImageEstimateError,
   estimateImageGeneration,
@@ -146,6 +147,16 @@ test('existing route returns the exact unsupported-mode adapter error', async ()
     engineEntry.modes = originalModes;
   }
 });
+
+for (const engineId of ['gpt-image-2-6-flare', 'gpt-image-2-6-sunburst']) {
+  test(`${engineId} rejects a stale resolution as a client error before pricing`, async () => {
+    const { response, payload } = await postEstimate({ engineId, mode: 't2i', resolution: '1k', quality: 'high' });
+    assert.equal(response.status, 400);
+    assert.deepEqual(payload, {
+      ok: false, error: 'resolution_invalid', allowed: [...GPT_IMAGE_26_SIZES],
+    });
+  });
+}
 
 test('transport-neutral estimate returns canonical GPT Image 2 pricing and normalized dimensions', async () => {
   const result = await estimateImageGeneration({

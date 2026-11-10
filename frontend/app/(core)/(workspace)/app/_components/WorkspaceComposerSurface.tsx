@@ -1,18 +1,29 @@
 'use client';
+
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+
+import {videoPromptReviewKey} from '@/lib/prompt-assistance/application-review';
+import {videoPromptWorkflow} from '@/lib/prompt-assistance/session';
+import { composerAssistanceReferences, composerAssistanceSettings } from '@/lib/prompt-assistance/client-context';
+import { OwnedGenerationSourcePicker } from './OwnedGenerationSourcePicker.client';
+import { VideoOperationSelector } from './VideoOperationSelector';
+import { supportsVideoCfgScaleControl } from '@/lib/video-input-schema';
 import { getSeedanceAutomaticPricingNote } from '@/lib/seedance-modelark-options';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ComponentProps, Dispatch, SetStateAction } from 'react';
 import dynamic from 'next/dynamic';
 import { WorkspaceOptionsButton } from '@/components/composer/WorkspaceOptionsButton.client';
-import { Composer, type ComposerPromotedAction, type MultiPromptScene } from '@/components/Composer';
+import { Composer, type MultiPromptScene } from '@/components/Composer';
 import type { SeedanceDraftControls } from '@/lib/seedance-workflow-contract';
-import { SeedanceDraftLocalPreviewMode } from './SeedanceDraftLocalPreviewMode.client';
+import { SeedanceDraftSettingsNotice } from './SeedanceDraftSettingsNotice.client';
 import { getSeedanceDraftCopy } from '../_lib/seedance-draft-copy';
 import { CoreIterationsControl, CoreSettingsBar } from '@/components/CoreSettingsBar';
 import { SettingsControls } from '@/components/SettingsControls';
 // Subject slots occupy the initial form. A nested lazy boundary inserts the
 // panel late and moves the mobile results rail.
+import { getWorkspaceKlingV4ActiveAssets, getWorkspaceKlingV4MediaError } from '../_lib/workspace-kling-v4-media';
+import { buildKlingElementsPayload } from '../_lib/workspace-generation-inputs';
 import { KlingElementsBuilder, type KlingElementState, type KlingElementsBuilderProps } from '@/components/KlingElementsBuilder';
 import { Button } from '@/components/ui/Button';
 import { getLocalizedModeLabel } from '@/lib/ltx-localization';
@@ -46,7 +57,6 @@ import { KLING_MULTI_PROMPT_SCENE_MAX_CHARS } from '../_lib/workspace-multi-prom
 import { supportsWorkspaceMultiPrompt } from '../_hooks/useWorkspaceEngineModeState';
 import type { LumaRay32KeyframeEditorProps } from './LumaRay32KeyframeEditor';
 import type { OmniStudioPanelProps } from './omni/OmniStudioPanel.client';
-import type { StoryboardLaunchModalProps } from './StoryboardLaunchModal';
 
 const LumaRay32KeyframeEditor = dynamic<LumaRay32KeyframeEditorProps>(
   () => import('./LumaRay32KeyframeEditor').then((mod) => mod.LumaRay32KeyframeEditor),
@@ -55,11 +65,6 @@ const LumaRay32KeyframeEditor = dynamic<LumaRay32KeyframeEditorProps>(
 
 const OmniStudioPanel = dynamic<OmniStudioPanelProps>(
   () => import('./omni/OmniStudioPanel.client').then((mod) => mod.OmniStudioPanel),
-  { ssr: false }
-);
-
-const StoryboardLaunchModal = dynamic<StoryboardLaunchModalProps>(
-  () => import('./StoryboardLaunchModal').then((mod) => mod.StoryboardLaunchModal),
   { ssr: false }
 );
 
@@ -73,6 +78,7 @@ type WorkflowCopy = {
 };
 
 type WorkspaceComposerSurfaceProps = {
+  sourceAccount?: {userId:string;token:string}|null;
   localDraftPreview?: SeedanceDraftControls;
   selectedEngine: EngineCaps;
   form: FormState;
@@ -86,6 +92,7 @@ type WorkspaceComposerSurfaceProps = {
   isPricing: boolean;
   isSubmitting: boolean;
   preflightError: ComposerProps['error'];
+  videoDurationBlocked?: boolean;
   preflight: ComposerProps['preflight'];
   composerRef: ComposerProps['textareaRef'];
   startRender: ComposerProps['onGenerate'];
@@ -96,6 +103,7 @@ type WorkspaceComposerSurfaceProps = {
   klingO3UnsupportedVideoReason: string | null;
   workflowCopy: WorkflowCopy;
   guestUploadLockedReason: string | null;
+  referenceAuthAction?: ComposerProps['referenceAuthAction'];
   uiLocale: string;
   composerModeToggles: ComposerProps['modeToggles'];
   activeManualMode: Mode | null;
@@ -103,6 +111,8 @@ type WorkspaceComposerSurfaceProps = {
   composerWorkflowNotice: string | null;
   pendingGenerations: ComposerProps['pendingGenerations'];
   handleAssetAdd: NonNullable<ComposerProps['onAssetAdd']>;
+  handlePrepareVideoExcerpt: NonNullable<ComposerProps['onPrepareVideoExcerpt']>;
+  handleVideoExcerptEditorChange: NonNullable<ComposerProps['onVideoExcerptEditorChange']>;
   handleAssetRemove: NonNullable<ComposerProps['onAssetRemove']>;
   handleOpenAssetLibrary: NonNullable<ComposerProps['onOpenLibrary']>;
   showNotice: (message: string) => void;
@@ -157,11 +167,6 @@ type WorkspaceComposerSurfaceProps = {
   setViewMode: Dispatch<SetStateAction<'single' | 'quad'>>;
 };
 
-function isStoryboardLaunchEngine(engineId: string): boolean {
-  const normalized = engineId.toLowerCase();
-  return normalized.includes('seedance') || normalized.includes('kling');
-}
-
 const LUMA_RAY32_MODIFY_ADVANCED_FIELD_IDS = new Set(['edit_keyframe_indexes']);
 const HDR_FIELD_ID = 'hdr';
 const SEEDANCE_REFERENCE_GUIDANCE_COPY = {
@@ -200,6 +205,7 @@ function isTruthyExtraInputValue(value: unknown): boolean {
 }
 
 export function WorkspaceComposerSurface({
+  sourceAccount = null,
   localDraftPreview: candidateDraftControls,
   selectedEngine,
   form,
@@ -213,6 +219,7 @@ export function WorkspaceComposerSurface({
   isPricing,
   isSubmitting,
   preflightError,
+  videoDurationBlocked = false,
   preflight,
   composerRef,
   startRender,
@@ -223,6 +230,7 @@ export function WorkspaceComposerSurface({
   klingO3UnsupportedVideoReason,
   workflowCopy,
   guestUploadLockedReason,
+  referenceAuthAction,
   uiLocale,
   composerModeToggles,
   activeManualMode,
@@ -230,6 +238,8 @@ export function WorkspaceComposerSurface({
   composerWorkflowNotice,
   pendingGenerations,
   handleAssetAdd,
+  handlePrepareVideoExcerpt,
+  handleVideoExcerptEditorChange,
   handleAssetRemove,
   handleOpenAssetLibrary,
   showNotice,
@@ -283,7 +293,6 @@ export function WorkspaceComposerSurface({
   const localDraftPreview = candidateDraftControls?.available ? candidateDraftControls : undefined;
   const draftCopy = getSeedanceDraftCopy(uiLocale);
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [storyboardModalOpen, setStoryboardModalOpen] = useState(false);
   const klingO3AssetState = useMemo(
     () => getKlingO3AssetState({ inputAssets, klingElements }),
     [inputAssets, klingElements]
@@ -291,8 +300,33 @@ export function WorkspaceComposerSurface({
   const klingO3VideoToVideoSupported = supportsKlingO3VideoToVideo(selectedEngine);
   const klingO3VideoReferenceDisabledReason =
     isUnifiedKlingO3 && !klingO3VideoToVideoSupported ? KLING_O3_SOURCE_VIDEO_UNSUPPORTED_MESSAGE : null;
+  const showFlux3MaxKeyframeEditor = selectedEngine.id.startsWith('flux-3') && submissionMode === 'ref2v';
   const showLumaRay32KeyframeEditor = selectedEngine.id === 'luma-ray-3-2' && submissionMode === 'v2v';
+  const keyframeOwner=JSON.stringify([sourceAccount?.userId??null,selectedEngine.id,videoPromptWorkflow(activeManualMode,selectedEngine.id),submissionMode]);
+  const [keyframeReferenceTarget,setKeyframeReferenceTarget]=useState<{owner:string;fieldId:string;slot:number;revision:number}|null>(null);
+  useEffect(()=>setKeyframeReferenceTarget(null),[keyframeOwner]);
+  const keyframeField=showFlux3MaxKeyframeEditor?'reference_image_urls':showLumaRay32KeyframeEditor?'edit_keyframe_urls':null;
+  const canManageKeyframes=Boolean(keyframeField&&inputSchemaSummary.assetFields.some(({field})=>field.id===keyframeField)
+    &&(showFlux3MaxKeyframeEditor||inputSchemaSummary.assetFields.some(({field})=>field.id==='video_url')));
   const showOmniStudioPanel = selectedEngine.id === 'gemini-omni-flash';
+  const isKlingV4 = isKlingV4FalQueueEngineId(selectedEngine.id);
+  const isFlash = selectedEngine.id === 'kling-v4-flash';
+  const klingV4Error = useMemo(() => {
+    if (!isKlingV4) return null;
+    const elements = buildKlingElementsPayload({
+      selectedEngineId: selectedEngine.id, supportsKlingV3Controls, submissionMode, klingElements,
+    });
+    if (!elements.ok) return elements.message;
+    if (!multiPromptActive && (!Number.isInteger(form.durationSec) || form.durationSec < 3 || form.durationSec > (isFlash ? 20 : 30))) {
+      return `Output duration must be 3–${isFlash ? 20 : 30} whole seconds.`;
+    }
+    return getWorkspaceKlingV4MediaError({ engineId: selectedEngine.id, mode: submissionMode, inputAssets, klingElements });
+  }, [isKlingV4, isFlash, selectedEngine.id, supportsKlingV3Controls, submissionMode, klingElements, multiPromptActive, form.durationSec, inputAssets]);
+  const activeKlingV4Fields = isKlingV4 ? Object.keys(getWorkspaceKlingV4ActiveAssets(submissionMode, inputAssets, selectedEngine.id)) : [];
+  const hasInactiveKlingV4Media = isKlingV4 && (
+    Object.entries(inputAssets).some(([field, assets]) => !activeKlingV4Fields.includes(field) && assets.some(Boolean)) ||
+    ((submissionMode === 't2v' || submissionMode === 'i2v') && klingElements.some((element) => element.frontal || element.video || element.references.some(Boolean)))
+  );
   const showMultiPrompt = supportsWorkspaceMultiPrompt(selectedEngine, submissionMode);
   const hdrFieldEntry = useMemo(
     () =>
@@ -305,14 +339,14 @@ export function WorkspaceComposerSurface({
   const composerAssetFields = useMemo(() => getWorkspaceReferenceFields(inputSchemaSummary.assetFields, {
     inputAssets, isUnifiedSeedance, isUnifiedKlingO3, klingO3VideoToVideoSupported,
     hasAnyVideoInput: klingO3AssetState.hasAnyVideoInput, guestUploadLockedReason, workflowCopy,
-    showOmniStudioPanel, showLumaRay32KeyframeEditor,
+    showOmniStudioPanel, showLumaRay32KeyframeEditor, showFlux3MaxKeyframeEditor,
     previousInteractionId: form.extraInputValues.previous_interaction_id,
   }).map((entry) => ({ ...entry,
     guidance: isUnifiedSeedance && shouldShowSeedanceReferenceGuidance(entry.field)
       ? getSeedanceReferenceGuidance(uiLocale) : entry.guidance,
   })), [inputSchemaSummary.assetFields, inputAssets, isUnifiedSeedance, isUnifiedKlingO3,
     klingO3VideoToVideoSupported, klingO3AssetState.hasAnyVideoInput, guestUploadLockedReason,
-    workflowCopy, showOmniStudioPanel, showLumaRay32KeyframeEditor, uiLocale, form.extraInputValues.previous_interaction_id]);
+    workflowCopy, showOmniStudioPanel, showLumaRay32KeyframeEditor, showFlux3MaxKeyframeEditor, uiLocale, form.extraInputValues.previous_interaction_id]);
 
   const settingsCaps = localDraftPreview?.selected
     ? { ...capability, modes: capability?.modes ?? [submissionMode], resolution: ['480p'], resolutionLocked: true }
@@ -324,16 +358,18 @@ export function WorkspaceComposerSurface({
   );
   const advancedFields = useMemo(() => {
     const shouldHideInlineField = (field: EngineInputField) =>
+      field.id === 'source_job_id' ||
       Boolean(hdrFieldEntry && field.id === hdrFieldEntry.field.id) ||
       (showMultiPrompt && field.id === 'multi_prompt') ||
-      (showOmniStudioPanel && OMNI_CUSTOM_FIELD_IDS.has(field.id));
+      (showOmniStudioPanel && OMNI_CUSTOM_FIELD_IDS.has(field.id)) ||
+      (showFlux3MaxKeyframeEditor && field.id === 'keyframe_indexes');
     if (!showLumaRay32KeyframeEditor) {
       return inputSchemaSummary.secondaryFields.filter(({ field }) => !shouldHideInlineField(field));
     }
     return inputSchemaSummary.secondaryFields.filter(
       ({ field }) => !LUMA_RAY32_MODIFY_ADVANCED_FIELD_IDS.has(field.id) && !shouldHideInlineField(field)
     );
-  }, [hdrFieldEntry, inputSchemaSummary.secondaryFields, showLumaRay32KeyframeEditor, showMultiPrompt, showOmniStudioPanel]);
+  }, [hdrFieldEntry, inputSchemaSummary.secondaryFields, showLumaRay32KeyframeEditor, showFlux3MaxKeyframeEditor, showMultiPrompt, showOmniStudioPanel]);
 
   const handleExtraInputValueChange = useCallback(
     (field: EngineInputField, value: unknown) => {
@@ -361,34 +397,15 @@ export function WorkspaceComposerSurface({
     },
     [handleExtraInputValueChange, hdrFieldEntry]
   );
-  const storyboardLaunchAction = useMemo<ComposerPromotedAction | null>(() => {
-    if (!isStoryboardLaunchEngine(selectedEngine.id)) return null;
-    const tooltip =
-      uiLocale === 'fr'
-        ? 'Ouvre le Storyboarder avant de générer avec Seedance ou Kling.'
-        : uiLocale === 'es'
-          ? 'Abre Storyboarder antes de generar con Seedance o Kling.'
-          : 'Open Storyboarder before generating with Seedance or Kling.';
-    return {
-      id: 'storyboard-launch',
-      label: 'Storyboard',
-      tooltip,
-      active: false,
-      icon: 'sparkles',
-      onToggle: () => setStoryboardModalOpen(true),
-    };
-  }, [selectedEngine.id, uiLocale]);
   const composerPromotedActions = useMemo(
-    () => {
-      const actions = buildComposerPromotedActions({
+    () =>
+      buildComposerPromotedActions({
         form,
         promotedFields: inputSchemaSummary.promotedFields,
         uiLocale,
         onToggle: handleExtraInputValueChange,
-      });
-      return storyboardLaunchAction ? [storyboardLaunchAction, ...actions] : actions;
-    },
-    [form, handleExtraInputValueChange, inputSchemaSummary.promotedFields, storyboardLaunchAction, uiLocale]
+      }),
+    [form, handleExtraInputValueChange, inputSchemaSummary.promotedFields, uiLocale]
   );
 
   useEffect(() => {
@@ -424,25 +441,26 @@ export function WorkspaceComposerSurface({
     selectedEngine.params?.promptStrength ||
     selectedEngine.params?.guidance ||
     (submissionMode === 'i2v' && selectedEngine.params?.initInfluence) ||
-    selectedEngine.params?.cfg_scale ||
+    supportsVideoCfgScaleControl(selectedEngine, submissionMode) ||
     advancedFields.length
   );
   const showKlingElementsBuilder =
-    supportsKlingV3Controls &&
-    (isUnifiedKlingO3 || activeMode === 'i2v' || activeMode === 'ref2v');
+    isKlingV4 ||
+    (supportsKlingV3Controls && (isUnifiedKlingO3 || activeMode === 'i2v' || activeMode === 'ref2v'));
   const showExtraFields = Boolean(
-    showLumaRay32KeyframeEditor ||
+    klingV4Error || showLumaRay32KeyframeEditor || showFlux3MaxKeyframeEditor ||
     showOmniStudioPanel ||
     showRetakeWorkflowAction ||
-    showKlingElementsBuilder ||
     (showOptionsControl && optionsOpen)
   );
   const modeUnavailableMessage = getEngineModeUnavailableMessage(selectedEngine, submissionMode, uiLocale);
-  const quoteUnavailable = !isEngineModeQuoteReady(selectedEngine, submissionMode, preflight);
+  const ownedGenerationRequired = (selectedEngine.id === 'luma-ray-3-2' && submissionMode === 'extend') || form.operation === 'flux-draft-enhance';
+  const quoteUnavailable = !isEngineModeQuoteReady(selectedEngine, submissionMode, preflight)
+    || (ownedGenerationRequired && (!form.extraInputValues.source_job_id || preflight?.ok !== true));
   const automaticPricingNote = getSeedanceAutomaticPricingNote({ engineId: selectedEngine.id, mode: submissionMode,
     durationOption: form.durationOption, aspectRatio: form.aspectRatio, locale: uiLocale, inheritsSourceVideo });
   const resolvedWorkflowNotice = modeUnavailableMessage ?? klingO3UnsupportedVideoReason
-    ?? ([composerWorkflowNotice, automaticPricingNote].filter(Boolean).join(' ') || undefined);
+    ?? ([composerWorkflowNotice, automaticPricingNote, hasInactiveKlingV4Media ? 'Media from other modes stays saved. Only this mode’s references will be used.' : null].filter(Boolean).join(' ') || undefined);
 
   const handleAudioChange = useCallback(
     (audio: boolean) => {
@@ -475,12 +493,21 @@ export function WorkspaceComposerSurface({
     [setForm, setViewMode]
   );
 
+  const assistanceContext={ form: { ...form, prompt: undefined }, klingElements, cfgScale, shotType, voiceIdsInput, voiceControlEnabled, multiPromptEnabled, seedValue, cameraFixedValue, safetyCheckerValue, draft: localDraftPreview && { selected: localDraftPreview.selected, phase: localDraftPreview.phase, live: localDraftPreview.live } };
+
   return (
     <>
       <Composer
+        referenceManagement={canManageKeyframes&&keyframeField?{fields:[keyframeField],manage:reference=>setKeyframeReferenceTarget(current=>({...reference,owner:keyframeOwner,revision:(current?.revision??0)+1}))}:undefined}
+        assistance={{ accountKey: sourceAccount?.userId ?? 'anonymous', scopeKey: JSON.stringify([sourceAccount?.userId ?? null, 'video', videoPromptWorkflow(activeManualMode, selectedEngine.id)]), live: {surface: 'video', workflow: videoPromptWorkflow(activeManualMode, selectedEngine.id), engineId: selectedEngine.id, mode: submissionMode, settings: composerAssistanceSettings(selectedEngine, submissionMode, {...form, cfgScale, shotType, voiceControlEnabled, seed: seedValue, cameraFixed: cameraFixedValue, safetyChecker: safetyCheckerValue, draft: localDraftPreview?.selected,
+          ...(klingElements.some(element=>element.frontal||element.video||element.references.some(Boolean))?{subjectIdentities:'unavailable; describe subjects in your message'}:{}),
+          ...(ownedGenerationRequired?{sourceGenerationContext:'unavailable; describe the source generation in your message'}:{})}),
+          // Keyframe panels own some schema fields outside the compact reference picker.
+          references: composerAssistanceReferences(selectedEngine,inputSchemaSummary.assetFields.filter(entry=>!composerAssetFields.some(visible=>visible.field.id===entry.field.id)),composerAssets,submissionMode)}, contextKey: JSON.stringify(assistanceContext),reviewKey:videoPromptReviewKey(assistanceContext) }}
         density="workspace"
         engine={selectedEngine}
-        prompt={prompt}
+        caps={capability}
+        prompt={selectedEngine.activeVideoOperation && !inputSchemaSummary.promptField ? '' : prompt}
         onPromptChange={setPrompt}
         negativePrompt={negativePrompt}
         onNegativePromptChange={setNegativePrompt}
@@ -495,7 +522,9 @@ export function WorkspaceComposerSurface({
         onGenerate={startRender}
         generateLabel={localDraftPreview?.selected ? draftSettingsLocked ? draftCopy.generated : 'Draft 480p' : undefined}
         preflight={preflight}
-        promptField={inputSchemaSummary.promptField}
+        promptField={isKlingV4 && inputSchemaSummary.promptField
+          ? { ...inputSchemaSummary.promptField, description: undefined }
+          : inputSchemaSummary.promptField}
         promptRequired={inputSchemaSummary.promptRequired}
         negativePromptField={inputSchemaSummary.negativePromptField}
         negativePromptRequired={inputSchemaSummary.negativePromptRequired}
@@ -505,8 +534,11 @@ export function WorkspaceComposerSurface({
         workflowNotice={resolvedWorkflowNotice}
         promotedActions={composerPromotedActions}
         assetFields={composerAssetFields}
+        referenceAuthAction={referenceAuthAction}
         assets={composerAssets}
         onAssetAdd={handleAssetAdd}
+        onPrepareVideoExcerpt={handlePrepareVideoExcerpt}
+        onVideoExcerptEditorChange={handleVideoExcerptEditorChange}
         onAssetRemove={handleAssetRemove}
         onNotice={showNotice}
         onOpenLibrary={handleOpenAssetLibrary}
@@ -517,7 +549,9 @@ export function WorkspaceComposerSurface({
                 scenes: multiPromptScenes,
                 totalDurationSec: multiPromptTotalSec,
                 minDurationSec: MULTI_PROMPT_MIN_SEC,
-                maxDurationSec: MULTI_PROMPT_MAX_SEC,
+                maxDurationSec: isKlingV4 ? 30 : MULTI_PROMPT_MAX_SEC,
+                minSceneDurationSec: isKlingV4 ? 1 : undefined,
+                strictIntegerDurations: isKlingV4,
                 maxPromptChars: KLING_MULTI_PROMPT_SCENE_MAX_CHARS,
                 onToggle: setMultiPromptEnabled,
                 onAddScene: handleMultiPromptAddScene,
@@ -527,13 +561,35 @@ export function WorkspaceComposerSurface({
               }
             : null
         }
-        disableGenerate={Boolean(modeUnavailableMessage) || quoteUnavailable || draftSettingsLocked || multiPromptInvalid || audioWorkflowUnsupported || Boolean(klingO3UnsupportedVideoReason)}
+        disableGenerate={videoDurationBlocked || Boolean(klingV4Error) || Boolean(modeUnavailableMessage) || quoteUnavailable || draftSettingsLocked || multiPromptInvalid || audioWorkflowUnsupported || Boolean(klingO3UnsupportedVideoReason)}
+        beforeAssets={<VideoOperationSelector locale={uiLocale} engine={selectedEngine} mode={submissionMode} form={form} setForm={setForm} />}
+        sourceControl={ownedGenerationRequired ?
+              <OwnedGenerationSourcePicker compact authAction={referenceAuthAction} key={`${sourceAccount?.userId ?? ''}:${form.operation ?? 'luma-extend'}`} account={sourceAccount}
+                operation={form.operation === 'flux-draft-enhance' ? 'flux-draft-enhance' : 'luma-extend'} locale={uiLocale}
+                sourceJobId={String(form.extraInputValues.source_job_id ?? '')}
+                onSelect={source => setForm(current => current ? {...current,extraInputValues:{...current.extraInputValues,
+                  source_job_id:source?.sourceJobId ?? '',source_output_id:source?.sourceOutputId ?? ''}} : current)} /> : null}
+        subjectReferences={showKlingElementsBuilder ? {
+          hasSubjects: klingElements.length > 1 || klingElements.some(element => Boolean(element.frontal || element.video || element.references.some(Boolean))),
+          content: <KlingElementsBuilder
+            elements={klingElements}
+            variant={isFlash ? 'kling-v4-flash-reference' : isKlingV4 ? submissionMode === 'v2v' ? 'kling-v4-edit' : 'kling-v4-reference' : 'legacy'}
+            onAddElement={handleKlingElementAdd}
+            onRemoveElement={handleKlingElementRemove}
+            onAddAsset={handleKlingElementAssetAdd}
+            onRemoveAsset={handleKlingElementAssetRemove}
+            onOpenLibrary={handleOpenKlingAssetLibrary}
+            videoReferenceDisabledReason={klingO3VideoReferenceDisabledReason}
+          />,
+        } : undefined}
         extraFields={showExtraFields ? (
           <>
-            {showLumaRay32KeyframeEditor ? (
+            {klingV4Error ? <p role="alert" className="text-xs text-error">{klingV4Error}</p> : null}
+            {showLumaRay32KeyframeEditor || showFlux3MaxKeyframeEditor ? (
               <LumaRay32KeyframeEditor
+                referenceTarget={keyframeReferenceTarget?.owner===keyframeOwner?keyframeReferenceTarget:undefined}
+                uiLocale={uiLocale}
                 engine={selectedEngine}
-                caps={capability}
                 form={form}
                 setForm={setForm}
                 assetFields={inputSchemaSummary.assetFields}
@@ -572,17 +628,6 @@ export function WorkspaceComposerSurface({
                   {getLocalizedModeLabel('retake', uiLocale)}
                 </Button>
               </div>
-            ) : null}
-            {showKlingElementsBuilder ? (
-              <KlingElementsBuilder
-                elements={klingElements}
-                onAddElement={handleKlingElementAdd}
-                onRemoveElement={handleKlingElementRemove}
-                onAddAsset={handleKlingElementAssetAdd}
-                onRemoveAsset={handleKlingElementAssetRemove}
-                onOpenLibrary={handleOpenKlingAssetLibrary}
-                videoReferenceDisabledReason={klingO3VideoReferenceDisabledReason}
-              />
             ) : null}
             <fieldset disabled={draftSettingsLocked} className="min-w-0">
               <SettingsControls
@@ -640,20 +685,9 @@ export function WorkspaceComposerSurface({
           </>
         ) : undefined}
         optionsControl={showOptionsControl ? <WorkspaceOptionsButton open={optionsOpen} onToggle={() => setOptionsOpen((value) => !value)} /> : undefined}
-        settingsNotice={localDraftPreview ? (
-          <div className="mt-2 border-t border-hairline pt-2">
-            <SeedanceDraftLocalPreviewMode preview={localDraftPreview} locale={uiLocale} />
-            <p className="mt-1.5 text-xs leading-relaxed text-text-secondary">
-              {localDraftPreview.selected
-                ? draftSettingsLocked
-                  ? draftCopy.locked
-                  : draftCopy.selected
-                : draftCopy.inactive}
-            </p>
-            {!localDraftPreview.live ? <p className="mt-1 text-[10px] text-text-muted">{draftCopy.prototype}</p> : null}
-          </div>
-        ) : undefined}
-        settingsBar={
+        settingsNotice={<SeedanceDraftSettingsNotice controls={localDraftPreview} locale={uiLocale}
+          setup={{ engineId: selectedEngine.id, mode: submissionMode, iterations: form.iterations, aspectRatio: form.aspectRatio }} />}
+        settingsBar={ownedGenerationRequired && !form.extraInputValues.source_job_id ? undefined : (
           <>
             <fieldset disabled={draftSettingsLocked} className="contents [&>div]:contents" title={draftSettingsLocked ? draftCopy.lockTitle : undefined}>
               <CoreSettingsBar
@@ -686,7 +720,7 @@ export function WorkspaceComposerSurface({
               />
             </fieldset>
           </>
-        }
+        )}
         generateControl={
           <fieldset disabled={localDraftPreview?.selected} className="contents" title={localDraftPreview?.selected ? 'Un seul Draft à la fois' : undefined}>
             <CoreIterationsControl
@@ -698,14 +732,6 @@ export function WorkspaceComposerSurface({
           </fieldset>
         }
       />
-      {storyboardModalOpen ? (
-        <StoryboardLaunchModal
-          open
-          selectedEngineId={selectedEngine.id}
-          selectedEngineLabel={selectedEngine.label}
-          onClose={() => setStoryboardModalOpen(false)}
-        />
-      ) : null}
     </>
   );
 }

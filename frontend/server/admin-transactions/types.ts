@@ -7,6 +7,7 @@ export type RawTransactionRow = {
   description: string | null;
   refund_reason_code: string | null;
   refund_note: string | null;
+  billing_product_key: string | null;
   job_id: string | null;
   created_at: string;
   job_status: string | null;
@@ -19,6 +20,7 @@ export type RawTransactionRow = {
   job_created_at: string | null;
   job_duration_sec: number | null;
   is_mcp_generation: boolean;
+  is_studio_generation: boolean;
   has_refund: boolean;
   latest_charge_id: number | null;
 };
@@ -32,6 +34,7 @@ export type AdminTransactionRecord = {
   currency: string;
   description: string | null;
   refundReason: string | null;
+  billingProductKey: string | null;
   jobId: string | null;
   jobStatus: string | null;
   jobPaymentStatus: string | null;
@@ -39,6 +42,7 @@ export type AdminTransactionRecord = {
   jobVideoUrl: string | null;
   jobDurationSec: number | null;
   isMcpGeneration: boolean;
+  isStudioGeneration: boolean;
   jobCreatedAt: string | null;
   jobProgress: number | null;
   jobMessage: string | null;

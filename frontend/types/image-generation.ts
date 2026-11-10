@@ -1,3 +1,4 @@
+import type { ImageDisplay } from '@/lib/image-display';
 import type { Mode, PricingSnapshot } from './engines';
 
 export type ImageGenerationMode = Extract<Mode, 't2i' | 'i2i'>;
@@ -29,12 +30,17 @@ export interface ImageGenerationRequest {
   visibility?: 'public' | 'private';
   seed?: number;
   outputFormat?: 'jpeg' | 'png' | 'webp';
-  quality?: 'low' | 'medium' | 'high' | 'xhigh' | 'max';
+  outputCompression?: number;
+  quality?: 'low' | 'medium' | 'high' | 'xhigh' | 'max' | 'auto';
+  complexity?: 'low' | 'medium' | 'high';
   background?: 'auto' | 'transparent' | 'opaque';
   style?: string;
   maskUrl?: string;
   enableWebSearch?: boolean;
-  thinkingLevel?: 'minimal' | 'high';
+  thinkingLevel?: 'minimal' | 'medium' | 'high';
+  maxOutputTokens?: number;
+  systemInstruction?: string;
+  enableImageSearch?: boolean;
   limitGenerations?: boolean;
   watermark?: boolean;
   engineId?: string;
@@ -57,7 +63,10 @@ export interface ImageGenerationRequest {
 }
 
 export interface GeneratedImage {
+  sourceOutputId?: string;
   url: string;
+  previewUrl?: string | null;
+  imageDisplay?: ImageDisplay;
   thumbUrl?: string | null;
   width?: number | null;
   height?: number | null;

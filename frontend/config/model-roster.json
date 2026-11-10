@@ -76,6 +76,25 @@
     }
   },
   {
+    "engineId": "flux-3-max",
+    "marketingName": "FLUX 3 Max",
+    "brandId": "black-forest-labs",
+    "modelSlug": "flux-3-max",
+    "family": "flux",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "versionLabel": "3 Max",
+    "availability": "available",
+    "logoPolicy": "textOnly",
+    "surfaces": {
+      "modelPage": {
+        "indexable": true,
+        "includeInSitemap": true
+      }
+    }
+  },
+  {
     "engineId": "seedance-2-0-mini",
     "marketingName": "Dreamina Seedance 2.0 Mini",
     "brandId": "bytedance",
@@ -247,6 +266,25 @@
     }
   },
   {
+    "engineId": "nano-banana-2-1",
+    "marketingName": "Nano Banana 2.1",
+    "brandId": "google",
+    "modelSlug": "nano-banana-2-1",
+    "family": "nano-banana",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "versionLabel": "2.1",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "surfaces": {
+      "modelPage": {
+        "indexable": true,
+        "includeInSitemap": true
+      }
+    }
+  },
+  {
     "engineId": "nano-banana-lite",
     "marketingName": "Nano Banana Lite",
     "brandId": "google",
@@ -286,15 +324,15 @@
   },
   {
     "engineId": "gemini-omni-flash",
-    "marketingName": "Gemini Omni Flash 1.1",
+    "marketingName": "Gemini Omni Flash 1.2",
     "brandId": "google-gemini",
     "modelSlug": "gemini-omni-flash",
     "family": "veo",
     "lifecycle": "current",
     "successorId": null,
     "successorSlug": null,
-    "versionLabel": "1.1 Preview",
-    "availability": "limited",
+    "versionLabel": "1.2",
+    "availability": "available",
     "logoPolicy": "textOnly",
     "surfaces": {
       "modelPage": {
@@ -542,6 +580,44 @@
     "successorSlug": null,
     "versionLabel": "3.0 Turbo Standard",
     "availability": "limited",
+    "logoPolicy": "logoAllowed",
+    "surfaces": {
+      "modelPage": {
+        "indexable": true,
+        "includeInSitemap": true
+      }
+    }
+  },
+  {
+    "engineId": "kling-v4",
+    "marketingName": "Kling 4.0",
+    "brandId": "kling",
+    "modelSlug": "kling-v4",
+    "family": "kling",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "versionLabel": "4.0",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "surfaces": {
+      "modelPage": {
+        "indexable": true,
+        "includeInSitemap": true
+      }
+    }
+  },
+  {
+    "engineId": "kling-v4-flash",
+    "marketingName": "Kling 4.0 Flash",
+    "brandId": "kling",
+    "modelSlug": "kling-v4-flash",
+    "family": "kling",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "versionLabel": "4.0 Flash",
+    "availability": "available",
     "logoPolicy": "logoAllowed",
     "surfaces": {
       "modelPage": {
@@ -864,6 +940,44 @@
     "successorId": null,
     "successorSlug": null,
     "versionLabel": "2.5 Sunburst",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "surfaces": {
+      "modelPage": {
+        "indexable": true,
+        "includeInSitemap": true
+      }
+    }
+  },
+  {
+    "engineId": "gpt-image-2-6-flare",
+    "marketingName": "GPT Image 2.6 Flare",
+    "brandId": "openai",
+    "modelSlug": "gpt-image-2-6-flare",
+    "family": "gpt-image",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "versionLabel": "2.6",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "surfaces": {
+      "modelPage": {
+        "indexable": true,
+        "includeInSitemap": true
+      }
+    }
+  },
+  {
+    "engineId": "gpt-image-2-6-sunburst",
+    "marketingName": "GPT Image 2.6 Sunburst",
+    "brandId": "openai",
+    "modelSlug": "gpt-image-2-6-sunburst",
+    "family": "gpt-image",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "versionLabel": "2.6",
     "availability": "available",
     "logoPolicy": "logoAllowed",
     "surfaces": {

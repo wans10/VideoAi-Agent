@@ -1,4 +1,6 @@
 import type { WorkspaceModelSetup } from './workspace-model-candidate';
+import { normalizeVideoOperation } from '@/lib/video-operation';
+import { toolAssetRefSchema } from '@/lib/toolbox/contract';
 
 export const MAX_WORKSPACE_MODEL_SETUP_BYTES = 1024 * 1024;
 export type WorkspaceModelSetupError = 'invalid' | 'incomplete' | 'oversized';
@@ -36,7 +38,7 @@ function jsonValue(value: unknown, depth = 0): boolean {
     )
   );
 }
-function asset(value: unknown, fieldId?: string): unknown {
+function asset(value: unknown, fieldId?: string, allowExcerpt = true): unknown {
   if (value === null) return null;
   if (
     !object(value) ||
@@ -45,6 +47,7 @@ function asset(value: unknown, fieldId?: string): unknown {
     !text(value.kind) ||
     !['image', 'video', ...(fieldId ? ['audio'] : [])].includes(value.kind) ||
     value.status !== 'ready' ||
+    value.excerptEditing === true ||
     !http(value.url)
   )
     throw new Error('incomplete');
@@ -58,11 +61,14 @@ function asset(value: unknown, fieldId?: string): unknown {
     'status',
     'url',
     'assetId',
-    ...(fieldId ? ['fieldId', 'type', 'size', 'width', 'height', 'durationSec'] : []),
+    'storyboardJobId',
+    'type', 'size', 'width', 'height', 'durationSec',
+    ...(fieldId ? ['fieldId'] : []),
   ]) {
     if (value[key] !== undefined) result[key] = value[key];
   }
   if (result.assetId !== undefined && !text(result.assetId)) throw new Error('invalid');
+  if (result.storyboardJobId !== undefined && (!text(result.storyboardJobId) || !result.storyboardJobId.trim() || result.storyboardJobId.length > 256)) throw new Error('invalid');
   for (const key of ['width', 'height', 'durationSec'])
     if (
       result[key] !== undefined &&
@@ -70,8 +76,27 @@ function asset(value: unknown, fieldId?: string): unknown {
       (!finite(result[key]) || (result[key] as number) < 0)
     )
       throw new Error('invalid');
+  if (value.ref !== undefined) {
+    const ref = toolAssetRefSchema.safeParse(value.ref);
+    if (!ref.success || ref.data.kind !== value.kind) throw new Error('invalid');
+    result.ref = ref.data;
+  }
+  if (value.excerptSource !== undefined || value.excerptRange !== undefined) {
+    if (!allowExcerpt || !object(value.excerptSource) || !object(value.excerptRange)) throw new Error('invalid');
+    const original = value.excerptSource;
+    const range = value.excerptRange;
+    if (!finite(original.durationSec) || original.durationSec <= 0 || original.ref === undefined ||
+      !finite(range.startSec) || !finite(range.endSec) || range.startSec < 0 || range.endSec <= range.startSec || range.endSec > original.durationSec) throw new Error('invalid');
+    const parsed = asset({ ...original, kind: value.kind, status: 'ready', ...(fieldId ? { fieldId } : {}) }, fieldId, false) as Record<string, unknown>;
+    result.excerptSource = Object.fromEntries(Object.entries(parsed).filter(([key]) => !['kind', 'status', 'fieldId'].includes(key)));
+    result.excerptRange = { startSec: range.startSec, endSec: range.endSec };
+  }
   result.previewUrl = http(value.previewUrl) ? value.previewUrl : value.url;
   return result;
+}
+/** Reuse the private draft's ready-asset validation for parked workflow references. */
+export function serializeWorkspaceReferenceAsset(value: unknown, fieldId: string): { ok: true; asset: unknown } | { ok: false } {
+  try { return { ok: true, asset: asset(value, fieldId) }; } catch { return { ok: false }; }
 }
 /** Strict, complete private-draft serializer. No storage, auth token, File or temporary URL. */
 export function serializeWorkspaceModelSetup(
@@ -162,6 +187,7 @@ export function serializeWorkspaceModelSetup(
         .filter((key) => f[key] !== undefined)
         .map((key) => [key, f[key]]),
     );
+    if (f.operation !== undefined) form.operation = normalizeVideoOperation(f.engineId, f.mode, f.operation);
     const inputAssets = Object.fromEntries(
       Object.entries(value.inputAssets).map(([field, entries]) => {
         if (!field.trim() || !Array.isArray(entries)) throw new Error('invalid');
@@ -177,11 +203,13 @@ export function serializeWorkspaceModelSetup(
         !('video' in element)
       )
         throw new Error('invalid');
+      if (element.voiceId !== undefined && !text(element.voiceId)) throw new Error('invalid');
       return {
         id: element.id,
         frontal: asset(element.frontal),
         video: asset(element.video),
         references: element.references.map((entry) => asset(entry)),
+        ...(element.voiceId !== undefined ? { voiceId: element.voiceId } : {}),
       };
     });
     const setup = {

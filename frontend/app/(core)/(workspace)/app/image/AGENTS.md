@@ -16,9 +16,13 @@ This route owns the dedicated still-image generation workspace.
 - Keep character reference parsing, labels, and slot merging in `_lib/image-workspace-character-references.ts`.
 - Keep job-to-history and local active group builders in `_lib/image-workspace-history.ts`.
 - Keep reference slot state, upload orchestration, library selection, and character toggling in `_hooks/useImageReferenceSlots.ts`.
+- Its `_hooks/useImageReferenceSlotLifecycle.ts` owner synchronizes slot replacement with per-slot upload cancellation. Keep the account-keyed `ImageWorkspaceSession` boundary and pass its account ID into reference uploads; late preparation, session lookup, responses and errors must not act for a retired account or selection.
 - Keep preview copy/download actions and generated-library save/remove orchestration in `_hooks/useImagePreviewActions.ts`.
 - Keep image setting field derivation, select options, and schema-driven default resets in `_hooks/useImageSettingsFields.ts`.
+- `_hooks/useImageComposerPersistence.ts` owns the account-scoped composer snapshot. Keep ordinary writes debounced, but flush its latest hydrated payload on page hide, hidden visibility and owner retirement; never write unhydrated defaults or another account's payload. Reload correctness belongs to this writer, not to relaxing Milo application/review guards.
 - Keep browser-only library UI in `_components/ImageLibraryModal.tsx`.
+- `ImageWorkspaceShell` owns the creation navigation and gallery layout, including the preview Activity/Recents switch. Loading and empty surfaces retain the same creation-navigation wrapper; the page owns only the outer header/sidebar.
+- `ImageMediaHandoff` owns recent-image selection and the shared add/replace confirmation. Reuse the account-scoped recent-output hook, load it on first opening, and insert through the guarded image library callback. Do not copy selected media directly into composer storage.
 - Keep `ImageWorkspace.tsx` focused on orchestration; do not add new inline helper blocks or route-local modal implementations there.
 - Keep image composer storage keys and stored payload shape backward compatible.
 - Keep upload, generation, pricing, and auth behavior unchanged unless the task explicitly targets those flows.

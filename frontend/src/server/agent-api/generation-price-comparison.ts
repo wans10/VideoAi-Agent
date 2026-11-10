@@ -1,3 +1,4 @@
+import { resolveVideoOperationEngine } from '@/lib/video-operation';
 import { customerDisplayPrice } from "@/lib/customer-price-presentation";
 import { recordedGenerationOutputDuration, recordedGenerationSourceVideoOutput } from "@/lib/generation-output-duration";
 import { getRuntimeModelById } from "@/config/model-runtime";
@@ -7,12 +8,11 @@ import {
   type GenerationActor,
 } from "./generation-actor";
 import {createHash} from 'node:crypto';
-import { normalizeGenerationRequest,stableJson } from "./generation-normalization";
+import { GenerationNormalizationError,normalizeGenerationRequest,normalizeGenerationComparisonRequest,orderedGenerationReferenceRole,stableJson } from "./generation-normalization";
 import type {AgentPublicGenerationEngine} from './model-catalog';
 import type { CanonicalGenerationRequest } from "./generation-types";
 import {
   readGenerationPricing,
-  validateGenerationPricingCapabilities,
   type GenerationPricingReadDependencies,
 } from "./generation-pricing-read";
 import { projectAgentModelModeDetails } from "./model-details";
@@ -22,12 +22,13 @@ import {
 } from "./model-editorial-policy";
 import { getAgentModelGuidance } from "./model-guidance";
 import { resolveGenerationReferencesForActor } from "./resolve-generation-references";
+import {GenerationCapabilityError,validateCanonicalGenerationCapabilities} from './generation-capability-validation';
 import type { ResolvedReference } from "./reference-types";
 import type { StudioPricingEstimate } from "@/lib/studio/conversation-pricing-contract";
 
 export type GenerationPriceComparisonInput = Pick<
   CanonicalGenerationRequest,
-  "surface" | "mode" | "prompt" | "settings" | "references"
+  "surface" | "mode" | "prompt" | "settings" | "references" | "operation" | "sourceJobId" | "sourceOutputId"
 > & {
   /** Only supply when the client asks to compare against this exact model. Repriced, never a stored amount. */
   baselineModelId?: string;
@@ -58,10 +59,15 @@ export type GenerationPriceComparison = {
   quoteRequired: true;
 };
 
-type ComparisonCatalogScope=Pick<CanonicalGenerationRequest,'surface'|'mode'> & {candidateModelIds?:readonly string[]|null;baselineModelId?:string|null};
+type ComparisonCatalogScope=Pick<CanonicalGenerationRequest,'surface'|'mode'> & {operation?:CanonicalGenerationRequest['operation']|null;candidateModelIds?:readonly string[]|null;baselineModelId?:string|null};
+function supportsComparisonOperation(candidate: AgentPublicGenerationEngine, input: ComparisonCatalogScope): boolean {
+  return !input.operation || candidate.engine.operationCaps?.[input.operation]?.mode === input.mode;
+}
+
 function comparisonCandidates(input:ComparisonCatalogScope,catalog:readonly AgentPublicGenerationEngine[]) {
   const explicitIds=new Set([...(input.candidateModelIds??[]),...(input.baselineModelId?[input.baselineModelId]:[])]);
   return catalog.filter(candidate=>candidate.surface===input.surface&&candidate.publicModes.includes(input.mode)
+    &&supportsComparisonOperation(candidate, input)
     &&(!input.candidateModelIds||explicitIds.has(candidate.engine.id))
     &&(explicitIds.has(candidate.engine.id)||isAgentModelRecommendationEligible(candidate.engine.id,getRuntimeModelById(candidate.engine.id)?.lifecycle)));
 }
@@ -70,7 +76,7 @@ function comparisonCandidates(input:ComparisonCatalogScope,catalog:readonly Agen
 export function generationComparisonCatalogFingerprint(input:ComparisonCatalogScope,catalog:readonly AgentPublicGenerationEngine[]):string {
   const models=comparisonCandidates(input,catalog).map(candidate=>({modelId:candidate.engine.id,engine:candidate.engine,modeCaps:candidate.modeCaps,publicModes:candidate.publicModes}))
     .sort((a,b)=>a.modelId.localeCompare(b.modelId));
-  return createHash('sha256').update(stableJson(JSON.parse(JSON.stringify({surface:input.surface,mode:input.mode,models})))).digest('hex');
+  return createHash('sha256').update(stableJson(JSON.parse(JSON.stringify({validationPolicy:'canonical-video-references-v2',surface:input.surface,mode:input.mode,...(input.operation ? {operation:input.operation}:{}),models})))).digest('hex');
 }
 
 function defaultAspectRatio(
@@ -109,7 +115,7 @@ export async function compareGenerationPrices(
     );
   let base: CanonicalGenerationRequest;
   try {
-    base = normalizeGenerationRequest({
+    base = normalizeGenerationComparisonRequest({
       surface: input.surface,
       mode: input.mode,
       prompt: input.prompt,
@@ -160,7 +166,9 @@ export async function compareGenerationPrices(
         candidate.surface === base.surface &&
         candidate.publicModes.includes(base.mode),
     );
-    if (candidate)
+    if (candidate && !supportsComparisonOperation(candidate, input)) {
+      unavailable.push({ modelId: candidate.engine.id, code: 'PARAMETER_INVALID', baseline: true });
+    } else if (candidate)
       scenarios.push({
         candidate,
         settings: input.baselineSettings,
@@ -168,14 +176,16 @@ export async function compareGenerationPrices(
       });
   }
   let incompatibleInputs=0;
+  const validationFailures:{modelId:string;code:AgentApiErrorCode;field:string;reason:string}[]=[];
   // Small batches bound concurrent database price reads; no provider inference calls.
   for (let start = 0; start < scenarios.length; start += 4) {
     await Promise.all(
       scenarios.slice(start, start + 4).map(async (scenario) => {
-        const { candidate } = scenario;
+        let { candidate } = scenario;
         const modelId = candidate.engine.id;
         let validatedInput=false;
         try {
+          if (input.operation) { const engine = resolveVideoOperationEngine(candidate.engine, base.mode as import('@/types/engines').Mode, input.operation); candidate = {...candidate,engine,modeCaps:{...candidate.modeCaps,...engine.modeCaps}}; }
           const details = projectAgentModelModeDetails(candidate, base.mode);
           const settings = { ...scenario.settings };
           const defaultedSettings: string[] = [];
@@ -211,12 +221,30 @@ export async function compareGenerationPrices(
               settings[key] = value as string | number | boolean;
               defaultedSettings.push(key);
             }
+          const orderedRole=orderedGenerationReferenceRole(base.mode,modelId,modelId==='minimax-h3-max'&&typeof settings.referenceOrder==='string');
           const request = normalizeGenerationRequest({
             ...base,
+            ...(input.sourceJobId ? { sourceJobId: input.sourceJobId, sourceOutputId: input.sourceOutputId } : {}),
+            ...(input.operation ? {operation:input.operation}:{}),
             engineId: modelId,
             settings,
+            references:base.references.map(reference=>{
+              if(reference.role===orderedRole)return reference;
+              const identity={...reference};
+              delete identity.slot;
+              return identity;
+            }),
           });
-          validateGenerationPricingCapabilities(request,candidate,references);
+          const candidateReferences=request.references.map(reference=>{
+            const resolved=references.find(value=>reference.kind==='asset'&&value.assetId===reference.assetId&&value.role===reference.role
+              &&(reference.slot===undefined||value.slot===reference.slot));
+            if(!resolved)throw new AgentApiError('REFERENCE_INVALID','A selected reference could not be verified.');
+            const facts={...resolved};
+            if(reference.slot===undefined)delete facts.slot;
+            else facts.slot=reference.slot;
+            return facts;
+          });
+          validateCanonicalGenerationCapabilities(request,candidate,{resolvedReferences:candidateReferences});
           validatedInput=true;
           const { pricing, pricingSnapshot } = await readGenerationPricing(
             request,
@@ -224,7 +252,7 @@ export async function compareGenerationPrices(
             {
               ...deps,
               listPublicEngines: async () => catalog,
-              resolveGenerationReferences: async () => references,
+              resolveGenerationReferences: async () => candidateReferences,
               resolveMembershipPricing: async () => membership,
             },
           );
@@ -251,6 +279,7 @@ export async function compareGenerationPrices(
           const option: GenerationPriceOption = {
             modelId,
             modelLabel: candidate.engine.label,
+            ...(request.operation ? {operation:request.operation}:{}),
             surface: request.surface,
             mode: request.mode,
             settings: scalarSettings,
@@ -270,6 +299,21 @@ export async function compareGenerationPrices(
           if (scenario.baseline) originalBaseline = option;
           else options.push(option);
         } catch (error) {
+          if(error instanceof GenerationCapabilityError){
+            const code=error.kind==='reference_required'?'REFERENCE_REQUIRED':error.kind==='reference_invalid'?'REFERENCE_INVALID':'PARAMETER_INVALID';
+            // Fixed canonical fields/reasons only: no provider field names,
+            // exception messages, media identities or original URLs.
+            const field=['mode','prompt','references','outputCount','durationSec','resolution','aspectRatio','audio','fps'].includes(error.field)?error.field:'settings';
+            validationFailures.push({modelId,code,field,reason:error.referenceFailure??error.kind});
+            incompatibleInputs++;
+            unavailable.push({modelId,code,...(scenario.baseline?{baseline:true as const}:{})});
+            return;
+          }
+          if(error instanceof GenerationNormalizationError){
+            incompatibleInputs++;
+            unavailable.push({modelId,code:'PARAMETER_INVALID',...(scenario.baseline?{baseline:true as const}:{})});
+            return;
+          }
           if (!(error instanceof AgentApiError)) throw error;
           if(!validatedInput&&['PARAMETER_INVALID','REFERENCE_INVALID','REFERENCE_REQUIRED'].includes(error.code)&&!error.retryable)incompatibleInputs++;
           unavailable.push({
@@ -286,6 +330,7 @@ export async function compareGenerationPrices(
     // the single-output contract and provide live facts for a workflow decision.
     const models = candidates.flatMap(candidate => {
       try {
+        if (input.operation) { const engine = resolveVideoOperationEngine(candidate.engine, base.mode as import('@/types/engines').Mode, input.operation); candidate = {...candidate,engine,modeCaps:{...candidate.modeCaps,...engine.modeCaps}}; }
         const details = projectAgentModelModeDetails(candidate, base.mode);
         const {mode,duration,durationPolicy,audio,resolutions,aspectRatios,references,settings}=details;
         return [{modelId: candidate.engine.id,mode,duration,durationPolicy,audio,resolutions,aspectRatios,references,settings}];
@@ -315,7 +360,8 @@ export async function compareGenerationPrices(
       {type: 'generation_comparison', reason: 'no_matching_scenario', surface: base.surface, mode: base.mode,
         requestedDurationSec, durationMismatch, constraintMismatch:scenarios.length>0&&incompatibleInputs===scenarios.length, catalogFingerprint:generationComparisonCatalogFingerprint({...input,surface:base.surface,mode:base.mode},catalog),
         ...(durationMismatch?{modelsOrder:'longest_supported_clip'}:{}),
-        models: models.slice(0, 8), modelsTruncated: models.length > 8},
+        models: models.slice(0, 8), modelsTruncated: models.length > 8,
+        validationFailures:validationFailures.sort((a,b)=>a.modelId.localeCompare(b.modelId)).slice(0,8),validationFailuresTruncated:validationFailures.length>8},
     );
   }
   options.sort(

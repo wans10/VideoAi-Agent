@@ -1,13 +1,13 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { AudioLines, CircleAlert, LoaderCircle, Play } from 'lucide-react';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { buildAuthReturnTarget, buildLoginHref } from '@/lib/auth-entry-href';
 import { runAudioGenerate, useInfiniteJobs } from '@/lib/api';
-import { AUDIO_CREATION_INTENTS, AUDIO_INTENT_PACK, buildAudioCreationRequest, isAudioDraftReady, isAudioIntent, type AudioCreationIntent } from '@/lib/audio-creation';
+import { AUDIO_CREATION_INTENTS, AUDIO_INTENT_PACK, buildAudioCreationRequest, isAudioDraftReady, isAudioIntent, type AudioCreationDraft, type AudioCreationIntent } from '@/lib/audio-creation';
 import type { Job } from '@/types/jobs';
 import { getAudioSubmissionId, clearAudioSubmissionId } from './_lib/audio-submission-identity';
 import { audioCreationReusePatch } from './_lib/audio-creation-reuse';
@@ -21,6 +21,8 @@ import { useAudioCreationScope } from './_hooks/useAudioCreationScope';
 import { AudioCreationEditor } from './_components/AudioCreationEditor';
 import { AudioCreationResults } from './_components/AudioCreationResults';
 import styles from './_components/audio-creation.module.css';
+import {GenerationActionHelp} from '@/components/composer/GenerationActionHelp.client';
+import type {PromptAssistanceGenerationState} from '@/components/composer/PromptAssistanceComposer.client';
 import { StarterMediaShelf } from '@/components/starters/StarterMediaShelf.client';
 const ReferenceLibrary = dynamic(() => import('./_components/AudioReferenceLibrary'));
 const VideoSoundtrack = dynamic(() => import('./AudioWorkspace'));
@@ -43,6 +45,10 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
   const { draft, update, saved } = useAudioCreationDraft(userId, intent);
   const body = useMemo(() => buildAudioCreationRequest(intent, draft, locale), [intent, draft, locale]);
   const { quote, loading, error: quoteError, retry, isCurrent: isCurrentQuote } = useAudioCreationQuote(body, userId, isAudioDraftReady(intent, draft) && requestedIntent !== 'video');
+  const [miloGeneration,setMiloGeneration] = useState<PromptAssistanceGenerationState>({blocked:false,hint:null});
+  const miloGenerationCurrent = useRef(true);
+  useLayoutEffect(() => { miloGenerationCurrent.current = !miloGeneration.blocked; }, [miloGeneration.blocked]);
+  useLayoutEffect(() => () => { miloGenerationCurrent.current = false; }, []);
   const submissionIds = useRef(new Map<string, string>());
   const [selection, setSelection] = useState<{ owner: string | null; result: AudioJobDetail | null }>({ owner: null, result: null });
   const result = selection.owner === userId ? selection.result : null;
@@ -52,6 +58,22 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
   const [selectingJobId, setSelectingJobId] = useState<string | null>(null);
   const [pending, setPending] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
+  const referenceScope = useAudioCreationScope(JSON.stringify([userId, requestedIntent]));
+  const referenceVersion = useRef(0);
+  const referenceUpload = useRef<AbortController | null>(null);
+  useLayoutEffect(() => {
+    setUploading(false);
+    return () => { referenceUpload.current?.abort(); referenceUpload.current = null; };
+  }, [referenceScope]);
+  const updateDraft = (patch: Partial<AudioCreationDraft>) => {
+    if ('reference' in patch || 'voiceModel' in patch) {
+      referenceVersion.current += 1;
+      referenceUpload.current?.abort();
+      referenceUpload.current = null;
+      setUploading(false);
+    }
+    update(patch);
+  };
   const [libraryOpen, setLibraryOpen] = useState(false);
   const scope = useAudioCreationScope(userId);
   const restoreSequence = useRef(0);
@@ -120,24 +142,32 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
   };
 
   const generate = async () => {
-    if (!stillOwned() || !isCurrentQuote() || !quote || !userId || quote.expiresAt <= Date.now() || submitting.current.has(quote.inputKey)) return;
+    if (!miloGenerationCurrent.current || !stillOwned() || !isCurrentQuote() || !quote || !userId || quote.expiresAt <= Date.now() || submitting.current.has(quote.inputKey)) return;
+    const canContinue = () => miloGenerationCurrent.current && stillOwned() && isCurrentQuote() && quote.expiresAt > Date.now();
     const submitted = { ...body }; const inputKey = quote.inputKey;
     const sequence = ++restoreSequence.current;
     submitting.current.add(inputKey); setPending(previous => [...previous, inputKey]); setNotice(null);
     try {
-      const response = await runAudioGenerate({ ...submitted, submissionId: getAudioSubmissionId(userId, inputKey, submissionIds.current), expectedQuote: { inputKey, totalCents: quote.pricing.totalCents, currency: quote.pricing.currency, expiresAt: quote.expiresAt } });
+      const response = await runAudioGenerate({ ...submitted, submissionId: getAudioSubmissionId(userId, inputKey, submissionIds.current), expectedQuote: { inputKey, totalCents: quote.pricing.totalCents, currency: quote.pricing.currency, expiresAt: quote.expiresAt } }, { canContinue });
       if (!stillOwned()) return;
       clearAudioSubmissionId(userId, inputKey, submissionIds.current);
       if (sequence === restoreSequence.current) setResult({ ...response, engineLabel: copy.intents[intent][0], settingsSnapshot: { pack: submitted.pack, script: submitted.script, prompt: submitted.prompt, lyrics: submitted.lyrics, providers: response.providers, voiceModel: submitted.voiceModel, elevenVoiceId: submitted.elevenVoiceId, elevenStability: submitted.elevenStability, elevenSimilarityBoost: submitted.elevenSimilarityBoost, minimaxVoiceId: submitted.minimaxVoiceId, seedAudioVoice: submitted.seedAudioVoice, seedAudioOutputFormat: submitted.seedAudioOutputFormat, seedAudioSampleRate: Number(submitted.seedAudioSampleRate) || null, voiceDelivery: submitted.voiceDelivery, voiceProfile: submitted.voiceProfile, voiceGender: submitted.voiceGender, seedAudioSpeed: draft.speed, seedAudioVolume: draft.volume, seedAudioPitch: draft.pitch, language: draft.language, musicModel: submitted.musicModel, musicBpm: draft.bpm, refs: { voiceSampleUrl: draft.reference?.url }, measuredDurationSec: response.durationSec, requestedDurationSec: response.requestedDurationSec } });
       window.dispatchEvent(new CustomEvent('jobs:status', { detail: { ...response, finalPriceCents: response.pricing.totalCents } }));
       void mutate();
-    } catch { if (stillOwned()) { setNotice(copy.error); retry(); } }
+    } catch { if (canContinue()) { setNotice(copy.error); retry(); } }
     finally { if (stillOwned()) { submitting.current.delete(inputKey); setPending(previous => previous.filter(key => key !== inputKey)); } }
   };
   const addReference = async (file: File) => {
     if (!userId) { setNotice(copy.signIn); return; }
     if (!stillOwned()) return;
+    const version = ++referenceVersion.current;
+    referenceUpload.current?.abort();
+    referenceUpload.current = null;
+    setUploading(false);
     if (file.size > 10 * 1024 * 1024 || !/\.(mp3|wav)$/i.test(file.name)) { setNotice(copy.uploadError); return; }
+    const controller = new AbortController();
+    referenceUpload.current = controller;
+    const isCurrent = () => !controller.signal.aborted && referenceUpload.current === controller && stillOwned() && referenceScope.isCurrent() && referenceVersion.current === version;
     setUploading(true);
     try {
       const url = URL.createObjectURL(file);
@@ -149,11 +179,11 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
           audio.onerror = () => finish(false); audio.src = url;
         });
       } finally { URL.revokeObjectURL(url); }
-      if (!stillOwned()) return;
-      const reference = await uploadAsset(file, 'audio');
-      if (stillOwned()) update({ reference });
-    } catch { if (stillOwned()) setNotice(copy.uploadError); }
-    finally { if (stillOwned()) setUploading(false); }
+      if (!isCurrent()) return;
+      const reference = await uploadAsset(file, 'audio', { expectedUserId: userId, signal: controller.signal });
+      if (isCurrent()) update({ reference });
+    } catch { if (isCurrent()) setNotice(copy.uploadError); }
+    finally { if (isCurrent()) { referenceUpload.current = null; setUploading(false); } }
   };
   const reuse = () => {
     const snapshot = result?.settingsSnapshot;
@@ -169,7 +199,7 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
       window.history.pushState(null, '', url);
       return;
     }
-    update(audioCreationReusePatch(snapshot, draft, copy.reference));
+    updateDraft(audioCreationReusePatch(snapshot, draft, copy.reference));
   };
   // Cross-intent reuse waits for navigation and an owned job read, then applies once.
   const reuseRef = useRef('');
@@ -185,10 +215,10 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
     <nav className={styles.intents} aria-label={copy.title}>{AUDIO_CREATION_INTENTS.map((key, index) => <button type="button" className={styles.intent} key={key} aria-pressed={intent === key} onClick={() => chooseIntent(key)}><span className={styles.intentVisual} style={{ backgroundPositionX: `${index * 25}%` }} aria-hidden /><span className={styles.intentNumber} aria-hidden>0{index + 1}</span><span className={styles.intentCheck} aria-hidden>{intent === key ? '✓' : '↗'}</span><strong>{copy.intents[key][0]}</strong></button>)}</nav>
     {notice ? <div className={styles.status} role="alert">{notice}</div> : null}
     <div className={styles.layout}><div>
-      <AudioCreationEditor intent={intent} draft={draft} copy={copy} onChange={update} onFile={file => void addReference(file)} uploading={uploading} onLibrary={() => userId ? setLibraryOpen(true) : setNotice(copy.signIn)} />
+      <AudioCreationEditor locale={locale} onGenerationStateChange={setMiloGeneration} assistanceAccountId={userId} intent={intent} draft={draft} copy={copy} onChange={updateDraft} onFile={file => void addReference(file)} uploading={uploading} onLibrary={() => userId ? setLibraryOpen(true) : setNotice(copy.signIn)} />
       <div className={styles.action}><div className={styles.price} aria-live="polite"><span>{loading ? copy.quoteLoading : quoteError ? quoteError.message : !quote ? copy.quoteIdle : saved ? copy.saved : copy.unsaved}</span>{quoteError ? <small>{quoteError.code}</small> : null}</div>
         {quoteError ? <button type="button" className={styles.retry} onClick={retry}>{copy.retry}</button> : null}
-        {userId ? <button type="button" className={styles.generate} disabled={!quote || pending.includes(quote.inputKey) || uploading} onClick={() => void generate()}>{copy.generate}{price ? ` · ${price}` : ''}<span aria-hidden>↗</span></button> : <a className={styles.generate} href={buildLoginHref({ mode: 'signin', nextPath: buildAuthReturnTarget(pathname, params) })}>{copy.signIn}</a>}
+        {userId ? <GenerationActionHelp hint={miloGeneration.hint}><button type="button" aria-disabled={miloGeneration.blocked || undefined} className={styles.generate} disabled={!quote || pending.includes(quote.inputKey) || uploading} onClick={() => void generate()}>{copy.generate}{price ? <span className="app-generation-price"> · {price}</span> : null}<span aria-hidden>↗</span></button></GenerationActionHelp> : <a className={styles.generate} href={buildLoginHref({ mode: 'signin', nextPath: buildAuthReturnTarget(pathname, params) })}>{copy.signIn}</a>}
       </div>
     </div><AudioCreationResults intent={intent} copy={copy} result={result} pending={pending.length} onReuse={reuse}>
       {!pending.length && !result && (!userId || (!isLoading && !historyError && !jobs.length)) ? <StarterMediaShelf surface="audio" /> : null}
@@ -220,6 +250,6 @@ function OwnedAudioCreationWorkspace({ userId }: { userId: string | null }) {
         }) : null}
       </section>
     </AudioCreationResults></div>
-    {libraryOpen && userId ? <ReferenceLibrary key={userId} copy={copy} onClose={() => setLibraryOpen(false)} onSelect={reference => { update({ reference }); setLibraryOpen(false); }} /> : null}
+    {userId ? <ReferenceLibrary key={userId} open={libraryOpen} intent={JSON.stringify([intent,draft.voiceModel])} locale={locale} userId={userId} copy={copy} onClose={() => setLibraryOpen(false)} onSelect={reference => { updateDraft({ reference }); setLibraryOpen(false); }} /> : null}
   </main>;
 }

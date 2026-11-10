@@ -1,0 +1,23 @@
+import {getFalEngineById} from '@/config/falEngines';
+import {STUDIO_CONVERSATION_MAX_ATTACHMENTS,STUDIO_CONVERSATION_MAX_REFERENCES,studioImageReferenceLimit} from '@/lib/studio/conversation-creation-contract';
+
+/** Transport capacity follows authored media fields; canonical role/combined validation still applies. */
+export function studioGenerationReferenceLimit(modelId:string,surface:string,mode:string):number {
+  if(surface==='video'&&modelId==='kling-v4-flash')return mode==='ref2v'?15:mode==='i2v'?1:0;
+  if(surface==='image')return studioImageReferenceLimit(modelId);
+  if(surface==='video'&&modelId==='kling-v4')return mode==='ref2v'?43:mode==='v2v'?39:mode==='i2v'?2:0;
+  if(surface==='video' && modelId==='luma-ray-3-2' && mode==='t2v') return 64;
+  if(surface!=='video'||!['ref2v','v2v','extend'].includes(mode))return STUDIO_CONVERSATION_MAX_REFERENCES;
+  // Three four-image subjects, one guidance image and one source; canonical Element validation owns the combined budget.
+  if(mode==='v2v'&&['kling-o3-standard','kling-o3-pro','kling-o3-4k'].includes(modelId))return 14;
+  const engine=getFalEngineById(modelId)?.engine;
+  const fields=[...(engine?.inputSchema?.required??[]),...(engine?.inputSchema?.optional??[])].filter(field=>!field.modes||field.modes.some(value=>value===mode));
+  if (mode === 'v2v' || mode === 'extend') {
+    const media = fields.filter(field => ['image', 'video', 'audio'].includes(field.type));
+    const capacity = media.reduce((total, field) => total + (field.maxCount ?? 1), 0);
+    return Math.min(capacity || STUDIO_CONVERSATION_MAX_ATTACHMENTS, STUDIO_CONVERSATION_MAX_ATTACHMENTS);
+  }
+  if(!fields.some(field=>field.id==='keyframe_indexes'))return STUDIO_CONVERSATION_MAX_REFERENCES;
+  const images=fields.find(field=>field.id==='reference_image_urls'&&field.type==='image');
+  return Math.min(images?.maxCount??STUDIO_CONVERSATION_MAX_REFERENCES,STUDIO_CONVERSATION_MAX_ATTACHMENTS);
+}

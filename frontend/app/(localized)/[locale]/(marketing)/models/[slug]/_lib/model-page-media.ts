@@ -5,6 +5,7 @@ import type { GalleryVideo } from '@/server/videos';
 import type { CurrentExamplePrice } from '@/server/current-example-price';
 import type { AppLocale } from '@/i18n/locales';
 import { formatCurrentExamplePrice } from '@/lib/current-example-price-display';
+import type { Mode } from '@/types/engines';
 
 export type FeaturedMedia = {
   id: string | null;
@@ -13,6 +14,7 @@ export type FeaturedMedia = {
   previewVideoUrl?: string | null;
   posterUrl: string | null;
   durationSec?: number | null;
+  generationMode?: Mode | null;
   hasAudio?: boolean;
   href?: string | null;
   label?: string | null;
@@ -23,8 +25,14 @@ export function isPlayableVideoUrl(src: string | null | undefined): boolean {
   return Boolean(src && /\.(?:mp4|webm|mov)(?:[?#].*)?$/i.test(src));
 }
 
+/** A selected model can loop its short, silent derivative while linking the full film. */
+export function pickHeroAutoplayUrl(media: FeaturedMedia, preferPreview = false): string | null {
+  if (!isPlayableVideoUrl(media.videoUrl)) return null;
+  return preferPreview && isPlayableVideoUrl(media.previewVideoUrl) ? media.previewVideoUrl! : media.videoUrl;
+}
+
 export function getHeroMediaBadges(media: FeaturedMedia, authored: string[], audioBadgeLabel: string): Array<string | null> {
-  if (!isPlayableVideoUrl(media.videoUrl)) return authored;
+  if (!isPlayableVideoUrl(media.videoUrl)) return media.posterUrl ? authored : [];
   return [
     media.hasAudio ? audioBadgeLabel : null,
     typeof media.durationSec === 'number' && media.durationSec > 0 ? `${media.durationSec}s` : null,
@@ -39,6 +47,7 @@ function formatPromptExcerpt(prompt: string, maxWords = 22): string {
 }
 
 function formatFeaturedPrompt(prompt: string, preferFullPrompt = false): string {
+  if (preferFullPrompt) return prompt.trim();
   const condensed = prompt
     .replace(/\*\*/g, '')
     .replace(/\r\n/g, '\n')
@@ -46,12 +55,7 @@ function formatFeaturedPrompt(prompt: string, preferFullPrompt = false): string 
     .replace(/\s{2,}/g, ' ')
     .trim();
   if (!condensed) return '';
-  const hasStructuredSections =
-    /^prompt\b/i.test(condensed) || /\b(brief|subject|camera|style|audio|look|ending):/i.test(condensed);
-  if (preferFullPrompt && !hasStructuredSections) {
-    return condensed;
-  }
-  return formatPromptExcerpt(condensed, preferFullPrompt ? 48 : 22);
+  return formatPromptExcerpt(condensed);
 }
 
 export function normalizeMediaUrl(src?: string | null): string | null {
@@ -96,6 +100,7 @@ export function toGalleryCard(
     promptFull: video.prompt,
     aspectRatio: video.aspectRatio ?? null,
     durationSec: video.durationSec,
+    ...(video.generationMode ? { generationMode: video.generationMode } : {}),
     hasAudio: video.hasAudio,
     optimizedPosterUrl: buildOptimizedPosterUrl(thumbUrl),
     rawPosterUrl: thumbUrl,
@@ -116,6 +121,7 @@ export function toFeaturedMedia(entry?: ExampleGalleryVideo | null, preferFullPr
     previewVideoUrl: resolvePublicMarketingVideoUrl(entry.previewVideoUrl),
     posterUrl: normalizeMediaUrl(entry.optimizedPosterUrl) ?? normalizeMediaUrl(entry.rawPosterUrl),
     durationSec: entry.durationSec,
+    ...(entry.generationMode ? { generationMode: entry.generationMode } : {}),
     hasAudio: entry.hasAudio,
     href: entry.href,
     label: entry.engineLabel,
@@ -166,16 +172,18 @@ export function pickDemoMedia(
   heroId: string | null,
   preferredId: string | null,
   fallback: FeaturedMedia | null,
-  options?: { allowFallbackReuse?: boolean }
+  options?: { allowFallbackReuse?: boolean; requirePreferred?: boolean }
 ): FeaturedMedia | null {
   const preferred =
-    preferredId && preferredId !== heroId
+    preferredId && (options?.requirePreferred || preferredId !== heroId)
       ? cards.find((card) => card.id === preferredId && Boolean(card.videoUrl))
       : null;
   if (preferred) {
     const resolved = toFeaturedMedia(preferred, true);
     if (resolved) return resolved;
   }
+  // A specifically authored recipe must not acquire an unrelated gallery clip.
+  if (options?.requirePreferred) return null;
   const candidate =
     cards.find((card) => card.id !== heroId && Boolean(card.videoUrl) && isLandscape(card.aspectRatio)) ??
     cards.find((card) => card.id !== heroId);

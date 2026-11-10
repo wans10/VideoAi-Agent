@@ -8,18 +8,19 @@ import {editStudioConversationTimeline} from '@/server/studio/conversation-edit-
 import {readStudioConversationTimeline} from '@/server/studio/conversation-timeline';
 import {conversationTimelineCommandSchema} from '@/lib/studio/conversation-timeline-editing';
 import {connectedStudioError} from './studio-connected-route-utils';
-import {studioJson} from './studio-route-utils';
+import {isStudioSameOriginRequest, studioJson} from './studio-route-utils';
+import {finishStudioExtensionAssembly} from '@/server/studio/conversation-extension-assembly';
 
 export function studioConversationEditingEnabled() {
   return process.env.STUDIO_IMAGE_CONVERSATION_ENABLED === 'true' && process.env.STUDIO_CONVERSATION_ACTIONS_ENABLED === 'true' && process.env.STUDIO_CONVERSATION_EDITING_ENABLED === 'true';
 }
-export async function handleStudioConversationEditing(req: NextRequest,operation: 'create'|'read'|'edit'|'rename',projectId?: string,dependencies: {
-  enabled?: boolean;resolveAccess?: typeof resolveStudioApiAccess;create?: typeof createStudioConversationProject;read?: typeof readStudioConversationTimeline;edit?: typeof editStudioConversationTimeline;rename?:typeof renameStudioConversationProject;
+export async function handleStudioConversationEditing(req: NextRequest,operation: 'create'|'read'|'edit'|'rename'|'finish-extension',projectId?: string,dependencies: {
+  enabled?: boolean;resolveAccess?: typeof resolveStudioApiAccess;create?: typeof createStudioConversationProject;read?: typeof readStudioConversationTimeline;edit?: typeof editStudioConversationTimeline;rename?:typeof renameStudioConversationProject;finishExtension?:typeof finishStudioExtensionAssembly;
 } = {}) {
   const access = await (dependencies.resolveAccess ?? resolveStudioApiAccess)(req);
   if (!access.ok) return studioJson({ok: false,error: access.error},{status: access.status});
   if (!(dependencies.enabled ?? studioConversationEditingEnabled())) return studioJson({ok: false,error: 'STUDIO_CONVERSATION_EDITING_DISABLED'},{status: 404});
-  if (operation !== 'read' && (req.headers.get('origin') !== req.nextUrl.origin || req.headers.get('sec-fetch-site') === 'cross-site')) return studioJson({ok: false,error: 'SAME_ORIGIN_REQUIRED'},{status: 403});
+  if (operation !== 'read' && !isStudioSameOriginRequest(req)) return studioJson({ok: false,error: 'SAME_ORIGIN_REQUIRED'},{status: 403});
   try {
     if (operation === 'read') return studioJson({ok: true,result: await (dependencies.read ?? readStudioConversationTimeline)({userId: access.userId,projectId: projectId!},req.nextUrl.searchParams.get('preview') === '1')});
     const reader = req.body?.getReader();
@@ -29,6 +30,11 @@ export async function handleStudioConversationEditing(req: NextRequest,operation
     try {while (true) {const next = await reader.read(); if (next.done) break; size += next.value.byteLength; if (size > 12000) {await reader.cancel(); return studioJson({ok: false,error: 'BODY_TOO_LARGE'},{status: 413});} chunks.push(next.value);}}
     finally {reader.releaseLock();}
     const raw = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+    if(operation==='finish-extension'){
+      const input=z.object({requestId:z.string().uuid()}).strict().safeParse(raw);
+      if(!input.success)return studioJson({ok:false,error:'INVALID_REQUEST'},{status:400});
+      return studioJson({ok:true,result:await(dependencies.finishExtension??finishStudioExtensionAssembly)({userId:access.userId,projectId:projectId!},input.data.requestId)});
+    }
     if(operation==='rename'){
       const input=z.object({projectId:z.string().min(1).max(256),name:studioProjectNameSchema,idempotencyKey:z.string().min(1).max(128)}).strict().safeParse(raw);
       if(!input.success)return studioJson({ok:false,error:'INVALID_REQUEST'},{status:400});
@@ -43,6 +49,6 @@ export async function handleStudioConversationEditing(req: NextRequest,operation
     const failure = connectedStudioError(error,'STUDIO_TIMELINE_UNAVAILABLE');
     const message = error instanceof Error ? error.message : failure.error;
     const invalid = /^(Invalid Studio|MEDIA_METADATA_REQUIRED|Timeline track|Edit would|Clip duration|This clip|Timeline clip)/.test(message);
-    return studioJson({ok: false,error: invalid ? message : failure.error},{status: invalid ? 400 : failure.status});
+    return studioJson({ok: false,error: invalid ? message : failure.error,...(operation==='finish-extension'&&failure.error==='EXTENSION_NOT_READY'?{retryable:true}:{})},{status: invalid ? 400 : failure.status});
   }
 }

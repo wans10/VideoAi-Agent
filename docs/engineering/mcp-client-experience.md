@@ -1,9 +1,185 @@
+## 2026-10-22 — Kling V4 canonical owned subjects (offline candidate)
+
+`prepare_generation` now accepts optional ordered `subjects`, scoped by canonical validation to Kling V4 reference/edit modes. Each image/video subject points to existing zero-based `role=reference` slots; every subject reference must be an owned asset. The complete ordered request participates in the existing quote hash and stored confirmation snapshot. The seven-subject, three-video-subject envelope rejects overflow, unsupported modes and unknown fields. No arbitrary element URL or provider voice ID is accepted. Voice binding remains unavailable until a server-owned fal issuance/provenance registry can bind owner, provider account, source and returned voice ID.
+
+The additive input-schema change was reviewed using `collectPolicyFingerprintInput` and `computePolicyFingerprintSha256`. Fingerprint changed from `07f2512e47a74c41c9e8b5d2d83495182f47374164e4d884a7ff3bdd49060cbe` to `ef5422bc43eb668d6075a4f9692eabe2714e6affa6244a588e868d974247a364`; the 70 curated decisions, 39 policy checks and fixture fingerprint remain unchanged. Collector measurements: global instructions 1,551 UTF-8 bytes; `prepare_generation` description 1,639 bytes and serialized input schema 10,331 bytes; 18 model-visible tool descriptors, maximum 1,927 bytes. This collector invokes no generation service.
+
+Studio `video.prepare` has a separate explicit `shotPlan` field, translated to the same canonical `multiPrompt`. Shot text/durations appear in the quote; editing stages a new conversational request and disables confirmation of the old quote. It never spends or substitutes a new quote without approval. A bounded structured `shotPlanRevision` carries up to 30 full 512-character shot prompts through saved turns/retry/director context without increasing the 4,000-character chat text limit. Exact ordered revisions are enforced before preparing a replacement quote. Studio’s chat attachment pool remains 10; V4 can select additional owned ready project outputs (up to 50 action references, with mode-specific provider validation). Both MCP and Studio verify owned original video cadence before pricing, and freeze the resulting exact media facts in the pricing snapshot. V4 executable discovery, publication and certification remain closed. These deterministic contracts establish neither real-host selection nor provider qualification.
+
 # MaxVideoAI : découverte, fluidité et continuité MCP
 
+## Character Studio and Recast — 6 November 2026 isolated preview candidate
+
+`MCP_CHARACTER_STUDIO_ENABLED=1` adds authenticated Character Studio tools.
+`list_saved_characters` returns the Character Builder workspace link and an
+optional exact-name search. `get_saved_character` resolves look names to exact
+IDs and returns a separate look cursor. `select_saved_character` returns the
+owned original asset ID when reference access is enabled. `save_character`
+accepts the exact completed Builder original and uses its stored recipe to
+distinguish a base identity from a look. Author new recipes in Character Builder.
+
+The dedicated Recast preparation and confirmation tools require both the
+reference and paid-generation gates. Preparation preserves the selected
+character or original, product reference and independent fractional video and
+audio passages in the Recast quote. Supply direction, dialogue or at least one
+selected passage. Confirmation carries its exact USD amount
+and requires explicit approval for one attempt. `get_recast_quote` and
+`get_recast_status` keep the original quote and any accepted job recoverable
+under the same account and OAuth client when either execution gate is closed.
+Polling follows the returned quote-scoped retry, and completed media links are
+available in structured output and the compact JSON text fallback.
+
+The isolated preview accepts its exact HTTPS account origin for Builder,
+reference, spending approvals and recovery destinations. The existing OAuth host and grant
+requirements apply. The published production catalog excludes these eight
+descriptors, so the curated production policy and fixture fingerprints stay
+the same. With all capabilities enabled, instructions measure 1,998 UTF-8 bytes
+and the longest added descriptor measures 766 bytes. In-memory SDK checks
+exercise discovery, schema rejection, exact consent and recovery. Host
+selection and provider execution require separate evidence.
+
+## Kling V4 bounded preparation — 22 October 2026 source candidate
+
+The outer `prepare_generation.settings.multiPrompt` schema can now represent up
+to thirty scenes with integer scene durations from one through thirty seconds.
+Per-model canonical validation retains the existing V3 six-scene/fifteen-second
+limits; V4 requires a total of three through thirty seconds equal to the requested
+duration. Thirty scenes follows from that duration budget, not a separate provider
+scene-count claim. V4 publication, pricing and execution remain gated. App and
+Studio editors, canonical element grouping and cross-provider voice identity are
+not certified by this bounded transport change.
+
+The reviewed metadata change consists of exactly two numeric schema bounds.
+Using `collectPolicyFingerprintInput` and `computePolicyFingerprintSha256`,
+reverting just those bounds reproduces the prior fingerprint
+`85856e4ca6626277e799d69532eb3175a9d613df13ede09ae147b1b3f8fb97a3`.
+The refreshed fingerprint is
+`07f2512e47a74c41c9e8b5d2d83495182f47374164e4d884a7ff3bdd49060cbe`.
+Only `policyFingerprintSha256` changed in the curated artifact: all 70 decisions,
+the fixture fingerprint and 39 policy checks are preserved.
+
+The collector measures 1,551 UTF-8 bytes of global instructions and 18 model-visible
+tools, with a maximum descriptor size of 1,927 bytes. `prepare_generation` has
+1,639 description bytes and 9,422 serialized input-schema bytes. The deterministic
+`mcp:client:check` passes 173 tests with one skip, followed by all 70 curated scenarios.
+The metadata collector invokes no tool service; subsequent checks use local
+fixtures, without a provider call, account access or real host. This is local
+evidence, not deployment, plugin publication, host refresh or generation access.
+The exact measurements and preserved coverage are recorded in
+[`mcp-offline-evidence.json`](../launch/kling-v4/mcp-offline-evidence.json).
+## Optional output controls retired — 24 October 2026 source candidate
+
+The shared authored schemas no longer expose optional AI watermark or Seedance
+return-last-frame controls to the site, MCP or Studio. `prepare_generation` no
+longer advertises `watermark`. Saved settings and reused Drafts cannot re-enable
+these controls: canonical preparation drops them, BytePlus video/image payloads
+force optional watermark off, and Seedance requests omit last-frame extraction.
+MOV/MP4, native Draft/final and existing last-frame artifact recovery remain
+unchanged. Provider-required provenance markers are unaffected.
+
+The reviewed schema-only policy change yields fingerprint
+`f8aa47c705f0f8adeccd2490e6cbe4c2ab340cafbee5818bd43ff9c39c5eae29`.
+All 70 curated decisions and the fixture-contract fingerprint are preserved.
+Measured metadata: global instructions 1,551 UTF-8 bytes, preparation description
+1,639 bytes, serialized preparation input schema 12,686 bytes, maximum tool
+description 1,927 bytes. These local checks do not imply deployment, plugin
+release or refreshed metadata in an existing host session.
+
+
+## Luma source timing — 22 October 2026 source candidate
+
+Ray 3.2 Modify requires a verified owned 5s/10s source matching the selected
+class before estimates and transactional repricing. Reframe accepts sources up
+to 10s and publishes a requested 5s/10s output duration. Discovery distinguishes
+these timing policies and keeps the official Agents generation/edit/reframe
+sources separate from legacy Ray 2 guidance. Guide images retain their existing
+reference behavior. Global instructions and tool descriptor schemas are unchanged.
+No production activation, plugin release or real-host qualification is inferred.
+
+
+## Keyframe project budgets — 21 October 2026 source candidate
+
+`calculate_project_budget.settings.keyframeIndexes` now carries the optional
+canonical keyframe control already exposed by model details and preparation.
+It accepts a comma-separated string of at most 128 characters; null and omission
+retain the existing optional-field normalization. For FLUX 3 Max reference mode,
+each declared image requires one unique position from 0 through duration × 24
+inclusive. Input order stays paired with reference order, without automatic
+sorting or invented positions. Missing or invalid positions return the public
+`keyframeIndexes` field in the existing line-edit action before pricing.
+
+Canonical mode validation and pricing are unchanged. Local regressions cover
+the four Max modes, 720p/1080p at 5/10 seconds, exact position preservation,
+invalid positions and unsupported model/mode combinations. In-memory MCP tests
+cover nullable compatibility and explicit transport. These are nonspending
+checks; a budget still requires a fresh exact quote and explicit approval before
+generation.
+
+Measured metadata: the budget descriptor remains 1,046 UTF-8 bytes, its serialized
+input schema is 4,100 bytes, and the collector's global instruction string remains
+1,551 bytes. The additive schema changes the reviewed policy fingerprint to
+`85856e4ca6626277e799d69532eb3175a9d613df13ede09ae147b1b3f8fb97a3`;
+the 70 curated decisions and fixture fingerprint are unchanged. Delivery and
+host-catalog refresh remain separate; no installed-plugin or real-host
+qualification is inferred from these local checks.
+
+Validation: the four added budget regressions failed before the correction;
+the focused budget/Max suites then passed 39/39. `mcp:client:check` passed
+173 tests with one skip and all 70 curated scenarios. TypeScript, exposure lint
+and diff checks passed; frontend lint reported zero errors and six existing
+warnings. An independent read-only review reran the budget/SDK subset (23/23)
+without a blocking finding. No provider submission or database write occurred.
+
+## FLUX 3 Max keyframe continuity — 20 October 2026 source candidate
+
+Live model-setting results now retain authored public field descriptions, so
+Studio and MCP discovery can explain the required keyframe index format,
+reference order and inclusive duration × 24 bound. The shared generation handler
+preserves repeated images at distinct Max keyframe positions without counting
+the mirrored direct-URL/attachment projection twice. Other reference modes keep
+their existing deduplication. Studio distinguishes positions inside the generated
+clip from project-timeline edits; no exact-cut guarantee is introduced.
+
+Local verification includes the repeated-reference handler regression and 4,096
+nonspending control combinations through canonical validation and Fal payload
+construction. `mcp:client:check` passes (173 tests, one skip, zero failures) with
+the deterministic selection evaluation. Existing global-instruction and tool-
+description byte-budget tests pass; no MCP descriptor wording or global
+instruction changed in this correction. These checks do not establish a live
+host qualification, plugin release, deployment or media publication.
+
+## Generation recovery correction — 19 October 2026
+
+Preparation and confirmation now apply the submission asset-host allowlist to
+HTTPS references before quoting or reserving credits. Confirmation rechecks old
+prepared quotes; it never imports media or starts another generation implicitly.
+Unsupported links return a fixed public REFERENCE_INVALID explanation and an
+import_reference_files next action, without echoing the URL. Owned asset
+references retain their existing exact-owner verification.
+
+Direct-only Luma Modify/Reframe modes become unavailable when direct routing is
+disabled or inaccessible; they cannot use the Fal fallback. Public model
+readiness and the Web/trusted paid route context consume the same routing result.
+
+Tool-call audit events retain only allowlisted public error codes, registered
+model IDs and the video/image surface. Schema/unknown tool failures use a coarse
+MCP_TOOL_ERROR fallback. Prompts, references, error messages, tokens and provider
+bodies remain excluded. A successful status-tool call is still a technical
+success even when the existing generation has failed; generation outcomes keep
+their separate owner.
+
+Agent status confirms wallet recredit for every persisted refunded_wallet
+failure, and retains the fresh-quote/explicit-approval boundary. Known historical
+submission failures, Web messages and receipt reasons share fixed EN/FR/ES copy.
+Receipt projections do not rewrite ledger entries. Tool descriptors, schemas and
+global instructions are unchanged, so this correction does not change their
+byte budgets or establish a new installed-plugin or real-host qualification.
+
 Créé le **21 septembre 2026**, revu le **22 septembre 2026**. Responsable : ingénierie MaxVideoAI.
-Statut de distribution au **5 octobre 2026** : plugin **0.3.7 publié**, registre
-officiel actif et installation locale Codex mise à jour, selon le
-[point de contrôle de publication](../operations/mcp-distribution-publication-2026-10-05.md).
+Statut de distribution au **18 octobre 2026 UTC** : plugin **0.3.8 publié** et
+registre officiel actif/latest, selon le
+[point de contrôle de publication](../operations/mcp-distribution-publication-2026-10-18.md).
+Cette livraison ne modifie aucune installation existante ni qualification d’hôte.
 Les deux essais réels Codex du paquet 0.3.6 et leurs limites restent consignés au
 [point de contrôle du 22 septembre](../operations/mcp-main-repository-release-v0.3.6.md). La validation de
 chaque hôte reste distincte ; consulter le [parcours de mise à jour](../operations/mcp-client-updates.md).
@@ -453,3 +629,246 @@ bytes, `prepare_generation` 1,639, `get_generation_status` 1,098 and
 2,000 bytes. The policy fingerprint was refreshed through the documented
 collector to `ace13aa36761736648b4b33f8cb750a22176078abf732e3b6a29bb594a1d725a`;
 the 70 curated decisions and their fixture fingerprint were preserved.
+
+## Creator tools — 19 October 2026 source candidate
+
+Eight additive tools expose the same shared operations as the web workspaces:
+`list_creator_tools`, `prepare_creator_tool`, `confirm_creator_tool`,
+`get_creator_tool_operation`, `get_subtitle_document`, `edit_subtitle_document`,
+`prepare_subtitle_export` and `export_subtitle_text`. The ninth,
+`prepare_studio_subtitles`, additionally requires timeline editing access. It
+quotes the saved sequence's actual audio mix independently of the Studio MP4
+export gate. See [creator tools](creator-tools.md) for ownership and release gates.
+
+Paid preparation and confirmation require paid generation, owned reference
+access, `CREATOR_TOOLS_ENABLED=1` and `MCP_CREATOR_TOOLS_ENABLED=1`. Five
+non-spending discovery/recovery/document tools remain registered whenever the
+service exists, including after these execution gates close. An OAuth attempt
+cannot be recovered through a different browser-session scope. Specialist video lip
+sync and Kling Motion Control have separate execution gates. Discovery returns
+current profile constraints and effective availability; a profile's presence is
+not evidence of activation or measured quality. Marketing publication remains a
+separate, closed projection until real qualification is recorded.
+
+Each attempt requires its exact quote and explicit approval. Preparation pins
+source fingerprints, selected segments, profile, audio policy and price. Status
+is scoped to the account and OAuth client; documents belong to the account.
+Interrupted or ambiguous requests must recover the existing operation before
+another attempt is considered. Text/style edits and sidecar exports do not
+retranscribe. Fresh signed presentation links do not replace stored originals.
+A removed output or temporary signing failure keeps the operation's financial
+completion state and reports unavailable artifact delivery.
+
+The general instructions add only the discovery pointer and retain the shared
+approval rule. All **256** instruction gate combinations stay within the
+2,000-byte host budget (maximum **1,998 UTF-8 bytes**); each added descriptor is
+also bounded at 2,000 bytes. In-memory SDK tests verify gated discovery, strict
+confirmation, principal scope, complete compact JSON fallback, explicit segment
+transport and independent Studio mix/export gates. They join `mcp:client:check`.
+
+No paid provider canary or real-host compatibility is claimed by these local
+checks. After authorized release, verify discovery and one quoted attempt in
+each named host/version, including denied/expired quotes, disconnect recovery,
+subtitle editing, and result presentation. Reconnect through the host's supported
+flow when its catalog is stale; preserve operation/document IDs and recover them
+first. Plugin publication and host refresh remain distinct from server delivery.
+
+### 2026-10-19 — Creator Lip Sync settings and included subtitle exports
+
+The existing creator settings schema accepts optional Lip Sync resolution, shared
+with the web workspace: 480p by default, 720p or 1080p on selection. Wan 3 photo
+and video profiles publish measured audio limits and their explicit output timing
+policy through discovery. The separate LatentSync gate remains unchanged.
+Creator quotes apply provider cost × 2.20; subtitle MP4 exports and sequence mix
+preparation are included. Zero-price exports still require exact revision-bound
+preparation and confirmation, but do not charge the wallet. These changes reuse
+existing tools and approval instructions; no plugin release, production gate
+activation or host compatibility is inferred from local validation.
+
+### 2026-10-22 — Whole-source timeline assembly candidate
+
+The existing timeline edit tool accepts omitted or null `startFrame` and
+`durationFrames` for `assemble` clips. The canonical server appends visuals in
+supplied order using measured whole source frames; audio begins at zero. Explicit
+excerpt frames and single-clip insert requirements retain their existing meaning.
+The strict Studio director schema requires both nullable properties; HTTP/MCP
+may omit them. Schema parity and the client-experience gate cover both forms.
+No tool/descriptor or permanent MCP instruction is added. This local candidate
+does not establish deployment, plugin publication or refreshed host discovery.
+The local client gate passes 173 tests (one real-host case skipped) and 70
+curated selection fixtures; all 256 instruction combinations retain their
+1,998-byte maximum. Real-host discovery measurements remain unrecorded.
+
+
+## Modify / Extend alignment — 23 October 2026 candidate
+
+Preparation and price comparison accept the shared 66-reference transport ceiling
+and explicit ordered slots, with canonical per-model limits still enforced. The
+settings schema carries model-declared audio, compression, person-generation and
+Omni direction controls. Source-timed Modify requests may omit `durationSec`;
+owned measured media resolves it before pricing, preserving fractional source facts.
+Seedance person-reference notices and the scoped owner Modify preference are facts
+returned by live details, not additions to the global instruction text.
+
+The metadata collector computes policy fingerprint
+`c7acf97f9f249c3a725d16300f7c2767cb2165ffcac59c8007cef8375fc62fd8`.
+Only that fingerprint changed in the curated fixture; its 70 decisions remain
+unchanged. The local client gate passed 173 tests with one skip and all 70 curated
+scenarios. This is source/SDK evidence, not a production deployment, plugin package
+release or installed-host verification. Existing host connections need a catalog
+refresh after server delivery to receive the additive preparation schema.
+
+
+### Kling operation schema review (2026-10-24)
+
+The optional preparation `operation` enum adds Kling Reference/Edit selection;
+engine/mode compatibility remains validated by canonical normalization. The
+reviewed policy change is limited to that input-schema field. Instructions and
+prepare description remain unchanged at 1,551 and 1,639 UTF-8 bytes respectively;
+the SDK preparation input schema is 10,541 bytes. The read-only in-memory metadata
+collector reports fingerprint
+`6c216c9f26886ab04073d83b080b197b447065e050e4a21c29b6710be3ea5016`.
+Only the fingerprint changed in the curated policy fixture, preserving its 70
+decisions and fixture contract hash. The local client gate passes 173 tests with
+one skip and all 70 curated scenarios. This is offline source/SDK evidence, not
+installed-host or deployment evidence. Existing hosts need a catalog refresh
+following delivery to discover the additive operation schema.
+
+
+The subsequent owned-Elements addition uses strict image/video compositions of
+existing ordered owned reference slots; no URL or provider-ID input was added.
+MCP uses its Zod 4 schema while Studio/canonical validation use Zod 3, with parity
+covered by the Element contract tests. The preparation SDK input schema is now
+11,351 bytes; global instructions and tool description remain unchanged. The
+reviewed fingerprint is
+`18b78f9a22a4a9d892d5daf84fd54d7ba958620b9947882e606e962c3e70dfa8`.
+Curated policy decisions and the fixture contract hash remain unchanged.
+
+## Luma controls and owned Extend — 24 October 2026 source candidate
+
+The additive preparation schema carries explicit Modify strategy/signal modes,
+application source-job/output IDs and forward/backward Extend direction. Creation
+keyframe index text now accommodates 64 indexed references; model validation
+retains each model's actual bounds. No provider generation ID becomes a public
+input. See [Luma generation continuity](luma-generation-continuity.md) for shared
+Site/MCP/Studio lineage, recovery and fixed-block pricing ownership.
+
+The reviewed runtime metadata collector fingerprint is
+`dd0aa60c98fc3026d3466cb055b7cab148b3fde93a4a105c8a9b6898e6b800c7`.
+Only that value changed in the curated policy artifact; all 70 decisions and its
+fixture-contract hash remain intact. `pnpm mcp:client:check` passes (175 tests,
+one intentional skip, then the curated evaluator). The instruction matrix reports
+1,998 bytes maximum across 256 gate combinations; each tool description remains
+within the 2,000-byte budget. This records deterministic source validation, not
+plugin publication, deployment, paid render or real-host qualification.
+
+## Operation integration wording — 24 October 2026 source candidate
+
+The `prepare_generation` Elements field now says “no URLs or external subject
+IDs” instead of “no URLs/provider IDs”. This preserves the owned-reference-slot
+constraint while keeping the thin-adapter architecture guard distinct from
+provider implementation dependencies. No tool permissions, schema fields,
+validation rules, curated decisions or global instructions changed in this pass.
+
+The reviewed policy fingerprint is
+`fc54c23abe474ed87f05a127f8eb7f77103fb189f3a581d31751bf3e724818a5`.
+The fixture-contract hash and all 70 curated decisions are unchanged.
+`pnpm mcp:client:check` passes 175 tests with one intentional skip, followed by
+the deterministic selection evaluator. The instruction-budget check measures a
+maximum of 1,998 bytes across 256 gate combinations; descriptor budget checks
+also pass. These offline checks do not establish deployment, host refresh or
+real-host qualification.
+
+## H3 Max source and reference controls — 24 October 2026 candidate
+
+Model details project explicit Recast/Relight operation schemas and optional/no-prompt
+semantics; only Kling operations expose Kling elements. Preparation adds
+`enhanceRealism`, `middleFrameTime`, `referenceOrder` and the capability-gated
+`middle_frame` role. The scalar order names existing owned modality slots; it
+cannot introduce arbitrary URLs. Global instructions are unchanged. Source-byte
+inspection is required before quotes and confirmation; missing operation tariffs
+fail closed. See `h3-source-operations.md` for frame admission and Task6 copy/routing
+integration. No plugin publication or real-host qualification is inferred.
+
+Reviewed additive H3 preparation schema changes against the existing curated
+decisions without changing any decision. New offline policy fingerprint:
+`0c7a391564438cde26daa38dd997c67e73762dd37358960a7d93c622a3ea869e`.
+The instructions and tool descriptions remain unchanged; the existing byte-budget
+tests remain the size authority.
+
+
+## Explicit source preparation — 24 October 2026 follow-up
+
+The canonical evaluator now includes the reviewed explicit owned Draft preparation
+schema and source-operation controls. Recovery remains an explicit preparation
+step; read-only discovery/status never submits generation or writes cache authority.
+The collector (`collectPolicyFingerprintInput` then `computePolicyFingerprintSha256`)
+reports `35c0f9e9b5d2e1e8ea75c36c8d65d907e54ba7294e14355625c1ca33ca2a24d9`.
+Only the policy fingerprint changed in the curated fixture; all 70 decisions and
+fixture-contract hash `05f0fd68e1f8b0a403760bd68368a1cfeb73d85308750ffbc6808dc7e08cdb04`
+remain unchanged. Offline gates do not establish hosted preparation or deployment.
+
+## Fal delivery recovery — 30 October 2026
+
+MCP quote IDs are UUIDs. Preserve explicit `job_id`/`jobId`/`app_job_id` UUIDs
+through both the authenticated Fal route and its payload mapper; a provider's
+generic `id` or `request_id` UUID is not an application job ID. The callback must
+persist the canonical `fal` provider with its request ID so recovery polling can
+find a job even when its initial model-brand provider was never replaced.
+`tests/mcp-fal-correlation-postgres.test.ts` crosses MCP preparation/confirmation,
+the real submission tracker, authenticated callback and lifecycle persistence,
+including a lost association and repeated confirmations/callbacks. Provider and
+media operations are offline doubles; this is not a paid or real-host canary.
+
+MCP library previews sign owned objects through the configured S3 bucket even
+when stored public URLs use a CDN. Only the private-preview output validator admits
+that exact signing endpoint after source-object ownership checks. Do not broaden
+the shared input-host policy: other consumers may recognize only the configured
+CDN as owned storage. The disposable database preview-ownership test covers this
+configuration, rejects foreign objects and preserves the input-host boundary.
+
+### 2026-11-05 — Closed Flash and GPT Image 2.6 candidate
+
+Preparation adds the nullable `complexity` enum (`low`, `medium`, `high`).
+Canonical normalization keeps this control in immutable requests and quotes.
+OpenAI 2.6 uses its own provider, credential/storage readiness and publication gate.
+Flash shares V4 queue recovery while exposing only its three creation modes.
+Subjects use owned ordered slots; Flash verifies 3–8-second video subjects and
+20-second aggregate references. The raster first lot excludes masks, GIF, SVG
+and annotations. Public discovery remains closed for the three new IDs.
+
+The reviewed additive schema produces policy fingerprint
+`03346ded564cbd256ead13e997912fc8cfd3c6ee242068b47cdb202faf5a196b`.
+The 70 curated decisions and fixture-contract fingerprint are unchanged.
+`pnpm mcp:client:check` passes 194 tests with one intentional host skip, plus
+the curated evaluator. This is offline evidence; existing hosts require a
+catalog refresh after delivery. No paid qualification or publication is inferred.
+
+### 2026-11-07 — Optional GPT Image 2.6 raster compression
+
+Canonical image settings now accept `outputCompression`, an optional integer from
+0 to 100 for JPEG/WebP only. The shared preparation/comparison input schema uses
+the existing nullable default convention; normalization omits null and rejects
+explicit PNG compression. The setting is retained in immutable requests, hashes
+and saved settings, then sent as OpenAI `output_compression`. It changes encoding,
+not the generation tariff or price comparison inputs.
+
+The reviewed additive field is the only runtime metadata delta: removing it from
+the collected schemas reproduces prior policy fingerprint
+`03346ded564cbd256ead13e997912fc8cfd3c6ee242068b47cdb202faf5a196b`.
+The refreshed fingerprint is
+`5d5ad3dc054ef9ccb38003575a17ad0b2861db26eb31150e57368c79ec79701c`;
+all 70 curated decisions, 39 policy checks and the fixture-contract fingerprint
+remain unchanged. Global instructions remain 1,551 UTF-8 bytes, with 18 visible
+tool descriptors and a maximum description of 1,927 bytes. Preparation remains
+1,639 description bytes, with a 14,222-byte input schema (previously 13,989).
+Comparison remains 1,082 description bytes, with a 20,057-byte input schema
+(previously 19,591 because the shared settings schema occurs twice).
+
+The actual registered preparation handler and mocked provider transport preserve
+compression values including zero; App tests cover draft restoration, PNG clearing,
+and localized conservative Auto quote hints. `pnpm mcp:client:check` passes 194
+tests with one intentional host skip and all 70 curated scenarios; 86 focused
+compression, capability, normalization and App tests pass. Metadata collection and
+regression checks are offline. Delivery, catalog refresh and real-host behavior
+require their own evidence.

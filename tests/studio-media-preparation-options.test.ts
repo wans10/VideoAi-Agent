@@ -76,6 +76,30 @@ test('explicit Wan duration, resolution, audio and ratio override the legacy def
   assert.deepEqual(legacy.settings, {aspectRatio: '16:9', audio: false, durationSec: 5, enablePromptExpansion: true, resolution: '480p'});
 });
 
+test('Wan auto framing advertised by model details survives Studio preparation and canonical validation', async () => {
+  for (const modelId of ['wan-3','wan-3-prime']) {
+    const candidate=videoCapability(modelId);
+    assert.ok(projectAgentModelModeDetails(candidate,'i2v').aspectRatios.includes('auto'));
+    const {dependencies}=mediaDependencies();
+    const request=await studioMediaRequest(actor,{...video,modelId,mode:'i2v',aspectRatio:'auto',source:image,
+      settings:[{name:'durationSec',value:10},{name:'resolution',value:'720p'}]} as never,input,factories([candidate]),true,dependencies) as CanonicalGenerationRequest;
+    assert.equal(request.settings.aspectRatio,'auto');
+    validateCanonicalGenerationCapabilities(request,candidate);
+  }
+});
+
+test('Studio positional reference labels do not create unsupported Wan canonical slots or mutate the saved intent',async()=>{
+  const refs=['3','1','2'].map(char=>({...image,assetId:'ma_'+char.repeat(32)}));
+  const action={...video,modelId:'wan-3',mode:'ref2v',references:refs.map((ref,slot)=>({ref,role:'reference',slot})),
+    settings:[{name:'durationSec',value:10},{name:'resolution',value:'720p'}]};
+  const before=structuredClone(action);
+  const {dependencies}=mediaDependencies();
+  const request=await studioMediaRequest(actor,action as never,{...input,references:refs.map(ref=>ref.assetId)},factories(),true,dependencies) as CanonicalGenerationRequest;
+  assert.deepEqual(request.references,['1','2','3'].map(char=>({kind:'asset',assetId:'ma_'+char.repeat(32),role:'reference'})));
+  assert.deepEqual(action,before);
+  validateCanonicalGenerationCapabilities(request,videoCapability('wan-3'));
+});
+
 test('a saved eight-second Seedance Mini intent keeps its duration alias through canonical preparation', async () => {
   const {dependencies} = mediaDependencies();
   const action = {...video, modelId: 'seedance-2-0-mini', mode: 'i2v', aspectRatio: '9:16',
@@ -83,7 +107,7 @@ test('a saved eight-second Seedance Mini intent keeps its duration alias through
     references: [{ref: output, role: 'first_frame', slot: null}]};
   const saved = structuredClone(action);
   const request = await studioMediaRequest(actor, action as never, input, factories(), true, dependencies) as CanonicalGenerationRequest;
-  assert.deepEqual(request.settings, {aspectRatio: '9:16', audio: true, durationSec: 8, resolution: '720p', returnLastFrame: false, watermark: false});
+  assert.deepEqual(request.settings, {aspectRatio: '9:16', audio: true, durationSec: 8, resolution: '720p'});
   assert.deepEqual(request.references, [{kind: 'asset', assetId: image.assetId, role: 'first_frame'}]);
   assert.deepEqual(action, saved, 'Preparation must not rewrite an immutable saved intent.');
   validateCanonicalGenerationCapabilities(request, videoCapability('seedance-2-0-mini'));
@@ -298,4 +322,51 @@ test('Audio inspection exposes canonical settings scoped to each available varia
       await studioMediaRequest(actor,{...action,modelId,settings} as never,input,all,true);
     }
   }
+});
+
+test('saved Kling Element intent uses attached assets and ready project outputs without changing composition', async () => {
+  const engine=getFalEngineById('kling-o3-standard')!.engine;
+  const candidate:AgentPublicGenerationEngine={engine,surface:'video',publicModes:['v2v'],modeCaps:engine.modeCaps!};
+  const clip={type:'asset' as const,kind:'video' as const,assetId:'ma_'+'2'.repeat(32)};
+  const sideId='ma_'+'3'.repeat(32);
+  const action={...video,modelId:engine.id,mode:'v2v',operation:'kling-edit',settings:[{name:'resolution',value:'720p'}],
+    references:[{ref:clip,role:'source',slot:null},{ref:image,role:'reference',slot:0},{ref:output,role:'reference',slot:1}],
+    elements:[{kind:'images',frontalSlot:0,referenceSlots:[1]}]};
+  const saved=JSON.parse(JSON.stringify(action));
+  const media=mediaDependencies();
+  const deps={...media.dependencies,
+    resolveMedia:async(userId:string,ref:ToolAssetRef)=>{
+      const value=await media.dependencies.resolveMedia(userId,ref);
+      return ref.kind==='video'?{...value,mime:'video/mp4',originalName:'clip.mp4',url:'https://cdn.maxvideoai.com/clip.mp4',mediaFacts:{source:'probe' as const,width:1280,height:720,durationSec:5}}:value;
+    },
+    saveOutput:async(identity:{userId:string;jobId:string;outputId:string})=>({...await media.dependencies.saveOutput(identity),publicId:sideId}),
+  };
+  const request=await studioMediaRequest(actor,saved,inputWithClip(),factories([candidate]),true,deps) as CanonicalGenerationRequest;
+  assert.deepEqual(request.elements,action.elements);
+  assert.deepEqual(saved,action,'Persisted intent is immutable across materialization.');
+  assert.deepEqual(request.references.filter(ref=>ref.role==='reference').map(ref=>ref.kind==='asset'&&ref.assetId),[image.assetId,sideId]);
+  const noOutput={...deps,readProjectMedia:async()=>[]};
+  await assert.rejects(studioMediaRequest(actor,saved,inputWithClip(),factories([candidate]),true,noOutput),{code:'REFERENCE_INVALID'});
+  await assert.rejects(studioMediaRequest(actor,saved,{...inputWithClip(),references:[]},factories([candidate]),true,deps),{code:'REFERENCE_INVALID'});
+  function inputWithClip(){return {...input,attachments:[clip]};}
+});
+
+test('Studio explains the Wan image minimum before promoting a project output', async () => {
+  const {dependencies, events} = mediaDependencies();
+  const privateUrl = 'https://private.invalid/SECRET_GUIDE.png';
+  const undersized = { ...dependencies, resolveMedia: async (userId: string, ref: ToolAssetRef) => ({
+    ...await dependencies.resolveMedia(userId, ref), url: privateUrl,
+    mediaFacts: {source: 'probe' as const, width: 363, height: 119},
+  }) };
+  await assert.rejects(studioMediaRequest(actor, {...video, modelId: 'wan-3', mode: 'ref2v',
+    references: [{ref: output, role: 'reference', slot: null}]} as never, input, factories(), true, undersized),
+  (error: unknown) => {
+    assert.ok(error instanceof Error && 'code' in error);
+    assert.equal(error.code, 'REFERENCE_INVALID');
+    assert.match(error.message, /363.*119.*240/);
+    assert.match(error.message, /No credits were charged for video generation/);
+    assert.doesNotMatch(error.message, /https:|SECRET_/);
+    return true;
+  });
+  assert.ok(!events.some(event => event.startsWith('save:')));
 });

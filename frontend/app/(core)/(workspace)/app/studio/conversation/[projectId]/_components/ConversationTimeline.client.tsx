@@ -12,12 +12,13 @@ import {applyConversationTimelineEdit,conversationMonitorTime,conversationLibrar
 import type {ImageLibraryAsset} from '@/lib/studio/image-library';
 import type {WorkspaceTimelineItem} from '../../../_shared/_lib/workspace-types';
 import styles from '../conversation-timeline.module.css';
+import {ConversationSubtitlePicker,ConversationSubtitlePreview,ConversationSequenceSubtitles} from './ConversationSubtitles.client';
 import {ConversationExport} from './ConversationExport.client';
 import {consumeConversationMediaRenewal} from '@/lib/studio/conversation-preview-access';
 import type {StudioProjectTimelineExport} from '@/server/timeline-exports/contracts';
 
 type Drag = {clip: WorkspaceTimelineItem;edge: 'start'|'end'|null;x: number;edit?: ConversationTimelineEdit};
-export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLibrary,insertion,exportAvailable = false,exportPending = false,exportJobs = [],onExportChange}: {projectId: string;projectName: string;refreshKey: unknown;onOpenLibrary: (trigger: HTMLButtonElement) => void;insertion?: {key: string;asset: ImageLibraryAsset} | null;exportAvailable?: boolean;exportPending?: boolean;exportJobs?: StudioProjectTimelineExport[];onExportChange: () => void}) {
+export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLibrary,insertion,exportAvailable = false,exportPending = false,exportJobs = [],onExportChange,visible = true}: {projectId: string;projectName: string;refreshKey: unknown;onOpenLibrary: (trigger: HTMLButtonElement) => void;insertion?: {key: string;asset: ImageLibraryAsset} | null;exportAvailable?: boolean;exportPending?: boolean;exportJobs?: StudioProjectTimelineExport[];onExportChange: () => void;visible?: boolean}) {
   const router = useRouter();
   const {dictionary,locale} = useI18n();
   const t = useCallback((en: string,fr: string) => locale === 'fr' ? fr : en,[locale]);
@@ -68,6 +69,9 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
   function openMonitor() {setExpanded(true);if (!monitor) {renewalAttempts.current.clear();setLocalError(null);}setMonitor(true);}
   function seek(second: number) {playback.stopTimelinePlayback();playback.setPlayheadSec(Math.max(0,Math.min(duration,Math.round(second*fps)/fps)));openMonitor();}
   function closeMonitor() {playback.stopTimelinePlayback();setMonitor(false);renewalAttempts.current.clear();}
+  useEffect(() => {
+    if (!visible) {playback.stopTimelinePlayback();setMonitor(false);renewalAttempts.current.clear();}
+  }, [visible, playback.stopTimelinePlayback]);
   function mediaFailure(item: WorkspaceTimelineItem) {
     playback.stopTimelinePlayback();
     if (consumeConversationMediaRenewal(item,renewalAttempts.current)) {
@@ -104,6 +108,7 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
     {monitor && items.length > 0 && <div className={styles.monitorRow}>
       <div className={styles.monitor} style={{aspectRatio: settings.aspectRatio.replace(':','/')}} aria-label={t('Film monitor','Moniteur du film')}>
         <ProgramPlaybackLayers copy={copy.viewer.monitor} {...layers} mediaReloadKeys={timeline.mediaReloadKeys} onMediaAccessError={mediaFailure} />
+        <ConversationSubtitlePreview document={timeline.view?.sequenceSubtitle?.document} items={items} timeMs={conversationMonitorTime(playback.playheadSec,duration,fps)*1000}/>
       </div>
       <button className={styles.close} aria-label={t('Collapse monitor','Replier le moniteur')} onClick={closeMonitor}><X size={16}/></button>
     </div>}
@@ -114,6 +119,7 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
       <button className={styles.addMedia} disabled={!timeline.view || timeline.busy} aria-label={t('Add library media to film','Ajouter un média de la bibliothèque au film')} title={t('Add media to timeline','Ajouter un média à la timeline')} onClick={event => onOpenLibrary(event.currentTarget)}><Plus size={15}/><span>{t('Add media','Ajouter')}</span></button>
       {!!items.length && <button aria-label={monitor ? t('Collapse monitor','Replier le moniteur') : t('Open monitor','Ouvrir le moniteur')} onClick={() => monitor ? closeMonitor() : openMonitor()}>{monitor ? <ChevronDown size={17}/> : <ChevronUp size={17}/>}</button>}
       {timeline.busy && <small role="status">{t('Saving…','Enregistrement…')}</small>}
+      {!!items.length && timeline.view && <ConversationSequenceSubtitles projectId={projectId} sequenceId={timeline.view.data.sequenceId} revision={timeline.view.data.revision} attached={timeline.view.sequenceSubtitle} busy={timeline.busy} edit={timeline.edit} locale={locale}/>}
       {exportAvailable && timeline.view && <ConversationExport projectId={projectId} projectName={projectName} view={timeline.view} pending={exportPending || timeline.busy} jobs={exportJobs} onChange={onExportChange}/>}
     </div>
     <div className={styles.scroll} id="studio-timeline-tracks" hidden={!timelineExpanded}>
@@ -131,6 +137,7 @@ export function ConversationTimeline({projectId,projectName,refreshKey,onOpenLib
     </div>
     {chosen && inspecting && timelineExpanded && <div className={styles.inspector}>
       <span>{chosen.title}</span>
+      <ConversationSubtitlePicker clip={chosen} busy={timeline.busy} edit={timeline.edit} locale={locale}/>
       <button aria-pressed={trimEdge === 'start'} onClick={() => setTrimEdge('start')}>{t('Start','Début')}</button><button aria-pressed={trimEdge === 'end'} onClick={() => setTrimEdge('end')}>{t('End','Fin')}</button>
       <input key={`${chosen.id}:${chosen.durationSec}`} type="number" min="1" step={1/fps} defaultValue={chosen.durationSec} aria-label={t('Clip duration in seconds','Durée du clip en secondes')} disabled={timeline.busy} onBlur={event => {const seconds = Number(event.target.value);if (Number.isFinite(seconds) && seconds >= 1 && seconds !== chosen.durationSec) void timeline.edit({kind: 'trim',clipId: chosen.id,edge: trimEdge,durationFrames: Math.round(seconds*fps)});}}/>
       <small>s</small>

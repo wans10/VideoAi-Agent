@@ -17,6 +17,7 @@ import { getUpscaleUploadErrorMessage } from '../_lib/upscale-upload-errors';
 
 interface UseUpscaleSourceMediaParams {
   changeMediaType: (next: UpscaleMediaType) => void;
+  onSourceChange: () => void;
   copy: {
     library: string;
   };
@@ -36,6 +37,7 @@ interface UseUpscaleSourceMediaParams {
 
 export function useUpscaleSourceMedia({
   changeMediaType,
+  onSourceChange,
   copy,
   locale,
   mediaType,
@@ -53,7 +55,7 @@ export function useUpscaleSourceMedia({
   useEffect(() => {
     const url = mediaUrl.trim();
     if (mediaType !== 'image' || !url) return undefined;
-    if (source?.url === url && source.width && source.height) return undefined;
+    if (source?.url === url && (source.readAccessRef || source.readAccessOwnerId || (source.width && source.height))) return undefined;
 
     let cancelled = false;
     const image = new window.Image();
@@ -74,13 +76,14 @@ export function useUpscaleSourceMedia({
     return () => {
       cancelled = true;
     };
-  }, [mediaType, mediaUrl, setSource, source?.height, source?.url, source?.width]);
+  }, [mediaType, mediaUrl, setSource, source?.height, source?.url, source?.width, source?.readAccessRef, source?.readAccessOwnerId]);
 
   const handleUpload = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       event.target.value = '';
       if (!file) return;
+      onSourceChange();
       const detectedType = mediaTypeFromMime(file.type);
       const nextMediaType = detectedType ?? mediaType;
       if (nextMediaType !== mediaType) changeMediaType(nextMediaType);
@@ -102,6 +105,7 @@ export function useUpscaleSourceMedia({
     },
     [
       changeMediaType,
+      onSourceChange,
       locale,
       mediaType,
       setError,
@@ -116,11 +120,13 @@ export function useUpscaleSourceMedia({
 
   const selectLibraryAsset = useCallback(
     (asset: AssetBrowserAsset) => {
+      onSourceChange();
       const nextMediaType: UpscaleMediaType = asset.kind === 'video' || asset.mime?.startsWith('video/') ? 'video' : 'image';
       if (nextMediaType !== mediaType) {
         changeMediaType(nextMediaType);
       }
       setSource({
+        ...asset,
         id: asset.savedAssetId ?? (asset.sourceOutputId || asset.source === 'recent' || asset.id.startsWith('job:') ? null : asset.id),
         jobId: asset.jobId ?? (asset.id.startsWith('job:') ? asset.id.slice(4) : null),
         url: asset.url,
@@ -138,6 +144,7 @@ export function useUpscaleSourceMedia({
     },
     [
       changeMediaType,
+      onSourceChange,
       copy.library,
       mediaType,
       setError,

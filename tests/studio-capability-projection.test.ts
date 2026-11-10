@@ -71,7 +71,8 @@ const flareFacts = {
   settings: [
     { key: 'imageWidth', type: 'number', required: false, values: null, min: 16, max: 3840, step: 16, default: 1024 },
     { key: 'imageHeight', type: 'number', required: false, values: null, min: 16, max: 3840, step: 16, default: 768 },
-    { key: 'quality', type: 'enum', required: false, values: ['low', 'medium', 'high', 'xhigh', 'max'], min: null, max: null, default: 'high' },
+    { key: 'quality', type: 'enum', required: false, values: ['low', 'medium', 'high', 'xhigh', 'max'], min: null, max: null, default: 'high', description: 'Choose a deterministic quality tier; higher tiers cost more.' },
+    { key: 'background', type: 'enum', required: false, values: ['auto', 'transparent', 'opaque'], min: null, max: null, default: 'auto' },
     { key: 'outputFormat', type: 'enum', required: false, values: ['png', 'jpeg', 'webp'], min: null, max: null, default: 'png' },
   ],
 } as const;
@@ -87,8 +88,8 @@ const cases: { modelId: 'wan-3' | 'gpt-image-2-5-flare'; expected: AgentModelMod
       ...wanFacts,
       mode: 'i2v',
       references: [
-        { type: 'image', roles: ['first_frame'], assetRequired: false, required: true, min: 1, max: 1 },
-        { type: 'image', roles: ['last_frame'], assetRequired: false, required: false, min: 0, max: 1 },
+        { type: 'image', roles: ['first_frame'], assetRequired: true, minImageSidePx: 240, required: true, min: 1, max: 1 },
+        { type: 'image', roles: ['last_frame'], assetRequired: true, minImageSidePx: 240, required: false, min: 0, max: 1, description: 'Only valid with start_image_url.' },
       ],
     },
   },
@@ -115,11 +116,11 @@ const cases: { modelId: 'wan-3' | 'gpt-image-2-5-flare'; expected: AgentModelMod
         {
           type: 'image', roles: ['reference'], assetRequired: false,
           assetRequiredWhen: { setting: 'resolution', values: ['auto'] },
-          required: true, min: 1, max: 16,
+          required: true, min: 1, max: 16, description: 'Add up to 16 source or reference images for edit mode.',
           maxSizeMB: 25, acceptedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
           acceptedFileExtensions: ['jpg', 'jpeg', 'png', 'webp'],
         },
-        { type: 'image', roles: ['mask'], assetRequired: false, required: false, min: 0, max: 1,
+        { type: 'image', roles: ['mask'], assetRequired: false, required: false, min: 0, max: 1, description: 'Optional public mask image URL for edit requests.',
           maxSizeMB: 25, acceptedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
           acceptedFileExtensions: ['jpg', 'jpeg', 'png', 'webp'] },
       ],

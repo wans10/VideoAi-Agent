@@ -5,6 +5,7 @@ import { recentMediaCopy } from '@/components/library/recent-media-copy';
 import { AppGlyph } from '@/components/app/AppGlyph';
 import type { RecentReferenceDropProps } from './WorkspaceRecentReferences.client';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { focusWorkspaceRecentTarget } from '../_lib/workspace-recent-focus';
 import { WorkspaceCreationHeading } from './WorkspaceCreationHeading';
 import type { GalleryRailProps } from '@/components/GalleryRail';
@@ -15,6 +16,9 @@ import { GalleryRailSkeleton } from './WorkspaceBootSkeletons';
 import { WorkspaceCenterGallery } from './WorkspaceCenterGallery';
 import { WorkspaceChrome } from './WorkspaceChrome';
 import { WorkspacePreviewDock } from './WorkspacePreviewDock';
+import { ComposerWorkspaceControls } from '@/components/composer/ComposerWorkspaceControls.client';
+import { WorkspaceComposerModel } from '@/components/composer/WorkspaceComposerModel.client';
+import { PROMPT_ASSISTANCE_PREVIEW } from '@/lib/prompt-assistance/preview-state';
 
 const GalleryRail = dynamic<GalleryRailProps>(
   () => import('@/components/GalleryRail').then((mod) => mod.GalleryRail),
@@ -57,12 +61,14 @@ type WorkspaceAppShellProps = {
   handleModeChange: (mode: Mode) => void;
   disabledEngineReasons?: Record<string, string>;
   engineScores?: Record<string, number>;
+  engineScoreReviews?: import('@/types/engines').EngineScoreReviews;
   renderGroups: PreviewDockProps['renderGroups'];
   compositeOverrideSummary: PreviewDockProps['compositeOverrideSummary'];
   setViewerTarget: PreviewDockProps['setViewerTarget'];
   composerSurface: ReactNode;
   previewSupplement?: ReactNode;
   modelReviewCommands?: ReactNode;
+  modelPicker?: PreviewDockProps['modelPicker'];
   recentMedia?: ReactNode;
   onOpenRecentMedia?: () => void;
   recentDropProps?: RecentReferenceDropProps;
@@ -98,12 +104,13 @@ export function WorkspaceAppShell({
   handleModeChange,
   disabledEngineReasons,
   engineScores,
+  engineScoreReviews,
   renderGroups,
   compositeOverrideSummary,
   setViewerTarget,
   composerSurface,
   previewSupplement,
-  modelReviewCommands,
+  modelReviewCommands, modelPicker,
   recentMedia,
   onOpenRecentMedia,
   recentDropProps,
@@ -130,14 +137,18 @@ export function WorkspaceAppShell({
     setRailView('recent');
     setMobileRecentOpen(true);
   };
+  const railNavigation = recentMedia ? <div className="app-media-rail-switch" role="group" aria-label={copy.title}>
+    <button type="button" aria-pressed={railView === 'activity'} aria-controls={activityPanelId}
+      onClick={() => { setRailView('activity'); setMobileRecentOpen(false); }}>{copy.activity}</button>
+    <button type="button" aria-pressed={railView === 'recent'} aria-controls={recentPanelId} onClick={openRecentMedia}>{copy.title}</button>
+    {PROMPT_ASSISTANCE_PREVIEW ? <Link href="/app/library" prefetch={false} className="app-media-rail-view-all">{copy.viewAll}</Link> : null}
+  </div> : null;
   return (
     <WorkspaceChrome
+      railNavigation={PROMPT_ASSISTANCE_PREVIEW ? railNavigation : null}
       rail={
         <div className="app-media-rail">
-          {recentMedia ? <div className="app-media-rail-switch" aria-label={copy.title}>
-            <button type="button" aria-pressed={railView === 'activity'} onClick={() => { setRailView('activity'); setMobileRecentOpen(false); }}>{copy.activity}</button>
-            <button type="button" aria-pressed={railView === 'recent'} onClick={openRecentMedia}>{copy.title}</button>
-          </div> : null}
+          {PROMPT_ASSISTANCE_PREVIEW ? null : railNavigation}
           <div id={activityPanelId} ref={activityPanelRef} tabIndex={-1} hidden={railView !== 'activity'}>
         <GalleryRail
           engine={selectedEngine}
@@ -148,6 +159,7 @@ export function WorkspaceAppShell({
           onGroupAction={handleGalleryGroupAction}
           onFeedStateChange={handleGalleryFeedStateChange}
           variant="responsive"
+          hideDesktopHeader={PROMPT_ASSISTANCE_PREVIEW && Boolean(recentMedia)}
         />
           </div>
           {recentMedia ? <div id={recentPanelId} ref={recentPanelRef} tabIndex={-1} hidden={railView !== 'recent'}
@@ -197,15 +209,22 @@ export function WorkspaceAppShell({
           modeLabelLocale={modeLabelLocale}
           onEngineChange={handleEngineChange}
           modelReviewCommands={modelReviewCommands}
+          modelPicker={modelPicker}
+          hideModelStrip={PROMPT_ASSISTANCE_PREVIEW}
           onModeChange={handleModeChange}
           disabledEngineReasons={disabledEngineReasons}
           engineScores={engineScores}
+          engineScoreReviews={engineScoreReviews}
           renderGroups={renderGroups}
           compositeOverrideSummary={compositeOverrideSummary}
           setViewerTarget={setViewerTarget}
         />
         {previewSupplement}
-        <div {...recentDropProps}>{composerSurface}</div>
+        <ComposerWorkspaceControls modelControl={<WorkspaceComposerModel engines={engines} engineId={engineId}
+          onEngineChange={handleEngineChange} mode={activeMode} onModeChange={handleModeChange} modeOptions={engineModeOptions}
+          picker={modelPicker} disabledEngineReasons={disabledEngineReasons} engineScores={engineScores} engineScoreReviews={engineScoreReviews} />}>
+          <div {...recentDropProps}>{composerSurface}</div>
+        </ComposerWorkspaceControls>
       </div>
     </WorkspaceChrome>
   );

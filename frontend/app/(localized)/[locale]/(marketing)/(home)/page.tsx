@@ -4,9 +4,12 @@ import { buildHomeComparisonData, buildHomeComparisonLinks } from './_lib/home-c
 import { HomePricingSection } from '@/components/marketing/home/HomePricingSection';
 import { HomeDeferredPricing } from './_components/HomeDeferredPricing';
 import { HomeCreativeWorlds } from '@/components/marketing/home/HomeCreativeWorlds';
+import { HomeConversationSection } from '@/components/marketing/home/HomeConversationSection';
 import { HomeCreationSection } from '@/components/marketing/home/HomeCreationSection';
 import { HomeModelChoice } from '@/components/marketing/home/HomeModelChoice';
 import { HomeToolsGallery } from '@/components/marketing/home/HomeToolsGallery';
+import { HomeCharacterStudio } from '@/components/marketing/home/HomeCharacterStudio';
+import { HomeCharacterStudioProof } from './_components/HomeCharacterStudioProof';
 import { prepareHomePageData } from './_lib/home-page-data';
 import { HomeDiscovery } from './_components/HomeDiscovery';
 import { HomeModelDiscovery } from '@/components/marketing/home/HomeModelDiscovery';
@@ -64,6 +67,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const programmedHeroItems = buildProgrammedHeroItems(locale, content, programmedHeroSlots);
   const primaryBestForCards = buildBestForGuideCards(content, BEST_FOR_MAIN_SLUGS);
   const comparisonScores = buildHomeComparisonData(engineScores);
+  const comparison = <HomeModelChoice locale={locale} scores={comparisonScores} startupFameLabel={startupFameLabel} comparisons={buildHomeComparisonLinks()} />;
   const providers = filterProviderItems(content);
   const fallbackExamples = assembleHomepageExampleCards({ locale, content, globalCandidates: [], familyVideos: new Map() });
   const mcpLink = getMcpInternalLink(locale, 'home');
@@ -79,7 +83,12 @@ export default async function HomePage(props: { params: Promise<{ locale: string
         currentHeroPricesPending={pendingData.heroPrices}
         locale={locale}
       />
-      <DeferredMarketingContent><HomeCreationSection locale={locale} assistantHref={mcpLink?.href} /></DeferredMarketingContent>
+      <DeferredMarketingContent><HomeCreationSection locale={locale} /></DeferredMarketingContent>
+      <DeferredMarketingContent>
+        <Suspense fallback={<HomeCharacterStudio locale={locale} />}>
+          <HomeCharacterStudioProof locale={locale} />
+        </Suspense>
+      </DeferredMarketingContent>
       <DeferredMarketingContent>
         <HomeCreativeWorlds locale={locale} cards={primaryBestForCards} examplesCopy={content.examples} modelDiscovery={
           <Suspense fallback={<HomeModelDiscovery locale={locale} examples={fallbackExamples} providers={providers} copy={content.examples} />}>
@@ -88,10 +97,13 @@ export default async function HomePage(props: { params: Promise<{ locale: string
         } />
       </DeferredMarketingContent>
       <DeferredMarketingContent>
-        <HomeModelChoice locale={locale} scores={comparisonScores} startupFameLabel={startupFameLabel} comparisons={buildHomeComparisonLinks()}/>
+        <Suspense fallback={comparison}>{comparison}</Suspense>
       </DeferredMarketingContent>
       <DeferredMarketingContent>
         <HomeToolsGallery locale={locale} />
+      </DeferredMarketingContent>
+      <DeferredMarketingContent>
+        <HomeConversationSection locale={locale} assistantHref={mcpLink?.href} />
       </DeferredMarketingContent>
       <DeferredMarketingContent>
         <Suspense fallback={<HomePricingSection locale={locale} copy={content.pricingTrust} pending />}>

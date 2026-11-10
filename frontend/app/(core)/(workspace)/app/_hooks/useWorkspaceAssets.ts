@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react';
 import type { KlingElementState } from '@/components/KlingElementsBuilder';
-import type { EngineInputSchema, Mode } from '@/types/engines';
+import { useWorkspaceVideoExcerpt } from './useWorkspaceVideoExcerpt';
+import type { EngineCaps, EngineInputSchema, Mode } from '@/types/engines';
 import { useWorkspaceAssetLibrary } from './useWorkspaceAssetLibrary';
 import type { CommitInputAssetMutation, WorkspaceInputAssetState } from './useWorkspaceAssetState';
 import { useWorkspaceKlingElementAssets } from './useWorkspaceKlingElementAssets';
@@ -13,8 +14,11 @@ type UseWorkspaceAssetsOptions = {
   setInputAssets: Dispatch<SetStateAction<WorkspaceInputAssetState>>;
   commitInputAssetMutation: CommitInputAssetMutation;
   engineId?: string | null;
+  engine?: EngineCaps | null;
+  locale?: string;
   inputSchema?: EngineInputSchema | null;
   preferredMode: Mode;
+  workflowIntent?: Mode | null;
   workflowCopy: {
     clearReferencesToUseStartEnd: string;
     clearStartEndToUseReferences: string;
@@ -31,8 +35,11 @@ export function useWorkspaceAssets({
   setInputAssets,
   commitInputAssetMutation,
   engineId,
-  inputSchema,
+  engine,
+  locale,
+  inputSchema = engine?.inputSchema,
   preferredMode,
+  workflowIntent,
   workflowCopy,
   showNotice,
   klingElements,
@@ -43,7 +50,6 @@ export function useWorkspaceAssets({
     setAssetPickerTarget,
     assetLibraryKind,
     assetLibrarySource,
-    setAssetLibrary,
     visibleAssetLibrary,
     isAssetLibraryLoading,
     assetLibraryError,
@@ -58,16 +64,21 @@ export function useWorkspaceAssets({
     resetAssetLibraryForSource,
   } = useWorkspaceAssetLibrary({
     userId,
+    listingEnabled: false,
     showNotice,
     setInputAssets,
   });
 
-  const { handleOpenAssetLibrary, handleSelectLibraryAsset, handleAssetAdd, handleAssetRemove } =
+  const { handleOpenAssetLibrary, handleSelectLibraryAsset, handleSelectLibraryAssets, handleImportLibraryFile, handleAssetAdd, handleAssetRemove } =
     useWorkspaceReferenceAssets({
       accountScope,
       engineId,
+      engine,
+      locale,
+      assetPickerTarget,
       inputSchema,
       preferredMode,
+      workflowIntent,
       workflowCopy,
       showNotice,
       inputAssets,
@@ -76,18 +87,21 @@ export function useWorkspaceAssets({
       assetLibrarySource,
       resetAssetLibraryForSource,
       setAssetPickerTarget,
-      setAssetLibrary,
-    });
+      });
 
   const {
     handleOpenKlingAssetLibrary,
     handleSelectKlingLibraryAsset,
+    handleImportKlingLibraryFile,
     handleKlingElementAdd,
     handleKlingElementRemove,
     handleKlingElementAssetRemove,
     handleKlingElementAssetAdd,
   } = useWorkspaceKlingElementAssets({
     accountScope,
+    engineId,
+    preferredMode,
+    locale,
     showNotice,
     klingElements,
     setKlingElements,
@@ -96,7 +110,10 @@ export function useWorkspaceAssets({
     setAssetPickerTarget,
   });
 
+  const excerpts = useWorkspaceVideoExcerpt({ accountScope, engine, mode: preferredMode, inputAssets, commitInputAssetMutation });
+
   return {
+    ...excerpts,
     inputAssets,
     setInputAssets,
     assetPickerTarget,
@@ -116,7 +133,10 @@ export function useWorkspaceAssets({
     handleOpenAssetLibrary,
     handleOpenKlingAssetLibrary,
     handleSelectLibraryAsset,
+    handleSelectLibraryAssets,
+    handleImportLibraryFile,
     handleSelectKlingLibraryAsset,
+    handleImportKlingLibraryFile,
     handleAssetAdd,
     handleAssetRemove,
     handleKlingElementAdd,

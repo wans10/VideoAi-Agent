@@ -19,6 +19,15 @@ workflow for normal production releases.
    while CI runs; wait for the required Quality CI on the latest candidate before
    merging. This check aggregates fast checks and every selected integration,
    browser and exhaustive financial lane. See `docs/engineering/ci-validation.md`.
+   Once its Git Preview is READY, run the Preview check below from the clean committed candidate. This
+   read-only premerge gate verifies that Preview's Git SHA is HEAD and compares
+   Seedance 2.5's actual mode admissions with production's `/api/engines`, including
+   intentionally closed modes. Missing/degraded readiness fails closed. The command
+   uses a short-lived Development OIDC token (or an explicitly supplied existing
+   automation credential) for the verified Preview origin only,
+   refuses redirects and fails closed if existing access is unavailable. It does
+   not create a protection bypass, generate media or change configuration. The
+   ordinary production-only check below does not require an OIDC token.
 3. Immediately before merging, run `git fetch origin main` and
    `pnpm deployment:check` from the committed candidate. This read-only remote
    check uses the authenticated Vercel CLI and GitHub remote; it never deploys,
@@ -40,6 +49,38 @@ workflow for normal production releases.
 The command does not lock other releases; tasks must coordinate the final merge
 and domain checks. Never merge another branch while production reconciliation is
 pending. Rebase/merge onto the confirmed new main before resuming that branch.
+
+Use an empty temporary CLI directory to obtain a fresh short-lived token without
+letting an expired token in `.env.local` override it. The command still runs the
+check in the candidate checkout and leaves its local environment files untouched:
+
+```bash
+(
+  preview_qa_cwd="$(mktemp -d)"
+  trap 'rmdir "$preview_qa_cwd"' EXIT
+  vercel --cwd "$preview_qa_cwd" env run --project maxvideoai --scope camgraphes-projects -- \
+    pnpm --dir "$PWD" deployment:check --preview https://exact-deployment.vercel.app
+)
+```
+
+Custom environments may reject the default OIDC environment pair with
+`TRUSTED_SOURCES_ENVIRONMENT_MISMATCH`. If this project already has an authorized
+automation credential, supply it to the check process through
+`VERCEL_AUTOMATION_BYPASS_SECRET`, in memory through the approved secret manager
+or authenticated read-only project API. Do not print it, put it in command arguments,
+commit it or create a new bypass to run the check. This explicit mode sends the
+existing credential only to the verified exact Preview origin; it does not send
+it to production or follow redirects. There is no automatic fallback after a
+refused request, and all provenance/admission assertions remain mandatory. If
+neither existing access method works, stop and review the precise access rule.
+
+Seedance Preview configuration is common to Preview, rather than scoped to a past
+feature branch. Keep its existing Preview Ark credentials. Its nonsecret routing,
+enabled/admin/mode and Modify-transport controls must match the reviewed public
+product policy; never copy production secrets to repair a readiness mismatch.
+After any Preview configuration repair, qualify a newly built Git Preview; an
+existing deployment retains its original environment. The parity gate reports
+admission, not supplier execution or a paid-generation certification.
 
 ## Build guard and limits
 

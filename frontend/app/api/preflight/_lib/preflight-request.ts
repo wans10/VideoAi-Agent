@@ -1,9 +1,11 @@
+import { VIDEO_OPERATIONS } from '@/lib/video-operation';
+import { GPT_IMAGE_26_PRESET_SIZES } from '@/lib/image/gptImage26Dimensions';
 import { z } from 'zod';
 
 import type { PreflightRequest, PreflightResponse } from '@/types/engines';
 
 export const MAX_PREFLIGHT_BODY_BYTES = 128 * 1024;
-export const MAX_PREFLIGHT_INPUTS = 50;
+export const MAX_PREFLIGHT_INPUTS = 66;
 
 const modes = [
   't2v',
@@ -21,8 +23,9 @@ const modes = [
 ] as const;
 
 const resolutions = [
+  ...GPT_IMAGE_26_PRESET_SIZES,
   '0.5k', '360p', '540p', '480p', '720p', '1080p', '1080P', '1440p', '4k', '1k', '2k', '2K', '3K', '4K',
-  '2048x2048', '1920x1080', '1080x1920', '2304x1728', '1728x2304', '2848x1600',
+  '1024x1024', '1536x1024', '1024x1536', '2048x2048', '1920x1080', '1080x1920', '2304x1728', '1728x2304', '2848x1600',
   '1600x2848', '2496x1664', '1664x2496', '3136x1344', '3072x3072', '3456x2592',
   '2592x3456', '4096x2304', '2304x4096', '2496x3744', '3744x2496', '4704x2016',
   '4096x4096', '3520x4704', '4704x3520', '5504x3040', '3040x5504', '3328x4992',
@@ -32,7 +35,7 @@ const resolutions = [
 ] as const;
 
 const aspectRatios = [
-  '16:9', '9:16', '9:21', '1:1', '4:1', '1:4', '8:1', '1:8', '4:5', '5:4', '4:3',
+  '16:9', '2:1', '9:16', '9:21', '1:1', '4:1', '1:4', '8:1', '1:8', '4:5', '5:4', '4:3',
   '3:4', '3:2', '2:3', '21:9', 'custom', 'source', 'auto',
 ] as const;
 
@@ -65,25 +68,48 @@ const persistedReferenceSchema = z.object({
   }),
 }).strict();
 
+const ownedId = z.string().trim().min(1).max(256);
+const ownedUrl = z.string().trim().url().max(2_048);
+const ownedKlingSubject = z.union([
+  z.object({ frontalAssetId: ownedId, frontalImageUrl: ownedUrl,
+    referenceAssetIds: z.array(ownedId).min(1).max(3), referenceImageUrls: z.array(ownedUrl).min(1).max(3),
+    id: ownedId.optional() }).strict().refine(s => s.referenceAssetIds.length === s.referenceImageUrls.length),
+  z.object({ videoAssetId: ownedId, videoUrl: ownedUrl, id: ownedId.optional() }).strict(),
+]);
+
 const preflightRequestSchema = z.object({
+  sourceJobId: z.string().min(1).max(255).optional(),
+  sourceOutputId: z.string().min(1).max(255).optional(),
+  operation: z.enum(VIDEO_OPERATIONS).optional(),
   seedanceWorkflow: z.discriminatedUnion('step', [z.object({ step: z.literal('draft') }).strict(),
     z.object({ step: z.literal('final'), draftJobId: z.string().min(1).max(255).regex(/^\S+$/u) }).strict()]).optional(),
   engine: z.string().trim().min(1).max(128),
   mode: z.enum(modes),
-  durationSec: z.number().finite().positive().max(3_600),
+  durationSec: z.number().finite().positive().max(3_600).optional(),
   durationOption: z.union([z.number().finite().positive().max(3_600), z.literal('auto')]).optional(),
   resolution: z.enum(resolutions).optional(),
   aspectRatio: z.enum(aspectRatios).optional(),
-  fps: z.number().finite().positive().max(240),
+  fps: z.number().finite().positive().max(240).optional(),
   seedLocked: z.boolean().optional(),
   loop: z.boolean().optional(),
   audio: z.boolean().optional(),
   hasVideoInput: z.boolean().optional(),
   voiceControl: z.boolean().optional(),
   inputs: z.array(persistedReferenceSchema).max(MAX_PREFLIGHT_INPUTS).optional(),
+  elements: z.array(ownedKlingSubject).max(7).optional(),
   extraInputValues: extraInputValuesSchema.optional(),
   user: z.object({ memberTier: z.string().trim().min(1).max(32).optional() }).strict().optional(),
-}).strict();
+ }).strict().superRefine((request, context) => {
+  if (request.durationSec === undefined
+    && (request.engine !== 'kling-v4' || request.mode !== 'v2v' || request.durationOption !== undefined)) {
+    context.addIssue({code:z.ZodIssueCode.custom,path:['durationSec'],message:'An explicit duration is required for this model and mode.'});
+  }
+  // The transport ceiling does not widen Seedance's separate admission contract.
+  if (request.engine.startsWith('seedance-') && (request.inputs?.length ?? 0) > 50)
+    context.addIssue({code:z.ZodIssueCode.custom,path:['inputs'],message:'Seedance supports at most 50 references.'});
+  if (request.elements !== undefined && !(((request.engine === 'kling-v4' && ['ref2v', 'v2v'].includes(request.mode)) || (request.engine === 'kling-v4-flash' && request.mode === 'ref2v')) && request.elements.filter(e => 'videoUrl' in e).length <= (request.mode === 'v2v' ? 0 : 3)))
+    context.addIssue({code:z.ZodIssueCode.custom,path:['elements'],message:'Unsupported Kling subject composition.'});
+});
 
 type PreflightRequestFailure = {
   ok: false;
@@ -91,9 +117,16 @@ type PreflightRequestFailure = {
   response: PreflightResponse;
 };
 
+/** Only the current V4 Modify transport admits source-duration omission. */
+export type AppPreflightRequest = PreflightRequest | (
+  Omit<PreflightRequest, 'engine' | 'mode' | 'durationSec'> & {
+    engine: 'kling-v4'; mode: 'v2v'; durationSec?: number;
+  }
+);
+
 type PreflightRequestSuccess = {
   ok: true;
-  request: PreflightRequest;
+  request: AppPreflightRequest;
 };
 
 export type PreflightRequestParseResult = PreflightRequestSuccess | PreflightRequestFailure;
@@ -137,7 +170,10 @@ export function parsePreflightRequestPayload(payload: unknown): PreflightRequest
   if (!parsed.success) {
     return failure(400, 'PREFLIGHT_REQUEST_INVALID', 'Invalid preflight request.');
   }
-  return { ok: true, request: parsed.data };
+  if (parsed.data.durationSec === undefined) {
+    return {ok:true,request:{...parsed.data,engine:'kling-v4',mode:'v2v'}};
+  }
+  return { ok: true, request: {...parsed.data,durationSec:parsed.data.durationSec} };
 }
 
 type PreflightBodyRequest = Pick<Request, 'headers' | 'text'> & {

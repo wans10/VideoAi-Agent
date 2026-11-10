@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { startDisposablePostgres } from './helpers/disposable-postgres';
+import { withHistoricalCustomerTariffCatalogue } from './helpers/historical-customer-tariff-catalogue';
 import { getDb, withDbTransaction } from '../frontend/src/lib/db';
 import { loadPricingPolicyOverridesWithExecutor } from '../frontend/src/lib/pricing-rule-store';
 import { collectSellableManualTariffCoverage, collectEffectiveCustomerTariffBaseline } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
@@ -19,7 +20,8 @@ import { collectCustomerTariffCutoverCheckpoints } from '../frontend/server/pric
 const actor = '11111111-1111-4111-8111-111111111111';
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
 
-test('atomic local cutover rejects stale certificates, preserves staged evidence and removes every model margin fallback', async () => {
+test('atomic local cutover rejects stale certificates, preserves staged evidence and removes every model margin fallback', async () => withHistoricalCustomerTariffCatalogue(async () => {
+  // Replay the historical catalogue; Kling V4 and Nano21 have separate native tariffs.
   const db = await startDisposablePostgres('tariff-cutover');
   const before = { DATABASE_URL: process.env.DATABASE_URL, NODE_ENV: process.env.NODE_ENV, PRICING_SANDBOX: process.env.PRICING_SANDBOX };
   Object.assign(process.env, { DATABASE_URL: db.databaseUrl, NODE_ENV: 'development', PRICING_SANDBOX: '1' });
@@ -68,6 +70,10 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
       approvedSeedanceLasPolicy: 'reviewed_2_5x_las_list',
       policy, sourceTariffRevision: 0, sourceTariffStateHash, codeRevision: 'test-code', factualEnvironmentHash: 'test-env', approvedGptImage25ReferenceFloor });
     assert.equal(release.report.remainingCoverageGaps.length, 0);
+    assert.equal(release.report.newOfferScenarios, 89);
+    assert.equal(baseline.rows.filter(row => row.initialization?.kind === 'new_offer').length, 89);
+    assert.ok(baseline.rows.filter(row => row.initialization).every(row => row.initialization!.beforeCents === null));
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982);
     const run = (candidate = release, fingerprint = release.report.fingerprint, bindings = release.report.bindings) => withDbTransaction(e =>
       activateLocalCustomerTariffs(e, { release: candidate, fingerprint, currentBindings: bindings, actorId: actor }));
     await assert.rejects(run(release, 'old-browser'), /stale/i);
@@ -122,4 +128,4 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
     for (const [key,value] of Object.entries(before)) { if (value === undefined) delete process.env[key]; else process.env[key] = value; }
     Object.assign(ENV,routing);
   }
-});
+}));

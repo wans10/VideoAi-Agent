@@ -1,7 +1,7 @@
 import { isSignedMediaUrl } from '@/lib/media';
 import {
   createSignedDownloadUrl,
-  extractStorageKeyFromUrl,
+  ownedMediaStorageKeyForUrl,
   isAllowedAssetHost,
   isStorageConfigured,
 } from '@/server/storage';
@@ -27,6 +27,10 @@ const DEFAULT_PAGE_LIMIT = 20;
 const MAX_PAGE_LIMIT = 50;
 const MAX_CURSOR_LENGTH = 1_024;
 const PRIVATE_PREVIEW_TTL_SECONDS = 5 * 60;
+const STORAGE_BUCKET = process.env.S3_BUCKET?.trim();
+const STORAGE_REGION = process.env.S3_REGION?.trim();
+const PRIVATE_PREVIEW_STORAGE_HOST = STORAGE_BUCKET && STORAGE_REGION
+  ? `${STORAGE_BUCKET}.s3.${STORAGE_REGION}.amazonaws.com` : null;
 const MEDIA_KIND_SET = new Set<AgentMediaKind>(['image', 'video', 'audio']);
 
 export type ListAgentMediaInput = {
@@ -101,9 +105,13 @@ function normalizeSource(source: MediaAssetRecord['source']): AgentMediaItem['so
 }
 
 function controlledPrivatePreview(value: string | null): string | null {
-  if (!value || value.length > 4_096 || !isSignedMediaUrl(value) || !isAllowedAssetHost(value)) return null;
+  if (!value || value.length > 4_096 || !isSignedMediaUrl(value)) return null;
   try {
     const parsed = new URL(value);
+    // Only the private-preview output path admits the configured signing endpoint.
+    // Its source object was checked for ownership before signing; public input
+    // admissibility must not broaden to S3 aliases that other owners do not parse.
+    if (!isAllowedAssetHost(value) && parsed.host !== PRIVATE_PREVIEW_STORAGE_HOST) return null;
     if (
       parsed.protocol !== 'https:'
       || parsed.username.length > 0
@@ -118,9 +126,9 @@ function controlledPrivatePreview(value: string | null): string | null {
 }
 
 async function createStoragePreviewUrl(asset: MediaAssetRecord): Promise<string | null> {
-  if (!isStorageConfigured()) return null;
+  if (!asset.userId || !isStorageConfigured()) return null;
   for (const candidate of [asset.thumbUrl, asset.previewUrl, asset.url]) {
-    const key = candidate ? extractStorageKeyFromUrl(candidate) : null;
+    const key = candidate ? ownedMediaStorageKeyForUrl({ url: candidate, userId: asset.userId }) : null;
     if (!key) continue;
     try {
       return await createSignedDownloadUrl(key, { expiresInSeconds: PRIVATE_PREVIEW_TTL_SECONDS });

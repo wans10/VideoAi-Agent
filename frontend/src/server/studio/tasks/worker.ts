@@ -4,7 +4,7 @@ import type {StudioGenerationActor} from '@/server/agent-api/generation-actor';
 import {createImageConversationService} from '../image-conversation-service';
 import {studioTaskSavedUsageKnown} from './saved-usage';
 import {studioAssistancePolicy,type StudioAssistancePolicy} from '../assistance-policy';
-import {studioTaskSchemaReady,readStudioTaskUsage,type StudioTaskRow} from './repository';
+import {studioTaskSchemaReady,studioTaskReplyEnvelopeReady,readStudioTaskUsage,type StudioTaskRow} from './repository';
 import {studioTasksEnabled,StudioTaskStop} from './policy';
 import type {StudioTaskExecution} from './execution';
 import type {StudioWorkerScope} from '../worker-host';
@@ -14,7 +14,7 @@ type ServiceOptions=Omit<Parameters<typeof createImageConversationService>[1],'e
 type WorkerDependencies={enabled?:boolean;assistancePolicy?:StudioAssistancePolicy;serviceOptions?:ServiceOptions;scope?:StudioWorkerScope};
 /** Only a worker runs this entry. UI status reads never call it. */
 export async function runStudioTaskWorkerOnce(dependencies:WorkerDependencies={}):Promise<boolean> {
-  if(!await studioTaskSchemaReady())return false;
+  if(!await studioTaskSchemaReady()||!await studioTaskReplyEnvelopeReady())return false;
   const scopeFilter=dependencies.scope;
   const candidate=(await query<StudioTaskRow>(`SELECT t.* FROM studio_tasks t WHERE (state='queued' OR (state='running' AND lease_expires_at<=clock_timestamp())
     OR (state='unknown' AND error='provider' AND EXISTS(SELECT 1 FROM studio_conversation_responses r WHERE r.user_id=t.user_id AND r.project_id=t.project_id AND r.request_id=t.segment_request_id AND r.state='reported'))
@@ -54,7 +54,7 @@ export async function runStudioTaskWorkerOnce(dependencies:WorkerDependencies={}
   try{
     const segment=(await query<{max_calls:number}>('SELECT max_calls FROM studio_task_segments WHERE user_id=$1 AND project_id=$2 AND request_id=$3',[row.user_id,row.project_id,row.segment_request_id]))[0];
     const previousWork=await readStudioTaskPreviousWork(actor,row.request_id,row.segment_request_id);
-    const execution:StudioTaskExecution={taskRequestId:row.request_id,segmentRequestId:row.segment_request_id,workerId,profile:row.profile_json,maxCalls:segment.max_calls,deadlineAt:row.deadline_at!,enabled:dependencies.enabled??studioTasksEnabled(),locale:row.input_json.locale,recoveryOnly:row.replay_only||row.deadline_at!.getTime()<=Date.now(),previousWork};
+    const execution:StudioTaskExecution={taskRequestId:row.request_id,segmentRequestId:row.segment_request_id,workerId,profile:row.profile_json,policyVersion:row.policy_version,maxCalls:segment.max_calls,deadlineAt:row.deadline_at!,enabled:dependencies.enabled??studioTasksEnabled(),locale:row.input_json.locale,recoveryOnly:row.replay_only||row.deadline_at!.getTime()<=Date.now(),previousWork};
     const service=createImageConversationService(actor,{enabled:true,actionsEnabled:true,assistancePolicy:dependencies.assistancePolicy??studioAssistancePolicy(),
       mediaEnabled:process.env.STUDIO_CONVERSATION_MEDIA_ENABLED==='true',editingEnabled:process.env.STUDIO_CONVERSATION_EDITING_ENABLED==='true',exportsEnabled:process.env.STUDIO_CONVERSATION_EXPORTS_ENABLED==='true',
       ...dependencies.serviceOptions,taskExecution:execution});
