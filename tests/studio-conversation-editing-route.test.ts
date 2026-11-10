@@ -3,6 +3,21 @@ import assert from 'node:assert/strict';
 import {NextRequest} from 'next/server';
 import {isStudioSameOriginRequest} from '../frontend/app/api/studio/_lib/studio-route-utils';
 import {handleStudioConversationEditing} from '../frontend/app/api/studio/_lib/studio-conversation-editing-handler';
+import {StudioConnectedPersistenceError} from '../frontend/src/server/studio/montage-command';
+
+test('finishing an extension accepts only the request identity after account, origin and feature checks',async()=>{
+  const requestId='10000000-0000-4000-8000-000000000001';let mutations=0;
+  const options={enabled:true,resolveAccess:async()=>({ok:true as const,userId:'owner'}),finishExtension:async(actor:{userId:string;projectId:string},id:string)=>{assert.deepEqual(actor,{userId:'owner',projectId:'film'});assert.equal(id,requestId);mutations++;return {};}};
+  const req=(body:unknown,origin='http://localhost:4320')=>new NextRequest('http://localhost:4320/api/studio/projects/film/conversation-timeline/extension',{method:'POST',headers:{origin},body:JSON.stringify(body)});
+  const finish=(body:unknown,origin?:string)=>handleStudioConversationEditing(req(body,origin),'finish-extension' as never,'film',options);
+  assert.equal((await finish({requestId,userId:'foreign'})).status,400);
+  assert.equal((await finish({requestId},'https://foreign.example')).status,403);
+  assert.equal(mutations,0);
+  assert.equal((await finish({requestId})).status,200);
+  assert.equal(mutations,1);
+  const pending=await handleStudioConversationEditing(req({requestId}),'finish-extension','film',{...options,finishExtension:async()=>{throw new StudioConnectedPersistenceError('EXTENSION_NOT_READY',409);}});
+  assert.equal(pending.status,409);assert.deepEqual(await pending.json(),{ok:false,error:'EXTENSION_NOT_READY',retryable:true});
+});
 
 test('native editing guards account, gate, origin and bounded scope before any mutation',async () => {
   const url = 'http://localhost:4320/api/studio/projects/film/conversation-timeline';
@@ -56,4 +71,21 @@ test('shared Studio mutation origin guard supports exact local and proxy origins
  assert.equal(isStudioSameOriginRequest(request('https://0.0.0.0:3000/api/studio',{origin:'https://app.keyvo.cn',host:'app.keyvo.cn','x-forwarded-proto':'https'})),true);
  for(const origin of ['', 'null','https://foreign.example','https://user:pass@app.keyvo.cn','https://app.keyvo.cn/path'])assert.equal(isStudioSameOriginRequest(request('https://0.0.0.0:3000/api/studio',{origin,host:'app.keyvo.cn','x-forwarded-proto':'https'})),false);
  assert.equal(isStudioSameOriginRequest(request('https://app.keyvo.cn/api/studio',{origin:'https://app.keyvo.cn','sec-fetch-site':'cross-site'})),false);
+});
+
+
+test('Studio accepts the exact development loopback host without widening production or cross-site access',async()=>{
+  const previous=process.env.NODE_ENV;
+  let writes=0;
+  const options={enabled:true,resolveAccess:async()=>({ok:true as const,userId:'owner'}),rename:async()=>{writes++;return {projectId:'film',name:'Local QA',updatedAt:'2026-11-06T12:00:00Z'};}};
+  const request=(origin='http://127.0.0.1:3016',host='127.0.0.1:3016',site='same-origin')=>new NextRequest('http://127.0.0.1:3016/api/studio/conversation-projects',{method:'PATCH',headers:{origin,host,'sec-fetch-site':site},body:JSON.stringify({projectId:'film',name:'Local QA',idempotencyKey:'local-qa'})});
+  const run=(req:NextRequest)=>handleStudioConversationEditing(req,'rename',undefined,options);
+  try {
+    process.env.NODE_ENV='development';
+    assert.equal((await run(request())).status,200);
+    for(const req of [request('http://127.0.0.1:3017'),request('https://foreign.example'),request(undefined,'localhost:3016'),request(undefined,undefined,'cross-site'),request('http://127.0.0.1:3016/path'),request('http://127.0.0.1:3016','foreign.example')])assert.equal((await run(req)).status,403);
+    process.env.NODE_ENV='production';
+    assert.equal((await run(request())).status,403);
+    assert.equal(writes,1);
+  } finally {if(previous===undefined)delete process.env.NODE_ENV;else process.env.NODE_ENV=previous;}
 });

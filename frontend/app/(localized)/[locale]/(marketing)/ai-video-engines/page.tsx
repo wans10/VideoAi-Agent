@@ -8,6 +8,7 @@ import { FAQSchema } from '@/components/seo/FAQSchema';
 import { EngineIcon } from '@/components/ui/EngineIcon';
 import { BenchmarkMethodologyLink } from '@/components/marketing/BenchmarkMethodologyLink';
 import { buildSlugMap } from '@/lib/i18nSlugs';
+import { getMcpInternalLink } from '@/lib/mcp-internal-links';
 import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { resolveDictionary } from '@/lib/i18n/server';
 import {
@@ -25,7 +26,7 @@ import { UseCaseExplorer } from './UseCaseExplorer.client';
 import { EnginesCatalog, type EngineCatalogCard } from './EnginesCatalog.client';
 import { ComparisonsDirectory } from './ComparisonsDirectory.client';
 import { getBestForCta, getHubCopy } from './_lib/ai-video-engines-copy';
-import { loadHubEngineScoreMap } from './_lib/ai-video-engines-scores';
+import { loadHubEngineScoreData } from './_lib/ai-video-engines-scores';
 
 const COMPARE_SLUG_MAP = buildSlugMap('compare');
 
@@ -44,7 +45,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: AppLoc
     imageAlt: t('title'),
     ogType: 'website',
     titleBranding: 'none',
-    keywords: ['AI video engines', 'AI video engine comparison', 'compare AI video generators', 'Sora vs Veo', 'Keyvo'],
+    keywords: ['AI video engines', 'AI video engine comparison', 'compare AI video generators', 'Kling 4 vs Seedance 2.5', 'Keyvo'],
   });
 }
 
@@ -52,10 +53,11 @@ export default async function AiVideoEnginesPage() {
   if (KEYVO_COMPARE_HIDDEN) notFound();
   const { locale } = await resolveDictionary();
   const copy = getHubCopy(locale);
+  const mcpLink = getMcpInternalLink(locale, 'models');
   const bestForCta = getBestForCta(locale);
   const engines = getHubEngines();
   const enginesWithWaitlist = getHubEngines({ includeLimited: true, includeWaitlist: true });
-  const scoreMap = await loadHubEngineScoreMap();
+  const { scores: scoreMap, reviews: scoreReviews } = await loadHubEngineScoreData();
   const enginesBySlug = new Map(engines.map((engine) => [engine.modelSlug, engine]));
   const isIndexablePair = (slug: string) => isComparisonIndexable(locale, slug);
 
@@ -101,34 +103,24 @@ export default async function AiVideoEnginesPage() {
       engine.modelSlug,
       {
         overall: scoreMap.get(engine.modelSlug) ?? null,
+        reviewStatus: scoreReviews[engine.modelSlug] ?? null,
         strengths: engine.bestFor ?? null,
         modes: engine.modes,
       },
     ])
   );
   const defaultComparison = allComparisonEntries[0];
-  const strategicSeedanceVeoComparison =
-    allComparisonEntries.find((entry) => entry.slug === 'seedance-2-0-vs-veo-3-1') ?? null;
-  const strategicKlingVeoComparison =
-    allComparisonEntries.find((entry) => entry.slug === 'kling-3-pro-vs-veo-3-1') ?? null;
-  const strategicSeedanceSoraComparison =
-    allComparisonEntries.find((entry) => entry.slug === 'seedance-2-0-vs-sora-2') ?? null;
-  const pikaSeedanceCompareSlug = buildCanonicalCompareSlug('pika-text-to-video', 'seedance-2-0');
-  const strategicPikaSeedanceComparison =
-    allComparisonEntries.find((entry) => entry.slug === pikaSeedanceCompareSlug) ?? null;
-  const seedancePrelaunch = enginesWithWaitlist.find((engine) => engine.modelSlug === 'seedance-2-0') ?? null;
-  const showSeedanceSpotlight = Boolean(seedancePrelaunch && !engines.some((engine) => engine.modelSlug === 'seedance-2-0'));
-  const seedanceCompareSlug = buildCanonicalCompareSlug('seedance-2-0', 'sora-2');
   const enginesToggleLabel = copy.sections.enginesToggle.replace('{count}', String(engineCards.length));
   const quickStartComparisons = [
-    strategicSeedanceVeoComparison ?? defaultComparison ?? null,
-    strategicKlingVeoComparison,
-    showSeedanceSpotlight ? null : strategicSeedanceSoraComparison,
-    showSeedanceSpotlight ? null : strategicPikaSeedanceComparison,
-  ]
-    .filter((entry): entry is { slug: string; label: string } => entry != null)
-    .filter((entry) => isIndexablePair(entry.slug))
-    .filter((entry, index, entries) => entries.findIndex((candidate) => candidate.slug === entry.slug) === index);
+    'kling-v4-vs-seedance-2-5',
+    'minimax-h3-vs-seedance-2-5',
+    'flux-3-vs-flux-3-max',
+    'wan-3-vs-wan-3-prime',
+  ].flatMap((slug) => {
+    const pair = allComparisonEntries.find((entry) => entry.slug === slug);
+    return pair ? [pair] : [];
+  }).filter((entry) => isIndexablePair(entry.slug));
+  if (!quickStartComparisons.length && defaultComparison) quickStartComparisons.push(defaultComparison);
 
   const faqJsonLdEntries = copy.faq.slice(0, 5).map((entry) => ({
     question: entry.question,
@@ -146,35 +138,14 @@ export default async function AiVideoEnginesPage() {
                 {copy.hero.title}
               </h1>
               <p className="mx-auto mt-5 max-w-[680px] text-base leading-7 text-text-secondary">{copy.hero.intro}</p>
-              {showSeedanceSpotlight ? (
-                <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs font-semibold">
-                  <Link
-                    href={{ pathname: '/models/[slug]', params: { slug: 'seedance-2-0' } }}
-                    className="rounded-full border border-hairline bg-bg px-3 py-1.5 text-text-secondary transition hover:border-text-muted hover:text-text-primary"
-                  >
-                    {copy.sections.prelaunchModelLabel}
-                  </Link>
-                  <Link
-                    href={{ pathname: '/ai-video-engines/[slug]', params: { slug: seedanceCompareSlug } }}
-                    className="rounded-full border border-hairline bg-bg px-3 py-1.5 text-brand transition hover:border-brand hover:text-brandHover"
-                  >
-                    {copy.sections.prelaunchCompareLabel}
-                  </Link>
-                  <Link
-                    href={{ pathname: '/ai-video-engines/[slug]', params: { slug: pikaSeedanceCompareSlug } }}
-                    className="rounded-full border border-hairline bg-bg px-3 py-1.5 text-brand transition hover:border-brand hover:text-brandHover"
-                  >
-                    {copy.sections.prelaunchCompareSecondaryLabel}
-                  </Link>
-                </div>
-              ) : null}
+
             </header>
 
             <div className="compare-workbench stack-gap-sm">
               <CompareNowWidget
                 options={engineOptions}
-                defaultLeft="seedance-2-0"
-                defaultRight="veo-3-1"
+                defaultLeft="seedance-2-5"
+                defaultRight="kling-v4"
                 engineMetaBySlug={engineMetaBySlug}
                 labels={copy.hero.compareNow}
                 embedded
@@ -280,6 +251,11 @@ export default async function AiVideoEnginesPage() {
             <p className="mt-2 text-sm leading-relaxed text-text-secondary">{copy.sections.useCasesIntro}</p>
           </div>
           <UseCaseExplorer buckets={useCaseBuckets} compareLabel={copy.popularCompareLabel} />
+          {mcpLink ? (
+            <Link href={mcpLink.href} className="inline-flex text-sm font-semibold text-brand transition hover:text-brandHover">
+              {mcpLink.label} →
+            </Link>
+          ) : null}
           <div className="rounded-2xl border border-hairline bg-surface p-5 shadow-card">
             <h3 className="text-base font-semibold text-text-primary">{bestForCta.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-text-secondary">{bestForCta.body}</p>

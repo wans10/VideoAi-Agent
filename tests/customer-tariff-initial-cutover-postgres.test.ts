@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { startDisposablePostgres } from './helpers/disposable-postgres';
+import { withHistoricalCustomerTariffCatalogue } from './helpers/historical-customer-tariff-catalogue';
 import { withDbTransaction } from '../frontend/src/lib/db';
 import { ENV } from '../frontend/src/lib/env';
 import { loadPricingPolicyOverridesWithExecutor } from '../frontend/src/lib/pricing-rule-store';
@@ -23,7 +24,8 @@ const actor = '11111111-1111-4111-8111-111111111111';
 const key = (value: object) => JSON.stringify(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)));
 const digest = (value: string) => createHash('sha256').update(value).digest('hex');
 
-test('initial cutover is atomic, validates the actual reader, and rollback preserves all financial history', async t => {
+test('initial cutover is atomic, validates the actual reader, and rollback preserves all financial history', async t => withHistoricalCustomerTariffCatalogue(async () => {
+  // Replay the historical catalogue; Kling V4 and Nano21 have separate native tariffs.
   // This synthetic rehearsal checks atomicity, not elapsed CI time. Mock only
   // Date so slow hosts do not expire its fixture; real database timers still run.
   t.mock.timers.enable({ apis: ['Date'], now: Date.now() });
@@ -61,6 +63,20 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       ['qwen-image-3-0', 'qwen-image-3-0-pro'].flatMap(engineId => ['t2i', 'i2i'].flatMap(mode =>
         ['1k', '2k'].map(resolution => `engineId=${engineId}|mode=${mode}|resolution=${resolution}|durationSec=1`))).sort(),
       'the Keyvo extension must add exactly both Qwen models, modes and resolutions');
+    // Keep historical coverage and each reviewed expansion explicit.
+    const maxCells = coverage.scenarios.filter(row => row.modelId === 'flux-3-max').length;
+    assert.equal(maxCells, 128, 'four modes × sixteen integer durations × two resolutions');
+    const lumaModifyExtraCells = coverage.scenarios.filter(row => row.modelId === 'luma-ray-3-2'
+      && row.context.mode === 'v2v' && ![5, 10].includes(row.context.durationSec)).length;
+    assert.equal(lumaModifyExtraCells, 36, 'twelve additional source-duration classes × three resolutions');
+    const additiveCells = 13 + 3 + 48 + 3 + 6 + 4 + 12;
+    assert.equal(additiveCells, 89);
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26990);
+    const expectedCheckedQuotes = 26826 + maxCells + lumaModifyExtraCells + additiveCells;
+    const expectedCandidateCells = 14837 + maxCells + lumaModifyExtraCells + additiveCells;
+    assert.equal(collectCustomerTariffCutoverCheckpoints().length, expectedCheckedQuotes,
+      'Review inventory changes before running the exhaustive monetary replay');
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.scenario.modelId === 'flux-3-max').length, maxCells);
     const inactive = { status: 'loaded' as const, active: false, revision: 0, databaseCells: [], versionedCells: [] };
     const quoteLegacy = (scenario: typeof coverage.scenarios[number]) => computeCustomerTariffInitializationBaseline(scenario.context, policy);
     const baseline = await collectEffectiveCustomerTariffBaseline({ at: new Date().toISOString(), registryHash: bindings.registryHash,
@@ -101,7 +117,7 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       }
       const snapshot = await computeCanonicalBillingSnapshot(point.scenario.context, { pricingPolicy: { loadOverrides: async () => policy },
         loadCustomerTariffState: async () => ({ ...active, databaseCells: [cell] }) });
-      const beforeCents = point.kind === 'local_workflow' ? null : (await quoteLegacy(point.scenario)).totalCents;
+      const beforeCents = point.kind === 'local_workflow' || point.kind === 'new_offer' ? null : (await quoteLegacy(point.scenario)).totalCents;
       checkpoints.push({ key: point.key,beforeCents,customerCents: snapshot.totalCents,currency: snapshot.currency });
       if (beforeCents !== null && beforeCents !== snapshot.totalCents) approvedChanges.push({ key: point.key,beforeCents,customerCents: snapshot.totalCents,
         reason: ['gpt-image-2-5-flare','gpt-image-2-5-sunburst'].includes(point.scenario.modelId) ? 'gpt_reference_floor'
@@ -112,7 +128,7 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       cells: cells.map(({ id,selector,price,currency }) => ({ id,selector,price,currency })),checkpoints,approvedChanges,
       approvedSeedanceLasPolicy: 'reviewed_2_5x_las_list' as const };
     const release = { ...body,fingerprint: cutoverDigest(body) };
-    t.diagnostic('All 26,826 fixture checkpoint amounts prepared.');
+    t.diagnostic(`All ${expectedCheckedQuotes} current-registry checkpoint amounts prepared.`);
     const cutover = <T>(work: Parameters<typeof withDbTransaction<T>>[0]) => withPricingCutoverTransaction({ DATABASE_URL: db.databaseUrl },'rehearsal',e => work(e,undefined as never));
     const run = (candidate = release, fingerprint = candidate.fingerprint) => cutover(e => activateInitialCustomerTariffGrid(e,
       { release: candidate,fingerprint,target,actorId: actor,mode: 'rehearsal' }));
@@ -154,12 +170,12 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       return activateInitialCustomerTariffGrid(executor, { release, fingerprint: release.fingerprint, target, actorId: actor, mode: 'rehearsal' });
     });
     assert.ok(tariffReads <= 8, `Full canonical acceptance made ${tariffReads} tariff SQL reads`);
-    t.diagnostic(`26,826-checkpoint acceptance: ${tariffReads} tariff SQL reads; ${Math.round(performance.now() - started)} ms.`);
+    t.diagnostic(`${expectedCheckedQuotes}-checkpoint acceptance: ${tariffReads} tariff SQL reads; ${Math.round(performance.now() - started)} ms.`);
     assert.equal(applied.revision,1);
-    assert.equal(applied.checkedQuotes,26826);
-    assert.equal(applied.candidateCells,14837);
+    assert.equal(applied.checkedQuotes,expectedCheckedQuotes);
+    assert.equal(applied.candidateCells,expectedCandidateCells);
     assert.equal(applied.archivedLegacyCells,162);
-    assert.equal(applied.candidateCells + applied.archivedLegacyCells,14999);
+    assert.equal(applied.candidateCells + applied.archivedLegacyCells,14999 + maxCells + lumaModifyExtraCells + additiveCells);
     assert.equal(applied.unavailableQuotes,486);
     t.diagnostic('Actual reader activation accepted before commit.');
     await assert.rejects(run(), /initial.*empty|revision/i);
@@ -171,10 +187,10 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     await db.pool.query('UPDATE app_customer_tariff_state SET revision=1');
     assert.equal((await rollback()).revision,2);
     assert.deepEqual((await db.pool.query('SELECT revision,active FROM app_customer_tariff_state')).rows,[{ revision: '2',active: false }]);
-    assert.equal((await db.pool.query('SELECT count(*)::int AS n FROM app_customer_tariff_cells')).rows[0].n,14837);
+    assert.equal((await db.pool.query('SELECT count(*)::int AS n FROM app_customer_tariff_cells')).rows[0].n,expectedCandidateCells);
     const preserved = (await db.pool.query("SELECT certificate FROM app_customer_tariff_cutover_events WHERE operation='activate'")).rows[0].certificate;
     assert.deepEqual(preserved.cells, release.cells);
-    assert.equal(preserved.checkpoints.length,26826);
+    assert.equal(preserved.checkpoints.length,expectedCheckedQuotes);
     assert.equal((await db.pool.query('SELECT count(*)::int AS n FROM app_customer_tariff_cutover_events')).rows[0].n,2);
     assert.deepEqual((await db.pool.query('SELECT snapshot FROM historical_paid_snapshots')).rows,[{ snapshot: { totalCents: 13,rule: 'old' } }]);
     assert.equal((await db.pool.query('SELECT unit_price_cents FROM app_billing_products')).rows[0].unit_price_cents,8);
@@ -184,4 +200,4 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     Object.assign(ENV,routes);
     for (const [name,value] of Object.entries(previous)) { if (value === undefined) delete process.env[name]; else process.env[name] = value; }
   }
-});
+}));

@@ -53,7 +53,7 @@
                 "bold": true
               },
               {
-                "text": "的创意。Codex 中的 GPT-6 Astra 和 Sol 负责制作及 Premiere Pro 剪辑；Adrien 指导项目并审阅各版。先看成片，再了解如何把六次独立生成组织成一段对话。"
+                "text": "的创意。Codex 中的 GPT-6 Astra 和 Sol 负责制作及 Premiere Pro 剪辑，并由人类把控创意方向和审阅。先看成片，再了解如何把六次独立生成组织成一段对话。"
               }
             ],
             "sourceIds": [
@@ -68,7 +68,7 @@
         "heading": "观看 86 秒成片",
         "videoId": "hwF_A1VlA_U",
         "sourceId": "podcast-production",
-        "credit": "MaxVideoAI / Adrien",
+        "credit": "MaxVideoAI",
         "startSeconds": 0,
         "caption": "包含片尾卡的虚构访谈。"
       },
@@ -96,7 +96,7 @@
             ]
           },
           {
-            "text": "Adrien 提供创意、制作方向和反馈，批准生成报价，选择音乐并确认最终结果。Astra 和 Sol 执行项目，包括修改剪辑。若要复现这套配置，除 MaxVideoAI 连接外，还需单独配置 Premiere 自动化。",
+            "text": "创意、制作方向、反馈、生成报价的批准、音乐选择和最终确认均由人类完成。Astra 和 Sol 执行项目，包括修改剪辑。若要复现这套配置，除 MaxVideoAI 连接外，还需单独配置 Premiere 自动化。",
             "sourceIds": [
               "podcast-production"
             ]
@@ -221,7 +221,7 @@
           {
             "spans": [
               {
-                "text": "最初开场过于繁忙。根据 Adrien 的反馈，"
+                "text": "最初开场过于繁忙。经过审阅，"
               },
               {
                 "text": "前 21.17 秒的九个镜头减少为五个",
@@ -255,7 +255,7 @@
             ]
           },
           {
-            "text": "后期添加字幕、音乐和六秒片尾卡，把 80 秒对话扩展为 86 秒。Adrien 否定此前的音乐选择后，为最终版选用了 Aphelion。",
+            "text": "后期添加字幕、音乐和六秒片尾卡，把 80 秒对话扩展为 86 秒。此前的音乐选择被否定后，最终版选用了 Aphelion。",
             "sourceIds": [
               "podcast-production"
             ]
@@ -466,7 +466,7 @@
     {
       "id": "podcast-production",
       "title": "Is This the End of Video Editing? — author-supplied production records",
-      "publisher": "MaxVideoAI / Adrien",
+      "publisher": "MaxVideoAI",
       "url": "https://www.youtube.com/watch?v=hwF_A1VlA_U",
       "retrievedAt": "2026-09-27"
     },

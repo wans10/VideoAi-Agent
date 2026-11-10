@@ -4,6 +4,7 @@ export type AboutCopy = {
   meta: { title: string; description: string };
   hero: { eyebrow: string; title: string; subtitle: string };
   identity: { label: string; body: string };
+  work: { title: string; items: Array<{ label: string; href: string }> };
   sections: Array<{ title: string; body: string }>;
   independence: { title: string; body: string };
   links: { standards: string; benchmarks: string; company: string; legal: string };
@@ -26,6 +27,13 @@ const COPY: Record<AppLocale, AboutCopy> = {
       label: 'Original project attribution',
       body:
         'Adrien Millot is the founder of the original MaxKeyvo project. This profile credits the source of inherited editorial material; it does not identify the operator of this Keyvo deployment.',
+    },
+    work: {
+      title: "Selected work and production notes",
+      items: [
+        { label: "AI podcast: workflow, revisions and editing decisions", href: "/blog/gpt-6-podcast-maxvideoai-premiere-pro" },
+        { label: "Wan 3 Prime: a published match-cut example and its prompt", href: "/video/wan-3-prime-ai-match-cut-transitions" },
+      ],
     },
     sections: [
       {
@@ -73,6 +81,13 @@ const COPY: Record<AppLocale, AboutCopy> = {
       body:
         'Adrien Millot est le fondateur du projet original MaxKeyvo. Ce profil attribue les contenus éditoriaux repris à leur source et ne désigne pas l’exploitant de ce site Keyvo.',
     },
+    work: {
+      title: "Réalisations et notes de production",
+      items: [
+        { label: "Podcast IA : workflow, révisions et choix de montage (en anglais)", href: "/blog/gpt-6-podcast-maxvideoai-premiere-pro" },
+        { label: "Wan 3 Prime : exemple publié de transitions et prompt (en anglais)", href: "/video/wan-3-prime-ai-match-cut-transitions" },
+      ],
+    },
     sections: [
       {
         title: 'Ce que nous construisons',
@@ -119,6 +134,13 @@ const COPY: Record<AppLocale, AboutCopy> = {
       body:
         'Adrien Millot es el fundador del proyecto original MaxKeyvo. Este perfil identifica la fuente del contenido editorial heredado, no al operador de este sitio Keyvo.',
     },
+    work: {
+      title: "Trabajos y notas de producción",
+      items: [
+        { label: "Podcast con IA: flujo, revisiones y decisiones de edición (en inglés)", href: "/blog/gpt-6-podcast-maxvideoai-premiere-pro" },
+        { label: "Wan 3 Prime: ejemplo publicado de transiciones y prompt (en inglés)", href: "/video/wan-3-prime-ai-match-cut-transitions" },
+      ],
+    },
     sections: [
       {
         title: 'Lo que desarrollamos',
@@ -161,6 +183,13 @@ const COPY: Record<AppLocale, AboutCopy> = {
     identity: {
       label: '原项目来源署名',
       body: 'Adrien Millot 是原始 MaxKeyvo 项目的创始人。此处保留继承内容的来源署名，不代表当前 Keyvo 站点的运营主体。',
+    },
+    work: {
+      title: '代表作与制作笔记',
+      items: [
+        { label: 'AI 播客：工作流、修改与剪辑决策（英文）', href: '/blog/gpt-6-podcast-maxvideoai-premiere-pro' },
+        { label: 'Wan 3 Prime：已发布的匹配剪辑示例及其提示词（英文）', href: '/video/wan-3-prime-ai-match-cut-transitions' },
+      ],
     },
     sections: [
       {

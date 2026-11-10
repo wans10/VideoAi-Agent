@@ -4,24 +4,45 @@ import clsx from 'clsx';
 import { memo, useEffect, useRef } from 'react';
 import { ArrowUpRight, ChevronDown, Boxes, Film, Scale, Wrench, Plug, WalletCards, BookOpen, Clapperboard, Camera, Projector, Workflow } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import type { AppLocale } from '@/i18n/locales';
+import { localizeMarketingPathname } from '@/lib/i18n/marketing-locale-switch';
 import { MarketingNavEntryContent } from '@/components/marketing/MarketingNavEntryContent';
-import { MARKETING_NAV_DROPDOWNS, type MarketingTopNavLink } from '@/config/navigation';
+import type { MarketingHeaderNavigation } from '@/config/public-marketing-navigation';
 
 type MarketingTranslate = <T = unknown>(key: string, fallback?: T) => T | undefined;
 const NAV_ICONS = { production: Clapperboard, craft: Camera, screening: Projector, pipeline: Workflow, models: Boxes, examples: Film, compare: Scale, tools: Wrench, connect: Plug, pricing: WalletCards, blog: BookOpen, Clapperboard, Camera, Projector, Workflow };
 type Props = {
+  dropdowns: MarketingHeaderNavigation['dropdowns'];
   desktopDropdownOpen: string | null;
-  links: readonly MarketingTopNavLink[];
+  links: MarketingHeaderNavigation['links'];
   pathname: string | null;
   t: MarketingTranslate;
   onCloseDesktopDropdown: (delay?: number) => void;
   onOpenDesktopDropdown: (key: string) => void;
 };
 
+// A streamed menu needs JavaScript to reveal its full subtree. Keep the six
+// section destinations usable in the original desktop document while it waits.
+export function MarketingDesktopSectionLinks({ links, dropdowns, pathname, locale, t }:
+  Pick<Props, 'links' | 'dropdowns' | 'pathname' | 't'> & { locale: AppLocale }) {
+  return (
+    <nav aria-label={t('nav.primaryNavigation', 'Main navigation')} className="marketing-desktop-nav marketing-section-links hidden lg:flex">
+      {links.map(item => (
+        <a key={item.key} href={localizeMarketingPathname(item.href, locale)} className="marketing-nav-trigger"
+          aria-current={pathname === item.href ? 'page' : undefined}>
+          {t<string>(`nav.linkLabels.${item.key}`, item.key)}
+          {item.key === 'connect' ? <span className="marketing-mcp-tag">MCP</span> : null}
+          {dropdowns[item.key] ? <span aria-hidden="true" className="inline-block size-3" /> : null}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
 // Mobile/account state must not rebuild the unchanged, CSS-hidden desktop menus.
 // Keep all links server-rendered; actual desktop, route and locale changes still render.
 // Decorative DOM waits until the panel becomes visible.
-export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDropdownOpen, links, pathname, t, onCloseDesktopDropdown, onOpenDesktopDropdown }: Props) {
+export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDropdownOpen, dropdowns, links, pathname, t, onCloseDesktopDropdown, onOpenDesktopDropdown }: Props) {
   const navRef = useRef<HTMLElement>(null);
   const closeRef = useRef(onCloseDesktopDropdown);
   closeRef.current = onCloseDesktopDropdown;
@@ -36,9 +57,9 @@ export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDr
 
   return <nav ref={navRef} aria-label={t('nav.primaryNavigation', 'Main navigation')} className="marketing-desktop-nav hidden lg:flex">
     {links.map(item => {
-      const dropdown = MARKETING_NAV_DROPDOWNS[item.key];
+      const dropdown = dropdowns[item.key];
       const label = t<string>(`nav.linkLabels.${item.key}`, item.key) ?? item.key;
-      const active = (item.activePaths ?? [item.href]).some(path => pathname === path || (path !== '/app' && pathname?.startsWith(`${path}/`)));
+      const active = (item.activePaths ?? [item.href]).some(path => pathname === path || (path !== '/app' && pathname?.startsWith(`${path}/`))) || Boolean(dropdown?.items.some(entry => typeof entry.href === 'string' && (pathname === entry.href || pathname?.startsWith(`${entry.href}/`))));
       const Icon = NAV_ICONS[item.key as keyof typeof NAV_ICONS] ?? BookOpen;
       if (!dropdown) return <Link key={item.key} href={item.href} prefetch={false} className="marketing-nav-trigger" aria-current={active ? 'page' : undefined}><Icon className="studio-navigation-icon" size={18} aria-hidden="true" />{label}</Link>;
       const isOpen = desktopDropdownOpen === item.key;
@@ -69,7 +90,7 @@ export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDr
                 const entryLabel = t<string>(`nav.dropdown.${item.key}.items.${entry.key}`, entry.label) ?? entry.label;
                 const badgeLabel = entry.badge ? t<string>(`nav.badges.${entry.badge}`, entry.badge) : undefined;
                 const description = entry.description ? t<string>(`nav.dropdown.${item.key}.descriptions.${entry.key}`, entry.description) : undefined;
-                return <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className="marketing-mega-link">
+                return <Link key={entry.key} href={entry.href} prefetch={false} onClick={() => onCloseDesktopDropdown(0)} className={clsx('marketing-mega-link', entry.emphasized && 'marketing-menu-featured')}>
                   <span className="studio-menu-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                   <span className="studio-menu-entry"><MarketingNavEntryContent entry={entry} label={entryLabel} badgeLabel={badgeLabel} showModelLogo={item.key === 'models'} showDecoration={isOpen} />
                   {description ? <small>{description}</small> : null}</span>

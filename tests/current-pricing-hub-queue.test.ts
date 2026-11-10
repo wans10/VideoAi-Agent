@@ -13,9 +13,9 @@ const exact = (amountCents: number): PublicModelQuote => ({
   status: 'exact', amountCents, currency: 'USD', revision: 'controlled-current', scenarioLabel: 'Current scenario',
 });
 const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
-// Keyvo's public pricing hub excludes hidden-vendor families, so it quotes 73 distinct model inputs:
-// 66 video presets and 7 t2i image presets. Each distinct input is still quoted exactly once.
-const MODEL_QUOTES = 73;
+// Keyvo's public pricing hub excludes hidden-vendor families, so it quotes 79 distinct model inputs:
+// 72 video presets (including the November Kling launch) and 7 t2i image presets. Each distinct input is still quoted once.
+const MODEL_QUOTES = 79;
 const T2I_IMAGE_QUOTES = 7;
 const TOTAL_QUOTES = MODEL_QUOTES + 21;
 const other = {
@@ -30,7 +30,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     const authored = [
       ...base.video.rows.flatMap((row) => VIDEO_PRICE_PRESETS.flatMap((preset) => {
         const entry = entries.get(row.id);
-        const input = entry && row.quotes[preset.id].status === 'exact'
+        const input = entry && ['exact', 'live_quote'].includes(row.quotes[preset.id].status)
           ? getExactVideoPresetInput(entry, preset, locale) : null;
         return input ? [input] : [];
       })),
@@ -63,7 +63,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     const data = await pending;
     assert.deepEqual(new Set(requests.map(key)), new Set(authored.map(key)), 'every exact authored input remains quoted');
     assert.equal(requests.length, new Set(requests.map(key)).size, 'identical matrix inputs share one quote');
-    assert.equal(requests.filter((input) => input.mode !== 't2i').length, 66);
+    assert.equal(requests.filter((input) => input.mode !== 't2i').length, 72);
     assert.equal(requests.filter((input) => input.mode === 't2i').length, T2I_IMAGE_QUOTES);
     assert.equal(requests.length + audioCalls + productCalls, TOTAL_QUOTES);
     assert.equal(maximum, 8);

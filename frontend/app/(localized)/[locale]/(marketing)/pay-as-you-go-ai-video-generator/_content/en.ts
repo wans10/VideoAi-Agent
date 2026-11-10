@@ -3,11 +3,12 @@ import type { PayAsYouGoContent } from './types';
 export const enPayAsYouGoContent = {
   metadata: {
     title: 'Pay-as-you-go AI Video Generator with Upfront Pricing',
-    description: 'Generate AI videos with pay-as-you-go credits instead of a monthly subscription. Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models before generation.',
+    description: "Make AI videos without a subscription. Compare FLUX 3 Max, MiniMax H3, Kling 4.0 and Seedance 2.5, get help from Milo, and see the price before you generate.",
     imageAlt: 'Keyvo pay-as-you-go AI video.',
     keywords: ['pay-as-you-go AI video generator', 'AI video generator without subscription', 'AI video pricing before generation', 'compare LTX 2.5 Wan 3 Grok Imagine FLUX 3', 'Grok Imagine Video price', 'FLUX 3 Video price'],
   },
   common: {
+    chapters: {"label":"Explore this page","workspace":"Workspace","films":"Screening room","models":"Models","prices":"Prices","questions":"Questions"},
     aiVideoModelAlt: 'AI video model',
     liveQuote: 'Live quote',
     audioOff: 'Audio off',
@@ -17,12 +18,14 @@ export const enPayAsYouGoContent = {
   hero: {
     eyebrow: 'AI video credits, no monthly lock-in',
     title: 'Pay-as-you-go AI Video Generator',
-    intro: 'Generate AI videos from text, images, audio, or video with pay-as-you-go credits. Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models, review the price before each generation, and only spend credits on completed renders.',
+    intro: "Start with your idea, choose a model, and see the price before you make the video. Compare FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 and more with pay-as-you-go credits. Need help writing the prompt? Ask Milo.",
     primaryCta: 'Get a video quote',
     secondaryCta: 'View model pricing',
     trustItems: ['No subscription required', 'Starter credits from ¥80', 'Price shown before generation', 'Provider failures refunded'],
+    film: { title: "A click in California", watch: "Watch the film", posterAlt: "A giant pixel cursor reaches for the pink ice cream in a woman’s hand." },
     quote: {
-      consoleLabel: 'Keyvo quote console',
+      consoleLabel: "Example price for a new clip",
+      detailsLabel: "See the sample prompt and more prices",
       title: 'Price before generation',
       promptLabel: 'Prompt',
       prompt: 'Cinematic product reveal, slow camera push, clean studio lighting.',
@@ -34,35 +37,34 @@ export const enPayAsYouGoContent = {
     },
   },
   naturalQuestions: {
+    settingsLabel: "Duration and resolution",
     header: {
       eyebrow: 'Quick answers',
       title: 'Quick answers before you spend credits',
-      intro: 'A pay-as-you-go AI video generator lets you buy credits only when you need them, choose a model per project, review the price before rendering, and spend credits only when the render completes successfully.',
+      intro: "Choose a model and clip length on the sample quote, or open a question below.",
     },
-    summaryLead: 'With Keyvo, you can:',
-    summaryItems: [
-      'Generate AI videos from text, images, or video.',
-      'Compare current LTX 2.5, Wan 3, Grok Imagine and FLUX.3 routes alongside Seedance, Kling and Google Veo.',
-      'See the estimated price before launching.',
-      'Use credits only for completed renders.',
-    ],
     items: [
-      { question: 'Where can I test AI video models without subscription?', answer: 'Use Keyvo to compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models with pay-as-you-go credits instead of a recurring plan.' },
+      { question: 'Where can I test AI video models without subscription?', answer: 'Use Keyvo to compare FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo and other models with pay-as-you-go credits instead of a recurring plan.' },
       { question: 'Which AI video platform shows prices before generation?', answer: 'Keyvo shows the estimated generation price before you launch a render, including model, duration, resolution, and audio choices.' },
       { question: 'Which pay-as-you-go AI video model should I test first?', answer: "Start with your task: text-to-video, image-to-video or a supported video-input workflow. Compare suitable models using examples and the same settings, then review the exact quote before generating." },
-      { question: 'Where can I compare current AI video model families in one place?', answer: 'Keyvo groups LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other engines in one workspace so you can compare workflows, limits, and price before choosing.' },
+      { question: 'Where can I compare current AI video model families in one place?', answer: 'Keyvo groups FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo and other engines in one workspace so you can compare workflows, limits, and price before choosing.' },
       { question: 'What makes a good pay-as-you-go AI video generator?', answer: 'A good pay-as-you-go setup lets you test current models, see prices before generation, switch engines per project, and avoid charges for failed provider renders.' },
     ],
   },
   modelTesting: {
+    contactIntro: "These contact sheets show three moments from each film. Open a model to see how to direct your own scene.", intents: ["Direct a sequence","Light a night scene","Cut to the beat"],
+    disclosure: "Explore all model workflows",
     header: {
       eyebrow: "Model choices",
       title: "Choose a model for your next test",
-      intro: "Start with the material you have and the result you need. Check supported inputs, duration, resolution and audio, then compare the quote. The models below offer different workflows; their order is not a quality or price ranking.",
+      intro: "Choose around your source material, the movement and the sound you need.",
     },
-    footer: 'Happy Horse 1.1 and Seedance 2 Mini are new enough that they should be tested directly instead of judged only by older model rankings.',
+    footer: "Try the same idea with suitable models and compare the results. A model name or a lower price alone cannot tell you which shot you will prefer.",
     models: {
-      'gemini-omni-flash': { family: 'Google Gemini', title: 'Gemini Omni Flash 1.1 for fast multimodal creation', body: 'Use Gemini Omni Flash 1.1 for text, image, video, and reference-led generation when fast iteration, native audio, or multi-shot direction matters.' },
+      "flux-3-max": {"family": "FLUX 3", "title": "FLUX 3 Max for scenes guided by keyframes", "body": "Build a scene from text or images, place keyframes to guide its progression, or work from an existing clip. Check the selected mode and quote before generating."},
+      "minimax-h3": {"family": "MiniMax H3", "title": "MiniMax H3 for references and native audio", "body": "Bring image or video references to guide the scene. Compare its native 768P, 2K and 4K options; reference video can change the price."},
+      'kling-v4': { family: 'Kling', title: 'Kling 4.0 for shot plans and visual references', body: 'Plan a 3–30 second scene with a prompt and duration per shot, guide it with images or video subjects, or edit an existing clip. Output is 720p or 1080p; native audio is directed through the prompt.' },
+      'gemini-omni-flash': { family: 'Google Gemini', title: 'Gemini Omni Flash 1.2 for fast multimodal creation', body: 'Use Gemini Omni Flash 1.2 for text, image, video, and reference-led generation when fast iteration, native audio, or multi-shot direction matters.' },
       'kling-3-turbo-pro': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Pro for detailed 1080p output', body: 'Choose Turbo Pro for polished 1080p motion, product detail, image guidance, and multi-shot sequences.' },
       'kling-3-turbo-standard': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Standard for efficient 720p drafts', body: 'Choose Turbo Standard for faster 720p iteration, coherent motion, image guidance, and multi-shot testing.' },
       'minimax-h3-max': { family: 'MiniMax H3', title: 'MiniMax H3 Max for premium visual finish', body: 'Choose H3 Max for high visual finish, prompt adherence, native audio, and focused text- or image-to-video production.' },
@@ -84,6 +86,7 @@ export const enPayAsYouGoContent = {
     },
   },
   meaning: {
+    compare: "Compare prepaid credits and subscriptions in detail",
     title: 'What pay-as-you-go means',
     body: 'Pay-as-you-go means you buy credits when you need them instead of paying for a recurring plan. For each video, you choose a model, duration, resolution, audio option, and workflow. Keyvo shows the estimated price before you launch the generation.',
     bullets: ['No monthly lock-in or idle plan spend', 'Choose a different model per project', 'Use credits across text-to-video, image-to-video, and video workflows'],
@@ -94,7 +97,7 @@ export const enPayAsYouGoContent = {
     cards: [
       { title: 'Test before scaling', body: 'Run small prompt and image tests before committing budget to a campaign or production workflow.' },
       { title: 'Avoid idle spend', body: 'If you generate videos only for launches, experiments, or client work, credits map better to real usage.' },
-      { title: 'Switch models freely', body: 'Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling and Google Veo by workflow, speed, motion, audio, duration and exact quote in one place.' },
+      { title: 'Switch models freely', body: 'Compare FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3 and Google Veo by workflow, speed, motion, audio, duration and exact quote in one place.' },
     ],
   },
   audienceFit: {
@@ -120,21 +123,23 @@ export const enPayAsYouGoContent = {
     columns: ['Decision point', 'Keyvo pay-as-you-go', 'Typical subscription'],
     rows: [
       { label: 'Budget control', payg: 'Add credits when you need videos and stop when the project is done.', subscription: 'Pay a recurring plan even in months where you do not render.' },
-      { label: 'Model choice', payg: 'Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other engines per job.', subscription: 'Often tied to one vendor, one model family, or one usage pool.' },
+      { label: 'Model choice', payg: 'Compare FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo and other engines per job.', subscription: 'Often tied to one vendor, one model family, or one usage pool.' },
       { label: 'Price visibility', payg: 'Review the quote before each generation starts.', subscription: 'Included credits can hide the real cost of premium settings.' },
       { label: 'Experimentation', payg: 'Run small tests before scaling a campaign, client project, or production workflow.', subscription: 'A plan decision usually happens before you know which model fits.' },
     ],
   },
   workflow: {
+    workspace: { capture: "milo-en-gameshow", phoneHeight: 1278, alt: "A retro game show in the video workspace, with a camera direction drafted in Milo Lite for Wan 3 Prime and a quote on Generate.", caption: "A five-second game show made with Wan 3 Prime. In this signed-in workspace, a camera direction is ready for Milo Lite. The price on Generate is for a new render with the settings shown.", open: "Open this scene in the workspace" },
+    assistance: {"milo": {"title": "An idea, but no prompt? Meet Milo →", "body": "Describe what you want in your own words. Milo helps write a prompt for your selected model and references. Sign in to chat; Lite has no extra assistance fee."}, "studio": {"title": "A bigger project? Start in Studio →", "body": "Talk through the brief, plan the scenes and review each generation quote. Standard and Max use the same Milo assistance credits across Studio and the generators."}},
     header: {
       title: 'How pay-as-you-go credits work',
-      intro: 'The workflow is designed to make cost visible before launch, then hand detailed price comparisons to the pricing page.',
+      intro: "A crane shot on a game show set starts with a camera direction. Open the scene, work on the prompt with Milo and check the quote before you generate.",
     },
     items: [
-      { title: 'Choose a video engine', body: 'Select the model that fits the brief instead of being locked into one subscription catalog.', icon: 'engine' },
-      { title: 'Review the live quote', body: 'See price, duration, resolution, audio, and workflow choices before generation.', icon: 'preview' },
-      { title: 'Launch the generation', body: 'Run a text-to-video, image-to-video, or video workflow only after the cost is visible.', icon: 'video' },
-      { title: 'Spend on success', body: 'Completed renders consume credits, including results that miss your creative intent. Technical failures without an output are not charged or are refunded in credits.', icon: 'refund' },
+      { title: "Choose a model", body: "Start with the shot you have in mind and the references you can bring.", icon: 'engine' },
+      { title: "Check the settings", body: "Set the length, resolution and audio. The price updates on Generate.", icon: 'preview' },
+      { title: "Start the render", body: "Go ahead when the shot and its quote look right.", icon: 'video' },
+      { title: "See the result", body: "A finished render uses credits. A technical failure with no output is credited back or left uncharged.", icon: 'refund' },
     ],
   },
   mcpPlanning: {
@@ -178,6 +183,7 @@ export const enPayAsYouGoContent = {
     },
   },
   priceLookups: {
+    disclosure: "Browse all model prices",
     header: {
       eyebrow: 'Quick price checks',
       title: 'Check prices for popular AI video models',
@@ -185,7 +191,11 @@ export const enPayAsYouGoContent = {
     },
     openRowLabel: 'Open pricing row',
     items: {
-      'gemini-omni-flash': { query: 'gemini omni flash 1.1 price', title: 'Gemini Omni Flash 1.1 price lookup', body: 'Check the Google-direct route for fast multimodal video, native audio, and multi-shot workflows.' },
+      "flux-3-max": {"query": "flux 3 max price", "title": "FLUX 3 Max pricing", "body": "Compare a short text-to-video test, then check the quote for your keyframes, references and final settings."},
+      "minimax-h3": {"query": "minimax h3 price", "title": "MiniMax H3 pricing", "body": "This example uses a supported native resolution. Match duration, resolution and reference inputs when comparing models."},
+      "seedance-2-5": {"query": "seedance 2.5 price", "title": "Seedance 2.5 pricing", "body": "Check the price for your scene, including duration, resolution and references. Draft and final generations have separate quotes."},
+      'kling-v4': { query: 'kling 4.0 price', title: 'Kling 4.0 pricing by workflow', body: 'Check the selected workflow, output duration and resolution. For reference and editing workflows, supplied video duration also affects the quote; compare the same inputs.' },
+      'gemini-omni-flash': { query: 'gemini omni flash 1.2 price', title: 'Gemini Omni Flash 1.2 price lookup', body: 'Check the Google-direct route for fast multimodal video, native audio, and multi-shot workflows.' },
       'kling-3-turbo-pro': { query: 'kling 3 turbo pro price', title: 'Kling 3.0 Turbo Pro price lookup', body: 'Check the detailed 1080p Turbo route for text, image, and multi-shot generation.' },
       'kling-3-turbo-standard': { query: 'kling 3 turbo standard price', title: 'Kling 3.0 Turbo Standard price lookup', body: 'Check the efficient 720p Turbo route for text, image, and multi-shot generation.' },
       'minimax-h3-max': { query: 'minimax h3 max price', title: 'MiniMax H3 Max price lookup', body: 'Check the premium H3 Max route for polished text- and image-to-video output.' },
@@ -214,9 +224,37 @@ export const enPayAsYouGoContent = {
     budgetTemplate: "Planning three attempts? At an unchanged quote of {unitPrice}, three completed generations would use {totalPrice} in media credits.",
     budgetContext: "LTX 2.5 Pro · 10s 720p · audio off.",
     budgetCaveat: "This is a budget illustration, not a promise that three attempts will produce the result you want. Media credits used are separate from the minimum top-up, which starts at $10. Changed settings or prices require a new quote.",
-    studioAssistance: "Using Studio? Sol uses included or purchased assistance credits. Media generation has its own quote. Review both when planning your budget.",
+    studioAssistance: "Using Milo in a generator or Studio? Standard and Max share included and purchased assistance credits. Media generation has its own quote. Review both when planning your budget.",
     studioLinkLabel: "Open Studio",
+    creditNotes: {
+      "title": "Credit validity before you top up",
+      "items": [
+        {
+          "title": "Purchased media credits",
+          "body": "Unused purchased media credits stay in your wallet between projects, with no subscription required. Our current Terms do not specify an expiry period or an inactivity deadline for this balance. Contact support before buying if you need confirmation of a validity period."
+        },
+        {
+          "title": "Promotional, bonus and free credits",
+          "body": "These have no cash value and are not refundable. Check the specific offer for its validity conditions; if none are stated, ask support before assuming the media-credit or Studio rules apply."
+        },
+        {
+          "title": "Milo assistance credits",
+          "body": "Milo Standard and Max share 500 included assistance credits per UTC calendar month. Unused included credits do not carry over. Purchased Milo packs accumulate without expiry or automatic refill. Each pack purchase is confirmed and funded from your Keyvo wallet. Media generation has its own separate quote. Milo Lite has no extra assistance fee, subject to request limits and service availability."
+        }
+      ],
+      "links": {
+        "termsHref": "/legal/terms#wallet-credits",
+        "terms": "Wallet terms",
+        "refunds": "Refund policy and request procedure",
+        "support": "Ask support about credit validity",
+        "studio": "Studio assistance"
+      }
+    },
     labels: {
+      "flux-3-max": "FLUX 3 Max short scene",
+      "minimax-h3": "MiniMax H3 native-resolution test",
+      "seedance-2-5": "Seedance 2.5 short scene",
+      'kling-v4': 'Kling 4.0 text-to-video scene',
       'gemini-omni-flash': 'Gemini Omni Flash 1.1 multimodal test',
       'kling-3-turbo-pro': 'Kling 3.0 Turbo Pro 1080p test',
       'kling-3-turbo-standard': 'Kling 3.0 Turbo Standard draft',
@@ -234,9 +272,10 @@ export const enPayAsYouGoContent = {
     },
   },
   refundPolicy: {
+    short: "A completed render uses credits, even if you want to try another creative direction. A technical failure returns credits to your wallet.", disclosure: "Credit returns and payment refunds",
     header: {
       title: 'What happens if a generation fails?',
-      intro: "Each completed generation uses credits. A completed result that does not meet your creative expectations is different from a technical failure. Failed generations are automatically recredited.",
+      intro: "Each completed generation uses credits. A completed result that does not meet your creative expectations is different from a technical failure. Failed generations are automatically recredited. A wallet recredit is not a card or bank refund. For a payment refund or an unused purchased balance, request a review under the refund policy. Each new attempt needs its own current quote.",
     },
     bullets: [
       { icon: 'preview', body: 'You review the price before launching a generation.' },
@@ -251,14 +290,15 @@ export const enPayAsYouGoContent = {
       { question: 'Can I see the AI video price before generation?', answer: 'Yes. The app shows a live quote before generation based on model, duration, resolution, audio, and workflow settings.' },
       { question: 'Which AI video model should I test first?', answer: "Start with your task: text-to-video, image-to-video or a supported video-input workflow. Compare suitable models using examples and the same settings, then review the exact quote before generating." },
       { question: 'What happens if a render fails?', answer: "Each completed generation uses credits. A completed result that does not meet your creative expectations is different from a technical failure. Failed generations are automatically recredited." },
-      { question: 'Is this the same as the pricing page?', answer: 'No. This page answers pay-as-you-go and no-subscription intent directly. The pricing page remains the detailed model and scenario matrix.' },
+      { question: 'Is this the same as the pricing page?', answer: "Use this page to plan your first video with credits. Open the pricing page to compare detailed prices by model and settings." },
     ],
   },
   showcase: {
     section: {
-      eyebrow: 'Real pay-as-you-go outputs',
+      more: "More films and prompts",
+      eyebrow: "Screening room",
       title: "Example videos with model and duration",
-      intro: "Public examples with their model and duration. Open an example for its available generation details, then check a current quote for your own settings.",
+      intro: "Open a film to explore its prompt and settings. Then get a fresh quote for a scene of your own.",
       preview: 'Preview',
       result: 'View prompt and result',
       cta: 'Test your prompt with a live quote',
@@ -266,6 +306,17 @@ export const enPayAsYouGoContent = {
       engineImageAltSuffix: 'AI video model',
     },
     runtime: {
+      videoOverrides: {
+        'b645e55e-a837-4350-a27c-6198b4f8208a': { title: "Sit perfectly still", useCase: "A photographer lines up a portrait of a client in a bomb disposal suit." },
+        'job_external_fal_fa631c836a5a7905ab77206bc87be7f16721d99e': { title: "Nilo and the thunder drum", useCase: "An apprentice raises a mallet to a drum that controls the weather." },
+        'job_external_fal_56ea1db8b2c3657977478a1d30c64272758d2b6c': { title: "After hours at the laundromat", useCase: "A tapping foot keeps time between rows of washing machines." },
+        'job_ff94f180-0a2f-4f2b-acb2-bda8352fa9d9': { title: "Hard Bounce", useCase: "An orange ball carries the beat from one cut to the next." },
+        '4b53aad0-11a2-4215-a01a-f9b1913a794f': { title: "The yellow roll-top", useCase: "A five-second product shot built from a still photograph." },
+        'job_78cb3e71-cab5-48e2-9965-9f521ba51c0f': {
+          title: 'Neon racer reveal',
+          useCase: 'A rider, a motorcycle, a neon tunnel. Explore the prompt behind this 10-second scene.',
+        },
+      },
       defaultEngineLabel: 'AI video model',
       defaultTitleEngineLabel: 'AI video',
       defaultTitleTemplate: '{engine} example render',
@@ -307,7 +358,7 @@ export const enPayAsYouGoContent = {
     webApplication: {
       description: 'Pay-as-you-go AI video generator for comparing multiple AI video models with upfront pricing and no required subscription.',
       offer: 'Starter credits are available without a recurring subscription.',
-      features: ['Generate AI videos from text, images, audio, or video', 'Compare LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo and other models', 'See the estimated price before generation', 'Use credits for completed renders'],
+      features: ['Generate AI videos from text, images, audio, or video', 'Compare FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo and other models', 'See the estimated price before generation', 'Use credits for completed renders'],
     },
   },
 } satisfies PayAsYouGoContent;

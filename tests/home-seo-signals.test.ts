@@ -71,7 +71,8 @@ test('homepage proof card stays on Seedance 2.0 while discovery surfaces lead wi
   const seedance25Index = footerModelIds.indexOf('seedance-2-5');
   assert.match(footerSource, /FOOTER_MODELS\.map/);
   assert.ok(seedance25Index >= 0, 'Footer should include Seedance 2.5');
-  assert.deepEqual(footerModelIds.slice(0, 2), ['minimax-h3', 'seedance-2-5']);
+  // Keyvo hides the FLUX family, so upstream's flux-3-max slot is not in the footer.
+  assert.deepEqual(footerModelIds.slice(0, 3), ['kling-v4', 'minimax-h3', 'seedance-2-5']);
 });
 
 test('localized homepage keeps the Seedance 2.0 proof and renders a separate Seedance 2.5 discovery CTA', () => {
@@ -198,8 +199,8 @@ test('homepage titles keep the pay-as-you-go differentiator without getting too 
   assert.ok(titles.en.length <= 55, `English title is too long: ${titles.en.length}`);
   assert.ok(titles.fr.length <= 55, `French title is too long: ${titles.fr.length}`);
   assert.ok(titles.es.length <= 55, `Spanish title is too long: ${titles.es.length}`);
-  assert.match(englishMessages.home?.meta?.description ?? '', /Compare Seedance, Kling, Veo, LTX, Wan, Pika/);
-  assert.match(englishMessages.home?.meta?.description ?? '', /pay-as-you-go credits/);
+  assert.match(englishMessages.home?.meta?.description ?? '', /Compare FLUX 3 Max, MiniMax H3, Kling 4\.0, Seedance 2\.5/);
+  assert.match(englishMessages.home?.meta?.description ?? '', /pay as you go/);
 });
 
 test('the locale runtime owns one canonical site organization entity', () => {
@@ -336,4 +337,5 @@ test('homepage promotes published current comparisons without reviving older edi
   assert.ok(links.every(link => !/seedance-1-5|seedance-2-0|ltx/.test(link.slug)));
   // A new model must never inherit the scores of its predecessor.
   assert.deepEqual(buildHomeComparisonData(new Map()).opponents, []);
+  assert.equal(buildHomeComparisonData(new Map()).left.slug, 'wan-3');
 });

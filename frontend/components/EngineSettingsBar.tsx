@@ -6,6 +6,7 @@ import type { EngineSelectControlPresentation } from '@/components/ui/engine-sel
 import { Chip } from '@/components/ui/Chip';
 
 interface EngineSettingsBarProps {
+  picker?: import('@/components/ui/engine-select/model-picker-types').EnginePickerContext;
   engines: EngineCaps[];
   engineId: string;
   onEngineChange: (engineId: string) => void;
@@ -15,6 +16,7 @@ interface EngineSettingsBarProps {
   modeLabelOverrides?: Partial<Record<Mode, string>>;
   disabledEngineReasons?: Record<string, string>;
   engineScores?: Record<string, number | null | undefined>;
+  engineScoreReviews?: import('@/types/engines').EngineScoreReviews;
   modeLabel?: string;
   showModeBadge?: boolean;
   controlPresentation?: EngineSelectControlPresentation;
@@ -31,14 +33,16 @@ export function EngineSettingsBar({
   modeLabelOverrides,
   disabledEngineReasons,
   engineScores,
+  engineScoreReviews,
   modeLabel,
   showModeBadge = true,
   controlPresentation,
-  density,
+  density, picker,
 }: EngineSettingsBarProps) {
   return (
     <div className="flex min-w-0 flex-1 flex-wrap items-center gap-4">
       <EngineSelect
+        picker={picker}
         engines={engines}
         engineId={engineId}
         onEngineChange={onEngineChange}
@@ -48,6 +52,7 @@ export function EngineSettingsBar({
         modeLabelOverrides={modeLabelOverrides}
         disabledEngineReasons={disabledEngineReasons}
         engineScores={engineScores}
+        engineScoreReviews={engineScoreReviews}
         showModeSelect={false}
         showBillingNote={false}
         variant="bar"

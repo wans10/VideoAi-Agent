@@ -1,3 +1,4 @@
+import { marketingCatalogReader } from '@/server/marketing-media/public-read';
 import { query, type QueryExecutor } from '@/lib/db';
 import { getDiscoverableExampleEngineAliases } from '@/lib/examples/discovery';
 import { getExampleFamilyEngineAliases, getExampleFamilyIds } from '@/lib/model-families';
@@ -10,7 +11,7 @@ import type { ExampleSort, ExampleVersionSample, ListExamplesPageResult } from '
 
 export type CatalogCurationOverride = { playlistId: string; draft: import('@/lib/admin/playlist-curation').CurationDraft };
 
-type CatalogRow = VideoRow & { total: number; suppressed_source_slugs?: string[]; version_samples?: ExampleVersionSample[] };
+type CatalogRow = VideoRow & { total: number; suppressed_source_slugs?: string[]; version_samples?: ExampleVersionSample[]; preview_variant?: 'current' | 'next' };
 
 type CatalogPageOptions = {
   curationOverride?: CatalogCurationOverride;
@@ -42,8 +43,12 @@ function catalogSql(sort: ExampleSort, withCuration: boolean, idsOnly = false, o
     CASE WHEN p.id::text=$5::jsonb->>'playlistId' THEN ARRAY(SELECT jsonb_array_elements_text(COALESCE(NULLIF($5::jsonb->'draft'->'openingIds','null'::jsonb),'[]'::jsonb))) || ARRAY(SELECT jsonb_array_elements_text($5::jsonb->'draft'->'orderedIds')) ELSE ARRAY(SELECT jsonb_array_elements_text(NULLIF(to_jsonb(c)->'opening_ids','null'::jsonb))) || c.ordered_ids END AS ordered_ids,
     CASE WHEN p.id::text=$5::jsonb->>'playlistId' THEN ARRAY(SELECT jsonb_array_elements_text($5::jsonb->'draft'->'excludedIds')) ELSE c.excluded_ids END AS excluded_ids` : savedCurationColumns;
   const curationJoin = withCuration ? 'LEFT JOIN playlist_curations c ON c.playlist_id=p.id' : '';
+  const selectedMedia = BASE_SELECT.replace('FROM app_jobs', 'FROM selected_media AS app_jobs');
   // Count, selected IDs and media are evaluated in one PostgreSQL statement/snapshot.
-  // Only page membership reaches the expensive media/settings projection.
+  // Materialize only selected raw rows before evaluating media/settings projections.
+  // Otherwise PostgreSQL can pull up the marketing UNION and hydrate every job.
+  // Joining the overlay once also avoids decoding every publication per page item.
+  // OFFSET 0 keeps each dimension/settings projection behind its selected-ID filter.
   return `WITH source_specs AS (
     SELECT * FROM jsonb_to_recordset($1::jsonb) AS spec(slug text,source_rank int,parent_slug text,aliases text[])
   ), sources AS (
@@ -54,7 +59,7 @@ function catalogSql(sort: ExampleSort, withCuration: boolean, idsOnly = false, o
       AND (s.source_rank=0 OR NOT EXISTS (SELECT 1 FROM sources WHERE source_rank=0 AND mode IS NOT NULL))
       AND NOT EXISTS (SELECT 1 FROM sources parent WHERE parent.slug=s.parent_slug AND parent.mode IS NOT NULL)
   ), eligible AS NOT MATERIALIZED (
-    SELECT job_id,engine_id,engine_label,created_at,duration_sec${includeVersionSamples ? `,${HAS_PROMPT_SQL} AS has_prompt` : ''} FROM app_jobs
+    SELECT job_id,engine_id,engine_label,created_at,duration_sec${includeVersionSamples ? `,${HAS_PROMPT_SQL} AS has_prompt` : ''} FROM catalog_jobs AS app_jobs
     WHERE ${CURATION_ELIGIBILITY} AND LOWER(engine_id)=ANY($2::text[])
   ), memberships AS (
     SELECT j.*,s.source_rank,CASE WHEN pi.order_index IS NULL THEN 1 ELSE 0 END AS selection_group,
@@ -73,22 +78,24 @@ function catalogSql(sort: ExampleSort, withCuration: boolean, idsOnly = false, o
   ), selected_page AS (
     SELECT job_id,ROW_NUMBER() OVER (ORDER BY ${SORT_SQL[sort]}) AS ordinal
     FROM unique_memberships ORDER BY ${SORT_SQL[sort]} LIMIT $3 OFFSET $4
-  ) ${idsOnly ? `SELECT totals.total,page.job_id,
+  )${idsOnly ? '' : `, selected_media AS MATERIALIZED (
+    SELECT app_jobs.* FROM app_jobs JOIN selected_page ON app_jobs.job_id=selected_page.job_id
+  )`} ${idsOnly ? `SELECT totals.total,page.job_id,page.ordinal AS preview_ordinal,
       ARRAY(SELECT slug FROM sources WHERE is_public=TRUE AND id NOT IN (SELECT id FROM active_sources) ORDER BY slug) AS suppressed_source_slugs
     FROM (SELECT COUNT(*)::int AS total FROM unique_memberships) totals
     LEFT JOIN selected_page page ON TRUE ORDER BY page.ordinal` : `SELECT totals.total,${includeVersionSamples ? `
       CASE WHEN page.ordinal=$4+1 OR page.job_id IS NULL THEN (
-        SELECT COALESCE(jsonb_agg(jsonb_build_object('engineId',engine_id,'videoId',job_id) ORDER BY ${SORT_SQL[sort]}),'[]'::jsonb)
+        SELECT COALESCE(jsonb_agg(jsonb_strip_nulls(jsonb_build_object('engineId',engine_id,'videoId',job_id,'engineLabel',NULLIF(engine_label,''))) ORDER BY ${SORT_SQL[sort]}),'[]'::jsonb)
         FROM (SELECT DISTINCT ON(engine_id) * FROM unique_memberships WHERE has_prompt
           ORDER BY engine_id,${SORT_SQL[sort]}) version_samples
       ) END AS version_samples,` : ''}media.*
     FROM (SELECT COUNT(*)::int AS total FROM unique_memberships) totals
     LEFT JOIN selected_page page ON TRUE
-    LEFT JOIN LATERAL (${BASE_SELECT} WHERE app_jobs.job_id=page.job_id) media ON TRUE
+    LEFT JOIN LATERAL (${selectedMedia} WHERE app_jobs.job_id=page.job_id OFFSET 0) media ON TRUE
     ORDER BY page.ordinal`}`;
 }
 
-async function readCatalogRows(options: CatalogPageOptions, idsOnly: boolean, db: QueryExecutor) {
+async function readCatalogRows(options: CatalogPageOptions, idsOnly: boolean, db: QueryExecutor, compare = false) {
   const limit = Number.isFinite(options.limit) ? Math.max(1, Math.floor(options.limit)) : 24;
   const offset = Number.isFinite(options.offset) ? Math.max(0, Math.floor(options.offset)) : 0;
   const empty: CatalogRow[] = [];
@@ -110,12 +117,17 @@ async function readCatalogRows(options: CatalogPageOptions, idsOnly: boolean, db
   const params = [JSON.stringify(sources), expandCatalogAliases(aliases), limit, offset, ...(options.curationOverride ? [JSON.stringify(options.curationOverride)] : [])];
   let result: CatalogRow[];
   try {
-    result = await db.query<CatalogRow>(catalogSql(options.sort, true, idsOnly, Boolean(options.curationOverride), options.includeVersionSamples), params);
+    const sql = compare
+      ? `SELECT 'current' AS preview_variant,current_page.* FROM (${catalogSql(options.sort, true, true)}) current_page
+         UNION ALL SELECT 'next' AS preview_variant,next_page.* FROM (${catalogSql(options.sort, true, true, true)}) next_page
+         ORDER BY preview_variant,preview_ordinal`
+      : catalogSql(options.sort, true, idsOnly, Boolean(options.curationOverride), options.includeVersionSamples);
+    result = await marketingCatalogReader(db).query<CatalogRow>(sql, params);
   } catch (error) {
     // Missing optional curation storage is the only schema error that permits fallback.
     const failure = error as { code?: string; message?: string };
     if (options.curationOverride || failure.code !== '42P01' || !failure.message?.includes('playlist_curations')) throw error;
-    result = await db.query<CatalogRow>(catalogSql(options.sort, false, idsOnly, false, options.includeVersionSamples), params);
+    result = await marketingCatalogReader(db).query<CatalogRow>(catalogSql(options.sort, false, idsOnly, false, options.includeVersionSamples), params);
   }
   return result;
 }
@@ -143,9 +155,25 @@ export async function listCatalogPage(options: CatalogPageOptions): Promise<List
 /** Preview diagnostics use the exact same active-source CTE as public membership. */
 export async function listCatalogPreviewIds(options: CatalogPageOptions, db: QueryExecutor) {
   const rows = await readCatalogRows(options, true, db);
+  return projectPreviewRows(rows);
+}
+
+function projectPreviewRows(rows: CatalogRow[]) {
   return {
     ids: rows.filter(row => row.job_id).map(row => row.job_id),
     total: Number(rows[0]?.total ?? 0),
     suppressedSourceSlugs: rows[0]?.suppressed_source_slugs ?? [],
+  };
+}
+
+/** Two exact public-reader CTEs, one round-trip and one PostgreSQL snapshot. */
+export async function listCatalogPreviewPair(
+  options: CatalogPageOptions & { curationOverride: CatalogCurationOverride }, db: QueryExecutor,
+) {
+  const limit = Number.isFinite(options.limit) ? Math.max(1, Math.min(500, Math.floor(options.limit))) : 500;
+  const rows = await readCatalogRows({ ...options, limit }, true, db, true);
+  return {
+    current: projectPreviewRows(rows.filter(row => row.preview_variant === 'current')),
+    next: projectPreviewRows(rows.filter(row => row.preview_variant === 'next')),
   };
 }

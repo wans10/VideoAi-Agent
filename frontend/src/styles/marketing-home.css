@@ -223,6 +223,55 @@
 @keyframes price-quote-first{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 @keyframes price-quote-second{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
+/* Homepage excerpt of the current light comparison table (PR #456). */
+.marketing-site .home-choice.home-choice-compact{background:#f5f2ed;color:#242320;border:0;padding-block:56px 24px;--text-primary:#242320;--text-secondary:#666159;--text-muted:#68635b;--surface:#faf8f5;--hairline:#d8d3cb}
+.marketing-site .choice-scorecard.comparison-preview{min-width:0;background:#faf8f5;border:1px solid #d8d3cb;border-radius:8px;padding:24px;box-shadow:0 16px 40px -32px #26231e55;color:#242320}
+.marketing-site .comparison-preview :is(button,a,summary):focus-visible{outline:2px solid #426f99;outline-offset:4px}
+.marketing-site .comparison-discovery-actions{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:26px}
+.marketing-site .comparison-discovery-actions a{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;min-height:48px;font-size:14px;font-weight:600;line-height:1.4}
+.marketing-site .comparison-discovery-actions .comparison-hub-cta{padding:13px 18px;border:1px solid #242320;border-radius:6px;background:#242320;color:#fff}
+.marketing-site .comparison-hub-cta:hover{background:#45413a}
+.marketing-site .comparison-generate-link{color:#426f99}
+.marketing-site .comparison-generate-link:hover{text-decoration:underline;text-underline-offset:4px}
+.marketing-site .comparison-discovery-actions a:focus-visible{outline:2px solid #426f99;outline-offset:4px}
+.marketing-site .comparison-preview .comparison-example-label{margin:0 0 22px;padding-bottom:16px;border-bottom:1px solid #d8d3cb;font-size:11px;font-weight:500;line-height:1.7;color:#666159}
+.marketing-site .comparison-example-label span{margin-inline:6px}
+.marketing-site .home-score-grid{width:100%;table-layout:fixed;border-collapse:collapse;text-align:left}
+.marketing-site .home-score-grid caption{caption-side:bottom;padding-top:12px;text-align:left;font-size:10px;line-height:1.5;color:#68635b}
+.marketing-site .home-score-criterion-col{width:36%}
+.marketing-site .home-score-grid thead{border-bottom:1px solid #d8d3cb}
+.marketing-site .home-score-grid thead th{padding:0 12px 18px;vertical-align:top;font-size:11px;font-weight:500}
+.marketing-site .home-score-grid thead th:first-child{padding-left:0;vertical-align:bottom}
+.marketing-site .home-score-grid thead th:first-child small{display:block;color:#68635b;margin-top:4px}
+.marketing-site .home-score-grid thead th:last-child{padding-right:0}
+.marketing-site .home-score-model{display:flex;align-items:center;gap:8px;min-height:36px;font-size:12px;line-height:1.35;font-weight:600}
+.marketing-site .home-score-model img{object-fit:contain;flex:none;width:22px;height:22px}
+.marketing-site .home-score-overall{display:flex;gap:5px;align-items:baseline;border-left:3px solid #648bb1;padding-left:9px;margin-top:12px}
+.marketing-site .home-score-heading-right .home-score-overall{border-color:#c9964d}
+.marketing-site .home-score-overall strong{font-size:25px;line-height:1;font-weight:600;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.marketing-site .home-score-overall small{font-size:9px;line-height:1.4;color:#68635b;font-weight:400}
+.marketing-site .home-score-grid tbody tr{border-bottom:1px solid #e0dcd6}
+.marketing-site .home-score-grid tbody th{padding:18px 12px 18px 0;vertical-align:middle}
+.marketing-site .home-score-grid tbody th strong{display:block;font-size:12px;line-height:1.4;font-weight:600;color:#242320}
+.marketing-site .home-score-grid tbody th small{display:block;margin-top:4px;font-size:10px;line-height:1.55;font-weight:400;color:#68635b}
+.marketing-site .home-score-value{padding:18px 12px;vertical-align:middle}
+.marketing-site .home-score-value:last-child{padding-right:0}
+.marketing-site .home-score-number{display:block;font-size:19px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;color:#242320}
+.marketing-site .home-score-number small{font-size:10px;font-weight:400;color:#68635b;margin-left:4px}
+.marketing-site .home-score-track{display:block;width:100%;height:6px;overflow:hidden;border-radius:99px;background:#e4e2df;margin-top:9px}
+.marketing-site .home-score-track>span{display:block;height:100%;border-radius:inherit;background:#7397b8;transform-origin:left}
+.marketing-site .home-score-value-right .home-score-track>span{background:#cda05d}
+.marketing-site .home-score-mobile-name{display:none}
+.marketing-site .comparison-footnotes{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 20px;margin-top:6px}
+.marketing-site .comparison-footnotes>a{color:#426f99;min-height:36px;font-size:11px}
+.marketing-site .comparison-global-note{margin:0;font-size:10px;line-height:1.6;color:#68635b;flex:1 1 230px}
+.marketing-site .home-choice-compact .choice-attribution{color:#68635b;margin-top:16px;opacity:1}
+.marketing-site .home-choice-compact .choice-attribution a{color:inherit}
+ .marketing-site .home-score-grid colgroup{display:none}
+ .marketing-site .home-score-grid thead tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+ .marketing-site .home-score-grid tbody{display:block}
+ .marketing-site .home-score-value,.marketing-site .home-score-value:last-child{padding:0;min-width:0}
+ .marketing-site .home-score-value-right .home-score-mobile-name{color:#956a2e}
 @media(max-width:700px){.marketing-site :is(.price-app-surface,.price-app-placeholder){min-height:384px}.marketing-site .price-app-surface textarea{min-height:78px!important;height:78px}.marketing-site .price-walkthrough{gap:12px}}
 
 /* Homepage SEO review: contextual links within the existing compact chapters. */
@@ -266,6 +315,16 @@
   .marketing-site.videoai-site .creative-worlds-grid figcaption strong { font-size: 22px; }
 }
 
+.marketing-site .price-app-surface [data-settings-density]>div{flex:0 0 62px}
+.marketing-site .price-app-surface [data-settings-density]{gap:6px;flex-wrap:nowrap}
+.marketing-site .price-app-surface [data-settings-density]>div:last-child{flex-basis:40px}
+.marketing-site .price-app-surface .app-generation-quote{display:grid;align-items:center;flex:none;width:72px;min-width:0}
+.marketing-site .price-placeholder-prompt{border:1px solid #e0d9ce;border-radius:7px;padding:16px;margin-top:32px;min-height:96px}
+.marketing-site .price-placeholder-prompt span{display:block;height:7px;background:#e5e0d6;border-radius:4px;margin:8px 0;width:90%}
+.marketing-site .price-placeholder-prompt span:last-child{width:55%}
+.marketing-site .price-placeholder-settings{display:flex;gap:8px;margin-top:12px}
+.marketing-site .price-placeholder-settings span{width:64px;height:32px;border:1px solid #e0d9ce;border-radius:6px}
+.marketing-site .price-placeholder-action{height:46px;width:160px;background:#e5e0d6;border-radius:7px;margin:12px 0 0 auto}
 .marketing-site.videoai-site .videoai-studio-preview { margin: 0; border: 1px solid #484b41; border-radius: 12px; background: #191a18; overflow: hidden; }
 .marketing-site.videoai-site .videoai-studio-preview-bar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 18px; border-bottom: 1px solid #484b41; font-size: 12px; color: #cbccbf; }
 .marketing-site.videoai-site .videoai-studio-preview-tabs { display: flex; gap: 24px; padding: 16px 20px; font-size: 13px; border-bottom: 1px solid #484b41; color: #cbccbf; }
@@ -310,3 +369,27 @@
 @media(max-width:760px) { .production-brief-section { padding: 52px 0; } .production-brief-heading { grid-template-columns: 1fr; gap: 34px; } .production-slate { transform: none; box-shadow: none; } .production-stage-list { grid-template-columns: 1fr; gap: 30px; margin-top: 44px; } .production-pipeline-note { flex-direction: column; align-items: flex-start; padding: 24px; } }
 .production-technical-reference { border-top: 1px solid var(--border); }
 .production-technical-reference > summary { padding: 28px 0; cursor: pointer; font-size: 15px; color: var(--text-secondary); }
+
+.marketing-site .home-comparison-directory{border-top:1px solid #d8d3cb;margin-top:24px;color:#666159;font-size:12px}
+.marketing-site .home-comparison-directory[open]{background:transparent;color:#666159}
+.marketing-site .home-comparison-directory :is(summary,a):focus-visible{outline:2px solid #426f99;outline-offset:4px;border-radius:2px}
+.marketing-site .home-choice .comparison-global-note[open]{background:transparent;color:#666159}
+/* Studio and connected assistants share a single conversation chapter. */
+.marketing-site .home-conversation-detail{font-size:13px;line-height:1.7;color:var(--text-secondary);margin-top:16px;max-width:48ch}
+.marketing-site .home-conversation-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;margin-top:24px}
+.marketing-site .home-conversation-actions .editorial-action{margin-top:0}
+.marketing-site .home-studio-open{display:inline-flex;align-items:center;gap:14px;min-height:48px;font-size:14px;font-weight:550;color:var(--text-primary)}
+.marketing-site .home-studio-open:hover{text-decoration:underline;text-underline-offset:4px}
+.marketing-site .home-conversation-actions a:focus-visible{outline:2px solid var(--brand);outline-offset:5px}
+.marketing-site .home-studio-preview{display:block;overflow:hidden;border:1px solid var(--hairline);border-radius:10px;box-shadow:0 20px 50px rgb(25 29 20 / .08)}
+.marketing-site .home-studio-preview img{display:block;width:100%;height:auto}
+.marketing-site .home-studio-preview:focus-visible{outline:2px solid var(--brand);outline-offset:5px}
+.marketing-site .home-conversation .home-assistant-strip{margin-top:48px}
+/* The demo has one surface; its real Composer controls share one baseline. */
+@container(max-width:520px){
+ .marketing-site .price-app-surface .app-generation-controls,.marketing-site .price-app-surface .app-generation-action{width:100%}
+ .marketing-site .price-app-surface [data-settings-density] button svg{width:13px;height:13px}
+}
+/* Reserve the same narrow toolbar height while its Composer chunk loads. */
+/* Keep the homepage footer caption readable on its warm background. */
+.marketing-site:has(.home-monochrome) .marketing-footer-assistants .marketing-menu-caption{color:var(--text-secondary)}

@@ -11,7 +11,7 @@
     "saved": "Votre mot de passe a été modifié.",
     "continueToApp": "Accéder à l’application",
     "requestNew": "Demander un nouveau lien",
-    "invalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau. Si vous avez changé de navigateur, essayez d’ouvrir le lien initial dans le navigateur utilisé pour le demander.",
+    "invalid": "Ce lien est invalide, expiré ou déjà utilisé. Demandez-en un nouveau pour réinitialiser votre mot de passe.",
     "tooShort": "Utilisez au moins 6 caractères.",
     "mismatch": "Les mots de passe ne correspondent pas.",
     "weak": "Choisissez un mot de passe plus robuste.",
@@ -177,6 +177,8 @@
           "wan-2-6-vs-wan-3": "Wan 2.6 vs Wan 3",
           "flux-3-vs-grok-imagine-video-1-5": "FLUX 3 vs Grok Imagine Video 1.5",
           "grok-imagine-video-1-5-vs-sora-2": "Grok Imagine Video 1.5 vs Sora 2",
+          "kling-v4-vs-seedance-2-5": "Kling 4.0 vs Seedance 2.5",
+          "kling-v4-vs-wan-3-prime": "Kling 4.0 vs Wan 3 Prime",
           "minimax-h3-vs-seedance-2-5": "MiniMax H3 vs Seedance 2.5",
           "kling-o3-pro-vs-minimax-h3": "Kling 3.0 Omni Pro vs MiniMax H3",
           "minimax-h3-vs-veo-3-1": "MiniMax H3 vs Veo 3.1",
@@ -197,7 +199,7 @@
           "sora-2-vs-wan-2-6": "Sora 2 vs Wan 2.6",
           "ltx-2-vs-veo-3-1": "LTX 2 vs Veo 3.1",
           "ltx-2-5-fast-vs-ltx-2-5-pro": "LTX 2.5 Fast vs Pro",
-          "gemini-omni-flash-vs-veo-3-1": "Gemini Omni Flash 1.1 vs Veo 3.1",
+          "gemini-omni-flash-vs-veo-3-1": "Gemini Omni Flash 1.2 vs Veo 3.1",
           "seedance-2-0-vs-seedance-2-0-fast": "Seedance 2.0 vs Fast"
         },
         "sections": {
@@ -217,12 +219,18 @@
       "tools": {
         "items": {
           "ai-video-assistant": "Assistant vidéo Claude, ChatGPT et Codex",
-          "character-builder": "Personnages IA cohérents",
+          "character-builder": "Character Studio",
           "angle": "Changer l’angle caméra",
           "upscale": "Agrandir une image ou vidéo",
           "image": "Générer une image",
           "audio": "Créer de l’audio",
-          "background-removal": "Détourer une vidéo"
+          "background-removal": "Détourer une vidéo",
+          "studio": "Studio",
+          "subtitles": "Sous-titres vidéo",
+          "lip-sync": "Lip Sync",
+          "product-photo-editor": "Retouche photo produit",
+          "product-video-editor": "Retouche vidéo produit",
+          "motion-transfer": "Motion Transfer"
         },
         "heading": "Préparez votre prochaine scène.",
         "intro": "Créez vos références, changez un angle et soignez les détails.",
@@ -233,6 +241,9 @@
               "get-started": "Premiers pas"
             }
           }
+        },
+        "descriptions": {
+          "studio": "Votre espace de création avec l’IA."
         }
       },
       "workflows": {
@@ -470,7 +481,7 @@
         "href": "/return-policy"
       }
     ],
-    "brandNote": "Centre indépendant pour la vidéo IA professionnelle — prix affiché avant génération, restez sur les derniers modèles, un espace pour chaque plan. Fonctionne avec Seedance, Kling, Veo, LTX, Wan, Pika et plus. Les marques appartiennent à leurs propriétaires.",
+    "brandNote": "Un espace pour la vidéo, l’image et l’audio IA. Développez votre idée avec Milo, préparez un projet dans Studio et vérifiez le prix avant de générer. Les noms et marques des modèles tiers appartiennent à leurs propriétaires.",
     "languageLabel": "Langue",
     "languages": [
       {
@@ -566,7 +577,7 @@
         "title": "Produit",
         "items": {
           "angle": "Changer l’angle de vue",
-          "characterBuilder": "Character Builder",
+          "characterBuilder": "Character Studio",
           "pricing": "Tarifs",
           "paygVideo": "Vidéo IA à l’usage",
           "models": "Tous les modèles"
@@ -654,39 +665,26 @@
           "engineLabel": "2. Comparer les modèles recommandés",
           "engineRecommendations": [
             {
-              "engineId": "minimax-h3-max",
-              "name": "MiniMax H3 Max",
-              "provider": "MiniMax",
-              "bestFor": "Récit catastrophe cinématographique",
-              "imageAlt": "Une mère et un enfant se mettent à l’abri dans une catastrophe rétrofuturiste photoréaliste générée avec MiniMax H3 Max.",
-              "fallbackPrice": "Prix actualisé",
-              "selected": true,
-              "scores": [
-                {
-                  "label": "Motion",
-                  "value": 91
-                },
-                {
-                  "label": "Réalisme",
-                  "value": 88
-                },
-                {
-                  "label": "Vitesse",
-                  "value": 92
-                }
-              ],
+              "engineId": "flux-3-max",
+              "name": "FLUX 3 Max",
+              "provider": "Black Forest Labs",
+              "bestFor": "Fantastique cinématographique",
+              "imageAlt": "Une reine en armure traverse une salle du trône dans The Uncrowned, une vidéo FLUX 3 Max de 18 secondes.",
+              "fallbackPrice": "Tarif en direct",
               "tags": [
-                "Narration",
+                "Fantastique",
                 "Audio natif",
-                "Prise de vues réelle"
-              ]
+                "Cinématique"
+              ],
+              "selected": true,
+              "scores": []
             },
             {
               "engineId": "seedance-2-5",
-              "imageAlt": "Aperçu d’une vidéo IA de 10 secondes générée avec Seedance 2.5.",
+              "imageAlt": "Un chat roux affronte deux hommes dans une scène d’action générée avec Seedance 2.5.",
               "name": "Seedance 2.5",
               "provider": "ByteDance",
-              "bestFor": "Physique cinématique complexe",
+              "bestFor": "Action et humour",
               "fallbackPrice": "Prix actualisé",
               "scores": [
                 {
@@ -703,17 +701,17 @@
                 }
               ],
               "tags": [
-                "Physique",
+                "Action",
                 "Audio",
                 "Cinéma"
               ]
             },
             {
-              "engineId": "wan-3-prime",
-              "imageAlt": "Aperçu d’une vidéo IA de 5 secondes générée avec Wan 3 Prime.",
-              "name": "Wan 3 Prime",
+              "engineId": "wan-3",
+              "imageAlt": "Un clip Wan 3 de 22 secondes mêle sons de la ville, percussionniste de rue et métro.",
+              "name": "Wan 3",
               "provider": "Alibaba",
-              "bestFor": "Gestes artisanaux contrôlés",
+              "bestFor": "Rythme et mouvement urbain",
               "fallbackPrice": "Prix actualisé",
               "scores": [
                 {
@@ -730,9 +728,9 @@
                 }
               ],
               "tags": [
-                "Artisanat",
+                "Clip musical",
                 "Réalisme",
-                "Caméra"
+                "Audio"
               ]
             },
             {
@@ -763,30 +761,30 @@
               ]
             },
             {
-              "engineId": "ltx-2-5-pro",
-              "imageAlt": "Aperçu d’une image animée en vidéo de 6 secondes avec LTX 2.5 Pro.",
-              "name": "LTX 2.5 Pro",
-              "provider": "Lightricks",
-              "bestFor": "Animation d’image rapide",
+              "engineId": "minimax-h3",
+              "name": "MiniMax H3",
+              "provider": "MiniMax",
+              "bestFor": "Action cinématographique",
+              "imageAlt": "Un personnage survole une baie tropicale à grande vitesse dans une vidéo MiniMax H3 de 15 secondes.",
               "fallbackPrice": "Prix actualisé",
               "scores": [
                 {
                   "label": "Motion",
-                  "value": 88
+                  "value": 91
                 },
                 {
                   "label": "Réalisme",
-                  "value": 84
+                  "value": 88
                 },
                 {
                   "label": "Vitesse",
-                  "value": 87
+                  "value": 92
                 }
               ],
               "tags": [
-                "Rapide",
-                "Image",
-                "Contrôle"
+                "Action",
+                "Audio natif",
+                "Cinéma"
               ]
             }
           ],
@@ -1150,7 +1148,7 @@
           {
             "title": "Verrouiller la continuité du personnage",
             "body": "Créez une référence réutilisable pour scènes, variantes et storyboards.",
-            "toolLabel": "Character Builder",
+            "toolLabel": "Character Studio",
             "href": {
               "pathname": "/tools/character-builder"
             }
@@ -1211,7 +1209,7 @@
           },
           {
             "id": "character-builder",
-            "title": "Character Builder",
+            "title": "Character Studio",
             "body": "Créez des personnages cohérents.",
             "shortBody": "Gardez les personnages cohérents.",
             "href": {
@@ -1255,7 +1253,7 @@
         "title": "Voyez le coût avant de générer.",
         "subtitle": "Keyvo affiche le prix avant chaque génération vidéo, pour garder vos crédits sous contrôle.",
         "cta": "Voir les tarifs",
-        "supportingText": "Keyvo est un générateur vidéo IA multi-modèles au paiement à l’usage pour Seedance, Kling, Veo, LTX, Wan, Pika et plus.",
+        "supportingText": "Comparez FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 et d’autres modèles. Préparez le prompt avec Milo, vérifiez le prix et créez à l’usage.",
         "modelsLink": "Modèles",
         "examplesLink": "Exemples",
         "compareLink": "Comparer les modèles",
@@ -1280,18 +1278,29 @@
       },
       "providers": {
         "title": "Modèles et fournisseurs pris en charge",
-        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax, Luma sont accessibles depuis un seul catalogue de modèles.",
+        "subtitle": "Retrouvez FLUX, MiniMax, Kling, Seedance, Veo, LTX et Wan dans un seul catalogue.",
         "cta": "Voir tous les modèles",
         "items": [
           {
+            "providerKey": "Black Forest Labs",
+            "provider": "Black Forest Labs",
+            "model": "FLUX 3 Max",
+            "href": {
+              "pathname": "/models/[slug]",
+              "params": {
+                "slug": "flux-3-max"
+              }
+            }
+          },
+          {
             "providerKey": "ByteDance",
             "provider": "ByteDance",
-            "model": "Seedance"
+            "model": "Seedance 2.5"
           },
           {
             "providerKey": "Kling by Kuaishou",
             "provider": "Kling / Kuaishou",
-            "model": "Kling"
+            "model": "Kling 4.0"
           },
           {
             "providerKey": "Google",
@@ -1301,17 +1310,12 @@
           {
             "providerKey": "Lightricks",
             "provider": "Lightricks",
-            "model": "LTX"
+            "model": "LTX 2.5"
           },
           {
             "providerKey": "Wan",
             "provider": "Wan",
-            "model": "Wan"
-          },
-          {
-            "providerKey": "Pika",
-            "provider": "Pika",
-            "model": "Pika"
+            "model": "Wan 3"
           },
           {
             "providerKey": "Alibaba",
@@ -1327,7 +1331,7 @@
           {
             "providerKey": "MiniMax",
             "provider": "MiniMax",
-            "model": "MiniMax"
+            "model": "MiniMax H3"
           },
           {
             "providerKey": "Luma AI",
@@ -1455,16 +1459,13 @@
     "worksWith": {
       "label": "Fonctionne avec",
       "brands": [
+        "FLUX 3 Max",
+        "MiniMax H3",
+        "Kling 4.0",
         "Seedance 2.5",
         "Veo 3.1",
-        "LTX 2 Fast",
-        "LTX 2",
-        "Kling 2.6 Pro",
-        "Pika 2.2",
-        "MiniMax Hailuo 02",
-        "Kling 2.5",
-        "Wan 2.5",
-        "Nano Banana"
+        "LTX 2.5",
+        "Wan 3"
       ],
       "caption": "Les marques appartiennent à leurs propriétaires.",
       "availabilityNotice": "La disponibilité peut varier selon le fournisseur ; les pastilles de prix se rafraîchissent automatiquement.",
@@ -1506,7 +1507,7 @@
       },
       {
         "title": "Tous vos modèles au même endroit.",
-        "body": "Basculez entre Seedance 2.5, Veo, Pika, MiniMax et Hunyuan sans jongler entre plusieurs tableaux de bord ni clés API."
+        "body": "Essayez FLUX 3 Max, MiniMax H3, Kling 4.0 et Seedance 2.5 dans le même espace. Comparez les exemples et le devis de vos réglages avant de choisir."
       }
     ],
     "ways": [
@@ -1546,10 +1547,10 @@
           "cta": "Ouvrir Image"
         },
         "character": {
-          "eyebrow": "Character Builder",
+          "eyebrow": "Character Studio",
           "title": "Verrouillez la continuité du personnage",
           "body": "Créez une ancre portrait ou une fiche 8 panneaux avant de l’utiliser dans plusieurs scènes.",
-          "cta": "Ouvrir Character Builder"
+          "cta": "Ouvrir Character Studio"
         },
         "angle": {
           "eyebrow": "Angle",
@@ -1710,7 +1711,7 @@
     "priceChipSuffix": "Visible avant lancement.",
     "meta": {
       "title": "Générateur vidéo IA sans abonnement | Keyvo",
-      "description": "Comparez Seedance, Kling, Veo, LTX, Wan, Pika et plus avant de générer. Prévisualisez de vrais résultats, voyez le prix à l’avance et générez avec paiement à l’usage."
+      "description": "Comparez FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 et d’autres modèles. Préparez le prompt avec Milo, vérifiez le prix et créez à l’usage."
     },
     "compare": {
       "title": "Comparer les modèles en un coup d’œil",
@@ -1778,7 +1779,7 @@
       "compare": {
         "title": "Comparez les modèles vidéo IA avant de générer",
         "body": "Testez et comparez plusieurs modèles dans un espace unifié. Analysez leurs forces (vitesse, précision, mouvement, réalisme, style), choisissez le bon pour chaque plan et gardez un contrôle total sur le coût avant génération.",
-        "worksWith": "Compatible avec MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Wan 2.6, Pika 2.2... et d’autres.",
+        "worksWith": "Compatible avec FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, Veo 3.1, LTX 2.5, Wan 3 et des modèles image.",
         "popularLinks": [
           {
             "label": "Comparatif MiniMax H3 vs Seedance 2.5",
@@ -1924,13 +1925,13 @@
       "cards": [
         {
           "title": "Clip social (vertical)",
-          "engine": "Pika 2.2",
+          "engine": "FLUX 3 Max",
           "duration": "5 s",
           "resolution": "1080×1920",
           "audio": "Silencieux",
           "note": "Débité uniquement si le rendu aboutit.",
           "pricingScenario": {
-            "engineId": "pika-text-to-video",
+            "engineId": "flux-3-max",
             "durationSec": 5,
             "resolution": "1080p",
             "memberTier": "member"
@@ -1973,7 +1974,7 @@
         "La résolution change le prix sur les modèles avec niveaux 720p, 1080p, 1440p ou 4K.",
         "Les routes texte-vers-vidéo IA, image-vers-vidéo IA et vidéo-vers-vidéo IA peuvent avoir des prix différents selon le modèle et le type d’entrée.",
         "L’audio peut être inclus, optionnel ou absent selon la famille de modèles.",
-        "Le niveau du modèle (Veo, LTX, Kling, Seedance, Pika, Wan) fixe le tarif de base."
+        "Le modèle et le mode choisis fixent le prix de départ ; la durée, la résolution et les références peuvent le modifier."
       ]
     },
     "teams": {
@@ -2006,7 +2007,7 @@
         },
         {
           "question": "Quel moteur vidéo IA est le moins cher ?",
-          "answer": "Le moteur le moins cher dépend du scénario. Un brouillon 5 s 720p, un clip premium 8 s 1080p, une vidéo 10 s 1080p et une sortie 4K peuvent avoir des gagnants différents. Le tableau met d’abord en avant les moteurs de génération actuelle et liste séparément les routes budget plus anciennes quand elles existent."
+          "answer": "Choisissez d’abord la durée, la résolution et l’audio, puis comparez la même colonne. Le prix mis en avant est le devis disponible le plus bas parmi les modèles actuels admissibles du tableau. Les anciens modèles restent listés séparément ; un prix inférieur ne garantit pas un meilleur résultat."
         },
         {
           "question": "Quel moteur est le moins cher pour une vidéo 10 s 1080p ?",
@@ -2026,7 +2027,7 @@
         },
         {
           "question": "Les générations échouées coûtent-elles des crédits ?",
-          "answer": "Non. Les générations échouées sont remboursées automatiquement. Les crédits ne sont débités que lorsqu’une génération se termine avec succès."
+          "answer": "Un échec technique est différent d’un clip terminé qui ne vous plaît pas. Les générations échouées donnent lieu à un remboursement de crédits ; l’insatisfaction subjective concernant un résultat terminé n’est normalement pas remboursable. Consultez la politique de remboursement pour les conditions."
         },
         {
           "question": "Faut-il un abonnement ?",
@@ -2034,15 +2035,15 @@
         },
         {
           "question": "Pourquoi certains moteurs moins chers ne sont-ils pas mis en avant ?",
-          "answer": "Certaines routes de génération précédente peuvent être moins chères pour de simples tests, mais Keyvo met d’abord en avant les moteurs de génération actuelle, généralement meilleurs pour les nouveaux projets. Les routes budget plus anciennes restent listées séparément quand elles sont disponibles."
+          "answer": "Les cartes comparent les modèles actuels admissibles à réglages identiques. Les modèles de génération précédente restent dans le tableau et peuvent coûter moins cher. Ce regroupement aide à choisir ; il ne garantit pas une meilleure qualité."
         },
         {
           "question": "Les images, l’audio et les outils sont-ils tarifés comme la vidéo ?",
           "answer": "Non. La vidéo, l’image, l’audio et les outils suivent des règles différentes. L’image est souvent facturée par image, l’audio par durée ou mode, et les outils par type de sortie ou résolution."
         },
         {
-          "question": "Pourquoi le tableau affiche-t-il des prix totaux plutôt qu’un coût par seconde ?",
-          "answer": "La plupart des utilisateurs comparent le coût complet d’un rendu, pas un tarif brut à la seconde. Keyvo affiche des prix totaux sur des scénarios courants comme 8 s 1080p, 10 s 1080p et la sortie 4K. Les tarifs à la seconde ou provider peuvent varier selon le moteur, la durée, la résolution et les arrondis, et l’app affiche le devis exact avant génération."
+          "question": "Le prix affiché couvre-t-il toutes les tentatives ?",
+          "answer": "Chaque nouvelle génération a son propre devis. Si vous réalisez plusieurs essais terminés pour obtenir le plan souhaité, chaque essai est une génération distincte. Prévoyez un budget pour la scène, au-delà du prix d’un seul clip."
         },
         {
           "question": "À quelle fréquence les prix changent-ils ?",
@@ -2236,8 +2237,8 @@
         },
         {
           "emoji": "⚡",
-          "title": "Quand choisir Pika ou MiniMax",
-          "body": "Pika 2.2 brille sur les boucles stylisées et le social, MiniMax Hailuo 02 garde les budgets serrés pour les runs volumineux."
+          "title": "Découvrez les familles de modèles actuelles",
+          "body": "Comparez FLUX 3 Max, MiniMax H3, Kling 4.0 et Seedance 2.5 avec les références et réglages de votre projet. Les exemples aident à choisir le rendu ; le devis permet de comparer le coût."
         },
         {
           "emoji": "🖼️",
@@ -2922,12 +2923,12 @@
       ],
       "library": [
         {
-          "href": "/fr/comparatif/seedance-2-0-vs-sora-2",
-          "label": "Seedance 2.0 vs Sora 2"
+          "href": "/studio",
+          "label": "Créer avec Studio"
         },
         {
-          "href": "/fr/modeles",
-          "label": "Modèles"
+          "href": "/examples",
+          "label": "Exemples publics"
         }
       ]
     },
@@ -2935,8 +2936,14 @@
       "heading": "Bibliothèque",
       "liveLabel": "En ligne",
       "comingSoonLabel": "À venir",
-      "summaryLive": "Parcourez les médias enregistrés dans votre compte et réutilisez-les comme références dans les modes de génération compatibles.",
-      "summarySoon": "Documentation à venir."
+      "summaryLive": "Ouvrez Médias dans votre compte connecté pour retrouver les images, vidéos et sons de vos créations et vos fichiers importés enregistrés. Votre bibliothèque personnelle est distincte de la galerie publique Exemples.",
+      "summarySoon": "Documentation à venir.",
+      "steps": [
+        "Retrouvez un résultat : utilisez les filtres par type de média ou la recherche ; passez à l’historique des créations pour vérifier l’état d’un job.",
+        "Consultez les informations disponibles : ouvrez le résultat pour le voir ou l’écouter, lire ses dimensions ou sa durée, et retrouver le prompt ou les réglages lorsqu’ils sont enregistrés.",
+        "Gardez l’original : utilisez Télécharger l’original sur une sortie disponible. Téléchargez les fichiers importants plutôt que de compter sur un lien de média copié, qui peut expirer.",
+        "Repartez de ce média : choisissez une référence ou un outil compatible. Reprenez les réglages d’un résultat lorsque cette action est proposée, puis vérifiez les entrées et le nouveau prix."
+      ]
     },
     "feedback": {
       "srTitle": "Retour",
@@ -3015,7 +3022,7 @@
         },
         {
           "title": "Prendre les outils en main",
-          "body": "Découvrez comment Character Builder et Angle vous aident à construire un personnage ou à explorer plusieurs points de vue."
+          "body": "Découvrez comment Character Studio et Angle vous aident à construire un personnage ou à explorer plusieurs points de vue."
         },
         {
           "title": "Choisir un modèle",
@@ -3123,7 +3130,7 @@
     },
     "paragraphs": [
       "Nous pensons que les équipes professionnelles méritent de la clarté avant de générer. Cela signifie transparence des prix, routage fiable et contexte partagé entre créatifs, producteurs et parties prenantes.",
-      "L'indépendance compte : nous restons neutres entre les modèles, nous nous intégrons à Seedance 2.5, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image, et des bêtas rotatives, et n'énumérons les marques déposées que pour décrire la compatibilité.",
+      "Choisissez parmi FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, Veo, LTX, Wan et les modèles image dans un seul espace. Milo aide à transformer une idée en prompt ; Studio aide à préparer un projet. Vérifiez les entrées, exemples et devis de chaque modèle. Les marques tierces décrivent la compatibilité.",
       "Le produit est conçu pour les équipes ayant besoin de précision sans bruit. Interface discrète, paramètres par défaut premium, contrôles précis et puces « prix avant » qui tiennent la finance informée.",
       "Nous gardons le flux de production concret : comparer les modèles, préparer les assets, générer seulement lorsque le coût et les réglages sont clairs, puis relire les sorties dans un seul espace plutôt que disperser le contexte entre plusieurs tableaux de bord fournisseurs."
     ],
@@ -3132,10 +3139,10 @@
   "contact": {
     "hero": {
       "title": "Contactez l'équipe.",
-      "subtitle": "Besoin d'assistance, d'intégration entreprise ou d'informations presse ? Envoyez-nous un message et nous répondrons dans un délai d'un jour ouvrable."
+      "subtitle": "Contactez Keyvo pour le support produit, les partenariats ou les demandes presse."
     },
     "intro": {
-      "body": "Contactez-nous pour le support, les partenariats, les besoins entreprise ou les demandes éditoriales. Plus votre message contient du contexte sur l’équipe, les modèles visés, l’échéance ou les contraintes conformité, plus vite il arrive à la bonne personne. Chaque demande reçoit une réponse humaine.",
+      "body": "Décrivez votre demande. Pour un problème de génération, ajoutez l’identifiant du job ; pour un partenariat ou la presse, précisez votre projet, publication et échéance.",
       "cards": {
         "productHelp": {
           "title": "Aide produit",
@@ -3185,7 +3192,7 @@
       "items": [
         {
           "question": "Sous quel délai recevez-vous une réponse ?",
-          "answer": "Nous répondons pendant les heures ouvrées en Europe et aux États-Unis. La plupart des demandes support reçoivent une réponse humaine en moins de 12 heures, les demandes entreprise en moins de 24 heures."
+          "answer": "Le délai de réponse dépend de la demande et de la disponibilité du support. Ajoutez l’identifiant du job concerné et une description précise pour faciliter la vérification."
         },
         {
           "question": "Proposez-vous des démos en direct ?",
@@ -3193,13 +3200,13 @@
         },
         {
           "question": "Où vérifier l’état du service ?",
-          "answer": "Consultez la {link} pour vérifier la latence des modèles et l’historique des incidents avant d’ouvrir un ticket."
+          "answer": "Consultez la {email} pour les avis de service publiés par l’équipe Keyvo. Si une génération est retardée, contactez le support avec l’identifiant du job."
         }
       ]
     },
     "statusCard": {
-      "title": "Vérifier l’état des modèles en direct",
-      "body": "Avant d’ouvrir un ticket, vérifiez si un modèle est déjà dégradé. La page de statut liste les latences, les notes d’incident et les mesures d’atténuation pour vous aider à décider s’il faut relancer ou changer de modèle.",
+      "title": "Avis de service",
+      "body": "La page de statut affiche les avis de service publiés par l’équipe. Si une génération est retardée, évitez de relancer le même job et contactez le support avec son identifiant.",
       "cta": "page de statut"
     }
   },
@@ -3636,7 +3643,7 @@
       "galleryRail": {
         "title": "Derniers rendus",
         "viewAll": "Tout voir",
-        "curated": "Des extraits exemples sélectionnés par l’équipe MaxVideo s’affichent ici jusqu’à ce que vous génériez vos propres vidéos.",
+        "curated": "Des extraits exemples sélectionnés par l’équipe Keyvo s’affichent ici jusqu’à ce que vous génériez vos propres vidéos.",
         "error": "Impossible de charger les derniers rendus. Merci de réessayer.",
         "retry": "Réessayer",
         "imageCta": "Générer des images",
@@ -3851,7 +3858,7 @@
         "beta": "Bientôt — portefeuilles partagés, validations et budgets. Rejoignez la bêta sur {email}.",
         "email": "contact@llmhub.com.cn"
       },
-      "curated": "Des rendus exemples sélectionnés par l’équipe MaxVideo apparaissent ici jusqu’à ce que vous génériez vos propres clips.",
+      "curated": "Des rendus exemples sélectionnés par l’équipe Keyvo apparaissent ici jusqu’à ce que vous génériez vos propres clips.",
       "error": "Impossible de charger l’historique.",
       "retry": "Réessayer",
       "empty": "Aucun rendu pour l’instant. Lancez une génération pour remplir votre historique.",
@@ -3866,7 +3873,14 @@
         "expandSection": "Afficher",
         "collapseSection": "Masquer",
         "saving": "Enregistrement…",
-        "removing": "Suppression…"
+        "removing": "Suppression…",
+        "savePending": "Enregistrement dans Médias…",
+        "saveError": "Impossible d’enregistrer dans Médias. Réessayez.",
+        "saveSuccess": "Enregistré dans Médias.",
+        "removePending": "Retrait de l’historique…",
+        "removeError": "Impossible de retirer ce résultat de l’historique. Réessayez.",
+        "removeSuccess": "Retiré de l’historique.",
+        "dismiss": "Fermer"
       }
     },
     "dashboard": {
@@ -4228,6 +4242,9 @@
         "seedPlaceholder": "Optionnelle",
         "outputFormatLabel": "Format de sortie",
         "outputFormatHint": "Choisissez le type de fichier des images finales.",
+        "outputCompressionLabel": "Compression de sortie",
+        "outputCompressionHint": "JPEG/WebP uniquement, de 0 à 100. Laissez vide pour 100. Modifie le fichier, pas le prix de génération.",
+        "gpt26AutoQuoteHint": "La taille Auto est facturée au format maximal ; la qualité Auto au niveau Max. Ce devis fixe peut dépasser le coût du résultat généré.",
         "qualityLabel": "Qualité",
         "backgroundLabel": "Arrière-plan",
         "qualityHint": "Ajuste la fidélité du modèle et le coût lorsque cette option est disponible.",
@@ -4238,6 +4255,7 @@
         "enableWebSearchLabel": "Recherche web",
         "enableWebSearchHint": "Utilisez le contexte web actuel lorsque le modèle le permet.",
         "thinkingLevelLabel": "Niveau de raisonnement",
+        "complexityLabel": "Complexité de planification",
         "thinkingLevelHint": "Augmentez la profondeur de raisonnement lorsque le modèle le permet.",
         "limitGenerationsLabel": "Limiter les générations",
         "limitGenerationsHint": "Réduisez les générations exploratoires supplémentaires lorsque cette option est disponible.",
@@ -4376,6 +4394,7 @@
         "importing": "Import…",
         "importFailed": "Import impossible. Réessayez.",
         "refresh": "Actualiser",
+        "loadMore": "Charger plus",
         "searchSaved": "Rechercher un nom ou un ID de rendu…",
         "searchRenders": "Rechercher un prompt ou un ID de rendu…",
         "create": "Créer"
@@ -4412,7 +4431,7 @@
         "emptyUploads": "Aucun média importé pour le moment. Importez un fichier depuis votre appareil pour le voir ici.",
         "emptyGenerated": "Aucun rendu enregistré pour le moment. Parcourez les rendus récents et enregistrez les outputs utiles.",
         "emptyStoryboard": "Aucun storyboard enregistré pour le moment. Enregistrez une image storyboard pour la voir ici.",
-        "emptyCharacter": "Aucun asset personnage enregistré. Générez-en un dans Character Builder pour le voir ici.",
+        "emptyCharacter": "Aucun asset personnage enregistré. Générez-en un dans Character Studio pour le voir ici.",
         "emptyAngle": "Aucun asset angle enregistré. Générez-en un dans l’outil Angle pour le voir ici.",
         "emptyUpscale": "Aucun asset upscale enregistré. Enregistrez un résultat upscale pour le voir ici.",
         "deleteError": "Suppression impossible pour cet asset.",
@@ -4725,7 +4744,8 @@
         "jobLabel": "Job {id}",
         "sourceLabel": "Source {label}",
         "uploadDurationWarning": "La vidéo source a bien été importée, mais sa durée n’a pas pu être lue dans le navigateur.",
-        "selectedDurationWarning": "La vidéo sélectionnée a bien été chargée, mais sa durée n’a pas pu être confirmée dans le navigateur."
+        "selectedDurationWarning": "La vidéo sélectionnée a bien été chargée, mais sa durée n’a pas pu être confirmée dans le navigateur.",
+        "previewUnavailable": "Aperçu de la source indisponible."
       },
       "controls": {
         "eyebrow": "Réglages",
@@ -5016,7 +5036,9 @@
           "label": "Qwen Multiple Angles",
           "description": "Modèle Qwen d’édition d’image multi-angle optimisé pour la cohérence des angles."
         }
-      }
+      },
+      "sourcePreviewUnavailable": "Aperçu de la source indisponible.",
+      "retrySourcePreview": "Réessayer"
     },
     "characterBuilder": {
       "auto": "Auto",
@@ -5343,11 +5365,11 @@
         "quality": {
           "draft": {
             "label": "Standard",
-            "description": "Passes exploratoires rapides sur Nano Banana 2."
+            "description": "Passes exploratoires rapides sur Nano Banana 2.1."
           },
           "final": {
             "label": "Pro",
-            "description": "Références plus propres prêtes à l’export sur Nano Banana Pro."
+            "description": "Références plus propres prêtes à l’export sur Nano Banana 2.1."
           }
         },
         "format": {
@@ -6991,14 +7013,23 @@
       "ageRequired": "Confirmez que vous respectez l’âge minimum requis."
     },
     "feedback": {
+      "passwordUnavailable": "Impossible de terminer votre demande. Veuillez réessayer.",
       "signingIn": "Connexion…",
       "signinRedirecting": "Connexion réussie. Redirection…",
       "signinSuggestion": "Ces informations ne permettent pas de vous connecter. Si vous êtes nouveau, créez votre compte sans tout ressaisir.",
+      "emailNotConfirmed": "Votre adresse e-mail n’est pas encore confirmée. Vérifiez votre boîte de réception et vos indésirables, ou demandez un nouveau lien ci-dessous.",
+      "resendConfirmation": "Renvoyer un lien de confirmation",
+      "sendingConfirmation": "Envoi du lien de confirmation…",
+      "confirmationResent": "Si cette adresse doit encore être confirmée, nous enverrons un nouveau lien. Vérifiez vos e-mails et les indésirables.",
+      "confirmationRateLimited": "Patientez quelques minutes avant de demander un autre lien de confirmation.",
+      "confirmationUnavailable": "Impossible d’envoyer un nouveau lien de confirmation. Réessayez plus tard.",
+      "signupLinkFailed": "Ce lien de confirmation est invalide, expiré ou déjà utilisé. Connectez-vous par e-mail et mot de passe ; si votre adresse doit encore être confirmée, vous pourrez demander un nouveau lien ici.",
       "mcpSigninFailed": "La connexion a échoué. Vérifiez votre e-mail et votre mot de passe, utilisez « Mot de passe oublié ? », ou continuez avec Google si vous avez créé votre compte Keyvo ainsi.",
       "signupSuggestionReady": "Parfait, créons votre compte.",
       "creatingAccount": "Création du compte…",
       "accountRedirecting": "Compte créé. Redirection…",
       "confirmEmail": "Si votre compte nécessite une confirmation, consultez vos e-mails. Vous avez déjà un compte ? Connectez-vous ou choisissez « Mot de passe oublié ? » sur le formulaire de connexion pour récupérer votre accès.",
+      "confirmEmailAfterSignup": "Vérifiez vos e-mails et les indésirables, puis cliquez sur « Confirmer mon adresse e-mail » dans le message Keyvo pour terminer la création du compte.",
       "sendingReset": "Envoi du lien…",
       "resetSent": "Si un compte existe pour cette adresse, vous recevrez un lien par email. Vérifiez aussi les indésirables.",
       "resetUnavailable": "Impossible d’envoyer le lien de réinitialisation. Réessayez plus tard. Si le problème persiste, contactez l’assistance.",
@@ -7328,7 +7359,7 @@
           "title": "Créez des références personnage réutilisables",
           "body": "Transformez une image en planche personnage à 8 panneaux avec 4 vues en pied et 4 gros plans, ou créez une ancre portrait avant de passer aux scènes, aux prompts et au mouvement.",
           "cta": "Explorer l'outil",
-          "imageAlt": "Capture de l'interface Character Builder de Keyvo."
+          "imageAlt": "Capture de l'interface Character Studio de Keyvo."
         },
         "angle": {
           "eyebrow": "Contrôle de perspective",
@@ -7361,14 +7392,14 @@
           "image": {
             "eyebrow": "Image",
             "title": "Générez le visuel source",
-            "body": "Créez d'abord le visuel source, puis envoyez-le dans Character Builder, Angle ou la préparation vidéo.",
+            "body": "Créez d'abord le visuel source, puis envoyez-le dans Character Studio, Angle ou la préparation vidéo.",
             "cta": "Ouvrir Image"
           },
           "character": {
-            "eyebrow": "Character Builder",
+            "eyebrow": "Character Studio",
             "title": "Créez une référence personnage réutilisable",
             "body": "Verrouillez le visage, la tenue et la silhouette avant de passer aux scènes ou à la préparation vidéo.",
-            "cta": "Ouvrir Character Builder"
+            "cta": "Ouvrir Character Studio"
           },
           "angle": {
             "eyebrow": "Angle",
@@ -8046,23 +8077,21 @@
           "référence personnage pour vidéo",
           "personnage cohérent pour vidéo"
         ],
-        "imageAlt": "Aperçu d'une planche personnage IA réutilisable générée avec Character Builder.",
-        "schemaName": "Personnages IA cohérents",
-        "schemaDescription": "Créez une ancre portrait ou une planche personnage IA à 8 panneaux à partir d'un portrait, d'une référence tenue optionnelle ou de zéro, puis réutilisez-la dans vos scènes, vos retouches et vos workflows vidéo basés sur image fixe.",
+        "imageAlt": "Dixie Trouble, portrait de personnage réutilisable généré dans Character Studio.",
+        "schemaName": "Character Studio",
+        "schemaDescription": "Créez un personnage à partir d’une photo ou d’une idée. Sauvegardez son identité, générez de nouveaux looks et passez à la vidéo avec Keyvo Recast.",
         "schemaFeatures": [
-          "Partir d'un portrait de référence, d'une tenue optionnelle ou d'un concept créé de zéro",
-          "Générer une ancre portrait réutilisable",
-          "Générer une planche personnage à 8 panneaux avec quatre vues en pied et quatre gros plans assortis",
-          "Réutiliser la même référence personnage dans les prompts et les retouches image",
-          "Utiliser la référence dans Nano Banana et dans les modèles vidéo qui acceptent les images fixes de référence"
+          "Personnages sauvegardés",
+          "Nouveaux looks",
+          "Vidéo Recast"
         ],
-        "howToTitle": "Comment fonctionne Character Builder",
-        "howToDescription": "Créez une référence personnage réutilisable pour garder des images IA cohérentes et préparer vos vidéos à partir d'une image fixe."
+        "howToTitle": "Découvrir le parcours",
+        "howToDescription": "Créez un personnage à partir d’une photo ou d’une idée. Sauvegardez son identité, générez de nouveaux looks et passez à la vidéo avec Keyvo Recast."
       },
       "breadcrumb": {
         "home": "Accueil",
         "tools": "Outils",
-        "current": "Character Builder"
+        "current": "Character Studio"
       },
       "hero": {
         "badge": "Personnage / Préparation",
@@ -8071,14 +8100,14 @@
         "body": "Partez du portrait et de la planche de référence. Fixez les traits et le costume, puis vérifiez chaque vue avant de la réutiliser en image ou en vidéo.",
         "primaryCta": "Préparer les références",
         "proofs": [
-          "Partez d'un portrait de référence, d'une inspiration tenue optionnelle ou d'un concept créé de zéro",
-          "Générez un portrait de référence réutilisable ou une planche personnage à 8 panneaux",
-          "Réutilisez le même personnage dans les scènes, les prompts, les retouches et les parcours de création vidéo basés sur image fixe"
+          "Personnages sauvegardés",
+          "Nouveaux looks",
+          "Vidéo Recast"
         ],
         "showcase": {
-          "topLabel": "Interface Character Builder",
+          "topLabel": "Interface Character Studio",
           "windowLabel": "choisir l'entrée, générer la référence, la réutiliser",
-          "imageAlt": "Capture complète de l'interface Character Builder de Keyvo.",
+          "imageAlt": "Capture complète de l'interface Character Studio de Keyvo.",
           "callouts": [
             {
               "label": "01",
@@ -8108,12 +8137,12 @@
           "La continuité de la silhouette devient plus difficile à tenir"
         ],
         "solutionLabel": "Ce que l'outil crée",
-        "solutionTitle": "Character Builder crée la référence en premier",
+        "solutionTitle": "Character Studio crée la référence en premier",
         "solutionBody": "Générez un portrait de référence ou une planche personnage à 8 panneaux, puis réutilisez cette même base dans vos prompts, vos retouches et vos parcours de création vidéo basés sur image fixe.",
         "portraitInputLabel": "Portrait de référence",
-        "portraitInputAlt": "Portrait de référence utilisé comme base dans Character Builder.",
+        "portraitInputAlt": "Portrait de référence utilisé comme base dans Character Studio.",
         "sheetLabel": "Planche 8 panneaux réutilisable",
-        "sheetAlt": "Planche personnage à 8 panneaux générée par Character Builder."
+        "sheetAlt": "Planche personnage à 8 panneaux générée par Character Studio."
       },
       "howItWorks": {
         "eyebrow": "Préparation des références",
@@ -8122,8 +8151,8 @@
         "steps": [
           {
             "stepLabel": "Commencer avec",
-            "title": "Partir d'un visage, d'une tenue ou d'un concept",
-            "body": "Utilisez un portrait de référence, ajoutez une direction de style optionnelle, ou démarrez sans image source.",
+            "title": "Créer votre personnage",
+            "body": "Importez une photo d’identité ou décrivez un personnage. Choisissez son apparence, sa tenue et son décor.",
             "pills": [
               "Portrait de référence",
               "Référence tenue optionnelle"
@@ -8131,8 +8160,8 @@
           },
           {
             "stepLabel": "Générer",
-            "title": "Générer un portrait de référence ou une planche à 8 panneaux",
-            "body": "Créez une référence visage plus resserrée ou une planche cohérente avec quatre vues en pied et quatre gros plans.",
+            "title": "Sauvegarder un portrait ou une planche",
+            "body": "Choisissez le rendu et la résolution, vérifiez le prix, générez puis sauvegardez le personnage.",
             "pills": [
               "Portrait de référence",
               "Planche personnage à 8 panneaux"
@@ -8140,8 +8169,8 @@
           },
           {
             "stepLabel": "Réutiliser dans",
-            "title": "Réutiliser dans Image, les retouches et la prépa vidéo",
-            "body": "Réinjectez la même référence dans les prompts, Nano Banana et les outils vidéo basés sur image fixe.",
+            "title": "Créer un look ou un Recast",
+            "body": "Réutilisez l’identité pour une autre tenue, ou sélectionnez-la dans Recast avec vos passages vidéo et audio.",
             "pills": [
               "Prompts image",
               "Prépa vidéo"
@@ -8152,7 +8181,7 @@
         "comparisonBody": "La référence fait le travail de continuité avant même de changer de scène.",
         "comparisons": [
           {
-            "eyebrow": "Sans Character Builder",
+            "eyebrow": "Sans Character Studio",
             "title": "Chaque nouvelle scène doit reconstruire le personnage",
             "items": [
               "Le visage, les cheveux et la tenue dérivent entre les prompts",
@@ -8160,7 +8189,7 @@
             ]
           },
           {
-            "eyebrow": "Avec Character Builder",
+            "eyebrow": "Avec Character Studio",
             "title": "Une référence unique garde le personnage ancré",
             "items": [
               "Le visage, la tenue et la silhouette restent alignés",
@@ -8193,7 +8222,7 @@
             ],
             "badge": "La plus réutilisable",
             "stats": "4 vues en pied + 4 gros plans",
-            "imageAlt": "Planche personnage à 8 panneaux générée par Character Builder."
+            "imageAlt": "Planche personnage à 8 panneaux générée par Character Studio."
           },
           {
             "eyebrow": "Image fixe de prépa vidéo",
@@ -8208,13 +8237,13 @@
         ],
         "workflow": {
           "label": "Parcours de référence",
-          "title": "Character Builder -> Nano Banana -> Video",
+          "title": "Character Studio -> Nano Banana -> Video",
           "chainLabel": "Planche -> image fixe -> vidéo",
           "steps": [
             {
               "label": "01 · Planche personnage",
               "body": "Verrouillez le personnage avant de lancer le mouvement.",
-              "imageAlt": "Planche Character Builder utilisée comme référence réutilisable dans Image et Video."
+              "imageAlt": "Planche Character Studio utilisée comme référence réutilisable dans Image et Video."
             },
             {
               "label": "02 · Image fixe Nano Banana",
@@ -8308,9 +8337,13 @@
       },
       "faq": {
         "eyebrow": "FAQ",
-        "title": "FAQ personnages IA cohérents",
+        "title": "Avant de créer votre personnage IA",
         "body": "Des réponses courtes avant de construire la référence.",
         "items": [
+          {
+            "question": "Qu’est-ce que Character Studio ?",
+            "answer": "Character Studio, anciennement Character Builder, crée des références de personnage IA réutilisables : portraits et planches en huit vues. Vous pouvez sauvegarder des personnages, générer de nouveaux looks et les utiliser dans Keyvo Recast. Il est distinct de Studio, l’espace de montage vidéo."
+          },
           {
             "question": "Qu'est-ce qu'un personnage IA cohérent ?",
             "answer": "C'est le fait de construire une référence stable pour que le même visage, la même tenue et la même silhouette restent cohérents ensuite."
@@ -8330,6 +8363,22 @@
           {
             "question": "Puis-je réutiliser cela dans des parcours de création image-to-video ?",
             "answer": "Oui. Vous pouvez le réutiliser dans les prompts, dans la préparation du premier plan avec Nano Banana et dans les modèles vidéo qui acceptent les images fixes de référence."
+          },
+          {
+            "question": "Puis-je sauvegarder un personnage et créer un autre look ?",
+            "answer": "Oui. Sauvegardez le personnage, ouvrez-le dans votre bibliothèque et créez un nouveau look à partir de son identité. Les looks sauvegardés sont sélectionnables dans Recast."
+          },
+          {
+            "question": "Comment fonctionne Keyvo Recast ?",
+            "answer": "Choisissez une image de personnage ou un look sauvegardé, ajoutez une vidéo de référence et sélectionnez le passage. Vous pouvez aussi fournir une image produit, un dialogue ou un passage audio. Vérifiez la durée, la résolution et le devis exact avant la génération vidéo."
+          },
+          {
+            "question": "Chaque image et chaque vidéo seront-elles identiques ?",
+            "answer": "Non. Les références guident l’identité et l’apparence, mais la génération IA peut modifier le visage, les vêtements, les mouvements ou les produits. Vérifiez chaque résultat, notamment les angles d’une planche et les détails d’un produit."
+          },
+          {
+            "question": "Combien coûte Character Studio ?",
+            "answer": "L’application affiche le devis actuel avant chaque génération. Les images et Recast sont facturés séparément. La résolution d’image, la durée vidéo, les passages d’entrée et la résolution vidéo peuvent influer sur le montant ; tout changement nécessite un devis actualisé."
           }
         ]
       },
@@ -8376,10 +8425,66 @@
         "eyebrow": "Commencer la préparation",
         "title": "Préparez le personnage de la prochaine scène.",
         "body": "Générez des portraits ou des planches, puis choisissez une version pour poursuivre la production.",
-        "primaryCta": "Ouvrir Character Builder",
+        "primaryCta": "Ouvrir Character Studio",
         "panelLeft": "Personnage verrouillé",
         "panelRight": "Prêt à réutiliser",
-        "panelAlt": "Aperçu d'une planche personnage IA réutilisable générée avec Character Builder."
+        "panelAlt": "Aperçu d'une planche personnage IA réutilisable générée avec Character Studio."
+      },
+      "studio": {
+        "nav": [
+          "Créer",
+          "Nouveaux looks",
+          "Planches personnage",
+          "Recast"
+        ],
+        "castingTitle": "Un visage. Une personnalité. Tout un univers.",
+        "castingBody": "Humain, animal ou créature imaginaire : décrivez le visage, l’âge, la carnation, les cheveux, la tenue et le décor. Ajoutez vos indications quand les choix proposés ne suffisent pas.",
+        "castingCaption": "De vrais personnages générés dans Character Studio",
+        "looksTitle": "Un personnage. Un tout nouveau look.",
+        "looksBody": "Partez d’un personnage sauvegardé pour changer sa tenue ou son décor. Choisissez un style, décrivez vos vêtements ou ajoutez une référence de tenue.",
+        "identity": "Identité sauvegardée",
+        "newLook": "Nouveau look",
+        "looksNote": "Dixie Trouble · deux vraies générations. Vérifiez le visage et les détails avant de sauvegarder un look.",
+        "outputsTitle": "La bonne référence pour le prochain plan.",
+        "outputsBody": "Choisissez Portrait ou Planche personnage, puis le format et la résolution. Le prix de génération s’actualise avant votre confirmation.",
+        "portrait": "Portrait",
+        "portraitBody": "Une image pour fixer le visage et l’apparence.",
+        "sheet": "Planche personnage",
+        "sheetBody": "Une image en huit vues : quatre angles en pied et quatre portraits rapprochés correspondants. Vérifiez chaque vue avant de la réutiliser.",
+        "sheetAlt": "Planche de référence d’un personnage IA avec vues de face, de profil, de trois quarts et de dos, et portraits rapprochés.",
+        "recastEyebrow": "Keyvo Recast",
+        "recastTitle": "Votre personnage. Le mouvement que vous choisissez.",
+        "recastBody": "Choisissez un personnage sauvegardé ou importez une image. Ajoutez une vidéo et sélectionnez le passage qui guidera le mouvement. Images de produit, dialogue et références audio peuvent guider la scène.",
+        "recastSteps": [
+          "Choisir un personnage ou un look sauvegardé",
+          "Sélectionner les passages vidéo et audio",
+          "Régler durée, format et 720p ou 1080p",
+          "Vérifier le prix exact, puis générer"
+        ],
+        "recastNote": "Recast génère une nouvelle vidéo. Le mouvement, l’identité et les détails du produit peuvent varier : vérifiez le résultat avant de l’utiliser dans une campagne.",
+        "filmLabels": [
+          "Dixie · danse",
+          "Vesper · comédie de personnage"
+        ],
+        "filmDescriptions": [
+          "Un look rose et blanc repris dans une chorégraphie.",
+          "Une styliste insecte dans une scène en voiture de sport."
+        ],
+        "frameLabel": "Image extraite d’un vrai Recast",
+        "videoLabel": "Voir une vidéo générée",
+        "recastCta": "Ouvrir Character Studio",
+        "priceTitle": "Choisir le rendu. Voir le prix. Puis générer.",
+        "priceBody": "Portraits, nouveaux looks et planches personnage sont des générations d’image. Recast est une génération vidéo distincte : la durée et la résolution choisies influent sur son devis. Le prix affiché dans l’application fait foi.",
+        "priceLink": "Comprendre le paiement à l’usage",
+        "faqTitle": "Avant de créer votre personnage IA",
+        "finalTitle": "Rencontrez votre prochain personnage récurrent.",
+        "finalBody": "Créez son identité, sauvegardez les looks qui vous plaisent et emmenez-le dans une nouvelle scène.",
+        "secondaryCta": "Découvrir le parcours",
+        "roles": [
+          "Personnages récurrents",
+          "Créateurs et UGC",
+          "Mascottes de marque"
+        ]
       }
     },
     "backgroundRemoval": {
@@ -8588,7 +8693,7 @@
       "all": "Tous les outils",
       "open": "Ouvrir l’outil",
       "nav": "Explorer les outils créatifs",
-      "character": "Personnage",
+      "character": "Character Studio",
       "angle": "Angle de vue",
       "upscale": "Agrandissement",
       "background": "Détourage vidéo",

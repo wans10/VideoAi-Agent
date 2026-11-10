@@ -1,5 +1,8 @@
+import { resolveOwnedLumaGenerationSource, type OwnedLumaGenerationSource } from '@/server/agent-api/generation-luma-lineage';
 import type { GeneratePayload, GenerateResult } from '@/lib/fal';
 import { query } from '@/lib/db';
+import type { NormalizedVideoProviderTask } from '@/server/video-providers/types';
+import { persistDirectProviderAcceptance } from './direct-provider-acceptance';
 import type { Mode, PricingSnapshot, ProviderClientErrorPolicy } from '@/types/engines';
 import { getLumaAgentsClient } from '@/server/video-providers/luma-agents/client';
 import { estimateLumaAgentsVideoCost } from '@/server/video-providers/luma-agents/cost';
@@ -13,7 +16,9 @@ import {
   resolveLumaAgentsModelRoute,
   resolveLumaAgentsVideoSupport,
 } from '@/server/video-providers/luma-agents/model-map';
-import { buildLumaAgentsVideoPayload } from '@/server/video-providers/luma-agents/payload';
+import { buildLumaAgentsVideoPayload, summarizeLumaEffectiveControls } from '@/server/video-providers/luma-agents/payload';
+import { createLumaAgentsMediaTransport } from '@/server/video-providers/luma-agents/media-access';
+import { sanitizeProviderMediaDiagnostics } from '@/server/provider-media-diagnostics';
 import {
   createProviderAttempt,
   linkProviderFallbackAttempt,
@@ -25,6 +30,7 @@ import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-m
 import { createProviderJobTracker } from './provider-job-tracker';
 import { rollbackPendingPayment } from './payment-rollback';
 import { isDeferredFalSubmission, submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
+import { reconcileFalFallbackTerminalResponse } from './fal-fallback-outcome';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 
@@ -86,7 +92,7 @@ function hasAdvancedDirectOnlyRequest(params: {
 }): boolean {
   if (params.mode === 'v2v' || params.mode === 'reframe' || params.mode === 'extend') return true;
   const extra = params.falPayload.extraInputValues ?? {};
-  return booleanValue(extra.hdr) || booleanValue(extra.exr_export ?? extra.exrExport);
+  return booleanValue(extra.hdr) || booleanValue(extra.exr_export ?? extra.exrExport) || params.falPayload.inputs?.some(input => input.slotId === 'keyframe_urls') === true;
 }
 
 export function resolveLumaAgentsSubmissionMediaInputs(params: {
@@ -134,8 +140,8 @@ export function resolveLumaAgentsSubmissionMediaInputs(params: {
       addUniqueUrl(referenceImageUrls, url);
       continue;
     }
-    if (input.kind === 'image' && slotId === 'edit_keyframe_urls') {
-      addUniqueUrl(keyframeUrls, url);
+    if (input.kind === 'image' && (slotId === 'edit_keyframe_urls' || slotId === 'keyframe_urls')) {
+      keyframeUrls.push(url);
       continue;
     }
     if (
@@ -284,7 +290,7 @@ async function submitFalFromLumaAgents(params: {
   });
   const falSubmission = await params.submitFalGenerateTaskFn({
     userId: params.userId,
-    falPayload: params.falPayload,
+    falPayload: { ...params.falPayload, submissionMode: 'enqueue' },
     jobId: params.jobId,
     engineId: params.engineId,
     engineLabel: params.engineLabel,
@@ -300,6 +306,9 @@ async function submitFalFromLumaAgents(params: {
     logMetricFn: params.logMetricFn,
     clientErrorPolicy: params.clientErrorPolicy,
   });
+  const recovered = await reconcileFalFallbackTerminalResponse({ jobId: params.jobId, result: falSubmission,
+    attemptId: falAttempt?.id ?? null, acceptedProviderJobId: falTracker.getLastProviderJobId(), queryFn: params.queryFn });
+  if (recovered) return recovered;
   const falProviderJobId = falProviderJobIdFromResult(falSubmission, falTracker.getLastProviderJobId);
   if (falAttempt && falProviderJobId) {
     await markProviderAttemptAccepted({
@@ -339,6 +348,7 @@ async function submitFalFromLumaAgents(params: {
 }
 
 export async function submitLumaAgentsGenerateTask(params: {
+  lumaGenerationSource?: OwnedLumaGenerationSource;
   jobId: string;
   userId: string;
   engineId: string;
@@ -425,7 +435,11 @@ export async function submitLumaAgentsGenerateTask(params: {
     });
   }
 
+  const extra = params.falPayload.extraInputValues ?? {};
+  const hdr = booleanValue(extra.hdr);
+  const exrExport = booleanValue(extra.exr_export ?? extra.exrExport);
   const estimate = estimateLumaAgentsVideoCost({
+    hdr, exrExport,
     engineId: params.engineId,
     mode: params.mode,
     durationSec: params.durationSec,
@@ -455,14 +469,26 @@ export async function submitLumaAgentsGenerateTask(params: {
       advancedDirectOnlyEnabled: params.advancedDirectOnlyEnabled,
       advancedDirectOnlyRequest,
       promptLength: params.prompt.length,
+      hdr, exrExport,
       estimatedProviderCostUsd: estimate.providerCostUsd,
     },
     queryFn,
   });
 
+  let acceptedTask: NormalizedVideoProviderTask;
   let acceptedProviderJobId: string | null = null;
+  let sanitizeDiagnostics: (value: unknown) => unknown = sanitizeProviderMediaDiagnostics;
   try {
+    if (params.mode === 'extend') {
+      if (!params.lumaGenerationSource) throw new Error('Owned generation source required.');
+      const current = await resolveOwnedLumaGenerationSource({ actor: { userId: params.userId },
+        sourceJobId: params.lumaGenerationSource.sourceJobId, expectedOutputId: params.lumaGenerationSource.sourceOutputIdentity,
+        executor: { query: queryFn } });
+      if (current.fingerprint !== params.lumaGenerationSource.fingerprint) throw new Error('Source generation changed.');
+    }
     const payload = buildLumaAgentsVideoPayload({
+      trustedGenerationSource: params.lumaGenerationSource,
+      extendDirection: params.falPayload.extraInputValues?.extend_direction as 'forward' | 'backward' | undefined,
       engineId: params.engineId,
       mode: params.mode,
       prompt: params.prompt,
@@ -480,7 +506,11 @@ export async function submitLumaAgentsGenerateTask(params: {
       extraInputValues: params.falPayload.extraInputValues ?? null,
       advancedDirectOnlyEnabled: params.advancedDirectOnlyEnabled,
     });
-    const task = await getLumaAgentsClientFn().createGeneration(payload, { requestId: params.jobId });
+    await queryFn(`UPDATE provider_attempts SET request_snapshot = COALESCE(request_snapshot, '{}'::jsonb) || $2::jsonb WHERE id = $1`,
+      [lumaAttempt.id, JSON.stringify({ effectiveControls: summarizeLumaEffectiveControls(payload) })]);
+    const transport = await createLumaAgentsMediaTransport({ payload, userId: params.userId });
+    sanitizeDiagnostics = transport.sanitize;
+    const task = await getLumaAgentsClientFn().createGeneration(transport.payload, { requestId: params.jobId });
     acceptedProviderJobId = task.providerJobId;
     if (!acceptedProviderJobId) {
       throw new LumaAgentsError('Luma Agents response did not include a generation id.', {
@@ -489,60 +519,9 @@ export async function submitLumaAgentsGenerateTask(params: {
         body: task.raw,
       });
     }
-    await markProviderAttemptAccepted({
-      attemptId: lumaAttempt.id,
-      providerJobId: acceptedProviderJobId,
-      responseSnapshot: task.raw,
-      queryFn,
-    });
-    const status = task.status === 'running' ? 'running' : 'queued';
-    const progress = task.status === 'running' ? 30 : 10;
-    await queryFn(
-      `UPDATE app_jobs
-          SET status = $2,
-              progress = $3,
-              message = $4,
-              provider = $5,
-              provider_job_id = $6,
-              provisional = FALSE,
-              updated_at = NOW()
-        WHERE job_id = $1`,
-      [params.jobId, status, progress, 'Render submitted.', LUMA_AGENTS_DIRECT_PROVIDER, acceptedProviderJobId]
-    );
-    params.logMetricFn('accepted', {
-      jobId: params.jobId,
-      meta: {
-        provider: LUMA_AGENTS_DIRECT_PROVIDER,
-        providerJobId: acceptedProviderJobId,
-        providerModel: route.providerModel,
-      },
-    });
-    return {
-      ok: true,
-      kind: 'accepted',
-      body: {
-        ok: true,
-        jobId: params.jobId,
-        videoUrl: null,
-        video: null,
-        thumbUrl: params.placeholderThumb,
-        status,
-        progress,
-        pricing: params.pricing,
-        paymentStatus: params.paymentStatus,
-        provider: LUMA_AGENTS_DIRECT_PROVIDER,
-        providerJobId: acceptedProviderJobId,
-        batchId: params.batchId,
-        groupId: params.groupId,
-        iterationIndex: params.iterationIndex,
-        iterationCount: params.iterationCount,
-        renderIds: params.renderIds,
-        heroRenderId: params.heroRenderId,
-        localKey: params.localKey,
-      },
-    };
+    acceptedTask = task;
   } catch (error) {
-    const normalized = classifyLumaAgentsError(error);
+    const normalized = sanitizeDiagnostics(classifyLumaAgentsError(error)) as ReturnType<typeof classifyLumaAgentsError>;
     const fallbackEligible = shouldFallbackFromLumaAgentsSubmit({
       acceptedProviderJobId,
       error,
@@ -617,4 +596,39 @@ export async function submitLumaAgentsGenerateTask(params: {
       clientErrorPolicy: params.clientErrorPolicy,
     });
   }
+  let responseSnapshot: unknown = null;
+  try {
+    responseSnapshot = sanitizeDiagnostics(acceptedTask.raw);
+  } catch {
+    console.warn('[luma-agents] accepted diagnostics unavailable', { jobId: params.jobId });
+  }
+  const status = acceptedTask.status === 'running' ? 'running' : 'queued';
+  const progress = acceptedTask.status === 'running' ? 30 : 10;
+  return { ok: true, kind: 'accepted', body: await persistDirectProviderAcceptance({
+    jobId: params.jobId, provider: LUMA_AGENTS_DIRECT_PROVIDER, providerJobId: acceptedTask.providerJobId,
+    attemptId: lumaAttempt.id, responseSnapshot, status, progress,
+    localKey: params.localKey, queryFn,
+    logAccepted: () => params.logMetricFn('accepted', { jobId: params.jobId,
+      meta: { provider: LUMA_AGENTS_DIRECT_PROVIDER, providerJobId: acceptedTask.providerJobId, providerModel: route.providerModel } }),
+    acceptedBody: {
+      ok: true,
+      jobId: params.jobId,
+      videoUrl: null,
+      video: null,
+      thumbUrl: params.placeholderThumb,
+      status,
+      progress,
+      pricing: params.pricing,
+      paymentStatus: params.paymentStatus,
+      provider: LUMA_AGENTS_DIRECT_PROVIDER,
+      providerJobId: acceptedTask.providerJobId,
+      batchId: params.batchId,
+      groupId: params.groupId,
+      iterationIndex: params.iterationIndex,
+      iterationCount: params.iterationCount,
+      renderIds: params.renderIds,
+      heroRenderId: params.heroRenderId,
+      localKey: params.localKey,
+    },
+  }) };
 }

@@ -11,7 +11,7 @@ import {
   MARKETING_TOP_NAV_LINKS,
 } from '../frontend/config/navigation.ts';
 import { FOOTER_MODELS, FOOTER_EXAMPLES } from '../frontend/config/marketing-footer';
-import { getPartnerBrandMark } from '../frontend/src/lib/brand-partners.ts';
+import { getPartnerBrandMark, resolvePartnerBrand } from '../frontend/src/lib/brand-partners.ts';
 
 const marketingNavSource = readFileSync('frontend/components/marketing/MarketingNav.tsx', 'utf8');
 const marketingDesktopNavSource = readFileSync('frontend/components/marketing/MarketingDesktopNav.tsx', 'utf8');
@@ -69,13 +69,16 @@ test('marketing top navigation stays clean while Best-For links live inside drop
   assert.match(marketingDesktopNavSource, /font-semibold text-text-primary/);
 });
 
-test('public dropdowns limit launch badges to five current models with none on comparisons', () => {
+test('public dropdowns limit launch badges to the eight promoted current models with none on comparisons', () => {
   const badgedEntries = Object.values(MARKETING_NAV_DROPDOWNS)
     .flatMap((dropdown) => dropdown?.items ?? [])
     .filter(({ badge }) => badge === 'new')
     .map(({ key }) => key);
 
+  // FLUX 3 Max is hidden by the Keyvo visibility policy.
   assert.deepEqual(badgedEntries, [
+    'kling-v4-flash',
+    'kling-v4',
     'minimax-h3',
     'minimax-h3-max',
     'seedance-2-5',
@@ -114,7 +117,7 @@ test('public dropdowns limit launch badges to five current models with none on c
   }
 });
 
-test('visible model dropdown entries show the shared engine logo before every model name', () => {
+test('visible model dropdown entries use the shared brand mark or approved text identity', () => {
   assert.match(navEntryContentSource, /EngineIcon/);
   assert.match(navEntryContentSource, /showModelLogo/);
   assert.match(navEntryContentSource, /brandId:\s*entry\.brandId/);
@@ -122,8 +125,8 @@ test('visible model dropdown entries show the shared engine logo before every mo
   for (const entry of MARKETING_NAV_MODELS) {
     assert.ok(entry.brandId, `${entry.label} should expose its canonical family brand`);
     assert.ok(
-      getPartnerBrandMark({ id: entry.key, brandId: entry.brandId }),
-      `${entry.label} should resolve to a real shared engine logo`,
+      getPartnerBrandMark({ id: entry.key, brandId: entry.brandId }) || resolvePartnerBrand({ id: entry.key, brandId: entry.brandId })?.policy.textOnly,
+      `${entry.label} should resolve to a shared logo or explicit text-only policy`,
     );
   }
 
@@ -145,11 +148,13 @@ test('visible model dropdown entries show the shared engine logo before every mo
 test('editorial navigation promotes current models and preserves comparisons with search demand', () => {
   assert.deepEqual(
     MARKETING_NAV_MODELS
-      .filter(({ key }) => ['ltx-2-5-pro', 'wan-3-prime', 'happy-horse-1-1'].includes(key))
+      .filter(({ key }) => ['flux-3-max', 'ltx-2-5-pro', 'wan-3-prime', 'happy-horse-1-1'].includes(key))
       .map(({ key }) => key),
-    ['wan-3-prime', 'happy-horse-1-1'], // LTX is hidden by the Keyvo visibility policy
+    ['wan-3-prime', 'happy-horse-1-1'], // FLUX and LTX are hidden by the Keyvo visibility policy
   );
   const expectedComparisons = [
+    'kling-v4-vs-seedance-2-5',
+    'kling-v4-vs-wan-3-prime',
     'minimax-h3-vs-seedance-2-5',
     'seedance-2-0-vs-seedance-2-0-fast',
   ]; // LTX and Veo comparisons are hidden by the Keyvo visibility policy
@@ -230,10 +235,30 @@ test('examples navigation exposes discoverable families without promoting archiv
 
 test('marketing footer projects the current bounded model menu instead of a second stale roster', () => {
   assert.match(marketingFooterSource, /FOOTER_MODELS\.map/);
-  assert.ok(FOOTER_MODELS.length <= 8);
+  assert.ok(FOOTER_MODELS.length <= 9);
   for (const item of FOOTER_MODELS) assert.ok(MARKETING_NAV_MODELS.some(model => model.key === item.key));
   assert.doesNotMatch(marketingFooterSource, /slug: 'ltx-2-3-fast'/);
   assert.doesNotMatch(marketingFooterSource, /slug: 'wan-2-6'/);
+});
+
+test('marketing footer promotes Kling 4 while preserving the previous visible model links', () => {
+  // FLUX 3 Max, Veo 3.1 and LTX 2.5 Pro are hidden by the Keyvo visibility policy.
+  const preservedModelKeys = [
+    'minimax-h3', 'seedance-2-5', 'kling-3-pro',
+    'wan-3', 'wan-3-prime',
+  ];
+  assert.deepEqual(FOOTER_MODELS.map(item => item.key), ['kling-v4', ...preservedModelKeys]);
+  assert.deepEqual(FOOTER_MODELS[0].href, {
+    pathname: '/models/[slug]', params: { slug: 'kling-v4' },
+  });
+  assert.deepEqual(
+    FOOTER_MODELS.slice(1),
+    preservedModelKeys.map(key => MARKETING_NAV_MODELS.find(item => item.key === key)),
+    'Existing labels and destinations remain intact and in the same order',
+  );
+  assert.deepEqual(FOOTER_EXAMPLES.map(item => item.key), [
+    'kling', 'seedance', 'wan', 'hailuo', 'happy-horse',
+  ]);
 });
 
 test('marketing navigation avoids background-prefetching every crawlable destination', () => {

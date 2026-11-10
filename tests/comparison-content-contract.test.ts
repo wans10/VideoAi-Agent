@@ -126,7 +126,7 @@ function loadGenericMetadataFallbacks(locale: (typeof LOCALES)[number]): Record<
 
 test('comparison documents are dynamically discovered with unique identities and required locales', () => {
   const files = contentFiles();
-  assert.equal(files.length, 67);
+  assert.equal(files.length, 73); // Includes the unpublished, prepared Flash comparison.
   const identities = new Set<string>();
 
   for (const fileName of files) {

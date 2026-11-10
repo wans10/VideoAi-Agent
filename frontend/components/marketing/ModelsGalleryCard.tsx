@@ -3,6 +3,7 @@
 import { ArrowRight, Images, Scale } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/navigation';
 import { EngineIcon } from '@/components/ui/EngineIcon';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import type {
   ModelGalleryCard,
   ModelsGalleryCardActionsCopy,
@@ -48,6 +49,7 @@ export function ModelCard({
   onActivateCompare: () => void;
 }) {
   const router = useRouter();
+  const { t } = useI18n();
   type RouterPushInput = Parameters<typeof router.push>[0];
   const normalizedCtaLabel = normalizeCtaLabel(ctaLabel);
   const ctaText = normalizedCtaLabel.replace(/\s*→\s*$/, '');
@@ -101,6 +103,9 @@ export function ModelCard({
           <EngineIcon engine={{ id: card.engineId ?? card.id, label: card.label, brandId: card.brandId ?? undefined }} size={24} framed rounded="full" />
           <span>{card.provider}</span>
         </div>
+        {card.badge === 'new' ? (
+          <span data-model-novelty="new" className="inline-flex shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-1 text-[9px] font-semibold text-emerald-800 dark:border-emerald-700 dark:bg-emerald-950 dark:text-emerald-200 sm:px-2 sm:text-[11px]">{t('nav.badges.new')}</span>
+        ) : null}
       </header>
       <h3>{card.label}</h3>
       <p className="studio-model-description">{card.description}</p>

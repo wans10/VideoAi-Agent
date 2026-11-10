@@ -105,6 +105,7 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
       localized.heroTitle ??
       (locale === 'fr' ? `Exemples ${label}` : locale === 'es' ? `Ejemplos de ${label}` : locale === 'zh' ? `${label} 案例` : `${label} Examples`),
     heroSubtitle: localized.subtitle,
+    heroLink: localized.heroLink,
     guideTitle: localized.guideTitle,
     intro: localized.intro,
     summary: localized.summary,

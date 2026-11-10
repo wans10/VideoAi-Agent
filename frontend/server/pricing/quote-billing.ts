@@ -1,3 +1,7 @@
+import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
+import { videoOperationTariffIdentity } from '@/lib/video-operation';
 import {
   projectCanonicalQuoteToSnapshot,
   quoteCanonicalPricing,
@@ -87,7 +91,7 @@ export async function computeCanonicalBillingSnapshot(
       { ...context, aspectRatio: highest.meta?.billed_aspect_ratio as string }, 'highest_current_tariff') } };
   }
   assertSeedanceWorkflowPricing(context);
-  const pricingDetails = context.engine.pricingDetails ?? (await getPricingDetails(context.engine.id));
+  const pricingDetails = context.engine.pricingDetails ?? (isKlingV4FalQueueEngineId(context.engine.id) || isGptImage26EngineId(context.engine.id) ? undefined : await getPricingDetails(context.engine.id));
   const { policy, vendorAccountId } = await resolveServerBillingPolicy(
     {
       engineId: context.engine.id,
@@ -102,9 +106,15 @@ export async function computeCanonicalBillingSnapshot(
   const memberTierDiscounts = LIVE_MEMBERSHIP_DISCOUNTS;
 
   const billingFacts = buildBillingPricingFacts(context, pricingDetails, currency);
+  const operationBinding = videoOperationTariffIdentity(context.engine.id, context.mode ?? 't2v', context.operation);
+  const requiresOperationTariff = Boolean(operationBinding) || (context.engine.id === 'veo-3-1'
+    && context.mode === 'i2v' && [4,6].includes(context.durationSec));
   const requiresLasTariff = !context.workflowStep && isSeedance25LasInputPricing(context.engine.id, context.mode);
   const requiresEditTariff = !context.workflowStep && isSeedance25EditInputPricing(context.engine.id, context.mode);
-  if (requiresEditTariff || context.workflowStep || dependencies.loadCustomerTariffState || dependencies.loadCustomerTariffQuoteState || customerTariffsEnabledByCode()) {
+  const requiresKlingV4Tariff = isKlingV4FalQueueEngineId(context.engine.id);
+  const requiresNano21Tariff = context.engine.id === NANO21_ENGINE_ID;
+  const requiresGpt26Tariff = isGptImage26EngineId(context.engine.id);
+  if (requiresGpt26Tariff || requiresKlingV4Tariff || requiresNano21Tariff || requiresOperationTariff || requiresEditTariff || context.workflowStep || dependencies.loadCustomerTariffState || dependencies.loadCustomerTariffQuoteState || customerTariffsEnabledByCode()) {
     const selector = buildManualTariffScenario(context, billingFacts.facts).selector;
     const tariffState = await (dependencies.loadCustomerTariffState
       ? dependencies.loadCustomerTariffState()
@@ -123,6 +133,7 @@ export async function computeCanonicalBillingSnapshot(
         vendorAccountId,
         meta: {
           ...billingFacts.meta,
+          ...(operationBinding ? { videoOperation: operationBinding } : {}),
           ...(seedanceAutomaticPricingMetadata(requestedContext, context) ? {
             seedanceAutomaticPricing: seedanceAutomaticPricingMetadata(requestedContext, context) } : {}),
           ...(context.seedanceEditSource ? { seedanceEditSource: context.seedanceEditSource,
@@ -141,8 +152,12 @@ export async function computeCanonicalBillingSnapshot(
       }));
     }
   }
-  if (requiresEditTariff) throw new CustomerTariffUnavailableError(`An active reviewed ${requiresLasTariff ? 'LAS' : 'ModelArk'} Edit customer tariff is required.`, '该编辑模式暂时无法报价，请稍后再试或联系支持。');
-  if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.', '该工作流步骤暂时无法报价，请稍后再试或联系支持。');
+    if (requiresKlingV4Tariff) throw new CustomerTariffUnavailableError('A separate active reviewed Kling V4 customer tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
+    if (requiresGpt26Tariff) throw new CustomerTariffUnavailableError('An active reviewed GPT Image 2.6 customer tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
+    if (requiresNano21Tariff) throw new CustomerTariffUnavailableError('An active reviewed Nano Banana 2.1 customer tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
+    if (requiresOperationTariff) throw new CustomerTariffUnavailableError('A separate active reviewed video operation tariff is required.', '该视频操作暂时无法报价，请稍后再试或联系支持。');
+    if (requiresEditTariff) throw new CustomerTariffUnavailableError(`An active reviewed ${requiresLasTariff ? 'LAS' : 'ModelArk'} Edit customer tariff is required.`, '该编辑模式暂时无法报价，请稍后再试或联系支持。');
+    if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.', '该工作流步骤暂时无法报价，请稍后再试或联系支持。');
   const policyDocument = getVersionedPricingPolicy();
   const profileId = policy.rule.compatibilityProfile ?? billingFacts.compatibilityProfileId;
   const compatibilityProfile: PricingCompatibilityProfile | undefined = policyDocument.compatibilityProfiles.find(

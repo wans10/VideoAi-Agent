@@ -1,3 +1,4 @@
+import { createUploadedMediaReadAccess } from '@/server/media-library/upload-read-access';
 import { NextRequest, NextResponse } from 'next/server';
 import { canonicalMediaAssetFields } from '@/lib/media-identity';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
@@ -7,6 +8,7 @@ import {
   validateMediaFileAgainstConstraint,
   type MediaFieldConstraint,
 } from '@/lib/media-field-constraints';
+import { getMediaExcerptLimits, VIDEO_EXCERPT_PREPARATION_LIMITS } from '@/lib/video-excerpt';
 import type { Mode } from '@/types/engines';
 import { detectMediaBufferDuration } from '@/server/media/detect-has-audio';
 import {
@@ -20,7 +22,7 @@ function formText(form: FormData, key: string): string | null {
   return typeof value === 'string' && value.trim().length ? value.trim() : null;
 }
 
-function resolveUploadConstraint(form: FormData):
+export function resolveAudioUploadConstraint(form: FormData):
   | {
       ok: true;
       constraint: MediaFieldConstraint | null;
@@ -48,6 +50,7 @@ function resolveUploadConstraint(form: FormData):
       (!candidate.modes?.length || candidate.modes.includes(mode as Mode))
   );
   if (!field) return { ok: false };
+  const preparation = formText(form, 'prepareExcerpt') === '1' && getMediaExcerptLimits(engine, mode as Mode, fieldId);
   return {
     ok: true,
     constraint: resolveEngineMediaFieldConstraint({ engine, field }),
@@ -57,7 +60,7 @@ function resolveUploadConstraint(form: FormData):
         : null,
     maxDurationSec:
       typeof field.maxDurationSec === 'number' && Number.isFinite(field.maxDurationSec)
-        ? field.maxDurationSec
+        ? preparation ? Math.max(field.maxDurationSec, VIDEO_EXCERPT_PREPARATION_LIMITS.maxSourceSec) : field.maxDurationSec
         : null,
   };
 }
@@ -81,7 +84,7 @@ export async function handleAudioUpload(
     return NextResponse.json({ ok: false, error: 'FILE_REQUIRED' }, { status: 400 });
   }
 
-  const uploadConstraint = resolveUploadConstraint(form);
+  const uploadConstraint = resolveAudioUploadConstraint(form);
   if (!uploadConstraint.ok) {
     return NextResponse.json({ ok: false, error: 'INVALID_UPLOAD_CONTEXT' }, { status: 400 });
   }
@@ -159,6 +162,7 @@ export async function handleAudioUpload(
     return NextResponse.json({
       ok: true,
       asset: {
+        ...await createUploadedMediaReadAccess(userId, { assetId: stored.assetId, legacyAssetId: stored.legacyAssetId, url: stored.storageUrl, kind: 'audio' }),
         id: stored.legacyAssetId,
         legacyAssetId: stored.legacyAssetId,
         ...canonicalMediaAssetFields(stored.assetId, 'audio'),
@@ -171,7 +175,7 @@ export async function handleAudioUpload(
         name: blob.name,
         durationSec: stored.durationSec,
       },
-    });
+    }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (error) {
     if (error instanceof MediaUploadError) {
       if (error.code === 'UNSUPPORTED_TYPE') {

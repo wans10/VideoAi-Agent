@@ -4,14 +4,13 @@ export const PAYG_ICON_IDS = [
 export type PaygIconId = (typeof PAYG_ICON_IDS)[number];
 
 export const PAYG_PRICE_LOOKUP_IDS = [
+  'flux-3-max', 'minimax-h3', 'seedance-2-5',
+  'kling-v4',
   'gemini-omni-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max',
-  'ltx-2-5-pro',
-  'ltx-2-5-fast',
-  'wan-3-prime',
-  'wan-3',
+  'ltx-2-5-pro', 'ltx-2-5-fast',
+  'wan-3-prime', 'wan-3',
   'grok-imagine-video-1-5',
-  'flux-3',
-  'flux-3-draft',
+  'flux-3', 'flux-3-draft',
   'seedance-2-0',
   'kling-3-pro',
   'veo-3-1',
@@ -22,6 +21,8 @@ export const PAYG_PRICE_LOOKUP_IDS = [
 export type PaygPriceLookupId = (typeof PAYG_PRICE_LOOKUP_IDS)[number];
 
 export const PAYG_EXAMPLE_COST_IDS = [
+  'flux-3-max', 'minimax-h3', 'seedance-2-5',
+  'kling-v4',
   'gemini-omni-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max',
   'ltx-2-5-pro',
   'wan-3-prime',
@@ -37,20 +38,18 @@ export const PAYG_EXAMPLE_COST_IDS = [
 export type PaygExampleCostId = (typeof PAYG_EXAMPLE_COST_IDS)[number];
 
 export const PAYG_SUPPORTED_MODEL_IDS = [
+  'flux-3-max', 'minimax-h3',
+  'kling-v4',
   'gemini-omni-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max',
-  'seedance-2-5',
-  'seedance-2-0',
+  'seedance-2-5', 'seedance-2-0',
   'kling-3-pro',
   'veo-3-1',
   'happy-horse-1-1',
   'seedance-2-0-mini',
-  'ltx-2-5-pro',
-  'ltx-2-5-fast',
-  'wan-3-prime',
-  'wan-3',
+  'ltx-2-5-pro', 'ltx-2-5-fast',
+  'wan-3-prime', 'wan-3',
   'grok-imagine-video-1-5',
-  'flux-3',
-  'flux-3-draft',
+  'flux-3', 'flux-3-draft',
   'ltx-2-3-fast',
   'wan-2-6',
 ] as const;
@@ -73,16 +72,15 @@ export type PaygQuestion = { question: string; answer: string };
 export type PaygCard = { title: string; body: string };
 export type PayAsYouGoContent = {
   metadata: { title: string; description: string; imageAlt: string; keywords: string[] };
-  common: { aiVideoModelAlt: string; liveQuote: string; audioOff: string; audioIncluded: string; examplePrefix: string };
-  hero: {
-    eyebrow: string;
-    title: string;
-    intro: string;
+  common: { chapters: Record<'label' | 'workspace' | 'films' | 'models' | 'prices' | 'questions', string>; aiVideoModelAlt: string; liveQuote: string; audioOff: string; audioIncluded: string; examplePrefix: string };
+  hero: Required<PaygHeaderCopy> & {
     primaryCta: string;
     secondaryCta: string;
     trustItems: string[];
+    film: { title: string; watch: string; posterAlt: string };
     quote: {
       consoleLabel: string;
+      detailsLabel: string;
       title: string;
       promptLabel: string;
       prompt: string;
@@ -94,17 +92,18 @@ export type PayAsYouGoContent = {
     };
   };
   naturalQuestions: {
+    settingsLabel: string;
     header: PaygHeaderCopy;
-    summaryLead: string;
-    summaryItems: string[];
     items: PaygQuestion[];
   };
   modelTesting: {
+    contactIntro: string; intents: [string, string, string];
     header: PaygHeaderCopy;
+    disclosure: string;
     footer: string;
     models: Record<PaygSupportedModelId, { family: string; title: string; body: string }>;
   };
-  meaning: { title: string; body: string; bullets: string[] };
+  meaning: { compare: string; title: string; body: string; bullets: string[] };
   noSubscription: { title: string; body: string; cards: PaygCard[] };
   audienceFit: { cards: Array<PaygCard & { bullets: string[] }> };
   subscriptionComparison: {
@@ -112,7 +111,7 @@ export type PayAsYouGoContent = {
     columns: [string, string, string];
     rows: Array<{ label: string; payg: string; subscription: string }>;
   };
-  workflow: { header: PaygHeaderCopy; items: Array<PaygCard & { icon: PaygIconId }> };
+  workflow: { workspace: { capture: string; phoneHeight: number; alt: string; caption: string; open: string }; header: PaygHeaderCopy; items: Array<PaygCard & { icon: PaygIconId }>; assistance: { milo: PaygCard; studio: PaygCard } };
   mcpPlanning: { title: string; body: string };
   quoteFactors: { header: PaygHeaderCopy; items: Array<PaygCard & { icon: PaygIconId }> };
   pricing: {
@@ -128,6 +127,7 @@ export type PayAsYouGoContent = {
   };
   priceLookups: {
     header: PaygHeaderCopy;
+    disclosure: string;
     openRowLabel: string;
     items: Record<PaygPriceLookupId, { query: string; title: string; body: string }>;
   };
@@ -140,12 +140,14 @@ export type PayAsYouGoContent = {
     budgetCaveat: string;
     studioAssistance: string;
     studioLinkLabel: string;
+    creditNotes: { title: string; items: Array<{ title: string; body: string }>; links: { termsHref: string; terms: string; refunds: string; support: string; studio: string } };
     labels: Record<PaygExampleCostId, string>;
   };
-  refundPolicy: { header: PaygHeaderCopy; bullets: Array<{ icon: PaygIconId; body: string }> };
+  refundPolicy: { short: string; disclosure: string; header: PaygHeaderCopy; bullets: Array<{ icon: PaygIconId; body: string }> };
   faq: { title: string; items: PaygQuestion[] };
   showcase: {
     section: {
+      more: string;
       eyebrow: string;
       title: string;
       intro: string;
@@ -156,6 +158,7 @@ export type PayAsYouGoContent = {
       engineImageAltSuffix: string;
     };
     runtime: {
+      videoOverrides?: Record<string, { title: string; useCase: string }>;
       defaultEngineLabel: string;
       defaultTitleEngineLabel: string;
       defaultTitleTemplate: string;

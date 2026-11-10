@@ -1,4 +1,5 @@
-import { resolveLocale } from '@/lib/i18n/server';
+import { getCharacterStudioMarketingVideos } from '@/server/character-studio/marketing-demos';
+import { resolveDictionary, resolveLocale } from '@/lib/i18n/server';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { FAQSchema } from '@/components/seo/FAQSchema';
 import { buildMarketingServiceJsonLd } from '@/lib/seo/marketingServiceJsonLd';
@@ -12,6 +13,8 @@ import { CharacterBuilderLandingSections } from './CharacterBuilderLandingSectio
 
 export async function CharacterBuilderLandingView({ content }: { content: CharacterBuilderLandingContent }) {
   const locale = await resolveLocale();
+  const { dictionary } = await resolveDictionary();
+  const films = await getCharacterStudioMarketingVideos();
   const canonicalUrl = `https://app.keyvo.cn${localizePathFromEnglish(locale, '/tools/character-builder')}`;
   const breadcrumbJsonLd = buildToolBreadcrumbJsonLd({
     locale,
@@ -36,7 +39,7 @@ export async function CharacterBuilderLandingView({ content }: { content: Charac
 
   return (
     <div className="character-builder-page tool-detail-page">
-      <CharacterBuilderLandingSections content={content} />
+      <CharacterBuilderLandingSections content={content} films={films} locale={locale} journey={dictionary.toolMarketing.journey} />
       <FAQSchema questions={[...content.faq.items]} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(serviceJsonLd) }} />

@@ -1,6 +1,8 @@
+import { parseImageDisplay } from '@/lib/image-display';
 import { readGeneratedVideoFacts } from '@/lib/generated-video-media-facts';
 import { resolveOwnedGeneratedVideo } from './generated-video-source';
 import { randomUUID } from 'crypto';
+import { persistLibraryAssetWithOrganization } from './organization-promotion';
 import { readMediaFacts } from '@/lib/media-identity';
 import { query } from '@/lib/db';
 import { ensureMediaLibrarySchema } from '@/lib/schema';
@@ -25,7 +27,7 @@ import {
   type MediaLibraryReadOptions,
 } from './asset-listing';
 import { copyRemoteMedia, createRemoteVideoAssetThumbnail } from './asset-media';
-import { resolveReusableAssetPreviewUrl, resolveReusableAssetThumbUrl } from './asset-resolvers';
+import { resolveReusableImageDisplay, resolveReusableAssetPreviewUrl, resolveReusableAssetThumbUrl } from './asset-resolvers';
 import type { MediaLibraryPage } from './pagination';
 
 export async function listLibraryAssets(params: {
@@ -95,10 +97,17 @@ export async function ensureReusableAsset(params: {
   const source = normalizeMediaAssetSource(params.source);
   const normalizedUrl = normalizeString(params.url);
   if (!normalizedUrl) throw new Error('URL_REQUIRED');
+  const host = new URL(normalizedUrl).host.toLowerCase();
+  const shouldCopy = source === 'saved_job_output' || host === 'fal.media' || host.endsWith('.fal.media');
+  const measureCopiedAudio = params.kind === 'audio' && shouldCopy;
   const ownedGeneratedVideo = params.kind === 'video' && source === 'saved_job_output' && params.sourceOutputId
     ? await resolveOwnedGeneratedVideo({ userId: params.userId, sourceOutputId: params.sourceOutputId,
         sourceJobId: params.sourceJobId, url: params.url.trim() }) : undefined;
   const suppliedMetadata = { ...(params.metadata ?? {}) };
+  if (measureCopiedAudio) {
+    delete suppliedMetadata.durationSec;
+    delete suppliedMetadata.mediaFacts;
+  }
   // Generated measurements come only from the verified output or received bytes.
   if (suppliedMetadata.mediaFacts && typeof suppliedMetadata.mediaFacts === 'object' && 'version' in suppliedMetadata.mediaFacts) {
     delete suppliedMetadata.mediaFacts;
@@ -111,7 +120,7 @@ export async function ensureReusableAsset(params: {
     sourceOutputId: params.sourceOutputId ?? null,
   });
   const durationSec =
-    typeof params.durationSec === 'number' && Number.isFinite(params.durationSec) && params.durationSec > 0
+    !measureCopiedAudio && typeof params.durationSec === 'number' && Number.isFinite(params.durationSec) && params.durationSec > 0
       ? params.durationSec
       : null;
   const mediaWidth =
@@ -130,7 +139,12 @@ export async function ensureReusableAsset(params: {
     sourceJobId: params.sourceJobId ?? null,
     sourceOutputId: params.sourceOutputId ?? null,
   });
-  const resolvedPreviewUrl = await resolveReusableAssetPreviewUrl({
+  const imageDisplay = params.kind === 'image' ? (params.sourceOutputId
+    ? await resolveReusableImageDisplay({ userId: params.userId, normalizedUrl, sourceJobId: params.sourceJobId, sourceOutputId: params.sourceOutputId })
+    : parseImageDisplay(suppliedMetadata.imageDisplay, normalizedUrl, params.previewUrl)) : undefined;
+  delete suppliedMetadata.imageDisplay;
+  if (imageDisplay) suppliedMetadata.imageDisplay = imageDisplay;
+  const resolvedPreviewUrl = imageDisplay?.url ?? await resolveReusableAssetPreviewUrl({
     userId: params.userId,
     kind: params.kind,
     normalizedUrl,
@@ -201,8 +215,6 @@ export async function ensureReusableAsset(params: {
     return mapAssetRow(existing[0]);
   }
 
-  const host = new URL(normalizedUrl).host.toLowerCase();
-  const shouldCopy = source === 'saved_job_output' || host === 'fal.media' || host.endsWith('.fal.media');
   const copied = shouldCopy
     ? await (dependencies.copyRemoteMediaFn ?? copyRemoteMedia)({
         userId: params.userId,
@@ -242,7 +254,7 @@ export async function ensureReusableAsset(params: {
     kind: params.kind,
     url: copied.url,
     thumbUrl: resolvedThumbUrl,
-    previewUrl: resolvedPreviewUrl,
+    previewUrl: imageDisplay && copied.url !== normalizedUrl && (!('sourceSha256' in copied) || copied.sourceSha256 !== imageDisplay.sourceSha256) ? null : resolvedPreviewUrl,
     mimeType: copied.mimeType,
     width: copied.width ?? mediaWidth,
     height: copied.height ?? mediaHeight,
@@ -260,12 +272,14 @@ export async function ensureReusableAsset(params: {
       previewUrl: resolvedPreviewUrl,
       durationSec,
       ...suppliedMetadata,
+      ...(imageDisplay ? { imageDisplay: copied.url === normalizedUrl ? imageDisplay
+        : ('sourceSha256' in copied && copied.sourceSha256 === imageDisplay.sourceSha256 ? { ...imageDisplay, sourceUrl: copied.url } : undefined) } : {}),
       ...(copied.mediaFacts ? { mediaFacts: copied.mediaFacts } : {}),
     },
   });
   insert.id = identity;
 
-  const rows = await query<DbMediaAssetRow>(
+  const rows = await persistLibraryAssetWithOrganization({ userId: params.userId, id: identity, urls: [normalizedUrl, insert.url], sourceJobId: insert.sourceJobId, sourceOutputId: insert.sourceOutputId }, executor => executor.query<DbMediaAssetRow>(
     `INSERT INTO media_assets (
        id, user_id, kind, url, thumb_url, preview_url, mime_type, width, height, size_bytes, source,
        source_job_id, source_output_id, status, metadata
@@ -308,7 +322,7 @@ export async function ensureReusableAsset(params: {
       insert.status,
       JSON.stringify(insert.metadata),
     ]
-  );
+  ));
 
   await recordUserAsset({
     assetId: rows[0]?.id ?? randomUUID(),
@@ -343,6 +357,15 @@ export async function saveJobOutputToLibrary(params: {
   );
   if (!rows[0]) throw new Error('OUTPUT_NOT_FOUND');
   const output = mapOutputRow(rows[0]);
+  // External adoption already owns an uploaded durable asset. Reuse its public identity;
+  // never copy it again or relabel it as an application-generated asset.
+  if (output.metadata.origin === 'external_fal_import') {
+    const assets = await query<DbMediaAssetRow>(`SELECT * FROM media_assets
+      WHERE source_output_id=$1 AND source_job_id=$2 AND user_id=$3 AND url=$4 AND status='ready' AND deleted_at IS NULL`,
+      [output.id, output.jobId, params.userId, output.url]);
+    if (assets.length !== 1) throw new Error('IMPORTED_OUTPUT_ASSET_UNAVAILABLE');
+    return mapAssetRow(assets[0]);
+  }
   const outputFacts = output.metadata.mediaFacts;
   // Versioned generated facts must keep their original-byte provenance through the copy path.
   const mediaFacts = outputFacts && typeof outputFacts === 'object' && 'version' in outputFacts
@@ -363,6 +386,7 @@ export async function saveJobOutputToLibrary(params: {
     metadata: {
       ...(mediaFacts ? { mediaFacts } : {}),
       ...(typeof output.metadata.playbackVideoUrl === 'string' ? { playbackVideoUrl: output.metadata.playbackVideoUrl } : {}),
+      ...(output.metadata.imageDisplay ? { imageDisplay: output.metadata.imageDisplay } : {}),
       ...(output.metadata.lastFrame ? { lastFrame: output.metadata.lastFrame } : {}),
       ...(output.metadata.role === 'last_frame' ? { role: 'last_frame', sourceVideoUrl: output.metadata.sourceVideoUrl,
         sourceVideoOutputId: output.metadata.sourceVideoOutputId, sha256: output.metadata.sha256, sizeBytes: output.metadata.sizeBytes } : {}),

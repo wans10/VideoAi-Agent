@@ -34,6 +34,7 @@ type GuidedNavigation = {
 
 type UseWorkspaceGalleryActionsOptions = {
   guestStarterReady?: boolean;
+  initialPreviewGroup?: VideoGroup | null;
   prompt?: string;
   recentJobs?: Job[];
   provider: ResultProvider;
@@ -44,8 +45,8 @@ type UseWorkspaceGalleryActionsOptions = {
   sharedPrompt: string | null;
   selectedPreview: SelectedVideoPreview | null;
   compositeOverrideSummary: GroupSummary | null;
-  applyVideoSettingsFromTile: (tile: QuadPreviewTile) => void;
-  hydrateVideoSettingsFromJob: (jobId: string | null | undefined) => Promise<void>;
+  applyVideoSettingsFromTile: (tile: QuadPreviewTile, options?: { promptSuffix?: string }) => boolean;
+  hydrateVideoSettingsFromJob: (jobId: string | null | undefined, options?: { promptSuffix?: string; publicExample?: boolean; requireSnapshot?: boolean }) => Promise<void>;
   focusComposer: () => void;
   showNotice: (message: string) => void;
   writeScopedStorage: (base: string, value: string | null) => void;
@@ -77,6 +78,7 @@ type UseWorkspaceGalleryActionsResult = {
 
 export function useWorkspaceGalleryActions({
   guestStarterReady = false,
+  initialPreviewGroup,
   prompt = '',
   recentJobs,
   provider,
@@ -92,7 +94,6 @@ export function useWorkspaceGalleryActions({
   focusComposer,
   showNotice,
   writeScopedStorage,
-  setPrompt,
   setActiveGroupId,
   setViewMode,
   setActiveBatchId,
@@ -122,16 +123,15 @@ export function useWorkspaceGalleryActions({
       const jobId = tile.jobId ?? tile.id;
       switch (action) {
         case 'continue': {
-          applyVideoSettingsFromTile(tile);
-          void hydrateVideoSettingsFromJob(jobId);
-          setPrompt(tile.prompt);
+          if (!applyVideoSettingsFromTile(tile)) return;
+          void hydrateVideoSettingsFromJob(jobId, { publicExample: tile.curated, requireSnapshot: tile.settingsSnapshot == null });
           focusComposer();
           break;
         }
         case 'refine': {
-          applyVideoSettingsFromTile(tile);
-          void hydrateVideoSettingsFromJob(jobId);
-          setPrompt(`${tile.prompt}\n\n// refine here`);
+          const options = { promptSuffix: '\n\n// refine here', publicExample: tile.curated, requireSnapshot: tile.settingsSnapshot == null };
+          if (!applyVideoSettingsFromTile(tile, options)) return;
+          void hydrateVideoSettingsFromJob(jobId, options);
           focusComposer();
           break;
         }
@@ -151,8 +151,7 @@ export function useWorkspaceGalleryActions({
           break;
         }
         case 'open': {
-          applyVideoSettingsFromTile(tile);
-          void hydrateVideoSettingsFromJob(jobId);
+          if (applyVideoSettingsFromTile(tile)) void hydrateVideoSettingsFromJob(jobId, { publicExample: tile.curated, requireSnapshot: tile.settingsSnapshot == null });
           setActiveBatchId(tile.batchId);
           setViewMode('quad');
           setSelectedPreview({
@@ -185,7 +184,6 @@ export function useWorkspaceGalleryActions({
       focusComposer,
       hydrateVideoSettingsFromJob,
       setActiveBatchId,
-      setPrompt,
       setSelectedPreview,
       setViewMode,
       showNotice,
@@ -223,7 +221,6 @@ export function useWorkspaceGalleryActions({
           ? renderGroup.items.find((item) => item.localKey === preferredHeroKey) ?? renderGroup.items[0]
           : renderGroup.items[0];
         if (!heroRender) return;
-        const heroJobId = heroRender.jobId ?? heroRender.id;
         if (action === 'compare') {
           emitClientMetric('compare_used', { batchId: group.id });
           showNotice('Compare view is coming soon.');
@@ -241,14 +238,10 @@ export function useWorkspaceGalleryActions({
           return;
         }
         if (action === 'continue') {
-          applyVideoSettingsFromTile(tile);
-          void hydrateVideoSettingsFromJob(heroJobId);
           handleQuadTileAction('continue', tile);
           return;
         }
         if (action === 'refine') {
-          applyVideoSettingsFromTile(tile);
-          void hydrateVideoSettingsFromJob(heroJobId);
           handleQuadTileAction('refine', tile);
           return;
         }
@@ -319,14 +312,11 @@ export function useWorkspaceGalleryActions({
         } catch {
           // ignore storage failures
         }
-        applyVideoSettingsFromTile(tile);
-        void hydrateVideoSettingsFromJob(heroJobId);
+        if (applyVideoSettingsFromTile(tile)) void hydrateVideoSettingsFromJob(heroJobId, { publicExample: tile.curated, requireSnapshot: tile.settingsSnapshot == null });
         return;
       }
 
       if (action === 'continue' || action === 'refine') {
-        applyVideoSettingsFromTile(tile);
-        void hydrateVideoSettingsFromJob(heroJobId);
         handleQuadTileAction(action, tile);
         return;
       }
@@ -364,14 +354,22 @@ export function useWorkspaceGalleryActions({
 
   useLayoutEffect(() => {
     if (!guestStarterReady || guestStarterApplied.current || !isGuidedSamplesActive) return;
-    const firstSample = guidedSampleGroups.find(group => group.hero.videoUrl && group.hero.prompt?.trim());
+    // Keep the playlist's editorial first item when the gallery sorts its feed by date.
+    const initialStarter = initialPreviewGroup?.items.find(item => item.meta?.curated);
+    const starterId = initialStarter?.jobId ?? initialStarter?.id;
+    const initialGroup = starterId ? guidedSampleGroups.find(group =>
+      group.members.some(member => (member.jobId ?? member.id) === starterId)) : null;
+    const initialMember = initialGroup?.members.find(member => (member.jobId ?? member.id) === starterId);
+    const firstSample = starterId
+      ? (initialGroup && initialMember?.videoUrl && initialMember.prompt?.trim() ? { ...initialGroup, hero: initialMember } : null)
+      : guidedSampleGroups.find(group => group.hero.videoUrl && group.hero.prompt?.trim());
     if (!firstSample) return;
     guestStarterApplied.current = true;
     const previewIsSample = selectedPreview && guidedSampleGroups.some(group =>
       group.members.some(member => member.id === selectedPreview.id || member.jobId === selectedPreview.id));
     if ((selectedPreview && !previewIsSample) || compositeOverrideSummary || (prompt.trim() && prompt !== DEFAULT_PROMPT)) return;
     handleGalleryGroupAction(firstSample, 'open');
-  }, [guestStarterReady, isGuidedSamplesActive, guidedSampleGroups, prompt, selectedPreview, compositeOverrideSummary, handleGalleryGroupAction]);
+  }, [guestStarterReady, initialPreviewGroup, isGuidedSamplesActive, guidedSampleGroups, prompt, selectedPreview, compositeOverrideSummary, handleGalleryGroupAction]);
 
   useEffect(() => {
     if (isGuidedSamplesActive) return;

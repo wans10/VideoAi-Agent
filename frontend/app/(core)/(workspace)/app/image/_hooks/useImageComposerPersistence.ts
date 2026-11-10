@@ -1,5 +1,5 @@
 import { listenForGuestCreationLogin, consumeGuestCreationFromLocation } from '@/lib/guest-creation-continuation';
-import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react';
+import { useCallback, useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react';
 import { useWorkspaceEntryKind } from '../../_hooks/useWorkspaceEntryKind';
 import { shouldRestoreStoredPrompt } from '../../_lib/workspace-prompt-entry';
 import type { ImageGenerationMode } from '@/types/image-generation';
@@ -50,12 +50,14 @@ type UseImageComposerPersistenceParams = {
   customImageHeight: string;
   seed: string;
   outputFormat: string | null;
+  outputCompression?: number | null;
   quality: string | null;
   background: string | null;
   style: string | null;
   maskUrl: string;
   enableWebSearch: boolean;
   thinkingLevel: string | null;
+  complexity: string | null;
   limitGenerations: boolean;
   watermark: boolean;
   persistableReferenceSlots: PersistedReferenceSlot[];
@@ -69,12 +71,14 @@ type UseImageComposerPersistenceParams = {
   setCustomImageHeight: Dispatch<SetStateAction<string>>;
   setSeed: Dispatch<SetStateAction<string>>;
   setOutputFormat: Dispatch<SetStateAction<string | null>>;
+  setOutputCompression?: Dispatch<SetStateAction<number | null>>;
   setQuality: Dispatch<SetStateAction<string | null>>;
   setBackground: Dispatch<SetStateAction<string | null>>;
   setStyle: Dispatch<SetStateAction<string | null>>;
   setMaskUrl: Dispatch<SetStateAction<string>>;
   setEnableWebSearch: Dispatch<SetStateAction<boolean>>;
   setThinkingLevel: Dispatch<SetStateAction<string | null>>;
+  setComplexity: Dispatch<SetStateAction<string | null>>;
   setLimitGenerations: Dispatch<SetStateAction<boolean>>;
   setWatermark: Dispatch<SetStateAction<boolean>>;
   setReferenceSlots: Dispatch<SetStateAction<Array<ReferenceSlotValue | null>>>;
@@ -93,12 +97,14 @@ export function useImageComposerPersistence({
   customImageHeight,
   seed,
   outputFormat,
+  outputCompression,
   quality,
   background,
   style,
   maskUrl,
   enableWebSearch,
   thinkingLevel,
+  complexity,
   limitGenerations,
   watermark,
   persistableReferenceSlots,
@@ -112,27 +118,60 @@ export function useImageComposerPersistence({
   setCustomImageHeight,
   setSeed,
   setOutputFormat,
+  setOutputCompression,
   setQuality,
   setBackground,
   setStyle,
   setMaskUrl,
   setEnableWebSearch,
   setThinkingLevel,
+  setComplexity,
   setLimitGenerations,
   setWatermark,
   setReferenceSlots,
 }: UseImageComposerPersistenceParams) {
   const storageKey = `${IMAGE_COMPOSER_STORAGE_KEY}:${accountId ?? 'guest'}`;
-  const currentPayloadRef = useRef<string | null>(null);
+  const currentPayloadRef = useRef<{ storageKey: string; serialized: string } | null>(null);
   useEffect(() => {
     if (accountId) return;
-    return listenForGuestCreationLogin('/app/image', () => currentPayloadRef.current);
+    return listenForGuestCreationLogin('/app/image', () => currentPayloadRef.current?.serialized ?? null);
   }, [accountId]);
   const hasHydratedStorageRef = useRef(false);
   const persistTimerRef = useRef<number | null>(null);
   const persistedSignatureRef = useRef<string | null>(null);
   const [storageHydrated, setStorageHydrated] = useState(false);
   const claimEntryKind = useWorkspaceEntryKind();
+  const persist = useCallback((serialized: string) => {
+    try {
+      window.localStorage.setItem(storageKey, serialized);
+      if (window.localStorage.getItem(storageKey) !== serialized) return false;
+      persistedSignatureRef.current = serialized;
+      return true;
+    } catch {
+      return false;
+    }
+  }, [storageKey]);
+
+  useEffect(() => {
+    const flush = () => {
+      const payload = currentPayloadRef.current;
+      if (!payload || payload.storageKey !== storageKey || payload.serialized === persistedSignatureRef.current) return;
+      if (persist(payload.serialized) && persistTimerRef.current !== null) {
+        window.clearTimeout(persistTimerRef.current);
+        persistTimerRef.current = null;
+      }
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') flush();
+    };
+    window.addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => {
+      window.removeEventListener('pagehide', flush);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      flush();
+    };
+  }, [persist, storageKey]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -189,18 +228,25 @@ export function useImageComposerPersistence({
         setResolution(nextResolution);
         const parsedSizeFromResolution = parseGptImage2SizeKey(nextResolution);
         const restoredCustomSize = parsed.customImageSize ?? parsedSizeFromResolution;
+        const hasCustomSizeFields = Boolean(
+          getImageInputField(engineMatch.engineCaps, 'image_width', nextMode) &&
+          getImageInputField(engineMatch.engineCaps, 'image_height', nextMode)
+        );
         const defaultCustomWidth =
           getImageFieldDefaultNumber(engineMatch.engineCaps, 'image_width', nextMode) ??
           GPT_IMAGE_2_SIZE_CONSTRAINTS.defaultWidth;
         const defaultCustomHeight =
           getImageFieldDefaultNumber(engineMatch.engineCaps, 'image_height', nextMode) ??
           GPT_IMAGE_2_SIZE_CONSTRAINTS.defaultHeight;
-        setCustomImageWidth(String(restoredCustomSize?.width ?? defaultCustomWidth));
-        setCustomImageHeight(String(restoredCustomSize?.height ?? defaultCustomHeight));
+        // Match the settings owner: unavailable dimension controls stay empty on reload.
+        setCustomImageWidth(hasCustomSizeFields ? String(restoredCustomSize?.width ?? defaultCustomWidth) : '');
+        setCustomImageHeight(hasCustomSizeFields ? String(restoredCustomSize?.height ?? defaultCustomHeight) : '');
         const allowedAspectRatios = getAspectRatioOptions(engineMatch.engineCaps, nextMode);
         const defaultAspectRatio = getDefaultAspectRatio(engineMatch.engineCaps, nextMode);
         setAspectRatio(
-          parsed.aspectRatio && allowedAspectRatios.includes(parsed.aspectRatio) ? parsed.aspectRatio : defaultAspectRatio
+          getImageInputField(engineMatch.engineCaps, 'aspect_ratio', nextMode) && allowedAspectRatios.length
+            ? parsed.aspectRatio && allowedAspectRatios.includes(parsed.aspectRatio) ? parsed.aspectRatio : defaultAspectRatio
+            : null
         );
         const seedDefault = getImageFieldDefaultNumber(engineMatch.engineCaps, 'seed', nextMode);
         setSeed(parsed.seed == null ? (seedDefault == null ? '' : String(seedDefault)) : String(parsed.seed));
@@ -210,6 +256,7 @@ export function useImageComposerPersistence({
         setOutputFormat(
           parsed.outputFormat && outputFormats.includes(parsed.outputFormat) ? parsed.outputFormat : defaultOutputFormat
         );
+        setOutputCompression?.(getImageInputField(engineMatch.engineCaps, 'output_compression', nextMode) ? parsed.outputCompression ?? null : null);
         const qualityValues = getImageFieldValues(engineMatch.engineCaps, 'quality', nextMode);
         const defaultQuality =
           getImageFieldDefaultString(engineMatch.engineCaps, 'quality', nextMode) ?? qualityValues[0] ?? null;
@@ -238,6 +285,14 @@ export function useImageComposerPersistence({
             ? parsed.thinkingLevel
             : defaultThinkingLevel
         );
+        const complexities = getImageFieldValues(engineMatch.engineCaps, 'complexity', nextMode);
+        const defaultComplexity =
+          getImageFieldDefaultString(engineMatch.engineCaps, 'complexity', nextMode) ?? complexities[0] ?? null;
+        setComplexity(
+          parsed.complexity && complexities.includes(parsed.complexity)
+            ? parsed.complexity
+            : defaultComplexity
+        );
         setLimitGenerations(
           getImageInputField(engineMatch.engineCaps, 'limit_generations', nextMode)
             ? parsed.limitGenerations
@@ -254,7 +309,11 @@ export function useImageComposerPersistence({
             next[index] = slot.characterReference
               ? createCharacterReferenceSlot(slot.characterReference, `stored-${index}`)
               : {
+                  readAccessOwnerId: slot.readAccessOwnerId, readAccessRef: slot.readAccessRef, readAccessRevision: slot.readAccessRevision,
+                  ...(slot.readAccessRef ? {readAccessExpiresAt: new Date(0).toISOString()} : {}),
                   id: `stored-${index}`,
+                  ref: slot.ref,
+                  name: slot.name,
                   url: slot.url,
                   previewUrl: slot.url,
                   status: 'ready',
@@ -268,7 +327,7 @@ export function useImageComposerPersistence({
             const prior = previous[idx];
             if (!slot && !prior) return false;
             if (!slot || !prior) return true;
-            return slot.url !== prior.url || slot.status !== prior.status;
+            return slot.url !== prior.url || slot.status !== prior.status || slot.name !== prior.name || JSON.stringify(slot.ref) !== JSON.stringify(prior.ref);
           });
           return changed ? migratedNext : previous;
         });
@@ -290,6 +349,7 @@ export function useImageComposerPersistence({
     setMode,
     setNumImages,
     setOutputFormat,
+    setOutputCompression,
     setPrompt,
     setQuality,
     setBackground,
@@ -298,6 +358,7 @@ export function useImageComposerPersistence({
     setSeed,
     setStyle,
     setThinkingLevel,
+    setComplexity,
     setWatermark,
   ]);
 
@@ -315,12 +376,14 @@ export function useImageComposerPersistence({
       customImageSize: resolution === 'custom' ? buildCustomImageSize(customImageWidth, customImageHeight) : null,
       seed: seed.trim().length ? Math.round(Number(seed)) : null,
       outputFormat,
+      outputCompression,
       quality,
       background,
       style,
       maskUrl: maskUrl.trim().length ? maskUrl.trim() : null,
       enableWebSearch,
       thinkingLevel,
+      complexity,
       limitGenerations,
       watermark,
       referenceSlots: persistableReferenceSlots,
@@ -332,18 +395,14 @@ export function useImageComposerPersistence({
     } catch {
       return;
     }
-    currentPayloadRef.current = serialized;
+    // Keep the latest hydrated snapshot available when navigation beats the debounce.
+    currentPayloadRef.current = { storageKey, serialized };
     if (serialized === persistedSignatureRef.current) return;
     if (persistTimerRef.current !== null) {
       window.clearTimeout(persistTimerRef.current);
     }
     persistTimerRef.current = window.setTimeout(() => {
-      try {
-        window.localStorage.setItem(storageKey, serialized);
-        persistedSignatureRef.current = serialized;
-      } catch {
-        // ignore storage failures
-      }
+      persist(serialized);
     }, IMAGE_COMPOSER_STORAGE_DEBOUNCE_MS);
     return () => {
       if (persistTimerRef.current !== null) {
@@ -352,6 +411,7 @@ export function useImageComposerPersistence({
       }
     };
   }, [
+    persist,
     storageKey,
     aspectRatio,
     customImageHeight,
@@ -364,6 +424,7 @@ export function useImageComposerPersistence({
     mode,
     numImages,
     outputFormat,
+    outputCompression,
     persistableReferenceSlots,
     prompt,
     quality,
@@ -373,6 +434,7 @@ export function useImageComposerPersistence({
     storageHydrated,
     style,
     thinkingLevel,
+    complexity,
     watermark,
   ]);
   return { storageHydrated };

@@ -75,7 +75,7 @@ type _AgentMediaHasNoSymbolIndex = Assert<
   Equal<symbol extends keyof AgentMediaItem ? true : false, false>
 >;
 
-type ExpectedReferenceRole = 'source' | 'reference' | 'first_frame' | 'last_frame' | 'mask';
+type ExpectedReferenceRole = 'source' | 'reference' | 'first_frame' | 'middle_frame' | 'last_frame' | 'mask';
 type ExpectedReferenceMediaKind = 'image' | 'video' | 'audio';
 
 type ExpectedResolvedReference = {
@@ -89,6 +89,10 @@ type ExpectedResolvedReference = {
   durationSec: number | null;
   mimeType: string;
   sizeBytes?: number | null;
+  fps?: number;
+  decodedFrameCount?: number;
+  constantFrameRate?: boolean;
+  sourceSha256?: string;
   originalName?: string | null;
 };
 
@@ -103,6 +107,10 @@ type ExpectedResolvedReferenceKeys =
   | 'durationSec'
   | 'mimeType'
   | 'sizeBytes'
+  | 'fps'
+  | 'decodedFrameCount'
+  | 'constantFrameRate'
+  | 'sourceSha256'
   | 'originalName';
 
 type ForbiddenResolvedReferenceKeys =
@@ -117,6 +125,9 @@ type _ResolvedReferenceShapeIsExact = Assert<
 >;
 type _ResolvedReferenceKeysAreExact = Assert<
   Equal<keyof ResolvedReference, ExpectedResolvedReferenceKeys>
+>;
+type _ResolvedReferenceCadenceIsOptionalNumber = Assert<
+  Equal<ResolvedReference['fps'], number | undefined>
 >;
 type _ResolvedReferenceRoleIsExact = Assert<
   Equal<ResolvedReference['role'], ExpectedReferenceRole>

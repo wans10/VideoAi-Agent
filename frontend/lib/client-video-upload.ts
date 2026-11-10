@@ -1,3 +1,5 @@
+import type { MediaReadAccess } from '@/lib/media-read-access';
+import { mediaReadAccessFields } from '@/lib/library-media-access';
 import { authFetch } from '@/lib/authFetch';
 import { canonicalMediaAssetFields, readMediaFacts, type MediaFacts } from '@/lib/media-identity';
 import type { ToolAssetRef } from '@/lib/toolbox/contract';
@@ -7,7 +9,7 @@ export const CHUNKED_VIDEO_UPLOAD_THRESHOLD_BYTES = 4 * 1024 * 1024;
 export const DIRECT_VIDEO_UPLOAD_THRESHOLD_BYTES = CHUNKED_VIDEO_UPLOAD_THRESHOLD_BYTES;
 export const CHUNKED_VIDEO_UPLOAD_CHUNK_BYTES = 3_670_016;
 
-export type UploadedVideoAsset = {
+export type UploadedVideoAsset = MediaReadAccess & {
   assetId?: string;
   legacyAssetId?: string;
   ref?: ToolAssetRef;
@@ -15,6 +17,8 @@ export type UploadedVideoAsset = {
   durationSec?: number;
   id: string;
   url: string;
+  /** Temporary read access for playback; url remains the stored original identity. */
+  previewUrl?: string;
   width?: number | null;
   height?: number | null;
   size?: number | null;
@@ -61,7 +65,7 @@ function createUploadFailure(status: number, payload: UploadFailurePayload, fall
   return error;
 }
 
-function readAssetPayload(payload: unknown): UploadedVideoAsset | null {
+function readAssetPayload(payload: unknown, kind: 'audio' | 'video' = 'video'): UploadedVideoAsset | null {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
   const asset = (payload as { asset?: unknown }).asset;
   if (!asset || typeof asset !== 'object' || Array.isArray(asset)) return null;
@@ -69,7 +73,8 @@ function readAssetPayload(payload: unknown): UploadedVideoAsset | null {
   const id = (asset as { id?: unknown }).id;
   if (typeof url !== 'string' || !url) return null;
   return {
-    ...canonicalMediaAssetFields((asset as { assetId?: unknown }).assetId, 'video'),
+    ...mediaReadAccessFields(asset as MediaReadAccess),
+    ...canonicalMediaAssetFields((asset as { assetId?: unknown }).assetId, kind),
     mediaFacts: readMediaFacts((asset as { mediaFacts?: unknown }).mediaFacts),
     durationSec: readMediaFacts((asset as { mediaFacts?: unknown }).mediaFacts)?.durationSec,
     legacyAssetId: typeof (asset as { legacyAssetId?: unknown }).legacyAssetId === 'string' ? (asset as { legacyAssetId: string }).legacyAssetId : undefined,
@@ -103,7 +108,7 @@ async function uploadVideoThroughApi(file: File, request: RequestFn): Promise<Up
   return asset;
 }
 
-async function uploadVideoInChunks(file: File, request: RequestFn): Promise<UploadedVideoAsset> {
+async function uploadMediaInChunks(file: File, request: RequestFn, abortRequest: RequestFn, kind: 'audio' | 'video'): Promise<UploadedVideoAsset> {
   let uploadId = '';
   let key = '';
   const parts: Array<{ partNumber: number; etag: string; key: string; size: number }> = [];
@@ -113,8 +118,9 @@ async function uploadVideoInChunks(file: File, request: RequestFn): Promise<Uplo
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        ...(kind === 'audio' ? { kind } : {}),
         fileName: file.name,
-        mime: file.type || 'video/mp4',
+        mime: file.type || (kind === 'audio' ? (/\.wav$/i.test(file.name) ? 'audio/wav' : 'audio/mpeg') : 'video/mp4'),
         size: file.size,
       }),
     });
@@ -177,21 +183,22 @@ async function uploadVideoInChunks(file: File, request: RequestFn): Promise<Uplo
       body: JSON.stringify({
         uploadId,
         key,
+        ...(kind === 'audio' ? { kind } : {}),
         fileName: file.name,
-        mime: file.type || 'video/mp4',
+        mime: file.type || (kind === 'audio' ? (/\.wav$/i.test(file.name) ? 'audio/wav' : 'audio/mpeg') : 'video/mp4'),
         size: file.size,
         parts,
       }),
     });
     const completePayload = await readJson(completeResponse);
-    const asset = readAssetPayload(completePayload);
+    const asset = readAssetPayload(completePayload, kind);
     if (!completeResponse.ok || !completePayload?.ok || !asset) {
       throw createUploadFailure(completeResponse.status, completePayload, 'Upload failed');
     }
     return asset;
   } catch (error) {
     if (uploadId && parts.length > 0) {
-      request('/api/uploads/video/multipart/abort', {
+      abortRequest('/api/uploads/video/multipart/abort', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ uploadId, key, parts }),
@@ -201,8 +208,8 @@ async function uploadVideoInChunks(file: File, request: RequestFn): Promise<Uplo
   }
 }
 
-async function uploadLargeVideoFile(file: File, request: RequestFn): Promise<UploadedVideoAsset> {
-  return uploadVideoInChunks(file, request);
+async function uploadLargeVideoFile(file: File, request: RequestFn, abortRequest: RequestFn): Promise<UploadedVideoAsset> {
+  return uploadMediaInChunks(file, request, abortRequest, 'video');
 }
 
 export function shouldUseChunkedVideoUpload(file: { size: number }): boolean {
@@ -215,10 +222,15 @@ export function shouldUseDirectVideoUpload(file: { size: number }): boolean {
 
 export async function uploadVideoFile(
   file: File,
-  options: { request?: RequestFn } = {}
+  options: { request?: RequestFn; abortRequest?: RequestFn } = {}
 ): Promise<UploadedVideoAsset> {
   const request = options.request ?? authFetch;
   return shouldUseChunkedVideoUpload(file)
-    ? uploadLargeVideoFile(file, request)
+    ? uploadLargeVideoFile(file, request, options.abortRequest ?? request)
     : uploadVideoThroughApi(file, request);
+}
+
+/** Send a long recording through the same bounded, account-owned parts as a video. */
+export function uploadAudioInChunks(file: File, request: RequestFn = authFetch) {
+  return uploadMediaInChunks(file, request, request, 'audio');
 }

@@ -8,7 +8,7 @@ import {
   submitFalGenerateTask,
 } from '../frontend/app/api/generate/_lib/fal-submission';
 import { FalTimeoutError } from '../frontend/app/api/generate/_lib/fal-error-handling';
-import { persistRefundReceipt } from '../frontend/app/api/generate/_lib/payment-rollback';
+import type { TransactionQueryExecutor } from '../frontend/src/lib/db';
 import type { PendingReceipt } from '../frontend/app/api/generate/_lib/initial-video-job';
 import { FalGenerationError, FalPreSubmissionError } from '../frontend/src/lib/fal-error';
 import type { GeneratePayload, GenerateResult } from '../frontend/src/lib/fal';
@@ -81,6 +81,8 @@ test('markJobAwaitingFal updates the running job and records provider queue cont
 test('submitFalGenerateTask returns generation results and persists request ids', async () => {
   const payload: GeneratePayload = { engineId: 'seedance-2-0', prompt: 'test', mode: 't2v' };
   const persisted: string[] = [];
+  const proof = {version:1 as const,engineId:'flux-3-draft' as const,mode:'t2v' as const,endpoint:'blackforestlabs/flux-3/text-to-video/draft',requestSha256:'a'.repeat(64)};
+  const receipt = {requestId:'fal_request_123',endpoint:'kling/v4/text-to-video',metadataState:'missing' as const};
   const result = await withMutedFalLogs(() => submitFalGenerateTask({
     userId: 'owner',
     falPayload: payload,
@@ -95,14 +97,16 @@ test('submitFalGenerateTask returns generation results and persists request ids'
     walletChargeReserved: false,
     getLastProviderJobId: () => null,
     setLastProviderJobId: () => undefined,
-    persistProviderJobId: async (providerJobId) => {
+    persistProviderJobId: async (providerJobId, submissionProof, queueReceipt) => {
+      assert.deepEqual(submissionProof,proof);
+      assert.deepEqual(queueReceipt,receipt);
       await new Promise<void>((resolve) => setImmediate(resolve));
       persisted.push(providerJobId);
     },
     logMetricFn: () => undefined,
     deps: {
       generateVideoFn: async (_payload, hooks) => {
-        await hooks?.onRequestId?.('fal_request_123');
+        await hooks?.onRequestId?.('fal_request_123',proof,receipt);
         return {
           provider: 'fal',
           thumbUrl: '/thumb.svg',
@@ -209,7 +213,7 @@ for (const { status, message } of [
   { status: 429, message: 'Quota exceeded' },
 ]) {
   test(`enqueue rejection ${status} refunds the charge instead of polling a local batch id`, async () => {
-    const { result, queries } = await submitRejectedEnqueue(new FalGenerationError(
+    const { result, queries, settlements } = await submitRejectedEnqueue(new FalGenerationError(
       'Generation submission could not be confirmed.',
       { status, body: { detail: message } }
     ));
@@ -221,14 +225,15 @@ for (const { status, message } of [
     const jobUpdate = queries.find(({ sql }) => sql.includes('UPDATE app_jobs'));
     assert.match(jobUpdate?.sql ?? '', /SET status = 'failed'/);
     assert.equal(jobUpdate?.params?.[2], null, 'a local batch is not a Fal request id');
-    assert.equal(jobUpdate?.params?.[3], 'refunded_wallet');
-    assertExactWalletRefund(queries);
+    assert.equal(jobUpdate?.params?.length, 3, 'the terminal write must not presume a refund');
+    assert.equal(result.body.paymentStatus, 'refunded_wallet');
+    assert.equal(settlements, 1);
   });
 }
 
 for (const status of [403, 422]) {
   test(`a definitive ${status} error with a Fal request id still follows the refund policy`, async () => {
-    const { result, queries } = await submitRejectedEnqueue(new FalGenerationError(
+    const { result, settlements } = await submitRejectedEnqueue(new FalGenerationError(
       'Render request failed',
       {
         status,
@@ -241,7 +246,8 @@ for (const status of [403, 422]) {
     if (result.ok) return;
     assert.equal(result.status, status);
     assert.notEqual(result.body.deferred, true);
-    assertExactWalletRefund(queries);
+    assert.equal(result.body.paymentStatus, 'refunded_wallet');
+    assert.equal(settlements, 1);
   });
 }
 
@@ -296,8 +302,15 @@ async function submitRejectedEnqueue(error: Error) {
     applicationFeeCents: 23,
     vendorAccountId: null,
   };
+  let settlements = 0;
+  const job = { job_id: 'job_enqueue', status: 'pending', payment_status: 'paid_wallet' };
   const queryFn = async <T>(sql: string, params?: unknown[]): Promise<T[]> => {
     queries.push({ sql, params });
+    if (sql.includes("SET status = 'failed'")) {
+      job.status = 'failed';
+      return [{ ...job }] as T[];
+    }
+    if (sql.startsWith('SELECT * FROM app_jobs')) return [{ ...job }] as T[];
     return [];
   };
   const result = await withMutedFalLogs(() => submitFalGenerateTask({
@@ -319,22 +332,16 @@ async function submitRejectedEnqueue(error: Error) {
       generateVideoFn: async () => { throw error; },
       withFalTimeoutFn: async (promise) => promise,
       queryFn,
-      rollbackPendingPaymentFn: async ({ pendingReceipt: receipt, refundDescription }) => {
-        assert.ok(receipt);
-        await persistRefundReceipt({ receipt, description: refundDescription, stripeRefundId: null, priceOnly: true, queryFn });
+      rollbackPendingPaymentFn: async () => { assert.fail('Wallet failures must use atomic settlement'); },
+      withFailureSettlementFn: async (_jobId, _context, persist) => {
+        const outcome = await persist({ query: queryFn } as TransactionQueryExecutor);
+        settlements++;
+        job.payment_status = 'refunded_wallet';
+        return outcome;
       },
     },
   }));
-  return { result, queries };
-}
-
-function assertExactWalletRefund(queries: CapturedQuery[]) {
-  const refunds = queries.filter(({ sql }) => sql.includes('INSERT INTO app_receipts'));
-  assert.equal(refunds.length, 1);
-  assert.match(refunds[0].sql, /'refund'/);
-  assert.match(refunds[0].sql, /ON CONFLICT DO NOTHING/);
-  assert.deepEqual(refunds[0].params?.slice(0, 3), ['user_enqueue', 98, 'USD']);
-  assert.equal(refunds[0].params?.[4], 'job_enqueue');
+  return { result, queries, settlements };
 }
 
 async function withMutedFalLogs<T>(fn: () => Promise<T>): Promise<T> {
@@ -352,12 +359,13 @@ async function withMutedFalLogs<T>(fn: () => Promise<T>): Promise<T> {
 
 for (const message of ['FAL_API_KEY is missing', 'Unable to resolve FAL model for requested engine']) {
   test(`local pre-submission failure ${message} fails and refunds instead of pending forever`, async () => {
-    const { result, queries } = await submitRejectedEnqueue(new FalPreSubmissionError(message));
+    const { result, queries, settlements } = await submitRejectedEnqueue(new FalPreSubmissionError(message));
     assert.equal(result.ok, false);
     if (result.ok) return;
     assert.equal(result.status, 500);
     assert.notEqual(result.body.deferred, true);
     assert.match(queries.find(({ sql }) => sql.includes('UPDATE app_jobs'))?.sql ?? '', /SET status = 'failed'/);
-    assertExactWalletRefund(queries);
+    assert.equal(result.body.paymentStatus, 'refunded_wallet');
+    assert.equal(settlements, 1);
   });
 }

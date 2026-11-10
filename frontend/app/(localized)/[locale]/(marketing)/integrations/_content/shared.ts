@@ -36,7 +36,8 @@ export function getIntegrationInstallInstruction(locale: AppLocale, hostId: McpC
 
   const hostLabels: Partial<Record<McpCompatibilityHostId, string>> = {
     claudeCode: 'Claude Code',
-    claudeDesktop: 'Claude',
+    claudeDesktop: 'Claude Desktop',
+    claudeWeb: 'Claude Web',
     chatgptWeb: 'ChatGPT',
     openclawGateway: 'OpenClaw',
     n8nMcpClient: 'n8n MCP Client',
@@ -47,26 +48,26 @@ export function getIntegrationInstallInstruction(locale: AppLocale, hostId: McpC
   const guidePath = locale === 'es' ? `/es/integraciones/${integration}` : localizedIntegrationPath(locale, `integrations/${integration}`);
   const setup = {
     zh: {
-      chatgptWeb:'指引我在 ChatGPT 中创建名为 MaxVideoAI、使用 OAuth 的自定义 MCP App。若无法访问设置，请解释操作步骤，不要声称已经安装。',
-      claudeDesktop:'使用 Claude Pro 或 Max 时，指引我依次进入 Customize → Connectors → + Add → Add custom connector，填写生产 URL，Continue，审核检测到的 OAuth，Continue，再 Add。保留检测到的 OAuth。Team 或 Enterprise 应由所有者先在 Organization settings → Connectors → Add → Custom → Web 中添加，成员再 Connect。通过对话中的 + → Connectors 启用。',
+      chatgptWeb:'在 Plugins 中选择 Add → Add custom MCP server。当前流程无需先启用 Developer mode，账户与工作区权限仍然适用。命名为 MaxVideoAI，填写下方的生产地址并保留检测到的 OAuth。查看警告后选择 Create as a plugin，再 Connect，并在 maxvideoai.com 上批准访问。请避开 Staging 条目。',
+      claudeWeb:'使用个人 Claude 套餐（Free、Pro 或 Max）时，依次进入 Customize → Connectors → Your connectors → Add → Add custom connector。Team 或 Enterprise 应由所有者先在 Organization settings → Connectors → Add → Custom → Web 中添加。输入 MaxVideoAI 和下方的生产 URL，然后 Continue。检查检测到的 OAuth 与自动客户端注册，保留 Connect now，再 Add。选择 Connect 并查看 MaxVideoAI 授权页面。测试的 Free 账户只允许一个自定义连接器；若名额已被占用，请先决定是否替换，再移除任何内容。在 Claude 中移除连接器并不能证明其在 MaxVideoAI 中的授权已被撤销。',
       claudeCode:`使用以下命令配置 Claude Code：claude mcp add --transport http maxvideoai ${MCP_PRODUCTION_RESOURCE_URL}。再指引我通过 /mcp 授权账户。`,
       openclawGateway:'在 OpenClaw 中使用 Streamable HTTP 和 OAuth 配置远程服务器 maxvideoai，再运行 openclaw mcp login maxvideoai。先检查共享身份与逐请求用户身份的选择。',
     },
     en: {
-      chatgptWeb: 'Guide me through creating a custom MCP app named MaxVideoAI with OAuth in ChatGPT. If you cannot access these settings, explain the steps; do not claim it is installed.',
-      claudeDesktop: 'With Claude Pro or Max, guide me through Customize → Connectors → + Add → Add custom connector, the production URL, Continue, detected OAuth review, Continue and Add. Keep detected OAuth. On Team or Enterprise, an owner first adds it through Organization settings → Connectors → Add → Custom → Web; members then Connect. Enable it per conversation via + → Connectors.',
+      chatgptWeb: "In Plugins, choose Add → Add custom MCP server. This current path does not require enabling Developer mode first. Account and workspace permissions still apply. Name it MaxVideoAI, enter the production address below and retain detected OAuth. Review the warning, choose Create as a plugin, then Connect and approve access on maxvideoai.com. Avoid the Staging entry.",
+      claudeWeb: "On an individual Claude plan (Free, Pro or Max), open Customize → Connectors → Your connectors → Add → Add custom connector. On Team or Enterprise, an owner first uses Organization settings → Connectors → Add → Custom → Web. Enter MaxVideoAI and the production URL below, then Continue. Review detected OAuth and automatic client registration, keep Connect now, then Add. Choose Connect and review the MaxVideoAI consent screen. The Free account tested allowed one custom connector. If that slot is occupied, choose whether to replace it before removing anything. Removing a connector in Claude does not prove that its authorization was revoked in MaxVideoAI.",
       claudeCode: `Configure Claude Code with: claude mcp add --transport http maxvideoai ${MCP_PRODUCTION_RESOURCE_URL}. Then guide me through /mcp to authorize my account.`,
       openclawGateway: 'Configure the remote server maxvideoai with Streamable HTTP and OAuth in OpenClaw, then run openclaw mcp login maxvideoai. Check shared versus per-requester identity first.',
     },
     fr: {
-      chatgptWeb: 'Guide-moi pour créer une application MCP personnalisée nommée MaxVideoAI avec OAuth dans ChatGPT. Si tu ne peux pas accéder à ces réglages, explique les étapes sans annoncer que l’installation est terminée.',
-      claudeDesktop: 'Avec Claude Pro ou Max, guide-moi dans Customize → Connectors → + Add → Add custom connector, l’URL de production, Continue, la vérification OAuth, Continue et Add. Conserve OAuth. En Team ou Enterprise, un propriétaire passe d’abord par Organization settings → Connectors → Add → Custom → Web ; les membres choisissent ensuite Connect. Active le connecteur dans la discussion via + → Connectors.',
+      chatgptWeb: "Dans Plugins, choisissez Ajouter → Ajouter un serveur MCP personnalisé. Ce parcours actuel ne nécessite pas d’activer le mode développeur au préalable. Les permissions du compte et de l’espace restent applicables. Nommez-le MaxVideoAI, saisissez l’adresse de production ci-dessous et conservez OAuth détecté. Examinez l’avertissement, choisissez Créer en tant que plugin, puis Connecter et approuvez les accès sur maxvideoai.com. Évitez l’entrée Staging.",
+      claudeWeb: "Avec un compte individuel Claude (Free, Pro ou Max), ouvrez Personnalisation → Connecteurs → Les vôtres → Ajouter → Ajouter un connecteur personnalisé. En Team ou Enterprise, un propriétaire utilise d’abord Organization settings → Connectors → Add → Custom → Web. Saisissez MaxVideoAI et l’URL de production ci-dessous, puis Continuer. Vérifiez OAuth et l’enregistrement automatique du client, gardez Se connecter maintenant, puis Ajouter. Choisissez Connecter et vérifiez le consentement MaxVideoAI. Le compte Free testé autorisait un connecteur personnalisé. Si cette place est occupée, choisissez lequel conserver avant toute suppression. Supprimer un connecteur dans Claude ne prouve pas la révocation de son autorisation dans MaxVideoAI.",
       claudeCode: `Configure Claude Code avec : claude mcp add --transport http maxvideoai ${MCP_PRODUCTION_RESOURCE_URL}. Guide-moi ensuite dans /mcp pour autoriser mon compte.`,
       openclawGateway: 'Configure le serveur distant maxvideoai avec Streamable HTTP et OAuth dans OpenClaw, puis lance openclaw mcp login maxvideoai. Vérifie d’abord le choix entre identité partagée et identité par demandeur.',
     },
     es: {
-      chatgptWeb: 'Guíame para crear una app MCP personalizada llamada MaxVideoAI con OAuth en ChatGPT. Si no puedes acceder a estos ajustes, explica los pasos sin afirmar que está instalada.',
-      claudeDesktop: 'Con Claude Pro o Max, guíame por Customize → Connectors → + Add → Add custom connector, la URL de producción, Continue, la revisión OAuth, Continue y Add. Conserva OAuth. En Team o Enterprise, un propietario usa primero Organization settings → Connectors → Add → Custom → Web; los miembros eligen después Connect. Activa el conector en el chat con + → Connectors.',
+      chatgptWeb: "En Plugins, elige Add → Add custom MCP server. Esta ruta actual no requiere activar antes Developer mode. Se siguen aplicando los permisos de la cuenta y del espacio. Usa el nombre MaxVideoAI y la dirección de producción indicada; conserva OAuth detectado. Revisa el aviso, elige Create as a plugin, después Connect y aprueba el acceso en maxvideoai.com. Evita la entrada Staging.",
+      claudeWeb: "Con un plan individual de Claude (Free, Pro o Max), abre Customize → Connectors → Your connectors → Add → Add custom connector. En Team o Enterprise, un propietario usa primero Organization settings → Connectors → Add → Custom → Web. Introduce MaxVideoAI y la URL de producción indicada, después Continue. Revisa OAuth y el registro automático del cliente, conserva Connect now y pulsa Add. Elige Connect y revisa el consentimiento de MaxVideoAI. La cuenta Free probada permitía un conector personalizado. Si la plaza está ocupada, decide cuál conservar antes de eliminarlo. Eliminar un conector en Claude no demuestra la revocación de su autorización en MaxVideoAI.",
       claudeCode: `Configura Claude Code con: claude mcp add --transport http maxvideoai ${MCP_PRODUCTION_RESOURCE_URL}. Después guíame por /mcp para autorizar mi cuenta.`,
       openclawGateway: 'Configura el servidor remoto maxvideoai con Streamable HTTP y OAuth en OpenClaw y ejecuta openclaw mcp login maxvideoai. Comprueba primero la identidad compartida o por solicitante.',
     },

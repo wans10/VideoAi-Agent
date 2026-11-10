@@ -154,6 +154,16 @@ test('the real published state exposes every P0 across current and machine disco
   }
 
   assert.equal(comparisons.getHubComparisonSlugsForSitemap().filter((slug) => HIDDEN_P0_IDS.some((id) => slug.includes(id))).length, 0);
+  // Upstream's P0 pairs that involve only Chinese-vendor (visible) models remain in the Keyvo sitemap.
+  assert.deepEqual(
+    comparisons.getHubComparisonSlugsForSitemap().filter((slug) => VISIBLE_P0_IDS.some((id) => slug.includes(id))).sort(),
+    [
+      'kling-v4-vs-wan-3-prime',
+      'seedance-2-5-vs-wan-3',
+      'wan-2-6-vs-wan-3',
+      'wan-3-vs-wan-3-prime',
+    ].sort(),
+  );
 });
 
 test('published P0 comparison metadata is index,follow', () => {
@@ -205,7 +215,7 @@ test('the supplied-roster sitemap fixture emits exactly one reciprocal canonical
   }
 });
 
-test('published model fixtures have unique localized metadata and 2-4 rendered editorial outbounds', () => {
+test('published model fixtures have unique localized metadata and bounded rendered editorial outbounds', () => {
   const titles = new Set<string>();
   const descriptions = new Set<string>();
   const entries = new Map(publishedFalEntries().map((entry) => [entry.id, entry]));
@@ -241,7 +251,22 @@ test('published model fixtures have unique localized metadata and 2-4 rendered e
         .map((link) => link.href.split(/[?#]/, 1)[0])
         .filter((href) => href.startsWith('/') && !href.startsWith('/app') && !/\/(?:pricing|tarifs|precios)$/.test(href));
       const uniqueEditorial = new Set(editorial);
-      assert.ok(uniqueEditorial.size >= 2 && uniqueEditorial.size <= 4, `${locale}:${id}:${[...uniqueEditorial]}`);
+      if (id === 'flux-3') {
+        const prefix = locale === 'en' ? '' : `/${locale}`;
+        const modelsPath = locale === 'en' ? '/models' : locale === 'fr' ? '/modeles' : '/modelos';
+        const comparisonPath = locale === 'en' ? '/ai-video-engines' : locale === 'fr' ? '/comparatif' : '/comparativa';
+        const examplesPath = locale === 'en' ? '/examples' : locale === 'fr' ? '/galerie' : '/galeria';
+        assert.deepEqual([...uniqueEditorial].sort(), [
+          `${prefix}${modelsPath}/flux-3-max`,
+          `${prefix}${modelsPath}/flux-3-draft`,
+          `${prefix}${comparisonPath}/flux-3-vs-flux-3-max`,
+          `${prefix}${comparisonPath}/flux-3-vs-flux-3-draft`,
+          `${prefix}${comparisonPath}/flux-3-vs-grok-imagine-video-1-5`,
+          `${prefix}${examplesPath}/flux`,
+        ].sort());
+      } else {
+        assert.ok(uniqueEditorial.size >= 2 && uniqueEditorial.size <= 4, `${locale}:${id}:${[...uniqueEditorial]}`);
+      }
     }
   }
   assert.equal(titles.size, P0_IDS.length * LOCALES.length);
@@ -254,17 +279,8 @@ test('published fixtures have model, family, pricing and evidence-backed best-fo
   const families = buildModelFamilyDefinitions(models, readinessFixture());
   const familyResolver = createExampleFamilyResolver({ families, engines: publishedFalEntries() });
   const pricingRows = buildVideoPricingRowsFromEntries(publishedFalEntries(), 'en');
-  const scores = new Map(P0_IDS.map((id, index) => [id, {
-    modelSlug: id,
-    fidelity: 9 - index / 10,
-    motion: 8,
-    consistency: 8,
-    anatomy: 8,
-    textRendering: 8,
-  }]));
   const ranked = bestFor.resolveTopPicks(
     { slug: 'cinematic-realism', title: 'Fixture', tier: 1, topPicks: [...P0_IDS] },
-    scores,
     { models, catalog: publishedFalEntries().map((entry) => ({ engineId: entry.id, modelSlug: entry.modelSlug, marketingName: entry.marketingName })) },
   );
 
@@ -277,40 +293,23 @@ test('published fixtures have model, family, pricing and evidence-backed best-fo
   }
 });
 
-test('best-for explicit and fallback ranking require complete relevant numeric evidence', () => {
+test('best-for editorial selections require current public models and never synthesize a score fallback', () => {
   const visible = publishedFixture();
-  const oneScore = new Map([
-    [P0_IDS[0], {
-      modelSlug: P0_IDS[0],
-      fidelity: 9,
-      motion: 9,
-      consistency: 8,
-      anatomy: 8,
-      textRendering: 8,
-    }],
-    [P0_IDS[1], { modelSlug: P0_IDS[1] }],
-    [P0_IDS[2], { modelSlug: P0_IDS[2], fidelity: 9 }],
-    [P0_IDS[3], { modelSlug: P0_IDS[3], sequencingQuality: 9 }],
-  ]);
   const catalog = publishedFalEntries().map((entry) => ({ engineId: entry.id, modelSlug: entry.modelSlug, marketingName: entry.marketingName }));
   const explicit = bestFor.resolveTopPicks(
     { slug: 'cinematic-realism', title: 'Fixture', tier: 1, topPicks: [...P0_IDS, ...LEGACY_IDS, ...DEEP_LEGACY_IDS] },
-    oneScore,
     { models: visible, catalog },
   );
   const fallback = bestFor.resolveTopPicks(
     { slug: 'cinematic-realism', title: 'Fixture', tier: 1 },
-    oneScore,
     { models: visible, catalog },
   );
-  assert.deepEqual(explicit, [P0_IDS[0]]);
-  assert.deepEqual(fallback, [P0_IDS[0]]);
+  assert.deepEqual(explicit, [...P0_IDS]);
+  assert.deepEqual(fallback, []);
   assert.equal(bestFor.buildRankedPick({
     usecaseSlug: 'cinematic-realism',
     modelSlug: P0_IDS[1],
     rank: 1,
-    scores: oneScore,
-    criteria: ['Fidelity'],
     copy: DETAIL_COPY.en,
     locale: 'en',
   }).score, undefined);
@@ -323,9 +322,8 @@ test('best-for explicit and fallback ranking require complete relevant numeric e
   );
   assert.deepEqual(bestFor.resolveTopPicks(
     { slug: 'cinematic-realism', title: 'Fixture', tier: 1, topPicks: [...P0_IDS] },
-    oneScore,
     { models: runtime.listRuntimeModels(), catalog },
-  ), [P0_IDS[0]]);
+  ), [...VISIBLE_P0_IDS]);
 });
 
 test('symmetric comparison publication requires both endpoint flags and a complete localized scoreboard', () => {

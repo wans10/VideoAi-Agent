@@ -1,5 +1,6 @@
 import { STUDIO_NAV_LINKS, STUDIO_NAV_DROPDOWNS } from './studio-navigation';
 import { isKeyvoHiddenFeaturePath } from './keyvo-disabled-features';
+import { getReleasedCreatorToolIds } from '@/lib/toolbox/creator-availability';
 import { getMcpPublicIntegrationIds, getMcpIntegration } from '@/lib/mcp-integration-registry';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import mcpPublication from '@/config/mcp-publication.json';
@@ -38,6 +39,7 @@ export type MarketingNavDropdown = {
   allLabelKey: string;
   allLabelFallback: string;
   allLinkInItems?: boolean;
+  mobileAllLinkAfterItems?: boolean;
   intro?: string;
   heading?: string;
 };
@@ -107,6 +109,9 @@ const docLink = (slug: string): LocalizedLinkHref => ({
 
 // D85 editorial promotion. Publication and canonical identity remain registry-owned.
 const MODEL_MENU_CANDIDATES: readonly LabeledSlug[] = [
+  { slug: 'kling-v4-flash', label: 'Kling 4.0 Flash', badge: 'new' },
+  { slug: 'kling-v4', label: 'Kling 4.0', badge: 'new' },
+  { slug: 'flux-3-max', label: 'FLUX 3 Max', badge: 'new' },
   { slug: 'minimax-h3', label: 'MiniMax H3', badge: 'new' },
   { slug: 'minimax-h3-max', label: 'MiniMax H3 Max', badge: 'new' },
   { slug: 'seedance-2-5', label: 'Seedance 2.5', badge: 'new' },
@@ -123,14 +128,18 @@ const MODEL_MENU_CANDIDATES: readonly LabeledSlug[] = [
 export function buildMarketingModelMenu(models: readonly RuntimeModelEntry[]): LabeledSlug[] {
   const bySlug = new Map(models.map((model) => [model.slug, model]));
   const byId = new Map(models.map((model) => [model.id, model]));
-  return MODEL_MENU_CANDIDATES
+  const visibleCandidates = MODEL_MENU_CANDIDATES
     .filter(({ slug }) => {
       const model = bySlug.get(slug);
-      if (!model?.publication.model.published || model.lifecycle === 'retired' || model.lifecycle === 'deep_legacy') return false;
+      if (!model?.publication.model.published || !model.publication.model.indexable || model.lifecycle === 'retired' || model.lifecycle === 'deep_legacy') return false;
       if (model.lifecycle !== 'legacy' || !model.successorId) return true;
-      return byId.get(model.successorId)?.publication.model.published !== true;
-    })
-    .slice(0, 11)
+      const successor = byId.get(model.successorId);
+      return !successor?.publication.model.published || !successor.publication.model.indexable;
+    });
+  // Each new Kling card adds a slot while preserving existing model discovery.
+  const capacity = 11 + visibleCandidates.filter(({ slug }) => slug === 'kling-v4' || slug === 'kling-v4-flash').length;
+  return visibleCandidates
+    .slice(0, capacity)
     .map((item) => {
       const model = bySlug.get(item.slug);
       return {
@@ -159,13 +168,17 @@ const OTHER_EXAMPLES = EXAMPLES_MENU.filter(item => !PRIORITY_EXAMPLE_FAMILIES.i
 const FOOTER_EXAMPLES_MENU: LabeledSlug[] = [...PRIORITY_EXAMPLES, ...OTHER_EXAMPLES];
 
 const COMPARE_MENU: LabeledSlug[] = [
+  { slug: 'kling-v4-vs-kling-v4-flash', label: 'Kling 4.0 vs Kling 4.0 Flash' },
+  { slug: 'kling-v4-vs-seedance-2-5', label: 'Kling 4.0 vs Seedance 2.5' },
+  { slug: 'kling-v4-vs-wan-3-prime', label: 'Kling 4.0 vs Wan 3 Prime' },
+  { slug: 'kling-o3-pro-vs-kling-v4', label: 'Kling 4.0 vs Kling 3.0 Omni Pro' },
   { slug: 'minimax-h3-vs-seedance-2-5', label: 'MiniMax H3 vs Seedance 2.5' },
   { slug: 'minimax-h3-vs-minimax-h3-max', label: 'MiniMax H3 vs H3 Max' },
   { slug: 'kling-3-pro-vs-seedance-2-5', label: 'Kling 3 Pro vs Seedance 2.5' },
   { slug: 'seedance-2-5-vs-wan-3', label: 'Seedance 2.5 vs Wan 3' },
   { slug: 'ltx-2-5-fast-vs-ltx-2-5-pro', label: 'LTX 2.5 Fast vs Pro' },
   { slug: 'wan-3-vs-wan-3-prime', label: 'Wan 3 vs Wan 3 Prime' },
-  { slug: 'gemini-omni-flash-vs-veo-3-1', label: 'Gemini Omni Flash 1.1 vs Veo 3.1' },
+  { slug: 'gemini-omni-flash-vs-veo-3-1', label: 'Gemini Omni Flash 1.2 vs Veo 3.1' },
   // Established search demand: retain this route even as newer models are promoted.
   { slug: 'seedance-2-0-vs-seedance-2-0-fast', label: 'Seedance 2.0 vs Fast' },
 ];
@@ -205,9 +218,9 @@ export const MARKETING_FOOTER_EXAMPLES: MarketingNavItem[] = FOOTER_EXAMPLES_MEN
 
 export function buildMarketingCompareMenu(models: readonly RuntimeModelEntry[]): LabeledSlug[] {
   const isPublishedComparisonSlug = createPublishedComparisonSlugLookup(models);
-  return COMPARE_MENU
-    .filter(({ slug }) => isPublishedComparisonSlug(slug))
-    .slice(0, 10);
+  const published = COMPARE_MENU.filter(({ slug }) => isPublishedComparisonSlug(slug));
+  const capacity = 10 + Number(published.some(({ slug }) => slug === 'kling-v4-vs-kling-v4-flash'));
+  return published.slice(0, capacity);
 }
 
 export const MARKETING_NAV_COMPARE: MarketingNavItem[] = buildMarketingCompareMenu(listRuntimeModels()).map((item) => ({
@@ -260,10 +273,12 @@ export const MARKETING_COMPARE_DECISION_GUIDES_SECTION: MarketingNavSection = {
 };
 
 const MARKETING_NAV_TOOLS_AUTHORED: MarketingNavItem[] = [
-  { key: 'character-builder', icon: 'character', label: 'Consistent Character AI', href: toolLink('character-builder') },
+  { key: 'studio', icon: 'cinema', label: 'Studio', href: '/studio', emphasized: true, description: 'Your creative workspace with AI.' },
+  { key: 'character-builder', icon: 'character', label: 'Character Studio', href: toolLink('character-builder') },
   { key: 'angle', icon: 'angle', label: 'Change Camera Angle', href: toolLink('angle') },
   { key: 'upscale', icon: 'upscale', label: 'AI Upscale', href: toolLink('upscale') },
   { key: 'background-removal', icon: 'cutout', label: 'Video Background Remover', href: toolLink('background-removal') },
+  ...getReleasedCreatorToolIds().map((id): MarketingNavItem => ({ key: id, icon: 'guides', label: id.replace(/-/g, ' '), href: { pathname: `/tools/${id}` } })),
   { key: 'image', icon: 'image', label: 'Generate image', href: '/app/image' },
   { key: 'audio', icon: 'audio', label: 'Generate audio', href: '/app/audio' },
 ];
@@ -312,10 +327,16 @@ export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdow
     intro: 'Capabilities, examples and prices. Choose what your project needs.',
     sections: [{
       key: 'moreModels', titleKey: 'nav.dropdown.moreModels', titleFallback: 'More creative possibilities',
-      items: ['gpt-image-2-5-flare', 'flux-3', 'gemini-omni-flash'].flatMap(slug => {
-        const model = listRuntimeModels().find(item => item.slug === slug && item.publication.model.published && item.lifecycle !== 'retired' && item.lifecycle !== 'deep_legacy');
+      items: [
+        {slug:'gpt-image-2-6-flare',label:'GPT Image 2.6 Flare',icon:'image' as const},
+        {slug:'gpt-image-2-6-sunburst',label:'GPT Image 2.6 Sunburst',icon:'image' as const},
+        {slug:'gpt-image-2-5-flare',label:'GPT Image 2.5 Flare',icon:'image' as const},
+        {slug:'flux-3',label:'FLUX 3',icon:'cinema' as const},
+        {slug:'gemini-omni-flash',label:'Gemini Omni Flash 1.2',icon:'cinema' as const},
+      ].flatMap(({slug,label,icon}) => {
+        const model = listRuntimeModels().find(item => item.slug === slug && item.publication.model.published && item.publication.model.indexable && item.lifecycle !== 'retired' && item.lifecycle !== 'deep_legacy');
         if (!model) return [];
-        return [{key: slug, label: slug === 'gpt-image-2-5-flare' ? 'GPT Image 2.5 Flare' : slug === 'flux-3' ? 'FLUX 3' : 'Gemini Omni Flash 1.1', href: modelLink(slug), icon: slug === 'gpt-image-2-5-flare' ? 'image' as const : 'cinema' as const}];
+        return [{key:slug,label,href:modelLink(slug),icon}];
       }),
     }],
     allHref: { pathname: '/models' },
@@ -357,6 +378,7 @@ export const MARKETING_NAV_DROPDOWNS: Partial<Record<string, MarketingNavDropdow
   },
   tools: {
     items: MARKETING_NAV_TOOLS,
+    mobileAllLinkAfterItems: true,
     desktopColumns: 2,
     heading: 'Shape the next part of your story.',
     intro: 'Create your references, change an angle and finish the details.',

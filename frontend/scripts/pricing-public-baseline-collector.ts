@@ -21,6 +21,8 @@ import {
   getImagePresetQuote,
 } from '../app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData';
 import { resolveModelOfferAmountCents } from '../app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-schema';
+import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
+import { collectNano21PublicProjectionRows } from './pricing-public-baseline-nano21';
 
 type PublicProjectionSurface =
   | 'pricing-hub-video'
@@ -34,7 +36,7 @@ type PublicProjectionSurface =
   | 'workspace-preflight'
   | 'image-estimate';
 
-type PublicProjectionRow = {
+export type PublicProjectionRow = {
   id: string;
   surface: PublicProjectionSurface;
   engineId: string;
@@ -104,7 +106,9 @@ function resolveDefaultResolution(engine: EngineCaps): string {
 }
 
 function resolveDefaultMode(entry: FalEngineEntry): Mode {
-  return (entry.modes[0]?.mode ?? (entry.category === 'image' ? 't2i' : 't2v')) as Mode;
+  // Source operations can lead the catalog without changing frozen creation quotes.
+  const creationMode = entry.category === 'image' ? 't2i' : 't2v';
+  return (entry.modes.find((candidate) => candidate.mode === creationMode)?.mode ?? entry.modes[0]?.mode ?? creationMode) as Mode;
 }
 
 function snapshotRow(params: {
@@ -179,11 +183,13 @@ export async function collectPublicPricingProjectionRows(): Promise<PublicProjec
   for (const key of DETERMINISTIC_ENV_KEYS) delete process.env[key];
 
   // The baseline is the upstream pricing-policy contract: use upstream publication surfaces, not Keyvo's web hiding.
-  const entries = listFalEngines().map((entry) => {
+  const allEntries = listFalEngines().map((entry) => {
     const upstream = getUpstreamRuntimeModelById(entry.id);
     return upstream ? { ...entry, surfaces: toLegacyModelSurfaces(upstream) } : entry;
   });
-  const rows: PublicProjectionRow[] = [];
+  const entries = allEntries.filter(entry => entry.id !== NANO21_ENGINE_ID);
+  const nano = allEntries.find(entry => entry.id === NANO21_ENGINE_ID);
+  const rows: PublicProjectionRow[] = nano ? await collectNano21PublicProjectionRows(nano) : [];
   const hub = buildPricingHubData('en');
 
   for (const row of hub.video.rows) {
@@ -207,7 +213,7 @@ export async function collectPublicPricingProjectionRows(): Promise<PublicProjec
     }
   }
 
-  for (const entry of entries.filter((candidate) => supportsImageGeneration(candidate))) {
+  for (const entry of entries.filter((candidate) => supportsImageGeneration(candidate) && candidate.surfaces.pricing.includeInEstimator)) {
     const resolutions = entry.engine.resolutions.map(String).filter(Boolean);
     const standardResolution =
       isGptImageFamilyEngineId(entry.engine.id)
@@ -475,7 +481,7 @@ export async function collectPublicPricingProjectionRows(): Promise<PublicProjec
     });
   }
 
-  for (const entry of entries.filter((candidate) => candidate.category === 'image')) {
+  for (const entry of entries.filter((candidate) => candidate.category === 'image' && candidate.surfaces.app.enabled)) {
     await collectSnapshot({
       id: `image-estimate:${entry.id}:default`,
       surface: 'image-estimate',

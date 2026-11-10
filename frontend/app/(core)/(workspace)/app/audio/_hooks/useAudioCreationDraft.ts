@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { listenForGuestCreationLogin, consumeGuestCreationFromLocation } from '@/lib/guest-creation-continuation';
 import { useAudioCreationScope } from './useAudioCreationScope';
-import { AUDIO_CREATION_INTENTS, applyKeyvoVoiceOnly, newAudioDraft as newDraft, repairAudioCreationDraft, type AudioCreationIntent, type AudioCreationDraft } from '@/lib/audio-creation';
+import { AUDIO_CREATION_INTENTS, applyKeyvoVoiceOnly, newAudioDraft as newDraft, repairAudioCreationDraft, serializeAudioReference, type AudioCreationIntent, type AudioCreationDraft } from '@/lib/audio-creation';
 
 const newAudioDraft = (intent: AudioCreationIntent) => applyKeyvoVoiceOnly(newDraft(intent));
 type Drafts = Record<AudioCreationIntent, AudioCreationDraft>;
@@ -31,7 +31,10 @@ export function useAudioCreationDraft(userId: string | null, intent: AudioCreati
           // Only known fields of the same primitive shape can enter state from storage.
           for (const field of Object.keys(drafts[key]) as Array<keyof AudioCreationDraft>) {
             if (field === 'reference') {
-              if (value.reference && typeof value.reference.url === 'string' && /^https:\/\//.test(value.reference.url) && typeof value.reference.name === 'string') drafts[key].reference = value.reference;
+              if (value.reference && typeof value.reference.url === 'string' && /^https:\/\//.test(value.reference.url) && typeof value.reference.name === 'string') {
+                const reference = serializeAudioReference(value.reference);
+                drafts[key].reference = reference?.readAccessRef ? {...reference, readAccessExpiresAt: new Date(0).toISOString()} : reference;
+              }
             } else if (typeof value[field] === typeof drafts[key][field]) Object.assign(drafts[key], { [field]: value[field] });
           }
         }
@@ -48,7 +51,7 @@ export function useAudioCreationDraft(userId: string | null, intent: AudioCreati
   }, [userId, scope]);
   useEffect(() => {
     if (!userId || state.owner !== scope || !scope.isCurrent()) return;
-    try { localStorage.setItem(`maxvideoai.audio.creation.v1:${userId}`, JSON.stringify({ version: 1, drafts: state.drafts })); setSaved(true); }
+    try { localStorage.setItem(`maxvideoai.audio.creation.v1:${userId}`, JSON.stringify({ version: 1, drafts: Object.fromEntries(Object.entries(state.drafts).map(([key, draft]) => [key, {...draft, reference: serializeAudioReference(draft.reference)}])) })); setSaved(true); }
     catch { setSaved(false); }
   }, [state, userId, scope]);
   const draft = state.owner === scope ? state.drafts[intent] : newAudioDraft(intent);

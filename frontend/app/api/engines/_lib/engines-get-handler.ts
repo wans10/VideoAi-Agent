@@ -4,7 +4,7 @@ import {
   getPublicConfiguredEnginesByCategory,
 } from '@/server/engines';
 import { fetchEngineAverageDurations } from '@/server/generate-metrics';
-import { loadAppEngineScoreMap } from '@/server/engine-scores';
+import { loadAppEngineScoreMap, loadAppEngineScoreReviewMap } from '@/server/engine-scores';
 import { getBaseEnginesByCategory } from '@/lib/engines';
 import { resolveLaunchCanaryRequestContext } from '@/server/model-launch-canary-request';
 import { createAgentGenerationExecutabilityEnvironment, resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
@@ -26,6 +26,7 @@ type EnginesRouteDependencies = Readonly<{
   resolveLaunchCanaryRequestContext: typeof resolveLaunchCanaryRequestContext;
   fetchEngineAverageDurations: typeof fetchEngineAverageDurations;
   loadAppEngineScoreMap: typeof loadAppEngineScoreMap;
+  loadAppEngineScoreReviewMap: typeof loadAppEngineScoreReviewMap;
   getGenerationEnvironment: typeof createAgentGenerationExecutabilityEnvironment;
   resolveModeExecutability: WorkspaceModeExecutability;
   resolveIsAdmin: (request: NextRequest) => Promise<boolean>;
@@ -37,6 +38,7 @@ const defaultDependencies: EnginesRouteDependencies = {
   resolveLaunchCanaryRequestContext,
   fetchEngineAverageDurations,
   loadAppEngineScoreMap,
+  loadAppEngineScoreReviewMap,
   getGenerationEnvironment: createAgentGenerationExecutabilityEnvironment,
   resolveModeExecutability: resolveAgentGenerationModeExecutability,
   resolveIsAdmin: resolveWorkspaceViewerIsAdmin,
@@ -75,13 +77,14 @@ export function createEnginesGetHandler(
     const isAdmin = await dependencies.resolveIsAdmin(request).catch(() => false);
     const viewer = isAdmin ? 'admin' : 'member';
     try {
-      const [publicEngines, averages, engineScores, launchCanaryContext] = await Promise.all([
+      const [publicEngines, averages, engineScores, launchCanaryContext, engineScoreReviews] = await Promise.all([
         dependencies.getPublicConfiguredEnginesByCategory(category),
         includeAverages ? dependencies.fetchEngineAverageDurations() : Promise.resolve([]),
         includeScores ? dependencies.loadAppEngineScoreMap() : Promise.resolve({}),
         category === 'image'
           ? Promise.resolve(null)
           : dependencies.resolveLaunchCanaryRequestContext(request),
+        includeScores ? dependencies.loadAppEngineScoreReviewMap() : Promise.resolve({}),
       ]);
       const privateEngines: EngineCaps[] = [];
       if (launchCanaryContext) {
@@ -126,7 +129,7 @@ export function createEnginesGetHandler(
         durationSource: averageMap.get(engine.id)?.source ?? null,
       }));
       return NextResponse.json(
-        { ok: true, engines: payload, engineScores },
+        { ok: true, engines: payload, engineScores, engineScoreReviews },
         {
           headers: {
             'Cache-Control': 'private, no-store',
@@ -154,7 +157,7 @@ export function createEnginesGetHandler(
         avgDurationMs: null,
       }));
       return NextResponse.json(
-        { ok: true, engines: payload, engineScores: {}, degraded: true },
+        { ok: true, engines: payload, engineScores: {}, engineScoreReviews: {}, degraded: true },
         {
           headers: {
             'Cache-Control': 'private, no-store',

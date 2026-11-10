@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "canonicalSlug": "change-video-background-wan-3-prime",
+  "publication": {
+    "articleId": "12a09ea8-780c-4df5-8b61-c79292c8399b",
+    "version": 1,
+    "digest": "403f5397e62d73c197b6cfe1ae4682233a62f19fa67badebf6be95bb4782747f",
+    "publishedAt": "2026-10-25T18:41:10.670Z"
+  },
+  "article": {
+    "locale": "zh",
+    "audience": "zh-CN",
+    "slug": "change-video-background-wan-3-prime",
+    "title": "如何用 AI 更换视频背景 | Wan 3 Prime",
+    "description": "把同一段说话视频从家庭办公室带到飞船驾驶舱或水下观测站。跟随我们的 Wan 3 Prime「修改视频」教程，了解素材选择、参数设置与完整提示词。",
+    "keywords": [
+      "AI 更换视频背景",
+      "Wan 3 Prime",
+      "Modify Video",
+      "video to video"
+    ],
+    "blocks": [
+      {
+        "id": "editorial-hero",
+        "type": "media",
+        "assetId": "wan-cockpit",
+        "presentation": "single",
+        "alt": "演讲者坐在轨道驾驶舱中，窗外可见地球。",
+        "caption": "地球铺满窗外，演讲者仍穿着灰色 T 恤。请对照原片，检查他的面部和表达。"
+      },
+      {
+        "id": "opening",
+        "type": "text",
+        "heading": "保留表演，换一个地方。",
+        "paragraphs": [
+          {
+            "text": "一位演讲者坐在桌前说了一句短话。在其中一个版本里，地球占满了他身后的窗户；在另一个版本里，一条蝠鲼从水下观测站外的蓝色海水中游过。两个版本都来自同一段六秒的视频片段。",
+            "sourceIds": []
+          },
+          {
+            "text": "本教程在 MaxVideoAI 中使用 Wan 3 Prime「修改视频」。示例从一段生成的素材视频开始，你也可以用自己的视频按同样的步骤操作。",
+            "sourceIds": []
+          },
+          {
+            "spans": [
+              {
+                "text": "在 YouTube 观看完整教程。",
+                "href": "https://www.youtube.com/watch?v=qKrPvZj_dL0"
+              }
+            ],
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "source-choice",
+        "type": "text",
+        "heading": "从完整的一句话和一个手势开始",
+        "paragraphs": [
+          {
+            "text": "有用的单位是一个完整的动作。请保留这句话的开头和结尾，以及伴随它的手部动作。裁得过紧的片段，可能让模型缺少你想保留的起势或收尾。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "source-frame",
+        "type": "media",
+        "assetId": "wan-original",
+        "presentation": "single",
+        "alt": "家庭办公室素材片段中，穿灰色 T 恤的演讲者。",
+        "caption": "素材提供了坐姿、构图、台词和手部动作，这些正是编辑需要保留的内容。"
+      },
+      {
+        "id": "choose-excerpt",
+        "type": "steps",
+        "heading": "选出你真正想编辑的部分",
+        "steps": [
+          {
+            "title": "打开编辑入口",
+            "body": "在「视频」工作区选择 Wan 3 Prime，再选择「修改视频」。点击「要修改的视频」上传你的视频，或从「媒体」中选择已有视频。"
+          },
+          {
+            "title": "保留完整的瞬间",
+            "body": "点击「选择片段」。拖动两端手柄，把完整的一句话和手部动作框在其中，预览所选内容，然后点击「使用该片段」。示例选取了六秒，无需另外设置时长。"
+          }
+        ]
+      },
+      {
+        "id": "excerpt-frame",
+        "type": "media",
+        "assetId": "wan-excerpt",
+        "presentation": "single",
+        "alt": "「选择片段」对话框，显示六秒的选区和「使用该片段」按钮。",
+        "caption": "让完整的句子和手势都落在选区内，预览之后再点击「使用该片段」。"
+      },
+      {
+        "id": "settings",
+        "type": "text",
+        "heading": "使用图中的设置，再查看你自己的价格",
+        "paragraphs": [
+          {
+            "text": "示例使用 16:9、720p，并开启音频。在「选项」中，提示词扩写保持关闭。",
+            "sourceIds": []
+          },
+          {
+            "text": "本演示中显示的金额为 USD 2.19。选好你自己的素材和设置后，请以「修改视频」旁显示的当前报价为准。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "settings-frame",
+        "type": "media",
+        "assetId": "wan-settings",
+        "presentation": "single",
+        "alt": "「修改视频」控件，显示 720p、16:9、已开启生成音频，以及 USD 2.19 的价格。",
+        "caption": "先选择输出比例、分辨率和音频设置，再查看价格。"
+      },
+      {
+        "id": "prompt-direction",
+        "type": "text",
+        "heading": "把「要改什么」和「要保留什么」分开写",
+        "paragraphs": [
+          {
+            "text": "驾驶舱提示词要求一个有建筑纵深的飞行甲板，以及全景舷窗外的地球。它同时写明了需要保持不变的内容：演讲者、灰色 T 恤、坐姿、镜头、表情、口型、手势和英文台词。",
+            "sourceIds": []
+          },
+          {
+            "text": "地球的缓慢漂移应发生在演讲者身后，而不应要求他的身体或镜头去创造新的表演。请把「保留」类措辞当作一个需要对照素材检查的方向，而不是对身份或口型完全一致的承诺。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "prompt-cockpit",
+        "type": "prompt",
+        "heading": "实际使用的提示词：驾驶舱",
+        "template": "Edit the supplied six-second source clip. Keep exactly the same man: his facial structure, age, short brown hairstyle, clean-shaven face, skin texture and body proportions. Preserve the original seated position, framing, camera, expression, mouth movements, hand gesture and performance timing. Keep the original spoken English line and voice in sync; add no words, music or other voices. Keep him slightly left of center, with uncluttered space on the right for a graphic added later. Replace the home interior with the spectacular flight deck of an orbital spacecraft. A huge panoramic window behind him reveals Earth's luminous curved horizon, blue oceans and white cloud systems against deep black space. Strong architectural depth, brushed metal ribs and restrained amber console lights make this unmistakably a real spaceship, not a normal office. Earth drifts very slowly beyond the window while the camera remains as in the source. Keep his original gray T-shirt unchanged. Natural readable face lighting; cinematic, photorealistic materials. No helmet, face covering, new people, cuts, captions, readable screens, logos or graphics. The complete orbital environment is already visible in the first frame.",
+        "note": "右侧留白即可，这次编辑不需要添加图形。"
+      },
+      {
+        "id": "generate-review",
+        "type": "steps",
+        "heading": "生成，然后检查关键之处",
+        "steps": [
+          {
+            "title": "确认当前请求",
+            "body": "粘贴完整提示词，并在开始「修改视频」前确认显示的价格。等待结果生成完毕。"
+          },
+          {
+            "title": "带着动态和声音来检查",
+            "body": "把面部、口型时机、手部动作和构图与原片对比，并完整播放整句话。背景是否逼真只是编辑质量的一部分。"
+          },
+          {
+            "title": "保存你想要的版本",
+            "body": "打开生成好的结果，点击下载图标。请保留原始片段，以便之后从它开始生成新的变体。"
+          }
+        ]
+      },
+      {
+        "id": "underwater-variation",
+        "type": "text",
+        "heading": "要第二个世界，就回到原片",
+        "paragraphs": [
+          {
+            "text": "水下版本再次从原始的六秒片段开始，使用同样记录下来的设置。它是一次独立的生成，而不是在驾驶舱结果上再做的第二步。",
+            "sourceIds": []
+          },
+          {
+            "text": "这条提示词还把灰色 T 恤换成了米色探险夹克，因此它是背景加服装的变体。蝠鲼被安排在演讲者肩后，避开他的脸和手。",
+            "sourceIds": []
+          }
+        ]
+      },
+      {
+        "id": "underwater-frame",
+        "type": "media",
+        "assetId": "wan-underwater",
+        "presentation": "single",
+        "alt": "穿米色夹克的演讲者位于蓝色水下观测站中，玻璃外有一条蝠鲼。",
+        "caption": "水下版本同时更换了服装。请让蝠鲼留在演讲者身后，避开他的脸。"
+      },
+      {
+        "id": "prompt-underwater",
+        "type": "prompt",
+        "heading": "实际使用的提示词：水下",
+        "template": "Edit the supplied six-second source clip. Keep exactly the same man: his facial structure, age, short brown hairstyle, clean-shaven face, skin texture and body proportions. Preserve the original seated position, framing, camera, expression, mouth movements, hand gesture and performance timing. Keep the original spoken English line and voice in sync; add no words, music or other voices. Keep him slightly left of center, with uncluttered space on the right for a graphic added later. Replace the home interior with a panoramic glass observatory deep under the ocean. Huge curved windows and substantial circular structural ribs surround him; beyond the glass is open turquoise water fading into dark blue depth, not a room or an aquarium wall. One large manta ray glides slowly past the window behind his right shoulder during the existing hand gesture; keep its silhouette clearly readable and behind the glass, never overlapping his face or hand. Soft moving water caustics touch the architecture while the man's face stays naturally lit and consistent. Replace only his gray T-shirt with a simple light beige expedition jacket with a clean collar and fitted sleeves, without badges or writing. Keep the source body shape and arm motion. Cinematic photorealism, immense underwater depth, no helmet, masks, other people, cuts, captions, readable screens, logos or graphics. The underwater environment is unmistakable from the first frame.",
+        "note": "这个变体请再次从原始片段开始。"
+      },
+      {
+        "id": "review-limits",
+        "type": "text",
+        "heading": "在认定编辑完成之前要检查什么",
+        "paragraphs": [
+          {
+            "text": "检查手部和肩部周围的边缘、整句话中的面部，以及主体移动时新环境是否保持稳定。仔细听是否出现被改动的词语、多出的声音或时机变化。",
+            "sourceIds": []
+          },
+          {
+            "text": "这套流程生成的是一个全新的完整场景，不会产出可用于合成的透明抠像。即使提示词要求保留，身份、服装和口型仍可能有所不同。",
+            "sourceIds": []
+          },
+          {
+            "text": "此入口的音频是可选的。对有台词的片段请开启音频，并完整检查整句话。",
+            "sourceIds": [
+              "wan-model"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "try-it",
+        "type": "conclusion",
+        "heading": "用一个完整的瞬间试试",
+        "paragraphs": [
+          "挑选一段你想保留其表演的短视频。先确定哪些内容保持不变，再选一个新的环境，然后把原片和结果并排对照检查。"
+        ],
+        "cta": {
+          "label": "在 MaxVideoAI 打开 Wan 3 Prime",
+          "href": "https://maxvideoai.com/models/wan-3-prime"
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "wan-model",
+      "title": "Wan 3 Prime on MaxVideoAI",
+      "publisher": "MaxVideoAI",
+      "url": "https://maxvideoai.com/models/wan-3-prime",
+      "retrievedAt": "2026-10-25"
+    },
+    {
+      "id": "wan-tutorial-video",
+      "title": "How to Change Your Video Background with AI | Wan 3 Prime",
+      "publisher": "MaxVideoAI / YouTube",
+      "url": "https://www.youtube.com/watch?v=qKrPvZj_dL0",
+      "retrievedAt": "2026-10-25",
+      "publishedAt": "2026-10-25"
+    }
+  ],
+  "assets": [
+    {
+      "id": "wan-cockpit",
+      "kind": "verified-capture",
+      "width": 1440,
+      "height": 810,
+      "sha256": "faa70dbd88e72571e0f242a6bd8471a60fd13bbfbc7f790ac2d8908f97dfcc81",
+      "url": "https://media.maxvideoai.com/editorial/published/faa70dbd88e72571e0f242a6bd8471a60fd13bbfbc7f790ac2d8908f97dfcc81.webp"
+    },
+    {
+      "id": "wan-underwater",
+      "kind": "verified-capture",
+      "width": 1440,
+      "height": 810,
+      "sha256": "c97c24b1d8f5243c93d23f8ade329506e8ade1875dda46c50dbd536fd114c644",
+      "url": "https://media.maxvideoai.com/editorial/published/c97c24b1d8f5243c93d23f8ade329506e8ade1875dda46c50dbd536fd114c644.webp"
+    },
+    {
+      "id": "wan-original",
+      "kind": "verified-capture",
+      "width": 1440,
+      "height": 810,
+      "sha256": "342ce41275cd26918f7424bfa489f78e339014fefe7ccf782807546a55b075a1",
+      "url": "https://media.maxvideoai.com/editorial/published/342ce41275cd26918f7424bfa489f78e339014fefe7ccf782807546a55b075a1.webp"
+    },
+    {
+      "id": "wan-settings",
+      "kind": "verified-capture",
+      "width": 1440,
+      "height": 810,
+      "sha256": "8b44bcf04109e32cafbb9fd9f3b1b5e3fcc94cd5b39c7aa80465b297718ba6b0",
+      "url": "https://media.maxvideoai.com/editorial/published/8b44bcf04109e32cafbb9fd9f3b1b5e3fcc94cd5b39c7aa80465b297718ba6b0.webp"
+    },
+    {
+      "id": "wan-excerpt",
+      "kind": "verified-capture",
+      "width": 1440,
+      "height": 810,
+      "sha256": "fc3d794a35e6452dbb2f26e05023bc96d5caabd97d3d036360a72ad4c060781f",
+      "url": "https://media.maxvideoai.com/editorial/published/fc3d794a35e6452dbb2f26e05023bc96d5caabd97d3d036360a72ad4c060781f.webp"
+    }
+  ]
+}

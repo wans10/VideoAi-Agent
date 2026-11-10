@@ -95,7 +95,7 @@ test('native export quote stays accessible on mobile and recovers one identity a
     await page.getByRole('button',{name:/^(?:Light|浅色)$/}).click();
     await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:siteDefaultLocale==='zh'?'关闭 ×':'Close ×',exact:true}).click();
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
-    await expect(page.getByRole('textbox',{name:siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio'),exact:true})).toBeVisible();
+    await expect(page.getByRole('textbox',{name:siteDefaultLocale==='zh'?'向 Milo 发送消息':copy('Message Milo'),exact:true})).toBeVisible();
     const box=await card.boundingBox();
     assert.ok(box&&box.x>=0&&box.x+box.width<=390,'The quote fits the mobile chat.');
     await card.getByRole('button',{name:copy('Confirm export')+' · '+copy('Free'),exact:true}).click();

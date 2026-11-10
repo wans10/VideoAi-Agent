@@ -1,5 +1,10 @@
 import {sameStudioProjectAssetReference} from './project-asset-media-facts';
 import {toolAssetRefSchema,type ToolAssetRef} from '@/lib/toolbox/contract';
+import {STUDIO_TASK_POLICY_VERSION,STUDIO_TASK_V3_POLICY_VERSION} from '@/lib/studio/task-budget-contract';
+import {createCharacterStudioIntegration} from '@/server/character-studio/integration';
+import {prepareStudioConversationRecast,type StudioCharacterFactory} from './conversation-character';
+import {buildAssistantReviewContext} from '../assistant-review/context';
+import {readStudioCreditCompletion} from './assistance-credit-budget';
 import {studioConversationLanguage} from './conversation-language';
 import {assertStudioTaskExecution,setStudioTaskPhase,type StudioTaskExecution} from "./tasks/execution";
 import {StudioTaskStop} from "./tasks/policy";
@@ -13,7 +18,7 @@ import {studioTokenCountInput} from './assistance-token-count';
 import {openStudioAssistanceTurn,type StudioLunaFallback} from './assistance-ledger';
 import {readStudioTaskUsage} from './tasks/repository';
 import {studioAssistancePolicy,type StudioAssistancePolicy} from './assistance-policy';
-import {prepareStudioTimelineExport,readStudioTimelineExport,asStudioExportAgentError,type StudioExportDependencies} from './conversation-export-command';
+import {prepareStudioTimelineExport,readStudioConversationExport,asStudioExportAgentError,type StudioExportDependencies} from './conversation-export-command';
 import {withDbTransaction,isTransactionQueryExecutor,query} from '@/lib/db';
 import {AgentApiError, toAgentApiFailure} from '@/server/agent-api/errors';
 import {generationComparisonCatalogFingerprint} from '@/server/agent-api/generation-price-comparison';
@@ -28,10 +33,10 @@ import {createStudioAnalysisService} from './media-analysis/service';
 import {studioAnalysisPolicy} from './media-analysis/policy';
 import {beginStudioAction, completeStudioAction, checkpointStudioResponse, readCompletedStudioAction, readStudioConversationProject, saveStudioConversationMemory} from './conversation-run-repository';
 import {attachImageQuote, persistImageDraft, type StoredImageTurn} from './image-conversation-repository';
-import {imageRequestFromDraft,imageReferenceFingerprintFromReview, type ImageGenerationFactory} from './image-conversation-service';
+import type {ImageGenerationFactory} from './image-conversation-service';
+import {validateStudioImageRequest} from './conversation-image-preparation';
 import {validateStudioMediaRequest, type StudioMediaFactories} from './conversation-media-generation';
-import {validateStudioPreparationInput} from './conversation-preparation-validation';
-import {draftSurface} from '@/lib/studio/image-conversation-contract';
+import {draftSurface,hasDraftCreation} from '@/lib/studio/image-conversation-contract';
 import type {StudioMediaIntent} from '@/lib/studio/conversation-media-contract';
 import type {TransactionQueryExecutor} from '@/lib/db';
 import type {CanonicalAudioRequest} from '@/server/agent-api/audio-normalization';
@@ -42,17 +47,23 @@ import {editStudioConversationTimeline} from './conversation-edit-command';
 import {readStudioWorkspace} from './workspace-command';
 import {StudioConnectedPersistenceError} from './montage-command';
 import {discardStudioPreparedQuote} from './conversation-quote-command';
-import {imageSelectionSchema} from '@/lib/studio/conversation-creation-contract';
+import {imageSelectionStripSchema} from '@/lib/studio/conversation-creation-contract';
 import {studioGreetingReply} from './conversation-intent';
+import {planStudioExtensionAssembly,studioExtensionSourceSnapshot} from './conversation-extension-assembly';
+import {readStudioConversationTimeline} from './conversation-timeline';
 
 async function prepareMediaAction(options: {
   actor: StudioGenerationActor; turn: StoredImageTurn; input: ImageTurnInput;
   references:ResolvedReference[];
-  referenceFingerprint: string; enabled: boolean; factories: StudioMediaFactories;
+  referenceFingerprint: string; enabled: boolean; factories: StudioMediaFactories;editingEnabled?:boolean;
 }, action: StudioMediaIntent, callId: string) {
   const {actor, turn, factories} = options;
   const selection = await validateStudioMediaRequest(actor, action, options.input, factories, options.enabled,{reviewedReferences:options.references});
-  if (!turn.draft_json) await persistImageDraft(actor, turn, {reply: action.reply, image: null, media: action}, options.referenceFingerprint);
+  if (!turn.draft_json) {
+    const source=selection.extensionSource;
+    const extensionAssembly=source&&options.editingEnabled&&selection.extensionOutput==='continuation'?planStudioExtensionAssembly(action,(await readStudioConversationTimeline(actor)).data,source.mediaFacts?.source==='probe'?source.mediaFacts.durationSec??null:null,studioExtensionSourceSnapshot(source)):undefined;
+    await persistImageDraft(actor, turn, {reply: action.reply, image: null, media: action,...(extensionAssembly?{extensionAssembly}:{})}, options.referenceFingerprint);
+  }
   const request = await selection.materialize();
   const onQuotePrepared = async (quote: McpGenerationQuote<CanonicalGenerationRequest | CanonicalAudioRequest>, executor: TransactionQueryExecutor) => {
     await attachImageQuote(actor, turn, quote.quoteId, executor);
@@ -68,10 +79,22 @@ async function prepareMediaAction(options: {
 export async function resumeStudioImageAction(options: {
   actor: StudioGenerationActor; turn: StoredImageTurn; input: ImageTurnInput;
   references: ResolvedReference[]; referenceFingerprint: string; enabled: boolean; factory: ImageGenerationFactory;
-  factories?: StudioMediaFactories; mediaEnabled?: boolean;
+  factories?: StudioMediaFactories; mediaEnabled?: boolean;editingEnabled?:boolean;
+  characterEnabled?:boolean;characterFactory?:StudioCharacterFactory;
 }) {
   const {actor, turn, factory} = options;
   const draft = turn.draft_json;
+  if (draft?.recast) {
+    if (!options.characterEnabled) throw new AgentApiError('ENGINE_UNAVAILABLE','Studio Recast preparation is unavailable.');
+    const callId = 'resume-quote-' + turn.lease_id;
+    const prior = await beginStudioAction(actor,turn,callId,draft.recast);
+    if (prior) return prior;
+    try {return await prepareStudioConversationRecast(options,draft.recast,callId);}
+    catch (error) {
+      await completeStudioAction(actor,turn,callId,{...toAgentApiFailure(error instanceof AgentApiError ? error : new AgentApiError('INTERNAL_ERROR','Studio could not prepare this saved Recast.',true)),action:'recast.prepare'});
+      throw error;
+    }
+  }
   if (draft?.media) {
     if (!options.mediaEnabled || !options.factories) throw new AgentApiError('ENGINE_UNAVAILABLE', 'Studio media tools are unavailable.');
     const callId = 'resume-quote-' + turn.lease_id;
@@ -90,8 +113,10 @@ export async function resumeStudioImageAction(options: {
   if (prior) return prior;
   try {
     const generation = factory(actor, {enabled: options.enabled});
-    const request = imageRequestFromDraft(draft, options.input, await generation.catalog());
-    return await factory(actor, {enabled: options.enabled, expectedReferenceFingerprint: imageReferenceFingerprintFromReview(request,options.references),
+    const selection = await validateStudioImageRequest({actor,draft,input:options.input,catalog:await generation.catalog(),
+      reviewedReferences:options.references,resolveReferences:generation.resolveReferences});
+    const {request,expectedReferenceFingerprint}=await selection.materialize();
+    return await factory(actor, {enabled: options.enabled, expectedReferenceFingerprint,
       onQuotePrepared: async (quote, executor) => {
         await attachImageQuote(actor, turn, quote.quoteId, executor);
         await completeStudioAction(actor, turn, callId, {ok: true, action: 'image.prepare', data: {
@@ -118,6 +143,7 @@ export async function runStudioImageActions(options: {
   taskExecution?:StudioTaskExecution;
   assistancePolicy?: StudioAssistancePolicy;countInputTokens?: (params: ResponseCreateParamsNonStreaming) => Promise<number>;
   factories?: StudioMediaFactories; mediaEnabled?: boolean;editingEnabled?: boolean;exportsEnabled?: boolean;
+  characterEnabled?:boolean;characterFactory?:StudioCharacterFactory;
   requestOrigin?: string;exportDependencies?: Partial<StudioExportDependencies>;
 }) {
   const {actor, turn, input, factory} = options;
@@ -126,7 +152,7 @@ export async function runStudioImageActions(options: {
   const policy = options.assistancePolicy ?? studioAssistancePolicy();
   // Injected response creators are offline qualification seams. Native dispatch always requires the monetary gate.
   const assistance = policy.enabled || !options.createResponse ? await openStudioAssistanceTurn(actor,turn.request_id,policy) : null;
-  const usedLuna=options.taskExecution&&policy.credits&&assistance?.model==='gpt-6.1-sol'
+  const usedLuna=options.taskExecution&&policy.credits&&assistance&&assistance.model!=='gpt-6-luna'
     ? (await readStudioTaskUsage({user_id:actor.userId,project_id:actor.projectId,request_id:options.taskExecution.taskRequestId})).usedLuna : false;
   let currentModel=usedLuna?'gpt-6-luna' as const:assistance?.model??'gpt-6.1-sol';
   const analysisPolicy=studioAnalysisPolicy();
@@ -134,9 +160,12 @@ export async function runStudioImageActions(options: {
   const analysis=createStudioAnalysisService(actor,{assistancePolicy:policy});
   const hasGreetingCheckpoint=studioGreetingReply(input.message,options.references.length>0)
     ? (await query<{exists:boolean}>('SELECT EXISTS(SELECT 1 FROM studio_conversation_responses WHERE user_id=$1 AND project_id=$2 AND request_id=$3) exists',[actor.userId,actor.projectId,turn.request_id]))[0].exists:false;
-  const director = createStudioConversationDirector({model: assistance?.model,modelForNextCall:()=>currentModel,createResponse: options.createResponse, mediaEnabled: options.mediaEnabled,editingEnabled: options.editingEnabled,exportsEnabled: options.exportsEnabled,analysisEnabled,analysisProfiles:{video:!!analysisPolicy?.video,audio:!!analysisPolicy?.audio},assistanceCreditsEnabled:policy.credits===true,taskExecution:options.taskExecution,localGreetingEnabled:!options.responseReplayOnly&&!hasGreetingCheckpoint});
+  const director = createStudioConversationDirector({model: assistance?.model,runtimePolicy:assistance?.tariff_snapshot?.runtime,modelForNextCall:()=>currentModel,createResponse: options.createResponse, mediaEnabled: options.mediaEnabled,characterEnabled:options.characterEnabled,editingEnabled: options.editingEnabled,exportsEnabled: options.exportsEnabled,analysisEnabled,analysisProfiles:{video:!!analysisPolicy?.video,audio:!!analysisPolicy?.audio},assistanceCreditsEnabled:policy.credits===true,taskExecution:options.taskExecution,localGreetingEnabled:!options.responseReplayOnly&&!hasGreetingCheckpoint});
+  const character = () => (options.characterFactory ?? createCharacterStudioIntegration)(actor,{executionEnabled:options.characterEnabled===true});
   let currentCallId: string;
   const execute = createStudioActionExecutor(actor, {referenceFingerprint:options.referenceFingerprint,enabled: options.enabled, generation, factories: options.factories, mediaEnabled: options.mediaEnabled,
+    character:options.characterEnabled ? character() : undefined,
+    prepareRecast:options.characterEnabled ? action=>prepareStudioConversationRecast(options,action,currentCallId) : undefined,
     recallProject:options.taskExecution?text=>recallStudioTaskMemory(actor,text):undefined,
     analysisEnabled,
     readAnalysis:id=>analysis.read(id),
@@ -156,8 +185,8 @@ export async function runStudioImageActions(options: {
         onPrepared: async (quote,executor) => {await completeStudioAction(actor,turn,currentCallId,{ok: true,action: 'export.prepare',data: quote},executor);},
       });} catch(error) {throw asStudioExportAgentError(error);}
     },
-    readExport: async quoteId => {
-      try {return await readStudioTimelineExport({userId: actor.userId,authOrigin: 'studio-session',clientId: null},{projectId: actor.projectId,quoteId},{...options.exportDependencies,enabled: options.enabled && options.editingEnabled === true && options.exportsEnabled === true,requestOrigin: options.requestOrigin ?? 'https://maxvideoai.com'});} catch(error) {throw asStudioExportAgentError(error);}
+    readExport: async ({quoteId,exportId}) => {
+      try {return await readStudioConversationExport({userId: actor.userId,authOrigin: 'studio-session',clientId: null},{projectId: actor.projectId,quoteId,exportId},{...options.exportDependencies,enabled: options.enabled && options.editingEnabled === true && options.exportsEnabled === true,requestOrigin: options.requestOrigin ?? 'https://maxvideoai.com'});} catch(error) {throw asStudioExportAgentError(error);}
     },
     discardQuote: quoteId => withDbTransaction(async executor => {
       const data = await discardStudioPreparedQuote(actor,turn,quoteId,executor);
@@ -165,7 +194,7 @@ export async function runStudioImageActions(options: {
       return data;
     }),
     editTimeline: async action => {
-      const insertedRefs=action.edit.kind==='insert'?[action.edit.ref]:action.edit.kind==='assemble'?action.edit.clips.map(clip=>clip.ref):[];
+      const insertedRefs=action.edit.kind==='insert'||action.edit.kind==='replace'?[action.edit.ref]:action.edit.kind==='assemble'?action.edit.clips.map(clip=>clip.ref):[];
       let projectRefs:ToolAssetRef[]|undefined;
       for(const ref of insertedRefs.filter(ref=>ref.type==='asset')){
         const attached = ref.kind === 'image' ? input.references.includes(ref.assetId) : input.attachments?.some(item => item.type === 'asset' && item.assetId === ref.assetId && item.kind === ref.kind);
@@ -196,17 +225,20 @@ export async function runStudioImageActions(options: {
     recover: async quoteId => {
       const saved = (await listImageTurns(actor)).find(turn => turn.quote_id === quoteId);
       if (!saved) throw new AgentApiError('QUOTE_EXPIRED', 'This generation is not available in this conversation.');
+      if (saved.draft_json?.recast) return character().recoverRecast({quoteId});
       const surface = draftSurface(saved.draft_json);
       return options.factories ? options.factories[surface](actor, {enabled: options.enabled}).recover(quoteId) : generation.recover(quoteId);
     },
     prepareImage: async action => {
-      const draft = {reply: action.reply,image: imageSelectionSchema.strip().parse(action)};
+      if(input.shotPlanRevision)throw new AgentApiError('PARAMETER_INVALID','The revised shot plan requires a new video quote.');
+      const draft = {reply: action.reply,image: imageSelectionStripSchema.parse(action)};
       // Validate selection before saving intent. Catalog/ownership failures remain terminal.
       const catalog = await generation.catalog();
-      const request = validateStudioPreparationInput(() => imageRequestFromDraft(draft, input, catalog));
-      const expectedReferenceFingerprint = imageReferenceFingerprintFromReview(request,options.references);
+      const selection = await validateStudioImageRequest({actor,draft,input,catalog,
+        reviewedReferences:options.references,resolveReferences:generation.resolveReferences});
       // Once preparation can mutate state, recovery must preserve this exact intent.
       await persistImageDraft(actor, turn, draft, options.referenceFingerprint);
+      const {request,expectedReferenceFingerprint}=await selection.materialize();
       return factory(actor, {enabled: options.enabled, expectedReferenceFingerprint,
         onQuotePrepared: async (quote, executor) => {
           await attachImageQuote(actor, turn, quote.quoteId, executor);
@@ -218,11 +250,11 @@ export async function runStudioImageActions(options: {
       }).prepare(request);
     },
   });
-  const draft = await director({referenceFingerprint:options.referenceFingerprint,message: input.message, locale:input.locale, history: options.history, references: options.references, referenceMentions: input.referenceMentions, historyFacts: options.historyFacts,
+  const draft = await director({referenceFingerprint:options.referenceFingerprint,message: input.message, shotPlanRevision:input.shotPlanRevision, locale:input.locale, history: options.history, references: options.references, referenceMentions: input.referenceMentions, historyFacts: options.historyFacts,
     project: await readStudioConversationProject(actor,{exportsEnabled:options.editingEnabled&&options.exportsEnabled,...(options.taskExecution?{taskContext:{message:input.message,requestId:options.taskExecution.taskRequestId}}:{})}),
     checkpoint: async (index, create, params, checkpointOptions) => {
       let solBounds:StudioLunaFallback['solBounds'];
-      let lunaFallback:StudioLunaFallback|undefined=currentModel==='gpt-6-luna'&&assistance?.model==='gpt-6.1-sol'?{}:undefined;
+      let lunaFallback:StudioLunaFallback|undefined=currentModel==='gpt-6-luna'&&assistance&&assistance.model!=='gpt-6-luna'?{}:undefined;
       const checkpoint=()=>checkpointStudioResponse(actor, turn, index, create, assistance ? {prepare: async () => {
       if (await getActiveAccountRestrictionStrict(actor.userId)) {
         throw new AgentApiError('ACCOUNT_RESTRICTED','This account is temporarily restricted. Open MaxVideoAI for help.');
@@ -231,28 +263,28 @@ export async function runStudioImageActions(options: {
       if (!params) throw new AgentApiError('INTERNAL_ERROR','Studio is missing its model request bounds.');
       if(lunaFallback){
         params.max_output_tokens=Math.min(params.max_output_tokens??2200,2200);
-        params.reasoning={effort:params.reasoning?.effort==='low'?'low':'medium'};
+        params.reasoning={effort:[STUDIO_TASK_V3_POLICY_VERSION,STUDIO_TASK_POLICY_VERSION].includes(options.taskExecution?.policyVersion??'')?'high':params.reasoning?.effort==='low'?'low':'medium'};
         checkpointOptions?.prepareLunaInput?.();
-        params.instructions=(params.instructions??'')+'\nStudio has continued this task with sponsored GPT-6 Luna because the next Sol call could not be funded. Continue the remaining client request from the saved work. This assistance change does not authorize a different generation model, a credit purchase or a media confirmation.';
+        params.instructions=(params.instructions??'')+'\nMilo has continued this task in Lite (GPT-6 Luna) because the next credit-funded call could not be funded. Continue the remaining client request from the saved work. This assistance change does not authorize a different generation model, a credit purchase or a media confirmation.';
       }
       if (!options.countInputTokens && options.createResponse) throw new AgentApiError('ENGINE_UNAVAILABLE','Offline Studio metering requires an injected token counter.');
       const inputTokens = options.countInputTokens ? await options.countInputTokens(params) : (await new OpenAI({apiKey: process.env.OPENAI_API_KEY,maxRetries: 0,timeout: 15000}).responses.inputTokens.count(studioTokenCountInput(params))).input_tokens;
       if (!Number.isSafeInteger(inputTokens) || inputTokens < 0 || inputTokens > 272000) throw new AgentApiError('PARAMETER_INVALID','This Studio context exceeds the supported assistance limit.');
       if(options.taskExecution&&inputTokens>options.taskExecution.profile.maxInputTokens)throw new StudioTaskStop("context","The current context exceeds this task allowance.");
       const outputTokens=params.max_output_tokens??2200;
-      if(currentModel==='gpt-6.1-sol')solBounds={inputTokens,outputTokens};
+      if(currentModel!=='gpt-6-luna')solBounds={inputTokens,outputTokens,allowCreditCompletion:true};
       return {policy,inputTokens,outputTokens,lunaFallback};
-    }} : undefined, {replayOnly: options.responseReplayOnly || checkpointOptions?.replayOnly});
+    },applyReservation:call=>{if(params)params.max_output_tokens=call.output_token_bound;if(readStudioCreditCompletion(call.pricing_snapshot))checkpointOptions?.onCreditCompletion?.();}} : undefined, {replayOnly: options.responseReplayOnly || checkpointOptions?.replayOnly,reviewContext:process.env.ASSISTANT_REVIEW_CONTEXT_ENABLED==='true'&&params?()=>buildAssistantReviewContext(params):undefined});
       try{return await checkpoint();}
       catch(error){
         const action=error instanceof AgentApiError?error.nextAction:undefined;
-        if(!options.taskExecution||!policy.credits||currentModel!=='gpt-6.1-sol'||!params||!solBounds
+        if(!options.taskExecution||options.taskExecution.profile.explicitLiteChoice||!policy.credits||currentModel==='gpt-6-luna'||!params||!solBounds
           ||options.responseReplayOnly||checkpointOptions?.replayOnly||options.taskExecution.recoveryOnly
           ||!(error instanceof AgentApiError)||error.code!=='SPENDING_LIMIT_EXCEEDED'||action?.type!=='studio_assistance'
           ||typeof action.reason!=='string'||!['included_exhausted','paid_budget_exhausted'].includes(action.reason))throw error;
         // The declined reservation created no response/call. Retry this same step once with Luna.
         currentModel='gpt-6-luna';lunaFallback={solBounds};
-        params.model=currentModel;params.max_output_tokens=Math.min(params.max_output_tokens??2200,2200);params.reasoning={effort:params.reasoning?.effort==='low'?'low':'medium'};
+        params.model=currentModel;params.max_output_tokens=Math.min(params.max_output_tokens??2200,2200);params.reasoning={effort:[STUDIO_TASK_V3_POLICY_VERSION,STUDIO_TASK_POLICY_VERSION].includes(options.taskExecution?.policyVersion??'')?'high':params.reasoning?.effort==='low'?'low':'medium'};
         return checkpoint();
       }
     },
@@ -307,6 +339,6 @@ export async function runStudioImageActions(options: {
     const localized=await studioTaskStopDraft(actor,{...options.taskExecution,locale:replyLocale},new StudioTaskStop(draft.continuation.reason==='output_limit'?'output':'steps','Task allowance reached'));
     draft.reply=localized.reply;draft.continuation={...localized.continuation!,completedEdits:draft.continuation.completedEdits};
   }
-  if (!draft.image && !draft.media) await persistImageDraft(actor, turn, draft, options.referenceFingerprint);
+  if (!hasDraftCreation(draft)) await persistImageDraft(actor, turn, draft, options.referenceFingerprint);
   return draft;
 }

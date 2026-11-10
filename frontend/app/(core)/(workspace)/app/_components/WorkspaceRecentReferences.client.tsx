@@ -5,12 +5,13 @@ import { useSearchParams } from 'next/navigation';
 import { useMediaHandoff } from '@/components/library/useMediaHandoff';
 import { RecentMediaList } from '@/components/library/RecentMediaList.client';
 import { recentMediaCopy } from '@/components/library/recent-media-copy';
+import { getMediaInputEligibility } from '@/lib/media-input-eligibility';
 import type { AssetFieldConfig } from '@/components/Composer';
 import type { EngineCaps, EngineInputField, EngineInputSchema, Mode } from '@/types/engines';
 import { useWorkspaceRecentMetadata } from '../_hooks/useWorkspaceRecentMetadata';
 import { useWorkspaceRecentMedia } from '../_hooks/useWorkspaceRecentMedia';
 import { getWorkspaceReferenceFields, type WorkspaceReferenceAvailability } from '../_lib/workspace-reference-fields';
-import { getRecentReferenceIssue, RECENT_MEDIA_DRAG_TYPE, resolveCurrentRecentAsset } from '../_lib/workspace-recent-media';
+import { RECENT_MEDIA_DRAG_TYPE, resolveCurrentRecentAsset } from '../_lib/workspace-recent-media';
 import type { ReferenceAsset, UserAsset } from '../_lib/workspace-assets';
 import { WorkspaceRecentRoleDialog } from './WorkspaceRecentRoleDialog.client';
 
@@ -19,9 +20,9 @@ export type RecentReferenceDropProps = {
   onDragOverCapture: (event: DragEvent) => void;
   onDropCapture: (event: DragEvent) => void;
 };
-export function WorkspaceRecentReferences({ userId, locale, engineId, engine, fields, availability, inputSchema, mode, inputAssets, onInsert, children }: {
+export function WorkspaceRecentReferences({ userId, locale, engineId, engine, fields, availability, inputSchema, mode, workflowIntent, inputAssets, onInsert, children }: {
   userId?: string | null; locale: string; engineId: string; engine?: EngineCaps; fields: AssetFieldConfig[];
-  availability: WorkspaceReferenceAvailability; inputSchema?: EngineInputSchema; mode: Mode;
+  availability: WorkspaceReferenceAvailability; inputSchema?: EngineInputSchema; mode: Mode; workflowIntent?: Mode | null;
   inputAssets: Record<string, (ReferenceAsset | null)[]>;
   onInsert: (field: EngineInputField, asset: UserAsset, index?: number) => Promise<unknown>;
   children: (surface: { recentMedia: ReactNode; recentDropProps: RecentReferenceDropProps; refreshRecentMedia: () => void }) => ReactNode;
@@ -40,7 +41,7 @@ export function WorkspaceRecentReferences({ userId, locale, engineId, engine, fi
   const eligibleFields = getWorkspaceReferenceFields(fields, availability);
   const selected = handoff.asset ?? (selection?.engineId === engineId ? resolveCurrentRecentAsset(selection, feed.scope, feed.assets) : null);
   const metadataNeeded = Boolean(selected && eligibleFields.some((entry) => !entry.disabled && entry.field.type === selected.kind &&
-    getRecentReferenceIssue(selected, entry, inputAssets, inputSchema, mode, undefined, engine) === 'metadata'));
+    getMediaInputEligibility({ asset: selected, field: entry.field, engine, mode }).status === 'unverified'));
   const metadata = useWorkspaceRecentMetadata(selected, userId, metadataNeeded);
   const choose = (asset: UserAsset) => {
     if (feed.scope) setSelection({ scope: feed.scope, id: asset.id, url: asset.url, engineId });
@@ -74,8 +75,8 @@ export function WorkspaceRecentReferences({ userId, locale, engineId, engine, fi
   </>;
   return <>
     {children({ recentMedia, recentDropProps, refreshRecentMedia: feed.retry })}
-    {selected ? <WorkspaceRecentRoleDialog key={`${selection?.scope}:${engineId}:${selected.id}`} asset={metadata.asset ?? selected} fields={eligibleFields} inputAssets={inputAssets}
-      inputSchema={inputSchema} engine={engine} mode={mode} locale={locale} metadataLoading={metadata.loading} metadataError={metadata.error} onMetadataRetry={metadata.retry} onClose={() => { setSelection(null); handoff.close(); }}
+    {selected ? <WorkspaceRecentRoleDialog key={`${userId}:${selection?.scope}:${engineId}:${selected.id}`} userId={userId} asset={metadata.asset ?? selected} fields={eligibleFields} inputAssets={inputAssets}
+      inputSchema={inputSchema} engine={engine} mode={mode} workflowIntent={workflowIntent} locale={locale} metadataLoading={metadata.loading} metadataError={metadata.error} onMetadataRetry={metadata.retry} onClose={() => { setSelection(null); handoff.close(); }}
       onInsert={(entry, index) => onInsert(entry.field, metadata.asset ?? selected, index)} /> : null}
   </>;
 }

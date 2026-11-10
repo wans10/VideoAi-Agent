@@ -12,6 +12,8 @@
           "gemini-omni",
           "gemini-omni-1-1-flash",
           "gemini-omni-flash-1-1",
+          "gemini-omni-1-2-flash",
+          "gemini-omni-flash-1-2",
           "gemini-omni-flash-preview",
           "google-omni-flash",
           "omni-flash"
@@ -500,6 +502,51 @@
           "published": true,
           "variantGroup": "kling-3",
           "variantLabel": "4K"
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": true
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "kling-v4",
+      "slug": "kling-v4",
+      "family": "kling",
+      "category": "video",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": true,
+          "indexable": true
+        },
+        "examples": {
+          "published": true,
+          "includeInFamilyCopy": true,
+          "current": true
+        },
+        "compare": {
+          "published": true,
+          "indexed": true,
+          "suggestedOpponentIds": [
+            "seedance-2-5",
+            "wan-3-prime"
+          ],
+          "publishedPairIds": [
+            "seedance-2-5",
+            "wan-3-prime"
+          ]
+        },
+        "app": {
+          "published": true
         },
         "pricing": {
           "published": true
@@ -2268,7 +2315,8 @@
             "minimax-h3-max",
             "seedance-2-0",
             "kling-3-pro",
-            "veo-3-1"
+            "veo-3-1",
+            "kling-v4"
           ],
           "publishedPairIds": [
             "seedance-2-0",
@@ -2276,7 +2324,8 @@
             "minimax-h3",
             "minimax-h3-max",
             "veo-3-1",
-            "wan-3"
+            "wan-3",
+            "kling-v4"
           ]
         },
         "app": {
@@ -2974,10 +3023,12 @@
           "published": true,
           "indexed": true,
           "suggestedOpponentIds": [
-            "wan-3"
+            "wan-3",
+            "kling-v4"
           ],
           "publishedPairIds": [
-            "wan-3"
+            "wan-3",
+            "kling-v4"
           ]
         },
         "app": {
@@ -3133,8 +3184,8 @@
       "successorSlug": null
     },
     {
-      "id": "flux-3",
-      "slug": "flux-3",
+      "id": "flux-3-max",
+      "slug": "flux-3-max",
       "family": "flux",
       "category": "video",
       "aliases": {
@@ -3156,10 +3207,56 @@
           "published": true,
           "indexed": true,
           "suggestedOpponentIds": [
+            "flux-3"
+          ],
+          "publishedPairIds": [
+            "flux-3"
+          ]
+        },
+        "app": {
+          "published": true
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": true
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "flux-3",
+      "slug": "flux-3",
+      "family": "flux",
+      "category": "video",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": true,
+          "indexable": true
+        },
+        "examples": {
+          "published": true,
+          "includeInFamilyCopy": true,
+          "current": true,
+          "familyRank": 1
+        },
+        "compare": {
+          "published": true,
+          "indexed": true,
+          "suggestedOpponentIds": [
+            "flux-3-max",
             "flux-3-draft",
             "grok-imagine-video-1-5"
           ],
           "publishedPairIds": [
+            "flux-3-max",
             "flux-3-draft",
             "grok-imagine-video-1-5"
           ]
@@ -3196,7 +3293,7 @@
           "published": true,
           "includeInFamilyCopy": true,
           "current": true,
-          "familyRank": 1
+          "familyRank": 2
         },
         "compare": {
           "published": true,
@@ -3300,6 +3397,171 @@
         },
         "sitemap": {
           "published": false
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "nano-banana-2-1",
+      "slug": "nano-banana-2-1",
+      "family": "nano-banana",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": true,
+          "indexable": true
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "launchBadge": "new"
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": true
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "kling-v4-flash",
+      "slug": "kling-v4-flash",
+      "family": "kling",
+      "category": "video",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": true,
+          "indexable": true
+        },
+        "examples": {
+          "published": true,
+          "includeInFamilyCopy": true,
+          "current": true
+        },
+        "compare": {
+          "published": true,
+          "indexed": true,
+          "suggestedOpponentIds": [
+            "kling-v4"
+          ],
+          "publishedPairIds": [
+            "kling-v4"
+          ]
+        },
+        "app": {
+          "published": true
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": true
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "gpt-image-2-6-flare",
+      "slug": "gpt-image-2-6-flare",
+      "family": "gpt-image",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": true,
+          "indexable": true
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "variantGroup": "gpt-image-2.6",
+          "variantLabel": "Flare"
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": true
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "gpt-image-2-6-sunburst",
+      "slug": "gpt-image-2-6-sunburst",
+      "family": "gpt-image",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": true,
+          "indexable": true
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "variantGroup": "gpt-image-2.6",
+          "variantLabel": "Sunburst"
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": true
         }
       },
       "lifecycle": "current",

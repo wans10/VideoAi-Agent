@@ -1,3 +1,7 @@
+import { buildKlingV4FlashFalRequest, isKlingV4FlashEngineId } from '@/lib/kling-v4-flash';
+import { buildFluxLtxRequest } from './flux-ltx-request';
+import { resolveVideoOperationEngine, videoOperationEndpoint } from '@/lib/video-operation';
+import { applyFalLegacyVideoContracts } from '@/lib/fal-legacy-video-contracts';
 import {
   getLumaRay2DurationInfo,
   isLumaRay2EngineId,
@@ -11,6 +15,8 @@ import { stripKlingDirectOnlyExtraInputValues } from '@/lib/kling-direct-extra-v
 import { buildFalElementInputs } from '@/lib/video-provider-elements';
 import { isHappyHorseFalModelId, supportsHappyHorseVideoEdit } from '@/lib/happy-horse-workflow';
 import { buildMinimaxH3FalRequest, isMinimaxH3EngineId } from '@/lib/minimax-h3';
+import { buildFlux3MaxFalRequest, isFlux3MaxEngineId } from '@/lib/flux-3-max';
+import { buildKlingV4FalRequest, isKlingV4EngineId } from '@/lib/kling-v4';
 import {
   buildMinimaxH3MaxFalRequestFromPayload,
   isMinimaxH3MaxEngineId,
@@ -32,6 +38,12 @@ export function buildFalGenerationRequest(
   payload: GeneratePayload,
   defaultModel: string
 ): { model: string; requestBody: Record<string, unknown> } {
+  if (isKlingV4FlashEngineId(payload.engineId)) return buildKlingV4FlashFalRequest(payload);
+  if (isKlingV4EngineId(payload.engineId)) return buildKlingV4FalRequest(payload);
+  const operationEndpoint = videoOperationEndpoint(payload.engineId, payload.mode ?? 't2v', payload.operation);
+  const fluxLtx = buildFluxLtxRequest(payload);
+  if (fluxLtx) return fluxLtx;
+  if (isFlux3MaxEngineId(payload.engineId)) return buildFlux3MaxFalRequest(payload);
   if (isKling3TurboEngineId(payload.engineId)) {
     const mode = payload.mode ?? 't2v';
     if (mode !== 't2v' && mode !== 'i2v') {
@@ -60,7 +72,7 @@ export function buildFalGenerationRequest(
   }
 
   const soraFal = payload.soraRequest ? buildSoraFalInput(payload.soraRequest) : null;
-  let model = defaultModel;
+  let model = operationEndpoint ?? defaultModel;
   let requestBody: Record<string, unknown> = {};
 
   if (soraFal) {
@@ -70,7 +82,8 @@ export function buildFalGenerationRequest(
       requestBody.api_key = apiKey;
     }
   } else {
-    const inputSchema = getFalEngineById(payload.engineId)?.engine.inputSchema;
+    const baseEngine = getFalEngineById(payload.engineId)?.engine;
+    const inputSchema = baseEngine ? resolveVideoOperationEngine(baseEngine, (payload.mode ?? 't2v') as Mode, payload.operation).inputSchema : undefined;
     const activeField = (
       candidateFieldIds: readonly string[],
       type?: 'image' | 'video' | 'audio' | 'enum' | 'boolean' | 'number',
@@ -442,6 +455,8 @@ export function buildFalGenerationRequest(
     delete requestBody.prompt;
   }
 
+  applyFalLegacyVideoContracts(payload, requestBody);
+
   const metadataPayload: Record<string, unknown> = {};
   if (payload.jobId) {
     metadataPayload.app_job_id = payload.jobId;
@@ -457,5 +472,13 @@ export function buildFalGenerationRequest(
     requestBody.metadata = { ...existing, ...metadataPayload };
   }
 
+  if (operationEndpoint) {
+    if (!requestBody.video_url && payload.videoUrl) requestBody.video_url = payload.videoUrl;
+    const images = Array.isArray(requestBody.image_urls) ? requestBody.image_urls.length : 0;
+    const elements = Array.isArray(requestBody.elements) ? requestBody.elements.length : 0;
+    if (images + elements > 4) throw new Error('Kling video operations allow four reference images and elements combined.');
+    delete requestBody.resolution;
+    if (payload.operation === 'kling-edit') { delete requestBody.duration; delete requestBody.aspect_ratio; delete requestBody.generate_audio; }
+  }
   return { model, requestBody };
 }

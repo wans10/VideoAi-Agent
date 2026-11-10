@@ -14,6 +14,7 @@ export async function makeModelPagePricingHarness({
   const modelPricingPath = resolve(sourceRoot, 'frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-pricing.ts');
   const modelInputsPath = resolve(sourceRoot, 'frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-inputs.ts');
   const timingPath = resolve(sourceRoot, 'frontend/server/public-page-timing.ts');
+  const scenarioPath = resolve(sourceRoot, 'frontend/server/pricing/quote-public-model-scenario.ts');
   const directory = await mkdtemp(join(tmpdir(), 'model-page-pricing-'));
   let source = await readFile(routePath, 'utf8');
   if (includeUnusedUnitQuote) {
@@ -24,6 +25,7 @@ export async function makeModelPagePricingHarness({
   }
   const requireFrontend = createRequire(resolve(sourceRoot, 'frontend/package.json'));
   const fixture = `
+    export {resolvePublicModelScenario} from ${JSON.stringify(scenarioPath)};
     export const calls = [];
     export const readers = [];
     export const exampleQuoteCalls = [], publicReads = [], publicIdReads = [], playlistReads = [];
@@ -96,9 +98,9 @@ export async function makeModelPagePricingHarness({
     export const buildModelArchiveMetadata = () => ({});
     export const modelExamplePlaylistKeys = () => [];
     export const projectModelPageGallery = () => undefined;
-    export const hasPlaylistCuration = () => Boolean(state.managed);
-    export const listPlaylistVideos = async (slug, limit) => {
-      playlistReads.push([slug,limit]); return read('model-gallery',state.examples ?? []);
+    export const listModelExamplePlaylist = async (slug, limit) => {
+      playlistReads.push([slug,limit]);
+      return read('model-gallery', {videos:state.examples ?? [], managed:Boolean(state.managed)});
     };
     export const getPublicVideosByIds = async ids => {
       publicReads.push([...ids]);
@@ -116,7 +118,7 @@ export async function makeModelPagePricingHarness({
     };
   `;
   const controlledRouteImports = new Set([
-    '@/server/model-gallery-projection', '@/server/playlists/curation-service', '@/server/videos',
+    '@/server/model-gallery-projection', '@/server/videos',
     '@/server/current-example-price', '@/lib/i18n/server', '@/lib/models/i18n', '@/config/falEngines',
     '@/config/model-runtime', './_lib/model-page-inputs', './_lib/model-page-publication',
     './_lib/model-page-template-registry', './_lib/model-page-prelaunch-route',
@@ -139,7 +141,9 @@ export async function makeModelPagePricingHarness({
       define: { 'process.env.NODE_ENV': '"test"' },
       plugins: [{ name: 'model-pricing-io', setup(builder) {
         builder.onResolve({ filter: /.*/ }, args => {
+          if (args.namespace === 'controlled' && args.path === scenarioPath) return { path: scenarioPath, namespace: 'file' };
           if (args.path === 'server-only' || args.path.endsWith('.css')) return {path:'empty',namespace:'controlled'};
+          if (args.path === '@/server/model-keyframe-demo') return {path:'keyframe-demo',namespace:'keyframe-fixture'};
           if (executeInputs && args.importer.endsWith('/model-page-inputs.ts')) {
             return args.path === '@/server/public-page-timing'
               ? {path:'timing',namespace:'model-timing'}
@@ -162,6 +166,7 @@ export async function makeModelPagePricingHarness({
           if (executeSections && !args.path.startsWith('.') && !args.path.startsWith('/') && !args.path.startsWith('@/') && !args.path.startsWith('node:')) return {path:requireFrontend.resolve(args.path),external:true};
         });
         builder.onLoad({ filter: /.*/, namespace: 'controlled' }, args => ({ contents: args.path === 'empty' ? '' : fixture, loader: 'js' }));
+        builder.onLoad({ filter: /.*/, namespace: 'keyframe-fixture' }, () => ({ contents: 'export async function loadModelKeyframeDemo(){return null;}', loader: 'js' }));
         builder.onLoad({ filter: /.*/, namespace: 'model-timing' }, () => ({ contents: `
           import {withPublicPageTiming as measure} from ${JSON.stringify(timingPath)};
           import {timingRecords} from 'pricing-fixture';

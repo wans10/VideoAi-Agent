@@ -1,14 +1,14 @@
 'use client';
 import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { HOME_PRICE_SCENARIOS, type HomePriceModel } from './home-price-demo-types';
 
 function HomePriceAppPlaceholder() {
- return <div className="price-app-placeholder">{PRODUCT_BRAND_NAME} · Wan 3</div>;
+ return <div className="price-app-placeholder" aria-hidden="true"><div className="price-app-top"><strong>{PRODUCT_BRAND_NAME}</strong><span>Wan 3</span></div><div className="price-placeholder-prompt"><span/><span/><span/></div><div className="price-placeholder-settings"><span/><span/><span/></div><div className="price-placeholder-action"/></div>;
 }
 
 const AppSurface = dynamic(() => import('./HomePriceAppSurface.client').then(module => module.HomePriceAppSurface), {ssr:false,loading:HomePriceAppPlaceholder});
@@ -24,6 +24,8 @@ export function HomePriceDemo({locale,models=[],pending=false}:{locale:AppLocale
  const root = useRef<HTMLDivElement>(null);
  const [stepIndex,setStepIndex] = useState(0);
  const [ready,setReady] = useState(false);
+ const [surfaceReady,setSurfaceReady] = useState(false);
+ const onSurfaceReady = useCallback(() => setSurfaceReady(true), []);
  const [visible,setVisible] = useState(false);
  const [playing,setPlaying] = useState(true);
  const [reduced,setReduced] = useState(true);
@@ -36,13 +38,13 @@ export function HomePriceDemo({locale,models=[],pending=false}:{locale:AppLocale
   return ()=>{observer.disconnect();media.removeEventListener('change',update);};
  },[]);
  useEffect(()=>{
-  if(pending || !models.length || !visible || !playing || reduced)return;
+  if(pending || !models.length || !surfaceReady || !visible || !playing || reduced)return;
   const timer = setInterval(()=>{
    if(document.hidden)return;
    setStepIndex(value=>{if(value===2){setPlaying(false);return value;}return value+1;});
   },4200);
   return ()=>clearInterval(timer);
- },[pending,models.length,visible,playing,reduced]);
+ },[pending,models.length,surfaceReady,visible,playing,reduced]);
  const model=models[0];
  const blocked = pending || !model;
  const steps = blocked ? HOME_PRICE_SCENARIOS.map(scenario => ({...scenario, display:'—'})) : model.steps;
@@ -57,10 +59,10 @@ export function HomePriceDemo({locale,models=[],pending=false}:{locale:AppLocale
   <div className="price-walkthrough-stage" ref={root}>
    <div className="price-walkthrough-play"><span role={!pending && !model ? "status" : undefined}>{!pending && !model ? c.unavailable : c.tag}</span><button type="button" disabled={blocked} onClick={()=>{if(playing){setPlaying(false);}else{setStepIndex(0);setPlaying(true);}}}>{playing&&!reduced ? c.pause : c.replay} <span aria-hidden>{playing&&!reduced?'Ⅱ':'↻'}</span></button></div>
    <div className="price-app-frame" data-price-step={stepIndex}>
-    {ready && !pending && model ? <AppSurface model={model} step={model.steps[stepIndex]} locale={locale}/> : <HomePriceAppPlaceholder/>}
-    <div className="price-app-annotation"><span aria-hidden>↑</span>{c.quote}</div>
+    {ready && !pending && model ? <AppSurface model={model} step={model.steps[stepIndex]} locale={locale} onReady={onSurfaceReady}/> : <HomePriceAppPlaceholder/>}
    </div>
-   <div className="price-walkthrough-caption" aria-live={playing?'off':'polite'} aria-atomic="true"><span>{c.duration} <strong>{step.seconds} s</strong> · {c.resolution} <strong>{step.resolution}</strong><small>{c.audio}</small></span><strong className="sr-only" key={stepIndex}>{blocked ? '—' : step.display}</strong></div>
+   <div className="price-walkthrough-caption sr-only" aria-live={playing?'off':'polite'} aria-atomic="true"><span>{c.duration} <strong>{step.seconds} s</strong> · {c.resolution} <strong>{step.resolution}</strong><small>{c.audio}</small></span><strong className="sr-only" key={stepIndex}>{blocked ? '—' : step.display}</strong></div>
+   <p className="price-app-annotation"><span aria-hidden>✓</span>{c.quote}</p>
    <p className="price-walkthrough-note">{c.note}</p>
   </div>
   <ul className="price-walkthrough-guarantees">{c.guarantees.map(text=><li key={text}><span aria-hidden>✓</span>{text}</li>)}</ul>

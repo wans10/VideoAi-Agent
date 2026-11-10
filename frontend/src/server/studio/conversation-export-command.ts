@@ -1,7 +1,9 @@
+import {hydrateSubtitleTimelineItems,readSubtitleSequenceAttachment} from '../subtitles/studio';
 import {AgentApiError} from '@/server/agent-api/errors';
 import {randomUUID} from 'node:crypto';
-import {query,withDbTransaction,type TransactionQueryExecutor} from '@/lib/db';
-import {studioExportPreparationSchema,studioExportConfirmationSchema,studioExportReadSchema,studioPreparedExportSchema,type StudioPreparedExport} from '@/lib/studio/conversation-export-contract';
+import {query,withDbTransaction,type QueryExecutor,type TransactionQueryExecutor} from '@/lib/db';
+import {studioExportPreparationSchema,studioExportConfirmationSchema,studioExportReadSchema,studioConversationExportReadSchema,studioPreparedExportSchema,type StudioPreparedExport} from '@/lib/studio/conversation-export-contract';
+import {readStudioConversationRenderFacts} from './conversation-export-facts';
 import {readStudioWorkspace} from './workspace-command';
 import {buildWorkspaceTimelineRenderManifest} from '@/app/(core)/(workspace)/app/studio/_shared/_lib/workspace-timeline-render';
 import {buildWorkspaceTimelineVideoExportRequest,type WorkspaceTimelineVideoExportRequest} from '@/app/(core)/(workspace)/app/studio/_shared/_lib/workspace-timeline-export';
@@ -40,7 +42,7 @@ async function findJob({userId,idempotencyKey}:{userId:string;idempotencyKey:str
   if(!table[0]?.name)return null;
   return (await query<TimelineExportJobRecord>('SELECT * FROM app_timeline_exports WHERE user_id=$1 AND idempotency_key=$2',[userId,idempotencyKey]))[0]??null;
 }
-async function readReceipt(actor:StudioExportActor,projectId:string,quoteId:string,executor:TransactionQueryExecutor){
+async function readReceipt(actor:StudioExportActor,projectId:string,quoteId:string,executor:QueryExecutor){
   const receipts=await executor.query<PreparationReceipt>(`SELECT request_hash,request_payload,safe_result FROM studio_project_commands
     WHERE user_id=$1 AND project_id=$2 AND command_kind='timeline_export_prepare' AND command_version=1 AND safe_result->>'quoteId'=$3`,[actor.userId,projectId,quoteId]);
   const receipt=receipts[0];
@@ -77,7 +79,9 @@ export async function prepareStudioTimelineExport(actor:StudioExportActor,rawInp
     filterHiddenVideoTrackItems(state.timelineItems,coerceHiddenVideoTracks(state.hiddenVideoTracks,coerceVideoTrackCount(state.videoTrackCount,state.timelineItems))),
     coerceMutedAudioTracks(state.mutedAudioTracks,coerceAudioTrackCount(state.audioTrackCount,state.timelineItems)),
   );
-  const manifest=buildWorkspaceTimelineRenderManifest({items,nodes:(initial.workspace.project.workspaceState as {nodes:WorkspaceGraphNode[]}).nodes,projectName:initial.workspace.project.name,sequenceId:sequence.id,sequenceName:sequence.name,projectSettings:settings,createdAt});
+  const sequenceSubtitle=await readSubtitleSequenceAttachment(actor.userId,initial.workspace,sequence.id);
+  if(sequenceSubtitle?.stale)throw new StudioExportCommandError('SUBTITLE_SEQUENCE_CHANGED',409);
+  const manifest=buildWorkspaceTimelineRenderManifest({sequenceSubtitleDocument:sequenceSubtitle?.document??undefined,items:await hydrateSubtitleTimelineItems(actor.userId,items),nodes:(initial.workspace.project.workspaceState as {nodes:WorkspaceGraphNode[]}).nodes,projectName:initial.workspace.project.name,sequenceId:sequence.id,sequenceName:sequence.name,projectSettings:settings,createdAt});
   const request=parseTimelineExportRequest(buildWorkspaceTimelineVideoExportRequest(manifest,{projectId:input.projectId,idempotencyKey,createdAt,qualityPreset:input.qualityPreset,includeAudio:input.includeAudio}));
   const estimated=await (dependencies.estimate??estimateOwnedTimelineExport)({userId:actor.userId,requestOrigin:dependencies.requestOrigin,rawRequest:request});
   if(!estimated.body.ok)throw new StudioExportCommandError(estimated.body.error,estimated.status);
@@ -120,6 +124,17 @@ export async function readStudioTimelineExport(actor:StudioExportActor,rawInput:
   });
   const job=await (dependencies.readJob??findJob)({userId:actor.userId,idempotencyKey:receipt.request_payload.request.idempotencyKey});
   return job?await (dependencies.projectJob??ownedTimelineExportJobResponse)(job,actor.userId):null;
+}
+
+/** Director diagnosis accepts manual export IDs without granting a retry or media access. */
+export async function readStudioConversationExport(actor:StudioExportActor,rawInput:unknown,dependencies:StudioExportDependencies){
+  authorize(actor,dependencies);
+  if(actor.authOrigin!=='studio-session')throw new StudioExportCommandError('UNAUTHORIZED',401);
+  const input=studioConversationExportReadSchema.parse(rawInput);
+  const project=(await query(`SELECT id FROM studio_projects WHERE id=$1 AND user_id=$2 AND deleted_at IS NULL`,[input.projectId,actor.userId]))[0];
+  if(!project)throw new StudioExportCommandError('STUDIO_PROJECT_NOT_FOUND',404);
+  const exportId=input.exportId??(await readReceipt(actor,input.projectId,input.quoteId!,{query})).safe_result.exportId;
+  return (await readStudioConversationRenderFacts({userId:actor.userId,projectId:input.projectId},exportId))[0]??null;
 }
 
 export function asStudioExportAgentError(error: unknown) {

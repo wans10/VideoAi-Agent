@@ -179,9 +179,8 @@ export function buildBlogPostJsonLd({
     inLanguage: localeRegions[locale],
     image: imageUrl,
     author: {
-      '@type': 'Person',
+      '@type': 'Organization',
       name: editorialProfile.name,
-      jobTitle: editorialProfile.jobTitle,
       url: getEditorialProfileAbsoluteUrl(editorialProfile),
     },
     publisher: {

@@ -149,6 +149,16 @@ test('Gemini Omni Flash response accepts SDK output_video data payloads', () => 
   assert.equal(normalized.message, null);
 });
 
+test('Omni polling selects the generated video and never the echoed source input', () => {
+  const userVideo = { type: 'user_input', content: [{ type: 'video', uri: 'gs://inputs/phone.mov', mime_type: 'video/mp4' }] };
+  const normalized = normalizeGoogleVertexOmniInteraction({ ...completedInteraction,
+    steps: [userVideo, { type: 'thought', content: [{ type: 'video', uri: 'gs://internal/intermediate.mp4' }] }, ...completedInteraction.steps] });
+  assert.equal(normalized.videoUrl, 'gs://omni-output/job_omni_123.mp4');
+  const missing = normalizeGoogleVertexOmniInteraction({ ...completedInteraction, steps: [userVideo] });
+  assert.equal(missing.status, 'failed');
+  assert.equal(missing.videoUrl, null);
+});
+
 test('Gemini Omni Flash direct extension submission carries one owned source video', async () => {
   const queries: Array<{ sql: string; params?: unknown[] }> = [];
   const metrics: Array<{ kind: string; event?: unknown }> = [];
@@ -239,7 +249,7 @@ test('Gemini Omni Flash direct extension submission carries one owned source vid
   assert.equal(result.kind, 'accepted');
   assert.equal(result.body.provider, 'google_vertex_omni_direct');
   assert.equal(result.body.providerJobId, 'v1_omni_123');
-  assert.equal(submittedPayload?.model, 'gemini-omni-1.1-flash-preview');
+  assert.equal(submittedPayload?.model, 'gemini-omni-1.2-flash');
   assert.equal(submittedPayload?.store, true);
   assert.equal(
     ((submittedPayload?.generation_config as Record<string, Record<string, unknown>> | undefined)?.video_config?.task),
@@ -260,7 +270,7 @@ test('Gemini Omni Flash direct extension submission carries one owned source vid
   assert.equal(jobUpdate.params?.[3], 'v1_omni_123');
   const attemptInsert = queries.find((entry) => /INSERT INTO provider_attempts/.test(entry.sql));
   assert.ok(attemptInsert, 'submission should create a provider attempt');
-  assert.equal(JSON.parse(String(attemptInsert.params?.[5])).estimatedProviderCostUsd, 1.25976);
+  assert.equal(JSON.parse(String(attemptInsert.params?.[5])).estimatedProviderCostUsd, 0.877488);
   assert.equal(metrics[0]?.kind, 'accepted');
 });
 
@@ -380,7 +390,7 @@ test('Gemini Omni provider pricing snapshot survives price-only job receipts thr
   assert.ok(completedUpdate);
   const costBreakdown = JSON.parse(String(completedUpdate.params?.[3]));
   assert.equal(costBreakdown.provider_cost_units, 5);
-  assert.equal(costBreakdown.provider_cost_usd, 0.80364);
+  assert.equal(costBreakdown.provider_cost_usd, 0.56472);
 });
 
 test('Gemini Omni v2v and chained retake inherit duration from owned provider pricing snapshots', async () => {
@@ -472,7 +482,7 @@ test('Gemini Omni v2v and chained retake inherit duration from owned provider pr
     inputVideoDurationSec: 4.25,
     providerInteractionId: 'interactions/v2v_fractional',
   });
-  assert.equal(v2vSnapshot.estimatedProviderCostUsd, 0.467704);
+  assert.equal(v2vSnapshot.estimatedProviderCostUsd, 0.332316);
   const resolverQueries: Array<{ sql: string; params?: unknown[] }> = [];
   const fromV2v = await resolveGoogleOmniInheritedDurationSec({
     engineId: 'gemini-omni-flash',
@@ -493,7 +503,7 @@ test('Gemini Omni v2v and chained retake inherit duration from owned provider pr
     inputVideoDurationSec: 0,
     providerInteractionId: 'interactions/retake_fractional',
   });
-  assert.equal(retakeSnapshot.estimatedProviderCostUsd, 0.43078);
+  assert.equal(retakeSnapshot.estimatedProviderCostUsd, 0.295392);
   const fromRetake = await resolveGoogleOmniInheritedDurationSec({
     engineId: 'gemini-omni-flash',
     mode: 'retake',
@@ -579,66 +589,107 @@ test('Gemini Omni Flash unsupported direct input fails on Google without invokin
   assert.equal(metrics[0]?.kind, 'rejected');
 });
 
-test('Gemini Omni Flash poll copies Interactions video output before marking the job completed', async () => {
-  const queries: Array<{ sql: string; params?: unknown[] }> = [];
-  const uploads: Array<{ data: Buffer; mime: string; fileName?: string | null }> = [];
-  const outputs: unknown[] = [];
-
-  const response = await runGoogleVertexOmniPoll({
-    deps: {
+test('Omni delivers requested silence before storage and never completes if audio preparation fails', async () => {
+  for (const fail of [false, true]) {
+    const queries: string[] = [];
+    const uploads: Buffer[] = [];
+    let preparations = 0;
+    await runGoogleVertexOmniPoll({ deps: {
       claimPollFn: allowGenerationPoll,
-      queryFn: async (sql, params) => {
-        queries.push({ sql, params });
-        if (/FROM app_jobs/.test(sql) && /provider = \$1/.test(sql)) {
-          return [baseJob] as never;
-        }
-        if (/FROM provider_attempts/.test(sql)) {
-          return [{ id: 42, attempt_index: 1 }] as never;
-        }
-        if (/UPDATE app_jobs/.test(sql) && /RETURNING job_id/.test(sql)) {
-          return [{ job_id: 'job_omni_123' }] as never;
-        }
+      queryFn: async (sql) => {
+        queries.push(sql);
+        if (/FROM app_jobs/.test(sql) && /provider = \$1/.test(sql)) return [{ ...baseJob, has_audio: false }] as never;
+        if (/FROM provider_attempts/.test(sql)) return [{ id: 42, attempt_index: 1 }] as never;
+        if (/UPDATE app_jobs/.test(sql) && /RETURNING job_id/.test(sql)) return [{ job_id: baseJob.job_id }] as never;
         return [] as never;
       },
-      getGoogleVertexOmniClientFn: () => ({
-        createInteraction: async () => {
-          throw new Error('not used');
-        },
+      getGoogleVertexOmniClientFn: () => ({ createInteraction: async () => { throw new Error('no new generation'); },
         fetchInteraction: async () => completedInteraction,
-        downloadOutputUri: async () => ({ data: Buffer.from('omni-mp4-bytes'), mime: 'video/mp4' }),
-      }),
+        downloadOutputUri: async () => ({ data: Buffer.from('generated-with-audio'), mime: 'video/mp4' }) }),
       isStorageConfiguredFn: () => true,
-      uploadFileBufferFn: async (payload) => {
-        uploads.push({ data: payload.data, mime: payload.mime, fileName: payload.fileName });
-        return { key: 'renders/user_123/job_omni_123.mp4', url: 'https://cdn.maxvideoai.com/renders/job_omni_123.mp4' };
+      removeGeneratedVideoAudioFn: async (bytes) => {
+        preparations++;
+        assert.equal(bytes.toString(), 'generated-with-audio');
+        if (fail) throw new Error('audio preparation failed');
+        return Buffer.from('generated-silent');
       },
-      ensureJobThumbnailFn: async () => 'https://cdn.maxvideoai.com/renders/job_omni_123-thumb.jpg',
-      upsertLegacyJobOutputsFn: async (payload) => {
-        outputs.push(payload);
-      },
+      uploadFileBufferFn: async (payload) => { uploads.push(payload.data); return { key: 'render', url: 'https://cdn.maxvideoai.com/render.mp4' }; },
+      ensureJobThumbnailFn: async () => 'https://cdn.maxvideoai.com/thumb.jpg',
+      upsertLegacyJobOutputsFn: async () => {},
       generateAndPersistJobPreviewVideoFn: async () => null,
       generateAndPersistJobKeyframesFn: async () => [],
-    },
-  });
+    } });
+    assert.equal(preparations, 1);
+    assert.deepEqual(uploads.map(bytes => bytes.toString()), fail ? [] : ['generated-silent']);
+    assert.equal(queries.some(sql => /SET status = 'completed'/.test(sql)), !fail);
+    assert.equal(queries.some(sql => /SET status = 'processing'/.test(sql)), fail);
+  }
+});
 
-  const body = await response.json();
-  assert.equal(body.updates, 1);
-  assert.equal(uploads[0]?.data.toString(), 'omni-mp4-bytes');
-  assert.equal(uploads[0]?.fileName, 'job_omni_123-google-omni.mp4');
+test('Gemini Omni Flash poll copies Interactions video output before marking the job completed', async () => {
+  for (const providerModel of ['gemini-omni-1.1-flash-preview', 'gemini-omni-1.2-flash', null]) {
+    const queries: Array<{ sql: string; params?: unknown[] }> = [];
+    const uploads: Array<{ data: Buffer; mime: string; fileName?: string | null }> = [];
+    const outputs: unknown[] = [];
 
-  const completedUpdate = queries.find((entry) => /SET status = 'completed'/.test(entry.sql));
-  assert.ok(completedUpdate, 'completed app_jobs update should run');
-  assert.equal(completedUpdate.params?.[1], 'https://cdn.maxvideoai.com/renders/job_omni_123.mp4');
-  const costBreakdown = JSON.parse(String(completedUpdate.params?.[3]));
-  assert.equal(costBreakdown.provider_cost_source, 'google_omni_1_1_token_pricing');
-  assert.equal(costBreakdown.provider_cost_units, 8);
-  assert.equal(costBreakdown.provider_cost_usd, 1.21632);
-  assert.match(JSON.stringify(outputs[0]), /cdn\.maxvideoai\.com/);
+    const response = await runGoogleVertexOmniPoll({
+      deps: {
+        claimPollFn: allowGenerationPoll,
+        queryFn: async (sql, params) => {
+          queries.push({ sql, params });
+          if (/FROM app_jobs/.test(sql) && /provider = \$1/.test(sql)) {
+            return [baseJob] as never;
+          }
+          if (/FROM provider_attempts/.test(sql)) {
+            return [{ id: 42, attempt_index: 1, request_snapshot: { providerModel } }] as never;
+          }
+          if (/UPDATE app_jobs/.test(sql) && /RETURNING job_id/.test(sql)) {
+            return [{ job_id: 'job_omni_123' }] as never;
+          }
+          return [] as never;
+        },
+        getGoogleVertexOmniClientFn: () => ({
+          createInteraction: async () => {
+            throw new Error('not used');
+          },
+          fetchInteraction: async () => completedInteraction,
+          downloadOutputUri: async () => ({ data: Buffer.from('omni-mp4-bytes'), mime: 'video/mp4' }),
+        }),
+        isStorageConfiguredFn: () => true,
+        uploadFileBufferFn: async (payload) => {
+          uploads.push({ data: payload.data, mime: payload.mime, fileName: payload.fileName });
+          return { key: 'renders/user_123/job_omni_123.mp4', url: 'https://cdn.maxvideoai.com/renders/job_omni_123.mp4' };
+        },
+        ensureJobThumbnailFn: async () => 'https://cdn.maxvideoai.com/renders/job_omni_123-thumb.jpg',
+        upsertLegacyJobOutputsFn: async (payload) => {
+          outputs.push(payload);
+        },
+        generateAndPersistJobPreviewVideoFn: async () => null,
+        generateAndPersistJobKeyframesFn: async () => [],
+      },
+    });
 
-  const attemptUpdate = queries.find((entry) => /UPDATE provider_attempts/.test(entry.sql) && /provider_cost_usd/.test(entry.sql));
-  assert.ok(attemptUpdate, 'provider_attempts should store estimated Google Omni provider cost');
-  assert.equal(attemptUpdate.params?.[3], 8);
-  assert.equal(attemptUpdate.params?.[4], 1.21632);
+    const body = await response.json();
+    assert.equal(body.updates, 1);
+    assert.equal(uploads[0]?.data.toString(), 'omni-mp4-bytes');
+    assert.equal(uploads[0]?.fileName, 'job_omni_123-google-omni.mp4');
+
+    const completedUpdate = queries.find((entry) => /SET status = 'completed'/.test(entry.sql));
+    assert.ok(completedUpdate, 'completed app_jobs update should run');
+    assert.equal(completedUpdate.params?.[1], 'https://cdn.maxvideoai.com/renders/job_omni_123.mp4');
+    const costBreakdown = JSON.parse(String(completedUpdate.params?.[3]));
+    assert.equal(costBreakdown.provider_model, providerModel);
+    assert.equal(costBreakdown.provider_cost_source, providerModel === null ? 'google_omni_unknown_model' : providerModel.includes('1.1') ? 'google_omni_1_1_token_pricing' : 'google_omni_1_2_token_pricing');
+    const expectedCost = providerModel === null ? null : providerModel.includes('1.1') ? 1.21632 : 0.834048;
+    assert.equal(costBreakdown.provider_cost_units, 8);
+    assert.equal(costBreakdown.provider_cost_usd, expectedCost);
+    assert.match(JSON.stringify(outputs[0]), /cdn\.maxvideoai\.com/);
+
+    const attemptUpdate = queries.find((entry) => /UPDATE provider_attempts/.test(entry.sql) && /provider_cost_usd/.test(entry.sql));
+    assert.ok(attemptUpdate, 'provider_attempts should store estimated Google Omni provider cost');
+    assert.equal(attemptUpdate.params?.[3], 8);
+    assert.equal(attemptUpdate.params?.[4], expectedCost);
+  }
 });
 
 test('Gemini Omni Flash poll can recover a recently stalled accepted job without creating a new generation', async () => {

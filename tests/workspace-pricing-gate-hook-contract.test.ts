@@ -44,6 +44,7 @@ test('workspace pricing and auth gate orchestration is owned by route-local modu
   assert.match(appSource, /import \{ useWorkspacePricingGate \} from '\.\/_hooks\/useWorkspacePricingGate';/);
   assert.match(appSource, /import \{ WorkspaceAppReadyView \} from '\.\/_components\/WorkspaceAppReadyView';/);
   assert.match(appSource, /useWorkspacePricingGate\(\{/);
+  assert.match(appSource, /useWorkspacePricingGate\(\{\s*accountId: confirmedAccount,/);
   assert.match(appSource, /inputAssets: assets\.inputAssets/);
   assert.doesNotMatch(appSource, /WorkspaceRuntimeModals/);
 
@@ -59,8 +60,16 @@ test('workspace pricing and auth gate orchestration is owned by route-local modu
   assert.match(hookSource, /useWorkspacePreflightQuote/);
   assert.match(hookSource, /buildWorkspacePreflightRequest/);
   assert.doesNotMatch(hookSource, /runPreflight|buildWorkspacePreflightInputs/);
-  assert.match(requestSource, /inputs: buildWorkspacePreflightInputs\(inputAssets\)/);
+  assert.match(requestSource, /import\s*\{[^}]*\bbuildWorkspacePreflightInputs\b[^}]*\}\s*from '\.\/workspace-generation-inputs';/);
+  assert.match(requestSource, /import\s*\{[^}]*\bbuildKlingElementsPayload\b[^}]*\}\s*from '\.\/workspace-generation-inputs';/);
+  assert.match(requestSource, /const activeAssets = isKlingV4 \? getWorkspaceKlingV4ActiveAssets\(submissionMode, inputAssets, selectedEngine\.id\) : inputAssets;/);
+  assert.match(requestSource, /buildWorkspacePreflightInputs\(quoteAssets\)/);
+  assert.match(requestSource, /buildKlingElementsPayload\(\{/);
+  assert.doesNotMatch(requestSource, /function (buildWorkspacePreflightInputs|buildKlingElementsPayload)\(/);
   assert.match(requestSource, /workspaceModeSupportsRequestField/);
+  assert.match(requestSource, /const quoteAssets = form\.operation \|\| selectedEngine\.id === 'luma-ray-3-2'/);
+  assert.match(requestSource, /allowedMedia\.has\(field\)/);
+  assert.match(requestSource, /: inputAssets;/);
   assert.doesNotMatch(requestSource, /iterations|runPreflight|useEffect/);
   assert.match(quoteSource, /runPreflight\(payload, \{ accessToken \}\)/);
   assert.doesNotMatch(quoteSource, /useHostedWalletCheckout|authFetch|setMemberTier|setTopUpModal/);

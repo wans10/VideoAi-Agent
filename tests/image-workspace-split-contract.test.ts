@@ -87,6 +87,8 @@ test('image workspace foundations are split from the route orchestrator', () => 
   assert.match(source, /from '\.\/_components\/ImageWorkspaceShell'/);
   assert.match(source, /from '\.\/_components\/ImageWorkspaceEmptyState'/);
   assert.match(source, /from '\.\/_hooks\/useImageComposerPersistence'/);
+  assert.match(source, /from '\.\/_hooks\/useImageComposerValues'/);
+  assert.doesNotMatch(source, /const \[complexity, setComplexity\] = useState/, 'composer values have their own state owner');
   assert.match(source, /from '\.\/_hooks\/useImageWorkspaceDisplayState'/);
   assert.match(source, /from '\.\/_hooks\/useImageWorkspaceReferenceAssets'/);
   assert.match(source, /from '\.\/_hooks\/useImageWorkspaceViewer'/);
@@ -212,7 +214,7 @@ test('image workspace foundations are split from the route orchestrator', () => 
   assert.match(referenceAwareCountsHookSource, /buildImageCountOptionsWithinMax/);
 
   const lineCount = source.split('\n').length;
-  assert.ok(lineCount <= 500, `ImageWorkspace should stay below 500 lines after shell extraction, got ${lineCount}`);
+  assert.ok(lineCount <= 525, `ImageWorkspace should stay below 525 lines with route-local model picker and ordered library receiver wiring, got ${lineCount}`);
 });
 
 
@@ -255,4 +257,20 @@ test('image composer user actions share gallery hydration cancellation at the ro
   assert.match(source, /toggleCharacterReference=\{composerActionProps.toggleCharacterReference\}/);
   assert.match(source, /onSelectStarter: composerActionProps.selectStarter/);
   assert.match(source, /starterNavigation=\{[\s\S]*guardComposerActions\(\{\s*onPrev: starterNavigation.onPrev, onNext: starterNavigation.onNext/);
+});
+
+test('image creation chrome and recent reference ownership remain at their route boundaries', () => {
+  const page = readFileSync(path.join(imageDir, 'page.tsx'), 'utf8');
+  const shell = readFileSync(shellPath, 'utf8');
+  const empty = readFileSync(emptyStatePath, 'utf8');
+  const references = readFileSync(path.join(imageDir, '_components/ImageMediaHandoff.client.tsx'), 'utf8');
+  assert.doesNotMatch(page, /<AppCreationContent\b/, 'the server page must not duplicate the shell navigation');
+  assert.match(shell, /<AppCreationContent railNavigation=/);
+  assert.match(shell, /<ImageWorkspaceGalleryRail[^>]*variant="responsive"/);
+  assert.match(empty, /AppCreationContent/, 'loading and empty states retain creation navigation');
+  assert.match(references, /useWorkspaceRecentMedia/);
+  assert.match(references, /recentRequested \? user\?\.id : null/, 'opening Recents owns its first network request');
+  assert.match(references, /resolveCurrentRecentAsset/, 'selection must remain bound to the current account feed');
+  assert.match(references, /onInsert\(selected, index\)/, 'recent selections reuse the guarded image reference insertion path');
+  assert.doesNotMatch(references, /localStorage|fetch\(/, 'handoff UI must not own persistence or a second feed transport');
 });

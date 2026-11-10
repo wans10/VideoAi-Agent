@@ -161,7 +161,7 @@ test('submission only confirms a wallet refund after finding its matching ledger
       ...baseParams, pendingReceipt,
       deps: {
         getBytePlusArkConfigFn: () => ({ seedanceModelId: 'model-public', seedanceFastModelId: 'model-fast' }),
-        buildBytePlusSeedancePayloadFn: (payload) => payload,
+        buildBytePlusSeedancePayloadFn: (payload) => ({ ...payload, content: [] }) as never,
         getBytePlusModelArkClientFn: () => ({ createSeedanceFastTask: async () => { throw new Error('provider rejected'); } }),
         scrubBytePlusErrorFn: () => 'The input video may contain real person.',
         rollbackPendingPaymentFn: async () => { rolledBack = true; },
@@ -215,7 +215,7 @@ test('BytePlus submission helper creates task, updates job, logs, and returns qu
       getBytePlusArkConfigFn: () => ({ seedanceModelId: 'model-public', seedanceFastModelId: 'model-fast' }),
       buildBytePlusSeedancePayloadFn: (payload) => {
         builtPayloads.push(payload);
-        return { ...payload, normalized: true };
+        return { ...payload, normalized: true, content: [] } as never;
       },
       getBytePlusModelArkClientFn: (transport) => {
         clientTransports.push(transport);
@@ -381,7 +381,7 @@ test('BytePlus submission helper chooses the Mini model id for Seedance 2.0 Mini
         }) as never,
       buildBytePlusSeedancePayloadFn: (payload) => {
         builtPayloads.push(payload);
-        return { ...payload, normalized: true };
+        return { ...payload, normalized: true, content: [] } as never;
       },
       getBytePlusModelArkClientFn: () => ({
         createSeedanceFastTask: async () => ({ providerJobId: 'provider_mini', status: 'queued' }),
@@ -414,7 +414,7 @@ test('BytePlus submission helper marks failed tasks, rolls back payments, and re
       pendingReceipt,
       deps: {
         getBytePlusArkConfigFn: () => ({ seedanceModelId: 'model-public', seedanceFastModelId: 'model-fast' }),
-        buildBytePlusSeedancePayloadFn: (payload) => payload,
+        buildBytePlusSeedancePayloadFn: (payload) => ({ ...payload, content: [] }) as never,
         getBytePlusModelArkClientFn: () => ({
           createSeedanceFastTask: async () => {
             throw new Error('provider down');
@@ -474,7 +474,7 @@ test('BytePlus explicit pre-acceptance rejection selects LLM Hub without refundi
     },
     deps: {
       getBytePlusArkConfigFn: () => ({ seedanceModelId: 'model-public' }) as never,
-      buildBytePlusSeedancePayloadFn: (payload) => payload,
+      buildBytePlusSeedancePayloadFn: (payload) => ({ ...payload, content: [] }) as never,
       getBytePlusModelArkClientFn: () => ({
         createSeedanceFastTask: async () => { throw new BytePlusModelArkError('rate limited', { status: 429 }); },
       }),
@@ -502,7 +502,7 @@ test('BytePlus submission persists a normalized failure code for provider pixel-
       pendingReceipt: null,
       deps: {
         getBytePlusArkConfigFn: () => ({ seedanceModelId: 'model-public', seedanceFastModelId: 'model-fast' }),
-        buildBytePlusSeedancePayloadFn: (payload) => payload,
+        buildBytePlusSeedancePayloadFn: (payload) => ({ ...payload, content: [] }) as never,
         getBytePlusModelArkClientFn: () => ({
           createSeedanceFastTask: async () => {
             throw new Error('provider rejected video dimensions');
@@ -1199,7 +1199,7 @@ test('unknown BytePlus Seedance engine fails before provider submission and roll
         },
         buildBytePlusSeedancePayloadFn: (payload) => {
           payloadBuilds += 1;
-          return payload;
+          return { ...payload, content: [] } as never;
         },
         getBytePlusModelArkClientFn: () => ({
           createSeedanceFastTask: async () => {
@@ -1261,7 +1261,7 @@ test('disabled Seedance 2.5 fails before config, payload, provider, and charge',
         },
         buildBytePlusSeedancePayloadFn: (payload) => {
           payloadBuilds += 1;
-          return payload;
+          return { ...payload, content: [] } as never;
         },
         getBytePlusModelArkClientFn: () => ({
           createSeedanceFastTask: async () => {
@@ -1333,7 +1333,7 @@ test('Seedance 2.5 forwards each optional generated-audio selection to ModelArk'
           buildBytePlusSeedancePayloadFn: (payload) => {
             assert.notEqual(payload.generateAudio, undefined);
             capturedGenerateAudioValues.push(payload.generateAudio);
-            return payload;
+            return { ...payload, content: [] } as never;
           },
           getBytePlusModelArkClientFn: () => ({
             createSeedanceFastTask: async () => {

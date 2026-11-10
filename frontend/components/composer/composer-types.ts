@@ -1,3 +1,4 @@
+import type { VideoExcerptRange } from '@/lib/video-excerpt';
 import type { Ref, ReactNode } from 'react';
 import type { EngineCaps, EngineInputField, EngineModeUiCaps as CapabilityCaps, Mode, PreflightResponse } from '@/types/engines';
 import type { PendingGeneration } from '@/lib/pending-generations';
@@ -37,6 +38,8 @@ export type ComposerPromotedAction = {
 export interface ComposerProps {
   density?: 'default' | 'workspace';
   compactPrompt?: boolean;
+  assistance?: import('./usePromptAssistancePreview').PromptAssistanceContext;
+  referenceManagement?:import('./PromptAssistanceComposer.client').PromptReferenceManagement;
   engine: EngineCaps;
   caps?: CapabilityCaps;
   prompt: string;
@@ -50,7 +53,9 @@ export interface ComposerProps {
   error?: string;
   messages?: string[];
   textareaRef?: Ref<HTMLTextAreaElement>;
-  onGenerate?: () => void;
+  onGenerate?: (canContinue?:()=>boolean) => void;
+  /** Enclosing submission owners must enforce the same effective button guard. */
+  onGenerationPermissionChange?: (allowed:boolean) => void;
   iterations?: number;
   preflight?: PreflightResponse | null;
   promptField?: EngineInputField;
@@ -60,11 +65,15 @@ export interface ComposerProps {
   negativePromptField?: EngineInputField;
   negativePromptRequired?: boolean;
   assetFields: AssetFieldConfig[];
+  referenceAuthAction?: { label: string; href: string };
+  subjectReferences?: { hasSubjects: boolean; content: ReactNode };
   assets: Record<string, (ComposerAttachment | null)[]>;
   onAssetAdd?: (field: EngineInputField, file: File, slotIndex?: number, meta?: AssetUploadMeta) => void;
+  onPrepareVideoExcerpt?: (field: EngineInputField, index: number, range: VideoExcerptRange) => Promise<void>;
+  onVideoExcerptEditorChange?: (field: EngineInputField, index: number, open: boolean) => void | Promise<string | void>;
   onAssetRemove?: (field: EngineInputField, index: number) => void;
   onNotice?: (message: string) => void;
-  onOpenLibrary?: (field: EngineInputField, slotIndex: number) => void;
+  onOpenLibrary?: (field: EngineInputField, slotIndex?: number) => void;
   onAssetUrlSelect?: (field: EngineInputField, url: string, slotIndex: number) => void;
   settingsBar?: ReactNode;
   settingsNotice?: ReactNode;
@@ -81,6 +90,8 @@ export interface ComposerProps {
     minDurationSec: number;
     maxDurationSec: number;
     maxPromptChars?: number;
+    minSceneDurationSec?: number;
+    strictIntegerDurations?: boolean;
     onToggle: (enabled: boolean) => void;
     onAddScene: () => void;
     onRemoveScene: (id: string) => void;
@@ -88,6 +99,9 @@ export interface ComposerProps {
     error?: string | null;
   } | null;
   extraFields?: ReactNode;
+  beforeAssets?: React.ReactNode;
+  /** Source selectors whose authority comes from an owned generation rather than an upload. */
+  sourceControl?: ReactNode;
   afterAssets?: ReactNode;
   disableGenerate?: boolean;
   workflowNotice?: string | null;

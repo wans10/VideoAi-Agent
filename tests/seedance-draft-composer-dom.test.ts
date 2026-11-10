@@ -1,13 +1,21 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { createRequire } from 'node:module';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { I18nProvider } from '../frontend/lib/i18n/I18nProvider';
 import { getBaseEngines } from '../frontend/src/lib/engines';
-import { WorkspaceComposerSurface } from '../frontend/app/(core)/(workspace)/app/_components/WorkspaceComposerSurface';
 import type { SeedanceDraftControls } from '../frontend/lib/seedance-workflow-contract';
 import type { Mode } from '../frontend/types/engines';
+
+// This static-markup test does not inspect CSS; the browser fixtures load real product styles.
+const require = createRequire(import.meta.url);
+const previousCssLoader = require.extensions['.css'];
+require.extensions['.css'] = module => { module.exports = {}; };
+let WorkspaceComposerSurface: typeof import('../frontend/app/(core)/(workspace)/app/_components/WorkspaceComposerSurface').WorkspaceComposerSurface;
+try { ({ WorkspaceComposerSurface } = require('../frontend/app/(core)/(workspace)/app/_components/WorkspaceComposerSurface')); }
+finally { if (previousCssLoader) require.extensions['.css'] = previousCssLoader; else delete require.extensions['.css']; }
 
 const noop = () => {};
 const engines = getBaseEngines();
@@ -44,14 +52,38 @@ function composer(engineId: string, controls: SeedanceDraftControls, mode: Mode 
   }
 }
 
-test('Kling subject reference slots occupy the first composer render', () => {
+test('duration validation disables the workspace action without disabling guest sign-in on missing quotes', () => {
+  const controls = { available: false, selected: false, phase: 'setup', live: true, toggle: noop, generate: noop } as const;
+  for (const videoDurationBlocked of [true, false]) {
+    const dom = composer('seedance-2-0', controls, 'v2v', 1, { videoDurationBlocked, price: null,
+      preflightError: videoDurationBlocked ? 'Trim the source video to 15s or less.' : undefined });
+    try {
+      assert.equal(dom.window.document.querySelector<HTMLButtonElement>('.app-generation-action')?.disabled, videoDurationBlocked);
+      if (videoDurationBlocked) assert.match(dom.window.document.querySelector('[role="alert"]')?.textContent ?? '', /Trim/);
+    } finally { dom.window.close(); }
+  }
+});
+
+test('Kling empty subject builder is optional on the first composer render', () => {
+  const controls = { available: false, selected: false, phase: 'setup', live: true, toggle: noop, generate: noop } as const;
+  const dom = composer('kling-o3-pro', controls, 'i2v', 1, {
+    isUnifiedKlingO3: true, supportsKlingV3Controls: true,
+    klingElements: [{ id: 'default-empty', frontal: null, video: null, references: [null, null, null] }],
+  });
+  try {
+    assert.equal(dom.window.document.querySelector('input[accept="image/*"]'), null);
+    assert.ok(dom.window.document.querySelector('[data-reference-command="collections"]'), 'References remains available even without regular asset fields');
+  } finally { dom.window.close(); }
+});
+
+test('hydrated Kling subject reference slots occupy the first composer render', () => {
   const controls = { available: false, selected: false, phase: 'setup', live: true, toggle: noop, generate: noop } as const;
   for (const count of [1, 2]) {
     const dom = composer('kling-o3-pro', controls, 'i2v', 1, {
       isUnifiedKlingO3: true,
       supportsKlingV3Controls: true,
       klingElements: Array.from({ length: count }, (_, index) => ({
-        id: `subject-${index}`, frontal: null, video: null, references: [null, null, null],
+        id: `subject-${index}`, frontal: { id: `frontal-${index}`, kind: 'image', name: 'retained.png', url: '/retained.png', previewUrl: '/retained.png', status: 'ready' }, video: null, references: [null, null, null],
       })),
     });
     try {
@@ -82,5 +114,19 @@ test('available Draft preserves normal generation until selected, then uses the 
       assert.equal(dom.window.document.querySelector<HTMLInputElement>('input[type="checkbox"]')?.checked, selected);
       assert.doesNotMatch(dom.window.document.body.textContent ?? '', /Parcours local|admin|Prototype local/);
     } finally { dom.window.close(); }
+  }
+});
+
+test('Seedance and Kling prompts omit the Storyboard shortcut in every mode', () => {
+  const controls = { available: false, selected: false, phase: 'setup', live: true, toggle: noop, generate: noop } as const;
+  for (const id of ['seedance-2-5', 'seedance-2-0', 'seedance-2-0-fast', 'seedance-2-0-mini', 'kling-o3-pro', 'kling-o3-standard']) {
+    for (const mode of ['t2v', 'i2v', 'ref2v', 'v2v', 'extend'] as const) {
+      if (!engines.find(engine => engine.id === id)!.modes.includes(mode)) continue;
+      const dom = composer(id, controls, mode);
+      try {
+        const storyboard = [...dom.window.document.querySelectorAll('button')].some(button => button.textContent?.trim() === 'Storyboard');
+        assert.equal(storyboard, false, `${id}/${mode}`);
+      } finally { dom.window.close(); }
+    }
   }
 });

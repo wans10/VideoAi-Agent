@@ -7,6 +7,10 @@ declare module 'pg' {
     database?: string;
     options?: string;
     max?: number;
+    application_name?: string;
+    connectionTimeoutMillis?: number;
+    idleTimeoutMillis?: number;
+    allowExitOnIdle?: boolean;
   }
 
   export interface QueryResult<T = unknown> {
@@ -22,6 +26,7 @@ declare module 'pg' {
 
   export class Pool {
     constructor(config?: PoolConfig);
+    on(event: 'connect', listener: (client: PoolClient) => void): this;
     on(event: 'error', listener: (error: Error, client: PoolClient) => void): this;
     query<T = unknown>(text: string, params?: ReadonlyArray<unknown>): Promise<QueryResult<T>>;
     connect(): Promise<PoolClient>;

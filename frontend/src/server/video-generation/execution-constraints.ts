@@ -1,3 +1,5 @@
+import { getKlingV4FlashConstraintViolation } from '@/lib/kling-v4-flash';
+import { validateH3MiddleFrame, orderedH3References } from '@/lib/h3-reference-controls';
 import {
   isKlingMultiPromptEngine,
   isKlingOmniEngine,
@@ -15,6 +17,7 @@ import { isMinimaxH3EngineId } from '@/lib/minimax-h3';
 import type { EngineModeDurationCaps, Mode } from '@/types/engines';
 import { SEEDANCE_2_5_ENGINE_ID } from '@/server/video-providers/byteplus-modelark-constants';
 import { isKling3TurboEngineId } from '@/lib/kling-3-turbo';
+import { getFlux3MaxConstraintViolation, isFlux3MaxEngineId } from '@/lib/flux-3-max';
 
 const MINIMAX_H3_MODES = ['t2v', 'i2v', 'ref2v'] as const;
 
@@ -244,6 +247,34 @@ export function validateProviderSpecificConstraints(params: {
   normalizedMode: Mode;
   payload: Record<string, unknown>;
 }): VideoExecutionValidationResult {
+  if (params.engineId === 'kling-v4-flash') {
+    const { image_url, elements, loop, prompt, ...input } = params.payload;
+    delete input._uploadedFileMB;
+    const violation = getKlingV4FlashConstraintViolation(params.normalizedMode, { ...input,
+      ...(prompt ? {prompt} : {}),
+      ...(image_url ? {start_image_url:image_url} : {}),
+      ...(loop === true ? {loop} : {}),
+      ...(Array.isArray(elements) ? {elements:elements.map(element => {
+        const value=element as Record<string,unknown>;
+        return {...(value.videoUrl?{video_url:value.videoUrl}:{}),...(value.frontalImageUrl?{frontal_image_url:value.frontalImageUrl}:{}),...(value.referenceImageUrls?{reference_image_urls:value.referenceImageUrls}:{})};
+      })} : {}) });
+    return violation ? {ok:false,error:{code:'ENGINE_CONSTRAINT',...violation}} : {ok:true};
+  }
+  if (params.engineId==='minimax-h3-max' && params.normalizedMode==='ref2v') {
+    const p=params.payload;
+    try {
+      validateH3MiddleFrame({mode:'ref2v',start:typeof p.image_url==='string'?p.image_url:undefined,end:typeof p.end_image_url==='string'?p.end_image_url:undefined,middle:typeof p.middle_image_url==='string'?p.middle_image_url:undefined,time:typeof p.middle_frame_time==='number'?p.middle_frame_time:undefined,duration:Number(p.duration??5),resolution:String(p.resolution??'768P')});
+      orderedH3References(typeof p.reference_order==='string'?p.reference_order:undefined,{image:Array.isArray(p.reference_image_urls)?p.reference_image_urls:[],video:Array.isArray(p.reference_video_urls)?p.reference_video_urls:[],audio:Array.isArray(p.reference_audio_urls)?p.reference_audio_urls:[]});
+    } catch(error) { return minimaxH3Error('references',error instanceof Error?error.message:'Invalid H3 reference controls.'); }
+  }
+  if (['flux-3','flux-3-draft'].includes(params.engineId) && params.normalizedMode==='ref2v') {
+    const violation=getFlux3MaxConstraintViolation('ref2v',params.payload);
+    if(violation)return minimaxH3Error(violation.field,violation.message.replaceAll('FLUX 3 Max','FLUX keyframes'));
+  }
+  if (isFlux3MaxEngineId(params.engineId)) {
+    const violation = getFlux3MaxConstraintViolation(params.normalizedMode, params.payload);
+    return violation ? { ok: false, error: { code: 'ENGINE_CONSTRAINT', ...violation } } : { ok: true };
+  }
   if (isKling3TurboEngineId(params.engineId)) {
     const rawMultiPrompt = params.payload.multi_prompt;
     const multiPrompt = Array.isArray(rawMultiPrompt) ? rawMultiPrompt : [];

@@ -7,9 +7,14 @@ import visibleFamilies from './keyvo-visible-families.json';
 // The family list lives in JSON so plain-Node scripts (IndexNow) read the same source.
 const KEYVO_VISIBLE_FAMILIES: ReadonlySet<string> = new Set<string>(visibleFamilies);
 
+// Generators and the pricing baseline set KEYVO_MODEL_VISIBILITY=off to see the unfiltered upstream catalog.
+// Sandboxed bundles (offline tests, edge runtimes) have no `process`, so the filter then applies.
+export function isKeyvoModelVisibilityOff(): boolean {
+  return typeof process !== 'undefined' && process.env.KEYVO_MODEL_VISIBILITY === 'off';
+}
+
 export function isKeyvoVisibleFamily(family: string | null | undefined): boolean {
-  // Generators and the pricing baseline set KEYVO_MODEL_VISIBILITY=off to see the unfiltered upstream catalog.
-  if (process.env.KEYVO_MODEL_VISIBILITY === 'off') return true;
+  if (isKeyvoModelVisibilityOff()) return true;
   return typeof family === 'string' && KEYVO_VISIBLE_FAMILIES.has(family.trim().toLowerCase());
 }
 

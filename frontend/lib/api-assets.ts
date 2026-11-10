@@ -1,6 +1,7 @@
+import type { AssetBrowserAsset } from '@/components/library/AssetLibraryBrowser';
 import { authFetch } from '@/lib/authFetch';
 
-type SavedAsset = {
+type SavedAsset = Partial<AssetBrowserAsset> & {
   id: string;
   url: string;
   width?: number | null;
@@ -20,11 +21,13 @@ export async function saveAssetToLibrary(payload: {
   thumbUrl?: string | null;
   previewUrl?: string | null;
   durationSec?: number | null;
-}, request?: { accessToken: string; signal: AbortSignal }) {
-  const response = await authFetch('/api/media-library/ensure', {
+  publicVideoId?: string;
+}, request?: { accessToken: string; signal: AbortSignal } | { fetch: typeof authFetch }) {
+  const send = request && 'fetch' in request ? request.fetch : authFetch;
+  const response = await send('/api/media-library/ensure', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(request ? { Authorization: `Bearer ${request.accessToken}` } : {}) },
-    signal: request?.signal,
+    headers: { 'Content-Type': 'application/json', ...(request && 'accessToken' in request ? { Authorization: `Bearer ${request.accessToken}` } : {}) },
+    signal: request && 'signal' in request ? request.signal : undefined,
     body: JSON.stringify({
       url: payload.url,
       jobId: payload.jobId ?? null,
@@ -36,6 +39,7 @@ export async function saveAssetToLibrary(payload: {
       thumbUrl: payload.thumbUrl ?? null,
       previewUrl: payload.previewUrl ?? null,
       durationSec: payload.durationSec ?? null,
+      ...(payload.publicVideoId ? { publicVideoId: payload.publicVideoId } : {}),
     }),
   });
   const data = (await response.json().catch(() => null)) as { ok?: boolean; error?: string; asset?: SavedAsset } | null;
@@ -53,7 +57,7 @@ export async function saveImageToLibrary(payload: {
   jobId?: string | null;
   label?: string | null;
   source?: string | null;
-}, request?: { accessToken: string; signal: AbortSignal }) {
+}, request?: Parameters<typeof saveAssetToLibrary>[1]) {
   return saveAssetToLibrary({
     ...payload,
     kind: 'image',

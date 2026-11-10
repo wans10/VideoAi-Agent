@@ -104,6 +104,18 @@ test('reinserting an owned source refreshes its stale project cache without repl
   assert.deepEqual(state.workspace.projectAssets,saved,'Receipt replay leaves cache and clips unchanged.');
 });
 
+test('insertion re-probes partial video facts so an unmeasured audio stream is never marked silent', async () => {
+  const {state, dependencies} = fixture();
+  state.source.metadata.mediaFacts = {source: 'probe', durationSec: 6, width: 320, height: 180};
+  await editStudioConversationTimeline({userId: 'owner'}, command, dependencies);
+  const item = (state.timeline.timelineItems as any[])[0];
+  // Keyvo requires complete probed video facts (including hasAudio) before insertion, so the partial facts are re-probed.
+  assert.equal(state.hydrations, 1, 'Partial probe metadata is re-probed before a video clip is inserted.');
+  assert.equal(item.audioProvenance, 'embedded');
+  assert.equal(item.hasEmbeddedAudio, true);
+  assert.equal(item.mediaUrl, state.source.url);
+});
+
 test('source preparation cannot bypass ownership, project quote scope, revision or measured duration', async () => {
   for (const scenario of ['foreign', 'scope', 'revision', 'overlong'] as const) {
     const { state, dependencies } = fixture();

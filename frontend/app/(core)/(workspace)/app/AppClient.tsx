@@ -1,9 +1,9 @@
 'use client';
 
-import type { VideoGroup } from '@/types/video-groups';
+import type { WorkspaceEntryProps } from './WorkspaceEntry';
 import { getWorkspaceAppLoadState } from './_components/WorkspaceAppLoadState';
 import { WorkspaceAppReadyView } from './_components/WorkspaceAppReadyView';
-import { useWorkspaceAppBootstrap } from './_hooks/useWorkspaceAppBootstrap';
+import type { useWorkspaceAppBootstrap } from './_hooks/useWorkspaceAppBootstrap';
 import { useWorkspaceAssetState } from './_hooks/useWorkspaceAssetState';
 import { useWorkspaceAssets } from './_hooks/useWorkspaceAssets';
 import { useWorkspaceComposerState } from './_hooks/useWorkspaceComposerState';
@@ -22,15 +22,11 @@ import { useWorkspaceRouteFormState } from './_hooks/useWorkspaceRouteFormState'
 import { useWorkspaceVideoSettings } from './_hooks/useWorkspaceVideoSettings';
 
 export default function AppClientPage({
+  app,
   initialPreviewGroup = null,
   localSeedanceDraftPreview = false,
   seedanceDraftWorkflowEnabled = false,
-}: {
-  initialPreviewGroup?: VideoGroup | null;
-  localSeedanceDraftPreview?: boolean;
-  seedanceDraftWorkflowEnabled?: boolean;
-}) {
-  const app = useWorkspaceAppBootstrap();
+}: WorkspaceEntryProps & { app: ReturnType<typeof useWorkspaceAppBootstrap> }) {
   const confirmedAccount =
     app.authStatus === 'authed' && app.user?.id && app.session?.access_token ? app.user.id : null;
   const draftOwner = confirmedAccount ?? (app.authStatus === 'loggedOut' ? 'public' : null);
@@ -58,7 +54,7 @@ export default function AppClientPage({
   const activeDraft = useWorkspaceDraftHydration({
     ...routeForm,
     ...assetState,
-    authStatus: app.authStatus,
+    authStatus: app.authStatus, initialPreviewGroup,
     accountId: confirmedAccount,
     accessToken: app.session?.access_token ?? null,
     locale: app.uiLocale,
@@ -130,7 +126,7 @@ export default function AppClientPage({
     engines: app.engines,
     form: routeForm.form,
     setForm: routeForm.setForm,
-    inputAssets: assetState.inputAssets,
+    ...assetState,
     klingElements: routeForm.klingElements,
     prompt: routeForm.prompt,
     multiPromptEnabled: routeForm.multiPromptEnabled,
@@ -140,7 +136,7 @@ export default function AppClientPage({
     voiceIdsInput: routeForm.voiceIdsInput,
     shotType: routeForm.shotType,
     setShotType: routeForm.setShotType,
-    effectiveRequestedEngineToken: draft.effectiveRequestedEngineToken,
+    effectiveRequestedEngineToken: draft.effectiveRequestedEngineToken, requestedWorkflow: draft.requestedWorkflow,
     authChecked: draft.authChecked,
     hydratedForScope: draft.hydratedForScope,
     storageScope: draft.storageScope,
@@ -154,14 +150,14 @@ export default function AppClientPage({
     showNotice: noticeState.showNotice,
   });
   const assets = useWorkspaceAssets({
+    ...assetState,
+    locale: app.uiLocale,
     accountScope: confirmedAccount,
     userId: confirmedAccount,
-    inputAssets: assetState.inputAssets,
-    setInputAssets: assetState.setInputAssets,
-    commitInputAssetMutation: assetState.commitInputAssetMutation,
     engineId: routeForm.form?.engineId,
-    inputSchema: composer.selectedEngine?.inputSchema,
+    engine: composer.selectedEngine,
     preferredMode: composer.submissionMode,
+    workflowIntent: composer.activeManualMode,
     workflowCopy: app.workflowCopy,
     showNotice: noticeState.showNotice,
     klingElements: routeForm.klingElements,
@@ -184,11 +180,13 @@ export default function AppClientPage({
     setInputAssets: assets.setInputAssets,
     setForm: routeForm.setForm,
   });
+  const settingsReady = activeDraft.ready && !videoSettings.sharedVideoImportPending && !videoSettings.recallBlocked;
   const pricing = useWorkspacePricingGate({
+    accountId: confirmedAccount,
     accessToken: app.session?.access_token ?? null,
     locale: app.uiLocale,
     topUpCopy: app.workspaceCopy.topUp,
-    form: routeForm.form,
+    form: settingsReady ? routeForm.form : null,
     selectedEngine: composer.selectedEngine,
     authChecked: draft.authChecked,
     memberTier: routeForm.memberTier,
@@ -197,12 +195,12 @@ export default function AppClientPage({
     effectiveDurationSec: composer.effectiveDurationSec,
     voiceControlEnabled: composer.voiceControlEnabled,
     submissionMode: composer.submissionMode,
-    inputAssets: assets.inputAssets,
+    inputAssets: assets.inputAssets, klingElements: routeForm.klingElements,
   });
   const generation = useWorkspaceGenerationRunner({
     audioWorkflowUnsupported: composer.audioWorkflowUnsupported,
     klingO3UnsupportedVideoReason: composer.klingO3UnsupportedVideoReason,
-    form: activeDraft.ready ? routeForm.form : null,
+    form: settingsReady ? routeForm.form : null,
     activeMode: composer.activeMode,
     submissionMode: composer.submissionMode,
     effectivePrompt: composer.effectivePrompt,
@@ -266,7 +264,7 @@ export default function AppClientPage({
       !draft.hasStoredFormRef.current && !draft.fromVideoId && !draft.requestedJobId && !draft.effectiveRequestedEngineId &&
       !draft.effectiveRequestedEngineToken && !draft.effectiveRequestedMode && renderState.renders.length === 0 &&
       (!initialPreviewGroup || initialPreviewGroup.items.every(item => item.meta?.curated)),
-    prompt: routeForm.prompt, provider: app.provider, recentJobs: app.recentJobs,
+    initialPreviewGroup, prompt: routeForm.prompt, provider: app.provider, recentJobs: app.recentJobs,
     renderGroups: renderState.renderGroups,
     batchHeroes: renderState.batchHeroes,
     preflightCurrency: pricing.preflight?.currency,
@@ -300,14 +298,13 @@ export default function AppClientPage({
     loadEnginesError: app.workspaceCopy.errors.loadEngines,
     noEnginesError: app.workspaceCopy.errors.noEngines,
   });
-
   return (
     <>
       {loadState}
       <WorkspaceAppReadyView
         seedanceDraftWorkflowEnabled={seedanceDraftWorkflowEnabled}
         localSeedanceDraftPreview={localSeedanceDraftPreview}
-        suspended={Boolean(loadState)}
+        suspended={Boolean(loadState)} settingsReady={settingsReady}
         activeDraft={activeDraft}
         app={app}
         assets={assets}
@@ -319,7 +316,7 @@ export default function AppClientPage({
         inputSchema={inputSchema}
         noticeState={noticeState}
         previewState={previewState}
-        pricing={pricing}
+        pricing={{ ...pricing, isPricing: pricing.isPricing || videoSettings.recallPending, preflightError: videoSettings.recallError ?? pricing.preflightError }}
         renderState={renderState}
         routeForm={routeForm}
       />

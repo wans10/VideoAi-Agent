@@ -1,6 +1,7 @@
-import { getKnownGenerationFailureMessage, getMinimaxReferenceValidationMessage } from '@/lib/generation-failure-messages';
+import { getKnownGenerationFailureMessage, getMinimaxReferenceValidationMessage, getGenerationFailureFallbackMessage } from '@/lib/generation-failure-messages';
 import { SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED } from '@/lib/video-failure-codes';
 import { appendConfirmedWalletRefund, getSeedanceReferenceValidationMessage } from '@/lib/seedance-failure-messages';
+import { getWanImageUnconfirmedRefundMessage, getWanReferenceValidationMessage } from '@/lib/wan-image-failure-messages';
 
 export type WorkspaceFailureCopy = {
   messages: {
@@ -11,6 +12,7 @@ export type WorkspaceFailureCopy = {
 
 export function getWorkspaceGenerationFailureMessage(
   status: {
+    status?: string;
     failureCode?: string | null;
     message?: string | null;
     paymentStatus?: string | null;
@@ -20,14 +22,21 @@ export function getWorkspaceGenerationFailureMessage(
   copy: WorkspaceFailureCopy,
   options: { locale?: string } = {}
 ): string | null {
+  if (status.status && status.status !== 'failed') return status.message ?? null;
+  if (!status.status && !status.message && !status.failureCode) return null;
   if (status.failureCode !== SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED) {
-    const message = getKnownGenerationFailureMessage({ ...status, locale: options.locale });
-    return message ? appendConfirmedWalletRefund(message, {
+    const message = getKnownGenerationFailureMessage({ ...status, locale: options.locale })
+      ?? (status.status === 'failed' ? getGenerationFailureFallbackMessage(options.locale) : status.message ?? null);
+    if (!message) return null;
+    const unconfirmedRefund = status.status === 'failed' && status.paymentStatus === 'paid_wallet'
+      ? getWanImageUnconfirmedRefundMessage(status.message, options.locale) : null;
+    if (unconfirmedRefund) return `${message} ${unconfirmedRefund}`;
+    return appendConfirmedWalletRefund(message, {
       paymentStatus: status.paymentStatus,
       amountCents: status.finalPriceCents,
       currency: status.currency,
       locale: options.locale,
-    }) : status.message ?? null;
+    });
   }
   return status.paymentStatus === 'refunded_wallet'
     ? copy.messages.seedanceCopyrightBlockedRefunded
@@ -41,6 +50,7 @@ export function getWorkspaceGenerationRequestFailureMessage(
   options: { locale: string; engineId: string }
 ): string {
   const validationMessage = getSeedanceReferenceValidationMessage({ ...error, ...options })
+    ?? getWanReferenceValidationMessage({ ...error, ...options })
     ?? getMinimaxReferenceValidationMessage({ ...error, ...options });
   if (validationMessage) return validationMessage;
   return getWorkspaceGenerationFailureMessage({

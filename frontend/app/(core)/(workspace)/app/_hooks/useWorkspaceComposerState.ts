@@ -5,6 +5,7 @@ import type { KlingElementState } from '@/components/KlingElementsBuilder';
 import type { EngineCaps, EngineModeUiCaps, Mode } from '@/types/engines';
 import type { ReferenceAsset } from '../_lib/workspace-assets';
 import type { FormState } from '../_lib/workspace-form-state';
+import type { WorkspaceWorkflowRequest } from '../_lib/workspace-hydration';
 import { framesToSeconds } from '../_lib/workspace-engine-helpers';
 import { createMultiPromptScene } from '../_lib/workspace-input-helpers';
 import { resolveWorkspaceComposerFacts } from '../_lib/workspace-workflow-projection';
@@ -15,6 +16,8 @@ import {
   type WorkspaceReferenceInputStatus,
 } from './useWorkspaceEngineModeState';
 
+import { useWorkspaceModifySourceDefaults } from './useWorkspaceModifySourceDefaults';
+
 type ShotType = 'customize' | 'intelligent';
 
 type UseWorkspaceComposerStateOptions = {
@@ -22,6 +25,8 @@ type UseWorkspaceComposerStateOptions = {
   form: FormState | null;
   setForm: Dispatch<SetStateAction<FormState | null>>;
   inputAssets: Record<string, (ReferenceAsset | null)[]>;
+  setInputAssets?: Dispatch<SetStateAction<Record<string, (ReferenceAsset | null)[]>>>;
+  inputAssetMutationRevision?: number;
   klingElements: KlingElementState[];
   prompt: string;
   multiPromptEnabled: boolean;
@@ -32,6 +37,7 @@ type UseWorkspaceComposerStateOptions = {
   shotType: ShotType;
   setShotType: Dispatch<SetStateAction<ShotType>>;
   effectiveRequestedEngineToken: string | null;
+  requestedWorkflow?: WorkspaceWorkflowRequest | null;
   authChecked: boolean;
   hydratedForScope: string | null;
   storageScope: string;
@@ -95,6 +101,7 @@ type UseWorkspaceComposerStateResult = {
   handleSafetyCheckerChange: (value: boolean) => void;
   handleEngineChange: (engineId: string) => void;
   applyPreparedForm: (form: FormState) => void;
+  beforeApplyPreparedForm: (form: FormState) => boolean;
   handleModeChange: (mode: Mode) => void;
   handleComposerModeToggle: (mode: Mode | null) => void;
   handleDurationChange: (raw: number | string) => void;
@@ -109,6 +116,8 @@ export function useWorkspaceComposerState({
   form,
   setForm,
   inputAssets,
+  setInputAssets,
+  inputAssetMutationRevision = 0,
   klingElements,
   prompt,
   multiPromptEnabled,
@@ -119,6 +128,7 @@ export function useWorkspaceComposerState({
   shotType,
   setShotType,
   effectiveRequestedEngineToken,
+  requestedWorkflow,
   authChecked,
   hydratedForScope,
   storageScope,
@@ -161,6 +171,7 @@ export function useWorkspaceComposerState({
     composerWorkflowNotice,
     handleEngineChange,
     applyPreparedForm,
+    beforeApplyPreparedForm,
     handleModeChange,
     handleComposerModeToggle,
   } = useWorkspaceEngineModeState({
@@ -168,10 +179,12 @@ export function useWorkspaceComposerState({
     form,
     setForm,
     inputAssets,
+    setInputAssets,
     klingElements,
     shotType,
     setShotType,
     effectiveRequestedEngineToken,
+    requestedWorkflow,
     authChecked,
     hydratedForScope,
     storageScope,
@@ -183,6 +196,10 @@ export function useWorkspaceComposerState({
     uiLocale,
     workflowCopy,
     showNotice,
+  });
+  useWorkspaceModifySourceDefaults({
+    engine: selectedEngine, mode: submissionMode, inputAssets, mutationRevision: inputAssetMutationRevision,
+    ready: authChecked && hydratedForScope === storageScope, scope: storageScope, form, setForm,
   });
   const {
     multiPromptActive,
@@ -218,10 +235,10 @@ export function useWorkspaceComposerState({
   const safetyCheckerValue = typeof form?.safetyChecker === 'boolean' ? form.safetyChecker : true;
 
   useEffect(() => {
-    if (!supportsKlingV3Controls && multiPromptEnabled) {
+    if (selectedEngine?.id !== 'kling-v4' && !supportsKlingV3Controls && multiPromptEnabled) {
       setMultiPromptEnabled(false);
     }
-  }, [supportsKlingV3Controls, multiPromptEnabled, setMultiPromptEnabled]);
+  }, [selectedEngine?.id, supportsKlingV3Controls, multiPromptEnabled, setMultiPromptEnabled]);
 
   useEffect(() => {
     if (!voiceControlEnabled) return;
@@ -236,8 +253,9 @@ export function useWorkspaceComposerState({
       if (multiPromptActive) return;
       setForm((current) => {
         if (!current) return current;
-        const numeric = typeof raw === 'number' ? raw : Number(String(raw).replace(/[^\d.]/g, ''));
-        const durationSec = raw === 'auto' && isUnifiedSeedance && selectedEngine
+        const numeric = typeof raw === 'number' ? raw : selectedEngine?.id === 'kling-v4'
+          ? Number(raw) : Number(String(raw).replace(/[^\d.]/g, ''));
+        const durationSec = selectedEngine?.id === 'kling-v4' ? numeric : raw === 'auto' && isUnifiedSeedance && selectedEngine
           ? selectedEngine.maxDurationSec
           : Number.isFinite(numeric) ? Math.max(1, Math.round(numeric)) : current.durationSec;
         return {
@@ -418,6 +436,7 @@ export function useWorkspaceComposerState({
     handleSafetyCheckerChange,
     handleEngineChange,
     applyPreparedForm,
+    beforeApplyPreparedForm,
     handleModeChange,
     handleComposerModeToggle,
     handleDurationChange,

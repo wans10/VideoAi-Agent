@@ -78,13 +78,17 @@ test('home page delegates independent timed reads to its route-local data owner'
   assert.doesNotMatch(pageSource, /await pendingData\.examples|previews=\{selectHomepageHeroPreviews/);
 });
 
-test('home streams discovery alone and keeps critical hero and authored films stable', () => {
+test('home streams discovery and optional character proof independently while critical hero and authored films stay stable', () => {
   const creativeSource = readFileSync(join(root, 'frontend/components/marketing/home/HomeCreativeWorlds.tsx'), 'utf8');
   const discoverySource = readFileSync(join(root, 'frontend/app/(localized)/[locale]/(marketing)/(home)/_components/HomeDiscovery.tsx'), 'utf8');
   const boundary = pageSource.slice(pageSource.indexOf('<Suspense'), pageSource.indexOf('</Suspense>'));
   // The works-wall home streams only the pricing section; the first screen and the wall are server-rendered.
   assert.match(boundary, /<HomeDeferredPricing/);
   assert.doesNotMatch(boundary, /<HomePromptHero|<HomeShowcaseWall|<HomeHero|<HomeCreativeWorlds|<CreativeFilm|<HomeDiscovery/);
+  // Upstream's discovery/character-proof boundaries do not exist on the works-wall home: no boundary may carry them.
+  for (const each of [...pageSource.matchAll(/<Suspense\b[\s\S]*?<\/Suspense>/g)].map((match) => match[0])) {
+    assert.doesNotMatch(each, /<HomeCharacterStudioProof\b|<HomeHero\b|<HomeCreativeWorlds\b|<CreativeFilm\b/);
+  }
   assert.match(creativeSource, /modelDiscovery \?\? <HomeModelDiscovery/);
   assert.match(discoverySource, /examples=\{await examples\}/);
   assert.doesNotMatch(discoverySource, /catch\s*\(/, 'unexpected gallery errors must stay observable to the route boundary');

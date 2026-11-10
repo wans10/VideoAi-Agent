@@ -1,4 +1,6 @@
+import { resolveVideoOperationEngine } from '@/lib/video-operation';
 import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
+import { isKlingV4ReleaseBlocked } from '@/server/video-generation/kling-v4-release-policy';
 import { randomUUID } from 'crypto';
 import type { NextRequest } from 'next/server';
 import { isDatabaseConfigured } from '@/lib/db';
@@ -114,7 +116,13 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
   providerEnv?: VideoProviderRoutingEnv;
   seedanceWorkflow?: PreparedSeedanceWorkflow;
 }): GenerateRouteContextResult {
-  const { body, engine, jobId, mode, providerEnv } = params;
+  const { body, jobId, mode, providerEnv } = params;
+  let engine = params.engine;
+  try { engine = resolveVideoOperationEngine(engine, mode, body.operation); }
+  catch { return { ok: false, status: 400, body: { ok: false, error: 'Invalid operation' } }; }
+  if (isKlingV4ReleaseBlocked(engine.id)) {
+    return { ok: false, status: 503, body: { ok: false, error: 'KLING_V4_NOT_QUALIFIED' } };
+  }
   if (isArchivedGenerationModel(engine.id)) {
     return { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } };
   }
@@ -160,7 +168,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
 
   let providerRoutingPlan: VideoProviderRoutingPlan = isBytePlusV1a
     ? { kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false }
-    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, isAdmin: false, env: providerEnv, request: body });
+    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, operation: body.operation, isAdmin: false, env: providerEnv, request: body });
   if (shouldRouteKlingDirectSourceElementsToFal({
     providerRoutingPlan,
     elementCount: Array.isArray(body.elements) ? body.elements.length : 0,
@@ -169,9 +177,14 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
   }
   if (
     providerRoutingPlan.kind === 'google_vertex_unavailable'
+    || providerRoutingPlan.kind === 'luma_agents_unavailable'
     || providerRoutingPlan.kind === 'alibaba_model_studio_unavailable'
   ) {
-    return { ok: false, status: 503, body: { ok: false, error: 'Engine unavailable' } };
+    return { ok: false, status: 503, body: { ok: false,
+      error: providerRoutingPlan.kind === 'luma_agents_unavailable' ? 'LUMA_MODE_UNAVAILABLE' : 'Engine unavailable',
+      ...(providerRoutingPlan.kind === 'luma_agents_unavailable'
+        ? { message: 'This video editing mode is currently unavailable. Choose another model.' } : {}),
+    } };
   }
 
   return {
@@ -200,6 +213,9 @@ export async function resolveGenerateRouteContext(params: {
     ...params.boundaryOverrides,
   };
   const requestedEngineId = String(body.engineId || '');
+  if (isKlingV4ReleaseBlocked(requestedEngineId)) {
+    return { ok: false, status: 503, body: { ok: false, error: 'KLING_V4_NOT_QUALIFIED' } };
+  }
   if (isArchivedGenerationModel(requestedEngineId)) {
     return { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } };
   }
@@ -262,7 +278,7 @@ export async function resolveGenerateRouteContext(params: {
   }
 
   const publicEngine = await boundaries.getConfiguredEngine(requestedEngineId);
-  const engine =
+  let engine =
     publicEngine ??
     (isBytePlusSeedanceHiddenEngine(requestedEngineId) || isPrivateRuntimeEngineId(requestedEngineId)
       ? await boundaries.getConfiguredEngineIncludingHidden(requestedEngineId)
@@ -325,6 +341,9 @@ export async function resolveGenerateRouteContext(params: {
     : engine.modes.includes('t2v')
       ? 't2v'
       : engine.modes[0] ?? 't2v';
+
+  try { engine = resolveVideoOperationEngine(engine, mode, body.operation); }
+  catch { return { ok: false, status: 400, body: { ok: false, error: 'Invalid operation' } }; }
 
   if (isMinimaxH3MaxEngineId(engine.id) && !isMinimaxH3MaxRuntimeModeAvailable(mode)) {
     return { ok: false, status: 503, body: { ok: false, error: 'Engine unavailable' } };
@@ -420,7 +439,7 @@ export async function resolveGenerateRouteContext(params: {
   }
   let providerRoutingPlan: VideoProviderRoutingPlan = isBytePlusV1a
     ? ({ kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false } as const)
-    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, isAdmin: isAdminForDirectProvider, request: body });
+    : resolveVideoProviderRoutingPlan({ engineId: engine.id, mode, operation: body.operation, isAdmin: isAdminForDirectProvider, request: body });
   if (
     shouldRouteKlingDirectSourceElementsToFal({
       providerRoutingPlan,
@@ -431,9 +450,14 @@ export async function resolveGenerateRouteContext(params: {
   }
   if (
     providerRoutingPlan.kind === 'google_vertex_unavailable'
+    || providerRoutingPlan.kind === 'luma_agents_unavailable'
     || providerRoutingPlan.kind === 'alibaba_model_studio_unavailable'
   ) {
-    return { ok: false, status: 503, body: { ok: false, error: 'Engine unavailable' } };
+    return { ok: false, status: 503, body: { ok: false,
+      error: providerRoutingPlan.kind === 'luma_agents_unavailable' ? 'LUMA_MODE_UNAVAILABLE' : 'Engine unavailable',
+      ...(providerRoutingPlan.kind === 'luma_agents_unavailable'
+        ? { message: 'This video editing mode is currently unavailable. Choose another model.' } : {}),
+    } };
   }
   const providerKey = isBytePlusV1a ? BYTEPLUS_MODELARK_PROVIDER : providerRoutingPlan.primaryProvider;
 

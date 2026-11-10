@@ -1,3 +1,6 @@
+import {createCharacterStudioIntegration} from '@/server/character-studio/integration';
+import {isStudioCharacterEnabled} from './feature-access';
+import type {StudioCharacterFactory} from './conversation-character';
 import type {StudioTaskExecution} from "./tasks/execution";
 import {customerDisplayPrice} from '@/lib/customer-price-presentation';
 import type {StudioExportDependencies} from './conversation-export-command';
@@ -9,7 +12,6 @@ import {
   imageTurnInputSchema,
   type ImageConversation,
   type ImageConversationTurn,
-  type ImageTurnInput,
   type ImageDraft,
   draftSurface, hasDraftCreation,
 } from "@/lib/studio/image-conversation-contract";
@@ -18,8 +20,6 @@ import {
   type StudioGenerationActor,
 } from "@/server/agent-api/generation-actor";
 import { AgentApiError } from "@/server/agent-api/errors";
-import type { CanonicalGenerationRequest } from "@/server/agent-api/generation-types";
-import type { AgentPublicGenerationEngine } from "@/server/agent-api/model-catalog";
 import { createStudioImageGenerationService } from "./image-generation-service";
 import {
   draftStudioImage,
@@ -27,6 +27,7 @@ import {
 } from "./image-conversation-director";
 import { runMeteredImageDirector } from "./image-model-usage";
 import { runStudioImageActions, resumeStudioImageAction } from "./conversation-image-run";
+import {readStudioExtensionAssembly} from './conversation-extension-assembly';
 import type { StudioResponseCreator } from "./conversation-director";
 import {
   claimImageTurn,
@@ -38,115 +39,23 @@ import {
   type StoredImageTurn,
 } from "./image-conversation-repository";
 import {defaultStudioMediaFactories, type StudioMediaFactories} from './conversation-media-generation';
-import {resolveStudioMedia} from './media-resolver';
-import type {ResolvedReference} from '@/server/agent-api/reference-types';
+import {resolveStudioConversationAttachments,type StudioAttachmentFactsDependencies} from './conversation-attachment-facts';
 import {buildStudioGenerationMediaAccess} from './generation-media-access';
-import {conversationSelectionSettings,imageSelectionSchema} from '@/lib/studio/conversation-creation-contract';
-import {projectAgentModelModeDetails} from '@/server/agent-api/model-details';
-import {GenerationNormalizationError,normalizeGenerationRequest} from '@/server/agent-api/generation-normalization';
-import {GenerationCapabilityError,validateCanonicalGenerationCapabilities} from '@/server/agent-api/generation-capability-validation';
-import {getDefaultResolution} from '@/lib/image/inputSchema';
 import {projectStudioReply} from '@/lib/studio/conversation-reply';
+import {imageRequestFromDraft,imageReferenceFingerprintFromReview} from './conversation-image-request';
+export {imageRequestFromDraft,imageReferenceFingerprintFromReview} from './conversation-image-request';
 
 export const imageConfirmationSchema = z
   .object({
     requestId: z.string().uuid(),
     quoteId: z.string().uuid(),
     confirmed: z.literal(true),
+    amountCents:z.number().int().nonnegative().optional(),
+    currency:z.literal('USD').optional(),
   })
-  .strict();
+  .strict()
+  .refine(value => (value.amountCents === undefined) === (value.currency === undefined));
 export type ImageGenerationFactory = typeof createStudioImageGenerationService;
-/** Rebind selected canonical roles to the original reviewed facts, never to a fresh asset read. */
-export function imageReferenceFingerprintFromReview(request: Pick<CanonicalGenerationRequest,'references'>, reviewed: readonly ResolvedReference[]): string {
-  return studioReferenceFingerprint(request.references.map(reference => {
-    const original=reference.kind === 'asset' ? reviewed.find(ref => ref.assetId === reference.assetId && ref.mediaKind === 'image') : undefined;
-    if (!original) throw new AgentApiError('REFERENCE_INVALID','Studio has not reviewed this selected image.');
-    const facts={...original};
-    delete facts.slot;
-    return {...facts,role: reference.role,...(reference.slot === undefined ? {} : {slot: reference.slot})};
-  }));
-}
-export function imageRequestFromDraft(
-  draft: ImageDraft,
-  input: ImageTurnInput,
-  catalog: AgentPublicGenerationEngine[],
-): CanonicalGenerationRequest {
-  if (!draft.image)
-    throw new AgentApiError("PARAMETER_INVALID", "No image was requested.");
-  const selection = imageSelectionSchema.parse(draft.image);
-  const references: CanonicalGenerationRequest['references'] = selection.references == null
-    ? input.references.map(assetId => ({kind: 'asset',assetId,role: 'reference'}))
-    : selection.references.map(reference => {
-      if (reference.ref.type !== 'asset' || !input.references.includes(reference.ref.assetId))
-        throw new AgentApiError('REFERENCE_INVALID','Attach this library image before selecting it as a reference.');
-      return {kind: 'asset',assetId: reference.ref.assetId,role: reference.role,...(reference.slot == null ? {} : {slot: reference.slot})};
-    });
-  const mode = selection.mode ?? (references.length ? "i2i" : "t2i");
-  const candidate =
-    selection.modelId ? catalog.find(entry => entry.engine.id === selection.modelId && entry.publicModes.includes(mode)) : catalog.find(
-      (entry) =>
-        entry.engine.id === "gpt-image-2-5-flare" &&
-        entry.publicModes.includes(mode),
-    ) ??
-    catalog.find(
-      (entry) =>
-        entry.engine.id === "gpt-image-2" && entry.publicModes.includes(mode),
-    );
-  if (!candidate)
-    throw new AgentApiError(
-      "ENGINE_UNAVAILABLE",
-      "The Studio image model is unavailable.",
-    );
-  const ratio = selection.aspectRatio;
-  const selected = conversationSelectionSettings(selection.settings);
-  if (selected.aspectRatio !== undefined && selected.aspectRatio !== ratio)
-    throw new AgentApiError('PARAMETER_INVALID','Choose one consistent image aspect ratio.');
-  const choices: Record<string,string[]>={
-    '1:1': ['1024x1024','square_hd'], '16:9': ['landscape_16_9','1920x1080'],
-    '9:16': ['portrait_16_9'], '4:3': ['landscape_4_3','1024x768'], '3:4': ['portrait_4_3'],
-    auto: [getDefaultResolution(candidate.engine,mode)],
-  };
-  const allowed =
-    candidate.modeCaps[mode]?.resolution ?? candidate.engine.resolutions;
-  const details = projectAgentModelModeDetails(candidate,mode);
-  // Explicit dimensions describe a custom size. Preserve that saved intent on
-  // resume instead of pairing it with an incompatible aspect-ratio preset.
-  const hasDimensions = selected.imageWidth !== undefined || selected.imageHeight !== undefined;
-  const resolution = selected.resolution
-    ?? (hasDimensions && details.resolutions.includes('custom') ? 'custom' : undefined)
-    ?? choices[ratio]?.find((value) => allowed.includes(value)) ?? details.resolutions[0];
-  if (!resolution)
-    throw new AgentApiError(
-      "PARAMETER_INVALID",
-      "This image format is unavailable.",
-    );
-  try {
-  const request = normalizeGenerationRequest({
-    schemaVersion: 1,
-    surface: "image",
-    engineId: candidate.engine.id,
-    mode,
-    prompt: draft.image.prompt,
-    settings: {
-      aspectRatio: ratio,
-      resolution,
-      ...(details.settings.some(setting => setting.key === 'quality') ? {quality: 'high'} : {}),
-      ...(details.settings.some(setting => setting.key === 'outputFormat') ? {outputFormat: 'png'} : {}),
-      ...selected,
-    },
-    references,
-    outputCount: 1,
-  });
-  validateCanonicalGenerationCapabilities(request,candidate);
-  return request;
-  } catch (error) {
-    if (error instanceof GenerationNormalizationError)
-      throw new AgentApiError(error.field.startsWith('references') ? 'REFERENCE_INVALID' : 'PARAMETER_INVALID',error.message);
-    if (error instanceof GenerationCapabilityError)
-      throw new AgentApiError(error.kind === 'reference_required' ? 'REFERENCE_REQUIRED' : error.kind === 'reference_invalid' ? 'REFERENCE_INVALID' : 'PARAMETER_INVALID',`${error.field} is not supported for the selected model and mode.`);
-    throw error;
-  }
-}
 export function createImageConversationService(
   actor: StudioGenerationActor,
   dependencies: {
@@ -159,12 +68,15 @@ export function createImageConversationService(
     countInputTokens?: (params: import('openai/resources/responses/responses').ResponseCreateParamsNonStreaming) => Promise<number>;
     createActionResponse?: StudioResponseCreator;
     mediaEnabled?: boolean;
+    characterEnabled?: boolean;
+    characterFactory?: StudioCharacterFactory;
     videoGenerationFactory?: StudioMediaFactories['video'];
     audioGenerationFactory?: StudioMediaFactories['audio'];
     editingEnabled?: boolean;
     exportsEnabled?: boolean;
     requestOrigin?: string;
     exportDependencies?: Partial<StudioExportDependencies>;
+    attachmentFacts?:StudioAttachmentFactsDependencies;
   },
 ) {
   const factory =
@@ -173,6 +85,9 @@ export function createImageConversationService(
   const factories: StudioMediaFactories = {...defaultStudioMediaFactories, image: factory,
     video: dependencies.videoGenerationFactory ?? defaultStudioMediaFactories.video,
     audio: dependencies.audioGenerationFactory ?? defaultStudioMediaFactories.audio};
+  const characterEnabled = dependencies.enabled && dependencies.actionsEnabled === true && dependencies.mediaEnabled === true &&
+    (dependencies.characterEnabled ?? isStudioCharacterEnabled());
+  const character = () => (dependencies.characterFactory ?? createCharacterStudioIntegration)(actor,{executionEnabled:characterEnabled});
   const serviceForDraft = (draft: ImageDraft | null) => {
     const surface = draftSurface(draft);
     return factories[surface](actor, {enabled: dependencies.enabled && (surface === 'image' || dependencies.mediaEnabled === true)});
@@ -204,9 +119,11 @@ export function createImageConversationService(
     const expiredLease =
       turn.state === "thinking" &&
       new Date(turn.lease_expires_at).getTime() <= Date.now();
-    const quote = turn.quote_id
-      ? await serviceForDraft(turn.draft_json).getQuote(turn.quote_id)
-      : null;
+    const recast = turn.draft_json?.recast;
+    const recastQuote = recast && turn.quote_id ? await character().getRecastQuote({quoteId:turn.quote_id}) : null;
+    const quote = recast ? recastQuote : turn.quote_id ? await serviceForDraft(turn.draft_json).getQuote(turn.quote_id) : null;
+    const videoPassage = recastQuote?.passages.video;
+    const audioPassage = recastQuote?.passages.audio;
     if (turn.quote_id && !quote)
       throw new AgentApiError(
         "INTERNAL_ERROR",
@@ -216,6 +133,7 @@ export function createImageConversationService(
     return {
       requestId: turn.request_id,
       message: turn.input_json.message,
+      ...(turn.input_json.shotPlanRevision?{shotPlanRevision:turn.input_json.shotPlanRevision}:{}),
       references: turn.input_json.references,
       ...(turn.input_json.attachments ? {attachments: turn.input_json.attachments} : {}),
       ...(turn.input_json.referenceMentions ? {referenceMentions: turn.input_json.referenceMentions} : {}),
@@ -226,6 +144,7 @@ export function createImageConversationService(
       ...(turn.draft_json?.exportQuote ? {exportQuote: turn.draft_json.exportQuote} : {}),
       ...(turn.draft_json?.analysisQuote ? {analysisQuote:turn.draft_json.analysisQuote} : {}),
       ...(turn.draft_json?.continuation ? {continuation: turn.draft_json.continuation} : {}),
+      ...(turn.draft_json?.extensionAssembly?{extensionAssembly:await readStudioExtensionAssembly(actor,turn.request_id,turn.draft_json.extensionAssembly)}:{}),
       state: expiredLease ? "failed" : turn.state,
       retryable: expiredLease || turn.state === "failed",
       quote: quote
@@ -247,12 +166,16 @@ export function createImageConversationService(
               quote.expiresAt.getTime() <= Date.now()
                 ? "expired"
                 : quote.state,
-            modelLabel:
-              getBaseEngineIncludingHidden(quote.request.engineId)?.label ??
-              quote.request.engineId,
+            modelLabel: recast ? 'Character Recast' : getBaseEngineIncludingHidden(quote.request.engineId)?.label ?? quote.request.engineId,
+            ...(recast ? {recast:{
+              ...(videoPassage ? {videoRange:{startSec:videoPassage.startSec,endSec:videoPassage.endSec}} : {}),
+              ...(audioPassage ? {audioRange:{startSec:audioPassage.startSec,endSec:audioPassage.endSec}} : {}),
+              confirmationEnabled:characterEnabled,
+            }} : {}),
           }
         : null,
-      generation: quote?.jobId ? await buildStudioGenerationMediaAccess(actor.userId, await serviceForDraft(turn.draft_json).recover(quote.quoteId)) : null,
+      generation: quote?.jobId ? await buildStudioGenerationMediaAccess(actor.userId, recast
+        ? await character().recoverRecast({quoteId:quote.quoteId}) : await serviceForDraft(turn.draft_json).recover(quote.quoteId)) : null,
       createdAt: new Date(turn.created_at).toISOString(),
     };
   }
@@ -293,15 +216,9 @@ export function createImageConversationService(
           })),
           outputCount: 1,
         });
-        for (const attachment of input.attachments ?? []) {
-          try {
-            const media = await resolveStudioMedia(actor.userId, attachment);
-            refs.push({assetId: attachment.type === 'asset' ? attachment.assetId : attachment.outputId,
-              role: 'reference', mediaKind: media.kind, storageUrl: media.url, mimeType: media.mime,
-              width: media.width ?? media.mediaFacts?.width ?? null, height: media.height ?? media.mediaFacts?.height ?? null, durationSec: media.durationSec ?? media.mediaFacts?.durationSec ?? null, sizeBytes: media.sizeBytes ?? null,
-              originalName: media.originalName ?? null} satisfies ResolvedReference);
-          } catch {throw new AgentApiError('REFERENCE_INVALID', 'The attached media is no longer available.');}
-        }
+        refs.push(...await resolveStudioConversationAttachments(actor,input.attachments??[],{
+          ...dependencies.attachmentFacts,qualifyMissingVideoFacts:!turn.draft_json&&!responseReplayOnly,
+        }));
         const referenceFingerprint = studioReferenceFingerprint(refs);
         if (
           turn.draft_json &&
@@ -329,7 +246,7 @@ export function createImageConversationService(
             history: history.map(saved => ({message: saved.input_json.message, reply: saved.draft_json ? projectStudioReply(saved.draft_json.reply) : null,
               ...(saved.input_json.referenceMentions ? {referenceMentions: saved.input_json.referenceMentions} : {})})),
             taskExecution:dependencies.taskExecution, enabled: dependencies.enabled, factory, createResponse: dependencies.createActionResponse,assistancePolicy: dependencies.assistancePolicy,countInputTokens: dependencies.countInputTokens,
-            factories, mediaEnabled: dependencies.mediaEnabled,editingEnabled: dependencies.editingEnabled,exportsEnabled: dependencies.exportsEnabled,requestOrigin: dependencies.requestOrigin,exportDependencies: dependencies.exportDependencies,
+            factories, mediaEnabled: dependencies.mediaEnabled,characterEnabled,characterFactory:dependencies.characterFactory,editingEnabled: dependencies.editingEnabled,exportsEnabled: dependencies.exportsEnabled,requestOrigin: dependencies.requestOrigin,exportDependencies: dependencies.exportDependencies,
           }) : await runMeteredImageDirector(
             actor,
             turn,
@@ -346,7 +263,7 @@ export function createImageConversationService(
           await persistImageDraft(actor, turn, draft, referenceFingerprint);
         if (hasDraftCreation(draft) && !useActions) {
           if (dependencies.actionsEnabled) {
-            await resumeStudioImageAction({actor, turn, input, references: refs, referenceFingerprint, enabled: dependencies.enabled, factory, factories, mediaEnabled: dependencies.mediaEnabled});
+            await resumeStudioImageAction({actor, turn, input, references: refs, referenceFingerprint, enabled: dependencies.enabled, factory, factories, mediaEnabled: dependencies.mediaEnabled,characterEnabled,characterFactory:dependencies.characterFactory,editingEnabled:dependencies.editingEnabled});
           } else {
           const request = imageRequestFromDraft(
             draft,
@@ -386,6 +303,14 @@ export function createImageConversationService(
           "QUOTE_EXPIRED",
           "Review the image quote in this project before confirming.",
         );
+      if (turn.draft_json?.recast) {
+        if (input.amountCents === undefined || input.currency !== 'USD')
+          throw new AgentApiError('PARAMETER_INVALID','Review the exact Recast amount before confirming.');
+        return buildStudioGenerationMediaAccess(actor.userId,await character().confirmRecast({
+          quoteId:input.quoteId,confirmed:true,amountCents:input.amountCents,currency:input.currency,
+        }));
+      }
+      if (input.amountCents !== undefined) throw new AgentApiError('PARAMETER_INVALID','This quote is not a Recast quote.');
       return serviceForDraft(turn.draft_json).confirm({ quoteId: input.quoteId, confirmed: true });
     },
   };

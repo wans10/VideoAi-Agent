@@ -4,6 +4,7 @@ import test from 'node:test';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import {
   resolveAgentGenerationEngineExecutability,
+  resolveAgentGenerationModeExecutability,
   resolveAgentGenerationRequestExecutability,
   type AgentGenerationExecutabilityEnvironment,
 } from '../frontend/src/server/agent-runtime/model-executability';
@@ -261,6 +262,51 @@ test('Nano Banana image models use LLM Hub readiness instead of Fal or Vertex', 
     })),
     { executable: false, reason: 'provider_credentials_missing' },
   );
+});
+
+test('Google image models keep explicit per-model Vertex admission instead of Fal readiness', () => {
+  // This is the complete currently supported Vertex image family, including the
+  // new version. Publishing an engine alone must not bypass its MCP allowlist.
+  const ids = ['nano-banana', 'nano-banana-lite', 'nano-banana-pro', 'nano-banana-2', 'nano-banana-2-1'];
+  // Keyvo routes these ids through LLM Hub before the Vertex admission check, so closing
+  // the Vertex allowlist leaves them without a Vertex route rather than a provider_disabled one.
+  const llmhubRouted = new Set(['nano-banana', 'nano-banana-lite', 'nano-banana-pro', 'nano-banana-2']);
+  const googleFlags = {
+    GOOGLE_VERTEX_IMAGE_MCP_ENABLED: 'true',
+    GOOGLE_VERTEX_IMAGE_MCP_PUBLIC_ROUTING_ENABLED: 'true',
+    GOOGLE_VERTEX_IMAGE_MCP_ENGINE_ALLOWLIST: ids.join(','),
+  };
+  const googleCredentials = {
+    ...googleFlags,
+    GOOGLE_VERTEX_PROJECT_ID: 'project',
+    GOOGLE_VERTEX_SERVICE_ACCOUNT_JSON: '{"client_email":"test@example.com","private_key":"key"}',
+    GOOGLE_VERTEX_INPUT_GCS_URI: 'gs://maxvideoai-inputs/images',
+  };
+  for (const id of ids) {
+    const engine = getEngine(id);
+    assert.deepEqual(
+      resolveAgentGenerationEngineExecutability(engine, environment({ falApiKey: '', providerEnv: googleCredentials })),
+      { executable: true, reason: 'available' }, id,
+    );
+    for (const mode of ['t2i', 'i2i'] as const) {
+      assert.deepEqual(
+        resolveAgentGenerationModeExecutability(engine, mode, environment({ falApiKey: '', providerEnv: googleCredentials })),
+        { executable: true, reason: 'available' }, `${id}/${mode}`,
+      );
+    }
+    assert.deepEqual(
+      resolveAgentGenerationEngineExecutability(engine, environment({ falApiKey: 'fal-key', providerEnv: googleFlags })),
+      { executable: false, reason: 'provider_credentials_missing' }, id,
+    );
+    assert.deepEqual(
+      resolveAgentGenerationEngineExecutability(engine, environment({ falApiKey: '', providerEnv: {
+        ...googleCredentials, GOOGLE_VERTEX_IMAGE_MCP_ENGINE_ALLOWLIST: ids.filter(candidate => candidate !== id).join(','),
+      } })),
+      llmhubRouted.has(id)
+        ? { executable: false, reason: 'provider_credentials_missing' }
+        : { executable: false, reason: 'provider_disabled' }, `${id} must remain individually closable`,
+    );
+  }
 });
 
 test('LLM Hub Seedance basic modes remain available when BytePlus is not ready', () => {

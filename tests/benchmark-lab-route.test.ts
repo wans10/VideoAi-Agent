@@ -183,10 +183,9 @@ test('benchmark schema is limited to WebPage and BreadcrumbList with Keyvo as pu
     url: 'https://app.keyvo.cn',
   });
   assert.deepEqual(webPage.author, {
-    '@type': 'Person',
-    name: 'Adrien Millot',
-    jobTitle: 'Founder & Product Lead',
-    url: 'https://app.keyvo.cn/about#adrien-millot',
+    '@type': 'Organization',
+    name: 'MaxVideoAI',
+    url: 'https://app.keyvo.cn/about#maxvideoai',
   });
   assert.equal(JSON.stringify(schemas).includes('Dataset'), false);
 });
@@ -260,6 +259,8 @@ test('page builder preserves the complete editorial roster, including legacy vid
   const pageData = buildBenchmarkPageData(staticData, { status: 'unavailable', windowDays: 30, asOf: null, rows: [] });
   assert.equal(pageData.scores.length, staticData.scores.length);
   assert.ok(pageData.scores.some((row) => row.modelSlug === 'ltx-2'));
+  assert.equal(pageData.scores.find((row) => row.modelSlug === 'sora-2')?.generationUnavailable, true);
+  assert.equal(pageData.scores.find((row) => row.modelSlug === 'kling-3-pro')?.generationUnavailable, false);
 });
 
 test('page builder preserves Seedance 2.5 official evidence while distinguishing route-contract provenance from API mechanics', async () => {
@@ -396,7 +397,7 @@ test('benchmark lab presentation stays split into focused server components', ()
 test('benchmark lab names its real editorial owner without independent-review claims', () => {
   const source = readFileSync(path.join(routeRoot, '_components/BenchmarkEditorialOwnership.tsx'), 'utf8');
   assert.match(source, /profile\.name/);
-  assert.match(source, /profile\.jobTitle/);
+  assert.doesNotMatch(source, /profile\.jobTitle/);
   assert.match(source, /editorial-standards/);
   assert.doesNotMatch(source, /independently reviewed|certified|laboratory/i);
 });

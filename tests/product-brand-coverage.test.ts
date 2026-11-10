@@ -25,6 +25,7 @@ const exceptions = new Map([
   ['frontend/app/(localized)/[locale]/(marketing)/about/_lib/about-copy.ts', 'Explicit original-project attribution'],
   ['frontend/app/(core)/legal/mentions/page.tsx', 'Operator details await verified replacement information'],
   ['frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-hero-specs.ts', 'Recognizes legacy input'],
+  ['frontend/lib/generation-failure-messages.ts', 'Recognizes legacy stored failure messages'],
 ]);
 
 function filesIn(directory: string): string[] {

@@ -28,6 +28,7 @@ test('late errors from a retired decoder cannot close its renewed monitor, while
   '../../../_shared/_components/viewer/useProgramPlaybackSync':'export const useProgramPlaybackSync=()=>({});',
   '../../../_shared/_components/viewer/ProgramPlaybackLayers':'export function ProgramPlaybackLayers(props){fixture.layers=props;return null;}',
   './ConversationExport.client':'export const ConversationExport=()=>null;',
+  './ConversationSubtitles.client':'export const ConversationSubtitlePicker=()=>null;export const ConversationSubtitlePreview=()=>null;export const ConversationSequenceSubtitles=()=>null;',
  };
  const frontend=resolve('frontend');
  const bundled=await build({absWorkingDir:frontend,stdin:{contents:"export {ConversationTimeline} from './app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationTimeline.client';",resolveDir:frontend,loader:'ts'},tsconfig:resolve(frontend,'tsconfig.json'),bundle:true,platform:'node',format:'cjs',write:false,packages:'external',loader:{'.css':'empty'},jsx:'automatic',plugins:[{name:'monitor-lifecycle',setup(b){b.onResolve({filter:/.*/},a=>mocks[a.path]?{path:a.path,namespace:'mock'}:undefined);b.onLoad({filter:/.*/,namespace:'mock'},a=>({contents:mocks[a.path],loader:'js'}));}}]});

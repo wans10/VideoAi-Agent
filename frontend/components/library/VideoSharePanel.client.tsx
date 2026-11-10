@@ -1,4 +1,5 @@
 'use client';
+import { libraryOriginalAccessHref } from '@/lib/library-media-access';
 
 import { useEffect, useRef, useState } from 'react';
 import { Check, Download, ExternalLink, Link2, Share2 } from 'lucide-react';
@@ -27,7 +28,7 @@ export function VideoSharePanel({ asset, locale, fixedShareUrl }: { asset: Asset
   const filename = suggestDownloadFilename(asset.url, isImage ? 'keyvo-image.png' : 'keyvo-video.mp4');
   const downloadHref = !isImage && asset.source === 'public-example' && asset.jobId
     ? `/api/video-shares/public-download?${new URLSearchParams({ jobId: asset.jobId })}`
-    : buildAppDownloadUrl(asset.url, filename);
+    : libraryOriginalAccessHref(asset, 'download', filename) ?? buildAppDownloadUrl(asset.accessUrl ?? asset.url, filename);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => panelRef.current?.scrollIntoView?.({ block: 'nearest' }));

@@ -1,6 +1,9 @@
 import {recordedGenerationSourceVideoOutput} from '@/lib/generation-output-duration';
 import type {StudioConversationProject,StudioConversationQuoteFacts,StudioConversationQuoteSettings} from '@/lib/studio/conversation-action-contract';
 import {customerDisplayPrice} from '@/lib/customer-price-presentation';
+import {parseFlux3MaxKeyframeIndexes} from '@/lib/flux-3-max';
+import {getKnownGenerationFailureMessage,getGenerationFailureFallbackMessage} from '@/lib/generation-failure-messages';
+import {getVideoFailureCodeFromSettingsSnapshot} from '@/lib/video-failure-codes';
 
 const settingTypes: Record<keyof StudioConversationQuoteSettings,'boolean'|'number'|'string'> = {
   audio:'boolean',durationSec:'number',resolution:'string',aspectRatio:'string',quality:'string',
@@ -8,6 +11,7 @@ const settingTypes: Record<keyof StudioConversationQuoteSettings,'boolean'|'numb
   hdr:'boolean',exrExport:'boolean',enableWebSearch:'boolean',voiceModel:'string',musicModel:'string',
   seedAudioOutputFormat:'string',seedAudioSampleRate:'number',elevenVoiceId:'string',elevenStability:'number',elevenSimilarityBoost:'number',
   musicEnabled:'boolean',exportAudioFile:'boolean',language:'string',startTimeSec:'number',retakeMode:'string',extendPosition:'string',
+  keyframeIndexes:'string',reasoningLevel:'string',seed:'number',
 };
 export const STUDIO_QUOTE_SETTING_KEYS = Object.freeze(Object.keys(settingTypes));
 const referenceRoles = new Set<StudioConversationQuoteFacts['referenceRoles'][number]>([
@@ -22,6 +26,10 @@ export type StudioConversationQuoteRow = {
   referenceCount: unknown; referenceRoles: unknown;
   outputDurationSec?: unknown;
   sourceVideoOutput?: unknown;
+  failureMessage?: string | null;
+  failureSettings?: unknown;
+  refundAmountCents?: unknown;
+  refundCurrency?: unknown;
 };
 
 function positiveDuration(value:unknown):number|undefined {
@@ -38,6 +46,12 @@ export function projectStudioQuoteSettings(value:unknown):StudioConversationQuot
   const storedSettings = value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string,unknown> : {};
   return Object.fromEntries(Object.entries(settingTypes).flatMap(([key,type]) => {
     const value = storedSettings[key];
+    if (key === 'keyframeIndexes') {
+      const indexes = typeof value === 'string' && value.length <= 128 ? parseFlux3MaxKeyframeIndexes(value) : null;
+      return indexes && indexes.length <= 10 && new Set(indexes).size === indexes.length && indexes.every(index => index <= 480) ? [[key,value]] : [];
+    }
+    if (key === 'reasoningLevel') return value === 'low' || value === 'high' ? [[key,value]] : [];
+    if (key === 'seed') return typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 && value <= 2_147_483_647 ? [[key,value]] : [];
     const safe = type === 'string' ? boundedToken(value,64)
       : type === 'number' ? typeof value === 'number' && Number.isFinite(value) && (['startTimeSec','elevenStability','elevenSimilarityBoost'].includes(key)?value>=0:value>0)
       : typeof value === 'boolean';
@@ -71,6 +85,12 @@ export function projectStudioConversationQuotes(rows: readonly StudioConversatio
   return rows.map((row,index) => {
     const summary = {quoteId:row.quoteId,surface:row.surface,quoteState:row.quoteState,jobId:row.jobId,status:row.status};
     const quote = index < MAX_QUOTE_FACTS ? safeQuoteFacts(row) : null;
-    return quote ? {...summary,quote} : summary;
+    const failed = ['failed','error','errored','aborted','cancelled','canceled','timed_out','timeout','provider_polling_stalled'].includes(row.status??'');
+    const failure = failed ? {message:getKnownGenerationFailureMessage({message:row.failureMessage,
+      failureCode:getVideoFailureCodeFromSettingsSnapshot(row.failureSettings)})??getGenerationFailureFallbackMessage()} : undefined;
+    const walletRefund = typeof row.refundAmountCents==='number'&&Number.isSafeInteger(row.refundAmountCents)&&row.refundAmountCents>0
+      &&typeof row.refundCurrency==='string'&&/^[A-Z]{3}$/.test(row.refundCurrency)
+      ? customerDisplayPrice(row.refundAmountCents,row.refundCurrency) : undefined;
+    return {...summary,...(quote?{quote}:{}),...(failure?{failure}:{}),...(walletRefund?{walletRefund}:{})};
   });
 }

@@ -514,7 +514,7 @@ test('historical models with app publication disabled keep editorial schemas wit
   }
 });
 
-test('blog Article schema identifies the visible person while retaining Keyvo as publisher', () => {
+test('blog Article schema identifies the visible organization while retaining Keyvo as publisher', () => {
   const localization = buildBlogPostLocalization({
     canonicalSlug: 'author-schema-sample',
     locale: 'en',
@@ -537,10 +537,9 @@ test('blog Article schema identifies the visible person while retaining Keyvo as
   });
 
   assert.deepEqual(articleSchema.author, {
-    '@type': 'Person',
-    name: 'Adrien Millot',
-    jobTitle: 'Founder & Product Lead',
-    url: `${SITE_ORIGIN}/about#adrien-millot`,
+    '@type': 'Organization',
+    name: 'MaxVideoAI',
+    url: `${SITE_ORIGIN}/about#maxvideoai`,
   });
   assert.equal(articleSchema.publisher['@type'], 'Organization');
   assert.equal(articleSchema.publisher.name, 'Keyvo');

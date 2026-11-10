@@ -1,3 +1,5 @@
+// The Max recreate contract targets an upstream-published model, which Keyvo hides on the web: evaluate it unfiltered.
+import '../scripts/lib/disable-keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { projectExampleWatchDetail as projectConfiguredWatchDetail } from '../frontend/server/example-watch-detail';
@@ -122,3 +124,19 @@ for (const disabled of [true, false]) {
   }
  });
 }
+
+test('recorded Max text-to-video settings remain known when the provider output is 1280 by 704', async () => {
+ const source: GalleryVideo = { ...video, engineId: 'flux-3-max', engineLabel: 'FLUX 3 Max', durationSec: 18,
+  outputWidth: 1280, outputHeight: 704, finalPriceCents: null, currency: null,
+  settingsSnapshot: { schemaVersion: 1, surface: 'video', engineId: 'flux-3-max', inputMode: 't2v', prompt: video.prompt,
+   core: { durationSec: 18, resolution: '720p', aspectRatio: '16:9', audio: true, fps: 24 },
+   advanced: { seed: 0, extraInputValues: { reasoning_level: 'high' } }, refs: { inputs: [] } } };
+ const detail = await projectExampleWatchDetail(source, null, async () => ({ totalCents: 398, currency: 'USD' }));
+ assert.deepEqual(detail?.scenario, { durationSec: 18, resolution: '720p', aspectRatio: '16:9', audio: true, mode: 't2v' });
+ assert.equal(detail?.recreateHref, '/app?from=public-example');
+ assert.equal(detail?.historicalCost, null);
+ assert.deepEqual([source.outputWidth, source.outputHeight], [1280, 704]);
+ const snapshot = source.settingsSnapshot as { core: object };
+ const invalid = await projectExampleWatchDetail({ ...source, settingsSnapshot: { ...snapshot, core: { ...snapshot.core, resolution: '4k' } } }, null, async () => ({ totalCents: 398, currency: 'USD' }));
+ assert.equal(invalid?.scenario, null, 'an unsupported saved setting cannot become a valid source recipe');
+});

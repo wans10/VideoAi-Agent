@@ -1,3 +1,4 @@
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import { getUserMembershipStatus, type UserMembershipStatus } from '@/server/membership/user-membership-status';
 
 import { computeGenerationCatalogRevision } from './catalog-revision';
@@ -52,6 +53,7 @@ export type AgentProjectBudgetInput = Readonly<{
         fps?: number;
         audio?: boolean;
         loop?: boolean;
+        keyframeIndexes?: string;
       }>;
       referenceRoles?: readonly ProjectReferenceRole[];
       clipCount: number;
@@ -73,6 +75,7 @@ export type AgentProjectBudgetLine = Readonly<{
     fps?: number;
     audio?: boolean;
     loop?: boolean;
+    keyframeIndexes?: string;
   }>;
   referenceCount: number;
   clipCount: number;
@@ -226,6 +229,7 @@ function safeCapabilityField(field: string): string {
     duration: 'durationSec',
     aspect_ratio: 'aspectRatio',
     generate_audio: 'audio',
+    keyframe_indexes: 'keyframeIndexes',
     image_url: 'references',
     first_frame_url: 'references',
     last_frame_url: 'references',
@@ -238,7 +242,7 @@ function safeCapabilityField(field: string): string {
   const normalized = aliases[field] ?? field;
   return new Set([
     'engineId', 'mode', 'prompt', 'durationSec', 'resolution', 'aspectRatio', 'fps',
-    'audio', 'loop', 'references', 'settings',
+    'audio', 'loop', 'keyframeIndexes', 'references', 'settings',
   ]).has(normalized) ? normalized : 'settings';
 }
 
@@ -313,7 +317,7 @@ function normalizeSettings(
   if (!isPlainObject(value)) {
     editProjectLine('PARAMETER_INVALID', 'Project line settings are invalid.', proposalIndex, lineIndex, 'settings');
   }
-  const allowed = new Set(['durationSec', 'resolution', 'aspectRatio', 'fps', 'audio', 'loop']);
+  const allowed = new Set(['durationSec', 'resolution', 'aspectRatio', 'fps', 'audio', 'loop', 'keyframeIndexes']);
   if (Object.keys(value).some((key) => !allowed.has(key))) {
     editProjectLine('PARAMETER_INVALID', 'Project line settings contain an unsupported field.', proposalIndex, lineIndex, 'settings');
   }
@@ -326,6 +330,9 @@ function normalizeSettings(
   const fps = settings.fps === undefined
     ? undefined
     : requireLineInteger(settings.fps, 1, 240, proposalIndex, lineIndex, 'fps');
+  const keyframeIndexes = settings.keyframeIndexes === undefined
+    ? undefined
+    : requireLineText(settings.keyframeIndexes, 128, proposalIndex, lineIndex, 'keyframeIndexes');
   if (settings.audio !== undefined && typeof settings.audio !== 'boolean') {
     editProjectLine('PARAMETER_INVALID', 'Project line audio intent is invalid.', proposalIndex, lineIndex, 'audio');
   }
@@ -339,6 +346,7 @@ function normalizeSettings(
     ...(fps === undefined ? {} : { fps }),
     ...(settings.audio === undefined ? {} : { audio: settings.audio }),
     ...(settings.loop === undefined ? {} : { loop: settings.loop }),
+    ...(keyframeIndexes === undefined ? {} : { keyframeIndexes }),
   };
 }
 
@@ -573,6 +581,15 @@ export async function calculateAgentProjectBudget(
         });
       } catch (error) {
         mapCapabilityError(error, proposalIndex, lineIndex);
+      }
+      if (isKlingV4FalQueueEngineId(engineId) && ['i2v', 'ref2v', 'v2v'].includes(mode) && referenceRoles.length > 0) {
+        editProjectLine(
+          'REFERENCE_REQUIRED',
+          'Kling reference pricing requires actual owned media to verify reference types and video timing. Use prepare_generation with asset references for a fixed customer quote.',
+          proposalIndex,
+          lineIndex,
+          'references',
+        );
       }
       let unitPrice: BudgetMoney;
       try {

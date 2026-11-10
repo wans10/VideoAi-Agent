@@ -1,3 +1,4 @@
+import { CreatorToolsCollection } from './creator-marketing/CreatorToolsCollection';
 import Image from 'next/image';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import type { AppLocale } from '@/i18n/locales';
@@ -31,6 +32,7 @@ export function ToolsMarketingHubPage({ locale }: { locale: AppLocale }) {
         <div className={styles.figure}><Image unoptimized src={department.src} alt={labels.tools[department.id as keyof typeof labels.tools].title} fill priority={index === 0} sizes="(max-width: 700px) 85vw, 42vw"/></div>
       </article>; })}
     </div></section>
+    <CreatorToolsCollection locale={locale} />
     {quickTools.length ? <section className={styles.finishing}><div className="container-page"><header><h2>{c.finishing}</h2><p>{c.finishingBody}</p></header><div className={styles.repairs}>
       {quickTools.map(([id, src]) => { const tool = labels.tools[id as keyof typeof labels.tools]; const href = id.startsWith('upscale') ? '/tools/upscale' : id === 'background-removal' ? '/tools/background-removal' : getToolDefinition(id)!.href; return <Link key={id} href={href} prefetch={false} className={styles.repair}><Image unoptimized src={src} width={176} height={132} alt="" loading="lazy"/><div><h3>{tool.title}</h3><p>{tool.body}</p></div><ArrowUpRight size={18}/></Link>; })}
     </div></div></section> : null}

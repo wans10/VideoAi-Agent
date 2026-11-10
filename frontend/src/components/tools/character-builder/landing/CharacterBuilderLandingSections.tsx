@@ -1,6 +1,6 @@
+import type { CharacterStudioMarketingFilm } from './character-studio-marketing-assets';
 import { ProductionReviewNotes } from '../../production/ProductionReviewNotes';
-import { resolveLocale } from '@/lib/i18n/server';
-import { ToolWorkspacePreview } from '@/components/tools/landing/ToolWorkspacePreview';
+import type { AppLocale } from '@/i18n/locales';
 import type { CharacterBuilderLandingContent } from './character-builder-landing-assets';
 import {
   CharacterBuilderFaqSection,
@@ -9,19 +9,18 @@ import {
 } from './CharacterBuilderLandingConversionSections';
 import {
   CharacterBuilderHeroSection,
+  type CharacterBuilderJourneyCopy,
   CharacterBuilderHowItWorksSection,
 } from './CharacterBuilderLandingLeadSections';
 import { CharacterBuilderOutputsWorkflowSection } from './CharacterBuilderLandingWorkflowSections';
 
-export async function CharacterBuilderLandingSections({ content }: { content: CharacterBuilderLandingContent }) {
-  const locale = await resolveLocale();
+export function CharacterBuilderLandingSections({ content, films = [], locale, journey }: { content: CharacterBuilderLandingContent; films?: CharacterStudioMarketingFilm[]; locale: AppLocale; journey: CharacterBuilderJourneyCopy }) {
   return (
     <>
-      <CharacterBuilderHeroSection content={content} />
+      <CharacterBuilderHeroSection content={content} journey={journey} />
       <ProductionReviewNotes locale={locale} kind="character" />
       <CharacterBuilderHowItWorksSection content={content} />
-      <ToolWorkspacePreview tool="character-builder" title={content.hero.showcase.topLabel} body={content.hero.showcase.windowLabel} />
-      <CharacterBuilderOutputsWorkflowSection content={content} />
+      <CharacterBuilderOutputsWorkflowSection content={content} films={films} locale={locale} />
       <CharacterBuilderRelatedSection content={content} />
       <CharacterBuilderFinalCtaSection content={content} />
       <CharacterBuilderFaqSection content={content} />

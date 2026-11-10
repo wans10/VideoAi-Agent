@@ -40,6 +40,7 @@ import { claimBytePlusLasSubmission, getBytePlusSubmissionState, preserveBytePlu
   readOwnedBytePlusLasSubmission, recordBytePlusLasSubmissionAccepted,
   recordBytePlusLasSubmissionRejection } from '@/server/byteplus-submission-state';
 import { markBytePlusJobFailed } from '@/server/byteplus-poll-failure';
+import { createBytePlusMediaTransport } from '@/server/video-providers/byteplus-modelark-media-access';
 
 type QueryFn = (sql: string, params?: unknown[]) => Promise<unknown>;
 type LogMetricFn = (
@@ -156,6 +157,7 @@ export async function submitBytePlusGenerateTask(params: {
           body: result.kind === 'error_response' ? result.body : { ok: false, error: 'Unexpected provider result' } };
   } : null);
   let submissionTransport: 'modelark' | 'las' = 'las';
+  let sanitizeMediaDiagnostics: (value: unknown) => unknown = value => value;
   const reliableLasSubmission = params.engineId === 'seedance-2-5' && params.mode === 'v2v';
   const uncertainResponse = (): BytePlusSubmissionResult => ({ ok: false, status: 503, body: {
     ok: false, error: 'BYTEPLUS_SUBMISSION_UNCERTAIN', jobId: params.jobId,
@@ -244,11 +246,13 @@ export async function submitBytePlusGenerateTask(params: {
     const payload = workflow?.payload ?? buildBytePlusSeedancePayloadFn(payloadInput);
     const transport = submissionTransport;
     const client = getBytePlusModelArkClientFn(transport);
+    const mediaTransport = await createBytePlusMediaTransport({ payload, userId: params.userId });
+    sanitizeMediaDiagnostics = mediaTransport.sanitize;
     if (reliableLasSubmission && !await claimBytePlusLasSubmission(params.jobId, params.userId, queryFn, transport)) {
       return existingResponse(await readOwnedBytePlusLasSubmission(params.jobId, params.userId, queryFn));
     }
     providerAttempted = true;
-    const providerTask = await client.createSeedanceFastTask(payload);
+    const providerTask = await client.createSeedanceFastTask(mediaTransport.payload);
     const providerJobId = providerTask.providerJobId;
     acceptedProviderJobId = providerJobId;
     if (reliableLasSubmission) await recordBytePlusLasSubmissionAccepted({ jobId: params.jobId,
@@ -329,7 +333,7 @@ export async function submitBytePlusGenerateTask(params: {
       },
     };
   } catch (error) {
-    const providerMessage = scrubBytePlusErrorFn(error);
+    const providerMessage = scrubBytePlusErrorFn(sanitizeMediaDiagnostics(error));
     const providerStatus = error instanceof BytePlusModelArkError ? error.status : null;
     if (reliableLasSubmission && providerAttempted && (acceptedProviderJobId || !providerStatus || providerStatus < 400 || providerStatus >= 500 || providerStatus === 408)) {
       await preserveBytePlusLasSubmission({ jobId: params.jobId, userId: params.userId,
@@ -374,7 +378,10 @@ export async function submitBytePlusGenerateTask(params: {
         : providerStatus && providerStatus >= 400 && providerStatus < 500
           ? 502
           : 503;
-    const trialDisposition = providerStatus && providerStatus >= 400 && providerStatus < 500
+    const localReferenceAccessFailure = !providerAttempted
+      && error instanceof BytePlusModelArkError && error.code === 'REFERENCE_ACCESS_FAILED';
+    // A failed local grant cannot have dispatched work or consumed the free trial.
+    const trialDisposition = localReferenceAccessFailure || (providerStatus && providerStatus >= 400 && providerStatus < 500)
       ? 'definitive_failure'
       : 'unknown';
     if (reliableLasSubmission) {

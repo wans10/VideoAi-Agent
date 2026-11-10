@@ -1,3 +1,5 @@
+import { CALIFORNIA_CURSOR_FILM } from '@/config/california-cursor-film';
+
 // Curated public examples from Keyvo's visible (mainland-China vendor) models.
 export const HOME_USE_CASE_FILMS = [
   {
@@ -24,12 +26,5 @@ export const HOME_USE_CASE_FILMS = [
     "poster": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/a3182fc5-e993-4a3b-9b5a-805997bd3e68.jpg",
     "video": "https://media.maxvideoai.com/renders/marketing/f808f22b-c463-421f-b5dc-ec6c898ece40.mp4"
   },
-  {
-    "slug": "ads",
-    "jobId": "job_85e2a105-108b-4328-9360-74a99c9d016c",
-    "modelSlug": "seedance-2-5",
-    "model": "Seedance 2.5",
-    "poster": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/8db1f16e-dcae-4a9f-a59b-568a58848ea9.jpg",
-    "video": "https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/219dcfdf-6901-432f-a9cb-1f8106f1877a.mp4"
-  }
+  { slug: 'ads', ...CALIFORNIA_CURSOR_FILM }
 ] as const;

@@ -27,6 +27,8 @@ import type { AgentPublicGenerationEngine } from './model-catalog';
 import type { McpGenerationQuote } from './quote-repository';
 import type { ResolvedReference } from './reference-types';
 import { stableJson } from './generation-normalization';
+import { operationReservationDuration } from './operation-reservation-duration';
+import { resolveReservedVideoTiming, type ReservedVideoTiming } from './video-generation-timing';
 import {
   buildPaidVideoRequestBody,
   resolvePaidMembershipTier,
@@ -41,6 +43,9 @@ export type {
 } from './included-trial-generation-execution';
 
 export type PaidGenerationExecution = {
+  timing?: ReservedVideoTiming;
+  lumaSourceFingerprint?: string;
+  fluxDraftFingerprint?: string;
   seedanceWorkflow?: PreparedSeedanceWorkflow;
   surface: 'video' | 'image';
   quoteId: string;
@@ -116,6 +121,8 @@ export type PaidGenerationSubmissionDependencies = {
 };
 
 export type ReservePaidGenerationInput = {
+  billingProduct?: 'character-recast';
+  customerProductLabel?: 'MaxVideoAI Recast';
   quote: McpGenerationQuote;
   candidate: AgentPublicGenerationEngine;
   pricingSnapshot: Record<string, unknown>;
@@ -172,7 +179,7 @@ function videoInitialParams(
   pricing: Record<string, unknown>,
 ): CreateVideoInitialJobParams {
   const { quote, candidate } = input;
-  const durationSec = quote.request.settings.durationSec;
+  const durationSec = operationReservationDuration(quote.request,input.pricingSnapshot,pricing) ?? quote.request.settings.durationSec;
   if (!Number.isSafeInteger(durationSec) || (durationSec as number) < 1) {
     throw new Error('Invalid reserved video duration.');
   }
@@ -205,7 +212,7 @@ function videoInitialParams(
       userId: quote.userId,
       amountCents: quote.priceCents,
       currency: quote.currency,
-      description: `${quote.authOrigin === 'studio-session' ? 'Studio' : 'MCP'} ${candidate.engine.label} - ${durationSec}s`,
+      description: `${input.customerProductLabel ?? `${quote.authOrigin === 'studio-session' ? 'Studio' : 'MCP'} ${candidate.engine.label}`} - ${durationSec}s`,
       jobId: quote.quoteId,
       snapshot: pricing,
       applicationFeeCents: fee,
@@ -217,7 +224,7 @@ function videoInitialParams(
       jobId: quote.quoteId,
       userId: quote.userId,
       engineId: quote.request.engineId,
-      engineLabel: candidate.engine.label,
+      engineLabel: input.customerProductLabel ?? candidate.engine.label,
       durationSec: durationSec as number,
       prompt: quote.request.prompt,
       thumbUrl: placeholder,
@@ -295,9 +302,15 @@ export async function reservePaidGenerationInitialJob(
 ): Promise<PaidGenerationReservation> {
   const pricing = canonicalPricing(input);
   if (input.quote.request.surface === 'video') {
+    const params = videoInitialParams(input, pricing);
+    params.billingProduct = input.billingProduct;
+    const timing = await resolveReservedVideoTiming(
+      input.candidate.engine, input.quote.request, params.jobInsert.durationSec, dependencies.executor,
+    );
+    Object.assign(params.jobInsert, timing);
     const created = await createInitialVideoJobInExecutor(
       dependencies.executor,
-      videoInitialParams(input, pricing),
+      params,
     );
     if (created.kind !== 'created'
       || !('walletChargeReserved' in created)
@@ -308,6 +321,7 @@ export async function reservePaidGenerationInitialJob(
       jobId: input.quote.quoteId,
       surface: 'video',
       execution: {
+        timing,
         surface: 'video',
         quoteId: input.quote.quoteId,
         userId: input.quote.userId,
@@ -316,6 +330,8 @@ export async function reservePaidGenerationInitialJob(
         resolvedReferences: input.resolvedReferences ?? [],
         engine: input.candidate.engine,
         canonicalPricing: pricing,
+        fluxDraftFingerprint: (input.pricingSnapshot.fluxDraftSource as {fingerprint?:string}|undefined)?.fingerprint,
+        lumaSourceFingerprint: (input.pricingSnapshot.lumaSource as { fingerprint?: string } | undefined)?.fingerprint,
         trustedInitialState: {
           kind: 'created',
           jobId: input.quote.quoteId,
@@ -377,7 +393,7 @@ function materializedImageReferenceUrls(
 }
 
 function paidRequestBody(execution: PaidGenerationExecution): Record<string, unknown> {
-  if (execution.surface === 'video') return buildPaidVideoRequestBody(execution);
+  if (execution.surface === 'video') return { ...buildPaidVideoRequestBody(execution), ...execution.timing };
   const settings = { ...execution.request.settings };
   const imageWidth = settings.imageWidth;
   const imageHeight = settings.imageHeight;
@@ -435,6 +451,8 @@ export async function submitReservedPaidGeneration(
 ): Promise<PaidGenerationProviderOutcome> {
   const trustedQuotedBilling: TrustedQuotedBilling = {
     pricing: execution.canonicalPricing as unknown as PricingSnapshot,
+    lumaSourceFingerprint: execution.lumaSourceFingerprint,
+    fluxDraftFingerprint: execution.fluxDraftFingerprint,
     membershipTier: resolvePaidMembershipTier(execution.canonicalPricing),
   };
   const body = paidRequestBody(execution);

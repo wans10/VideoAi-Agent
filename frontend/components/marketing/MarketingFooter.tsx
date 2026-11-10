@@ -3,14 +3,15 @@
 import { BrandLockup } from '@/components/brand/BrandLockup';
 import { IcpFiling } from '@/components/marketing/IcpFiling';
 import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
-import { Link, usePathname, type LocalizedLinkHref } from '@/i18n/navigation';
+import { Suspense } from 'react';
+import { usePathname } from 'next/navigation';
+import { getPathname, Link, type LocalizedLinkHref } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { StudioFooterDepartments } from './StudioFooterDepartments';
 import { MarketingFooterAssistants } from '@/components/marketing/MarketingFooterAssistants';
 import { LanguageToggle } from '@/components/marketing/LanguageToggle';
-import { FOOTER_MODELS, FOOTER_EXAMPLES } from '@/config/marketing-footer';
-
+import type { MarketingFooterNavigation } from '@/config/public-marketing-navigation';
 type FooterLink = { key: string; label: string; href: LocalizedLinkHref };
 type PolicyLink = { label: string; href: string; locale?: boolean };
 type SupportedLocale = AppLocale;
@@ -24,13 +25,19 @@ function localizeFooterPath(locale: SupportedLocale, englishPath: string) {
   return `/${locale}${englishPath}`;
 }
 
-export function MarketingFooter() {
-  const pathname = usePathname();
-  const isCompanyTrustHub = /^\/(?:fr\/|es\/|zh\/)?company\/?$/.test(pathname ?? '');
+export function MarketingFooter({ navigation }: { navigation: MarketingFooterNavigation }) {
+  const path = (usePathname() ?? '').replace(/\/$/, '');
+  const { locale } = useI18n();
+  if (path === getPathname({ locale, href: '/company' }) || /^\/(?:fr\/|es\/|zh\/)?company$/.test(path)) return null;
+  const content = <FooterContent navigation={navigation} />;
+  // Keep the complete footer in the first HTML, including when React streams this boundary.
+  if (path === '' || path === `/${locale}`) return <Suspense fallback={content}>{content}</Suspense>;
+  return content;
+}
+
+function FooterContent({ navigation }: { navigation: MarketingFooterNavigation }) {
+  const { models: FOOTER_MODELS, examples: FOOTER_EXAMPLES, assistants } = navigation;
   const { locale, t } = useI18n();
-  if (isCompanyTrustHub) {
-    return null;
-  }
 
   const labelFor = (key: string, fallback: string) => t(key, fallback) ?? fallback;
   const openCookiePreferences = () => {
@@ -75,9 +82,10 @@ export function MarketingFooter() {
   const productLinks: FooterLink[] = [
     {
       key: 'characterBuilder',
-      label: labelFor('footer.sections.product.items.characterBuilder', 'Character Builder'),
+      label: labelFor('footer.sections.product.items.characterBuilder', 'Character Studio'),
       href: { pathname: '/tools/character-builder' },
     },
+    { key: 'milo', label: locale === 'fr' ? 'Milo · Assistant de prompts IA' : locale === 'es' ? 'Milo · Asistente de prompts IA' : 'Milo · AI prompt assistant', href: '/ai-video-prompt-generator' },
     { key: 'pricing', label: labelFor('footer.sections.product.items.pricing', 'Pricing'), href: { pathname: '/pricing' } },
     {
       key: 'paygVideo',
@@ -114,6 +122,7 @@ export function MarketingFooter() {
         <div className="studio-footer-opening"><p>{locale === 'zh' ? '把灵感，留在画面里。' : locale === 'fr' ? 'Faites place à vos idées.' : locale === 'es' ? 'Dale espacio a tus ideas.' : 'Make room for your ideas.'}</p><Link href="/app" prefetch={false}>{labelFor('nav.cta', 'Open studio')} <span aria-hidden="true">↗</span></Link></div>
         <div className="flex items-center justify-between gap-4 text-sm text-text-muted">
           <Link
+            currentLocale={locale}
             href="/"
             prefetch={false}
             className="inline-flex items-center gap-4 font-display text-lg font-semibold tracking-tight text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
@@ -127,21 +136,21 @@ export function MarketingFooter() {
           </div>
         </div>
 
-        <MarketingFooterAssistants copy={{
+        <MarketingFooterAssistants assistants={assistants} copy={{
           title: labelFor('footer.mcpFeature.title', 'Create with your AI assistant.'),
           body: labelFor('footer.mcpFeature.body', 'Your models and credits, from your conversation.'),
           cta: labelFor('footer.mcpFeature.cta', 'Discover Keyvo MCP'),
           docs: labelFor('footer.mcpFeature.docs', 'MCP documentation'),
           anchors: Object.fromEntries(['claude', 'chatgpt', 'codex', 'openclaw', 'n8n'].map(id => [id, labelFor(`footer.mcpFeature.anchors.${id}`, id)])),
         }} />
-        <StudioFooterDepartments t={t} />
+        <StudioFooterDepartments t={t} departments={navigation.departments} />
         <details className="production-footer-reference"><summary>{labelFor('nav.dropdown.screening.reference', 'Production reference')}</summary>
         <div className="studio-footer-directory grid grid-cols-2 gap-x-4 gap-y-6 text-text-secondary sm:gap-x-6 sm:gap-y-8 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8">
           <div>
             <p className={sectionTitleClass}>{enginesTitle}</p>
             <nav className="mt-3 flex flex-col gap-2" aria-label={enginesTitle}>
               {engineLinks.map((item) => (
-                <Link key={item.key} href={item.href} prefetch={false} className={linkClass}>
+                <Link currentLocale={locale} key={item.key} href={item.href} prefetch={false} className={linkClass}>
                   {item.label}
                 </Link>
               ))}
@@ -151,7 +160,7 @@ export function MarketingFooter() {
             <p className={sectionTitleClass}>{examplesTitle}</p>
             <nav className="mt-3 flex flex-col gap-2" aria-label={examplesTitle}>
               {exampleLinks.map((item) => (
-                <Link key={item.key} href={item.href} prefetch={false} className={linkClass}>
+                <Link currentLocale={locale} key={item.key} href={item.href} prefetch={false} className={linkClass}>
                   {item.label}
                 </Link>
               ))}
@@ -161,7 +170,7 @@ export function MarketingFooter() {
             <p className={sectionTitleClass}>{productTitle}</p>
             <nav className="mt-3 flex flex-col gap-2" aria-label={productTitle}>
               {productLinks.map((item) => (
-                <Link key={item.key} href={item.href} prefetch={false} className={linkClass}>
+                <Link currentLocale={locale} key={item.key} href={item.href} prefetch={false} className={linkClass}>
                   {item.label}
                 </Link>
               ))}
@@ -171,7 +180,7 @@ export function MarketingFooter() {
             <p className={sectionTitleClass}>{companyTitle}</p>
             <nav className="mt-3 flex flex-col gap-2" aria-label={companyTitle}>
               {companyLinks.map((item) => (
-                <Link key={item.key} href={item.href} prefetch={false} className={linkClass}>
+                <Link currentLocale={locale} key={item.key} href={item.href} prefetch={false} className={linkClass}>
                   {item.label}
                 </Link>
               ))}
@@ -185,6 +194,7 @@ export function MarketingFooter() {
           <nav className="mt-3 flex flex-wrap gap-4" aria-label={policiesTitle}>
             {localizedPolicyLinks.map((item) => (
               <Link
+                currentLocale={locale}
                 key={`policy-${item.href}`}
                 href={item.href}
                 prefetch={false}

@@ -1,0 +1,275 @@
+{
+  "marketingName": "GPT Image 2.6 Sunburst",
+  "versionLabel": "2.6",
+  "seo": {
+    "title": "GPT Image 2.6 Sunburst — Créer et retoucher des images matricielles | MaxVideoAI",
+    "description": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément."
+  },
+  "overview": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément.",
+  "pricingNotes": [
+    "Créez et retouchez vos images dans l’App, dans Studio ou depuis votre assistant connecté via MCP. Le prix s’affiche avant chaque génération.",
+    "Consultez le devis actuel avant de confirmer. Toute modification des réglages ou des références nécessite un nouveau devis.",
+    "La taille ou la qualité automatique utilise un devis prudent calculé sur la sortie maximale des réglages automatiques choisis. Le prix à confirmer s’affiche avant la génération."
+  ],
+  "hero": {
+    "title": "GPT Image 2.6 Sunburst — Créer et retoucher des images matricielles",
+    "intro": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément.",
+    "badge": "PNG · JPEG · WebP",
+    "ctaPrimary": {
+      "label": "Ouvrir l’espace de création",
+      "href": "/app/image?engine=gpt-image-2-6-sunburst"
+    },
+    "secondaryLinks": [
+      {
+        "label": "Lire les caractéristiques",
+        "href": "#specs"
+      }
+    ]
+  },
+  "bestUseCases": [
+    "Scène de cinéma",
+    "Retouche contrôlée"
+  ],
+  "faqs": [
+    {
+      "q": "Lire les caractéristiques",
+      "a": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément. PNG, JPEG et WebP sont pris en charge. La transparence exige PNG ou WebP. GIF, SVG, masques et retouches par annotation sont exclus de ce premier lot."
+    },
+    {
+      "q": "Références visuelles originales",
+      "a": "Retouchez à partir de 1 à 16 images originales PNG, JPEG ou WebP de votre bibliothèque, de 25 Mo maximum chacune. Studio accepte seize références et une sortie par action. L’espace image et MCP permettent jusqu’à dix sorties par requête."
+    },
+    {
+      "q": "Tarification",
+      "a": "Consultez le devis actuel avant de confirmer. Toute modification des réglages ou des références nécessite un nouveau devis."
+    },
+    {
+      "q": "Qualité et complexité",
+      "a": "Flare et Sunburst sont deux choix distincts. Aucun résultat comparatif de qualité ou de latence n’est annoncé avant des essais comparables."
+    }
+  ],
+  "custom": {
+    "whyTitle": "GPT Image 2.6 Sunburst",
+    "heroHighlights": [
+      "Qualité et complexité||La qualité règle le rendu. La complexité règle la planification. Précisez le sujet et les contraintes à chaque niveau.",
+      "Références visuelles originales||Retouchez à partir de 1 à 16 images originales PNG, JPEG ou WebP de votre bibliothèque, de 25 Mo maximum chacune. Studio accepte seize références et une sortie par action. L’espace image et MCP permettent jusqu’à dix sorties par requête.",
+      "Image matricielle||PNG, JPEG et WebP sont pris en charge. La transparence exige PNG ou WebP. GIF, SVG, masques et retouches par annotation sont exclus de ce premier lot."
+    ],
+    "specTitle": "Lire les caractéristiques",
+    "specNote": "PNG, JPEG et WebP sont pris en charge. La transparence exige PNG ou WebP. GIF, SVG, masques et retouches par annotation sont exclus de ce premier lot.",
+    "specSections": [
+      {
+        "title": "Scène de cinéma",
+        "body": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément.",
+        "items": []
+      },
+      {
+        "title": "Retouche contrôlée",
+        "body": "Retouchez à partir de 1 à 16 images originales PNG, JPEG ou WebP de votre bibliothèque, de 25 Mo maximum chacune. Studio accepte seize références et une sortie par action. L’espace image et MCP permettent jusqu’à dix sorties par requête.",
+        "items": []
+      }
+    ]
+  },
+  "decision": {
+    "modelSlug": "gpt-image-2-6-sunburst",
+    "hero": {
+      "eyebrow": "GPT IMAGE 2.6 SUNBURST",
+      "title": "GPT Image 2.6 Sunburst — Créer et retoucher des images matricielles",
+      "subtitle": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément.",
+      "subtitleHighlights": [
+        "1024"
+      ],
+      "paragraph": "Créez et retouchez vos images dans l’App, dans Studio ou depuis votre assistant connecté via MCP. Le prix s’affiche avant chaque génération.",
+      "primaryCta": {
+        "label": "Ouvrir l’espace de création",
+        "href": "/app/image?engine=gpt-image-2-6-sunburst"
+      },
+      "secondaryCta": {
+        "label": "Lire les caractéristiques",
+        "href": "#specs"
+      },
+      "quickLinks": [
+        {
+          "label": "Explorer les idées de prompts",
+          "href": "#prompting"
+        },
+        {
+          "label": "Voir le tarif actuel",
+          "href": "/fr/tarifs#gpt-image-2-6-sunburst-pricing"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Une image de cinéma originale générée avec GPT Image 2.6 Sunburst, présentée en 1024 × 1024 pixels.",
+      "description": "Une image de cinéma originale générée avec GPT Image 2.6 Sunburst, présentée en 1024 × 1024 pixels.",
+      "renderLabel": "Exemples",
+      "badges": [
+        "GPT Image 2.6 Sunburst",
+        "PNG · JPEG · WebP"
+      ],
+      "altContext": "GPT Image 2.6 Sunburst — Une image de cinéma originale générée avec GPT Image 2.6 Sunburst, présentée en 1024 × 1024 pixels."
+    },
+    "features": [
+      {
+        "title": "Qualité et complexité",
+        "body": "La qualité règle le rendu. La complexité règle la planification. Précisez le sujet et les contraintes à chaque niveau.",
+        "tone": "quality"
+      },
+      {
+        "title": "Références visuelles originales",
+        "body": "Retouchez à partir de 1 à 16 images originales PNG, JPEG ou WebP de votre bibliothèque, de 25 Mo maximum chacune. Studio accepte seize références et une sortie par action. L’espace image et MCP permettent jusqu’à dix sorties par requête.",
+        "tone": "reference"
+      },
+      {
+        "title": "Image matricielle",
+        "body": "PNG, JPEG et WebP sont pris en charge. La transparence exige PNG ou WebP. GIF, SVG, masques et retouches par annotation sont exclus de ce premier lot.",
+        "tone": "quality"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "Scène de cinéma",
+        "body": "Décrivez ce qu’il faut conserver et modifier. Donnez un rôle précis à chaque référence.",
+        "cta": {
+          "label": "Explorer les idées de prompts",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "Qualité et complexité",
+        "body": "Flare et Sunburst sont deux choix distincts. Aucun résultat comparatif de qualité ou de latence n’est annoncé avant des essais comparables.",
+        "cta": {
+          "label": "GPT Image 2.6 Flare",
+          "href": "/fr/modeles/gpt-image-2-6-flare"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "Scène de cinéma",
+        "body": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément."
+      },
+      {
+        "title": "Retouche contrôlée",
+        "body": "Retouchez à partir de 1 à 16 images originales PNG, JPEG ou WebP de votre bibliothèque, de 25 Mo maximum chacune. Studio accepte seize références et une sortie par action. L’espace image et MCP permettent jusqu’à dix sorties par requête."
+      }
+    ],
+    "pricingCopy": {
+      "title": "GPT Image 2.6 Sunburst — Tarification",
+      "subtitle": "Consultez le devis actuel avant de confirmer. Toute modification des réglages ou des références nécessite un nouveau devis.",
+      "footnote": "Créez et retouchez vos images dans l’App, dans Studio ou depuis votre assistant connecté via MCP. Le prix s’affiche avant chaque génération.",
+      "ctaLabel": "Voir le tarif actuel",
+      "ctaHref": "/fr/tarifs#gpt-image-2-6-sunburst-pricing",
+      "maxDurationNote": "Jusqu’à quatre images dans App et MCP ; une dans Studio."
+    },
+    "meta": {
+      "title": "GPT Image 2.6 Sunburst — Créer et retoucher des images matricielles | MaxVideoAI",
+      "description": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément."
+    }
+  },
+  "prompting": {
+    "modelSlug": "gpt-image-2-6-sunburst",
+    "section": {
+      "title": "Explorer les idées de prompts — GPT Image 2.6 Sunburst",
+      "intro": "Créez une image de cinéma, puis dirigez un changement précis de costume en conservant la scène.",
+      "tip": "Décrivez ce qu’il faut conserver et modifier. Donnez un rôle précis à chaque référence.",
+      "guide": {
+        "label": "Lire la documentation du fournisseur",
+        "href": "https://developers.openai.com/api/docs/guides/image-generation"
+      },
+      "referencesTitle": "Références visuelles originales"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [
+      "Décrivez ce qu’il faut conserver et modifier. Donnez un rôle précis à chaque référence.",
+      "Utilisez vos propres images et vidéos originales.",
+      "Consultez le devis actuel avant de confirmer. Toute modification des réglages ou des références nécessite un nouveau devis."
+    ],
+    "engineWhy": [
+      "La qualité règle le rendu. La complexité règle la planification. Précisez le sujet et les contraintes à chaque niveau."
+    ],
+    "demo": null,
+    "imageExamples": {
+      "title": "Explorer les idées de prompts",
+      "intro": "Les deux retouches de costume partent du même original généré avec GPT Image 2.6 Flare. La visionneuse présente cette source à côté du résultat.",
+      "workspaceLabel": "Ouvrir l’espace de création",
+      "items": [
+        {
+          "id": "cinema",
+          "title": "La dernière bobine — photogramme",
+          "badge": "1024 × 1024",
+          "kind": "image",
+          "prompt": "Create one photorealistic cinematic film still, a square 1024x1024 image, not a poster or a collage. An original fictional adult woman, about 32, short dark curly hair, expressive brown eyes, a worn ochre cotton chore jacket over a charcoal T-shirt and dark trousers, is caught mid-stride in the backstage corridor of a small 1970s cinema. She grips a round opaque dark blue matte film canister against her ribs with her left arm, her right hand reaching toward a heavy burgundy velvet curtain at the right edge. She has just found something important: breathless, determined, almost smiling, looking off-frame right toward a colleague. Strong diagonal composition with a readable face, natural skin texture, visible fingers and convincing weight. Eye-level medium shot, 35mm cinema lens, subtle analog grain, warm tungsten practical bulbs against teal painted plaster, low-key yet legible lighting. Rich burgundy, ochre and petrol-blue palette. Solid painted doors, opaque props and matte surfaces only; no mirrors, glass, transparent objects, glossy reflections, water, screens, text, logos or subtitles. The moment must feel like an actual frame from a character-driven caper film, with tension and life, not a fashion pose. Keep the face and canister within the central 70 percent for flexible gallery crops."
+        },
+        {
+          "id": "edit",
+          "title": "Retouche de continuité du costume",
+          "badge": "1024 × 1024",
+          "kind": "edit",
+          "prompt": "Edit this exact cinematic still. Preserve the woman's identity, facial expression, short dark curls, visible fingers, body pose, film canister, camera position, background corridor and velvet curtain. Change only her ochre cotton jacket to a rich oxblood red fabric with the same cut, seams, wear and folds. Keep all skin tones, lighting direction, shadows, analog grain and the dark blue opaque matte canister unchanged. A seamless wardrobe continuity edit for a feature film. No mirrors, transparent objects, text, logos or extra people."
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "gpt-image-2-6-sunburst",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "GPT Image 2.6 Sunburst — Exemples",
+      "intro": "Deux résultats réels : une scène de cinéma et une retouche de costume. Ouvrez une image pour consulter l’original, les réglages et le prompt exact.",
+      "defaultCtaLabel": null,
+      "recreateLabel": "Ouvrir l’espace image",
+      "afterGallery": "Les deux retouches de costume partent du même original généré avec GPT Image 2.6 Flare. La visionneuse présente cette source à côté du résultat."
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "Tous"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-0",
+        "icon": "image",
+        "title": "Scène de cinéma",
+        "body": "Créez et retouchez des images carrées, paysage ou portrait, dont les formats 16:9 et 9:16 et les tailles personnalisées jusqu’en 4K. Choisissez cinq niveaux de qualité ou Auto et réglez la complexité séparément."
+      },
+      {
+        "id": "proof-1",
+        "icon": "users",
+        "title": "Références visuelles originales",
+        "body": "Utilisez vos propres images originales."
+      },
+      {
+        "id": "proof-2",
+        "icon": "pen",
+        "title": "Explorer les idées de prompts",
+        "body": "Décrivez ce qu’il faut conserver et modifier. Donnez un rôle précis à chaque référence."
+      },
+      {
+        "id": "proof-3",
+        "icon": "shield",
+        "title": "Tarification",
+        "body": "Consultez le devis actuel avant de confirmer. Toute modification des réglages ou des références nécessite un nouveau devis."
+      },
+      {
+        "id": "proof-4",
+        "icon": "sparkles",
+        "title": "Originaux de génération et de retouche",
+        "body": "Les deux retouches de costume partent du même original généré avec GPT Image 2.6 Flare. La visionneuse présente cette source à côté du résultat."
+      }
+    ],
+    "fallbackItems": null,
+    "editorialImages": [
+      {
+        "id": "gpt26-sunburst-generation",
+        "title": "La dernière bobine — génération · GPT Image 2.6 Sunburst"
+      },
+      {
+        "id": "gpt26-sunburst-edit",
+        "title": "La dernière bobine — retouche du costume · GPT Image 2.6 Sunburst"
+      }
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 import { isDatabaseConfigured } from '@/lib/db';
 import type { AppLocale } from '@/i18n/locales';
-import { listGalleryVideos, listPlaylistVideos, type GalleryVideo } from '@/server/videos';
+import { findProgrammePrint, PAYG_FILM_PROGRAMME } from './payg-film-programme';
+import { getSeoVideosByIds, listGalleryVideos, listPlaylistVideos, type GalleryVideo } from '@/server/videos';
 import type { PayAsYouGoContent, PaygShowcaseTitleId } from '../_content/types';
 
 export const PAYG_VIDEO_PLAYLIST_SLUG = 'payg-ai-video-generator';
@@ -140,13 +141,14 @@ export function buildPayAsYouGoShowcaseVideo(
   const duration = Math.max(1, Math.round(video.durationSec || 0));
   const engineLabel = video.engineLabel || video.engineId || copy.defaultEngineLabel;
   const titleEngineLabel = video.engineLabel || video.engineId || copy.defaultTitleEngineLabel;
+  const authoredCopy = copy.videoOverrides?.[video.id];
   return {
     id: video.id,
     engineId: video.engineId,
     engineLabel,
     durationLabel: `${duration}s`,
-    title: formatVideoTitle(video.promptExcerpt || video.prompt || '', titleEngineLabel, copy),
-    useCase: formatVideoUseCase(video, copy),
+    title: authoredCopy?.title ?? formatVideoTitle(video.promptExcerpt || video.prompt || '', titleEngineLabel, copy),
+    useCase: authoredCopy?.useCase ?? formatVideoUseCase(video, copy),
     posterUrl: video.thumbUrl,
     videoUrl: video.previewVideoUrl ?? video.videoUrl,
     href: `/video/${encodeURIComponent(video.id)}?from=${encodeURIComponent('/pay-as-you-go-ai-video-generator')}`,
@@ -162,6 +164,21 @@ async function loadFallbackVideos() {
   }
 }
 
+async function loadProgramme() {
+  try {
+    const ids = PAYG_FILM_PROGRAMME.flatMap(entry => entry.prints.map(print => print.id));
+    const records = await getSeoVideosByIds(ids);
+    const playable = new Map([...records].filter(([, video]) => video.thumbUrl && video.videoUrl));
+    return PAYG_FILM_PROGRAMME.flatMap(entry => {
+      const selected = findProgrammePrint(entry, playable);
+      return selected ? [selected.video] : [];
+    });
+  } catch (error) {
+    console.warn('[payg-video-showcase] featured films unavailable', error);
+    return [];
+  }
+}
+
 export async function loadPayAsYouGoVideoShowcase({
   locale,
   copy,
@@ -169,10 +186,11 @@ export async function loadPayAsYouGoVideoShowcase({
   locale: AppLocale;
   copy: PayAsYouGoShowcaseRuntimeCopy;
 }): Promise<PayAsYouGoShowcaseVideo[]> {
-  if (!isDatabaseConfigured()) {
+  if (!isDatabaseConfigured() || process.env.NEXT_PHASE === 'phase-production-build') {
     return [];
   }
 
+  const programme = loadProgramme();
   let videos: GalleryVideo[] = [];
   try {
     videos = await listPlaylistVideos(PAYG_VIDEO_PLAYLIST_SLUG, SHOWCASE_LIMIT);
@@ -184,6 +202,8 @@ export async function loadPayAsYouGoVideoShowcase({
     videos = await loadFallbackVideos();
   }
 
-  const selected = pickDiverseVideos(videos);
+  const featured = await programme;
+  const featuredIds = new Set(featured.map(video => video.id));
+  const selected = [...featured, ...pickDiverseVideos(videos).filter(video => !featuredIds.has(video.id))];
   return selected.map((video) => buildPayAsYouGoShowcaseVideo(video, locale, copy));
 }

@@ -30,8 +30,12 @@ type LoginAuthSurfaceProps = {
   fieldErrors: AuthFieldErrors;
   formAttention: boolean;
   signupSuggestion: SignupSuggestion | null;
+  unconfirmedEmail: string | null;
+  isConfirmationResending: boolean;
   isGoogleOAuthStarting: boolean;
   isResetSending: boolean;
+  isAuthReady?: boolean;
+  isPasswordSubmitting?: boolean;
   acceptTerms: boolean;
   ageConfirmed: boolean;
   marketingOptIn: boolean;
@@ -45,6 +49,7 @@ type LoginAuthSurfaceProps = {
   onModeChange: (mode: AuthMode) => void;
   onGoogleSignIn: () => void | Promise<void>;
   onSignInSubmit: (event: FormEvent<HTMLFormElement>) => void | Promise<void>;
+  onResendConfirmation: () => void | Promise<void>;
   onSignUpSubmit: (event: FormEvent<HTMLFormElement>) => void | Promise<void>;
   onResetSubmit: (event: FormEvent<HTMLFormElement>) => void | Promise<void>;
   onEmailChange: (value: string) => void;
@@ -90,8 +95,12 @@ export function LoginAuthSurface({
   fieldErrors,
   formAttention,
   signupSuggestion,
+  unconfirmedEmail,
+  isConfirmationResending,
   isGoogleOAuthStarting,
   isResetSending,
+  isAuthReady = true,
+  isPasswordSubmitting = false,
   acceptTerms,
   ageConfirmed,
   marketingOptIn,
@@ -105,6 +114,7 @@ export function LoginAuthSurface({
   onModeChange,
   onGoogleSignIn,
   onSignInSubmit,
+  onResendConfirmation,
   onSignUpSubmit,
   onResetSubmit,
   onEmailChange,
@@ -203,6 +213,7 @@ export function LoginAuthSurface({
                 variant={effectiveMode === 'signin' ? 'primary' : 'ghost'}
                 size="sm"
                 aria-pressed={effectiveMode === 'signin'}
+                disabled={isPasswordSubmitting || isConfirmationResending}
                 onClick={() => onModeChange('signin')}
                 className={clsx(
                   'min-h-11 flex-1 rounded-pill px-3 py-2',
@@ -216,6 +227,7 @@ export function LoginAuthSurface({
                 variant={effectiveMode === 'signup' ? 'primary' : 'ghost'}
                 size="sm"
                 aria-pressed={effectiveMode === 'signup'}
+                disabled={isPasswordSubmitting || isConfirmationResending}
                 onClick={() => onModeChange('signup')}
                 className={clsx(
                   'min-h-11 flex-1 rounded-pill px-3 py-2',
@@ -234,7 +246,7 @@ export function LoginAuthSurface({
               type="button"
               onClick={onGoogleSignIn}
               variant="outline"
-              disabled={isGoogleOAuthStarting}
+              disabled={!isAuthReady || isGoogleOAuthStarting || isPasswordSubmitting || isConfirmationResending}
               aria-busy={isGoogleOAuthStarting}
               className="w-full justify-center gap-2 font-medium"
             >
@@ -249,6 +261,7 @@ export function LoginAuthSurface({
               <span className="h-px flex-1 bg-border" aria-hidden />
             </div>
             <form
+              method="post"
               noValidate
               onSubmit={mode === 'signin' ? onSignInSubmit : onSignUpSubmit}
               className="stack-gap-sm"
@@ -261,6 +274,7 @@ export function LoginAuthSurface({
                   id="auth-email"
                   type="email"
                   required
+                  disabled={isPasswordSubmitting || isConfirmationResending}
                   ref={emailRef}
                   name="email"
                   value={email}
@@ -287,6 +301,7 @@ export function LoginAuthSurface({
                 ref={passwordRef}
                 name="password"
                 required
+                disabled={isPasswordSubmitting || isConfirmationResending}
                 value={password}
                 onChange={(event) => onPasswordChange(event.target.value)}
                 onFocus={onSyncInputState}
@@ -307,6 +322,7 @@ export function LoginAuthSurface({
                   ref={confirmRef}
                   name="confirm-password"
                   required
+                  disabled={isPasswordSubmitting || isConfirmationResending}
                   value={confirm}
                   onChange={(event) => onConfirmChange(event.target.value)}
                   placeholder={authCopy.placeholders.passwordNew}
@@ -373,6 +389,8 @@ export function LoginAuthSurface({
 
               <Button
                 type="submit"
+                disabled={!isAuthReady || isPasswordSubmitting || isConfirmationResending}
+                aria-busy={isPasswordSubmitting}
                 variant={mode === 'signup' ? 'primary' : 'outline'}
                 className="w-full"
               >
@@ -386,6 +404,7 @@ export function LoginAuthSurface({
                   type="button"
                   variant="ghost"
                   size="sm"
+                  disabled={isPasswordSubmitting || isConfirmationResending}
                   onClick={() => onModeChange('reset')}
                   className="self-start text-brand hover:text-brandHover"
                 >
@@ -395,7 +414,7 @@ export function LoginAuthSurface({
             ) : null}
           </>
         ) : (
-          <form noValidate onSubmit={onResetSubmit} className="stack-gap-sm">
+          <form method="post" noValidate onSubmit={onResetSubmit} className="stack-gap-sm">
             <div className="block text-sm">
               <label htmlFor="reset-email" className="mb-1 block text-text-secondary">
                 {authCopy.fields.email}
@@ -426,7 +445,7 @@ export function LoginAuthSurface({
                 {authCopy.links.backToSignIn}
               </Button>
             </div>
-            <Button type="submit" variant="outline" className="w-full gap-2" disabled={isResetSending} aria-busy={isResetSending}>
+            <Button type="submit" variant="outline" className="w-full gap-2" disabled={!isAuthReady || isResetSending || isPasswordSubmitting} aria-busy={isResetSending}>
               {isResetSending ? <><LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin motion-reduce:animate-none" />{authCopy.feedback.sendingReset}</> : authCopy.actions.reset}
             </Button>
           </form>
@@ -476,6 +495,11 @@ export function LoginAuthSurface({
           <p role="alert" className="text-xs text-state-warning">
             {error}
           </p>
+        )}
+        {mode === 'signin' && unconfirmedEmail && (
+          <Button type="button" variant="outline" size="sm" data-testid="resend-confirmation" onClick={onResendConfirmation} disabled={isConfirmationResending || isPasswordSubmitting} aria-busy={isConfirmationResending}>
+            {isConfirmationResending ? authCopy.feedback.sendingConfirmation : authCopy.feedback.resendConfirmation}
+          </Button>
         )}
       </div>
       </div>

@@ -47,7 +47,7 @@ export async function submitImageGeneration(
   payload: ImageGenerationRequest,
   overrides: Partial<Dependencies> = {},
   pricingSnapshot?: PricingSnapshot | null,
-  request?: { accessToken: string; signal: AbortSignal },
+  request?: { accessToken: string; signal?: AbortSignal },
 ): Promise<ImageGenerationResponse> {
   const principal = readLastKnownUserId();
   const deps: Dependencies = {
@@ -67,7 +67,7 @@ export async function submitImageGeneration(
     });
   } catch (error) {
     // A caller-aborted submission is cancelled, not interrupted: never start status recovery for it.
-    if (request?.signal.aborted) throw error;
+    if (request?.signal?.aborted) throw error;
     return recoverImageResponse(payload, deps);
   }
   const data = await response.json().catch(() => null) as ImageGenerationResponse | null;

@@ -16,6 +16,8 @@ import { uploadVideoFile } from '@/lib/client-video-upload';
 import { translateError } from '@/lib/error-messages';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { normalizeUiLocale } from '@/lib/ltx-localization';
+import type { MediaInputEligibility } from '@/lib/media-input-eligibility';
+import { mediaInputEligibilityMessage } from './media-input-eligibility-copy';
 
 export type AssetLibrarySource =
   | 'all'
@@ -26,26 +28,13 @@ export type AssetLibrarySource =
   | 'character'
   | 'angle'
   | 'upscale';
-export type AssetLibraryKind = 'image' | 'video';
+export type AssetLibraryKind = 'image' | 'video' | 'audio';
 
-export type UserAsset = {
-  id: string;
-  url: string;
-  thumbUrl?: string | null;
-  previewUrl?: string | null;
-  kind: 'image' | 'video' | 'audio';
-  width?: number | null;
-  height?: number | null;
-  size?: number | null;
-  mime?: string | null;
-  source?: string | null;
-  createdAt?: string;
-  canDelete?: boolean;
-  jobId?: string | null;
-  sourceOutputId?: string | null;
-};
+export type UserAsset = import('./AssetLibraryBrowser').AssetBrowserAsset;
 
 export type AssetLibraryModalProps = {
+  ownerId?: string | null;
+  importQueue?: import("@/lib/library-import-queue").LibraryImportQueueController;
   fieldLabel: string;
   target?: { scope: string; role?: 'start' | 'end'; capacity?: number; slotIndex?: number };
   assetType: AssetLibraryKind;
@@ -55,7 +44,10 @@ export type AssetLibraryModalProps = {
   hasMore?: boolean;
   error: string | null;
   onClose: () => void;
+  onSelectMany?: import('./ReferenceLibraryPicker.client').ReferencePickerSelection['onConfirmMany'];
   onSelect: (asset: UserAsset) => void | string | Promise<void | string>;
+  getEligibility?: (asset: UserAsset, context?: 'stored' | 'file') => MediaInputEligibility;
+  onImportFile?: (file: File) => Promise<void | string>;
   source: AssetLibrarySource;
   onSourceChange: (source: AssetLibrarySource) => void;
   onRefresh: (source?: AssetLibrarySource) => void;
@@ -222,6 +214,10 @@ function getUploadFailureMessage(assetType: AssetLibraryKind, error: unknown, fa
 }
 
 export function AssetLibraryModal({
+  getEligibility,
+  importQueue,
+  ownerId,
+  onImportFile,
   fieldLabel,
   target,
   assetType,
@@ -232,6 +228,7 @@ export function AssetLibraryModal({
   error,
   onClose,
   onSelect,
+  onSelectMany,
   source,
   onSourceChange,
   onRefresh,
@@ -256,8 +253,8 @@ export function AssetLibraryModal({
   const importLabel = copyAssetLibrary.import ?? DEFAULT_ASSET_LIBRARY_COPY.import;
   const importingLabel = copyAssetLibrary.importing ?? DEFAULT_ASSET_LIBRARY_COPY.importing;
   const importFailedLabel = copyAssetLibrary.importFailed ?? DEFAULT_ASSET_LIBRARY_COPY.importFailed;
-  const importAccept = assetType === 'video' ? 'video/*' : 'image/*';
-  const importEndpoint = assetType === 'video' ? '/api/uploads/video' : '/api/uploads/image';
+  const importAccept = `${assetType}/*`;
+  const importEndpoint = '/api/uploads/image';
   const emptyLabel =
     source === 'recent'
       ? assetType === 'video'
@@ -317,9 +314,21 @@ export function AssetLibraryModal({
       event.currentTarget.value = '';
       if (!file) return;
 
+      const eligibility = getEligibility?.({ id: 'import', url: file.name, kind: assetType, mime: file.type, size: file.size }, 'file');
+      if (eligibility?.status === 'blocked') {
+        setImportError(mediaInputEligibilityMessage(eligibility, uiLocale));
+        return;
+      }
+
       setImportError(null);
       setIsImporting(true);
       try {
+        if (onImportFile) {
+          const message = await onImportFile(file);
+          if (mounted.current && typeof message === 'string') setImportError(message);
+          return;
+        }
+        if (assetType === 'audio') throw new Error('Audio import is unavailable in this picker.');
         if (assetType === 'video') {
           const uploadedAsset = await uploadVideoFile(file);
           if (!mounted.current) return;
@@ -332,6 +341,7 @@ export function AssetLibraryModal({
             width: uploadedAsset.width ?? null,
             height: uploadedAsset.height ?? null,
             size: uploadedAsset.size ?? null,
+            durationSec: uploadedAsset.durationSec ?? null,
             mime: uploadedAsset.mime ?? null,
             canDelete: true,
           });
@@ -381,14 +391,14 @@ export function AssetLibraryModal({
         setIsImporting(false);
       }
     },
-    [assetType, importEndpoint, importFailedLabel, onSelect]
+    [assetType, getEligibility, importEndpoint, importFailedLabel, onImportFile, onSelect, uiLocale]
   );
 
-  const sourceOptions = assetType === 'video'
+  const sourceOptions = assetType !== 'image'
     ? (['all', 'upload', 'recent', 'generated', 'upscale'] as const).filter((source) => !isKeyvoToolDisabled(source))
     : (['all', 'upload', 'generated', 'storyboard', 'character', 'angle', 'upscale'] as const).filter((source) => !isKeyvoToolDisabled(source));
   const libraryTitle =
-    assetType === 'video'
+    assetType === 'audio' ? (uiLocale === 'fr' ? 'Choisir une référence audio' : uiLocale === 'es' ? 'Elegir audio de referencia' : uiLocale === 'zh' ? '选择参考音频' : 'Select reference audio') : assetType === 'video'
       ? (uiLocale === 'fr'
           ? 'Selectionner une video de reference'
           : uiLocale === 'es'
@@ -423,7 +433,7 @@ export function AssetLibraryModal({
       />
       <AssetLibraryBrowser
         locale={uiLocale}
-        selection={{ scope: target?.scope ?? fieldLabel, busy, onBusyChange: setIsSelecting, onConfirm: onSelect }}
+        selection={{ ownerId, browseLibrary: true, importQueue, scope: target?.scope ?? fieldLabel, busy, onBusyChange: setIsSelecting, onConfirm: onSelect, onConfirmMany: onSelectMany, getEligibility }}
         headingId={titleId}
         title={target?.role ? referenceCopy[target.role] : libraryTitle}
         subtitle={[!target?.role ? referenceCopy.kinds[assetType] : null, target?.slotIndex != null && (target?.capacity ?? 1) > 1 ? `${pickerCopy.slot} ${target.slotIndex + 1}` : null, (target?.capacity ?? 1) > 1 ? `${pickerCopy.capacity} ${target?.capacity}` : null].filter(Boolean).join(' · ')}
@@ -443,13 +453,13 @@ export function AssetLibraryModal({
         loadMoreLabel={loadMoreLabel}
         searchPlaceholder={searchPlaceholder}
         sourcesTitle={sourcesTitle}
-        emptyLabel={emptyLabel ?? (assetType === 'video'
+        emptyLabel={assetType === 'audio' ? (uiLocale === 'fr' ? 'Aucun audio enregistré.' : uiLocale === 'es' ? 'No hay audio guardado.' : uiLocale === 'zh' ? '暂无保存的音频。' : 'No saved audio yet.') : emptyLabel ?? (assetType === 'video'
           ? (uiLocale === 'zh' ? '暂无保存的视频。' : 'No saved videos yet.')
           : (uiLocale === 'zh' ? '暂无保存的图像。' : 'No saved images yet.'))}
         emptySearchLabel={emptySearchLabel}
         headerActions={
           <>
-            <Button
+            {!importQueue ? <Button
               type="button"
               variant="outline"
               size="sm"
@@ -458,7 +468,7 @@ export function AssetLibraryModal({
               onClick={() => importInputRef.current?.click()}
             >
               {isImporting ? importingLabel : importLabel}
-            </Button>
+            </Button> : null}
             <Button
               type="button"
               variant="outline"

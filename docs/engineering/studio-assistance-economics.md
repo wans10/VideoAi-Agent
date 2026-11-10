@@ -1,5 +1,7 @@
 # Studio assistance credits
 
+The 2026-10-29 candidate extends the same lots to **Lite/Luna, Standard/Terra and Max/Sol**. See [shared Milo levels](milo-levels.md) for exact rates, frozen runtime versions and pending migrations. It performs no production activation or balance reset.
+
 The 2026-10-06 branch candidate adds a separately confirmed media-analysis consumer
 of these same credit lots and campaign/account locks. It activates no production
 analysis tariff and preserves historical chat prices. See
@@ -24,6 +26,24 @@ policy without reading credit tables or changing its tariff. Unknown approvals
 remain disabled; neither approval implies the other. `assistance-policy.ts` selects
 monthly credits and Luna fair use; the public contract lives in
 `frontend/src/lib/studio/assistance-contract.ts`.
+
+Studio presents its assistant as Milo. The compact Lite / Standard / Max controls below
+the composer open the existing settings and credits dialog; opening it does not
+select a model or buy credits. Max maps to GPT‑6.1 Sol and remains the default with
+the existing 500 included credits. Lite maps to GPT‑6 Luna/high, Standard to GPT‑6.1 Terra/high, and Max to GPT‑6.1 Sol/xhigh. Standard and Max share these credit lots at their model-specific rates. These public mode names do not rename stored task
+profiles: there is no public Quick/Standard/Complex work-profile picker. New
+requests use the internal Standard profile with the level’s frozen reasoning and output allowance (runtime v2: Lite 32,000, Standard/Max 6,000 tokens); stored profiles and
+approvals remain valid. A Lite task, including a funding fallback, offers an
+Explore Max link. Assistance details stay in the dialog rather than an extra
+explanatory sentence below the composer.
+Complex requests may receive a brief contextual recommendation in the chat.
+Credits and pack purchases remain in the on-demand assistance dialog, with
+explicit purchase confirmation. No default-model migration is required.
+
+New purchase receipts say `Milo credit pack`. Historical receipt descriptions,
+`studio_assistance_pack`, tariff versions, model IDs and idempotency keys are not
+renamed or migrated. The homepage, Studio landing and pricing/PAYG copy use the
+same public names while retaining the underlying model names in pricing details.
 
 GPT‑6.1 Sol receives **500 free credits per UTC calendar month**. 1,000 credits
 represent USD $1 of customer usage, not 1,000 raw model tokens. Free credits do not
@@ -58,6 +78,33 @@ unchanged.
 
 `assistance-credit-ledger.ts` owns grant creation, purchases, allocation holds,
 settlement and support releases. The account lock serializes these operations.
+The generic missing-media cron must never refund a pack or a legacy assistance
+reservation merely because its identifier has no `app_jobs` row. It excludes
+`studio_assistance_pack` / `studio_assistance` and their `studio-sol-pack:` /
+`studio-assistance:` identities, including when optional assistance tables are
+absent. Where present, exact same-account lot `receipt_id` and call
+`charge_receipt_id` ownership also protects historical receipts without labels.
+These checks read existing schema without initializing it; a present but invalid
+owner table remains an explicit failure.
+
+That cron admits known media surfaces and the exact finishing-tool products;
+unknown explicit surfaces and unknown products on mixed `tool` or unlabelled
+surfaces stay pending review. Unlabelled legacy media
+remains eligible only after the separate-ledger ownership checks. New products
+must establish their settlement owner and cron classification before launch.
+`tests/reconcile-missing-jobs-postgres.test.ts` exercises actual synthetic pack
+purchases, legacy ownership, all media surfaces, optional schema absence and
+concurrent replay. Only inserted refund receipts count in its response.
+Historical charge/refund receipts remain immutable: any accounting repair needs
+an exact reviewed receipt list and its wallet/credit effect; deploying this guard
+does not authorize a customer debit, credit revocation or Stripe action.
+An explicitly authorized erroneous-refund correction uses an appended wallet
+charge with reason `erroneous_refund_credit_reversal`, linked to its original
+refund. The shared receipt classifier records it as a credit reversal rather
+than media spending. A correction without a generation has no `job_id`; it
+cannot become another missing-generation candidate. Purchased lots and original
+receipts stay unchanged.
+
 Reads project an uncreated current-month grant without writing; mutations insert
 it once. The month derives from the database transaction clock in UTC. Settlements
 and releases return unused holds to their original lots, including an expired
@@ -82,13 +129,43 @@ message quote. It **never debits the wallet a second time**. Purchases use
 charges. Credit funding stores total quoted/settled customer cents (including free
 usage); the call's `charged_cents` records only the purchased portion consumed.
 
+The 2026-10-23 completion policy lets an owned Max task use its final positive
+balance without reducing the requested output allowance. Under the account lock,
+the customer reservation is capped at spendable credits and the remaining task
+monetary ceiling. MaxVideoAI sponsors any excess and conservatively reserves the
+full supplier exposure against the existing campaign, including purchased-only
+balances. Normal profile input/output/call/time limits still apply.
+
+`assistance-credit-budget.ts` validates the versioned `creditCompletion` marker in
+`pricing_snapshot`. The immutable funding `quoted_cents` is the authoritative
+customer cap; the snapshot is mutable until settlement. Settlement bills only
+actual incremental usage up to that cap and records the per-call gift separately.
+Cumulative tariff accounting subtracts both charged and gifted amounts, so a later
+purchase or explicitly continued segment never bills the gift back. Task ceilings
+count actual customer charges only. A shorter response releases unused credits;
+zero is a lower bound, not a forced debit. The existing upward cent rounding means
+balances change in multiples of 10 credits. There is no new tariff, negative balance,
+automatic pack purchase or second wallet charge.
+
+At zero spendable credits or zero remaining customer task allowance, sponsored
+Lite can continue within the existing task resource limits. A final Max output
+that still reaches its full output bound can use another existing step; incomplete
+tools are discarded and mandatory first film comparisons remain required. Saved
+completion authorization and output bounds survive checkpoint replay. Unknown
+usage remains held until recovery or support resolution; waived calls stay excluded
+from future customer tariff accounting. Non-task legacy calls retain fixed bounds.
+Unavailable campaigns, paused purchased usage and request limits still apply.
+Same-ceiling continuation remains available after legitimate step/time/budget pauses.
+Explicit media-analysis quotes
+and historical financial evidence are unaffected.
+
 GPT‑6 Luna has **no monthly per-account quota**. The existing owned conversation
 lease admits one active message per account. Reservation also refuses another
 request while a Luna call has unresolved usage. Its generous context bound is
-128,000 input tokens; the existing 2,200 output-token and four-call message bounds
-remain. Complex creative direction may recommend GPT‑6.1 Sol; a change requires
-an explicit customer choice. Luna uses `reasoning.effort=medium`, like the existing
-director. The sponsored campaign remains an operational availability gate, with
+128,000 input tokens; runtime v2 allows 32,000 output tokens for Lite and 6,000 for Standard/Max, with four calls per message. Historical snapshots retain their 2,200/6,000-token bounds. Complex creative direction may recommend GPT‑6.1 Sol; a change requires
+an explicit customer choice. New Luna task requests use the current high-reasoning
+policy and 6,000 output-token allowance. Historical task and fallback allowances
+retain their frozen policy. The sponsored campaign remains an operational availability gate, with
 its existing persisted $100 supplier ceiling; this code does not increase or renew
 it. Production launch requires an explicit operational funding decision, in
 addition to policy approval. For conservative campaign protection, a Sol message
@@ -126,7 +203,7 @@ external assistant's plan/limits apply. They do not install, authorize or spend.
 2. The Responses input-token-count endpoint counts the exact prospective payload,
    including image inputs and tool schemas. This is a non-generative preflight,
    not a second assistant response. A counting error stops before reservation or
-   model dispatch. Input must be at most 272,000 tokens; output is capped at 2,200.
+   model dispatch. Input must be at most 272,000 tokens; output is capped by the frozen runtime (historically 2,200/6,000; runtime v2 gives Lite 32,000 while Standard/Max remain at 6,000).
    Native requests use `service_tier=default`, global OpenAI processing, no SDK
    retries, no built-in billable tools, and at most four dispatched responses per client message, including retries.
 3. Each model dispatch requires a committed conversation-response checkpoint and
@@ -256,3 +333,32 @@ Existing conversation-run, route, usage and canonical-pricing contracts also run
 Before production review, qualify actual token-count/response parity, representative
 Sol and Luna tasks, non-default provider billing settings, support reconciliation,
 and the new customer-visible consent and wallet-hold language.
+
+## Composer completed-output credit restorations
+
+Migration 93 and `assistance-output-refund.ts` own the narrow customer restoration
+for a completed non-refusal composer response rejected by application validation.
+Known supplier usage is still settled normally. New positive credit charges are
+restored atomically with the failed request and return
+`OUTPUT_INVALID_CREDITS_RESTORED`; historical `OUTPUT_INVALID` failures use an
+exact-owned-call, fingerprinted support preview/apply. Other provider statuses,
+refusals, incomplete responses and the real replacement target limit retain their
+existing known-usage charge policy. This is separate from an unknown-usage waiver.
+
+Original call costs, funding and charged allocations remain gross immutable
+history. Immutable `studio_assistance_output_refunds` and
+`studio_assistance_output_refund_allocations` identify the returned credits and
+original lots. Net credit consumption subtracts these restorations; supplier cost
+and sponsored campaign expenditure do not. The existing credit-balance/status
+reader reports the resulting lot balances and net purchased usage. The common
+assistant review explicitly separates gross charges, refunds and net consumption
+under the original account/request scope. Pack purchase receipts are unchanged;
+a restoration is neither new wallet revenue nor a second wallet refund.
+
+Only the original lot's `consumed_credits` decreases. No grant, new pack or allowance
+is created. Old included periods retain their expiry rather than replenishing the
+current month. A restoration increments account revision to invalidate stale
+funding decisions while preserving the model, consent and budget. It does not
+reopen history, repeat actions or dispatch a provider request. See the exact-call
+procedure in `docs/operations/studio-assistance-support.md`; keep immutable refund
+evidence and compatible readers if the application runtime is rolled back.

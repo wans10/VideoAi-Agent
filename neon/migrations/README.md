@@ -147,3 +147,103 @@ and checks newly inserted v2 profiles; it does not update existing task snapshot
 credit lots, tariffs, wallets or receipts. Old workers and v1 resumptions remain
 compatible. Enqueue readiness requires the new guard for v2 requests. Validate
 the ordered 65 → 67 sequence and replay on disposable PostgreSQL 17 before release.
+
+## External Fal result provenance (migration 76)
+
+`76_external_fal_import.sql` follows generation timing migrations 45/46. It adds
+external-request uniqueness and immutable provenance/ownership, enforces null
+application billing fields and skips timing capture for explicitly imported
+external results. It changes no existing rows and creates no generation, media,
+receipt or tariff. Qualify on disposable PostgreSQL and apply via the normal
+migration process before an external result is adopted. Deploy the matching
+runtime exclusions before adoption too; migration alone does not update runtime
+metrics, Activity, library projection or resync behavior. See
+`docs/engineering/external-fal-provenance.md`. Keep compatible readers and these
+guards if rolling back after external rows exist.
+
+## GA4 payment outbox (migration 77)
+
+`77_ga4_payment_outbox.sql` adds the measurement-only durable queue. Apply the exact
+file before its cron/runtime; no receipt backfill, wallet mutation or request-time DDL.
+Keep deduplication tombstones during rollback. See `docs/engineering/ga4-payment-outbox.md`.
+
+The outbox SQL was initially qualified/applied as `76_ga4_payment_outbox.sql` on
+2026-10-20 before the parallel external-import migration landed. Its contents are
+unchanged under `77_ga4_payment_outbox.sql`; do not treat the rename as a new schema
+change or replay financial data. Existing outbox tables need no reapplication.
+
+## Shared assistant review retention (90 → 91)
+
+Apply `90_assistant_review.sql` after Studio 52 and composer 85, then
+`91_assistant_review_retention.sql` before activating expanded review capture and
+its hourly cron. Apply only pending files on a verified target; 91 is re-applicable
+and must follow 90 if history is replayed. It permits only age-qualified removal
+of review-only snapshots/notes; original history, replay evidence, audit identity
+and financial rows stay intact. No data is purged by the migration itself.
+The cron needs a configured `CRON_SECRET`; monitor failures and `hasMore` backlog.
+Keep retention guards/job when rolling back assistance features. See
+`docs/engineering/assistant-review.md` for dry-run and lifecycle boundaries.
+
+## Character Studio library (93)
+
+Apply `93_character_studio.sql` on a verified initialized application database
+before deploying the saved-character endpoints. It adds account-owned identities
+and looks, with composite ownership references and unique source-output keys.
+It does not alter jobs, original media, wallets or existing generation history.
+Keep these tables if rolling back the UI; no runtime reader performs DDL.
+On a new database run the baseline bootstrap first, then apply migrations in
+order: 93 requires the profiles table from migration 00. Validation
+used disposable PostgreSQL 17 only; no hosted migration was applied for this
+implementation. See `docs/engineering/character-studio.md` for endpoint ownership.
+
+## Composer application-output credit refunds (migration 93)
+
+Apply `93_milo_output_credit_refunds.sql` explicitly after 54, 62, 63 and 85 before
+deploying its matching composer settlement runtime. It adds immutable per-call and
+per-original-lot refund evidence, without backfills, grants, wallet changes or
+changes to settled supplier/charge history. Re-applying the DDL is safe; retain
+these tables/guards and compatible financial readers on rollback. Normal previews
+need the same migration on their own database branch. See
+`docs/operations/studio-assistance-support.md` for exact-owned-call preview and
+fingerprinted apply, supported failure policy and expiry semantics. This source
+change is qualified on disposable PostgreSQL; a hosted apply is a separate reviewed
+operation on a verified target.
+
+## Studio conversation reply envelope (migration 94)
+
+Apply `94_studio_conversation_reply_envelope.sql` after the existing Studio task
+migrations and before deploying the long-reply runtime. It widens only task
+`partial_reply` storage from 2,400 to 50,000 characters, replacing the known old
+constraint with validated `studio_tasks_reply_envelope_v1`. Unknown constraint
+definitions stop for inspection. Admission and worker dispatch require that exact
+validated bound and absence of the old restrictive check before spending; task
+ownership and historical reads remain available. No token/resource policy,
+credit, tariff, approval or existing response changes. Keep the widened constraint
+because long replies may already be stored. Prefer a forward fix: old-runtime
+history context and saved-response recovery need separate qualification, even if
+ordinary history reads still work. Never truncate or rewrite long data for a
+rollback. See
+`docs/engineering/studio-conversation-reply-envelope.md` for exact prerequisites,
+timeouts and local verification. Migration 93 was delivered by PR 607 at main
+`3239a5a1ec487724616d9c9b30612637322d0f53`; migration 94 has no collision
+in that base. Recheck main before publication if another migration lands.
+
+## Parallel Character Studio and Milo migrations (2026-11-05)
+
+The Character Studio branch and main independently used prefixes 93 and 94.
+Keep the complete filenames: these migrations have already been applied to
+different environments and operate on separate tables. Do not rename or mark
+a migration applied using only its numeric prefix. The repository runner selects
+complete `*.sql` filenames; on an existing database apply only verified pending
+files explicitly.
+
+- `93_character_studio.sql` creates characters/looks.
+- `93_milo_output_credit_refunds.sql` creates assistant refund evidence.
+- `94_character_studio_presentation.sql` adds character presentation.
+- `94_studio_conversation_reply_envelope.sql` widens Studio reply storage.
+- `95_character_studio_recast_quotes.sql` binds Recast approvals.
+
+Updating a Character Studio preview requires checking both Milo migrations even
+when the Character Studio 93–95 migrations are already present. Production keeps
+its independently verified migration state; preview qualification does not apply
+DDL to production.

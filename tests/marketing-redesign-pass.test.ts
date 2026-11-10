@@ -2,8 +2,11 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { JSDOM } from 'jsdom';
 import { buildHomeComparisonData } from '../frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-comparison-data';
 import { PairedScores } from '../frontend/components/marketing/PairedScores';
+import { HomeComparisonScores } from '../frontend/components/marketing/home/HomeComparisonScores.client';
 import { MARKETING_SITE_NAV_LINKS, MARKETING_TOP_NAV_LINKS } from '../frontend/config/navigation';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
@@ -59,9 +62,10 @@ test('home shows a works wall; the retained discovery components keep their serv
 
 test('home comparison uses the full comparator global-score calculation and counts available criteria', () => {
   const data = buildHomeComparisonData(new Map([
-    ['kling-3-pro', {fidelity:0, motion:6, consistency:9, visualQuality:10}],
+    ['wan-3', {fidelity:0, motion:6, consistency:9, visualQuality:10}],
     ['seedance-2-5', {fidelity:9, motion:9, consistency:9, visualQuality:8}],
   ]));
+  assert.equal(data.left.slug, 'wan-3');
   assert.equal(data.left.overall, 5);
   assert.equal(data.left.criteriaCount, 4);
   assert.deepEqual(data.left.scores, [0,10,6]);
@@ -83,7 +87,7 @@ test('home tools reuse catalogue artwork and model guidance remains image-led wi
   assert.doesNotMatch(tools + choice, /<video|autoPlay|preload=/);
 });
 
-test('workspace follows the hero and owns optional assistant access instead of a separate home chapter', () => {
+test('workspace follows the hero and the conversation section owns optional assistant access', () => {
   const route = readFileSync('frontend/app/(localized)/[locale]/(marketing)/(home)/page.tsx', 'utf8');
   const creation = readFileSync('frontend/components/marketing/home/HomeCreationSection.tsx', 'utf8');
   // The works-wall home opens with the prompt box and the wall; the creation chapter is no longer composed here.
@@ -94,9 +98,37 @@ test('workspace follows the hero and owns optional assistant access instead of a
 });
 
 
-test('homepage and full comparison use the same score presentation', () => {
+test('homepage excerpt and full comparison preserve the common score scale and missing values', () => {
   const home = readFileSync('frontend/components/marketing/home/HomeComparisonScores.client.tsx', 'utf8');
   const comparison = readFileSync('frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/CompareScoreboard.client.tsx', 'utf8');
-  for (const source of [home, comparison]) assert.match(source, /<PairedScores metrics=\{metrics\}/);
+  assert.match(comparison, /<PairedScores metrics=\{metrics\}/);
   assert.doesNotMatch(home, /comparison-bar|comparison-pair/);
+  const html = renderToStaticMarkup(React.createElement(HomeComparisonScores, {
+    label: 'Comparison excerpt',
+    overallLabel: 'Overall',
+    leftName: 'Wan 3',
+    leftOverall: 0,
+    metrics: [
+      { id: 'zero', label: 'Zero and missing', leftValue: 0, rightValue: null },
+      { id: 'valid', label: 'Valid', leftValue: 8.6, rightValue: 9.1 },
+      { id: 'nonfinite', label: 'Nonfinite', leftValue: NaN, rightValue: Infinity },
+      { id: 'outside', label: 'Outside scale', leftValue: -1, rightValue: 11 },
+    ],
+  }));
+  const document = new JSDOM(html).window.document;
+  // Keyvo keeps its studio score sheet (contender cards plus the shared paired-score scale) instead of upstream's table.
+  assert.equal(document.querySelector('.comparison-scale')?.textContent, 'Comparison excerpt');
+  assert.equal(document.querySelector('.studio-contender-rating strong')?.textContent, '0.0/10');
+  const rows = [...document.querySelectorAll('.paired-row')];
+  assert.equal(rows.length, 4);
+  const values = (index: number) => [rows[index].querySelector('.score-left')?.textContent, rows[index].querySelector('.score-right')?.textContent];
+  const dots = (index: number) => [...rows[index].querySelectorAll('.paired-dot')].map(node => (node as HTMLElement).style.left);
+  assert.deepEqual(values(0), ['● 0.0', '◆ —']);
+  assert.deepEqual(dots(0), ['calc(0% * var(--home-score-progress, 1))']);
+  assert.deepEqual(values(1), ['● 8.6', '◆ 9.1']);
+  assert.deepEqual(dots(1), ['calc(86% * var(--home-score-progress, 1))', 'calc(91% * var(--home-score-progress, 1))']);
+  for (const index of [2, 3]) {
+    assert.deepEqual(values(index), ['● —', '◆ —']);
+    assert.deepEqual(dots(index), []);
+  }
 });

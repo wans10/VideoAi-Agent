@@ -25,12 +25,13 @@ export const METADATA_COPY: Record<AppLocale, { title: string; description: stri
   },
 };
 
-export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: string; effectiveLabel: string; companyLine: string; contactLabel: string }> = {
+export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: string; effectiveLabel: string; companyLine: string; mentionsLabel: string; contactLabel: string }> = {
   en: {
     title: 'Terms of Service',
     versionLabel: 'Version',
     effectiveLabel: 'Effective date',
     companyLine: 'Company: Keyvo (sole proprietorship in formation) · Governing law: France (Paris courts)',
+    mentionsLabel: 'Legal notice',
     contactLabel: 'Contact:',
   },
   fr: {
@@ -38,6 +39,7 @@ export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: strin
     versionLabel: 'Version',
     effectiveLabel: "Date d’entrée en vigueur",
     companyLine: "Société : Keyvo (entreprise individuelle en cours de constitution) · Droit applicable : France (tribunaux de Paris)",
+    mentionsLabel: 'Mentions légales',
     contactLabel: 'Contact :',
   },
   es: {
@@ -45,6 +47,7 @@ export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: strin
     versionLabel: 'Versión',
     effectiveLabel: 'Fecha de entrada en vigor',
     companyLine: 'Empresa: Keyvo (empresa individual en constitución) · Ley aplicable: Francia (tribunales de París)',
+    mentionsLabel: 'Aviso legal',
     contactLabel: 'Contacto:',
   },
   zh: {
@@ -52,6 +55,7 @@ export const HEADER_COPY: Record<AppLocale, { title: string; versionLabel: strin
     versionLabel: '版本',
     effectiveLabel: '生效日期',
     companyLine: '运营者信息见本页“运营者信息”一节',
+    mentionsLabel: '运营者信息',
     contactLabel: '联系方式：',
   },
 };

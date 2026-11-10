@@ -86,6 +86,10 @@ test('ResolvedReference is an internal storage DTO using the canonical role owne
     'durationSec',
     'mimeType',
     'sizeBytes',
+    'fps',
+    'decodedFrameCount',
+    'constantFrameRate',
+    'sourceSha256',
     'originalName',
   ]);
   assert.match(
@@ -100,6 +104,7 @@ test('ResolvedReference is an internal storage DTO using the canonical role owne
   assert.match(body, /width:\s*number\s*\|\s*null;/u);
   assert.match(body, /height:\s*number\s*\|\s*null;/u);
   assert.match(body, /durationSec:\s*number\s*\|\s*null;/u);
+  assert.match(body, /fps\?:\s*number;/u);
   assert.match(body, /mimeType:\s*string;/u);
   assert.match(body, /sizeBytes\?:\s*number\s*\|\s*null;/u);
   assert.match(body, /originalName\?:\s*string\s*\|\s*null;/u);
@@ -140,7 +145,8 @@ test('reference and upload failures have one stable AgentApiError code owner', a
   const errorsSource = source(errorsPath);
   assert.match(errorsSource, /export const REFERENCE_ERROR_CODES\s*=/u);
   assert.match(errorsSource, /export type ReferenceErrorCode\s*=/u);
-  assert.match(errorsSource, /export type AgentApiErrorCode\s*=[\s\S]*?ReferenceErrorCode/u);
+  assert.match(errorsSource, /export const AGENT_API_ERROR_CODES\s*=[\s\S]*?\.\.\.REFERENCE_ERROR_CODES/u);
+  assert.match(errorsSource, /export type AgentApiErrorCode\s*=\s*\(typeof AGENT_API_ERROR_CODES\)\[number\]/u);
   for (const code of expected) {
     assert.equal(
       errorsSource.match(new RegExp(`'${code}'`, 'gu'))?.length,
@@ -151,6 +157,7 @@ test('reference and upload failures have one stable AgentApiError code owner', a
 
   const errors = await import('../frontend/src/server/agent-api/errors') as Record<string, unknown>;
   assert.deepEqual(errors.REFERENCE_ERROR_CODES, expected);
+  for (const code of expected) assert.ok((errors.AGENT_API_ERROR_CODES as readonly string[]).includes(code));
   const AgentError = errors.AgentApiError as new (
     code: string,
     message: string,

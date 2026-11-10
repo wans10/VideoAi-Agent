@@ -1,3 +1,5 @@
+import type { MediaReadAccess } from '@/lib/media-read-access';
+import { imageReferenceIdentity } from './image-reference-slot-state';
 import type { GptImage2ImageSize } from '@/lib/image/gptImage2';
 import { parseCharacterReferenceEntry } from './image-workspace-character-references';
 import {
@@ -37,11 +39,13 @@ export function parsePersistedImageComposerState(value: string): PersistedImageC
         : null;
     const seed = typeof raw.seed === 'number' && Number.isFinite(raw.seed) ? Math.round(raw.seed) : null;
     const outputFormat = typeof raw.outputFormat === 'string' ? raw.outputFormat : null;
+    const outputCompression = (outputFormat === 'jpeg' || outputFormat === 'webp') && typeof raw.outputCompression === 'number' && Number.isInteger(raw.outputCompression) && raw.outputCompression >= 0 && raw.outputCompression <= 100 ? raw.outputCompression : null;
     const quality = typeof raw.quality === 'string' ? raw.quality : null;
     const background = typeof raw.background === 'string' ? raw.background : null;
     const style = typeof raw.style === 'string' ? raw.style : null;
     const maskUrl = typeof raw.maskUrl === 'string' ? raw.maskUrl : null;
     const enableWebSearch = raw.enableWebSearch === true;
+    const complexity = typeof raw.complexity === 'string' ? raw.complexity : null;
     const thinkingLevel = typeof raw.thinkingLevel === 'string' ? raw.thinkingLevel : null;
     const limitGenerations = raw.limitGenerations === true;
     const watermark = raw.watermark === true;
@@ -51,7 +55,7 @@ export function parsePersistedImageComposerState(value: string): PersistedImageC
       .map((entry): PersistedReferenceSlot => {
         if (entry === null) return null;
         if (!entry || typeof entry !== 'object') return null;
-        const record = entry as { url?: unknown; source?: unknown; characterReference?: unknown };
+        const record = entry as MediaReadAccess & { url?: unknown; ref?: unknown; name?: unknown; source?: unknown; characterReference?: unknown };
         const url = typeof record.url === 'string' ? record.url.trim() : '';
         if (!url || url.startsWith('blob:')) return null;
         const source =
@@ -70,7 +74,7 @@ export function parsePersistedImageComposerState(value: string): PersistedImageC
             ? Math.round((record as { height: number }).height)
             : null;
         const characterReference = parseCharacterReferenceEntry(record.characterReference);
-        return { url, source, width, height, characterReference };
+        return { readAccessOwnerId: record.readAccessOwnerId, readAccessRef: record.readAccessRef, readAccessRevision: record.readAccessRevision, url, ref: imageReferenceIdentity(record), name: typeof record.name === 'string' ? record.name.trim() || undefined : undefined, source, width, height, characterReference };
       });
     const characterReferencesRaw = Array.isArray(raw.characterReferences) ? raw.characterReferences : [];
     const characterReferences = characterReferencesRaw.reduce<PersistedCharacterReference[]>((acc, entry) => {
@@ -91,12 +95,14 @@ export function parsePersistedImageComposerState(value: string): PersistedImageC
       customImageSize,
       seed,
       outputFormat,
+      outputCompression,
       quality,
       background,
       style,
       maskUrl,
       enableWebSearch,
       thinkingLevel,
+      complexity,
       limitGenerations,
       watermark,
       referenceSlots,
