@@ -1,3 +1,9 @@
+import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
+import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { prepareOpenAIImageReferences } from './openai-image-references';
+import { extractStorageKeyFromUrl, ownedMediaStorageKeyForUrl } from '@/server/storage';
+import { canReadMarketingFile } from '@/server/marketing-media/access';
+import { query } from '@/lib/db';
 import type {
   CharacterReferenceSelection,
   ImageGenerationMode,
@@ -26,6 +32,7 @@ export type ImageGenerationReferenceContext = {
   combinedImageUrls: string[];
   effectivePrompt: string;
   storedAssetInfoByUrl: Map<string, StoredAssetInfo>;
+  preparedOpenAIReferenceUrls?: string[];
 };
 
 export async function prepareImageGenerationReferences({
@@ -59,6 +66,7 @@ export async function prepareImageGenerationReferences({
   let normalizedImageUrls = imageUrls.filter((url) => !characterReferenceUrls.includes(url));
   let combinedImageUrls = [...characterReferenceUrls, ...normalizedImageUrls];
   const effectivePrompt = buildCharacterReferencePrompt(prompt, characterReferences);
+  if (isGptImage26EngineId(engine.id) && effectivePrompt.length > 32000) fail(mode, 'invalid_prompt', 'The combined image prompt exceeds 32000 characters.', 400);
 
   const invalidImageUrl = combinedImageUrls.find((entry) => !/^https?:\/\//i.test(entry));
   if (invalidImageUrl) {
@@ -75,7 +83,32 @@ export async function prepareImageGenerationReferences({
     );
   }
 
+  // A bucket URL identifies an object; it never authorizes signing that object.
+  // Check every engine and character reference before normalization or provider access.
+  for (const url of new Set(combinedImageUrls)) {
+    const key = extractStorageKeyFromUrl(url);
+    if (key && !ownedMediaStorageKeyForUrl({ url, userId })
+      && !(key.startsWith('marketing-media/') && await canReadMarketingFile(url, userId))) {
+      fail(mode, 'reference_not_owned', 'Reference media is unavailable for this account.', 400);
+    }
+  }
+
+  if (engine.id === NANO21_ENGINE_ID && combinedImageUrls.length) {
+    if (combinedImageUrls.some(url => !ownedMediaStorageKeyForUrl({ url, userId }))) {
+      fail(mode, 'reference_not_owned', 'Import references into your own library before generation.', 400);
+    }
+    const owned = await query<{ url: string }>(
+      `SELECT url FROM user_assets WHERE user_id = $1 AND url = ANY($2::text[])
+       UNION SELECT url FROM media_assets WHERE user_id = $1 AND url = ANY($2::text[]) AND kind = 'image' AND status = 'ready' AND deleted_at IS NULL`,
+      [userId, combinedImageUrls]);
+    if (combinedImageUrls.some(url => !owned.some(row => row.url === url))) {
+      fail(mode, 'reference_not_owned', 'Reference media is unavailable for this account.', 400);
+    }
+  }
   const supportedReferenceFormats = getSupportedImageFormats(engine);
+  // Validate original ownership, MIME and size before any optional format conversion.
+  const preparedOpenAIReferenceUrls = isGptImage26EngineId(engine.id)
+    ? await prepareOpenAIImageReferences({ userId, urls: combinedImageUrls }) : undefined;
   let storedAssetInfoByUrl = new Map<string, StoredAssetInfo>();
   if (supportedReferenceFormats.length && combinedImageUrls.length) {
     storedAssetInfoByUrl = await getStoredAssetInfoByUrl(userId, combinedImageUrls);
@@ -183,6 +216,7 @@ export async function prepareImageGenerationReferences({
     combinedImageUrls,
     effectivePrompt,
     storedAssetInfoByUrl,
+    ...(preparedOpenAIReferenceUrls ? { preparedOpenAIReferenceUrls } : {}),
   };
 }
 

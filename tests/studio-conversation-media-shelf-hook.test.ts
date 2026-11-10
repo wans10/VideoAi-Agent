@@ -1,3 +1,4 @@
+import { STUDIO_CONVERSATION_MAX_ATTACHMENTS } from '../frontend/lib/studio/conversation-creation-contract';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {JSDOM} from 'jsdom';
@@ -6,6 +7,8 @@ import {act} from 'react';
 import {createRoot} from 'react-dom/client';
 import {useConversationMediaShelf} from '../frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/_hooks/useConversationMediaShelf';
 import {imageTurnInputSchema,type ImageConversationTurn,type ImageTurnInput} from '../frontend/src/lib/studio/image-conversation-contract';
+import {chunkedVideoUploadFixture} from './helpers/chunked-video-upload-fixture';
+import {uploadSessionFixture} from './helpers/upload-session-fixture';
 
 const asset=(number:number,kind:'image'|'video'|'audio'='image')=>({assetId:'ma_'+number.toString(16).padStart(32,'0'),kind,url:'https://example.com/media'});
 const requestId='a2899f64-2203-4771-9836-ec6abb8f9bdd';
@@ -19,7 +22,7 @@ function deferred<T>() {
   return {promise,resolve};
 }
 type UploadResponse={ok:boolean;payload:unknown};
-async function mount(initialTurns:ImageConversationTurn[]=[],mediaEnabled=true,desktop=true) {
+async function mount(initialTurns:ImageConversationTurn[]=[],mediaEnabled=true,desktop=true,uploadRequest?:typeof fetch,persist=false) {
   const dom=new JSDOM('<div id="root"></div>',{url:'http://localhost/'});
   const mediaListeners=new Set<()=>void>();
   Object.defineProperty(dom.window,'matchMedia',{value:()=>({get matches(){return desktop;},
@@ -32,6 +35,7 @@ async function mount(initialTurns:ImageConversationTurn[]=[],mediaEnabled=true,d
     File:dom.window.File,FormData:dom.window.FormData,IS_REACT_ACT_ENVIRONMENT:true,
     fetch:async(url:string,options?:RequestInit)=>{
       requests.push({url,options});
+      if(uploadRequest)return uploadRequest(url,options);
       const response=await responses.shift()?.();
       if(!response)throw new Error('Unexpected upload');
       return {ok:response.ok,json:async()=>response.payload};
@@ -39,21 +43,22 @@ async function mount(initialTurns:ImageConversationTurn[]=[],mediaEnabled=true,d
     old.set(key,Object.getOwnPropertyDescriptor(globalThis,key));
     Object.defineProperty(globalThis,key,{value,writable:true,configurable:true});
   }
+  const session=await uploadSessionFixture();
   let turns=initialTurns;
   let state!:ReturnType<typeof useConversationMediaShelf>;
-  function Fixture(){state=useConversationMediaShelf(turns,'en',mediaEnabled);return null;}
+  function Fixture(){state=useConversationMediaShelf(turns,'en',mediaEnabled,'account-A',persist?{scopeKey:'account-A/project-A',ready:true}:undefined);return null;}
   const root=createRoot(dom.window.document.getElementById('root')!);
   const render=()=>root.render(React.createElement(React.StrictMode,null,React.createElement(Fixture)));
   await act(async()=>render());
   let unmounted=false;
   return {
-    get state(){return state;},requests,
+    get state(){return state;},requests,session,dom,
     file:(name='image.png',type='image/png')=>new dom.window.File(['fixture'],name,{type}),
     queue(response:UploadResponse|(()=>Promise<UploadResponse>)){responses.push(typeof response==='function'?response:async()=>response);},
     async rerender(next:ImageConversationTurn[]){turns=next;await act(async()=>render());},
     async viewport(isDesktop:boolean){desktop=isDesktop;await act(async()=>{for(const listener of mediaListeners)listener();});},
     async unmount(){if(!unmounted){await act(async()=>root.unmount());unmounted=true;}},
-    async close(){if(!unmounted)await act(async()=>root.unmount());dom.window.close();for(const [key,value] of old){if(value)Object.defineProperty(globalThis,key,value);else Reflect.deleteProperty(globalThis,key);}},
+    async close(){if(!unmounted)await act(async()=>root.unmount());session.restore();dom.window.close();for(const [key,value] of old){if(value)Object.defineProperty(globalThis,key,value);else Reflect.deleteProperty(globalThis,key);}},
   };
 }
 function currentInput(view:Awaited<ReturnType<typeof mount>>):ImageTurnInput {
@@ -63,21 +68,21 @@ function currentInput(view:Awaited<ReturnType<typeof mount>>):ImageTurnInput {
     referenceMentions:refs.map(({assetId,label})=>({assetId,label}))};
 }
 
-test('duplicate media stays one exact attachment; eight is enforced and detach/reattach retains its label',async()=>{
+test('duplicate media stays one exact attachment; the shared attachment ceiling is enforced and detach/reattach retains its label',async()=>{
   const view=await mount();
   try {
     await act(async()=>{view.state.attach(asset(1));view.state.attach({...asset(1),name:'renamed.png'});});
     assert.equal(view.state.references.length,1);
     assert.equal(view.state.items.length,1);
     assert.equal(view.state.references[0].label,'Image 1');
-    await act(async()=>{for(let index=2;index<=8;index++)view.state.attach(asset(index));});
-    await act(async()=>{assert.equal(view.state.attach(asset(9)),null);});
-    assert.equal(view.state.references.length,8);
-    assert.equal(view.state.items.length,8);
-    assert.match(view.state.error??'',/eight/);
+    await act(async()=>{for(let index=2;index<=STUDIO_CONVERSATION_MAX_ATTACHMENTS;index++)view.state.attach(asset(index));});
+    await act(async()=>{assert.equal(view.state.attach(asset(STUDIO_CONVERSATION_MAX_ATTACHMENTS+1)),null);});
+    assert.equal(view.state.references.length,STUDIO_CONVERSATION_MAX_ATTACHMENTS);
+    assert.equal(view.state.items.length,STUDIO_CONVERSATION_MAX_ATTACHMENTS);
+    assert.ok(view.state.error?.includes(String(STUDIO_CONVERSATION_MAX_ATTACHMENTS)));
     await act(async()=>{view.state.detach(asset(1).assetId);view.state.attach(asset(1));});
     assert.equal(view.state.references.at(-1)?.label,'Image 1');
-    assert.equal(view.state.items.length,8);
+    assert.equal(view.state.items.length,STUDIO_CONVERSATION_MAX_ATTACHMENTS);
     assert.equal(imageTurnInputSchema.safeParse(currentInput(view)).success,true);
   }finally{await view.close();}
 });
@@ -141,9 +146,9 @@ test('an unsupported or over-cap upload batch fails before importing any file',a
     assert.equal(view.requests.length,0);
     assert.deepEqual(view.state.references.map(item=>item.assetId),[asset(1).assetId]);
     assert.match(view.state.error??'',/supported/);
-    await act(async()=>view.state.upload(Array.from({length:8},()=>view.file())));
+    await act(async()=>view.state.upload(Array.from({length:STUDIO_CONVERSATION_MAX_ATTACHMENTS},()=>view.file())));
     assert.equal(view.requests.length,0);
-    assert.match(view.state.error??'',/eight/);
+    assert.ok(view.state.error?.includes(String(STUDIO_CONVERSATION_MAX_ATTACHMENTS)));
     assert.equal(view.state.uploading,false);
   }finally{await view.close();}
 });
@@ -155,6 +160,41 @@ test('image-only Studio refuses a video upload before network work',async()=>{
     assert.equal(view.requests.length,0);
     assert.match(view.state.error??'',/PNG, JPEG or WebP/);
   }finally{await view.close();}
+});
+
+test('Studio drop imports a MOV larger than the function body limit and retains its measured identity',async()=>{
+  const upload=chunkedVideoUploadFixture();
+  const view=await mount([],true,true,upload.request);
+  try {
+    const file=new window.File([new Uint8Array(5*1024*1024)],'reference.mov',{type:'video/quicktime'});
+    await act(async()=>view.state.upload([file]));
+    assert.equal(view.state.error,null);
+    assert.equal(view.state.uploading,false);
+    assert.equal(upload.completed,true);
+    assert.equal(view.state.references.length,1);
+    assert.equal(view.state.references[0].assetId,upload.asset.assetId);
+    assert.equal(view.state.references[0].kind,'video');
+    assert.equal(view.state.references[0].name,'reference.mov');
+    assert.deepEqual(view.state.references[0].mediaFacts,upload.asset.mediaFacts);
+    assert.equal(imageTurnInputSchema.safeParse(currentInput(view)).success,true);
+  }finally{await view.close();}
+});
+
+for(const change of ['unmount','account'] as const)test('a large Studio drop stops after '+change,async()=>{
+  let release!:()=>void;
+  const part=new Promise<void>(resolve=>{release=resolve;});
+  const upload=chunkedVideoUploadFixture(()=>part);
+  const view=await mount([],true,true,upload.request);
+  try {
+    const file=new window.File([new Uint8Array(5*1024*1024)],'reference.mov',{type:'video/quicktime'});
+    let pending!:Promise<void>;
+    await act(async()=>{pending=view.state.upload([file]);});
+    assert.equal(view.state.uploading,true);
+    if(change==='unmount')await view.unmount();else view.session.switchTo('account-B');
+    await act(async()=>{release();await pending;});
+    assert.equal(upload.completed,false);
+    assert.deepEqual(view.state.references,[]);
+  }finally{release();await view.close();}
 });
 
 test('image-only Studio cannot reattach historical video or audio and submit an unbound mention',async()=>{
@@ -230,4 +270,21 @@ test('unmount during an upload prevents attaching its result or uploading the re
     assert.equal(view.requests.length,1);
     assert.deepEqual(view.state.references,[]);
   }finally{await view.close();}
+});
+
+
+test('ordered shelf admission is atomic on last-member refusal and deduplicates canonical identities',async()=>{
+ const view=await mount([],true,true,undefined,true);try {
+  await act(async()=>assert.equal(view.state.attachMany([asset(2,'video'),asset(1),asset(2,'video'),asset(3,'audio')]),true));
+  assert.deepEqual(view.state.references.map(x=>x.assetId),[asset(2).assetId,asset(1).assetId,asset(3).assetId]);
+  const before=JSON.stringify({items:view.state.items,refs:view.state.references});
+  const persisted=view.dom.window.sessionStorage.getItem('maxvideoai:studio:selection:v1:account-A/project-A');
+  await act(async()=>assert.equal(typeof view.state.attachMany([{...asset(4),assetId:'internal-row'}]),'string'));assert.equal(view.dom.window.sessionStorage.getItem('maxvideoai:studio:selection:v1:account-A/project-A'),persisted);
+  await act(async()=>assert.equal(typeof view.state.attachMany(Array.from({length:STUDIO_CONVERSATION_MAX_ATTACHMENTS},(_,i)=>asset(i+10))),'string'));
+  assert.equal(JSON.stringify({items:view.state.items,refs:view.state.references}),before);
+ } finally {await view.close();}
+ const images=await mount([],false);try {
+  await act(async()=>assert.equal(typeof images.state.attachMany([asset(1),asset(2,'audio')]),'string'));
+  assert.equal(images.state.references.length,0);assert.equal(images.state.items.length,0);
+ }finally{await images.close();}
 });

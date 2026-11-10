@@ -1,6 +1,21 @@
 import { getEvergreenExampleFamilyCopy } from './family-overview';
 import type { CanonicalExampleModelSlug, LocalizedModelDescriptor } from '@/lib/examples/modelLandingTypes';
 
+// Se aplica tras validar la publicación y los medios de la familia Kling.
+export const ES_KLING_V4_ADDITION = {
+  summary: 'Kling 4.0 añade escenas de 3 a 30 segundos en 720p o 1080p, un prompt y duración por plano, referencias de sujetos con imágenes o videos y un modo separado de edición de video fuente. Los ejemplos anteriores de Kling conservan su modelo original y sus ajustes.',
+  promptPatterns: 'En Kling 4.0, elige un solo prompt o describe cada plano con su duración. Define el papel de cada referencia y dirige diálogos, ambiente y efectos en el prompt. El plan de varios planos no se aplica a la edición de video.',
+  strengthsLimits: 'Kling 4.0 está limitado a 720p y 1080p en este flujo; no hereda las opciones 4K de otras variantes Kling. El audio nativo no tiene interruptor. Revisa el papel de las referencias y cada corte antes de reutilizar los ajustes.',
+  faq: [{ question: '¿Cómo comparo Kling 4.0 con ejemplos anteriores de Kling?', answer: 'Conserva el nombre del modelo, el prompt y los ajustes de cada clip original. Kling 4.0 ofrece generación de 3 a 30 segundos, prompts con duración por plano, referencias visuales y edición de video fuente en 720p o 1080p. Los modelos anteriores tienen sus propios límites. Compara los clips completos con ajustes equivalentes y revisa un nuevo presupuesto antes de generar.' }],
+} satisfies Pick<LocalizedModelDescriptor, 'summary' | 'promptPatterns' | 'strengthsLimits' | 'faq'>;
+
+export const ES_KLING_V4_FLASH_ADDITION = {
+  summary: "Kling 4.0 Flash añade escenas de 3 a 20 segundos a 720p desde texto, una imagen inicial o referencias visuales. Su galería presenta secuencias nativas de varios planos con diálogos.",
+  promptPatterns: "Con Flash, describe cada plano y cada corte en un único prompt, con una acción clara y un desenlace. Dirige el diálogo y el ambiente en ese mismo prompt; no hay campos estructurados de duración por plano.",
+  strengthsLimits: "En MaxVideoAI, Flash genera a 720p con audio nativo. Este flujo no ofrece Modify, Extend, imagen final ni interruptor de audio. Las referencias de vídeo guían la creación; no constituyen un modo de edición de vídeo.",
+  faq: [{ question: "¿En qué se diferencian Kling 4.0 y Flash?", answer: "Flash genera clips de 3 a 20 segundos a 720p desde texto, una imagen inicial o referencias, con cortes descritos en el prompt. Kling 4.0 también ofrece 1080p, hasta 30 segundos, imagen final opcional, prompts estructurados con duración por plano y un modo independiente de edición de vídeo. Conserva el modelo y los ajustes originales de cada ejemplo y comprueba una nueva cotización antes de generar." }],
+} satisfies Pick<LocalizedModelDescriptor, 'summary' | 'promptPatterns' | 'strengthsLimits' | 'faq'>;
+
 export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedModelDescriptor>> = {
   sora: {
     "metaTitle": "Ejemplos históricos de Sora | MaxVideoAI",
@@ -54,7 +69,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     subtitle: "Cambia una escena con Modify o adapta su encuadre con Reframe: ejemplos de video Luma Ray 3.2.",
     intro: "Explora ejemplos de Luma Ray 3.2 Modify y Reframe. Abre un video para ver el prompt y los ajustes utilizados. Los ejemplos de Ray 2 y Ray 2 Flash conservan el nombre del modelo que los generó.",
     promptPatterns: "Para Modify, indica qué quieres conservar del video original y después qué quieres cambiar. Para Reframe, señala qué sujeto debe seguir visible y cómo completar el nuevo encuadre. Las imágenes guía y los fotogramas clave dependen del modo elegido.",
-    strengthsLimits: "Evalúa cuánto se conserva del video original, si se cumple el cambio solicitado y si el sujeto se mantiene consistente. Ray 3.2 no genera audio en MaxVideoAI. Las fuentes y los ajustes admitidos difieren de Ray 2 y Ray 2 Flash: revisa el modelo de cada ejemplo.",
+    strengthsLimits: "Evalúa cuánto se conserva del video original, si se cumple el cambio solicitado y si el sujeto se mantiene consistente. Ray 3.2 no genera audio en MaxVideoAI. Las fuentes y los ajustes admitidos difieren de Ray 2 y Ray 2 Flash: revisa el modelo de cada ejemplo. Extend de Ray 3.2 añade cinco segundos nuevos hacia delante o atrás solo desde una generación Luma directa elegible de tu cuenta. Importaciones y copias públicas no aportan esa procedencia. Fotogramas de creación e imágenes guía Modify siguen separados y no se añaden a Extend; no se promete montaje automático con el original.",
     pricingNotes: "La ficha muestra el precio actual estimado del ejemplo. Tu nuevo video tiene una cotización según el modo y los ajustes elegidos. Revisa el precio antes de generar y empieza con una prueba corta antes de editar un video más largo.",
     faq: [
       {
@@ -109,7 +124,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ...getEvergreenExampleFamilyCopy('es', 'Kling'),
     summary: "Kling 3.0 Omni Pro y Standard admiten imágenes de referencia, storyboards y edición de un video original. Kling 3 Pro y Standard animan una imagen inicial. Kling 3.0 Omni 4K ofrece video en 4K nativo guiado por referencias.",
     promptPatterns: "Decide si una imagen debe guiar el video como referencia o aparecer como primer fotograma. Usa @Image1 y @Video1 para identificar las fuentes en los modos Omni compatibles. Para imagen a video con Kling 3, describe el movimiento desde la imagen inicial.",
-    strengthsLimits: "Kling 3.0 Omni usa referencias para guiar la identidad, el estilo, el storyboard o la edición de video. Una referencia no necesariamente será el primer fotograma. Kling 3 en imagen a video anima la imagen que subes. Revisa el modelo y el modo antes de reutilizar las fuentes.",
+    strengthsLimits: "Kling 3.0 Omni usa referencias para guiar la identidad, el estilo, el storyboard o la edición de video. Una referencia no necesariamente será el primer fotograma. Kling 3 en imagen a video anima la imagen que subes. Revisa el modelo y el modo antes de reutilizar las fuentes. Kling Omni Standard, Pro y 4K distinguen Reference, que guía un clip nuevo con duración solicitada, de Edit, que hereda duración y encuadre del origen. No ofrecen Extend. Estas operaciones Omni no se transfieren a Kling 3 ni a versiones anteriores; Kling 2.5 Turbo y 2.6 Pro aceptan una imagen final opcional en imagen a video.",
     pricingNotes: "Compara duraciones, formatos, opciones de audio y resoluciones equivalentes en los modos disponibles. La ficha muestra una estimación actual para los ajustes indicados; el estudio muestra la cotización actual para el modelo y los ajustes elegidos. Revísala antes de generar.",
     faq: [
       {
@@ -165,11 +180,12 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
   },
   ltx: {
     ...getEvergreenExampleFamilyCopy('es', 'LTX'),
+    sectionTitles: ['Patrones de prompt en modelos de LTX', 'Fortalezas y límites por modelo', '¿Cuánto costaría tu versión?'],
     summary:
       "LTX 2.5 Pro y Fast encabezan esta página. Los ejemplos de LTX 2.3 y LTX 2 conservan sus etiquetas originales para comparar generaciones sin confundir sus capacidades.",
     promptPatterns: "Describe el sujeto, la acción, el movimiento de cámara y el estilo visual. Para imagen a video, explica cómo debe moverse la escena desde la imagen inicial. Mantén ese punto de partida y cambia una sola instrucción a la vez.",
-    strengthsLimits: "Compara todo el video entre Pro y Fast: ¿el movimiento sigue el prompt y el sujeto se mantiene consistente? Usa la misma imagen para las pruebas de imagen a video. Un ejemplo logrado es un punto de partida, no una garantía de resultados idénticos.",
-    pricingNotes: "Especifica el modelo, el modo, la duración, la resolución y las opciones de audio disponibles al comparar costos. La ficha conserva el precio actual estimado del ejemplo; revisa la cotización actual en el estudio antes de generar tu versión.",
+    strengthsLimits: "Compara todo el video entre Pro y Fast: ¿el movimiento sigue el prompt y el sujeto se mantiene consistente? Usa la misma imagen para las pruebas de imagen a video. Un ejemplo logrado es un punto de partida, no una garantía de resultados idénticos. Reframe de LTX 2.3 estándar acepta un origen de hasta 60 segundos a 720p o 1080p sin prompt y conserva su duración. Esta operación no se transfiere a LTX 2.3 Fast ni a LTX 2.5 Fast/Pro.",
+    pricingNotes: "El precio mostrado es una estimación actual para una nueva generación, no el importe pagado por el video original. Abre el ejemplo para consultar sus ajustes registrados y confirma tus propios ajustes y la cotización en la aplicación.",
     faq: [
       {
         question: "¿Dónde encontrar ejemplos de prompts de LTX 2.3?",
@@ -236,7 +252,7 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ...getEvergreenExampleFamilyCopy('es', 'MiniMax (Hailuo)'),
     summary: "Cada ejemplo de MiniMax o Hailuo conserva el nombre del modelo que lo generó. Compara el movimiento, la continuidad y el audio, si lo tiene, en todo el video. Las fichas de H3 y H3 Max detallan las fuentes y los ajustes disponibles para tu proyecto.",
     promptPatterns: "Empieza por el sujeto, una acción clara y la dirección de cámara. Añade indicaciones de escena o sonido pertinentes para el modelo elegido. Si utilizas referencias, asigna una función clara a cada fuente autorizada y comprueba que el modelo admite esa entrada.",
-    strengthsLimits: "Evalúa el resultado completo: identidad del sujeto, movimiento, encuadre y cualquier audio generado. H3 Max, H3 y los Hailuo anteriores tienen modos y opciones de salida diferentes. Un ejemplo muestra un resultado, sin garantizar coherencia perfecta ni controles idénticos en toda la familia.",
+    strengthsLimits: "Evalúa el resultado completo: identidad del sujeto, movimiento, encuadre y cualquier audio generado. H3 Max, H3 y los Hailuo anteriores tienen modos y opciones de salida diferentes. Un ejemplo muestra un resultado, sin garantizar coherencia perfecta ni controles idénticos en toda la familia. Recast y Relight de H3 Max son operaciones especializadas de origen, separadas de la creación con referencias mixtas. Recast acepta orígenes de 5–30 segundos, con planos de 15 segundos como máximo; Relight exige preparación a 24 fps y es el único que ofrece 2K. Los nuevos H3 Max Extend, Insert y Reframe siguen pendientes. Estas operaciones no se transfieren a H3 ni a los Hailuo anteriores.",
     pricingNotes: "Compara H3 y H3 Max con la misma idea y objetivo de salida. La ficha muestra una estimación actual para los ajustes indicados; el espacio de trabajo ofrece el precio actual para tu siguiente render. Valida un plano corto y amplía las versiones que cumplan tus criterios visuales.",
     faq: [
       {
@@ -272,21 +288,35 @@ export const ES_MODEL_DATA: Partial<Record<CanonicalExampleModelSlug, LocalizedM
     ],
   },
   flux: {
-    heroTitle: 'Ejemplos de FLUX 3 y FLUX 3 Draft',
-    subtitle: 'Ejemplos de FLUX 3 y FLUX 3 Draft para texto a vídeo, fotogramas inicial/final y Extend.',
-    intro:
-      'Esta página compara la ruta FLUX 3 estándar con FLUX 3 Draft mediante la distribución Fal de MaxVideoAI. Incluye texto a vídeo, imagen a vídeo desde un fotograma inicial, transiciones entre primera y última imagen y el flujo Extend separado para continuar un clip existente. La vista de familia ayuda a elegir tanto el nivel de modelo como la entrada. Draft sirve para exploración controlada a 720p cuando el equipo todavía debe validar acción, cámara, compatibilidad de fuentes o lógica de transición. FLUX 3 estándar es el modelo hermano orientado a producción y expone la opción de resolución superior indicada en su página. Ninguna etiqueta elimina la necesidad de revisar la salida. Un ejemplo útil registra el papel de la fuente, el prompt, el modo, la duración, la resolución y la pregunta visual que debe responder. Compara tareas equivalentes: un puente entre dos imágenes se evalúa por el recorrido entre anclas, una extensión por la continuidad con el clip fuente y un inicio de texto por la toma inventada desde el brief. Black Forest Labs es propietario de FLUX; la ruta aquí descrita se distribuye mediante Fal y no afirma ejecución directa en el proveedor.',
-    promptPatterns:
-      'Describe una sola toma, un movimiento de cámara específico, una acción medible del sujeto, el entorno físico y un final que pueda revisarse. Evita combinar varios beats sin relación en un render de diagnóstico. Para imagen a vídeo, indica primero qué debe conservarse de la composición inicial y añade después el movimiento. Al usar primera y última imagen, aporta las dos anclas obligatorias y escribe la transición: cómo evolucionan pose, posición del objeto, material, cámara y luz sin un salto imposible. Perspectiva e identidad compatibles facilitan evaluar el puente. Para Extend, describe lo que sucede después del clip fuente en vez de repetirlo. Continúa primero el vector final de cámara, la trayectoria del sujeto, la iluminación, el ritmo y el estado de la escena antes de introducir algo nuevo. Un corte oculto, una pose reiniciada o un sujeto sustituido son fallos de continuidad aunque el último fotograma resulte atractivo. Usa Draft para comparar una sola variable y conserva los archivos fuente ganadores, la estructura del prompt y los criterios de aceptación al probar FLUX 3 estándar.',
-    strengthsLimits:
-      'FLUX 3 es la ruta de calidad estándar y Draft está pensado para iterar con mayor rapidez en su nivel fijo de 720p. Ambos modelos exponen contratos distintos de texto, imagen inicial, primera/última imagen y extensión; una entrada obligatoria no se vuelve opcional en Draft. Extend es un modo separado de continuación de vídeo con un clip fuente elegible y hechos canónicos de precio propios. Un flujo de inicio/final no equivale a un conjunto libre de referencias, y el uso de imagen inicial no debe implicar una relación de aspecto seleccionable aparte cuando la fuente controla el encuadre. No infieras audio nativo, lip sync, transformación de vídeo de referencia fuera de Extend ni controles que no aparezcan en el modo elegido. Revisa conservación de fuente, continuidad de cámara, identidad, anatomía, geometría, texto accidental, marcas de agua y beat final. Un resultado Draft aporta evidencia para una decisión creativa; no garantiza que estándar reproduzca cada píxel. Para la entrega, vuelve a ejecutar la dirección elegida en el modelo hermano previsto y revisa ese resultado de forma independiente.',
-    pricingNotes:
-      'Draft ayuda a validar una dirección antes de una pasada FLUX 3 estándar. Confirma la cotización previa porque duración, resolución, nivel y modo afectan al coste, y Extend nunca debe heredar por omisión una tarifa de generación normal. Esta página familiar no contiene una cantidad fija. Compara costes con la misma fuente y ajustes, registra intentos fallidos o rechazados y sube de nivel únicamente las direcciones que cumplen el criterio visual escrito. Un borrador más barato es valioso cuando elimina incertidumbre; repetir borradores sin control no constituye automáticamente un proceso eficiente.',
-    faq: [
-      { question: '¿Cuándo conviene FLUX 3 Draft?', answer: 'Usa Draft cuando una prueba a 720p pueda responder una pregunta concreta sobre dirección del prompt, movimiento, conservación de la imagen inicial, compatibilidad de fotogramas o continuidad de la extensión. Guarda el prompt y las fuentes aprobados para la pasada estándar. No presentes Draft como equivalencia de entrega ni asumas que una miniatura atractiva demuestra que la transición funciona.' },
-      { question: '¿FLUX 3 puede ampliar un vídeo?', answer: 'Sí. Elige el modo Extend separado, aporta un clip fuente elegible y describe la continuación después de su estado final visible. Conserva dirección de cámara, posición del sujeto, luz y ritmo antes de introducir una acción nueva. El precio y la validación de extensión siguen siendo específicos del modo y no heredan el contrato de generación normal.' },
-      { question: '¿En qué se diferencian inicio/final e imagen a vídeo?', answer: 'Imagen a vídeo anima una sola composición inicial. El modo de primera y última imagen exige dos anclas y debe construir un recorrido plausible entre ellas. Usa imágenes compatibles, indica qué se transforma y qué permanece estable y evalúa el puente completo en lugar de mirar únicamente sus extremos.' },
-      { question: '¿FLUX 3 genera audio nativo?', answer: 'Esta página familiar no afirma capacidad de audio. Utiliza solo las entradas y controles visibles para el modo FLUX seleccionado y planifica voz, música o diseño sonoro como una etapa de producción separada salvo que los detalles en vivo del modelo indiquen explícitamente un cambio.' },
-    ],
+    "metaTitle": "Ejemplos de FLUX 3, FLUX 3 Draft y FLUX 3 Max | MaxVideoAI",
+    "heroTitle": "Ejemplos de FLUX 3, FLUX 3 Draft y FLUX 3 Max",
+    "subtitle": "Explora vídeos de FLUX 3, FLUX 3 Draft y FLUX 3 Max con sus prompts y ajustes originales. Cada clip indica el modelo utilizado.",
+    "heroLink": { "label": "Descubrir FLUX 3 Max", "href": "/es/modelos/flux-3-max" },
+    "intro": "Explora vídeos de FLUX 3 y FLUX 3 Draft con sus prompts originales, ajustes y fuentes. Ambos ofrecen texto a vídeo, animación de una imagen inicial, transiciones entre primer y último fotograma y un flujo Extend separado para continuar un clip. Draft permite explorar en 720p; FLUX 3 estándar tiene su propia opción de mayor resolución. FLUX 3 Max añade una variante entrenada por fal a partir de FLUX 3 Video de Black Forest Labs, con audio generado opcional, clips de 5 a 20 segundos, fotogramas clave temporizados y salida 720p o 1080p reescalada. Cada vídeo conserva el modelo exacto que lo generó. Compara los controles y la cotización actual del modelo elegido antes de crear un nuevo clip.",
+    "promptPatterns": "Describe una escena clara: un sujeto, una acción física, un movimiento de cámara y un final. Para imagen a vídeo, explica qué se mueve mientras mantienes la composición inicial. Para unir un primer y un último fotograma, utiliza imágenes compatibles y describe el movimiento entre ambas. Con el audio de Max activado, identifica al hablante, escribe sus palabras entre comillas y describe el ambiente sonoro. Ajusta la longitud del diálogo a la duración. Revisa el resultado completo, incluidos movimiento, manos, reflejos y sonido.",
+    "strengthsLimits": "Compara Max, estándar y Draft con el mismo brief y evalúa cada resultado por separado. Un clip Draft o estándar no demuestra la calidad de Max. Las imágenes guían la toma, sin garantizar identidad o geometría perfectas. Max ofrece audio opcional y 1080p mediante reescalado. Estándar y Draft tienen sus propios controles, incluido el flujo Extend separado. Consulta la página del modelo elegido para conocer los límites de entrada y los ajustes disponibles. FLUX 3 estándar y Draft también aceptan 1–10 fotogramas indexados. FAST Edit pertenece solo a FLUX 3 estándar a 720p y hereda duración, encuadre y audio del origen. Enhance exige tu propio Draft nativo elegible y una caché emparejada verificada; un MP4 público o un resultado Draft Extend no la aporta. Enhance tiene su cotización separada y no se transfiere a Max.",
+    "pricingNotes": "La cotización depende del modelo, la duración, la resolución y el modo. Revisa el precio antes de generar y conserva los mismos ajustes al comparar dos modelos. El importe mostrado en MaxVideoAI es el precio al cliente; una promoción del proveedor no promete un descuento equivalente al cliente.",
+    "faq": [
+      {
+        "question": "¿Qué vídeos se generaron con FLUX 3 Max?",
+        "answer": "Consulta la etiqueta del modelo de cada vídeo. La galería también contiene vídeos de FLUX 3 estándar y Draft que conservan sus etiquetas originales."
+      },
+      {
+        "question": "¿FLUX 3 Max puede generar audio?",
+        "answer": "Sí. Activa el audio generado y describe diálogo, música o ambiente en el prompt. Puedes desactivarlo para obtener un clip sin sonido."
+      },
+      {
+        "question": "¿Puedo aportar un primer y un último fotograma?",
+        "answer": "Sí. Elige ese flujo y aporta ambas imágenes. Mantén un sujeto y una perspectiva compatibles y describe una transición plausible."
+      },
+      {
+        "question": "¿Puedo guiar FLUX 3 Max con fotogramas clave temporizados?",
+        "answer": "Sí. Coloca de 1 a 10 imágenes en posiciones elegidas de la línea de tiempo a 24 fps. Guían estados visuales en momentos concretos; no son referencias libres de personajes ni cortes de montaje garantizados. Describe el movimiento entre imágenes compatibles y revisa las transiciones obtenidas."
+      },
+      {
+        "question": "¿Qué modelo FLUX puede ampliar un vídeo?",
+        "answer": "Usa el flujo Extend separado de FLUX 3 estándar o FLUX 3 Draft. La integración Max tiene sus propios modos de generación."
+      }
+    ]
   },
 };

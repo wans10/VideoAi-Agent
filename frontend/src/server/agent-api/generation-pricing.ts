@@ -1,3 +1,8 @@
+import {canonicalKlingV4PricingFacts} from './generation-kling-v4-pricing-facts';
+import { NANO21_ENGINE_ID, NANO21_DEFAULT_MAX_OUTPUT_TOKENS } from '@/lib/nano-banana-2-1';
+import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { canonicalOperationSourceDuration } from './generation-operation-facts';
+import { assertCanonicalLumaSourceTiming } from './generation-luma-source';
 import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
 import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
 import { seedanceSourcePricingAspectRatio } from '@/lib/seedance-option-pricing';
@@ -8,6 +13,7 @@ import {
 } from '@/server/engines';
 import { computeCanonicalBillingSnapshot } from '@/server/pricing/quote-billing';
 import type { TransactionQueryExecutor } from '@/lib/db';
+import type { PricingContext } from '@/lib/pricing-context';
 import { LIVE_MEMBERSHIP_POLICY } from '@/lib/membership-policy';
 import { loadPricingPolicyOverridesWithExecutor } from '@/lib/pricing-rule-store';
 import { applyEngineVariantPricing, buildEngineAddonInput } from '@/lib/pricing-addons';
@@ -59,15 +65,17 @@ export type ExecutorGenerationPricingDependencies = {
   executor: TransactionQueryExecutor;
   candidate: AgentPublicGenerationEngine;
   resolvedReferences?: readonly ResolvedReference[];
-  /** Test-only seam; production always uses the canonical billing snapshot. */
+  /** Server-only billing product adapter; ordinary generation uses the canonical model owner. */
   computeBillingSnapshot?: typeof computeCanonicalBillingSnapshot;
   seedanceFinalFacts?: SeedanceWorkflowMediaFacts;
+  fluxDraftSource?: import('@/server/flux-draft-cache').QualifiedFluxDraftSource;
 };
 
 export type GenerationPricingReferenceContext = Readonly<{
   resolvedReferences?: readonly ResolvedReference[];
   resolvedEngine?: EngineCaps;
   seedanceFinalFacts?: SeedanceWorkflowMediaFacts;
+  fluxDraftSource?: import('@/server/flux-draft-cache').QualifiedFluxDraftSource;
 }>;
 
 const defaultDependencies: GenerationPricingDependencies = {
@@ -302,6 +310,7 @@ function canonicalVideoTrustedMediaPricingFacts(
     ...(inputVideoDurationSec !== undefined ? { inputVideoDurationSec } : {}),
     ...(referenceTokenBudget !== undefined ? { referenceTokenBudget } : {}),
     ...canonicalOmniPricingFacts(request,context.resolvedReferences),
+    ...canonicalKlingV4PricingFacts(request,context.resolvedReferences),
   };
 }
 
@@ -363,6 +372,7 @@ export async function priceCanonicalGeneration(
 ): Promise<GenerationPricingResult> {
   membershipTier = LIVE_MEMBERSHIP_POLICY.tier;
   if (request.surface === 'video') {
+    const lumaModifyDurationSec = assertCanonicalLumaSourceTiming(request, referenceContext.resolvedReferences);
     if (referenceContext.resolvedEngine && referenceContext.resolvedEngine.id !== request.engineId) {
       throw new Error('Canonical pricing engine mismatch.');
     }
@@ -373,7 +383,8 @@ export async function priceCanonicalGeneration(
     const result = await dependencies.computeVideoPreflight({
       engine: request.engineId,
       mode: engineMode,
-      durationSec: requiredPositiveInteger(settings, 'durationSec'),
+      ...(request.operation ? { operation: request.operation } : {}),
+      durationSec: canonicalOperationSourceDuration(request, referenceContext.resolvedReferences, referenceContext.fluxDraftSource) ?? lumaModifyDurationSec ?? canonicalKlingV4PricingFacts(request,referenceContext.resolvedReferences).inheritedDurationSec ?? requiredPositiveInteger(settings, 'durationSec'),
       ...(settings.durationOption === 'auto' ? { durationOption: 'auto' } : {}),
       resolution: requiredString(settings, 'resolution') as PreflightRequest['resolution'],
       ...(aspectRatio === undefined
@@ -404,11 +415,14 @@ export async function priceCanonicalGeneration(
     numImages: request.outputCount,
     resolution: requiredString(settings, 'resolution'),
     quality: optionalString(settings, 'quality') as ImageGenerationRequest['quality'],
+    ...(settings.complexity === undefined ? {} : { complexity: optionalString(settings, 'complexity') as ImageGenerationRequest['complexity'] }),
     aspectRatio: optionalString(settings, 'aspectRatio'),
     referenceImageCount: canonicalImageReferences(request).length,
     referenceImageSizes: canonicalImageReferenceSizes(request, referenceContext),
     ...(customImageSize ? { customImageSize } : {}),
     enableWebSearch: request.settings.enableWebSearch === true,
+    ...(request.engineId === NANO21_ENGINE_ID ? { thinkingLevel: optionalString(settings, 'thinkingLevel') as ImageGenerationRequest['thinkingLevel'],
+      maxOutputTokens: Number(settings.maxOutputTokens ?? NANO21_DEFAULT_MAX_OUTPUT_TOKENS), systemInstruction: optionalString(settings, 'systemInstruction'), enableImageSearch: settings.enableImageSearch === true } : {}),
     membershipTier,
   });
   return validatePricingResult(result.pricing, membershipTier);
@@ -431,15 +445,29 @@ export async function priceCanonicalGenerationInExecutor(
     throw new Error('Canonical transaction pricing policy unavailable.');
   }
   const pricingPolicy = { loadOverrides: async () => overrideResult, warn: () => undefined };
-  const computeBillingSnapshot = dependencies.computeBillingSnapshot ?? computeCanonicalBillingSnapshot;
-  const engine = dependencies.candidate.engine;
+  return priceCanonicalGenerationWithBilling(request, membershipTier, {
+    ...dependencies, resolvedEngine: dependencies.candidate.engine,
+  }, context => (dependencies.computeBillingSnapshot ?? computeCanonicalBillingSnapshot)(context, { pricingPolicy }));
+}
+
+/** Shared trusted-media normalization; the caller selects a server-owned billing product. */
+export async function priceCanonicalGenerationWithBilling(
+  request: CanonicalGenerationRequest,
+  membershipTier: AuthoritativeMembershipTier,
+  referenceContext: GenerationPricingReferenceContext & { resolvedEngine: EngineCaps },
+  computeBillingSnapshot: (context: PricingContext) => Promise<PricingSnapshot>,
+): Promise<GenerationPricingResult> {
+  membershipTier = LIVE_MEMBERSHIP_POLICY.tier;
+  const engine = referenceContext.resolvedEngine;
+  if (engine.id !== request.engineId) throw new Error('Canonical pricing engine mismatch.');
   let snapshot: PricingSnapshot;
   if (request.surface === 'video') {
+    const lumaModifyDurationSec = assertCanonicalLumaSourceTiming(request, referenceContext.resolvedReferences);
     const engineMode = toEngineGenerationMode(engine.id, request.mode);
     const pricingEngine = applyEngineVariantPricing(engine, engineMode);
-    const durationSec = requiredPositiveInteger(request.settings, 'durationSec');
-    const seedanceEditSource = canonicalSeedanceEditSource(request, dependencies);
-    const seedanceSourceAspectRatio = seedanceEditSource ? undefined : canonicalSeedanceSourceAspect(request, dependencies);
+    const durationSec = canonicalOperationSourceDuration(request, referenceContext.resolvedReferences, referenceContext.fluxDraftSource) ?? lumaModifyDurationSec ?? canonicalKlingV4PricingFacts(request,referenceContext.resolvedReferences).inheritedDurationSec ?? requiredPositiveInteger(request.settings, 'durationSec');
+    const seedanceEditSource = canonicalSeedanceEditSource(request, referenceContext);
+    const seedanceSourceAspectRatio = seedanceEditSource ? undefined : canonicalSeedanceSourceAspect(request, referenceContext);
     const resolution = requiredString(request.settings, 'resolution');
     const audioEnabled = typeof request.settings.audio === 'boolean'
       ? request.settings.audio
@@ -452,44 +480,50 @@ export async function priceCanonicalGenerationInExecutor(
     };
     snapshot = await computeBillingSnapshot({
       engine: pricingEngine,
+      ...(request.operation ? { operation: request.operation } : {}),
       durationSec: seedanceEditSource?.billedDurationSec ?? durationSec,
       resolution,
       aspectRatio: seedanceEditSource?.pricingAspectRatio ?? optionalString(request.settings, 'aspectRatio'),
       mode: engineMode,
       ...(request.seedanceWorkflow ? { workflowStep: request.seedanceWorkflow.step } : {}),
-      hasVideoInput: hasCanonicalVideoInput(request, dependencies),
-      referenceImageCount: canonicalReferenceImageCount(request, dependencies),
-      inputAudioDurationSec: canonicalInputAudioDurationSec(request, dependencies),
-      inputVideoDurationSec: canonicalInputVideoDurationSec(request, dependencies),
+      hasVideoInput: hasCanonicalVideoInput(request, referenceContext),
+      referenceImageCount: canonicalReferenceImageCount(request, referenceContext),
+      inputAudioDurationSec: canonicalInputAudioDurationSec(request, referenceContext),
+      inputVideoDurationSec: canonicalInputVideoDurationSec(request, referenceContext),
       ...(seedanceEditSource ? { seedanceEditSource } : {}),
       ...(seedanceSourceAspectRatio ? { seedanceSourceAspectRatio } : {}),
-      referenceTokenBudget: canonicalReferenceTokenBudget(request, dependencies),
-      ...canonicalOmniPricingFacts(request,dependencies.resolvedReferences),
+      referenceTokenBudget: canonicalReferenceTokenBudget(request, referenceContext),
+      ...canonicalOmniPricingFacts(request,referenceContext.resolvedReferences),
+      ...canonicalKlingV4PricingFacts(request,referenceContext.resolvedReferences),
       membershipTier,
       loop: isLumaRay2EngineId(engine.id) && request.settings.loop === true,
       durationOption: request.settings.durationOption === 'auto' ? 'auto' : isLumaRay2EngineId(engine.id)
         ? getLumaRay2DurationInfo(durationSec)?.label
         : undefined,
       addons: Object.keys(addons).length ? addons : undefined,
-    }, { pricingPolicy });
+    });
   } else {
     const imageReferences = canonicalImageReferences(request);
-    const customImageSize = canonicalEffectiveCustomImageSize(request, dependencies);
+    const customImageSize = canonicalEffectiveCustomImageSize(request, referenceContext);
     const referenceImageCount = isLumaAgentsImageEngineId(engine.id)
       ? request.mode === 'i2i'
         ? Math.max(0, imageReferences.length - 1)
         : imageReferences.length
-      : isGptImage25EngineId(engine.id) && request.mode === 'i2i'
+      : engine.id === NANO21_ENGINE_ID || (isGptImage25EngineId(engine.id) || isGptImage26EngineId(engine.id)) && request.mode === 'i2i'
         ? imageReferences.length
         : undefined;
     snapshot = await computeBillingSnapshot({
       engine,
       durationSec: request.outputCount,
+      ...(engine.id === NANO21_ENGINE_ID ? { thinkingLevel: optionalString(request.settings, 'thinkingLevel'),
+        maxOutputTokens: Number(request.settings.maxOutputTokens ?? NANO21_DEFAULT_MAX_OUTPUT_TOKENS), systemInstruction: optionalString(request.settings, 'systemInstruction'),
+        enableWebSearch: request.settings.enableWebSearch === true, enableImageSearch: request.settings.enableImageSearch === true } : {}),
       resolution: requiredString(request.settings, 'resolution'),
       aspectRatio: optionalString(request.settings, 'aspectRatio'),
       mode: request.mode as ImageGenerationMode,
       ...(customImageSize ? { customImageSize } : {}),
       quality: optionalString(request.settings, 'quality'),
+      complexity: optionalString(request.settings, 'complexity'),
       addons: request.settings.enableWebSearch === true
         ? { enable_web_search: true }
         : undefined,
@@ -497,7 +531,7 @@ export async function priceCanonicalGenerationInExecutor(
       ...(isSeedreamEngineId(engine.id) ? { inputImageCount: request.mode === 'i2i' ? imageReferences.length : 0 } : {}),
       membershipTier,
       currency: engine.pricing?.currency ?? 'USD',
-    }, { pricingPolicy });
+    });
   }
   return validatePricingResult(snapshot, membershipTier);
 }

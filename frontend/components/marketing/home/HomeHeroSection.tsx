@@ -186,7 +186,7 @@ export function HomeHero({
       </div>
       <div id="model-brands" className="container-page cinema-models">
         <div className="cinema-model-marks">{[
-          ['kling-3-pro','Kling','/brand/partners/kling/kling-mark-light.png'],
+          ['kling-v4','Kling','/brand/partners/kling/kling-mark-light.png'],
           ['seedance-2-5','Seedance','/brand/partners/bytedance/bytedance-mark-light.svg'],
           ['minimax-h3-max','MiniMax','/brand/partners/minimax/minimax-mark-light.svg'],
           ['wan-3-prime','Wan','/brand/partners/wan/wan-mark-light.png'],
@@ -196,7 +196,7 @@ export function HomeHero({
           ['grok-imagine-video-1-5','Grok','/brand/partners/xai/grok-app-icon.png'],
           ['luma-ray-3-2','Luma','/brand/partners/luma/luma-mark-light.png'],
           ['pika-text-to-video','Pika','/brand/partners/pika/pika-mark-light.png'],
-        ].map(([slug,label,src])=><Link key={slug} href={{pathname:'/models/[slug]',params:{slug}}} prefetch={false}><Image src={src} alt="" aria-hidden="true" width={30} height={24}/><span>{label}</span></Link>)}</div>
+        ].map(([slug,label,src])=><Link currentLocale={locale} key={slug} href={{pathname:'/models/[slug]',params:{slug}}} prefetch={false}><Image src={src} alt="" aria-hidden="true" width={30} height={24}/><span>{label}</span></Link>)}</div>
       </div>
     </section>
   );

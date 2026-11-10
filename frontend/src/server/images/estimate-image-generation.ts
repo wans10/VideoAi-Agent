@@ -1,3 +1,5 @@
+import { NANO21_ENGINE_ID, normalizeNano21Settings, assertNano21Scenario, assertNano21UnsupportedFields } from '@/lib/nano-banana-2-1';
+import { isGptImage26EngineId, normalizeGptImage26Settings } from '@/lib/image/gptImage26';
 import { listFalEngines } from '@/config/falEngines';
 import type { PricingSnapshot } from '@/types/engines';
 import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-generation';
@@ -32,7 +34,7 @@ import type { PublicPricingMembershipTier } from '@/lib/pricing-public-quote';
 
 export type ImageEstimateInput = Pick<
   ImageGenerationRequest,
-  'engineId' | 'mode' | 'numImages' | 'resolution' | 'quality' | 'aspectRatio'
+  'engineId' | 'mode' | 'numImages' | 'resolution' | 'quality' | 'complexity' | 'aspectRatio' | 'thinkingLevel' | 'maxOutputTokens' | 'systemInstruction' | 'enableImageSearch'
 > & {
   referenceImageCount?: number;
   referenceImageSizes?: Array<{ width: number; height: number }>;
@@ -47,6 +49,7 @@ export type ImageEstimateNormalized = {
   numImages: number;
   resolution: string;
   quality: string | null;
+  complexity?: string;
   aspectRatio: string | null;
   customImageSize: GptImage2ImageSize | null;
   referenceImageCount: number;
@@ -120,7 +123,10 @@ async function estimateImageGenerationInternal(
     throw new ImageEstimateError('engine_unavailable', 404);
   }
 
+  if (engineEntry.id === NANO21_ENGINE_ID && !engineEntry.surfaces.app.enabled) throw new ImageEstimateError('engine_unavailable',404);
   const engine = engineEntry.engine;
+  const isGpt26 = isGptImage26EngineId(engine.id);
+  if (isGpt26 && !engineEntry.surfaces.app.enabled) throw new ImageEstimateError('engine_unavailable', 404);
   const numImages = clampRequestedImageCount(engine, mode, requestedImages);
   if (!engineEntry.modes.some((entry) => entry.mode === mode)) {
     throw new ImageEstimateError('mode_unsupported', 400);
@@ -135,9 +141,12 @@ async function estimateImageGenerationInternal(
     throw new ImageEstimateError('resolution_invalid', 400, { allowed: resolutionResult.allowed });
   }
 
+  const gpt26 = isGpt26 ? normalizeGptImage26Settings({ ...input, referenceImageSizes: undefined }) : null;
+  if (gpt26 && input.referenceImageCount !== undefined && !Number.isInteger(input.referenceImageCount)) throw new ImageEstimateError('image_size_invalid', 400);
+
   const rawReferenceSizes = Array.isArray(input.referenceImageSizes) ? input.referenceImageSizes : [];
   const referenceImageSizes = normalizeReferenceImageSizes(rawReferenceSizes);
-  let customImageSize = parseGptImage2SizeKey(resolutionResult.resolution);
+  let customImageSize = gpt26?.customImageSize ?? parseGptImage2SizeKey(resolutionResult.resolution);
   if (isGptImageFamilyEngineId(engine.id) && resolutionResult.resolution === 'custom') {
     const result = validateGptImage2CustomImageSize(webExtensions ? input.customImageSize : undefined);
     if (!result.ok) {
@@ -163,11 +172,15 @@ async function estimateImageGenerationInternal(
     ? mode === 'i2i'
       ? Math.max(0, referenceImageCount - 1)
       : referenceImageCount
-    : isGptImage25EngineId(engine.id) && mode === 'i2i'
+    : (isGptImage25EngineId(engine.id) || isGptImage26EngineId(engine.id)) && mode === 'i2i'
       ? referenceImageCount
       : undefined;
 
+  if (engine.id === NANO21_ENGINE_ID) assertNano21UnsupportedFields(input as unknown as Record<string, unknown>);
+  const nano21 = engine.id === NANO21_ENGINE_ID ? normalizeNano21Settings(input) : null;
+  if (nano21) assertNano21Scenario({ ...nano21, mode, referenceImageCount, outputCount: input.numImages, aspectRatio: input.aspectRatio });
   const pricing = await computeCanonicalPublicSnapshot({
+    ...(nano21 ? { ...nano21, referenceImageCount } : {}),
     engine,
     durationSec: numImages,
     aspectRatio: typeof input.aspectRatio === 'string' ? input.aspectRatio : undefined,
@@ -175,7 +188,8 @@ async function estimateImageGenerationInternal(
     mode,
     customImageSize,
     quality: typeof input.quality === 'string' ? input.quality : undefined,
-    referenceImageCount: pricedReferenceImageCount,
+    ...(gpt26 ? { complexity: gpt26.complexity } : {}),
+    referenceImageCount: nano21 ? referenceImageCount : pricedReferenceImageCount,
     ...(isSeedreamEngineId(engine.id) ? { inputImageCount: mode === 'i2i' ? referenceImageCount : 0 } : {}),
     membershipTier: input.membershipTier,
     currency: engine.pricing?.currency ?? 'USD',
@@ -236,6 +250,7 @@ async function estimateImageGenerationInternal(
       numImages,
       resolution: resolutionResult.resolution,
       quality: typeof input.quality === 'string' ? input.quality : null,
+      ...(gpt26 ? { complexity: gpt26.complexity } : {}),
       aspectRatio: typeof input.aspectRatio === 'string' ? input.aspectRatio : null,
       customImageSize,
       referenceImageCount,
@@ -255,11 +270,13 @@ export async function estimateImageGeneration(
       resolution: input.resolution,
       customImageSize: input.customImageSize,
       quality: input.quality,
+      complexity: input.complexity,
       aspectRatio: input.aspectRatio,
       referenceImageCount: input.referenceImageCount,
       referenceImageSizes: input.referenceImageSizes,
       membershipTier: input.membershipTier,
       enableWebSearch: input.enableWebSearch,
+      thinkingLevel: input.thinkingLevel, maxOutputTokens: input.maxOutputTokens, systemInstruction: input.systemInstruction, enableImageSearch: input.enableImageSearch,
     },
     true
   );

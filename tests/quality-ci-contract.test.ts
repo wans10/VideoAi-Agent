@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
@@ -12,6 +13,7 @@ type WorkflowStep = {
   run?: string;
   uses?: string;
   with?: Record<string, unknown>;
+  env?: Record<string, string>;
 };
 
 type QualityWorkflow = {
@@ -23,6 +25,9 @@ type QualityWorkflow = {
     if?: string;
     steps: WorkflowStep[];
     'timeout-minutes'?: number;
+    'runs-on'?: string;
+    strategy?: { 'fail-fast'?: boolean; matrix?: { shard?: number[] } };
+    'continue-on-error'?: boolean;
   }>;
 };
 
@@ -57,6 +62,76 @@ test('superseded PR validation is canceled independently from nightly and main v
   assert.match(workflow.concurrency.group, /github.event.pull_request.number/);
   assert.match(workflow.concurrency.group, /github.event_name/);
   assert.equal(workflow.concurrency['cancel-in-progress'], "${{ github.event_name == 'pull_request' }}");
+});
+
+test('database and tariff validation retain their full suites on the stable validation image', () => {
+  const workflow = YAML.parse(readFileSync(workflowPath, 'utf8')) as QualityWorkflow;
+  for (const [name, suites] of [['tariffs', ['tariffs']], ['integration', ['integration', 'studio']]] as const) {
+    const job = workflow.jobs[name];
+    assert.equal(job['runs-on'], 'ubuntu-24.04');
+    assert.ok(job.steps.some(step => step.uses === './.github/actions/setup-validation-tools'));
+    for (const suite of suites) {
+      assert.ok(job.steps.some(step => step.run === `pnpm run test:validate -- --suite ${suite}`));
+    }
+  }
+});
+
+test('media and browser validation retain their full coverage on the stable toolchain image', () => {
+  const workflow = YAML.parse(readFileSync(workflowPath, 'utf8')) as QualityWorkflow;
+  for (const name of ['integration', 'browser']) {
+    assert.equal(workflow.jobs[name]['runs-on'], 'ubuntu-24.04');
+    assert.ok(workflow.jobs[name].steps.some(step => step.uses === './.github/actions/setup-validation-tools'));
+  }
+  assert.ok(workflow.jobs.integration.steps.some(step => step.run === 'pnpm run test:validate -- --suite integration'));
+  assert.ok(workflow.jobs.integration.steps.some(step => step.run === 'pnpm run test:validate -- --suite studio'));
+  assert.ok(workflow.jobs.browser.steps.some(step => step.run === 'pnpm run test:validate -- --suite browser --shard ${{ matrix.shard }}/2'));
+  assert.ok(workflow.jobs.browser.steps.some(step => step.run === 'pnpm run test:admin-smoke'));
+  assert.equal(workflow.jobs.browser['timeout-minutes'], 40);
+});
+
+test('Browser runs both independent partitions without canceling a sibling failure', () => {
+  const workflow = YAML.parse(readFileSync(workflowPath, 'utf8')) as QualityWorkflow;
+  const browser = workflow.jobs.browser;
+  assert.deepEqual(browser.strategy, { 'fail-fast': false, matrix: { shard: [1, 2] } });
+  assert.notEqual(browser['continue-on-error'], true);
+  assert.equal(browser.steps.find(step => step.name === 'Install Playwright browser')?.run,
+    'pnpm exec playwright install --with-deps chromium webkit');
+  const validation = browser.steps.find(step => step.run?.includes('--suite browser'));
+  assert.equal(validation?.if, undefined, 'every selected matrix partition must run its tests');
+  assert.ok(workflow.jobs.quality.needs?.includes('browser'), 'gate must await the entire matrix job');
+});
+
+test('admin smoke and its existing report run only on Browser partition 2', () => {
+  const workflow = YAML.parse(readFileSync(workflowPath, 'utf8')) as QualityWorkflow;
+  const steps = workflow.jobs.browser.steps;
+  const validationIndex = steps.findIndex(step => step.run?.includes('--suite browser'));
+  const adminIndex = steps.findIndex(step => step.run === 'pnpm run test:admin-smoke');
+  assert.ok(adminIndex > validationIndex);
+  assert.equal(steps.filter(step => step.run === 'pnpm run test:admin-smoke').length, 1);
+  assert.equal(steps[adminIndex].if, '${{ matrix.shard == 2 }}');
+  assert.deepEqual(steps[adminIndex].env, {
+    DATABASE_URL: '${{ secrets.RUNTIME_AUDIT_DATABASE_URL }}',
+    NEXT_PUBLIC_SUPABASE_URL: '${{ vars.NEXT_PUBLIC_SUPABASE_URL }}',
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: '${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}',
+  });
+  const uploads = steps.filter(step => step.uses === 'actions/upload-artifact@v6');
+  assert.equal(uploads.length, 1);
+  assert.equal(uploads[0].if, '${{ failure() && matrix.shard == 2 }}');
+  assert.deepEqual(uploads[0].with, { name: 'playwright-admin-report', path: 'output/playwright/**' });
+});
+
+test('Quality CI rejects a failed or canceled aggregate Browser matrix result', () => {
+  for (const browserResult of ['success', 'failure', 'cancelled', 'skipped', undefined]) {
+    const needs = {
+      plan: { result: 'success', outputs: { integration: 'true', tariffs: 'true', browser: 'true' } },
+      fast: { result: 'success' }, integration: { result: 'success' }, tariffs: { result: 'success' },
+      ...(browserResult ? { browser: { result: browserResult } } : {}),
+    };
+    const result = spawnSync(process.execPath, ['scripts/check-ci-validation.mjs'], {
+      encoding: 'utf8', env: { ...process.env, CI_JOB_RESULTS: JSON.stringify(needs) },
+    });
+    assert.equal(result.status, browserResult === 'success' ? 0 : 1, `${browserResult}: ${result.stderr}`);
+  }
 });
 
 test('production Lighthouse measurements run daily or manually instead of racing every main push', () => {

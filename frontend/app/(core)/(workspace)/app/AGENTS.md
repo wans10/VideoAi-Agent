@@ -2,8 +2,12 @@
 
 This route is the main signed-in video generation workspace.
 
+For links, examples and Gallery Rail settings restoration, read
+`docs/engineering/workspace-settings-handoff.md`, including the separate current-price ownership.
+
 ## Responsibilities
 
+- `WorkspaceEntry.tsx`: starts the auth-scoped bootstrap and renders the first workspace surface. Keep the initial server poster and geometry stable while the editor and private history load.
 - `AppClient.tsx`: top-level orchestration only; it wires route-local hooks into route-local surfaces.
 - `_components`: route-local chrome, boot surfaces, gallery/preview surfaces, runtime modals, panels, skeletons, wallet/auth modals, and presentational UI.
 - `_hooks`: route-local stateful workflow hooks for bounded client concerns such as draft storage/hydration, asset library, upload orchestration, composer mode/settings orchestration, gallery action orchestration, pricing/auth gate orchestration, generation runner orchestration, render state and polling, and video settings application.
@@ -22,6 +26,8 @@ This route is the main signed-in video generation workspace.
 - Keep generation validation guards and `runGenerate` payload assembly in `_lib`; route-local hooks should own generation network orchestration while `AppClient.tsx` wires UI state.
 - Keep composer mode inference, engine switching, multi-prompt derived state, voice-control derived state, and settings handlers in route-local hooks; `AppClient.tsx` should wire returned values into composer, settings bars, and generation runner props.
 - Keep Omni image/reference/video inputs in the shared composer reference controls and recent-media availability helper. Its route-local Omni panel owns only provider-specific directives; preserve media compatibility and previous-interaction restrictions in the shared availability projection.
+- Keep Luma Ray 3.2 Modify source video and single guide frame in the shared composer reference controls. The editor below Generate owns only timed keyframes; shared availability prevents adding a guide when keyframes exist, and the timeline prevents adding keyframes when a guide exists. Source excerpts remain with the shared composer and route upload hooks.
+- Owned-generation operations (Luma Extend and Flux Draft Enhance) use a compact source control in the composer. Keep source qualification mounted when its dialog is closed; preserve account/operation isolation, explicit Draft preparation, and source revalidation. Never substitute a raw upload for the required owned-generation identity.
 - Keep the composer and settings JSX in `_components/WorkspaceComposerSurface.tsx`; `AppClient.tsx` should not import `Composer`, `SettingsControls`, `CoreSettingsBar`, or Kling builder UI directly.
 - Keep gallery action orchestration, guided sample navigation, and preview open/continue/refine/copy behavior in route-local hooks; `AppClient.tsx` should pass returned handlers into rails, cards, and preview surfaces.
 - Keep preflight pricing, member-status refresh, wallet top-up modal state, and auth gate modal state in route-local hooks/components; `AppClient.tsx` should wire returned state into composer and generation runner props.
@@ -29,7 +35,7 @@ This route is the main signed-in video generation workspace.
 - Keep accepted `runGenerate` response projection and immediate render/preview patches in `_lib`; `AppClient.tsx` should dispatch events and start polling.
 - Keep generation polling projections and poll-delay decisions in `_lib`; `AppClient.tsx` should own `getJobStatus`, timers, and React setters.
 - Keep video settings snapshot parsing and job media patch mapping in `_lib`; route-local hooks should wire those results into React state and own settings hydration requests.
-- Keep derived example framing recovery in `workspace-derived-aspect-ratio.ts`, called only for derived snapshots by `workspace-video-settings.ts`: match measured ratios only to a supported mode ratio within 2%. Saved generation snapshots remain authoritative; do not change original media dimensions or the general engine fallback to fix recreation.
+- Keep measured framing matching in `workspace-derived-aspect-ratio.ts`: match only a supported mode ratio within 2%. `workspace-video-settings.ts` uses it for derived snapshots; `workspace-modify-source-defaults.ts` uses it for newly selected Modify sources. Saved generation snapshots remain authoritative; do not change original media dimensions or the general engine fallback to fix recreation. Apply new-source defaults through `useWorkspaceModifySourceDefaults.ts`, using the explicit asset mutation revision to distinguish imports/selections/excerpts from draft and full-generation restoration. Never reset an explicit choice on a signed-URL refresh or excerpt editor cancellation.
 - Keep workspace request parsing and boot hydration decisions in `_lib`; route-local draft hooks should apply the resolved state and keep browser storage reads/writes out of `AppClient.tsx`.
 - Keep route shell UI in `_components`; `AppClient.tsx` should render named surfaces instead of owning gallery cards, preview dock internals, boot skeleton composition, or runtime modal JSX inline.
 - Keep asset-library selection, reference slot insertion, and Kling library asset mapping in `_lib`; route-local hooks should own bounded asset library state, upload orchestration, and network calls.

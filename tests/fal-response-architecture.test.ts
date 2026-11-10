@@ -45,6 +45,8 @@ test('fal generation delegates payload, model, webhook, error, and type ownershi
   assert.match(falSource, /from '@\/lib\/fal-types'/);
 
   assert.match(requestBodySource, /export function buildFalGenerationRequest/);
+  assert.match(requestBodySource, /from '@\/lib\/fal-legacy-video-contracts'/);
+  assert.match(requestBodySource, /applyFalLegacyVideoContracts\(payload, requestBody\)/);
   assert.match(modelHelpersSource, /export function resolveFalModelSlug/);
   assert.match(modelHelpersSource, /export function normalizeFalDurationValueForModel/);
   assert.match(modelHelpersSource, /export function resolveFalVideoResolutionInput/);
@@ -89,4 +91,16 @@ test('fal generation file stays an orchestration module', () => {
     /function buildFalGenerationRequest\(/,
     'request body construction belongs in fal-request-body.ts'
   );
+});
+
+test('Fal transport error normalization and provenance have a dedicated owner', () => {
+  const provenancePath = join(root, 'frontend/src/lib/fal-error-provenance.ts');
+  assert.ok(existsSync(provenancePath), 'transport provenance should have its own owner');
+  const provenanceSource = readFileSync(provenancePath, 'utf8');
+  assert.match(falSource, /from '@\/lib\/fal-error-provenance'/);
+  assert.match(falSource, /createFalTransportError\(error,/);
+  assert.doesNotMatch(falSource, /const terminalResult\s*=/, 'provider failure qualification belongs in the provenance owner');
+  assert.match(provenanceSource, /export function createFalTransportError/);
+  assert.match(provenanceSource, /new FalGenerationError/);
+  assert.doesNotMatch(errorSource, /^import\s/m, 'the public error class remains a leaf module');
 });

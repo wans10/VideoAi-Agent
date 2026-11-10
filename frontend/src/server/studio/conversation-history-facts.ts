@@ -1,6 +1,7 @@
 import {recordedGenerationSourceVideoOutput} from '@/lib/generation-output-duration';
 import {query} from '@/lib/db';
-import {STUDIO_CONVERSATION_MAX_REFERENCES} from '@/lib/studio/conversation-creation-contract';
+import {studioGenerationReferenceLimit} from './conversation-reference-limits';
+import {studioRecastActionSchema} from '@/lib/studio/conversation-character-contract';
 import type {StudioConversationHistoryFacts} from '@/lib/studio/image-conversation-contract';
 import {customerDisplayPrice} from '@/lib/customer-price-presentation';
 import {requireGenerationActor,type StudioGenerationActor} from '@/server/agent-api/generation-actor';
@@ -17,8 +18,21 @@ const MAX_DIRECTION_CHARS=1600;
 export function projectStudioQuoteDirections(turns:readonly StoredImageTurn[]):StudioConversationHistoryFacts['quoteDirections'] {
   const directions:StudioConversationHistoryFacts['quoteDirections']=[];
   for(const turn of [...turns].reverse()){
+    if(directions.length===MAX_HISTORICAL_FACTS)break;
     if(turn.state!=='ready'||!turn.quote_id||!uuid.test(turn.quote_id)||!turn.draft_json)continue;
     const draft=turn.draft_json;
+    if(draft.recast){
+      const parsed=studioRecastActionSchema.safeParse(draft.recast);
+      if(!parsed.success)continue;
+      const {portrait,product,video,audio,direction,dialogue,seconds,resolution,aspectRatio}=parsed.data;
+      // Reserve verbatim dialogue before shortening longer creative direction.
+      const directionLimit=MAX_DIRECTION_CHARS-dialogue.length;
+      directions.push({
+        requestId:turn.request_id,quoteId:turn.quote_id,truncated:direction.length>directionLimit,
+        recast:{portrait,product,video,audio,direction:direction.slice(0,directionLimit),dialogue,seconds,resolution,aspectRatio},
+      });
+      continue;
+    }
     const media=draft.media;
     let text=draft.image?.prompt??'';
     if(media){
@@ -26,12 +40,12 @@ export function projectStudioQuoteDirections(turns:readonly StoredImageTurn[]):S
       else{
         const script=media.action==='audio.prepare'?media.settings?.find(setting=>setting.name==='script')?.value:undefined;
         const lyrics=media.action==='audio.prepare'?media.settings?.find(setting=>setting.name==='lyrics')?.value:undefined;
-        text=[media.prompt,typeof script==='string'?`Narration: ${script}`:'',typeof lyrics==='string'?`Lyrics: ${lyrics}`:''].filter(Boolean).join('\n\n');
+        const shotDirection=media.action==='video.prepare'?media.shotPlan?.map((shot,index)=>`Shot ${index+1} · ${shot.durationSec} s\n${shot.prompt}`).join('\n\n'):undefined;
+        text=[shotDirection??media.prompt,typeof script==='string'?`Narration: ${script}`:'',typeof lyrics==='string'?`Lyrics: ${lyrics}`:''].filter(Boolean).join('\n\n');
       }
     }
     if(!text)continue;
     directions.push({requestId:turn.request_id,quoteId:turn.quote_id,text:text.slice(0,MAX_DIRECTION_CHARS),truncated:text.length>MAX_DIRECTION_CHARS});
-    if(directions.length===MAX_HISTORICAL_FACTS)break;
   }
   return directions;
 }
@@ -39,7 +53,7 @@ export function projectStudioQuoteDirections(turns:readonly StoredImageTurn[]):S
 type EstimateRow={requestId:string;modelId:unknown;surface:unknown;mode:unknown;settings:unknown;outputCount:unknown;referenceCount:unknown;amountCents:unknown;currency:unknown;estimatedAt:unknown;quoteRequired:unknown;outputDurationSec:unknown;sourceVideoOutput:unknown};
 function projectHistoricalEstimate(row:EstimateRow):StudioConversationHistoryFacts['estimates'][number]|null {
   if(!uuid.test(row.requestId)||!token(row.modelId,128)||!token(row.mode,64)||!['image','video'].includes(row.surface as string)
-    ||row.outputCount!==1||typeof row.referenceCount!=='number'||!Number.isSafeInteger(row.referenceCount)||row.referenceCount<0||row.referenceCount>STUDIO_CONVERSATION_MAX_REFERENCES
+    ||row.outputCount!==1||typeof row.referenceCount!=='number'||!Number.isSafeInteger(row.referenceCount)||row.referenceCount<0||row.referenceCount>studioGenerationReferenceLimit(row.modelId,row.surface as string,row.mode)
     ||typeof row.amountCents!=='number'||!Number.isSafeInteger(row.amountCents)||row.amountCents<0||typeof row.currency!=='string'||!/^[A-Z]{3}$/.test(row.currency)
     ||typeof row.estimatedAt!=='string'||!Number.isFinite(Date.parse(row.estimatedAt))||row.quoteRequired!==true)return null;
   const sourceVideoOutput=recordedGenerationSourceVideoOutput({canonicalPricing:{meta:{seedanceEditSource:row.sourceVideoOutput}}});

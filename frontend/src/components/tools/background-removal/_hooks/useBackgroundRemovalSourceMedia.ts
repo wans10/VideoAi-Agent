@@ -12,11 +12,17 @@ import type {
 type LibrarySource = 'all' | 'upload' | 'generated' | 'background-removal';
 
 export function useBackgroundRemovalSourceMedia(params: {
+  userId?: string;
   onSourceChanged?: () => void;
   maxDurationSeconds: number;
 }) {
   const libraryRequestRef = useRef(0);
-  useEffect(() => () => { libraryRequestRef.current += 1; }, []);
+  const uploadRequestRef = useRef<AbortController | null>(null);
+  useEffect(() => () => {
+    libraryRequestRef.current += 1;
+    uploadRequestRef.current?.abort();
+    uploadRequestRef.current = null;
+  }, []);
   const [loadedLibrarySource, setLoadedLibrarySource] = useState<LibrarySource | null>(null);
   const [videoUrl, setVideoUrl] = useState('');
   const [source, setSource] = useState<BackgroundRemovalSourceAsset | null>(null);
@@ -43,6 +49,9 @@ export function useBackgroundRemovalSourceMedia(params: {
 
   const applySource = useCallback(
     (asset: BackgroundRemovalSourceAsset | null, url: string) => {
+      uploadRequestRef.current?.abort();
+      uploadRequestRef.current = null;
+      setUploading(false);
       setSource(asset);
       setVideoUrl(url);
       setMetadata(null);
@@ -61,19 +70,27 @@ export function useBackgroundRemovalSourceMedia(params: {
 
   const handleUpload = useCallback(
     async (file: File | null | undefined) => {
-      if (!file) return;
+      if (!file || !params.userId) return;
+      uploadRequestRef.current?.abort();
+      const controller = new AbortController();
+      uploadRequestRef.current = controller;
       setUploading(true);
       setSourceError(null);
       try {
-        const uploaded = await uploadSourceVideo(file);
+        const uploaded = await uploadSourceVideo(file, params.userId, controller.signal);
+        if (controller.signal.aborted || uploadRequestRef.current !== controller) return;
         applySource(uploaded, uploaded.url);
       } catch (error) {
+        if (controller.signal.aborted || uploadRequestRef.current !== controller) return;
         setSourceError(error instanceof Error ? error.message : 'Upload failed.');
       } finally {
-        setUploading(false);
+        if (uploadRequestRef.current === controller) {
+          uploadRequestRef.current = null;
+          setUploading(false);
+        }
       }
     },
-    [applySource]
+    [applySource, params.userId]
   );
 
   const refreshLibrary = useCallback(async () => {

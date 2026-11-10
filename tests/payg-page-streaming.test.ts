@@ -27,7 +27,14 @@ async function bundle() {
       export async function quote(input) {calls.push(input);await prices;if(state.failure)throw failure;return state.unavailable?{status:'unavailable'}:{status:'exact',amountCents:1937,currency:'USD',revision:'current-test',scenarioLabel:'Current exact scenario'};}
       export async function loadShowcase(input) {reads.push(input);await showcase;if(state.showcaseFailure)throw failure;return state.empty?[]:videos;}
     `,
-    '@/server/pricing/quote-public-model-scenario': `import {quote} from 'probe';export const createScopedPublicModelQuoter=()=>quote;`,
+    '@/server/pricing/quote-public-model-scenario': `
+      import {quote} from 'probe';
+      export const createScopedPublicModelQuoter=()=>quote;
+      // The shared pricing module also imports the Recast reader. Video-only
+      // PAYG must never invoke its separate scoped pricing path.
+      export function quotePublicModelScenario(){throw new Error('Unexpected Recast quote in video-only PAYG');}
+      export function resolvePublicModelScenario(){throw new Error('Unexpected Recast scenario in video-only PAYG');}
+    `,
     showcase: `export {loadShowcase as loadPayAsYouGoVideoShowcase} from 'probe';`,
   };
   try {
@@ -113,8 +120,9 @@ test('PAYG emits its hero before held current prices, then preserves the settled
         h.release('showcase');
         for (;;) { const next = await reader.read(); if (next.done) break; tail += decoder.decode(next.value, { stream: true }); }
         assert.deepEqual(errors, []);
-        assert.equal(h.calls.length, 114, 'Hero and details consume one current video projection');
+        assert.equal(h.calls.length, 125, 'Hero and details consume one current video projection');
         assert.ok(h.calls.every((input: { mode: string }) => input.mode !== 't2i'));
+        assert.equal(h.calls.filter((input: { modelId: string }) => input.modelId === 'kling-v4-flash').length, 2, 'Only two new Flash video scenarios are added');
         const final = new JSDOM(shell + tail, { runScripts: 'dangerously', pretendToBeVisual: true });
         await new Promise(done => setTimeout(done, 60));
         const expectedData = h.buildPayAsYouGoPageData({ locale, content, pricingHub: await h.buildCurrentVideoPricingData(locale) });
@@ -142,17 +150,14 @@ test('PAYG emits its hero before held current prices, then preserves the settled
       const pending = render(h.PayAsYouGoHeroQuotePending, h.buildPayAsYouGoHeroData(content));
       const settled = render(h.PayAsYouGoHeroQuoteCard, data);
       try {
-        // DOM reservation contract. Actual text wrapping and H1 movement remain
-        // browser checks, including FR/ES at narrow mobile widths.
-        for (const [selector, reservation] of [
-          ['[data-payg-quote-rows]', /min-h-\[338px\] sm:min-h-\[258px\]/],
-          ['[data-payg-quote-context]', /min-h-12 sm:min-h-8/],
-        ] as const) {
-          const first = pending.window.document.querySelector(selector);
-          const final = settled.window.document.querySelector(selector);
-          assert.ok(first && final, `${selector} must persist even when current rows or context are absent`);
-          assert.equal(final.className, first.className);
-          assert.match(final.className, reservation);
+        const pendingContext = pending.window.document.querySelector('[data-payg-quote-context]');
+        const settledContext = settled.window.document.querySelector('[data-payg-quote-context]');
+        assert.ok(pendingContext && settledContext);
+        assert.equal(pendingContext.className, settledContext.className);
+        assert.ok(settledContext.classList.contains('min-h-6'));
+        for (const doc of [pending, settled]) {
+          const details = doc.window.document.querySelector('[data-payg-quote-rows]')?.closest('details');
+          assert.ok(details && !details.open, 'Supplementary rows are in the HTML, behind a closed disclosure');
         }
         for (const doc of [pending, settled]) {
           const label = doc.window.document.querySelector('[data-payg-quote-amount] [aria-hidden="true"]');
@@ -188,7 +193,7 @@ test('PAYG emits its hero before held current prices, then preserves the settled
       assert.ok(errors.length >= 1);
       assert.ok(errors.every(error => error === h.failure), 'Keep the original failed-read error for the server boundary');
       assert.equal(h.reads.length, 1);
-      assert.equal(h.calls.length, showcaseFailure ? 114 : 8);
+      assert.equal(h.calls.length, showcaseFailure ? 125 : 8);
       const doc = new JSDOM(html, { runScripts: 'dangerously', pretendToBeVisual: true });
       await new Promise(done => setTimeout(done, 60));
       assert.equal(doc.window.document.querySelector('h1')?.textContent, content.hero.title);
@@ -202,7 +207,7 @@ test('PAYG emits its hero before held current prices, then preserves the settled
       doc.window.close();
       h.configure(); h.release('prices'); h.release('showcase');
       const recovered = await h.buildCurrentVideoPricingData('fr');
-      assert.equal(h.calls.length, 114, 'A later request owns fresh current quotes after failure');
+      assert.equal(h.calls.length, 125, 'A later request owns fresh current quotes after failure');
       assert.ok(recovered.video.rows.some((row: { quotes: Record<string, { amountCents?: number }> }) =>
         Object.values(row.quotes).some(quote => quote.amountCents === 1937)));
     });

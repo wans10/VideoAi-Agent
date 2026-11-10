@@ -1,4 +1,7 @@
 'use client';
+import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { assistanceSettings } from '@/lib/prompt-assistance/client-context';
+import { imagePromptReviewKey } from '@/lib/prompt-assistance/application-review';
 
 import type { FormEvent } from 'react';
 import type { PendingGeneration } from '@/lib/pending-generations';
@@ -7,11 +10,14 @@ import type { EngineCaps } from '@/types/engines';
 import type { ImageGenerationMode } from '@/types/image-generation';
 import { WorkspaceEmptyPreview } from '@/components/composer/WorkspaceEmptyPreview.client';
 import { WorkspaceOptionsButton } from '@/components/composer/WorkspaceOptionsButton.client';
-import { useState } from 'react';
+import { useState, useRef, useCallback, useLayoutEffect } from 'react';
 import { Composer, type AssetFieldConfig, type ComposerAttachment } from '@/components/Composer';
 import { ImageAdvancedSettings } from '@/components/ImageAdvancedSettings';
 import { ImageCountControl, ImageSettingsBar } from '@/components/ImageSettingsBar';
 import { EngineSelect } from '@/components/ui/EngineSelect';
+import { ComposerWorkspaceControls } from '@/components/composer/ComposerWorkspaceControls.client';
+import { WorkspaceComposerModel } from '@/components/composer/WorkspaceComposerModel.client';
+import { PROMPT_ASSISTANCE_PREVIEW } from '@/lib/prompt-assistance/preview-state';
 import { ImageCompositePreviewDock, type ImageCompositePreviewEntry } from '@/components/groups/ImageCompositePreviewDock';
 import { GPT_IMAGE_2_SIZE_CONSTRAINTS } from '@/lib/image/gptImage2';
 import type { ImageWorkspaceCopy } from '../_lib/image-workspace-copy';
@@ -26,6 +32,7 @@ type ControlOption = {
 };
 
 interface ImageWorkspaceComposerSurfaceProps {
+  assistanceAccountId?: string | null;
   starterPreview?: StarterMedia | null;
   starterNavigation?: ImageStarterNavigation;
   advancedSettingsTitle: string;
@@ -43,7 +50,8 @@ interface ImageWorkspaceComposerSurfaceProps {
   customImageWidth: string;
   enableWebSearch: boolean;
   engineCapsList: EngineCaps[];
-  estimatedCostAmount: number;
+  modelPicker?: import('@/components/ui/engine-select/model-picker-types').EnginePickerContext;
+  estimatedCostAmount: number | null;
   handleAddToLibrary: (url: string) => void;
   handleCopy: (url: string) => void;
   handleDownload: (url: string) => void;
@@ -53,7 +61,7 @@ interface ImageWorkspaceComposerSurfaceProps {
   handleReferenceUrl: (slotIndex: number, url: string, source: 'paste' | 'library') => void;
   handleRemoveFromLibrary: () => void;
   handleRemoveReferenceSlot: (index: number) => void;
-  handleRun: (event?: FormEvent<HTMLFormElement> | null) => Promise<void> | void;
+  handleRun: (event?: FormEvent<HTMLFormElement> | null, canContinue?:()=>boolean) => Promise<void> | void;
   imageCountOptions: ControlOption[];
   pendingGenerations: readonly PendingGeneration[];
   isInLibrary: boolean;
@@ -64,8 +72,9 @@ interface ImageWorkspaceComposerSurfaceProps {
   maskUrl: string;
   mode: ImageGenerationMode;
   numImages: number;
-  openLibraryForSlot: (slotIndex: number) => void;
+  openLibraryForSlot: (slotIndex?: number) => void;
   outputFormat: string | null;
+  outputCompression?: number | null;
   outputFormatSelectOptions: ControlOption[];
   previewEntry: HistoryEntry | undefined;
   prompt: string;
@@ -93,6 +102,7 @@ interface ImageWorkspaceComposerSurfaceProps {
   setMode: (value: ImageGenerationMode) => void;
   setNumImagesPreset: (value: number) => void;
   setOutputFormat: (value: string | null) => void;
+  setOutputCompression?: (value: number | null) => void;
   setPrompt: (value: string) => void;
   setQuality: (value: string | null) => void;
   setResolutionPreset: (value: string) => void;
@@ -100,6 +110,7 @@ interface ImageWorkspaceComposerSurfaceProps {
   setSelectedPreviewImageIndex: (value: number) => void;
   setStyle: (value: string | null) => void;
   setThinkingLevel: (value: string | null) => void;
+  setComplexity: (value: string | null) => void;
   setWatermark: (value: boolean) => void;
   showAspectRatioControl: boolean;
   showBackgroundControl: boolean;
@@ -109,19 +120,24 @@ interface ImageWorkspaceComposerSurfaceProps {
   showMaskUrlControl: boolean;
   showNumImagesControl: boolean;
   showOutputFormatControl: boolean;
+  showOutputCompressionControl?: boolean;
   showQualityControl: boolean;
   showResolutionControl: boolean;
   showSeedControl: boolean;
   showStyleControl: boolean;
   showThinkingLevelControl: boolean;
+  showComplexityControl: boolean;
   showWatermarkControl: boolean;
   statusMessage: string | null;
   thinkingLevel: string | null;
+  complexity: string | null;
   thinkingLevelSelectOptions: ControlOption[];
+  complexitySelectOptions: ControlOption[];
   watermark: boolean;
 }
 
 export function ImageWorkspaceComposerSurface({
+  assistanceAccountId,
   starterPreview,
   starterNavigation,
   advancedSettingsTitle,
@@ -138,7 +154,7 @@ export function ImageWorkspaceComposerSurface({
   customImageHeight,
   customImageWidth,
   enableWebSearch,
-  engineCapsList,
+  engineCapsList, modelPicker,
   estimatedCostAmount,
   handleAddToLibrary,
   handleCopy,
@@ -162,6 +178,7 @@ export function ImageWorkspaceComposerSurface({
   numImages,
   openLibraryForSlot,
   outputFormat,
+  outputCompression,
   outputFormatSelectOptions,
   previewEntry,
   prompt,
@@ -189,6 +206,7 @@ export function ImageWorkspaceComposerSurface({
   setMode,
   setNumImagesPreset,
   setOutputFormat,
+  setOutputCompression,
   setPrompt,
   setQuality,
   setResolutionPreset,
@@ -196,6 +214,7 @@ export function ImageWorkspaceComposerSurface({
   setSelectedPreviewImageIndex,
   setStyle,
   setThinkingLevel,
+  setComplexity,
   setWatermark,
   showAspectRatioControl,
   showBackgroundControl,
@@ -205,20 +224,28 @@ export function ImageWorkspaceComposerSurface({
   showMaskUrlControl,
   showNumImagesControl,
   showOutputFormatControl,
+  showOutputCompressionControl,
   showQualityControl,
   showResolutionControl,
   showSeedControl,
   showStyleControl,
   showThinkingLevelControl,
+  showComplexityControl,
   showWatermarkControl,
   statusMessage,
   thinkingLevel,
+  complexity,
   thinkingLevelSelectOptions,
+  complexitySelectOptions,
   watermark,
 }: ImageWorkspaceComposerSurfaceProps) {
+  const assistanceContext={selectedEngineId,mode,aspectRatio,resolution,quality,numImages,background,customImageHeight,customImageWidth,enableWebSearch,limitGenerations,maskUrl,outputFormat,seed,style,thinkingLevel,complexity,watermark,
+    referenceFields:referenceAssetFields.map(({field,required,disabled})=>({field,required,disabled}))};
+  const canReviewImageRatio=mode==='t2i'&&!maskUrl&&!Object.values(composerReferenceAssets).some(slots=>slots.some(Boolean));
   const engineSettings = (
     <div className="app-image-model-selector min-w-0">
       <EngineSelect
+              picker={modelPicker}
         engines={engineCapsList}
         engineId={selectedEngineId}
         onEngineChange={setEngineId}
@@ -239,39 +266,47 @@ export function ImageWorkspaceComposerSurface({
       />
     </div>
   );
+  const generationAllowed = useRef(false);
+  useLayoutEffect(()=>()=>{generationAllowed.current=false;},[]);
+  const updateGenerationPermission=useCallback((allowed:boolean)=>{generationAllowed.current=allowed;},[]);
   const [optionsOpen, setOptionsOpen] = useState(false);
   return (
     <div className="app-image-workspace-surface flex flex-col gap-1">
       <WorkspaceCreationHeading media="image" />
-      {!compositePreviewEntry ? (
-        <>
-          <section className="app-model-strip app-image-model-strip">{engineSettings}</section>
-          {starterPreview && starterNavigation
-            ? <ImageStarterPreview item={starterPreview} navigation={starterNavigation} />
-            : <WorkspaceEmptyPreview media="image" />}
-        </>
-      ) : (
-        <ImageCompositePreviewDock
-          density="workspace"
-          entry={compositePreviewEntry}
-          selectedIndex={selectedPreviewImageIndex}
-          onSelectIndex={setSelectedPreviewImageIndex}
-          onOpenModal={previewEntry ? () => handleOpenHistoryEntry(previewEntry) : undefined}
-          onDownload={handleDownload}
-          onCopyLink={handleCopy}
-          onEditImage={handleEditSelectedPreview}
-          onAddToLibrary={handleAddToLibrary}
-          onRemoveFromLibrary={handleRemoveFromLibrary}
-          isInLibrary={isInLibrary}
-          isSavingToLibrary={isSavingToLibrary}
-          isRemovingFromLibrary={isRemovingFromLibrary}
-          copiedUrl={copiedUrl}
-          showTitle={false}
-          engineSettings={engineSettings}
-        />
-      )}
+      {/* History can replace the preview without remounting the open model picker. */}
+      <div className="min-w-0">
+        {!PROMPT_ASSISTANCE_PREVIEW ? <section className="app-model-strip app-image-model-strip">{engineSettings}</section> : null}
+        {!compositePreviewEntry ? (
+          <div className="mt-1">
+            {starterPreview && starterNavigation
+              ? <ImageStarterPreview item={starterPreview} navigation={starterNavigation} />
+              : <WorkspaceEmptyPreview media="image" />}
+          </div>
+        ) : (
+          <ImageCompositePreviewDock
+            density="workspace"
+            entry={compositePreviewEntry}
+            selectedIndex={selectedPreviewImageIndex}
+            onSelectIndex={setSelectedPreviewImageIndex}
+            onOpenModal={previewEntry ? () => handleOpenHistoryEntry(previewEntry) : undefined}
+            onDownload={handleDownload}
+            onCopyLink={handleCopy}
+            onEditImage={handleEditSelectedPreview}
+            onAddToLibrary={handleAddToLibrary}
+            onRemoveFromLibrary={handleRemoveFromLibrary}
+            isInLibrary={isInLibrary}
+            isSavingToLibrary={isSavingToLibrary}
+            isRemovingFromLibrary={isRemovingFromLibrary}
+            copiedUrl={copiedUrl}
+            showTitle={false}
+          />
+        )}
+      </div>
 
-      <form onSubmit={handleRun} className="app-image-composer space-y-4">
+      <ComposerWorkspaceControls modelControl={<WorkspaceComposerModel engines={engineCapsList} engineId={selectedEngineId}
+        onEngineChange={setEngineId} mode={mode} onModeChange={nextMode => setMode(nextMode as ImageGenerationMode)}
+        modeOptions={['t2i', 'i2i']} picker={modelPicker} />}>
+      <form onSubmit={event=>{event.preventDefault();if(generationAllowed.current)void handleRun(event,()=>generationAllowed.current);}} className="app-image-composer space-y-4">
         {statusMessage ? (
           <p
             role="status"
@@ -283,12 +318,16 @@ export function ImageWorkspaceComposerSurface({
         ) : null}
 
         <Composer
+          onGenerationPermissionChange={updateGenerationPermission}
+          assistance={{ accountKey: assistanceAccountId ?? 'anonymous', scopeKey: JSON.stringify([assistanceAccountId, 'image', mode === 'i2i' ? 'edit' : 'create']), live: {surface: 'image', workflow: mode === 'i2i' ? 'edit' : 'create', engineId: selectedEngineId, mode, settings: assistanceSettings({aspectRatio, resolution, quality, numImages, background, customImageHeight, customImageWidth, enableWebSearch, limitGenerations, outputFormat, seed, style, thinkingLevel, complexity, watermark,...(maskUrl?{maskContent:'unavailable; describe the masked area in your message'}:{})}), references: []}, contextKey: JSON.stringify(assistanceContext), reviewKey:canReviewImageRatio?imagePromptReviewKey(assistanceContext):undefined }}
           density="workspace"
           compactPrompt
           engine={selectedEngineCaps}
           prompt={prompt}
           onPromptChange={setPrompt}
           price={estimatedCostAmount}
+          isPricing={estimatedCostAmount === null && !composerError}
+          disableGenerate={estimatedCostAmount === null}
           currency={currency}
           isLoading={false}
           pendingGenerations={pendingGenerations}
@@ -312,7 +351,7 @@ export function ImageWorkspaceComposerSurface({
           onAssetUrlSelect={(_, url, slotIndex) => handleReferenceUrl(slotIndex, url, 'paste')}
           onOpenLibrary={(_, index) => openLibraryForSlot(index)}
           onNotice={setError}
-          optionsControl={(showSeedControl || showThinkingLevelControl || showCustomImageSizeControl || showMaskUrlControl || showEnableWebSearchControl || showLimitGenerationsControl || showWatermarkControl) ? <WorkspaceOptionsButton open={optionsOpen} onToggle={() => setOptionsOpen((value) => !value)} /> : undefined}
+          optionsControl={(showOutputCompressionControl || showBackgroundControl || showComplexityControl || showSeedControl || showThinkingLevelControl || showCustomImageSizeControl || showMaskUrlControl || showEnableWebSearchControl || showLimitGenerationsControl || showWatermarkControl) ? <WorkspaceOptionsButton open={optionsOpen} onToggle={() => setOptionsOpen((value) => !value)} /> : undefined}
           settingsBar={
             <ImageSettingsBar
               density="workspace"
@@ -375,15 +414,22 @@ export function ImageWorkspaceComposerSurface({
             ) : undefined
           }
           onGenerate={() => {
-            void handleRun();
+            if(generationAllowed.current)void handleRun(null,()=>generationAllowed.current);
           }}
           generateLabel={resolvedCopy.runButton.idle}
           generateLoadingLabel={resolvedCopy.runButton.running}
           extraFields={
             <div className="space-y-6">
+              {isGptImage26EngineId(selectedEngineId) && (resolution === 'auto' || quality === 'auto') ? (
+                <p className="text-xs text-text-muted">{resolvedCopy.composer.gpt26AutoQuoteHint}</p>
+              ) : null}
               <ImageAdvancedSettings
                 open={optionsOpen}
                 title={advancedSettingsTitle}
+                outputCompression={showOutputCompressionControl && setOutputCompression ? {
+                  label: resolvedCopy.composer.outputCompressionLabel, hint: resolvedCopy.composer.outputCompressionHint,
+                  value: outputCompression ?? null, onChange: setOutputCompression,
+                } : undefined}
                 background={
                   showBackgroundControl
                     ? {
@@ -411,6 +457,16 @@ export function ImageWorkspaceComposerSurface({
                         value: thinkingLevel ?? String(thinkingLevelSelectOptions[0]?.value ?? ''),
                         options: thinkingLevelSelectOptions,
                         onChange: setThinkingLevel,
+                      }
+                    : undefined
+                }
+                complexity={
+                  showComplexityControl
+                    ? {
+                        label: resolvedCopy.composer.complexityLabel,
+                        value: complexity ?? String(complexitySelectOptions[0]?.value ?? ''),
+                        options: complexitySelectOptions,
+                        onChange: setComplexity,
                       }
                     : undefined
                 }
@@ -474,6 +530,7 @@ export function ImageWorkspaceComposerSurface({
           }
         />
       </form>
+      </ComposerWorkspaceControls>
     </div>
   );
 }

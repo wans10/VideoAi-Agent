@@ -1,5 +1,6 @@
 'use client';
 
+import { preparePickerScenario, type PickerScenario } from '../_lib/workspace-picker-scenario';
 import { applyWorkspacePreparedSetup } from '../_lib/workspace-apply-prepared-setup';
 import type { WorkspaceSavedModelSetup } from '../_lib/workspace-model-setups';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -8,6 +9,7 @@ import {
   prepareWorkspaceModelCandidate,
   type WorkspaceModelSetup,
 } from '../_lib/workspace-model-candidate';
+import { resolveWorkspaceWorkflow } from '../_lib/workspace-workflow-projection';
 import { buildWorkspacePreflightRequest } from '../_lib/workspace-preflight-request';
 import {
   decodeWorkspaceModelSetups,
@@ -38,6 +40,7 @@ export type WorkspaceModelReviewOptions = Omit<Setters, 'setForm'> & {
   onModelSwitchNotice: (message: string) => void;
   current: WorkspaceModelSetup | null;
   applyPreparedForm: (form: WorkspaceModelSetup['form']) => void;
+  beforeApplyPreparedForm?: (form: WorkspaceModelSetup['form']) => boolean;
   engines: EngineCaps[];
   locale: string;
   /** Only a confirmed authenticated account. Never pass last-known draft storageScope. */
@@ -180,12 +183,13 @@ export function useWorkspaceModelReview(options: WorkspaceModelReviewOptions) {
     candidate && target && candidate.applicable && !candidate.blockingReasons.length
       ? buildWorkspacePreflightRequest({
           form: candidate.setup.form,
-          selectedEngine: target,
+          selectedEngine: candidate.engine,
           submissionMode: candidate.workflow.submissionMode,
           effectiveDurationSec: candidate.effectiveDurationSec,
           supportsAudioToggle: candidate.supportsAudioToggle,
           voiceControlEnabled: candidate.voiceControlEnabled,
           inputAssets: candidate.setup.inputAssets,
+          klingElements: candidate.setup.klingElements,
           memberTier,
         })
       : null;
@@ -196,6 +200,7 @@ export function useWorkspaceModelReview(options: WorkspaceModelReviewOptions) {
     authChecked: Boolean(eligibleAccount),
   });
   const comparison = useWorkspaceModelAlternatives({
+    accountId: eligibleAccount,
     enabled: active && panel === 'compare' && !selection,
     current,
     engines,
@@ -365,6 +370,7 @@ export function useWorkspaceModelReview(options: WorkspaceModelReviewOptions) {
       })
     )
       return false;
+    if (latest.current.options.beforeApplyPreparedForm?.(prepared.form) === false) return false;
     // All owners receive the already prepared values in the same React event, before schema effects run.
     applyWorkspacePreparedSetup(committed, {
       ...latest.current.options,
@@ -380,36 +386,44 @@ export function useWorkspaceModelReview(options: WorkspaceModelReviewOptions) {
     setSelection(null);
     return true;
   };
-  const switchModel = (engineId: string) => {
-    if (!mounted.current || latest.current.authScope !== authScope) return;
+  const switchModel = (engineId: string, preserveWorkflow = false, scenario?: { source: WorkspaceModelSetup; overrides: PickerScenario }) => {
+    if (!mounted.current || latest.current.authScope !== authScope) return false;
     const engine = engines.find(
       (entry) => entry.id === engineId && entry.availability !== 'paused',
     );
-    if (!engine || options.disabledEngineReasons?.[engineId]) return;
+    if (!engine || options.disabledEngineReasons?.[engineId]) return false;
     if (authStatus === 'loggedOut') {
+      if (scenario && Object.keys(scenario.overrides).length) { onRequestAuth(); return false; }
       onGuestEngineChange(engineId);
-      return;
+      return true;
     }
-    if (!validScope()) return;
+    if (!validScope()) return false;
     const source = latest.current.options.current;
-    if (!source || source.form.engineId === engineId) {
+    if (scenario && workspaceModelSetupSignature(source) !== workspaceModelSetupSignature(scenario.source)) return false;
+    if (!source || (source.form.engineId === engineId && !Object.keys(scenario?.overrides ?? {}).length)) {
       setPanel(null);
       latest.current.selection = null;
       setSelection(null);
-      return;
+      return Boolean(source);
     }
     if (!latest.current.store.loaded || latest.current.store.error) {
       const key = latest.current.store.error ?? 'incomplete';
       setError(key);
       onModelSwitchNotice(workspaceModelReviewCopy(locale)[key]);
-      return;
+      return false;
     }
-    const prepared = prepareWorkspaceModelCandidate({
+    const prepared = preparePickerScenario({
       engine,
       current: source,
+      overrides: scenario?.overrides,
       locale,
       currentEngine: engines.find((entry) => entry.id === source.form.engineId),
     });
+    if (preserveWorkflow && (prepared.removedReferences.length || prepared.setup.form.operation !== source.form.operation
+      || prepared.workflow.submissionMode !== resolveWorkspaceWorkflow({ engine: engines.find(entry => entry.id === source.form.engineId) ?? null, ...source }).submissionMode)) {
+      onModelSwitchNotice(workspaceModelReviewCopy(locale).incomplete);
+      return false;
+    }
     const blockingReason = prepared.blockingReasons.find(({ scope }) => scope === 'apply');
     if (!prepared.applicable || blockingReason) {
       onModelSwitchNotice(
@@ -417,16 +431,17 @@ export function useWorkspaceModelReview(options: WorkspaceModelReviewOptions) {
           ? workspaceModelReviewCopy(locale).reasons[blockingReason.code]
           : workspaceModelReviewCopy(locale).incomplete,
       );
-      return;
+      return false;
     }
     if (!commitPreparedSetup(source, prepared.setup)) {
       onModelSwitchNotice(workspaceModelReviewCopy(locale).incomplete);
-      return;
+      return false;
     }
     if (prepared.removedReferences.length)
       onModelSwitchNotice(
         workspaceModelReviewCopy(locale).switchPreserved(prepared.removedReferences.length),
       );
+    return true;
   };
   const canApply = Boolean(
     active &&
@@ -473,6 +488,8 @@ export function useWorkspaceModelReview(options: WorkspaceModelReviewOptions) {
     canApply,
     requestModel,
     switchModel,
+    switchPickerModel: (id: string) => switchModel(id),
+    applyPickerScenario: (id: string, source: WorkspaceModelSetup, overrides: PickerScenario) => switchModel(id, false, { source, overrides }),
     close,
     apply,
     selectSavedSetup,

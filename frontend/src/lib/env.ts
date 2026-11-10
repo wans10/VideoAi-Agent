@@ -68,7 +68,7 @@ export const ENV = {
   ALIBABA_MODEL_STUDIO_API_KEY: getOptionalEnv('ALIBABA_MODEL_STUDIO_API_KEY'),
   ALIBABA_MODEL_STUDIO_BASE_URL: getOptionalEnv(
     'ALIBABA_MODEL_STUDIO_BASE_URL',
-    'https://dashscope-intl.ap-southeast-1.aliyuncs.com'
+    'https://dashscope-intl.aliyuncs.com'
   ),
   ALIBABA_MODEL_STUDIO_REGION: getOptionalEnv('ALIBABA_MODEL_STUDIO_REGION', 'ap-southeast-1'),
   ALIBABA_MODEL_STUDIO_ENABLED: getOptionalEnv('ALIBABA_MODEL_STUDIO_ENABLED', 'false'),
@@ -140,6 +140,7 @@ export const ENV = {
   ),
   KLING_DIRECT_ELEMENT_REGISTRATION_ENABLED: getOptionalEnv('KLING_DIRECT_ELEMENT_REGISTRATION_ENABLED', 'false'),
   KLING_DIRECT_ADMIN_ONLY: getOptionalEnv('KLING_DIRECT_ADMIN_ONLY', 'true'),
+  KLING_API_KEY: getOptionalEnv('KLING_API_KEY'),
   KLING_ACCESS_KEY: getOptionalEnv('KLING_ACCESS_KEY'),
   KLING_SECRET_KEY: getOptionalEnv('KLING_SECRET_KEY'),
   KLING_API_BASE_URL: getOptionalEnv('KLING_API_BASE_URL', 'https://api-singapore.klingai.com'),

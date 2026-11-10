@@ -7,8 +7,10 @@ export type ModelCatalogScope = 'all' | 'video' | 'image' | 'audio';
 type EngineLike = FalEngineEntry | EngineCaps;
 
 export const CURRENT_MODEL_CATALOG_PRIORITY = [
+  'flux-3-max',
   'seedance-2-5',
   'minimax-h3',
+  'kling-v4',
   'ltx-2-5-pro',
   'ltx-2-5-fast',
   'wan-3-prime',

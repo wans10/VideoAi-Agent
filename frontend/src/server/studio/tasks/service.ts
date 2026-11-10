@@ -7,11 +7,11 @@ import {requireGenerationActor,type StudioGenerationActor} from '@/server/agent-
 import {stableJson} from '@/server/agent-api/generation-normalization';
 import {getActiveAccountRestrictionInExecutor} from '@/server/fraud-cleanup/restrictions';
 import {studioAssistancePolicy,type StudioAssistancePolicy} from '../assistance-policy';
-import {lockAccount,openStudioAssistanceTurn,readStudioAssistanceStatus} from '../assistance-ledger';
+import {chooseStudioAssistance,lockAccount,openStudioAssistanceTurn,readStudioAssistanceStatus} from '../assistance-ledger';
 import {studioTaskSavedUsageKnown} from './saved-usage';
 import {studioTasksEnabled} from './policy';
 import {studioTaskSourceFingerprint} from './source';
-import {studioTaskSchemaReady,readStudioTaskRow,readStudioTaskUsage,projectStudioTask,type StudioTaskRow} from './repository';
+import {studioTaskSchemaReady,studioTaskReplyEnvelopeReady,readStudioTaskRow,readStudioTaskUsage,projectStudioTask,type StudioTaskRow} from './repository';
 
 export function createStudioTaskService(actor:StudioGenerationActor,dependencies:{enabled?:boolean;assistancePolicy?:StudioAssistancePolicy}={}) {
   requireGenerationActor(actor);if(actor.authMethod!=='studio-session')throw new AgentApiError('AUTH_REQUIRED','Studio session required.');
@@ -38,14 +38,14 @@ export function createStudioTaskService(actor:StudioGenerationActor,dependencies
       if(!input.taskBudget)throw new AgentApiError('CONFIRMATION_REQUIRED','Review the assistance ceiling before sending.');
       const hash=createHash('sha256').update(stableJson(input)).digest('hex');
       return withDbTransaction(async tx=>{
-        if(!await studioTaskSchemaReady(tx,input.taskBudget!.policyVersion))throw new AgentApiError('ENGINE_UNAVAILABLE','Apply the explicit Studio task migration before activation.');
+        if(!await studioTaskSchemaReady(tx,input.taskBudget!.policyVersion)||!await studioTaskReplyEnvelopeReady(tx))throw new AgentApiError('ENGINE_UNAVAILABLE','Apply the explicit Studio task migration before activation.');
         const account=await authorize(tx);
         const prior=(await tx.query<StudioTaskRow>('SELECT * FROM studio_tasks WHERE user_id=$1 AND project_id=$2 AND request_id=$3',[actor.userId,actor.projectId,input.requestId]))[0];
         if(prior){if(prior.input_hash!==hash)throw new AgentApiError('PARAMETER_INVALID','This request identity belongs to another intent.');return projectStudioTask(prior,tx);}
         if(input.taskBudget!.model&&input.taskBudget!.model!==account.selected_model||input.taskBudget!.assistanceRevision!==undefined&&input.taskBudget!.assistanceRevision!==Number(account.revision))throw new AgentApiError('CONFIRMATION_REQUIRED','Refresh the selected model and assistance policy before sending.');
         await noOtherActive(tx,input.requestId);
         const assistance=await openStudioAssistanceTurn(actor,input.requestId,policy,tx);
-        let profile;try{profile=studioTaskProfileForModel(input.taskBudget!,assistance.model);}catch{throw new AgentApiError('CONFIRMATION_REQUIRED','Select Sol and confirm the complex ceiling before sending.');}
+        let profile;try{profile=studioTaskProfileForModel(input.taskBudget!,assistance.model);}catch{throw new AgentApiError('CONFIRMATION_REQUIRED','Select Max and confirm the complex ceiling before sending.');}
         const count=(await tx.query<{n:number}>(`SELECT count(*)::int n FROM (
           SELECT t.request_id FROM studio_image_turns t WHERE t.user_id=$1 AND t.created_at>clock_timestamp()-interval '1 hour'
             AND NOT EXISTS(SELECT 1 FROM studio_task_segments s WHERE s.user_id=t.user_id AND s.project_id=t.project_id AND s.request_id=t.request_id)
@@ -53,7 +53,7 @@ export function createStudioTaskService(actor:StudioGenerationActor,dependencies
         if(count>=(assistance.mode==='paid_sol'?60:20))throw new AgentApiError('RATE_LIMITED','The current hourly task allowance is reached. Try later.');
         const sourceFingerprint=await studioTaskSourceFingerprint(actor,input,tx,true);
         const row=(await tx.query<StudioTaskRow>(`INSERT INTO studio_tasks(user_id,project_id,request_id,segment_request_id,input_hash,input_json,source_fingerprint,policy_version,profile,profile_json,model,max_credits,allowed_calls)
-          VALUES($1,$2,$3,$3,$4,$5::jsonb,$6,$7,$8,$9::jsonb,$10,$11,$12) RETURNING *`,[actor.userId,actor.projectId,input.requestId,hash,JSON.stringify(input),sourceFingerprint,input.taskBudget!.policyVersion,input.taskBudget!.profile,JSON.stringify(profile),assistance.model,profile.maxCredits,profile.maxCalls]))[0];
+          VALUES($1,$2,$3,$3,$4,$5::jsonb,$6,$7,$8,$9::jsonb,$10,$11,$12) RETURNING *`,[actor.userId,actor.projectId,input.requestId,hash,JSON.stringify(input),sourceFingerprint,input.taskBudget!.policyVersion,input.taskBudget!.profile,JSON.stringify({...profile,explicitLiteChoice:true}),assistance.model,profile.maxCredits,profile.maxCalls]))[0];
         await tx.query('INSERT INTO studio_task_segments(user_id,project_id,task_request_id,request_id,max_calls) VALUES($1,$2,$3,$3,$4)',[actor.userId,actor.projectId,input.requestId,profile.maxCalls]);
         await tx.query('INSERT INTO studio_task_memory_notes(user_id,project_id,request_id,message,reference_ids) VALUES($1,$2,$3,$4,$5::jsonb) ON CONFLICT DO NOTHING',[actor.userId,actor.projectId,input.requestId,input.message,JSON.stringify([...input.references,...(input.attachments??[]).map(r=>r.type==='asset'?r.assetId:r.outputId)])]);
         return projectStudioTask(row,tx);
@@ -102,10 +102,19 @@ export function createStudioTaskService(actor:StudioGenerationActor,dependencies
         const generation=(await tx.query<{quote_id:string|null;draft_json:Record<string,unknown>|null}>('SELECT quote_id,draft_json FROM studio_image_turns WHERE user_id=$1 AND project_id=$2 AND request_id=$3 FOR UPDATE',[actor.userId,actor.projectId,row.segment_request_id]))[0];
         if(generation?.quote_id||generation?.draft_json?.image||generation?.draft_json?.media||generation?.draft_json?.exportQuote||generation?.draft_json?.analysisQuote)throw new AgentApiError('PARAMETER_INVALID','The delivered preparation has its own confirmation or renewal.');
         const delta=input.maxCredits-row.max_credits;
-        if(input.action==='continue'?delta!==0:row.model!=='gpt-6.1-sol'||![100,250,500].includes(delta))throw new AgentApiError('PARAMETER_INVALID','Review the exact additional task ceiling.');
+        if(input.action!=='extend'?delta!==0:row.model==='gpt-6-luna'||![100,250,500].includes(delta))throw new AgentApiError('PARAMETER_INVALID','Review the exact additional task ceiling.');
         if(input.maxCredits>STUDIO_TASK_MAX_CREDITS||row.allowed_calls>=STUDIO_TASK_MAX_CALLS)throw new AgentApiError('PARAMETER_INVALID','Start a new explicit request after this task resource limit.');
         const allowed=Math.min(STUDIO_TASK_MAX_CALLS,row.allowed_calls+row.profile_json.maxCalls),revision=row.revision+1;
-        await openStudioAssistanceTurn(actor,input.approvalId,policy,tx,row.model);
+        const segment=(await tx.query<{model:StudioTaskRow['model']}>('SELECT model FROM studio_assistance_turns WHERE user_id=$1 AND project_id=$2 AND request_id=$3',[actor.userId,actor.projectId,row.segment_request_id]))[0];
+        let nextModel=segment?.model??row.model;
+        if(input.action==='continue_lite'){
+          if(row.error!=='funding'||nextModel==='gpt-6-luna')throw new AgentApiError('PARAMETER_INVALID','Only a credit-funded pause can continue with Lite.');
+          const status=await readStudioAssistanceStatus(actor.userId,policy,tx);
+          if(status.sponsoredAvailable===false)throw new AgentApiError('SPENDING_LIMIT_EXCEEDED','Free Lite is unavailable right now.',false,{type:'studio_assistance',reason:'campaign_exhausted',safeToStartNewRequest:false});
+          await chooseStudioAssistance(actor.userId,{action:'select_luna',expectedRevision:status.revision},policy,tx);
+          nextModel='gpt-6-luna';
+        }
+        await openStudioAssistanceTurn(actor,input.approvalId,policy,tx,nextModel);
         await tx.query('INSERT INTO studio_task_segments(user_id,project_id,task_request_id,request_id,max_calls) VALUES($1,$2,$3,$4,$5)',[actor.userId,actor.projectId,input.requestId,input.approvalId,allowed-row.allowed_calls]);
         await tx.query('INSERT INTO studio_task_approvals(user_id,project_id,request_id,approval_id,revision,payload,max_credits,allowed_calls,segment_request_id) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7,$8,$4)',[actor.userId,actor.projectId,input.requestId,input.approvalId,revision,JSON.stringify(input),input.maxCredits,allowed]);
         const updated=(await tx.query<StudioTaskRow>(`UPDATE studio_tasks SET state='queued',phase='queued',max_credits=$4,allowed_calls=$5,revision=$6,segment_request_id=$7,worker_id=NULL,lease_expires_at=NULL,deadline_at=NULL,recovery_attempts=0,replay_only=false,error=NULL,updated_at=clock_timestamp()

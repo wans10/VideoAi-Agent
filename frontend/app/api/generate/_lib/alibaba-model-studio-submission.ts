@@ -1,5 +1,7 @@
 import type { GeneratePayload, GenerateResult } from '@/lib/fal';
 import { query } from '@/lib/db';
+import type { NormalizedVideoProviderTask } from '@/server/video-providers/types';
+import { persistDirectProviderAcceptance } from './direct-provider-acceptance';
 import type { Mode, PricingSnapshot, ProviderClientErrorPolicy } from '@/types/engines';
 import { getAlibabaModelStudioClient } from '@/server/video-providers/alibaba-model-studio/client';
 import { estimateAlibabaProviderCost } from '@/server/video-providers/alibaba-model-studio/cost';
@@ -12,6 +14,9 @@ import {
   resolveAlibabaModelRoute,
 } from '@/server/video-providers/alibaba-model-studio/model-map';
 import { buildAlibabaVideoPayload } from '@/server/video-providers/alibaba-model-studio/payload';
+import { createWanMediaTransport } from '@/server/video-providers/alibaba-model-studio/media-access';
+import type { createOwnedMediaReadUrl } from '@/server/owned-media-read-access';
+import { sanitizeProviderMediaDiagnostics } from '@/server/provider-media-diagnostics';
 import type { AlibabaReferenceAsset } from '@/server/video-providers/alibaba-model-studio/types';
 import {
   createProviderAttempt,
@@ -24,6 +29,7 @@ import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-m
 import { createProviderJobTracker } from './provider-job-tracker';
 import { rollbackPendingPayment } from './payment-rollback';
 import { isDeferredFalSubmission, submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
+import { reconcileFalFallbackTerminalResponse } from './fal-fallback-outcome';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 
@@ -35,6 +41,7 @@ type LogMetricFn = (
 
 type AlibabaSubmissionClient = Pick<ReturnType<typeof getAlibabaModelStudioClient>, 'createVideo' | 'getTask'>;
 type AlibabaSubmissionDeps = {
+  createOwnedMediaReadUrlFn?: typeof createOwnedMediaReadUrl;
   getAlibabaModelStudioClientFn?: () => AlibabaSubmissionClient;
   submitFalGenerateTaskFn?: typeof submitFalGenerateTask;
   queryFn?: QueryFn;
@@ -118,6 +125,9 @@ export function resolveAlibabaSubmissionMediaInputs(params: {
 }
 
 function userSafeAlibabaMessage(errorClass: string, errorCode?: string | null): string {
+  if (errorCode === 'REFERENCE_INVALID' || errorCode === 'REFERENCE_ACCESS_FAILED') {
+    return 'Reference media could not be read. Select it again from your library or import it again.';
+  }
   if (errorCode === 'ALIBABA_REFERENCE_AUDIO_UNSUPPORTED') {
     return 'Wan 3 reference audio must be an MP3 or WAV file. Convert the audio and try again.';
   }
@@ -230,7 +240,7 @@ async function submitFalFallback(params: {
   });
   const result = await params.submitFalGenerateTaskFn({
     userId: params.userId,
-    falPayload: params.falPayload,
+    falPayload: { ...params.falPayload, submissionMode: 'enqueue' },
     jobId: params.jobId,
     engineId: params.engineId,
     engineLabel: params.engineLabel,
@@ -246,6 +256,9 @@ async function submitFalFallback(params: {
     logMetricFn: params.logMetricFn,
     clientErrorPolicy: params.clientErrorPolicy,
   });
+  const recovered = await reconcileFalFallbackTerminalResponse({ jobId: params.jobId, result,
+    attemptId: attempt.id, acceptedProviderJobId: tracker.getLastProviderJobId(), queryFn: params.queryFn });
+  if (recovered) return recovered;
   const providerJobId = falProviderJobId(result, tracker.getLastProviderJobId);
   if (providerJobId) {
     await markProviderAttemptAccepted({
@@ -352,7 +365,10 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
     queryFn,
   });
 
+  let acceptedTask: NormalizedVideoProviderTask;
   let acceptedProviderJobId: string | null = null;
+  let sanitizeDiagnostics: (value: unknown) => unknown = route.family === 'wan3'
+    ? sanitizeProviderMediaDiagnostics : value => value;
   try {
     const extraInputValues = params.falPayload.extraInputValues ?? {};
     const payload = buildAlibabaVideoPayload({
@@ -377,51 +393,11 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
           : undefined,
       seed: params.falPayload.seed,
     });
-    const task = await (deps.getAlibabaModelStudioClientFn ?? getAlibabaModelStudioClient)().createVideo(payload);
+    const transport = await createWanMediaTransport({ payload, userId: params.userId }, { read: deps.createOwnedMediaReadUrlFn });
+    sanitizeDiagnostics = transport.sanitize;
+    const task = await (deps.getAlibabaModelStudioClientFn ?? getAlibabaModelStudioClient)().createVideo(transport.payload);
     acceptedProviderJobId = task.providerJobId;
-    await markProviderAttemptAccepted({
-      attemptId: attempt.id,
-      providerJobId: acceptedProviderJobId,
-      responseSnapshot: task.raw,
-      queryFn,
-    });
-    const status = task.status === 'running' ? 'running' : 'queued';
-    const progress = task.status === 'running' ? 30 : 10;
-    await queryFn(
-      `UPDATE app_jobs
-          SET status = $2, progress = $3, message = $4, provider = $5,
-              provider_job_id = $6, provisional = FALSE, updated_at = NOW()
-        WHERE job_id = $1`,
-      [params.jobId, status, progress, 'Render submitted.', ALIBABA_MODEL_STUDIO_PROVIDER, acceptedProviderJobId]
-    );
-    params.logMetricFn('accepted', {
-      jobId: params.jobId,
-      meta: { provider: ALIBABA_MODEL_STUDIO_PROVIDER, providerJobId: acceptedProviderJobId, providerModel: route.model },
-    });
-    return {
-      ok: true,
-      kind: 'accepted',
-      body: {
-        ok: true,
-        jobId: params.jobId,
-        videoUrl: null,
-        video: null,
-        thumbUrl: params.placeholderThumb,
-        status,
-        progress,
-        pricing: params.pricing,
-        paymentStatus: params.paymentStatus,
-        provider: ALIBABA_MODEL_STUDIO_PROVIDER,
-        providerJobId: acceptedProviderJobId,
-        batchId: params.batchId,
-        groupId: params.groupId,
-        iterationIndex: params.iterationIndex,
-        iterationCount: params.iterationCount,
-        renderIds: params.renderIds,
-        heroRenderId: params.heroRenderId,
-        localKey: params.localKey,
-      },
-    };
+    acceptedTask = task;
   } catch (error) {
     const normalized = classifyAlibabaModelStudioError(error);
     const fallbackEligible = route.fallbackCompatible && shouldFallbackFromAlibabaSubmit({
@@ -435,7 +411,7 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
         errorCode: normalized.code,
         errorClass: normalized.errorClass,
         fallbackEligible,
-        responseSnapshot: normalized.raw,
+        responseSnapshot: sanitizeDiagnostics(normalized.raw),
         queryFn,
       });
     } catch {
@@ -497,4 +473,39 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
       },
     };
   }
+  let responseSnapshot: unknown = null;
+  try {
+    responseSnapshot = sanitizeDiagnostics(acceptedTask.raw);
+  } catch {
+    console.warn('[alibaba-model-studio] accepted diagnostics unavailable', { jobId: params.jobId });
+  }
+  const status = acceptedTask.status === 'running' ? 'running' : 'queued';
+  const progress = acceptedTask.status === 'running' ? 30 : 10;
+  return { ok: true, kind: 'accepted', body: await persistDirectProviderAcceptance({
+    jobId: params.jobId, provider: ALIBABA_MODEL_STUDIO_PROVIDER, providerJobId: acceptedTask.providerJobId,
+    attemptId: attempt.id, responseSnapshot, status, progress,
+    localKey: params.localKey, queryFn,
+    logAccepted: () => params.logMetricFn('accepted', { jobId: params.jobId,
+      meta: { provider: ALIBABA_MODEL_STUDIO_PROVIDER, providerJobId: acceptedTask.providerJobId, providerModel: route.model } }),
+    acceptedBody: {
+      ok: true,
+      jobId: params.jobId,
+      videoUrl: null,
+      video: null,
+      thumbUrl: params.placeholderThumb,
+      status,
+      progress,
+      pricing: params.pricing,
+      paymentStatus: params.paymentStatus,
+      provider: ALIBABA_MODEL_STUDIO_PROVIDER,
+      providerJobId: acceptedTask.providerJobId,
+      batchId: params.batchId,
+      groupId: params.groupId,
+      iterationIndex: params.iterationIndex,
+      iterationCount: params.iterationCount,
+      renderIds: params.renderIds,
+      heroRenderId: params.heroRenderId,
+      localKey: params.localKey,
+    },
+  }) };
 }

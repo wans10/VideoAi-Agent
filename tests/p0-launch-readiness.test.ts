@@ -24,8 +24,8 @@ const EXPECTED_MODES = new Map<string, readonly string[]>([
   ['ltx-2-5-fast', ['t2v', 'i2v', 'a2v']],
   ['ltx-2-5-pro', ['t2v', 'i2v', 'a2v']],
   ['grok-imagine-video-1-5', ['t2v', 'i2v', 'ref2v']],
-  ['flux-3', ['t2v', 'i2v', 'fl2v', 'extend']],
-  ['flux-3-draft', ['t2v', 'i2v', 'fl2v', 'extend']],
+  ['flux-3', ['t2v', 'i2v', 'fl2v', 'extend', 'ref2v', 'v2v']],
+  ['flux-3-draft', ['t2v', 'i2v', 'fl2v', 'extend', 'ref2v', 'v2v']],
 ]);
 const SCORE_FIELDS = [
   'fidelity',
@@ -99,7 +99,7 @@ test('the complete P0 graph publishes atomically across public discovery surface
         published: true,
         includeInFamilyCopy: true,
         current: true,
-        familyRank: id === 'wan-3-prime' || id === 'ltx-2-5-pro' || id === 'grok-imagine-video-1-5' || id === 'flux-3' ? 0 : 1,
+        familyRank: id === 'flux-3' ? 1 : id === 'flux-3-draft' ? 2 : id === 'wan-3-prime' || id === 'ltx-2-5-pro' || id === 'grok-imagine-video-1-5' ? 0 : 1,
       },
       compare: publication?.compare,
       app: { published: true },

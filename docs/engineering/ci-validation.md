@@ -12,43 +12,100 @@ failed, canceled, missing or unexpectedly skipped required jobs.
 | --- | --- | --- |
 | Fast checks | Exposure guard, catalogue/roster audits, TypeScript, ESLint, image alt checks and fast validation files | Every run |
 | Database and media integration | Disposable PostgreSQL, real FFmpeg tests and three isolated Studio route integrations | Runtime/UI changes; financial changes; full runs |
-| Exhaustive financial cutovers | Both complete cutover/rollback tests, including all 26,818 canonical quote checkpoints | Financial/shared runtime inputs; CI changes; full runs |
-| Browser | Connected Studio, editorial media, prompting tabs and admin smoke | UI/layout/translation changes; runtime/financial changes; full runs |
+| Exhaustive financial cutovers | Both complete cutover/rollback tests, including all 26,982 historical canonical quote checkpoints and 89 separately labeled new-offer proposals (27,071 total) | Tariff/billing changes and explicit commercial inputs; full runs |
+| Browser (two partitions) | Connected Studio, editorial media, prompting tabs and admin smoke once on partition 2 | UI/layout/translation changes; runtime/financial changes; full runs |
 
 These lanes run in parallel. The initial financial migration's complete matrix is
-preserved; no quote sampling or assertions were removed. The fast lane requires no
+preserved; no quote sampling or assertions were removed. Fast pricing, canonical
+quote and wallet policy tests remain in the fast lane on every PR and main push,
+including when exhaustive cutovers are not selected. The fast lane requires no
 PostgreSQL, FFmpeg or Chromium installation. Full runs occur daily at 03:23 UTC and
 on manual dispatch of Quality CI. Network source checks and the optional remote
 runtime audit run on these full runs as non-blocking audits.
+
+The exhaustive tariff and database/media lanes use Ubuntu 24.04, keeping their validation toolchain
+stable during the `ubuntu-latest` migration to 26.04. The 2026-10-22 release checks
+observed prolonged dependency downloads on the new image. The shared PostgreSQL
+17/FFmpeg setup and the complete tariff suite remain required; the runner pin does
+not change coverage or the aggregate Quality CI gate.
+
+The browser lane runs two independent standard Ubuntu 24.04 jobs, each installing
+Chromium and WebKit so the mobile prompt and Modify navigation regressions run
+against both engines. Each job retains its 40-minute total budget. The matrix uses
+`fail-fast: false`, so a failed partition does not cancel its sibling. Files run
+sequentially within each partition (`--test-concurrency=1`), with separate VM
+checkouts, ports and disks. The runner alternates files in the original Browser
+manifest order between `1/2` and `2/2`; the 46-file baseline becomes 23 + 23. This
+balances file counts without claiming equal durations or a measured speedup.
+Admin smoke runs once after partition 2 succeeds, with its existing configuration,
+variables and retries. Its failure-report upload is also limited to partition 2,
+preserving the existing artifact name, path and default retention. The `Quality CI`
+gate waits for the aggregate Browser matrix result as well as the other required
+lanes; a failed, canceled, missing or unexpectedly skipped partition cannot pass.
+
+On the 2026-10-23 candidate, tool/browser installation consumed over 12 minutes before
+the tests, so the former 25-minute limit canceled the still-progressing browser
+suite before admin smoke. All browser tests and the admin suite remain required.
+The same run exposed a stale initial-cutover test total: the reviewed Luma Modify
+expansion adds 36 cells (12 extra duration classes × 3 resolutions) to the 128
+FLUX Max cells and historical 26,818 checkpoints. The exhaustive fixture asserts
+these expansions before replay and preserves all monetary and rollback checks.
+
+The fast job has a 30-minute limit, including setup, audits, type checking and
+lint. Its 1,300+ tools-free test files include complete pricing projections;
+the former 20-minute job limit canceled a still-progressing suite on hosted
+runners. This time allowance does not change lane selection or test coverage.
 
 ## Change selection and conservative fallback
 
 `scripts/select-ci-validation.mjs` compares the entire PR against its base using
 the merge base, or all commits in a main push against the event's previous SHA.
 Rename detection is disabled so both removed and added paths participate.
-An empty diff, unavailable history, invalid event or unknown path requests all
-lanes. Manual and scheduled runs always request all lanes.
+An empty diff, unavailable history or invalid event requests all lanes because
+the comparison cannot establish which inputs changed. Manual and scheduled runs
+always request all lanes. A known diff containing an unrecognized path retains
+database/media and browser coverage without automatically selecting exhaustive
+financial cutovers.
 
 `scripts/_lib/ci-validation-policy.mjs` owns the selection policy:
 
 - Human Markdown documentation and AGENTS instructions use fast checks.
 - Authored Markdown/MDX/JSON content and media/font/text assets use fast checks
-  unless their path identifies financial behavior. Runtime TS/JS files in these
-  directories (including `frontend/content/feature-flags.ts`) request all lanes.
+  unless their path identifies financial behavior, which retains database/media
+  and browser checks. Runtime TS/JS files in these
+  directories (including `frontend/content/feature-flags.ts`) retain database/media
+  and browser coverage.
   Marketing TSX components, CSS and JSON message dictionaries
   additionally retain real browser checks.
-- Other component TSX and route-local UI hooks/clients retain database/media and
-  browser checks. Server pages, route handlers and shared helpers request all lanes.
+- Other component TSX, route-local UI hooks/clients, server pages, route handlers
+  and shared helpers retain database/media and browser checks.
+- Display components, styles, translated copy and ordinary validation tests do
+  not select exhaustive cutovers merely because their path contains a financial
+  word. Their existing fast, database/media and browser checks are preserved.
 - Pricing, tariffs, billing, wallets, checkout, payment, Stripe, quote, credit,
-  transaction, membership and subscription paths always
-  request the complete financial coverage.
-- Shared backend/library code, API routes, model configuration, migrations,
-  dependency/build inputs, tests/fixtures/helpers, scripts, CI files and
-  unrecognized paths request all lanes.
+  transaction, membership, subscription, refund, invoice, ledger, top-up and
+  currency runtime paths and financial fixtures request the complete financial
+  coverage. Both exhaustive cutover test files also select their own lane.
+- Commercial inputs without financial filenames are selected explicitly: the
+  generated engine catalogue, published supplier rates, FAL model fixtures and
+  engine definitions, image/tool supplier rates and monetary formulas, live
+  FAL/audio pricing readers, exchange rates, Studio assistance/media-analysis
+  tariffs and billing formulas, engine-settings pricing storage/projection,
+  its migration, and provider cost/accounting modules. These explicit owners
+  take priority over display/test exemptions.
+  Model identity and marketing-only configuration do not own monetary amounts.
+- Other shared backend/library code, API routes, model configuration, migrations,
+  dependency/build inputs, tests/fixtures/helpers, scripts, CI files and unknown
+  paths do not select exhaustive financial cutovers merely because of their
+  location. They retain normal integration coverage and receive the exhaustive
+  replay on nightly/manual full runs.
 
-Keep these exemptions small. If a presentation component gains ownership of
-financial logic, move that logic into its established server/library owner and
-update the selection tests. New runtime owners default to exhaustive coverage.
+Keep the commercial-input list explicit and update the selection tests when a
+new tariff or billing owner has no financial filename. If a presentation
+component gains ownership of financial logic, move that logic into its established
+server/library owner. Changes to financial fixtures and the two exhaustive
+cutover test files select exhaustive cutovers; changes to other tests or CI
+configuration alone do not.
 
 ## Local commands and test placement
 
@@ -56,6 +113,11 @@ update the selection tests. New runtime owners default to exhaustive coverage.
 four isolated Studio integrations. It does not include the separately owned
 `tests/integration/` paid-provider scenarios or Playwright specs; those remain
 explicit commands as before.
+
+The deterministic MCP paid-generation scenario is also imported by
+`tests/mcp-paid-generation-postgres.test.ts`, so required database integration CI
+covers its SDK calls, quote claims, wallet accounting, recovery and OAuth isolation.
+It uses disposable PostgreSQL and fake providers; it never submits a paid generation.
 
 To run one CI lane:
 
@@ -65,9 +127,23 @@ pnpm run test:validate -- --suite integration
 pnpm run test:validate -- --suite tariffs
 pnpm run test:validate -- --suite studio
 pnpm run test:validate -- --suite browser
+pnpm run test:validate -- --suite browser --shard 1/2
+pnpm run test:validate -- --suite browser --shard 2/2
 pnpm test:admin-smoke
 node scripts/run-validation-tests.mjs --plan
+node scripts/run-validation-tests.mjs --suite browser --shard 1/2 --plan
 ```
+
+Browser without `--shard` still runs its complete manifest, and the default
+`test:validate` command preserves the complete standard suite followed by the four
+isolated Studio integrations. A leading pnpm passthrough `--` remains supported.
+Only Browser accepts `--shard`, with exactly `1/2` or `2/2`; missing, malformed,
+duplicate or misplaced shard options fail before tool bootstrap. Empty selections
+fail before bootstrap or test launch so Node cannot discover unrelated tests.
+`--plan` never starts tools or tests. Its existing suite arrays remain complete;
+`browserShards` exposes both lists keyed by `1/2` and `2/2`, and `selection` reports
+`suite`, nullable `shard` and the explicit `files` that would run. Their disjoint
+union is the complete `browser` list.
 
 ### Local PostgreSQL version selection
 
@@ -89,8 +165,12 @@ Focused tests use the same resolver through `tests/helpers/disposable-postgres.t
 legacy fixtures that own their lifecycle use its `testPostgresCommand` helper.
 Database initialization, startup and cleanup use the selected absolute executable
 paths. Manual PATH prefixes are no longer needed, including for direct `tsx --test`
-runs. The fast suite and `--plan` do not require PostgreSQL. The toolchain regression
-uses executable doubles and stays in the fast suite.
+runs. The fast suite and `--plan` do not require PostgreSQL. The named tools-free
+exceptions `tests/test-postgres-toolchain.test.ts` and
+`tests/ci-ubuntu-mirror.test.ts` stay fast: they use executable version doubles
+and temporary APT text fixtures respectively, without running real validation
+tools or installation commands. The transport fixture executes only the action's
+Python against its temporary source files.
 
 This selection only affects test child processes. It does not change shell startup
 files, Homebrew links or running services, and never connects to an inherited
@@ -100,10 +180,13 @@ setup action.
 
 The runner automatically places `*-postgres.test.ts` files and tests importing
 the disposable PostgreSQL/Studio runtime helpers, a `*-postgres-fixture` helper,
+the external fal import evidence owner (which probes real video bytes),
 or using initdb/FFmpeg in the
 integration lane. Tests directly launching Chromium, Firefox or WebKit, or using
 their installed executable paths for a renderer, belong in the browser lane, as
-do tests importing the connected browser fixture helper. The real composition
+do tests importing the connected Studio, workspace-reference or image-rail browser
+fixture helpers, including tests choosing Chromium/WebKit through a variable.
+The real composition
 render test checks that Chromium is installed before allocating servers, so a
 missing browser fails promptly without leaving a Remotion server open.
 The two exhaustive financial files and the four Studio files
@@ -115,6 +198,11 @@ CI runs. A new PR push cancels obsolete validation for that PR. Main, nightly an
 manual runs use separate concurrency groups and do not cancel the PR's check.
 Before merge, wait for Quality CI on the latest candidate and follow the normal
 production alignment checks in `docs/deployment/github-vercel.md`.
+
+On the Milo release candidate, Ubuntu 26.04 spent nearly 22 minutes installing
+PostgreSQL/FFmpeg before the database/media job reached its 25-minute limit.
+Pinning that lane to the same stable image preserves both the complete integration
+suite and the isolated Studio route checks; it does not turn a timeout into a pass.
 
 `frontend/next.config.js` explicitly enables `experimental.webpackBuildWorker`
 because next-intl adds a custom Webpack hook, which disables Next 15's automatic
@@ -197,9 +285,12 @@ settings. It is included in the pre-audit `pnpm cwv:check` gate.
 - `tests/ci-validation-policy.test.ts` executes selection against real temporary
   Git histories and verifies gate success/failure behavior.
 - `tests/validation-test-runner.test.ts` proves every root validation file occurs
-  in exactly one CI suite and retains the original complete local test plan.
+  in exactly one CI suite, retains the original complete local test plan, and
+  checks Browser partition coverage, determinism, explicit sequential arguments,
+  strict CLI rejection and empty-selection/bootstrap boundaries.
 - `tests/quality-ci-contract.test.ts` locks the required gate name/dependencies,
-  full Git history, conditional jobs, concurrency and scheduled Lighthouse.
+  full Git history, conditional jobs, the two-partition Browser matrix, admin/report
+  ownership, aggregate failure handling, concurrency and scheduled Lighthouse.
 
 The shared toolchain lives in `.github/actions/setup-project/action.yml`.
 PostgreSQL 17 and FFmpeg installation live in

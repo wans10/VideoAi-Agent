@@ -1,3 +1,4 @@
+import { VIDEO_OPERATIONS, type VideoOperation } from '@/lib/video-operation';
 import { getArchivedWorkspaceEngine } from './workspace-archived-engine';
 import type { MultiPromptScene } from '@/components/Composer';
 import { LOGIN_LAST_TARGET_KEY, LOGIN_SKIP_ONBOARDING_KEY } from '@/lib/auth-storage';
@@ -17,6 +18,13 @@ import { buildWorkspaceStorageKey, STORAGE_KEYS } from './workspace-storage';
 
 type SearchParamsLike = Pick<URLSearchParams, 'get' | 'toString'> | null | undefined;
 
+export type WorkspaceWorkflowRequest = {
+  engineToken: string;
+  mode: Mode;
+  mediaToken: string | null;
+  operation?: VideoOperation;
+};
+
 export type WorkspaceRequestParams = {
   fromVideoId: string | null;
   requestedJobId: string | null;
@@ -24,6 +32,7 @@ export type WorkspaceRequestParams = {
   requestedMode: Mode | null;
   resolvedRequestedEngineId: string | null;
   requestedEngineToken: string;
+  requestedWorkflow: WorkspaceWorkflowRequest | null;
   searchString: string;
   loginRedirectTarget: string;
 };
@@ -69,7 +78,7 @@ export function resolveWorkspaceRequestParams(
 ): WorkspaceRequestParams {
   const fromVideoId = searchParams?.get('from') ?? null;
   const requestedJobId = readTrimmedParam(searchParams, 'job');
-  const requestedEngineId = readTrimmedParam(searchParams, 'engine');
+  const requestedEngineId = readTrimmedParam(searchParams, 'engine') ?? readTrimmedParam(searchParams, 'engineId');
   const requestedModeRaw = readTrimmedParam(searchParams, 'mode')?.toLowerCase() ?? null;
   const requestedMode = isModeValue(requestedModeRaw) ? requestedModeRaw : null;
   const resolvedRequestedEngineId =
@@ -85,6 +94,10 @@ export function resolveWorkspaceRequestParams(
     requestedMode,
     resolvedRequestedEngineId,
     requestedEngineToken,
+    requestedWorkflow: requestedEngineToken && requestedMode
+      ? { engineToken: requestedEngineToken, mode: requestedMode, mediaToken: readTrimmedParam(searchParams, 'media'),
+        ...(VIDEO_OPERATIONS.includes(readTrimmedParam(searchParams, 'operation') as VideoOperation) ? {operation:readTrimmedParam(searchParams, 'operation') as VideoOperation} : {}) }
+      : null,
     searchString,
     loginRedirectTarget: searchString ? `${base}?${searchString}` : base,
   };
@@ -143,7 +156,8 @@ export function consumeWorkspaceOnboardingSkipIntent(fromVideoId: string | null)
 export function parseStoredMultiPromptScenes(
   value: string | null,
   createLocalId: (prefix: string) => string,
-  createFallbackScene: () => MultiPromptScene
+  createFallbackScene: () => MultiPromptScene,
+  preserveExactDuration = false
 ): MultiPromptScene[] {
   if (!value) return [createFallbackScene()];
   try {
@@ -153,7 +167,7 @@ export function parseStoredMultiPromptScenes(
       .map((scene) => ({
         id: typeof scene.id === 'string' ? scene.id : createLocalId('scene'),
         prompt: typeof scene.prompt === 'string' ? scene.prompt : '',
-        duration: typeof scene.duration === 'number' && Number.isFinite(scene.duration) ? Math.round(scene.duration) : 5,
+        duration: typeof scene.duration === 'number' && Number.isFinite(scene.duration) ? preserveExactDuration ? scene.duration : Math.round(scene.duration) : 5,
       }))
       .filter((scene) => scene.prompt.length || scene.duration);
     return sanitized.length ? sanitized : [createFallbackScene()];
@@ -219,12 +233,14 @@ export function buildInitialWorkspaceFormState({
   effectiveRequestedEngineId,
   effectiveRequestedEngineToken,
   effectiveRequestedMode,
+  preferredDefaultEngineId,
 }: {
   engines: EngineCaps[];
   storedFormRaw: StoredFormState | null;
   effectiveRequestedEngineId: string | null;
   effectiveRequestedEngineToken: string;
   effectiveRequestedMode: Mode | null;
+  preferredDefaultEngineId?: string | null;
 }): InitialWorkspaceFormResult {
   let nextForm: FormState | null = null;
   let formToPersist: FormState | null = null;
@@ -241,6 +257,7 @@ export function buildInitialWorkspaceFormState({
         ...base,
         engineId: engine.id,
         mode,
+        ...(storedFormRaw.operation !== undefined ? { operation: storedFormRaw.operation } : {}),
         durationSec:
           typeof storedFormRaw.durationSec === 'number' && Number.isFinite(storedFormRaw.durationSec)
             ? storedFormRaw.durationSec
@@ -307,8 +324,11 @@ export function buildInitialWorkspaceFormState({
     }
   }
 
-  if (!nextForm && engines[0]) {
-    nextForm = coerceFormState(engines[0], getPreferredEngineMode(engines[0], effectiveRequestedMode), null);
+  if (!nextForm) {
+    const defaultEngine = engines.find((engine) => engine.id === preferredDefaultEngineId) ?? engines[0];
+    if (defaultEngine) {
+      nextForm = coerceFormState(defaultEngine, getPreferredEngineMode(defaultEngine, effectiveRequestedMode), null);
+    }
   }
 
   return {

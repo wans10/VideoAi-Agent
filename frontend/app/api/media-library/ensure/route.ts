@@ -1,6 +1,9 @@
+import { restoreForegroundLibraryAsset } from '@/server/media-library/foreground-visibility';
+import { serializeLibraryAsset } from '@/server/media-library/asset-response';
 import { NextRequest, NextResponse } from 'next/server';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { ensureReusableAsset, type MediaKind } from '@/server/media-library';
+import { importPublicRecipeReference } from '@/server/marketing-media/import-reference';
 
 export const runtime = 'nodejs';
 
@@ -22,6 +25,14 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    if (payload && Object.hasOwn(payload, 'publicVideoId')) {
+      if (typeof payload.publicVideoId !== 'string' || !payload.publicVideoId.trim() || payload.publicVideoId.length > 256) {
+        return NextResponse.json({ ok: false, error: 'PUBLIC_REFERENCE_NOT_AVAILABLE' }, { status: 422 });
+      }
+      const asset = await importPublicRecipeReference({ userId, videoId: payload.publicVideoId.trim(),
+        url, kind: normalizeKind(payload.kind), signal: req.signal });
+      return NextResponse.json({ ok: true, asset });
+    }
     const sourceJobId =
       typeof payload?.jobId === 'string'
         ? payload.jobId
@@ -42,26 +53,11 @@ export async function POST(req: NextRequest) {
       width: typeof payload?.width === 'number' ? payload.width : null,
       height: typeof payload?.height === 'number' ? payload.height : null,
       sizeBytes: typeof payload?.size === 'number' ? payload.size : null,
-      durationSec: typeof payload?.durationSec === 'number' ? payload.durationSec : null,
+      durationSec: payload?.kind !== 'audio' && typeof payload?.durationSec === 'number' ? payload.durationSec : null,
     });
 
-    return NextResponse.json({
-      ok: true,
-      asset: {
-        id: asset.id,
-        url: asset.url,
-        thumbUrl: asset.thumbUrl,
-        previewUrl: asset.previewUrl,
-        width: asset.width,
-        height: asset.height,
-        durationSec: asset.durationSec,
-        mime: asset.mimeType,
-        size: asset.sizeBytes,
-        source: asset.source,
-        jobId: asset.sourceJobId,
-        sourceOutputId: asset.sourceOutputId,
-      },
-    });
+    await restoreForegroundLibraryAsset(userId, asset);
+    return NextResponse.json({ ok: true, asset: serializeLibraryAsset(asset) });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'SAVE_FAILED';
     return NextResponse.json({ ok: false, error: message }, { status: 422 });

@@ -29,6 +29,7 @@ import {
 type UseImageSettingsFieldsParams = {
   mode: ImageGenerationMode;
   resolution: string | null;
+  outputFormat?: string | null;
   resolvedCopy: ImageWorkspaceCopy;
   selectedEngineCaps: EngineCaps | undefined;
   setAspectRatio: Dispatch<SetStateAction<string | null>>;
@@ -40,17 +41,20 @@ type UseImageSettingsFieldsParams = {
   setMaskUrl: Dispatch<SetStateAction<string>>;
   setNumImages: Dispatch<SetStateAction<number>>;
   setOutputFormat: Dispatch<SetStateAction<string | null>>;
+  setOutputCompression?: Dispatch<SetStateAction<number | null>>;
   setQuality: Dispatch<SetStateAction<string | null>>;
   setResolution: Dispatch<SetStateAction<string | null>>;
   setSeed: Dispatch<SetStateAction<string>>;
   setStyle: Dispatch<SetStateAction<string | null>>;
   setThinkingLevel: Dispatch<SetStateAction<string | null>>;
+  setComplexity: Dispatch<SetStateAction<string | null>>;
   setWatermark: Dispatch<SetStateAction<boolean>>;
 };
 
 export function useImageSettingsFields({
   mode,
   resolution,
+  outputFormat,
   resolvedCopy,
   selectedEngineCaps,
   setAspectRatio,
@@ -62,11 +66,13 @@ export function useImageSettingsFields({
   setMaskUrl,
   setNumImages,
   setOutputFormat,
+  setOutputCompression,
   setQuality,
   setResolution,
   setSeed,
   setStyle,
   setThinkingLevel,
+  setComplexity,
   setWatermark,
 }: UseImageSettingsFieldsParams) {
   const imageCountField = useMemo(
@@ -111,6 +117,14 @@ export function useImageSettingsFields({
     () => getImageInputField(selectedEngineCaps ?? null, 'output_format', mode),
     [selectedEngineCaps, mode]
   );
+  const outputCompressionField = useMemo(
+    () => getImageInputField(selectedEngineCaps ?? null, 'output_compression', mode),
+    [selectedEngineCaps, mode]
+  );
+  const showOutputCompressionControl = Boolean(outputCompressionField) && (outputFormat === 'jpeg' || outputFormat === 'webp');
+  useEffect(() => {
+    if (!showOutputCompressionControl) setOutputCompression?.(null);
+  }, [showOutputCompressionControl, setOutputCompression]);
   const outputFormatOptions = useMemo(
     () => getImageFieldValues(selectedEngineCaps ?? null, 'output_format', mode),
     [selectedEngineCaps, mode]
@@ -157,6 +171,14 @@ export function useImageSettingsFields({
   );
   const thinkingLevelOptions = useMemo(
     () => getImageFieldValues(selectedEngineCaps ?? null, 'thinking_level', mode),
+    [selectedEngineCaps, mode]
+  );
+  const complexityField = useMemo(
+    () => getImageInputField(selectedEngineCaps ?? null, 'complexity', mode),
+    [selectedEngineCaps, mode]
+  );
+  const complexityOptions = useMemo(
+    () => getImageFieldValues(selectedEngineCaps ?? null, 'complexity', mode),
     [selectedEngineCaps, mode]
   );
   const limitGenerationsField = useMemo(
@@ -336,6 +358,21 @@ export function useImageSettingsFields({
   }, [thinkingLevelField, thinkingLevelOptions, selectedEngineCaps, mode, setThinkingLevel]);
 
   useEffect(() => {
+    if (!complexityField || !complexityOptions.length) {
+      setComplexity(null);
+      return;
+    }
+    const defaultValue =
+      getImageFieldDefaultString(selectedEngineCaps ?? null, 'complexity', mode) ?? complexityOptions[0] ?? null;
+    setComplexity((previous) => {
+      if (previous && complexityOptions.includes(previous)) {
+        return previous;
+      }
+      return defaultValue;
+    });
+  }, [complexityField, complexityOptions, selectedEngineCaps, mode, setComplexity]);
+
+  useEffect(() => {
     if (!limitGenerationsField) {
       setLimitGenerations(false);
       return;
@@ -428,6 +465,14 @@ export function useImageSettingsFields({
       })),
     [thinkingLevelOptions]
   );
+  const complexitySelectOptions = useMemo(
+    () =>
+      complexityOptions.map((option) => ({
+        value: option,
+        label: option === 'high' ? 'High' : option === 'minimal' ? 'Minimal' : option,
+      })),
+    [complexityOptions]
+  );
   const booleanSelectOptions = useMemo(
     () => [
       { value: false, label: resolvedCopy.composer.toggleDisabled },
@@ -448,6 +493,7 @@ export function useImageSettingsFields({
     Boolean(customImageWidthField && customImageHeightField) && resolution === 'custom';
   const showEnableWebSearchControl = Boolean(enableWebSearchField);
   const showThinkingLevelControl = Boolean(thinkingLevelField) && thinkingLevelSelectOptions.length > 0;
+  const showComplexityControl = Boolean(complexityField) && complexitySelectOptions.length > 0;
   const showLimitGenerationsControl = Boolean(limitGenerationsField);
   const showWatermarkControl = Boolean(watermarkField);
 
@@ -468,6 +514,7 @@ export function useImageSettingsFields({
     isResolutionLocked,
     limitGenerationsField,
     maskUrlField,
+    outputCompressionField, showOutputCompressionControl,
     outputFormatField,
     outputFormatOptions,
     outputFormatSelectOptions,
@@ -495,6 +542,7 @@ export function useImageSettingsFields({
     styleSelectOptions,
     supportedReferenceFormats,
     supportedReferenceFormatsLabel,
+    complexityField, complexityOptions, complexitySelectOptions, showComplexityControl,
     thinkingLevelField,
     thinkingLevelOptions,
     thinkingLevelSelectOptions,

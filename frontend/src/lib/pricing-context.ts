@@ -2,6 +2,12 @@ import type { GptImage2ImageSize } from '@/lib/image/gptImage2';
 import type { EngineCaps, Mode } from '@/types/engines';
 
 export type PricingContext = {
+  thinkingLevel?: string | null;
+  maxOutputTokens?: number;
+  enableWebSearch?: boolean;
+  enableImageSearch?: boolean;
+  systemInstruction?: string;
+  operation?: import('@/lib/video-operation').VideoOperation;
   /** Internal class derived from server-resolved owned source dimensions. */
   seedanceSourceAspectRatio?: import('@/types/engines').AspectRatio;
   seedanceEditSource?: import('@/lib/seedance-edit-source').SeedanceEditSourceFacts;
@@ -11,6 +17,7 @@ export type PricingContext = {
   resolution: string;
   aspectRatio?: string | null;
   quality?: string | null;
+  complexity?: string | null;
   customImageSize?: GptImage2ImageSize | null;
   mode?: Mode;
   membershipTier?: string | null;

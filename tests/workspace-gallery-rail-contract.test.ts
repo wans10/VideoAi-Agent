@@ -50,7 +50,8 @@ test('workspace sample cards give visible feedback when their footer is clicked'
   );
 
   assert.match(shellSource, /selectedGroupId=\{compositeOverrideSummary\?\.id \?\? null\}/);
-  assert.match(railSource, /selectedGroupId\?: string \| null/);
+  assert.match(railSource, /export type \{ GalleryFeedState, GalleryRailProps \} from '\.\/gallery-rail-types';/);
+  assert.match(fs.readFileSync(path.join(process.cwd(), 'frontend/components/gallery-rail-types.ts'), 'utf8'), /selectedGroupId\?: string \| null/);
   assert.match(railCardsSource, /selected=\{selectedGroupId === group\.id\}/);
   assert.match(cardSource, /selected\?: boolean/);
   assert.match(cardSource, /aria-pressed=\{selected\}/);
@@ -83,10 +84,12 @@ test('workspace gallery cards keep their action launcher compact and accessible'
   );
 
   assert.match(cardSource, /const isGalleryRailCard = menuVariant === 'gallery' \|\| menuVariant === 'gallery-image'/);
-  assert.match(cardSource, /isGalleryRailCard \? \(\s*<SlidersHorizontal/);
+  assert.match(cardSource, /isGalleryRailCard \? \(\s*<GalleryActionButton[\s\S]*?<SlidersHorizontal/);
   assert.match(cardSource, /aria-label=\{actionMenuLabel\}/);
   assert.match(cardSource, /title=\{actionMenuLabel\}/);
   assert.match(cardSource, /showCompactMenuButton \? \(\s*<>\s*<span>\{actionMenuLabel\}<\/span>/);
+  assert.match(cardSource, /GalleryVideoContinuationActions group=\{group\}/);
+  assert.doesNotMatch(cardSource, /stageMediaHandoff|listFalEngines|getVideoContinuationEngine/, 'shared media actions retain destination ownership');
 });
 
 test('workspace preview prioritizes its first video cover in completed and pending states', () => {

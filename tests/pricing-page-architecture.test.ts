@@ -251,10 +251,10 @@ test('video matrix renders exact scenario columns and compact links', () => {
   assert.match(hubCopySource, /Vidéo/);
   assert.match(hubCopySource, /Tools & Upscale/);
   assert.match(hubCopySource, /Outils & upscale/);
-  assert.match(hubCopySource, /Cheapest/);
-  assert.match(hubCopySource, /Cheapest current-gen 5s 720p/);
+  assert.match(hubCopySource, /Lowest quoted/);
+  assert.match(hubCopySource, /Lowest quoted 5s 720p/);
   assert.doesNotMatch(hubCopySource, /Best-value current-gen 5s 720p/);
-  assert.match(hubCopySource, /Moins cher/);
+  assert.match(hubCopySource, /Prix le plus bas affiché/);
   assert.match(videoMatrixSource, /tabular-nums/);
   assert.match(videoMatrixSource, /sticky left-0/);
   assert.match(videoMatrixSource, /scope="colgroup"/);
@@ -263,7 +263,7 @@ test('video matrix renders exact scenario columns and compact links', () => {
   assert.match(hubCopySource, /More/);
   assert.match(hubCopySource, /Prix live/);
   assert.match(hubCopySource, /Plus/);
-  assert.match(hubCopySource, /Cheapest 4K output/);
+  assert.match(hubCopySource, /4K entry price · durations vary/);
   assert.match(hubCopySource, /Dedicated 4K engine/);
   assert.match(hubCopySource, /Prices are current MaxVideoAI display prices for preset scenarios/);
   assert.match(hubCopySource, /Les prix sont les prix affichés MaxVideoAI/);
@@ -324,7 +324,8 @@ test('popular checks and non-video pricing surfaces are compact matrices', () =>
   assert.match(hubDataSource, /quotePublicPricing/);
   assert.doesNotMatch(hubDataSource, /resolveGptImage2PricingTier/);
   assert.doesNotMatch(hubDataSource, /copy\.links\.gptImage2/, 'GPT Image 2 row should not duplicate its model link');
-  assert.match(hubCopySource, /Character Builder/);
+  assert.match(hubCopySource, /Character Studio · 1K/);
+  assert.match(hubCopySource, /Character Studio · 2K/);
   assert.doesNotMatch(otherSurfacesSource, /'use client'/);
 });
 
@@ -377,7 +378,7 @@ test('pricing metadata and FAQ target comparison intent first', () => {
     'Do I need a subscription?',
     'Why are some cheaper engines not highlighted first?',
     'Are image, audio and tools priced the same as video?',
-    'Why does the table show total prices instead of cost per second?',
+    'Does the displayed price cover every attempt?',
     'How often do prices change?',
   ]);
   assert.match(faqSource, /Pricing FAQ/);

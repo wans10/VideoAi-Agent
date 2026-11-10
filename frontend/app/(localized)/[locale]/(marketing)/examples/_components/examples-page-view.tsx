@@ -1,10 +1,12 @@
 import { ExamplesPromptStarters } from './examples-prompt-starters';
-import type { ReactNode } from 'react';
+import { Suspense, type ReactNode } from 'react';
+import { CharacterStudioPublicFilms } from '@/components/tools/character-builder/landing/CharacterStudioPublicFilms';
 import type { ExamplesVersionLink } from '../_lib/examples-version-links';
 import clsx from 'clsx';
 import styles from './examples-editorial.module.css';
 import type { ExampleGalleryVideo } from '@/components/examples/ExamplesGalleryGrid';
 import type { AppLocale } from '@/i18n/locales';
+import type { ExampleHeroLink } from '@/lib/examples/modelLandingTypes';
 import type { ExampleSort, listExamplesPage } from '@/server/videos';
 import type { ExamplesModelLink } from '../_lib/examples-page-data';
 import type { ExamplesNextStepLink } from '../_lib/examples-page-copy';
@@ -55,6 +57,7 @@ type ExamplesPageViewProps = {
   heroLead: string;
   heroSubtitle: string;
   heroTitle: string;
+  heroLink?: ExampleHeroLink;
   initialDesktopBatch: number;
   initialExamples: ExampleGalleryVideo[];
   priceSlots?: Record<string, ReactNode>;
@@ -133,6 +136,7 @@ export function ExamplesPageView({
   heroLead,
   heroSubtitle,
   heroTitle,
+  heroLink,
   initialDesktopBatch,
   initialExamples,
   priceSlots,
@@ -196,6 +200,7 @@ export function ExamplesPageView({
             heroLead={heroLead}
             heroSubtitle={isModelLanding ? heroSubtitle : hubSubtitle}
             heroTitle={heroTitle}
+            heroLink={isModelLanding ? heroLink : undefined}
           />
 
           <ExamplesGallerySection
@@ -232,6 +237,14 @@ export function ExamplesPageView({
           />
 
           <div className={styles.editorial}>
+            {!isModelLanding && !selectedEngine && currentPage === 1 && sort === 'playlist' ? (
+              <div id="character-studio" className="scroll-mt-24">
+                <Suspense fallback={null}>
+                  <CharacterStudioPublicFilms locale={locale} showLink excludedVideoUrls={initialExamples.flatMap(video => video.videoUrl ? [video.videoUrl] : [])} />
+                </Suspense>
+              </div>
+            ) : null}
+
             {isModelLanding && heroBody && modelLandingLabel ? (
               <ExamplesFamilyIntro body={heroBody} label={modelLandingLabel} locale={locale} title={modelLandingGuideTitle} />
             ) : null}

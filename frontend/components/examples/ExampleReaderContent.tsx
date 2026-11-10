@@ -1,5 +1,6 @@
 'use client';
 
+import { PublicVideoAnalytics } from '@/components/analytics/PublicVideoAnalytics.client';
 import { useState } from 'react';
 import { ArrowUpRight, Check, ChevronDown, ChevronLeft, ChevronRight, Copy, Volume2, VolumeX, X } from 'lucide-react';
 import { EngineIcon } from '@/components/ui/EngineIcon';
@@ -13,6 +14,8 @@ import styles from './example-reader-styles';
 import { ExampleReaderContext } from './ExampleReaderContext';
 import { ExampleContinuationActions } from './ExampleContinuationActions.client';
 import { exampleRequestSource } from '@/lib/example-continuation';
+import { normalizeAppLocale } from '@/i18n/locales';
+import { localizeMarketingPathname } from '@/lib/i18n/marketing-locale-switch';
 
 type Props = { detail: ExampleWatchDetail; copy: ReaderCopy; locale: string; navigation?: ReaderNavigation; onClose?: () => void; headingLevel?: 'h1' | 'h2' };
 
@@ -37,6 +40,7 @@ export function ExampleReaderContent({ detail, copy, locale, navigation, onClose
   const comparisonNote = !detail.scenario ? copy.proposedNote : detail.quotes.some(quote => quote.changed.length > 0) ? copy.compareNote : null;
 
   return <>
+    <PublicVideoAnalytics key={detail.id} videoId={detail.id} watchPath={detail.watchHref} analyticsPath={detail.analyticsPath}/>
     {navigation && <nav className={styles.playerNavigation} aria-label={copy.reader}>
       <span>{copy.reader}</span>
       <div>
@@ -47,7 +51,7 @@ export function ExampleReaderContent({ detail, copy, locale, navigation, onClose
     </nav>}
     <div className={`${styles.layout} ${portrait ? styles.portrait : ''}`}>
       <div className={styles.media}>
-        <DiscoveryVideoPlayer detail={detail} copy={copy}/>
+        <DiscoveryVideoPlayer detail={detail} copy={copy} surface={headingLevel === 'h1' ? 'watch' : 'gallery'}/>
         <header className={styles.heading}>
           <Heading id="example-reader-title">{detail.title}</Heading>
           <div className={styles.renderDetails}>
@@ -69,7 +73,7 @@ export function ExampleReaderContent({ detail, copy, locale, navigation, onClose
           <div className={styles.modelIdentity}>
             <div data-theme="dark" aria-hidden="true"><EngineIcon engine={{ id: originalModel?.engineId ?? detail.modelHref?.split('/').pop() ?? '', label: detail.engineLabel, brandId: originalModel?.brandId }} size={42}/></div>
             <div><p className={styles.model}>{detail.engineLabel}</p>
-              {detail.modelHref && <a className={styles.modelLink} href={detail.modelHref}>{copy.model}<ArrowUpRight size={14}/></a>}
+              {detail.modelHref && <a className={styles.modelLink} href={localizeMarketingPathname(detail.modelHref, normalizeAppLocale(locale))}>{copy.model}<ArrowUpRight size={14}/></a>}
             </div>
           </div>
           <div className={styles.creationActions}>

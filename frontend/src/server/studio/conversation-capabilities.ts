@@ -1,3 +1,5 @@
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+import {STUDIO_CONVERSATION_MAX_ATTACHMENTS} from '@/lib/studio/conversation-creation-contract';
 import {getRuntimeModelById} from '@/config/model-runtime';
 import type {StudioCapabilityDetails,StudioImageCapability} from '@/lib/studio/conversation-action-contract';
 import {projectAgentModelModeDetails} from '@/server/agent-api/model-details';
@@ -5,7 +7,7 @@ import {getAgentModelGuidance,getAgentModelEditorialGuidance,getAgentModelEditor
 import {getAgentModelPromptingSources} from '@/server/agent-api/model-prompting-sources';
 import type {AgentPublicGenerationEngine} from '@/server/agent-api/model-catalog';
 import {projectAudioVariantSettings,projectAudioVariantFixedOutput,type listAudioCapabilities} from '@/server/agent-api/audio-capabilities';
-import {STUDIO_CONVERSATION_MAX_REFERENCES} from '@/lib/studio/conversation-creation-contract';
+import {studioGenerationReferenceLimit} from './conversation-reference-limits';
 import {studioAudioWorkflowFacts,studioAudioVariantVoiceSample} from './conversation-audio-discovery';
 
 /** Called only with the authorized adapter's executable and certified catalog, never a global lookup. */
@@ -13,13 +15,16 @@ export function studioVisualCapabilityDetails(candidate: AgentPublicGenerationEn
   return {modelId: candidate.engine.id,label: candidate.engine.label,lifecycle: getRuntimeModelById(candidate.engine.id)?.lifecycle ?? null,surface: candidate.surface,
     modes: candidate.publicModes.map(mode => {
       const canonical=projectAgentModelModeDetails(candidate,mode);
+      const maxReferences=studioGenerationReferenceLimit(candidate.engine.id,candidate.surface,mode);
       return {...canonical,outputCount: {min: 1,max: 1,default: 1},
-        settings: canonical.settings.filter(setting => setting.type !== 'multi_prompt'&&!['documentUrl','webpageUrl'].includes(setting.key)),
+        settings: canonical.settings.filter(setting => !['documentUrl','webpageUrl'].includes(setting.key)
+          && (setting.type !== 'multi_prompt' || candidate.engine.id === 'kling-v4')),
         references: canonical.references.filter(reference => candidate.surface==='video'||reference.type === 'image').map(reference=>({...reference,
-          max: Math.min(reference.max ?? STUDIO_CONVERSATION_MAX_REFERENCES,STUDIO_CONVERSATION_MAX_REFERENCES)}))};
+          max: candidate.surface==='video' && (mode==='v2v'||mode==='extend') ? reference.max : Math.min(reference.max ?? maxReferences,maxReferences)}))};
     }),
+    ...(isKlingV4FalQueueEngineId(candidate.engine.id)?{subjectReferenceAllowance:{attachedPoolLimit:STUDIO_CONVERSATION_MAX_ATTACHMENTS,maxSelectedReferences:candidate.engine.id === 'kling-v4-flash' ? 15 as const : 43 as const,additionalSource:'ready_project_outputs' as const}}:{}),
     referenceIdentity: candidate.surface === 'image' ? 'attached_image_asset' : 'attached_owned_media_or_ready_project_output',
-    outputCount: 1,maxReferences: STUDIO_CONVERSATION_MAX_REFERENCES,guidance: getAgentModelGuidance(candidate.engine.id),
+    outputCount: 1,maxReferences: Math.max(...candidate.publicModes.map(mode=>studioGenerationReferenceLimit(candidate.engine.id,candidate.surface,mode))),guidance: getAgentModelGuidance(candidate.engine.id),
     editorialGuidance: getAgentModelEditorialGuidance(candidate.engine.id),
     promptingSources: getAgentModelPromptingSources(candidate.engine.id).flatMap(source => {
       const modes=source.modes.filter(mode=>candidate.publicModes.includes(mode));

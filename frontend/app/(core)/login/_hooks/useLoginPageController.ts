@@ -25,6 +25,7 @@ import {
 } from '../_lib/login-validation';
 import { submitPasswordSignupConsents } from '../_lib/login-signup-consents';
 import { requestPasswordReset } from '../_lib/login-password-reset';
+import { usePasswordAuthSubmission } from './usePasswordAuthSubmission';
 import { useLoginAutofillSync } from './useLoginAutofillSync';
 import { useLoginAuthenticatedRedirect } from './useLoginAuthenticatedRedirect';
 import { useLoginAuthHashSession } from './useLoginAuthHashSession';
@@ -49,6 +50,9 @@ export function useLoginPageController({
   const [locale] = useState<Locale>(initialLocale);
   const { authRedirectOrigin, nextPath, nextPathReady, persistNextTarget, safeNextPath } = useLoginNextTarget();
   const [mode, setMode] = useState<AuthMode>(initialMode);
+  const passwordSubmission = usePasswordAuthSubmission(mode);
+  const invalidatePasswordSubmission = passwordSubmission.invalidate;
+  const passwordSubmissionPending = passwordSubmission.pending;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -71,6 +75,9 @@ export function useLoginPageController({
   const [marketingOptIn, setMarketingOptIn] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [signupSuggestion, setSignupSuggestion] = useState<{ email: string; password: string } | null>(null);
+  const [unconfirmedEmail, setUnconfirmedEmail] = useState<string | null>(null);
+  const confirmationResendPendingRef = useRef(false);
+  const [isConfirmationResending, setIsConfirmationResending] = useState(false);
   const authCopy = AUTH_COPY[locale] ?? AUTH_COPY.en;
   const fieldRefs = useMemo(
     () => ({
@@ -101,11 +108,15 @@ export function useLoginPageController({
   }, []);
 
   const handleModeChange = useCallback((nextMode: AuthMode) => {
+    if (passwordSubmissionPending.current || confirmationResendPendingRef.current || nextMode === mode) return;
+    invalidatePasswordSubmission();
+    setStatus(null);
     setMode(nextMode);
     setFieldErrors({});
     setFormAttention(false);
     setError(null);
-  }, []);
+    setUnconfirmedEmail(null);
+  }, [invalidatePasswordSubmission, mode, passwordSubmissionPending]);
 
   const validateCurrentForm = useCallback(
     (targetMode: AuthMode) => {
@@ -183,42 +194,104 @@ export function useLoginPageController({
     }
   }, [mode, signupSuggestion]);
 
+  useEffect(() => {
+    // Native autofill listeners can update email before React's onChange runs.
+    setUnconfirmedEmail((current) => current === email ? current : null);
+    setError((current) => current && [
+      authCopy.feedback.emailNotConfirmed,
+      authCopy.feedback.confirmationRateLimited,
+      authCopy.feedback.confirmationUnavailable,
+    ].includes(current) ? null : current);
+    setStatus((current) => current === authCopy.feedback.confirmationResent ? null : current);
+  }, [authCopy, email]);
+
   async function signInWithPassword(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!validateCurrentForm('signin')) return;
-    setStatusTone('info');
-    setStatus(authCopy.feedback.signingIn);
-    setError(null);
-    setSignupSuggestion(null);
-    clearPendingGoogleLogin();
-    const supabase = await loadSupabaseClient();
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      if (continuation?.kind === 'mcp') {
-        setError(error.code === 'invalid_credentials' ? authCopy.feedback.mcpSigninFailed : error.message);
-        setStatus(null);
-      } else if (error.status === 400) {
-        setSignupSuggestion({ email, password });
-        setStatusTone('info');
-        setStatus(authCopy.feedback.signinSuggestion);
-        setError(null);
-      } else {
-        setError(error.message);
-        setStatus(null);
+    if (!nextPathReady || passwordSubmission.pending.current || confirmationResendPendingRef.current || !validateCurrentForm('signin')) return;
+    await passwordSubmission.run(async (isCurrent) => {
+      setStatusTone('info');
+      setStatus(authCopy.feedback.signingIn);
+      setError(null);
+      setSignupSuggestion(null);
+      setUnconfirmedEmail(null);
+      clearPendingGoogleLogin();
+      const supabase = await loadSupabaseClient();
+      if (!isCurrent()) return;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (!isCurrent()) return;
+      if (error) {
+        if (error.code === 'email_not_confirmed') {
+          setUnconfirmedEmail(email);
+          setError(authCopy.feedback.emailNotConfirmed);
+          setStatus(null);
+        } else if (continuation?.kind === 'mcp') {
+          setError(error.code === 'invalid_credentials' ? authCopy.feedback.mcpSigninFailed : error.message);
+          setStatus(null);
+        } else if (error.code === 'invalid_credentials') {
+          setSignupSuggestion({ email, password });
+          setStatusTone('info');
+          setStatus(authCopy.feedback.signinSuggestion);
+          setError(null);
+        } else {
+          setError(error.message);
+          setStatus(null);
+        }
+        return;
       }
-      return;
-    }
-    setStatusTone('info');
-    setStatus(authCopy.feedback.signinRedirecting);
-    if (data.user) void resolveBrowserCommercialAnalyticsAuthContext(data.user.id, data.session?.access_token, data.user.app_metadata);
-    persistPendingAnalyticsEvent('login_completed', {
-      route_family: 'auth',
-      auth_surface: 'login',
-      method: 'password',
-    });
+      setStatusTone('info');
+      setStatus(authCopy.feedback.signinRedirecting);
+      if (data.user) void resolveBrowserCommercialAnalyticsAuthContext(data.user.id, data.session?.access_token, data.user.app_metadata);
+      persistPendingAnalyticsEvent('login_completed', {
+        route_family: 'auth',
+        auth_surface: 'login',
+        method: 'password',
+      });
 
-    const safeTarget = sanitizeNextPath(nextPath);
-    completeAuthenticatedRedirect(safeTarget, data.session?.user?.id ?? data.user?.id ?? null);
+      const safeTarget = sanitizeNextPath(nextPath);
+      completeAuthenticatedRedirect(safeTarget, data.session?.user?.id ?? data.user?.id ?? null);
+    }, () => {
+      setError(authCopy.feedback.passwordUnavailable);
+      setStatus(null);
+    });
+  }
+
+  async function resendConfirmation() {
+    if (!unconfirmedEmail || confirmationResendPendingRef.current || passwordSubmission.pending.current) return;
+    confirmationResendPendingRef.current = true;
+    setIsConfirmationResending(true);
+    setError(null);
+    setStatusTone('info');
+    setStatus(authCopy.feedback.sendingConfirmation);
+    try {
+      const emailRedirectTo = buildAuthCallbackRedirect(
+        getBrowserAuthRedirectOrigin() || authRedirectOrigin,
+        safeNextPath,
+        locale,
+        'signup'
+      );
+      if (!emailRedirectTo) throw new Error('Missing confirmation redirect origin');
+      const supabase = await loadSupabaseClient();
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: unconfirmedEmail,
+        options: { emailRedirectTo },
+      });
+      if (error) {
+        setStatus(null);
+        setError(error.status === 429 || error.code === 'over_email_send_rate_limit'
+          ? authCopy.feedback.confirmationRateLimited
+          : authCopy.feedback.confirmationUnavailable);
+      } else {
+        setStatus(authCopy.feedback.confirmationResent);
+        setUnconfirmedEmail(null);
+      }
+    } catch {
+      setStatus(null);
+      setError(authCopy.feedback.confirmationUnavailable);
+    } finally {
+      confirmationResendPendingRef.current = false;
+      setIsConfirmationResending(false);
+    }
   }
 
   const handleAcceptSignupSuggestion = useCallback(() => {
@@ -266,80 +339,92 @@ export function useLoginPageController({
 
   async function signUpWithPassword(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!validateCurrentForm('signup')) return;
-    setStatusTone('info');
-    setStatus(authCopy.feedback.creatingAccount);
-    setError(null);
-    clearPendingGoogleLogin();
-    dispatchAnalyticsEvent('sign_up_started', {
-      route_family: 'auth',
-      auth_surface: 'login',
-      method: 'password',
-      marketing_opt_in: marketingOptIn,
-    });
-    const supabase = await loadSupabaseClient();
-    const emailRedirectTo = buildAuthCallbackRedirect(
-      getBrowserAuthRedirectOrigin() || authRedirectOrigin,
-      safeNextPath,
-      locale
-    );
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo, data: { locale } },
-    });
-    if (error) {
-      setError(error.message);
-      setStatus(null);
-      return;
-    }
-
-    try {
-      const consentsSaved = await submitPasswordSignupConsents(data, submitSignupConsents);
-      if (!consentsSaved) {
-        setStatusTone('info');
-        setStatus(authCopy.feedback.confirmEmail);
+    if (!nextPathReady || passwordSubmission.pending.current || !validateCurrentForm('signup')) return;
+    await passwordSubmission.run(async (isCurrent) => {
+      setStatusTone('info');
+      setStatus(authCopy.feedback.creatingAccount);
+      setError(null);
+      clearPendingGoogleLogin();
+      dispatchAnalyticsEvent('sign_up_started', {
+        route_family: 'auth',
+        auth_surface: 'login',
+        method: 'password',
+        marketing_opt_in: marketingOptIn,
+      });
+      const supabase = await loadSupabaseClient();
+      if (!isCurrent()) return;
+      const emailRedirectTo = buildAuthCallbackRedirect(
+        getBrowserAuthRedirectOrigin() || authRedirectOrigin,
+        safeNextPath,
+        locale,
+        'signup'
+      );
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo, data: { locale } },
+      });
+      if (error) {
+        if (!isCurrent()) return;
+        setError(error.message);
+        setStatus(null);
         return;
       }
-    } catch (consentError) {
-      setError(
-        consentError instanceof Error
-          ? consentError.message
-          : authCopy.feedback.consentSaveError
-      );
-      setStatus(null);
-      if (data.session) {
-        await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
-      }
-      return;
-    }
 
-    if (data.user) void resolveBrowserCommercialAnalyticsAuthContext(data.user.id, data.session?.access_token, data.user.app_metadata);
-    if (data.session) {
-      setStatusTone('success');
-      setStatus(authCopy.feedback.accountRedirecting);
-      persistPendingAnalyticsEvent('sign_up_completed', {
-        route_family: 'auth',
-        auth_surface: 'login',
-        method: 'password',
-        email_confirmation_required: false,
-      });
-      completeAuthenticatedRedirect(safeNextPath, data.session.user?.id ?? data.user?.id ?? null);
-    } else {
-      setStatusTone('success');
-      setStatus(authCopy.feedback.confirmEmail);
-      dispatchAnalyticsEvent('sign_up_completed', {
-        route_family: 'auth',
-        auth_surface: 'login',
-        method: 'password',
-        email_confirmation_required: true,
-      });
-    }
+      // The SDK may already have created the account after navigation. Persist
+      // the consent captured by this submission before ignoring its stale UI.
+      try {
+        const consentsSaved = await submitPasswordSignupConsents(data, submitSignupConsents);
+        if (!isCurrent()) return;
+        if (!consentsSaved) {
+          setStatusTone('info');
+          setStatus(authCopy.feedback.confirmEmail);
+          return;
+        }
+      } catch (consentError) {
+        if (!isCurrent()) return;
+        setError(
+          consentError instanceof Error
+            ? consentError.message
+            : authCopy.feedback.consentSaveError
+        );
+        setStatus(null);
+        if (data.session) {
+          await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
+        }
+        return;
+      }
+
+      if (data.user) void resolveBrowserCommercialAnalyticsAuthContext(data.user.id, data.session?.access_token, data.user.app_metadata);
+      if (data.session) {
+        setStatusTone('success');
+        setStatus(authCopy.feedback.accountRedirecting);
+        persistPendingAnalyticsEvent('sign_up_completed', {
+          route_family: 'auth',
+          auth_surface: 'login',
+          method: 'password',
+          email_confirmation_required: false,
+        });
+        completeAuthenticatedRedirect(safeNextPath, data.session.user?.id ?? data.user?.id ?? null);
+      } else {
+        setStatusTone('success');
+        setStatus(authCopy.feedback.confirmEmailAfterSignup);
+        dispatchAnalyticsEvent('sign_up_completed', {
+          route_family: 'auth',
+          auth_surface: 'login',
+          method: 'password',
+          email_confirmation_required: true,
+        });
+      }
+    }, () => {
+      setError(authCopy.feedback.passwordUnavailable);
+      setStatus(null);
+    });
   }
 
   async function sendReset(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (passwordResetPendingRef.current || !validateCurrentForm('reset')) return;
+    if (passwordSubmission.pending.current || passwordResetPendingRef.current || !validateCurrentForm('reset')) return;
     passwordResetPendingRef.current = true;
     setIsResetSending(true);
     setStatusTone('info');
@@ -348,12 +433,13 @@ export function useLoginPageController({
     const passwordResetRedirectTo = buildAuthCallbackRedirect(
       getBrowserAuthRedirectOrigin() || authRedirectOrigin,
       safeNextPath,
-      locale
+      locale,
+      'recovery'
     );
     const result = await requestPasswordReset(async () => {
       if (!passwordResetRedirectTo) throw new Error('Missing recovery redirect origin');
       const supabase = await loadSupabaseClient();
-      return supabase.auth.resetPasswordForEmail(email, { redirectTo: `${passwordResetRedirectTo}&flow=recovery` });
+      return supabase.auth.resetPasswordForEmail(email, { redirectTo: passwordResetRedirectTo });
     });
     passwordResetPendingRef.current = false;
     setIsResetSending(false);
@@ -367,7 +453,7 @@ export function useLoginPageController({
   }
 
   async function signInWithGoogle() {
-    if (googleOAuthStartedRef.current) return;
+    if (passwordSubmission.pending.current || confirmationResendPendingRef.current || googleOAuthStartedRef.current) return;
     if (canonicalizeBrowserAuthOrigin()) return;
     googleOAuthStartedRef.current = true;
     setIsGoogleOAuthStarting(true);
@@ -474,8 +560,12 @@ export function useLoginPageController({
     fieldErrors,
     formAttention,
     signupSuggestion,
+    unconfirmedEmail,
+    isConfirmationResending,
     isGoogleOAuthStarting,
     isResetSending,
+    isAuthReady: nextPathReady,
+    isPasswordSubmitting: passwordSubmission.busy,
     acceptTerms,
     ageConfirmed,
     marketingOptIn,
@@ -489,6 +579,7 @@ export function useLoginPageController({
     onModeChange: handleModeChange,
     onGoogleSignIn: signInWithGoogle,
     onSignInSubmit: signInWithPassword,
+    onResendConfirmation: resendConfirmation,
     onSignUpSubmit: signUpWithPassword,
     onResetSubmit: sendReset,
     onEmailChange: handleEmailChange,

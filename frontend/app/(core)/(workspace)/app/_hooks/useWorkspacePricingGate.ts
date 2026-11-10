@@ -1,17 +1,24 @@
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { useHostedWalletCheckout } from '@/hooks/useHostedWalletCheckout';
 import type { AppLocale } from '@/i18n/locales';
 import { dispatchGaEvent } from '@/lib/analytics/ga-events';
 import { classifyTopupFailure } from '@/lib/analytics/topup-failure';
+import { getVideoExcerptLimits, mediaExcerptNeedsSelection } from '@/lib/video-excerpt';
 import { getEngineModeUnavailableMessage } from '@/lib/engine-mode-availability';
+import { getVideoWorkflowSourceField, getVideoWorkflowSourceState, isVideoSourceWorkflow } from '@/lib/video-source-workflow';
 import { formatRateLimitMessage } from '@/lib/wallet/rate-limit-message';
+import type { KlingElementState } from '@/components/KlingElementsBuilder';
+import { getWorkspaceKlingV4MediaError } from '../_lib/workspace-kling-v4-media';
+import { buildKlingElementsPayload } from '../_lib/workspace-generation-inputs';
 import type { EngineCaps, Mode, PreflightResponse } from '@/types/engines';
 import type { WorkspaceCopy } from '../_lib/workspace-copy';
 import type { ReferenceAsset } from '../_lib/workspace-assets';
 import type { FormState } from '../_lib/workspace-form-state';
 import { buildWorkspacePreflightRequest } from '../_lib/workspace-preflight-request';
 import { useWorkspacePreflightQuote } from './useWorkspacePreflightQuote';
+import { getWorkspaceVideoDurationGuidance } from '../_lib/workspace-video-duration-guidance';
 import { useWorkspaceTopupPaymentQuote } from './useWorkspaceTopupPaymentQuote';
 import {
   buildWorkspaceTopupAnalyticsPayload,
@@ -27,6 +34,7 @@ export type TopUpModalState = {
 } | null;
 
 type UseWorkspacePricingGateOptions = {
+  accountId: string | null;
   accessToken: string | null;
   locale: AppLocale;
   topUpCopy: WorkspaceCopy['topUp'];
@@ -40,11 +48,13 @@ type UseWorkspacePricingGateOptions = {
   voiceControlEnabled: boolean;
   submissionMode: Mode;
   inputAssets: Record<string, (ReferenceAsset | null)[]>;
+  klingElements?: KlingElementState[];
 };
 
 type UseWorkspacePricingGateResult = {
   preflight: PreflightResponse | null;
   preflightError: string | undefined;
+  videoDurationBlocked: boolean;
   isPricing: boolean;
   price: number | null;
   currency: string;
@@ -74,6 +84,7 @@ type UseWorkspacePricingGateResult = {
 };
 
 export function useWorkspacePricingGate({
+  accountId,
   accessToken,
   locale,
   topUpCopy,
@@ -87,19 +98,34 @@ export function useWorkspacePricingGate({
   voiceControlEnabled,
   submissionMode,
   inputAssets,
+  klingElements = [],
 }: UseWorkspacePricingGateOptions): UseWorkspacePricingGateResult {
+  const elementValidation = selectedEngine && isKlingV4FalQueueEngineId(selectedEngine.id) ? buildKlingElementsPayload({
+    selectedEngineId: selectedEngine.id, submissionMode, supportsKlingV3Controls: false, klingElements,
+  }) : null;
+  const elementError = elementValidation && !elementValidation.ok ? elementValidation.message
+    : isKlingV4FalQueueEngineId(selectedEngine?.id) ? getWorkspaceKlingV4MediaError({ engineId: selectedEngine?.id, mode: submissionMode, inputAssets, klingElements, locale }) : null;
   const modeUnavailableMessage = getEngineModeUnavailableMessage(selectedEngine, submissionMode, locale);
-  const { preflight, preflightError: quoteError, setPreflightError, isPricing, price, currency } = useWorkspacePreflightQuote({
-    request: form && selectedEngine && !modeUnavailableMessage ? buildWorkspacePreflightRequest({
+  const waitingForExcerpt = selectedEngine && mediaExcerptNeedsSelection(selectedEngine, submissionMode, inputAssets);
+  const ownedGenerationRequired = (selectedEngine?.id === 'luma-ray-3-2' && submissionMode === 'extend') || form?.operation === 'flux-draft-enhance';
+  const waitingForVideoSource = (ownedGenerationRequired && !form?.extraInputValues.source_job_id) || isVideoSourceWorkflow(submissionMode)
+    && Boolean(getVideoWorkflowSourceField(selectedEngine?.inputSchema, submissionMode))
+    && getVideoWorkflowSourceState(selectedEngine?.inputSchema, inputAssets, submissionMode, selectedEngine ? getVideoExcerptLimits(selectedEngine, submissionMode) : null) !== 'ready';
+  const videoDurationError = getWorkspaceVideoDurationGuidance({
+    engine: selectedEngine, mode: submissionMode, inputAssets, outputDurationSec: effectiveDurationSec, locale,
+  });
+  const { preflight, preflightError: quoteError, videoDurationBlocked: serverVideoDurationBlocked, setPreflightError, isPricing, price, currency } = useWorkspacePreflightQuote({
+    request: form && selectedEngine && !modeUnavailableMessage && !waitingForVideoSource && !waitingForExcerpt && !elementError && !videoDurationError ? buildWorkspacePreflightRequest({
       form, selectedEngine, memberTier, supportsAudioToggle,
-      effectiveDurationSec, voiceControlEnabled, submissionMode, inputAssets,
+      effectiveDurationSec, voiceControlEnabled, submissionMode, inputAssets, klingElements,
     }) : null,
     iterations: form?.iterations ?? 1,
     accessToken,
     authChecked,
     locale,
   });
-  const preflightError = modeUnavailableMessage ?? quoteError;
+  const preflightError = modeUnavailableMessage ?? elementError ?? videoDurationError ?? quoteError;
+  const videoDurationBlocked = Boolean(videoDurationError) || serverVideoDurationBlocked;
   const [topUpModal, setTopUpModal] = useState<TopUpModalState>(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [topUpAmount, setTopUpAmount] = useState<number>(1000);
@@ -156,6 +182,7 @@ export function useWorkspacePricingGate({
     resetCheckout,
     startCheckout,
   } = useHostedWalletCheckout({
+    accountId,
     accessToken,
     amountCents: topUpAmount,
     currency: topUpChargeCurrency,
@@ -218,6 +245,7 @@ export function useWorkspacePricingGate({
     () => ({
       preflight,
       preflightError,
+      videoDurationBlocked,
       isPricing,
       price,
       currency,
@@ -262,6 +290,7 @@ export function useWorkspacePricingGate({
       isTopUpLoading,
       preflight,
       preflightError,
+      videoDurationBlocked,
       price,
       showComposerError,
       setPreflightError,

@@ -1,3 +1,5 @@
+import { KLING_V4_FLASH_FAL_ENGINE_REGISTRY } from './kling-v4-flash';
+import { GPT_IMAGE_2_6_ENGINE_REGISTRY } from './gpt-image-2-6';
 import type { RawFalEngineEntry } from './types';
 import { PIKA_FAL_ENGINE_REGISTRY } from './pika';
 import { VEO_3_1_FAL_ENGINE_REGISTRY } from './veo-3-1';
@@ -18,6 +20,7 @@ import { KLING_3_4K_FAL_ENGINE_REGISTRY } from './kling-3-4k';
 import { KLING_O3_FAL_ENGINE_REGISTRY } from './kling-o3';
 import { KLING_3_TURBO_STANDARD_FAL_ENGINE_REGISTRY } from './kling-3-turbo-standard';
 import { KLING_3_TURBO_PRO_FAL_ENGINE_REGISTRY } from './kling-3-turbo-pro';
+import { KLING_V4_FAL_ENGINE_REGISTRY } from './kling-v4';
 import { HAPPY_HORSE_FAL_ENGINE_REGISTRY } from './happy-horse';
 import { SEEDANCE_1_5_FAL_ENGINE_REGISTRY } from './seedance-1-5';
 import { SEEDANCE_2_STANDARD_FAL_ENGINE_REGISTRY } from './seedance-2-standard';
@@ -37,6 +40,7 @@ import { LTX_2_5_FAST_FAL_ENGINE_REGISTRY } from './ltx-2-5-fast';
 import { LTX_2_5_PRO_FAL_ENGINE_REGISTRY } from './ltx-2-5-pro';
 import { GROK_IMAGINE_VIDEO_1_5_FAL_ENGINE_REGISTRY } from './grok-imagine-video-1-5';
 import { FLUX_3_FAL_ENGINE_REGISTRY } from './flux-3';
+import { FLUX_3_MAX_FAL_ENGINE_REGISTRY } from './flux-3-max';
 import { FLUX_3_DRAFT_FAL_ENGINE_REGISTRY } from './flux-3-draft';
 import { HAILUO_FAL_ENGINE_REGISTRY } from './hailuo';
 import { MINIMAX_H3_FAL_ENGINE_REGISTRY } from './minimax-h3';
@@ -45,6 +49,7 @@ import { NANO_BANANA_FAL_ENGINE_REGISTRY } from './nano-banana';
 import { NANO_BANANA_LITE_FAL_ENGINE_REGISTRY } from './nano-banana-lite';
 import { NANO_BANANA_PRO_FAL_ENGINE_REGISTRY } from './nano-banana-pro';
 import { NANO_BANANA_2_FAL_ENGINE_REGISTRY } from './nano-banana-2';
+import { NANO_BANANA_2_1_FAL_ENGINE_REGISTRY } from './nano-banana-2-1';
 import { GPT_IMAGE_2_FAL_ENGINE_REGISTRY } from './gpt-image-2';
 import { GPT_IMAGE_2_5_FAL_ENGINE_REGISTRY } from './gpt-image-2-5';
 import { SEEDREAM_FAL_ENGINE_REGISTRY } from './seedream';
@@ -72,6 +77,7 @@ export const RAW_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   ...KLING_O3_FAL_ENGINE_REGISTRY,
   ...KLING_3_TURBO_STANDARD_FAL_ENGINE_REGISTRY,
   ...KLING_3_TURBO_PRO_FAL_ENGINE_REGISTRY,
+  ...KLING_V4_FAL_ENGINE_REGISTRY,
   ...HAPPY_HORSE_FAL_ENGINE_REGISTRY,
   ...SEEDANCE_1_5_FAL_ENGINE_REGISTRY,
   ...SEEDANCE_2_STANDARD_FAL_ENGINE_REGISTRY,
@@ -92,8 +98,11 @@ export const RAW_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   ...NANO_BANANA_LITE_FAL_ENGINE_REGISTRY,
   ...NANO_BANANA_PRO_FAL_ENGINE_REGISTRY,
   ...NANO_BANANA_2_FAL_ENGINE_REGISTRY,
+  ...NANO_BANANA_2_1_FAL_ENGINE_REGISTRY,
   ...GPT_IMAGE_2_FAL_ENGINE_REGISTRY,
   ...GPT_IMAGE_2_5_FAL_ENGINE_REGISTRY,
+  ...GPT_IMAGE_2_6_ENGINE_REGISTRY,
+  ...KLING_V4_FLASH_FAL_ENGINE_REGISTRY,
   ...SEEDREAM_FAL_ENGINE_REGISTRY,
   ...WAN_3_FAL_ENGINE_REGISTRY,
   ...WAN_3_PRIME_FAL_ENGINE_REGISTRY,
@@ -101,5 +110,6 @@ export const RAW_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   ...LTX_2_5_PRO_FAL_ENGINE_REGISTRY,
   ...GROK_IMAGINE_VIDEO_1_5_FAL_ENGINE_REGISTRY,
   ...FLUX_3_FAL_ENGINE_REGISTRY,
+  ...FLUX_3_MAX_FAL_ENGINE_REGISTRY,
   ...FLUX_3_DRAFT_FAL_ENGINE_REGISTRY,
 ];

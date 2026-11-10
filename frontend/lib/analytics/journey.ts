@@ -81,6 +81,7 @@ const ANALYTICS_ROUTE_FAMILIES = new Set([
 ]);
 const ANALYTICS_LOCALES = new Set(['en', 'fr', 'es']);
 const ANALYTICS_TOOL_NAMES = new Set([
+  'subtitles', 'lip_sync', 'product_photo_editor', 'product_video_editor', 'motion_transfer',
   'tools_hub', 'angle', 'background_removal', 'character_builder', 'storyboard', 'upscale', 'audio',
   'studio',
 ]);
@@ -90,7 +91,7 @@ const ANALYTICS_WORKSPACE_SECTIONS = new Set([
   'studio',
 ]);
 const SAFE_MARKETING_LANDING_SURFACES = new Set([
-  '/', '/about', '/ai-video-engines', '/benchmarks', '/best-for', '/blog', '/changelog',
+  '/', '/about', '/ai-video-prompt-generator', '/ai-video-engines', '/benchmarks', '/best-for', '/blog', '/changelog',
   '/company', '/compare', '/contact', '/docs', '/editorial-standards', '/examples',
   ...getMcpPublicIntegrationPaths(), '/legal',
   '/legal/acceptable-use', '/legal/cookies', '/legal/cookies-list', '/legal/mentions',
@@ -594,12 +595,13 @@ function analyticsPrimitive(value: unknown): string | number | boolean | undefin
 type AnalyticsPrimitive = string | number | boolean;
 
 const ENGINE_IDS = new Set([
-  'luma-ray-2', 'luma-ray-2-flash', 'kling-3-turbo-standard', 'kling-3-turbo-pro',
+  'luma-ray-2', 'luma-ray-2-flash', 'kling-3-turbo-standard', 'kling-3-turbo-pro', 'kling-v4', 'kling-v4-flash',
+  'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst',
   'dreamina-seedance-2-0-mini', 'ltx-2-3-pro', 'minimax-h3-max', 'wan-3', 'wan-3-prime',
-  'ltx-2-5-fast', 'ltx-2-5-pro', 'grok-imagine-video-1-5', 'flux-3', 'flux-3-draft',
+  'ltx-2-5-fast', 'ltx-2-5-pro', 'grok-imagine-video-1-5', 'flux-3-max', 'flux-3', 'flux-3-draft',
   'happy-horse-1-0', 'happy-horse-1-1', 'seedance-2-0-mini', 'seedance-1-5-pro',
   'seedance-2-0', 'seedance-2-0-fast', 'seedance-2-5', 'seedream', 'seedream-5-0-pro',
-  'nano-banana', 'nano-banana-2', 'nano-banana-lite', 'nano-banana-pro', 'gemini-omni-flash',
+  'nano-banana', 'nano-banana-2', 'nano-banana-2-1', 'nano-banana-lite', 'nano-banana-pro', 'gemini-omni-flash',
   'veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite', 'kling-2-5-turbo', 'kling-2-6-pro',
   'kling-3-4k', 'kling-3-pro', 'kling-3-standard', 'kling-o3-4k', 'kling-o3-pro',
   'kling-o3-standard', 'ltx-2-3-fast', 'ltx-2-3', 'ltx-2-fast', 'ltx-2', 'lumaRay2',
@@ -610,7 +612,7 @@ const ENGINE_IDS = new Set([
   'bria-video-background-removal-v3',
 ]);
 const CTA_NAMES = new Set([
-  'studio_open', 'mcp_setup_guide', 'mcp_choose_integration',
+  'milo_try', 'home_milo', 'studio_open', 'mcp_setup_guide', 'mcp_choose_integration',
   'reuse_example', 'view_example_details',
   'pricing_scenario',
   'marketing_nav_login', 'marketing_nav_start_app', 'homepage_ai_video_plugin', 'all_comparisons',
@@ -621,7 +623,8 @@ const CTA_NAMES = new Set([
   ...ENGINE_IDS,
 ]);
 const CTA_LOCATIONS = new Set([
-  'studio_hero', 'studio_closing', 'integration_hero', 'mcp_hero',
+  'creator_tool_hero', 'creator_tool_final', 'creator_tools_hub',
+  'milo_hero', 'milo_closing', 'home_conversation', 'studio_hero', 'studio_closing', 'integration_hero', 'mcp_hero',
   'examples_hero', 'examples_gallery', 'watch_hero', 'watch_sidebar',
   'pricing_hero',
   'marketing_nav_mobile', 'marketing_nav_desktop', 'home_assistant_workflow', 'comparison_intro',

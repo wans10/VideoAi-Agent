@@ -1,7 +1,10 @@
+import { createUploadedMediaReadAccess } from '@/server/media-library/upload-read-access';
 import { NextRequest, NextResponse } from 'next/server';
+import { isRecastAudioFile } from '@/lib/character-studio-recast';
 import { canonicalMediaAssetFields } from '@/lib/media-identity';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { ensureReusableAsset } from '@/server/media-library';
+import { readVideoUploadMetadata } from '../../_lib/video-upload-metadata';
 import {
   deleteStorageObjectKey,
   getStorageObjectBuffer,
@@ -27,10 +30,12 @@ import {
 } from '../_lib';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 type CompleteMultipartVideoUploadPayload = {
   uploadId?: unknown;
   key?: unknown;
+  kind?: unknown;
   fileName?: unknown;
   mime?: unknown;
   size?: unknown;
@@ -67,7 +72,8 @@ export async function POST(req: NextRequest) {
     return uploadJsonError('INVALID_UPLOAD_KEY', 400);
   }
 
-  if (!isSupportedVideoMime(mime)) {
+  const audio = payload?.kind === 'audio';
+  if (audio ? !isRecastAudioFile({ name: fileName, type: mime, size: requestedSize }) : !isSupportedVideoMime(mime)) {
     return uploadJsonError('UNSUPPORTED_TYPE', 415);
   }
 
@@ -84,7 +90,7 @@ export async function POST(req: NextRequest) {
   }
 
   const maxVideoMB = getMaxVideoUploadMB();
-  const maxBytes = videoUploadLimitBytes(maxVideoMB);
+  const maxBytes = audio ? 15 * 1024 * 1024 : videoUploadLimitBytes(maxVideoMB);
   if (requestedSize > maxBytes) {
     return uploadJsonError('FILE_TOO_LARGE', 413, { maxMB: maxVideoMB });
   }
@@ -123,9 +129,19 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const bytes = Buffer.concat(buffers, totalSize);
+    if (audio) {
+      const { storeAudioUpload } = await import('@/server/uploads/store-media-upload');
+      const stored = await storeAudioUpload({userId, fileName, declaredMime: mime, bytes, referenceEligibility:'workspace'});
+      await cleanupParts(parts);
+      return NextResponse.json({ok:true,asset:{...await createUploadedMediaReadAccess(userId,{assetId:stored.assetId,legacyAssetId:stored.legacyAssetId,url:stored.storageUrl,kind:'audio'}),id:stored.legacyAssetId, ...canonicalMediaAssetFields(stored.assetId,'audio'),
+        mediaFacts:stored.mediaFacts,url:stored.storageUrl,size:stored.sizeBytes,mime:stored.mimeType,name:fileName}}, {headers:{'Cache-Control':'private, no-store'}});
+    }
+    const measured = await readVideoUploadMetadata(bytes, fileName, mime);
+    if (!measured) return uploadJsonError('METADATA_UNVERIFIED', 422);
     const uploadResult = await uploadFileBufferToKey({
       key,
-      data: Buffer.concat(buffers, totalSize),
+      data: bytes,
       mime,
     });
 
@@ -133,11 +149,12 @@ export async function POST(req: NextRequest) {
       userId,
       url: uploadResult.url,
       mime,
-      width: null,
-      height: null,
+      width: measured.width,
+      height: measured.height,
       size: totalSize,
       source: 'upload',
-      metadata: { originalName: fileName, kind: 'video', chunkedUpload: true },
+      metadata: { originalName: fileName, kind: 'video', chunkedUpload: true,
+        durationSec: measured.durationSec, mediaFacts: measured.mediaFacts },
     });
 
     const canonicalAsset = await ensureReusableAsset({
@@ -147,6 +164,10 @@ export async function POST(req: NextRequest) {
       source: 'upload',
       mimeType: mime,
       sizeBytes: totalSize,
+      width: measured.width,
+      height: measured.height,
+      durationSec: measured.durationSec,
+      metadata: { originalName: fileName, mediaFacts: measured.mediaFacts },
     }).catch((error) => {
       console.warn('[upload] failed to mirror chunked video into media_assets', error);
     });
@@ -156,18 +177,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       asset: {
+        ...await createUploadedMediaReadAccess(userId, { assetId: canonicalAsset?.publicId, legacyAssetId: assetId, url: uploadResult.url, kind: 'video' }),
         id: assetId,
         legacyAssetId: assetId,
         ...canonicalMediaAssetFields(canonicalAsset?.publicId, 'video'),
         url: uploadResult.url,
-        width: null,
-        height: null,
+        ...measured,
         size: totalSize,
         mime,
         name: fileName,
         thumbUrl: null,
       },
-    });
+    }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (error) {
     console.error('[upload] failed to complete chunked video upload', {
       uploadId,

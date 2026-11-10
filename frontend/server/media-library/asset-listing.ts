@@ -1,3 +1,8 @@
+import { legacyKindSql } from './organization-source-sql';
+import { libraryIdentityCtes } from './browse-identity-sql';
+import { activeLibrarySourceSql } from './visibility-sql';
+import { projectMissingAudioDurations } from './audio-duration-projection';
+import { applicationJobSql } from '../app-job-origin';
 import { query } from '@/lib/db';
 import { ensureAssetSchema, ensureMediaLibrarySchema } from '@/lib/schema';
 import {
@@ -45,12 +50,21 @@ export async function findLibraryAssetByOrigin(params: {
       source: source ?? 'import',
     });
     const identityRows = await query<DbMediaAssetRow>(
-      `/* media-library:exact-origin:identity */
+      `/* media-library:exact-origin:identity */ WITH ${libraryIdentityCtes('$2')}
        SELECT id, public_id, user_id, kind, url, thumb_url, preview_url, mime_type, width, height, size_bytes,
-              source, source_job_id, source_output_id, status, metadata, created_at
+              CASE
+                WHEN source = 'import' AND (
+                  source_job_id IS NOT NULL
+                  OR metadata->>'jobId' IS NOT NULL
+                  OR metadata->>'sourceJobId' IS NOT NULL
+                ) THEN 'saved_job_output'
+                ELSE source
+              END AS source,
+              source_job_id, source_output_id, status, metadata, created_at
          FROM media_assets
         WHERE id = $1
           AND user_id = $2
+          AND ${activeLibrarySourceSql('asset','media_assets.id','media_assets.kind','$2')}
           AND deleted_at IS NULL
           AND kind = $3
           AND (
@@ -69,11 +83,11 @@ export async function findLibraryAssetByOrigin(params: {
         LIMIT 1`,
       [identity, params.userId, params.kind, source]
     );
-    if (identityRows[0]) return mapAssetRow(identityRows[0]);
+    if (identityRows[0]) return (await projectMissingAudioDurations(params.userId, [mapAssetRow(identityRows[0])]))[0];
   }
 
   const canonicalRows = await query<DbMediaAssetRow>(
-    `/* media-library:exact-origin:canonical */
+    `/* media-library:exact-origin:canonical */ WITH ${libraryIdentityCtes()}
      SELECT id, public_id, user_id, kind, url, thumb_url, preview_url, mime_type, width, height, size_bytes,
             source, source_job_id, source_output_id, status, metadata, created_at
        FROM (
@@ -106,6 +120,7 @@ export async function findLibraryAssetByOrigin(params: {
            a.created_at
          FROM media_assets a
          WHERE a.user_id = $1
+         AND ${activeLibrarySourceSql('asset','a.id','a.kind')}
            AND a.deleted_at IS NULL
            AND COALESCE(a.source, '') <> 'storyboard_template_reference'
            AND (a.url = $4 OR a.metadata->>'originUrl' = $4)
@@ -116,10 +131,10 @@ export async function findLibraryAssetByOrigin(params: {
       LIMIT 1`,
     queryParams
   );
-  if (canonicalRows[0]) return mapAssetRow(canonicalRows[0]);
+  if (canonicalRows[0]) return (await projectMissingAudioDurations(params.userId, [mapAssetRow(canonicalRows[0])]))[0];
 
   const legacyRows = await query<DbMediaAssetRow>(
-    `/* media-library:exact-origin:legacy */
+    `/* media-library:exact-origin:legacy */ WITH ${libraryIdentityCtes()}
      SELECT id, public_id, user_id, kind, url, thumb_url, preview_url, mime_type, width, height, size_bytes,
             source, source_job_id, source_output_id, status, metadata, created_at
        FROM (
@@ -159,6 +174,7 @@ export async function findLibraryAssetByOrigin(params: {
            u.created_at
          FROM user_assets u
          WHERE u.user_id = $1
+         AND ${activeLibrarySourceSql('legacy','u.asset_id',legacyKindSql())}
            AND COALESCE(u.source, '') <> 'storyboard_template_reference'
            AND (u.url = $4 OR u.metadata->>'originUrl' = $4)
        ) AS candidate
@@ -169,7 +185,7 @@ export async function findLibraryAssetByOrigin(params: {
     queryParams
   );
 
-  return legacyRows[0] ? mapAssetRow(legacyRows[0]) : null;
+  return legacyRows[0] ? (await projectMissingAudioDurations(params.userId, [mapAssetRow(legacyRows[0])]))[0] : null;
 }
 
 export async function listLibraryAssetPage(params: {
@@ -194,7 +210,7 @@ export async function listLibraryAssetPage(params: {
   const searchPattern = buildMediaLibrarySearchPattern(params.q);
 
   const rows = await query<DbMediaAssetRow>(
-    `WITH candidates AS (
+    `WITH ${libraryIdentityCtes()}, candidates AS (
        SELECT
          a.id,
          a.public_id,
@@ -226,12 +242,14 @@ export async function listLibraryAssetPage(params: {
          CONCAT_WS(' ',
            a.metadata->>'label',
            COALESCE(a.metadata->>'fileName', a.metadata->>'filename'),
+           a.metadata->>'originalName',
            a.source_job_id,
            a.metadata->>'jobId',
            a.metadata->>'sourceJobId'
          ) AS search_text
        FROM media_assets a
        WHERE a.user_id = $1
+         AND ${activeLibrarySourceSql('asset','a.id','a.kind')}
          AND a.deleted_at IS NULL
          AND COALESCE(a.source, '') <> 'storyboard_template_reference'
 
@@ -272,7 +290,9 @@ export async function listLibraryAssetPage(params: {
          ON j.job_id = o.job_id
         AND j.user_id = o.user_id
        WHERE $8::boolean
+         AND ${applicationJobSql('j')}
          AND o.user_id = $1
+         AND ${activeLibrarySourceSql('job-output','o.id','o.kind')}
          AND j.hidden IS NOT TRUE
          AND o.status = 'ready'
 
@@ -316,35 +336,63 @@ export async function listLibraryAssetPage(params: {
          CONCAT_WS(' ',
            u.metadata->>'label',
            COALESCE(u.metadata->>'fileName', u.metadata->>'filename'),
+           u.metadata->>'originalName',
            u.metadata->>'jobId',
            u.metadata->>'sourceJobId',
            u.asset_id
          ) AS search_text
        FROM user_assets u
        WHERE u.user_id = $1
+         AND ${activeLibrarySourceSql('legacy','u.asset_id',legacyKindSql())}
          AND COALESCE(u.source, '') <> 'storyboard_template_reference'
      ),
-     filtered AS (
+     identified AS (
        SELECT *,
-         COALESCE(NULLIF(metadata->>'originUrl', ''), url) AS logical_origin
+         COALESCE(NULLIF(metadata->>'originUrl', ''), url) AS logical_origin,
+         CASE WHEN jsonb_typeof(metadata->'originalName') = 'string'
+           THEN NULLIF(BTRIM(metadata->>'originalName'), '') END AS original_name
        FROM candidates
+     ),
+     legacy_names AS (
+       SELECT DISTINCT ON (user_id, kind, logical_origin)
+         user_id, kind, logical_origin, original_name
+       FROM identified
+       WHERE source_priority = 2 AND original_name IS NOT NULL
+       ORDER BY user_id, kind, logical_origin, created_at DESC, id DESC
+     ),
+     resolved AS (
+       SELECT c.*,
+         CASE WHEN legacy.original_name IS NOT NULL
+           THEN c.metadata || jsonb_build_object('originalName', legacy.original_name)
+           ELSE c.metadata END AS resolved_metadata,
+         CONCAT_WS(' ', c.search_text, legacy.original_name) AS resolved_search_text
+       FROM identified c
+       LEFT JOIN legacy_names legacy
+         ON c.source_priority = 0 AND c.original_name IS NULL
+        AND legacy.user_id = c.user_id AND legacy.kind = c.kind
+        AND legacy.logical_origin = c.logical_origin
+     ),
+     filtered AS (
+       SELECT * FROM resolved
        WHERE ($3::text IS NULL OR kind = $3::text)
          AND ($4::text IS NULL OR source = $4::text)
          AND ($5::text IS NULL OR url = $5::text OR metadata->>'originUrl' = $5::text)
-         AND ($9::text IS NULL OR search_text ILIKE $9::text ESCAPE '\\')
      ),
      deduplicated AS (
        SELECT *,
          ROW_NUMBER() OVER (
            PARTITION BY kind, logical_origin
            ORDER BY source_priority ASC, created_at DESC, id DESC
-         ) AS logical_rank
+         ) AS logical_rank,
+         BOOL_OR($9::text IS NULL OR resolved_search_text ILIKE $9::text ESCAPE '\\') OVER (
+           PARTITION BY kind, logical_origin
+         ) AS matches_search
        FROM filtered
      )
      SELECT id, public_id, user_id, kind, url, thumb_url, preview_url, mime_type, width, height, size_bytes,
-            source, source_job_id, source_output_id, status, metadata, created_at
+            source, source_job_id, source_output_id, status, resolved_metadata AS metadata, created_at
      FROM deduplicated
-     WHERE logical_rank = 1
+     WHERE logical_rank = 1 AND matches_search
        AND (
          $6::timestamptz IS NULL
          OR (created_at, id) < ($6::timestamptz, $7::text)
@@ -364,5 +412,6 @@ export async function listLibraryAssetPage(params: {
     ]
   );
 
-  return sliceMediaLibraryPage(rows.map(mapAssetRow), limit);
+  const page = sliceMediaLibraryPage(rows.map(mapAssetRow), limit);
+  return { ...page, items: await projectMissingAudioDurations(params.userId, page.items) };
 }

@@ -25,7 +25,8 @@ async function webhookBundle() {
   const frontend = path.join(process.cwd(), 'frontend');
   const stubs: Record<string, string> = {
     '@/lib/db': 'export const query = (...args) => fixture.query(...args);',
-    './fal-webhook-refunds': 'export const maybeAutoRefundWalletCharge = async (...args) => fixture.refunds.push(args);',
+    './fal-webhook-draft-cache': 'export const captureCompletedFalDraftCache = async () => {};',
+    './fal-webhook-refunds': 'export const withWalletFailureSettlement = async (jobId, context, persist) => { const result = await persist({ query: fixture.query }); fixture.refunds.push([jobId, context]); return result; };',
     './fal-webhook-provisional': 'export const createProvisionalJobFromWebhook = async () => { throw Error("Unexpected provisional"); };',
     '@/lib/fal-client': 'export const getFalClient = () => ({ queue: { result: async () => { if (fixture.readError) throw fixture.readError; return { data: fixture.result }; } } });',
     '@/lib/fal-catalog': 'export const resolveFalModelId = async () => "fixture/model";',
@@ -72,7 +73,9 @@ test('real Fal webhook logs sanitize native and SDK input grants without changin
     };
     const module = { exports: {} as { updateJobFromFalWebhook(payload: unknown): Promise<void> } };
     const log = (...args: unknown[]) => { logs.push(args); };
-    runInNewContext(bundle, { module, exports: module.exports, fixture, URL, process: { env: {} }, console: { info: log, warn: log, error: log } });
+    // Keep the real SDK import available while denying all network access.
+    runInNewContext(bundle, { module, exports: module.exports, fixture, URL, TextEncoder, TextDecoder,
+      fetch: () => { throw new Error('Unexpected network request'); }, process: { env: {} }, console: { info: log, warn: log, error: log } });
     await module.exports.updateJobFromFalWebhook({ request_id: 'provider-fixture', status: scenario === 'native_rejection' ? 'ERROR' : 'COMPLETED',
       ...(scenario === 'native_rejection' ? { error: 'Unexpected status code: 422', payload: rejection } : scenario === 'successful_output' ? { payload: fixture.result } : {}),
     });

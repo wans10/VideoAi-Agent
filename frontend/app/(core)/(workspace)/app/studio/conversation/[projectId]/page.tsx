@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { HeaderBar } from "@/components/HeaderBar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { isStudioCharacterEnabled } from '@/server/studio/feature-access';
 import { resolveStudioPageAccess } from "@/server/studio/access";
 import { readImageConversationProject } from "@/server/studio/image-conversation-repository";
 import StudioPreviewAccess from "../../_components/StudioPreviewAccess.client";
 import StudioImageConversation from "./StudioImageConversation.client";
 import {assertTimelineExportWorkerLauncherConfigured} from '@/server/timeline-exports/ecs-runner';
 import {loadStudioExampleEntry} from '@/server/studio-example-entry';
+import mobileStyles from './studio-mobile.module.css';
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -41,7 +43,7 @@ export default async function StudioConversationPage({
   let exportAvailable = false;
   if (exportsEnabled) {try {assertTimelineExportWorkerLauncherConfigured();exportAvailable = true;} catch {/* No export control without a configured canonical renderer. */}}
   return (
-    <div className="flex h-[calc(100dvh-var(--app-bottom-nav-height,0px))] flex-col overflow-hidden bg-bg">
+    <div data-studio-mobile-shell={access.ok && project ? '' : undefined} className={`flex h-[calc(100dvh-var(--app-bottom-nav-height,0px))] flex-col overflow-hidden bg-bg ${access.ok && project ? mobileStyles.shell : ''}`}>
       <HeaderBar localQa={localQa} />
       <div className="flex min-h-0 min-w-0 flex-1 flex-col md:flex-row">
         <AppSidebar />
@@ -56,6 +58,7 @@ export default async function StudioConversationPage({
               projectName={project.name}
               localQa={localQa}
               mediaEnabled={process.env.STUDIO_CONVERSATION_ACTIONS_ENABLED === 'true' && process.env.STUDIO_CONVERSATION_MEDIA_ENABLED === 'true'}
+              characterEnabled={isStudioCharacterEnabled()}
               editingEnabled={process.env.STUDIO_CONVERSATION_ACTIONS_ENABLED === 'true' && process.env.STUDIO_CONVERSATION_EDITING_ENABLED === 'true'}
               exportsEnabled={exportsEnabled}
               exportAvailable={exportAvailable}

@@ -1,4 +1,6 @@
 import type { AppLocale } from '@/i18n/locales';
+import type { ExampleGalleryVideo } from '@/components/examples/ExamplesGalleryGrid';
+import type { Mode } from '@/types/engines';
 
 import type { FeaturedMedia } from './model-page-media';
 import type { ModelPromptingContent } from './model-page-prompting-content';
@@ -12,7 +14,9 @@ export type ModelPromptingViewModel = {
   id: string;
   section: ModelPromptingContent['section'];
   tabs: {
-    items: ModelPromptingContent['tabs'];
+    items: Array<ModelPromptingContent['tabs'][number] & {
+      exampleLinks?: { exampleHref: string | null; usePromptHref: string | null };
+    }>;
     notesById: Record<string, string>;
     exampleHref: string | null;
     usePromptHref: string | null;
@@ -68,6 +72,7 @@ export type BuildModelPromptingViewModelInput = {
   demoPromptSource: ModelPromptingDemoPromptSource;
   defaultDemoPromptSource: ModelPromptingDemoPromptSource;
   demoMedia: FeaturedMedia | null;
+  galleryVideos?: Array<Pick<ExampleGalleryVideo, 'id' | 'promptFull' | 'videoUrl' | 'href' | 'recreateHref'>>;
   defaultDemoPresentation: {
     audioBadgeLabel: string;
     altContext: string;
@@ -123,14 +128,25 @@ function buildDemoViewModel(
     : null;
   const usesReviewedMedia = Boolean(mediaPrompt);
   const mediaLabel = input.demoMedia?.label?.trim();
+  const matchesEditorialRecipe = mediaPrompt === demo.prompt;
+  const title = usesReviewedMedia && mediaLabel && !matchesEditorialRecipe ? mediaLabel : demo.title;
+  const mediaModeLabels: Partial<Record<Mode, string>> = {
+    t2v: ui.textToVideo,
+    i2v: ui.imageToVideo,
+    ref2v: ui.referenceToVideo,
+    v2v: ui.videoToVideo,
+  };
+  const mediaMode = input.demoMedia?.generationMode;
 
   return {
-    title: usesReviewedMedia && mediaLabel ? mediaLabel : demo.title,
+    title,
     promptLabel: demo.promptLabel,
     prompt: mediaPrompt || demo.prompt,
     notes: demo.notes,
     summary: usesReviewedMedia ? null : demo.summary,
-    modeLabel: usesReviewedMedia ? ui.textToVideo : presentation.modeLabel,
+    modeLabel: usesReviewedMedia
+      ? mediaMode && mediaModeLabels[mediaMode] || ui.videoGeneration
+      : presentation.modeLabel,
     outputLabel: presentation.outputLabel,
     durationLabel: usesReviewedMedia
       ? formatMediaDuration(input.demoMedia, input.locale)
@@ -138,9 +154,11 @@ function buildDemoViewModel(
     aspectLabel: usesReviewedMedia
       ? resolveMediaAspect(input.demoMedia)
       : presentation.aspectRatio ?? resolveMediaAspect(input.demoMedia),
-    audioChipLabel: resolveAudioChipLabel(input, presentation, ui),
+    audioChipLabel: usesReviewedMedia
+      ? input.demoMedia?.hasAudio ? ui.audioOn : ui.audioOff
+      : resolveAudioChipLabel(input, presentation, ui),
     alt: usesReviewedMedia && mediaLabel
-      ? `${mediaLabel} ${ui.example.toLocaleLowerCase(input.locale)}`
+      ? `${title} ${ui.example.toLocaleLowerCase(input.locale)}`
       : presentation.altContext,
     posterSrc: input.demoMedia?.posterUrl ?? null,
     videoSrc: input.demoMedia?.videoUrl ?? input.demoMedia?.previewVideoUrl ?? null,
@@ -161,7 +179,17 @@ export function buildModelPromptingViewModel(
     id: input.imageAnchorId,
     section: input.content.section,
     tabs: {
-      items: input.content.tabs,
+      items: input.content.tabs.map(tab => {
+        if (!tab.matchPublicExample) return tab;
+        // Only the selected public gallery can establish a rendered recipe.
+        // Its replay link restores settings and reference images from that job.
+        const example = input.galleryVideos?.find(media =>
+          media.id && media.videoUrl && media.promptFull === tab.copy);
+        return { ...tab, exampleLinks: {
+          exampleHref: example?.href ?? null,
+          usePromptHref: input.appGenerationEnabled ? example?.recreateHref ?? null : null,
+        } };
+      }),
       notesById: Object.fromEntries(
         input.content.tabNotes.map((note) => [note.tabId, note.body]),
       ),

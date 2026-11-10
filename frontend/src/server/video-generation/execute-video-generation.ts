@@ -1,9 +1,12 @@
+import { prepareGenerationLineage } from './prepare-generation-lineage';
+import { fluxDraftQuoteBinding } from '@/server/flux-draft-cache';
+import { lumaLineageQuoteBinding } from '@/server/agent-api/generation-luma-lineage';
+import { normalizeVideoOperation } from '@/lib/video-operation';
 import { bytePlusInputVideoDurationSec, isBytePlusInputVideoPricingModel } from '@/server/byteplus-accounting';
 import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
 import { calculateMinimaxH3MaxReferenceTokenBudget } from '@/lib/minimax-h3-max-pricing';
 import { getWan3InputVideoDurationSec } from '@/lib/wan3-pricing';
 import type { NextRequest } from 'next/server';
-import { validateExtraInputValues } from '@/app/api/generate/_lib/extra-input-values';
 import { processAndValidateGenerationAttachments } from '@/app/api/generate/_lib/generation-attachment-processing';
 import { buildFalRequestParts } from '@/app/api/generate/_lib/fal-request';
 import { buildGenerationSettingsSnapshot } from '@/app/api/generate/_lib/settings-snapshot';
@@ -93,7 +96,6 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     endImageUrl,
     rawAudioUrl,
     iterationCount,
-    rawExtraInputValues,
     numFrames,
     loop,
     soraRequest,
@@ -101,18 +103,9 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
   let { aspectRatio } = requestOptions;
   const { pricingResolution, effectiveResolution } = requestOptions;
 
-  const extraInputValidation = validateExtraInputValues({
-    engine,
-    mode,
-    rawExtraInputValues,
-  });
-  if (!extraInputValidation.ok) {
-    return {
-      body: extraInputValidation.body,
-      status: extraInputValidation.status,
-    };
-  }
-  const validatedExtraInputValues = extraInputValidation.values;
+  const lineage = await prepareGenerationLineage(params);
+  if ('response' in lineage) return lineage.response;
+  const {fluxDraftSource,lumaGenerationSource,validatedExtraInputValues}=lineage;
 
   const finalFacts = params.seedanceWorkflow?.finalFacts;
   const attachmentParams = {
@@ -130,6 +123,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     endImageUrl,
     isBytePlusV1a,
     trustedResolvedReferences,
+    elements: elements ?? undefined,
   };
   const attachmentProcessing = finalFacts ? restoreSeedanceFinalAttachments(finalFacts, attachmentParams)
     : await processAndValidateGenerationAttachments(attachmentParams);
@@ -160,11 +154,13 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     },
   } = attachmentProcessing;
   const isBytePlus = isBytePlusInputVideoPricingModel(engine.id);
+  const isKlingV4 = ['kling-v4', 'kling-v4-flash'].includes(engine.id);
+  const klingV4InheritsDuration=engine.id==='kling-v4'&&mode==='v2v'&&body.durationSec===undefined&&body.durationOption==null;
   const isWan3 = engine.id === 'wan-3' || engine.id === 'wan-3-prime';
   let inputVideoDurationSec: number | undefined;
-  if (isWan3 || isBytePlus) {
+  if (isWan3 || isBytePlus || isKlingV4) {
     try {
-      inputVideoDurationSec = finalFacts?.inputVideoDurationSec ?? (isBytePlus
+      inputVideoDurationSec = isKlingV4 ? (attachmentProcessing.trustedMediaReferences ?? []).filter(ref=>ref.kind==='video').reduce((sum,ref)=>sum+(ref.durationSec??NaN),0) : finalFacts?.inputVideoDurationSec ?? (isBytePlus
         ? bytePlusInputVideoDurationSec(engine.id, attachmentProcessing.trustedMediaReferences ?? [])
         : getWan3InputVideoDurationSec(attachmentProcessing.trustedMediaReferences ?? []));
     } catch {
@@ -174,7 +170,12 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
       };
     }
   }
-  const sourceVideoContext = resolveGenerateSourceVideoContext({
+  const sourceVideoContext = fluxDraftSource ? {ok:true as const,durationSec:fluxDraftSource.durationSec,durationLabel:`${fluxDraftSource.durationSec}s`,hasVideoInput:true} : resolveGenerateSourceVideoContext({
+    operation: normalizeVideoOperation(engine.id, mode, body.operation),
+    engineId: engine.id,
+    inheritSourceDuration:klingV4InheritsDuration,
+    trustedSourceVideo: attachmentProcessing.trustedMediaReferences?.find(reference =>
+      reference.kind === 'video' && reference.fieldId === 'video_url' && reference.url === sourceInputVideoUrl),
     mode,
     attachments: processedAttachments,
     sourceInputVideoUrl,
@@ -197,10 +198,10 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     message: error instanceof Error ? error.message : 'Verified Edit source facts are required.' } }; }
   const effectiveDurationSec = finalFacts?.durationSec ?? seedanceEditSource?.billedDurationSec ?? sourceVideoContext.durationSec;
   const effectiveDurationLabel = seedanceEditSource ? `${seedanceEditSource.durationSec}s source · ${effectiveDurationSec}s tariff class` : sourceVideoContext.durationLabel;
-  const { hasVideoInput } = sourceVideoContext;
+  const hasVideoInput=isKlingV4?Number(inputVideoDurationSec)>0:sourceVideoContext.hasVideoInput;
   if (seedanceEditSource) aspectRatio = seedanceEditSource.pricingAspectRatio;
   const trustedSourceVideoDurationSec = trustedDurationSecByField.video_url?.[0];
-  const inheritedDurationSec = await resolveGoogleOmniInheritedDurationSec({
+  const inheritedDurationSec = klingV4InheritsDuration ? trustedSourceVideoDurationSec : await resolveGoogleOmniInheritedDurationSec({
     engineId: engine.id,
     mode,
     userId,
@@ -288,6 +289,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
         durationSec: effectiveDurationSec,
       })
     : await resolveGenerateBillingPreflight({
+    operation: normalizeVideoOperation(engine.id, mode, body.operation),
     workflowStep: params.seedanceWorkflow?.workflow.step,
     req,
     engine,
@@ -317,7 +319,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
             ? normalizedReferenceImages.length
             : 0,
     inputVideoDurationSec:
-      isWan3 || isBytePlus
+      isWan3 || isBytePlus || isKlingV4
         ? inputVideoDurationSec
         : mode === 'v2v' || mode === 'extend'
           ? trustedSourceVideoDurationSec
@@ -347,6 +349,21 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
   }
 
   const billing = billingPreflight.preflight;
+  if (fluxDraftSource) {
+    const binding=fluxDraftQuoteBinding(fluxDraftSource);
+    billing.pricing={...billing.pricing,...binding};billing.receiptSnapshot={...billing.receiptSnapshot,...binding};
+    billing.pricingSnapshotJson=JSON.stringify(billing.receiptSnapshot);
+    if(billing.pendingReceipt)billing.pendingReceipt={...billing.pendingReceipt,snapshot:billing.receiptSnapshot,auditPricingSnapshot:billing.pricing};
+  }
+  if (lumaGenerationSource) {
+    const binding = lumaLineageQuoteBinding(lumaGenerationSource, validatedExtraInputValues.extend_direction);
+    billing.pricing = { ...billing.pricing, ...binding };
+    billing.receiptSnapshot = { ...billing.receiptSnapshot, ...binding };
+    billing.pricingSnapshotJson = JSON.stringify(billing.receiptSnapshot);
+    if (billing.pendingReceipt) billing.pendingReceipt = { ...billing.pendingReceipt,
+      snapshot: billing.receiptSnapshot, auditPricingSnapshot: billing.pricing };
+
+  }
 
   const placeholderThumb =
     aspectRatio === '9:16'
@@ -356,6 +373,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
         : '/assets/frames/thumb-16x9.svg';
 
   const { falInputs, falInputSummary, falDurationOption, clampedFps, falPayload } = buildFalRequestParts({
+    operation: normalizeVideoOperation(engine.id, mode, body.operation),
     attachments: processedAttachments,
     engineId: engine.id,
     prompt,
@@ -384,7 +402,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     elements,
     endImageUrl,
     extraInputValues: validatedExtraInputValues,
-    supportsDuration,
+    supportsDuration: supportsDuration && !klingV4InheritsDuration,
     durationSec: effectiveDurationSec,
     durationOption: lumaDurationInfo?.label ?? rawDurationLabel ?? rawDurationOption ?? null,
     numFrames,
@@ -435,6 +453,9 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
     elements,
     falInputs,
   });
+  if(fluxDraftSource) {falPayload.trustedFluxDraftCache={url:fluxDraftSource.cacheUrl,fingerprint:fluxDraftSource.fingerprint,sourceJobId:fluxDraftSource.jobId,sourceOutputId:fluxDraftSource.outputId};settingsSnapshot.sourceJobId=fluxDraftSource.jobId;settingsSnapshot.sourceOutputId=fluxDraftSource.outputId;}
+  if (lumaGenerationSource) { settingsSnapshot.sourceJobId = lumaGenerationSource.sourceJobId; settingsSnapshot.sourceOutputId = lumaGenerationSource.sourceOutputIdentity; }
+  if (body.operation) settingsSnapshot.operation = normalizeVideoOperation(engine.id, mode, body.operation);
   if (isBytePlus && inputVideoDurationSec !== undefined) settingsSnapshot.byteplusInputVideoDurationSec = inputVideoDurationSec;
   if (seedanceEditSource) settingsSnapshot.seedanceEditSource = seedanceEditSource;
   if (params.seedanceWorkflow) settingsSnapshot.seedanceWorkflow = { ...params.seedanceWorkflow.workflow,
@@ -443,6 +464,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
       seedanceEditSource, seedanceSourceAspectRatio, attachments: processedAttachments, trustedMediaReferences: attachmentProcessing.trustedMediaReferences ?? [] }) };
 
   return executePreparedVideoGeneration({
+    lumaGenerationSource,
     body,
     routeContext,
     requestOptions,

@@ -56,6 +56,20 @@ function generationRecord(overrides: Partial<GenerationStatusRecord> = {}): Gene
 const FAILED_ATTEMPT_BOUNDARY =
   'No new generation was started after this failure. A refund or recredit does not restore the previous authorization. To try again, prepare a fresh exact quote and wait for explicit user approval.';
 
+test('recorded input safety refusals remain actionable in web and agent status without exposing provider text', () => {
+  for (const [message, subject] of [
+    ['Green net check rejected text (input)', /prompt.*blocked/i],
+    ['Green net check rejected image (input)', /reference image.*blocked/i],
+  ] as const) {
+    const record = generationRecord({status: 'failed', message});
+    for (const result of [mapGenerationStatusRecordToAgent(record), mapGenerationStatusRecordToWeb(record)]) {
+      assert.match(result?.message ?? '', subject);
+      assert.doesNotMatch(result?.message ?? '', /Green net|provider-secret|returned to your wallet/i);
+    }
+    assert.match(mapGenerationStatusRecordToAgent(record)?.message ?? '', /fresh exact quote.*explicit user approval/);
+  }
+});
+
 test('owned status lookup scopes the SQL by job and user before returning a record', async () => {
   const calls: Array<{ sql: string; params?: ReadonlyArray<unknown> }> = [];
   const record = generationRecord();
@@ -272,7 +286,7 @@ test('agent status sanitizes terminal failures and preserves refunded state', as
   assert.equal(result?.paymentStatus, 'refunded_wallet');
   assert.equal(
     result?.message,
-    `The render finished without a usable output. ${FAILED_ATTEMPT_BOUNDARY}`
+    `The render finished without a usable output. Your credits were returned to your wallet. ${FAILED_ATTEMPT_BOUNDARY}`
   );
   assert.equal(result?.result, null);
   assert.equal(result?.retryAfterSeconds, null);
@@ -374,6 +388,30 @@ test('agent copyright failures preserve the refusal instead of matching copy as 
   }
 });
 
+test('web and agent reads correct historical Seedance prompt and unattributed refusals', () => {
+  for (const [providerErrorCode, failureCode, expected] of [
+    ['InputTextSensitiveContentDetected', 'seedance_prompt_blocked', /blocked the prompt/i],
+    ['BYTEPLUS_PROVIDER_ERROR', 'seedance_content_blocked', /blocked this request/i],
+  ] as const) {
+    const record = generationRecord({
+      status: 'failed', payment_status: 'refunded_wallet',
+      message: 'Seedance blocked reference media during its safety checks.',
+      settings_snapshot: { providerFailure: {
+        provider: 'byteplus_modelark', providerErrorCode, failureCode: 'seedance_reference_media_blocked',
+      } },
+    });
+    const agent = mapGenerationStatusRecordToAgent(record)!;
+    assert.equal(agent.failureCode, failureCode);
+    assert.match(agent.message ?? '', expected);
+    assert.doesNotMatch(agent.message ?? '', /blocked reference media/i);
+    assert.match(agent.message ?? '', /returned to your wallet/);
+    assert.equal(agent.retryAfterSeconds, null);
+    const web = mapGenerationStatusRecordToWeb(record);
+    assert.match(web.message ?? '', expected);
+    assert.equal(web.paymentStatus, 'refunded_wallet');
+  }
+});
+
 test('agent historical audio refusals override incorrect reference classification', () => {
   const result = mapGenerationStatusRecordToAgent(generationRecord({
     status: 'failed', payment_status: 'refunded_wallet',
@@ -417,7 +455,7 @@ test('agent reference-read failures preserve refund evidence and require a newly
     }));
 
     assert.equal(result?.message,
-      `MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request. ${FAILED_ATTEMPT_BOUNDARY}`);
+      `MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request. Your credits were returned to your wallet. ${FAILED_ATTEMPT_BOUNDARY}`);
     assert.equal(result?.status, 'failed');
     assert.equal(result?.paymentStatus, 'refunded_wallet');
     assert.equal(result?.result, null);

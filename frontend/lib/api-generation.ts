@@ -1,6 +1,7 @@
 import { LIVE_PRICING_POLICY_REVISION, PRICING_POLICY_HEADER } from '@/lib/membership-policy';
 import { AUDIO_PRICING_POLICY_HEADER, AUDIO_PRICING_POLICY_REVISION } from '@/lib/audio-pricing-policy';
 import { authFetch } from '@/lib/authFetch';
+import { normalizeJobStatus } from '@/lib/job-status';
 import { translateError } from '@/lib/error-messages';
 import type { AudioGenerateRequestBody, AudioGenerateResponse } from '@/lib/audio-generation';
 import type { GenerateAttachment } from '@/lib/fal';
@@ -14,11 +15,12 @@ import type { AngleToolRequest, AngleToolResponse } from '@/types/tools-angle';
 import type { BackgroundRemovalToolRequest, BackgroundRemovalToolResponse } from '@/types/tools-background-removal';
 import type { UpscaleToolRequest, UpscaleToolResponse } from '@/types/tools-upscale';
 import { upscaleClientAttempt, waitForAcceptedUpscale } from '@/lib/upscale-client-lifecycle';
-import { customerTariffRequestHeaders, notifyCustomerPricingRefresh } from '@/lib/customer-tariff-revision';
+import { CUSTOMER_TARIFF_REVISION_HEADER, customerTariffRequestHeaders, notifyCustomerPricingRefresh } from '@/lib/customer-tariff-revision';
 
 type PrimitiveValue = string | number | boolean | null | undefined;
 
 type GeneratePayload = {
+  operation?: import('@/lib/video-operation').VideoOperation;
   jobId?: string;
   seedanceWorkflow?: { step: 'draft' } | { step: 'final'; draftJobId: string };
   engineId: string;
@@ -118,10 +120,11 @@ function toPrimitiveArray(value: unknown): PrimitiveValue[] | undefined {
 
 export async function runPreflight(
   payload: PreflightRequest,
-  options?: { accessToken?: string | null },
+  options?: { accessToken?: string | null; signal?: AbortSignal },
 ): Promise<PreflightResponse> {
   const response = await authFetch('/api/preflight', {
     method: 'POST',
+    signal: options?.signal,
     headers: {
       'Content-Type': 'application/json',
       ...(options?.accessToken ? { Authorization: `Bearer ${options.accessToken}` } : {}),
@@ -198,10 +201,18 @@ export async function runGenerate(
     throw new Error('Generation response malformed');
   }
 
-  return body as GenerateResult;
+  const result = body as GenerateResult;
+  // Accepted provider responses may still use queued/running, just like polling.
+  // Canonicalize before the workspace stores the result or broadcasts jobs:status.
+  // renderIds can be echoed request metadata; only the video proves output exists.
+  const hasMedia = Boolean(result.videoUrl);
+  return {
+    ...result,
+    status: normalizeJobStatus(typeof result.status === 'string' ? result.status : null, hasMedia) ?? 'pending',
+  };
 }
 
-export async function runImageGeneration(payload: ImageGenerationRequest, pricingSnapshot?: PricingSnapshot | null, request?: { accessToken: string; signal: AbortSignal }): Promise<ImageGenerationResponse> {
+export async function runImageGeneration(payload: ImageGenerationRequest, pricingSnapshot?: PricingSnapshot | null, request?: { accessToken: string; signal?: AbortSignal }): Promise<ImageGenerationResponse> {
   const response = await authFetch('/api/images/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION,
@@ -226,12 +237,12 @@ export async function runImageGeneration(payload: ImageGenerationRequest, pricin
   return data;
 }
 
-export async function runAudioGenerate(payload: AudioGenerateRequestBody): Promise<AudioGenerateResponse> {
+export async function runAudioGenerate(payload: AudioGenerateRequestBody, options?: { canContinue?:()=>boolean }): Promise<AudioGenerateResponse> {
   const response = await authFetch('/api/audio/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION, [AUDIO_PRICING_POLICY_HEADER]: AUDIO_PRICING_POLICY_REVISION },
     body: JSON.stringify(payload),
-  });
+  }, options?.canContinue);
   const data = (await response.json().catch(() => null)) as
     | (AudioGenerateResponse & { error?: string; message?: string; field?: string; providerFailures?: unknown })
     | null;
@@ -257,11 +268,13 @@ export async function runAudioGenerate(payload: AudioGenerateRequestBody): Promi
 
 export async function runCharacterBuilderTool(
   payload: CharacterBuilderRequest,
-  request?: { accessToken: string; signal: AbortSignal }
+  request?: { accessToken: string; signal: AbortSignal },
+  displayedRevision?: number,
 ): Promise<CharacterBuilderResponse> {
   const response = await authFetch('/api/tools/character-builder', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', [PRICING_POLICY_HEADER]: LIVE_PRICING_POLICY_REVISION,
+      ...(displayedRevision !== undefined ? { [CUSTOMER_TARIFF_REVISION_HEADER]: String(displayedRevision) } : {}),
       ...(request ? { Authorization: `Bearer ${request.accessToken}` } : {}) },
     signal: request?.signal,
     body: JSON.stringify(payload),

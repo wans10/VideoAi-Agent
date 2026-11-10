@@ -1,3 +1,4 @@
+import { mockBrowserSession } from './helpers/browser-session-fixture';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React, { act } from 'react';
@@ -11,6 +12,8 @@ import { RECENT_MEDIA_DRAG_TYPE } from '../frontend/app/(core)/(workspace)/app/_
 import { WorkspaceRecentRoleDialog } from '../frontend/app/(core)/(workspace)/app/_components/WorkspaceRecentRoleDialog.client';
 import type { UserAsset } from '../frontend/app/(core)/(workspace)/app/_lib/workspace-assets';
 import type { AssetFieldConfig } from '../frontend/components/Composer';
+import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
+import { stageMediaHandoff } from '../frontend/lib/media-handoff';
 
 async function harness() {
   const dom = new JSDOM('<button id="opener">Recents</button><div id="root"></div>', { url: 'http://localhost', pretendToBeVisual: true });
@@ -18,12 +21,45 @@ async function harness() {
   const saved = new Map(Object.keys(globals).map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
   for (const [key, value] of Object.entries(globals)) Object.defineProperty(globalThis, key, { configurable: true, writable: true, value });
   dom.window.HTMLElement.prototype.getClientRects = function () { return (this.closest('[hidden]') ? [] : [{ width: 44, height: 44 }]) as unknown as DOMRectList; };
+  const session = await mockBrowserSession(null);
   const root = createRoot(dom.window.document.getElementById('root')!);
-  return { dom, root, render: async (element: React.ReactElement) => act(async () => root.render(element)),
+  return { dom, root, session, render: async (element: React.ReactElement) => act(async () => root.render(element)),
     flush: async () => act(async () => { await new Promise(resolve => setTimeout(resolve, 5)); }),
-    close: async () => { await act(async () => root.unmount()); dom.window.close(); for (const [key, descriptor] of saved) { if (descriptor) Object.defineProperty(globalThis, key, descriptor); else Reflect.deleteProperty(globalThis, key); } } };
+    close: async () => { await act(async () => root.unmount()); await session.restore(); dom.window.close(); for (const [key, descriptor] of saved) { if (descriptor) Object.defineProperty(globalThis, key, descriptor); else Reflect.deleteProperty(globalThis, key); } } };
 }
 const image: UserAsset = { id: 'out1', url: '/assets/source.png?signature=secret', kind: 'image', mime: 'image/png', size: 1000 };
+
+test('an incoming Modify video can enter the Luma source role while its custom editor remains enabled', async () => {
+  const h = await harness();
+  h.session.setUserId('modify-owner');
+  const oldFetch = globalThis.fetch;
+  globalThis.fetch = async () => Response.json({ ok: true, outputs: [] });
+  const video = { id: 'video-output', source: 'recent', sourceOutputId: 'video-output', jobId: 'job-source', kind: 'video' as const,
+    url: 'https://media.example/exact-original.mp4', mime: 'video/mp4', durationSec: 5, size: 1000 };
+  const field = { id: 'video_url', type: 'video' as const, label: 'Source video', modes: ['v2v' as const], maxCount: 1, maxDurationSec: 18 };
+  const inserted: unknown[] = [];
+  try {
+    stageMediaHandoff(h.dom.window.sessionStorage, 'modify-owner', video, 'video', 'incoming-modify');
+    await h.render(React.createElement(SWRConfig, { value: { provider: () => new Map() } },
+      React.createElement(SearchParamsContext.Provider, { value: new URLSearchParams('media=incoming-modify&engine=luma-ray-3-2&mode=v2v') },
+        React.createElement(WorkspaceRecentReferences, {
+          userId: 'modify-owner', locale: 'en', engineId: 'luma-ray-3-2', mode: 'v2v', fields: [{ field, required: true }], inputAssets: {},
+          inputSchema: { required: [field] },
+          availability: { inputAssets: {}, isUnifiedSeedance: false, isUnifiedKlingO3: false, klingO3VideoToVideoSupported: true, hasAnyVideoInput: false,
+            guestUploadLockedReason: null, workflowCopy: { clearReferencesToUseStartEnd: '', clearStartEndToUseReferences: '' },
+            showOmniStudioPanel: false, showLumaRay32KeyframeEditor: true },
+          onInsert: async (selectedField, selectedAsset) => { inserted.push({ field: selectedField.id, url: selectedAsset.url }); },
+          children: () => null,
+        }))));
+    await h.flush();
+    const add = h.dom.window.document.querySelector<HTMLButtonElement>('.app-recent-insert');
+    assert.ok(add, 'custom editor must not hide the source role from the incoming video');
+    assert.equal(add.disabled, false);
+    assert.equal(inserted.length, 0, 'opening never overwrites existing input silently');
+    await act(async () => add.click());
+    assert.deepEqual(inserted, [{ field: 'video_url', url: video.url }]);
+  } finally { globalThis.fetch = oldFetch; await h.close(); }
+});
 
 test('actual SWR recents deduplicate the shared page and suppress old account/filter responses and logout data', async () => {
   const h = await harness();
@@ -35,7 +71,10 @@ test('actual SWR recents deduplicate the shared page and suppress old account/fi
     return React.createElement(React.Fragment, {}, React.createElement('output', {}, JSON.stringify({ ids: feed.assets.map(a => a.id), loading: feed.loading })), React.createElement('button', { 'data-recent-refresh': true, onClick: feed.retry }, 'Refresh pending'));
   }
   const cache = new Map();
-  const view = (owner: string | null, kind: 'image' | 'audio') => React.createElement(SWRConfig, { value: { provider: () => cache } }, React.createElement(Feed, { owner, kind }), React.createElement(Feed, { owner, kind }));
+  const view = (owner: string | null, kind: 'image' | 'audio') => {
+    h.session.setUserId(owner);
+    return React.createElement(SWRConfig, { value: { provider: () => cache } }, React.createElement(Feed, { owner, kind }), React.createElement(Feed, { owner, kind }));
+  };
   try {
     await h.render(view('owner-a', 'image')); await h.flush(); assert.equal(requests.length, 1);
     await act(async () => h.dom.window.document.querySelector<HTMLButtonElement>('[data-recent-refresh]')!.click());
@@ -106,12 +145,15 @@ test('production internal drag validates current feed token and shares the exact
   globalThis.fetch = async () => Response.json({ ok: true, outputs: [{ ...image, url: 'https://media.example/source.png', jobId: 'job', status: 'ready' }] });
   const fields: AssetFieldConfig[] = [{ field: { id: 'start', type: 'image', label: 'Start', maxCount: 1 }, required: true }];
   const inserted: unknown[] = [];
-  const view = (userId: string) => React.createElement(WorkspaceRecentReferences, {
+  const view = (userId: string) => {
+    h.session.setUserId(userId);
+    return React.createElement(WorkspaceRecentReferences, {
     userId, locale: 'en', engineId: 'engine', fields, inputAssets: {}, mode: 'i2v',
     availability: { inputAssets: {}, isUnifiedSeedance: false, isUnifiedKlingO3: false, klingO3VideoToVideoSupported: true, hasAnyVideoInput: false, guestUploadLockedReason: null, workflowCopy: { clearReferencesToUseStartEnd: '', clearStartEndToUseReferences: '' }, showOmniStudioPanel: false, showLumaRay32KeyframeEditor: false },
     onInsert: async (field, asset, slot) => { inserted.push(field, asset, slot); },
     children: ({ recentMedia, recentDropProps }) => React.createElement('div', {}, recentMedia, React.createElement('div', { id: 'drop', ...recentDropProps }, 'Drop')),
   });
+  };
   const data = new Map<string, string>();
   const transfer = { types: [RECENT_MEDIA_DRAG_TYPE], effectAllowed: '', dropEffect: '', setData: (key: string, value: string) => data.set(key, value), getData: (key: string) => data.get(key) ?? '' };
   const dispatch = async (node: Element, type: string) => act(async () => { const event = new h.dom.window.Event(type, { bubbles: true, cancelable: true }); Object.defineProperty(event, 'dataTransfer', { value: transfer }); node.dispatchEvent(event); });
@@ -135,6 +177,7 @@ test('production internal drag validates current feed token and shares the exact
 
 test('reopening Recents and its visible Refresh action revalidate the same successful shared page after completion', async () => {
   const h = await harness();
+  h.session.setUserId('refresh-owner');
   const oldFetch = globalThis.fetch;
   let completed = 0;
   const requests: string[] = [];

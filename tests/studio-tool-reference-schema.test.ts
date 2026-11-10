@@ -44,14 +44,14 @@ function parameters(name: string, ids: string[]) {
   return name === 'image_prepare'
     ? {reply: 'Review the quote.', prompt: 'A quiet product image.', aspectRatio: '16:9', modelId: null,
       mode: null, settings: null, outputCount: 1, references: selected}
-    : {surface: 'image', modelId: 'gpt-image-2', mode: 'i2i', settings: [], outputCount: 1, references: selected};
+    : {surface: 'image', modelId: 'gpt-image-2', mode: 'i2i', operation: null, elements: null, settings: [], outputCount: 1, references: selected};
 }
 function compile(properties: Readonly<Record<string, unknown>>) {
   return new AjvJsonSchemaValidator().getValidator({type: 'object', additionalProperties: false,
     properties, required: Object.keys(properties)} as JsonSchemaType);
 }
 function videoParameters(source: unknown = null, selected: unknown[] = []) {
-  return {...parameters('image_prepare', []), modelId: 'wan-3', mode: 'i2v', source, references: selected};
+  return {...parameters('image_prepare', []), modelId: 'wan-3', mode: 'i2v', operation: null, elements: null, source, references: selected,assembleExtension:null,shotPlan:null,subjects:null};
 }
 function asset(assetId: string) {
   return {type: 'asset', assetId, kind: 'image'};
@@ -85,6 +85,26 @@ test('context enrichment never mutates or freezes the shared original tool prope
   assert.deepEqual(freezeState(tools), frozenBefore);
   for (const tool of scopedTools) assert.equal(enumIds(tool.properties), undefined);
   for (const branch of videoAssetBranches(videoTool.properties)) assert.equal(branch.properties?.assetId?.enum, undefined);
+});
+
+test('image_prepare accepts exact native image outputs alongside scoped attachments and without any attachment', () => {
+  const tool = scopedTools.find(tool => tool.name === 'image_prepare')!;
+  const output = {type: 'job-output', kind: 'image', jobId: 'accepted-job', outputId: 'accepted-job:image:0'};
+  for (const current of [[], [resolved(imageA)]]) {
+    const validate = compile(studioToolReferenceProperties(tool.name, tool.properties, current));
+    const base = parameters('image_prepare', []);
+    assert.equal(validate({...base, references: [{ref: output, role: 'reference', slot: null}]}).valid, true);
+    for (const kind of ['video', 'audio']) {
+      assert.equal(validate({...base, references: [{ref: {...output, kind}, role: 'reference', slot: null}]}).valid, false);
+    }
+    assert.equal(validate({...base, references: [{ref: {type: 'job-output', kind: 'image', outputId: 'missing-job'}, role: 'reference', slot: null}]}).valid, false);
+  }
+  const validate = compile(studioToolReferenceProperties(tool.name, tool.properties, [resolved(imageA)]));
+  assert.equal(validate({...parameters('image_prepare', [imageA]), references: [
+    {ref: output, role: 'reference', slot: null},
+    {ref: asset(imageA), role: 'reference', slot: null},
+  ]}).valid, true);
+  assert.equal(validate(parameters('image_prepare', [foreign])).valid, false);
 });
 
 test('enriched properties and their nested enum are detached and immutable', () => {
@@ -185,4 +205,32 @@ test('video asset enums are immutable and do not retain images from an earlier c
   assert.equal(validate(videoParameters(null, [frame(asset(imageA))])).valid, false);
   assert.equal(validate(videoParameters(asset(imageB))).valid, true);
   assert.equal(validate(videoParameters(null, [frame(asset(imageB))])).valid, true);
+});
+
+
+test('strict video tool uses explicit null for unused shot/subject fields and preserves bounded structured branches', () => {
+  const validate=compile(videoTool.properties);
+  const legacy=videoParameters();
+  assert.equal(validate(legacy).valid,true);
+  for(const field of ['shotPlan','subjects'] as const){
+    const missing={...legacy};delete (missing as Partial<typeof legacy>)[field];
+    assert.equal(validate(missing).valid,false,`Strict tools require ${field}; unused means null`);
+  }
+  const populated={...legacy,modelId:'kling-v4',mode:'ref2v',prompt:'',shotPlan:[{prompt:'The actor walks.',durationSec:3}],subjects:[{kind:'image',frontalReferenceSlot:0,referenceSlots:[1]}],references:[{ref:asset(imageA),role:'reference',slot:0},{ref:asset(imageB),role:'reference',slot:1}]};
+  assert.equal(validate(populated).valid,true);
+  assert.equal(validate({...populated,shotPlan:[{prompt:'Scene',durationSec:1.5}]}).valid,false);
+  assert.equal(validate({...populated,subjects:[{...populated.subjects[0],voiceId:'arbitrary'}]}).valid,false);
+  assert.equal(validate({...populated,subjects:[{kind:'video',referenceSlot:0}]}).valid,true);
+});
+for (const name of ['video_prepare', 'pricing_read']) test(`${name} accepts explicit Edit and scoped owned element slots without external identities`, () => {
+  const tool = tools.find(tool => tool.name === name)!;
+  const validate = compile(studioToolReferenceProperties(name, tool.properties, references));
+  const selected = [imageA, imageB].map((id, slot) => ({ref: asset(id), role: 'reference', slot}));
+  const payload = {...(name === 'video_prepare' ? videoParameters(null, selected) : parameters(name, [])),
+    modelId: 'kling-o3-pro', mode: 'v2v', operation: 'kling-edit', elements: [{kind: 'images', frontalSlot: 0, referenceSlots: [1]}], references: selected};
+  assert.equal(validate(payload).valid, true);
+  assert.equal(validate({...payload, operation: 'unknown'}).valid, false);
+  assert.equal(validate({...payload, elements: [{kind: 'images', frontalSlot: 0, referenceSlots: [1], providerId: 'external'}]}).valid, false);
+  assert.equal(validate({...payload, references: [{...selected[0], ref: asset(foreign)}, selected[1]]}).valid, false);
+  assert.equal(validate({...payload, references: [{...selected[0], ref: asset(video)}, selected[1]]}).valid, false);
 });

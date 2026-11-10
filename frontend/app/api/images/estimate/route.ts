@@ -18,7 +18,12 @@ type ImageEstimateBody = {
   referenceImageCount?: number;
   referenceImageSizes?: Array<Partial<GptImage2ImageSize> | null>;
   quality?: string;
+  complexity?: ImageGenerationRequest['complexity'];
   enableWebSearch?: boolean;
+  thinkingLevel?: ImageGenerationRequest['thinkingLevel'];
+  maxOutputTokens?: number;
+  systemInstruction?: string;
+  enableImageSearch?: boolean;
   aspectRatio?: string;
   metadata?: ImageGenerationRequest['metadata'];
   source?: ImageGenerationRequest['source'];
@@ -62,7 +67,9 @@ export async function POST(req: NextRequest) {
       referenceImageCount,
       referenceImageSizes: referenceImageSizes as GptImage2ImageSize[],
       quality: body?.quality as ImageGenerationRequest['quality'],
+      complexity: body?.complexity,
       enableWebSearch: body?.enableWebSearch,
+      thinkingLevel: body?.thinkingLevel, maxOutputTokens: body?.maxOutputTokens, systemInstruction: body?.systemInstruction, enableImageSearch: body?.enableImageSearch,
       aspectRatio: body?.aspectRatio,
       metadata: body?.metadata,
       source: body?.source,

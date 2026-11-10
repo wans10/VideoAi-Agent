@@ -1,3 +1,4 @@
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import { useWorkspaceActiveDraft } from './useWorkspaceActiveDraft';
 import type { WorkspaceModelSetup } from '../_lib/workspace-model-candidate';
 import { useEffect, useMemo } from 'react';
@@ -6,6 +7,7 @@ import type { MultiPromptScene } from '@/components/Composer';
 import type { SelectedVideoPreview } from '@/lib/video-preview-group';
 import type { EngineCaps, Mode } from '@/types/engines';
 import type { Job } from '@/types/jobs';
+import type { VideoGroup } from '@/types/video-groups';
 import { DEFAULT_PROMPT } from '../_lib/workspace-client-helpers';
 import type { FormState } from '../_lib/workspace-form-state';
 import {
@@ -20,6 +22,7 @@ type ShotType = 'customize' | 'intelligent';
 type MemberTier = 'Member' | 'Plus' | 'Pro';
 
 type UseWorkspaceDraftHydrationOptions = {
+  initialPreviewGroup?: VideoGroup | null;
   authStatus: string;
   accountId: string | null;
   accessToken: string | null;
@@ -69,6 +72,7 @@ type UseWorkspaceDraftHydrationOptions = {
 };
 
 export function useWorkspaceDraftHydration({
+  initialPreviewGroup,
   authStatus,
   accountId,
   accessToken,
@@ -202,13 +206,7 @@ export function useWorkspaceDraftHydration({
 
       const storedMultiPromptEnabled = readStorage(STORAGE_KEYS.multiPromptEnabled);
       setMultiPromptEnabled(storedMultiPromptEnabled === 'true');
-      setMultiPromptScenes(
-        parseStoredMultiPromptScenes(
-          readStorage(STORAGE_KEYS.multiPromptScenes),
-          createLocalId,
-          createMultiPromptScene,
-        ),
-      );
+
 
       const storedShotType = readStorage(STORAGE_KEYS.shotType);
       if (storedShotType === 'customize' || storedShotType === 'intelligent') {
@@ -226,7 +224,22 @@ export function useWorkspaceDraftHydration({
         effectiveRequestedEngineId,
         effectiveRequestedEngineToken,
         effectiveRequestedMode,
+        preferredDefaultEngineId: authStatus === 'loggedOut' && storageScope === 'anon'
+          && !fromVideoId && !requestedJobId && !effectiveRequestedEngineId
+          && !effectiveRequestedEngineToken && !effectiveRequestedMode
+          && (!promptValue?.trim() || promptValue === DEFAULT_PROMPT)
+          && (!prompt.trim() || prompt === DEFAULT_PROMPT)
+          ? initialPreviewGroup?.items.find((item) => item.meta?.curated)?.engineId ?? null
+          : null,
       });
+      setMultiPromptScenes(
+        parseStoredMultiPromptScenes(
+          readStorage(STORAGE_KEYS.multiPromptScenes),
+          createLocalId,
+          createMultiPromptScene,
+          isKlingV4FalQueueEngineId(initialForm.form?.engineId),
+        ),
+      );
       preserveStoredDraftRef.current = initialForm.preserveStoredDraft;
       hasStoredFormRef.current = initialForm.hasStoredForm;
       if (initialForm.form) {
@@ -278,6 +291,9 @@ export function useWorkspaceDraftHydration({
     effectiveRequestedEngineId,
     effectiveRequestedMode,
     effectiveRequestedEngineToken,
+    initialPreviewGroup,
+    fromVideoId,
+    prompt,
     requestedJobId,
     preserveStoredDraftRef,
     hasStoredFormRef,

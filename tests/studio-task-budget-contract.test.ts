@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
 import {STUDIO_TASK_POLICY_VERSION,STUDIO_TASK_PROFILES,studioTaskSelectionSchema,studioTaskResumeSchema,studioTaskStatusSchema,studioTaskProfileForModel} from '../frontend/src/lib/studio/task-budget-contract';
 import {imageTurnInputSchema,imageTurnRetryInput} from '../frontend/src/lib/studio/image-conversation-contract';
@@ -11,7 +12,7 @@ test('client ceilings are exact, complex is explicit, and legacy messages stay v
   for(const value of [{...standard,maxCredits:500},{...standard,autoRecharge:true},{...standard,profile:'complex',maxCredits:500}])assert.equal(studioTaskSelectionSchema.safeParse(value).success,false);
   const complex=studioTaskSelectionSchema.parse({profile:'complex',maxCredits:500,policyVersion:STUDIO_TASK_POLICY_VERSION,confirmedComplex:true});
   assert.equal(studioTaskProfileForModel(complex,'gpt-6.1-sol').maxCalls,8);
-  assert.throws(()=>studioTaskProfileForModel(complex,'gpt-6-luna'),/Sol/);
+  assert.throws(()=>studioTaskProfileForModel(complex,'gpt-6-luna'),/Max/);
   const input={requestId:randomUUID(),message:'Create the requested image',references:[]};
   assert.deepEqual(imageTurnInputSchema.parse(input),input);
   assert.deepEqual(imageTurnInputSchema.parse({...input,taskBudget:standard}).taskBudget,standard);
@@ -28,9 +29,9 @@ test('task status exposes bounded resource progress without private worker or me
   for(const delta of [{sourceUrl:'https://private.invalid/video'},{workerId:randomUUID()},{allowedCalls:25},{maxCredits:2010},{consumedCredits:61},{phase:'100% complete'}])assert.equal(studioTaskStatusSchema.safeParse({...value,...delta}).success,false);
 });
 
-test('new Luna requests allow high reasoning without changing Sol or client ceilings',()=>{
+test('historical v2 Luna requests retain high reasoning without changing Sol or client ceilings',()=>{
   for(const profile of ['quick','standard'] as const){
-    const selection=studioTaskSelectionSchema.parse({profile,maxCredits:profile==='quick'?100:250,policyVersion:STUDIO_TASK_POLICY_VERSION});
+    const selection=studioTaskSelectionSchema.parse({profile,maxCredits:profile==='quick'?100:250,policyVersion:'studio-task-budget-2026-10-11-v2'});
     const luna=studioTaskProfileForModel(selection,'gpt-6-luna');
     assert.equal(luna.reasoning,'high');
     assert.equal(luna.maxOutputTokens,6000);
@@ -48,4 +49,13 @@ test('historical task commands preserve the frozen Luna reasoning allowance',()=
   const requestId=randomUUID();
   assert.equal(studioTaskResumeSchema.parse({requestId,approvalId:randomUUID(),expectedRevision:0,action:'continue',maxCredits:250,policyVersion,confirmed:true}).policyVersion,policyVersion);
   assert.equal(studioTaskSelectionSchema.safeParse({...selection,policyVersion:'unreviewed-policy'}).success,false);
+});
+
+// Architecture contract: the public Studio assistant has two model choices, no task-profile picker.
+test('the composer and assistance dialog keep work profiles internal',()=>{
+  const base='frontend/app/(core)/(workspace)/app/studio/conversation/[projectId]/';
+  for(const file of ['StudioImageConversation.client.tsx','_components/StudioAssistance.client.tsx','_components/StudioAssistanceCredits.client.tsx']){
+    assert.doesNotMatch(readFileSync(base+file,'utf8'),/TaskBudgetPicker/);
+  }
+  assert.match(readFileSync(base+'StudioImageConversation.client.tsx','utf8'),/profile:'standard'/);
 });

@@ -1,3 +1,7 @@
+import { getKlingV4FlashControlViolation } from '@/lib/kling-v4-flash';
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+import { withoutRetiredOutputControls } from '@/lib/generation-output-policy';
+import { resolveVideoOperationRequestEngine } from '@/lib/video-operation';
 import { getEngineCaps } from '@/fixtures/engineCaps';
 import {
   getLumaRay2DurationInfo,
@@ -14,8 +18,7 @@ import { isSoraEngineId, type SoraRequest } from '@/lib/sora';
 import type { EngineCaps, Mode } from '@/types/engines';
 import { normalizeBytePlusOptions } from './request-options-byteplus';
 import {
-  normalizeGenerationElements,
-  normalizeMultiPrompt,
+  normalizeGenerationControls,
   normalizeSeed,
   normalizeStringArray,
   trimString,
@@ -89,19 +92,8 @@ export type GenerateRequestOptionsResult =
       metric?: GenerateRequestOptionsMetric;
     };
 export function isVideoMode(value: unknown): value is VideoMode {
-  return (
-    value === 't2v' ||
-    value === 'i2v' ||
-    value === 'ref2v' ||
-    value === 'fl2v' ||
-    value === 'i2i' ||
-    value === 'v2v' ||
-    value === 'r2v' ||
-    value === 'a2v' ||
-    value === 'extend' ||
-    value === 'retake' ||
-    value === 'reframe'
-  );
+  return typeof value === 'string' && ['t2v', 'i2v', 'ref2v', 'fl2v', 'i2i', 'v2v',
+    'r2v', 'a2v', 'extend', 'retake', 'reframe'].includes(value);
 }
 export function buildGenerateRequestOptions(params: {
   body: Record<string, unknown>;
@@ -109,9 +101,17 @@ export function buildGenerateRequestOptions(params: {
   mode: Mode;
   isBytePlusV1a: boolean;
 }): GenerateRequestOptionsResult {
-  const { body, engine, mode, isBytePlusV1a } = params;
+  const { body, mode, isBytePlusV1a } = params; let engine = params.engine;
+  try { engine = resolveVideoOperationRequestEngine(engine, mode, body); }
+  catch { return { ok: false, status: 400, body: { ok: false, error: 'Invalid operation' } }; }
+  if (engine.id === 'kling-v4-flash') {
+    const violation = getKlingV4FlashControlViolation(mode, body);
+    if (violation) return {ok:false,status:400,body:{ok:false,error:'ENGINE_CONSTRAINT',message:violation}};
+  }
   const prompt = String(body.prompt || '');
-  const multiPrompt = normalizeMultiPrompt(body.multiPrompt);
+  const controls = normalizeGenerationControls(body, engine.id);
+  if (!controls.ok) return {ok:false, status:400, body:{ok:false, error:controls.error}};
+  const {multiPrompt, elements} = controls;
   const multiPromptTotalSec = multiPrompt
     ? multiPrompt.reduce((sum: number, entry: MultiPromptEntry) => sum + (entry.duration || 0), 0)
     : 0;
@@ -122,7 +122,7 @@ export function buildGenerateRequestOptions(params: {
         ? body.generate_audio
         : undefined;
   const isLumaRay2 = isLumaRay2EngineId(engine.id);
-  const fixtureCapability = getEngineCaps(engine.id, mode);
+  const fixtureCapability = body.operation ? engine.modeCaps?.[mode] : getEngineCaps(engine.id, mode);
   const resolutionPolicy = resolveRuntimeResolutionPolicy(engine, mode);
   const usesRuntimeSchema = resolutionPolicy.usesSchemaDefaults;
   const capability = fixtureCapability
@@ -171,7 +171,6 @@ export function buildGenerateRequestOptions(params: {
   if (voiceControl) {
     audioEnabled = true;
   }
-  const elements = normalizeGenerationElements(body.elements);
   const endImageUrl =
     typeof body.endImageUrl === 'string' && body.endImageUrl.trim().length ? body.endImageUrl.trim() : null;
   const rawAudioUrl =
@@ -193,7 +192,7 @@ export function buildGenerateRequestOptions(params: {
     : null;
   let aspectRatio =
     rawAspectRatio && fallbackAspectRatio
-      ? rawAspectRatio === 'auto' && !isBytePlusV1a
+      ? rawAspectRatio === 'auto' && !isBytePlusV1a && !(isKlingV4FalQueueEngineId(engine.id) && mode === 'ref2v')
         ? fallbackAspectRatio
         : rawAspectRatio
       : rawAspectRatio ?? fallbackAspectRatio ?? null;
@@ -236,9 +235,8 @@ export function buildGenerateRequestOptions(params: {
   const etaLabel = trimString(body.etaLabel);
   const rawExtraInputValues =
     body.extraInputValues && typeof body.extraInputValues === 'object' && !Array.isArray(body.extraInputValues)
-      ? (body.extraInputValues as Record<string, unknown>)
+      ? withoutRetiredOutputControls(body.extraInputValues as Record<string, unknown>)
       : null;
-
   let requestedResolution =
     typeof body.resolution === 'string' && body.resolution.trim().length
       ? body.resolution.trim()
@@ -308,7 +306,7 @@ export function buildGenerateRequestOptions(params: {
         : null;
   const numFrames =
     rawNumFrames != null && Number.isFinite(rawNumFrames) && rawNumFrames > 0 ? Math.round(rawNumFrames) : null;
-  const supportsLoop = isLumaRay2 || (isLumaRay32EngineId(engine.id) && isLumaRay32PublicMode(mode));
+  const supportsLoop = isLumaRay2 || (isLumaRay32EngineId(engine.id) && (isLumaRay32PublicMode(mode) || mode === 'extend'));
   const loopValue = supportsLoop ? normaliseLumaRay2Loop(body.loop) : undefined;
   const loop = supportsLoop ? loopValue === true : false;
 

@@ -3,8 +3,6 @@ import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink'
 import type { PrivacyBodyProps } from './PrivacyArticle';
 
 export function PrivacyArticleEs({
-  version,
-  effective,
   links,
 }: {
   version: string;
@@ -73,37 +71,19 @@ export function PrivacyArticleEs({
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">4. Conservación</h3>
         <ul className="ml-5 list-disc space-y-2">
-          <li>
-            <strong>Datos de cuenta:</strong> mientras el acceso esté activo, más un periodo limitado de respaldos.
-          </li>
-          <li>
-            <strong>Recibos y registros financieros:</strong> guardados según los plazos que marque la normativa contable.
-          </li>
-          <li>
-            <strong>Logs y telemetría:</strong> periodos cortos salvo que se necesiten para seguridad o investigaciones.
-          </li>
-          <li>Anonimizamos o borramos los datos cuando dejan de ser necesarios para las finalidades descritas.</li>
+          <li><strong>Cuenta y espacio de trabajo:</strong> los datos de cuenta, proyectos, conversaciones y medios se conservan para ofrecer tu espacio, historial y descargas. Puedes solicitar su supresión.</li>
+          <li><strong>Revisión interna de los asistentes:</strong> miembros autorizados de nuestro equipo pueden revisar los intercambios con Milo y Studio y su contexto para detectar problemas y mejorar el servicio. El acceso a la revisión detallada caduca 90 días después del intercambio. Las copias adicionales del contexto y las notas libres de los revisores se pueden eliminar a partir de los 90 días; la limpieza programada se ejecuta cada hora por lotes. Esto no elimina las conversaciones originales de tu espacio, los medios, los registros de recuperación de operaciones ni los justificantes de facturación, que tienen sus propias finalidades y reglas de conservación.</li>
+          <li><strong>Documentos contables:</strong> las facturas y los justificantes contables deben conservarse durante 10 años desde el cierre del ejercicio correspondiente.</li>
+          <li><strong>Registros técnicos y copias de seguridad:</strong> su conservación depende del servicio y de las necesidades de seguridad, recuperación y obligaciones legales.</li>
         </ul>
+        <p>Una solicitud de eliminación queda registrada para su tramitación; no borra por sí sola todos los datos. La caducidad de un presupuesto o enlace, o la retirada de una galería, no borra automáticamente las copias almacenadas.</p>
       </section>
 
       <section className="stack-gap-sm">
-        <h3 className="text-lg font-semibold text-text-primary">5. Compartición y subencargados</h3>
-        <p>Trabajamos con proveedores de confianza:</p>
-        <ul className="ml-5 list-disc space-y-2">
-          <li>Stripe (pagos)</li>
-          <li>Hosting/CDN (p. ej. Vercel)</li>
-          <li>Almacenamiento objeto (p. ej. AWS S3)</li>
-          <li>Bases de datos y autenticación (Neon, Supabase)</li>
-          <li>Proveedores de inferencia IA (p. ej. Fal.ai)</li>
-          <li>Herramientas de e-mail y soporte</li>
-        </ul>
-        <p>
-          Firmamos acuerdos de tratamiento con cada proveedor. Consulta la lista actualizada en{' '}
-          <Link href={links.subprocessorsHref} className="text-brand underline hover:text-brandHover">
-            {links.subprocessorsHref}
-          </Link>
-          .
-        </p>
+        <h3 className="text-lg font-semibold text-text-primary">5. Proveedores</h3>
+        <p>El alojamiento, almacenamiento, autenticación, pagos y correos utilizan los servicios de nuestra lista de proveedores. Según la función, los proveedores de IA reciben los prompts, ajustes y referencias necesarios para generar medios. Milo, en los generadores y en Studio, envía a OpenAI los mensajes, el modelo y los ajustes elegidos, el contexto pertinente del borrador, del proyecto y del historial, y las referencias o fragmentos seleccionados para la asistencia y los análisis solicitados.</p>
+        <p><Link href={links.subprocessorsHref} className="text-brand underline hover:text-brandHover">Proveedores y datos tratados</Link>.</p>
+        <p>Si utilizas un asistente externo mediante MCP, los datos tratados por ese asistente también están sujetos a su propia política de privacidad.</p>
       </section>
 
       <section className="stack-gap-sm">
@@ -170,7 +150,7 @@ export function PrivacyArticleEs({
           />
           .
         </p>
-        <p className="text-sm text-text-muted">Última actualización: {effective ?? version}</p>
+        <p className="text-sm text-text-muted">Información actualizada: 30 de octubre de 2026</p>
       </section>
     </article>
   );

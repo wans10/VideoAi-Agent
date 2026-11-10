@@ -1,3 +1,6 @@
+import { resolveMediaSourceRef } from '@/lib/media-identity';
+import { mediaReadAccessFields } from '@/lib/library-media-access';
+import type { MediaReadAccess } from '@/lib/media-read-access';
 import type { ComposerAttachment, AssetFieldConfig } from '@/components/Composer';
 import type { KlingElementAsset, KlingElementState } from '@/components/KlingElementsBuilder';
 import {
@@ -6,11 +9,19 @@ import {
   type ResolvedEngineReferenceBudget,
 } from '@/lib/reference-budget';
 import type { EngineInputField, EngineInputSchema, Mode } from '@/types/engines';
+import { storyboardImageRef, storyboardReferenceJobId } from './workspace-storyboard-reference-identity';
 
-export type ReferenceAsset = {
+export type ReferenceAsset = MediaReadAccess & {
+  storyboardJobId?: string;
+  identityResolutionFailed?: boolean;
+  ref?: ComposerAttachment['ref'];
+  excerptEditing?: boolean;
+  excerptSource?: ComposerAttachment['excerptSource'];
+  excerptRange?: ComposerAttachment['excerptRange'];
   id: string;
   fieldId: string;
   previewUrl: string;
+  thumbnailUrl?: string | null;
   kind: 'image' | 'video' | 'audio';
   name: string;
   size: number;
@@ -40,7 +51,10 @@ export type ReferenceAssetInsertionResult =
       replacedAsset?: undefined;
     };
 
-export type UserAsset = {
+export type UserAsset = MediaReadAccess & {
+  name?: string | null;
+  assetId?: string;
+  ref?: ComposerAttachment['ref'];
   id: string;
   url: string;
   thumbUrl?: string | null;
@@ -67,7 +81,7 @@ export type AssetLibrarySource =
   | 'character'
   | 'angle'
   | 'upscale';
-export type AssetLibraryKind = 'image' | 'video';
+export type AssetLibraryKind = 'image' | 'video' | 'audio';
 
 export type AssetPickerTarget =
   | { kind: 'field'; field: EngineInputField; slotIndex?: number }
@@ -118,9 +132,16 @@ export function normalizeAssetLibraryPayload(
         const mime = asset.mime ?? null;
         return {
           id: asset.id,
+          name: typeof asset.name === 'string' ? asset.name.trim() || undefined : undefined,
+          assetId: asset.assetId,
+          ref: asset.ref,
           url: asset.url,
           thumbUrl: asset.thumbUrl ?? null,
           previewUrl: asset.previewUrl ?? null,
+          ...mediaReadAccessFields(asset),
+          thumbnailAccessUrl: asset.thumbnailAccessUrl,
+          previewAccessUrl: asset.previewAccessUrl,
+          playbackAccessUrl: asset.playbackAccessUrl,
           kind: asset.kind === 'audio' || asset.kind === 'video' || asset.kind === 'image'
             ? asset.kind : mime?.startsWith('audio/') ? 'audio' : mime?.startsWith('video/') ? 'video' : 'image',
           width: asset.width ?? null,
@@ -177,7 +198,7 @@ export function shouldMirrorCharacterImageAsset(asset: UserAsset): boolean {
 
 export function mergeMirroredLibraryAsset(
   asset: UserAsset,
-  mirrored: {
+  mirrored: Partial<UserAsset> & {
     id: string;
     url: string;
     width?: number | null;
@@ -189,6 +210,7 @@ export function mergeMirroredLibraryAsset(
 ): UserAsset {
   return {
     ...asset,
+    ...mirrored,
     id: mirrored.id,
     url: mirrored.url,
     width: mirrored.width ?? asset.width,
@@ -201,19 +223,23 @@ export function mergeMirroredLibraryAsset(
 }
 
 export function buildReferenceAssetFromLibraryAsset(field: EngineInputField, asset: UserAsset): ReferenceAsset {
+  const ref=resolveMediaSourceRef(asset,asset.kind);
   return {
+    ...mediaReadAccessFields(asset),
     id: asset.id || `library_${Date.now().toString(36)}`,
     fieldId: field.id,
-    previewUrl: asset.url,
+    previewUrl: field.type === 'video' ? asset.previewAccessUrl ?? asset.previewUrl ?? asset.accessUrl ?? asset.url : asset.accessUrl ?? asset.url,
+    thumbnailUrl: asset.thumbnailAccessUrl ?? asset.thumbUrl ?? null,
     kind: field.type === 'video' ? 'video' : field.type === 'audio' ? 'audio' : 'image',
-    name: asset.url.split('/').pop() ?? (field.type === 'video' ? 'Video' : field.type === 'audio' ? 'Audio' : 'Image'),
+    name: asset.name?.trim() || (asset.url.split('/').pop() ?? (field.type === 'video' ? 'Video' : field.type === 'audio' ? 'Audio' : 'Image')),
     size: asset.size ?? 0,
     type: asset.mime ?? (field.type === 'video' ? 'video/*' : field.type === 'audio' ? 'audio/*' : 'image/*'),
     url: asset.url,
     width: asset.width ?? null,
     height: asset.height ?? null,
     durationSec: asset.durationSec ?? null,
-    assetId: asset.id,
+    assetId: ref?.type==='asset' ? ref.assetId : undefined,
+    ref,
     status: 'ready',
   };
 }
@@ -485,11 +511,18 @@ export function buildKlingLibraryAsset(asset: UserAsset): KlingElementAsset {
   return {
     id: asset.id || `library_${Date.now().toString(36)}`,
     assetId: asset.id,
-    previewUrl: asset.previewUrl ?? asset.thumbUrl ?? asset.url,
+    previewUrl: isVideo
+      ? asset.previewAccessUrl ?? asset.previewUrl ?? asset.accessUrl ?? asset.url
+      : asset.previewAccessUrl ?? asset.previewUrl ?? asset.thumbnailAccessUrl ?? asset.thumbUrl ?? asset.accessUrl ?? asset.url,
     kind: isVideo ? 'video' : 'image',
-    name: asset.url.split('/').pop() ?? (isVideo ? 'Video' : 'Image'),
+    name: asset.name?.trim() || (asset.url.split('/').pop() ?? (isVideo ? 'Video' : 'Image')),
     status: 'ready',
     url: asset.url,
+    width: asset.width ?? null,
+    height: asset.height ?? null,
+    size: asset.size ?? null,
+    durationSec: asset.durationSec ?? null,
+    type: asset.mime ?? null,
   };
 }
 
@@ -601,11 +634,23 @@ export function buildComposerAttachments(
     map[fieldId] = entries.map((asset) =>
       asset
         ? {
+            id: asset.id,
+            ...mediaReadAccessFields(asset),
+            // Generation preflight retains its legacy marker; Milo receives only owned identity.
+            assetId: storyboardReferenceJobId(asset) ? undefined : asset.assetId,
+            ref: storyboardReferenceJobId(asset) ? storyboardImageRef(asset.ref, storyboardReferenceJobId(asset)) : asset.ref,
+            identityResolving: Boolean(asset.status === 'ready' && storyboardReferenceJobId(asset) && !storyboardImageRef(asset.ref, storyboardReferenceJobId(asset)) && !asset.identityResolutionFailed),
+            url: asset.url,
+            durationSec: asset.durationSec,
+            excerptEditing: asset.excerptEditing,
+            excerptSource: asset.excerptSource,
+            excerptRange: asset.excerptRange,
             kind: asset.kind,
             name: asset.name,
             size: asset.size,
             type: asset.type,
             previewUrl: asset.previewUrl,
+            thumbnailUrl: asset.thumbnailUrl,
             status: asset.status,
             error: asset.error,
           }

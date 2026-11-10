@@ -6,21 +6,29 @@ import { join, resolve } from 'node:path';
 import test from 'node:test';
 import { build } from 'esbuild';
 import { JSDOM } from 'jsdom';
+import { buildMarketingModelMenu } from '../frontend/config/navigation';
+import { listRuntimeModels } from '../frontend/config/model-runtime';
 
 const requireFrontend = createRequire(resolve('frontend/package.json'));
 const directoryPath = 'frontend/app/(localized)/[locale]/(marketing)/models';
 const tick = () => new Promise<void>(done => setImmediate(done));
 
 // Exercise the real catalogue, cards, localized components, filters and JSON-LD.
-// Only the request dictionary and external current-price reads are controlled.
+// Only request/localized-name inputs and external current-price reads are controlled.
 async function bundle() {
   const directory = await mkdtemp(join(tmpdir(), 'catalog-streaming-'));
   const output = join(directory, 'catalog.cjs');
   const fixture = `
-    let locale='en',held,releaseGate,outcome;
+    import {getEngineLocalized as readEngineLocalized} from ${JSON.stringify(resolve('frontend/lib/models/i18n.ts'))};
+    let locale='en',held,releaseGate,outcome,nameOverride;
     export const calls=[];
     export const priceError=new Error('held catalogue pricing failure');
-    export function configure(value,result='exact') {locale=value;outcome=result;calls.length=0;held=new Promise(done=>releaseGate=done);}
+    export function configure(value,result='exact') {locale=value;outcome=result;nameOverride=undefined;calls.length=0;held=new Promise(done=>releaseGate=done);}
+    export function configureName(value){nameOverride=value;}
+    export async function getEngineLocalized(slug,activeLocale){
+      const content=await readEngineLocalized(slug,activeLocale);
+      return slug==='flux-3-draft'&&nameOverride?{...content,...nameOverride}:content;
+    }
     export function release(){releaseGate();}
     export async function resolveDictionary(){return {locale,dictionary:require(${JSON.stringify(resolve('frontend/messages'))}+'/'+locale+'.json')};}
     export async function computeMarketingPriceRange(engine,options){
@@ -37,12 +45,12 @@ async function bundle() {
     outfile:output,bundle:true,platform:'node',format:'cjs',packages:'external',tsconfig:'frontend/tsconfig.json',jsx:'automatic',
     plugins:[{name:'catalog-io',setup(builder){
       builder.onResolve({filter:/.*/},args=>{
-        if(args.path==='catalog-fixture'||args.path==='@/lib/i18n/server'||args.path==='@/lib/pricing-marketing')return {path:'fixture',namespace:'controlled'};
+        if(args.path==='catalog-fixture'||args.path==='@/lib/i18n/server'||args.path==='@/lib/models/i18n'||args.path==='@/lib/pricing-marketing')return {path:'fixture',namespace:'controlled'};
         if(args.path==='next-intl/server')return {path:'translations',namespace:'controlled'};
         if(args.path==='server-only'||args.path.endsWith('.css'))return {path:'empty',namespace:'controlled'};
         if(!args.path.startsWith('.')&&!args.path.startsWith('/')&&!args.path.startsWith('@/')&&!args.path.startsWith('node:'))return {path:requireFrontend.resolve(args.path),external:true};
       });
-      builder.onLoad({filter:/.*/,namespace:'controlled'},args=>({loader:'js',contents:args.path==='fixture'?fixture:args.path==='translations'?`export async function getTranslations(){return key=>key;}`:''}));
+      builder.onLoad({filter:/.*/,namespace:'controlled'},args=>({loader:'js',resolveDir:process.cwd(),contents:args.path==='fixture'?fixture:args.path==='translations'?`export async function getTranslations(){return key=>key;}`:''}));
     }}],
   });
   return {directory,h:requireFrontend(output)};
@@ -123,6 +131,27 @@ test('catalogue streams the complete stable hero before prices and reveals exact
         const controlDoc=new JSDOM(await new Response(control).text());
         assert.deepEqual(projection(final.window.document),projection(controlDoc.window.document),'Streaming preserves localized final cards, filters, hero and native schemas');
         const cards=await h.buildModelsCatalogCards({activeLocale:locale,engineMetaCopy:dictionary.models.meta??{},engineTypeLabelOverrides:dictionary.models.engineTypeLabels,galleryCopy:dictionary.models.gallery,scope});
+        const expectedNewModels=new Set(buildMarketingModelMenu(listRuntimeModels()).filter(item=>item.badge==='new').map(item=>item.slug));
+        for(const card of cards)assert.equal(card.badge,expectedNewModels.has(card.id)?'new':null,`${card.id}: badge must follow published editorial discovery`);
+        const noveltyBadges=[...final.window.document.querySelectorAll('#models-grid [data-model-novelty="new"]')];
+        for(const badge of noveltyBadges)assert.equal(badge.textContent,dictionary.nav.badges.new,`${locale}: localized novelty badge`);
+        if(scope!=='image') {
+          const draftName={en:'FLUX 3 Video Draft',fr:'FLUX 3 Draft',es:'FLUX 3 Draft'}[locale as 'en'|'fr'|'es'];
+          assert.equal(cards.find((card:any)=>card.id==='flux-3-draft')?.label,draftName,'The public name must not repeat its version');
+          assert.equal(cards.find((card:any)=>card.id==='flux-3-draft')?.stats.maxResolution,'720p','Draft discovery must retain native creation resolution, independent of paired Enhance');
+          assert.equal(cards.find((card:any)=>card.id==='minimax-h3-max')?.stats.maxDuration,'15s','Relight/Recast source limits cannot replace H3 Max creation timing');
+          const maxCard=[...final.window.document.querySelectorAll('#models-grid article')].find(card=>card.querySelector('h3')?.textContent==='FLUX 3 Max');
+          assert.ok(maxCard,'The new current model must be visible in the initial catalogue cards');
+          assert.equal(maxCard.querySelector('[data-model-novelty="new"]')?.textContent,dictionary.nav.badges.new);
+          const reviewLabel={en:'Editorial estimate',fr:'Estimation éditoriale',es:'Estimación editorial'}[locale as 'en'|'fr'|'es'];
+          assert.equal(maxCard.querySelector('[data-score-review="editorial-estimated"]')?.textContent,reviewLabel);
+          assert.ok(maxCard.textContent?.includes('≈8.7'));
+          assert.ok(maxCard.querySelector('[data-score-review]')?.getAttribute('href')?.endsWith('/benchmarks#review-flux-3-max'));
+          for(const section of scope==='all'?['.catalog-top-picks','#recommended']:['.catalog-top-picks']) {
+            const review=final.window.document.querySelector(`${section} [data-score-review="editorial-estimated"]`);
+            assert.equal(review?.textContent,reviewLabel,`${section}: estimated score must be qualified in ${locale}`);
+          }
+        }
         for(const card of cards)assert.ok(targets.has(`${catalogBase}/${card.id}`), `Missing SSR directory destination ${card.id}`);
         assert.ok(cards.every((card:any)=>card.filterMeta.priceFrom===7.31||card.filterMeta.priceFrom===null));
         assert.ok(h.calls.every((call:any)=>call.options.requireCurrentPolicy===true&&call.options.durationSec===5&&call.options.memberTier==='member'));
@@ -131,6 +160,23 @@ test('catalogue streams the complete stable hero before prices and reveals exact
         assert.equal(metadata.alternates.canonical,`https://maxvideoai.com${base}${scope==='all'?'':`/${scope}`}`);
         initial.window.close();final.window.close();controlDoc.window.close();
       } finally {h.release();await pending.catch(()=>undefined);}
+    });
+    await t.test('catalogue adds only versions missing from the display name',async()=>{
+      h.configure('en');h.release();
+      for(const [marketingName,versionLabel,want] of [
+        ['FLUX 3 Video Draft','3 Draft','FLUX 3 Video Draft'],
+        ['FLUX 3 Draft','3 Draft','FLUX 3 Draft'],
+        ['FLUX 3 Video','3 Draft','FLUX 3 Video 3 Draft'],
+        ['FLUX 3.1 Video Draft','3 Draft','FLUX 3.1 Video Draft 3 Draft'],
+        ['FLUX Draft 3','3 Draft','FLUX Draft 3 3 Draft'],
+        ['FLUX Video','v 3','FLUX Video 3'],
+        ['FLUX v3','v3','FLUX v3'],
+        ['FLUX Video','','FLUX Video'],
+      ]) {
+        h.configureName({marketingName,versionLabel});
+        const cards=await h.buildModelsCatalogCards({activeLocale:'en',engineMetaCopy:{},galleryCopy:{},scope:'video'});
+        assert.equal(cards.find((card:any)=>card.id==='flux-3-draft')?.label,want,`${marketingName} / ${versionLabel}`);
+      }
     });
     for(const outcome of ['unavailable','rejected'])await t.test(outcome,async()=>{
       h.configure('fr',outcome);

@@ -54,7 +54,7 @@ function readRepositoryFile(path: string) {
   return readFileSync(join(PROJECT_ROOT, path), 'utf8');
 }
 
-test('Seedance 2.5 leads relevant best-for clusters while Seedance 2.0 stays 4K-specific', () => {
+test('reviewed best-for leaders stay localized while Seedance 2.0 stays 4K-specific', () => {
   const compareConfig = JSON.parse(readRepositoryFile('frontend/config/compare-config.json')) as {
     bestForPages: Array<{ slug: string; topPicks?: string[] }>;
   };
@@ -70,8 +70,9 @@ test('Seedance 2.5 leads relevant best-for clusters while Seedance 2.0 stays 4K-
       locale,
       pricingPath: locale === 'fr' ? '/fr/tarifs' : locale === 'es' ? '/es/precios' : '/pricing',
     });
-    assert.match(examplesLinks[0]?.href ?? '', /seedance-2-5-vs-minimax-h3$/, `${locale} leads with a current comparison`);
-    assert.match(examplesLinks[1]?.href ?? '', /seedance-2-5-vs-kling-3-pro$/);
+    assert.match(examplesLinks[0]?.href ?? '', /kling-v4-vs-seedance-2-5$/, `${locale} leads with a current comparison`);
+    assert.match(examplesLinks[1]?.href ?? '', /seedance-2-5-vs-minimax-h3$/);
+    assert.match(examplesLinks[2]?.href ?? '', /seedance-2-5-vs-kling-3-pro$/);
     assert.ok(examplesLinks.some(({href}) => href.endsWith('/seedance-2-0-vs-seedance-2-0-fast')), 'retain the established comparison');
     assert.equal(examplesLinks.length, 4);
 
@@ -81,8 +82,10 @@ test('Seedance 2.5 leads relevant best-for clusters while Seedance 2.0 stays 4K-
     for (const slug of SEEDANCE_25_BEST_FOR_SLUGS) {
       const sourcePath = `content/${locale}/best-for/${slug}.mdx`;
       const source = readRepositoryFile(sourcePath);
-      const firstPickHref = source.match(/## (?:Best picks|Meilleurs choix|Mejores opciones)[\s\S]*?1\. \*\*\[[^\]]+\]\(([^)]+)\)/)?.[1];
-      assert.equal(firstPickHref, target, `${sourcePath} should rank the localized Seedance 2.5 profile first`);
+      const firstPickHref = source.match(/^1\. \*\*\[[^\]]+\]\(([^)]+)\)/m)?.[1];
+      const leader = slug === 'ugc-ads' ? 'minimax-h3' : 'seedance-2-5';
+      assert.equal(firstPickHref, buildLocalizedModelPath(locale, leader), `${sourcePath} should start with its reviewed localized leader`);
+      assert.ok(source.includes(target), `${sourcePath} should retain Seedance 2.5 in the shortlist`);
       assert.doesNotMatch(
         source,
         new RegExp(buildLocalizedModelPath(locale, 'seedance-2-0').replaceAll('/', '\\/')),
@@ -100,7 +103,7 @@ test('Seedance 2.5 leads relevant best-for clusters while Seedance 2.0 stays 4K-
 
   for (const slug of SEEDANCE_25_BEST_FOR_SLUGS) {
     const entry = compareConfig.bestForPages.find((candidate) => candidate.slug === slug);
-    assert.equal(entry?.topPicks?.[0], 'seedance-2-5', `${slug} ranked cards should lead with Seedance 2.5`);
+    assert.equal(entry?.topPicks?.[0], slug === 'ugc-ads' ? 'minimax-h3' : 'seedance-2-5', `${slug} ranked cards should match the reviewed leader`);
     assert.equal(
       entry?.topPicks?.includes('seedance-2-0'),
       false,

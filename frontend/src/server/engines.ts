@@ -1,3 +1,7 @@
+import { isFluxLtxSourceOperation } from '@/lib/flux-ltx-operations';
+import { isH3SourceOperation } from '@/lib/h3-source-operations';
+import { isGptImage26EngineId, normalizeGptImage26Settings } from '@/lib/image/gptImage26';
+import { resolveVideoOperationEngine } from '@/lib/video-operation';
 import {
   cloneEngine,
   getBaseEngineIncludingHidden,
@@ -147,6 +151,7 @@ export type TrustedPreflightMediaPricingFacts = Readonly<{
 }>;
 
 export type ComputeConfiguredPreflightOptions = Readonly<{
+  computePublicSnapshot?: typeof computeCanonicalPublicSnapshot;
   seedanceWorkflowStep?: 'draft' | 'final';
   resolvedEngine?: EngineCaps;
   trustedMediaPricingFacts?: TrustedPreflightMediaPricingFacts;
@@ -170,7 +175,11 @@ export async function computeConfiguredPreflight(
   const bootstrap = options.bootstrap !== false;
   const resolvedEngine = options.resolvedEngine
     ?? await getConfiguredEngineForPreflight(engineId, false, bootstrap);
-  const engine = resolvedEngine?.id === engineId ? resolvedEngine : undefined;
+  let engine = resolvedEngine?.id === engineId ? resolvedEngine : undefined;
+  if (engine) {
+    try { engine = resolveVideoOperationEngine(engine, request.mode, request.operation); }
+    catch { return { ok: false, messages: ['Invalid operation'], error: { code: 'OPERATION_INVALID', message: 'Invalid operation' } }; }
+  }
   if (!engine) {
     const disabledEngine = await getConfiguredEngineForPreflight(engineId, true, bootstrap);
     if (disabledEngine) {
@@ -261,7 +270,7 @@ export async function computeConfiguredPreflight(
     };
   }
 
-  const durationSecRaw = Number.isFinite(request.durationSec) ? Math.max(1, Math.round(request.durationSec)) : 4;
+  const durationSecRaw = Number.isFinite(request.durationSec) ? Math.max(isFluxLtxSourceOperation(request.operation)?Number.MIN_VALUE:1, (request.operation === 'kling-edit' || isH3SourceOperation(request.operation) || isFluxLtxSourceOperation(request.operation)) ? request.durationSec : Math.round(request.durationSec)) : 4;
   const durationSec = durationInfo ? durationInfo.seconds : durationSecRaw;
   const memberTier = normalizeMemberTier(request.user?.memberTier);
   const loop = isLumaRay2 && supportsDuration ? normaliseLumaRay2Loop(request.loop) : undefined;
@@ -310,11 +319,24 @@ export async function computeConfiguredPreflight(
   };
   let snapshot: PricingSnapshot;
   try {
-    snapshot = await computeCanonicalPublicSnapshot({
+    // Image field IDs arrive in extraInputValues. Keep the canonical image
+    // normalizer authoritative over size, quality and the unrounded output count.
+    const gpt26 = isGptImage26EngineId(engine.id) ? normalizeGptImage26Settings({
+      resolution: requestedResolution, numImages: request.durationSec,
+      quality: rawExtraInputValues.quality, complexity: rawExtraInputValues.complexity,
+      ...(rawExtraInputValues.image_width !== undefined || rawExtraInputValues.image_height !== undefined
+        ? { customImageSize: { width: rawExtraInputValues.image_width, height: rawExtraInputValues.image_height } }
+        : {}),
+    } as Parameters<typeof normalizeGptImage26Settings>[0]) : null;
+    snapshot = await (options.computePublicSnapshot ?? computeCanonicalPublicSnapshot)({
       workflowStep: options.seedanceWorkflowStep,
+      operation: request.operation,
       engine: pricingEngine,
-      durationSec: seedanceEditSource?.billedDurationSec ?? durationSec,
-      resolution: effectiveResolution,
+      durationSec: gpt26?.numImages ?? seedanceEditSource?.billedDurationSec
+        ?? (engine.id === 'kling-v4' && request.mode === 'v2v' ? inheritedDurationSec : undefined)
+        ?? durationSec,
+      resolution: gpt26?.resolution ?? effectiveResolution,
+      ...(gpt26 ? { quality: gpt26.quality, complexity: gpt26.complexity, customImageSize: gpt26.customImageSize } : {}),
       aspectRatio: seedanceEditSource?.pricingAspectRatio ?? request.aspectRatio,
       mode: request.mode,
       membershipTier: memberTier,

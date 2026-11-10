@@ -1,3 +1,4 @@
+import { saveFactsDatabaseBoundary } from './helpers/save-facts-database-boundary';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import path from 'node:path';
@@ -21,8 +22,10 @@ async function load(entry: string, fixture: unknown, stubs: Record<string, strin
     } }],
   });
   const module = { exports: {} };
+  // Keep the real SDK import available while denying all network access.
   runInNewContext(bundle.outputFiles[0].text, { module, exports: module.exports, fixture,
-    require: createRequire(import.meta.url), Buffer, URL, process: { env: (fixture as { env?: Record<string, string> }).env ?? {} }, console: { info() {}, warn() {}, error() {} } });
+    require: createRequire(import.meta.url), Buffer, URL, TextEncoder, TextDecoder,
+    fetch: () => { throw new Error('Unexpected network request'); }, process: { env: (fixture as { env?: Record<string, string> }).env ?? {} }, console: { info() {}, warn() {}, error() {} } });
   return module.exports as Record<string, (...args: any[]) => Promise<any>>;
 }
 test('precise facts survive output projection while nominal requested duration stays integer', () => {
@@ -42,11 +45,11 @@ const assetRow = (metadata: unknown, url = libraryUrl) => ({ id: 'output:job:vid
   thumb_url: 'https://owned.test/thumb.jpg', preview_url: null, mime_type: 'video/mp4', width: 1280, height: 720,
   size_bytes: 42, source: 'saved_job_output', source_job_id: 'job', source_output_id: 'job:video:0', status: 'ready', metadata, created_at: '2026-01-01' });
 const assetStubs = {
-  '@/lib/db': 'export const query = (...args) => fixture.query(...args);',
-  '@/lib/schema': 'export const ensureMediaLibrarySchema = async () => {};',
+  '@/lib/db': saveFactsDatabaseBoundary('fixture'),
+  '@/lib/schema': 'export const ensureMediaLibrarySchema = async () => {}; export const ensureAssetSchema = async () => {}; export const ensureMediaLibraryOrganizationSchema = async () => {};',
   '@/server/storage': 'export const recordUserAsset = async (value) => fixture.mirror.push(value);',
   './asset-listing': 'export const findLibraryAssetByOrigin = async () => null; export const listLibraryAssetPage = async () => ({});',
-  './asset-resolvers': 'export const resolveReusableAssetThumbUrl = async () => null; export const resolveReusableAssetPreviewUrl = async () => null;',
+  './asset-resolvers': 'export const resolveReusableImageDisplay = async () => undefined; export const resolveReusableAssetThumbUrl = async () => null; export const resolveReusableAssetPreviewUrl = async () => null;',
   './asset-media': 'export const createRemoteVideoAssetThumbnail = async () => null; export const copyRemoteMedia = (...args) => fixture.copy(...args);',
 };
 test('existing saved copy receives reliable facts, reused on subsequent save; inaccessible refresh stays usable', async () => {
@@ -88,7 +91,8 @@ test('substituted client URL is rejected before copy or probe', async () => {
 test('real Fal finalization persists measured facts and measurement absence keeps paid completion', async () => {
   const stubs = {
     '@/lib/db': 'export const query = (...args) => fixture.query(...args);',
-    './fal-webhook-refunds': 'export const maybeAutoRefundWalletCharge = async () => { throw Error("Must not refund"); };',
+    './fal-webhook-draft-cache': 'export const captureCompletedFalDraftCache = async () => {};',
+    './fal-webhook-refunds': 'export const withWalletFailureSettlement = async () => { throw Error("Must not refund"); };',
     './fal-webhook-provisional': 'export const createProvisionalJobFromWebhook = async () => { throw Error("Unexpected provisional"); };',
     '@/lib/fal-client': 'export const getFalClient = () => ({ queue: { result: async () => fixture.result } });',
     '@/lib/fal-catalog': 'export const resolveFalModelId = async () => "fixture/model";',

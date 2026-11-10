@@ -17,6 +17,7 @@ async function bundle() {
   const directory = await mkdtemp(join(tmpdir(), 'home-streaming-'));
   const output = join(directory, 'owners.cjs');
   const mocks: Record<string, string> = {
+    '@/server/character-studio/marketing-demos': `export const getCharacterStudioMarketingVideos=async()=>[];`,
     probe: `
       export const calls=[], records=[];
       let released, gates;
@@ -30,7 +31,7 @@ async function bundle() {
     '@/server/homepage': `import {read} from 'probe';export const getHomepageSlotsCached=()=>read('hero-slots',{hero:[],gallery:[]});export const getSuccessfulGenerationCountCached=async()=>20000;`,
     '@/server/videos': `import {read,videos} from 'probe';export const listExamples=async(sort)=>read(sort==='playlist'?'example-playlist':'example-latest',videos);export const listExampleFamilyPage=async()=>({items:[],total:0,limit:24,offset:0,hasMore:false});export const listPlaylistVideos=async()=>[];`,
     '@/server/model-launch-assets': `export const ACCEPTED_DURABLE_MODEL_ASSETS=[];`,
-    '@/server/current-example-price': `import {read} from 'probe';export const quoteCurrentExamplePrices=()=>read('hero-pricing',new Map([['minimax-h3-max',{kind:'reference',modelId:'minimax-h3-max',amountCents:141,currency:'USD',scenarioLabel:'Text to video · 5s · 1080p'}]]));`,
+    '@/server/current-example-price': `import {read} from 'probe';export const quoteCurrentExamplePrices=()=>read('hero-pricing',new Map([['minimax-h3',{kind:'reference',modelId:'minimax-h3',amountCents:141,currency:'USD',scenarioLabel:'Text to video · 5s · 1080p'}]]));`,
     '@/server/public-page-timing': `import {withPublicPageTiming as actual} from ${JSON.stringify(resolve('frontend/server/public-page-timing.ts'))};import {records} from 'probe';export * from ${JSON.stringify(resolve('frontend/server/public-page-timing.ts'))};export const withPublicPageTiming=(context,load)=>actual(context,load,{enabled:true,deployment:'test',emit:record=>records.push(record)});`,
   };
   await build({
@@ -39,7 +40,7 @@ async function bundle() {
     outfile: output, bundle: true, platform: 'node', format: 'cjs', packages: 'external', tsconfig: 'frontend/tsconfig.json', jsx: 'automatic',
     plugins: [{ name: 'controlled-home-io', setup(builder) {
       builder.onResolve({ filter: /\.css$/ }, args => ({ path: args.path, namespace: 'empty' }));
-      builder.onLoad({ filter: /.*/, namespace: 'empty' }, () => ({ contents: '', loader: 'js' }));
+      builder.onLoad({ filter: /.*/, namespace: 'empty' }, () => ({ contents: 'export default new Proxy({},{get:(_,key)=>key});', loader: 'js' }));
       builder.onResolve({ filter: /.*/ }, args => {
         if (args.path.startsWith(resolve('frontend/messages') + '/')) return { path: args.path, external: true };
         if (args.path.startsWith('@/messages/')) return { path: resolve('frontend', args.path.slice(2)), external: true };
@@ -114,7 +115,7 @@ test('real homepage streams the poster before pending exact prices and discovery
       let tail = '';
       for (;;) { const next = await reader.read(); if (next.done) break; tail += decoder.decode(next.value, { stream: true }); }
       assert.match(tail, /selected-real-kling\.webp/);
-      const currentHeroPrices = new Map([['minimax-h3-max', { kind: 'reference', modelId: 'minimax-h3-max', amountCents: 141, currency: 'USD', scenarioLabel: 'Text to video · 5s · 1080p' }]]);
+      const currentHeroPrices = new Map([['minimax-h3', { kind: 'reference', modelId: 'minimax-h3', amountCents: 141, currency: 'USD', scenarioLabel: 'Text to video · 5s · 1080p' }]]);
       const expectedHero = renderToStaticMarkup(wrap(React.createElement(fixture.HomeHero, { ...page.props.children[0].props, currentHeroPricesPending: undefined, currentHeroPrices })));
       const expectedQuotes = expectedHero.match(/<div class="cinema-film-quote[\s\S]*?<\/div>|<details class="cinema-quote-details"[\s\S]*?<\/details>/g) ?? [];
       assert.equal(expectedQuotes.length, 2);
@@ -126,7 +127,7 @@ test('real homepage streams the poster before pending exact prices and discovery
       assert.ok(tail.replace(/<!--[\s\S]*?-->/g, '').includes(expectedPricing), 'The revealed pricing demo preserves the exact canonical scenarios');
       assert.doesNotMatch(tail, /home-hero-section|creative-film/, 'The later reveal must replace discovery alone');
       const finalCards = fixture.assembleHomepageExampleCards({ locale, content: dictionary.home.redesign, globalCandidates: fixture.videos, familyVideos: new Map(), acceptedAssets: [] });
-      const providers = page.props.children[2].props.children.props.modelDiscovery.props.children.props.providers;
+      const providers = page.props.children.find((child: any) => child?.props?.children?.props?.modelDiscovery).props.children.props.modelDiscovery.props.children.props.providers;
       const expectedDiscovery = renderToStaticMarkup(wrap(React.createElement(fixture.HomeModelDiscovery, { locale, examples: finalCards, providers, copy: dictionary.home.redesign.examples })));
       assert.ok(tail.replace(/<!--[\s\S]*?-->/g, '').includes(expectedDiscovery), 'Final localized discovery markup must preserve the existing curation output');
       await tick();

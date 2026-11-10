@@ -13,9 +13,11 @@ export const COMPARE_EXCLUDED_SLUGS = new Set([
   'nano-banana-lite',
   'nano-banana-pro',
   'nano-banana-2',
+  'nano-banana-2-1',
   'gpt-image-2',
   'gpt-image-2-5-flare',
   'gpt-image-2-5-sunburst',
+  'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst',
   'seedream',
   'seedream-5-0-pro',
   'luma-uni-1',
@@ -27,6 +29,8 @@ export const CANONICAL_ONLY_COMPARE_SLUGS = new Set([
   'pika-text-to-video-vs-wan-2-6',
   'pika-text-to-video-vs-veo-3-1-fast',
   'pika-text-to-video-vs-seedance-1-5-pro',
+  'kling-v4-vs-seedance-2-5',
+  'kling-v4-vs-wan-3-prime',
 ]);
 
 const LOCALE_PREFIX_PATTERN = /^\/(fr|es)(?=\/)/i;

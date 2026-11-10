@@ -54,6 +54,7 @@ export function buildFalInputs(attachments: NormalizedAttachment[]): GenerateAtt
 }
 
 export function buildFalRequestParts(params: {
+  operation?: import('@/lib/video-operation').VideoOperation;
   attachments: NormalizedAttachment[];
   engineId: string;
   prompt: string;
@@ -123,6 +124,7 @@ export function buildFalRequestParts(params: {
 
   const falPayload: GeneratePayload = {
     engineId: params.engineId,
+    ...(params.operation ? { operation: params.operation } : {}),
     prompt: params.prompt,
     mode: params.mode,
     apiKey: typeof params.apiKey === 'string' ? params.apiKey : undefined,
@@ -144,7 +146,7 @@ export function buildFalRequestParts(params: {
         ? params.loop
         : undefined,
     multiPrompt: params.multiPrompt ?? undefined,
-    shotType: params.mode === 'i2v' ? 'customize' : params.shotType ?? undefined,
+    shotType: params.mode === 'i2v' && !['kling-v4', 'kling-v4-flash'].includes(params.engineId) ? 'customize' : params.shotType ?? undefined,
     seed: typeof params.seed === 'number' ? params.seed : undefined,
     cameraFixed: typeof params.cameraFixed === 'boolean' ? params.cameraFixed : undefined,
     safetyChecker: typeof params.safetyChecker === 'boolean' ? params.safetyChecker : undefined,

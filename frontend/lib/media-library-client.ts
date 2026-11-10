@@ -1,12 +1,21 @@
-import { authFetch } from '@/lib/authFetch';
+import type { ImageDisplay } from '@/lib/image-display';
+import type { MediaFacts } from '@/lib/media-identity';
+import type { ToolAssetRef } from '@/lib/toolbox/contract';
+import type { MediaReadAccess } from '@/lib/media-read-access';
+import { ownedAuthFetch } from '@/lib/owned-auth-fetch';
 
 export type MediaLibraryAssetKind = 'image' | 'video' | 'audio';
 
-export type MediaLibraryAsset = {
+export type MediaLibraryAsset = MediaReadAccess & {
+  name?: string | null;
   id: string;
+  assetId?: string;
+  ref?: ToolAssetRef;
+  mediaFacts?: MediaFacts;
   url: string;
   thumbUrl?: string | null;
   previewUrl?: string | null;
+  imageDisplay?: ImageDisplay;
   playbackVideoUrl?: string | null;
   kind?: MediaLibraryAssetKind;
   mime?: string | null;
@@ -68,9 +77,9 @@ export function buildMediaLibraryAssetsKey({
 }
 
 export async function fetchMediaLibraryAssets(
-  [url]: MediaLibraryAssetsKey
+  [url, userId]: MediaLibraryAssetsKey
 ): Promise<MediaLibraryAssetsResponse> {
-  const response = await authFetch(url);
+  const response = await ownedAuthFetch(url, userId);
   const payload = (await response.json().catch(() => null)) as MediaLibraryAssetsResponse | null;
   if (!response.ok || !payload?.ok) {
     throw new Error(payload?.error ?? 'Failed to load assets');

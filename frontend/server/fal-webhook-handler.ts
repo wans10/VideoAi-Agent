@@ -1,7 +1,10 @@
+import { resolveFalJobQueue } from '@/server/fal-job-queue';
+import { captureCompletedFalDraftCache } from './fal-webhook-draft-cache';
+import { isExternalFalImport } from './app-job-origin';
 import { readGeneratedVideoFacts, type GeneratedVideoFacts } from '@/lib/generated-video-media-facts';
-import { query } from '@/lib/db';
+import { query, type QueryExecutor } from '@/lib/db';
 import { syncProviderAttemptTerminalStatus } from '@/server/video-providers/provider-attempts';
-import { maybeAutoRefundWalletCharge } from './fal-webhook-refunds';
+import { withWalletFailureSettlement } from './fal-webhook-refunds';
 import { createProvisionalJobFromWebhook } from './fal-webhook-provisional';
 import type { AppJobRow } from './fal-webhook-types';
 import { normalizeMediaUrl } from '@/lib/media';
@@ -113,6 +116,12 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
     return;
   }
 
+  // Imported results have their own adoption owner, with no application completion events.
+  if (isExternalFalImport(job.settings_snapshot)) return;
+
+  // Subtitle documents and rendered outputs have a separate durable completion owner.
+  if (job.engine_id === 'toolbox-subtitles' || job.engine_id === 'toolbox-lip-sync' || job.engine_id === 'toolbox-motion-control') return;
+
   const originalEngineId = job.engine_id;
   // Correlation can recover a submission whose acknowledgment or DB write was lost.
   if (identifiers.jobId === job.job_id && job.job_id.startsWith('tool_upscale_')) {
@@ -163,7 +172,9 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
     try {
       const falModel = (await resolveFalModelId(effectiveEngineId)) ?? effectiveEngineId;
       const falClient = getFalClient();
-      const queueResult = await falClient.queue.result(falModel, { requestId });
+      const queue = await resolveFalJobQueue({jobId:job.job_id,engineId:effectiveEngineId,
+        requestId,legacyModel:falModel},{client:falClient});
+      const queueResult = await queue.result();
       finalPayload = queueResult?.data ?? finalPayload ?? queueResult ?? null;
       if (!media.videoUrl && queueResult && typeof queueResult === 'object') {
         const fallbackMedia = extractMediaUrls(queueResult);
@@ -469,10 +480,8 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
         .replace(/\s+/g, ' ')
         .trim()
     : null;
-  const engineIdForUpdate =
-    effectiveEngineId && effectiveEngineId !== 'fal-unknown' ? effectiveEngineId : null;
-  const engineLabelForUpdate =
-    effectiveEngineLabel && effectiveEngineLabel !== 'fal-unknown' ? effectiveEngineLabel : null;
+  const engineIdForUpdate = effectiveEngineId && effectiveEngineId !== 'fal-unknown' ? effectiveEngineId : null;
+  const engineLabelForUpdate = effectiveEngineLabel && effectiveEngineLabel !== 'fal-unknown' ? effectiveEngineLabel : null;
   const explicitAutoRefundEligibility = (() => {
     if (typeof payload.auto_refund_eligible === 'boolean') return payload.auto_refund_eligible;
     if (typeof payload.autoRefundEligible === 'boolean') return payload.autoRefundEligible;
@@ -507,9 +516,10 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
     });
   }
 
-  const applied = await query<{ job_id: string }>(
+  const persistUpdate = (executor: QueryExecutor) => executor.query<{ job_id: string }>(
     `UPDATE app_jobs
      SET status = $2,
+         provider = 'fal',
          progress = $3,
          video_url = CASE WHEN $9 THEN NULL ELSE COALESCE($4, video_url) END,
          thumb_url = CASE WHEN $10 THEN NULL ELSE COALESCE($5, thumb_url) END,
@@ -557,6 +567,12 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
       providerVideoCopyStateJson,
     ]
   );
+  const applied = shouldAutoRefundFailure
+    ? await withWalletFailureSettlement(job.job_id, {
+        engineLabel: engineLabelForUpdate ?? job.engine_label ?? job.engine_id,
+        providerJobId: requestId, failureMessage: normalizedMessage, failureOrigin,
+      }, persistUpdate)
+    : await persistUpdate({ query });
   await syncProviderAttemptTerminalStatus({ publicJobId: job.job_id, provider: 'fal', providerJobId: requestId });
   if (!applied.length) return;
 
@@ -597,15 +613,6 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
     ]);
   }
 
-  if (nextStatus === 'failed' && shouldAutoRefundFailure) {
-    await maybeAutoRefundWalletCharge(job.job_id, {
-      engineLabel: engineLabelForUpdate ?? job.engine_label ?? job.engine_id,
-      providerJobId: requestId,
-      failureMessage: normalizedMessage ?? null,
-      failureOrigin,
-    });
-  }
-
   console.info('[fal-webhook] lifecycle update', {
     at: new Date().toISOString(),
     jobId: job.job_id,
@@ -628,7 +635,6 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
   });
 
   const normalizedLogStatus = normalizeFalQueueLogStatus(nextStatus ?? statusInfo.status ?? payload.status);
-
   try {
     await query(
       `INSERT INTO fal_queue_log (job_id, provider, provider_job_id, engine_id, status, payload)
@@ -677,5 +683,5 @@ export async function updateJobFromFalWebhook(rawPayload: unknown, copiedVideoFa
       console.warn('[fal-webhook] failed to record no-media log', { jobId: job.job_id, providerJobId: requestId }, noMediaLogError);
     }
   }
-
+  await captureCompletedFalDraftCache(job,nextStatus);
 }

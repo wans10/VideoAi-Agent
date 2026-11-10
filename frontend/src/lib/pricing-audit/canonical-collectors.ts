@@ -1,3 +1,5 @@
+import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import {
   quoteHistoricalCanonicalAuditScenarios,
   resolveCanonicalAdminScenarioPolicy,
@@ -5,6 +7,7 @@ import {
 
 import { buildPricingAuditScenarios } from './scenarios';
 import type { FrozenPricingOutput } from './types';
+import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
 
 export type CanonicalPricingAuditOutput = FrozenPricingOutput & {
   engineId: string;
@@ -23,7 +26,12 @@ function formatUsd(cents: number): string {
 export function collectCanonicalPricingOutputs(
   baselineRows: FrozenPricingOutput[]
 ): CanonicalPricingAuditOutput[] {
-  const scenarios = buildPricingAuditScenarios();
+  // Nano21 and Kling 4 use native customer tariffs. Their current quotes are
+  // qualified independently; pricing publication cannot create a historical
+  // supplier-cost/percentage-margin baseline that never existed.
+  const scenarios = buildPricingAuditScenarios().filter(
+    (scenario) => scenario.engineId !== NANO21_ENGINE_ID && !isKlingV4FalQueueEngineId(scenario.engineId) && !isGptImage26EngineId(scenario.engineId)
+  );
   const baselineById = new Map(baselineRows.map((row) => [row.scenarioId, row]));
   const canonicalById = new Map(
     quoteHistoricalCanonicalAuditScenarios({ databaseRules: [], scenarios }).map((outcome) => [outcome.scenarioId, outcome])

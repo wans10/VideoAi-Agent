@@ -10,6 +10,8 @@ import { Card } from '@/components/ui/Card';
 import { EngineIcon } from '@/components/ui/EngineIcon';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { CURRENCY_LOCALE } from '@/lib/intl';
+import { GalleryActionButton } from './library/GalleryActionButton.client';
+import { GalleryVideoContinuationActions } from './library/GalleryVideoContinuationActions.client';
 import { GroupedJobCardMenu } from './GroupedJobCardMenu';
 import { shouldWarmVisiblePreview } from './GroupedJobCardMedia';
 import { GroupedJobCardPreviewGrid } from './GroupedJobCardPreviewGrid';
@@ -43,6 +45,8 @@ export interface GroupedJobCardProps {
   selected?: boolean;
   eagerPreview?: boolean;
   warmOnVisible?: boolean;
+  showPrice?: boolean;
+  priceLabel?: string;
 }
 
 export function GroupedJobCard({
@@ -70,6 +74,8 @@ export function GroupedJobCard({
   selected = false,
   eagerPreview = false,
   warmOnVisible = false,
+  showPrice = true,
+  priceLabel,
 }: GroupedJobCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -102,6 +108,7 @@ export function GroupedJobCard({
   }, [menuOpen]);
 
   const formattedPrice = useMemo(() => {
+    if (!showPrice) return null;
     if (typeof group.totalPriceCents === 'number') {
       const currency = group.currency ?? hero.currency ?? 'USD';
       try {
@@ -119,7 +126,8 @@ export function GroupedJobCard({
       }
     }
     return null;
-  }, [group.currency, group.totalPriceCents, hero.currency, hero.priceCents]);
+  }, [group.currency, group.totalPriceCents, hero.currency, hero.priceCents, showPrice]);
+  const priceText = formattedPrice ? [priceLabel, formattedPrice].filter(Boolean).join(' · ') : null;
 
   const previews = useMemo(() => {
     if (group.previews.length >= 4) return group.previews.slice(0, 4);
@@ -241,7 +249,15 @@ export function GroupedJobCard({
             </div>
           ) : null}
         </figure>
-        {showMenu && (
+        {menuVariant === 'gallery' && !isImageGroup ? <GalleryVideoContinuationActions group={group} /> : null}
+        {showMenu && (isGalleryRailCard ? (
+          <GalleryActionButton ref={menuButtonRef} label={actionMenuLabel} menuOpen={menuOpen} onClick={event => {
+            event.stopPropagation();
+            setMenuOpen(prev => !prev);
+          }}>
+            <SlidersHorizontal aria-hidden="true" />
+          </GalleryActionButton>
+        ) : (
           <button
             ref={menuButtonRef}
             type="button"
@@ -251,19 +267,15 @@ export function GroupedJobCard({
             }}
             className={clsx(
               'absolute right-3 top-3 flex items-center justify-center rounded-full border shadow-md backdrop-blur-md transition-[background-color,border-color,color,transform] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              isGalleryRailCard
-                ? 'h-10 w-10 border-white/25 bg-black/45 text-white/90 hover:scale-[1.04] hover:border-white/45 hover:bg-black/65 hover:text-white'
-                : 'h-8 border-white/70 bg-white/85 text-black/80 hover:bg-white/95',
-              showCompactMenuButton ? 'gap-1.5 px-3 text-[12px] font-semibold' : !isGalleryRailCard && 'w-8'
+              'h-8 border-white/70 bg-white/85 text-black/80 hover:bg-white/95',
+              showCompactMenuButton ? 'gap-1.5 px-3 text-[12px] font-semibold' : 'w-8'
             )}
             aria-haspopup={isRailCard ? 'dialog' : 'menu'}
             aria-expanded={menuOpen}
             aria-label={actionMenuLabel}
             title={actionMenuLabel}
           >
-            {isGalleryRailCard ? (
-              <SlidersHorizontal className="h-[18px] w-[18px]" aria-hidden="true" />
-            ) : showCompactMenuButton ? (
+            {showCompactMenuButton ? (
               <>
                 <span>{actionMenuLabel}</span>
                 <ChevronDown
@@ -279,12 +291,12 @@ export function GroupedJobCard({
               </span>
             )}
           </button>
-        )}
+        ))}
       </div>
-      {useRailCaption ? <div className="app-rail-caption">
+      {useRailCaption ? <div className={clsx('app-rail-caption', priceLabel && priceText && 'app-rail-caption-with-cost')}>
         <EngineIcon engine={engine ?? undefined} label={hero.engineLabel} size={20} />
         <strong title={hero.engineLabel}>{hero.engineLabel}</strong>
-        <span>{detailLabel}</span>{formattedPrice ? <span>{formattedPrice}</span> : null}
+        <span>{detailLabel}</span>{priceText ? <span className="app-rail-cost">{priceText}</span> : null}
       </div> : <div className="overflow-hidden rounded-b-card">
         <div className="flex items-center justify-between gap-4 border-t border-hairline bg-surface-glass-80 px-3 py-2 text-sm text-text-secondary">
           <div className="flex items-center gap-2">
@@ -353,8 +365,8 @@ export function GroupedJobCard({
                 ) : null}
               </div>
             ) : null}
-            {formattedPrice ? (
-              <span className="flex-shrink-0 text-[12px] font-semibold text-text-primary">{formattedPrice}</span>
+            {priceText ? (
+              <span className="flex-shrink-0 text-[12px] font-semibold text-text-primary">{priceText}</span>
             ) : null}
           </div>
         </div>

@@ -1,14 +1,16 @@
+import {studioShotPlanRevisionSchema} from './shot-plan-revision';
 import type {SeedanceEditSourceFacts} from '../seedance-edit-source';
 import { z } from "zod";
 import {studioPreparedAnalysisSchema,type StudioPreparedAnalysis} from '@/lib/studio/media-analysis-contract';
 import {studioPreparedExportSchema,type StudioPreparedExport} from "@/lib/studio/conversation-export-contract";
 import type { PreparedGeneration } from "@/server/agent-api/prepare-generation";
 import type { AgentGenerationStatus } from "@/server/generations/generation-status";
+import {studioRecastActionSchema,validateStudioRecast,type StudioRecastIntent} from '@/lib/studio/conversation-character-contract';
 import {studioMediaIntentSchema} from '@/lib/studio/conversation-media-contract';
 import {toolAssetRefSchema} from '@/lib/toolbox/contract';
 import type {PreparedAudioGeneration} from '@/server/agent-api/prepare-audio-generation';
-import {imageSelectionSchema,STUDIO_CONVERSATION_MAX_REFERENCES} from '@/lib/studio/conversation-creation-contract';
-import {projectStudioReply} from './conversation-reply';
+import {imageSelectionSchema,STUDIO_CONVERSATION_MAX_ATTACHMENTS} from '@/lib/studio/conversation-creation-contract';
+import {projectStudioReply,STUDIO_CONVERSATION_REPLY_MAX_CHARS} from './conversation-reply';
 import type {StudioPricingEstimate} from '@/lib/studio/conversation-pricing-contract';
 import {studioTaskSelectionSchema,type StudioTaskSelection,type StudioTaskStatus} from './task-budget-contract';
 
@@ -21,16 +23,17 @@ export const imageTurnInputSchema = z
   .object({
     requestId: z.string().uuid(),
     message: z.string().trim().min(1).max(4000),
-    references: z.array(z.string().regex(/^ma_[a-f0-9]{32}$/)).max(STUDIO_CONVERSATION_MAX_REFERENCES),
-    attachments: z.array(toolAssetRefSchema.refine(ref => ref.type === 'asset' && ref.kind !== 'image')).max(STUDIO_CONVERSATION_MAX_REFERENCES).optional(),
-    referenceMentions: z.array(studioReferenceMentionSchema).max(STUDIO_CONVERSATION_MAX_REFERENCES).optional(),
+    shotPlanRevision:studioShotPlanRevisionSchema.optional(),
+    references: z.array(z.string().regex(/^ma_[a-f0-9]{32}$/)).max(STUDIO_CONVERSATION_MAX_ATTACHMENTS),
+    attachments: z.array(toolAssetRefSchema.refine(ref => ref.type === 'asset' && ref.kind !== 'image')).max(STUDIO_CONVERSATION_MAX_ATTACHMENTS).optional(),
+    referenceMentions: z.array(studioReferenceMentionSchema).max(STUDIO_CONVERSATION_MAX_ATTACHMENTS).optional(),
     renewedFromRequestId: z.string().uuid().optional(),
     taskBudget:studioTaskSelectionSchema.optional(),
     locale:z.enum(['en','fr','es']).optional(),
   })
   .strict().superRefine((input, context) => {
     const ids = [...input.references, ...(input.attachments ?? []).map(ref => ref.type === 'asset' ? ref.assetId : ref.outputId)];
-    if (ids.length > STUDIO_CONVERSATION_MAX_REFERENCES || new Set(ids).size !== ids.length) context.addIssue({code: z.ZodIssueCode.custom, message: 'Attach up to eight distinct references.'});
+    if (ids.length > STUDIO_CONVERSATION_MAX_ATTACHMENTS || new Set(ids).size !== ids.length) context.addIssue({code: z.ZodIssueCode.custom, message: `Attach up to ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} distinct references.`});
     const labels = new Set<string>();
     const mentionedIds = new Set<string>();
     for (const [index, mention] of (input.referenceMentions ?? []).entries()) {
@@ -48,20 +51,29 @@ export const studioContinuationSchema = z.object({
   completedEdits: z.number().int().min(0).max(24),
   lastError: z.object({code: z.string().min(1).max(80),message: z.string().min(1).max(800)}).strict().optional(),
 }).strict();
+export const studioExtensionAssemblyPlanSchema=z.object({
+  sequenceId:z.string().min(1).max(200),expectedRevision:z.number().int().nonnegative(),fps:z.number().int().min(1).max(60),
+  source:toolAssetRefSchema.refine(ref=>ref.kind==='video'),includeSource:z.boolean(),position:z.enum(['before','after']),
+  sourceOriginalHash:z.string().regex(/^[a-f0-9]{64}$/),sourceDurationSec:z.number().positive().nullable(),sourceSizeBytes:z.number().int().positive().nullable(),
+}).strict();
+export type StudioExtensionAssemblyPlan=z.infer<typeof studioExtensionAssemblyPlanSchema>;
 export const imageDraftSchema = z
   .object({
-    reply: z.string().min(1).max(2400).transform(projectStudioReply),
+    reply: z.string().min(1).max(STUDIO_CONVERSATION_REPLY_MAX_CHARS).transform(projectStudioReply),
     image: imageSelectionSchema.nullable(),
     media: studioMediaIntentSchema.transform(media=>({...media,reply:projectStudioReply(media.reply)})).optional(),
+    recast: studioRecastActionSchema.superRefine(validateStudioRecast).transform(recast=>({...recast,reply:projectStudioReply(recast.reply)})).optional(),
     continuation: studioContinuationSchema.optional(),
+    extensionAssembly:studioExtensionAssemblyPlanSchema.optional(),
     exportQuote: studioPreparedExportSchema.optional(),
     analysisQuote:studioPreparedAnalysisSchema.optional(),
   })
-  .strict().refine(draft => [draft.image,draft.media,draft.exportQuote,draft.analysisQuote].filter(Boolean).length <= 1, 'One quote per turn.');
+  .strict().refine(draft => [draft.image,draft.media,draft.recast,draft.exportQuote,draft.analysisQuote].filter(Boolean).length <= 1, 'One quote per turn.');
 export type ImageDraft = z.infer<typeof imageDraftSchema>;
 export type ImageConversationTurn = {
   requestId: string;
   message: string;
+  shotPlanRevision?:ImageTurnInput['shotPlanRevision'];
   references: string[];
   attachments?: ImageTurnInput['attachments'];
   referenceMentions?: ImageTurnInput['referenceMentions'];
@@ -73,6 +85,7 @@ export type ImageConversationTurn = {
   exportQuote?: StudioPreparedExport;
   analysisQuote?:StudioPreparedAnalysis;
   continuation?: z.infer<typeof studioContinuationSchema>;
+  extensionAssembly?:{state:'pending'|'saved'|'blocked';durationSec?:number};
   state: "thinking" | "ready" | "failed";
   retryable: boolean;
   quote:
@@ -83,6 +96,11 @@ export type ImageConversationTurn = {
         /** Recorded canonical output timing; distinct from a model's ignored request default. */
         outputDurationSec?: number;
         sourceVideoOutput?: SeedanceEditSourceFacts;
+        recast?: {
+          confirmationEnabled:boolean;
+          videoRange?: NonNullable<StudioRecastIntent['video']>['range'];
+          audioRange?: NonNullable<StudioRecastIntent['audio']>['range'];
+        };
       })
     | null;
   generation: AgentGenerationStatus | null;
@@ -96,14 +114,17 @@ export type ImageConversation = {
 };
 export type ImageConversationHistoryTurn = Pick<ImageConversationTurn, 'message' | 'reply' | 'referenceMentions'>;
 export type StudioConversationHistoryFacts = {
-  quoteDirections:{requestId:string;quoteId:string;text:string;truncated:boolean}[];
+  quoteDirections:({requestId:string;quoteId:string;truncated:boolean} & (
+    {text:string} | {recast:Omit<StudioRecastIntent,'action'|'reply'>}
+  ))[];
   estimates:(StudioPricingEstimate & {requestId:string;historical:true})[];
 };
-export function hasDraftCreation(draft: ImageDraft | null) {return !!(draft?.image || draft?.media);}
-export function draftSurface(draft: ImageDraft | null) {return draft?.media?.action === 'video.prepare' ? 'video' : draft?.media ? 'audio' : 'image';}
+export function hasDraftCreation(draft: ImageDraft | null) {return !!(draft?.image || draft?.media || draft?.recast);}
+export function draftSurface(draft: ImageDraft | null) {return draft?.recast || draft?.media?.action === 'video.prepare' ? 'video' : draft?.media ? 'audio' : 'image';}
 /** Reproduce the saved immutable request, including renewal identity, in a fresh tab. */
 export function imageTurnRetryInput(turn: ImageConversationTurn): ImageTurnInput {
   return {requestId: turn.requestId,message: turn.message,references: turn.references,
+    ...(turn.shotPlanRevision?{shotPlanRevision:turn.shotPlanRevision}:{}),
     ...(turn.attachments ? {attachments: turn.attachments} : {}),
     ...(turn.referenceMentions ? {referenceMentions: turn.referenceMentions} : {}),
     ...(turn.taskBudget ? {taskBudget:turn.taskBudget} : {}),

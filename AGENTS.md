@@ -1,10 +1,10 @@
-# VideoAI-Agent Engineering Guide
+# MaxVideoAI Engineering Guide
 
 This file is the first reference for Codex, AI agents, and contributors working in this repository.
 
 ## Product Shape
 
-VideoAI-Agent is a production Next.js application for AI video generation, model comparison, examples, pricing, billing, media library, and admin operations.
+MaxVideoAI is a production Next.js application for AI video generation, model comparison, examples, pricing, billing, media library, and admin operations.
 
 The frontend lives in `frontend/`. Most product work should happen there.
 
@@ -49,6 +49,7 @@ Use these guides as context before changing the related areas:
 - `frontend/app/(core)/(workspace)/app/AGENTS.md`: authenticated video workspace boundaries.
 - `frontend/app/(core)/(workspace)/app/image/AGENTS.md`: image workspace boundaries.
 - `docs/engineering/studio-editor-architecture.md`: Studio canvas, timeline, media, certification and export ownership.
+- `docs/engineering/creator-tools.md`: creator tools, scoped quotes, subtitle documents, media workers and Studio caption ownership.
 - `frontend/app/(core)/(workspace)/app/studio/AGENTS.md`: Studio route-local guardrails.
 
 When instructions conflict, follow the nearest `AGENTS.md` for the files being edited, while preserving the root-level rules.

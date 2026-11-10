@@ -1,5 +1,105 @@
 # Pricing Engine
 
+## GPT Image 2.6 raster tariffs (2026-11-07 candidate)
+
+The 2,040 exact launch cells retain their original identities and precedence.
+`lib/image/gptImage26Tariff.ts` projects any validated raster dimensions, 1–10
+outputs and 0/1–16 sources into factual output-token, output and reference-output
+quantities. The selected database reader fetches the exact selector plus one
+reviewed raster alternative. Missing or malformed tariffs fail closed; GPT 2.5
+tiers and percentage policy never supply a replacement amount.
+
+The native admin batch owner adds 48 literal classes: two models, two modes, six
+qualities and explicit/automatic size domains. Twenty are explicit-quality raster
+classes; 28 use automatic size or quality and require deliberate conservative-price
+review. Runtime reads stored absolute rates only. The prepared rates encode the
+approved output LIST estimate plus USD 0.01/output and USD 0.02/reference/output,
+then ×1.50 with a single final upward cent rounding. Existing exact prices can
+remain different and still win. The preparation command writes local proposals
+only; see [native batches](pricing-admin-batches.md).
+
+Automatic provider settings remain automatic in request/snapshot metadata.
+Pricing bounds output tokens with `max` quality and/or the 2880² maximum square,
+as applicable. The owner reports `conservative-list-output-bound`, keeps exact
+output tokens null, and records `providerConservativeOutputImageTokens` separately.
+Text and reference token costs stay unknown. Commercial reserves establish neither
+a total supplier bound nor a margin. The offline domain check covers all 29,146
+valid ordered dimension pairs and proves automatic output/quality bounds; literal
+price regression uses independent integer arithmetic throughout token/output-count
+boundaries. Public scenario admission validates this same domain without pretending
+the finite launch audit is exhaustive. The historical collector reports a separate
+continuous-raster coverage requirement.
+
+Real PG17/native-browser tests apply the additions only in disposable databases,
+verify all original exact rows and paid snapshots unchanged, exercise repeat
+confirmation/resume and quote through the selected database reader. These tests do
+not establish production activation or generation qualification.
+
+## Kling 4 tariff preparation (2026-10-25)
+
+The V4 candidate remains closed to spending for every actor. Its factual supplier
+owner, `src/lib/kling-v4-pricing.ts`, distinguishes output-only usage from verified
+aggregate video usage. The latter bills `max(input + output, 2 * output)`; exact
+fractional seconds remain quantities. The admin-only V4 inventory uses the same
+canonical selectors and revisioned cells as billing, including continuous
+`billable_seconds` authoring. No-video and video-input selectors cannot alias.
+Inactive or missing V4 cells refuse a quote; no legacy policy can supply a retail
+amount. No cell is seeded or activated by this integration. See the
+[current release and QA boundary](../launch/kling-v4/INTEGRATION-2026-10-25.md).
+
+## Fixed image tool product reservations
+
+New Character Studio work uses the native Nano Banana 2.1 image tariff for the
+selected resolution and the same customer tariff revision at estimate and reservation.
+Historical Character Builder Draft/Final receipts retain the original fixed products. `image-initial-job.ts` skips the
+model tariff revision lock only for a fixed `billing-product` snapshot whose
+product key and surface match the internal reservation context. Manual model
+tariff snapshots retain their revision lock, including when they carry product
+labels. Wallet funding, atomic reservation and existing-job recovery still apply.
+`tests/character-builder-pricing-postgres.test.ts` covers Draft/Final quantities,
+receipt preservation, replay, insufficient funds and mismatched pricing contexts.
+Static Character Studio marketing rows contain no historical fixed amounts.
+`character-studio-public-pricing-transition-2026-11-05.json` records precisely
+the four retired static projections while the original baseline remains frozen.
+Current rows use the native image estimator; EN/FR/ES public prices, estimates
+and reserved receipts are checked together in
+`tests/character-studio-nano21-price-postgres.test.ts`. Missing native pricing
+cannot fall back to an admin-edited legacy Character product.
+
+## Character Studio Recast product policy (2026-11-05)
+
+Recast uses `server/pricing/quote-recast.ts` for its public estimate, prepared
+quote and transaction-locked confirmation. The exact database selector is
+`character-recast / recast / video`. It requires USD, standard rounding, zero
+flat/audio/upscale extras, and a supplier coefficient between ×1 and ×10
+(`marginPercent = coefficient - 1`). Missing or unavailable scoped policy closes
+quoting; neither a generic Wan tariff nor a global/versioned policy substitutes
+for it. Supplier routing stays with Wan 3 Prime. The cost facts remain the native
+Wan input-plus-output owner: exact trimmed video seconds plus generated seconds,
+with audio excluded from video duration. Standard cent rounding is unchanged.
+
+Authored admin scenarios use the pure standard-definition projection in `buildPublicPricingFacts`, sharing the native Wan duration facts without importing live quote/policy readers; every scenario is checked against the public Recast reader for exact supplier cost, currency, unit and quantity parity.
+
+Only the trusted Recast service selects `billingProduct: 'character-recast'`.
+The initial wallet reservation validates that choice against the locked scoped
+rule and matching snapshot provenance, instead of requiring the ordinary model
+customer-tariff revision. Raw request settings cannot select this owner. Full
+quote repricing, reference ownership, wallet locking, single reservation and
+provider recovery remain in the existing generation service. Unaccepted legacy
+quotes must be refreshed; accepted jobs and refunds retain their stored amounts.
+
+Admin Pricing → Tools exposes the supplier coefficient with canonical examples,
+supplier cost, customer price and gross margin. It uses the existing preview,
+fingerprint confirmation, immutable history and rollback protocol. First
+configuration has an unavailable baseline, never a fabricated zero price.
+Deletion or rollback to a missing rule is refused. Public EN/FR/ES pricing
+examples use the same owner and fail to a live-quote label if unavailable.
+No product rule is installed by code or schema bootstrap; activation is an
+explicit environment-specific admin action. Image tariffs and the five creator
+tools' ×2.2 policy are separate. Financial and admin regression coverage lives in
+`character-studio-recast-*.test.ts`, `admin-recast-pricing*.test.ts` and
+`recast-pricing-page.test.ts`.
+
 ## Seedance 2.5 LAS Edit
 
 Current new-work classification follows `SEEDANCE_2_5_EDIT_TRANSPORT`. The
@@ -19,6 +119,20 @@ LAS quote. The four ModelArk modes retain their current owners. The focused
 the 324 supported Edit classes through the normal append-only store and an atomic
 release event. Exact exceptions, stale review and partial writes fail closed.
 It does not activate execution. See the [LAS release procedure](../model-launch/seedance-2-5-las-edit.md).
+
+## Workspace gallery rail prices
+
+`GalleryRailCards` hides recorded amounts on curated starter samples: their old
+charge and incomplete public settings do not establish the price of recreating
+them. Owned renders retain their stored final amount (or stored quote fallback),
+labeled as the original cost on a separate caption line so narrow cards retain
+the model name. Group totals still count each job once, including
+multi-output image jobs. Selecting/reusing a render obtains the current price
+through the composer's existing preflight; the rail adds no pricing requests and
+never rewrites paid history. `gallery-rail-render-performance.test.ts` covers
+sample suppression, localized cost labels, final-amount precedence, batch totals
+and the existing prompt-input render budget. `gallery-rail-price-layout-browser.test.ts`
+checks real caption geometry with production CSS at mobile and tablet widths.
 
 ## Studio conversational estimates
 
@@ -65,6 +179,23 @@ Savings use current integer customer cents in the same currency and disclose
 configuration differences. Shortlists use the baseline currency (otherwise the
 largest currency group) and disclose other currencies without ranking their amounts.
 Output timing comes from canonical pricing receipts, including fractional source timing. Historical estimates never supply current savings.
+
+Studio's explicit new-message intake qualifies selected saved videos whose
+duration or dimensions are missing, before computing the reference fingerprint
+or starting metered assistant work. `conversation-attachment-facts.ts` authorizes
+the complete selection, then calls the existing bounded
+`hydrateOwnedVideoMediaFacts` owner for at most twelve distinct missing videos.
+It rereads persisted facts and original identities afterward. Qualification does
+not generate media, fabricate filenames, alter original bytes or run from a GET,
+pricing read or recorded-response/draft recovery. An unverifiable original fails
+before an assistant/model, quote or generation charge.
+
+Supplementary video references use the same authored V2V capability fields and
+aggregate per-type budgets as provider submission. Comparison failure facts
+contain at most eight canonical model/field/reason records, with no raw error
+messages, media identities or URLs. The comparison fingerprint includes the
+validation policy so a repaired capability path can reconsider old negative
+evidence instead of repeatedly suppressing the same valid request.
 The conversation journal projects at most three options from each of the two
 latest completed owned pricing actions, with private settings removed, marked
 historical and requiring a quote. Behavioral tests cover fresh prices, strict
@@ -551,7 +682,7 @@ and browser evidence is required before claiming TTFB or Core Web Vitals gains.
 
 ## Homepage guided pricing demonstration
 
-`(home)/_lib/home-price-demo-data.ts` selects three exact Wan 3 text-to-video scenarios through Pricing's `getPresetQuote`: 5 s / 720p, 15 s / 720p, 15 s / 1080p, audio enabled. If any scenario is not exact, it omits the demonstration. `HomePriceDemo.client.tsx` selects these server-projected quotes without computing commercial prices; `HomePriceAppSurface.client.tsx` presents them with the shared workspace Composer and CoreSettingsBar in an inert, lazy-loaded surface. The generation handler is a no-op and the real studio is a separate link. Preserve this boundary: the homepage is neither a live quote endpoint nor a generation client. `tests/home-price-demo.test.ts` verifies the public quote projection in EN, FR and ES.
+`(home)/_lib/home-price-demo-data.ts` selects three exact Wan 3 text-to-video scenarios through Pricing's `getPresetQuote`: 5 s / 720p, 15 s / 720p, 15 s / 1080p, audio enabled. If any scenario is not exact, it omits the demonstration. `HomePriceDemo.client.tsx` selects these server-projected quotes without computing commercial prices; `HomePriceAppSurface.client.tsx` presents them with the shared workspace Composer and CoreSettingsBar in an inert, lazy-loaded surface. Only a bounded display projection of the engine reaches the browser: shared control facts and t2v capabilities, without input schemas, supplier metadata or catalog pricing. Server quote calculation still uses the full catalog entry, and the current public quote reader retains canonical ownership. The generation handler is a no-op and the real studio is a separate link. Preserve this boundary: the homepage is neither a live quote endpoint nor a generation client. `tests/home-price-demo.test.ts` verifies the public quote projection in EN, FR and ES, control parity and its serialization budget.
 
 ## Policy precedence
 
@@ -846,9 +977,7 @@ previews actual budgets across priced options and 300-frame block boundaries.
 A missing qualified rule keeps the current quote unavailable; a global default
 cannot silently replace it in either billing or the preview.
 
-Character Builder reference rows use the same quality-to-model and standard-format
-resolution mapping as its runner, then read the underlying Nano Banana supplier
-facts independently of fixed retail billing. Angle rows use the authored Fal
+Historical Character Builder fixed-product reference rows retain their original Nano Banana supplier mapping. They do not price current Character Studio runs. Angle rows use the authored Fal
 megapixel estimate at an explicit 1 MP source and the runner's one/four provider
 calls; retail remains fixed per run. These are repository catalogue estimates,
 not newly verified LIST or account prices. Storyboard supplier rows project the
@@ -916,6 +1045,13 @@ Billing facts now apply the same idempotent mode-specific engine rate projection
 
 Manual duration and `output_seconds` now project the factual billed quantity, retaining requested/automatic/inherited timing in the context. Reviewed automatic Flux, LTX 2.5 and Seedance modes cover their normalized integer classes. Source-timed Ray Reframe, Happy Horse edit and LTX 2.3 audio modes use their existing factual bounds; unbounded Luma Ray 2 Modify timing remains a unit-tariff gate. Explicit public durations still respect numeric catalog choices; `durationOption: auto` selects automatic billing classes without publishing unsupported explicit durations.
 
+The October 22 Ray 3.2 correction restricts new Reframe outputs to explicit 5s/10s,
+independent of its verified source (at most 10s). Studio preserves the selected or
+default output duration. The audit collector retains all historical 1..30s Reframe
+tariff classes for complete cutover/replay coverage; the public quote resolver
+rejects those historical durations outside 5s/10s. This does not remove tariff
+cells, rewrite paid snapshots, or reduce the exhaustive financial matrix.
+
 Ray 3.2 SDR, HDR and HDR + EXR are separate supported tariff variants. Validated generation extras now feed the same priced-effect projection as preflight and direct checkout. Captured direct payments bind HDR/EXR, with missing historical flags retaining SDR semantics. This fixes an existing advanced-effect final-billing omission: at 5s/720p, SDR stays 130 cents, HDR is 260 and HDR + EXR is 390 under the current default rule. Historical paid snapshots are unchanged; this correction is explicitly separate from a zero-delta manual cutover. Unsupported 540p/10s HDR and EXR without HDR remain unavailable.
 
 The private timing capture contains 18,287 quotes with zero quote gaps and 14 remaining capability gates. Global activation and existing prepared data remain unchanged. Production parity is still a distinct release gate.
@@ -934,6 +1070,28 @@ Omni edit pricing projects literal output/input token quantities. Its bounded mi
 Read-only admin/public controls follow generation ownership: v2v output inherits the source clip duration (3–10 seconds); retake inherits a previous interaction's output and submits no new source clip; extend keeps its chosen output and a positive source up to 10 seconds. These controls are estimates, never substitutes for charging's trusted owned metadata. Retake exposes only the inherited-output rate. The public HTTP parser now admits reviewed fractional source-timed durations, including LTX audio, while other explicit durations remain integers.
 
 The private read-only capture contains 20,113 quotes with zero quote gaps. All 18,167 unchanged preceding identities retain amounts and policy provenance. It removes 120 impossible Omni combinations, adds 56 owned Omni identities and the 1,890 Wan mixed-reference identities introduced by the preceding compiler work. No existing staged data or paid snapshot was rewritten. Eleven continuous Wan/LTX/Omni modes now have compiler/editor/domain checks; a complete seed certificate and the three unbounded pricing domains remain open gates. Global activation stays off.
+
+#### Omni 1.2 supplier refresh (2026-11-05)
+
+New media estimates and newly compiled token bands use $12/million output video
+tokens. Existing 1.1 bands retain their authored $17.50 token-cost coordinate and
+literal customer amounts; validation accepts both reviewed versions and checks
+their reachable domain against current supplier costs. Polling uses the model
+recorded with the submitted attempt, never today's catalog identity. This changes
+neither active authored tariffs nor historical paid snapshots. Inactive legacy
+percentage projections do change: four canonical audit deltas and thirteen public
+projection deltas are explicit in `approved-changes.ts` and
+`omni-1-2-public-pricing-change-2026-11-05.json`; frozen older fixtures are preserved.
+These development/audit amounts are not a production retail-price promise. The
+sellable duration remains 3–10 seconds pending reviewed 11–15-second coverage.
+
+The later approved retail decision is independent of that supplier refresh:
+`omni-12-tariff-release.ts` prepares all 456 saved Omni classes at 150% of their
+1.1 customer amounts, rounding up once per fixed amount or token band. Token
+coordinates and thresholds stay exact. An explicit maintenance release appends
+versions and one immutable event atomically, refuses stale review and a second
+application, and never rewrites paid snapshots. No quote-time multiplier or
+build-time write is added. See the [release procedure](../model-launch/gemini-omni-flash-1-2-tariffs.md).
 
 ### Dynamic video tool coefficients (2026-09-30)
 
@@ -1155,6 +1313,17 @@ upgrade on replay. Do not substitute padded retail cents for this supplier budge
 
 ## Public page loading scopes (2026-10-12)
 
+`createScopedCurrentPublicSnapshot` retains one successful effective policy per
+invocation and batches concurrent selected customer tariffs through
+`createScopedCustomerTariffQuoteLoader` when customer tariffs are enabled. This
+uses the same canonical calculator and selected exact/continuous tariff reader
+as watch quotes. One batch shares a read-only repeatable-read snapshot; a later
+batch rereads current prices and revision. No result or tariff state is cached
+across batches or requests. A failed shared read makes its concurrent group
+unavailable, while later work can retry. The comparison PG17 contract checks
+complete EN/FR/ES output parity, partial/zero/missing prices, failures, overlapping
+scopes and committed tariff edits with the same existing scope.
+
 `buildCurrentPricingHubData` keeps the complete Pricing-page projection. Its
 request-local canonical worker queue and shared policy scope remain unchanged.
 `buildCurrentVideoPricingData` reuses that same owner but exposes only `video`:
@@ -1162,10 +1331,170 @@ PAYG does not consume image, audio or tool prices and must not start those reads
 The narrow return type prevents unrefreshed base amounts from escaping as current
 prices. PAYG's pure projection accepts `Pick<PricingHubData, 'video'>`.
 
-With the current catalog, the full hub runs 132 distinct image/video quotes plus
-21 audio/tool quotes; the video-only owner runs the same 114 video quotes through
+With the current catalog, the full hub runs 143 distinct image/video quotes plus
+21 audio/tool quotes; the video-only owner runs the same 123 video quotes through
 at most eight workers. This is a count of canonical quote calls, not SQL commands.
 `tests/payg-current-video-pricing.test.ts` compares the entire EN/FR/ES PAYG output
 against the full hub for exact and unavailable results. Existing hub queue tests
 retain full-surface limits, failure observation and next-request freshness. No
 cross-request quote cache or tariff arithmetic is introduced.
+
+
+## Five creator tools commercial policy (2026-10-19)
+
+The server-only `server/pricing/quote-creator.ts` owner selects
+`creator-tools:provider-plus-120:v1` for Subtitles, Lip Sync, Product Photo Editor,
+Product Video Editor and Motion Transfer. It passes existing exact provider facts
+to the canonical calculator with a 120% markup (provider cost × 2.20), zero flat
+fee/surcharges and the existing standard rounding profile. It does not multiply
+an already marked-up quote. Generic model customer tariff cells, model policies,
+ordinary generations and MCP generations retain their current prices. Creator
+operations reached through MCP receive the same tool product as web operations.
+
+`generation-pricing.ts` shares trusted-media context normalization between ordinary
+confirmation and creator preparation/confirmation. Only validated creator snapshots
+select the creator billing owner. Quotes persist their tool policy and exact cost
+basis; fresh confirmation compares the complete current quote before reservation.
+Accepted job recovery and refunds keep their original snapshots and amounts.
+Vendor routing, wallet conversion, tax and Stripe settlement owners are unchanged.
+
+Subtitle transcription includes sequence mix preparation and MP4 burn-in, including
+exports after text/style revisions. Their internal processing cost is absorbed;
+zero additional customer price is not a zero provider-cost claim. Export still
+requires an exact owned document/source preparation and durable job confirmation.
+Included exports do not debit the wallet or create charge/refund receipts. Earlier
+accepted paid exports retain historical billing; earlier unaccepted paid quotes
+expire on confirmation. General Studio timeline export prices and quotas are unchanged.
+
+
+### Luma Modify source timing — 2026-10-22 candidate
+
+Modify accepts verified owned sources up to 18s, including fractional phone
+recordings. Web preflight, canonical estimates, locked repricing and execution
+all derive the same proposed customer tariff quantity: `max(5, ceil(source))`.
+The 5s minimum and existing 5s/10s reference amounts remain stable. The candidate
+extends the commercial reference proportionally to classes 6–9 and 11–18; this
+is not a verified provider charging formula. Provider payloads omit duration so
+that rounding changes no source bytes or timing. The collector enumerates these
+classes for review; no production tariff cell or activation state is changed.
+An active manual grid without the selected class still fails closed.
+
+Published direct supplier estimates stay limited to documented 5s/10s scenarios.
+Other lengths retain unknown supplier cost. Observed qualification invoices
+(5.558s at 720p: $1.08; 8.4s and 17.52s at 360p: $0.54 each) are dated evidence
+only. Live qualification, complete tariff review and the production lifecycle
+canary remain distinct release requirements. Reframe is unchanged by this slice.
+
+### Bounded Modify tariff initialization — 2026-10-23 proposal
+
+`server/pricing/modify-tariffs.ts` prepares exactly 49 missing SDR cells. It reuses
+the Kling resolution preparation owner to copy the 13 current 1080p Modify
+amounts into distinct 720p selectors. The original selectors remain untouched.
+Luma's 36 missing source classes use the existing canonical commercial reference
+projection and effective database policy, frozen as literal customer cents. Its
+six current 5s/10s anchors must still be 94/188 (540p), 141/281 (720p), and
+281/562 (1080p), and the canonical projection must reproduce each anchor.
+Intermediate Luma supplier cost remains **unknown**; this authoring operation
+does not establish provider billing or margin. Existing HDR/EXR cells, anchors,
+historical prices, paid jobs and receipts remain unchanged.
+
+Proposed Luma customer cents from the existing canonical policy:
+
+| Source tariff class | 540p | 720p | 1080p |
+| --- | ---: | ---: | ---: |
+| 6s | 113 | 169 | 337 |
+| 7s | 132 | 197 | 394 |
+| 8s | 150 | 225 | 450 |
+| 9s | 169 | 253 | 506 |
+| 11s | 206 | 309 | 618 |
+| 12s | 225 | 337 | 674 |
+| 13s | 244 | 366 | 731 |
+| 14s | 263 | 394 | 787 |
+| 15s | 281 | 422 | 843 |
+| 16s | 300 | 450 | 899 |
+| 17s | 319 | 478 | 955 |
+| 18s | 337 | 506 | 1011 |
+
+The reviewed Kling 3–15s source amounts are respectively 50, 66, 82, 99, 115,
+132, 148, 164, 181, 197, 214, 229 and 246 cents. The fresh receipt must show the
+actual current source amounts; this table does not override the active database.
+
+The standalone maintenance CLI requires a clean committed candidate published on
+the explicitly named `--release-branch codex/marketing-media`. A clean detached
+worktree at that exact candidate is supported; unrelated untracked files never
+qualify for a cleanliness exception. The CLI compares remote `main` to fetched
+`origin/main` and requires that commit to be an ancestor of the candidate. Fetch
+`origin main` before preparing a release and follow `docs/deployment/github-vercel.md`.
+Keep the explicitly selected environment file and receipt outside the checkout.
+These are operational examples, not evidence that prices were activated:
+
+```bash
+pnpm exec tsx --tsconfig frontend/tsconfig.json frontend/scripts/initialize-modify-tariffs.ts preview --environment /private/release.env --actor ADMIN_UUID --candidate FULL_40_CHARACTER_SHA --release-branch codex/marketing-media --review /private/modify-review.json
+pnpm exec tsx --tsconfig frontend/tsconfig.json frontend/scripts/initialize-modify-tariffs.ts apply --environment /private/release.env --actor ADMIN_UUID --candidate FULL_40_CHARACTER_SHA --release-branch codex/marketing-media --review /private/modify-review.json --pr PR_NUMBER --approve-fingerprint REVIEWED_64_CHARACTER_FINGERPRINT
+```
+
+Preview uses a repeatable-read, read-only transaction and exclusively creates a
+0600 receipt containing all prices, unknown-cost disclosure, target identity,
+actor, candidate, named release branch, complete source-state/policy hash, revision and fingerprint.
+Apply requires review of that exact proposal, operational authorization and
+an open PR in `camgraphe/MaxVideoAi` on the named branch with successful
+`Quality CI` on the exact candidate. Git and PR fences run again before commit.
+It locks the administrator,
+tariff state, cells/history and policy tables, reproduces the fingerprint, inserts
+only missing cells through the canonical store, verifies all 49 persisted quotes
+and unchanged old rows, and appends one pricing event in the same transaction.
+Any failure rolls the transaction back. A changed source, policy, revision,
+candidate, existing target selector or candidate ID blocks the operation.
+
+The event target is `modify:bounded-source-class-initialization`; inspect it
+before retrying an interrupted command. A completed initialization cannot be
+repeated. Subsequent price changes use reviewed admin operations; never delete
+active cells or deactivate the entire grid to undo this bounded addition. No
+route, build or deployment invokes the writer. The quote reader continues to fail
+closed until the required cells exist. The PG17 integration contract exercises
+stale review, administrator checks, concurrent-write locks, partial-insert/audit
+failure rollback, persisted quotes and preservation of the anchors and HDR/EXR.
+
+
+### Video operation tariff ownership — 2026-10-24
+
+The operation inventory is additive: 26,982 historical monetary checkpoints remain,
+with 89 separately classified new offers (76 fixed cells and 13 continuous classes).
+New-offer proposals carry `beforeCents: null`; they are never described as preserved
+historical charges. `video-operation-tariff-inventory.ts` owns enumeration;
+`video-operation-continuous-tariff.ts` compiles exact canonical cent transitions;
+`video-operation-tariffs.ts` owns missing-only transactional maintenance.
+See [the operation maintenance guide](video-operation-tariffs.md) for scope,
+reference settlement precision, release fences and rollback.
+
+Only the new source-operation identities use the canonical standard nearest
+reference subtotal for settlement. The raw published reference estimate and its
+unverified-invoice metadata remain intact. Existing manual tariffs retain their
+upward normalization and historical amounts. This is not a provider invoice claim
+or a new retail markup. Runtime reads literal cells/bands. MCP/Studio reservation
+keeps exact source seconds in the canonical snapshot and projects only the legacy
+integer job display column; caller duration cannot replace a trusted source quantity.
+
+### Current marketing availability (2026-10-29)
+
+Pricing and PAYG read the configured enabled catalog once per render before
+requesting prices. Failed availability reads fail the render instead of reviving
+static rows. The canonical quote remains the price authority. A supported preset
+without a legacy catalogue amount still requests a current quote; unsupported
+settings never do. Kling 4.0 pricing publication is authored in the registry.
+PAYG model cards also require a current row, so an editorial fallback URL cannot
+reintroduce a disabled model. Entry-route/4K durations remain explicit; only
+matching preset settings receive a lowest-quoted highlight. Historical media and
+model URLs keep their original identity.
+
+The duration projection intersects the selected mode's choices with configured
+input values and effective maximum duration; another mode or stale pricing
+metadata cannot reopen a disabled duration.
+
+Publishing Kling 4 on Pricing does not give it a historical percentage-policy
+baseline. Like Nano21, its native customer tariffs are qualified separately.
+The original billing/public fixtures and the October 27 discovery evidence stay
+unchanged. `kling-v4-pricing-discovery-projections-2026-10-29.json` adds exactly ten
+**unavailable offline** rows (three estimator tiers, seven Pricing presets), with
+no monetary values. The read-only public audit now covers 610 rows; live current
+quotes and configured availability remain covered by the pricing-policy tests.

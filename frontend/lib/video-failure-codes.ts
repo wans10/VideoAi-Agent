@@ -1,5 +1,7 @@
 export const SEEDANCE_OUTPUT_COPYRIGHT_RESTRICTED = 'seedance_output_copyright_restricted';
 export const SEEDANCE_OUTPUT_AUDIO_BLOCKED = 'seedance_output_audio_blocked';
+export const SEEDANCE_PROMPT_BLOCKED = 'seedance_prompt_blocked';
+export const SEEDANCE_CONTENT_BLOCKED = 'seedance_content_blocked';
 export const SEEDANCE_INPUT_VIDEO_TOO_SMALL = 'seedance_input_video_too_small';
 export const SEEDANCE_I2V_RATIO_REJECTED = 'seedance_i2v_ratio_rejected';
 export const SEEDANCE_TASK_TYPE_CONSTRAINT = 'seedance_task_type_constraint';
@@ -7,13 +9,17 @@ export const SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED = 'seedance_reference_vi
 export const SEEDANCE_REFERENCE_IMAGE_BLOCKED = 'seedance_reference_image_blocked';
 export const SEEDANCE_REFERENCE_VIDEO_BLOCKED = 'seedance_reference_video_blocked';
 export const SEEDANCE_REFERENCE_MEDIA_BLOCKED = 'seedance_reference_media_blocked';
+export const SEEDANCE_REFERENCE_MEDIA_UNAVAILABLE = 'seedance_reference_media_unavailable';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
 
 export function getVideoFailureCodeFromSettingsSnapshot(settingsSnapshot: unknown): string | null {
-  if (!isRecord(settingsSnapshot) || !isRecord(settingsSnapshot.providerFailure)) return null;
+  if (!isRecord(settingsSnapshot)) return null;
+  if (isRecord(settingsSnapshot.submissionFailure)
+    && settingsSnapshot.submissionFailure.code === 'IMAGE_HOST_NOT_ALLOWED') return 'reference_link_unsupported';
+  if (!isRecord(settingsSnapshot.providerFailure)) return null;
   const providerFailure = settingsSnapshot.providerFailure;
   // Older tasks stored a reference-media code even when the rejection concerned generated audio.
   if (providerFailure.provider === 'byteplus_modelark' &&
@@ -22,6 +28,14 @@ export function getVideoFailureCodeFromSettingsSnapshot(settingsSnapshot: unknow
     return SEEDANCE_OUTPUT_AUDIO_BLOCKED;
   }
   const failureCode = providerFailure.failureCode;
+  if (providerFailure.provider === 'byteplus_modelark' && typeof providerFailure.providerErrorCode === 'string') {
+    const code = providerFailure.providerErrorCode.trim();
+    if (/^inputtextsensitivecontentdetected(?:\.|$)/i.test(code)) return SEEDANCE_PROMPT_BLOCKED;
+    // These older records discarded the precise rejection. Do not attribute it to a reference.
+    if (failureCode === SEEDANCE_REFERENCE_MEDIA_BLOCKED && code === 'BYTEPLUS_PROVIDER_ERROR') {
+      return SEEDANCE_CONTENT_BLOCKED;
+    }
+  }
   if (typeof failureCode === 'string' && failureCode.length) return failureCode;
   const provider = providerFailure.provider;
   const providerErrorCode = providerFailure.providerErrorCode;

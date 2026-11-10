@@ -2,9 +2,10 @@ import localFont from 'next/font/local';
 import { AppExperienceRoot } from '@/components/AppExperienceRoot';
 import '@/styles/app-experience.css';
 import '@/styles/app-shell.css';
+import '@/components/library/compact-library.css';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
+import VercelAnalytics from '@/components/analytics/VercelAnalytics';
 import { AnalyticsScripts } from '@/components/analytics/AnalyticsScripts';
 import ConsentModeBootstrap from '@/components/analytics/ConsentModeBootstrap';
 import GA4EventBridge from '@/components/analytics/GA4EventBridge';
@@ -14,8 +15,8 @@ import { JsonLd } from '@/components/SeoJsonLd';
 import { SWRFocusResync } from '@/components/swr/SWRFocusResync';
 import { SWRProvider } from '@/components/swr/SWRProvider';
 import { I18nProvider } from '@/lib/i18n/I18nProvider';
-import { defaultLocale, locales, type AppLocale } from '@/i18n/locales';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
+import { resolveCookieLocale } from '@/lib/i18n/cookie-locale';
 import { resolveDictionary } from '@/lib/i18n/server';
 import { pickClientMessageNamespaces, type ClientMessageNamespace } from '@/lib/i18n/client-message-namespaces';
 import { LocaleSync } from '@/components/i18n/LocaleSync';
@@ -31,10 +32,7 @@ type AppRuntimeProps = {
 
 export async function AppRuntime({ children, clientMessageNamespaces }: AppRuntimeProps) {
   const cookieStore = await cookies();
-  const locale = [cookieStore.get(LOCALE_COOKIE)?.value, cookieStore.get('NEXT_LOCALE')?.value].find(
-    (candidate): candidate is AppLocale =>
-      typeof candidate === 'string' && (locales as readonly string[]).includes(candidate)
-  ) ?? defaultLocale;
+  const locale = resolveCookieLocale(cookieStore.get(LOCALE_COOKIE)?.value, cookieStore.get('NEXT_LOCALE')?.value);
   const { dictionary: fullDictionary, fallback: fullFallback } = await resolveDictionary({ locale });
   const dictionary = pickClientMessageNamespaces(fullDictionary, clientMessageNamespaces);
   const fallback = fullFallback === fullDictionary

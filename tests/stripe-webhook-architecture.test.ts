@@ -22,9 +22,9 @@ test('Stripe webhook event idempotency has one route-local owner', () => {
 
   assert.match(processor, /from ['"]\.\/stripe-webhook-event-state['"]/);
   assert.doesNotMatch(route, /stripe_webhook_events/);
-  assert.match(eventState, /export async function beginStripeEvent/);
-  assert.match(eventState, /export async function markStripeEventProcessed/);
-  assert.match(eventState, /export async function rollbackStripeEvent/);
+  assert.match(eventState, /export async function runStripeEvent/);
+  assert.match(processor, /dependencies\.runStripeEvent\(event,/);
+  assert.doesNotMatch(processor, /beginStripeEvent|markStripeEventProcessed|rollbackStripeEvent/);
   assert.match(eventState, /ON CONFLICT \(event_id\) DO NOTHING/);
 });
 
@@ -59,8 +59,8 @@ test('successful Stripe events share one canonical top-up persistence owner', ()
   assert.equal((topupEvents.match(/recordStripeTopup\(/g) ?? []).length, 2);
   assert.match(persistence, /withDbTransaction/);
   assert.match(persistence, /lockAndResolveFirstWalletTopup/);
-  assert.match(persistence, /name: 'topup_completed'/);
-  assert.match(persistence, /name: 'purchase'/);
+  assert.match(persistence, /enqueueGa4WalletReceiptSafely/);
+  assert.doesNotMatch(persistence, /sendGa4Event/);
   assert.doesNotMatch(route, /recordStripeTopup|withDbTransaction|topup_completed/);
 });
 

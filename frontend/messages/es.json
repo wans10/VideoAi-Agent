@@ -11,7 +11,7 @@
     "saved": "Tu contraseña se ha actualizado.",
     "continueToApp": "Ir a la aplicación",
     "requestNew": "Solicitar otro enlace",
-    "invalid": "Este enlace no es válido o ha caducado. Solicita uno nuevo. Si cambiaste de navegador, prueba a abrir el enlace original en el navegador donde lo solicitaste.",
+    "invalid": "Este enlace no es válido, ha caducado o ya se usó. Solicita otro para restablecer tu contraseña.",
     "tooShort": "Usa al menos 6 caracteres.",
     "mismatch": "Las contraseñas no coinciden.",
     "weak": "Elige una contraseña más segura.",
@@ -173,6 +173,8 @@
           "wan-2-6-vs-wan-3": "Wan 2.6 vs Wan 3",
           "flux-3-vs-grok-imagine-video-1-5": "FLUX 3 vs Grok Imagine Video 1.5",
           "grok-imagine-video-1-5-vs-sora-2": "Grok Imagine Video 1.5 vs Sora 2",
+          "kling-v4-vs-seedance-2-5": "Kling 4.0 vs Seedance 2.5",
+          "kling-v4-vs-wan-3-prime": "Kling 4.0 vs Wan 3 Prime",
           "minimax-h3-vs-seedance-2-5": "MiniMax H3 vs Seedance 2.5",
           "kling-o3-pro-vs-minimax-h3": "Kling 3.0 Omni Pro vs MiniMax H3",
           "minimax-h3-vs-veo-3-1": "MiniMax H3 vs Veo 3.1",
@@ -193,7 +195,7 @@
           "sora-2-vs-wan-2-6": "Sora 2 vs Wan 2.6",
           "ltx-2-vs-veo-3-1": "LTX 2 vs Veo 3.1",
           "ltx-2-5-fast-vs-ltx-2-5-pro": "LTX 2.5 Fast vs Pro",
-          "gemini-omni-flash-vs-veo-3-1": "Gemini Omni Flash 1.1 vs Veo 3.1",
+          "gemini-omni-flash-vs-veo-3-1": "Gemini Omni Flash 1.2 vs Veo 3.1",
           "seedance-2-0-vs-seedance-2-0-fast": "Seedance 2.0 vs Fast"
         },
         "sections": {
@@ -213,12 +215,18 @@
       "tools": {
         "items": {
           "ai-video-assistant": "Asistente de video para Claude, ChatGPT y Codex",
-          "character-builder": "Personajes IA consistentes",
+          "character-builder": "Character Studio",
           "angle": "Cambiar ángulo de cámara",
           "upscale": "Ampliar una imagen o video",
           "image": "Generar imagen",
           "audio": "Crear audio",
-          "background-removal": "Quitar el fondo de un video"
+          "background-removal": "Quitar el fondo de un video",
+          "studio": "Studio",
+          "subtitles": "Subtítulos de vídeo",
+          "lip-sync": "Lip Sync",
+          "product-photo-editor": "Editor de fotos de producto",
+          "product-video-editor": "Editor de vídeos de producto",
+          "motion-transfer": "Motion Transfer"
         },
         "heading": "Prepara tu próxima escena.",
         "intro": "Crea tus referencias, cambia el ángulo y cuida los detalles.",
@@ -229,6 +237,9 @@
               "get-started": "Primeros pasos"
             }
           }
+        },
+        "descriptions": {
+          "studio": "Tu espacio de creación con IA."
         }
       },
       "workflows": {
@@ -390,7 +401,7 @@
         "href": "/return-policy"
       }
     ],
-    "brandNote": "Centro independiente para video profesional con IA: precio antes de generar, acceso a los motores más recientes y un espacio de trabajo para cada toma. Funciona con Seedance, Kling, Veo, LTX, Wan, Pika y más. Las marcas pertenecen a sus respectivos propietarios.",
+    "brandNote": "Un espacio para video, imagen y audio con IA. Desarrolla tu idea con Milo, prepara un proyecto en Studio y revisa el precio antes de generar. Los nombres y marcas de modelos de terceros pertenecen a sus propietarios.",
     "languageLabel": "Idioma",
     "languages": [
       {
@@ -482,7 +493,7 @@
         "title": "Producto",
         "items": {
           "angle": "Cambiar el ángulo de cámara",
-          "characterBuilder": "Character Builder",
+          "characterBuilder": "Character Studio",
           "pricing": "Precios",
           "paygVideo": "Video IA de pago por uso",
           "models": "Todos los modelos"
@@ -570,39 +581,26 @@
           "engineLabel": "2. Compara modelos recomendados",
           "engineRecommendations": [
             {
-              "engineId": "minimax-h3-max",
-              "name": "MiniMax H3 Max",
-              "provider": "MiniMax",
-              "bestFor": "Narrativa cinematográfica de catástrofes",
-              "imageAlt": "Una madre y un niño se refugian durante una catástrofe retrofuturista fotorrealista generada con MiniMax H3 Max.",
-              "fallbackPrice": "Precio actualizado",
-              "selected": true,
-              "scores": [
-                {
-                  "label": "Movimiento",
-                  "value": 91
-                },
-                {
-                  "label": "Realismo",
-                  "value": 88
-                },
-                {
-                  "label": "Velocidad",
-                  "value": 92
-                }
-              ],
+              "engineId": "flux-3-max",
+              "name": "FLUX 3 Max",
+              "provider": "Black Forest Labs",
+              "bestFor": "Fantasía cinematográfica",
+              "imageAlt": "Una reina con armadura cruza un salón del trono en The Uncrowned, un video de 18 segundos de FLUX 3 Max.",
+              "fallbackPrice": "Precio en directo",
               "tags": [
-                "Narrativa",
+                "Fantasía",
                 "Audio nativo",
-                "Acción real"
-              ]
+                "Cinemático"
+              ],
+              "selected": true,
+              "scores": []
             },
             {
               "engineId": "seedance-2-5",
-              "imageAlt": "Vista previa de un video con IA de 10 segundos generado con Seedance 2.5.",
+              "imageAlt": "Un gato naranja se enfrenta a dos hombres en una escena de acción generada con Seedance 2.5.",
               "name": "Seedance 2.5",
               "provider": "ByteDance",
-              "bestFor": "Física cinematográfica compleja",
+              "bestFor": "Acción y humor",
               "fallbackPrice": "Precio actualizado",
               "scores": [
                 {
@@ -619,17 +617,17 @@
                 }
               ],
               "tags": [
-                "Física",
+                "Acción",
                 "Audio",
                 "Cine"
               ]
             },
             {
-              "engineId": "wan-3-prime",
-              "imageAlt": "Vista previa de un video con IA de 5 segundos generado con Wan 3 Prime.",
-              "name": "Wan 3 Prime",
+              "engineId": "wan-3",
+              "imageAlt": "Un video musical de 22 segundos de Wan 3 combina sonidos de la ciudad, un percusionista callejero y el metro.",
+              "name": "Wan 3",
               "provider": "Alibaba",
-              "bestFor": "Movimiento artesanal controlado",
+              "bestFor": "Ritmo y movimiento urbano",
               "fallbackPrice": "Precio actualizado",
               "scores": [
                 {
@@ -646,9 +644,9 @@
                 }
               ],
               "tags": [
-                "Artesanía",
+                "Video musical",
                 "Realismo",
-                "Cámara"
+                "Audio"
               ]
             },
             {
@@ -679,30 +677,30 @@
               ]
             },
             {
-              "engineId": "ltx-2-5-pro",
-              "imageAlt": "Vista previa de un video de 6 segundos generado a partir de una imagen con LTX 2.5 Pro.",
-              "name": "LTX 2.5 Pro",
-              "provider": "Lightricks",
-              "bestFor": "Animación rápida de imagen",
+              "engineId": "minimax-h3",
+              "name": "MiniMax H3",
+              "provider": "MiniMax",
+              "bestFor": "Acción cinematográfica",
+              "imageAlt": "Un personaje vuela sobre una bahía tropical a gran velocidad en un video de 15 segundos de MiniMax H3.",
               "fallbackPrice": "Precio actualizado",
               "scores": [
                 {
                   "label": "Movimiento",
-                  "value": 88
+                  "value": 91
                 },
                 {
                   "label": "Realismo",
-                  "value": 84
+                  "value": 88
                 },
                 {
                   "label": "Velocidad",
-                  "value": 87
+                  "value": 92
                 }
               ],
               "tags": [
-                "Rápido",
-                "Imagen",
-                "Control"
+                "Acción",
+                "Audio nativo",
+                "Cine"
               ]
             }
           ],
@@ -1066,7 +1064,7 @@
           {
             "title": "Asegura la consistencia del personaje",
             "body": "Crea una referencia reutilizable para escenas, variantes y storyboards.",
-            "toolLabel": "Character Builder",
+            "toolLabel": "Character Studio",
             "href": {
               "pathname": "/tools/character-builder"
             }
@@ -1127,7 +1125,7 @@
           },
           {
             "id": "character-builder",
-            "title": "Character Builder",
+            "title": "Character Studio",
             "body": "Crea personajes consistentes.",
             "shortBody": "Mantén personajes consistentes.",
             "href": {
@@ -1171,7 +1169,7 @@
         "title": "Conoce el precio antes de generar.",
         "subtitle": "MaxVideoAI muestra el precio antes de cada generación de video para que mantengas el control de tus créditos.",
         "cta": "Ver precios",
-        "supportingText": "MaxVideoAI es un generador de video IA multi-modelo de pago por uso para Seedance, Kling, Veo, LTX, Wan, Pika y más.",
+        "supportingText": "Compara FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 y más. Prepara el prompt con Milo, consulta el precio antes de generar y paga por uso.",
         "modelsLink": "Modelos",
         "examplesLink": "Ejemplos",
         "compareLink": "Comparar modelos",
@@ -1196,18 +1194,29 @@
       },
       "providers": {
         "title": "Modelos y proveedores compatibles",
-        "subtitle": "Seedance, Kling, Veo, LTX, Wan, Pika, Happy Horse, MiniMax, Luma están disponibles desde un solo catálogo de modelos.",
+        "subtitle": "Explora FLUX, MiniMax, Kling, Seedance, Veo, LTX y Wan en un solo catálogo.",
         "cta": "Ver todos los modelos",
         "items": [
           {
+            "providerKey": "Black Forest Labs",
+            "provider": "Black Forest Labs",
+            "model": "FLUX 3 Max",
+            "href": {
+              "pathname": "/models/[slug]",
+              "params": {
+                "slug": "flux-3-max"
+              }
+            }
+          },
+          {
             "providerKey": "ByteDance",
             "provider": "ByteDance",
-            "model": "Seedance"
+            "model": "Seedance 2.5"
           },
           {
             "providerKey": "Kling by Kuaishou",
             "provider": "Kling / Kuaishou",
-            "model": "Kling"
+            "model": "Kling 4.0"
           },
           {
             "providerKey": "Google",
@@ -1217,17 +1226,12 @@
           {
             "providerKey": "Lightricks",
             "provider": "Lightricks",
-            "model": "LTX"
+            "model": "LTX 2.5"
           },
           {
             "providerKey": "Wan",
             "provider": "Wan",
-            "model": "Wan"
-          },
-          {
-            "providerKey": "Pika",
-            "provider": "Pika",
-            "model": "Pika"
+            "model": "Wan 3"
           },
           {
             "providerKey": "Alibaba",
@@ -1243,7 +1247,7 @@
           {
             "providerKey": "MiniMax",
             "provider": "MiniMax",
-            "model": "MiniMax"
+            "model": "MiniMax H3"
           },
           {
             "providerKey": "Luma AI",
@@ -1371,16 +1375,13 @@
     "worksWith": {
       "label": "Funciona con",
       "brands": [
+        "FLUX 3 Max",
+        "MiniMax H3",
+        "Kling 4.0",
         "Seedance 2.5",
         "Veo 3.1",
-        "LTX 2 Fast",
-        "LTX 2",
-        "Kling 2.6 Pro",
-        "Pika 2.2",
-        "MiniMax Hailuo 02",
-        "Kling 2.5",
-        "Wan 2.5",
-        "Nano Banana"
+        "LTX 2.5",
+        "Wan 3"
       ],
       "caption": "Las marcas comerciales pertenecen a sus propietarios.",
       "availabilityNotice": "La disponibilidad puede variar según el proveedor; las fichas de precio se actualizan automáticamente.",
@@ -1422,7 +1423,7 @@
       },
       {
         "title": "Todos tus modelos en un solo lugar.",
-        "body": "Cambia entre Seedance 2.5, Veo, Pika, MiniMax y Hunyuan sin saltar entre tableros ni claves API."
+        "body": "Prueba FLUX 3 Max, MiniMax H3, Kling 4.0 y Seedance 2.5 en un espacio. Compara ejemplos y la cotización de tus ajustes antes de elegir."
       }
     ],
     "ways": [
@@ -1462,10 +1463,10 @@
           "cta": "Abrir Image"
         },
         "character": {
-          "eyebrow": "Character Builder",
+          "eyebrow": "Character Studio",
           "title": "Fija la continuidad del personaje",
           "body": "Crea un ancla de retrato o una hoja de 8 paneles antes de que el personaje tenga que sobrevivir a más de una escena.",
-          "cta": "Abrir Character Builder"
+          "cta": "Abrir Character Studio"
         },
         "angle": {
           "eyebrow": "Angle",
@@ -1625,7 +1626,7 @@
     "priceChipSuffix": "Visible antes de lanzar.",
     "meta": {
       "title": "Generador de video IA de pago por uso | MaxVideoAI",
-      "description": "Compara Seedance, Kling, Veo, LTX, Wan, Pika y más antes de generar. Previsualiza resultados reales, mira el precio por adelantado y genera con pago por uso."
+      "description": "Compara FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 y más. Prepara el prompt con Milo, consulta el precio antes de generar y paga por uso."
     },
     "compare": {
       "title": "Modelos de video con IA en un solo panel",
@@ -1693,7 +1694,7 @@
       "compare": {
         "title": "Compara modelos de video con IA antes de generar",
         "body": "MaxVideoAI te permite probar varios modelos en un solo lugar. Cada modelo tiene fortalezas distintas (velocidad, fidelidad al prompt, movimiento, realismo y estilo). Compara resultados lado a lado, elige el mejor modelo para cada toma y mantén el precio visible antes de generar.",
-        "worksWith": "Compatible con MiniMax H3, Seedance 2.5, Veo 3.1, Kling 3, LTX 2.3, Wan 2.6, Pika 2.2... y más.",
+        "worksWith": "Compatible con FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, Veo 3.1, LTX 2.5, Wan 3 y modelos de imagen.",
         "popularLinks": [
           {
             "label": "Comparativa MiniMax H3 vs Seedance 2.5",
@@ -1752,7 +1753,7 @@
       "subtitle": "Compara los costos de video, imagen, audio y herramientas antes de crear.",
       "supportingLine": "Paga por uso. Revisa el precio exacto en la app antes de generar. Las generaciones fallidas se reembolsan.",
       "quickStartTitle": "Tres puntos de partida para tu próximo video",
-      "quickStartNote": "Total orientativo por video, en USD. Selecciona un escenario para ver la comparación completa. Confirma el presupuesto en la app antes de generar.",
+      "quickStartNote": "Precio disponible más bajo entre los modelos actuales elegibles para cada ajuste mostrado, en USD por vídeo. Son ajustes distintos, no una clasificación de calidad. Abre la fila para ver los detalles y confirma el presupuesto antes de generar.",
       "primaryCta": "Consultar un precio en la app",
       "secondaryCta": "Comparar precios abajo",
       "badges": [
@@ -1839,13 +1840,13 @@
       "cards": [
         {
           "title": "Clip social (vertical)",
-          "engine": "Pika 2.2",
+          "engine": "FLUX 3 Max",
           "duration": "5 s",
           "resolution": "1080×1920",
           "audio": "Silencioso",
           "note": "Se cobra solo si termina correctamente.",
           "pricingScenario": {
-            "engineId": "pika-text-to-video",
+            "engineId": "flux-3-max",
             "durationSec": 5,
             "resolution": "1080p",
             "memberTier": "member"
@@ -1888,7 +1889,7 @@
         "La resolución cambia el precio en modelos con niveles 720p, 1080p, 1440p o 4K.",
         "Las rutas de text-to-video AI, image-to-video AI y video-to-video AI pueden tener precios distintos según el motor y el tipo de entrada.",
         "El audio puede estar incluido, ser opcional o no estar disponible según la familia del modelo.",
-        "El nivel del motor (Veo, LTX, Kling, Seedance, Pika, Wan) define la tarifa base."
+        "El modelo y el modo elegidos fijan el precio inicial; la duración, resolución y referencias pueden cambiarlo."
       ]
     },
     "teams": {
@@ -1921,7 +1922,7 @@
         },
         {
           "question": "¿Qué motor de video IA es más barato?",
-          "answer": "El motor más barato depende del escenario. Un borrador 5 s 720p, un clip premium 8 s 1080p, un video 10 s 1080p y salida 4K pueden tener ganadores distintos. La tabla destaca primero las opciones de generación actual y lista aparte las rutas budget más antiguas cuando existen."
+          "answer": "Elige primero duración, resolución y audio; después compara la misma columna. El precio destacado es el presupuesto disponible más bajo entre los modelos actuales elegibles de esta tabla. Los modelos anteriores se muestran aparte; un precio menor no garantiza un mejor resultado."
         },
         {
           "question": "¿Qué motor es más barato para video 10 s 1080p?",
@@ -1941,7 +1942,7 @@
         },
         {
           "question": "¿Las generaciones fallidas cuestan créditos?",
-          "answer": "No. Las generaciones fallidas se reembolsan automáticamente. Los créditos se cobran solo cuando una generación termina correctamente."
+          "answer": "Un fallo técnico es distinto de un clip terminado que no te gusta. Las generaciones fallidas reciben un reembolso de créditos; la insatisfacción subjetiva con un resultado terminado normalmente no es reembolsable. Consulta la política de devoluciones para conocer las condiciones."
         },
         {
           "question": "¿Necesito una suscripción?",
@@ -1949,15 +1950,15 @@
         },
         {
           "question": "¿Por qué algunos motores más baratos no aparecen destacados primero?",
-          "answer": "Algunas rutas de generación anterior pueden ser más baratas para pruebas simples, pero MaxVideoAI destaca primero los motores de generación actual porque suelen ser mejores para proyectos nuevos. Las rutas budget más antiguas siguen listadas aparte cuando están disponibles."
+          "answer": "Las tarjetas comparan modelos actuales elegibles con los mismos ajustes. Los modelos de generaciones anteriores siguen en la tabla y pueden costar menos. La agrupación ayuda a elegir; no garantiza más calidad."
         },
         {
           "question": "¿Imagen, audio y herramientas se cobran igual que video?",
           "answer": "No. Video, imagen, audio y herramientas usan reglas de precio distintas. La imagen suele cobrarse por imagen, el audio por duración o modo, y las herramientas por tipo de salida o resolución."
         },
         {
-          "question": "¿Por qué la tabla muestra precios totales en vez de costo por segundo?",
-          "answer": "La mayoría de usuarios compara el costo completo de un render, no tarifas brutas por segundo. MaxVideoAI muestra precios totales para escenarios comunes como 8 s 1080p, 10 s 1080p y salida 4K. Las tarifas por segundo o de proveedor pueden variar según motor, duración, resolución y redondeos, y la app muestra el presupuesto exacto antes de generar."
+          "question": "¿El precio mostrado cubre todos los intentos?",
+          "answer": "Cada nueva generación tiene su propio presupuesto. Si haces varios intentos completados hasta conseguir el plano que buscas, cada uno es una generación distinta. Planifica el gasto total de la escena, además del precio de un solo clip."
         },
         {
           "question": "¿Con qué frecuencia cambian los precios?",
@@ -2151,8 +2152,8 @@
         },
         {
           "emoji": "⚡",
-          "title": "Cuándo elegir Pika o MiniMax",
-          "body": "Pika 2.2 destaca en loops estilizados, MiniMax Hailuo 02 mantiene bajos los presupuestos para ejecuciones masivas."
+          "title": "Explora las familias de modelos actuales",
+          "body": "Compara FLUX 3 Max, MiniMax H3, Kling 4.0 y Seedance 2.5 con las referencias y ajustes de tu proyecto. Usa los ejemplos para elegir el aspecto y la cotización para comparar el costo."
         },
         {
           "emoji": "🖼️",
@@ -2830,12 +2831,12 @@
       ],
       "library": [
         {
-          "href": "/es/comparativa/seedance-2-0-vs-sora-2",
-          "label": "Seedance 2.0 vs Sora 2"
+          "href": "/studio",
+          "label": "Crear con Studio"
         },
         {
-          "href": "/es/modelos",
-          "label": "Modelos"
+          "href": "/examples",
+          "label": "Ejemplos públicos"
         }
       ]
     },
@@ -2843,8 +2844,14 @@
       "heading": "Biblioteca",
       "liveLabel": "En vivo",
       "comingSoonLabel": "Próximamente",
-      "summaryLive": "Explora los medios guardados en tu cuenta y reutilízalos como referencias en los modos de generación compatibles.",
-      "summarySoon": "Documentación próximamente."
+      "summaryLive": "Abre Medios en tu cuenta conectada para encontrar las imágenes, vídeos y sonidos de tus creaciones y tus archivos importados guardados. Tu biblioteca personal es distinta de la galería pública Ejemplos.",
+      "summarySoon": "Documentación próximamente.",
+      "steps": [
+        "Encuentra un resultado: usa los filtros por tipo de medio o la búsqueda; cambia al historial de creaciones para comprobar el estado de un trabajo.",
+        "Consulta la información disponible: abre el resultado para verlo o escucharlo, consultar sus dimensiones o duración y recuperar el prompt o los ajustes cuando estén registrados.",
+        "Guarda el original: usa Descargar original en un resultado disponible. Descarga los archivos importantes en lugar de depender de un enlace de medio copiado, que puede caducar.",
+        "Crea a partir del medio: elige una referencia o herramienta compatible. Recupera los ajustes de un resultado cuando se ofrezca esa acción y revisa las entradas y el nuevo precio."
+      ]
     },
     "feedback": {
       "srTitle": "Comentarios",
@@ -2923,7 +2930,7 @@
         },
         {
           "title": "Conoce las herramientas",
-          "body": "Descubre cómo Character Builder y Angle te ayudan a crear un personaje o a explorar distintos puntos de vista."
+          "body": "Descubre cómo Character Studio y Angle te ayudan a crear un personaje o a explorar distintos puntos de vista."
         },
         {
           "title": "Elige un modelo",
@@ -2940,14 +2947,14 @@
         },
         {
           "question": "¿Puedo sugerir un tema o pedir cobertura?",
-          "answer": "Sí; envía tus ideas a press@maxvideo.ai e incluye renders de referencia si puedes. Priorizamos historias que ayuden a los equipos de producción."
+          "answer": "Sí; envía tus ideas a admin@maxvideoai.com e incluye renders de referencia si puedes. Priorizamos historias que ayuden a los equipos de producción."
         },
         {
           "question": "¿Dónde encuentro las notas de versión?",
           "answer": "Las novedades del producto viven en el changelog y las actualizaciones de API en la documentación para desarrolladores. El blog cubre guías y aprendizajes de campo."
         }
       ],
-      "footnote": "¿Necesitas más detalles? Escribe a press@maxvideo.ai y lo derivaremos al productor adecuado."
+      "footnote": "¿Necesitas más detalles? Escribe a admin@maxvideoai.com y lo derivaremos al productor adecuado."
     }
   },
   "videoPage": {
@@ -3031,7 +3038,7 @@
     },
     "paragraphs": [
       "Creemos que los equipos profesionales merecen claridad antes de iniciar el render. Eso significa transparencia de precios, enrutamiento fiable y contexto compartido entre creativos, productores y stakeholders.",
-      "La independencia importa: nos mantenemos neutrales entre motores, nos integramos con Seedance 2.5, Veo 3.1, Veo 3 Fast, Pika 2.2, MiniMax Hailuo 02, Hunyuan Image y betas rotativas, y listamos marcas sólo para describir compatibilidad.",
+      "Elige entre FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, Veo, LTX, Wan y modelos de imagen en un espacio. Milo ayuda a convertir una idea en un prompt; Studio ayuda a preparar un proyecto. Revisa las entradas, ejemplos y cotizaciones de cada modelo. Las marcas de terceros describen compatibilidad.",
       "El producto está diseñado para equipos que necesitan precisión sin ruido. Interfaz discreta, ajustes predefinidos premium, controles precisos y etiquetas de precio antes de generar que mantienen a finanzas en el bucle.",
       "Mantenemos el flujo de trabajo práctico: comparar modelos, preparar recursos, generar sólo cuando el coste y los ajustes están claros, y revisar los resultados desde un único workspace sin repartir el contexto entre paneles de proveedores."
     ],
@@ -3040,10 +3047,10 @@
   "contact": {
     "hero": {
       "title": "Habla con el equipo.",
-      "subtitle": "¿Necesitas soporte, ayuda para tu equipo o información de prensa? Déjanos un mensaje y te responderemos en un día hábil."
+      "subtitle": "Contacta con MaxVideoAI para soporte del producto, colaboraciones o consultas de prensa."
     },
     "intro": {
-      "body": "Escríbenos para soporte, alianzas, necesidades de equipo o solicitudes editoriales. Si compartes contexto sobre tu equipo, los modelos que quieres usar, la fecha límite o los requisitos de cumplimiento, el mensaje llega antes a la persona adecuada. Cada solicitud recibe una respuesta humana.",
+      "body": "Describe tu consulta. Para un problema de generación, incluye el identificador del trabajo; para colaboraciones o prensa, indica tu proyecto, publicación y fecha límite.",
       "cards": {
         "productHelp": {
           "title": "Ayuda de producto",
@@ -3093,7 +3100,7 @@
       "items": [
         {
           "question": "¿Cuánto tardan en responder?",
-          "answer": "Respondemos en horario laboral de Europa y Estados Unidos. La mayoría de los tickets de soporte recibe una respuesta humana en menos de 12 horas y las solicitudes para equipos en menos de 24."
+          "answer": "El tiempo de respuesta depende de la consulta y de la disponibilidad del soporte. Incluye el identificador del trabajo y una descripción clara para facilitar la revisión."
         },
         {
           "question": "¿Ofrecen demos en vivo?",
@@ -3101,13 +3108,13 @@
         },
         {
           "question": "¿Dónde reviso el estado del servicio?",
-          "answer": "Consulta la {link} para revisar la latencia de los motores y el historial de incidentes antes de abrir un ticket."
+          "answer": "Consulta la {email} para ver los avisos de servicio publicados por el equipo de MaxVideoAI. Si una generación se retrasa, contacta con soporte e incluye el identificador del trabajo."
         }
       ]
     },
     "statusCard": {
-      "title": "Revisa el estado de los motores en vivo",
-      "body": "Antes de abrir un ticket, confirma si algún motor ya aparece degradado. La página de estado muestra latencia, notas de incidentes y pasos de mitigación para decidir si conviene reintentar o cambiar de modelo.",
+      "title": "Avisos de servicio",
+      "body": "La página de estado muestra los avisos de servicio publicados por el equipo. Si una generación se retrasa, evita enviar el mismo trabajo de nuevo y contacta con soporte con su identificador.",
       "cta": "página de estado"
     }
   },
@@ -3774,7 +3781,14 @@
         "expandSection": "Mostrar",
         "collapseSection": "Ocultar",
         "saving": "Guardando…",
-        "removing": "Quitando…"
+        "removing": "Quitando…",
+        "savePending": "Guardando en Medios…",
+        "saveError": "No se pudo guardar en Medios. Inténtalo de nuevo.",
+        "saveSuccess": "Guardado en Medios.",
+        "removePending": "Quitando del historial…",
+        "removeError": "No se pudo quitar del historial. Inténtalo de nuevo.",
+        "removeSuccess": "Quitado del historial.",
+        "dismiss": "Cerrar"
       }
     },
     "dashboard": {
@@ -4125,6 +4139,9 @@
         "seedPlaceholder": "Opcional",
         "outputFormatLabel": "Formato de salida",
         "outputFormatHint": "Elige el tipo de archivo de las imágenes finales.",
+        "outputCompressionLabel": "Compresión de salida",
+        "outputCompressionHint": "Solo JPEG/WebP, de 0 a 100. Deja vacío para 100. Cambia el archivo, no el precio de generación.",
+        "gpt26AutoQuoteHint": "El tamaño Auto se cotiza al tamaño máximo; la calidad Auto al nivel Max. Este precio fijo puede superar el coste del resultado generado.",
         "qualityLabel": "Calidad",
         "backgroundLabel": "Fondo",
         "qualityHint": "Controla la fidelidad del modelo y el costo cuando está disponible.",
@@ -4135,6 +4152,7 @@
         "enableWebSearchLabel": "Búsqueda web",
         "enableWebSearchHint": "Usa contexto web actual cuando el modelo lo permita.",
         "thinkingLevelLabel": "Nivel de razonamiento",
+        "complexityLabel": "Complejidad de planificación",
         "thinkingLevelHint": "Aumenta la profundidad de razonamiento cuando el modelo lo permita.",
         "limitGenerationsLabel": "Limitar generaciones",
         "limitGenerationsHint": "Reduce las generaciones exploratorias adicionales cuando esté disponible.",
@@ -4273,6 +4291,7 @@
         "importing": "Importando…",
         "importFailed": "No se pudo importar. Intenta de nuevo.",
         "refresh": "Actualizar",
+        "loadMore": "Cargar más",
         "searchSaved": "Buscar nombres o ID de resultados…",
         "searchRenders": "Buscar prompts o ID de resultados…",
         "create": "Crear"
@@ -4309,7 +4328,7 @@
         "emptyUploads": "Aún no hay medios subidos. Importa medios desde tu dispositivo para verlos aquí.",
         "emptyGenerated": "Aún no hay renders guardados. Revisa renders recientes y guarda los outputs que quieras reutilizar.",
         "emptyStoryboard": "Aún no hay storyboards guardados. Guarda una imagen storyboard para verla aquí.",
-        "emptyCharacter": "Aún no hay recursos de personaje guardados. Genera uno en Character Builder para verlo aquí.",
+        "emptyCharacter": "Aún no hay recursos de personaje guardados. Genera uno en Character Studio para verlo aquí.",
         "emptyAngle": "Aún no hay recursos de ángulo guardados. Genera uno en la herramienta Angle para verlo aquí.",
         "emptyUpscale": "Aún no hay recursos upscale guardados. Guarda un resultado upscale para verlo aquí.",
         "deleteError": "No se pudo eliminar este recurso.",
@@ -4622,7 +4641,8 @@
         "jobLabel": "Job {id}",
         "sourceLabel": "Fuente {label}",
         "uploadDurationWarning": "El video fuente se subió, pero su duración no pudo leerse en el navegador.",
-        "selectedDurationWarning": "El video seleccionado se cargó, pero su duración no pudo confirmarse en el navegador."
+        "selectedDurationWarning": "El video seleccionado se cargó, pero su duración no pudo confirmarse en el navegador.",
+        "previewUnavailable": "Vista previa de la fuente no disponible."
       },
       "controls": {
         "eyebrow": "Controles",
@@ -4913,7 +4933,9 @@
           "label": "Qwen Multiple Angles",
           "description": "Motor Qwen de edición de imagen multiángulo ajustado para la consistencia del ángulo."
         }
-      }
+      },
+      "sourcePreviewUnavailable": "Vista previa de la fuente no disponible.",
+      "retrySourcePreview": "Reintentar"
     },
     "characterBuilder": {
       "auto": "Auto",
@@ -5240,11 +5262,11 @@
         "quality": {
           "draft": {
             "label": "Standard",
-            "description": "Pasadas exploratorias rápidas en Nano Banana 2."
+            "description": "Pasadas exploratorias rápidas en Nano Banana 2.1."
           },
           "final": {
             "label": "Pro",
-            "description": "Referencias más limpias listas para exportar en Nano Banana Pro."
+            "description": "Referencias más limpias listas para exportar en Nano Banana 2.1."
           }
         },
         "format": {
@@ -6880,14 +6902,23 @@
       "ageRequired": "Confirma que cumples la edad mínima requerida."
     },
     "feedback": {
+      "passwordUnavailable": "No pudimos completar tu solicitud. Inténtalo de nuevo.",
       "signingIn": "Iniciando sesión…",
       "signinRedirecting": "Sesión iniciada. Redirigiendo…",
       "signinSuggestion": "No pudimos iniciar sesión con esos datos. Si eres nuevo, crea tu cuenta sin volver a escribirlos.",
+      "emailNotConfirmed": "Tu correo aún no está confirmado. Revisa la bandeja de entrada y el spam, o solicita otro enlace abajo.",
+      "resendConfirmation": "Enviar otro enlace de confirmación",
+      "sendingConfirmation": "Enviando enlace de confirmación…",
+      "confirmationResent": "Si este correo aún necesita confirmación, enviaremos otro enlace. Revisa la bandeja de entrada y el spam.",
+      "confirmationRateLimited": "Espera unos minutos antes de solicitar otro enlace de confirmación.",
+      "confirmationUnavailable": "No pudimos enviar otro enlace de confirmación. Inténtalo más tarde.",
+      "signupLinkFailed": "Este enlace de confirmación no es válido, ha caducado o ya se usó. Inicia sesión con tu correo y contraseña; si aún debes confirmar el correo, podrás solicitar otro enlace aquí.",
       "mcpSigninFailed": "No pudimos iniciar sesión. Comprueba tu correo y contraseña, usa « ¿Olvidaste tu contraseña? », o continúa con Google si creaste tu cuenta MaxVideoAI así.",
       "signupSuggestionReady": "Perfecto, vamos a crear tu cuenta.",
       "creatingAccount": "Creando cuenta…",
       "accountRedirecting": "Cuenta creada. Redirigiendo…",
       "confirmEmail": "Si tu cuenta necesita confirmación, revisa tu correo. ¿Ya tienes una cuenta? Inicia sesión o elige «¿Olvidaste tu contraseña?» en el formulario de acceso para recuperarla.",
+      "confirmEmailAfterSignup": "Revisa tu correo y el spam; después, pulsa «Confirmar mi correo» en el mensaje de MaxVideoAI para terminar de crear la cuenta.",
       "sendingReset": "Enviando enlace…",
       "resetSent": "Si existe una cuenta con este correo, recibirás un enlace para restablecer la contraseña. Revisa también la carpeta de spam.",
       "resetUnavailable": "No pudimos enviar el enlace de restablecimiento. Inténtalo más tarde. Si el problema persiste, contacta con soporte.",
@@ -7217,7 +7248,7 @@
           "title": "Crea referencias reutilizables de personaje",
           "body": "Convierte una imagen en una hoja de personaje de 8 vistas con 4 vistas de cuerpo completo y 4 close-ups, o crea una referencia de retrato antes de pasar a escenas, prompts y animación.",
           "cta": "Explorar herramienta",
-          "imageAlt": "Captura de la interfaz Character Builder de MaxVideoAI."
+          "imageAlt": "Captura de la interfaz Character Studio de MaxVideoAI."
         },
         "angle": {
           "eyebrow": "Control de perspectiva",
@@ -7250,14 +7281,14 @@
           "image": {
             "eyebrow": "Image",
             "title": "Genera la imagen base",
-            "body": "Crea primero el fotograma base y luego llévalo a Character Builder, Angle o la preparación de video.",
+            "body": "Crea primero el fotograma base y luego llévalo a Character Studio, Angle o la preparación de video.",
             "cta": "Abrir Image"
           },
           "character": {
-            "eyebrow": "Character Builder",
+            "eyebrow": "Character Studio",
             "title": "Crea una referencia de personaje reutilizable",
             "body": "Fija rostro, vestuario y silueta antes de pasar a escenas o a la preparación para video.",
-            "cta": "Abrir Character Builder"
+            "cta": "Abrir Character Studio"
           },
           "angle": {
             "eyebrow": "Angle",
@@ -7935,39 +7966,37 @@
           "turnaround de personaje IA",
           "consistencia de personaje para image-to-video"
         ],
-        "imageAlt": "Vista previa de una hoja de personaje IA reutilizable generada con Character Builder.",
-        "schemaName": "Personajes IA consistentes",
-        "schemaDescription": "Crea un ancla de retrato o una hoja de personaje IA de 8 paneles a partir de un retrato, una referencia opcional de vestuario o desde cero, y luego reutilízala en escenas, ediciones y flujos de video basados en imagen fija.",
+        "imageAlt": "Dixie Trouble, retrato de personaje reutilizable generado en Character Studio.",
+        "schemaName": "Character Studio",
+        "schemaDescription": "Crea un personaje a partir de una foto o una idea. Guarda su identidad, genera nuevos looks y llévalo al vídeo con MaxVideoAI Recast.",
         "schemaFeatures": [
-          "Empezar desde un retrato de referencia, una referencia opcional de vestuario o un concepto creado desde cero",
-          "Generar un ancla de retrato reutilizable",
-          "Generar una hoja de personaje de 8 paneles con cuatro vistas de cuerpo completo y cuatro close-ups consistentes",
-          "Reutilizar la misma referencia de personaje en prompts y ediciones de imagen",
-          "Usar la referencia en Nano Banana y en motores de video que aceptan imágenes fijas de referencia"
+          "Personajes guardados",
+          "Nuevos looks",
+          "Vídeo Recast"
         ],
-        "howToTitle": "Cómo funciona Character Builder",
-        "howToDescription": "Crea una referencia de personaje reutilizable para mantener imágenes IA consistentes y preparar video desde una imagen fija."
+        "howToTitle": "Explorar el proceso",
+        "howToDescription": "Crea un personaje a partir de una foto o una idea. Guarda su identidad, genera nuevos looks y llévalo al vídeo con MaxVideoAI Recast."
       },
       "breadcrumb": {
         "home": "Inicio",
         "tools": "Herramientas",
-        "current": "Character Builder"
+        "current": "Character Studio"
       },
       "hero": {
-        "badge": "Herramienta de personajes IA consistentes",
+        "badge": "Character Studio",
         "secondaryBadge": "Ancla de retrato + hoja de personaje de 8 paneles",
-        "title": "Crea personajes con IA consistentes.",
-        "body": "Empieza con un retrato o una idea. Crea un retrato de referencia o una hoja de ocho vistas y reutilízala en tus imágenes y videos.",
-        "primaryCta": "Abrir Character Builder",
+        "title": "Personajes IA consistentes. Listos para la siguiente escena.",
+        "body": "Crea un personaje a partir de una foto o una idea. Guarda su identidad, genera nuevos looks y llévalo al vídeo con MaxVideoAI Recast.",
+        "primaryCta": "Crear mi personaje",
         "proofs": [
-          "Empieza con un retrato de referencia, una inspiración opcional de vestuario o un concepto creado desde cero",
-          "Genera un ancla de retrato reutilizable o una hoja de personaje de 8 paneles",
-          "Reutiliza el mismo personaje en escenas, prompts, ediciones y flujos de video basados en imagen fija"
+          "Personajes guardados",
+          "Nuevos looks",
+          "Vídeo Recast"
         ],
         "showcase": {
-          "topLabel": "Interfaz Character Builder",
+          "topLabel": "Interfaz Character Studio",
           "windowLabel": "elegir la entrada, generar la referencia, reutilizarla",
-          "imageAlt": "Captura completa de la interfaz Character Builder de MaxVideoAI.",
+          "imageAlt": "Captura completa de la interfaz Character Studio de MaxVideoAI.",
           "callouts": [
             {
               "label": "01",
@@ -7997,12 +8026,12 @@
           "La continuidad de la silueta se vuelve más difícil de sostener"
         ],
         "solutionLabel": "Lo que crea esta herramienta",
-        "solutionTitle": "Character Builder crea primero la referencia",
+        "solutionTitle": "Character Studio crea primero la referencia",
         "solutionBody": "Genera un ancla de retrato o una hoja de personaje de 8 paneles, y luego reutiliza esa misma base en prompts, ediciones y flujos de video basados en imagen fija.",
         "portraitInputLabel": "Retrato de referencia",
-        "portraitInputAlt": "Retrato de referencia usado como base en Character Builder.",
+        "portraitInputAlt": "Retrato de referencia usado como base en Character Studio.",
         "sheetLabel": "Hoja reutilizable de 8 paneles",
-        "sheetAlt": "Hoja de personaje de 8 paneles generada por Character Builder."
+        "sheetAlt": "Hoja de personaje de 8 paneles generada por Character Studio."
       },
       "howItWorks": {
         "eyebrow": "Cómo funciona",
@@ -8011,8 +8040,8 @@
         "steps": [
           {
             "stepLabel": "Empezar con",
-            "title": "Empezar con un rostro, un vestuario o un concepto",
-            "body": "Usa un retrato de referencia, agrega una dirección de estilo opcional o empieza sin imagen fuente.",
+            "title": "Crear tu personaje",
+            "body": "Sube una foto de identidad o describe un personaje. Elige su apariencia, ropa y escenario.",
             "pills": [
               "Retrato de referencia",
               "Referencia opcional de vestuario"
@@ -8020,8 +8049,8 @@
           },
           {
             "stepLabel": "Generar",
-            "title": "Generar un ancla de retrato o una hoja de 8 paneles",
-            "body": "Crea una referencia facial más cerrada o una hoja coherente con cuatro vistas de cuerpo completo y cuatro close-ups.",
+            "title": "Guardar un retrato o una ficha",
+            "body": "Elige el resultado y la resolución, revisa el precio, genera y guarda el personaje.",
             "pills": [
               "Ancla de retrato",
               "Hoja de personaje de 8 paneles"
@@ -8029,8 +8058,8 @@
           },
           {
             "stepLabel": "Reutilizar en",
-            "title": "Reutilizar en Image, edición y preparación de video",
-            "body": "Lleva la misma referencia a prompts, Nano Banana y herramientas de video basadas en imagen fija.",
+            "title": "Crear un look o un Recast",
+            "body": "Reutiliza la identidad con otra ropa o selecciónala en Recast con tus fragmentos de vídeo y audio.",
             "pills": [
               "Prompts de imagen",
               "Preparación de video"
@@ -8041,7 +8070,7 @@
         "comparisonBody": "La referencia resuelve la continuidad antes de que empieces a cambiar de escena.",
         "comparisons": [
           {
-            "eyebrow": "Sin Character Builder",
+            "eyebrow": "Sin Character Studio",
             "title": "Cada escena nueva tiene que reconstruir al personaje",
             "items": [
               "El rostro, el cabello y el vestuario se desalinean entre prompts",
@@ -8049,7 +8078,7 @@
             ]
           },
           {
-            "eyebrow": "Con Character Builder",
+            "eyebrow": "Con Character Studio",
             "title": "Una sola referencia mantiene al personaje estable",
             "items": [
               "Rostro, vestuario y silueta quedan alineados",
@@ -8082,7 +8111,7 @@
             ],
             "badge": "La más reutilizable",
             "stats": "4 vistas de cuerpo completo + 4 close-ups",
-            "imageAlt": "Hoja de personaje de 8 paneles generada por Character Builder."
+            "imageAlt": "Hoja de personaje de 8 paneles generada por Character Studio."
           },
           {
             "eyebrow": "Imagen fija para preparar video",
@@ -8097,13 +8126,13 @@
         ],
         "workflow": {
           "label": "Flujo de referencia",
-          "title": "Character Builder -> Nano Banana -> Video",
+          "title": "Character Studio -> Nano Banana -> Video",
           "chainLabel": "Hoja -> imagen fija -> video",
           "steps": [
             {
               "label": "01 · Hoja de personaje",
               "body": "Fija al personaje antes de que empiece el movimiento.",
-              "imageAlt": "Hoja de Character Builder usada como referencia reutilizable en Image y Video."
+              "imageAlt": "Hoja de Character Studio usada como referencia reutilizable en Image y Video."
             },
             {
               "label": "02 · Imagen fija de Nano Banana",
@@ -8197,9 +8226,13 @@
       },
       "faq": {
         "eyebrow": "FAQ",
-        "title": "FAQ de personajes IA consistentes",
+        "title": "Antes de crear tu personaje IA",
         "body": "Respuestas cortas antes de construir la referencia.",
         "items": [
+          {
+            "question": "¿Qué es Character Studio?",
+            "answer": "Character Studio, antes Character Builder, crea referencias de personajes IA reutilizables: retratos y fichas de ocho vistas. Puedes guardar personajes, generar nuevos looks y utilizarlos en MaxVideoAI Recast. Es distinto de Studio, el espacio de edición de vídeo."
+          },
           {
             "question": "¿Qué es un personaje IA consistente?",
             "answer": "Es construir una referencia estable para que el mismo rostro, el mismo vestuario y la misma silueta se mantengan consistentes después."
@@ -8219,6 +8252,22 @@
           {
             "question": "¿Puedo reutilizar esto en flujos image-to-video?",
             "answer": "Sí. Puedes reutilizarlo en prompts, en la preparación del primer fotograma con Nano Banana y en motores de video que aceptan imágenes fijas de referencia."
+          },
+          {
+            "question": "¿Puedo guardar un personaje y crear otro look?",
+            "answer": "Sí. Guarda el personaje, ábrelo en tu biblioteca y crea un look nuevo a partir de su identidad. Los looks guardados se pueden seleccionar en Recast."
+          },
+          {
+            "question": "¿Cómo funciona MaxVideoAI Recast?",
+            "answer": "Elige una imagen de personaje o un look guardado, añade un vídeo de referencia y selecciona el fragmento. También puedes aportar una imagen de producto, un diálogo o un fragmento de audio. Revisa la duración, la resolución y el presupuesto exacto antes de generar el vídeo."
+          },
+          {
+            "question": "¿Todas las imágenes y los vídeos serán idénticos?",
+            "answer": "No. Las referencias guían la identidad y la apariencia, pero la generación IA puede cambiar caras, ropa, movimientos o productos. Revisa cada resultado, especialmente los ángulos de una ficha y los detalles del producto."
+          },
+          {
+            "question": "¿Cuánto cuesta Character Studio?",
+            "answer": "La aplicación muestra el presupuesto actual antes de generar. Las imágenes y Recast se cobran por separado. La resolución de imagen, la duración del vídeo, los fragmentos de entrada y la resolución de vídeo pueden influir en el importe; cualquier cambio requiere un presupuesto actualizado."
           }
         ]
       },
@@ -8265,10 +8314,66 @@
         "eyebrow": "Crea la referencia primero",
         "title": "Mantén el mismo personaje de una escena a otra",
         "body": "Genera un ancla de retrato o una hoja de 8 paneles y luego reutiliza esa misma referencia en prompts, ediciones y flujos de video basados en imagen fija.",
-        "primaryCta": "Abrir Character Builder",
+        "primaryCta": "Abrir Character Studio",
         "panelLeft": "Personaje definido",
         "panelRight": "Listo para reutilizar",
-        "panelAlt": "Vista previa de una hoja de personaje IA reutilizable generada con Character Builder."
+        "panelAlt": "Vista previa de una hoja de personaje IA reutilizable generada con Character Studio."
+      },
+      "studio": {
+        "nav": [
+          "Crear",
+          "Nuevos looks",
+          "Fichas de personaje",
+          "Recast"
+        ],
+        "castingTitle": "Un rostro. Una personalidad. Todo un mundo.",
+        "castingBody": "Humano, animal o criatura imaginaria: describe el rostro, la edad, el tono de piel, el pelo, la ropa y el escenario. Añade tus indicaciones cuando las opciones no sean suficientes.",
+        "castingCaption": "Personajes reales generados en Character Studio",
+        "looksTitle": "Un personaje. Un look completamente nuevo.",
+        "looksBody": "Parte de un personaje guardado y cambia su ropa o escenario. Elige un estilo, describe tu vestuario o añade una imagen de referencia.",
+        "identity": "Identidad guardada",
+        "newLook": "Nuevo look",
+        "looksNote": "Dixie Trouble · dos generaciones reales. Revisa el rostro y los detalles antes de guardar un look.",
+        "outputsTitle": "La referencia adecuada para el próximo plano.",
+        "outputsBody": "Elige Retrato o Ficha de personaje, el formato y la resolución. El precio de generación se actualiza antes de confirmar.",
+        "portrait": "Retrato",
+        "portraitBody": "Una imagen para fijar el rostro y la apariencia.",
+        "sheet": "Ficha de personaje",
+        "sheetBody": "Una imagen con ocho vistas: cuatro ángulos de cuerpo entero y cuatro primeros planos correspondientes. Revisa cada vista antes de reutilizarla.",
+        "sheetAlt": "Ficha de referencia de un personaje IA con vistas frontal, lateral, de tres cuartos y trasera, y primeros planos.",
+        "recastEyebrow": "MaxVideoAI Recast",
+        "recastTitle": "Tu personaje. El movimiento que tú eliges.",
+        "recastBody": "Elige un personaje guardado o sube una imagen. Añade un vídeo y selecciona el fragmento que servirá de referencia de movimiento. Las imágenes de producto, el diálogo y las referencias de audio pueden guiar la escena.",
+        "recastSteps": [
+          "Elegir un personaje o look guardado",
+          "Seleccionar los fragmentos de vídeo y audio",
+          "Ajustar duración, formato y 720p o 1080p",
+          "Revisar el precio exacto y generar"
+        ],
+        "recastNote": "Recast genera un vídeo nuevo. El movimiento, la identidad y los detalles del producto pueden variar: revisa el resultado antes de utilizarlo en una campaña.",
+        "filmLabels": [
+          "Dixie · baile",
+          "Vesper · comedia de personaje"
+        ],
+        "filmDescriptions": [
+          "Un look rosa y blanco llevado a una coreografía.",
+          "Una diseñadora insecto en una escena con un coche deportivo."
+        ],
+        "frameLabel": "Fotograma de un Recast real",
+        "videoLabel": "Ver un vídeo generado",
+        "recastCta": "Abrir Character Studio",
+        "priceTitle": "Elige el resultado. Consulta el precio. Luego genera.",
+        "priceBody": "Retratos, nuevos looks y fichas de personaje son generaciones de imagen. Recast es una generación de vídeo independiente: la duración y la resolución elegidas influyen en su presupuesto. Consulta siempre el precio actual en la aplicación.",
+        "priceLink": "Cómo funciona el pago por uso",
+        "faqTitle": "Antes de crear tu personaje IA",
+        "finalTitle": "Conoce a tu próximo personaje recurrente.",
+        "finalBody": "Crea su identidad, guarda los looks que te gusten y llévalo a una nueva escena.",
+        "secondaryCta": "Explorar el proceso",
+        "roles": [
+          "Personajes recurrentes",
+          "Creadores y UGC",
+          "Mascotas de marca"
+        ]
       }
     },
     "backgroundRemoval": {
@@ -8477,7 +8582,7 @@
       "all": "Todas las herramientas",
       "open": "Abrir herramienta",
       "nav": "Explorar herramientas creativas",
-      "character": "Personaje",
+      "character": "Character Studio",
       "angle": "Ángulo de cámara",
       "upscale": "Ampliación",
       "background": "Recorte de video",
@@ -8508,25 +8613,5 @@
     "body": "No encontramos esa URL. Es posible que ya no exista o que nunca haya existido. Usa los enlaces de abajo para seguir explorando MaxVideoAI.",
     "homeLabel": "Volver al inicio",
     "modelsLabel": "Ver modelos de video"
-  },
-  "passwordRecovery": {
-    "title": "Elige una nueva contraseña",
-    "intro": "Continúa para verificar tu enlace de restablecimiento.",
-    "verify": "Continuar",
-    "verifying": "Verificando el enlace…",
-    "password": "Nueva contraseña",
-    "confirm": "Confirma la nueva contraseña",
-    "save": "Guardar nueva contraseña",
-    "saving": "Guardando…",
-    "saved": "Tu contraseña se ha actualizado.",
-    "continueToApp": "Ir a la aplicación",
-    "requestNew": "Solicitar otro enlace",
-    "invalid": "Este enlace no es válido o ha caducado. Solicita uno nuevo. Si cambiaste de navegador, prueba a abrir el enlace original en el navegador donde lo solicitaste.",
-    "tooShort": "Usa al menos 6 caracteres.",
-    "mismatch": "Las contraseñas no coinciden.",
-    "weak": "Elige una contraseña más segura.",
-    "same": "Elige una contraseña diferente de la actual.",
-    "unavailable": "No pudimos actualizar tu contraseña. Inténtalo de nuevo.",
-    "ready": "Introduce y confirma tu nueva contraseña."
   }
 }

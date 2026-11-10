@@ -126,13 +126,18 @@ function sentenceSet(value: unknown): Set<string> {
   );
 }
 
-function structuralSignature(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(structuralSignature);
+function structuralSignature(value: unknown, currentPath = ''): unknown {
+  if (currentPath === 'examples.postGallery') {
+    // The strict parser validates the block; its presence is deliberately locale-specific.
+    assert.ok(value === null || (value && typeof value === 'object' && !Array.isArray(value)));
+    return 'nullable-locale-accompaniment';
+  }
+  if (Array.isArray(value)) return value.map((entry, index) => structuralSignature(entry, `${currentPath}.${index}`));
   if (value && typeof value === 'object') {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>)
         .sort(([left], [right]) => left.localeCompare(right))
-        .map(([key, nested]) => [key, structuralSignature(nested)]),
+        .map(([key, nested]) => [key, structuralSignature(nested, currentPath ? `${currentPath}.${key}` : key)]),
     );
   }
   return value === null ? 'null' : typeof value;
@@ -193,7 +198,7 @@ test('all 21 P0 locale documents parse strictly and remain structurally aligned'
       if (locale !== 'en') {
         assert.deepEqual(structuralSignature(document.decision), structuralSignature(english.decision), `${slug}/${locale}/decision`);
         assert.deepEqual(structuralSignature(document.prompting), structuralSignature(english.prompting), `${slug}/${locale}/prompting`);
-        assert.deepEqual(structuralSignature(document.examples), structuralSignature(english.examples), `${slug}/${locale}/examples`);
+        assert.deepEqual(structuralSignature(document.examples, 'examples'), structuralSignature(english.examples, 'examples'), `${slug}/${locale}/examples`);
       }
     }
   }
@@ -266,7 +271,18 @@ test('P0 links are localized, decision-complete, and future comparison links sta
         && !href.includes(locale === 'en' ? '/pricing' : locale === 'fr' ? '/fr/tarifs' : '/es/precios')
         && href !== '#prompting',
       );
-      assert.ok(contextual.length >= 2 && contextual.length <= 4, `${slug}/${locale} should have 2-4 contextual destinations, got ${contextual.length}`);
+      if (slug === 'flux-3') {
+        // The Max launch adds its model and comparison without removing existing decision links.
+        assert.deepEqual(contextual.map((href) => href.split('?')[0]).sort(), [
+          localizedModelHref(locale, 'flux-3-max'),
+          localizedModelHref(locale, 'flux-3-draft'),
+          localizedComparisonToken(locale, 'flux-3-vs-flux-3-max'),
+          localizedComparisonToken(locale, 'flux-3-vs-flux-3-draft'),
+          localizedComparisonToken(locale, 'flux-3-vs-grok-imagine-video-1-5'),
+        ].sort());
+      } else {
+        assert.ok(contextual.length >= 2 && contextual.length <= 4, `${slug}/${locale} should have 2-4 contextual destinations, got ${contextual.length}`);
+      }
     }
   }
 });

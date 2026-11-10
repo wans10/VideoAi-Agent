@@ -1,3 +1,7 @@
+import { resolveCanonicalFluxLineage } from './generation-flux-lineage';
+import { fluxDraftQuoteBinding } from '@/server/flux-draft-cache';
+import { resolveCanonicalLumaLineage, lumaLineageQuoteBinding } from './generation-luma-lineage';
+import { generationOperationQuoteBinding } from './generation-operation-facts';
 import { seedanceWorkflowCandidate } from './seedance-workflow-capabilities';
 import { resolveAgentSeedanceWorkflow, assertSeedanceWorkflowQuoteBinding, seedanceWorkflowQuoteBinding } from './seedance-workflow';
 import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
@@ -62,7 +66,7 @@ import {
   type OwnedQuoteJobInput,
 } from './quote-repository';
 import { resolveOwnedReferenceAssetForActor } from './reference-assets';
-import { resolveGenerationReferencesForActor } from './resolve-generation-references';
+import { assertGenerationReferenceUrls, resolveGenerationReferencesForActor } from './resolve-generation-references';
 import type { ResolvedReference } from './reference-types';
 import {
   checkMcpConfirmationSpendingLimits,
@@ -117,6 +121,7 @@ export type ConfirmGenerationDependencies = {
       candidate: AgentPublicGenerationEngine;
       resolvedReferences?: readonly ResolvedReference[];
       seedanceFinalFacts?: SeedanceWorkflowMediaFacts;
+    fluxDraftSource?: import('@/server/flux-draft-cache').QualifiedFluxDraftSource;
     },
   ): Promise<GenerationPricingResult>;
   checkSpendingLimits(
@@ -346,6 +351,8 @@ async function confirmationTransaction(
       staleQuote();
     }
 
+    const fluxDraftSource = await resolveCanonicalFluxLineage(quote.request,principal,executor);
+    const lumaSource = await resolveCanonicalLumaLineage(quote.request, principal, executor);
     const inherited = await resolveAgentSeedanceWorkflow(quote.request, principal.userId, { queryFn: executor.query.bind(executor) });
     assertSeedanceWorkflowQuoteBinding(quote.request, inherited.request, quote.pricingSnapshot, inherited.workflow);
     const publicEngines = await dependencies.listPublicEngines({ executor });
@@ -357,6 +364,7 @@ async function confirmationTransaction(
       staleQuote();
     }
     if (includedTrial) assertCanonicalTrialRequest(quote, candidate);
+    assertGenerationReferenceUrls(quote.request);
     try {
       if (!inherited.workflow?.finalFacts) validateCanonicalGenerationCapabilities(quote.request, candidate);
     } catch (error) {
@@ -423,7 +431,7 @@ async function confirmationTransaction(
       pricing = await dependencies.priceGeneration(
         quote.request,
         membership.tier,
-        { executor, candidate, resolvedReferences, seedanceFinalFacts: inherited.workflow?.finalFacts },
+        { executor, candidate, resolvedReferences, seedanceFinalFacts: inherited.workflow?.finalFacts, fluxDraftSource },
       );
     } catch (error) {
       if (error instanceof AgentApiError) throw error;
@@ -437,7 +445,8 @@ async function confirmationTransaction(
         quote.request,
         catalogRevision,
         membership,
-      ), ...seedanceWorkflowQuoteBinding(inherited.workflow) }, principal, resolvedReferences);
+        resolvedReferences,
+      ), ...generationOperationQuoteBinding(quote.request, resolvedReferences,fluxDraftSource), ...lumaLineageQuoteBinding(lumaSource, quote.request.settings.extendDirection), ...fluxDraftQuoteBinding(fluxDraftSource), ...seedanceWorkflowQuoteBinding(inherited.workflow) }, principal, resolvedReferences);
     } catch {
       if (includedTrial) trialNotEligible();
       staleQuote();

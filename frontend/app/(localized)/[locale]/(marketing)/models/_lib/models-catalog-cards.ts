@@ -1,5 +1,6 @@
 import { listFalEngines, type FalEngineEntry } from '@/config/falEngines';
 import { listRuntimeModels } from '@/config/model-runtime';
+import { buildMarketingModelMenu } from '@/config/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { getEnginePictogram } from '@/lib/engine-branding';
 import { getLocalizedCapabilityKeywords, getLocalizedModelUseCases } from '@/lib/ltx-localization';
@@ -139,6 +140,9 @@ export async function prepareModelsCatalogCards({
   const scoresMap = await loadEngineScores();
   const catalogBySlug = getCatalogBySlug();
   const engines = listPublishedModelsByScope(scope);
+  const discoveryBadges = new Map(
+    buildMarketingModelMenu(listRuntimeModels()).map(({ slug, badge }) => [slug, badge]),
+  );
 
   const localizedMap = new Map<string, Awaited<ReturnType<typeof getEngineLocalized>>>(
     await Promise.all(
@@ -197,10 +201,17 @@ export async function prepareModelsCatalogCards({
     const providerLabel = formatProviderLabel(engine, catalogEntry);
     const engineName = stripProvider(displayName, providerLabel, providerId) || displayName;
     const normalizedVersion = versionLabel.replace(/^v\s*/i, '').trim();
+    const versionTokens = normalizedVersion.toLowerCase().split(/\s+/);
+    let matchedVersionTokens = 0;
+    // The display name may place a descriptor between version tokens: "3 Video Draft".
+    for (const token of engineName.toLowerCase().split(/\s+/)) {
+      if (token === versionTokens[matchedVersionTokens]) matchedVersionTokens += 1;
+    }
     const hasVersion =
       normalizedVersion &&
       (engineName.toLowerCase().includes(normalizedVersion.toLowerCase()) ||
-        engineName.toLowerCase().includes(versionLabel.toLowerCase()));
+        engineName.toLowerCase().includes(versionLabel.toLowerCase()) ||
+        matchedVersionTokens === versionTokens.length);
     const titleLabel = normalizedVersion && !hasVersion ? `${engineName} ${normalizedVersion}` : engineName;
     const modes = new Set(catalogEntry?.engine?.modes ?? engine.engine.modes ?? []);
     const isImageOnly = isImageOnlyModel(engine);
@@ -217,8 +228,11 @@ export async function prepareModelsCatalogCards({
     const audioSupported =
       resolveSupported((keySpecs as Record<string, unknown>).audioOutput) ??
       (catalogEntry?.engine?.audio == null ? null : Boolean(catalogEntry.engine.audio));
+    // Paired Enhance is a source operation; catalogue discovery describes native creation.
     const maxResolution = extractMaxResolution(
-      (keySpecs as Record<string, string>).maxResolution,
+      engine.engine.operationCaps?.['flux-draft-enhance']
+        ? undefined
+        : (keySpecs as Record<string, string>).maxResolution,
       catalogEntry?.engine?.resolutions
     );
     const maxDuration = extractMaxDuration(
@@ -228,7 +242,7 @@ export async function prepareModelsCatalogCards({
     const href = { pathname: '/models/[slug]', params: { slug: engine.modelSlug } };
     // Price-free metadata is complete before any card waits for its exact range.
     // Only this narrow projection may enter the initial hero.
-    heroCards.push({ id: engine.modelSlug, label: titleLabel, overallScore, href });
+    heroCards.push({ id: engine.modelSlug, label: titleLabel, overallScore, scoreReview: scoreEntry?.review ?? null, href });
     const pricingRange = (await pricingRangeMap).get(engine.modelSlug) ?? null;
     const priceFromCents = pricingRange?.min.cents ?? null;
     const isPrelaunchWaitlist = engine.availability === 'waitlist';
@@ -295,7 +309,9 @@ export async function prepareModelsCatalogCards({
       brandId: engine.brandId ?? engine.engine.brandId ?? null,
       description: microDescription,
       versionLabel,
+      badge: discoveryBadges.get(engine.modelSlug) ?? null,
       overallScore,
+      scoreReview: scoreEntry?.review ?? null,
       priceNote: showPrelaunchPricePlaceholder ? getPrelaunchPricingNote(activeLocale) : null,
       priceNoteHref: null,
       href,
