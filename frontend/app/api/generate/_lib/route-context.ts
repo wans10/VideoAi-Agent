@@ -34,6 +34,7 @@ import {
 } from '@/server/video-providers/router';
 import { isGoogleVertexOmniEngine } from '@/server/video-providers/google-vertex-omni/model-map';
 import { isAlibabaDirectEngine } from '@/server/video-providers/alibaba-model-studio/model-map';
+import { isBailianHostedEngine } from '@/server/video-providers/alibaba-model-studio/bailian-models';
 import { isGoogleVertexVeoEngine } from '@/server/video-providers/google-vertex-veo/model-map';
 import { isKlingDirectEngine } from '@/server/video-providers/kling-direct/model-map';
 import { isLumaAgentsVideoEngine } from '@/server/video-providers/luma-agents/model-map';
@@ -179,6 +180,7 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
     providerRoutingPlan.kind === 'google_vertex_unavailable'
     || providerRoutingPlan.kind === 'luma_agents_unavailable'
     || providerRoutingPlan.kind === 'alibaba_model_studio_unavailable'
+    || providerRoutingPlan.kind === 'kling_direct_unavailable'
   ) {
     return { ok: false, status: 503, body: { ok: false,
       error: providerRoutingPlan.kind === 'luma_agents_unavailable' ? 'LUMA_MODE_UNAVAILABLE' : 'Engine unavailable',
@@ -425,6 +427,7 @@ export async function resolveGenerateRouteContext(params: {
   if (
     !isBytePlusV1a &&
     (isAlibabaDirectEngine(engine.id) ||
+      isBailianHostedEngine(engine.id) ||
       isKlingDirectEngine(engine.id) ||
       isGoogleVertexVeoEngine(engine.id) ||
       isGoogleVertexOmniEngine(engine.id) ||
@@ -452,6 +455,7 @@ export async function resolveGenerateRouteContext(params: {
     providerRoutingPlan.kind === 'google_vertex_unavailable'
     || providerRoutingPlan.kind === 'luma_agents_unavailable'
     || providerRoutingPlan.kind === 'alibaba_model_studio_unavailable'
+    || providerRoutingPlan.kind === 'kling_direct_unavailable'
   ) {
     return { ok: false, status: 503, body: { ok: false,
       error: providerRoutingPlan.kind === 'luma_agents_unavailable' ? 'LUMA_MODE_UNAVAILABLE' : 'Engine unavailable',

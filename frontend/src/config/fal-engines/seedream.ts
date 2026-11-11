@@ -120,7 +120,7 @@ const SEEDREAM_ENGINE: EngineCaps = {
   brandId: 'bytedance',
 };
 
-const SEEDREAM_PRO_ENGINE: EngineCaps = {
+export const SEEDREAM_PRO_ENGINE: EngineCaps = {
   id: 'seedream-5-0-pro',
   label: 'Seedream 5.0 Pro',
   provider: 'ByteDance',
@@ -234,7 +234,7 @@ const SEEDREAM_PRO_ENGINE: EngineCaps = {
   ttlSec: 600,
   providerMeta: {
     provider: 'byteplus_modelark',
-    modelSlug: 'dola-seedream-5-0-pro-260628',
+    modelSlug: 'doubao-seedream-5-0-pro-260628',
   },
   availability: 'available',
   brandId: 'bytedance',
@@ -341,7 +341,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     modes: [
       {
         mode: 't2i',
-        falModelId: 'dola-seedream-5-0-pro-260628',
+        falModelId: 'doubao-seedream-5-0-pro-260628',
         ui: {
           modes: ['t2i'],
           resolution: ['2K'],
@@ -351,7 +351,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       },
       {
         mode: 'i2i',
-        falModelId: 'dola-seedream-5-0-pro-260628',
+        falModelId: 'doubao-seedream-5-0-pro-260628',
         ui: {
           modes: ['i2i'],
           resolution: ['2K'],
@@ -362,11 +362,11 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
         },
       },
     ],
-    defaultFalModelId: 'dola-seedream-5-0-pro-260628',
+    defaultFalModelId: 'doubao-seedream-5-0-pro-260628',
     seo: {
       title: 'Seedream 5.0 Pro AI Image Generator | Keyvo',
       description:
-        'Use Seedream 5.0 Pro in MaxVideoAI for professional ByteDance image generation, visual editing, infographics, and 2K campaign-ready stills.',
+        'Use Seedream 5.0 Pro in Keyvo for professional ByteDance image generation, visual editing, infographics, and 2K campaign-ready stills.',
       canonicalPath: '/models/seedream-5-0-pro',
     },
     type: 'image',
@@ -394,9 +394,9 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     faqs: [
       {
-        question: 'How is Seedream 5.0 Pro different from Seedream 5.0 Lite?',
+        question: 'How is Seedream 5.0 Pro different from Seedream 5.0 Flash?',
         answer:
-          'Use Seedream 5.0 Pro for professional finals, dense infographics, complex edits, and 2K campaign stills. Use Lite for faster reference-image generation before Seedance.',
+          'Use Seedream 5.0 Pro for professional finals, dense infographics, complex edits, and 2K campaign stills. Use Flash for faster, lower-cost reference images before Seedance.',
       },
       {
         question: 'Does Seedream 5.0 Pro support batch output?',

@@ -40,6 +40,7 @@ export function providerComparisonForTariffScenario(scenario: ManualTariffCovera
     if ('primaryProvider' in plan) executionProvider = plan.primaryProvider;
     else {
       executionProvider = plan.kind === 'alibaba_model_studio_unavailable' ? 'alibaba_model_studio'
+        : plan.kind === 'kling_direct_unavailable' ? 'kling_direct'
         : entry.id === 'gemini-omni-flash' ? 'google_vertex_omni_direct' : 'google_vertex_veo_direct';
       routeConfigured = false;
     }

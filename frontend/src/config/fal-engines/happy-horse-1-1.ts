@@ -119,7 +119,7 @@ const HAPPY_HORSE_1_1_ENGINE: EngineCaps = {
       },
     ],
     constraints: {
-      supportedFormats: ['jpg', 'jpeg', 'png', 'bmp', 'webp'],
+      supportedFormats: ['jpg', 'jpeg', 'png', 'webp'],
       maxImageSizeMB: 20,
       minImageSidePx: 300,
       minReferenceImageSidePx: 400,
@@ -175,7 +175,7 @@ const HAPPY_HORSE_1_1_ENGINE: EngineCaps = {
       modes: ['i2v'],
       duration: { options: [...HAPPY_HORSE_DURATION_OPTIONS], default: 5 },
       resolution: ['480p', '720p', '1080p'],
-      acceptsImageFormats: ['jpg', 'jpeg', 'png', 'bmp', 'webp'],
+      acceptsImageFormats: ['jpg', 'jpeg', 'png', 'webp'],
       maxUploadMB: 20,
       audioToggle: false,
       notes: 'Animate one start image with optional prompt guidance. Aspect ratio is inferred from the source image.',
@@ -186,7 +186,7 @@ const HAPPY_HORSE_1_1_ENGINE: EngineCaps = {
       resolution: ['480p', '720p', '1080p'],
       aspectRatio: [...HAPPY_HORSE_1_1_ASPECT_RATIOS],
       acceptsImageFormats: ['jpg', 'jpeg', 'png', 'webp'],
-      maxUploadMB: 10,
+      maxUploadMB: 20,
       audioToggle: false,
       notes: 'Reference-to-video workflow with 1-9 image references and character1..character9 prompt anchors.',
     },
@@ -271,7 +271,7 @@ export const HAPPY_HORSE_1_1_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
       {
         question: 'Does Happy Horse 1.1 support video editing?',
         answer:
-          'Happy Horse 1.1 does not expose video editing in the current Keyvo route. Happy Horse 1.0 remains available as the legacy video-edit route.',
+          'Happy Horse 1.1 does not expose video editing in the current Keyvo route. Use the Wan 3 video edit mode to modify an existing clip.',
       },
     ],
     pricingHint: {

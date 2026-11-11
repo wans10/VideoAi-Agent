@@ -6,6 +6,7 @@ import {
   type KlingDirectSubmitCapabilities,
 } from './capabilities';
 import {
+  isKlingDirectV2Route,
   resolveKlingDirectCreatePath,
   resolveKlingDirectModelRoute,
   resolveKlingDirectPollPathPrefix,
@@ -245,6 +246,9 @@ export function buildKlingDirectPayload(params: {
   extraInputValues?: Record<string, unknown> | null;
 }): KlingDirectPayload {
   const route = resolveKlingDirectModelRoute(params.engineId);
+  if (isKlingDirectV2Route(route)) {
+    throw new Error(`${route.engineId} uses the Kling new-design API; build it with buildKlingDirectV2Payload.`);
+  }
   const createPath = resolveKlingDirectCreatePath(route, params.mode);
   const pollPathPrefix = resolveKlingDirectPollPathPrefix(route, params.mode);
   const submitMode = resolveKlingDirectSubmitMode(params.mode);

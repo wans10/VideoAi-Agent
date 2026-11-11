@@ -50,7 +50,6 @@
           "luma-ray-2",
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -377,7 +376,6 @@
           "minimax-h3",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "seedance-2-5",
           "sora-2",
@@ -908,7 +906,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -1439,7 +1436,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -2536,8 +2532,7 @@
       "compare": {
         "suggestOpponents": [
           "veo-3-1-fast",
-          "kling-3-standard",
-          "seedance-1-5-pro"
+          "kling-3-standard"
         ],
         "publishedPairs": [
           "kling-2-5-turbo",
@@ -2552,7 +2547,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -3048,7 +3042,6 @@
           "luma-ray-2",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -5394,7 +5387,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2-pro",
           "veo-3-1",
@@ -5663,7 +5655,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "veo-3-1",
@@ -5965,7 +5956,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -6314,7 +6304,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -6675,7 +6664,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "seedance-2-5",
           "sora-2",
@@ -7075,7 +7063,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -12317,8 +12304,7 @@
       "stage": "indexed",
       "showInNav": true,
       "publishedModelSlugs": [
-        "happy-horse-1-1",
-        "happy-horse-1-0"
+        "happy-horse-1-1"
       ],
       "currentModelSlugs": [
         "happy-horse-1-1"
@@ -12352,7 +12338,6 @@
           "kling-3-pro",
           "veo-3-1",
           "sora-2-pro",
-          "happy-horse-1-0",
           "kling-o3-pro",
           "veo-3-1-fast",
           "seedance-2-0-fast",
@@ -12572,7 +12557,6 @@
             "jpg",
             "jpeg",
             "png",
-            "bmp",
             "webp"
           ],
           "maxImageSizeMB": 20,
@@ -12689,7 +12673,6 @@
             "jpg",
             "jpeg",
             "png",
-            "bmp",
             "webp"
           ],
           "maxUploadMB": 20,
@@ -12740,7 +12723,7 @@
             "png",
             "webp"
           ],
-          "maxUploadMB": 10,
+          "maxUploadMB": 20,
           "audioToggle": false,
           "notes": "Reference-to-video workflow with 1-9 image references and character1..character9 prompt anchors."
         }
@@ -12826,7 +12809,6 @@
             "jpg",
             "jpeg",
             "png",
-            "bmp",
             "webp"
           ],
           "maxUploadMB": 20,
@@ -12881,7 +12863,7 @@
             "png",
             "webp"
           ],
-          "maxUploadMB": 10,
+          "maxUploadMB": 20,
           "audioToggle": false,
           "notes": "Reference-to-video workflow with 1-9 image references and character1..character9 prompt anchors."
         }
@@ -12914,8 +12896,7 @@
       "stage": "indexed",
       "showInNav": true,
       "publishedModelSlugs": [
-        "happy-horse-1-1",
-        "happy-horse-1-0"
+        "happy-horse-1-1"
       ],
       "currentModelSlugs": [
         "happy-horse-1-1"
@@ -12925,41 +12906,27 @@
     "availability": "available",
     "logoPolicy": "logoAllowed",
     "lifecycle": "legacy",
-    "successorId": null,
-    "successorSlug": null,
+    "successorId": "happy-horse-1-1",
+    "successorSlug": "happy-horse-1-1",
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
-        "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
       },
       "compare": {
-        "suggestOpponents": [
-          "happy-horse-1-1",
-          "seedance-2-0",
-          "kling-3-pro",
-          "veo-3-1"
-        ],
-        "publishedPairs": [
-          "happy-horse-1-1",
-          "seedance-2-0",
-          "kling-3-pro",
-          "veo-3-1"
-        ],
-        "includeInHub": true
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
       },
       "app": {
-        "enabled": true,
-        "discoveryRank": 50,
-        "variantGroup": "happy-horse",
-        "variantLabel": "1.0 legacy"
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true,
-        "featuredScenario": "legacy happy-horse-video-edit"
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -13563,8 +13530,7 @@
         "seedance-2-5",
         "seedance-2-0",
         "seedance-2-0-fast",
-        "dreamina-seedance-2-0-mini",
-        "seedance-1-5-pro"
+        "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
@@ -13576,48 +13542,22 @@
     "versionLabel": "v1.5 Pro",
     "availability": "available",
     "logoPolicy": "logoAllowed",
-    "lifecycle": "deep_legacy",
+    "lifecycle": "retired",
     "successorId": null,
     "successorSlug": null,
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
-        "includeInFamilyResolver": true,
+        "includeInFamilyResolver": false,
         "includeInFamilyCopy": false
       },
       "compare": {
-        "suggestOpponents": [
-          "seedance-2-0",
-          "kling-3-pro",
-          "sora-2"
-        ],
-        "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
-          "kling-3-4k",
-          "kling-3-pro",
-          "kling-3-standard",
-          "ltx-2",
-          "ltx-2-3-fast",
-          "ltx-2-3-pro",
-          "ltx-2-fast",
-          "luma-ray-2",
-          "luma-ray-2-flash",
-          "minimax-hailuo-02-text",
-          "pika-text-to-video",
-          "seedance-2-0",
-          "sora-2",
-          "sora-2-pro",
-          "veo-3-1",
-          "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-5",
-          "wan-2-6"
-        ],
-        "includeInHub": true
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
       },
       "app": {
         "enabled": false
@@ -13948,8 +13888,7 @@
         "seedance-2-5",
         "seedance-2-0",
         "seedance-2-0-fast",
-        "dreamina-seedance-2-0-mini",
-        "seedance-1-5-pro"
+        "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
@@ -13993,7 +13932,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "sora-2",
           "sora-2-pro",
           "veo-3-1",
@@ -14796,8 +14734,7 @@
         "seedance-2-5",
         "seedance-2-0",
         "seedance-2-0-fast",
-        "dreamina-seedance-2-0-mini",
-        "seedance-1-5-pro"
+        "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
@@ -14841,7 +14778,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -15626,8 +15562,7 @@
         "seedance-2-5",
         "seedance-2-0",
         "seedance-2-0-fast",
-        "dreamina-seedance-2-0-mini",
-        "seedance-1-5-pro"
+        "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
@@ -16090,7 +16025,7 @@
       "ttlSec": 600,
       "providerMeta": {
         "provider": "byteplus_modelark",
-        "modelSlug": "dreamina-seedance-2-0-mini-260615"
+        "modelSlug": "doubao-seedance-2-0-mini-260615"
       },
       "availability": "available",
       "brandId": "bytedance"
@@ -16377,8 +16312,7 @@
         "seedance-2-5",
         "seedance-2-0",
         "seedance-2-0-fast",
-        "dreamina-seedance-2-0-mini",
-        "seedance-1-5-pro"
+        "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
@@ -16646,7 +16580,7 @@
       "ttlSec": 600,
       "providerMeta": {
         "provider": "byteplus_modelark",
-        "modelSlug": "dreamina-seedance-2-0-fast-260128"
+        "modelSlug": "doubao-seedance-2-0-fast-260128"
       },
       "availability": "limited",
       "brandId": "bytedance"
@@ -16715,8 +16649,7 @@
         "seedance-2-5",
         "seedance-2-0",
         "seedance-2-0-fast",
-        "dreamina-seedance-2-0-mini",
-        "seedance-1-5-pro"
+        "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
@@ -17263,7 +17196,7 @@
       "ttlSec": 600,
       "providerMeta": {
         "provider": "byteplus_modelark",
-        "modelSlug": "dreamina-seedance-2-5-260628"
+        "modelSlug": "doubao-seedance-2-5-260628"
       },
       "availability": "available",
       "brandId": "bytedance"
@@ -17630,8 +17563,7 @@
       "publishedModelSlugs": [
         "wan-3-prime",
         "wan-3",
-        "wan-2-6",
-        "wan-2-5"
+        "wan-2-6"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -17646,12 +17578,12 @@
     "successorSlug": "wan-3",
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
-        "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
       },
       "compare": {
         "suggestOpponents": [],
@@ -17669,7 +17601,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -17952,8 +17883,7 @@
       "publishedModelSlugs": [
         "wan-3-prime",
         "wan-3",
-        "wan-2-6",
-        "wan-2-5"
+        "wan-2-6"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -17996,7 +17926,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -18390,7 +18319,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -18707,7 +18635,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -19015,7 +18942,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -19382,7 +19308,6 @@
           "luma-ray-2-flash",
           "minimax-hailuo-02-text",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -20079,10 +20004,8 @@
       ],
       "maxDurationSec": 15,
       "resolutions": [
-        "480P",
         "768P",
-        "2K",
-        "4K"
+        "2K"
       ],
       "aspectRatios": [
         "21:9",
@@ -20323,6 +20246,7 @@
               "ref2v"
             ],
             "values": [
+              "4",
               "5",
               "6",
               "7",
@@ -20336,7 +20260,7 @@
               "15"
             ],
             "default": "10",
-            "min": 5,
+            "min": 4,
             "max": 15
           },
           {
@@ -20349,10 +20273,8 @@
               "ref2v"
             ],
             "values": [
-              "480P",
               "768P",
-              "2K",
-              "4K"
+              "2K"
             ],
             "default": "2K"
           },
@@ -20488,6 +20410,7 @@
           ],
           "duration": {
             "options": [
+              4,
               5,
               6,
               7,
@@ -20503,10 +20426,8 @@
             "default": 10
           },
           "resolution": [
-            "480P",
             "768P",
-            "2K",
-            "4K"
+            "2K"
           ],
           "aspectRatio": [
             "21:9",
@@ -20530,6 +20451,7 @@
           ],
           "duration": {
             "options": [
+              4,
               5,
               6,
               7,
@@ -20545,10 +20467,8 @@
             "default": 10
           },
           "resolution": [
-            "480P",
             "768P",
-            "2K",
-            "4K"
+            "2K"
           ],
           "fps": 24,
           "acceptsImageFormats": [
@@ -20571,6 +20491,7 @@
           ],
           "duration": {
             "options": [
+              4,
               5,
               6,
               7,
@@ -20586,10 +20507,8 @@
             "default": 10
           },
           "resolution": [
-            "480P",
             "768P",
-            "2K",
-            "4K"
+            "2K"
           ],
           "aspectRatio": [
             "21:9",
@@ -21768,7 +21687,6 @@
           "luma-ray-2",
           "luma-ray-2-flash",
           "pika-text-to-video",
-          "seedance-1-5-pro",
           "seedance-2-0",
           "sora-2",
           "sora-2-pro",
@@ -22012,6 +21930,533 @@
       }
     },
     "bestFor": "Stylised text or image motion"
+  },
+  {
+    "engineId": "minimax-hailuo-2-3",
+    "modelSlug": "minimax-hailuo-2-3",
+    "marketingName": "MiniMax Hailuo 2.3",
+    "provider": "MiniMax",
+    "brandId": "minimax",
+    "family": "hailuo",
+    "familyExamplesPage": {
+      "stage": "indexed",
+      "showInNav": true,
+      "publishedModelSlugs": [
+        "minimax-h3",
+        "minimax-h3-max",
+        "minimax-hailuo-02-text"
+      ],
+      "currentModelSlugs": [
+        "minimax-h3",
+        "minimax-h3-max"
+      ]
+    },
+    "versionLabel": "2.3",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "surfaces": {
+      "modelPage": {
+        "indexable": false,
+        "includeInSitemap": false
+      },
+      "examples": {
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
+      },
+      "compare": {
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
+      },
+      "app": {
+        "enabled": true,
+        "variantGroup": "hailuo",
+        "variantLabel": "2.3"
+      },
+      "pricing": {
+        "includeInEstimator": false
+      }
+    },
+    "surfacesSource": "registry",
+    "engine": {
+      "id": "minimax-hailuo-2-3",
+      "label": "MiniMax Hailuo 2.3",
+      "provider": "MiniMax",
+      "version": "2.3",
+      "status": "live",
+      "latencyTier": "standard",
+      "queueDepth": 0,
+      "region": "cn",
+      "modes": [
+        "t2v",
+        "i2v"
+      ],
+      "maxDurationSec": 10,
+      "resolutions": [
+        "768P",
+        "1080P"
+      ],
+      "aspectRatios": [
+        "16:9"
+      ],
+      "fps": [
+        25
+      ],
+      "audio": false,
+      "upscale4k": false,
+      "extend": false,
+      "motionControls": false,
+      "keyframes": false,
+      "params": {},
+      "inputLimits": {
+        "imageMaxMB": 20,
+        "promptMaxChars": 2000,
+        "promptMaxCharsSource": "official"
+      },
+      "inputSchema": {
+        "required": [
+          {
+            "id": "prompt",
+            "type": "text",
+            "label": "Prompt",
+            "modes": [
+              "t2v",
+              "i2v"
+            ],
+            "requiredInModes": [
+              "t2v",
+              "i2v"
+            ]
+          },
+          {
+            "id": "image_url",
+            "type": "image",
+            "label": "Start image",
+            "modes": [
+              "i2v"
+            ],
+            "requiredInModes": [
+              "i2v"
+            ],
+            "minCount": 1,
+            "maxCount": 1,
+            "maxSizeMB": 20,
+            "imageAspectRatio": {
+              "min": 0.4,
+              "max": 2.5
+            },
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp"
+            ],
+            "source": "either"
+          }
+        ],
+        "optional": [
+          {
+            "id": "duration",
+            "type": "enum",
+            "label": "Duration",
+            "values": [
+              "6",
+              "10"
+            ],
+            "default": "6",
+            "min": 6,
+            "max": 10,
+            "description": "1080P renders last 6 seconds."
+          },
+          {
+            "id": "resolution",
+            "type": "enum",
+            "label": "Resolution",
+            "values": [
+              "768P",
+              "1080P"
+            ],
+            "default": "768P"
+          },
+          {
+            "id": "prompt_optimizer",
+            "type": "enum",
+            "label": "Prompt optimiser",
+            "values": [
+              "on",
+              "off"
+            ],
+            "default": "on"
+          }
+        ],
+        "constraints": {
+          "minImageSidePx": 301,
+          "maxImageSizeMB": 20,
+          "supportedFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp"
+          ],
+          "ownedAssetModes": [
+            "i2v"
+          ]
+        }
+      },
+      "pricingDetails": {
+        "currency": "USD",
+        "perSecondCents": {
+          "default": 4.1667,
+          "byResolution": {
+            "768P": 4.1667,
+            "1080P": 7.2917
+          }
+        }
+      },
+      "pricing": {
+        "unit": "USD/s",
+        "base": 0.041666999999999996,
+        "currency": "USD",
+        "notes": "MiniMax per-video CNY list price converted at the application accounting rate (provisional)."
+      },
+      "updatedAt": "2026-11-11T00:00:00Z",
+      "ttlSec": 600,
+      "providerMeta": {
+        "provider": "minimax",
+        "modelSlug": "MiniMax-Hailuo-2.3"
+      },
+      "availability": "available",
+      "brandId": "minimax"
+    },
+    "modes": [
+      {
+        "mode": "t2v",
+        "falModelId": "MiniMax-Hailuo-2.3",
+        "ui": {
+          "modes": [
+            "t2v"
+          ],
+          "duration": {
+            "options": [
+              6,
+              10
+            ],
+            "default": 6
+          },
+          "resolution": [
+            "768P",
+            "1080P"
+          ],
+          "aspectRatio": [
+            "16:9"
+          ],
+          "fps": 25,
+          "audioToggle": false,
+          "notes": "Silent 16:9 clip; camera moves can be written as [推进], [左摇] and similar commands in the prompt."
+        }
+      },
+      {
+        "mode": "i2v",
+        "falModelId": "MiniMax-Hailuo-2.3",
+        "ui": {
+          "modes": [
+            "i2v"
+          ],
+          "duration": {
+            "options": [
+              6,
+              10
+            ],
+            "default": 6
+          },
+          "resolution": [
+            "768P",
+            "1080P"
+          ],
+          "acceptsImageFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp"
+          ],
+          "maxUploadMB": 20,
+          "fps": 25,
+          "audioToggle": false,
+          "notes": "Animates the start image; framing follows the image. Silent output."
+        }
+      }
+    ],
+    "features": {
+      "audio": {
+        "value": false
+      },
+      "motionControls": {
+        "value": false
+      },
+      "keyframes": {
+        "value": false
+      },
+      "extend": {
+        "value": false
+      }
+    }
+  },
+  {
+    "engineId": "minimax-hailuo-2-3-fast",
+    "modelSlug": "minimax-hailuo-2-3-fast",
+    "marketingName": "MiniMax Hailuo 2.3 Fast",
+    "provider": "MiniMax",
+    "brandId": "minimax",
+    "family": "hailuo",
+    "familyExamplesPage": {
+      "stage": "indexed",
+      "showInNav": true,
+      "publishedModelSlugs": [
+        "minimax-h3",
+        "minimax-h3-max",
+        "minimax-hailuo-02-text"
+      ],
+      "currentModelSlugs": [
+        "minimax-h3",
+        "minimax-h3-max"
+      ]
+    },
+    "versionLabel": "2.3 Fast",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "surfaces": {
+      "modelPage": {
+        "indexable": false,
+        "includeInSitemap": false
+      },
+      "examples": {
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
+      },
+      "compare": {
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
+      },
+      "app": {
+        "enabled": true,
+        "variantGroup": "hailuo",
+        "variantLabel": "2.3 Fast"
+      },
+      "pricing": {
+        "includeInEstimator": false
+      }
+    },
+    "surfacesSource": "registry",
+    "engine": {
+      "id": "minimax-hailuo-2-3-fast",
+      "label": "MiniMax Hailuo 2.3 Fast",
+      "provider": "MiniMax",
+      "version": "2.3 Fast",
+      "status": "live",
+      "latencyTier": "standard",
+      "queueDepth": 0,
+      "region": "cn",
+      "modes": [
+        "i2v"
+      ],
+      "maxDurationSec": 10,
+      "resolutions": [
+        "768P",
+        "1080P"
+      ],
+      "aspectRatios": [
+        "auto"
+      ],
+      "fps": [
+        25
+      ],
+      "audio": false,
+      "upscale4k": false,
+      "extend": false,
+      "motionControls": false,
+      "keyframes": false,
+      "params": {},
+      "inputLimits": {
+        "imageMaxMB": 20,
+        "promptMaxChars": 2000,
+        "promptMaxCharsSource": "official"
+      },
+      "inputSchema": {
+        "required": [
+          {
+            "id": "prompt",
+            "type": "text",
+            "label": "Prompt",
+            "modes": [
+              "i2v"
+            ],
+            "requiredInModes": [
+              "i2v"
+            ]
+          },
+          {
+            "id": "image_url",
+            "type": "image",
+            "label": "Start image",
+            "modes": [
+              "i2v"
+            ],
+            "requiredInModes": [
+              "i2v"
+            ],
+            "minCount": 1,
+            "maxCount": 1,
+            "maxSizeMB": 20,
+            "imageAspectRatio": {
+              "min": 0.4,
+              "max": 2.5
+            },
+            "acceptedMimeTypes": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "acceptedFileExtensions": [
+              "jpg",
+              "jpeg",
+              "png",
+              "webp"
+            ],
+            "source": "either"
+          }
+        ],
+        "optional": [
+          {
+            "id": "duration",
+            "type": "enum",
+            "label": "Duration",
+            "values": [
+              "6",
+              "10"
+            ],
+            "default": "6",
+            "min": 6,
+            "max": 10,
+            "description": "1080P renders last 6 seconds."
+          },
+          {
+            "id": "resolution",
+            "type": "enum",
+            "label": "Resolution",
+            "values": [
+              "768P",
+              "1080P"
+            ],
+            "default": "768P"
+          },
+          {
+            "id": "prompt_optimizer",
+            "type": "enum",
+            "label": "Prompt optimiser",
+            "values": [
+              "on",
+              "off"
+            ],
+            "default": "on"
+          }
+        ],
+        "constraints": {
+          "minImageSidePx": 301,
+          "maxImageSizeMB": 20,
+          "supportedFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp"
+          ],
+          "ownedAssetModes": [
+            "i2v"
+          ]
+        }
+      },
+      "pricingDetails": {
+        "currency": "USD",
+        "perSecondCents": {
+          "default": 2.8125,
+          "byResolution": {
+            "768P": 2.8125,
+            "1080P": 4.8125
+          }
+        }
+      },
+      "pricing": {
+        "unit": "USD/s",
+        "base": 0.028125,
+        "currency": "USD",
+        "notes": "MiniMax per-video CNY list price converted at the application accounting rate (provisional)."
+      },
+      "updatedAt": "2026-11-11T00:00:00Z",
+      "ttlSec": 600,
+      "providerMeta": {
+        "provider": "minimax",
+        "modelSlug": "MiniMax-Hailuo-2.3-Fast"
+      },
+      "availability": "available",
+      "brandId": "minimax"
+    },
+    "modes": [
+      {
+        "mode": "i2v",
+        "falModelId": "MiniMax-Hailuo-2.3-Fast",
+        "ui": {
+          "modes": [
+            "i2v"
+          ],
+          "duration": {
+            "options": [
+              6,
+              10
+            ],
+            "default": 6
+          },
+          "resolution": [
+            "768P",
+            "1080P"
+          ],
+          "acceptsImageFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp"
+          ],
+          "maxUploadMB": 20,
+          "fps": 25,
+          "audioToggle": false,
+          "notes": "Animates the start image; framing follows the image. Silent output."
+        }
+      }
+    ],
+    "features": {
+      "audio": {
+        "value": false
+      },
+      "motionControls": {
+        "value": false
+      },
+      "keyframes": {
+        "value": false
+      },
+      "extend": {
+        "value": false
+      }
+    }
   },
   {
     "engineId": "nano-banana",
@@ -25973,13 +26418,13 @@
     "versionLabel": "5.0 Lite",
     "availability": "available",
     "logoPolicy": "logoAllowed",
-    "lifecycle": "current",
+    "lifecycle": "retired",
     "successorId": null,
     "successorSlug": null,
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
         "includeInFamilyResolver": false,
@@ -25991,14 +26436,10 @@
         "includeInHub": false
       },
       "app": {
-        "enabled": true,
-        "discoveryRank": 8,
-        "variantGroup": "seedream",
-        "variantLabel": "5.0 Lite"
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true,
-        "featuredScenario": "reference image before Seedance"
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -26461,7 +26902,7 @@
       "ttlSec": 600,
       "providerMeta": {
         "provider": "byteplus_modelark",
-        "modelSlug": "dola-seedream-5-0-pro-260628"
+        "modelSlug": "doubao-seedream-5-0-pro-260628"
       },
       "availability": "available",
       "brandId": "bytedance"
@@ -26469,7 +26910,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "dola-seedream-5-0-pro-260628",
+        "falModelId": "doubao-seedream-5-0-pro-260628",
         "ui": {
           "modes": [
             "t2i"
@@ -26493,7 +26934,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "dola-seedream-5-0-pro-260628",
+        "falModelId": "doubao-seedream-5-0-pro-260628",
         "ui": {
           "modes": [
             "i2i"
@@ -26523,6 +26964,283 @@
           ],
           "maxUploadMB": 10,
           "notes": "Edit with up to 10 references for controlled professional visual production."
+        }
+      }
+    ],
+    "features": {
+      "audio": {
+        "value": false
+      },
+      "motionControls": {
+        "value": false
+      },
+      "keyframes": {
+        "value": false
+      },
+      "extend": {
+        "value": false
+      }
+    }
+  },
+  {
+    "engineId": "seedream-5-0-flash",
+    "modelSlug": "seedream-5-0-flash",
+    "marketingName": "Seedream 5.0 Flash",
+    "provider": "ByteDance",
+    "brandId": "bytedance",
+    "family": "seedream",
+    "familyExamplesPage": null,
+    "versionLabel": "5.0 Flash",
+    "availability": "available",
+    "logoPolicy": "logoAllowed",
+    "lifecycle": "current",
+    "successorId": null,
+    "successorSlug": null,
+    "surfaces": {
+      "modelPage": {
+        "indexable": false,
+        "includeInSitemap": false
+      },
+      "examples": {
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
+      },
+      "compare": {
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
+      },
+      "app": {
+        "enabled": true,
+        "discoveryRank": 8,
+        "variantGroup": "seedream",
+        "variantLabel": "5.0 Flash"
+      },
+      "pricing": {
+        "includeInEstimator": true
+      }
+    },
+    "surfacesSource": "registry",
+    "engine": {
+      "id": "seedream-5-0-flash",
+      "label": "Seedream 5.0 Flash",
+      "provider": "ByteDance",
+      "version": "5.0 Flash",
+      "status": "live",
+      "latencyTier": "standard",
+      "queueDepth": 0,
+      "region": "global",
+      "modes": [
+        "t2i",
+        "i2i"
+      ],
+      "maxDurationSec": 1,
+      "resolutions": [
+        "2K"
+      ],
+      "aspectRatios": [
+        "auto",
+        "1:1",
+        "4:3",
+        "3:4",
+        "16:9",
+        "9:16",
+        "3:2",
+        "2:3",
+        "21:9"
+      ],
+      "fps": [
+        1
+      ],
+      "audio": false,
+      "upscale4k": false,
+      "extend": false,
+      "motionControls": false,
+      "keyframes": false,
+      "params": {},
+      "inputLimits": {
+        "imageMaxMB": 10
+      },
+      "inputSchema": {
+        "required": [
+          {
+            "id": "prompt",
+            "type": "text",
+            "label": "Prompt",
+            "description": "Describe the reference image, product still, character, or edit you want Seedream Flash to create."
+          }
+        ],
+        "optional": [
+          {
+            "id": "num_images",
+            "type": "number",
+            "label": "Images",
+            "min": 1,
+            "max": 1,
+            "step": 1,
+            "default": 1,
+            "description": "Seedream 5.0 Flash supports one generated image per request."
+          },
+          {
+            "id": "aspect_ratio",
+            "type": "enum",
+            "label": "Ratio",
+            "values": [
+              "auto",
+              "1:1",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16",
+              "3:2",
+              "2:3",
+              "21:9"
+            ],
+            "default": "auto",
+            "description": "Choose auto, or map the 2K output to a recommended width and height."
+          },
+          {
+            "id": "image_urls",
+            "type": "image",
+            "label": "Reference images",
+            "description": "Add up to 10 source images for Seedream Flash edit and reference workflows.",
+            "modes": [
+              "i2i"
+            ],
+            "requiredInModes": [
+              "i2i"
+            ],
+            "minCount": 1,
+            "maxCount": 10,
+            "source": "either"
+          },
+          {
+            "id": "resolution",
+            "engineParam": "size",
+            "type": "enum",
+            "label": "Image size",
+            "values": [
+              "2K"
+            ],
+            "default": "2K",
+            "description": "Seedream Flash generates 2K outputs."
+          },
+          {
+            "id": "output_format",
+            "engineParam": "output_format",
+            "type": "enum",
+            "label": "Output format",
+            "values": [
+              "jpeg",
+              "png"
+            ],
+            "default": "jpeg",
+            "description": "Choose the Seedream output file format."
+          }
+        ],
+        "constraints": {
+          "supportedFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp",
+            "bmp",
+            "tiff",
+            "gif"
+          ],
+          "maxImageSizeMB": 10
+        }
+      },
+      "pricingDetails": {
+        "currency": "USD",
+        "perSecondCents": {
+          "default": 2,
+          "byResolution": {
+            "2K": 2
+          }
+        },
+        "flatCents": {
+          "default": 2,
+          "byResolution": {
+            "2K": 2
+          }
+        }
+      },
+      "pricing": {
+        "unit": "image",
+        "base": 0.015,
+        "byResolution": {
+          "2K": 0.015
+        },
+        "currency": "USD",
+        "notes": "Seedream 5.0 Flash is billed per successfully generated image (PROVISIONAL: official list price 0.12 CNY per image)."
+      },
+      "updatedAt": "2026-11-11T00:00:00Z",
+      "ttlSec": 600,
+      "providerMeta": {
+        "provider": "byteplus_modelark",
+        "modelSlug": "doubao-seedream-5-0-flash-260915"
+      },
+      "availability": "available",
+      "brandId": "bytedance"
+    },
+    "modes": [
+      {
+        "mode": "t2i",
+        "falModelId": "doubao-seedream-5-0-flash-260915",
+        "ui": {
+          "modes": [
+            "t2i"
+          ],
+          "resolution": [
+            "2K"
+          ],
+          "aspectRatio": [
+            "auto",
+            "1:1",
+            "4:3",
+            "3:4",
+            "16:9",
+            "9:16",
+            "3:2",
+            "2:3",
+            "21:9"
+          ],
+          "notes": "Generate fast, low-cost reference images, product stills and source frames before video animation."
+        }
+      },
+      {
+        "mode": "i2i",
+        "falModelId": "doubao-seedream-5-0-flash-260915",
+        "ui": {
+          "modes": [
+            "i2i"
+          ],
+          "resolution": [
+            "2K"
+          ],
+          "aspectRatio": [
+            "auto",
+            "1:1",
+            "4:3",
+            "3:4",
+            "16:9",
+            "9:16",
+            "3:2",
+            "2:3",
+            "21:9"
+          ],
+          "acceptsImageFormats": [
+            "jpg",
+            "jpeg",
+            "png",
+            "webp",
+            "bmp",
+            "tiff",
+            "gif"
+          ],
+          "maxUploadMB": 10,
+          "notes": "Edit with up to 10 references for quick, controlled visual references."
         }
       }
     ],
@@ -27078,8 +27796,7 @@
       "publishedModelSlugs": [
         "wan-3-prime",
         "wan-3",
-        "wan-2-6",
-        "wan-2-5"
+        "wan-2-6"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -27146,6 +27863,7 @@
       ],
       "aspectRatios": [
         "auto",
+        "21:9",
         "16:9",
         "4:3",
         "1:1",
@@ -27396,6 +28114,7 @@
             ],
             "values": [
               "adaptive",
+              "21:9",
               "16:9",
               "4:3",
               "1:1",
@@ -27519,6 +28238,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27544,6 +28264,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27569,6 +28290,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27595,6 +28317,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27621,6 +28344,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27654,6 +28378,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27683,6 +28408,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27712,6 +28438,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27742,6 +28469,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27772,6 +28500,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -27814,8 +28543,7 @@
       "publishedModelSlugs": [
         "wan-3-prime",
         "wan-3",
-        "wan-2-6",
-        "wan-2-5"
+        "wan-2-6"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -27880,6 +28608,7 @@
       ],
       "aspectRatios": [
         "auto",
+        "21:9",
         "16:9",
         "4:3",
         "1:1",
@@ -28130,6 +28859,7 @@
             ],
             "values": [
               "adaptive",
+              "21:9",
               "16:9",
               "4:3",
               "1:1",
@@ -28253,6 +28983,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28278,6 +29009,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28303,6 +29035,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28329,6 +29062,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28355,6 +29089,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28387,6 +29122,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28416,6 +29152,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28445,6 +29182,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28475,6 +29213,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",
@@ -28505,6 +29244,7 @@
           ],
           "aspectRatio": [
             "auto",
+            "21:9",
             "16:9",
             "4:3",
             "1:1",

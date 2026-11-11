@@ -29,7 +29,15 @@ export type AlibabaVideoPayloadInput = {
 };
 
 const RESOLUTIONS = new Set(['480P', '720P', '1080P']);
-const RATIOS = new Set(['adaptive', '16:9', '4:3', '1:1', '3:4', '9:16']);
+// Official parameter lists (cn-beijing API references, checked 2026-11-11):
+// wan3-video-generation-api-reference: adaptive (default), 21:9, 16:9, 4:3, 1:1, 3:4, 9:16.
+const WAN_RATIOS = new Set(['adaptive', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16']);
+// happyhorse-text-to-video / -reference-to-video: 16:9 (default), 9:16, 1:1, 4:3, 3:4, 4:5, 5:4, 9:21, 21:9.
+// There is no adaptive value; image-to-video takes no ratio at all (it follows the first frame).
+const HAPPY_HORSE_RATIOS = new Set(['16:9', '9:16', '1:1', '4:3', '3:4', '4:5', '5:4', '9:21', '21:9']);
+const HAPPY_HORSE_DEFAULT_RATIO = '16:9';
+const HAPPY_HORSE_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+const MAX_SEED = 2_147_483_647;
 
 function invalidRequest(message: string, code: string, body?: unknown): never {
   throw new AlibabaModelStudioError(message, {
@@ -54,10 +62,29 @@ function normalizeResolution(value: string | null | undefined): AlibabaVideoReso
 function normalizeRatio(value: string | null | undefined): string {
   const raw = cleanString(value) ?? 'adaptive';
   const normalized = raw === 'auto' ? 'adaptive' : raw;
-  if (RATIOS.has(normalized)) return normalized;
+  if (WAN_RATIOS.has(normalized)) return normalized;
   invalidRequest('Alibaba video generation received an unsupported aspect ratio.', 'ALIBABA_UNSUPPORTED_ASPECT_RATIO', {
     aspectRatio: value,
   });
+}
+
+function normalizeHappyHorseRatio(value: string | null | undefined): string {
+  const raw = cleanString(value);
+  // Unset/auto falls back to the documented provider default instead of an unsupported "adaptive".
+  if (!raw || raw === 'auto' || raw === 'adaptive') return HAPPY_HORSE_DEFAULT_RATIO;
+  if (HAPPY_HORSE_RATIOS.has(raw)) return raw;
+  invalidRequest('HappyHorse 1.1 received an unsupported aspect ratio.', 'ALIBABA_UNSUPPORTED_ASPECT_RATIO', {
+    aspectRatio: value,
+  });
+}
+
+function normalizeSeed(value: number | null | undefined): number | null {
+  // -1 is Alibaba's "random" sentinel for Wan; omitting the seed has the same effect for every model.
+  if (value === null || value === undefined || value === -1) return null;
+  if (!Number.isInteger(value) || value < 0 || value > MAX_SEED) {
+    invalidRequest(`Alibaba seed must be an integer between 0 and ${MAX_SEED}.`, 'ALIBABA_SEED_INVALID', { seed: value });
+  }
+  return value;
 }
 
 function requireInteger(value: number, min: number, max: number, label: string): number {
@@ -119,8 +146,8 @@ function normalizeAssets(
 function validateTimedReferences(assets: AlibabaReferenceAsset[], kind: 'video' | 'audio'): number | null {
   const knownDurations = assets.map((asset) => asset.durationSec).filter((value): value is number => typeof value === 'number');
   for (const duration of knownDurations) {
-    if (!Number.isFinite(duration) || duration <= 0 || duration > 15) {
-      invalidRequest(`Each Alibaba reference ${kind} must be between 0 and 15 seconds.`, 'ALIBABA_REFERENCE_DURATION_INVALID');
+    if (!Number.isFinite(duration) || duration < 1 || duration > 15) {
+      invalidRequest(`Each Alibaba reference ${kind} must be between 1 and 15 seconds.`, 'ALIBABA_REFERENCE_DURATION_INVALID');
     }
   }
   if (knownDurations.length !== assets.length) return null;
@@ -141,6 +168,10 @@ function buildWanPayload(input: AlibabaVideoPayloadInput, model: 'wan3.0-video' 
   if ((prompt?.length ?? 0) > 20_000) {
     invalidRequest('Wan 3 prompt must not exceed 20,000 characters.', 'ALIBABA_PROMPT_TOO_LONG');
   }
+  if (input.mode === 't2v' && !prompt) {
+    invalidRequest('Wan 3 text-to-video requires a prompt.', 'ALIBABA_PROMPT_REQUIRED');
+  }
+  const seed = normalizeSeed(input.seed);
   const referenceImages = normalizeAssets(input.referenceImageUrls, 'reference image', 10);
   const referenceVideos = normalizeAssets(input.referenceVideoUrls, 'reference video', 5);
   const referenceAudio = normalizeAssets(input.referenceAudioUrls, 'reference audio', 5);
@@ -201,14 +232,25 @@ function buildWanPayload(input: AlibabaVideoPayloadInput, model: 'wan3.0-video' 
     },
     parameters: {
       resolution: normalizeResolution(input.resolution),
-      ratio: normalizeRatio(input.aspectRatio),
+      // The Wan 3 extension contract requires ratio=adaptive (the output follows the source video).
+      ratio: input.mode === 'extend' ? 'adaptive' : normalizeRatio(input.aspectRatio),
       duration,
       audio: input.audioEnabled === true,
       prompt_extend: input.promptExtend ?? input.mode !== 'v2v',
       watermark: false,
-      ...(typeof input.seed === 'number' ? { seed: input.seed } : {}),
+      ...(seed === null ? {} : { seed }),
     },
   };
+}
+
+function assertHappyHorseImageTypes(assets: AlibabaReferenceAsset[]) {
+  // HappyHorse accepts JPEG, JPG, PNG and WEBP only (no BMP, unlike Wan 3).
+  for (const asset of assets) {
+    const mimeType = cleanString(asset.mimeType)?.toLowerCase();
+    if (mimeType && !HAPPY_HORSE_IMAGE_MIME_TYPES.includes(mimeType)) {
+      invalidRequest('HappyHorse images must be JPEG, PNG, or WEBP.', 'ALIBABA_REFERENCE_IMAGE_UNSUPPORTED');
+    }
+  }
 }
 
 function buildHappyHorsePayload(input: AlibabaVideoPayloadInput): AlibabaVideoPayload {
@@ -223,6 +265,7 @@ function buildHappyHorsePayload(input: AlibabaVideoPayloadInput): AlibabaVideoPa
   if ((prompt?.length ?? 0) > 5_000) {
     invalidRequest('HappyHorse 1.1 prompt must not exceed 5,000 characters.', 'ALIBABA_PROMPT_TOO_LONG');
   }
+  const seed = normalizeSeed(input.seed);
 
   const media: AlibabaMedia[] = [];
   if (input.mode === 'i2v') {
@@ -230,10 +273,13 @@ function buildHappyHorsePayload(input: AlibabaVideoPayloadInput): AlibabaVideoPa
       ? normalizeAsset(input.startImageUrl as string, 'start image')
       : null;
     if (!startImage) invalidRequest('HappyHorse I2V requires a first frame.', 'ALIBABA_FIRST_FRAME_REQUIRED');
+    assertHappyHorseImageTypes([startImage]);
     media.push({ type: 'first_frame', url: startImage.url });
   } else if (input.mode === 'ref2v') {
-    const references = normalizeAssets(input.referenceImageUrls, 'reference image', 10);
+    // happyhorse-reference-to-video: 1-9 reference images.
+    const references = normalizeAssets(input.referenceImageUrls, 'reference image', 9);
     if (!references.length) invalidRequest('HappyHorse R2V requires reference images.', 'ALIBABA_REFERENCE_REQUIRED');
+    assertHappyHorseImageTypes(references);
     pushMedia(media, 'reference_image', references);
   }
 
@@ -245,10 +291,10 @@ function buildHappyHorsePayload(input: AlibabaVideoPayloadInput): AlibabaVideoPa
     },
     parameters: {
       resolution: normalizeResolution(input.resolution),
-      ...(input.mode === 'i2v' ? {} : { ratio: normalizeRatio(input.aspectRatio) }),
+      ...(input.mode === 'i2v' ? {} : { ratio: normalizeHappyHorseRatio(input.aspectRatio) }),
       duration,
       watermark: false,
-      ...(typeof input.seed === 'number' ? { seed: input.seed } : {}),
+      ...(seed === null ? {} : { seed }),
     },
   };
 }
@@ -262,5 +308,9 @@ export function buildAlibabaVideoPayload(input: AlibabaVideoPayloadInput): Aliba
     );
   }
   if (route.family === 'wan3') return buildWanPayload(input, route.model as 'wan3.0-video' | 'wan3.0-video-prime');
+  if (route.family !== 'happyhorse11') {
+    // Kling / MiniMax hosted on Bailian take a different body (bailian-payload.ts).
+    invalidRequest(`${input.engineId}/${input.mode} is built by buildAlibabaRequestPayload.`, 'ALIBABA_MODEL_MODE_UNSUPPORTED');
+  }
   return buildHappyHorsePayload(input);
 }

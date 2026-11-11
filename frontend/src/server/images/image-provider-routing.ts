@@ -7,6 +7,7 @@ import { runLlmhubGeminiGeneration } from './llmhub-gemini-generation';
 import { resolveLlmhubImageModel } from './llmhub-image-models';
 import { isGoogleVertexImageConfigured } from './google-vertex-image-client';
 import { resolveBytePlusSeedreamReadiness } from './byteplus-seedream-policy';
+import { BYTEPLUS_SEEDREAM_DEFAULT_MODEL_ID } from './byteplus-seedream-constants';
 import { isBytePlusModelArkEnabled } from '@/server/video-providers/byteplus-modelark';
 import { ENV } from '@/lib/env';
 import { parseGoogleVertexServiceAccount } from '@/server/video-providers/google-vertex-auth';
@@ -49,7 +50,7 @@ export function resolveImageProviderSelection(
     bytePlusApiKey: env === process.env ? ENV.BYTEPLUS_ARK_API_KEY : env.BYTEPLUS_ARK_API_KEY,
   }).executable) {
     return { kind: 'direct', engine: {
-      ...engine, providerMeta: { ...engine.providerMeta, provider: 'byteplus_modelark', modelSlug: 'seedream-5-0-260128' },
+      ...engine, providerMeta: { ...engine.providerMeta, provider: 'byteplus_modelark', modelSlug: BYTEPLUS_SEEDREAM_DEFAULT_MODEL_ID },
     } };
   }
   if (engine.providerMeta?.provider === 'google_vertex_image'

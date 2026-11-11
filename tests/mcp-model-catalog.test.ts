@@ -414,14 +414,14 @@ test('catalog mirrors direct Seedream credential readiness', { concurrency: fals
     ENV.BYTEPLUS_ARK_API_KEY = '';
 
     assert.equal(
-      (await listAgentModels({ id: 'seedream' }, registryDeps))[0]?.generationEnabled,
+      (await listAgentModels({ id: 'seedream-5-0-flash' }, registryDeps))[0]?.generationEnabled,
       false,
     );
 
     ENV.BYTEPLUS_ARK_API_KEY = 'test-key';
 
     assert.equal(
-      (await listAgentModels({ id: 'seedream' }, registryDeps))[0]?.generationEnabled,
+      (await listAgentModels({ id: 'seedream-5-0-flash' }, registryDeps))[0]?.generationEnabled,
       true,
     );
   } finally {

@@ -1,18 +1,26 @@
 import type { GeneratePayload, GenerateResult } from '@/lib/fal';
 import type { Mode, PricingSnapshot, ProviderClientErrorPolicy } from '@/types/engines';
-import { isLlmhubVideoRoutingSelected, type VideoProviderRoutingPlan } from '@/server/video-providers/router';
+import {
+  isLlmhubVideoRoutingSelected,
+  type BailianDirectFallbackPlan,
+  type VideoProviderRoutingPlan,
+} from '@/server/video-providers/router';
 import { resolveLlmhubVideoModel } from '@/server/video-providers/llmhub/model-map';
 import { submitFalGenerateTask } from './fal-submission';
-import { submitAlibabaModelStudioGenerateTask } from './alibaba-model-studio-submission';
+import {
+  submitAlibabaModelStudioGenerateTask,
+  type AlibabaModelStudioGenerateSubmissionResult,
+} from './alibaba-model-studio-submission';
 import { submitGoogleVertexOmniGenerateTask } from './google-vertex-omni-submission';
 import { submitGoogleVertexVeoGenerateTask } from './google-vertex-veo-submission';
-import { submitKlingDirectGenerateTask } from './kling-direct-submission';
+import { submitKlingDirectGenerateTask, type KlingDirectGenerateSubmissionResult } from './kling-direct-submission';
 import { submitLumaAgentsGenerateTask } from './luma-agents-submission';
 import type { FalInputSummary } from './fal-request';
 import type { PaymentMode, PendingReceipt } from './initial-video-job';
 import { createProviderJobTracker } from './provider-job-tracker';
 import { submitLlmhubGenerateTask } from './llmhub-submission';
 import { llmhubVideoSize } from '@/server/video-providers/llmhub/video-size';
+import { resolveMinimaxOfficialMedia } from './minimax-official-media';
 
 type LogMetricFn = Parameters<typeof submitFalGenerateTask>[0]['logMetricFn'];
 
@@ -30,6 +38,23 @@ export type GenerateProviderSubmissionResult =
       status: number;
       body: Record<string, unknown>;
     };
+
+type DirectSubmissionResult = AlibabaModelStudioGenerateSubmissionResult | KlingDirectGenerateSubmissionResult;
+
+function fromDirectSubmission(result: DirectSubmissionResult): GenerateProviderSubmissionResult {
+  if (!result.ok) return { kind: 'error_response', status: result.status, body: result.body };
+  return result.kind === 'accepted'
+    ? { kind: 'accepted_response', body: result.body }
+    : { kind: 'generation_result', generationResult: result.generationResult };
+}
+
+function toDirectSubmission(result: GenerateProviderSubmissionResult): AlibabaModelStudioGenerateSubmissionResult {
+  return result.kind === 'accepted_response'
+    ? { ok: true, kind: 'accepted', body: result.body }
+    : result.kind === 'error_response'
+      ? { ok: false, status: result.status, body: result.body }
+      : { ok: true, kind: 'fal_result', generationResult: result.generationResult };
+}
 
 export async function submitGenerateProviderTask(params: {
   lumaGenerationSource?: import('@/server/agent-api/generation-luma-lineage').OwnedLumaGenerationSource;
@@ -68,7 +93,11 @@ export async function submitGenerateProviderTask(params: {
   logMetricFn: LogMetricFn;
   clientErrorPolicy?: ProviderClientErrorPolicy;
 }): Promise<GenerateProviderSubmissionResult> {
-  const submitLlmhub = (modelId: string, fallbackFromAttemptId?: number) =>
+  const submitLlmhub = (
+    modelId: string,
+    fallbackFromAttemptId?: number,
+    submitBailianFallback?: (attemptId: number) => Promise<GenerateProviderSubmissionResult>,
+  ) =>
     submitLlmhubGenerateTask({
       jobId: params.jobId,
       userId: params.userId,
@@ -83,6 +112,7 @@ export async function submitGenerateProviderTask(params: {
       aspectRatio: params.aspectRatio,
       audioEnabled: params.audioEnabled,
       imageUrl: params.imageUrl,
+      minimax: resolveMinimaxOfficialMedia(params.falPayload, params.mode),
       placeholderThumb: params.placeholderThumb,
       pricing: params.pricing,
       paymentStatus: params.paymentStatus,
@@ -96,6 +126,7 @@ export async function submitGenerateProviderTask(params: {
       heroRenderId: params.heroRenderId,
       localKey: params.localKey,
       fallbackFromAttemptId,
+      submitBailianFallback,
     });
   const fallbackModel = params.request
     && isLlmhubVideoRoutingSelected(params.engineId, params.mode, undefined, params.request)
@@ -105,11 +136,12 @@ export async function submitGenerateProviderTask(params: {
         && params.aspectRatio === '16:9' && params.audioEnabled !== false))
       ? resolveLlmhubVideoModel(params.engineId, params.mode)
       : null;
-  if (params.providerRoutingPlan.kind === 'llmhub_primary') {
-    return submitLlmhub(params.providerRoutingPlan.modelId);
-  }
-  if (params.providerRoutingPlan.kind === 'alibaba_model_studio_primary') {
-    const alibabaSubmission = await submitAlibabaModelStudioGenerateTask({
+  const submitAlibaba = (options: {
+    fallbackToFalEnabled: boolean;
+    submitLlmhubFallback?: (directAttemptId: number) => Promise<AlibabaModelStudioGenerateSubmissionResult>;
+    submitDirectFallback?: (bailianAttemptId: number) => Promise<AlibabaModelStudioGenerateSubmissionResult>;
+    fallbackFromAttemptId?: number;
+  }) => submitAlibabaModelStudioGenerateTask({
       jobId: params.jobId,
       userId: params.userId,
       engineId: params.engineId,
@@ -128,15 +160,7 @@ export async function submitGenerateProviderTask(params: {
       pendingReceipt: params.pendingReceipt,
       paymentMode: params.paymentMode,
       walletChargeReserved: params.walletChargeReserved,
-      fallbackToFalEnabled: params.providerRoutingPlan.fallbackEnabled,
-      submitLlmhubFallback: fallbackModel ? async (directAttemptId) => {
-        const result = await submitLlmhub(fallbackModel, directAttemptId);
-        return result.kind === 'accepted_response'
-          ? { ok: true, kind: 'accepted' as const, body: result.body }
-          : result.kind === 'error_response'
-            ? { ok: false, status: result.status, body: result.body }
-            : { ok: true, kind: 'fal_result' as const, generationResult: result.generationResult };
-      } : undefined,
+      ...options,
       falPayload: params.falPayload,
       falInputSummary: params.falInputSummary,
       isLumaRay2: params.isLumaRay2,
@@ -150,13 +174,81 @@ export async function submitGenerateProviderTask(params: {
       logMetricFn: params.logMetricFn,
       clientErrorPolicy: params.clientErrorPolicy,
     });
-    if (!alibabaSubmission.ok) {
-      return { kind: 'error_response', status: alibabaSubmission.status, body: alibabaSubmission.body };
+  /** A second leg never chains Fal (its attempt index is taken by the first leg). */
+  const submitKling = (
+    plan: Extract<BailianDirectFallbackPlan, { kind: 'kling_direct_primary' }>,
+    options: {
+      fallbackFromAttemptId?: number;
+      submitBailianFallback?: (klingAttemptId: number) => Promise<KlingDirectGenerateSubmissionResult>;
+    },
+  ) => submitKlingDirectGenerateTask({
+      jobId: params.jobId,
+      userId: params.userId,
+      engineId: params.engineId,
+      engineLabel: params.engineLabel,
+      mode: params.mode,
+      prompt: params.prompt,
+      negativePrompt: typeof params.negativePrompt === 'string' ? params.negativePrompt : null,
+      durationSec: params.durationSec,
+      aspectRatio: params.aspectRatio,
+      audioEnabled: params.audioEnabled,
+      imageUrl: params.imageUrl,
+      cfgScale: params.cfgScale,
+      placeholderThumb: params.placeholderThumb,
+      pricing: params.pricing,
+      paymentStatus: params.paymentStatus,
+      pendingReceipt: params.pendingReceipt,
+      paymentMode: params.paymentMode,
+      walletChargeReserved: params.walletChargeReserved,
+      fallbackToFalEnabled: options.fallbackFromAttemptId ? false : plan.fallbackEnabled,
+      fallbackOnCreditsDepletedEnabled: options.fallbackFromAttemptId ? false : plan.fallbackOnCreditsDepletedEnabled,
+      elementRegistrationEnabled: plan.elementRegistrationEnabled,
+      falPayload: params.falPayload,
+      falInputSummary: params.falInputSummary,
+      isLumaRay2: params.isLumaRay2,
+      batchId: params.batchId,
+      groupId: params.groupId,
+      iterationIndex: params.iterationIndex,
+      iterationCount: params.iterationCount,
+      renderIds: params.renderIds,
+      heroRenderId: params.heroRenderId,
+      localKey: params.localKey,
+      logMetricFn: params.logMetricFn,
+      clientErrorPolicy: params.clientErrorPolicy,
+      ...options,
+    });
+  /** Bailian as the second leg: never chains a further fallback. */
+  const submitBailianFallback = (fromAttemptId: number) =>
+    submitAlibaba({ fallbackToFalEnabled: false, fallbackFromAttemptId: fromAttemptId });
+  /** The vendor's own route as the second leg after Bailian rejected the request before accepting a task. */
+  const submitVendorFallback = async (plan: BailianDirectFallbackPlan, fromAttemptId: number) => plan.kind === 'llmhub_primary'
+    ? toDirectSubmission(await submitLlmhub(plan.modelId, fromAttemptId))
+    : submitKling(plan, { fallbackFromAttemptId: fromAttemptId });
+
+  if (params.providerRoutingPlan.kind === 'llmhub_primary') {
+    return submitLlmhub(
+      params.providerRoutingPlan.modelId,
+      undefined,
+      params.providerRoutingPlan.bailianFallback
+        ? async (attemptId) => fromDirectSubmission(await submitBailianFallback(attemptId))
+        : undefined,
+    );
+  }
+  if (params.providerRoutingPlan.kind === 'alibaba_model_studio_primary') {
+    const plan = params.providerRoutingPlan;
+    if (plan.bailianHosted) {
+      const directFallback = plan.directFallback;
+      return fromDirectSubmission(await submitAlibaba({
+        fallbackToFalEnabled: false,
+        submitDirectFallback: directFallback ? (attemptId) => submitVendorFallback(directFallback, attemptId) : undefined,
+      }));
     }
-    if (alibabaSubmission.kind === 'accepted') {
-      return { kind: 'accepted_response', body: alibabaSubmission.body };
-    }
-    return { kind: 'generation_result', generationResult: alibabaSubmission.generationResult };
+    return fromDirectSubmission(await submitAlibaba({
+      fallbackToFalEnabled: plan.fallbackEnabled,
+      submitLlmhubFallback: fallbackModel
+        ? async (directAttemptId) => toDirectSubmission(await submitLlmhub(fallbackModel, directAttemptId))
+        : undefined,
+    }));
   }
 
   if (params.providerRoutingPlan.kind === 'luma_agents_direct_primary') {
@@ -205,48 +297,9 @@ export async function submitGenerateProviderTask(params: {
   }
 
   if (params.providerRoutingPlan.kind === 'kling_direct_primary') {
-    const klingSubmission = await submitKlingDirectGenerateTask({
-      jobId: params.jobId,
-      userId: params.userId,
-      engineId: params.engineId,
-      engineLabel: params.engineLabel,
-      mode: params.mode,
-      prompt: params.prompt,
-      negativePrompt: typeof params.negativePrompt === 'string' ? params.negativePrompt : null,
-      durationSec: params.durationSec,
-      aspectRatio: params.aspectRatio,
-      audioEnabled: params.audioEnabled,
-      imageUrl: params.imageUrl,
-      cfgScale: params.cfgScale,
-      placeholderThumb: params.placeholderThumb,
-      pricing: params.pricing,
-      paymentStatus: params.paymentStatus,
-      pendingReceipt: params.pendingReceipt,
-      paymentMode: params.paymentMode,
-      walletChargeReserved: params.walletChargeReserved,
-      fallbackToFalEnabled: params.providerRoutingPlan.fallbackEnabled,
-      fallbackOnCreditsDepletedEnabled: params.providerRoutingPlan.fallbackOnCreditsDepletedEnabled,
-      elementRegistrationEnabled: params.providerRoutingPlan.elementRegistrationEnabled,
-      falPayload: params.falPayload,
-      falInputSummary: params.falInputSummary,
-      isLumaRay2: params.isLumaRay2,
-      batchId: params.batchId,
-      groupId: params.groupId,
-      iterationIndex: params.iterationIndex,
-      iterationCount: params.iterationCount,
-      renderIds: params.renderIds,
-      heroRenderId: params.heroRenderId,
-      localKey: params.localKey,
-      logMetricFn: params.logMetricFn,
-      clientErrorPolicy: params.clientErrorPolicy,
-    });
-    if (!klingSubmission.ok) {
-      return { kind: 'error_response', status: klingSubmission.status, body: klingSubmission.body };
-    }
-    if (klingSubmission.kind === 'accepted') {
-      return { kind: 'accepted_response', body: klingSubmission.body };
-    }
-    return { kind: 'generation_result', generationResult: klingSubmission.generationResult };
+    return fromDirectSubmission(await submitKling(params.providerRoutingPlan, {
+      submitBailianFallback: params.providerRoutingPlan.bailianFallback ? submitBailianFallback : undefined,
+    }));
   }
 
   if (params.providerRoutingPlan.kind === 'google_vertex_veo_primary') {

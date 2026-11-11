@@ -17,8 +17,8 @@
     },
     "secondaryLinks": [
       {
-        "label": "Open Seedream Lite",
-        "href": "/models/seedream"
+        "label": "Try Seedream 5.0 Flash",
+        "href": "/app/image?engine=seedream-5-0-flash"
       },
       {
         "label": "Animate with Seedance 2.0",
@@ -52,7 +52,7 @@
     "items": [
       "Use Pro when the page needs hierarchy, labels, text, or a dense composition.",
       "Keep the brief structured: subject, layout, visual hierarchy, text elements, and lighting.",
-      "Use Seedream Lite for fast batches; Pro is exposed as one professional image per request.",
+      "Use Seedream Flash for faster, lower-cost drafts; Pro is exposed as one professional image per request.",
       "Prepare the approved still before sending it to Seedance for motion."
     ]
   },
@@ -68,8 +68,8 @@
   ],
   "faqs": [
     {
-      "q": "How is Seedream 5.0 Pro different from Seedream 5.0 Lite?",
-      "a": "Use Pro for professional finals, dense infographics, complex edits, and 2K campaign stills. Use Lite for faster image sets and reference preparation."
+      "q": "How is Seedream 5.0 Pro different from Seedream 5.0 Flash?",
+      "a": "Use Pro for professional finals, dense infographics, complex edits, and 2K campaign stills. Use Flash for faster, lower-cost reference preparation."
     },
     {
       "q": "Does Seedream 5.0 Pro support batch output?",
@@ -98,7 +98,7 @@
     ],
     "whyTitle": "Why use Seedream Pro",
     "heroDesc1": "Seedream 5.0 Pro is the ByteDance route for visual work that needs hierarchy, labels, polished composition, and professional finish.",
-    "heroDesc2": "It complements Seedream Lite: Lite is for fast sets and reference prep; Pro is for the image you want to present or animate.",
+    "heroDesc2": "It complements Seedream Flash: Flash is for fast, low-cost reference prep; Pro is for the image you want to present or animate.",
     "heroHighlights": [
       "Professional composition||Use Pro for dense infographics, campaign images, and visual explainers.",
       "Controlled editing||Bring multiple references into one polished image with precise preserve/change instructions.",
@@ -124,19 +124,12 @@
     "boundaries": [
       "Still images only.",
       "One generated image per request.",
-      "Use Seedream Lite for batch image sets.",
+      "Use Seedream Flash for faster, lower-cost drafts.",
       "Seedance still evaluates any image before video generation."
     ],
     "relatedTitle": "Seedream family",
-    "relatedSubtitle": "Use Lite for speed and image sets; use Pro for the polished image.",
+    "relatedSubtitle": "Use Flash for speed and cost; use Pro for the polished image.",
     "relatedItems": [
-      {
-        "brand": "ByteDance",
-        "title": "Seedream 5.0 Lite",
-        "modelSlug": "seedream",
-        "description": "Use for faster reference frames, batch image sets, and source prep before Seedance.",
-        "ctaLabel": "Open Seedream Lite"
-      },
       {
         "brand": "ByteDance",
         "title": "Seedance 2.0",
@@ -167,8 +160,8 @@
         "href": "/app/image?engine=seedream-5-0-pro"
       },
       "secondaryCta": {
-        "label": "Open Seedream Lite",
-        "href": "/models/seedream"
+        "label": "Try Seedream 5.0 Flash",
+        "href": "/app/image?engine=seedream-5-0-flash"
       },
       "quickLinks": [
         {
@@ -224,11 +217,11 @@
     ],
     "decisionCards": [
       {
-        "title": "Open Seedream Lite",
+        "title": "Try Seedream 5.0 Flash",
         "body": "Seedream 5.0 Pro is the professional ByteDance image route in MaxVideoAI. Use it for dense infographics, advanced edits, multilingual visual layouts, cinematic stills, and polished reference frames before animation.",
         "cta": {
-          "label": "Open Seedream Lite",
-          "href": "/models/seedream"
+          "label": "Try Seedream 5.0 Flash",
+          "href": "/app/image?engine=seedream-5-0-flash"
         }
       },
       {

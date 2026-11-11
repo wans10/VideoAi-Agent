@@ -153,7 +153,8 @@ test('Sora and Seedance 1.5 retirement removes purchasable projections without r
   for (const engineId of ['sora-2', 'sora-2-pro', 'seedance-1-5-pro']) {
     assert.equal(rows.some((row) => row.engineId === engineId
       && ['estimator', 'pricing-hub-video', 'workspace-preflight'].includes(row.surface)), false);
-    assert.deepEqual(rows.find((row) => row.id === `json-ld:${engineId}:offer`), {
+    // Keyvo retired Seedance 1.5 Pro entirely: no model page, so no Product offer row at all.
+    assert.deepEqual(rows.find((row) => row.id === `json-ld:${engineId}:offer`), engineId === 'seedance-1-5-pro' ? undefined : {
       id: `json-ld:${engineId}:offer`, surface: 'json-ld', engineId, status: 'unavailable',
     });
   }

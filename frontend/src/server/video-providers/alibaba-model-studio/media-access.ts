@@ -1,14 +1,20 @@
 import { createOwnedMediaReadUrl } from '@/server/owned-media-read-access';
 import { sanitizeProviderMediaDiagnostics } from '@/server/provider-media-diagnostics';
 import { AlibabaModelStudioError } from './errors';
-import type { AlibabaVideoPayload } from './types';
+import { isBailianHostedModel } from './bailian-models';
 
-/** Wan-only, short-lived transport. Durable inputs and other Alibaba models stay unchanged. */
-export async function createWanMediaTransport(
-  input: { payload: AlibabaVideoPayload; userId: string },
+type TransportPayload = { model: string; input: { media?: Array<{ type: string; url: string }> } };
+
+/**
+ * Short-lived owner-checked read grants for Wan 3 and the Bailian-hosted Kling / MiniMax models (their media
+ * may sit in private storage). Durable inputs and HappyHorse payloads stay unchanged.
+ */
+export async function createWanMediaTransport<P extends TransportPayload>(
+  input: { payload: P; userId: string },
   dependencies: { read?: typeof createOwnedMediaReadUrl } = {},
-): Promise<{ payload: AlibabaVideoPayload; sanitize: (value: unknown) => unknown }> {
-  if (input.payload.model !== 'wan3.0-video' && input.payload.model !== 'wan3.0-video-prime') {
+): Promise<{ payload: P; sanitize: (value: unknown) => unknown }> {
+  if (input.payload.model !== 'wan3.0-video' && input.payload.model !== 'wan3.0-video-prime'
+    && !isBailianHostedModel(input.payload.model)) {
     return { payload: input.payload, sanitize: value => value };
   }
   const canonicalByGrant = new Map<string, string>();
@@ -33,8 +39,9 @@ export async function createWanMediaTransport(
     }
     return pending;
   };
-  const payload = { ...input.payload, input: { ...input.payload.input } };
-  if (payload.input.media) payload.input.media = await Promise.all(payload.input.media.map(async media => (
+  const payload = { ...input.payload, input: { ...input.payload.input } } as P;
+  const target = payload.input as TransportPayload['input'];
+  if (target.media) target.media = await Promise.all(target.media.map(async media => (
     media.type === 'file' || media.type === 'link' ? { ...media } : { ...media, url: await readUrl(media.url) }
   )));
   return { payload, sanitize: value => sanitizeProviderMediaDiagnostics(value, canonicalByGrant) };

@@ -7,7 +7,7 @@ export const seedream50ProTemplateConfig: ModelPageTemplateConfig = {
     eyebrow: 'PROFESSIONAL IMAGE MODEL',
     subtitleHighlightTerms: ['professional still images', 'dense infographics', '2K visual production'],
     primaryCtaHref: '/app/image?engine=seedream-5-0-pro',
-    secondaryCtaHref: '/models/seedream',
+    secondaryCtaHref: '/app/image?engine=seedream-5-0-flash',
     quickLinks: [
       { labelKey: 'openImageWorkspace', href: '/app/image?engine=seedream-5-0-pro', icon: 'image' },
       { labelKey: 'viewPricing', href: '/pricing#seedream-5-0-pro-pricing', icon: 'pricing' },

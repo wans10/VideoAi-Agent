@@ -36,11 +36,12 @@ function assertFails(mode: Mode, overrides: Record<string, unknown>, field: stri
 }
 
 test('MiniMax H3 validates integer duration, resolution, aspect ratio, and prompt boundaries', () => {
-  for (const duration of [5, 15]) assert.equal(validate('t2v', { duration }).ok, true);
-  for (const duration of [4, 16, 5.5]) assertFails('t2v', { duration }, 'duration');
+  // MiniMax's own V2 API: 4-15 s at 768P or 2K (480P and 4K are not MiniMax-H3 tiers).
+  for (const duration of [4, 5, 15]) assert.equal(validate('t2v', { duration }).ok, true);
+  for (const duration of [3, 16, 5.5]) assertFails('t2v', { duration }, 'duration');
 
-  for (const resolution of ['480P', '768P', '2K', '4K']) assert.equal(validate('t2v', { resolution }).ok, true);
-  assertFails('t2v', { resolution: '1080p' }, 'resolution');
+  for (const resolution of ['768P', '2K']) assert.equal(validate('t2v', { resolution }).ok, true);
+  for (const resolution of ['1080p', '480P', '4K']) assertFails('t2v', { resolution }, 'resolution');
 
   for (const aspect_ratio of ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16']) {
     assert.equal(validate('t2v', { aspect_ratio }).ok, true);

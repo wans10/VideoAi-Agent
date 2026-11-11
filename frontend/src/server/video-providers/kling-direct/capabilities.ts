@@ -16,7 +16,7 @@ export type KlingDirectSubmitCapabilities = {
 };
 
 export type KlingDirectRouteCapabilities = {
-  providerModel: 'kling-v3' | 'kling-v3-omni';
+  providerModel: KlingDirectModelRoute['providerModel'];
   t2v?: KlingDirectSubmitCapabilities;
   i2v?: KlingDirectSubmitCapabilities;
   ref2v?: KlingDirectSubmitCapabilities;

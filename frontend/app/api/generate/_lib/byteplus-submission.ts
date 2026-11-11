@@ -41,6 +41,7 @@ import { claimBytePlusLasSubmission, getBytePlusSubmissionState, preserveBytePlu
   recordBytePlusLasSubmissionRejection } from '@/server/byteplus-submission-state';
 import { markBytePlusJobFailed } from '@/server/byteplus-poll-failure';
 import { createBytePlusMediaTransport } from '@/server/video-providers/byteplus-modelark-media-access';
+import { assertSeedance2FourKCapacity, BYTEPLUS_4K_CONCURRENCY_LIMIT_CODE } from '@/server/video-providers/byteplus-modelark-capacity';
 
 type QueryFn = (sql: string, params?: unknown[]) => Promise<unknown>;
 type LogMetricFn = (
@@ -59,6 +60,7 @@ type BytePlusSubmissionDeps = {
   getBytePlusTaskFailureCodeFn?: typeof getBytePlusTaskFailureCode;
   scrubBytePlusErrorFn?: typeof scrubBytePlusError;
   queryFn?: QueryFn;
+  assertSeedance2FourKCapacityFn?: typeof assertSeedance2FourKCapacity;
   rollbackPendingPaymentFn?: typeof rollbackPendingPayment;
   persistProviderJobIdFn?: (providerJobId: string) => Promise<void>;
   logMetricFn?: LogMetricFn;
@@ -248,6 +250,9 @@ export async function submitBytePlusGenerateTask(params: {
     const client = getBytePlusModelArkClientFn(transport);
     const mediaTransport = await createBytePlusMediaTransport({ payload, userId: params.userId });
     sanitizeMediaDiagnostics = mediaTransport.sanitize;
+    // Documented Ark limit: Seedance 2.0 4K runs one task at a time per account (RPM 15).
+    await (deps.assertSeedance2FourKCapacityFn ?? assertSeedance2FourKCapacity)({ engineId: params.engineId,
+      resolution: params.effectiveResolution, jobId: params.jobId, queryFn });
     if (reliableLasSubmission && !await claimBytePlusLasSubmission(params.jobId, params.userId, queryFn, transport)) {
       return existingResponse(await readOwnedBytePlusLasSubmission(params.jobId, params.userId, queryFn));
     }
@@ -350,7 +355,8 @@ export async function submitBytePlusGenerateTask(params: {
         jobId: params.jobId, paymentStatus: params.paymentStatus, message: 'Submission is being checked. Do not submit again.' } };
     }
     // Only an explicit pre-acceptance rejection can be retried with another paid provider.
-    if (!acceptedProviderJobId && submitLlmhubFallback && [401, 403, 404, 429].includes(providerStatus ?? 0)) {
+    const localCapacityRejection = error instanceof BytePlusModelArkError && error.code === BYTEPLUS_4K_CONCURRENCY_LIMIT_CODE;
+    if (!acceptedProviderJobId && !localCapacityRejection && submitLlmhubFallback && [401, 403, 404, 429].includes(providerStatus ?? 0)) {
       return submitLlmhubFallback();
     }
     const providerErrorCode =
@@ -375,6 +381,8 @@ export async function submitBytePlusGenerateTask(params: {
         ? 404
         : error instanceof BytePlusModelArkError && error.code === 'BYTEPLUS_ENGINE_PROFILE_MISSING'
         ? 400
+        : localCapacityRejection
+        ? 429
         : providerStatus && providerStatus >= 400 && providerStatus < 500
           ? 502
           : 503;

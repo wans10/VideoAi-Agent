@@ -53,6 +53,16 @@ export const DEFAULT_ENGINE_GUIDE: Record<string, EngineGuideEntry> = {
       'Kling 3 Standard brings multi-prompt sequencing and start-frame image-to-video at a lower per-second rate.',
     badges: ['Multi-prompt', 'Start frame', 'Audio native'],
   },
+  'kling-3-turbo-standard': {
+    description:
+      'Kling 3.0 Turbo Standard (720P): text-to-video and first-frame image-to-video only (one start frame, no end frame, subjects or negative prompt); 3–15 s; 16:9, 9:16 or 1:1 for text-to-video; audio is always generated.',
+    badges: ['720P', '3–15 s', 'Audio always on'],
+  },
+  'kling-3-turbo-pro': {
+    description:
+      'Kling 3.0 Turbo Pro (1080P): text-to-video and first-frame image-to-video only (one start frame, no end frame, subjects or negative prompt); 3–15 s; 16:9, 9:16 or 1:1 for text-to-video; audio is always generated.',
+    badges: ['1080P', '3–15 s', 'Audio always on'],
+  },
   'kling-o3-standard': {
     description:
       'Kling 3.0 Omni Standard uses reference images, storyboard inputs, and source-video V2V without forcing the first upload to become the opening frame.',

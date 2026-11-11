@@ -148,3 +148,31 @@ test('generation billing preflight forwards and records the normalized H3 refere
     6
   );
 });
+
+test('MiniMax H3 prices 4 s and bills reference-video seconds at the provisional official CNY rate', () => {
+  // 4 s at the existing per-second rate (no price change for 5-15 s).
+  assert.equal(calculateMinimaxH3ProviderPrice({ durationSec: 4, resolution: '768P' }).subtotalUsd, 0.24);
+  assert.throws(() => calculateMinimaxH3ProviderPrice({ durationSec: 3, resolution: '768P' }));
+  // 768P input video: CNY 0.50/s, 10 s -> CNY 5.00 -> USD 0.625 at the accounting rate 8, rounded up to 0.63.
+  const withVideo = calculateMinimaxH3ProviderPrice({ durationSec: 5, resolution: '768P', inputVideoDurationSec: 9.4 });
+  assert.equal(withVideo.breakdown.inputVideoSeconds, 10);
+  assert.equal(withVideo.breakdown.inputVideoSurchargeUsd, 0.63);
+  assert.equal(withVideo.subtotalUsd, 0.93);
+  // 2K: CNY 0.80/s, 15 s -> CNY 12 -> USD 1.50.
+  assert.equal(calculateMinimaxH3ProviderPrice({ durationSec: 5, resolution: '2K', inputVideoDurationSec: 15 }).breakdown.inputVideoSurchargeUsd, 1.5);
+  assert.throws(() => calculateMinimaxH3ProviderPrice({ durationSec: 5, resolution: '2K', inputVideoDurationSec: 16 }));
+  assert.equal('inputVideoSeconds' in calculateMinimaxH3ProviderPrice({ durationSec: 5, resolution: '2K' }).breakdown, false);
+
+  const context: PricingContext = {
+    engine: MINIMAX_H3_ENGINE, durationSec: 5, resolution: '768P', mode: 'ref2v',
+    referenceImageCount: 0, inputVideoDurationSec: 10, membershipTier: 'member',
+  };
+  const billing = buildBillingPricingFacts(context, MINIMAX_H3_ENGINE.pricingDetails, 'USD');
+  const publicFacts = buildPublicPricingFacts(context);
+  assert.equal(billing.facts.vendorSubtotalExactCents, 93);
+  assert.equal(publicFacts.facts.vendorSubtotalExactCents, 93);
+  assert.deepEqual(billing.addons, [{ type: 'reference_video_seconds', amountCents: 63 }]);
+  assert.deepEqual(publicFacts.addons, billing.addons);
+  // Text and image modes never bill input video.
+  assert.equal(buildBillingPricingFacts({ ...context, mode: 'i2v' }, MINIMAX_H3_ENGINE.pricingDetails, 'USD').facts.vendorSubtotalExactCents, 30);
+});

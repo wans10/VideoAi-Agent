@@ -17,8 +17,8 @@
     },
     "secondaryLinks": [
       {
-        "label": "Ouvrir Seedream Lite",
-        "href": "/models/seedream"
+        "label": "Essayer Seedream 5.0 Flash",
+        "href": "/app/image?engine=seedream-5-0-flash"
       },
       {
         "label": "Animer avec Seedance 2.0",
@@ -31,7 +31,7 @@
     "items": [
       "Utilisez Pro quand la composition doit gérer hiérarchie, labels, texte ou détails denses.",
       "Structurez le brief: sujet, layout, hiérarchie visuelle, textes, matières et lumière.",
-      "Utilisez Seedream Lite pour les batches rapides; Pro sort une image professionnelle par requête."
+      "Utilisez Seedream Flash pour des brouillons rapides et moins chers; Pro sort une image professionnelle par requête."
     ]
   },
   "prompts": [
@@ -46,8 +46,8 @@
   ],
   "faqs": [
     {
-      "q": "Quelle différence entre Seedream 5.0 Pro et Lite ?",
-      "a": "Utilisez Pro pour les finales professionnelles, infographies denses, edits complexes et stills 2K. Utilisez Lite pour les sets rapides et la préparation de références."
+      "q": "Quelle différence entre Seedream 5.0 Pro et Flash ?",
+      "a": "Utilisez Pro pour les finales professionnelles, infographies denses, edits complexes et stills 2K. Utilisez Flash pour une préparation de références plus rapide et moins chère."
     },
     {
       "q": "Seedream 5.0 Pro supporte-t-il les batches ?",
@@ -69,8 +69,8 @@
         "href": "/app/image?engine=seedream-5-0-pro"
       },
       "secondaryCta": {
-        "label": "Ouvrir Seedream Lite",
-        "href": "/fr/modeles/seedream"
+        "label": "Essayer Seedream 5.0 Flash",
+        "href": "/app/image?engine=seedream-5-0-flash"
       },
       "quickLinks": [
         {
@@ -126,11 +126,11 @@
     ],
     "decisionCards": [
       {
-        "title": "Ouvrir Seedream Lite",
+        "title": "Essayer Seedream 5.0 Flash",
         "body": "Seedream 5.0 Pro est la route image professionnelle ByteDance dans MaxVideoAI. Utilisez-le pour les infographies denses, edits avancés, layouts multilingues, images cinématiques et frames propres avant animation.",
         "cta": {
-          "label": "Ouvrir Seedream Lite",
-          "href": "/fr/modeles/seedream"
+          "label": "Essayer Seedream 5.0 Flash",
+          "href": "/app/image?engine=seedream-5-0-flash"
         }
       },
       {

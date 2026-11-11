@@ -27,8 +27,11 @@ import {
   syncProviderAttemptTerminalStatus,
 } from '@/server/video-providers/provider-attempts';
 import { rollbackPendingPayment } from './payment-rollback';
-import { buildUserFacingRefundDescription } from '@/server/user-facing-failure-messages';
+import { markJobFailedBeforeFallback, userSafeKlingDirectMessage } from './kling-direct-submission-shared';
+import { submitKlingDirectV2GenerateTask } from './kling-direct-v2-submission';
+import { isKlingDirectV2Engine } from '@/server/video-providers/kling-direct/model-map';
 import { createProviderJobTracker } from './provider-job-tracker';
+import { shouldFallbackFromKlingDirectToBailian } from '@/server/video-providers/alibaba-model-studio/bailian-routing';
 import { isDeferredFalSubmission, submitFalGenerateTask, type FalGenerateSubmissionResult } from './fal-submission';
 import { reconcileFalFallbackTerminalResponse } from './fal-fallback-outcome';
 import type { FalInputSummary } from './fal-request';
@@ -46,11 +49,15 @@ type LogMetricFn = (
   }
 ) => void;
 
-type KlingDirectSubmissionDeps = {
+export type KlingDirectSubmissionDeps = {
   getKlingDirectClientFn?: typeof getKlingDirectClient;
   submitFalGenerateTaskFn?: typeof submitFalGenerateTask;
   queryFn?: QueryFn;
   rollbackPendingPaymentFn?: typeof rollbackPendingPayment;
+  /** Backoff between Kling 4.0 busy (1302/1303) retries; injectable for tests. */
+  sleepFn?: (ms: number) => Promise<void>;
+  /** Kling 4.0 private-media read grants; injectable for tests. */
+  createMediaTransportFn?: typeof import('@/server/fal-provider-media-access').createFalMediaTransport;
 };
 
 export type KlingDirectGenerateSubmissionResult =
@@ -69,60 +76,6 @@ export type KlingDirectGenerateSubmissionResult =
       status: number;
       body: Record<string, unknown>;
     };
-
-function userSafeKlingDirectMessage(errorClass: string): string {
-  if (errorClass === 'moderation') {
-    return 'This request was blocked by safety checks. Try rephrasing it with safer, more neutral wording.';
-  }
-  if (errorClass === 'invalid_request') {
-    return 'This request is not supported with the selected inputs. Adjust the prompt, media, or settings and try again.';
-  }
-  if (errorClass === 'auth_error' || errorClass === 'insufficient_provider_credits' || errorClass === 'provider_access_denied') {
-    return 'This render option is temporarily unavailable. Please retry later.';
-  }
-  return 'The render could not start. Please retry later.';
-}
-
-async function markJobFailedBeforeFallback(params: {
-  jobId: string;
-  engineLabel: string;
-  durationSec: number;
-  message: string;
-  pendingReceipt: PendingReceipt | null;
-  paymentMode: PaymentMode;
-  walletChargeReserved: boolean;
-  queryFn: QueryFn;
-  rollbackPendingPaymentFn: typeof rollbackPendingPayment;
-}) {
-  const paymentStatusOverride =
-    params.pendingReceipt && params.paymentMode === 'wallet'
-      ? 'refunded_wallet'
-      : params.pendingReceipt && params.paymentMode !== 'wallet'
-        ? 'refunded'
-        : null;
-  await params.queryFn(
-    `UPDATE app_jobs
-        SET status = 'failed',
-            progress = 0,
-            message = $2,
-            provisional = FALSE,
-            payment_status = CASE WHEN $3::text IS NOT NULL THEN $3 ELSE payment_status END,
-            updated_at = NOW()
-      WHERE job_id = $1`,
-    [params.jobId, params.message, paymentStatusOverride]
-  );
-  if (params.pendingReceipt) {
-    await params.rollbackPendingPaymentFn({
-      pendingReceipt: params.pendingReceipt,
-      walletChargeReserved: params.walletChargeReserved,
-      refundDescription: buildUserFacingRefundDescription({
-        engineLabel: params.engineLabel,
-        durationSec: params.durationSec,
-        reason: params.message,
-      }),
-    });
-  }
-}
 
 function falProviderJobIdFromResult(result: FalGenerateSubmissionResult, getLastProviderJobId: () => string | null): string | null {
   if (result.ok) {
@@ -251,7 +204,16 @@ export async function submitKlingDirectGenerateTask(params: {
   logMetricFn: LogMetricFn;
   clientErrorPolicy?: ProviderClientErrorPolicy;
   deps?: KlingDirectSubmissionDeps;
+  /** Set when Kling is the fallback leg after Bailian rejected the request before accepting a task. */
+  fallbackFromAttemptId?: number;
+  /**
+   * KLING_ROUTE_ORDER=direct,bailian: the Bailian-hosted model, called only after a definite pre-acceptance
+   * rejection by Kling (shouldFallbackFromKlingDirectToBailian). It owns its attempt, acceptance and refund.
+   */
+  submitBailianFallback?: (klingAttemptId: number) => Promise<KlingDirectGenerateSubmissionResult>;
 }): Promise<KlingDirectGenerateSubmissionResult> {
+  // Kling 4.0 / 4.0 Flash use the new-design API and never fall back to Fal.
+  if (isKlingDirectV2Engine(params.engineId)) return submitKlingDirectV2GenerateTask(params);
   const deps = params.deps ?? {};
   const getKlingDirectClientFn = deps.getKlingDirectClientFn ?? getKlingDirectClient;
   const submitFalGenerateTaskFn = deps.submitFalGenerateTaskFn ?? submitFalGenerateTask;
@@ -291,11 +253,14 @@ export async function submitKlingDirectGenerateTask(params: {
   });
   const klingAttempt = await createProviderAttempt({
     publicJobId: params.jobId,
-    attemptIndex: 1,
+    attemptIndex: params.fallbackFromAttemptId ? 2 : 1,
     provider: 'kling_direct',
     providerModel: route.providerModel,
     status: 'submit_started',
     requestSnapshot: {
+      route: 'direct',
+      routeRole: params.fallbackFromAttemptId ? 'fallback' : 'primary',
+      bailianFallbackAvailable: Boolean(params.submitBailianFallback),
       engineId: params.engineId,
       mode: params.mode,
       providerModel: route.providerModel,
@@ -329,6 +294,10 @@ export async function submitKlingDirectGenerateTask(params: {
     },
     queryFn,
   });
+  if (params.fallbackFromAttemptId) {
+    await linkProviderFallbackAttempt({ fromAttemptId: params.fallbackFromAttemptId, toAttemptId: klingAttempt.id, queryFn })
+      .catch(() => undefined);
+  }
 
   let acceptedTask: NormalizedVideoProviderTask;
   try {
@@ -370,6 +339,20 @@ export async function submitKlingDirectGenerateTask(params: {
     acceptedTask = await client.createTask(payload);
   } catch (error) {
     const normalized = classifyKlingDirectError(error);
+    if (params.submitBailianFallback && shouldFallbackFromKlingDirectToBailian({ acceptedProviderJobId: null, error })) {
+      // Kling certainly created no task; the reserved charge moves to the single Bailian submission.
+      await markProviderAttemptFailed({
+        attemptId: klingAttempt.id,
+        errorCode: normalized.code,
+        errorClass: normalized.errorClass,
+        fallbackEligible: true,
+        responseSnapshot: normalized.raw,
+        queryFn,
+      });
+      params.logMetricFn('rejected', { jobId: params.jobId, errorCode: normalized.code ?? normalized.errorClass,
+        meta: { provider: 'kling_direct', errorClass: normalized.errorClass, fallbackTo: 'bailian' } });
+      return params.submitBailianFallback(klingAttempt.id);
+    }
     const fallbackEligible =
       shouldFallbackFromKlingDirectSubmit({
         acceptedProviderJobId: null,

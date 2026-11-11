@@ -165,3 +165,28 @@ test('a refund write failure leaves the job active for a later poll', async () =
   assert.equal((await response.json()).updates, 0);
   assert.equal(writes.some((sql) => sql.includes("status = 'failed'")), false);
 });
+
+test('a MiniMax task failure keeps MiniMax\'s reason in the job message and the refund', async () => {
+  const writes: Array<{ sql: string; params?: unknown[] }> = [];
+  const reason = 'MiniMax blocked the generated video during its content review.';
+  const response = await runLlmhubVideoPoll({ deps: {
+    queryFn: (async (sql: string, params?: unknown[]) => {
+      writes.push({ sql, params });
+      if (sql.includes('FROM app_jobs WHERE provider')) return [{ ...pendingJob(), engine_id: 'minimax-h3', provider_job_id: '460424993944153' }];
+      if (sql.includes('SELECT pa.id')) return [];
+      if (sql.includes('INSERT INTO app_receipts')) return [{ id: 'refund-1' }];
+      if (sql.includes("SELECT id FROM app_receipts WHERE job_id")) return [{ id: 'refund-1' }];
+      if (sql.includes('UPDATE app_jobs SET status')) return [{ job_id: 'job-1' }];
+      return [];
+    }) as never,
+    client: {
+      status: async () => ({ status: 'failed', progress: 0, raw: {}, errorCode: '1027', failureMessage: reason }),
+      content: async () => { throw new Error('unexpected content fetch'); },
+    },
+    claimFn: (async () => ({ checked: async () => {}, release: async () => {} })) as never,
+  } });
+  assert.equal((await response.json()).updates, 1);
+  assert.ok(writes.some((write) => write.sql.includes("status = 'failed'") && write.params?.[1] === reason));
+  // The refund description goes through the shared user-facing mapping (content review -> safety checks).
+  assert.match(String(writes.find((write) => write.sql.includes('INSERT INTO app_receipts'))?.params?.[3]), /safety checks/);
+});

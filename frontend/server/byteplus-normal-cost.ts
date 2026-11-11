@@ -3,7 +3,7 @@ import { isSeedance2TokenPricing } from '@/lib/seedance-2-pricing';
 import { resolveSeedreamProviderSize, seedreamPricingInputCount } from '@/lib/image/seedream';
 import { ENV } from '@/lib/env';
 import { resolveBytePlusSeedanceRouteProfile } from '@/server/video-providers/byteplus-modelark-profile-policy';
-import { getBytePlusVideoListRate, quoteSeedreamListCost } from './byteplus-list-tariff';
+import { getBytePlusVideoListRate, quoteSeedreamListCost, seedreamListModelForEngine } from './byteplus-list-tariff';
 import { signedBytePlusContractCost } from './byteplus-account-contract';
 import { estimateBytePlusBillableTokens } from './byteplus-accounting';
 import { isSeedance25LasInputPricing, isSeedance25EditInputPricing, quoteSeedance25LasListCost } from './byteplus-las-tariff';
@@ -31,9 +31,10 @@ export function bytePlusNormalListCost(usage: NormalUsage) {
         ? quoteSeedance25LasListCost({ resolution: usage.resolution,
           outputDurationSec: usage.outputDurationSec ?? NaN, inputVideoDurationSec: usage.inputVideoDurationSec }) : null;
     }
-    if (usage.engineId === 'seedream' || usage.engineId === 'seedream-5-0-pro') {
+    const seedreamModel = seedreamListModelForEngine(usage.engineId);
+    if (seedreamModel) {
       if (!usage.outputPixels?.length || usage.inputImages == null) return null;
-      const list = quoteSeedreamListCost({ model: usage.engineId === 'seedream' ? 'lite' : 'pro',
+      const list = quoteSeedreamListCost({ model: seedreamModel,
         outputPixels: usage.outputPixels, inputImages: usage.inputImages });
       return { amountUsd: list.totalUsd, unitPriceUsdPer1kTokens: null,
         sourceUrl: list.source.url, checkedAt: list.source.checkedAt };
@@ -51,7 +52,7 @@ export function normalBytePlusSupplierCost(context: PricingContext, at: string) 
   context = normalizeSeedancePricingContext(context);
   const { engine, resolution, mode } = context;
   const declared = engine.providerMeta?.provider;
-  const image = engine.id === 'seedream' || engine.id === 'seedream-5-0-pro';
+  const image = seedreamListModelForEngine(engine.id) !== null;
   if (image ? declared !== 'byteplus_modelark' : !resolveBytePlusSeedanceRouteProfile(engine.id, declared)) return null;
   if (!context.workflowStep && isSeedance25LasInputPricing(engine.id, mode)) {
     const usage: NormalUsage = { engineId: engine.id, resolution, transport: 'las', billingInputType: 'video_input',

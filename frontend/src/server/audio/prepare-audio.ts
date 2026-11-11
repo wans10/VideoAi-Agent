@@ -78,6 +78,7 @@ export async function prepareAudioRun(body: AudioGenerateRequestBody, userId: st
     voiceMode: normalized.voiceMode,
     script: normalized.script,
     voiceModel: normalized.voiceModel,
+    ...(normalized.minimaxSpeechModel ? { minimaxSpeechModel: normalized.minimaxSpeechModel } : {}),
     musicModel: normalized.musicModel,
     musicBpm: normalized.musicBpm,
     musicEnabled: normalized.musicEnabled,

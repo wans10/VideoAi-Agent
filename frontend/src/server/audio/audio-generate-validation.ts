@@ -1,4 +1,5 @@
 import { DEFAULT_ELEVEN_VOICE_ID, findElevenVoice } from '@/lib/audio-eleven-voices';
+import { isMinimaxSpeechModel, type AudioMinimaxSpeechModel } from '@/lib/minimax-speech-models';
 import {
   AUDIO_MAX_DURATION_SEC,
   AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES,
@@ -60,6 +61,8 @@ type NormalizedAudioGenerateInput = {
   elevenSimilarityBoost?: number;
   voiceModel: AudioVoiceModel | null;
   minimaxVoiceId: string | null;
+  /** Present only when the web workspace chose a MiniMax T2A model; absent keeps speech-02-hd. */
+  minimaxSpeechModel?: AudioMinimaxSpeechModel;
   lyrics: string | null;
   sourceVideoUrl: string | null;
   sourceJobId: string | null;
@@ -272,6 +275,11 @@ export function validateAudioGenerateRequest(body: AudioGenerateRequestBody): Va
   if (body.minimaxVoiceId && (voiceModel !== 'minimax' || !(AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES as readonly string[]).includes(body.minimaxVoiceId))) {
     throw new AudioGenerationError('Voice preset is unsupported.', { status: 400, code: 'voice_preset_invalid', field: 'minimaxVoiceId' });
   }
+  const minimaxSpeechModelInput = normalizeString(body.minimaxSpeechModel);
+  if (minimaxSpeechModelInput && (voiceModel !== 'minimax' || !isMinimaxSpeechModel(minimaxSpeechModelInput))) {
+    throw new AudioGenerationError('MiniMax speech model is unsupported.', { status: 400, code: 'voice_model_invalid', field: 'minimaxSpeechModel' });
+  }
+  const minimaxSpeechModel = voiceModel === 'minimax' && isMinimaxSpeechModel(minimaxSpeechModelInput) ? minimaxSpeechModelInput : null;
   if (voiceModel === 'minimax' && body.voiceSampleUrl) {
     throw new AudioGenerationError('Use Seed Audio for audio references.', { status: 400, code: 'voice_reference_unsupported', field: 'voiceSampleUrl' });
   }
@@ -621,6 +629,7 @@ export function validateAudioGenerateRequest(body: AudioGenerateRequestBody): Va
     ...(voiceModel === 'eleven-v4' ? { elevenVoiceId: elevenVoiceId!, elevenStability: elevenStability!, elevenSimilarityBoost: elevenSimilarityBoost! } : {}),
     voiceModel,
     minimaxVoiceId,
+    ...(minimaxSpeechModel ? { minimaxSpeechModel } : {}),
     lyrics,
     sourceVideoUrl,
     sourceJobId,

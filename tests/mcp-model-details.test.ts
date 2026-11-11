@@ -475,10 +475,10 @@ test('Seedream details mirror direct provider credential readiness', { concurren
   try {
     ENV.BYTEPLUS_ARK_ENABLED = 'true';
     ENV.BYTEPLUS_ARK_API_KEY = '';
-    assert.equal((await getAgentModelDetails('seedream', registryDeps)).generationEnabled, false);
+    assert.equal((await getAgentModelDetails('seedream-5-0-flash', registryDeps)).generationEnabled, false);
 
     ENV.BYTEPLUS_ARK_API_KEY = 'test-key';
-    assert.equal((await getAgentModelDetails('seedream', registryDeps)).generationEnabled, true);
+    assert.equal((await getAgentModelDetails('seedream-5-0-flash', registryDeps)).generationEnabled, true);
   } finally {
     ENV.BYTEPLUS_ARK_ENABLED = original.bytePlusEnabled;
     ENV.BYTEPLUS_ARK_API_KEY = original.bytePlusApiKey;

@@ -1,6 +1,10 @@
 export const BYTEPLUS_SEEDREAM_PROVIDER = 'byteplus_modelark' as const;
-export const BYTEPLUS_SEEDREAM_DEFAULT_BASE_URL = 'https://ark.ap-southeast.bytepluses.com/api/v3';
-export const BYTEPLUS_SEEDREAM_DEFAULT_MODEL_ID = 'seedream-5-0-260128';
+// Mainland (Volcengine Ark cn-beijing) defaults; production overrides them with BYTEPLUS_ARK_* env values.
+export const BYTEPLUS_SEEDREAM_DEFAULT_BASE_URL = 'https://ark.cn-beijing.volces.com/api/v3';
+/** Seedream 5.0 Lite: retired (EOS 2026-11-24); kept only so historical jobs resolve a model id. */
+export const BYTEPLUS_SEEDREAM_DEFAULT_MODEL_ID = 'doubao-seedream-5-0-260128';
+export const BYTEPLUS_SEEDREAM_PRO_DEFAULT_MODEL_ID = 'doubao-seedream-5-0-pro-260628';
+export const BYTEPLUS_SEEDREAM_FLASH_DEFAULT_MODEL_ID = 'doubao-seedream-5-0-flash-260915';
 export const BYTEPLUS_SEEDREAM_DEFAULT_SIZE = '2K';
 export const BYTEPLUS_SEEDREAM_SIZES = [
   '2K',
@@ -32,3 +36,4 @@ export const BYTEPLUS_SEEDREAM_SIZES = [
   '6240x2656',
 ] as const;
 export const PUBLIC_SEEDREAM_ENGINE_ID = 'seedream';
+export const SEEDREAM_FLASH_ENGINE_ID = 'seedream-5-0-flash';

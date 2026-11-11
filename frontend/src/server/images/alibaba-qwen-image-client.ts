@@ -1,5 +1,6 @@
 import { resolveQwenImageSize } from '@/lib/image/qwen-image';
-import { normalizeAlibabaBaseUrl } from '@/server/video-providers/alibaba-model-studio/client';
+import { resolveAlibabaModelStudioBaseUrl } from '@/server/video-providers/alibaba-model-studio/client';
+import { ALIBABA_CAPACITY_BUSY_CODE, tryTakeAlibabaRateSlot } from '@/server/video-providers/alibaba-model-studio/capacity';
 import { ImageGenerationExecutionError } from './image-generation-error';
 import type { GeneratedImage } from '@/types/image-generation';
 
@@ -12,12 +13,13 @@ export class QwenImageError extends Error {
 
 export function getQwenImageConfig(env: Readonly<Record<string, string | undefined>> = process.env) {
   const apiKey = env.ALIBABA_MODEL_STUDIO_API_KEY?.trim();
-  if (!apiKey || !env.ALIBABA_MODEL_STUDIO_BASE_URL?.trim()) {
-    throw new ImageGenerationExecutionError('Alibaba Qwen image credentials and base URL are required.', {
+  if (!apiKey) {
+    throw new ImageGenerationExecutionError('Alibaba Qwen image credentials are required.', {
       code: 'alibaba_qwen_image_unavailable', status: 503,
     });
   }
-  const baseUrl = normalizeAlibabaBaseUrl(env.ALIBABA_MODEL_STUDIO_BASE_URL);
+  // Unset base URL defaults to the Beijing workspace host / Beijing DashScope endpoint.
+  const baseUrl = resolveAlibabaModelStudioBaseUrl(env);
   const host = new URL(baseUrl).hostname;
   if ((host !== 'dashscope.aliyuncs.com' && !/^[a-z0-9-]+\.cn-beijing\.maas\.aliyuncs\.com$/i.test(host))
     || (env.ALIBABA_MODEL_STUDIO_REGION && env.ALIBABA_MODEL_STUDIO_REGION.trim() !== 'cn-beijing')) {
@@ -49,8 +51,18 @@ export function buildQwenImagePayload(input: {
     ] }] },
     parameters: { n: 1, size: resolveQwenImageSize(input.resolution, input.aspectRatio).size,
       watermark: input.watermark, prompt_extend: true, prompt_extend_mode: 'direct',
+      // Documented default is true; sent explicitly so a provider default change cannot alter quality or latency silently.
+      enable_thinking: true,
       ...(input.seed === null ? {} : { seed: input.seed }) },
   };
+}
+
+/** Keyvo publishes zh only; the image workspace shows this message as-is. */
+export const QWEN_IMAGE_BUSY_MESSAGE = '该模型当前繁忙，已达到每分钟调用上限。本次预留的积分已退回，请约一分钟后重试。';
+
+/** Enforces the documented Beijing per-minute submission limit before any paid call. */
+export function reserveQwenImageRateSlot(modelId: string, take: typeof tryTakeAlibabaRateSlot = tryTakeAlibabaRateSlot) {
+  if (!take(modelId).ok) throw new QwenImageError(QWEN_IMAGE_BUSY_MESSAGE, 429, { code: ALIBABA_CAPACITY_BUSY_CODE }, true);
 }
 
 type QwenResponse = {
@@ -114,8 +126,12 @@ export async function callQwenImage(config: ReturnType<typeof getQwenImageConfig
     let body: QwenResponse;
     try { body = await response.json(); } catch { throw new QwenImageError('Invalid Qwen image response.', 502); }
     if (!body || typeof body !== 'object') throw new QwenImageError('Invalid Qwen image response.', 502);
+    if (response.status === 429) {
+      // Throttling.* is a definite rejection: nothing was generated or billed.
+      throw new QwenImageError(QWEN_IMAGE_BUSY_MESSAGE, 429, body, true);
+    }
     if (!response.ok) throw new QwenImageError(body.message || `Qwen image request failed (${response.status}).`, response.status, body,
-      [400,401,403,404,422,429].includes(response.status) && typeof body.code === 'string' && Boolean(body.code.trim()));
+      [400,401,403,404,422].includes(response.status) && typeof body.code === 'string' && Boolean(body.code.trim()));
     return extractQwenImageResult(body);
   } finally { clearTimeout(timer); }
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { claimGenerationPoll } from '@/server/generation-poll-state';
 import { LlmhubVideoClient } from '@/server/video-providers/llmhub/client';
+import { isMinimaxOfficialEnabled, MINIMAX_MESSAGES } from '@/server/video-providers/minimax-official/client';
 import { LLMHUB_VIDEO_PROVIDER } from '@/server/video-providers/llmhub/model-map';
 import { copyProviderVideoOriginal } from '@/server/provider-video-original-copy';
 import { ensureJobThumbnail, isPlaceholderThumbnail } from '@/server/thumbnails';
@@ -125,7 +126,7 @@ export async function runLlmhubVideoPoll(options: {
   };
 } = {}) {
   const queryFn = options.deps?.queryFn ?? query;
-  if (!process.env.LLMHUB_API_KEY?.trim() && !options.deps?.client) {
+  if (!process.env.LLMHUB_API_KEY?.trim() && !isMinimaxOfficialEnabled() && !options.deps?.client) {
     return NextResponse.json({ ok: true, enabled: false, checked: 0, updates: 0 });
   }
   const rows = await queryFn<PendingJob>(
@@ -163,7 +164,10 @@ export async function runLlmhubVideoPoll(options: {
       const task = await client.status(job.provider_job_id);
       await claim.checked();
       if (task.status === 'failed') {
-        if (await fail(job, 'The render failed before producing a usable output.', queryFn)) updates += 1;
+        // MiniMax's own API names the reason (content review, rate limit); others keep the generic message.
+        const reason = 'failureMessage' in task && typeof task.failureMessage === 'string' && task.failureMessage
+          ? task.failureMessage : 'The render failed before producing a usable output.';
+        if (await fail(job, reason, queryFn)) updates += 1;
         continue;
       }
       if (task.status !== 'completed') {
@@ -246,6 +250,10 @@ export async function runLlmhubVideoPoll(options: {
       });
       updates += 1;
     } catch (error) {
+      // MiniMax keeps tasks queryable for 7 days only; an expired task can never be delivered.
+      if ((error as { code?: unknown } | null)?.code === 'task_expired') {
+        if (await fail(job, MINIMAX_MESSAGES.taskExpired, queryFn).catch(() => false)) updates += 1;
+      }
       console.warn('[llmhub-video-poll] task check failed', { jobId: job.job_id, error });
     } finally {
       await claim.release();

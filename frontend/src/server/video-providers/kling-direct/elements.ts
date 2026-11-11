@@ -21,6 +21,8 @@ export type KlingDirectElementCreatePayload = {
   element_video_list?: {
     refer_videos: Array<{ video_url: string }>;
   };
+  /** Kling 4.0 subject voice binding (image subjects only; a video subject takes its voice from the video). */
+  element_voice_id?: string;
   external_task_id: string;
 };
 
@@ -120,6 +122,7 @@ export function buildKlingDirectElementCreatePayload(params: {
     });
   }
 
+  const voiceId = cleanString(params.element.voiceId);
   return {
     ...base,
     reference_type: 'image_refer',
@@ -127,6 +130,7 @@ export function buildKlingDirectElementCreatePayload(params: {
       frontal_image: frontalImageUrl,
       refer_images: referenceImageUrls.map((image_url) => ({ image_url })),
     },
+    ...(voiceId ? { element_voice_id: voiceId } : {}),
   };
 }
 
@@ -165,6 +169,8 @@ function elementSourceSnapshot(element: MaxVideoProviderElement) {
     referenceImageUrls: element.referenceImageUrls ?? null,
     videoAssetId: element.videoAssetId ?? null,
     videoUrl: element.videoUrl ?? null,
+    // Only present for voice-bound subjects, so existing fingerprints are unchanged.
+    ...(element.voiceId ? { voiceId: element.voiceId } : {}),
   };
 }
 
@@ -334,8 +340,21 @@ export async function ensureKlingDirectElementsForPayload(params: {
   queryFn?: QueryFn;
   pollIntervalMs?: number;
   maxWaitMs?: number;
+  /** Kling 4.0 keeps up to seven subjects and their voice bindings. */
+  engineId?: string;
+  /**
+   * Same subjects with short-lived provider read grants, index-aligned with `elements`. Only the provider
+   * request uses them; fingerprints and stored snapshots keep the durable originals.
+   */
+  transportElements?: MaxVideoProviderElement[] | null;
 }): Promise<{ elements: MaxVideoProviderElement[] | undefined; registeredCount: number }> {
-  const elements = normalizeMaxVideoProviderElements(params.elements);
+  const elements = normalizeMaxVideoProviderElements(params.elements, { engineId: params.engineId });
+  const transportElements = params.transportElements
+    ? normalizeMaxVideoProviderElements(params.transportElements, { engineId: params.engineId })
+    : elements;
+  if (transportElements.length !== elements.length) {
+    throw new KlingDirectError('Kling subject transport does not match the requested subjects.', { code: 'KLING_ELEMENT_SOURCE_INVALID' });
+  }
   if (!elements.length) return { elements: undefined, registeredCount: 0 };
 
   const queryFn = params.queryFn ?? query;
@@ -358,7 +377,7 @@ export async function ensureKlingDirectElementsForPayload(params: {
 
     const externalTaskId = `${params.jobId}:element:${index + 1}`;
     const createPayload = buildKlingDirectElementCreatePayload({
-      element,
+      element: transportElements[index]!,
       externalTaskId,
       index,
     });
@@ -374,7 +393,9 @@ export async function ensureKlingDirectElementsForPayload(params: {
       sourceFingerprint,
       sourceSnapshot: elementSourceSnapshot(element),
       providerTaskId: createdTask.providerTaskId,
-      requestSnapshot: createPayload,
+      requestSnapshot: transportElements === elements
+        ? createPayload
+        : buildKlingDirectElementCreatePayload({ element, externalTaskId, index }),
       responseSnapshot: createdTask.raw,
       referenceType: createPayload.reference_type,
       queryFn,

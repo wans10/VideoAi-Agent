@@ -3,6 +3,7 @@ import type { ValidatedAudioGenerateRequest } from '../audio-generate-validation
 import { runAudioRoleWithFallback } from './fal-runner';
 import type { AudioProviderSubscribe } from './types';
 import { AUDIO_ELEVEN_V4_MODEL_ID } from '@/lib/audio-eleven-voices';
+import { AUDIO_MINIMAX_SPEECH_MODEL_LABELS } from '@/lib/minimax-speech-models';
 
 export async function generateElevenVoiceTrack(input: ValidatedAudioGenerateRequest, subscribe?: AudioProviderSubscribe) {
   const languageCodes: Record<string, string> = { english: 'en', french: 'fr', spanish: 'es', german: 'de' };
@@ -32,11 +33,17 @@ export async function generateAmbienceTrack(input: { prompt: string; durationSec
 export async function generateMinimaxVoiceTrack(input: ValidatedAudioGenerateRequest, subscribe?: AudioProviderSubscribe) {
   const language = input.language && input.language !== 'auto'
     ? input.language[0].toUpperCase() + input.language.slice(1) : 'auto';
+  // Only the web workspace selects a T2A model; without one the historical speech-02-hd route is kept.
+  const speechModel = input.minimaxSpeechModel;
+  const candidate = speechModel && speechModel !== 'speech-02-hd'
+    ? { key: `minimax_${speechModel.replace(/[.-]/g, '_')}`, label: AUDIO_MINIMAX_SPEECH_MODEL_LABELS[speechModel], model: AUDIO_MINIMAX_SPEECH_MODEL_ID }
+    : { key: 'minimax_speech_02_hd', label: 'MiniMax Speech-02 HD', model: AUDIO_MINIMAX_SPEECH_MODEL_ID };
   return runAudioRoleWithFallback('tts', () => ({
+    ...(speechModel ? { model: speechModel } : {}),
     text: input.script,
     voice_setting: { voice_id: input.minimaxVoiceId, speed: input.seedAudioSpeed ?? 1, vol: input.seedAudioVolume ?? 1,
       pitch: input.seedAudioPitch ?? 0, emotion: 'neutral', english_normalization: language === 'English' },
     audio_setting: { format: 'mp3', sample_rate: 44100, channel: 1 },
     language_boost: language, output_format: 'url',
-  }), { candidates: [{ key: 'minimax_speech_02_hd', label: 'MiniMax Speech-02 HD', model: AUDIO_MINIMAX_SPEECH_MODEL_ID }], subscribe });
+  }), { candidates: [candidate], subscribe });
 }

@@ -15,15 +15,24 @@ const image: ResolvedReference = { assetId: 'owned-image', role: 'reference', sl
   storageUrl: 'https://media.maxvideoai.com/user-assets/original.png', mimeType: 'image/png',
   width: 1024, height: 1024, durationSec: null, sizeBytes: 1024 };
 
-test('Kling direct flags cannot reroute Flash or its production V4 precedent to the legacy V3 API', () => {
+test('Kling direct flags never reroute Flash or V4 to the legacy V3 API; without an API key they stay off the direct route', () => {
   for (const engineId of ['kling-v4', 'kling-v4-flash']) {
     for (const mode of ['t2v', 'i2v', 'ref2v']) {
       for (const isAdmin of [false, true]) {
-        assert.deepEqual(resolveVideoProviderRoutingPlan({ engineId, mode, isAdmin, env: {
+        const env = {
           KLING_DIRECT_ENABLED: 'true', KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'true',
           KLING_DIRECT_ADMIN_ONLY: 'false', KLING_DIRECT_FALLBACK_TO_FAL_ENABLED: 'true',
           KLING_DIRECT_FALLBACK_ON_CREDITS_DEPLETED_ENABLED: 'true', KLING_DIRECT_ELEMENT_REGISTRATION_ENABLED: 'true',
-        } }), { kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false });
+          KLING_ACCESS_KEY: 'legacy-only', KLING_SECRET_KEY: 'legacy-only', KLING_API_KEY: '',
+        };
+        // AK/SK JWT is legacy-design only; the official 4.0 API needs an API key.
+        assert.deepEqual(resolveVideoProviderRoutingPlan({ engineId, mode, isAdmin, env: { ...env, FAL_API_KEY: 'fal-only' } }),
+          { kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false });
+        assert.deepEqual(resolveVideoProviderRoutingPlan({ engineId, mode, isAdmin, env: { ...env, FAL_API_KEY: '', FAL_KEY: '' } }),
+          { kind: 'kling_direct_unavailable', reason: 'direct_not_configured' });
+        const direct = resolveVideoProviderRoutingPlan({ engineId, mode, isAdmin, env: { ...env, KLING_API_KEY: 'key' } });
+        assert.equal(direct.kind === 'kling_direct_primary' && direct.apiDesign, 'v2');
+        assert.equal(direct.kind === 'kling_direct_primary' && direct.fallbackEnabled, false);
       }
     }
   }

@@ -1,5 +1,5 @@
 import type { NormalizedVideoProviderTask, NormalizedVideoProviderUsage } from '../types';
-import { computeKlingDirectProviderCostUsd } from './cost';
+import { computeKlingDirectProviderCostUsd, computeKlingDirectV2ProviderCostUsd } from './cost';
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -74,6 +74,74 @@ export function normalizeKlingDirectTask(raw: unknown, fallbackTaskId?: string |
     usage: extractUsage(),
     providerCostUnits,
     providerCostUsd: computeKlingDirectProviderCostUsd(providerCostUnits),
+    raw,
+  };
+}
+
+export type KlingDirectV2Usage = {
+  inputDurationSec: number | null;
+  outputDurationSec: number | null;
+  /** Credits (CNY at list price) from `billing[]`; null when absent or not expressible in credits. */
+  billedCredits: number | null;
+};
+
+export function pickKlingDirectV2Task(raw: unknown, expectedId?: string | null, by: 'id' | 'external_id' = 'id'): Record<string, unknown> | null {
+  const data = isRecord(raw) ? raw.data : null;
+  const candidates = Array.isArray(data)
+    ? data
+    : isRecord(data) && Array.isArray(data.result)
+      ? data.result
+      : isRecord(data)
+        ? [data]
+        : [];
+  const tasks = candidates.filter(isRecord);
+  if (!expectedId) return tasks[0] ?? null;
+  return tasks.find((task) => firstString(task, [by]) === expectedId) ?? null;
+}
+
+export function extractKlingDirectV2Usage(task: unknown): KlingDirectV2Usage {
+  const usage = firstRecord(task, ['usage']);
+  const billing = isRecord(task) && Array.isArray(task.billing) ? task.billing.filter(isRecord) : [];
+  let billedCredits: number | null = billing.length ? 0 : null;
+  for (const entry of billing) {
+    const amount = firstNumber(entry, ['amount']);
+    const chargeType = firstString(entry, ['charge_type'])?.toLowerCase();
+    const currency = firstString(entry, ['currency'])?.toUpperCase();
+    if (amount === null || (chargeType === 'cash' && currency !== 'CNY') || (chargeType !== 'cash' && chargeType !== 'unit')) {
+      billedCredits = null;
+      break;
+    }
+    billedCredits = Number(((billedCredits ?? 0) + amount).toFixed(6));
+  }
+  return {
+    inputDurationSec: firstNumber(usage, ['input_duration']),
+    outputDurationSec: firstNumber(usage, ['output_duration']),
+    billedCredits,
+  };
+}
+
+/** New-design (`/tasks`, `outputs[]`) task normalization; `null` when the expected task is absent. */
+export function normalizeKlingDirectV2Task(
+  raw: unknown,
+  expected?: { id?: string | null; externalId?: string | null }
+): NormalizedVideoProviderTask | null {
+  const task = expected?.externalId
+    ? pickKlingDirectV2Task(raw, expected.externalId, 'external_id')
+    : pickKlingDirectV2Task(raw, expected?.id ?? null, 'id');
+  if (!task) return null;
+  const rawStatus = firstString(task, ['status'])?.toLowerCase() ?? null;
+  const outputs = Array.isArray(task.outputs) ? task.outputs.filter(isRecord) : [];
+  const video = outputs.find((output) => firstString(output, ['type'])?.toLowerCase() === 'video' && firstString(output, ['url']));
+  const usage = extractKlingDirectV2Usage(task);
+  return {
+    providerJobId: firstString(task, ['id']) ?? expected?.id ?? '',
+    status: normalizeStatus(rawStatus),
+    rawStatus,
+    videoUrl: firstString(video, ['url']),
+    message: firstString(task, ['message']) ?? null,
+    usage: extractUsage(),
+    providerCostUnits: usage.billedCredits,
+    providerCostUsd: computeKlingDirectV2ProviderCostUsd(usage.billedCredits),
     raw,
   };
 }

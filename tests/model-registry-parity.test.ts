@@ -66,12 +66,32 @@ test('runtime model projection matches every baseline identity and surface', () 
   const reciprocalP1PairByOwner = new Map([
     ['gemini-omni-flash', 'kling-3-turbo-pro'],
   ]);
-  for (const expected of baseline.models) {
+  for (const baselineModel of baseline.models) {
+    // Keyvo retired Seedance 1.5 Pro on every surface, so every comparison toward it left the registry.
+    const expected = structuredClone(baselineModel);
+    if (expected.publication?.compare) {
+      for (const key of ['suggestOpponents', 'publishedPairs'] as const) {
+        const list = (expected.publication.compare as Record<string, unknown>)[key];
+        if (Array.isArray(list)) {
+          (expected.publication.compare as Record<string, unknown>)[key] = list.filter((slug) => slug !== 'seedance-1-5-pro');
+        }
+      }
+    }
     const actual = runtimeById.get(expected.id);
     assert.ok(actual, `missing runtime model ${expected.id}`);
     assert.equal(actual.slug, expected.slug);
     assert.equal(actual.family, expected.family);
     assert.equal(actual.category, expected.category);
+    // Keyvo takes these provider-retired models fully offline; their URLs follow the registry replacement.
+    const keyvoRetiredReplacement = ({ seedream: 'seedream-5-0-pro', 'seedance-1-5-pro': 'seedance-2-0-mini' } as Record<string, string>)[expected.id];
+    if (keyvoRetiredReplacement) {
+      assert.equal(actual.lifecycle, 'retired', expected.id);
+      assert.equal(actual.publicTargetId, keyvoRetiredReplacement, expected.id);
+      for (const surface of ['model', 'examples', 'compare', 'app', 'pricing', 'sitemap'] as const) {
+        assert.equal(actual.publication[surface].published, false, `${expected.id} ${surface}`);
+      }
+      continue;
+    }
     const archived = ['sora-2', 'sora-2-pro', 'seedance-1-5-pro'].includes(expected.id);
     assert.equal(actual.lifecycle, archived ? 'deep_legacy' : expected.id === 'gpt-image-2' ? 'legacy' : expected.lifecycle);
     assert.equal(
@@ -247,7 +267,9 @@ test('canonical lifecycle classifies every approved non-current model and author
     lumaRay2: 'legacy',
     lumaRay2_flash: 'legacy',
     'nano-banana': 'legacy',
-    'seedance-1-5-pro': 'deep_legacy',
+    // Keyvo owner decision 2026-11-11: both are offline everywhere and redirect to their replacement.
+    'seedance-1-5-pro': 'retired',
+    seedream: 'retired',
     'sora-2': 'deep_legacy',
     'sora-2-pro': 'deep_legacy',
     'wan-2-5': 'deep_legacy',

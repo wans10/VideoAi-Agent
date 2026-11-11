@@ -23,7 +23,8 @@ function frontendTypescriptFiles(): string[] {
 test('Alibaba direct video integration has one adapter, submission owner, and poll owner', () => {
   assert.ok(existsSync(providerDirectory));
   assert.deepEqual(readdirSync(providerDirectory).sort(), [
-    'client.ts', 'cost.ts', 'errors.ts', 'index.ts', 'media-access.ts', 'model-map.ts', 'payload.ts', 'response.ts', 'types.ts',
+    'bailian-models.ts', 'bailian-payload.ts', 'bailian-routing.ts',
+    'capacity.ts', 'client.ts', 'cost.ts', 'errors.ts', 'index.ts', 'media-access.ts', 'model-map.ts', 'payload.ts', 'response.ts', 'types.ts',
   ]);
   assert.ok(existsSync(submissionPath));
   assert.ok(existsSync(pollPath));
@@ -60,4 +61,31 @@ test('client components never import Alibaba provider server modules', () => {
     .filter((path) => /server\/video-providers\/alibaba-model-studio|server\/alibaba-model-studio-poll|server\/alibaba-job-accounting/u.test(source(path)))
     .map((path) => relative(root, path));
   assert.deepEqual(clientImports, []);
+});
+
+test('Alibaba submissions reserve documented capacity before the paid call and polling bounds UNKNOWN tasks', () => {
+  const submission = source(submissionPath);
+  const poll = source(pollPath);
+  assert.match(submission, /reserveAlibabaVideoCapacity/);
+  assert.ok(
+    submission.indexOf('reserveAlibabaVideoCapacity)({') < submission.indexOf('.createVideo(transport.payload)'),
+    'capacity must be reserved before the provider call',
+  );
+  assert.match(source(join(providerDirectory, 'capacity.ts')), /'qwen-image-3\.0-pro': \{ limit: 5, windowMs: 60_000 \}/);
+  assert.match(poll, /evaluateAlibabaUnknownStatus/);
+  assert.match(poll, /ALIBABA_TASK_UNKNOWN/);
+});
+
+test('Bailian-hosted Kling / MiniMax reuse the Alibaba submission and pick routes before any task exists', () => {
+  const router = source(join(root, 'frontend/src/server/video-providers/router.ts'));
+  const submission = source(submissionPath);
+  const dispatcher = source(join(root, 'frontend/app/api/generate/_lib/video-provider-submission.ts'));
+  assert.match(router, /applyBailianRouteOrder\(params, resolveVendorVideoProviderRoutingPlan\(params\)\)/);
+  assert.match(source(join(providerDirectory, 'bailian-routing.ts')), /KLING_ROUTE_ORDER/);
+  assert.match(source(join(providerDirectory, 'bailian-routing.ts')), /MINIMAX_H3_ROUTE_ORDER/);
+  assert.match(submission, /shouldFallbackFromBailianSubmit\(\{ acceptedProviderJobId, error \}\)/);
+  assert.match(source(join(root, 'frontend/app/api/generate/_lib/kling-direct-submission.ts')), /shouldFallbackFromKlingDirectToBailian/);
+  assert.match(source(join(root, 'frontend/app/api/generate/_lib/llmhub-submission.ts')), /shouldFallbackFromMinimaxDirectToBailian/);
+  assert.match(dispatcher, /submitDirectFallback/);
+  assert.match(source(join(providerDirectory, 'capacity.ts')), /\[BAILIAN_MINIMAX_H3_MODEL\]: \{ limit: 300, windowMs: 60_000 \}/);
 });

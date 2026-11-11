@@ -142,3 +142,81 @@ test('H3 lists 16:9 first so a new form falls back to it', async () => {
   assert.ok(fields.length > 0);
   for (const field of fields) assert.ok(field.default === '16:9' || (field.values as string[])[0] === 'auto', JSON.stringify(field.default));
 });
+
+const official = { ...on, MINIMAX_OFFICIAL_ENABLED: 'true', MINIMAX_API_KEY: 'mm' };
+const officialOnly = { MINIMAX_OFFICIAL_ENABLED: 'true', MINIMAX_API_KEY: 'mm' };
+
+test('with the official switch, H3 adds 4 s, last frame and references, and needs no LLM Hub', () => {
+  assert.equal(plan('minimax-h3', 't2v', { durationSec: 4, resolution: '768P' }, official).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-h3', 't2v', { durationSec: 4, resolution: '768P' }, officialOnly).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-h3', 'i2v', {
+    durationSec: 6, resolution: '2K',
+    attachments: [{ kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }, { kind: 'image', slotId: 'end_image_url', url: 'https://a/2.png' }],
+  }, official).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-h3', 'ref2v', {
+    durationSec: 5, resolution: '768P',
+    attachments: [
+      { kind: 'image', slotId: 'reference_image_urls', url: 'https://a/1.png' },
+      { kind: 'video', slotId: 'reference_video_urls', url: 'https://a/1.mp4' },
+      { kind: 'audio', slotId: 'reference_audio_urls', url: 'https://a/1.mp3' },
+    ],
+  }, official).kind, 'llmhub_primary');
+  for (const request of [{ durationSec: 5, resolution: '480P' }, { durationSec: 5, resolution: '4K' }, { durationSec: 3, resolution: '768P' },
+    { durationSec: 5, resolution: '768P', seed: 4 }, { durationSec: 5, resolution: '768P', extraInputValues: { prompt_expansion_mode: 'fast' } }]) {
+    assert.equal(plan('minimax-h3', 't2v', request, officialOnly).kind, 'fal_only', JSON.stringify(request));
+  }
+  assert.equal(plan('minimax-h3', 'ref2v', {
+    durationSec: 5, resolution: '768P', attachments: [{ kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }],
+  }, official).kind, 'fal_only');
+  assert.equal(resolveLlmhubVideoModel('minimax-h3', 'ref2v', officialOnly), 'MiniMax-H3');
+});
+
+test('Hailuo engines follow the documented legacy matrix on the official route', () => {
+  assert.equal(resolveLlmhubVideoModel('minimax-hailuo-2-3', 't2v'), null);
+  assert.equal(resolveLlmhubVideoModel('minimax-hailuo-2-3', 't2v', officialOnly), 'MiniMax-Hailuo-2.3');
+  assert.equal(resolveLlmhubVideoModel('minimax-hailuo-2-3-fast', 't2v', officialOnly), null);
+  assert.equal(resolveLlmhubVideoModel('minimax-hailuo-2-3-fast', 'i2v', officialOnly), 'MiniMax-Hailuo-2.3-Fast');
+  assert.equal(plan('minimax-hailuo-2-3', 't2v', { durationSec: 6, resolution: '1080P' }, officialOnly).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-hailuo-2-3', 't2v', { durationSec: 10, resolution: '1080P' }, officialOnly).kind, 'fal_only');
+  assert.equal(plan('minimax-hailuo-2-3', 't2v', { durationSec: 6, resolution: '768P' }, on).kind, 'fal_only');
+  assert.equal(plan('minimax-hailuo-02-text', 'i2v', { durationSec: 10, resolution: '512P',
+    attachments: [{ kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }] }, officialOnly).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-hailuo-02-text', 't2v', { durationSec: 6, resolution: '512P' }, officialOnly).kind, 'fal_only');
+  assert.equal(plan('minimax-hailuo-02-text', 'i2v', { durationSec: 6, resolution: '768P',
+    attachments: [{ kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }, { kind: 'image', slotId: 'end_image_url', url: 'https://a/2.png' }],
+  }, officialOnly).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-hailuo-02-text', 'i2v', { durationSec: 6, resolution: '512P',
+    attachments: [{ kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }, { kind: 'image', slotId: 'end_image_url', url: 'https://a/2.png' }],
+  }, officialOnly).kind, 'fal_only');
+  assert.equal(plan('minimax-hailuo-2-3', 'i2v', { durationSec: 6, resolution: '768P',
+    attachments: [{ kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }, { kind: 'image', slotId: 'end_image_url', url: 'https://a/2.png' }],
+  }, officialOnly).kind, 'fal_only');
+  assert.equal(plan('minimax-hailuo-2-3', 't2v', { durationSec: 6, resolution: '768P', extraInputValues: { prompt_optimizer: 'off' } }, officialOnly).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-h3-max', 't2v', { durationSec: 6, resolution: '768P' }, official).kind, 'fal_only');
+});
+
+test('the workspace sees what the official API accepts when the switch is on', () => {
+  const h3 = narrowToLlmhubMinimax(getFalEngineById('minimax-h3')!.engine, official);
+  assert.deepEqual(h3.modes, ['t2v', 'i2v', 'ref2v']);
+  assert.deepEqual(h3.resolutions, ['768P', '2K']);
+  const ids = (h3.inputSchema?.optional ?? []).map((field) => field.id);
+  for (const kept of ['end_image_url', 'reference_image_urls', 'reference_video_urls', 'reference_audio_urls']) assert.ok(ids.includes(kept), kept);
+  for (const gone of ['target_audio_url', 'seed', 'prompt_expansion_mode']) assert.equal(ids.includes(gone), false, gone);
+  assert.equal((h3.inputSchema?.optional ?? []).find((field) => field.id === 'duration')?.values?.[0], '4');
+
+  const hailuo = narrowToLlmhubMinimax(getFalEngineById('minimax-hailuo-02-text')!.engine, officialOnly);
+  assert.deepEqual(hailuo.modeCaps?.t2v?.resolution, ['768P']);
+  assert.deepEqual(hailuo.modeCaps?.i2v?.resolution, ['768P', '512P']);
+  assert.ok((hailuo.inputSchema?.optional ?? []).some((field) => field.id === 'end_image_url'));
+
+  const fast = narrowToLlmhubMinimax(getFalEngineById('minimax-hailuo-2-3-fast')!.engine, officialOnly);
+  assert.deepEqual(fast.modes, ['i2v']);
+  assert.deepEqual(fast.resolutions, ['768P', '1080P']);
+});
+
+test('H3 catalogue no longer offers 480P or 4K and starts at 4 s', () => {
+  const h3 = getFalEngineById('minimax-h3')!.engine;
+  assert.deepEqual(h3.resolutions, ['768P', '2K']);
+  const duration = (h3.inputSchema?.optional ?? []).find((field) => field.id === 'duration');
+  assert.equal(duration?.min, 4);
+});

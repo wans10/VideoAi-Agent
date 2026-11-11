@@ -28,7 +28,7 @@ export function catalogSupplierReference(context: PricingContext): CatalogSuppli
   const { engine } = context;
   // Seedance's historical padded retail basis is expressly NOT a provider rate.
   if (isSeedance2TokenPricing(engine.pricingDetails) || engine.id === 'seedance-1-5-pro'
-    || engine.id === 'seedream' || engine.id === 'seedream-5-0-pro') return null;
+    || engine.id === 'seedream' || engine.id === 'seedream-5-0-pro' || engine.id === 'seedream-5-0-flash') return null;
   const entry = getFalEngineById(engine.id);
   if (!entry) return null;
   const endpoint = entry.modes.find((item) => item.mode === context.mode)?.falModelId;

@@ -279,8 +279,10 @@ export async function resolveAdmittedMediaAwarePreflight(
 
   const needsLumaSourceTiming = isLumaSourceVideoMode(engine.id, request.mode);
   const needsReferenceTokenBudget = engine.id === 'minimax-h3-max' && request.mode === 'ref2v';
-  const needsWanVideoDuration = (engine.id === 'wan-3' || engine.id === 'wan-3-prime')
-    && (request.mode === 'v2v' || request.mode === 'extend' || request.inputs?.some((reference) => reference.kind === 'video') === true);
+  const needsWanVideoDuration = ((engine.id === 'wan-3' || engine.id === 'wan-3-prime')
+    && (request.mode === 'v2v' || request.mode === 'extend' || request.inputs?.some((reference) => reference.kind === 'video') === true))
+    // MiniMax H3 bills reference-video seconds; the same owned-media sum applies.
+    || (engine.id === 'minimax-h3' && request.mode === 'ref2v' && request.inputs?.some((reference) => reference.kind === 'video') === true);
   const needsReferenceImageCount = requiresReferenceImageCount(engine, request);
   const needsInputAudioDuration = requiresInputAudioDuration(engine, request);
   const needsTrustedOwnedMedia = requiresTrustedOwnedMedia(engine, request) && Boolean(request.inputs?.length || request.mode !== 't2v');

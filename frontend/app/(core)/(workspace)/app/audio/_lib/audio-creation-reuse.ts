@@ -1,6 +1,7 @@
 import { DEFAULT_ELEVEN_VOICE_ID } from '@/lib/audio-eleven-voices';
 import type { AudioCreationDraft } from '@/lib/audio-creation';
 import type { AudioJobSettingsSnapshot } from './audio-workspace-types';
+import { isMinimaxSpeechModel, LEGACY_MINIMAX_SPEECH_MODEL } from '@/lib/minimax-speech-models';
 
 /** Historical snapshots are the source of truth for recreation, including advanced voice settings. */
 export function audioCreationReusePatch(snapshot: AudioJobSettingsSnapshot, draft: AudioCreationDraft, referenceLabel: string): Partial<AudioCreationDraft> {
@@ -8,6 +9,8 @@ export function audioCreationReusePatch(snapshot: AudioJobSettingsSnapshot, draf
     prompt: snapshot.prompt ?? '', script: snapshot.script ?? '', lyrics: snapshot.lyrics ?? '',
     voiceModel: snapshot.voiceModel === 'eleven-v4' ? 'eleven-v4' : snapshot.voiceModel === 'minimax' ? 'minimax' : 'seed',
     elevenVoiceId: snapshot.elevenVoiceId ?? DEFAULT_ELEVEN_VOICE_ID, elevenStability: snapshot.elevenStability ?? 0.5, elevenSimilarityBoost: snapshot.elevenSimilarityBoost ?? 0.75, minimaxVoiceId: snapshot.minimaxVoiceId ?? 'English_FriendlyPerson',
+    // A render without a recorded model used speech-02-hd; recreate it with that model.
+    minimaxSpeechModel: isMinimaxSpeechModel(snapshot.minimaxSpeechModel) ? snapshot.minimaxSpeechModel : LEGACY_MINIMAX_SPEECH_MODEL,
     voice: snapshot.seedAudioVoice ?? 'default', speed: snapshot.seedAudioSpeed ?? 1, volume: snapshot.seedAudioVolume ?? 1, pitch: snapshot.seedAudioPitch ?? 0,
     outputFormat: snapshot.seedAudioOutputFormat ?? 'mp3', sampleRate: snapshot.seedAudioSampleRate ?? 24000,
     voiceDelivery: snapshot.voiceDelivery ?? 'cinematic', voiceProfile: snapshot.voiceProfile ?? 'balanced', voiceGender: snapshot.voiceGender ?? 'female',

@@ -31,6 +31,7 @@ import { getQwenImageConfig } from '@/server/images/alibaba-qwen-image-client';
 import type { CanonicalGenerationRequest } from '@/server/agent-api/generation-types';
 import type { ResolvedReference } from '@/server/agent-api/reference-types';
 import { parseGoogleVertexServiceAccount } from '@/server/video-providers/google-vertex-auth';
+import { isMinimaxOfficialEngineRoute } from '@/server/llmhub-minimax-capabilities';
 import {
   isMinimaxH3MaxEngineId,
   isMinimaxH3MaxRuntimeModeAvailable,
@@ -268,8 +269,18 @@ function resolveAgentGenerationModeOperationExecutability(
       if (routingPlan.kind === 'luma_agents_unavailable') {
         return { executable: false, reason: 'provider_disabled' };
       }
+      if (routingPlan.kind === 'kling_direct_unavailable') {
+        // The router keeps Fal for Kling 4.0 only where Fal is configured; mirror that with this environment's key.
+        if (configured(environment.falApiKey)) {
+          return { executable: true, reason: 'available' };
+        }
+        return { executable: false, reason: routingPlan.reason === 'direct_not_configured'
+          ? 'provider_credentials_missing' : routingPlan.reason === 'unsupported_mode' ? 'profile_invalid' : 'provider_disabled' };
+      }
       if (routingPlan.kind === 'llmhub_primary') {
-        return credentialDecision(configured(providerEnv.LLMHUB_API_KEY));
+        // MiniMax engines on MiniMax's own API keep the llmhub job provider but need only the MiniMax key.
+        return credentialDecision(configured(providerEnv.LLMHUB_API_KEY)
+          || isMinimaxOfficialEngineRoute(engine.id, providerEnv));
       }
       if (routingPlan.kind === 'fal_only') {
         return credentialDecision(configured(environment.falApiKey));

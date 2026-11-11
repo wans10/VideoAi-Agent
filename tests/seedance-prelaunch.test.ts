@@ -94,7 +94,7 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(fast.engine.pricingDetails?.tokenPricing?.defaultAspectRatio, '16:9');
   assert.equal(mini.defaultFalModelId, 'byteplus/dreamina-seedance-2.0-mini/text-to-video');
   assert.equal(mini.engine.providerMeta?.provider, 'byteplus_modelark');
-  assert.equal(mini.engine.providerMeta?.modelSlug, 'dreamina-seedance-2-0-mini-260615');
+  assert.equal(mini.engine.providerMeta?.modelSlug, 'doubao-seedance-2-0-mini-260615');
   assert.deepEqual(mini.engine.modes, ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']);
   assert.deepEqual(mini.engine.resolutions, ['480p', '720p']);
   assert.deepEqual(mini.engine.fps, [24]);
@@ -191,8 +191,9 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(fast.surfaces.compare.includeInHub, true);
   assert.equal(seedance.surfaces.modelPage.indexable, true);
   assert.equal(fast.surfaces.modelPage.indexable, true);
-  assert.equal(seedance.surfaces.compare.publishedPairs.length, 23);
-  assert.equal(fast.surfaces.compare.publishedPairs.length, 22);
+  // Seedance 1.5 Pro is retired on Keyvo, so its pair left both lists.
+  assert.equal(seedance.surfaces.compare.publishedPairs.length, 22);
+  assert.equal(fast.surfaces.compare.publishedPairs.length, 21);
   assert.equal(mini.surfaces.app.enabled, true);
   assert.equal(mini.surfaces.modelPage.indexable, true);
   assert.equal(mini.surfaces.examples.includeInFamilyResolver, true);
@@ -205,10 +206,10 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
     'veo-3-1-fast',
     'luma-ray-3-2',
   ]);
-  ['veo-3-1', 'kling-3-pro', 'sora-2', 'seedance-1-5-pro', 'seedance-2-0-fast'].forEach((slug) =>
+  ['veo-3-1', 'kling-3-pro', 'sora-2', 'seedance-2-0-fast'].forEach((slug) =>
     assert.ok(seedance.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 missing published pair ${slug}`)
   );
-  ['veo-3-1-fast', 'ltx-2-3-fast', 'seedance-1-5-pro', 'seedance-2-0', 'wan-2-6'].forEach((slug) =>
+  ['veo-3-1-fast', 'ltx-2-3-fast', 'seedance-2-0', 'wan-2-6'].forEach((slug) =>
     assert.ok(fast.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 Fast missing published pair ${slug}`)
   );
 });
@@ -228,13 +229,11 @@ test('Seedance aliases, family routing, hub publication, and locale coverage are
     'seedance-2-0',
     'seedance-2-0-fast',
     'dreamina-seedance-2-0-mini',
-    'seedance-1-5-pro',
   ]);
 
   const publishedComparisonSlugs = getPublishedComparisonSlugs();
   [
     'kling-3-pro-vs-seedance-2-0',
-    'seedance-1-5-pro-vs-seedance-2-0-fast',
     'dreamina-seedance-2-0-mini-vs-seedance-2-0',
     'dreamina-seedance-2-0-mini-vs-seedance-2-0-fast',
   ].forEach((slug) => assert.ok(publishedComparisonSlugs.includes(slug), `Missing published comparison ${slug}`));
@@ -413,14 +412,13 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.deepEqual(MARKETING_FOOTER_EXAMPLES.map((item) => item.key).sort(), expectedExampleFamilies.slice().sort());
 });
 
-test('Seedance 1.5 Pro stays historical while Seedance 2.0 keeps the primary alias and promoted slots', () => {
+test('Seedance 1.5 Pro is retired while Seedance 2.0 keeps the primary alias and promoted slots', () => {
   const seedance15 = listFalEngines().find((entry) => entry.id === 'seedance-1-5-pro');
 
-  assert.ok(seedance15);
-  assert.equal(Boolean(seedance15.isLegacy), true);
+  assert.ok(seedance15, 'the engine definition stays for historical jobs');
   assert.equal(seedance15.surfaces.app.enabled, false);
-  assert.equal(seedance15.surfaces.compare.includeInHub, true);
-  assert.equal(getPublishedComparisonSlugs().includes('seedance-1-5-pro-vs-seedance-2-0-fast'), true);
+  assert.equal(seedance15.surfaces.compare.includeInHub, false);
+  assert.equal(getPublishedComparisonSlugs().some((slug) => slug.includes('seedance-1-5-pro')), false);
   assert.equal(normalizeEngineId('seedance'), 'seedance-2-0');
   assert.equal(MARKETING_NAV_MODELS.some((item) => item.key === 'seedance-1-5-pro'), false);
   assert.equal(getHubEngines().some((engine) => engine.modelSlug === 'seedance-1-5-pro'), false);

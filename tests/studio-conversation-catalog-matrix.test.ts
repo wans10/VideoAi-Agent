@@ -30,7 +30,7 @@ const currentCertified=[
   'kling-3-4k','kling-3-pro','kling-3-standard','kling-o3-4k','kling-o3-pro','kling-o3-standard','kling-v4',
   'luma-ray-3-2','luma-uni-1','luma-uni-1-max','minimax-h3','minimax-hailuo-02-text',
   'nano-banana-2','nano-banana-2-1','nano-banana-lite','nano-banana-pro','pika-text-to-video',
-  'seedance-2-0','seedance-2-0-fast','seedance-2-0-mini','seedance-2-5','seedream','seedream-5-0-pro',
+  'seedance-2-0','seedance-2-0-fast','seedance-2-0-mini','seedance-2-5','seedream-5-0-flash','seedream-5-0-pro',
   'veo-3-1','veo-3-1-fast','veo-3-1-lite','wan-3','wan-3-prime',
   'kling-3-turbo-pro','kling-3-turbo-standard','minimax-h3-max','ltx-2-5-fast','ltx-2-5-pro','grok-imagine-video-1-5','flux-3','flux-3-draft','flux-3-max',
 ];
@@ -38,7 +38,9 @@ const uncertified=[
   'gpt-image-2-5-sunburst',
 ];
 const executableLegacy=['gpt-image-2','happy-horse-1-0','kling-2-5-turbo','kling-2-6-pro','ltx-2-3','ltx-2-3-fast','lumaRay2','lumaRay2_flash','nano-banana','wan-2-6'];
-const archive=['seedance-1-5-pro','sora-2','sora-2-pro','ltx-2','ltx-2-fast','wan-2-5'];
+const archive=['sora-2','sora-2-pro','ltx-2','ltx-2-fast','wan-2-5'];
+// Keyvo retired these on every surface (owner decision 2026-11-11); they redirect to a replacement.
+const retired=['seedance-1-5-pro','seedream'];
 async function services(deps=sourceDeps) {
   const catalog=await listPublicAgentGenerationEngines(deps);
   const options={enabled:true,prepareDependencies:{listPublicEngines:async()=>catalog}};
@@ -51,7 +53,7 @@ test('the real published catalog reaches Studio without the five-model pilot res
   const {catalog}=await services();
   assert.deepEqual(catalog.filter(entry=>getRuntimeModelById(entry.engine.id)?.lifecycle==='current').map(entry=>entry.engine.id).sort(),currentCertified.slice().sort());
   assert.deepEqual(catalog.find(entry=>entry.engine.id==='kling-v4')?.publicModes,['t2v','i2v','ref2v','v2v']);
-  for(const id of [...uncertified,...archive,'seedance-2-0-fast-byteplus'])
+  for(const id of [...uncertified,...archive,...retired,'seedance-2-0-fast-byteplus'])
     assert.equal(catalog.some(entry=>entry.engine.id===id),false,id);
   assert.deepEqual(catalog.filter(entry=>getRuntimeModelById(entry.engine.id)?.lifecycle==='legacy').map(entry=>entry.engine.id).sort(),executableLegacy.slice().sort(),'Published legacy explicit choices remain executable.');
   for(const candidate of catalog){
@@ -85,6 +87,13 @@ test('published retirement and legacy aliases survive the Studio integration',as
     assert.equal(model.publication.pricing.published,false,id);
     // Archived models of hidden-vendor families (Sora) have no public model page on Keyvo.
     assert.equal(model.publication.model.published,isKeyvoVisibleFamily(model.family),id);
+  }
+  for(const id of retired){
+    const model=getRuntimeModelById(id)!;
+    assert.equal(model.lifecycle,'retired',id);
+    assert.equal(model.publication.app.published,false,id);
+    assert.equal(model.publication.model.published,false,id);
+    assert.ok(model.publicTargetId,id);
   }
   for(const [alias,id] of [['veo-3-fast','veo-3-1-fast'],['veo3fast','veo-3-1-fast'],['pika-image-to-video','pika-text-to-video']])
     assert.equal(resolveRuntimeEngineInput(alias)?.id,id,alias);

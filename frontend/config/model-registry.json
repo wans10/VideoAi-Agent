@@ -211,48 +211,33 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
-          "includeInFamilyCopy": true,
-          "current": false,
-          "familyRank": 1
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
         },
         "compare": {
-          "published": true,
-          "indexed": true,
-          "suggestedOpponentIds": [
-            "happy-horse-1-1",
-            "seedance-2-0",
-            "kling-3-pro",
-            "veo-3-1"
-          ],
-          "publishedPairIds": [
-            "happy-horse-1-1",
-            "seedance-2-0",
-            "kling-3-pro",
-            "veo-3-1"
-          ]
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
         },
         "app": {
-          "published": true,
-          "discoveryRank": 50,
-          "variantGroup": "happy-horse",
-          "variantLabel": "1.0 legacy"
+          "published": false
         },
         "pricing": {
-          "published": true,
-          "featuredScenario": "legacy happy-horse-video-edit"
+          "published": false
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,
       "lifecycle": "legacy",
-      "successorId": null
+      "successorId": "happy-horse-1-1"
     },
     {
       "id": "happy-horse-1-1",
@@ -301,7 +286,6 @@
             "kling-3-pro",
             "veo-3-1",
             "sora-2-pro",
-            "happy-horse-1-0",
             "kling-o3-pro",
             "veo-3-1-fast",
             "seedance-2-0-fast",
@@ -371,9 +355,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -433,9 +415,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -601,9 +581,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "seedance-2-5",
             "sora-2",
             "sora-2-pro",
@@ -677,9 +655,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1020,9 +996,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1094,9 +1068,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1165,9 +1137,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1233,9 +1203,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1428,8 +1396,7 @@
           "indexed": true,
           "suggestedOpponentIds": [
             "veo-3-1-fast",
-            "kling-3-standard",
-            "seedance-1-5-pro"
+            "kling-3-standard"
           ],
           "publishedPairIds": [
             "kling-2-5-turbo",
@@ -1443,9 +1410,7 @@
             "ltx-2-fast",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1516,9 +1481,7 @@
             "ltx-2-fast",
             "lumaRay2",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1694,9 +1657,7 @@
             "ltx-2-fast",
             "lumaRay2",
             "lumaRay2_flash",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1715,6 +1676,90 @@
         },
         "sitemap": {
           "published": true
+        }
+      },
+      "replacement": null,
+      "lifecycle": "current",
+      "successorId": null
+    },
+    {
+      "id": "minimax-hailuo-2-3",
+      "label": "MiniMax Hailuo 2.3",
+      "slug": "minimax-hailuo-2-3",
+      "family": "hailuo",
+      "category": "video",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "variantGroup": "hailuo",
+          "variantLabel": "2.3"
+        },
+        "pricing": {
+          "published": false
+        },
+        "sitemap": {
+          "published": false
+        }
+      },
+      "replacement": null,
+      "lifecycle": "current",
+      "successorId": null
+    },
+    {
+      "id": "minimax-hailuo-2-3-fast",
+      "label": "MiniMax Hailuo 2.3 Fast",
+      "slug": "minimax-hailuo-2-3-fast",
+      "family": "hailuo",
+      "category": "video",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "variantGroup": "hailuo",
+          "variantLabel": "2.3 Fast"
+        },
+        "pricing": {
+          "published": false
+        },
+        "sitemap": {
+          "published": false
         }
       },
       "replacement": null,
@@ -1935,9 +1980,7 @@
             "ltx-2-fast",
             "lumaRay2",
             "lumaRay2_flash",
-            "minimax-hailuo-02-text",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "minimax-hailuo-02-text",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -1975,48 +2018,22 @@
         ],
         "publicSlugs": []
       },
+      "label": "Seedance 1.5 Pro",
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
+          "published": false,
           "includeInFamilyCopy": false,
-          "current": false,
-          "familyRank": 4
+          "current": false
         },
         "compare": {
-          "published": true,
-          "indexed": true,
-          "suggestedOpponentIds": [
-            "seedance-2-0",
-            "kling-3-pro",
-            "sora-2"
-          ],
-          "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
-            "kling-3-4k",
-            "kling-3-pro",
-            "kling-3-standard",
-            "ltx-2",
-            "ltx-2-3-fast",
-            "ltx-2-3",
-            "ltx-2-fast",
-            "lumaRay2",
-            "lumaRay2_flash",
-            "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-2-0",
-            "sora-2",
-            "sora-2-pro",
-            "veo-3-1",
-            "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-5",
-            "wan-2-6"
-          ]
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
         },
         "app": {
           "published": false
@@ -2025,11 +2042,11 @@
           "published": false
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
-      "replacement": null,
-      "lifecycle": "deep_legacy",
+      "replacement": "seedance-2-0-mini",
+      "lifecycle": "retired",
       "successorId": null
     },
     {
@@ -2079,9 +2096,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "sora-2",
+            "pika-text-to-video",            "sora-2",
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
@@ -2163,9 +2178,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -2350,6 +2363,7 @@
     {
       "id": "seedream",
       "slug": "seedream",
+      "label": "Seedream 5.0 Lite",
       "family": "seedream",
       "category": "image",
       "aliases": {
@@ -2358,8 +2372,8 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
           "published": false,
@@ -2373,21 +2387,17 @@
           "publishedPairIds": []
         },
         "app": {
-          "published": true,
-          "discoveryRank": 8,
-          "variantGroup": "seedream",
-          "variantLabel": "5.0 Lite"
+          "published": false
         },
         "pricing": {
-          "published": true,
-          "featuredScenario": "reference image before Seedance"
+          "published": false
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
-      "replacement": null,
-      "lifecycle": "current",
+      "replacement": "seedream-5-0-pro",
+      "lifecycle": "retired",
       "successorId": null
     },
     {
@@ -2427,6 +2437,48 @@
         },
         "sitemap": {
           "published": true
+        }
+      },
+      "replacement": null,
+      "lifecycle": "current",
+      "successorId": null
+    },
+    {
+      "id": "seedream-5-0-flash",
+      "slug": "seedream-5-0-flash",
+      "family": "seedream",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "discoveryRank": 8,
+          "variantGroup": "seedream",
+          "variantLabel": "5.0 Flash"
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": false
         }
       },
       "replacement": null,
@@ -2481,9 +2533,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
@@ -2549,9 +2599,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "veo-3-1",
             "veo-3-1-fast",
@@ -2626,9 +2674,7 @@
             "lumaRay2_flash",
             "minimax-h3",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "seedance-2-5",
             "sora-2",
             "sora-2-pro",
@@ -2708,9 +2754,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -2786,9 +2830,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -2829,14 +2871,13 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
-          "includeInFamilyCopy": true,
-          "current": false,
-          "familyRank": 3
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
         },
         "compare": {
           "published": true,
@@ -2855,9 +2896,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
@@ -2873,7 +2912,7 @@
           "published": false
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,
@@ -2925,9 +2964,7 @@
             "lumaRay2",
             "lumaRay2_flash",
             "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-1-5-pro",
-            "seedance-2-0",
+            "pika-text-to-video",            "seedance-2-0",
             "sora-2",
             "sora-2-pro",
             "veo-3-1",

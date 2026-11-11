@@ -15,7 +15,7 @@ type BytePlusSeedreamEnvironment = Readonly<{
 }>;
 
 export function isBytePlusSeedreamEngine(engine: EngineCaps): boolean {
-  return ['seedream', 'seedream-5-0-pro'].includes(engine.id);
+  return ['seedream', 'seedream-5-0-pro', 'seedream-5-0-flash'].includes(engine.id);
 }
 
 export function resolveBytePlusSeedreamReadiness(

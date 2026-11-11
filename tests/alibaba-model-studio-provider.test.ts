@@ -9,6 +9,7 @@ import { estimateAlibabaProviderCost } from '../frontend/src/server/video-provid
 import {
   AlibabaModelStudioClient,
   normalizeAlibabaBaseUrl,
+  resolveAlibabaModelStudioBaseUrl,
 } from '../frontend/src/server/video-providers/alibaba-model-studio/client';
 import {
   AlibabaModelStudioError,
@@ -434,9 +435,28 @@ test('Alibaba client uses the Singapore DashScope async contract without leaking
   );
 });
 
-test('Alibaba endpoint defaults to the documented Singapore host and rejects the nonexistent regional alias', () => {
-  assert.equal(normalizeAlibabaBaseUrl(undefined), 'https://dashscope-intl.aliyuncs.com');
-  assert.equal(normalizeAlibabaBaseUrl(''), 'https://dashscope-intl.aliyuncs.com');
+test('Alibaba endpoint defaults to the mainland Beijing account and keeps explicit overrides', () => {
+  assert.equal(normalizeAlibabaBaseUrl(undefined), 'https://dashscope.aliyuncs.com');
+  assert.equal(normalizeAlibabaBaseUrl(''), 'https://dashscope.aliyuncs.com');
+  assert.equal(resolveAlibabaModelStudioBaseUrl({}), 'https://dashscope.aliyuncs.com');
+  assert.equal(
+    resolveAlibabaModelStudioBaseUrl({ ALIBABA_MODEL_STUDIO_WORKSPACE_ID: 'llm-test01' }),
+    'https://llm-test01.cn-beijing.maas.aliyuncs.com',
+    'a workspace ID builds the cn-beijing workspace host by default',
+  );
+  assert.equal(
+    resolveAlibabaModelStudioBaseUrl({ ALIBABA_MODEL_STUDIO_WORKSPACE_ID: 'llm-test01', ALIBABA_MODEL_STUDIO_REGION: 'ap-southeast-1' }),
+    'https://llm-test01.ap-southeast-1.maas.aliyuncs.com',
+  );
+  assert.equal(
+    resolveAlibabaModelStudioBaseUrl({
+      ALIBABA_MODEL_STUDIO_BASE_URL: 'https://dashscope-intl.aliyuncs.com',
+      ALIBABA_MODEL_STUDIO_WORKSPACE_ID: 'llm-test01',
+    }),
+    'https://dashscope-intl.aliyuncs.com',
+    'an explicit base URL always wins',
+  );
+  assert.throws(() => resolveAlibabaModelStudioBaseUrl({ ALIBABA_MODEL_STUDIO_WORKSPACE_ID: 'bad.host/x' }), /workspace ID or region/);
   assert.equal(normalizeAlibabaBaseUrl('https://dashscope-intl.aliyuncs.com/'), 'https://dashscope-intl.aliyuncs.com');
   const workspace = 'https://test-workspace.ap-southeast-1.maas.aliyuncs.com';
   assert.equal(normalizeAlibabaBaseUrl(workspace), workspace);
@@ -456,4 +476,66 @@ test('Alibaba endpoint defaults to the documented Singapore host and rejects the
   ]) {
     assert.throws(() => normalizeAlibabaBaseUrl(url), /without a path/);
   }
+});
+
+test('Wan 3 accepts every documented ratio including 21:9 and forces adaptive for extension', () => {
+  for (const ratio of ['adaptive', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16']) {
+    assert.equal(buildAlibabaVideoPayload({
+      engineId: 'wan-3', mode: 't2v', prompt: 'A city at dusk', durationSec: 5, resolution: '720p', aspectRatio: ratio,
+    }).parameters.ratio, ratio);
+  }
+  assert.equal(buildAlibabaVideoPayload({
+    engineId: 'wan-3', mode: 't2v', prompt: 'A city at dusk', durationSec: 5, resolution: '720p', aspectRatio: 'auto',
+  }).parameters.ratio, 'adaptive');
+  assert.throws(() => buildAlibabaVideoPayload({
+    engineId: 'wan-3', mode: 't2v', prompt: 'A city at dusk', durationSec: 5, resolution: '720p', aspectRatio: '4:5',
+  }), /unsupported aspect ratio/);
+  assert.equal(buildAlibabaVideoPayload({
+    engineId: 'wan-3-prime', mode: 'extend', prompt: 'Continue', durationSec: 5, resolution: '720p', aspectRatio: '16:9',
+    referenceVideoUrls: [{ url: 'https://media.example/source.mp4', durationSec: 5 }],
+  }).parameters.ratio, 'adaptive');
+  assert.throws(() => buildAlibabaVideoPayload({
+    engineId: 'wan-3', mode: 't2v', prompt: '', durationSec: 5, resolution: '720p',
+  }), /requires a prompt/);
+  assert.throws(() => buildAlibabaVideoPayload({
+    engineId: 'wan-3', mode: 'ref2v', prompt: 'x', durationSec: 5, resolution: '720p',
+    referenceVideoUrls: [{ url: 'https://media.example/short.mp4', durationSec: 0.5 }],
+  }), /between 1 and 15 seconds/);
+});
+
+test('Alibaba seed follows the documented range; -1 means random and is omitted', () => {
+  const base = { engineId: 'wan-3', mode: 't2v', prompt: 'A city', durationSec: 5, resolution: '720p' };
+  assert.equal(buildAlibabaVideoPayload({ ...base, seed: 2147483647 }).parameters.seed, 2147483647);
+  assert.equal('seed' in buildAlibabaVideoPayload({ ...base, seed: -1 }).parameters, false);
+  assert.throws(() => buildAlibabaVideoPayload({ ...base, seed: 2147483648 }), /seed must be an integer/);
+  assert.throws(() => buildAlibabaVideoPayload({ ...base, engineId: 'happy-horse-1-1', seed: 1.5 }), /seed must be an integer/);
+});
+
+test('HappyHorse T2V/R2V use the documented ratio list with 16:9 default and at most nine JPEG/PNG/WEBP references', () => {
+  for (const ratio of ['16:9', '9:16', '1:1', '4:3', '3:4', '4:5', '5:4', '9:21', '21:9']) {
+    assert.equal(buildAlibabaVideoPayload({
+      engineId: 'happy-horse-1-1', mode: 't2v', prompt: 'Run', durationSec: 5, resolution: '1080p', aspectRatio: ratio,
+    }).parameters.ratio, ratio);
+  }
+  for (const aspectRatio of [null, 'auto', 'adaptive']) {
+    assert.equal(buildAlibabaVideoPayload({
+      engineId: 'happy-horse-1-1', mode: 't2v', prompt: 'Run', durationSec: 5, resolution: '1080p', aspectRatio,
+    }).parameters.ratio, '16:9');
+  }
+  assert.throws(() => buildAlibabaVideoPayload({
+    engineId: 'happy-horse-1-1', mode: 't2v', prompt: 'Run', durationSec: 5, resolution: '1080p', aspectRatio: '2:1',
+  }), /unsupported aspect ratio/);
+  const references = (count: number) => Array.from({ length: count }, (_, index) => `https://media.example/ref-${index}.jpg`);
+  assert.equal(buildAlibabaVideoPayload({
+    engineId: 'happy-horse-1-1', mode: 'ref2v', prompt: '[Image 1] waves', durationSec: 5, resolution: '720p',
+    aspectRatio: '21:9', referenceImageUrls: references(9),
+  }).input.media?.length, 9);
+  assert.throws(() => buildAlibabaVideoPayload({
+    engineId: 'happy-horse-1-1', mode: 'ref2v', prompt: '[Image 1] waves', durationSec: 5, resolution: '720p',
+    referenceImageUrls: references(10),
+  }), /at most 9/);
+  assert.throws(() => buildAlibabaVideoPayload({
+    engineId: 'happy-horse-1-1', mode: 'ref2v', prompt: '[Image 1] waves', durationSec: 5, resolution: '720p',
+    referenceImageUrls: [{ url: 'https://media.example/ref.bmp', mimeType: 'image/bmp' }],
+  }), /JPEG, PNG, or WEBP/);
 });

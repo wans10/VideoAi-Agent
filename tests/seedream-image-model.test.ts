@@ -16,7 +16,7 @@ function getSeedreamProEntry() {
   return entry;
 }
 
-test('Seedream 5.0 Lite is registered as a public ByteDance image model', () => {
+test('Seedream 5.0 Lite keeps its historical engine identity while retired on Keyvo', () => {
   const entry = getSeedreamEntry();
 
   assert.equal(entry.modelSlug, 'seedream');
@@ -63,9 +63,10 @@ test('Seedream 5.0 Lite is registered as a public ByteDance image model', () => 
     'png',
   ]);
   assert.equal(entry.engine.inputSchema?.optional?.find((field) => field.id === 'watermark'), undefined);
-  assert.equal(entry.surfaces.app.enabled, true);
-  assert.equal(entry.surfaces.modelPage.indexable, true);
-  assert.equal(entry.surfaces.modelPage.includeInSitemap, true);
+  // Volcengine shut Seedream 5.0 Lite down on 2026-11-24; Keyvo retired it to Seedream 5.0 Pro.
+  assert.equal(entry.surfaces.app.enabled, false);
+  assert.equal(entry.surfaces.modelPage.indexable, false);
+  assert.equal(entry.surfaces.modelPage.includeInSitemap, false);
   assert.equal(entry.surfaces.compare.includeInHub, false);
 });
 
@@ -96,8 +97,9 @@ test('Seedream 5.0 Pro is registered with direct BytePlus Pro-only options', () 
   assert.equal(entry.category, 'image');
   assert.deepEqual(entry.engine.modes, ['t2i', 'i2i']);
   assert.equal(entry.engine.providerMeta?.provider, 'byteplus_modelark');
-  assert.equal(entry.engine.providerMeta?.modelSlug, 'dola-seedream-5-0-pro-260628');
-  assert.equal(ENV.BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID, 'dola-seedream-5-0-pro-260628');
+  // Keyvo code defaults are the Volcengine mainland ids; BytePlus `dola-*` ids stay an env override.
+  assert.equal(entry.engine.providerMeta?.modelSlug, 'doubao-seedream-5-0-pro-260628');
+  assert.equal(ENV.BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID ?? 'doubao-seedream-5-0-pro-260628', 'doubao-seedream-5-0-pro-260628');
   assert.deepEqual(entry.engine.inputSchema?.optional?.find((field) => field.id === 'resolution')?.values, ['2K']);
   assert.deepEqual(entry.modes.map((mode) => mode.ui.resolution), [['2K'], ['2K']]);
   assert.equal(entry.engine.inputSchema?.optional?.find((field) => field.id === 'num_images')?.max, 1);

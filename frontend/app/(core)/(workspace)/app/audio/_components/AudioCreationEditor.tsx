@@ -21,6 +21,7 @@ import {
   AUDIO_SFX_DURATION_OPTIONS_SEC,
 } from '@/lib/audio-generation';
 import type { AudioCreationDraft, AudioCreationIntent } from '@/lib/audio-creation';
+import { AUDIO_MINIMAX_SPEECH_MODEL_LABELS, AUDIO_MINIMAX_WORKSPACE_SPEECH_MODEL_VALUES, type AudioMinimaxSpeechModel } from '@/lib/minimax-speech-models';
 import type { AudioCreationCopy } from '../_lib/audio-creation-copy';
 import { AudioSourcePreview } from './AudioSourcePreview.client';
 import { AudioVoicePreview } from './AudioVoicePreview.client';
@@ -39,7 +40,7 @@ export function AudioCreationEditor({ locale='en', assistanceAccountId, intent, 
   const hint = spoken ? copy.scriptHint : song ? copy.styleHint : copy.promptHint;
   const max = spoken ? 5000 : 2000;
   const modelName = intent === 'voice'
-    ? eleven ? copy.models.voiceEleven : draft.reference || draft.voiceModel === 'seed' ? copy.models.voiceSeed : copy.models.voiceMinimax
+    ? eleven ? copy.models.voiceEleven : draft.reference || draft.voiceModel === 'seed' ? copy.models.voiceSeed : AUDIO_MINIMAX_SPEECH_MODEL_LABELS[draft.minimaxSpeechModel] ?? copy.models.voiceMinimax
     : intent === 'music' ? draft.musicModel === 'pro' ? copy.musicPro : copy.musicClip
     : intent === 'song' ? copy.models.song
       : intent === 'sfx' ? copy.models.sfx
@@ -80,6 +81,9 @@ export function AudioCreationEditor({ locale='en', assistanceAccountId, intent, 
         <label>{copy.model}<select aria-label={copy.model} disabled={Boolean(draft.reference)} value={draft.reference ? 'seed' : draft.voiceModel} onChange={event => onChange({ voiceModel: event.target.value as AudioCreationDraft['voiceModel'] })}>
           {voiceOnly ? null : <option value="eleven-v4">{copy.models.voiceEleven}</option>}<option value="minimax">{copy.models.voiceMinimax}</option><option value="seed">{copy.models.voiceSeed}</option>
         </select></label>
+        {!draft.reference && draft.voiceModel === 'minimax' ? <label>{copy.speechModel}<select aria-label={copy.speechModel} value={draft.minimaxSpeechModel} onChange={event => onChange({ minimaxSpeechModel: event.target.value as AudioMinimaxSpeechModel })}>
+          {AUDIO_MINIMAX_WORKSPACE_SPEECH_MODEL_VALUES.map(model => <option key={model} value={model}>{AUDIO_MINIMAX_SPEECH_MODEL_LABELS[model]}</option>)}
+        </select></label> : null}
         <label>{copy.voice}<select aria-label={copy.voice} disabled={Boolean(draft.reference)} value={draft.reference ? 'reference' : eleven ? draft.elevenVoiceId : draft.voiceModel === 'minimax' ? draft.minimaxVoiceId : draft.voice} onChange={event => onChange(eleven ? { elevenVoiceId: event.target.value } : draft.voiceModel === 'minimax' ? { minimaxVoiceId: event.target.value } : { voice: event.target.value })}>
           {draft.reference ? <option value="reference">{copy.reference}</option> : eleven
             ? AUDIO_ELEVEN_VOICES.map(voice => <option key={voice.id} value={voice.id}>{voice.name} · {copy.genderLabels[voice.gender]} · {copy.accentLabels[voice.accent]} (EN)</option>)

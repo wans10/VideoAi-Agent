@@ -151,6 +151,7 @@ const IMAGE_MODELS = [
   'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst',
   'seedream',
   'seedream-5-0-pro',
+  'seedream-5-0-flash',
 ] as const;
 
 const VIRTUAL_CERTIFICATIONS: WorkspaceModelCertification[] = [

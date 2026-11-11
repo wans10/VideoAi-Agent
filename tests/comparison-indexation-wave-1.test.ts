@@ -54,6 +54,12 @@ const ENGLISH_FIRST_TRENDING_COMPARISONS = [
   'minimax-h3-max-vs-seedance-2-5',
 ] as const;
 const INITIAL_LOW_SIGNAL_WAVE_SIZE = 30;
+// Keyvo retired Seedance 1.5 Pro on every surface (owner decision 2026-11-11), so its comparison
+// URLs left the published set after the 2026-09-04 evidence wave. Approved slugs that name a
+// retired model are no longer routes; the remaining approved selection must still hold.
+const RETIRED_COMPARISON_MODEL_SLUGS = ['seedance-1-5-pro'] as const;
+const namesRetiredModel = (slug: string) =>
+  slug.split('-vs-').some((modelSlug) => (RETIRED_COMPARISON_MODEL_SLUGS as readonly string[]).includes(modelSlug));
 const SAFE_GSC_CLEANUP_SIZE = {
   fr: 54,
   es: 28,
@@ -118,9 +124,11 @@ test('wave 1 candidates reproduce the approved low-signal evidence selection', (
     const expectedSlugs = document.rows
       .filter((row) => row.locale === locale && row.classification === 'noindex_candidate')
       .sort(candidateComparator)
-      .slice(0, INITIAL_LOW_SIGNAL_WAVE_SIZE)
       .map((row) => row.slug);
-    const selectedSlugs = comparisonIndexation.noindexByLocale[locale].slice(0, INITIAL_LOW_SIGNAL_WAVE_SIZE);
+    const selectedSlugs = comparisonIndexation.noindexByLocale[locale]
+      .slice(0, INITIAL_LOW_SIGNAL_WAVE_SIZE)
+      .filter((slug) => !namesRetiredModel(slug));
+    expectedSlugs.splice(selectedSlugs.length);
 
     assert.deepEqual(selectedSlugs, expectedSlugs);
 
@@ -149,11 +157,12 @@ test('the safe GSC cleanup contains only zero-signal noindex candidates', () => 
   const { document } = generateComparisonIndexationArtifacts();
 
   for (const locale of ['fr', 'es'] as const) {
-    const cleanupSlugs = comparisonIndexation.noindexByLocale[locale].slice(
+    const approvedCleanupSlugs = comparisonIndexation.noindexByLocale[locale].slice(
       INITIAL_LOW_SIGNAL_WAVE_SIZE,
       -ENGLISH_FIRST_TRENDING_COMPARISONS.length,
     );
-    assert.equal(cleanupSlugs.length, SAFE_GSC_CLEANUP_SIZE[locale]);
+    assert.equal(approvedCleanupSlugs.length, SAFE_GSC_CLEANUP_SIZE[locale]);
+    const cleanupSlugs = approvedCleanupSlugs.filter((slug) => !namesRetiredModel(slug));
 
     for (const slug of cleanupSlugs) {
       const row = document.rows.find((candidate) => candidate.locale === locale && candidate.slug === slug);
@@ -215,7 +224,7 @@ test('wave 1 sitemap omits every comparison URL while Keyvo hides comparison pag
     const slug = englishPath.slice('/ai-video-engines/'.length);
     return englishPath.startsWith('/ai-video-engines/') && publishedSlugSet.has(slug);
   });
-  assert.equal(publishedSlugs.length, 316);
+  assert.equal(publishedSlugs.length, 290);
   // Keyvo hides comparison pages (404), so route discovery keeps every comparison URL out of the sitemap.
   assert.equal(comparisonEntries.length, 0, 'comparison pages must not be listed in the Keyvo sitemap');
   assert.equal(
@@ -356,7 +365,7 @@ test('wave 1 filters every comparison hub discovery set for the active locale', 
 
   for (const locale of ['fr', 'es'] as const) {
     const excluded = comparisonIndexation.noindexByLocale[locale];
-    const historicalLowSignalExclusions = excluded.slice(0, 30);
+    const historicalLowSignalExclusions = excluded.slice(0, 30).filter((slug) => !namesRetiredModel(slug));
     const publishedSlugs = new Set(getHubComparisonSlugsForSitemap());
     for (const slug of historicalLowSignalExclusions) {
       assert.equal(isPublishedComparisonSlug(slug), true, `${slug} keeps its historical route`);

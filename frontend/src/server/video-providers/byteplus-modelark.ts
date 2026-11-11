@@ -2,6 +2,7 @@ import { ENV } from '@/lib/env';
 import type { NormalizedVideoProviderTask } from '@/server/video-providers/types';
 import type { Mode } from '@/types/engines';
 import {
+  BYTEPLUS_ARK_DEFAULT_REGION,
   BYTEPLUS_SEEDANCE_DEFAULT_MODEL_ID,
   BYTEPLUS_SEEDANCE_2_5_DEFAULT_MODEL_ID,
   BYTEPLUS_SEEDANCE_2_5_DEFAULT_BASE_URL,
@@ -16,7 +17,7 @@ export { resolveBytePlusTransport, type BytePlusTransport } from './byteplus-mod
 import type { BytePlusSeedanceFastPayload } from './byteplus-modelark-payload';
 import type { Seedance25FinalRequest } from './byteplus-modelark-draft';
 import {
-  firstString,
+  bytePlusErrorCode,
   normalizeBytePlusTask,
   parseJsonResponse,
   scrubBytePlusError,
@@ -131,7 +132,7 @@ export function getBytePlusArkConfig() {
   return {
     apiKey: ENV.BYTEPLUS_ARK_API_KEY,
     lasApiKey: ENV.BYTEPLUS_LAS_API_KEY,
-    region: ENV.BYTEPLUS_ARK_REGION ?? 'ap-southeast-1',
+    region: ENV.BYTEPLUS_ARK_REGION ?? BYTEPLUS_ARK_DEFAULT_REGION,
     baseUrl: trimTrailingSlash(ENV.BYTEPLUS_ARK_BASE_URL ?? BYTEPLUS_SEEDANCE_FAST_DEFAULT_BASE_URL),
     lasBaseUrl: trimTrailingSlash(ENV.BYTEPLUS_LAS_BASE_URL ?? BYTEPLUS_SEEDANCE_2_5_DEFAULT_BASE_URL),
     seedanceModelId: ENV.BYTEPLUS_ARK_SEEDANCE_MODEL_ID ?? BYTEPLUS_SEEDANCE_DEFAULT_MODEL_ID,
@@ -191,7 +192,7 @@ export class BytePlusModelArkClient {
     if (!response.ok) {
       throw new BytePlusModelArkError(scrubBytePlusError(parsed), {
         status: response.status,
-        code: firstString(parsed, ['code', 'error_code']) ?? null,
+        code: bytePlusErrorCode(parsed),
         providerMessage: scrubBytePlusError(parsed),
       });
     }
@@ -217,7 +218,7 @@ export class BytePlusModelArkClient {
     if (!response.ok) {
       throw new BytePlusModelArkError(scrubBytePlusError(parsed), {
         status: response.status,
-        code: firstString(parsed, ['code', 'error_code']) ?? null,
+        code: bytePlusErrorCode(parsed),
         providerMessage: scrubBytePlusError(parsed),
       });
     }
@@ -237,7 +238,7 @@ export class BytePlusModelArkClient {
       const parsed = await parseJsonResponse(response);
       throw new BytePlusModelArkError(scrubBytePlusError(parsed), {
         status: response.status,
-        code: firstString(parsed, ['code', 'error_code']) ?? null,
+        code: bytePlusErrorCode(parsed),
         providerMessage: scrubBytePlusError(parsed),
       });
     }

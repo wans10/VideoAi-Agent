@@ -4,7 +4,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 
-import { runAlibabaModelStudioPoll } from '../frontend/server/alibaba-model-studio-poll';
+import { ALIBABA_UNKNOWN_TASK_MESSAGE, evaluateAlibabaUnknownStatus, runAlibabaModelStudioPoll } from '../frontend/server/alibaba-model-studio-poll';
+import { getKnownGenerationFailureMessage } from '../frontend/lib/generation-failure-messages';
 
 const root = process.cwd();
 const pollPath = join(root, 'frontend/server/alibaba-model-studio-poll.ts');
@@ -307,4 +308,75 @@ test('Alibaba polling is isolated from Fal and protected by its own cron route',
   assert.match(route, /x-alibaba-model-studio-poll-token/);
   assert.match(route, /runAlibabaModelStudioPoll/);
   assert.match(readFileSync(vercelConfigPath, 'utf8'), /alibaba-model-studio-poll/);
+});
+
+function unknownPollDeps(job: typeof baseJob, queries: Array<{ sql: string; params?: unknown[] }>) {
+  return {
+    claimPollFn: allowGenerationPoll,
+    queryFn: async (sql: string, params?: unknown[]) => {
+      queries.push({ sql, params });
+      if (/FROM app_jobs/.test(sql) && /provider = \$1/.test(sql)) return [job] as never;
+      if (/FROM provider_attempts/.test(sql)) return [{ id: 41, attempt_index: 1 }] as never;
+      if (/SET status = 'failed'/.test(sql)) return [{ job_id: job.job_id }] as never;
+      if (/INSERT INTO app_receipts/.test(sql)) return [{ id: 'unknown_refund' }] as never;
+      return [] as never;
+    },
+    getAlibabaModelStudioClientFn: () => ({
+      getTask: async () => ({ request_id: 'r', output: { task_id: job.provider_job_id, task_status: 'UNKNOWN' } }),
+    }),
+    ensureFastStartVideoFn: async () => { throw new Error('not used'); },
+  };
+}
+
+test('Alibaba UNKNOWN status is tracked first and never left queued without a bound', async () => {
+  const queries: Array<{ sql: string; params?: unknown[] }> = [];
+  const response = await runAlibabaModelStudioPoll({ deps: unknownPollDeps(baseJob, queries) });
+  assert.equal((await response.json()).updates, 1);
+  assert.equal(queries.some((entry) => /SET status = 'failed'/.test(entry.sql)), false, 'a first UNKNOWN is not terminal');
+  const marker = queries.find((entry) => /alibabaUnknownStatus/.test(entry.sql));
+  assert.equal(JSON.parse(String(marker?.params?.[1])).observations, 1);
+
+  const now = Date.parse('2026-11-11T12:00:00Z');
+  const created = new Date(now - 30 * 60_000).toISOString();
+  assert.equal(evaluateAlibabaUnknownStatus({ settings_snapshot: {}, created_at: created }, now).terminal, false);
+  assert.equal(evaluateAlibabaUnknownStatus({ created_at: created, settings_snapshot: {
+    alibabaUnknownStatus: { firstSeenAt: new Date(now - 5 * 60_000).toISOString(), observations: 4 } } }, now).terminal, false,
+  'a short UNKNOWN streak can still be a transient lookup gap');
+  assert.equal(evaluateAlibabaUnknownStatus({ created_at: created, settings_snapshot: {
+    alibabaUnknownStatus: { firstSeenAt: new Date(now - 16 * 60_000).toISOString(), observations: 1 } } }, now).terminal, false,
+  'one stale observation is not enough');
+  assert.equal(evaluateAlibabaUnknownStatus({ created_at: created, settings_snapshot: {
+    alibabaUnknownStatus: { firstSeenAt: new Date(now - 16 * 60_000).toISOString(), observations: 2 } } }, now).terminal, true);
+  assert.equal(evaluateAlibabaUnknownStatus({ settings_snapshot: null, created_at: new Date(now - 25 * 3_600_000).toISOString() }, now).terminal, true,
+    'task IDs expire after 24 hours');
+});
+
+test('Alibaba persistent UNKNOWN fails the job and refunds the wallet once with a clear message', async () => {
+  const queries: Array<{ sql: string; params?: unknown[] }> = [];
+  const job = { ...baseJob, settings_snapshot: { ...baseJob.settings_snapshot,
+    alibabaUnknownStatus: { firstSeenAt: new Date(Date.now() - 20 * 60_000).toISOString(), observations: 5 } } };
+  const response = await runAlibabaModelStudioPoll({ deps: unknownPollDeps(job, queries) });
+  assert.equal((await response.json()).updates, 1);
+  const failed = queries.find((entry) => /SET status = 'failed'/.test(entry.sql));
+  assert.equal(failed?.params?.[1], ALIBABA_UNKNOWN_TASK_MESSAGE);
+  assert.equal(queries.filter((entry) => /INSERT INTO app_receipts/.test(entry.sql)).length, 1);
+  assert.equal(queries.some((entry) => entry.params?.includes('ALIBABA_TASK_UNKNOWN')), true);
+  assert.equal(getKnownGenerationFailureMessage({ message: ALIBABA_UNKNOWN_TASK_MESSAGE, locale: 'zh' }),
+    '渲染任务已无法查询（可能已过期或不存在），任务已终止。');
+});
+
+test('Alibaba progress updates clear a previous UNKNOWN marker', async () => {
+  const queries: Array<{ sql: string; params?: unknown[] }> = [];
+  const deps = unknownPollDeps(baseJob, queries);
+  await runAlibabaModelStudioPoll({ deps: { ...deps,
+    queryFn: async (sql: string, params?: unknown[]) => {
+      if (/SET status = \$2/.test(sql)) { queries.push({ sql, params }); return [{ job_id: baseJob.job_id }] as never; }
+      return deps.queryFn(sql, params);
+    },
+    getAlibabaModelStudioClientFn: () => ({
+      getTask: async () => ({ output: { task_id: baseJob.provider_job_id, task_status: 'RUNNING' } }),
+    }),
+  } });
+  const progress = queries.find((entry) => /SET status = \$2/.test(entry.sql));
+  assert.match(String(progress?.sql), /settings_snapshot - 'alibabaUnknownStatus'/);
 });

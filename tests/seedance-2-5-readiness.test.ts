@@ -183,7 +183,7 @@ test('Seedance 2.5 owns a dedicated fail-closed ModelArk profile', () => {
   assert.equal(profile.routing.providerOverrideKey, 'SEEDANCE_2_5_PROVIDER');
   assert.equal(profile.routing.adminOnlyKey, 'SEEDANCE_2_5_BYTEPLUS_ADMIN_ONLY');
   assert.equal(profile.routing.allowedModesKey, 'SEEDANCE_2_5_BYTEPLUS_MODES');
-  assert.equal(BYTEPLUS_SEEDANCE_2_5_DEFAULT_MODEL_ID, 'dreamina-seedance-2-5-260628');
+  assert.equal(BYTEPLUS_SEEDANCE_2_5_DEFAULT_MODEL_ID, 'doubao-seedance-2-5-260628');
   assert.equal(BYTEPLUS_SEEDANCE_2_5_MODEL_ID, BYTEPLUS_SEEDANCE_2_5_DEFAULT_MODEL_ID);
 
   const original = {
@@ -436,7 +436,7 @@ test('the production handoff records the public flagship matrix, safe local defa
 
   for (const required of [
     'BYTEPLUS_ARK_ENABLED=false',
-    'BYTEPLUS_ARK_SEEDANCE_2_5_MODEL_ID=dreamina-seedance-2-5-260628',
+    'BYTEPLUS_ARK_SEEDANCE_2_5_MODEL_ID=doubao-seedance-2-5-260628',
     'SEEDANCE_2_5_BYTEPLUS_ENABLED=false',
     'SEEDANCE_2_5_PROVIDER=disabled',
     'SEEDANCE_2_5_BYTEPLUS_ADMIN_ONLY=true',
