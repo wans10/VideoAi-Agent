@@ -320,7 +320,7 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
           <div className="app-picker-import">
             {owner && !selection.onToggle && selection.allowOrganizationBrowse !== false ? (
               <button type="button" onClick={() => setCollectionsOpen((value) => !value)}>
-                {locale.startsWith('fr') ? 'Collections' : locale.startsWith('es') ? 'Colecciones' : 'Collections'}
+                {locale.startsWith('zh') ? '合集' : locale.startsWith('fr') ? 'Collections' : locale.startsWith('es') ? 'Colecciones' : 'Collections'}
               </button>
             ) : null}
             {headerActions}
@@ -353,7 +353,7 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
                   returnFocus.current = event.currentTarget;
                   importInput.current?.click();
                 }}>
-                  {locale.startsWith('fr') ? 'Importer' : locale.startsWith('es') ? 'Importar' : 'Import'}
+                  {locale.startsWith('zh') ? '导入' : locale.startsWith('fr') ? 'Importer' : locale.startsWith('es') ? 'Importar' : 'Import'}
                 </button>
                 {imports.files.length ? (
                   <button type="button" onClick={(event) => {

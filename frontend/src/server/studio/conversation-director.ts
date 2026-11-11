@@ -105,7 +105,7 @@ import {isStudioConstraintMismatch,isStudioComparisonMismatch,studioComparisonFi
 export function createStudioConversationDirector(options: {model?: StudioAssistantModel;runtimePolicy?:MiloRuntimePolicy;modelForNextCall?:()=>StudioAssistantModel;createResponse?: StudioResponseCreator; mediaEnabled?: boolean;characterEnabled?:boolean;editingEnabled?: boolean;exportsEnabled?: boolean;analysisEnabled?:boolean;analysisProfiles?:{video:boolean;audio:boolean};assistanceCreditsEnabled?: boolean;taskExecution?:StudioTaskExecution;localGreetingEnabled?:boolean} = {}) {
   return async (context: StudioDirectorContext): Promise<ImageDraft> => {
     const locale=studioConversationLanguage(context.message,context.history,context.locale??options.taskExecution?.locale??'en');
-    const greeting=studioGreetingReply(context.message,context.references.length>0);
+    const greeting=studioGreetingReply(context.message,context.references.length>0,context.locale??options.taskExecution?.locale);
     if(greeting&&options.localGreetingEnabled!==false&&!options.taskExecution?.recoveryOnly)return greeting;
     const characterEnabled=options.mediaEnabled===true&&options.characterEnabled===true;
     const explicitRecast=characterEnabled&&/\brecast\b/i.test(context.message);

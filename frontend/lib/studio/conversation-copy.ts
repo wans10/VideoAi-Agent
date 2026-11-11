@@ -1,6 +1,7 @@
 import type { ConversationLocale } from "@/lib/studio/conversation-quote-presentation";
 
 export const conversationZhCopy: Record<string, string> = {
+  "Import": "导入",
   "source video": "源视频",
   "voice sample": "声音样本",
   "start frame": "起始帧",

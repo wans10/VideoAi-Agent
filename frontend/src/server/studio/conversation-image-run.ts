@@ -158,7 +158,7 @@ export async function runStudioImageActions(options: {
   const analysisPolicy=studioAnalysisPolicy();
   const analysisEnabled=!!analysisPolicy&&policy.credits===true;
   const analysis=createStudioAnalysisService(actor,{assistancePolicy:policy});
-  const hasGreetingCheckpoint=studioGreetingReply(input.message,options.references.length>0)
+  const hasGreetingCheckpoint=studioGreetingReply(input.message,options.references.length>0,input.locale??options.taskExecution?.locale)
     ? (await query<{exists:boolean}>('SELECT EXISTS(SELECT 1 FROM studio_conversation_responses WHERE user_id=$1 AND project_id=$2 AND request_id=$3) exists',[actor.userId,actor.projectId,turn.request_id]))[0].exists:false;
   const director = createStudioConversationDirector({model: assistance?.model,runtimePolicy:assistance?.tariff_snapshot?.runtime,modelForNextCall:()=>currentModel,createResponse: options.createResponse, mediaEnabled: options.mediaEnabled,characterEnabled:options.characterEnabled,editingEnabled: options.editingEnabled,exportsEnabled: options.exportsEnabled,analysisEnabled,analysisProfiles:{video:!!analysisPolicy?.video,audio:!!analysisPolicy?.audio},assistanceCreditsEnabled:policy.credits===true,taskExecution:options.taskExecution,localGreetingEnabled:!options.responseReplayOnly&&!hasGreetingCheckpoint});
   const character = () => (options.characterFactory ?? createCharacterStudioIntegration)(actor,{executionEnabled:options.characterEnabled===true});
